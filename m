@@ -1,151 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 497DE6D3DF1
-	for <lists+dri-devel@lfdr.de>; Mon,  3 Apr 2023 09:15:56 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D99C86D3E01
+	for <lists+dri-devel@lfdr.de>; Mon,  3 Apr 2023 09:20:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 81B6E10E147;
-	Mon,  3 Apr 2023 07:15:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 64D2910E16F;
+	Mon,  3 Apr 2023 07:20:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4EA0110E147;
- Mon,  3 Apr 2023 07:15:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1680506148; x=1712042148;
- h=from:to:cc:subject:date:message-id:references:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=R9QW5JqZYcWypDTpYsh9gthi/OadiPUO72RNuyV2DQk=;
- b=hk+OU0qet26JIa32A2yHZtsszk1jHc9JoleJ3YGyvOE3vg1zXYEx2wl1
- jVvOFI2HkcdBMS597TPra/DXeO5f1A0+McsLk3RfZInDOh6NpTPkXYWPb
- z967QZqi6GKlidB8pDTAy28p0jpfH2hDsBbrIbB4v39L3kr3nrM1f07YU
- sc+R3cFGvHhYyEPsJJQ9wto0b8DPQL3QvnhnpMdB7CP3dRl/blUXKSLDg
- FYU8buJeolBhOxl+dLfGtfrej49wMM3UKg2pdXWhIoXlTXs50utBGdO/q
- JTg0rMZL8d2bd//OIrm9k3nfygBYrbQJbjuVmbDv52qL8jv/FlIZsYprR A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10668"; a="404582069"
-X-IronPort-AV: E=Sophos;i="5.98,314,1673942400"; d="scan'208";a="404582069"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Apr 2023 00:15:46 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10668"; a="809749087"
-X-IronPort-AV: E=Sophos;i="5.98,314,1673942400"; d="scan'208";a="809749087"
-Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
- by orsmga004.jf.intel.com with ESMTP; 03 Apr 2023 00:15:45 -0700
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.21; Mon, 3 Apr 2023 00:15:45 -0700
-Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.21 via Frontend Transport; Mon, 3 Apr 2023 00:15:45 -0700
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (104.47.66.48) by
- edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.21; Mon, 3 Apr 2023 00:15:45 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=iHL6lTE8BnskEamGNRB+Wm8BegsNxHXMbvqYyYaVlMX3fMlLt4OX+oDuzlByA7Gm8CJwK30+b0/z8a0JsXcHOrFY55CPaZw94iZc1QDPLcN3UrH/jfO5K9/pEa64sBXDbHMO+isnUEH8On0KU1VASky9KCe3H1y5SfaVVgSx7DvfZPvP0OFuGzFJThY8rWvka5RH8cnDycg+UcKAx3Fk2ivRTx9aZoY+cD8Hv/f3uPH5VR8Xup0+HFGPVMtmbzvuzcjclghsfiE3dz84T+Xw+SOLLnaaHG6Em017XA0Lr4lVxQ+o/qJS0MBFxtL4eTSRc3lfjJU2uVnF9jycb1Zeng==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=R9QW5JqZYcWypDTpYsh9gthi/OadiPUO72RNuyV2DQk=;
- b=V2GyXONcSHAMaNhrOXO+nJcvVvYOg4jOGGfbNhSn0YYbWQ+GHRtcBPzCxVhYbtcoQSjvwihPKJ9hyOsjrEm9cpMyLnkbUzJfUx/3JWCipjQ/Ii0SgaUwnxos9wzRfMKlGEd0b6HPdK1sfPO55yHiDR5NZ7AMf1VhtnBA3DqWnHUbW1KB7j3sIjlP2QG8OVS07l8r82oafTkMU1jkbg352JeexlSLTQJgJiicr0z1BJiAp2sqy+o3IbQIEHlUoKjdso5iyN/tDqLJs5Jtiw8GpA3dbO5p46pa2FLn5ubE3SG48GJyGGMQ2ez7s5y21TqSubM8FAjiB3BdHqlYxUVc/Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from DM4PR11MB6360.namprd11.prod.outlook.com (2603:10b6:8:bd::12) by
- PH0PR11MB5128.namprd11.prod.outlook.com (2603:10b6:510:39::17) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6222.29; Mon, 3 Apr 2023 07:15:43 +0000
-Received: from DM4PR11MB6360.namprd11.prod.outlook.com
- ([fe80::a77e:fdd7:ee30:aea0]) by DM4PR11MB6360.namprd11.prod.outlook.com
- ([fe80::a77e:fdd7:ee30:aea0%6]) with mapi id 15.20.6254.030; Mon, 3 Apr 2023
- 07:15:43 +0000
-From: "Shankar, Uma" <uma.shankar@intel.com>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, "Kandpal, Suraj"
- <suraj.kandpal@intel.com>
-Subject: RE: [PATCH 0/7] Enable YCbCr420 format for VDSC
-Thread-Topic: [PATCH 0/7] Enable YCbCr420 format for VDSC
-Thread-Index: AQHZRn8nNJGDvjClF0qHNTTwmHKuQK7w1cUAgB+NaoCAAAIDgIAI8y2wgAASjIA=
-Date: Mon, 3 Apr 2023 07:15:42 +0000
-Message-ID: <DM4PR11MB63602CD0D5004C21E7FDDD76F4929@DM4PR11MB6360.namprd11.prod.outlook.com>
-References: <20230222053153.3658345-1-suraj.kandpal@intel.com>
- <87ttyvbhuz.fsf@intel.com>
- <SN7PR11MB6750FDE3318A85E0A2541831E3889@SN7PR11MB6750.namprd11.prod.outlook.com>
- <CAA8EJprrTPU6E59XjSa9SrMcg9q89ZPB33gayVMqCToR_nQ6CA@mail.gmail.com>
- <DM4PR11MB636021CC9BDA06AA87569160F4929@DM4PR11MB6360.namprd11.prod.outlook.com>
-In-Reply-To: <DM4PR11MB636021CC9BDA06AA87569160F4929@DM4PR11MB6360.namprd11.prod.outlook.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DM4PR11MB6360:EE_|PH0PR11MB5128:EE_
-x-ms-office365-filtering-correlation-id: a04bbc8f-e07b-4237-cd14-08db34133c7f
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: +aEs1lvCQHIIE8txg6mkNoo4pgeIW/8RsKsjS7ub2nhFivlHCKRSkhlxKRWTBxORUnFx15pG4FpE2d4dSNJcWMBeH6rQhyq8DJXJ2RQZvgYAYGCHnhWWbNoxtKaOwjrbUIFMeIc3Ma5FQbAm8xPuAvGUpbHitiNWljM2MQcySdVRpMuI6lpgkoUwI99zMkKv3Hqy3gCrr2lR6FDzt0SMhnDD0Bv29sBmCIGBGC5IeyDcr2yRNW28WpM40mzNBl93E7GLkeC17Tw1qMwNq9qKhvQRQCr22DRwhpk4xgqXY75xZD5U9VMZ+MabTfpQJYOT40LnYB06ojtXNmElqCyeXvjMNuPp7XrFLnryZ3Mnyd6UCP3m42nrbqu0ycR4+VO9crNATrtdKnXxkNbB9TXsBlAr3ZsmwkrqFNKEoe/wN/gdXbXA/MjcPUKLvVAAKkDS0tC5mqtQ7eo4sAiWnFqHT67PhBxUq0Eki6Y1XdscpVvrnqNqRYRPYpru6tO6/hgQL+RzzgrznORJh2YaGPocBsMCNGg9yotx283CtMtqLm/dtuGdlpjcWp6BBq8Q39K0
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM4PR11MB6360.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230028)(6029001)(39860400002)(346002)(136003)(366004)(376002)(396003)(451199021)(8936002)(7696005)(2906002)(83380400001)(38100700002)(33656002)(9686003)(86362001)(52536014)(122000001)(82960400001)(5660300002)(966005)(41300700001)(76116006)(71200400001)(110136005)(2940100002)(66476007)(64756008)(8676002)(478600001)(66946007)(4326008)(54906003)(66556008)(186003)(66446008)(26005)(55016003)(53546011)(38070700005)(6636002)(6506007)(316002);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?d3poRnlNODNYM3hMNkRSeEJuLzhVOUtKRlFNRTJqRWFrdjFnVG9QU0xzcFM5?=
- =?utf-8?B?RURIdWZRUS9VVEFmTGtVZW5jdUt4L0o3bDN5NGx2a1VXYUJaREUzajN0R1ZJ?=
- =?utf-8?B?NUpLTDFZRitqUHdwTTFSNlFOeE5TQWFITDJEak5ramowNnNXbmhITmczbDZP?=
- =?utf-8?B?dFA1azBnWk1uNE1xYWl0VzljWGxHZUtKT1p1dmdmRjltdnFrZUZ4WVA1TzJR?=
- =?utf-8?B?TVhxcE1vd215RW45YWhKMmVZbHIzbTZ5TmZGRmdmTCtIUnBpVEVOemdRd2dn?=
- =?utf-8?B?TGF5UFhSbzBHekVlaXIvZ01nRXRYRnlVTU1sVldMYkFnN0dzLzN2S2xsMHY5?=
- =?utf-8?B?NGRSSGthZ0c5QnRBaEs4TWZGNUs0RkhRN1J2eHM1NnR5dllQQTJKZGxvb2NP?=
- =?utf-8?B?aW02b3dOMmFoTDFiK2FQSGJyaVk2dmNQTERtQXIyOGlHaW0vTVNIMVlVTHhx?=
- =?utf-8?B?QzArOGhmbXJwU0JSbzlCS2ZWOGEyTlJFb2xwT2haY3RaRFJIekRXWHFpTUxO?=
- =?utf-8?B?YnRmelEwNGZXaUpReUJhakxKVnBseW9hMG9yWTlmc2RMSmpRQzVDY3YrelNn?=
- =?utf-8?B?bmN0NTBkQU93UGxCYXA3cmh0R0NkZkwveVdsdjhxY0cxUUFjTXp1VEY0Kzcy?=
- =?utf-8?B?TmM3SzlxS3JvTHdRMTc0eUE5Tkd6MG1acGJ5VXZ3RnhvTUZ5Y0ZZK2V3Zlh2?=
- =?utf-8?B?UmZMTk55NGlMeVl6eVJsbkptYTNxL2dxbHhjOGJ1eDdhSkZVMGQ5RUEwMlds?=
- =?utf-8?B?K0xSMHNLVmxxa3QvMUdiVXhlN0JZZW92ei85bW5kbGltWWNjVFZOVWE3azV2?=
- =?utf-8?B?TDFRM2VLc2FRZ0dUbUJRbmdNWG5idlVYa3A4Ukh6OGFNdkZXdkJQOEgxM2Nl?=
- =?utf-8?B?bUpxVUhXK1NxeVgvREhyNjB5cDVGUkV1V002bjZxTGtxNnR6T3VyMHBzWmxY?=
- =?utf-8?B?ZUs3YkpzTk16eVl3dXVjQ1U2b3hhSVFkY2xVbnlJVmVHcFpKVnFRQmhjcjYy?=
- =?utf-8?B?WU1uT2dQdTNzalFyUFE2cWc1d1dEenM0ZEZ6TTZSdThjeUVyc01JQ3N1TnZI?=
- =?utf-8?B?cGVRdVBVRjlGRGk0SGhJS0pUVkorY2Jjc1JaRm45T0hKK3lPZlJ6RGNWOW1C?=
- =?utf-8?B?em9Oc0NpOTc3OHNra1ZSSHlpSG5qTjhXMkVHaHl1S0doK0ZhQWFFeGx4ajlJ?=
- =?utf-8?B?MSszUEltdGtERHF0cmprMUR1d0hjRWZyaW5TcVJGQUlGM2t1ZzAyZXMyWG50?=
- =?utf-8?B?UmpuRXh5b0hVK1JuRUFEN3MxYU1wNDM3UnhzS1NTMHMzYjNSQ2tkZ3hKQUFJ?=
- =?utf-8?B?QnNHUlFzaWplUDlJZitDd1pzbVh6OGw5RjVFR2JQRy9odWxZRVBBcUNGeXow?=
- =?utf-8?B?RWJKSWwvL3doeFpoZmk0T0g4SHFYSG9DTms4SkNEVHhZbkVQOW9tZWlqZzU3?=
- =?utf-8?B?TWVTSmIxbFZZRkVhbTdwNlY1NFQzSm9talo5WE9OWjlUTXBHUlV5L1V1WE5X?=
- =?utf-8?B?eFBBWitiTjZoUWYxQlhVcDYvOXF1QittVXBBMGxQWFAvNllXZXQxT3d4V2Vn?=
- =?utf-8?B?RU5HdEw2LzVlelJKNW9KOVNxSWZwNGJiQk1UUTZhd0lhSHlaYU8yTjQxT1Jy?=
- =?utf-8?B?UExQN093ODd3SFUzeHNhYWRSQUFYOVEyNWlvek9jMGlDdGtvVmxqLy8yeGFX?=
- =?utf-8?B?QnpQYVgvSG94VGhoc0I5b2k4ZGV1L2ozaDcvakQzeEF5RWRlSyt3ZHgrd2lH?=
- =?utf-8?B?UTVoQzNCRlFYMkxLZGpSRFlHSThLOUl5R0dDeHY1ZlNhWFFZbXJDc1RnZG5q?=
- =?utf-8?B?RHhmTkpsN3c1WHRjSEtpRy9VeEoxVGhmSmVGOC9OQkprR0Q1a01WZ1BDUDIy?=
- =?utf-8?B?SjhGRzM2NG94SngwaWRUMHhsSitiUW1VY3l0NmlyU2pvTHptSEtKWmJnZFBQ?=
- =?utf-8?B?Tmp0NEk0R0J0eGszKzZkR3V3ckYwTmFqaXFPWEpIUVgxUExtVHhta2NNeVIx?=
- =?utf-8?B?bXMwT3Q3WmwxQXJac2JQaDJQY0hMeXY0c25PL1NrMVVpeHhMMEYvVjRFQnNv?=
- =?utf-8?B?WVRVVmJTQVpnMXkvMTlUOHBQbzBsTmtXUWhKNm0zVG1oenlnOTBVcFRxamFP?=
- =?utf-8?Q?vilIU0nFZ70ECJWynJ2tWNy66?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com
+ [IPv6:2a00:1450:4864:20::42b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 01D8310E161
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Apr 2023 07:20:02 +0000 (UTC)
+Received: by mail-wr1-x42b.google.com with SMTP id q19so25126644wrc.5
+ for <dri-devel@lists.freedesktop.org>; Mon, 03 Apr 2023 00:20:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=baylibre-com.20210112.gappssmtp.com; s=20210112; t=1680506399;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=3HNxrkMKzkeJmPHsocCG7IvyDD2jEgSq/BSvAma681o=;
+ b=jY8WBlhnxjUV/FsCz487r6NyUW0zk0IaApuwoSeroehWPPFYW8FBRPcrlODt/OJmwb
+ ZNOGdFyVpZlzVgGhllhgu9jLcP5iMmAbQdml3W+AdCqO8B28ZXR5pRRhFu+0UMhpwvz5
+ aWfVpV+6sxAe2nvK6Qxnz0XB3rJ5pQFqMsnnYsPuJk1LncJ6dE2QMzue+TDfnQ833RYg
+ MHyT4PGZlfq6nH81KsfoGbT2ngDLbd1QYMa+v7kDsGG8b4J5QTjJed6ttWNXJjiOqyrt
+ 6x/lQ6lLqBeBQFAd4v4/aYX0owD3ZqL0hxFwVjWfcFgviBssfQM6oQlxXRtpbayzIYdy
+ iRug==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1680506399;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=3HNxrkMKzkeJmPHsocCG7IvyDD2jEgSq/BSvAma681o=;
+ b=323ZxU4aQcz2sU4XP3DkOkwTZ5LZECWLkBE35KUK2MUqiwF/htwLlJlpNvUcYTWPc6
+ 3ghXH3bpznoRTp6tENOjmOAXGgdccll2yJjWd1NFJbH8my4U16IOrxa4ycFSKB04X6j3
+ 2/fbMCd5O+DcQ6DeDYM3hTQ7AaWQ+YKxu3gkufDV5PW7Ze/wgoc6xif12eUPoaF0XMs1
+ +reLJTrKT1hIyJ7JCP+3Y12HKNDrHgbBl50ox9IHqU7FfalDEHRitjw7L2hyWcIPop2c
+ 2TsNyysruBTS9oqH83OqN4jlFX/QnJXffv3y0zenUcDnpJM1W26j80Fvk4i846HTCswW
+ HwQg==
+X-Gm-Message-State: AAQBX9cNLLDwo9H9UmV+zWprzsq0Tcpkgb9fCezsU68Y2ep4kOYYFMQ6
+ c2u7itqpLLAlemolJeBuVyJhQg==
+X-Google-Smtp-Source: AKy350ZcYjTlNnPN2FlK38JA1ApyqoAt6/49RpDy+xb0dkZJiHzAMc7XaEcDu95M6zHN9q8QFnemNQ==
+X-Received: by 2002:a05:6000:114b:b0:2e4:cbef:9f2a with SMTP id
+ d11-20020a056000114b00b002e4cbef9f2amr10025587wrx.2.1680506399241; 
+ Mon, 03 Apr 2023 00:19:59 -0700 (PDT)
+Received: from localhost.localdomain ([2a01:e0a:55f:21e0:9e19:4376:dea6:dbfa])
+ by smtp.gmail.com with ESMTPSA id
+ z3-20020a05600c0a0300b003ee6aa4e6a9sm19060418wmp.5.2023.04.03.00.19.58
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 03 Apr 2023 00:19:58 -0700 (PDT)
+From: Julien Stephan <jstephan@baylibre.com>
+To: 
+Subject: [PATCH 2/2] phy: mtk-mipi-csi: add driver for CSI phy
+Date: Mon,  3 Apr 2023 09:19:29 +0200
+Message-Id: <20230403071929.360911-3-jstephan@baylibre.com>
+X-Mailer: git-send-email 2.40.0
+In-Reply-To: <20230403071929.360911-1-jstephan@baylibre.com>
+References: <20230403071929.360911-1-jstephan@baylibre.com>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB6360.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a04bbc8f-e07b-4237-cd14-08db34133c7f
-X-MS-Exchange-CrossTenant-originalarrivaltime: 03 Apr 2023 07:15:42.7028 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: a0vzpurzqAv8hNZwHZ0DgXMPPL8fNw1HlgsFbowQKPHzXY7sJ5YlMWcQYl4mJK8mVzksOeKVACfpyg29d4WAlA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR11MB5128
-X-OriginatorOrg: intel.com
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -158,85 +72,946 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- "Nautiyal, Ankit K" <ankit.k.nautiyal@intel.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Cc: Kishon Vijay Abraham I <kishon@kernel.org>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>,
+ "open list:DRM DRIVERS FOR MEDIATEK" <dri-devel@lists.freedesktop.org>,
+ "moderated list:ARM/Mediatek USB3 PHY DRIVER"
+ <linux-mediatek@lists.infradead.org>, open list <linux-kernel@vger.kernel.org>,
+ "open list:GENERIC PHY FRAMEWORK" <linux-phy@lists.infradead.org>,
+ Chunfeng Yun <chunfeng.yun@mediatek.com>, Vinod Koul <vkoul@kernel.org>,
+ Rob Herring <robh+dt@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>,
+ Andy Hsieh <andy.hsieh@mediatek.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Louis Kuo <louis.kuo@mediatek.com>, Phi-bang Nguyen <pnguyen@baylibre.com>,
+ Julien Stephan <jstephan@baylibre.com>,
+ "moderated list:ARM/Mediatek USB3 PHY DRIVER"
+ <linux-arm-kernel@lists.infradead.org>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-DQo+ID4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gPiBGcm9tOiBEbWl0cnkgQmFyeXNo
-a292IDxkbWl0cnkuYmFyeXNoa292QGxpbmFyby5vcmc+DQo+ID4gU2VudDogVHVlc2RheSwgTWFy
-Y2ggMjgsIDIwMjMgNjo1OCBQTQ0KPiA+IFRvOiBLYW5kcGFsLCBTdXJhaiA8c3VyYWoua2FuZHBh
-bEBpbnRlbC5jb20+DQo+ID4gQ2M6IEphbmkgTmlrdWxhIDxqYW5pLm5pa3VsYUBsaW51eC5pbnRl
-bC5jb20+Ow0KPiA+IGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmc7IGludGVsLWdmeEBs
-aXN0cy5mcmVlZGVza3RvcC5vcmc7DQo+ID4gTmF1dGl5YWwsIEFua2l0IEsgPGFua2l0LmsubmF1
-dGl5YWxAaW50ZWwuY29tPjsgU2hhbmthciwgVW1hDQo+ID4gPHVtYS5zaGFua2FyQGludGVsLmNv
-bT47IE1hYXJ0ZW4gTGFua2hvcnN0DQo+ID4gPG1hYXJ0ZW4ubGFua2hvcnN0QGxpbnV4LmludGVs
-LmNvbT4NCj4gPiBTdWJqZWN0OiBSZTogW1BBVENIIDAvN10gRW5hYmxlIFlDYkNyNDIwIGZvcm1h
-dCBmb3IgVkRTQw0KPiA+DQo+ID4gT24gVHVlLCAyOCBNYXIgMjAyMyBhdCAxNjoyMCwgS2FuZHBh
-bCwgU3VyYWogPHN1cmFqLmthbmRwYWxAaW50ZWwuY29tPiB3cm90ZToNCj4gPiA+ID4gLS0tLS1P
-cmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gPiA+ID4gRnJvbTogZHJpLWRldmVsIDxkcmktZGV2ZWwt
-Ym91bmNlc0BsaXN0cy5mcmVlZGVza3RvcC5vcmc+IE9uDQo+ID4gPiA+IEJlaGFsZiBPZiBKYW5p
-IE5pa3VsYQ0KPiA+ID4gPiBTZW50OiBXZWRuZXNkYXksIE1hcmNoIDgsIDIwMjMgNTowMCBQTQ0K
-PiA+ID4gPiBUbzogS2FuZHBhbCwgU3VyYWogPHN1cmFqLmthbmRwYWxAaW50ZWwuY29tPjsgZHJp
-LQ0KPiA+ID4gPiBkZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmc7IGludGVsLWdmeEBsaXN0cy5m
-cmVlZGVza3RvcC5vcmcNCj4gPiA+ID4gQ2M6IERtaXRyeSBCYXJ5c2hrb3YgPGRtaXRyeS5iYXJ5
-c2hrb3ZAbGluYXJvLm9yZz47IE5hdXRpeWFsLA0KPiA+ID4gPiBBbmtpdCBLIDxhbmtpdC5rLm5h
-dXRpeWFsQGludGVsLmNvbT47IFNoYW5rYXIsIFVtYQ0KPiA+ID4gPiA8dW1hLnNoYW5rYXJAaW50
-ZWwuY29tPjsgS2FuZHBhbCwgU3VyYWogPHN1cmFqLmthbmRwYWxAaW50ZWwuY29tPg0KPiA+ID4g
-PiBTdWJqZWN0OiBSZTogW1BBVENIIDAvN10gRW5hYmxlIFlDYkNyNDIwIGZvcm1hdCBmb3IgVkRT
-Qw0KPiA+ID4gPg0KPiA+ID4gPiBPbiBXZWQsIDIyIEZlYiAyMDIzLCBTdXJhaiBLYW5kcGFsIDxz
-dXJhai5rYW5kcGFsQGludGVsLmNvbT4gd3JvdGU6DQo+ID4gPiA+ID4gVGhpcyBwYXRjaCBzZXJp
-ZXMgYWltcyB0byBlbmFibGUgdGhlIFlDYkNyNDIwIGZvcm1hdCBmb3IgRFNDLg0KPiA+ID4gPiA+
-IENoYW5nZXMgYXJlIG1vc3RseSBjb21wdXRlIHBhcmFtcyByZWxhdGVkIGZvciBoZG1pLGRwIGFu
-ZCBkc2kNCj4gPiA+ID4gPiBhbG9uZyB3aXRoIHRoZSBhZGRpdGlvbiBvZiBuZXcgcmNfdGFibGVz
-IGZvciBuYXRpdmVfNDIwIGFuZA0KPiA+ID4gPiA+IGNvcnJlc3BvbmRpbmcgY2hhbmdlcyB0byBt
-YWNyb3MgdXNlZCB0byBmZXRjaCB0aGVtLg0KPiA+ID4gPiA+IFRoZXJlIGhhdmUgYmVlbiBkaXNj
-dXNzaW9ucyBwcmlvciB0byB0aGlzIHNlcmllcyBpbiB3aGljaCBzb21lDQo+ID4gPiA+ID4gcGF0
-Y2hlcyBoYXZlIGdvdHRlbiByYiBhbmQgY2FuIGJlIGZvdW5kIGluIHRoZSBiZWxvdyBsaW5rDQo+
-ID4gPiA+ID4gaHR0cHM6Ly9wYXRjaHdvcmsuZnJlZWRlc2t0b3Aub3JnL3Nlcmllcy8xMTM3MjkN
-Cj4gPiA+ID4NCj4gPiA+ID4gSSB0aGluayBpdCB3b3VsZCBiZSB1c2VmdWwgdG8gZ2V0IFsxXSBm
-cm9tIERtaXRyeSBtZXJnZWQgdG8NCj4gPiA+ID4gZHJtLW1pc2MtbmV4dCBmaXJzdCwgaGF2ZSB0
-aGF0IGluIGRybS1uZXh0LCBhbmQgYWdhaW4gYmFja21lcmdlZA0KPiA+ID4gPiB0byBkcm0taW50
-ZWwtbmV4dCBiZWZvcmUgdGhpcy4gQXQgbGVhc3QgcGF0Y2hlcyAxLTUuDQo+ID4gPiA+DQo+ID4g
-PiA+IFRoZXJlJ3Mgbm90IG11Y2ggcG9pbnQgaW4gYWxsIGRyaXZlcnMgZHVwbGljYXRpbmcgdGhl
-IHBhcmFtZXRlcnMsDQo+ID4gPiA+IGFuZCB3ZSBuZWVkIHRvIG1vdmUgdG93YXJkcyBjb21tb24g
-Y29kZS4gRG1pdHJ5IGhhcyBiZWVuIGhlbHBmdWwNCj4gPiA+ID4gaW4gY29udHJpYnV0aW5nIHRo
-aXMgdG8gdXMuDQo+ID4gPiA+DQo+ID4gPiA+IEJSLA0KPiA+ID4gPiBKYW5pLg0KPiA+ID4gPg0K
-PiA+ID4gPg0KPiA+ID4NCj4gPiA+IEhpIEphbmksDQo+ID4gPiBNYWFydGVuIGhhcyBhY2tlZCB0
-aGUgcGF0Y2ggc2VyaWVzIHRvIGJlIG1lcmdlZCB0aHJvdWdoIGRybS1pbnRlbA0KPiA+ID4gYW5k
-IGluIHRoZSBtZWFudGltZSBJIHdpbGwgd29yayB3aXRoIERtaXRyeSB0byBwdWxsIHRoZSBjb21t
-b24gY29kZQ0KPiA+ID4gdG8gYXZvaWQgZHVwbGljYXRpb24NCj4gPg0KPiA+IFRoYW5rIHlvdSEg
-SWYgbmVjZXNzYXJ5IGZlZWwgZnJlZSB0byBwaW5nIG1lIG9uIElSQyAoJ2x1bWFnJykuDQo+IA0K
-PiBUaGFua3MgZ3V5cywgd2lsbCBoZWxwIG1lcmdlIHRoZSBjaGFuZ2UuDQoNClB1c2hlZCB0aGUg
-Y2hhbmdlcyB0byBkcm0taW50ZWwtbmV4dC4gVGhhbmtzIGZvciB0aGUgcGF0Y2hlcyBhbmQgcmV2
-aWV3cy4NCg0KUmVnYXJkcywNClVtYSBTaGFua2FyDQo+IA0KPiA+ID4NCj4gPiA+IFJlZ2FyZHMs
-DQo+ID4gPiBTdXJhaiBLYW5kcGFsDQo+ID4gPg0KPiA+ID4gPiBbMV0gaHR0cHM6Ly9wYXRjaHdv
-cmsuZnJlZWRlc2t0b3Aub3JnL3Nlcmllcy8xMTQ0NzMvDQo+ID4gPiA+DQo+ID4gPiA+ID4NCj4g
-PiA+ID4gPiBBbmtpdCBOYXV0aXlhbCAoMik6DQo+ID4gPiA+ID4gICBkcm0vZHBfaGVscGVyOiBB
-ZGQgaGVscGVyIHRvIGNoZWNrIERTQyBzdXBwb3J0IHdpdGggZ2l2ZW4gby9wIGZvcm1hdA0KPiA+
-ID4gPiA+ICAgZHJtL2k5MTUvZHA6IENoZWNrIGlmIERTQyBzdXBwb3J0cyB0aGUgZ2l2ZW4gb3V0
-cHV0X2Zvcm1hdA0KPiA+ID4gPiA+DQo+ID4gPiA+ID4gU3VyYWogS2FuZHBhbCAoNCk6DQo+ID4g
-PiA+ID4gICBkcm0vaTkxNTogQWRkaW5nIHRoZSBuZXcgcmVnaXN0ZXJzIGZvciBEU0MNCj4gPiA+
-ID4gPiAgIGRybS9pOTE1OiBFbmFibGUgWUNiQ3I0MjAgZm9yIFZEU0MNCj4gPiA+ID4gPiAgIGRy
-bS9pOTE1L2Rpc3BsYXk6IEZpbGwgaW4gbmF0aXZlXzQyMCBmaWVsZA0KPiA+ID4gPiA+ICAgZHJt
-L2k5MTUvdmRzYzogQ2hlY2sgc2xpY2UgZGVzaWduIHJlcXVpcmVtZW50DQo+ID4gPiA+ID4NCj4g
-PiA+ID4gPiBTd2F0aSBTaGFybWEgKDEpOg0KPiA+ID4gPiA+ICAgZHJtL2k5MTUvZHNjOiBBZGQg
-ZGVidWdmcyBlbnRyeSB0byB2YWxpZGF0ZSBEU0Mgb3V0cHV0IGZvcm1hdHMNCj4gPiA+ID4gPg0K
-PiA+ID4gPiA+ICBkcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ljbF9kc2kuYyAgICAgICAg
-fCAgIDIgLQ0KPiA+ID4gPiA+ICAuLi4vZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9jcnRjX3N0YXRl
-X2R1bXAuYyAgfCAgIDQgKy0NCj4gPiA+ID4gPiAgLi4uL2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxf
-Y3J0Y19zdGF0ZV9kdW1wLmggIHwgICAyICsNCj4gPiA+ID4gPiAgLi4uL2RybS9pOTE1L2Rpc3Bs
-YXkvaW50ZWxfZGlzcGxheV9kZWJ1Z2ZzLmMgIHwgIDc4ICsrKysrKysrDQo+ID4gPiA+ID4gIC4u
-Li9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2Rpc3BsYXlfdHlwZXMuaCAgICB8ICAgMSArDQo+ID4g
-PiA+ID4gIGRyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfZHAuYyAgICAgICB8ICAz
-OSArKystDQo+ID4gPiA+ID4gIC4uLi9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9xcF90YWJs
-ZXMuYyAgICB8IDE4NyArKysrKysrKysrKysrKysrLS0NCj4gPiA+ID4gPiAgLi4uL2dwdS9kcm0v
-aTkxNS9kaXNwbGF5L2ludGVsX3FwX3RhYmxlcy5oICAgIHwgICA0ICstDQo+ID4gPiA+ID4gIGRy
-aXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfdmRzYy5jICAgICB8IDEwOCArKysrKysr
-KystDQo+ID4gPiA+ID4gIGRyaXZlcnMvZ3B1L2RybS9pOTE1L2k5MTVfcmVnLmggICAgICAgICAg
-ICAgICB8ICAyOCArKysNCj4gPiA+ID4gPiAgaW5jbHVkZS9kcm0vZGlzcGxheS9kcm1fZHBfaGVs
-cGVyLmggICAgICAgICAgIHwgIDEzICsrDQo+ID4gPiA+ID4gIDExIGZpbGVzIGNoYW5nZWQsIDQ0
-MiBpbnNlcnRpb25zKCspLCAyNCBkZWxldGlvbnMoLSkNCj4gPiA+ID4NCj4gPiA+ID4gLS0NCj4g
-PiA+ID4gSmFuaSBOaWt1bGEsIEludGVsIE9wZW4gU291cmNlIEdyYXBoaWNzIENlbnRlcg0KPiA+
-DQo+ID4NCj4gPg0KPiA+IC0tDQo+ID4gV2l0aCBiZXN0IHdpc2hlcw0KPiA+IERtaXRyeQ0K
+From: Phi-bang Nguyen <pnguyen@baylibre.com>
+
+This is a new driver that supports the MIPI CSI CD-PHY for mediatek
+mt8365 soc
+
+Signed-off-by: Louis Kuo <louis.kuo@mediatek.com>
+Signed-off-by: Phi-bang Nguyen <pnguyen@baylibre.com>
+[Julien Stephan: use regmap]
+[Julien Stephan: use GENMASK]
+Co-developed-by: Julien Stephan <jstephan@baylibre.com>
+Signed-off-by: Julien Stephan <jstephan@baylibre.com>
+---
+ .../bindings/phy/mediatek,csi-phy.yaml        |   9 +-
+ MAINTAINERS                                   |   1 +
+ drivers/phy/mediatek/Kconfig                  |   8 +
+ drivers/phy/mediatek/Makefile                 |   2 +
+ .../phy/mediatek/phy-mtk-mipi-csi-rx-reg.h    | 435 ++++++++++++++++++
+ drivers/phy/mediatek/phy-mtk-mipi-csi.c       | 392 ++++++++++++++++
+ 6 files changed, 845 insertions(+), 2 deletions(-)
+ create mode 100644 drivers/phy/mediatek/phy-mtk-mipi-csi-rx-reg.h
+ create mode 100644 drivers/phy/mediatek/phy-mtk-mipi-csi.c
+
+diff --git a/Documentation/devicetree/bindings/phy/mediatek,csi-phy.yaml b/Documentation/devicetree/bindings/phy/mediatek,csi-phy.yaml
+index c026e43f35fd..ad4ba1d93a68 100644
+--- a/Documentation/devicetree/bindings/phy/mediatek,csi-phy.yaml
++++ b/Documentation/devicetree/bindings/phy/mediatek,csi-phy.yaml
+@@ -33,9 +33,14 @@ additionalProperties: false
+ 
+ examples:
+   - |
+-    phy@10011800 {
++    soc {
++      #address-cells = <2>;
++      #size-cells = <2>;
++
++      phy@11c10000 {
+         compatible = "mediatek,mt8365-mipi-csi";
+-        reg = <0 0x10011800 0 0x60>;
++        reg = <0 0x11c10000 0 0x4000>;
+         #phy-cells = <1>;
++      };
+     };
+ ...
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 9308b4bb88bf..b3077eddd0bf 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -13103,6 +13103,7 @@ M:	Julien Stephan <jstephan@baylibre.com>
+ M:	Andy Hsieh <andy.hsieh@mediatek.com>
+ S:	Supported
+ F:	Documentation/devicetree/bindings/phy/mediatek,csi-phy.yaml
++F:	drivers/phy/mediatek/phy-mtk-mipi-csi*
+ 
+ MEDIATEK MMC/SD/SDIO DRIVER
+ M:	Chaotian Jing <chaotian.jing@mediatek.com>
+diff --git a/drivers/phy/mediatek/Kconfig b/drivers/phy/mediatek/Kconfig
+index 3125ecb5d119..63fb0fa77573 100644
+--- a/drivers/phy/mediatek/Kconfig
++++ b/drivers/phy/mediatek/Kconfig
+@@ -74,3 +74,11 @@ config PHY_MTK_DP
+ 	select GENERIC_PHY
+ 	help
+ 	  Support DisplayPort PHY for MediaTek SoCs.
++
++config PHY_MTK_MIPI_CSI
++	tristate "MediaTek CSI CD-PHY Driver"
++	depends on ARCH_MEDIATEK && OF
++	select GENERIC_PHY
++	help
++	  Enable this to support the MIPI CSI CD-PHY receiver.
++	  The driver supports multiple CSI cdphy ports simultaneously.
+diff --git a/drivers/phy/mediatek/Makefile b/drivers/phy/mediatek/Makefile
+index fb1f8edaffa7..9a178c1c2628 100644
+--- a/drivers/phy/mediatek/Makefile
++++ b/drivers/phy/mediatek/Makefile
+@@ -18,3 +18,5 @@ phy-mtk-mipi-dsi-drv-y			:= phy-mtk-mipi-dsi.o
+ phy-mtk-mipi-dsi-drv-y			+= phy-mtk-mipi-dsi-mt8173.o
+ phy-mtk-mipi-dsi-drv-y			+= phy-mtk-mipi-dsi-mt8183.o
+ obj-$(CONFIG_PHY_MTK_MIPI_DSI)		+= phy-mtk-mipi-dsi-drv.o
++
++obj-$(CONFIG_PHY_MTK_MIPI_CSI)		+= phy-mtk-mipi-csi.o
+diff --git a/drivers/phy/mediatek/phy-mtk-mipi-csi-rx-reg.h b/drivers/phy/mediatek/phy-mtk-mipi-csi-rx-reg.h
+new file mode 100644
+index 000000000000..f360e807e3d1
+--- /dev/null
++++ b/drivers/phy/mediatek/phy-mtk-mipi-csi-rx-reg.h
+@@ -0,0 +1,435 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++
++#ifndef __MIPI_CDPHY_RX_REG_H__
++#define __MIPI_CDPHY_RX_REG_H__
++
++/*
++ * CSI1 and CSI2 are identical, and similar to CSI0. All CSIx macros are
++ * applicable to the three PHYs. Where differences exist, they are denoted by
++ * macro names using CSI0 and CSI1, the latter being applicable to CSI1 and
++ * CSI2 alike.
++ */
++
++/*
++ * Due to lanes supporting C-PHY mode on CSI0, register fields that control the
++ * behaviour of lanes are named differently between CSI0 and CSI1/CSI2, even
++ * when they control parameters that are agnostic to the PHY mode. In those
++ * cases, the macros below use the CSI0 field names (e.g.
++ * MIPI_RX_ANA08_CSIxA_RG_CSIxA_L0P_T0A_HSRT_CODE_SHIFT).
++ */
++
++#define MIPI_RX_ANA00_CSIxA							0x0000
++#define MIPI_RX_ANA00_CSIxA_RG_CSI0A_CPHY_EN_SHIFT				0
++#define MIPI_RX_ANA00_CSIxA_RG_CSI0A_CPHY_EN_MASK				BIT(0)
++#define MIPI_RX_ANA00_CSIxA_RG_CSIxA_EQ_PROTECT_EN_SHIFT			1
++#define MIPI_RX_ANA00_CSIxA_RG_CSIxA_EQ_PROTECT_EN_MASK				BIT(1)
++#define MIPI_RX_ANA00_CSIxA_RG_CSIxA_BG_LPF_EN_SHIFT				2
++#define MIPI_RX_ANA00_CSIxA_RG_CSIxA_BG_LPF_EN_MASK				BIT(2)
++#define MIPI_RX_ANA00_CSIxA_RG_CSIxA_BG_CORE_EN_SHIFT				3
++#define MIPI_RX_ANA00_CSIxA_RG_CSIxA_BG_CORE_EN_MASK				BIT(3)
++#define MIPI_RX_ANA00_CSIxA_RG_CSIxA_DPHY_L0_CKMODE_EN_SHIFT			5
++#define MIPI_RX_ANA00_CSIxA_RG_CSIxA_DPHY_L0_CKMODE_EN_MASK			BIT(5)
++#define MIPI_RX_ANA00_CSIxA_RG_CSIxA_DPHY_L0_CKSEL_SHIFT			6
++#define MIPI_RX_ANA00_CSIxA_RG_CSIxA_DPHY_L0_CKSEL_MASK				BIT(6)
++#define MIPI_RX_ANA00_CSIxA_RG_CSIxA_DPHY_L1_CKMODE_EN_SHIFT			8
++#define MIPI_RX_ANA00_CSIxA_RG_CSIxA_DPHY_L1_CKMODE_EN_MASK			BIT(8)
++#define MIPI_RX_ANA00_CSIxA_RG_CSIxA_DPHY_L1_CKSEL_SHIFT			9
++#define MIPI_RX_ANA00_CSIxA_RG_CSIxA_DPHY_L1_CKSEL_MASK				BIT(9)
++#define MIPI_RX_ANA00_CSIxA_RG_CSIxA_DPHY_L2_CKMODE_EN_SHIFT			11
++#define MIPI_RX_ANA00_CSIxA_RG_CSIxA_DPHY_L2_CKMODE_EN_MASK			BIT(11)
++#define MIPI_RX_ANA00_CSIxA_RG_CSIxA_DPHY_L2_CKSEL_SHIFT			12
++#define MIPI_RX_ANA00_CSIxA_RG_CSIxA_DPHY_L2_CKSEL_MASK				BIT(12)
++
++#define MIPI_RX_ANA04_CSIxA							0x0004
++#define MIPI_RX_ANA04_CSIxA_RG_CSIxA_BG_LPRX_VTH_SEL_SHIFT			0
++#define MIPI_RX_ANA04_CSIxA_RG_CSIxA_BG_LPRX_VTH_SEL_MASK			GENMASK(2, 0)
++#define MIPI_RX_ANA04_CSIxA_RG_CSIxA_BG_LPRX_VTL_SEL_SHIFT			4
++#define MIPI_RX_ANA04_CSIxA_RG_CSIxA_BG_LPRX_VTL_SEL_MASK			GENMASK(6, 4)
++#define MIPI_RX_ANA04_CSIxA_RG_CSIxA_BG_HSDET_VTH_SEL_SHIFT			8
++#define MIPI_RX_ANA04_CSIxA_RG_CSIxA_BG_HSDET_VTH_SEL_MASK			GENMASK(10, 8)
++#define MIPI_RX_ANA04_CSIxA_RG_CSIxA_BG_HSDET_VTL_SEL_SHIFT			12
++#define MIPI_RX_ANA04_CSIxA_RG_CSIxA_BG_HSDET_VTL_SEL_MASK			GENMASK(14, 12)
++#define MIPI_RX_ANA04_CSIxA_RG_CSIxA_BG_VREF_SEL_SHIFT				16
++#define MIPI_RX_ANA04_CSIxA_RG_CSIxA_BG_VREF_SEL_MASK				GENMASK(19, 16)
++#define MIPI_RX_ANA04_CSIxA_RG_CSIxA_BG_MON_VREF_SEL_SHIFT			24
++#define MIPI_RX_ANA04_CSIxA_RG_CSIxA_BG_MON_VREF_SEL_MASK			GENMASK(27, 24)
++#define MIPI_RX_ANA04_CSIxA_RG_CSIxA_FORCE_HSRT_EN_SHIFT			28
++#define MIPI_RX_ANA04_CSIxA_RG_CSIxA_FORCE_HSRT_EN_MASK				BIT(28)
++
++#define MIPI_RX_ANA08_CSIxA							0x0008
++#define MIPI_RX_ANA08_CSIxA_RG_CSIxA_L0P_T0A_HSRT_CODE_SHIFT			0
++#define MIPI_RX_ANA08_CSIxA_RG_CSIxA_L0P_T0A_HSRT_CODE_MASK			GENMASK(4, 0)
++#define MIPI_RX_ANA08_CSIxA_RG_CSIxA_L0N_T0B_HSRT_CODE_SHIFT			8
++#define MIPI_RX_ANA08_CSIxA_RG_CSIxA_L0N_T0B_HSRT_CODE_MASK			GENMASK(12, 8)
++#define MIPI_RX_ANA08_CSIxA_RG_CSIxA_L1P_T0C_HSRT_CODE_SHIFT			16
++#define MIPI_RX_ANA08_CSIxA_RG_CSIxA_L1P_T0C_HSRT_CODE_MASK			GENMASK(20, 16)
++#define MIPI_RX_ANA08_CSIxA_RG_CSIxA_L1N_T1A_HSRT_CODE_SHIFT			24
++#define MIPI_RX_ANA08_CSIxA_RG_CSIxA_L1N_T1A_HSRT_CODE_MASK			GENMASK(28, 24)
++
++#define MIPI_RX_ANA0C_CSIxA							0x000c
++#define MIPI_RX_ANA0C_CSIxA_RG_CSIxA_L2P_T1B_HSRT_CODE_SHIFT			0
++#define MIPI_RX_ANA0C_CSIxA_RG_CSIxA_L2P_T1B_HSRT_CODE_MASK			GENMASK(4, 0)
++#define MIPI_RX_ANA0C_CSIxA_RG_CSIxA_L2N_T1C_HSRT_CODE_SHIFT			8
++#define MIPI_RX_ANA0C_CSIxA_RG_CSIxA_L2N_T1C_HSRT_CODE_MASK			GENMASK(12, 8)
++
++#define MIPI_RX_ANA10_CSIxA							0x0010
++#define MIPI_RX_ANA10_CSIxA_RG_CSIxA_DPHY_L0_DELAYCAL_EN_SHIFT			0
++#define MIPI_RX_ANA10_CSIxA_RG_CSIxA_DPHY_L0_DELAYCAL_EN_MASK			BIT(0)
++#define MIPI_RX_ANA10_CSIxA_RG_CSIxA_DPHY_L0_DELAYCAL_RSTB_SHIFT		1
++#define MIPI_RX_ANA10_CSIxA_RG_CSIxA_DPHY_L0_DELAYCAL_RSTB_MASK			BIT(1)
++#define MIPI_RX_ANA10_CSIxA_RG_CSIxA_DPHY_L0_VREF_SEL_SHIFT			2
++#define MIPI_RX_ANA10_CSIxA_RG_CSIxA_DPHY_L0_VREF_SEL_MASK			GENMASK(7, 2)
++#define MIPI_RX_ANA10_CSIxA_RG_CSIxA_DPHY_L1_DELAYCAL_EN_SHIFT			8
++#define MIPI_RX_ANA10_CSIxA_RG_CSIxA_DPHY_L1_DELAYCAL_EN_MASK			BIT(8)
++#define MIPI_RX_ANA10_CSIxA_RG_CSIxA_DPHY_L1_DELAYCAL_RSTB_SHIFT		9
++#define MIPI_RX_ANA10_CSIxA_RG_CSIxA_DPHY_L1_DELAYCAL_RSTB_MASK			BIT(9)
++#define MIPI_RX_ANA10_CSIxA_RG_CSIxA_DPHY_L1_VREF_SEL_SHIFT			10
++#define MIPI_RX_ANA10_CSIxA_RG_CSIxA_DPHY_L1_VREF_SEL_MASK			GENMASK(15, 10)
++#define MIPI_RX_ANA10_CSIxA_RG_CSIxA_DPHY_L2_DELAYCAL_EN_SHIFT			16
++#define MIPI_RX_ANA10_CSIxA_RG_CSIxA_DPHY_L2_DELAYCAL_EN_MASK			BIT(16)
++#define MIPI_RX_ANA10_CSIxA_RG_CSIxA_DPHY_L2_DELAYCAL_RSTB_SHIFT		17
++#define MIPI_RX_ANA10_CSIxA_RG_CSIxA_DPHY_L2_DELAYCAL_RSTB_MASK			BIT(17)
++#define MIPI_RX_ANA10_CSIxA_RG_CSIxA_DPHY_L2_VREF_SEL_SHIFT			18
++#define MIPI_RX_ANA10_CSIxA_RG_CSIxA_DPHY_L2_VREF_SEL_MASK			GENMASK(23, 18)
++/* C-PHY fields are only available in CSIx. */
++#define MIPI_RX_ANA10_CSIxA_RG_CSI0A_CPHY_T0_CDR_DELAYCAL_EN_SHIFT		24
++#define MIPI_RX_ANA10_CSIxA_RG_CSI0A_CPHY_T0_CDR_DELAYCAL_EN_MASK		BIT(24)
++#define MIPI_RX_ANA10_CSIxA_RG_CSI0A_CPHY_T0_CDR_DELAYCAL_RSTB_SHIFT		25
++#define MIPI_RX_ANA10_CSIxA_RG_CSI0A_CPHY_T0_CDR_DELAYCAL_RSTB_MASK		BIT(25)
++#define MIPI_RX_ANA10_CSIxA_RG_CSI0A_CPHY_T0_VREF_SEL_SHIFT			26
++#define MIPI_RX_ANA10_CSIxA_RG_CSI0A_CPHY_T0_VREF_SEL_MASK			GENMASK(31, 26)
++
++#define MIPI_RX_ANA14_CSIxA							0x0014
++/* C-PHY fields are only available in CSIx. */
++#define MIPI_RX_ANA14_CSIxA_RG_CSI0A_CPHY_T1_CDR_DELAYCAL_EN_SHIFT		0
++#define MIPI_RX_ANA14_CSIxA_RG_CSI0A_CPHY_T1_CDR_DELAYCAL_EN_MASK		BIT(0)
++#define MIPI_RX_ANA14_CSIxA_RG_CSI0A_CPHY_T1_CDR_DELAYCAL_RSTB_SHIFT		1
++#define MIPI_RX_ANA14_CSIxA_RG_CSI0A_CPHY_T1_CDR_DELAYCAL_RSTB_MASK		BIT(1)
++#define MIPI_RX_ANA14_CSIxA_RG_CSI0A_CPHY_T1_VREF_SEL_SHIFT			2
++#define MIPI_RX_ANA14_CSIxA_RG_CSI0A_CPHY_T1_VREF_SEL_MASK			GENMASK(7, 2)
++
++#define MIPI_RX_ANA18_CSIxA							0x0018
++/* CSIx-specific fields. */
++#define MIPI_RX_ANA18_CSIxA_RG_CSI0A_L0_T0AB_EQ_OS_CAL_EN_SHIFT			0
++#define MIPI_RX_ANA18_CSIxA_RG_CSI0A_L0_T0AB_EQ_OS_CAL_EN_MASK			BIT(0)
++#define MIPI_RX_ANA18_CSIxA_RG_CSI0A_L0_T0AB_EQ_MON_EN_SHIFT			1
++#define MIPI_RX_ANA18_CSIxA_RG_CSI0A_L0_T0AB_EQ_MON_EN_MASK			BIT(1)
++#define MIPI_RX_ANA18_CSIxA_RG_CSI0A_L0_T0AB_EQ_SCA_SHIFT			2
++#define MIPI_RX_ANA18_CSIxA_RG_CSI0A_L0_T0AB_EQ_SCA_MASK			BIT(2)
++#define MIPI_RX_ANA18_CSIxA_RG_CSI0A_L0_T0AB_EQ_SCB_SHIFT			3
++#define MIPI_RX_ANA18_CSIxA_RG_CSI0A_L0_T0AB_EQ_SCB_MASK			BIT(3)
++#define MIPI_RX_ANA18_CSIxA_RG_CSI0A_L0_T0AB_EQ_IS_SHIFT			4
++#define MIPI_RX_ANA18_CSIxA_RG_CSI0A_L0_T0AB_EQ_IS_MASK				GENMASK(5, 4)
++#define MIPI_RX_ANA18_CSIxA_RG_CSI0A_L0_T0AB_EQ_BW_SHIFT			6
++#define MIPI_RX_ANA18_CSIxA_RG_CSI0A_L0_T0AB_EQ_BW_MASK				GENMASK(7, 6)
++#define MIPI_RX_ANA18_CSIxA_RG_CSI0A_L0_T0AB_EQ_SRA_SHIFT			8
++#define MIPI_RX_ANA18_CSIxA_RG_CSI0A_L0_T0AB_EQ_SRA_MASK			GENMASK(11, 8)
++#define MIPI_RX_ANA18_CSIxA_RG_CSI0A_L0_T0AB_EQ_SRB_SHIFT			12
++#define MIPI_RX_ANA18_CSIxA_RG_CSI0A_L0_T0AB_EQ_SRB_MASK			GENMASK(15, 12)
++#define MIPI_RX_ANA18_CSIxA_RG_CSI0A_XX_T0CA_EQ_OS_CAL_EN_SHIFT			16
++#define MIPI_RX_ANA18_CSIxA_RG_CSI0A_XX_T0CA_EQ_OS_CAL_EN_MASK			BIT(16)
++#define MIPI_RX_ANA18_CSIxA_RG_CSI0A_XX_T0CA_EQ_MON_EN_SHIFT			17
++#define MIPI_RX_ANA18_CSIxA_RG_CSI0A_XX_T0CA_EQ_MON_EN_MASK			BIT(17)
++#define MIPI_RX_ANA18_CSIxA_RG_CSI0A_XX_T0CA_EQ_SCA_SHIFT			18
++#define MIPI_RX_ANA18_CSIxA_RG_CSI0A_XX_T0CA_EQ_SCA_MASK			BIT(18)
++#define MIPI_RX_ANA18_CSIxA_RG_CSI0A_XX_T0CA_EQ_SCB_SHIFT			19
++#define MIPI_RX_ANA18_CSIxA_RG_CSI0A_XX_T0CA_EQ_SCB_MASK			BIT(19)
++#define MIPI_RX_ANA18_CSIxA_RG_CSI0A_XX_T0CA_EQ_IS_SHIFT			20
++#define MIPI_RX_ANA18_CSIxA_RG_CSI0A_XX_T0CA_EQ_IS_MASK				GENMASK(21, 20)
++#define MIPI_RX_ANA18_CSIxA_RG_CSI0A_XX_T0CA_EQ_BW_SHIFT			22
++#define MIPI_RX_ANA18_CSIxA_RG_CSI0A_XX_T0CA_EQ_BW_MASK				GENMASK(23, 22)
++#define MIPI_RX_ANA18_CSIxA_RG_CSI0A_XX_T0CA_EQ_SRA_SHIFT			24
++#define MIPI_RX_ANA18_CSIxA_RG_CSI0A_XX_T0CA_EQ_SRA_MASK			GENMASK(27, 24)
++#define MIPI_RX_ANA18_CSIxA_RG_CSI0A_XX_T0CA_EQ_SRB_SHIFT			28
++#define MIPI_RX_ANA18_CSIxA_RG_CSI0A_XX_T0CA_EQ_SRB_MASK			GENMASK(31, 28)
++/* CSI1- and CSI2-specific fields. */
++#define MIPI_RX_ANA18_CSIxA_RG_CSI1A_L0_EQ_OS_CAL_EN_SHIFT			0
++#define MIPI_RX_ANA18_CSIxA_RG_CSI1A_L0_EQ_OS_CAL_EN_MASK			BIT(0)
++#define MIPI_RX_ANA18_CSIxA_RG_CSI1A_L0_EQ_MON_EN_SHIFT				1
++#define MIPI_RX_ANA18_CSIxA_RG_CSI1A_L0_EQ_MON_EN_MASK				BIT(1)
++#define MIPI_RX_ANA18_CSIxA_RG_CSI1A_L0_EQ_SCA_SHIFT				2
++#define MIPI_RX_ANA18_CSIxA_RG_CSI1A_L0_EQ_SCA_MASK				BIT(2)
++#define MIPI_RX_ANA18_CSIxA_RG_CSI1A_L0_EQ_SCB_SHIFT				3
++#define MIPI_RX_ANA18_CSIxA_RG_CSI1A_L0_EQ_SCB_MASK				BIT(3)
++#define MIPI_RX_ANA18_CSIxA_RG_CSI1A_L0_EQ_IS_SHIFT				4
++#define MIPI_RX_ANA18_CSIxA_RG_CSI1A_L0_EQ_IS_MASK				GENMASK(5, 4)
++#define MIPI_RX_ANA18_CSIxA_RG_CSI1A_L0_EQ_BW_SHIFT				6
++#define MIPI_RX_ANA18_CSIxA_RG_CSI1A_L0_EQ_BW_MASK				GENMASK(7, 6)
++#define MIPI_RX_ANA18_CSIxA_RG_CSI1A_L0_EQ_SRA_SHIFT				8
++#define MIPI_RX_ANA18_CSIxA_RG_CSI1A_L0_EQ_SRA_MASK				GENMASK(11, 8)
++#define MIPI_RX_ANA18_CSIxA_RG_CSI1A_L0_EQ_SRB_SHIFT				12
++#define MIPI_RX_ANA18_CSIxA_RG_CSI1A_L0_EQ_SRB_MASK				GENMASK(15, 12)
++#define MIPI_RX_ANA18_CSIxA_RG_CSI1A_L1_EQ_OS_CAL_EN_SHIFT			16
++#define MIPI_RX_ANA18_CSIxA_RG_CSI1A_L1_EQ_OS_CAL_EN_MASK			BIT(16)
++#define MIPI_RX_ANA18_CSIxA_RG_CSI1A_L1_EQ_MON_EN_SHIFT				17
++#define MIPI_RX_ANA18_CSIxA_RG_CSI1A_L1_EQ_MON_EN_MASK				BIT(17)
++#define MIPI_RX_ANA18_CSIxA_RG_CSI1A_L1_EQ_SCA_SHIFT				18
++#define MIPI_RX_ANA18_CSIxA_RG_CSI1A_L1_EQ_SCA_MASK				BIT(18)
++#define MIPI_RX_ANA18_CSIxA_RG_CSI1A_L1_EQ_SCB_SHIFT				19
++#define MIPI_RX_ANA18_CSIxA_RG_CSI1A_L1_EQ_SCB_MASK				BIT(19)
++#define MIPI_RX_ANA18_CSIxA_RG_CSI1A_L1_EQ_IS_SHIFT				20
++#define MIPI_RX_ANA18_CSIxA_RG_CSI1A_L1_EQ_IS_MASK				GENMASK(21, 20)
++#define MIPI_RX_ANA18_CSIxA_RG_CSI1A_L1_EQ_BW_SHIFT				22
++#define MIPI_RX_ANA18_CSIxA_RG_CSI1A_L1_EQ_BW_MASK				GENMASK(23, 22)
++#define MIPI_RX_ANA18_CSIxA_RG_CSI1A_L1_EQ_SRA_SHIFT				24
++#define MIPI_RX_ANA18_CSIxA_RG_CSI1A_L1_EQ_SRA_MASK				GENMASK(27, 24)
++#define MIPI_RX_ANA18_CSIxA_RG_CSI1A_L1_EQ_SRB_SHIFT				28
++#define MIPI_RX_ANA18_CSIxA_RG_CSI1A_L1_EQ_SRB_MASK				GENMASK(31, 28)
++
++#define MIPI_RX_ANA1C_CSIxA							0x001c
++/* CSIx-specific fields. */
++#define MIPI_RX_ANA1C_CSIxA_RG_CSI0A_XX_T0BC_EQ_OS_CAL_EN_SHIFT			0
++#define MIPI_RX_ANA1C_CSIxA_RG_CSI0A_XX_T0BC_EQ_OS_CAL_EN_MASK			BIT(0)
++#define MIPI_RX_ANA1C_CSIxA_RG_CSI0A_XX_T0BC_EQ_MON_EN_SHIFT			1
++#define MIPI_RX_ANA1C_CSIxA_RG_CSI0A_XX_T0BC_EQ_MON_EN_MASK			BIT(1)
++#define MIPI_RX_ANA1C_CSIxA_RG_CSI0A_XX_T0BC_EQ_SCA_SHIFT			2
++#define MIPI_RX_ANA1C_CSIxA_RG_CSI0A_XX_T0BC_EQ_SCA_MASK			BIT(2)
++#define MIPI_RX_ANA1C_CSIxA_RG_CSI0A_XX_T0BC_EQ_SCB_SHIFT			3
++#define MIPI_RX_ANA1C_CSIxA_RG_CSI0A_XX_T0BC_EQ_SCB_MASK			BIT(3)
++#define MIPI_RX_ANA1C_CSIxA_RG_CSI0A_XX_T0BC_EQ_IS_SHIFT			4
++#define MIPI_RX_ANA1C_CSIxA_RG_CSI0A_XX_T0BC_EQ_IS_MASK				GENMASK(5, 4)
++#define MIPI_RX_ANA1C_CSIxA_RG_CSI0A_XX_T0BC_EQ_BW_SHIFT			6
++#define MIPI_RX_ANA1C_CSIxA_RG_CSI0A_XX_T0BC_EQ_BW_MASK				GENMASK(7, 6)
++#define MIPI_RX_ANA1C_CSIxA_RG_CSI0A_XX_T0BC_EQ_SRA_SHIFT			8
++#define MIPI_RX_ANA1C_CSIxA_RG_CSI0A_XX_T0BC_EQ_SRA_MASK			GENMASK(11, 8)
++#define MIPI_RX_ANA1C_CSIxA_RG_CSI0A_XX_T0BC_EQ_SRB_SHIFT			12
++#define MIPI_RX_ANA1C_CSIxA_RG_CSI0A_XX_T0BC_EQ_SRB_MASK			GENMASK(15, 12)
++#define MIPI_RX_ANA1C_CSIxA_RG_CSI0A_L1_T1AB_EQ_OS_CAL_EN_SHIFT			16
++#define MIPI_RX_ANA1C_CSIxA_RG_CSI0A_L1_T1AB_EQ_OS_CAL_EN_MASK			BIT(16)
++#define MIPI_RX_ANA1C_CSIxA_RG_CSI0A_L1_T1AB_EQ_MON_EN_SHIFT			17
++#define MIPI_RX_ANA1C_CSIxA_RG_CSI0A_L1_T1AB_EQ_MON_EN_MASK			BIT(17)
++#define MIPI_RX_ANA1C_CSIxA_RG_CSI0A_L1_T1AB_EQ_SCA_SHIFT			18
++#define MIPI_RX_ANA1C_CSIxA_RG_CSI0A_L1_T1AB_EQ_SCA_MASK			BIT(18)
++#define MIPI_RX_ANA1C_CSIxA_RG_CSI0A_L1_T1AB_EQ_SCB_SHIFT			19
++#define MIPI_RX_ANA1C_CSIxA_RG_CSI0A_L1_T1AB_EQ_SCB_MASK			BIT(19)
++#define MIPI_RX_ANA1C_CSIxA_RG_CSI0A_L1_T1AB_EQ_IS_SHIFT			20
++#define MIPI_RX_ANA1C_CSIxA_RG_CSI0A_L1_T1AB_EQ_IS_MASK				GENMASK(21, 20)
++#define MIPI_RX_ANA1C_CSIxA_RG_CSI0A_L1_T1AB_EQ_BW_SHIFT			22
++#define MIPI_RX_ANA1C_CSIxA_RG_CSI0A_L1_T1AB_EQ_BW_MASK				GENMASK(23, 22)
++#define MIPI_RX_ANA1C_CSIxA_RG_CSI0A_L1_T1AB_EQ_SRA_SHIFT			24
++#define MIPI_RX_ANA1C_CSIxA_RG_CSI0A_L1_T1AB_EQ_SRA_MASK			GENMASK(27, 24)
++#define MIPI_RX_ANA1C_CSIxA_RG_CSI0A_L1_T1AB_EQ_SRB_SHIFT			28
++#define MIPI_RX_ANA1C_CSIxA_RG_CSI0A_L1_T1AB_EQ_SRB_MASK			GENMASK(31, 28)
++/* CSI1- and CSI2-specific fields. */
++#define MIPI_RX_ANA1C_CSIxA_RG_CSI1A_L2_EQ_OS_CAL_EN_SHIFT			0
++#define MIPI_RX_ANA1C_CSIxA_RG_CSI1A_L2_EQ_OS_CAL_EN_MASK			BIT(0)
++#define MIPI_RX_ANA1C_CSIxA_RG_CSI1A_L2_EQ_MON_EN_SHIFT				1
++#define MIPI_RX_ANA1C_CSIxA_RG_CSI1A_L2_EQ_MON_EN_MASK				BIT(1)
++#define MIPI_RX_ANA1C_CSIxA_RG_CSI1A_L2_EQ_SCA_SHIFT				2
++#define MIPI_RX_ANA1C_CSIxA_RG_CSI1A_L2_EQ_SCA_MASK				BIT(2)
++#define MIPI_RX_ANA1C_CSIxA_RG_CSI1A_L2_EQ_SCB_SHIFT				3
++#define MIPI_RX_ANA1C_CSIxA_RG_CSI1A_L2_EQ_SCB_MASK				BIT(3)
++#define MIPI_RX_ANA1C_CSIxA_RG_CSI1A_L2_EQ_IS_SHIFT				4
++#define MIPI_RX_ANA1C_CSIxA_RG_CSI1A_L2_EQ_IS_MASK				GENMASK(5, 4)
++#define MIPI_RX_ANA1C_CSIxA_RG_CSI1A_L2_EQ_BW_SHIFT				6
++#define MIPI_RX_ANA1C_CSIxA_RG_CSI1A_L2_EQ_BW_MASK				GENMASK(7, 6)
++#define MIPI_RX_ANA1C_CSIxA_RG_CSI1A_L2_EQ_SRA_SHIFT				8
++#define MIPI_RX_ANA1C_CSIxA_RG_CSI1A_L2_EQ_SRA_MASK				GENMASK(11, 8)
++#define MIPI_RX_ANA1C_CSIxA_RG_CSI1A_L2_EQ_SRB_SHIFT				12
++#define MIPI_RX_ANA1C_CSIxA_RG_CSI1A_L2_EQ_SRB_MASK				GENMASK(15, 12)
++
++/* CSI0-specific register. */
++#define MIPI_RX_ANA20_CSI0A							0x0020
++#define MIPI_RX_ANA20_CSI0A_RG_CSI0A_XX_T1CA_EQ_OS_CAL_EN_SHIFT			0
++#define MIPI_RX_ANA20_CSI0A_RG_CSI0A_XX_T1CA_EQ_OS_CAL_EN_MASK			BIT(0)
++#define MIPI_RX_ANA20_CSI0A_RG_CSI0A_XX_T1CA_EQ_MON_EN_SHIFT			1
++#define MIPI_RX_ANA20_CSI0A_RG_CSI0A_XX_T1CA_EQ_MON_EN_MASK			BIT(1)
++#define MIPI_RX_ANA20_CSI0A_RG_CSI0A_XX_T1CA_EQ_SCA_SHIFT			2
++#define MIPI_RX_ANA20_CSI0A_RG_CSI0A_XX_T1CA_EQ_SCA_MASK			BIT(2)
++#define MIPI_RX_ANA20_CSI0A_RG_CSI0A_XX_T1CA_EQ_SCB_SHIFT			3
++#define MIPI_RX_ANA20_CSI0A_RG_CSI0A_XX_T1CA_EQ_SCB_MASK			BIT(3)
++#define MIPI_RX_ANA20_CSI0A_RG_CSI0A_XX_T1CA_EQ_IS_SHIFT			4
++#define MIPI_RX_ANA20_CSI0A_RG_CSI0A_XX_T1CA_EQ_IS_MASK				GENMASK(5, 4)
++#define MIPI_RX_ANA20_CSI0A_RG_CSI0A_XX_T1CA_EQ_BW_SHIFT			6
++#define MIPI_RX_ANA20_CSI0A_RG_CSI0A_XX_T1CA_EQ_BW_MASK				GENMASK(7, 6)
++#define MIPI_RX_ANA20_CSI0A_RG_CSI0A_XX_T1CA_EQ_SRA_SHIFT			8
++#define MIPI_RX_ANA20_CSI0A_RG_CSI0A_XX_T1CA_EQ_SRA_MASK			GENMASK(11, 8)
++#define MIPI_RX_ANA20_CSI0A_RG_CSI0A_XX_T1CA_EQ_SRB_SHIFT			12
++#define MIPI_RX_ANA20_CSI0A_RG_CSI0A_XX_T1CA_EQ_SRB_MASK			GENMASK(15, 12)
++#define MIPI_RX_ANA20_CSI0A_RG_CSI0A_L2_T1BC_EQ_OS_CAL_EN_SHIFT			16
++#define MIPI_RX_ANA20_CSI0A_RG_CSI0A_L2_T1BC_EQ_OS_CAL_EN_MASK			BIT(16)
++#define MIPI_RX_ANA20_CSI0A_RG_CSI0A_L2_T1BC_EQ_MON_EN_SHIFT			17
++#define MIPI_RX_ANA20_CSI0A_RG_CSI0A_L2_T1BC_EQ_MON_EN_MASK			BIT(17)
++#define MIPI_RX_ANA20_CSI0A_RG_CSI0A_L2_T1BC_EQ_SCA_SHIFT			18
++#define MIPI_RX_ANA20_CSI0A_RG_CSI0A_L2_T1BC_EQ_SCA_MASK			BIT(18)
++#define MIPI_RX_ANA20_CSI0A_RG_CSI0A_L2_T1BC_EQ_SCB_SHIFT			19
++#define MIPI_RX_ANA20_CSI0A_RG_CSI0A_L2_T1BC_EQ_SCB_MASK			BIT(19)
++#define MIPI_RX_ANA20_CSI0A_RG_CSI0A_L2_T1BC_EQ_IS_SHIFT			20
++#define MIPI_RX_ANA20_CSI0A_RG_CSI0A_L2_T1BC_EQ_IS_MASK				GENMASK(21, 20)
++#define MIPI_RX_ANA20_CSI0A_RG_CSI0A_L2_T1BC_EQ_BW_SHIFT			22
++#define MIPI_RX_ANA20_CSI0A_RG_CSI0A_L2_T1BC_EQ_BW_MASK				GENMASK(23, 22)
++#define MIPI_RX_ANA20_CSI0A_RG_CSI0A_L2_T1BC_EQ_SRA_SHIFT			24
++#define MIPI_RX_ANA20_CSI0A_RG_CSI0A_L2_T1BC_EQ_SRA_MASK			GENMASK(27, 24)
++#define MIPI_RX_ANA20_CSI0A_RG_CSI0A_L2_T1BC_EQ_SRB_SHIFT			28
++#define MIPI_RX_ANA20_CSI0A_RG_CSI0A_L2_T1BC_EQ_SRB_MASK			GENMASK(31, 28)
++
++#define MIPI_RX_ANA24_CSIxA							0x0024
++#define MIPI_RX_ANA24_CSIxA_RG_CSIxA_RESERVE_SHIFT				24
++#define MIPI_RX_ANA24_CSIxA_RG_CSIxA_RESERVE_MASK				(0xff << 24)
++
++/* CSI0-specific register. */
++#define MIPI_RX_ANA28_CSI0A							0x0028
++#define MIPI_RX_ANA28_CSI0A_RG_CSI0A_CPHY_T0_CDR_DIRECT_EN_SHIFT		0
++#define MIPI_RX_ANA28_CSI0A_RG_CSI0A_CPHY_T0_CDR_DIRECT_EN_MASK			BIT(0)
++#define MIPI_RX_ANA28_CSI0A_RG_CSI0A_CPHY_T0_CDR_AUTOLOAD_EN_SHIFT		1
++#define MIPI_RX_ANA28_CSI0A_RG_CSI0A_CPHY_T0_CDR_AUTOLOAD_EN_MASK		BIT(1)
++#define MIPI_RX_ANA28_CSI0A_RG_CSI0A_CPHY_T0_CDR_LPF_CTRL_SHIFT			2
++#define MIPI_RX_ANA28_CSI0A_RG_CSI0A_CPHY_T0_CDR_LPF_CTRL_MASK			GENMASK(3, 2)
++#define MIPI_RX_ANA28_CSI0A_RG_CSI0A_CPHY_T0_CDR_AB_WIDTH_SHIFT			4
++#define MIPI_RX_ANA28_CSI0A_RG_CSI0A_CPHY_T0_CDR_AB_WIDTH_MASK			GENMASK(7, 4)
++#define MIPI_RX_ANA28_CSI0A_RG_CSI0A_CPHY_T0_CDR_BC_WIDTH_SHIFT			8
++#define MIPI_RX_ANA28_CSI0A_RG_CSI0A_CPHY_T0_CDR_BC_WIDTH_MASK			GENMASK(11, 8)
++#define MIPI_RX_ANA28_CSI0A_RG_CSI0A_CPHY_T0_CDR_CA_WIDTH_SHIFT			12
++#define MIPI_RX_ANA28_CSI0A_RG_CSI0A_CPHY_T0_CDR_CA_WIDTH_MASK			GENMASK(15, 12)
++#define MIPI_RX_ANA28_CSI0A_RG_CSI0A_CPHY_T0_CDR_CK_DELAY_SHIFT			16
++#define MIPI_RX_ANA28_CSI0A_RG_CSI0A_CPHY_T0_CDR_CK_DELAY_MASK			GENMASK(19, 16)
++#define MIPI_RX_ANA28_CSI0A_RG_CSI0A_CPHY_T0_HSDET_SEL_SHIFT			20
++#define MIPI_RX_ANA28_CSI0A_RG_CSI0A_CPHY_T0_HSDET_SEL_MASK			GENMASK(21, 20)
++#define MIPI_RX_ANA28_CSI0A_RG_CSI0A_CPHY_T0_CDR_MANUAL_EN_SHIFT		24
++#define MIPI_RX_ANA28_CSI0A_RG_CSI0A_CPHY_T0_CDR_MANUAL_EN_MASK			BIT(24)
++
++/* CSI0-specific register. */
++#define MIPI_RX_ANA2C_CSI0A							0x002c
++#define MIPI_RX_ANA2C_CSI0A_RG_CSI0A_CPHY_T0_CDR_INIT_CODE_SHIFT		0
++#define MIPI_RX_ANA2C_CSI0A_RG_CSI0A_CPHY_T0_CDR_INIT_CODE_MASK			GENMASK(4, 0)
++#define MIPI_RX_ANA2C_CSI0A_RG_CSI0A_CPHY_T0_CDR_EARLY_CODE_SHIFT		8
++#define MIPI_RX_ANA2C_CSI0A_RG_CSI0A_CPHY_T0_CDR_EARLY_CODE_MASK		GENMASK(12, 8)
++#define MIPI_RX_ANA2C_CSI0A_RG_CSI0A_CPHY_T0_CDR_LATE_CODE_SHIFT		16
++#define MIPI_RX_ANA2C_CSI0A_RG_CSI0A_CPHY_T0_CDR_LATE_CODE_MASK			GENMASK(20, 16)
++
++/* CSI0-specific register. */
++#define MIPI_RX_ANA34_CSI0A							0x0034
++#define MIPI_RX_ANA34_CSI0A_RG_CSI0A_CPHY_T1_CDR_DIRECT_EN_SHIFT		0
++#define MIPI_RX_ANA34_CSI0A_RG_CSI0A_CPHY_T1_CDR_DIRECT_EN_MASK			BIT(0)
++#define MIPI_RX_ANA34_CSI0A_RG_CSI0A_CPHY_T1_CDR_AUTOLOAD_EN_SHIFT		1
++#define MIPI_RX_ANA34_CSI0A_RG_CSI0A_CPHY_T1_CDR_AUTOLOAD_EN_MASK		BIT(1)
++#define MIPI_RX_ANA34_CSI0A_RG_CSI0A_CPHY_T1_CDR_LPF_CTRL_SHIFT			2
++#define MIPI_RX_ANA34_CSI0A_RG_CSI0A_CPHY_T1_CDR_LPF_CTRL_MASK			GENMASK(3, 2)
++#define MIPI_RX_ANA34_CSI0A_RG_CSI0A_CPHY_T1_CDR_AB_WIDTH_SHIFT			4
++#define MIPI_RX_ANA34_CSI0A_RG_CSI0A_CPHY_T1_CDR_AB_WIDTH_MASK			GENMASK(7, 4)
++#define MIPI_RX_ANA34_CSI0A_RG_CSI0A_CPHY_T1_CDR_BC_WIDTH_SHIFT			8
++#define MIPI_RX_ANA34_CSI0A_RG_CSI0A_CPHY_T1_CDR_BC_WIDTH_MASK			GENMASK(11, 8)
++#define MIPI_RX_ANA34_CSI0A_RG_CSI0A_CPHY_T1_CDR_CA_WIDTH_SHIFT			12
++#define MIPI_RX_ANA34_CSI0A_RG_CSI0A_CPHY_T1_CDR_CA_WIDTH_MASK			GENMASK(15, 12)
++#define MIPI_RX_ANA34_CSI0A_RG_CSI0A_CPHY_T1_CDR_CK_DELAY_SHIFT			16
++#define MIPI_RX_ANA34_CSI0A_RG_CSI0A_CPHY_T1_CDR_CK_DELAY_MASK			GENMASK(19, 16)
++#define MIPI_RX_ANA34_CSI0A_RG_CSI0A_CPHY_T1_HSDET_SEL_SHIFT			20
++#define MIPI_RX_ANA34_CSI0A_RG_CSI0A_CPHY_T1_HSDET_SEL_MASK			GENMASK(21, 20)
++#define MIPI_RX_ANA34_CSI0A_RG_CSI0A_CPHY_T1_CDR_MANUAL_EN_SHIFT		24
++#define MIPI_RX_ANA34_CSI0A_RG_CSI0A_CPHY_T1_CDR_MANUAL_EN_MASK			BIT(24)
++
++/* CSI0-specific register. */
++#define MIPI_RX_ANA38_CSI0A							0x0038
++#define MIPI_RX_ANA38_CSI0A_RG_CSI0A_CPHY_T1_CDR_INIT_CODE_SHIFT		0
++#define MIPI_RX_ANA38_CSI0A_RG_CSI0A_CPHY_T1_CDR_INIT_CODE_MASK			GENMASK(4, 0)
++#define MIPI_RX_ANA38_CSI0A_RG_CSI0A_CPHY_T1_CDR_EARLY_CODE_SHIFT		8
++#define MIPI_RX_ANA38_CSI0A_RG_CSI0A_CPHY_T1_CDR_EARLY_CODE_MASK		GENMASK(12, 8)
++#define MIPI_RX_ANA38_CSI0A_RG_CSI0A_CPHY_T1_CDR_LATE_CODE_SHIFT		16
++#define MIPI_RX_ANA38_CSI0A_RG_CSI0A_CPHY_T1_CDR_LATE_CODE_MASK			GENMASK(20, 16)
++
++#define MIPI_RX_ANA40_CSIxA							0x0040
++#define MIPI_RX_ANA40_CSIxA_RG_CSIxA_CPHY_FMCK_SEL_SHIFT			0
++#define MIPI_RX_ANA40_CSIxA_RG_CSIxA_CPHY_FMCK_SEL_MASK				GENMASK(1, 0)
++#define MIPI_RX_ANA40_CSIxA_RG_CSIxA_ASYNC_OPTION_SHIFT				4
++#define MIPI_RX_ANA40_CSIxA_RG_CSIxA_ASYNC_OPTION_MASK				GENMASK(7, 4)
++#define MIPI_RX_ANA40_CSIxA_RG_CSIxA_CPHY_SPARE_SHIFT				16
++#define MIPI_RX_ANA40_CSIxA_RG_CSIxA_CPHY_SPARE_MASK				GENMASK(31, 16)
++
++#define MIPI_RX_ANA48_CSIxA							0x0048
++/* CSI0-specific fields. */
++#define MIPI_RX_ANA48_CSIxA_RGS_CSI0A_CDPHY_L0_T0AB_OS_CAL_CPLT_SHIFT		0
++#define MIPI_RX_ANA48_CSIxA_RGS_CSI0A_CDPHY_L0_T0AB_OS_CAL_CPLT_MASK		BIT(0)
++#define MIPI_RX_ANA48_CSIxA_RGS_CSI0A_CPHY_T0CA_OS_CAL_CPLT_SHIFT		1
++#define MIPI_RX_ANA48_CSIxA_RGS_CSI0A_CPHY_T0CA_OS_CAL_CPLT_MASK		BIT(1)
++#define MIPI_RX_ANA48_CSIxA_RGS_CSI0A_CPHY_T0BC_OS_CAL_CPLT_SHIFT		2
++#define MIPI_RX_ANA48_CSIxA_RGS_CSI0A_CPHY_T0BC_OS_CAL_CPLT_MASK		BIT(2)
++#define MIPI_RX_ANA48_CSIxA_RGS_CSI0A_CDPHY_L1_T1AB_OS_CAL_CPLT_SHIFT		3
++#define MIPI_RX_ANA48_CSIxA_RGS_CSI0A_CDPHY_L1_T1AB_OS_CAL_CPLT_MASK		BIT(3)
++#define MIPI_RX_ANA48_CSIxA_RGS_CSI0A_CPHY_T1CA_OS_CAL_CPLT_SHIFT		4
++#define MIPI_RX_ANA48_CSIxA_RGS_CSI0A_CPHY_T1CA_OS_CAL_CPLT_MASK		BIT(4)
++#define MIPI_RX_ANA48_CSIxA_RGS_CSI0A_CDPHY_L2_T1BC_OS_CAL_CPLT_SHIFT		5
++#define MIPI_RX_ANA48_CSIxA_RGS_CSI0A_CDPHY_L2_T1BC_OS_CAL_CPLT_MASK		BIT(5)
++/* CSI1- and CSI2-specific fields. */
++#define MIPI_RX_ANA48_CSIxA_RGS_CSI1A_DPHY_L0_OS_CAL_CPLT_SHIFT			3
++#define MIPI_RX_ANA48_CSIxA_RGS_CSI1A_DPHY_L0_OS_CAL_CPLT_MASK			BIT(3)
++#define MIPI_RX_ANA48_CSIxA_RGS_CSI1A_DPHY_L1_OS_CAL_CPLT_SHIFT			4
++#define MIPI_RX_ANA48_CSIxA_RGS_CSI1A_DPHY_L1_OS_CAL_CPLT_MASK			BIT(4)
++#define MIPI_RX_ANA48_CSIxA_RGS_CSI1A_DPHY_L2_OS_CAL_CPLT_SHIFT			5
++#define MIPI_RX_ANA48_CSIxA_RGS_CSI1A_DPHY_L2_OS_CAL_CPLT_MASK			BIT(5)
++/* Common fields. */
++#define MIPI_RX_ANA48_CSIxA_RGS_CSIxA_OS_CAL_CODE_SHIFT				8
++#define MIPI_RX_ANA48_CSIxA_RGS_CSIxA_OS_CAL_CODE_MASK				GENMASK(15, 8)
++
++#define MIPI_RX_WRAPPER80_CSIxA							0x0080
++#define MIPI_RX_WRAPPER80_CSIxA_CSR_CSI_CLK_MON_SHIFT				0
++#define MIPI_RX_WRAPPER80_CSIxA_CSR_CSI_CLK_MON_MASK				BIT(0)
++#define MIPI_RX_WRAPPER80_CSIxA_CSR_CSI_CLK_EN_SHIFT				1
++#define MIPI_RX_WRAPPER80_CSIxA_CSR_CSI_CLK_EN_MASK				BIT(1)
++#define MIPI_RX_WRAPPER80_CSIxA_CSR_CSI_MON_MUX_SHIFT				8
++#define MIPI_RX_WRAPPER80_CSIxA_CSR_CSI_MON_MUX_MASK				GENMASK(15, 8)
++#define MIPI_RX_WRAPPER80_CSIxA_CSR_CSI_RST_MODE_SHIFT				16
++#define MIPI_RX_WRAPPER80_CSIxA_CSR_CSI_RST_MODE_MASK				GENMASK(17, 16)
++#define MIPI_RX_WRAPPER80_CSIxA_CSR_SW_RST_SHIFT				24
++#define MIPI_RX_WRAPPER80_CSIxA_CSR_SW_RST_MASK					GENMASK(27, 24)
++
++#define MIPI_RX_WRAPPER84_CSIxA							0x0084
++#define MIPI_RX_WRAPPER84_CSIxA_CSI_DEBUG_OUT_SHIFT				0
++#define MIPI_RX_WRAPPER84_CSIxA_CSI_DEBUG_OUT_MASK				GENMASK(31, 0)
++
++#define MIPI_RX_WRAPPER88_CSIxA							0x0088
++#define MIPI_RX_WRAPPER88_CSIxA_CSR_SW_MODE_0_SHIFT				0
++#define MIPI_RX_WRAPPER88_CSIxA_CSR_SW_MODE_0_MASK				GENMASK(31, 0)
++
++#define MIPI_RX_WRAPPER8C_CSIxA							0x008c
++#define MIPI_RX_WRAPPER8C_CSIxA_CSR_SW_MODE_1_SHIFT				0
++#define MIPI_RX_WRAPPER8C_CSIxA_CSR_SW_MODE_1_MASK				GENMASK(31, 0)
++
++#define MIPI_RX_WRAPPER90_CSIxA							0x0090
++#define MIPI_RX_WRAPPER90_CSIxA_CSR_SW_MODE_2_SHIFT				0
++#define MIPI_RX_WRAPPER90_CSIxA_CSR_SW_MODE_2_MASK				GENMASK(31, 0)
++
++#define MIPI_RX_WRAPPER94_CSIxA							0x0094
++#define MIPI_RX_WRAPPER94_CSIxA_CSR_SW_VALUE_0_SHIFT				0
++#define MIPI_RX_WRAPPER94_CSIxA_CSR_SW_VALUE_0_MASK				GENMASK(31, 0)
++
++#define MIPI_RX_WRAPPER98_CSIxA							0x0098
++#define MIPI_RX_WRAPPER98_CSIxA_CSR_SW_VALUE_1_SHIFT				0
++#define MIPI_RX_WRAPPER98_CSIxA_CSR_SW_VALUE_1_MASK				GENMASK(31, 0)
++
++#define MIPI_RX_WRAPPER9C_CSIxA							0x009c
++#define MIPI_RX_WRAPPER9C_CSIxA_CSR_SW_VALUE_2_SHIFT				0
++#define MIPI_RX_WRAPPER9C_CSIxA_CSR_SW_VALUE_2_MASK				GENMASK(31, 0)
++
++#define MIPI_RX_ANAA4_CSIxA							0x00a4
++#define MIPI_RX_ANAA4_CSIxA_RG_CSIxA_CDPHY_L0_T0_SYNC_INIT_SEL_SHIFT		0
++#define MIPI_RX_ANAA4_CSIxA_RG_CSIxA_CDPHY_L0_T0_SYNC_INIT_SEL_MASK		BIT(0)
++#define MIPI_RX_ANAA4_CSIxA_RG_CSIxA_CDPHY_L0_T0_FORCE_INIT_SHIFT		1
++#define MIPI_RX_ANAA4_CSIxA_RG_CSIxA_CDPHY_L0_T0_FORCE_INIT_MASK		BIT(1)
++#define MIPI_RX_ANAA4_CSIxA_RG_CSIxA_DPHY_L1_SYNC_INIT_SEL_SHIFT		2
++#define MIPI_RX_ANAA4_CSIxA_RG_CSIxA_DPHY_L1_SYNC_INIT_SEL_MASK			BIT(2)
++#define MIPI_RX_ANAA4_CSIxA_RG_CSIxA_DPHY_L1_FORCE_INIT_SHIFT			3
++#define MIPI_RX_ANAA4_CSIxA_RG_CSIxA_DPHY_L1_FORCE_INIT_MASK			BIT(3)
++#define MIPI_RX_ANAA4_CSIxA_RG_CSIxA_CDPHY_L2_T2_SYNC_INIT_SEL_SHIFT		4
++#define MIPI_RX_ANAA4_CSIxA_RG_CSIxA_CDPHY_L2_T2_SYNC_INIT_SEL_MASK		BIT(4)
++#define MIPI_RX_ANAA4_CSIxA_RG_CSIxA_CDPHY_L2_T2_FORCE_INIT_SHIFT		5
++#define MIPI_RX_ANAA4_CSIxA_RG_CSIxA_CDPHY_L2_T2_FORCE_INIT_MASK		BIT(5)
++
++#define MIPI_RX_ANAA8_CSIxA							0x00a8
++#define MIPI_RX_ANAA8_CSIxA_RG_CSIxA_CDPHY_L0_T0_BYTECK_INVERT_SHIFT		0
++#define MIPI_RX_ANAA8_CSIxA_RG_CSIxA_CDPHY_L0_T0_BYTECK_INVERT_MASK		BIT(0)
++#define MIPI_RX_ANAA8_CSIxA_RG_CSIxA_DPHY_L1_BYTECK_INVERT_SHIFT		1
++#define MIPI_RX_ANAA8_CSIxA_RG_CSIxA_DPHY_L1_BYTECK_INVERT_MASK			BIT(1)
++#define MIPI_RX_ANAA8_CSIxA_RG_CSIxA_CDPHY_L2_T1_BYTECK_INVERT_SHIFT		2
++#define MIPI_RX_ANAA8_CSIxA_RG_CSIxA_CDPHY_L2_T1_BYTECK_INVERT_MASK		BIT(2)
++#define MIPI_RX_ANAA8_CSIxA_RG_CSIxA_DPHY_HSDET_LEVEL_MODE_EN_SHIFT		3
++#define MIPI_RX_ANAA8_CSIxA_RG_CSIxA_DPHY_HSDET_LEVEL_MODE_EN_MASK		BIT(3)
++#define MIPI_RX_ANAA8_CSIxA_RG_CSIxA_OS_CAL_SEL_SHIFT				4
++#define MIPI_RX_ANAA8_CSIxA_RG_CSIxA_OS_CAL_SEL_MASK				GENMASK(6, 4)
++#define MIPI_RX_ANAA8_CSIxA_RG_CSIxA_DPHY_HSDET_DIG_BACK_EN_SHIFT		7
++#define MIPI_RX_ANAA8_CSIxA_RG_CSIxA_DPHY_HSDET_DIG_BACK_EN_MASK		BIT(7)
++#define MIPI_RX_ANAA8_CSIxA_RG_CSIxA_CDPHY_DELAYCAL_CK_SEL_SHIFT		8
++#define MIPI_RX_ANAA8_CSIxA_RG_CSIxA_CDPHY_DELAYCAL_CK_SEL_MASK			GENMASK(10, 8)
++#define MIPI_RX_ANAA8_CSIxA_RG_CSIxA_OS_CAL_DIV_SHIFT				11
++#define MIPI_RX_ANAA8_CSIxA_RG_CSIxA_OS_CAL_DIV_MASK				GENMASK(12, 11)
++
++#endif
+diff --git a/drivers/phy/mediatek/phy-mtk-mipi-csi.c b/drivers/phy/mediatek/phy-mtk-mipi-csi.c
+new file mode 100644
+index 000000000000..6ce3f95f57bd
+--- /dev/null
++++ b/drivers/phy/mediatek/phy-mtk-mipi-csi.c
+@@ -0,0 +1,392 @@
++// SPDX-License-Identifier: GPL-2.0
++
++#include <linux/delay.h>
++#include <linux/io.h>
++#include <linux/module.h>
++#include <linux/mutex.h>
++#include <linux/phy/phy.h>
++#include <linux/platform_device.h>
++#include <linux/slab.h>
++#include <linux/regmap.h>
++
++#include "phy-mtk-mipi-csi-rx-reg.h"
++
++#define CSIxB_OFFSET		0x1000
++
++struct mtk_mipi_dphy;
++
++enum mtk_mipi_dphy_port_id {
++	MTK_MIPI_PHY_PORT_0 = 0x0, /* 4D1C - CDPHY */
++	MTK_MIPI_PHY_PORT_1, /* 4D1C - DPHY */
++	MTK_MIPI_PHY_PORT_2, /* 4D1C - DPHY */
++	MTK_MIPI_PHY_PORT_0A, /* 2D1C - CDPHY */
++	MTK_MIPI_PHY_PORT_0B, /* 2D1C - CDPHY */
++	MTK_MIPI_PHY_PORT_MAX_NUM
++};
++
++struct mtk_mipi_dphy_port {
++	struct mtk_mipi_dphy *dev;
++	enum mtk_mipi_dphy_port_id id;
++	struct regmap *regmap_base;
++	struct regmap *regmap_4d1c;
++	struct phy *phy;
++	bool active;
++	bool is_cdphy;
++	bool is_4d1c;
++};
++
++struct mtk_mipi_dphy {
++	struct device *dev;
++	void __iomem *rx;
++	struct mtk_mipi_dphy_port ports[MTK_MIPI_PHY_PORT_MAX_NUM];
++	struct mutex lock; /* Ports CSI0 and CSI0A/B are mutually exclusive */
++};
++
++#define REGMAP_BIT(map, reg, field, val) \
++	regmap_update_bits((map), reg, reg##_##field##_MASK, \
++			   (val) << reg##_##field##_SHIFT)
++
++static int mtk_mipi_phy_power_on(struct phy *phy)
++{
++	struct mtk_mipi_dphy_port *port = phy_get_drvdata(phy);
++	struct mtk_mipi_dphy *priv = port->dev;
++	struct regmap *regmap_base = port->regmap_base;
++	struct regmap *regmap_4d1c = port->regmap_4d1c;
++	int ret = 0;
++
++	mutex_lock(&priv->lock);
++
++	switch (port->id) {
++	case MTK_MIPI_PHY_PORT_0:
++		if (priv->ports[MTK_MIPI_PHY_PORT_0A].active ||
++		    priv->ports[MTK_MIPI_PHY_PORT_0B].active)
++			ret = -EBUSY;
++		break;
++
++	case MTK_MIPI_PHY_PORT_0A:
++	case MTK_MIPI_PHY_PORT_0B:
++		if (priv->ports[MTK_MIPI_PHY_PORT_0].active)
++			ret = -EBUSY;
++		break;
++	}
++
++	if (!ret)
++		port->active = true;
++
++	mutex_unlock(&priv->lock);
++
++	if (ret < 0)
++		return ret;
++
++	/* Set analog phy mode to DPHY */
++	if (port->is_cdphy)
++		REGMAP_BIT(regmap_base, MIPI_RX_ANA00_CSIxA,
++			   RG_CSI0A_CPHY_EN, 0);
++
++	if (port->is_4d1c) {
++		REGMAP_BIT(regmap_base, MIPI_RX_ANA00_CSIxA,
++			   RG_CSIxA_DPHY_L0_CKMODE_EN, 0);
++		REGMAP_BIT(regmap_base, MIPI_RX_ANA00_CSIxA,
++			   RG_CSIxA_DPHY_L0_CKSEL, 1);
++		REGMAP_BIT(regmap_base, MIPI_RX_ANA00_CSIxA,
++			   RG_CSIxA_DPHY_L1_CKMODE_EN, 0);
++		REGMAP_BIT(regmap_base, MIPI_RX_ANA00_CSIxA,
++			   RG_CSIxA_DPHY_L1_CKSEL, 1);
++		REGMAP_BIT(regmap_base, MIPI_RX_ANA00_CSIxA,
++			   RG_CSIxA_DPHY_L2_CKMODE_EN, 1);
++		REGMAP_BIT(regmap_base, MIPI_RX_ANA00_CSIxA,
++			   RG_CSIxA_DPHY_L2_CKSEL, 1);
++	} else {
++		REGMAP_BIT(regmap_base, MIPI_RX_ANA00_CSIxA,
++			   RG_CSIxA_DPHY_L0_CKMODE_EN, 0);
++		REGMAP_BIT(regmap_base, MIPI_RX_ANA00_CSIxA,
++			   RG_CSIxA_DPHY_L0_CKSEL, 0);
++		REGMAP_BIT(regmap_base, MIPI_RX_ANA00_CSIxA,
++			   RG_CSIxA_DPHY_L1_CKMODE_EN, 1);
++		REGMAP_BIT(regmap_base, MIPI_RX_ANA00_CSIxA,
++			   RG_CSIxA_DPHY_L1_CKSEL, 0);
++		REGMAP_BIT(regmap_base, MIPI_RX_ANA00_CSIxA,
++			   RG_CSIxA_DPHY_L2_CKMODE_EN, 0);
++		REGMAP_BIT(regmap_base, MIPI_RX_ANA00_CSIxA,
++			   RG_CSIxA_DPHY_L2_CKSEL, 0);
++	}
++
++	if (port->is_4d1c) {
++		if (port->is_cdphy)
++			REGMAP_BIT(regmap_4d1c, MIPI_RX_ANA00_CSIxA,
++				   RG_CSI0A_CPHY_EN, 0);
++
++		REGMAP_BIT(regmap_4d1c, MIPI_RX_ANA00_CSIxA,
++			   RG_CSIxA_DPHY_L0_CKMODE_EN, 0);
++		REGMAP_BIT(regmap_4d1c, MIPI_RX_ANA00_CSIxA,
++			   RG_CSIxA_DPHY_L0_CKSEL, 1);
++		REGMAP_BIT(regmap_4d1c, MIPI_RX_ANA00_CSIxA,
++			   RG_CSIxA_DPHY_L1_CKMODE_EN, 0);
++		REGMAP_BIT(regmap_4d1c, MIPI_RX_ANA00_CSIxA,
++			   RG_CSIxA_DPHY_L1_CKSEL, 1);
++		REGMAP_BIT(regmap_4d1c, MIPI_RX_ANA00_CSIxA,
++			   RG_CSIxA_DPHY_L2_CKMODE_EN, 0);
++		REGMAP_BIT(regmap_4d1c, MIPI_RX_ANA00_CSIxA,
++			   RG_CSIxA_DPHY_L2_CKSEL, 1);
++	}
++
++	/* Byte clock invert */
++	REGMAP_BIT(regmap_base, MIPI_RX_ANAA8_CSIxA,
++		   RG_CSIxA_CDPHY_L0_T0_BYTECK_INVERT, 1);
++	REGMAP_BIT(regmap_base, MIPI_RX_ANAA8_CSIxA,
++		   RG_CSIxA_DPHY_L1_BYTECK_INVERT, 1);
++	REGMAP_BIT(regmap_base, MIPI_RX_ANAA8_CSIxA,
++		   RG_CSIxA_CDPHY_L2_T1_BYTECK_INVERT, 1);
++
++	if (port->is_4d1c) {
++		REGMAP_BIT(regmap_4d1c, MIPI_RX_ANAA8_CSIxA,
++			   RG_CSIxA_CDPHY_L0_T0_BYTECK_INVERT, 1);
++		REGMAP_BIT(regmap_4d1c, MIPI_RX_ANAA8_CSIxA,
++			   RG_CSIxA_DPHY_L1_BYTECK_INVERT, 1);
++		REGMAP_BIT(regmap_4d1c, MIPI_RX_ANAA8_CSIxA,
++			   RG_CSIxA_CDPHY_L2_T1_BYTECK_INVERT, 1);
++	}
++
++	/* Start ANA EQ tuning */
++	if (port->is_cdphy) {
++		REGMAP_BIT(regmap_base, MIPI_RX_ANA18_CSIxA,
++			   RG_CSI0A_L0_T0AB_EQ_IS, 1);
++		REGMAP_BIT(regmap_base, MIPI_RX_ANA18_CSIxA,
++			   RG_CSI0A_L0_T0AB_EQ_BW, 1);
++		REGMAP_BIT(regmap_base, MIPI_RX_ANA1C_CSIxA,
++			   RG_CSI0A_L1_T1AB_EQ_IS, 1);
++		REGMAP_BIT(regmap_base, MIPI_RX_ANA1C_CSIxA,
++			   RG_CSI0A_L1_T1AB_EQ_BW, 1);
++		REGMAP_BIT(regmap_base, MIPI_RX_ANA20_CSI0A,
++			   RG_CSI0A_L2_T1BC_EQ_IS, 1);
++		REGMAP_BIT(regmap_base, MIPI_RX_ANA20_CSI0A,
++			   RG_CSI0A_L2_T1BC_EQ_BW, 1);
++
++		if (port->is_4d1c) {
++			REGMAP_BIT(regmap_4d1c, MIPI_RX_ANA18_CSIxA,
++				   RG_CSI0A_L0_T0AB_EQ_IS, 1);
++			REGMAP_BIT(regmap_4d1c, MIPI_RX_ANA18_CSIxA,
++				   RG_CSI0A_L0_T0AB_EQ_BW, 1);
++			REGMAP_BIT(regmap_4d1c, MIPI_RX_ANA1C_CSIxA,
++				   RG_CSI0A_L1_T1AB_EQ_IS, 1);
++			REGMAP_BIT(regmap_4d1c, MIPI_RX_ANA1C_CSIxA,
++				   RG_CSI0A_L1_T1AB_EQ_BW, 1);
++			REGMAP_BIT(regmap_4d1c, MIPI_RX_ANA20_CSI0A,
++				   RG_CSI0A_L2_T1BC_EQ_IS, 1);
++			REGMAP_BIT(regmap_4d1c, MIPI_RX_ANA20_CSI0A,
++				   RG_CSI0A_L2_T1BC_EQ_BW, 1);
++		}
++	} else {
++		REGMAP_BIT(regmap_base, MIPI_RX_ANA18_CSIxA,
++			   RG_CSI1A_L0_EQ_IS, 1);
++		REGMAP_BIT(regmap_base, MIPI_RX_ANA18_CSIxA,
++			   RG_CSI1A_L0_EQ_BW, 1);
++		REGMAP_BIT(regmap_base, MIPI_RX_ANA18_CSIxA,
++			   RG_CSI1A_L1_EQ_IS, 1);
++		REGMAP_BIT(regmap_base, MIPI_RX_ANA18_CSIxA,
++			   RG_CSI1A_L1_EQ_BW, 1);
++		REGMAP_BIT(regmap_base, MIPI_RX_ANA1C_CSIxA,
++			   RG_CSI1A_L2_EQ_IS, 1);
++		REGMAP_BIT(regmap_base, MIPI_RX_ANA1C_CSIxA,
++			   RG_CSI1A_L2_EQ_BW, 1);
++
++		if (port->is_4d1c) {
++			REGMAP_BIT(regmap_4d1c, MIPI_RX_ANA18_CSIxA,
++				   RG_CSI1A_L0_EQ_IS, 1);
++			REGMAP_BIT(regmap_4d1c, MIPI_RX_ANA18_CSIxA,
++				   RG_CSI1A_L0_EQ_BW, 1);
++			REGMAP_BIT(regmap_4d1c, MIPI_RX_ANA18_CSIxA,
++				   RG_CSI1A_L1_EQ_IS, 1);
++			REGMAP_BIT(regmap_4d1c, MIPI_RX_ANA18_CSIxA,
++				   RG_CSI1A_L1_EQ_BW, 1);
++			REGMAP_BIT(regmap_4d1c, MIPI_RX_ANA1C_CSIxA,
++				   RG_CSI1A_L2_EQ_IS, 1);
++			REGMAP_BIT(regmap_4d1c, MIPI_RX_ANA1C_CSIxA,
++				   RG_CSI1A_L2_EQ_BW, 1);
++		}
++	}
++
++	/* End ANA EQ tuning */
++	regmap_write(regmap_base, MIPI_RX_ANA40_CSIxA, 0x90);
++
++	REGMAP_BIT(regmap_base, MIPI_RX_ANA24_CSIxA,
++		   RG_CSIxA_RESERVE, 0x40);
++	if (port->is_4d1c)
++		REGMAP_BIT(regmap_4d1c, MIPI_RX_ANA24_CSIxA,
++			   RG_CSIxA_RESERVE, 0x40);
++	REGMAP_BIT(regmap_base, MIPI_RX_WRAPPER80_CSIxA,
++		   CSR_CSI_RST_MODE, 0);
++	if (port->is_4d1c)
++		REGMAP_BIT(regmap_4d1c, MIPI_RX_WRAPPER80_CSIxA,
++			   CSR_CSI_RST_MODE, 0);
++	/* ANA power on */
++	REGMAP_BIT(regmap_base, MIPI_RX_ANA00_CSIxA,
++		   RG_CSIxA_BG_CORE_EN, 1);
++	if (port->is_4d1c)
++		REGMAP_BIT(regmap_4d1c, MIPI_RX_ANA00_CSIxA,
++			   RG_CSIxA_BG_CORE_EN, 1);
++	usleep_range(20, 40);
++	REGMAP_BIT(regmap_base, MIPI_RX_ANA00_CSIxA,
++		   RG_CSIxA_BG_LPF_EN, 1);
++	if (port->is_4d1c)
++		REGMAP_BIT(regmap_4d1c, MIPI_RX_ANA00_CSIxA,
++			   RG_CSIxA_BG_LPF_EN, 1);
++
++	return 0;
++}
++
++static int mtk_mipi_phy_power_off(struct phy *phy)
++{
++	struct mtk_mipi_dphy_port *port = phy_get_drvdata(phy);
++	struct regmap *regmap_base = port->regmap_base;
++	struct regmap *regmap_4d1c = port->regmap_4d1c;
++
++	/* Disable MIPI BG. */
++	REGMAP_BIT(regmap_base, MIPI_RX_ANA00_CSIxA,
++		   RG_CSIxA_BG_CORE_EN, 0);
++	REGMAP_BIT(regmap_base, MIPI_RX_ANA00_CSIxA,
++		   RG_CSIxA_BG_LPF_EN, 0);
++
++	if (port->is_4d1c) {
++		REGMAP_BIT(regmap_4d1c, MIPI_RX_ANA00_CSIxA,
++			   RG_CSIxA_BG_CORE_EN, 0);
++		REGMAP_BIT(regmap_4d1c, MIPI_RX_ANA00_CSIxA,
++			   RG_CSIxA_BG_LPF_EN, 0);
++	}
++
++	mutex_lock(&port->dev->lock);
++	port->active = false;
++	mutex_unlock(&port->dev->lock);
++
++	return 0;
++}
++
++static const struct phy_ops mtk_dphy_ops = {
++	.power_on	= mtk_mipi_phy_power_on,
++	.power_off	= mtk_mipi_phy_power_off,
++	.owner		= THIS_MODULE,
++};
++
++static struct phy *mtk_mipi_dphy_xlate(struct device *dev,
++				       struct of_phandle_args *args)
++{
++	struct mtk_mipi_dphy *priv = dev_get_drvdata(dev);
++
++	if (args->args_count != 1)
++		return ERR_PTR(-EINVAL);
++
++	if (args->args[0] >= ARRAY_SIZE(priv->ports))
++		return ERR_PTR(-ENODEV);
++
++	return priv->ports[args->args[0]].phy;
++}
++
++static const struct regmap_config mt8365_phy_regmap_config = {
++	.reg_bits = 32,
++	.val_bits = 32,
++	.reg_stride = 4,
++	.max_register = 0x700,
++};
++
++static int mtk_mipi_dphy_probe(struct platform_device *pdev)
++{
++	static const unsigned int ports_offsets[] = {
++		[MTK_MIPI_PHY_PORT_0] = 0,
++		[MTK_MIPI_PHY_PORT_0A] = 0,
++		[MTK_MIPI_PHY_PORT_0B] = 0x1000,
++		[MTK_MIPI_PHY_PORT_1] = 0x2000,
++		[MTK_MIPI_PHY_PORT_2] = 0x4000,
++	};
++
++	struct device *dev = &pdev->dev;
++	struct phy_provider *phy_provider;
++	struct mtk_mipi_dphy *priv;
++	struct resource *res;
++	unsigned int i;
++
++	priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
++	if (!priv)
++		return -ENOMEM;
++
++	dev_set_drvdata(dev, priv);
++	priv->dev = dev;
++
++	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
++	priv->rx = devm_ioremap_resource(dev, res);
++	if (IS_ERR(priv->rx))
++		return PTR_ERR(priv->rx);
++
++	for (i = 0; i < ARRAY_SIZE(priv->ports); ++i) {
++		struct mtk_mipi_dphy_port *port = &priv->ports[i];
++		struct phy *phy;
++		void __iomem *base;
++
++		port->dev = priv;
++		port->id = i;
++		base = priv->rx + ports_offsets[i];
++
++		port->regmap_base = devm_regmap_init_mmio(port->dev->dev,
++							  base,
++							  &mt8365_phy_regmap_config);
++
++		port->is_cdphy = i == MTK_MIPI_PHY_PORT_0A ||
++				 i == MTK_MIPI_PHY_PORT_0B ||
++				 i == MTK_MIPI_PHY_PORT_0;
++		port->is_4d1c = i < MTK_MIPI_PHY_PORT_0A;
++
++		if (port->is_4d1c)
++			port->regmap_4d1c = devm_regmap_init_mmio(port->dev->dev,
++								  base + CSIxB_OFFSET,
++								  &mt8365_phy_regmap_config);
++
++		phy = devm_phy_create(dev, NULL, &mtk_dphy_ops);
++		if (IS_ERR(phy)) {
++			dev_err(dev, "Failed to create PHY: %ld\n", PTR_ERR(phy));
++			return PTR_ERR(phy);
++		}
++
++		port->phy = phy;
++		phy_set_drvdata(phy, port);
++	}
++
++	phy_provider = devm_of_phy_provider_register(dev, mtk_mipi_dphy_xlate);
++	if (IS_ERR(phy_provider)) {
++		dev_err(dev, "Failed to register PHY provider: %ld\n",
++			PTR_ERR(phy_provider));
++		return PTR_ERR(phy_provider);
++	}
++
++	mutex_init(&priv->lock);
++
++	return 0;
++}
++
++static int mtk_mipi_dphy_remove(struct platform_device *pdev)
++{
++	struct mtk_mipi_dphy *priv = platform_get_drvdata(pdev);
++
++	mutex_destroy(&priv->lock);
++
++	return 0;
++}
++
++static const struct of_device_id mtk_mipi_dphy_of_match[] = {
++	{.compatible = "mediatek,mt8365-mipi-csi"},
++	{},
++};
++MODULE_DEVICE_TABLE(of, mtk_mipi_dphy_of_match);
++
++static struct platform_driver mipi_dphy_pdrv = {
++	.probe = mtk_mipi_dphy_probe,
++	.remove = mtk_mipi_dphy_remove,
++	.driver	= {
++		.name	= "mtk-mipi-csi",
++		.of_match_table = of_match_ptr(mtk_mipi_dphy_of_match),
++	},
++};
++
++module_platform_driver(mipi_dphy_pdrv);
++
++MODULE_DESCRIPTION("MTK mipi csi cdphy driver");
++MODULE_AUTHOR("Louis Kuo <louis.kuo@mediatek.com>");
++MODULE_LICENSE("GPL");
+-- 
+2.40.0
+
