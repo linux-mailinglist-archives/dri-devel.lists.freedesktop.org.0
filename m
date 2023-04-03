@@ -2,60 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EC9E6D4851
-	for <lists+dri-devel@lfdr.de>; Mon,  3 Apr 2023 16:27:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BBD06D4952
+	for <lists+dri-devel@lfdr.de>; Mon,  3 Apr 2023 16:37:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 832AA10E4CF;
-	Mon,  3 Apr 2023 14:27:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4781710E15C;
+	Mon,  3 Apr 2023 14:37:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-x1135.google.com (mail-yw1-x1135.google.com
- [IPv6:2607:f8b0:4864:20::1135])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8BFAE10E4B3
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Apr 2023 14:27:33 +0000 (UTC)
-Received: by mail-yw1-x1135.google.com with SMTP id
- 00721157ae682-5416698e889so555265517b3.2
- for <dri-devel@lists.freedesktop.org>; Mon, 03 Apr 2023 07:27:33 -0700 (PDT)
+Received: from mail-yw1-x1132.google.com (mail-yw1-x1132.google.com
+ [IPv6:2607:f8b0:4864:20::1132])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2499210E15C
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Apr 2023 14:37:01 +0000 (UTC)
+Received: by mail-yw1-x1132.google.com with SMTP id
+ 00721157ae682-5445009c26bso555365467b3.8
+ for <dri-devel@lists.freedesktop.org>; Mon, 03 Apr 2023 07:37:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1680532052;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=1vBBEr7OgRo9Y8HhJLVrRt9hDNDNU5ikub2oPe1GSjw=;
- b=begP8O72IXiINSLuM/2ZQKLSG1pGTqbKCioMbX0qa9/ihoojoLFAFTQnRF5R7sp27K
- zhD5NLJjSFCF7pRc6CfSn8JXOdQHr4CjWnwAgbCrFONfodbRfbMNkQeY5tk5SGoo0s5V
- kTFMt2dThY31UBlWqQ/YD1r+KnW1x481JTFVpzGx7vqK6R33Q5mmtWMynSWmjtvM31xj
- csewUqd7GbBM/LaUESgLQiK6yQCYRmoym2oC634CzojxbVAuXQvtB8j6lTO0b4VyTB7+
- yDLqMUJNqiSzagutvd/c1734bm8jQd9UYEw0zFcA/X66sEWy+CH4eTyA4pQDV6tww5yv
- f1Wg==
+ d=amarulasolutions.com; s=google; t=1680532620;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=opY0CnpCl2TUFSQwRkx2YgWWlRNGdg8wXm3hOTsdndA=;
+ b=mucEXEm7Z0gG1+z8vtgoSN1UvxLmgwQUPa4Ef9yzRBaCKoP83Sc42BnrJv3A/EZ8p4
+ yhxB6VVXZipyGm/anOLC8oOheTLMRHL4o8W/qI69nHCk8s5iZzHZKa8fUH0a5k0n2Jp2
+ COZOC3FzyKTE+etbPDy6Qn6MLWrULMvecpcwQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680532052;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=1vBBEr7OgRo9Y8HhJLVrRt9hDNDNU5ikub2oPe1GSjw=;
- b=7DOnC86fjGUwOlytaHaWWkvgtpcMArMQOzAvuSGnBLL/8lESctBSJeIdGYfBHvhJcf
- FNuuuAZ7jEmp8M6aEQrF+GiAAxCZsbrayAXdeQL56SvPyQTmbxJ9C77S9ipwXqOIkGXc
- xM8hV59fEe54tFGObPcB/yNVqfWGq4Nt2Ts4folvjXeeP2+kU/VliBJUY/JqxOJW7Gfx
- pCEjXw8tc8TkJs3p+ONdx8MZjVDnteMG63VpU4A+wHBF0yFCChQ5RuPyLR79S3HhvDEV
- J0NGxazpMFpf2QHGHqKVSre/ZRVSM+qak2IoRQeaPUZrpz2g3qnW0oV5O0r5G+L6nJPC
- q1wA==
-X-Gm-Message-State: AAQBX9cRRYVpLRs6d2v1ygJfV62k7HqJd8bhp/nvQkJ094Q6c0mUkeoT
- jbu9MwJexn3gtHOWBfofgLlOXVa36hE21ar84SfJ1CKum+w=
-X-Google-Smtp-Source: AKy350Y8luZq/dWdC2hEcZTm3PjSNUtkWmJH1jvN1DkiF6bpas2fc7ypfEI/1gl5SLmwjAGLLdbjGgko3+HgOuAQEsw=
-X-Received: by 2002:a81:b645:0:b0:545:6e22:ea34 with SMTP id
- h5-20020a81b645000000b005456e22ea34mr17363733ywk.1.1680532052631; Mon, 03 Apr
- 2023 07:27:32 -0700 (PDT)
+ d=1e100.net; s=20210112; t=1680532620;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=opY0CnpCl2TUFSQwRkx2YgWWlRNGdg8wXm3hOTsdndA=;
+ b=TdUUtp7AiEM4/bCsLeQ8m6lGGOwn1j1T/ma8I456k8ZVsCVOqoi69nRP7UTUG6+q1k
+ x/YX0VGiy5Oc0XwQHaxOLU+n56fk0AeWIAjHOOHyAZ8KHcJdHl+HUw6S6DM/5GIsOPxr
+ b9DRmH1t8JLv24Rkkm2oVgQCTe2obRfWAKKjo+Ojj/L/TnCqc9iW8q+izHYkf0EhxPvo
+ 3pi72VjCZ5enYKGx2+FSFTra/Lj/6k3Oqa9RIYuC937kAp4ZytpFZ+spfvozNL5pHnNS
+ UfRghh016CBk5TOLJYZ6Vfmq1eQSmpMUKtz2oXJAthELJP9R8YIFz6xlq6rKTJkitZTH
+ Po6w==
+X-Gm-Message-State: AAQBX9d62QQFrskVqfhy8PO3vFUYLnZJidgoZxLLM7+J0rmPXZw8pq5K
+ TDPG+2Vnx42IRe7WcVW3GzIhnejsE+38OepJ0Fxhqg==
+X-Google-Smtp-Source: AKy350YndvfOE5H1g0lwwP52fPFaE7plvCDKzpKwLibQV9vvaySn0o5cIbhpFAA6zhyu23MQPfggf1c1fC72Kc9jqJI=
+X-Received: by 2002:a81:a789:0:b0:549:143f:3d3 with SMTP id
+ e131-20020a81a789000000b00549143f03d3mr2606494ywh.0.1680532619988; Mon, 03
+ Apr 2023 07:36:59 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230403104035.15288-1-tzimmermann@suse.de>
- <20230403104035.15288-6-tzimmermann@suse.de>
-In-Reply-To: <20230403104035.15288-6-tzimmermann@suse.de>
-From: Emil Velikov <emil.l.velikov@gmail.com>
-Date: Mon, 3 Apr 2023 15:27:21 +0100
-Message-ID: <CACvgo52vn4HAq+ZmO9xR88se--bYE9b322ucZ04jp8s3Wc_WCg@mail.gmail.com>
-Subject: Re: [PATCH v2 5/5] drm/omapdrm: Implement fbdev emulation as
- in-kernel client
-To: Thomas Zimmermann <tzimmermann@suse.de>
+References: <20230403124458.198631-1-festevam@gmail.com>
+ <8f7f925f-638d-737c-bf47-2a66ce0eec59@linaro.org>
+ <074183d480cf18948aacd98be60308f8@denx.de>
+ <2ed6078f-7982-a5aa-863b-e61f8e9f846a@linaro.org>
+In-Reply-To: <2ed6078f-7982-a5aa-863b-e61f8e9f846a@linaro.org>
+From: Jagan Teki <jagan@amarulasolutions.com>
+Date: Mon, 3 Apr 2023 20:06:48 +0530
+Message-ID: <CAMty3ZDKTpTAHxqt6320NRVoABwUMOJjBPpUmPpZeP264wLeFg@mail.gmail.com>
+Subject: Re: [PATCH v2] dt-bindings: bridge: Convert Samsung MIPI DSIM bridge
+ to yaml
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,85 +69,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: tomba@kernel.org, Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- javierm@redhat.com, dri-devel@lists.freedesktop.org
+Cc: marex@denx.de, neil.armstrong@linaro.org, Fabio Estevam <festevam@denx.de>,
+ devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 3 Apr 2023 at 11:41, Thomas Zimmermann <tzimmermann@suse.de> wrote:
+On Mon, Apr 3, 2023 at 7:13=E2=80=AFPM Krzysztof Kozlowski
+<krzysztof.kozlowski@linaro.org> wrote:
 >
-> Move code from ad-hoc fbdev callbacks into DRM client functions
-> and remove the old callbacks. The functions instruct the client
-> to poll for changed output or restore the display. The DRM core
-> calls both, the old callbacks and the new client helpers, from
-> the same places. The new functions perform the same operation as
-> before, so there's no change in functionality.
+> On 03/04/2023 15:25, Fabio Estevam wrote:
+> > Hi Krzysztof,
+> >
+> > On 03/04/2023 09:49, Krzysztof Kozlowski wrote:
+> >
+> >>> Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
+> >>> Signed-off-by: Fabio Estevam <festevam@denx.de>
+> >>> ---
+> >>> Changes since v1:
+> >>> - Added samsung,mipi-dsim.yaml entry to MAINTAINERS file (Jagan)
+> >>> - Added Marek Szyprowski entry to the samsung,mipi-dsim.yaml
+> >>> maintainers section (Jagan)
+> >>> - Mention that i.MX8M Plus is also supported (Marek)
+> >>> - Remove endpoint@0 description as it only has one endpoint (Marek)
+> >>
+> >> Where is the changelog from original submission? How your v1 differs
+> >> form it? Or did you just ignore all the feedback?
+> >
+> > I'm sorry, but it was not my intention to ignore any feedback.
+> >
+> > Which feedback are you referring to specifically?
+> >
+> > Some more context: last week I sent a patch adding a new property
+> > for exynos_dsim.txt and you asked me to convert it to yaml first:
+> >
+> > https://lore.kernel.org/all/ff66c8b9-c7f7-1eb2-c730-4812b7ff6824@linaro=
+.org/#t
+> >
+> > Jagan pointed out an earlier submission he did in 2021:
+> >
+> > https://lore.kernel.org/all/20210704090230.26489-9-jagan@amarulasolutio=
+ns.com/
+> >
+> > That was my starting point.
 >
-> Replace all code that initializes or releases fbdev emulation
-> throughout the driver. Instead initialize the fbdev client by a
-> single call to omapdrm_fbdev_setup() after omapdrm has registered
-> its DRM device. As in most drivers, omapdrm's fbdev emulation now
-> acts like a regular DRM client.
->
-> The fbdev client setup consists of the initial preparation and the
-> hot-plugging of the display. The latter creates the fbdev device
-> and sets up the fbdev framebuffer. The setup performs display
-> hot-plugging once. If no display can be detected, DRM probe helpers
-> re-run the detection on each hotplug event.
->
-> A call to drm_dev_unregister() releases the client automatically.
-> No further action is required within omapdrm. If the fbdev
-> framebuffer has been fully set up, struct fb_ops.fb_destroy
-> implements the release. For partially initialized emulation, the
-> fbdev client reverts the initial setup.
->
-> v2:
->         * init drm_client in this patch (Tomi)
->         * don't handle non-atomic modesetting (Tomi)
->
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-> ---
->  drivers/gpu/drm/omapdrm/omap_drv.c   |  11 +--
->  drivers/gpu/drm/omapdrm/omap_fbdev.c | 132 +++++++++++++++++----------
->  drivers/gpu/drm/omapdrm/omap_fbdev.h |   9 +-
->  3 files changed, 90 insertions(+), 62 deletions(-)
->
+> I think I saw v11 but maybe not. I cannot find it now. But anyway if
+> this was the newest submission, it already got feedback which we do not
+> need to repeat...
 
-> +static void omap_fbdev_fb_destroy(struct fb_info *info)
-> +{
-> +       struct drm_fb_helper *helper = info->par;
-> +       struct drm_framebuffer *fb = helper->fb;
-> +       struct drm_gem_object *bo = drm_gem_fb_get_obj(fb, 0);
-> +       struct omap_fbdev *fbdev = to_omap_fbdev(helper);
-> +
-> +       DBG();
-> +
+Are you referring to v11 based on DSIM series versioning? If so, the
+DSIM series from v1 onwards never had this patch of converting .txt to
+.yaml that series instead added the new dt-bindings on top of existing
+.txt. The actual conversion patch from .txt to .yaml was initially
+sent as RFC, so Fabio's versioning seems correct to me.
 
-What a lovely little surprise. It's a pre-existing "feature", so let's
-ignore that for now ;-)
-
-> +       drm_fb_helper_fini(helper);
-> +
-> +       omap_gem_unpin(bo);
-> +       drm_framebuffer_remove(fb);
-> +
-> +       drm_client_release(&helper->client);
-> +       drm_fb_helper_unprepare(helper);
-> +       kfree(fbdev);
-> +}
-
-
-> -void omap_fbdev_fini(struct drm_device *dev)
-> +static const struct drm_client_funcs omap_fbdev_client_funcs = {
-> +       .owner          = THIS_MODULE,
-> +       .unregister     = omap_fbdev_client_unregister,
-> +       .restore        = omap_fbdev_client_restore,
-> +       .hotplug        = omap_fbdev_client_hotplug,
-
-AFAICT the fbdev client helpers above are identical to the generic
-ones in drm_fbdev_generic.c. Why aren't we reusing those but
-copy/pasting them in the driver?
-
-Thanks
-Emil
+Thanks,
+Jagan.
