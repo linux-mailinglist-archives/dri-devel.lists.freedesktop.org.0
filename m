@@ -2,72 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F84E6D5400
-	for <lists+dri-devel@lfdr.de>; Mon,  3 Apr 2023 23:51:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 079A76D547A
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Apr 2023 00:04:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 82FBE10E5A6;
-	Mon,  3 Apr 2023 21:51:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7C66B10E5A7;
+	Mon,  3 Apr 2023 22:04:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com
- [IPv6:2a00:1450:4864:20::12f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 65F3810E5A6
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Apr 2023 21:51:49 +0000 (UTC)
-Received: by mail-lf1-x12f.google.com with SMTP id g17so39898245lfv.4
- for <dri-devel@lists.freedesktop.org>; Mon, 03 Apr 2023 14:51:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1680558706;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=QAn3IYlOVbwdf9vccvrZTl9PGSts07M6o3L5tbW2IYw=;
- b=EJuHvE4TN+k3zN6uz4Qg88ZqRIsWb/rxql/N4cTTVolRP2/QBWqiqLRotJCcGP1OhD
- xwhV1eZiIrrS5lHvcJ5kBYJPzBUHcPerrSPoS8B4NyjjTWjCTbRB9Jk4FFuKM+ubxlaU
- pZTT2N4pYvF1ldto/7Zim1G8rW2B9Pdns1AOo9TUSNra13TlWV0kgH4TtXQ/WpXM7eer
- +fVbo/I3VKaSTincypCSGmjT4DpmvDP0Uq7ulbyQy3WIXpTpkhX+3A7IE4drRviNmO7Q
- q9WcM0qYh4OZhTV9yTAdQNM9Yf034O0dE1VzHT0yywq5ydvconWe83tfB5ZRLT7PAXWp
- i9FA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680558706;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=QAn3IYlOVbwdf9vccvrZTl9PGSts07M6o3L5tbW2IYw=;
- b=Snk/wV07LI8NFF1tq8wlNgzKhWhYBf77OixHz/g9Mls7lqcAzohpGxYL6K+HC2LL4P
- KrMsiZZEe5aBXofINf50xv/YVeEBGJiz7RBGjHf789M8+jAh9mTNLOOKU6XhXzhRbx/2
- Pfi0gGflknpsY+ot5Mq366zL6+YJw8PpHM/04nT/M9JfVH9J8ocqg5wjYMroI7DLFLUn
- uK+hcPtGrs8BJ7hIfZGkLpRbzYQEmzgWdEk5BYO4kMdFJ6ZP2cU7GWTmna5DGWJ5Dff0
- yt8abVA6iex8/PwAnAwXDCdLzakX26KTdvODFFE0RIfhSyMFFcaABuVawbqP4dxeSBbo
- OQRA==
-X-Gm-Message-State: AAQBX9fJbS4EX/fAMGNg74z2ibZSLcDAPM26VxDGGbf9zFwvSuh2nJCN
- GH1OERN0fpsI8Nfqc7jNJFtiyQ==
-X-Google-Smtp-Source: AKy350ZRg63U/8c+Dq+gGAsWL6R5uamWQXb9R+624dO3ciJu4N5K9jfil4sKGvNmq3/ovCRKhnXQCw==
-X-Received: by 2002:ac2:50c2:0:b0:4a9:39f4:579a with SMTP id
- h2-20020ac250c2000000b004a939f4579amr29130lfm.66.1680558705928; 
- Mon, 03 Apr 2023 14:51:45 -0700 (PDT)
-Received: from ?IPV6:2001:14ba:a085:4d00::8a5?
- (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a085:4d00::8a5])
- by smtp.gmail.com with ESMTPSA id
- l17-20020a19c211000000b004ceb053c3ebsm1958732lfc.179.2023.04.03.14.51.45
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 03 Apr 2023 14:51:45 -0700 (PDT)
-Message-ID: <c8dc2528-a4a7-573d-5d61-59a639125124@linaro.org>
-Date: Tue, 4 Apr 2023 00:51:44 +0300
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C08C110E5A3;
+ Mon,  3 Apr 2023 22:04:31 +0000 (UTC)
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 333KpGMB024779; Mon, 3 Apr 2023 22:04:24 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=Xeu8zLlW4pwd3q4MRTu4ru6r+XSCFvfC7qZqAS6BEhc=;
+ b=phuR6WxflcgMZnPYjN+sUdOWUBhuSS7Fl+PwtBcDo7xkqN9xIHmSqhGJEvqX4IA+o++3
+ RBN2qfkgjIPiRtOw24MLYAuX9vr/RFK279JF04yb1i4Jr3ZrXT7Q1Se2L7RFH8yO2M1z
+ kNDl5EzVgpVeZ0ZZIzxjxUicjwjZvyLUoVcYJQIGUGr1WIkgBgocRXqV3NH/R9U0iP6I
+ CVl03Qj/2PE7J3MLpUSiArv+9qcpWxTpVphj2oGCKdWpyZjtIC545vyLWq3XOdaPcv46
+ k9dosQ5gWDReVSgDkMvKZ8gC2XaG8ETr+nSADI+fNO2W6uETSiJQrr8bxWDszcmWFwiV /Q== 
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3pqtee9y03-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 03 Apr 2023 22:04:24 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 333M48VB028249
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 3 Apr 2023 22:04:08 GMT
+Received: from [10.110.66.70] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Mon, 3 Apr 2023
+ 15:04:07 -0700
+Message-ID: <236cf3ac-8041-65de-b7c6-60696a5ad30d@quicinc.com>
+Date: Mon, 3 Apr 2023 15:04:07 -0700
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH RFC v2 4/6] drm/msm/dpu: Fix slice_last_group_size
- calculation
-Content-Language: en-GB
-To: Jessica Zhang <quic_jesszhan@quicinc.com>, freedreno@lists.freedesktop.org
-References: <20230329-rfc-msm-dsc-helper-v2-0-3c13ced536b2@quicinc.com>
- <20230329-rfc-msm-dsc-helper-v2-4-3c13ced536b2@quicinc.com>
- <b3a9fecd-0677-482b-7066-03465d5f0dd0@linaro.org>
- <b20b78ff-067d-769a-2266-94662d224843@quicinc.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <b20b78ff-067d-769a-2266-94662d224843@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.2
+Subject: Re: [Freedreno] [PATCH v3 01/38] drm/msm/dpu: Allow variable
+ SSPP/INTF_BLK size
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
+ <robdclark@gmail.com>, Sean Paul <sean@poorly.run>
+References: <20230330215324.1853304-1-dmitry.baryshkov@linaro.org>
+ <20230330215324.1853304-2-dmitry.baryshkov@linaro.org>
+ <8ac70629-15e5-96d5-542c-8b620b8915c9@quicinc.com>
+ <d4a6d956-deaa-2a5b-0a3e-07681c321df1@linaro.org>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <d4a6d956-deaa-2a5b-0a3e-07681c321df1@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: H2QLeSjyjufRKmGv1MRweDrYuXpYZWPc
+X-Proofpoint-ORIG-GUID: H2QLeSjyjufRKmGv1MRweDrYuXpYZWPc
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-04-03_17,2023-04-03_03,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 spamscore=0
+ priorityscore=1501 mlxlogscore=999 bulkscore=0 impostorscore=0
+ lowpriorityscore=0 clxscore=1015 malwarescore=0 adultscore=0 phishscore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2303200000 definitions=main-2304030175
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,92 +87,652 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- dri-devel@lists.freedesktop.org, Konrad Dybcio <konrad.dybcio@linaro.org>,
- Marijn Suijten <marijn.suijten@somainline.org>, Sean Paul <sean@poorly.run>
+Cc: linux-arm-msm@vger.kernel.org, Bjorn Andersson <andersson@kernel.org>,
+ dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 04/04/2023 00:45, Jessica Zhang wrote:
-> 
-> 
-> On 4/2/2023 4:27 AM, Dmitry Baryshkov wrote:
->> On 31/03/2023 21:49, Jessica Zhang wrote:
->>> Correct the math for slice_last_group_size so that it matches the
->>> calculations downstream.
+
+
+On 4/1/2023 2:37 AM, Dmitry Baryshkov wrote:
+> On 01/04/2023 03:57, Abhinav Kumar wrote:
+>>
+>>
+>> On 3/30/2023 2:52 PM, Dmitry Baryshkov wrote:
+>>> From: Konrad Dybcio <konrad.dybcio@linaro.org>
 >>>
->>> Fixes: c110cfd1753e ("drm/msm/disp/dpu1: Add support for DSC")
->>> Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
->>> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+>>> These blocks are of variable length on different SoCs. Set the
+>>> correct values where I was able to retrieve it from downstream
+>>> DTs and leave the old defaults (0x1c8 for sspp and 0x280 for
+>>> intf) otherwise.
+>>>
+>>> Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+>>> [DB: fixed some of lengths]
+>>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+>>
+>> Can you please split this to two changes one for SSPP and one for INTF 
+>> block?
+> 
+> Ack, of course. Thanks a lot for the comments to this patch. This is, I 
+> think,  what we missed from the vendor dtsi files.
+> 
+>>
 >>> ---
->>>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.c | 6 +++++-
->>>   1 file changed, 5 insertions(+), 1 deletion(-)
+>>>   .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c    | 243 +++++++++---------
+>>>   1 file changed, 122 insertions(+), 121 deletions(-)
 >>>
->>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.c 
->>> b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.c
->>> index b952f7d2b7f5..9312a8d7fbd9 100644
->>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.c
->>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.c
->>> @@ -56,7 +56,11 @@ static void dpu_hw_dsc_config(struct dpu_hw_dsc 
->>> *hw_dsc,
->>>       if (is_cmd_mode)
->>>           initial_lines += 1;
->>> -    slice_last_group_size = 3 - (dsc->slice_width % 3);
->>> +    slice_last_group_size = dsc->slice_width % 3;
->>> +
->>> +    if (slice_last_group_size == 0)
->>> +        slice_last_group_size = 3;
+>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c 
+>>> b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+>>> index 6840b22a4159..e44e7455a56e 100644
+>>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+>>> @@ -1172,11 +1172,11 @@ static const struct dpu_sspp_sub_blks 
+>>> sdm845_dma_sblk_1 = _DMA_SBLK("9", 2);
+>>>   static const struct dpu_sspp_sub_blks sdm845_dma_sblk_2 = 
+>>> _DMA_SBLK("10", 3);
+>>>   static const struct dpu_sspp_sub_blks sdm845_dma_sblk_3 = 
+>>> _DMA_SBLK("11", 4);
+>>> -#define SSPP_BLK(_name, _id, _base, _features, \
+>>> +#define SSPP_BLK(_name, _id, _base, _len, _features, \
+>>>           _sblk, _xinid, _type, _clkctrl) \
+>>>       { \
+>>>       .name = _name, .id = _id, \
+>>> -    .base = _base, .len = 0x1c8, \
+>>> +    .base = _base, .len = _len, \
+>>>       .features = _features, \
+>>>       .sblk = &_sblk, \
+>>>       .xin_id = _xinid, \
+>>> @@ -1185,40 +1185,40 @@ static const struct dpu_sspp_sub_blks 
+>>> sdm845_dma_sblk_3 = _DMA_SBLK("11", 4);
+>>>       }
+>>>   static const struct dpu_sspp_cfg msm8998_sspp[] = {
+>>> -    SSPP_BLK("sspp_0", SSPP_VIG0, 0x4000, VIG_MSM8998_MASK,
+>>> +    SSPP_BLK("sspp_0", SSPP_VIG0, 0x4000, 0x1ac, VIG_MSM8998_MASK,
+>>>           msm8998_vig_sblk_0, 0,  SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG0),
+>>> -    SSPP_BLK("sspp_1", SSPP_VIG1, 0x6000, VIG_MSM8998_MASK,
+>>> +    SSPP_BLK("sspp_1", SSPP_VIG1, 0x6000, 0x1ac, VIG_MSM8998_MASK,
+>>>           msm8998_vig_sblk_1, 4,  SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG1),
+>>> -    SSPP_BLK("sspp_2", SSPP_VIG2, 0x8000, VIG_MSM8998_MASK,
+>>> +    SSPP_BLK("sspp_2", SSPP_VIG2, 0x8000, 0x1ac, VIG_MSM8998_MASK,
+>>>           msm8998_vig_sblk_2, 8, SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG2),
+>>> -    SSPP_BLK("sspp_3", SSPP_VIG3, 0xa000, VIG_MSM8998_MASK,
+>>> +    SSPP_BLK("sspp_3", SSPP_VIG3, 0xa000, 0x1ac, VIG_MSM8998_MASK,
+>>>           msm8998_vig_sblk_3, 12,  SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG3),
+>>> -    SSPP_BLK("sspp_8", SSPP_DMA0, 0x24000,  DMA_MSM8998_MASK,
+>>> +    SSPP_BLK("sspp_8", SSPP_DMA0, 0x24000, 0x1ac, DMA_MSM8998_MASK,
+>>>           sdm845_dma_sblk_0, 1, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA0),
+>>> -    SSPP_BLK("sspp_9", SSPP_DMA1, 0x26000,  DMA_MSM8998_MASK,
+>>> +    SSPP_BLK("sspp_9", SSPP_DMA1, 0x26000, 0x1ac, DMA_MSM8998_MASK,
+>>>           sdm845_dma_sblk_1, 5, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA1),
+>>> -    SSPP_BLK("sspp_10", SSPP_DMA2, 0x28000,  DMA_CURSOR_MSM8998_MASK,
+>>> +    SSPP_BLK("sspp_10", SSPP_DMA2, 0x28000, 0x1ac, 
+>>> DMA_CURSOR_MSM8998_MASK,
+>>>           sdm845_dma_sblk_2, 9, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA2),
+>>> -    SSPP_BLK("sspp_11", SSPP_DMA3, 0x2a000,  DMA_CURSOR_MSM8998_MASK,
+>>> +    SSPP_BLK("sspp_11", SSPP_DMA3, 0x2a000, 0x1ac, 
+>>> DMA_CURSOR_MSM8998_MASK,
+>>>           sdm845_dma_sblk_3, 13, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA3),
+>>>   };
+>>>   static const struct dpu_sspp_cfg sdm845_sspp[] = {
+>>> -    SSPP_BLK("sspp_0", SSPP_VIG0, 0x4000, VIG_SDM845_MASK_SDMA,
+>>> +    SSPP_BLK("sspp_0", SSPP_VIG0, 0x4000, 0x1c8, VIG_SDM845_MASK_SDMA,
+>>>           sdm845_vig_sblk_0, 0,  SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG0),
+>>> -    SSPP_BLK("sspp_1", SSPP_VIG1, 0x6000, VIG_SDM845_MASK_SDMA,
+>>> +    SSPP_BLK("sspp_1", SSPP_VIG1, 0x6000, 0x1c8, VIG_SDM845_MASK_SDMA,
+>>>           sdm845_vig_sblk_1, 4,  SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG1),
+>>> -    SSPP_BLK("sspp_2", SSPP_VIG2, 0x8000, VIG_SDM845_MASK_SDMA,
+>>> +    SSPP_BLK("sspp_2", SSPP_VIG2, 0x8000, 0x1c8, VIG_SDM845_MASK_SDMA,
+>>>           sdm845_vig_sblk_2, 8, SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG2),
+>>> -    SSPP_BLK("sspp_3", SSPP_VIG3, 0xa000, VIG_SDM845_MASK_SDMA,
+>>> +    SSPP_BLK("sspp_3", SSPP_VIG3, 0xa000, 0x1c8, VIG_SDM845_MASK_SDMA,
+>>>           sdm845_vig_sblk_3, 12,  SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG3),
+>>> -    SSPP_BLK("sspp_8", SSPP_DMA0, 0x24000,  DMA_SDM845_MASK_SDMA,
+>>> +    SSPP_BLK("sspp_8", SSPP_DMA0, 0x24000, 0x1c8, DMA_SDM845_MASK_SDMA,
+>>>           sdm845_dma_sblk_0, 1, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA0),
+>>> -    SSPP_BLK("sspp_9", SSPP_DMA1, 0x26000,  DMA_SDM845_MASK_SDMA,
+>>> +    SSPP_BLK("sspp_9", SSPP_DMA1, 0x26000, 0x1c8, DMA_SDM845_MASK_SDMA,
+>>>           sdm845_dma_sblk_1, 5, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA1),
+>>> -    SSPP_BLK("sspp_10", SSPP_DMA2, 0x28000, 
+>>> DMA_CURSOR_SDM845_MASK_SDMA,
+>>> +    SSPP_BLK("sspp_10", SSPP_DMA2, 0x28000, 0x1c8, 
+>>> DMA_CURSOR_SDM845_MASK_SDMA,
+>>>           sdm845_dma_sblk_2, 9, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA2),
+>>> -    SSPP_BLK("sspp_11", SSPP_DMA3, 0x2a000, 
+>>> DMA_CURSOR_SDM845_MASK_SDMA,
+>>> +    SSPP_BLK("sspp_11", SSPP_DMA3, 0x2a000, 0x1c8, 
+>>> DMA_CURSOR_SDM845_MASK_SDMA,
+>>>           sdm845_dma_sblk_3, 13, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA3),
+>>>   };
+>>> @@ -1229,13 +1229,13 @@ static const struct dpu_sspp_sub_blks 
+>>> sc7280_vig_sblk_0 =
+>>>               _VIG_SBLK_ROT("0", 4, DPU_SSPP_SCALER_QSEED4, 
+>>> &dpu_rot_sc7280_cfg_v2);
+>>>   static const struct dpu_sspp_cfg sc7180_sspp[] = {
+>>> -    SSPP_BLK("sspp_0", SSPP_VIG0, 0x4000, VIG_SC7180_MASK,
+>>> +    SSPP_BLK("sspp_0", SSPP_VIG0, 0x4000, 0x1f8, VIG_SC7180_MASK,
+>>>           sc7180_vig_sblk_0, 0,  SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG0),
+>>> -    SSPP_BLK("sspp_8", SSPP_DMA0, 0x24000,  DMA_SDM845_MASK,
+>>> +    SSPP_BLK("sspp_8", SSPP_DMA0, 0x24000, 0x1f8, DMA_SDM845_MASK,
+>>>           sdm845_dma_sblk_0, 1, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA0),
+>>> -    SSPP_BLK("sspp_9", SSPP_DMA1, 0x26000,  DMA_CURSOR_SDM845_MASK,
+>>> +    SSPP_BLK("sspp_9", SSPP_DMA1, 0x26000, 0x1f8, 
+>>> DMA_CURSOR_SDM845_MASK,
+>>>           sdm845_dma_sblk_1, 5, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA1),
+>>> -    SSPP_BLK("sspp_10", SSPP_DMA2, 0x28000,  DMA_CURSOR_SDM845_MASK,
+>>> +    SSPP_BLK("sspp_10", SSPP_DMA2, 0x28000, 0x1f8, 
+>>> DMA_CURSOR_SDM845_MASK,
+>>>           sdm845_dma_sblk_2, 9, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA2),
+>>>   };
+>>> @@ -1243,9 +1243,9 @@ static const struct dpu_sspp_sub_blks 
+>>> sm6115_vig_sblk_0 =
+>>>                   _VIG_SBLK("0", 2, DPU_SSPP_SCALER_QSEED4);
+>>>   static const struct dpu_sspp_cfg sm6115_sspp[] = {
+>>> -    SSPP_BLK("sspp_0", SSPP_VIG0, 0x4000, VIG_SC7180_MASK,
+>>> +    SSPP_BLK("sspp_0", SSPP_VIG0, 0x4000, 0x1f8, VIG_SC7180_MASK,
+>>>           sm6115_vig_sblk_0, 0, SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG0),
+>>> -    SSPP_BLK("sspp_8", SSPP_DMA0, 0x24000,  DMA_SDM845_MASK,
+>>> +    SSPP_BLK("sspp_8", SSPP_DMA0, 0x24000, 0x1f8, DMA_SDM845_MASK,
+>>>           sdm845_dma_sblk_0, 1, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA0),
+>>>   };
+>>> @@ -1259,21 +1259,21 @@ static const struct dpu_sspp_sub_blks 
+>>> sm8250_vig_sblk_3 =
+>>>                   _VIG_SBLK("3", 8, DPU_SSPP_SCALER_QSEED4);
+>>>   static const struct dpu_sspp_cfg sm8250_sspp[] = {
+>>> -    SSPP_BLK("sspp_0", SSPP_VIG0, 0x4000, VIG_SC7180_MASK_SDMA,
+>>> +    SSPP_BLK("sspp_0", SSPP_VIG0, 0x4000, 0x1f8, VIG_SC7180_MASK_SDMA,
+>>>           sm8250_vig_sblk_0, 0,  SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG0),
+>>> -    SSPP_BLK("sspp_1", SSPP_VIG1, 0x6000, VIG_SC7180_MASK_SDMA,
+>>> +    SSPP_BLK("sspp_1", SSPP_VIG1, 0x6000, 0x1f8, VIG_SC7180_MASK_SDMA,
+>>>           sm8250_vig_sblk_1, 4,  SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG1),
+>>> -    SSPP_BLK("sspp_2", SSPP_VIG2, 0x8000, VIG_SC7180_MASK_SDMA,
+>>> +    SSPP_BLK("sspp_2", SSPP_VIG2, 0x8000, 0x1f8, VIG_SC7180_MASK_SDMA,
+>>>           sm8250_vig_sblk_2, 8, SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG2),
+>>> -    SSPP_BLK("sspp_3", SSPP_VIG3, 0xa000, VIG_SC7180_MASK_SDMA,
+>>> +    SSPP_BLK("sspp_3", SSPP_VIG3, 0xa000, 0x1f8, VIG_SC7180_MASK_SDMA,
+>>>           sm8250_vig_sblk_3, 12,  SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG3),
+>>> -    SSPP_BLK("sspp_8", SSPP_DMA0, 0x24000,  DMA_SDM845_MASK_SDMA,
+>>> +    SSPP_BLK("sspp_8", SSPP_DMA0, 0x24000, 0x1f8, DMA_SDM845_MASK_SDMA,
+>>>           sdm845_dma_sblk_0, 1, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA0),
+>>> -    SSPP_BLK("sspp_9", SSPP_DMA1, 0x26000,  DMA_SDM845_MASK_SDMA,
+>>> +    SSPP_BLK("sspp_9", SSPP_DMA1, 0x26000, 0x1f8, DMA_SDM845_MASK_SDMA,
+>>>           sdm845_dma_sblk_1, 5, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA1),
+>>> -    SSPP_BLK("sspp_10", SSPP_DMA2, 0x28000, 
+>>> DMA_CURSOR_SDM845_MASK_SDMA,
+>>> +    SSPP_BLK("sspp_10", SSPP_DMA2, 0x28000, 0x1f8, 
+>>> DMA_CURSOR_SDM845_MASK_SDMA,
+>>>           sdm845_dma_sblk_2, 9, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA2),
+>>> -    SSPP_BLK("sspp_11", SSPP_DMA3, 0x2a000, 
+>>> DMA_CURSOR_SDM845_MASK_SDMA,
+>>> +    SSPP_BLK("sspp_11", SSPP_DMA3, 0x2a000, 0x1f8, 
+>>> DMA_CURSOR_SDM845_MASK_SDMA,
+>>>           sdm845_dma_sblk_3, 13, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA3),
+>>>   };
+>>> @@ -1287,21 +1287,21 @@ static const struct dpu_sspp_sub_blks 
+>>> sm8450_vig_sblk_3 =
+>>>                   _VIG_SBLK("3", 8, DPU_SSPP_SCALER_QSEED4);
+>>>   static const struct dpu_sspp_cfg sm8450_sspp[] = {
+>>> -    SSPP_BLK("sspp_0", SSPP_VIG0, 0x4000, VIG_SC7180_MASK,
+>>> -        sm8450_vig_sblk_0, 0,  SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG0),
+>>> -    SSPP_BLK("sspp_1", SSPP_VIG1, 0x6000, VIG_SC7180_MASK,
+>>> -        sm8450_vig_sblk_1, 4,  SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG1),
+>>> -    SSPP_BLK("sspp_2", SSPP_VIG2, 0x8000, VIG_SC7180_MASK,
+>>> +    SSPP_BLK("sspp_0", SSPP_VIG0, 0x4000, 0x328, VIG_SC7180_MASK,
+>>> +        sm8450_vig_sblk_0, 0, SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG0),
+>>> +    SSPP_BLK("sspp_1", SSPP_VIG1, 0x6000, 0x328, VIG_SC7180_MASK,
+>>> +        sm8450_vig_sblk_1, 4, SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG1),
+>>> +    SSPP_BLK("sspp_2", SSPP_VIG2, 0x8000, 0x328, VIG_SC7180_MASK,
+>>>           sm8450_vig_sblk_2, 8, SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG2),
+>>> -    SSPP_BLK("sspp_3", SSPP_VIG3, 0xa000, VIG_SC7180_MASK,
+>>> -        sm8450_vig_sblk_3, 12,  SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG3),
+>>> -    SSPP_BLK("sspp_8", SSPP_DMA0, 0x24000,  DMA_SDM845_MASK,
+>>> +    SSPP_BLK("sspp_3", SSPP_VIG3, 0xa000, 0x328, VIG_SC7180_MASK,
+>>> +        sm8450_vig_sblk_3, 12, SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG3),
+>>> +    SSPP_BLK("sspp_8", SSPP_DMA0, 0x24000, 0x328, DMA_SDM845_MASK,
+>>>           sdm845_dma_sblk_0, 1, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA0),
+>>> -    SSPP_BLK("sspp_9", SSPP_DMA1, 0x26000,  DMA_SDM845_MASK,
+>>> +    SSPP_BLK("sspp_9", SSPP_DMA1, 0x26000, 0x328, DMA_SDM845_MASK,
+>>>           sdm845_dma_sblk_1, 5, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA1),
+>>> -    SSPP_BLK("sspp_10", SSPP_DMA2, 0x28000,  DMA_CURSOR_SDM845_MASK,
+>>> +    SSPP_BLK("sspp_10", SSPP_DMA2, 0x28000, 0x328, 
+>>> DMA_CURSOR_SDM845_MASK,
+>>>           sdm845_dma_sblk_2, 9, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA2),
+>>> -    SSPP_BLK("sspp_11", SSPP_DMA3, 0x2a000,  DMA_CURSOR_SDM845_MASK,
+>>> +    SSPP_BLK("sspp_11", SSPP_DMA3, 0x2a000, 0x328, 
+>>> DMA_CURSOR_SDM845_MASK,
+>>>           sdm845_dma_sblk_3, 13, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA3),
+>>>   };
 >>
->> Hmm. As I went on checking this against techpack:
->>
->> mod = dsc->slice_width % 3
->>
->> mod | techpack | old | your_patch
->> 0   | 2        | 3   | 3
->> 1   | 0        | 2   | 1
->> 2   | 1        | 1   | 2
->>
->> So, obviously neither old nor new code match the calculations of the 
->> techpack. If we assume that sde_dsc_helper code is correct (which I 
->> have no reasons to doubt), then the proper code should be:
->>
->> slice_last_group_size = (dsc->slice_width + 2) % 3;
->>
->> Could you please doublecheck and adjust.
+>> This should be 0x32c.
 > 
-> Hi Dmitry,
-> 
-> The calculation should match the techpack calculation (I kept the `data 
-> |= ((slice_last_group_size - 1) << 18);` a few lines down).
-
-And the techpack doesn't have -1.
-
-I think the following code piece would be more convenient as it is simpler:
-
-slice_last_group_size = (dsc->slice_width + 2) % 3;
-[...]
-data |= slice_last_group_size << 18;
-
-If you agree, could you please switch to it?
-
-> 
-> Thanks,
-> 
-> Jessica Zhang
+> Argh. waipio-sde-common has 0x328 for SSPP size. I'll fix this
 > 
 >>
->>> +
->>>       data = (initial_lines << 20);
->>>       data |= ((slice_last_group_size - 1) << 18);
->>>       /* bpp is 6.4 format, 4 LSBs bits are for fractional part */
+>>> @@ -1317,36 +1317,36 @@ static const struct dpu_sspp_sub_blks 
+>>> sm8550_dma_sblk_4 = _DMA_SBLK("12", 5);
+>>>   static const struct dpu_sspp_sub_blks sm8550_dma_sblk_5 = 
+>>> _DMA_SBLK("13", 6);
+>>>   static const struct dpu_sspp_cfg sm8550_sspp[] = {
+>>> -    SSPP_BLK("sspp_0", SSPP_VIG0, 0x4000, VIG_SC7180_MASK,
+>>> -        sm8550_vig_sblk_0, 0,  SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG0),
+>>> -    SSPP_BLK("sspp_1", SSPP_VIG1, 0x6000, VIG_SC7180_MASK,
+>>> -        sm8550_vig_sblk_1, 4,  SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG1),
+>>> -    SSPP_BLK("sspp_2", SSPP_VIG2, 0x8000, VIG_SC7180_MASK,
+>>> +    SSPP_BLK("sspp_0", SSPP_VIG0, 0x4000, 0x344, VIG_SC7180_MASK,
+>>> +        sm8550_vig_sblk_0, 0, SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG0),
+>>> +    SSPP_BLK("sspp_1", SSPP_VIG1, 0x6000, 0x344, VIG_SC7180_MASK,
+>>> +        sm8550_vig_sblk_1, 4, SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG1),
+>>> +    SSPP_BLK("sspp_2", SSPP_VIG2, 0x8000, 0x344, VIG_SC7180_MASK,
+>>>           sm8550_vig_sblk_2, 8, SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG2),
+>>> -    SSPP_BLK("sspp_3", SSPP_VIG3, 0xa000, VIG_SC7180_MASK,
+>>> -        sm8550_vig_sblk_3, 12,  SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG3),
+>>> -    SSPP_BLK("sspp_8", SSPP_DMA0, 0x24000,  DMA_SDM845_MASK,
+>>> +    SSPP_BLK("sspp_3", SSPP_VIG3, 0xa000, 0x344, VIG_SC7180_MASK,
+>>> +        sm8550_vig_sblk_3, 12, SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG3),
+>>> +    SSPP_BLK("sspp_8", SSPP_DMA0, 0x24000, 0x344, DMA_SDM845_MASK,
+>>>           sdm845_dma_sblk_0, 1, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA0),
+>>> -    SSPP_BLK("sspp_9", SSPP_DMA1, 0x26000,  DMA_SDM845_MASK,
+>>> +    SSPP_BLK("sspp_9", SSPP_DMA1, 0x26000, 0x344, DMA_SDM845_MASK,
+>>>           sdm845_dma_sblk_1, 5, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA1),
+>>> -    SSPP_BLK("sspp_10", SSPP_DMA2, 0x28000,  DMA_SDM845_MASK,
+>>> +    SSPP_BLK("sspp_10", SSPP_DMA2, 0x28000, 0x344, DMA_SDM845_MASK,
+>>>           sdm845_dma_sblk_2, 9, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA2),
+>>> -    SSPP_BLK("sspp_11", SSPP_DMA3, 0x2a000,  DMA_SDM845_MASK,
+>>> +    SSPP_BLK("sspp_11", SSPP_DMA3, 0x2a000, 0x344, DMA_SDM845_MASK,
+>>>           sdm845_dma_sblk_3, 13, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA3),
+>>> -    SSPP_BLK("sspp_12", SSPP_DMA4, 0x2c000,  DMA_CURSOR_SDM845_MASK,
+>>> +    SSPP_BLK("sspp_12", SSPP_DMA4, 0x2c000, 0x344, 
+>>> DMA_CURSOR_SDM845_MASK,
+>>>           sm8550_dma_sblk_4, 14, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA4),
+>>> -    SSPP_BLK("sspp_13", SSPP_DMA5, 0x2e000,  DMA_CURSOR_SDM845_MASK,
+>>> +    SSPP_BLK("sspp_13", SSPP_DMA5, 0x2e000, 0x344, 
+>>> DMA_CURSOR_SDM845_MASK,
+>>>           sm8550_dma_sblk_5, 15, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA5),
+>>>   };
+>>>   static const struct dpu_sspp_cfg sc7280_sspp[] = {
+>>> -    SSPP_BLK("sspp_0", SSPP_VIG0, 0x4000, VIG_SC7280_MASK_SDMA,
+>>> +    SSPP_BLK("sspp_0", SSPP_VIG0, 0x4000, 0x1f8, VIG_SC7280_MASK_SDMA,
+>>>           sc7280_vig_sblk_0, 0,  SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG0),
+>>> -    SSPP_BLK("sspp_8", SSPP_DMA0, 0x24000,  DMA_SDM845_MASK_SDMA,
+>>> +    SSPP_BLK("sspp_8", SSPP_DMA0, 0x24000, 0x1f8, DMA_SDM845_MASK_SDMA,
+>>>           sdm845_dma_sblk_0, 1, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA0),
+>>> -    SSPP_BLK("sspp_9", SSPP_DMA1, 0x26000,  
+>>> DMA_CURSOR_SDM845_MASK_SDMA,
+>>> +    SSPP_BLK("sspp_9", SSPP_DMA1, 0x26000, 0x1f8, 
+>>> DMA_CURSOR_SDM845_MASK_SDMA,
+>>>           sdm845_dma_sblk_1, 5, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA1),
+>>> -    SSPP_BLK("sspp_10", SSPP_DMA2, 0x28000, 
+>>> DMA_CURSOR_SDM845_MASK_SDMA,
+>>> +    SSPP_BLK("sspp_10", SSPP_DMA2, 0x28000, 0x1f8, 
+>>> DMA_CURSOR_SDM845_MASK_SDMA,
+>>>           sdm845_dma_sblk_2, 9, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA2),
+>>>   };
+>>> @@ -1359,22 +1359,23 @@ static const struct dpu_sspp_sub_blks 
+>>> sc8280xp_vig_sblk_2 =
+>>>   static const struct dpu_sspp_sub_blks sc8280xp_vig_sblk_3 =
+>>>                   _VIG_SBLK("3", 8, DPU_SSPP_SCALER_QSEED4);
+>>> +/* FIXME: check block length */
+>>>   static const struct dpu_sspp_cfg sc8280xp_sspp[] = {
+>>> -    SSPP_BLK("sspp_0", SSPP_VIG0, 0x4000, VIG_SC7180_MASK,
+>>> -         sc8280xp_vig_sblk_0, 0,  SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG0),
+>>> -    SSPP_BLK("sspp_1", SSPP_VIG1, 0x6000, VIG_SC7180_MASK,
+>>> -         sc8280xp_vig_sblk_1, 4,  SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG1),
+>>> -    SSPP_BLK("sspp_2", SSPP_VIG2, 0x8000, VIG_SC7180_MASK,
+>>> +    SSPP_BLK("sspp_0", SSPP_VIG0, 0x4000, 0x2ac, VIG_SC7180_MASK,
+>>> +         sc8280xp_vig_sblk_0, 0, SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG0),
+>>> +    SSPP_BLK("sspp_1", SSPP_VIG1, 0x6000, 0x2ac, VIG_SC7180_MASK,
+>>> +         sc8280xp_vig_sblk_1, 4, SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG1),
+>>> +    SSPP_BLK("sspp_2", SSPP_VIG2, 0x8000, 0x2ac, VIG_SC7180_MASK,
+>>>            sc8280xp_vig_sblk_2, 8, SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG2),
+>>> -    SSPP_BLK("sspp_3", SSPP_VIG3, 0xa000, VIG_SC7180_MASK,
+>>> -         sc8280xp_vig_sblk_3, 12,  SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG3),
+>>> -    SSPP_BLK("sspp_8", SSPP_DMA0, 0x24000, DMA_SDM845_MASK,
+>>> +    SSPP_BLK("sspp_3", SSPP_VIG3, 0xa000, 0x2ac, VIG_SC7180_MASK,
+>>> +         sc8280xp_vig_sblk_3, 12, SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG3),
+>>> +    SSPP_BLK("sspp_8", SSPP_DMA0, 0x24000, 0x2ac, DMA_SDM845_MASK,
+>>>            sdm845_dma_sblk_0, 1, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA0),
+>>> -    SSPP_BLK("sspp_9", SSPP_DMA1, 0x26000, DMA_SDM845_MASK,
+>>> +    SSPP_BLK("sspp_9", SSPP_DMA1, 0x26000, 0x2ac, DMA_SDM845_MASK,
+>>>            sdm845_dma_sblk_1, 5, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA1),
+>>> -    SSPP_BLK("sspp_10", SSPP_DMA2, 0x28000, DMA_CURSOR_SDM845_MASK,
+>>> +    SSPP_BLK("sspp_10", SSPP_DMA2, 0x28000, 0x2ac, 
+>>> DMA_CURSOR_SDM845_MASK,
+>>>            sdm845_dma_sblk_2, 9, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA2),
+>>> -    SSPP_BLK("sspp_11", SSPP_DMA3, 0x2a000, DMA_CURSOR_SDM845_MASK,
+>>> +    SSPP_BLK("sspp_11", SSPP_DMA3, 0x2a000, 0x2ac, 
+>>> DMA_CURSOR_SDM845_MASK,
+>>>            sdm845_dma_sblk_3, 13, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA3),
+>>>   };
+>>> @@ -1395,9 +1396,9 @@ static const struct dpu_sspp_sub_blks 
+>>> qcm2290_vig_sblk_0 = _VIG_SBLK_NOSCALE("0"
+>>>   static const struct dpu_sspp_sub_blks qcm2290_dma_sblk_0 = 
+>>> _DMA_SBLK("8", 1);
+>>>   static const struct dpu_sspp_cfg qcm2290_sspp[] = {
+>>> -    SSPP_BLK("sspp_0", SSPP_VIG0, 0x4000, VIG_QCM2290_MASK,
+>>> +    SSPP_BLK("sspp_0", SSPP_VIG0, 0x4000, 0x1f8, VIG_QCM2290_MASK,
+>>>            qcm2290_vig_sblk_0, 0, SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG0),
+>>> -    SSPP_BLK("sspp_8", SSPP_DMA0, 0x24000,  DMA_SDM845_MASK,
+>>> +    SSPP_BLK("sspp_8", SSPP_DMA0, 0x24000, 0x1f8, DMA_SDM845_MASK,
+>>>            qcm2290_dma_sblk_0, 1, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA0),
+>>>   };
+>>> @@ -1853,10 +1854,10 @@ static struct dpu_dsc_cfg sm8150_dsc[] = {
+>>>   /*************************************************************
+>>>    * INTF sub blocks config
+>>>    *************************************************************/
+>>> -#define INTF_BLK(_name, _id, _base, _type, _ctrl_id, _progfetch, 
+>>> _features, _reg, _underrun_bit, _vsync_bit) \
+>>> +#define INTF_BLK(_name, _id, _base, _len, _type, _ctrl_id, 
+>>> _progfetch, _features, _reg, _underrun_bit, _vsync_bit) \
+>>>       {\
+>>>       .name = _name, .id = _id, \
+>>> -    .base = _base, .len = 0x280, \
+>>> +    .base = _base, .len = _len, \
+>>>       .features = _features, \
+>>>       .type = _type, \
+>>>       .controller_id = _ctrl_id, \
+>>> @@ -1866,85 +1867,85 @@ static struct dpu_dsc_cfg sm8150_dsc[] = {
+>>>       }
+>>>   static const struct dpu_intf_cfg msm8998_intf[] = {
+>>> -    INTF_BLK("intf_0", INTF_0, 0x6A000, INTF_DP, 0, 25, 
+>>> INTF_SDM845_MASK, MDP_SSPP_TOP0_INTR, 24, 25),
+>>> -    INTF_BLK("intf_1", INTF_1, 0x6A800, INTF_DSI, 0, 25, 
+>>> INTF_SDM845_MASK, MDP_SSPP_TOP0_INTR, 26, 27),
+>>> -    INTF_BLK("intf_2", INTF_2, 0x6B000, INTF_DSI, 1, 25, 
+>>> INTF_SDM845_MASK, MDP_SSPP_TOP0_INTR, 28, 29),
+>>> -    INTF_BLK("intf_3", INTF_3, 0x6B800, INTF_HDMI, 0, 25, 
+>>> INTF_SDM845_MASK, MDP_SSPP_TOP0_INTR, 30, 31),
+>>> +    INTF_BLK("intf_0", INTF_0, 0x6A000, 0x280, INTF_DP, 0, 25, 
+>>> INTF_SDM845_MASK, MDP_SSPP_TOP0_INTR, 24, 25),
+>>> +    INTF_BLK("intf_1", INTF_1, 0x6A800, 0x280, INTF_DSI, 0, 25, 
+>>> INTF_SDM845_MASK, MDP_SSPP_TOP0_INTR, 26, 27),
+>>> +    INTF_BLK("intf_2", INTF_2, 0x6B000, 0x280, INTF_DSI, 1, 25, 
+>>> INTF_SDM845_MASK, MDP_SSPP_TOP0_INTR, 28, 29),
+>>> +    INTF_BLK("intf_3", INTF_3, 0x6B800, 0x280, INTF_HDMI, 0, 25, 
+>>> INTF_SDM845_MASK, MDP_SSPP_TOP0_INTR, 30, 31),
+>>>   };
+>>>   static const struct dpu_intf_cfg sdm845_intf[] = {
+>>> -    INTF_BLK("intf_0", INTF_0, 0x6A000, INTF_DP, 0, 24, 
+>>> INTF_SDM845_MASK, MDP_SSPP_TOP0_INTR, 24, 25),
+>>> -    INTF_BLK("intf_1", INTF_1, 0x6A800, INTF_DSI, 0, 24, 
+>>> INTF_SDM845_MASK, MDP_SSPP_TOP0_INTR, 26, 27),
+>>> -    INTF_BLK("intf_2", INTF_2, 0x6B000, INTF_DSI, 1, 24, 
+>>> INTF_SDM845_MASK, MDP_SSPP_TOP0_INTR, 28, 29),
+>>> -    INTF_BLK("intf_3", INTF_3, 0x6B800, INTF_DP, 1, 24, 
+>>> INTF_SDM845_MASK, MDP_SSPP_TOP0_INTR, 30, 31),
+>>> +    INTF_BLK("intf_0", INTF_0, 0x6A000, 0x280, INTF_DP, 0, 24, 
+>>> INTF_SDM845_MASK, MDP_SSPP_TOP0_INTR, 24, 25),
+>>> +    INTF_BLK("intf_1", INTF_1, 0x6A800, 0x280, INTF_DSI, 0, 24, 
+>>> INTF_SDM845_MASK, MDP_SSPP_TOP0_INTR, 26, 27),
+>>> +    INTF_BLK("intf_2", INTF_2, 0x6B000, 0x280, INTF_DSI, 1, 24, 
+>>> INTF_SDM845_MASK, MDP_SSPP_TOP0_INTR, 28, 29),
+>>> +    INTF_BLK("intf_3", INTF_3, 0x6B800, 0x280, INTF_DP, 1, 24, 
+>>> INTF_SDM845_MASK, MDP_SSPP_TOP0_INTR, 30, 31),
+>>>   };
+>>>   static const struct dpu_intf_cfg sc7180_intf[] = {
+>>> -    INTF_BLK("intf_0", INTF_0, 0x6A000, INTF_DP, 
+>>> MSM_DP_CONTROLLER_0, 24, INTF_SC7180_MASK, MDP_SSPP_TOP0_INTR, 24, 25),
+>>> -    INTF_BLK("intf_1", INTF_1, 0x6A800, INTF_DSI, 0, 24, 
+>>> INTF_SC7180_MASK, MDP_SSPP_TOP0_INTR, 26, 27),
+>>> +    INTF_BLK("intf_0", INTF_0, 0x6A000, 0x2b8, INTF_DP, 
+>>> MSM_DP_CONTROLLER_0, 24, INTF_SC7180_MASK, MDP_SSPP_TOP0_INTR, 24, 25),
+>>> +    INTF_BLK("intf_1", INTF_1, 0x6A800, 0x2b8, INTF_DSI, 0, 24, 
+>>> INTF_SC7180_MASK, MDP_SSPP_TOP0_INTR, 26, 27),
+>>>   };
 >>>
 >>
->> -- 
->> With best wishes
->> Dmitry
+>> INTF_0 is DP and INTF_1 is DSI.
 >>
+>> 0x2b8 comes because from offset 0 to 0x27c are the intf registers and 
+>> from offset 0x280 to offset 0x2c0 and INTF TE registers.
+>>
+>> So INTF_0 will not have those.
+>>
+>> This should be change to 0x280 for INTF_0
+>> and 0x2c0 for INTF_1
+> 
+> Ack, thanks for the explanation.
+> 
+> Could you please verify my summary then. For non-DSI-TE INTF blocks the 
+> size is always 0x280. Otherwise:
+> 
 
--- 
-With best wishes
-Dmitry
+> DPU | SoC      | INTF_DSI size | Abhinav's comments
+> 5.0 | sm8150   | ? 0x2bc       | Correct (0x280 for non-DSI)
+> 5.1 | sc8180x  | 0x2bc         | Correct (0x280 for non-DSI)
+> 6.0 | sm8250   | ? 0x2c0       | Correct (0x280 for non-DSI)
+> 6.2 | sc7180   | 0x2c0         | Correct (0x280 for non-DSI)
+> 6.3 | sm6115   | 0x2c0         | Correct (0x280 for non-DSI)
+> 6.5 | qcm2290  | 0x2c0         | Correct (0x280 for non-DSI)
+> 7.0 | sm8350   | 0x2c4         | Correct (0x280 for non-DSI)
+> 7.2 | sc7280   | 0x2c4	 | Correct (0x280 for non-DSI)
+> 8.0 | sc8280xp | 0x300	 | Correct (0x280 for non-DSI)
+> 8.1 | sm8450   | 0x300	 | Correct (0x280 for non-DSI)
+> 9.0 | sm8550   | 0x300	 | Correct (0x280 for non-DSI)
+> 
+>>
+>>>   static const struct dpu_intf_cfg sm8150_intf[] = {
+>>> -    INTF_BLK("intf_0", INTF_0, 0x6A000, INTF_DP, 0, 24, 
+>>> INTF_SC7180_MASK, MDP_SSPP_TOP0_INTR, 24, 25),
+>>> -    INTF_BLK("intf_1", INTF_1, 0x6A800, INTF_DSI, 0, 24, 
+>>> INTF_SC7180_MASK, MDP_SSPP_TOP0_INTR, 26, 27),
+>>> -    INTF_BLK("intf_2", INTF_2, 0x6B000, INTF_DSI, 1, 24, 
+>>> INTF_SC7180_MASK, MDP_SSPP_TOP0_INTR, 28, 29),
+>>> -    INTF_BLK("intf_3", INTF_3, 0x6B800, INTF_DP, 1, 24, 
+>>> INTF_SC7180_MASK, MDP_SSPP_TOP0_INTR, 30, 31),
+>>> +    INTF_BLK("intf_0", INTF_0, 0x6A000, 0x2b8, INTF_DP, 0, 24, 
+>>> INTF_SC7180_MASK, MDP_SSPP_TOP0_INTR, 24, 25),
+>>> +    INTF_BLK("intf_1", INTF_1, 0x6A800, 0x2b8, INTF_DSI, 0, 24, 
+>>> INTF_SC7180_MASK, MDP_SSPP_TOP0_INTR, 26, 27),
+>>> +    INTF_BLK("intf_2", INTF_2, 0x6B000, 0x2b8, INTF_DSI, 1, 24, 
+>>> INTF_SC7180_MASK, MDP_SSPP_TOP0_INTR, 28, 29),
+>>> +    INTF_BLK("intf_3", INTF_3, 0x6B800, 0x2b8, INTF_DP, 1, 24, 
+>>> INTF_SC7180_MASK, MDP_SSPP_TOP0_INTR, 30, 31),
+>>>   };
+>>
+>> I dont have access to this document but should follow the above 
+>> example. By the time you repost this, I should have access.
+> 
+> I think it should follow the drill.
+> 
 
+Yes I got access now, and the table above looks right.
+
+>>
+>>>   static const struct dpu_intf_cfg sc7280_intf[] = {
+>>> -    INTF_BLK("intf_0", INTF_0, 0x34000, INTF_DP, 
+>>> MSM_DP_CONTROLLER_0, 24, INTF_SC7280_MASK, MDP_SSPP_TOP0_INTR, 24, 25),
+>>> -    INTF_BLK("intf_1", INTF_1, 0x35000, INTF_DSI, 0, 24, 
+>>> INTF_SC7280_MASK, MDP_SSPP_TOP0_INTR, 26, 27),
+>>> -    INTF_BLK("intf_5", INTF_5, 0x39000, INTF_DP, 
+>>> MSM_DP_CONTROLLER_1, 24, INTF_SC7280_MASK, MDP_SSPP_TOP0_INTR, 22, 23),
+>>> +    INTF_BLK("intf_0", INTF_0, 0x34000, 0x2c4, INTF_DP, 
+>>> MSM_DP_CONTROLLER_0, 24, INTF_SC7280_MASK, MDP_SSPP_TOP0_INTR, 24, 25),
+>>> +    INTF_BLK("intf_1", INTF_1, 0x35000, 0x2c4, INTF_DSI, 0, 24, 
+>>> INTF_SC7280_MASK, MDP_SSPP_TOP0_INTR, 26, 27),
+>>> +    INTF_BLK("intf_5", INTF_5, 0x39000, 0x2c4, INTF_DP, 
+>>> MSM_DP_CONTROLLER_1, 24, INTF_SC7280_MASK, MDP_SSPP_TOP0_INTR, 22, 23),
+>>>   };
+>>
+>> INTF_0 and INTF_5 is DP and eDP respectively. They will only go till 
+>> 0x280
+>>
+>> INTF_1 is DSI so that goes to 0x2c4 because 0x280 to 0x2c4 are tear 
+>> check blocks.
+>>
+>> In general, tear check blocks are applicable only to DSI as DP/eDP are 
+>> video mode panels.
+>>
+>>>   static const struct dpu_intf_cfg sm8350_intf[] = {
+>>> -    INTF_BLK("intf_0", INTF_0, 0x34000, INTF_DP, 
+>>> MSM_DP_CONTROLLER_0, 24, INTF_SC7280_MASK, MDP_SSPP_TOP0_INTR, 24, 25),
+>>> -    INTF_BLK("intf_1", INTF_1, 0x35000, INTF_DSI, 0, 24, 
+>>> INTF_SC7280_MASK, MDP_SSPP_TOP0_INTR, 26, 27),
+>>> -    INTF_BLK("intf_2", INTF_2, 0x36000, INTF_DSI, 1, 24, 
+>>> INTF_SC7280_MASK, MDP_SSPP_TOP0_INTR, 28, 29),
+>>> -    INTF_BLK("intf_3", INTF_3, 0x37000, INTF_DP, 
+>>> MSM_DP_CONTROLLER_1, 24, INTF_SC7280_MASK, MDP_SSPP_TOP0_INTR, 30, 31),
+>>> +    INTF_BLK("intf_0", INTF_0, 0x34000, 0x2c4, INTF_DP, 
+>>> MSM_DP_CONTROLLER_0, 24, INTF_SC7280_MASK, MDP_SSPP_TOP0_INTR, 24, 25),
+>>> +    INTF_BLK("intf_1", INTF_1, 0x35000, 0x2c4, INTF_DSI, 0, 24, 
+>>> INTF_SC7280_MASK, MDP_SSPP_TOP0_INTR, 26, 27),
+>>> +    INTF_BLK("intf_2", INTF_2, 0x36000, 0x2c4, INTF_DSI, 1, 24, 
+>>> INTF_SC7280_MASK, MDP_SSPP_TOP0_INTR, 28, 29),
+>>> +    INTF_BLK("intf_3", INTF_3, 0x37000, 0x2c4, INTF_DP, 
+>>> MSM_DP_CONTROLLER_1, 24, INTF_SC7280_MASK, MDP_SSPP_TOP0_INTR, 30, 31),
+>>>   };
+>>
+>> DP interfaces dont have tear check. Those will go till 0x280
+>>
+>> Tear check blocks only for DSI. Those go till 0x2c4.
+>>
+>> I am guessing the TEAR_IRQ block is separately mapped and will come 
+>> part of Marijn's INTF TE series.
+> 
+> Yes
+> 
+>>
+>>>   static const struct dpu_intf_cfg sc8180x_intf[] = {
+>>> -    INTF_BLK("intf_0", INTF_0, 0x6A000, INTF_DP, 
+>>> MSM_DP_CONTROLLER_0, 24, INTF_SC7180_MASK, MDP_SSPP_TOP0_INTR, 24, 25),
+>>> -    INTF_BLK("intf_1", INTF_1, 0x6A800, INTF_DSI, 0, 24, 
+>>> INTF_SC7180_MASK, MDP_SSPP_TOP0_INTR, 26, 27),
+>>> -    INTF_BLK("intf_2", INTF_2, 0x6B000, INTF_DSI, 1, 24, 
+>>> INTF_SC7180_MASK, MDP_SSPP_TOP0_INTR, 28, 29),
+>>> +    INTF_BLK("intf_0", INTF_0, 0x6A000, 0x280, INTF_DP, 
+>>> MSM_DP_CONTROLLER_0, 24, INTF_SC7180_MASK, MDP_SSPP_TOP0_INTR, 24, 25),
+>>> +    INTF_BLK("intf_1", INTF_1, 0x6A800, 0x280, INTF_DSI, 0, 24, 
+>>> INTF_SC7180_MASK, MDP_SSPP_TOP0_INTR, 26, 27),
+>>> +    INTF_BLK("intf_2", INTF_2, 0x6B000, 0x280, INTF_DSI, 1, 24, 
+>>> INTF_SC7180_MASK, MDP_SSPP_TOP0_INTR, 28, 29),
+>>>       /* INTF_3 is for MST, wired to INTF_DP 0 and 1, use dummy index 
+>>> until this is supported */
+>>> -    INTF_BLK("intf_3", INTF_3, 0x6B800, INTF_DP, 999, 24, 
+>>> INTF_SC7180_MASK, MDP_SSPP_TOP0_INTR, 30, 31),
+>>> -    INTF_BLK("intf_4", INTF_4, 0x6C000, INTF_DP, 
+>>> MSM_DP_CONTROLLER_1, 24, INTF_SC7180_MASK, MDP_SSPP_TOP0_INTR, 20, 21),
+>>> -    INTF_BLK("intf_5", INTF_5, 0x6C800, INTF_DP, 
+>>> MSM_DP_CONTROLLER_2, 24, INTF_SC7180_MASK, MDP_SSPP_TOP0_INTR, 22, 23),
+>>> +    INTF_BLK("intf_3", INTF_3, 0x6B800, 0x280, INTF_DP, 999, 24, 
+>>> INTF_SC7180_MASK, MDP_SSPP_TOP0_INTR, 30, 31),
+>>> +    INTF_BLK("intf_4", INTF_4, 0x6C000, 0x280, INTF_DP, 
+>>> MSM_DP_CONTROLLER_1, 24, INTF_SC7180_MASK, MDP_SSPP_TOP0_INTR, 20, 21),
+>>> +    INTF_BLK("intf_5", INTF_5, 0x6C800, 0x280, INTF_DP, 
+>>> MSM_DP_CONTROLLER_2, 24, INTF_SC7180_MASK, MDP_SSPP_TOP0_INTR, 22, 23),
+>>>   };
+>>
+>> For this you are not mapping the intf te block for DSI at 
+>> all.Otherwise it goes to 0x2bc.
+>>
+>> Just to be consistent, do we want to map intf te blocks here or not?
+>>
+>> We could either leave out intf te block completely and reduce the 
+>> offsets so that Marijn's series adds that OR include them in the 
+>> mapping but correctly. But we should be consistent.
+> 
+> As it is not a separate subblock, I think we should include it. I 
+> trusted vendor dtsi too much for these values.
+> 
+>>
+>>>   /* TODO: INTF 3, 8 and 7 are used for MST, marked as INTF_NONE for 
+>>> now */
+>>>   static const struct dpu_intf_cfg sc8280xp_intf[] = {
+>>> -    INTF_BLK("intf_0", INTF_0, 0x34000, INTF_DP, 
+>>> MSM_DP_CONTROLLER_0, 24, INTF_SC7280_MASK, MDP_SSPP_TOP0_INTR, 24, 25),
+>>> -    INTF_BLK("intf_1", INTF_1, 0x35000, INTF_DSI, 0, 24, 
+>>> INTF_SC7280_MASK, MDP_SSPP_TOP0_INTR, 26, 27),
+>>> -    INTF_BLK("intf_2", INTF_2, 0x36000, INTF_DSI, 1, 24, 
+>>> INTF_SC7280_MASK, MDP_SSPP_TOP0_INTR, 28, 29),
+>>> -    INTF_BLK("intf_3", INTF_3, 0x37000, INTF_NONE, 
+>>> MSM_DP_CONTROLLER_0, 24, INTF_SC7280_MASK, MDP_SSPP_TOP0_INTR, 30, 31),
+>>> -    INTF_BLK("intf_4", INTF_4, 0x38000, INTF_DP, 
+>>> MSM_DP_CONTROLLER_1, 24, INTF_SC7280_MASK, MDP_SSPP_TOP0_INTR, 20, 21),
+>>> -    INTF_BLK("intf_5", INTF_5, 0x39000, INTF_DP, 
+>>> MSM_DP_CONTROLLER_3, 24, INTF_SC7280_MASK, MDP_SSPP_TOP0_INTR, 22, 23),
+>>> -    INTF_BLK("intf_6", INTF_6, 0x3a000, INTF_DP, 
+>>> MSM_DP_CONTROLLER_2, 24, INTF_SC7280_MASK, MDP_SSPP_TOP0_INTR, 16, 17),
+>>> -    INTF_BLK("intf_7", INTF_7, 0x3b000, INTF_NONE, 
+>>> MSM_DP_CONTROLLER_2, 24, INTF_SC7280_MASK, MDP_SSPP_TOP0_INTR, 18, 19),
+>>> -    INTF_BLK("intf_8", INTF_8, 0x3c000, INTF_NONE, 
+>>> MSM_DP_CONTROLLER_1, 24, INTF_SC7280_MASK, MDP_SSPP_TOP0_INTR, 12, 13),
+>>> +    INTF_BLK("intf_0", INTF_0, 0x34000, 0x2c4, INTF_DP, 
+>>> MSM_DP_CONTROLLER_0, 24, INTF_SC7280_MASK, MDP_SSPP_TOP0_INTR, 24, 25),
+>>> +    INTF_BLK("intf_1", INTF_1, 0x35000, 0x2c4, INTF_DSI, 0, 24, 
+>>> INTF_SC7280_MASK, MDP_SSPP_TOP0_INTR, 26, 27),
+>>> +    INTF_BLK("intf_2", INTF_2, 0x36000, 0x2c4, INTF_DSI, 1, 24, 
+>>> INTF_SC7280_MASK, MDP_SSPP_TOP0_INTR, 28, 29),
+>>> +    INTF_BLK("intf_3", INTF_3, 0x37000, 0x2c4, INTF_NONE, 
+>>> MSM_DP_CONTROLLER_0, 24, INTF_SC7280_MASK, MDP_SSPP_TOP0_INTR, 30, 31),
+>>> +    INTF_BLK("intf_4", INTF_4, 0x38000, 0x2c4, INTF_DP, 
+>>> MSM_DP_CONTROLLER_1, 24, INTF_SC7280_MASK, MDP_SSPP_TOP0_INTR, 20, 21),
+>>> +    INTF_BLK("intf_5", INTF_5, 0x39000, 0x2c4, INTF_DP, 
+>>> MSM_DP_CONTROLLER_3, 24, INTF_SC7280_MASK, MDP_SSPP_TOP0_INTR, 22, 23),
+>>> +    INTF_BLK("intf_6", INTF_6, 0x3a000, 0x2c4, INTF_DP, 
+>>> MSM_DP_CONTROLLER_2, 24, INTF_SC7280_MASK, MDP_SSPP_TOP0_INTR, 16, 17),
+>>> +    INTF_BLK("intf_7", INTF_7, 0x3b000, 0x2c4, INTF_NONE, 
+>>> MSM_DP_CONTROLLER_2, 24, INTF_SC7280_MASK, MDP_SSPP_TOP0_INTR, 18, 19),
+>>> +    INTF_BLK("intf_8", INTF_8, 0x3c000, 0x2c4, INTF_NONE, 
+>>> MSM_DP_CONTROLLER_1, 24, INTF_SC7280_MASK, MDP_SSPP_TOP0_INTR, 12, 13),
+>>>   };
+>>
+>> Again 0x280 for non-dsi interfaces
+>>
+>> and 0x300 for DSI including tear block otherwise 0x280.
+>>
+>>>   static const struct dpu_intf_cfg qcm2290_intf[] = {
+>>> -    INTF_BLK("intf_0", INTF_0, 0x00000, INTF_NONE, 0, 0, 0, 0, 0, 0),
+>>> -    INTF_BLK("intf_1", INTF_1, 0x6A800, INTF_DSI, 0, 24, 
+>>> INTF_SC7180_MASK, MDP_SSPP_TOP0_INTR, 26, 27),
+>>> +    INTF_BLK("intf_0", INTF_0, 0x00000, 0x2b8, INTF_NONE, 0, 0, 0, 
+>>> 0, 0, 0),
+>>> +    INTF_BLK("intf_1", INTF_1, 0x6A800, 0x2b8, INTF_DSI, 0, 24, 
+>>> INTF_SC7180_MASK, MDP_SSPP_TOP0_INTR, 26, 27),
+>>>   };
+>>>
+>>
+>> This should be 0x2c0 including tear block otherwise 0x280.
+>>
+>>>   static const struct dpu_intf_cfg sm8450_intf[] = {
+>>> -    INTF_BLK("intf_0", INTF_0, 0x34000, INTF_DP, 
+>>> MSM_DP_CONTROLLER_0, 24, INTF_SC7280_MASK, MDP_SSPP_TOP0_INTR, 24, 25),
+>>> -    INTF_BLK("intf_1", INTF_1, 0x35000, INTF_DSI, 0, 24, 
+>>> INTF_SC7280_MASK, MDP_SSPP_TOP0_INTR, 26, 27),
+>>> -    INTF_BLK("intf_2", INTF_2, 0x36000, INTF_DSI, 1, 24, 
+>>> INTF_SC7280_MASK, MDP_SSPP_TOP0_INTR, 28, 29),
+>>> -    INTF_BLK("intf_3", INTF_3, 0x37000, INTF_DP, 
+>>> MSM_DP_CONTROLLER_1, 24, INTF_SC7280_MASK, MDP_SSPP_TOP0_INTR, 30, 31),
+>>> +    INTF_BLK("intf_0", INTF_0, 0x34000, 0x2c4, INTF_DP, 
+>>> MSM_DP_CONTROLLER_0, 24, INTF_SC7280_MASK, MDP_SSPP_TOP0_INTR, 24, 25),
+>>> +    INTF_BLK("intf_1", INTF_1, 0x35000, 0x2c4, INTF_DSI, 0, 24, 
+>>> INTF_SC7280_MASK, MDP_SSPP_TOP0_INTR, 26, 27),
+>>> +    INTF_BLK("intf_2", INTF_2, 0x36000, 0x2c4, INTF_DSI, 1, 24, 
+>>> INTF_SC7280_MASK, MDP_SSPP_TOP0_INTR, 28, 29),
+>>> +    INTF_BLK("intf_3", INTF_3, 0x37000, 0x2c4, INTF_DP, 
+>>> MSM_DP_CONTROLLER_1, 24, INTF_SC7280_MASK, MDP_SSPP_TOP0_INTR, 30, 31),
+>>>   };
+>>
+>> This should be 0x300 for DSI including tear block otherwise 0x280.
+>>
+>>>   static const struct dpu_intf_cfg sm8550_intf[] = {
+>>> -    INTF_BLK("intf_0", INTF_0, 0x34000, INTF_DP, 
+>>> MSM_DP_CONTROLLER_0, 24, INTF_SC7280_MASK, MDP_SSPP_TOP0_INTR, 24, 25),
+>>> +    INTF_BLK("intf_0", INTF_0, 0x34000, 0x300, INTF_DP, 
+>>> MSM_DP_CONTROLLER_0, 24, INTF_SC7280_MASK, MDP_SSPP_TOP0_INTR, 24, 25),
+>>>       /* TODO TE sub-blocks for intf1 & intf2 */
+>>> -    INTF_BLK("intf_1", INTF_1, 0x35000, INTF_DSI, 0, 24, 
+>>> INTF_SC7280_MASK, MDP_SSPP_TOP0_INTR, 26, 27),
+>>> -    INTF_BLK("intf_2", INTF_2, 0x36000, INTF_DSI, 1, 24, 
+>>> INTF_SC7280_MASK, MDP_SSPP_TOP0_INTR, 28, 29),
+>>> -    INTF_BLK("intf_3", INTF_3, 0x37000, INTF_DP, 
+>>> MSM_DP_CONTROLLER_1, 24, INTF_SC7280_MASK, MDP_SSPP_TOP0_INTR, 30, 31),
+>>> +    INTF_BLK("intf_1", INTF_1, 0x35000, 0x300, INTF_DSI, 0, 24, 
+>>> INTF_SC7280_MASK, MDP_SSPP_TOP0_INTR, 26, 27),
+>>> +    INTF_BLK("intf_2", INTF_2, 0x36000, 0x300, INTF_DSI, 1, 24, 
+>>> INTF_SC7280_MASK, MDP_SSPP_TOP0_INTR, 28, 29),
+>>> +    INTF_BLK("intf_3", INTF_3, 0x37000, 0x300, INTF_DP, 
+>>> MSM_DP_CONTROLLER_1, 24, INTF_SC7280_MASK, MDP_SSPP_TOP0_INTR, 30, 31),
+>>>   };
+>>
+>> 0x280 for non-DSI interfaces and 0x300 for DSI ones.
+>>
+>>>   /*************************************************************
+> 
