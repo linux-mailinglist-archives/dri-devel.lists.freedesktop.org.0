@@ -2,71 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61E4A6D407A
-	for <lists+dri-devel@lfdr.de>; Mon,  3 Apr 2023 11:24:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E66886D410F
+	for <lists+dri-devel@lfdr.de>; Mon,  3 Apr 2023 11:47:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AC66E10E464;
-	Mon,  3 Apr 2023 09:23:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 79AF210E2CA;
+	Mon,  3 Apr 2023 09:47:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com
- [IPv6:2a00:1450:4864:20::132])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 04FF410E439
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Apr 2023 09:23:23 +0000 (UTC)
-Received: by mail-lf1-x132.google.com with SMTP id br6so37138513lfb.11
- for <dri-devel@lists.freedesktop.org>; Mon, 03 Apr 2023 02:23:22 -0700 (PDT)
+Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com
+ [IPv6:2a00:1450:4864:20::535])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2A31E10E2CA
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Apr 2023 09:47:21 +0000 (UTC)
+Received: by mail-ed1-x535.google.com with SMTP id cn12so114884509edb.4
+ for <dri-devel@lists.freedesktop.org>; Mon, 03 Apr 2023 02:47:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1680513802;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=io1kFeahiBilX+dYbCKFWeEnlfidqy25m/9Relr1ARs=;
- b=FCIaAkDJ0n79m2fUn1fO9D1NLEjKIibCLE+t1nH/APZckdR6KwNJf9IMyRuSA6tS7H
- OOj7LxWksR8rTH6xe7p8NktCXITLnWWlzckow/3FEf+RzOb3W4JV9cGp6DUxh3IGvX5P
- rDephqe4z3qRJLZCQlaiSY0gGDMUfhNc5G+pQ4VhYhegCNLPlfsmnAFj5HgKW0JYyhR+
- Q3WBGdev9TEsPqOM8E9aIxXu0u/x4MMM1xpZGB4VtQzE9dP8A+6XZFqVNWPrPyPTk4IZ
- HOmBVnDcSEKb1/ESZVYgKHef/gDpziCpI7pvYH6m/KMgXaIrZcbbXT7uWQzLvX6QXapJ
- XggQ==
+ d=linaro.org; s=google; t=1680515237;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=htPk5PXTOqeqOET7dyhcLS5Nxh2cxnK3mpGnQz9jlEw=;
+ b=SvoeEbbR8OcfvVqTljRORHpbqaNFE7cu/bdh4a3d3VE4NUnwo1J/oyoAPXZ0a+yBUd
+ hIKYw+s6BKEbV0nyzwPXNSkFmbnG6OvxYMeFlUu8hGHeCQjuWipnJzmGn+D0mXZA7nOM
+ /Y+FgreAigmNIHhIlvRuWlr3UDh+bYcY3u4ByQaS7QhPfxvqH4hJAZS0IR9nJoqOfiPU
+ GZLEPeUrjBKgNAEOt9DNXW8PLIhwOk20YHAJALYC7vLuI5K+qpFmK2ZLZAVYgR4bIwAa
+ EhDpTeIbMKoqH9kswhsCWOrMOTkV2nvh1hy+jA9x4KeaKRRkGfWjdQ4iChZRhW1ax7/b
+ vGbA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680513802;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=io1kFeahiBilX+dYbCKFWeEnlfidqy25m/9Relr1ARs=;
- b=ag1hBwaTwjCDVvi2oVs/jce0qMSygsTtCv3LlE884G82EfWx0egWguNgoy0D12/0S2
- w8+3qZvxR7C/H9sux3yyZq+NKXZWmokYTorvUHi4DZGFjQMWf5VxmpENqdZda1psOZ6D
- i/Kj1u9ZxXm00V56kTvlCnchfn8QUS/d2lu3Apeq/9CfLAW0H4NmhshiZyOGfM0XXK7F
- E8HgLQaOOpqs45snwIpx0noq4l7Z87mGVpc0YFAP0fnbYv1TZA6poW9Og9rEsrVyC5Ef
- ReJYbR0yOaICcPJouOde4hKZC3aWNlmZk4Cb4pYjFY93UNUhrKI/4vljK71ZHTuux3Rq
- jJQg==
-X-Gm-Message-State: AAQBX9cudDUYxc54aFpUBN08525Ut6Osi9lMddeG9NIq/xAL7NfbHAdQ
- QPYhJs+R01/YCj4BdC8tEiVi2g==
-X-Google-Smtp-Source: AKy350YcO8+Zj1sJMDOFfeDVA20lVibKThKK9vn+ijwRH//g0IvSB2Cjx7HqJzOLFTWt7ZUTOeM5Wg==
-X-Received: by 2002:ac2:532c:0:b0:4e9:a3b7:2360 with SMTP id
- f12-20020ac2532c000000b004e9a3b72360mr10242335lfh.8.1680513802578; 
- Mon, 03 Apr 2023 02:23:22 -0700 (PDT)
-Received: from eriador.lan (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi.
- [2001:14ba:a085:4d00::8a5]) by smtp.gmail.com with ESMTPSA id
- w5-20020ac25985000000b004e844bb6939sm1680666lfn.2.2023.04.03.02.23.22
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 03 Apr 2023 02:23:22 -0700 (PDT)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Suraj Kandpal <suraj.kandpal@intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>
-Subject: [PATCH v4 12/12] drm/i915/dsc: make use of several params from
- drm_dsc_config
-Date: Mon,  3 Apr 2023 12:23:13 +0300
-Message-Id: <20230403092313.235320-13-dmitry.baryshkov@linaro.org>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230403092313.235320-1-dmitry.baryshkov@linaro.org>
-References: <20230403092313.235320-1-dmitry.baryshkov@linaro.org>
+ d=1e100.net; s=20210112; t=1680515237;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=htPk5PXTOqeqOET7dyhcLS5Nxh2cxnK3mpGnQz9jlEw=;
+ b=N33sH66FCM1Df2wDnqD/asQ05uuootgRf+jl1eWIRI21mzj7VlGiarQuWSmYnaZ/RA
+ E+ahtH0qgJd61XjRtoZu1P8/5EW770yqDYjlVO39tiHKeFHUjl2uiMLX7rnWtjy8FYPk
+ pfGhfjwzPoq/fXqnpYw15EUqWdvttTUethE77ypH/6+lSWHodGbuaX3mhXUZQcA3m5/F
+ 5yemi1XiRKabsDdmkT4VJZiLCqvvZNokvXgBqgBp6MlMMfJ4c2rM4KfdujbHEBQZH/31
+ 1FnUAwqJ89hdljfkH3l+N6BkmkSFPaPE5jj8OGRVx029bnzLBLRA0iS/GL+SiPhuB/hw
+ a+HA==
+X-Gm-Message-State: AAQBX9dWaWsd3Zat1jOxtuLT/GpBFhBvXmivjDvHDQplHXd8AXqM/FwI
+ wScv6JGoOywmEEXSgQWZhNfZyA==
+X-Google-Smtp-Source: AKy350aq2/eAtEYHLJ3R4+ZQV7M03sIMNYL9wBr9zDABKJ8ufu9aCsyLHfIX7yY35iys3sUdYSzvjg==
+X-Received: by 2002:a17:906:6bd5:b0:930:7ae6:9ebd with SMTP id
+ t21-20020a1709066bd500b009307ae69ebdmr35660301ejs.70.1680515237638; 
+ Mon, 03 Apr 2023 02:47:17 -0700 (PDT)
+Received: from ?IPV6:2a02:810d:15c0:828:ae90:d80:1069:4805?
+ ([2a02:810d:15c0:828:ae90:d80:1069:4805])
+ by smtp.gmail.com with ESMTPSA id
+ la6-20020a170907780600b009351565d1f5sm4285058ejc.52.2023.04.03.02.47.16
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 03 Apr 2023 02:47:17 -0700 (PDT)
+Message-ID: <d0b9d8a2-14ae-8c0d-309b-5f5d60d43a1d@linaro.org>
+Date: Mon, 3 Apr 2023 11:47:16 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH v30 0/7] Add MediaTek SoC DRM (vdosys1) support for mt8195
+Content-Language: en-US
+To: Chun-Kuang Hu <chunkuang.hu@kernel.org>, Chen-Yu Tsai <wenst@chromium.org>
+References: <20230321121859.2355-1-nancy.lin@mediatek.com>
+ <17831605-5c9d-9c92-d190-04f91060ace4@collabora.com>
+ <CAAOTY_8ZAxVSLnJ1u5snsRgkszV7ixwhjUS2nDimE_Lpj=cUCA@mail.gmail.com>
+ <97a5f383-38f5-e8ea-e1d8-489b690e4521@collabora.com>
+ <CAAOTY_9_vn-m2jTaaHkFDV+v2-LeaAxtCLNNnOxZq5Httb-TAQ@mail.gmail.com>
+ <CAGXv+5FJCuG_zHnaKZ=baNzKAWKLEe3jZnghNAxuGv7i7L6e7Q@mail.gmail.com>
+ <CAAOTY_9Dbtubah3ndj9+FeYDh7D42k6-BtHrYMNc=CP6GL6uFA@mail.gmail.com>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <CAAOTY_9Dbtubah3ndj9+FeYDh7D42k6-BtHrYMNc=CP6GL6uFA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -80,54 +82,98 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, intel-gfx@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: devicetree@vger.kernel.org, singo.chang@mediatek.com,
+ Nathan Chancellor <nathan@kernel.org>,
+ Nick Desaulniers <ndesaulniers@google.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ clang-built-linux@googlegroups.com, Rob Herring <robh+dt@kernel.org>,
+ linux-mediatek@lists.infradead.org, krzysztof.kozlowski+dt@linaro.org,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ "Nancy.Lin" <nancy.lin@mediatek.com>, linux-arm-kernel@lists.infradead.org,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The code was ignoring (up to some point for rc_model_size) the
-rc_model_size, rc_tgt_offset_high, rc_tgt_offset_low and rc_edge_factor
-parameters from struct drm_dsc_config. Actually use them instead of
-resorting to predefined constants.
+On 03/04/2023 05:30, Chun-Kuang Hu wrote:
+> Hi, Chen-yu:
+> 
+> Chen-Yu Tsai <wenst@chromium.org> 於 2023年3月30日 週四 下午7:05寫道：
+>>
+>> On Mon, Mar 27, 2023 at 11:17 PM Chun-Kuang Hu <chunkuang.hu@kernel.org> wrote:
+>>>
+>>> Hi, Angelo:
+>>>
+>>> AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com> 於
+>>> 2023年3月24日 週五 下午4:38寫道：
+>>>>
+>>>> Il 24/03/23 00:25, Chun-Kuang Hu ha scritto:
+>>>>> Hi, Angelo:
+>>>>>
+>>>>> AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com> 於
+>>>>> 2023年3月23日 週四 下午4:58寫道：
+>>>>>>
+>>>>>> Il 21/03/23 13:18, Nancy.Lin ha scritto:
+>>>>>>> The hardware path of vdosys1 with DPTx output need to go through by several modules, such as, OVL_ADAPTOR and MERGE.
+>>>>>>>
+>>>>>>> Add DRM and these modules support by the patches below:
+>>>>>>>
+>>>>>>
+>>>>>> I've tested v30 again on MT8173, MT8192 and MT8195 based Chromebooks.
+>>>>>> Green light from me.
+>>>>>
+>>>>> I'm curious about how you build code and test on Chromebooks. Do you
+>>>>> build in cros environment or pure linux
+>>>>> (https://archlinuxarm.org/platforms/armv8/mediatek/acer-chromebook-r13).
+>>>>> I've a MT8183 based Chromebook (HP 11a) and I've tried to run a
+>>>>> upstream kernel on it. cros is too heavy for me and I doubt I could
+>>>>> use it. I've tried the pure linux and could boot up with console, but
+>>>>> display does not work. If you use the pure linux environment, could
+>>>>> you share how it works?
+>>>>>
+>>>>
+>>>> I haven't tested MT8183 (I don't actually have any 8183 machine in my hands)... but
+>>>> yes, I can share my test environment.
+>>>>
+>>>> I have one MicroSD that I use either in the MicroSD slot of the target machine, or
+>>>> in a USB reader; this *single* system is what I boot on *all* Chromebooks that I
+>>>> have: one kernel, multiple devicetrees, same Debian-based userspace.
+>>>>
+>>>> What we have to prepare this bootable media can be found at [1], but beware that
+>>>> it currently uses an outdated kernel, so, what I have locally is a symlink to my
+>>>> kernel tree.
+>>>> You can change/add/remove the devicetree blobs that will get added to the image
+>>>> by modifying `chromebook-setup.sh`; before tampering with kernel tree symlink,
+>>>> please run that script for the first time, as it will download a cross-compiler,
+>>>> a kernel tree (that you will replace for sure) and the (very old) Debian rootfs
+>>>> that you can update with `apt-get dist-upgrade` after booting the Chromebook.
+>>>>
+>>>> If you want to check about possible kernel configuration differences, what I use
+>>>> is at [2], so that you can compare.
+>>>
+>>> Thanks for the information, I would try to compare the kernel config first.
+>>
+>> Hi CK,
+>>
+>> Would you consider adding your repo to linux-next? That would let everyone
+>> do integration testing, especially automated ones, earlier, before you send
+>> your PRs to drm maintainers.
+>>
+>> You can do so by sending an email to Stephen Rothwell to do so.
+> 
+> I don't understand what this process is. Does it means that I directly
+> upstream patches into linux-next? I prefer that my patches go through
+> drm maintainers' tree. Does any document introduce this process?
 
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- drivers/gpu/drm/i915/display/intel_vdsc.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+All maintainers and sub-maintainers trees are supposed to be fed into
+linux-next.
 
-diff --git a/drivers/gpu/drm/i915/display/intel_vdsc.c b/drivers/gpu/drm/i915/display/intel_vdsc.c
-index 2d4917ca1f14..76d956a01e2d 100644
---- a/drivers/gpu/drm/i915/display/intel_vdsc.c
-+++ b/drivers/gpu/drm/i915/display/intel_vdsc.c
-@@ -89,7 +89,7 @@ calculate_rc_params(struct drm_dsc_config *vdsc_cfg)
- 		vdsc_cfg->initial_offset = 6144;
- 
- 	/* initial_xmit_delay = rc_model_size/2/compression_bpp */
--	vdsc_cfg->initial_xmit_delay = DIV_ROUND_UP(DSC_RC_MODEL_SIZE_CONST, 2 * bpp);
-+	vdsc_cfg->initial_xmit_delay = DIV_ROUND_UP(vdsc_cfg->rc_model_size, 2 * bpp);
- 
- 	vdsc_cfg->flatness_min_qp = 3 + qp_bpc_modifier;
- 	vdsc_cfg->flatness_max_qp = 12 + qp_bpc_modifier;
-@@ -543,7 +543,7 @@ static void intel_dsc_pps_configure(const struct intel_crtc_state *crtc_state)
- 	/* Populate PICTURE_PARAMETER_SET_9 registers */
- 	pps_val = 0;
- 	pps_val |= DSC_RC_MODEL_SIZE(vdsc_cfg->rc_model_size) |
--		DSC_RC_EDGE_FACTOR(DSC_RC_EDGE_FACTOR_CONST);
-+		DSC_RC_EDGE_FACTOR(vdsc_cfg->rc_edge_factor);
- 	drm_dbg_kms(&dev_priv->drm, "PPS9 = 0x%08x\n", pps_val);
- 	if (!is_pipe_dsc(crtc, cpu_transcoder)) {
- 		intel_de_write(dev_priv, DSCA_PICTURE_PARAMETER_SET_9,
-@@ -569,8 +569,8 @@ static void intel_dsc_pps_configure(const struct intel_crtc_state *crtc_state)
- 	pps_val = 0;
- 	pps_val |= DSC_RC_QUANT_INC_LIMIT0(vdsc_cfg->rc_quant_incr_limit0) |
- 		DSC_RC_QUANT_INC_LIMIT1(vdsc_cfg->rc_quant_incr_limit1) |
--		DSC_RC_TARGET_OFF_HIGH(DSC_RC_TGT_OFFSET_HI_CONST) |
--		DSC_RC_TARGET_OFF_LOW(DSC_RC_TGT_OFFSET_LO_CONST);
-+		DSC_RC_TARGET_OFF_HIGH(vdsc_cfg->rc_tgt_offset_high) |
-+		DSC_RC_TARGET_OFF_LOW(vdsc_cfg->rc_tgt_offset_low);
- 	drm_dbg_kms(&dev_priv->drm, "PPS10 = 0x%08x\n", pps_val);
- 	if (!is_pipe_dsc(crtc, cpu_transcoder)) {
- 		intel_de_write(dev_priv, DSCA_PICTURE_PARAMETER_SET_10,
--- 
-2.39.2
+https://lore.kernel.org/linux-next/20230327124805.3ca4f3cc@canb.auug.org.au/T/#md226a8e714cc731c2ab4ba5ee7eb43fe21a55009
+
+Documentation/process/howto.rst
+Documentation/process/2.Process.rst
+
+
+Best regards,
+Krzysztof
 
