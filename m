@@ -2,61 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5634F6D458A
-	for <lists+dri-devel@lfdr.de>; Mon,  3 Apr 2023 15:22:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C71FA6D45B7
+	for <lists+dri-devel@lfdr.de>; Mon,  3 Apr 2023 15:25:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9EC5910E178;
-	Mon,  3 Apr 2023 13:22:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D947D10E47D;
+	Mon,  3 Apr 2023 13:25:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb34.google.com (mail-yb1-xb34.google.com
- [IPv6:2607:f8b0:4864:20::b34])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3AC7410E475
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Apr 2023 13:22:33 +0000 (UTC)
-Received: by mail-yb1-xb34.google.com with SMTP id r187so34697566ybr.6
- for <dri-devel@lists.freedesktop.org>; Mon, 03 Apr 2023 06:22:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1680528152;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=puJQIiNwi0B7OHT+YCNoLm1RVfBbXjaYqHubaytTOZc=;
- b=iFmu6Bph/r5JtPpy4KiE3uF1FZx4WD1yKmH9pZNGnpcQ+rpE7jJXoHdkumVA8mECJ9
- 1yuVFCPOEZAJvB8kJXc1F2AequweKSrN82RJjtyE2aSxlHiKn5qTmxPsEspfGvjnxcc+
- xO4OI/xLCUDLiDR6iXCVuF5rWXOkUwipr/nJZ6syWHfavVYl1oBrGXDm9cMRfyY0HS5R
- LHpXIg53OEKGjqDV8dmXxMElXPSjS96U8N6WMzBQtsbMd2tFuDVmB76E3bEOWSld7FPY
- a25ESuLO+P8iW9goF0NmubEftjJ0BDJT9c9zkgjjNItMW4hPRPFvcCOQCTUSDEPhXRqD
- QU8A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680528152;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=puJQIiNwi0B7OHT+YCNoLm1RVfBbXjaYqHubaytTOZc=;
- b=QBQ04vwLhNMmEkSictbpJLJNuVU0Hi8W3TdukHMDJDHUQGCkcpVcSvQiHbmjHSU/y8
- fqzZkWwWTEcpIpYLEP4HVeVcz9UZMxDgG23ogtuftYnUoqpxyOv3+Vj/U44rLHIX4bF9
- DQLL5hPBmC7tc82Hp7kkeh+mNAMbQEi015ng5yhmhe2I8VjOt54FCLjEBYPUQlU552+R
- 66zbmK9V8GP2nnr1iCzDRAs2xmH5qZCkkL302By6tPgZf7Jo1hTSWW40cxC31lQMH16J
- LubbIuaxLDTwPR4Enyl2HMEfEDGvQ+E9b7s0Mq0w99iRRFcZvFJglrVbUmI5lRNclFN9
- 2FSg==
-X-Gm-Message-State: AAQBX9cneoiGaxH3XVTrFeAVbnvi5AZSlmK4jgLIFm8T2ZB70+N1JkfV
- wU7ABZtzAKsbfoHo/ywKj/gbKMVgSveZB9aVqpU=
-X-Google-Smtp-Source: AKy350bWysdzXHGZ8/wze3T0qWf/LM4Wl8ayF7vOJuIYnrg0bXgibm9ykvXEhOtu6Wmfpbs5ZM+9QenlXSPq3ioXank=
-X-Received: by 2002:a25:d784:0:b0:b76:3b21:b1dc with SMTP id
- o126-20020a25d784000000b00b763b21b1dcmr11126480ybg.0.1680528152080; Mon, 03
- Apr 2023 06:22:32 -0700 (PDT)
+Received: from phobos.denx.de (phobos.denx.de
+ [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4C30110E475
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Apr 2023 13:25:50 +0000 (UTC)
+Received: from mail.denx.de (unknown
+ [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (No client certificate requested)
+ (Authenticated sender: festevam@denx.de)
+ by phobos.denx.de (Postfix) with ESMTPSA id E3D3585EC6;
+ Mon,  3 Apr 2023 15:25:45 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+ s=phobos-20191101; t=1680528346;
+ bh=9wR4rXBy2GZz4SV64ZRGC59tcnUwDYhUwqWJI2C8ok0=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=VpoN4iT8Cix3nLFGddFDNQnA+wFREz74LA9xWxIPBmPHdv1XWHKIgnABNDm8zafAP
+ O9MD3CAxBauL2l11cQCemKBoSQOxaKT9ciT5n8WgUtF98HczgvllQngE6kh6Bipjtv
+ zPYWvrdFP4n8kkE5aJQyvd7bmTo0uf3nPBrKS91Vm0/K1ktXQjEIb0yt2UzfJzFOQA
+ bV+rL9UK4A3tgm5XU8i8Yt4UPyUQ4EohJBj8AGu2okJIoLIVN+wPMVUeVP4izpXJYk
+ dWWXNWYhvw5N/WZQuLXoq8J/oaXEXAY6iXwl/msg70S5MCsBmh1xEE8zggHoC2rV+B
+ gOmurdbyLcjxw==
 MIME-Version: 1.0
-References: <20230323230755.1094832-1-dmitry.osipenko@collabora.com>
- <20230323230755.1094832-3-dmitry.osipenko@collabora.com>
- <ZCXF4q81wPcczkqx@arch-x395>
- <3618a293-4f61-b076-0a9c-c70812436431@collabora.com>
- <CACvgo51GWRCQuiJDVrqo=xzd3frKvs6WNcc755pbu8jNk6t-Rg@mail.gmail.com>
-In-Reply-To: <CACvgo51GWRCQuiJDVrqo=xzd3frKvs6WNcc755pbu8jNk6t-Rg@mail.gmail.com>
-From: Emil Velikov <emil.l.velikov@gmail.com>
-Date: Mon, 3 Apr 2023 14:22:20 +0100
-Message-ID: <CACvgo53bkvDm7CXN_zFETZeuWas50tJys6u+nc5DO_MWK4SZfw@mail.gmail.com>
-Subject: Re: [PATCH v4 2/2] drm/virtio: Support sync objects
-To: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+Date: Mon, 03 Apr 2023 10:25:45 -0300
+From: Fabio Estevam <festevam@denx.de>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: Re: [PATCH v2] dt-bindings: bridge: Convert Samsung MIPI DSIM bridge
+ to yaml
+In-Reply-To: <8f7f925f-638d-737c-bf47-2a66ce0eec59@linaro.org>
+References: <20230403124458.198631-1-festevam@gmail.com>
+ <8f7f925f-638d-737c-bf47-2a66ce0eec59@linaro.org>
+Message-ID: <074183d480cf18948aacd98be60308f8@denx.de>
+X-Sender: festevam@denx.de
+User-Agent: Roundcube Webmail/1.3.6
+X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
+X-Virus-Status: Clean
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,44 +59,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
- =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <maraeo@gmail.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Gurchetan Singh <gurchetansingh@chromium.org>,
- Gerd Hoffmann <kraxel@redhat.com>, David Airlie <airlied@redhat.com>,
- kernel@collabora.com, virtualization@lists.linux-foundation.org,
- Emil Velikov <emil.velikov@collabora.com>
+Cc: marex@denx.de, neil.armstrong@linaro.org, devicetree@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, robh+dt@kernel.org,
+ jagan@amarulasolutions.com, krzysztof.kozlowski+dt@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 3 Apr 2023 at 14:00, Emil Velikov <emil.l.velikov@gmail.com> wrote:
+Hi Krzysztof,
 
-> > > I think we should zero num_(in|out)_syncobjs when the respective parse
-> > > fails. Otherwise we get one "cleanup" within the parse function itself
-> > > and a second during the cleanup_submit. Haven't looked at it too closely
-> > > but I suspect that will trigger an UAF or two.
-> >
-> > There are checks for NULL pointers in the code that will prevent the
-> > UAF.  I'll add zeroing of the nums for more consistency.
-> >
->
-> Riiiight the drm_syncobj is attached to the encapsulating struct
-> virtio_gpu_submit _only_ on success.
-> By clearing the num variables,  the NULL checks will no longer be
-> needed ... in case you'd want to drop that.
->
-> Either way - even as-is the code is safe.
->
+On 03/04/2023 09:49, Krzysztof Kozlowski wrote:
 
-Err or not. The NULL check itself will cause NULL pointer deref.
+>> Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
+>> Signed-off-by: Fabio Estevam <festevam@denx.de>
+>> ---
+>> Changes since v1:
+>> - Added samsung,mipi-dsim.yaml entry to MAINTAINERS file (Jagan)
+>> - Added Marek Szyprowski entry to the samsung,mipi-dsim.yaml 
+>> maintainers section (Jagan)
+>> - Mention that i.MX8M Plus is also supported (Marek)
+>> - Remove endpoint@0 description as it only has one endpoint (Marek)
+> 
+> Where is the changelog from original submission? How your v1 differs
+> form it? Or did you just ignore all the feedback?
 
-In more detail: in/out syncobjs are memset() to NULL in
-virtio_gpu_init_submit(). The virtio_gpu_parse_(|post_)deps() will
-fail and leave them unchanged. Then virtio_gpu_free_syncobjs() and
-virtio_gpu_reset_syncobjs() will trigger a NULL ptr deref, because
-they are accessing the elements of a the (NULL) array.
+I'm sorry, but it was not my intention to ignore any feedback.
 
-Apart from the num_(in|out)_syncobjcs=0, I would drop the NULL checks
-- they give a false sense of security IMHO.
+Which feedback are you referring to specifically?
 
--Emil
+Some more context: last week I sent a patch adding a new property
+for exynos_dsim.txt and you asked me to convert it to yaml first:
+
+https://lore.kernel.org/all/ff66c8b9-c7f7-1eb2-c730-4812b7ff6824@linaro.org/#t
+
+Jagan pointed out an earlier submission he did in 2021:
+
+https://lore.kernel.org/all/20210704090230.26489-9-jagan@amarulasolutions.com/
+
+That was my starting point.
+
+>> +  phys:
+>> +    maxItems: 1
+>> +    description: phandle to the phy module representing the DPHY
+> 
+> OK, so you did ignore the feedback.
+
+Not intentionally.
+
+> NAK, go through the feedback and implement it.
+
+Just found this feedback from Rob about Jagan's initial submission:
+
+https://lore.kernel.org/all/20210712151322.GA1931925@robh.at.kernel.org/
+
+I can send a new version that takes Rob's feedback into account.
+
+Were there any further versions/feedback that were submitted? Can't find 
+them on lore.
+
+In another reply, you mention that this should be v13. I could not find 
+previous versions of the yaml submission.
+
+Please advise.
+
+Thanks,
+
+Fabio Estevam
