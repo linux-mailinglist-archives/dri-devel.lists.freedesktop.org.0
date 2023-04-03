@@ -1,71 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F250F6D5199
-	for <lists+dri-devel@lfdr.de>; Mon,  3 Apr 2023 21:51:53 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F06B6D519C
+	for <lists+dri-devel@lfdr.de>; Mon,  3 Apr 2023 21:52:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BBCCC10E55E;
-	Mon,  3 Apr 2023 19:51:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E057610E566;
+	Mon,  3 Apr 2023 19:52:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com
- [IPv6:2a00:1450:4864:20::42b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9AA8F10E1D4;
- Mon,  3 Apr 2023 19:51:47 +0000 (UTC)
-Received: by mail-wr1-x42b.google.com with SMTP id m2so30547494wrh.6;
- Mon, 03 Apr 2023 12:51:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1680551505;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=fioQNohwX9BTxlT/dtSumMlyrKJb8LsjyTFUtd1tZQY=;
- b=LMIZwM5TflokAIPaanA2n4WwgIY2V4oJl58w9gh1oJ4bn05WY6RyKQT1qK3SJmzOLN
- pSrOV/ZmUnaQldierPsDpgBmhVoIcLUesR0ns0dgPkHyyrfVVHk8q9p46QXvrVNOfVEe
- JY4yP4DzwYQF628ZZ1pN1P0rg+mIU8uCDGgOdiMc9rq0TLk0QQvVO7Vyer1woI8dUUdV
- +H6/moOHhvvgaI0suRrdk+OJEj4Uma+a6wlV28PyrBWUXNFxFescU3quPq6g065du4X2
- 4oSirneO5LY8sB2EvOdFQf92zHrncCC82KRV7tUEtTgKleoWEQ6tAqz3mSBt99EVyCYo
- 2I7w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680551505;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=fioQNohwX9BTxlT/dtSumMlyrKJb8LsjyTFUtd1tZQY=;
- b=m/brb/t7WWCcLYS+Hjt4P1xKdHYjbIfwfIly/phJXzk/dKKf7GglJqDqs1qim072BT
- rPFnv11icZG24UjQ8ZiEHtiq/2ED4bl+gDjpCeixeCKEy9m3TrzJri21g82ieS+c9638
- IRHvBPiXBT+ntOfPQvivpEdO1/2Z74B08LUpmrIscpmOq87+IIcamUt+W8rv9zoRAdr7
- 7k1Jp1aNAvOdxr7SJhJqUOWznCwI9j2ZMFrJ7Bq69AYrq77mLzZG8lD22w7DFg1KuCBb
- 89JuP5dEnTqDFvspE1w48nkfxjIACXl93G/dZOD94RBtowzhEyX1WHC9wrNxG0wCBv0/
- m08A==
-X-Gm-Message-State: AAQBX9cEXm7geNIk5Ypm50XbLwe1mFO1XHvDWhIPJmXXYcxzwkAA835s
- 207vtMECdaJhg5W/dgBa+ltiNzbPD61bNg==
-X-Google-Smtp-Source: AKy350b5aVRUDSJX1LfB53PFzgN81/pZ3qhaGgo7IxllMi5XkhBoMsyfNrLEQ/vu50hBFovbSTd1xQ==
-X-Received: by 2002:a5d:4574:0:b0:2ca:5c9a:a548 with SMTP id
- a20-20020a5d4574000000b002ca5c9aa548mr27444248wrc.60.1680551504907; 
- Mon, 03 Apr 2023 12:51:44 -0700 (PDT)
-Received: from ?IPV6:2a02:908:1256:79a0:5bee:83b9:6744:169d?
- ([2a02:908:1256:79a0:5bee:83b9:6744:169d])
- by smtp.gmail.com with ESMTPSA id
- k4-20020a05600c1c8400b003ee610d1ce9sm20589285wms.34.2023.04.03.12.51.43
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 03 Apr 2023 12:51:44 -0700 (PDT)
-Message-ID: <b029e8e0-f879-bc06-4605-89de70c0466c@gmail.com>
-Date: Mon, 3 Apr 2023 21:51:43 +0200
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A792110E1D4;
+ Mon,  3 Apr 2023 19:52:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1680551530; x=1712087530;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=WxHyq9w8FC/USxnbTQBVnJrMWnXDeThBCBIJ1ktBJv8=;
+ b=F/KEtDQ2sFBXLGBsq0s3JuyxRaoLZ1YQ9NXXAQ/Md+HLKJpKsRtD3raK
+ CbKqK3XfPzYgYlpXNOT6344LiBLofd6wkQQIuPt+cAUjhZLD5eRjfi/qj
+ Q32f6EzIxOejOA5V1KZqT9CveIoY+XyYlcb/AGNZorW0eVmJXx+Wc8yiR
+ BODHvOLvSQVAJa0j5UyEGF66GJRMmteLQ/IYOQ5cjU6dZkn6Yd8JodaCL
+ JYz8SxjPnoyng9AKBdHs6yJYreZlTA0zjxXj89z1JP0hE338HE8H12DZN
+ e60tGWcCzAjVAO2qy4QNwbkeD2NPY7oL6xtFCJAFjk7qiza4MlMFymE0i w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10669"; a="428289759"
+X-IronPort-AV: E=Sophos;i="5.98,315,1673942400"; d="scan'208";a="428289759"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Apr 2023 12:52:10 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10669"; a="775335813"
+X-IronPort-AV: E=Sophos;i="5.98,315,1673942400"; d="scan'208";a="775335813"
+Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.70])
+ by FMSMGA003.fm.intel.com with SMTP; 03 Apr 2023 12:52:07 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Mon, 03 Apr 2023 22:52:06 +0300
+Date: Mon, 3 Apr 2023 22:52:06 +0300
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: "Yang, Fei" <fei.yang@intel.com>
+Subject: Re: [PATCH 5/7] drm/i915: use pat_index instead of cache_level
+Message-ID: <ZCsuZnNd7EtJHqim@intel.com>
+References: <20230401063830.438127-1-fei.yang@intel.com>
+ <20230401063830.438127-6-fei.yang@intel.com>
+ <ZCrntC9f1E0MZlXa@intel.com>
+ <BYAPR11MB25675C7C3491973BB79379E29A929@BYAPR11MB2567.namprd11.prod.outlook.com>
+ <ZCsJgNB1XY1yuq7Y@intel.com>
+ <BYAPR11MB2567738B001C8830D130C8279A929@BYAPR11MB2567.namprd11.prod.outlook.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [RFC PATCH 1/4] drm/scheduler: Add DRM_SCHED_PRIORITY_VERY_HIGH
-Content-Language: en-US
-To: Joshua Ashton <joshua@froggi.es>, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org
-References: <20230403194058.25958-1-joshua@froggi.es>
- <20230403194058.25958-2-joshua@froggi.es>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-In-Reply-To: <20230403194058.25958-2-joshua@froggi.es>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <BYAPR11MB2567738B001C8830D130C8279A929@BYAPR11MB2567.namprd11.prod.outlook.com>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,62 +65,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Chris Wilson <chris.p.wilson@linux.intel.com>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>, "Roper,
+ Matthew D" <matthew.d.roper@intel.com>,
+ Andi Shyti <andi.shyti@linux.intel.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 03.04.23 um 21:40 schrieb Joshua Ashton:
-> This allows AMDGPU scheduler priority above normal to be expressed
-> using the DRM_SCHED_PRIORITY enum.
+On Mon, Apr 03, 2023 at 07:39:37PM +0000, Yang, Fei wrote:
+> >Subject: Re: [PATCH 5/7] drm/i915: use pat_index instead of cache_level
+> >
+> >On Mon, Apr 03, 2023 at 04:57:21PM +0000, Yang, Fei wrote:
+> >>> Subject: Re: [PATCH 5/7] drm/i915: use pat_index instead of
+> >>> cache_level
+> >>>
+> >>> On Fri, Mar 31, 2023 at 11:38:28PM -0700, fei.yang@intel.com wrote:
+> >>>> From: Fei Yang <fei.yang@intel.com>
+> >>>>
+> >>>> Currently the KMD is using enum i915_cache_level to set caching
+> >>>> policy for buffer objects. This is flaky because the PAT index
+> >>>> which really controls the caching behavior in PTE has far more
+> >>>> levels than what's defined in the enum.
+> >>>
+> >>> Then just add more enum values.
+> >>
+> >> That would be really messy because PAT index is platform dependent,
+> >> you would have to maintain many tables for the the translation.
+> >>
+> >>> 'pat_index' is absolutely meaningless to the reader, it's just an
+> >>> arbitrary number. Whereas 'cache_level' conveys how the thing is
+> >>> actually going to get used and thus how the caches should behave.
+> >>
+> >> By design UMD's understand PAT index. Both UMD and KMD should stand on
+> >> the same ground, the Bspec, to avoid any potential ambiguity.
+> >>
+> >>>> In addition, the PAT index is platform dependent, having to
+> >>>> translate between i915_cache_level and PAT index is not reliable,
+> >>>
+> >>> If it's not realiable then the code is clearly broken.
+> >>
+> >> Perhaps the word "reliable" is a bit confusing here. What I really
+> >> meant to say is 'difficult to maintain', or 'error-prone'.
+> >>
+> >>>> and makes the code more complicated.
+> >>>
+> >>> You have to translate somewhere anyway. Looks like you're now adding
+> >>> translations the other way (pat_index->cache_level). How is that better?
+> >>
+> >> No, there is no pat_index->cache_level translation.
+> >
+> > i915_gem_object_has_cache_level() is exactly that. And that one does look
+> > actually fragile since it assumes only one PAT index maps to each cache
+> > level. So if the user picks any other pat_index anything using
+> > i915_gem_object_has_cache_level() is likely to do the wrong thing.
+> 
+> That is still one way transaltion, from cache_level to pat_index.
 
-That was rejected before, I just don't remember why exactly. Need to dig 
-that up again.
+Not really. The actual input to the thing is obj->pat_index.
+And as stated, the whole thing is simply broken whenever
+obj->pat_index isn't one of the magic numbers that you get
+back from i915_gem_get_pat_index().
 
-Christian.
-
->
-> Signed-off-by: Joshua Ashton <joshua@froggi.es>
-> ---
->   drivers/gpu/drm/amd/amdgpu/amdgpu_ctx.c | 2 +-
->   drivers/gpu/drm/msm/msm_gpu.h           | 2 +-
->   include/drm/gpu_scheduler.h             | 1 +
->   3 files changed, 3 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ctx.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ctx.c
-> index d2139ac12159..8ec255091c4a 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ctx.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ctx.c
-> @@ -79,7 +79,7 @@ amdgpu_ctx_to_drm_sched_prio(int32_t ctx_prio)
->   		return DRM_SCHED_PRIORITY_HIGH;
->   
->   	case AMDGPU_CTX_PRIORITY_VERY_HIGH:
-> -		return DRM_SCHED_PRIORITY_HIGH;
-> +		return DRM_SCHED_PRIORITY_VERY_HIGH;
->   
->   	/* This should not happen as we sanitized userspace provided priority
->   	 * already, WARN if this happens.
-> diff --git a/drivers/gpu/drm/msm/msm_gpu.h b/drivers/gpu/drm/msm/msm_gpu.h
-> index fc1c0d8611a8..e3495712b236 100644
-> --- a/drivers/gpu/drm/msm/msm_gpu.h
-> +++ b/drivers/gpu/drm/msm/msm_gpu.h
-> @@ -336,7 +336,7 @@ struct msm_gpu_perfcntr {
->    * DRM_SCHED_PRIORITY_KERNEL priority level is treated specially in some
->    * cases, so we don't use it (no need for kernel generated jobs).
->    */
-> -#define NR_SCHED_PRIORITIES (1 + DRM_SCHED_PRIORITY_HIGH - DRM_SCHED_PRIORITY_MIN)
-> +#define NR_SCHED_PRIORITIES (1 + DRM_SCHED_PRIORITY_VERY_HIGH - DRM_SCHED_PRIORITY_MIN)
->   
->   /**
->    * struct msm_file_private - per-drm_file context
-> diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
-> index 9935d1e2ff69..a62071660602 100644
-> --- a/include/drm/gpu_scheduler.h
-> +++ b/include/drm/gpu_scheduler.h
-> @@ -55,6 +55,7 @@ enum drm_sched_priority {
->   	DRM_SCHED_PRIORITY_MIN,
->   	DRM_SCHED_PRIORITY_NORMAL,
->   	DRM_SCHED_PRIORITY_HIGH,
-> +	DRM_SCHED_PRIORITY_VERY_HIGH,
->   	DRM_SCHED_PRIORITY_KERNEL,
->   
->   	DRM_SCHED_PRIORITY_COUNT,
-
+-- 
+Ville Syrjälä
+Intel
