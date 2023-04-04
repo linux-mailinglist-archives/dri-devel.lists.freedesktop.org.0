@@ -2,62 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D29626D69FA
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Apr 2023 19:14:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F39C06D6A5C
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Apr 2023 19:22:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 887AD10E3CC;
-	Tue,  4 Apr 2023 17:14:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BA2B710E72C;
+	Tue,  4 Apr 2023 17:22:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x32d.google.com (mail-ot1-x32d.google.com
- [IPv6:2607:f8b0:4864:20::32d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7B57C10E3CC
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Apr 2023 17:14:18 +0000 (UTC)
-Received: by mail-ot1-x32d.google.com with SMTP id
- q23-20020a05683031b700b006a1370e214aso14825830ots.11
- for <dri-devel@lists.freedesktop.org>; Tue, 04 Apr 2023 10:14:18 -0700 (PDT)
+Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com
+ [IPv6:2a00:1450:4864:20::12e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DD07710E72F
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Apr 2023 17:22:08 +0000 (UTC)
+Received: by mail-lf1-x12e.google.com with SMTP id h25so43262815lfv.6
+ for <dri-devel@lists.freedesktop.org>; Tue, 04 Apr 2023 10:22:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1680628457;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=+rctyGFwUhLz0v8rBkOornKtYQMB5BPJug/RzBuS/2M=;
- b=VmRmfUZJUhyGOczWKMV+00PPnBHHsUoFeSbH0NGIe8Pd07ZW3TAuh1YijivL9qwChI
- h7bi++UVLPLXD8FqO6JdWSOR2/A2A35sAcOUU+OVZ3FHQ++SuIZjes+JUL5nzx+nHCz5
- yUpA65U8rH4S0U9vn0CAIA5igm+IkFgm69g+o=
+ d=linaro.org; s=google; t=1680628927;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=qUqufO4ckbA7YUQ7khTnLIBsU5Ng8gcS7UT9jN47mOw=;
+ b=Dn1QKSiziw+xYbWhowDlXDLCpMhlaP1KiIc6ghEGYnHrF8J/UyEQfkSyYcQCj65KDV
+ fSQYXnS/RkXLrAzY7gtIzcZnQoGBtWDxGmoHrzzi5KVmhrS/NJ/JYJF/pi6trmtut9TE
+ 9NqPTAWbbIJhP9NS7jh2x7qCLoXeljuPivmopm5wnN3KYx+f4m0lMIQmDBnqxkN7c8XB
+ bCn75O4l96enwn3nq0qum18+srtz1zq9vhGphNsu4YkFtwedB1GDsvu1nFGzR4ZhIsFE
+ PemsWj7yVHQF+oM9ffnaortDUTv1xGgH9my55Th0H/rJk45Zx6jR4oYQ4LkKk8E+/KlM
+ 3UFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680628457;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=+rctyGFwUhLz0v8rBkOornKtYQMB5BPJug/RzBuS/2M=;
- b=l5z5ZcJOS1oXMQ5nZL//4DmoY3U1e9nICrYK9PZZNICwYWJuaxN5OXAas6BV3MR1qF
- 608AVv6pFvrGlo+P6LXbcR2+eVCODkNdtz2x29+JPT6gy+BNGfNV+ldomXz5/Nsr5LZT
- ut5qIsxrKh/WJ64nD8djKKDIr2sLpghp4t1q8PZAV5YKczNZs9KPg5Ds8OZvGthiwrvo
- POxqiY6ruFxM/FGU3Icg1LLIWWrgUi4aLB6H6ZddYFVW91rZi6Ujg7MFexVFAuUzRibp
- qhlKLfuYxSea2UKZLuxzMKDss6jOTxWi7WtxqKWsui6DGmeIL3Ck5OLwaLZFRdRJ/oLP
- hjwg==
-X-Gm-Message-State: AAQBX9ccdZ2aGrmMaDQgiOGDAvDYeQSWblEo6zPFeXBEChagbqsQF3qK
- cmOsTpuz4QJewqNnLA+yOyBo9rmLReoyu042GfEjcg==
-X-Google-Smtp-Source: AKy350YHyFY/sr2g+RppxfbAVFUR9kDehSje5aPccXvHQ9pwWgn46QEOz0mPW9kfcDo5DAf2YO8EtU9WiCaFTdWS/hQ=
-X-Received: by 2002:a9d:74cf:0:b0:6a3:8428:fd4e with SMTP id
- a15-20020a9d74cf000000b006a38428fd4emr1053522otl.6.1680628457599; Tue, 04 Apr
- 2023 10:14:17 -0700 (PDT)
+ d=1e100.net; s=20210112; t=1680628927;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=qUqufO4ckbA7YUQ7khTnLIBsU5Ng8gcS7UT9jN47mOw=;
+ b=m9MtAK1mDlRann0KlCue2FmdImrcWl0TCzsnPS7oAWnFqJXtiw+JrLSjFs4oWgKsuF
+ 8kPIBWm93UNU7CRNeezURmDeH6RjVfS9AQTFlfoaSf5MrTDfOH3qGoj9oIoYz3KRzTIU
+ jusLXua1QiTWqp2zv0MoBHhmVv3LN7ZyKlmwKiZBO9scrQTRQTDOJsxeF2/TaahNiZ+8
+ AiVZENEup6ZX8/xObWsT1T4rUzWTLtRbC4+Wf32lYat80O54ZzLYZFtYd8DaH7D/wJyI
+ 29MBWW1vf9Zno37K2/aa6YGE/JJ+NE6/0UJ1WDkyT5JnBRy8bqClm0B1la0EHb0CFoXQ
+ wiuA==
+X-Gm-Message-State: AAQBX9dtcCQFUUql1bW9HFvknZYYSUebQl64ShFbdmst9a8fipGRY4vp
+ /Y+423buj4ZYi7FbcT0hq7njlA==
+X-Google-Smtp-Source: AKy350aFgyLEvgw50iXsaUnWapEj11fiy/sBlLTQCgrgC+UcwhVJWMw4sXgMPmfYkgLstHg3q5MbbQ==
+X-Received: by 2002:ac2:5ed9:0:b0:4dc:6ad4:5fe4 with SMTP id
+ d25-20020ac25ed9000000b004dc6ad45fe4mr870102lfq.32.1680628926728; 
+ Tue, 04 Apr 2023 10:22:06 -0700 (PDT)
+Received: from ?IPV6:2001:14ba:a085:4d00::227?
+ (dzccz6yyyyyyyyyyyykxt-3.rev.dnainternet.fi. [2001:14ba:a085:4d00::227])
+ by smtp.gmail.com with ESMTPSA id
+ z24-20020a2e3518000000b00294649d3dcasm2440956ljz.44.2023.04.04.10.22.05
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 04 Apr 2023 10:22:05 -0700 (PDT)
+Message-ID: <dfc21f18-7e1e-48f0-c05a-d659b9c90b91@linaro.org>
+Date: Tue, 4 Apr 2023 20:22:05 +0300
 MIME-Version: 1.0
-References: <20230404123624.360384-1-daniel.vetter@ffwll.ch>
- <CAMuHMdUR=rx2QPvpzsSCwXTSTsPQOudNMzyL3dtZGQdQfrQGDA@mail.gmail.com>
- <ZCwtMJEAJiId/TJe@phenom.ffwll.local> <ZCwx+2hAmyDqOfWu@phenom.ffwll.local>
- <CAMuHMdVt+fsHhk73hPe=bN5e_vTjKEM014Q1AJ9tnankvsXcHg@mail.gmail.com>
- <CAKMK7uFEmt1=4jDi1xDbnTVH6M2iEZSjcY-UN93do0NiH=GogA@mail.gmail.com>
- <CAMuHMdUpyxuAZVxZmVCzspbzCBPFdnhbrYOJPMjFnqwtwNCAsw@mail.gmail.com>
-In-Reply-To: <CAMuHMdUpyxuAZVxZmVCzspbzCBPFdnhbrYOJPMjFnqwtwNCAsw@mail.gmail.com>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Tue, 4 Apr 2023 19:14:06 +0200
-Message-ID: <CAKMK7uFtL=ON_PiwcSKpwkiaHt3wqShN=UwxeKTZN4heK5K0UA@mail.gmail.com>
-Subject: Re: [PATCH] fbdev: Don't spam dmesg on bad userspace ioctl input
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH v10 11/15] drm/atomic-helper: Set fence deadline for vblank
+Content-Language: en-GB
+To: Rob Clark <robdclark@gmail.com>, dri-devel@lists.freedesktop.org
+References: <20230308155322.344664-1-robdclark@gmail.com>
+ <20230308155322.344664-12-robdclark@gmail.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <20230308155322.344664-12-robdclark@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,124 +77,134 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- Helge Deller <deller@gmx.de>,
- syzbot+20dcf81733d43ddff661@syzkaller.appspotmail.com,
- Javier Martinez Canillas <javierm@redhat.com>, stable@vger.kernel.org,
- Melissa Wen <melissa.srw@gmail.com>,
- DRI Development <dri-devel@lists.freedesktop.org>,
+Cc: Rob Clark <robdclark@chromium.org>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ intel-gfx@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ open list <linux-kernel@vger.kernel.org>, Luben Tuikov <luben.tuikov@amd.com>,
  Thomas Zimmermann <tzimmermann@suse.de>,
- Daniel Vetter <daniel.vetter@intel.com>
+ Daniel Vetter <daniel.vetter@ffwll.ch>, Matt Turner <mattst88@gmail.com>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 4 Apr 2023 at 19:04, Geert Uytterhoeven <geert@linux-m68k.org> wrot=
-e:
->
-> Hi Daniel,
->
-> On Tue, Apr 4, 2023 at 5:55=E2=80=AFPM Daniel Vetter <daniel@ffwll.ch> wr=
-ote:
-> > On Tue, 4 Apr 2023 at 16:51, Geert Uytterhoeven <geert@linux-m68k.org> =
-wrote:
-> > > On Tue, Apr 4, 2023 at 4:19=E2=80=AFPM Daniel Vetter <daniel@ffwll.ch=
-> wrote:
-> > > > On Tue, Apr 04, 2023 at 03:59:12PM +0200, Daniel Vetter wrote:
-> > > > > On Tue, Apr 04, 2023 at 03:53:09PM +0200, Geert Uytterhoeven wrot=
-e:
-> > > > > > On Tue, Apr 4, 2023 at 2:36=E2=80=AFPM Daniel Vetter <daniel.ve=
-tter@ffwll.ch> wrote:
-> > > > > > > There's a few reasons the kernel should not spam dmesg on bad
-> > > > > > > userspace ioctl input:
-> > > > > > > - at warning level it results in CI false positives
-> > > > > > > - it allows userspace to drown dmesg output, potentially hidi=
-ng real
-> > > > > > >   issues.
-> > > > > > >
-> > > > > > > None of the other generic EINVAL checks report in the
-> > > > > > > FBIOPUT_VSCREENINFO ioctl do this, so it's also inconsistent.
-> > > > > > >
-> > > > > > > I guess the intent of the patch which introduced this warning=
- was that
-> > > > > > > the drivers ->fb_check_var routine should fail in that case. =
-Reality
-> > > > > > > is that there's too many fbdev drivers and not enough people
-> > > > > > > maintaining them by far, and so over the past few years we've=
- simply
-> > > > > > > handled all these validation gaps by tighning the checks in t=
-he core,
-> > > > > > > because that's realistically really all that will ever happen=
-.
-> > > > > > >
-> > > > > > > Reported-by: syzbot+20dcf81733d43ddff661@syzkaller.appspotmai=
-l.com
-> > > > > > > Link: https://syzkaller.appspot.com/bug?id=3Dc5faf983bfa4a607=
-de530cd3bb008888bf06cefc
-> > > > > >
-> > > > > >     WARNING: fbcon: Driver 'vkmsdrmfb' missed to adjust virtual=
- screen
-> > > > > > size (0x0 vs. 64x768)
-> > > > > >
-> > > > > > This is a bug in the vkmsdrmfb driver and/or DRM helpers.
-> > > > > >
-> > > > > > The message was added to make sure the individual drivers are f=
-ixed.
-> > > > > > Perhaps it should be changed to BUG() instead, so dmesg output
-> > > > > > cannot be drown?
-> > > > >
-> > > > > So you're solution is to essentially force us to replicate this c=
-heck over
-> > > > > all the drivers which cannot change the virtual size?
-> > > > >
-> > > > > Are you volunteering to field that audit and type all the patches=
-?
-> > > >
-> > > > Note that at least efifb, vesafb and offb seem to get this wrong. I=
- didn't
-> > > > bother checking any of the non-fw drivers. Iow there is a _lot_ of =
-work in
-> > > > your nack.
-> > >
-> > > Please don't spread FUD: efifb, vesafb and offb do not implement
-> > > fb_ops.fb_check_var(), so they are not affected.
-> >
-> > Hm I missed that early out. I'll do a patch to fix the drm fb helpers,
-> > as mentioned in the other thread I don't think we can actually just
-> > delete that because it would short-circuit out the fb_set_par call
-> > too.
->
-> As I said to the other thread earlier today[1], I think we can keep
-> the .fb_set_par() implementation.
-> There's just no point in providing a .fb_check_var() callback if
-> you don't support changing the video mode.
+On 08/03/2023 17:53, Rob Clark wrote:
+> From: Rob Clark <robdclark@chromium.org>
+> 
+> For an atomic commit updating a single CRTC (ie. a pageflip) calculate
+> the next vblank time, and inform the fence(s) of that deadline.
+> 
+> v2: Comment typo fix (danvet)
+> v3: If there are multiple CRTCs, consider the time of the soonest vblank
+> 
+> Signed-off-by: Rob Clark <robdclark@chromium.org>
+> Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+> Signed-off-by: Rob Clark <robdclark@chromium.org>
+> ---
+>   drivers/gpu/drm/drm_atomic_helper.c | 37 +++++++++++++++++++++++++++++
+>   1 file changed, 37 insertions(+)
 
-If you don't have check_var then set_par just isn't called. Or am
-blind once more, not the first time today.
+As I started playing with hotplug on RB5 (sm8250, DSI-HDMI bridge), I 
+found that this patch introduces the following backtrace on HDMI 
+hotplug. Is there anything that I can do to debug/fix the issue? The 
+warning seems harmless, but it would be probably be good to still fix 
+it. With addresses decoded:
 
-And see the big comment in the drm set_par implementation, we can't
-ditch that because uabi fun in how the fbdev vs kms interactions are
-handled.
--Daniel
+[   31.151348] ------------[ cut here ]------------
+[   31.157043] msm_dpu ae01000.display-controller: 
+drm_WARN_ON_ONCE(drm_drv_uses_atomic_modeset(dev))
+[   31.157177] WARNING: CPU: 0 PID: 13 at 
+drivers/gpu/drm/drm_vblank.c:728 
+drm_crtc_vblank_helper_get_vblank_timestamp_internal 
+(drivers/gpu/drm/drm_vblank.c:728)
+[   31.180629] Modules linked in:
+[   31.184106] CPU: 0 PID: 13 Comm: kworker/0:1 Not tainted 
+6.3.0-rc2-00008-gd39e48ca80c0 #542
+[   31.193358] Hardware name: Qualcomm Technologies, Inc. Robotics RB5 (DT)
+[   31.200796] Workqueue: events lt9611uxc_hpd_work
+[   31.205990] pstate: 60400005 (nZCv daif +PAN -UAO -TCO -DIT -SSBS 
+BTYPE=--)
+[   31.213722] pc : drm_crtc_vblank_helper_get_vblank_timestamp_internal 
+(drivers/gpu/drm/drm_vblank.c:728)
+[   31.222032] lr : drm_crtc_vblank_helper_get_vblank_timestamp_internal 
+(drivers/gpu/drm/drm_vblank.c:728)
+[   31.230341] sp : ffff8000080bb8d0
+[   31.234061] x29: ffff8000080bb900 x28: 0000000000000038 x27: 
+ffff61a7956b8d60
+[   31.242051] x26: 0000000000000000 x25: 0000000000000000 x24: 
+ffff8000080bb9c4
+[   31.250038] x23: 0000000000000001 x22: ffffbf0033b94ef0 x21: 
+ffff61a7957901d0
+[   31.258029] x20: ffff61a795710000 x19: ffff61a78128b000 x18: 
+fffffffffffec278
+[   31.266014] x17: 0040000000000465 x16: 0000000000000020 x15: 
+0000000000000060
+[   31.274001] x14: 0000000000000001 x13: ffffbf00354550e0 x12: 
+0000000000000825
+[   31.281989] x11: 00000000000002b7 x10: ffffbf00354b1208 x9 : 
+ffffbf00354550e0
+[   31.289976] x8 : 00000000ffffefff x7 : ffffbf00354ad0e0 x6 : 
+00000000000002b7
+[   31.297963] x5 : ffff61a8feebbe48 x4 : 40000000fffff2b7 x3 : 
+ffffa2a8c9f64000
+[   31.305947] x2 : 0000000000000000 x1 : 0000000000000000 x0 : 
+ffff61a780283100
+[   31.313934] Call trace:
+[   31.316719] drm_crtc_vblank_helper_get_vblank_timestamp_internal 
+(drivers/gpu/drm/drm_vblank.c:728)
+[   31.324646] drm_crtc_vblank_helper_get_vblank_timestamp 
+(drivers/gpu/drm/drm_vblank.c:843)
+[   31.331528] drm_crtc_get_last_vbltimestamp 
+(drivers/gpu/drm/drm_vblank.c:884)
+[   31.337170] drm_crtc_next_vblank_start 
+(drivers/gpu/drm/drm_vblank.c:1006)
+[   31.342430] drm_atomic_helper_wait_for_fences 
+(drivers/gpu/drm/drm_atomic_helper.c:1531 
+drivers/gpu/drm/drm_atomic_helper.c:1578)
+[   31.348561] drm_atomic_helper_commit 
+(drivers/gpu/drm/drm_atomic_helper.c:2007)
+[   31.353724] drm_atomic_commit (drivers/gpu/drm/drm_atomic.c:1444)
+[   31.358127] drm_client_modeset_commit_atomic 
+(drivers/gpu/drm/drm_client_modeset.c:1045)
+[   31.364146] drm_client_modeset_commit_locked 
+(drivers/gpu/drm/drm_client_modeset.c:1148)
+[   31.370071] drm_client_modeset_commit 
+(drivers/gpu/drm/drm_client_modeset.c:1174)
+[   31.375233] drm_fb_helper_set_par 
+(drivers/gpu/drm/drm_fb_helper.c:254 drivers/gpu/drm/drm_fb_helper.c:229 
+drivers/gpu/drm/drm_fb_helper.c:1644)
+[   31.380108] drm_fb_helper_hotplug_event 
+(drivers/gpu/drm/drm_fb_helper.c:2302 (discriminator 4))
+[   31.385456] drm_fb_helper_output_poll_changed 
+(drivers/gpu/drm/drm_fb_helper.c:2331)
+[   31.391376] drm_kms_helper_hotplug_event 
+(drivers/gpu/drm/drm_probe_helper.c:697)
+[   31.396825] drm_bridge_connector_hpd_cb 
+(drivers/gpu/drm/drm_bridge_connector.c:129)
+[   31.402175] drm_bridge_hpd_notify (drivers/gpu/drm/drm_bridge.c:1315)
+[   31.406954] lt9611uxc_hpd_work 
+(drivers/gpu/drm/bridge/lontium-lt9611uxc.c:185)
+[   31.411450] process_one_work (kernel/workqueue.c:2395)
+[   31.415949] worker_thread (include/linux/list.h:292 
+kernel/workqueue.c:2538)
+[   31.426843] kthread (kernel/kthread.c:376)
+[   31.437182] ret_from_fork (arch/arm64/kernel/entry.S:871)
+[   31.447828] irq event stamp: 44642
+[   31.458284] hardirqs last enabled at (44641): __up_console_sem 
+(arch/arm64/include/asm/irqflags.h:182 (discriminator 1) 
+arch/arm64/include/asm/irqflags.h:202 (discriminator 1) 
+kernel/printk/printk.c:345 (discriminator 1))
+[   31.474540] hardirqs last disabled at (44642): el1_dbg 
+(arch/arm64/kernel/entry-common.c:335 arch/arm64/kernel/entry-common.c:406)
+[   31.489882] softirqs last enabled at (42912): _stext 
+(arch/arm64/include/asm/current.h:19 arch/arm64/include/asm/preempt.h:13 
+kernel/softirq.c:415 kernel/softirq.c:600)
+[   31.505256] softirqs last disabled at (42907): ____do_softirq 
+(arch/arm64/kernel/irq.c:81)
+[   31.521139] ---[ end trace 0000000000000000 ]---
 
-> [1] https://lore.kernel.org/all/CAMuHMdUaHd1jgrsCSxCqF-HP2rAo2ODM_ZOjhk7Q=
-4vjuqvt36w@mail.gmail.com
-> Gr{oetje,eeting}s,
->
->                         Geert
->
-> --
-> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m6=
-8k.org
->
-> In personal conversations with technical people, I call myself a hacker. =
-But
-> when I'm talking to journalists I just say "programmer" or something like=
- that.
->                                 -- Linus Torvalds
 
 
+-- 
+With best wishes
+Dmitry
 
---=20
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
