@@ -1,56 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8AB36D6756
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Apr 2023 17:30:51 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 723006D679F
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Apr 2023 17:39:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6F4BA10E6D9;
-	Tue,  4 Apr 2023 15:30:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 132B210E3AD;
+	Tue,  4 Apr 2023 15:39:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AE24910E1E5;
- Tue,  4 Apr 2023 15:30:47 +0000 (UTC)
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DB65410E3AD;
+ Tue,  4 Apr 2023 15:39:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1680622247; x=1712158247;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=q0UQjAsv88tr1smNKtk9+4HBXxw9SSRmiBrBRmNKk1M=;
- b=NRFshthJxfMpmFgK7HU9N5h9FQU3O5tczVvzy2tvTOc+WRRkOeaTL7Dy
- q/vC3e0dyjH4WbmIaF5e3YvNIJ7/HDLbwSXtmYjxXLfoGvwWDeM4U60rQ
- 6CscyzIJD1K8UlhwlAPADZQNDgBmnorKKde84oRdLvKVJjuohz0La49cO
- bih3DH0HuglokJTbwmhN33SmL5EmGZoyKps9FSuKq9AQZT+tAj3IAGeOs
- Vg+CBH1d145r/TCw/57wD+EQZhuJdK1i1JbaVCiA3P84skrWCdxpcmT30
- IGudke3dFpDhx5xG74WkdEdBqwoks4DGZaaWw46mm9Vwj/QiDtK51fe+J w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10670"; a="343921526"
-X-IronPort-AV: E=Sophos;i="5.98,318,1673942400"; d="scan'208";a="343921526"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Apr 2023 08:30:29 -0700
+ t=1680622786; x=1712158786;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=1E4eQJ2R8I5+t5D+4d5CSh9PlLTGMtzXUU+KR/WKjYk=;
+ b=hFCaSJI2dppxmTCrTFau1L+DnyhIQcGmJGX19cEh+dClrU/N0oe+LZTU
+ SJOqgeTbDeJ99/8PZEZE/P9Xw1A30vnyDh2ayxX9R4VAUDwiyHtvDJ9DO
+ WHSIKqwxYDk0C+t+69L7fzgLNWDnedlCslLcwWYloHj4RipO38eqNDs4v
+ H2Q8vPgjTsjXnQR0tIXld8G5ZmdxV2DosKkwl4NqFHBkVbzxhRQoE1JVY
+ vnyZ41x3OiKK9vY1eqVoEA+RqI9FjUOZvG/JUDKasIrEZBjN7eUmsvnIS
+ oJS6mf0vDYyVesTwDCZMDS9jbEnKdoj9ev2frLv2ivhMFU0gskzrS3XdD w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10670"; a="370039757"
+X-IronPort-AV: E=Sophos;i="5.98,318,1673942400"; d="scan'208";a="370039757"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Apr 2023 08:39:46 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10670"; a="718985713"
-X-IronPort-AV: E=Sophos;i="5.98,318,1673942400"; d="scan'208";a="718985713"
-Received: from ahajda-mobl.ger.corp.intel.com (HELO [10.213.30.195])
- ([10.213.30.195])
- by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Apr 2023 08:30:26 -0700
-Message-ID: <f9537e0b-18d3-1a26-d1b5-0401d5dd4b99@intel.com>
-Date: Tue, 4 Apr 2023 17:30:24 +0200
+X-IronPort-AV: E=McAfee;i="6600,9927,10670"; a="1016148383"
+X-IronPort-AV: E=Sophos;i="5.98,318,1673942400"; d="scan'208";a="1016148383"
+Received: from vferra-mobl1.ger.corp.intel.com (HELO intel.com)
+ ([10.252.53.196])
+ by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Apr 2023 08:39:40 -0700
+Date: Tue, 4 Apr 2023 17:39:13 +0200
+From: Andi Shyti <andi.shyti@linux.intel.com>
+To: Andrzej Hajda <andrzej.hajda@intel.com>
+Subject: Re: [PATCH v2] drm/i915/gt: Hold a wakeref for the active VM
+Message-ID: <ZCxEoelnOSpRiy6A@ashyti-mobl2.lan>
+References: <20230330-hold_wakeref_for_active_vm-v2-1-724d201499c2@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Firefox/102.0 Thunderbird/102.9.1
-Subject: Re: [PATCH 1/5] drm/i915/ttm: Add I915_BO_PREALLOC
-Content-Language: en-US
-To: Nirmoy Das <nirmoy.das@intel.com>, intel-gfx@lists.freedesktop.org
-References: <20230404143100.10452-1-nirmoy.das@intel.com>
-From: Andrzej Hajda <andrzej.hajda@intel.com>
-Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
- Gdansk - KRS 101882 - NIP 957-07-52-316
-In-Reply-To: <20230404143100.10452-1-nirmoy.das@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230330-hold_wakeref_for_active_vm-v2-1-724d201499c2@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,95 +58,90 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jani Nikula <jani.nikula@intel.com>, dri-devel@lists.freedesktop.org,
- Matthew Auld <matthew.auld@intel.com>, Andi Shyti <andi.shyti@linux.intel.com>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Andi Shyti <andi.shyti@linux.intel.com>,
+ Chris Wilson <chris.p.wilson@linux.intel.com>, intel-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Chris Wilson <chris@chris-wilson.co.uk>,
+ dri-devel@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Andrzej,
 
+> diff --git a/drivers/gpu/drm/i915/gt/intel_context.h b/drivers/gpu/drm/i915/gt/intel_context.h
+> index 0a8d553da3f439..48f888c3da083b 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_context.h
+> +++ b/drivers/gpu/drm/i915/gt/intel_context.h
+> @@ -14,6 +14,7 @@
+>  #include "i915_drv.h"
+>  #include "intel_context_types.h"
+>  #include "intel_engine_types.h"
+> +#include "intel_gt_pm.h"
+>  #include "intel_ring_types.h"
+>  #include "intel_timeline_types.h"
+>  #include "i915_trace.h"
+> @@ -207,8 +208,11 @@ void intel_context_exit_engine(struct intel_context *ce);
+>  static inline void intel_context_enter(struct intel_context *ce)
+>  {
+>  	lockdep_assert_held(&ce->timeline->mutex);
+> -	if (!ce->active_count++)
+> -		ce->ops->enter(ce);
+> +	if (ce->active_count++)
+> +		return;
+> +
+> +	ce->ops->enter(ce);
+> +	intel_gt_pm_get(ce->vm->gt);
+>  }
+>  
+>  static inline void intel_context_mark_active(struct intel_context *ce)
+> @@ -222,8 +226,11 @@ static inline void intel_context_exit(struct intel_context *ce)
+>  {
+>  	lockdep_assert_held(&ce->timeline->mutex);
+>  	GEM_BUG_ON(!ce->active_count);
+> -	if (!--ce->active_count)
+> -		ce->ops->exit(ce);
+> +	if (--ce->active_count)
+> +		return;
+> +
+> +	intel_gt_pm_put_async(ce->vm->gt);
+> +	ce->ops->exit(ce);
 
-On 04.04.2023 16:30, Nirmoy Das wrote:
-> Add a mechanism to keep existing data when creating
-> a ttm object with I915_BO_ALLOC_USER flag.
->
-> Cc: Matthew Auld <matthew.auld@intel.com>
-> Cc: Andi Shyti <andi.shyti@linux.intel.com>
-> Cc: Andrzej Hajda <andrzej.hajda@intel.com>
-> Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
-> Cc: Jani Nikula <jani.nikula@intel.com>
-> Cc: Imre Deak <imre.deak@intel.com>
-> Signed-off-by: Nirmoy Das <nirmoy.das@intel.com>
+shouldn't these two be swapped?
+
+>  }
+>  
+>  static inline struct intel_context *intel_context_get(struct intel_context *ce)
+> diff --git a/drivers/gpu/drm/i915/gt/intel_engine_pm.c b/drivers/gpu/drm/i915/gt/intel_engine_pm.c
+> index e971b153fda976..ee531a5c142c77 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_engine_pm.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_engine_pm.c
+> @@ -114,6 +114,15 @@ __queue_and_release_pm(struct i915_request *rq,
+>  
+>  	ENGINE_TRACE(engine, "parking\n");
+>  
+> +	/*
+> +	 * Open coded one half of intel_context_enter, which we have to omit
+> +	 * here (see the large comment below) and because the other part must
+> +	 * not be called due constructing directly with __i915_request_create
+> +	 * which increments active count via intel_context_mark_active.
+> +	 */
+> +	GEM_BUG_ON(rq->context->active_count != 1);
+> +	__intel_gt_pm_get(engine->gt);
+
+where is it's brother "put"?
+
+Thanks,
+Andi
+
+> +
+>  	/*
+>  	 * We have to serialise all potential retirement paths with our
+>  	 * submission, as we don't want to underflow either the
+> 
 > ---
->   drivers/gpu/drm/i915/gem/i915_gem_object_types.h | 15 +++++++++++----
->   drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c     |  5 +++--
->   2 files changed, 14 insertions(+), 6 deletions(-)
->
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object_types.h b/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
-> index 5dcbbef31d44..830c11431ee8 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
-> @@ -328,6 +328,12 @@ struct drm_i915_gem_object {
->    */
->   #define I915_BO_ALLOC_GPU_ONLY	  BIT(6)
->   #define I915_BO_ALLOC_CCS_AUX	  BIT(7)
-> +/*
-> + * Object is allowed to retain its initial data and will not be cleared on first
-> + * access if used along with I915_BO_ALLOC_USER. This is mainly to keep
-> + * preallocated framebuffer data intact while transitioning it to i915drmfb.
-> + */
-> +#define I915_BO_PREALLOC	  BIT(8)
->   #define I915_BO_ALLOC_FLAGS (I915_BO_ALLOC_CONTIGUOUS | \
->   			     I915_BO_ALLOC_VOLATILE | \
->   			     I915_BO_ALLOC_CPU_CLEAR | \
-> @@ -335,10 +341,11 @@ struct drm_i915_gem_object {
->   			     I915_BO_ALLOC_PM_VOLATILE | \
->   			     I915_BO_ALLOC_PM_EARLY | \
->   			     I915_BO_ALLOC_GPU_ONLY | \
-> -			     I915_BO_ALLOC_CCS_AUX)
-> -#define I915_BO_READONLY          BIT(8)
-> -#define I915_TILING_QUIRK_BIT     9 /* unknown swizzling; do not release! */
-> -#define I915_BO_PROTECTED         BIT(10)
-> +			     I915_BO_ALLOC_CCS_AUX | \
-> +			     I915_BO_PREALLOC)
-> +#define I915_BO_READONLY          BIT(9)
-> +#define I915_TILING_QUIRK_BIT     10 /* unknown swizzling; do not release! */
-> +#define I915_BO_PROTECTED         BIT(11)
->   	/**
->   	 * @mem_flags - Mutable placement-related flags
->   	 *
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c b/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c
-> index dd188dfcc423..69eb20ed4d47 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c
-> @@ -576,7 +576,7 @@ int i915_ttm_move(struct ttm_buffer_object *bo, bool evict,
->   	struct dma_fence *migration_fence = NULL;
->   	struct ttm_tt *ttm = bo->ttm;
->   	struct i915_refct_sgt *dst_rsgt;
-> -	bool clear;
-> +	bool clear, prealloc_bo;
->   	int ret;
->   
->   	if (GEM_WARN_ON(i915_ttm_is_ghost_object(bo))) {
-> @@ -632,7 +632,8 @@ int i915_ttm_move(struct ttm_buffer_object *bo, bool evict,
->   		return PTR_ERR(dst_rsgt);
->   
->   	clear = !i915_ttm_cpu_maps_iomem(bo->resource) && (!ttm || !ttm_tt_is_populated(ttm));
-> -	if (!(clear && ttm && !(ttm->page_flags & TTM_TT_FLAG_ZERO_ALLOC))) {
-> +	prealloc_bo = obj->flags & I915_BO_PREALLOC;
-> +	if (!(clear && ttm && !((ttm->page_flags & TTM_TT_FLAG_ZERO_ALLOC) && !prealloc_bo))) {
-
-This looks like school exercise for complicated usage of logical 
-operators, and I have problem with understanding this :)
-Couldn't this be somehow simplified?
-
-Anyway as the patch just reuses existing code:
-Reviewed-by: Andrzej Hajda <andrzej.hajda@intel.com>
-
-Regards
-Andrzej
-
-
->   		struct i915_deps deps;
->   
->   		i915_deps_init(&deps, GFP_KERNEL | __GFP_NORETRY | __GFP_NOWARN);
-
+> base-commit: 3385d6482cd60f2a0bbb0fa97b70ae7dbba4f95c
+> change-id: 20230330-hold_wakeref_for_active_vm-7f013a449ef3
+> 
+> Best regards,
+> -- 
+> Andrzej Hajda <andrzej.hajda@intel.com>
