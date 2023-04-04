@@ -2,72 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E25196D6444
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Apr 2023 15:57:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA3046D6447
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Apr 2023 15:57:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A642910E6B6;
+	by gabe.freedesktop.org (Postfix) with ESMTP id D224710E6B9;
 	Tue,  4 Apr 2023 13:57:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from new3-smtp.messagingengine.com (new3-smtp.messagingengine.com
  [66.111.4.229])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EA2E610E6B4
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Apr 2023 13:57:36 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.nyi.internal (Postfix) with ESMTP id 3E0745821B9;
- Tue,  4 Apr 2023 09:57:36 -0400 (EDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1987C10E6B4
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Apr 2023 13:57:40 +0000 (UTC)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 5F81C5821BB;
+ Tue,  4 Apr 2023 09:57:39 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Tue, 04 Apr 2023 09:57:36 -0400
+ by compute3.internal (MEProxy); Tue, 04 Apr 2023 09:57:39 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
  :cc:content-transfer-encoding:content-type:content-type:date
  :date:from:from:in-reply-to:in-reply-to:message-id:mime-version
  :references:reply-to:sender:subject:subject:to:to; s=fm3; t=
- 1680616656; x=1680623856; bh=bJqJ0P6+psuWExoI1fA2XVEdZfg1DGPsZI0
- g3ZQ6rmk=; b=lXRiCfm457zCaIcSdgd+NtUR4DjPaQJnJYuV6sWVEjg51E/3bn2
- BCC3QgUItq1wdLbsd5z/6THsK8mAWBfUSSpCi3uNq8h0MwzxziXD1LhoErK7ZfKP
- 737IetRiK1GdpGI2ZvMoh4qdsHVC4uQ78lmcGCUkDdLceUodYmPVZ00od7uPNhB0
- MtFojM33p9+wfWl8SkmLyUMzERR79WJjtLuHsDBxYmXudXmOwLIHWNYhBka1BHf9
- 2dQ+8VU9ZJ/cHjCyzGAFM/zzl5Yfg715g6t4VSbfHuWxqw5YCjUdo/fp38kF82yL
- 9g2JAvfdH07OmA3gI6zySb2DG1oNb2ffEqw==
+ 1680616659; x=1680623859; bh=QrnmsuZIqL40KcakQKLSyAGHFQpdw4WtuuL
+ LJqLntT4=; b=BEL/WpJUB20U06xhlGQ0TccL9f3q8urBgw2Fmy5qO8yWI6k//Cz
+ DsJlNZ1eGXCXZeoA9C2xXHHC6iCztgk5yEKujQly6RKA+QKS2HT8+pL84a5K7H4H
+ /fAJwc9ACCNBj4HMQM+TpcUJIMk7dvdkOj5/NKbPaNM+z6bVj1UT085GH7m6ZEfP
+ Jwpy9HJKBg4m/q8g0cvOSSXPE2TtaRNXDq0ZNd6q54gFzx2p/PaXTWHIEikrWWjP
+ SHQGP6RNg36gHurW7ST8AGz7S8FM2khMuy8UyNAitTbmV+NoL0GPn4BILfdKd8qS
+ y1kzTN9+f6kCjp5GG/DoB3z3/sNg5CAFqTQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding
  :content-type:content-type:date:date:feedback-id:feedback-id
  :from:from:in-reply-to:in-reply-to:message-id:mime-version
  :references:reply-to:sender:subject:subject:to:to:x-me-proxy
  :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
- 1680616656; x=1680623856; bh=bJqJ0P6+psuWExoI1fA2XVEdZfg1DGPsZI0
- g3ZQ6rmk=; b=LcWidrLZlhVIRFGSavJIMKf3CZRYGCyQXZLviYSbU7+B5vTXxRt
- zIrCPtEqcDqmq39UYypfUixZFfe8CBPqOn0UlanVNubuy+bKsJu4Dz1n4kJp6xO5
- fnY3wib6omxgl6W2szBIoITzKff2whkmg7fPmcG3TP19GMfl828bUE3LdeDhBRoN
- 8hVJH3KpuRpK6kK2RBiAViRMebObJ4rpyAqZweFDDqWjEJIV51FS7ORpFIV3wPCN
- BAVOgCMjdGUkrgTU0RIVs6Bgl6OUhCaluE1URnMWg0UqzQuZYiDLBUp58QBqW87h
- fLV+XEFf5ItQvcss+Axp4tiKyhxcJACzSCw==
-X-ME-Sender: <xms:0CwsZAIdIuzkx6_VUTv8gYdO031-XPZqBUSMdWRVN5oNzNUedBW6zw>
- <xme:0CwsZAJCZPK4UDz49abhGzK2ZhMynowjQpBwex1Rdp_TqjVST5pZiy6m-immKwaYK
- Oayi8wCL4CM11EbBAI>
-X-ME-Received: <xmr:0CwsZAs_NtVFstCQRMfNpN3WKCGW2EwZGaCnmWe1z6FJ637PjZs8OdkpbfvlzQoeBQqdiflaYtjZc-rc6WlK_CrcbDflA4M>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvdeiledgjedtucetufdoteggodetrfdotf
+ 1680616659; x=1680623859; bh=QrnmsuZIqL40KcakQKLSyAGHFQpdw4WtuuL
+ LJqLntT4=; b=jBBZREVMUdqpuAHYqBCui5Attfpzw1DlkH59ndulpa7WMAcX4Sa
+ IEv6hZ/IeEpqNJtKPhgFYApVeV2iWEFY+OZoYRxuBVWnBS/finuu5/uCvcXP2UGu
+ P+Q8z0gGntv2pwa6ABwcz7u7uEpjfUJoh9YIgJ+POQg/psYbb24+obW73h/U5Wf3
+ yRHoW9gN9+EtRqp4mFvoPQKNFjfLAHUQM39vXLEUVfXuCvyAv0izgf28SSN1EzEd
+ ONFXJcoRSh3wUDo4y96JGyAVLtd2u4qr088QRyzIOmQ/ucNO4xoUZNRaPHdT33OE
+ NJKmVkGKCeojlN/zTuFAvBSMryTkRhK0ZIg==
+X-ME-Sender: <xms:0ywsZEU9kTosXtm9xMVmHvBpSXOyhhaYiSyG-vTzRDi98PMdazy6Yg>
+ <xme:0ywsZIkwdQaFCuafs8KiVxgMpj_4iYmp0V4u_8kymaDh0kcG0zLP2yEL0x8Box1dI
+ hVW3Q2NkS-Ljeo6NXQ>
+X-ME-Received: <xmr:0ywsZIYYLY2wbZOpMP0CT77wo3iyxFLVoqLFCvQrCoYb42LTqRYTe0lmsHkpK7yp-tZNn2L2oWV4R4qx1lv3Upl9aOiZOHg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvdeiledgjeduucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
  cujfgurhephfffufggtgfgkfhfjgfvvefosehtjeertdertdejnecuhfhrohhmpeforgig
  ihhmvgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrf
  grthhtvghrnhepvedvleeijeegvdekffehkeehieelhfeggfffheetkeeuledvtdeuffeh
- teeltdffnecuvehluhhsthgvrhfuihiivgepvdenucfrrghrrghmpehmrghilhhfrhhomh
+ teeltdffnecuvehluhhsthgvrhfuihiivgepudenucfrrghrrghmpehmrghilhhfrhhomh
  epmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:0CwsZNYlxHHOQbbWQg3gW7P47hxBXmWxpXXG4WtykYqKh555TLxKoA>
- <xmx:0CwsZHYkDlySN7MLhFgBNYwdVhNYbJ1Bwrtqj4wsGp8zqXvR7Qx1ag>
- <xmx:0CwsZJAmdlgEyNeB1uLt98Rqw9tS5LZ-BtBeZac8J6Z9ZVcctyVb2g>
- <xmx:0CwsZInrZ_rlgUKL0Ggd0Iv-OI-gm6lZLVk8raXOzlv151IfIRXM6g>
+X-ME-Proxy: <xmx:0ywsZDVBp7S0dTcn0tbj4qyFlhxKc1paiZMZUSBL2lnmrWWRS2lFuQ>
+ <xmx:0ywsZOkl7H6YlVZlzb-IsZ9e17Gr8RmN_Evfr-ZIif1dPf-9eeVFNQ>
+ <xmx:0ywsZIcWTrYjnm58seBGp8kmXkWCf3Vr87pIlhiyUbCtX0hC-jzShA>
+ <xmx:0ywsZLRHA3edxLC2TiRNS2UOVUcVggF8WrUSjud1EKApR0fMDaW5Ww>
 Feedback-ID: i8771445c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 4 Apr 2023 09:57:34 -0400 (EDT)
+ 4 Apr 2023 09:57:37 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
-Date: Tue, 04 Apr 2023 12:11:50 +0200
-Subject: [PATCH v3 60/65] clk: stm32: composite: Switch to determine_rate
+Date: Tue, 04 Apr 2023 12:11:51 +0200
+Subject: [PATCH v3 61/65] clk: tegra: periph: Switch to determine_rate
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20221018-clk-range-checks-fixes-v3-60-9a1358472d52@cerno.tech>
+Message-Id: <20221018-clk-range-checks-fixes-v3-61-9a1358472d52@cerno.tech>
 References: <20221018-clk-range-checks-fixes-v3-0-9a1358472d52@cerno.tech>
 In-Reply-To: <20221018-clk-range-checks-fixes-v3-0-9a1358472d52@cerno.tech>
 To: Michael Turquette <mturquette@baylibre.com>,
@@ -108,11 +108,11 @@ To: Michael Turquette <mturquette@baylibre.com>,
  Baolin Wang <baolin.wang@linux.alibaba.com>,
  Chunyan Zhang <zhang.lyra@gmail.com>
 X-Mailer: b4 0.12.1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3849; i=maxime@cerno.tech;
- h=from:subject:message-id; bh=ZlhaMIDY35fqWgLez9zMe7F3lYqWmSY7jqPK6EAyXso=;
- b=owGbwMvMwCX2+D1vfrpE4FHG02pJDCna37frTnpyI07mcUoQnywz705TOdt3Uo+CRTwPykh61e2Y
- /HtaRykLgxgXg6yYIkuMsPmSuFOzXney8c2DmcPKBDKEgYtTACZincHw3+FAsevutmNron2EJG33b0
- y22JHdKZe4o6fw0om38gw7zzL8rw6abyHomV6Z2Hg9TJQzKWmxSayk4ezyFcIpGwz4CnwZAQ==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3264; i=maxime@cerno.tech;
+ h=from:subject:message-id; bh=wBzm9loebzLQRXcnubfF10jq8g/eGSx7ipytoVGA96U=;
+ b=owGbwMvMwCX2+D1vfrpE4FHG02pJDCna37dnH5dIOlnuFdgsd2Thty6p6xfecLTNOyB7OCHw3nee
+ s+tKO0pZGMS4GGTFFFlihM2XxJ2a9bqTjW8ezBxWJpAhDFycAjCRDaEM/4xTti9na3ATXbCR54Llp8
+ v/X69Neaucwc9s0BC3qflm3BpGhr38F9Yrs9bPyGL+vbTu/LK2fet+fs2cl867mu1zsPYfDzYA
 X-Developer-Key: i=maxime@cerno.tech; a=openpgp;
  fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -139,7 +139,7 @@ Cc: linux-rtc@vger.kernel.org, alsa-devel@alsa-project.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The STM32 composite clocks implements a mux with a set_parent hook, but
+The Tegra periph clocks implements a mux with a set_parent hook, but
 doesn't provide a determine_rate implementation.
 
 This is a bit odd, since set_parent() is there to, as its name implies,
@@ -169,56 +169,31 @@ oversight, the clock behaviour can be adjusted later on.
 
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/clk/stm32/clk-stm32-core.c | 32 +++++++++++++++++++++-----------
- 1 file changed, 21 insertions(+), 11 deletions(-)
+ drivers/clk/tegra/clk-periph.c | 16 +++++++++++-----
+ 1 file changed, 11 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/clk/stm32/clk-stm32-core.c b/drivers/clk/stm32/clk-stm32-core.c
-index 3247539683c9..d5aa09e9fce4 100644
---- a/drivers/clk/stm32/clk-stm32-core.c
-+++ b/drivers/clk/stm32/clk-stm32-core.c
-@@ -426,15 +426,15 @@ static unsigned long clk_stm32_composite_recalc_rate(struct clk_hw *hw,
- 				      composite->div_id, parent_rate);
+diff --git a/drivers/clk/tegra/clk-periph.c b/drivers/clk/tegra/clk-periph.c
+index 367396c62259..ce8cab5f1978 100644
+--- a/drivers/clk/tegra/clk-periph.c
++++ b/drivers/clk/tegra/clk-periph.c
+@@ -45,16 +45,22 @@ static unsigned long clk_periph_recalc_rate(struct clk_hw *hw,
+ 	return div_ops->recalc_rate(div_hw, parent_rate);
  }
  
--static long clk_stm32_composite_round_rate(struct clk_hw *hw, unsigned long rate,
--					   unsigned long *prate)
-+static int clk_stm32_composite_determine_rate(struct clk_hw *hw,
-+					      struct clk_rate_request *req)
+-static long clk_periph_round_rate(struct clk_hw *hw, unsigned long rate,
+-				  unsigned long *prate)
++static int clk_periph_determine_rate(struct clk_hw *hw,
++				     struct clk_rate_request *req)
  {
- 	struct clk_stm32_composite *composite = to_clk_stm32_composite(hw);
--
- 	const struct stm32_div_cfg *divider;
+ 	struct tegra_clk_periph *periph = to_clk_periph(hw);
+ 	const struct clk_ops *div_ops = periph->div_ops;
+ 	struct clk_hw *div_hw = &periph->divider.hw;
 +	unsigned long rate;
  
- 	if (composite->div_id == NO_STM32_DIV)
--		return rate;
-+		return 0;
+ 	__clk_hw_set_clk(div_hw, hw);
  
- 	divider = &composite->clock_data->dividers[composite->div_id];
- 
-@@ -445,14 +445,24 @@ static long clk_stm32_composite_round_rate(struct clk_hw *hw, unsigned long rate
- 		val =  readl(composite->base + divider->offset) >> divider->shift;
- 		val &= clk_div_mask(divider->width);
- 
--		return divider_ro_round_rate(hw, rate, prate, divider->table,
--				divider->width, divider->flags,
--				val);
-+		rate = divider_ro_round_rate(hw, req->rate, &req->best_parent_rate,
-+					     divider->table, divider->width, divider->flags,
-+					     val);
-+		if (rate < 0)
-+			return rate;
-+
-+		req->rate = rate;
-+		return 0;
- 	}
- 
--	return divider_round_rate_parent(hw, clk_hw_get_parent(hw),
--					 rate, prate, divider->table,
--					 divider->width, divider->flags);
-+	rate = divider_round_rate_parent(hw, clk_hw_get_parent(hw),
-+					 req->rate, &req->best_parent_rate,
-+					 divider->table, divider->width, divider->flags);
+-	return div_ops->round_rate(div_hw, rate, prate);
++	rate = div_ops->round_rate(div_hw, req->rate, &req->best_parent_rate);
 +	if (rate < 0)
 +		return rate;
 +
@@ -226,16 +201,25 @@ index 3247539683c9..d5aa09e9fce4 100644
 +	return 0;
  }
  
- static u8 clk_stm32_composite_get_parent(struct clk_hw *hw)
-@@ -602,7 +612,7 @@ static void clk_stm32_composite_disable_unused(struct clk_hw *hw)
- const struct clk_ops clk_stm32_composite_ops = {
- 	.set_rate	= clk_stm32_composite_set_rate,
- 	.recalc_rate	= clk_stm32_composite_recalc_rate,
--	.round_rate	= clk_stm32_composite_round_rate,
-+	.determine_rate	= clk_stm32_composite_determine_rate,
- 	.get_parent	= clk_stm32_composite_get_parent,
- 	.set_parent	= clk_stm32_composite_set_parent,
- 	.enable		= clk_stm32_composite_gate_enable,
+ static int clk_periph_set_rate(struct clk_hw *hw, unsigned long rate,
+@@ -130,7 +136,7 @@ const struct clk_ops tegra_clk_periph_ops = {
+ 	.get_parent = clk_periph_get_parent,
+ 	.set_parent = clk_periph_set_parent,
+ 	.recalc_rate = clk_periph_recalc_rate,
+-	.round_rate = clk_periph_round_rate,
++	.determine_rate = clk_periph_determine_rate,
+ 	.set_rate = clk_periph_set_rate,
+ 	.is_enabled = clk_periph_is_enabled,
+ 	.enable = clk_periph_enable,
+@@ -154,7 +160,7 @@ static const struct clk_ops tegra_clk_periph_no_gate_ops = {
+ 	.get_parent = clk_periph_get_parent,
+ 	.set_parent = clk_periph_set_parent,
+ 	.recalc_rate = clk_periph_recalc_rate,
+-	.round_rate = clk_periph_round_rate,
++	.determine_rate = clk_periph_determine_rate,
+ 	.set_rate = clk_periph_set_rate,
+ 	.restore_context = clk_periph_restore_context,
+ };
 
 -- 
 2.39.2
