@@ -2,49 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 766286D56F3
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Apr 2023 04:55:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85AFC6D5709
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Apr 2023 05:11:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3E1F710E049;
-	Tue,  4 Apr 2023 02:55:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2BFA710E060;
+	Tue,  4 Apr 2023 03:11:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from 189.cn (ptr.189.cn [183.61.185.104])
- by gabe.freedesktop.org (Postfix) with ESMTP id 0092310E049
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Apr 2023 02:55:33 +0000 (UTC)
-HMM_SOURCE_IP: 10.64.8.41:48454.1860087732
-HMM_ATTACHE_NUM: 0000
-HMM_SOURCE_TYPE: SMTP
-Received: from clientip-114.242.206.180 (unknown [10.64.8.41])
- by 189.cn (HERMES) with SMTP id 97DE0102ADA;
- Tue,  4 Apr 2023 10:55:29 +0800 (CST)
-Received: from  ([114.242.206.180])
- by gateway-151646-dep-7b48884fd-bkw2h with ESMTP id
- 9b5738e047274065a67ab0e7b4b82ca0 for tzimmermann@suse.de; 
- Tue, 04 Apr 2023 10:55:31 CST
-X-Transaction-ID: 9b5738e047274065a67ab0e7b4b82ca0
-X-Real-From: 15330273260@189.cn
-X-Receive-IP: 114.242.206.180
-X-MEDUSA-Status: 0
-Message-ID: <3c173bbe-c74a-5817-c9c5-f3364c628240@189.cn>
-Date: Tue, 4 Apr 2023 10:55:28 +0800
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0917E10E060
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Apr 2023 03:11:44 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (fp76f193f3.tkyc206.ap.nuro.jp
+ [118.241.147.243])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4DD547F8;
+ Tue,  4 Apr 2023 05:11:41 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1680577903;
+ bh=QHfaWu6kFzbNQ1dtuMtgKjwrpsBon/2AohknALK4hWc=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=OcLGpt+AhrdgIKMETvI5tCgH2ROrZUHTTb62urKvmFQ4rY72oUP7KOPzmFX85GYiD
+ IGLiGI1bleKY5E68Lvb8lJY7ZZH4U0QnYpSuYBbaXJHBCI8X1jSfg68DYdTZOQPH/3
+ SMvdkDRRAY2wXI9Et3DS5kzWJnFE0Y4VGbQWqwh4=
+Date: Tue, 4 Apr 2023 06:11:50 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Marek Vasut <marex@denx.de>
+Subject: Re: [PATCH] drm/bridge: ti-sn65dsi83: Do not generate HFP/HBP/HSA
+ and EOT packet
+Message-ID: <20230404031150.GF16648@pendragon.ideasonboard.com>
+References: <20230403190242.224490-1-marex@denx.de>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH] drm/fbdev-generic: optimize out a redundant assignment
- clause
-To: Thomas Zimmermann <tzimmermann@suse.de>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, suijingfeng <suijingfeng@loongson.cn>,
- liyi <liyi@loongson.cn>, Lucas De Marchi <lucas.demarchi@intel.com>
-References: <20230325074636.136833-1-15330273260@189.cn>
- <a3370ae7-8c78-8170-f9c3-7f616a1fa382@suse.de>
-Content-Language: en-US
-From: Sui Jingfeng <15330273260@189.cn>
-In-Reply-To: <a3370ae7-8c78-8170-f9c3-7f616a1fa382@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20230403190242.224490-1-marex@denx.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,88 +47,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Jonas Karlman <jonas@kwiboo.se>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Michael Walle <michael@walle.cc>,
+ dri-devel@lists.freedesktop.org, Jagan Teki <jagan@amarulasolutions.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Marek,
 
-On 2023/3/29 17:04, Thomas Zimmermann wrote:
-> (cc'ing Lucas)
->
-> Hi
->
-> Am 25.03.23 um 08:46 schrieb Sui Jingfeng:
->>   The assignment already done in drm_client_buffer_vmap(),
->>   just trival clean, no functional change.
->>
->> Signed-off-by: Sui Jingfeng <15330273260@189.cn>
->> ---
->>   drivers/gpu/drm/drm_fbdev_generic.c | 5 ++---
->>   1 file changed, 2 insertions(+), 3 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/drm_fbdev_generic.c 
->> b/drivers/gpu/drm/drm_fbdev_generic.c
->> index 4d6325e91565..1da48e71c7f1 100644
->> --- a/drivers/gpu/drm/drm_fbdev_generic.c
->> +++ b/drivers/gpu/drm/drm_fbdev_generic.c
->> @@ -282,7 +282,7 @@ static int drm_fbdev_damage_blit(struct 
->> drm_fb_helper *fb_helper,
->>                    struct drm_clip_rect *clip)
->>   {
->>       struct drm_client_buffer *buffer = fb_helper->buffer;
->> -    struct iosys_map map, dst;
->> +    struct iosys_map map;
->>       int ret;
->>         /*
->> @@ -302,8 +302,7 @@ static int drm_fbdev_damage_blit(struct 
->> drm_fb_helper *fb_helper,
->>       if (ret)
->>           goto out;
->>   -    dst = map;
->> -    drm_fbdev_damage_blit_real(fb_helper, clip, &dst);
->> +    drm_fbdev_damage_blit_real(fb_helper, clip, &map);
->
-> I see what you're doing and it's probably correct in this case.
->
-> But there's a larger issue with this iosys interfaces. Sometimes the 
-> address has to be modified (see calls of iosys_map_incr()). That can 
-> prevent incorrect uses of the mapping in other places, especially in 
-> unmap code.
->
-Yes, I just realized that.
+Thank you for the patch.
 
-iosys_map_incr() change the internal state of a opaque structure, this 
-is somewhat evil.
+On Mon, Apr 03, 2023 at 09:02:42PM +0200, Marek Vasut wrote:
+> Do not generate the HS front and back porch gaps, the HSA gap and
+> EOT packet, as per "SN65DSI83 datasheet SLLSEC1I - SEPTEMBER 2012
+> - REVISED OCTOBER 2020", page 22, these packets are not required.
+> This makes the TI SN65DSI83 bridge work with Samsung DSIM on i.MX8MN.
+> 
+> Signed-off-by: Marek Vasut <marex@denx.de>
 
-if it is non-opaque, then this is abstract failure.
+I have successfully used this driver with a Raspberry Pi CM4. The VC4
+DSI driver does not seem to support the newly added flags, so this patch
+shouldn't have any effect there.
 
-You have to worry about that if it is changed by a accident call 
-iosys_map_incr() from other place.
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-The map should be const, I guess most programmer expect  the map be a const.
+> ---
+> Cc: Andrzej Hajda <andrzej.hajda@intel.com>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
+> Cc: David Airlie <airlied@gmail.com>
+> Cc: Jagan Teki <jagan@amarulasolutions.com>
+> Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
+> Cc: Jonas Karlman <jonas@kwiboo.se>
+> Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+> Cc: Michael Walle <michael@walle.cc>
+> Cc: Neil Armstrong <neil.armstrong@linaro.org>
+> Cc: Robert Foss <rfoss@kernel.org>
+> Cc: dri-devel@lists.freedesktop.org
+> ---
+>  drivers/gpu/drm/bridge/ti-sn65dsi83.c | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi83.c b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
+> index 91ecfbe45bf90..b60ae1dc1191d 100644
+> --- a/drivers/gpu/drm/bridge/ti-sn65dsi83.c
+> +++ b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
+> @@ -642,7 +642,9 @@ static int sn65dsi83_host_attach(struct sn65dsi83 *ctx)
+>  
+>  	dsi->lanes = dsi_lanes;
+>  	dsi->format = MIPI_DSI_FMT_RGB888;
+> -	dsi->mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_BURST;
+> +	dsi->mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_BURST |
+> +			  MIPI_DSI_MODE_VIDEO_NO_HFP | MIPI_DSI_MODE_VIDEO_NO_HBP |
+> +			  MIPI_DSI_MODE_VIDEO_NO_HSA | MIPI_DSI_MODE_NO_EOT_PACKET;
+>  
+>  	ret = devm_mipi_dsi_attach(dev, dsi);
+>  	if (ret < 0) {
 
-making it const please, copy on demand, modify the copy only, leave the 
-original mapping untouched.
+-- 
+Regards,
 
-Hope this could eliminate the embarrassing.
-
-Sorry for missing the point.
-
-> I think it would make sense to consider a separate structure for the 
-> I/O location. The buffer as a whole would still be represented by 
-> struct iosys_map.  And that new structure, let's call it struct 
-> iosys_ptr, would point to an actual location within the buffer's 
-> memory range. A few locations and helpers would need changes, but 
-> there are not so many callers that it's an issue.  This would also 
-> allow for a few debugging tests that ensure that iosys_ptr always 
-> operates within the bounds of an iosys_map.
->
-> I've long considered this idea, but there was no pressure to work on 
-> it. Maybe now.
->
-I have also get some idea from you idea.
-> Best regards
-> Thomas
->
->>         drm_client_buffer_vunmap(buffer);
->
+Laurent Pinchart
