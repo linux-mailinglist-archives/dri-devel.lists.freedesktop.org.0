@@ -2,75 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 681CE6D6E2B
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Apr 2023 22:39:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A882F6D6E44
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Apr 2023 22:46:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8E51510E037;
-	Tue,  4 Apr 2023 20:39:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E5A3A10E3BD;
+	Tue,  4 Apr 2023 20:46:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com
- [IPv6:2a00:1450:4864:20::635])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5352410E037
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Apr 2023 20:39:54 +0000 (UTC)
-Received: by mail-ej1-x635.google.com with SMTP id
- a640c23a62f3a-947a47eb908so44551066b.0
- for <dri-devel@lists.freedesktop.org>; Tue, 04 Apr 2023 13:39:54 -0700 (PDT)
+Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com
+ [IPv6:2a00:1450:4864:20::533])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B985410E3BD
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Apr 2023 20:46:04 +0000 (UTC)
+Received: by mail-ed1-x533.google.com with SMTP id w9so135805181edc.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 04 Apr 2023 13:46:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1680640793;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:mail-followup-to:message-id:subject:cc:to
- :from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=ExcUThm1Iuc2jKHFlfp1iXOibAJoWiAFt/diaC9gBAU=;
- b=fdXzdJj9HVn8/VzlZteTpwtnGe5nvp4/r4vZ2arzDi98p+3fQlHIHz8lTTwRLEb+3D
- 25AZmGZT6SopEBzOoNXiRi18qw+fPCeRadPKyks3MRa8ypR0+1TxhRRWFvmQBcA493f+
- hxde4YGYVSaNpkN4VvhYSkvJ9QG/Dsr9HEvDY=
+ d=ffwll.ch; s=google; t=1680641163;
+ h=in-reply-to:content-disposition:mime-version:references
+ :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=0kT23cCkJUnon2KM97SgS7BPPzYe1mYrfR1mV8DBgJo=;
+ b=V283pZn5eDouVPigXRqp2+Ek2GVPjy9jfNXP6NRCBPJ1KcCoR3hm40xoVn5sDvctTj
+ k+FxbzIdum8MdCV9DwlBZiaxIyNGOJg7WBL7zvVslLVFwUV1JXvQTPMQZVVZrCo6bBNW
+ o2yCZdHGMQzv8SooZkJJv5KGSZXBHiaTpA2n8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680640793;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:mail-followup-to:message-id:subject:cc:to
- :from:date:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=ExcUThm1Iuc2jKHFlfp1iXOibAJoWiAFt/diaC9gBAU=;
- b=JyLBX0+7rZFhbJRyY/wE1vrshUTabYO8PpnhGFz78czOWWYcuL3Gn8aAh+p18DoniW
- 0dqn/lPkpZTiFzwNbqy3uzFIO0iM4rZX9i9+XPWfZyDwjj5pAWSHS0BxkRoSZyi6xZev
- JFMtzqjYiVc+FbPZDI3InQ8DUovvU8+Gq9JrYioXqRlTjEue3uPWwSRckQWWHwMocg2/
- 5WGaC5HaBcCg+4ds1a+RuHPvLTXzE8+Kowon66RUMxU+AjpsUBO+jeRO6xP9hvLo6GF+
- 55Zycaqu6eSu2b+H7ArpZ8pfPAyvw0MkYHygyvMkWPCQpM3b0c7ljsphcne78yIQqYkt
- VENQ==
-X-Gm-Message-State: AAQBX9couqPuRrztnOsKqYRyOVfLv/5fFvZWV9GU6eunpsWqottu6m7g
- VsA9LOk7BUnl7EAEnAKPjR2xoQ==
-X-Google-Smtp-Source: AKy350YrViAVfRB3P6JwrUL8jALkCnKTz4rPr0d39i9sKw2E1CdTnWEBB2+DQX5rbLPjB/zRFcyqEw==
-X-Received: by 2002:a05:6402:268e:b0:502:616b:cbd5 with SMTP id
- w14-20020a056402268e00b00502616bcbd5mr693211edd.2.1680640792735; 
- Tue, 04 Apr 2023 13:39:52 -0700 (PDT)
+ d=1e100.net; s=20210112; t=1680641163;
+ h=in-reply-to:content-disposition:mime-version:references
+ :mail-followup-to:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=0kT23cCkJUnon2KM97SgS7BPPzYe1mYrfR1mV8DBgJo=;
+ b=bloWwFSFDVDSe7W+x/9FreucaiJGSILOzuECXX0i756YDCPjmnc7XIXKg9iEmqhThR
+ O0oE+UvVbFCKFR8QY/wZ43JzbCQo7VANpAUpyw19HGGNGtKRDqhUDVbr+NJAWZoFS76e
+ np7l13XoPVYTDZsTrrLGVkU1Iihly9XNuF0xCPMuUVwPHTl8+R7oh/gBfoa5AayV0E9H
+ iuSLHXQZefxAAJgJgMb+SkcMT6v316tpEscoIHeAdZEM/BdI9DKDTrCtVk2S5gVaj3PF
+ X08MI5hQkpuZ8U3it6aOqhpcQZ4u2iyMHT8NRrbR4LYmbNWIuqUfjn0KbLCNAKdh+l7l
+ 7NvA==
+X-Gm-Message-State: AAQBX9fCCNm8qnLmbYjNGAX1hAUdk0G98CXWA2jpSOCJUIyA8c67HRtT
+ JTvj+L/V9jmzxDkjl+HuAVkqew==
+X-Google-Smtp-Source: AKy350buhut/rRziDOpqOTB/hCcfUaN6fYIb8Z3wScgzOrvxzehP9oATLJ3DZdG5AypSWSERpIpqTQ==
+X-Received: by 2002:a17:906:2dd:b0:949:148d:82c0 with SMTP id
+ 29-20020a17090602dd00b00949148d82c0mr3071078ejk.6.1680641162893; 
+ Tue, 04 Apr 2023 13:46:02 -0700 (PDT)
 Received: from phenom.ffwll.local (212-51-149-33.fiber7.init7.net.
  [212.51.149.33]) by smtp.gmail.com with ESMTPSA id
- u12-20020a50c04c000000b004d8d2735251sm6385242edd.43.2023.04.04.13.39.51
+ kx6-20020a170907774600b009310d4dece9sm6389443ejc.62.2023.04.04.13.46.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 04 Apr 2023 13:39:52 -0700 (PDT)
-Date: Tue, 4 Apr 2023 22:39:50 +0200
+ Tue, 04 Apr 2023 13:46:02 -0700 (PDT)
+Date: Tue, 4 Apr 2023 22:46:00 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
 To: Rob Clark <robdclark@gmail.com>
-Subject: Re: [PATCH v2] drm/vblank: Fix for drivers that do not
- drm_vblank_init()
-Message-ID: <ZCyLFm1s/0SvdtVP@phenom.ffwll.local>
+Subject: Re: [PATCH] drm/vblank: Simplify drm_dev_has_vblank()
+Message-ID: <ZCyMiERvNHTP45o8@phenom.ffwll.local>
 Mail-Followup-To: Rob Clark <robdclark@gmail.com>,
- Nathan Chancellor <nathan@kernel.org>,
  dri-devel@lists.freedesktop.org, Rob Clark <robdclark@chromium.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
  David Airlie <airlied@gmail.com>,
  open list <linux-kernel@vger.kernel.org>
-References: <20230403160314.1210533-1-robdclark@gmail.com>
- <20230403162541.GA3195909@dev-arch.thelio-3990X>
- <CAF6AEGsdT95-uAKcv2+hdMLKd2xwfPeN+FMuDTRMc-Ps7WbRjw@mail.gmail.com>
+References: <20230403160735.1211468-1-robdclark@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAF6AEGsdT95-uAKcv2+hdMLKd2xwfPeN+FMuDTRMc-Ps7WbRjw@mail.gmail.com>
+In-Reply-To: <20230403160735.1211468-1-robdclark@gmail.com>
 X-Operating-System: Linux phenom 6.1.0-7-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -86,126 +79,50 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Rob Clark <robdclark@chromium.org>,
  open list <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org,
- Nathan Chancellor <nathan@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
+ Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Apr 03, 2023 at 10:50:34AM -0700, Rob Clark wrote:
-> On Mon, Apr 3, 2023 at 9:25 AM Nathan Chancellor <nathan@kernel.org> wrote:
-> >
-> > On Mon, Apr 03, 2023 at 09:03:14AM -0700, Rob Clark wrote:
-> > > From: Rob Clark <robdclark@chromium.org>
-> > >
-> > > This should fix a crash that was reported on ast (and possibly other
-> > > drivers which do not initialize vblank).
-> > >
-> > >    fbcon: Taking over console
-> > >    Unable to handle kernel NULL pointer dereference at virtual address 0000000000000074
-> > >    Mem abort info:
-> > >      ESR = 0x0000000096000004
-> > >      EC = 0x25: DABT (current EL), IL = 32 bits
-> > >      SET = 0, FnV = 0
-> > >      EA = 0, S1PTW = 0
-> > >      FSC = 0x04: level 0 translation fault
-> > >    Data abort info:
-> > >      ISV = 0, ISS = 0x00000004
-> > >      CM = 0, WnR = 0
-> > >    user pgtable: 4k pages, 48-bit VAs, pgdp=0000080009d16000
-> > >    [0000000000000074] pgd=0000000000000000, p4d=0000000000000000
-> > >    Internal error: Oops: 0000000096000004 [#1] SMP
-> > >    Modules linked in: ip6table_nat tun nft_fib_inet nft_fib_ipv4 nft_fib_ipv6 nft_fib nft_reject_inet nf_reject_ipv4 nf_reject_ipv6 nft_reject nft_ct nft_chain_nat nf_nat nf_conntrack nf_defrag_ipv6 nf_defrag_ipv4 rfkill ip_set nf_tables nfnetlink qrtr sunrpc binfmt_misc vfat fat xfs snd_usb_audio snd_hwdep snd_usbmidi_lib snd_seq snd_pcm snd_rawmidi snd_timer snd_seq_device snd soundcore joydev mc ipmi_ssif ipmi_devintf ipmi_msghandler arm_spe_pmu arm_cmn arm_dsu_pmu arm_dmc620_pmu cppc_cpufreq loop zram crct10dif_ce polyval_ce nvme polyval_generic ghash_ce sbsa_gwdt igb nvme_core ast nvme_common i2c_algo_bit xgene_hwmon gpio_dwapb scsi_dh_rdac scsi_dh_emc scsi_dh_alua ip6_tables ip_tables dm_multipath fuse
-> > >    CPU: 12 PID: 469 Comm: kworker/12:1 Not tainted 6.3.0-rc2-00008-gd39e48ca80c0 #1
-> > >    Hardware name: ADLINK AVA Developer Platform/AVA Developer Platform, BIOS TianoCore 2.04.100.07 (SYS: 2.06.20220308) 09/08/2022
-> > >    Workqueue: events fbcon_register_existing_fbs
-> > >    pstate: 20400009 (nzCv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
-> > >    pc : drm_crtc_next_vblank_start+0x2c/0x98
-> > >    lr : drm_atomic_helper_wait_for_fences+0x90/0x240
-> > >    sp : ffff80000d583960
-> > >    x29: ffff80000d583960 x28: ffff07ff8fc187b0 x27: 0000000000000000
-> > >    x26: ffff07ff99c08c00 x25: 0000000000000038 x24: ffff07ff99c0c000
-> > >    x23: 0000000000000001 x22: 0000000000000038 x21: 0000000000000000
-> > >    x20: ffff07ff9640a280 x19: 0000000000000000 x18: ffffffffffffffff
-> > >    x17: 0000000000000000 x16: ffffb24d2eece1c0 x15: 0000003038303178
-> > >    x14: 3032393100000048 x13: 0000000000000000 x12: 0000000000000000
-> > >    x11: 0000000000000000 x10: 0000000000000000 x9 : ffffb24d2eeeaca0
-> > >    x8 : ffff80000d583628 x7 : 0000080077783000 x6 : 0000000000000000
-> > >    x5 : ffff80000d584000 x4 : ffff07ff99c0c000 x3 : 0000000000000130
-> > >    x2 : 0000000000000000 x1 : ffff80000d5839c0 x0 : ffff07ff99c0cc08
-> > >    Call trace:
-> > >     drm_crtc_next_vblank_start+0x2c/0x98
-> > >     drm_atomic_helper_wait_for_fences+0x90/0x240
-> > >     drm_atomic_helper_commit+0xb0/0x188
-> > >     drm_atomic_commit+0xb0/0xf0
-> > >     drm_client_modeset_commit_atomic+0x218/0x280
-> > >     drm_client_modeset_commit_locked+0x64/0x1a0
-> > >     drm_client_modeset_commit+0x38/0x68
-> > >     __drm_fb_helper_restore_fbdev_mode_unlocked+0xb0/0xf8
-> > >     drm_fb_helper_set_par+0x44/0x88
-> > >     fbcon_init+0x1e0/0x4a8
-> > >     visual_init+0xbc/0x118
-> > >     do_bind_con_driver.isra.0+0x194/0x3a0
-> > >     do_take_over_console+0x50/0x70
-> > >     do_fbcon_takeover+0x74/0xf8
-> > >     do_fb_registered+0x13c/0x158
-> > >     fbcon_register_existing_fbs+0x78/0xc0
-> > >     process_one_work+0x1ec/0x478
-> > >     worker_thread+0x74/0x418
-> > >     kthread+0xec/0x100
-> > >     ret_from_fork+0x10/0x20
-> > >    Code: f9400004 b9409013 f940a082 9ba30a73 (b9407662)
-> > >    ---[ end trace 0000000000000000 ]---
-> > >
-> > > v2: Use drm_dev_has_vblank()
-> > >
-> > > Reported-by: Nathan Chancellor <nathan@kernel.org>
-> > > Fixes: d39e48ca80c0 ("drm/atomic-helper: Set fence deadline for vblank")
-> > > Signed-off-by: Rob Clark <robdclark@chromium.org>
-> > > Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
-> >
-> > Still appears to work for me:
-> >
-> > Tested-by: Nathan Chancellor <nathan@kernel.org>
+On Mon, Apr 03, 2023 at 09:07:35AM -0700, Rob Clark wrote:
+> From: Rob Clark <robdclark@chromium.org>
 > 
-> Thanks for confirming
+> What does vblank have to do with num_crtcs?  Well, this was technically
+> correct, but you'd have to go look at where num_crtcs is initialized to
+> understand why.  Lets just replace it with the simpler and more obvious
+> check.
 
-Pushed to drm-misc-next.
+If you want to fix this, then I think the right fix is to rename num_crtcs
+to be something like num_vblank_crtcs. It's a historical accident back
+when vblanks without kms was a thing.
+
+Plan B is someone gets really busy and fixes up the entire vblank mess and
+moves it into drm_crtc struct. Now that the dri1 drivers are gone we could
+indeed do that.
+
+Or maybe instead a patch to improve the kerneldoc for drm_dev->num_crtc?
 -Daniel
 
+> Signed-off-by: Rob Clark <robdclark@chromium.org>
+> ---
+>  drivers/gpu/drm/drm_vblank.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> BR,
-> -R
+> diff --git a/drivers/gpu/drm/drm_vblank.c b/drivers/gpu/drm/drm_vblank.c
+> index 877e2067534f..ad34c235d853 100644
+> --- a/drivers/gpu/drm/drm_vblank.c
+> +++ b/drivers/gpu/drm/drm_vblank.c
+> @@ -575,7 +575,7 @@ EXPORT_SYMBOL(drm_vblank_init);
+>   */
+>  bool drm_dev_has_vblank(const struct drm_device *dev)
+>  {
+> -	return dev->num_crtcs != 0;
+> +	return !!dev->vblank;
+>  }
+>  EXPORT_SYMBOL(drm_dev_has_vblank);
+>  
+> -- 
+> 2.39.2
 > 
-> >
-> > > ---
-> > >  drivers/gpu/drm/drm_vblank.c | 10 ++++++++--
-> > >  1 file changed, 8 insertions(+), 2 deletions(-)
-> > >
-> > > diff --git a/drivers/gpu/drm/drm_vblank.c b/drivers/gpu/drm/drm_vblank.c
-> > > index 299fa2a19a90..877e2067534f 100644
-> > > --- a/drivers/gpu/drm/drm_vblank.c
-> > > +++ b/drivers/gpu/drm/drm_vblank.c
-> > > @@ -996,10 +996,16 @@ EXPORT_SYMBOL(drm_crtc_vblank_count_and_time);
-> > >  int drm_crtc_next_vblank_start(struct drm_crtc *crtc, ktime_t *vblanktime)
-> > >  {
-> > >       unsigned int pipe = drm_crtc_index(crtc);
-> > > -     struct drm_vblank_crtc *vblank = &crtc->dev->vblank[pipe];
-> > > -     struct drm_display_mode *mode = &vblank->hwmode;
-> > > +     struct drm_vblank_crtc *vblank;
-> > > +     struct drm_display_mode *mode;
-> > >       u64 vblank_start;
-> > >
-> > > +     if (!drm_dev_has_vblank(crtc->dev))
-> > > +             return -EINVAL;
-> > > +
-> > > +     vblank = &crtc->dev->vblank[pipe];
-> > > +     mode = &vblank->hwmode;
-> > > +
-> > >       if (!vblank->framedur_ns || !vblank->linedur_ns)
-> > >               return -EINVAL;
-> > >
-> > > --
-> > > 2.39.2
-> > >
 
 -- 
 Daniel Vetter
