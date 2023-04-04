@@ -2,61 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 619F96D6240
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Apr 2023 15:09:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A25FE6D6245
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Apr 2023 15:09:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3180110E678;
+	by gabe.freedesktop.org (Postfix) with ESMTP id ECD0D10E69F;
 	Tue,  4 Apr 2023 13:09:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-lj1-x234.google.com (mail-lj1-x234.google.com
  [IPv6:2a00:1450:4864:20::234])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B4D3110E6AC
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Apr 2023 13:09:25 +0000 (UTC)
-Received: by mail-lj1-x234.google.com with SMTP id by14so14587286ljb.12
- for <dri-devel@lists.freedesktop.org>; Tue, 04 Apr 2023 06:09:25 -0700 (PDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B76E010E32C
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Apr 2023 13:09:26 +0000 (UTC)
+Received: by mail-lj1-x234.google.com with SMTP id by14so14587338ljb.12
+ for <dri-devel@lists.freedesktop.org>; Tue, 04 Apr 2023 06:09:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1680613765;
+ d=linaro.org; s=google; t=1680613766;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=359489BbEgBMxOH05QZQy2H3mPDhw2Q2c+iKHkhCGlA=;
- b=rEdDw+kY+TWJNtp7EPtmpXQkVVXLjvMogXahgUsME+Ach7+BzqxbkHmf0ZvgbpnWFP
- ThcgUo/PRU/F2I8G2id112+Dc+p+MiqY74mP8cWkkp6lxwSIyABRgFppGtj2N21zGST0
- GkBYKfNfilXwMJvgLSiPROqZyGyhzD0AlyLb640RFf+BMLjy2/IiO70icbX2HmwnZzuS
- Sx/f8cMEK5/m+Csrj2voO7Ln4IFa3dpPYNK+2SU9Ai6ol+eDDuxl14wwpqfUP7qnfdKz
- sMZT8ETHdNOgfLjBZndWRhJUYxdj9zjD40Y33jCHHEMTurc+sWSWoOknm1yTq/ln0PzG
- wodQ==
+ bh=d0qagrlVseey+Z3DXDiCrx8oZOPPRUijOR+Qh85SE+0=;
+ b=olKlw9NVMTPY8qU/GMy3FZ8dgTbD1Jb/GpVEVaJQGu6jl3ZEKMNtLjGicwAznkuVeu
+ 6lupcH5+ddLPTubClAEzBR2SYr/I2/3IGzbgq+vyEtSXbCwWZbrH0QoJ26WDC5H7lp+J
+ HAbuu2PynH2UxzrI/63Tz+e27JdjGgKYVwYEBGZRJbPHLMw4lgMzC/YraQ/vD+kSHe55
+ rFa20VtdEyoE9AF7YdS3am4luqqQXKlBVnuzZvUpzwVLnezEzDJ73JAx5ee2/GnuF/w3
+ H6pYSLoDxUkxPyfeQBOIgcn4gebxkrGRFqxmY4pRe9Bn7jjS/rZgW5jm1TF5JN0C8RpN
+ itgA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680613765;
+ d=1e100.net; s=20210112; t=1680613766;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=359489BbEgBMxOH05QZQy2H3mPDhw2Q2c+iKHkhCGlA=;
- b=sE6LvHVXCyNXQjb9wzPCLrWK3DoqePQeuq2dDv5lUW5TS+SFmGWSOzcVuxkWdXjrpH
- GcnlcVWeoGE+zc3tMEfa4IuDeUgeOJcEVApWFES62M8JV6HAv/R8X1ifooIrqMC3grvX
- V8/UPcjltDQoK+Y/x85hz+zNHvtKwD79N20z+686Miv4PgltmcieUc9OHEHKUl+cxLM6
- AjGgdeR0mt7YM3uGVP+oi0rdTLY8V62BwaLrm+zcds719K5nV1r8UhV03RhQFzGr9es3
- aQJ4O6umyBwmkLArXLu2ldir7ssqhW+Cr/wsSSdSfWxkv6i5zdVO7n1gxHEwAbVdyGJa
- gPFg==
-X-Gm-Message-State: AAQBX9dJ9ox+RGXr7eJZSA27OmCyZmhPmR24c9Pyc6akoJXGnSRx9bhN
- UTEMEnaIHMHwaYrLG0RtTuGoEw==
-X-Google-Smtp-Source: AKy350Y0Pn2j+S+vaZDaosEubXr/ArO9hoDcQDCNJxpsNun8fQr6SnciQhwI8dqAPjEeTgMuG47pyA==
-X-Received: by 2002:a2e:8845:0:b0:293:4b91:eb44 with SMTP id
- z5-20020a2e8845000000b002934b91eb44mr1073215ljj.38.1680613765280; 
- Tue, 04 Apr 2023 06:09:25 -0700 (PDT)
+ bh=d0qagrlVseey+Z3DXDiCrx8oZOPPRUijOR+Qh85SE+0=;
+ b=O6nGm3YaK70xY7Qs/NPECmc805UMXEZPfbKcfHVQ3BIms+HObSP/s7q/hhb287cVKK
+ 5UGEfMQvYkcgpHzbCxq5fiW7MDJWvUJCd7U3B173luBsKSZR/2fcfY2BAv0BHPOnvdtz
+ Ujjhk5iGVBgr6r42qXVCW9YBVVwpRWSUw+4Zr+5P5i9Ueq6TpUeEo2tYbdq9S8mDwPdp
+ DVagDzUEjrM+4lbgWIz1bonyqCwKjnMKO1MCJEGZ2840wvrAag1+XLMD1OSFiO16lPqe
+ bcqGXDhaep6KZ7kBkreDnAwihrUNuvz5NCoiL6he7gkgyUlLHSSf+9iEJcK9e2nw1gTA
+ I97A==
+X-Gm-Message-State: AAQBX9fhBHbGi+hH4dvLSU6jyRLwezOLeFFm+0SD8nC+7WoUsOYy9K3Z
+ L9xu9+JdGp5v9X4yOpCV2JTo1g==
+X-Google-Smtp-Source: AKy350a5JwmFN0fgNwdhlQ/eKF2KIOS52lTB34fGxCPNrt7lFrktvdV8iHwC42KBZnFsAm4ZyG1llw==
+X-Received: by 2002:a2e:854f:0:b0:298:aa96:55c2 with SMTP id
+ u15-20020a2e854f000000b00298aa9655c2mr936425ljj.44.1680613766324; 
+ Tue, 04 Apr 2023 06:09:26 -0700 (PDT)
 Received: from eriador.lumag.spb.ru ([193.65.47.217])
  by smtp.gmail.com with ESMTPSA id
- c11-20020a05651c014b00b0029e5448e752sm2304789ljd.131.2023.04.04.06.09.24
+ c11-20020a05651c014b00b0029e5448e752sm2304789ljd.131.2023.04.04.06.09.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 04 Apr 2023 06:09:25 -0700 (PDT)
+ Tue, 04 Apr 2023 06:09:26 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
  Abhinav Kumar <quic_abhinavk@quicinc.com>
-Subject: [PATCH v4 30/42] drm/msm/dpu: catalog: add comments regarding
- DPU_CTL_SPLIT_DISPLAY
-Date: Tue,  4 Apr 2023 16:06:10 +0300
-Message-Id: <20230404130622.509628-31-dmitry.baryshkov@linaro.org>
+Subject: [PATCH v4 31/42] drm/msm/dpu: enable DPU_CTL_SPLIT_DISPLAY for
+ sc8280xp
+Date: Tue,  4 Apr 2023 16:06:11 +0300
+Message-Id: <20230404130622.509628-32-dmitry.baryshkov@linaro.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230404130622.509628-1-dmitry.baryshkov@linaro.org>
 References: <20230404130622.509628-1-dmitry.baryshkov@linaro.org>
@@ -80,79 +80,40 @@ Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-For sm8150+ the DPU_CTL_SPLIT_DISPLAY should be replaced with
-DPU_CTL_ACTIVE_CFG support (which supports having a single CTL for both
-interfaces in a split). Add comments where this conversion is required.
+Theoretically since sm8150 we should be using a single CTL for the
+source split case, but since we do not support it for now, fallback to
+DPU_CTL_SPLIT_DISPLAY.
 
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_0_sm8150.h | 1 +
- drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_0_sm8250.h | 1 +
- drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h | 1 +
- drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h | 1 +
- drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h | 1 +
- 5 files changed, 5 insertions(+)
+ drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_0_sm8150.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_0_sm8150.h
-index 6db0f64142d5..29bcbc88cd5a 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_0_sm8150.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_0_sm8150.h
-@@ -42,6 +42,7 @@ static const struct dpu_mdp_cfg sm8150_mdp[] = {
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h
+index d30b797e90e0..3dc850a681bb 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h
+@@ -42,17 +42,18 @@ static const struct dpu_mdp_cfg sc8280xp_mdp[] = {
  	},
  };
  
 +/* FIXME: get rid of DPU_CTL_SPLIT_DISPLAY in favour of proper ACTIVE_CTL support */
- static const struct dpu_ctl_cfg sm8150_ctl[] = {
+ static const struct dpu_ctl_cfg sc8280xp_ctl[] = {
  	{
  	.name = "ctl_0", .id = CTL_0,
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_0_sm8250.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_0_sm8250.h
-index 53a27461da05..233ea66155bd 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_0_sm8250.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_0_sm8250.h
-@@ -43,6 +43,7 @@ static const struct dpu_mdp_cfg sm8250_mdp[] = {
+ 	.base = 0x15000, .len = 0x204,
+-	.features = CTL_SC7280_MASK,
++	.features = BIT(DPU_CTL_SPLIT_DISPLAY) | CTL_SC7280_MASK,
+ 	.intr_start = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR2, 9),
  	},
- };
- 
-+/* FIXME: get rid of DPU_CTL_SPLIT_DISPLAY in favour of proper ACTIVE_CTL support */
- static const struct dpu_ctl_cfg sm8250_ctl[] = {
  	{
- 	.name = "ctl_0", .id = CTL_0,
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h
-index 787d67a28490..a5818878ee0a 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h
-@@ -41,6 +41,7 @@ static const struct dpu_mdp_cfg sm8350_mdp[] = {
+ 	.name = "ctl_1", .id = CTL_1,
+ 	.base = 0x16000, .len = 0x204,
+-	.features = CTL_SC7280_MASK,
++	.features = BIT(DPU_CTL_SPLIT_DISPLAY) | CTL_SC7280_MASK,
+ 	.intr_start = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR2, 10),
  	},
- };
- 
-+/* FIXME: get rid of DPU_CTL_SPLIT_DISPLAY in favour of proper ACTIVE_CTL support */
- static const struct dpu_ctl_cfg sm8350_ctl[] = {
  	{
- 	.name = "ctl_0", .id = CTL_0,
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h
-index e7272bc7670a..6f573e28582e 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h
-@@ -42,6 +42,7 @@ static const struct dpu_mdp_cfg sm8450_mdp[] = {
- 	},
- };
- 
-+/* FIXME: get rid of DPU_CTL_SPLIT_DISPLAY in favour of proper ACTIVE_CTL support */
- static const struct dpu_ctl_cfg sm8450_ctl[] = {
- 	{
- 	.name = "ctl_0", .id = CTL_0,
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h
-index c7247a5739f1..9acd9fcf39a1 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h
-@@ -43,6 +43,7 @@ static const struct dpu_mdp_cfg sm8550_mdp[] = {
- 	},
- };
- 
-+/* FIXME: get rid of DPU_CTL_SPLIT_DISPLAY in favour of proper ACTIVE_CTL support */
- static const struct dpu_ctl_cfg sm8550_ctl[] = {
- 	{
- 	.name = "ctl_0", .id = CTL_0,
 -- 
 2.39.2
 
