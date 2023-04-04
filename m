@@ -1,63 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C59086D5FB9
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Apr 2023 13:58:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FE906D5FF3
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Apr 2023 14:15:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6CE8210E133;
-	Tue,  4 Apr 2023 11:58:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D725E10E1DD;
+	Tue,  4 Apr 2023 12:14:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com
- [IPv6:2a00:1450:4864:20::52d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0CE2D10E133
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Apr 2023 11:58:20 +0000 (UTC)
-Received: by mail-ed1-x52d.google.com with SMTP id eg48so129416678edb.13
- for <dri-devel@lists.freedesktop.org>; Tue, 04 Apr 2023 04:58:20 -0700 (PDT)
+Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com
+ [IPv6:2a00:1450:4864:20::52f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C632110E1DD
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Apr 2023 12:14:53 +0000 (UTC)
+Received: by mail-ed1-x52f.google.com with SMTP id w9so129726355edc.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 04 Apr 2023 05:14:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1680609499;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=6qUaOa2uX1gKDWpiZadVZORgyny6GtQJAOnTp2fBPDE=;
- b=clVFHpwrwDMHPqPS9Wddw/GxlJyM4PUazm0Fmj/TVQVELl/cUjgKgg8ZGdwwDpIsYz
- tZbPk9VTciPOsM3jsEUdCxhbN233xzE8vxov6EBAwRKM0ZCKHQWB1+ylP2Hehu/upFlh
- VMn2jfZM75Fgi3p1Ss9vq3zPZu6jZuNlKl9HoD1sClJkc6Y+CE+Jm/D4bkOIDo64/b1K
- r7ryHbwU8EIZIAm5KInudcClM3JM2xjDqu+5IERx5JMUQ/+K5K6cuTgAI9BbPtyOJTtp
- aNS0wkqsAZ0xXeHXXnKcmAT5drAksNYwoPKIT6e+XaCidMmxoUDTlnGiH3yXG8vUBpEG
- hxpQ==
+ d=gmail.com; s=20210112; t=1680610492;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=AqDwgiSEHXYcctc2ir4e/JOQcuBACd3Y+m4voyUVZdI=;
+ b=PdbEHNY4MaJL2QK86ou5R9wBF04TH2u2t/C4OGX6xErvzcS4SKsJSKwsFzfZMNgejk
+ sERjEwvJ5PmDrDRikHSjluohq6E9AbtZrcGsThGhufTxtEKmdwrt5f1ngeX3m2dRg9UB
+ R7MM4fyazeWvNxb8wAG392oNBi87WKq8VYAlnRA9K9slTfOZBS6H/DjsiV4/Cbh6JjKr
+ kX8YcXgNmRBQRIZ9tUFeCJ8KAJ25/xtBwtSryf5QFL265QV1sr7jQ5zlQ9Zbru5bx3tu
+ XyDV6RnGiV2RXJrKUJqg6V38T5nTLzN6NotJ9On7MvhHa+uXM+1biWrxOOZZFqSQB7sT
+ 3K8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680609499;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=6qUaOa2uX1gKDWpiZadVZORgyny6GtQJAOnTp2fBPDE=;
- b=M+ihn+ON8EQuQm4IdAJX0SZMFX9Bp7eSUmxb4TO+bIsrYAHwUESj3VQQsqB7kUP530
- uVTODdMSUUUwOu1kIk5nGNEmjOJGlKht9wLs68wBxUR55EVQaIR/vsHNXcV6nbqfqvbE
- rR0hxC5cuCCf9LvNg9KP0l/QZuH8VLUVewqDBMbgOif7OkTx2pEtjY6YQURZOpa9gIYd
- 9OPENet4LqafGyrSexeV4rpCATbFqAqNpCCCj95o55a0EJw0ExVoRiVLNA/SRb32zvpf
- PES5/Mbg+ijrohWBcLZH55CFbQ27nf90qxj1ViNung6c3nKsVwFRApkpWJ0+ws+pwpGs
- 1HVA==
-X-Gm-Message-State: AAQBX9dg2ECoc8R2vmM114G7ua5HygebM3ij0LwVLDT+CtkunBsKiQIV
- GKqTHUuE7SoW8C43ab2c1aM=
-X-Google-Smtp-Source: AKy350Y9toub7VBZMdCkxwbC6TjPoCY4ZkUxKfXrPohSqWAz06kxohADFXZsOAqT5dahuy8ImUP7wQ==
-X-Received: by 2002:aa7:c259:0:b0:501:d43e:d1e5 with SMTP id
- y25-20020aa7c259000000b00501d43ed1e5mr2353060edo.2.1680609498594; 
- Tue, 04 Apr 2023 04:58:18 -0700 (PDT)
+ d=1e100.net; s=20210112; t=1680610492;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=AqDwgiSEHXYcctc2ir4e/JOQcuBACd3Y+m4voyUVZdI=;
+ b=OUXSIiczi2gA0RMexGh/2mf8wN4saXvAAhEs+KMw4++2TBp3B9u1nEyjXSPwRblWCu
+ P5biyUCwWNg2SotRqt97PD8SoVMH/wyFAPR+lYWTaNLP3/aVWRgAdkyjbR+O8LCflDM7
+ /kodJc2nD0LdWselDFNxQ1/1cbGeT2A06CbkzqQQz77XlYS4fr+PLQQPnSWh0U3HeMri
+ Fg0f3Du3k5z8b1y6gM/ui2Aw9azXOWCxpXJaUxrm+u3I7NAZBGny0W1tGPQK2GX1pkKr
+ KyEPeewd63xjxgtqsmYMWifi3ophte+jv9L1/9EmUv1k74xvRc0S8y7II2OGfZXVLSwT
+ gQ6A==
+X-Gm-Message-State: AAQBX9dRjWoAHdtvKr/14uXxGju2hSirLOeedyaLKQZbBZ1vSwb0KVXz
+ 1bmjoLhnObdrnNXl7+pWoW46MnrUiso=
+X-Google-Smtp-Source: AKy350ZA5sgGwgL3vMVo5Ny1rRfi1xq5vWXKPdWqstTtkyS1o1E8fWWWqrsgwBFlAzhuAlspbdoFCw==
+X-Received: by 2002:a17:906:b10f:b0:93b:752:d2a9 with SMTP id
+ u15-20020a170906b10f00b0093b0752d2a9mr1905729ejy.31.1680610491802; 
+ Tue, 04 Apr 2023 05:14:51 -0700 (PDT)
 Received: from localhost
  (p200300e41f1c0800f22f74fffe1f3a53.dip0.t-ipconnect.de.
  [2003:e4:1f1c:800:f22f:74ff:fe1f:3a53])
  by smtp.gmail.com with ESMTPSA id
- s17-20020a50ab11000000b004af7191fe35sm5818223edc.22.2023.04.04.04.58.18
+ qo26-20020a170907213a00b00930aa50372csm5843631ejb.43.2023.04.04.05.14.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 04 Apr 2023 04:58:18 -0700 (PDT)
+ Tue, 04 Apr 2023 05:14:51 -0700 (PDT)
 From: Thierry Reding <thierry.reding@gmail.com>
-To: Thierry Reding <thierry.reding@gmail.com>
-Subject: [PATCH] MAINTAINERS: Add Mikko as backup maintainer for Tegra DRM
-Date: Tue,  4 Apr 2023 13:58:15 +0200
-Message-Id: <20230404115815.2052620-1-thierry.reding@gmail.com>
+To: Cai Huoqing <cai.huoqing@linux.dev>
+Subject: Re: [PATCH] drm/tegra: dsi: Make use of the helper function
+ dev_err_probe()
+Date: Tue,  4 Apr 2023 14:14:42 +0200
+Message-Id: <168061024450.2054665.3431873528237731595.b4-ty@nvidia.com>
 X-Mailer: git-send-email 2.40.0
+In-Reply-To: <20210916105641.12215-1-caihuoqing@baidu.com>
+References: <20210916105641.12215-1-caihuoqing@baidu.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -71,33 +76,29 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-tegra@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Mikko Perttunen <mperttunen@nvidia.com>
+Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Jonathan Hunter <jonathanh@nvidia.com>,
+ Thierry Reding <thierry.reding@gmail.com>, linux-tegra@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Thierry Reding <treding@nvidia.com>
 
-Mikko has been involved as the primary author of the host1x driver and
-has volunteered to help out with maintenance.
+On Thu, 16 Sep 2021 18:56:40 +0800, Cai Huoqing wrote:
+> When possible use dev_err_probe help to properly deal with the
+> PROBE_DEFER error, the benefit is that DEFER issue will be logged
+> in the devices_deferred debugfs file.
+> And using dev_err_probe() can reduce code size, the error value
+> gets printed.
+> 
+> 
+> [...]
 
-Signed-off-by: Thierry Reding <treding@nvidia.com>
----
- MAINTAINERS | 1 +
- 1 file changed, 1 insertion(+)
+Applied, thanks!
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 7bfa5228d1ea..0a517baef16e 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -7047,6 +7047,7 @@ F:	drivers/phy/mediatek/phy-mtk-mipi*
- 
- DRM DRIVERS FOR NVIDIA TEGRA
- M:	Thierry Reding <thierry.reding@gmail.com>
-+M:	Mikko Perttunen <mperttunen@nvidia.com>
- L:	dri-devel@lists.freedesktop.org
- L:	linux-tegra@vger.kernel.org
- S:	Supported
+[1/1] drm/tegra: dsi: Make use of the helper function dev_err_probe()
+      commit: 6fae3bc81e679961cfd198622f2aed2d720ee631
+
+Best regards,
 -- 
-2.40.0
-
+Thierry Reding <treding@nvidia.com>
