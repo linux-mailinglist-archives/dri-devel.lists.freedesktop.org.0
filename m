@@ -2,65 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 520A16D5FF8
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Apr 2023 14:15:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27A106D5FF5
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Apr 2023 14:15:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E2C2D10E244;
-	Tue,  4 Apr 2023 12:15:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 51F2910E25C;
+	Tue,  4 Apr 2023 12:14:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com
- [IPv6:2a00:1450:4864:20::532])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 851BC10E1DD
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Apr 2023 12:14:55 +0000 (UTC)
-Received: by mail-ed1-x532.google.com with SMTP id b20so129731556edd.1
- for <dri-devel@lists.freedesktop.org>; Tue, 04 Apr 2023 05:14:55 -0700 (PDT)
+Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com
+ [IPv6:2a00:1450:4864:20::531])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4BE3210E1E8
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Apr 2023 12:14:56 +0000 (UTC)
+Received: by mail-ed1-x531.google.com with SMTP id ew6so129628033edb.7
+ for <dri-devel@lists.freedesktop.org>; Tue, 04 Apr 2023 05:14:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1680610494;
+ d=gmail.com; s=20210112; t=1680610495;
  h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=xcckzg95zpKeurnjtan7E8VP+EYwCJoi2cRFH+SxLY4=;
- b=MaAjRRFugUvjadZGGJRXWMxFGP3C+fpBJg9N4EY47OixBVN6M7Ff/CxGNwnhPZSMjg
- Rmu9tS6icUukt3KVYABNtD6RK58Y5tsb55mTyDDku7bDiccsYlKFIAeDDbqIVJdBUhHD
- ykqEsCTrmretXQnYjLSuH+fo9x+eSVbvUOkOvpxaHR6FFqA5mO0010AD3ux8OchBB59Z
- CP7vGg4mWcMjzfUXxh8lqF5cVH+eA2dn72TNMl+roMKrvOUczkRcOoyJIIxqzk6KOp7N
- 9a4M+DQWdzHiCtovTGKs8BrxzqSA85IY5QOKlS+a40YRr69imrL2KZhLSKnAbfBQbk6l
- Snpw==
+ :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+ :reply-to; bh=ghmTYqJOyZOn2MTihV4T6tw9iNwJh1T6pNKtc6GlOxE=;
+ b=h1PzQUMXt2Uk/Ldc2XTLIZtB3WPQOEdRjphdDOBgAEcm1KmHS76fpTq5BoiDONEemN
+ mBisOKtJ8ujURSQl5crnW6uhdg3juvp/K9EysVzMQ9nUO6H5kxdkq6ZY0Fi9LhrgBpC4
+ c8E5273o0S9gIzLnlWjV/z2CbRntYc4r0Xr+Aa1T47YEgCnjPkZD9AKFv3F/vAZdJLHb
+ 9AXxhgMCsrDibV+Bz7Tt+Ic/a8QU9bsmhvrpL1e+y6H6mT6YJRsRL6LNQuQxxUf+Z3Mx
+ uoDrk5agmiPHcZ6RyPcdrRFk8TxNjwVeU7jRj699oW3TBJCHeAg9+D7u8qimvVdFQ/+0
+ nrIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680610494;
+ d=1e100.net; s=20210112; t=1680610495;
  h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=xcckzg95zpKeurnjtan7E8VP+EYwCJoi2cRFH+SxLY4=;
- b=Sg90ST8CbJAWkeKTa5DPU/nA1xs5KzYs6zlK3ZC0Y1n8KrEupxS3zR7tGJI0hGe7nT
- RuHGdNRwYAJsfWi/lRI9n2xWomWU4usDCLJnfoiKEuyfe7CiRuLD5bf3OzXOmpP1Ppij
- fGL+RpdUALsOlm9RDYfHVJ3uof46k3d2Z9B3wYajUWVCfn/AorMvbMGnEidK41RM6FeP
- MAP/hZRDeIDwLLG86SLaXz1xXGkpll+u2MkDpGGhAYVpYHzmi1pmRiyb2Jrndo24LMaI
- UFJ6QBFfiAEZWz7DYyr/z0UQ73kc0d5nXUi0s7zkyoggVmAtcpw6hblT/WlHQHCCQt8F
- l8Tw==
-X-Gm-Message-State: AAQBX9cwJXrEGnhB+kCahuNvPGZ9OODtQ+z39a2CAryLhDkbUV5aU7d5
- JMIneHBTX1SD4jAUJPkX4Xc=
-X-Google-Smtp-Source: AKy350ZAccl7ypQjeajCpBxjnbYrGDamuVDbdEk5hzFtzr6jmcUkKbPu7ycNguia4WaGj1vfQpk0CA==
-X-Received: by 2002:aa7:d598:0:b0:501:cde5:4cc9 with SMTP id
- r24-20020aa7d598000000b00501cde54cc9mr2212071edq.39.1680610493757; 
- Tue, 04 Apr 2023 05:14:53 -0700 (PDT)
+ bh=ghmTYqJOyZOn2MTihV4T6tw9iNwJh1T6pNKtc6GlOxE=;
+ b=8KPoLZnvf+DUYjFDeJbWZxRyZXougvrO6GfhYlLyENaJleifDSzse5n7T+NUh66f4m
+ 03qNM+dptRCs9pMwPpDICrbXL6mv3xZI2ev94hL1IOn0SraId6CdkaQAynFXJFjw3WEK
+ G0+wYWPu1q1RI7o/eEvJ2+JgLKQoQMFESzBpuZuGwaS9WIdZNWGhgNX1eyhhKiz9R59N
+ PgjWIG7VKetICNq8qyM0dr4HQ5gJ9k5VIyYnwvspO08PFGD4/+LJOoO29rpPXf233kMl
+ /7UPJhPh7w+plPOeYIg3wX/vgXzJGT8mesxRe2nhoX2L9v5QlDneKJ7VFRLxaZ91+aGu
+ gPwg==
+X-Gm-Message-State: AAQBX9dM4AnuC3ieX4GzC7PS3/FbTGmJ2NFw5rYFOVt37cKCujqNFW3J
+ 96mWXEEwVG5hmwjkiUFnpiw=
+X-Google-Smtp-Source: AKy350ZfGorSMIPnJg72IcXpSjnoQ7lSIoJ5Al8iPen06Hp6G0tNLsCirKTEXy26ryySRml3WIgiVw==
+X-Received: by 2002:a17:906:13c2:b0:8b1:fc1a:7d21 with SMTP id
+ g2-20020a17090613c200b008b1fc1a7d21mr1724192ejc.5.1680610494608; 
+ Tue, 04 Apr 2023 05:14:54 -0700 (PDT)
 Received: from localhost
  (p200300e41f1c0800f22f74fffe1f3a53.dip0.t-ipconnect.de.
  [2003:e4:1f1c:800:f22f:74ff:fe1f:3a53])
  by smtp.gmail.com with ESMTPSA id
- v23-20020a056402175700b004c5d1a15bd5sm5724789edx.69.2023.04.04.05.14.53
+ u25-20020a1709060b1900b0093e39b921c8sm5850341ejg.164.2023.04.04.05.14.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 04 Apr 2023 05:14:53 -0700 (PDT)
+ Tue, 04 Apr 2023 05:14:54 -0700 (PDT)
 From: Thierry Reding <thierry.reding@gmail.com>
-To: Cai Huoqing <cai.huoqing@linux.dev>
-Subject: Re: [PATCH v2] drm/tegra: sor: Make use of the helper function
- dev_err_probe()
-Date: Tue,  4 Apr 2023 14:14:44 +0200
-Message-Id: <168061024450.2054665.8080259648129396992.b4-ty@nvidia.com>
+To: jonathanh@nvidia.com, dri-devel@lists.freedesktop.org,
+ linux-tegra@vger.kernel.org,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ thierry.reding@gmail.com
+Subject: Re: [PATCH] drm/tegra: allow compile test on !ARM v2
+Date: Tue,  4 Apr 2023 14:14:45 +0200
+Message-Id: <168061024447.2054665.2842597656281966346.b4-ty@nvidia.com>
 X-Mailer: git-send-email 2.40.0
-In-Reply-To: <20210917020741.17525-1-caihuoqing@baidu.com>
-References: <20210917020741.17525-1-caihuoqing@baidu.com>
+In-Reply-To: <20230322103915.376533-1-christian.koenig@amd.com>
+References: <20230322103915.376533-1-christian.koenig@amd.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
@@ -76,28 +77,22 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Jonathan Hunter <jonathanh@nvidia.com>,
- Thierry Reding <thierry.reding@gmail.com>, linux-tegra@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Thierry Reding <treding@nvidia.com>
 
-On Fri, 17 Sep 2021 10:07:41 +0800, Cai Huoqing wrote:
-> When possible use dev_err_probe help to properly deal with the
-> PROBE_DEFER error, the benefit is that DEFER issue will be logged
-> in the devices_deferred debugfs file.
-> And using dev_err_probe() can reduce code size, the error value
-> gets printed.
+On Wed, 22 Mar 2023 11:39:15 +0100, Christian König wrote:
+> This compile tests on x86 just perfectly fine.
+> 
+> v2: fix missing include complained by kernel test robot
 > 
 > 
-> [...]
 
 Applied, thanks!
 
-[1/1] drm/tegra: sor: Make use of the helper function dev_err_probe()
-      commit: a4c56f2f8ce0e242eb51e5309a743361e2348a64
+[1/1] drm/tegra: allow compile test on !ARM v2
+      commit: 224718f4e59442e205524c7307815f09148f051b
 
 Best regards,
 -- 
