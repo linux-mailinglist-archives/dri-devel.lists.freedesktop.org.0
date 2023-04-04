@@ -1,73 +1,73 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A9D06D62E5
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Apr 2023 15:32:59 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 49C196D631E
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Apr 2023 15:37:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 812DF10E140;
-	Tue,  4 Apr 2023 13:32:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9744010E317;
+	Tue,  4 Apr 2023 13:37:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from new3-smtp.messagingengine.com (new3-smtp.messagingengine.com
  [66.111.4.229])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8EB3910E32C
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Apr 2023 13:32:50 +0000 (UTC)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailnew.nyi.internal (Postfix) with ESMTP id E6ABC581F8B;
- Tue,  4 Apr 2023 09:32:49 -0400 (EDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9EA6E10E326
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Apr 2023 13:37:42 +0000 (UTC)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+ by mailnew.nyi.internal (Postfix) with ESMTP id D220E582196;
+ Tue,  4 Apr 2023 09:37:40 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute2.internal (MEProxy); Tue, 04 Apr 2023 09:32:49 -0400
+ by compute1.internal (MEProxy); Tue, 04 Apr 2023 09:37:40 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
  :cc:content-transfer-encoding:content-type:content-type:date
  :date:from:from:in-reply-to:in-reply-to:message-id:mime-version
  :references:reply-to:sender:subject:subject:to:to; s=fm3; t=
- 1680615169; x=1680622369; bh=sPTwdBQk8uUKcSRaRMSmThBHaieWdvgI+8I
- 8CW4DhTw=; b=rzKgnZxnlBaCOTBFoaOfQUHUmeyr2iV3dkntLiuqyPgwW3TE1h8
- jBJrn/Xw0RqwTMZUyRpMA+lGsjQxt46AHzKGix0wsWg77uS27iSjVL1MJzlBqVtO
- jUI6Z4QlANgYVfAuFS/YqnrShCikG/RtxoTo+Pdg/vQK0ixuwBgPv68Ir0zbod+l
- MdUXF9Te/woTMXMmXuiEwyfn7AlIJEiZfbPO2sAdSS977zk6pqXeyxnB3vsv5i7X
- ljuDQomV+eosJeFR1j1JV5h33W8aXJSEUA5lz6PxUkIZ3EHB/HTPR4uIamQFlv0m
- 4I85eGSd1xzSkzSZ/MRtSowOKDwHxBYFkLA==
+ 1680615460; x=1680622660; bh=2b4Sgq/POkdhH5Bii8X9oCN5UjdHlAsPEu5
+ PVRDmJwc=; b=B6jufhXdIsIVVOlHteQmMsCMM/Z4+1u5ojL2vnpICtxMWNjcsfs
+ 4+QZgjaeQVH0AzjR7Za7f4q7TIDO1jZRZrMfykFALSWqfkXqZd5daZAkJ2qeK16f
+ XiHgwck908QWJphZLs5+ZOXpqdErNtIyIAgTTK4RCSw8arK/3DhPxHUa7UoQd9VB
+ d9FAwyxWqJukdOz2NWneN1km0V64EEFj0pdLwr/ReGwxgJ6XRGtPLz3YLieZqtwP
+ P5D269DYBISWMJVOkrvJcJlNHVFPh/uSdYZ0M0pb4t8gcFIl+1epjblVFJO4xrUn
+ oByWVQKU46EPm1IK5EXe7dqILBUvPHIfm6w==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding
  :content-type:content-type:date:date:feedback-id:feedback-id
  :from:from:in-reply-to:in-reply-to:message-id:mime-version
  :references:reply-to:sender:subject:subject:to:to:x-me-proxy
  :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
- 1680615169; x=1680622369; bh=sPTwdBQk8uUKcSRaRMSmThBHaieWdvgI+8I
- 8CW4DhTw=; b=GWmTcQ+W1+0x7cDNrAYaDAWy7IhYmIA3AeYEqEQPdjAT8Nlt+Jg
- /1dM+oG1QRGLQ4AkyPM8RSKg4qeBAJWUJ3lyUkwnxKqM0TytNlxcEOe3wuog2AB0
- nd5LeZDxaL3Mk9gBhNMHcG/GDBdeQOm0PjGAsqmZoj2iCd+JFmUniVHVt3rQz7ui
- 4cznQ+mEWqMJqf0rtRCM/uYpk+6gOQpIQ3DTB3ijrrWP9brXgw2EuvbJF/nqGzS+
- jSYKHnV/rzkSJdhVzDFkXOlWL5Q5zV78wEQRmZIeeakbvs0frB4FEHJz/kcp2fbV
- 53EqHtr5jiPnYe0w1Ar8/zpqAXmYIwmhcfQ==
-X-ME-Sender: <xms:AScsZKpUqFkRlsijk5A_P0ZMFFYNPflGdlRbj9dzjv6O-mfNPhF-tg>
- <xme:AScsZIrkainRhD0UZ9HHXSgnyIMC_xlst58a_CFX2eZQy4lK9812Xk_t9G5ReIfHp
- fOsj_hAOhFZmGOA87U>
-X-ME-Received: <xmr:AScsZPOib_5NmgsPGmUCPVsDkZuSNWFkfomGQ1bpqm_mQmJ2_eeentybx4EwviqOW7o5vQSbDu-uQI5AsIKmdH1arVF85X0>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvdeiledgieehucetufdoteggodetrfdotf
+ 1680615460; x=1680622660; bh=2b4Sgq/POkdhH5Bii8X9oCN5UjdHlAsPEu5
+ PVRDmJwc=; b=C2pPftA1A4975VJnNsrDC7upBY2VHAjKTnt9kEQa+N9kGujjUFK
+ L3JmHcR1F65lOxPkmvrYbupmxqlWcxKYwrUkJBR502x5OfPVeXxKWSJwogoN2/Kq
+ EEct3uQPL3dtMNMGPSlE5P1RvIuMNUt1usolNzd9bBcuBg+7cLC4WBtsrSNMHI50
+ xYz9N0oJOzRTIxw4vhliPAZlJk8NCUVJRKp8RG9h0JSAwUfMZdp/fik9gwkykwdq
+ S3SjGbE7z2XnUXEk0/SvMQ4EWoH7TXjisfu2rgiqMV77i3BxXQbcmmUz9S/DXlo9
+ 0NQNHXgJ+1cDApHq5Y1a3jd/2MIzG/FCIfw==
+X-ME-Sender: <xms:JCgsZP8VbTmdhVeAml_GhTMm3ojeaDBDPlPQvkQI9Mi630QuHevGsQ>
+ <xme:JCgsZLuTPyYyv-s0uc8pC-pZpqpR7QhzHI8NMUYLIjtpwmHuk9FbL40NHcH8g351a
+ nfKh9QGew6GVJcdyyI>
+X-ME-Received: <xmr:JCgsZNBAkLnRh05M1VwvDzfJXvLbnUkCvyK6DDP1DG2kHHVe98GEIre5y2reOP_QqNC79jQ4LOLZc3vD1mbWTSuMzWXw4qc>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvdeiledgieeiucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
  cujfgurhephfffufggtgfgkfhfjgfvvefosehtjeertdertdejnecuhfhrohhmpeforgig
  ihhmvgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrf
  grthhtvghrnhepvedvleeijeegvdekffehkeehieelhfeggfffheetkeeuledvtdeuffeh
- teeltdffnecuvehluhhsthgvrhfuihiivgepudenucfrrghrrghmpehmrghilhhfrhhomh
+ teeltdffnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
  epmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:AScsZJ4f1tiD-P4P9wRmGokCAIP9BQuYKHKPGRw0UtDZj2zrQiiKxg>
- <xmx:AScsZJ4ufxn1Fz1tRSzQkQ4gZdCuNbWeJxgrO_TOulCThfcOmbI7Rw>
- <xmx:AScsZJhpl525DMGv9o4cmUJXIcCTdDtHXbg-oSM6pJd1P3jmi1QHnw>
- <xmx:AScsZPH1WzsxCvYsfovqjnPQtQn3p8buNCQnrTTZLNF_5rkryYgX0w>
+X-ME-Proxy: <xmx:JCgsZLfkSQFTF3lllo9NenrzxcdAlEHkG94V7ndGCTgayAQ0ZOioyA>
+ <xmx:JCgsZEOQ6rZGUXoXpYosBAFdGvJzs3hVxJ8RhjgsVhwFtrsa-bH2QA>
+ <xmx:JCgsZNk6Jjhg18KurTr3Q4webmmWGwI8PCRhzmaBb-19X5k_7MBs7w>
+ <xmx:JCgsZJ5eyvw_3Ke7otNubvqOXq5fyShcb0eFOsY0gi6llalbKi1yHQ>
 Feedback-ID: i8771445c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 4 Apr 2023 09:32:48 -0400 (EDT)
+ 4 Apr 2023 09:37:38 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
-Date: Tue, 04 Apr 2023 12:11:31 +0200
-Subject: [PATCH v3 41/65] phy: ti: j721e-wiz: Add a determine_rate hook
+Date: Tue, 04 Apr 2023 12:11:32 +0200
+Subject: [PATCH v3 42/65] rtc: sun6i: Add a determine_rate hook
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20221018-clk-range-checks-fixes-v3-41-9a1358472d52@cerno.tech>
+Message-Id: <20221018-clk-range-checks-fixes-v3-42-9a1358472d52@cerno.tech>
 References: <20221018-clk-range-checks-fixes-v3-0-9a1358472d52@cerno.tech>
 In-Reply-To: <20221018-clk-range-checks-fixes-v3-0-9a1358472d52@cerno.tech>
 To: Michael Turquette <mturquette@baylibre.com>,
@@ -108,11 +108,11 @@ To: Michael Turquette <mturquette@baylibre.com>,
  Baolin Wang <baolin.wang@linux.alibaba.com>,
  Chunyan Zhang <zhang.lyra@gmail.com>
 X-Mailer: b4 0.12.1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2104; i=maxime@cerno.tech;
- h=from:subject:message-id; bh=KJ0m7KhNk3ZqSikj1NqJB8enXIM/KPxluwVcT/ZqeYM=;
- b=owGbwMvMwCX2+D1vfrpE4FHG02pJDCna37ddK/yy4Pm27Ns7fjYLhlyZx5ix8vsNBX6eiTt6Z7dF
- XHkq0lHKwiDGxSArpsgSI2y+JO7UrNedbHzzYOawMoEMYeDiFICJODgxMhzqv3Xxa94pZZWyVq7rIr
- POWKzqUGd8kyYYWdb1YuNNl30M/yzVLi6z+fFSI/OqxrfZe/+9eftmSWKD/dnPZ6snxN6T7uABAA==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2340; i=maxime@cerno.tech;
+ h=from:subject:message-id; bh=LBBJC9nnwlTM/0eok3kx3ph3T3adhOTLJf33evCrpDI=;
+ b=owGbwMvMwCX2+D1vfrpE4FHG02pJDCna37e9M355yfi50i33zzFhzjv+vHQVePNf74Sx0JnNQiXH
+ 57yV7ChlYRDjYpAVU2SJETZfEndq1utONr55MHNYmUCGMHBxCsBEpK8x/E+3mjxFlik77qjj7Koncu
+ HBTJv+rT+6aPHum9w+YVdbq+8xMswO+uT19hpr9wOzCTJasQUGcmflL9/N3TtZY/VLt27XTm4A
 X-Developer-Key: i=maxime@cerno.tech; a=openpgp;
  fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -139,8 +139,8 @@ Cc: linux-rtc@vger.kernel.org, alsa-devel@alsa-project.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The TI J721e Wiz clock implements a mux with a set_parent
-hook, but doesn't provide a determine_rate implementation.
+The Allwinner sun6i RTC clock implements a mux with a set_parent hook,
+but doesn't provide a determine_rate implementation.
 
 This is a bit odd, since set_parent() is there to, as its name implies,
 change the parent of a clock. However, the most likely candidate to
@@ -168,26 +168,31 @@ CLK_SET_RATE_NO_REPARENT is set.
 And if it was an oversight, then we are at least explicit about our
 behavior now and it can be further refined down the line.
 
-Since the CLK_SET_RATE_NO_REPARENT flag was already set though, it seems
-unlikely.
-
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/phy/ti/phy-j721e-wiz.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/rtc/rtc-sun6i.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/phy/ti/phy-j721e-wiz.c b/drivers/phy/ti/phy-j721e-wiz.c
-index d2fd2143450a..d97f161dfe0c 100644
---- a/drivers/phy/ti/phy-j721e-wiz.c
-+++ b/drivers/phy/ti/phy-j721e-wiz.c
-@@ -802,6 +802,7 @@ static int wiz_clk_mux_set_parent(struct clk_hw *hw, u8 index)
- }
+diff --git a/drivers/rtc/rtc-sun6i.c b/drivers/rtc/rtc-sun6i.c
+index dc76537f1b62..7d975202e0b9 100644
+--- a/drivers/rtc/rtc-sun6i.c
++++ b/drivers/rtc/rtc-sun6i.c
+@@ -214,6 +214,7 @@ static int sun6i_rtc_osc_set_parent(struct clk_hw *hw, u8 index)
  
- static const struct clk_ops wiz_clk_mux_ops = {
-+	.determine_rate = __clk_mux_determine_rate,
- 	.set_parent = wiz_clk_mux_set_parent,
- 	.get_parent = wiz_clk_mux_get_parent,
- };
+ static const struct clk_ops sun6i_rtc_osc_ops = {
+ 	.recalc_rate	= sun6i_rtc_osc_recalc_rate,
++	.determine_rate	= __clk_mux_determine_rate,
+ 
+ 	.get_parent	= sun6i_rtc_osc_get_parent,
+ 	.set_parent	= sun6i_rtc_osc_set_parent,
+@@ -227,6 +228,7 @@ static void __init sun6i_rtc_clk_init(struct device_node *node,
+ 	struct clk_init_data init = {
+ 		.ops		= &sun6i_rtc_osc_ops,
+ 		.name		= "losc",
++		.flags		= CLK_SET_RATE_NO_REPARENT,
+ 	};
+ 	const char *iosc_name = "rtc-int-osc";
+ 	const char *clkout_name = "osc32k-out";
 
 -- 
 2.39.2
