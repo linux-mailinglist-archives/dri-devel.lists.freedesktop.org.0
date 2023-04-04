@@ -1,48 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 996C96D55B7
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Apr 2023 03:08:05 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B18DB6D55C2
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Apr 2023 03:14:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E588410E115;
-	Tue,  4 Apr 2023 01:07:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5CC3410E16D;
+	Tue,  4 Apr 2023 01:14:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 20FCA10E115
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Apr 2023 01:07:56 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
+Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9A26F10E16C;
+ Tue,  4 Apr 2023 01:14:22 +0000 (UTC)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- (Authenticated sender: lina@asahilina.net)
- by mail.marcansoft.com (Postfix) with ESMTPSA id AA28F42463;
- Tue,  4 Apr 2023 01:07:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=asahilina.net;
- s=default; t=1680570473;
- bh=NqFfGeRAgetr0RxYEmdjG5bzNmvvZRW80Gx/LVqUOIQ=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To;
- b=zZ5YdSlJDGhuIkCOiu1ay0BzfsV55EZ2zTqPImZXSdIcxZawUK3q7fqU7No9AM8V6
- Jx9eDhaCb9Vq5UU8Qnqs0OWQiJNHw8FihZqgPt8Rfxt3AxzOZXe434N3D21vEq8Hzv
- ItSMNpxw6WpDfrG8PoNSJ9PBa0q/UDWyL3rB53pEm5Camwu5GHFlCX80wtLSNzdSI5
- PqkvWMotrtkl6By4FZz7j1HY3AruyeWJOEqCDLMtssgoEdtDkCnw3vgulTY4/ThP64
- t0TKKoa91PAzQA75u4/ovNeLTfymg8K6Q0CennShwwLmR+00sT+SWR9LIoiLirWM3d
- ycJiHFpWmXgDQ==
-Message-ID: <50fff1d4-9982-d60d-23e0-66c2020af5bf@asahilina.net>
-Date: Tue, 4 Apr 2023 10:07:48 +0900
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4Pr8tJ23Skz4xD5;
+ Tue,  4 Apr 2023 11:14:16 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
+ s=201702; t=1680570858;
+ bh=xWnFz3omlSSUQ6pvXBh3mJjfwj9wtwa5df2BWKY78pc=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=G9E55lfuGdGA131O4+pTINB+ymgUrF2mgfKAeOte7YN8cB77cZRgUQCWUAKl/+8Fo
+ XrvHBGmVPXLFTwOX7O8+wR6kjrGlwvmEhogO7Mo5VkUKHFoE0Q2rZ6+GvtWEr0RE1J
+ 86hTC2myip1AymwrAo4esue0g30P5fQWF/vR9+HAiPGVZGh5OU+4FfOqlaPGtAaPrf
+ I6OhWu9SFIMwDuRNN/p1UISrGs/pcOrkCiKETxRwBv/RCkd9VVZIE8yThP4hqsc8Kn
+ NRJErWRk+hFPwrGnUdQcoIAiC5aqBh8V+s/j3AGiljBT9agf9WHh6wox9f3e5zPyza
+ D/fjvFNBkM2Lg==
+Date: Tue, 4 Apr 2023 11:14:14 +1000
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Qiang Yu <yuq825@gmail.com>
+Subject: Re: linux-next: build failure after merge of the drm-misc tree
+Message-ID: <20230404111414.249956af@canb.auug.org.au>
+In-Reply-To: <CAKGbVbv=eyaKPQM8QfD-999-=vbrrqnEXkhuE7dy=vpK7OFY6Q@mail.gmail.com>
+References: <20230403121617.61e2a929@canb.auug.org.au>
+ <CAKGbVbv=eyaKPQM8QfD-999-=vbrrqnEXkhuE7dy=vpK7OFY6Q@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [RFC PATCH 00/10] Xe DRM scheduler and long running workload plans
-Content-Language: en-US
-To: Matthew Brost <matthew.brost@intel.com>, dri-devel@lists.freedesktop.org, 
- intel-xe@lists.freedesktop.org
-References: <20230404002211.3611376-1-matthew.brost@intel.com>
-From: Asahi Lina <lina@asahilina.net>
-In-Reply-To: <20230404002211.3611376-1-matthew.brost@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; boundary="Sig_/.Jf/o1jzUlq4sM1feIx+gKn";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,76 +51,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: robdclark@chromium.org, thomas.hellstrom@linux.intel.com, airlied@linux.ie,
- boris.brezillon@collabora.com, christian.koenig@amd.com,
- faith.ekstrand@collabora.com
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Intel Graphics <intel-gfx@lists.freedesktop.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ DRI <dri-devel@lists.freedesktop.org>,
+ Linux Next Mailing List <linux-next@vger.kernel.org>,
+ Dave Airlie <airlied@redhat.com>, Erico Nunes <nunes.erico@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, thanks for the Cc!
+--Sig_/.Jf/o1jzUlq4sM1feIx+gKn
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-On 04/04/2023 09.22, Matthew Brost wrote:
-> Hello,
-> 
-> As a prerequisite to merging the new Intel Xe DRM driver [1] [2], we
-> have been asked to merge our common DRM scheduler patches first as well
-> as develop a common solution for long running workloads with the DRM
-> scheduler. This RFC series is our first attempt at doing this. We
-> welcome any and all feedback.
-> 
-> This can we thought of as 4 parts detailed below.
-> 
-> - DRM scheduler changes for 1 to 1 relationship between scheduler and
-> entity (patches 1-3)
-> 
-> In Xe all of the scheduling of jobs is done by a firmware scheduler (the
-> GuC) which is a new paradigm WRT to the DRM scheduler and presents
-> severals problems as the DRM was originally designed to schedule jobs on
-> hardware queues. The main problem being that DRM scheduler expects the
-> submission order of jobs to be the completion order of jobs even across
-> multiple entities. This assumption falls apart with a firmware scheduler
-> as a firmware scheduler has no concept of jobs and jobs can complete out
-> of order. A novel solution for was originally thought of by Faith during
-> the initial prototype of Xe, create a 1 to 1 relationship between scheduler
-> and entity. I believe the AGX driver [3] is using this approach and
-> Boris may use approach as well for the Mali driver [4].
-> 
-> To support a 1 to 1 relationship we move the main execution function
-> from a kthread to a work queue and add a new scheduling mode which
-> bypasses code in the DRM which isn't needed in a 1 to 1 relationship.
-> The new scheduling mode should unify all drivers usage with a 1 to 1
-> relationship and can be thought of as using scheduler as a dependency /
-> infligt job tracker rather than a true scheduler.
+Hi Qiang,
 
-Yup, we're in the exact same situation with drm/asahi, so this is very 
-welcome! We've been using the existing scheduler as-is, but this should 
-help remove some unneeded complexity in this use case.
+On Mon, 3 Apr 2023 16:51:27 +0800 Qiang Yu <yuq825@gmail.com> wrote:
+>
+> I think you can just revert the following three lima commits when merge:
+> * 4a66f3da99dc ("drm/lima: add show_fdinfo for drm usage stats")
+> * 87767de835ed ("drm/lima: allocate unique id per drm_file")
+> * bccafec957a5 ("drm/lima: add usage counting method to ctx_mgr")
 
-Do you want me to pull in this series into our tree and make sure this 
-all works out for us?
+OK, I have done that from today.
 
-I also have a couple bugfixes for drm/sched I need to send out, but I 
-think the rebase/merge with this series should be trivial. I'll send 
-that out this week.
+--=20
+Cheers,
+Stephen Rothwell
 
-> - Generic messaging interface for DRM scheduler
-> 
-> Idea is to be able to communicate to the submission backend with in band
-> (relative to main execution function) messages. Messages are backend
-> defined and flexable enough for any use case. In Xe we use these
-> messages to clean up entites, set properties for entites, and suspend /
-> resume execution of an entity [5]. I suspect other driver can leverage
-> this messaging concept too as it a convenient way to avoid races in the
-> backend.
+--Sig_/.Jf/o1jzUlq4sM1feIx+gKn
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
 
-We haven't needed this so far (mostly by using fine-grained locking and 
-refcounting all over the place) but I can see it being useful to 
-simplify some of those constructs and maybe avoid potential deadlocks in 
-some places. I'm not sure yet whether we can fully get rid of the main 
-queue refcounting/locking (our completion/error signaling path doesn't 
-map well to DMA fences directly so we still need something there to get 
-from the global GPU completion signaling thread to individual queues) 
-but it might be a step in the right direction at least!
+-----BEGIN PGP SIGNATURE-----
 
-~~ Lina
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmQreeYACgkQAVBC80lX
+0Gztwwf/ayUr24dwPGpBwuOZNuHc+gqzczYFs/UNV0yGedqRxRR3wJKAh5BlSvMJ
+tZIpDIglihMPeJzvh2voTXagFeRKO/rrvXgjSz+hqe61OmTYj7N+NbydUNNzbhZR
+0ouapqxmeeL8+WW6d7EQF88C0ERPuNaOPoivGU5bxuzwZP5nfNq2ZLkrMSiNTWOF
+g4eZ/fJP0uHFg8Aj6uR/GMaD7MCve5qXAT10f7IN7hWeRdeP9AiI8tD5UF/HoMus
++bZzF3zzTOsYn8YOIXoVkWawD/VjfjX/6TALsgclq1HDSaMgv9tLN+MxWp/jLplw
+r4SZoPkaQf0J3f4xZ+NddlaVdsPz5w==
+=AUB1
+-----END PGP SIGNATURE-----
 
+--Sig_/.Jf/o1jzUlq4sM1feIx+gKn--
