@@ -1,63 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BF4F6D640A
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Apr 2023 15:55:01 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A14886D645E
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Apr 2023 15:59:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A12B210E696;
-	Tue,  4 Apr 2023 13:54:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A2CAF10E110;
+	Tue,  4 Apr 2023 13:59:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vs1-xe34.google.com (mail-vs1-xe34.google.com
- [IPv6:2607:f8b0:4864:20::e34])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 452FB10E696
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Apr 2023 13:54:57 +0000 (UTC)
-Received: by mail-vs1-xe34.google.com with SMTP id df34so28464797vsb.8
- for <dri-devel@lists.freedesktop.org>; Tue, 04 Apr 2023 06:54:57 -0700 (PDT)
+Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com
+ [IPv6:2a00:1450:4864:20::531])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CBEAD10E110
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Apr 2023 13:59:16 +0000 (UTC)
+Received: by mail-ed1-x531.google.com with SMTP id eg48so130882471edb.13
+ for <dri-devel@lists.freedesktop.org>; Tue, 04 Apr 2023 06:59:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=criticallink.com; s=google; t=1680616495;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=8vxdDefvvddT/9lK9tLNVI9aT2fK3kIsSFEfydgZYtk=;
- b=Ya/wbST62b8bezjGJ+GdV4aX4VVQ7bkrHG4sJ3MmhiRJGFpPveN8pZ+WsGjh7iPiK0
- toe9rgOKSkw8ZZNtv0JgB/3gyOzpK0o+PRkaObp9GXfbSuj/X8Z5l7mTdA6ukeRBSZ1t
- /Fl227fhx8K4bOyxVBwKplIoQgC5hp0E4BMBvkh204o4HFeppj1CCcjA1tL1dUpJVgX3
- XVgJZgAJcZZoq/p7FlWb8kvNbB1zUD2pFP1YQKm5Icpitm/bP1mjGEwoSgFGIY38I/nu
- b/KHayT+HcLzKVwzBvnsLO3ZoIxGbUdy5VEAUR0AuGtSPbVnRIR1mdI+gsjyZm0g4qyk
- bC8Q==
+ d=ffwll.ch; s=google; t=1680616755; x=1683208755;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=uLEuV/Rl46soliUStjZYzbp5mrB4rM2FAfYiZ88IN4s=;
+ b=JIyDEprHKxSRgFuUoVoP6J4fm6FBO/Bya/iT8DK6sNmQ/su8mly7zp/eoocfkTMFvv
+ 2RIvfIAqzCkoVkRV2ptzmzRfH9otx0CcKUf3ZBkombAElmJuX0lolnobMrldhyy1mI70
+ eBTNQbW75H8gYVdS9tHoXUDN6bXQC57dGerTM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680616495;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=8vxdDefvvddT/9lK9tLNVI9aT2fK3kIsSFEfydgZYtk=;
- b=6Rb91MRy5aenJYqg3PKKo63gn9EPmPD1tcNX60sBSWT/sjKvI0rVo+e8pDgBUBcALd
- dSxhgDdjRpQ9rEY+VOkLHvfV+caRRVi0K3Kc/rJFtPCji0gR0G+5Si87WL6kHOzWKhPS
- DJrJY2jFKohUKEki2OFwm5Ieoz05LSS38O+13cIMdvssPNNOGnOkB8WZKR2YkT4n6JmT
- CoFAp9Po/Itg0BFKhgRaz4FpW2J49YJn5gKbM5HaDfxc8AP7oKlQJkEFD8+2YOAgPOAj
- zZ5aV+ZFY2bVp/d8Ka/y5/sGFXyFI1w9zGr7IRDN+KIetn81ie+yZj6nloQZOTMbU4ru
- tTFg==
-X-Gm-Message-State: AAQBX9dBGkLOywBadZAk+DsmXZVDYSGscsF2qo+b2lZdGAo5xCG2BpAU
- Cp3sXl01KFN7gTAdJU7Zg4Kzl49skBjkVhxvtKt1M2xlttqvVFpz
-X-Google-Smtp-Source: AKy350a5f/7rix1Bx/HaEfgI4ImxkcUz7pSb82+guYOFsa97EzdFAQARipypD435dAL1dHUwvcHFcauKCK+dFMJ2rPw=
-X-Received: by 2002:a67:c812:0:b0:416:2ad3:35ba with SMTP id
- u18-20020a67c812000000b004162ad335bamr2335152vsk.1.1680616494759; Tue, 04 Apr
- 2023 06:54:54 -0700 (PDT)
+ d=1e100.net; s=20210112; t=1680616755; x=1683208755;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=uLEuV/Rl46soliUStjZYzbp5mrB4rM2FAfYiZ88IN4s=;
+ b=ZoyI7tt/3v94s2YYeqeKUk8L9jFo1Yp7/MeonAiMkoVc2fhA4QKbmn86GuQ7jeeAph
+ KMTYvIx8F8mcxJyK6h8SjvxTjfL7MA+Gr8cFMDfwHo5jd9Z0zyKt3If0+9appJXcPU12
+ ehiwL485ITajWMDcQtzffL1Iqq6csvHnIXG7VTe3xODvaxD0cO7HGqXeMkoJB1mIyofn
+ RmvcmYtTjXPYuRHUUuQkwAUjGqtxaWGG/KHrwW1iQs+dGNqEKEmMkzshuqZyt4nGq2IE
+ S8VtorM3s1Pg5Tvr3ESP5gDmbpB6hlLST/z+lCJu0AWyL+H2QOBu4UeArWK2K8Kf1RGi
+ YKlA==
+X-Gm-Message-State: AAQBX9dKA5IH5sEipBgJgGYaMwMl6MuD5Mltd3bcMDleCe6Mt6DBelwT
+ Q/B0hPBYbY6UblYLAbBUfliwqg==
+X-Google-Smtp-Source: AKy350ZQ2169yE1rB1BJp4fG6JZwW1v/+RAG4h5U7/xxHXAUJmV+SW6z/y2GGPtzKAVftALY9fJ82g==
+X-Received: by 2002:a17:906:208a:b0:929:b101:937d with SMTP id
+ 10-20020a170906208a00b00929b101937dmr2057638ejq.1.1680616754907; 
+ Tue, 04 Apr 2023 06:59:14 -0700 (PDT)
+Received: from phenom.ffwll.local (212-51-149-33.fiber7.init7.net.
+ [212.51.149.33]) by smtp.gmail.com with ESMTPSA id
+ ld10-20020a1709079c0a00b00949173bdad1sm835044ejc.213.2023.04.04.06.59.14
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 04 Apr 2023 06:59:14 -0700 (PDT)
+Date: Tue, 4 Apr 2023 15:59:12 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Subject: Re: [PATCH] fbdev: Don't spam dmesg on bad userspace ioctl input
+Message-ID: <ZCwtMJEAJiId/TJe@phenom.ffwll.local>
+References: <20230404123624.360384-1-daniel.vetter@ffwll.ch>
+ <CAMuHMdUR=rx2QPvpzsSCwXTSTsPQOudNMzyL3dtZGQdQfrQGDA@mail.gmail.com>
 MIME-Version: 1.0
-References: <20230125-tfp410_i2c-v3-0-a85d5f0f50f1@criticallink.com>
- <20230125-tfp410_i2c-v3-2-a85d5f0f50f1@criticallink.com>
- <4a22e085-b339-aa43-518e-d528c5f76de4@linaro.org>
-In-Reply-To: <4a22e085-b339-aa43-518e-d528c5f76de4@linaro.org>
-From: Jon Cormier <jcormier@criticallink.com>
-Date: Tue, 4 Apr 2023 09:54:43 -0400
-Message-ID: <CADL8D3Zhn1iFo0fn-VSw5DTvh3UNmCLAFKviKOOa-+F64tRFTA@mail.gmail.com>
-Subject: Re: [PATCH v3 2/3] drm/bridge: tfp410: Fix logic to configured polled
- HPD
-To: neil.armstrong@linaro.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAMuHMdUR=rx2QPvpzsSCwXTSTsPQOudNMzyL3dtZGQdQfrQGDA@mail.gmail.com>
+X-Operating-System: Linux phenom 6.1.0-7-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,68 +72,104 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Andrzej Hajda <andrzej.hajda@intel.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Jonas Karlman <jonas@kwiboo.se>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Rob Herring <robh+dt@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Michael Williamson <michael.williamson@criticallink.com>,
- Bob Duke <bduke@criticallink.com>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>,
+ Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, Helge Deller <deller@gmx.de>,
+ syzbot+20dcf81733d43ddff661@syzkaller.appspotmail.com,
+ Javier Martinez Canillas <javierm@redhat.com>, stable@vger.kernel.org,
+ Melissa Wen <melissa.srw@gmail.com>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Daniel Vetter <daniel.vetter@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Mar 31, 2023 at 5:00=E2=80=AFAM Neil Armstrong
-<neil.armstrong@linaro.org> wrote:
->
-> Hi,
->
-> On 20/02/2023 23:10, Jonathan Cormier wrote:
-> > From: Michael Williamson <michael.williamson@criticallink.com>
+On Tue, Apr 04, 2023 at 03:53:09PM +0200, Geert Uytterhoeven wrote:
+> Hi Daniel,
+> 
+> CC vkmsdrm maintainer
+> 
+> Thanks for your patch!
+> 
+> On Tue, Apr 4, 2023 at 2:36 PM Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
+> > There's a few reasons the kernel should not spam dmesg on bad
+> > userspace ioctl input:
+> > - at warning level it results in CI false positives
+> > - it allows userspace to drown dmesg output, potentially hiding real
+> >   issues.
 > >
-> > The logic to configure polling (vs async/irq notification) of hot-plug
-> > events was not correct.  If the connected bridge requires polling,
-> > then inform the upstream bridge we also require polling.
+> > None of the other generic EINVAL checks report in the
+> > FBIOPUT_VSCREENINFO ioctl do this, so it's also inconsistent.
 > >
-> > Signed-off-by: Michael Williamson <michael.williamson@criticallink.com>
-> > Signed-off-by: Jonathan Cormier <jcormier@criticallink.com>
-> > ---
-> >   drivers/gpu/drm/bridge/ti-tfp410.c | 2 +-
-> >   1 file changed, 1 insertion(+), 1 deletion(-)
+> > I guess the intent of the patch which introduced this warning was that
+> > the drivers ->fb_check_var routine should fail in that case. Reality
+> > is that there's too many fbdev drivers and not enough people
+> > maintaining them by far, and so over the past few years we've simply
+> > handled all these validation gaps by tighning the checks in the core,
+> > because that's realistically really all that will ever happen.
 > >
-> > diff --git a/drivers/gpu/drm/bridge/ti-tfp410.c b/drivers/gpu/drm/bridg=
-e/ti-tfp410.c
-> > index bb3f8d0ff207..41007d05d584 100644
-> > --- a/drivers/gpu/drm/bridge/ti-tfp410.c
-> > +++ b/drivers/gpu/drm/bridge/ti-tfp410.c
-> > @@ -155,7 +155,7 @@ static int tfp410_attach(struct drm_bridge *bridge,
-> >               return -ENODEV;
-> >       }
-> >
-> > -     if (dvi->next_bridge->ops & DRM_BRIDGE_OP_DETECT)
-> > +     if (dvi->next_bridge->ops & DRM_BRIDGE_OP_HPD)
-> >               dvi->connector.polled =3D DRM_CONNECTOR_POLL_HPD;
-> >       else
-> >               dvi->connector.polled =3D DRM_CONNECTOR_POLL_CONNECT | DR=
-M_CONNECTOR_POLL_DISCONNECT;
-> >
->
-> A Fixes tag is probably needed here ?
-Thanks will do
->
-> With that:
-> Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
+> > Reported-by: syzbot+20dcf81733d43ddff661@syzkaller.appspotmail.com
+> > Link: https://syzkaller.appspot.com/bug?id=c5faf983bfa4a607de530cd3bb008888bf06cefc
+> 
+>     WARNING: fbcon: Driver 'vkmsdrmfb' missed to adjust virtual screen
+> size (0x0 vs. 64x768)
+> 
+> This is a bug in the vkmsdrmfb driver and/or DRM helpers.
+> 
+> The message was added to make sure the individual drivers are fixed.
+> Perhaps it should be changed to BUG() instead, so dmesg output
+> cannot be drown?
 
+So you're solution is to essentially force us to replicate this check over
+all the drivers which cannot change the virtual size?
 
+Are you volunteering to field that audit and type all the patches?
 
+> > Fixes: 6c11df58fd1a ("fbmem: Check virtual screen sizes in fb_set_var()")
+> > Cc: Helge Deller <deller@gmx.de>
+> > Cc: Geert Uytterhoeven <geert@linux-m68k.org>
+> > Cc: stable@vger.kernel.org # v5.4+
+> > Cc: Daniel Vetter <daniel@ffwll.ch>
+> > Cc: Javier Martinez Canillas <javierm@redhat.com>
+> > Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> 
+> NAKed-by: Geert Uytterhoeven <geert@linux-m68k.org>
 
---=20
-Jonathan Cormier
-Software Engineer
+Yes I know it's not pretty, but realistically unless someone starts typing
+a _lot_ of patches this is the solution. It's exactly the same solution
+we've implemented for all other gaps syzcaller has find in fbdev input
+validation. Unless you can show that this is papering over a more severe
+bug somewhere, but then I guess it really should be a BUG to prevent worse
+things from happening.
+-Daniel
 
-Voice:  315.425.4045 x222
+> 
+> > --- a/drivers/video/fbdev/core/fbmem.c
+> > +++ b/drivers/video/fbdev/core/fbmem.c
+> > @@ -1021,10 +1021,6 @@ fb_set_var(struct fb_info *info, struct fb_var_screeninfo *var)
+> >         /* verify that virtual resolution >= physical resolution */
+> >         if (var->xres_virtual < var->xres ||
+> >             var->yres_virtual < var->yres) {
+> > -               pr_warn("WARNING: fbcon: Driver '%s' missed to adjust virtual screen size (%ux%u vs. %ux%u)\n",
+> > -                       info->fix.id,
+> > -                       var->xres_virtual, var->yres_virtual,
+> > -                       var->xres, var->yres);
+> >                 return -EINVAL;
+> >         }
+> 
+> Gr{oetje,eeting}s,
+> 
+>                         Geert
+> 
+> 
+> --
+> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+> 
+> In personal conversations with technical people, I call myself a hacker. But
+> when I'm talking to journalists I just say "programmer" or something like that.
+>                                 -- Linus Torvalds
 
-
-
-http://www.CriticalLink.com
-6712 Brooklawn Parkway, Syracuse, NY 13211
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
