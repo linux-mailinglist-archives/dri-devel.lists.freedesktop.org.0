@@ -2,76 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0730D6D69A0
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Apr 2023 18:57:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C5E06D69BF
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Apr 2023 19:04:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4C92110E3FC;
-	Tue,  4 Apr 2023 16:57:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B974F10E723;
+	Tue,  4 Apr 2023 17:04:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0761410E3FC
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Apr 2023 16:57:20 +0000 (UTC)
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 334DFWlP032611; Tue, 4 Apr 2023 16:57:15 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=0Uk4W0jctQmxqjK/hl68lHDWI2WVg9sw222CmIzHRT0=;
- b=OQiRVn8mrkuu1KXhdeXUDz3JXpgoEp+haMg0CJ7N6uL3LLksY8NGvAsRMieruFkK5/3R
- sWyMnFBRujFG7if4WHxyUYR9qqEzIElyN5PFIWeczOsVlpxBaU5Gn7K8uQYJAa9VZr//
- nX73CfmRNjhstLLbrnw/FVuo2qWWLfOnkKh1zfwwPvyUnPSKL+1ygIlfLSYlKwFKXRMj
- d5P3BnV5Moh3Qg5gb0iM4tZyiGxOc+Ly6shPh5GnWtBtJB88ka69+Hj2nFUVFisnVeS/
- VdcnhxfximlBlX93/G0o5gLYtTzwBB/Ae3Yo/ppQNCT+sXWG4K7DAy3KjcvKvaaTqgtM Jg== 
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3prmkmrm4x-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 04 Apr 2023 16:57:15 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 334GvEtY023222
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 4 Apr 2023 16:57:14 GMT
-Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Tue, 4 Apr 2023
- 09:57:13 -0700
-Message-ID: <7fcb236a-a570-7527-180d-cd03ba2fc3f6@quicinc.com>
-Date: Tue, 4 Apr 2023 10:57:12 -0600
+Received: from mail-yb1-f173.google.com (mail-yb1-f173.google.com
+ [209.85.219.173])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C9E3C10E723
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Apr 2023 17:04:52 +0000 (UTC)
+Received: by mail-yb1-f173.google.com with SMTP id r187so39519624ybr.6
+ for <dri-devel@lists.freedesktop.org>; Tue, 04 Apr 2023 10:04:52 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1680627891;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=DN8+oIYkNGb8Y5r2uRgiwjJT4v6XcCTZNjemsUmI+JY=;
+ b=w6oUUFpyv7oCwRekdLN59OQGxKc2vjIuwt4U9MVNZAHF1I0ve+tr50mWTcMvP/kM7k
+ g7DKtNw4ncmqmII4CvmaPuxL5XafKbvxS/WdyaGzJnROPf2BAHhd/VbNStFPcYNf4CKz
+ jkvyx7XrbXxUhzHNDokO/4ADZqTL4SbUqujY/jEcGwXR+7q0FFMTbNj1HmiWWNW4fKlT
+ jZ32VFCTlM1hP6gg+BW1DTAOOVyzvM9/xprFs4akMXU8iPSPcHcKTHWdJlXR05dHXuxO
+ F2UU35qRFVKgzHJyqmwnnsXc9B+vHASPg876UqpI6VoJWYftwmsTW4X204gJEyk++XGd
+ wKOA==
+X-Gm-Message-State: AAQBX9cmsmQO/InsMjkiJ0w5MArGosX1TIDsMdKTjw35Fq9MxkxvW0q9
+ UqD7k9QArzPjI7wWD4TNj1zGDW8jJiAWdln4
+X-Google-Smtp-Source: AKy350YWlfV/LjcMcVuj3sIeIQ2R8pZnnlGXNpjzitjCcl8wICVJHCAHR8WlJ4wItS6NZ6iMSYQiog==
+X-Received: by 2002:a25:aac3:0:b0:b66:2851:7685 with SMTP id
+ t61-20020a25aac3000000b00b6628517685mr152556ybi.8.1680627891651; 
+ Tue, 04 Apr 2023 10:04:51 -0700 (PDT)
+Received: from mail-yb1-f182.google.com (mail-yb1-f182.google.com.
+ [209.85.219.182]) by smtp.gmail.com with ESMTPSA id
+ s7-20020a25b947000000b00b7767ca747csm3432329ybm.25.2023.04.04.10.04.51
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 04 Apr 2023 10:04:51 -0700 (PDT)
+Received: by mail-yb1-f182.google.com with SMTP id m16so19193443ybk.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 04 Apr 2023 10:04:51 -0700 (PDT)
+X-Received: by 2002:a25:ca4b:0:b0:b77:d2db:5f8f with SMTP id
+ a72-20020a25ca4b000000b00b77d2db5f8fmr2271273ybg.12.1680627890888; Tue, 04
+ Apr 2023 10:04:50 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.0
-Subject: Re: [PATCH 2/2] accel/ivpu: Fix S3 system suspend when not idle
-Content-Language: en-US
-To: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
- <dri-devel@lists.freedesktop.org>
-References: <20230331113603.2802515-1-stanislaw.gruszka@linux.intel.com>
- <20230331113603.2802515-3-stanislaw.gruszka@linux.intel.com>
-From: Jeffrey Hugo <quic_jhugo@quicinc.com>
-In-Reply-To: <20230331113603.2802515-3-stanislaw.gruszka@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: ieJGj3x9R8qm22LlfX7Px39tzJHdAeIr
-X-Proofpoint-ORIG-GUID: ieJGj3x9R8qm22LlfX7Px39tzJHdAeIr
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-04-04_08,2023-04-04_05,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 malwarescore=0
- priorityscore=1501 mlxlogscore=726 impostorscore=0 adultscore=0
- lowpriorityscore=0 spamscore=0 phishscore=0 bulkscore=0 suspectscore=0
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2303200000 definitions=main-2304040156
+References: <20230404123624.360384-1-daniel.vetter@ffwll.ch>
+ <CAMuHMdUR=rx2QPvpzsSCwXTSTsPQOudNMzyL3dtZGQdQfrQGDA@mail.gmail.com>
+ <ZCwtMJEAJiId/TJe@phenom.ffwll.local> <ZCwx+2hAmyDqOfWu@phenom.ffwll.local>
+ <CAMuHMdVt+fsHhk73hPe=bN5e_vTjKEM014Q1AJ9tnankvsXcHg@mail.gmail.com>
+ <CAKMK7uFEmt1=4jDi1xDbnTVH6M2iEZSjcY-UN93do0NiH=GogA@mail.gmail.com>
+In-Reply-To: <CAKMK7uFEmt1=4jDi1xDbnTVH6M2iEZSjcY-UN93do0NiH=GogA@mail.gmail.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 4 Apr 2023 19:04:39 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdUpyxuAZVxZmVCzspbzCBPFdnhbrYOJPMjFnqwtwNCAsw@mail.gmail.com>
+Message-ID: <CAMuHMdUpyxuAZVxZmVCzspbzCBPFdnhbrYOJPMjFnqwtwNCAsw@mail.gmail.com>
+Subject: Re: [PATCH] fbdev: Don't spam dmesg on bad userspace ioctl input
+To: Daniel Vetter <daniel@ffwll.ch>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,20 +71,103 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Oded Gabbay <ogabbay@kernel.org>,
- Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+Cc: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ Helge Deller <deller@gmx.de>,
+ syzbot+20dcf81733d43ddff661@syzkaller.appspotmail.com,
+ Javier Martinez Canillas <javierm@redhat.com>, stable@vger.kernel.org,
+ Melissa Wen <melissa.srw@gmail.com>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Daniel Vetter <daniel.vetter@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 3/31/2023 5:36 AM, Stanislaw Gruszka wrote:
-> From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
-> 
-> Wait for VPU to be idle in ivpu_pm_suspend_cb() before powering off
-> the device, so jobs are not lost and TDRs are not triggered after
-> resume.
-> 
-> Fixes: 852be13f3bd3 ("accel/ivpu: Add PM support")
-> Signed-off-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
-> Signed-off-by: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
+Hi Daniel,
 
-Reviewed-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
+On Tue, Apr 4, 2023 at 5:55=E2=80=AFPM Daniel Vetter <daniel@ffwll.ch> wrot=
+e:
+> On Tue, 4 Apr 2023 at 16:51, Geert Uytterhoeven <geert@linux-m68k.org> wr=
+ote:
+> > On Tue, Apr 4, 2023 at 4:19=E2=80=AFPM Daniel Vetter <daniel@ffwll.ch> =
+wrote:
+> > > On Tue, Apr 04, 2023 at 03:59:12PM +0200, Daniel Vetter wrote:
+> > > > On Tue, Apr 04, 2023 at 03:53:09PM +0200, Geert Uytterhoeven wrote:
+> > > > > On Tue, Apr 4, 2023 at 2:36=E2=80=AFPM Daniel Vetter <daniel.vett=
+er@ffwll.ch> wrote:
+> > > > > > There's a few reasons the kernel should not spam dmesg on bad
+> > > > > > userspace ioctl input:
+> > > > > > - at warning level it results in CI false positives
+> > > > > > - it allows userspace to drown dmesg output, potentially hiding=
+ real
+> > > > > >   issues.
+> > > > > >
+> > > > > > None of the other generic EINVAL checks report in the
+> > > > > > FBIOPUT_VSCREENINFO ioctl do this, so it's also inconsistent.
+> > > > > >
+> > > > > > I guess the intent of the patch which introduced this warning w=
+as that
+> > > > > > the drivers ->fb_check_var routine should fail in that case. Re=
+ality
+> > > > > > is that there's too many fbdev drivers and not enough people
+> > > > > > maintaining them by far, and so over the past few years we've s=
+imply
+> > > > > > handled all these validation gaps by tighning the checks in the=
+ core,
+> > > > > > because that's realistically really all that will ever happen.
+> > > > > >
+> > > > > > Reported-by: syzbot+20dcf81733d43ddff661@syzkaller.appspotmail.=
+com
+> > > > > > Link: https://syzkaller.appspot.com/bug?id=3Dc5faf983bfa4a607de=
+530cd3bb008888bf06cefc
+> > > > >
+> > > > >     WARNING: fbcon: Driver 'vkmsdrmfb' missed to adjust virtual s=
+creen
+> > > > > size (0x0 vs. 64x768)
+> > > > >
+> > > > > This is a bug in the vkmsdrmfb driver and/or DRM helpers.
+> > > > >
+> > > > > The message was added to make sure the individual drivers are fix=
+ed.
+> > > > > Perhaps it should be changed to BUG() instead, so dmesg output
+> > > > > cannot be drown?
+> > > >
+> > > > So you're solution is to essentially force us to replicate this che=
+ck over
+> > > > all the drivers which cannot change the virtual size?
+> > > >
+> > > > Are you volunteering to field that audit and type all the patches?
+> > >
+> > > Note that at least efifb, vesafb and offb seem to get this wrong. I d=
+idn't
+> > > bother checking any of the non-fw drivers. Iow there is a _lot_ of wo=
+rk in
+> > > your nack.
+> >
+> > Please don't spread FUD: efifb, vesafb and offb do not implement
+> > fb_ops.fb_check_var(), so they are not affected.
+>
+> Hm I missed that early out. I'll do a patch to fix the drm fb helpers,
+> as mentioned in the other thread I don't think we can actually just
+> delete that because it would short-circuit out the fb_set_par call
+> too.
+
+As I said to the other thread earlier today[1], I think we can keep
+the .fb_set_par() implementation.
+There's just no point in providing a .fb_check_var() callback if
+you don't support changing the video mode.
+
+[1] https://lore.kernel.org/all/CAMuHMdUaHd1jgrsCSxCqF-HP2rAo2ODM_ZOjhk7Q4v=
+juqvt36w@mail.gmail.com
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
