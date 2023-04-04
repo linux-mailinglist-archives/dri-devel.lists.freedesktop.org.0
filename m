@@ -2,50 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD18D6D6432
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Apr 2023 15:57:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3A016D6434
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Apr 2023 15:57:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E21EA10E698;
-	Tue,  4 Apr 2023 13:57:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2A9F010E699;
+	Tue,  4 Apr 2023 13:57:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from new3-smtp.messagingengine.com (new3-smtp.messagingengine.com
  [66.111.4.229])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 381E810E698
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Apr 2023 13:57:14 +0000 (UTC)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
- by mailnew.nyi.internal (Postfix) with ESMTP id 54328581F8B;
- Tue,  4 Apr 2023 09:57:13 -0400 (EDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C202E10E699
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Apr 2023 13:57:17 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 1F86258214E;
+ Tue,  4 Apr 2023 09:57:17 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute1.internal (MEProxy); Tue, 04 Apr 2023 09:57:13 -0400
+ by compute4.internal (MEProxy); Tue, 04 Apr 2023 09:57:17 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
  :cc:content-transfer-encoding:content-type:content-type:date
  :date:from:from:in-reply-to:in-reply-to:message-id:mime-version
  :references:reply-to:sender:subject:subject:to:to; s=fm3; t=
- 1680616633; x=1680623833; bh=5HHZXkTf0Zua/ovxg1WRxfHNgNGeCw1s6sh
- szl630fA=; b=jEsLIGiwxS49SQiahtryHJpnMF8xm+ezEdu2uCCj4/1ztHMap/r
- VcX88UZL2yRnW8zIustHMaluE2tr2koComRrOSR6Xl1NRb0hiDcYGS+EuFNvwOjH
- 4xj6nbV0MSki5F1fXeIQU/hgbhKVAiQ9ME8iShgjRLWwKSTmdzzdj+H0098ubTI2
- AQfr5bpWXoxOUTVzxUIB4VZI+L3ye7E/qPuYfjWqJMr0GsZ87Lsf4SmUm9oQmclH
- B542QFkx1Ot1Dk/cw4PcHM0qlsZlYuWBqh99FS0b25IA5fDRYKx7lL81HbskcPDf
- ZIxaQ4lf/i7MyOfaTt5qoR+UR0szT+X7tTQ==
+ 1680616637; x=1680623837; bh=Bv1Ngdi+jPgDsaCfDDPfM4pzHXEBluXYVNL
+ GoWLN578=; b=HEK90Ct5ssYf268f8cW/4392ULbzkxG4OAoUZjNNZ662Es1cXip
+ zu2KnAPQ61RoFY38bzmlkFdwt7icqW0wtte7CR5Iud4xVuMn0eZ9c7Qqvyr6Sei6
+ 1Vr6JOB22OZ1cGKW1BkhIgY7oD8DoufO/0/DVciPgrQTdqtZuKghFrEcwo6U+2X/
+ 2iiA099Rna7js9K3vbewD9MZC6Ulb0bkb+brIh2JzZkNAPspvHNAPCYS+V6w6NzR
+ BxWpQIE8mzT3IVRDwUUuBk5ZUcbK94k2YOvhD8pJgIsS9lF8xepnVOusoQZjB8Ji
+ QeZSGYvLi0tXsYbEnrMm94SUDHt9alZnnBQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding
  :content-type:content-type:date:date:feedback-id:feedback-id
  :from:from:in-reply-to:in-reply-to:message-id:mime-version
  :references:reply-to:sender:subject:subject:to:to:x-me-proxy
  :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
- 1680616633; x=1680623833; bh=5HHZXkTf0Zua/ovxg1WRxfHNgNGeCw1s6sh
- szl630fA=; b=GM+kcL/Jg/QkhvI0CJW+fLdUjvlxW0P/Q4hkjEbVg5453dMT3LJ
- sogCos+yEXiXP7gUdh1EFquX8fFEFNWN/YZ7gGFdGhhevs8MBMshLHI4QxF3rxiS
- re2dWlVNOeww8VX5v5LTTxJ+qZUiIBUn2bbvrS2sEr0fZclTIv5O6yCWW3sY28wS
- +8kiGL9rE7Alj5r/BfZozVD0NVUQYtE4BEeWPTFFgrAtutZCj7JqVkoMHq/ssQNv
- s6VpYUkozzQLpnFmL67srqkmGg7orcCEhZ3vYZyxw4yIosZ21jnmHaX6JSlqdBE7
- bbf2BKnzstSQStSTIS+59a3qt5rQdvBpyUA==
-X-ME-Sender: <xms:tywsZCGxk7qBjXFjQJeWdIssWPTjHPz-Z6O7JtRhaLqugRrwGv7u1g>
- <xme:tywsZDUtaFJpdzcODlU_cNI5gDJXEmHZrmJbOOHPwpVfGq5kY0UD-yr1wnMJKJlJd
- vhV0NAzyWDzpRTxeyk>
-X-ME-Received: <xmr:tywsZMI1NUlRYQ5UL6yxuih9SDyx2F7XnCZVqX7CXeoCEbQZWPAVordnT4279ueCZA_KZHine6WY-HFCdhxmHzpJg2qb3mI>
+ 1680616637; x=1680623837; bh=Bv1Ngdi+jPgDsaCfDDPfM4pzHXEBluXYVNL
+ GoWLN578=; b=rAkdd8VlEfIHXxsYHd7c0O4bMxmHnUto+CPV/N+kiNSIuphAKK9
+ 4LmSRCmlN73hKr4tyM4VyF0sEqdsquyARyTkQpwc/JR9aIBdq0vIgfFUlRmr1CSy
+ tWSwQrFol4RlQXrYF7KOwNL32WFuzomYaDI1XMD7Hq7KeGHdAH1AnOycziU2wYG3
+ oVpuQcyQYzc9DdH8LMG0XxJbCZpSGemvyjVEpouZ/IZ5NANsNYTEs7KStOIwkG+C
+ 3Cx6uNcWaxiA3hbK9Hmai7QtJ3QQPn+7HOVlLBgnv/zezHwSQVi7IzKW0/WStx+0
+ NmOao3pbVDmnvsA541nI1EuwpHgrqeifAsA==
+X-ME-Sender: <xms:vCwsZPt_c8RgC-7qariMpdsFis2sMNC4SL2ONNPoeeos5Kj0ekPJoA>
+ <xme:vCwsZAccg1f4wQzEddnh0ZxqjzS2zukUrRrUBqItMoiEp9MF1ts9Lbgt2bAtIbf4a
+ t5Gu3psYi3bu1J5VE0>
+X-ME-Received: <xmr:vCwsZCyR1e3dgYtldyTkG_wHdgs3np90eD4e2x-51HA1Ejnvjz_2MbYOhv6hZ0vK7znbu1HFtilGEWDPPnH9WGPkWpivHiU>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvdeiledgjedtucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
@@ -54,20 +54,20 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvdeiledgjedtucetufdoteggod
  grthhtvghrnhepvedvleeijeegvdekffehkeehieelhfeggfffheetkeeuledvtdeuffeh
  teeltdffnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
  epmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:tywsZMGbrwmgmwzZ9LU1eLDS7bHCGWWKPisElOrplGHvalKheSk1yw>
- <xmx:tywsZIV75BVAMepZ70Jx2G9FexlU9KTNuZRxcgGyp_IAvRBZ1NaWxQ>
- <xmx:tywsZPOxxE5t5l1nIQ8oZZ9COij_1UEi480Se0ABCgfKaz_TcCO-Yg>
- <xmx:uSwsZLA0-RJYXeekNEk0oZ-_cuOr-t6gO_hpF7R6V2ORuidPl-BkKA>
+X-ME-Proxy: <xmx:vCwsZOPDz2WfKkuu3eX_hfFxXhlXJQhPRGQimxwaiRNxgGf4aofASQ>
+ <xmx:vCwsZP8d_K5S9kI9y1hAuaMXzazX820JPX13HyVjFg_r8cTPdynZTQ>
+ <xmx:vCwsZOV7Rk5JymMvN6UFdVN3m-HoRPQWS2fa9KZHVaj7V45lKjxcmg>
+ <xmx:vSwsZLrQnREk9hCTWjUCqmkgmgKr3ncG5Y3ESWxUHmBGSjJv-hiYeg>
 Feedback-ID: i8771445c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 4 Apr 2023 09:57:10 -0400 (EDT)
+ 4 Apr 2023 09:57:14 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
-Date: Tue, 04 Apr 2023 12:11:43 +0200
-Subject: [PATCH v3 53/65] clk: si5351: clkout: Switch to determine_rate
+Date: Tue, 04 Apr 2023 12:11:44 +0200
+Subject: [PATCH v3 54/65] clk: da8xx: clk48: Switch to determine_rate
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20221018-clk-range-checks-fixes-v3-53-9a1358472d52@cerno.tech>
+Message-Id: <20221018-clk-range-checks-fixes-v3-54-9a1358472d52@cerno.tech>
 References: <20221018-clk-range-checks-fixes-v3-0-9a1358472d52@cerno.tech>
 In-Reply-To: <20221018-clk-range-checks-fixes-v3-0-9a1358472d52@cerno.tech>
 To: Michael Turquette <mturquette@baylibre.com>,
@@ -108,11 +108,11 @@ To: Michael Turquette <mturquette@baylibre.com>,
  Baolin Wang <baolin.wang@linux.alibaba.com>,
  Chunyan Zhang <zhang.lyra@gmail.com>
 X-Mailer: b4 0.12.1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3536; i=maxime@cerno.tech;
- h=from:subject:message-id; bh=6ONkpiYsB+tMJuo7t9nwoyxm7c9Hn1s5NpT9u/U5gOk=;
- b=owGbwMvMwCX2+D1vfrpE4FHG02pJDCna37f/+8uWvrbWcvNrEQFXTr/LSTPc0z53qLyfMTOnS9Kk
- 85dVRykLgxgXg6yYIkuMsPmSuFOzXney8c2DmcPKBDKEgYtTACYio87IsCfhWunhHy7rVrkI6HOy1t
- vsDl1UzBM+naUssK75p4ZgKMP/QJboOTZzL6eevHg8fnqP+r4Hzsz6N2u3imrcW3eEXaCCFwA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2561; i=maxime@cerno.tech;
+ h=from:subject:message-id; bh=0FRX8CfksJbTHUiPdGQAgkXBCmG/4Qilh3JpXfqzQ/o=;
+ b=owGbwMvMwCX2+D1vfrpE4FHG02pJDCna37eXfJ9ckFpapHytzOfrnsyaoHNqzlyaHimZk0K2WhyT
+ iDndUcrCIMbFICumyBIjbL4k7tSs151sfPNg5rAygQxh4OIUgImUVTMyPPwam6ZxZselGtfO/xemp8
+ /4eWyC1OrTXQW2EYY8/6T5njL8Znd0lLbu9jxrfixXWnbfrwRjHx17nw13Pk1++ftp6Jp8LgA=
 X-Developer-Key: i=maxime@cerno.tech; a=openpgp;
  fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -139,8 +139,8 @@ Cc: linux-rtc@vger.kernel.org, alsa-devel@alsa-project.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The SI5351 clkout clocks implements a mux with a set_parent hook, but
-doesn't provide a determine_rate implementation.
+The TI DA8xx USB0 clk48 clocks implements a mux with a set_parent
+hook, but doesn't provide a determine_rate implementation.
 
 This is a bit odd, since set_parent() is there to, as its name implies,
 change the parent of a clock. However, the most likely candidate to
@@ -169,72 +169,38 @@ oversight, the clock behaviour can be adjusted later on.
 
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/clk/clk-si5351.c | 18 ++++++++++--------
- 1 file changed, 10 insertions(+), 8 deletions(-)
+ drivers/clk/davinci/da8xx-cfgchip.c | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/clk/clk-si5351.c b/drivers/clk/clk-si5351.c
-index bfab05f4fe28..11aaa934da29 100644
---- a/drivers/clk/clk-si5351.c
-+++ b/drivers/clk/clk-si5351.c
-@@ -1037,11 +1037,12 @@ static unsigned long si5351_clkout_recalc_rate(struct clk_hw *hw,
- 	return parent_rate >> rdiv;
+diff --git a/drivers/clk/davinci/da8xx-cfgchip.c b/drivers/clk/davinci/da8xx-cfgchip.c
+index 4c1cc59bba53..f60c97091818 100644
+--- a/drivers/clk/davinci/da8xx-cfgchip.c
++++ b/drivers/clk/davinci/da8xx-cfgchip.c
+@@ -462,10 +462,12 @@ static unsigned long da8xx_usb0_clk48_recalc_rate(struct clk_hw *hw,
+ 	return 48000000;
  }
  
--static long si5351_clkout_round_rate(struct clk_hw *hw, unsigned long rate,
--				     unsigned long *parent_rate)
-+static int si5351_clkout_determine_rate(struct clk_hw *hw,
-+					struct clk_rate_request *req)
+-static long da8xx_usb0_clk48_round_rate(struct clk_hw *hw, unsigned long rate,
+-					unsigned long *parent_rate)
++static int da8xx_usb0_clk48_determine_rate(struct clk_hw *hw,
++					   struct clk_rate_request *req)
  {
- 	struct si5351_hw_data *hwdata =
- 		container_of(hw, struct si5351_hw_data, hw);
-+	unsigned long rate = req->rate;
- 	unsigned char rdiv;
- 
- 	/* clkout6/7 can only handle output freqencies < 150MHz */
-@@ -1063,13 +1064,13 @@ static long si5351_clkout_round_rate(struct clk_hw *hw, unsigned long rate,
- 			rdiv += 1;
- 			rate *= 2;
- 		}
--		*parent_rate = rate;
-+		req->best_parent_rate = rate;
- 	} else {
- 		unsigned long new_rate, new_err, err;
- 
- 		/* round to closed rdiv */
- 		rdiv = SI5351_OUTPUT_CLK_DIV_1;
--		new_rate = *parent_rate;
-+		new_rate = req->best_parent_rate;
- 		err = abs(new_rate - rate);
- 		do {
- 			new_rate >>= 1;
-@@ -1080,14 +1081,15 @@ static long si5351_clkout_round_rate(struct clk_hw *hw, unsigned long rate,
- 			err = new_err;
- 		} while (1);
- 	}
--	rate = *parent_rate >> rdiv;
-+	rate = req->best_parent_rate >> rdiv;
- 
- 	dev_dbg(&hwdata->drvdata->client->dev,
- 		"%s - %s: rdiv = %u, parent_rate = %lu, rate = %lu\n",
- 		__func__, clk_hw_get_name(hw), (1 << rdiv),
--		*parent_rate, rate);
-+		req->best_parent_rate, rate);
- 
--	return rate;
-+	req->rate = rate;
+-	return 48000000;
++	req->rate = 48000000;
++
 +	return 0;
  }
  
- static int si5351_clkout_set_rate(struct clk_hw *hw, unsigned long rate,
-@@ -1147,7 +1149,7 @@ static const struct clk_ops si5351_clkout_ops = {
- 	.set_parent = si5351_clkout_set_parent,
- 	.get_parent = si5351_clkout_get_parent,
- 	.recalc_rate = si5351_clkout_recalc_rate,
--	.round_rate = si5351_clkout_round_rate,
-+	.determine_rate = si5351_clkout_determine_rate,
- 	.set_rate = si5351_clkout_set_rate,
+ static int da8xx_usb0_clk48_set_parent(struct clk_hw *hw, u8 index)
+@@ -494,7 +496,7 @@ static const struct clk_ops da8xx_usb0_clk48_ops = {
+ 	.disable	= da8xx_usb0_clk48_disable,
+ 	.is_enabled	= da8xx_usb0_clk48_is_enabled,
+ 	.recalc_rate	= da8xx_usb0_clk48_recalc_rate,
+-	.round_rate	= da8xx_usb0_clk48_round_rate,
++	.determine_rate	= da8xx_usb0_clk48_determine_rate,
+ 	.set_parent	= da8xx_usb0_clk48_set_parent,
+ 	.get_parent	= da8xx_usb0_clk48_get_parent,
  };
- 
 
 -- 
 2.39.2
