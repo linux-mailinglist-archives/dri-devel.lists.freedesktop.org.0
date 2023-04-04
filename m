@@ -1,54 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BAAB26D6BF5
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Apr 2023 20:27:33 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DB736D6C7B
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Apr 2023 20:42:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 09D9610E740;
-	Tue,  4 Apr 2023 18:27:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 65ED710E3CB;
+	Tue,  4 Apr 2023 18:42:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B2D0A10E740;
- Tue,  4 Apr 2023 18:27:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1680632849; x=1712168849;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=KnO2YvApeiTn7Ru1PSHJ3CBR220BzOr6sxFTg0H8bxU=;
- b=Xl6le2nQIyM0NBizAn2NGMHGpdVURRMRp+Vo1YNIbaY8GktFCOuom65c
- eYa+GYfy8EYgVCM1o1e7QLKr6wZiHXDjooUgJoDGyWqyCGz1JJ6Al+Ztn
- MZPxqiOKKdTxf1saSRyONCBn7qCElPug8UCTT9dwoh6tiqUVYXMBg8EUe
- 0PC7Crs6fH75qZfYGnTusdD7RS54hezHV47dyGC2RZfTRG5a6poa4k0DQ
- sTX1C7eZ9pxiqbRuAwoPfpXh/N0i/LnxF5i6W1+DnyEzJXKVIDm6G4IGN
- FdNgY6HQtI79NJTIIptX0fIsbr7sdZHNCSkOP0utsBrjORmZnvGiTythr Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10670"; a="428556638"
-X-IronPort-AV: E=Sophos;i="5.98,318,1673942400"; d="scan'208";a="428556638"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Apr 2023 11:27:28 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10670"; a="686470656"
-X-IronPort-AV: E=Sophos;i="5.98,318,1673942400"; d="scan'208";a="686470656"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.70])
- by orsmga002.jf.intel.com with SMTP; 04 Apr 2023 11:27:25 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Tue, 04 Apr 2023 21:27:24 +0300
-Date: Tue, 4 Apr 2023 21:27:24 +0300
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Nirmoy Das <nirmoy.das@intel.com>
-Subject: Re: [Intel-gfx] [PATCH v3] drm/i915/mtl: Disable stolen memory
- backed FB for A0
-Message-ID: <ZCxsDA86FrHzL7Rk@intel.com>
-References: <20230404181342.23362-1-nirmoy.das@intel.com>
+Received: from mx0.riseup.net (mx0.riseup.net [198.252.153.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 533BC10E3CB
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Apr 2023 18:42:13 +0000 (UTC)
+Received: from fews2.riseup.net (fews2-pn.riseup.net [10.0.1.84])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
+ client-signature RSA-PSS (2048 bits) client-digest SHA256)
+ (Client CN "mail.riseup.net", Issuer "R3" (not verified))
+ by mx0.riseup.net (Postfix) with ESMTPS id 4Prc7S3zzMz9tJt;
+ Tue,  4 Apr 2023 18:42:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
+ t=1680633732; bh=FCPK2V4dsrYw6WvrvcXKhqT0wiioC4ClIQa3sLF/UHU=;
+ h=From:To:Cc:Subject:Date:From;
+ b=hZzl3/r2DORpgmXDPbkdg2h9IWY8mNJv2hDgQuEc+gQ8Bx9aJ5R1K6+ru6gv6B3/R
+ tddnFH5MVIOD+cLWzNbldqcYcjVXwVBP8HT84MDTGZGM9PDynRjjx0aiUa2QL6MLbQ
+ hFRy/aiYYN93/HTB5SEjbIGwReyqPNOW0uaDXcKM=
+X-Riseup-User-ID: 0278156967962C474C7C3F765A0795A63A3912EBAC0D0686F6DFE6140160A217
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ by fews2.riseup.net (Postfix) with ESMTPSA id 4Prc7M2MmZz1yNK;
+ Tue,  4 Apr 2023 18:42:06 +0000 (UTC)
+From: Arthur Grillo <arthurgrillo@riseup.net>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH v3 0/5] Create tests for the drm_rect functions
+Date: Tue,  4 Apr 2023 15:41:53 -0300
+Message-Id: <20230404184158.26290-1-arthurgrillo@riseup.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230404181342.23362-1-nirmoy.das@intel.com>
-X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,58 +48,69 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, Lucas De Marchi <lucas.demarchi@intel.com>,
- Matthew Auld <matthew.auld@intel.com>, dri-devel@lists.freedesktop.org
+Cc: carlos.craveiro@usp.br, tales.aparecida@gmail.com, dlatypov@google.com,
+ javierm@redhat.com, mairacanal@riseup.net, maxime@cerno.tech,
+ andrealmeid@riseup.net, Arthur Grillo <arthurgrillo@riseup.net>,
+ matheus.vieira.g@usp.br
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Apr 04, 2023 at 08:13:42PM +0200, Nirmoy Das wrote:
-> Stolen memory is not usable for MTL A0 stepping beyond
-> certain access size and we have no control over userspace
-> access size of /dev/fb which can be backed by stolen memory.
-> So disable stolen memory backed fb by setting i915->dsm.usable_size
-> to zero.
-> 
-> v2: remove hsdes reference and fix commit message(Andi)
-> v3: use revid as we want to target SOC stepping(Radhakrishna)
-> 
-> Cc: Matthew Auld <matthew.auld@intel.com>
-> Cc: Andi Shyti <andi.shyti@linux.intel.com>
-> Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-> Cc: Lucas De Marchi <lucas.demarchi@intel.com>
-> Cc: Radhakrishna Sripada <radhakrishna.sripada@intel.com>
-> Signed-off-by: Nirmoy Das <nirmoy.das@intel.com>
-> Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com>
-> ---
->  drivers/gpu/drm/i915/gem/i915_gem_stolen.c | 8 ++++++++
->  1 file changed, 8 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_stolen.c b/drivers/gpu/drm/i915/gem/i915_gem_stolen.c
-> index 8ac376c24aa2..ee492d823f1b 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_stolen.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_stolen.c
-> @@ -535,6 +535,14 @@ static int i915_gem_init_stolen(struct intel_memory_region *mem)
->  	/* Basic memrange allocator for stolen space. */
->  	drm_mm_init(&i915->mm.stolen, 0, i915->dsm.usable_size);
->  
-> +	/*
-> +	 * Access to stolen lmem beyond certain size for MTL A0 stepping
-> +	 * would crash the machine. Disable stolen lmem for userspace access
-> +	 * by setting usable_size to zero.
-> +	 */
-> +	if (IS_METEORLAKE(i915) && INTEL_REVID(i915) == 0x0)
-> +		i915->dsm.usable_size = 0;
+This patchset seeks to add unit tests for the rest of the functions on
+the drm_rect.c.
 
-That certainly won't prevent FBC from using stolen.
-Are we sure that FBC accesses are fine?
+The test coverage report generated by the gcov[1] tool states that this
+set reaches 100% of coverage on the drm_rect.c file. This would be
+very good for future development on the file.
 
-> +
->  	return 0;
->  }
->  
-> -- 
-> 2.39.0
+Thanks for reviewing!
+
+Best regards,
+~Arthur Grillo
+
+---
+
+v1->v2: https://lore.kernel.org/all/20230322140701.69852-1-arthurgrillo@riseup.net/
+- Create parameterized tests for drm_rect_intersect().
+- Use .16 binary fixed point values on the drm_rect_calc_hscale() and
+  drm_rect_calc_vscale() tests.
+- Replace INT_MIN for 0 on the on the drm_rect_calc_hscale() and
+  drm_rect_calc_vscale() tests.
+- Assign nonzero values to the width and height parameters of the
+  drm_rect_rotate() and drm_rect_rotate_inv() tests.
+- Switch memcpy to a simple variable assignment on the drm_rect_rotate()
+  and drm_rect_rotate_inv() tests.
+
+v2->v3: https://lore.kernel.org/all/20230327133848.5250-1-arthurgrillo@riseup.net/
+- Change "x" to lowercase on the drm_rect_intersect() cases.
+- Remove the option for no description on the drm_rect_intersect() cases.
+- Add a test for rects with zero height and width on the
+  drm_rect_intersect().
+- Switch to parameterized tests for drm_rect_calc_hscale() and
+  drm_rect_calc_vscale().
+- Add a test for a dst drm_rect with zero width for
+  drm_rect_calc_hscale() and zero height for drm_rect_calc_vscale().
+- Place an "-" on the drm_rect_rotate case names to match the userspace.
+- s/drm_rect_case_desc/drm_rect_rotate_case_desc/
+- Improve the commit messages.
+
+---
+
+[1]: https://gcc.gnu.org/onlinedocs/gcc/Gcov.html#Gcov
+
+---
+
+
+
+Arthur Grillo (5):
+  drm/tests: Add test cases for drm_rect_intersect()
+  drm/tests: Add test cases for drm_rect_calc_hscale()
+  drm/tests: Add test cases for drm_rect_calc_vscale()
+  drm/tests: Add test cases for drm_rect_rotate()
+  drm/test: Add test cases for drm_rect_rotate_inv()
+
+ drivers/gpu/drm/tests/drm_rect_test.c | 362 ++++++++++++++++++++++++++
+ 1 file changed, 362 insertions(+)
 
 -- 
-Ville Syrjälä
-Intel
+2.39.2
+
