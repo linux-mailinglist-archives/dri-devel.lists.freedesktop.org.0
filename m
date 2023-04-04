@@ -1,47 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A7A46D5583
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Apr 2023 02:22:58 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B8946D557B
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Apr 2023 02:22:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A242910E1CA;
-	Tue,  4 Apr 2023 00:22:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B62CC10E048;
+	Tue,  4 Apr 2023 00:22:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0598210E05F;
- Tue,  4 Apr 2023 00:22:23 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7068C10E05F;
+ Tue,  4 Apr 2023 00:22:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1680567744; x=1712103744;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=pM87jfqrMf8vXEWTm6fPP8Tl1MKGUh+f7ud0diOflQc=;
- b=fMhJYgOWm7uIGMUOp/2WvKGkyo1U3K411nA3kCUWXpfHOpOCkNjH6uJE
- 9LgmVoIttkWB/ehqnobpklL3ZZtEDs5napqQCAZeud1Ru65dB1zo3zhmz
- VFR9qJvZgWF6d5fQUam6Mx939FpyfOKufIG78iNG4jdGqz7ri++g1RYL9
- t9C6T8epLEpvx3TLC6GorPeN7vejMkTrLdJdd93CWYZqQzVFztLxjEty2
- JB+QFK8jw6xBzBuDpq0fOKNYNkc2wX2FII06gdc5X8HCjBkVB4lelzV9a
- fhEfsxZnv+JgINeLW9rxPNaxC25dZ2Zm9FV5WL8F5/3hI4rdjIbDrdkxk A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10669"; a="404810517"
-X-IronPort-AV: E=Sophos;i="5.98,316,1673942400"; d="scan'208";a="404810517"
+ bh=S1slQD3OeKnMaC9hsbtA7WJFpQywRZAU0l5Iq4exbig=;
+ b=FY5Z2nrvyO4exbKTVCIVPpxt7Gp383dR8YkPc5ZPU6qmp6beBSJ/gxO+
+ LQNyqyZ2+0ZhwAkXDZbXJmUz9rF2cRyKSzcbeodb3ULrPgiTa9pnjCM9X
+ ssSDja8szzWZX715Sr6koxpZQPTiaitPNDVTtatJh5A2tMstl0lI7VVg0
+ DlUWrMWYw3dfJD8nhTyjoBwend/rsURNkCHd68LwC2D+6Uh9GUSz5WTMA
+ /Mtsu9Iy5W1kqqXKhX822dId4gd0CInEIdzhvlsjoSJ8ehEu5d7CyQ6zc
+ jT0FGM3QUy47Auum9EncpUQTQrTlLLGM+5n1LceTDlV0MOsyTEevfg4S9 Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10669"; a="404810527"
+X-IronPort-AV: E=Sophos;i="5.98,316,1673942400"; d="scan'208";a="404810527"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  03 Apr 2023 17:22:22 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10669"; a="716460303"
-X-IronPort-AV: E=Sophos;i="5.98,316,1673942400"; d="scan'208";a="716460303"
+X-IronPort-AV: E=McAfee;i="6600,9927,10669"; a="716460306"
+X-IronPort-AV: E=Sophos;i="5.98,316,1673942400"; d="scan'208";a="716460306"
 Received: from lstrano-desk.jf.intel.com ([10.24.89.184])
  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  03 Apr 2023 17:22:21 -0700
 From: Matthew Brost <matthew.brost@intel.com>
 To: dri-devel@lists.freedesktop.org,
 	intel-xe@lists.freedesktop.org
-Subject: [RFC PATCH 05/10] drm/sched: Start run wq before TDR in
- drm_sched_start
-Date: Mon,  3 Apr 2023 17:22:06 -0700
-Message-Id: <20230404002211.3611376-6-matthew.brost@intel.com>
+Subject: [RFC PATCH 06/10] drm/sched: Submit job before starting TDR
+Date: Mon,  3 Apr 2023 17:22:07 -0700
+Message-Id: <20230404002211.3611376-7-matthew.brost@intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230404002211.3611376-1-matthew.brost@intel.com>
 References: <20230404002211.3611376-1-matthew.brost@intel.com>
@@ -66,35 +65,30 @@ Cc: robdclark@chromium.org, thomas.hellstrom@linux.intel.com, airlied@linux.ie,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-If the TDR is set to a very small value it can fire before the run wq is
-started in the function drm_sched_start. The run wq is expected to
-running when the TDR fires, fix this ordering so this expectation is
-always met.
+If the TDR is set to a value, it can fire before a job is submitted in
+drm_sched_main. The job should be always be submitted before the TDR
+fires, fix this ordering.
 
 Signed-off-by: Matthew Brost <matthew.brost@intel.com>
 ---
- drivers/gpu/drm/scheduler/sched_main.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/scheduler/sched_main.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
-index 9dc3378e9c5e..6ae710017024 100644
+index 6ae710017024..4eac02d212c1 100644
 --- a/drivers/gpu/drm/scheduler/sched_main.c
 +++ b/drivers/gpu/drm/scheduler/sched_main.c
-@@ -611,13 +611,13 @@ void drm_sched_start(struct drm_gpu_scheduler *sched, bool full_recovery)
- 			drm_sched_job_done(s_job);
- 	}
+@@ -1150,10 +1150,10 @@ static void drm_sched_main(struct work_struct *w)
+ 		s_fence = sched_job->s_fence;
  
-+	drm_sched_run_wq_start(sched);
-+
- 	if (full_recovery) {
- 		spin_lock(&sched->job_list_lock);
- 		drm_sched_start_timeout(sched);
- 		spin_unlock(&sched->job_list_lock);
- 	}
--
--	drm_sched_run_wq_start(sched);
- }
- EXPORT_SYMBOL(drm_sched_start);
+ 		atomic_inc(&sched->hw_rq_count);
+-		drm_sched_job_begin(sched_job);
+ 
+ 		trace_drm_run_job(sched_job, entity);
+ 		fence = sched->ops->run_job(sched_job);
++		drm_sched_job_begin(sched_job);
+ 		complete_all(&entity->entity_idle);
+ 		drm_sched_fence_scheduled(s_fence);
  
 -- 
 2.34.1
