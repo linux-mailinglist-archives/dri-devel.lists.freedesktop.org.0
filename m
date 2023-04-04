@@ -2,73 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C733F6D6D03
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Apr 2023 21:16:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 739256D6D15
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Apr 2023 21:26:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8BEBF10E775;
-	Tue,  4 Apr 2023 19:16:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4F4F810E78B;
+	Tue,  4 Apr 2023 19:25:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com
- [IPv6:2a00:1450:4864:20::531])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1E92010E775
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Apr 2023 19:16:34 +0000 (UTC)
-Received: by mail-ed1-x531.google.com with SMTP id ek18so134891815edb.6
- for <dri-devel@lists.freedesktop.org>; Tue, 04 Apr 2023 12:16:33 -0700 (PDT)
+Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com
+ [IPv6:2a00:1450:4864:20::52e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D2B4610E77F
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Apr 2023 19:25:56 +0000 (UTC)
+Received: by mail-ed1-x52e.google.com with SMTP id b20so134960470edd.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 04 Apr 2023 12:25:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1680635792; x=1683227792;
- h=in-reply-to:content-disposition:mime-version:references
- :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
- :subject:date:message-id:reply-to;
- bh=Eworcs+FS5N7Z5pvybSDUFQM4vAotz4kjrv0Fz9G5CM=;
- b=S8QVKvaZOxOP03YtvEVJ03LLMzBooHuMTOpd4C0KPfhoYLOtjw6atLKod+1mQM4aJD
- 84bpfzxwLT7p4HX+wCCBDpCn4T6IZhbRSpgwjjtvvmcoepRtD7wSYZJ9DKkdLSUQTVap
- ULQPyxhH/SGlpcgC6Rx1JqoqydLXdi+ftojIk=
+ d=ffwll.ch; s=google; t=1680636355; x=1683228355;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=lSRGjxjaZZMqD4CNjka3gtiC5AxK7OVJTHHSyostP9E=;
+ b=BZBRvFYii8UuLLmDBGD3kl4OUpMso4T3WJIPnhI1QIzlIrJCnC6hUMxXhcrSS4W9wP
+ Lmz1YWy10YtBv/7BFYH70r4f46DbDd3BaYLq95NctcDmoQmxSw7ip0UmIX7dHxwWWAff
+ 6Rc3YUSL+oYZcMO/YBvS61ofN5MnhHwxP2SPw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680635792; x=1683227792;
- h=in-reply-to:content-disposition:mime-version:references
- :mail-followup-to:message-id:subject:cc:to:from:date
+ d=1e100.net; s=20210112; t=1680636355; x=1683228355;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Eworcs+FS5N7Z5pvybSDUFQM4vAotz4kjrv0Fz9G5CM=;
- b=jVw0S/ljXt8e4G2LUcZLpzmVNoM0wcm+F70TgLyO8npQ29v85mgM/omOvgGYkTchji
- uEzBfmxSKplQxQ2nKUhlHOOkuVNS4yOCQgOxM+AuJvGP94mkQw/bGB9c3aVKm2ZHgRDP
- X1gXktvVvE+WTBvrgn/Z6tdruo+Hobf866PbY934fr07f/RcHcZoqP67/g3CSntZvlBF
- axXDyI69iy+OMeFuNwxktsCnPJFe76l8dHEFF4VPS/9DUFNWIQ+8UjYfAZMzLFaS6WJW
- PwBX7pX8B78NwBuq2Ws0cNl3xrWkDMgHhE4hdk5o3R4LhAR7BykmH1hf+WLLA/RbOZUw
- 7wJA==
-X-Gm-Message-State: AAQBX9dXIUuO/w7lD97iUt/2IWD98LSiuWQ7Yogq33ToB+DlfC7gMlrh
- yFwqPVdVgQOHHhPPrHkcgynazQ==
-X-Google-Smtp-Source: AKy350ZD7c6CgJzTRzTOviQ9uHhtRHgmNr38y4A17xt2b4GdR222T6lp1xKS6NPQaXKgwkercB2BHw==
-X-Received: by 2002:a17:906:51c6:b0:92e:f520:7762 with SMTP id
- v6-20020a17090651c600b0092ef5207762mr708844ejk.6.1680635792149; 
- Tue, 04 Apr 2023 12:16:32 -0700 (PDT)
+ bh=lSRGjxjaZZMqD4CNjka3gtiC5AxK7OVJTHHSyostP9E=;
+ b=e6qTe1K3xlz0I3Ww/koCfEGIkvjW+pBBKBvJ1vEptZ2wnu40wPDi0tf2kWxHk4V5bN
+ +Oly3XDARe6UL3Odyhli7iQf6GRN4SQXnrk7kLrzqq2KDMIQk1ngOfsV0L5lpAoG/Oaf
+ LG/tr2Pglevr16bNblh/C0iiKZn+p4lI1WSf5nm4qvP81uaUFvL8OO5nrrpDsyHDDlJ2
+ TwlgL96C5cH0VwV0BIyDi0ZXFPlzr+Eqj0PDZ/u5n76FlxoZf3ELWYdseeWfJiYvdy0L
+ qx49O2jvCZrri0g25RfylT3lT5Dh0TEHxtWk+i/JxpuuvnHkPLleU3FFZWvRp6VgjPeL
+ Z3sg==
+X-Gm-Message-State: AAQBX9dM3jsfFPblXlwR9ncnWplXJoHvJF+AQi2xE981SDKQaLyrjOiR
+ cuIueAIW+2IumA1qQm/E1prItg==
+X-Google-Smtp-Source: AKy350ZdWWrElzTb+J0AmirwH77UVGr99RhfumPf+1Mqu2bZ+UON3TBw+wtp9SySuDXMZJ1/T9YAtQ==
+X-Received: by 2002:a05:6402:1e8e:b0:502:1f7b:f069 with SMTP id
+ f14-20020a0564021e8e00b005021f7bf069mr592437edf.2.1680636354878; 
+ Tue, 04 Apr 2023 12:25:54 -0700 (PDT)
 Received: from phenom.ffwll.local (212-51-149-33.fiber7.init7.net.
  [212.51.149.33]) by smtp.gmail.com with ESMTPSA id
- n13-20020a170906688d00b0093210cf625bsm6311135ejr.187.2023.04.04.12.16.31
+ b17-20020a50b411000000b004bf7905559asm6339758edh.44.2023.04.04.12.25.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 04 Apr 2023 12:16:31 -0700 (PDT)
-Date: Tue, 4 Apr 2023 21:16:29 +0200
+ Tue, 04 Apr 2023 12:25:54 -0700 (PDT)
+Date: Tue, 4 Apr 2023 21:25:52 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: Re: [PATCH v10 11/15] drm/atomic-helper: Set fence deadline for vblank
-Message-ID: <ZCx3jUJfC1vmbhI6@phenom.ffwll.local>
-Mail-Followup-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Rob Clark <robdclark@gmail.com>, dri-devel@lists.freedesktop.org,
- Rob Clark <robdclark@chromium.org>,
- Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
- intel-gfx@lists.freedesktop.org,
- open list <linux-kernel@vger.kernel.org>,
- Luben Tuikov <luben.tuikov@amd.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Matt Turner <mattst88@gmail.com>, freedreno@lists.freedesktop.org
-References: <20230308155322.344664-1-robdclark@gmail.com>
- <20230308155322.344664-12-robdclark@gmail.com>
- <dfc21f18-7e1e-48f0-c05a-d659b9c90b91@linaro.org>
+To: Matthew Brost <matthew.brost@intel.com>
+Subject: Re: [RFC PATCH 08/10] dma-buf/dma-fence: Introduce long-running
+ completion fences
+Message-ID: <ZCx5wGTA3RCZGjA4@phenom.ffwll.local>
+References: <20230404002211.3611376-1-matthew.brost@intel.com>
+ <20230404002211.3611376-9-matthew.brost@intel.com>
+ <e5eb5ab0-8e51-389c-34ae-7c6004f4b1ba@amd.com>
+ <f7b3b70b-c798-b09e-210c-f84eaafd3251@linux.intel.com>
+ <5b2e6a78-b743-028c-f54d-af38c130164a@amd.com>
+ <16a3a3fd-47c7-d74d-4835-9438ef8d2635@shipmail.org>
+ <ZCx0P7GwLh2yOVR4@DUT025-TGLU.fm.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <dfc21f18-7e1e-48f0-c05a-d659b9c90b91@linaro.org>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <ZCx0P7GwLh2yOVR4@DUT025-TGLU.fm.intel.com>
 X-Operating-System: Linux phenom 6.1.0-7-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -82,168 +78,203 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
- intel-gfx@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- open list <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org,
- Luben Tuikov <luben.tuikov@amd.com>, Thomas Zimmermann <tzimmermann@suse.de>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, Matt Turner <mattst88@gmail.com>,
- freedreno@lists.freedesktop.org
+Cc: robdclark@chromium.org,
+ Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+ airlied@linux.ie, lina@asahilina.net,
+ Thomas =?iso-8859-1?Q?Hellstr=F6m_=28Intel=29?= <thomas_os@shipmail.org>,
+ dri-devel@lists.freedesktop.org,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ boris.brezillon@collabora.com, intel-xe@lists.freedesktop.org,
+ faith.ekstrand@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Apr 04, 2023 at 08:22:05PM +0300, Dmitry Baryshkov wrote:
-> On 08/03/2023 17:53, Rob Clark wrote:
-> > From: Rob Clark <robdclark@chromium.org>
+On Tue, Apr 04, 2023 at 07:02:23PM +0000, Matthew Brost wrote:
+> On Tue, Apr 04, 2023 at 08:14:01PM +0200, Thomas Hellström (Intel) wrote:
 > > 
-> > For an atomic commit updating a single CRTC (ie. a pageflip) calculate
-> > the next vblank time, and inform the fence(s) of that deadline.
+> > On 4/4/23 15:10, Christian König wrote:
+> > > Am 04.04.23 um 14:54 schrieb Thomas Hellström:
+> > > > Hi, Christian,
+> > > > 
+> > > > On 4/4/23 11:09, Christian König wrote:
+> > > > > Am 04.04.23 um 02:22 schrieb Matthew Brost:
+> > > > > > From: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+> > > > > > 
+> > > > > > For long-running workloads, drivers either need to open-code
+> > > > > > completion
+> > > > > > waits, invent their own synchronization primitives or internally use
+> > > > > > dma-fences that do not obey the cross-driver dma-fence protocol, but
+> > > > > > without any lockdep annotation all these approaches are error prone.
+> > > > > > 
+> > > > > > So since for example the drm scheduler uses dma-fences it is
+> > > > > > desirable for
+> > > > > > a driver to be able to use it for throttling and error
+> > > > > > handling also with
+> > > > > > internal dma-fences tha do not obey the cros-driver
+> > > > > > dma-fence protocol.
+> > > > > > 
+> > > > > > Introduce long-running completion fences in form of
+> > > > > > dma-fences, and add
+> > > > > > lockdep annotation for them. In particular:
+> > > > > > 
+> > > > > > * Do not allow waiting under any memory management locks.
+> > > > > > * Do not allow to attach them to a dma-resv object.
+> > > > > > * Introduce a new interface for adding callbacks making the
+> > > > > > helper adding
+> > > > > >    a callback sign off on that it is aware that the dma-fence may not
+> > > > > >    complete anytime soon. Typically this will be the
+> > > > > > scheduler chaining
+> > > > > >    a new long-running fence on another one.
+> > > > > 
+> > > > > Well that's pretty much what I tried before:
+> > > > > https://lwn.net/Articles/893704/
+> > > > > 
+> 
+> I don't think this quite the same, this explictly enforces that we don't
+> break the dma-fence rules (in path of memory allocations, exported in
+> any way), essentially this just SW sync point reusing dma-fence the
+> infrastructure for signaling / callbacks. I believe your series tried to
+> export these fences to user space (admittedly I haven't fully read your
+> series).
+> 
+> In this use case we essentially just want to flow control the ring via
+> the dma-scheduler + maintain a list of pending jobs so the TDR can be
+> used for cleanup if LR entity encounters an error. To me this seems
+> perfectly reasonable but I know dma-femce rules are akin to a holy war.
+> 
+> If we return NULL in run_job, now we have to be able to sink all jobs
+> in the backend regardless on ring space, maintain a list of jobs pending
+> for cleanup after errors, and write a different cleanup path as now the
+> TDR doesn't work. Seems very, very silly to duplicate all of this code
+> when the DRM scheduler provides all of this for us. Also if we go this
+> route, now all drivers are going to invent ways to handle LR jobs /w the
+> DRM scheduler.
+> 
+> This solution is pretty clear, mark the scheduler as LR, and don't
+> export any fences from the scheduler. If you try to export these fences
+> a blow up happens.
+
+The problem is if you mix things up. Like for resets you need all the
+schedulers on an engine/set-of-engines to quiescent or things get
+potentially hilarious. If you now have a scheduler in forever limbo, the
+dma_fence guarantees are right out the window.
+
+But the issue you're having is fairly specific if it's just about
+ringspace. I think the dumbest fix is to just block in submit if you run
+out of per-ctx ringspace, and call it a day. This notion that somehow the
+kernel is supposed to provide a bottomless queue of anything userspace
+submits simply doesn't hold up in reality (as much as userspace standards
+committees would like it to), and as long as it doesn't have a real-world
+perf impact it doesn't really matter why we end up blocking in the submit
+ioctl. It might also be a simple memory allocation that hits a snag in
+page reclaim.
+
+> > > > > And the reasons why it was rejected haven't changed.
+> > > > > 
+> > > > > Regards,
+> > > > > Christian.
+> > > > > 
+> > > > Yes, TBH this was mostly to get discussion going how we'd best
+> > > > tackle this problem while being able to reuse the scheduler for
+> > > > long-running workloads.
+> > > > 
+> > > > I couldn't see any clear decision on your series, though, but one
+> > > > main difference I see is that this is intended for driver-internal
+> > > > use only. (I'm counting using the drm_scheduler as a helper for
+> > > > driver-private use). This is by no means a way to try tackle the
+> > > > indefinite fence problem.
+> > > 
+> > > Well this was just my latest try to tackle this, but essentially the
+> > > problems are the same as with your approach: When we express such
+> > > operations as dma_fence there is always the change that we leak that
+> > > somewhere.
+> > > 
+> > > My approach of adding a flag noting that this operation is dangerous and
+> > > can't be synced with something memory management depends on tried to
+> > > contain this as much as possible, but Daniel still pretty clearly
+> > > rejected it (for good reasons I think).
+> > > 
+> > > > 
+> > > > We could ofc invent a completely different data-type that abstracts
+> > > > the synchronization the scheduler needs in the long-running case, or
+> > > > each driver could hack something up, like sleeping in the
+> > > > prepare_job() or run_job() callback for throttling, but those waits
+> > > > should still be annotated in one way or annotated one way or another
+> > > > (and probably in a similar way across drivers) to make sure we don't
+> > > > do anything bad.
+> > > > 
+> > > >  So any suggestions as to what would be the better solution here
+> > > > would be appreciated.
+> > > 
+> > > Mhm, do we really the the GPU scheduler for that?
+> > > 
+> 
+> I think we need to solve this within the DRM scheduler one way or
+> another.
+
+Yeah so if we conclude that the queue really must be bottomless then I
+agree drm-sched should help out sort out the mess. Because I'm guessing
+that every driver will have this issue. But that's a big if.
+
+I guess if we teach the drm scheduler that some jobs are fairly endless
+then maybe it wouldn't be too far-fetched to also teach it to wait for a
+previous one to finish (but not with the dma_fence that preempts, which we
+put into the dma_resv for memory management, but some other struct
+completion). The scheduler already has a concept of not stuffing too much
+stuff into the same queue after all, so this should fit?
+-Daniel
+
+
+> > > I mean in the 1 to 1 case  you basically just need a component which
+> > > collects the dependencies as dma_fence and if all of them are fulfilled
+> > > schedules a work item.
+> > > 
+> > > As long as the work item itself doesn't produce a dma_fence it can then
+> > > still just wait for other none dma_fence dependencies.
+> > > 
+> > > Then the work function could submit the work and wait for the result.
+> > > 
+> > > The work item would then pretty much represent what you want, you can
+> > > wait for it to finish and pass it along as long running dependency.
+> > > 
+> > > Maybe give it a funky name and wrap it up in a structure, but that's
+> > > basically it.
+> > > 
+> > This very much sounds like a i915_sw_fence for the dependency tracking and
+> > dma_fence_work for the actual work although it's completion fence is a
+> > dma_fence.
+> >
+> 
+> Agree this does sound to i915ish as stated below one of mandates in Xe
+> was to use the DRM scheduler. Beyond that as someone who a submission
+> backend in the i915 and Xe, I love how the DRM scheduler works (single
+> entry point), it makes everything so much easier.
+> 
+> Matt
+> 
+> > Although that goes against the whole idea of a condition for merging the xe
+> > driver would be that we implement some sort of minimal scaffolding for
+> > long-running workloads in the drm scheduler, and the thinking behind that is
+> > to avoid implementing intel-specific solutions like those...
 > > 
-> > v2: Comment typo fix (danvet)
-> > v3: If there are multiple CRTCs, consider the time of the soonest vblank
+> > Thanks,
 > > 
-> > Signed-off-by: Rob Clark <robdclark@chromium.org>
-> > Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-> > Signed-off-by: Rob Clark <robdclark@chromium.org>
-> > ---
-> >   drivers/gpu/drm/drm_atomic_helper.c | 37 +++++++++++++++++++++++++++++
-> >   1 file changed, 37 insertions(+)
-> 
-> As I started playing with hotplug on RB5 (sm8250, DSI-HDMI bridge), I found
-> that this patch introduces the following backtrace on HDMI hotplug. Is there
-> anything that I can do to debug/fix the issue? The warning seems harmless,
-> but it would be probably be good to still fix it. With addresses decoded:
-
-Bit a shot in the dark, but does the below help?
-
-
-diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
-index f21b5a74176c..6640d80d84f3 100644
---- a/drivers/gpu/drm/drm_atomic_helper.c
-+++ b/drivers/gpu/drm/drm_atomic_helper.c
-@@ -1528,6 +1528,9 @@ static void set_fence_deadline(struct drm_device *dev,
- 	for_each_new_crtc_in_state (state, crtc, new_crtc_state, i) {
- 		ktime_t v;
- 
-+		if (drm_atomic_crtc_needs_modeset(new_crtc_state))
-+			continue;
-+
- 		if (drm_crtc_next_vblank_start(crtc, &v))
- 			continue;
- 
-diff --git a/drivers/gpu/drm/drm_vblank.c b/drivers/gpu/drm/drm_vblank.c
-index 78a8c51a4abf..7ae38e8e27e8 100644
---- a/drivers/gpu/drm/drm_vblank.c
-+++ b/drivers/gpu/drm/drm_vblank.c
-@@ -1001,6 +1001,9 @@ int drm_crtc_next_vblank_start(struct drm_crtc *crtc, ktime_t *vblanktime)
- 	struct drm_display_mode *mode = &vblank->hwmode;
- 	u64 vblank_start;
- 
-+	if (!drm_dev_has_vblank(crtc->dev))
-+		return -EINVAL;
-+
- 	if (!vblank->framedur_ns || !vblank->linedur_ns)
- 		return -EINVAL;
- 
-
-> 
-> [   31.151348] ------------[ cut here ]------------
-> [   31.157043] msm_dpu ae01000.display-controller:
-> drm_WARN_ON_ONCE(drm_drv_uses_atomic_modeset(dev))
-> [   31.157177] WARNING: CPU: 0 PID: 13 at drivers/gpu/drm/drm_vblank.c:728
-> drm_crtc_vblank_helper_get_vblank_timestamp_internal
-> (drivers/gpu/drm/drm_vblank.c:728)
-> [   31.180629] Modules linked in:
-> [   31.184106] CPU: 0 PID: 13 Comm: kworker/0:1 Not tainted
-> 6.3.0-rc2-00008-gd39e48ca80c0 #542
-> [   31.193358] Hardware name: Qualcomm Technologies, Inc. Robotics RB5 (DT)
-> [   31.200796] Workqueue: events lt9611uxc_hpd_work
-> [   31.205990] pstate: 60400005 (nZCv daif +PAN -UAO -TCO -DIT -SSBS
-> BTYPE=--)
-> [   31.213722] pc : drm_crtc_vblank_helper_get_vblank_timestamp_internal
-> (drivers/gpu/drm/drm_vblank.c:728)
-> [   31.222032] lr : drm_crtc_vblank_helper_get_vblank_timestamp_internal
-> (drivers/gpu/drm/drm_vblank.c:728)
-> [   31.230341] sp : ffff8000080bb8d0
-> [   31.234061] x29: ffff8000080bb900 x28: 0000000000000038 x27:
-> ffff61a7956b8d60
-> [   31.242051] x26: 0000000000000000 x25: 0000000000000000 x24:
-> ffff8000080bb9c4
-> [   31.250038] x23: 0000000000000001 x22: ffffbf0033b94ef0 x21:
-> ffff61a7957901d0
-> [   31.258029] x20: ffff61a795710000 x19: ffff61a78128b000 x18:
-> fffffffffffec278
-> [   31.266014] x17: 0040000000000465 x16: 0000000000000020 x15:
-> 0000000000000060
-> [   31.274001] x14: 0000000000000001 x13: ffffbf00354550e0 x12:
-> 0000000000000825
-> [   31.281989] x11: 00000000000002b7 x10: ffffbf00354b1208 x9 :
-> ffffbf00354550e0
-> [   31.289976] x8 : 00000000ffffefff x7 : ffffbf00354ad0e0 x6 :
-> 00000000000002b7
-> [   31.297963] x5 : ffff61a8feebbe48 x4 : 40000000fffff2b7 x3 :
-> ffffa2a8c9f64000
-> [   31.305947] x2 : 0000000000000000 x1 : 0000000000000000 x0 :
-> ffff61a780283100
-> [   31.313934] Call trace:
-> [   31.316719] drm_crtc_vblank_helper_get_vblank_timestamp_internal
-> (drivers/gpu/drm/drm_vblank.c:728)
-> [   31.324646] drm_crtc_vblank_helper_get_vblank_timestamp
-> (drivers/gpu/drm/drm_vblank.c:843)
-> [   31.331528] drm_crtc_get_last_vbltimestamp
-> (drivers/gpu/drm/drm_vblank.c:884)
-> [   31.337170] drm_crtc_next_vblank_start
-> (drivers/gpu/drm/drm_vblank.c:1006)
-> [   31.342430] drm_atomic_helper_wait_for_fences
-> (drivers/gpu/drm/drm_atomic_helper.c:1531
-> drivers/gpu/drm/drm_atomic_helper.c:1578)
-> [   31.348561] drm_atomic_helper_commit
-> (drivers/gpu/drm/drm_atomic_helper.c:2007)
-> [   31.353724] drm_atomic_commit (drivers/gpu/drm/drm_atomic.c:1444)
-> [   31.358127] drm_client_modeset_commit_atomic
-> (drivers/gpu/drm/drm_client_modeset.c:1045)
-> [   31.364146] drm_client_modeset_commit_locked
-> (drivers/gpu/drm/drm_client_modeset.c:1148)
-> [   31.370071] drm_client_modeset_commit
-> (drivers/gpu/drm/drm_client_modeset.c:1174)
-> [   31.375233] drm_fb_helper_set_par (drivers/gpu/drm/drm_fb_helper.c:254
-> drivers/gpu/drm/drm_fb_helper.c:229 drivers/gpu/drm/drm_fb_helper.c:1644)
-> [   31.380108] drm_fb_helper_hotplug_event
-> (drivers/gpu/drm/drm_fb_helper.c:2302 (discriminator 4))
-> [   31.385456] drm_fb_helper_output_poll_changed
-> (drivers/gpu/drm/drm_fb_helper.c:2331)
-> [   31.391376] drm_kms_helper_hotplug_event
-> (drivers/gpu/drm/drm_probe_helper.c:697)
-> [   31.396825] drm_bridge_connector_hpd_cb
-> (drivers/gpu/drm/drm_bridge_connector.c:129)
-> [   31.402175] drm_bridge_hpd_notify (drivers/gpu/drm/drm_bridge.c:1315)
-> [   31.406954] lt9611uxc_hpd_work
-> (drivers/gpu/drm/bridge/lontium-lt9611uxc.c:185)
-> [   31.411450] process_one_work (kernel/workqueue.c:2395)
-> [   31.415949] worker_thread (include/linux/list.h:292
-> kernel/workqueue.c:2538)
-> [   31.426843] kthread (kernel/kthread.c:376)
-> [   31.437182] ret_from_fork (arch/arm64/kernel/entry.S:871)
-> [   31.447828] irq event stamp: 44642
-> [   31.458284] hardirqs last enabled at (44641): __up_console_sem
-> (arch/arm64/include/asm/irqflags.h:182 (discriminator 1)
-> arch/arm64/include/asm/irqflags.h:202 (discriminator 1)
-> kernel/printk/printk.c:345 (discriminator 1))
-> [   31.474540] hardirqs last disabled at (44642): el1_dbg
-> (arch/arm64/kernel/entry-common.c:335 arch/arm64/kernel/entry-common.c:406)
-> [   31.489882] softirqs last enabled at (42912): _stext
-> (arch/arm64/include/asm/current.h:19 arch/arm64/include/asm/preempt.h:13
-> kernel/softirq.c:415 kernel/softirq.c:600)
-> [   31.505256] softirqs last disabled at (42907): ____do_softirq
-> (arch/arm64/kernel/irq.c:81)
-> [   31.521139] ---[ end trace 0000000000000000 ]---
-> 
-> 
-> 
-> -- 
-> With best wishes
-> Dmitry
-> 
+> > Thomas
+> > 
+> > 
+> > 
+> > > Regards,
+> > > Christian.
+> > > 
+> > > > 
+> > > > Thanks,
+> > > > 
+> > > > Thomas
+> > > > 
+> > > > 
+> > > > 
+> > > > 
+> > > > 
 
 -- 
 Daniel Vetter
