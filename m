@@ -2,46 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E10B26D557C
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Apr 2023 02:22:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C23D6D5582
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Apr 2023 02:22:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 460AD10E0E3;
-	Tue,  4 Apr 2023 00:22:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BE11610E08C;
+	Tue,  4 Apr 2023 00:22:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A138C10E048;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 70CE310E08A;
  Tue,  4 Apr 2023 00:22:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1680567744; x=1712103744;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=PkFDbYuDEsMLPA63PNlLCfLAaP0jp+1ED1yaUoTrNYQ=;
- b=DTXU4MiaMA6ZGzx3FF2408oQ/1zB79ycN9JyPUHziphyq3yn7/ZJ+ZMm
- nxpGEh5hKTRgOcxY78AJAzzDiaSdlh7xaqMTwOSUvko5yqaYZMDLBQl6Z
- Lao2G1QFwHwraP6UYmVz+0fb4wMhPMb/z3MqAzXyudOIx6f9XIydUUUvZ
- fvEzj2GYepaOkKeI5nb3ghG5avyU+jdgMjUw8TfLeWtQW3XsmqyQNRWPD
- 7gh3TiJmTr753RRQ/PUiHBa+wVH0AMM8N5uQ4+Yx428wx8mDYfDuhZ2Wk
- /MnHRrYq5+AWFRepPC7QWY8mjjH41S7AGzJAXc+OVZ1NkWlHGhjtlMQye w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10669"; a="404810549"
-X-IronPort-AV: E=Sophos;i="5.98,316,1673942400"; d="scan'208";a="404810549"
+ bh=bCWnPihC2yKjoD/PHDXw9txgKVWfGootNC5roVYYdgw=;
+ b=YKE2cZiUhr3rpYqJFn6dZdBPZEik/cTwF136pOD+/MKBTL1zy4mNUCMr
+ zzd39GkHRKf3IUw+g1oGZywMY1TpYLbykR5LUUoTA8DDMCNN73oBD9nbK
+ hQTjeJwAq2kujSq9IoCWHHWcwIBYkX53eSotJ0RqqdTrrsbIdII3zCEVE
+ woJ9+IDSE9gsFXfP5KRZb61ETUukxXjgWp/sSPuvGpCD5QvDbQHotMsmI
+ yy+Y+xotClFFwYpFlG7lI1y4v+sUcqlcZ1IlVxicBVYWD1oc3EKVMQHaz
+ 4n6nd8XJvIYNFuSmmLSfyI5Au5o0eA6RPxq3i9Er0892QWm/LRJUQU6Tn A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10669"; a="404810551"
+X-IronPort-AV: E=Sophos;i="5.98,316,1673942400"; d="scan'208";a="404810551"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  03 Apr 2023 17:22:22 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10669"; a="716460312"
-X-IronPort-AV: E=Sophos;i="5.98,316,1673942400"; d="scan'208";a="716460312"
+X-IronPort-AV: E=McAfee;i="6600,9927,10669"; a="716460315"
+X-IronPort-AV: E=Sophos;i="5.98,316,1673942400"; d="scan'208";a="716460315"
 Received: from lstrano-desk.jf.intel.com ([10.24.89.184])
  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  03 Apr 2023 17:22:21 -0700
 From: Matthew Brost <matthew.brost@intel.com>
 To: dri-devel@lists.freedesktop.org,
 	intel-xe@lists.freedesktop.org
-Subject: [RFC PATCH 08/10] dma-buf/dma-fence: Introduce long-running
- completion fences
-Date: Mon,  3 Apr 2023 17:22:09 -0700
-Message-Id: <20230404002211.3611376-9-matthew.brost@intel.com>
+Subject: [RFC PATCH 09/10] drm/sched: Support long-running sched entities
+Date: Mon,  3 Apr 2023 17:22:10 -0700
+Message-Id: <20230404002211.3611376-10-matthew.brost@intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230404002211.3611376-1-matthew.brost@intel.com>
 References: <20230404002211.3611376-1-matthew.brost@intel.com>
@@ -69,383 +68,219 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Thomas Hellström <thomas.hellstrom@linux.intel.com>
 
-For long-running workloads, drivers either need to open-code completion
-waits, invent their own synchronization primitives or internally use
-dma-fences that do not obey the cross-driver dma-fence protocol, but
-without any lockdep annotation all these approaches are error prone.
+Make the drm scheduler aware of long-running dma fences by
 
-So since for example the drm scheduler uses dma-fences it is desirable for
-a driver to be able to use it for throttling and error handling also with
-internal dma-fences tha do not obey the cros-driver dma-fence protocol.
-
-Introduce long-running completion fences in form of dma-fences, and add
-lockdep annotation for them. In particular:
-
-* Do not allow waiting under any memory management locks.
-* Do not allow to attach them to a dma-resv object.
-* Introduce a new interface for adding callbacks making the helper adding
-  a callback sign off on that it is aware that the dma-fence may not
-  complete anytime soon. Typically this will be the scheduler chaining
-  a new long-running fence on another one.
+* Enable marking a sched entity as producing long-running fences.
+* Disallowing long-running fences as dependencies for non-long-running
+  sched entities, while long-running sched entities allow those.
 
 Signed-off-by: Matthew Brost <matthew.brost@intel.com>
 Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
 ---
- drivers/dma-buf/dma-fence.c | 142 ++++++++++++++++++++++++++----------
- drivers/dma-buf/dma-resv.c  |   5 ++
- include/linux/dma-fence.h   |  55 +++++++++++++-
- 3 files changed, 160 insertions(+), 42 deletions(-)
+ drivers/gpu/drm/scheduler/sched_entity.c | 44 +++++++++++++++++++-----
+ drivers/gpu/drm/scheduler/sched_fence.c  |  4 +++
+ drivers/gpu/drm/scheduler/sched_main.c   |  9 ++---
+ include/drm/gpu_scheduler.h              | 36 +++++++++++++++++++
+ include/linux/dma-fence.h                |  5 +++
+ 5 files changed, 86 insertions(+), 12 deletions(-)
 
-diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
-index f177c56269bb..9726b2a3c67d 100644
---- a/drivers/dma-buf/dma-fence.c
-+++ b/drivers/dma-buf/dma-fence.c
-@@ -111,6 +111,20 @@ static atomic64_t dma_fence_context_counter = ATOMIC64_INIT(1);
-  * drivers/gpu should ever call dma_fence_wait() in such contexts.
-  */
+diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/drm/scheduler/sched_entity.c
+index ccea4d079d0f..0640fc9d4491 100644
+--- a/drivers/gpu/drm/scheduler/sched_entity.c
++++ b/drivers/gpu/drm/scheduler/sched_entity.c
+@@ -174,6 +174,32 @@ static void drm_sched_entity_kill_jobs_work(struct work_struct *wrk)
+ 	job->sched->ops->free_job(job);
+ }
  
 +/**
-+ * DOC: Long-Running (lr) dma-fences.
++ * drm_sched_entity_add_fence_cb() - Helper to add a fence callback
++ * @entity: The sched entity
++ * @f: The possbily long-running dma-fence on which to add a callback
++ * @cb: The struct dma_fence_cb to use for the callback
++ * @func: The callback function.
 + *
-+ * * Long-running dma-fences are NOT required to complete in reasonable time.
-+ *   Typically they signal completion of user-space controlled workloads and
-+ *   as such, need to never be part of a cross-driver contract, never waited
-+ *   for inside a kernel lock, nor attached to a dma-resv. There are helpers
-+ *   and warnings in place to help facilitate that that never happens.
++ * This function calls the proper dma_fence add callback function
++ * depending on whether @entity is marked as long-running or not. If it
++ * is not, this will make sure we get a warning if trying to add a
++ * callback on a long-running dma-fence.
 + *
-+ * * The motivation for their existense is that helpers that are intended to
-+ *   be used by drivers may use dma-fences that, given the workloads mentioned
-+ *   above, become long-running.
++ * Return: Zero on success, -ENOENT if already signaled and -EINVAL in case
++ * of error.
 + */
++int drm_sched_entity_add_fence_cb(struct drm_sched_entity *entity,
++				  struct dma_fence *f,
++				  struct dma_fence_cb *cb,
++				  dma_fence_func_t func)
++{
++	if (drm_sched_entity_is_lr(entity))
++		return dma_fence_lr_add_callback(f, cb, func);
 +
- static const char *dma_fence_stub_get_name(struct dma_fence *fence)
- {
-         return "stub";
-@@ -284,6 +298,34 @@ static struct lockdep_map dma_fence_lockdep_map = {
- 	.name = "dma_fence_map"
++	return dma_fence_add_callback(f, cb, func);
++}
++
+ /* Signal the scheduler finished fence when the entity in question is killed. */
+ static void drm_sched_entity_kill_jobs_cb(struct dma_fence *f,
+ 					  struct dma_fence_cb *cb)
+@@ -187,8 +213,8 @@ static void drm_sched_entity_kill_jobs_cb(struct dma_fence *f,
+ 	/* Wait for all dependencies to avoid data corruptions */
+ 	while (!xa_empty(&job->dependencies)) {
+ 		f = xa_erase(&job->dependencies, job->last_dependency++);
+-		r = dma_fence_add_callback(f, &job->finish_cb,
+-					   drm_sched_entity_kill_jobs_cb);
++		r = drm_sched_entity_add_fence_cb(job->entity, f, &job->finish_cb,
++						  drm_sched_entity_kill_jobs_cb);
+ 		if (!r)
+ 			return;
+ 
+@@ -226,8 +252,9 @@ static void drm_sched_entity_kill(struct drm_sched_entity *entity)
+ 		dma_fence_set_error(&s_fence->finished, -ESRCH);
+ 
+ 		dma_fence_get(&s_fence->finished);
+-		if (!prev || dma_fence_add_callback(prev, &job->finish_cb,
+-					   drm_sched_entity_kill_jobs_cb))
++		if (!prev || drm_sched_entity_add_fence_cb(job->entity, prev,
++							   &job->finish_cb,
++							   drm_sched_entity_kill_jobs_cb))
+ 			drm_sched_entity_kill_jobs_cb(NULL, &job->finish_cb);
+ 
+ 		prev = &s_fence->finished;
+@@ -420,8 +447,8 @@ static bool drm_sched_entity_add_dependency_cb(struct drm_sched_entity *entity)
+ 		fence = dma_fence_get(&s_fence->scheduled);
+ 		dma_fence_put(entity->dependency);
+ 		entity->dependency = fence;
+-		if (!dma_fence_add_callback(fence, &entity->cb,
+-					    drm_sched_entity_clear_dep))
++		if (!drm_sched_entity_add_fence_cb(entity, fence, &entity->cb,
++						   drm_sched_entity_clear_dep))
+ 			return true;
+ 
+ 		/* Ignore it when it is already scheduled */
+@@ -429,8 +456,9 @@ static bool drm_sched_entity_add_dependency_cb(struct drm_sched_entity *entity)
+ 		return false;
+ 	}
+ 
+-	if (!dma_fence_add_callback(entity->dependency, &entity->cb,
+-				    drm_sched_entity_wakeup))
++	if (!drm_sched_entity_add_fence_cb(entity, entity->dependency,
++					   &entity->cb,
++					   drm_sched_entity_wakeup))
+ 		return true;
+ 
+ 	dma_fence_put(entity->dependency);
+diff --git a/drivers/gpu/drm/scheduler/sched_fence.c b/drivers/gpu/drm/scheduler/sched_fence.c
+index d7cfc0441885..a566723ecc2c 100644
+--- a/drivers/gpu/drm/scheduler/sched_fence.c
++++ b/drivers/gpu/drm/scheduler/sched_fence.c
+@@ -217,8 +217,12 @@ void drm_sched_fence_init(struct drm_sched_fence *fence,
+ 	seq = atomic_inc_return(&entity->fence_seq);
+ 	dma_fence_init(&fence->scheduled, &drm_sched_fence_ops_scheduled,
+ 		       &fence->lock, entity->fence_context, seq);
++	if (drm_sched_entity_is_lr(entity))
++		dma_fence_set_lr(&fence->scheduled);
+ 	dma_fence_init(&fence->finished, &drm_sched_fence_ops_finished,
+ 		       &fence->lock, entity->fence_context + 1, seq);
++	if (drm_sched_entity_is_lr(entity))
++		dma_fence_set_lr(&fence->finished);
+ }
+ 
+ module_init(drm_sched_fence_slab_init);
+diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
+index d61880315d8d..76336a31aa82 100644
+--- a/drivers/gpu/drm/scheduler/sched_main.c
++++ b/drivers/gpu/drm/scheduler/sched_main.c
+@@ -618,8 +618,8 @@ void drm_sched_start(struct drm_gpu_scheduler *sched, bool full_recovery)
+ 			continue;
+ 
+ 		if (fence) {
+-			r = dma_fence_add_callback(fence, &s_job->cb,
+-						   drm_sched_job_done_cb);
++			r = drm_sched_entity_add_fence_cb(s_job->entity, fence,
++							  &s_job->cb, drm_sched_job_done_cb);
+ 			if (r == -ENOENT)
+ 				drm_sched_job_done(s_job);
+ 			else if (r)
+@@ -1180,8 +1180,9 @@ static void drm_sched_main(struct work_struct *w)
+ 			/* Drop for original kref_init of the fence */
+ 			dma_fence_put(fence);
+ 
+-			r = dma_fence_add_callback(fence, &sched_job->cb,
+-						   drm_sched_job_done_cb);
++			r = drm_sched_entity_add_fence_cb(sched_job->entity, fence,
++							  &sched_job->cb,
++							  drm_sched_job_done_cb);
+ 			if (r == -ENOENT)
+ 				drm_sched_job_done(sched_job);
+ 			else if (r)
+diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
+index 6258e324bd7c..546507852771 100644
+--- a/include/drm/gpu_scheduler.h
++++ b/include/drm/gpu_scheduler.h
+@@ -142,6 +142,16 @@ struct drm_sched_entity {
+ 	 */
+ 	unsigned int                    num_sched_list;
+ 
++	/**
++	 * @flags: Flags to govern the behaviour:
++	 *
++	 * DRM_SCHED_ENTITY_LR: The entity handles long-running jobs and
++	 * produces long-running completion fences, as well as accepts
++	 * long-running dependency fences.
++	 */
++	u32                             flags;
++#define DRM_SCHED_ENTITY_LR             BIT(0)
++
+ 	/**
+ 	 * @priority:
+ 	 *
+@@ -253,6 +263,32 @@ struct drm_sched_entity {
+ 
  };
  
-+static struct lockdep_map dma_fence_lr_lockdep_map = {
-+	.name = "dma_fence_lr_map"
-+};
-+
-+static bool __dma_fence_begin_signalling(struct lockdep_map *map)
-+{
-+	/* explicitly nesting ... */
-+	if (lock_is_held_type(map, 1))
-+		return true;
-+
-+	/* rely on might_sleep check for soft/hardirq locks */
-+	if (in_atomic())
-+		return true;
-+
-+	/* ... and non-recursive readlock */
-+	lock_acquire(map, 0, 0, 1, 1, NULL, _RET_IP_);
-+
-+	return false;
-+}
-+
-+static void __dma_fence_end_signalling(bool cookie, struct lockdep_map *map)
-+{
-+	if (cookie)
-+		return;
-+
-+	lock_release(map, _RET_IP_);
-+}
-+
- /**
-  * dma_fence_begin_signalling - begin a critical DMA fence signalling section
-  *
-@@ -300,18 +342,7 @@ static struct lockdep_map dma_fence_lockdep_map = {
-  */
- bool dma_fence_begin_signalling(void)
- {
--	/* explicitly nesting ... */
--	if (lock_is_held_type(&dma_fence_lockdep_map, 1))
--		return true;
--
--	/* rely on might_sleep check for soft/hardirq locks */
--	if (in_atomic())
--		return true;
--
--	/* ... and non-recursive readlock */
--	lock_acquire(&dma_fence_lockdep_map, 0, 0, 1, 1, NULL, _RET_IP_);
--
--	return false;
-+	return __dma_fence_begin_signalling(&dma_fence_lockdep_map);
- }
- EXPORT_SYMBOL(dma_fence_begin_signalling);
- 
-@@ -323,25 +354,61 @@ EXPORT_SYMBOL(dma_fence_begin_signalling);
-  */
- void dma_fence_end_signalling(bool cookie)
- {
--	if (cookie)
--		return;
--
--	lock_release(&dma_fence_lockdep_map, _RET_IP_);
-+	__dma_fence_end_signalling(cookie, &dma_fence_lockdep_map);
- }
- EXPORT_SYMBOL(dma_fence_end_signalling);
- 
--void __dma_fence_might_wait(void)
 +/**
-+ * dma_fence_lr begin_signalling - begin a critical long-running DMA fence
-+ * signalling section
++ * drm_sched_entity_is_lr() - Whether the entity manages long-running jobs.
++ * @entity: The entity.
 + *
-+ * Drivers should use this to annotate the beginning of any code section
-+ * required to eventually complete &dma_fence by calling dma_fence_signal().
-+ *
-+ * The end of these critical sections are annotated with
-+ * dma_fence_lr_end_signalling(). Ideally the section should encompass all
-+ * locks that are ever required to signal a long-running dma-fence.
-+ *
-+ * Return: An opaque cookie needed by the implementation, which needs to be
-+ * passed to dma_fence_lr end_signalling().
++ * Return: true if managing long-running jobs. Otherwise false.
 + */
-+bool dma_fence_lr_begin_signalling(void)
++static inline bool drm_sched_entity_is_lr(const struct drm_sched_entity *entity)
 +{
-+	return __dma_fence_begin_signalling(&dma_fence_lr_lockdep_map);
++	return entity->flags & DRM_SCHED_ENTITY_LR;
 +}
-+EXPORT_SYMBOL(dma_fence_lr_begin_signalling);
 +
 +/**
-+ * dma_fence_lr_end_signalling - end a critical DMA fence signalling section
-+ * @cookie: opaque cookie from dma_fence_lr_begin_signalling()
++ * drm_sched_entity_set_lr() - Mark the entity as managing long-running jobs.
++ * @entity: The entity.
 + *
-+ * Closes a critical section annotation opened by
-+ * dma_fence_lr_begin_signalling().
 + */
-+void dma_fence_lr_end_signalling(bool cookie)
++static inline void drm_sched_entity_set_lr(struct drm_sched_entity *entity)
 +{
-+	__dma_fence_end_signalling(cookie, &dma_fence_lr_lockdep_map);
-+}
-+EXPORT_SYMBOL(dma_fence_lr_end_signalling);
-+
-+static void ___dma_fence_might_wait(struct lockdep_map *map)
- {
- 	bool tmp;
- 
--	tmp = lock_is_held_type(&dma_fence_lockdep_map, 1);
-+	tmp = lock_is_held_type(map, 1);
- 	if (tmp)
--		lock_release(&dma_fence_lockdep_map, _THIS_IP_);
--	lock_map_acquire(&dma_fence_lockdep_map);
--	lock_map_release(&dma_fence_lockdep_map);
-+		lock_release(map, _THIS_IP_);
-+	lock_map_acquire(map);
-+	lock_map_release(map);
- 	if (tmp)
--		lock_acquire(&dma_fence_lockdep_map, 0, 0, 1, 1, NULL, _THIS_IP_);
-+		lock_acquire(map, 0, 0, 1, 1, NULL, _THIS_IP_);
++	entity->flags |= DRM_SCHED_ENTITY_LR;
 +}
 +
-+void __dma_fence_might_wait(void)
-+{
-+	___dma_fence_might_wait(&dma_fence_lockdep_map);
- }
++int drm_sched_entity_add_fence_cb(struct drm_sched_entity *entity,
++				  struct dma_fence *f,
++				  struct dma_fence_cb *cb,
++				  dma_fence_func_t func);
 +
- #endif
- 
- 
-@@ -506,7 +573,11 @@ dma_fence_wait_timeout(struct dma_fence *fence, bool intr, signed long timeout)
- 
- 	might_sleep();
- 
--	__dma_fence_might_wait();
-+#ifdef CONFIG_LOCKDEP
-+	___dma_fence_might_wait(dma_fence_is_lr(fence) ?
-+				&dma_fence_lr_lockdep_map :
-+				&dma_fence_lockdep_map);
-+#endif
- 
- 	dma_fence_enable_sw_signaling(fence);
- 
-@@ -618,29 +689,22 @@ void dma_fence_enable_sw_signaling(struct dma_fence *fence)
- EXPORT_SYMBOL(dma_fence_enable_sw_signaling);
- 
  /**
-- * dma_fence_add_callback - add a callback to be called when the fence
-+ * dma_fence_lr_add_callback - add a callback to be called when the fence
-  * is signaled
-  * @fence: the fence to wait on
-  * @cb: the callback to register
-  * @func: the function to call
+  * struct drm_sched_rq - queue of entities to be scheduled.
   *
-- * Add a software callback to the fence. The caller should keep a reference to
-- * the fence.
-- *
-- * @cb will be initialized by dma_fence_add_callback(), no initialization
-- * by the caller is required. Any number of callbacks can be registered
-- * to a fence, but a callback can only be registered to one fence at a time.
-- *
-- * If fence is already signaled, this function will return -ENOENT (and
-- * *not* call the callback).
-- *
-- * Note that the callback can be called from an atomic context or irq context.
-+ * This function is identical to dma_fence_add_callback() but allows adding
-+ * callbacks also to lr dma-fences. The naming helps annotating the fact that
-+ * we're adding a callback to a a lr fence and that the callback might therefore
-+ * not be called within a reasonable amount of time.
-  *
-- * Returns 0 in case of success, -ENOENT if the fence is already signaled
-+ * Return: 0 in case of success, -ENOENT if the fence is already signaled
-  * and -EINVAL in case of error.
-  */
--int dma_fence_add_callback(struct dma_fence *fence, struct dma_fence_cb *cb,
--			   dma_fence_func_t func)
-+int dma_fence_lr_add_callback(struct dma_fence *fence, struct dma_fence_cb *cb,
-+			      dma_fence_func_t func)
- {
- 	unsigned long flags;
- 	int ret = 0;
-@@ -667,7 +731,7 @@ int dma_fence_add_callback(struct dma_fence *fence, struct dma_fence_cb *cb,
- 
- 	return ret;
- }
--EXPORT_SYMBOL(dma_fence_add_callback);
-+EXPORT_SYMBOL(dma_fence_lr_add_callback);
- 
- /**
-  * dma_fence_get_status - returns the status upon completion
-diff --git a/drivers/dma-buf/dma-resv.c b/drivers/dma-buf/dma-resv.c
-index 2a594b754af1..fa0210c1442e 100644
---- a/drivers/dma-buf/dma-resv.c
-+++ b/drivers/dma-buf/dma-resv.c
-@@ -292,6 +292,7 @@ void dma_resv_add_fence(struct dma_resv *obj, struct dma_fence *fence,
- 	 * individually.
- 	 */
- 	WARN_ON(dma_fence_is_container(fence));
-+	WARN_ON_ONCE(dma_fence_is_lr(fence));
- 
- 	fobj = dma_resv_fences_list(obj);
- 	count = fobj->num_fences;
-@@ -340,6 +341,7 @@ void dma_resv_replace_fences(struct dma_resv *obj, uint64_t context,
- 	unsigned int i;
- 
- 	dma_resv_assert_held(obj);
-+	WARN_ON_ONCE(dma_fence_is_lr(replacement));
- 
- 	list = dma_resv_fences_list(obj);
- 	for (i = 0; list && i < list->num_fences; ++i) {
-@@ -764,6 +766,7 @@ static int __init dma_resv_lockdep(void)
- 	struct ww_acquire_ctx ctx;
- 	struct dma_resv obj;
- 	struct address_space mapping;
-+	bool lr_cookie;
- 	int ret;
- 
- 	if (!mm)
-@@ -772,6 +775,7 @@ static int __init dma_resv_lockdep(void)
- 	dma_resv_init(&obj);
- 	address_space_init_once(&mapping);
- 
-+	lr_cookie = dma_fence_lr_begin_signalling();
- 	mmap_read_lock(mm);
- 	ww_acquire_init(&ctx, &reservation_ww_class);
- 	ret = dma_resv_lock(&obj, &ctx);
-@@ -792,6 +796,7 @@ static int __init dma_resv_lockdep(void)
- 	ww_mutex_unlock(&obj.lock);
- 	ww_acquire_fini(&ctx);
- 	mmap_read_unlock(mm);
-+	dma_fence_lr_end_signalling(lr_cookie);
- 
- 	mmput(mm);
- 
 diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
-index d54b595a0fe0..08d21e26782b 100644
+index 08d21e26782b..b513811ce536 100644
 --- a/include/linux/dma-fence.h
 +++ b/include/linux/dma-fence.h
-@@ -99,6 +99,7 @@ enum dma_fence_flag_bits {
- 	DMA_FENCE_FLAG_SIGNALED_BIT,
- 	DMA_FENCE_FLAG_TIMESTAMP_BIT,
- 	DMA_FENCE_FLAG_ENABLE_SIGNAL_BIT,
-+	DMA_FENCE_FLAG_LR_BIT,
- 	DMA_FENCE_FLAG_USER_BITS, /* must always be last member */
- };
+@@ -285,6 +285,11 @@ static inline bool dma_fence_is_lr(const struct dma_fence *fence)
+ 	return test_bit(DMA_FENCE_FLAG_LR_BIT, &fence->flags);
+ }
  
-@@ -279,6 +280,11 @@ struct dma_fence_ops {
- 	void (*set_deadline)(struct dma_fence *fence, ktime_t deadline);
- };
- 
-+static inline bool dma_fence_is_lr(const struct dma_fence *fence)
++static inline void dma_fence_set_lr(struct dma_fence *fence)
 +{
-+	return test_bit(DMA_FENCE_FLAG_LR_BIT, &fence->flags);
++	__set_bit(DMA_FENCE_FLAG_LR_BIT, &fence->flags);
 +}
 +
  void dma_fence_init(struct dma_fence *fence, const struct dma_fence_ops *ops,
  		    spinlock_t *lock, u64 context, u64 seqno);
  
-@@ -377,13 +383,23 @@ dma_fence_get_rcu_safe(struct dma_fence __rcu **fencep)
- #ifdef CONFIG_LOCKDEP
- bool dma_fence_begin_signalling(void);
- void dma_fence_end_signalling(bool cookie);
-+bool dma_fence_lr_begin_signalling(void);
-+void dma_fence_lr_end_signalling(bool cookie);
- void __dma_fence_might_wait(void);
- #else
-+
- static inline bool dma_fence_begin_signalling(void)
- {
- 	return true;
- }
-+
- static inline void dma_fence_end_signalling(bool cookie) {}
-+static inline bool dma_fence_lr_begin_signalling(void)
-+{
-+	return true;
-+}
-+
-+static inline void dma_fence_lr_end_signalling(bool cookie) {}
- static inline void __dma_fence_might_wait(void) {}
- #endif
- 
-@@ -394,9 +410,42 @@ int dma_fence_signal_timestamp_locked(struct dma_fence *fence,
- 				      ktime_t timestamp);
- signed long dma_fence_default_wait(struct dma_fence *fence,
- 				   bool intr, signed long timeout);
--int dma_fence_add_callback(struct dma_fence *fence,
--			   struct dma_fence_cb *cb,
--			   dma_fence_func_t func);
-+
-+int dma_fence_lr_add_callback(struct dma_fence *fence,
-+			      struct dma_fence_cb *cb,
-+			      dma_fence_func_t func);
-+
-+/**
-+ * dma_fence_add_callback - add a callback to be called when the fence
-+ * is signaled
-+ * @fence: the fence to wait on
-+ * @cb: the callback to register
-+ * @func: the function to call
-+ *
-+ * Add a software callback to the fence. The caller should keep a reference to
-+ * the fence.
-+ *
-+ * @cb will be initialized by dma_fence_add_callback(), no initialization
-+ * by the caller is required. Any number of callbacks can be registered
-+ * to a fence, but a callback can only be registered to one fence at a time.
-+ *
-+ * If fence is already signaled, this function will return -ENOENT (and
-+ * *not* call the callback).
-+ *
-+ * Note that the callback can be called from an atomic context or irq context.
-+ *
-+ * Returns 0 in case of success, -ENOENT if the fence is already signaled
-+ * and -EINVAL in case of error.
-+ */
-+static inline int dma_fence_add_callback(struct dma_fence *fence,
-+					 struct dma_fence_cb *cb,
-+					 dma_fence_func_t func)
-+{
-+	WARN_ON(IS_ENABLED(CONFIG_LOCKDEP) && dma_fence_is_lr(fence));
-+
-+	return dma_fence_lr_add_callback(fence, cb, func);
-+}
-+
- bool dma_fence_remove_callback(struct dma_fence *fence,
- 			       struct dma_fence_cb *cb);
- void dma_fence_enable_sw_signaling(struct dma_fence *fence);
 -- 
 2.34.1
 
