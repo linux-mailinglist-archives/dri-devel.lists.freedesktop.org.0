@@ -2,55 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF0E36D5DD4
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Apr 2023 12:45:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2F946D5DEC
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Apr 2023 12:48:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 099BC10E644;
-	Tue,  4 Apr 2023 10:45:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 523E110E65D;
+	Tue,  4 Apr 2023 10:48:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D8F6C10E644;
- Tue,  4 Apr 2023 10:45:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1680605142; x=1712141142;
- h=message-id:date:mime-version:subject:to:references:from:
- in-reply-to:content-transfer-encoding;
- bh=a8FzqUte2d3iMypuC0esIUEUtqkr1TmMjZgWQcMRbZM=;
- b=CrSdAmlYz/s+v3+C7RG41BQ7C6RIAx7I/higrHfxWVS8J+OMn4ahAWNX
- 4IHwGJD8jhsdoPMHl828AtISa2PpLXoKgdsrGG5flXVcOb1grhu74GYhF
- HPgkRSKjNzA4OKYJ1IOGD6B7yh6CAbEKglmj1RFEleGqkcoYAtaP9PEbv
- hYXg2ftckY4qIVJIDIV5vEIbh6O1bnUEsfmBKynStkn3NV0gZgyiaNeKo
- NzstKxalI96Bt9n/2T6I/5Drb28A9uwFoGNcfdMisN6rSWeUmFsSB3rds
- XsWybjVTgom/FcPjcq6vErS+KxOhiqR5x5j2XfS/HXQiOFEWtx7iAWQcm w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10669"; a="369963757"
-X-IronPort-AV: E=Sophos;i="5.98,317,1673942400"; d="scan'208";a="369963757"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Apr 2023 03:45:42 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10669"; a="636476814"
-X-IronPort-AV: E=Sophos;i="5.98,317,1673942400"; d="scan'208";a="636476814"
-Received: from pcanders-mobl1.ger.corp.intel.com (HELO [10.213.217.134])
- ([10.213.217.134])
- by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Apr 2023 03:45:41 -0700
-Message-ID: <fa0360e4-b845-92ee-3c6d-a593cc4135b5@linux.intel.com>
-Date: Tue, 4 Apr 2023 11:45:38 +0100
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 18F9110E65A
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Apr 2023 10:48:08 +0000 (UTC)
+Received: from IcarusMOD.eternityproject.eu (2-237-20-237.ip236.fastwebnet.it
+ [2.237.20.237])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: kholk11)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 65B3B660000E;
+ Tue,  4 Apr 2023 11:48:05 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1680605286;
+ bh=AAPNaHX0V1PialVkpX+4zJQpYY6tpjp8IWS8ZSYvSmQ=;
+ h=From:To:Cc:Subject:Date:From;
+ b=CXHh+puIkl5QU4tQoD0D1dPauiD9KWhgyP1q9dOW/XApTnvtC/AYSM7nmdrRBGvZi
+ BSJgZEg4YbcVcvloFl2tg418BQq6B79yqeV6msXTk9Psz5SCrzvswQ2RVplfeTHc29
+ g3Xjznd2yVN6Nj8TfftDGeEwR3z0B7A96+rKxCihiFW5r1rDKYO+ZNZJktvcqfOrJy
+ M7iMgCrRIYghjXYq/X4rPjA47xEUihUQZHzb4tERhl9AqOFDqraWqcv6h/T6R+e0N6
+ vzi5G4kySbHyWYn6Ts7IK4d2wQosAprUDTVeI/27hgl9tEYDcHSQMwc0x67DRO1joY
+ IdWzYbjR9K6TQ==
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+To: chunkuang.hu@kernel.org
+Subject: [PATCH v3 0/9] MediaTek DisplayPort: support eDP and aux-bus
+Date: Tue,  4 Apr 2023 12:47:51 +0200
+Message-Id: <20230404104800.301150-1-angelogioacchino.delregno@collabora.com>
+X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [RFC PATCH 0/4] uapi, drm: Add and implement RLIMIT_GPUPRIO
-Content-Language: en-US
-To: Joshua Ashton <joshua@froggi.es>, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org
-References: <20230403194058.25958-1-joshua@froggi.es>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-In-Reply-To: <20230403194058.25958-1-joshua@froggi.es>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,72 +50,125 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-mediatek@lists.infradead.org, wenst@chromium.org, matthias.bgg@gmail.com,
+ kernel@collabora.com, linux-arm-kernel@lists.infradead.org,
+ angelogioacchino.delregno@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Changes in v3:
+ - Added DPTX AUX block initialization before trying to communicate
+   to stop relying on the bootloader keeping it initialized before
+   booting Linux.
+ - Fixed commit description for patch [09/09] and removed commented
+   out code (that slipped from dev phase.. sorry!).
 
-Hi,
+This series adds "real" support for eDP in the mtk-dp DisplayPort driver.
 
-On 03/04/2023 20:40, Joshua Ashton wrote:
-> Hello all!
-> 
-> I would like to propose a new API for allowing processes to control
-> the priority of GPU queues similar to RLIMIT_NICE/RLIMIT_RTPRIO.
-> 
-> The main reason for this is for compositors such as Gamescope and
-> SteamVR vrcompositor to be able to create realtime async compute
-> queues on AMD without the need of CAP_SYS_NICE.
-> 
-> The current situation is bad for a few reasons, one being that in order
-> to setcap the executable, typically one must run as root which involves
-> a pretty high privelage escalation in order to achieve one
-> small feat, a realtime async compute queue queue for VR or a compositor.
-> The executable cannot be setcap'ed inside a
-> container nor can the setcap'ed executable be run in a container with
-> NO_NEW_PRIVS.
-> 
-> I go into more detail in the description in
-> `uapi: Add RLIMIT_GPUPRIO`.
-> 
-> My initial proposal here is to add a new RLIMIT, `RLIMIT_GPUPRIO`,
-> which seems to make most initial sense to me to solve the problem.
-> 
-> I am definitely not set that this is the best formulation however
-> or if this should be linked to DRM (in terms of it's scheduler
-> priority enum/definitions) in any way and and would really like other
-> people's opinions across the stack on this.
-> 
-> Once initial concern is that potentially this RLIMIT could out-live
-> the lifespan of DRM. It sounds crazy saying it right now, something
-> that definitely popped into my mind when touching `resource.h`. :-)
-> 
-> Anyway, please let me know what you think!
-> Definitely open to any feedback and advice you may have. :D
+Explaining the "real":
+Before this change, the DisplayPort driver did support eDP to some
+extent, but it was treating it entirely like a regular DP interface
+which is partially fine, after all, embedded DisplayPort *is* actually
+DisplayPort, but there might be some differences to account for... and
+this is for both small performance improvements and, more importantly,
+for correct functionality in some systems.
 
-Interesting! I tried to solved the similar problem two times in the past already.
+Functionality first:
 
-First time I was proposing to tie nice to DRM scheduling priority [1] - if the latter has been left at default - drawing the analogy with the nice+ionice handling. That was rejected and I was nudged towards the cgroups route.
+One of the common differences found in various boards implementing eDP
+and machines using an eDP panel is that many times the HPD line is not
+connected. This *must* be accounted for: at startup, this specific IP
+will raise a HPD interrupt (which should maybe be ignored... as it does
+not appear to be a "real" event...) that will make the eDP panel to be
+detected and to actually work but, after a suspend-resume cycle, there
+will be no HPD interrupt (as there's no HPD line in my case!) producing
+a functionality issue - specifically, the DP Link Training fails because
+the panel doesn't get powered up, then it stays black and won't work
+until rebooting the machine (or removing and reinserting the module I
+think, but I haven't tried that).
 
-So with that second attempt I implemented a hierarchical opaque drm.priority cgroup controller [2]. I think it would allow you to solve your use case too by placing your compositor in a cgroup with an elevated priority level.
+Now for.. both:
+eDP panels are *e*DP because they are *not* removable (in the sense that
+you can't unplug the cable without disassembling the machine, in which
+case, the machine shall be powered down..!): this (correct) assumption
+makes us able to solve some issues and to also gain a little performance
+during PM operations.
 
-Implementation wise in my proposal it was left to individual drivers to "meld" the opaque cgroup drm.priority with the driver specific priority concept.
+What was done here is:
+ - Caching the EDID if the panel is eDP: we're always going to read the
+   same data everytime, so we can just cache that (as it's small enough)
+   shortening PM resume times for the eDP driver instance;
+ - Always return connector_status_connected if it's eDP: non-removable
+   means connector_status_disconnected can't happen during runtime...
+   this also saves us some time and even power, as we won't have to
+   perform yet another power cycle of the HW;
+ - Added aux-bus support!
+   This makes us able to rely on panel autodetection from the EDID,
+   avoiding to add more and more panel timings to panel-edp and, even
+   better, allowing to use one panel node in devicetrees for multiple
+   variants of the same machine since, at that point, it's not important
+   to "preventively know" what panel we have (eh, it's autodetected...!).
 
-That too wasn't too popular with the feedback (AFAIR) that the priority is a too subsystem specific concept.
+This was tested on a MT8195 Cherry Tomato Chromebook (panel-edp on aux-bus)
 
-Finally I was left with a weight based drm cgroup controller, exactly following the controls of the CPU and IO ones, but with much looser runtime guarantees. [3]
 
-I don't think this last one works for your use case, at least not at the current state for drm scheduling capability, where the implementation is a "bit" too reactive for realtime.
+P.S.: For your own testing commodity, here's a reference devicetree:
+&edp_tx {
+	status = "okay";
 
-Depending on how the discussion around your rlimit proposal goes, perhaps one alternative could be to go the cgroup route and add an attribute like drm.realtime. That perhaps sounds abstract and generic enough to be passable. Built as a simplification of [2] it wouldn't be too complicated.
+	pinctrl-names = "default";
+	pinctrl-0 = <&edptx_pins_default>;
 
-On the actual proposal of RLIMIT_GPUPRIO...
+	ports {
+		#address-cells = <1>;
+		#size-cells = <0>;
 
-The name would be problematic since we have generic hw accelerators (not just GPUs) under the DRM subsystem. Perhaps RLIMIT_DRMPRIO would be better but I think you will need to copy some more mailing lists and people on that one. Because I can imagine one or two more fundamental questions this opens up, as you have eluded in your cover letter as well.
+		port@0 {
+			reg = <0>;
+			edp_in: endpoint {
+				remote-endpoint = <&dp_intf0_out>;
+			};
+		};
 
-Regards,
+		port@1 {
+			reg = <1>;
+			edp_out: endpoint {
+				data-lanes = <0 1 2 3>;
+				remote-endpoint = <&panel_in>;
+			};
+		};
+	};
 
-Tvrtko
+	aux-bus {
+		panel: panel {
+			compatible = "edp-panel";
+			power-supply = <&pp3300_disp_x>;
+			backlight = <&backlight_lcd0>;
+			port {
+				panel_in: endpoint {
+					remote-endpoint = <&edp_out>;
+				};
+			};
+		};
+	};
+};
 
-[1] https://lore.kernel.org/dri-devel/20220407152806.3387898-1-tvrtko.ursulin@linux.intel.com/T/
-[2] https://lore.kernel.org/lkml/20221019173254.3361334-4-tvrtko.ursulin@linux.intel.com/T/#u
-[3] https://lore.kernel.org/lkml/20230314141904.1210824-1-tvrtko.ursulin@linux.intel.com/
+AngeloGioacchino Del Regno (9):
+  drm/mediatek: dp: Cache EDID for eDP panel
+  drm/mediatek: dp: Move AUX and panel poweron/off sequence to function
+  drm/mediatek: dp: Always return connected status for eDP in .detect()
+  drm/mediatek: dp: Always set cable_plugged_in at resume for eDP panel
+  drm/mediatek: dp: Change logging to dev for mtk_dp_aux_transfer()
+  drm/mediatek: dp: Enable event interrupt only when bridge attached
+  drm/mediatek: dp: Use devm variant of drm_bridge_add()
+  drm/mediatek: dp: Move AUX_P0 setting to
+    mtk_dp_initialize_aux_settings()
+  drm/mediatek: dp: Add support for embedded DisplayPort aux-bus
+
+ drivers/gpu/drm/mediatek/mtk_dp.c | 186 +++++++++++++++++++-----------
+ 1 file changed, 116 insertions(+), 70 deletions(-)
+
+-- 
+2.40.0
+
