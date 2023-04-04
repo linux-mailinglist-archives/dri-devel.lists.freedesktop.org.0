@@ -2,37 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72FDA6D565F
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Apr 2023 04:05:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CFFC66D565A
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Apr 2023 04:01:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F376D10E328;
-	Tue,  4 Apr 2023 02:05:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8BCCF10E2C8;
+	Tue,  4 Apr 2023 02:01:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 323 seconds by postgrey-1.36 at gabe;
- Tue, 04 Apr 2023 02:05:25 UTC
-Received: from mail3-162.sinamail.sina.com.cn (mail3-162.sinamail.sina.com.cn
- [202.108.3.162])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2362410E328
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Apr 2023 02:05:24 +0000 (UTC)
-X-SMAIL-HELO: localhost.localdomain
-Received: from unknown (HELO localhost.localdomain)([114.249.59.75])
- by sina.com (172.16.97.27) with ESMTP
- id 642B848200007180; Tue, 4 Apr 2023 09:59:32 +0800 (CST)
-X-Sender: hdanton@sina.com
-X-Auth-ID: hdanton@sina.com
-Authentication-Results: sina.com; spf=none smtp.mailfrom=hdanton@sina.com;
- dkim=none header.i=none;
- dmarc=none action=none header.from=hdanton@sina.com
-X-SMAIL-MID: 60670649283310
-From: Hillf Danton <hdanton@sina.com>
-To: Paul Cercueil <paul@crapouillou.net>
-Subject: Re: [PATCH v3 01/11] dmaengine: Add API function
- dmaengine_prep_slave_dma_array()
-Date: Tue,  4 Apr 2023 09:59:44 +0800
-Message-Id: <20230404015944.502-1-hdanton@sina.com>
-In-Reply-To: <20230403154800.215924-2-paul@crapouillou.net>
-References: <20230403154800.215924-1-paul@crapouillou.net>
+Received: from mail-ot1-x32c.google.com (mail-ot1-x32c.google.com
+ [IPv6:2607:f8b0:4864:20::32c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F243810E2BE
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Apr 2023 02:01:36 +0000 (UTC)
+Received: by mail-ot1-x32c.google.com with SMTP id
+ 46e09a7af769-69f00c18059so983736a34.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 03 Apr 2023 19:01:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20210112; t=1680573696; x=1683165696;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=XZbNozN2utHiE0VKfdEzbsRFpw71XnblNKQNnSFjBl4=;
+ b=R9nqQAeAdQkACL3jM/QhABXIdjloVpwbEXqEQjRDX/i5ZhCzDLBo6l+O+8fAq5WzHa
+ FqrwesNfw4rMup7d4zws4iB4/WItbrcqG4LaL+JE1DgQXW94k3xR1SpizQ0uxfDBsoIW
+ /8vx4d6sB+Xw2fm0M0WOE/OXe1dE2n3gaQDmQLv0nk1J8eiVUd6KOMPJaRBlV+x/WHCt
+ e4PE1xCV2IJDRjE45Rc1Rrz+eXdrg3V5UB6ZncT++gg8eicTJy4Q2wew0Wwch+hWkdNN
+ H5gpLvyNRQJ7SVbrsQqCiDwk01JJxG2bc+sALBEvLW5ekjiJY7n9MnHlDR1zGd9jaIrf
+ VwJw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1680573696; x=1683165696;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=XZbNozN2utHiE0VKfdEzbsRFpw71XnblNKQNnSFjBl4=;
+ b=AQwMXjOrRzdrgQAarnwoiZBjKEcWjAFUctfBGTsqHqwnGM4gRovdXEjzwPcGyaoLWH
+ D2wF0MecpGTbCGFSo0Ov8HPxSlI5QpXo1D+L7f8e6PegYAmUoS0g4bfiMNLZYe7YOsPC
+ YKod/muBB1yJF4pVDETGN+RzineGi7p2SH0bdct8lkfqlyNFCImjVt0A8+qb1U/lVTua
+ rR1RLu5hR+KklDShFuHGW7prRAMn7Nzirl+GpvDxAO/i8+3n9dVGw0FPdacMZnjA8UyI
+ WbdZCx7cRKuh+VzMeIv106Ij4ZGA/f3PYTsucFMTjuREzeyMVwc4G5jQ4xJeZhaAeTC/
+ 0/Bg==
+X-Gm-Message-State: AAQBX9drHoXuFzafmlwS0PBp6pymSxkF0HzdXipjFZNSINiuzVnCxufz
+ 6/I7EfTr6OQIJPJ+SnNLIL0=
+X-Google-Smtp-Source: AKy350YxZkywimTf3uIg8Z7XnRTDyfX8FtLWae/PVQD/+4j8YwUC3GzGveod9g1LUhCdDD8yIbqTWw==
+X-Received: by 2002:a05:6830:3099:b0:69f:793a:5779 with SMTP id
+ g25-20020a056830309900b0069f793a5779mr572061ots.2.1680573695860; 
+ Mon, 03 Apr 2023 19:01:35 -0700 (PDT)
+Received: from fabio-Precision-3551.. ([2804:14c:485:4b69:b774:9c46:6b8:3f2])
+ by smtp.gmail.com with ESMTPSA id
+ g3-20020a9d6c43000000b0069f509ad088sm4927955otq.65.2023.04.03.19.01.33
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 03 Apr 2023 19:01:35 -0700 (PDT)
+From: Fabio Estevam <festevam@gmail.com>
+To: neil.armstrong@linaro.org
+Subject: [PATCH v3 1/2] dt-bindings: display: bridge: ldb: Add an i.MX6SX entry
+Date: Mon,  3 Apr 2023 23:01:28 -0300
+Message-Id: <20230404020129.509356-1-festevam@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -47,61 +70,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Michael Hennerich <Michael.Hennerich@analog.com>, linux-iio@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- linaro-mm-sig@lists.linaro.org, Vinod Koul <vkoul@kernel.org>,
- =?UTF-8?q?Nuno=20S=C3=A1?= <noname.nuno@gmail.com>, dmaengine@vger.kernel.org,
- Sumit Semwal <sumit.semwal@linaro.org>, Jonathan Cameron <jic23@kernel.org>,
- linux-media@vger.kernel.org
+Cc: marex@denx.de, devicetree@vger.kernel.org, Fabio Estevam <festevam@denx.de>,
+ dri-devel@lists.freedesktop.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, robh+dt@kernel.org,
+ krzysztof.kozlowski+dt@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 3 Apr 2023 17:47:50 +0200 Paul Cercueil <paul@crapouillou.net>
-> This function can be used to initiate a scatter-gather DMA transfer
-> where the DMA addresses and lengths are located inside arrays.
-> 
-> The major difference with dmaengine_prep_slave_sg() is that it supports
-> specifying the lengths of each DMA transfer; as trying to override the
-> length of the transfer with dmaengine_prep_slave_sg() is a very tedious
-> process. The introduction of a new API function is also justified by the
-> fact that scatterlists are on their way out.
+From: Fabio Estevam <festevam@denx.de>
 
-Given sg's wayout and conceptually iovec and kvec (in include/linux/uio.h),
-what you add should have been dma_vec to ease people making use of it.
+i.MX6SX has a single LVDS port and share a similar LDB_CTRL register
+layout with i.MX8MP and i.MX93.
 
-	struct dma_vec {
-		dma_addr_t	addr;
-		size_t		len;
-	};
-> 
-> Signed-off-by: Paul Cercueil <paul@crapouillou.net>
-> 
-> ---
-> v3: New patch
-> ---
->  include/linux/dmaengine.h | 16 ++++++++++++++++
->  1 file changed, 16 insertions(+)
-> 
-> diff --git a/include/linux/dmaengine.h b/include/linux/dmaengine.h
-> index c3656e590213..62efa28c009a 100644
-> --- a/include/linux/dmaengine.h
-> +++ b/include/linux/dmaengine.h
-> @@ -912,6 +912,11 @@ struct dma_device {
->  	struct dma_async_tx_descriptor *(*device_prep_dma_interrupt)(
->  		struct dma_chan *chan, unsigned long flags);
->  
-> +	struct dma_async_tx_descriptor *(*device_prep_slave_dma_array)(
-> +		struct dma_chan *chan, dma_addr_t *addrs,
-> +		size_t *lengths, size_t nb,
-> +		enum dma_transfer_direction direction,
-> +		unsigned long flags);
+Signed-off-by: Fabio Estevam <festevam@denx.de>
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Reviewed-by: Marek Vasut <marex@denx.de>
+---
+Changes since v2:
+- Collected Reviewed-by tags.
+- Improved the Subject by not stating support. (Marek).
 
-Then the callback looks like
+Changes since v1:
+- Do not duplicate the entire if. (Krzysztof)
 
-	struct dma_async_tx_descriptor *(*device_prep_slave_vec)(
-		struct dma_chan *chan,
-		struct dma_vec *vec,
-		int nvec,
-		enum dma_transfer_direction direction,
-		unsigned long flags);
+ .../devicetree/bindings/display/bridge/fsl,ldb.yaml          | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/Documentation/devicetree/bindings/display/bridge/fsl,ldb.yaml b/Documentation/devicetree/bindings/display/bridge/fsl,ldb.yaml
+index 6e0e3ba9b49e..07388bf2b90d 100644
+--- a/Documentation/devicetree/bindings/display/bridge/fsl,ldb.yaml
++++ b/Documentation/devicetree/bindings/display/bridge/fsl,ldb.yaml
+@@ -17,6 +17,7 @@ description: |
+ properties:
+   compatible:
+     enum:
++      - fsl,imx6sx-ldb
+       - fsl,imx8mp-ldb
+       - fsl,imx93-ldb
+ 
+@@ -64,7 +65,9 @@ allOf:
+       properties:
+         compatible:
+           contains:
+-            const: fsl,imx93-ldb
++            enum:
++              - fsl,imx6sx-ldb
++              - fsl,imx93-ldb
+     then:
+       properties:
+         ports:
+-- 
+2.34.1
+
