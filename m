@@ -1,52 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 235E76D61A9
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Apr 2023 14:54:07 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 177FF6D62E1
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Apr 2023 15:32:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6E30C10E2C1;
-	Tue,  4 Apr 2023 12:54:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D242E10E303;
+	Tue,  4 Apr 2023 13:32:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from new3-smtp.messagingengine.com (new3-smtp.messagingengine.com
  [66.111.4.229])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BFC5F10E2C1
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Apr 2023 12:54:02 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailnew.nyi.internal (Postfix) with ESMTP id D9E26582090;
- Tue,  4 Apr 2023 08:54:01 -0400 (EDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2F09C10E32C
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Apr 2023 13:32:42 +0000 (UTC)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 22F96581F6B;
+ Tue,  4 Apr 2023 09:32:42 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute5.internal (MEProxy); Tue, 04 Apr 2023 08:54:01 -0400
+ by compute2.internal (MEProxy); Tue, 04 Apr 2023 09:32:42 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
  :cc:content-transfer-encoding:content-type:content-type:date
  :date:from:from:in-reply-to:in-reply-to:message-id:mime-version
  :references:reply-to:sender:subject:subject:to:to; s=fm3; t=
- 1680612841; x=1680620041; bh=4NvJp7jYUED4O4aUShshRJGoUDX/FaepDgp
- PhaXdD/I=; b=Ye1oyDOVVUhC6pcS2ENQfOcf8EhgUU4DIPZkeGsgHcxDEcyiq1n
- fPv2C5s7zuBfpqoHqcGmF6OlEUpTCXO2PfYaMQOBLBLJ37sL0tiFwpxCxS33xats
- NkwMEiRyCsfMozpo/6jgxpoBP7SUbh++uzofP+yckN0B+kQcjRpH3lRpUmyGnNxd
- tB3DH2vJ5GtpXaIA6c095pG8uRMJCQF0av5yALbzIqW2CLrDTS543hEE0ShKrTUW
- oyuvTB4F5CMBmfKPlujr4RBGLos8S9W7fgyufPn29FeosXThUw5rsM4VuLmEyCI0
- pVnOLsSZ6T0PAxor9g1rXA6dX04bWiigl/Q==
+ 1680615162; x=1680622362; bh=vrfzoheDDKqftYvuykRmc8QiWwzudHZE2qX
+ zjDQOLxM=; b=m/DfsQmAQRF+rJw0HonZCfszHHerFFcnDOr2l/WnVous8juq0Vz
+ Xj/GFFoezm/cVfAzLSONhVny5pszKi/Yl/d6+0riAT0jHaf2A4eIa0LrCDKMCSEk
+ vgVeCTDcQFX/bPmy1j2PaxY72prdDJ23WOlqR2wCKICDKQ5JdLyHIyTZFdUDftFk
+ SARFMOB383uJcsBsML39zgqHQRfCGUfL1CE28aEqUHYQydj2fTi5Gtk02ZekzluL
+ Z9cSojtLX9XtEU6M4z54f9zSJwb9YqbUOyRHtvmk/CSbGtTAiY49TKOtlMPIWllt
+ zHQ1wBV7BmEDUMnxwalqwBo9aVrjS47By7g==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding
  :content-type:content-type:date:date:feedback-id:feedback-id
  :from:from:in-reply-to:in-reply-to:message-id:mime-version
  :references:reply-to:sender:subject:subject:to:to:x-me-proxy
  :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
- 1680612841; x=1680620041; bh=4NvJp7jYUED4O4aUShshRJGoUDX/FaepDgp
- PhaXdD/I=; b=rNT1HqodPYK+/LS60v3Nt/wCfyi5JlbD4datIbSUiuZ/grTBSnU
- a8xfU4DBb0FQ3pmkXnDujMDuiCJZbG1BBiA7DKU7lU1kxjuRQey5GmUJ0Dz2Lgt/
- BM4ZXGMjGBXUO+40xYtt1cfT6B++tyo3xWz0jYZjBbjwCR69+pS1mKs+Pwssc5Xh
- PD+5R0vPZ3BIqQiz8DnDfHGN2jDCjD+NBiY1dixxJ5LxwXheXzWqqUH2nYWlnbOa
- TJJV7EfqyrpH6EpIv4XGE5J4a0qC9x+fEpGyYUvNZw6WOwECtLV5+CnFUxAyKzb4
- 3uB+ICPt3gee+xM/epabHz+B5hqvoTxV3KA==
-X-ME-Sender: <xms:5x0sZNcdVuUlLla0JA2KutcTkw8q0gSGSlBlfvUgObT5MIuduvmlUg>
- <xme:5x0sZLP6o0DQ-qG1VK_POKJUyWJaCgXgCEDaWI8o7HRpOAjgJ__u-dO1Nz8_igQwK
- BLfZGt0BFNsNRufdY0>
-X-ME-Received: <xmr:5x0sZGjocidVDNEGOa92b4XeXLrqyqybVMpRXAcTQziwTH70bax0LzWyqqZyYKhU2mzffOecGGKplXWMeur6H_jpv_kcYkY>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvdeiledgheejucetufdoteggodetrfdotf
+ 1680615162; x=1680622362; bh=vrfzoheDDKqftYvuykRmc8QiWwzudHZE2qX
+ zjDQOLxM=; b=XI81MScU/bNDKOoe0KCzFM0XgUJOz2U3n4N3opocW077rGp3Gyi
+ Jgamyb0BFj3aT7RhazL/FC078PplH5UVPsQgs06b1jfcRxwtUUfwIukQSU9BfIup
+ Lfl1c73o/z77rqt5YzjhBmOUbymF5yoB3FKAh5I2sEqJd7YaAULlDQKBbQmQiYe+
+ djkVAOz8mRTVKHvb5pbnJRruI9ATAYw3nP/mu6XR3ZCuJPBM6xvcnEVGp3toS6jB
+ nwRa03TgWYxWPn1iqRUSf4t4BQZO4IztbQ9WIJrZ0m8Z3HpnatMA6776Rzp1yMN+
+ AFDpEyYuJX9d2lfoX9QDjljIuJsFuZIRhNA==
+X-ME-Sender: <xms:-CYsZC08spgEPV9rjBdVKDTCSlwSkn7-iqBVJ7cnxM91WrCRGN_YRg>
+ <xme:-CYsZFEpZu13i_yGe5phyly0EsCyU6RR7BCMmiVOL3IzgnyxJZzHKDtH1WdaGL_kL
+ vR4THseGf1wBc_LC3Q>
+X-ME-Received: <xmr:-CYsZK61qik7F94_LZwDTdqa5cXngqFSsBq4FuJLuJ1tDVAcq2a8rH2pClj9byb3gVx8xaM3dEtssOb0wZYO7pjRwJMe-Vk>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvdeiledgieehucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
  cujfgurhephfffufggtgfgkfhfjgfvvefosehtjeertdertdejnecuhfhrohhmpeforgig
@@ -54,20 +54,20 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvdeiledgheejucetufdoteggod
  grthhtvghrnhepvedvleeijeegvdekffehkeehieelhfeggfffheetkeeuledvtdeuffeh
  teeltdffnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
  epmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:5x0sZG_Qfb3zdZRiVuBaXPgVWFjtoYYJ793KmmICs2oqUquy0HcuwA>
- <xmx:5x0sZJs9bVyDWcirwlmqThhbh2l-1exQL1qyey_hlzjHv_y0oh8c-g>
- <xmx:5x0sZFEZpzV5ZUTvyLYGhIuBOUhtaG498impCO_NeNOhJUE5WOdw8A>
- <xmx:6R0sZLaX1l1EE8i8lmKEHLxInwetLLNkFpgU1V44xJoUwbYnRE7j-g>
+X-ME-Proxy: <xmx:-CYsZD0bNcINFGIpKgEaUh2KorcYbpY1yVkJYHLHs7FNTtz_3VVSBg>
+ <xmx:-CYsZFErlaVw96orIPLm0LAy-JkcHSD-L_FYj_jnzpNQl-meW1lL5A>
+ <xmx:-CYsZM_TADPYKpHUi3ybJx_ZJjtkDtTOtNqDqwilQ7gWXe98aZW-SQ>
+ <xmx:-iYsZFxf3FPLsOcicFZiv7bNpji03k3wqxxjOvCGgICu0C0Nag7F6w>
 Feedback-ID: i8771445c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 4 Apr 2023 08:53:57 -0400 (EDT)
+ 4 Apr 2023 09:32:38 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
-Date: Tue, 04 Apr 2023 12:11:28 +0200
-Subject: [PATCH v3 38/65] phy: cadence: sierra: Add a determine_rate hook
+Date: Tue, 04 Apr 2023 12:11:29 +0200
+Subject: [PATCH v3 39/65] phy: cadence: torrent: Add a determine_rate hook
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20221018-clk-range-checks-fixes-v3-38-9a1358472d52@cerno.tech>
+Message-Id: <20221018-clk-range-checks-fixes-v3-39-9a1358472d52@cerno.tech>
 References: <20221018-clk-range-checks-fixes-v3-0-9a1358472d52@cerno.tech>
 In-Reply-To: <20221018-clk-range-checks-fixes-v3-0-9a1358472d52@cerno.tech>
 To: Michael Turquette <mturquette@baylibre.com>,
@@ -108,11 +108,11 @@ To: Michael Turquette <mturquette@baylibre.com>,
  Baolin Wang <baolin.wang@linux.alibaba.com>,
  Chunyan Zhang <zhang.lyra@gmail.com>
 X-Mailer: b4 0.12.1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2192; i=maxime@cerno.tech;
- h=from:subject:message-id; bh=emCWDi8Q7v/nBEvpOPyhOffdcXDoO1tJu6NLHT7Pw0Y=;
- b=owGbwMvMwCX2+D1vfrpE4FHG02pJDCna37e9Mq+YuERpz7kyfgHzS492PO3q//LuRQkjG/tEp7Zv
- P/YwdZSyMIhxMciKKbLECJsviTs163UnG988mDmsTCBDGLg4BWAiG+IY/qmuP9x1pfrK3oD/0xnDxb
- Rnbsuv1d5+WGGPRVVlTK3UzrWMDO/F/jEkLhWKV4tRNJJf5Cu8fqqQqPfpejXrLZnWaV8UeQA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2298; i=maxime@cerno.tech;
+ h=from:subject:message-id; bh=JQSTFMJLoT+23FQjGZTzhN+eYIN/szkjs6l6H5EcB7o=;
+ b=owGbwMvMwCX2+D1vfrpE4FHG02pJDCna37fFijD5XPuXPTMvqrdfZssl9Qs24adeXfvByhgx69GR
+ GTejOkpZGMS4GGTFFFlihM2XxJ2a9bqTjW8ezBxWJpAhDFycAjCRojhGht35XrmzrA+2t7y6Uv11Xs
+ D7S+FpcTolt9YF+D47rDx1VjnD/wr28PKXOzs6XiSafXoh0XfjUFTBnTMHWuvdv6ZIrj76gwEA
 X-Developer-Key: i=maxime@cerno.tech; a=openpgp;
  fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -139,8 +139,8 @@ Cc: linux-rtc@vger.kernel.org, alsa-devel@alsa-project.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The Cadence Sierra PLL clock implements a mux with a set_parent hook,
-but doesn't provide a determine_rate implementation.
+The Cadence Torrent refclk clock implements a mux with a set_parent
+hook, but doesn't provide a determine_rate implementation.
 
 This is a bit odd, since set_parent() is there to, as its name implies,
 change the parent of a clock. However, the most likely candidate to
@@ -173,20 +173,20 @@ unlikely.
 
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/phy/cadence/phy-cadence-sierra.c | 1 +
+ drivers/phy/cadence/phy-cadence-torrent.c | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/drivers/phy/cadence/phy-cadence-sierra.c b/drivers/phy/cadence/phy-cadence-sierra.c
-index ab0a37618ef3..19a50247e305 100644
---- a/drivers/phy/cadence/phy-cadence-sierra.c
-+++ b/drivers/phy/cadence/phy-cadence-sierra.c
-@@ -716,6 +716,7 @@ static int cdns_sierra_pll_mux_set_parent(struct clk_hw *hw, u8 index)
- }
- 
- static const struct clk_ops cdns_sierra_pll_mux_ops = {
+diff --git a/drivers/phy/cadence/phy-cadence-torrent.c b/drivers/phy/cadence/phy-cadence-torrent.c
+index 3831f596d50c..62e59d1bb9c3 100644
+--- a/drivers/phy/cadence/phy-cadence-torrent.c
++++ b/drivers/phy/cadence/phy-cadence-torrent.c
+@@ -1861,6 +1861,7 @@ static const struct clk_ops cdns_torrent_refclk_driver_ops = {
+ 	.enable = cdns_torrent_refclk_driver_enable,
+ 	.disable = cdns_torrent_refclk_driver_disable,
+ 	.is_enabled = cdns_torrent_refclk_driver_is_enabled,
 +	.determine_rate = __clk_mux_determine_rate,
- 	.set_parent = cdns_sierra_pll_mux_set_parent,
- 	.get_parent = cdns_sierra_pll_mux_get_parent,
+ 	.set_parent = cdns_torrent_refclk_driver_set_parent,
+ 	.get_parent = cdns_torrent_refclk_driver_get_parent,
  };
 
 -- 
