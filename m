@@ -2,63 +2,139 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B2716D5640
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Apr 2023 03:47:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B1B56D5653
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Apr 2023 03:58:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2CE4910E54E;
-	Tue,  4 Apr 2023 01:47:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6929310E2B7;
+	Tue,  4 Apr 2023 01:58:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x32.google.com (mail-oa1-x32.google.com
- [IPv6:2001:4860:4864:20::32])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 122D910E2A8
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Apr 2023 01:47:10 +0000 (UTC)
-Received: by mail-oa1-x32.google.com with SMTP id
- 586e51a60fabf-17ebba88c60so32884477fac.3
- for <dri-devel@lists.freedesktop.org>; Mon, 03 Apr 2023 18:47:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1680572830; x=1683164830;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=u+rAMhXye71r8k79t/zlh0LDeIevikh0fUoSitoTI6g=;
- b=HuPihsvYtAeP+bvS3rcqgr5vyK7YyKFz2hfW7DSWBCfNXTk6G5kLq7qnyx4+ODG0WC
- 9nTViYpxlzH4B3JZ+0tzwxLLFRfxKNEdxqihJL5BBzTRUcrLLrZWF0FZ6OT1HDRIiOTR
- dHjkFmCh1+lbEgFjrp8hdjulrMxfuABmfyyhboJmBJP4aFfSKZhgcxMBx3Taq4Mod32e
- +moEVLpEbMrYjZrNCy9O8MdQEnrcPIidxRW2MG3RO8JzPR2btWtT6Rh4h+fsds4SRyhh
- oLJ93reUtYgSA9kYRaQIepkoucZZI2J3hfxpbHiMB01P2x8aK2qNOjHDKQy8tey0rm3J
- zxYQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680572830; x=1683164830;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=u+rAMhXye71r8k79t/zlh0LDeIevikh0fUoSitoTI6g=;
- b=F8ycf2ikuqwVqbKTZ0vzHT1iSSWyPolyJgfkB9xH9sy1bfjhSHX+g+/C31ARQcIwmQ
- hqxw/Zlskd8ObrxWLqz58Kv8yniBLBW87plT99hizZNkCtYzYqtwyvp7XpLuwRuBG7ue
- pZ3boFAKYQPaYN8Lqla5o4eviUSgi67GEgqpzllPXqXfnZtNv1q7vkq72xrSsop+nlzR
- hkn/fCjGcDFsP1blNi03y4j0M+7H51mkaB53XCl561WCxLvrtUSxLYdcV6PROxIzfOKc
- 78dSSn69cjT080hZTfFXcM2ndHhiDnDYA6rphiJisyaa5/sErqQUV1Zj2hyADuwZZr6/
- DI3A==
-X-Gm-Message-State: AAQBX9cU7BFQokXJTjWwkl3+e1dB0gmewGXYqPxez+/MCU1dESVhwmRz
- sl9aL6U0MqhKrywTei1VpME=
-X-Google-Smtp-Source: AKy350bYEJph3ZK/LuytDtZ6q4SefG+wvC66ApJE7reKyyoTkZrvX4xTTXA7lmWHsxFjLxPX8aECig==
-X-Received: by 2002:a05:6870:51c:b0:17a:45b3:6585 with SMTP id
- j28-20020a056870051c00b0017a45b36585mr720675oao.0.1680572829725; 
- Mon, 03 Apr 2023 18:47:09 -0700 (PDT)
-Received: from fabio-Precision-3551.. ([2804:14c:485:4b69:b774:9c46:6b8:3f2])
- by smtp.gmail.com with ESMTPSA id
- i21-20020a056871029500b00176209a6d6asm4215049oae.10.2023.04.03.18.47.06
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 03 Apr 2023 18:47:09 -0700 (PDT)
-From: Fabio Estevam <festevam@gmail.com>
-To: neil.armstrong@linaro.org
-Subject: [PATCH v3] dt-bindings: bridge: Convert Samsung MIPI DSIM bridge to
- yaml
-Date: Mon,  3 Apr 2023 22:46:59 -0300
-Message-Id: <20230404014659.505306-1-festevam@gmail.com>
-X-Mailer: git-send-email 2.34.1
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A058C10E2B7;
+ Tue,  4 Apr 2023 01:58:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1680573527; x=1712109527;
+ h=date:from:to:cc:subject:message-id:references:
+ in-reply-to:mime-version;
+ bh=Jx+NvqgnvjmiVTfaMCilV656OZnkaySXvzLXKihTedo=;
+ b=OkB3+PlBBepgyBFlRbh52bDC6rwbktzdFFnYP/JzgX6pVUDJ16t6dxdo
+ eMJ6JEvajqEG21LgM2ssJhUbR3WxIN5D49y+z1TNIn9nrZJn1yEOVINcK
+ JISsDVxj00msKqT1X6pDi9MSlbs7KPBGID1KZAOTHHkLVJ/niJKhtA6gf
+ vlvo49TfaY7kSN2YQRxok3WWb+D/Ozr9gsfcuKiCs/ZFtDKuOiVOD7fDv
+ To09b8rIR6xXNwIf1mhfvjpGdEOKJcIeroYzNCWK69zTQKNOfTDG8rKQJ
+ OBWiXP7gXPGrTj4rPyI/cfzmkcPap0O0i93ORzbPU8nNHXe0yoJ9YmCZa Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10669"; a="326083182"
+X-IronPort-AV: E=Sophos;i="5.98,316,1673942400"; d="scan'208";a="326083182"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Apr 2023 18:58:46 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10669"; a="686184506"
+X-IronPort-AV: E=Sophos;i="5.98,316,1673942400"; d="scan'208";a="686184506"
+Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
+ by orsmga002.jf.intel.com with ESMTP; 03 Apr 2023 18:58:46 -0700
+Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.21; Mon, 3 Apr 2023 18:58:46 -0700
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.21; Mon, 3 Apr 2023 18:58:45 -0700
+Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.21 via Frontend Transport; Mon, 3 Apr 2023 18:58:45 -0700
+Received: from NAM02-BN1-obe.outbound.protection.outlook.com (104.47.51.45) by
+ edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.21; Mon, 3 Apr 2023 18:58:44 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=kz+K0B/hWffj5kugiexOyrZ4vGAoYxJeHcFc5Tch9LoXQ9NPW8ZqWHkTRmt0W6+oxBEyZ82/i3eVxoeKEDMwkggQJ7uZSRv6u2QCsYJLwBx8LPjdnLHz8wJ00WG901vuwY4wcbIkD3FrO31KLX+pcW8PUUXMWHLPiLeW3oDbi5mLUtgi5yP/GsHilE/b+4xtP4vC4pVBYYb/E/Uhx96iDmi7jQNL0zZIaFif7p2BZ/cq3GRezuQF//oidVIY4HToN6Or6t1bHxqt6Qx6lE1vk4U394MAa+AiQMDm9zKpMlLGrbaPdIoPbxaJNz7XtscSiBpn6o6SWRIdgANucUbNUQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=/Mrg70Tb/AWYFwkS9k51hPeL83bc4o8cNQqREuFLy1M=;
+ b=WQ6a7Meh+aZ6EzaUqmqRPzZAzkTpeTc0/x7BlnQEGcAShH3XpDRG6CCSqexyUOf399QW9fTWDAtUSKptkszO9SVN61GwEkspaRZJfVZQYFZIbGBb+L8Csa/ENwJB86zqxCy5KeEi0ZQLEvxLqmUxFNIJWYhYxmdcTkxXlQXlyFksmdwSybeXMVfDwSCuXBgAS+7Wc/7AS8s7U82yxXSpQdHm8BH159WLvkJU+7gMMbLZV1CH12AniCHBK61iK8THyO0cGzAZJTM2AljPEUvTyJioIJhoDBDcx53ryRuEJlsZxTrT/kf5fk4Meh7EmWnX+X+jdpxm+EREhGBudFDB5g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from PH7PR11MB6522.namprd11.prod.outlook.com (2603:10b6:510:212::12)
+ by SA2PR11MB5148.namprd11.prod.outlook.com (2603:10b6:806:11e::7)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6254.28; Tue, 4 Apr
+ 2023 01:58:38 +0000
+Received: from PH7PR11MB6522.namprd11.prod.outlook.com
+ ([fe80::ff06:a115:e4eb:680e]) by PH7PR11MB6522.namprd11.prod.outlook.com
+ ([fe80::ff06:a115:e4eb:680e%9]) with mapi id 15.20.6254.033; Tue, 4 Apr 2023
+ 01:58:38 +0000
+Date: Tue, 4 Apr 2023 01:58:23 +0000
+From: Matthew Brost <matthew.brost@intel.com>
+To: Asahi Lina <lina@asahilina.net>
+Subject: Re: [RFC PATCH 00/10] Xe DRM scheduler and long running workload plans
+Message-ID: <ZCuEP2NnOich9kuI@DUT025-TGLU.fm.intel.com>
+References: <20230404002211.3611376-1-matthew.brost@intel.com>
+ <50fff1d4-9982-d60d-23e0-66c2020af5bf@asahilina.net>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <50fff1d4-9982-d60d-23e0-66c2020af5bf@asahilina.net>
+X-ClientProxiedBy: SJ0PR13CA0143.namprd13.prod.outlook.com
+ (2603:10b6:a03:2c6::28) To PH7PR11MB6522.namprd11.prod.outlook.com
+ (2603:10b6:510:212::12)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR11MB6522:EE_|SA2PR11MB5148:EE_
+X-MS-Office365-Filtering-Correlation-Id: a3a992e7-90d3-40a3-da85-08db34b01b1a
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: G6Yf/+Acz+4xqJVt9U2jWw3yEwCnW3TUDdeM6/29pKGYHVwT/4b1SbALYqjh747NNjumQS+cgr2CC6sJb00QPLtiDvJptJfv+xfxxe74d8BDABgPInYyNy53yfnpq1yY7kRP2h02f56Knpk7lS3rllt4/vbk/FA7lSWDGwjyscUME/GiJtN/cRSCMHZHlA0jIVzH7mFsXGgtaywMGe+abyDIMQCf//LI/FnNoegfFzZvEA1y0Y9O4KAVAICgHIUPniLMva5jhh0W+Dcgqi37nkGn4HmPoKcNxJLKilYuUD9EvWT1EIjAEBGk4/MMjRUFOo3BFZf3vUHeXObZRjwkDjaGoH3RZOV4BFCUbB3a4EdkvigdISh0Q9t8yvl9HmiQHwx87eEB3R+0ZnFZHABfLtmf2He2EO3qovkt9yevWC8V3jqak3lAiG2t+wqrr96I8f+j2up/2WjKarE3LFTx5ueFiNm/Qv2y3QVohAfDSHKzdoABmKr2+sRPdkIbXC8L4cc8SGoTc9Kb9HDznMGz0Peo2XV0VAlcBwFGuZublRuBW6TB+3v4zF5E3V0V769i
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR11MB6522.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230028)(396003)(136003)(346002)(376002)(366004)(39860400002)(451199021)(6916009)(66476007)(66946007)(478600001)(66556008)(82960400001)(316002)(4326008)(8936002)(41300700001)(8676002)(5660300002)(7416002)(38100700002)(186003)(83380400001)(6486002)(6666004)(44832011)(26005)(6506007)(6512007)(86362001)(2906002)(66899021);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?d5RsvPsAruaBwfzJNbj6aVtsSIR6v1B7/x4BgL+1TuKpuUiYP05WQuFsPwAd?=
+ =?us-ascii?Q?o2bZrxUUugHnHNoHB1LUAfQ7izen4a2x6hyrfRNMQjwuiHYlDNYEJhJAd9n6?=
+ =?us-ascii?Q?+Zi9Tmr78zrVmfwimv6MYwB0dTXCROq60Y4LxReXxfd1ZBaoKWRN19Rtvp6p?=
+ =?us-ascii?Q?UsRiLAZPUXRgZRI0wty3S4VRQ1BtxsvKVUayVHXtp26wD8Rdcmr47wKmIasB?=
+ =?us-ascii?Q?564dq7n6EbasMpXGggZr2J8CETF5mh7T1lCNxVq2MHRkjDT/agRR8E1F9XZ/?=
+ =?us-ascii?Q?GDOQzxC4LJ/6lRHCeG1jZRWPiH4IAs3fG79j+M/QlTaJdsv/WsaczguXrkRV?=
+ =?us-ascii?Q?KlcGehbz3mVI2QUpm++/k94y4/nrmO4cWQMZEKsRhBXzAPsjProgzPFcj+fr?=
+ =?us-ascii?Q?XfiABwiVkfVo22jVWurzmZx4HIz9cCcvtAPcbLqGZgdQEfPvwQqFBsJ16YXj?=
+ =?us-ascii?Q?6e3e6hKo+gXThNoWOD5cZwEoEumKv1rjDogepJU3sAmPZxn41kUX/fkDfjdM?=
+ =?us-ascii?Q?auP7/Q4Ob9/qujMzLiuWgnwAs7q8OEN9o5fJFYFaxpuQ4Epxh7KGfH+to9qe?=
+ =?us-ascii?Q?X02Yg+fdaR8cBXGCKIibVTfpGI1acPEh5aL9W4Z+mpXrJi5P7rrYFpkduPVH?=
+ =?us-ascii?Q?N2n+PgOaelTVpsmdnCTEDqIQ5u47lglo0+AAZpRNfnvzsBnLNGq/TUG0E5xV?=
+ =?us-ascii?Q?kPCvjrxEiWYerqyxduv4k88BT/m1KOjKID8lQrRcxH6l0qtrxJevHCSgXomT?=
+ =?us-ascii?Q?UvmyPYFVdFLPUfGtbcdIvuLZhey1FBcNP5wHAPaeO+GJ8cnzl1m9jm3EnlYY?=
+ =?us-ascii?Q?epUYf+Q8iSQruaQMAUnu3EM299mfho+UyueP4OyrLRT9s92dqiF3VJ6MxqUH?=
+ =?us-ascii?Q?7R0n+hRb/uSC1gGh8DlO5IBSF3e+jRQZRxPwdplaRL+lvqOq/MjRNp5xPH5H?=
+ =?us-ascii?Q?kWwmbEIXsBFobp3QgJIXOt+m4FWvCyH8zFkWHuFMCU4X6JC2heX3IjTbhNAU?=
+ =?us-ascii?Q?x1uk10JqxYZQxPcAs+YS2CPq+UOlaWD9borT0aOpIVrxcujfpyVX+QSu6QD5?=
+ =?us-ascii?Q?KYo9txF9uDeJTaxTBCQGrH/So5Ajy4VfnqxnlaGYMdsp/I3XnReqIGXQGpe5?=
+ =?us-ascii?Q?1kf2osuj/Q0QuDx/NyVzMhihmJPsZRAnQreq+u3bVf3KtM0mSy5TbcMYDgYp?=
+ =?us-ascii?Q?3olTUofgwVjJieJswv9QSVvu7dw0neIT/wa4kLOmooECX414QAz4KOQ4l5E7?=
+ =?us-ascii?Q?eTT3j+VQRJfUDpSUfRii/vBO+Mvfzf9lz2FRePmX/1za0PZWPUMUX5Vtu1AK?=
+ =?us-ascii?Q?dNZgutHJYBQr4nZsPsNClY7uEzs5oGBErFYC3r21Z9BrVRO3hRZXy31/KM/V?=
+ =?us-ascii?Q?2wI3hczsqst1Z34hDlmLFtrnAQqLcwuddn7evkXwGaKkRKZvkmcSU6wL2Ass?=
+ =?us-ascii?Q?eUQqqqHYv86LowL2Q6GkhyDNiNUO/IQdr5Fv7DjjDppMMlwHlJoKgvhMbp+b?=
+ =?us-ascii?Q?Ar0qth0DTj0uyWmT9Awyt4oQhGO8yqTBKLbLQy/wcxPuqcXtZh7pTB2PJqbH?=
+ =?us-ascii?Q?L4A9T5IVwkP88HsdI/pciuJtBl3uy8Eo8LziQZJvHqMJM17cOnqBSYUjvOff?=
+ =?us-ascii?Q?1g=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: a3a992e7-90d3-40a3-da85-08db34b01b1a
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB6522.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Apr 2023 01:58:38.0018 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: JXOGp27Y9MLX1XHlG8ruIsnJoBTjQVbiy604lRkMg1jpH3v/Qp1J+pZsJlZ5lkndqE0nTSlJuc+lrLRZOIQWEg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA2PR11MB5148
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,409 +147,94 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: marex@denx.de, devicetree@vger.kernel.org, Fabio Estevam <festevam@denx.de>,
- dri-devel@lists.freedesktop.org, robh+dt@kernel.org,
- jagan@amarulasolutions.com, krzysztof.kozlowski+dt@linaro.org
+Cc: robdclark@chromium.org, thomas.hellstrom@linux.intel.com, airlied@linux.ie,
+ dri-devel@lists.freedesktop.org, christian.koenig@amd.com,
+ boris.brezillon@collabora.com, intel-xe@lists.freedesktop.org,
+ faith.ekstrand@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Jagan Teki <jagan@amarulasolutions.com>
+On Tue, Apr 04, 2023 at 10:07:48AM +0900, Asahi Lina wrote:
+> Hi, thanks for the Cc!
+> 
 
-Samsung MIPI DSIM bridge can be found on Exynos and NXP's 
-i.MX8M Mini/Nano/Plus SoCs.
+No problem.
 
-Convert exynos_dsim.txt to yaml.
+> On 04/04/2023 09.22, Matthew Brost wrote:
+> > Hello,
+> > 
+> > As a prerequisite to merging the new Intel Xe DRM driver [1] [2], we
+> > have been asked to merge our common DRM scheduler patches first as well
+> > as develop a common solution for long running workloads with the DRM
+> > scheduler. This RFC series is our first attempt at doing this. We
+> > welcome any and all feedback.
+> > 
+> > This can we thought of as 4 parts detailed below.
+> > 
+> > - DRM scheduler changes for 1 to 1 relationship between scheduler and
+> > entity (patches 1-3)
+> > 
+> > In Xe all of the scheduling of jobs is done by a firmware scheduler (the
+> > GuC) which is a new paradigm WRT to the DRM scheduler and presents
+> > severals problems as the DRM was originally designed to schedule jobs on
+> > hardware queues. The main problem being that DRM scheduler expects the
+> > submission order of jobs to be the completion order of jobs even across
+> > multiple entities. This assumption falls apart with a firmware scheduler
+> > as a firmware scheduler has no concept of jobs and jobs can complete out
+> > of order. A novel solution for was originally thought of by Faith during
+> > the initial prototype of Xe, create a 1 to 1 relationship between scheduler
+> > and entity. I believe the AGX driver [3] is using this approach and
+> > Boris may use approach as well for the Mali driver [4].
+> > 
+> > To support a 1 to 1 relationship we move the main execution function
+> > from a kthread to a work queue and add a new scheduling mode which
+> > bypasses code in the DRM which isn't needed in a 1 to 1 relationship.
+> > The new scheduling mode should unify all drivers usage with a 1 to 1
+> > relationship and can be thought of as using scheduler as a dependency /
+> > infligt job tracker rather than a true scheduler.
+> 
+> Yup, we're in the exact same situation with drm/asahi, so this is very
+> welcome! We've been using the existing scheduler as-is, but this should help
+> remove some unneeded complexity in this use case.
+>
 
-Used the example node from exynos5433.dtsi instead of the one used in
-the legacy exynos_dsim.txt.
+That's the idea.
 
-Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
-Signed-off-by: Fabio Estevam <festevam@denx.de>
----
-Changes since v2:
-- Took previous Rob Herring's feedback into account:
-https://lore.kernel.org/all/20210712151322.GA1931925@robh.at.kernel.org/
-- Handled imx8mn and imx8mp
-- Remove unnecessary #address-cells/size-cells.
+> Do you want me to pull in this series into our tree and make sure this all
+> works out for us?
+>
 
- .../display/bridge/samsung,mipi-dsim.yaml     | 255 ++++++++++++++++++
- .../bindings/display/exynos/exynos_dsim.txt   |  92 -------
- MAINTAINERS                                   |   1 +
- 3 files changed, 256 insertions(+), 92 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/display/bridge/samsung,mipi-dsim.yaml
- delete mode 100644 Documentation/devicetree/bindings/display/exynos/exynos_dsim.txt
+We tested this in Xe and it definitely works for us but the more testing
+the better.
 
-diff --git a/Documentation/devicetree/bindings/display/bridge/samsung,mipi-dsim.yaml b/Documentation/devicetree/bindings/display/bridge/samsung,mipi-dsim.yaml
-new file mode 100644
-index 000000000000..55dbec178ea8
---- /dev/null
-+++ b/Documentation/devicetree/bindings/display/bridge/samsung,mipi-dsim.yaml
-@@ -0,0 +1,255 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/display/bridge/samsung,mipi-dsim.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Samsung MIPI DSIM bridge controller
-+
-+maintainers:
-+  - Inki Dae <inki.dae@samsung.com>
-+  - Jagan Teki <jagan@amarulasolutions.com>
-+  - Marek Szyprowski <m.szyprowski@samsung.com>
-+
-+description: |
-+  Samsung MIPI DSIM bridge controller can be found it on Exynos
-+  and i.MX8M Mini/Nano/Plus SoC's.
-+
-+properties:
-+  compatible:
-+    oneOf:
-+      - enum:
-+          - samsung,exynos3250-mipi-dsi
-+          - samsung,exynos4210-mipi-dsi
-+          - samsung,exynos5410-mipi-dsi
-+          - samsung,exynos5422-mipi-dsi
-+          - samsung,exynos5433-mipi-dsi
-+          - fsl,imx8mm-mipi-dsim
-+          - fsl,imx8mp-mipi-dsim
-+      - items:
-+          - const: fsl,imx8mn-mipi-dsim
-+          - const: fsl,imx8mm-mipi-dsim
-+
-+  reg:
-+    maxItems: 1
-+
-+  interrupts:
-+    maxItems: 1
-+
-+  '#address-cells':
-+    const: 1
-+
-+  '#size-cells':
-+    const: 0
-+
-+  clocks:
-+    minItems: 2
-+    maxItems: 5
-+
-+  clock-names:
-+    minItems: 2
-+    maxItems: 5
-+
-+  samsung,phy-type:
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    description: phandle to the samsung phy-type
-+
-+  power-domains:
-+    maxItems: 1
-+
-+  samsung,power-domain:
-+    $ref: /schemas/types.yaml#/definitions/phandle
-+    description: phandle to the associated samsung power domain
-+
-+  vddcore-supply:
-+    description: MIPI DSIM Core voltage supply (e.g. 1.1V)
-+
-+  vddio-supply:
-+    description: MIPI DSIM I/O and PLL voltage supply (e.g. 1.8V)
-+
-+  samsung,burst-clock-frequency:
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    description:
-+      DSIM high speed burst mode frequency.
-+
-+  samsung,esc-clock-frequency:
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    description:
-+      DSIM escape mode frequency.
-+
-+  samsung,pll-clock-frequency:
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    description:
-+      DSIM oscillator clock frequency.
-+
-+  phys:
-+    maxItems: 1
-+
-+  phy-names:
-+    const: dsim
-+
-+  ports:
-+    $ref: /schemas/graph.yaml#/properties/ports
-+
-+    properties:
-+      port@0:
-+        $ref: /schemas/graph.yaml#/properties/port
-+        description:
-+          Input port node to receive pixel data from the
-+          display controller. Exactly one endpoint must be
-+          specified.
-+
-+      port@1:
-+        $ref: /schemas/graph.yaml#/properties/port
-+        description:
-+          DSI output port node to the panel or the next bridge
-+          in the chain
-+
-+required:
-+  - clock-names
-+  - clocks
-+  - compatible
-+  - interrupts
-+  - reg
-+  - samsung,burst-clock-frequency
-+  - samsung,esc-clock-frequency
-+  - samsung,pll-clock-frequency
-+
-+allOf:
-+  - $ref: ../dsi-controller.yaml#
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            const: samsung,exynos5433-mipi-dsi
-+
-+    then:
-+      properties:
-+        clocks:
-+          minItems: 5
-+
-+        clock-names:
-+          items:
-+            - const: bus_clk
-+            - const: phyclk_mipidphy0_bitclkdiv8
-+            - const: phyclk_mipidphy0_rxclkesc0
-+            - const: sclk_rgb_vclk_to_dsim0
-+            - const: sclk_mipi
-+
-+        ports:
-+          required:
-+            - port@0
-+
-+      required:
-+        - ports
-+        - vddcore-supply
-+        - vddio-supply
-+
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            const: samsung,exynos5410-mipi-dsi
-+
-+    then:
-+      properties:
-+        clocks:
-+          minItems: 2
-+
-+        clock-names:
-+          items:
-+            - const: bus_clk
-+            - const: pll_clk
-+
-+      required:
-+        - vddcore-supply
-+        - vddio-supply
-+
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            const: samsung,exynos4210-mipi-dsi
-+
-+    then:
-+      properties:
-+        clocks:
-+          minItems: 2
-+
-+        clock-names:
-+          items:
-+            - const: bus_clk
-+            - const: sclk_mipi
-+
-+      required:
-+        - vddcore-supply
-+        - vddio-supply
-+
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            const: samsung,exynos3250-mipi-dsi
-+
-+    then:
-+      properties:
-+        clocks:
-+          minItems: 2
-+
-+        clock-names:
-+          items:
-+            - const: bus_clk
-+            - const: pll_clk
-+
-+      required:
-+        - vddcore-supply
-+        - vddio-supply
-+        - samsung,phy-type
-+
-+additionalProperties:
-+  type: object
-+
-+examples:
-+  - |
-+    #include <dt-bindings/clock/exynos5433.h>
-+    #include <dt-bindings/gpio/gpio.h>
-+    #include <dt-bindings/interrupt-controller/arm-gic.h>
-+
-+    dsi@13900000 {
-+       compatible = "samsung,exynos5433-mipi-dsi";
-+       reg = <0x13900000 0xC0>;
-+       interrupts = <GIC_SPI 205 IRQ_TYPE_LEVEL_HIGH>;
-+       phys = <&mipi_phy 1>;
-+       phy-names = "dsim";
-+       clocks = <&cmu_disp CLK_PCLK_DSIM0>,
-+                <&cmu_disp CLK_PHYCLK_MIPIDPHY0_BITCLKDIV8>,
-+                <&cmu_disp CLK_PHYCLK_MIPIDPHY0_RXCLKESC0>,
-+                <&cmu_disp CLK_SCLK_RGB_VCLK_TO_DSIM0>,
-+                <&cmu_disp CLK_SCLK_DSIM0>;
-+       clock-names = "bus_clk",
-+                     "phyclk_mipidphy0_bitclkdiv8",
-+                     "phyclk_mipidphy0_rxclkesc0",
-+                     "sclk_rgb_vclk_to_dsim0",
-+                     "sclk_mipi";
-+       power-domains = <&pd_disp>;
-+       vddcore-supply = <&ldo6_reg>;
-+       vddio-supply = <&ldo7_reg>;
-+       samsung,burst-clock-frequency = <512000000>;
-+       samsung,esc-clock-frequency = <16000000>;
-+       samsung,pll-clock-frequency = <24000000>;
-+       pinctrl-names = "default";
-+       pinctrl-0 = <&te_irq>;
-+
-+       ports {
-+          #address-cells = <1>;
-+          #size-cells = <0>;
-+
-+          port@0 {
-+             reg = <0>;
-+
-+             dsi_to_mic: endpoint {
-+                remote-endpoint = <&mic_to_dsi>;
-+             };
-+          };
-+       };
-+    };
-diff --git a/Documentation/devicetree/bindings/display/exynos/exynos_dsim.txt b/Documentation/devicetree/bindings/display/exynos/exynos_dsim.txt
-deleted file mode 100644
-index 2a5f0889ec32..000000000000
---- a/Documentation/devicetree/bindings/display/exynos/exynos_dsim.txt
-+++ /dev/null
-@@ -1,92 +0,0 @@
--Exynos MIPI DSI Master
--
--Required properties:
--  - compatible: value should be one of the following
--		"samsung,exynos3250-mipi-dsi" /* for Exynos3250/3472 SoCs */
--		"samsung,exynos4210-mipi-dsi" /* for Exynos4 SoCs */
--		"samsung,exynos5410-mipi-dsi" /* for Exynos5410/5420/5440 SoCs */
--		"samsung,exynos5422-mipi-dsi" /* for Exynos5422/5800 SoCs */
--		"samsung,exynos5433-mipi-dsi" /* for Exynos5433 SoCs */
--		"fsl,imx8mm-mipi-dsim" /* for i.MX8M Mini/Nano SoCs */
--		"fsl,imx8mp-mipi-dsim" /* for i.MX8M Plus SoCs */
--  - reg: physical base address and length of the registers set for the device
--  - interrupts: should contain DSI interrupt
--  - clocks: list of clock specifiers, must contain an entry for each required
--    entry in clock-names
--  - clock-names: should include "bus_clk"and "sclk_mipi" entries
--		 the use of "pll_clk" is deprecated
--  - phys: list of phy specifiers, must contain an entry for each required
--    entry in phy-names
--  - phy-names: should include "dsim" entry
--  - vddcore-supply: MIPI DSIM Core voltage supply (e.g. 1.1V)
--  - vddio-supply: MIPI DSIM I/O and PLL voltage supply (e.g. 1.8V)
--  - samsung,pll-clock-frequency: specifies frequency of the oscillator clock
--  - #address-cells, #size-cells: should be set respectively to <1> and <0>
--    according to DSI host bindings (see MIPI DSI bindings [1])
--  - samsung,burst-clock-frequency: specifies DSI frequency in high-speed burst
--    mode
--  - samsung,esc-clock-frequency: specifies DSI frequency in escape mode
--
--Optional properties:
--  - power-domains: a phandle to DSIM power domain node
--
--Child nodes:
--  Should contain DSI peripheral nodes (see MIPI DSI bindings [1]).
--
--Video interfaces:
--  Device node can contain following video interface port nodes according to [2]:
--  0: RGB input,
--  1: DSI output
--
--[1]: Documentation/devicetree/bindings/display/mipi-dsi-bus.txt
--[2]: Documentation/devicetree/bindings/media/video-interfaces.txt
--
--Example:
--
--	dsi@11c80000 {
--		compatible = "samsung,exynos4210-mipi-dsi";
--		reg = <0x11C80000 0x10000>;
--		interrupts = <0 79 0>;
--		clocks = <&clock 286>, <&clock 143>;
--		clock-names = "bus_clk", "sclk_mipi";
--		phys = <&mipi_phy 1>;
--		phy-names = "dsim";
--		vddcore-supply = <&vusb_reg>;
--		vddio-supply = <&vmipi_reg>;
--		power-domains = <&pd_lcd0>;
--		#address-cells = <1>;
--		#size-cells = <0>;
--		samsung,pll-clock-frequency = <24000000>;
--
--		panel@1 {
--			reg = <0>;
--			...
--			port {
--				panel_ep: endpoint {
--					remote-endpoint = <&dsi_ep>;
--				};
--			};
--		};
--
--		ports {
--			#address-cells = <1>;
--			#size-cells = <0>;
--
--			port@0 {
--				reg = <0>;
--				decon_to_mic: endpoint {
--					remote-endpoint = <&mic_to_decon>;
--				};
--			};
--
--			port@1 {
--				reg = <1>;
--				dsi_ep: endpoint {
--					reg = <0>;
--					samsung,burst-clock-frequency = <500000000>;
--					samsung,esc-clock-frequency = <20000000>;
--					remote-endpoint = <&panel_ep>;
--				};
--			};
--		};
--	};
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 4f57deee1a08..aca7027dc464 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -6640,6 +6640,7 @@ M:	Jagan Teki <jagan@amarulasolutions.com>
- M:	Marek Szyprowski <m.szyprowski@samsung.com>
- S:	Maintained
- T:	git git://anongit.freedesktop.org/drm/drm-misc
-+F:	Documentation/devicetree/bindings/display/bridge/samsung,mipi-dsim.yaml
- F:	drivers/gpu/drm/bridge/samsung-dsim.c
- F:	include/drm/bridge/samsung-dsim.h
- 
--- 
-2.34.1
+> I also have a couple bugfixes for drm/sched I need to send out, but I think
+> the rebase/merge with this series should be trivial. I'll send that out this
+> week.
+> 
+> > - Generic messaging interface for DRM scheduler
+> > 
+> > Idea is to be able to communicate to the submission backend with in band
+> > (relative to main execution function) messages. Messages are backend
+> > defined and flexable enough for any use case. In Xe we use these
+> > messages to clean up entites, set properties for entites, and suspend /
+> > resume execution of an entity [5]. I suspect other driver can leverage
+> > this messaging concept too as it a convenient way to avoid races in the
+> > backend.
+> 
+> We haven't needed this so far (mostly by using fine-grained locking and
+> refcounting all over the place) but I can see it being useful to simplify
+> some of those constructs and maybe avoid potential deadlocks in some places.
+> I'm not sure yet whether we can fully get rid of the main queue
+> refcounting/locking (our completion/error signaling path doesn't map well to
+> DMA fences directly so we still need something there to get from the global
+> GPU completion signaling thread to individual queues) but it might be a step
+> in the right direction at least!
+>
 
+With this messaging interface we essentially have a lockless submission
+backend which is really nice compared to what we did in the i915.
+
+Matt
+
+> ~~ Lina
+> 
