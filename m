@@ -1,129 +1,89 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0157E6D68B7
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Apr 2023 18:26:36 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CEFDC6D68B8
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Apr 2023 18:27:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D929110E702;
-	Tue,  4 Apr 2023 16:26:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CEB6310E718;
+	Tue,  4 Apr 2023 16:27:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from EUR02-DB5-obe.outbound.protection.outlook.com
- (mail-db5eur02on2073.outbound.protection.outlook.com [40.107.249.73])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AB43410E702
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Apr 2023 16:26:31 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=KDENvCWii58Y2VAM3Sohj8NZzrEELtT1LAqVOSQVPqonBEUFYn/pPlsU6YRWkJ4UKz2OH0hpEWZApL68mMnfghBSW3pftHS8+0eJB3xchve3W7zClBlae4HWkjvsWloX2SjJQN8c/Vifm1QXTRyzOIZCDVtmz0Dq+bq8GlMaPnf0ry8JffaGLOWRnWLWt7R0LtVRbEnQYIDxXNtHg8QnIRmdawA/s1DfyizVCyMdLHPQkQ0XWWwYhRn8dLSiIjQbjflb8FLEUAjnfAZV3qu2QEKbDDJ4xPIB4EaRrwfpJ9tyQjPe0g6PGU0e9kxNAjnjETu4FKjOx8tkKjAnulgLCQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=heG6DTkwlvUAG374y+3/UBeDC+pQRNa8CBo9ATmUHcY=;
- b=DxcT2jzxbQiTcFZ2BgI0AWXymrpQ1zMpz0pW2QiXlN7N83bLF7ucKOfdcAohqHyZELi8rpuFZuEhapp3UaRiY2t5jm3YqIEZFzhN7zwcM/WTu3/lQR1ZRTljIm+LJMERc8z4fWl2LrHoE0rNBeAdLUqhVTxOliihBqklBakQq+iOt2vqgqvB1ZoIG4lVSdeO+IqqiIkdds8rpi/Gm6PEP16PSQjlrLsMRfI21COA/j7Z1Bm9kNkEQnAtzeQstRpJSQa3QjcL/9Spf0TpMZjP4xhFbVxM8GSHhGYvkYA1x+fonQ97vufauEkZH7ckAyVotFIehAuk53/cRwmZITOT2A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=wolfvision.net; dmarc=pass action=none
- header.from=wolfvision.net; dkim=pass header.d=wolfvision.net; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wolfvision.net;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=heG6DTkwlvUAG374y+3/UBeDC+pQRNa8CBo9ATmUHcY=;
- b=l1NpiDECMM4ZKbTKQsjOXSLgYmtrrTeQ6R4HUqqwCF8da2xwQ2mGx4VoHiSFrQE3owGG9FK236wNUpQdekH2oQw+nMyeqoAko/kA97dURl6HGH6DxTZ2E27l4GsuMeP1cQVOtGIRc0lRHF5IW4nlUl87byozpRJZB3Hw5ytw6A4=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=wolfvision.net;
-Received: from DU0PR08MB9155.eurprd08.prod.outlook.com (2603:10a6:10:416::5)
- by AS8PR08MB6182.eurprd08.prod.outlook.com (2603:10a6:20b:291::24) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6254.35; Tue, 4 Apr
- 2023 16:26:28 +0000
-Received: from DU0PR08MB9155.eurprd08.prod.outlook.com
- ([fe80::6f4d:f868:c89:4db1]) by DU0PR08MB9155.eurprd08.prod.outlook.com
- ([fe80::6f4d:f868:c89:4db1%6]) with mapi id 15.20.6254.030; Tue, 4 Apr 2023
- 16:26:28 +0000
-Message-ID: <2c3fa5ee-78a9-8359-01fc-3137f3cb1b9b@wolfvision.net>
-Date: Tue, 4 Apr 2023 18:26:25 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH 7/7] dt-bindings: display: add panel-timing property to
- sitronix,st7789v
-Content-Language: en-US
-To: Maxime Ripard <maxime@cerno.tech>
-References: <20230314115644.3775169-1-gerald.loacker@wolfvision.net>
- <20230314115644.3775169-8-gerald.loacker@wolfvision.net>
- <20230316215735.GA3940832-robh@kernel.org>
- <dd26836f-d54c-65d1-0acc-8a09745bb066@wolfvision.net>
- <20230329091636.mu6ml3gvw5mvkhm4@penduick>
- <d5a31f75-eb93-0ff2-cd5b-19cdec58e103@wolfvision.net>
- <20230330145811.asot2cvux4ebbeqy@penduick>
- <5f1f90e2-eee8-d941-e4b0-7f2411a9d415@wolfvision.net>
- <20230404160419.xlnlxq7sbsqopfwo@houat>
-From: Michael Riesch <michael.riesch@wolfvision.net>
-In-Reply-To: <20230404160419.xlnlxq7sbsqopfwo@houat>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: ZR0P278CA0110.CHEP278.PROD.OUTLOOK.COM
- (2603:10a6:910:20::7) To DU0PR08MB9155.eurprd08.prod.outlook.com
- (2603:10a6:10:416::5)
+Received: from mail-qt1-x82a.google.com (mail-qt1-x82a.google.com
+ [IPv6:2607:f8b0:4864:20::82a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A77AB10E703
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Apr 2023 16:27:09 +0000 (UTC)
+Received: by mail-qt1-x82a.google.com with SMTP id x17so10028277qtv.7
+ for <dri-devel@lists.freedesktop.org>; Tue, 04 Apr 2023 09:27:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=criticallink.com; s=google; t=1680625628;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=7HrnhowNgiE1+gbqyK+2RSLtfcmG95NpGa/cB5EMTdY=;
+ b=NKKXwqcHRYPgv5Pd+SYY2VvVn0ck7vIoWp+LpwvfZVCHR2io4e55HsTpauqx7DbZ6h
+ T4KH7Dw07NXLAFH5xXAzHi8K3qeDsARwLAkKV6r7Eyuu4RqVYn/X6SAW8ycVdM0rfkBv
+ cmLpN1dsN1l/gjGBsNoS0D0IEed8TlK1e9my7acAS3H0nV8c8GhRxGD5GdoU/rIAkkh0
+ 8aLB6j2ZT3ey6mOv9Pw85PG1HNfz3GeDQta+yy6NalFyjX3jkPvwfR6uMdiFgAk7Uh1o
+ SKMxdiybC5extgDCLhMJD4zGwDkgdx3xaApFcDSVgEqtMw75Lp5KYHWGE7sa5M8Om/FF
+ zNuQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1680625628;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=7HrnhowNgiE1+gbqyK+2RSLtfcmG95NpGa/cB5EMTdY=;
+ b=ieNBfXTFXc1PX9VWag3lwxzLbRJpHnhAA3PCFpeYI3cZuXnL2ARa81kS3d4wEz+w4u
+ lXn1UDbkeUuL1AlX81giRbIeE82Fsb4Ch6R/wa9ORnZYSZjN18wsbB9kZnIDwAITxq+V
+ fGIeoTgccCOq//lswVoP3OiuqQHmGIaj/KkxLNka3H/bPvn2kcS6nbBmIE+ZpX/r1WBb
+ JtDO6DpsdoXLx6HtRQ4F6BWxD237TFO6qpISGpUDdLoDxEWV4jj+jEP+ELq3MKgadiA4
+ 73KK7TBnRnAy77uLKWtz/6nC5v8s0r/R+T7YS9bA8nJZrzAuZN/QCE+iPLKO1KZ2Nlbj
+ d03Q==
+X-Gm-Message-State: AAQBX9ezHjy8pexj7YaGNXWSS+Yw2+V7cT3WqeRM5xp39jbXcn9jLKru
+ lTpwZL2J0IODqoL0tFw4cUilrw==
+X-Google-Smtp-Source: AKy350Yg1HldwZcfGd3do+IP4EHfj/rEnQKpjKV1ETZPnyMjTx/9w9SGusfvjQ2j6O84335oXIeFnw==
+X-Received: by 2002:a05:622a:188:b0:3e4:eb8f:8a7b with SMTP id
+ s8-20020a05622a018800b003e4eb8f8a7bmr35220544qtw.29.1680625628498; 
+ Tue, 04 Apr 2023 09:27:08 -0700 (PDT)
+Received: from [127.0.1.1] (static-72-90-70-109.syrcny.fios.verizon.net.
+ [72.90.70.109]) by smtp.gmail.com with ESMTPSA id
+ m124-20020a375882000000b0073b8745fd39sm3699594qkb.110.2023.04.04.09.27.04
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 04 Apr 2023 09:27:05 -0700 (PDT)
+From: Jonathan Cormier <jcormier@criticallink.com>
+Subject: [PATCH v4 0/3] drm/bridge: tfp410: Add i2c support
+Date: Tue, 04 Apr 2023 12:26:47 -0400
+Message-Id: <20230125-tfp410_i2c-v4-0-f983bcef2df8@criticallink.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DU0PR08MB9155:EE_|AS8PR08MB6182:EE_
-X-MS-Office365-Filtering-Correlation-Id: cc9cf93d-ab9e-4737-d4c6-08db35295765
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 5JdbHo/2bvwNmJsEOhDcsHm/lgwv9KPz33jVmF0B0zv+IH6jULWBv7HWwPIxiMnEmPQKP53vsnh9jNsdhDPlnY+GsGyaYnRD2FLcmeYr3lortue7RMB719WXDZW3FTiBWWxv+2JbWrJuxzWVxD3w8/7h3oBeqrh1SZ6Jv4+YH4xZ2S4LNqF7j4Xn9IK3nkC3SODVgJRI88rbwCoNr3EpmFCX/DYJcQ2vrVCllhs0OqV5gYHrDhJroePsI4u/wmGpGDDR5aw/eQTTM6SGOib9GW4Spf7SgBRtvlMPjU7lbI1FE6T0bWuiXYxzKuzdjjjIB/LUeCaPjVfeqzTH3yaveM2rXntohXdqgbw112HpkY9k2CrPiq68Sfjq547SrOiFN2HnRYj/6Zaut10QFm9o1GYyry6GSVc1q6yiRH0/MpuWtUI1VZywORbBM6FMdxe7vzGjQG2cWmW7A3baMS7zuczQmfUe8jt2yGLqKyWLNGkphvfZN1LQTrzWPWadE0qawPrWux2BGqHGtnOWgEWkYDeyWq5NLrg2OHi8bqk5z0eLcDlt6HSytoX9GOMxT7wG2pJ9JR2s8MzUvLAHftU3/46/0mHd8X4Sg3OSlBoivz7msw47vXmxamwigI+eC7zHkXZQPmg1GMnuY5UdfTg85A==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DU0PR08MB9155.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230028)(4636009)(346002)(396003)(376002)(366004)(39850400004)(136003)(451199021)(83380400001)(2616005)(966005)(6666004)(6486002)(186003)(316002)(478600001)(53546011)(54906003)(6506007)(6512007)(2906002)(44832011)(7416002)(5660300002)(38100700002)(36756003)(66946007)(8676002)(66556008)(41300700001)(66476007)(4326008)(6916009)(86362001)(31696002)(8936002)(31686004)(66899021)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?V1ptbFZxYWxWcW1SbTJnUFhQZGgyTTU1cjAwMFN3SjllN2VmMk14QUpTbDQz?=
- =?utf-8?B?UTZxVWlMK1RweUh2bHk0K3RrRkZqZmdXNVA3WGUzOC9XMHEyZXA3djJoMW56?=
- =?utf-8?B?YSttNCsySmxoczR4VHBUMnQ1Vm91RXJWeG1TdndUenN5NGNEZTBRTWwxSzNy?=
- =?utf-8?B?ZCt0NGo3emZEaEcreUVRaVBGQ1ppeFhsYTZhVzdmdS9EZFM3VUZlcEIyT3FD?=
- =?utf-8?B?Qk04bHJUQ0wrL0VhN0ROYVRtT0xXZDhhSWsweHFmZDlZekRqSjUxWXZNQWNN?=
- =?utf-8?B?dm81bjk3NXAraDNOUGlYRGtsaXBIZGpZQXkyOUxsV2Vobys1OXVOOGVhbE5z?=
- =?utf-8?B?OHNwYkxjWk10Qm96TVRtQTFHajlnVUUwMm1uY29rTTkyaHJKQW1WTXVtVjFB?=
- =?utf-8?B?c1dpMThxSE1WNWt3NlhEVnMrcUdFM1JEajFUVTBPOERjUXp2cTlwNm1GUmNk?=
- =?utf-8?B?ckxESlNCMjFlRHRkUXEvSlBtUU9rRi9jTS9rSG5lYmlSUjRtSnkreGloNGZq?=
- =?utf-8?B?N3FOZ3l6UnlVd1VFTGNndU5lanNuWWJ6dnJ3MjVEYm80WmdTTVJYdlY5WXFk?=
- =?utf-8?B?bUlKS3B0K0ZJSlo4emFxd2dISjRlNnVncnozVzFyTVc2VW9md1hRNW11MGhE?=
- =?utf-8?B?MEg4MVoxY1hGMk5LSEVtdVpNU0w4OHlDK0JSYXJXcVlETjhhd0pJZ3ZPNXFz?=
- =?utf-8?B?VnhjZXBxSlYvRzJlWnh5SU0xcGlaRGxBTVBFd2pzSE5vNUtsdmpRU2x3M0gy?=
- =?utf-8?B?T2NHYjdHUXBOUXRoVGFtNHFMVlhHRU0xUURZNU9xQmFVd3QxQks4ZVRrcDAw?=
- =?utf-8?B?WUxiTWdTMTBuR3JxblBWT1VFb3l6aTlJdDVmV29NeUQvK3Q5akRnYkxKLzVJ?=
- =?utf-8?B?RWtkK0tyaDErdnplZHVnTVIyWWo1NDByWWFYdlg0WWI3N0xtdW1ac1hXaUtZ?=
- =?utf-8?B?NXlzdUtmWWVLTjd5c1hqV1l4ZjZEWFMzeTBXWWdETm0yWW9RbXg3TUU5MG1n?=
- =?utf-8?B?eVB6RXJNYW9BZllqbWltb0RtcWpmREVxbGFWa2RMQUt1MkJPREVsbG9PWFVM?=
- =?utf-8?B?OUJkTi96aWR4UUt6RDdDbjg4NUJ4TG5nR0FVTDlIM0prakFqbElNaGpFQ1Z6?=
- =?utf-8?B?cXVlYlZzNUhRaHNmenl6bzZjZkxxNkhiNVk5dDg0ZjlNcS96Z2R0QlhvYWt3?=
- =?utf-8?B?VjRNSlVMdWdKWEZGVlRPNVFQVE5mQjJLeXFEUkpVWDVYQ3ZGQ0Njclk0eitY?=
- =?utf-8?B?dmdlSjRGUFNEMU04dUVEdVloaHZndkNOZ1cvUmpkcStSVllTcld4TmZBMU5P?=
- =?utf-8?B?VUpXVXVpT0dab3dzM1VWSzloMWJvMDFOdm15VjcySmhtR1FOOXNtTDZnL3VH?=
- =?utf-8?B?eElONkt1Q2JvRGZMR1VnUHUwUVlhVWdnU3Ird3Y2N0drSUJyZGp2cE5kQ3U0?=
- =?utf-8?B?eFMydEpwdDBNSUc0a1ZNbUlocUdod0dkS0xGc0lua1YvditGQ1VGYXUySXFN?=
- =?utf-8?B?TVNydUs5YkVCSXFHVG1hSjhxRkJYS3I4SzAwTzNTRzR3OHlVcVd4MU51eHBi?=
- =?utf-8?B?Smd3VTR4UUt5MEU3SVg0SUFMSHZQcDE3YzlvREhYaUZzd0xzMEFEWVRQbDVO?=
- =?utf-8?B?UkJsTk9VS3hNb1NtOU1zUEdZSXFUay9Mckcwb3pETVFTbXFuV1l5aThIY3hI?=
- =?utf-8?B?Wk5vODdaZWdDTDZ1Sm9tWVprOEtQMnRSVStuMUp2dHhkVGNMK2UvdnltZHZQ?=
- =?utf-8?B?WUhETzdPUFBERGZvMlJzUmdNWGxkeEhSZjAyK0pJLzUxUWRsNklSaWJhYWhT?=
- =?utf-8?B?S2V4M3o4eG0xYitPdGtJb1o0NHZLbjBFMXhscUhhQUVaV1Y3aVdhcWFEZWI0?=
- =?utf-8?B?cWt2bzRlWDVQTm5IUUJ1WkhKOGR6bVQ1YUdTSXJUM3U3NWp4aW9abG0yeW1n?=
- =?utf-8?B?OCtOcllicit0NWl5bk9XRkx1akp0Q0t1QjVDMU5YVXdqdngwcFM3L09oZkVz?=
- =?utf-8?B?ekZOdS96bnZMU3J5d1pXTGJIUVViSXIvVUtheGIvNG1MaE8vZ1hHM3B0NUVs?=
- =?utf-8?B?MDZpMGVmTzRjeGdkOHNGSWpDM2JlNm96YlBHcTdhZ2luRmdGWERPTXhLOXhB?=
- =?utf-8?B?QWw5VHpPbndQNC81cHAvUmNTeUErdXhwd3V4VCtHT25iUWFiMk92NEh3Y3FF?=
- =?utf-8?B?a2dvd2dkbXBOcWFpd3dFekwrNGlsSi92UXVOaVBDU2ZHbEk3OEgxeXE1SVJo?=
- =?utf-8?B?dytkL2h2YjZCcUJuQ1crcnpaUUNRPT0=?=
-X-OriginatorOrg: wolfvision.net
-X-MS-Exchange-CrossTenant-Network-Message-Id: cc9cf93d-ab9e-4737-d4c6-08db35295765
-X-MS-Exchange-CrossTenant-AuthSource: DU0PR08MB9155.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Apr 2023 16:26:28.0265 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: e94ec9da-9183-471e-83b3-51baa8eb804f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: mub07er0RFExpNHbfx/vRLmZ4lFwtp2ePg1Z62iZPNTyN2emPIRPQYICCAxA3OVA7Dc+jc4OdFZdDefbODHINrhenUV0ZFyzSMyJN2ewYeg=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB6182
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAMdPLGQC/3XOTQ7CIBAF4KsY1mKGgfq38h7GNEAHO1FbA7Wpa
+ Xp3qW7t8k1432MUiSJTEsfVKCL1nLhtcjDrlfC1ba4kucpZIKAGhYXswtMoKBm91A534MAFTSB
+ ywdlE0kXb+Hqu3Ll5DeXDpo5i+avNr56RAg/fyfMl55pT18b39we9mq9/x3olQW631lSG9AHc7
+ uQjd+ztPe/cNr59iFnrcVnALLiAGEzlnSe7IOhlQWfB7ouqCBAKCOqPME3TB+BF13FVAQAA
+To: Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ Rob Herring <robh+dt@kernel.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+X-Mailer: b4 0.12.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1737;
+ i=jcormier@criticallink.com; h=from:subject:message-id;
+ bh=MdA5jz1mbJArNJ3GmBlRLEMfCiFuPa4f15JhDcju/Zg=;
+ b=owEBbQKS/ZANAwAKAdzX/S4LNuuqAcsmYgBkLE/YIfrGTEKcLNpCCAbK3f+fm0kwnL4hc80KV5ji
+ C8xqxoSJAjMEAAEKAB0WIQT/MozqCeZtYxNnVN/c1/0uCzbrqgUCZCxP2AAKCRDc1/0uCzbrqsmqD/
+ 4+to8RvohqjmRCXM5udTTpozSqvn0FQGCNiDvZ9qUgFk91KMLSvcUubLPXGXt5VxCw29HVEeJDC+Xp
+ HCQgAQbF6IYWMyR2DAdGC9aGVqXP1NUHbuZFvnX8fHXH2OAIgUsfC7Y9Dtfi0cb+Yh+4qX+ja1H0Xb
+ 81Tts9BC6HYE3oS9EsZi0lsW4N0xVi5YwZQGFO2Du+BYvMv5OxWoLy4LS99QGPjyvoEFIXMYfeK1rh
+ fRr/zH6erfWrneeMMSPoeP7FLMehGikNxSCbmVAL4DPcVht+QHeilJUdsuInR/ECN9HBV8fECq7isN
+ jSnzKhdCDjHSzmr0iwjiQ2WKgvStgqHzp6RX5eC3G36/SMw2qV0rYPOy/+ltcueHHHTYIbB37yUBYC
+ blYtP6FyfxdZ2/c2OSXelXOxyTp/9T1CZRsQ3HNNGDefwOxc1dK2V3ylj/rHs5fGFJRWnpdQ9Q6RS8
+ RLokhup99R1f4XSUD1ILVEkz8aKtP8Q2FVhSzXXMuoPmBFQY09yN60gP0mUihAl4ywtNa+0LJbf4PK
+ s1hH6PQylvSRO675mF9aD6n3JJgsj2oAd9PcE+LrDcj8ldKd9wLOxs2/v7FwsEOiEPGICNIOg8fHnJ
+ e4J4xbgrZZFurBm/7ZTg0la/eDAOCzQeuX94Wd7xCq//jpY6nh+WWb7gYOkw==
+X-Developer-Key: i=jcormier@criticallink.com; a=openpgp;
+ fpr=FF328CEA09E66D63136754DFDCD7FD2E0B36EBAA
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -136,108 +96,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- devicetree@vger.kernel.org, Gerald Loacker <gerald.loacker@wolfvision.net>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Sebastian Reichel <sebastian.reichel@collabora.com>,
- Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>
+Cc: Jonathan Cormier <jcormier@criticallink.com>, devicetree@vger.kernel.org,
+ Bob Duke <bduke@criticallink.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ Michael Williamson <michael.williamson@criticallink.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Maxime,
+The TFP410 driver does not support I2C.  As such, the device remains in
+Power Down if the I2C is enabled by the bootstrap pins.
 
-On 4/4/23 18:04, Maxime Ripard wrote:
-> On Fri, Mar 31, 2023 at 11:36:43AM +0200, Michael Riesch wrote:
->> On 3/30/23 16:58, Maxime Ripard wrote:
->>> On Wed, Mar 29, 2023 at 12:08:50PM +0200, Michael Riesch wrote:
->>>> On 3/29/23 11:16, Maxime Ripard wrote:
->>>>> On Thu, Mar 16, 2023 at 11:29:53PM +0100, Michael Riesch wrote:
->>>>>> Hi Rob,
->>>>>>
->>>>>> On 3/16/23 22:57, Rob Herring wrote:
->>>>>>> On Tue, Mar 14, 2023 at 12:56:44PM +0100, Gerald Loacker wrote:
->>>>>>>> The sitronix-st7789v driver now considers the panel-timing property.
->>>>>>>
->>>>>>> I read the patch for that and still don't know 'why'. Commit messages 
->>>>>>> should answer why.
->>>>>>>
->>>>>>>> Add the property to the documentation.
->>>>>>>
->>>>>>> We generally don't put timings in DT for panels. Why is this one 
->>>>>>> special?
->>>>>>
->>>>>> For now, having the timings in the device tree allows for setting the
->>>>>> hsync/vsync/de polarity.
->>>>>>
->>>>>> As a next step, we aim to implement the partial mode feature of this
->>>>>> panel. It is possible to use only a certain region of the panel, which
->>>>>> is helpful e.g., when a part of the panel is occluded and should not be
->>>>>> considered by DRM. We thought that this could be specified as timing in DT.
->>>>>>
->>>>>> (The hactive and vactive properties serve as dimensions of this certain
->>>>>> region, of course. We still need to specify somehow the position of the
->>>>>> region. Maybe with additional properties hactive-start and vactive-start?)
->>>>>>
->>>>>> What do you think about that?
->>>>>
->>>>> I don't see why we would need the device tree to support that. What you
->>>>> described is essentially what overscan is for HDMI/analog output, and we
->>>>> already have everything to deal with overscan properly in KMS.
->>>>
->>>> Thanks for your response, but I am afraid I don't quite follow.
->>>>
->>>> How are we supposed to expose control over the hsync/vsync/data enable
->>>> polarity? I only know that the display controller and the panel need to
->>>> agree on a setting that works for both. What is the canonical way to do
->>>> this?
->>>
->>> So typically, it would come from the panel datasheet and would thus be
->>> exposed by the panel driver. st7789v is not a panel itself but a (pretty
->>> flexible) panel controller so it's not fixed and I don't think we have a
->>> good answer to that (yet).
->>
->> Then it seems to me that creating a panel driver (= st8879v panel
->> controller driver with a new compatible) would make sense.
-> 
-> I don't see why? The entire controller is the same except (maybe) for
-> some initialization data. Doing a new driver for it seems like taking
-> the easy way out?
-> 
->> By coincidence Sebastian Reichel has come up with this approach
->> recently, see
->> https://lore.kernel.org/dri-devel/20230317232355.1554980-1-sre@kernel.org/
->> We just need a way to resolve the conflicts between the two series.
->>
->> Cc: Sebastian
-> 
-> That's not a new driver though? That approach looks sane to me.
+Add basic support for the I2C interface, and provide support to take
+the device out of power down when enabled.  Also read the bootstrap mode
+pins via the CTL_1_MODE register when using the I2C bus.
 
-Sorry for the ambiguity. The plan is now to add a new compatible to the
-st8879v panel controller driver.
+Also allow polling device to support hdmi/dvi hotplug detection.
 
->>>> A different question is the partial mode, for which (IIUC) you suggest
->>>> the overscan feature. As I have never heard of this before, it would be
->>>> very nice if you could point me to some examples. Where would the
->>>> effective resolution be set in this case?
->>>
->>> So, back when CRT were a thing the edges of the tube were masked by the
->>> plastic case. HDMI inherited from that and that's why you still have
->>> some UI on some devices (like consoles) to setup the active area of the
->>> display.
->>>
->>> The underlying issue is exactly what you describe: the active area is
->>> larger than what the plastic case allows to see. I don't think anyone
->>> ever had the usecase you have, but it would be the right solution to me
->>> to solve essentially the same issue the same way we do on other output
->>> types.
->>
->> OK, we'll look into the overscan feature. But still the information
->> about the active area should come from the driver, right?
-> 
-> No, the userspace is in charge there.
+Signed-off-by: Jonathan Cormier <jcormier@criticallink.com>
+---
+Changes in v4:
+- Add Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
+- Add Fixes: 5cafa0f1853b ("drm/bridge: tfp410: Replace manual connector handling with bridge")
+- Link to v3: https://lore.kernel.org/r/20230125-tfp410_i2c-v3-0-a85d5f0f50f1@criticallink.com
 
-I'd prefer not to have the hardware description in user space. But we
-can continue this discussing once our v2 is out.
+Changes in v3:
+- Drop dt-bindings i2c example
+- Link to v2: https://lore.kernel.org/r/20230125-tfp410_i2c-v2-0-bf22f4dcbcea@criticallink.com
+
+Changes in v2:
+- Fix dt_binding_check errors
+- Remove hdmi connector from binding example
+- Fix compile warning. Unused variable and unsigned int instead of int for ret
+- Fix commit titles
+- Drop of_match_ptr change
+- Link to v1: https://lore.kernel.org/r/20230125-tfp410_i2c-v1-0-66a4d4e390b7@criticallink.com
+
+---
+Michael Williamson (3):
+      drm/bridge: tfp410: Support basic I2C interface
+      drm/bridge: tfp410: Fix logic to configured polled HPD
+      drm/bridge: tfp410: If connected, use I2C for polled HPD status.
+
+ drivers/gpu/drm/bridge/ti-tfp410.c | 107 +++++++++++++++++++++++++++----------
+ 1 file changed, 80 insertions(+), 27 deletions(-)
+---
+base-commit: 93f875a8526a291005e7f38478079526c843cbec
+change-id: 20230125-tfp410_i2c-3b270b0bf3e0
 
 Best regards,
-Michael
+-- 
+Jonathan Cormier <jcormier@criticallink.com>
+
