@@ -2,75 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB4E86D55FB
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Apr 2023 03:28:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 711286D5616
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Apr 2023 03:29:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3BE1510E2DA;
-	Tue,  4 Apr 2023 01:28:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9EFF910E2A3;
+	Tue,  4 Apr 2023 01:29:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0325110E2B6
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Apr 2023 01:28:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1680571720;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=teftSvf3j+oDEfh9blmwCCDYEJcHPfUL8pF7dJUM03o=;
- b=NqFZbJqifYaG7/Y9HcDCPiTkFjb9OkWhM9tDVMF1GfgHCF0tnw8+Q1nu1v4nNr8xHo3/fW
- HgdyU/9s3mbKX0nOG1RLcWDrRktvwr7RJO2GM9SMtOW4qpuqke2DWjXAndEFDY3ZLGH2oL
- gDo5gXAQuQAOs25HAZ/fYxZADt7QL4U=
-Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
- [209.85.219.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-492-oNttiJ-pMxCtA2rfhiVs9A-1; Mon, 03 Apr 2023 21:28:38 -0400
-X-MC-Unique: oNttiJ-pMxCtA2rfhiVs9A-1
-Received: by mail-qv1-f69.google.com with SMTP id
- h7-20020a0cd807000000b005dd254e7babso13899529qvj.14
- for <dri-devel@lists.freedesktop.org>; Mon, 03 Apr 2023 18:28:38 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680571718;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=teftSvf3j+oDEfh9blmwCCDYEJcHPfUL8pF7dJUM03o=;
- b=OMvwqwZBC6GjSY/NffdvrAOIb8V3WWPo4wIUarmK6BwGTVluuNeQK/ifJmB5dVRJ7e
- 6/xuDCim/NSNTXIppqMfvHkxIbEM8Ujkmvi3TYYNl4iEORQv0RbSKhXKB1JQJebKlS/9
- gbzhEfksNrdf0T/9i/w0bLgvP+NHXIwqz5CgglFok8WBD/CA/YpODvm/HFWG/4CSX1Ie
- lzDqaNLTYXDQWXpWsolicmWRCN9f3OGmld4XEq2/rp5fynHVk0PXFppzL41Hi1+Q7iWG
- Rw8AK2z3XemYnOat/i6b1wM7nWmV4CeTWYcPMvu3PHWoA3jOgZ2bK2ZFLWout1/4f2g0
- oiRw==
-X-Gm-Message-State: AAQBX9eYVCrYBM97ho0J+F4Ukv86ru6Bf/TS6vBjosyMP+k41uBE3CyZ
- kC1k78BPimK1+5ZXBDZ3tbPuXpcgFAo9cTlu729RIlrAx7BkSIwg6M8YEpwRnjMOO1hKv1YCTWo
- mzqjOxrvl1Bmb6JRK/+cTu/WJ9lnx
-X-Received: by 2002:a05:622a:198f:b0:3b9:b70c:9697 with SMTP id
- u15-20020a05622a198f00b003b9b70c9697mr1012254qtc.5.1680571718498; 
- Mon, 03 Apr 2023 18:28:38 -0700 (PDT)
-X-Google-Smtp-Source: AKy350bbiryGVTITqdtIsbZB0xVNKw9hfnyjZ3IusPT9JnYkHi5X/4j9GN4kCg0GViAYb2/AR5XwFA==
-X-Received: by 2002:a05:622a:198f:b0:3b9:b70c:9697 with SMTP id
- u15-20020a05622a198f00b003b9b70c9697mr1012244qtc.5.1680571718299; 
- Mon, 03 Apr 2023 18:28:38 -0700 (PDT)
-Received: from dell-per740-01.7a2m.lab.eng.bos.redhat.com
- (nat-pool-bos-t.redhat.com. [66.187.233.206])
- by smtp.gmail.com with ESMTPSA id
- de27-20020a05620a371b00b007486d9fa1d7sm3185102qkb.95.2023.04.03.18.28.37
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 03 Apr 2023 18:28:38 -0700 (PDT)
-From: Tom Rix <trix@redhat.com>
-To: bskeggs@redhat.com, kherbst@redhat.com, lyude@redhat.com,
- airlied@gmail.com, daniel@ffwll.ch, airlied@redhat.com
-Subject: [PATCH] drm/nouveau/disp: set varaiable gv100_disp_core_mthd_base
- storage-class-specifier to static
-Date: Mon,  3 Apr 2023 21:28:34 -0400
-Message-Id: <20230404012834.1914225-1-trix@redhat.com>
-X-Mailer: git-send-email 2.27.0
+Received: from phobos.denx.de (phobos.denx.de
+ [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7C46F10E2A3
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Apr 2023 01:29:47 +0000 (UTC)
+Received: from [127.0.0.1] (unknown [62.91.23.180])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
+ (No client certificate requested)
+ (Authenticated sender: marex@denx.de)
+ by phobos.denx.de (Postfix) with ESMTPSA id C8D8C85845;
+ Tue,  4 Apr 2023 03:29:45 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+ s=phobos-20191101; t=1680571786;
+ bh=gbq6LxJ70yRlWoo78r5KhyXKlWtf2AH4nfGXqfQ8mis=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=QGMmZbtaS2vA6EsyDym/lkxVot4TIYwdANm1yDBK3bEuhSlj0Wsp3stFtuU0aJ4EK
+ OdfMJ+9tf9pZoL0xzzb4TMCPw3mnfa9El3WDRdEEid85Co6IcRxo+dcRmfDCpYbt3H
+ 4cjukaejL6ZK4i/1HyQH5IpgkLOImw6sG9jJUgUssI3YGvsv9ieobNlGEEjGHvYig1
+ DOjqyrxhNVF4zdUh25jQ7eJs7EVRuqRAzF8yaoYKCggUhuJV/45E1Zgx53eZYhp18Z
+ jRdRpX8fFF5mkKRrh0RMGEVJJ5urXaltK0zkUfXyrhGAo0bUlcwG5rLRbO+9tUwrEe
+ JV775G/l6X6ag==
+Message-ID: <ca11e032-841e-c892-9ce9-0074b17ff88e@denx.de>
+Date: Tue, 4 Apr 2023 03:29:45 +0200
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"; x-default=true
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH v2 1/2] dt-bindings: display: bridge: ldb: Add i.MX6SX
+ support
+Content-Language: en-US
+To: Fabio Estevam <festevam@gmail.com>, neil.armstrong@linaro.org
+References: <20230330104233.785097-1-festevam@gmail.com>
+From: Marek Vasut <marex@denx.de>
+In-Reply-To: <20230330104233.785097-1-festevam@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
+X-Virus-Status: Clean
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,35 +57,21 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Tom Rix <trix@redhat.com>
+Cc: Fabio Estevam <festevam@denx.de>, devicetree@vger.kernel.org,
+ robh+dt@kernel.org, dri-devel@lists.freedesktop.org,
+ krzysztof.kozlowski+dt@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-smatch reports
-drivers/gpu/drm/nouveau/nvkm/engine/disp/gv100.c:610:1: warning: symbol
-  'gv100_disp_core_mthd_base' was not declared. Should it be static?
+On 3/30/23 12:42, Fabio Estevam wrote:
+> From: Fabio Estevam <festevam@denx.de>
+> 
+> i.MX6SX has a single LVDS port and share a similar LDB_CTRL register
+> layout with i.MX8MP and i.MX93.
+> 
+> Signed-off-by: Fabio Estevam <festevam@denx.de>
 
-This variable is only used in one file so it should be static.
+Nit: you are not adding 'support' for the IP here, you are documenting 
+bindings in this patch. The support is added in 2/2 .
 
-Signed-off-by: Tom Rix <trix@redhat.com>
----
- drivers/gpu/drm/nouveau/nvkm/engine/disp/gv100.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/nouveau/nvkm/engine/disp/gv100.c b/drivers/gpu/drm/nouveau/nvkm/engine/disp/gv100.c
-index 115d0997fd62..4ebc030e40d1 100644
---- a/drivers/gpu/drm/nouveau/nvkm/engine/disp/gv100.c
-+++ b/drivers/gpu/drm/nouveau/nvkm/engine/disp/gv100.c
-@@ -606,7 +606,7 @@ gv100_disp_curs = {
- 	.user = 73,
- };
- 
--const struct nvkm_disp_mthd_list
-+static const struct nvkm_disp_mthd_list
- gv100_disp_core_mthd_base = {
- 	.mthd = 0x0000,
- 	.addr = 0x000000,
--- 
-2.27.0
-
+Reviewed-by: Marek Vasut <marex@denx.de>
