@@ -2,70 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4474E6D62F1
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Apr 2023 15:33:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DAD4F6D6327
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Apr 2023 15:37:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0A7C210E2D4;
-	Tue,  4 Apr 2023 13:33:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8240E10E321;
+	Tue,  4 Apr 2023 13:37:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com
- [IPv6:2a00:1450:4864:20::534])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B2DD610E2D4
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Apr 2023 13:33:22 +0000 (UTC)
-Received: by mail-ed1-x534.google.com with SMTP id cn12so130713134edb.4
- for <dri-devel@lists.freedesktop.org>; Tue, 04 Apr 2023 06:33:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1680615201;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=C5+woa08wseMH5MjO97pGr3JdhcbzGoi59ia9RFN3Ww=;
- b=FlZuNVXlvaoC5Wv+YnY2RdnLtndu9KzSwF8WyPljhxojtngb7HOXQEcT41x3o5Wiui
- 4GcmqNxHMZ8NJ+easmKxOFdeZAy6Eagixzw/BeoDtozWcL2EnTURRezAevbLOsxdq++I
- w0+WXL1Q9Lh3tuMRCA98gyQiBzFPJq8HryHf4AmbJ6gUqr5ZVVtIqRxuNQK/U/s78KFU
- ffm9vrLAHt8oXRYLQNZa2Xi/VlJKlR6mXXN+RrVBRc8EDFFQjIxa5sq4iFqi4coRsbof
- PCeVZJwhZquMM8lKYrJUtUP1u/D4M+dbonlDEFnZH7qcOU0zG9IWntx+4ghzk3uAd+je
- W7rg==
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com
+ [209.85.167.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2C4C510E326
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Apr 2023 13:37:45 +0000 (UTC)
+Received: by mail-lf1-f48.google.com with SMTP id bi9so42397796lfb.12
+ for <dri-devel@lists.freedesktop.org>; Tue, 04 Apr 2023 06:37:45 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680615201;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ d=1e100.net; s=20210112; t=1680615461;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=C5+woa08wseMH5MjO97pGr3JdhcbzGoi59ia9RFN3Ww=;
- b=tpGecWGXwL5/+EeTY+peX3bYHpAb8gjZX86cpNPMVoTg6+d6ku3xeRrIw1+KEHDIqW
- IVsymBcXTQ/sUaeZi/bpqXojZLLTJb6iiCyFwwh+wmXEYSN+KrJh2+bNcnyK1QCv+CFa
- BcFJLvmmrFdps4oyVdRrpD2dR0XbVy6qiKx8upbBZcuMu/zVemda8nH0G7Ki5DTq4hvh
- jKP1Ya1e41e9LAS0zbcdnrHKeLsY8aCFq8QYZ0KRoDMTbI+5zARHBLNFR5KdJnBX839q
- 0Yo4hR6dTpDja5ZzDQu02uSgKbyIZl47/h7M88OregEU2g/Fq6F7KwBRO3mEqWwNDG2P
- /+mw==
-X-Gm-Message-State: AAQBX9fwHVGOvks1hSIjwGI2H5eHfIPedbC/zS6GJPIVvalWSiPmznEj
- Qsk+Jq1pP7bNDJoOR61Udxg=
-X-Google-Smtp-Source: AKy350ZdIonRRf6XX/HAyEe71VdG9jRXAAxqNYES+G+X07dyc3Y0uCX/rKruNGsa+tDIkjpFj816dg==
-X-Received: by 2002:a17:906:1281:b0:947:405a:955f with SMTP id
- k1-20020a170906128100b00947405a955fmr2308182ejb.31.1680615200865; 
- Tue, 04 Apr 2023 06:33:20 -0700 (PDT)
-Received: from localhost
- (p200300e41f1c0800f22f74fffe1f3a53.dip0.t-ipconnect.de.
- [2003:e4:1f1c:800:f22f:74ff:fe1f:3a53])
- by smtp.gmail.com with ESMTPSA id
- g1-20020a170906394100b00933356c681esm5979689eje.150.2023.04.04.06.33.20
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 04 Apr 2023 06:33:20 -0700 (PDT)
-From: Thierry Reding <thierry.reding@gmail.com>
-To: Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
- Rob Herring <robh@kernel.org>, Jonathan Hunter <jonathanh@nvidia.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Thierry Reding <thierry.reding@gmail.com>
-Subject: Re: [PATCH] dt-bindings: arm: nvidia: Drop unneeded quotes
-Date: Tue,  4 Apr 2023 15:33:16 +0200
-Message-Id: <168061516878.2141244.14923745008184055839.b4-ty@nvidia.com>
-X-Mailer: git-send-email 2.40.0
-In-Reply-To: <20230331182159.1900674-1-robh@kernel.org>
-References: <20230331182159.1900674-1-robh@kernel.org>
+ bh=v5oq7n3GlIXktxJklhqgcT1TTB67yDatIC7dGkiiCuI=;
+ b=Prch8UaAhqsRUguFgokYtu4ZlvLNEsRd6K2Vrw7uxkQNIVYPkjgyGrWCxpzsM2vQpJ
+ F6VLAKorjbP6tZ0DSBo+2OwOxnVwxi8uAzX0gxmZ04S4FP2jRvT/TtQPzFGwQs/dz5F0
+ dnJbBAAMfFw4ms2vK//LVrhGFCFIdUs3FxlHDt8YRbqTKEW+FPFVj6p4i2DaoS89k21T
+ xImxjV9yck56veLlnNP3haMIplnf2T5ONU0cvwRoPtwQTmfti+stxI8BxYBp4KgeRtzM
+ bRgEsI9QYrV/gHGCXJPcXo1vm3asVJJvyoaS9VP6NGSPRbjH6/tdKasKCqnCIEvPCrQQ
+ 7seg==
+X-Gm-Message-State: AAQBX9eSDCx1/kL1yQebs6r1sxOqTuptJkr8lBNDVpUtNM/D5qIu5VKI
+ SzzhwmvshRFdeNFDpkRCQvEl+KYNbIclpxbV
+X-Google-Smtp-Source: AKy350bJIjywKQQkjlnr/IIne2vbTj/44ILFBOIRVVjwmqX7O1xlIbIpuK7oK4/athSdXxnt/nesSQ==
+X-Received: by 2002:a05:6512:31c7:b0:4eb:4258:bf62 with SMTP id
+ j7-20020a05651231c700b004eb4258bf62mr1630830lfe.8.1680615461479; 
+ Tue, 04 Apr 2023 06:37:41 -0700 (PDT)
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com.
+ [209.85.167.50]) by smtp.gmail.com with ESMTPSA id
+ j25-20020ac25519000000b004dc2dae457asm2328881lfk.119.2023.04.04.06.37.40
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 04 Apr 2023 06:37:40 -0700 (PDT)
+Received: by mail-lf1-f50.google.com with SMTP id bi9so42397607lfb.12
+ for <dri-devel@lists.freedesktop.org>; Tue, 04 Apr 2023 06:37:40 -0700 (PDT)
+X-Received: by 2002:ac2:5a01:0:b0:4db:266c:4337 with SMTP id
+ q1-20020ac25a01000000b004db266c4337mr749742lfn.1.1680615459983; Tue, 04 Apr
+ 2023 06:37:39 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+References: <20230403160314.1210533-1-robdclark@gmail.com>
+In-Reply-To: <20230403160314.1210533-1-robdclark@gmail.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 4 Apr 2023 15:37:22 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdUph5ADYcC0EnEEMDjTLC5TQrTzRXmTDOOOZ0SAjxPV0Q@mail.gmail.com>
+Message-ID: <CAMuHMdUph5ADYcC0EnEEMDjTLC5TQrTzRXmTDOOOZ0SAjxPV0Q@mail.gmail.com>
+Subject: Re: [PATCH v2] drm/vblank: Fix for drivers that do not
+ drm_vblank_init()
+To: Rob Clark <robdclark@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,24 +68,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-tegra@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: Rob Clark <robdclark@chromium.org>,
+ open list <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Nathan Chancellor <nathan@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Thierry Reding <treding@nvidia.com>
+On Mon, Apr 3, 2023 at 6:07=E2=80=AFPM Rob Clark <robdclark@gmail.com> wrot=
+e:
+> From: Rob Clark <robdclark@chromium.org>
+>
+> This should fix a crash that was reported on ast (and possibly other
+> drivers which do not initialize vblank).
+>
+>    fbcon: Taking over console
+>    Unable to handle kernel NULL pointer dereference at virtual address 00=
+00000000000074
 
-On Fri, 31 Mar 2023 13:21:59 -0500, Rob Herring wrote:
-> Cleanup bindings dropping unneeded quotes. Once all these are fixed,
-> checking for this can be enabled in yamllint.
-> 
-> 
+Thanks, this fixes a crash seen with the ssd130x DRM driver.
+Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-Applied, thanks!
+Gr{oetje,eeting}s,
 
-[1/1] dt-bindings: arm: nvidia: Drop unneeded quotes
-      commit: c94673e80377d67ba36ee4059d7814b2ab98fa71
+                        Geert
 
-Best regards,
--- 
-Thierry Reding <treding@nvidia.com>
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
