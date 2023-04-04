@@ -1,85 +1,151 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A1466D683B
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Apr 2023 18:04:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3192F6D6871
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Apr 2023 18:09:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4D2E410E6EB;
-	Tue,  4 Apr 2023 16:04:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 15C8710E6F0;
+	Tue,  4 Apr 2023 16:09:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com
- [66.111.4.25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2095610E6EB
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Apr 2023 16:04:22 +0000 (UTC)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailout.nyi.internal (Postfix) with ESMTP id 75E1D5C006A;
- Tue,  4 Apr 2023 12:04:21 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute2.internal (MEProxy); Tue, 04 Apr 2023 12:04:21 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-type:content-type:date:date:from:from:in-reply-to
- :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm3; t=1680624261; x=1680710661; bh=B7
- /5AIBnfIH/2s6wMTpXdZQPThBIIGqSpAmW70gcxJ8=; b=SUYHFB99wp5EVSYI4A
- gEXfk4DR2sIW53SKv/sK8mQ40h9uHeZar2fOLogWctRXeyONjcRP5mkOyj43e20q
- 44m/5PqF9aAGQ0H6jYWa0EMDMo1k0AEYvZSylvUEiEJO0KL5m24acn6OocLRekEw
- My46wpqs4Ug+IxaK7MtBwRQFiKV5afdHzg95mVg6idRaOaSZ2EhS4N5w2ywV6oM8
- SVEpKF67XSH/o8uayDtAZZb7mrm0CKULLwYjV5S4fIWgTCC2otNNEA3wPcyeGr2l
- QDqPst680TbS1zQz8M3lz8O2jfjC2txXhLwHcGEIx6ahePX1hRuAdZ7noQzjJDQQ
- 0Ebg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:content-type:date:date
- :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm2; t=1680624261; x=1680710661; bh=B7/5AIBnfIH/2
- s6wMTpXdZQPThBIIGqSpAmW70gcxJ8=; b=vZBInLoRUKTwFqkSv7Om1qQpT0X9Q
- NcFP90yaX0kv2V8raXfljaw0C0qKHuB+wmZQ2A74HefTdA+0wJvziBERC/2gwlD2
- K+adDuhmGi25+PR/UJ05w+Q/D7qsVueSsn0TLpV3dH4guPg8lSJaEEJBcuDiM8Oi
- hksBILaaknSQ4z8MqV6fNeO8lj9m1Dpu3acfAcCLRPvy1fsmMeW3cJL8WwdfSank
- l7hr4UX4wL0O1gsomnV3KQNDy1eprXCxHoj3tPYZVMKB9RZpMp8HcSiRc+ygcKpY
- 613ebUUXdtNV5QE+8VkZ8Hp5EkZ/zUSq7rMQoBrLEfYZ+QeRetARqZB4A==
-X-ME-Sender: <xms:hUosZKD9yIXHX1ngbO9PMdL2NNmrCIaLr69DgD70Oa2J0kPmzBOY1g>
- <xme:hUosZEjZ52G6SYecvog42CHGvsTJE-JFJ0Xi4Y2VILzNAeO8JWIS8c5CH-rr52dJi
- vFzP_l8NBSr4mB2A-g>
-X-ME-Received: <xmr:hUosZNmLrrIX4CNFcSdwpp4ANTIgzs2je6h05rrUhipLQlDAsLEALASX3cd5SfRlajEbicpv8sBOBPavSp1mzxRKtvEIDrk>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvdeiledgleeiucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihi
- mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
- htthgvrhhnpedtleekjeeiudefvdfhieffteelhfeivdeliefgieeugffhvdelieffjeei
- geetjeenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivg
- eptdenucfrrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggt
- hh
-X-ME-Proxy: <xmx:hUosZIzt5USDVNgBRVjmO02gVpu3Mh1sgxkyKJkdzez4VQo55eUUKg>
- <xmx:hUosZPSwpYpkmyfhNFJE_ufFjg0Vs-SYc4NmMJhxeQWQN6iuXpHbwQ>
- <xmx:hUosZDYsXh9UMf1r5abS4VR4xyngz_VmqAI7dt31IYU3P8c4cyxxfw>
- <xmx:hUosZOBnLbfNxdFy2qK1moPd_tGUDaNOL5kxABGqVGYWyZywAj3Ukw>
-Feedback-ID: i8771445c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 4 Apr 2023 12:04:20 -0400 (EDT)
-Date: Tue, 4 Apr 2023 18:04:19 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Michael Riesch <michael.riesch@wolfvision.net>
-Subject: Re: [PATCH 7/7] dt-bindings: display: add panel-timing property to
- sitronix,st7789v
-Message-ID: <20230404160419.xlnlxq7sbsqopfwo@houat>
-References: <20230314115644.3775169-1-gerald.loacker@wolfvision.net>
- <20230314115644.3775169-8-gerald.loacker@wolfvision.net>
- <20230316215735.GA3940832-robh@kernel.org>
- <dd26836f-d54c-65d1-0acc-8a09745bb066@wolfvision.net>
- <20230329091636.mu6ml3gvw5mvkhm4@penduick>
- <d5a31f75-eb93-0ff2-cd5b-19cdec58e103@wolfvision.net>
- <20230330145811.asot2cvux4ebbeqy@penduick>
- <5f1f90e2-eee8-d941-e4b0-7f2411a9d415@wolfvision.net>
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A953E10E6EE;
+ Tue,  4 Apr 2023 16:09:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1680624560; x=1712160560;
+ h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=dkDGBjzjAI/VGxWsnstjeVAYbMlMle+EjSkoPRbMdCE=;
+ b=JWR2gBZqBn2iKI78wS5xobQ0+ODsEMp1GqMbJg7/Vz2DdDUFPkSoBf27
+ QMfvRNW/AWAEZeyOUxLhYNSJWsY4wHpcJQChQOqZyjMtdwI/wXNz6Cv1d
+ vz1nUKyhktdb8IbKAxc2/PgetQwts6EhK8vKKD2/bVSMbUy42sG01XBty
+ mqy+MMb2KFORmCjuJTPA0qfeRj5ZrP5gXkur7b1nIednlPWnGnAbC0fzx
+ RXVm1N6oXbi/CqzBRq7zZpXUrc8Jie2JNXI+lRBq9nkRt0A6yCIKbyYOC
+ ZAk7/7MvTyfARpJZ13muQE+8rAsjs1Wb3m0jU09rW51GstL2ADwaPCAR8 w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10670"; a="428516710"
+X-IronPort-AV: E=Sophos;i="5.98,318,1673942400"; d="scan'208";a="428516710"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Apr 2023 09:04:30 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10670"; a="775692358"
+X-IronPort-AV: E=Sophos;i="5.98,318,1673942400"; d="scan'208";a="775692358"
+Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
+ by FMSMGA003.fm.intel.com with ESMTP; 04 Apr 2023 09:04:28 -0700
+Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
+ ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.21; Tue, 4 Apr 2023 09:04:28 -0700
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.21 via Frontend Transport; Tue, 4 Apr 2023 09:04:28 -0700
+Received: from NAM02-BN1-obe.outbound.protection.outlook.com (104.47.51.44) by
+ edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.21; Tue, 4 Apr 2023 09:04:27 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=m0v2EZ15Rr6mx2vy9Gw+dOWOgC0JFwuAFwU1Br+mm0HanLbLBUqsprN5HHipSriA2FXT5vfxQ9g0bwGrvBB1okhg0a5qxXOCefpWG1mhr2N2LQnGp5wfs5UPv/URME301WARUamjlEd7AI4sK32Kg9kvWKYukUQHwvJjg0snaktKcAGDBOWvAJoZzXxIXb67dLU15Oz6hbHDSDPOD8hX4jV9U8bgz5jmWPMevRyg/fdel38tQMizUIoja2UelYvbTKHVyHB77o8H0eeDxxnKBUI2Pn0sROqjRVjxdzV/RU2Wi3jrVairS7Ti6L+NgC9kaX61DF53UgEJPIkvQI98qQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=dkDGBjzjAI/VGxWsnstjeVAYbMlMle+EjSkoPRbMdCE=;
+ b=fCQicqz7xnJp3lPsA2p/ttkOw/PI1sbCf4V6BYiKjIbODr4+J0H/N7FbFo8lavdSLF4IJfwEBHglk/ARMf/FWesKs0Bm2RTh5JVDVM0mGMNJ8kJize2DZfa+wkdnNijeXc9ewh+HBtM3TpmZJzCAGRBq6UKi9q2KntYnfbT72fBZR+4hH1cKfSJbAUJDh3LTs9w45zLya+GHjozgkzeKXZwJotbwMqEsNjKpFv0J8j0zGYmlputPT1bGPvturjIHR3H20SFIIIKP6BIYyucW77q0OWqj2U6CkzytKbcX1vXDFHYVbuVW/gQs52918R2JwULx9v4ovcHc6kBuDENdZw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from BYAPR11MB2567.namprd11.prod.outlook.com (2603:10b6:a02:c5::32)
+ by SA0PR11MB4703.namprd11.prod.outlook.com (2603:10b6:806:9f::18)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6254.33; Tue, 4 Apr
+ 2023 16:04:25 +0000
+Received: from BYAPR11MB2567.namprd11.prod.outlook.com
+ ([fe80::12b1:c9af:ed85:e3ee]) by BYAPR11MB2567.namprd11.prod.outlook.com
+ ([fe80::12b1:c9af:ed85:e3ee%6]) with mapi id 15.20.6254.033; Tue, 4 Apr 2023
+ 16:04:25 +0000
+From: "Yang, Fei" <fei.yang@intel.com>
+To: "Landwerlin, Lionel G" <lionel.g.landwerlin@intel.com>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>
+Subject: RE: [Intel-gfx] [PATCH 7/7] drm/i915: Allow user to set cache at BO
+ creation
+Thread-Topic: [Intel-gfx] [PATCH 7/7] drm/i915: Allow user to set cache at BO
+ creation
+Thread-Index: AQHZZGRiuuNpc8BVKEecHbCKjiVefa8axZGAgACOQHA=
+Date: Tue, 4 Apr 2023 16:04:25 +0000
+Message-ID: <BYAPR11MB256790AC5BDC891F186E000E9A939@BYAPR11MB2567.namprd11.prod.outlook.com>
+References: <20230401063830.438127-1-fei.yang@intel.com>
+ <20230401063830.438127-8-fei.yang@intel.com>
+ <7aa541f8-55e3-a182-5390-6ca161edb70b@intel.com>
+In-Reply-To: <7aa541f8-55e3-a182-5390-6ca161edb70b@intel.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: BYAPR11MB2567:EE_|SA0PR11MB4703:EE_
+x-ms-office365-filtering-correlation-id: a174c39c-68ee-4dd1-4c29-08db35264352
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: ZJErLyyDPH6Na7Bg/y6xPeR7UnV1ktb9HNAw/bv9RtEGQyLs3yMI7aaenOMT2Kblz2STQ2Z/amvIZAnh463vR+RKXedMPo4LzCBbNYZiqM5Y0dRMfZyT3Q9G9JdSERk7aFnYTt5yNpC0qTTNQHDcFvJkaWSkyIrrXl1r+8u+neCaCul3FzSFMwOWweF0HEXLQVtXzc1OxY9B8d/6pMHdORAcNnbdi/cvxfcHQQWTC4ql1e24rD5QxTWPL9AwosiwXODpJK2yXUU2vZZJOpfQUNGTWzWrSfUY8SRgOUuD4s4DBJQIaDHA1BWFo+BQHhLENqOmOg3N+k98LKKudd59WMN61IQHMyqQ0iihaN70Wu3ALsMThINtSHl7gn7ZKtl1Q/akjlgjhDBnEW/tErkg1CfO+rljKDzc5UkwwlEBm6nS9DEPsFUAAsNN8QvXms/huRFztZvof9CoSFazwxctAcYlaprpemO25YFu16ah5TEtmJ26XTK8AJy+quHZltdwAazsNw/MJiO7qjwb3VVT5E/Vz3kMvNsp2AxKOb0FMtja6t9vWatUCvqpPfksge/UkzB1Hs8d2MIHFCi4tR7nm9F0g98upgAlqW+rN2qEu5U40BhVNR5FGkkMsaNHZfIP
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BYAPR11MB2567.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230028)(136003)(39860400002)(376002)(396003)(346002)(366004)(451199021)(55016003)(41300700001)(66476007)(66446008)(64756008)(66556008)(66946007)(76116006)(8676002)(316002)(478600001)(4326008)(52536014)(8936002)(122000001)(110136005)(82960400001)(5660300002)(38100700002)(54906003)(186003)(83380400001)(7696005)(966005)(71200400001)(6506007)(9686003)(53546011)(26005)(38070700005)(33656002)(2906002)(86362001)(66899021);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?RjNMSGtXVzI4VW1lMlBsdmNIejRPejVHZ3V5blFhc2tLWUF3cmh1VTJSUEFS?=
+ =?utf-8?B?em9rcmtncVl6RERhRUJlODdzaCs2bFdwZ0hWdCtDLy8vRjVnWFhMdTNiRytz?=
+ =?utf-8?B?U0dkeVZXbG80V25XankvdXlEQ0pkSlByTGdzWmVtdGlJUmZXUDRBYTFGd2d1?=
+ =?utf-8?B?Y0xvNDBOckZtRXJ2RjQ3UWcvSDFoSFA0UTJzT004cGNRNlpwRVlCNHFmTU1o?=
+ =?utf-8?B?UE9NTXdtMm1reis2UUpRVnRnM0dOZC9GR3NaTTAxYmJwYXRpVTU3Z2dtSmJP?=
+ =?utf-8?B?UWNSTnZ5U2VUbmV1TEJpSHNySm1zUzY3QmE0NHhBQit1b3IzaFZ4MVdjejVQ?=
+ =?utf-8?B?WUZEdmhhUStKd2c2eFVvR0lGQjhKT3Jhd1pXUTRUUk53VUpZUWdmYiszNzR6?=
+ =?utf-8?B?aHhxWUFIMW9xRFdlVkgvNkJSbHZBNDhSVEl3UDl5MXJGWFhFeVZkT2VFTExK?=
+ =?utf-8?B?L3ByYTlHa1M4L1l5anBDdTROdjRLdkZzbFBCdVgzbmdOT3ZwWGlaRHJtQ0VN?=
+ =?utf-8?B?Q3JnSmFiUkRMaVZVVU1PUW9ES0c0WFVubzNvVHpCZHd1NTY1UGlEN3E5R3dH?=
+ =?utf-8?B?YWVuc01ZOER2VTB4U2I5R3U1cnA2NW9Vc3YxN292N292VGNXMzdRQXFKaWp6?=
+ =?utf-8?B?NHJaZEdXS3k0OXhLc2NQdE1UMzBNeExlT3dLYUIzWHJ2dEJISEhkc0pGK3RE?=
+ =?utf-8?B?TDlrYWN5Yk04b0JxaEZnWkpMUjZDOTlhQ3I5b3kzMnJUMzVMVmluUzdkcUVT?=
+ =?utf-8?B?N0NDTTdJd2FaMkFVWUJ0T01lMkgwa3g0RklUd3RwYUcyZnN0aVZEd2ZVVEtx?=
+ =?utf-8?B?ZlZIUGZtNlRQSHNNdVNRQkRHazY1SzlvbTc0eVArcFlIc0hMSG9mYjZ3Nmg2?=
+ =?utf-8?B?b0dNM0tiWEN5azFDaTE5OWZ3K0JoNjZSTFRuZ3lHdEk0ekdvTXQ1MmpYdlFE?=
+ =?utf-8?B?eFc1bVdBcEwycWhrQWY0V3V4cGxQNkhLaFFPQnFnbEdsbytGak41d0VuZTlk?=
+ =?utf-8?B?RmNscHhsUkltUlNRcVNONlk2UFFzWkFleEh4WHg3T0FZUUlobHhUTzZJTzJY?=
+ =?utf-8?B?QTcraXRhcHhCUW91aW5aZXdXR0d6UXkzQXRWN2dxcndGSkhDSW04QUFLTWo0?=
+ =?utf-8?B?WGZJeXk3MjRTL2t0M0R1RmJoaXYyRW1saHJydDJFZXRRSzF2SHZsVjgySVFT?=
+ =?utf-8?B?b1QyTUNuMGdjKy91YTNONFJ1cFRnNnFubVcxUU9CRndQclh2TzJNYmVla0Fw?=
+ =?utf-8?B?d05oQWoyd253cjkxOVJBQkM4bEpXVXFjVklNaGlRS0toYXdXRStjV0FLcUh1?=
+ =?utf-8?B?SUx4OFBTeUJVYVhtYVVPOUk4dm9hSG9RWFRCajduYTgvRndzZUNOZlZEbVNZ?=
+ =?utf-8?B?aFpzWnp3V3NQTlhpU2RoU3ZYSWZYZXNhMWo5VnJPdWJtM3EzMkxXYTlSQ3U2?=
+ =?utf-8?B?NXRzQVlzUU5DNlFQRi9BTWM3elBWNlV1SHZWUVZoaE5vbFhLcFVUTU1JV2J4?=
+ =?utf-8?B?SHlBTUtWVFRuaVhOTVpsVytsRjYyS21TM3Z2emFLdkxpb2hRL3lVZDFOcG5k?=
+ =?utf-8?B?ZUFDVEhRMmo1amNIVEFVK2lHUjdBak9hRlJYR2tCL0hIYVVCTEF2WmJwYkwr?=
+ =?utf-8?B?WHRoRW53WTNJSlB4UGsyemttZCtTNXFyakZ0R2UxcVNHYVV5WTdtQ1g0RmlK?=
+ =?utf-8?B?YlFDWmFCRFBKYVE2OFcwS3llOXc1cnRBM1ZobUsyaFRGNjFYT2FqeThYV0VC?=
+ =?utf-8?B?dHdZUkxwckUrQ2Z2VkwxMG5LWnE3b0EwUXhKcnoyRGdXSkd5bUdUOXppZVBm?=
+ =?utf-8?B?NEZ6bDI5d01ldURDSnBHSUIzKzVDU0p1WGhrTmh4WnViNDNWTEpvaFZQL3p0?=
+ =?utf-8?B?MmtwdTJ5R09FWERDVldyaVRtSC9sdldySDVieTlKd2hZcFVtVnFLTDhSdlMy?=
+ =?utf-8?B?d0VpRURrYUYydmowcXp5YWYvM3F1WWxqWk9SVXlmWnF4ZERoeTVlR285SDlk?=
+ =?utf-8?B?YytySUgweHROaUtmd3VnQUF0N2svQkpIUytMVGxTUGRvRkxqM1RRQlUwRVhF?=
+ =?utf-8?B?bHF6eTI2SUFOWlg2Y1lLUHlZdU9sNzFad1dFUk8waTQvNHVIWjJYdmlhWjZs?=
+ =?utf-8?Q?uzYE=3D?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="v7utqc2px55llm33"
-Content-Disposition: inline
-In-Reply-To: <5f1f90e2-eee8-d941-e4b0-7f2411a9d415@wolfvision.net>
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR11MB2567.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a174c39c-68ee-4dd1-4c29-08db35264352
+X-MS-Exchange-CrossTenant-originalarrivaltime: 04 Apr 2023 16:04:25.7157 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: Ulg8PbOtdZ17x5yL8TDVZxMoTEHFgkfdA2DpDyXU5d/60HXUadZLg5x+/rfduIzVSSttbbFUOIhPtD7lJvtoqQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR11MB4703
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,127 +158,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- devicetree@vger.kernel.org, Gerald Loacker <gerald.loacker@wolfvision.net>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Sebastian Reichel <sebastian.reichel@collabora.com>,
- Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>
+Cc: Chris Wilson <chris.p.wilson@linux.intel.com>, "Roper,
+ Matthew D" <matthew.d.roper@intel.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---v7utqc2px55llm33
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Fri, Mar 31, 2023 at 11:36:43AM +0200, Michael Riesch wrote:
-> On 3/30/23 16:58, Maxime Ripard wrote:
-> > On Wed, Mar 29, 2023 at 12:08:50PM +0200, Michael Riesch wrote:
-> >> On 3/29/23 11:16, Maxime Ripard wrote:
-> >>> On Thu, Mar 16, 2023 at 11:29:53PM +0100, Michael Riesch wrote:
-> >>>> Hi Rob,
-> >>>>
-> >>>> On 3/16/23 22:57, Rob Herring wrote:
-> >>>>> On Tue, Mar 14, 2023 at 12:56:44PM +0100, Gerald Loacker wrote:
-> >>>>>> The sitronix-st7789v driver now considers the panel-timing propert=
-y.
-> >>>>>
-> >>>>> I read the patch for that and still don't know 'why'. Commit messag=
-es=20
-> >>>>> should answer why.
-> >>>>>
-> >>>>>> Add the property to the documentation.
-> >>>>>
-> >>>>> We generally don't put timings in DT for panels. Why is this one=20
-> >>>>> special?
-> >>>>
-> >>>> For now, having the timings in the device tree allows for setting the
-> >>>> hsync/vsync/de polarity.
-> >>>>
-> >>>> As a next step, we aim to implement the partial mode feature of this
-> >>>> panel. It is possible to use only a certain region of the panel, whi=
-ch
-> >>>> is helpful e.g., when a part of the panel is occluded and should not=
- be
-> >>>> considered by DRM. We thought that this could be specified as timing=
- in DT.
-> >>>>
-> >>>> (The hactive and vactive properties serve as dimensions of this cert=
-ain
-> >>>> region, of course. We still need to specify somehow the position of =
-the
-> >>>> region. Maybe with additional properties hactive-start and vactive-s=
-tart?)
-> >>>>
-> >>>> What do you think about that?
-> >>>
-> >>> I don't see why we would need the device tree to support that. What y=
-ou
-> >>> described is essentially what overscan is for HDMI/analog output, and=
- we
-> >>> already have everything to deal with overscan properly in KMS.
-> >>
-> >> Thanks for your response, but I am afraid I don't quite follow.
-> >>
-> >> How are we supposed to expose control over the hsync/vsync/data enable
-> >> polarity? I only know that the display controller and the panel need to
-> >> agree on a setting that works for both. What is the canonical way to do
-> >> this?
-> >=20
-> > So typically, it would come from the panel datasheet and would thus be
-> > exposed by the panel driver. st7789v is not a panel itself but a (pretty
-> > flexible) panel controller so it's not fixed and I don't think we have a
-> > good answer to that (yet).
->=20
-> Then it seems to me that creating a panel driver (=3D st8879v panel
-> controller driver with a new compatible) would make sense.
-
-I don't see why? The entire controller is the same except (maybe) for
-some initialization data. Doing a new driver for it seems like taking
-the easy way out?
-
-> By coincidence Sebastian Reichel has come up with this approach
-> recently, see
-> https://lore.kernel.org/dri-devel/20230317232355.1554980-1-sre@kernel.org/
-> We just need a way to resolve the conflicts between the two series.
->=20
-> Cc: Sebastian
-
-That's not a new driver though? That approach looks sane to me.
-
-> >> A different question is the partial mode, for which (IIUC) you suggest
-> >> the overscan feature. As I have never heard of this before, it would be
-> >> very nice if you could point me to some examples. Where would the
-> >> effective resolution be set in this case?
-> >=20
-> > So, back when CRT were a thing the edges of the tube were masked by the
-> > plastic case. HDMI inherited from that and that's why you still have
-> > some UI on some devices (like consoles) to setup the active area of the
-> > display.
-> >=20
-> > The underlying issue is exactly what you describe: the active area is
-> > larger than what the plastic case allows to see. I don't think anyone
-> > ever had the usecase you have, but it would be the right solution to me
-> > to solve essentially the same issue the same way we do on other output
-> > types.
->=20
-> OK, we'll look into the overscan feature. But still the information
-> about the active area should come from the driver, right?
-
-No, the userspace is in charge there.
-
-Maxime
-
---v7utqc2px55llm33
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZCxKgwAKCRDj7w1vZxhR
-xVipAP9Iuopj25k9qKGAx0RxPd382YqPkKlLJHe75NBMZWCIEgEA+Yk5S6h0cLuD
-lqjyBNtPVjpd1r1ePFYCbs/04ufdNwQ=
-=tyEC
------END PGP SIGNATURE-----
-
---v7utqc2px55llm33--
+PiBTdWJqZWN0OiBSZTogW0ludGVsLWdmeF0gW1BBVENIIDcvN10gZHJtL2k5MTU6IEFsbG93IHVz
+ZXIgdG8gc2V0IGNhY2hlIGF0IEJPIGNyZWF0aW9uDQo+DQo+IE9uIDAxLzA0LzIwMjMgMDk6Mzgs
+IGZlaS55YW5nQGludGVsLmNvbSB3cm90ZToNCj4+IEZyb206IEZlaSBZYW5nIDxmZWkueWFuZ0Bp
+bnRlbC5jb20+DQo+Pg0KPj4gVG8gY29tcGx5IHdpdGggdGhlIGRlc2lnbiB0aGF0IGJ1ZmZlciBv
+YmplY3RzIHNoYWxsIGhhdmUgaW1tdXRhYmxlDQo+PiBjYWNoZSBzZXR0aW5nIHRocm91Z2ggb3V0
+IGl0cyBsaWZlIGN5Y2xlLCB7c2V0LCBnZXR9X2NhY2hpbmcgaW9jdGwncw0KPj4gYXJlIG5vIGxv
+bmdlciBzdXBwb3J0ZWQgZnJvbSBNVEwgb253YXJkLiBXaXRoIHRoYXQgY2hhbmdlIGNhY2hpbmcN
+Cj4+IHBvbGljeSBjYW4gb25seSBiZSBzZXQgYXQgb2JqZWN0IGNyZWF0aW9uIHRpbWUuIFRoZSBj
+dXJyZW50IGNvZGUNCj4+IGFwcGxpZXMgYSBkZWZhdWx0IChwbGF0Zm9ybSBkZXBlbmRlbnQpIGNh
+Y2hlIHNldHRpbmcgZm9yIGFsbCBvYmplY3RzLg0KPj4gSG93ZXZlciB0aGlzIGlzIG5vdCBvcHRp
+bWFsIGZvciBwZXJmb3JtYW5jZSB0dW5pbmcuIFRoZSBwYXRjaCBleHRlbmRzDQo+PiB0aGUgZXhp
+c3RpbmcgZ2VtX2NyZWF0ZSB1QVBJIHRvIGxldCB1c2VyIHNldCBQQVQgaW5kZXggZm9yIHRoZSBv
+YmplY3QNCj4+IGF0IGNyZWF0aW9uIHRpbWUuDQo+PiBUaGUgbmV3IGV4dGVuc2lvbiBpcyBwbGF0
+Zm9ybSBpbmRlcGVuZGVudCwgc28gVU1EJ3MgY2FuIHN3aXRjaCB0bw0KPj4gdXNpbmcgdGhpcyBl
+eHRlbnNpb24gZm9yIG9sZGVyIHBsYXRmb3JtcyBhcyB3ZWxsLCB3aGlsZSB7c2V0LA0KPj4gZ2V0
+fV9jYWNoaW5nIGFyZSBzdGlsbCBzdXBwb3J0ZWQgb24gdGhlc2UgbGVnYWN5IHBhbHRmb3JtcyBm
+b3IgY29tcGF0aWJpbGl0eSByZWFzb24uDQo+Pg0KPj4gQ2M6IENocmlzIFdpbHNvbiA8Y2hyaXMu
+cC53aWxzb25AbGludXguaW50ZWwuY29tPg0KPj4gQ2M6IE1hdHQgUm9wZXIgPG1hdHRoZXcuZC5y
+b3BlckBpbnRlbC5jb20+DQo+PiBTaWduZWQtb2ZmLWJ5OiBGZWkgWWFuZyA8ZmVpLnlhbmdAaW50
+ZWwuY29tPg0KPj4gUmV2aWV3ZWQtYnk6IEFuZGkgU2h5dGkgPGFuZGkuc2h5dGlAbGludXguaW50
+ZWwuY29tPg0KPg0KPg0KPiBKdXN0IGxpa2UgdGhlIHByb3RlY3RlZCBjb250ZW50IHVBUEksIHRo
+ZXJlIGlzIG5vIHdheSBmb3IgdXNlcnNwYWNlIHRvIHRlbGwNCj4gdGhpcyBmZWF0dXJlIGlzIGF2
+YWlsYWJsZSBvdGhlciB0aGFuIHRyeWluZyB1c2luZyBpdC4NCj4NCj4gR2l2ZW4gdGhlIGlzc3Vl
+cyB3aXRoIHByb3RlY3RlZCBjb250ZW50LCBpcyBpdCBub3QgdGhpbmcgd2UgY291bGQgd2FudCB0
+byBhZGQ/DQoNClNvcnJ5IEknbSBub3QgYXdhcmUgb2YgdGhlIGlzc3VlcyB3aXRoIHByb3RlY3Rl
+ZCBjb250ZW50LCBjb3VsZCB5b3UgZWxhYm9yYXRlPw0KVGhlcmUgd2FzIGEgbG9uZyBkaXNjdXNz
+aW9uIG9uIHRlYW1zIHVBUEkgY2hhbm5lbCwgY291bGQgeW91IGNvbW1lbnQgdGhlcmUgaWYNCmFu
+eSBjb25jZXJucz8NCg0KaHR0cHM6Ly90ZWFtcy5taWNyb3NvZnQuY29tL2wvbWVzc2FnZS8xOTpm
+MTc2N2JkYTY3MzQ0NzZiYTBhOWM3ZDE0N2I5MjhkMUB0aHJlYWQuc2t5cGUvMTY3NTg2MDkyNDY3
+NT90ZW5hbnRJZD00NmM5OGQ4OC1lMzQ0LTRlZDQtODQ5Ni00ZWQ3NzEyZTI1NWQmZ3JvdXBJZD0z
+NzlmM2FlMS1kMTM4LTQyMDUtYmI2NS1kNGM3ZDM4Y2I0ODEmcGFyZW50TWVzc2FnZUlkPTE2NzU4
+NjA5MjQ2NzUmdGVhbU5hbWU9R1NFJTIwT1NHQyZjaGFubmVsTmFtZT1pOTE1JTIwdUFQSSUyMGNo
+YW5nZXMmY3JlYXRlZFRpbWU9MTY3NTg2MDkyNDY3NSZhbGxvd1hUZW5hbnRBY2Nlc3M9ZmFsc2UN
+Cg0KVGhhbmtzLA0KLUZlaQ0KDQo+VGhhbmtzLA0KPg0KPi1MaW9uZWwNCj4NCj4NCj4+IC0tLQ0K
+Pj4gICBkcml2ZXJzL2dwdS9kcm0vaTkxNS9nZW0vaTkxNV9nZW1fY3JlYXRlLmMgfCAzMyArKysr
+KysrKysrKysrKysrKysrKw0KPj4gICBpbmNsdWRlL3VhcGkvZHJtL2k5MTVfZHJtLmggICAgICAg
+ICAgICAgICAgfCAzNiArKysrKysrKysrKysrKysrKysrKysrDQo+PiAgIHRvb2xzL2luY2x1ZGUv
+dWFwaS9kcm0vaTkxNV9kcm0uaCAgICAgICAgICB8IDM2ICsrKysrKysrKysrKysrKysrKysrKysN
+Cj4+ICAgMyBmaWxlcyBjaGFuZ2VkLCAxMDUgaW5zZXJ0aW9ucygrKQ0KPj4NCg==
