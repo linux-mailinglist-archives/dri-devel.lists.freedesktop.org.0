@@ -1,43 +1,77 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B64E36D6C85
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Apr 2023 20:42:42 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 81EC86D6CAA
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Apr 2023 20:53:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B5FBC10E76B;
-	Tue,  4 Apr 2023 18:42:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 982AB10E386;
+	Tue,  4 Apr 2023 18:53:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0.riseup.net (mx0.riseup.net [198.252.153.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 219BB10E769
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Apr 2023 18:42:38 +0000 (UTC)
-Received: from fews2.riseup.net (fews2-pn.riseup.net [10.0.1.84])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
- client-signature RSA-PSS (2048 bits) client-digest SHA256)
- (Client CN "mail.riseup.net", Issuer "R3" (not verified))
- by mx0.riseup.net (Postfix) with ESMTPS id 4Prc7x4nqdz9tG4;
- Tue,  4 Apr 2023 18:42:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
- t=1680633757; bh=JpaZ0SQl51V7z8ld+c7j18y1NfeZXdXo3cjc8A8YyjM=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=K5eDnWzdT9hP+CvayQE9qXdO3ZHHVWAFnHP1BlaKa4KhuzMeDhirhhuuRoPLElZQp
- LHsHLw8p5FEyXGLqvBMYSGTC37uDE7RHKbGGQppGkZYbyiqwaLflRDmCUUoR66c/zv
- pFwGymiEZkNK9ZsnYGIPYoJe7FMggHjHC/SxYlS4=
-X-Riseup-User-ID: 6CA6A8A777927615895A667E2BC9B853481FA2A5EB334F9EB93481CFC65EE4D7
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- by fews2.riseup.net (Postfix) with ESMTPSA id 4Prc7s0q3Rz1yNK;
- Tue,  4 Apr 2023 18:42:32 +0000 (UTC)
-From: Arthur Grillo <arthurgrillo@riseup.net>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v3 5/5] drm/test: Add test cases for drm_rect_rotate_inv()
-Date: Tue,  4 Apr 2023 15:41:58 -0300
-Message-Id: <20230404184158.26290-6-arthurgrillo@riseup.net>
-In-Reply-To: <20230404184158.26290-1-arthurgrillo@riseup.net>
-References: <20230404184158.26290-1-arthurgrillo@riseup.net>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A0E8B10E3B3
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Apr 2023 18:53:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1680634414;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=j0M5QDGBellEBnHKe7QL0tgh7mmOP32p1W0jTZXhVvA=;
+ b=N2WJZEJf44Nhp/ZLvK4rdXGakICFLLx53iWptFrzYPFc3OPFY+kHRLDb2Di2KmNEH4T35J
+ zfh2ZK8KsWsVl7wp0VgFRr43sAeqdOHcRE8z8h780BfOxT5tZzpQc8g9jqwEK62SniYXxl
+ EQIi+mHIGwLsWT8FW5elBAKb2i5OcH0=
+Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
+ [209.85.219.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-657-ze3ClMPyOxijS9t9gpujGg-1; Tue, 04 Apr 2023 14:53:33 -0400
+X-MC-Unique: ze3ClMPyOxijS9t9gpujGg-1
+Received: by mail-qv1-f71.google.com with SMTP id
+ y19-20020ad445b3000000b005a5123cb627so15050125qvu.20
+ for <dri-devel@lists.freedesktop.org>; Tue, 04 Apr 2023 11:53:33 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1680634413;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=j0M5QDGBellEBnHKe7QL0tgh7mmOP32p1W0jTZXhVvA=;
+ b=eltz+BRzhS3yCJ9rODbOt2bPHqP2cPTPSM80dj6jQFgEZ4BQWlKd5gETnjabOQXbc9
+ +FpCTkIisd38nQ9Zm6NUQU8FRjNpToPu62VmYXzfmIrXMYZ+ZT0FRCmNicXf1NPZUU2G
+ 5OHZUG4pxWkKSI8ohfioMmPC7oaa/BvaluMrNlXCnJzYqEk39czXPvsh61Fq2kuLQGj2
+ raDM/dadK1iP8ii87rgGKQnblJuuRayqn8OQT8O8b1zCZkMmXE5EDZ7G1MMrWx9UprIU
+ HqVhZPu4kWoxmVOtvLMUFTIfBAh/zdYPyLVP7LoF+oBMSy2SAcrjy7TGagMNF6fgtetv
+ bh1g==
+X-Gm-Message-State: AAQBX9dgD/h/jOJrbOTF2fqsLbpiRJLUEjg9Ozm7MsVVsXQqr8/Ylabo
+ iVUl0K7jp5BLWBybRLyjHsYOHbq0sNe03dLVl7q0EpjCuMGfrq3OA27jdkeZIfwV388aGUolPWN
+ /I+IQJMXUxhz2QO7RLPPoCmIGiea2
+X-Received: by 2002:a05:622a:138b:b0:3e4:e8be:c3a4 with SMTP id
+ o11-20020a05622a138b00b003e4e8bec3a4mr741071qtk.56.1680634412997; 
+ Tue, 04 Apr 2023 11:53:32 -0700 (PDT)
+X-Google-Smtp-Source: AKy350aHha48xVckQMZBBBOfNL67WaM8+Vk8RyO27WZmOEbqXBCe+GmWfP76gbamBPcNYhZvXnXLKA==
+X-Received: by 2002:a05:622a:138b:b0:3e4:e8be:c3a4 with SMTP id
+ o11-20020a05622a138b00b003e4e8bec3a4mr741035qtk.56.1680634412694; 
+ Tue, 04 Apr 2023 11:53:32 -0700 (PDT)
+Received: from dell-per740-01.7a2m.lab.eng.bos.redhat.com
+ (nat-pool-bos-t.redhat.com. [66.187.233.206])
+ by smtp.gmail.com with ESMTPSA id
+ f9-20020ac84989000000b003e38f7e4562sm3400800qtq.69.2023.04.04.11.53.31
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 04 Apr 2023 11:53:32 -0700 (PDT)
+From: Tom Rix <trix@redhat.com>
+To: robdclark@gmail.com, quic_abhinavk@quicinc.com,
+ dmitry.baryshkov@linaro.org, sean@poorly.run, airlied@gmail.com,
+ daniel@ffwll.ch, vladimir.lypak@gmail.com
+Subject: [PATCH] drm/msm/mdp5: set varaiable msm8x76_config
+ storage-class-specifier to static
+Date: Tue,  4 Apr 2023 14:53:29 -0400
+Message-Id: <20230404185329.1925964-1-trix@redhat.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"; x-default=true
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,53 +84,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: carlos.craveiro@usp.br, tales.aparecida@gmail.com, dlatypov@google.com,
- javierm@redhat.com, mairacanal@riseup.net, maxime@cerno.tech,
- andrealmeid@riseup.net, Arthur Grillo <arthurgrillo@riseup.net>,
- matheus.vieira.g@usp.br
+Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Tom Rix <trix@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Insert a parameterized test for the drm_rect_rotate_inv() to ensure its
-correctness and prevent future regressions. The test covers all rotation
-modes.
+smatch reports
+drivers/gpu/drm/msm/disp/mdp5/mdp5_cfg.c:658:26: warning: symbol
+  'msm8x76_config' was not declared. Should it be static?
 
-It uses the same test cases from drm_test_rect_rotate().
+This variable is only used in one file so should be static.
 
-Signed-off-by: Arthur Grillo <arthurgrillo@riseup.net>
+Signed-off-by: Tom Rix <trix@redhat.com>
 ---
- drivers/gpu/drm/tests/drm_rect_test.c | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+ drivers/gpu/drm/msm/disp/mdp5/mdp5_cfg.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/tests/drm_rect_test.c b/drivers/gpu/drm/tests/drm_rect_test.c
-index dca63552d289..862b9435dcc6 100644
---- a/drivers/gpu/drm/tests/drm_rect_test.c
-+++ b/drivers/gpu/drm/tests/drm_rect_test.c
-@@ -543,6 +543,16 @@ static void drm_test_rect_rotate(struct kunit *test)
- 	drm_rect_compare(test, &r, &params->expected);
- }
- 
-+static void drm_test_rect_rotate_inv(struct kunit *test)
-+{
-+	const struct drm_rect_rotate_case *params = test->param_value;
-+	struct drm_rect r = params->expected;
-+
-+	drm_rect_rotate_inv(&r, params->width, params->height, params->rotation);
-+
-+	drm_rect_compare(test, &r, &params->rect);
-+}
-+
- static struct kunit_case drm_rect_tests[] = {
- 	KUNIT_CASE(drm_test_rect_clip_scaled_div_by_zero),
- 	KUNIT_CASE(drm_test_rect_clip_scaled_not_clipped),
-@@ -552,6 +562,7 @@ static struct kunit_case drm_rect_tests[] = {
- 	KUNIT_CASE_PARAM(drm_test_rect_calc_hscale, drm_rect_hscale_gen_params),
- 	KUNIT_CASE_PARAM(drm_test_rect_calc_vscale, drm_rect_vscale_gen_params),
- 	KUNIT_CASE_PARAM(drm_test_rect_rotate, drm_rect_rotate_gen_params),
-+	KUNIT_CASE_PARAM(drm_test_rect_rotate_inv, drm_rect_rotate_gen_params),
- 	{ }
+diff --git a/drivers/gpu/drm/msm/disp/mdp5/mdp5_cfg.c b/drivers/gpu/drm/msm/disp/mdp5/mdp5_cfg.c
+index 1f1555aa02d2..2eec2d78f32a 100644
+--- a/drivers/gpu/drm/msm/disp/mdp5/mdp5_cfg.c
++++ b/drivers/gpu/drm/msm/disp/mdp5/mdp5_cfg.c
+@@ -655,7 +655,7 @@ static const struct mdp5_cfg_hw msm8x96_config = {
+ 	.max_clk = 412500000,
  };
  
+-const struct mdp5_cfg_hw msm8x76_config = {
++static const struct mdp5_cfg_hw msm8x76_config = {
+ 	.name = "msm8x76",
+ 	.mdp = {
+ 		.count = 1,
 -- 
-2.39.2
+2.27.0
 
