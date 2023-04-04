@@ -1,152 +1,141 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05E306D6B24
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Apr 2023 20:03:58 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 849456D6B3E
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Apr 2023 20:09:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B441D10E1D0;
-	Tue,  4 Apr 2023 18:03:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 51AD310E19E;
+	Tue,  4 Apr 2023 18:09:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EF5BB10E1D0;
- Tue,  4 Apr 2023 18:03:53 +0000 (UTC)
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 55CE110E03C;
+ Tue,  4 Apr 2023 18:09:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1680631434; x=1712167434;
- h=from:to:cc:subject:date:message-id:references:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=uVhl1ODcPCLzksfpWS4eivqiHKaDIIWMniwq6iRsB1Y=;
- b=IRzqr6F/toXB1xUZGIS6SFqJ9LKRGk7gqmIl4lzLxERmYDM6uYKgOlzw
- apfEisZj/DZgfRlukvPGSA4hxexFpeYmMpY2Wiw6yJNMMHHO0K58MS4nX
- IqEuJzKOhikZ6sBaoLGP0E2loUGTIvIs8ujR4r8L4byluk31xNU+qRmWe
- mL6trAUBbNqPJBnBnlWkt3Qk6KUZc5fwlQkZacGwsE9Hvl3E2IJI/3P98
- JLaUic4tj99DiD77vUqngDT0LVKcGtJwDbRy3wi0S0beEIsOi7yq8lVUN
- HGWPODXwdDyGpFvPIvMVlo3MFi9LwgyveeNdJYEcnp0+E1NkInXQQP7IB w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10670"; a="428548359"
-X-IronPort-AV: E=Sophos;i="5.98,318,1673942400"; d="scan'208";a="428548359"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Apr 2023 11:02:13 -0700
+ t=1680631768; x=1712167768;
+ h=date:from:to:cc:subject:message-id:references:
+ content-transfer-encoding:in-reply-to:mime-version;
+ bh=a7SGhh5EV9AbfMLH2vci4gBEZRqRx0TDGqjJcpnzY2U=;
+ b=cZa3BvNaXWoEJk5o7viJ122FYGevcQKANY2FZVQRV+G1ouJL/vIBdAMk
+ AB6DoBhFJba/z7GLxUNM0lb6YSofjKtGaQY3qtLb37av9P8Sfx6SCdbt/
+ wu8iATC8UFC3AwrIaD7e12XCBkxeM1yPe7hZKHJ7cjCn0ts7y4Qn4wFiF
+ 2dDotx6BJ6EFoN6M5TnRIXyCJxF5+hEGVRSpCC0l+NkipQLmBrEOMF4Pp
+ fit+smT9b4NkJ1sEI1fKdeoMi6xAGHhY1AURptHRfXWRaM2Ck99jS6l09
+ JU0e2deqOvbpRxZybMZvc/Snviq6VX4icaFz5prM9rcjylWly+1X1XrSU A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10670"; a="339755413"
+X-IronPort-AV: E=Sophos;i="5.98,318,1673942400"; d="scan'208";a="339755413"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Apr 2023 11:09:05 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10670"; a="755724134"
-X-IronPort-AV: E=Sophos;i="5.98,318,1673942400"; d="scan'208";a="755724134"
-Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
- by fmsmga004.fm.intel.com with ESMTP; 04 Apr 2023 11:02:13 -0700
-Received: from fmsmsx612.amr.corp.intel.com (10.18.126.92) by
- fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
+X-IronPort-AV: E=McAfee;i="6600,9927,10670"; a="688989362"
+X-IronPort-AV: E=Sophos;i="5.98,318,1673942400"; d="scan'208";a="688989362"
+Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
+ by fmsmga007.fm.intel.com with ESMTP; 04 Apr 2023 11:09:04 -0700
+Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.21; Tue, 4 Apr 2023 11:02:12 -0700
-Received: from fmsmsx602.amr.corp.intel.com (10.18.126.82) by
- fmsmsx612.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
+ 15.1.2507.21; Tue, 4 Apr 2023 11:09:04 -0700
+Received: from orsmsx612.amr.corp.intel.com (10.22.229.25) by
+ ORSMSX611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.21; Tue, 4 Apr 2023 11:02:12 -0700
-Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
- fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ 15.1.2507.21; Tue, 4 Apr 2023 11:09:03 -0700
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ orsmsx612.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.21 via Frontend Transport; Tue, 4 Apr 2023 11:02:12 -0700
-Received: from NAM02-BN1-obe.outbound.protection.outlook.com (104.47.51.46) by
- edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
+ 15.1.2507.21 via Frontend Transport; Tue, 4 Apr 2023 11:09:03 -0700
+Received: from NAM04-BN8-obe.outbound.protection.outlook.com (104.47.74.44) by
+ edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.21; Tue, 4 Apr 2023 11:02:11 -0700
+ 15.1.2507.21; Tue, 4 Apr 2023 11:09:03 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=chGOa8AgSW4tI1/zxEbvccLuNrZtyJ2vL2g3WHhI2bZ5NyjFQs1vJCzjjh2khvXilMTQNG51HL7CH0+L2Ia8RbIsZ8vMe16F5X2cwS5HpNd3OcS83naFJs4nS2mM/2FpO1LRPZE6Pg5m2aMia5MeagXtd98ZRPA+yhQ1g5Ifuh63gDwxzx7pRoOtaf/B/T4L+bO6gZzM6oRpYPhWSJda3PbbBDr/H8dYIhKK0zYGhTqRYneJh8a0fOQTBKTCzx191JN5VbgzhQMgvJHEQgfhIjHjHNtVWzP5RfnO9fyrCCZ+k6eTwMt8O27zSSFKol5xk3wb/1EowCB2VsM6sThfSA==
+ b=bbxH3eQywXCUQhBLTsHV3DOiQtx+d6UinOfZmGOK18+16+nXBS3El94rverd3a050EAviT0uA3FaAJtAyEv9gVDCGMVEjOiHV6EBGI/AfBxG67XaAFFqN9RfIAWBu3eoOvk9HsGpJMqit+9ERs3H7f91AQJnM50LwJVT20NweeZj9QGOPMISahXO9ILN7Gyqfg2ELicSc4efeYMqAp9Bd12t6c+rcwrorOYmVMBiC2GBbxEmG6b4dOzkTZbkXuE6bC4R7LuIpGvNSYWuP/EkwrAD0BBRFWKbUJkKL4MEOpoY3jCvkPXRdtCC+aNWlwAWjKggQquDE4eAGu5TTUiJYQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=uVhl1ODcPCLzksfpWS4eivqiHKaDIIWMniwq6iRsB1Y=;
- b=fKrkLZzGGmL0GFUsJ0AlHqVYgSS7F8ZCcs3WVl/OhfadkKX+Uf6Y9xlQdbARIuJxQAKPBnf9UE3PKNUU6TQZxVnHB8uT7xUSpLfU/0G1NiH9hlHn465BJJLY9+26aI1KPqsz+LMdPte1omnF7FsI7XbHFddrubAgvZLt9MLToQOmA+Op3vsmq3GbxeM0760OjqaVqeJFwx+J5u/IX6a5BCpC7YaUohAPI+DVxqe8GYS/q3aveUnNBa9NX9X0xjpeM+5h8gdFt/bR7QFAjaRFnmVPgQBf1ypqhmiOYe24di54Q+Xbg+gDJKov1WSaI/uLj6RMP24XM2CX6khqjUpvDg==
+ bh=RuGXeMCIH32u/kxta++LsVw4KHTbK2mWFVSz7GxCvRU=;
+ b=MOWUkcyxoyLeX3rnwe3FaztKXpGi0i6eDp9ykbaHgK0IVNy97JI5Z6cPBkZ0+5wsUtOI607UchTxyyYpZFdwDk1jf0XrUGJzUTd0ab7jCbfSza7JNKzlMNzIG2MMeIBeYqSXglHa1YkYcshrR/4jIXL+n0tSQOrRBgDbaOtXv3k1aapIliWfEQKg/+VgL8BJ2xgg0lHSYyHt/sIwi1muvho9KV7rRYWsyOI4p0veH4iRGfahn6twQUlOyCh9aFSTNoT19Es3T91Cx0GAbjMv4XBZy2W65n8gaOyFYaFmIdGUmlnkmkBPIlK2tDlpgcQM66Lss3feyMvUi7MJBdqqzA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
-Received: from SA1PR11MB6991.namprd11.prod.outlook.com (2603:10b6:806:2b8::21)
- by SA2PR11MB5177.namprd11.prod.outlook.com (2603:10b6:806:11c::10)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6254.23; Tue, 4 Apr
- 2023 18:02:03 +0000
-Received: from SA1PR11MB6991.namprd11.prod.outlook.com
- ([fe80::faf8:6c89:f5dd:272c]) by SA1PR11MB6991.namprd11.prod.outlook.com
- ([fe80::faf8:6c89:f5dd:272c%7]) with mapi id 15.20.6254.035; Tue, 4 Apr 2023
- 18:02:03 +0000
-From: "Zeng, Oak" <oak.zeng@intel.com>
-To: "Brost, Matthew" <matthew.brost@intel.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>
-Subject: RE: [RFC PATCH 00/10] Xe DRM scheduler and long running workload plans
-Thread-Topic: [RFC PATCH 00/10] Xe DRM scheduler and long running workload
- plans
-Thread-Index: AQHZZoufWCmjZWlwlUCiRpk8O6t5ja8bagjg
-Date: Tue, 4 Apr 2023 18:02:03 +0000
-Message-ID: <SA1PR11MB69913F0A0038DA307701D44092939@SA1PR11MB6991.namprd11.prod.outlook.com>
-References: <20230404002211.3611376-1-matthew.brost@intel.com>
-In-Reply-To: <20230404002211.3611376-1-matthew.brost@intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
+Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SA1PR11MB6991:EE_|SA2PR11MB5177:EE_
-x-ms-office365-filtering-correlation-id: 7e8220be-98ec-46e8-8edc-08db3536b243
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: YzK3JNn71ittYV2rdq5Jvf7gSThRQyuVMpC8cXpCtZoyOjXOUiWjj3qU7np+6pyRfmieB4bJKoKJPM5uVzu1z1wBziTLtyAOiuN43Dv0MhEqc+O5kdy/dhtf+IsdbAiA9Gv/9CJoSJbbp/QFTsyv1HHay8Uk4SwyCFzVcYNNBUeHHuLaEzoOghbcP8ryjy0sdQFaCHbfJhgUchj/4IvaEsqqKNjL77c6bk8TH0KkJf5RWQz0X1qwWUrVDUgANS6a7m36uNTzB7QjlPCwil5OYqZUNJS3G+h6IihtpAFapIodziR314dNP88yegrkQStAx/wx5mTWpZ+3ZbXQ21QSEDRs3x6XCveV9MyHAJe6Sb23DduKUUC9gseq0yK9dLWoMQRHXn6cWUcxt5vGzEoqsrHuLObA1kOFwrlfzztdOvfQ+ne9KADvSsT3atV11g4yPaqCyFLSvKYBjyQ4UsVm4I+eIK4TQO2JxycWMEzby483s0x8Rz9LHwtZTI76xkvcpmjJX71zlUvyU7lb4cREwS/FbHqRvSjIoQZKf6XlX8SNxbV8ylvAoYZEEuHJh7ph
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SA1PR11MB6991.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230028)(376002)(346002)(136003)(39860400002)(396003)(366004)(451199021)(5660300002)(52536014)(38100700002)(8676002)(122000001)(82960400001)(41300700001)(38070700005)(55016003)(86362001)(66899021)(8936002)(9686003)(71200400001)(26005)(7696005)(6506007)(966005)(53546011)(83380400001)(66574015)(33656002)(186003)(316002)(66946007)(66476007)(2906002)(64756008)(66446008)(76116006)(66556008)(4326008)(478600001)(110136005)(54906003);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?TlBwblF2Vml5M2dmZmU5cVNGbnY1MnVDRVFMWEtFcjdMcXdmUnZPSzFjUE04?=
- =?utf-8?B?ZldVdG5RdXVDc0RweDBKV0JIaUw3a1F1K2dQeGxqdmhYRzVBa1FHUHMwcUQ0?=
- =?utf-8?B?eHArZUJqeDN6dlJOcUE3cFV6VE1vYXd1MWVjMmtsK2dDOHQxTTF6SzJxMnhv?=
- =?utf-8?B?TkpicFpWUFl1YWVOZ2tsR0wxNGk0dnU1ZHBIY2ZEVDVaQnBuV3V3T1U3VXJl?=
- =?utf-8?B?TkRDNHpab1hLKzFNN3BQMFloM1lLcWY2RXdGQVlJWXcwVHJwajljRUhqb2hV?=
- =?utf-8?B?VDJXR1RQa2ZBSHQxenBiU0FkanRTR1FpOGNwdUlFUWNOY01pRmwyYkt5S0hY?=
- =?utf-8?B?dVVURzhxWDlEekhyYlQrcVRIc0NBMWpTSS9xZUN5cTl1ZS81NHQweEs3WjB4?=
- =?utf-8?B?M04yUzFsWTdoWW9yd01jM3dvSW03bW9tOW5yaVlGckJJbEhXRGh3Y2FUclh6?=
- =?utf-8?B?UUpXZmwvYTFmRlJlbVNpdXBLQkU0aXZweU8rS21oMEZnanVueEZuNDMwc2Vs?=
- =?utf-8?B?eW9hVHlLWENUczBOUXNnWTNSeFlZOEJ3TGNmMklWVWxYUVBaK25oNmpFaHo3?=
- =?utf-8?B?NTdYTXVLd0NsTGIwUFRkakp0RVhCUlRKQjdUV3dEZUxYOW91bTVPQlhtWU84?=
- =?utf-8?B?WlVxdFg3OHRPOXZOR0ZyL3d0dDh3Q2x1TlhIbEJSdTRBU1Yxd0ljTTZ2TzdI?=
- =?utf-8?B?OE12QWxFNTkwMldsWHk1ak5GN2hhazZSNkZud2thMkloa25VMGFqSFA1aElV?=
- =?utf-8?B?U2h6dVN4TFg0K3BYdFB6dk9QOVUyTHNHMXpkNlV5dm5ucklJVGJNTGpQMXR1?=
- =?utf-8?B?TytyS0RMM0tQb3Y0UGVkMFprUElsTXFXK0NUTDhhclpuOUptQUZXeWkxdUFa?=
- =?utf-8?B?anhFZEczTlQzcGNJaldISUQxbWZRZWhmRm1rY0lWWDZHQ1pycTJWZ3hSeWtY?=
- =?utf-8?B?ZVV3MUdEeEIvSkc3Um9LekZoaVh2Vi9VUGFaSkZ1TDZleUIxSm13WTV6bEUy?=
- =?utf-8?B?eDJQcSs0TEpBTnFNTGRYNHNYN0E5MlJTYTQxNEhhTFZEMkVnTm1xOXM5eVpz?=
- =?utf-8?B?eDFtOC8zNnBBWXNSME9ObXRpYWlZVWpzb2xSekNXWHNpQ1NsM2dSVlJHcGlB?=
- =?utf-8?B?bnJhMDd0amtaNkxIblowTElsWkVqOUhmMVhOK1duZnIydXl1d2VjczBjUVRa?=
- =?utf-8?B?TGloWE5pOGtOZkt3b1U4aW53TGRTZkxKK283cm9JMEE0UEpFQTNjelZDTFZk?=
- =?utf-8?B?S1BVeWx0d2N5Q3hWZ1R3aE1jY1B0Q2RkWmUvdG9NcUwycVlVYXpTZ3NzTDJ3?=
- =?utf-8?B?MytnSkZNcUlGUW9hSUxObWVsQXFiQW9WNGFCNVpvaTVVRFV0c1c1VTV1eS9h?=
- =?utf-8?B?K3ZIQ092QmJacFlQUVdFQlREOGR2dEFDNDh6Uk1NS0drQ0lrR2xTTEJxT0Vp?=
- =?utf-8?B?Uk1nd2ZqT1ZpOUcwK3BCYW5HcE1wcjdvUUhHSFlQUVZQWVdZYTdsMHR2MW1B?=
- =?utf-8?B?eUpSMzVlckpBSWZNZE5Ic2laOVY2Z1IwRFJjV1ZVTllJVEVYS3o2aUZUcktM?=
- =?utf-8?B?L0dVTDVleUxOUkllOG5Dcy80Y2dSbFBlV3VDbXZUVURLaGo1RkMyVnkxaXAw?=
- =?utf-8?B?Q0ZYRkdTUDhKNVl1OVJvWm9DcVJhRVBpblY5Sk1OU3U2V2tWd0wrOVNIQ2k5?=
- =?utf-8?B?MkJFSHp4SXlSTGY3a3R0MGJ0WStidmRaTXhrRVRWdnZXdVNOMDd3eXdoMGpX?=
- =?utf-8?B?Z3FiTVNzUlBrSldvVGJDbmY3ZUpQalZmT2dmbi8vU3JXOXpDWHlWbmlwcjh3?=
- =?utf-8?B?UzlvK0VSUEM0a2NRSWRrV21kK1VyNklvQ3QvR2NsNUVUdFNJeU9MQVJRWWJh?=
- =?utf-8?B?V1JHU29nTjdWWDRIOWRTV0hsUWlPZytDMjlhQ05TcTdNSDhLSm4rZlhGY2dw?=
- =?utf-8?B?dE9MMFRrOWZ1cnFRUHY4VW4xU0JYdEswSDBFWXFUWUYyaFgwZWZ3dE80OXhH?=
- =?utf-8?B?QjZvSVUrSS9UcHcxTXg1NUZmYUs5aWtOUDBGSTdPT0dSNkM0aU1ZS3UwbmhP?=
- =?utf-8?B?ZEJ6M0IxcTN0V29TRE9oQjZMUDJrNXBXV2I3MDlVWFo5Nm5lekJpN1YvZmMx?=
- =?utf-8?Q?pDu4=3D?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Received: from PH7PR11MB6522.namprd11.prod.outlook.com (2603:10b6:510:212::12)
+ by SJ1PR11MB6155.namprd11.prod.outlook.com (2603:10b6:a03:45e::10)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6254.35; Tue, 4 Apr
+ 2023 18:09:01 +0000
+Received: from PH7PR11MB6522.namprd11.prod.outlook.com
+ ([fe80::ff06:a115:e4eb:680e]) by PH7PR11MB6522.namprd11.prod.outlook.com
+ ([fe80::ff06:a115:e4eb:680e%9]) with mapi id 15.20.6254.033; Tue, 4 Apr 2023
+ 18:09:00 +0000
+Date: Tue, 4 Apr 2023 18:08:56 +0000
+From: Matthew Brost <matthew.brost@intel.com>
+To: "Zeng, Oak" <oak.zeng@intel.com>
+Subject: Re: [RFC PATCH 00/10] Xe DRM scheduler and long running workload plans
+Message-ID: <ZCxnuCvmknUuLydM@DUT025-TGLU.fm.intel.com>
+References: <20230404002211.3611376-1-matthew.brost@intel.com>
+ <SA1PR11MB69913F0A0038DA307701D44092939@SA1PR11MB6991.namprd11.prod.outlook.com>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <SA1PR11MB69913F0A0038DA307701D44092939@SA1PR11MB6991.namprd11.prod.outlook.com>
+X-ClientProxiedBy: BY5PR17CA0018.namprd17.prod.outlook.com
+ (2603:10b6:a03:1b8::31) To PH7PR11MB6522.namprd11.prod.outlook.com
+ (2603:10b6:510:212::12)
 MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR11MB6522:EE_|SJ1PR11MB6155:EE_
+X-MS-Office365-Filtering-Correlation-Id: a32f5964-6fcd-4144-ea5a-08db3537aab1
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: j+CBzr+LcIJa2/IUvqoM2H/SArzl41PWmz/KPwt5RGcMHxlBHXaFj7bJKAXdvL5KM+zfsuDGE/ZZs4BviTQeyMDLquLGGyNZ/3XQJItfT4vhbA0GkcukPeIl2tIeYIss9QnrkqfjmGScrSMPwlu4QbLP9oOXMkWkEFbHivZ9pFf44kwtMTLbMVtxjW5RaTVZNbV1WYddFrdfcN2WrXVXUcVjHUTN509E9L5Zq8Xh3pTg6XM3eFS7j/aY4+xQyiYxlpJACVvbAZg/hqHiJfqLmWGj/Ln+NSev+Usyq3nNTF882zLJYL+cwctuFSroUjIxN3S+P/Uon1ff8prwzLa+Zm3EXQ5IdwPnGwtN3nmd8WRFGlacqHtcidUlcBtKKalH8VF/kUDgfCb+tz6IoJCSxteXRZyBzCaUhzlnwWvgqakCy4mdMczCApKMdRpHluvINpVujaAd8x/QNoQXG0jFOoh1bkuP3fpIJA+7Rp8kGOAJ4HPHxJ1eke0m26AD0dWUdOJLkChOsemWVooLpGMRRQ==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR11MB6522.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230028)(396003)(376002)(366004)(39860400002)(136003)(346002)(451199021)(6666004)(6486002)(966005)(83380400001)(66574015)(86362001)(38100700002)(82960400001)(53546011)(6506007)(26005)(6512007)(186003)(6636002)(54906003)(316002)(2906002)(66556008)(44832011)(4326008)(8676002)(66946007)(66476007)(6862004)(8936002)(66899021)(5660300002)(41300700001)(478600001);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?amjUayOG9CvFmo5E3lWfDwlkTbgf7lIEJOvXsr+wH46i3qj2e6n/HnAZDH?=
+ =?iso-8859-1?Q?Q5QsppPMe1I/Vk6AC4xiUooPIhCttNQ/42DxvMmhprgDVEJp8qarZKmM1L?=
+ =?iso-8859-1?Q?4Rf5Z0jrsAnzviwBdx5Odd/15TaWrJnyBBS1FVYM3GVs4u655IU4nXwKQj?=
+ =?iso-8859-1?Q?Inx3hibRYYUSmyNWWfUjKpQJCzwlCL0OKRZlusFzurvXyi6yHWpXy2+YcY?=
+ =?iso-8859-1?Q?K5XODumd0tONxqofVeCTKPbHpEqaQSvNew3ySJvBt75S3h1V1pII8c+6d3?=
+ =?iso-8859-1?Q?bfFeEZEYO0PNG2X/okdBQ3WHJWjQk7yrbFBui5PSN1zdf5osXL4pBR7BGa?=
+ =?iso-8859-1?Q?aWn/8MlUNfyp1/Lc79XSS65eJaLlOcs5jc6C7Itbk6P3PL9A6A6tjvhOQl?=
+ =?iso-8859-1?Q?jwWFDzbvwSSuQum3qzeYDJj9O3VkT18b0Gc7I4XYijMehEHxK/QWSZq33/?=
+ =?iso-8859-1?Q?dAumbHRubAAQP0zehREflGSbB6S/lNR6hB/eNf7dA4H1HTEt5M+ex4wqxu?=
+ =?iso-8859-1?Q?nd5MT1BTLaufcwxr9aG7erA5ZrV+qXok6AqXQ5ObspfwCWUEui+Z9ICTl8?=
+ =?iso-8859-1?Q?FJQFR/f4d6gc5jrYY+kUBlqI4a4f7CFJ+NB2ZnmmSX6BIyLBOv1A0R/PSm?=
+ =?iso-8859-1?Q?N8xi4Tgde5RS/53znI/BA+2rVDsWicYFkTApzpgUEbXL0IZn6JxlNQplix?=
+ =?iso-8859-1?Q?ycLTipxOhDGgHUO37vls0trCnAPs5RL8lk2U4ltRUvwdUgLZvdHiHn3Frt?=
+ =?iso-8859-1?Q?dKD80JKbs+8CWj1VKljo+sK2N0+uUK8whsoYTuoSGQ65RFRQvAhpTKOqaN?=
+ =?iso-8859-1?Q?esSNDZQohcuPMieOdocn6q23EDESciNBaLFT86G3y49qSCJHswWHAkaIVj?=
+ =?iso-8859-1?Q?tXrivaufUjDVMznte6aXa8+w9oGcj+fXvwWtOUN3xUGZduaEBS2Q6eAEGl?=
+ =?iso-8859-1?Q?uP/ukjXNynXaN+4isQclKMDhY51catSSA3bvXqa8SL5mucj6I9mYbQTuCp?=
+ =?iso-8859-1?Q?bLU5FK3caSJpJ4yd1GISD3ZHpd5cPnIPIpDm87O0NFuB2YgghMYzPh1HVy?=
+ =?iso-8859-1?Q?rzWerL6aKhpaDPDGVl34qFGpA8owWdYM6rR42h1KUZRxNHAbzWFCK9dHSa?=
+ =?iso-8859-1?Q?p550JffLzlCi1NNyxZL24wpKCENWLwbDEZXF0CYxDDrSkkrlbHzDg/vvzJ?=
+ =?iso-8859-1?Q?T2C2zBo0dhW5ArrOcCo4lG7+KciiQUY0LiFAHc4A5OD0zhqNTLCxYJaC37?=
+ =?iso-8859-1?Q?mFLcdx9KMv2NMcuv2iV2ff/xGfzfNPizbl0YhFLtV3QOPb4CQ56n1dLXts?=
+ =?iso-8859-1?Q?KzfJZ474dVef9y2IBZCZEOBjak0rA7BtF6NsdSQSByC54Xjt475rArMyJh?=
+ =?iso-8859-1?Q?a5MDTsbdaHSjIKFQfcqyiZtIY6864FxFBkxWo36VDJP8m3CTZjLE3MeRy1?=
+ =?iso-8859-1?Q?EmscYZecaxc9gf8kl/+eNjnAz6qHIxpoc9fvTl3usMTj/kSLjq1O8tFcDW?=
+ =?iso-8859-1?Q?3Vj4aKgmxy0YmuK8xHh9LAhdObsdujPHjBxSy0Gozup3CFiMJ/Nva1CK52?=
+ =?iso-8859-1?Q?Yv0OdqRkuDyB/824WaU+K1UCH8prYGsfcgEEnqturVpEC2P+iYsirXUvuM?=
+ =?iso-8859-1?Q?ZzfpE81ve7mkMuIRspKvCWhZjz5wjoJwRt44ODZfOPF3nQhSzMtF8EGA?=
+ =?iso-8859-1?Q?=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: a32f5964-6fcd-4144-ea5a-08db3537aab1
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB6522.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SA1PR11MB6991.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7e8220be-98ec-46e8-8edc-08db3536b243
-X-MS-Exchange-CrossTenant-originalarrivaltime: 04 Apr 2023 18:02:03.7954 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 2sEWkwluoNX5zbQp4NxtOlCpEWzHfyP4/0Sdy07b4gqSlEfvPzkVLIaH6TeO0dp8jwIl4iXf4e0gJAZuYl4GYA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA2PR11MB5177
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Apr 2023 18:09:00.7981 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Z+8d9cJKUTM6GPltoRsEEggt/RpZyGyvTtofnuz/f/dbUl9g3VnCL3zhHCD+7eVVvUWRuSyDJaBrJ9rTO5/vFQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ1PR11MB6155
 X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -164,138 +153,156 @@ Cc: "robdclark@chromium.org" <robdclark@chromium.org>,
  "thomas.hellstrom@linux.intel.com" <thomas.hellstrom@linux.intel.com>,
  "airlied@linux.ie" <airlied@linux.ie>,
  "lina@asahilina.net" <lina@asahilina.net>,
- "boris.brezillon@collabora.com" <boris.brezillon@collabora.com>, "Brost,
- Matthew" <matthew.brost@intel.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
  "christian.koenig@amd.com" <christian.koenig@amd.com>,
+ "boris.brezillon@collabora.com" <boris.brezillon@collabora.com>,
+ "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>,
  "faith.ekstrand@collabora.com" <faith.ekstrand@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgTWF0dCwgVGhvbWFzLA0KDQpTb21lIHZlcnkgYm9sZCBvdXQgb2YgYm94IHRoaW5raW5nIGlu
-IHRoaXMgYXJlYToNCg0KMS4gc28geW91IHdhbnQgdG8gdXNlIGRybSBzY2hlZHVsZXIgYW5kIGRt
-YS1mZW5jZSBmb3IgbG9uZyBydW5uaW5nIHdvcmtsb2FkLiBXaHkgeW91IHdhbnQgdG8gZG8gdGhp
-cyBpbiB0aGUgZmlyc3QgcGxhY2U/IFdoYXQgaXMgdGhlIGJlbmVmaXQ/IERybSBzY2hlZHVsZXIg
-aXMgcHJldHR5IG11Y2ggYSBzb2Z0d2FyZSBzY2hlZHVsZXIuIE1vZGVybiBncHUgaGFzIHNjaGVk
-dWxlciBidWlsdCBhdCBmdy9odyBsZXZlbCwgYXMgeW91IHNhaWQgYmVsb3cgZm9yIGludGVsIHRo
-aXMgaXMgR3VjLiBDYW4geGUgZHJpdmVyIGp1c3QgZGlyZWN0bHkgc3VibWl0IGpvYiB0byBHdWMs
-IGJ5cGFzc2luZyBkcm0gc2NoZWR1bGVyPyANCg0KMi4gdXNpbmcgZG1hLWZlbmNlIGZvciBsb25n
-IHJ1biB3b3JrbG9hZDogSSBhbSB3ZWxsIGF3YXJlIHRoYXQgcGFnZSBmYXVsdCAoYW5kIHRoZSBj
-b25zZXF1ZW50IG1lbW9yeSBhbGxvY2F0aW9uL2xvY2sgYWNxdWlyaW5nIHRvIGZpeCB0aGUgZmF1
-bHQpIGNhbiBjYXVzZSBkZWFkbG9jayBmb3IgYSBkbWEtZmVuY2Ugd2FpdC4gQnV0IEkgYW0gbm90
-IGNvbnZpbmNlZCB0aGF0IGRtYS1mZW5jZSBjYW4ndCBiZSB1c2VkIHB1cmVseSBiZWNhdXNlIHRo
-ZSBuYXR1cmUgb2YgdGhlIHdvcmtsb2FkIHRoYXQgaXQgcnVucyB2ZXJ5IGxvbmcgKGluZGVmaW5p
-dGUpLiBJIGRpZCBhIG1hdGg6IHRoZSBkbWFfZmVuY2Vfd2FpdF90aW1lb3V0IGZ1bmN0aW9uJ3Mg
-dGhpcmQgcGFyYW0gaXMgdGhlIHRpbWVvdXQgd2hpY2ggaXMgYSBzaWduZWQgbG9uZyB0eXBlLiBJ
-ZiBIWiBpcyAxMDAwLCB0aGlzIGlzIGFib3V0IDIzIGRheXMuIElmIDIzIGRheXMgaXMgbm90IGxv
-bmcgZW5vdWdoLCBjYW4gd2UganVzdCBjaGFuZ2UgdGhlIHRpbWVvdXQgcGFyYW1ldGVyIHRvIHNp
-Z25lZCA2NCBiaXRzIHNvIGl0IGlzIG11Y2ggbG9uZ2VyIHRoYW4gb3VyIGxpZmUgdGltZS4uLiAN
-Cg0KU28gSSBtYWlubHkgYXJndWUgd2UgY2FuJ3QgdXNlIGRtYS1mZW5jZSBmb3IgbG9uZy1ydW4g
-d29ya2xvYWQgaXMgbm90IGJlY2F1c2UgdGhlIHdvcmtsb2FkIHJ1bnMgdmVyeSBsb25nLCByYXRo
-ZXIgYmVjYXVzZSBvZiB0aGUgZmFjdCB0aGF0IHdlIHVzZSBwYWdlIGZhdWx0IGZvciBsb25nLXJ1
-biB3b3JrbG9hZC4gSWYgd2UgZW5hYmxlIHBhZ2UgZmF1bHQgZm9yIHNob3J0LXJ1biB3b3JrbG9h
-ZCwgd2UgY2FuJ3QgdXNlIGRtYS1mZW5jZSBlaXRoZXIuIFBhZ2UgZmF1bHQgaXMgdGhlIGtleSB0
-aGluZyBoZXJlLg0KDQpOb3cgc2luY2Ugd2UgdXNlIHBhZ2UgZmF1bHQgd2hpY2ggaXMgKmZ1bmRh
-bWVudGFsbHkqIGNvbnRyb3ZlcnNpYWwgd2l0aCBkbWEtZmVuY2UgZGVzaWduLCB3aHkgbm93IGp1
-c3QgaW50cm9kdWNlIGEgaW5kZXBlbmRlbnQgY29uY2VwdCBzdWNoIGFzIHVzZXItZmVuY2UgaW5z
-dGVhZCBvZiBleHRlbmRpbmcgZXhpc3RpbmcgZG1hLWZlbmNlPyANCg0KSSBsaWtlIHVuaWZpZWQg
-ZGVzaWduLiBJZiBkcm0gc2NoZWR1bGVyLCBkbWEtZmVuY2UgY2FuIGJlIGV4dGVuZGVkIHRvIHdv
-cmsgZm9yIGV2ZXJ5dGhpbmcsIGl0IGlzIGJlYXV0aWZ1bC4gQnV0IHNlZW1zIHdlIGhhdmUgc29t
-ZSBmdW5kYW1lbnRhbCBwcm9ibGVtIGhlcmUuDQoNClRoYW5rcywNCk9haw0KDQo+IC0tLS0tT3Jp
-Z2luYWwgTWVzc2FnZS0tLS0tDQo+IEZyb206IGRyaS1kZXZlbCA8ZHJpLWRldmVsLWJvdW5jZXNA
-bGlzdHMuZnJlZWRlc2t0b3Aub3JnPiBPbiBCZWhhbGYgT2YNCj4gTWF0dGhldyBCcm9zdA0KPiBT
-ZW50OiBBcHJpbCAzLCAyMDIzIDg6MjIgUE0NCj4gVG86IGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVz
-a3RvcC5vcmc7IGludGVsLXhlQGxpc3RzLmZyZWVkZXNrdG9wLm9yZw0KPiBDYzogcm9iZGNsYXJr
-QGNocm9taXVtLm9yZzsgdGhvbWFzLmhlbGxzdHJvbUBsaW51eC5pbnRlbC5jb207IGFpcmxpZWRA
-bGludXguaWU7DQo+IGxpbmFAYXNhaGlsaW5hLm5ldDsgYm9yaXMuYnJlemlsbG9uQGNvbGxhYm9y
-YS5jb207IEJyb3N0LCBNYXR0aGV3DQo+IDxtYXR0aGV3LmJyb3N0QGludGVsLmNvbT47IGNocmlz
-dGlhbi5rb2VuaWdAYW1kLmNvbTsNCj4gZmFpdGguZWtzdHJhbmRAY29sbGFib3JhLmNvbQ0KPiBT
-dWJqZWN0OiBbUkZDIFBBVENIIDAwLzEwXSBYZSBEUk0gc2NoZWR1bGVyIGFuZCBsb25nIHJ1bm5p
-bmcgd29ya2xvYWQgcGxhbnMNCj4gDQo+IEhlbGxvLA0KPiANCj4gQXMgYSBwcmVyZXF1aXNpdGUg
-dG8gbWVyZ2luZyB0aGUgbmV3IEludGVsIFhlIERSTSBkcml2ZXIgWzFdIFsyXSwgd2UNCj4gaGF2
-ZSBiZWVuIGFza2VkIHRvIG1lcmdlIG91ciBjb21tb24gRFJNIHNjaGVkdWxlciBwYXRjaGVzIGZp
-cnN0IGFzIHdlbGwNCj4gYXMgZGV2ZWxvcCBhIGNvbW1vbiBzb2x1dGlvbiBmb3IgbG9uZyBydW5u
-aW5nIHdvcmtsb2FkcyB3aXRoIHRoZSBEUk0NCj4gc2NoZWR1bGVyLiBUaGlzIFJGQyBzZXJpZXMg
-aXMgb3VyIGZpcnN0IGF0dGVtcHQgYXQgZG9pbmcgdGhpcy4gV2UNCj4gd2VsY29tZSBhbnkgYW5k
-IGFsbCBmZWVkYmFjay4NCj4gDQo+IFRoaXMgY2FuIHdlIHRob3VnaHQgb2YgYXMgNCBwYXJ0cyBk
-ZXRhaWxlZCBiZWxvdy4NCj4gDQo+IC0gRFJNIHNjaGVkdWxlciBjaGFuZ2VzIGZvciAxIHRvIDEg
-cmVsYXRpb25zaGlwIGJldHdlZW4gc2NoZWR1bGVyIGFuZA0KPiBlbnRpdHkgKHBhdGNoZXMgMS0z
-KQ0KPiANCj4gSW4gWGUgYWxsIG9mIHRoZSBzY2hlZHVsaW5nIG9mIGpvYnMgaXMgZG9uZSBieSBh
-IGZpcm13YXJlIHNjaGVkdWxlciAodGhlDQo+IEd1Qykgd2hpY2ggaXMgYSBuZXcgcGFyYWRpZ20g
-V1JUIHRvIHRoZSBEUk0gc2NoZWR1bGVyIGFuZCBwcmVzZW50cw0KPiBzZXZlcmFscyBwcm9ibGVt
-cyBhcyB0aGUgRFJNIHdhcyBvcmlnaW5hbGx5IGRlc2lnbmVkIHRvIHNjaGVkdWxlIGpvYnMgb24N
-Cj4gaGFyZHdhcmUgcXVldWVzLiBUaGUgbWFpbiBwcm9ibGVtIGJlaW5nIHRoYXQgRFJNIHNjaGVk
-dWxlciBleHBlY3RzIHRoZQ0KPiBzdWJtaXNzaW9uIG9yZGVyIG9mIGpvYnMgdG8gYmUgdGhlIGNv
-bXBsZXRpb24gb3JkZXIgb2Ygam9icyBldmVuIGFjcm9zcw0KPiBtdWx0aXBsZSBlbnRpdGllcy4g
-VGhpcyBhc3N1bXB0aW9uIGZhbGxzIGFwYXJ0IHdpdGggYSBmaXJtd2FyZSBzY2hlZHVsZXINCj4g
-YXMgYSBmaXJtd2FyZSBzY2hlZHVsZXIgaGFzIG5vIGNvbmNlcHQgb2Ygam9icyBhbmQgam9icyBj
-YW4gY29tcGxldGUgb3V0DQo+IG9mIG9yZGVyLiBBIG5vdmVsIHNvbHV0aW9uIGZvciB3YXMgb3Jp
-Z2luYWxseSB0aG91Z2h0IG9mIGJ5IEZhaXRoIGR1cmluZw0KPiB0aGUgaW5pdGlhbCBwcm90b3R5
-cGUgb2YgWGUsIGNyZWF0ZSBhIDEgdG8gMSByZWxhdGlvbnNoaXAgYmV0d2VlbiBzY2hlZHVsZXIN
-Cj4gYW5kIGVudGl0eS4gSSBiZWxpZXZlIHRoZSBBR1ggZHJpdmVyIFszXSBpcyB1c2luZyB0aGlz
-IGFwcHJvYWNoIGFuZA0KPiBCb3JpcyBtYXkgdXNlIGFwcHJvYWNoIGFzIHdlbGwgZm9yIHRoZSBN
-YWxpIGRyaXZlciBbNF0uDQo+IA0KPiBUbyBzdXBwb3J0IGEgMSB0byAxIHJlbGF0aW9uc2hpcCB3
-ZSBtb3ZlIHRoZSBtYWluIGV4ZWN1dGlvbiBmdW5jdGlvbg0KPiBmcm9tIGEga3RocmVhZCB0byBh
-IHdvcmsgcXVldWUgYW5kIGFkZCBhIG5ldyBzY2hlZHVsaW5nIG1vZGUgd2hpY2gNCj4gYnlwYXNz
-ZXMgY29kZSBpbiB0aGUgRFJNIHdoaWNoIGlzbid0IG5lZWRlZCBpbiBhIDEgdG8gMSByZWxhdGlv
-bnNoaXAuDQo+IFRoZSBuZXcgc2NoZWR1bGluZyBtb2RlIHNob3VsZCB1bmlmeSBhbGwgZHJpdmVy
-cyB1c2FnZSB3aXRoIGEgMSB0byAxDQo+IHJlbGF0aW9uc2hpcCBhbmQgY2FuIGJlIHRob3VnaHQg
-b2YgYXMgdXNpbmcgc2NoZWR1bGVyIGFzIGEgZGVwZW5kZW5jeSAvDQo+IGluZmxpZ3Qgam9iIHRy
-YWNrZXIgcmF0aGVyIHRoYW4gYSB0cnVlIHNjaGVkdWxlci4NCj4gDQo+IC0gR2VuZXJpYyBtZXNz
-YWdpbmcgaW50ZXJmYWNlIGZvciBEUk0gc2NoZWR1bGVyDQo+IA0KPiBJZGVhIGlzIHRvIGJlIGFi
-bGUgdG8gY29tbXVuaWNhdGUgdG8gdGhlIHN1Ym1pc3Npb24gYmFja2VuZCB3aXRoIGluIGJhbmQN
-Cj4gKHJlbGF0aXZlIHRvIG1haW4gZXhlY3V0aW9uIGZ1bmN0aW9uKSBtZXNzYWdlcy4gTWVzc2Fn
-ZXMgYXJlIGJhY2tlbmQNCj4gZGVmaW5lZCBhbmQgZmxleGFibGUgZW5vdWdoIGZvciBhbnkgdXNl
-IGNhc2UuIEluIFhlIHdlIHVzZSB0aGVzZQ0KPiBtZXNzYWdlcyB0byBjbGVhbiB1cCBlbnRpdGVz
-LCBzZXQgcHJvcGVydGllcyBmb3IgZW50aXRlcywgYW5kIHN1c3BlbmQgLw0KPiByZXN1bWUgZXhl
-Y3V0aW9uIG9mIGFuIGVudGl0eSBbNV0uIEkgc3VzcGVjdCBvdGhlciBkcml2ZXIgY2FuIGxldmVy
-YWdlDQo+IHRoaXMgbWVzc2FnaW5nIGNvbmNlcHQgdG9vIGFzIGl0IGEgY29udmVuaWVudCB3YXkg
-dG8gYXZvaWQgcmFjZXMgaW4gdGhlDQo+IGJhY2tlbmQuDQo+IA0KPiAtIFN1cHBvcnQgZm9yIHVz
-aW5nIFREUiBmb3IgYWxsIGVycm9yIHBhdGhzIG9mIGEgc2NoZWR1bGVyIC8gZW50aXR5DQo+IA0K
-PiBGaXggYSBmZXcgcmFjZXMgLyBidWdzLCBhZGQgZnVuY3Rpb24gdG8gZHluYW1pY2FsbHkgc2V0
-IHRoZSBURFIgdGltZW91dC4NCj4gDQo+IC0gQW5ub3RhdGUgZG1hLWZlbmNlcyBmb3IgbG9uZyBy
-dW5uaW5nIHdvcmtsb2Fkcy4NCj4gDQo+IFRoZSBpZGVhIGhlcmUgaXMgdG8gdXNlIGRtYS1mZW5j
-ZXMgb25seSBhcyBzeW5jIHBvaW50cyB3aXRoaW4gdGhlDQo+IHNjaGVkdWxlciBhbmQgbmV2ZXIg
-ZXhwb3J0IHRoZW0gZm9yIGxvbmcgcnVubmluZyB3b3JrbG9hZHMuIEJ5DQo+IGFubm90YXRpbmcg
-dGhlc2UgZmVuY2VzIGFzIGxvbmcgcnVubmluZyB3ZSBlbnN1cmUgdGhhdCB0aGVzZSBkbWEtZmVu
-Y2VzDQo+IGFyZSBuZXZlciB1c2VkIGluIGEgd2F5IHRoYXQgYnJlYWtzIHRoZSBkbWEtZmVuY2Ug
-cnVsZXMuIEEgYmVuZWZpdCBvZg0KPiB0aHVzIGFwcHJvYWNoIGlzIHRoZSBzY2hlZHVsZXIgY2Fu
-IHN0aWxsIHNhZmVseSBmbG93IGNvbnRyb2wgdGhlDQo+IGV4ZWN1dGlvbiByaW5nIGJ1ZmZlciB2
-aWEgdGhlIGpvYiBsaW1pdCB3aXRob3V0IGJyZWFraW5nIHRoZSBkbWEtZmVuY2UNCj4gcnVsZXMu
-DQo+IA0KPiBBZ2FpbiB0aGlzIGEgZmlyc3QgZHJhZnQgYW5kIGxvb2tpbmcgZm9yd2FyZCB0byBm
-ZWVkYmFjay4NCj4gDQo+IEVuam95IC0gTWF0dA0KPiANCj4gWzFdIGh0dHBzOi8vZ2l0bGFiLmZy
-ZWVkZXNrdG9wLm9yZy9kcm0veGUva2VybmVsDQo+IFsyXSBodHRwczovL3BhdGNod29yay5mcmVl
-ZGVza3RvcC5vcmcvc2VyaWVzLzExMjE4OC8NCj4gWzNdIGh0dHBzOi8vcGF0Y2h3b3JrLmZyZWVk
-ZXNrdG9wLm9yZy9zZXJpZXMvMTE0NzcyLw0KPiBbNF0gaHR0cHM6Ly9wYXRjaHdvcmsuZnJlZWRl
-c2t0b3Aub3JnL3BhdGNoLzUxNTg1NC8/c2VyaWVzPTExMjE4OCZyZXY9MQ0KPiBbNV0gaHR0cHM6
-Ly9naXRsYWIuZnJlZWRlc2t0b3Aub3JnL2RybS94ZS9rZXJuZWwvLS9ibG9iL2RybS14ZS0NCj4g
-bmV4dC9kcml2ZXJzL2dwdS9kcm0veGUveGVfZ3VjX3N1Ym1pdC5jI0wxMDMxDQo+IA0KPiBNYXR0
-aGV3IEJyb3N0ICg4KToNCj4gICBkcm0vc2NoZWQ6IENvbnZlcnQgZHJtIHNjaGVkdWxlciB0byB1
-c2UgYSB3b3JrIHF1ZXVlIHJhdGhlciB0aGFuDQo+ICAgICBrdGhyZWFkDQo+ICAgZHJtL3NjaGVk
-OiBNb3ZlIHNjaGVkdWxlIHBvbGljeSB0byBzY2hlZHVsZXIgLyBlbnRpdHkNCj4gICBkcm0vc2No
-ZWQ6IEFkZCBEUk1fU0NIRURfUE9MSUNZX1NJTkdMRV9FTlRJVFkgc2NoZWR1bGluZyBwb2xpY3kN
-Cj4gICBkcm0vc2NoZWQ6IEFkZCBnZW5lcmljIHNjaGVkdWxlciBtZXNzYWdlIGludGVyZmFjZQ0K
-PiAgIGRybS9zY2hlZDogU3RhcnQgcnVuIHdxIGJlZm9yZSBURFIgaW4gZHJtX3NjaGVkX3N0YXJ0
-DQo+ICAgZHJtL3NjaGVkOiBTdWJtaXQgam9iIGJlZm9yZSBzdGFydGluZyBURFINCj4gICBkcm0v
-c2NoZWQ6IEFkZCBoZWxwZXIgdG8gc2V0IFREUiB0aW1lb3V0DQo+ICAgZHJtL3N5bmNvYmo6IFdh
-cm4gb24gbG9uZyBydW5uaW5nIGRtYS1mZW5jZXMNCj4gDQo+IFRob21hcyBIZWxsc3Ryw7ZtICgy
-KToNCj4gICBkbWEtYnVmL2RtYS1mZW5jZTogSW50cm9kdWNlIGxvbmctcnVubmluZyBjb21wbGV0
-aW9uIGZlbmNlcw0KPiAgIGRybS9zY2hlZDogU3VwcG9ydCBsb25nLXJ1bm5pbmcgc2NoZWQgZW50
-aXRpZXMNCj4gDQo+ICBkcml2ZXJzL2RtYS1idWYvZG1hLWZlbmNlLmMgICAgICAgICAgICAgICAg
-IHwgMTQyICsrKysrKystLS0NCj4gIGRyaXZlcnMvZG1hLWJ1Zi9kbWEtcmVzdi5jICAgICAgICAg
-ICAgICAgICAgfCAgIDUgKw0KPiAgZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X2Rl
-YnVnZnMuYyB8ICAxNCArLQ0KPiAgZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X2Rl
-dmljZS5jICB8ICAxNSArLQ0KPiAgZHJpdmVycy9ncHUvZHJtL2RybV9zeW5jb2JqLmMgICAgICAg
-ICAgICAgICB8ICAgNSArLQ0KPiAgZHJpdmVycy9ncHUvZHJtL2V0bmF2aXYvZXRuYXZpdl9zY2hl
-ZC5jICAgICB8ICAgNSArLQ0KPiAgZHJpdmVycy9ncHUvZHJtL2xpbWEvbGltYV9zY2hlZC5jICAg
-ICAgICAgICB8ICAgNSArLQ0KPiAgZHJpdmVycy9ncHUvZHJtL21zbS9hZHJlbm8vYWRyZW5vX2Rl
-dmljZS5jICB8ICAgNiArLQ0KPiAgZHJpdmVycy9ncHUvZHJtL21zbS9tc21fcmluZ2J1ZmZlci5j
-ICAgICAgICB8ICAgNSArLQ0KPiAgZHJpdmVycy9ncHUvZHJtL3BhbmZyb3N0L3BhbmZyb3N0X2pv
-Yi5jICAgICB8ICAgNSArLQ0KPiAgZHJpdmVycy9ncHUvZHJtL3NjaGVkdWxlci9zY2hlZF9lbnRp
-dHkuYyAgICB8IDEyNyArKysrKysrLS0NCj4gIGRyaXZlcnMvZ3B1L2RybS9zY2hlZHVsZXIvc2No
-ZWRfZmVuY2UuYyAgICAgfCAgIDYgKy0NCj4gIGRyaXZlcnMvZ3B1L2RybS9zY2hlZHVsZXIvc2No
-ZWRfbWFpbi5jICAgICAgfCAyNzggKysrKysrKysrKysrKysrLS0tLS0NCj4gIGRyaXZlcnMvZ3B1
-L2RybS92M2QvdjNkX3NjaGVkLmMgICAgICAgICAgICAgfCAgMjUgKy0NCj4gIGluY2x1ZGUvZHJt
-L2dwdV9zY2hlZHVsZXIuaCAgICAgICAgICAgICAgICAgfCAxMzAgKysrKysrKy0tDQo+ICBpbmNs
-dWRlL2xpbnV4L2RtYS1mZW5jZS5oICAgICAgICAgICAgICAgICAgIHwgIDYwICsrKystDQo+ICAx
-NiBmaWxlcyBjaGFuZ2VkLCA2NDkgaW5zZXJ0aW9ucygrKSwgMTg0IGRlbGV0aW9ucygtKQ0KPiAN
-Cj4gLS0NCj4gMi4zNC4xDQoNCg==
+On Tue, Apr 04, 2023 at 12:02:03PM -0600, Zeng, Oak wrote:
+> Hi Matt, Thomas,
+> 
+> Some very bold out of box thinking in this area:
+> 
+> 1. so you want to use drm scheduler and dma-fence for long running workload. Why you want to do this in the first place? What is the benefit? Drm scheduler is pretty much a software scheduler. Modern gpu has scheduler built at fw/hw level, as you said below for intel this is Guc. Can xe driver just directly submit job to Guc, bypassing drm scheduler? 
+>
+
+If we did that now we have 2 paths for dependency track, flow controling
+the ring, resets / error handling / backend submission implementations.
+We don't want this.
+ 
+> 2. using dma-fence for long run workload: I am well aware that page fault (and the consequent memory allocation/lock acquiring to fix the fault) can cause deadlock for a dma-fence wait. But I am not convinced that dma-fence can't be used purely because the nature of the workload that it runs very long (indefinite). I did a math: the dma_fence_wait_timeout function's third param is the timeout which is a signed long type. If HZ is 1000, this is about 23 days. If 23 days is not long enough, can we just change the timeout parameter to signed 64 bits so it is much longer than our life time... 
+> 
+> So I mainly argue we can't use dma-fence for long-run workload is not because the workload runs very long, rather because of the fact that we use page fault for long-run workload. If we enable page fault for short-run workload, we can't use dma-fence either. Page fault is the key thing here.
+> 
+> Now since we use page fault which is *fundamentally* controversial with dma-fence design, why now just introduce a independent concept such as user-fence instead of extending existing dma-fence? 
+> 
+> I like unified design. If drm scheduler, dma-fence can be extended to work for everything, it is beautiful. But seems we have some fundamental problem here.
+>
+
+Thomas's patches turn a dma-fence into KMD sync point (e.g. we just use
+the signal / CB infrastructure) and enforce we don't use use these
+dma-fences from the scheduler in memory reclaim paths or export these to
+user space or other drivers. Think of this mode as SW only fence.
+
+Matt
+ 
+> Thanks,
+> Oak
+> 
+> > -----Original Message-----
+> > From: dri-devel <dri-devel-bounces@lists.freedesktop.org> On Behalf Of
+> > Matthew Brost
+> > Sent: April 3, 2023 8:22 PM
+> > To: dri-devel@lists.freedesktop.org; intel-xe@lists.freedesktop.org
+> > Cc: robdclark@chromium.org; thomas.hellstrom@linux.intel.com; airlied@linux.ie;
+> > lina@asahilina.net; boris.brezillon@collabora.com; Brost, Matthew
+> > <matthew.brost@intel.com>; christian.koenig@amd.com;
+> > faith.ekstrand@collabora.com
+> > Subject: [RFC PATCH 00/10] Xe DRM scheduler and long running workload plans
+> > 
+> > Hello,
+> > 
+> > As a prerequisite to merging the new Intel Xe DRM driver [1] [2], we
+> > have been asked to merge our common DRM scheduler patches first as well
+> > as develop a common solution for long running workloads with the DRM
+> > scheduler. This RFC series is our first attempt at doing this. We
+> > welcome any and all feedback.
+> > 
+> > This can we thought of as 4 parts detailed below.
+> > 
+> > - DRM scheduler changes for 1 to 1 relationship between scheduler and
+> > entity (patches 1-3)
+> > 
+> > In Xe all of the scheduling of jobs is done by a firmware scheduler (the
+> > GuC) which is a new paradigm WRT to the DRM scheduler and presents
+> > severals problems as the DRM was originally designed to schedule jobs on
+> > hardware queues. The main problem being that DRM scheduler expects the
+> > submission order of jobs to be the completion order of jobs even across
+> > multiple entities. This assumption falls apart with a firmware scheduler
+> > as a firmware scheduler has no concept of jobs and jobs can complete out
+> > of order. A novel solution for was originally thought of by Faith during
+> > the initial prototype of Xe, create a 1 to 1 relationship between scheduler
+> > and entity. I believe the AGX driver [3] is using this approach and
+> > Boris may use approach as well for the Mali driver [4].
+> > 
+> > To support a 1 to 1 relationship we move the main execution function
+> > from a kthread to a work queue and add a new scheduling mode which
+> > bypasses code in the DRM which isn't needed in a 1 to 1 relationship.
+> > The new scheduling mode should unify all drivers usage with a 1 to 1
+> > relationship and can be thought of as using scheduler as a dependency /
+> > infligt job tracker rather than a true scheduler.
+> > 
+> > - Generic messaging interface for DRM scheduler
+> > 
+> > Idea is to be able to communicate to the submission backend with in band
+> > (relative to main execution function) messages. Messages are backend
+> > defined and flexable enough for any use case. In Xe we use these
+> > messages to clean up entites, set properties for entites, and suspend /
+> > resume execution of an entity [5]. I suspect other driver can leverage
+> > this messaging concept too as it a convenient way to avoid races in the
+> > backend.
+> > 
+> > - Support for using TDR for all error paths of a scheduler / entity
+> > 
+> > Fix a few races / bugs, add function to dynamically set the TDR timeout.
+> > 
+> > - Annotate dma-fences for long running workloads.
+> > 
+> > The idea here is to use dma-fences only as sync points within the
+> > scheduler and never export them for long running workloads. By
+> > annotating these fences as long running we ensure that these dma-fences
+> > are never used in a way that breaks the dma-fence rules. A benefit of
+> > thus approach is the scheduler can still safely flow control the
+> > execution ring buffer via the job limit without breaking the dma-fence
+> > rules.
+> > 
+> > Again this a first draft and looking forward to feedback.
+> > 
+> > Enjoy - Matt
+> > 
+> > [1] https://gitlab.freedesktop.org/drm/xe/kernel
+> > [2] https://patchwork.freedesktop.org/series/112188/
+> > [3] https://patchwork.freedesktop.org/series/114772/
+> > [4] https://patchwork.freedesktop.org/patch/515854/?series=112188&rev=1
+> > [5] https://gitlab.freedesktop.org/drm/xe/kernel/-/blob/drm-xe-
+> > next/drivers/gpu/drm/xe/xe_guc_submit.c#L1031
+> > 
+> > Matthew Brost (8):
+> >   drm/sched: Convert drm scheduler to use a work queue rather than
+> >     kthread
+> >   drm/sched: Move schedule policy to scheduler / entity
+> >   drm/sched: Add DRM_SCHED_POLICY_SINGLE_ENTITY scheduling policy
+> >   drm/sched: Add generic scheduler message interface
+> >   drm/sched: Start run wq before TDR in drm_sched_start
+> >   drm/sched: Submit job before starting TDR
+> >   drm/sched: Add helper to set TDR timeout
+> >   drm/syncobj: Warn on long running dma-fences
+> > 
+> > Thomas Hellström (2):
+> >   dma-buf/dma-fence: Introduce long-running completion fences
+> >   drm/sched: Support long-running sched entities
+> > 
+> >  drivers/dma-buf/dma-fence.c                 | 142 +++++++---
+> >  drivers/dma-buf/dma-resv.c                  |   5 +
+> >  drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c |  14 +-
+> >  drivers/gpu/drm/amd/amdgpu/amdgpu_device.c  |  15 +-
+> >  drivers/gpu/drm/drm_syncobj.c               |   5 +-
+> >  drivers/gpu/drm/etnaviv/etnaviv_sched.c     |   5 +-
+> >  drivers/gpu/drm/lima/lima_sched.c           |   5 +-
+> >  drivers/gpu/drm/msm/adreno/adreno_device.c  |   6 +-
+> >  drivers/gpu/drm/msm/msm_ringbuffer.c        |   5 +-
+> >  drivers/gpu/drm/panfrost/panfrost_job.c     |   5 +-
+> >  drivers/gpu/drm/scheduler/sched_entity.c    | 127 +++++++--
+> >  drivers/gpu/drm/scheduler/sched_fence.c     |   6 +-
+> >  drivers/gpu/drm/scheduler/sched_main.c      | 278 +++++++++++++++-----
+> >  drivers/gpu/drm/v3d/v3d_sched.c             |  25 +-
+> >  include/drm/gpu_scheduler.h                 | 130 +++++++--
+> >  include/linux/dma-fence.h                   |  60 ++++-
+> >  16 files changed, 649 insertions(+), 184 deletions(-)
+> > 
+> > --
+> > 2.34.1
+> 
