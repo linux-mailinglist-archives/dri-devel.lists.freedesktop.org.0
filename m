@@ -2,58 +2,148 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D9306D5836
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Apr 2023 07:51:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD5796D599E
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Apr 2023 09:29:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4892310E579;
-	Tue,  4 Apr 2023 05:51:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 98C7E10E10D;
+	Tue,  4 Apr 2023 07:29:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DFA9B10E1C4;
- Tue,  4 Apr 2023 05:51:15 +0000 (UTC)
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DF85710E5ED;
+ Tue,  4 Apr 2023 07:29:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1680587475; x=1712123475;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=n3G2OuYaOWQow3ISG9SZGQT2IwS+n1euaI1EX7smRF0=;
- b=OqUWTeNoDqJHI4xoNdyySCyWpXO/hgnT35tu2vYAnhQ1xCL7ni5bGcIN
- 1RbwObcRoBDHPQP7DO3xFic7HCQmh6j+xAlPm2+TziW513Z2HnHGmXX4D
- bnoOo8qLoM359sSQtV2le2qGFRBz/7xel+UXoTz783zqPO8xCNYA+1Yhx
- zjv7qvMouw7mpLyM/Bw9voQILRcgSgTLxp8nzlwAdpK3i79R7z7DFcvWV
- bifiGSssSF5gvWN/6KD+NjOPLkJZQJhnhl5lyMG/Gc7nTNYnI198/jRJa
- zn1PFie/iW8c1OSNlVoN80s+v52+avdeMM86D2EaDnEodPOBs4a3P2/tq A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10669"; a="322489014"
-X-IronPort-AV: E=Sophos;i="5.98,316,1673942400"; d="scan'208";a="322489014"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Apr 2023 22:51:14 -0700
+ t=1680593372; x=1712129372;
+ h=message-id:date:subject:to:cc:references:from:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=QX2C27Mz4duEURYVT2sNhpbZl3HmuXEYGV8GGkYWybQ=;
+ b=SW2nSwp+DFqCuOCSY1eRHNbs9d1/BA7VXETqtnsSnoCWCNmWei8ejrlW
+ VzDDmcnKwKCP38YE+gPGk0pT44XQ7G/hH85VZboNs/qsZbzpuStAQRlwo
+ vqVGUv05pwKrqMaE6UfZlKLWCeb3iSzt9nO4QOu8kkH+TIT4noETUj+gP
+ /3cJhbm7zPPMTFrXE1i1Gh3D7dT96NZA8xRkXqbdDQxkJpe/zUrtfQTsD
+ 7pLybLlC/8iM7IndCN/crPAOmAOKba2RH7ZidTBielvmxEoYvXB7Xp/rm
+ 8u9XU/Sis/+7BjzolHJnHI7U4kvnArSIxhvs+0OFnUjeO9CDEOGFy5x7k Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10669"; a="339600338"
+X-IronPort-AV: E=Sophos;i="5.98,317,1673942400"; d="scan'208";a="339600338"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Apr 2023 00:29:32 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10669"; a="750793445"
-X-IronPort-AV: E=Sophos;i="5.98,316,1673942400"; d="scan'208";a="750793445"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
- by fmsmga008.fm.intel.com with ESMTP; 03 Apr 2023 22:51:08 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1pjZZT-000PG2-2l;
- Tue, 04 Apr 2023 05:51:07 +0000
-Date: Tue, 4 Apr 2023 13:50:41 +0800
-From: kernel test robot <lkp@intel.com>
-To: Danilo Krummrich <dakr@redhat.com>, airlied@gmail.com, daniel@ffwll.ch,
- tzimmermann@suse.de, mripard@kernel.org, corbet@lwn.net,
- christian.koenig@amd.com, bskeggs@redhat.com,
- Liam.Howlett@oracle.com, matthew.brost@intel.com,
- boris.brezillon@collabora.com, alexdeucher@gmail.com,
- ogabbay@kernel.org, bagasdotme@gmail.com, willy@infradead.org,
- jason@jlekstrand.net
-Subject: Re: [PATCH drm-next v3 13/15] drm/nouveau: nvkm/vmm: implement raw
- ops to manage uvmm
-Message-ID: <202304041311.bWxdWPX0-lkp@intel.com>
-References: <20230404012741.116502-14-dakr@redhat.com>
+X-IronPort-AV: E=McAfee;i="6600,9927,10669"; a="829877810"
+X-IronPort-AV: E=Sophos;i="5.98,317,1673942400"; d="scan'208";a="829877810"
+Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
+ by fmsmga001.fm.intel.com with ESMTP; 04 Apr 2023 00:29:32 -0700
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.21; Tue, 4 Apr 2023 00:29:31 -0700
+Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
+ orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.21 via Frontend Transport; Tue, 4 Apr 2023 00:29:31 -0700
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (104.47.59.174)
+ by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.21; Tue, 4 Apr 2023 00:29:31 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=dgy8wXTCXxQHbMjy37DaidNKJHWLUNdsVmfSPWpKLS9OSuuDXfLQBqS3uwXo0B05aYor5eV9cV1iHHDJV/BfxVgQFpIQx2lRPQwWBL1fSolIVSC+0seXIWSEsH2YR/ZyYPQ4u8IjqKIyZtgIR6SC6G4JfFJXIL+nZ5VowOxdP1v3x/gkS2oXM+9eV05Xx1GNvO62ipdLgjkgyx2iQX+dtkcngcMCr8N/hAAXoXEBhc0ifQXaL7qHeQOncOPmHTh6q7+0x27Z02wPHNZH5yzOmKoyXyB8neBeEnRfSj34/LqTd8j8+yhNw9Y3afDOonlgXtsXiAB2XMHe2BliUSp8bg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=A5fqNlq6wQvmaO8v8pjAznrBgWxLkIPQvRAIaD1fy+k=;
+ b=PK2nMbLs3vzbweQI1ViGo3oQwHLdTO8FK2GRdCmadJkOKy3P1Rcct4gW1qGvscjKFnGQrZV4izboun5o19gJdFUDEd1PQZeNigMGAnerHeUR5G6dvqDGWbkgOMYmNM1ncDvVKlbmUSR49hyyDnPWTeFE5ryIYOnzcJrU5CrSzssB85YQlJdpfQObjxTyc/BUtL22Bvpczkna7dVU3jpaAs29tM5frxMP440pJbtFe3SBTvHBPcXyRz9BqcFOYNiTHftC8T9tYIWUHEuFW7mYiGzJ8Pdlj14TpHzgZqC38HDOOgCVXIX+Emkb3NgjA9QWYlsAjJpe6YmoqdgkmF6Q4Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from MN6PR11MB8146.namprd11.prod.outlook.com (2603:10b6:208:470::9)
+ by SA1PR11MB6823.namprd11.prod.outlook.com (2603:10b6:806:2b0::7)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6254.33; Tue, 4 Apr
+ 2023 07:29:24 +0000
+Received: from MN6PR11MB8146.namprd11.prod.outlook.com
+ ([fe80::a6ec:a0c7:4dde:aa7f]) by MN6PR11MB8146.namprd11.prod.outlook.com
+ ([fe80::a6ec:a0c7:4dde:aa7f%8]) with mapi id 15.20.6254.033; Tue, 4 Apr 2023
+ 07:29:24 +0000
+Message-ID: <7aa541f8-55e3-a182-5390-6ca161edb70b@intel.com>
+Date: Tue, 4 Apr 2023 10:29:23 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Firefox/102.0 Thunderbird/102.9.0
+Subject: Re: [Intel-gfx] [PATCH 7/7] drm/i915: Allow user to set cache at BO
+ creation
+To: <fei.yang@intel.com>, <intel-gfx@lists.freedesktop.org>
+References: <20230401063830.438127-1-fei.yang@intel.com>
+ <20230401063830.438127-8-fei.yang@intel.com>
+Content-Language: en-US
+From: Lionel Landwerlin <lionel.g.landwerlin@intel.com>
+In-Reply-To: <20230401063830.438127-8-fei.yang@intel.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: FR2P281CA0062.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:93::20) To MN6PR11MB8146.namprd11.prod.outlook.com
+ (2603:10b6:208:470::9)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230404012741.116502-14-dakr@redhat.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MN6PR11MB8146:EE_|SA1PR11MB6823:EE_
+X-MS-Office365-Filtering-Correlation-Id: b328302d-66ad-44f9-85d3-08db34de5062
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: UlBzfZv0gqvaNIGgP+fU8ZYUGhLVDlznCtz8PaFQWADRVNN+FhuE7LwwD435PYG9dwTBUKPgz5OnWMP1AqQ24sjE2MH1jWtV1F3CZMoDOmxTsKf3FSFg+e4uYY/WNnwuxU9Ghi5pxnoA61kUWaKSCDPZU8i0yg/VhGFSaKitIck52uVnuIvHxTKGF3kMeJfMPkhL+V5971NenZt/KRpVNvaGIiUw1C9gSIB+KZAXqpuXy2Li2ID0KRsRR8sHeNlpAfCJrGul1koY6VQuE9fKne1P8lJKCX39NyLVTp8vGd08sukLJhLgb3Dp0qZp6LKLKpynQpTHk0fRoSuVUiftU8ATymAn7v69sqmZP/6BHsED+tVPJPz1SSNcudFrkoQ+8GxudEodOP8QXW4hSJ2MVIiDaVYfrqlpqQelfBj8/atXnggRCLu6CTMcpxDGFt1RfGm3B8bI+Kyi83e29hnjlVX7/8wOjSBdjzJ1t+qygeyrxxjV0tQHhx+zD441EF4qzg42U+W6mtEondviRrPC9BFQDoiGxzo/vLG9hyuB54k/yZEeBnIFcfhYemiBk59U9WpYCCpaAYF/PTfqFfh9Yolw3Pp1Iy1IATT5xSqouHIBq2q1Gat7ifEFxn1SN150yrRa1H5+5eJcioPr90Mueg==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN6PR11MB8146.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230028)(39860400002)(366004)(376002)(136003)(346002)(396003)(451199021)(66476007)(2906002)(66946007)(31686004)(31696002)(2616005)(86362001)(8676002)(8936002)(41300700001)(5660300002)(36756003)(4326008)(478600001)(54906003)(316002)(66556008)(6486002)(6512007)(6506007)(38100700002)(186003)(53546011)(26005)(82960400001)(83380400001)(45980500001)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?TU51YXBrUndwK2s3WUk4cEVoejNuMThhTjBtWmtCQ0xzZFZZVDM5a2t6SUxa?=
+ =?utf-8?B?dit4elFTWkhjUDdCNmJUckFISFJYZWpIazN4bVNtOGhkSk9Jamc0NkpSbmRu?=
+ =?utf-8?B?dFpYSmcwakVlMVltNW55MG5UbDVYNXdDSlRvbTl5SzRUUlloRjRocnJuTVpi?=
+ =?utf-8?B?ei9kWTcvQmpLOVYwbG9KNngwbzA1a21mKzdPOWxrREpoV1k4ZkR1OTRPUGpy?=
+ =?utf-8?B?elV0a2RteExoSDF0dUhPN0tDZGxiTk5vbXZaWTVtSlFXMlJnaFh1U3V4Mzk1?=
+ =?utf-8?B?SGI1WERTRWVhNzlBVXFHSjZHZVh3M2hxQXRhaEtpT0NUSDkyYWh5Y0xHTVIw?=
+ =?utf-8?B?WDVsdkpsQityNzhJUHBHZXZuekFOM3VRRXFOWVZNR3ArSTZMTlE5YzhOc2M1?=
+ =?utf-8?B?S3N6VFVWSncxS29vVG9QVGY4dWNycEk0MGxSTnd5K0xmVVVQNWJRZThXYTRM?=
+ =?utf-8?B?OVBpbDFtUjB1RWQ1SGhUaWxHSXFRbUJ4U2FpYUY0anFRenpwR1BHbkxkK2Zq?=
+ =?utf-8?B?djNSV3hPVTcrMTJLdFBLOFRkMVVBVW5RQjhMRStDTGZ4OUhNSzhyU0wzTFYy?=
+ =?utf-8?B?OWdpbWkwd2Q1S2k1RkFjUVNxanlPZlFXTWFBdGlBMHVrMGQ5czhSUXY4cXkv?=
+ =?utf-8?B?T2ZSdmtreXdVWGJoNmdENG8yV1dISlJQbHd5dHdUV2luZnFmKy9qT09HVER2?=
+ =?utf-8?B?cENsaUtya0UybG5WU1JqZUQybldUWm9hcG5tNWZqb2h5VnZuR2NCaGUwR0F6?=
+ =?utf-8?B?MnVxeTI5Z1AzNUxTWFE5U2tGZTEvUnRiUUwyU2Q1dTBTTXczRlNGZUtnMUsv?=
+ =?utf-8?B?VUg2NktxcDJOTExqbFBNS0ROeUIvZk9RdTd4K21nSCtydWNKczVGa1FRNEhk?=
+ =?utf-8?B?Siticzh0LzVGZ2szWm1od0ltU0NENEhQbkNtNXM1RWtMRGdUWmlmL3hRNGZQ?=
+ =?utf-8?B?TS9kTDZXVHJsMmt5alIvVStDNzZPaE1yYzhIZ1FSQzA1MjU4Um5zQUtYS0Vu?=
+ =?utf-8?B?aVgxTllVcWEzLzBxdWxzam41T2NFY0YrbVFQYTdyb0I3N3pMR1VsRU5QVzBr?=
+ =?utf-8?B?dnp5OVJRZ05QRXZWL1Fib1luK29GS2lMNXRBTGdFWm9JaEhUUVl4UEgwaFRW?=
+ =?utf-8?B?SkhOdXBGZ0o3dGgwWTZ4MkpQbGQ4WW1uT1c2d1h3UEo0cGdIaEFoc0VsYkc1?=
+ =?utf-8?B?VVpxdHEzczZlMzhuVTdvd0Niajc5ZVBFeXpRZ3VialVIcmpTcm92K2w0WG1Z?=
+ =?utf-8?B?UDhkYmVScmlqZHhtZjFqZ1pnM09kYXZWQjZ6cEUwd1g0cm5xUTFRVEN6SFFW?=
+ =?utf-8?B?c2NoNTBSNEYyMkQwM0E4K2RWeE5ZTG5QM1RER1NLTUgxSzFBU29yMFM0NThl?=
+ =?utf-8?B?cVQ4TllXS2h2OEdUOS9HVEVzM2x3d1k1TnpoRGlmNkRTUGNCV1MzVmhnc2lH?=
+ =?utf-8?B?eW94cmxpc3ZjM1JQOFRYbGwzYkdtU2dRQnBOcTB5Und5T2dhRHloSzgwRUxK?=
+ =?utf-8?B?R0MyT25YNzRrQjJhMVBzdlpnUWFEVW9OYnhVaG5WRDB6UjBWMjRUU0lIVnFI?=
+ =?utf-8?B?M3RIREJEUnVRV0p4SFlqNGdhQmx1VDdzSy9XR3NYbkMzOVUrOGNDRDhZR2dF?=
+ =?utf-8?B?anR1WVpCRHk1dE1aZ1FUSzlib09ORjI3a2dQb0lYZVBaUWZ4dzBMTjZ3Skor?=
+ =?utf-8?B?UEsxQmIzbzhzZEhVQjdiSzRqazAybGYrTFVoWHZqM1BkTW8zYytCRnVVZkFM?=
+ =?utf-8?B?dFdtZzRSTVJlWENjbVVETTNxUVgzZENhL0d4ZEZCZWw5b0dkQ1R2SWJ1QkFx?=
+ =?utf-8?B?K1NmRURIYXB3K0YraGg4VGd2Q256RWFpOUdGREw2QnhUL2JsbU9wUVVsQXpW?=
+ =?utf-8?B?Zm1Ya3JEYWw2eXIyek1KdlFPczZlaGRJL1ErNkRvRSt5YTZwWWRkMEFuWnBi?=
+ =?utf-8?B?WmtkK3k4aEt5YnZYeTJiazBZRFB3WXZyc0hyTnpkYUpBVTZ0TUFzVGJhZjlx?=
+ =?utf-8?B?d2xPQytQTlBoaHJxLzlzN3RPY1p0NTcyK2dzUWg1UXRYZFFvTEZXTmZ2WEdI?=
+ =?utf-8?B?ZnRaWG1KSWo2RjBoUHg1NWQ0N3gxUVRaWWRIVDQ4U1l2dFA3eG4wRzVndW5I?=
+ =?utf-8?B?eU4vQmlrOUZyR2lQS3ZjSFVYY1YyRnZ0ZjR2WWNYMUxocjQyUGRxcndFbE0x?=
+ =?utf-8?B?L0E9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: b328302d-66ad-44f9-85d3-08db34de5062
+X-MS-Exchange-CrossTenant-AuthSource: MN6PR11MB8146.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Apr 2023 07:29:24.1043 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: KsocfED/LjLpTcpxuC6iVWhvGw7OcEC8mIU1xc3qiCqdhUYSZZMISr9Lm1Tj3bWEoMEuHK7S88il0aPkQYlIqpd7uSCeIPuhTBgp6ymI1zw=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR11MB6823
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,99 +156,233 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-doc@vger.kernel.org, nouveau@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-mm@kvack.org, Danilo Krummrich <dakr@redhat.com>,
- oe-kbuild-all@lists.linux.dev
+Cc: Chris Wilson <chris.p.wilson@linux.intel.com>,
+ Matt Roper <matthew.d.roper@intel.com>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Danilo,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on d36d68fd1925d33066d52468b7c7c6aca6521248]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Danilo-Krummrich/drm-execution-context-for-GEM-buffers-v3/20230404-093042
-base:   d36d68fd1925d33066d52468b7c7c6aca6521248
-patch link:    https://lore.kernel.org/r/20230404012741.116502-14-dakr%40redhat.com
-patch subject: [PATCH drm-next v3 13/15] drm/nouveau: nvkm/vmm: implement raw ops to manage uvmm
-config: arc-randconfig-r043-20230403 (https://download.01.org/0day-ci/archive/20230404/202304041311.bWxdWPX0-lkp@intel.com/config)
-compiler: arc-elf-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/ff73c969805aef784d47f6bedea6c15c8548d0bf
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Danilo-Krummrich/drm-execution-context-for-GEM-buffers-v3/20230404-093042
-        git checkout ff73c969805aef784d47f6bedea6c15c8548d0bf
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc SHELL=/bin/bash drivers/gpu/drm/
-
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304041311.bWxdWPX0-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   In file included from drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmm.h:4,
-                    from drivers/gpu/drm/nouveau/nvkm/subdev/mmu/uvmm.h:5,
-                    from drivers/gpu/drm/nouveau/nvkm/subdev/mmu/uvmm.c:22:
-   drivers/gpu/drm/nouveau/nvkm/subdev/mmu/uvmm.c: In function 'nvkm_uvmm_mthd_raw_map':
->> drivers/gpu/drm/nouveau/nvkm/subdev/mmu/uvmm.c:422:31: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
-     422 |                               (void *)args->argv, args->argc);
-         |                               ^
-   drivers/gpu/drm/nouveau/include/nvkm/core/memory.h:66:43: note: in definition of macro 'nvkm_memory_map'
-      66 |         (p)->func->map((p),(o),(vm),(va),(av),(ac))
-         |                                           ^~
+On 01/04/2023 09:38, fei.yang@intel.com wrote:
+> From: Fei Yang <fei.yang@intel.com>
+>
+> To comply with the design that buffer objects shall have immutable
+> cache setting through out its life cycle, {set, get}_caching ioctl's
+> are no longer supported from MTL onward. With that change caching
+> policy can only be set at object creation time. The current code
+> applies a default (platform dependent) cache setting for all objects.
+> However this is not optimal for performance tuning. The patch extends
+> the existing gem_create uAPI to let user set PAT index for the object
+> at creation time.
+> The new extension is platform independent, so UMD's can switch to using
+> this extension for older platforms as well, while {set, get}_caching are
+> still supported on these legacy paltforms for compatibility reason.
+>
+> Cc: Chris Wilson <chris.p.wilson@linux.intel.com>
+> Cc: Matt Roper <matthew.d.roper@intel.com>
+> Signed-off-by: Fei Yang <fei.yang@intel.com>
+> Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com>
 
 
-vim +422 drivers/gpu/drm/nouveau/nvkm/subdev/mmu/uvmm.c
+Just like the protected content uAPI, there is no way for userspace to 
+tell this feature is available other than trying using it.
 
-   388	
-   389	static int
-   390	nvkm_uvmm_mthd_raw_map(struct nvkm_uvmm *uvmm, struct nvif_vmm_raw_v0 *args)
-   391	{
-   392		struct nvkm_client *client = uvmm->object.client;
-   393		struct nvkm_vmm *vmm = uvmm->vmm;
-   394		struct nvkm_vma vma = {
-   395			.addr = args->addr,
-   396			.size = args->size,
-   397			.used = true,
-   398			.mapref = false,
-   399			.no_comp = true,
-   400		};
-   401		struct nvkm_memory *memory;
-   402		u64 handle = args->memory;
-   403		u8 refd;
-   404		int ret;
-   405	
-   406		if (!nvkm_vmm_in_managed_range(vmm, args->addr, args->size))
-   407			return -EINVAL;
-   408	
-   409		ret = nvkm_uvmm_page_index(uvmm, args->size, args->shift, &refd);
-   410		if (ret)
-   411			return ret;
-   412	
-   413		vma.page = vma.refd = refd;
-   414	
-   415		memory = nvkm_umem_search(client, args->memory);
-   416		if (IS_ERR(memory)) {
-   417			VMM_DEBUG(vmm, "memory %016llx %ld\n", handle, PTR_ERR(memory));
-   418			return PTR_ERR(memory);
-   419		}
-   420	
-   421		ret = nvkm_memory_map(memory, args->offset, vmm, &vma,
- > 422				      (void *)args->argv, args->argc);
-   423	
-   424		nvkm_memory_unref(&vma.memory);
-   425		nvkm_memory_unref(&memory);
-   426		return ret;
-   427	}
-   428	
+Given the issues with protected content, is it not thing we could want 
+to add?
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+
+Thanks,
+
+
+-Lionel
+
+
+> ---
+>   drivers/gpu/drm/i915/gem/i915_gem_create.c | 33 ++++++++++++++++++++
+>   include/uapi/drm/i915_drm.h                | 36 ++++++++++++++++++++++
+>   tools/include/uapi/drm/i915_drm.h          | 36 ++++++++++++++++++++++
+>   3 files changed, 105 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_create.c b/drivers/gpu/drm/i915/gem/i915_gem_create.c
+> index e76c9703680e..1c6e2034d28e 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_create.c
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_create.c
+> @@ -244,6 +244,7 @@ struct create_ext {
+>   	unsigned int n_placements;
+>   	unsigned int placement_mask;
+>   	unsigned long flags;
+> +	unsigned int pat_index;
+>   };
+>   
+>   static void repr_placements(char *buf, size_t size,
+> @@ -393,11 +394,39 @@ static int ext_set_protected(struct i915_user_extension __user *base, void *data
+>   	return 0;
+>   }
+>   
+> +static int ext_set_pat(struct i915_user_extension __user *base, void *data)
+> +{
+> +	struct create_ext *ext_data = data;
+> +	struct drm_i915_private *i915 = ext_data->i915;
+> +	struct drm_i915_gem_create_ext_set_pat ext;
+> +	unsigned int max_pat_index;
+> +
+> +	BUILD_BUG_ON(sizeof(struct drm_i915_gem_create_ext_set_pat) !=
+> +		     offsetofend(struct drm_i915_gem_create_ext_set_pat, rsvd));
+> +
+> +	if (copy_from_user(&ext, base, sizeof(ext)))
+> +		return -EFAULT;
+> +
+> +	max_pat_index = INTEL_INFO(i915)->max_pat_index;
+> +
+> +	if (ext.pat_index > max_pat_index) {
+> +		drm_dbg(&i915->drm, "PAT index is invalid: %u\n",
+> +			ext.pat_index);
+> +		return -EINVAL;
+> +	}
+> +
+> +	ext_data->pat_index = ext.pat_index;
+> +
+> +	return 0;
+> +}
+> +
+>   static const i915_user_extension_fn create_extensions[] = {
+>   	[I915_GEM_CREATE_EXT_MEMORY_REGIONS] = ext_set_placements,
+>   	[I915_GEM_CREATE_EXT_PROTECTED_CONTENT] = ext_set_protected,
+> +	[I915_GEM_CREATE_EXT_SET_PAT] = ext_set_pat,
+>   };
+>   
+> +#define PAT_INDEX_NOT_SET	0xffff
+>   /**
+>    * Creates a new mm object and returns a handle to it.
+>    * @dev: drm device pointer
+> @@ -417,6 +446,7 @@ i915_gem_create_ext_ioctl(struct drm_device *dev, void *data,
+>   	if (args->flags & ~I915_GEM_CREATE_EXT_FLAG_NEEDS_CPU_ACCESS)
+>   		return -EINVAL;
+>   
+> +	ext_data.pat_index = PAT_INDEX_NOT_SET;
+>   	ret = i915_user_extensions(u64_to_user_ptr(args->extensions),
+>   				   create_extensions,
+>   				   ARRAY_SIZE(create_extensions),
+> @@ -453,5 +483,8 @@ i915_gem_create_ext_ioctl(struct drm_device *dev, void *data,
+>   	if (IS_ERR(obj))
+>   		return PTR_ERR(obj);
+>   
+> +	if (ext_data.pat_index != PAT_INDEX_NOT_SET)
+> +		i915_gem_object_set_pat_index(obj, ext_data.pat_index);
+> +
+>   	return i915_gem_publish(obj, file, &args->size, &args->handle);
+>   }
+> diff --git a/include/uapi/drm/i915_drm.h b/include/uapi/drm/i915_drm.h
+> index dba7c5a5b25e..03c5c314846e 100644
+> --- a/include/uapi/drm/i915_drm.h
+> +++ b/include/uapi/drm/i915_drm.h
+> @@ -3630,9 +3630,13 @@ struct drm_i915_gem_create_ext {
+>   	 *
+>   	 * For I915_GEM_CREATE_EXT_PROTECTED_CONTENT usage see
+>   	 * struct drm_i915_gem_create_ext_protected_content.
+> +	 *
+> +	 * For I915_GEM_CREATE_EXT_SET_PAT usage see
+> +	 * struct drm_i915_gem_create_ext_set_pat.
+>   	 */
+>   #define I915_GEM_CREATE_EXT_MEMORY_REGIONS 0
+>   #define I915_GEM_CREATE_EXT_PROTECTED_CONTENT 1
+> +#define I915_GEM_CREATE_EXT_SET_PAT 2
+>   	__u64 extensions;
+>   };
+>   
+> @@ -3747,6 +3751,38 @@ struct drm_i915_gem_create_ext_protected_content {
+>   	__u32 flags;
+>   };
+>   
+> +/**
+> + * struct drm_i915_gem_create_ext_set_pat - The
+> + * I915_GEM_CREATE_EXT_SET_PAT extension.
+> + *
+> + * If this extension is provided, the specified caching policy (PAT index) is
+> + * applied to the buffer object.
+> + *
+> + * Below is an example on how to create an object with specific caching policy:
+> + *
+> + * .. code-block:: C
+> + *
+> + *      struct drm_i915_gem_create_ext_set_pat set_pat_ext = {
+> + *              .base = { .name = I915_GEM_CREATE_EXT_SET_PAT },
+> + *              .pat_index = 0,
+> + *      };
+> + *      struct drm_i915_gem_create_ext create_ext = {
+> + *              .size = PAGE_SIZE,
+> + *              .extensions = (uintptr_t)&set_pat_ext,
+> + *      };
+> + *
+> + *      int err = ioctl(fd, DRM_IOCTL_I915_GEM_CREATE_EXT, &create_ext);
+> + *      if (err) ...
+> + */
+> +struct drm_i915_gem_create_ext_set_pat {
+> +	/** @base: Extension link. See struct i915_user_extension. */
+> +	struct i915_user_extension base;
+> +	/** @pat_index: PAT index to be set */
+> +	__u32 pat_index;
+> +	/** @rsvd: reserved for future use */
+> +	__u32 rsvd;
+> +};
+> +
+>   /* ID of the protected content session managed by i915 when PXP is active */
+>   #define I915_PROTECTED_CONTENT_DEFAULT_SESSION 0xf
+>   
+> diff --git a/tools/include/uapi/drm/i915_drm.h b/tools/include/uapi/drm/i915_drm.h
+> index 8df261c5ab9b..8cdcdb5fac26 100644
+> --- a/tools/include/uapi/drm/i915_drm.h
+> +++ b/tools/include/uapi/drm/i915_drm.h
+> @@ -3607,9 +3607,13 @@ struct drm_i915_gem_create_ext {
+>   	 *
+>   	 * For I915_GEM_CREATE_EXT_PROTECTED_CONTENT usage see
+>   	 * struct drm_i915_gem_create_ext_protected_content.
+> +	 *
+> +	 * For I915_GEM_CREATE_EXT_SET_PAT usage see
+> +	 * struct drm_i915_gem_create_ext_set_pat.
+>   	 */
+>   #define I915_GEM_CREATE_EXT_MEMORY_REGIONS 0
+>   #define I915_GEM_CREATE_EXT_PROTECTED_CONTENT 1
+> +#define I915_GEM_CREATE_EXT_SET_PAT 2
+>   	__u64 extensions;
+>   };
+>   
+> @@ -3724,6 +3728,38 @@ struct drm_i915_gem_create_ext_protected_content {
+>   	__u32 flags;
+>   };
+>   
+> +/**
+> + * struct drm_i915_gem_create_ext_set_pat - The
+> + * I915_GEM_CREATE_EXT_SET_PAT extension.
+> + *
+> + * If this extension is provided, the specified caching policy (PAT index) is
+> + * applied to the buffer object.
+> + *
+> + * Below is an example on how to create an object with specific caching policy:
+> + *
+> + * .. code-block:: C
+> + *
+> + *      struct drm_i915_gem_create_ext_set_pat set_pat_ext = {
+> + *              .base = { .name = I915_GEM_CREATE_EXT_SET_PAT },
+> + *              .pat_index = 0,
+> + *      };
+> + *      struct drm_i915_gem_create_ext create_ext = {
+> + *              .size = PAGE_SIZE,
+> + *              .extensions = (uintptr_t)&set_pat_ext,
+> + *      };
+> + *
+> + *      int err = ioctl(fd, DRM_IOCTL_I915_GEM_CREATE_EXT, &create_ext);
+> + *      if (err) ...
+> + */
+> +struct drm_i915_gem_create_ext_set_pat {
+> +	/** @base: Extension link. See struct i915_user_extension. */
+> +	struct i915_user_extension base;
+> +	/** @pat_index: PAT index to be set */
+> +	__u32 pat_index;
+> +	/** @rsvd: reserved for future use */
+> +	__u32 rsvd;
+> +};
+> +
+>   /* ID of the protected content session managed by i915 when PXP is active */
+>   #define I915_PROTECTED_CONTENT_DEFAULT_SESSION 0xf
+>   
+
+
