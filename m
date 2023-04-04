@@ -2,60 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BE976D6CF5
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Apr 2023 21:07:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C733F6D6D03
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Apr 2023 21:16:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 25C1910E760;
-	Tue,  4 Apr 2023 19:07:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8BEBF10E775;
+	Tue,  4 Apr 2023 19:16:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-xc30.google.com (mail-oo1-xc30.google.com
- [IPv6:2607:f8b0:4864:20::c30])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F01CC10E760
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Apr 2023 19:07:32 +0000 (UTC)
-Received: by mail-oo1-xc30.google.com with SMTP id
- j4-20020a4adf44000000b0053e8b5524abso2588485oou.2
- for <dri-devel@lists.freedesktop.org>; Tue, 04 Apr 2023 12:07:32 -0700 (PDT)
+Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com
+ [IPv6:2a00:1450:4864:20::531])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1E92010E775
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Apr 2023 19:16:34 +0000 (UTC)
+Received: by mail-ed1-x531.google.com with SMTP id ek18so134891815edb.6
+ for <dri-devel@lists.freedesktop.org>; Tue, 04 Apr 2023 12:16:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1680635251;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=62vr+7Eg/ixiMFtXaEtpf4K9Oy7P4lkrrtVb8zcajok=;
- b=O1ROaVl6uWqiqh85hToYWRnTL9SQZLlQJn/rYBvfmMLWinBz9XFF0LVKJS8RNfwOB9
- UF2tV7FQgWQFhy+kjA7MJO+yNhSV65/uLwmJ+3jBi8/PWx4Qyq1QvprROBqF0Wf9ma8G
- i0MMgGW5M2EG4QaAzIVMpsUwXpVAAyA/0E+dE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680635251;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ d=ffwll.ch; s=google; t=1680635792; x=1683227792;
+ h=in-reply-to:content-disposition:mime-version:references
+ :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
  :subject:date:message-id:reply-to;
- bh=62vr+7Eg/ixiMFtXaEtpf4K9Oy7P4lkrrtVb8zcajok=;
- b=dPEcQFuT4ey4a3mvEIWIPWnef9/t4nbPprPbya30h5k9DKDffjJdJDAvcL4riaF4lR
- ke7EWqekRCLR/RS2vwhoyuBoleHbXPmRGEyCaTeyNcSEmvOEiozI7SjvFfqGxH5qkAZW
- yC3RflhLxnvFvyaZ2+A3OVZErsLu/myjMMnOiTQcIJIYdS6rXiQormeKBNr8s21VKRYv
- aUdFuB/gYNIz4d+1Vq8vd0+PBDUGEBFRm7GMtL8p1hKgM04IbhVzfqWTdkR3LTs6xMSd
- 2C5DAZOFVxXae86C2HToR9eIXN5+M0pphUjXjwUUzqU8whNSAvFHEhyHx7gDH9C/PNlD
- axJA==
-X-Gm-Message-State: AAQBX9enuNrrTcHPzCD3VY6VXKw3s8wAngVd/aIwid+qsRFX52WIeNpL
- cwG4YWgBaaUKZgRkQ+A0B9/CiXk5eJwmFVH8IvASgQ==
-X-Google-Smtp-Source: AKy350aXPTcszMT5KClhJ90PGc6cP4BWMBvzwti2ugWK67ArFC4/gL5EuBzGeFAk1g/o28GyD5gyNuYIhNCHCI0QmpA=
-X-Received: by 2002:a4a:c318:0:b0:53b:4e0a:6714 with SMTP id
- c24-20020a4ac318000000b0053b4e0a6714mr1585951ooq.0.1680635251725; Tue, 04 Apr
- 2023 12:07:31 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230404002211.3611376-1-matthew.brost@intel.com>
- <15dafc15-332e-2559-a9c4-61ad442ef44a@linux.intel.com>
- <ZCwrgvAHGvdTCe7K@DUT025-TGLU.fm.intel.com>
- <da288e41-6c5d-0595-e659-5746bfc0ee87@linux.intel.com>
-In-Reply-To: <da288e41-6c5d-0595-e659-5746bfc0ee87@linux.intel.com>
+ bh=Eworcs+FS5N7Z5pvybSDUFQM4vAotz4kjrv0Fz9G5CM=;
+ b=S8QVKvaZOxOP03YtvEVJ03LLMzBooHuMTOpd4C0KPfhoYLOtjw6atLKod+1mQM4aJD
+ 84bpfzxwLT7p4HX+wCCBDpCn4T6IZhbRSpgwjjtvvmcoepRtD7wSYZJ9DKkdLSUQTVap
+ ULQPyxhH/SGlpcgC6Rx1JqoqydLXdi+ftojIk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1680635792; x=1683227792;
+ h=in-reply-to:content-disposition:mime-version:references
+ :mail-followup-to:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=Eworcs+FS5N7Z5pvybSDUFQM4vAotz4kjrv0Fz9G5CM=;
+ b=jVw0S/ljXt8e4G2LUcZLpzmVNoM0wcm+F70TgLyO8npQ29v85mgM/omOvgGYkTchji
+ uEzBfmxSKplQxQ2nKUhlHOOkuVNS4yOCQgOxM+AuJvGP94mkQw/bGB9c3aVKm2ZHgRDP
+ X1gXktvVvE+WTBvrgn/Z6tdruo+Hobf866PbY934fr07f/RcHcZoqP67/g3CSntZvlBF
+ axXDyI69iy+OMeFuNwxktsCnPJFe76l8dHEFF4VPS/9DUFNWIQ+8UjYfAZMzLFaS6WJW
+ PwBX7pX8B78NwBuq2Ws0cNl3xrWkDMgHhE4hdk5o3R4LhAR7BykmH1hf+WLLA/RbOZUw
+ 7wJA==
+X-Gm-Message-State: AAQBX9dXIUuO/w7lD97iUt/2IWD98LSiuWQ7Yogq33ToB+DlfC7gMlrh
+ yFwqPVdVgQOHHhPPrHkcgynazQ==
+X-Google-Smtp-Source: AKy350ZD7c6CgJzTRzTOviQ9uHhtRHgmNr38y4A17xt2b4GdR222T6lp1xKS6NPQaXKgwkercB2BHw==
+X-Received: by 2002:a17:906:51c6:b0:92e:f520:7762 with SMTP id
+ v6-20020a17090651c600b0092ef5207762mr708844ejk.6.1680635792149; 
+ Tue, 04 Apr 2023 12:16:32 -0700 (PDT)
+Received: from phenom.ffwll.local (212-51-149-33.fiber7.init7.net.
+ [212.51.149.33]) by smtp.gmail.com with ESMTPSA id
+ n13-20020a170906688d00b0093210cf625bsm6311135ejr.187.2023.04.04.12.16.31
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 04 Apr 2023 12:16:31 -0700 (PDT)
+Date: Tue, 4 Apr 2023 21:16:29 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
-Date: Tue, 4 Apr 2023 21:07:20 +0200
-Message-ID: <CAKMK7uHq-s+EPR6fJVpb-Q49Ad6H2zYt7JVCQTubBCPSej4JKA@mail.gmail.com>
-Subject: Re: [RFC PATCH 00/10] Xe DRM scheduler and long running workload plans
-To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: Re: [PATCH v10 11/15] drm/atomic-helper: Set fence deadline for vblank
+Message-ID: <ZCx3jUJfC1vmbhI6@phenom.ffwll.local>
+Mail-Followup-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Rob Clark <robdclark@gmail.com>, dri-devel@lists.freedesktop.org,
+ Rob Clark <robdclark@chromium.org>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ intel-gfx@lists.freedesktop.org,
+ open list <linux-kernel@vger.kernel.org>,
+ Luben Tuikov <luben.tuikov@amd.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Matt Turner <mattst88@gmail.com>, freedreno@lists.freedesktop.org
+References: <20230308155322.344664-1-robdclark@gmail.com>
+ <20230308155322.344664-12-robdclark@gmail.com>
+ <dfc21f18-7e1e-48f0-c05a-d659b9c90b91@linaro.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <dfc21f18-7e1e-48f0-c05a-d659b9c90b91@linaro.org>
+X-Operating-System: Linux phenom 6.1.0-7-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,216 +82,170 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Matthew Brost <matthew.brost@intel.com>, robdclark@chromium.org,
- thomas.hellstrom@linux.intel.com, airlied@linux.ie, lina@asahilina.net,
- dri-devel@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
- boris.brezillon@collabora.com, christian.koenig@amd.com,
- faith.ekstrand@collabora.com
+Cc: Rob Clark <robdclark@chromium.org>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ intel-gfx@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ open list <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org,
+ Luben Tuikov <luben.tuikov@amd.com>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, Matt Turner <mattst88@gmail.com>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 4 Apr 2023 at 19:29, Tvrtko Ursulin
-<tvrtko.ursulin@linux.intel.com> wrote:
->
->
-> On 04/04/2023 14:52, Matthew Brost wrote:
-> > On Tue, Apr 04, 2023 at 10:43:03AM +0100, Tvrtko Ursulin wrote:
-> >>
-> >> On 04/04/2023 01:22, Matthew Brost wrote:
-> >>> Hello,
-> >>>
-> >>> As a prerequisite to merging the new Intel Xe DRM driver [1] [2], we
-> >>> have been asked to merge our common DRM scheduler patches first as we=
-ll
-> >>> as develop a common solution for long running workloads with the DRM
-> >>> scheduler. This RFC series is our first attempt at doing this. We
-> >>> welcome any and all feedback.
-> >>>
-> >>> This can we thought of as 4 parts detailed below.
-> >>>
-> >>> - DRM scheduler changes for 1 to 1 relationship between scheduler and
-> >>> entity (patches 1-3)
-> >>>
-> >>> In Xe all of the scheduling of jobs is done by a firmware scheduler (=
-the
-> >>> GuC) which is a new paradigm WRT to the DRM scheduler and presents
-> >>> severals problems as the DRM was originally designed to schedule jobs=
- on
-> >>> hardware queues. The main problem being that DRM scheduler expects th=
-e
-> >>> submission order of jobs to be the completion order of jobs even acro=
-ss
-> >>> multiple entities. This assumption falls apart with a firmware schedu=
-ler
-> >>> as a firmware scheduler has no concept of jobs and jobs can complete =
-out
-> >>> of order. A novel solution for was originally thought of by Faith dur=
-ing
-> >>> the initial prototype of Xe, create a 1 to 1 relationship between sch=
-eduler
-> >>> and entity. I believe the AGX driver [3] is using this approach and
-> >>> Boris may use approach as well for the Mali driver [4].
-> >>>
-> >>> To support a 1 to 1 relationship we move the main execution function
-> >>> from a kthread to a work queue and add a new scheduling mode which
-> >>> bypasses code in the DRM which isn't needed in a 1 to 1 relationship.
-> >>> The new scheduling mode should unify all drivers usage with a 1 to 1
-> >>> relationship and can be thought of as using scheduler as a dependency=
- /
-> >>> infligt job tracker rather than a true scheduler.
-> >>
-> >> Once you add capability for a more proper 1:1 via
-> >> DRM_SCHED_POLICY_SINGLE_ENTITY, do you still have further need to repl=
-ace
-> >> kthreads with a wq?
-> >>
-> >> Or in other words, what purpose does the offloading of a job picking c=
-ode to
-> >> a separate execution context serve? Could it be done directly in the 1=
-:1
-> >> mode and leave kthread setup for N:M?
-> >>
-> >
-> > Addressed the other two on my reply to Christian...
-> >
-> > For this one basically the concept of a single entity point IMO is a
-> > very good concept which I'd like to keep. But most important reason
-> > being the main execution thread (now worker) is kicked when a dependenc=
-y
-> > for a job is resolved, dependencies are dma-fences signaled via a
-> > callback, and these call backs can be signaled in IRQ contexts. We
-> > absolutely do not want to enter the backend in an IRQ context for a
-> > variety of reasons.
->
-> Sounds like a fair enough requirement but if drivers will not be
-> comfortable with the wq conversion, it is probably possible to introduce
-> some vfuncs for the 1:1 case which would allow scheduler users override
-> the scheduler wakeup and select a special "pick one job" path. That
-> could allow 1:1 users do their thing, leaving rest as is. I mean you
-> already have the special single entity scheduler, you'd just need to add
-> some more specialization on the init, wake up, etc paths.
->
-> And I will mention once more that I find a wq item with a loop such as:
->
->         while (!READ_ONCE(sched->pause_run_wq)) {
->         ...
->
-> A bit dodgy. If you piggy back on any system_wq it smells of system wide
-> starvation so for me any proposal with an option to use a system shared
-> wq is a no go.
+On Tue, Apr 04, 2023 at 08:22:05PM +0300, Dmitry Baryshkov wrote:
+> On 08/03/2023 17:53, Rob Clark wrote:
+> > From: Rob Clark <robdclark@chromium.org>
+> > 
+> > For an atomic commit updating a single CRTC (ie. a pageflip) calculate
+> > the next vblank time, and inform the fence(s) of that deadline.
+> > 
+> > v2: Comment typo fix (danvet)
+> > v3: If there are multiple CRTCs, consider the time of the soonest vblank
+> > 
+> > Signed-off-by: Rob Clark <robdclark@chromium.org>
+> > Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+> > Signed-off-by: Rob Clark <robdclark@chromium.org>
+> > ---
+> >   drivers/gpu/drm/drm_atomic_helper.c | 37 +++++++++++++++++++++++++++++
+> >   1 file changed, 37 insertions(+)
+> 
+> As I started playing with hotplug on RB5 (sm8250, DSI-HDMI bridge), I found
+> that this patch introduces the following backtrace on HDMI hotplug. Is there
+> anything that I can do to debug/fix the issue? The warning seems harmless,
+> but it would be probably be good to still fix it. With addresses decoded:
 
-Yeah I think the argument for wq based scheduler would need a
-per-drm_scheduler wq, like we currently have a per-scheduler kthread.
-It might still need some serious work to replace the
-kthread_stop/start() with a wq-native equivalent (because really this
-is the tricky stuff we shouldn't hand-roll unless someone is willing
-to write a few papers on the lockless design that's done), but would
-look a bunch more reasonable. Having a per-sched workqueue might also
-help with the big sched_stop/start/fini state transitions, which I
-really think should still go over all the per-entity schedulers even
-in the 1:1 case (because otherwise you get some funky code in drivers
-that do the iterations needed, which probably tosses the fairly nice
-design the current scheduler has by relying on the kthread_stop/start
-primitives for this.
--Daniel
-
->
-> Regards,
->
-> Tvrtko
->
->
-> >> Apart from those design level questions, low level open IMO still is t=
-hat
-> >> default fallback of using the system_wq has the potential to affect la=
-tency
-> >> for other drivers. But that's for those driver owners to approve.
-> >>
-> >> Regards,
-> >>
-> >> Tvrtko
-> >>
-> >>> - Generic messaging interface for DRM scheduler
-> >>>
-> >>> Idea is to be able to communicate to the submission backend with in b=
-and
-> >>> (relative to main execution function) messages. Messages are backend
-> >>> defined and flexable enough for any use case. In Xe we use these
-> >>> messages to clean up entites, set properties for entites, and suspend=
- /
-> >>> resume execution of an entity [5]. I suspect other driver can leverag=
-e
-> >>> this messaging concept too as it a convenient way to avoid races in t=
-he
-> >>> backend.
-> >>>
-> >>> - Support for using TDR for all error paths of a scheduler / entity
-> >>>
-> >>> Fix a few races / bugs, add function to dynamically set the TDR timeo=
-ut.
-> >>>
-> >>> - Annotate dma-fences for long running workloads.
-> >>>
-> >>> The idea here is to use dma-fences only as sync points within the
-> >>> scheduler and never export them for long running workloads. By
-> >>> annotating these fences as long running we ensure that these dma-fenc=
-es
-> >>> are never used in a way that breaks the dma-fence rules. A benefit of
-> >>> thus approach is the scheduler can still safely flow control the
-> >>> execution ring buffer via the job limit without breaking the dma-fenc=
-e
-> >>> rules.
-> >>>
-> >>> Again this a first draft and looking forward to feedback.
-> >>>
-> >>> Enjoy - Matt
-> >>>
-> >>> [1] https://gitlab.freedesktop.org/drm/xe/kernel
-> >>> [2] https://patchwork.freedesktop.org/series/112188/
-> >>> [3] https://patchwork.freedesktop.org/series/114772/
-> >>> [4] https://patchwork.freedesktop.org/patch/515854/?series=3D112188&r=
-ev=3D1
-> >>> [5] https://gitlab.freedesktop.org/drm/xe/kernel/-/blob/drm-xe-next/d=
-rivers/gpu/drm/xe/xe_guc_submit.c#L1031
-> >>>
-> >>> Matthew Brost (8):
-> >>>     drm/sched: Convert drm scheduler to use a work queue rather than
-> >>>       kthread
-> >>>     drm/sched: Move schedule policy to scheduler / entity
-> >>>     drm/sched: Add DRM_SCHED_POLICY_SINGLE_ENTITY scheduling policy
-> >>>     drm/sched: Add generic scheduler message interface
-> >>>     drm/sched: Start run wq before TDR in drm_sched_start
-> >>>     drm/sched: Submit job before starting TDR
-> >>>     drm/sched: Add helper to set TDR timeout
-> >>>     drm/syncobj: Warn on long running dma-fences
-> >>>
-> >>> Thomas Hellstr=C3=B6m (2):
-> >>>     dma-buf/dma-fence: Introduce long-running completion fences
-> >>>     drm/sched: Support long-running sched entities
-> >>>
-> >>>    drivers/dma-buf/dma-fence.c                 | 142 +++++++---
-> >>>    drivers/dma-buf/dma-resv.c                  |   5 +
-> >>>    drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c |  14 +-
-> >>>    drivers/gpu/drm/amd/amdgpu/amdgpu_device.c  |  15 +-
-> >>>    drivers/gpu/drm/drm_syncobj.c               |   5 +-
-> >>>    drivers/gpu/drm/etnaviv/etnaviv_sched.c     |   5 +-
-> >>>    drivers/gpu/drm/lima/lima_sched.c           |   5 +-
-> >>>    drivers/gpu/drm/msm/adreno/adreno_device.c  |   6 +-
-> >>>    drivers/gpu/drm/msm/msm_ringbuffer.c        |   5 +-
-> >>>    drivers/gpu/drm/panfrost/panfrost_job.c     |   5 +-
-> >>>    drivers/gpu/drm/scheduler/sched_entity.c    | 127 +++++++--
-> >>>    drivers/gpu/drm/scheduler/sched_fence.c     |   6 +-
-> >>>    drivers/gpu/drm/scheduler/sched_main.c      | 278 +++++++++++++++-=
-----
-> >>>    drivers/gpu/drm/v3d/v3d_sched.c             |  25 +-
-> >>>    include/drm/gpu_scheduler.h                 | 130 +++++++--
-> >>>    include/linux/dma-fence.h                   |  60 ++++-
-> >>>    16 files changed, 649 insertions(+), 184 deletions(-)
-> >>>
+Bit a shot in the dark, but does the below help?
 
 
+diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
+index f21b5a74176c..6640d80d84f3 100644
+--- a/drivers/gpu/drm/drm_atomic_helper.c
++++ b/drivers/gpu/drm/drm_atomic_helper.c
+@@ -1528,6 +1528,9 @@ static void set_fence_deadline(struct drm_device *dev,
+ 	for_each_new_crtc_in_state (state, crtc, new_crtc_state, i) {
+ 		ktime_t v;
+ 
++		if (drm_atomic_crtc_needs_modeset(new_crtc_state))
++			continue;
++
+ 		if (drm_crtc_next_vblank_start(crtc, &v))
+ 			continue;
+ 
+diff --git a/drivers/gpu/drm/drm_vblank.c b/drivers/gpu/drm/drm_vblank.c
+index 78a8c51a4abf..7ae38e8e27e8 100644
+--- a/drivers/gpu/drm/drm_vblank.c
++++ b/drivers/gpu/drm/drm_vblank.c
+@@ -1001,6 +1001,9 @@ int drm_crtc_next_vblank_start(struct drm_crtc *crtc, ktime_t *vblanktime)
+ 	struct drm_display_mode *mode = &vblank->hwmode;
+ 	u64 vblank_start;
+ 
++	if (!drm_dev_has_vblank(crtc->dev))
++		return -EINVAL;
++
+ 	if (!vblank->framedur_ns || !vblank->linedur_ns)
+ 		return -EINVAL;
+ 
 
---=20
+> 
+> [   31.151348] ------------[ cut here ]------------
+> [   31.157043] msm_dpu ae01000.display-controller:
+> drm_WARN_ON_ONCE(drm_drv_uses_atomic_modeset(dev))
+> [   31.157177] WARNING: CPU: 0 PID: 13 at drivers/gpu/drm/drm_vblank.c:728
+> drm_crtc_vblank_helper_get_vblank_timestamp_internal
+> (drivers/gpu/drm/drm_vblank.c:728)
+> [   31.180629] Modules linked in:
+> [   31.184106] CPU: 0 PID: 13 Comm: kworker/0:1 Not tainted
+> 6.3.0-rc2-00008-gd39e48ca80c0 #542
+> [   31.193358] Hardware name: Qualcomm Technologies, Inc. Robotics RB5 (DT)
+> [   31.200796] Workqueue: events lt9611uxc_hpd_work
+> [   31.205990] pstate: 60400005 (nZCv daif +PAN -UAO -TCO -DIT -SSBS
+> BTYPE=--)
+> [   31.213722] pc : drm_crtc_vblank_helper_get_vblank_timestamp_internal
+> (drivers/gpu/drm/drm_vblank.c:728)
+> [   31.222032] lr : drm_crtc_vblank_helper_get_vblank_timestamp_internal
+> (drivers/gpu/drm/drm_vblank.c:728)
+> [   31.230341] sp : ffff8000080bb8d0
+> [   31.234061] x29: ffff8000080bb900 x28: 0000000000000038 x27:
+> ffff61a7956b8d60
+> [   31.242051] x26: 0000000000000000 x25: 0000000000000000 x24:
+> ffff8000080bb9c4
+> [   31.250038] x23: 0000000000000001 x22: ffffbf0033b94ef0 x21:
+> ffff61a7957901d0
+> [   31.258029] x20: ffff61a795710000 x19: ffff61a78128b000 x18:
+> fffffffffffec278
+> [   31.266014] x17: 0040000000000465 x16: 0000000000000020 x15:
+> 0000000000000060
+> [   31.274001] x14: 0000000000000001 x13: ffffbf00354550e0 x12:
+> 0000000000000825
+> [   31.281989] x11: 00000000000002b7 x10: ffffbf00354b1208 x9 :
+> ffffbf00354550e0
+> [   31.289976] x8 : 00000000ffffefff x7 : ffffbf00354ad0e0 x6 :
+> 00000000000002b7
+> [   31.297963] x5 : ffff61a8feebbe48 x4 : 40000000fffff2b7 x3 :
+> ffffa2a8c9f64000
+> [   31.305947] x2 : 0000000000000000 x1 : 0000000000000000 x0 :
+> ffff61a780283100
+> [   31.313934] Call trace:
+> [   31.316719] drm_crtc_vblank_helper_get_vblank_timestamp_internal
+> (drivers/gpu/drm/drm_vblank.c:728)
+> [   31.324646] drm_crtc_vblank_helper_get_vblank_timestamp
+> (drivers/gpu/drm/drm_vblank.c:843)
+> [   31.331528] drm_crtc_get_last_vbltimestamp
+> (drivers/gpu/drm/drm_vblank.c:884)
+> [   31.337170] drm_crtc_next_vblank_start
+> (drivers/gpu/drm/drm_vblank.c:1006)
+> [   31.342430] drm_atomic_helper_wait_for_fences
+> (drivers/gpu/drm/drm_atomic_helper.c:1531
+> drivers/gpu/drm/drm_atomic_helper.c:1578)
+> [   31.348561] drm_atomic_helper_commit
+> (drivers/gpu/drm/drm_atomic_helper.c:2007)
+> [   31.353724] drm_atomic_commit (drivers/gpu/drm/drm_atomic.c:1444)
+> [   31.358127] drm_client_modeset_commit_atomic
+> (drivers/gpu/drm/drm_client_modeset.c:1045)
+> [   31.364146] drm_client_modeset_commit_locked
+> (drivers/gpu/drm/drm_client_modeset.c:1148)
+> [   31.370071] drm_client_modeset_commit
+> (drivers/gpu/drm/drm_client_modeset.c:1174)
+> [   31.375233] drm_fb_helper_set_par (drivers/gpu/drm/drm_fb_helper.c:254
+> drivers/gpu/drm/drm_fb_helper.c:229 drivers/gpu/drm/drm_fb_helper.c:1644)
+> [   31.380108] drm_fb_helper_hotplug_event
+> (drivers/gpu/drm/drm_fb_helper.c:2302 (discriminator 4))
+> [   31.385456] drm_fb_helper_output_poll_changed
+> (drivers/gpu/drm/drm_fb_helper.c:2331)
+> [   31.391376] drm_kms_helper_hotplug_event
+> (drivers/gpu/drm/drm_probe_helper.c:697)
+> [   31.396825] drm_bridge_connector_hpd_cb
+> (drivers/gpu/drm/drm_bridge_connector.c:129)
+> [   31.402175] drm_bridge_hpd_notify (drivers/gpu/drm/drm_bridge.c:1315)
+> [   31.406954] lt9611uxc_hpd_work
+> (drivers/gpu/drm/bridge/lontium-lt9611uxc.c:185)
+> [   31.411450] process_one_work (kernel/workqueue.c:2395)
+> [   31.415949] worker_thread (include/linux/list.h:292
+> kernel/workqueue.c:2538)
+> [   31.426843] kthread (kernel/kthread.c:376)
+> [   31.437182] ret_from_fork (arch/arm64/kernel/entry.S:871)
+> [   31.447828] irq event stamp: 44642
+> [   31.458284] hardirqs last enabled at (44641): __up_console_sem
+> (arch/arm64/include/asm/irqflags.h:182 (discriminator 1)
+> arch/arm64/include/asm/irqflags.h:202 (discriminator 1)
+> kernel/printk/printk.c:345 (discriminator 1))
+> [   31.474540] hardirqs last disabled at (44642): el1_dbg
+> (arch/arm64/kernel/entry-common.c:335 arch/arm64/kernel/entry-common.c:406)
+> [   31.489882] softirqs last enabled at (42912): _stext
+> (arch/arm64/include/asm/current.h:19 arch/arm64/include/asm/preempt.h:13
+> kernel/softirq.c:415 kernel/softirq.c:600)
+> [   31.505256] softirqs last disabled at (42907): ____do_softirq
+> (arch/arm64/kernel/irq.c:81)
+> [   31.521139] ---[ end trace 0000000000000000 ]---
+> 
+> 
+> 
+> -- 
+> With best wishes
+> Dmitry
+> 
+
+-- 
 Daniel Vetter
 Software Engineer, Intel Corporation
 http://blog.ffwll.ch
