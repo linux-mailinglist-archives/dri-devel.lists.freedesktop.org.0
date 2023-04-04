@@ -1,73 +1,73 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8732E6D6339
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Apr 2023 15:38:08 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4ECAE6D633D
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Apr 2023 15:38:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B00B410E347;
-	Tue,  4 Apr 2023 13:38:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5803D10E684;
+	Tue,  4 Apr 2023 13:38:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from new3-smtp.messagingengine.com (new3-smtp.messagingengine.com
  [66.111.4.229])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D59F710E347
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Apr 2023 13:38:00 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailnew.nyi.internal (Postfix) with ESMTP id 341DD5821BC;
- Tue,  4 Apr 2023 09:38:00 -0400 (EDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2CCDA10E66F
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Apr 2023 13:38:04 +0000 (UTC)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 819235821C7;
+ Tue,  4 Apr 2023 09:38:03 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute3.internal (MEProxy); Tue, 04 Apr 2023 09:38:00 -0400
+ by compute1.internal (MEProxy); Tue, 04 Apr 2023 09:38:03 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
  :cc:content-transfer-encoding:content-type:content-type:date
  :date:from:from:in-reply-to:in-reply-to:message-id:mime-version
  :references:reply-to:sender:subject:subject:to:to; s=fm3; t=
- 1680615480; x=1680622680; bh=Dhd6yL5TpMOvIrmJoOZH9zi1d6+MQRODdEI
- 5fIeORc8=; b=Biv03KLDSFRgnFAFwYUF16x6GFriul6lIt6HpX8L8GavaG123C7
- 2UfWIoITvRK+b2PRmHKm9LrJl1ZdfrGE8R2u4fd+unmGbTqPmDae2OFNG2TZ4v4F
- tX2fFNjQsRPAAHhAAA6AAgvVRP9nALqo9GejBDLRDZ1qS29RSwwht6Z9zPGRifbY
- knmCBdisDK2CxJNPMpz5vLfVjMYP6mH09JRHD1wgE2DVLbsALfA4GwZ7jBsoPhVj
- 10E5XcqZsHCdRfBvcVay7jfbXJ/QOByhi5C91Wxrb5T7qNnMlfzKVQkRE470HxJ/
- hPgX/7iadn/H1F1ac9O8Bt4wVo+HrkzVfQg==
+ 1680615483; x=1680622683; bh=ZmeTd+2tJoJrgSEJ1Mv0Mrs4o2Pnph/H8fx
+ k6uUpjYM=; b=lF9QT9v9aGzU3Ou4i2YBzgjWZWJ2bFph55QyAXz/WEkFzANG3Do
+ YXfvwbjeLs+/HYAJbJJn2PGtWYcCr8U9GzN31PgMyiHmjQPk/WPpY1k9KQ+dN9yT
+ dXfvdmpxy9FsurlCRiWN5XZFqoWYYLvdHGXJhdE2fVEb+d1sqfoa0hgaxkw2vkOv
+ lfKiCk0ZmvBWZ9ULizP/uXetkkhLEKAaaLxLiDOTeF5WqNukjKYDbJnHlc6l5M/8
+ Vi2uxI5zrP16dIhdsIe19xcfMnpi1lGDVi5g4lju1aR0H477jha8/vbHYr0Yu4ZN
+ ghm3vdgDC4vYfY7M+/fyI8lOs/ukV4ciOtQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding
  :content-type:content-type:date:date:feedback-id:feedback-id
  :from:from:in-reply-to:in-reply-to:message-id:mime-version
  :references:reply-to:sender:subject:subject:to:to:x-me-proxy
  :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
- 1680615480; x=1680622680; bh=Dhd6yL5TpMOvIrmJoOZH9zi1d6+MQRODdEI
- 5fIeORc8=; b=Tm45GPIAlZdvzX5wBioLMY+2x2+ZB3kB3Ial583LOT4DqwraFXq
- rQAKv3pKWHwud82JGE6x2b3VG3Ip+vBzL9qTjW9VSORTMZos2AatepTt/Hk1SLc7
- xQ1AWjraTfHgepF3OJJiyBk5NWTY//+UpOUaj2isaLbrTI171vUyyrTjX3l89uhm
- AIffHQ5y+iRjzFZhdmmjlMZlseuZwDBLCMOwlXRTOV/7VqBOynoeqScgFgj7jwfM
- GwcCxGikkCee/nbr2dDsIf64z78erC5NXwHyEZgX9X1eAG4fJPblXHFaQAWLFaJY
- JcGhkuGUWSbT/I1pf47JxRijyXIyvVeKAFQ==
-X-ME-Sender: <xms:NygsZOJw9onwlxPCTFbcZWIIhBdZSMO8q527Tni7BkRRAmc3cOxHzw>
- <xme:NygsZGI4p3s8Rgp21HjYkAmM_ai-x7jICwrcmQeBl6keZqw5K-WvpBCd4CklcZe-I
- 5Cu4l_eBTitRUzlGEU>
-X-ME-Received: <xmr:NygsZOtlk9CXGeHGukK990vH7SX1Mdn6pKaLyq9olfVOt9FXJTFVvF7nENWL2cu27clEZEIXd7VB2N3Pmd10tbecvL0J4lQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvdeiledgieejucetufdoteggodetrfdotf
+ 1680615483; x=1680622683; bh=ZmeTd+2tJoJrgSEJ1Mv0Mrs4o2Pnph/H8fx
+ k6uUpjYM=; b=ff4kHs/UOI9xCsga919p5U2s0w91UPYYdoU52tk2fWbvNmqEB5B
+ KSPW6bD8KPJ02ehfVARC4Gzj2KbblKNJHzRrzeULSA6U29p7tsxIRCMCotxMqozW
+ bEeMxe6K4B0uHOCz/PyybwhGPGsMTzyWgMc0LNeXPcCUrDAAHobBdQhkUjQbBAel
+ HktQ90LG0VTTcehzhpqqogAyRsM/3B92SqHa4anQwoG0CmCBxGe9hcL9flIPWKAu
+ Q2BIsD0qgurxQj2BzplJeffMyBrj4IPTjFZhTaFAQDQ96X5/3akZXlEkeQy5ui1y
+ 9/jzo/A9wrJMoxo/+8wktA5x9SRcclZxjqg==
+X-ME-Sender: <xms:OygsZCH9ucaP0tWMNDXlw3oowRHa0FrYAJ5ANxoMs8_w9licCkh5fg>
+ <xme:OygsZDWJ_vaeJVYOECX_MFpVuWZ6vptABVA_xkuzKztpDEHhV5XE2jClA5pR--rs3
+ dOqYUruSMgnE5oHpJA>
+X-ME-Received: <xmr:OygsZMJh4kP1zPu-sYLafvcsGKk-iwkkhGkoLRixeKQW17CQtzQowIUNsILRGa_l_e0JUl4jph00kJmw7p6ACrGxwK5kvK0>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvdeiledgieeiucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
  cujfgurhephfffufggtgfgkfhfjgfvvefosehtjeertdertdejnecuhfhrohhmpeforgig
  ihhmvgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrf
  grthhtvghrnhepvedvleeijeegvdekffehkeehieelhfeggfffheetkeeuledvtdeuffeh
- teeltdffnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
+ teeltdffnecuvehluhhsthgvrhfuihiivgepudenucfrrghrrghmpehmrghilhhfrhhomh
  epmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:OCgsZDbz2j_RuaHnZtiQk-sBSI7W22mkUsPCv-K-6-q4LaavHvgMiA>
- <xmx:OCgsZFbWxyw0k1ipkvJnkQzFWSbvIOP_Gc0GFod24ErP8mYUMzSbLg>
- <xmx:OCgsZPAi1ke_1E03Sm2lNwBp8YcttWSvW--O3XVCZPOEguuVlgDLzQ>
- <xmx:OCgsZGlgRMdX6lEfBlKniHEdNgmrTAw4i8VrxJv6tk9hXVGFhLWGxg>
+X-ME-Proxy: <xmx:OygsZMFX8-oSdBbUgxdMaes6ZLNTODgy3tiDDnKUD8XDHayoDBRGhA>
+ <xmx:OygsZIWHoyoNUWobZet0UDBUPai5Wn917a3kV3sl9wvWheUMblqAig>
+ <xmx:OygsZPPN5NiZDhj5ee9-U4nEuSau1m-mUY8I973Mj4dePQ0gleeyMQ>
+ <xmx:OygsZLAgZV8fNqUGboNVTJ7PsVHYcWo-iZ-eDWJWmft-FPN8eBuQrg>
 Feedback-ID: i8771445c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 4 Apr 2023 09:37:58 -0400 (EDT)
+ 4 Apr 2023 09:38:01 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
-Date: Tue, 04 Apr 2023 12:11:37 +0200
-Subject: [PATCH v3 47/65] clk: axi-clkgen: Switch to determine_rate
+Date: Tue, 04 Apr 2023 12:11:38 +0200
+Subject: [PATCH v3 48/65] clk: cdce706: divider: Switch to determine_rate
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20221018-clk-range-checks-fixes-v3-47-9a1358472d52@cerno.tech>
+Message-Id: <20221018-clk-range-checks-fixes-v3-48-9a1358472d52@cerno.tech>
 References: <20221018-clk-range-checks-fixes-v3-0-9a1358472d52@cerno.tech>
 In-Reply-To: <20221018-clk-range-checks-fixes-v3-0-9a1358472d52@cerno.tech>
 To: Michael Turquette <mturquette@baylibre.com>,
@@ -108,11 +108,11 @@ To: Michael Turquette <mturquette@baylibre.com>,
  Baolin Wang <baolin.wang@linux.alibaba.com>,
  Chunyan Zhang <zhang.lyra@gmail.com>
 X-Mailer: b4 0.12.1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3069; i=maxime@cerno.tech;
- h=from:subject:message-id; bh=9oaQlpc/KFCCil+OTLUgEmUzF3keYfuRRzMnXHxzJ4g=;
- b=owGbwMvMwCX2+D1vfrpE4FHG02pJDCna37c/yNgomH+rS7L0/r25R5fNuMIW9ky1v7bzRxtT4UvO
- /9zhHaUsDGJcDLJiiiwxwuZL4k7Net3JxjcPZg4rE8gQBi5OAZiIZTojwxOPlPS/XSG/HOUYfn6bKJ
- Cof/rnsnSBx8FnV3w6eD2qxZKRYW1Oh8E1q/05+peWnt9TUPKY9br7nPqkv/J75xoJalTPZAQA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3560; i=maxime@cerno.tech;
+ h=from:subject:message-id; bh=zMJ6UUDoX1CUKTbtefynEs3bRwgzTnh8sE29fViRc4E=;
+ b=owGbwMvMwCX2+D1vfrpE4FHG02pJDCna37f/2eI5+3/myXPTsouL2z+f11nlZJoVMVNDruxDTp2w
+ yn3+jlIWBjEuBlkxRZYYYfMlcadmve5k45sHM4eVCWQIAxenAEzkuyYjQ9+V6Y09B5dk8zQ+rtT8+2
+ H/e8cMnfY3183W3f3/k0+Ax5SR4S4vo1n2ERf5c/eyLylVb7qQytjl9fnEs4JtUw2eb1AqZQcA
 X-Developer-Key: i=maxime@cerno.tech; a=openpgp;
  fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -139,7 +139,7 @@ Cc: linux-rtc@vger.kernel.org, alsa-devel@alsa-project.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The AXI clkgen clocks implements a mux with a set_parent hook, but
+The cdce706 divider clocks implements a mux with a set_parent hook, but
 doesn't provide a determine_rate implementation.
 
 This is a bit odd, since set_parent() is there to, as its name implies,
@@ -169,53 +169,67 @@ oversight, the clock behaviour can be adjusted later on.
 
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/clk/clk-axi-clkgen.c | 14 ++++++++------
- 1 file changed, 8 insertions(+), 6 deletions(-)
+ drivers/clk/clk-cdce706.c | 18 ++++++++++--------
+ 1 file changed, 10 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/clk/clk-axi-clkgen.c b/drivers/clk/clk-axi-clkgen.c
-index 671bee55ceb3..dded52f9c774 100644
---- a/drivers/clk/clk-axi-clkgen.c
-+++ b/drivers/clk/clk-axi-clkgen.c
-@@ -384,23 +384,25 @@ static int axi_clkgen_set_rate(struct clk_hw *clk_hw,
+diff --git a/drivers/clk/clk-cdce706.c b/drivers/clk/clk-cdce706.c
+index dc046bbf83a1..a53769d239a9 100644
+--- a/drivers/clk/clk-cdce706.c
++++ b/drivers/clk/clk-cdce706.c
+@@ -288,18 +288,19 @@ static unsigned long cdce706_divider_recalc_rate(struct clk_hw *hw,
  	return 0;
  }
  
--static long axi_clkgen_round_rate(struct clk_hw *hw, unsigned long rate,
--	unsigned long *parent_rate)
-+static int axi_clkgen_determine_rate(struct clk_hw *hw,
-+				     struct clk_rate_request *req)
+-static long cdce706_divider_round_rate(struct clk_hw *hw, unsigned long rate,
+-				       unsigned long *parent_rate)
++static int cdce706_divider_determine_rate(struct clk_hw *hw,
++					  struct clk_rate_request *req)
  {
- 	struct axi_clkgen *axi_clkgen = clk_hw_to_axi_clkgen(hw);
- 	const struct axi_clkgen_limits *limits = &axi_clkgen->limits;
- 	unsigned int d, m, dout;
- 	unsigned long long tmp;
+ 	struct cdce706_hw_data *hwd = to_hw_data(hw);
+ 	struct cdce706_dev_data *cdce = hwd->dev_data;
++	unsigned long rate = req->rate;
+ 	unsigned long mul, div;
  
--	axi_clkgen_calc_params(limits, *parent_rate, rate, &d, &m, &dout);
-+	axi_clkgen_calc_params(limits, req->best_parent_rate, req->rate,
-+			       &d, &m, &dout);
+ 	dev_dbg(&hwd->dev_data->client->dev,
+ 		"%s, rate: %lu, parent_rate: %lu\n",
+-		__func__, rate, *parent_rate);
++		__func__, rate, req->best_parent_rate);
  
- 	if (d == 0 || dout == 0 || m == 0)
- 		return -EINVAL;
+-	rational_best_approximation(rate, *parent_rate,
++	rational_best_approximation(rate, req->best_parent_rate,
+ 				    1, CDCE706_DIVIDER_DIVIDER_MAX,
+ 				    &mul, &div);
+ 	if (!mul)
+@@ -344,8 +345,8 @@ static long cdce706_divider_round_rate(struct clk_hw *hw, unsigned long rate,
  
--	tmp = (unsigned long long)*parent_rate * m;
-+	tmp = (unsigned long long)req->best_parent_rate * m;
- 	tmp = DIV_ROUND_CLOSEST_ULL(tmp, dout * d);
+ 		dev_dbg(&hwd->dev_data->client->dev,
+ 			"%s, altering parent rate: %lu -> %lu\n",
+-			__func__, *parent_rate, rate * div);
+-		*parent_rate = rate * div;
++			__func__, req->best_parent_rate, rate * div);
++		req->best_parent_rate = rate * div;
+ 	}
+ 	hwd->div = div;
  
--	return min_t(unsigned long long, tmp, LONG_MAX);
-+	req->rate = min_t(unsigned long long, tmp, LONG_MAX);
+@@ -353,7 +354,8 @@ static long cdce706_divider_round_rate(struct clk_hw *hw, unsigned long rate,
+ 		"%s, divider: %d, div: %lu\n",
+ 		__func__, hwd->idx, div);
+ 
+-	return *parent_rate / div;
++	req->rate = req->best_parent_rate / div;
 +	return 0;
  }
  
- static unsigned int axi_clkgen_get_div(struct axi_clkgen *axi_clkgen,
-@@ -495,7 +497,7 @@ static u8 axi_clkgen_get_parent(struct clk_hw *clk_hw)
+ static int cdce706_divider_set_rate(struct clk_hw *hw, unsigned long rate,
+@@ -375,7 +377,7 @@ static const struct clk_ops cdce706_divider_ops = {
+ 	.set_parent = cdce706_divider_set_parent,
+ 	.get_parent = cdce706_divider_get_parent,
+ 	.recalc_rate = cdce706_divider_recalc_rate,
+-	.round_rate = cdce706_divider_round_rate,
++	.determine_rate = cdce706_divider_determine_rate,
+ 	.set_rate = cdce706_divider_set_rate,
+ };
  
- static const struct clk_ops axi_clkgen_ops = {
- 	.recalc_rate = axi_clkgen_recalc_rate,
--	.round_rate = axi_clkgen_round_rate,
-+	.determine_rate = axi_clkgen_determine_rate,
- 	.set_rate = axi_clkgen_set_rate,
- 	.enable = axi_clkgen_enable,
- 	.disable = axi_clkgen_disable,
 
 -- 
 2.39.2
