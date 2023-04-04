@@ -2,45 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B8946D557B
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Apr 2023 02:22:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14AF06D557E
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Apr 2023 02:22:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B62CC10E048;
-	Tue,  4 Apr 2023 00:22:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4998010E1B6;
+	Tue,  4 Apr 2023 00:22:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7068C10E05F;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3921410E048;
  Tue,  4 Apr 2023 00:22:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1680567744; x=1712103744;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=S1slQD3OeKnMaC9hsbtA7WJFpQywRZAU0l5Iq4exbig=;
- b=FY5Z2nrvyO4exbKTVCIVPpxt7Gp383dR8YkPc5ZPU6qmp6beBSJ/gxO+
- LQNyqyZ2+0ZhwAkXDZbXJmUz9rF2cRyKSzcbeodb3ULrPgiTa9pnjCM9X
- ssSDja8szzWZX715Sr6koxpZQPTiaitPNDVTtatJh5A2tMstl0lI7VVg0
- DlUWrMWYw3dfJD8nhTyjoBwend/rsURNkCHd68LwC2D+6Uh9GUSz5WTMA
- /Mtsu9Iy5W1kqqXKhX822dId4gd0CInEIdzhvlsjoSJ8ehEu5d7CyQ6zc
- jT0FGM3QUy47Auum9EncpUQTQrTlLLGM+5n1LceTDlV0MOsyTEevfg4S9 Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10669"; a="404810527"
-X-IronPort-AV: E=Sophos;i="5.98,316,1673942400"; d="scan'208";a="404810527"
+ bh=dcXnSMvcGNfZZWnYrnn67phCKax1D1Ipxk/D6bzwRVk=;
+ b=Jn6P4RmXZvdbvYdTe7mcpYyveY6w5nDj5cb7vPrVqViziiL7+hB0fbZL
+ s6sqh9zqZhxYD9P0EJOiKk89lBPRJAY2NhiR2I04ISoGqoGwrC91P0b3p
+ TdG4LotSjH6TnFFDjJeABZghyw0Fk5PZgK6Uyh4MOwX+QpQyM0WgJyXjk
+ PT3iklUaYvLtllCZjzMaGwsFY90+L/gh39RIis5O7oEhqRuKZoZbckhAi
+ GLp0DjDlIGuuR3dw6g9vxURN1QZEGdi+sAZu/WfBSkBvg67RtB+VQYDu6
+ f8WiyJgCEzysCo/tyO/Ov2DxwEdcU3I9Pr46QbDVwLP/TOB9xINsXrDtg g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10669"; a="404810536"
+X-IronPort-AV: E=Sophos;i="5.98,316,1673942400"; d="scan'208";a="404810536"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  03 Apr 2023 17:22:22 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10669"; a="716460306"
-X-IronPort-AV: E=Sophos;i="5.98,316,1673942400"; d="scan'208";a="716460306"
+X-IronPort-AV: E=McAfee;i="6600,9927,10669"; a="716460309"
+X-IronPort-AV: E=Sophos;i="5.98,316,1673942400"; d="scan'208";a="716460309"
 Received: from lstrano-desk.jf.intel.com ([10.24.89.184])
  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  03 Apr 2023 17:22:21 -0700
 From: Matthew Brost <matthew.brost@intel.com>
 To: dri-devel@lists.freedesktop.org,
 	intel-xe@lists.freedesktop.org
-Subject: [RFC PATCH 06/10] drm/sched: Submit job before starting TDR
-Date: Mon,  3 Apr 2023 17:22:07 -0700
-Message-Id: <20230404002211.3611376-7-matthew.brost@intel.com>
+Subject: [RFC PATCH 07/10] drm/sched: Add helper to set TDR timeout
+Date: Mon,  3 Apr 2023 17:22:08 -0700
+Message-Id: <20230404002211.3611376-8-matthew.brost@intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230404002211.3611376-1-matthew.brost@intel.com>
 References: <20230404002211.3611376-1-matthew.brost@intel.com>
@@ -65,31 +65,57 @@ Cc: robdclark@chromium.org, thomas.hellstrom@linux.intel.com, airlied@linux.ie,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-If the TDR is set to a value, it can fire before a job is submitted in
-drm_sched_main. The job should be always be submitted before the TDR
-fires, fix this ordering.
+Add helper to set TDR timeout and restart the TDR with new timeout
+value. This will be used in XE, new Intel GPU driver, to trigger the TDR
+to cleanup drm_sched_entity that encounter errors.
 
 Signed-off-by: Matthew Brost <matthew.brost@intel.com>
 ---
- drivers/gpu/drm/scheduler/sched_main.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/scheduler/sched_main.c | 18 ++++++++++++++++++
+ include/drm/gpu_scheduler.h            |  1 +
+ 2 files changed, 19 insertions(+)
 
 diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
-index 6ae710017024..4eac02d212c1 100644
+index 4eac02d212c1..d61880315d8d 100644
 --- a/drivers/gpu/drm/scheduler/sched_main.c
 +++ b/drivers/gpu/drm/scheduler/sched_main.c
-@@ -1150,10 +1150,10 @@ static void drm_sched_main(struct work_struct *w)
- 		s_fence = sched_job->s_fence;
+@@ -370,6 +370,24 @@ static void drm_sched_start_timeout(struct drm_gpu_scheduler *sched)
+ 		queue_delayed_work(sched->timeout_wq, &sched->work_tdr, sched->timeout);
+ }
  
- 		atomic_inc(&sched->hw_rq_count);
--		drm_sched_job_begin(sched_job);
++/**
++ * drm_sched_set_timeout - set timeout for reset worker
++ *
++ * @sched: scheduler instance to set and (re)-start the worker for
++ * @timeout: timeout period
++ *
++ * Set and (re)-start the timeout for the given scheduler.
++ */
++void drm_sched_set_timeout(struct drm_gpu_scheduler *sched, long timeout)
++{
++	spin_lock(&sched->job_list_lock);
++	sched->timeout = timeout;
++	cancel_delayed_work(&sched->work_tdr);
++	drm_sched_start_timeout(sched);
++	spin_unlock(&sched->job_list_lock);
++}
++EXPORT_SYMBOL(drm_sched_set_timeout);
++
+ /**
+  * drm_sched_fault - immediately start timeout handler
+  *
+diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
+index 18172ae63ab7..6258e324bd7c 100644
+--- a/include/drm/gpu_scheduler.h
++++ b/include/drm/gpu_scheduler.h
+@@ -593,6 +593,7 @@ void drm_sched_entity_modify_sched(struct drm_sched_entity *entity,
+ 				    struct drm_gpu_scheduler **sched_list,
+                                    unsigned int num_sched_list);
  
- 		trace_drm_run_job(sched_job, entity);
- 		fence = sched->ops->run_job(sched_job);
-+		drm_sched_job_begin(sched_job);
- 		complete_all(&entity->entity_idle);
- 		drm_sched_fence_scheduled(s_fence);
- 
++void drm_sched_set_timeout(struct drm_gpu_scheduler *sched, long timeout);
+ void drm_sched_job_cleanup(struct drm_sched_job *job);
+ void drm_sched_wakeup(struct drm_gpu_scheduler *sched);
+ void drm_sched_add_msg(struct drm_gpu_scheduler *sched,
 -- 
 2.34.1
 
