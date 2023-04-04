@@ -1,41 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F8F06D59C7
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Apr 2023 09:37:39 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 521B16D59D8
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Apr 2023 09:42:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D4CB510E5FE;
-	Tue,  4 Apr 2023 07:37:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 66CD810E144;
+	Tue,  4 Apr 2023 07:42:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net
- [IPv6:2001:4b98:dc4:8::229])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 50F2E10E5FE
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Apr 2023 07:37:31 +0000 (UTC)
-Received: from booty.fritz.box (unknown [77.244.183.192])
- (Authenticated sender: luca.ceresoli@bootlin.com)
- by mail.gandi.net (Postfix) with ESMTPA id E8061FF806;
- Tue,  4 Apr 2023 07:37:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1680593846;
+Received: from aposti.net (aposti.net [89.234.176.197])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E3CD310E144
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Apr 2023 07:42:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
+ s=mail; t=1680594132;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=dYxgRiKBiyC9aBkvrnxyDE3aBRygWQf6CKuf5len1Ks=;
- b=fTrVC7oiQFon1yRW4lDxVOkJPJ6zVmR4++6L3cF5Cy+lHiaimfr9mKysHIqcuOmnKc+XHb
- X8mEoNpBsTgLvpMcdqWrhdiodv9kyKfUyC2IeHyyLfNv/+kHuYS/FgmcMTuK2JzEaN7h48
- 5BZn/onnmGu2jScMQeBk/hAs/UE76ripctN96fK94wUqzF1LG+0v1mxDMEPnlA5IoT3KJ5
- Fxag6WwA2jsLAidrRzbv4AnUzbGHjzwaP08sp0ux5aeagYXKPo8zsxCbEQ68Zmk9XKj/QS
- g0MOKpvY9xjJXi9r7H+neKvzdpHbPGcJ4uibTUXA1kSMzbN/II46YDpRFiTNsA==
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm: bridge: ldb: add support for using channel 1 only
-Date: Tue,  4 Apr 2023 09:37:20 +0200
-Message-Id: <20230404073720.1465552-1-luca.ceresoli@bootlin.com>
-X-Mailer: git-send-email 2.34.1
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=qOZ8v52pVL5DD+Gn0MGYLxezIgSQkcNGsAlQQVJ5uHQ=;
+ b=rczpZOCJplcg3kGUzumWu10j9pyrmtEYX0tOTEJGulUwch5PZbja4Y7k1nGSFPmkOAuUec
+ LmPGA1KUU98IXrRquU315uAcPDBJOcbEcGh3JgYfgm30xhfTgME9c6io7kooRf0O44FfJ7
+ axFFQyms00TieZjobmvfgM8I9oqO6yw=
+Message-ID: <c9c9fa881aeda36862d0ad8c5a46472e0e363531.camel@crapouillou.net>
+Subject: Re: [PATCH v3 01/11] dmaengine: Add API function
+ dmaengine_prep_slave_dma_array()
+From: Paul Cercueil <paul@crapouillou.net>
+To: Hillf Danton <hdanton@sina.com>
+Date: Tue, 04 Apr 2023 09:42:11 +0200
+In-Reply-To: <20230404015944.502-1-hdanton@sina.com>
+References: <20230403154800.215924-1-paul@crapouillou.net>
+ <20230404015944.502-1-hdanton@sina.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,220 +46,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, Neil Armstrong <neil.armstrong@linaro.org>,
- Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>, linux-kernel@vger.kernel.org,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Luca Ceresoli <luca.ceresoli@bootlin.com>
+Cc: Michael Hennerich <Michael.Hennerich@analog.com>, linux-iio@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ linaro-mm-sig@lists.linaro.org, Vinod Koul <vkoul@kernel.org>,
+ Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>, dmaengine@vger.kernel.org,
+ Sumit Semwal <sumit.semwal@linaro.org>, Jonathan Cameron <jic23@kernel.org>,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The LDB driver currently checks whether dual mode is used, otherwise it
-assumes only channel 0 is in use. Add support for using only channel 1. In
-device tree terms, this means linking port 2 only.
-
-Doing this cleanly requires changing the logic of the probe functions from
-this:
-
- 1. use of_graph_get_remote_node() on port 1 to find the panel
- 2. use drm_of_lvds_get_dual_link_pixel_order() to detect dual mode
-
-to this:
-
- 1. use of_graph_get_remote_node() twice to find remote ports
- 2. reuse the result of the above to know whether each channel is enabled
-    and to find the panel
- 3. if (both channels as enabled)
-        use drm_of_lvds_get_dual_link_pixel_order() to detect dual mode
-
-Also add a dev_dbg() to log the detected mode and log an error in case no
-panel was found (no channel enabled).
-
-Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
----
- drivers/gpu/drm/bridge/fsl-ldb.c | 112 ++++++++++++++++++-------------
- 1 file changed, 67 insertions(+), 45 deletions(-)
-
-diff --git a/drivers/gpu/drm/bridge/fsl-ldb.c b/drivers/gpu/drm/bridge/fsl-ldb.c
-index 6bac160b395b..d844fb946981 100644
---- a/drivers/gpu/drm/bridge/fsl-ldb.c
-+++ b/drivers/gpu/drm/bridge/fsl-ldb.c
-@@ -84,10 +84,16 @@ struct fsl_ldb {
- 	struct drm_bridge *panel_bridge;
- 	struct clk *clk;
- 	struct regmap *regmap;
--	bool lvds_dual_link;
- 	const struct fsl_ldb_devdata *devdata;
-+	bool ch0_enabled;
-+	bool ch1_enabled;
- };
- 
-+static bool fsl_ldb_is_dual(const struct fsl_ldb *fsl_ldb)
-+{
-+	return (fsl_ldb->ch0_enabled && fsl_ldb->ch1_enabled);
-+}
-+
- static inline struct fsl_ldb *to_fsl_ldb(struct drm_bridge *bridge)
- {
- 	return container_of(bridge, struct fsl_ldb, bridge);
-@@ -95,7 +101,7 @@ static inline struct fsl_ldb *to_fsl_ldb(struct drm_bridge *bridge)
- 
- static unsigned long fsl_ldb_link_frequency(struct fsl_ldb *fsl_ldb, int clock)
- {
--	if (fsl_ldb->lvds_dual_link)
-+	if (fsl_ldb_is_dual(fsl_ldb))
- 		return clock * 3500;
- 	else
- 		return clock * 7000;
-@@ -177,28 +183,25 @@ static void fsl_ldb_atomic_enable(struct drm_bridge *bridge,
- 	clk_prepare_enable(fsl_ldb->clk);
- 
- 	/* Program LDB_CTRL */
--	reg = LDB_CTRL_CH0_ENABLE;
--
--	if (fsl_ldb->lvds_dual_link)
--		reg |= LDB_CTRL_CH1_ENABLE | LDB_CTRL_SPLIT_MODE;
--
--	if (lvds_format_24bpp) {
--		reg |= LDB_CTRL_CH0_DATA_WIDTH;
--		if (fsl_ldb->lvds_dual_link)
--			reg |= LDB_CTRL_CH1_DATA_WIDTH;
--	}
--
--	if (lvds_format_jeida) {
--		reg |= LDB_CTRL_CH0_BIT_MAPPING;
--		if (fsl_ldb->lvds_dual_link)
--			reg |= LDB_CTRL_CH1_BIT_MAPPING;
--	}
--
--	if (mode->flags & DRM_MODE_FLAG_PVSYNC) {
--		reg |= LDB_CTRL_DI0_VSYNC_POLARITY;
--		if (fsl_ldb->lvds_dual_link)
--			reg |= LDB_CTRL_DI1_VSYNC_POLARITY;
--	}
-+	reg =
-+		(fsl_ldb->ch0_enabled ? LDB_CTRL_CH0_ENABLE : 0) |
-+		(fsl_ldb->ch1_enabled ? LDB_CTRL_CH1_ENABLE : 0) |
-+		(fsl_ldb_is_dual(fsl_ldb) ? LDB_CTRL_SPLIT_MODE : 0);
-+
-+	if (lvds_format_24bpp)
-+		reg |=
-+			(fsl_ldb->ch0_enabled ? LDB_CTRL_CH0_DATA_WIDTH : 0) |
-+			(fsl_ldb->ch1_enabled ? LDB_CTRL_CH1_DATA_WIDTH : 0);
-+
-+	if (lvds_format_jeida)
-+		reg |=
-+			(fsl_ldb->ch0_enabled ? LDB_CTRL_CH0_BIT_MAPPING : 0) |
-+			(fsl_ldb->ch1_enabled ? LDB_CTRL_CH1_BIT_MAPPING : 0);
-+
-+	if (mode->flags & DRM_MODE_FLAG_PVSYNC)
-+		reg |=
-+			(fsl_ldb->ch0_enabled ? LDB_CTRL_DI0_VSYNC_POLARITY : 0) |
-+			(fsl_ldb->ch1_enabled ? LDB_CTRL_DI1_VSYNC_POLARITY : 0);
- 
- 	regmap_write(fsl_ldb->regmap, fsl_ldb->devdata->ldb_ctrl, reg);
- 
-@@ -210,9 +213,9 @@ static void fsl_ldb_atomic_enable(struct drm_bridge *bridge,
- 	/* Wait for VBG to stabilize. */
- 	usleep_range(15, 20);
- 
--	reg |= LVDS_CTRL_CH0_EN;
--	if (fsl_ldb->lvds_dual_link)
--		reg |= LVDS_CTRL_CH1_EN;
-+	reg |=
-+		(fsl_ldb->ch0_enabled ? LVDS_CTRL_CH0_EN : 0) |
-+		(fsl_ldb->ch1_enabled ? LVDS_CTRL_CH1_EN : 0);
- 
- 	regmap_write(fsl_ldb->regmap, fsl_ldb->devdata->lvds_ctrl, reg);
- }
-@@ -265,7 +268,7 @@ fsl_ldb_mode_valid(struct drm_bridge *bridge,
- {
- 	struct fsl_ldb *fsl_ldb = to_fsl_ldb(bridge);
- 
--	if (mode->clock > (fsl_ldb->lvds_dual_link ? 160000 : 80000))
-+	if (mode->clock > (fsl_ldb_is_dual(fsl_ldb) ? 160000 : 80000))
- 		return MODE_CLOCK_HIGH;
- 
- 	return MODE_OK;
-@@ -286,7 +289,7 @@ static int fsl_ldb_probe(struct platform_device *pdev)
- {
- 	struct device *dev = &pdev->dev;
- 	struct device_node *panel_node;
--	struct device_node *port1, *port2;
-+	struct device_node *remote1, *remote2;
- 	struct drm_panel *panel;
- 	struct fsl_ldb *fsl_ldb;
- 	int dual_link;
-@@ -311,10 +314,23 @@ static int fsl_ldb_probe(struct platform_device *pdev)
- 	if (IS_ERR(fsl_ldb->regmap))
- 		return PTR_ERR(fsl_ldb->regmap);
- 
--	/* Locate the panel DT node. */
--	panel_node = of_graph_get_remote_node(dev->of_node, 1, 0);
--	if (!panel_node)
--		return -ENXIO;
-+	/* Locate the remote ports and the panel node */
-+	remote1 = of_graph_get_remote_node(dev->of_node, 1, 0);
-+	remote2 = of_graph_get_remote_node(dev->of_node, 2, 0);
-+	fsl_ldb->ch0_enabled = (remote1 != NULL);
-+	fsl_ldb->ch1_enabled = (remote2 != NULL);
-+	panel_node = of_node_get(remote1 ? remote1 : remote2);
-+	of_node_put(remote1);
-+	of_node_put(remote2);
-+
-+	if (!fsl_ldb->ch0_enabled && !fsl_ldb->ch1_enabled) {
-+		of_node_put(panel_node);
-+		return dev_err_probe(dev, -ENXIO, "No panel node found");
-+	}
-+
-+	dev_dbg(dev, "Using %s\n",
-+		fsl_ldb_is_dual(fsl_ldb) ? "dual mode" :
-+		fsl_ldb->ch0_enabled ? "channel 0" : "channel 1");
- 
- 	panel = of_drm_find_panel(panel_node);
- 	of_node_put(panel_node);
-@@ -325,20 +341,26 @@ static int fsl_ldb_probe(struct platform_device *pdev)
- 	if (IS_ERR(fsl_ldb->panel_bridge))
- 		return PTR_ERR(fsl_ldb->panel_bridge);
- 
--	/* Determine whether this is dual-link configuration */
--	port1 = of_graph_get_port_by_id(dev->of_node, 1);
--	port2 = of_graph_get_port_by_id(dev->of_node, 2);
--	dual_link = drm_of_lvds_get_dual_link_pixel_order(port1, port2);
--	of_node_put(port1);
--	of_node_put(port2);
- 
--	if (dual_link == DRM_LVDS_DUAL_LINK_EVEN_ODD_PIXELS) {
--		dev_err(dev, "LVDS channel pixel swap not supported.\n");
--		return -EINVAL;
--	}
-+	if (fsl_ldb_is_dual(fsl_ldb)) {
-+		struct device_node *port1, *port2;
-+
-+		port1 = of_graph_get_port_by_id(dev->of_node, 1);
-+		port2 = of_graph_get_port_by_id(dev->of_node, 2);
-+		dual_link = drm_of_lvds_get_dual_link_pixel_order(port1, port2);
-+		of_node_put(port1);
-+		of_node_put(port2);
- 
--	if (dual_link == DRM_LVDS_DUAL_LINK_ODD_EVEN_PIXELS)
--		fsl_ldb->lvds_dual_link = true;
-+		if (dual_link < 0)
-+			return dev_err_probe(dev, dual_link,
-+					     "Error getting dual link configuration");
-+
-+		/* Only DRM_LVDS_DUAL_LINK_ODD_EVEN_PIXELS is supported */
-+		if (dual_link == DRM_LVDS_DUAL_LINK_EVEN_ODD_PIXELS) {
-+			dev_err(dev, "LVDS channel pixel swap not supported.\n");
-+			return -EINVAL;
-+		}
-+	}
- 
- 	platform_set_drvdata(pdev, fsl_ldb);
- 
--- 
-2.34.1
+SGkgSGlsbGYsCgpMZSBtYXJkaSAwNCBhdnJpbCAyMDIzIMOgIDA5OjU5ICswODAwLCBIaWxsZiBE
+YW50b24gYSDDqWNyaXTCoDoKPiBPbiAzIEFwciAyMDIzIDE3OjQ3OjUwICswMjAwIFBhdWwgQ2Vy
+Y3VlaWwgPHBhdWxAY3JhcG91aWxsb3UubmV0Pgo+ID4gVGhpcyBmdW5jdGlvbiBjYW4gYmUgdXNl
+ZCB0byBpbml0aWF0ZSBhIHNjYXR0ZXItZ2F0aGVyIERNQSB0cmFuc2Zlcgo+ID4gd2hlcmUgdGhl
+IERNQSBhZGRyZXNzZXMgYW5kIGxlbmd0aHMgYXJlIGxvY2F0ZWQgaW5zaWRlIGFycmF5cy4KPiA+
+IAo+ID4gVGhlIG1ham9yIGRpZmZlcmVuY2Ugd2l0aCBkbWFlbmdpbmVfcHJlcF9zbGF2ZV9zZygp
+IGlzIHRoYXQgaXQKPiA+IHN1cHBvcnRzCj4gPiBzcGVjaWZ5aW5nIHRoZSBsZW5ndGhzIG9mIGVh
+Y2ggRE1BIHRyYW5zZmVyOyBhcyB0cnlpbmcgdG8gb3ZlcnJpZGUKPiA+IHRoZQo+ID4gbGVuZ3Ro
+IG9mIHRoZSB0cmFuc2ZlciB3aXRoIGRtYWVuZ2luZV9wcmVwX3NsYXZlX3NnKCkgaXMgYSB2ZXJ5
+Cj4gPiB0ZWRpb3VzCj4gPiBwcm9jZXNzLiBUaGUgaW50cm9kdWN0aW9uIG9mIGEgbmV3IEFQSSBm
+dW5jdGlvbiBpcyBhbHNvIGp1c3RpZmllZAo+ID4gYnkgdGhlCj4gPiBmYWN0IHRoYXQgc2NhdHRl
+cmxpc3RzIGFyZSBvbiB0aGVpciB3YXkgb3V0Lgo+IAo+IEdpdmVuIHNnJ3Mgd2F5b3V0IGFuZCBj
+b25jZXB0dWFsbHkgaW92ZWMgYW5kIGt2ZWMgKGluCj4gaW5jbHVkZS9saW51eC91aW8uaCksCj4g
+d2hhdCB5b3UgYWRkIHNob3VsZCBoYXZlIGJlZW4gZG1hX3ZlYyB0byBlYXNlIHBlb3BsZSBtYWtp
+bmcgdXNlIG9mCj4gaXQuCj4gCj4gwqDCoMKgwqDCoMKgwqDCoHN0cnVjdCBkbWFfdmVjIHsKPiDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoGRtYV9hZGRyX3TCoMKgwqDCoMKgwqBhZGRy
+Owo+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgc2l6ZV90wqDCoMKgwqDCoMKgwqDC
+oMKgwqBsZW47Cj4gwqDCoMKgwqDCoMKgwqDCoH07CgpXZWxsIGl0J3Mgbm90IHRvbyBsYXRlIDsp
+CgpUaGFua3MgZm9yIHRoZSBmZWVkYmFjay4KCkNoZWVycywKLVBhdWwKCj4gPiAKPiA+IFNpZ25l
+ZC1vZmYtYnk6IFBhdWwgQ2VyY3VlaWwgPHBhdWxAY3JhcG91aWxsb3UubmV0Pgo+ID4gCj4gPiAt
+LS0KPiA+IHYzOiBOZXcgcGF0Y2gKPiA+IC0tLQo+ID4gwqBpbmNsdWRlL2xpbnV4L2RtYWVuZ2lu
+ZS5oIHwgMTYgKysrKysrKysrKysrKysrKwo+ID4gwqAxIGZpbGUgY2hhbmdlZCwgMTYgaW5zZXJ0
+aW9ucygrKQo+ID4gCj4gPiBkaWZmIC0tZ2l0IGEvaW5jbHVkZS9saW51eC9kbWFlbmdpbmUuaCBi
+L2luY2x1ZGUvbGludXgvZG1hZW5naW5lLmgKPiA+IGluZGV4IGMzNjU2ZTU5MDIxMy4uNjJlZmEy
+OGMwMDlhIDEwMDY0NAo+ID4gLS0tIGEvaW5jbHVkZS9saW51eC9kbWFlbmdpbmUuaAo+ID4gKysr
+IGIvaW5jbHVkZS9saW51eC9kbWFlbmdpbmUuaAo+ID4gQEAgLTkxMiw2ICs5MTIsMTEgQEAgc3Ry
+dWN0IGRtYV9kZXZpY2Ugewo+ID4gwqDCoMKgwqDCoMKgwqDCoHN0cnVjdCBkbWFfYXN5bmNfdHhf
+ZGVzY3JpcHRvcgo+ID4gKigqZGV2aWNlX3ByZXBfZG1hX2ludGVycnVwdCkoCj4gPiDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoHN0cnVjdCBkbWFfY2hhbiAqY2hhbiwgdW5zaWduZWQg
+bG9uZyBmbGFncyk7Cj4gPiDCoAo+ID4gK8KgwqDCoMKgwqDCoMKgc3RydWN0IGRtYV9hc3luY190
+eF9kZXNjcmlwdG9yCj4gPiAqKCpkZXZpY2VfcHJlcF9zbGF2ZV9kbWFfYXJyYXkpKAo+ID4gK8Kg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoHN0cnVjdCBkbWFfY2hhbiAqY2hhbiwgZG1hX2Fk
+ZHJfdCAqYWRkcnMsCj4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgc2l6ZV90ICps
+ZW5ndGhzLCBzaXplX3QgbmIsCj4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgZW51
+bSBkbWFfdHJhbnNmZXJfZGlyZWN0aW9uIGRpcmVjdGlvbiwKPiA+ICvCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqB1bnNpZ25lZCBsb25nIGZsYWdzKTsKPiAKPiBUaGVuIHRoZSBjYWxsYmFj
+ayBsb29rcyBsaWtlCj4gCj4gwqDCoMKgwqDCoMKgwqDCoHN0cnVjdCBkbWFfYXN5bmNfdHhfZGVz
+Y3JpcHRvciAqKCpkZXZpY2VfcHJlcF9zbGF2ZV92ZWMpKAo+IMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgc3RydWN0IGRtYV9jaGFuICpjaGFuLAo+IMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgc3RydWN0IGRtYV92ZWMgKnZlYywKPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoGludCBudmVjLAo+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgZW51
+bSBkbWFfdHJhbnNmZXJfZGlyZWN0aW9uIGRpcmVjdGlvbiwKPiDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoHVuc2lnbmVkIGxvbmcgZmxhZ3MpOwoK
 
