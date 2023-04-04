@@ -1,78 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA2B86D6FF3
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Apr 2023 00:12:31 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 05B786D700E
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Apr 2023 00:21:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6C03C10E7D4;
-	Tue,  4 Apr 2023 22:12:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 43A5010E7D2;
+	Tue,  4 Apr 2023 22:21:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 70E9610E7D4;
- Tue,  4 Apr 2023 22:12:28 +0000 (UTC)
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 334ErIKP019412; Tue, 4 Apr 2023 22:12:22 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=uerbjAmfzgMPDUgUg2AEAzqKyg8+tW2n/LalK+Ace2M=;
- b=cUDHuqztN1QDHKEFLeYdaBAbDpt8tm/ytGjIg3FsxPDF8OT05QRCJeKZG/rcTyRQQ3rD
- 7PUtohlyI4BOyPlfu4gQxvO7xmbXGUWDYCVEDd5XAfBON7uVNz5I1TUE0nljzBLRDgqM
- 7RtSJ/VMbTMBtnqF8gjPfqT/ZZxy5mJsVQH2KgKoKE3Aza/5pSjUpbMlvUGPso6IlSuu
- hw8wIF9Fn7Eib/PlF+WG/ykiZ5CB8jriJti4ikkKoog7nMelaSfJ+tYUBcj9CxArQYlC
- m5Xua6q7tRS/63RyvHEPMhvX8ZtSqjWPm42cASZB5Jfn5JbQiYIc5pWVua4uG0KgKd/2 Eg== 
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3prmkmsdd8-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 04 Apr 2023 22:12:22 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 334MCL8J006310
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 4 Apr 2023 22:12:21 GMT
-Received: from [10.110.66.70] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Tue, 4 Apr 2023
- 15:12:20 -0700
-Message-ID: <aa3175ec-e381-7211-3bf1-ca8bb9ef696b@quicinc.com>
-Date: Tue, 4 Apr 2023 15:12:20 -0700
+X-Greylist: delayed 400 seconds by postgrey-1.36 at gabe;
+ Tue, 04 Apr 2023 22:21:49 UTC
+Received: from smtp102.iad3a.emailsrvr.com (smtp102.iad3a.emailsrvr.com
+ [173.203.187.102])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E235C10E7D2
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Apr 2023 22:21:49 +0000 (UTC)
+X-Auth-ID: kenneth@whitecape.org
+Received: by smtp29.relay.iad3a.emailsrvr.com (Authenticated sender:
+ kenneth-AT-whitecape.org) with ESMTPSA id 93E0E23A6C; 
+ Tue,  4 Apr 2023 18:15:07 -0400 (EDT)
+From: Kenneth Graunke <kenneth@whitecape.org>
+To: Matt Roper <matthew.d.roper@intel.com>, intel-gfx@lists.freedesktop.org,
+ Chris Wilson <chris.p.wilson@linux.intel.com>
+Subject: Re: [Intel-gfx] [PATCH 7/7] drm/i915: Allow user to set cache at BO
+ creation
+Date: Tue, 04 Apr 2023 15:15:02 -0700
+Message-ID: <841291489.4Es8JzXQGL@mizzik>
+In-Reply-To: <ZCsDaDzyOyu9mYU3@intel.com>
+References: <20230401063830.438127-1-fei.yang@intel.com>
+ <20230403163532.GT4085390@mdroper-desk1.amr.corp.intel.com>
+ <ZCsDaDzyOyu9mYU3@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.2
-Subject: Re: [PATCH v4 01/42] drm/msm/dpu: use CTL_SC7280_MASK for sm8450's
- ctl_0
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
- <robdclark@gmail.com>, Sean Paul <sean@poorly.run>
-References: <20230404130622.509628-1-dmitry.baryshkov@linaro.org>
- <20230404130622.509628-2-dmitry.baryshkov@linaro.org>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <20230404130622.509628-2-dmitry.baryshkov@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: Lb6nFo2MIsJdzCdkHhhBuZ9zo49LfSaf
-X-Proofpoint-ORIG-GUID: Lb6nFo2MIsJdzCdkHhhBuZ9zo49LfSaf
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-04-04_12,2023-04-04_05,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 malwarescore=0
- priorityscore=1501 mlxlogscore=999 impostorscore=0 adultscore=0
- lowpriorityscore=0 spamscore=0 phishscore=0 bulkscore=0 suspectscore=0
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2303200000 definitions=main-2304040202
+Content-Type: multipart/signed; boundary="nextPart6533292.K0ekAHHfTp";
+ micalg="pgp-sha256"; protocol="application/pgp-signature"
+X-Classification-ID: 43e8f2a4-730a-4a8d-b9b3-2a2d0a1f4921-1-1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,50 +46,122 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+--nextPart6533292.K0ekAHHfTp
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"; protected-headers="v1"
+From: Kenneth Graunke <kenneth@whitecape.org>
+Date: Tue, 04 Apr 2023 15:15:02 -0700
+Message-ID: <841291489.4Es8JzXQGL@mizzik>
+In-Reply-To: <ZCsDaDzyOyu9mYU3@intel.com>
+MIME-Version: 1.0
+
+On Monday, April 3, 2023 9:48:40 AM PDT Ville Syrj=E4l=E4 wrote:
+> On Mon, Apr 03, 2023 at 09:35:32AM -0700, Matt Roper wrote:
+> > On Mon, Apr 03, 2023 at 07:02:08PM +0300, Ville Syrj=E4l=E4 wrote:
+> > > On Fri, Mar 31, 2023 at 11:38:30PM -0700, fei.yang@intel.com wrote:
+> > > > From: Fei Yang <fei.yang@intel.com>
+> > > >=20
+> > > > To comply with the design that buffer objects shall have immutable
+> > > > cache setting through out its life cycle, {set, get}_caching ioctl's
+> > > > are no longer supported from MTL onward. With that change caching
+> > > > policy can only be set at object creation time. The current code
+> > > > applies a default (platform dependent) cache setting for all object=
+s.
+> > > > However this is not optimal for performance tuning. The patch exten=
+ds
+> > > > the existing gem_create uAPI to let user set PAT index for the obje=
+ct
+> > > > at creation time.
+> > >=20
+> > > This is missing the whole justification for the new uapi.
+> > > Why is MOCS not sufficient?
+> >=20
+> > PAT and MOCS are somewhat related, but they're not the same thing.  The
+> > general direction of the hardware architecture recently has been to
+> > slowly dumb down MOCS and move more of the important memory/cache
+> > control over to the PAT instead.  On current platforms there is some
+> > overlap (and MOCS has an "ignore PAT" setting that makes the MOCS "win"
+> > for the specific fields that both can control), but MOCS doesn't have a
+> > way to express things like snoop/coherency mode (on MTL), or class of
+> > service (on PVC).  And if you check some of the future platforms, the
+> > hardware design starts packing even more stuff into the PAT (not just
+> > cache behavior) which will never be handled by MOCS.
+>=20
+> Sigh. So the hardware designers screwed up MOCS yet again and
+> instead of getting that fixed we are adding a new uapi to work
+> around it?
+>=20
+> The IMO sane approach (which IIRC was the situation for a few
+> platform generations at least) is that you just shove the PAT
+> index into MOCS (or tell it to go look it up from the PTE).
+> Why the heck did they not just stick with that?
+
+There are actually some use cases in newer APIs where MOCS doesn't
+work well.  For example, VK_KHR_buffer_device_address in Vulkan 1.2:
+
+https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VK_KHR_bu=
+ffer_device_address.html
+
+It essentially adds "pointers to buffer memory in shaders", where apps
+can just get a 64-bit pointer, and use it with an address.  On our EUs,
+that turns into A64 data port messages which refer directly to memory.
+Notably, there's no descriptor (i.e. SURFACE_STATE) where you could
+stuff a MOCS value.  So, you get one single MOCS entry for all such
+buffers...which is specified in STATE_BASE_ADDRESS.  Hope you wanted
+all of them to have the same cache & coherency settings!
+
+With PAT/PTE, we can at least specify settings for each buffer, rather
+than one global setting.
+
+Compression has also been moving towards virtual address-based solutions
+and handling in the caches and memory controller, rather than in e.g.
+the sampler reading SURFACE_STATE.  (It started evolving that way with
+Tigerlake, really, but continues.)
+
+> > Also keep in mind that MOCS generally applies at the GPU instruction
+> > level; although a lot of instructions have a field to provide a MOCS
+> > index, or can use a MOCS already associated with a surface state, there
+> > are still some that don't. PAT is the source of memory access
+> > characteristics for anything that can't provide a MOCS directly.
+>=20
+> So what are the things that don't have MOCS and where we need
+> some custom cache behaviour, and we already know all that at
+> buffer creation time?
+
+=46or Meteorlake...we have MOCS for cache settings.  We only need to use
+PAT for coherency settings; I believe we can get away with deciding that
+up-front at buffer creation time.  If we were doing full cacheability,
+I'd be very nervous about deciding performance tuning at creation time.
+
+=2D-Ken
+
+--nextPart6533292.K0ekAHHfTp
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part.
+Content-Transfer-Encoding: 7Bit
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEE6OtbNAgc4e6ibv4ZW1vaBx1JzDgFAmQsoWYACgkQW1vaBx1J
+zDh7nw/+OdMoftQAugjEg3ahzqIEgMZYmgc6UKJYgyGu+Vuy9ipH+1CQJs0AsHGJ
+NBq07PvNAtPgNDQgCPB7unxrzXzGkokgfhJnTxpl+gd+nVimE9EQkku+L0k8eI9h
+1gXptoX0B//duToZgLIQnBSE2sT1In5mX2RcuGQ2ZHIXraVSsV2jvqM9zV4eTz8A
+CQAcmSDsggjhSF5jaciVaMa3wN38zscsF64xpVojMfuNl2Ra3Qc/QDzLlUtGwgu0
+0PxmV6qN5plViC3P2AXCVFmMiIwtvoFMnUmLrS+oicPk92SZaNxYwuVUCGZveMS1
+4bubTcFqq6dPcMf0KQ+qk1pRJK1AwDb9ncxlKxoRbaMVqdMY9Z91U8H2eiPp3cE2
+sDEptihFwnscTIVgr/NiNNTKK2FyDInZdF2Xkr0JZA/GWPf7EbCjyXA/yzAIqnF7
+J52XXOeYOGc3EIPLn8J53PTQ3dOV8i73CeWnKKaQIPeyvohR0ER6IBTdtZ9pxbNl
+zarROr78qInME3M582uHucxAR5QCfsQJ+zRa8iagmbsiYx3X2zeqNEkPl18f3IBR
+oh2LVGFNpf2gDglomsXQF5daB++pwKjtBAbF25tRksii+yf3pojs7BZGXCC+wUUW
+yOLhhwaH6MfHVJRLYfzy8hTY4EKTOZMac6P5ihVmofw68twwGNo=
+=bYu7
+-----END PGP SIGNATURE-----
+
+--nextPart6533292.K0ekAHHfTp--
 
 
-On 4/4/2023 6:05 AM, Dmitry Baryshkov wrote:
-> On sm8450 platform the CTL_0 doesn't differ from the rest of CTL blocks,
-> so switch it to CTL_SC7280_MASK too.
-> 
-> Some background: original commit 100d7ef6995d ("drm/msm/dpu: add support
-> for SM8450") had all (relevant at that time) bit spelled individually.
-> Then commit 0e91bcbb0016 ("drm/msm/dpu: Add SM8350 to hw catalog"),
-> despite being a mismerge, correctly changed all other CTL entries to use
-> CTL_SC7280_MASK, except CTL_0.
-> 
 
-I think having it spelled individually is better. If we start using one 
-chipset's mask for another, we are again going down the same path of 
-this becoming one confused file.
-
-So, even though I agree that 0e91bcbb0016 ("drm/msm/dpu: Add SM8350 to 
-hw catalog") corrected the mask to re-use sc7280, with the individual 
-catalog file, its better to have it separate and spelled individually.
-
-This change is not heading in the direction of the rest of the series.
-
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> ---
->   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-> index 6840b22a4159..83f8f83e2b29 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-> @@ -975,7 +975,7 @@ static const struct dpu_ctl_cfg sm8450_ctl[] = {
->   	{
->   	.name = "ctl_0", .id = CTL_0,
->   	.base = 0x15000, .len = 0x204,
-> -	.features = BIT(DPU_CTL_ACTIVE_CFG) | BIT(DPU_CTL_SPLIT_DISPLAY) | BIT(DPU_CTL_FETCH_ACTIVE),
-> +	.features = BIT(DPU_CTL_SPLIT_DISPLAY) | CTL_SC7280_MASK,
->   	.intr_start = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR2, 9),
->   	},
->   	{
