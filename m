@@ -2,61 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA8366D61FE
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Apr 2023 15:09:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3C426D61FF
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Apr 2023 15:09:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9167410E681;
-	Tue,  4 Apr 2023 13:08:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 074B810E687;
+	Tue,  4 Apr 2023 13:08:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22f.google.com (mail-lj1-x22f.google.com
- [IPv6:2a00:1450:4864:20::22f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C988810E668
+Received: from mail-lj1-x234.google.com (mail-lj1-x234.google.com
+ [IPv6:2a00:1450:4864:20::234])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BDE0210E64C
  for <dri-devel@lists.freedesktop.org>; Tue,  4 Apr 2023 13:08:46 +0000 (UTC)
-Received: by mail-lj1-x22f.google.com with SMTP id 20so33787384lju.0
+Received: by mail-lj1-x234.google.com with SMTP id by14so14584884ljb.12
  for <dri-devel@lists.freedesktop.org>; Tue, 04 Apr 2023 06:08:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1680613725;
+ d=linaro.org; s=google; t=1680613726;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=44JmUne5Hm2dBX9FK5AoG0B9rnG7eCRyp4yNztXnKPs=;
- b=SzSEWkUuym7iiKRopNfikD2oBSJySnT1DbCPWnShhvX6K2RT19qGz9uUxsRrGIHV6K
- YwE0SuJ7Af7PswacZTSPREiv+jjxCQdivmQEvPRcB3cjJ22F69Heh8x/2eI8U4Sdo6NY
- 1ZM6Ta+tmz9ZalYPdnbyGIlefFP5sxIILb+k2931/4e2I+mTDVZ8HzisWEM1I0p2UQq3
- LzbWBzc98weCbkJCm/EHHqubWd6EaNTga0G6w0hOynkVMGfw5UTdJ8cd6cOoB4ASKb/T
- ot3vf/Pu3GszYIgjP6fdMCEIXLt7Kw6a+V5IdCf6Nnpq9NFltivbki7onrVRVlhAeYjP
- YszQ==
+ bh=iibyVWN/abqgm7Eml7qpk3UPyUBwFNTYMXZN+GoNoNY=;
+ b=rr+xqi/ugdYL36srfAP0CIh+H6KjUeNZ/N4kYJgGMw5kEETBc/iaHywBgt5bch/19z
+ R1a7Bkv/wQlsmOYEXFXmnQ2gzIELwWzJBugg+ZdEMrpPD2au+LFUat4iDAtBBBSca6E/
+ CDLGTUAQsao7iIzmFHW4xnUyx6nDYapYQ2dgGIcQSekhnkhelJufMJ6KmiAjD7qhT33/
+ u6V94zPQXHA8EkUcsrNf5u+blehxw1n8MsgJCSiGoUNz0ZLcpM3lTx9BdZbWLeUOoman
+ uZAiiqYX748V5/JS7MdhLaYaKibPKR6Fwce1+cDxsHFDC7JyM+AqfQmgSzAlV5F7uWqL
+ rEvQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680613725;
+ d=1e100.net; s=20210112; t=1680613726;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=44JmUne5Hm2dBX9FK5AoG0B9rnG7eCRyp4yNztXnKPs=;
- b=4P8RSsunLHW9QokozQnDHzhm8q7GzX/Cqf00NH9FebiES6LfAJET2K39VjpU986JA7
- IwuoUSO4wmFmUSr/voCFJvCPyQXH0syHbX8IC0NNRq5tsTsJYJPXqBgIsttP8o8yxalw
- GjTIX3vNWZlD7xD0kgtJi2TmWACB6tZ1o/AWnolw7O2Dmc71iiWh9a9fhKMlZWaZZPX4
- 6N88b/GnPbM/5nzFNrSfyLU3qlbzBZmo7oDscQZOu6My6bBEZRlGd9Xioory9V2vSQco
- Xc30NUf2KQnkPXeCQ6+1sYin2oKnBXv5NwXNkychjrpm+LPAI+jsLqF5MKtx+cosWYxF
- L4Kw==
-X-Gm-Message-State: AAQBX9cxTL+owHVsQNwabibfsW4UMBQgr6qa6utRx44pbgxt88XGyT2o
- HqL/p9qx1E5YtCJgtkbqwZMolyXPdOjeBObJwUo=
-X-Google-Smtp-Source: AKy350Y64u28ZvuCfjHw7gWPq9/AQRj+0m3mG+xfXIbUXip7F3nWnM8TtYILYCcsKTftm/PINzCYaA==
-X-Received: by 2002:a2e:a4b8:0:b0:29a:6a8:ec2c with SMTP id
- g24-20020a2ea4b8000000b0029a06a8ec2cmr5686713ljm.12.1680613724880; 
- Tue, 04 Apr 2023 06:08:44 -0700 (PDT)
+ bh=iibyVWN/abqgm7Eml7qpk3UPyUBwFNTYMXZN+GoNoNY=;
+ b=zuXJLu4/UtByiTO+cjgMwrqJw1+WXVHmRsvrKGn4qIwPrWgJB8t01tCdOlluqJjUa8
+ MuKPc7FXXTiEusSan/WjY+dMROKC3bwOSy8mIGpSsJdAL+JxBl7y3PnB+mFI9ggnkqbi
+ oPfR6skQNT4KbOMZ/p6jO/qe8e/NErehZ73McIyCXUm/JDBQ5N50CKWyJSNQc4aiJ2QW
+ zg1LoT9E8lCE4UXtGS7QhlBNncKEFoVDhgZ/p/reXUiyS+cIehgbnl+LJ5WgTuxiFVt3
+ LW+EkAHuraclb4/LpOpNPaV7cHq6aWYxzdYnLANSWvi4sASRGRHh1n041A5FDlMMl8fh
+ zZ4w==
+X-Gm-Message-State: AAQBX9datTf0q3LP8WrbqU6MsEq3OMO+UdxA6p7yHpGChXBkbZhTDQ45
+ dmz/EVjXichKQUGTC6U3WwLLbw==
+X-Google-Smtp-Source: AKy350bfznYTvzSF2cTnvhWXv7ohW4ktovf+Luwj1O0jZgQzIiRhh7JdWv1gOhxbmX5YF1XN1GHVBQ==
+X-Received: by 2002:a2e:3006:0:b0:298:a1a3:a2e with SMTP id
+ w6-20020a2e3006000000b00298a1a30a2emr983861ljw.5.1680613726260; 
+ Tue, 04 Apr 2023 06:08:46 -0700 (PDT)
 Received: from eriador.lumag.spb.ru ([193.65.47.217])
  by smtp.gmail.com with ESMTPSA id
- c11-20020a05651c014b00b0029e5448e752sm2304789ljd.131.2023.04.04.06.08.43
+ c11-20020a05651c014b00b0029e5448e752sm2304789ljd.131.2023.04.04.06.08.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 04 Apr 2023 06:08:44 -0700 (PDT)
+ Tue, 04 Apr 2023 06:08:45 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
  Abhinav Kumar <quic_abhinavk@quicinc.com>
-Subject: [PATCH v4 09/42] drm/msm/dpu: split SC8280XP catalog entry to the
+Subject: [PATCH v4 10/42] drm/msm/dpu: split SC7280 catalog entry to the
  separate file
-Date: Tue,  4 Apr 2023 16:05:49 +0300
-Message-Id: <20230404130622.509628-10-dmitry.baryshkov@linaro.org>
+Date: Tue,  4 Apr 2023 16:05:50 +0300
+Message-Id: <20230404130622.509628-11-dmitry.baryshkov@linaro.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230404130622.509628-1-dmitry.baryshkov@linaro.org>
 References: <20230404130622.509628-1-dmitry.baryshkov@linaro.org>
@@ -83,174 +83,132 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 Reviewed-by: Konrad Dybcio <konrad.dybcio@linaro.org>
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- .../msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h  | 194 ++++++++++++++++++
- .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c    | 187 +----------------
- 2 files changed, 195 insertions(+), 186 deletions(-)
- create mode 100644 drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h
+ .../msm/disp/dpu1/catalog/dpu_7_2_sc7280.h    | 148 ++++++++++++++++++
+ .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c    | 144 +----------------
+ 2 files changed, 150 insertions(+), 142 deletions(-)
+ create mode 100644 drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h
 new file mode 100644
-index 000000000000..9cba45b4cf0e
+index 000000000000..ea34c2c7e25c
 --- /dev/null
-+++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h
-@@ -0,0 +1,194 @@
++++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h
+@@ -0,0 +1,148 @@
 +/* SPDX-License-Identifier: GPL-2.0-only */
 +/*
 + * Copyright (c) 2022. Qualcomm Innovation Center, Inc. All rights reserved.
 + * Copyright (c) 2015-2018, 2020 The Linux Foundation. All rights reserved.
 + */
 +
-+#ifndef _DPU_8_0_SC8280XP_H
-+#define _DPU_8_0_SC8280XP_H
++#ifndef _DPU_7_2_SC7280_H
++#define _DPU_7_2_SC7280_H
 +
-+static const struct dpu_caps sc8280xp_dpu_caps = {
-+	.max_mixer_width = 2560,
-+	.max_mixer_blendstages = 11,
++static const struct dpu_caps sc7280_dpu_caps = {
++	.max_mixer_width = DEFAULT_DPU_OUTPUT_LINE_WIDTH,
++	.max_mixer_blendstages = 0x7,
 +	.qseed_type = DPU_SSPP_SCALER_QSEED4,
-+	.has_src_split = true,
 +	.has_dim_layer = true,
 +	.has_idle_pc = true,
-+	.has_3d_merge = true,
-+	.max_linewidth = 5120,
++	.max_linewidth = 2400,
 +	.pixel_ram_size = DEFAULT_PIXEL_RAM_SIZE,
 +};
 +
-+static const struct dpu_ubwc_cfg sc8280xp_ubwc_cfg = {
-+	.ubwc_version = DPU_HW_UBWC_VER_40,
-+	.highest_bank_bit = 2,
-+	.ubwc_swizzle = 6,
++static const struct dpu_ubwc_cfg sc7280_ubwc_cfg = {
++	.ubwc_version = DPU_HW_UBWC_VER_30,
++	.highest_bank_bit = 0x1,
++	.ubwc_swizzle = 0x6,
 +};
 +
-+static const struct dpu_mdp_cfg sc8280xp_mdp[] = {
++static const struct dpu_mdp_cfg sc7280_mdp[] = {
 +	{
 +	.name = "top_0", .id = MDP_TOP,
-+	.base = 0x0, .len = 0x494,
-+	.features = BIT(DPU_MDP_PERIPH_0_REMOVED),
++	.base = 0x0, .len = 0x2014,
 +	.clk_ctrls[DPU_CLK_CTRL_VIG0] = { .reg_off = 0x2ac, .bit_off = 0 },
-+	.clk_ctrls[DPU_CLK_CTRL_VIG1] = { .reg_off = 0x2b4, .bit_off = 0 },
-+	.clk_ctrls[DPU_CLK_CTRL_VIG2] = { .reg_off = 0x2bc, .bit_off = 0 },
-+	.clk_ctrls[DPU_CLK_CTRL_VIG3] = { .reg_off = 0x2c4, .bit_off = 0 },
 +	.clk_ctrls[DPU_CLK_CTRL_DMA0] = { .reg_off = 0x2ac, .bit_off = 8 },
 +	.clk_ctrls[DPU_CLK_CTRL_DMA1] = { .reg_off = 0x2b4, .bit_off = 8 },
-+	.clk_ctrls[DPU_CLK_CTRL_DMA2] = { .reg_off = 0x2bc, .bit_off = 8 },
-+	.clk_ctrls[DPU_CLK_CTRL_DMA3] = { .reg_off = 0x2c4, .bit_off = 8 },
-+	.clk_ctrls[DPU_CLK_CTRL_REG_DMA] = { .reg_off = 0x2bc, .bit_off = 20 },
++	.clk_ctrls[DPU_CLK_CTRL_DMA2] = { .reg_off = 0x2c4, .bit_off = 8 },
 +	},
 +};
 +
-+static const struct dpu_ctl_cfg sc8280xp_ctl[] = {
++static const struct dpu_ctl_cfg sc7280_ctl[] = {
 +	{
 +	.name = "ctl_0", .id = CTL_0,
-+	.base = 0x15000, .len = 0x204,
++	.base = 0x15000, .len = 0x1e8,
 +	.features = CTL_SC7280_MASK,
 +	.intr_start = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR2, 9),
 +	},
 +	{
 +	.name = "ctl_1", .id = CTL_1,
-+	.base = 0x16000, .len = 0x204,
++	.base = 0x16000, .len = 0x1e8,
 +	.features = CTL_SC7280_MASK,
 +	.intr_start = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR2, 10),
 +	},
 +	{
 +	.name = "ctl_2", .id = CTL_2,
-+	.base = 0x17000, .len = 0x204,
++	.base = 0x17000, .len = 0x1e8,
 +	.features = CTL_SC7280_MASK,
 +	.intr_start = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR2, 11),
 +	},
 +	{
 +	.name = "ctl_3", .id = CTL_3,
-+	.base = 0x18000, .len = 0x204,
++	.base = 0x18000, .len = 0x1e8,
 +	.features = CTL_SC7280_MASK,
 +	.intr_start = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR2, 12),
 +	},
-+	{
-+	.name = "ctl_4", .id = CTL_4,
-+	.base = 0x19000, .len = 0x204,
-+	.features = CTL_SC7280_MASK,
-+	.intr_start = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR2, 13),
-+	},
-+	{
-+	.name = "ctl_5", .id = CTL_5,
-+	.base = 0x1a000, .len = 0x204,
-+	.features = CTL_SC7280_MASK,
-+	.intr_start = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR2, 23),
-+	},
 +};
 +
-+static const struct dpu_sspp_cfg sc8280xp_sspp[] = {
-+	SSPP_BLK("sspp_0", SSPP_VIG0, 0x4000, 0x2ac, VIG_SC7180_MASK,
-+		 sc8280xp_vig_sblk_0, 0, SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG0),
-+	SSPP_BLK("sspp_1", SSPP_VIG1, 0x6000, 0x2ac, VIG_SC7180_MASK,
-+		 sc8280xp_vig_sblk_1, 4, SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG1),
-+	SSPP_BLK("sspp_2", SSPP_VIG2, 0x8000, 0x2ac, VIG_SC7180_MASK,
-+		 sc8280xp_vig_sblk_2, 8, SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG2),
-+	SSPP_BLK("sspp_3", SSPP_VIG3, 0xa000, 0x2ac, VIG_SC7180_MASK,
-+		 sc8280xp_vig_sblk_3, 12, SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG3),
-+	SSPP_BLK("sspp_8", SSPP_DMA0, 0x24000, 0x2ac, DMA_SDM845_MASK,
-+		 sdm845_dma_sblk_0, 1, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA0),
-+	SSPP_BLK("sspp_9", SSPP_DMA1, 0x26000, 0x2ac, DMA_SDM845_MASK,
-+		 sdm845_dma_sblk_1, 5, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA1),
-+	SSPP_BLK("sspp_10", SSPP_DMA2, 0x28000, 0x2ac, DMA_CURSOR_SDM845_MASK,
-+		 sdm845_dma_sblk_2, 9, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA2),
-+	SSPP_BLK("sspp_11", SSPP_DMA3, 0x2a000, 0x2ac, DMA_CURSOR_SDM845_MASK,
-+		 sdm845_dma_sblk_3, 13, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA3),
++static const struct dpu_sspp_cfg sc7280_sspp[] = {
++	SSPP_BLK("sspp_0", SSPP_VIG0, 0x4000, 0x1f8, VIG_SC7280_MASK_SDMA,
++		sc7280_vig_sblk_0, 0, SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG0),
++	SSPP_BLK("sspp_8", SSPP_DMA0, 0x24000, 0x1f8, DMA_SDM845_MASK_SDMA,
++		sdm845_dma_sblk_0, 1, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA0),
++	SSPP_BLK("sspp_9", SSPP_DMA1, 0x26000, 0x1f8, DMA_CURSOR_SDM845_MASK_SDMA,
++		sdm845_dma_sblk_1, 5, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA1),
++	SSPP_BLK("sspp_10", SSPP_DMA2, 0x28000, 0x1f8, DMA_CURSOR_SDM845_MASK_SDMA,
++		sdm845_dma_sblk_2, 9, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA2),
 +};
 +
-+static const struct dpu_lm_cfg sc8280xp_lm[] = {
-+	LM_BLK("lm_0", LM_0, 0x44000, MIXER_SDM845_MASK, &sdm845_lm_sblk, PINGPONG_0, LM_1, DSPP_0),
-+	LM_BLK("lm_1", LM_1, 0x45000, MIXER_SDM845_MASK, &sdm845_lm_sblk, PINGPONG_1, LM_0, DSPP_1),
-+	LM_BLK("lm_2", LM_2, 0x46000, MIXER_SDM845_MASK, &sdm845_lm_sblk, PINGPONG_2, LM_3, DSPP_2),
-+	LM_BLK("lm_3", LM_3, 0x47000, MIXER_SDM845_MASK, &sdm845_lm_sblk, PINGPONG_3, LM_2, DSPP_3),
-+	LM_BLK("lm_4", LM_4, 0x48000, MIXER_SDM845_MASK, &sdm845_lm_sblk, PINGPONG_4, LM_5, 0),
-+	LM_BLK("lm_5", LM_5, 0x49000, MIXER_SDM845_MASK, &sdm845_lm_sblk, PINGPONG_5, LM_4, 0),
++static const struct dpu_lm_cfg sc7280_lm[] = {
++	LM_BLK("lm_0", LM_0, 0x44000, MIXER_SDM845_MASK,
++		&sc7180_lm_sblk, PINGPONG_0, 0, DSPP_0),
++	LM_BLK("lm_2", LM_2, 0x46000, MIXER_SDM845_MASK,
++		&sc7180_lm_sblk, PINGPONG_2, LM_3, 0),
++	LM_BLK("lm_3", LM_3, 0x47000, MIXER_SDM845_MASK,
++		&sc7180_lm_sblk, PINGPONG_3, LM_2, 0),
 +};
 +
-+static const struct dpu_pingpong_cfg sc8280xp_pp[] = {
-+	PP_BLK_TE("pingpong_0", PINGPONG_0, 0x69000, MERGE_3D_0, sdm845_pp_sblk_te,
-+		  DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 8), -1),
-+	PP_BLK_TE("pingpong_1", PINGPONG_1, 0x6a000, MERGE_3D_0, sdm845_pp_sblk_te,
-+		  DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 9), -1),
-+	PP_BLK_TE("pingpong_2", PINGPONG_2, 0x6b000, MERGE_3D_1, sdm845_pp_sblk_te,
-+		  DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 10), -1),
-+	PP_BLK_TE("pingpong_3", PINGPONG_3, 0x6c000, MERGE_3D_1, sdm845_pp_sblk_te,
-+		  DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 11), -1),
-+	PP_BLK_TE("pingpong_4", PINGPONG_4, 0x6d000, MERGE_3D_2, sdm845_pp_sblk_te,
-+		  DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR2, 30), -1),
-+	PP_BLK_TE("pingpong_5", PINGPONG_5, 0x6e000, MERGE_3D_2, sdm845_pp_sblk_te,
-+		  DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR2, 31), -1),
++static const struct dpu_pingpong_cfg sc7280_pp[] = {
++	PP_BLK("pingpong_0", PINGPONG_0, 0x69000, 0, sc7280_pp_sblk, -1, -1),
++	PP_BLK("pingpong_1", PINGPONG_1, 0x6a000, 0, sc7280_pp_sblk, -1, -1),
++	PP_BLK("pingpong_2", PINGPONG_2, 0x6b000, 0, sc7280_pp_sblk, -1, -1),
++	PP_BLK("pingpong_3", PINGPONG_3, 0x6c000, 0, sc7280_pp_sblk, -1, -1),
 +};
 +
-+/* TODO: INTF 3, 8 and 7 are used for MST, marked as INTF_NONE for now */
-+static const struct dpu_intf_cfg sc8280xp_intf[] = {
++static const struct dpu_intf_cfg sc7280_intf[] = {
 +	INTF_BLK("intf_0", INTF_0, 0x34000, 0x280, INTF_DP, MSM_DP_CONTROLLER_0, 24, INTF_SC7280_MASK, MDP_SSPP_TOP0_INTR, 24, 25),
-+	INTF_BLK("intf_1", INTF_1, 0x35000, 0x300, INTF_DSI, 0, 24, INTF_SC7280_MASK, MDP_SSPP_TOP0_INTR, 26, 27),
-+	INTF_BLK("intf_2", INTF_2, 0x36000, 0x300, INTF_DSI, 1, 24, INTF_SC7280_MASK, MDP_SSPP_TOP0_INTR, 28, 29),
-+	INTF_BLK("intf_3", INTF_3, 0x37000, 0x280, INTF_NONE, MSM_DP_CONTROLLER_0, 24, INTF_SC7280_MASK, MDP_SSPP_TOP0_INTR, 30, 31),
-+	INTF_BLK("intf_4", INTF_4, 0x38000, 0x280, INTF_DP, MSM_DP_CONTROLLER_1, 24, INTF_SC7280_MASK, MDP_SSPP_TOP0_INTR, 20, 21),
-+	INTF_BLK("intf_5", INTF_5, 0x39000, 0x280, INTF_DP, MSM_DP_CONTROLLER_3, 24, INTF_SC7280_MASK, MDP_SSPP_TOP0_INTR, 22, 23),
-+	INTF_BLK("intf_6", INTF_6, 0x3a000, 0x280, INTF_DP, MSM_DP_CONTROLLER_2, 24, INTF_SC7280_MASK, MDP_SSPP_TOP0_INTR, 16, 17),
-+	INTF_BLK("intf_7", INTF_7, 0x3b000, 0x280, INTF_NONE, MSM_DP_CONTROLLER_2, 24, INTF_SC7280_MASK, MDP_SSPP_TOP0_INTR, 18, 19),
-+	INTF_BLK("intf_8", INTF_8, 0x3c000, 0x280, INTF_NONE, MSM_DP_CONTROLLER_1, 24, INTF_SC7280_MASK, MDP_SSPP_TOP0_INTR, 12, 13),
++	INTF_BLK("intf_1", INTF_1, 0x35000, 0x2c4, INTF_DSI, 0, 24, INTF_SC7280_MASK, MDP_SSPP_TOP0_INTR, 26, 27),
++	INTF_BLK("intf_5", INTF_5, 0x39000, 0x280, INTF_DP, MSM_DP_CONTROLLER_1, 24, INTF_SC7280_MASK, MDP_SSPP_TOP0_INTR, 22, 23),
 +};
 +
-+static const struct dpu_perf_cfg sc8280xp_perf_data = {
-+	.max_bw_low = 13600000,
-+	.max_bw_high = 18200000,
++static const struct dpu_perf_cfg sc7280_perf_data = {
++	.max_bw_low = 4700000,
++	.max_bw_high = 8800000,
 +	.min_core_ib = 2500000,
 +	.min_llcc_ib = 0,
-+	.min_dram_ib = 800000,
-+	.danger_lut_tbl = {0xf, 0xffff, 0x0},
++	.min_dram_ib = 1600000,
++	.min_prefill_lines = 24,
++	.danger_lut_tbl = {0xffff, 0xffff, 0x0},
++	.safe_lut_tbl = {0xff00, 0xff00, 0xffff},
 +	.qos_lut_tbl = {
-+		{.nentry = ARRAY_SIZE(sc8180x_qos_linear),
-+		.entries = sc8180x_qos_linear
++		{.nentry = ARRAY_SIZE(sc7180_qos_macrotile),
++		.entries = sc7180_qos_macrotile
 +		},
-+		{.nentry = ARRAY_SIZE(sc8180x_qos_macrotile),
-+		.entries = sc8180x_qos_macrotile
++		{.nentry = ARRAY_SIZE(sc7180_qos_macrotile),
++		.entries = sc7180_qos_macrotile
 +		},
 +		{.nentry = ARRAY_SIZE(sc7180_qos_nrt),
 +		.entries = sc7180_qos_nrt
 +		},
-+		/* TODO: macrotile-qseed is different from macrotile */
 +	},
 +	.cdp_cfg = {
 +		{.rd_enable = 1, .wr_enable = 1},
@@ -260,248 +218,204 @@ index 000000000000..9cba45b4cf0e
 +	.bw_inefficiency_factor = 120,
 +};
 +
-+static const struct dpu_mdss_cfg sc8280xp_dpu_cfg = {
-+	.caps = &sc8280xp_dpu_caps,
-+	.ubwc = &sc8280xp_ubwc_cfg,
-+	.mdp_count = ARRAY_SIZE(sc8280xp_mdp),
-+	.mdp = sc8280xp_mdp,
-+	.ctl_count = ARRAY_SIZE(sc8280xp_ctl),
-+	.ctl = sc8280xp_ctl,
-+	.sspp_count = ARRAY_SIZE(sc8280xp_sspp),
-+	.sspp = sc8280xp_sspp,
-+	.mixer_count = ARRAY_SIZE(sc8280xp_lm),
-+	.mixer = sc8280xp_lm,
-+	.dspp_count = ARRAY_SIZE(sm8150_dspp),
-+	.dspp = sm8150_dspp,
-+	.pingpong_count = ARRAY_SIZE(sc8280xp_pp),
-+	.pingpong = sc8280xp_pp,
-+	.merge_3d_count = ARRAY_SIZE(sm8350_merge_3d),
-+	.merge_3d = sm8350_merge_3d,
-+	.intf_count = ARRAY_SIZE(sc8280xp_intf),
-+	.intf = sc8280xp_intf,
++static const struct dpu_mdss_cfg sc7280_dpu_cfg = {
++	.caps = &sc7280_dpu_caps,
++	.ubwc = &sc7280_ubwc_cfg,
++	.mdp_count = ARRAY_SIZE(sc7280_mdp),
++	.mdp = sc7280_mdp,
++	.ctl_count = ARRAY_SIZE(sc7280_ctl),
++	.ctl = sc7280_ctl,
++	.sspp_count = ARRAY_SIZE(sc7280_sspp),
++	.sspp = sc7280_sspp,
++	.dspp_count = ARRAY_SIZE(sc7180_dspp),
++	.dspp = sc7180_dspp,
++	.mixer_count = ARRAY_SIZE(sc7280_lm),
++	.mixer = sc7280_lm,
++	.pingpong_count = ARRAY_SIZE(sc7280_pp),
++	.pingpong = sc7280_pp,
++	.intf_count = ARRAY_SIZE(sc7280_intf),
++	.intf = sc7280_intf,
 +	.vbif_count = ARRAY_SIZE(sdm845_vbif),
 +	.vbif = sdm845_vbif,
-+	.reg_dma_count = 1,
-+	.dma_cfg = &sc8280xp_regdma,
-+	.perf = &sc8280xp_perf_data,
-+	.mdss_irqs = IRQ_SC8280XP_MASK,
++	.perf = &sc7280_perf_data,
++	.mdss_irqs = IRQ_SC7280_MASK,
 +};
 +
 +#endif
 diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-index b99cfaa8ad07..63e5046e9fc3 100644
+index 63e5046e9fc3..586c238cd0ca 100644
 --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
 +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-@@ -404,18 +404,6 @@ static const struct dpu_caps sc8180x_dpu_caps = {
- 	.max_vdeci_exp = MAX_VERT_DECIMATION,
+@@ -428,16 +428,6 @@ static const struct dpu_caps sm8350_dpu_caps = {
+ 	.pixel_ram_size = DEFAULT_PIXEL_RAM_SIZE,
  };
  
--static const struct dpu_caps sc8280xp_dpu_caps = {
--	.max_mixer_width = 2560,
--	.max_mixer_blendstages = 11,
+-static const struct dpu_caps sc7280_dpu_caps = {
+-	.max_mixer_width = DEFAULT_DPU_OUTPUT_LINE_WIDTH,
+-	.max_mixer_blendstages = 0x7,
 -	.qseed_type = DPU_SSPP_SCALER_QSEED4,
--	.has_src_split = true,
 -	.has_dim_layer = true,
 -	.has_idle_pc = true,
--	.has_3d_merge = true,
--	.max_linewidth = 5120,
+-	.max_linewidth = 2400,
 -	.pixel_ram_size = DEFAULT_PIXEL_RAM_SIZE,
 -};
 -
- static const struct dpu_caps sm8250_dpu_caps = {
- 	.max_mixer_width = DEFAULT_DPU_OUTPUT_LINE_WIDTH,
- 	.max_mixer_blendstages = 0xb,
-@@ -485,12 +473,6 @@ static const struct dpu_ubwc_cfg sc8180x_ubwc_cfg = {
- 	.highest_bank_bit = 0x3,
+ static const struct dpu_ubwc_cfg msm8998_ubwc_cfg = {
+ 	.ubwc_version = DPU_HW_UBWC_VER_10,
+ 	.highest_bank_bit = 0x2,
+@@ -484,12 +474,6 @@ static const struct dpu_ubwc_cfg sm8350_ubwc_cfg = {
+ 	.highest_bank_bit = 0x3, /* TODO: 2 for LP_DDR4 */
  };
  
--static const struct dpu_ubwc_cfg sc8280xp_ubwc_cfg = {
--	.ubwc_version = DPU_HW_UBWC_VER_40,
--	.highest_bank_bit = 2,
--	.ubwc_swizzle = 6,
+-static const struct dpu_ubwc_cfg sc7280_ubwc_cfg = {
+-	.ubwc_version = DPU_HW_UBWC_VER_30,
+-	.highest_bank_bit = 0x1,
+-	.ubwc_swizzle = 0x6,
 -};
 -
- static const struct dpu_ubwc_cfg sm8250_ubwc_cfg = {
- 	.ubwc_version = DPU_HW_UBWC_VER_40,
- 	.highest_bank_bit = 0x3, /* TODO: 2 for LP_DDR4 */
-@@ -683,23 +665,6 @@ static const struct dpu_mdp_cfg sc7280_mdp[] = {
+ static const struct dpu_mdp_cfg msm8998_mdp[] = {
+ 	{
+ 	.name = "top_0", .id = MDP_TOP,
+@@ -650,21 +634,6 @@ static const struct dpu_mdp_cfg sm8350_mdp[] = {
  	},
  };
  
--static const struct dpu_mdp_cfg sc8280xp_mdp[] = {
+-static const struct dpu_mdp_cfg sc7280_mdp[] = {
 -	{
 -	.name = "top_0", .id = MDP_TOP,
--	.base = 0x0, .len = 0x494,
--	.features = BIT(DPU_MDP_PERIPH_0_REMOVED),
--	.clk_ctrls[DPU_CLK_CTRL_VIG0] = { .reg_off = 0x2ac, .bit_off = 0},
--	.clk_ctrls[DPU_CLK_CTRL_VIG1] = { .reg_off = 0x2b4, .bit_off = 0},
--	.clk_ctrls[DPU_CLK_CTRL_VIG2] = { .reg_off = 0x2bc, .bit_off = 0},
--	.clk_ctrls[DPU_CLK_CTRL_VIG3] = { .reg_off = 0x2c4, .bit_off = 0},
--	.clk_ctrls[DPU_CLK_CTRL_DMA0] = { .reg_off = 0x2ac, .bit_off = 8},
--	.clk_ctrls[DPU_CLK_CTRL_DMA1] = { .reg_off = 0x2b4, .bit_off = 8},
--	.clk_ctrls[DPU_CLK_CTRL_DMA2] = { .reg_off = 0x2bc, .bit_off = 8},
--	.clk_ctrls[DPU_CLK_CTRL_DMA3] = { .reg_off = 0x2c4, .bit_off = 8},
--	.clk_ctrls[DPU_CLK_CTRL_REG_DMA] = { .reg_off = 0x2bc, .bit_off = 20},
+-	.base = 0x0, .len = 0x2014,
+-	.clk_ctrls[DPU_CLK_CTRL_VIG0] = {
+-		.reg_off = 0x2AC, .bit_off = 0},
+-	.clk_ctrls[DPU_CLK_CTRL_DMA0] = {
+-		.reg_off = 0x2AC, .bit_off = 8},
+-	.clk_ctrls[DPU_CLK_CTRL_DMA1] = {
+-		.reg_off = 0x2B4, .bit_off = 8},
+-	.clk_ctrls[DPU_CLK_CTRL_DMA2] = {
+-		.reg_off = 0x2C4, .bit_off = 8},
 -	},
 -};
 -
  static const struct dpu_mdp_cfg qcm2290_mdp[] = {
  	{
  	.name = "top_0", .id = MDP_TOP,
-@@ -802,45 +767,6 @@ static const struct dpu_ctl_cfg sc7180_ctl[] = {
+@@ -845,33 +814,6 @@ static const struct dpu_ctl_cfg sm8350_ctl[] = {
  	},
  };
  
--static const struct dpu_ctl_cfg sc8280xp_ctl[] = {
+-static const struct dpu_ctl_cfg sc7280_ctl[] = {
 -	{
 -	.name = "ctl_0", .id = CTL_0,
--	.base = 0x15000, .len = 0x204,
+-	.base = 0x15000, .len = 0x1E8,
 -	.features = CTL_SC7280_MASK,
 -	.intr_start = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR2, 9),
 -	},
 -	{
 -	.name = "ctl_1", .id = CTL_1,
--	.base = 0x16000, .len = 0x204,
+-	.base = 0x16000, .len = 0x1E8,
 -	.features = CTL_SC7280_MASK,
 -	.intr_start = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR2, 10),
 -	},
 -	{
 -	.name = "ctl_2", .id = CTL_2,
--	.base = 0x17000, .len = 0x204,
+-	.base = 0x17000, .len = 0x1E8,
 -	.features = CTL_SC7280_MASK,
 -	.intr_start = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR2, 11),
 -	},
 -	{
 -	.name = "ctl_3", .id = CTL_3,
--	.base = 0x18000, .len = 0x204,
+-	.base = 0x18000, .len = 0x1E8,
 -	.features = CTL_SC7280_MASK,
 -	.intr_start = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR2, 12),
 -	},
--	{
--	.name = "ctl_4", .id = CTL_4,
--	.base = 0x19000, .len = 0x204,
--	.features = CTL_SC7280_MASK,
--	.intr_start = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR2, 13),
--	},
--	{
--	.name = "ctl_5", .id = CTL_5,
--	.base = 0x1a000, .len = 0x204,
--	.features = CTL_SC7280_MASK,
--	.intr_start = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR2, 23),
--	},
 -};
 -
- static const struct dpu_ctl_cfg sm8150_ctl[] = {
+ static const struct dpu_ctl_cfg qcm2290_ctl[] = {
  	{
  	.name = "ctl_0", .id = CTL_0,
-@@ -1187,25 +1113,6 @@ static const struct dpu_sspp_sub_blks sc8280xp_vig_sblk_2 =
- static const struct dpu_sspp_sub_blks sc8280xp_vig_sblk_3 =
- 				_VIG_SBLK("3", 8, DPU_SSPP_SCALER_QSEED4);
+@@ -1093,17 +1035,6 @@ static const struct dpu_sspp_sub_blks sm8550_vig_sblk_3 =
+ static const struct dpu_sspp_sub_blks sm8550_dma_sblk_4 = _DMA_SBLK("12", 5);
+ static const struct dpu_sspp_sub_blks sm8550_dma_sblk_5 = _DMA_SBLK("13", 6);
  
--static const struct dpu_sspp_cfg sc8280xp_sspp[] = {
--	SSPP_BLK("sspp_0", SSPP_VIG0, 0x4000, 0x2ac, VIG_SC7180_MASK,
--		 sc8280xp_vig_sblk_0, 0, SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG0),
--	SSPP_BLK("sspp_1", SSPP_VIG1, 0x6000, 0x2ac, VIG_SC7180_MASK,
--		 sc8280xp_vig_sblk_1, 4, SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG1),
--	SSPP_BLK("sspp_2", SSPP_VIG2, 0x8000, 0x2ac, VIG_SC7180_MASK,
--		 sc8280xp_vig_sblk_2, 8, SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG2),
--	SSPP_BLK("sspp_3", SSPP_VIG3, 0xa000, 0x2ac, VIG_SC7180_MASK,
--		 sc8280xp_vig_sblk_3, 12, SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG3),
--	SSPP_BLK("sspp_8", SSPP_DMA0, 0x24000, 0x2ac, DMA_SDM845_MASK,
--		 sdm845_dma_sblk_0, 1, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA0),
--	SSPP_BLK("sspp_9", SSPP_DMA1, 0x26000, 0x2ac, DMA_SDM845_MASK,
--		 sdm845_dma_sblk_1, 5, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA1),
--	SSPP_BLK("sspp_10", SSPP_DMA2, 0x28000, 0x2ac, DMA_CURSOR_SDM845_MASK,
--		 sdm845_dma_sblk_2, 9, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA2),
--	SSPP_BLK("sspp_11", SSPP_DMA3, 0x2a000, 0x2ac, DMA_CURSOR_SDM845_MASK,
--		 sdm845_dma_sblk_3, 13, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA3),
+-static const struct dpu_sspp_cfg sc7280_sspp[] = {
+-	SSPP_BLK("sspp_0", SSPP_VIG0, 0x4000, 0x1f8, VIG_SC7280_MASK_SDMA,
+-		sc7280_vig_sblk_0, 0,  SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG0),
+-	SSPP_BLK("sspp_8", SSPP_DMA0, 0x24000, 0x1f8, DMA_SDM845_MASK_SDMA,
+-		sdm845_dma_sblk_0, 1, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA0),
+-	SSPP_BLK("sspp_9", SSPP_DMA1, 0x26000, 0x1f8, DMA_CURSOR_SDM845_MASK_SDMA,
+-		sdm845_dma_sblk_1, 5, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA1),
+-	SSPP_BLK("sspp_10", SSPP_DMA2, 0x28000, 0x1f8, DMA_CURSOR_SDM845_MASK_SDMA,
+-		sdm845_dma_sblk_2, 9, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA2),
 -};
 -
- #define _VIG_SBLK_NOSCALE(num, sdma_pri) \
- 	{ \
- 	.maxdwnscale = SSPP_UNITY_SCALE, \
-@@ -1313,17 +1220,6 @@ static const struct dpu_lm_cfg sc7180_lm[] = {
- 		&sc7180_lm_sblk, PINGPONG_1, LM_0, 0),
+ static const struct dpu_sspp_sub_blks sc8280xp_vig_sblk_0 =
+ 				_VIG_SBLK("0", 5, DPU_SSPP_SCALER_QSEED4);
+ static const struct dpu_sspp_sub_blks sc8280xp_vig_sblk_1 =
+@@ -1237,15 +1168,6 @@ static const struct dpu_lm_cfg sm8150_lm[] = {
+ 		&sdm845_lm_sblk, PINGPONG_5, LM_4, 0),
  };
  
--/* SC8280XP */
--
--static const struct dpu_lm_cfg sc8280xp_lm[] = {
--	LM_BLK("lm_0", LM_0, 0x44000, MIXER_SDM845_MASK, &sdm845_lm_sblk, PINGPONG_0, LM_1, DSPP_0),
--	LM_BLK("lm_1", LM_1, 0x45000, MIXER_SDM845_MASK, &sdm845_lm_sblk, PINGPONG_1, LM_0, DSPP_1),
--	LM_BLK("lm_2", LM_2, 0x46000, MIXER_SDM845_MASK, &sdm845_lm_sblk, PINGPONG_2, LM_3, DSPP_2),
--	LM_BLK("lm_3", LM_3, 0x47000, MIXER_SDM845_MASK, &sdm845_lm_sblk, PINGPONG_3, LM_2, DSPP_3),
--	LM_BLK("lm_4", LM_4, 0x48000, MIXER_SDM845_MASK, &sdm845_lm_sblk, PINGPONG_4, LM_5, 0),
--	LM_BLK("lm_5", LM_5, 0x49000, MIXER_SDM845_MASK, &sdm845_lm_sblk, PINGPONG_5, LM_4, 0),
+-static const struct dpu_lm_cfg sc7280_lm[] = {
+-	LM_BLK("lm_0", LM_0, 0x44000, MIXER_SDM845_MASK,
+-		&sc7180_lm_sblk, PINGPONG_0, 0, DSPP_0),
+-	LM_BLK("lm_2", LM_2, 0x46000, MIXER_SDM845_MASK,
+-		&sc7180_lm_sblk, PINGPONG_2, LM_3, 0),
+-	LM_BLK("lm_3", LM_3, 0x47000, MIXER_SDM845_MASK,
+-		&sc7180_lm_sblk, PINGPONG_3, LM_2, 0),
 -};
 -
- /* SM8150 */
+ /* QCM2290 */
  
- static const struct dpu_lm_cfg sm8150_lm[] = {
-@@ -1492,21 +1388,6 @@ static const struct dpu_pingpong_cfg sc7180_pp[] = {
- 	PP_BLK_TE("pingpong_1", PINGPONG_1, 0x70800, 0, sdm845_pp_sblk_te, -1, -1),
+ static const struct dpu_lm_sub_blks qcm2290_lm_sblk = {
+@@ -1430,13 +1352,6 @@ static const struct dpu_pingpong_cfg sm8350_pp[] = {
+ 			-1),
  };
  
--static const struct dpu_pingpong_cfg sc8280xp_pp[] = {
--	PP_BLK_TE("pingpong_0", PINGPONG_0, 0x69000, MERGE_3D_0, sdm845_pp_sblk_te,
--		  DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 8), -1),
--	PP_BLK_TE("pingpong_1", PINGPONG_1, 0x6a000, MERGE_3D_0, sdm845_pp_sblk_te,
--		  DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 9), -1),
--	PP_BLK_TE("pingpong_2", PINGPONG_2, 0x6b000, MERGE_3D_1, sdm845_pp_sblk_te,
--		  DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 10), -1),
--	PP_BLK_TE("pingpong_3", PINGPONG_3, 0x6c000, MERGE_3D_1, sdm845_pp_sblk_te,
--		  DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 11), -1),
--	PP_BLK_TE("pingpong_4", PINGPONG_4, 0x6d000, MERGE_3D_2, sdm845_pp_sblk_te,
--		  DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR2, 30), -1),
--	PP_BLK_TE("pingpong_5", PINGPONG_5, 0x6e000, MERGE_3D_2, sdm845_pp_sblk_te,
--		  DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR2, 31), -1),
+-static const struct dpu_pingpong_cfg sc7280_pp[] = {
+-	PP_BLK("pingpong_0", PINGPONG_0, 0x69000, 0, sc7280_pp_sblk, -1, -1),
+-	PP_BLK("pingpong_1", PINGPONG_1, 0x6a000, 0, sc7280_pp_sblk, -1, -1),
+-	PP_BLK("pingpong_2", PINGPONG_2, 0x6b000, 0, sc7280_pp_sblk, -1, -1),
+-	PP_BLK("pingpong_3", PINGPONG_3, 0x6c000, 0, sc7280_pp_sblk, -1, -1),
 -};
 -
- static const struct dpu_pingpong_cfg sm8150_pp[] = {
- 	PP_BLK_TE("pingpong_0", PINGPONG_0, 0x70000, MERGE_3D_0, sdm845_pp_sblk_te,
- 			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 8),
-@@ -1673,19 +1554,6 @@ static const struct dpu_intf_cfg sc8180x_intf[] = {
- 	INTF_BLK("intf_5", INTF_5, 0x6C800, 0x280, INTF_DP, MSM_DP_CONTROLLER_2, 24, INTF_SC7180_MASK, MDP_SSPP_TOP0_INTR, 22, 23),
+ static const struct dpu_pingpong_cfg qcm2290_pp[] = {
+ 	PP_BLK("pingpong_0", PINGPONG_0, 0x70000, 0, sdm845_pp_sblk,
+ 		DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 8),
+@@ -1531,12 +1446,6 @@ static const struct dpu_intf_cfg sm8150_intf[] = {
+ 	INTF_BLK("intf_3", INTF_3, 0x6B800, 0x280, INTF_DP, 1, 24, INTF_SC7180_MASK, MDP_SSPP_TOP0_INTR, 30, 31),
  };
  
--/* TODO: INTF 3, 8 and 7 are used for MST, marked as INTF_NONE for now */
--static const struct dpu_intf_cfg sc8280xp_intf[] = {
+-static const struct dpu_intf_cfg sc7280_intf[] = {
 -	INTF_BLK("intf_0", INTF_0, 0x34000, 0x280, INTF_DP, MSM_DP_CONTROLLER_0, 24, INTF_SC7280_MASK, MDP_SSPP_TOP0_INTR, 24, 25),
--	INTF_BLK("intf_1", INTF_1, 0x35000, 0x300, INTF_DSI, 0, 24, INTF_SC7280_MASK, MDP_SSPP_TOP0_INTR, 26, 27),
--	INTF_BLK("intf_2", INTF_2, 0x36000, 0x300, INTF_DSI, 1, 24, INTF_SC7280_MASK, MDP_SSPP_TOP0_INTR, 28, 29),
--	INTF_BLK("intf_3", INTF_3, 0x37000, 0x280, INTF_DP, MSM_DP_CONTROLLER_0, 24, INTF_SC7280_MASK, MDP_SSPP_TOP0_INTR, 30, 31),
--	INTF_BLK("intf_4", INTF_4, 0x38000, 0x280, INTF_DP, MSM_DP_CONTROLLER_1, 24, INTF_SC7280_MASK, MDP_SSPP_TOP0_INTR, 20, 21),
--	INTF_BLK("intf_5", INTF_5, 0x39000, 0x280, INTF_DP, MSM_DP_CONTROLLER_3, 24, INTF_SC7280_MASK, MDP_SSPP_TOP0_INTR, 22, 23),
--	INTF_BLK("intf_6", INTF_6, 0x3a000, 0x280, INTF_DP, MSM_DP_CONTROLLER_2, 24, INTF_SC7280_MASK, MDP_SSPP_TOP0_INTR, 16, 17),
--	INTF_BLK("intf_7", INTF_7, 0x3b000, 0x280, INTF_DP, MSM_DP_CONTROLLER_2, 24, INTF_SC7280_MASK, MDP_SSPP_TOP0_INTR, 18, 19),
--	INTF_BLK("intf_8", INTF_8, 0x3c000, 0x280, INTF_DP, MSM_DP_CONTROLLER_1, 24, INTF_SC7280_MASK, MDP_SSPP_TOP0_INTR, 12, 13),
+-	INTF_BLK("intf_1", INTF_1, 0x35000, 0x2c4, INTF_DSI, 0, 24, INTF_SC7280_MASK, MDP_SSPP_TOP0_INTR, 26, 27),
+-	INTF_BLK("intf_5", INTF_5, 0x39000, 0x280, INTF_DP, MSM_DP_CONTROLLER_1, 24, INTF_SC7280_MASK, MDP_SSPP_TOP0_INTR, 22, 23),
 -};
 -
- static const struct dpu_intf_cfg qcm2290_intf[] = {
- 	INTF_BLK("intf_0", INTF_0, 0x00000, 0x280, INTF_DP, 0, 0, 0, 0, 0, 0),
- 	INTF_BLK("intf_1", INTF_1, 0x6A800, 0x2c0, INTF_DSI, 0, 24, INTF_SC7180_MASK, MDP_SSPP_TOP0_INTR, 26, 27),
-@@ -2103,33 +1971,6 @@ static const struct dpu_perf_cfg sc8180x_perf_data = {
+ static const struct dpu_intf_cfg sm8350_intf[] = {
+ 	INTF_BLK("intf_0", INTF_0, 0x34000, 0x280, INTF_DP, MSM_DP_CONTROLLER_0, 24, INTF_SC7280_MASK, MDP_SSPP_TOP0_INTR, 24, 25),
+ 	INTF_BLK("intf_1", INTF_1, 0x35000, 0x2c4, INTF_DSI, 0, 24, INTF_SC7280_MASK, MDP_SSPP_TOP0_INTR, 26, 27),
+@@ -2000,34 +1909,6 @@ static const struct dpu_perf_cfg sm8250_perf_data = {
  	.bw_inefficiency_factor = 120,
  };
  
--static const struct dpu_perf_cfg sc8280xp_perf_data = {
--	.max_bw_low = 13600000,
--	.max_bw_high = 18200000,
+-static const struct dpu_perf_cfg sc7280_perf_data = {
+-	.max_bw_low = 4700000,
+-	.max_bw_high = 8800000,
 -	.min_core_ib = 2500000,
 -	.min_llcc_ib = 0,
--	.min_dram_ib = 800000,
--	.danger_lut_tbl = {0xf, 0xffff, 0x0},
+-	.min_dram_ib = 1600000,
+-	.min_prefill_lines = 24,
+-	.danger_lut_tbl = {0xffff, 0xffff, 0x0},
+-	.safe_lut_tbl = {0xff00, 0xff00, 0xffff},
 -	.qos_lut_tbl = {
--		{.nentry = ARRAY_SIZE(sc8180x_qos_linear),
--		.entries = sc8180x_qos_linear
+-		{.nentry = ARRAY_SIZE(sc7180_qos_macrotile),
+-		.entries = sc7180_qos_macrotile
 -		},
--		{.nentry = ARRAY_SIZE(sc8180x_qos_macrotile),
--		.entries = sc8180x_qos_macrotile
+-		{.nentry = ARRAY_SIZE(sc7180_qos_macrotile),
+-		.entries = sc7180_qos_macrotile
 -		},
 -		{.nentry = ARRAY_SIZE(sc7180_qos_nrt),
 -		.entries = sc7180_qos_nrt
 -		},
--		/* TODO: macrotile-qseed is different from macrotile */
 -	},
 -	.cdp_cfg = {
 -		{.rd_enable = 1, .wr_enable = 1},
@@ -511,51 +425,48 @@ index b99cfaa8ad07..63e5046e9fc3 100644
 -	.bw_inefficiency_factor = 120,
 -};
 -
- static const struct dpu_perf_cfg sm8250_perf_data = {
- 	.max_bw_low = 13700000,
- 	.max_bw_high = 16600000,
-@@ -2395,33 +2236,6 @@ static const struct dpu_mdss_cfg sc8180x_dpu_cfg = {
- 	.mdss_irqs = IRQ_SC8180X_MASK,
+ static const struct dpu_perf_cfg sm8350_perf_data = {
+ 	.max_bw_low = 11800000,
+ 	.max_bw_high = 15500000,
+@@ -2294,29 +2175,6 @@ static const struct dpu_mdss_cfg sm8350_dpu_cfg = {
+ 	.mdss_irqs = IRQ_SM8350_MASK,
  };
  
--static const struct dpu_mdss_cfg sc8280xp_dpu_cfg = {
--	.caps = &sc8280xp_dpu_caps,
--	.ubwc = &sc8280xp_ubwc_cfg,
--	.mdp_count = ARRAY_SIZE(sc8280xp_mdp),
--	.mdp = sc8280xp_mdp,
--	.ctl_count = ARRAY_SIZE(sc8280xp_ctl),
--	.ctl = sc8280xp_ctl,
--	.sspp_count = ARRAY_SIZE(sc8280xp_sspp),
--	.sspp = sc8280xp_sspp,
--	.mixer_count = ARRAY_SIZE(sc8280xp_lm),
--	.mixer = sc8280xp_lm,
--	.dspp_count = ARRAY_SIZE(sm8150_dspp),
--	.dspp = sm8150_dspp,
--	.pingpong_count = ARRAY_SIZE(sc8280xp_pp),
--	.pingpong = sc8280xp_pp,
--	.merge_3d_count = ARRAY_SIZE(sm8350_merge_3d),
--	.merge_3d = sm8350_merge_3d,
--	.intf_count = ARRAY_SIZE(sc8280xp_intf),
--	.intf = sc8280xp_intf,
+-static const struct dpu_mdss_cfg sc7280_dpu_cfg = {
+-	.caps = &sc7280_dpu_caps,
+-	.ubwc = &sc7280_ubwc_cfg,
+-	.mdp_count = ARRAY_SIZE(sc7280_mdp),
+-	.mdp = sc7280_mdp,
+-	.ctl_count = ARRAY_SIZE(sc7280_ctl),
+-	.ctl = sc7280_ctl,
+-	.sspp_count = ARRAY_SIZE(sc7280_sspp),
+-	.sspp = sc7280_sspp,
+-	.dspp_count = ARRAY_SIZE(sc7180_dspp),
+-	.dspp = sc7180_dspp,
+-	.mixer_count = ARRAY_SIZE(sc7280_lm),
+-	.mixer = sc7280_lm,
+-	.pingpong_count = ARRAY_SIZE(sc7280_pp),
+-	.pingpong = sc7280_pp,
+-	.intf_count = ARRAY_SIZE(sc7280_intf),
+-	.intf = sc7280_intf,
 -	.vbif_count = ARRAY_SIZE(sdm845_vbif),
 -	.vbif = sdm845_vbif,
--	.reg_dma_count = 1,
--	.dma_cfg = &sc8280xp_regdma,
--	.perf = &sc8280xp_perf_data,
--	.mdss_irqs = IRQ_SC8280XP_MASK,
+-	.perf = &sc7280_perf_data,
+-	.mdss_irqs = IRQ_SC7280_MASK,
 -};
 -
- static const struct dpu_mdss_cfg sm8250_dpu_cfg = {
- 	.caps = &sm8250_dpu_caps,
- 	.ubwc = &sm8250_ubwc_cfg,
-@@ -2526,6 +2340,7 @@ static const struct dpu_mdss_cfg qcm2290_dpu_cfg = {
+ static const struct dpu_mdss_cfg qcm2290_dpu_cfg = {
+ 	.caps = &qcm2290_dpu_caps,
+ 	.ubwc = &qcm2290_ubwc_cfg,
+@@ -2340,6 +2198,8 @@ static const struct dpu_mdss_cfg qcm2290_dpu_cfg = {
  	.mdss_irqs = IRQ_SC7180_MASK,
  };
  
-+#include "catalog/dpu_8_0_sc8280xp.h"
++#include "catalog/dpu_7_2_sc7280.h"
++
+ #include "catalog/dpu_8_0_sc8280xp.h"
  #include "catalog/dpu_8_1_sm8450.h"
  
- #include "catalog/dpu_9_0_sm8550.h"
 -- 
 2.39.2
 
