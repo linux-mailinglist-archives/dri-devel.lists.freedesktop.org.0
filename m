@@ -1,57 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 873DA6D6EEF
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Apr 2023 23:26:52 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9776F6D6F21
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Apr 2023 23:42:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CA04010E2D9;
-	Tue,  4 Apr 2023 21:26:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4C73210E223;
+	Tue,  4 Apr 2023 21:42:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B8D4310E1FD;
- Tue,  4 Apr 2023 21:26:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1680643604; x=1712179604;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=Gq6CQFen4e2ff9QTttmNRt+fEJhdfSq2wiYPiT/2pNg=;
- b=cUC3GMmr/C8t93P4Jo4nRMQ8bdSd0d4h4rYu3q6PBzbug5aFt2KvkDcN
- JMOm9D7/kzIqO/gzt/eEeriyr591lyGtwEWjSTCfQbif/0DU080p9K56y
- d68P/6xBHe0XkV3QngqArG6O2Us/NGoHFDmHAd3UBApFqGmbroiNrsdk0
- yZlBz9a4MX1keLzesgelvL+lO5fFXm+CwAHq1R3Gduf64Gpb7f4tDi3P7
- P+UWtlH23xLilG5CRQNaCIkqvmsT+inRdiquwyYsU3vIRVrkKbOs9oZtJ
- TD3ClISIm5fBr10M7/QEMQLTzRHtt344/DPoZutdFCLG0w23Xlrm5rIQE g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10670"; a="321967876"
-X-IronPort-AV: E=Sophos;i="5.98,318,1673942400"; d="scan'208";a="321967876"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Apr 2023 14:26:42 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10670"; a="716790545"
-X-IronPort-AV: E=Sophos;i="5.98,318,1673942400"; d="scan'208";a="716790545"
-Received: from nirmoyda-mobl.ger.corp.intel.com (HELO [10.249.33.159])
- ([10.249.33.159])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Apr 2023 14:26:40 -0700
-Message-ID: <11c408fd-e9be-5764-a847-defbeec2de9d@linux.intel.com>
-Date: Tue, 4 Apr 2023 23:26:37 +0200
+Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com
+ [IPv6:2a00:1450:4864:20::129])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 990DD10E21C
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Apr 2023 21:42:40 +0000 (UTC)
+Received: by mail-lf1-x129.google.com with SMTP id k37so44171238lfv.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 04 Apr 2023 14:42:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1680644558;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=0VVpMIHPposd8dIJG6VpkrFLF/OZQKsBp3Ngoym3OkM=;
+ b=gMtx/fed5N4vMlptZRUYbFlytG5GeD00n7bpBeTf/JZIsz8LzISvv4Soc2+vxcjLl1
+ VpO3RWeqxrpYITofTyWODhgUtkWcITXh1Dk1PfNzpT5rOtKywY9aKZq4Z+/YkonL2foV
+ Hybk2jKbwXIXvK7i6u0Q6EvYKcPj1hT/Q7nINLcrKpFr19qJqr0h6IXUCvLzp2UDFvg1
+ 3cD1HGA3rnZIY0o8cb8Unxm26j6ZUXQokHfXIOmNneb/mnW5gV3pR7H4UVy0+JSgvUHH
+ DL10gkFNKoqaHG/9IlKyAG2LWIW5F4W0G8lPQxXR/SgvdnTvpcYQZu/jzMncLXcWbeTV
+ GEHw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1680644558;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=0VVpMIHPposd8dIJG6VpkrFLF/OZQKsBp3Ngoym3OkM=;
+ b=XNxKX9B816kezZZB0DGqG0t52acP/vfA5YxrmoVcr6VaitvOISnB2/CHn9S9b33fNr
+ kYrIoIR0//KXxWBhbzXry7mZ6PipEnbyxovNOBoRWskVgpSyTuUR2cxJO8ZtjNFti0Vj
+ JfcDtmUXYoyVcykTIdC7HT/ZSvepMSTseiEgJHRc1oQWiRpeDZEyW42GT/XWWdDHgXcF
+ V6fs/oDVkMf4pI76Rzfuwb9djZYLHjMr3l+97luQu1SjGjdX+AJWjmUvQ9eEBezI+0jr
+ 3b4LM4LAbtJb4DNT9A5Z10YqmmCF40DQaCMPEss4XpfSRsph9UeXlQ5f7eiMjwmMvVTS
+ PzUw==
+X-Gm-Message-State: AAQBX9cLjuLA5FgNJLjaRqHqMYQYibVS5HKn8TRjKzEFO5qJU9yyujcS
+ rMUOaynsRb8xeTk9qD0L7zQ//w==
+X-Google-Smtp-Source: AKy350bzAO2ComF8Aki8azB3/UcsofxEuobFYAUPtjFGZXrBrLsP9eqeIPqHFdL0GmkTsrlWMt1pFw==
+X-Received: by 2002:ac2:511c:0:b0:4cb:e53:d54b with SMTP id
+ q28-20020ac2511c000000b004cb0e53d54bmr1145272lfb.25.1680644558636; 
+ Tue, 04 Apr 2023 14:42:38 -0700 (PDT)
+Received: from ?IPV6:2001:14ba:a085:4d00::8a5?
+ (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a085:4d00::8a5])
+ by smtp.gmail.com with ESMTPSA id
+ c26-20020ac2531a000000b004e8497a5604sm2501028lfh.108.2023.04.04.14.42.37
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 04 Apr 2023 14:42:38 -0700 (PDT)
+Message-ID: <db7e4dbc-c55b-c9b2-0cf6-bfacde56624a@linaro.org>
+Date: Wed, 5 Apr 2023 00:42:37 +0300
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.1
-Subject: Re: [Intel-gfx] [PATCH v3] drm/i915/mtl: Disable stolen memory backed
- FB for A0
-Content-Language: en-US
-To: =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
- Nirmoy Das <nirmoy.das@intel.com>, jouni.hogander@intel.com
-References: <20230404181342.23362-1-nirmoy.das@intel.com>
- <ZCxsDA86FrHzL7Rk@intel.com>
-From: "Das, Nirmoy" <nirmoy.das@linux.intel.com>
-In-Reply-To: <ZCxsDA86FrHzL7Rk@intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH v2 1/8] drm/msm: Include <linux/io.h>
+Content-Language: en-GB
+To: Thomas Zimmermann <tzimmermann@suse.de>, robdclark@gmail.com,
+ quic_abhinavk@quicinc.com, sean@poorly.run, javierm@redhat.com,
+ airlied@gmail.com, daniel@ffwll.ch
+References: <20230403124538.8497-1-tzimmermann@suse.de>
+ <20230403124538.8497-2-tzimmermann@suse.de>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <20230403124538.8497-2-tzimmermann@suse.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,67 +79,25 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, Lucas De Marchi <lucas.demarchi@intel.com>,
- Matthew Auld <matthew.auld@intel.com>, dri-devel@lists.freedesktop.org
+Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+ kernel test robot <lkp@intel.com>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 03/04/2023 15:45, Thomas Zimmermann wrote:
+> Include <linux/io.h> to get the declaration of devm_ioremap() on
+> sparc64. No functional changes.
+> 
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Reported-by: kernel test robot <lkp@intel.com>
+> Link: https://lore.kernel.org/oe-kbuild-all/202303301856.zSmpwZjj-lkp@intel.com/
+> ---
+>   drivers/gpu/drm/msm/msm_io_utils.c | 1 +
+>   1 file changed, 1 insertion(+)
 
-On 4/4/2023 8:27 PM, Ville Syrjälä wrote:
-> On Tue, Apr 04, 2023 at 08:13:42PM +0200, Nirmoy Das wrote:
->> Stolen memory is not usable for MTL A0 stepping beyond
->> certain access size and we have no control over userspace
->> access size of /dev/fb which can be backed by stolen memory.
->> So disable stolen memory backed fb by setting i915->dsm.usable_size
->> to zero.
->>
->> v2: remove hsdes reference and fix commit message(Andi)
->> v3: use revid as we want to target SOC stepping(Radhakrishna)
->>
->> Cc: Matthew Auld <matthew.auld@intel.com>
->> Cc: Andi Shyti <andi.shyti@linux.intel.com>
->> Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
->> Cc: Lucas De Marchi <lucas.demarchi@intel.com>
->> Cc: Radhakrishna Sripada <radhakrishna.sripada@intel.com>
->> Signed-off-by: Nirmoy Das <nirmoy.das@intel.com>
->> Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com>
->> ---
->>   drivers/gpu/drm/i915/gem/i915_gem_stolen.c | 8 ++++++++
->>   1 file changed, 8 insertions(+)
->>
->> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_stolen.c b/drivers/gpu/drm/i915/gem/i915_gem_stolen.c
->> index 8ac376c24aa2..ee492d823f1b 100644
->> --- a/drivers/gpu/drm/i915/gem/i915_gem_stolen.c
->> +++ b/drivers/gpu/drm/i915/gem/i915_gem_stolen.c
->> @@ -535,6 +535,14 @@ static int i915_gem_init_stolen(struct intel_memory_region *mem)
->>   	/* Basic memrange allocator for stolen space. */
->>   	drm_mm_init(&i915->mm.stolen, 0, i915->dsm.usable_size);
->>   
->> +	/*
->> +	 * Access to stolen lmem beyond certain size for MTL A0 stepping
->> +	 * would crash the machine. Disable stolen lmem for userspace access
->> +	 * by setting usable_size to zero.
->> +	 */
->> +	if (IS_METEORLAKE(i915) && INTEL_REVID(i915) == 0x0)
->> +		i915->dsm.usable_size = 0;
-> That certainly won't prevent FBC from using stolen.
-> Are we sure that FBC accesses are fine?
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-I think so. I remember Jouni tested this patch internally to unblock a 
-FBC test.
+-- 
+With best wishes
+Dmitry
 
-Jouni, could you please share your thoughts. I can't seem to find the 
-internal JIRA reference right now.
-
-
-Regards,
-
-Nirmoy
-
->
->> +
->>   	return 0;
->>   }
->>   
->> -- 
->> 2.39.0
