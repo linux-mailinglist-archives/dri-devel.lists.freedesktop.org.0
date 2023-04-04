@@ -2,71 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BB406D6E1C
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Apr 2023 22:32:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 681CE6D6E2B
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Apr 2023 22:39:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7A81E10E1CF;
-	Tue,  4 Apr 2023 20:32:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8E51510E037;
+	Tue,  4 Apr 2023 20:39:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com
- [IPv6:2a00:1450:4864:20::535])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 24C4110E7B0
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Apr 2023 20:32:03 +0000 (UTC)
-Received: by mail-ed1-x535.google.com with SMTP id h8so135668704ede.8
- for <dri-devel@lists.freedesktop.org>; Tue, 04 Apr 2023 13:32:03 -0700 (PDT)
+Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com
+ [IPv6:2a00:1450:4864:20::635])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5352410E037
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Apr 2023 20:39:54 +0000 (UTC)
+Received: by mail-ej1-x635.google.com with SMTP id
+ a640c23a62f3a-947a47eb908so44551066b.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 04 Apr 2023 13:39:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1680640321; x=1683232321;
+ d=ffwll.ch; s=google; t=1680640793;
  h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=gFAkPti6LO7XjxUbtq+pTx5uT8O/fnJpKhggNzsNmjw=;
- b=AT2ABsecOWNjTer2Gwsjva8bnYUGQG4qE/HbntzdnhNxba9naJrkaGZFiUcX0KsLuB
- V020wjNsocs6+NhC6L6A9gsmmDMw/UR//r+cvPY54RrpD7ozb0NcVv+Ss/G0nAtGZEu5
- fDCQ3BwLeh2+c8OIVK2L5VrzuNsIMnFc8XhQI=
+ :mime-version:references:mail-followup-to:message-id:subject:cc:to
+ :from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=ExcUThm1Iuc2jKHFlfp1iXOibAJoWiAFt/diaC9gBAU=;
+ b=fdXzdJj9HVn8/VzlZteTpwtnGe5nvp4/r4vZ2arzDi98p+3fQlHIHz8lTTwRLEb+3D
+ 25AZmGZT6SopEBzOoNXiRi18qw+fPCeRadPKyks3MRa8ypR0+1TxhRRWFvmQBcA493f+
+ hxde4YGYVSaNpkN4VvhYSkvJ9QG/Dsr9HEvDY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680640321; x=1683232321;
+ d=1e100.net; s=20210112; t=1680640793;
  h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=gFAkPti6LO7XjxUbtq+pTx5uT8O/fnJpKhggNzsNmjw=;
- b=yM/uue3UnfbAd3pN+vrAryVzsxWJbE/B1ARkkjvC/oUvlkx6A4b46FqUHa4bdfvC9Z
- bElQHtseTOIx4dqfqsSPMFvGsholtYntAKXOPLLw+Hr1PMZ0tZqfFEC0Auhncub59MKb
- xZq3Sy1X9PRLJPYiA6XgDfaWNQ8hZTs4aX9xQvV2LTH9RXc2m6Nd6uIS89BERG48CBNJ
- JPwcR9yIJrXx1zmSsp/EaFydB6GU0DQWHCubTQQqJCfXiu5sa7Qja/fg90hErw3zNmmb
- ZqUvOCTmP4Dr/HYCFFngGxjVfCs6OuZP9HNQkJPQyG9+yL9NI6s4BcLeiRsl6OU0U7t1
- ndSg==
-X-Gm-Message-State: AAQBX9dNKokYD/DXnV+P3XwOeav4XWJcOcuGsYqPwLbNOiIF1UfrBFXs
- 2V02pwy8H7u4RJKtAMqPZn7E9Y0KPWw2+iheU14=
-X-Google-Smtp-Source: AKy350YTL45ktIBIchDk7HGhB6EBy/1Hwpk8CCeUzpJBolcv1Xfe8iLdg9xlZutWY+7kuE8leNiRGg==
-X-Received: by 2002:a05:6402:524e:b0:4fd:2978:d80 with SMTP id
- t14-20020a056402524e00b004fd29780d80mr77389edd.1.1680640321156; 
- Tue, 04 Apr 2023 13:32:01 -0700 (PDT)
+ :mime-version:references:mail-followup-to:message-id:subject:cc:to
+ :from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=ExcUThm1Iuc2jKHFlfp1iXOibAJoWiAFt/diaC9gBAU=;
+ b=JyLBX0+7rZFhbJRyY/wE1vrshUTabYO8PpnhGFz78czOWWYcuL3Gn8aAh+p18DoniW
+ 0dqn/lPkpZTiFzwNbqy3uzFIO0iM4rZX9i9+XPWfZyDwjj5pAWSHS0BxkRoSZyi6xZev
+ JFMtzqjYiVc+FbPZDI3InQ8DUovvU8+Gq9JrYioXqRlTjEue3uPWwSRckQWWHwMocg2/
+ 5WGaC5HaBcCg+4ds1a+RuHPvLTXzE8+Kowon66RUMxU+AjpsUBO+jeRO6xP9hvLo6GF+
+ 55Zycaqu6eSu2b+H7ArpZ8pfPAyvw0MkYHygyvMkWPCQpM3b0c7ljsphcne78yIQqYkt
+ VENQ==
+X-Gm-Message-State: AAQBX9couqPuRrztnOsKqYRyOVfLv/5fFvZWV9GU6eunpsWqottu6m7g
+ VsA9LOk7BUnl7EAEnAKPjR2xoQ==
+X-Google-Smtp-Source: AKy350YrViAVfRB3P6JwrUL8jALkCnKTz4rPr0d39i9sKw2E1CdTnWEBB2+DQX5rbLPjB/zRFcyqEw==
+X-Received: by 2002:a05:6402:268e:b0:502:616b:cbd5 with SMTP id
+ w14-20020a056402268e00b00502616bcbd5mr693211edd.2.1680640792735; 
+ Tue, 04 Apr 2023 13:39:52 -0700 (PDT)
 Received: from phenom.ffwll.local (212-51-149-33.fiber7.init7.net.
  [212.51.149.33]) by smtp.gmail.com with ESMTPSA id
- a65-20020a509ec7000000b004fbf6b35a56sm6402632edf.76.2023.04.04.13.32.00
+ u12-20020a50c04c000000b004d8d2735251sm6385242edd.43.2023.04.04.13.39.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 04 Apr 2023 13:32:00 -0700 (PDT)
-Date: Tue, 4 Apr 2023 22:31:58 +0200
+ Tue, 04 Apr 2023 13:39:52 -0700 (PDT)
+Date: Tue, 4 Apr 2023 22:39:50 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Matthew Brost <matthew.brost@intel.com>
-Subject: Re: [RFC PATCH 08/10] dma-buf/dma-fence: Introduce long-running
- completion fences
-Message-ID: <ZCyJPvlH3U4lho6l@phenom.ffwll.local>
-References: <20230404002211.3611376-1-matthew.brost@intel.com>
- <20230404002211.3611376-9-matthew.brost@intel.com>
- <e5eb5ab0-8e51-389c-34ae-7c6004f4b1ba@amd.com>
- <f7b3b70b-c798-b09e-210c-f84eaafd3251@linux.intel.com>
- <5b2e6a78-b743-028c-f54d-af38c130164a@amd.com>
- <CAKMK7uGeBJRQ4dKfY=wRvw-o7qdzurFHzUymxGsLWr4Y_nQPAA@mail.gmail.com>
- <ZCyCpyFmteD0uZ3v@DUT025-TGLU.fm.intel.com>
- <CAKMK7uG7C9or+L4sS1e7u14wbXt2=0-wGnLxjZ3uSGvM7-Vd4g@mail.gmail.com>
- <ZCyGWXmQ7q2ZMtID@DUT025-TGLU.fm.intel.com>
+To: Rob Clark <robdclark@gmail.com>
+Subject: Re: [PATCH v2] drm/vblank: Fix for drivers that do not
+ drm_vblank_init()
+Message-ID: <ZCyLFm1s/0SvdtVP@phenom.ffwll.local>
+Mail-Followup-To: Rob Clark <robdclark@gmail.com>,
+ Nathan Chancellor <nathan@kernel.org>,
+ dri-devel@lists.freedesktop.org, Rob Clark <robdclark@chromium.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ David Airlie <airlied@gmail.com>,
+ open list <linux-kernel@vger.kernel.org>
+References: <20230403160314.1210533-1-robdclark@gmail.com>
+ <20230403162541.GA3195909@dev-arch.thelio-3990X>
+ <CAF6AEGsdT95-uAKcv2+hdMLKd2xwfPeN+FMuDTRMc-Ps7WbRjw@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <ZCyGWXmQ7q2ZMtID@DUT025-TGLU.fm.intel.com>
+In-Reply-To: <CAF6AEGsdT95-uAKcv2+hdMLKd2xwfPeN+FMuDTRMc-Ps7WbRjw@mail.gmail.com>
 X-Operating-System: Linux phenom 6.1.0-7-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -80,212 +84,128 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: robdclark@chromium.org,
- Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
- airlied@linux.ie, lina@asahilina.net, dri-devel@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, boris.brezillon@collabora.com,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- faith.ekstrand@collabora.com
+Cc: Rob Clark <robdclark@chromium.org>,
+ open list <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org,
+ Nathan Chancellor <nathan@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Apr 04, 2023 at 08:19:37PM +0000, Matthew Brost wrote:
-> On Tue, Apr 04, 2023 at 10:11:59PM +0200, Daniel Vetter wrote:
-> > On Tue, 4 Apr 2023 at 22:04, Matthew Brost <matthew.brost@intel.com> wrote:
+On Mon, Apr 03, 2023 at 10:50:34AM -0700, Rob Clark wrote:
+> On Mon, Apr 3, 2023 at 9:25â€¯AM Nathan Chancellor <nathan@kernel.org> wrote:
+> >
+> > On Mon, Apr 03, 2023 at 09:03:14AM -0700, Rob Clark wrote:
+> > > From: Rob Clark <robdclark@chromium.org>
 > > >
-> > > On Tue, Apr 04, 2023 at 09:00:59PM +0200, Daniel Vetter wrote:
-> > > > On Tue, 4 Apr 2023 at 15:10, Christian König <christian.koenig@amd.com> wrote:
-> > > > >
-> > > > > Am 04.04.23 um 14:54 schrieb Thomas Hellström:
-> > > > > > Hi, Christian,
-> > > > > >
-> > > > > > On 4/4/23 11:09, Christian König wrote:
-> > > > > >> Am 04.04.23 um 02:22 schrieb Matthew Brost:
-> > > > > >>> From: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-> > > > > >>>
-> > > > > >>> For long-running workloads, drivers either need to open-code completion
-> > > > > >>> waits, invent their own synchronization primitives or internally use
-> > > > > >>> dma-fences that do not obey the cross-driver dma-fence protocol, but
-> > > > > >>> without any lockdep annotation all these approaches are error prone.
-> > > > > >>>
-> > > > > >>> So since for example the drm scheduler uses dma-fences it is
-> > > > > >>> desirable for
-> > > > > >>> a driver to be able to use it for throttling and error handling also
-> > > > > >>> with
-> > > > > >>> internal dma-fences tha do not obey the cros-driver dma-fence protocol.
-> > > > > >>>
-> > > > > >>> Introduce long-running completion fences in form of dma-fences, and add
-> > > > > >>> lockdep annotation for them. In particular:
-> > > > > >>>
-> > > > > >>> * Do not allow waiting under any memory management locks.
-> > > > > >>> * Do not allow to attach them to a dma-resv object.
-> > > > > >>> * Introduce a new interface for adding callbacks making the helper
-> > > > > >>> adding
-> > > > > >>>    a callback sign off on that it is aware that the dma-fence may not
-> > > > > >>>    complete anytime soon. Typically this will be the scheduler chaining
-> > > > > >>>    a new long-running fence on another one.
-> > > > > >>
-> > > > > >> Well that's pretty much what I tried before:
-> > > > > >> https://lwn.net/Articles/893704/
-> > > > > >>
-> > > > > >> And the reasons why it was rejected haven't changed.
-> > > > > >>
-> > > > > >> Regards,
-> > > > > >> Christian.
-> > > > > >>
-> > > > > > Yes, TBH this was mostly to get discussion going how we'd best tackle
-> > > > > > this problem while being able to reuse the scheduler for long-running
-> > > > > > workloads.
-> > > > > >
-> > > > > > I couldn't see any clear decision on your series, though, but one main
-> > > > > > difference I see is that this is intended for driver-internal use
-> > > > > > only. (I'm counting using the drm_scheduler as a helper for
-> > > > > > driver-private use). This is by no means a way to try tackle the
-> > > > > > indefinite fence problem.
-> > > > >
-> > > > > Well this was just my latest try to tackle this, but essentially the
-> > > > > problems are the same as with your approach: When we express such
-> > > > > operations as dma_fence there is always the change that we leak that
-> > > > > somewhere.
-> > > > >
-> > > > > My approach of adding a flag noting that this operation is dangerous and
-> > > > > can't be synced with something memory management depends on tried to
-> > > > > contain this as much as possible, but Daniel still pretty clearly
-> > > > > rejected it (for good reasons I think).
-> > > >
-> > > > Yeah I still don't like dma_fence that somehow have totally different
-> > > > semantics in that critical piece of "will it complete or will it
-> > > > deadlock?" :-)
+> > > This should fix a crash that was reported on ast (and possibly other
+> > > drivers which do not initialize vblank).
 > > >
-> > > Not going to touch LR dma-fences in this reply, I think we can continue
-> > > the LR fence discussion of the fork of this thread I just responded to.
-> > > Have a response the preempt fence discussion below.
+> > >    fbcon: Taking over console
+> > >    Unable to handle kernel NULL pointer dereference at virtual address 0000000000000074
+> > >    Mem abort info:
+> > >      ESR = 0x0000000096000004
+> > >      EC = 0x25: DABT (current EL), IL = 32 bits
+> > >      SET = 0, FnV = 0
+> > >      EA = 0, S1PTW = 0
+> > >      FSC = 0x04: level 0 translation fault
+> > >    Data abort info:
+> > >      ISV = 0, ISS = 0x00000004
+> > >      CM = 0, WnR = 0
+> > >    user pgtable: 4k pages, 48-bit VAs, pgdp=0000080009d16000
+> > >    [0000000000000074] pgd=0000000000000000, p4d=0000000000000000
+> > >    Internal error: Oops: 0000000096000004 [#1] SMP
+> > >    Modules linked in: ip6table_nat tun nft_fib_inet nft_fib_ipv4 nft_fib_ipv6 nft_fib nft_reject_inet nf_reject_ipv4 nf_reject_ipv6 nft_reject nft_ct nft_chain_nat nf_nat nf_conntrack nf_defrag_ipv6 nf_defrag_ipv4 rfkill ip_set nf_tables nfnetlink qrtr sunrpc binfmt_misc vfat fat xfs snd_usb_audio snd_hwdep snd_usbmidi_lib snd_seq snd_pcm snd_rawmidi snd_timer snd_seq_device snd soundcore joydev mc ipmi_ssif ipmi_devintf ipmi_msghandler arm_spe_pmu arm_cmn arm_dsu_pmu arm_dmc620_pmu cppc_cpufreq loop zram crct10dif_ce polyval_ce nvme polyval_generic ghash_ce sbsa_gwdt igb nvme_core ast nvme_common i2c_algo_bit xgene_hwmon gpio_dwapb scsi_dh_rdac scsi_dh_emc scsi_dh_alua ip6_tables ip_tables dm_multipath fuse
+> > >    CPU: 12 PID: 469 Comm: kworker/12:1 Not tainted 6.3.0-rc2-00008-gd39e48ca80c0 #1
+> > >    Hardware name: ADLINK AVA Developer Platform/AVA Developer Platform, BIOS TianoCore 2.04.100.07 (SYS: 2.06.20220308) 09/08/2022
+> > >    Workqueue: events fbcon_register_existing_fbs
+> > >    pstate: 20400009 (nzCv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+> > >    pc : drm_crtc_next_vblank_start+0x2c/0x98
+> > >    lr : drm_atomic_helper_wait_for_fences+0x90/0x240
+> > >    sp : ffff80000d583960
+> > >    x29: ffff80000d583960 x28: ffff07ff8fc187b0 x27: 0000000000000000
+> > >    x26: ffff07ff99c08c00 x25: 0000000000000038 x24: ffff07ff99c0c000
+> > >    x23: 0000000000000001 x22: 0000000000000038 x21: 0000000000000000
+> > >    x20: ffff07ff9640a280 x19: 0000000000000000 x18: ffffffffffffffff
+> > >    x17: 0000000000000000 x16: ffffb24d2eece1c0 x15: 0000003038303178
+> > >    x14: 3032393100000048 x13: 0000000000000000 x12: 0000000000000000
+> > >    x11: 0000000000000000 x10: 0000000000000000 x9 : ffffb24d2eeeaca0
+> > >    x8 : ffff80000d583628 x7 : 0000080077783000 x6 : 0000000000000000
+> > >    x5 : ffff80000d584000 x4 : ffff07ff99c0c000 x3 : 0000000000000130
+> > >    x2 : 0000000000000000 x1 : ffff80000d5839c0 x0 : ffff07ff99c0cc08
+> > >    Call trace:
+> > >     drm_crtc_next_vblank_start+0x2c/0x98
+> > >     drm_atomic_helper_wait_for_fences+0x90/0x240
+> > >     drm_atomic_helper_commit+0xb0/0x188
+> > >     drm_atomic_commit+0xb0/0xf0
+> > >     drm_client_modeset_commit_atomic+0x218/0x280
+> > >     drm_client_modeset_commit_locked+0x64/0x1a0
+> > >     drm_client_modeset_commit+0x38/0x68
+> > >     __drm_fb_helper_restore_fbdev_mode_unlocked+0xb0/0xf8
+> > >     drm_fb_helper_set_par+0x44/0x88
+> > >     fbcon_init+0x1e0/0x4a8
+> > >     visual_init+0xbc/0x118
+> > >     do_bind_con_driver.isra.0+0x194/0x3a0
+> > >     do_take_over_console+0x50/0x70
+> > >     do_fbcon_takeover+0x74/0xf8
+> > >     do_fb_registered+0x13c/0x158
+> > >     fbcon_register_existing_fbs+0x78/0xc0
+> > >     process_one_work+0x1ec/0x478
+> > >     worker_thread+0x74/0x418
+> > >     kthread+0xec/0x100
+> > >     ret_from_fork+0x10/0x20
+> > >    Code: f9400004 b9409013 f940a082 9ba30a73 (b9407662)
+> > >    ---[ end trace 0000000000000000 ]---
 > > >
-> > > > >
-> > > > > >
-> > > > > > We could ofc invent a completely different data-type that abstracts
-> > > > > > the synchronization the scheduler needs in the long-running case, or
-> > > > > > each driver could hack something up, like sleeping in the
-> > > > > > prepare_job() or run_job() callback for throttling, but those waits
-> > > > > > should still be annotated in one way or annotated one way or another
-> > > > > > (and probably in a similar way across drivers) to make sure we don't
-> > > > > > do anything bad.
-> > > > > >
-> > > > > >  So any suggestions as to what would be the better solution here would
-> > > > > > be appreciated.
-> > > > >
-> > > > > Mhm, do we really the the GPU scheduler for that?
-> > > > >
-> > > > > I mean in the 1 to 1 case  you basically just need a component which
-> > > > > collects the dependencies as dma_fence and if all of them are fulfilled
-> > > > > schedules a work item.
-> > > > >
-> > > > > As long as the work item itself doesn't produce a dma_fence it can then
-> > > > > still just wait for other none dma_fence dependencies.
-> > > >
-> > > > Yeah that's the important thing, for long-running jobs dependencies as
-> > > > dma_fence should be totally fine. You're just not allowed to have any
-> > > > outgoing dma_fences at all (except the magic preemption fence).
-> > > >
-> > > > > Then the work function could submit the work and wait for the result.
-> > > > >
-> > > > > The work item would then pretty much represent what you want, you can
-> > > > > wait for it to finish and pass it along as long running dependency.
-> > > > >
-> > > > > Maybe give it a funky name and wrap it up in a structure, but that's
-> > > > > basically it.
-> > > >
-> > > > Like do we need this? If the kernel ever waits for a long-running
-> > > > compute job to finnish I'd call that a bug. Any functional
-> > > > dependencies between engines or whatever are userspace's problem only,
-> > > > which it needs to sort out using userspace memory fences.
-> > > >
-> > > > The only things the kernel needs are some way to track dependencies as
-> > > > dma_fence (because memory management move the memory away and we need
-> > > > to move it back in, ideally pipelined). And it needs the special
-> > > > preempt fence (if we don't have pagefaults) so that you have a fence
-> > > > to attach to all the dma_resv for memory management purposes. Now the
-> > > > scheduler already has almost all the pieces (at least if we assume
-> > > > there's some magic fw which time-slices these contexts on its own),
-> > > > and we just need a few minimal changes:
-> > > > - allowing the scheduler to ignore the completion fence and just
-> > > > immediately push the next "job" in if its dependencies are ready
-> > > > - maybe minimal amounts of scaffolding to handle the preemption
-> > > > dma_fence because that's not entirely trivial. I think ideally we'd
-> > > > put that into drm_sched_entity since you can only ever have one active
-> > > > preempt dma_fence per gpu ctx/entity.
-> > > >
+> > > v2: Use drm_dev_has_vblank()
 > > >
-> > > Yep, preempt fence is per entity in Xe (xe_engine). We install these
-> > > into the VM and all external BOs mapped in the VM dma-resv slots.
-> > > Wondering if we can make all of this very generic between the DRM
-> > > scheduler + GPUVA...
-> > 
-> > I think if the drm/sched just takes care of the preempt ctx dma_fence
-> > (and still stores it in the same slot in the drm_sched_job struct like
-> > a end-of-batch dma_fence job would), and then the gpuva shared code
-> > just has functions to smash these into the right dma_resv structures
-> > then you have all the pieces. Maybe for a bit more flexibility the
-> > gpuva code takes dma_fence and not directly the drm_sched_job, but
-> > maybe even that level of integration makes sense (but imo optional, a
-> > bit of driver glue code is fine).
-> > 
-> > Yeah that's roughly what I think we should at least aim for since
-> > there's quiet a few drivers in-flight that all need these pieces (more
-> > or less at least).
+> > > Reported-by: Nathan Chancellor <nathan@kernel.org>
+> > > Fixes: d39e48ca80c0 ("drm/atomic-helper: Set fence deadline for vblank")
+> > > Signed-off-by: Rob Clark <robdclark@chromium.org>
+> > > Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
+> >
+> > Still appears to work for me:
+> >
+> > Tested-by: Nathan Chancellor <nathan@kernel.org>
 > 
-> That is very close to what I'm thinking too, we want to tackle userptr +
-> GPUVA too, think that will be next but can add this to the list of
-> things to do.
+> Thanks for confirming
 
-I discussed userptr+gpuva a bit with Rodrigo (and maybe Thomas H not sure
-anymore) and it sounded a bit like that's maybe a bridge too far. At least
-until we have some other drivers that also need that combo. But can't hurt
-to at least think how it would ideally integrate from xe's pov.
+Pushed to drm-misc-next.
 -Daniel
 
 > 
-> Matt
+> BR,
+> -R
 > 
-> > -Daniel
+> >
+> > > ---
+> > >  drivers/gpu/drm/drm_vblank.c | 10 ++++++++--
+> > >  1 file changed, 8 insertions(+), 2 deletions(-)
 > > >
-> > > Matt
+> > > diff --git a/drivers/gpu/drm/drm_vblank.c b/drivers/gpu/drm/drm_vblank.c
+> > > index 299fa2a19a90..877e2067534f 100644
+> > > --- a/drivers/gpu/drm/drm_vblank.c
+> > > +++ b/drivers/gpu/drm/drm_vblank.c
+> > > @@ -996,10 +996,16 @@ EXPORT_SYMBOL(drm_crtc_vblank_count_and_time);
+> > >  int drm_crtc_next_vblank_start(struct drm_crtc *crtc, ktime_t *vblanktime)
+> > >  {
+> > >       unsigned int pipe = drm_crtc_index(crtc);
+> > > -     struct drm_vblank_crtc *vblank = &crtc->dev->vblank[pipe];
+> > > -     struct drm_display_mode *mode = &vblank->hwmode;
+> > > +     struct drm_vblank_crtc *vblank;
+> > > +     struct drm_display_mode *mode;
+> > >       u64 vblank_start;
 > > >
-> > > > None of this needs a dma_fence_is_lr anywhere at all.
-> > > >
-> > > > Of course there's the somewhat related issue of "how do we transport
-> > > > these userspace memory fences around from app to compositor", and
-> > > > that's a lot more gnarly. I still don't think dma_fence_is_lr is
-> > > > anywhere near what the solution should look like for that.
-> > > > -Daniel
-> > > >
-> > > >
-> > > > > Regards,
-> > > > > Christian.
-> > > > >
-> > > > > >
-> > > > > > Thanks,
-> > > > > >
-> > > > > > Thomas
-> > > > > >
-> > > > > >
-> > > > > >
-> > > > > >
-> > > > > >
-> > > > >
-> > > >
-> > > >
-> > > > --
-> > > > Daniel Vetter
-> > > > Software Engineer, Intel Corporation
-> > > > http://blog.ffwll.ch
-> > 
-> > 
-> > 
-> > -- 
-> > Daniel Vetter
-> > Software Engineer, Intel Corporation
-> > http://blog.ffwll.ch
+> > > +     if (!drm_dev_has_vblank(crtc->dev))
+> > > +             return -EINVAL;
+> > > +
+> > > +     vblank = &crtc->dev->vblank[pipe];
+> > > +     mode = &vblank->hwmode;
+> > > +
+> > >       if (!vblank->framedur_ns || !vblank->linedur_ns)
+> > >               return -EINVAL;
+> > >
+> > > --
+> > > 2.39.2
+> > >
 
 -- 
 Daniel Vetter
