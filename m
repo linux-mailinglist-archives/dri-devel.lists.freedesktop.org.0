@@ -2,71 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 184D76D6D27
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Apr 2023 21:29:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D4696D6D4A
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Apr 2023 21:39:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2A90D10E77F;
-	Tue,  4 Apr 2023 19:29:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ED1A510E78F;
+	Tue,  4 Apr 2023 19:39:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com
- [IPv6:2a00:1450:4864:20::62d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6F7F589208
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Apr 2023 19:29:48 +0000 (UTC)
-Received: by mail-ej1-x62d.google.com with SMTP id
- a640c23a62f3a-930bc91df7bso104986166b.1
- for <dri-devel@lists.freedesktop.org>; Tue, 04 Apr 2023 12:29:48 -0700 (PDT)
+Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com
+ [IPv6:2a00:1450:4864:20::634])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B9C5D10E791
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Apr 2023 19:39:47 +0000 (UTC)
+Received: by mail-ej1-x634.google.com with SMTP id
+ a640c23a62f3a-947a47eb908so43988166b.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 04 Apr 2023 12:39:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1680636586;
- h=in-reply-to:content-disposition:mime-version:references
- :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
- :subject:date:message-id:reply-to;
- bh=WDcTKrSrAsaj76X8vZNhTOKwZlbAEf+GAzZ3pjuCyAQ=;
- b=Ol0ruIFnZEpOldPCfGXZ2Eh69uloYVAw/FuSGVLaFXPWzhtEdjV/vTYpvc2/tlusAN
- Esw5Ypb9zST5aKRpSwbYRWgepey+rYqxBlQs4VJwgQkO5imOOMJrHsikSI82uqJau6ld
- n8EhpL85qWu8+SjnrNM1FveFWCANo5waYyRgY=
+ d=ffwll.ch; s=google; t=1680637186;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=mrNIWGuvU8yOmyqKo15r+2UzOPnnoKtvW2Ll77+OFto=;
+ b=gSzrUwfdoR5VtsIY8A4GpMgcBhLgJG7OwQRLOmZBsmJngmydike2cIXmpAYWdtGjOs
+ QYJv6h5zYjueik2anibn1olQB0taAkHxLT8CbHFd9VGYpoESaX9RTA8NKfXwqtorXp8n
+ jT6m2vL4ewcxbv3cQZfFMU292dfCO9Oc90YDE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680636586;
- h=in-reply-to:content-disposition:mime-version:references
- :mail-followup-to:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=WDcTKrSrAsaj76X8vZNhTOKwZlbAEf+GAzZ3pjuCyAQ=;
- b=aYv2XJZ7ier1p7/CIytkb7ebuUSiIF+ATt2PccHmEkjIrA6iRpJ6RYxxPf/maG+iPk
- X4qf/DRHS04nF/fjb1Y6b3gapqwRAv37siBKkxCZdixh0mJmNj1mIYhFyd7h5rpbStUe
- Zcm6dzvWhoHKrv89n2ohfdwH5s5J5GbQFpFUTDIUtmF+r4Q4qnG6AyduXEp3dGxMjoRL
- t19Y8RSSUO6dvupKI1wMfsuNvgk5pLACyhyPDni9+WZUL9zTsYaE/GEr7VEn8dKoX3No
- vxGFMTEdAxWj1Fp8DNF5yUxJIUc2XFlFUpcLH/patdyA6E5Il1O0qwBfTR/dPzIuU4k8
- ZvwA==
-X-Gm-Message-State: AAQBX9c4GdIvnErmKOK4sB/Y4pm+ZwPM/JRluVDZu9FItiiN2AyKTC/f
- Sbi1h+jhE5CQS2zIDzqiULUXWW3FLFGINUNSoWc=
-X-Google-Smtp-Source: AKy350atpPkCeg8shFO6LeLPLzLvxHIcMiua2klFWE3sYLdfZXfh4Wl4O0CiLXC2ZxC5k/umZYmeHg==
-X-Received: by 2002:a17:906:114:b0:947:f415:db23 with SMTP id
- 20-20020a170906011400b00947f415db23mr728899eje.1.1680636586708; 
- Tue, 04 Apr 2023 12:29:46 -0700 (PDT)
+ d=1e100.net; s=20210112; t=1680637186;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=mrNIWGuvU8yOmyqKo15r+2UzOPnnoKtvW2Ll77+OFto=;
+ b=CE+Nh+xz70Y9Jmj39m/uytQyZJXXaoawPOzikHzoNY7Muk4lPlOIMgs01iGXn8m6v3
+ iFKRCmO1udZs/mvglOuOudvKEy2DRUb6TqhuD4HFY7T8/L6UFl0m1rskmmVUVb74LoKv
+ S2an/me8siwy/RJvHznuJmgwek92DXfSJyJHdRMqTy/fKH5XqoWrdEW0FR7HyaZH+bGT
+ 5AgndacYxrdnMp8V0Or6gkqE0SPA942+GKt7aSnF4elxMaQ2Mm0FaZy+cAJVEIf57/VF
+ pulpmpY2EOtgPdSEXLen2M1yPkeQi+wGUCucAkHzLP+PhSAESXQy8K9cMQ6B5xF/Syhz
+ i+ZQ==
+X-Gm-Message-State: AAQBX9eNWukrPLBHAX5QkI7wVpDKsL0IcW8/pyXAPCCY6sdRNLyFzuWr
+ swI656jBO4ib78M56h9vhjvimw==
+X-Google-Smtp-Source: AKy350beChT3SpPqih5hlkUZBblDzme1WlDy3x/T4nEeCCijX3y5G1sD2OZRfpdDWTc7CwOJLUToEw==
+X-Received: by 2002:a17:906:5195:b0:92c:fc0:b229 with SMTP id
+ y21-20020a170906519500b0092c0fc0b229mr748920ejk.0.1680637185857; 
+ Tue, 04 Apr 2023 12:39:45 -0700 (PDT)
 Received: from phenom.ffwll.local (212-51-149-33.fiber7.init7.net.
  [212.51.149.33]) by smtp.gmail.com with ESMTPSA id
- xc2-20020a170907074200b00947a6d84fefsm6123349ejb.75.2023.04.04.12.29.45
+ mc3-20020a170906eb4300b009334d87d106sm6428730ejb.147.2023.04.04.12.39.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 04 Apr 2023 12:29:46 -0700 (PDT)
-Date: Tue, 4 Apr 2023 21:29:44 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: yq882255@163.com
-Subject: Re: [PATCH 1/3] Revert "drm/lima: add show_fdinfo for drm usage stats"
-Message-ID: <ZCx6qMqA9znAHGyS@phenom.ffwll.local>
-Mail-Followup-To: yq882255@163.com, dri-devel@lists.freedesktop.org,
- Erico Nunes <nunes.erico@gmail.com>,
- Lucas Stach <l.stach@pengutronix.de>,
- Stephen Rothwell <sfr@canb.auug.org.au>,
- Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>,
- David Airlie <airlied@gmail.com>, lima@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Qiang Yu <yuq825@gmail.com>
-References: <20230404002601.24136-1-yq882255@163.com>
- <20230404002601.24136-2-yq882255@163.com>
+ Tue, 04 Apr 2023 12:39:45 -0700 (PDT)
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+To: Intel Graphics Development <intel-gfx@lists.freedesktop.org>
+Subject: [PATCH] fbmem: Reject FB_ACTIVATE_KD_TEXT from userspace
+Date: Tue,  4 Apr 2023 21:39:34 +0200
+Message-Id: <20230404193934.472457-1-daniel.vetter@ffwll.ch>
+X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230404002601.24136-2-yq882255@163.com>
-X-Operating-System: Linux phenom 6.1.0-7-amd64 
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,78 +68,79 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Stephen Rothwell <sfr@canb.auug.org.au>, lima@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Qiang Yu <yuq825@gmail.com>, Erico Nunes <nunes.erico@gmail.com>
+Cc: linux-fbdev@vger.kernel.org, Shigeru Yoshida <syoshida@redhat.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ Daniel Vetter <daniel.vetter@intel.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Helge Deller <deller@gmx.de>,
+ Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
+ Geert Uytterhoeven <geert@linux-m68k.org>,
+ Samuel Thibault <samuel.thibault@ens-lyon.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ =?UTF-8?q?Michel=20D=C3=A4nzer?= <michel@daenzer.net>, shlomo@fastmail.com,
+ Nathan Chancellor <natechancellor@gmail.com>, stable@vger.kernel.org,
+ =?UTF-8?q?Noralf=20Tr=C3=B8nnes?= <noralf@tronnes.org>,
+ Alex Deucher <alexander.deucher@amd.com>, Peter Rosin <peda@axentia.se>,
+ Qiujun Huang <hqjagain@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Apr 04, 2023 at 08:25:59AM +0800, yq882255@163.com wrote:
-> From: Qiang Yu <yuq825@gmail.com>
-> 
-> This reverts commit 4a66f3da99dcb4dcbd28544110636b50adfb0f0d.
-> 
-> This is due to the depend commit has been reverted on upstream:
-> baad10973fdb ("Revert "drm/scheduler: track GPU active time per entity"")
-> 
-> Signed-off-by: Qiang Yu <yuq825@gmail.com>
+This is an oversight from dc5bdb68b5b3 ("drm/fb-helper: Fix vt
+restore") - I failed to realize that nasty userspace could set this.
 
-A bit an aside, but it feels like a lot more of the fdinfo scheduler code
-should be common, and not just the minimal timekeeping? Just a thought for
-the next round.
--Daniel
+It's not pretty to mix up kernel-internal and userspace uapi flags
+like this, but since the entire fb_var_screeninfo structure is uapi
+we'd need to either add a new parameter to the ->fb_set_par callback
+and fb_set_par() function, which has a _lot_ of users. Or some other
+fairly ugly side-channel int fb_info. Neither is a pretty prospect.
 
-> ---
->  drivers/gpu/drm/lima/lima_drv.c | 31 +------------------------------
->  1 file changed, 1 insertion(+), 30 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/lima/lima_drv.c b/drivers/gpu/drm/lima/lima_drv.c
-> index 3420875d6fc6..f456a471216b 100644
-> --- a/drivers/gpu/drm/lima/lima_drv.c
-> +++ b/drivers/gpu/drm/lima/lima_drv.c
-> @@ -261,36 +261,7 @@ static const struct drm_ioctl_desc lima_drm_driver_ioctls[] = {
->  	DRM_IOCTL_DEF_DRV(LIMA_CTX_FREE, lima_ioctl_ctx_free, DRM_RENDER_ALLOW),
->  };
->  
-> -static void lima_drm_driver_show_fdinfo(struct seq_file *m, struct file *filp)
-> -{
-> -	struct drm_file *file = filp->private_data;
-> -	struct drm_device *dev = file->minor->dev;
-> -	struct lima_device *ldev = to_lima_dev(dev);
-> -	struct lima_drm_priv *priv = file->driver_priv;
-> -	struct lima_ctx_mgr *ctx_mgr = &priv->ctx_mgr;
-> -	u64 usage[lima_pipe_num];
-> -
-> -	lima_ctx_mgr_usage(ctx_mgr, usage);
-> -
-> -	/*
-> -	 * For a description of the text output format used here, see
-> -	 * Documentation/gpu/drm-usage-stats.rst.
-> -	 */
-> -	seq_printf(m, "drm-driver:\t%s\n", dev->driver->name);
-> -	seq_printf(m, "drm-client-id:\t%u\n", priv->id);
-> -	for (int i = 0; i < lima_pipe_num; i++) {
-> -		struct lima_sched_pipe *pipe = &ldev->pipe[i];
-> -		struct drm_gpu_scheduler *sched = &pipe->base;
-> -
-> -		seq_printf(m, "drm-engine-%s:\t%llu ns\n", sched->name, usage[i]);
-> -	}
-> -}
-> -
-> -static const struct file_operations lima_drm_driver_fops = {
-> -	.owner = THIS_MODULE,
-> -	DRM_GEM_FOPS,
-> -	.show_fdinfo = lima_drm_driver_show_fdinfo,
-> -};
-> +DEFINE_DRM_GEM_FOPS(lima_drm_driver_fops);
->  
->  /*
->   * Changelog:
-> -- 
-> 2.25.1
-> 
+Instead just correct the issue at hand by filtering out this
+kernel-internal flag in the ioctl handling code.
 
+Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+Fixes: dc5bdb68b5b3 ("drm/fb-helper: Fix vt restore")
+Cc: Alex Deucher <alexander.deucher@amd.com>
+Cc: shlomo@fastmail.com
+Cc: Michel Dänzer <michel@daenzer.net>
+Cc: Noralf Trønnes <noralf@tronnes.org>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Daniel Vetter <daniel.vetter@intel.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: Maxime Ripard <mripard@kernel.org>
+Cc: David Airlie <airlied@linux.ie>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org
+Cc: <stable@vger.kernel.org> # v5.7+
+Cc: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
+Cc: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Nathan Chancellor <natechancellor@gmail.com>
+Cc: Qiujun Huang <hqjagain@gmail.com>
+Cc: Peter Rosin <peda@axentia.se>
+Cc: linux-fbdev@vger.kernel.org
+Cc: Helge Deller <deller@gmx.de>
+Cc: Sam Ravnborg <sam@ravnborg.org>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: Samuel Thibault <samuel.thibault@ens-lyon.org>
+Cc: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+Cc: Shigeru Yoshida <syoshida@redhat.com>
+---
+ drivers/video/fbdev/core/fbmem.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/drivers/video/fbdev/core/fbmem.c b/drivers/video/fbdev/core/fbmem.c
+index 875541ff185b..3fd95a79e4c3 100644
+--- a/drivers/video/fbdev/core/fbmem.c
++++ b/drivers/video/fbdev/core/fbmem.c
+@@ -1116,6 +1116,8 @@ static long do_fb_ioctl(struct fb_info *info, unsigned int cmd,
+ 	case FBIOPUT_VSCREENINFO:
+ 		if (copy_from_user(&var, argp, sizeof(var)))
+ 			return -EFAULT;
++		/* only for kernel-internal use */
++		var.activate &= ~FB_ACTIVATE_KD_TEXT;
+ 		console_lock();
+ 		lock_fb_info(info);
+ 		ret = fbcon_modechange_possible(info, &var);
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+2.40.0
+
