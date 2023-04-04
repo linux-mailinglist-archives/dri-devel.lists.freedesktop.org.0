@@ -2,50 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 879896D5584
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Apr 2023 02:22:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B9D6F6D593C
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Apr 2023 09:13:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3996C10E1BF;
-	Tue,  4 Apr 2023 00:22:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B5DC810E13B;
+	Tue,  4 Apr 2023 07:13:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 39ADF10E086;
- Tue,  4 Apr 2023 00:22:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1680567744; x=1712103744;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=rI+mt1YKYp3orUuX569X3FxbQOR31uaY8xNpPR6u4lY=;
- b=mDTCZx++h/HokRhhuHiGVtluwwEMEkgnGYUZYPV0VlRLS5itHYymY8d0
- qGYwp8GU27ESvbrnqKG+nQmNoGpbHQX8CEXytwm5fm1uC1plmrdXlo8Hs
- c2jRF0AQJIQIvVc+zgiVwM2OYp5qirNKMZuMUCT1LXHeh9MsQpnQRIE8w
- hMn5zprn5T1KUwz3sjfhd8RDD0V4WsH2W+byZy35oJpJKUqx2wYWCOm/m
- iGxBRNy69G/0zsewkyhlzQf3Tmp16RSr87DrICgrUG4zHep9uSWI83mw5
- zM7LtaautEaP+UZbaNXATbp7wTm9k5RFSyXljPlaY7dyLoT6J0l1kC099 w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10669"; a="404810544"
-X-IronPort-AV: E=Sophos;i="5.98,316,1673942400"; d="scan'208";a="404810544"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Apr 2023 17:22:22 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10669"; a="716460318"
-X-IronPort-AV: E=Sophos;i="5.98,316,1673942400"; d="scan'208";a="716460318"
-Received: from lstrano-desk.jf.intel.com ([10.24.89.184])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Apr 2023 17:22:21 -0700
-From: Matthew Brost <matthew.brost@intel.com>
-To: dri-devel@lists.freedesktop.org,
-	intel-xe@lists.freedesktop.org
-Subject: [RFC PATCH 10/10] drm/syncobj: Warn on long running dma-fences
-Date: Mon,  3 Apr 2023 17:22:11 -0700
-Message-Id: <20230404002211.3611376-11-matthew.brost@intel.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230404002211.3611376-1-matthew.brost@intel.com>
-References: <20230404002211.3611376-1-matthew.brost@intel.com>
+Received: from m12.mail.163.com (m12.mail.163.com [220.181.12.214])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 18D8A10E10E;
+ Tue,  4 Apr 2023 00:43:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+ s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=ANyDg
+ UlFZw2AcrRV0IxQJ2iSMTL1341z+Q8L+rwAzTE=; b=bnFrPf4g/1eGQ5GM+txOl
+ L9v3oao7JSDyNHhLfO9muKJKnaZOpyGlLXZrwXDSOqj5fWD90oOXEgoFGOKoYcgf
+ C/mDvGe8NL/2xOGRSt9faROU+oenyWvM68q2mdAIBASosAEN+IwlyLB/ZfToePIe
+ F1Xml34YNvIlQ0JEsItgnk=
+Received: from yuq-Aspire-4738G.lan (unknown [116.225.76.16])
+ by zwqz-smtp-mta-g3-0 (Coremail) with SMTP id _____wBHK4Tkbitk8woAAg--.8076S2; 
+ Tue, 04 Apr 2023 08:27:24 +0800 (CST)
+From: yq882255@163.com
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH 0/3] Revert lima fdinfo patchset
+Date: Tue,  4 Apr 2023 08:25:58 +0800
+Message-Id: <20230404002601.24136-1-yq882255@163.com>
+X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: _____wBHK4Tkbitk8woAAg--.8076S2
+X-Coremail-Antispam: 1Uf129KBjvdXoWrtr1xJrW5GF43Gw4xury5XFb_yoWfGFX_Ga
+ y7JFy7WF1UAF1qyw17XwsrWryYka42vFZ5Jw1Uta9akry3Zr1DZr1DGrW5XryUXF42yF1k
+ Ja10vF1fXanagjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+ 9fnUUvcSsGvfC2KfnxnUUI43ZEXa7IU8lApUUUUUU==
+X-Originating-IP: [116.225.76.16]
+X-CM-SenderInfo: d1tymjqsvvqiywtou0bp/1tbiVg1HGlqzxIGuIAAAsk
+X-Mailman-Approved-At: Tue, 04 Apr 2023 07:13:48 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,46 +49,32 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: robdclark@chromium.org, thomas.hellstrom@linux.intel.com, airlied@linux.ie,
- lina@asahilina.net, Matthew Brost <matthew.brsot@intel.com>,
- boris.brezillon@collabora.com, Matthew Brost <matthew.brost@intel.com>,
- christian.koenig@amd.com, faith.ekstrand@collabora.com
+Cc: Stephen Rothwell <sfr@canb.auug.org.au>, lima@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Qiang Yu <yuq825@gmail.com>,
+ Erico Nunes <nunes.erico@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Long running dma-fences are not allowed to be exported, a drm_syncobj is
-designed to be exported to the user, so add a warn if drm_syncobj
-install long running dna-fences as this is not allowed.
+From: Qiang Yu <yuq825@gmail.com>
 
-Signed-off-by: Matthew Brost <matthew.brsot@intel.com>
----
- drivers/gpu/drm/drm_syncobj.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+Upstream has reverted the dependant commit
+df622729ddbf ("drm/scheduler: track GPU active time per entity""),
+but this patchset has been pushed to drm-misc-next which still
+has that commit. To avoid other branch build fail after merge
+drm-misc-next, just revert the lima patchset on drm-misc-next too.
 
-diff --git a/drivers/gpu/drm/drm_syncobj.c b/drivers/gpu/drm/drm_syncobj.c
-index 0c2be8360525..7c304cd7d037 100644
---- a/drivers/gpu/drm/drm_syncobj.c
-+++ b/drivers/gpu/drm/drm_syncobj.c
-@@ -291,6 +291,7 @@ void drm_syncobj_add_point(struct drm_syncobj *syncobj,
- 	struct syncobj_wait_entry *cur, *tmp;
- 	struct dma_fence *prev;
- 
-+	WARN_ON_ONCE(dma_fence_is_lr(fence));
- 	dma_fence_get(fence);
- 
- 	spin_lock(&syncobj->lock);
-@@ -325,8 +326,10 @@ void drm_syncobj_replace_fence(struct drm_syncobj *syncobj,
- 	struct dma_fence *old_fence;
- 	struct syncobj_wait_entry *cur, *tmp;
- 
--	if (fence)
-+	if (fence) {
-+		WARN_ON_ONCE(dma_fence_is_lr(fence));
- 		dma_fence_get(fence);
-+	}
- 
- 	spin_lock(&syncobj->lock);
- 
+Qiang Yu (3):
+  Revert "drm/lima: add show_fdinfo for drm usage stats"
+  Revert "drm/lima: allocate unique id per drm_file"
+  Revert "drm/lima: add usage counting method to ctx_mgr"
+
+ drivers/gpu/drm/lima/lima_ctx.c    | 30 +--------------------
+ drivers/gpu/drm/lima/lima_ctx.h    |  3 ---
+ drivers/gpu/drm/lima/lima_device.h |  3 ---
+ drivers/gpu/drm/lima/lima_drv.c    | 43 +-----------------------------
+ drivers/gpu/drm/lima/lima_drv.h    |  1 -
+ 5 files changed, 2 insertions(+), 78 deletions(-)
+
 -- 
-2.34.1
+2.25.1
 
