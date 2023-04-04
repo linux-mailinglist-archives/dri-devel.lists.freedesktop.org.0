@@ -2,53 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 808366D6563
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Apr 2023 16:32:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D066C6D659A
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Apr 2023 16:41:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 01B0610E6D2;
-	Tue,  4 Apr 2023 14:32:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7087789FD4;
+	Tue,  4 Apr 2023 14:41:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 20A8210E6CE;
- Tue,  4 Apr 2023 14:32:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1680618735; x=1712154735;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=b+7vAye6yKlGhJLZuGZgx4WaStVtA/1Ovufj+rm4zOM=;
- b=L0lNNYu6RPtpmTdp2AOuBKXVASS+PqLBpmHzF7yTY2MnQArRtJ9rYQaV
- msCBlE8NJR6o5PGq0DA4ENv6Y/20BG2MMqF853W0T72vben+9RN7fGoVk
- 0Dms3+pxzAFLEtI+TxbEZz8ubZfGlV4NTLmICjyRZSSqvVpZNpKz+M7vg
- BDWMOxwZODNNF+/N713LdQBvK3XgW/hw87YNqLEm4Fn+TX0E6TITOXe3p
- Up/W1A6tuDtRh/fz5FQU6pgG1hkQISq8aSEoPJCK4gLD3kQyHsSHB5lu1
- pf/NHNbaue0xRQXeot0+PcOqAs+mqCrDE35OSW9mAErwJJu9t27W9GxbG Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10670"; a="404960905"
-X-IronPort-AV: E=Sophos;i="5.98,318,1673942400"; d="scan'208";a="404960905"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Apr 2023 07:31:18 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10670"; a="688918205"
-X-IronPort-AV: E=Sophos;i="5.98,318,1673942400"; d="scan'208";a="688918205"
-Received: from nirmoyda-desk.igk.intel.com ([10.102.138.190])
- by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Apr 2023 07:31:16 -0700
-From: Nirmoy Das <nirmoy.das@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH 5/5] drm/i915/display: Implement fb_mmap callback function
-Date: Tue,  4 Apr 2023 16:31:00 +0200
-Message-Id: <20230404143100.10452-5-nirmoy.das@intel.com>
-X-Mailer: git-send-email 2.39.0
-In-Reply-To: <20230404143100.10452-1-nirmoy.das@intel.com>
-References: <20230404143100.10452-1-nirmoy.das@intel.com>
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CB70289FD4
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Apr 2023 14:41:42 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 5DDA021E5E;
+ Tue,  4 Apr 2023 14:41:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1680619299; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=dbkovA1Hg9thUry/IqOrol/J/XThZU1GYZerhs3gEcc=;
+ b=rbS/UULleE4Lffl+4QxWxUAGYeX0eo5Hx6BOOGBPRfA9JPMhDcNuOvXkkqniwXNiIxuP9R
+ GFL1+bVhE76GSjQc4YCDKWEKEQpx+sK1kq5rVM4T1OTJ3EkIvePhKqGkS4lR0dQ3aaZ8Sw
+ pzbr55FY2mwZLRDICf0vH2tg746kuRQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1680619299;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=dbkovA1Hg9thUry/IqOrol/J/XThZU1GYZerhs3gEcc=;
+ b=ROYvtd81j1v9vBlspKe5v7PYg8IouxxiDEcJ01TBXlpsBL7qTshjrXLUy88k0+orTUg6cs
+ PzT1+IXQMUulpSBg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 2453E13920;
+ Tue,  4 Apr 2023 14:41:39 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id nsrqByM3LGTIbAAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Tue, 04 Apr 2023 14:41:39 +0000
+Message-ID: <fab035dd-6276-5343-7422-69969afb8006@suse.de>
+Date: Tue, 4 Apr 2023 16:41:38 +0200
 MIME-Version: 1.0
-Organization: Intel Deutschland GmbH, Registered Address: Am Campeon 10,
- 85579 Neubiberg, Germany,
- Commercial Register: Amtsgericht Muenchen HRB 186928 
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH] fbdev: Don't spam dmesg on bad userspace ioctl input
+Content-Language: en-US
+To: Daniel Vetter <daniel@ffwll.ch>, Geert Uytterhoeven <geert@linux-m68k.org>
+References: <20230404123624.360384-1-daniel.vetter@ffwll.ch>
+ <CAMuHMdUR=rx2QPvpzsSCwXTSTsPQOudNMzyL3dtZGQdQfrQGDA@mail.gmail.com>
+ <ZCwtMJEAJiId/TJe@phenom.ffwll.local> <ZCwx+2hAmyDqOfWu@phenom.ffwll.local>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <ZCwx+2hAmyDqOfWu@phenom.ffwll.local>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------FOUOaVAdBeoc4kG6Y0QrJ023"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,73 +71,157 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
- Jani Nikula <jani.nikula@intel.com>, dri-devel@lists.freedesktop.org,
- Matthew Auld <matthew.auld@intel.com>, Andi Shyti <andi.shyti@linux.intel.com>,
- Nirmoy Das <nirmoy.das@intel.com>
+Cc: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, Helge Deller <deller@gmx.de>,
+ syzbot+20dcf81733d43ddff661@syzkaller.appspotmail.com,
+ Javier Martinez Canillas <javierm@redhat.com>, stable@vger.kernel.org,
+ Melissa Wen <melissa.srw@gmail.com>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Daniel Vetter <daniel.vetter@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-If stolen memory allocation fails for fbdev, the driver will
-fallback to system memory. Calculation of smem_start is wrong
-for such framebuffer objs if the platform comes with no gmadr or
-no aperture. Solve this by adding fb_mmap callback which will
-use GTT if aperture is available otherwise will use cpu to access
-the framebuffer.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------FOUOaVAdBeoc4kG6Y0QrJ023
+Content-Type: multipart/mixed; boundary="------------L07aBmLc0ndjB40qAv00Y19v";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Daniel Vetter <daniel@ffwll.ch>, Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, Helge Deller <deller@gmx.de>,
+ syzbot+20dcf81733d43ddff661@syzkaller.appspotmail.com,
+ Javier Martinez Canillas <javierm@redhat.com>, stable@vger.kernel.org,
+ Melissa Wen <melissa.srw@gmail.com>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Daniel Vetter <daniel.vetter@intel.com>
+Message-ID: <fab035dd-6276-5343-7422-69969afb8006@suse.de>
+Subject: Re: [PATCH] fbdev: Don't spam dmesg on bad userspace ioctl input
+References: <20230404123624.360384-1-daniel.vetter@ffwll.ch>
+ <CAMuHMdUR=rx2QPvpzsSCwXTSTsPQOudNMzyL3dtZGQdQfrQGDA@mail.gmail.com>
+ <ZCwtMJEAJiId/TJe@phenom.ffwll.local> <ZCwx+2hAmyDqOfWu@phenom.ffwll.local>
+In-Reply-To: <ZCwx+2hAmyDqOfWu@phenom.ffwll.local>
 
-v2: Use to_intel_fbdev() function(Jani)
+--------------L07aBmLc0ndjB40qAv00Y19v
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-Cc: Matthew Auld <matthew.auld@intel.com>
-Cc: Andi Shyti <andi.shyti@linux.intel.com>
-Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
-Cc: Jani Nikula <jani.nikula@intel.com>
-Cc: Imre Deak <imre.deak@intel.com>
-Signed-off-by: Nirmoy Das <nirmoy.das@intel.com>
-Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com>
-Reviewed-by: Andrzej Hajda <andrzej.hajda@intel.com>
----
- drivers/gpu/drm/i915/display/intel_fbdev.c | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+SGkNCg0KQW0gMDQuMDQuMjMgdW0gMTY6MTkgc2NocmllYiBEYW5pZWwgVmV0dGVyOg0KPiBP
+biBUdWUsIEFwciAwNCwgMjAyMyBhdCAwMzo1OToxMlBNICswMjAwLCBEYW5pZWwgVmV0dGVy
+IHdyb3RlOg0KPj4gT24gVHVlLCBBcHIgMDQsIDIwMjMgYXQgMDM6NTM6MDlQTSArMDIwMCwg
+R2VlcnQgVXl0dGVyaG9ldmVuIHdyb3RlOg0KPj4+IEhpIERhbmllbCwNCj4+Pg0KPj4+IEND
+IHZrbXNkcm0gbWFpbnRhaW5lcg0KPj4+DQo+Pj4gVGhhbmtzIGZvciB5b3VyIHBhdGNoIQ0K
+Pj4+DQo+Pj4gT24gVHVlLCBBcHIgNCwgMjAyMyBhdCAyOjM24oCvUE0gRGFuaWVsIFZldHRl
+ciA8ZGFuaWVsLnZldHRlckBmZndsbC5jaD4gd3JvdGU6DQo+Pj4+IFRoZXJlJ3MgYSBmZXcg
+cmVhc29ucyB0aGUga2VybmVsIHNob3VsZCBub3Qgc3BhbSBkbWVzZyBvbiBiYWQNCj4+Pj4g
+dXNlcnNwYWNlIGlvY3RsIGlucHV0Og0KPj4+PiAtIGF0IHdhcm5pbmcgbGV2ZWwgaXQgcmVz
+dWx0cyBpbiBDSSBmYWxzZSBwb3NpdGl2ZXMNCj4+Pj4gLSBpdCBhbGxvd3MgdXNlcnNwYWNl
+IHRvIGRyb3duIGRtZXNnIG91dHB1dCwgcG90ZW50aWFsbHkgaGlkaW5nIHJlYWwNCj4+Pj4g
+ICAgaXNzdWVzLg0KPj4+Pg0KPj4+PiBOb25lIG9mIHRoZSBvdGhlciBnZW5lcmljIEVJTlZB
+TCBjaGVja3MgcmVwb3J0IGluIHRoZQ0KPj4+PiBGQklPUFVUX1ZTQ1JFRU5JTkZPIGlvY3Rs
+IGRvIHRoaXMsIHNvIGl0J3MgYWxzbyBpbmNvbnNpc3RlbnQuDQo+Pj4+DQo+Pj4+IEkgZ3Vl
+c3MgdGhlIGludGVudCBvZiB0aGUgcGF0Y2ggd2hpY2ggaW50cm9kdWNlZCB0aGlzIHdhcm5p
+bmcgd2FzIHRoYXQNCj4+Pj4gdGhlIGRyaXZlcnMgLT5mYl9jaGVja192YXIgcm91dGluZSBz
+aG91bGQgZmFpbCBpbiB0aGF0IGNhc2UuIFJlYWxpdHkNCj4+Pj4gaXMgdGhhdCB0aGVyZSdz
+IHRvbyBtYW55IGZiZGV2IGRyaXZlcnMgYW5kIG5vdCBlbm91Z2ggcGVvcGxlDQo+Pj4+IG1h
+aW50YWluaW5nIHRoZW0gYnkgZmFyLCBhbmQgc28gb3ZlciB0aGUgcGFzdCBmZXcgeWVhcnMg
+d2UndmUgc2ltcGx5DQo+Pj4+IGhhbmRsZWQgYWxsIHRoZXNlIHZhbGlkYXRpb24gZ2FwcyBi
+eSB0aWdobmluZyB0aGUgY2hlY2tzIGluIHRoZSBjb3JlLA0KPj4+PiBiZWNhdXNlIHRoYXQn
+cyByZWFsaXN0aWNhbGx5IHJlYWxseSBhbGwgdGhhdCB3aWxsIGV2ZXIgaGFwcGVuLg0KPj4+
+Pg0KPj4+PiBSZXBvcnRlZC1ieTogc3l6Ym90KzIwZGNmODE3MzNkNDNkZGZmNjYxQHN5emth
+bGxlci5hcHBzcG90bWFpbC5jb20NCj4+Pj4gTGluazogaHR0cHM6Ly9zeXprYWxsZXIuYXBw
+c3BvdC5jb20vYnVnP2lkPWM1ZmFmOTgzYmZhNGE2MDdkZTUzMGNkM2JiMDA4ODg4YmYwNmNl
+ZmMNCj4+Pg0KPj4+ICAgICAgV0FSTklORzogZmJjb246IERyaXZlciAndmttc2RybWZiJyBt
+aXNzZWQgdG8gYWRqdXN0IHZpcnR1YWwgc2NyZWVuDQo+Pj4gc2l6ZSAoMHgwIHZzLiA2NHg3
+NjgpDQo+Pj4NCj4+PiBUaGlzIGlzIGEgYnVnIGluIHRoZSB2a21zZHJtZmIgZHJpdmVyIGFu
+ZC9vciBEUk0gaGVscGVycy4NCj4+Pg0KPj4+IFRoZSBtZXNzYWdlIHdhcyBhZGRlZCB0byBt
+YWtlIHN1cmUgdGhlIGluZGl2aWR1YWwgZHJpdmVycyBhcmUgZml4ZWQuDQo+Pj4gUGVyaGFw
+cyBpdCBzaG91bGQgYmUgY2hhbmdlZCB0byBCVUcoKSBpbnN0ZWFkLCBzbyBkbWVzZyBvdXRw
+dXQNCj4+PiBjYW5ub3QgYmUgZHJvd24/DQo+Pg0KPj4gU28geW91J3JlIHNvbHV0aW9uIGlz
+IHRvIGVzc2VudGlhbGx5IGZvcmNlIHVzIHRvIHJlcGxpY2F0ZSB0aGlzIGNoZWNrIG92ZXIN
+Cj4+IGFsbCB0aGUgZHJpdmVycyB3aGljaCBjYW5ub3QgY2hhbmdlIHRoZSB2aXJ0dWFsIHNp
+emU/DQo+Pg0KPj4gQXJlIHlvdSB2b2x1bnRlZXJpbmcgdG8gZmllbGQgdGhhdCBhdWRpdCBh
+bmQgdHlwZSBhbGwgdGhlIHBhdGNoZXM/DQo+IA0KPiBOb3RlIHRoYXQgYXQgbGVhc3QgZWZp
+ZmIsIHZlc2FmYiBhbmQgb2ZmYiBzZWVtIHRvIGdldCB0aGlzIHdyb25nLiBJIGRpZG4ndA0K
+PiBib3RoZXIgY2hlY2tpbmcgYW55IG9mIHRoZSBub24tZncgZHJpdmVycy4gSW93IHRoZXJl
+IGlzIGEgX2xvdF8gb2Ygd29yayBpbg0KPiB5b3VyIG5hY2suDQoNCkFzIG1vc3Qgb2YgdXMg
+cmVhbGx5IG9ubHkgY2FyZSBhYm91dCBEUk0sIHdlIGNhbiBhZGQgdGhpcyB0ZXN0IHRvIA0K
+ZHJtX2ZiX2hlbHBlcl9jaGVja192YXIoKSBbMV0gYW5kIHRoYXQncyBpdC4gTm8gbmVlZCB0
+byBmaXggYWxsIG9mIHRoZSANCmZiZGV2IGRyaXZlcnMuDQoNCkhhdmluZyBzYWlkIHRoYXQs
+IEkgdGhpbmsgdGhlIGZldyByZW1haW5pbmcgZmJkZXYgZGV2cyBzaG91bGQgZGVjaWRlIGlm
+IA0KdGhleSB3YW50IHRvIGFjdHVhbGx5IHB1dCBlZmZvcnQgaW50byBmYmRldiwgb3IgYWNj
+ZXB0IGl0IHRvIGJpdHJvdCANCmF3YXkuIFRoZSBjdXJyZW50IHN0YXRlIG9mICdub24tbWFp
+bnRlbmFuY2UnIGlzIHRoZSB3b3JzdCBzaXR1YXRpb24uIA0KSSd2ZSBiZWVuIHdvcmtpbmcg
+b24gdGhlIGNvbnNvbGUgZW11bGF0aW9uIGFuZCBpdCBpcyBoYXJkIHRvIGdldCANCnF1YWxp
+ZmllZCByZXZpZXdzIG9mIHRoZSByZWxhdGVkIGZiZGV2IGNvZGUuIEF0IHRoZSBzYW1lIHRp
+bWUsIGl0J3MgYWxzbyANCm5vdCBwb3NzaWJsZSB0byBnZXQgQWNrLWJ5cyBydWJiZXItc3Rh
+bXBlZC4NCg0KQmVzdCByZWdhcmRzDQpUaG9tYXMNCg0KWzFdIA0KaHR0cHM6Ly9lbGl4aXIu
+Ym9vdGxpbi5jb20vbGludXgvbGF0ZXN0L3NvdXJjZS9kcml2ZXJzL2dwdS9kcm0vZHJtX2Zi
+X2hlbHBlci5jI0wxNTE0DQoNCj4gLURhbmllbA0KPiANCj4+Pj4gRml4ZXM6IDZjMTFkZjU4
+ZmQxYSAoImZibWVtOiBDaGVjayB2aXJ0dWFsIHNjcmVlbiBzaXplcyBpbiBmYl9zZXRfdmFy
+KCkiKQ0KPj4+PiBDYzogSGVsZ2UgRGVsbGVyIDxkZWxsZXJAZ214LmRlPg0KPj4+PiBDYzog
+R2VlcnQgVXl0dGVyaG9ldmVuIDxnZWVydEBsaW51eC1tNjhrLm9yZz4NCj4+Pj4gQ2M6IHN0
+YWJsZUB2Z2VyLmtlcm5lbC5vcmcgIyB2NS40Kw0KPj4+PiBDYzogRGFuaWVsIFZldHRlciA8
+ZGFuaWVsQGZmd2xsLmNoPg0KPj4+PiBDYzogSmF2aWVyIE1hcnRpbmV6IENhbmlsbGFzIDxq
+YXZpZXJtQHJlZGhhdC5jb20+DQo+Pj4+IENjOiBUaG9tYXMgWmltbWVybWFubiA8dHppbW1l
+cm1hbm5Ac3VzZS5kZT4NCj4+Pj4gU2lnbmVkLW9mZi1ieTogRGFuaWVsIFZldHRlciA8ZGFu
+aWVsLnZldHRlckBpbnRlbC5jb20+DQo+Pj4NCj4+PiBOQUtlZC1ieTogR2VlcnQgVXl0dGVy
+aG9ldmVuIDxnZWVydEBsaW51eC1tNjhrLm9yZz4NCj4+DQo+PiBZZXMgSSBrbm93IGl0J3Mg
+bm90IHByZXR0eSwgYnV0IHJlYWxpc3RpY2FsbHkgdW5sZXNzIHNvbWVvbmUgc3RhcnRzIHR5
+cGluZw0KPj4gYSBfbG90XyBvZiBwYXRjaGVzIHRoaXMgaXMgdGhlIHNvbHV0aW9uLiBJdCdz
+IGV4YWN0bHkgdGhlIHNhbWUgc29sdXRpb24NCj4+IHdlJ3ZlIGltcGxlbWVudGVkIGZvciBh
+bGwgb3RoZXIgZ2FwcyBzeXpjYWxsZXIgaGFzIGZpbmQgaW4gZmJkZXYgaW5wdXQNCj4+IHZh
+bGlkYXRpb24uIFVubGVzcyB5b3UgY2FuIHNob3cgdGhhdCB0aGlzIGlzIHBhcGVyaW5nIG92
+ZXIgYSBtb3JlIHNldmVyZQ0KPj4gYnVnIHNvbWV3aGVyZSwgYnV0IHRoZW4gSSBndWVzcyBp
+dCByZWFsbHkgc2hvdWxkIGJlIGEgQlVHIHRvIHByZXZlbnQgd29yc2UNCj4+IHRoaW5ncyBm
+cm9tIGhhcHBlbmluZy4NCj4+IC1EYW5pZWwNCj4+DQo+Pj4NCj4+Pj4gLS0tIGEvZHJpdmVy
+cy92aWRlby9mYmRldi9jb3JlL2ZibWVtLmMNCj4+Pj4gKysrIGIvZHJpdmVycy92aWRlby9m
+YmRldi9jb3JlL2ZibWVtLmMNCj4+Pj4gQEAgLTEwMjEsMTAgKzEwMjEsNiBAQCBmYl9zZXRf
+dmFyKHN0cnVjdCBmYl9pbmZvICppbmZvLCBzdHJ1Y3QgZmJfdmFyX3NjcmVlbmluZm8gKnZh
+cikNCj4+Pj4gICAgICAgICAgLyogdmVyaWZ5IHRoYXQgdmlydHVhbCByZXNvbHV0aW9uID49
+IHBoeXNpY2FsIHJlc29sdXRpb24gKi8NCj4+Pj4gICAgICAgICAgaWYgKHZhci0+eHJlc192
+aXJ0dWFsIDwgdmFyLT54cmVzIHx8DQo+Pj4+ICAgICAgICAgICAgICB2YXItPnlyZXNfdmly
+dHVhbCA8IHZhci0+eXJlcykgew0KPj4+PiAtICAgICAgICAgICAgICAgcHJfd2FybigiV0FS
+TklORzogZmJjb246IERyaXZlciAnJXMnIG1pc3NlZCB0byBhZGp1c3QgdmlydHVhbCBzY3Jl
+ZW4gc2l6ZSAoJXV4JXUgdnMuICV1eCV1KVxuIiwNCj4+Pj4gLSAgICAgICAgICAgICAgICAg
+ICAgICAgaW5mby0+Zml4LmlkLA0KPj4+PiAtICAgICAgICAgICAgICAgICAgICAgICB2YXIt
+PnhyZXNfdmlydHVhbCwgdmFyLT55cmVzX3ZpcnR1YWwsDQo+Pj4+IC0gICAgICAgICAgICAg
+ICAgICAgICAgIHZhci0+eHJlcywgdmFyLT55cmVzKTsNCj4+Pj4gICAgICAgICAgICAgICAg
+ICByZXR1cm4gLUVJTlZBTDsNCj4+Pj4gICAgICAgICAgfQ0KPj4+DQo+Pj4gR3J7b2V0amUs
+ZWV0aW5nfXMsDQo+Pj4NCj4+PiAgICAgICAgICAgICAgICAgICAgICAgICAgR2VlcnQNCj4+
+Pg0KPj4+DQo+Pj4gLS0NCj4+PiBHZWVydCBVeXR0ZXJob2V2ZW4gLS0gVGhlcmUncyBsb3Rz
+IG9mIExpbnV4IGJleW9uZCBpYTMyIC0tIGdlZXJ0QGxpbnV4LW02OGsub3JnDQo+Pj4NCj4+
+PiBJbiBwZXJzb25hbCBjb252ZXJzYXRpb25zIHdpdGggdGVjaG5pY2FsIHBlb3BsZSwgSSBj
+YWxsIG15c2VsZiBhIGhhY2tlci4gQnV0DQo+Pj4gd2hlbiBJJ20gdGFsa2luZyB0byBqb3Vy
+bmFsaXN0cyBJIGp1c3Qgc2F5ICJwcm9ncmFtbWVyIiBvciBzb21ldGhpbmcgbGlrZSB0aGF0
+Lg0KPj4+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIC0tIExpbnVzIFRvcnZh
+bGRzDQo+Pg0KPj4gLS0gDQo+PiBEYW5pZWwgVmV0dGVyDQo+PiBTb2Z0d2FyZSBFbmdpbmVl
+ciwgSW50ZWwgQ29ycG9yYXRpb24NCj4+IGh0dHA6Ly9ibG9nLmZmd2xsLmNoDQo+IA0KDQot
+LSANClRob21hcyBaaW1tZXJtYW5uDQpHcmFwaGljcyBEcml2ZXIgRGV2ZWxvcGVyDQpTVVNF
+IFNvZnR3YXJlIFNvbHV0aW9ucyBHZXJtYW55IEdtYkgNCk1heGZlbGRzdHIuIDUsIDkwNDA5
+IE7DvHJuYmVyZywgR2VybWFueQ0KKEhSQiAzNjgwOSwgQUcgTsO8cm5iZXJnKQ0KR2VzY2jD
+pGZ0c2bDvGhyZXI6IEl2byBUb3Rldg0K
 
-diff --git a/drivers/gpu/drm/i915/display/intel_fbdev.c b/drivers/gpu/drm/i915/display/intel_fbdev.c
-index 2ac9e9f8a128..aab1ae74a8f7 100644
---- a/drivers/gpu/drm/i915/display/intel_fbdev.c
-+++ b/drivers/gpu/drm/i915/display/intel_fbdev.c
-@@ -40,8 +40,10 @@
- #include <drm/drm_crtc.h>
- #include <drm/drm_fb_helper.h>
- #include <drm/drm_fourcc.h>
-+#include <drm/drm_gem_framebuffer_helper.h>
- 
- #include "gem/i915_gem_lmem.h"
-+#include "gem/i915_gem_mman.h"
- 
- #include "i915_drv.h"
- #include "intel_display_types.h"
-@@ -119,6 +121,15 @@ static int intel_fbdev_pan_display(struct fb_var_screeninfo *var,
- 	return ret;
- }
- 
-+static int intel_fbdev_mmap(struct fb_info *info, struct vm_area_struct *vma)
-+{
-+	struct intel_fbdev *fbdev = to_intel_fbdev(info->par);
-+	struct drm_gem_object *bo = drm_gem_fb_get_obj(&fbdev->fb->base, 0);
-+	struct drm_i915_gem_object *obj = to_intel_bo(bo);
-+
-+	return i915_gem_fb_mmap(obj, vma);
-+}
-+
- static const struct fb_ops intelfb_ops = {
- 	.owner = THIS_MODULE,
- 	DRM_FB_HELPER_DEFAULT_OPS,
-@@ -130,6 +141,7 @@ static const struct fb_ops intelfb_ops = {
- 	.fb_imageblit = drm_fb_helper_cfb_imageblit,
- 	.fb_pan_display = intel_fbdev_pan_display,
- 	.fb_blank = intel_fbdev_blank,
-+	.fb_mmap = intel_fbdev_mmap,
- };
- 
- static int intelfb_alloc(struct drm_fb_helper *helper,
--- 
-2.39.0
+--------------L07aBmLc0ndjB40qAv00Y19v--
 
+--------------FOUOaVAdBeoc4kG6Y0QrJ023
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmQsNyIFAwAAAAAACgkQlh/E3EQov+Do
+ag/9EAy/8eiQkdcT0Sn5Jyvk7DWQDZ+taCxQD2sZEGcV75IcQH0uL9QQZAalUun62EVp5Cum16so
+vW7V2xZtkCQoxNcp/jzRy12WIjDl1li/V4fNebDMa0vAHNCmRPIIiVdV2lqa0+w9gANgE/wDAWfo
+kA2XZAVmNETBuX8uPyC53z3l4srs5vI/gvHESf4vC9rgXYI+3e7N3adUeVF+UKdVIe8Z9yvlbe/l
+v1RgWNGxl1eype4Wzj2eQRg41DCgw56s5g1UwCtdYtCtrTxgw9qxhHMcWMkFhWQcrKvh/Qai3F1k
+xDlkBFHr8vnTpyuisrCh9+iyBS/473SkiiMFjpAqcX0TPx1ptMNU8C9md+BS9y+K3jsJlyAuSlUd
+1CdpaR43p12e8yOWmldhg4dMSW2/H78BWvF1x4Z4amjUEySGa4xoDXJfzBF3LS34lcFbT1/GPhLt
+i2TGGJ2v1F7KeWWlzUVGR2QPJVWEh39bZBprzUajE5JVf5WUe4FzRtCIDqBAImropgM8J9cr4lKP
+WyLdr2PgcNL0GG7HXfdhMH4r7q/zvvJQk1CSqYRwBe5UR6e1qelceD2cLEIDxlaECkyrZJRp+Sbb
+/82/E7MJng9Bk7Z2I7JMjzGLwGwTdUyqnTV6r1dpM2SewhX897aBS7mtPhJ7f7TdkFxcNCbTP/GS
+R4w=
+=JwjN
+-----END PGP SIGNATURE-----
+
+--------------FOUOaVAdBeoc4kG6Y0QrJ023--
