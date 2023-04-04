@@ -1,75 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C418C6D5A9E
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Apr 2023 10:20:05 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F8F06D59C7
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Apr 2023 09:37:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1D52210E618;
-	Tue,  4 Apr 2023 08:20:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D4CB510E5FE;
+	Tue,  4 Apr 2023 07:37:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-xf2f.google.com (mail-qv1-xf2f.google.com
- [IPv6:2607:f8b0:4864:20::f2f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C801110E5ED
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Apr 2023 07:30:48 +0000 (UTC)
-Received: by mail-qv1-xf2f.google.com with SMTP id nc3so5575866qvb.1
- for <dri-devel@lists.freedesktop.org>; Tue, 04 Apr 2023 00:30:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1680593447;
- h=mime-version:user-agent:content-transfer-encoding:references
- :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
- :date:message-id:reply-to;
- bh=TZN8A3N6qzEZaoi8BzshL3M0v/LkVxLjd9SUgn/F4m0=;
- b=Z45Ni9JMHRQQs5YoPsYhPZe4Xa5TB1rBf7FeN0TOcSv3+G86Eyopl0QcDkZkFh37V5
- I0ZzmZmT18FtgMXWwguRM9kkD8DbrHC8Krq7eRWsY2EMF8Tj4MFKgtaL7z803T1ECTKO
- wl7Se8wwD/cpdFrJZbKNNyOTr/GSlRXX5K30LhU/F9qFe+tK7PtZMCtMEABkeuNWIKJi
- rGa4/6fzcRyCHxpapmPRulp3KZLmdMYaxkvyO02fRh7CgNStCkq7URn0CV7k6ms6MrHK
- bMaLrOJd6Mq0aK6gUhnLwwclUhoOys0lCjxpMMq5KUwc++8S/+bUA0xlSn/wLDkboCc1
- rZLA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680593447;
- h=mime-version:user-agent:content-transfer-encoding:references
- :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=TZN8A3N6qzEZaoi8BzshL3M0v/LkVxLjd9SUgn/F4m0=;
- b=toJjy4KDp7+bHjQGpRhcWqPD9fuIRpMEeGDSB4MKKI7kAdFAzpdDLXD/7wSt1sQxdD
- N5JuVZ84URai8H0B2ahCeH+Dng9FvUX8p7WJTuIx1+6p/xn82jRh7UkLOW+wLqEdFRww
- F1LWqDTOq4EF67snOXBJXVuyExwaYT2lXbyqxoaUKdqp+vJbviOjZcH7Et5yAmxnfBZm
- bIHu7zxPBav521w1PUn+e4L8luvhv+SgXO0fg3aOkws6Jh3+LtLccVa03CPpWlyEAkI1
- tQmWu6D9HI7k9Z7POszkd9LI9uYmQowQfbDB7a2rH9kWxIF4QuoonPI2o8k+HUa74+NC
- e/ig==
-X-Gm-Message-State: AAQBX9ewbSvV/X0rJ/VgngesQFSWGncPrrSvFGAHe7vhqv+8+SXMzrdL
- 1pwsMkYy4flToRe0GFQ5NXs=
-X-Google-Smtp-Source: AKy350ZZTK8EyWBlgpOOHa/n+UcpfqnqFBaUStB7knvn6NivhjEo+3LJe7zMz/pq/JMgZU8grLC3ig==
-X-Received: by 2002:a05:6214:1c8d:b0:5cc:e059:efa3 with SMTP id
- ib13-20020a0562141c8d00b005cce059efa3mr2059486qvb.23.1680593447228; 
- Tue, 04 Apr 2023 00:30:47 -0700 (PDT)
-Received: from ?IPv6:2003:f6:ef05:8700:853c:3ba5:d710:3c1d?
- (p200300f6ef058700853c3ba5d7103c1d.dip0.t-ipconnect.de.
- [2003:f6:ef05:8700:853c:3ba5:d710:3c1d])
- by smtp.gmail.com with ESMTPSA id
- om30-20020a0562143d9e00b005dd8b934576sm3232903qvb.14.2023.04.04.00.30.44
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 04 Apr 2023 00:30:46 -0700 (PDT)
-Message-ID: <798e1ff0651da8e4b113d30bf8cec2a7a0e6898f.camel@gmail.com>
-Subject: Re: [PATCH v3 07/11] iio: core: Add new DMABUF interface
- infrastructure
-From: Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
-To: Paul Cercueil <paul@crapouillou.net>, Jonathan Cameron
- <jic23@kernel.org>,  Lars-Peter Clausen <lars@metafoo.de>, Vinod Koul
- <vkoul@kernel.org>, Michael Hennerich <Michael.Hennerich@analog.com>, Sumit
- Semwal <sumit.semwal@linaro.org>,  Christian =?ISO-8859-1?Q?K=F6nig?=
- <christian.koenig@amd.com>
-Date: Tue, 04 Apr 2023 09:32:50 +0200
-In-Reply-To: <20230403154800.215924-8-paul@crapouillou.net>
-References: <20230403154800.215924-1-paul@crapouillou.net>
- <20230403154800.215924-8-paul@crapouillou.net>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
-User-Agent: Evolution 3.46.4 
+Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net
+ [IPv6:2001:4b98:dc4:8::229])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 50F2E10E5FE
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Apr 2023 07:37:31 +0000 (UTC)
+Received: from booty.fritz.box (unknown [77.244.183.192])
+ (Authenticated sender: luca.ceresoli@bootlin.com)
+ by mail.gandi.net (Postfix) with ESMTPA id E8061FF806;
+ Tue,  4 Apr 2023 07:37:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+ t=1680593846;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=dYxgRiKBiyC9aBkvrnxyDE3aBRygWQf6CKuf5len1Ks=;
+ b=fTrVC7oiQFon1yRW4lDxVOkJPJ6zVmR4++6L3cF5Cy+lHiaimfr9mKysHIqcuOmnKc+XHb
+ X8mEoNpBsTgLvpMcdqWrhdiodv9kyKfUyC2IeHyyLfNv/+kHuYS/FgmcMTuK2JzEaN7h48
+ 5BZn/onnmGu2jScMQeBk/hAs/UE76ripctN96fK94wUqzF1LG+0v1mxDMEPnlA5IoT3KJ5
+ Fxag6WwA2jsLAidrRzbv4AnUzbGHjzwaP08sp0ux5aeagYXKPo8zsxCbEQ68Zmk9XKj/QS
+ g0MOKpvY9xjJXi9r7H+neKvzdpHbPGcJ4uibTUXA1kSMzbN/II46YDpRFiTNsA==
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm: bridge: ldb: add support for using channel 1 only
+Date: Tue,  4 Apr 2023 09:37:20 +0200
+Message-Id: <20230404073720.1465552-1-luca.ceresoli@bootlin.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-X-Mailman-Approved-At: Tue, 04 Apr 2023 08:19:57 +0000
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,168 +48,220 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- dmaengine@vger.kernel.org, linux-media@vger.kernel.org
+Cc: Marek Vasut <marex@denx.de>, Neil Armstrong <neil.armstrong@linaro.org>,
+ Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>, linux-kernel@vger.kernel.org,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Luca Ceresoli <luca.ceresoli@bootlin.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gTW9uLCAyMDIzLTA0LTAzIGF0IDE3OjQ3ICswMjAwLCBQYXVsIENlcmN1ZWlsIHdyb3RlOgo+
-IEFkZCB0aGUgbmVjZXNzYXJ5IGluZnJhc3RydWN0dXJlIHRvIHRoZSBJSU8gY29yZSB0byBzdXBw
-b3J0IGEgbmV3Cj4gb3B0aW9uYWwgRE1BQlVGIGJhc2VkIGludGVyZmFjZS4KPiAKPiBXaXRoIHRo
-aXMgbmV3IGludGVyZmFjZSwgRE1BQlVGIG9iamVjdHMgKGV4dGVybmFsbHkgY3JlYXRlZCkgY2Fu
-IGJlCj4gYXR0YWNoZWQgdG8gYSBJSU8gYnVmZmVyLCBhbmQgc3Vic2VxdWVudGx5IHVzZWQgZm9y
-IGRhdGEgdHJhbnNmZXIuCj4gCj4gQSB1c2Vyc3BhY2UgYXBwbGljYXRpb24gY2FuIHRoZW4gdXNl
-IHRoaXMgaW50ZXJmYWNlIHRvIHNoYXJlIERNQUJVRgo+IG9iamVjdHMgYmV0d2VlbiBzZXZlcmFs
-IGludGVyZmFjZXMsIGFsbG93aW5nIGl0IHRvIHRyYW5zZmVyIGRhdGEgaW4gYQo+IHplcm8tY29w
-eSBmYXNoaW9uLCBmb3IgaW5zdGFuY2UgYmV0d2VlbiBJSU8gYW5kIHRoZSBVU0Igc3RhY2suCj4g
-Cj4gVGhlIHVzZXJzcGFjZSBhcHBsaWNhdGlvbiBjYW4gYWxzbyBtZW1vcnktbWFwIHRoZSBETUFC
-VUYgb2JqZWN0cywgYW5kCj4gYWNjZXNzIHRoZSBzYW1wbGUgZGF0YSBkaXJlY3RseS4gVGhlIGFk
-dmFudGFnZSBvZiBkb2luZyB0aGlzIHZzLiB0aGUKPiByZWFkKCkgaW50ZXJmYWNlIGlzIHRoYXQg
-aXQgYXZvaWRzIGFuIGV4dHJhIGNvcHkgb2YgdGhlIGRhdGEgYmV0d2Vlbgo+IHRoZQo+IGtlcm5l
-bCBhbmQgdXNlcnNwYWNlLiBUaGlzIGlzIHBhcnRpY3VsYXJseSB1c2VyZnVsIGZvciBoaWdoLXNw
-ZWVkCj4gZGV2aWNlcyB3aGljaCBwcm9kdWNlIHNldmVyYWwgbWVnYWJ5dGVzIG9yIGV2ZW4gZ2ln
-YWJ5dGVzIG9mIGRhdGEgcGVyCj4gc2Vjb25kLgo+IAo+IEFzIHBhcnQgb2YgdGhlIGludGVyZmFj
-ZSwgMyBuZXcgSU9DVExzIGhhdmUgYmVlbiBhZGRlZDoKPiAKPiBJSU9fQlVGRkVSX0RNQUJVRl9B
-VFRBQ0hfSU9DVEwoaW50IGZkKToKPiDCoEF0dGFjaCB0aGUgRE1BQlVGIG9iamVjdCBpZGVudGlm
-aWVkIGJ5IHRoZSBnaXZlbiBmaWxlIGRlc2NyaXB0b3IgdG8KPiB0aGUKPiDCoGJ1ZmZlci4KPiAK
-PiBJSU9fQlVGRkVSX0RNQUJVRl9ERVRBQ0hfSU9DVEwoaW50IGZkKToKPiDCoERldGFjaCB0aGUg
-RE1BQlVGIG9iamVjdCBpZGVudGlmaWVkIGJ5IHRoZSBnaXZlbiBmaWxlIGRlc2NyaXB0b3IKPiBm
-cm9tCj4gwqB0aGUgYnVmZmVyLiBOb3RlIHRoYXQgY2xvc2luZyB0aGUgSUlPIGJ1ZmZlcidzIGZp
-bGUgZGVzY3JpcHRvciB3aWxsCj4gwqBhdXRvbWF0aWNhbGx5IGRldGFjaCBhbGwgcHJldmlvdXNs
-eSBhdHRhY2hlZCBETUFCVUYgb2JqZWN0cy4KPiAKPiBJSU9fQlVGRkVSX0RNQUJVRl9FTlFVRVVF
-X0lPQ1RMKHN0cnVjdCBpaW9fZG1hYnVmICopOgo+IMKgUmVxdWVzdCBhIGRhdGEgdHJhbnNmZXIg
-dG8vZnJvbSB0aGUgZ2l2ZW4gRE1BQlVGIG9iamVjdC4gSXRzIGZpbGUKPiDCoGRlc2NyaXB0b3Is
-IGFzIHdlbGwgYXMgdGhlIHRyYW5zZmVyIHNpemUgYW5kIGZsYWdzIGFyZSBwcm92aWRlZCBpbgo+
-IHRoZQo+IMKgImlpb19kbWFidWYiIHN0cnVjdHVyZS4KPiAKPiBUaGVzZSB0aHJlZSBJT0NUTHMg
-aGF2ZSB0byBiZSBwZXJmb3JtZWQgb24gdGhlIElJTyBidWZmZXIncyBmaWxlCj4gZGVzY3JpcHRv
-ciwgb2J0YWluZWQgdXNpbmcgdGhlIElJT19CVUZGRVJfR0VUX0ZEX0lPQ1RMKCkgaW9jdGwuCj4g
-Cj4gU2lnbmVkLW9mZi1ieTogUGF1bCBDZXJjdWVpbCA8cGF1bEBjcmFwb3VpbGxvdS5uZXQ+Cj4g
-Cj4gLS0tCj4gdjI6IE9ubHkgYWxsb3cgdGhlIG5ldyBJT0NUTHMgb24gdGhlIGJ1ZmZlciBGRCBj
-cmVhdGVkIHdpdGgKPiDCoMKgwqAgSUlPX0JVRkZFUl9HRVRfRkRfSU9DVEwoKS4KPiAKPiB2Mzog
-LSBHZXQgcmlkIG9mIHRoZSBvbGQgSU9DVExzLiBUaGUgSUlPIHN1YnN5c3RlbSBkb2VzIG5vdCBj
-cmVhdGUgb3IKPiDCoMKgwqAgbWFuYWdlIERNQUJVRnMgYW55bW9yZSwgYW5kIG9ubHkgYXR0YWNo
-ZXMvZGV0YWNoZXMgZXh0ZXJuYWxseQo+IMKgwqDCoCBjcmVhdGVkIERNQUJVRnMuCj4gwqDCoMKg
-IC0gQWRkIElJT19CVUZGRVJfRE1BQlVGX0NZQ0xJQyB0byB0aGUgc3VwcG9ydGVkIGZsYWdzLgo+
-IC0tLQo+IMKgZHJpdmVycy9paW8vaW5kdXN0cmlhbGlvLWJ1ZmZlci5jIHwgNDAyCj4gKysrKysr
-KysrKysrKysrKysrKysrKysrKysrKysrCj4gwqBpbmNsdWRlL2xpbnV4L2lpby9idWZmZXJfaW1w
-bC5owqDCoCB8wqAgMjIgKysKPiDCoGluY2x1ZGUvdWFwaS9saW51eC9paW8vYnVmZmVyLmjCoMKg
-IHzCoCAyMiArKwo+IMKgMyBmaWxlcyBjaGFuZ2VkLCA0NDYgaW5zZXJ0aW9ucygrKQo+IAo+IGRp
-ZmYgLS1naXQgYS9kcml2ZXJzL2lpby9pbmR1c3RyaWFsaW8tYnVmZmVyLmMKPiBiL2RyaXZlcnMv
-aWlvL2luZHVzdHJpYWxpby1idWZmZXIuYwo+IGluZGV4IDgwYzc4YmQ2YmJlZi4uNWQ4OGUwOThi
-M2U3IDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvaWlvL2luZHVzdHJpYWxpby1idWZmZXIuYwo+ICsr
-KyBiL2RyaXZlcnMvaWlvL2luZHVzdHJpYWxpby1idWZmZXIuYwo+IEBAIC0xMywxMCArMTMsMTQg
-QEAKPiDCoCNpbmNsdWRlIDxsaW51eC9rZXJuZWwuaD4KPiDCoCNpbmNsdWRlIDxsaW51eC9leHBv
-cnQuaD4KPiDCoCNpbmNsdWRlIDxsaW51eC9kZXZpY2UuaD4KPiArI2luY2x1ZGUgPGxpbnV4L2Rt
-YS1idWYuaD4KPiArI2luY2x1ZGUgPGxpbnV4L2RtYS1mZW5jZS5oPgo+ICsjaW5jbHVkZSA8bGlu
-dXgvZG1hLXJlc3YuaD4KPiDCoCNpbmNsdWRlIDxsaW51eC9maWxlLmg+Cj4gwqAjaW5jbHVkZSA8
-bGludXgvZnMuaD4KPiDCoCNpbmNsdWRlIDxsaW51eC9jZGV2Lmg+Cj4gwqAjaW5jbHVkZSA8bGlu
-dXgvc2xhYi5oPgo+ICsjaW5jbHVkZSA8bGludXgvbW0uaD4KPiDCoCNpbmNsdWRlIDxsaW51eC9w
-b2xsLmg+Cj4gwqAjaW5jbHVkZSA8bGludXgvc2NoZWQvc2lnbmFsLmg+Cj4gwqAKPiBAQCAtMjgs
-MTEgKzMyLDQxIEBACj4gwqAjaW5jbHVkZSA8bGludXgvaWlvL2J1ZmZlci5oPgo+IMKgI2luY2x1
-ZGUgPGxpbnV4L2lpby9idWZmZXJfaW1wbC5oPgo+IMKgCj4gKyNkZWZpbmUgRE1BQlVGX0VOUVVF
-VUVfVElNRU9VVF9NUyA1MDAwCj4gKwo+ICtzdHJ1Y3QgaWlvX2RtYV9mZW5jZTsKPiArCj4gK3N0
-cnVjdCBpaW9fZG1hYnVmX3ByaXYgewo+ICvCoMKgwqDCoMKgwqDCoHN0cnVjdCBsaXN0X2hlYWQg
-ZW50cnk7Cj4gK8KgwqDCoMKgwqDCoMKgc3RydWN0IGtyZWYgcmVmOwo+ICsKPiArwqDCoMKgwqDC
-oMKgwqBzdHJ1Y3QgaWlvX2J1ZmZlciAqYnVmZmVyOwo+ICvCoMKgwqDCoMKgwqDCoHN0cnVjdCBp
-aW9fZG1hX2J1ZmZlcl9ibG9jayAqYmxvY2s7Cj4gKwo+ICvCoMKgwqDCoMKgwqDCoHU2NCBjb250
-ZXh0Owo+ICvCoMKgwqDCoMKgwqDCoHNwaW5sb2NrX3QgbG9jazsKPiArCj4gK8KgwqDCoMKgwqDC
-oMKgc3RydWN0IGRtYV9idWZfYXR0YWNobWVudCAqYXR0YWNoOwo+ICvCoMKgwqDCoMKgwqDCoHN0
-cnVjdCBpaW9fZG1hX2ZlbmNlICpmZW5jZTsKPiArfTsKPiArCj4gK3N0cnVjdCBpaW9fZG1hX2Zl
-bmNlIHsKPiArwqDCoMKgwqDCoMKgwqBzdHJ1Y3QgZG1hX2ZlbmNlIGJhc2U7Cj4gK8KgwqDCoMKg
-wqDCoMKgc3RydWN0IGlpb19kbWFidWZfcHJpdiAqcHJpdjsKPiArwqDCoMKgwqDCoMKgwqBzdHJ1
-Y3Qgc2dfdGFibGUgKnNndDsKPiArwqDCoMKgwqDCoMKgwqBlbnVtIGRtYV9kYXRhX2RpcmVjdGlv
-biBkaXI7Cj4gK307Cj4gKwo+IMKgc3RhdGljIGNvbnN0IGNoYXIgKiBjb25zdCBpaW9fZW5kaWFu
-X3ByZWZpeFtdID0gewo+IMKgwqDCoMKgwqDCoMKgwqBbSUlPX0JFXSA9ICJiZSIsCj4gwqDCoMKg
-wqDCoMKgwqDCoFtJSU9fTEVdID0gImxlIiwKPiDCoH07Cj4gwqAKPiArc3RhdGljIGlubGluZSBz
-dHJ1Y3QgaWlvX2RtYV9mZW5jZSAqdG9faWlvX2RtYV9mZW5jZShzdHJ1Y3QKPiBkbWFfZmVuY2Ug
-KmZlbmNlKQo+ICt7Cj4gK8KgwqDCoMKgwqDCoMKgcmV0dXJuIGNvbnRhaW5lcl9vZihmZW5jZSwg
-c3RydWN0IGlpb19kbWFfZmVuY2UsIGJhc2UpOwo+ICt9Cj4gKwoKS2luZCBvZiBhIG5pdHBpY2sg
-YnV0IEkgb25seSBzZWUgdGhpcyBiZWluZyB1c2VkIG9uY2Ugc28gSSB3b3VsZCBtYXliZQp1c2Ug
-cGxhaW4gJ2NvbnRhaW5lcl9vZigpJyBhcyB5b3UgYXJlIGFscmVhZHkgZG9pbmcgZm9yOgoKLi4u
-ID0gY29udGFpbmVyX29mKHJlZiwgc3RydWN0IGlpb19kbWFidWZfcHJpdiwgcmVmKTsKClNvIEkg
-d291bGQgYXQgbGVhc3QgYWR2b2NhdGUgZm9yIGNvbnNpc3RlbmN5LiBJIHdvdWxkIGFsc28gcHJv
-YmFibHkKZGl0Y2ggdGhlIGlubGluZSBidXQgSSBndWVzcyB0aGF0IGlzIG1vcmUgYSBtYXR0ZXIg
-b2Ygc3R5bGUvcHJlZmVyZW5jZS4KCj4gwqBzdGF0aWMgYm9vbCBpaW9fYnVmZmVyX2lzX2FjdGl2
-ZShzdHJ1Y3QgaWlvX2J1ZmZlciAqYnVmKQo+IMKgewo+IMKgwqDCoMKgwqDCoMKgwqByZXR1cm4g
-IWxpc3RfZW1wdHkoJmJ1Zi0+YnVmZmVyX2xpc3QpOwo+IEBAIC0zMjksNiArMzYzLDcgQEAgdm9p
-ZCBpaW9fYnVmZmVyX2luaXQoc3RydWN0IGlpb19idWZmZXIgKmJ1ZmZlcikKPiDCoHsKPiAKCi4u
-LgoKPiArwqDCoMKgwqDCoMKgwqBwcml2ID0gYXR0YWNoLT5pbXBvcnRlcl9wcml2Owo+ICvCoMKg
-wqDCoMKgwqDCoGxpc3RfZGVsX2luaXQoJnByaXYtPmVudHJ5KTsKPiArCj4gK8KgwqDCoMKgwqDC
-oMKgaWlvX2J1ZmZlcl9kbWFidWZfcHV0KGF0dGFjaCk7Cj4gK8KgwqDCoMKgwqDCoMKgaWlvX2J1
-ZmZlcl9kbWFidWZfcHV0KGF0dGFjaCk7Cj4gKwoKSXMgdGhpcyBpbnRlbmRlZD8gTG9va3Mgc3Vz
-cGljaW91cy4uLgoKPiArb3V0X2RtYWJ1Zl9wdXQ6Cj4gK8KgwqDCoMKgwqDCoMKgZG1hX2J1Zl9w
-dXQoZG1hYnVmKTsKPiArCj4gK8KgwqDCoMKgwqDCoMKgcmV0dXJuIHJldDsKPiArfQo+ICsKPiAr
-c3RhdGljIGNvbnN0IGNoYXIgKgo+ICtpaW9fYnVmZmVyX2RtYV9mZW5jZV9nZXRfZHJpdmVyX25h
-bWUoc3RydWN0IGRtYV9mZW5jZSAqZmVuY2UpCj4gK3sKPiArwqDCoMKgwqDCoMKgwqByZXR1cm4g
-ImlpbyI7Cj4gK30KPiArCj4gK3N0YXRpYyB2b2lkIGlpb19idWZmZXJfZG1hX2ZlbmNlX3JlbGVh
-c2Uoc3RydWN0IGRtYV9mZW5jZSAqZmVuY2UpCj4gK3sKPiArwqDCoMKgwqDCoMKgwqBzdHJ1Y3Qg
-aWlvX2RtYV9mZW5jZSAqaWlvX2ZlbmNlID0gdG9faWlvX2RtYV9mZW5jZShmZW5jZSk7Cj4gKwo+
-ICvCoMKgwqDCoMKgwqDCoGtmcmVlKGlpb19mZW5jZSk7Cj4gK30KPiArCj4gK3N0YXRpYyBjb25z
-dCBzdHJ1Y3QgZG1hX2ZlbmNlX29wcyBpaW9fYnVmZmVyX2RtYV9mZW5jZV9vcHMgPSB7Cj4gK8Kg
-wqDCoMKgwqDCoMKgLmdldF9kcml2ZXJfbmFtZcKgwqDCoMKgwqDCoMKgwqA9Cj4gaWlvX2J1ZmZl
-cl9kbWFfZmVuY2VfZ2V0X2RyaXZlcl9uYW1lLAo+ICvCoMKgwqDCoMKgwqDCoC5nZXRfdGltZWxp
-bmVfbmFtZcKgwqDCoMKgwqDCoD0KPiBpaW9fYnVmZmVyX2RtYV9mZW5jZV9nZXRfZHJpdmVyX25h
-bWUsCj4gK8KgwqDCoMKgwqDCoMKgLnJlbGVhc2XCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoD0gaWlvX2J1ZmZlcl9kbWFfZmVuY2VfcmVsZWFzZSwKPiArfTsKPiArCj4gK3N0YXRpYyBp
-bnQgaWlvX2J1ZmZlcl9lbnF1ZXVlX2RtYWJ1ZihzdHJ1Y3QgaWlvX2Rldl9idWZmZXJfcGFpciAq
-aWIsCj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqAgc3RydWN0IGlpb19kbWFidWYgX191c2VyCj4gKmlpb19kbWFi
-dWZfcmVxLAo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGJvb2wgbm9uYmxvY2spCj4gK3sKPiArwqDCoMKgwqDC
-oMKgwqBzdHJ1Y3QgaWlvX2J1ZmZlciAqYnVmZmVyID0gaWItPmJ1ZmZlcjsKPiArwqDCoMKgwqDC
-oMKgwqBzdHJ1Y3QgaWlvX2RtYWJ1ZiBpaW9fZG1hYnVmOwo+ICvCoMKgwqDCoMKgwqDCoHN0cnVj
-dCBkbWFfYnVmX2F0dGFjaG1lbnQgKmF0dGFjaDsKPiArwqDCoMKgwqDCoMKgwqBzdHJ1Y3QgaWlv
-X2RtYWJ1Zl9wcml2ICpwcml2Owo+ICvCoMKgwqDCoMKgwqDCoGVudW0gZG1hX2RhdGFfZGlyZWN0
-aW9uIGRpcjsKPiArwqDCoMKgwqDCoMKgwqBzdHJ1Y3QgaWlvX2RtYV9mZW5jZSAqZmVuY2U7Cj4g
-K8KgwqDCoMKgwqDCoMKgc3RydWN0IGRtYV9idWYgKmRtYWJ1ZjsKPiArwqDCoMKgwqDCoMKgwqBz
-dHJ1Y3Qgc2dfdGFibGUgKnNndDsKPiArwqDCoMKgwqDCoMKgwqB1bnNpZ25lZCBsb25nIHRpbWVv
-dXQ7Cj4gK8KgwqDCoMKgwqDCoMKgYm9vbCBkbWFfdG9fcmFtOwo+ICvCoMKgwqDCoMKgwqDCoGJv
-b2wgY3ljbGljOwo+ICvCoMKgwqDCoMKgwqDCoGludCByZXQ7Cj4gKwo+ICvCoMKgwqDCoMKgwqDC
-oGlmIChjb3B5X2Zyb21fdXNlcigmaWlvX2RtYWJ1ZiwgaWlvX2RtYWJ1Zl9yZXEsCj4gc2l6ZW9m
-KGlpb19kbWFidWYpKSkKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgcmV0dXJuIC1F
-RkFVTFQ7Cj4gKwo+ICvCoMKgwqDCoMKgwqDCoGlmIChpaW9fZG1hYnVmLmZsYWdzICYgfklJT19C
-VUZGRVJfRE1BQlVGX1NVUFBPUlRFRF9GTEFHUykKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgcmV0dXJuIC1FSU5WQUw7Cj4gKwo+ICvCoMKgwqDCoMKgwqDCoGN5Y2xpYyA9IGlpb19k
-bWFidWYuZmxhZ3MgJiBJSU9fQlVGRkVSX0RNQUJVRl9DWUNMSUM7Cj4gKwo+ICvCoMKgwqDCoMKg
-wqDCoC8qIEN5Y2xpYyBmbGFnIGlzIG9ubHkgc3VwcG9ydGVkIG9uIG91dHB1dCBidWZmZXJzICov
-Cj4gK8KgwqDCoMKgwqDCoMKgaWYgKGN5Y2xpYyAmJiBidWZmZXItPmRpcmVjdGlvbiAhPSBJSU9f
-QlVGRkVSX0RJUkVDVElPTl9PVVQpCj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoHJl
-dHVybiAtRUlOVkFMOwo+ICsKPiArwqDCoMKgwqDCoMKgwqBkbWFidWYgPSBkbWFfYnVmX2dldChp
-aW9fZG1hYnVmLmZkKTsKPiArwqDCoMKgwqDCoMKgwqBpZiAoSVNfRVJSKGRtYWJ1ZikpCj4gK8Kg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoHJldHVybiBQVFJfRVJSKGRtYWJ1Zik7Cj4gKwo+
-ICvCoMKgwqDCoMKgwqDCoGlmICghaWlvX2RtYWJ1Zi5ieXRlc191c2VkIHx8IGlpb19kbWFidWYu
-Ynl0ZXNfdXNlZCA+IGRtYWJ1Zi0KPiA+c2l6ZSkgewo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqByZXQgPSAtRUlOVkFMOwo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBn
-b3RvIGVycl9kbWFidWZfcHV0Owo+ICvCoMKgwqDCoMKgwqDCoH0KPiArCj4gK8KgwqDCoMKgwqDC
-oMKgYXR0YWNoID0gaWlvX2J1ZmZlcl9maW5kX2F0dGFjaG1lbnQoaWItPmluZGlvX2RldiwgZG1h
-YnVmKTsKPiArwqDCoMKgwqDCoMKgwqBpZiAoSVNfRVJSKGF0dGFjaCkpIHsKPiArwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgcmV0ID0gUFRSX0VSUihhdHRhY2gpOwo+ICvCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqBnb3RvIGVycl9kbWFidWZfcHV0Owo+ICvCoMKgwqDCoMKgwqDC
-oH0KPiArCj4gK8KgwqDCoMKgwqDCoMKgcHJpdiA9IGF0dGFjaC0+aW1wb3J0ZXJfcHJpdjsKPiAr
-Cj4gK8KgwqDCoMKgwqDCoMKgZG1hX3RvX3JhbSA9IGJ1ZmZlci0+ZGlyZWN0aW9uID09IElJT19C
-VUZGRVJfRElSRUNUSU9OX0lOOwo+ICvCoMKgwqDCoMKgwqDCoGRpciA9IGRtYV90b19yYW0gPyBE
-TUFfRlJPTV9ERVZJQ0UgOiBETUFfVE9fREVWSUNFOwo+ICsKPiArwqDCoMKgwqDCoMKgwqBzZ3Qg
-PSBkbWFfYnVmX21hcF9hdHRhY2htZW50KGF0dGFjaCwgZGlyKTsKPiArwqDCoMKgwqDCoMKgwqBp
-ZiAoSVNfRVJSKHNndCkpIHsKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgcmV0ID0g
-UFRSX0VSUihzZ3QpOwo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBwcl9lcnIoIlVu
-YWJsZSB0byBtYXAgYXR0YWNobWVudDogJWRcbiIsIHJldCk7CgpkZXZfZXJyKCk/IFdlIHNob3Vs
-ZCBiZSBhYmxlIHRvIHJlYWNoIHRoZSBpaW9fZGV2Cgo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqBnb3RvIGVycl9hdHRhY2htZW50X3B1dDsKPiArwqDCoMKgwqDCoMKgwqB9Cj4gKwo+
-ICvCoMKgwqDCoMKgwqDCoGZlbmNlID0ga21hbGxvYyhzaXplb2YoKmZlbmNlKSwgR0ZQX0tFUk5F
-TCk7Cj4gK8KgwqDCoMKgwqDCoMKgaWYgKCFmZW5jZSkgewo+ICvCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqByZXQgPSAtRU5PTUVNOwo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqBnb3RvIGVycl91bm1hcF9hdHRhY2htZW50Owo+ICvCoMKgwqDCoMKgwqDCoH0KPiArCj4gCgou
-Li4KCj4gwqBzdGF0aWMgY29uc3Qgc3RydWN0IGZpbGVfb3BlcmF0aW9ucyBpaW9fYnVmZmVyX2No
-cmRldl9maWxlb3BzID0gewo+IMKgwqDCoMKgwqDCoMKgwqAub3duZXIgPSBUSElTX01PRFVMRSwK
-PiDCoMKgwqDCoMKgwqDCoMKgLmxsc2VlayA9IG5vb3BfbGxzZWVrLAo+IMKgwqDCoMKgwqDCoMKg
-wqAucmVhZCA9IGlpb19idWZmZXJfcmVhZCwKPiDCoMKgwqDCoMKgwqDCoMKgLndyaXRlID0gaWlv
-X2J1ZmZlcl93cml0ZSwKPiArwqDCoMKgwqDCoMKgwqAudW5sb2NrZWRfaW9jdGwgPSBpaW9fYnVm
-ZmVyX2NocmRldl9pb2N0bCwKPiArwqDCoMKgwqDCoMKgwqAuY29tcGF0X2lvY3RsID0gY29tcGF0
-X3B0cl9pb2N0bCwKPiDCoMKgwqDCoMKgwqDCoMKgLnBvbGwgPSBpaW9fYnVmZmVyX3BvbGwsCj4g
-wqDCoMKgwqDCoMKgwqDCoC5yZWxlYXNlID0gaWlvX2J1ZmZlcl9jaHJkZXZfcmVsZWFzZSwKPiDC
-oH07CgpIbW1tLCB3aGF0IGFib3V0IHRoZSBsZWdhY3kgYnVmZmVyPyBXZSBzaG91bGQgYWxzbyBz
-dXBwb3J0IHRoaXMKaW50ZXJmYWNlIHVzaW5nIGl0LCByaWdodD8gT3RoZXJ3aXNlLCB1c2luZyBv
-bmUgb2YgdGhlIG5ldyBJT0NUTCBpbgppaW9fZGV2aWNlX2J1ZmZlcl9pb2N0bCgpIChvciAvZGV2
-L2lpbzpkZXZpY2UwKSB3aWxsIGVycm9yIG91dC4KCi0gTnVubyBTw6EKCg==
+The LDB driver currently checks whether dual mode is used, otherwise it
+assumes only channel 0 is in use. Add support for using only channel 1. In
+device tree terms, this means linking port 2 only.
+
+Doing this cleanly requires changing the logic of the probe functions from
+this:
+
+ 1. use of_graph_get_remote_node() on port 1 to find the panel
+ 2. use drm_of_lvds_get_dual_link_pixel_order() to detect dual mode
+
+to this:
+
+ 1. use of_graph_get_remote_node() twice to find remote ports
+ 2. reuse the result of the above to know whether each channel is enabled
+    and to find the panel
+ 3. if (both channels as enabled)
+        use drm_of_lvds_get_dual_link_pixel_order() to detect dual mode
+
+Also add a dev_dbg() to log the detected mode and log an error in case no
+panel was found (no channel enabled).
+
+Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+---
+ drivers/gpu/drm/bridge/fsl-ldb.c | 112 ++++++++++++++++++-------------
+ 1 file changed, 67 insertions(+), 45 deletions(-)
+
+diff --git a/drivers/gpu/drm/bridge/fsl-ldb.c b/drivers/gpu/drm/bridge/fsl-ldb.c
+index 6bac160b395b..d844fb946981 100644
+--- a/drivers/gpu/drm/bridge/fsl-ldb.c
++++ b/drivers/gpu/drm/bridge/fsl-ldb.c
+@@ -84,10 +84,16 @@ struct fsl_ldb {
+ 	struct drm_bridge *panel_bridge;
+ 	struct clk *clk;
+ 	struct regmap *regmap;
+-	bool lvds_dual_link;
+ 	const struct fsl_ldb_devdata *devdata;
++	bool ch0_enabled;
++	bool ch1_enabled;
+ };
+ 
++static bool fsl_ldb_is_dual(const struct fsl_ldb *fsl_ldb)
++{
++	return (fsl_ldb->ch0_enabled && fsl_ldb->ch1_enabled);
++}
++
+ static inline struct fsl_ldb *to_fsl_ldb(struct drm_bridge *bridge)
+ {
+ 	return container_of(bridge, struct fsl_ldb, bridge);
+@@ -95,7 +101,7 @@ static inline struct fsl_ldb *to_fsl_ldb(struct drm_bridge *bridge)
+ 
+ static unsigned long fsl_ldb_link_frequency(struct fsl_ldb *fsl_ldb, int clock)
+ {
+-	if (fsl_ldb->lvds_dual_link)
++	if (fsl_ldb_is_dual(fsl_ldb))
+ 		return clock * 3500;
+ 	else
+ 		return clock * 7000;
+@@ -177,28 +183,25 @@ static void fsl_ldb_atomic_enable(struct drm_bridge *bridge,
+ 	clk_prepare_enable(fsl_ldb->clk);
+ 
+ 	/* Program LDB_CTRL */
+-	reg = LDB_CTRL_CH0_ENABLE;
+-
+-	if (fsl_ldb->lvds_dual_link)
+-		reg |= LDB_CTRL_CH1_ENABLE | LDB_CTRL_SPLIT_MODE;
+-
+-	if (lvds_format_24bpp) {
+-		reg |= LDB_CTRL_CH0_DATA_WIDTH;
+-		if (fsl_ldb->lvds_dual_link)
+-			reg |= LDB_CTRL_CH1_DATA_WIDTH;
+-	}
+-
+-	if (lvds_format_jeida) {
+-		reg |= LDB_CTRL_CH0_BIT_MAPPING;
+-		if (fsl_ldb->lvds_dual_link)
+-			reg |= LDB_CTRL_CH1_BIT_MAPPING;
+-	}
+-
+-	if (mode->flags & DRM_MODE_FLAG_PVSYNC) {
+-		reg |= LDB_CTRL_DI0_VSYNC_POLARITY;
+-		if (fsl_ldb->lvds_dual_link)
+-			reg |= LDB_CTRL_DI1_VSYNC_POLARITY;
+-	}
++	reg =
++		(fsl_ldb->ch0_enabled ? LDB_CTRL_CH0_ENABLE : 0) |
++		(fsl_ldb->ch1_enabled ? LDB_CTRL_CH1_ENABLE : 0) |
++		(fsl_ldb_is_dual(fsl_ldb) ? LDB_CTRL_SPLIT_MODE : 0);
++
++	if (lvds_format_24bpp)
++		reg |=
++			(fsl_ldb->ch0_enabled ? LDB_CTRL_CH0_DATA_WIDTH : 0) |
++			(fsl_ldb->ch1_enabled ? LDB_CTRL_CH1_DATA_WIDTH : 0);
++
++	if (lvds_format_jeida)
++		reg |=
++			(fsl_ldb->ch0_enabled ? LDB_CTRL_CH0_BIT_MAPPING : 0) |
++			(fsl_ldb->ch1_enabled ? LDB_CTRL_CH1_BIT_MAPPING : 0);
++
++	if (mode->flags & DRM_MODE_FLAG_PVSYNC)
++		reg |=
++			(fsl_ldb->ch0_enabled ? LDB_CTRL_DI0_VSYNC_POLARITY : 0) |
++			(fsl_ldb->ch1_enabled ? LDB_CTRL_DI1_VSYNC_POLARITY : 0);
+ 
+ 	regmap_write(fsl_ldb->regmap, fsl_ldb->devdata->ldb_ctrl, reg);
+ 
+@@ -210,9 +213,9 @@ static void fsl_ldb_atomic_enable(struct drm_bridge *bridge,
+ 	/* Wait for VBG to stabilize. */
+ 	usleep_range(15, 20);
+ 
+-	reg |= LVDS_CTRL_CH0_EN;
+-	if (fsl_ldb->lvds_dual_link)
+-		reg |= LVDS_CTRL_CH1_EN;
++	reg |=
++		(fsl_ldb->ch0_enabled ? LVDS_CTRL_CH0_EN : 0) |
++		(fsl_ldb->ch1_enabled ? LVDS_CTRL_CH1_EN : 0);
+ 
+ 	regmap_write(fsl_ldb->regmap, fsl_ldb->devdata->lvds_ctrl, reg);
+ }
+@@ -265,7 +268,7 @@ fsl_ldb_mode_valid(struct drm_bridge *bridge,
+ {
+ 	struct fsl_ldb *fsl_ldb = to_fsl_ldb(bridge);
+ 
+-	if (mode->clock > (fsl_ldb->lvds_dual_link ? 160000 : 80000))
++	if (mode->clock > (fsl_ldb_is_dual(fsl_ldb) ? 160000 : 80000))
+ 		return MODE_CLOCK_HIGH;
+ 
+ 	return MODE_OK;
+@@ -286,7 +289,7 @@ static int fsl_ldb_probe(struct platform_device *pdev)
+ {
+ 	struct device *dev = &pdev->dev;
+ 	struct device_node *panel_node;
+-	struct device_node *port1, *port2;
++	struct device_node *remote1, *remote2;
+ 	struct drm_panel *panel;
+ 	struct fsl_ldb *fsl_ldb;
+ 	int dual_link;
+@@ -311,10 +314,23 @@ static int fsl_ldb_probe(struct platform_device *pdev)
+ 	if (IS_ERR(fsl_ldb->regmap))
+ 		return PTR_ERR(fsl_ldb->regmap);
+ 
+-	/* Locate the panel DT node. */
+-	panel_node = of_graph_get_remote_node(dev->of_node, 1, 0);
+-	if (!panel_node)
+-		return -ENXIO;
++	/* Locate the remote ports and the panel node */
++	remote1 = of_graph_get_remote_node(dev->of_node, 1, 0);
++	remote2 = of_graph_get_remote_node(dev->of_node, 2, 0);
++	fsl_ldb->ch0_enabled = (remote1 != NULL);
++	fsl_ldb->ch1_enabled = (remote2 != NULL);
++	panel_node = of_node_get(remote1 ? remote1 : remote2);
++	of_node_put(remote1);
++	of_node_put(remote2);
++
++	if (!fsl_ldb->ch0_enabled && !fsl_ldb->ch1_enabled) {
++		of_node_put(panel_node);
++		return dev_err_probe(dev, -ENXIO, "No panel node found");
++	}
++
++	dev_dbg(dev, "Using %s\n",
++		fsl_ldb_is_dual(fsl_ldb) ? "dual mode" :
++		fsl_ldb->ch0_enabled ? "channel 0" : "channel 1");
+ 
+ 	panel = of_drm_find_panel(panel_node);
+ 	of_node_put(panel_node);
+@@ -325,20 +341,26 @@ static int fsl_ldb_probe(struct platform_device *pdev)
+ 	if (IS_ERR(fsl_ldb->panel_bridge))
+ 		return PTR_ERR(fsl_ldb->panel_bridge);
+ 
+-	/* Determine whether this is dual-link configuration */
+-	port1 = of_graph_get_port_by_id(dev->of_node, 1);
+-	port2 = of_graph_get_port_by_id(dev->of_node, 2);
+-	dual_link = drm_of_lvds_get_dual_link_pixel_order(port1, port2);
+-	of_node_put(port1);
+-	of_node_put(port2);
+ 
+-	if (dual_link == DRM_LVDS_DUAL_LINK_EVEN_ODD_PIXELS) {
+-		dev_err(dev, "LVDS channel pixel swap not supported.\n");
+-		return -EINVAL;
+-	}
++	if (fsl_ldb_is_dual(fsl_ldb)) {
++		struct device_node *port1, *port2;
++
++		port1 = of_graph_get_port_by_id(dev->of_node, 1);
++		port2 = of_graph_get_port_by_id(dev->of_node, 2);
++		dual_link = drm_of_lvds_get_dual_link_pixel_order(port1, port2);
++		of_node_put(port1);
++		of_node_put(port2);
+ 
+-	if (dual_link == DRM_LVDS_DUAL_LINK_ODD_EVEN_PIXELS)
+-		fsl_ldb->lvds_dual_link = true;
++		if (dual_link < 0)
++			return dev_err_probe(dev, dual_link,
++					     "Error getting dual link configuration");
++
++		/* Only DRM_LVDS_DUAL_LINK_ODD_EVEN_PIXELS is supported */
++		if (dual_link == DRM_LVDS_DUAL_LINK_EVEN_ODD_PIXELS) {
++			dev_err(dev, "LVDS channel pixel swap not supported.\n");
++			return -EINVAL;
++		}
++	}
+ 
+ 	platform_set_drvdata(pdev, fsl_ldb);
+ 
+-- 
+2.34.1
 
