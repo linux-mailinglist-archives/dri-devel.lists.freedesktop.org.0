@@ -1,50 +1,83 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 258166D83EC
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Apr 2023 18:41:17 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D85E6D8424
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Apr 2023 18:54:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AE75110EA17;
-	Wed,  5 Apr 2023 16:41:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3074910E0BB;
+	Wed,  5 Apr 2023 16:54:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B291F10EA15;
- Wed,  5 Apr 2023 16:41:11 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 9C6C863D5C;
- Wed,  5 Apr 2023 16:41:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 383CDC433EF;
- Wed,  5 Apr 2023 16:41:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1680712870;
- bh=DV0/yjdD/+FEcW0k9WYhDje1AP1oYkbQXJY73iIbEvo=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=giYLlI6EETXpR4/c/J+NZDFti5eGPMXnL6nscnQvcZ8jeUSYsW1ZEGGF0czEZS22d
- /r4CLg1kygBtLNHI+7wzGWnyahOQGSZx3F1jDEZdUKNCgPdS16gP3gYlqKIx3PfY69
- s6L/US5Ybq3zUF6uEaT3SQSLZVnqFGyNFDpe5LCYHT6MbWrQS3e23pVfOGMKIgxTgX
- ircGp63ITTW4MY6W9Whg7k+PWvnLYEjRL86gNGUffCcDrU0zpi929kilLSyzpSvwEK
- HTFl5T0Oo4KC2SV5vhA96xXfpAKScaHHyhDI+J6Mef5Tq8WxkC3UBc2gLzVYY/hGYC
- v792PEs4N65UA==
-Date: Wed, 5 Apr 2023 17:41:05 +0100
-From: Lee Jones <lee@kernel.org>
-To: Jani Nikula <jani.nikula@linux.intel.com>
-Subject: Re: [PATCH 01/19] drm/i915/i915_scatterlist: Fix kerneldoc
- formatting issue - missing '@'
-Message-ID: <20230405164105.GU8371@google.com>
-References: <20230331092607.700644-1-lee@kernel.org>
- <20230331092607.700644-2-lee@kernel.org> <87jzyt0yil.fsf@intel.com>
- <20230403162059.GC8371@google.com> <878rf80ynz.fsf@intel.com>
- <20230405134526.GE8371@google.com> <87jzyqz52y.fsf@intel.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 846FC10E0BB
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 Apr 2023 16:54:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1680713678;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=7oq6EGlBnkOylLqaxEYM/Gk/HlPbQ+uLWsUc2iC2TOw=;
+ b=UzqwQlnyAI39wnFdr0sxlkeEi7Z/CzwNw+XlKrMXl3weix2+8teAxeZb8LwnHVv70IJYxt
+ wVJ4923AzsHSaw68UQHQu6QmwMHSdwN37xHHaYHzL4GWTCbXUO1NQ4kAxDNrI/CtoMzN50
+ gRdfObzSwH7TAzHPjLTtEATSmaXLaO0=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-622-gwOC_5MHP-C2NGkoxI7DwA-1; Wed, 05 Apr 2023 12:54:37 -0400
+X-MC-Unique: gwOC_5MHP-C2NGkoxI7DwA-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ m5-20020a05600c4f4500b003ee8db23ef9so19191051wmq.8
+ for <dri-devel@lists.freedesktop.org>; Wed, 05 Apr 2023 09:54:37 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1680713676;
+ h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=7oq6EGlBnkOylLqaxEYM/Gk/HlPbQ+uLWsUc2iC2TOw=;
+ b=fbohyV5+fG7hZWAQTZFK9/go36zcVm8NLrGFaeYGSsGFwCME3Uy2DpZ+n6hIl6tY+R
+ y4yRwXUIkXHiehVFvs8HA7CQp5LbxjpOZc3qhRsj+YjRgRTg/4r4gVXVkFTXqpU+be1I
+ lxdJfJNeTLo8DmKkYjCJ2l7F8BOHkEDMxJN7usHOqHhhytZHBNRWSp49prp3u/+qgDyN
+ Ny3ywE/nNoJ6oqDbK32RCxbTyQRqEEx7BVigBKNYX2nGwDlgMACiFQihVntILglPPowL
+ cKybtSN3z0TjCB9WI8JeEF5nOOOtiYyrdMCmAXZe9Y+SlSMqpxGJ5iw7V9tH31V1rTcU
+ tD8g==
+X-Gm-Message-State: AAQBX9cRKspivdV+w9XEiWaMM4xp0eSnGvdggswskF+89KxvQtbeeV0i
+ qSDoeSqcF4r6H1AG53cVHOH9btCW4cm8i9elVg5dUwMV1jfr/ZIPDyqDEGI1XHYvdK5td3USSet
+ ywpFPSco8pv3ksF6kM59h5M4syrA+
+X-Received: by 2002:a5d:4904:0:b0:2e4:b9a3:4419 with SMTP id
+ x4-20020a5d4904000000b002e4b9a34419mr4760599wrq.51.1680713676256; 
+ Wed, 05 Apr 2023 09:54:36 -0700 (PDT)
+X-Google-Smtp-Source: AKy350YsWV1NZsm9PL9d146nk9+8BMVfIjYv3w+AWqlIEM2c8h5CeLBmJjgyrxOtEe+CW3pyVVa0sQ==
+X-Received: by 2002:a5d:4904:0:b0:2e4:b9a3:4419 with SMTP id
+ x4-20020a5d4904000000b002e4b9a34419mr4760585wrq.51.1680713675983; 
+ Wed, 05 Apr 2023 09:54:35 -0700 (PDT)
+Received: from localhost (205.pool92-176-231.dynamic.orange.es.
+ [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
+ u17-20020adfed51000000b002c6e8af1037sm15332930wro.104.2023.04.05.09.54.34
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 05 Apr 2023 09:54:34 -0700 (PDT)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Daniel Vetter <daniel@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH 1/8] drm/gma500: Use
+ drm_aperture_remove_conflicting_pci_framebuffers
+In-Reply-To: <ZC2beu/9inolwIlr@phenom.ffwll.local>
+References: <20230404201842.567344-1-daniel.vetter@ffwll.ch>
+ <5556a755-01a1-3620-8693-0fc69c6f627d@suse.de>
+ <3813a2f5-c74a-4760-34ce-1c88f187c91c@suse.de>
+ <ZC04hoHywz0ySzAW@phenom.ffwll.local>
+ <3fd03c4c-3be6-e56b-faec-bd67a58cda09@suse.de>
+ <ZC1BlNCbXPlmAhj0@phenom.ffwll.local>
+ <eee11545-2a78-4556-be82-5178ea09d0d8@suse.de>
+ <877cuqd1f8.fsf@minerva.mail-host-address-is-not-set>
+ <ZC11J3og4Kc9ta6m@phenom.ffwll.local>
+ <242ab20f-affe-b55a-6068-5ea634705cf6@suse.de>
+ <ZC2beu/9inolwIlr@phenom.ffwll.local>
+Date: Wed, 05 Apr 2023 18:54:33 +0200
+Message-ID: <87bkk29smu.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <87jzyqz52y.fsf@intel.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,75 +90,76 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Daniel Vetter <daniel.vetter@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 05 Apr 2023, Jani Nikula wrote:
+Daniel Vetter <daniel@ffwll.ch> writes:
 
-> On Wed, 05 Apr 2023, Lee Jones <lee@kernel.org> wrote:
-> > On Tue, 04 Apr 2023, Jani Nikula wrote:
-> >
-> >> On Mon, 03 Apr 2023, Lee Jones <lee@kernel.org> wrote:
-> >> > On Mon, 03 Apr 2023, Jani Nikula wrote:
-> >> >
-> >> >> On Fri, 31 Mar 2023, Lee Jones <lee@kernel.org> wrote:
-> >> >> > Fixes the following W=1 kernel build warning(s):
-> >> >> >
-> >> >> >  drivers/gpu/drm/i915/i915_scatterlist.c:62: warning: Function parameter or member 'size' not described in 'i915_refct_sgt_init'
-> >> >> >
-> >> >> > Cc: Jani Nikula <jani.nikula@linux.intel.com>
-> >> >> > Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-> >> >> > Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
-> >> >> > Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-> >> >> > Cc: David Airlie <airlied@gmail.com>
-> >> >> > Cc: Daniel Vetter <daniel@ffwll.ch>
-> >> >> > Cc: intel-gfx@lists.freedesktop.org
-> >> >> > Cc: dri-devel@lists.freedesktop.org
-> >> >> > Signed-off-by: Lee Jones <lee@kernel.org>
-> >> >>
-> >> >> Thanks for the patches!
-> >> >>
-> >> >> Applied all but one of the drm/i915 patches to drm-intel-next or
-> >> >> drm-intel-gt-next depending on the area. There were a couple of issues
-> >> >> that I fixed while applying. There was a conflict with patch 5/19
-> >> >> against drm-intel-gt-next so I left that one out.
-> >> >
-> >> > Thanks Jani.  I'll rebase and see what's left.
-> >>
-> >> We also took notice and aim to track this more aggressively [1].
-> >
-> > Thanks.
-> >
-> > I did clean-up all of the GPU warnings already a couple of years ago,
-> > but they seem to have crept back over time.  It would be great if we
-> > could put some extra checks in place to prevent them in the future.
+> On Wed, Apr 05, 2023 at 04:32:19PM +0200, Thomas Zimmermann wrote:
+
+[...]
+
+>> > > > 	/*
+>> > > > 	 * WARNING: Apparently we must kick fbdev drivers before vgacon,
+>> > > > 	 * otherwise the vga fbdev driver falls over.
+>> > > > 	 */
+>> > > > 	ret = vga_remove_vgacon(pdev);
+>> > 
+>> > This isn't enough, we also nuke stuff that's mapping the vga fb range.
+
+Ah, also need aperture_detach_devices(VGA_FB_PHYS_BASE, VGA_FB_PHYS_SIZE) then.
+
+[...]
+
+>> int aperture_remove_legacy_vga_devices(struct pci_dev *pdev)
+>> {
+>> 	aperture_detach_devices(VGA_FB_PHYS_BASE, VGA_FB_PHYS_SIZE);
+>> 
+>> 	return vga_remove_vgacon(pdev);
+>> }
+>> 
+>> And that can be called from gma500 and the pci aperture helper.
 >
-> We are pretty zealous about warnings in general in i915. We have a bunch
-> of extra warnings in our local Makefile and use -Werror in
-> development. Inspired by this series, we added kernel-doc check to the
-> build, and hope to add kernel-doc -Werror too once we're done.
-
-Sounds good that you're on it.  At least in your part of GPU.
-
-kernel-doc warnings are surfaced by enabling W=1.
-
-> > My aim, albeit ambitious, is to clean-up all of the W=1 warnings in the
-> > kernel, then have them promoted to W=0, so they warn more loudly during
-> > development, thus keeping them from reappearing.
+> But you still pass a pci_dev to that helper. Which just doesn't make any
+> sense to me (assuming your entire point is that this isn't just a normal
+> pci device but some special legacy vga thing), but if we go with (void)
+> then there's more refactoring to do because the vga_remove_vgacon also
+> wants a pdev.
 >
-> I wish it was easier to do the equivalent of W=1 on a driver or Makefile
-> basis. I like to keep i915 clean, but I don't like to use W=1 because
-> there are just so many warnings currently.
+> All so that we don't call aperture_detach_devices() on a bunch of pci
+> bars, which apparently is not problem for any other driver, but absolutely
+> is a huge problem for gma500 somehow.
+>
+> I don't understand why.
+>
 
-Well that's what I hope to improve (again). :)
+Yeah, agreed that if vga_remove_vgacon() isn't enough and another helper
+is needed then starts to get a little silly. Maybe one option is to add a
+3rd param to aperture_remove_conflicting_pci_devices() and skip the logic
+to iterate over PCI bars and call aperture_remove_conflicting_devices() ?
 
-> The other alternative is fixing and moving extra warnings from W=1 to
-> W=0 one by one.
+> Consider this me throwing in the towel. If you&Javier are convinced this
+> makes sense please type it up and merge it, but I'm not going to type
+> something that just doesn't make sense to me.
 
-Right, that's where I'd like to end up eventually.
+Honestly, I would just go with the double drm_aperture_remove_*() helper
+calls (your original patch) unless that causes real issues. There is no
+point on blocking all your series just for this IMO.
 
---
-Lee Jones [李琼斯]
+Then latter if Thomas has strong opinions can send a follow-up patch for
+the gma500 driver and the aperture helpers.
+
+> -Daniel
+>
+
+-- 
+Best regards,
+
+Javier Martinez Canillas
+Core Platforms
+Red Hat
+
