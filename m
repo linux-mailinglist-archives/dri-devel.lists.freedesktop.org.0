@@ -2,63 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D21F6D7DAB
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Apr 2023 15:25:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E21C26D7DB4
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Apr 2023 15:27:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B55A310E955;
-	Wed,  5 Apr 2023 13:25:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A88D610E960;
+	Wed,  5 Apr 2023 13:27:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com
- [IPv6:2a00:1450:4864:20::635])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E96F910E955
- for <dri-devel@lists.freedesktop.org>; Wed,  5 Apr 2023 13:25:22 +0000 (UTC)
-Received: by mail-ej1-x635.google.com with SMTP id
- a640c23a62f3a-930bc91df7bso115558366b.1
- for <dri-devel@lists.freedesktop.org>; Wed, 05 Apr 2023 06:25:22 -0700 (PDT)
+Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com
+ [IPv6:2a00:1450:4864:20::530])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B62AA10E960
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 Apr 2023 13:27:33 +0000 (UTC)
+Received: by mail-ed1-x530.google.com with SMTP id
+ 4fb4d7f45d1cf-4fd1f2a0f82so52397a12.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 05 Apr 2023 06:27:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1680701121;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=CUtULfA5bLZhhAnqEVdsPO4f4/cotKXMpX/rBKrBwCU=;
- b=I+E9eZK0O0wCuaG3RpVayfgX04qh8RTiRNjffiQYHn0uWhBbKHKxNdeIPxonIxU8ED
- Qkikb7s817DwN6tIqPLt7G5Lm0Ro1PkGnzdJGnWgPYTrUO/6zV3wAzqCdzS0JWzDCuKR
- iqXxo30r5oXOhJOTgaZNSkjJWFgk2k4uj5DOk=
+ d=ffwll.ch; s=google; t=1680701252; x=1683293252;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=XqX1N9AwIcXh3tEpxCe94h+1QEhsxAem/vTybjTN11k=;
+ b=JXSAfvOtNFzK6tv8vKIgjAj2QxudkNTN+gOdh2IAHy0MotU6InrYYubzWWC4V5brU8
+ +Iwz08yS0ZLc1ZEFGhg9fpD4K3avpKoWG+Rf2Aw4mDHJXV6tZSo2upS+nG1jDlo0Tylh
+ /V9pl+Fa0Mjb6GSn/l601xafWZR6leIYeocfA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680701121;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=CUtULfA5bLZhhAnqEVdsPO4f4/cotKXMpX/rBKrBwCU=;
- b=jgyY+g4RX9mUO3Yegbf671UlxhbLZGBrkpCAEWU7/w9nKtB91QYnnEkiZksyIrkaO2
- qU1yo9wztXNDZmROT6ll5z/tmLpmMogYP3XwAUlnbdqNrlgmndVVP+5zqlRpLf3+KaSP
- LrAFz0TjPKm2AtjZy8+R//cp4XalvBNS0jjBS7Z2NHpnkdiq3nJa5wTKN6uUkJlDC/bR
- r70wyt602u1F85efg5x4CVLbBbw1rGoSnMCrnJeOY6iv9Ipipsi56krPWQU3yfBUUo1r
- B3lauEKCC3KyVEXqe8Hb4KDhF7NhHplV/4Yk8Y9zA0241sct95tZWnHXxi6qQUVSXwzh
- 5MsQ==
-X-Gm-Message-State: AAQBX9cMH+wjaDi63/3c28gtMUvY3ALmOvEJ7cESinnVVNQO7mdIRCqm
- 3RGjamjQugq9vWrhZbWSmW63GA==
-X-Google-Smtp-Source: AKy350ZsNc/rtqu1NEGe53/lPebNr5LRx0G5RnZDO64RCYwlrsQnnIhn7bHPhGrr/AyAN7Sjecj++g==
-X-Received: by 2002:a17:906:2216:b0:947:bff2:1c2d with SMTP id
- s22-20020a170906221600b00947bff21c2dmr3058456ejs.3.1680701120972; 
- Wed, 05 Apr 2023 06:25:20 -0700 (PDT)
+ d=1e100.net; s=20210112; t=1680701252; x=1683293252;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=XqX1N9AwIcXh3tEpxCe94h+1QEhsxAem/vTybjTN11k=;
+ b=ztuElY56q4KEsPU0f8LoyDA8Iy7oevN2aLMOcccRgvmMJpA1LR45b3Iw+4J7ENdjvt
+ I3Ur9ueZh3IR5mHapy1uVGVaml2q05SvimvzySjBKkbTfvksrQt9MR5lrM2XW4KhrZZk
+ 6nSfXnsuUcXGmzbQ1P6qnvwXE9DjAY6w79TWzTB545QkUK5mANY5pNT85WSy5yJjgb/0
+ 48xqM164DaX3sEer+5mQ51IY++06ugEU+VL8ognzKGQbfsLATtViIP3CuPQEyfmzTnPP
+ ynmPRnAWimAIAgzGhkNvLXx0waBf6Ysv9v1CzbP7xJxRAUj+Pm7ET5gKRszQJdtSUGu3
+ B0xg==
+X-Gm-Message-State: AAQBX9esnA0J/3gRozX6QgA1PCvYUq5B2bDyQEySZhiN1lgTg+ZwJVBI
+ kW5qCRe1Wc7YlYeBYg+9LrWtAQ==
+X-Google-Smtp-Source: AKy350YswyL/2WjlpsmEdGmBnqipwym85alKiP+KkghBft5Jy1eR+adZL60tPSX8iCmHKGIo3/jCOQ==
+X-Received: by 2002:a05:6402:524e:b0:4fd:2978:d80 with SMTP id
+ t14-20020a056402524e00b004fd29780d80mr2007567edd.1.1680701251733; 
+ Wed, 05 Apr 2023 06:27:31 -0700 (PDT)
 Received: from phenom.ffwll.local (212-51-149-33.fiber7.init7.net.
  [212.51.149.33]) by smtp.gmail.com with ESMTPSA id
- bv20-20020a170906b1d400b009447277c2aasm7371257ejb.39.2023.04.05.06.25.19
+ q17-20020a50c351000000b004bf76fdfdb3sm7246880edb.26.2023.04.05.06.27.30
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 05 Apr 2023 06:25:20 -0700 (PDT)
-Date: Wed, 5 Apr 2023 15:25:18 +0200
+ Wed, 05 Apr 2023 06:27:31 -0700 (PDT)
+Date: Wed, 5 Apr 2023 15:27:29 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Javier Martinez Canillas <javierm@redhat.com>
-Subject: Re: [PATCH 1/3] drm/fb-helper: set x/yres_virtual in
- drm_fb_helper_check_var
-Message-ID: <ZC12vod/gn6vpHOR@phenom.ffwll.local>
-References: <20230404194038.472803-1-daniel.vetter@ffwll.ch>
- <87h6tud3zc.fsf@minerva.mail-host-address-is-not-set>
+To: Oded Gabbay <ogabbay@kernel.org>
+Subject: Re: [PATCH v5 0/8] QAIC accel driver
+Message-ID: <ZC13QdSRybIe3nvk@phenom.ffwll.local>
+References: <1679932497-30277-1-git-send-email-quic_jhugo@quicinc.com>
+ <857db3fb-b006-4aa8-a7f8-2ae0b8a160c9@quicinc.com>
+ <c5d11a88-351a-8eaf-f1d2-d7cf37cdf81c@linux.intel.com>
+ <CAFCwf12iVZkcPKOEc911-fCd4-YzHYJzs_p36jfBiT=VkcO9uQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <87h6tud3zc.fsf@minerva.mail-host-address-is-not-set>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAFCwf12iVZkcPKOEc911-fCd4-YzHYJzs_p36jfBiT=VkcO9uQ@mail.gmail.com>
 X-Operating-System: Linux phenom 6.1.0-7-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -72,44 +75,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- syzbot+20dcf81733d43ddff661@syzkaller.appspotmail.com, stable@vger.kernel.org,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Daniel Vetter <daniel.vetter@intel.com>
+Cc: Jeffrey Hugo <quic_jhugo@quicinc.com>, bagasdotme@gmail.com,
+ mani@kernel.org, linux-arm-msm@vger.kernel.org, linux-doc@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, quic_ajitpals@quicinc.com,
+ quic_pkanojiy@quicinc.com, stanislaw.gruszka@linux.intel.com,
+ quic_carlv@quicinc.com, Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Apr 05, 2023 at 12:21:11PM +0200, Javier Martinez Canillas wrote:
-> Daniel Vetter <daniel.vetter@ffwll.ch> writes:
-> 
-> > Drivers are supposed to fix this up if needed if they don't outright
-> > reject it. Uncovered by 6c11df58fd1a ("fbmem: Check virtual screen
-> > sizes in fb_set_var()").
+On Wed, Apr 05, 2023 at 03:35:19PM +0300, Oded Gabbay wrote:
+> On Wed, Apr 5, 2023 at 2:26 PM Jacek Lawrynowicz
+> <jacek.lawrynowicz@linux.intel.com> wrote:
 > >
+> > Hi,
+> >
+> > On 03.04.2023 19:22, Jeffrey Hugo wrote:
+> > > On 3/27/2023 9:54 AM, Jeffrey Hugo wrote:
+> > >> This series introduces a driver under the accel subsystem (QAIC -
+> > >> Qualcomm AIC) for the Qualcomm Cloud AI 100 product (AIC100).  AIC100 is
+> > >> a PCIe adapter card that hosts a dedicated machine learning inference
+> > >> accelerator.
+> > >>
+> > >> The previous version (v4) can be found at:
+> > >> https://lore.kernel.org/all/1679325074-5494-1-git-send-email-quic_jhugo@quicinc.com/
+> > >
+> > > Looks like things have been silent on this revision and we have a number of review tags already.  Seems like this series is ready for merge.
+> > >
+> > > I'd like to see this queued for 6.4 if possible.  Given that we are at 6.3-rc5, it seems like this would need to be merged now(ish) to make 6.4.
+> > >
+> > > Jacek, since you have commit permissions in drm-misc and are an active Accel maintainer, I wonder if it would be appropriate for you to merge this series to drm-misc.  Thoughts?
+> >
+> > I'm would be happy to merge it but I think it needs to be acked by Oded first.
+> >
+> > Regards,
+> > Jacek
 > 
-> Should have a Fixes: tag ? I understand what was uncovered by that commit
-> but it help distros to figure out if something has to be cherry-picked by
-> them. So I believe that would be useful to have it.
-> 
-> The patch looks good to me.
+> Hi,
+> Entire patch-set is:
+> Acked-by: Oded Gabbay <ogabbay@kernel.org>
 
-The cc: stable should go far enough back for that. Or that was at least my
-idea ... I can add the Fixes: back since I had it but dropped it
-intentionally because it's not really a bug in the fbmem patch.
--Daniel
+Once Jacke has pushed this I htink it would also be good to get Jeffrey
+commit rights for drm-misc, so that in the future bugfixes for the qaic
+driver can be pushed directly by the qaic team. Still with acks/r-b
+requirements as per usual, and I guess for anything bigger/new uapi an ack
+from oded is needed.
 
-> Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
-> 
-> -- 
-> Best regards,
-> 
-> Javier Martinez Canillas
-> Core Platforms
-> Red Hat
-> 
+https://drm.pages.freedesktop.org/maintainer-tools/commit-access.html#drm-misc
 
+Cheers, Daniel
 -- 
 Daniel Vetter
 Software Engineer, Intel Corporation
