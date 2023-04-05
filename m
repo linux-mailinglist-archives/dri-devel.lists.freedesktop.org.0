@@ -1,49 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1EA86D72B6
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Apr 2023 05:28:29 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 75F056D72C9
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Apr 2023 05:59:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A54B910E1AA;
-	Wed,  5 Apr 2023 03:28:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 34DB810E009;
+	Wed,  5 Apr 2023 03:59:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from phobos.denx.de (phobos.denx.de
- [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 195FF10E1AA
- for <dri-devel@lists.freedesktop.org>; Wed,  5 Apr 2023 03:28:22 +0000 (UTC)
-Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
- (No client certificate requested)
- (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id 71B2084D0F;
- Wed,  5 Apr 2023 05:28:17 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1680665298;
- bh=bKaTZMpFYkkLbnTYZecYxf3MB9y5kfCDupMMfLfXpec=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=SRSFRYw+B7BCKAMQGuNszmJfxCKUw8xpESwBLDobDLGggNqSijncjsjAC84Crjpgo
- w8rtVnifU14r/xmjMfM2b8lcJGzXhfkWI3uZbC7CADQ1fKig5u7dWDL70+aXz/63pE
- 4548q2niUkmSsy+Y7LoFYz35mAhwc7dzPIoo2WhIaqTz+XrTGQhq5QDhuQdEh0Kh2a
- +T2/4kFpQAD+ogPw6cxm2HXr/ukyd8Nw4FUIdVxcWhkhUTFgyD78M4axcmBLYOXsV7
- Hajdoqo39t8uzXr7UYrXKbrLl5weRrKvp3ykTGEQYPOYLRxAwnkwdG5hZRm0l9IA+m
- LUSSOWPTe4f4g==
-Message-ID: <5b514970-cfc8-41de-7ae6-f608f5187860@denx.de>
-Date: Wed, 5 Apr 2023 05:28:16 +0200
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 62B3D10E009
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 Apr 2023 03:59:47 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (fp76f193f3.tkyc206.ap.nuro.jp
+ [118.241.147.243])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0B76C905;
+ Wed,  5 Apr 2023 05:59:43 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1680667185;
+ bh=Dxm79oyRJT9b8gKrOzRwmkfugRaKtT8JuVJT6m5bmPI=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=PflqIUVBytlCg/mnUlz2Ripb1HKoq+KPIyBjcpKkQh/fkoLDQPonMbaKh/n934pJj
+ hwifEitd/j17VXEWQ65Qk15EGoo1OhWQWW3gdgcm+OBVcayKu2jAQVC1FtGgEysmhk
+ jTXJ3+mJCPoqToU8Mzf1Eq8uER/2UYLFH00Tnpp8=
+Date: Wed, 5 Apr 2023 06:59:52 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: Re: [PATCH 3/5] drm: shmobile: Switch to drm_crtc_init_with_planes()
+Message-ID: <20230405035952.GI9915@pendragon.ideasonboard.com>
+References: <cover.1680273039.git.geert+renesas@glider.be>
+ <df4099d79c985c73bdc890eb0e026494b7fa5c96.1680273039.git.geert+renesas@glider.be>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH] drm: bridge: ldb: add support for using channel 1 only
-Content-Language: en-US
-To: Luca Ceresoli <luca.ceresoli@bootlin.com>, dri-devel@lists.freedesktop.org
-References: <20230404073720.1465552-1-luca.ceresoli@bootlin.com>
-From: Marek Vasut <marex@denx.de>
-In-Reply-To: <20230404073720.1465552-1-luca.ceresoli@bootlin.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
-X-Virus-Status: Clean
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <df4099d79c985c73bdc890eb0e026494b7fa5c96.1680273039.git.geert+renesas@glider.be>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,144 +47,91 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Jonas Karlman <jonas@kwiboo.se>,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>, linux-kernel@vger.kernel.org,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-renesas-soc@vger.kernel.org,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 4/4/23 09:37, Luca Ceresoli wrote:
+Hi Geert,
 
-[...]
+Thank you for the patch.
 
-> @@ -177,28 +183,25 @@ static void fsl_ldb_atomic_enable(struct drm_bridge *bridge,
->   	clk_prepare_enable(fsl_ldb->clk);
->   
->   	/* Program LDB_CTRL */
-> -	reg = LDB_CTRL_CH0_ENABLE;
-> -
-> -	if (fsl_ldb->lvds_dual_link)
-> -		reg |= LDB_CTRL_CH1_ENABLE | LDB_CTRL_SPLIT_MODE;
-> -
-> -	if (lvds_format_24bpp) {
-> -		reg |= LDB_CTRL_CH0_DATA_WIDTH;
-> -		if (fsl_ldb->lvds_dual_link)
-> -			reg |= LDB_CTRL_CH1_DATA_WIDTH;
-> -	}
-> -
-> -	if (lvds_format_jeida) {
-> -		reg |= LDB_CTRL_CH0_BIT_MAPPING;
-> -		if (fsl_ldb->lvds_dual_link)
-> -			reg |= LDB_CTRL_CH1_BIT_MAPPING;
-> -	}
-> -
-> -	if (mode->flags & DRM_MODE_FLAG_PVSYNC) {
-> -		reg |= LDB_CTRL_DI0_VSYNC_POLARITY;
-> -		if (fsl_ldb->lvds_dual_link)
-> -			reg |= LDB_CTRL_DI1_VSYNC_POLARITY;
-> -	}
-> +	reg =
-
-Cosmetic nit, do we need the newline here , can't we just move the first 
-'(fsl_ldb->ch0_enabled ? LDB_CTRL_CH0_ENABLE : 0) |' on the same line as 
-'reg =' ? It might need a bit of indent with spaces, but that should be OK.
-
-> +		(fsl_ldb->ch0_enabled ? LDB_CTRL_CH0_ENABLE : 0) |
-> +		(fsl_ldb->ch1_enabled ? LDB_CTRL_CH1_ENABLE : 0) |
-> +		(fsl_ldb_is_dual(fsl_ldb) ? LDB_CTRL_SPLIT_MODE : 0);
+On Fri, Mar 31, 2023 at 04:48:09PM +0200, Geert Uytterhoeven wrote:
+> The SH-Mobile DRM driver uses the legacy drm_crtc_init(), which
+> advertizes only the formats in safe_modeset_formats[] (XR24 and AR24) as
+> being supported.
+> 
+> Switch to drm_crtc_init_with_planes(), and advertize all supported
+> (A)RGB modes, so we can use RGB565 as the default mode for the console.
+> 
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
+>  drivers/gpu/drm/shmobile/shmob_drm_crtc.c | 30 +++++++++++++++++++++--
+>  1 file changed, 28 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/shmobile/shmob_drm_crtc.c b/drivers/gpu/drm/shmobile/shmob_drm_crtc.c
+> index 08dc1428aa16caf0..11dd2bc803e7cb62 100644
+> --- a/drivers/gpu/drm/shmobile/shmob_drm_crtc.c
+> +++ b/drivers/gpu/drm/shmobile/shmob_drm_crtc.c
+> @@ -18,6 +18,7 @@
+>  #include <drm/drm_gem_dma_helper.h>
+>  #include <drm/drm_modeset_helper.h>
+>  #include <drm/drm_modeset_helper_vtables.h>
+> +#include <drm/drm_plane_helper.h>
+>  #include <drm/drm_probe_helper.h>
+>  #include <drm/drm_simple_kms_helper.h>
+>  #include <drm/drm_vblank.h>
+> @@ -478,16 +479,41 @@ static const struct drm_crtc_funcs crtc_funcs = {
+>  	.disable_vblank = shmob_drm_disable_vblank,
+>  };
+>  
+> +static const uint32_t modeset_formats[] = {
+> +	DRM_FORMAT_RGB565,
+> +	DRM_FORMAT_RGB888,
+> +	DRM_FORMAT_ARGB8888,
+> +	DRM_FORMAT_XRGB8888,
+> +};
 > +
-> +	if (lvds_format_24bpp)
-> +		reg |=
-> +			(fsl_ldb->ch0_enabled ? LDB_CTRL_CH0_DATA_WIDTH : 0) |
-> +			(fsl_ldb->ch1_enabled ? LDB_CTRL_CH1_DATA_WIDTH : 0);
+> +static const struct drm_plane_funcs primary_plane_funcs = {
+> +	DRM_PLANE_NON_ATOMIC_FUNCS,
+> +};
 > +
-> +	if (lvds_format_jeida)
-> +		reg |=
-> +			(fsl_ldb->ch0_enabled ? LDB_CTRL_CH0_BIT_MAPPING : 0) |
-> +			(fsl_ldb->ch1_enabled ? LDB_CTRL_CH1_BIT_MAPPING : 0);
+>  int shmob_drm_crtc_create(struct shmob_drm_device *sdev)
+>  {
+>  	struct drm_crtc *crtc = &sdev->crtc.crtc;
+> +	struct drm_plane *primary;
+>  	int ret;
+>  
+>  	sdev->crtc.dpms = DRM_MODE_DPMS_OFF;
+>  
+> -	ret = drm_crtc_init(sdev->ddev, crtc, &crtc_funcs);
+> -	if (ret < 0)
+> +	primary = __drm_universal_plane_alloc(sdev->ddev, sizeof(*primary), 0,
+> +					      0, &primary_plane_funcs,
+> +					      modeset_formats,
+> +					      ARRAY_SIZE(modeset_formats),
+> +					      NULL, DRM_PLANE_TYPE_PRIMARY,
+> +					      NULL);
+> +	if (IS_ERR(primary))
+> +		return PTR_ERR(primary);
+
+This seems like a bit of a hack to me. Why don't you use the planes
+created by shmob_drm_plane_create() instead of allocating a new one ?
+
 > +
-> +	if (mode->flags & DRM_MODE_FLAG_PVSYNC)
-> +		reg |=
-> +			(fsl_ldb->ch0_enabled ? LDB_CTRL_DI0_VSYNC_POLARITY : 0) |
-> +			(fsl_ldb->ch1_enabled ? LDB_CTRL_DI1_VSYNC_POLARITY : 0);
->   
->   	regmap_write(fsl_ldb->regmap, fsl_ldb->devdata->ldb_ctrl, reg);
-
-[...]
-
-> @@ -311,10 +314,23 @@ static int fsl_ldb_probe(struct platform_device *pdev)
->   	if (IS_ERR(fsl_ldb->regmap))
->   		return PTR_ERR(fsl_ldb->regmap);
->   
-> -	/* Locate the panel DT node. */
-> -	panel_node = of_graph_get_remote_node(dev->of_node, 1, 0);
-> -	if (!panel_node)
-> -		return -ENXIO;
-> +	/* Locate the remote ports and the panel node */
-> +	remote1 = of_graph_get_remote_node(dev->of_node, 1, 0);
-> +	remote2 = of_graph_get_remote_node(dev->of_node, 2, 0);
-> +	fsl_ldb->ch0_enabled = (remote1 != NULL);
-> +	fsl_ldb->ch1_enabled = (remote2 != NULL);
-> +	panel_node = of_node_get(remote1 ? remote1 : remote2);
-
-You can even do this without the middle 'remote1' I think:
-
-panel_node = of_node_get(remote1 ? : remote2);
-
-> +	of_node_put(remote1);
-> +	of_node_put(remote2);
-> +
-> +	if (!fsl_ldb->ch0_enabled && !fsl_ldb->ch1_enabled) {
-> +		of_node_put(panel_node);
-> +		return dev_err_probe(dev, -ENXIO, "No panel node found");
+> +	ret = drm_crtc_init_with_planes(sdev->ddev, crtc, primary, NULL,
+> +					&crtc_funcs, NULL);
+> +	if (ret < 0) {
+> +		drm_plane_cleanup(primary);
+> +		kfree(primary);
+>  		return ret;
 > +	}
-> +
-> +	dev_dbg(dev, "Using %s\n",
-> +		fsl_ldb_is_dual(fsl_ldb) ? "dual mode" :
+>  
+>  	drm_crtc_helper_add(crtc, &crtc_helper_funcs);
+>  
 
-I think this is called "dual-link mode" , maybe update the string .
+-- 
+Regards,
 
-> +		fsl_ldb->ch0_enabled ? "channel 0" : "channel 1");
->   
->   	panel = of_drm_find_panel(panel_node);
->   	of_node_put(panel_node);
-> @@ -325,20 +341,26 @@ static int fsl_ldb_probe(struct platform_device *pdev)
->   	if (IS_ERR(fsl_ldb->panel_bridge))
->   		return PTR_ERR(fsl_ldb->panel_bridge);
->   
-> -	/* Determine whether this is dual-link configuration */
-> -	port1 = of_graph_get_port_by_id(dev->of_node, 1);
-> -	port2 = of_graph_get_port_by_id(dev->of_node, 2);
-> -	dual_link = drm_of_lvds_get_dual_link_pixel_order(port1, port2);
-> -	of_node_put(port1);
-> -	of_node_put(port2);
->   
-> -	if (dual_link == DRM_LVDS_DUAL_LINK_EVEN_ODD_PIXELS) {
-> -		dev_err(dev, "LVDS channel pixel swap not supported.\n");
-> -		return -EINVAL;
-> -	}
-> +	if (fsl_ldb_is_dual(fsl_ldb)) {
-> +		struct device_node *port1, *port2;
-> +
-> +		port1 = of_graph_get_port_by_id(dev->of_node, 1);
-> +		port2 = of_graph_get_port_by_id(dev->of_node, 2);
-> +		dual_link = drm_of_lvds_get_dual_link_pixel_order(port1, port2);
-> +		of_node_put(port1);
-> +		of_node_put(port2);
->   
-> -	if (dual_link == DRM_LVDS_DUAL_LINK_ODD_EVEN_PIXELS)
-> -		fsl_ldb->lvds_dual_link = true;
-> +		if (dual_link < 0)
-> +			return dev_err_probe(dev, dual_link,
-> +					     "Error getting dual link configuration");
-
-Does this need a trailing '\n' in the formatting string or not ? I think 
-yes.
-
-The rest looks good, with the few details fixed:
-
-Reviewed-by: Marek Vasut <marex@denx.de>
+Laurent Pinchart
