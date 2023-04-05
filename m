@@ -2,119 +2,151 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10D0D6D75B6
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Apr 2023 09:41:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 571246D75BB
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Apr 2023 09:45:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F0E1510E031;
-	Wed,  5 Apr 2023 07:41:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4390810E84B;
+	Wed,  5 Apr 2023 07:45:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam11on2041.outbound.protection.outlook.com [40.107.236.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9811910E856;
- Wed,  5 Apr 2023 07:41:31 +0000 (UTC)
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5A31610E84B;
+ Wed,  5 Apr 2023 07:45:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1680680730; x=1712216730;
+ h=message-id:date:subject:to:cc:references:from:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=hS1NTRIXPtepppNpb2leToE0fe5CD/xeHjrHahOlmaU=;
+ b=Wf7K/rTw7no2N+cXf5o9E0TgEJRuyGDOqYRn4MUzC8FAf8u+2EanEoAR
+ rgP0mB+olqzs9ki3RN2bFTCvFW0AzigH7eoqGBj48vXajyBjP83y0keNR
+ XYF1KN6jtJkP7Sj0cKPDQ0e8jjizHjQO7c4b0mTsumXTWaX7pBhIvoH6H
+ n5w95K2+zi8vagTPzAsP5YNmAyEi0lfB+KIPCoH3CPtkeVQGTPYXUzXZd
+ cNKN5PfnGQTDKfA1L871Gcx/qtZaOPY7Z3/SqngWuTKm9hr2PGMRNPlAh
+ NRgpGk3CnnIoQm1/gva8/immAqI6GbUKhyqPsCp82E7LpvOb3kMgq10lf A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10670"; a="344105931"
+X-IronPort-AV: E=Sophos;i="5.98,319,1673942400"; d="scan'208";a="344105931"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Apr 2023 00:45:29 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10670"; a="755928849"
+X-IronPort-AV: E=Sophos;i="5.98,319,1673942400"; d="scan'208";a="755928849"
+Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
+ by fmsmga004.fm.intel.com with ESMTP; 05 Apr 2023 00:45:29 -0700
+Received: from orsmsx602.amr.corp.intel.com (10.22.229.15) by
+ ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.21; Wed, 5 Apr 2023 00:45:28 -0700
+Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
+ orsmsx602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.21 via Frontend Transport; Wed, 5 Apr 2023 00:45:28 -0700
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.176)
+ by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.21; Wed, 5 Apr 2023 00:45:28 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=c9z9XApDGnYNos6FxdxkMlReE9x9oog5jancnCTiIIN6/0UgsvdhRe2pU22DoOxZxkjwTXv02iIdGHeMKAZFPLpob25sCYloltP1lrZFNdwEM2hPjAbUVGa4EOSjQHDI/wI1qKkgul42UcwetWoZCJFvBZ5/O7T2tz6kBf7nf/+ZVXiWKekO26XTPSQdB0juN/Vdu+xpMEDjZkhi+W89UXBUEWX2DdiSjUD6MfUVIeBaUF398I+cKgOTIx7Rk+4SotwQvj6seRC0FR/WxxVDRSgpDbePu8DyLKPh4VSVyzUCnY0TsRHLEzp2tIR5qJ8rycoVhHfbN+2VeZ/hmnhIcA==
+ b=H28SixmvJ7iCvjHXe7hHgb1bhWYUCvFQD5lcbcHXP51/mLwFBmzvvUM/sFW5PZ9tH71CoD5tqmSVH+tLse7RO7lMqn5Hp9B7Ea08iVjZDa1oOSZteDY05acfizDAoq9KQ14qGNRspvomBxfEFTrsOWVHa1TFbKV2QxhNInGPva0bYqXsYiy7Qnn3at0x60mk04/TS/WMhxcHcq3dT7HT5jzQgr68SZuPWypygsInw2cOlysd8q6unTeCIuNKXFlxDxp5+8F3PI0J90weJq4nsbZceM3/4RGCwvAs+FOA2MMxiVhDNc9YzlpdqEiOvCCeGIDhf/Is1vZ/PKVoep1jgw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=rVezkNDuJBWxOjFdDIEi8VU1pBEn58EfinTnoXlLlZo=;
- b=GTHzqsicXmfux3pedLKQvXoaAQK+YkeAOl8sRnoJQiv3lvwK/NZDKLlo1vM7Qm045JqEpZq4bDQVyRDUMZHbvoOUQgDfG42L5hBAqBBPGebwRgdAF/7rhYrVBlnB+L1DjAPuQcqZGrWX0m5/GzWmdHEY1jbXVOpiGJ6q7LXJDjOaUUFbllMy2d5ksKgDtyX6WV6VOAlKcsujrxXSRD+Bc4CGY5ocxQJI6uMOVURS1ELanPDwXdhe/yd46Yktf718hJ7YW9RycnLjv/Y0E0mW2so6gJg4A6KjWmZxQY/IZ1PNZzDbABsnetAqJ7aF3IrauMGfa/TndY9gUaY9Pm9+fQ==
+ bh=CVmoIbdJzuxtibHOg0l3DEQ/uivDjOkYNgDt/jgqShw=;
+ b=j8Vf3KoWqKYTOp6R8gniNLHoe9ozJ897ZTT51+LVXD4Y8G48Ljs+alT1/ATydXxDbC/IVOCcgtDKAkO7k7XBM2F4EfswMRyzmDHm0WGBm+/J8Gj5VzBFNX+w0YW08M73A2+/2GcCndJuxWjfo1S84yHjMI8VnGhmyea5XioUzpFiJKWeEaEc5LRvZ+c3yLJM7kCmEHhJk8jbaaLS3K+GD/EME3Ib7bQe48Atxlnr1LYku9RAHvzZg1R8GZp/wnrnkAp4NWrYVorGVpqGnWk5LTfopz/fXg6JUE2clwGbir/eIRUG3vgXQj1+VFDvhwcG2XzNkWz+oPBec8x7VODJNQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=rVezkNDuJBWxOjFdDIEi8VU1pBEn58EfinTnoXlLlZo=;
- b=FLCeujIdCUB6uk2xXJNYO+A+TH1/AWg4xattPRNIiWRw60fEWlJuYVjpQ6ct3kuiXzBTQC0GhjW6TxQs4JsGbvBAnqNMV3RDWIrmOCOJ7zMCf91b5/zg0H5eT2zdXI6uAwAcUR6eM8pva2eDMFEaLxlZNMcdDJbCJdx9z4x2d6A=
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
- by SJ1PR12MB6364.namprd12.prod.outlook.com (2603:10b6:a03:452::6)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from MN6PR11MB8146.namprd11.prod.outlook.com (2603:10b6:208:470::9)
+ by PH7PR11MB7099.namprd11.prod.outlook.com (2603:10b6:510:20e::13)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6277.30; Wed, 5 Apr
- 2023 07:41:28 +0000
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::4624:dc39:943e:6ae]) by BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::4624:dc39:943e:6ae%5]) with mapi id 15.20.6254.035; Wed, 5 Apr 2023
- 07:41:28 +0000
-Message-ID: <d740a81a-8919-b6c8-a8c1-f5d8f9c5549c@amd.com>
-Date: Wed, 5 Apr 2023 09:41:23 +0200
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6254.33; Wed, 5 Apr
+ 2023 07:45:26 +0000
+Received: from MN6PR11MB8146.namprd11.prod.outlook.com
+ ([fe80::a6ec:a0c7:4dde:aa7f]) by MN6PR11MB8146.namprd11.prod.outlook.com
+ ([fe80::a6ec:a0c7:4dde:aa7f%8]) with mapi id 15.20.6254.033; Wed, 5 Apr 2023
+ 07:45:25 +0000
+Message-ID: <7fd9424a-678a-0d90-715c-f63179552093@intel.com>
+Date: Wed, 5 Apr 2023 10:45:24 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [RFC PATCH 00/10] Xe DRM scheduler and long running workload plans
+ Firefox/102.0 Thunderbird/102.9.0
+Subject: Re: [Intel-gfx] [PATCH 7/7] drm/i915: Allow user to set cache at BO
+ creation
+To: "Yang, Fei" <fei.yang@intel.com>, "intel-gfx@lists.freedesktop.org"
+ <intel-gfx@lists.freedesktop.org>
+References: <20230401063830.438127-1-fei.yang@intel.com>
+ <20230401063830.438127-8-fei.yang@intel.com>
+ <7aa541f8-55e3-a182-5390-6ca161edb70b@intel.com>
+ <BYAPR11MB256790AC5BDC891F186E000E9A939@BYAPR11MB2567.namprd11.prod.outlook.com>
 Content-Language: en-US
-To: Matthew Brost <matthew.brost@intel.com>
-References: <20230404002211.3611376-1-matthew.brost@intel.com>
- <87c7f659-387c-3e23-69c6-03e0c9820bab@amd.com>
- <ZCwoL3Wgv90tlQWR@DUT025-TGLU.fm.intel.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-In-Reply-To: <ZCwoL3Wgv90tlQWR@DUT025-TGLU.fm.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR2P281CA0073.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:9a::15) To BN8PR12MB3587.namprd12.prod.outlook.com
- (2603:10b6:408:43::13)
+From: Lionel Landwerlin <lionel.g.landwerlin@intel.com>
+In-Reply-To: <BYAPR11MB256790AC5BDC891F186E000E9A939@BYAPR11MB2567.namprd11.prod.outlook.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: FR2P281CA0050.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:92::13) To MN6PR11MB8146.namprd11.prod.outlook.com
+ (2603:10b6:208:470::9)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|SJ1PR12MB6364:EE_
-X-MS-Office365-Filtering-Correlation-Id: 487a7e0d-22bc-4ad4-8521-08db35a92a97
+X-MS-TrafficTypeDiagnostic: MN6PR11MB8146:EE_|PH7PR11MB7099:EE_
+X-MS-Office365-Filtering-Correlation-Id: 1dba47de-2be3-4640-49ad-08db35a9b7a3
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: qUYZFNuIN93RWYTZBRhTYgbGys14Uy/W5Mqzsj4DuFbMRhqbMUufiYFL5mn/8pCFafH7lEWS3p9VkB4TTs+fikzhDAvRW+5PwYxvK0bgF84Yc6UVPHcDk7muHyGhw7PiFgTjPNlU8aoctSW1u7UwP4/qbs+pe5wSZti6cvGdaMkJeipgzJD9iYaS5TcvEsnkedHqeUSqf3LiWWH2mccOMjki50AKg9XQ63QD94ReqmXRYy09C2n6483nTBEdAsWoeDNkyQx36fUDm0dNcYe3PsXkBPnRmCYyefE73TM6N59OuELkhan2K8LVO+jhJv4zRNIWRtipeFCrXBKQsGf499QDSJSyxC8ol5pP4qANZwaPjK0JFdaIBpWjzz/6lJmn4DH+1PEvjajxdCX29S2A2r9pmJ30emcFMg4gWpyqhkS00VXY2LbTZGMooW/cUfEv16Z0UDAIA+P29ioJsflEiJROwbWX3vXb+r/4S0YUoRUJm9O77AutMFh4JmgFUXjx7r0RIFztlrrf5LFxrTOrZ5dK+pSwX/ZOzGrH7tWfaDmpasuMw2hPWSKGnABfsq0B1vUtsxYtUTsu2qIyMdnoD0+zv11ZW43aTkb6sB4W+F0=
+X-Microsoft-Antispam-Message-Info: xPDkvxfXEdxZk2M1H/RhtGnZZmueiQO8m8Con6qd/czaK7vzBj1lbon/+jyhi+nZ0YjYn+/GsKHtzAdLC7+PTZF0BQ5vkXgiBDkTUSE9SPXriYpQQs4PeP0iEktZhUONLbyyLpBHu3yc4L2UTitiwWplPlVwbjI5hkhqerAed7u1bceahDjXBQpwKtGdkCV7VzXaUmae0l58otO4WTh6spJkyyISSodv5Z7QGXCYsUv7VJSV47k87n7e6GPW3BmGzhnK2GK6c4jScXITg6+Z4ENy4w9/v3OwkRtB32vBaMAEjFNSv9huShCov8NldT3SlxoScTMUB/ueRxTR4CQgzF8S6d6itxVxMjabdExV3DqSOVcu0CzSmkb04yWykCttGACU5bIwgDUNpOJMCbCdupGiLh6Rr3o6cu1RQ+AFnN6IShywYl0sIVAaeuNoWY73AplXuzZBsMFlV/q3OYhtqo2Cf6R1e520Y3ShGisI0s9npqu2tx4o2Ira2cl/9pMvkMDTpRNQ82tnO5F1S+cpCbX5HRF4jQVL3LKN2rJx5UPYWa+i+ALJ7vuiiwlNIxXs9s4aW7b/lHNecNDqzngx5rQl3IeGdfQYKOYf1qLNi+GBqJt4ZguhJCjdq6LYl3auUVqNqLNOwW/k3Nc0IYY2Zw==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230028)(4636009)(136003)(346002)(376002)(39860400002)(366004)(396003)(451199021)(2616005)(83380400001)(966005)(478600001)(6486002)(186003)(6666004)(316002)(6512007)(6506007)(2906002)(5660300002)(36756003)(38100700002)(66574015)(66476007)(66556008)(4326008)(6916009)(41300700001)(86362001)(31696002)(66946007)(8676002)(8936002)(31686004)(66899021)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
+ IPV:NLI; SFV:NSPM; H:MN6PR11MB8146.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230028)(39860400002)(396003)(366004)(376002)(346002)(136003)(451199021)(31686004)(66899021)(2906002)(38100700002)(5660300002)(82960400001)(66556008)(66946007)(66476007)(8936002)(8676002)(41300700001)(54906003)(316002)(83380400001)(4326008)(2616005)(31696002)(26005)(110136005)(86362001)(186003)(53546011)(478600001)(6512007)(6506007)(966005)(36756003)(6486002)(45980500001)(43740500002);
+ DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?djVaai81eUVWMFdZTDZxQWt6TCtNK3VwbXU1YkFvaDJaV3pSaE5pdnJpeWJ5?=
- =?utf-8?B?eUE2dzlLc1BFU1pQSUFKYUZKc0N2QlNYYkc4dWQvNmhVRWIrSU9ubkFERFJ4?=
- =?utf-8?B?andhcklYd29ET00xVHk3MStBRElheTI4SE03QmdSRktscit5VTY3Ry9GaTJw?=
- =?utf-8?B?d3cyOHA4WVhSdVZsQ1MxaUZGc1pGdE1sSzN1YkpHZlU1aCs2WTBUYkZHZ1Nw?=
- =?utf-8?B?aHlybU5kaXZYb0R3dWpsTVRWTTJKRUJZUjJjM3FaM3MraVVRdjZYWnFCc1Ji?=
- =?utf-8?B?dEdOMnZJU1NGK1c3YkQ5TjFFOHRDUWZwUHlDSGdDSTNCMDkzNTdQV1A3WUta?=
- =?utf-8?B?ZTc2NDhlSUFjVTQ1WVpXNEUrQmpXMldRZWNMQ3R4OVYvZHZRUW82aldtQmJh?=
- =?utf-8?B?bE9QOXJqbWk4WDM3MVNtU2xzUUFIUlJUeFlpYnM5TGIrdnFkOTRvbTM0R0Ew?=
- =?utf-8?B?VnVRT0Ixci9tS1VVQVI5NWlqSDE4U3FReXJYQzNXSE42RFFEZmNpOExRa0Nj?=
- =?utf-8?B?M0k5M0dXQ0FwdXBPNG1JOStuQ0xXdWVFSkpGSERaSjl3UmJkNU9TWEI2Y2do?=
- =?utf-8?B?Q2lHeHUyRWdOaU1EV25jLy96dXBReW9LL1RkakZEbnFWaXJqUmF6RnIzNkNQ?=
- =?utf-8?B?b3ZSZEJ3c3lDRGN3SkI0TTZEMUJvWlJKMitkMnRSZlQ0TWlFdXhtNHZlUDAy?=
- =?utf-8?B?NU1CZE9pa3BPYXl0eC80eTNUTXpCWE5SUjhTZ05JL0dsNkpkaUZtUEQwSUxw?=
- =?utf-8?B?S0ozckNXdzBxWjU0ZDZxL0NDaXdtWEJPcmplUWR6dEs5NElpZFBEVlMyZFVt?=
- =?utf-8?B?M3VZeUx2NDFOZGJONXBIWjE3empqemxLWmMySll4dVBJZFlFakpCMkl0ZW84?=
- =?utf-8?B?ZlZURjVac2NZVVNiK0dBT0dFYmJHU2YxVllhbzBGWFRnSmdoUFYzaVg2VmJ6?=
- =?utf-8?B?bUlmZHJSY1I1R1dCMk9JMXZuSzVBVElrcE9oV0Y0VFd3VEFrV1VqWjJwZy9B?=
- =?utf-8?B?ZkhIeUxyMnRMSjlNOXdqSnRpbkR2bW5oUDBmaDlPOEd5Z3lRWDBmN1oxaENj?=
- =?utf-8?B?MjdqdjBQdHhSRTBocnlzTmxKSkIwTTZwVHY0UTR6b2tsZ3RIM2ZDcnRwZURk?=
- =?utf-8?B?aWVkd2E5eEUwc1VTWmZ6Tzc2V2hTWXVmNG9NMlV0Zlo5R3hCUkc1TWN3SDdo?=
- =?utf-8?B?RlJqYkRrRmY4WVEzamJxSEhXeUd5Y01pRjAxU1dwWEdKSG9OR2xwc04zaXFm?=
- =?utf-8?B?L3FwZ1lnS2FNblRXeW5LSTNlbFRNaFZGMXlibEFkcDdTRHRsV1pUTlVNZ2xS?=
- =?utf-8?B?NDR3dlRNUmVOZVQ5SHNlVU9yOEVTQ2UwVThURmI5Z1p6a09Sb1VnSEFnQi8r?=
- =?utf-8?B?MFVZTmhTaVNoWmZ6Z1c1cmp4ZURMTlpiWHFXZHQzQ3JXYWxmdTJVaURwQm5H?=
- =?utf-8?B?Yzd3Yi9idC9WTlZsb0NHT3U1MVpxZVlxbGdjbW5qZnpBUEZMcUJqS01FVjVT?=
- =?utf-8?B?QSt4T1k3TFhKRHBCdmJvempFVWRmSmZLVDZ3ZFgyUnZmVFRsRnlZc25vdE5i?=
- =?utf-8?B?dUFWR1NDN281MXdlZytySzE3VE1jUldoRnp0V3RRbWk5Q3VVUmczbk0yaHda?=
- =?utf-8?B?Y1JhaXQvbVdiUmpMMXJKTDBOYmNYd2JXMEJyOU5PUWRCOEJCblR2U21LZUQv?=
- =?utf-8?B?VFErbmNUSi8ralRqaFJKRlp0M2RZOWg1Snl1MkVJbmdDWHBkQVljKzgyWkY3?=
- =?utf-8?B?M3U3RnJtOTQyTnVyMlpVRCtQZmZZM0M1Tkp5MkwwZjM2L05LUHZjckZDcjFr?=
- =?utf-8?B?ZGExalNLbGVNaUN2Y0RuV3lPT2FKRzRWVWdYWWN5ekxtL3p4Wm53NkhkNklm?=
- =?utf-8?B?MWVmVnlTMzlMVnk2alIxQzFUVHU3MG9DMVlLSVVaemRxWDRjYmhDbG1FUWk5?=
- =?utf-8?B?L1MxVml3VHp6dHlnSUVSdVR3N1g4UDYxd2hNQ09LTWViRWVCa2JEb0tFL0tZ?=
- =?utf-8?B?SS9VdzRMajd6YVZNTkY4UERiWnNERGZML0ZiRlFId2NrbU5xdzBYV1lWcWNL?=
- =?utf-8?B?Z3U0clBkaEQ0KzVPQ1NlaGNnVTRSTWVPR08yNkJ0c0Q5Vmx3Wm82MVFXL2Vy?=
- =?utf-8?B?WW5xUU1pL2RGRXdNZ2hVWEpsOWtEekVPcVQ0TXN4SVhJYmtEZUgwN1pKWDRu?=
- =?utf-8?Q?2ItGF9NEBkOOdbcduXFsFThqZhzm8bYWPiatieK9RQfs?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 487a7e0d-22bc-4ad4-8521-08db35a92a97
-X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?UlVKZW5aMXEvODNlQTB2WFRBNGJaa2dLQlAvbTBTSERKeUFMcGtGbjRBUSt3?=
+ =?utf-8?B?emYyWUZCU0F1bWFaY2YrUm1meE5oZnVJRGNxektRTmxPZlM3aklGWDRrejVh?=
+ =?utf-8?B?NFJvZUxuWjYwU2ZIa3J2UW1XdE5tRDU1YS9DbVp6Q3lVZVg2Z0JNd1hBV2hz?=
+ =?utf-8?B?YVBhSEg1TXo1VmdPUTJTR1hidjB0UTcvbUZnRGwrMGZtTTJMZmFhNVhrYXhr?=
+ =?utf-8?B?THVoMXhYR0YyZm4zTzM4a0pzSm14Yk0vSzlDbXZEaWk1U0trNVNyVHkxM3lu?=
+ =?utf-8?B?ZkpGdUMyYXIxYWttdWhhdEtGZkszSTlBTDRWclRJWU5pbmh0cjJPb3JXcEl3?=
+ =?utf-8?B?Snp6emdZSUM3K2hLUkNKUWxYQ21GS1JkOEYxZHczWXU4aXRKV21od2hwTSt5?=
+ =?utf-8?B?bUxjS2NMdG03aTdMMlphS0ZIbWdNK2ZMeG9KMkFNSjBDWituWEpKSWJnWWJN?=
+ =?utf-8?B?eGhDandOVjl1UFZzd09QdnV1SFZXQWkvUzV0SEtBWHZwc2t5dTU0UnljL3B4?=
+ =?utf-8?B?K0xCNWMxQUNieVBDQVlhNFhtK1dwanhIQTV3NktBRTlqL1ZoQnpBd1hQYXVV?=
+ =?utf-8?B?cTl5NStWOTBWbmJYdjNDalZUUmM5ZlNoUVdBWkJnc2dsQWszUTNzc3gwL1hT?=
+ =?utf-8?B?ZGpjQlhDaW5iKzJFQjF0TjB4VStSQ1VyeUJlaklMOTNWVFlCQk1GSTNhVmV3?=
+ =?utf-8?B?U1lmekVaVS8rcWQrcC9kZmtVaHpyQlREQXRJZUl1L3pmSGN1djl2ZnZYVUdX?=
+ =?utf-8?B?bDJNUk4ydHphNnppZzFWN3pqTTJSUGNVNHphR0RXeW9tSTBGb1ExSkJYdlVG?=
+ =?utf-8?B?K2pXcm5QamlPWG5UdXo5OUJ0Wk1qaDB3NmRCWk9GR0ZQdEZPZmU2REhWTVVC?=
+ =?utf-8?B?MnFtY2FJVm5DaDBMS2NucENkRHBmQ0VNTjVOMStwbk1FeWFMYitubE5OUmhJ?=
+ =?utf-8?B?UFhHUCtFaERBQnRHOHZsUnNPYUErSXV5SVBEa2lPWllud0ZKRkFGcFlqMGZs?=
+ =?utf-8?B?TDNlcDJRdUhjK1NjZW4rcXVzeXBiMU9xZ3BYWnJKQ2JDeDVUUWZzZmcrMTBs?=
+ =?utf-8?B?ZVFjc0ZuQkk2emtvTHNiWVJQL3V0ZTZsaFRBdVc2TlFjR1JqVUdTMFJOOHhZ?=
+ =?utf-8?B?a0hoSmoyVjNacVFEazdJY2xNYW12YnRETW5qbnE2L1pRUE9BRFV1UHR4U0I1?=
+ =?utf-8?B?YTZyS3hiSUovRG1BUTBPRnRmTFVtbndmT0NVNVpUN0o0MnZMZnFrNWVqZXhU?=
+ =?utf-8?B?eDM3U1ZTcGcvYUlOTTdISGJvbFUzYVVNMEZzbVRCa1U4QVY5TWM0RmxkNnJY?=
+ =?utf-8?B?T2ZheDVNMHNVa1k5REZFblhPZVdOWTdGTndtcGpvaStzNUc4bFR1MlhoMDFm?=
+ =?utf-8?B?WnhaSi94cWhIYktWcFcvbkJVTkZQeC96ejdUNENaYmFrckU0WEloOGlINU9F?=
+ =?utf-8?B?OXpJeFRzWXV0dUt5cDdRWExRMldxMCtYd1o2NDFvUWRSQ2VnSnJ5a3R5dGNi?=
+ =?utf-8?B?K0pyNTVZQ0hYSEdXWDZIZFpuZmRkTFpnRmM5WWxNaGY1ZytFTGJjbTNQbVlM?=
+ =?utf-8?B?ZnlCUXJuYzUvT2dxalYyVG83Z1ljclAxQzcza1F3YTl2MVdyY051YkM1UDJZ?=
+ =?utf-8?B?dUlEdE54K2FXTlhtZGp4Y2lFS1k3Q20xWVh3ZFVUTitWNXBXV2h5L0drZUVV?=
+ =?utf-8?B?bytRMmlSck5qbC83ZlVhaGFMOWhDVlNYb0Jndmo1YkxNa3Y1QnV0YUVVSUtr?=
+ =?utf-8?B?cGFoeE8xQXJWOVBHTFY3RVFYQUNDaFNVNUJURDNnZXVjTkNFdUZ4eU5STnFu?=
+ =?utf-8?B?Y0Y4UStHeTJVNnljS2dkY04yMUxGdUd1cWJRVEVDUkswYzRVQ29IRktSM0Z0?=
+ =?utf-8?B?V0pEUjZ3S3FoNnVLUWZTdHhJTFJKZHFsRTB6UVpTaCtCMjdRMk10Y2gxazk4?=
+ =?utf-8?B?dUtwWFcxem04eFRwUTJLQ0VwZ3hNQW55ZU5Jc001Vmt3aldreUxVR1RYVmN5?=
+ =?utf-8?B?UGx6N3pQRWxmTThpOW1HRlVnYXU1ck40YnlpZDNmYVloWjFzeUhPRUdwN1du?=
+ =?utf-8?B?MzRVbnhRSXJySDU4T0pzaXN1Qyttai9ad1lYNnpzMUpEU1huSGNTa3RyUldv?=
+ =?utf-8?B?UjBKUkVaL1k0QnU0TTVqZG1YdUZDWEx3elJoOXMvK1I5N2xlL21MMDhLRHJt?=
+ =?utf-8?B?U1E9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1dba47de-2be3-4640-49ad-08db35a9b7a3
+X-MS-Exchange-CrossTenant-AuthSource: MN6PR11MB8146.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Apr 2023 07:41:28.5326 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Apr 2023 07:45:25.1363 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: H+kk7+hgo5/efTIZS04qZ3ws93WzhEB9ItBsg1VFHCPSd2W8odlBb7Wxt+Hmbtrb
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ1PR12MB6364
+X-MS-Exchange-CrossTenant-UserPrincipalName: OFKTiTSdo/WtOQYjuk9PJ1bgrO1/5l70Hg6Wo2/n9njVMrplBpwhqEXyZVg8FpWYEaumherxZsSkJdO3oHO9wgstHmb3dgIXlLO/PDGPBw0=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR11MB7099
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -127,163 +159,72 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: robdclark@chromium.org, thomas.hellstrom@linux.intel.com, airlied@linux.ie,
- lina@asahilina.net, dri-devel@lists.freedesktop.org,
- boris.brezillon@collabora.com, intel-xe@lists.freedesktop.org,
- faith.ekstrand@collabora.com
+Cc: Chris Wilson <chris.p.wilson@linux.intel.com>, "Roper,
+ Matthew D" <matthew.d.roper@intel.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 04.04.23 um 15:37 schrieb Matthew Brost:
-> On Tue, Apr 04, 2023 at 11:13:28AM +0200, Christian König wrote:
->> Hi,
+On 04/04/2023 19:04, Yang, Fei wrote:
+>> Subject: Re: [Intel-gfx] [PATCH 7/7] drm/i915: Allow user to set cache at BO creation
 >>
->> Am 04.04.23 um 02:22 schrieb Matthew Brost:
->>> Hello,
+>> On 01/04/2023 09:38, fei.yang@intel.com wrote:
+>>> From: Fei Yang <fei.yang@intel.com>
 >>>
->>> As a prerequisite to merging the new Intel Xe DRM driver [1] [2], we
->>> have been asked to merge our common DRM scheduler patches first as well
->>> as develop a common solution for long running workloads with the DRM
->>> scheduler. This RFC series is our first attempt at doing this. We
->>> welcome any and all feedback.
+>>> To comply with the design that buffer objects shall have immutable
+>>> cache setting through out its life cycle, {set, get}_caching ioctl's
+>>> are no longer supported from MTL onward. With that change caching
+>>> policy can only be set at object creation time. The current code
+>>> applies a default (platform dependent) cache setting for all objects.
+>>> However this is not optimal for performance tuning. The patch extends
+>>> the existing gem_create uAPI to let user set PAT index for the object
+>>> at creation time.
+>>> The new extension is platform independent, so UMD's can switch to
+>>> using this extension for older platforms as well, while {set,
+>>> get}_caching are still supported on these legacy paltforms for compatibility reason.
 >>>
->>> This can we thought of as 4 parts detailed below.
->>>
->>> - DRM scheduler changes for 1 to 1 relationship between scheduler and
->>> entity (patches 1-3)
->>>
->>> In Xe all of the scheduling of jobs is done by a firmware scheduler (the
->>> GuC) which is a new paradigm WRT to the DRM scheduler and presents
->>> severals problems as the DRM was originally designed to schedule jobs on
->>> hardware queues. The main problem being that DRM scheduler expects the
->>> submission order of jobs to be the completion order of jobs even across
->>> multiple entities. This assumption falls apart with a firmware scheduler
->>> as a firmware scheduler has no concept of jobs and jobs can complete out
->>> of order. A novel solution for was originally thought of by Faith during
->>> the initial prototype of Xe, create a 1 to 1 relationship between scheduler
->>> and entity. I believe the AGX driver [3] is using this approach and
->>> Boris may use approach as well for the Mali driver [4].
->>>
->>> To support a 1 to 1 relationship we move the main execution function
->>> from a kthread to a work queue and add a new scheduling mode which
->>> bypasses code in the DRM which isn't needed in a 1 to 1 relationship.
->>> The new scheduling mode should unify all drivers usage with a 1 to 1
->>> relationship and can be thought of as using scheduler as a dependency /
->>> infligt job tracker rather than a true scheduler.
->>>
->>> - Generic messaging interface for DRM scheduler
->>>
->>> Idea is to be able to communicate to the submission backend with in band
->>> (relative to main execution function) messages. Messages are backend
->>> defined and flexable enough for any use case. In Xe we use these
->>> messages to clean up entites, set properties for entites, and suspend /
->>> resume execution of an entity [5]. I suspect other driver can leverage
->>> this messaging concept too as it a convenient way to avoid races in the
->>> backend.
->> Oh, please absolutely *don't* do this.
+>>> Cc: Chris Wilson <chris.p.wilson@linux.intel.com>
+>>> Cc: Matt Roper <matthew.d.roper@intel.com>
+>>> Signed-off-by: Fei Yang <fei.yang@intel.com>
+>>> Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com>
 >>
->> This is basically the design which makes a bunch of stuff so horrible broken
->> on Windows.
+>> Just like the protected content uAPI, there is no way for userspace to tell
+>> this feature is available other than trying using it.
 >>
->> I can explain it in more detail if necessary, but I strongly recommend to
->> not go down this path.
->>
-> I'm afraid we are going to have to discuss this further. Let me explain
-> my reasoning, basically the idea is to have a single main entry point to
-> backend - the work queue. This avoids the need for lock between run_job
-> and any message that changes an entites state, also it really helps
-> during the reset flows (either TDR or GT reset) as we can call
-> drm_sched_run_wq_stop can ensure that nothing else is in the backend
-> changing an entity state. It all works out really nicely actually, our
-> GuC backend is incredibly stable (hasn't really had a bug pop in about a
-> year) and way simpler than what we did in the i915. I think the simplity
-> to largely due to this design of limiting the entry points.
+>> Given the issues with protected content, is it not thing we could want to add?
+> Sorry I'm not aware of the issues with protected content, could you elaborate?
+> There was a long discussion on teams uAPI channel, could you comment there if
+> any concerns?
 >
-> I personally don't see how this a poor design, limiting entry points
-> absolutely makes sense to me, if it didn't why not just call cleanup_job
-> bypassing the main execution thread (now worker), this is the exact same
-> concept.
+> https://teams.microsoft.com/l/message/19:f1767bda6734476ba0a9c7d147b928d1@thread.skype/1675860924675?tenantId=46c98d88-e344-4ed4-8496-4ed7712e255d&groupId=379f3ae1-d138-4205-bb65-d4c7d38cb481&parentMessageId=1675860924675&teamName=GSE%20OSGC&channelName=i915%20uAPI%20changes&createdTime=1675860924675&allowXTenantAccess=false
+>
+> Thanks,
+> -Fei
 
-Well then I strongly suggest to read a few analyses on the failure of 
-the message processing loop on Windows.
 
-Have you ever wondered why classic Win32 applications sometimes seems to 
-be stuck and don't do anything? This design pattern combine with 
-timeouts to solve deadlocks is the reason for that.
+We wanted to have a getparam to detect protected support and were told 
+to detect it by trying to create a context with it.
 
-The major problem with this approach is that analyzing tools like 
-lockdep have a hard time grasping the dependencies.
+Now it appears trying to create a protected context can block for 
+several seconds.
 
-What you can do is to offload all your operations which are supposed to 
-be run in the same thread as work items into a work queue. This is 
-something lockdep understands and is able to scream out lout if someone 
-messes up the deadlock dependencies.
+Since we have to report capabilities to the user even before it creates 
+protected contexts, any app is at risk of blocking.
 
-Regards,
-Christian.
+
+-Lionel
+
 
 >
-> FWIW Asahi liked the idea as well and think it could be useful for AGX.
-> Matt
->
->> Regards,
->> Christian.
+>> Thanks,
 >>
->>> - Support for using TDR for all error paths of a scheduler / entity
->>>
->>> Fix a few races / bugs, add function to dynamically set the TDR timeout.
->>>
->>> - Annotate dma-fences for long running workloads.
->>>
->>> The idea here is to use dma-fences only as sync points within the
->>> scheduler and never export them for long running workloads. By
->>> annotating these fences as long running we ensure that these dma-fences
->>> are never used in a way that breaks the dma-fence rules. A benefit of
->>> thus approach is the scheduler can still safely flow control the
->>> execution ring buffer via the job limit without breaking the dma-fence
->>> rules.
->>>
->>> Again this a first draft and looking forward to feedback.
->>>
->>> Enjoy - Matt
->>>
->>> [1] https://gitlab.freedesktop.org/drm/xe/kernel
->>> [2] https://patchwork.freedesktop.org/series/112188/
->>> [3] https://patchwork.freedesktop.org/series/114772/
->>> [4] https://patchwork.freedesktop.org/patch/515854/?series=112188&rev=1
->>> [5] https://gitlab.freedesktop.org/drm/xe/kernel/-/blob/drm-xe-next/drivers/gpu/drm/xe/xe_guc_submit.c#L1031
->>>
->>> Matthew Brost (8):
->>>     drm/sched: Convert drm scheduler to use a work queue rather than
->>>       kthread
->>>     drm/sched: Move schedule policy to scheduler / entity
->>>     drm/sched: Add DRM_SCHED_POLICY_SINGLE_ENTITY scheduling policy
->>>     drm/sched: Add generic scheduler message interface
->>>     drm/sched: Start run wq before TDR in drm_sched_start
->>>     drm/sched: Submit job before starting TDR
->>>     drm/sched: Add helper to set TDR timeout
->>>     drm/syncobj: Warn on long running dma-fences
->>>
->>> Thomas Hellström (2):
->>>     dma-buf/dma-fence: Introduce long-running completion fences
->>>     drm/sched: Support long-running sched entities
->>>
->>>    drivers/dma-buf/dma-fence.c                 | 142 +++++++---
->>>    drivers/dma-buf/dma-resv.c                  |   5 +
->>>    drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c |  14 +-
->>>    drivers/gpu/drm/amd/amdgpu/amdgpu_device.c  |  15 +-
->>>    drivers/gpu/drm/drm_syncobj.c               |   5 +-
->>>    drivers/gpu/drm/etnaviv/etnaviv_sched.c     |   5 +-
->>>    drivers/gpu/drm/lima/lima_sched.c           |   5 +-
->>>    drivers/gpu/drm/msm/adreno/adreno_device.c  |   6 +-
->>>    drivers/gpu/drm/msm/msm_ringbuffer.c        |   5 +-
->>>    drivers/gpu/drm/panfrost/panfrost_job.c     |   5 +-
->>>    drivers/gpu/drm/scheduler/sched_entity.c    | 127 +++++++--
->>>    drivers/gpu/drm/scheduler/sched_fence.c     |   6 +-
->>>    drivers/gpu/drm/scheduler/sched_main.c      | 278 +++++++++++++++-----
->>>    drivers/gpu/drm/v3d/v3d_sched.c             |  25 +-
->>>    include/drm/gpu_scheduler.h                 | 130 +++++++--
->>>    include/linux/dma-fence.h                   |  60 ++++-
->>>    16 files changed, 649 insertions(+), 184 deletions(-)
+>> -Lionel
+>>
+>>
+>>> ---
+>>>    drivers/gpu/drm/i915/gem/i915_gem_create.c | 33 ++++++++++++++++++++
+>>>    include/uapi/drm/i915_drm.h                | 36 ++++++++++++++++++++++
+>>>    tools/include/uapi/drm/i915_drm.h          | 36 ++++++++++++++++++++++
+>>>    3 files changed, 105 insertions(+)
 >>>
 
