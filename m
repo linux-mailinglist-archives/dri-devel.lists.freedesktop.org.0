@@ -2,73 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C134A6D7B8F
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Apr 2023 13:41:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3089D6D7C04
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Apr 2023 13:54:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8BC0410E8F4;
-	Wed,  5 Apr 2023 11:41:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 66F3210E081;
+	Wed,  5 Apr 2023 11:54:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6EF6210E8F5
- for <dri-devel@lists.freedesktop.org>; Wed,  5 Apr 2023 11:40:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1680694857;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=FMtfoXjFIQVrdCvOYQIUXDgwaN1CMspVz9VQYCn9+jg=;
- b=a5mTOogrOG01oqhA9XIsdrx7nwivuH3a9UIsiGdCVERDTKDYEBb6h9bSejSLiPKC84Yl3B
- zZiFphlBu7u3AGm2rm2Hn89iUFLA8vsvhtGwmG3X8aOMLJpqWItDhrC5iEyYdeSfK6G7RW
- WoD1ndmVRmlyG062bY4wVPfb0+mgYlo=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-459-tyi7e6tdOdW9jDD_XT1dlw-1; Wed, 05 Apr 2023 07:40:56 -0400
-X-MC-Unique: tyi7e6tdOdW9jDD_XT1dlw-1
-Received: by mail-wm1-f69.google.com with SMTP id
- z20-20020a05600c0a1400b003edcff41678so1097764wmp.0
- for <dri-devel@lists.freedesktop.org>; Wed, 05 Apr 2023 04:40:55 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680694853;
- h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=FMtfoXjFIQVrdCvOYQIUXDgwaN1CMspVz9VQYCn9+jg=;
- b=NYVUHFY3X557fm7WM91wHbqCqaUHG3eDH5U9/dOIqniWxHtkp+noHS/xy5iC/5fy5Z
- FuMCLTWdVCmDDYtEq4xUqpR3lyi+ty9AxNSZuVCCBH2GDGbqQnL3i+EkfCZO28AK+k5X
- dqrVG/5iqlbvwBkEebY+lN77LWCIUz2P8wA/pw4qw8iEqUqgDcYh3od7PaXxmfAst7zb
- ZT8Nv4URXMS2kJHeksa7nSn6TzFj0mKqJwcidWyWmK+Y8LtRoX0pV2KNIcqo7VJGmcxx
- q1m/YzeS2Bwt+WCLb7JKTqFGMMggQr9M/pxRRpkHxvEuiZEg5Clg7cckFYExcLVTI30e
- aZJw==
-X-Gm-Message-State: AAQBX9eUtb3BtJe3HhVhwmvFW5vrMhKlYKoAwdHzfFZTjIVtIaLI06Hp
- ilb44Jv/n1x1pN5odqwydWuNwtlS5Qcl8DDhhFOAHmtBjKZ9zznzkjUjZAUapZBqbNZwfg4WjfP
- kExRHFbW4tVeolno7nYC8SLTo6Uc+
-X-Received: by 2002:a5d:5145:0:b0:2d4:e666:cab4 with SMTP id
- u5-20020a5d5145000000b002d4e666cab4mr3875077wrt.30.1680694853766; 
- Wed, 05 Apr 2023 04:40:53 -0700 (PDT)
-X-Google-Smtp-Source: AKy350YRI/C35exI7PaTkklaXJEKQwXJQOY29/Mn3ZPywaIUFNmaLxIzI36isEe9GLJeCe7pAxVLeA==
-X-Received: by 2002:a5d:5145:0:b0:2d4:e666:cab4 with SMTP id
- u5-20020a5d5145000000b002d4e666cab4mr3875063wrt.30.1680694853484; 
- Wed, 05 Apr 2023 04:40:53 -0700 (PDT)
-Received: from localhost (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- g22-20020a7bc4d6000000b003ed1f111fdesm1916150wmk.20.2023.04.05.04.40.53
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 05 Apr 2023 04:40:53 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>, DRI Development
- <dri-devel@lists.freedesktop.org>
-Subject: Re: [PATCH 8/8] fbdev: Simplify fb_is_primary_device for x86
-In-Reply-To: <20230404201842.567344-8-daniel.vetter@ffwll.ch>
-References: <20230404201842.567344-1-daniel.vetter@ffwll.ch>
- <20230404201842.567344-8-daniel.vetter@ffwll.ch>
-Date: Wed, 05 Apr 2023 13:40:47 +0200
-Message-ID: <87mt3mblq8.fsf@minerva.mail-host-address-is-not-set>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F0A5E10E063;
+ Wed,  5 Apr 2023 11:54:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1680695656; x=1712231656;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=v/UAYt6FgclzXPn6Zci7OWqTRMzuEHiCE/B94BvYIe0=;
+ b=BwvXKDSbWdbJM85kCzV/XPZ6r2LqhCG27IJplJwHPZyd8x0yfQapa85j
+ DTb+Yxi1FkhjGAjofoo4eRNzavDVovpKc8kV8io5+9K/+S/k6uq50K+bV
+ TJovO5X2YXZv8i3q6owZEMhv5E4Qayo7B2sAesbY4tYlEridrm2BmHq2n
+ +MS5BYQ/qGfC9UTB8A4MI1noUYRI8OB0HRnuvrobWc/0S/H3+2VBYqS3a
+ R+MA7UuWwMowOPBiYq4fR0SD2l0+T4+2xfmQgo3fwptqv2bYFlfa4rrLG
+ NqBljPNmVcD5zbUsauzaRma3LTXBqiWBq0ybEPBAvER3CPIf/QOIuOOjP g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10670"; a="331032103"
+X-IronPort-AV: E=Sophos;i="5.98,319,1673942400"; d="scan'208";a="331032103"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Apr 2023 04:54:15 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10670"; a="776030352"
+X-IronPort-AV: E=Sophos;i="5.98,319,1673942400"; d="scan'208";a="776030352"
+Received: from amadden-mobl1.ger.corp.intel.com (HELO intel.com)
+ ([10.252.53.144])
+ by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Apr 2023 04:54:12 -0700
+Date: Wed, 5 Apr 2023 13:53:45 +0200
+From: Andi Shyti <andi.shyti@linux.intel.com>
+To: "Das, Nirmoy" <nirmoy.das@linux.intel.com>
+Subject: Re: [PATCH 1/5] drm/i915/ttm: Add I915_BO_PREALLOC
+Message-ID: <ZC1hSRRKyU92kQ86@ashyti-mobl2.lan>
+References: <20230404143100.10452-1-nirmoy.das@intel.com>
+ <ZCxO9WeZHvINgMP8@ashyti-mobl2.lan>
+ <6131a80c-a23c-ee17-3144-327b66f636bf@linux.intel.com>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+Content-Type: text/plain; charset=iso-8859-15
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <6131a80c-a23c-ee17-3144-327b66f636bf@linux.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,64 +61,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: x86@kernel.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Dave Hansen <dave.hansen@linux.intel.com>, Ingo Molnar <mingo@redhat.com>,
- Borislav Petkov <bp@alien8.de>, Thomas Zimmermann <tzimmermann@suse.de>,
- "H. Peter Anvin" <hpa@zytor.com>, Daniel Vetter <daniel.vetter@intel.com>,
- Thomas Gleixner <tglx@linutronix.de>, Helge Deller <deller@gmx.de>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Jani Nikula <jani.nikula@intel.com>, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, Matthew Auld <matthew.auld@intel.com>,
+ Andi Shyti <andi.shyti@linux.intel.com>, Nirmoy Das <nirmoy.das@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Daniel Vetter <daniel.vetter@ffwll.ch> writes:
+Hi Nirmoy,
 
-> vga_default_device really is supposed to cover all corners, at least
-> for x86. Additionally checking for rom shadowing should be redundant,
-> because the bios/fw only does that for the boot vga device.
->
-> If this turns out to be wrong, then most likely that's a special case
-> which should be added to the vgaarb code, not replicated all over.
->
-> Patch motived by changes to the aperture helpers, which also have this
-> open code in a bunch of places, and which are all removed in a
-> clean-up series. This function here is just for selecting the default
-> fbdev device for fbcon, but I figured for consistency it might be good
-> to throw this patch in on top.
->
-> Note that the shadow rom check predates vgaarb, which was only wired
-> up in 88674088d10c ("x86: Use vga_default_device() when determining
-> whether an fb is primary"). That patch doesn't explain why we still
-> fall back to the shadow rom check.
->
-> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-> Cc: Helge Deller <deller@gmx.de>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Cc: Javier Martinez Canillas <javierm@redhat.com>
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: Thomas Gleixner <tglx@linutronix.de>
-> Cc: Ingo Molnar <mingo@redhat.com>
-> Cc: Borislav Petkov <bp@alien8.de>
-> Cc: Dave Hansen <dave.hansen@linux.intel.com>
-> Cc: x86@kernel.org
-> Cc: "H. Peter Anvin" <hpa@zytor.com>
-> ---
->  arch/x86/video/fbdev.c | 13 +------------
+> > > Add a mechanism to keep existing data when creating
+> > > a ttm object with I915_BO_ALLOC_USER flag.
+> > why do we need this mechanism? What was the logic behind? These
+> > are all questions people might have when checking this commit.
+> > Please be a bit more explicative.
+> 
+> 
+> Agree, the commit message is bit short. I will add more content in next
+> revision.
 
-[...]
+you don't need to send a new version just for this commit log.
 
-> +	if (pci_dev == vga_default_device())
->  		return 1;
->  	return 0;
+You could just propose a new commit log in the reply and if it's
+OK, add it before pushing it.
 
-or just return pci_dev == vga_default_device() ;
+As you wish.
 
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+Andi
 
--- 
-Best regards,
-
-Javier Martinez Canillas
-Core Platforms
-Red Hat
-
+> > 
+> > > Cc: Matthew Auld <matthew.auld@intel.com>
+> > > Cc: Andi Shyti <andi.shyti@linux.intel.com>
+> > > Cc: Andrzej Hajda <andrzej.hajda@intel.com>
+> > > Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
+> > > Cc: Jani Nikula <jani.nikula@intel.com>
+> > > Cc: Imre Deak <imre.deak@intel.com>
+> > > Signed-off-by: Nirmoy Das <nirmoy.das@intel.com>
+> > Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com>
+> 
+> 
+> Thanks,
+> 
+> Nirmoy
+> 
+> > 
+> > Thanks,
+> > Andi
