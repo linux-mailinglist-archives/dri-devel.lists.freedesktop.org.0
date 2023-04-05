@@ -1,107 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A6356D86E0
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Apr 2023 21:29:11 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 252516D871A
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Apr 2023 21:42:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8D22310E399;
-	Wed,  5 Apr 2023 19:29:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5206410E3C4;
+	Wed,  5 Apr 2023 19:42:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com
- [IPv6:2a00:1450:4864:20::631])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F1FE910E399
- for <dri-devel@lists.freedesktop.org>; Wed,  5 Apr 2023 19:29:06 +0000 (UTC)
-Received: by mail-ej1-x631.google.com with SMTP id
- a640c23a62f3a-930bc91df7bso120828066b.1
- for <dri-devel@lists.freedesktop.org>; Wed, 05 Apr 2023 12:29:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1680722945;
- h=in-reply-to:content-disposition:mime-version:references
- :mail-followup-to:message-id:subject:to:from:date:from:to:cc:subject
- :date:message-id:reply-to;
- bh=HjS4xiLUH8Vl6mwX+ydicDNhQfS/HlIJ5pcb18flIFA=;
- b=FBmtIvVfM4pGQI0Ecn5kpWqT9ewv/aw4Fo78eRrx1HwuZBp4iXUV5H057Luk2hvw2u
- ulz9ur/hM3WMIFn4fbzHBA2uvVARF0Kv0zsR5L7enELuauqiMc0abH4qMusRV/lI+9z6
- rMCS6thBW9YJ4KbSlkrUTkyEBTGwzwnZC74V4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680722945;
- h=in-reply-to:content-disposition:mime-version:references
- :mail-followup-to:message-id:subject:to:from:date:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=HjS4xiLUH8Vl6mwX+ydicDNhQfS/HlIJ5pcb18flIFA=;
- b=jH1MZglt/JfwfGKUhvbQF2aV8pmGqckoElTGwH1qO5AkSwdUsiBTIbI2m28ekZ2SLL
- Idi8kH+k/4i2ZbXps6QT+fpbODXImUOu/WqujUWoNTAFggfymw1Qs2HI6df4RSlqv8jC
- qHV6pISOfsBY3HMPHf1YsAMkQKUWeSR51pM8RZ+PNFlxY1MJUs4WlAUu9C2v+T54pVcG
- d0qsKwb4pVmc3znqVJ2lCWvL/6cgBnQgtUkA8NyeQ2NRyc06OXqzD2M/Y/QFvIBGTTFt
- lhpCUeo1/CI4TlcxnDI/pdo06R7fCxKP6qHY8/owH3dFYAKoBq/hQR1iCEs6mP4aYPET
- j56Q==
-X-Gm-Message-State: AAQBX9eRUQABzHJXJrb/gWUuhBvDLzS0fwkBJetxFzYsP68HTYXicVwB
- T2f/2FVqJsp+7Kc0iTBVYp8LZg==
-X-Google-Smtp-Source: AKy350YXaXE3UsMcWjKsIKz3/lGkR1neWBZc+WNbMetS2a0zQrsKbODyiNsB5M3OyGWh53lfa89J9Q==
-X-Received: by 2002:a05:6402:524e:b0:500:3fd0:25a8 with SMTP id
- t14-20020a056402524e00b005003fd025a8mr3953373edd.0.1680722945234; 
- Wed, 05 Apr 2023 12:29:05 -0700 (PDT)
-Received: from phenom.ffwll.local (212-51-149-33.fiber7.init7.net.
- [212.51.149.33]) by smtp.gmail.com with ESMTPSA id
- cq5-20020a056402220500b005023ddb37eesm7596632edb.8.2023.04.05.12.29.03
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 05 Apr 2023 12:29:04 -0700 (PDT)
-Date: Wed, 5 Apr 2023 21:29:02 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Asahi Lina <lina@asahilina.net>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Miguel Ojeda <ojeda@kernel.org>,
- Alex Gaynor <alex.gaynor@gmail.com>,
- Wedson Almeida Filho <wedsonaf@gmail.com>,
- Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
- =?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- Luben Tuikov <luben.tuikov@amd.com>, Jarkko Sakkinen <jarkko@kernel.org>,
- Dave Hansen <dave.hansen@linux.intel.com>,
- Alyssa Rosenzweig <alyssa@rosenzweig.io>,
- Karol Herbst <kherbst@redhat.com>, Ella Stanforth <ella@iglunix.org>,
- Faith Ekstrand <faith.ekstrand@collabora.com>,
- Mary <mary@mary.zone>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
- linux-sgx@vger.kernel.org, asahi@lists.linux.dev
-Subject: Re: [PATCH RFC 12/18] rust: drm: sched: Add GPU scheduler abstraction
-Message-ID: <ZC3L/uinmOwI+FbI@phenom.ffwll.local>
-Mail-Followup-To: Asahi Lina <lina@asahilina.net>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Miguel Ojeda <ojeda@kernel.org>,
- Alex Gaynor <alex.gaynor@gmail.com>,
- Wedson Almeida Filho <wedsonaf@gmail.com>,
- Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
- =?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- Luben Tuikov <luben.tuikov@amd.com>,
- Jarkko Sakkinen <jarkko@kernel.org>,
- Dave Hansen <dave.hansen@linux.intel.com>,
- Alyssa Rosenzweig <alyssa@rosenzweig.io>,
- Karol Herbst <kherbst@redhat.com>,
- Ella Stanforth <ella@iglunix.org>,
- Faith Ekstrand <faith.ekstrand@collabora.com>,
- Mary <mary@mary.zone>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
- linux-sgx@vger.kernel.org, asahi@lists.linux.dev
-References: <20230307-rust-drm-v1-0-917ff5bc80a8@asahilina.net>
- <20230307-rust-drm-v1-12-917ff5bc80a8@asahilina.net>
- <ZC2XBfJGAdNMQjpZ@phenom.ffwll.local>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZC2XBfJGAdNMQjpZ@phenom.ffwll.local>
-X-Operating-System: Linux phenom 6.1.0-7-amd64 
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 34C2D10E43A;
+ Wed,  5 Apr 2023 19:42:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1680723753; x=1712259753;
+ h=date:message-id:from:to:cc:subject:in-reply-to:
+ references:mime-version;
+ bh=zOWt2TVon+Ce0FhL+7YyUEoG0mBxX0tjMyMVZfTU0Jk=;
+ b=C9AXz6+pYuV0nNdkDITke1HYbARG8TUPaGvx77JItIweWo9Rz1FPMt8O
+ nq8fQCJPqMCVHHVn+GGLf/ACuDufIy58zzqnOYHQxQh+xygvT3N8+fHrc
+ /pbQGE3p22UQg/2H+TGuBQb9InbS2WOP5fYCfKQ3eaPpg6keZlqILJOlc
+ mxdUwvlZNGVnw5vfoQhhl+/1iX3ck0uZz7iFEvlWAbVZnRCRBKCMgQmmo
+ xTooQ4gc1kmri3EQn565SDcpHH9xl3IyistrviFtB5CHKhKe9OMn0bs8X
+ iqCpT5eoIpJxR/BgVRbMwbEQ+8xpEzCmD7CcMZArZ4tMW8geLJ7ZSiPtY A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10671"; a="345139781"
+X-IronPort-AV: E=Sophos;i="5.98,321,1673942400"; d="scan'208";a="345139781"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Apr 2023 12:42:32 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10671"; a="756106929"
+X-IronPort-AV: E=Sophos;i="5.98,321,1673942400"; d="scan'208";a="756106929"
+Received: from adixit-mobl.amr.corp.intel.com (HELO adixit-arch.intel.com)
+ ([10.209.39.173])
+ by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Apr 2023 12:42:30 -0700
+Date: Wed, 05 Apr 2023 12:42:30 -0700
+Message-ID: <871qkyp13t.wl-ashutosh.dixit@intel.com>
+From: "Dixit, Ashutosh" <ashutosh.dixit@intel.com>
+To: Rodrigo Vivi <rodrigo.vivi@intel.com>
+Subject: Re: [Intel-gfx] [PATCH] i915/guc/slpc: Provide sysfs for efficient
+ freq
+In-Reply-To: <ZC1+Vn+ickyupCBI@intel.com>
+References: <20230401020049.3843873-1-vinay.belgaumkar@intel.com>	<877cuwguu6.wl-ashutosh.dixit@intel.com>	<ZC1+Vn+ickyupCBI@intel.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?ISO-8859-4?Q?Goj=F2?=) APEL-LB/10.8 EasyPG/1.0.0
+ Emacs/28.2 (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -114,48 +61,120 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Vinay Belgaumkar <vinay.belgaumkar@intel.com>,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Apr 05, 2023 at 05:43:01PM +0200, Daniel Vetter wrote:
-> On Tue, Mar 07, 2023 at 11:25:37PM +0900, Asahi Lina wrote:
-> > +/// An armed DRM scheduler job (not yet submitted)
-> > +pub struct ArmedJob<'a, T: JobImpl>(Box<Job<T>>, PhantomData<&'a T>);
-> > +
-> > +impl<'a, T: JobImpl> ArmedJob<'a, T> {
-> > +    /// Returns the job fences
-> > +    pub fn fences(&self) -> JobFences<'_> {
-> > +        JobFences(unsafe { &mut *self.0.job.s_fence })
-> > +    }
-> > +
-> > +    /// Push the job for execution into the scheduler
-> > +    pub fn push(self) {
-> > +        // After this point, the job is submitted and owned by the scheduler
-> > +        let ptr = match self {
-> > +            ArmedJob(job, _) => Box::<Job<T>>::into_raw(job),
-> > +        };
-> 
-> If I get this all right then this all makes sure that drivers can't use
-> the job after push and they don't forgot to call arm.
-> 
-> What I'm not seeing is how we force drivers to call push once they've
-> called arm? I haven't check what the code does, but from the docs it
-> sounds like if you don't call push then drop will get called. Which wreaks
-> the book-keeping on an armed job. Or is there someting that prevents
-> ArmedJob<T> from having the Drop trait and so the only way to not go boom
-> is by pushing it?
-> 
-> Googling for "rust undroppable" seems to indicate that this isn't a thing
-> rust can do?
+On Wed, 05 Apr 2023 06:57:42 -0700, Rodrigo Vivi wrote:
+>
 
-Another thing that I just realized: The driver must ensure that the
-arm->push sequence on a given drm_sched_entity isn't interrupte by another
-thread doing the same, i.e. you need to wrap it all in a lock, and it
-always needs to be the same lock for a given entity.
+Hi Rodrigo,
 
-I have no idea how to guarantee that, but I guess somehow we should?
--Daniel
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+> On Fri, Mar 31, 2023 at 08:11:29PM -0700, Dixit, Ashutosh wrote:
+> > On Fri, 31 Mar 2023 19:00:49 -0700, Vinay Belgaumkar wrote:
+> > >
+> >
+> > Hi Vinay,
+> >
+> > > @@ -478,20 +507,15 @@ int intel_guc_slpc_set_min_freq(struct intel_guc_slpc *slpc, u32 val)
+> > >	    val > slpc->max_freq_softlimit)
+> > >		return -EINVAL;
+> > >
+> > > +	/* Ignore efficient freq if lower min freq is requested */
+> > > +	ret = intel_guc_slpc_set_ignore_eff_freq(slpc, val < slpc->rp1_freq);
+> > > +	if (ret)
+> > > +		goto out;
+> > > +
+> >
+> > I don't agree with this. If we are now providing an interface explicitly to
+> > ignore RPe, that should be /only/ way to ignore RPe. There should be no
+> > other "under the hood" ignoring of RPe. In other words, ignoring RPe should
+> > be minimized unless explicitly requested.
+> >
+> > I don't clearly understand why this was done previously but it makes even
+> > less sense to me now after this patch.
+>
+> well, I had suggested this previously. And just because without this we would
+> be breaking API expectations.
+>
+> When user selects a minimal frequency it expect that to stick. But with the
+> efficient freq enabled in guc if minimal is less than the efficient one,
+> this request is likely ignored.
+>
+> Well, even worse is that we are actually caching the request in the soft values.
+> So we show a minimal, but the hardware without any workload is operating at
+> efficient.
+>
+> So, the thought process was: 'if user requested a very low minimal, we give them
+> the minimal requested, even if that means to disable the efficient freq.'
+
+Hmm, I understand this even less now :)
+
+* Why is RPe ignored when min < RPe? Since the freq can be between min and
+  max? Shouldn't the condition be min > RPe, that is turn RPe off if min
+  higher that RPe is requested?
+
+* Also isn't RPe dynamic, so we can't say RPe == rp1 when using in KMD?
+
+* Finally, we know that enabling RPe broke the kernel freq API because RPe
+  could go over max_freq. So it is actually the max freq which is not
+  obeyed after RPe is enabled.
+
+So we ignore RPe in some select cases (which also I don't understand as
+mentioned above but maybe I am missing something) to claim that we are
+obeying the freq API, but let the freq API stay broken in other cases?
+
+> So, that was introduced to avoid API breakage. Removing it now would mean
+> breaking API. (Not sure if the IGT tests for the API got merged already,
+> but think that as the API contract).
+
+I think we should take this patch as an opportunity to fix this and give
+the user a clean interface to ignore RPe and remove this other implicit way
+to ignore RPe. All IGT changes are unmerged at present.
+
+Thanks.
+--
+Ashutosh
+
+
+
+>
+> But I do agree with you that having something selected from multiple places
+> also has the potential to cause some miss-expectations. So I was thinking
+> about multiple even orders where the user select the RP0 as minimal, then
+> enable the efficient or vice versa, but I couldn't think of a bad case.
+> Or at least not as bad as the user asking to get RP0 as minimal and only
+> getting RPe back.
+>
+> With this in mind, and having checked the code:
+>
+> Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
+>
+> But I won't push this immediately because I'm still open to hear another
+> side/angle.
+>
+> >
+> > Thanks.
+> > --
+> > Ashutosh
+> >
+> >
+> > >	/* Need a lock now since waitboost can be modifying min as well */
+> > >	mutex_lock(&slpc->lock);
+> > >	wakeref = intel_runtime_pm_get(&i915->runtime_pm);
+> > >
+> > > -	/* Ignore efficient freq if lower min freq is requested */
+> > > -	ret = slpc_set_param(slpc,
+> > > -			     SLPC_PARAM_IGNORE_EFFICIENT_FREQUENCY,
+> > > -			     val < slpc->rp1_freq);
+> > > -	if (ret) {
+> > > -		guc_probe_error(slpc_to_guc(slpc), "Failed to toggle efficient freq: %pe\n",
+> > > -				ERR_PTR(ret));
+> > > -		goto out;
+> > > -	}
+> > > -
+> > >	ret = slpc_set_param(slpc,
+> > >			     SLPC_PARAM_GLOBAL_MIN_GT_UNSLICE_FREQ_MHZ,
+> > >			     val);
