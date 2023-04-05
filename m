@@ -1,59 +1,78 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62DFE6D8834
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Apr 2023 22:26:50 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9EDA66D88C2
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Apr 2023 22:39:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ACD4610E22E;
-	Wed,  5 Apr 2023 20:26:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7C9BE10E569;
+	Wed,  5 Apr 2023 20:39:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4F70B10E22E;
- Wed,  5 Apr 2023 20:26:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1680726406; x=1712262406;
- h=mime-version:content-transfer-encoding:in-reply-to:
- references:subject:from:cc:to:date:message-id;
- bh=qaKusVN7CdjCGVJHkao8zVo8wm1oK87hwBXuCZ3VQSg=;
- b=QA+mYkwjhTgxIPEf4sAM8NsujNPySVfIaZp060V6dNZzwx+WEAkCVFb4
- bzfCetx9Yn7u9B1iURp9XHBJsh1okejt47lddzcQSa2b5D/o4SCS4zNSp
- PsPU2QZRTVfUnnddER6w0iMbJwsKrfh3R4mNiYO8pCZ+6H96ep08+pxw7
- H7/SKY9YcOkdNnWO8D6cpbVo0wWGejMGlCFBU2flp/9e5r4ewdQQpblgE
- saR1nwoiWs6BMfjwz3WIG3L17azAHlWBwWwmSsXPNgXx9tCuBfkg48Bmx
- C+2WqYXdEkNCJtEeNwBPTWBHw5mxGZY0MuqgzwXku9VrjCIqMBTyim6Ed A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10671"; a="326595288"
-X-IronPort-AV: E=Sophos;i="5.98,321,1673942400"; d="scan'208";a="326595288"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Apr 2023 13:26:45 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10671"; a="1016609461"
-X-IronPort-AV: E=Sophos;i="5.98,321,1673942400"; d="scan'208";a="1016609461"
-Received: from srismrit-mobl1.amr.corp.intel.com (HELO localhost)
- ([10.209.18.251])
- by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Apr 2023 13:26:44 -0700
-Content-Type: text/plain; charset="utf-8"
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E95B010E29D;
+ Wed,  5 Apr 2023 20:39:32 +0000 (UTC)
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 335KaE5I016550; Wed, 5 Apr 2023 20:39:29 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=xKojwkrbLVuuB+GLIH2O88EU75DH9K1culwn4sx9p4M=;
+ b=Sjxk2XRxHO8+OGhZCEEVzS15azB5Ay40YOLe/m5hj89KGmr0SMxIsw7jX/g3N+EF6dP5
+ dS8io9yVdz7pwZHg7d9wmgAMJ4KXqtTfbJjCOxyu7MCHrmW0QmxX+0CBto3nATliUyeY
+ GFnQXQKUs3jB3++0Rfu3CpjBE/pkpSfINXZR6+35E51ZbIwdFTO3QhQjIH/bfyGFGsne
+ /7Xe4izsAT0d9Gj5s2Q1KxIsYTPMBWgvj8tfFFJVwwwbcZ4r+Anu94Fqv6AEziMkn6LJ
+ 8JJB4kMkbTBU7BsfbBgYtTOUGbZ5L9qHfucnetBIczSCnCRxaGozoqEYdTUg335Fqdjt Qw== 
+Received: from nasanppmta05.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3prn7qkx1q-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 05 Apr 2023 20:39:29 +0000
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
+ [10.46.141.250])
+ by NASANPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 335KdSkc001775
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 5 Apr 2023 20:39:28 GMT
+Received: from [10.71.110.193] (10.80.80.8) by nasanex01b.na.qualcomm.com
+ (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Wed, 5 Apr 2023
+ 13:39:27 -0700
+Message-ID: <89b15ad1-773e-314f-a7f1-e03169ca9195@quicinc.com>
+Date: Wed, 5 Apr 2023 13:39:27 -0700
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <7fd9424a-678a-0d90-715c-f63179552093@intel.com>
-References: <20230401063830.438127-1-fei.yang@intel.com>
- <20230401063830.438127-8-fei.yang@intel.com>
- <7aa541f8-55e3-a182-5390-6ca161edb70b@intel.com>
- <BYAPR11MB256790AC5BDC891F186E000E9A939@BYAPR11MB2567.namprd11.prod.outlook.com>
- <7fd9424a-678a-0d90-715c-f63179552093@intel.com>
-Subject: Re: [Intel-gfx] [PATCH 7/7] drm/i915: Allow user to set cache at BO
- creation
-From: Jordan Justen <jordan.l.justen@intel.com>
-To: "Yang, Fei" <fei.yang@intel.com>,
- Lionel Landwerlin <lionel.g.landwerlin@intel.com>,
- intel-gfx@lists.freedesktop.org
-Date: Wed, 05 Apr 2023 13:26:43 -0700
-Message-ID: <168072640394.392286.10003850953246720395@jljusten-skl>
-User-Agent: alot/0.10
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH v4 4/6] drm/msm/dsi: Use MSM and DRM DSC helper methods
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ <freedreno@lists.freedesktop.org>
+References: <20230329-rfc-msm-dsc-helper-v4-0-1b79c78b30d7@quicinc.com>
+ <20230329-rfc-msm-dsc-helper-v4-4-1b79c78b30d7@quicinc.com>
+ <1cf2d02a-e8d7-1aa8-de3f-3321295d2d09@linaro.org>
+From: Jessica Zhang <quic_jesszhan@quicinc.com>
+In-Reply-To: <1cf2d02a-e8d7-1aa8-de3f-3321295d2d09@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: wqItgUEBPYRjWwaRI1Eq9i9bUqIV-Usr
+X-Proofpoint-GUID: wqItgUEBPYRjWwaRI1Eq9i9bUqIV-Usr
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-04-05_14,2023-04-05_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 impostorscore=0
+ lowpriorityscore=0 spamscore=0 mlxlogscore=999 suspectscore=0 adultscore=0
+ bulkscore=0 mlxscore=0 priorityscore=1501 phishscore=0 malwarescore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2303200000
+ definitions=main-2304050184
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,54 +85,101 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Roper, Matthew D" <matthew.d.roper@intel.com>,
- Chris Wilson <chris.p.wilson@linux.intel.com>, dri-devel@lists.freedesktop.org
+Cc: linux-arm-msm@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ dri-devel@lists.freedesktop.org, Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>, Sean Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2023-04-05 00:45:24, Lionel Landwerlin wrote:
-> On 04/04/2023 19:04, Yang, Fei wrote:
-> >> Subject: Re: [Intel-gfx] [PATCH 7/7] drm/i915: Allow user to set cache=
- at BO creation
-> >>
-> >> Just like the protected content uAPI, there is no way for userspace to=
- tell
-> >> this feature is available other than trying using it.
-> >>
-> >> Given the issues with protected content, is it not thing we could want=
- to add?
-> > Sorry I'm not aware of the issues with protected content, could you ela=
-borate?
-> > There was a long discussion on teams uAPI channel, could you comment th=
-ere if
-> > any concerns?
-> >
->=20
-> We wanted to have a getparam to detect protected support and were told=20
-> to detect it by trying to create a context with it.
->=20
 
-An extensions system where the detection mechanism is "just try it",
-and assume it's not supported if it fails. ??
 
-This seem likely to get more and more problematic as a detection
-mechanism as more extensions are added.
+On 4/5/2023 12:27 PM, Dmitry Baryshkov wrote:
+> On 05/04/2023 03:41, Jessica Zhang wrote:
+>> Use MSM and DRM DSC helper methods to configure DSC for DSI.
+>>
+>> Changes in V2:
+>> - *_calculate_initial_scale_value --> *_set_initial_scale_value
+>> - Split pkt_per_line and eol_byte_num changes to a separate patch
+>> - Moved pclk_per_line calculation to hdisplay adjustment in `if (dsc)`
+>>    block of dsi_update_dsc_timing()
+>>
+>> Changes in v3:
+>> - Split pclk_per_intf calculation into a separate patch
+>> - Added slice_width check to dsi_timing_setup
+>> - Used MSM DSC helper to calculate total_bytes_per_intf
+>>
+>> Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
+>> ---
+>>   drivers/gpu/drm/msm/dsi/dsi_host.c | 13 ++++++++++---
+>>   1 file changed, 10 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c 
+>> b/drivers/gpu/drm/msm/dsi/dsi_host.c
+>> index 74d38f90398a..6a6218a9655f 100644
+>> --- a/drivers/gpu/drm/msm/dsi/dsi_host.c
+>> +++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
+>> @@ -28,6 +28,7 @@
+>>   #include "dsi.xml.h"
+>>   #include "sfpb.xml.h"
+>>   #include "dsi_cfg.h"
+>> +#include "msm_dsc_helper.h"
+>>   #include "msm_kms.h"
+>>   #include "msm_gem.h"
+>>   #include "phy/dsi_phy.h"
+>> @@ -848,7 +849,7 @@ static void dsi_update_dsc_timing(struct 
+>> msm_dsi_host *msm_host, bool is_cmd_mod
+>>       /* first calculate dsc parameters and then program
+>>        * compress mode registers
+>>        */
+>> -    slice_per_intf = DIV_ROUND_UP(hdisplay, dsc->slice_width);
+>> +    slice_per_intf = msm_dsc_get_slice_per_intf(dsc, hdisplay);
+>>       /*
+>>        * If slice_count is greater than slice_per_intf
+>> @@ -858,7 +859,7 @@ static void dsi_update_dsc_timing(struct 
+>> msm_dsi_host *msm_host, bool is_cmd_mod
+>>       if (dsc->slice_count > slice_per_intf)
+>>           dsc->slice_count = 1;
+>> -    total_bytes_per_intf = dsc->slice_chunk_size * slice_per_intf;
+>> +    total_bytes_per_intf = msm_dsc_get_bytes_per_intf(dsc, hdisplay);
+>>       eol_byte_num = total_bytes_per_intf % 3;
+>>       pkt_per_line = slice_per_intf / dsc->slice_count;
+>> @@ -936,6 +937,12 @@ static void dsi_timing_setup(struct msm_dsi_host 
+>> *msm_host, bool is_bonded_dsi)
+>>               return;
+>>           }
+>> +        if (!dsc->slice_width || (mode->hdisplay < dsc->slice_width)) {
+>> +            pr_err("DSI: invalid slice width %d (pic_width: %d)\n",
+>> +                   dsc->slice_width, mode->hdisplay);
+>> +            return;
+>> +        }
+> 
+> This is not the "use of MSM and DRM DSC helper methods" and thus should 
+> be moved to a separate patch.
 
->=20
-> Now it appears trying to create a protected context can block for=20
-> several seconds.
->=20
-> Since we have to report capabilities to the user even before it creates=20
-> protected contexts, any app is at risk of blocking.
->=20
+Hi Dmitry,
 
-This failure path is not causing any re-thinking about using this as
-the extension detection mechanism?
+Acked.
 
-Doesn't the ioctl# + input-struct-size + u64-extension# identify the
-extension such that the kernel could indicate if it is supported or
-not. (Or, perhaps return an array of the supported extensions so the
-umd doesn't have to potentially make many ioctls for each extension of
-interest.)
+Thanks,
 
--Jordan
+Jessica Zhang
+
+> 
+>> +
+>>           dsc->pic_width = mode->hdisplay;
+>>           dsc->pic_height = mode->vdisplay;
+>>           DBG("Mode %dx%d\n", dsc->pic_width, dsc->pic_height);
+>> @@ -1759,7 +1766,7 @@ static int dsi_populate_dsc_params(struct 
+>> msm_dsi_host *msm_host, struct drm_dsc
+>>           return ret;
+>>       }
+>> -    dsc->initial_scale_value = 32;
+>> +    drm_dsc_set_initial_scale_value(dsc);
+>>       dsc->line_buf_depth = dsc->bits_per_component + 1;
+>>       return drm_dsc_compute_rc_parameters(dsc);
+>>
+> 
+> -- 
+> With best wishes
+> Dmitry
+> 
