@@ -1,83 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D85E6D8424
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Apr 2023 18:54:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 801376D8438
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Apr 2023 18:56:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3074910E0BB;
-	Wed,  5 Apr 2023 16:54:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 762A210E189;
+	Wed,  5 Apr 2023 16:56:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 846FC10E0BB
- for <dri-devel@lists.freedesktop.org>; Wed,  5 Apr 2023 16:54:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1680713678;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=7oq6EGlBnkOylLqaxEYM/Gk/HlPbQ+uLWsUc2iC2TOw=;
- b=UzqwQlnyAI39wnFdr0sxlkeEi7Z/CzwNw+XlKrMXl3weix2+8teAxeZb8LwnHVv70IJYxt
- wVJ4923AzsHSaw68UQHQu6QmwMHSdwN37xHHaYHzL4GWTCbXUO1NQ4kAxDNrI/CtoMzN50
- gRdfObzSwH7TAzHPjLTtEATSmaXLaO0=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-622-gwOC_5MHP-C2NGkoxI7DwA-1; Wed, 05 Apr 2023 12:54:37 -0400
-X-MC-Unique: gwOC_5MHP-C2NGkoxI7DwA-1
-Received: by mail-wm1-f72.google.com with SMTP id
- m5-20020a05600c4f4500b003ee8db23ef9so19191051wmq.8
- for <dri-devel@lists.freedesktop.org>; Wed, 05 Apr 2023 09:54:37 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680713676;
- h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=7oq6EGlBnkOylLqaxEYM/Gk/HlPbQ+uLWsUc2iC2TOw=;
- b=fbohyV5+fG7hZWAQTZFK9/go36zcVm8NLrGFaeYGSsGFwCME3Uy2DpZ+n6hIl6tY+R
- y4yRwXUIkXHiehVFvs8HA7CQp5LbxjpOZc3qhRsj+YjRgRTg/4r4gVXVkFTXqpU+be1I
- lxdJfJNeTLo8DmKkYjCJ2l7F8BOHkEDMxJN7usHOqHhhytZHBNRWSp49prp3u/+qgDyN
- Ny3ywE/nNoJ6oqDbK32RCxbTyQRqEEx7BVigBKNYX2nGwDlgMACiFQihVntILglPPowL
- cKybtSN3z0TjCB9WI8JeEF5nOOOtiYyrdMCmAXZe9Y+SlSMqpxGJ5iw7V9tH31V1rTcU
- tD8g==
-X-Gm-Message-State: AAQBX9cRKspivdV+w9XEiWaMM4xp0eSnGvdggswskF+89KxvQtbeeV0i
- qSDoeSqcF4r6H1AG53cVHOH9btCW4cm8i9elVg5dUwMV1jfr/ZIPDyqDEGI1XHYvdK5td3USSet
- ywpFPSco8pv3ksF6kM59h5M4syrA+
-X-Received: by 2002:a5d:4904:0:b0:2e4:b9a3:4419 with SMTP id
- x4-20020a5d4904000000b002e4b9a34419mr4760599wrq.51.1680713676256; 
- Wed, 05 Apr 2023 09:54:36 -0700 (PDT)
-X-Google-Smtp-Source: AKy350YsWV1NZsm9PL9d146nk9+8BMVfIjYv3w+AWqlIEM2c8h5CeLBmJjgyrxOtEe+CW3pyVVa0sQ==
-X-Received: by 2002:a5d:4904:0:b0:2e4:b9a3:4419 with SMTP id
- x4-20020a5d4904000000b002e4b9a34419mr4760585wrq.51.1680713675983; 
- Wed, 05 Apr 2023 09:54:35 -0700 (PDT)
-Received: from localhost (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- u17-20020adfed51000000b002c6e8af1037sm15332930wro.104.2023.04.05.09.54.34
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 05 Apr 2023 09:54:34 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Daniel Vetter <daniel@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH 1/8] drm/gma500: Use
- drm_aperture_remove_conflicting_pci_framebuffers
-In-Reply-To: <ZC2beu/9inolwIlr@phenom.ffwll.local>
-References: <20230404201842.567344-1-daniel.vetter@ffwll.ch>
- <5556a755-01a1-3620-8693-0fc69c6f627d@suse.de>
- <3813a2f5-c74a-4760-34ce-1c88f187c91c@suse.de>
- <ZC04hoHywz0ySzAW@phenom.ffwll.local>
- <3fd03c4c-3be6-e56b-faec-bd67a58cda09@suse.de>
- <ZC1BlNCbXPlmAhj0@phenom.ffwll.local>
- <eee11545-2a78-4556-be82-5178ea09d0d8@suse.de>
- <877cuqd1f8.fsf@minerva.mail-host-address-is-not-set>
- <ZC11J3og4Kc9ta6m@phenom.ffwll.local>
- <242ab20f-affe-b55a-6068-5ea634705cf6@suse.de>
- <ZC2beu/9inolwIlr@phenom.ffwll.local>
-Date: Wed, 05 Apr 2023 18:54:33 +0200
-Message-ID: <87bkk29smu.fsf@minerva.mail-host-address-is-not-set>
+Received: from 189.cn (ptr.189.cn [183.61.185.103])
+ by gabe.freedesktop.org (Postfix) with ESMTP id CC98710E189
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 Apr 2023 16:56:04 +0000 (UTC)
+HMM_SOURCE_IP: 10.64.8.41:43120.1312103682
+HMM_ATTACHE_NUM: 0000
+HMM_SOURCE_TYPE: SMTP
+Received: from clientip-114.242.206.180 (unknown [10.64.8.41])
+ by 189.cn (HERMES) with SMTP id AD987100133;
+ Thu,  6 Apr 2023 00:56:00 +0800 (CST)
+Received: from  ([114.242.206.180])
+ by gateway-151646-dep-7b48884fd-bkw2h with ESMTP id
+ 215b7ac0545b4287bac99a04f52209a6 for emil.l.velikov@gmail.com; 
+ Thu, 06 Apr 2023 00:56:02 CST
+X-Transaction-ID: 215b7ac0545b4287bac99a04f52209a6
+X-Real-From: 15330273260@189.cn
+X-Receive-IP: 114.242.206.180
+X-MEDUSA-Status: 0
+Message-ID: <33afce11-8ccc-5e98-749b-5e6aa80b82f1@189.cn>
+Date: Thu, 6 Apr 2023 00:55:58 +0800
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH v10 2/2] drm: add kms driver for loongson display
+ controller
+From: Sui Jingfeng <15330273260@189.cn>
+To: Emil Velikov <emil.l.velikov@gmail.com>
+References: <20230403171304.2157326-1-suijingfeng@loongson.cn>
+ <20230403171304.2157326-3-suijingfeng@loongson.cn>
+ <CACvgo53h+X26wngVmxpn3oVb9kbJezTHx61p3rZDR7sw1AQrWQ@mail.gmail.com>
+ <ad715c40-70de-0fa8-37e9-2d80ee0ebe36@189.cn>
+Content-Language: en-US
+In-Reply-To: <ad715c40-70de-0fa8-37e9-2d80ee0ebe36@189.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,76 +55,336 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Daniel Vetter <daniel.vetter@intel.com>
+Cc: nathan@kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ Li Yi <liyi@loongson.cn>, linux-kernel@vger.kernel.org,
+ Christian Koenig <christian.koenig@amd.com>, linaro-mm-sig@lists.linaro.org,
+ dri-devel@lists.freedesktop.org, Sumit Semwal <sumit.semwal@linaro.org>,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Daniel Vetter <daniel@ffwll.ch> writes:
 
-> On Wed, Apr 05, 2023 at 04:32:19PM +0200, Thomas Zimmermann wrote:
-
-[...]
-
->> > > > 	/*
->> > > > 	 * WARNING: Apparently we must kick fbdev drivers before vgacon,
->> > > > 	 * otherwise the vga fbdev driver falls over.
->> > > > 	 */
->> > > > 	ret = vga_remove_vgacon(pdev);
->> > 
->> > This isn't enough, we also nuke stuff that's mapping the vga fb range.
-
-Ah, also need aperture_detach_devices(VGA_FB_PHYS_BASE, VGA_FB_PHYS_SIZE) then.
-
-[...]
-
->> int aperture_remove_legacy_vga_devices(struct pci_dev *pdev)
->> {
->> 	aperture_detach_devices(VGA_FB_PHYS_BASE, VGA_FB_PHYS_SIZE);
->> 
->> 	return vga_remove_vgacon(pdev);
->> }
->> 
->> And that can be called from gma500 and the pci aperture helper.
+On 2023/4/6 00:40, Sui Jingfeng wrote:
+> Hi,
 >
-> But you still pass a pci_dev to that helper. Which just doesn't make any
-> sense to me (assuming your entire point is that this isn't just a normal
-> pci device but some special legacy vga thing), but if we go with (void)
-> then there's more refactoring to do because the vga_remove_vgacon also
-> wants a pdev.
+> On 2023/4/4 22:10, Emil Velikov wrote:
+>> Greetings Sui Jingfeng,
+>>
+>> I haven't been around drm-land for a while and this is the first
+>> driver I skim through in a few years. So take the following
+>> suggestions with a healthy pinch of salt.
+>>
+>> Hope that helps o/
+> Emil, we love your reviews,
+>> On Mon, 3 Apr 2023 at 18:13, Sui Jingfeng <suijingfeng@loongson.cn> 
+>> wrote:
+>>
+>>>    v7 -> v8:
+>>>     1) Zero a compile warnnings on 32-bit platform, compile with W=1
+>>>     2) Revise lsdc_bo_gpu_offset() and minor cleanup
+>>>     3) Pageflip tested on the virtual terminal with following commands
+>>>
+>>>        modetest -M loongson -s 32:1920x1080 -v
+>>>        modetest -M loongson -s 34:1920x1080 -v -F tiles
+>>>
+>> I could be wrong, but my understanding is that new drivers should be
+>> capable of running under Xorg and/or Wayland compositor. There is also
+>> the IGT test suite, which can help verify and validate the driver's
+>> behaviour:
+>>
+>> https://www.kernel.org/doc/html/latest/gpu/drm-uapi.html
+>>
+> Yet it may take more time to give full answer for all of your concerns.
 >
-> All so that we don't call aperture_detach_devices() on a bunch of pci
-> bars, which apparently is not problem for any other driver, but absolutely
-> is a huge problem for gma500 somehow.
+> Currently, drm/loongson driver do works under Xorg(X server),
 >
-> I don't understand why.
+> link[1] is a short video which can prove that the driver actually 
+> works very well.
 >
-
-Yeah, agreed that if vga_remove_vgacon() isn't enough and another helper
-is needed then starts to get a little silly. Maybe one option is to add a
-3rd param to aperture_remove_conflicting_pci_devices() and skip the logic
-to iterate over PCI bars and call aperture_remove_conflicting_devices() ?
-
-> Consider this me throwing in the towel. If you&Javier are convinced this
-> makes sense please type it up and merge it, but I'm not going to type
-> something that just doesn't make sense to me.
-
-Honestly, I would just go with the double drm_aperture_remove_*() helper
-calls (your original patch) unless that causes real issues. There is no
-point on blocking all your series just for this IMO.
-
-Then latter if Thomas has strong opinions can send a follow-up patch for
-the gma500 driver and the aperture helpers.
-
-> -Daniel
+> Note that it use the generic modesetting driver on userspace.
 >
+> We could provide more videos if necessary.
+>
+>
+> We are carry on the IGT test suite, we feedback the test result once 
+> it finished on our platform.
+>
+We will feedback the results once we finishe the igt test, thanks for 
+providing such a valuable
 
--- 
-Best regards,
+information.
 
-Javier Martinez Canillas
-Core Platforms
-Red Hat
 
+[1] 
+https://raw.githubusercontent.com/loongson-gfx/loongson_boards/main/videos/drm_loongson_under_xserver.mp4
+
+
+> I'm not familiar with it before, previously we only focus on the basic 
+> unit tests came with libdrm.
+>
+>
+> I will answer rest questions in a latter time, please wait a moment.
+>
+>>
+>>> +static void lsdc_crtc_reset(struct drm_crtc *crtc)
+>>> +{
+>>> +       struct lsdc_display_pipe *dispipe = crtc_to_display_pipe(crtc);
+>>> +       struct drm_device *ddev = crtc->dev;
+>>> +       struct lsdc_device *ldev = to_lsdc(ddev);
+>>> +       struct lsdc_crtc_state *priv_crtc_state;
+>>> +       unsigned int index = dispipe->index;
+>>> +       u32 val;
+>>> +
+>>> +       val = LSDC_PF_XRGB8888 | CFG_RESET_N;
+>>> +       if (ldev->descp->chip == CHIP_LS7A2000)
+>>> +               val |= LSDC_DMA_STEP_64_BYTES;
+>>> +
+>>> +       lsdc_crtc_wreg32(ldev, LSDC_CRTC0_CFG_REG, index, val);
+>>> +
+>>> +       if (ldev->descp->chip == CHIP_LS7A2000) {
+>>> +               val = PHY_CLOCK_EN | PHY_DATA_EN;
+>>> +               lsdc_crtc_wreg32(ldev, LSDC_CRTC0_PANEL_CONF_REG, 
+>>> index, val);
+>>> +       }
+>>> +
+>> AFAICT no other driver touches the HW in their reset callback. Should
+>> the above be moved to another callback?
+>>
+>>
+>>
+>>> +static void lsdc_crtc_atomic_enable(struct drm_crtc *crtc,
+>>> +                                   struct drm_atomic_state *state)
+>>> +{
+>>> +       val = lsdc_crtc_rreg32(ldev, LSDC_CRTC0_CFG_REG, index);
+>>> +       /* clear old dma step settings */
+>>> +       val &= ~CFG_DMA_STEP_MASK;
+>>> +
+>>> +       if (descp->chip == CHIP_LS7A2000) {
+>>> +               /*
+>>> +                * Using large dma step as much as possible,
+>>> +                * for improve hardware DMA efficiency.
+>>> +                */
+>>> +               if (width_in_bytes % 256 == 0)
+>>> +                       val |= LSDC_DMA_STEP_256_BYTES;
+>>> +               else if (width_in_bytes % 128 == 0)
+>>> +                       val |= LSDC_DMA_STEP_128_BYTES;
+>>> +               else if (width_in_bytes % 64 == 0)
+>>> +                       val |= LSDC_DMA_STEP_64_BYTES;
+>>> +               else  /* width_in_bytes % 32 == 0 */
+>>> +                       val |= LSDC_DMA_STEP_32_BYTES;
+>>> +       }
+>>> +
+>>> +       clk_func->update(pixpll, &priv_state->pparms);
+>>> +
+>> Without knowing the hardware, the clk_func abstraction seems quite
+>> arbitrary and unnecessary. It should be introduced when there is a
+>> use-case for it.
+>>
+>>
+>>> +       lsdc_crtc_wreg32(ldev, LSDC_CRTC0_CFG_REG, index, val | 
+>>> CFG_OUTPUT_EN);
+>>> +
+>>> +       drm_crtc_vblank_on(crtc);
+>>> +}
+>>> +
+>>
+>>> --- /dev/null
+>>> +++ b/drivers/gpu/drm/loongson/lsdc_debugfs.c
+>>> +void lsdc_debugfs_init(struct drm_minor *minor)
+>>> +{
+>>> +#ifdef CONFIG_DEBUG_FS
+>>> +       drm_debugfs_create_files(lsdc_debugfs_list,
+>>> + ARRAY_SIZE(lsdc_debugfs_list),
+>>> +                                minor->debugfs_root,
+>>> +                                minor);
+>>> +#endif
+>>> +}
+>> Should probably build the file when debugfs is enabled and provide
+>> no-op stub in the header. See nouveau for an example.
+>>
+>>
+>>> --- /dev/null
+>>> +++ b/drivers/gpu/drm/loongson/lsdc_drv.c
+>>> +static const struct lsdc_desc dc_in_ls7a1000 = {
+>>> +       .chip = CHIP_LS7A1000,
+>>> +       .num_of_crtc = LSDC_NUM_CRTC,
+>>> +       .max_pixel_clk = 200000,
+>>> +       .max_width = 2048,
+>>> +       .max_height = 2048,
+>>> +       .num_of_hw_cursor = 1,
+>>> +       .hw_cursor_w = 32,
+>>> +       .hw_cursor_h = 32,
+>>> +       .pitch_align = 256,
+>>> +       .mc_bits = 40,
+>>> +       .has_vblank_counter = false,
+>>> +       .has_scan_pos = true,
+>>> +       .has_builtin_i2c = true,
+>>> +       .has_vram = true,
+>>> +       .has_hpd_reg = false,
+>>> +       .is_soc = false,
+>>> +};
+>>> +
+>>> +static const struct lsdc_desc dc_in_ls7a2000 = {
+>>> +       .chip = CHIP_LS7A2000,
+>>> +       .num_of_crtc = LSDC_NUM_CRTC,
+>>> +       .max_pixel_clk = 350000,
+>>> +       .max_width = 4096,
+>>> +       .max_height = 4096,
+>>> +       .num_of_hw_cursor = 2,
+>>> +       .hw_cursor_w = 64,
+>>> +       .hw_cursor_h = 64,
+>>> +       .pitch_align = 64,
+>>> +       .mc_bits = 40, /* support 48, but use 40 for backward 
+>>> compatibility */
+>>> +       .has_vblank_counter = true,
+>>> +       .has_scan_pos = true,
+>>> +       .has_builtin_i2c = true,
+>>> +       .has_vram = true,
+>>> +       .has_hpd_reg = true,
+>>> +       .is_soc = false,
+>>> +};
+>>> +
+>> Roughly a quarter of the above are identical. It might be better to
+>> drop them for now and re-introduce as needed with future code.
+>>
+>>> +const char *chip_to_str(enum loongson_chip_family chip)
+>>> +{
+>>> +       if (chip == CHIP_LS7A2000)
+>>> +               return "LS7A2000";
+>>> +
+>>> +       if (chip == CHIP_LS7A1000)
+>>> +               return "LS7A1000";
+>>> +
+>> If it were me, I would add the name into the lsdc_desc.
+>>
+>>
+>>> +static enum drm_mode_status
+>>> +lsdc_mode_config_mode_valid(struct drm_device *ddev,
+>>> +                           const struct drm_display_mode *mode)
+>>> +{
+>>> +       struct lsdc_device *ldev = to_lsdc(ddev);
+>>> +       const struct drm_format_info *info = 
+>>> drm_format_info(DRM_FORMAT_XRGB8888);
+>> Short-term hard coding a format is fine, but there should be a comment
+>> describing why.
+>>
+>>> +       u64 min_pitch = drm_format_info_min_pitch(info, 0, 
+>>> mode->hdisplay);
+>>> +       u64 fb_size = min_pitch * mode->vdisplay;
+>>> +
+>>> +       if (fb_size * 3 > ldev->vram_size) {
+>> Why are we using 3 here? Please add an inline comment.
+>>
+>>
+>>> +static const struct dev_pm_ops lsdc_pm_ops = {
+>>> +       .suspend = lsdc_pm_suspend,
+>>> +       .resume = lsdc_pm_resume,
+>>> +       .freeze = lsdc_pm_freeze,
+>>> +       .thaw = lsdc_pm_thaw,
+>>> +       .poweroff = lsdc_pm_freeze,
+>>> +       .restore = lsdc_pm_resume,
+>>> +};
+>>> +
+>> The above section (and functions) should probably be wrapped in a
+>> CONFIG_PM_SLEEP block.
+>>
+>>
+>>
+>>> +static const struct pci_device_id lsdc_pciid_list[] = {
+>>> +       {PCI_VENDOR_ID_LOONGSON, 0x7a06, PCI_ANY_ID, PCI_ANY_ID, 0, 
+>>> 0, CHIP_LS7A1000},
+>>> +       {PCI_VENDOR_ID_LOONGSON, 0x7a36, PCI_ANY_ID, PCI_ANY_ID, 0, 
+>>> 0, CHIP_LS7A2000},
+>>> +       {0, 0, 0, 0, 0, 0, 0}
+>>> +};
+>>> +
+>>> +static int __init loongson_module_init(void)
+>>> +{
+>>> +       while ((pdev = pci_get_class(PCI_CLASS_DISPLAY_VGA << 8, 
+>>> pdev))) {
+>>> +               if (pdev->vendor != PCI_VENDOR_ID_LOONGSON) {
+>>> +                       pr_info("Discrete graphic card detected, 
+>>> abort\n");
+>>> +                       return 0;
+>>> +               }
+>>> +       }
+>> You can set the class/class_mask in the lsdc_pciid_list and drop this
+>> loop. The vendor is already listed above and checked by core.
+>>
+>>
+>>
+>>> +++ b/drivers/gpu/drm/loongson/lsdc_drv.h
+>>> @@ -0,0 +1,324 @@
+>>> +/* SPDX-License-Identifier: GPL-2.0 */
+>>> +/*
+>>> + * Copyright (C) 2022 Loongson Corporation
+>>> + *
+>> We're in 2023, update the year across the files?
+>>
+>>
+>>
+>>> +struct lsdc_gem {
+>>> +       /* @mutex: protect objects list */
+>>> +       struct mutex mutex;
+>>> +       struct list_head objects;
+>>> +};
+>>> +
+>>> +struct lsdc_device {
+>>> +       struct drm_device base;
+>>> +       struct ttm_device bdev;
+>>> +
+>>> +       /* @descp: features description of the DC variant */
+>>> +       const struct lsdc_desc *descp;
+>>> +
+>>> +       struct pci_dev *gpu;
+>>> +
+>>> +       /* @reglock: protects concurrent access */
+>>> +       spinlock_t reglock;
+>>> +       void __iomem *reg_base;
+>>> +       resource_size_t vram_base;
+>>> +       resource_size_t vram_size;
+>>> +
+>>> +       resource_size_t gtt_size;
+>>> +
+>>> +       struct lsdc_display_pipe dispipe[LSDC_NUM_CRTC];
+>>> +
+>>> +       struct lsdc_gem gem;
+>>> +
+>> Last time I looked there was no other driver with a list of gem
+>> objects (and a mutex) in its device struct. Are you sure we need this?
+>>
+>> Very few drivers use TTM directly and I think you want to use
+>> drm_gem_vram_helper or drm_gem_ttm_helper instead.
+>>
+>>
+>>
+>>> +static int ls7a1000_pixpll_param_update(struct lsdc_pll * const this,
+>>> +                                       struct lsdc_pll_parms const 
+>>> *pin)
+>>> +{
+>>> +       void __iomem *reg = this->mmio;
+>>> +       unsigned int counter = 0;
+>>> +       bool locked;
+>>> +       u32 val;
+>>> +
+>>> +       /* Bypass the software configured PLL, using refclk directly */
+>>> +       val = readl(reg + 0x4);
+>>> +       val &= ~(1 << 8);
+>>> +       writel(val, reg + 0x4);
+>>> +
+>> There are a lot of magic numbers in this function. Let's define them
+>> properly in the header.
+>>
+>>
+>>
+>>> +/* Helpers for chip detection */
+>>> +bool lsdc_is_ls2k2000(void);
+>>> +bool lsdc_is_ls2k1000(void);
+>>> +unsigned int loongson_cpu_get_prid(u8 *impl, u8 *rev);
+>>
+>> Since this revision does pci_devices only, we don't need this 
+>> detection right?
+>>
+>>
+>> Hope that helps,
+>> Emil
