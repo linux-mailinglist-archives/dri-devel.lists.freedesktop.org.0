@@ -2,62 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4DCD6D788E
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Apr 2023 11:39:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 514156D790A
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Apr 2023 11:55:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4DA0710E8B1;
-	Wed,  5 Apr 2023 09:39:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3978A10E076;
+	Wed,  5 Apr 2023 09:55:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com
- [IPv6:2a00:1450:4864:20::529])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4154110E8B1
- for <dri-devel@lists.freedesktop.org>; Wed,  5 Apr 2023 09:39:14 +0000 (UTC)
-Received: by mail-ed1-x529.google.com with SMTP id
- 4fb4d7f45d1cf-4fd1f2a0f82so19276a12.1
- for <dri-devel@lists.freedesktop.org>; Wed, 05 Apr 2023 02:39:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1680687552; x=1683279552;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=FOrXB4jQhMXQdSjEL5FabYEQRABLxegvAFbpASDrIwM=;
- b=gHS6DW2LyFfW+tjeQrVFbAEWVqwiv1xLEtjuG+olqalkkaLDenTDKqCKuhR5+pZjag
- gpyhF3HBKMMvNqWAKP9gh6VygwCUsUasNNTYABu9J4QpbKwilnBiFsg23SSptS1IsRPl
- 9BmTgZNG9dkxVJMyJ0KugDql3Mzk+XCXZB0wk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680687552; x=1683279552;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=FOrXB4jQhMXQdSjEL5FabYEQRABLxegvAFbpASDrIwM=;
- b=OHQVLnRRVTZqvW3IAicm0O/QjbZ9e+oi7RIobni/mN53rN2Xeo4X2FeiedRwu3U87D
- X3yF/QGxdvVKtK7tJBVbniPS+2WUCwV+XjLtNmz2oNiW7r5eydKPAeNTLjOvcIoTJ9Py
- ohCY2rWapLscZk5CddrYNJ3NGeJQIlFGlEy3HpRaW6Q5RwRoXMHYq+NBKm5tPflGClDJ
- zTx16SNalVWOIuqQUcx7E8ZIwjqoZ4e11Bv8d4Hvp0SZ7J/tOCGGj7CG92ramVcEDr73
- hy+YBWRPtsccGBtwy+cpS05s4i4pZrc23fsABnyWlSf1Toty1YNit4HUbVigwu4cBFVC
- y38A==
-X-Gm-Message-State: AAQBX9cQUGpbI0kobGGfZVQH7Sya1ITSRFPB3oBy3xpsKaaRuKDlY+pm
- gvYrcu3euzOfLKfCGAZ332pa2A==
-X-Google-Smtp-Source: AKy350aQevqJTey6sqtOt21Khn9Ud2q/8TAFmpBZ4oOI6VHp67X88lklA8gDn7nETqZ+O/CWmuov3A==
-X-Received: by 2002:a05:6402:1e8e:b0:501:ea97:5192 with SMTP id
- f14-20020a0564021e8e00b00501ea975192mr1362242edf.4.1680687552494; 
- Wed, 05 Apr 2023 02:39:12 -0700 (PDT)
-Received: from phenom.ffwll.local (212-51-149-33.fiber7.init7.net.
- [212.51.149.33]) by smtp.gmail.com with ESMTPSA id
- k17-20020a50c091000000b004fa99a22c3bsm6966156edf.61.2023.04.05.02.39.11
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 05 Apr 2023 02:39:12 -0700 (PDT)
-Date: Wed, 5 Apr 2023 11:39:10 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Jani Nikula <jani.nikula@intel.com>
-Subject: Re: [PULL] drm-intel-fixes
-Message-ID: <ZC1BvoPqTRk+DkDs@phenom.ffwll.local>
-References: <87zg7mzomz.fsf@intel.com>
+Received: from 189.cn (ptr.189.cn [183.61.185.104])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 28C5010E076
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 Apr 2023 09:55:53 +0000 (UTC)
+HMM_SOURCE_IP: 10.64.8.43:53732.1379365523
+HMM_ATTACHE_NUM: 0000
+HMM_SOURCE_TYPE: SMTP
+Received: from clientip-114.242.206.180 (unknown [10.64.8.43])
+ by 189.cn (HERMES) with SMTP id 42B571002A1;
+ Wed,  5 Apr 2023 17:55:47 +0800 (CST)
+Received: from  ([114.242.206.180])
+ by gateway-151646-dep-7b48884fd-tj646 with ESMTP id
+ 4ddf140fa579419ea56efb54462e5e03 for javierm@redhat.com; 
+ Wed, 05 Apr 2023 17:55:49 CST
+X-Transaction-ID: 4ddf140fa579419ea56efb54462e5e03
+X-Real-From: 15330273260@189.cn
+X-Receive-IP: 114.242.206.180
+X-MEDUSA-Status: 0
+Message-ID: <fabb3433-e8f1-f162-891b-8aac28ef7662@189.cn>
+Date: Wed, 5 Apr 2023 17:55:47 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87zg7mzomz.fsf@intel.com>
-X-Operating-System: Linux phenom 6.1.0-7-amd64 
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH] video/aperture: fix typos
+Content-Language: en-US
+To: Javier Martinez Canillas <javierm@redhat.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <mripard@kernel.org>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Li Yi <liyi@loongson.cn>, Christian Koenig <christian.koenig@amd.com>,
+ Helge Deller <deller@gmx.de>, Lucas De Marchi <lucas.demarchi@intel.com>
+References: <20230404040101.2165600-1-suijingfeng@loongson.cn>
+ <0ad03743-0224-b154-a149-e3e4d54b252d@suse.de>
+ <87355fex1f.fsf@minerva.mail-host-address-is-not-set>
+ <87zg7ndi57.fsf@minerva.mail-host-address-is-not-set>
+From: Sui Jingfeng <15330273260@189.cn>
+In-Reply-To: <87zg7ndi57.fsf@minerva.mail-host-address-is-not-set>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,79 +58,85 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- dim-tools@lists.freedesktop.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
- dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, intel-gfx@lists.freedesktop.org
+Cc: linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Apr 05, 2023 at 12:04:04PM +0300, Jani Nikula wrote:
-> 
-> Hi Dave & Daniel -
-> 
-> drm-intel-fixes-2023-04-05:
-> drm/i915 fixes for v6.3-rc6:
-> - Fix DP MST DSC M/N calculation to use compressed bpp
-> - Fix racy use-after-free in perf ioctl
-> - Fix context runtime accounting
-> - Fix handling of GT reset during HuC loading
-> - Fix use of unsigned vm_fault_t for error values
-> 
-> BR,
-> Jani.
-> 
-> The following changes since commit 7e364e56293bb98cae1b55fd835f5991c4e96e7d:
-> 
->   Linux 6.3-rc5 (2023-04-02 14:29:29 -0700)
-> 
-> are available in the Git repository at:
-> 
->   git://anongit.freedesktop.org/drm/drm-intel tags/drm-intel-fixes-2023-04-05
-> 
-> for you to fetch changes up to dc3421560a67361442f33ec962fc6dd48895a0df:
-> 
->   drm/i915: Fix context runtime accounting (2023-04-03 11:37:00 +0300)
+Hi,
 
-Pulled, thanks
+thanks you for the time and effort  for reviewing.
 
-> 
-> ----------------------------------------------------------------
-> drm/i915 fixes for v6.3-rc6:
-> - Fix DP MST DSC M/N calculation to use compressed bpp
-> - Fix racy use-after-free in perf ioctl
-> - Fix context runtime accounting
-> - Fix handling of GT reset during HuC loading
-> - Fix use of unsigned vm_fault_t for error values
-> 
-> ----------------------------------------------------------------
-> Daniele Ceraolo Spurio (1):
->       drm/i915/huc: Cancel HuC delayed load timer on reset.
-> 
-> Matthew Auld (1):
->       drm/i915/ttm: fix sparse warning
-> 
-> Min Li (1):
->       drm/i915: fix race condition UAF in i915_perf_add_config_ioctl
-> 
-> Stanislav Lisovskiy (1):
->       drm/i915: Use compressed bpp when calculating m/n value for DP MST DSC
-> 
-> Tvrtko Ursulin (1):
->       drm/i915: Fix context runtime accounting
-> 
->  drivers/gpu/drm/i915/display/intel_dp_mst.c          |  2 +-
->  drivers/gpu/drm/i915/gem/i915_gem_ttm.c              |  5 +++--
->  drivers/gpu/drm/i915/gt/intel_execlists_submission.c | 12 ++++++++++--
->  drivers/gpu/drm/i915/gt/uc/intel_huc.c               |  7 +++++++
->  drivers/gpu/drm/i915/gt/uc/intel_huc.h               |  7 +------
->  drivers/gpu/drm/i915/i915_perf.c                     |  6 +++---
->  6 files changed, 25 insertions(+), 14 deletions(-)
-> 
-> -- 
-> Jani Nikula, Intel Open Source Graphics Center
+On 2023/4/4 19:03, Javier Martinez Canillas wrote:
+> Javier Martinez Canillas <javierm@redhat.com> writes:
+>
+> [...]
+>
+>>>>    	/*
+>>>>    	 * Remove the device from the device hierarchy. This is the right thing
+>>>> -	 * to do for firmware-based DRM drivers, such as EFI, VESA or VGA. After
+>>>> +	 * to do for firmware-based fb drivers, such as EFI, VESA or VGA. After
+>>> That sentences is not well phrased. Maybe say 'This is required for
+>>> firmware-provided graphics, such as EFI, VESA or VGA.'
+>>>
+>> Graphic drivers or display drivers would indeed be more accurate here. But
+>> I think that "fb drivers" is still well pharsed since the are other places
+>> where either fbdev or DRM drivers for firmware-provided framebuffers are
+>> named like that.
+>>
+> Sui,
+>
+> Maybe you could post a follow-up patch to improve the comment as suggested
+> by Thomas?
+>
+Yes, certainly.
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+
+This is the right thing to do for conflicting drivers takes over the 
+hardware resource required.
+
+
+But the comments is actually nearly perfect in overall, it has some 
+difficulty to improve
+
+the perfection.  Below is my personal understanding toward the above 
+sentence.
+
+
+efifb and simplefb belong to the class of firmware based framebuffer driver.
+
+They are generic and platform agnostic, yet they have to relay on the 
+firmware
+
+to passing fb format, fb size, fb base address, fb resolution and fb 
+stride etc to the kernel.
+
+Linux kernel using those information to fill the global screen_info 
+structure.
+
+sysfb_init() then using the global screen_info to  create a platform device,
+
+the device will be claimed by efifb or simplefb driver finally. This is 
+a hand over solution.
+
+It relay on the firmware setup such a framebuffer and hand over the 
+state(this is
+
+actually a kind of modeset state) to kernel.
+
+
+efifb only own the potential hardware resource for a very short time if a
+
+conflicting drm driver probe successfully.
+
+
+For the platform/graphics without  a drm driver, developers may choose to
+
+use efifb driver as a replacement.  So, there are no conflicting happen on
+
+such a case. The `nomodeset` kernel cmd options can also be used for
+
+debugging and testing purpose if the more intelligent drm driver is broken
+
+due to bugs.
+
