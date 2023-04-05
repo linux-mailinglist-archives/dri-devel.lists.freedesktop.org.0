@@ -2,78 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 959396D7AF0
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Apr 2023 13:16:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96E656D7B0F
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Apr 2023 13:20:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C02EA10E8DB;
-	Wed,  5 Apr 2023 11:16:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 023AB10E8DE;
+	Wed,  5 Apr 2023 11:20:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 478B210E8DB
- for <dri-devel@lists.freedesktop.org>; Wed,  5 Apr 2023 11:16:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1680693391;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=cVhwSQ9SQ80tLu7hzx0o6yiYsifY16dvvnSyg4DEcP8=;
- b=GKutgdmhGxm4yX6ZepRVPS3ml7yyVgI8ytlbPZacx7uTJAAqvAOvzpit3Rk+omDbe6wpRA
- xqF/5imtMCYYvNDOVqNQGWU6y/jXFe2FJGL342RRkWZp3ifQIR0K+1T5y1sM2IBsWug9xX
- qK+BBjMLzs/6wRQTkqUM0rA7AI0lIuE=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-460--rBYJEamPfqiSrik7_5Rvw-1; Wed, 05 Apr 2023 07:16:30 -0400
-X-MC-Unique: -rBYJEamPfqiSrik7_5Rvw-1
-Received: by mail-wm1-f71.google.com with SMTP id
- k1-20020a05600c1c8100b003ee6dbceb81so17390324wms.5
- for <dri-devel@lists.freedesktop.org>; Wed, 05 Apr 2023 04:16:29 -0700 (PDT)
+Received: from mail-yw1-x1129.google.com (mail-yw1-x1129.google.com
+ [IPv6:2607:f8b0:4864:20::1129])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4750F10E8DE
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 Apr 2023 11:20:00 +0000 (UTC)
+Received: by mail-yw1-x1129.google.com with SMTP id
+ 00721157ae682-544f7c176easo669969427b3.9
+ for <dri-devel@lists.freedesktop.org>; Wed, 05 Apr 2023 04:20:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20210112; t=1680693599;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=OVTqfRf2jpWEeoD6UNL26R0hpOD3j9XRAva3jj9aVBk=;
+ b=UMTYBNcPhbAF0ABt8KophwzX/Ny6OPNn+L6EnmU5IkTiR+fwtjtTvvmlWyMYj3Pkd/
+ c/AorgHXggjcy/x5fLftLDXcSRee6X3AtQ1pW2rCBk6CYlNeeb39l9Sc0PgP3d01I3hi
+ qodJYbUqCHZ235SHXXOkTEXGGEHXyT2WxYP95YphXmCso64A4JEn5pUvLQzjn8+qM2mo
+ ffZ5LUVWgPBrcIjs91pPf+lKHjgH0EcvEuCyvhchd69BLf5uIsTKD4aB1cF0OsfHG7q9
+ zt9q5kpD8Hxo6x9MnvBm6HE/Ec1pZ6n+yeI3K4SLL9P/DBFTyptpplVjTZnPhcQNN5G2
+ eRLQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680693389;
- h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=cVhwSQ9SQ80tLu7hzx0o6yiYsifY16dvvnSyg4DEcP8=;
- b=wYI+bxiIaBYnnbzxn4KvQxdOlOgJkCNCmTniRJrOrXmiSapminirlRrpgyuZ216xaX
- EYPpKHqrXWgsgAPjl+kEThn3k3JNnl60t7zPDXtPbGVgmD6PArq1cAJPv6gUvTv1Hdn7
- VfBxYg6sNlsPAkS+0OY5mhOK0zx2VYP1yLKMwwWhYXbfaSC/v1F8pEOgTDEHeHex+ET6
- roOqQ2H7u9SEOkzCCt8Zkx5Wgcoh+ahNtDBSoSvppkocnocFUJoJ428WxxoSPR/kPtQg
- 55FgHq+6R08Wm0EJy+K+K4MIVh+meScU06ySfV0PMuZCWzWzBa6T+j2rOY+5mPMu2qPZ
- vpwA==
-X-Gm-Message-State: AAQBX9eY5pI47N2yCeZEshkjbzoqRESmXZr6dQt0LhIhMAGRDEuKX/Bm
- c+JUyRPfueGZ4Nba3ZDnSgjhUxn7mjmCN/ZcDtjU+JvvsBkiwez36dV1ezBN8T6HpdPq6MNTDXd
- 2/y8XZHtSLLv7JhRexroRaOjHEhxx
-X-Received: by 2002:adf:f8c6:0:b0:2d8:708a:d84 with SMTP id
- f6-20020adff8c6000000b002d8708a0d84mr3524525wrq.19.1680693389138; 
- Wed, 05 Apr 2023 04:16:29 -0700 (PDT)
-X-Google-Smtp-Source: AKy350bjUjPzTzVRFYcucN8Al2yk8a7Ppzptzj7S8evPnSYBWVMJvgO9TesyCLFRwV+Xz4Gy5pag2A==
-X-Received: by 2002:adf:f8c6:0:b0:2d8:708a:d84 with SMTP id
- f6-20020adff8c6000000b002d8708a0d84mr3524513wrq.19.1680693388798; 
- Wed, 05 Apr 2023 04:16:28 -0700 (PDT)
-Received: from localhost (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- b13-20020adff24d000000b002c573778432sm14624766wrp.102.2023.04.05.04.16.28
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 05 Apr 2023 04:16:28 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>, Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [PATCH 1/8] drm/gma500: Use
- drm_aperture_remove_conflicting_pci_framebuffers
-In-Reply-To: <eee11545-2a78-4556-be82-5178ea09d0d8@suse.de>
-References: <20230404201842.567344-1-daniel.vetter@ffwll.ch>
- <5556a755-01a1-3620-8693-0fc69c6f627d@suse.de>
- <3813a2f5-c74a-4760-34ce-1c88f187c91c@suse.de>
- <ZC04hoHywz0ySzAW@phenom.ffwll.local>
- <3fd03c4c-3be6-e56b-faec-bd67a58cda09@suse.de>
- <ZC1BlNCbXPlmAhj0@phenom.ffwll.local>
- <eee11545-2a78-4556-be82-5178ea09d0d8@suse.de>
-Date: Wed, 05 Apr 2023 13:16:27 +0200
-Message-ID: <877cuqd1f8.fsf@minerva.mail-host-address-is-not-set>
+ d=1e100.net; s=20210112; t=1680693599;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=OVTqfRf2jpWEeoD6UNL26R0hpOD3j9XRAva3jj9aVBk=;
+ b=CAFCp9W7bn8G14zfKU+cerR7HbLY3PvupRN1VX8nP32vTReqvkvKXnr6OzeZ4oZyh6
+ W+j80yxWP/R0xj6zru58nDn/gotQgGm/1mJWe8ZzBYJgCbhkbuSG2yq7SfR0Veg+BlEW
+ PMm9at6eXJfUCwoxw+6tFBS9uW1MZ3MhoktByYc6dKX0V6NxI+YvYplq2Hx5m4fdrz4C
+ 4jjmWETnCodrfw+xj1FUbq3PON74/lta3TxP0f1IKMtvdz8LqGafrLRDQiZ+wGhf6tjc
+ a9TY1ROpMeSmvLcQND+64FkwvSN10S22kAHpK9WYmNmy+UhBdmd634+MKZTF1Mi1bqR5
+ 4pFg==
+X-Gm-Message-State: AAQBX9f/e1+x4B9VLDyW9CMJ340QITbF6NuM5rvFNIqh4F63GUk6obsn
+ zyXUklYigOCIU94zV0ByQT/FASrmRsDRF7riOTg=
+X-Google-Smtp-Source: AKy350bbnQi/kk0Ucraeyifb8HGzxmDoYIzCbR5PfgN3LBUwsGHhS/jbvYqgxE1Tugt8wPoVLCb1KVJOEW5vVrBJUTs=
+X-Received: by 2002:a81:c509:0:b0:52e:e095:d840 with SMTP id
+ k9-20020a81c509000000b0052ee095d840mr3519608ywi.0.1680693598783; Wed, 05 Apr
+ 2023 04:19:58 -0700 (PDT)
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+References: <20230307-rust-drm-v1-0-917ff5bc80a8@asahilina.net>
+ <20230307-rust-drm-v1-4-917ff5bc80a8@asahilina.net>
+ <ZC1WwJDr1iqSQnYs@phenom.ffwll.local>
+In-Reply-To: <ZC1WwJDr1iqSQnYs@phenom.ffwll.local>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Wed, 5 Apr 2023 13:19:47 +0200
+Message-ID: <CANiq72=h9qKrpkY2K962__rs-JLsmWxPXocx040ZeDSKGf_Brw@mail.gmail.com>
+Subject: Re: [PATCH RFC 04/18] rust: drm: gem: Add GEM object abstraction
+To: Asahi Lina <lina@asahilina.net>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Miguel Ojeda <ojeda@kernel.org>, 
+ Alex Gaynor <alex.gaynor@gmail.com>, Wedson Almeida Filho <wedsonaf@gmail.com>,
+ Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
+ =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Luben Tuikov <luben.tuikov@amd.com>, Jarkko Sakkinen <jarkko@kernel.org>, 
+ Dave Hansen <dave.hansen@linux.intel.com>,
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
+ Karol Herbst <kherbst@redhat.com>, Ella Stanforth <ella@iglunix.org>, 
+ Faith Ekstrand <faith.ekstrand@collabora.com>, Mary <mary@mary.zone>, 
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ rust-for-linux@vger.kernel.org, linux-media@vger.kernel.org, 
+ linaro-mm-sig@lists.linaro.org, linux-sgx@vger.kernel.org, 
+ asahi@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,63 +88,22 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Daniel Vetter <daniel.vetter@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Thomas Zimmermann <tzimmermann@suse.de> writes:
+On Wed, Apr 5, 2023 at 1:08=E2=80=AFPM Daniel Vetter <daniel@ffwll.ch> wrot=
+e:
+>
+> Uh all the rust helper wrappers for all the kernel in a single file does
+> not sound good. Can we not split these up into each subsystem, and then
+> maybe instead of sprinkling #ifdef all over a .c file Make the compilatio=
+n
+> of that file conditional on rust support (plus whatever other Kconfig gat=
+e
+> the other c files has already)?
 
-[...]
+Indeed, the plan is splitting the `kernel` crate and giving each
+subsystem its own crate, bindings, helpers, etc.
 
->
-> Your comment says that it calls a PCI function to clean up to vgacon. 
-> That comment explains what is happening, not why. And how the PCI and 
-> vgacon code work together is non-obvious.
->
-> Again, here's my proposal for gma500:
->
-> // call this from psb_pci_probe()
-> int gma_remove_conflicting_framebuffers(struct pci_dev *pdev, const
-> 					struct drm_driver *req_driver)
-> {
-> 	resource_size_t base = 0;
-> 	resource_size_t size = (resource_size_t)-1;
-> 	const char *name = req_driver->name;
-> 	int ret;
->
-> 	/*
-> 	 * We cannot yet easily find the framebuffer's location in
-> 	 * memory. So remove all framebuffers here.
-> 	 *
-> 	 * TODO: Refactor psb_driver_load() to map vdc_reg earlier. Then
-> 	 *       we might be able to read the framebuffer range from the
-> 	 *       device.
-> 	 */
-> 	ret = aperture_remove_conflicting_devices(base, size, name);
-> 	if (ret)
-> 		return ret;
->
-> 	/*
-> 	 * WARNING: Apparently we must kick fbdev drivers before vgacon,
-> 	 * otherwise the vga fbdev driver falls over.
-> 	 */
-> 	ret = vga_remove_vgacon(pdev);
-> 	if (ret)
-> 		return ret;
->
-> 	return 0;
-> }
->
-
-If this is enough I agree that is much more easier code to understand.
-
--- 
-Best regards,
-
-Javier Martinez Canillas
-Core Platforms
-Red Hat
-
+Cheers,
+Miguel
