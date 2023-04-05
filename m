@@ -2,121 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 091C46D7122
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Apr 2023 02:13:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8E626D7142
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Apr 2023 02:29:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7B87410E7F8;
-	Wed,  5 Apr 2023 00:13:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 61CF610E30E;
+	Wed,  5 Apr 2023 00:29:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM04-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam04on2054.outbound.protection.outlook.com [40.107.100.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 036FD10E7F3;
- Wed,  5 Apr 2023 00:13:25 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=DWQsBajwVUjguqp1PcKlR+QAdTMhSnQxo1Rl2ekGMzUrunOk5XYInlh/yHHpacPxoQs7Jfeo7KeUcjCr5XvAKwLShf8tbwbVyMyr6XATOrJ5BOw3EEwf52ZU+9CvB2EfkpAN7O7USHcIfTikthLL1O6MjgE5zKJkUhlzZKAPDIW/IqNP9JwXutEbS5Mo4Lb6iK/R+rwofTN3LvDwVrpPYUeEOxBdAigeG3Sy4pwZ2ko+8B+/ITevAtdhi7pIxY0VYuKbrtE6phFoqioZWLj9cdUHlkXtPkWyigHDrlh0vvC/GAhdRgUHyLgJTG8i7fFCmtbv83/RNJCUhwtmbN+Ueg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=SaqwT9wlPfcyEodIoW6UopJ1g2z+2Z690Hjm8Xmr+ew=;
- b=IOF3abALuCVJ3SKhE1AM3VlDLjaeez84bz3TEXBPkO7m/Iyj8sZvVrzy44EukVETn4qFqgxzeOchbtj/79k7BeoBwRix0m0GwxEf0FidLEIsOi0FQuHPrcLOaQPtq5C2Ga7G0n+wR0zWqA6QOO5tSjPUqL5qYo411H4yeqpPvMNpaHbrb8b1Kzu7gqJuA6dCtpO/iDkYL8QdB9yLadsFvbqTimZo4QUf15iEUKpp6zzZ5lFPGO0Hcu/461vgFOuCf4URmR+EzZwBnWHnTvmUXAWekSlOGaP1n8yqLxErou5o7OF/hbnUxBsZfl1qRiykdy8EJ4tHMQl6FIdDnBrvEg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=SaqwT9wlPfcyEodIoW6UopJ1g2z+2Z690Hjm8Xmr+ew=;
- b=zbG/cW2eOEY6s3hqYtO2rcSn+oEHRNk4andCmo4Yw3SfHg10PtD/f/XseqKKbHB7gKMRH8qinJZR+PAFlZE/hKoLbaGCVMfu+a8t1Iga/Al1E3XxWln9uH6Z3mVNAqnouZtVRG+XB0ILVEa2rrUl+BonU+y2LjjquC4+P7zGHEY=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from DM6PR12MB3370.namprd12.prod.outlook.com (2603:10b6:5:38::25) by
- DM6PR12MB4252.namprd12.prod.outlook.com (2603:10b6:5:211::17) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6254.35; Wed, 5 Apr 2023 00:13:23 +0000
-Received: from DM6PR12MB3370.namprd12.prod.outlook.com
- ([fe80::8299:158a:c296:de80]) by DM6PR12MB3370.namprd12.prod.outlook.com
- ([fe80::8299:158a:c296:de80%6]) with mapi id 15.20.6254.033; Wed, 5 Apr 2023
- 00:13:23 +0000
-Message-ID: <1c10f44e-897e-a363-2219-e559c880973c@amd.com>
-Date: Tue, 4 Apr 2023 20:13:19 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.1
-Content-Language: en-CA
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- Joshua Ashton <joshua@froggi.es>, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org
-References: <20230403194058.25958-1-joshua@froggi.es>
- <1567fb39-47a7-d1d5-0652-371f7ffcb71e@amd.com>
- <09e2e192-6d24-23d5-1668-d6ac24c4136a@froggi.es>
- <5f82ce71-af56-1c90-51b5-173975e12fa9@amd.com>
-From: Luben Tuikov <luben.tuikov@amd.com>
-Subject: Re: [RFC PATCH 0/4] uapi, drm: Add and implement RLIMIT_GPUPRIO
-In-Reply-To: <5f82ce71-af56-1c90-51b5-173975e12fa9@amd.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: YT1PR01CA0112.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b01:2c::21) To DM6PR12MB3370.namprd12.prod.outlook.com
- (2603:10b6:5:38::25)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9B7D610E305;
+ Wed,  5 Apr 2023 00:29:03 +0000 (UTC)
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 334NvlLO007217; Wed, 5 Apr 2023 00:29:01 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=9urdQW1q7yhbbQqxFzxhdKUxZk5krTS343Ooj4I0ufw=;
+ b=g51KphcRieXVc6YmKqaUH0BWED/HxZOxSUzvRgTuqaptgenmD86Z6cQ2CEdUe4Xdou6r
+ 4J2supHIQdvJvfmcPVwjZvtwu08hN7ReLsjyqUw0PKRE3yroGiCZPvEhyIjHAx3Mv7cQ
+ P1kc3DesSFcJqZKG+weyiTSo+vuLgERYbhB1AOdZVAT/zFVeCBoPHspItMOBZoFbKHgm
+ allAsjGs/1zZwrqIaJKhKUh2+g4BcUSpqso3Orxfoaq+bA07yvAa6toS+dMFsNEane4r
+ GXyj1Sdh+wupyf34WZCTI1bitQwqocuN4knmPkFmdpiJJzwT8O8qnR0PM6jucTNM2OA5 oA== 
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3prnbt1gf5-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 05 Apr 2023 00:29:01 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3350T0iu008685
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 5 Apr 2023 00:29:00 GMT
+Received: from [10.110.66.70] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Tue, 4 Apr 2023
+ 17:28:59 -0700
+Message-ID: <2acf2897-5512-ac30-777c-5605bf7e6d52@quicinc.com>
+Date: Tue, 4 Apr 2023 17:28:58 -0700
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM6PR12MB3370:EE_|DM6PR12MB4252:EE_
-X-MS-Office365-Filtering-Correlation-Id: dda44b45-1be4-4006-30dd-08db356a91a5
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: S6u04dO3sg5nc4sx2uASyt1WZQmLYZtVg3gMUfSwUV1LORfwPihuN0qx72+9pY/j05J/fVvIxMN9oM68QMXCPpdGu21tk+em5gY33LUzMOBqPLdnGHauU/ph+bipKu9szd7zZj0eq33sbPOAxL4Nzjiww89SdHHiYpCqDoZPCDFzvw0yoPRP34DNl1avvJRl8qas24qhnMrM5j44K1d+FwX8bQkH/c4s5mIva5h92A710anofo9uVHn9KI33+Gv+pkIcaT6dvqhCj+3gPfhkKuzxeuieoAhj8SHgBTcW9j2DZEC1mG+gAiyoq/lAasnTZHfE63dFj/hlGyMphNUcQKLxwTtsU2O1trHttZYOFQyvtYIL+7GmxJSxgTYLATQtWOkF0s8A/xL5RWYG9WEbntLYDzjkcvYgxNPBiuh3ssbCkeLjob2JXhRyppk9fI9v5K7J80tS9nruZPRQT0o6DM+vbChJFMiu+NpBTe19ILwxeoqxqtagdTG9ZG6lSTsL6C0whJ73OeCbTm98dspyoI6PlbFFZZlvs14TbSSU8bdtyyGfcqR8xBgMLJGLu2KOaQHIt8DsFcGxtUIPT0ezuF3w5nA+HsTqhLiuxLhHVAkr/nckKx7VHiHnchjMG47SUuLdhsbr/Bbxfa1lpzvkFQ==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM6PR12MB3370.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230028)(4636009)(39860400002)(346002)(136003)(376002)(366004)(396003)(451199021)(6666004)(6486002)(66574015)(36756003)(2616005)(83380400001)(31696002)(86362001)(38100700002)(53546011)(6512007)(26005)(6506007)(186003)(316002)(110136005)(5660300002)(54906003)(31686004)(41300700001)(8936002)(2906002)(66946007)(4326008)(66476007)(66556008)(44832011)(8676002)(66899021)(478600001)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?b3R3MzZQZURuNXdCRERZeHJNOThYUEhPNGVXOGgrU21tMFlLdEs0Q0xYeGFM?=
- =?utf-8?B?L0ZZb0c5MEIxRDYwZlYyZE4yM0Npd3IzMzZsUUxHak1nSjIzMk90MUErbHR0?=
- =?utf-8?B?dUZuaWlNMXc3NzdqbElTb0EzZCtKTCthVzZsNVUyTkV5TXBmM2hIb2dkblJz?=
- =?utf-8?B?VGxxT0tUMlBhZk1ITEF4MlBhL2l5b3BjUE4yeFg3MEdjTS9FdmhLa3ViaGVG?=
- =?utf-8?B?a2xVQkt0OTZSc3JWRjBIbEVuNEVkdnEzYklWR2pYblFsS05Zck8yS0l0dDB6?=
- =?utf-8?B?QTI3bFBhdndheTdyekc0NGFmeE5sbHQ1UEdLUDN6Mm05djJKZzY1ZGsvb0FT?=
- =?utf-8?B?RUdzQWFYNjlsUDVHZCt5eHRQcnpMb2NaRVk2TC9sbnVHemxTN1hRYTh1TllI?=
- =?utf-8?B?ZU83cjdCcDNxVFh2N2Q5MmlHUUNrc2RkYkh6SWY3aW9XdENQQmg5VXRjYklW?=
- =?utf-8?B?QUpyTHdGL1ZQWlFYOGgrQklWRjhrVHpCM01kVXFhM2gxT3JDRkRJd0RSQ2hT?=
- =?utf-8?B?cjArV0VEOVNvdVNnaEsvWnF6eUtOZTBRZlRDTEZFWWEweXVadXlQdGd5N2Z4?=
- =?utf-8?B?MVBDTnlPWGdJUGJwaXRkUGhIVTJiZmFlRE9yMUU1MWNCVkRWU0p3ZVEyeVVi?=
- =?utf-8?B?UnYxQ3VVS0pVaUdzbEZyc3N4a29DaTdOcVdDbUtZZjNNUys4OENuL1dMUWFw?=
- =?utf-8?B?ZEhFUzh4OFd1cXV0MDhJR1Z4WjI5Qi94Q1dVWE52VTQ4cTkyWEhVYXF5TEFw?=
- =?utf-8?B?Y0NueURXZkJlUEUrVGdGaDlpczdaVGlVamZYOGErcGpOcnAxMnJoTXNYbE4z?=
- =?utf-8?B?ZTh6VFV1ZXZmd3hCckRnNDhySHVqQnpMMTVPYVpYRzFSM2dvcnRuUnFMMlNQ?=
- =?utf-8?B?dmF1UkVGSEhTdGVhWk5FeG9uWjhyU2dGQUJGMjhEQlpnQ01mSXFJSDc1YXE1?=
- =?utf-8?B?c1RHSHl5WXV6UHAvU0hEdWtGOHVwVm9rN1VJZWZMS1drN2h2SzVscHNFUjNL?=
- =?utf-8?B?Z3BCdkVqaHEzVHVsRGREYXFqRG5aQXFzcWJTUjFxZ2NlTFBoYjVDVVlWQll4?=
- =?utf-8?B?NnI2b1RYWGJJUTZpM0Q4TmVaU2tBUDlBQkgrU2hJLzRySUlBajQvSUZtTk5W?=
- =?utf-8?B?THJJTVQ2NCtMZDBIRVY5cmNxZCtWbU0zREF3c3Y4OFdEbnN6UEp3b1pmelpm?=
- =?utf-8?B?d3ljOTR4STZGZkUyQVcrQTlMUkNtRDRwV253cjhsa29rRStBMnd1KzdrNE9I?=
- =?utf-8?B?TUZxdGNwTVlBYlk0TEhzWFhlR2p0UDRuOFBiN2dyNlR1aFdJaWNrV2ZvelFz?=
- =?utf-8?B?aTR6Z3IwblIzVHF0M0Nnb210ajlsUVc2UXAxSTB0NTg3Zm4zUTBKelJpQjRV?=
- =?utf-8?B?RFh2N1poS0xsSVNVKzMvZjFhUUp2QWIrUU1tQmVzTnFZTDNlcUxWOWhyQ0sw?=
- =?utf-8?B?OFFoNVlmbzFXLzhBcjhBMVNxQUpneU1NSmttdFNHT0dPMDdSQXFOSGlLck5U?=
- =?utf-8?B?SmR0L1U2OG9jdFB4ZEY0UGZiVXVqNXdKYytOTjNyV0U2aWlYSUdsd2JsSUdq?=
- =?utf-8?B?cnNaU0ZLRTY0bDVFYjE2S2htbFdKczlmMTN5eTJTaUdMVE9Kb3QxY01MR1dw?=
- =?utf-8?B?YnMvd0NkN2EvWEdEMzVYa3V3djg5bkpNTWIrU2MwS3VrcDZnVGlKSFVvM0E3?=
- =?utf-8?B?QWpkZGdkNTY4MDc1RU1sTElpYmsrUmU2Mmh1dE5HK3QvOEg3Nmc3a0pZUDAw?=
- =?utf-8?B?Y3IzbzBOT1NOWVNndmR2OEVDTU1adms3RkZOV1Z6YnkxblFtSnlsbmtQRWtT?=
- =?utf-8?B?OHJQTmNuY0d1S21sSHlnTmphT2VUYlBwcHpaK3FwQjliS3lFdWZzSCtuZEFk?=
- =?utf-8?B?L3NzQjMzQThZNkk5M2JzeXpVdGRGZmhGTm1SV0VPNFVlcitmSFRMY2NIRUth?=
- =?utf-8?B?M1BaTTc0VFp1QVByUnkyZVJoVmk5dVVUQnRFM0JiL2d5ZjFQNkZwYWR4VWxq?=
- =?utf-8?B?djN4d2NUM1k4cVA2MktFVUh6Q0d2czhFRFRaUVQrRllEekJHVnRGaEpNMEZr?=
- =?utf-8?B?Q1R3YUxqeEN3aHhReGszSVpLcXppR2w0RnBKRlRNeThmM3oxNWl0aVlHT1Iv?=
- =?utf-8?Q?HL/qqARndOm9+pjcK+dPA8ADp?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: dda44b45-1be4-4006-30dd-08db356a91a5
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB3370.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Apr 2023 00:13:23.0970 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Bz1YM041Wh+QhSHlAg+UA0msQNzRQIzi/NxuX8+vy4vapcLe0+UEA/8jrfBars0B
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4252
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.2
+Subject: Re: [PATCH v3 1/6] drm/msm: Add MSM-specific DSC helper methods
+Content-Language: en-US
+To: Jessica Zhang <quic_jesszhan@quicinc.com>,
+ <freedreno@lists.freedesktop.org>
+References: <20230329-rfc-msm-dsc-helper-v3-0-6bec0d277a83@quicinc.com>
+ <20230329-rfc-msm-dsc-helper-v3-1-6bec0d277a83@quicinc.com>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <20230329-rfc-msm-dsc-helper-v3-1-6bec0d277a83@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: __UhN8mFoGFH64BtOoYyBdcbVt8t3RU9
+X-Proofpoint-GUID: __UhN8mFoGFH64BtOoYyBdcbVt8t3RU9
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-04-04_13,2023-04-04_05,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ malwarescore=0 suspectscore=0 lowpriorityscore=0 mlxlogscore=931
+ bulkscore=0 impostorscore=0 spamscore=0 clxscore=1015 adultscore=0
+ mlxscore=0 phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2303200000 definitions=main-2304050002
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -129,103 +84,202 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Faith Ekstrand <faith.ekstrand@collabora.com>
+Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>, Sean Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi!
 
-On 2023-04-04 04:50, Christian König wrote:
-> Adding a bunch of people who have been involved in this before.
-> 
-> Am 03.04.23 um 22:15 schrieb Joshua Ashton:
->> On 4/3/23 20:54, Christian König wrote:
->>> Am 03.04.23 um 21:40 schrieb Joshua Ashton:
->>>> [SNIP]
->>>> Anyway, please let me know what you think!
->>>> Definitely open to any feedback and advice you may have. :D
->>>
->>> Well the basic problem is that higher priority queues can be used to 
->>> starve low priority queues.
->>>
->>> This starvation in turn is very very bad for memory management since 
->>> the dma_fence's the GPU scheduler deals with have very strong 
->>> restrictions.
->>>
->>> Even exposing this under CAP_SYS_NICE is questionable, so we will 
->>> most likely have to NAK this.
->>
->> This is already exposed with CAP_SYS_NICE and is relied on by SteamVR 
->> for async reprojection and Gamescope's composite path on Steam Deck.
-> 
-> Yeah, I know I was the one who designed that :)
-> 
->>
->> Having a high priority async compute queue is really really important 
->> and advantageous for these tasks.
->>
->> The majority of usecases for something like this is going to be a 
->> compositor which does some really tiny amount of work per-frame but is 
->> incredibly latency dependent (as it depends on latching onto buffers 
->> just before vblank to do it's work)
 
-There seems to be a dependency here. Is it possible to express this
-dependency so that this work is done on vblank, then whoever needs
-this, can latch onto vblank and get scheduled and completed before the vblank?
-
-The problem generally is "We need to do some work B in order to satisfy
-some condition in work A. Let's raise the ``priority'' of work B so that
-if A needs it, when it needs it, it is ready." Or something to that effect.
-
-The system would be much more responsive and run optimally, if such
-dependencies are expressed directly, as opposed to trying to game
-the scheduler and add more and more priorities, one on top of the other,
-every so often.
-
-It's okay to have priorities when tasks are independent and unrelated. But
-when they do depend on each other directly, or indirectly (as in when memory
-allocation or freeing is concerned), thus creating priority inversion,
-then the best scheduler is the fair, oldest-ready-first scheduling, which
-is the default GPU scheduler in DRM at the moment (for the last few months).
-
->> Starving and surpassing work on other queues is kind of the entire 
->> point. Gamescope and SteamVR do it on ACE as well so GFX work can run 
->> alongside it.
-
-Are there no dependencies between them?
-
-I mean if they're independent, we already have run queues with
-different priorities. But if they're dependent, perhaps
-we can express this explicitly so that we don't starve
-other tasks/queues...
-
-Regards,
-Luben
-
+On 4/4/2023 4:56 PM, Jessica Zhang wrote:
+> Introduce MSM-specific DSC helper methods, as some calculations are
+> common between DP and DSC.
 > 
-> Yes, unfortunately exactly that.
+> Changes in v2:
+> - Moved files up to msm/ directory
+> - Dropped get_comp_ratio() helper
+> - Used drm_int2fixp() to convert to integers to fp
+> - Style changes to improve readability
+> - Dropped unused bpp variable in msm_dsc_get_dce_bytes_per_line()
+> - Changed msm_dsc_get_slice_per_intf() to a static inline method
+> - Dropped last division step of msm_dsc_get_pclk_per_line() and changed
+>    method name accordingly
+> - Changed DSC_BPP macro to drm_dsc_get_bpp_int() helper method
+> - Fixed some math issues caused by passing in incorrect types to
+>    drm_fixed methods in get_bytes_per_soft_slice()
 > 
-> The problem is that our memory management is designed around the idea 
-> that submissions to the hardware are guaranteed to finish at some point 
-> in the future.
+> Changes in v3:
+> - Dropped src_bpp parameter from all methods -- src_bpp can be
+>    calculated as dsc->bits_per_component * 3
+> - Dropped intf_width parameter from get_bytes_per_soft_slice()
+> - Moved dsc->bits_per_component to numerator calculation in
+>    get_bytes_per_soft_slice()
+> - Renamed msm_dsc_get_uncompressed_pclk_per_line to
+>    *_get_uncompressed_pclk_per_intf()
+> - Removed dsc->slice_width check from
+>    msm_dsc_get_uncompressed_pclk_per_intf()
+> - Made get_bytes_per_soft_slice() a public method (this will be called
+>    later to help calculate DP pclk params)
+> - Added documentation in comments
+> - Moved extra_eol_bytes math out of msm_dsc_get_eol_byte_num() and
+>    renamed msm_dsc_get_eol_byte_num to *_get_bytes_per_intf.
 > 
-> When we now have a functionality which allows to extend the amount of 
-> time some work needs to finish on the hardware infinitely, then we have 
-> a major problem at hand.
+> Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
+> ---
+>   drivers/gpu/drm/msm/Makefile         |  1 +
+>   drivers/gpu/drm/msm/msm_dsc_helper.c | 47 ++++++++++++++++++++++++
+>   drivers/gpu/drm/msm/msm_dsc_helper.h | 70 ++++++++++++++++++++++++++++++++++++
+>   3 files changed, 118 insertions(+)
 > 
-> What we could do is to make the GPU scheduler more clever and make sure 
-> that while higher priority submissions get precedence and can even 
-> preempt low priority submissions we still guarantee some forward 
-> progress for everybody.
-> 
-> Luben has been looking into a similar problem AMD internally as well, 
-> maybe he has some idea here but I doubt that the solution will be simple.
-> 
-> Regards,
-> Christian.
-> 
->>
->> - Joshie 🐸✨
->>
-> 
+> diff --git a/drivers/gpu/drm/msm/Makefile b/drivers/gpu/drm/msm/Makefile
+> index 7274c41228ed..b814fc80e2d5 100644
+> --- a/drivers/gpu/drm/msm/Makefile
+> +++ b/drivers/gpu/drm/msm/Makefile
+> @@ -94,6 +94,7 @@ msm-y += \
+>   	msm_atomic_tracepoints.o \
+>   	msm_debugfs.o \
+>   	msm_drv.o \
+> +	msm_dsc_helper.o \
+>   	msm_fb.o \
+>   	msm_fence.o \
+>   	msm_gem.o \
+> diff --git a/drivers/gpu/drm/msm/msm_dsc_helper.c b/drivers/gpu/drm/msm/msm_dsc_helper.c
+> new file mode 100644
+> index 000000000000..c8c530211f50
+> --- /dev/null
+> +++ b/drivers/gpu/drm/msm/msm_dsc_helper.c
+> @@ -0,0 +1,47 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved
+> + */
+> +
+> +#include <linux/kernel.h>
+> +#include <linux/errno.h>
+> +#include <drm/drm_fixed.h>
+> +
+> +#include "msm_drv.h"
+> +#include "msm_dsc_helper.h"
+> +
+> +s64 get_bytes_per_soft_slice(struct drm_dsc_config *dsc)
+> +{
+> +	int bpp = msm_dsc_get_bpp_int(dsc);
+> +	s64 numerator_fp, denominator_fp;
+> +	s64 comp_ratio_fp = drm_fixp_from_fraction(dsc->bits_per_component * 3, bpp);
+> +
+> +	numerator_fp = drm_int2fixp(dsc->slice_width * 3 * dsc->bits_per_component);
+> +	denominator_fp = drm_fixp_mul(comp_ratio_fp, drm_int2fixp(8));
+> +
+> +	return drm_fixp_div(numerator_fp, denominator_fp);
+> +}
+> +
+> +u32 msm_dsc_get_bytes_per_intf(struct drm_dsc_config *dsc, int intf_width)
+> +{
+> +	u32 bytes_per_soft_slice, bytes_per_intf;
+> +	s64 bytes_per_soft_slice_fp;
+> +	int slice_per_intf = msm_dsc_get_slice_per_intf(dsc, intf_width);
+> +
+> +	bytes_per_soft_slice_fp = get_bytes_per_soft_slice(dsc);
+> +	bytes_per_soft_slice = drm_fixp2int_ceil(bytes_per_soft_slice_fp);
+> +
+> +	bytes_per_intf = bytes_per_soft_slice * slice_per_intf;
+> +
+> +	return bytes_per_intf;
+> +}
+> +
+> +int msm_dsc_get_uncompressed_pclk_per_intf(struct drm_dsc_config *dsc)
+> +{
+> +	s64 data_width;
+> +
+> +	data_width = drm_fixp_mul(drm_int2fixp(dsc->slice_count),
+> +			get_bytes_per_soft_slice(dsc));
+> +
+> +	return drm_fixp2int_ceil(data_width);
+> +}
 
+This is not really uncompressed pclk_per_intf. This is still calculated 
+using the compression ratio so it is still compressed.
+
+I would suggest changing this to msm_dsc_get_pclk_per_intf().
+
+Lets keep it simple.
+
+> diff --git a/drivers/gpu/drm/msm/msm_dsc_helper.h b/drivers/gpu/drm/msm/msm_dsc_helper.h
+> new file mode 100644
+> index 000000000000..5ee972eb247c
+> --- /dev/null
+> +++ b/drivers/gpu/drm/msm/msm_dsc_helper.h
+> @@ -0,0 +1,70 @@
+> +/* SPDX-License-Identifier: GPL-2.0-only */
+> +/*
+> + * Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved
+> + */
+> +
+> +#ifndef MSM_DSC_HELPER_H_
+> +#define MSM_DSC_HELPER_H_
+> +
+> +#include <drm/display/drm_dsc_helper.h>
+> +#include <drm/drm_modes.h>
+> +
+> +/*
+> + * Helper methods for MSM specific DSC calculations that are common between timing engine,
+> + * DSI, and DP.
+> + */
+> +
+> +/**
+> + * msm_dsc_get_bpp_int - get bits per pixel integer value
+> + * @dsc: Pointer to drm dsc config struct
+> + */
+> +static inline int msm_dsc_get_bpp_int(struct drm_dsc_config *dsc)
+> +{
+> +	WARN_ON_ONCE(dsc->bits_per_pixel & 0xf);
+> +	return dsc->bits_per_pixel >> 4;
+> +}
+> +
+> +/**
+> + * msm_dsc_get_slice_per_intf - get number of slices per interface
+> + * @dsc: Pointer to drm dsc config struct
+> + * @intf_width: interface width
+> + */
+> +static inline int msm_dsc_get_slice_per_intf(struct drm_dsc_config *dsc, int intf_width)
+> +{
+> +	return DIV_ROUND_UP(intf_width, dsc->slice_width);
+> +}
+> +
+> +/**
+> + * msm_dsc_get_dce_bytes_per_line - get bytes per line to help calculate data width
+> + *	when configuring the timing engine
+> + * @dsc: Pointer to drm dsc config struct
+> + * @intf_width: interface width
+> + */
+> +static inline u32 msm_dsc_get_dce_bytes_per_line(struct drm_dsc_config *dsc, int intf_width)
+> +{
+> +	return DIV_ROUND_UP(msm_dsc_get_bpp_int(dsc) * intf_width, 8);
+> +}
+> +
+> +/**
+> + * get_bytes_per_soft_slice - get size of each soft slice for dsc
+> + * @dsc: Pointer to drm dsc config struct
+> + */
+> +s64 get_bytes_per_soft_slice(struct drm_dsc_config *dsc);
+> +
+> +/**
+> + * msm_dsc_get_bytes_per_intf - get total bytes per interface
+> + * @dsc: Pointer to drm dsc config struct
+> + * @intf_width: interface width
+> + */
+> +u32 msm_dsc_get_bytes_per_intf(struct drm_dsc_config *dsc, int intf_width);
+> +
+> +/**
+> + * msm_dsc_get_uncompressed_pclk_per_intf - Calculate uncompressed pclk per line.
+> + * @dsc: Pointer to drm dsc config struct
+> + *
+> + * Note: This value will then be passed along to DSI and DP to calculate pclk_per_intf.
+> + * This is because DSI and DP divide the uncompressed pclk_per_intf by different
+> + * values depending on if widebus is enabled.
+> + */
+> +int msm_dsc_get_uncompressed_pclk_per_intf(struct drm_dsc_config *dsc);
+> +#endif /* MSM_DSC_HELPER_H_ */
+> 
