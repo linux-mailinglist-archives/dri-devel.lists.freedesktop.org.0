@@ -2,87 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5552C6D7CAF
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Apr 2023 14:33:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67D876D7CB4
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Apr 2023 14:34:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E3F5810E928;
-	Wed,  5 Apr 2023 12:33:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5A3E910E929;
+	Wed,  5 Apr 2023 12:34:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com
- [IPv6:2a00:1450:4864:20::535])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EC90C10E928
- for <dri-devel@lists.freedesktop.org>; Wed,  5 Apr 2023 12:33:41 +0000 (UTC)
-Received: by mail-ed1-x535.google.com with SMTP id
- 4fb4d7f45d1cf-5005c57f95cso43689a12.1
- for <dri-devel@lists.freedesktop.org>; Wed, 05 Apr 2023 05:33:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1680698018; x=1683290018;
- h=in-reply-to:content-disposition:mime-version:references
- :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
- :subject:date:message-id:reply-to;
- bh=mLn0ogcl0BF5IqyMl3PAUGbH0jpqq1AyfGbugR/InEw=;
- b=Kj+iccolbVQfKM6jZP2rJr6vvKgZMe4H0SxVgfuZYTm3PnXPF0cVqAqxe80FPLqr+F
- L2MfX8A/pL0ohBy6Oshpt/8+orS19AKvmmkHGmmxImCIAvDHKY0BgnTDUZGzcVxDepO9
- EUSOhBxht69OnVyx6WqSCLMw6BX1kJjJ9TuYE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680698018; x=1683290018;
- h=in-reply-to:content-disposition:mime-version:references
- :mail-followup-to:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=mLn0ogcl0BF5IqyMl3PAUGbH0jpqq1AyfGbugR/InEw=;
- b=XW2NIDWvm66/MVjvsZPdLk0ucpx7fZUMa7OJDguo17R/nxaGBxI2EmUzHg45SJeCXk
- hQHZhUvFkf94oFp/nWtz1mPaIc3y+8rc4QgsmKHgWcSrygWUctv74l4bhD0BHMjPhOYG
- I6nWu373nplMTiED5dPnC6xRChO8zhZGZSR6xvH7wY36LBwUp51cedM7ohgiHO/sID2S
- Udei1xtGTvxy4sSdivpbAdgbXZLGJ7h6pc7L7mnTAZ0Vt938dlSsMrUZRJSHVIrIaWck
- AQFZ6p0LBnKPJUSO+cpLQkdQyNJmsJgAPrGzhIjxw1h/sBVz31EqLNWmHveFFaHKOuCS
- qVJA==
-X-Gm-Message-State: AAQBX9epfGREua8S0LG82BXYbKqJDAF9mutHxMM/NuBZnEQqHZGNEkHV
- IVJCq0RX2cfIXaBs9wOxSx+MxQ==
-X-Google-Smtp-Source: AKy350ZhdduIanzLnwpHgJZbwRaxsW16jBrBpTeCLciV2XUS3BdaanzgWlA2CYXsm/8QSGFPkEXSjA==
-X-Received: by 2002:a05:6402:34c8:b0:502:367:d5b8 with SMTP id
- w8-20020a05640234c800b005020367d5b8mr1906388edc.4.1680698018440; 
- Wed, 05 Apr 2023 05:33:38 -0700 (PDT)
-Received: from phenom.ffwll.local (212-51-149-33.fiber7.init7.net.
- [212.51.149.33]) by smtp.gmail.com with ESMTPSA id
- l2-20020a170906938200b00948a57aac08sm3761007ejx.204.2023.04.05.05.33.37
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 05 Apr 2023 05:33:37 -0700 (PDT)
-Date: Wed, 5 Apr 2023 14:33:35 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Asahi Lina <lina@asahilina.net>
-Subject: Re: [PATCH RFC 09/18] rust: drm: syncobj: Add DRM Sync Object
- abstraction
-Message-ID: <ZC1qn/VCVpudivh9@phenom.ffwll.local>
-Mail-Followup-To: Asahi Lina <lina@asahilina.net>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Miguel Ojeda <ojeda@kernel.org>,
- Alex Gaynor <alex.gaynor@gmail.com>,
- Wedson Almeida Filho <wedsonaf@gmail.com>,
- Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
- =?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- Luben Tuikov <luben.tuikov@amd.com>,
- Jarkko Sakkinen <jarkko@kernel.org>,
- Dave Hansen <dave.hansen@linux.intel.com>,
- Alyssa Rosenzweig <alyssa@rosenzweig.io>,
- Karol Herbst <kherbst@redhat.com>,
- Ella Stanforth <ella@iglunix.org>,
- Faith Ekstrand <faith.ekstrand@collabora.com>,
- Mary <mary@mary.zone>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
- linux-sgx@vger.kernel.org, asahi@lists.linux.dev
-References: <20230307-rust-drm-v1-0-917ff5bc80a8@asahilina.net>
- <20230307-rust-drm-v1-9-917ff5bc80a8@asahilina.net>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230307-rust-drm-v1-9-917ff5bc80a8@asahilina.net>
-X-Operating-System: Linux phenom 6.1.0-7-amd64 
+Received: from ci74p00im-qukt09082302.me.com (ci74p00im-qukt09082302.me.com
+ [17.57.156.13])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7C03110E929
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 Apr 2023 12:34:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=icloud.com;
+ s=1a1hai; t=1680698055;
+ bh=F9sCyrOcH7GGRQDR6k6ODpcaztnsDl3q3KGT+/q2kkg=;
+ h=Mime-Version:Content-Type:Date:Message-Id:Subject:From:To;
+ b=NmXz7YV7suT/an18Bm3kXN9qYYtVjz3JC1Pi8c0rRjXIdgsdCD8vRXK/hBea1Z9Lu
+ quEvBE0iU0J7QwF/85KbSweyw1r7Qx/Fuv5ZGD/UPBXkFcoTwgXTaAFXgvU3AbgwWT
+ 4rrXV9DwtnE0SYMeftz7cBij6tYLUzfFQmuJo3L8WnFBUdEg2cUESCcpJobOgAXrgB
+ l+99wx4vkv/KGzD0Md7ar0jhyNvmMeMkXw7t/L1m+1fdGYUmrMcDUZ8Q4QVJ8DebbB
+ wv7+thpKKDIfqJPeY/Hz7QrQaWpX6M/549f2GK66uUSQVnetRWhjLQyg6xutArhL6q
+ xsAQInPOLXWUw==
+Received: from localhost (ci77p00im-dlb-asmtp-mailmevip.me.com [17.57.156.26])
+ by ci74p00im-qukt09082302.me.com (Postfix) with ESMTPSA id
+ 54AAE2FC0494; Wed,  5 Apr 2023 12:34:13 +0000 (UTC)
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 05 Apr 2023 14:34:11 +0200
+Message-Id: <CROTQHUM88W0.2URPO95U5ZMS5@void.crly.cz>
+Subject: Re: [PATCH] drm/sun4i: uncouple DSI dotclock divider from
+ TCON0_DCLK_REG
+From: "Roman Beranek" <romanberanek@icloud.com>
+To: "Maxime Ripard" <maxime@cerno.tech>
+X-Mailer: aerc 0.14.0
+References: <20230320161636.24411-1-romanberanek@icloud.com>
+ <87wn356ni4.fsf@oltmanns.dev> <20230327202045.ceeqqwjug4ktxtsf@penduick>
+ <CRHKFX934UA0.1MCKCD8SJSPIE@iMac.local>
+ <20230329195802.veybo3367zifw77n@penduick>
+In-Reply-To: <20230329195802.veybo3367zifw77n@penduick>
+X-Proofpoint-ORIG-GUID: 8ldobzSC-nxTZzHvT0knq1iLnYTlBAI9
+X-Proofpoint-GUID: 8ldobzSC-nxTZzHvT0knq1iLnYTlBAI9
+X-Proofpoint-Virus-Version: =?UTF-8?Q?vendor=3Dfsecure_engine=3D1.1.170-22c6f66c430a71ce266a39bfe25bc?=
+ =?UTF-8?Q?2903e8d5c8f:6.0.138,18.0.572,17.11.62.513.0000000_definitions?=
+ =?UTF-8?Q?=3D2020-02-14=5F11:2020-02-14=5F02,2020-02-14=5F11,2021-12-02?=
+ =?UTF-8?Q?=5F01_signatures=3D0?=
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=366
+ suspectscore=0
+ adultscore=0 clxscore=1015 phishscore=0 malwarescore=0 spamscore=0
+ mlxscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2304050113
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,213 +64,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Karol Herbst <kherbst@redhat.com>,
- Dave Hansen <dave.hansen@linux.intel.com>, dri-devel@lists.freedesktop.org,
- Mary <mary@mary.zone>, Gary Guo <gary@garyguo.net>,
- Ella Stanforth <ella@iglunix.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- Alyssa Rosenzweig <alyssa@rosenzweig.io>, Luben Tuikov <luben.tuikov@amd.com>,
- Alex Gaynor <alex.gaynor@gmail.com>, Miguel Ojeda <ojeda@kernel.org>,
- linux-media@vger.kernel.org, Wedson Almeida Filho <wedsonaf@gmail.com>,
- rust-for-linux@vger.kernel.org, Boqun Feng <boqun.feng@gmail.com>,
- =?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
- Faith Ekstrand <faith.ekstrand@collabora.com>, linux-sgx@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
- Jarkko Sakkinen <jarkko@kernel.org>, asahi@lists.linux.dev,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Cc: Samuel Holland <samuel@sholland.org>, Frank Oltmanns <frank@oltmanns.dev>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, linux-kernel@vger.kernel.org,
+ Chen-Yu Tsai <wens@csie.org>, dri-devel@lists.freedesktop.org,
+ linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Mar 07, 2023 at 11:25:34PM +0900, Asahi Lina wrote:
-> DRM Sync Objects are a container for a DMA fence, and can be waited on
-> signaled, exported, and imported from userspace. Add a Rust abstraction
-> so Rust DRM drivers can support this functionality.
-> 
-> Signed-off-by: Asahi Lina <lina@asahilina.net>
-> ---
->  rust/bindings/bindings_helper.h |  1 +
->  rust/helpers.c                  | 19 ++++++++++
->  rust/kernel/drm/mod.rs          |  1 +
->  rust/kernel/drm/syncobj.rs      | 77 +++++++++++++++++++++++++++++++++++++++++
->  4 files changed, 98 insertions(+)
-> 
-> diff --git a/rust/bindings/bindings_helper.h b/rust/bindings/bindings_helper.h
-> index 705af292a5b4..b6696011f3a4 100644
-> --- a/rust/bindings/bindings_helper.h
-> +++ b/rust/bindings/bindings_helper.h
-> @@ -12,6 +12,7 @@
->  #include <drm/drm_gem.h>
->  #include <drm/drm_gem_shmem_helper.h>
->  #include <drm/drm_ioctl.h>
-> +#include <drm/drm_syncobj.h>
->  #include <linux/delay.h>
->  #include <linux/device.h>
->  #include <linux/dma-fence.h>
-> diff --git a/rust/helpers.c b/rust/helpers.c
-> index 8e906a7a7d8a..11965b1e2f4e 100644
-> --- a/rust/helpers.c
-> +++ b/rust/helpers.c
-> @@ -20,6 +20,7 @@
->  
->  #include <drm/drm_gem.h>
->  #include <drm/drm_gem_shmem_helper.h>
-> +#include <drm/drm_syncobj.h>
->  #include <linux/bug.h>
->  #include <linux/build_bug.h>
->  #include <linux/device.h>
-> @@ -461,6 +462,24 @@ __u64 rust_helper_drm_vma_node_offset_addr(struct drm_vma_offset_node *node)
->  }
->  EXPORT_SYMBOL_GPL(rust_helper_drm_vma_node_offset_addr);
->  
-> +void rust_helper_drm_syncobj_get(struct drm_syncobj *obj)
-> +{
-> +	drm_syncobj_get(obj);
-> +}
-> +EXPORT_SYMBOL_GPL(rust_helper_drm_syncobj_get);
-> +
-> +void rust_helper_drm_syncobj_put(struct drm_syncobj *obj)
-> +{
-> +	drm_syncobj_put(obj);
-> +}
-> +EXPORT_SYMBOL_GPL(rust_helper_drm_syncobj_put);
-> +
-> +struct dma_fence *rust_helper_drm_syncobj_fence_get(struct drm_syncobj *syncobj)
-> +{
-> +	return drm_syncobj_fence_get(syncobj);
-> +}
-> +EXPORT_SYMBOL_GPL(rust_helper_drm_syncobj_fence_get);
-> +
->  #ifdef CONFIG_DRM_GEM_SHMEM_HELPER
->  
->  void rust_helper_drm_gem_shmem_object_free(struct drm_gem_object *obj)
-> diff --git a/rust/kernel/drm/mod.rs b/rust/kernel/drm/mod.rs
-> index 73fab2dee3af..dae98826edfd 100644
-> --- a/rust/kernel/drm/mod.rs
-> +++ b/rust/kernel/drm/mod.rs
-> @@ -8,3 +8,4 @@ pub mod file;
->  pub mod gem;
->  pub mod ioctl;
->  pub mod mm;
-> +pub mod syncobj;
-> diff --git a/rust/kernel/drm/syncobj.rs b/rust/kernel/drm/syncobj.rs
-> new file mode 100644
-> index 000000000000..10eed05eb27a
-> --- /dev/null
-> +++ b/rust/kernel/drm/syncobj.rs
-> @@ -0,0 +1,77 @@
-> +// SPDX-License-Identifier: GPL-2.0 OR MIT
-> +
-> +//! DRM Sync Objects
-> +//!
-> +//! C header: [`include/linux/drm/drm_syncobj.h`](../../../../include/linux/drm/drm_syncobj.h)
-> +
-> +use crate::{bindings, dma_fence::*, drm, error::Result, prelude::*};
-> +
-> +/// A DRM Sync Object
-> +///
-> +/// # Invariants
-> +/// ptr is a valid pointer to a drm_syncobj and we own a reference to it.
-> +pub struct SyncObj {
-> +    ptr: *mut bindings::drm_syncobj,
-> +}
-> +
-> +impl SyncObj {
-> +    /// Looks up a sync object by its handle for a given `File`.
-> +    pub fn lookup_handle(file: &impl drm::file::GenericFile, handle: u32) -> Result<SyncObj> {
-> +        // SAFETY: The arguments are all valid per the type invariants.
-> +        let ptr = unsafe { bindings::drm_syncobj_find(file.raw() as *mut _, handle) };
+Hello Maxime,
 
-Just an aside, but the semantics of this are nasty: You're not allowed to
-hold any locks while calling this. We have runtime checks for that (if you
-enable lockdep), but I don't see any way to encode that on the rust side
-and check it at compile time :-/
+On Wed Mar 29, 2023 at 9:58 PM CEST, Maxime Ripard wrote:
+> > In order to preserve semantic correctness however, I propose to preface
+> > the change with a patch that renames sun4i_dotclock and tcon-pixel-cloc=
+k
+> > such that dot/pixel is replaced with d/data. What do you think?
+>
+> I don't think it's exposed to the userspace in any way so it makes sense =
+to me
+>
 
-> +
-> +        if ptr.is_null() {
-> +            Err(ENOENT)
-> +        } else {
-> +            Ok(SyncObj { ptr })
-> +        }
-> +    }
-> +
-> +    /// Returns the DMA fence associated with this sync object, if any.
-> +    pub fn fence_get(&self) -> Option<Fence> {
-> +        let fence = unsafe { bindings::drm_syncobj_fence_get(self.ptr) };
-> +        if fence.is_null() {
-> +            None
-> +        } else {
-> +            // SAFETY: The pointer is non-NULL and drm_syncobj_fence_get acquired an
-> +            // additional reference.
-> +            Some(unsafe { Fence::from_raw(fence) })
-> +        }
-> +    }
-> +
-> +    /// Replaces the DMA fence with a new one, or removes it if fence is None.
-> +    pub fn replace_fence(&self, fence: Option<&Fence>) {
-> +        unsafe {
-> +            bindings::drm_syncobj_replace_fence(
-> +                self.ptr,
-> +                fence.map_or(core::ptr::null_mut(), |a| a.raw()),
-> +            )
-> +        };
-> +    }
-> +
-> +    /// Adds a new timeline point to the syncobj.
-> +    pub fn add_point(&self, chain: FenceChain, fence: &Fence, point: u64) {
-> +        // SAFETY: All arguments should be valid per the respective type invariants.
-> +        // This takes over the FenceChain ownership.
-> +        unsafe { bindings::drm_syncobj_add_point(self.ptr, chain.into_raw(), fence.raw(), point) };
-> +    }
-> +}
-> +
-> +impl Drop for SyncObj {
-> +    fn drop(&mut self) {
-> +        // SAFETY: We own a reference to this syncobj.
-> +        unsafe { bindings::drm_syncobj_put(self.ptr) };
-> +    }
-> +}
-> +
-> +impl Clone for SyncObj {
-> +    fn clone(&self) -> Self {
-> +        // SAFETY: `ptr` is valid per the type invariant and we own a reference to it.
-> +        unsafe { bindings::drm_syncobj_get(self.ptr) };
+Here's a new series that includes those renames:
+<https://lore.kernel.org/all/20230331110245.43527-1-me@crly.cz/>
 
-So yeah syncobj are refcounted because they're shareable uapi objects (you
-can pass them around as fd), but that really should be entirely the
-subsystems business, not for drivers.
+It turns out however that the new dclk rates can't be set exactly as
+requested without touching pll-video0*, tcon0 now therefore gets
+reparented from pll-mipi to pll-video0-2x which, as it further turns
+out, breaks DSI. While simply forbidding the video0-2x mux option seems
+to me as the right way to go because there's not much use for it with
+non-DSI interfaces either besides the opportunity to power pll-mipi
+down, I'd like to run by you first.
 
-This is kinda like drm_file, which is also refcounted (by virtue of
-hanging of struct file), but the refcounting is entirely handled by the
-vfs and all drivers get is a borrowed reference, which nicely bounds the
-lifetime to the callback (which is usually an ioctl handler). I think we
-want the same semantics for syncobj, because if a driver is hanging onto a
-syncobj for longer than the ioctl. If my rust understanding is right we'd
-get that by dropping Clone here and relying on lookup_handle only being
-able to return stuff that's bound by the drm_file?
+Kind regards,
+Roman
 
-People are talking about drivers holding onto syncobj for longer, but I'm
-still not sold on the idea that this is any good and doesn't just bend the
-dma_fence and syncobj rules a bit too much over the breaking point. For
-kernel drivers it really should be just a different way to lookup and
-return dma_fence from the ioctl, pretty much matching what you could also
-do with sync_file (but since syncobj provides generic compat ioctl to
-convert to/from sync_file drivders only need to handle syncobj).
--Daniel
-
-
-> +        SyncObj { ptr: self.ptr }
-> +    }
-> +}
-> +
-> +// SAFETY: drm_syncobj operations are internally locked.
-> +unsafe impl Sync for SyncObj {}
-> +unsafe impl Send for SyncObj {}
-> 
-> -- 
-> 2.35.1
-> 
-
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+* As pll-mipi doesn't have CLK_SET_RATE_PARENT flag set, pll-video0
+  retains its boot-time rate of 294 MHz set by sunxi-dw-hdmi driver
+  in u-boot. Why 294 MHz (as opposed to the default rate of 297 MHz)?
+  The driver actually asks for 297 MHz, clock_set_pll3 rounds it to
+  294 MHz though because it limits itself to 6 MHz steps.
