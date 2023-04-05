@@ -2,73 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEFFD6D7A5E
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Apr 2023 12:52:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92F7C6D7A63
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Apr 2023 12:53:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D66D310E8D3;
-	Wed,  5 Apr 2023 10:52:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 80F8D10E8D2;
+	Wed,  5 Apr 2023 10:52:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8FAF310E8C6
- for <dri-devel@lists.freedesktop.org>; Wed,  5 Apr 2023 10:52:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1680691935;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=NfR8hG4BSK2oH+JXo1qpSLt59Iy4pE0E8Ty+5V6Q3Kw=;
- b=YNUC3e77IxeHR4bEbhmBOzxcotQmoawgFhG6+3G+BHtA25I7+YONBz6mt4JCJIdajETFLX
- KPrLix+GIwUs9H5OFM620NaahnpLRxPWvR6uSxLG+p50lmveMSlREZ57kvXxZUlOKgR2Td
- tiiyH5Xkjwv5hjGHQTqdzX01oJ165YI=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-517-9fbf4oexPXeAmvTQuLUxRw-1; Wed, 05 Apr 2023 06:52:14 -0400
-X-MC-Unique: 9fbf4oexPXeAmvTQuLUxRw-1
-Received: by mail-wm1-f71.google.com with SMTP id
- m7-20020a05600c4f4700b003ee7e120bdfso16973148wmq.6
- for <dri-devel@lists.freedesktop.org>; Wed, 05 Apr 2023 03:52:14 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680691933;
- h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=NfR8hG4BSK2oH+JXo1qpSLt59Iy4pE0E8Ty+5V6Q3Kw=;
- b=EoWsjXAo3SKNdBfIVErnglEtASl5mX3lPRXZQckEb+Wj2w5rvHa+W7cJhnhn/CO7hH
- D+puJpwH2RH8dOXMB2LB8PemNjZNjQx06+HZKvHA1BfMQUrJbIm1tTsegbARa+42u3DC
- GC86DZo7GcxQ+tiqza24rv6OV1z+pDJZrqWdUTEdizP+zxtCAOuNMIr1fJ0OrbVtQAsU
- p3Z3aFQcwdk/jF6tdG5kk3fwjCTnazvZd/kj8YFu+C/r55XRHEeAx+BCYP8zEC5zZOan
- EmmERqF8wqEvaRTkpV/ULU4osn4vGjwvIt0C6UkrloZ3ZvIAx9yOXeg5Avl6D5//NZm1
- +/qg==
-X-Gm-Message-State: AAQBX9d3RlA0d6UydxTnrHyEREUkku8w6xBSdLfUerPss8QwYchNMj9Z
- GvaiTO9YXnYgkOi3kP0YnWsrsEjhoXjr2Lyy9+1CzsWgMcaL/LUJXmwl32idr4IlvuOdylnMCCC
- NBX42sxhlhl6u7LNUkgwRwOGcSfTZ
-X-Received: by 2002:a1c:4b06:0:b0:3ed:f9d3:f95c with SMTP id
- y6-20020a1c4b06000000b003edf9d3f95cmr4280204wma.19.1680691933424; 
- Wed, 05 Apr 2023 03:52:13 -0700 (PDT)
-X-Google-Smtp-Source: AKy350YypFChNMSRr5cyT8L+ZHxrWjZZcWglGlfHwGA/7CQvNRB/z1vBRfsxOT+I+/Bpq7WCzao0YA==
-X-Received: by 2002:a1c:4b06:0:b0:3ed:f9d3:f95c with SMTP id
- y6-20020a1c4b06000000b003edf9d3f95cmr4280186wma.19.1680691933147; 
- Wed, 05 Apr 2023 03:52:13 -0700 (PDT)
-Received: from localhost (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- h7-20020a5d4307000000b002e707102a02sm11892008wrq.101.2023.04.05.03.52.12
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 05 Apr 2023 03:52:12 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>, DRI Development
- <dri-devel@lists.freedesktop.org>
-Subject: Re: [PATCH 3/3] drm/fb-helper: fix input validation gaps in check_var
-In-Reply-To: <20230404194038.472803-3-daniel.vetter@ffwll.ch>
-References: <20230404194038.472803-1-daniel.vetter@ffwll.ch>
- <20230404194038.472803-3-daniel.vetter@ffwll.ch>
-Date: Wed, 05 Apr 2023 12:52:12 +0200
-Message-ID: <87a5zmd2jn.fsf@minerva.mail-host-address-is-not-set>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DBBB810E8D9;
+ Wed,  5 Apr 2023 10:52:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1680691977; x=1712227977;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=TcLBivQ+NNv25sjuT7Hma0Pn33Bhr5vnXXpMlqlhF1E=;
+ b=AUHPKzZitM/j6YtLTKxzXAZ8LevHCFehAdGtZwBmy9jRI7cd9JFXL/9c
+ Uyfr1bxKMuXRayFF/LoxZaQnLV86XNtiooRWiQrrXzjHgLAHjKarqxnHk
+ gvdvpCZuTi2ti0/GCEUPFQpbghhx4r/toqJDogkhbfwvupS+881FtHL3O
+ 60tMBfatrJQDXytj5xbo2e0wwcAnkCcUjbIK72RI0eOof3TLB8dpvLqNm
+ Slet61GjuzW3wSCv5So5WKgqUcvj4JXrX/8+UIq9LXwSKS8uIVnp9hoky
+ UqCPJ82uLd0e52RgZJHwvJi4Wjg5XN1L450ZSU3Lq47ofpjM82aREIOIz A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10670"; a="339914387"
+X-IronPort-AV: E=Sophos;i="5.98,319,1673942400"; d="scan'208";a="339914387"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Apr 2023 03:52:57 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10670"; a="755974267"
+X-IronPort-AV: E=Sophos;i="5.98,319,1673942400"; d="scan'208";a="755974267"
+Received: from nirmoyda-mobl.ger.corp.intel.com (HELO [10.252.41.195])
+ ([10.252.41.195])
+ by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Apr 2023 03:52:55 -0700
+Message-ID: <6131a80c-a23c-ee17-3144-327b66f636bf@linux.intel.com>
+Date: Wed, 5 Apr 2023 12:52:53 +0200
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.1
+Subject: Re: [PATCH 1/5] drm/i915/ttm: Add I915_BO_PREALLOC
+Content-Language: en-US
+To: Andi Shyti <andi.shyti@linux.intel.com>, Nirmoy Das <nirmoy.das@intel.com>
+References: <20230404143100.10452-1-nirmoy.das@intel.com>
+ <ZCxO9WeZHvINgMP8@ashyti-mobl2.lan>
+From: "Das, Nirmoy" <nirmoy.das@linux.intel.com>
+In-Reply-To: <ZCxO9WeZHvINgMP8@ashyti-mobl2.lan>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,127 +62,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Daniel Vetter <daniel.vetter@intel.com>
+Cc: Jani Nikula <jani.nikula@intel.com>, intel-gfx@lists.freedesktop.org,
+ Matthew Auld <matthew.auld@intel.com>, dri-devel@lists.freedesktop.org,
+ Andrzej Hajda <andrzej.hajda@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Daniel Vetter <daniel.vetter@ffwll.ch> writes:
 
-> Apparently drivers need to check all this stuff themselves, which for
-> most things makes sense I guess. And for everything else we luck out,
-> because modern distros stopped supporting any other fbdev drivers than
-> drm ones and I really don't want to argue anymore about who needs to
-> check stuff. Therefore fixing all this just for drm fbdev emulation is
-> good enough.
+On 4/4/2023 6:23 PM, Andi Shyti wrote:
+> Hi Nirmoy,
 >
+> On Tue, Apr 04, 2023 at 04:30:56PM +0200, Nirmoy Das wrote:
+>> Add a mechanism to keep existing data when creating
+>> a ttm object with I915_BO_ALLOC_USER flag.
+> why do we need this mechanism? What was the logic behind? These
+> are all questions people might have when checking this commit.
+> Please be a bit more explicative.
 
-Agreed.
 
-> Note that var->active is not set or validated. This is just control
-> flow for fbmem.c and needs to be validated in there as needed.
+Agree, the commit message is bit short. I will add more content in next 
+revision.
+
 >
-> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> Cc: Maxime Ripard <mripard@kernel.org>
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> ---
+>> Cc: Matthew Auld <matthew.auld@intel.com>
+>> Cc: Andi Shyti <andi.shyti@linux.intel.com>
+>> Cc: Andrzej Hajda <andrzej.hajda@intel.com>
+>> Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
+>> Cc: Jani Nikula <jani.nikula@intel.com>
+>> Cc: Imre Deak <imre.deak@intel.com>
+>> Signed-off-by: Nirmoy Das <nirmoy.das@intel.com>
+> Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com>
 
-[...]
 
->  
-> +static void __fill_var(struct fb_var_screeninfo *var,
-> +		       struct drm_framebuffer *fb)
-> +{
-> +	int i;
-> +
-> +	var->xres_virtual = fb->width;
-> +	var->yres_virtual = fb->height;
-> +	var->accel_flags = FB_ACCELF_TEXT;
-> +	var->bits_per_pixel = drm_format_info_bpp(fb->format, 0);
-> +
-> +	var->height = var->width = 0;
-> +	var->left_margin = var->right_margin = 0;
-> +	var->upper_margin = var->lower_margin = 0;
-> +	var->hsync_len = var->vsync_len = 0;
-> +	var->sync = var->vmode = 0;
-> +	var->rotate = 0;
-> +	var->colorspace = 0;
-> +	for (i = 0; i < 4; i++)
-> +		var->reserved[i] = 0;
-> +}
-> +
->  /**
->   * drm_fb_helper_check_var - implementation for &fb_ops.fb_check_var
->   * @var: screeninfo to check
-> @@ -1595,8 +1616,22 @@ int drm_fb_helper_check_var(struct fb_var_screeninfo *var,
->  		return -EINVAL;
->  	}
->  
-> -	var->xres_virtual = fb->width;
-> -	var->yres_virtual = fb->height;
-> +	__fill_var(var, fb);
-> +
+Thanks,
 
-[...]
+Nirmoy
 
-There is the following here (in latest drm-misc/drm-misc-next at least):
-
-	/*
-	 * Changes struct fb_var_screeninfo are currently not pushed back
-	 * to KMS, hence fail if different settings are requested.
-	 */
-	bpp = drm_format_info_bpp(format, 0);
-	if (var->bits_per_pixel > bpp ||
-	    var->xres > fb->width || var->yres > fb->height ||
-	    var->xres_virtual > fb->width || var->yres_virtual > fb->height) {
-		drm_dbg_kms(dev, "fb requested width/height/bpp can't fit in current fb "
-			  "request %dx%d-%d (virtual %dx%d) > %dx%d-%d\n",
-			  var->xres, var->yres, var->bits_per_pixel,
-			  var->xres_virtual, var->yres_virtual,
-			  fb->width, fb->height, bpp);
-		return -EINVAL;
-	}
-
-but only the 'var->xres > fb->width || var->yres > fb->height' from the
-conditions checked could be false after your __fill_var() call above.
-
-You should drop the 'var->bits_per_pixel > bpp', 'var->xres_virtual >
-fb->width' and 'var->yres_virtual > fb->height' checks I believe since
-those will always be true.
-
-> +	/*
-> +	 * fb_pan_display() validates this, but fb_set_par() doesn't and just
-> +	 * falls over. Note that __fill_var above adjusts y/res_virtual.
-> +	 */
-> +	if (var->yoffset > var->yres_virtual - var->yres ||
-> +	    var->xoffset > var->xres_virtual - var->xres)
-> +		return -EINVAL;
-> +
-> +	/* We neither support grayscale nor FOURCC (also stored in here). */
-> +	if (var->grayscale > 0)
-> +		return -EINVAL;
-> +
-> +	if (var->nonstd)
-> +		return -EINVAL;
->  
->  	/*
->  	 * Workaround for SDL 1.2, which is known to be setting all pixel format
-> @@ -1612,11 +1647,6 @@ int drm_fb_helper_check_var(struct fb_var_screeninfo *var,
->  		drm_fb_helper_fill_pixel_fmt(var, format);
->  	}
->  
-
-Other than what I mentioned, the patch makes sense to me.
-
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
-
--- 
-Best regards,
-
-Javier Martinez Canillas
-Core Platforms
-Red Hat
-
+>
+> Thanks,
+> Andi
