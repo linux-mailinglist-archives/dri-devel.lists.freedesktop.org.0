@@ -1,53 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE1876D7C69
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Apr 2023 14:25:25 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A68876D7C9F
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Apr 2023 14:31:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7A21110E90A;
-	Wed,  5 Apr 2023 12:25:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1445E10E919;
+	Wed,  5 Apr 2023 12:31:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0617510E90A;
- Wed,  5 Apr 2023 12:25:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1680697521; x=1712233521;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=pOpaS/VzVZdJzObenZMlvFf1Tou6jErgD6Bwf6oEvXo=;
- b=SwCDo21AqMhlH6pSZwmehNQTpt6lqhISdzuH8NBBEab2n+kNFR/TzE6K
- TqZYa7rMXoQVtHMPA3sduII97bHBNX0gEIARQi+zN0PJ+l4aXnkE+HNie
- WpIZtbBn0Ul5x+pg91U8XL0ZvEvWE06NO8E7l05gCMoe2tLRzzGo73/D/
- gaW0IbNqHxhN28Zt4A7neVDZkiZYIuWNs0O3/1+qYY2pyl85O+DRP6S9Y
- N1mPTySn7S1e8wlrM70EQFXhdcd2+VwPlXG0bSXNd3gqV997Jsxi368rS
- SUsr++6zozjSDMJyduoevUwT6X7YvBqY1BGT9LPU5CoitLlDzXAgkJ5Bq g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10670"; a="345017360"
-X-IronPort-AV: E=Sophos;i="5.98,319,1673942400"; d="scan'208";a="345017360"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Apr 2023 05:25:19 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10670"; a="719300576"
-X-IronPort-AV: E=Sophos;i="5.98,319,1673942400"; d="scan'208";a="719300576"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.70])
- by orsmga001.jf.intel.com with SMTP; 05 Apr 2023 05:25:16 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Wed, 05 Apr 2023 15:25:15 +0300
-Date: Wed, 5 Apr 2023 15:25:15 +0300
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: Re: [PATCH] drm/atomic-helper: Don't set deadline for modesets
-Message-ID: <ZC1oq1+oBWM6PpRR@intel.com>
-References: <20230405081650.797972-1-daniel.vetter@ffwll.ch>
+Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AED6110E919
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 Apr 2023 12:31:34 +0000 (UTC)
+Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
+ (No client certificate requested)
+ (Authenticated sender: marex@denx.de)
+ by phobos.denx.de (Postfix) with ESMTPSA id 8346685F7F;
+ Wed,  5 Apr 2023 14:31:31 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+ s=phobos-20191101; t=1680697892;
+ bh=qNqzvu4NApAiCop59NMMwGn31purYKOu6gBuay5tl0o=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=EphCrJcFmFxaXYH8FXF1+7h4KVOMmZQHJDBAC5vusb+wp3J9LydhVYGKXYTPRbY00
+ wJPRUyMP58xsR5gMby1mtCFLTWu2oe9L8JCh1cVszN/JQiFLGFE794ewSa/kvZD7hS
+ OJc/uQvJwNFWwqt50UfV2pRVv920xno+ll9zMxLBqnT3K29M09JyUikhgOQop+lt9B
+ 8HIYVDiZ2/jyf8zovS979ibJAVdueDLoA/FYFuEQvzO3w1F0riBmZ/DcnnUgMZYiQI
+ YR9lM2iCCLTcwGIQ3lwO4K6N0d7Nbfxocg4VFg1aNEsEYcJi8PaLLSaQXbJCGsnBGf
+ u4jSuVjJd6ViA==
+Message-ID: <4b15b282-7243-3f75-4a2e-ba86791f6431@denx.de>
+Date: Wed, 5 Apr 2023 14:31:31 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230405081650.797972-1-daniel.vetter@ffwll.ch>
-X-Patchwork-Hint: comment
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH] drm: bridge: ldb: add support for using channel 1 only
+Content-Language: en-US
+To: Luca Ceresoli <luca.ceresoli@bootlin.com>
+References: <20230404073720.1465552-1-luca.ceresoli@bootlin.com>
+ <5b514970-cfc8-41de-7ae6-f608f5187860@denx.de>
+ <20230405093017.62ccb4f6@booty>
+From: Marek Vasut <marex@denx.de>
+In-Reply-To: <20230405093017.62ccb4f6@booty>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
+X-Virus-Status: Clean
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,63 +57,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Daniel Vetter <daniel.vetter@intel.com>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Robert Foss <rfoss@kernel.org>,
+ Jonas Karlman <jonas@kwiboo.se>,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Apr 05, 2023 at 10:16:50AM +0200, Daniel Vetter wrote:
-> If the crtc is being switched on or off then the semantics of
-> computing the timestampe of the next vblank is somewhat ill-defined.
-> And indeed, the code splats with a warning in the timestamp
-> computation code. Specifically it hits the check to make sure that
-> atomic drivers have full set up the timing constants in the drm_vblank
-> structure, and that's just not the case before the crtc is actually
-> on.
-> 
-> For robustness it seems best to just not set deadlines for modesets.
-> 
-> Link: https://lore.kernel.org/dri-devel/dfc21f18-7e1e-48f0-c05a-d659b9c90b91@linaro.org/
-> Fixes: d39e48ca80c0 ("drm/atomic-helper: Set fence deadline for vblank")
-> Cc: Rob Clark <robdclark@chromium.org>
-> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> Cc: Maxime Ripard <mripard@kernel.org>
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Reported-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> Tested-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org> # test patch only
-> Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> ---
->  drivers/gpu/drm/drm_atomic_helper.c | 3 +++
->  1 file changed, 3 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
-> index f21b5a74176c..6640d80d84f3 100644
-> --- a/drivers/gpu/drm/drm_atomic_helper.c
-> +++ b/drivers/gpu/drm/drm_atomic_helper.c
-> @@ -1528,6 +1528,9 @@ static void set_fence_deadline(struct drm_device *dev,
->  	for_each_new_crtc_in_state (state, crtc, new_crtc_state, i) {
->  		ktime_t v;
->  
-> +		if (drm_atomic_crtc_needs_modeset(new_crtc_state))
-> +			continue;
+On 4/5/23 09:30, Luca Ceresoli wrote:
 
-Should this stuff also be skipped when !new_crtc_state->active?
-I didn't actually check what drm_crtc_next_vblank_start() ends
-up doing in that case.
+[...]
 
-> +
->  		if (drm_crtc_next_vblank_start(crtc, &v))
->  			continue;
->  
-> -- 
-> 2.40.0
+>>> @@ -311,10 +314,23 @@ static int fsl_ldb_probe(struct platform_device *pdev)
+>>>    	if (IS_ERR(fsl_ldb->regmap))
+>>>    		return PTR_ERR(fsl_ldb->regmap);
+>>>    
+>>> -	/* Locate the panel DT node. */
+>>> -	panel_node = of_graph_get_remote_node(dev->of_node, 1, 0);
+>>> -	if (!panel_node)
+>>> -		return -ENXIO;
+>>> +	/* Locate the remote ports and the panel node */
+>>> +	remote1 = of_graph_get_remote_node(dev->of_node, 1, 0);
+>>> +	remote2 = of_graph_get_remote_node(dev->of_node, 2, 0);
+>>> +	fsl_ldb->ch0_enabled = (remote1 != NULL);
+>>> +	fsl_ldb->ch1_enabled = (remote2 != NULL);
+>>> +	panel_node = of_node_get(remote1 ? remote1 : remote2);
+>>
+>> You can even do this without the middle 'remote1' I think:
+>>
+>> panel_node = of_node_get(remote1 ? : remote2);
+> 
+> Apparently, but honestly with such short expressions clearly having no
+> side effects I think it's not helping readability.
 
--- 
-Ville Syrjälä
-Intel
+I think even the ternary operator itself isn't helpful much, but that's 
+a matter of taste, and I don't have a better suggestion which would 
+improve the readability either (I tried to expand it into if()... but 
+that looks bad too).
+
+No need to change anything.
+
+[...]
+
+Thanks for the patch.
