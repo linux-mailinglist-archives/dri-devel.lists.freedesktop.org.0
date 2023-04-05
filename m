@@ -1,69 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11E456D81E8
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Apr 2023 17:30:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 55CE76D8200
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Apr 2023 17:34:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8E1D210E9EC;
-	Wed,  5 Apr 2023 15:30:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 20CE410E0EA;
+	Wed,  5 Apr 2023 15:34:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-x131.google.com (mail-il1-x131.google.com
- [IPv6:2607:f8b0:4864:20::131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EDF9110E9EC
- for <dri-devel@lists.freedesktop.org>; Wed,  5 Apr 2023 15:30:36 +0000 (UTC)
-Received: by mail-il1-x131.google.com with SMTP id r19so7720297ilj.6
- for <dri-devel@lists.freedesktop.org>; Wed, 05 Apr 2023 08:30:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1680708634;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=UEtViaaPGjuALXV+zDvNSJPX33bcrmdyEjKhggGHKVA=;
- b=jzHCjwOwc5g16VEfpkno+HSo7GixfZVbZ5vh359WbzsPKIn4CCxlNwWKTyDkCqIsIK
- Lw4ooHC4Bb5hIPpADQArYfKcMVVxOg5lXKIKG7yBDGmzmDBFg+qllxUU6WwyYtl9z81K
- Vr1C0PVLGvZpaj1OXhEbQRdsnOWfnwkACVAKU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680708634;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=UEtViaaPGjuALXV+zDvNSJPX33bcrmdyEjKhggGHKVA=;
- b=bYtdLExKWibFwv+Uq5IKIbSdfxNoMKx+ZDQyog9wqkQav3ZrZM0E34UGSwrDSq7zh2
- DYB/VGYHljZ8P6JzDPHDUi/yb23DKMaObs6e7Oo5o3WUAsRtTNXxHNS3JaHDFKfkM8ye
- ECgBjH5OojLjyu22TelghtUMgSzehPkvgREfN5mp9VQS74yQMUGJa5CbQnccCra9ywRK
- zir6u5p8Bi5dmR558qFrx0cefp5MLoqyeCAT433mIxYqSGSR9B1Mbjx2Rqtg/LQR3/Hp
- heH0jqFwLZMgO7sc/LPX+hdpQplayug2hFESPRRIXZFFjK0MA6VWUzq2XoXPA4SFPpSk
- /cyA==
-X-Gm-Message-State: AAQBX9fOXwU/iV/93pdOm1TEe0Y+VbdJtHNpXIj/K1ZRPJgAmgdYhIwY
- VjOByl/uBNElziLfZGuGc1CqNfUiAKa4au73Whk=
-X-Google-Smtp-Source: AKy350YJIrnOXRNk3loB9Kcmdvce9N2Vdtq5YRuFomhQSbeGL9kzTufY2jt8dDjvwAqHI906u8sJQw==
-X-Received: by 2002:a92:cecd:0:b0:316:e6e4:570b with SMTP id
- z13-20020a92cecd000000b00316e6e4570bmr4596853ilq.11.1680708634559; 
- Wed, 05 Apr 2023 08:30:34 -0700 (PDT)
-Received: from mail-io1-f54.google.com (mail-io1-f54.google.com.
- [209.85.166.54]) by smtp.gmail.com with ESMTPSA id
- 8-20020a056e0211a800b00312f2936087sm3943086ilj.63.2023.04.05.08.30.33
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 05 Apr 2023 08:30:33 -0700 (PDT)
-Received: by mail-io1-f54.google.com with SMTP id bh15so6819778iob.9
- for <dri-devel@lists.freedesktop.org>; Wed, 05 Apr 2023 08:30:33 -0700 (PDT)
-X-Received: by 2002:a02:8503:0:b0:3a9:75c9:da25 with SMTP id
- g3-20020a028503000000b003a975c9da25mr3385997jai.1.1680708632983; Wed, 05 Apr
- 2023 08:30:32 -0700 (PDT)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 94DEB10E0EA
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 Apr 2023 15:34:47 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id D76FB623C3;
+ Wed,  5 Apr 2023 15:34:46 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AF7C9C433EF;
+ Wed,  5 Apr 2023 15:34:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1680708886;
+ bh=q6hazTR3zs7E7OVM3zxpzK5DagX6jtQENEamOL0SGKU=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=mlbEhXatZkXJ9X7FsGvPf2rH95VpY5tOnyIMJWR/0y9to3LuusuWOEW94RzKcDlKg
+ HsFf5CsPOKukH8P5uoSP2Z0JlxMdLwy9OxF/8G86S5WBCQNQtEOwVMDqSea8cvrsDU
+ 564oj+TiTuatTLbxixAITrHG3+c5+iQ5kEWuaj8LLDEFmeZMfABdscXZNA/eAMWJAk
+ 0YkRM5fCov8t3qCX2aBvV3kmH3qO4N9tKQnMqdz4QY5qygfyDOUcQlTmMnAu3at4ih
+ jXuoUGUjvrX+RS3OfX29rQcD6mKS146C1VyprHv8nlDm6+/mgIZ+D1r/IpS6sIO5UV
+ 4+HTzWQ25QIJA==
+Date: Wed, 5 Apr 2023 16:34:31 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Maxime Ripard <maxime@cerno.tech>
+Subject: Re: [PATCH v3 43/65] ASoC: tlv320aic32x4: Add a determine_rate hook
+Message-ID: <fcc11e4d-eba6-4eff-b3e5-9488a4da84c3@sirena.org.uk>
+References: <20221018-clk-range-checks-fixes-v3-0-9a1358472d52@cerno.tech>
+ <20221018-clk-range-checks-fixes-v3-43-9a1358472d52@cerno.tech>
+ <01f32440-8dd2-4030-9006-a3123be55845@sirena.org.uk>
+ <erm4iq3mygnrr4h2gd5cag3sfuovv47ibdqsbmxcfabngvnwy4@z63ksvj55zuu>
 MIME-Version: 1.0
-References: <20230405100452.44225-1-angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20230405100452.44225-1-angelogioacchino.delregno@collabora.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Wed, 5 Apr 2023 08:30:20 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=UsPG+syxzLvtTaT=kK6mQZ76t5NF5M8B5UiDUDLNSKzg@mail.gmail.com>
-Message-ID: <CAD=FV=UsPG+syxzLvtTaT=kK6mQZ76t5NF5M8B5UiDUDLNSKzg@mail.gmail.com>
-Subject: Re: [PATCH] drm/panel-edp: Add AUO NE135FBM-N41 v8.1 panel entry
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="rWy5+BLE6plJ+54H"
+Content-Disposition: inline
+In-Reply-To: <erm4iq3mygnrr4h2gd5cag3sfuovv47ibdqsbmxcfabngvnwy4@z63ksvj55zuu>
+X-Cookie: 1 bulls, 3 cows.
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,30 +56,80 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: neil.armstrong@linaro.org, sam@ravnborg.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, kernel@collabora.com
+Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Prashant Gaikwad <pgaikwad@nvidia.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Michael Turquette <mturquette@baylibre.com>, Sekhar Nori <nsekhar@ti.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ dri-devel@lists.freedesktop.org, Liam Girdwood <lgirdwood@gmail.com>,
+ Paul Cercueil <paul@crapouillou.net>, Max Filippov <jcmvbkbc@gmail.com>,
+ Thierry Reding <thierry.reding@gmail.com>, linux-phy@lists.infradead.org,
+ linux-clk@vger.kernel.org, Abel Vesa <abelvesa@kernel.org>,
+ Kishon Vijay Abraham I <kishon@kernel.org>,
+ Samuel Holland <samuel@sholland.org>, Takashi Iwai <tiwai@suse.com>,
+ linux-tegra@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>, Chen-Yu Tsai <wens@csie.org>,
+ NXP Linux Team <linux-imx@nxp.com>, Orson Zhai <orsonzhai@gmail.com>,
+ Ulf Hansson <ulf.hansson@linaro.org>, linux-mips@vger.kernel.org,
+ Luca Ceresoli <luca.ceresoli@bootlin.com>, linux-rtc@vger.kernel.org,
+ Charles Keepax <ckeepax@opensource.cirrus.com>,
+ David Lechner <david@lechnology.com>, alsa-devel@alsa-project.org,
+ Manivannan Sadhasivam <mani@kernel.org>, linux-kernel@vger.kernel.org,
+ Sascha Hauer <s.hauer@pengutronix.de>, linux-actions@lists.infradead.org,
+ Richard Fitzgerald <rf@opensource.cirrus.com>,
+ linux-mediatek@lists.infradead.org,
+ Baolin Wang <baolin.wang@linux.alibaba.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
+ linux-arm-kernel@lists.infradead.org,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Alessandro Zummo <a.zummo@towertech.it>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>, linux-sunxi@lists.linux.dev,
+ Stephen Boyd <sboyd@kernel.org>, patches@opensource.cirrus.com,
+ Peter De Schrijver <pdeschrijver@nvidia.com>,
+ linux-stm32@st-md-mailman.stormreply.com,
+ Nicolas Ferre <nicolas.ferre@microchip.com>,
+ Andreas =?iso-8859-1?Q?F=E4rber?= <afaerber@suse.de>,
+ linux-renesas-soc@vger.kernel.org, Dinh Nguyen <dinguyen@kernel.org>,
+ Vinod Koul <vkoul@kernel.org>, Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Chunyan Zhang <zhang.lyra@gmail.com>, Shawn Guo <shawnguo@kernel.org>,
+ Claudiu Beznea <claudiu.beznea@microchip.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
 
-On Wed, Apr 5, 2023 at 3:05=E2=80=AFAM AngeloGioacchino Del Regno
-<angelogioacchino.delregno@collabora.com> wrote:
->
-> Add a panel entry with delay_200_500_e50 for the AUO NE135FBM-N41
-> version 8.1, found on a number of ACER laptops, including the
-> Swift 3 (SF313-52, SF313-53), Chromebook Spin 513 (CP513-2H) and
-> others.
->
-> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@coll=
-abora.com>
-> ---
->  drivers/gpu/drm/panel/panel-edp.c | 1 +
->  1 file changed, 1 insertion(+)
+--rWy5+BLE6plJ+54H
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Reviewed-by: Douglas Anderson <dianders@chromium.org>
+On Wed, Apr 05, 2023 at 05:17:21PM +0200, Maxime Ripard wrote:
+> On Tue, Apr 04, 2023 at 04:26:18PM +0100, Mark Brown wrote:
 
-There's not lots of reason to delay landing patches like this, so
-pushing to drm-misc-next right away.
+> > To be honest it's surprising that we'd have to manually specify this, I
+> > would expect to be able to reparent.  I suspect it'd be better to go the
+> > other way here and allow reparenting.
 
-a80c882183e3 drm/panel-edp: Add AUO NE135FBM-N41 v8.1 panel entry
+> Yeah, I think I'd prefer to allow reparenting too, but as can be seen
+> from the other reviewers in that thread, it seems like we have a very
+> split community here, so that doesn't sound very realistic without some
+> major pushback :)
+
+For these ASoC drivers I think we should just do the reparenting,
+they're very much at the leaf of the tree so the considerations that
+make it a problem sometimes are unlikely to apply.
+
+--rWy5+BLE6plJ+54H
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmQtlQYACgkQJNaLcl1U
+h9B5kwgAhgnq7R11Qu+B0UHvMPR+YuXSbduHynE7TqBLfStAOBSo1K13PASgQaa9
+wrmguaiF0D05AzsDdSViUh7jt1zNtO3da+OYl8oXujrIbMZbGni9L/fGVLPLH9LH
+S4EKLVYbDM7dTpVx0aDXvlVCYW21kOHRWWv/J6PmtESnjJOfnQGHe3Xs1h8ZgovN
+olevNVv7bIIBbK+syW2trg9ueeQFhIP8zFvA7seKaKplyJQN6b6ZBpF5/0RIVobC
+9KooGdA4p3nEKzSBi+TYDZL/NYxlB7m/Y8nMussyk40gnvHmlVGYXLA0nVd3MP6U
+GEwYUUby6V7fvlt7mTxduZug5WAoPQ==
+=MZpO
+-----END PGP SIGNATURE-----
+
+--rWy5+BLE6plJ+54H--
