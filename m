@@ -2,67 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2255B6D84A8
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Apr 2023 19:15:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF5396D84C1
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Apr 2023 19:20:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9DAD610E22B;
-	Wed,  5 Apr 2023 17:14:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 025E210EA22;
+	Wed,  5 Apr 2023 17:20:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x36.google.com (mail-oa1-x36.google.com
- [IPv6:2001:4860:4864:20::36])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9C47910E226
- for <dri-devel@lists.freedesktop.org>; Wed,  5 Apr 2023 17:14:57 +0000 (UTC)
-Received: by mail-oa1-x36.google.com with SMTP id
- 586e51a60fabf-177ca271cb8so39282222fac.2
- for <dri-devel@lists.freedesktop.org>; Wed, 05 Apr 2023 10:14:57 -0700 (PDT)
+Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com
+ [IPv6:2a00:1450:4864:20::635])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A488F10EA1F
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 Apr 2023 17:20:24 +0000 (UTC)
+Received: by mail-ej1-x635.google.com with SMTP id
+ a640c23a62f3a-9333b408ee7so3813166b.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 05 Apr 2023 10:20:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1680714896;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=8RpaBHYQHQlUz8gzTyOfx2Akoi5V+UhYtNZbrEqY4yY=;
- b=R5oEuHq4jmuDFHswm+Dm1Nyd38pEfZ3bhW7Ezqo+WXcMQPl7ObsHHKFbg472OH6m75
- uVlITwoIA/ZwVdsS3RT9+P86sZy5s3nG19kxYbb5mM+7u39eP/7V2WFHQuy5hWNM1hys
- N/7N45B5jr81rabHBpkmpS6wLUx4afgqgM5+8=
+ d=ffwll.ch; s=google; t=1680715222;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=E6Y3l2ai2dkc+mwGS+IVGglHZ/U6Qnew1qE+qgx1f2Q=;
+ b=SBpgp9hyv9GLHorepCDl1dWQ1zCUOrNCShT6xTHvqseGuObap60syj/CFUCpG5qndU
+ iQOeawocmoCTDlzaKbyqTZ15L4EQw4BzB4dCmxl7m5y2SQzh1I96hEsWopwLsz+mwMcC
+ oNHvTfsFYG9RH1uRncHAov08tORi7KaPXQnKE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680714896;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=8RpaBHYQHQlUz8gzTyOfx2Akoi5V+UhYtNZbrEqY4yY=;
- b=YLhDigHLLqIgLNax75JsC5pIQQd+EidfZ8KvGB+Bif/zPAhQXSjNYk23pAYoarq8vR
- u2UpLXv2dnUdH29s1EbYRSQgPVslC7YIe14rC17LcT+qftdftcF5sLnD4PEO65sYyu7h
- Afb4HvHs79X03nhu9s/cXw3y6nP73NCNyQMHhCdNLLxiXVl62DaG82w9Z9h7IwoWalza
- QeV14/OnhE2OToJoLbK07z0HdsGuV+OUkeUn8NmLvWVHYSgoxObgCpc/zSxdHvn0qqWP
- fp9OJl/xvL/xT+AruEFoYAoUL6PE5uNFcmQtrtwQhI9DyhV1Fs6Zwz91TR+kcx45b7oN
- hgfw==
-X-Gm-Message-State: AAQBX9fnEf+n0I5q+QJTrlG4ailpn0gkAI9jyUSsA+117KX+GfV4kCCb
- e15zKvcnegIXxauqSTKbbrYAGcqnPhwRnX/7aV3pQQ==
-X-Google-Smtp-Source: AKy350Yd3LVO+u/SGwGZK2+t1UQglBKW38h7x3bStfv3RPOc0JZGbAHPW4IlHFuu4cUpmfDjRcFUdh9MnqHxwswXNfc=
-X-Received: by 2002:a05:6870:e747:b0:17e:d863:a5c0 with SMTP id
- t7-20020a056870e74700b0017ed863a5c0mr3471458oak.8.1680714896082; Wed, 05 Apr
- 2023 10:14:56 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230404201842.567344-1-daniel.vetter@ffwll.ch>
- <5556a755-01a1-3620-8693-0fc69c6f627d@suse.de>
- <3813a2f5-c74a-4760-34ce-1c88f187c91c@suse.de>
- <ZC04hoHywz0ySzAW@phenom.ffwll.local>
- <3fd03c4c-3be6-e56b-faec-bd67a58cda09@suse.de>
- <ZC1BlNCbXPlmAhj0@phenom.ffwll.local>
- <eee11545-2a78-4556-be82-5178ea09d0d8@suse.de>
- <877cuqd1f8.fsf@minerva.mail-host-address-is-not-set>
- <ZC11J3og4Kc9ta6m@phenom.ffwll.local>
- <242ab20f-affe-b55a-6068-5ea634705cf6@suse.de>
- <ZC2beu/9inolwIlr@phenom.ffwll.local>
- <87bkk29smu.fsf@minerva.mail-host-address-is-not-set>
-In-Reply-To: <87bkk29smu.fsf@minerva.mail-host-address-is-not-set>
+ d=1e100.net; s=20210112; t=1680715222;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=E6Y3l2ai2dkc+mwGS+IVGglHZ/U6Qnew1qE+qgx1f2Q=;
+ b=Ly3ARAnL7odGj/CFI6mENF5V+Uw9uZhB/6BYriWzBJASyB+YNXusdxJBjBql+JN2Nt
+ 3oU5ONMJBuo5TWhVPEHDeUGA8e79i8mDJ9mDNczLQ/C0qZ3n+l8OVf4XqfGJ09vFDbIJ
+ 3mO0QrIiGwJNSj95K8Oo4hQjXFlPvGoucxXTHoSFoTSMfn+fUXZYGPuq9lyDT9JZyQBV
+ c7AckCrmN2BWpWqtLqDUADNkQdF1vRQMmSjfndpPm56bO4j3GFDUOfYBJDehLRSyMlrt
+ UfZySyhJbiFrN9RqNONioaPnX9Tm5CKU1ecV49aFVDPeKaSi14u1j8p1BWuZdxvf0OkW
+ 7DLg==
+X-Gm-Message-State: AAQBX9ei+UZB+awe4mFEW3OfOJvYAHb3TZlbvd8/un9L1/H19Hs3shJR
+ Bn0HFLamOiflqf7SYS8cdVEbCg==
+X-Google-Smtp-Source: AKy350ZwGbyqfaCkugmYUI/uINYuGvFkZm6SRhoXyZOTjkrRlbZEGaRGbGQLY/1n8PyJmKLwiowUpQ==
+X-Received: by 2002:a17:906:3f12:b0:947:8734:a058 with SMTP id
+ c18-20020a1709063f1200b009478734a058mr2278478ejj.4.1680715222675; 
+ Wed, 05 Apr 2023 10:20:22 -0700 (PDT)
+Received: from phenom.ffwll.local (212-51-149-33.fiber7.init7.net.
+ [212.51.149.33]) by smtp.gmail.com with ESMTPSA id
+ xc2-20020a170907074200b00947a6d84fefsm7397173ejb.75.2023.04.05.10.20.21
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 05 Apr 2023 10:20:22 -0700 (PDT)
+Date: Wed, 5 Apr 2023 19:20:20 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
-Date: Wed, 5 Apr 2023 19:14:44 +0200
-Message-ID: <CAKMK7uGbPWE5mg2+ojxxEdfknDzmjDr+5n_y-t-nYNzDFE21EA@mail.gmail.com>
-Subject: Re: [PATCH 1/8] drm/gma500: Use
- drm_aperture_remove_conflicting_pci_framebuffers
 To: Javier Martinez Canillas <javierm@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [PATCH 3/3] drm/fb-helper: fix input validation gaps in check_var
+Message-ID: <ZC2t1I1SQrQh/fy1@phenom.ffwll.local>
+References: <20230404194038.472803-1-daniel.vetter@ffwll.ch>
+ <20230404194038.472803-3-daniel.vetter@ffwll.ch>
+ <87a5zmd2jn.fsf@minerva.mail-host-address-is-not-set>
+ <ZC12aR9ddp3j/3dL@phenom.ffwll.local>
+ <87ilea9twa.fsf@minerva.mail-host-address-is-not-set>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87ilea9twa.fsf@minerva.mail-host-address-is-not-set>
+X-Operating-System: Linux phenom 6.1.0-7-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,101 +74,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@intel.com>,
+Cc: Thomas Zimmermann <tzimmermann@suse.de>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
  Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
  DRI Development <dri-devel@lists.freedesktop.org>,
- Thomas Zimmermann <tzimmermann@suse.de>
+ Daniel Vetter <daniel.vetter@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 5 Apr 2023 at 18:54, Javier Martinez Canillas
-<javierm@redhat.com> wrote:
->
+On Wed, Apr 05, 2023 at 06:27:17PM +0200, Javier Martinez Canillas wrote:
 > Daniel Vetter <daniel@ffwll.ch> writes:
->
-> > On Wed, Apr 05, 2023 at 04:32:19PM +0200, Thomas Zimmermann wrote:
->
+> 
 > [...]
->
-> >> > > >        /*
-> >> > > >         * WARNING: Apparently we must kick fbdev drivers before vgacon,
-> >> > > >         * otherwise the vga fbdev driver falls over.
-> >> > > >         */
-> >> > > >        ret = vga_remove_vgacon(pdev);
-> >> >
-> >> > This isn't enough, we also nuke stuff that's mapping the vga fb range.
->
-> Ah, also need aperture_detach_devices(VGA_FB_PHYS_BASE, VGA_FB_PHYS_SIZE) then.
->
-> [...]
->
-> >> int aperture_remove_legacy_vga_devices(struct pci_dev *pdev)
-> >> {
-> >>      aperture_detach_devices(VGA_FB_PHYS_BASE, VGA_FB_PHYS_SIZE);
-> >>
-> >>      return vga_remove_vgacon(pdev);
-> >> }
-> >>
-> >> And that can be called from gma500 and the pci aperture helper.
+> 
+> >> 
+> >> but only the 'var->xres > fb->width || var->yres > fb->height' from the
+> >> conditions checked could be false after your __fill_var() call above.
+> >> 
+> >> You should drop the 'var->bits_per_pixel > bpp', 'var->xres_virtual >
+> >> fb->width' and 'var->yres_virtual > fb->height' checks I believe since
+> >> those will always be true.
 > >
-> > But you still pass a pci_dev to that helper. Which just doesn't make any
-> > sense to me (assuming your entire point is that this isn't just a normal
-> > pci device but some special legacy vga thing), but if we go with (void)
-> > then there's more refactoring to do because the vga_remove_vgacon also
-> > wants a pdev.
-> >
-> > All so that we don't call aperture_detach_devices() on a bunch of pci
-> > bars, which apparently is not problem for any other driver, but absolutely
-> > is a huge problem for gma500 somehow.
-> >
-> > I don't understand why.
-> >
->
-> Yeah, agreed that if vga_remove_vgacon() isn't enough and another helper
-> is needed then starts to get a little silly. Maybe one option is to add a
-> 3rd param to aperture_remove_conflicting_pci_devices() and skip the logic
-> to iterate over PCI bars and call aperture_remove_conflicting_devices() ?
+> > The __fill_var is after this. I'm honestly not sure what the exact
+> 
+> Ah, your patch adds it after that indeed. Please ignore my comment then.
 
-The thing I don't get: Why does this matter for gma500 and not any of
-the other pci devices? Look at your gpu, realize there's a lot more
-than the one pci bar for vram or stolen memory, realize that we're
-nuking bars that cannot possible contain the framebuffer for everyone
-else too. Like the entire "gpus have a lot of bars" thing is the
-reason why I pulled the sysfb_disable one level up, because we've been
-doing that quite a few times before this patch (yes it's not the main
-thing, but the side-effect cleanup is why I've gone down this rabbit
-hole and wrote the entire series here):
+So rb: you?
 
-https://lore.kernel.org/dri-devel/20230404201842.567344-7-daniel.vetter@ffwll.ch/
+> > semantics are supposed to be, but essentially if userspace asks for too
+> > big virtual size, we reject it. And for anything else we then tell it
+> > (with __fill_var) how big the actually available space is.
+> >
+> > What I'm wondering now is whether too small x/yres won't lead to problems
+> > of some sorts ... For multi-screen we set the virtual size to be big
+> > enough for all crtc, and then just set x/yres to be the smallest output.
+> > That way fbcon knows to only draw as much as is visible on all screens.
+> > But if you then pan that too much, the bigger screens might not have a big
+> > enough buffer anymore and things fail (but shouldn't).
+> >
+> > Not sure how to fix that tbh.
+> 
+> Would this be a problem in practice?
 
-But somehow for gma500 it's a problem, while for everyone else it's
-fine. That's the part I dont get, or Thomas&me have been talking past
-each another and there's another issue that I'm missing.
+I'm frankly not sure. You'd get a black screen for fbcon/fbdev across all
+outputs, but only if you have userspace doing this intentionally.
+
+In a way it's just another artifact of the drm fbdev emulation not using
+ATOMIC_TEST_ONLY in the various places where it should, and so doesn't
+really know whether a configuration change will work out.
+
+We already have this in obscure mulit-monitor cases where adding another
+screen kills fbcon, because the display hw is running out of fifo or
+clocks or whatever, and because the drm fbdev code doesn't check but just
+blindly commits the entire thing as an atomic commit, the overall commit
+fails.
+
+This worked "better" with legacy kms because there we commit per-crtc, so
+if any specific crtc runs into a limit check, only that one fails to light
+up.
+
+Imo given that no one cared enough yet to write up atomic TEST_ONLY
+support for fbdev emulation I think we can continue to just ignore this
+problem.
+
+What should not happen is that fbcon code blows up drawing out of bounds
+or something like that, resulting in a kernel crash. So from that pov I
+think it's "safe" :-)
 -Daniel
-
-> > Consider this me throwing in the towel. If you&Javier are convinced this
-> > makes sense please type it up and merge it, but I'm not going to type
-> > something that just doesn't make sense to me.
->
-> Honestly, I would just go with the double drm_aperture_remove_*() helper
-> calls (your original patch) unless that causes real issues. There is no
-> point on blocking all your series just for this IMO.
->
-> Then latter if Thomas has strong opinions can send a follow-up patch for
-> the gma500 driver and the aperture helpers.
->
-> > -Daniel
-> >
->
-> --
-> Best regards,
->
-> Javier Martinez Canillas
-> Core Platforms
-> Red Hat
->
-
-
 -- 
 Daniel Vetter
 Software Engineer, Intel Corporation
