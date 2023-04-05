@@ -1,40 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75F056D72C9
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Apr 2023 05:59:53 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 37B876D72CD
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Apr 2023 06:00:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 34DB810E009;
-	Wed,  5 Apr 2023 03:59:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8298E10E056;
+	Wed,  5 Apr 2023 04:00:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 62B3D10E009
- for <dri-devel@lists.freedesktop.org>; Wed,  5 Apr 2023 03:59:47 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D1DA310E056
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 Apr 2023 04:00:29 +0000 (UTC)
 Received: from pendragon.ideasonboard.com (fp76f193f3.tkyc206.ap.nuro.jp
  [118.241.147.243])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0B76C905;
- Wed,  5 Apr 2023 05:59:43 +0200 (CEST)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 40241905;
+ Wed,  5 Apr 2023 06:00:26 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1680667185;
- bh=Dxm79oyRJT9b8gKrOzRwmkfugRaKtT8JuVJT6m5bmPI=;
+ s=mail; t=1680667228;
+ bh=AHIsH12us0GQXr96+co1pM5tm6f1rwXMYmg/pzvTPKw=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=PflqIUVBytlCg/mnUlz2Ripb1HKoq+KPIyBjcpKkQh/fkoLDQPonMbaKh/n934pJj
- hwifEitd/j17VXEWQ65Qk15EGoo1OhWQWW3gdgcm+OBVcayKu2jAQVC1FtGgEysmhk
- jTXJ3+mJCPoqToU8Mzf1Eq8uER/2UYLFH00Tnpp8=
-Date: Wed, 5 Apr 2023 06:59:52 +0300
+ b=pooJfr1XDvgME43QEgTlYSUpVUYybfLU0cWmbZr7oDqvCrthUz0qvO+CV5VboHV1Y
+ O+dTxiMHIdV/bt2cbr5wOAPTgYB0thySLTlGuJPERoz2wMISGAaMv6aeYDydy3EH60
+ /GRJwLeqUl8/zAV4afqGU+dio76Eoz17bkcD/vjc=
+Date: Wed, 5 Apr 2023 07:00:35 +0300
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: Re: [PATCH 3/5] drm: shmobile: Switch to drm_crtc_init_with_planes()
-Message-ID: <20230405035952.GI9915@pendragon.ideasonboard.com>
+Subject: Re: [PATCH 4/5] drm: shmobile: Add missing call to
+ drm_fbdev_generic_setup()
+Message-ID: <20230405040035.GJ9915@pendragon.ideasonboard.com>
 References: <cover.1680273039.git.geert+renesas@glider.be>
- <df4099d79c985c73bdc890eb0e026494b7fa5c96.1680273039.git.geert+renesas@glider.be>
+ <fd4cf33c68fd103228cf4e6d76959827b187230b.1680273039.git.geert+renesas@glider.be>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <df4099d79c985c73bdc890eb0e026494b7fa5c96.1680273039.git.geert+renesas@glider.be>
+In-Reply-To: <fd4cf33c68fd103228cf4e6d76959827b187230b.1680273039.git.geert+renesas@glider.be>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,79 +58,43 @@ Hi Geert,
 
 Thank you for the patch.
 
-On Fri, Mar 31, 2023 at 04:48:09PM +0200, Geert Uytterhoeven wrote:
-> The SH-Mobile DRM driver uses the legacy drm_crtc_init(), which
-> advertizes only the formats in safe_modeset_formats[] (XR24 and AR24) as
-> being supported.
+On Fri, Mar 31, 2023 at 04:48:10PM +0200, Geert Uytterhoeven wrote:
+> Set up generic fbdev emulation, to enable support for the Linux console.
 > 
-> Switch to drm_crtc_init_with_planes(), and advertize all supported
-> (A)RGB modes, so we can use RGB565 as the default mode for the console.
+> Use 16 as the preferred depth, as that is a good compromise between
+> colorfulness and resource utilization, and the default of the fbdev
+> driver.
 > 
+> Suggested-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
 > ---
->  drivers/gpu/drm/shmobile/shmob_drm_crtc.c | 30 +++++++++++++++++++++--
->  1 file changed, 28 insertions(+), 2 deletions(-)
+>  drivers/gpu/drm/shmobile/shmob_drm_drv.c | 3 +++
+>  1 file changed, 3 insertions(+)
 > 
-> diff --git a/drivers/gpu/drm/shmobile/shmob_drm_crtc.c b/drivers/gpu/drm/shmobile/shmob_drm_crtc.c
-> index 08dc1428aa16caf0..11dd2bc803e7cb62 100644
-> --- a/drivers/gpu/drm/shmobile/shmob_drm_crtc.c
-> +++ b/drivers/gpu/drm/shmobile/shmob_drm_crtc.c
-> @@ -18,6 +18,7 @@
+> diff --git a/drivers/gpu/drm/shmobile/shmob_drm_drv.c b/drivers/gpu/drm/shmobile/shmob_drm_drv.c
+> index faacfee24763b1d4..30493ce874192e3e 100644
+> --- a/drivers/gpu/drm/shmobile/shmob_drm_drv.c
+> +++ b/drivers/gpu/drm/shmobile/shmob_drm_drv.c
+> @@ -16,6 +16,7 @@
+>  #include <linux/slab.h>
+>  
+>  #include <drm/drm_drv.h>
+> +#include <drm/drm_fbdev_generic.h>
 >  #include <drm/drm_gem_dma_helper.h>
->  #include <drm/drm_modeset_helper.h>
->  #include <drm/drm_modeset_helper_vtables.h>
-> +#include <drm/drm_plane_helper.h>
+>  #include <drm/drm_module.h>
 >  #include <drm/drm_probe_helper.h>
->  #include <drm/drm_simple_kms_helper.h>
->  #include <drm/drm_vblank.h>
-> @@ -478,16 +479,41 @@ static const struct drm_crtc_funcs crtc_funcs = {
->  	.disable_vblank = shmob_drm_disable_vblank,
->  };
+> @@ -271,6 +272,8 @@ static int shmob_drm_probe(struct platform_device *pdev)
+>  	if (ret < 0)
+>  		goto err_irq_uninstall;
 >  
-> +static const uint32_t modeset_formats[] = {
-> +	DRM_FORMAT_RGB565,
-> +	DRM_FORMAT_RGB888,
-> +	DRM_FORMAT_ARGB8888,
-> +	DRM_FORMAT_XRGB8888,
-> +};
+> +	drm_fbdev_generic_setup(ddev, 16);
 > +
-> +static const struct drm_plane_funcs primary_plane_funcs = {
-> +	DRM_PLANE_NON_ATOMIC_FUNCS,
-> +};
-> +
->  int shmob_drm_crtc_create(struct shmob_drm_device *sdev)
->  {
->  	struct drm_crtc *crtc = &sdev->crtc.crtc;
-> +	struct drm_plane *primary;
->  	int ret;
+>  	return 0;
 >  
->  	sdev->crtc.dpms = DRM_MODE_DPMS_OFF;
->  
-> -	ret = drm_crtc_init(sdev->ddev, crtc, &crtc_funcs);
-> -	if (ret < 0)
-> +	primary = __drm_universal_plane_alloc(sdev->ddev, sizeof(*primary), 0,
-> +					      0, &primary_plane_funcs,
-> +					      modeset_formats,
-> +					      ARRAY_SIZE(modeset_formats),
-> +					      NULL, DRM_PLANE_TYPE_PRIMARY,
-> +					      NULL);
-> +	if (IS_ERR(primary))
-> +		return PTR_ERR(primary);
-
-This seems like a bit of a hack to me. Why don't you use the planes
-created by shmob_drm_plane_create() instead of allocating a new one ?
-
-> +
-> +	ret = drm_crtc_init_with_planes(sdev->ddev, crtc, primary, NULL,
-> +					&crtc_funcs, NULL);
-> +	if (ret < 0) {
-> +		drm_plane_cleanup(primary);
-> +		kfree(primary);
->  		return ret;
-> +	}
->  
->  	drm_crtc_helper_add(crtc, &crtc_helper_funcs);
->  
+>  err_irq_uninstall:
 
 -- 
 Regards,
