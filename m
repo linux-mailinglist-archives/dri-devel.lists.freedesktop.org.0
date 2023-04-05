@@ -1,78 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C08F66D81AB
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Apr 2023 17:22:20 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7303E6D81C9
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Apr 2023 17:27:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C862210E9E7;
-	Wed,  5 Apr 2023 15:22:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4A77910E9F4;
+	Wed,  5 Apr 2023 15:27:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wnew3-smtp.messagingengine.com (wnew3-smtp.messagingengine.com
- [64.147.123.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C802210E9E7
- for <dri-devel@lists.freedesktop.org>; Wed,  5 Apr 2023 15:22:13 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.west.internal (Postfix) with ESMTP id 44E3B2B06652;
- Wed,  5 Apr 2023 11:22:04 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Wed, 05 Apr 2023 11:22:13 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-type:content-type:date:date:from:from:in-reply-to
- :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm3; t=1680708123; x=1680715323; bh=pK
- RyJ3lKqA73HVF+J+BLBZfn9tTi/QA1JWsG5UbLsgo=; b=HNFiZqD6BMKLLUdk4a
- jvumOtPI1wMaeYZ9emMcv3MIDqsAmugHZhZg6XddCn+XieaYQF8kknupj/+QI/0M
- 5g4x3VL4atV9vN9FSJKWSQJUWzlMwRONbXlaBGpzw0YQUE1oVargvc8NSqFkeS9V
- WI0+siiq3+OV8MTZvKxm9OU7H9bGXZiFO3BZ4bB4zcHzgpOctkwv5KlwgLmphz0r
- CQjeSOf2bKqNeYzWVct12l4i9+N7MXJ8fE0o20TA8nwGvQJMyJ3z+ebBzInmD+NP
- 8QYbJbECukFunRjqN1V/v1aYHfWiJCayniEw0L315wY9WS3PxScIVXMX5HXvh3NV
- 4bMA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:content-type:date:date
- :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm2; t=1680708123; x=1680715323; bh=pKRyJ3lKqA73H
- VF+J+BLBZfn9tTi/QA1JWsG5UbLsgo=; b=Hir41yb5yrIxwVzQ0v7Hv1ArNLUJ3
- dt30Y+Q1eoFQzLwbLNIVU1Wi0pTfOatnRn4xBlGCXakq1yEl06w2i96GbUiw3nPM
- QGhnwY+nc6n4iU94/YTOOsGyhNyiQgyRVu9gcyen2deiH7Zt4sBCrNRccBvJghE1
- N8mgaAkPxeQiNUvuxjTGKDTb83lhcU5hBacBsggj5S0ujgqUTx6me5a2GHQV0gdS
- haoJbbYBpViZdQpcR2pFkaxuXyk6QdEgEkjBb/dWDoZ69zkEvNtd14SepBBsqcLY
- IBu6A0NXYDkcMSsbPPUOtreCJZseg2mQcdA6DtDkFfNubUZXOJCYOgvaA==
-X-ME-Sender: <xms:G5ItZLxeHHK_eTCVjATebYYo1AaIqNiZEhaplXhmnBLJw-YO4zvmLg>
- <xme:G5ItZDRad7hA709xL5uKzDOhNvq9EO3ciomh0AGrR2_hMONGAWNyBv4p_PHPgbC8C
- uPiaw5y2POd3vWjD_4>
-X-ME-Received: <xmr:G5ItZFV4LP01QvZi02OU4bjtm8GmWldCVoBamdd7-ZTxJ_2RLSuOzw1d6wPOD5FLcbjYX_Op5Mj0X2PBGWwmHGtnNiFrLvU>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvdejuddgkeekucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvfevuffkfhggtggujgesghdtsfertddtvdenucfhrhhomhepofgrgihi
- mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
- htthgvrhhnpeeuveduheeutdekvefgudevjeeufedvvdevhfejgfelgfdtkeevueegteek
- gfelfeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
- hmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:G5ItZFgGS6noxvNPwbBCIO0jSt4hlpt4AFYOjkrFocvlXR_denwyzw>
- <xmx:G5ItZNCHCOLtn7NhDKmDotimGUASIJZM9jVedAioJwFaTF6vQmBBag>
- <xmx:G5ItZOJPTfy5mgnINzNPD9HbdE_SkJoUrkPtMEPCZyzGI6UmGPzz_w>
- <xmx:G5ItZBJwDDkJ9kYGlGCnFQEtmja1Xv1D1EQjUEZ1DsADYHK59J_LLPJ_hTs>
-Feedback-ID: i8771445c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 5 Apr 2023 11:22:01 -0400 (EDT)
-Date: Wed, 5 Apr 2023 17:22:00 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: David Lechner <david@lechnology.com>
-Subject: Re: [PATCH v3 54/65] clk: da8xx: clk48: Switch to determine_rate
-Message-ID: <3nyoulu5eba6eyo644crhbtog63jh7vockbp7dz6mxquj2omsn@j56kn6vkbktg>
-References: <20221018-clk-range-checks-fixes-v3-0-9a1358472d52@cerno.tech>
- <20221018-clk-range-checks-fixes-v3-54-9a1358472d52@cerno.tech>
- <04f5d305-9992-bcdc-cd54-111eb8254155@lechnology.com>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 80B0010EA03;
+ Wed,  5 Apr 2023 15:27:50 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4B9FB113E;
+ Wed,  5 Apr 2023 08:28:33 -0700 (PDT)
+Received: from [10.57.94.33] (unknown [10.57.94.33])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 1BDF93F6C4;
+ Wed,  5 Apr 2023 08:27:46 -0700 (PDT)
+Message-ID: <8905800b-a977-e821-01ea-a43333f46904@arm.com>
+Date: Wed, 5 Apr 2023 16:27:50 +0100
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="26z4voptekiisgxx"
-Content-Disposition: inline
-In-Reply-To: <04f5d305-9992-bcdc-cd54-111eb8254155@lechnology.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH 0/4] log2: make is_power_of_2() more generic
+To: Jani Nikula <jani.nikula@intel.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ David Laight <David.Laight@ACULAB.COM>
+References: <20230330104243.2120761-1-jani.nikula@intel.com>
+ <20230330125041.83b0f39fa3a4ec1a42dfd95f@linux-foundation.org>
+ <549987e4967d45159573901d330c96a0@AcuMS.aculab.com>
+ <20230330151846.fdbc8edbfbaa6eaddb056dc7@linux-foundation.org>
+ <87edp52ufk.fsf@intel.com>
+Content-Language: en-GB
+From: Steven Price <steven.price@arm.com>
+In-Reply-To: <87edp52ufk.fsf@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,88 +49,99 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Prashant Gaikwad <pgaikwad@nvidia.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Michael Turquette <mturquette@baylibre.com>, Sekhar Nori <nsekhar@ti.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- dri-devel@lists.freedesktop.org, Liam Girdwood <lgirdwood@gmail.com>,
- Paul Cercueil <paul@crapouillou.net>, Max Filippov <jcmvbkbc@gmail.com>,
- Thierry Reding <thierry.reding@gmail.com>, linux-phy@lists.infradead.org,
- linux-clk@vger.kernel.org, Abel Vesa <abelvesa@kernel.org>,
- Kishon Vijay Abraham I <kishon@kernel.org>,
- Samuel Holland <samuel@sholland.org>, Takashi Iwai <tiwai@suse.com>,
- linux-tegra@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>, Chen-Yu Tsai <wens@csie.org>,
- NXP Linux Team <linux-imx@nxp.com>, Orson Zhai <orsonzhai@gmail.com>,
- Ulf Hansson <ulf.hansson@linaro.org>, linux-mips@vger.kernel.org,
- Luca Ceresoli <luca.ceresoli@bootlin.com>, linux-rtc@vger.kernel.org,
- Charles Keepax <ckeepax@opensource.cirrus.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>, alsa-devel@alsa-project.org,
- Manivannan Sadhasivam <mani@kernel.org>, linux-kernel@vger.kernel.org,
- Sascha Hauer <s.hauer@pengutronix.de>, linux-actions@lists.infradead.org,
- Richard Fitzgerald <rf@opensource.cirrus.com>, Mark Brown <broonie@kernel.org>,
- linux-mediatek@lists.infradead.org,
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- Matthias Brugger <matthias.bgg@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
- linux-arm-kernel@lists.infradead.org,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Alessandro Zummo <a.zummo@towertech.it>, linux-sunxi@lists.linux.dev,
- Stephen Boyd <sboyd@kernel.org>, patches@opensource.cirrus.com,
- Peter De Schrijver <pdeschrijver@nvidia.com>,
- linux-stm32@st-md-mailman.stormreply.com,
- Nicolas Ferre <nicolas.ferre@microchip.com>,
- Andreas =?utf-8?Q?F=C3=A4rber?= <afaerber@suse.de>,
- linux-renesas-soc@vger.kernel.org, Dinh Nguyen <dinguyen@kernel.org>,
- Vinod Koul <vkoul@kernel.org>, Pengutronix Kernel Team <kernel@pengutronix.de>,
- Chunyan Zhang <zhang.lyra@gmail.com>, Shawn Guo <shawnguo@kernel.org>,
- Claudiu Beznea <claudiu.beznea@microchip.com>
+Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ David Gow <davidgow@google.com>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 31/03/2023 09:31, Jani Nikula wrote:
+> On Thu, 30 Mar 2023, Andrew Morton <akpm@linux-foundation.org> wrote:
+>> On Thu, 30 Mar 2023 21:53:03 +0000 David Laight <David.Laight@ACULAB.COM> wrote:
+>>
+>>>> But wouldn't all these issues be addressed by simply doing
+>>>>
+>>>> #define is_power_of_2(n) (n != 0 && ((n & (n - 1)) == 0))
+>>>>
+>>>> ?
+>>>>
+>>>> (With suitable tweaks to avoid evaluating `n' more than once)
+>>>
+>>> I think you need to use the 'horrid tricks' from min() to get
+>>> a constant expression from constant inputs.
+>>
+>> This
+>>
+>> --- a/include/linux/log2.h~a
+>> +++ a/include/linux/log2.h
+>> @@ -41,11 +41,11 @@ int __ilog2_u64(u64 n)
+>>   * *not* considered a power of two.
+>>   * Return: true if @n is a power of 2, otherwise false.
+>>   */
+>> -static inline __attribute__((const))
+>> -bool is_power_of_2(unsigned long n)
+>> -{
+>> -	return (n != 0 && ((n & (n - 1)) == 0));
+>> -}
+>> +#define is_power_of_2(_n)				\
+>> +	({						\
+>> +		typeof(_n) n = (_n);			\
+>> +		n != 0 && ((n & (n - 1)) == 0);		\
+>> +	})
+>>  
+>>  /**
+>>   * __roundup_pow_of_two() - round up to nearest power of two
+>> _
+>>
+>> worked for me in a simple test.
+>>
+>> --- a/fs/open.c~b
+>> +++ a/fs/open.c
+>> @@ -1564,3 +1564,10 @@ int stream_open(struct inode *inode, str
+>>  }
+>>  
+>>  EXPORT_SYMBOL(stream_open);
+>> +
+>> +#include <linux/log2.h>
+>> +
+>> +int foo(void)
+>> +{
+>> +	return is_power_of_2(43);
+>> +}
+>> _
+>>
+>>
+>> foo:
+>> # fs/open.c:1573: }
+>> 	xorl	%eax, %eax	#
+>> 	ret	
+>>
+>>
+>> Is there some more tricky situation where it breaks?
+> 
+> It doesn't work with BUILD_BUG_ON_ZERO().
 
---26z4voptekiisgxx
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Like most programming problems, you just need another layer of
+indirection! The below works for me in all the cases I could think of
+(including __uint128_t).
 
-Hi David,
 
-On Wed, Apr 05, 2023 at 10:03:24AM -0500, David Lechner wrote:
-> On 4/4/23 5:11 AM, Maxime Ripard wrote:
-> > The TI DA8xx USB0 clk48 clocks implements a mux with a set_parent
-> > hook, but doesn't provide a determine_rate implementation.
-> >=20
-> > This is a bit odd, since set_parent() is there to, as its name implies,
-> > change the parent of a clock. However, the most likely candidate to
-> > trigger that parent change is a call to clk_set_rate(), with
-> > determine_rate() figuring out which parent is the best suited for a
-> > given rate.
-> >=20
->=20
-> As mentioned in my previous review, parent is selected by device
-> tree and should never be changed after init.
+#define __IS_POWER_OF_2(n) (n != 0 && ((n & (n - 1)) == 0))
 
-Great minds think alike then, because the driver implements exactly
-that, either before or after that patch.
+#define _IS_POWER_OF_2(n, unique_n)				\
+	({							\
+		typeof(n) unique_n = (n);			\
+		__IS_POWER_OF_2(unique_n);			\
+	})
 
-That patch makes the current behaviour explicit but doesn't change it in
-any way.
+#define is_power_of_2(n)					\
+	__builtin_choose_expr(__is_constexpr((n)),		\
+			      __IS_POWER_OF_2((n)),		\
+			      _IS_POWER_OF_2(n, __UNIQUE_ID(_n)))
 
-So I guess that means that I can add your Acked-by on the three patches
-you reviewed with the same message?
 
-Maxime
+Although Jani's original might be easier to understand.
 
---26z4voptekiisgxx
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZC2SGAAKCRDj7w1vZxhR
-xX3HAP9VZpkTPwIoFKEvz2QkqD5aN3JRLL2FZfZs1GkS6VKwPwEAwCQO12uyUnoP
-Ll/lRVK0qmUZkdyj49c7sQMgZB33awc=
-=2nao
------END PGP SIGNATURE-----
-
---26z4voptekiisgxx--
+Steve
