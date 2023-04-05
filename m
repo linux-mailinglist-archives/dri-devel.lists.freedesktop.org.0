@@ -1,70 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5EC06D7D87
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Apr 2023 15:18:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 771F06D7DA5
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Apr 2023 15:24:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6384310E95A;
-	Wed,  5 Apr 2023 13:18:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 352FA10E94D;
+	Wed,  5 Apr 2023 13:24:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com
- [IPv6:2a00:1450:4864:20::62c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A4F8610E95A
- for <dri-devel@lists.freedesktop.org>; Wed,  5 Apr 2023 13:18:35 +0000 (UTC)
-Received: by mail-ej1-x62c.google.com with SMTP id
- a640c23a62f3a-930bc91df7bso115450866b.1
- for <dri-devel@lists.freedesktop.org>; Wed, 05 Apr 2023 06:18:35 -0700 (PDT)
+Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com
+ [IPv6:2a00:1450:4864:20::52f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 03F6F10E94D
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 Apr 2023 13:23:57 +0000 (UTC)
+Received: by mail-ed1-x52f.google.com with SMTP id
+ 4fb4d7f45d1cf-5002f12ccfeso49971a12.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 05 Apr 2023 06:23:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1680700714;
+ d=ffwll.ch; s=google; t=1680701036; x=1683293036;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=owIcXkaALEakCsyYCvhuFxjZnRn3/iobnF0iaYiSOmA=;
- b=LUnCVrDHAXqWz7PAde65XvA6dVydLSE5W+URJKD7F9q/SBrCxWxUMvydfNro3bEswG
- sLLsmnu4nTYjB0yEWGgecLSfuX9ueLmNLR9XY6AlP88wSLkSpuN9tvFDxsmpUVARgzpv
- OUT7Ca8Zk47aUW24s1xwt815wzpgMEDYuefjs=
+ bh=uUtn3SjQI5nSiP07wrdGSQDdxhSdmFRXdcXaUGuqfA4=;
+ b=RMnD8oI7uuaTzDV97kJRv1vLB8jH29p3mkiMmcpdHolLr6bYGQhk6cJFnxRU9TPJKm
+ zME7ia1R1NQ0EYvEfBep8Mu6B6ok6nwFxvzEXLRQLXj9QngyUoFcWN/8Wuk/1hW3BbWE
+ xEdfbjbzXILLmWOG3tgQky/dlyOIIpREznuu4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680700714;
+ d=1e100.net; s=20210112; t=1680701036; x=1683293036;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=owIcXkaALEakCsyYCvhuFxjZnRn3/iobnF0iaYiSOmA=;
- b=t1bEFlTyOFufuQfQpJcfxVrwZC/AH3jF84ntt8wamFcGIjQylPws7PKIEVnGi6YUjz
- zyvPzlRbHXpKpJ9fdfSY/0G0G1Ux6HX160LsbI/bFgj1S46slkdXHpQm/iKvRtdAkQNv
- 8Ya8wy5KrQnr5gPcQgo5ISwbu2GIIoew6iYMOlDYVrEDrvEC61BhEkxdj7V1+KOngIBm
- UO4PtiAqeCZTTj/hW7NDi5UUN5NKOgSoyfDlJyQnWnwxrDNQUlPL5y4smZiE6eqaoJ7S
- VYzGP4wtiq48MHefl91piPx7QzM4yWdp8jL/xdxSaMSg+t1yabIcuYOi/qTriIBUEDzk
- uxiw==
-X-Gm-Message-State: AAQBX9fAx5qobsMOydh5sHgZVLV/aEOLRj4EuX+WIs1fdcdprYO3bRrn
- dnB1WdRJo+urNuiS58vILHRhYfrtz86xaUqv2tw=
-X-Google-Smtp-Source: AKy350YtWekditYKvim982wRyxu6n6a6gkGscXRmZ+d/XmSbYzIOqG91UqVuUW+6cgA848mLo+sjmQ==
-X-Received: by 2002:a17:906:114:b0:947:f415:db23 with SMTP id
- 20-20020a170906011400b00947f415db23mr2935923eje.1.1680700713794; 
- Wed, 05 Apr 2023 06:18:33 -0700 (PDT)
+ bh=uUtn3SjQI5nSiP07wrdGSQDdxhSdmFRXdcXaUGuqfA4=;
+ b=h8RpQDFDYBeuwilZ0TByD8+OeZYj7PEsyKoEdOWiwy+FTpRRwyucqnhyNb3oF4GbYq
+ HlFODSWa47EeYZhZeB4hqGRuJ919G6f8EeYRnnVLVWVnOdZZ6/8J7fFHBo2zDuKXeyk0
+ 9t86cxg06sZyotAsxaoXMCFDDLRl0PiSd6ySlh5QJvhY4Yg1XblimG6PhQcB/xUDDgw2
+ 8OLLbXsEkhvY8IgBHBaltHlpQQUhJUth1oN3fngxC+msng+RP/Y8LtcnzwlkPoiDjFZB
+ 8YxD5/Y7u1o6W1D1Hx/ui1NLusEv8zXIvwGa0CnApdUNfmUMVfeLykAcgFN7TzIlVcAx
+ Zrfw==
+X-Gm-Message-State: AAQBX9cYCIuhBc64+Pw69vzph29WgCOkVTvR5GHqBjsj/u+lWXH0cJ6I
+ aeGr4bmOJfMWjq0ALR3T3GvYkg==
+X-Google-Smtp-Source: AKy350Ymhhjau05nOq4CPllcGZMpBnzABWc6DhryfXIg/k1QQDRgPSCq6HmbmNjGImNdsRCxJpqfCw==
+X-Received: by 2002:a05:6402:d0e:b0:502:e50:3358 with SMTP id
+ eb14-20020a0564020d0e00b005020e503358mr1929808edb.3.1680701035988; 
+ Wed, 05 Apr 2023 06:23:55 -0700 (PDT)
 Received: from phenom.ffwll.local (212-51-149-33.fiber7.init7.net.
  [212.51.149.33]) by smtp.gmail.com with ESMTPSA id
- 11-20020a170906010b00b0093344ef3764sm7292273eje.57.2023.04.05.06.18.32
+ r6-20020a05640251c600b004fd219242a5sm7232241edd.7.2023.04.05.06.23.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 05 Apr 2023 06:18:33 -0700 (PDT)
-Date: Wed, 5 Apr 2023 15:18:31 +0200
+ Wed, 05 Apr 2023 06:23:55 -0700 (PDT)
+Date: Wed, 5 Apr 2023 15:23:53 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
 To: Javier Martinez Canillas <javierm@redhat.com>
-Subject: Re: [PATCH 1/8] drm/gma500: Use
- drm_aperture_remove_conflicting_pci_framebuffers
-Message-ID: <ZC11J3og4Kc9ta6m@phenom.ffwll.local>
-References: <20230404201842.567344-1-daniel.vetter@ffwll.ch>
- <5556a755-01a1-3620-8693-0fc69c6f627d@suse.de>
- <3813a2f5-c74a-4760-34ce-1c88f187c91c@suse.de>
- <ZC04hoHywz0ySzAW@phenom.ffwll.local>
- <3fd03c4c-3be6-e56b-faec-bd67a58cda09@suse.de>
- <ZC1BlNCbXPlmAhj0@phenom.ffwll.local>
- <eee11545-2a78-4556-be82-5178ea09d0d8@suse.de>
- <877cuqd1f8.fsf@minerva.mail-host-address-is-not-set>
+Subject: Re: [PATCH 3/3] drm/fb-helper: fix input validation gaps in check_var
+Message-ID: <ZC12aR9ddp3j/3dL@phenom.ffwll.local>
+References: <20230404194038.472803-1-daniel.vetter@ffwll.ch>
+ <20230404194038.472803-3-daniel.vetter@ffwll.ch>
+ <87a5zmd2jn.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <877cuqd1f8.fsf@minerva.mail-host-address-is-not-set>
+In-Reply-To: <87a5zmd2jn.fsf@minerva.mail-host-address-is-not-set>
 X-Operating-System: Linux phenom 6.1.0-7-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -78,101 +72,149 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
  Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
  DRI Development <dri-devel@lists.freedesktop.org>,
  Daniel Vetter <daniel.vetter@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Apr 05, 2023 at 01:16:27PM +0200, Javier Martinez Canillas wrote:
-> Thomas Zimmermann <tzimmermann@suse.de> writes:
+On Wed, Apr 05, 2023 at 12:52:12PM +0200, Javier Martinez Canillas wrote:
+> Daniel Vetter <daniel.vetter@ffwll.ch> writes:
+> 
+> > Apparently drivers need to check all this stuff themselves, which for
+> > most things makes sense I guess. And for everything else we luck out,
+> > because modern distros stopped supporting any other fbdev drivers than
+> > drm ones and I really don't want to argue anymore about who needs to
+> > check stuff. Therefore fixing all this just for drm fbdev emulation is
+> > good enough.
+> >
+> 
+> Agreed.
+> 
+> > Note that var->active is not set or validated. This is just control
+> > flow for fbmem.c and needs to be validated in there as needed.
+> >
+> > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> > Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> > Cc: Maxime Ripard <mripard@kernel.org>
+> > Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> > ---
 > 
 > [...]
 > 
-> >
-> > Your comment says that it calls a PCI function to clean up to vgacon. 
-> > That comment explains what is happening, not why. And how the PCI and 
-> > vgacon code work together is non-obvious.
-
-Would a better comment help then:
-
-	/*
-	 * gma500 is a strange hybrid device, which both acts as a pci
-	 * device (for legacy vga functionality) but also more like an
-	 * integrated display on a SoC where the framebuffer simply
-	 * resides in main memory and not in a special pci bar (that
-	 * internally redirects to a stolen range of main memory) like all
-	 * other integrated pci display devices have.
-	 *
-	 * To catch all cases we need to both remove conflicting fw
-	 * drivers for the pci device and main memory.
-	 */
-> >
-> > Again, here's my proposal for gma500:
-> >
-> > // call this from psb_pci_probe()
-> > int gma_remove_conflicting_framebuffers(struct pci_dev *pdev, const
-> > 					struct drm_driver *req_driver)
-> > {
-> > 	resource_size_t base = 0;
-> > 	resource_size_t size = (resource_size_t)-1;
-> > 	const char *name = req_driver->name;
-> > 	int ret;
-> >
-> > 	/*
-> > 	 * We cannot yet easily find the framebuffer's location in
-> > 	 * memory. So remove all framebuffers here.
-> > 	 *
-> > 	 * TODO: Refactor psb_driver_load() to map vdc_reg earlier. Then
-> > 	 *       we might be able to read the framebuffer range from the
-> > 	 *       device.
-> > 	 */
-> > 	ret = aperture_remove_conflicting_devices(base, size, name);
-
-Why can't this be a call to drm_aperture_remove_framebuffers? At least as
-long as we don't implement the "read out actual fb base and size" code,
-which also none of the other soc drivers bother with?
-
-> > 	if (ret)
-> > 		return ret;
-> >
-> > 	/*
-> > 	 * WARNING: Apparently we must kick fbdev drivers before vgacon,
-> > 	 * otherwise the vga fbdev driver falls over.
-> > 	 */
-> > 	ret = vga_remove_vgacon(pdev);
-
-This isn't enough, we also nuke stuff that's mapping the vga fb range.
-Which is really the reason I don't want to open code random stuff, pci is
-self-describing, if it's decoding legacy vga it can figure this out and we
-only have to implement the "how do I nuke legacy vga fw drivers from a pci
-driver" once.
-
-Not twice like this would result in, with the gma500 version being only
-half the thing.
-
-If it absolutely has to be a separate function for the gma500 pci legacy
-vga (I still don't get why, it's just a pci vga device, there's absolutely
-nothing special about that part at all) then I think it needs to be at
-least a common "nuke a legacy vga device for me pls" function, which
-shares the implementation with the pci one.
-
-But not open-coding just half of it only.
-
-> > 	if (ret)
-> > 		return ret;
-> >
-> > 	return 0;
-> > }
-> >
+> >  
+> > +static void __fill_var(struct fb_var_screeninfo *var,
+> > +		       struct drm_framebuffer *fb)
+> > +{
+> > +	int i;
+> > +
+> > +	var->xres_virtual = fb->width;
+> > +	var->yres_virtual = fb->height;
+> > +	var->accel_flags = FB_ACCELF_TEXT;
+> > +	var->bits_per_pixel = drm_format_info_bpp(fb->format, 0);
+> > +
+> > +	var->height = var->width = 0;
+> > +	var->left_margin = var->right_margin = 0;
+> > +	var->upper_margin = var->lower_margin = 0;
+> > +	var->hsync_len = var->vsync_len = 0;
+> > +	var->sync = var->vmode = 0;
+> > +	var->rotate = 0;
+> > +	var->colorspace = 0;
+> > +	for (i = 0; i < 4; i++)
+> > +		var->reserved[i] = 0;
+> > +}
+> > +
+> >  /**
+> >   * drm_fb_helper_check_var - implementation for &fb_ops.fb_check_var
+> >   * @var: screeninfo to check
+> > @@ -1595,8 +1616,22 @@ int drm_fb_helper_check_var(struct fb_var_screeninfo *var,
+> >  		return -EINVAL;
+> >  	}
+> >  
+> > -	var->xres_virtual = fb->width;
+> > -	var->yres_virtual = fb->height;
+> > +	__fill_var(var, fb);
+> > +
 > 
-> If this is enough I agree that is much more easier code to understand.
+> [...]
+> 
+> There is the following here (in latest drm-misc/drm-misc-next at least):
+> 
+> 	/*
+> 	 * Changes struct fb_var_screeninfo are currently not pushed back
+> 	 * to KMS, hence fail if different settings are requested.
+> 	 */
+> 	bpp = drm_format_info_bpp(format, 0);
+> 	if (var->bits_per_pixel > bpp ||
+> 	    var->xres > fb->width || var->yres > fb->height ||
+> 	    var->xres_virtual > fb->width || var->yres_virtual > fb->height) {
+> 		drm_dbg_kms(dev, "fb requested width/height/bpp can't fit in current fb "
+> 			  "request %dx%d-%d (virtual %dx%d) > %dx%d-%d\n",
+> 			  var->xres, var->yres, var->bits_per_pixel,
+> 			  var->xres_virtual, var->yres_virtual,
+> 			  fb->width, fb->height, bpp);
+> 		return -EINVAL;
+> 	}
+> 
+> but only the 'var->xres > fb->width || var->yres > fb->height' from the
+> conditions checked could be false after your __fill_var() call above.
+> 
+> You should drop the 'var->bits_per_pixel > bpp', 'var->xres_virtual >
+> fb->width' and 'var->yres_virtual > fb->height' checks I believe since
+> those will always be true.
 
-It's still two calls and more code with more bugs? I'm not seeing the
-point.
+The __fill_var is after this. I'm honestly not sure what the exact
+semantics are supposed to be, but essentially if userspace asks for too
+big virtual size, we reject it. And for anything else we then tell it
+(with __fill_var) how big the actually available space is.
+
+What I'm wondering now is whether too small x/yres won't lead to problems
+of some sorts ... For multi-screen we set the virtual size to be big
+enough for all crtc, and then just set x/yres to be the smallest output.
+That way fbcon knows to only draw as much as is visible on all screens.
+But if you then pan that too much, the bigger screens might not have a big
+enough buffer anymore and things fail (but shouldn't).
+
+Not sure how to fix that tbh.
 -Daniel
+
+> 
+> > +	/*
+> > +	 * fb_pan_display() validates this, but fb_set_par() doesn't and just
+> > +	 * falls over. Note that __fill_var above adjusts y/res_virtual.
+> > +	 */
+> > +	if (var->yoffset > var->yres_virtual - var->yres ||
+> > +	    var->xoffset > var->xres_virtual - var->xres)
+> > +		return -EINVAL;
+> > +
+> > +	/* We neither support grayscale nor FOURCC (also stored in here). */
+> > +	if (var->grayscale > 0)
+> > +		return -EINVAL;
+> > +
+> > +	if (var->nonstd)
+> > +		return -EINVAL;
+> >  
+> >  	/*
+> >  	 * Workaround for SDL 1.2, which is known to be setting all pixel format
+> > @@ -1612,11 +1647,6 @@ int drm_fb_helper_check_var(struct fb_var_screeninfo *var,
+> >  		drm_fb_helper_fill_pixel_fmt(var, format);
+> >  	}
+> >  
+> 
+> Other than what I mentioned, the patch makes sense to me.
+> 
+> Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+> 
+> -- 
+> Best regards,
+> 
+> Javier Martinez Canillas
+> Core Platforms
+> Red Hat
+> 
+
 -- 
 Daniel Vetter
 Software Engineer, Intel Corporation
