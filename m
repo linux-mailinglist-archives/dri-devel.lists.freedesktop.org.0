@@ -1,59 +1,137 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 938506D7EED
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Apr 2023 16:14:49 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E8DC6D7EEB
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Apr 2023 16:14:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 555EB10E98A;
-	Wed,  5 Apr 2023 14:14:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7A37310E987;
+	Wed,  5 Apr 2023 14:14:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C7A7A10E98D;
- Wed,  5 Apr 2023 14:14:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1680704085; x=1712240085;
- h=message-id:date:mime-version:subject:from:to:cc:
- references:in-reply-to:content-transfer-encoding;
- bh=oxj5StD2UhFS14Ga3X4J/q+X+pUmXWLy/TPX+TY4StY=;
- b=HIIQi/H1DTYi+cffX1urC8uSHVQnTtrdR5v+UVc+FJtTwVgmDuQSsszj
- OjULaUJ/a2Ip9ONRid6l1PvH8Px74EvdhE3hP1+zey+HP6d04Ybw82r2Y
- ev/OrLtaVgkDy81eqEXJRySdwFLs4iMmY3RrEFLot0UKosZGIqakZz3Nd
- dO1xdLUVwMln0tuWgAbt7bd3y2Cvk/wRjY216JefIngOn7NpJ9OfGcSep
- f28rhRHk0jvOBuJs3iehwpYsYyxkdjN8pbssTiMi+vCj21WJT4brJWdMd
- ezu/cccUuTx7WXy+9jd8VHb8BLQMZaTtdeN3FJKHVeNBj6BFwT05PeLQW A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10671"; a="407545189"
-X-IronPort-AV: E=Sophos;i="5.98,319,1673942400"; d="scan'208";a="407545189"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Apr 2023 07:14:11 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10670"; a="719339212"
-X-IronPort-AV: E=Sophos;i="5.98,319,1673942400"; d="scan'208";a="719339212"
-Received: from ahajda-mobl.ger.corp.intel.com (HELO [10.213.30.7])
- ([10.213.30.7])
- by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Apr 2023 07:14:08 -0700
-Message-ID: <8c8511ab-4229-f4d5-2516-d7e867c32020@intel.com>
-Date: Wed, 5 Apr 2023 16:14:05 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Firefox/102.0 Thunderbird/102.9.1
-Subject: Re: [PATCH 4/5] drm/i915/display: Add helper func to get intel_fbdev
- from drm_fb_helper
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam11on2040.outbound.protection.outlook.com [40.107.236.40])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 19BEC10E989
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 Apr 2023 14:14:21 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=QCYn8g0b2AbMx/0C9yU/Ph43xr3JKznmlVtn7Nz+ZNKe4bTjcLLDnFsZsx5D/QClPhDytVFzb7lIxAr/PPrWb7iIMWJSQ3y2C4X4cfJX8rD/IgaHNfnown+hkG4ngWd+irEO+SWftr2DWLcjAlCk0Lzv26rGvgz0+f8AntmTLudDtgbRvebxh+a7IEzcM6WRQWMWWm3U61PO8iaTt72jDX4k7x4FC8MfnosSzDoDj35ZplR+D/JuUaMjiFBEVksSI4BUu+jaLnEO2FDzRFkbH4vc0gyQ6t2ftorlCtwZIb84Ryo3yuDfcBpVp6sw6ukrbRsMfnzRuCA8cYh6brcV3A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=INSvVes12oim6c/N1vy4SGbvRUSVDv11ZE30GMkAWOU=;
+ b=JYw58WLAPVuBnZTFBd90ca6YTC57rjZnFljAWsuG9npYKc1n4MmWVSm9nj8OWD7KrPdNWaJ1v7XR+6aHGpztamJCAELYz0uBzrdgvk73g5BpgeF9wQMQtcbY8ZkWRqod2PAn2cdFHlhwp+fOpg4mvW5ZNN/vftvJhhNeHIN5uqxoKTsslz8JDDdED5RbSY7DNCRha6Pbv7gIFr8hki2N+qb4Rj08BxwXV0z8Tc0IU7zeIw+kTYHBrrUuKIQVvv5ZhePq1NvjjLECy5QZ3VlpVNQ/bt6BhuEHe7yCtsB0gFPvqb83lPGI+QnY+43xJsLDSgUzKokMw0Q/VAtZk2vXwQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=INSvVes12oim6c/N1vy4SGbvRUSVDv11ZE30GMkAWOU=;
+ b=Nk7Ueb4/JPB4x07LgQOR1uo6L/oD9SzncQel9iYVAshSVdFh9bda1l926rUI9gh3glreBscpL4F0iekrrgyAfz4dNmZXyEbTiA39fBD+P3Y9XSx3JIbc8PVKomGV9ARXNqu9Z1hk/ZqOlxNgAEedHY8GVTwrIkb/aHfP8F9d7Wg=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
+ by DS7PR12MB8250.namprd12.prod.outlook.com (2603:10b6:8:db::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6254.35; Wed, 5 Apr
+ 2023 14:14:19 +0000
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::4624:dc39:943e:6ae]) by BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::4624:dc39:943e:6ae%5]) with mapi id 15.20.6254.035; Wed, 5 Apr 2023
+ 14:14:19 +0000
+Message-ID: <20502c4c-c987-3117-119a-2fd38ae5f607@amd.com>
+Date: Wed, 5 Apr 2023 16:14:11 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH RFC 10/18] drm/scheduler: Add can_run_job callback
 Content-Language: en-US
-From: Andrzej Hajda <andrzej.hajda@intel.com>
-To: Nirmoy Das <nirmoy.das@intel.com>, intel-gfx@lists.freedesktop.org
-References: <20230404143100.10452-1-nirmoy.das@intel.com>
- <20230404143100.10452-4-nirmoy.das@intel.com>
- <2b6440b5-a6de-0124-8336-38030ae82703@intel.com>
-Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
- Gdansk - KRS 101882 - NIP 957-07-52-316
-In-Reply-To: <2b6440b5-a6de-0124-8336-38030ae82703@intel.com>
+To: Asahi Lina <lina@asahilina.net>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Miguel Ojeda <ojeda@kernel.org>,
+ Alex Gaynor <alex.gaynor@gmail.com>,
+ Wedson Almeida Filho <wedsonaf@gmail.com>, Boqun Feng
+ <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+ =?UTF-8?Q?Bj=c3=b6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>, Luben Tuikov <luben.tuikov@amd.com>,
+ Jarkko Sakkinen <jarkko@kernel.org>,
+ Dave Hansen <dave.hansen@linux.intel.com>,
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>, Karol Herbst <kherbst@redhat.com>,
+ Ella Stanforth <ella@iglunix.org>,
+ Faith Ekstrand <faith.ekstrand@collabora.com>, Mary <mary@mary.zone>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ rust-for-linux@vger.kernel.org, linux-media@vger.kernel.org,
+ linaro-mm-sig@lists.linaro.org, linux-sgx@vger.kernel.org,
+ asahi@lists.linux.dev
+References: <20230307-rust-drm-v1-0-917ff5bc80a8@asahilina.net>
+ <20230307-rust-drm-v1-10-917ff5bc80a8@asahilina.net>
+ <ZC16Q8MhHEcutX1b@phenom.ffwll.local>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+In-Reply-To: <ZC16Q8MhHEcutX1b@phenom.ffwll.local>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: FR2P281CA0185.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:9f::18) To BN8PR12MB3587.namprd12.prod.outlook.com
+ (2603:10b6:408:43::13)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|DS7PR12MB8250:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8893a67c-cc2a-48ae-24ee-08db35e00bd1
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: XhIcQy0YBAxRM6hrAWIZTRgtPXS/EbsbxjQM5yetl2NuyS629JB1WnEOwstmkZc1QI+06zwWQiCyWzgLc3ZpVwFFYHctD8vc2sSGXAxTKO+6ZQhaRIT10YJ9MGH49Hh1aGrKPaJkysggvNZ5fZflZwRfCHq0C37XJ6ltRGUDgotRo9wMTRb1O2nOEw0DcRxHllX8jVeLilDVdl3cSkkRK8JA9oc0fbmMHlWy+VTEqTduW9UbF7y19cJWg6PBo1cmcChV40M4LfT33pztpBZ3/1irn6WXM8jXbVks40926UyAtRd3dkbwvL+GZg9Y3eGgnRM60KnCygy8Q5SUvxCzefTESD/1s8Zea3k/9/zk/Vhjwb/37tazK0IYUnA7qFpjKyTKT5zCrLKt0P7xIsVwehTBY7fBCdBeVjfFGfOen8oqK0cLQYTXbQ5kD5XYV7CZejKfY6CpbbwTHpW0xUv6HMAoGJ9gsiMQv/9ZHMrpii6QStYqsHei7tTTGiIVy9GEJ32LixCXiM7pvRRRfW6JunGvsu7XD+HBcZG5drCLLLTd3i0Q0mp7d2KUwBEkZC+tweFNPfAOL7f8le48HwlBMMpmhRp+n4VoHogBzoo25RTDZ8SlvH4T9/T/47EYRkCq9Kh5nuyGw13wc/A+ubd6ygp/BUMV5Vjv+asO0qQ9I7KF1M0Bdja5W9WZX81mBdJP
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230028)(4636009)(366004)(39860400002)(346002)(376002)(396003)(136003)(451199021)(31686004)(2906002)(86362001)(5660300002)(38100700002)(66946007)(7416002)(478600001)(66476007)(66556008)(8936002)(110136005)(41300700001)(186003)(316002)(36756003)(8676002)(31696002)(6512007)(6506007)(83380400001)(921005)(966005)(6486002)(2616005)(6666004)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Vnh5c0RVM3dBQVZVSi84aEh5ZlZYNHhSNmIyMUh0SVpyaCtiN3ZCMzNrOG90?=
+ =?utf-8?B?Q0ZiWnEwU3VORlZQaGVoL2hya1dkMzZWTmRPSzZuNUxwU2M5MHhvRXU5YkYr?=
+ =?utf-8?B?R29sdzFuNmMwUkh5ZXRzcXBsd05BTDJwQ1JqSGR5MCtMYnkzRUdnM0NaM01s?=
+ =?utf-8?B?NHV0aytza1VUeUFncUNyRll1YnpFMm5SSTQ1WmpaUW5pWnhCNDFEWFFIMVFz?=
+ =?utf-8?B?dTdXdHRtUnp2Z2J1REFoVllRNjQzZENKekpwM2x5M3hhQlA1d3pMdmcyOENM?=
+ =?utf-8?B?dTQ4M0I0MHk4U3lwMVAzWlJZQ3RMdXgvdGd5NE43dEVzQ1I2UGpSRElvNDkv?=
+ =?utf-8?B?ZUpQWEk0TXBiYlZPWlBSTFR2STZiRzZ6MFA2VlJtSUZyVXpFbFVPM0NGT3hn?=
+ =?utf-8?B?LzBISXRJd25CUG5GWTFab3JGR0hKdFY3bDJSV29NUjlmMEcxOXpSWEYzdnlP?=
+ =?utf-8?B?bGpsbXljYjJTQkpZbmhBMzl3OHc0TFlTMGpaK1ovVG9LbWF3d0M1Rlc4MWQw?=
+ =?utf-8?B?TFlVWkdINGYrY1BKKzhzZmVZWkxHUzlsQVhCRHJPVldsangwbFZ5ai9iVWZG?=
+ =?utf-8?B?Z0V4N3lwd043RHVVY1hOZHMrT05Wc0Y1L2NOMHUwMkoxRE5JZThnT24wVkpW?=
+ =?utf-8?B?YjY1MUE3aVpGUzZVNGlPOUxhbXoyWGQ0MUR0OUE5K0lXbXlzQnFacGloOEkz?=
+ =?utf-8?B?QTA1U1h4TmVlYlF4RTlERUc2elpWL0YvZkhYTC83RkRVR045aTB3a00zUXFw?=
+ =?utf-8?B?UVFnalJjTm02Q2hzbFBCSHF2ZkxNZzExSTU0NjljZzIva2lRUFpyVmNNRk1B?=
+ =?utf-8?B?UjFNSzNNR1ZCRHFPUVZpL1F6RGQzN1dUZlJvb0pSaTJnNE16SVo5Z0RZV3JQ?=
+ =?utf-8?B?WW1SLzJvZFk3QVdLekNyK3NJTlQ5R0ppVGNyN0dTbWhKaFVFY1NCeXF6RTlt?=
+ =?utf-8?B?NXVNRWdwbEFKbzIrQXgwc0xWUk5mZDdqRXQ1T1JVRU01ZFpuVlhIUTNZS0lp?=
+ =?utf-8?B?ZTlXNkF6eFBUOWNWdXZnUUxHNEpBTU9ERVlXVzhUVG1ubk5JWVlHYWVrMTNL?=
+ =?utf-8?B?dlZROUVlUXhiRDd4N3R3UHVub0tGekQ0Uk5GZ1d0VFlkbUVzTm1WZUN4dFhr?=
+ =?utf-8?B?OXMrM2lZNERHT0pRbFFleUJ1QWdkcnd4TlAzaXRIUDUrdmk2aG5jRFNaajJN?=
+ =?utf-8?B?T2RHeU1vVWxjcFZ4MlV1WGVHRjVPVXI1eXhkT3ArWlhkMytxdnp5bGpFVFhS?=
+ =?utf-8?B?SUNURU93ZHBLNXRPMDh2SzhOcHZ3cy9NclF2ck8wTWVKbUtPc3pQR3pycXVB?=
+ =?utf-8?B?andxRnZRNEdzWmc2MFJ3QUhnbnZkZG91WWUyVm93T2tZYU5vS3Nxb0lNc1lF?=
+ =?utf-8?B?QmNHbGsxV2ZsaU9OMGlEQ3l6UUNXakF6ajFhK21OWUZrNTdkS0h4alJ4VlFl?=
+ =?utf-8?B?T2ViS0VrMHNhdDhmM3U1djNkeUh4OXFaaktTVHR3UXNmeFlLVGV1WU00TW9N?=
+ =?utf-8?B?dXdHc2xBcmk4ZmRNcFExUlVoUWZkTnhUUTIvTkhLdzJHU2dqQ0tJZWdGczBy?=
+ =?utf-8?B?dkx3V0NRL1ZGRXh0VW9ueTdtVFlpTEJMNTg4YitsbkpNb2VzWmRDZjNOUEtk?=
+ =?utf-8?B?bndOMWFILzExSVZ3RkhuRG5vck5aT3hEUDA1VEIyYmtyNDJnRkgvMzkzVjho?=
+ =?utf-8?B?b0RZRHZTRFJSVTI5aHdkSGp3MlRDOVZpVVlFVllSUUZWdTRoV0hOemdwSG1V?=
+ =?utf-8?B?UEdVZWZWb2R6Z1Avd2N1WStOVmtoZDN2OXV4M3AyVE1NUnRFSEZiSFlOR0NB?=
+ =?utf-8?B?Y20zYWkrQ0MxaDBlTXAzYm1leTJoSDZSNWw3LzRHTTc4L1J5M056ZDVNYWFR?=
+ =?utf-8?B?eTJ0V29YclpKN2xsRUwybW9aWEJlYncrTW11ZXU0K1plKzZWUDRjbldnak0x?=
+ =?utf-8?B?bExnTFl1RXFZYVVHT3hnR1NvMVhlak5JakRSTzBRZWM3c2NyVHpFUXlKNTdQ?=
+ =?utf-8?B?SUxaNkZyY2NJVDFVcU5OQTZLSElTOUg3b0RwV0QvV0FFUjZremJwNFVCODZK?=
+ =?utf-8?B?SGpwamhMWXI5N3VHWWVzNWlxd2JkWDAwaEk3NnVJeFJ6aXo5Rmg1ekU4UlM5?=
+ =?utf-8?B?eFc2aFRBTXpJTFlLbFFBdTR4UlBhV3JCczBONlMzZ0doRkU1eGM0UTlwc2Qy?=
+ =?utf-8?Q?QsJIb08Aqlbtd+x/hmwWfVdKRsDZUbtuE+1kWrHDFTg1?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8893a67c-cc2a-48ae-24ee-08db35e00bd1
+X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Apr 2023 14:14:19.1971 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: WuN51GNP278rC9aU/qcPvn+vuwJYq8yjL0qcuqZaxbfZEoKE1zZFsPCMOsDQ4VMI
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR12MB8250
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,111 +144,114 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jani Nikula <jani.nikula@intel.com>, dri-devel@lists.freedesktop.org,
- Matthew Auld <matthew.auld@intel.com>, Andi Shyti <andi.shyti@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 05.04.2023 16:13, Andrzej Hajda wrote:
->
->
-> On 04.04.2023 16:30, Nirmoy Das wrote:
->> Add a helper function to retrieve struct intel_fbdev from
->> struct drm_fb_helper.
+Am 05.04.23 um 15:40 schrieb Daniel Vetter:
+> On Tue, Mar 07, 2023 at 11:25:35PM +0900, Asahi Lina wrote:
+>> Some hardware may require more complex resource utilization accounting
+>> than the simple job count supported by drm_sched internally. Add a
+>> can_run_job callback to allow drivers to implement more logic before
+>> deciding whether to run a GPU job.
 >>
->> Cc: Matthew Auld <matthew.auld@intel.com>
->> Cc: Andi Shyti <andi.shyti@linux.intel.com>
->> Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
->> Cc: Jani Nikula <jani.nikula@intel.com>
->> Cc: Imre Deak <imre.deak@intel.com>
->> Signed-off-by: Nirmoy Das <nirmoy.das@intel.com>
->> Reviewed-by: Jani Nikula <jani.nikula@intel.com>
->> Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com>
->> Reviewed-by: Andrzej Hajda <andrzej.hajda@intel.com>
+>> Signed-off-by: Asahi Lina <lina@asahilina.net>
+> Ok scheduler rules, or trying to summarize the entire discussion:
 >
-> Reviewed-by: Andrzej Hajda <andrzej.hajda@intel.com>
-
-
-Ups, please ignore :)
-
+> dma_fence rules are very tricky. The two main chapters in the docs are
 >
-> Regards
-> Andrzej
+> https://dri.freedesktop.org/docs/drm/driver-api/dma-buf.html?highlight=dma_buf#dma-fence-cross-driver-contract
+> https://dri.freedesktop.org/docs/drm/driver-api/dma-buf.html?highlight=dma_buf#indefinite-dma-fences
+>
+> Unforutunately I don't think it's possible to check this at compile time,
+> thus far all we can do is validate at runtime. I've posted two patches for
+> this:
+>
+> https://lore.kernel.org/dri-devel/20201023122216.2373294-17-daniel.vetter@ffwll.ch/
+> https://lore.kernel.org/dri-devel/20201023122216.2373294-20-daniel.vetter@ffwll.ch/
+>
+> Unfortunately most drivers are buggy and get this completely wrong, so
+> realistically we'd need to make this a per-driver opt-out and annotate all
+> current drivers. Well except amdgpu is correct by now I think (they'd
+> still need to test that).
+
+There is still one potential memory allocation in the run_job callback 
+in amdgpu which I wasn't able to fix yet.
+
+But that one is purely academic and could potentially be trivially 
+replaced with using GFP_ATOMIC if we ever have to.
+
+Christian.
+
+>   And Rob Clark is working on patches to fix up
+> msm.
+>
+> I think best here is if you work together with Rob to make sure these
+> annotations are mandatory for any rust drivers (I don't want new buggy
+> drivers at least). Would also be great to improve the kerneldoc for all
+> the driver hooks to explain these restrictions and link to the relevant
+> kerneldocs (there's also one for the dma_fence signalling annotations
+> which might be worth linking too).
+>
+> I don't see any way to make this explicit in rust types, it's really only
+> something runtime tests (using lockdep) can catch. Somewhat disappointing.
+>
+> For the other things discussed here:
+>
+> - Option<Dma_Fence> as the return value for ->prepare_job makes sense to
+>    me.
+>
+> - I don't see any way a driver can use ->can_run_job without breaking the
+>    above rules, that really doesn't sound like a good idea to me.
+>
+> Cheers, Daniel
 >
 >> ---
->>   drivers/gpu/drm/i915/display/intel_fbdev.c | 23 ++++++++++------------
->>   1 file changed, 10 insertions(+), 13 deletions(-)
+>>   drivers/gpu/drm/scheduler/sched_main.c | 10 ++++++++++
+>>   include/drm/gpu_scheduler.h            |  8 ++++++++
+>>   2 files changed, 18 insertions(+)
 >>
->> diff --git a/drivers/gpu/drm/i915/display/intel_fbdev.c 
->> b/drivers/gpu/drm/i915/display/intel_fbdev.c
->> index f7d48d00ae4b..2ac9e9f8a128 100644
->> --- a/drivers/gpu/drm/i915/display/intel_fbdev.c
->> +++ b/drivers/gpu/drm/i915/display/intel_fbdev.c
->> @@ -67,6 +67,11 @@ struct intel_fbdev {
->>       struct mutex hpd_lock;
->>   };
->>   +static struct intel_fbdev *to_intel_fbdev(struct drm_fb_helper 
->> *fb_helper)
->> +{
->> +    return container_of(fb_helper, struct intel_fbdev, helper);
->> +}
+>> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
+>> index 4e6ad6e122bc..5c0add2c7546 100644
+>> --- a/drivers/gpu/drm/scheduler/sched_main.c
+>> +++ b/drivers/gpu/drm/scheduler/sched_main.c
+>> @@ -1001,6 +1001,16 @@ static int drm_sched_main(void *param)
+>>   		if (!entity)
+>>   			continue;
+>>   
+>> +		if (sched->ops->can_run_job) {
+>> +			sched_job = to_drm_sched_job(spsc_queue_peek(&entity->job_queue));
+>> +			if (!sched_job) {
+>> +				complete_all(&entity->entity_idle);
+>> +				continue;
+>> +			}
+>> +			if (!sched->ops->can_run_job(sched_job))
+>> +				continue;
+>> +		}
 >> +
->>   static struct intel_frontbuffer *to_frontbuffer(struct intel_fbdev 
->> *ifbdev)
->>   {
->>       return ifbdev->fb->frontbuffer;
->> @@ -79,9 +84,7 @@ static void intel_fbdev_invalidate(struct 
->> intel_fbdev *ifbdev)
->>     static int intel_fbdev_set_par(struct fb_info *info)
->>   {
->> -    struct drm_fb_helper *fb_helper = info->par;
->> -    struct intel_fbdev *ifbdev =
->> -        container_of(fb_helper, struct intel_fbdev, helper);
->> +    struct intel_fbdev *ifbdev = to_intel_fbdev(info->par);
->>       int ret;
->>         ret = drm_fb_helper_set_par(info);
->> @@ -93,9 +96,7 @@ static int intel_fbdev_set_par(struct fb_info *info)
->>     static int intel_fbdev_blank(int blank, struct fb_info *info)
->>   {
->> -    struct drm_fb_helper *fb_helper = info->par;
->> -    struct intel_fbdev *ifbdev =
->> -        container_of(fb_helper, struct intel_fbdev, helper);
->> +    struct intel_fbdev *ifbdev = to_intel_fbdev(info->par);
->>       int ret;
->>         ret = drm_fb_helper_blank(blank, info);
->> @@ -108,9 +109,7 @@ static int intel_fbdev_blank(int blank, struct 
->> fb_info *info)
->>   static int intel_fbdev_pan_display(struct fb_var_screeninfo *var,
->>                      struct fb_info *info)
->>   {
->> -    struct drm_fb_helper *fb_helper = info->par;
->> -    struct intel_fbdev *ifbdev =
->> -        container_of(fb_helper, struct intel_fbdev, helper);
->> +    struct intel_fbdev *ifbdev = to_intel_fbdev(info->par);
->>       int ret;
->>         ret = drm_fb_helper_pan_display(var, info);
->> @@ -136,8 +135,7 @@ static const struct fb_ops intelfb_ops = {
->>   static int intelfb_alloc(struct drm_fb_helper *helper,
->>                struct drm_fb_helper_surface_size *sizes)
->>   {
->> -    struct intel_fbdev *ifbdev =
->> -        container_of(helper, struct intel_fbdev, helper);
->> +    struct intel_fbdev *ifbdev = to_intel_fbdev(helper);
->>       struct drm_framebuffer *fb;
->>       struct drm_device *dev = helper->dev;
->>       struct drm_i915_private *dev_priv = to_i915(dev);
->> @@ -194,8 +192,7 @@ static int intelfb_alloc(struct drm_fb_helper 
->> *helper,
->>   static int intelfb_create(struct drm_fb_helper *helper,
->>                 struct drm_fb_helper_surface_size *sizes)
->>   {
->> -    struct intel_fbdev *ifbdev =
->> -        container_of(helper, struct intel_fbdev, helper);
->> +    struct intel_fbdev *ifbdev = to_intel_fbdev(helper);
->>       struct intel_framebuffer *intel_fb = ifbdev->fb;
->>       struct drm_device *dev = helper->dev;
->>       struct drm_i915_private *dev_priv = to_i915(dev);
->
+>>   		sched_job = drm_sched_entity_pop_job(entity);
+>>   
+>>   		if (!sched_job) {
+>> diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
+>> index 9db9e5e504ee..bd89ea9507b9 100644
+>> --- a/include/drm/gpu_scheduler.h
+>> +++ b/include/drm/gpu_scheduler.h
+>> @@ -396,6 +396,14 @@ struct drm_sched_backend_ops {
+>>   	struct dma_fence *(*prepare_job)(struct drm_sched_job *sched_job,
+>>   					 struct drm_sched_entity *s_entity);
+>>   
+>> +	/**
+>> +	 * @can_run_job: Called before job execution to check whether the
+>> +	 * hardware is free enough to run the job.  This can be used to
+>> +	 * implement more complex hardware resource policies than the
+>> +	 * hw_submission limit.
+>> +	 */
+>> +	bool (*can_run_job)(struct drm_sched_job *sched_job);
+>> +
+>>   	/**
+>>            * @run_job: Called to execute the job once all of the dependencies
+>>            * have been resolved.  This may be called multiple times, if
+>>
+>> -- 
+>> 2.35.1
+>>
 
