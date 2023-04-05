@@ -1,141 +1,141 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCC4B6D8765
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Apr 2023 21:52:45 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A9AD6D87F3
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Apr 2023 22:12:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0C77610E09B;
-	Wed,  5 Apr 2023 19:52:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 360BD10E4C3;
+	Wed,  5 Apr 2023 20:12:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7D7EA10E09B
- for <dri-devel@lists.freedesktop.org>; Wed,  5 Apr 2023 19:52:39 +0000 (UTC)
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A9D9C10E219;
+ Wed,  5 Apr 2023 20:12:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1680724359; x=1712260359;
- h=from:to:cc:subject:date:message-id:
- content-transfer-encoding:mime-version;
- bh=hKpMugnT5uVzfbJUAjrYfWd+lsdG3X180eUjeVjgHhA=;
- b=L6Owq5xqGfKGstRs9HQ+Mg221LfHEUmtwrll6BNg5s/9Dsk6y6z3acZg
- 0yuD4OM7JVplA0rCN2Ccv5adOthiGxr1bDG49CMp+l6lIRyh6Ujwpzrct
- 5ao96etojGGvc7dr+Ba8RkQqrMT+XnHIAGp2IOdSIIGlyRAehRP1nOxQU
- UQ8+lynk5Kgm1WDlM5Bm2nZbJV4jwi1db1dZcLd4aW+9T417z3bVXt2RN
- Qzb5XipGYJk3tVsmsrTw5aCuar9/UZ6DFnydFmhSsO5fC3a6BaL84wLlA
- 9gPkVQ987j9ILS8vVHh3iUUHVLdn6O09DHu8g82hwsroPybtwSqEfymyS A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10671"; a="370382683"
-X-IronPort-AV: E=Sophos;i="5.98,321,1673942400"; d="scan'208";a="370382683"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Apr 2023 12:52:38 -0700
+ t=1680725562; x=1712261562;
+ h=date:from:to:cc:subject:message-id:references:
+ in-reply-to:mime-version;
+ bh=PjzWtUU6tSlSYFoPYrBOQJKBlvAAnwaGq+nrLMEfidQ=;
+ b=PoFlR57Lq9XkuZRgchIvFne/+FyLS2ZN+hUn+M+uNi9/Dk0lkgcs87o0
+ 2g4pjPJJakDguNWDdelrRh78D1xiY/Ozd0YVfQKZKiN1sXp4x/G6YJMBn
+ EJ33xE37r8IEHsj8kYfn4mEyi4ChRAHchjRCEY8FGTFqHu9SZvXxN5CQ+
+ gXiIXh92NgJhdZaFGC9T/0SGDCjA0VO7TbREm2RORGnnk9zeZDtWC6LXR
+ EOvvPy19PTRFCD/5g4DvaZj9wBfAMtG6q/q/lDQFTQ84DqR1PB218xn4o
+ XZtsnGEdYaYq8hCDqYHNhqlPbAKVBdQ6CfKF266FXfd0ulsVyMN5ETZ8q g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10671"; a="407646612"
+X-IronPort-AV: E=Sophos;i="5.98,321,1673942400"; d="scan'208";a="407646612"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Apr 2023 13:12:41 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10671"; a="932946952"
-X-IronPort-AV: E=Sophos;i="5.98,321,1673942400"; d="scan'208";a="932946952"
-Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
- by fmsmga006.fm.intel.com with ESMTP; 05 Apr 2023 12:52:38 -0700
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+X-IronPort-AV: E=McAfee;i="6600,9927,10671"; a="798050181"
+X-IronPort-AV: E=Sophos;i="5.98,321,1673942400"; d="scan'208";a="798050181"
+Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
+ by fmsmga002.fm.intel.com with ESMTP; 05 Apr 2023 13:12:41 -0700
+Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.21; Wed, 5 Apr 2023 12:52:38 -0700
-Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
- orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ 15.1.2507.21; Wed, 5 Apr 2023 13:12:40 -0700
+Received: from fmsmsx612.amr.corp.intel.com (10.18.126.92) by
+ fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.21 via Frontend Transport; Wed, 5 Apr 2023 12:52:38 -0700
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.176)
- by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
+ 15.1.2507.21; Wed, 5 Apr 2023 13:12:40 -0700
+Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
+ fmsmsx612.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.21 via Frontend Transport; Wed, 5 Apr 2023 13:12:40 -0700
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com (104.47.55.176)
+ by edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.21; Wed, 5 Apr 2023 12:52:36 -0700
+ 15.1.2507.21; Wed, 5 Apr 2023 13:12:39 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Ha9YijR08xvghXHY5T53Z8IVpdj+03GU5u2F+fNyxEix8gVSHnXjD5cJAFjv3uNSKJOGvNK4s4ghrYqKdbtNnMnrlUajuPAPZcHNCAtqDGj5ME9kJTN+mrQHKF1bTFgBoKZQFxQ4NRdyE21a0iszJPuoqUuobOciXYCCOwS31pC6CXcMZsBthhkrKy58M71aWsqldFAACyKbrmQJCngV9v5nyABQN4bPRPCUY+BrWMi8fAt+SeNPGGW+5FYCAjtBakP81bMjtZU4BcLgp0jI/DkggYs7nuDow3+EbZsVfOyXpqujj0A6pTula62blOX4fReUPzcTjaG2vjGMyjSkZA==
+ b=QSeN8ZVTxdSNwv5/MSZJOQsrNFEGJxm3Ny2mGFN6IQa2XFp3HpKLpZgXah4HABkM3OvVlG4NvGbzIuqi/5flu4DLvN9U4T9FBHB5AsyrdPhprFx/JK6I2jksvrmgc4kxJJYJv+gPy5Tx88H4AXnGjrlgFDbbjZbLC05nlCVeiopI+FVXRFWsdX52XK2F3uDD+G1WzPavzBr0jiHPxAJxWhLGX7uDF4IUWe3XtRJE6lqG52EqT0KEdFzFESXs+C3xdDj7JpkHwVacAxcMBZK3fOdHvmFfKCpUhniz0VZKSdDJ9xDvXpEhX01zke8XW5vACCBQsxjrPccVHkoyaydrNw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=YxNwj+kBue1tvc/WZpc8JCjE8iWBEqprQ7vbvD0DZzk=;
- b=D+Xs5bDLGJGGtXLyUJmkDpaS5eKoknC0UUWvbuD/jDJeXfHVLdL/od2b88xemh4TF/b4kE4ED2eNZgNh4TvYcEy5qMuDcSZGEUXHoSgc55K9bz1/yIkO3Ff4eS1LdcmGt5UsjCJeJWgi0sASwXLfKt+PT1pMaxEYrSsFZ0OiT5E8UOusUvRDCr1Gden3n0C2srXCY/V/QZ8KVuEcEN1GCrAIU619XK1ZTKTTcHdFbjEYAYY9XdSKN8ecfRWd7/m6DPWTmxGKHeEj/xRZKwcD4anoSDTp8UvUVP0m/1v1ZLKwP8OfmIg35rX3spOrGEy7psRlnwmwsJel63u5Y5Hs3g==
+ bh=qa/fvvCUaIC/uMdFoCEYtIvTSWO0U+KlbjPxfz/VapA=;
+ b=XhtzA8O2s54qdZbCnigAtoBFM5P85ag1yHXwdpm1TsdRFpkBPkiopeka4HY0yz1Ry2x8vckKnTVhcs/a2r6DLJcxLk/mN3u9Ib4TkwBr/horKwgtromwXyMPx7/iQvPAdf+l5x1ui7/ExQfwxV1lKGFzxPTiAlUkUuCjaOmw5Fei8HH9sfVNAaw8mfO0rYaffqqXzULshpEH1UntOk0C7vl5a4btFPqOrnDfJNu4x8OsejEdcPS2NpkIXZKC+qoWlIXxaHahzhDFTySm8o8SFr/iEQkLxkXxg9osJdSPll3fPlEFWp0cdMyAZT2EAJICmp807GR+17iYhW5jz+eMcw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=intel.com;
 Received: from MN0PR11MB6059.namprd11.prod.outlook.com (2603:10b6:208:377::9)
- by SA0PR11MB4621.namprd11.prod.outlook.com (2603:10b6:806:72::7) with
+ by MW3PR11MB4553.namprd11.prod.outlook.com (2603:10b6:303:2c::9) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6254.35; Wed, 5 Apr
- 2023 19:52:29 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6277.30; Wed, 5 Apr
+ 2023 20:12:37 +0000
 Received: from MN0PR11MB6059.namprd11.prod.outlook.com
  ([fe80::2b57:646c:1b01:cd18]) by MN0PR11MB6059.namprd11.prod.outlook.com
  ([fe80::2b57:646c:1b01:cd18%9]) with mapi id 15.20.6254.033; Wed, 5 Apr 2023
- 19:52:29 +0000
+ 20:12:37 +0000
+Date: Wed, 5 Apr 2023 16:12:29 -0400
 From: Rodrigo Vivi <rodrigo.vivi@intel.com>
-To: <dri-devel@lists.freedesktop.org>
-Subject: [PATCH] drm/doc/rfc: Introduce the merge plan for the Xe driver.
-Date: Wed, 5 Apr 2023 15:52:05 -0400
-Message-ID: <20230405195205.1674844-1-rodrigo.vivi@intel.com>
-X-Mailer: git-send-email 2.39.2
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: SJ0PR03CA0246.namprd03.prod.outlook.com
- (2603:10b6:a03:3a0::11) To MN0PR11MB6059.namprd11.prod.outlook.com
+To: "Dixit, Ashutosh" <ashutosh.dixit@intel.com>
+Subject: Re: [Intel-gfx] [PATCH] i915/guc/slpc: Provide sysfs for efficient
+ freq
+Message-ID: <ZC3WLZvH6a4Q2o5Q@intel.com>
+References: <20230401020049.3843873-1-vinay.belgaumkar@intel.com>
+ <877cuwguu6.wl-ashutosh.dixit@intel.com>
+ <ZC1+Vn+ickyupCBI@intel.com>
+ <871qkyp13t.wl-ashutosh.dixit@intel.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <871qkyp13t.wl-ashutosh.dixit@intel.com>
+X-ClientProxiedBy: SJ0PR13CA0161.namprd13.prod.outlook.com
+ (2603:10b6:a03:2c7::16) To MN0PR11MB6059.namprd11.prod.outlook.com
  (2603:10b6:208:377::9)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MN0PR11MB6059:EE_|SA0PR11MB4621:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8b87838d-b43e-40f1-26ad-08db360f49ca
+X-MS-TrafficTypeDiagnostic: MN0PR11MB6059:EE_|MW3PR11MB4553:EE_
+X-MS-Office365-Filtering-Correlation-Id: ce60b2be-6282-4d8e-ae78-08db361219b2
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: ni21Gxt5WWzRCgR55wz78vjAdYy98pOB1hldbzCPeB0pqEWoKuZaIm5t7E/5hXZGpzJikv089bJoR4r3hXSV/EoEYzeTonuOt2Ajn9b7m/kxY3agULKIQ6GGWNZ1TP7i8o+D8R0hix0fy04eW6mVQ2hTu1VxGwGutjilBtTPKvDQPTE4f7rR4in7YNQW2XFbickBmIFiJtbENcAA0cg/XmC4+/95VnumKV2OZRF26vApq5UBbaWN0B1iDo0uhJixuE9/w5BUh9z/LclNsGZRZCJ78n9FXT9wYPSeacNzRewvOPDB3N3O5sE3zZVCgev8yqm3QGH+NqjCdMY8d9gEhE+CAsO8abMe4+T4W6CiPXy0ZRIeJkrMPyCzUaaHdrjwI2VXyNjIIlgEg8XQxpOkqaME+MtdKyoI293iWG6P0swZYuazjmhsfUlX6JxNjGRBNtGft9iKnzF9v3iJmncSe0s2vLsjlfTLeFPBpiOJHkpjCdbKPi9tqk/lBR1hGgrD
+X-Microsoft-Antispam-Message-Info: DFUmgzdsjqmnXPegUihhrNtAWbl19BzK5LqAhNR1SOC40WOui69hSvoRZOJl85q+ufMpXgogCKKQgnhe4ThT/9K+BWHMOlY6uYNDjOYy9VaCtv0ug0q4AtlK1NFSAvihiHgzluPk8NjnN00szvJM6K+snhWBH5ujzrmCz0JJJWIgkhO6t+Gay4TeE5vVlPcxigyIyub6DXQUxUJMk1mb08s40dpPjjvhzD58I+jRiiXB6MJUa9gn4jUvGw6XKps1KqSnj5vhBqSjJMgD8qFnPnwRL/v4Zf8daQymg/kDK+dxc6z2HnYniccE/WYlwUVMvu00EY1ROITVjHzYkOdGmIbbv0VTuc4hypsX1J47ZfNcPYOjzJbosmoJomekdzgMmLMCysIlIOKf6/tEx4FnVJijAi2VUgcsLG3XqK+P9a2iEjtMnEW3LT0uHXuQs4bSFsS7blAwuHbHXPhyBMxHMdgz5FQ6W5ubDZ00RS9sodP2Pxnvsy2PSloni/tzdf/RP4/FheK0SsXZece9qd7a5iipaX3NUU01cDTJSphIg1dU5S+a3MZIFXWKU7okshLL
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:MN0PR11MB6059.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230028)(366004)(39860400002)(376002)(346002)(396003)(136003)(451199021)(6666004)(66574015)(2616005)(83380400001)(66899021)(186003)(26005)(6506007)(1076003)(6512007)(4326008)(66556008)(66476007)(8676002)(6916009)(38100700002)(66946007)(2906002)(44832011)(82960400001)(41300700001)(86362001)(316002)(54906003)(478600001)(5660300002)(8936002)(30864003)(966005)(6486002)(36756003);
+ SFS:(13230028)(136003)(396003)(346002)(376002)(39860400002)(366004)(451199021)(66899021)(186003)(36756003)(86362001)(6512007)(2616005)(6666004)(6506007)(26005)(5660300002)(37006003)(6636002)(54906003)(6862004)(8936002)(316002)(44832011)(478600001)(82960400001)(8676002)(4326008)(66476007)(66946007)(66556008)(38100700002)(41300700001)(2906002)(83380400001)(6486002);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?MUs1UzROZTgxelMwVGI3LzdiaG9zdDZQWjdLNDA2bkJwZyswbURsM0tZOG1U?=
- =?utf-8?B?S3E2K2hOelBmV1UvUm4rLzU2Tnp0TTJSQlpyQ1M4OVB5Qm9ZVGZxYjZHMlFn?=
- =?utf-8?B?U3h5R2ZnVGp4ck1iV0xlekpmcHE4MkV4czVGYldCY2JxaVdIZnR3Ukc2T0lI?=
- =?utf-8?B?QWtsTGJkaEZEVFlheTFpcmNpVjJWU1RDZTFmclI5NFozWUd0VFhHUGtETHVH?=
- =?utf-8?B?T2VsY3hEU05uOHdmcWdxZWxNREJnVDFYdFdwUHFOa0NTUExEQWh5SUgxTVpm?=
- =?utf-8?B?V3IzZGVQdFprdElJUnd0MHZjNitsS2NZaUdNTjhYV3ZmRllzS2pCY2lUWUhX?=
- =?utf-8?B?eEQ0RUtwUGc3MURUTkdYTi81eHVZaHpzY3MwWVVKaXZjRFJsVWhQd24rMHV0?=
- =?utf-8?B?NWpxcG42d1NhY3JYZVgvSjFlL09FTWoxSU5DbWFXSDMxeHM0UGVBRlNneUlT?=
- =?utf-8?B?MmVPbllkZGtsZzFFNGJ2NFRwVyt1MGp4RHliNmxMTnNOck5pM20yWGdEc3hh?=
- =?utf-8?B?L3BFTHNWdE90bTY2NUcvbGJKRG1sbk1tZ0tIS1pJeEZsenlGU0g0SU9LeVRT?=
- =?utf-8?B?Ymcxdnk2a01aWWp3THFJb3lteXBWYVd3amxpa2tRMFhzb0ZqZ0owZHY0Q0Rk?=
- =?utf-8?B?ZzZOZTJVRDUvOTdWb1B6NzNTbXY1V1lUWWM2VkJESkRRRWVHcGI5NHBQWmlr?=
- =?utf-8?B?NkxhM0RzdEpjem5vOGRJMEpVMzdSa1dpVm5TWVZRS0F4OHNvNlVjTjh2ako0?=
- =?utf-8?B?STVINnBoVHM0MVVSdDRZdURZUFloSEc3VHBZcWtDR05EZCswWW1scEFPQ2NC?=
- =?utf-8?B?WjJBNkp4UWx0ZkcrK0wvbkoyMmxlTTFpWVNKNTFJT3NpSk9GbjdhS0VlUW0r?=
- =?utf-8?B?VUdqWlpKelhUYlNIanRZZktzNUphVHNTTGFrYnlFTWpVTmRVOEdydEtCMEF3?=
- =?utf-8?B?bmllalJvNEJDeHN0UmpGQTYxZGZKYVEvRUppRnlsYk5OL3NZU21sMCt1SjRt?=
- =?utf-8?B?emZjMGY3ZWdXd25qaGFLTGlMZUNoVUU4ZThtdnRRcUpRNnFEYTlMSUJ3QU9T?=
- =?utf-8?B?MVByOXprNmo2aGozYUNicFYrNTVRcUlJdjdhTEt4VlU2aktocGpLejRSbjRi?=
- =?utf-8?B?WU5kNWdSYmxNN0I0R0pEUmtPbUsvcUY1QXpObU1VemJOZUdLQ0MyQkZNRVhO?=
- =?utf-8?B?VG9lOU55M3hiT2NhKzZwSEVIQjlVek1zRGdWbi9KaGphWmFTVnF2Mmk0MlRG?=
- =?utf-8?B?bDFNMzJBOXpCVFBIWnNuMDlqVWlYdlM0d3VEZVBnZmtKWXY5V21ST1ZiYUpv?=
- =?utf-8?B?NVZ1dGtrNHl0bzRyemlMS2h3ZGlCMGtDRUQ4MXNBZllhT3l5V3UyYnB0MkR3?=
- =?utf-8?B?d0pITW9zMVJ1SVpqZGEyYjZKRWxJWXZvaDk2V25CVFhFQ3ViT3VZWWk0dW1E?=
- =?utf-8?B?UTRaVUJzVkZpQm9mZktPOG8ydTRpcWgzVUh4dXlrckZJd3VwNHg2OVBMLzB2?=
- =?utf-8?B?MFNiRHljYmdKaDN2alhlcjltK2taMGxicm1ncFBVWHZLb3RkQWxPNkFZd3Vz?=
- =?utf-8?B?ZExnNW1YSHhVMG1vTkJ3OTY2U2g5dlp6NDVPNnF4YmlrWEFPMm9ZMVhoc0pq?=
- =?utf-8?B?MlgrQ3Bhbi9nS2tMMkxCdy9oSG9iSWdPOVZEcklTOVA1Wm1vOXZYWjBJUFU5?=
- =?utf-8?B?RVo3cFFPVTFVQnZLMG5IdmMyR0pGVGFEeUVQM2g2aklDaVlkZDRhemo1bTBQ?=
- =?utf-8?B?MmNNMWgzbHFBRHNpZTI2MWdLSnJWM0ZsbjJsVmI5UUJvLzBqUmZnemZhVlBK?=
- =?utf-8?B?YVZRTDlGSktrM3k0dzhWMk14Z2kwTWtuN0Y4dDlRVXhHUjdCL3dERmVVU3po?=
- =?utf-8?B?bmJPeitoU0MrMDBvaWZaeWFoSXRiRjdsaTZzZEJ5U1pvc1NFeERtTHpiZkhF?=
- =?utf-8?B?aEFwYjJBSm9nZHJoMDJra0hqUEFTYzc1S0l5YVpDV2RaeVhuWmZ1YU84ay8z?=
- =?utf-8?B?QytoQ0c1OGw0QzkwYmJ6ckNSSEtqZ01qWFY1dEFWYVFuaUMwZTFoYU13U3Iy?=
- =?utf-8?B?WmtFeDBhZENCVU5KREd5TDIxcVEzTWw4TzBtOUdBdTRMMk9GMHR4eUtBWEV5?=
- =?utf-8?Q?lwqCLMaFuamvSYad9iCnld4Wg?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8b87838d-b43e-40f1-26ad-08db360f49ca
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?YjTstXZJXPJf9Dy2/AX/1l+2fa9B/0KoS895uzIpKuJGJXCTz8zBa796y4U7?=
+ =?us-ascii?Q?39IivaNuUHQi8rROr6E2g9q4diD1yXzQk8iG+VGtB5PI/Pj5zyNwCNDCSq0d?=
+ =?us-ascii?Q?5hodYjChoatWKE9tjarUFd9jfabUBMHHoa3MlGXtkLBzo5tAAnTE215oAUBQ?=
+ =?us-ascii?Q?343bQN0nQoCcaYaxFADVMsxRA5rExeLv/QSGFpI2lFy65MO3hZc/7VDR8CWP?=
+ =?us-ascii?Q?EQTEo31ScVSQcbS1/YviCTdq7zOA+oGyyUVpiVT0l/QlhsLvfheO5UpZDAEp?=
+ =?us-ascii?Q?WUMLe+nowVjAqw5W7MoZkZ/5w7Y4uK4/FMrk+nrH8ht5GOm+44esVT07fGTs?=
+ =?us-ascii?Q?2gGMtiqqZcEUAi6YLHLoXL4ec3dnzZ71Hp5ujAC3/I4SM32LgO5ys8WOcNNY?=
+ =?us-ascii?Q?tWHWOiIPs18XmQCsQ+ZuU80qlzSnEGWvQ4UtbcjpY6TqY6ioyc1sQz2Vq4fp?=
+ =?us-ascii?Q?v9hBebenzIottXjMYEakHUd1uh9RXniehGFxaLL7AjYkLoE19Iu33hp9A/2Z?=
+ =?us-ascii?Q?NDOtq5tWPXRD18moTQF9478MmQYnkS3tcEeCzj1b79ghGJu+oQEcf6a60271?=
+ =?us-ascii?Q?IN/6tk8cWIhzFnyctW+gy3QGsZH0jDGEKhD4zCoGWDIPUmnruAZiH3u6FYO/?=
+ =?us-ascii?Q?+Nago0DDPKSmFrEGJAdKM50L2YVxNBsQphsH57iXNrJwXkJKsFX59+9fDEnF?=
+ =?us-ascii?Q?vKWztEYifdOkEM3J5IsBxrPC8nyxjTgQq84tqpH8yJJbWY6N+cheXhl6UnUm?=
+ =?us-ascii?Q?6tMh0tEl0rNspKjM5JbGirupydH6bf0Feqa4WsX3hTHjn+hwILwx4meoz7CQ?=
+ =?us-ascii?Q?qDQfUuhBaB8+Z7fNKq8mDAc8g9Ynt4BOzT6N04lapOKRn6p6JM5xllak69L2?=
+ =?us-ascii?Q?QckJikHex51HKC94TjsxgFbsymvHkl7If4eBYSeTufywKHQFGXXyh/TBXf+x?=
+ =?us-ascii?Q?We3oexn8pweX4eCAYn0VYP8y2saECDQZxmDmoOe3pnWk0YpDyTd6RGoiqOQq?=
+ =?us-ascii?Q?oMrjRX9dcY0w67o6JkBfi/PRB/qKCg0p8uJ0v6w9sW3IvEYkE5Y1Hzir8qoW?=
+ =?us-ascii?Q?QRCuNNONuQ47VmGVyg/dcnsEqHlKuG9Pag1CF3pg6/zD70uf557sNqIA6wu9?=
+ =?us-ascii?Q?0EE2N6oX0yTZNVcOlEpwPiU0pw6IiKD44umGnDytNQlFmdjtE/4VBdZnFcMb?=
+ =?us-ascii?Q?3CtdLwkL2Lf8FGQwh0EXP94AP+R8PdsdPEHl5Z354lRkveaHXgdgKZbKA6BF?=
+ =?us-ascii?Q?1cOAYLFEINdq1SIucoXwLyxFpsyeDtI0PSF4bt3SiL8hhdQJT/NFD23tTepU?=
+ =?us-ascii?Q?5crkZnr0Rj6TOH4DbCbmTt9Zxc7InpDs0cBYyaR2AzV8EjIS53I4s6/vKUXl?=
+ =?us-ascii?Q?7R89HvaXYLPhZVOuLHTUk1pUGeGlzyAnLifqZAYcdTcADhzJPl9OcwEJIH+3?=
+ =?us-ascii?Q?kywKuAh7oaWm2y253j4rymhq+gp6NGEpc0yz+Hphglk9oPVTl2YFTJbYD+q8?=
+ =?us-ascii?Q?XZFZUEK4M40lrfsBJX/1O+YD7VuBpu6fro+MdnC19FbjLAtsiEUj0zdQ8rTj?=
+ =?us-ascii?Q?zp6+7cGqYjz+XLGjiC3oDUEdwdlolTFJSIHzTxZb?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: ce60b2be-6282-4d8e-ae78-08db361219b2
 X-MS-Exchange-CrossTenant-AuthSource: MN0PR11MB6059.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Apr 2023 19:52:29.6052 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Apr 2023 20:12:37.3990 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 5MDreBLEQy8h5wX42Tgruh93RJg2FKB7YQEhLyAVhrt5w1QBzgmM5biu9svR0+/L8pXwlNMbWGb4fUFkLJ+i5g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR11MB4621
+X-MS-Exchange-CrossTenant-UserPrincipalName: sGQW6NndHCiQpCovgYdM7HZy5XcCW+IWABhvqMuIJUScKs8v1Sxjwy7XwLJ0ZTjhprTWVMLOvLjm+D8VsZaI5Q==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW3PR11MB4553
 X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -149,274 +149,167 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Matthew Brost <matthew.brost@intel.com>,
- =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, Oded Gabbay <ogabbay@kernel.org>,
- Francois Dugast <francois.dugast@intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Dave Airlie <airlied@redhat.com>,
- Luis Strano <luis.strano@intel.com>
+Cc: Vinay Belgaumkar <vinay.belgaumkar@intel.com>,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, Tvrtko
+ Ursulin <tvrtko.ursulin@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Let’s establish a merge plan for Xe, by writing down clear pre-merge goals, in
-order to avoid unnecessary delays.
+On Wed, Apr 05, 2023 at 12:42:30PM -0700, Dixit, Ashutosh wrote:
+> On Wed, 05 Apr 2023 06:57:42 -0700, Rodrigo Vivi wrote:
+> >
+> 
+> Hi Rodrigo,
+> 
+> > On Fri, Mar 31, 2023 at 08:11:29PM -0700, Dixit, Ashutosh wrote:
+> > > On Fri, 31 Mar 2023 19:00:49 -0700, Vinay Belgaumkar wrote:
+> > > >
+> > >
+> > > Hi Vinay,
+> > >
+> > > > @@ -478,20 +507,15 @@ int intel_guc_slpc_set_min_freq(struct intel_guc_slpc *slpc, u32 val)
+> > > >	    val > slpc->max_freq_softlimit)
+> > > >		return -EINVAL;
+> > > >
+> > > > +	/* Ignore efficient freq if lower min freq is requested */
+> > > > +	ret = intel_guc_slpc_set_ignore_eff_freq(slpc, val < slpc->rp1_freq);
+> > > > +	if (ret)
+> > > > +		goto out;
+> > > > +
+> > >
+> > > I don't agree with this. If we are now providing an interface explicitly to
+> > > ignore RPe, that should be /only/ way to ignore RPe. There should be no
+> > > other "under the hood" ignoring of RPe. In other words, ignoring RPe should
+> > > be minimized unless explicitly requested.
+> > >
+> > > I don't clearly understand why this was done previously but it makes even
+> > > less sense to me now after this patch.
+> >
+> > well, I had suggested this previously. And just because without this we would
+> > be breaking API expectations.
+> >
+> > When user selects a minimal frequency it expect that to stick. But with the
+> > efficient freq enabled in guc if minimal is less than the efficient one,
+> > this request is likely ignored.
+> >
+> > Well, even worse is that we are actually caching the request in the soft values.
+> > So we show a minimal, but the hardware without any workload is operating at
+> > efficient.
+> >
+> > So, the thought process was: 'if user requested a very low minimal, we give them
+> > the minimal requested, even if that means to disable the efficient freq.'
+> 
+> Hmm, I understand this even less now :)
+> 
+> * Why is RPe ignored when min < RPe? Since the freq can be between min and
+>   max? Shouldn't the condition be min > RPe, that is turn RPe off if min
+>   higher that RPe is requested?
 
-This initial document starts with a TODO list containing items with clear and
-measurable key results. Xe’s initial pull request should only be sent to
-dri-devel after all the items are clearly resolved.
+that is not how guc efficient freq selection works. (unless my memory is
+tricking me right now.)
 
-Since many of them involve some level of a community consensus, in many cases,
-the consensus will be reached in follow-up patches to this document with more
-details of the API or helpers that will be developed or modified.
+So, if we select a min that is between RPe and RP0, guc will respect and
+use the selected min. So we don't need to disable guc selection of the
+efficient.
 
-Cc: Dave Airlie <airlied@redhat.com>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: Oded Gabbay <ogabbay@kernel.org>
-Signed-off-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
-Signed-off-by: Francois Dugast <francois.dugast@intel.com>
-Signed-off-by: Luis Strano <luis.strano@intel.com>
-Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
----
- Documentation/gpu/rfc/index.rst |   4 +
- Documentation/gpu/rfc/xe.rst    | 216 ++++++++++++++++++++++++++++++++
- 2 files changed, 220 insertions(+)
- create mode 100644 Documentation/gpu/rfc/xe.rst
+This is not true when we select a very low min like RPn. If we select RPn
+as min and guc efficient freq selection is enabled guc will simply ignore
+our request. So the only way to give the user what is asked, is to also
+disable guc's efficient freq selection. (I probably confused you in the
+previous email because I used 'RP0' when I meant 'RPn'. I hope it gets
+clear now).
 
-diff --git a/Documentation/gpu/rfc/index.rst b/Documentation/gpu/rfc/index.rst
-index 476719771eef..e4f7b005138d 100644
---- a/Documentation/gpu/rfc/index.rst
-+++ b/Documentation/gpu/rfc/index.rst
-@@ -31,3 +31,7 @@ host such documentation:
- .. toctree::
- 
-     i915_vm_bind.rst
-+
-+.. toctree::
-+
-+   xe.rst
-diff --git a/Documentation/gpu/rfc/xe.rst b/Documentation/gpu/rfc/xe.rst
-new file mode 100644
-index 000000000000..1e3e7e9c67c3
---- /dev/null
-+++ b/Documentation/gpu/rfc/xe.rst
-@@ -0,0 +1,216 @@
-+==========================
-+Xe – Merge Acceptance Plan
-+==========================
-+Xe is a new driver for Intel GPUs that supports both integrated and
-+discrete platforms starting with Tiger Lake (first Intel Xe Architecture).
-+
-+This document aims to establish a merge plan for the Xe, by writing down clear
-+pre-merge goals, in order to avoid unnecessary delays.
-+
-+Xe – Overview
-+=============
-+The main motivation of Xe is to have a fresh base to work from that is
-+unencumbered by older platforms, whilst also taking the opportunity to
-+rearchitect our driver to increase sharing across the drm subsystem, both
-+leveraging and allowing us to contribute more towards other shared components
-+like TTM and drm/scheduler.
-+
-+This is also an opportunity to start from the beginning with a clean uAPI that is
-+extensible by design and already aligned with the modern userspace needs. For
-+this reason, the memory model is solely based on GPU Virtual Address space
-+bind/unbind (‘VM_BIND’) of GEM buffer objects (BOs) and execution only supporting
-+explicit synchronization. With persistent mapping across the execution, the
-+userspace does not need to provide a list of all required mappings during each
-+submission.
-+
-+The new driver leverages a lot from i915. As for display, the intent is to share
-+the display code with the i915 driver so that there is maximum reuse there.
-+
-+As for the power management area, the goal is to have a much-simplified support
-+for the system suspend states (S-states), PCI device suspend states (D-states),
-+GPU/Render suspend states (R-states) and frequency management. It should leverage
-+as much as possible all the existent PCI-subsystem infrastructure (pm and
-+runtime_pm) and underlying firmware components such PCODE and GuC for the power
-+states and frequency decisions.
-+
-+Repository:
-+
-+https://gitlab.freedesktop.org/drm/xe/kernel (branch drm-xe-next)
-+
-+Xe – Platforms
-+==============
-+Currently, Xe is already functional and has experimental support for multiple
-+platforms starting from Tiger Lake, with initial support in userspace implemented
-+in Mesa (for Iris and Anv, our OpenGL and Vulkan drivers), as well as in NEO
-+(for OpenCL and Level0).
-+
-+During a transition period, platforms will be supported by both Xe and i915.
-+However, the force_probe mechanism existent in both drivers will allow only one
-+official and by-default probe at a given time.
-+
-+For instance, in order to probe a DG2 which PCI ID is 0x5690 by Xe instead of
-+i915, the following set of parameters need to be used:
-+
-+```
-+i915.force_probe=!5690 xe.force_probe=5690
-+```
-+
-+In both drivers, the ‘.require_force_probe’ protection forces the user to use the
-+force_probe parameter while the driver is under development. This protection is
-+only removed when the support for the platform and the uAPI are stable. Stability
-+which needs to be demonstrated by CI results.
-+
-+In order to avoid user space regressions, i915 will continue to support all the
-+current platforms that are already out of this protection. Xe support will be
-+forever experimental and dependent on the usage of force_probe for these
-+platforms.
-+
-+When the time comes for Xe, the protection will be lifted on Xe and kept in i915.
-+
-+Xe driver will be protected with both STAGING Kconfig and force_probe. Changes in
-+the uAPI are expected while the driver is behind these protections. STAGING will
-+be removed when the driver uAPI gets to a mature state where we can guarantee the
-+‘no regression’ rule. Then force_probe will be lifted only for future platforms
-+that will be productized with Xe driver, but not with i915.
-+
-+Xe – Pre-Merge Goals
-+====================
-+
-+Drm_scheduler
-+-------------
-+Xe primarily uses Firmware based scheduling (GuC FW). However, it will use
-+drm_scheduler as the scheduler ‘frontend’ for userspace submission in order to
-+resolve syncobj and dma-buf implicit sync dependencies. However, drm_scheduler is
-+not yet prepared to handle the 1-to-1 relationship between drm_gpu_scheduler and
-+drm_sched_entity.
-+
-+Deeper changes to drm_scheduler should *not* be required to get Xe accepted, but
-+some consensus needs to be reached between Xe and other community drivers that
-+could also benefit from this work, for coupling FW based/assisted submission such
-+as the ARM’s new Mali GPU driver, and others.
-+
-+As a key measurable result, the patch series introducing Xe itself shall not
-+depend on any other patch touching drm_scheduler itself that was not yet merged
-+through drm-misc. This, by itself, already includes the reach of an agreement for
-+uniform 1 to 1 relationship implementation / usage across drivers.
-+
-+GPU VA
-+------
-+Two main goals of Xe are meeting together here:
-+
-+1) Have an uAPI that aligns with modern UMD needs.
-+
-+2) Early upstream engagement.
-+
-+RedHat engineers working on Nouveau proposed a new DRM feature to handle keeping
-+track of GPU virtual address mappings. This is still not merged upstream, but
-+this aligns very well with our goals and with our VM_BIND. The engagement with
-+upstream and the port of Xe towards GPUVA is already ongoing.
-+
-+As a key measurable result, Xe needs to be aligned with the GPU VA and working in
-+our tree. Missing Nouveau patches should *not* block Xe and any needed GPUVA
-+related patch should be independent and present on dri-devel or acked by
-+maintainers to go along with the first Xe pull request towards drm-next.
-+
-+DRM_VM_BIND
-+-----------
-+Nouveau, and Xe are all implementing ‘VM_BIND’ and new ‘Exec’ uAPIs in order to
-+fulfill the needs of the modern uAPI. Xe merge should *not* be blocked on the
-+development of a common new drm_infrastructure. However, the Xe team needs to
-+engage with the community to explore the options of a common API.
-+
-+As a key measurable result, the DRM_VM_BIND needs to be documented in this file
-+below, or this entire block deleted if the consensus is for independent drivers
-+vm_bind ioctls.
-+
-+Although having a common DRM level IOCTL for VM_BIND is not a requirement to get
-+Xe merged, it is mandatory to enforce the overall locking scheme for all major
-+structs and list (so vm and vma). So, a consensus is needed, and possibly some
-+common helpers. If helpers are needed, they should be also documented in this
-+document.
-+
-+ASYNC VM_BIND
-+-------------
-+Although having a common DRM level IOCTL for VM_BIND is not a requirement to get
-+Xe merged, it is mandatory to have a cross-driver consensus and understanding how
-+to handle async VM_BIND and interactions with userspace memory fences. Ideally
-+with helper support so people don't get it wrong in all possible ways.
-+
-+As a key measurable result, the benefits of ASYNC VM_BIND and a discussion of
-+various flavors, error handling and a sample API should be documented here or in
-+a separate document pointed to by this document.
-+
-+Userptr integration and vm_bind
-+-------------------------------
-+Different drivers implement different ways of dealing with execution of userptr.
-+With multiple drivers currently introducing support to VM_BIND, the goal is to
-+aim for a DRM consensus on what’s the best way to have that support. To some
-+extent this is already getting addressed itself with the GPUVA where likely the
-+userptr will be a GPUVA with a NULL GEM call VM bind directly on the userptr.
-+However, there are more aspects around the rules for that and the usage of
-+mmu_notifiers, locking and other aspects.
-+
-+This task here has the goal of introducing a documentation of the basic rules.
-+
-+The documentation *needs* to first live in this document (API session below) and
-+then moved to another more specific document or at Xe level or at DRM level.
-+
-+Documentation should include:
-+
-+ * The userptr part of the VM_BIND api.
-+
-+ * Locking, including the page-faulting case.
-+
-+ * O(1) complexity under VM_BIND.
-+
-+Some parts of userptr like mmu_notifiers should become GPUVA or DRM helpers when
-+the second driver supporting VM_BIND+userptr appears. Details to be defined when
-+the time comes.
-+
-+Long running compute: minimal data structure/scaffolding
-+--------------------------------------------------------
-+The generic scheduler code needs to include the handling of endless compute
-+contexts, with the minimal scaffolding for preempt-ctx fences (probably on the
-+drm_sched_entity) and making sure drm_scheduler can cope with the lack of job
-+completion fence.
-+
-+The goal is to achieve a consensus ahead of Xe initial pull-request, ideally with
-+this minimal drm/scheduler work, if needed, merged to drm-misc in a way that any
-+drm driver, including Xe, could re-use and add their own individual needs on top
-+in a next stage. However, this should not block the initial merge.
-+
-+As a key measurable result, the handling of the long running jobs and the minimal
-+scaffolding should be documented here or in a separate document pointed to by
-+this document.
-+
-+Display integration with i915
-+-----------------------------
-+In order to share the display code with the i915 driver so that there is maximum
-+reuse, the i915/display/ code is built twice, once for i915.ko and then for
-+xe.ko. Currently, the i915/display code in Xe tree is polluted with many 'ifdefs'
-+depending on the build target. The goal is to refactor both Xe and i915/display
-+code simultaneously in order to get a clean result before they land upstream, so
-+that display can already be part of the initial pull request towards drm-next.
-+
-+However, display code should not gate the acceptance of Xe in upstream. Xe
-+patches will be refactored in a way that display code can be removed, if needed,
-+from the first pull request of Xe towards drm-next. The expectation is that when
-+both drivers are part of the drm-tip, the introduction of cleaner patches will be
-+easier and speed up.
-+
-+Drm_exec
-+--------
-+Helper to make dma_resv locking for a big number of buffers is getting removed in
-+the drm_exec series proposed in https://patchwork.freedesktop.org/patch/524376/
-+If that happens, Xe needs to change and incorporate the changes in the driver.
-+The goal is to engage with the Community to understand if the best approach is to
-+move that to the drivers that are using it or if we should keep the helpers in
-+place waiting for Xe to get merged.
-+
-+As a key measurable result, we need to have a community consensus documented in
-+this document and the Xe driver prepared for the changes, if necessary.
-+
-+Xe – uAPI high level overview
-+=============================
-+
-+...Warning: To be done in follow up patches after/when/where the main consensus in various items are individually reached.
--- 
-2.39.2
+> 
+> * Also isn't RPe dynamic, so we can't say RPe == rp1 when using in KMD?
 
+Oh... yeap, this is an issue indeed. Specially with i915 where we have
+the soft values cached instead of asking guc everytime.
+
+That's a good point. The variance is not big, but we will hit corner cases.
+One way is to keep checking and updating everytime a sysfs is touched.
+Other way is do what you are suggesting and let's just accept and deal
+with the reality that is: "we cannot guarantee a min freq selection if user
+doesn't disable the efficient freq selection".
+
+> 
+> * Finally, we know that enabling RPe broke the kernel freq API because RPe
+>   could go over max_freq. So it is actually the max freq which is not
+>   obeyed after RPe is enabled.
+
+Oh! so it was my bad memory indeed and everything is the other way around?
+But I just looked to Xe code, my most recent memory, and I just needed
+to toggle the efficient freq off on the case that I mentioned, when min
+selection is below the efficient one. With that all the API expectation
+that I coded in IGT works neatly.
+
+> 
+> So we ignore RPe in some select cases (which also I don't understand as
+> mentioned above but maybe I am missing something) to claim that we are
+> obeying the freq API, but let the freq API stay broken in other cases?
+
+what cases it stays broken? This is why we need the IGT tests for all the
+API behavior in place.
+
+> 
+> > So, that was introduced to avoid API breakage. Removing it now would mean
+> > breaking API. (Not sure if the IGT tests for the API got merged already,
+> > but think that as the API contract).
+> 
+> I think we should take this patch as an opportunity to fix this and give
+> the user a clean interface to ignore RPe and remove this other implicit way
+> to ignore RPe. All IGT changes are unmerged at present.
+
+Yeap, the IGT needs to come with whatever we concluded here and we need to
+stick with that afterwards, so let's think with care.
+
+Vinay, Ashutosh's strongest argument is the variable RPe. Do you have thoughts
+on that?
+
+> 
+> Thanks.
+> --
+> Ashutosh
+> 
+> 
+> 
+> >
+> > But I do agree with you that having something selected from multiple places
+> > also has the potential to cause some miss-expectations. So I was thinking
+> > about multiple even orders where the user select the RP0 as minimal, then
+> > enable the efficient or vice versa, but I couldn't think of a bad case.
+> > Or at least not as bad as the user asking to get RP0 as minimal and only
+> > getting RPe back.
+
+in case I let you confused here, what I meant was RPn, not RP0.
+
+> >
+> > With this in mind, and having checked the code:
+> >
+> > Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
+> >
+> > But I won't push this immediately because I'm still open to hear another
+> > side/angle.
+> >
+> > >
+> > > Thanks.
+> > > --
+> > > Ashutosh
+> > >
+> > >
+> > > >	/* Need a lock now since waitboost can be modifying min as well */
+> > > >	mutex_lock(&slpc->lock);
+> > > >	wakeref = intel_runtime_pm_get(&i915->runtime_pm);
+> > > >
+> > > > -	/* Ignore efficient freq if lower min freq is requested */
+> > > > -	ret = slpc_set_param(slpc,
+> > > > -			     SLPC_PARAM_IGNORE_EFFICIENT_FREQUENCY,
+> > > > -			     val < slpc->rp1_freq);
+> > > > -	if (ret) {
+> > > > -		guc_probe_error(slpc_to_guc(slpc), "Failed to toggle efficient freq: %pe\n",
+> > > > -				ERR_PTR(ret));
+> > > > -		goto out;
+> > > > -	}
+> > > > -
+> > > >	ret = slpc_set_param(slpc,
+> > > >			     SLPC_PARAM_GLOBAL_MIN_GT_UNSLICE_FREQ_MHZ,
+> > > >			     val);
