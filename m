@@ -2,49 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 292826D774F
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Apr 2023 10:50:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 185706D7750
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Apr 2023 10:50:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C477C10E888;
-	Wed,  5 Apr 2023 08:50:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2222510E88A;
+	Wed,  5 Apr 2023 08:50:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9C71C10E888
- for <dri-devel@lists.freedesktop.org>; Wed,  5 Apr 2023 08:50:34 +0000 (UTC)
-Received: from smtp1.mailbox.org (smtp1.mailbox.org
- [IPv6:2001:67c:2050:b231:465::1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested)
- by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4PryyC05jKz9sd0;
- Wed,  5 Apr 2023 10:50:27 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; t=1680684627;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=+JoMcQjaWRTFJAZlTMPW2CqATVYYxvDWYRqZtrHR7FM=;
- b=CNfGQoM5HmhSLG8MpAhKqf6chfhxkuJLEFSFMr8Ltr5xSari8NB4GMztJFMnPUBuWipj5J
- dfhVXfuWoY3kHmsW4pEiLnJ3kfOv2OfbMBCiBEKCKev5ofIXg3SQDG1G0bZYuNPN9dAzfR
- E2fViaA3MlomCBaCpRL3jgOXEpBHT9bGXwloKdGc9KmzopqOykUhXcrMHUAij6IRbxTQ5W
- a5R+gFTInDhc2IF+b4s+S1WWYIvwoS8t9Q+/uDNhuYs0zDpvebO9rbgAMjM8hd4D/Hme+i
- nQp9pMW080SjjxmmaDOp9ZAMjlRTieQds/Wdlv27ySn5jIR16+payT3K2EpkhQ==
-Message-ID: <03a575e1-b4ed-7bd6-b68a-0583d76803ff@mailbox.org>
-Date: Wed, 5 Apr 2023 10:50:24 +0200
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3768810E88A
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 Apr 2023 08:50:45 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 82D8062306;
+ Wed,  5 Apr 2023 08:50:44 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 26631C4339B;
+ Wed,  5 Apr 2023 08:50:39 +0000 (UTC)
+Message-ID: <dddd76a7-f882-f1dd-0781-fcc1f9b4e060@xs4all.nl>
+Date: Wed, 5 Apr 2023 10:50:37 +0200
 MIME-Version: 1.0
-Subject: Re: [PATCH] fbdev: Don't spam dmesg on bad userspace ioctl input
-Content-Language: en-CA
-To: Daniel Vetter <daniel.vetter@ffwll.ch>,
- DRI Development <dri-devel@lists.freedesktop.org>
-References: <20230404123624.360384-1-daniel.vetter@ffwll.ch>
-From: =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel.daenzer@mailbox.org>
-In-Reply-To: <20230404123624.360384-1-daniel.vetter@ffwll.ch>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [RESEND PATCH v4 03/21] staging: media: tegra-video: fix
+ .vidioc_enum_fmt_vid_cap to return all formats
+Content-Language: en-US
+To: Luca Ceresoli <luca.ceresoli@bootlin.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+References: <20230309144320.2937553-1-luca.ceresoli@bootlin.com>
+ <20230309144320.2937553-4-luca.ceresoli@bootlin.com>
+ <85268d69-3d3b-2c0f-ba26-073f09052362@xs4all.nl>
+ <20230404161251.272cc78b@booty>
+ <20230405023048.GD9915@pendragon.ideasonboard.com>
+ <20230405103134.2ae10766@booty>
+From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <20230405103134.2ae10766@booty>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-MBO-RS-META: mzxrw78thnopc4sgrgqtw97dq6x1qahi
-X-MBO-RS-ID: 94d8a51d1212d5b7798
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,66 +51,82 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Helge Deller <deller@gmx.de>,
- syzbot+20dcf81733d43ddff661@syzkaller.appspotmail.com,
- Javier Martinez Canillas <javierm@redhat.com>, stable@vger.kernel.org,
- Geert Uytterhoeven <geert@linux-m68k.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Daniel Vetter <daniel.vetter@intel.com>
+Cc: devicetree@vger.kernel.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Richard Leitner <richard.leitner@skidata.com>,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+ Jonathan Hunter <jonathanh@nvidia.com>,
+ Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Sowjanya Komatineni <skomatineni@nvidia.com>, dri-devel@lists.freedesktop.org,
+ linux-tegra@vger.kernel.org, Dmitry Osipenko <digetx@gmail.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 4/4/23 14:36, Daniel Vetter wrote:
-> There's a few reasons the kernel should not spam dmesg on bad
-> userspace ioctl input:
-> - at warning level it results in CI false positives
-> - it allows userspace to drown dmesg output, potentially hiding real
->   issues.
+On 05/04/2023 10:31, Luca Ceresoli wrote:
+> Hi Laurent,
 > 
-> None of the other generic EINVAL checks report in the
-> FBIOPUT_VSCREENINFO ioctl do this, so it's also inconsistent.
+> On Wed, 5 Apr 2023 05:30:48 +0300
+> Laurent Pinchart <laurent.pinchart@ideasonboard.com> wrote:
 > 
-> I guess the intent of the patch which introduced this warning was that
-> the drivers ->fb_check_var routine should fail in that case. Reality
-> is that there's too many fbdev drivers and not enough people
-> maintaining them by far, and so over the past few years we've simply
-> handled all these validation gaps by tighning the checks in the core,
-> because that's realistically really all that will ever happen.
-> 
-> Reported-by: syzbot+20dcf81733d43ddff661@syzkaller.appspotmail.com
-> Link: https://syzkaller.appspot.com/bug?id=c5faf983bfa4a607de530cd3bb008888bf06cefc
-> Fixes: 6c11df58fd1a ("fbmem: Check virtual screen sizes in fb_set_var()")
-> Cc: Helge Deller <deller@gmx.de>
-> Cc: Geert Uytterhoeven <geert@linux-m68k.org>
-> Cc: stable@vger.kernel.org # v5.4+
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Cc: Javier Martinez Canillas <javierm@redhat.com>
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> ---
->  drivers/video/fbdev/core/fbmem.c | 4 ----
->  1 file changed, 4 deletions(-)
-> 
-> diff --git a/drivers/video/fbdev/core/fbmem.c b/drivers/video/fbdev/core/fbmem.c
-> index 875541ff185b..9757f4bcdf57 100644
-> --- a/drivers/video/fbdev/core/fbmem.c
-> +++ b/drivers/video/fbdev/core/fbmem.c
-> @@ -1021,10 +1021,6 @@ fb_set_var(struct fb_info *info, struct fb_var_screeninfo *var)
->  	/* verify that virtual resolution >= physical resolution */
->  	if (var->xres_virtual < var->xres ||
->  	    var->yres_virtual < var->yres) {
-> -		pr_warn("WARNING: fbcon: Driver '%s' missed to adjust virtual screen size (%ux%u vs. %ux%u)\n",
-> -			info->fix.id,
-> -			var->xres_virtual, var->yres_virtual,
-> -			var->xres, var->yres);
->  		return -EINVAL;
->  	}
->  
+>> Hi Luca,
+>>
+>> On Tue, Apr 04, 2023 at 04:12:51PM +0200, Luca Ceresoli wrote:
+>>> On Wed, 29 Mar 2023 13:16:22 +0200 Hans Verkuil wrote:
+>>>   
+>>>> Hi Luca,
+>>>>
+>>>> I finally found the time to test this series. It looks OK, except for this patch.  
+>>>
+>>> Thank you very much for taking the time!
+>>>   
+>>>> The list of supported formats really has to be the intersection of what the tegra
+>>>> supports and what the sensor supports.
+>>>>
+>>>> Otherwise you would advertise pixelformats that cannot be used, and the application
+>>>> would have no way of knowing that.  
+>>>
+>>> As far as I understand, I think we should rather make this driver fully
+>>> behave as an MC-centric device. It is already using MC quite
+>>> successfully after all.
+>>>
+>>> Do you think this is correct?  
+>>
+>> Given the use cases for this driver, I agree.
 
-Make it pr_warn_once? 99.9...% of the benefit, without spam.
+I disagree.
 
+This driver doesn't use the media controller for anything at the moment. The
+/dev/mediaX device just shows the internal topology (i.e. connected sensors),
+but otherwise it does nothing.
 
--- 
-Earthling Michel Dänzer            |                  https://redhat.com
-Libre software enthusiast          |         Mesa and Xwayland developer
+While it would be great if we could unlock the ISP on the Tegra, the reality
+is that it is entirely closed source and can't be used in a linux driver, and
+that's not going to change, sadly.
+
+That leaves us with just a basic CSI capture driver. Rather than trying to
+change this driver to a full MC device with no benefits, just drop this change
+and get your code in.
+
+Note that this driver will stay in staging since it still fails when I try to
+capture from two sensors at the same time: syncpoint errors start appearing
+in that case. I think there are locking issues. I think I have someone to take
+a look at that, but first I want your series to get merged.
+
+In the very unlikely event that the ISP can be implemented in a linux driver,
+it will probably become a new driver.
+
+Regards,
+
+	Hans
+
+> 
+> Ok, thanks for the feedback. I will send a v5 with this change.
+> 
+> Best regards,
+> Luca
+> 
 
