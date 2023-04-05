@@ -2,69 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B0646D7B5C
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Apr 2023 13:30:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 089B36D7B62
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Apr 2023 13:31:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0434810E8ED;
-	Wed,  5 Apr 2023 11:30:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DA75710E8EF;
+	Wed,  5 Apr 2023 11:31:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2E9DC10E8ED
- for <dri-devel@lists.freedesktop.org>; Wed,  5 Apr 2023 11:30:43 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E3FC710E8EF
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 Apr 2023 11:31:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1680694242;
+ s=mimecast20190719; t=1680694308;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=RNLFmKiaJhCbpMv6NNLJ01MSUH3fUGQXMqewzc3mLvQ=;
- b=K+emJmThw3A22bzpJupOQyQCFLGDoOOne+R9iZ9xOfVY0algVxjeVbFGflLtRW3RlOeytv
- A5sYrWx0aQeCjVQiCSifN3gxYoHu1V7KC9qKk/NtkDNxn0v01u9ziyHr1YKchJaJ9BoZ/U
- 1DmjLotVo2C8qh/QNvrV2KixBNzQvCI=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=DdvlAOB2HBtoxdSNuZT4WKN+Yt+RUmrcPHkXhNSXjuo=;
+ b=g8WdMuY81EJmL5GZxq9i3ONAMJU+dwkuBob3u2BD66IPTpyzERouTJzVugQ7D8pRR/hjRz
+ 1NOJcF9uiQq7v6hRR/sVXorGQxpHKLDJLOPXxPwerHfQPLWDp2Lzyu7zW2ra9MZ5rj08mo
+ UZ1dlmcIFgZn4BtXN+xVq+Csaqzm3OM=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-104-gYzaiMemOne7nIZK3VRcNg-1; Wed, 05 Apr 2023 07:30:38 -0400
-X-MC-Unique: gYzaiMemOne7nIZK3VRcNg-1
-Received: by mail-wm1-f70.google.com with SMTP id
- h22-20020a05600c351600b003ef739416c3so12245271wmq.4
- for <dri-devel@lists.freedesktop.org>; Wed, 05 Apr 2023 04:30:38 -0700 (PDT)
+ us-mta-601-LZFl6N2TMUKX4tdtQ5dw_w-1; Wed, 05 Apr 2023 07:31:46 -0400
+X-MC-Unique: LZFl6N2TMUKX4tdtQ5dw_w-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ l16-20020a05600c4f1000b003ef6ed5f645so13996659wmq.9
+ for <dri-devel@lists.freedesktop.org>; Wed, 05 Apr 2023 04:31:46 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680694237;
+ d=1e100.net; s=20210112; t=1680694305;
  h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
  :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=RNLFmKiaJhCbpMv6NNLJ01MSUH3fUGQXMqewzc3mLvQ=;
- b=mdzfNGI4BQ8g19ZMsp471yQGKzsysoot1UKdokFWhn47CYgQ5tCwRt36I5vMx3zf4a
- kaBWXqXBGeIJObVyL6LvLfs4x9S4AW2VHf+8vmixR0qVjzaLodji9nZ6zeuyZ0mPM1dp
- 8CdLqPr2j/eOlYBnJaV13yk9JQDZrqFQ5pbE4/lsJXctdt8cwSHgTZ8ulthBNbb8Fg/T
- mP6teYZUzAhA8f5vdyPvVJezujRpYcR/u4NMrdJLq1RMZhJhu5my5Md8rtMPLmyS6Vq/
- VcfZAHYekmsBd+fusVdmnHMOV16J3HNIG8XJ/nQszytIO4SvRii5NqAafG7eznB2xgbG
- Isqw==
-X-Gm-Message-State: AAQBX9e1XR2Nb31rhNwmKcu4A8P4cf5NehT9WAlj01K1HKMYYUtoONmB
- rJhPp66Li/gbD7UBI1ODA+aD6kpXjSJnuOrdvLU2LOY4d1AdnK9B2mg2HYOOSfzExzt48hl2V5x
- 6vBuVkLzN9xbME6ya76WU6QcBcYkc
-X-Received: by 2002:adf:e409:0:b0:2ce:a0c1:bcaa with SMTP id
- g9-20020adfe409000000b002cea0c1bcaamr1759119wrm.9.1680694237463; 
- Wed, 05 Apr 2023 04:30:37 -0700 (PDT)
-X-Google-Smtp-Source: AKy350Z+rEnxummXTXBERQ/WiQlDGMhXDsQ6asLHd92imjUbjJ+WG229BKVrkkBNa50e3N/32xHrgg==
-X-Received: by 2002:adf:e409:0:b0:2ce:a0c1:bcaa with SMTP id
- g9-20020adfe409000000b002cea0c1bcaamr1759090wrm.9.1680694237126; 
- Wed, 05 Apr 2023 04:30:37 -0700 (PDT)
+ bh=DdvlAOB2HBtoxdSNuZT4WKN+Yt+RUmrcPHkXhNSXjuo=;
+ b=Y2vJLlxX8UT+fAfDfBLJV95zPGAhDE10ILalsp4+H0kF718g+43BdChAndpaEU9sZo
+ F812rOgWyJ4dJt7oNyccCCStGdlBd2VgjcV9WMx2DfCmqtqqkEUlPp0z39sxjj6k/7VO
+ +C0unqKHz6AVI/N9bBYEnR/MpYNi9QXTMfzh+oLqQ55LMRIKf0PmbuSiJxr7/JjZzbbR
+ GATxDdoRAktoIH353ivIKWL9hCiKdYpVur7Bs5Z6qAl/HXRCeoiQsp8bbs2MCzGiGHL4
+ X5UkTqZVbiIy4Vop4tJNaRpcL1Sn3f1lz0T0ZcFn3xF39niJrdYtxsGr7UD7IUjIseKy
+ 9rOg==
+X-Gm-Message-State: AAQBX9dov6RFfLo5DKucW/Jg7WXrRRiQjYZvm8usPANSspH/qfx6lYoR
+ gOOW2KEZ5YiplTlNhFNQSeAT/lFKXQMjlD4ovSuuCA2HCwQMxKffOvXk424H3j/n422iRaib9QR
+ /YObkcdUuG668Yhka3JDNCIbT5Pwj
+X-Received: by 2002:a05:600c:22d6:b0:3eb:2da5:e19 with SMTP id
+ 22-20020a05600c22d600b003eb2da50e19mr4612740wmg.27.1680694305744; 
+ Wed, 05 Apr 2023 04:31:45 -0700 (PDT)
+X-Google-Smtp-Source: AKy350bgJR+9jItxcQrvJsguKxNFfDjUdTz+JTjRLTm6qB71szWLKTQghclWZR4h05St1GZL+1Uwmg==
+X-Received: by 2002:a05:600c:22d6:b0:3eb:2da5:e19 with SMTP id
+ 22-20020a05600c22d600b003eb2da50e19mr4612726wmg.27.1680694305488; 
+ Wed, 05 Apr 2023 04:31:45 -0700 (PDT)
 Received: from localhost (205.pool92-176-231.dynamic.orange.es.
  [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- w3-20020adfcd03000000b002d45575643esm14727267wrm.43.2023.04.05.04.30.36
+ u13-20020a05600c210d00b003f0373d077csm1879783wml.47.2023.04.05.04.31.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 05 Apr 2023 04:30:36 -0700 (PDT)
+ Wed, 05 Apr 2023 04:31:45 -0700 (PDT)
 From: Javier Martinez Canillas <javierm@redhat.com>
 To: Daniel Vetter <daniel.vetter@ffwll.ch>, DRI Development
  <dri-devel@lists.freedesktop.org>
-Subject: Re: [PATCH 3/8] drm/aperture: Remove primary argument
-In-Reply-To: <20230404201842.567344-3-daniel.vetter@ffwll.ch>
+Subject: Re: [PATCH 4/8] video/aperture: Only kick vgacon when the pdev is
+ decoding vga
+In-Reply-To: <20230404201842.567344-4-daniel.vetter@ffwll.ch>
 References: <20230404201842.567344-1-daniel.vetter@ffwll.ch>
- <20230404201842.567344-3-daniel.vetter@ffwll.ch>
-Date: Wed, 05 Apr 2023 13:30:36 +0200
-Message-ID: <871qkyd0rn.fsf@minerva.mail-host-address-is-not-set>
+ <20230404201842.567344-4-daniel.vetter@ffwll.ch>
+Date: Wed, 05 Apr 2023 13:31:44 +0200
+Message-ID: <87y1n6bm5b.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
@@ -81,36 +82,32 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-hyperv@vger.kernel.org, Emma Anholt <emma@anholt.net>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, linux-fbdev@vger.kernel.org,
- Thierry Reding <thierry.reding@gmail.com>,
- Daniel Vetter <daniel.vetter@intel.com>, Jerome Brunet <jbrunet@baylibre.com>,
- Kevin Hilman <khilman@baylibre.com>, Helge Deller <deller@gmx.de>,
- Jonathan Hunter <jonathanh@nvidia.com>, Deepak Rawat <drawat.floss@gmail.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+Cc: linux-fbdev@vger.kernel.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
  Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- linux-tegra@vger.kernel.org, linux-amlogic@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org,
- Neil Armstrong <neil.armstrong@linaro.org>
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Daniel Vetter <daniel.vetter@intel.com>, Helge Deller <deller@gmx.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Daniel Vetter <daniel.vetter@ffwll.ch> writes:
 
-> Only really pci devices have a business setting this - it's for
-> figuring out whether the legacy vga stuff should be nuked too. And
-> with the preceeding two patches those are all using the pci version of
-> this.
+> Otherwise it's bit silly, and we might throw out the driver for the
+> screen the user is actually looking at. I haven't found a bug report
+> for this case yet, but we did get bug reports for the analog case
+> where we're throwing out the efifb driver.
 >
-> Which means for all other callers primary == false and we can remove
-> it now.
+> v2: Flip the check around to make it clear it's a special case for
+> kicking out the vgacon driver only (Thomas)
 >
-> v2:
-> - Reorder to avoid compile fail (Thomas)
-> - Include gma500, which retained it's called to the non-pci version.
->
+> References: https://bugzilla.kernel.org/show_bug.cgi?id=216303
 > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: Javier Martinez Canillas <javierm@redhat.com>
+> Cc: Helge Deller <deller@gmx.de>
+> Cc: linux-fbdev@vger.kernel.org
+> ---
+>  drivers/video/aperture.c | 16 +++++++++-------
+>  1 file changed, 9 insertions(+), 7 deletions(-)
 
 Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 
