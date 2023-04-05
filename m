@@ -1,55 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1B646D7F50
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Apr 2023 16:25:07 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A905E6D7F63
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Apr 2023 16:27:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CB54A10E98F;
-	Wed,  5 Apr 2023 14:25:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C3C5B10E998;
+	Wed,  5 Apr 2023 14:27:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from lelv0142.ext.ti.com (lelv0142.ext.ti.com [198.47.23.249])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5D1AC89125
- for <dri-devel@lists.freedesktop.org>; Wed,  5 Apr 2023 14:25:04 +0000 (UTC)
-Received: from fllv0034.itg.ti.com ([10.64.40.246])
- by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id 335EOjYq018196;
- Wed, 5 Apr 2023 09:24:45 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1680704685;
- bh=IIg8Hw2d+AztRioYXlvly6uzmoxjKPtZvpXX4icR5Mk=;
- h=From:To:CC:Subject:Date:In-Reply-To:References;
- b=QEOidwmJUfL0gZvptL6rL2APLDQ9IKaE5fjGSlXaS6Gz5wQNNdtnO3M321mayrH9X
- Wqqhq/8JsmbXuQv0lri4Xoo03+rD6V3TrJuP9yVjQpldAr85l8lH4m5DMQInODAmYU
- MjrrI3ZodlIyDdWKvWp3Cl+kTLrtI7RW2ktaP1pc=
-Received: from DFLE114.ent.ti.com (dfle114.ent.ti.com [10.64.6.35])
- by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 335EOjUQ064587
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Wed, 5 Apr 2023 09:24:45 -0500
-Received: from DFLE110.ent.ti.com (10.64.6.31) by DFLE114.ent.ti.com
- (10.64.6.35) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.16; Wed, 5
- Apr 2023 09:24:45 -0500
-Received: from fllv0039.itg.ti.com (10.64.41.19) by DFLE110.ent.ti.com
- (10.64.6.31) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.16 via
- Frontend Transport; Wed, 5 Apr 2023 09:24:45 -0500
-Received: from localhost (ileaxei01-snat2.itg.ti.com [10.180.69.6])
- by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 335EOiA3029128;
- Wed, 5 Apr 2023 09:24:44 -0500
-From: Jayesh Choudhary <j-choudhary@ti.com>
-To: <dri-devel@lists.freedesktop.org>, <devicetree@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH v2 2/2] drm: bridge: cdns-mhdp8546: Add support for no-hpd
-Date: Wed, 5 Apr 2023 19:54:40 +0530
-Message-ID: <20230405142440.191939-3-j-choudhary@ti.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230405142440.191939-1-j-choudhary@ti.com>
-References: <20230405142440.191939-1-j-choudhary@ti.com>
+Received: from mail-yw1-x1136.google.com (mail-yw1-x1136.google.com
+ [IPv6:2607:f8b0:4864:20::1136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E0D6610E998
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 Apr 2023 14:27:11 +0000 (UTC)
+Received: by mail-yw1-x1136.google.com with SMTP id
+ 00721157ae682-54606036bb3so514615197b3.6
+ for <dri-devel@lists.freedesktop.org>; Wed, 05 Apr 2023 07:27:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amarulasolutions.com; s=google; t=1680704830;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=s2CDOKe00GnUjHdkbrE4uqIZXQFd1rirDCgy3XORGC0=;
+ b=GlbqkCpig7IPrSTg10DT1HGJE3iQoSZSheTEkp/deI4+kgPyCkyhoySWQ5r3W7NLdd
+ FmGo4FMUOjBa1S+ZRhlMQtLzMxvcV3kk1Cmb+Qu3hfkoR+mUd4+27gm5haAPFqTDeMgn
+ sLGcXrToa9ecnD4n3NOE27F48KvgYq/ixq1/8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1680704830;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=s2CDOKe00GnUjHdkbrE4uqIZXQFd1rirDCgy3XORGC0=;
+ b=sv/KATzi0WpQJMtkUqgIaatyJykt57yiBQQ8+ZvFHa98D53cSaREsdv0ExZ8Bno4ic
+ i6w32whrl0+A5kYYG+s0BehNLYkLlQ5GAODZUHfhCToQgAYqk7Ry0jyjmKBk60pPWzqD
+ JUkeZFbLaUXRF6c0JoExHMsTGNS+UkKRWM1lAADc2UohzBM6zaiFZrkT3cVJnXUmddMd
+ dMoBygfLiQEDQC8L77s44lkSiKdsUx9LjIv5QqMZ1uIORfcFMmvr6pWNzywzuhG+IXz0
+ Qv9bIR2c4AanlbZLkqstkzTIQ2gYQmTQc1XLFddABNa1w5kE8qRVNn9bgSO3QdYdBfS+
+ NrVA==
+X-Gm-Message-State: AAQBX9cbqz05ly56QpYzgMW+9V4VKn8rUQ9e5JtSzdJ+CU4a2LEXubRS
+ kZ7ihn2WMeR+guKF6Hy6fWBUUeulANe8UpktaPAyQQ==
+X-Google-Smtp-Source: AKy350Y9iYQEAuwm8U51IV0OzmCsUWkboTMxqxuC2KD5swgILlish/b/RdhzJdJOdC+GBvdZWmpSqpuyclhyYclJ2ng=
+X-Received: by 2002:a81:c509:0:b0:549:143f:3d3 with SMTP id
+ k9-20020a81c509000000b00549143f03d3mr3713100ywi.0.1680704830604; Wed, 05 Apr
+ 2023 07:27:10 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+References: <20230330012725.124031-1-yang.lee@linux.alibaba.com>
+In-Reply-To: <20230330012725.124031-1-yang.lee@linux.alibaba.com>
+From: Jagan Teki <jagan@amarulasolutions.com>
+Date: Wed, 5 Apr 2023 19:56:58 +0530
+Message-ID: <CAMty3ZCVBCTZ=jRKBmdP1uHQfEK-Fu_vTGx3T0NFOzeAnHhFmQ@mail.gmail.com>
+Subject: Re: [PATCH -next] drm: bridge: samsung-dsim: fix
+ platform_no_drv_owner.cocci warning
+To: Yang Li <yang.lee@linux.alibaba.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,135 +66,21 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: andrzej.hajda@intel.com, tomi.valkeinen@ideasonboard.com,
- Laurent.pinchart@ideasonboard.com, krzysztof.kozlowski+dt@linaro.org,
- sam@ravnborg.org, r-ravikumar@ti.com, rfoss@kernel.org, a-bhatia1@ti.com,
- javierm@redhat.com, jernej.skrabec@gmail.com, sjakhade@cadence.com,
- tzimmermann@suse.de, jonas@kwiboo.se, jani.nikula@intel.com,
- robh+dt@kernel.org, neil.armstrong@linaro.org, j-choudhary@ti.com,
- yamonkar@cadence.com, alexander.deucher@amd.com
+Cc: neil.armstrong@linaro.org, Abaci Robot <abaci@linux.alibaba.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ m.szyprowski@samsung.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Rahul T R <r-ravikumar@ti.com>
+On Thu, Mar 30, 2023 at 6:57=E2=80=AFAM Yang Li <yang.lee@linux.alibaba.com=
+> wrote:
+>
+> ./drivers/gpu/drm/bridge/samsung-dsim.c:1957:6-11: No need to set .owner =
+here. The core will do it.
+>
+> Reported-by: Abaci Robot <abaci@linux.alibaba.com>
+> Link: https://bugzilla.openanolis.cn/show_bug.cgi?id=3D4640
+> Signed-off-by: Yang Li <yang.lee@linux.alibaba.com>
+> ---
 
-In J721S2 EVMs DP0 hpd is not connected to correct
-hpd pin on SOC, to handle such cases, Add support for
-"no-hpd" property in the device tree node to disable
-hpd
-
-Also change the log level for dpcd read failuers to
-debug, since framework retries 32 times for each read
-
-Signed-off-by: Rahul T R <r-ravikumar@ti.com>
-Signed-off-by: Jayesh Choudhary <j-choudhary@ti.com>
----
- .../drm/bridge/cadence/cdns-mhdp8546-core.c   | 37 ++++++++++++++++---
- .../drm/bridge/cadence/cdns-mhdp8546-core.h   |  1 +
- 2 files changed, 33 insertions(+), 5 deletions(-)
-
-diff --git a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
-index f6822dfa3805..e177794b069d 100644
---- a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
-+++ b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
-@@ -54,6 +54,8 @@
- #include "cdns-mhdp8546-hdcp.h"
- #include "cdns-mhdp8546-j721e.h"
- 
-+static int cdns_mhdp_update_link_status(struct cdns_mhdp_device *mhdp);
-+
- static int cdns_mhdp_mailbox_read(struct cdns_mhdp_device *mhdp)
- {
- 	int ret, empty;
-@@ -749,7 +751,7 @@ static int cdns_mhdp_fw_activate(const struct firmware *fw,
- 	 * MHDP_HW_STOPPED happens only due to driver removal when
- 	 * bridge should already be detached.
- 	 */
--	if (mhdp->bridge_attached)
-+	if (mhdp->bridge_attached && !mhdp->no_hpd)
- 		writel(~(u32)CDNS_APB_INT_MASK_SW_EVENT_INT,
- 		       mhdp->regs + CDNS_APB_INT_MASK);
- 
-@@ -845,7 +847,7 @@ static ssize_t cdns_mhdp_transfer(struct drm_dp_aux *aux,
- 		ret = cdns_mhdp_dpcd_read(mhdp, msg->address,
- 					  msg->buffer, msg->size);
- 		if (ret) {
--			dev_err(mhdp->dev,
-+			dev_dbg(mhdp->dev,
- 				"Failed to read DPCD addr %u\n",
- 				msg->address);
- 
-@@ -1738,6 +1740,19 @@ static int cdns_mhdp_attach(struct drm_bridge *bridge,
- 
- 	spin_unlock(&mhdp->start_lock);
- 
-+	if (mhdp->no_hpd) {
-+		ret = wait_event_timeout(mhdp->fw_load_wq,
-+					 mhdp->hw_state == MHDP_HW_READY,
-+					 msecs_to_jiffies(100));
-+		if (ret == 0) {
-+			dev_err(mhdp->dev, "%s: Timeout waiting for fw loading\n",
-+				__func__);
-+			return -ETIMEDOUT;
-+		}
-+
-+		cdns_mhdp_update_link_status(mhdp);
-+		return 0;
-+	}
- 	/* Enable SW event interrupts */
- 	if (hw_ready)
- 		writel(~(u32)CDNS_APB_INT_MASK_SW_EVENT_INT,
-@@ -2256,7 +2271,16 @@ static int cdns_mhdp_update_link_status(struct cdns_mhdp_device *mhdp)
- 
- 	mutex_lock(&mhdp->link_mutex);
- 
--	mhdp->plugged = cdns_mhdp_detect_hpd(mhdp, &hpd_pulse);
-+	if (mhdp->no_hpd) {
-+		ret = drm_dp_dpcd_read_link_status(&mhdp->aux, status);
-+		hpd_pulse = false;
-+		if (ret < 0)
-+			mhdp->plugged = false;
-+		else
-+			mhdp->plugged = true;
-+	} else {
-+		mhdp->plugged = cdns_mhdp_detect_hpd(mhdp, &hpd_pulse);
-+	}
- 
- 	if (!mhdp->plugged) {
- 		cdns_mhdp_link_down(mhdp);
-@@ -2451,6 +2475,8 @@ static int cdns_mhdp_probe(struct platform_device *pdev)
- 	mhdp->aux.dev = dev;
- 	mhdp->aux.transfer = cdns_mhdp_transfer;
- 
-+	mhdp->no_hpd = of_property_read_bool(dev->of_node, "cdns,no-hpd");
-+
- 	mhdp->regs = devm_platform_ioremap_resource(pdev, 0);
- 	if (IS_ERR(mhdp->regs)) {
- 		dev_err(dev, "Failed to get memory resource\n");
-@@ -2526,8 +2552,9 @@ static int cdns_mhdp_probe(struct platform_device *pdev)
- 
- 	mhdp->bridge.of_node = pdev->dev.of_node;
- 	mhdp->bridge.funcs = &cdns_mhdp_bridge_funcs;
--	mhdp->bridge.ops = DRM_BRIDGE_OP_DETECT | DRM_BRIDGE_OP_EDID |
--			   DRM_BRIDGE_OP_HPD;
-+	mhdp->bridge.ops = DRM_BRIDGE_OP_DETECT | DRM_BRIDGE_OP_EDID;
-+	if (!mhdp->no_hpd)
-+		mhdp->bridge.ops |= DRM_BRIDGE_OP_HPD;
- 	mhdp->bridge.type = DRM_MODE_CONNECTOR_DisplayPort;
- 	if (mhdp->info)
- 		mhdp->bridge.timings = mhdp->info->timings;
-diff --git a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.h b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.h
-index bedddd510d17..6786ccb51387 100644
---- a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.h
-+++ b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.h
-@@ -388,6 +388,7 @@ struct cdns_mhdp_device {
- 
- 	bool link_up;
- 	bool plugged;
-+	bool no_hpd;
- 
- 	/*
- 	 * "start_lock" protects the access to bridge_attached and
--- 
-2.25.1
-
+Reviewed-by: Jagan Teki <jagan@amarulasolutions.com>
