@@ -1,63 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 354406D7E0E
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Apr 2023 15:50:44 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4449B6D7E15
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Apr 2023 15:51:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8F9F010E09E;
-	Wed,  5 Apr 2023 13:50:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3827610E12E;
+	Wed,  5 Apr 2023 13:51:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x334.google.com (mail-ot1-x334.google.com
- [IPv6:2607:f8b0:4864:20::334])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D99D410E09E;
- Wed,  5 Apr 2023 13:50:35 +0000 (UTC)
-Received: by mail-ot1-x334.google.com with SMTP id
- a30-20020a9d3e1e000000b006a13f728172so15870198otd.3; 
- Wed, 05 Apr 2023 06:50:35 -0700 (PDT)
+Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4549010E12E
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 Apr 2023 13:51:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1680702634;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=TWYCTW3umiiR+6qL8jCRq5HPkiPkwIuHGIYzIuJerUc=;
- b=SG7nWufenx4mh39/7JLVOg1GQfQ0jB5fjAv1g++007WllAQLkL6RQ23FLerkw1K4+y
- QeXZi2+vWINhFvc6IWdx2ZOq4ApxcX9ThZF8j2GfbSkklJHjk8l9CB2wj5ZuY76WRZMl
- N281jRqwsLs7ssSjZUKi+z6IIRQkymrcYyX9Ze5thyNon53UMVPRfglijLR7OHKedjnG
- /vwZZJshZGvMuOszdRxg1KYWwHmSRjySD6pzE0qzcJz0Z9nNyu+sF2urvy+Ew6ZEcIlY
- D5JtL9ki164lCmorM/RJ7eIfdO0gOAJgRkOoBHt/p3M+AEJZZhBYd1U9xoopTOCpspob
- lDwQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680702634;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=TWYCTW3umiiR+6qL8jCRq5HPkiPkwIuHGIYzIuJerUc=;
- b=CHba22bEy29k2bIgedYf1R18vI1Cc/tSXnikbWMAR6mVPE5mOz9wbTM29bulQ4dyq1
- ttu6OnvLmY96tHgTTR0RZsSTexnzeVHZqQzVZZRxBouqx0Eie9UqlSlb8emBff+M72vY
- HfuWqmAGxCD43p1GTuMWqK1LyzzZuWLnCM45njv0nigQHrkIhRLDAkQTquk32SR43MsL
- RiUBuuQh86aSXeEObTJ9zhq/QVVU6V8AOEJuP37qFp0Z5Dx3Col3bt1XYVJ6iT3R3Hdh
- LyDPIp2ZHRqe1TWzGarECGWGXiyA7GulqN4jBLXiYTLrMKvdkGR1cCbn7A+WpNvfK/3+
- KItA==
-X-Gm-Message-State: AAQBX9dROvV1aWVK5RakPvE/XnQ0JSxqqP77OXpQlRwIcH+MMraFzMhG
- wwmt4dZWjn8Q0tU1kqswRADEQF6H96755dvHLoY=
-X-Google-Smtp-Source: AKy350ZeWbieaLFA+NP2qQLhKqOwfEt8QEeLalSxkYi2UjWzSdSgw7nsbp51P4NFCyBZ3cx7K/URe9rys2fgzEEd8Gc=
-X-Received: by 2002:a9d:664e:0:b0:696:f275:a60d with SMTP id
- q14-20020a9d664e000000b00696f275a60dmr1925750otm.7.1680702634708; Wed, 05 Apr
- 2023 06:50:34 -0700 (PDT)
+ d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+ t=1680702691; x=1712238691;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=9g+20hEdWS7HCG+Awvql610ZC783UwEEnSLXUlQpqVY=;
+ b=nsrLNK9xY6BSo7KECk+08n/etMN3OAM34/QC0WvRTzDKxmP5NQoma9a3
+ bNAIsxXfsSWX7e+NItApGHxuRznVhzrp53k4beEi4IA2Rix9NUnfPHSFM
+ e6yz8evGzN7FnUcF21GY/MammixYM1t8mw4jbW2yqM9uIpnVE+wRqaw/x
+ AQk9cxzcT0RonIOr5p/xepeWiLyf+jy0pdMGYjCDh/+mxuF88O+oT41D5
+ w1cc8A39XAXnyvulIn6PP5IUMDsrxkZihB+dG5tnkkmDpljvn1peJpbFy
+ Elz8+23UNVgfz3SyIJzCLYH1+jRY46+3ce62FZY2NWnBt1id4rPIGeYR5 Q==;
+X-IronPort-AV: E=Sophos;i="5.98,319,1673910000"; d="scan'208";a="30168296"
+Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
+ by mx1-pgp.tq-group.com with ESMTP; 05 Apr 2023 15:51:28 +0200
+Received: from mx1.tq-group.com ([192.168.6.7])
+ by tq-pgp-pr1.tq-net.de (PGP Universal service);
+ Wed, 05 Apr 2023 15:51:28 +0200
+X-PGP-Universal: processed;
+ by tq-pgp-pr1.tq-net.de on Wed, 05 Apr 2023 15:51:28 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+ t=1680702688; x=1712238688;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=9g+20hEdWS7HCG+Awvql610ZC783UwEEnSLXUlQpqVY=;
+ b=Jv4ZopJ4dw86o96wwYwJOMBIGar01+gLbSAOiQIFDczXwAS15M2sMG1r
+ GJtejPSqWWovfo01rNAHpxLdq+HVuAvy1hUwWik3BANxpbmKWxIBx033h
+ e1kCm78aWZKR0Jn6atqcljlgtuUZEn5bTKR7Fr+1pFec4hsLJeVqiimg8
+ 7y/8x4ZrI5iSYDtHAluaOKf6R1QUF6ZixUT6tkThXbXe9upkXDRRkWk/M
+ ScArDCiTp9PVwZGEU4XNIrxmykuW/3BhOoehJ+kdGij6t7ACQPWwemHOD
+ lnqr925Ux1KaZubc02KueHkHr83kM3gZ0gLtQuPmAc2wMWSC183XDD3NJ A==;
+X-IronPort-AV: E=Sophos;i="5.98,319,1673910000"; d="scan'208";a="30168295"
+Received: from vtuxmail01.tq-net.de ([10.115.0.20])
+ by mx1.tq-group.com with ESMTP; 05 Apr 2023 15:51:28 +0200
+Received: from steina-w.tq-net.de (unknown [10.123.53.21])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (No client certificate requested)
+ by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 47092280056;
+ Wed,  5 Apr 2023 15:51:28 +0200 (CEST)
+From: Alexander Stein <alexander.stein@ew.tq-group.com>
+To: Douglas Anderson <dianders@chromium.org>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+Subject: [PATCH 1/1] drm/bridge: ti-sn65dsi86: Allow GPIO operations to sleep
+Date: Wed,  5 Apr 2023 15:51:27 +0200
+Message-Id: <20230405135127.769665-1-alexander.stein@ew.tq-group.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20230405081650.797972-1-daniel.vetter@ffwll.ch>
- <20230405133105.947834-1-daniel.vetter@ffwll.ch>
-In-Reply-To: <20230405133105.947834-1-daniel.vetter@ffwll.ch>
-From: Rob Clark <robdclark@gmail.com>
-Date: Wed, 5 Apr 2023 06:50:22 -0700
-Message-ID: <CAF6AEGsFTSSQMMnr8PkJ4CBhwVnYBsxdZGP1SO9aZyeLhO0Ohg@mail.gmail.com>
-Subject: Re: [Intel-gfx] [PATCH] drm/atomic-helper: Don't set deadline for
- modesets
-To: Daniel Vetter <daniel.vetter@ffwll.ch>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,70 +77,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Daniel Vetter <daniel.vetter@intel.com>
+Cc: Alexander Stein <alexander.stein@ew.tq-group.com>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Apr 5, 2023 at 6:31=E2=80=AFAM Daniel Vetter <daniel.vetter@ffwll.c=
-h> wrote:
->
-> If the crtc is being switched on or off then the semantics of
-> computing the timestampe of the next vblank is somewhat ill-defined.
-> And indeed, the code splats with a warning in the timestamp
-> computation code. Specifically it hits the check to make sure that
-> atomic drivers have full set up the timing constants in the drm_vblank
-> structure, and that's just not the case before the crtc is actually
-> on.
->
-> For robustness it seems best to just not set deadlines for modesets.
->
-> v2: Also skip on inactive crtc (Ville)
->
-> Link: https://lore.kernel.org/dri-devel/dfc21f18-7e1e-48f0-c05a-d659b9c90=
-b91@linaro.org/
-> Fixes: d39e48ca80c0 ("drm/atomic-helper: Set fence deadline for vblank")
-> Cc: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
-> Cc: Rob Clark <robdclark@chromium.org>
-> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> Cc: Maxime Ripard <mripard@kernel.org>
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Reported-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> Tested-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org> # test patch on=
-ly
-> Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+There is no need to require non-sleeping GPIO access. Silence the
+WARN_ON() if GPIO is using e.g. I2C expanders.
 
-Reviewed-by: Rob Clark <robdclark@gmail.com>
+Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+---
+This is the TI SN65DSI86 equivalent to 805245071240 ("drm/bridge: 
+ti-sn65dsi83: Allow GPIO operations to sleep")
 
-> ---
->  drivers/gpu/drm/drm_atomic_helper.c | 6 ++++++
->  1 file changed, 6 insertions(+)
->
-> diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_at=
-omic_helper.c
-> index f21b5a74176c..d44fb9b87ef8 100644
-> --- a/drivers/gpu/drm/drm_atomic_helper.c
-> +++ b/drivers/gpu/drm/drm_atomic_helper.c
-> @@ -1528,6 +1528,12 @@ static void set_fence_deadline(struct drm_device *=
-dev,
->         for_each_new_crtc_in_state (state, crtc, new_crtc_state, i) {
->                 ktime_t v;
->
-> +               if (drm_atomic_crtc_needs_modeset(new_crtc_state))
-> +                       continue;
-> +
-> +               if (!new_crtc_state->active)
-> +                       continue;
-> +
->                 if (drm_crtc_next_vblank_start(crtc, &v))
->                         continue;
->
-> --
-> 2.40.0
->
+ drivers/gpu/drm/bridge/ti-sn65dsi86.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+index 1e26fa63845a..7a748785c545 100644
+--- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
++++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+@@ -363,7 +363,7 @@ static int __maybe_unused ti_sn65dsi86_resume(struct device *dev)
+ 	/* td2: min 100 us after regulators before enabling the GPIO */
+ 	usleep_range(100, 110);
+ 
+-	gpiod_set_value(pdata->enable_gpio, 1);
++	gpiod_set_value_cansleep(pdata->enable_gpio, 1);
+ 
+ 	/*
+ 	 * If we have a reference clock we can enable communication w/ the
+@@ -386,7 +386,7 @@ static int __maybe_unused ti_sn65dsi86_suspend(struct device *dev)
+ 	if (pdata->refclk)
+ 		ti_sn65dsi86_disable_comms(pdata);
+ 
+-	gpiod_set_value(pdata->enable_gpio, 0);
++	gpiod_set_value_cansleep(pdata->enable_gpio, 0);
+ 
+ 	ret = regulator_bulk_disable(SN_REGULATOR_SUPPLY_NUM, pdata->supplies);
+ 	if (ret)
+-- 
+2.34.1
+
