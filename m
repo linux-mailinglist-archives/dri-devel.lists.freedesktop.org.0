@@ -2,68 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2371A6D805D
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Apr 2023 17:05:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F0476D8067
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Apr 2023 17:06:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EAD0810E9B4;
-	Wed,  5 Apr 2023 15:05:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2BE1C10E9C8;
+	Wed,  5 Apr 2023 15:06:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com
- [IPv6:2a00:1450:4864:20::42b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3755610E9B4
- for <dri-devel@lists.freedesktop.org>; Wed,  5 Apr 2023 15:05:01 +0000 (UTC)
-Received: by mail-wr1-x42b.google.com with SMTP id m2so36534617wrh.6
- for <dri-devel@lists.freedesktop.org>; Wed, 05 Apr 2023 08:05:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1680707099;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=JJ/TIkMhk2bPX1HK0lvdvOcV5MO27OCyBCUDQZH39zI=;
- b=lFm0/BjykT3G1eDy8yG3/f/+9hGtVDN4Ior/kfWUUde8UGG5JzHhgamuK6EFwY2lc+
- wLuYU/tJnhfhNKZT0niU/VoR/UWzGDgkiHGBS2G9qwlqSPvyNzy2+a7hN3pGshfblGSN
- XTlX8rewe3AvIk7sUIGnGYUDNED0dzQVHuJ46eALpdbdFZtOaiRxE7LOPSok+zs+SwUT
- A/+i7Lq9wYLZwujAWUDsE8zAFgiXNFVmRFS15VROcrUQ6QXk9e7SWu62aUfFaIuwF99c
- v9LZC2fu5b53cYqqFh/NMV3pT1jSq+pN/c3GeuDYCK7aIcnC2uZ7j/VyIuqC31fvRLY9
- zaIw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680707099;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=JJ/TIkMhk2bPX1HK0lvdvOcV5MO27OCyBCUDQZH39zI=;
- b=vQEY9BW8JuBfT8qhz5Tbs+LJLXzsawjTezmGLuofVxNVljPNwyaLGxNBZ8uJ/wqcda
- yyNDf0rgahQKre6CUUTuVDEXSqEETKCOFu/wBswPfwO8PrjqBgKd5QfY5TCeaGT7fmzH
- BIjLklNrp3xzq+pNIrg/6TQaXP6a/aLJP0C/aOQyPyVCGZGR682KWbpRLVKN6kAZQ0rR
- UsIlz66gC0zfwcsJi56+AOynjCXYhHjAECLNTo0jwgfZSmFU+F+4zIjr8/cRCkMq/X1G
- f6Rmt3o5KlfkZiPg0lntdJFxCFSIBDTEAnZAFmpbZ+gsvxHJ3l7QuTCEich2UQNe25b1
- 3TtA==
-X-Gm-Message-State: AAQBX9eu/eZyGqCqq59OTmvR6ER9Kk3j8KLPfeV12uZrGZmBCi13rXEj
- eNtwFyOnIKnj3VkrTKwK3fI=
-X-Google-Smtp-Source: AKy350Zo6+JFFWEOk1JLcS1QaNH29U9mO7wq3L+rrdvlL2uVVg3IQgJKzxWpEkaxN9bsHkxZp+1N8g==
-X-Received: by 2002:adf:f8ca:0:b0:2cf:ed87:37c9 with SMTP id
- f10-20020adff8ca000000b002cfed8737c9mr2045804wrq.11.1680707099119; 
- Wed, 05 Apr 2023 08:04:59 -0700 (PDT)
-Received: from localhost
- (p200300e41f1c0800f22f74fffe1f3a53.dip0.t-ipconnect.de.
- [2003:e4:1f1c:800:f22f:74ff:fe1f:3a53])
- by smtp.gmail.com with ESMTPSA id
- g7-20020a5d5407000000b002e6423cb207sm14146577wrv.112.2023.04.05.08.04.58
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 05 Apr 2023 08:04:58 -0700 (PDT)
-From: Thierry Reding <thierry.reding@gmail.com>
-To: daniel@ffwll.ch, Thomas Zimmermann <tzimmermann@suse.de>,
- jonathanh@nvidia.com, javierm@redhat.com, airlied@gmail.com,
- thierry.reding@gmail.com
-Subject: Re: [PATCH 0/7] drm/tegra: Convert fbdev to DRM client
-Date: Wed,  5 Apr 2023 17:04:58 +0200
-Message-Id: <168070704247.1047612.15878020832415463467.b4-ty@nvidia.com>
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EA57310E9C8
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 Apr 2023 15:05:59 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id E984822926;
+ Wed,  5 Apr 2023 15:05:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1680707157; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=g5CNiBMyJmGfOboPN85iL6BEAbMbhCK1z8h/E7PJqO8=;
+ b=w8tf3DJbATFS2jgiySieo5lgHacr0/X4t8O83kSm+JjUTN7INy+KEE0c6QKy2YQQEG1D51
+ ei/9VshpEuJZ8SmDOnR/EjlVwb3io8xNrPAvyiDEaO/puZewQ0rt7tBgAYItRDRs1brqRE
+ qzs1tuAkBaBxL74Ueu6ptbgKfBk5KMI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1680707157;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=g5CNiBMyJmGfOboPN85iL6BEAbMbhCK1z8h/E7PJqO8=;
+ b=NJtJ5rJLvESSn/PDRi2v9Tc541wLbJpWwnGJQVN5sUOfOKv49P3yAdDLaj2lKracLovScc
+ sc9Vq2L2x0GeLvDA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 85CA413A10;
+ Wed,  5 Apr 2023 15:05:57 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id aFHUH1WOLWTPIAAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Wed, 05 Apr 2023 15:05:57 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: arnd@arndb.de, daniel.vetter@ffwll.ch, deller@gmx.de, javierm@redhat.com,
+ gregkh@linuxfoundation.org
+Subject: [PATCH 00/18] arch: Consolidate <asm/fb.h>
+Date: Wed,  5 Apr 2023 17:05:36 +0200
+Message-Id: <20230405150554.30540-1-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.40.0
-In-Reply-To: <20230330083607.12834-1-tzimmermann@suse.de>
-References: <20230330083607.12834-1-tzimmermann@suse.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -77,42 +62,98 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-tegra@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: linux-arch@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ linux-ia64@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ linux-parisc@vger.kernel.org, linux-sh@vger.kernel.org, x86@kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-mips@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
+ loongarch@lists.linux.dev, sparclinux@vger.kernel.org,
+ linux-snps-arc@lists.infradead.org, linuxppc-dev@lists.ozlabs.org,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Thierry Reding <treding@nvidia.com>
+Various architectures provide <arm/fb.h> with helpers for fbdev
+framebuffer devices. Share the contained code where possible. There
+is already <asm-generic/fb.h>, which implements generic (as in
+'empty') functions of the fbdev helpers. The header was added in
+commit aafe4dbed0bf ("asm-generic: add generic versions of common
+headers"), but never used.
 
-On Thu, 30 Mar 2023 10:36:00 +0200, Thomas Zimmermann wrote:
-> Convert tegra's fbdev code to struct drm_client. Replaces the current
-> ad-hoc integration. The conversion includes a number of cleanups. As
-> with most other drivers' fbdev emulation, fbdev in tegra is now just
-> another DRM client that runs after the DRM device has been registered.
-> 
-> Once all drivers' fbdev emulation has been converted to struct drm_client,
-> we can attempt to add additional in-kernel clients. A DRM-based dmesg
-> log or a bootsplash are commonly mentioned. DRM can then switch easily
-> among the existing clients if/when required.
-> 
-> [...]
+Each per-architecture header file declares and/or implements fbdev
+helpers and defines a preprocessor token for each. The generic
+header then provides the remaining helpers. It works like the I/O
+helpers in <asm/io.h>.
 
-Applied, thanks!
+For PARISC, the architecture helpers are mixed up with helpers
+for the system's STI graphics firmware. We first move the STI code
+to appropriate locations under video/ and then move the architecture
+helper under arch/parisc.
 
-[1/7] drm/tegra: Include <linux/of.h>
-      commit: 162b2ae95e0887ea75883bc419d55dd714b8fbf5
-[2/7] drm/tegra: Include <linux/i2c.h>
-      commit: 0e4ec6d97a2c6e96a5ec8d0edc00aa658238ed3f
-[3/7] drm/tegra: Removed fb from struct tegra_fbdev
-      commit: 5705d5b6a21e75c095df29deec8a13aa6b59f83c
-[4/7] drm/tegra: Remove struct tegra_fbdev
-      commit: fc5646b848222601d8be78b66b6498130437abe1
-[5/7] drm/tegra: Hide fbdev support behind config option
-      commit: 63ab4848d1d2eda1658ae82a3cb6eb7e03d28cec
-[6/7] drm/tegra: Initialize fbdev DRM client
-      commit: d9d1e306e70db905f29d05952c1499fd3c6ef6ef
-[7/7] drm/tegra: Implement fbdev emulation as in-kernel client
-      commit: 8e5113c627334ed32748d95ababd548171d2333d
+For Sparc, there's an additional patch that moves the implementation
+from the header into a source file. This allows to avoid some include
+statements in the header file.
 
-Best regards,
+Built on arm, arm64, m68k, mips, parisc, powerpc, sparc and x86.
+
+Thomas Zimmermann (18):
+  fbdev: Prepare generic architecture helpers
+  arch/arc: Implement <asm/fb.h> with generic helpers
+  arch/arm: Implement <asm/fb.h> with generic helpers
+  arch/arm64: Implement <asm/fb.h> with generic helpers
+  arch/ia64: Implement <asm/fb.h> with generic helpers
+  arch/loongarch: Implement <asm/fb.h> with generic helpers
+  arch/m68k: Implement <asm/fb.h> with generic helpers
+  arch/mips: Implement <asm/fb.h> with generic helpers
+  video: Remove trailing whitespaces
+  video: Move HP PARISC STI core code to shared location
+  arch/parisc: Remove trailing whitespaces
+  arch/parisc: Implement fb_is_primary_device() under arch/parisc
+  arch/parisc: Implement <asm/fb.h> with generic helpers
+  arch/powerpc: Implement <asm/fb.h> with generic helpers
+  arch/sh: Implement <asm/fb.h> with generic helpers
+  arch/sparc: Implement fb_is_primary_device() in source file
+  arch/sparc: Implement <asm/fb.h> with generic helpers
+  arch/x86: Implement <asm/fb.h> with generic helpers
+
+ arch/arc/include/asm/fb.h                     |  11 +-
+ arch/arm/include/asm/fb.h                     |  10 +-
+ arch/arm64/include/asm/fb.h                   |  10 +-
+ arch/ia64/include/asm/fb.h                    |  11 +-
+ arch/loongarch/include/asm/fb.h               |  10 +-
+ arch/m68k/include/asm/fb.h                    |  10 +-
+ arch/mips/include/asm/fb.h                    |  10 +-
+ arch/parisc/Makefile                          |   4 +-
+ arch/parisc/include/asm/fb.h                  |  17 +-
+ arch/parisc/video/Makefile                    |   3 +
+ arch/parisc/video/fbdev.c                     |  27 +++
+ arch/powerpc/include/asm/fb.h                 |   8 +-
+ arch/sh/include/asm/fb.h                      |  10 +-
+ arch/sparc/Makefile                           |   1 +
+ arch/sparc/include/asm/fb.h                   |  30 ++--
+ arch/sparc/video/Makefile                     |   3 +
+ arch/sparc/video/fbdev.c                      |  24 +++
+ arch/x86/include/asm/fb.h                     |  11 +-
+ drivers/video/Kconfig                         |   7 +
+ drivers/video/Makefile                        |   1 +
+ drivers/video/console/Kconfig                 |   1 +
+ drivers/video/console/Makefile                |   4 +-
+ drivers/video/console/sticon.c                |   6 +-
+ drivers/video/fbdev/Kconfig                   |   3 +-
+ drivers/video/fbdev/stifb.c                   | 158 +++++++++---------
+ drivers/video/{console => }/sticore.c         | 123 ++++++--------
+ include/asm-generic/fb.h                      |  20 ++-
+ .../video/fbdev => include/video}/sticore.h   |  16 +-
+ 28 files changed, 297 insertions(+), 252 deletions(-)
+ create mode 100644 arch/parisc/video/Makefile
+ create mode 100644 arch/parisc/video/fbdev.c
+ create mode 100644 arch/sparc/video/Makefile
+ create mode 100644 arch/sparc/video/fbdev.c
+ rename drivers/video/{console => }/sticore.c (95%)
+ rename {drivers/video/fbdev => include/video}/sticore.h (99%)
+
+
+base-commit: a7180debb9c631375684f4d717466cfb9f238660
 -- 
-Thierry Reding <treding@nvidia.com>
+2.40.0
+
