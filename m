@@ -1,43 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 409B16D727C
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Apr 2023 04:30:49 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DBC236D729E
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Apr 2023 05:05:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C604610E013;
-	Wed,  5 Apr 2023 02:30:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DA1E910E077;
+	Wed,  5 Apr 2023 03:05:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C251F10E077
- for <dri-devel@lists.freedesktop.org>; Wed,  5 Apr 2023 02:30:43 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AD31C10E077
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 Apr 2023 03:05:11 +0000 (UTC)
 Received: from pendragon.ideasonboard.com (fp76f193f3.tkyc206.ap.nuro.jp
  [118.241.147.243])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 622C2905;
- Wed,  5 Apr 2023 04:30:40 +0200 (CEST)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id D401C905;
+ Wed,  5 Apr 2023 05:05:08 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1680661841;
- bh=92JxqutkaA7MOBZzEsI8JVLAVvvA2FVlO8U5Q3EjmSo=;
+ s=mail; t=1680663910;
+ bh=7Q6te+srG/YQdMjnP9zmGIwnmU0iy8ZmFiqkBUkPSuk=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=mWO+SH7/XV27sw9R9Rw+KgqItm8rURI5GQYFV1sl6pR8XqDB6GW41gIU2YwetbYJf
- AtRC/91JVGQs52YzgrvoES/zkyNKZ3kM/rEVQD8Wdrh/kfYVzeVJvyDFcz5Eo0QXhG
- Cc25z/I3g+l6D2expqUK61OIFTqhI2ZjYHVrjfc4=
-Date: Wed, 5 Apr 2023 05:30:48 +0300
+ b=Gg/FhMUGg5AYJeuHo5MXTd29ntJknBw+mZ2gjT3cFKXTjhCFIcLSan7RalR6gZBWi
+ MOnXoM5d8bJWZ/iV5qG8v8wlDtqSwjfRbBIIXPMpjc1Aq9DfIlfVxvaLnSdhe0RAGP
+ ZMGiR/vXU0i57pYqnkixScAUM83zMoUScls+Ua/o=
+Date: Wed, 5 Apr 2023 06:05:16 +0300
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Subject: Re: [RESEND PATCH v4 03/21] staging: media: tegra-video: fix
- .vidioc_enum_fmt_vid_cap to return all formats
-Message-ID: <20230405023048.GD9915@pendragon.ideasonboard.com>
-References: <20230309144320.2937553-1-luca.ceresoli@bootlin.com>
- <20230309144320.2937553-4-luca.ceresoli@bootlin.com>
- <85268d69-3d3b-2c0f-ba26-073f09052362@xs4all.nl>
- <20230404161251.272cc78b@booty>
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: Re: [PATCH 1/5] drm: shmobile: Use %p4cc to print fourcc codes
+Message-ID: <20230405030516.GG9915@pendragon.ideasonboard.com>
+References: <cover.1680273039.git.geert+renesas@glider.be>
+ <1912536b0972568efc3d4f96c89de96b2abd7510.1680273039.git.geert+renesas@glider.be>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20230404161251.272cc78b@booty>
+In-Reply-To: <1912536b0972568efc3d4f96c89de96b2abd7510.1680273039.git.geert+renesas@glider.be>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,51 +47,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Richard Leitner <richard.leitner@skidata.com>,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
- Jonathan Hunter <jonathanh@nvidia.com>,
- Paul Kocialkowski <paul.kocialkowski@bootlin.com>, linux-tegra@vger.kernel.org,
- Thierry Reding <thierry.reding@gmail.com>,
- Sowjanya Komatineni <skomatineni@nvidia.com>, dri-devel@lists.freedesktop.org,
- Hans Verkuil <hverkuil-cisco@xs4all.nl>, Dmitry Osipenko <digetx@gmail.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-renesas-soc@vger.kernel.org,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Luca,
+Hi Geert,
 
-On Tue, Apr 04, 2023 at 04:12:51PM +0200, Luca Ceresoli wrote:
-> On Wed, 29 Mar 2023 13:16:22 +0200 Hans Verkuil wrote:
-> 
-> > Hi Luca,
-> > 
-> > I finally found the time to test this series. It looks OK, except for this patch.
-> 
-> Thank you very much for taking the time!
-> 
-> > The list of supported formats really has to be the intersection of what the tegra
-> > supports and what the sensor supports.
-> > 
-> > Otherwise you would advertise pixelformats that cannot be used, and the application
-> > would have no way of knowing that.
-> 
-> As far as I understand, I think we should rather make this driver fully
-> behave as an MC-centric device. It is already using MC quite
-> successfully after all.
-> 
-> Do you think this is correct?
+Thank you for the patch.
 
-Given the use cases for this driver, I agree.
+On Fri, Mar 31, 2023 at 04:48:07PM +0200, Geert Uytterhoeven wrote:
+> Replace the printing of hexadecimal fourcc format codes by
+> pretty-printed format names, using the "%p4cc" format specifier.
 
-> If you do, then I think the plan would be:
+I really like %p4cc :-) I makes things much neater.
+
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
+>  drivers/gpu/drm/shmobile/shmob_drm_crtc.c | 4 ++--
+>  drivers/gpu/drm/shmobile/shmob_drm_kms.c  | 4 ++--
+>  2 files changed, 4 insertions(+), 4 deletions(-)
 > 
->  - Add the V4L2_CAP_IO_MC flag
->  - As the mbus_code in get_format appropriately
->  - Leave the changes in this patch unmodified otherwise
+> diff --git a/drivers/gpu/drm/shmobile/shmob_drm_crtc.c b/drivers/gpu/drm/shmobile/shmob_drm_crtc.c
+> index d354ab3077cecf94..713a7612244c647a 100644
+> --- a/drivers/gpu/drm/shmobile/shmob_drm_crtc.c
+> +++ b/drivers/gpu/drm/shmobile/shmob_drm_crtc.c
+> @@ -355,8 +355,8 @@ static int shmob_drm_crtc_mode_set(struct drm_crtc *crtc,
+>  
+>  	format = shmob_drm_format_info(crtc->primary->fb->format->format);
+>  	if (format == NULL) {
+> -		dev_dbg(sdev->dev, "mode_set: unsupported format %08x\n",
+> -			crtc->primary->fb->format->format);
+> +		dev_dbg(sdev->dev, "mode_set: unsupported format %p4cc\n",
+> +			&crtc->primary->fb->format->format);
+>  		return -EINVAL;
+>  	}
+>  
+> diff --git a/drivers/gpu/drm/shmobile/shmob_drm_kms.c b/drivers/gpu/drm/shmobile/shmob_drm_kms.c
+> index 60a2c8d8a0d947d2..3c5fe3bc183c7c13 100644
+> --- a/drivers/gpu/drm/shmobile/shmob_drm_kms.c
+> +++ b/drivers/gpu/drm/shmobile/shmob_drm_kms.c
+> @@ -96,8 +96,8 @@ shmob_drm_fb_create(struct drm_device *dev, struct drm_file *file_priv,
+>  
+>  	format = shmob_drm_format_info(mode_cmd->pixel_format);
+>  	if (format == NULL) {
+> -		dev_dbg(dev->dev, "unsupported pixel format %08x\n",
+> -			mode_cmd->pixel_format);
+> +		dev_dbg(dev->dev, "unsupported pixel format %p4cc\n",
+> +			&mode_cmd->pixel_format);
+>  		return ERR_PTR(-EINVAL);
+>  	}
+>  
 
 -- 
 Regards,
