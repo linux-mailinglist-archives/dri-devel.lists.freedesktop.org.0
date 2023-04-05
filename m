@@ -1,78 +1,78 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 439016D8176
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Apr 2023 17:17:39 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A71776D8191
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Apr 2023 17:19:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C758610E9C0;
-	Wed,  5 Apr 2023 15:17:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EB47E10E0A9;
+	Wed,  5 Apr 2023 15:19:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from wnew3-smtp.messagingengine.com (wnew3-smtp.messagingengine.com
  [64.147.123.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3960A10E9EA
- for <dri-devel@lists.freedesktop.org>; Wed,  5 Apr 2023 15:17:35 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailnew.west.internal (Postfix) with ESMTP id CFB322B06725;
- Wed,  5 Apr 2023 11:17:25 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute5.internal (MEProxy); Wed, 05 Apr 2023 11:17:34 -0400
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7ED2110E0A9
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 Apr 2023 15:19:20 +0000 (UTC)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
+ by mailnew.west.internal (Postfix) with ESMTP id 95FF22B06725;
+ Wed,  5 Apr 2023 11:19:10 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute6.internal (MEProxy); Wed, 05 Apr 2023 11:19:19 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
  :cc:content-type:content-type:date:date:from:from:in-reply-to
  :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm3; t=1680707845; x=1680715045; bh=4g
- 3Y3WtpEmHJBlHmaZSfRkusN6Gsi4T8SDJHzgHkAHw=; b=L4vZO5QE1gCVJJlu2o
- r6vojScB4+ZzvhrGxAnCgZw8q3iEvd5m35SZkx+KC1V9nR1oJrFdkv+ey7bHZjCL
- h7ZEBk9Gmy/3C1A/1qdft9MpePUYhTf2LMdsCjgEXC/wq8oDjffPfKya8bL0vOhv
- zM4glmn3aahZ0fd/tWPeXFJVlzfG49xJGig3f3S4nIf2yKej0KUqRbtf9U4HO7U4
- Fca3KFRY0boUta2nyK/ZvwIoPXjc0uR7jRie7ubda+6o8LFTmR3EQPKCjDxKPY69
- q+rnuCjeiU34JIwElnik7ZIFhfh2uCaJ5k3L+G6Ma8lMgJQI3qmYO86jMfQxx5Ci
- VdNw==
+ :subject:subject:to:to; s=fm3; t=1680707950; x=1680715150; bh=N4
+ c3eeJxURi8JXim3XKJyPapEGBJUqAqBrR8m8X2c4U=; b=gKmMuTGX4nhOP5LI8Y
+ E+p/fl+lzjYAUVjkZAxOcgMyfnvceh+EPXSaK4hHdklMDKUo+7X8uDlGKLDM7YrF
+ sGg+TkumCGduStemV3hSEOod80SRIuqnVBjPCz57RbgXyt/JCsea9kGlEGHD9ZHH
+ 4uYBmeLVKiWZRuqWeUmq4vUsloGrTNXrcZHyz42mXBY+jnF6RqsUJfP3g+hbx4CH
+ JR626fKDz3Kx91OKG6zoAb0lhAY8BRj2kyH+aSBqRWk3fBm+tmycjA9BvxMtFwK2
+ /uN/4REMsnOfiA8YkWEUr9NvX5awfUPDqecs/KGItASKIgB/OjRZa6JP4GBtcIV6
+ ixhA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-type:content-type:date:date
  :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
  :message-id:mime-version:references:reply-to:sender:subject
  :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm2; t=1680707845; x=1680715045; bh=4g3Y3WtpEmHJB
- lHmaZSfRkusN6Gsi4T8SDJHzgHkAHw=; b=VEkZsmfrmM6qqrbSYR67T7b6tnqGF
- AvhJD3Y4WLLq1tU2AX/t6uAgHsNHwJpXvwtS4GnhhmEJ7XPVKNwRq+9WMhmmzML+
- RG6DEdWr2hNUhcl8o0yOuq3CX2GqoiuaH9MsBOokOxVfwovgwExj8beYgt4/HxuA
- a96LoWlzOcRy23htu+pg7NjQwIET42Hppt8MLtacCrxmqqy1yW4bPHimBOxOQWfJ
- wAwezgR/QID/T8H8Ty1cHIhdRLrfE64Z96wSdoJclrB780/8YTOOdsPEANPT/KF4
- SSABADpffcDQPX+mkREx6UEIjxMxopVCUSw91MvdZ2vn4nW1L5oPr6aSQ==
-X-ME-Sender: <xms:BJEtZAuMkk6wnab4QseDQgMYaxs-ZoalWk6ba9JDW-N_MwUR-r-0_g>
- <xme:BJEtZNeeUQqDS514Kh75x4vjSF_5nb0vlfH8K6OmRPlsGhffGSlMHsAhdX_0tWg6m
- 1rxuj_wVXQehW37VVk>
-X-ME-Received: <xmr:BJEtZLwjCpHui3RPPt2Zh-h4Q5a1KUTc9johjdZpp-INV-i7TjtqsffumjLDSjqJRIBhpUDe69m60CBw6P-vuyAbTZVw17w>
+ :x-sasl-enc; s=fm2; t=1680707950; x=1680715150; bh=N4c3eeJxURi8J
+ Xim3XKJyPapEGBJUqAqBrR8m8X2c4U=; b=us63aUQDG8MBsBWKxVkd677OWUlyf
+ GvyT2ZsDR/MSDXYyBEFPCLr1u77TLVEliJJkxnFOHOryhOssawtom9Fx/GCxXE4Z
+ g9WMcBZDBFFA0M55NPj/afG79rH+QSlgwKxHdEscFKqJAGzLCKXM08O4CAyNZ2oY
+ 92l1EUMRUsxYBOKTBCNAueUm0hLDh9wXQ1aH2hSa0Pyqo+ic5Vn/E1K8RUuJ+Akx
+ niaY+kBJb8HA94y9MapEeW9khd6W27wz6/o4LBZwUwC1yikHIaKv9+Y3YHHV23Ax
+ Pbttvpu2mHJMkMEb/nmxw4VL5SFuEUD85xEXcsCOFmUo4Ir1bozXJcnQw==
+X-ME-Sender: <xms:bZEtZNE5d3frgjNyqfY4l4F96Ieu8m-0_ET2EQHW54skrpLdDPxMkg>
+ <xme:bZEtZCWAV86vqtY8x0YAOfOyxP_Bjovfu1KEbcIJIGQZNkI_NskC3Z69zIE7bSKWK
+ uPorUWm3E5jHLYZiX0>
+X-ME-Received: <xmr:bZEtZPIl36enYyRYWtnwtZFjoGIm56RgFEgNNgHuHH1AdVooqXLB1xvAQ3eU8FqyhyfYmeQzT8INbzvXCyXiYFQA7dPIxNQ>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvdejuddgkeejucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvfevuffkfhggtggujgesghdtsfertddtvdenucfhrhhomhepofgrgihi
+ cujfgurhepfffhvfevuffkfhggtggujgesghdtsfertddtudenucfhrhhomhepofgrgihi
  mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
- htthgvrhhnpeeuveduheeutdekvefgudevjeeufedvvdevhfejgfelgfdtkeevueegteek
- gfelfeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+ htthgvrhhnpeefjeeiueeiheevtddvgfeluedufeeigeeijefhveelfeevueefieehuefg
+ ffetteenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
  hmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:BJEtZDOLnxucnvKx3FD6J-fSLSIdKT1u6WKBdKX_FeKFrkbQnefb_g>
- <xmx:BJEtZA_bReMUs9Hnw0kWbI8p_MC65dZMSzDb9-uV0n2-sq5SiGHLpg>
- <xmx:BJEtZLVbSPxoi4qvWklXjQcQFOKJSC341u3oT8-2Qg5yq0Cm5T0yJQ>
- <xmx:BZEtZFFxxiKux8gHULwGp3q2GhoxRfghXYlW4d0UO9AUrD_vtD7rQM5gvGo>
+X-ME-Proxy: <xmx:bZEtZDEAFhIsFMFa_rlEYJjQtmNAX1yXFgltj8Nc2M4E7IronNQkYQ>
+ <xmx:bZEtZDXf-V7X3wB2ItBeZXqRwyUd7foTYp81_5ZftvCbRnJ1NVcG-A>
+ <xmx:bZEtZONDsCr9vCSxxuST4o6jdEcH6VhtDEUAn3vwkAzrVLVhcbzMRw>
+ <xmx:bpEtZHehzz9o1Op1NisRQXvvRBZ08CdWKapQjpWmxXPTk9Z4sCWpZcg2CZ8>
 Feedback-ID: i8771445c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 5 Apr 2023 11:17:22 -0400 (EDT)
-Date: Wed, 5 Apr 2023 17:17:21 +0200
+ 5 Apr 2023 11:19:07 -0400 (EDT)
+Date: Wed, 5 Apr 2023 17:19:06 +0200
 From: Maxime Ripard <maxime@cerno.tech>
-To: Mark Brown <broonie@kernel.org>
-Subject: Re: [PATCH v3 43/65] ASoC: tlv320aic32x4: Add a determine_rate hook
-Message-ID: <erm4iq3mygnrr4h2gd5cag3sfuovv47ibdqsbmxcfabngvnwy4@z63ksvj55zuu>
+To: Paul Cercueil <paul@crapouillou.net>
+Subject: Re: [PATCH v3 56/65] clk: ingenic: cgu: Switch to determine_rate
+Message-ID: <o6odr3i3ypj6p6vxuiwgymll3bew544mwzcgs6hjzum5uix43j@galqy4lxjdvx>
 References: <20221018-clk-range-checks-fixes-v3-0-9a1358472d52@cerno.tech>
- <20221018-clk-range-checks-fixes-v3-43-9a1358472d52@cerno.tech>
- <01f32440-8dd2-4030-9006-a3123be55845@sirena.org.uk>
+ <20221018-clk-range-checks-fixes-v3-56-9a1358472d52@cerno.tech>
+ <3c1c42baf7d764bf6429b470f534fd9ec46ddedd.camel@crapouillou.net>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="l2rp74o6ajwb6i7x"
+ protocol="application/pgp-signature"; boundary="7run534ck55yr3bz"
 Content-Disposition: inline
-In-Reply-To: <01f32440-8dd2-4030-9006-a3123be55845@sirena.org.uk>
+In-Reply-To: <3c1c42baf7d764bf6429b470f534fd9ec46ddedd.camel@crapouillou.net>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,10 +91,9 @@ Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>,
  Michael Turquette <mturquette@baylibre.com>, Sekhar Nori <nsekhar@ti.com>,
  Alexandre Torgue <alexandre.torgue@foss.st.com>,
  dri-devel@lists.freedesktop.org, Liam Girdwood <lgirdwood@gmail.com>,
- Paul Cercueil <paul@crapouillou.net>, Max Filippov <jcmvbkbc@gmail.com>,
- Thierry Reding <thierry.reding@gmail.com>, linux-phy@lists.infradead.org,
- linux-clk@vger.kernel.org, Abel Vesa <abelvesa@kernel.org>,
- Kishon Vijay Abraham I <kishon@kernel.org>,
+ Max Filippov <jcmvbkbc@gmail.com>, Thierry Reding <thierry.reding@gmail.com>,
+ linux-phy@lists.infradead.org, linux-clk@vger.kernel.org,
+ Abel Vesa <abelvesa@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>,
  Samuel Holland <samuel@sholland.org>, Takashi Iwai <tiwai@suse.com>,
  linux-tegra@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
  Jonathan Hunter <jonathanh@nvidia.com>, Chen-Yu Tsai <wens@csie.org>,
@@ -105,7 +104,7 @@ Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>,
  David Lechner <david@lechnology.com>, alsa-devel@alsa-project.org,
  Manivannan Sadhasivam <mani@kernel.org>, linux-kernel@vger.kernel.org,
  Sascha Hauer <s.hauer@pengutronix.de>, linux-actions@lists.infradead.org,
- Richard Fitzgerald <rf@opensource.cirrus.com>,
+ Richard Fitzgerald <rf@opensource.cirrus.com>, Mark Brown <broonie@kernel.org>,
  linux-mediatek@lists.infradead.org,
  Baolin Wang <baolin.wang@linux.alibaba.com>,
  Matthias Brugger <matthias.bgg@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
@@ -126,70 +125,72 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---l2rp74o6ajwb6i7x
-Content-Type: text/plain; charset=us-ascii
+--7run534ck55yr3bz
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Hi Mark,
+Hi Paul,
 
-On Tue, Apr 04, 2023 at 04:26:18PM +0100, Mark Brown wrote:
-> On Tue, Apr 04, 2023 at 12:11:33PM +0200, Maxime Ripard wrote:
-> > The tlv320aic32x4 clkin clock implements a mux with a set_parent hook,
-> > but doesn't provide a determine_rate implementation.
->=20
-> > This is a bit odd, since set_parent() is there to, as its name implies,
+On Wed, Apr 05, 2023 at 03:04:05PM +0200, Paul Cercueil wrote:
+> Le mardi 04 avril 2023 =E0 12:11 +0200, Maxime Ripard a =E9crit=A0:
+> > The Ingenic CGU clocks implements a mux with a set_parent hook, but
+> > doesn't provide a determine_rate implementation.
+> >=20
+> > This is a bit odd, since set_parent() is there to, as its name
+> > implies,
 > > change the parent of a clock. However, the most likely candidate to
 > > trigger that parent change is a call to clk_set_rate(), with
 > > determine_rate() figuring out which parent is the best suited for a
 > > given rate.
->=20
-> > The other trigger would be a call to clk_set_parent(), but it's far less
-> > used, and it doesn't look like there's any obvious user for that clock.
->=20
-> It could be configured from device tree as well couldn't it?
-
-Yep, indeed.
-
+> >=20
+> > The other trigger would be a call to clk_set_parent(), but it's far
+> > less
+> > used, and it doesn't look like there's any obvious user for that
+> > clock.
+> >=20
 > > So, the set_parent hook is effectively unused, possibly because of an
 > > oversight. However, it could also be an explicit decision by the
-> > original author to avoid any reparenting but through an explicit call to
+> > original author to avoid any reparenting but through an explicit call
+> > to
 > > clk_set_parent().
 >=20
-> Historically clk_set_rate() wouldn't reparent IIRC.
->=20
-> > The latter case would be equivalent to setting the flag
-> > CLK_SET_RATE_NO_REPARENT, together with setting our determine_rate hook
-> > to __clk_mux_determine_rate(). Indeed, if no determine_rate
-> > implementation is provided, clk_round_rate() (through
-> > clk_core_round_rate_nolock()) will call itself on the parent if
-> > CLK_SET_RATE_PARENT is set, and will not change the clock rate
-> > otherwise. __clk_mux_determine_rate() has the exact same behavior when
-> > CLK_SET_RATE_NO_REPARENT is set.
->=20
-> > And if it was an oversight, then we are at least explicit about our
-> > behavior now and it can be further refined down the line.
->=20
-> To be honest it's surprising that we'd have to manually specify this, I
-> would expect to be able to reparent.  I suspect it'd be better to go the
-> other way here and allow reparenting.
+> As I said in the v2 (IIRC), clk_set_parent() is used when re-parenting
+> from the device tree.
 
-Yeah, I think I'd prefer to allow reparenting too, but as can be seen
-=66rom the other reviewers in that thread, it seems like we have a very
-split community here, so that doesn't sound very realistic without some
-major pushback :)
+Yep, it's indeed an oversight in the commit log.
+
+> > The driver does implement round_rate() though, which means that we
+> > can
+> > change the rate of the clock, but we will never get to change the
+> > parent.
+> >=20
+> > However, It's hard to tell whether it's been done on purpose or not.
+> >=20
+> > Since we'll start mandating a determine_rate() implementation, let's
+> > convert the round_rate() implementation to a determine_rate(), which
+> > will also make the current behavior explicit. And if it was an
+> > oversight, the clock behaviour can be adjusted later on.
+>=20
+> So just to be sure, this patch won't make clk_set_rate() automatically
+> switch parents, right?
+>=20
+> Allowing automatic re-parenting sounds like a huge can of worms...
+
+The behaviour is strictly equivalent before that patch and after: the
+driver will not reparent on a rate change. It just makes it explicit.
 
 Maxime
 
---l2rp74o6ajwb6i7x
+--7run534ck55yr3bz
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZC2RAQAKCRDj7w1vZxhR
-xRegAPwLq9rAf2gXBh+S5NNzglDB7jF/equjD6dhO2iJfkonFgD+OuUuIkBhvEAH
-dy14syHvUOJJRm7L8hscnDwFHJrXQA0=
-=mQrD
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZC2RagAKCRDj7w1vZxhR
+xXf2AP4nVXXgdZbFLKpfLcLqHQU/yEaza+nOToxguQnpy3rPiAD/VqJ8EWDR1dkZ
+KO3BzBJio00Kuw94FyundvDtvxXOygg=
+=yU4q
 -----END PGP SIGNATURE-----
 
---l2rp74o6ajwb6i7x--
+--7run534ck55yr3bz--
