@@ -1,79 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 630506D7F6E
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Apr 2023 16:28:46 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 31DAD6D7F7E
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Apr 2023 16:30:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B4CE510E0F2;
-	Wed,  5 Apr 2023 14:28:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 20E7810E9A4;
+	Wed,  5 Apr 2023 14:30:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 30D8910E0F2
- for <dri-devel@lists.freedesktop.org>; Wed,  5 Apr 2023 14:28:43 +0000 (UTC)
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 335AribA010049; Wed, 5 Apr 2023 14:28:36 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=3+J+WKwJGaERCF/cnsSlj71w8+3ldjXzGdTHoHIh6AI=;
- b=A3BFHsRxaOrmF8TsuFi0dBSkIawJB7IFuN1mAt/qmpNC+g6Vjze1WMaWRP7vX2phSPSq
- SHAZaQIYdAeStitUu2h+fEkvJ31m5T+SJQUIXGXe7HZvkwkGbG0pR0SnQvz8ZQ/ufUTN
- KjuShWcMxitGG6NPBv5pVQf0UV9ArmQU2LCqus1Zo+6LiH/PZ5rLXYpFduP3WcFAO/aO
- gi+Kl2ET362ABoBbqUzY/ILTIp3JUN+lAtYR8b9FVfA1ugyBspI/U9V0KNdS/q3QMVy3
- qK3BUzYBVoVt1cJaIHEZfCSIPb90PZltLwdAp8NQcAdQqVBTBT/4FJmolxXeNrQ3YVWX Pg== 
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3ps6vf8hsk-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 05 Apr 2023 14:28:36 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 335ESZaq015621
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 5 Apr 2023 14:28:35 GMT
-Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Wed, 5 Apr 2023
- 07:28:34 -0700
-Message-ID: <32ee0be5-99cf-7b0b-e195-73c6ef3294af@quicinc.com>
-Date: Wed, 5 Apr 2023 08:28:33 -0600
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0A5AB10E9A4
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 Apr 2023 14:30:12 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (softbank219059148246.bbtec.net
+ [219.59.148.246])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 80F391718;
+ Wed,  5 Apr 2023 16:30:09 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1680705010;
+ bh=Qs3POKuzAMl2FAwrRUyvpLBK6qJSzNKEzukle8jld14=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=MURgjpwOIUrJIP2D7Rtkc9A8Kxbv1mzNmPQvR40pLpJ2dTdxJTFhUDRn1ILC3QF/X
+ DTL/lO/prlXUnU/52QubBohKPtzvTssDjp0yYnhPQHFsnYpBlxGwPzSsynDUY/aaiM
+ RtPdJEXy7tJq0vMbsOjDR/FYTYpotdw9i5EwU06c=
+Date: Wed, 5 Apr 2023 17:30:18 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Subject: Re: [RESEND PATCH v4 03/21] staging: media: tegra-video: fix
+ .vidioc_enum_fmt_vid_cap to return all formats
+Message-ID: <20230405143018.GC9915@pendragon.ideasonboard.com>
+References: <20230309144320.2937553-1-luca.ceresoli@bootlin.com>
+ <20230309144320.2937553-4-luca.ceresoli@bootlin.com>
+ <85268d69-3d3b-2c0f-ba26-073f09052362@xs4all.nl>
+ <20230404161251.272cc78b@booty>
+ <20230405023048.GD9915@pendragon.ideasonboard.com>
+ <20230405103134.2ae10766@booty>
+ <dddd76a7-f882-f1dd-0781-fcc1f9b4e060@xs4all.nl>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.0
-Subject: Re: [PATCH v5 0/8] QAIC accel driver
-Content-Language: en-US
-To: Daniel Vetter <daniel@ffwll.ch>, Oded Gabbay <ogabbay@kernel.org>
-References: <1679932497-30277-1-git-send-email-quic_jhugo@quicinc.com>
- <857db3fb-b006-4aa8-a7f8-2ae0b8a160c9@quicinc.com>
- <c5d11a88-351a-8eaf-f1d2-d7cf37cdf81c@linux.intel.com>
- <CAFCwf12iVZkcPKOEc911-fCd4-YzHYJzs_p36jfBiT=VkcO9uQ@mail.gmail.com>
- <ZC13QdSRybIe3nvk@phenom.ffwll.local>
-From: Jeffrey Hugo <quic_jhugo@quicinc.com>
-In-Reply-To: <ZC13QdSRybIe3nvk@phenom.ffwll.local>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: oCZyWxozG6cGObvtRA7frcoRXqAvts0d
-X-Proofpoint-ORIG-GUID: oCZyWxozG6cGObvtRA7frcoRXqAvts0d
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-04-05_09,2023-04-05_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 suspectscore=0
- mlxscore=0 malwarescore=0 phishscore=0 priorityscore=1501 bulkscore=0
- impostorscore=0 mlxlogscore=999 clxscore=1015 adultscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2303200000 definitions=main-2304050131
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <dddd76a7-f882-f1dd-0781-fcc1f9b4e060@xs4all.nl>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,56 +53,83 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-doc@vger.kernel.org, linux-arm-msm@vger.kernel.org, mani@kernel.org,
- dri-devel@lists.freedesktop.org, quic_ajitpals@quicinc.com,
- quic_pkanojiy@quicinc.com, stanislaw.gruszka@linux.intel.com,
- quic_carlv@quicinc.com, Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
- bagasdotme@gmail.com
+Cc: devicetree@vger.kernel.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Richard Leitner <richard.leitner@skidata.com>,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ Luca Ceresoli <luca.ceresoli@bootlin.com>, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+ Jonathan Hunter <jonathanh@nvidia.com>,
+ Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Sowjanya Komatineni <skomatineni@nvidia.com>, dri-devel@lists.freedesktop.org,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-tegra@vger.kernel.org,
+ Dmitry Osipenko <digetx@gmail.com>, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 4/5/2023 7:27 AM, Daniel Vetter wrote:
-> On Wed, Apr 05, 2023 at 03:35:19PM +0300, Oded Gabbay wrote:
->> On Wed, Apr 5, 2023 at 2:26 PM Jacek Lawrynowicz
->> <jacek.lawrynowicz@linux.intel.com> wrote:
->>>
->>> Hi,
->>>
->>> On 03.04.2023 19:22, Jeffrey Hugo wrote:
->>>> On 3/27/2023 9:54 AM, Jeffrey Hugo wrote:
->>>>> This series introduces a driver under the accel subsystem (QAIC -
->>>>> Qualcomm AIC) for the Qualcomm Cloud AI 100 product (AIC100).  AIC100 is
->>>>> a PCIe adapter card that hosts a dedicated machine learning inference
->>>>> accelerator.
->>>>>
->>>>> The previous version (v4) can be found at:
->>>>> https://lore.kernel.org/all/1679325074-5494-1-git-send-email-quic_jhugo@quicinc.com/
->>>>
->>>> Looks like things have been silent on this revision and we have a number of review tags already.  Seems like this series is ready for merge.
->>>>
->>>> I'd like to see this queued for 6.4 if possible.  Given that we are at 6.3-rc5, it seems like this would need to be merged now(ish) to make 6.4.
->>>>
->>>> Jacek, since you have commit permissions in drm-misc and are an active Accel maintainer, I wonder if it would be appropriate for you to merge this series to drm-misc.  Thoughts?
->>>
->>> I'm would be happy to merge it but I think it needs to be acked by Oded first.
->>>
->>> Regards,
->>> Jacek
->>
->> Hi,
->> Entire patch-set is:
->> Acked-by: Oded Gabbay <ogabbay@kernel.org>
-> 
-> Once Jacke has pushed this I htink it would also be good to get Jeffrey
-> commit rights for drm-misc, so that in the future bugfixes for the qaic
-> driver can be pushed directly by the qaic team. Still with acks/r-b
-> requirements as per usual, and I guess for anything bigger/new uapi an ack
-> from oded is needed.
-> 
-> https://drm.pages.freedesktop.org/maintainer-tools/commit-access.html#drm-misc
-> 
-> Cheers, Daniel
+Hi Hans,
 
-Yep.  This is the plan per my understanding.
+On Wed, Apr 05, 2023 at 10:50:37AM +0200, Hans Verkuil wrote:
+> On 05/04/2023 10:31, Luca Ceresoli wrote:
+> > On Wed, 5 Apr 2023 05:30:48 +0300 Laurent Pinchart wrote:
+> >> On Tue, Apr 04, 2023 at 04:12:51PM +0200, Luca Ceresoli wrote:
+> >>> On Wed, 29 Mar 2023 13:16:22 +0200 Hans Verkuil wrote:
+> >>>   
+> >>>> Hi Luca,
+> >>>>
+> >>>> I finally found the time to test this series. It looks OK, except for this patch.  
+> >>>
+> >>> Thank you very much for taking the time!
+> >>>   
+> >>>> The list of supported formats really has to be the intersection of what the tegra
+> >>>> supports and what the sensor supports.
+> >>>>
+> >>>> Otherwise you would advertise pixelformats that cannot be used, and the application
+> >>>> would have no way of knowing that.  
+> >>>
+> >>> As far as I understand, I think we should rather make this driver fully
+> >>> behave as an MC-centric device. It is already using MC quite
+> >>> successfully after all.
+> >>>
+> >>> Do you think this is correct?  
+> >>
+> >> Given the use cases for this driver, I agree.
+> 
+> I disagree.
+> 
+> This driver doesn't use the media controller for anything at the moment. The
+> /dev/mediaX device just shows the internal topology (i.e. connected sensors),
+> but otherwise it does nothing.
+> 
+> While it would be great if we could unlock the ISP on the Tegra, the reality
+> is that it is entirely closed source and can't be used in a linux driver, and
+> that's not going to change, sadly.
 
--Jeff
+Never say never :-)
+
+> That leaves us with just a basic CSI capture driver. Rather than trying to
+> change this driver to a full MC device with no benefits, just drop this change
+> and get your code in.
+
+Can't the hardware support capturing different virtual channels or data
+types from the same CSI-2 source ? That would require MC support, the
+stream API requires subdev device nodes.
+
+> Note that this driver will stay in staging since it still fails when I try to
+> capture from two sensors at the same time: syncpoint errors start appearing
+> in that case. I think there are locking issues. I think I have someone to take
+> a look at that, but first I want your series to get merged.
+> 
+> In the very unlikely event that the ISP can be implemented in a linux driver,
+> it will probably become a new driver.
+> 
+> Regards,
+> 
+> > Ok, thanks for the feedback. I will send a v5 with this change.
+
+-- 
+Regards,
+
+Laurent Pinchart
