@@ -2,135 +2,88 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72DF06D7E36
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Apr 2023 15:58:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CF996D820F
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Apr 2023 17:37:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B940710E972;
-	Wed,  5 Apr 2023 13:57:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7E95510E9F6;
+	Wed,  5 Apr 2023 15:37:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4F86510E970;
- Wed,  5 Apr 2023 13:57:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1680703072; x=1712239072;
- h=date:from:to:cc:subject:message-id:references:
- in-reply-to:mime-version;
- bh=8e8mHbmSg4GwX71TxyIKQhodq2ZrvPVRv4TnB0vVMxg=;
- b=GXK9jiHmp6EvTHv9DhOkt0h1qM1F04LaPFUKbBQ7pN5EGVnDTT8TOBxc
- CPnFVrDFdurA2vf53qBCSVLdg0RqbNro1eC8wdf4yMlydnLVJEl/31Ub8
- eHPr+vbwH2xsVYJ9rRZwxW4+DkI6ggosyElLCK0i+z0y+L2BF88mph/Uk
- bTWsba2jTw9zrdc/vWxAUATI946FQwD2Y+48EYnasuoldqBNPSrvK4jrT
- cOIMqn56YQGe1FTZEX7evvAjNmo3M/fH0o3K0FMSuWRyPJm3jnhFJ/r/Z
- iTvSLagHsc51FjxhoBfnGhAzxkxrcgzwD1R5bR3bBR8I2o8blDGcTNJKv w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10670"; a="342474309"
-X-IronPort-AV: E=Sophos;i="5.98,319,1673942400"; d="scan'208";a="342474309"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Apr 2023 06:57:51 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10670"; a="719331898"
-X-IronPort-AV: E=Sophos;i="5.98,319,1673942400"; d="scan'208";a="719331898"
-Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
- by orsmga001.jf.intel.com with ESMTP; 05 Apr 2023 06:57:51 -0700
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.21; Wed, 5 Apr 2023 06:57:50 -0700
-Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.21 via Frontend Transport; Wed, 5 Apr 2023 06:57:50 -0700
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (104.47.58.168)
- by edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.21; Wed, 5 Apr 2023 06:57:50 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=cG70QySVCZWA4ca7jyFKF9jCbUAHulvAEaztt8qrZIy73h21Nz/pC7yuhVH4cCczAN2jSBxzz2NHrvXgSrbqY2krdkuL90a+MO0VtGj5vMZTTEIFXffXrYz9lohVx6BI5eaUlN6yv7Kyq++o9GwzHgyG8Eo9uvZNRsMHufh+U660eB65JUaSGL/qBlB7F/nO8XTQ5xLzeJQBZg4ILzL413KpXmK5+juCHLhh4gB8wcAkOZh/FTYs4eoMZeV8levqccH+xB1kZz3hWqr+jySfwStIHUygIsgF+gCDpWyzHmNqROrJbWoi/viEQip4dby2WRK4HrBL7BloauEpid0ivg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=eSydTq2pAwuYxGO7feTz5qurytcUD8WttS+ZMJL8au8=;
- b=LATJ8Af0gCYfMmypFOGLoNXaVWk7QvydiLHcNH/h8ThC14QgZ4R4b4AuFgIkzLHF4AuYGbex0Vh6n3Xwdnvdny5aavijmg843cJ7WJAQuPXnZDW2D+4YMSBl+1bwH2n+D7RylTrf5jtpLfMLEUkOv0OY8hNSgh31kyWl7IXws7WrQADpnHM5wIv1vs+EoS01vMdqqShzVrhE82RsbZuoRXqTrb1lGGrwWc/PFbQYzT7EM6AhDA1EvYxhEnSLSmb+3SI4qu02/52TcF+kU/EWcg4DJToOQMlU7IRYUyu7ckz+tgBaZmkn2XcZjiU7fmnAlOyA5u9MBkm8UeiiGCN96A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from MN0PR11MB6059.namprd11.prod.outlook.com (2603:10b6:208:377::9)
- by CY5PR11MB6536.namprd11.prod.outlook.com (2603:10b6:930:40::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6254.35; Wed, 5 Apr
- 2023 13:57:47 +0000
-Received: from MN0PR11MB6059.namprd11.prod.outlook.com
- ([fe80::2b57:646c:1b01:cd18]) by MN0PR11MB6059.namprd11.prod.outlook.com
- ([fe80::2b57:646c:1b01:cd18%9]) with mapi id 15.20.6254.033; Wed, 5 Apr 2023
- 13:57:47 +0000
-Date: Wed, 5 Apr 2023 09:57:42 -0400
-From: Rodrigo Vivi <rodrigo.vivi@intel.com>
-To: "Dixit, Ashutosh" <ashutosh.dixit@intel.com>
-Subject: Re: [Intel-gfx] [PATCH] i915/guc/slpc: Provide sysfs for efficient
- freq
-Message-ID: <ZC1+Vn+ickyupCBI@intel.com>
-References: <20230401020049.3843873-1-vinay.belgaumkar@intel.com>
- <877cuwguu6.wl-ashutosh.dixit@intel.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <877cuwguu6.wl-ashutosh.dixit@intel.com>
-X-ClientProxiedBy: BY3PR10CA0016.namprd10.prod.outlook.com
- (2603:10b6:a03:255::21) To MN0PR11MB6059.namprd11.prod.outlook.com
- (2603:10b6:208:377::9)
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B09F710E9F6
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 Apr 2023 15:37:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1680709022;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=PAoSWbkGrjcqGy1ebcwtm3AyobUtd3KUJObW/aFOL0w=;
+ b=PqlBYU7ZdOUrd4nXmnbQF5GLS+tc8TuIK9ZW7MG1/8D8GYBeYJjrF9jEt/HOM5kEw380UQ
+ gPqhsrkeL+isv7nXfteWXhEoYruEZPraUTPY6lZX7VDy38YnKUBxVBfniU36EF4lS39L/4
+ vp3lmFe/dZI00n6Itb17yn+fq6qEkUE=
+Received: from mail-pf1-f198.google.com (mail-pf1-f198.google.com
+ [209.85.210.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-582-vXKy_LC2O72tFaNByCETcA-1; Wed, 05 Apr 2023 11:37:01 -0400
+X-MC-Unique: vXKy_LC2O72tFaNByCETcA-1
+Received: by mail-pf1-f198.google.com with SMTP id
+ o188-20020a62cdc5000000b0062be61a5e48so14675333pfg.22
+ for <dri-devel@lists.freedesktop.org>; Wed, 05 Apr 2023 08:37:01 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1680709020;
+ h=content-transfer-encoding:in-reply-to:cc:organization:from
+ :references:to:content-language:subject:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=PAoSWbkGrjcqGy1ebcwtm3AyobUtd3KUJObW/aFOL0w=;
+ b=Fdwe6uoWw9JEzdR1cNvF8k3YqQVwcFP0Nzj6FyGnYG1wA+wGX4dYKjEhi7NqOEw5KH
+ qSxK7AzYE40D6vyQaJ3+uiUXRnRXLt3SQRKXdiedpZvqI2EMR01G/rYEqHw3DT4X+G0v
+ y9KwNOk83/usFIHOWnTTmdewL9HuTdbiOFXeRfNQtviPf/EkLLRdGKJuB99AbuDbnXo2
+ Fd5uiiiIkYenTIizMAz3lgvIHDWTU/eL1/hlbYWiYRjyLMTk3t42nteU/BRwAtcqLvU7
+ 3z82pmISBcAQ3rwq1w5paLWWQh7ijy8a2f3DAEza+l/WJyDjBzyFvsDVvRFQSNqyBOGX
+ bsRQ==
+X-Gm-Message-State: AAQBX9csdO4kVgbMCCnOD0OtVaTB+C25MewvpD50WLEx8g3Xe72u4CwI
+ FW1FupCTD9Vmu39ggudnGG7G5zq7DiCg/PYfFVwoHAHOx+HrvKPtefonoWBNkfWAEmEHU7eDSir
+ DXdP9JqQM6ELRq93yTVKWR+9p06WE
+X-Received: by 2002:a17:902:fb86:b0:1a1:cce7:94ed with SMTP id
+ lg6-20020a170902fb8600b001a1cce794edmr5875805plb.67.1680709020721; 
+ Wed, 05 Apr 2023 08:37:00 -0700 (PDT)
+X-Google-Smtp-Source: AKy350Ysj1lHSmWHRrIOh5XGakc+yhw2pI8tXqwln7bNPtMABRm3Ds3ebM09ogVIeJ4YwQVaZ5dCsg==
+X-Received: by 2002:a17:902:fb86:b0:1a1:cce7:94ed with SMTP id
+ lg6-20020a170902fb8600b001a1cce794edmr5875793plb.67.1680709020353; 
+ Wed, 05 Apr 2023 08:37:00 -0700 (PDT)
+Received: from ?IPV6:2a02:810d:4b3f:de78:642:1aff:fe31:a15c?
+ ([2a02:810d:4b3f:de78:642:1aff:fe31:a15c])
+ by smtp.gmail.com with ESMTPSA id
+ jj21-20020a170903049500b001a19196af48sm10262513plb.64.2023.04.05.08.36.53
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 05 Apr 2023 08:37:00 -0700 (PDT)
+Message-ID: <3004a2bf-e725-643e-82af-8a217784e796@redhat.com>
+Date: Wed, 5 Apr 2023 16:05:53 +0200
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MN0PR11MB6059:EE_|CY5PR11MB6536:EE_
-X-MS-Office365-Filtering-Correlation-Id: 6c980b1c-1fdd-4ce2-5037-08db35ddbc5d
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: a8ZTlXDjfAmwID4WYFM+jWTzP6lMceQju1sO0w+MlzHcdBi7xt1cGc6Q3A5xS3y4lYg7m/gh66x5nB6p+yr8kHD8ycs89HVCRJrKreDtv/GAcoy1efHViClazQy7JfSh8tz1CVa6xh8VqzbV8hF64H/0r2Ac96oUnnzvO8Ok7iFrg3YS69Tz1Yy+4NPfq/fVnJn93F9BOyd+KeVu4sTj85y8XH8k2FAHD5+EH0IGj2HY3KhIVsAHh4l9VoM6R73K5cRiJBZXRW60HCjr3yA6VRcJ5vqCWHDDJDI8FNi4ZA62UbJIyVNoyQpMTQt9pgzUvhS5aq95CXt0iTA2n9nvftbYQShLfAo6jY3V5h+4ECTZtpwFf8IMl363mv8UZIPTqKPdsucggMj9E9ZCuQdCtOtJR4Z6BQmMUMYTnsEDBtOLaagnCLOuIk/Si6CVV2BSKdakSbIGh9YE1v0ymcvAP8EAEymSIG0dFGjCQ8+vD8jBSk6q9e5I7IGqEYJrofI5ETbpUhpJm5i3u3Z7RRHWD689EWOoH5tyZMgCXYUGFTDu8aLuDI3qn/d1ysOkl0FJ
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN0PR11MB6059.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230028)(376002)(136003)(396003)(366004)(39860400002)(346002)(451199021)(6506007)(6512007)(86362001)(26005)(186003)(6636002)(5660300002)(478600001)(37006003)(316002)(8936002)(6486002)(450100002)(66476007)(36756003)(6862004)(44832011)(82960400001)(66946007)(8676002)(38100700002)(2906002)(4326008)(66556008)(41300700001)(6666004)(2616005)(83380400001);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?pufcd+cctJUYpAUTstd3cb1U+ktwxJkffRLnicIfhMrXhwDDpOlEObB508Rp?=
- =?us-ascii?Q?jf4x0IMTlUeZG47ySGIK+TN4dUIDYK9YJefEYAIUPJE1V5s1xa9A+flodVnW?=
- =?us-ascii?Q?jw2mwHyxoRXwroe41pnytueicoT7eWxLgN2wV6+VGIoCoF60t708BsOm5pN4?=
- =?us-ascii?Q?KioqDGDxefyshMcVjkAi8kg9A1KONBN7psV2GwRWYiC4irNEZAY8qobKdHrU?=
- =?us-ascii?Q?dDIa1fj3r2JmC1WjzfJ929BdBgfDqHuEPZ/AZVZ+clp+2GH92ZJK9PmCCA1k?=
- =?us-ascii?Q?f0F3e5D6kRkqbkzxbQ5you6uMELgU9deKbCgzmyXQcPsHk5gNzVGqcXg72ZB?=
- =?us-ascii?Q?CqEAMUy+mJzd2j+p06kd9VYxL3eyE0AghPPlFu4xh4vclBl/eN6N3oOcCxRX?=
- =?us-ascii?Q?V/PtLb5XtGbl3dUTPy7iAy+nELLNSDDVQbYOznNRQAXgpTDcOW3NyPM/MB1z?=
- =?us-ascii?Q?QGb31TlgT9a9QCTCBZ3+NFhq+1pVQlpMktNlDOw2bdAiJ411BR1oZfRMaVuD?=
- =?us-ascii?Q?lnTxWYcNxZBkU4NWWuQDxJWBaToevOwvx8Mpzs/UglJgro0BnTsVt7ISOo4m?=
- =?us-ascii?Q?jGF/2fkKd29NLzkikjNCIb0rXeKJLw7ZqOwoFvOXJCOQ0XpKYyL2ZJxPoDgB?=
- =?us-ascii?Q?XZHYs14Afr1o3aVjHe83ECncBfdk0NJqml7VtYx0VpQM8CPS2ljkGcMUGNRP?=
- =?us-ascii?Q?B3xLlYU5obm1hV9I/Gd4/heZytRljaaOSrfU1FWzSwNllBGk6fiv0sxrP+gk?=
- =?us-ascii?Q?mm4johkzHXWtClYPP38qmoitJkUyJT29212fbAR/y8NkPzCxEuNhm23qNvbv?=
- =?us-ascii?Q?WeFVZWQ3FrzW9nlG+4SozPuiINUNo6hJdZIDUZKThfrv5n9luqjSX+1RjChi?=
- =?us-ascii?Q?ew+mg2ZJQ+1mesIibdjx1TiirguxJFPVbmIlWPGEhBkPkdX9nJeVv6DwGHTm?=
- =?us-ascii?Q?jkbv98lfmgiacq3A1TJqj5QXyyQQJZgof3YE4BGpb/tTI5mM/8GuQxm1iZlg?=
- =?us-ascii?Q?gQXO8ept0e1HTN7m0KmbROyzgw9qShuP8X6G59mTGA0Q1Nuj5l/iLKhcpxdE?=
- =?us-ascii?Q?oaFTbo3GLKgeaN3ZBfzMfgw98zD8dqmiTH6BZkXYN67JYpyuZ3e3aUFu5xJz?=
- =?us-ascii?Q?34hKPklNM4DeMHyfF9XYXLRa2zPzvM7BdzzHMTwPBWm8eJTKmVSIOsvjvxeU?=
- =?us-ascii?Q?kIixxvZogcWfApwBlRoNymmB1Tig3/S5BL4JJC4gXMDPGpdzdBQwVuCmNOP4?=
- =?us-ascii?Q?I+x+Koxr+2DJ1EdUGGeCjD3fynHPtkW9UshNpespKMWNziMXEDPSDq531St3?=
- =?us-ascii?Q?qsfSP9aIP5RZOYKlPZZkH9Xn0jDy7E0NCCO9av89erp9j0XBar23fSrUESny?=
- =?us-ascii?Q?Ts+H7SqAf3tuVV+LEe7f9kHfPR1F7ju8zTuRhH7kzhCd7Be8JKYzuS/GamNM?=
- =?us-ascii?Q?fTZCSDnnZlF30/G8l8O9yF81MDEfmmpNXTCQmSK73aJgG12KegZVRmDW00yR?=
- =?us-ascii?Q?HceJSqgMwKlPnQb6bfg/7uyn2f0eUZeEDuCfxxGov/1SZN0/m1O6s6Fzu6Al?=
- =?us-ascii?Q?2SFVetNz9/FiEEogh2LkUBDogDib0GCFF6inHzhZ?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6c980b1c-1fdd-4ce2-5037-08db35ddbc5d
-X-MS-Exchange-CrossTenant-AuthSource: MN0PR11MB6059.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Apr 2023 13:57:47.0877 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: KmZy+7OeQMle9tzX3XxmOec7VZ8LUni6lnzKj1Z8bOEQoOS/7SJJiwN3wRkJ1jWrMvfDWQBQ2nbLx8GBrGh2yA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR11MB6536
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [Regression] drm/scheduler: track GPU active time per entity
+To: Luben Tuikov <luben.tuikov@amd.com>, Lucas Stach
+ <l.stach@pengutronix.de>, daniel@ffwll.ch, Dave Airlie <airlied@gmail.com>,
+ Bagas Sanjaya <bagasdotme@gmail.com>, andrey.grodzovsky@amd.com,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ tvrtko.ursulin@linux.intel.com, Matthew Brost <matthew.brost@intel.com>,
+ yuq825@gmail.com, Boris Brezillon <boris.brezillon@collabora.com>,
+ lina@asahilina.net
+References: <3e00d8a9-b6c4-8202-4f2d-5a659c61d094@redhat.com>
+ <2a84875dde6565842aa07ddb96245b7d939cb4fd.camel@pengutronix.de>
+ <8b28151c-f2db-af3f-8dff-87dd5d57417b@amd.com>
+From: Danilo Krummrich <dakr@redhat.com>
+Organization: RedHat
+In-Reply-To: <8b28151c-f2db-af3f-8dff-87dd5d57417b@amd.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -143,87 +96,114 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Vinay Belgaumkar <vinay.belgaumkar@intel.com>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Mar 31, 2023 at 08:11:29PM -0700, Dixit, Ashutosh wrote:
-> On Fri, 31 Mar 2023 19:00:49 -0700, Vinay Belgaumkar wrote:
-> >
+On 4/4/23 06:31, Luben Tuikov wrote:
+> On 2023-03-28 04:54, Lucas Stach wrote:
+>> Hi Danilo,
+>>
+>> Am Dienstag, dem 28.03.2023 um 02:57 +0200 schrieb Danilo Krummrich:
+>>> Hi all,
+>>>
+>>> Commit df622729ddbf ("drm/scheduler: track GPU active time per entity")
+>>> tries to track the accumulated time that a job was active on the GPU
+>>> writing it to the entity through which the job was deployed to the
+>>> scheduler originally. This is done within drm_sched_get_cleanup_job()
+>>> which fetches a job from the schedulers pending_list.
+>>>
+>>> Doing this can result in a race condition where the entity is already
+>>> freed, but the entity's newly added elapsed_ns field is still accessed
+>>> once the job is fetched from the pending_list.
+>>>
+>>> After drm_sched_entity_destroy() being called it should be safe to free
+>>> the structure that embeds the entity. However, a job originally handed
+>>> over to the scheduler by this entity might still reside in the
+>>> schedulers pending_list for cleanup after drm_sched_entity_destroy()
+>>> already being called and the entity being freed. Hence, we can run into
+>>> a UAF.
+>>>
+>> Sorry about that, I clearly didn't properly consider this case.
+>>
+>>> In my case it happened that a job, as explained above, was just picked
+>>> from the schedulers pending_list after the entity was freed due to the
+>>> client application exiting. Meanwhile this freed up memory was already
+>>> allocated for a subsequent client applications job structure again.
+>>> Hence, the new jobs memory got corrupted. Luckily, I was able to
+>>> reproduce the same corruption over and over again by just using
+>>> deqp-runner to run a specific set of VK test cases in parallel.
+>>>
+>>> Fixing this issue doesn't seem to be very straightforward though (unless
+>>> I miss something), which is why I'm writing this mail instead of sending
+>>> a fix directly.
+>>>
+>>> Spontaneously, I see three options to fix it:
+>>>
+>>> 1. Rather than embedding the entity into driver specific structures
+>>> (e.g. tied to file_priv) we could allocate the entity separately and
+>>> reference count it, such that it's only freed up once all jobs that were
+>>> deployed through this entity are fetched from the schedulers pending list.
+>>>
+>> My vote is on this or something in similar vain for the long term. I
+>> have some hope to be able to add a GPU scheduling algorithm with a bit
+>> more fairness than the current one sometime in the future, which
+>> requires execution time tracking on the entities.
 > 
-> Hi Vinay,
+> Danilo,
 > 
-> > @@ -478,20 +507,15 @@ int intel_guc_slpc_set_min_freq(struct intel_guc_slpc *slpc, u32 val)
-> >	    val > slpc->max_freq_softlimit)
-> >		return -EINVAL;
-> >
-> > +	/* Ignore efficient freq if lower min freq is requested */
-> > +	ret = intel_guc_slpc_set_ignore_eff_freq(slpc, val < slpc->rp1_freq);
-> > +	if (ret)
-> > +		goto out;
-> > +
-> 
-> I don't agree with this. If we are now providing an interface explicitly to
-> ignore RPe, that should be /only/ way to ignore RPe. There should be no
-> other "under the hood" ignoring of RPe. In other words, ignoring RPe should
-> be minimized unless explicitly requested.
-> 
-> I don't clearly understand why this was done previously but it makes even
-> less sense to me now after this patch.
+> Using kref is preferable, i.e. option 1 above.
 
-well, I had suggested this previously. And just because without this we would
-be breaking API expectations.
+I think the only real motivation for doing that would be for generically 
+tracking job statistics within the entity a job was deployed through. If 
+we all agree on tracking job statistics this way I am happy to prepare a 
+patch for this option and drop this one: 
+https://lore.kernel.org/all/20230331000622.4156-1-dakr@redhat.com/T/#u
 
-When user selects a minimal frequency it expect that to stick. But with the
-efficient freq enabled in guc if minimal is less than the efficient one,
-this request is likely ignored.
-
-Well, even worse is that we are actually caching the request in the soft values.
-So we show a minimal, but the hardware without any workload is operating at
-efficient.
-
-So, the thought process was: 'if user requested a very low minimal, we give them
-the minimal requested, even if that means to disable the efficient freq.'
-
-So, that was introduced to avoid API breakage. Removing it now would mean
-breaking API. (Not sure if the IGT tests for the API got merged already,
-but think that as the API contract).
-
-But I do agree with you that having something selected from multiple places
-also has the potential to cause some miss-expectations. So I was thinking
-about multiple even orders where the user select the RP0 as minimal, then
-enable the efficient or vice versa, but I couldn't think of a bad case.
-Or at least not as bad as the user asking to get RP0 as minimal and only
-getting RPe back.
-
-With this in mind, and having checked the code:
-
-Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
-
-But I won't push this immediately because I'm still open to hear another
-side/angle.
+Christian mentioned amdgpu tried something similar to what Lucas tried 
+running into similar trouble, backed off and implemented it in another 
+way - a driver specific way I guess?
 
 > 
-> Thanks.
-> --
-> Ashutosh
+> Lucas, can you shed some light on,
 > 
+> 1. In what way the current FIFO scheduling is unfair, and
+> 2. shed some details on this "scheduling algorithm with a bit
+> more fairness than the current one"?
 > 
-> >	/* Need a lock now since waitboost can be modifying min as well */
-> >	mutex_lock(&slpc->lock);
-> >	wakeref = intel_runtime_pm_get(&i915->runtime_pm);
-> >
-> > -	/* Ignore efficient freq if lower min freq is requested */
-> > -	ret = slpc_set_param(slpc,
-> > -			     SLPC_PARAM_IGNORE_EFFICIENT_FREQUENCY,
-> > -			     val < slpc->rp1_freq);
-> > -	if (ret) {
-> > -		guc_probe_error(slpc_to_guc(slpc), "Failed to toggle efficient freq: %pe\n",
-> > -				ERR_PTR(ret));
-> > -		goto out;
-> > -	}
-> > -
-> >	ret = slpc_set_param(slpc,
-> >			     SLPC_PARAM_GLOBAL_MIN_GT_UNSLICE_FREQ_MHZ,
-> >			     val);
+> Regards,
+> Luben
+> 
+>>
+>>> 2. Somehow make sure drm_sched_entity_destroy() does block until all
+>>> jobs deployed through this entity were fetched from the schedulers
+>>> pending list. Though, I'm pretty sure that this is not really desirable.
+>>>
+>>> 3. Just revert the change and let drivers implement tracking of GPU
+>>> active times themselves.
+>>>
+>> Given that we are already pretty late in the release cycle and etnaviv
+>> being the only driver so far making use of the scheduler elapsed time
+>> tracking I think the right short term solution is to either move the
+>> tracking into etnaviv or just revert the change for now. I'll have a
+>> look at this.
+>>
+>> Regards,
+>> Lucas
+>>
+>>> In the case of just reverting the change I'd propose to also set a jobs
+>>> entity pointer to NULL  once the job was taken from the entity, such
+>>> that in case of a future issue we fail where the actual issue resides
+>>> and to make it more obvious that the field shouldn't be used anymore
+>>> after the job was taken from the entity.
+>>>
+>>> I'm happy to implement the solution we agree on. However, it might also
+>>> make sense to revert the change until we have a solution in place. I'm
+>>> also happy to send a revert with a proper description of the problem.
+>>> Please let me know what you think.
+>>>
+>>> - Danilo
+>>>
+>>
+> 
+
