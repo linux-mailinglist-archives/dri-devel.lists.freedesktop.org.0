@@ -2,48 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4AAA46D7F52
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Apr 2023 16:25:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B03B6D7F51
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Apr 2023 16:25:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EFED210E0C4;
-	Wed,  5 Apr 2023 14:25:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8043A10E995;
+	Wed,  5 Apr 2023 14:25:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from lelv0143.ext.ti.com (lelv0143.ext.ti.com [198.47.23.248])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9261210E0C4
- for <dri-devel@lists.freedesktop.org>; Wed,  5 Apr 2023 14:25:05 +0000 (UTC)
-Received: from fllv0035.itg.ti.com ([10.64.41.0])
- by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 335EOg8U059430;
- Wed, 5 Apr 2023 09:24:42 -0500
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 76CE210E0C4
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 Apr 2023 14:25:04 +0000 (UTC)
+Received: from fllv0034.itg.ti.com ([10.64.40.246])
+ by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 335EOhSK059451;
+ Wed, 5 Apr 2023 09:24:43 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1680704682;
- bh=2GVvLPXBxCQGXMB3CvvaO2iHJZB4fTMWkS8HlWuLcC4=;
- h=From:To:CC:Subject:Date;
- b=WhtrtJLVnPdfHhM3bDUboFsDseL1gnyUF77Z9z0K6c1WeXcCAQXfOavPka8YtSf6f
- EHMP1qcuIxOZnyfutO9RauCu4xzaLVar9CSYJP2BiMuOdjMnxD2NtW8VPzsFecA197
- D3ERgm9Y65lyuKDHv2twAGNxYGdZpKCaq0nNjiLQ=
-Received: from DLEE107.ent.ti.com (dlee107.ent.ti.com [157.170.170.37])
- by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 335EOgr9026283
+ s=ti-com-17Q1; t=1680704683;
+ bh=qDO37Rl2u94OwUVPnEAZxBPCa+75piDWj4gv5a2V2Zc=;
+ h=From:To:CC:Subject:Date:In-Reply-To:References;
+ b=fryHPY1mKzdLY30aiXYYZCvvFh7EQQgCwL3LiFwtyzgwyq+wJ14EzQvP+dzhWrGb/
+ VRB9i0mIT4ZgujImeAPThTeFi5LDvAxZkIvIFk+BXL0Y/wXXrnWmFjmxiggCkZhxyc
+ E4NnR9mZ8myUIwSTVCfqaeDxY/c374a4CWz1hTHk=
+Received: from DLEE109.ent.ti.com (dlee109.ent.ti.com [157.170.170.41])
+ by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 335EOhTO064579
  (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Wed, 5 Apr 2023 09:24:42 -0500
-Received: from DLEE104.ent.ti.com (157.170.170.34) by DLEE107.ent.ti.com
- (157.170.170.37) with Microsoft SMTP Server (version=TLS1_2,
+ Wed, 5 Apr 2023 09:24:43 -0500
+Received: from DLEE110.ent.ti.com (157.170.170.21) by DLEE109.ent.ti.com
+ (157.170.170.41) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.16; Wed, 5
- Apr 2023 09:24:41 -0500
-Received: from lelv0327.itg.ti.com (10.180.67.183) by DLEE104.ent.ti.com
- (157.170.170.34) with Microsoft SMTP Server (version=TLS1_2,
+ Apr 2023 09:24:43 -0500
+Received: from lelv0326.itg.ti.com (10.180.67.84) by DLEE110.ent.ti.com
+ (157.170.170.21) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.16 via
- Frontend Transport; Wed, 5 Apr 2023 09:24:42 -0500
-Received: from localhost (ileaxei01-snat.itg.ti.com [10.180.69.5])
- by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 335EOeDY068562;
- Wed, 5 Apr 2023 09:24:41 -0500
+ Frontend Transport; Wed, 5 Apr 2023 09:24:43 -0500
+Received: from localhost (ileaxei01-snat2.itg.ti.com [10.180.69.6])
+ by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 335EOgNt014784;
+ Wed, 5 Apr 2023 09:24:43 -0500
 From: Jayesh Choudhary <j-choudhary@ti.com>
 To: <dri-devel@lists.freedesktop.org>, <devicetree@vger.kernel.org>,
  <linux-kernel@vger.kernel.org>, <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH v2 0/2] "no-hpd" support in CDNS DP bridge driver
-Date: Wed, 5 Apr 2023 19:54:38 +0530
-Message-ID: <20230405142440.191939-1-j-choudhary@ti.com>
+Subject: [PATCH v2 1/2] dt-bindings: drm/bridge: Add no-hpd property
+Date: Wed, 5 Apr 2023 19:54:39 +0530
+Message-ID: <20230405142440.191939-2-j-choudhary@ti.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20230405142440.191939-1-j-choudhary@ti.com>
+References: <20230405142440.191939-1-j-choudhary@ti.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
@@ -70,36 +72,40 @@ Cc: andrzej.hajda@intel.com, tomi.valkeinen@ideasonboard.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In J721s2 EVM, DP0 HPD is not connected to correct HPD pin on SOC
-which results in HPD detect as always connnected, so when display
-is not connected driver continuously retries to read EDID and DPCD
-registers.
+From: Rahul T R <r-ravikumar@ti.com>
 
-To handle such cases add support for no hpd configuration in
-cdns-mhdp driver.
+The mhdp bridge can work without its HPD pin hooked up to the connector,
+but the current bridge driver throws an error when hpd line is not
+connected to the connector. For such cases, we need an indication for
+no-hpd, using which we can bypass the hpd detection and instead use the
+auxiliary channels connected to the DP connector to confirm the
+connection.
+So add no-hpd property to the bindings, to disable hpd when not
+connected or unusable.
 
-DT changes for display in j721s2 will be posted once we have no-hpd
-support and multilink DP support[1] merged.
+Signed-off-by: Rahul T R <r-ravikumar@ti.com>
+Signed-off-by: Jayesh Choudhary <j-choudhary@ti.com>
+---
+ .../devicetree/bindings/display/bridge/cdns,mhdp8546.yaml   | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-[1]:
-<https://lore.kernel.org/all/20230227133104.29788-1-sjakhade@cadence.com/>
-
-Changelog v1->v2:
-- edit the commit message for the bindings to clarify why we exactly need
-  no-hpd indication for mhdp.
-
-v1 patch-link:
-<https://lore.kernel.org/all/20230316140823.234263-1-j-choudhary@ti.com/>
-
-Rahul T R (2):
-  dt-bindings: drm/bridge: Add no-hpd property
-  drm: bridge: cdns-mhdp8546: Add support for no-hpd
-
- .../display/bridge/cdns,mhdp8546.yaml         |  6 +++
- .../drm/bridge/cadence/cdns-mhdp8546-core.c   | 37 ++++++++++++++++---
- .../drm/bridge/cadence/cdns-mhdp8546-core.h   |  1 +
- 3 files changed, 39 insertions(+), 5 deletions(-)
-
+diff --git a/Documentation/devicetree/bindings/display/bridge/cdns,mhdp8546.yaml b/Documentation/devicetree/bindings/display/bridge/cdns,mhdp8546.yaml
+index c2b369456e4e..3a6c6d837593 100644
+--- a/Documentation/devicetree/bindings/display/bridge/cdns,mhdp8546.yaml
++++ b/Documentation/devicetree/bindings/display/bridge/cdns,mhdp8546.yaml
+@@ -57,6 +57,12 @@ properties:
+   interrupts:
+     maxItems: 1
+ 
++  cdns,no-hpd:
++    type: boolean
++    description:
++      Set if the HPD line on the bridge isn't hooked up to anything or is
++      otherwise unusable.
++
+   ports:
+     $ref: /schemas/graph.yaml#/properties/ports
+ 
 -- 
 2.25.1
 
