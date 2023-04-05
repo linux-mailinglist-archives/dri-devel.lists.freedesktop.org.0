@@ -1,85 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0D506D851B
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Apr 2023 19:44:05 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0831C6D851E
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Apr 2023 19:44:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CD83B10E1DE;
-	Wed,  5 Apr 2023 17:44:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0CE7E10EA48;
+	Wed,  5 Apr 2023 17:44:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8DF9710E1DE
- for <dri-devel@lists.freedesktop.org>; Wed,  5 Apr 2023 17:44:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1680716641;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=1+OOQA9PZQd4PUwJ9BuG68QxiObq/aqDA99CcsUtChQ=;
- b=cViaJDKLO0LoruADgKOBLt1JzBdwaXIeP7RMt2R6cFaQXoldi7NnYJWnNH2efAxvq13f2D
- aFw+KwnYvIpcMH7ZO9nqt9QMFWQwNf7HiAcVHceX0PPuvmDDEi1CBgwXc/hJANEavVJnDg
- PP7UTm/mfoKBnB9WdQAG+zTjCVJ50p8=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-342-ciXJo3nCOy-qBNpSWy8Uvg-1; Wed, 05 Apr 2023 13:44:00 -0400
-X-MC-Unique: ciXJo3nCOy-qBNpSWy8Uvg-1
-Received: by mail-wm1-f70.google.com with SMTP id
- n11-20020a05600c3b8b00b003f04739b77aso7479701wms.9
- for <dri-devel@lists.freedesktop.org>; Wed, 05 Apr 2023 10:44:00 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680716639;
- h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=1+OOQA9PZQd4PUwJ9BuG68QxiObq/aqDA99CcsUtChQ=;
- b=JPatzHbHxLYfnBYd3eJ30/iRWIqfV9CF6KsFxntNjy6Sn/WZiF+v5aWC1OC2cIvJQK
- ibpNL1MbuMxHLdeKR299KADQ4RCTQxpK0GLKhnJ5z0VPU0Aot2GbNbR+yn4cBX9TmFjg
- cIumFNycVpcXtmtBZg+alxAE2JatxH2Oh1+zuo59Jp/TJ0KL0ww7O2bqRftoofvCcSOQ
- 3TVQMvJWNiyZDNFqBy8TxSKFAONHpxGuKx4ozPrhHXk+Jf8jYuZyFYOX9pt0qgz4lJlr
- aqEMyC7LsACqed4R6QFX2Ylr4QeqA1c/C6AMNHeCByriK7rPcNkCNX4VXtyHBDhQCaST
- Q+jQ==
-X-Gm-Message-State: AAQBX9db9z6lDbNZPopDNbfKIR5nQ3qaOSzCXfYsC96OqnLmkMXblYQO
- e68bvDOt/ng0CMrf603M5Dl6AO+F9zU8DRUaPq4OwCYwaU0Iwd05aW5COjaX7sCY0YxumvkBwYg
- m26jbR8CtKUZgz3leqJ12rWe6tTGs
-X-Received: by 2002:a5d:6687:0:b0:2cf:6089:2408 with SMTP id
- l7-20020a5d6687000000b002cf60892408mr2387266wru.0.1680716639463; 
- Wed, 05 Apr 2023 10:43:59 -0700 (PDT)
-X-Google-Smtp-Source: AKy350bWGWG/CFxOJpT4iJdtG1Z00et7x2nuFjcUkxrAgqJ6h7Q++2YgYaFAieGG1eAWq6oDMkXL4w==
-X-Received: by 2002:a5d:6687:0:b0:2cf:6089:2408 with SMTP id
- l7-20020a5d6687000000b002cf60892408mr2387257wru.0.1680716639182; 
- Wed, 05 Apr 2023 10:43:59 -0700 (PDT)
-Received: from localhost (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- o18-20020adfe812000000b002daf0b52598sm15610073wrm.18.2023.04.05.10.43.58
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 05 Apr 2023 10:43:58 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [PATCH 1/8] drm/gma500: Use
- drm_aperture_remove_conflicting_pci_framebuffers
-In-Reply-To: <CAKMK7uGbPWE5mg2+ojxxEdfknDzmjDr+5n_y-t-nYNzDFE21EA@mail.gmail.com>
-References: <20230404201842.567344-1-daniel.vetter@ffwll.ch>
- <5556a755-01a1-3620-8693-0fc69c6f627d@suse.de>
- <3813a2f5-c74a-4760-34ce-1c88f187c91c@suse.de>
- <ZC04hoHywz0ySzAW@phenom.ffwll.local>
- <3fd03c4c-3be6-e56b-faec-bd67a58cda09@suse.de>
- <ZC1BlNCbXPlmAhj0@phenom.ffwll.local>
- <eee11545-2a78-4556-be82-5178ea09d0d8@suse.de>
- <877cuqd1f8.fsf@minerva.mail-host-address-is-not-set>
- <ZC11J3og4Kc9ta6m@phenom.ffwll.local>
- <242ab20f-affe-b55a-6068-5ea634705cf6@suse.de>
- <ZC2beu/9inolwIlr@phenom.ffwll.local>
- <87bkk29smu.fsf@minerva.mail-host-address-is-not-set>
- <CAKMK7uGbPWE5mg2+ojxxEdfknDzmjDr+5n_y-t-nYNzDFE21EA@mail.gmail.com>
-Date: Wed, 05 Apr 2023 19:43:58 +0200
-Message-ID: <875yaa9qch.fsf@minerva.mail-host-address-is-not-set>
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DCEB710E25B
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 Apr 2023 17:44:43 +0000 (UTC)
+Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77]
+ helo=[IPv6:::1]) by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <l.stach@pengutronix.de>)
+ id 1pk7BT-0001xp-H9; Wed, 05 Apr 2023 19:44:35 +0200
+Message-ID: <c952a63a2c0c7377e1e15b1d06c1a941f3456d60.camel@pengutronix.de>
+Subject: Re: [Regression] drm/scheduler: track GPU active time per entity
+From: Lucas Stach <l.stach@pengutronix.de>
+To: Luben Tuikov <luben.tuikov@amd.com>, Danilo Krummrich <dakr@redhat.com>,
+ daniel@ffwll.ch, Dave Airlie <airlied@gmail.com>, Bagas Sanjaya
+ <bagasdotme@gmail.com>, andrey.grodzovsky@amd.com, Christian
+ =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ dri-devel@lists.freedesktop.org,  linux-kernel@vger.kernel.org
+Date: Wed, 05 Apr 2023 19:44:34 +0200
+In-Reply-To: <8b28151c-f2db-af3f-8dff-87dd5d57417b@amd.com>
+References: <3e00d8a9-b6c4-8202-4f2d-5a659c61d094@redhat.com>
+ <2a84875dde6565842aa07ddb96245b7d939cb4fd.camel@pengutronix.de>
+ <8b28151c-f2db-af3f-8dff-87dd5d57417b@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4 (3.46.4-1.fc37) 
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,38 +52,98 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@intel.com>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Daniel Vetter <daniel@ffwll.ch> writes:
+Hi Luben,
 
-> On Wed, 5 Apr 2023 at 18:54, Javier Martinez Canillas
-> <javierm@redhat.com> wrote:
->>
->> Daniel Vetter <daniel@ffwll.ch> writes:
+Am Dienstag, dem 04.04.2023 um 00:31 -0400 schrieb Luben Tuikov:
+> On 2023-03-28 04:54, Lucas Stach wrote:
+> > Hi Danilo,
+> >=20
+> > Am Dienstag, dem 28.03.2023 um 02:57 +0200 schrieb Danilo Krummrich:
+> > > Hi all,
+> > >=20
+> > > Commit df622729ddbf ("drm/scheduler: track GPU active time per entity=
+")=20
+> > > tries to track the accumulated time that a job was active on the GPU=
+=20
+> > > writing it to the entity through which the job was deployed to the=
+=20
+> > > scheduler originally. This is done within drm_sched_get_cleanup_job()=
+=20
+> > > which fetches a job from the schedulers pending_list.
+> > >=20
+> > > Doing this can result in a race condition where the entity is already=
+=20
+> > > freed, but the entity's newly added elapsed_ns field is still accesse=
+d=20
+> > > once the job is fetched from the pending_list.
+> > >=20
+> > > After drm_sched_entity_destroy() being called it should be safe to fr=
+ee=20
+> > > the structure that embeds the entity. However, a job originally hande=
+d=20
+> > > over to the scheduler by this entity might still reside in the=20
+> > > schedulers pending_list for cleanup after drm_sched_entity_destroy()=
+=20
+> > > already being called and the entity being freed. Hence, we can run in=
+to=20
+> > > a UAF.
+> > >=20
+> > Sorry about that, I clearly didn't properly consider this case.
+> >=20
+> > > In my case it happened that a job, as explained above, was just picke=
+d=20
+> > > from the schedulers pending_list after the entity was freed due to th=
+e=20
+> > > client application exiting. Meanwhile this freed up memory was alread=
+y=20
+> > > allocated for a subsequent client applications job structure again.=
+=20
+> > > Hence, the new jobs memory got corrupted. Luckily, I was able to=20
+> > > reproduce the same corruption over and over again by just using=20
+> > > deqp-runner to run a specific set of VK test cases in parallel.
+> > >=20
+> > > Fixing this issue doesn't seem to be very straightforward though (unl=
+ess=20
+> > > I miss something), which is why I'm writing this mail instead of send=
+ing=20
+> > > a fix directly.
+> > >=20
+> > > Spontaneously, I see three options to fix it:
+> > >=20
+> > > 1. Rather than embedding the entity into driver specific structures=
+=20
+> > > (e.g. tied to file_priv) we could allocate the entity separately and=
+=20
+> > > reference count it, such that it's only freed up once all jobs that w=
+ere=20
+> > > deployed through this entity are fetched from the schedulers pending =
+list.
+> > >=20
+> > My vote is on this or something in similar vain for the long term. I
+> > have some hope to be able to add a GPU scheduling algorithm with a bit
+> > more fairness than the current one sometime in the future, which
+> > requires execution time tracking on the entities.
+>=20
+> Danilo,
+>=20
+> Using kref is preferable, i.e. option 1 above.
+>=20
+> Lucas, can you shed some light on,
+>=20
+> 1. In what way the current FIFO scheduling is unfair, and
+> 2. shed some details on this "scheduling algorithm with a bit
+> more fairness than the current one"?=20
 
-[...]
+I don't have a specific implementation in mind yet. However the current
+FIFO algorithm can be very unfair if you have a sparse workload compete
+with one that generates a lot of jobs without any throttling aside from
+the entity queue length. By tracking the actual GPU time consumed by
+the entities we could implement something with a bit more fairness like
+deficit round robin (don't pin me on the specific algorithm, as I
+haven't given it much thought yet).
 
->>
->> Yeah, agreed that if vga_remove_vgacon() isn't enough and another helper
->> is needed then starts to get a little silly. Maybe one option is to add a
->> 3rd param to aperture_remove_conflicting_pci_devices() and skip the logic
->> to iterate over PCI bars and call aperture_remove_conflicting_devices() ?
->
-> The thing I don't get: Why does this matter for gma500 and not any of
-> the other pci devices? Look at your gpu, realize there's a lot more
-
-Yes, I don't know why gma500 is special in that sense but I'm not familiar
-with that hardware to have an opinion on this.
-
--- 
-Best regards,
-
-Javier Martinez Canillas
-Core Platforms
-Red Hat
-
+Regards,
+Lucas
