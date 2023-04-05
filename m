@@ -1,120 +1,83 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F4736D7CA4
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Apr 2023 14:32:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E1C206D7CA6
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Apr 2023 14:32:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4E87C10E92A;
-	Wed,  5 Apr 2023 12:32:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E6F0110E930;
+	Wed,  5 Apr 2023 12:32:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam11on2064.outbound.protection.outlook.com [40.107.223.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F40A410E928;
- Wed,  5 Apr 2023 12:32:12 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Wfwf5x2SWhshewmlOy6ILQVw3Q20hcaC3K4gY7nGb/C/pnLHYDdQeaZ8eolyqEiSQ8ZFlwOIAIryhW+09JsIRhoZT4IU1OvPXwB1rMEqjYmtgky/TORJWat0gBhKUWR2fNHmXRKWh19WGpuKFH2FlhBbE79pfP5BUanbEwv0V/BhZk9sMYXh1bUnVp0Qe3KQO1RhaCMz5TssfUu3cDrdaA5RZ+ktSkTvgszgm1SxnnDTK3Ea6cbnhSgU+ImR7gxaa1O4IQZSaLJ798bEIWEDLkAgkFmd5q5PJUS6+ZxGWyCQLCjfPeBvllbOXYNhEYhmvJPpQ6Zi2xuPwxxzjgVOEA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=NEkYttDbgweJtCmaZcEMo/1n5vxVEphiSNVcPBNMFhY=;
- b=DGRfDn8F3fFeh5bsgsHhWihBHd+z9ocxGXeQocFwAXkn6hRSaEv2lAEcKbbOvvF/BhH3jaIVBSvCnuRN6Jz2O0i840+evCNPMsgIpxgPw1UTeXrJe95HaDCF2wl3DKFsNxtZ+Y5vqLmUoFsf6hZtnhMLWTxOF10KXfilZYCLtO6LCjHWp51NEy5QdH6LbLxYPLOaXtimZs5euROx06FFDIM91McdZ6YBNK5nWF0fU3IzPXW7JtafhU+OsYAsaBviHnZkHjwXVopb9YjHmx05d71trUcO3oueEhAWTrw0iqyb4rGXh2F0IDuzkISOn7NjG1kQmLYiNb+a9ZUvThH+5A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=NEkYttDbgweJtCmaZcEMo/1n5vxVEphiSNVcPBNMFhY=;
- b=b2ZoyDVVTF13kOpe1kpEZo6zT7jnutuhLamOFpzWAT8d8BIq9SwbHrpSEYB1T2tt1KLBAZ+gb2vrFyNMxmIkoKX/3QqR+vfmyI2xIY11YxHGg015V391Bb5nzk7fV1YCPRaV2y5VKWPFqR5eUkNB7C9zUolnC6RVcaJa9g09x4w=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
- by SJ0PR12MB7473.namprd12.prod.outlook.com (2603:10b6:a03:48d::8)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6254.35; Wed, 5 Apr
- 2023 12:32:08 +0000
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::4624:dc39:943e:6ae]) by BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::4624:dc39:943e:6ae%5]) with mapi id 15.20.6254.035; Wed, 5 Apr 2023
- 12:32:08 +0000
-Message-ID: <42f30a99-a259-91d6-8fb9-25eb85e7b2a1@amd.com>
-Date: Wed, 5 Apr 2023 14:32:03 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH RESEND v3 0/3] drm/ttm: Small fixes / cleanups in prep for
- shrinking
-Content-Language: en-US
-To: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
- dri-devel@lists.freedesktop.org
-References: <20230404200650.11043-1-thomas.hellstrom@linux.intel.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20230404200650.11043-1-thomas.hellstrom@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR2P281CA0089.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:9b::15) To BN8PR12MB3587.namprd12.prod.outlook.com
- (2603:10b6:408:43::13)
+Received: from mail-yb1-xb2e.google.com (mail-yb1-xb2e.google.com
+ [IPv6:2607:f8b0:4864:20::b2e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D581910E930
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 Apr 2023 12:32:24 +0000 (UTC)
+Received: by mail-yb1-xb2e.google.com with SMTP id u97so182689ybi.10
+ for <dri-devel@lists.freedesktop.org>; Wed, 05 Apr 2023 05:32:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20210112; t=1680697943;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=SQcMbra2CgBD1rOvxGpRVnkzaGjn0KHujzI1BY777uY=;
+ b=MkV5dExLiNqHfiYmWMuvch56083VrvbatouYUkL58SSm+WrMUvsdZSE3XxB3d8jeJf
+ EK33MHkqG3MELcpSeqXzpH2whK3o8Lmx0GixFiv1YWYv+7tRaeIgngnfWuJ/dlYntL3q
+ 5EMAWmxeenJFRgI1bH3bR+6XbKuOpqI4Hockj/fOTVKrWkTCss31mmnSsukYKg1k+IqN
+ OkLaehmee/JjhR7r8W8jnPHDsXhFzcqjzFr6Z2qWPssKR8xHf9IYTgj2dDtB5ES4viLg
+ 7lFMhaiKVbLFTNAbOFF+3ByTplR68WQgItjc+07KNEyaqeeqNZwZ4frv2WtLxz60hAz8
+ 3V2Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1680697943;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=SQcMbra2CgBD1rOvxGpRVnkzaGjn0KHujzI1BY777uY=;
+ b=M3p02BpSpG5ybsjIbdjY/vq+h9/IKKDaFmP3vJjtdkILXZIV3j3UC/etUnueMC9NA6
+ nv9U0yXSMf3KyeYfqjKwLQ+AqFGN5Bbl/7G/B4PqRNqpegjqh5AI/9BEYicfUeBPs26a
+ bfZ/YfRAXEyeWCIZ/Glpfn3V/T0f4Rjm6sp1FEHwGtUpG8OkNPDqYtBpMJEi49+xBY3G
+ 4OWqizSS6t6jMCCkQAW7keA2VjhjMDmq7UeHFXZUOJb6QabmJg/Dcpb5B2RnAxw/zmxq
+ ZUjc69qKsehks12l/J40zVVB3hdGpVIHz7sJ3FVMTACDIjKfoDeXlaN3cIjbqKV3iOSX
+ IvtA==
+X-Gm-Message-State: AAQBX9f5Kcr9KjumRppY2nTElQDrMXR+jOqUeDAupIvYPgxK+0G/VoAs
+ dKOzfmszGz8E9VjZEg2d+R73L4o7nsNHeaEBey8=
+X-Google-Smtp-Source: AKy350aMnNZlfVQMcWZwmVtFWd+CgIw1TUjVeCFV7ElU/MTu09D8SpK7RVipDHvOLoDOmHM2e3Wga5qC1FlXouLi1XY=
+X-Received: by 2002:a25:774d:0:b0:b80:2bf9:2f78 with SMTP id
+ s74-20020a25774d000000b00b802bf92f78mr4111595ybc.11.1680697943516; Wed, 05
+ Apr 2023 05:32:23 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|SJ0PR12MB7473:EE_
-X-MS-Office365-Filtering-Correlation-Id: b3a4e9c3-4614-45f9-2fc0-08db35d1c53e
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: bEcmTaXiHWoc4RSW4dJJGByXRa3VOfp/BkT1rLVCB4K1fySnBSndZxOdy+tCLPMXfHotCM3KAgbTZIWN3VYWl+27G8cjRYUeYv3weGF8T+Aaahn2RAdUY7Mr5XIUW+Hz8BeW3UgJhysYvHyVU+hYLgCofhA1LxM+jFbsx7V4tWdsvUQfZu1hBw/ohaQ04ecbUg5Gd+TSOf+aIeADKcqbTSx3Kv1wXI4P08hHOzS54nYy3YOufQ9bu7TLHr31iwVzdrzipoAc/VK3qh9TLkKXhVWLimp0fo50Ry8MqymUbqKLV8Y2j5snC8RBM4nT+cs7dJJk0WFkcm6sQOOLoF2GuS45b79G+WHjVn/EQ3LEj3sv2DuJdtVZQ923kgBHNq8QA/nGW51ioHezTmDMY6MfrnazCZYKohcO85iVgWFzbRAC48KSmFpWF6Mo+H1wRwlEUtGlCw+lOi8YcaUbrkUxjJmhAAwNzUOJXlC0oqwy4QCSPo2Zi6z905Nr1W8gfpZ1X1EBusek3GPpmz9Z2kgLdrff7PVZW/63Afv30/zrOchETtdeyz4Ygh7oKAtdtuAlzxIKNduIJktF4YSSyPXkW3YxEKZ6u4NboB0R2PpGrN4+vQNRPof9qKYV9/Hj6ELS7ZXkn+oR67r/BTcjgNCHWA==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230028)(4636009)(376002)(396003)(346002)(39860400002)(136003)(366004)(451199021)(66946007)(316002)(66556008)(478600001)(66476007)(8676002)(4326008)(2906002)(6666004)(6486002)(5660300002)(41300700001)(86362001)(38100700002)(8936002)(31696002)(2616005)(6512007)(6506007)(186003)(66574015)(83380400001)(36756003)(31686004)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?QjBNbVZTTFQ4ekl1bm90bFZBNlZGenFINk8wSGpMU3A5dlZRaW9LRUR2WFEy?=
- =?utf-8?B?Um03MUlzUEFxZysreWxEVnIyMFZORzJoUms1cHpYY0d6aFFDSy9TazNlTC80?=
- =?utf-8?B?UEd2eTJOdHhTTnNQSGU5aE9JTHhjTDdjRmpFM1BOM1duT0l5NlBPTWxjU1Bo?=
- =?utf-8?B?clVTRjZMTThGOEwrZkhIcGJTVDdycjA3bFZtZklVRmtvcjVSV3UxUVZ3eWJk?=
- =?utf-8?B?NFJreXNQYmNmcFNsK1NOaW9aQUVhREczc2JMMDVhSHZUM2E0RFA3VUVzcjVw?=
- =?utf-8?B?M3ViOFExUnJGSVRXb1V5cnV6ajMwektITksrdytaR1F1bDdzSTVpUkgyNitT?=
- =?utf-8?B?MlZGQzlTYlhDMHVBL2tMNHhXZUFHYmxtcUE2SFZ3Qjl4b1IyVXlxTnRPQmZk?=
- =?utf-8?B?UkJsaDJ2aVkwcW5YVVdSR1NCd283NXRyM0Q3eTBoMlpJYTJHUVA2Z0FjR2lq?=
- =?utf-8?B?VXB6YU1xMGhoVWY5VWF1bzJNVk4xT2c1eGowbHJSbktqb3dEcDhaV3BmMEdi?=
- =?utf-8?B?eHViNExWREhlWGFkaFoydTNrYzVQOVVWem9pVFZkb2NPcG5iVXIvL0QxTkZL?=
- =?utf-8?B?b1daU1ZFSXorTDluOGVLUlJhSVcreWdLVCs2WXdVZ3U3aWVzRWNYb0hxWU9l?=
- =?utf-8?B?aytQamw2YUhMdlBtZit1T0d1anJocW9ZWmRwakUwWHZNWDhlSHp4N1ZnTVJS?=
- =?utf-8?B?NkZBODFmZE5ic2t1R0VCR3lYR21HTGlsRVBVb25haTA0THJaZVVXSEc5SnBt?=
- =?utf-8?B?WGJWRkE4Y0dxcm9pUFZHSjFpaHA4Ly9VeDNLNThPQitqbTBGdW5WaDBUQzda?=
- =?utf-8?B?czgybDJaWEhwd3Y0S2ZaZ0JVY1UvWTVleGVTSzhjRW54YjVLVENaU0Z6Q0RH?=
- =?utf-8?B?cmFzb0E1c1NxVVJrc1lSUlFiQWo2K0pLektHL1RWSTBiclhGSDZsejRuQTBn?=
- =?utf-8?B?aGNQNWY2N0tkRHpaQ2RyenRLMWEzRGNCZEJ5R1pqZW1SL1VQUmNoZE9qZFM0?=
- =?utf-8?B?WXNxb3dWY1VOalE3N0VEbzQwdTdRc0R0Z280bTR1dmM3VEEyTEd2WnMrR1p1?=
- =?utf-8?B?UDdYVGxHSEtOcWVUZlQxYWZwbjh5RE1vblVrYm5Kc0R5ZUJxY1ZsT0c5YUZL?=
- =?utf-8?B?MTZkV2RFTXNwZUtQdHZIUno0VDhEQk1FQys2eDZFSG53SUxGWHY5bGp3c3ZE?=
- =?utf-8?B?Q0FCQUZWdkpuM1J3N0d1d3RCYTBPM1MrY2l0SWM3b0lJamNPcDV3RDV4SU9k?=
- =?utf-8?B?QlpOSzdlOGtFRkJYUjFDN1Y3Nkk0endtY2o2dkVFanE3dHVKcHRidnhDNG5v?=
- =?utf-8?B?aWhVK1VvRU9Ianl2dFpjZFRMQVppTTdJL2V6OVlpa1lEdFlnNnpwbldPK28x?=
- =?utf-8?B?cnlCSDU5ZUR6WkY5TGhiRkFWcTJkTXV3aGZIYXc5N25rbVgzVjM0bUx6eDh4?=
- =?utf-8?B?SHcxMlVXWVhSSDk5aC9rMkJxSngxWnhlRGo1TVdISnJNSzdZRXVPMHMveHBj?=
- =?utf-8?B?a29nb2xmem1wM253UjFtWjI3WkQ0U0hzSTJhSTFpbUkvVVBTb2dyZTdYbk00?=
- =?utf-8?B?bW0rV3g0Z2llR3drZVQrUzNjaXFEbmFCbkw1VzZ5M1RBblNGMFAzZ0drUUg3?=
- =?utf-8?B?a2xoWHJzZyszdC9BSlFobVBTSU0yOC9RYS92eGcvTUJYTzVXUGVtOEh3VXZ5?=
- =?utf-8?B?TXI3WVVwQk5kTDRWZmNQa2x5RGMxVnV2M0pDdCs0dS9hcHV6QnJjZVRLZzRx?=
- =?utf-8?B?bVlUSDAyWUpBZjJRQnIwVm9wRjRGNjhMcmNxRzJNVThXL2tlSS9Qa2JtcVhT?=
- =?utf-8?B?VTdzdXBaRHJ0bVlGdVJOZnJoUGxzdWRjRjR3UU9rZmE2L2s4SklJTnF4eFNZ?=
- =?utf-8?B?Z003TnAvM3h4U3c0VGNoSmE3ZFhyNnlHM01aMlJHck1YZVlwdVNWUmtyd1hH?=
- =?utf-8?B?eGtOcmZPS0ZobGp0eld1cDF4YTRsRXh2aU45amNRQmRrRTR4QWtlQW5nZ1Z1?=
- =?utf-8?B?elBMU0hUTzF4bFoxZWZqNW9xK3h1V0luTlBoVUJUQ2lCa3VOSG1hYThQOXRu?=
- =?utf-8?B?elBybUdJeC9rTW81TWwzZFBRbk96WTN2UkJURjhjZzJKdUF1SEtIN1JIMmZz?=
- =?utf-8?B?UUJ5eHdHNWtiaWxsa28rdGxIY0ljVGV2RlJRYXlIRkdBbzgxakdweHZhOWZE?=
- =?utf-8?Q?SEzT2JPvc2/24jWa5pDk15nkBn+F7T2fYrYY6mUwMo4U?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b3a4e9c3-4614-45f9-2fc0-08db35d1c53e
-X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Apr 2023 12:32:07.9336 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 2g1x85CyYbq7LUFNbfBQNWRcNkL2vheqKY24wgVHd3RRm5oby25rnQLikG2ZhP28
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR12MB7473
+References: <20230307-rust-drm-v1-0-917ff5bc80a8@asahilina.net>
+ <20230307-rust-drm-v1-4-917ff5bc80a8@asahilina.net>
+ <ZC1WwJDr1iqSQnYs@phenom.ffwll.local>
+ <CANiq72=h9qKrpkY2K962__rs-JLsmWxPXocx040ZeDSKGf_Brw@mail.gmail.com>
+ <ZC1aEZpgZLkq8xTv@phenom.ffwll.local>
+In-Reply-To: <ZC1aEZpgZLkq8xTv@phenom.ffwll.local>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Wed, 5 Apr 2023 14:32:12 +0200
+Message-ID: <CANiq72=hoVw566orbDYcJyw2+SFfxpR1rdJVbbR3kkrjJUASww@mail.gmail.com>
+Subject: Re: [PATCH RFC 04/18] rust: drm: gem: Add GEM object abstraction
+To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+ Asahi Lina <lina@asahilina.net>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Miguel Ojeda <ojeda@kernel.org>, 
+ Alex Gaynor <alex.gaynor@gmail.com>, Wedson Almeida Filho <wedsonaf@gmail.com>,
+ Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
+ =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Luben Tuikov <luben.tuikov@amd.com>, Jarkko Sakkinen <jarkko@kernel.org>, 
+ Dave Hansen <dave.hansen@linux.intel.com>,
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
+ Karol Herbst <kherbst@redhat.com>, Ella Stanforth <ella@iglunix.org>, 
+ Faith Ekstrand <faith.ekstrand@collabora.com>, Mary <mary@mary.zone>, 
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ rust-for-linux@vger.kernel.org, linux-media@vger.kernel.org, 
+ linaro-mm-sig@lists.linaro.org, linux-sgx@vger.kernel.org, 
+ asahi@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -127,38 +90,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, Matthew Auld <matthew.auld@intel.com>,
- intel-xe@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 04.04.23 um 22:06 schrieb Thomas Hellström:
-> I collected the, from my POW, uncontroversial patches from V1 of the TTM
-> shrinker series, some corrected after the initial patch submission, one
-> patch added from the Xe RFC ("drm/ttm: Don't print error message if
-> eviction was interrupted"). It would be nice to have these reviewed and
-> merged while reworking the rest.
+On Wed, Apr 5, 2023 at 1:23=E2=80=AFPM Daniel Vetter <daniel@ffwll.ch> wrot=
+e:
 >
-> v2:
-> - Simplify __ttm_pool_free().
-> - Fix the TTM_TT_FLAG bit numbers.
-> - Keep all allocation orders for TTM pages at or below PMD order
->
-> v3:
-> - Rename __tm_pool_free() to ttm_pool_free_range(). Document.
-> - Compile-fix.
+> Ok if this is just interim I think it's fine. Would still be good to have
+> the MAINTAINERS entry though even just to cover the interim state. Least
+> because I'm assuming that when things are split up you'd still want to
+> keep the rust list on cc for the rust parts, even when they move into
+> subsystems?
 
-Reviewed-by: Christian König <christian.koenig@amd.com> for the series.
+Sorry, I missed to reply the second part of your email -- replying here.
 
->
-> Thomas Hellström (3):
->    drm/ttm/pool: Fix ttm_pool_alloc error path
->    drm/ttm: Reduce the number of used allocation orders for TTM pages
->    drm/ttm: Make the call to ttm_tt_populate() interruptible when
->      faulting
->
->   drivers/gpu/drm/ttm/ttm_bo_vm.c |  13 +++-
->   drivers/gpu/drm/ttm/ttm_pool.c  | 111 ++++++++++++++++++++------------
->   2 files changed, 80 insertions(+), 44 deletions(-)
->
+Currently, the subsystem's code is under `rust/` (though modules can
+go already into other folders). One of the reasons was technical
+simplicity, and a nice side effect is that we could bootstrap things
+while getting C maintainers involved over time.
 
+To accomplish that, the guidelines for contributing Rust code are that
+the respective maintainers need to be at least Cc'd, even if the files
+do not hit the `F:` fields for the time being -- see [1]. But, for us,
+ideally, the maintainers will take the changes through their tree,
+instead of going through the Rust one, since that is the end goal.
+
+And, of course, if you already want to have `F:` fields for the Rust
+code, that is even better! (Whether those should be in the same entry
+or in a new one, it is up to you, of course, and whether it is a
+different set of people / level of support / etc.)
+
+Then, when the `kernel` crate split happens, we can move the code
+directly under whatever folders it should be naturally, when their
+maintainers are ready. For some subsystems, that may mean they do not
+need any `F:` fields since they are already covered (e.g. if they did
+not create a new entry for Rust code only). And for cases like yours,
+where you already had `F:` fields, it means the move of the files can
+be done right away as soon as the split happens.
+
+In short, we would definitely welcome if you add `F:` fields already
+(whether in existing or new entries) -- it would mean you are ahead of
+the curve! :)
+
+As for the mailing list, yes, for the time being, I ask that all
+changes to please be sent to the Rust list, so that everybody that
+wants to follow the Rust progress has everything in a single place, so
+that we try to remain consistent in the beginning on e.g. coding
+guidelines, so that Rust reviewers can help spot mistakes, and so on
+and so forth.
+
+But, as Rust grows in the kernel, as systems become non-experimental,
+and as maintainers take ownership of the code, that should eventually
+go away and let things be as usual with C code. Then the Rust
+subsystem (and its list) will become smaller, and it will be the
+subsystem (and the discussion place) for anything not covered by other
+subsystems, such as core Rust abstractions and types, Rust
+infrastructure and so on.
+
+How does that sound?
+
+[1] https://rust-for-linux.com/contributing#the-rust-subsystem (I may
+reorganize this to be Rust's `P:` field, by the way)
+
+Cheers,
+Miguel
