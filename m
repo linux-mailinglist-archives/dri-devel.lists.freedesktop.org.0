@@ -2,82 +2,95 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79BCB6D8055
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Apr 2023 17:03:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B602F6D81CD
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Apr 2023 17:28:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0C16110E9C9;
-	Wed,  5 Apr 2023 15:03:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0EE368981D;
+	Wed,  5 Apr 2023 15:28:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wnew3-smtp.messagingengine.com (wnew3-smtp.messagingengine.com
- [64.147.123.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 89F1210E9D6
- for <dri-devel@lists.freedesktop.org>; Wed,  5 Apr 2023 15:03:31 +0000 (UTC)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
- by mailnew.west.internal (Postfix) with ESMTP id 6D9712B0679B;
- Wed,  5 Apr 2023 11:03:29 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute6.internal (MEProxy); Wed, 05 Apr 2023 11:03:31 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-type:content-type:date:date:from:from:in-reply-to
- :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm3; t=1680707009; x=1680714209; bh=X2
- EVnzTis2BTEg3qTs7N4aFzgNBylsDKbjb27d1is0s=; b=QRX3AGMJJt6PPwJkGv
- 4UAnefP7j9j9LDd4UHTa2ziLcAZAgyxZx6jadts+8iXd66840WJhN73QQzgYn60s
- F38R2Wn619iQbvb0GqvFRssj3cIndatmZR3fx7Z/LtUOW0HllN/oUGZSEX5qdzVu
- Gs5b7cAFBvffUPMHWbFXMZ78yYNngwVcGrVe/B+EDKErHyizWMTmTmD3YJKO1/1H
- x0rWkcyxSMAHCZEj0NMaPLGtHKqoCBQaxQl2cLv6VQEN0CW8fiw4C+vhb8RNioZD
- 6SZBkrfnDKo9vfMqYnPLKiyfvPmBjGKsuGi6lEQEqEYrtRb08aAYmV+tu/rWyxkr
- pwVQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:content-type:date:date
- :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm2; t=1680707009; x=1680714209; bh=X2EVnzTis2BTE
- g3qTs7N4aFzgNBylsDKbjb27d1is0s=; b=arXC5nJ+zRop9Vs7aY85QC+CmqbMV
- tS0tsp78b7BVPv4TTygkxoECWZYyTTDA/Mx/McWzGM1hGDdyy/Xyojb/mKzkRRuh
- voNMSg9C3K9OMLd0bN4kVzM/f7pjtenXaeAQCMpYY4gNuJqbDd1GqUfnNDhEPsRM
- HlBeMqwaezTdEaH6I+vsrD2JFKEJPhah4+o0a3XzIZW/Qa9IpfT7uRRSftQMWuUa
- mF0kFrQjxLZ4e73Yp0YgaiVONaybeFWT3AiY4ctnD8CVJ39e58Y4dQbQUS8G7fuD
- HZAyCjg+K/N5apKnC7lDPrYMtmg7dw8z1nhnioMb38BQvpk+3ziX+WZ4g==
-X-ME-Sender: <xms:wI0tZPoBL3YOi78ooi1kkWLUnaPmN8f0sb0vwpf_HIFW7TGYqs8m_g>
- <xme:wI0tZJqPOHQU_-TzQYIrjNbmy4PwSnyPWG4FviX8MHcbYyExQbGYQhY6eGA7i-s4K
- wk2QS815Y-EAojsjtM>
-X-ME-Received: <xmr:wI0tZMPYcTKquEwYRRVst__-BPmhgE7eVWG4qhD3vADlnPZkBvwkYpoHNxVWeg2rbKaoLfxdnkCBuWanTaX43uHy3A07nN4>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvdejuddgkeegucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvfevuffkfhggtggujgesghdtsfertddtvdenucfhrhhomhepofgrgihi
- mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
- htthgvrhhnpedtgfdukeeigeeuhfelheeftdfhgfegfefgudeuiefhueeuleekveetvdei
- tddvieenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivg
- eptdenucfrrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggt
- hh
-X-ME-Proxy: <xmx:wI0tZC7p3_VI1PMPUcxRZM5DsgTC85eywYkQkFYw52qk8-cKHeoqvg>
- <xmx:wI0tZO5ggfKEQFHku3refH-rwZwH_03PDaGHTnLPO9ovjO_RHWRvtA>
- <xmx:wI0tZKi1er4pVPCaZs9Lv3skNpx74ZdCWoD2TBShqh63NNwAgEavcg>
- <xmx:wY0tZE7ePYPJiXlFfORa-WHRjmcTdggvRtL0-nCedv632vmpXOBrninXw6E>
-Feedback-ID: i8771445c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 5 Apr 2023 11:03:27 -0400 (EDT)
-Date: Wed, 5 Apr 2023 17:03:26 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Roman Beranek <romanberanek@icloud.com>
-Subject: Re: [PATCH] drm/sun4i: uncouple DSI dotclock divider from
- TCON0_DCLK_REG
-Message-ID: <pu3vdz4gnkwgn4thg6tndbnvfroevpnq75bqbfv7yyrh4gkv63@xxl3dsjf2ih3>
-References: <20230320161636.24411-1-romanberanek@icloud.com>
- <87wn356ni4.fsf@oltmanns.dev>
- <20230327202045.ceeqqwjug4ktxtsf@penduick>
- <CRHKFX934UA0.1MCKCD8SJSPIE@iMac.local>
- <20230329195802.veybo3367zifw77n@penduick>
- <CROTQHUM88W0.2URPO95U5ZMS5@void.crly.cz>
+X-Greylist: delayed 1460 seconds by postgrey-1.36 at gabe;
+ Wed, 05 Apr 2023 15:28:14 UTC
+Received: from vern.gendns.com (vern.gendns.com [98.142.107.122])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7E66010E9A2
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 Apr 2023 15:28:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=lechnology.com; s=default; h=Content-Transfer-Encoding:Content-Type:
+ In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
+ :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+ Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+ List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=KwsN1Jqgdt0Ru2Hhoc0LBYnmZhb8r5La/ON0Ev0Izhg=; b=Y+x4KEnYaxmTOeuiHyftGo9xdQ
+ I1IkCDLcv6rx19nvnc017O7Q0VqCDu/q1lgaWg61g+UYbu9cqTokgl5+9DYvnSjmbBS3XgKXxpY3Q
+ S11J4aG6c4qnzIG5yHCr/oioEBkYd+W6IFaxyucGat2uI5SFQAEeax52nY11iIGwn3haXiEgEunrY
+ GE5ldbrx/L9zfJkJEcvT9/Iw5bVgh8UKVwKHUzD0TmBvaglCDwoIUaZTLqI/42TdooiVpNtHzagsr
+ /5M9aotBK1c5PBNn4KWBcwtwjXsUxY1OdDbrvlDUkuwgElxvxLOuPdTvVcCbh3Sax5X6zA/ZvkOjL
+ cTDrBcPw==;
+Received: from ip98-183-112-29.ok.ok.cox.net ([98.183.112.29]:45982
+ helo=[192.168.0.134]) by vern.gendns.com with esmtpsa (TLS1.2) tls
+ TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 (Exim 4.96)
+ (envelope-from <david@lechnology.com>) id 1pk4gF-0004Ux-2Q;
+ Wed, 05 Apr 2023 11:04:12 -0400
+Message-ID: <ca8efcd8-b2f1-b84d-8087-7f60795f0c0e@lechnology.com>
+Date: Wed, 5 Apr 2023 10:04:04 -0500
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="3yjjmcpxi3qkranu"
-Content-Disposition: inline
-In-Reply-To: <CROTQHUM88W0.2URPO95U5ZMS5@void.crly.cz>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH v3 22/65] clk: davinci: da8xx-cfgchip: Add a
+ determine_rate hook
+Content-Language: en-US
+To: Maxime Ripard <maxime@cerno.tech>,
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
+ <sboyd@kernel.org>, =?UTF-8?Q?Andreas_F=c3=a4rber?= <afaerber@suse.de>,
+ Manivannan Sadhasivam <mani@kernel.org>,
+ Nicolas Ferre <nicolas.ferre@microchip.com>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Claudiu Beznea <claudiu.beznea@microchip.com>,
+ Max Filippov <jcmvbkbc@gmail.com>,
+ Charles Keepax <ckeepax@opensource.cirrus.com>,
+ Richard Fitzgerald <rf@opensource.cirrus.com>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Luca Ceresoli <luca.ceresoli@bootlin.com>, Sekhar Nori <nsekhar@ti.com>,
+ Abel Vesa <abelvesa@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Dinh Nguyen <dinguyen@kernel.org>,
+ Peter De Schrijver <pdeschrijver@nvidia.com>,
+ Prashant Gaikwad <pgaikwad@nvidia.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>, Ulf Hansson
+ <ulf.hansson@linaro.org>, Linus Walleij <linus.walleij@linaro.org>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>,
+ Alessandro Zummo <a.zummo@towertech.it>, Chen-Yu Tsai <wens@csie.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>, Liam Girdwood <lgirdwood@gmail.com>,
+ Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>, Paul Cercueil <paul@crapouillou.net>,
+ Orson Zhai <orsonzhai@gmail.com>, Baolin Wang
+ <baolin.wang@linux.alibaba.com>, Chunyan Zhang <zhang.lyra@gmail.com>
+References: <20221018-clk-range-checks-fixes-v3-0-9a1358472d52@cerno.tech>
+ <20221018-clk-range-checks-fixes-v3-22-9a1358472d52@cerno.tech>
+From: David Lechner <david@lechnology.com>
+In-Reply-To: <20221018-clk-range-checks-fixes-v3-22-9a1358472d52@cerno.tech>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-AntiAbuse: This header was added to track abuse,
+ please include it with any abuse report
+X-AntiAbuse: Primary Hostname - vern.gendns.com
+X-AntiAbuse: Original Domain - lists.freedesktop.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - lechnology.com
+X-Get-Message-Sender-Via: vern.gendns.com: authenticated_id:
+ davidmain+lechnology.com/only user confirmed/virtual account not confirmed
+X-Authenticated-Sender: vern.gendns.com: davidmain@lechnology.com
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,65 +103,30 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Samuel Holland <samuel@sholland.org>, Frank Oltmanns <frank@oltmanns.dev>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, linux-kernel@vger.kernel.org,
- Chen-Yu Tsai <wens@csie.org>, dri-devel@lists.freedesktop.org,
- linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org
+Cc: linux-rtc@vger.kernel.org, alsa-devel@alsa-project.org,
+ patches@opensource.cirrus.com, linux-actions@lists.infradead.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-stm32@st-md-mailman.stormreply.com, linux-renesas-soc@vger.kernel.org,
+ linux-phy@lists.infradead.org, linux-mediatek@lists.infradead.org,
+ linux-tegra@vger.kernel.org, linux-mips@vger.kernel.org,
+ linux-sunxi@lists.linux.dev, linux-clk@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 4/4/23 5:11 AM, Maxime Ripard wrote:
+> The Davinci DA8xxx cfgchip "clk48" clock implements a mux with a
+> set_parent hook, but doesn't provide a determine_rate implementation.
+> 
+> This is a bit odd, since set_parent() is there to, as its name implies,
+> change the parent of a clock. However, the most likely candidate to
+> trigger that parent change is a call to clk_set_rate(), with
+> determine_rate() figuring out which parent is the best suited for a
+> given rate.
+> 
 
---3yjjmcpxi3qkranu
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+As mentioned in my previous review, parent is selected by device
+tree and should never be changed after init.
 
-On Wed, Apr 05, 2023 at 02:34:11PM +0200, Roman Beranek wrote:
-> Hello Maxime,
->=20
-> On Wed Mar 29, 2023 at 9:58 PM CEST, Maxime Ripard wrote:
-> > > In order to preserve semantic correctness however, I propose to prefa=
-ce
-> > > the change with a patch that renames sun4i_dotclock and tcon-pixel-cl=
-ock
-> > > such that dot/pixel is replaced with d/data. What do you think?
-> >
-> > I don't think it's exposed to the userspace in any way so it makes sens=
-e to me
-> >
->=20
-> Here's a new series that includes those renames:
-> <https://lore.kernel.org/all/20230331110245.43527-1-me@crly.cz/>
->=20
-> It turns out however that the new dclk rates can't be set exactly as
-> requested without touching pll-video0*, tcon0 now therefore gets
-> reparented from pll-mipi to pll-video0-2x which, as it further turns
-> out, breaks DSI. While simply forbidding the video0-2x mux option seems
-> to me as the right way to go because there's not much use for it with
-> non-DSI interfaces either besides the opportunity to power pll-mipi
-> down, I'd like to run by you first.
 
-Sounds reasonable
-
-> * As pll-mipi doesn't have CLK_SET_RATE_PARENT flag set, pll-video0
->   retains its boot-time rate of 294 MHz set by sunxi-dw-hdmi driver
->   in u-boot. Why 294 MHz (as opposed to the default rate of 297 MHz)?
->   The driver actually asks for 297 MHz, clock_set_pll3 rounds it to
->   294 MHz though because it limits itself to 6 MHz steps.
-
-We could also address that though
-
-Maxime
-
---3yjjmcpxi3qkranu
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZC2NvgAKCRDj7w1vZxhR
-xbITAP9byIveCVVd6a8cqjY690IWR4pqo+XDDHeelvOTXcnloAEAoqs4t+zaupHu
-ywLZIz47coEFL0AyJr8kfHc1DcgKQQk=
-=6Dki
------END PGP SIGNATURE-----
-
---3yjjmcpxi3qkranu--
