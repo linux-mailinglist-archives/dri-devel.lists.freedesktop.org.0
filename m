@@ -1,68 +1,74 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 869116D7B81
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Apr 2023 13:38:37 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C134A6D7B8F
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Apr 2023 13:41:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 91E2310E8F1;
-	Wed,  5 Apr 2023 11:38:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8BC0410E8F4;
+	Wed,  5 Apr 2023 11:41:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x236.google.com (mail-lj1-x236.google.com
- [IPv6:2a00:1450:4864:20::236])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1532310E8F2
- for <dri-devel@lists.freedesktop.org>; Wed,  5 Apr 2023 11:38:33 +0000 (UTC)
-Received: by mail-lj1-x236.google.com with SMTP id e9so21695338ljq.4
- for <dri-devel@lists.freedesktop.org>; Wed, 05 Apr 2023 04:38:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1680694711;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=378I/gGZlt8XUX5v0VEtIxxbJng/T1aUDlAEzlMMcMo=;
- b=K+TH1p9OQZgmI9dQubTs+egT3pRWY+Lpl3EeU1AX7BLJkeIuKwuvuMT2EgjyLdn46r
- MTssKlRaFBhVvVhW830j/MP4QWs6SiY3mSu+FXq+KA2OXXTdmCE6cIeoFAHmqqgYHOVq
- Kh+dVIMN2QEmtWiZtqRe17Qr1sjWCyUCsK8n7PusEQ5iBOo35a9SSA76SXWsz9lgopJg
- M0J6UrwhPs0bm+hMRezXpugxb4c0IcaODV49ZUde3/Ay11jybapgYXfIJo1ceLLLyN5m
- XbIYWIMhFOKkUroEcaSMRAj+rxcBwPnypjslHTR/V6x9nA0E//q00u+FAemPppbXDzLb
- rC+g==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6EF6210E8F5
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 Apr 2023 11:40:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1680694857;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=FMtfoXjFIQVrdCvOYQIUXDgwaN1CMspVz9VQYCn9+jg=;
+ b=a5mTOogrOG01oqhA9XIsdrx7nwivuH3a9UIsiGdCVERDTKDYEBb6h9bSejSLiPKC84Yl3B
+ zZiFphlBu7u3AGm2rm2Hn89iUFLA8vsvhtGwmG3X8aOMLJpqWItDhrC5iEyYdeSfK6G7RW
+ WoD1ndmVRmlyG062bY4wVPfb0+mgYlo=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-459-tyi7e6tdOdW9jDD_XT1dlw-1; Wed, 05 Apr 2023 07:40:56 -0400
+X-MC-Unique: tyi7e6tdOdW9jDD_XT1dlw-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ z20-20020a05600c0a1400b003edcff41678so1097764wmp.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 05 Apr 2023 04:40:55 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680694711;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=378I/gGZlt8XUX5v0VEtIxxbJng/T1aUDlAEzlMMcMo=;
- b=JAUQsF2r2Q29OI4SzyJTzrj2xubWKSuQv8vPmOvxorXjVY/6l+aDlW4EK8OBEnF9v+
- NI7ou61mBLoCsGzcx4KGbCalvdxdNlXWtZc76iUpK8FRUQ1+eTy3k+9BxAl2zs0Dhvvh
- ryIhsqWh3dIx/dsbbjNGeO5nxR5knaF36rvi9sRoxi0PoXhnfvUFw+Q+3SKSTFMBseQl
- 385oOFnOt2eulUXGbdHMli+gAorz3WXFpSl5EANoP3gypQQHsjU4sYwcl1Urze5iGWLD
- g7h9x9kFOGO6QJDIP7bF8uPf36k7x5xswVoJKJt78iaF8PZImKCVAGwyJ9h1izt7mJwY
- gexA==
-X-Gm-Message-State: AAQBX9fFyxTAWRLMKCOOEq/kCTg0xI61HXOL/+2Zy0AVCwz+OmtQGMh5
- zNTHPJfdtxlsOXbOX+XcRXtbK0DDaV/s3ozk5tjE9g==
-X-Google-Smtp-Source: AKy350aShuFWZOnsO9uiMPtmd4KhuD0q/HPao2SXlOdTQ2JBpssmhXtALI05z1DLB358PL1P//dxeg==
-X-Received: by 2002:a2e:3812:0:b0:29c:d6f6:8c4 with SMTP id
- f18-20020a2e3812000000b0029cd6f608c4mr1680050lja.16.1680694710858; 
- Wed, 05 Apr 2023 04:38:30 -0700 (PDT)
-Received: from eriador.lan (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi.
- [2001:14ba:a085:4d00::8a5]) by smtp.gmail.com with ESMTPSA id
- l15-20020a2e700f000000b002a2d7a460f2sm2806492ljc.116.2023.04.05.04.38.30
+ d=1e100.net; s=20210112; t=1680694853;
+ h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=FMtfoXjFIQVrdCvOYQIUXDgwaN1CMspVz9VQYCn9+jg=;
+ b=NYVUHFY3X557fm7WM91wHbqCqaUHG3eDH5U9/dOIqniWxHtkp+noHS/xy5iC/5fy5Z
+ FuMCLTWdVCmDDYtEq4xUqpR3lyi+ty9AxNSZuVCCBH2GDGbqQnL3i+EkfCZO28AK+k5X
+ dqrVG/5iqlbvwBkEebY+lN77LWCIUz2P8wA/pw4qw8iEqUqgDcYh3od7PaXxmfAst7zb
+ ZT8Nv4URXMS2kJHeksa7nSn6TzFj0mKqJwcidWyWmK+Y8LtRoX0pV2KNIcqo7VJGmcxx
+ q1m/YzeS2Bwt+WCLb7JKTqFGMMggQr9M/pxRRpkHxvEuiZEg5Clg7cckFYExcLVTI30e
+ aZJw==
+X-Gm-Message-State: AAQBX9eUtb3BtJe3HhVhwmvFW5vrMhKlYKoAwdHzfFZTjIVtIaLI06Hp
+ ilb44Jv/n1x1pN5odqwydWuNwtlS5Qcl8DDhhFOAHmtBjKZ9zznzkjUjZAUapZBqbNZwfg4WjfP
+ kExRHFbW4tVeolno7nYC8SLTo6Uc+
+X-Received: by 2002:a5d:5145:0:b0:2d4:e666:cab4 with SMTP id
+ u5-20020a5d5145000000b002d4e666cab4mr3875077wrt.30.1680694853766; 
+ Wed, 05 Apr 2023 04:40:53 -0700 (PDT)
+X-Google-Smtp-Source: AKy350YRI/C35exI7PaTkklaXJEKQwXJQOY29/Mn3ZPywaIUFNmaLxIzI36isEe9GLJeCe7pAxVLeA==
+X-Received: by 2002:a5d:5145:0:b0:2d4:e666:cab4 with SMTP id
+ u5-20020a5d5145000000b002d4e666cab4mr3875063wrt.30.1680694853484; 
+ Wed, 05 Apr 2023 04:40:53 -0700 (PDT)
+Received: from localhost (205.pool92-176-231.dynamic.orange.es.
+ [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
+ g22-20020a7bc4d6000000b003ed1f111fdesm1916150wmk.20.2023.04.05.04.40.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 05 Apr 2023 04:38:30 -0700 (PDT)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
- Vinod Polimera <quic_vpolimer@quicinc.com>
-Subject: Re: [PATCH v1 0/3] Fixes for PSR
-Date: Wed,  5 Apr 2023 14:38:29 +0300
-Message-Id: <168069464072.1851814.16480389656681286482.b4-ty@linaro.org>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <1680271114-1534-1-git-send-email-quic_vpolimer@quicinc.com>
-References: <1680271114-1534-1-git-send-email-quic_vpolimer@quicinc.com>
+ Wed, 05 Apr 2023 04:40:53 -0700 (PDT)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>, DRI Development
+ <dri-devel@lists.freedesktop.org>
+Subject: Re: [PATCH 8/8] fbdev: Simplify fb_is_primary_device for x86
+In-Reply-To: <20230404201842.567344-8-daniel.vetter@ffwll.ch>
+References: <20230404201842.567344-1-daniel.vetter@ffwll.ch>
+ <20230404201842.567344-8-daniel.vetter@ffwll.ch>
+Date: Wed, 05 Apr 2023 13:40:47 +0200
+Message-ID: <87mt3mblq8.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,34 +81,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_kalyant@quicinc.com, quic_sbillaka@quicinc.com, dianders@chromium.org,
- quic_bjorande@quicinc.com, quic_abhinavk@quicinc.com,
- quic_vproddut@quicinc.com, linux-kernel@vger.kernel.org,
- quic_khsieh@quicinc.com, swboyd@chromium.org
+Cc: x86@kernel.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ Dave Hansen <dave.hansen@linux.intel.com>, Ingo Molnar <mingo@redhat.com>,
+ Borislav Petkov <bp@alien8.de>, Thomas Zimmermann <tzimmermann@suse.de>,
+ "H. Peter Anvin" <hpa@zytor.com>, Daniel Vetter <daniel.vetter@intel.com>,
+ Thomas Gleixner <tglx@linutronix.de>, Helge Deller <deller@gmx.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Daniel Vetter <daniel.vetter@ffwll.ch> writes:
 
-On Fri, 31 Mar 2023 19:28:31 +0530, Vinod Polimera wrote:
-> while in virtual terminal with PSR enabled, there will be
-> no atomic commits triggered resulting in no screen update.
-> Update the dirtyfb flag into plane state during atomic check
-> to flush the pixel data explicitly.
-> 
-> Avoid scheduling PSR commits from different work queues while
-> running in PSR mode already.
-> 
-> [...]
+> vga_default_device really is supposed to cover all corners, at least
+> for x86. Additionally checking for rom shadowing should be redundant,
+> because the bios/fw only does that for the boot vga device.
+>
+> If this turns out to be wrong, then most likely that's a special case
+> which should be added to the vgaarb code, not replicated all over.
+>
+> Patch motived by changes to the aperture helpers, which also have this
+> open code in a bunch of places, and which are all removed in a
+> clean-up series. This function here is just for selecting the default
+> fbdev device for fbcon, but I figured for consistency it might be good
+> to throw this patch in on top.
+>
+> Note that the shadow rom check predates vgaarb, which was only wired
+> up in 88674088d10c ("x86: Use vga_default_device() when determining
+> whether an fb is primary"). That patch doesn't explain why we still
+> fall back to the shadow rom check.
+>
+> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+> Cc: Helge Deller <deller@gmx.de>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
+> Cc: Javier Martinez Canillas <javierm@redhat.com>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: Thomas Gleixner <tglx@linutronix.de>
+> Cc: Ingo Molnar <mingo@redhat.com>
+> Cc: Borislav Petkov <bp@alien8.de>
+> Cc: Dave Hansen <dave.hansen@linux.intel.com>
+> Cc: x86@kernel.org
+> Cc: "H. Peter Anvin" <hpa@zytor.com>
+> ---
+>  arch/x86/video/fbdev.c | 13 +------------
 
-Applied, thanks!
+[...]
 
-[1/3] drm/msm/dpu: set dirty_fb flag while in self refresh mode
-      https://gitlab.freedesktop.org/lumag/msm/-/commit/ddf5387d1fb7
-[2/3] msm/disp/dpu: allow atomic_check in PSR usecase
-      https://gitlab.freedesktop.org/lumag/msm/-/commit/86c56ba51aec
+> +	if (pci_dev == vga_default_device())
+>  		return 1;
+>  	return 0;
 
-Note, patch 3, which solves a different issue (and which requires additional changes) was not applied.
+or just return pci_dev == vga_default_device() ;
 
-Best regards,
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+
 -- 
-Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Best regards,
+
+Javier Martinez Canillas
+Core Platforms
+Red Hat
+
