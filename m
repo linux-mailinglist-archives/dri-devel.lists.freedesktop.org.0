@@ -2,67 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20BFB6D7745
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Apr 2023 10:48:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 292826D774F
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Apr 2023 10:50:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C051C10E885;
-	Wed,  5 Apr 2023 08:48:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C477C10E888;
+	Wed,  5 Apr 2023 08:50:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com
- [IPv6:2a00:1450:4864:20::531])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4633C89241
- for <dri-devel@lists.freedesktop.org>; Wed,  5 Apr 2023 08:48:16 +0000 (UTC)
-Received: by mail-ed1-x531.google.com with SMTP id
- 4fb4d7f45d1cf-502208f7cb3so28912a12.0
- for <dri-devel@lists.freedesktop.org>; Wed, 05 Apr 2023 01:48:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1680684494;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=AFqeFcmpYVKfxH4Qmh9JiLnzzuxZwy+QStGun2zwksc=;
- b=Yz0I+sQqLPCOCLQ9VmUO9W3Fch9AgazOq5C3JClos/O3S6IKuU1mkk6N0vS2zTFh31
- q3u1kTNATioDrA+pSptIjKOBgb6SAm9B6MPYAD5yik6h7KUAVkCZKOBuZwaU6RZxEhBE
- 25O2dsPBaN5TPmgrFJGya4KNGvzU000DkLAeg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680684494;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=AFqeFcmpYVKfxH4Qmh9JiLnzzuxZwy+QStGun2zwksc=;
- b=OzXRlZrV/QDM8m3/r+XMmoP5G3eOqzr+VxamqC2S1lVrO9SFraGVJA7r/7ib5LqWxy
- fom5EBvchOYCcGGMfzP/k+FjElilTc5iuQXj5Kb1TsZwtWil1TvY61gYQUfvLf13ZzFl
- ZPMJEbXQ5wQDL2dpBYjRjvd3018SE4f92wPwuyywRwtwm4g4F4lH1R7pAkhBtDUSFd+7
- BODmi6C9QYhay5fsDd5Y3xYXzJMgcLcU3BrCNlAHK0wi2U+AqCk+8NM6mRy1bt4ZQyc+
- tHw8lTmWMpWFUv5IyAcJtAqtNRAfH9JTcBl54V/8XD+4xyNv6qgbFhzTC1rfkHXFg5OY
- sH1Q==
-X-Gm-Message-State: AAQBX9eCkWauaQmhx1CsSBsjO+olyqhDs7cy972L9oyD10BCkGGnOEW/
- ZEHYjOazhz2SNQk+F292x/Fghg==
-X-Google-Smtp-Source: AKy350ZdqOuyKM0+bL26ExKxTefXwLGpdvPreJz1tIksj7h5Ldy4eQWpGYu27lmAlhkIkLlMrzWuKw==
-X-Received: by 2002:a05:6402:4413:b0:502:ffd:74a0 with SMTP id
- y19-20020a056402441300b005020ffd74a0mr1340537eda.2.1680684494335; 
- Wed, 05 Apr 2023 01:48:14 -0700 (PDT)
-Received: from phenom.ffwll.local (212-51-149-33.fiber7.init7.net.
- [212.51.149.33]) by smtp.gmail.com with ESMTPSA id
- o13-20020a50c90d000000b004f9ca99cf5csm6757222edh.92.2023.04.05.01.48.13
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 05 Apr 2023 01:48:13 -0700 (PDT)
-Date: Wed, 5 Apr 2023 10:48:12 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Aaron Plattner <aplattner@nvidia.com>
-Subject: Re: [PATCH 7/8] video/aperture: Only remove sysfb on the default vga
- pci device
-Message-ID: <ZC01zPuv/gAlWUoQ@phenom.ffwll.local>
-References: <20230404201842.567344-1-daniel.vetter@ffwll.ch>
- <20230404201842.567344-7-daniel.vetter@ffwll.ch>
- <090966b8-acad-62df-40aa-232471502edd@nvidia.com>
+Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9C71C10E888
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 Apr 2023 08:50:34 +0000 (UTC)
+Received: from smtp1.mailbox.org (smtp1.mailbox.org
+ [IPv6:2001:67c:2050:b231:465::1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4PryyC05jKz9sd0;
+ Wed,  5 Apr 2023 10:50:27 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; t=1680684627;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=+JoMcQjaWRTFJAZlTMPW2CqATVYYxvDWYRqZtrHR7FM=;
+ b=CNfGQoM5HmhSLG8MpAhKqf6chfhxkuJLEFSFMr8Ltr5xSari8NB4GMztJFMnPUBuWipj5J
+ dfhVXfuWoY3kHmsW4pEiLnJ3kfOv2OfbMBCiBEKCKev5ofIXg3SQDG1G0bZYuNPN9dAzfR
+ E2fViaA3MlomCBaCpRL3jgOXEpBHT9bGXwloKdGc9KmzopqOykUhXcrMHUAij6IRbxTQ5W
+ a5R+gFTInDhc2IF+b4s+S1WWYIvwoS8t9Q+/uDNhuYs0zDpvebO9rbgAMjM8hd4D/Hme+i
+ nQp9pMW080SjjxmmaDOp9ZAMjlRTieQds/Wdlv27ySn5jIR16+payT3K2EpkhQ==
+Message-ID: <03a575e1-b4ed-7bd6-b68a-0583d76803ff@mailbox.org>
+Date: Wed, 5 Apr 2023 10:50:24 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Subject: Re: [PATCH] fbdev: Don't spam dmesg on bad userspace ioctl input
+Content-Language: en-CA
+To: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ DRI Development <dri-devel@lists.freedesktop.org>
+References: <20230404123624.360384-1-daniel.vetter@ffwll.ch>
+From: =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel.daenzer@mailbox.org>
+In-Reply-To: <20230404123624.360384-1-daniel.vetter@ffwll.ch>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <090966b8-acad-62df-40aa-232471502edd@nvidia.com>
-X-Operating-System: Linux phenom 6.1.0-7-amd64 
+X-MBO-RS-META: mzxrw78thnopc4sgrgqtw97dq6x1qahi
+X-MBO-RS-ID: 94d8a51d1212d5b7798
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,123 +57,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Javier Martinez Canillas <javierm@redhat.com>,
- DRI Development <dri-devel@lists.freedesktop.org>, stable@vger.kernel.org,
+Cc: Helge Deller <deller@gmx.de>,
+ syzbot+20dcf81733d43ddff661@syzkaller.appspotmail.com,
+ Javier Martinez Canillas <javierm@redhat.com>, stable@vger.kernel.org,
+ Geert Uytterhoeven <geert@linux-m68k.org>,
  Thomas Zimmermann <tzimmermann@suse.de>,
- Alex Deucher <alexander.deucher@amd.com>,
- Daniel Vetter <daniel.vetter@intel.com>, Sam Ravnborg <sam@ravnborg.org>,
- Helge Deller <deller@gmx.de>
+ Daniel Vetter <daniel.vetter@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Apr 04, 2023 at 01:59:33PM -0700, Aaron Plattner wrote:
-> On 4/4/23 1:18 PM, Daniel Vetter wrote:
-> > Instead of calling aperture_remove_conflicting_devices() to remove the
-> > conflicting devices, just call to aperture_detach_devices() to detach
-> > the device that matches the same PCI BAR / aperture range. Since the
-> > former is just a wrapper of the latter plus a sysfb_disable() call,
-> > and now that's done in this function but only for the primary devices.
-> > 
-> > This fixes a regression introduced by ee7a69aa38d8 ("fbdev: Disable
-> > sysfb device registration when removing conflicting FBs"), where we
-> > remove the sysfb when loading a driver for an unrelated pci device,
-> > resulting in the user loosing their efifb console or similar.
-> > 
-> > Note that in practice this only is a problem with the nvidia blob,
-> > because that's the only gpu driver people might install which does not
-> > come with an fbdev driver of it's own. For everyone else the real gpu
-> > driver will restore a working console.
+On 4/4/23 14:36, Daniel Vetter wrote:
+> There's a few reasons the kernel should not spam dmesg on bad
+> userspace ioctl input:
+> - at warning level it results in CI false positives
+> - it allows userspace to drown dmesg output, potentially hiding real
+>   issues.
 > 
-> It might be worth noting that this also affects devices that have no driver
-> installed, or where the driver failed to initialize or was configured not to
-> set a mode. E.g. I reproduced this problem on a laptop with i915.modeset=0
-> and an NVIDIA driver that calls drm_fbdev_generic_setup. It would also
-> reproduce on a system that sets modeset=0 (or has a GPU that's too new for
-> its corresponding kernel driver) and that passes an NVIDIA GPU through to a
-> VM using vfio-pci since that also calls
-> aperture_remove_conflicting_pci_devices.
+> None of the other generic EINVAL checks report in the
+> FBIOPUT_VSCREENINFO ioctl do this, so it's also inconsistent.
 > 
-> I agree that in practice this will mostly affect people with our driver
-> until I get my changes to add drm_fbdev_generic_setup checked in. But these
-> other cases don't seem all that unlikely to me.
+> I guess the intent of the patch which introduced this warning was that
+> the drivers ->fb_check_var routine should fail in that case. Reality
+> is that there's too many fbdev drivers and not enough people
+> maintaining them by far, and so over the past few years we've simply
+> handled all these validation gaps by tighning the checks in the core,
+> because that's realistically really all that will ever happen.
+> 
+> Reported-by: syzbot+20dcf81733d43ddff661@syzkaller.appspotmail.com
+> Link: https://syzkaller.appspot.com/bug?id=c5faf983bfa4a607de530cd3bb008888bf06cefc
+> Fixes: 6c11df58fd1a ("fbmem: Check virtual screen sizes in fb_set_var()")
+> Cc: Helge Deller <deller@gmx.de>
+> Cc: Geert Uytterhoeven <geert@linux-m68k.org>
+> Cc: stable@vger.kernel.org # v5.4+
+> Cc: Daniel Vetter <daniel@ffwll.ch>
+> Cc: Javier Martinez Canillas <javierm@redhat.com>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> ---
+>  drivers/video/fbdev/core/fbmem.c | 4 ----
+>  1 file changed, 4 deletions(-)
+> 
+> diff --git a/drivers/video/fbdev/core/fbmem.c b/drivers/video/fbdev/core/fbmem.c
+> index 875541ff185b..9757f4bcdf57 100644
+> --- a/drivers/video/fbdev/core/fbmem.c
+> +++ b/drivers/video/fbdev/core/fbmem.c
+> @@ -1021,10 +1021,6 @@ fb_set_var(struct fb_info *info, struct fb_var_screeninfo *var)
+>  	/* verify that virtual resolution >= physical resolution */
+>  	if (var->xres_virtual < var->xres ||
+>  	    var->yres_virtual < var->yres) {
+> -		pr_warn("WARNING: fbcon: Driver '%s' missed to adjust virtual screen size (%ux%u vs. %ux%u)\n",
+> -			info->fix.id,
+> -			var->xres_virtual, var->yres_virtual,
+> -			var->xres, var->yres);
+>  		return -EINVAL;
+>  	}
+>  
 
-Thomas Z. refactored the entire modeset=0 handling to be more consistent
-across drivers, so I think in practice it'll again only happen with the
-nvidia blob driver (unless you patch in the call to
-drm_firmware_drivers_only()). Or if you dont use nomodeset or similar and
-instead use a driver-specific module option, which isn't what howtos in
-distros recommend.
+Make it pr_warn_once? 99.9...% of the benefit, without spam.
 
-I can add this to the commit message if you want?
--Daniel
-
-> 
-> -- Aaron
-> 
-> > Also note that in the referenced bug there's confusion that this same
-> > bug also happens on amdgpu. But that was just another amdgpu specific
-> > regression, which just happened to happen at roughly the same time and
-> > with the same user-observable symptoms. That bug is fixed now, see
-> > https://bugzilla.kernel.org/show_bug.cgi?id=216331#c15
-> > 
-> > Note that we should not have any such issues on non-pci multi-gpu
-> > issues, because I could only find two such cases:
-> > - SoC with some external panel over spi or similar. These panel
-> >    drivers do not use drm_aperture_remove_conflicting_framebuffers(),
-> >    so no problem.
-> > - vga+mga, which is a direct console driver and entirely bypasses all
-> >    this.
-> > 
-> > For the above reasons the cc: stable is just notionally, this patch
-> > will need a backport and that's up to nvidia if they care enough.
-> > 
-> > v2:
-> > - Explain a bit better why other multi-gpu that aren't pci shouldn't
-> >    have any issues with making all this fully pci specific.
-> > 
-> > v3
-> > - polish commit message (Javier)
-> > 
-> > Fixes: ee7a69aa38d8 ("fbdev: Disable sysfb device registration when removing conflicting FBs")
-> > Tested-by: Aaron Plattner <aplattner@nvidia.com>
-> > Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
-> > References: https://bugzilla.kernel.org/show_bug.cgi?id=216303#c28
-> > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> > Cc: Aaron Plattner <aplattner@nvidia.com>
-> > Cc: Javier Martinez Canillas <javierm@redhat.com>
-> > Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> > Cc: Helge Deller <deller@gmx.de>
-> > Cc: Sam Ravnborg <sam@ravnborg.org>
-> > Cc: Alex Deucher <alexander.deucher@amd.com>
-> > Cc: <stable@vger.kernel.org> # v5.19+ (if someone else does the backport)
-> > ---
-> >   drivers/video/aperture.c | 7 ++++---
-> >   1 file changed, 4 insertions(+), 3 deletions(-)
-> > 
-> > diff --git a/drivers/video/aperture.c b/drivers/video/aperture.c
-> > index 8f1437339e49..2394c2d310f8 100644
-> > --- a/drivers/video/aperture.c
-> > +++ b/drivers/video/aperture.c
-> > @@ -321,15 +321,16 @@ int aperture_remove_conflicting_pci_devices(struct pci_dev *pdev, const char *na
-> >   	primary = pdev == vga_default_device();
-> > +	if (primary)
-> > +		sysfb_disable();
-> > +
-> >   	for (bar = 0; bar < PCI_STD_NUM_BARS; ++bar) {
-> >   		if (!(pci_resource_flags(pdev, bar) & IORESOURCE_MEM))
-> >   			continue;
-> >   		base = pci_resource_start(pdev, bar);
-> >   		size = pci_resource_len(pdev, bar);
-> > -		ret = aperture_remove_conflicting_devices(base, size, name);
-> > -		if (ret)
-> > -			return ret;
-> > +		aperture_detach_devices(base, size);
-> >   	}
-> >   	if (primary) {
 
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Earthling Michel Dänzer            |                  https://redhat.com
+Libre software enthusiast          |         Mesa and Xwayland developer
+
