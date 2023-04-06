@@ -2,48 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E90F6D8E85
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Apr 2023 06:50:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DFE216D8E90
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Apr 2023 06:52:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AD4F510E2AC;
-	Thu,  6 Apr 2023 04:50:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A0A0A10EABD;
+	Thu,  6 Apr 2023 04:52:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2A7BB10E2AC;
- Thu,  6 Apr 2023 04:50:32 +0000 (UTC)
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AB2A510EABD;
+ Thu,  6 Apr 2023 04:52:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1680756632; x=1712292632;
+ t=1680756743; x=1712292743;
  h=date:message-id:from:to:cc:subject:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=N+51ink5V99vDFvuo4MC3R4LgSvIVOadfp9Yvh+DLWM=;
- b=KC9w/W3D0WPBkm7z4DbmmZKp/zpeYSh96cU/l62z4J/yLtbJn0Lqf5lz
- 7sqhQyywJ9xF7VItMigPMCNuz1YkJpGhdJBrwRzmLfuD9vWDegtFqc8QP
- RotQfuHd5SJsdNq5+s7SHANiBgI8FbUJ7VSX++wykciLkxfTDMpnDzrFC
- q0QCxcmOnbEEsoI2tFDcHaT5MvwSOAmtmNmqrQw5WNHOMl/CHi+DKgoh+
- e1AYhMJfe/XifXNS9SldMGaHOeAmvCyNaBdas57ZiHc8WaKO/qNvOW8CV
- m095JPvx9eHcnrxAy9Rp4QgsvEgw/2Y5JJ4QZlIHxd+9Kf1hXHuiZVL6I g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10671"; a="370473707"
-X-IronPort-AV: E=Sophos;i="5.98,322,1673942400"; d="scan'208";a="370473707"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Apr 2023 21:50:31 -0700
+ bh=b2EoBJ6yu3At7kvx1quj1xI6XvnuOL13ICui07I3yMw=;
+ b=Bw6X845UNi9UYBwXw2sKUDYF85ktM47OCN9oezyO40S1WNBmrubTCrV/
+ YrB3xCYwXxwVmJgQwbRsorXa1Fzf160Z3riGDHMVdAzY+nZOAnrxvB/y8
+ AZt5AGGxtCE49qvhikMH18wH3ehwDwK6lkaiECrQj8b7Yj+cQGEyGXve/
+ mb8niIClbQYiYZkrJIwAm4fiUco3Q8LLvPIeOOIPYUrZ/FsHeEi2FIZN/
+ PVN1TsR523NlVqSs+VyDOHh85v/Q/fnmlTD1+ygTgKiqsOvK4wQK8EdIc
+ pqqFFFotTBLDY5qrqWSZA5mWIesvSdgsjqigdsePqh3J4437PRSWUFn8n g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10671"; a="342650414"
+X-IronPort-AV: E=Sophos;i="5.98,322,1673942400"; d="scan'208";a="342650414"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Apr 2023 21:52:23 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10671"; a="756229131"
-X-IronPort-AV: E=Sophos;i="5.98,322,1673942400"; d="scan'208";a="756229131"
+X-IronPort-AV: E=McAfee;i="6600,9927,10671"; a="1016732524"
+X-IronPort-AV: E=Sophos;i="5.98,322,1673942400"; d="scan'208";a="1016732524"
 Received: from adixit-mobl.amr.corp.intel.com (HELO adixit-arch.intel.com)
  ([10.209.39.173])
- by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Apr 2023 21:50:31 -0700
-Date: Wed, 05 Apr 2023 21:50:25 -0700
-Message-ID: <87ttxtobqm.wl-ashutosh.dixit@intel.com>
+ by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Apr 2023 21:52:22 -0700
+Date: Wed, 05 Apr 2023 21:52:21 -0700
+Message-ID: <87sfddobne.wl-ashutosh.dixit@intel.com>
 From: "Dixit, Ashutosh" <ashutosh.dixit@intel.com>
-To: Rodrigo Vivi <rodrigo.vivi@intel.com>
+To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
 Subject: Re: [Intel-gfx] [PATCH] drm/i915/guc: Disable PL1 power limit when
  loading GuC firmware
-In-Reply-To: <ZCHWrf7v51Hu9EK8@intel.com>
-References: <20230316035954.2593843-1-ashutosh.dixit@intel.com>	<4760d41f-c237-9f97-eb32-5d2ab05eea20@intel.com>	<87sfdtload.wl-ashutosh.dixit@intel.com>	<ZCAyGzvnu5mwHMJg@intel.com>	<87mt3yku5v.wl-ashutosh.dixit@intel.com>	<ZCHWrf7v51Hu9EK8@intel.com>
+In-Reply-To: <e06ab8d7-c293-296a-8065-6730f4c85cb2@linux.intel.com>
+References: <20230316035954.2593843-1-ashutosh.dixit@intel.com>	<4760d41f-c237-9f97-eb32-5d2ab05eea20@intel.com>	<87sfdtload.wl-ashutosh.dixit@intel.com>	<ZCAyGzvnu5mwHMJg@intel.com>	<87mt3yku5v.wl-ashutosh.dixit@intel.com>	<ZCHWrf7v51Hu9EK8@intel.com>	<e06ab8d7-c293-296a-8065-6730f4c85cb2@linux.intel.com>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
  FLIM-LB/1.14.9 (=?ISO-8859-4?Q?Goj=F2?=) APEL-LB/10.8 EasyPG/1.0.0
  Emacs/28.2 (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
@@ -62,474 +62,498 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 27 Mar 2023 10:47:25 -0700, Rodrigo Vivi wrote:
+On Tue, 28 Mar 2023 02:14:42 -0700, Tvrtko Ursulin wrote:
 >
 
-Hi Rodrigo,
+Hi Tvrtko,
 
-Sorry for the delay, I got pulled away into a couple of other things and
-could only now get back to this.
-
->
-> +Daniel
->
-> On Mon, Mar 27, 2023 at 09:58:52AM -0700, Dixit, Ashutosh wrote:
-> > On Sun, 26 Mar 2023 04:52:59 -0700, Rodrigo Vivi wrote:
-> > >
+> On 27/03/2023 18:47, Rodrigo Vivi wrote:
 > >
-> > Hi Rodrigo,
+> > +Daniel
 > >
-> > > On Fri, Mar 24, 2023 at 04:31:22PM -0700, Dixit, Ashutosh wrote:
-> > > > On Fri, 24 Mar 2023 11:15:02 -0700, Belgaumkar, Vinay wrote:
-> > > > >
-> > > >
-> > > > Hi Vinay,
-> > > >
-> > > > Thanks for the review. Comments inline below.
-> > > >
-> > > > > On 3/15/2023 8:59 PM, Ashutosh Dixit wrote:
-> > > > > > On dGfx, the PL1 power limit being enabled and set to a low val=
-ue results
-> > > > > > in a low GPU operating freq. It also negates the freq raise ope=
-ration which
-> > > > > > is done before GuC firmware load. As a result GuC firmware load=
- can time
-> > > > > > out. Such timeouts were seen in the GL #8062 bug below (where t=
-he PL1 power
-> > > > > > limit was enabled and set to a low value). Therefore disable th=
-e PL1 power
-> > > > > > limit when allowed by HW when loading GuC firmware.
-> > > > > v3 label missing in subject.
-> > > > > >
-> > > > > > v2:
-> > > > > >   - Take mutex (to disallow writes to power1_max) across GuC re=
-set/fw load
-> > > > > >   - Add hwm_power_max_restore to error return code path
-> > > > > >
-> > > > > > v3 (Jani N):
-> > > > > >   - Add/remove explanatory comments
-> > > > > >   - Function renames
-> > > > > >   - Type corrections
-> > > > > >   - Locking annotation
-> > > > > >
-> > > > > > Link: https://gitlab.freedesktop.org/drm/intel/-/issues/8062
-> > > > > > Signed-off-by: Ashutosh Dixit <ashutosh.dixit@intel.com>
-> > > > > > ---
-> > > > > >   drivers/gpu/drm/i915/gt/uc/intel_uc.c |  9 +++++++
-> > > > > >   drivers/gpu/drm/i915/i915_hwmon.c     | 39 ++++++++++++++++++=
-+++++++++
-> > > > > >   drivers/gpu/drm/i915/i915_hwmon.h     |  7 +++++
-> > > > > >   3 files changed, 55 insertions(+)
-> > > > > >
-> > > > > > diff --git a/drivers/gpu/drm/i915/gt/uc/intel_uc.c b/drivers/gp=
-u/drm/i915/gt/uc/intel_uc.c
-> > > > > > index 4ccb4be4c9cba..aa8e35a5636a0 100644
-> > > > > > --- a/drivers/gpu/drm/i915/gt/uc/intel_uc.c
-> > > > > > +++ b/drivers/gpu/drm/i915/gt/uc/intel_uc.c
-> > > > > > @@ -18,6 +18,7 @@
-> > > > > >   #include "intel_uc.h"
-> > > > > >     #include "i915_drv.h"
-> > > > > > +#include "i915_hwmon.h"
-> > > > > >     static const struct intel_uc_ops uc_ops_off;
-> > > > > >   static const struct intel_uc_ops uc_ops_on;
-> > > > > > @@ -461,6 +462,7 @@ static int __uc_init_hw(struct intel_uc *uc)
-> > > > > >	struct intel_guc *guc =3D &uc->guc;
-> > > > > >	struct intel_huc *huc =3D &uc->huc;
-> > > > > >	int ret, attempts;
-> > > > > > +	bool pl1en;
-> > > > >
-> > > > > Init to 'false' here
-> > > >
-> > > > See next comment.
-> > > >
-> > > > >
-> > > > >
-> > > > > >		GEM_BUG_ON(!intel_uc_supports_guc(uc));
-> > > > > >	GEM_BUG_ON(!intel_uc_wants_guc(uc));
-> > > > > > @@ -491,6 +493,9 @@ static int __uc_init_hw(struct intel_uc *uc)
-> > > > > >	else
-> > > > > >		attempts =3D 1;
-> > > > > >   +	/* Disable a potentially low PL1 power limit to allow freq =
-to be
-> > > > > > raised */
-> > > > > > +	i915_hwmon_power_max_disable(gt->i915, &pl1en);
-> > > > > > +
-> > > > > >	intel_rps_raise_unslice(&uc_to_gt(uc)->rps);
-> > > > > >		while (attempts--) {
-> > > > > > @@ -547,6 +552,8 @@ static int __uc_init_hw(struct intel_uc *uc)
-> > > > > >		intel_rps_lower_unslice(&uc_to_gt(uc)->rps);
-> > > > > >	}
-> > > > > >   +	i915_hwmon_power_max_restore(gt->i915, pl1en);
-> > > > > > +
-> > > > > >	guc_info(guc, "submission %s\n", str_enabled_disabled(intel_uc_=
-uses_guc_submission(uc)));
-> > > > > >	guc_info(guc, "SLPC %s\n", str_enabled_disabled(intel_uc_uses_g=
-uc_slpc(uc)));
-> > > > > >   @@ -563,6 +570,8 @@ static int __uc_init_hw(struct intel_uc *=
-uc)
-> > > > > >	/* Return GT back to RPn */
-> > > > > >	intel_rps_lower_unslice(&uc_to_gt(uc)->rps);
-> > > > > >   +	i915_hwmon_power_max_restore(gt->i915, pl1en);
-> > > > >
-> > > > > if (pl1en)
-> > > > >
-> > > > > =A0=A0=A0 i915_hwmon_power_max_enable().
-> > > >
-> > > > IMO it's better not to have checks in the main __uc_init_hw() funct=
-ion (if
-> > > > we do this we'll need to add 2 checks in __uc_init_hw()). If you re=
-ally
-> > > > want we could do something like this inside
-> > > > i915_hwmon_power_max_disable/i915_hwmon_power_max_restore. But for =
-now I
-> > > > am not making any changes.
-> > > >
-> > > > (I can send a patch with the changes if you want to take a look but=
- IMO it
-> > > > will add more logic/code but without real benefits (it will save a =
-rmw if
-> > > > the limit was already disabled, but IMO this code is called so infr=
-equently
-> > > > (only during GuC resets) as to not have any significant impact)).
-> > > >
-> > > > >
-> > > > > > +
-> > > > > >	__uc_sanitize(uc);
-> > > > > >		if (!ret) {
-> > > > > > diff --git a/drivers/gpu/drm/i915/i915_hwmon.c b/drivers/gpu/dr=
-m/i915/i915_hwmon.c
-> > > > > > index ee63a8fd88fc1..769b5bda4d53f 100644
-> > > > > > --- a/drivers/gpu/drm/i915/i915_hwmon.c
-> > > > > > +++ b/drivers/gpu/drm/i915/i915_hwmon.c
-> > > > > > @@ -444,6 +444,45 @@ hwm_power_write(struct hwm_drvdata *ddat, =
-u32 attr, int chan, long val)
-> > > > > >	}
-> > > > > >   }
-> > > > > >   +void i915_hwmon_power_max_disable(struct drm_i915_private *i=
-915, bool
-> > > > > > *old)
-> > > > > Shouldn't we call this i915_hwmon_package_pl1_disable()?
-> > > >
-> > > > I did think of using "pl1" in the function name but then decided to=
- retain
-> > > > "power_max" because other hwmon functions for PL1 limit also use
-> > > > "power_max" (hwm_power_max_read/hwm_power_max_write) and currently
-> > > > "hwmon_power_max" is mapped to the PL1 limit. So "power_max" is use=
-d to
-> > > > show that all these functions deal with the PL1 power limit.
-> > > >
-> > > > There is a comment in __uc_init_hw() explaining "power_max" means t=
-he PL1
-> > > > power limit.
-> > > >
-> > > > > > +	__acquires(i915->hwmon->hwmon_lock)
-> > > > > > +{
-> > > > > > +	struct i915_hwmon *hwmon =3D i915->hwmon;
-> > > > > > +	intel_wakeref_t wakeref;
-> > > > > > +	u32 r;
-> > > > > > +
-> > > > > > +	if (!hwmon || !i915_mmio_reg_valid(hwmon->rg.pkg_rapl_limit))
-> > > > > > +		return;
-> > > > > > +
-> > > > > > +	/* Take mutex to prevent concurrent hwm_power_max_write */
-> > > > > > +	mutex_lock(&hwmon->hwmon_lock);
-> > > > > > +
-> > > > > > +	with_intel_runtime_pm(hwmon->ddat.uncore->rpm, wakeref)
-> > > > > > +		r =3D intel_uncore_rmw(hwmon->ddat.uncore,
-> > > > > > +				     hwmon->rg.pkg_rapl_limit,
-> > > > > > +				     PKG_PWR_LIM_1_EN, 0);
-> > > > > Most of this code (lock and rmw parts) is already inside static v=
-oid
-> > > > > hwm_locked_with_pm_intel_uncore_rmw() , can we reuse that here?
-> > > >
-> > > > This was the case in v1 of the patch:
-> > > >
-> > > > https://patchwork.freedesktop.org/patch/526393/?series=3D115003&rev=
+> > On Mon, Mar 27, 2023 at 09:58:52AM -0700, Dixit, Ashutosh wrote:
+> >> On Sun, 26 Mar 2023 04:52:59 -0700, Rodrigo Vivi wrote:
+> >>>
+> >>
+> >> Hi Rodrigo,
+> >>
+> >>> On Fri, Mar 24, 2023 at 04:31:22PM -0700, Dixit, Ashutosh wrote:
+> >>>> On Fri, 24 Mar 2023 11:15:02 -0700, Belgaumkar, Vinay wrote:
+> >>>>>
+> >>>>
+> >>>> Hi Vinay,
+> >>>>
+> >>>> Thanks for the review. Comments inline below.
+> >>>>
+> >>>>> On 3/15/2023 8:59 PM, Ashutosh Dixit wrote:
+> >>>>>> On dGfx, the PL1 power limit being enabled and set to a low value =
+results
+> >>>>>> in a low GPU operating freq. It also negates the freq raise operat=
+ion which
+> >>>>>> is done before GuC firmware load. As a result GuC firmware load ca=
+n time
+> >>>>>> out. Such timeouts were seen in the GL #8062 bug below (where the =
+PL1 power
+> >>>>>> limit was enabled and set to a low value). Therefore disable the P=
+L1 power
+> >>>>>> limit when allowed by HW when loading GuC firmware.
+> >>>>> v3 label missing in subject.
+> >>>>>>
+> >>>>>> v2:
+> >>>>>>    - Take mutex (to disallow writes to power1_max) across GuC rese=
+t/fw load
+> >>>>>>    - Add hwm_power_max_restore to error return code path
+> >>>>>>
+> >>>>>> v3 (Jani N):
+> >>>>>>    - Add/remove explanatory comments
+> >>>>>>    - Function renames
+> >>>>>>    - Type corrections
+> >>>>>>    - Locking annotation
+> >>>>>>
+> >>>>>> Link: https://gitlab.freedesktop.org/drm/intel/-/issues/8062
+> >>>>>> Signed-off-by: Ashutosh Dixit <ashutosh.dixit@intel.com>
+> >>>>>> ---
+> >>>>>>    drivers/gpu/drm/i915/gt/uc/intel_uc.c |  9 +++++++
+> >>>>>>    drivers/gpu/drm/i915/i915_hwmon.c     | 39 ++++++++++++++++++++=
++++++++
+> >>>>>>    drivers/gpu/drm/i915/i915_hwmon.h     |  7 +++++
+> >>>>>>    3 files changed, 55 insertions(+)
+> >>>>>>
+> >>>>>> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_uc.c b/drivers/gpu/d=
+rm/i915/gt/uc/intel_uc.c
+> >>>>>> index 4ccb4be4c9cba..aa8e35a5636a0 100644
+> >>>>>> --- a/drivers/gpu/drm/i915/gt/uc/intel_uc.c
+> >>>>>> +++ b/drivers/gpu/drm/i915/gt/uc/intel_uc.c
+> >>>>>> @@ -18,6 +18,7 @@
+> >>>>>>    #include "intel_uc.h"
+> >>>>>>      #include "i915_drv.h"
+> >>>>>> +#include "i915_hwmon.h"
+> >>>>>>      static const struct intel_uc_ops uc_ops_off;
+> >>>>>>    static const struct intel_uc_ops uc_ops_on;
+> >>>>>> @@ -461,6 +462,7 @@ static int __uc_init_hw(struct intel_uc *uc)
+> >>>>>>	struct intel_guc *guc =3D &uc->guc;
+> >>>>>>	struct intel_huc *huc =3D &uc->huc;
+> >>>>>>	int ret, attempts;
+> >>>>>> +	bool pl1en;
+> >>>>>
+> >>>>> Init to 'false' here
+> >>>>
+> >>>> See next comment.
+> >>>>
+> >>>>>
+> >>>>>
+> >>>>>>		GEM_BUG_ON(!intel_uc_supports_guc(uc));
+> >>>>>>	GEM_BUG_ON(!intel_uc_wants_guc(uc));
+> >>>>>> @@ -491,6 +493,9 @@ static int __uc_init_hw(struct intel_uc *uc)
+> >>>>>>	else
+> >>>>>>		attempts =3D 1;
+> >>>>>>    +	/* Disable a potentially low PL1 power limit to allow freq to=
+ be
+> >>>>>> raised */
+> >>>>>> +	i915_hwmon_power_max_disable(gt->i915, &pl1en);
+> >>>>>> +
+> >>>>>>	intel_rps_raise_unslice(&uc_to_gt(uc)->rps);
+> >>>>>>		while (attempts--) {
+> >>>>>> @@ -547,6 +552,8 @@ static int __uc_init_hw(struct intel_uc *uc)
+> >>>>>>		intel_rps_lower_unslice(&uc_to_gt(uc)->rps);
+> >>>>>>	}
+> >>>>>>    +	i915_hwmon_power_max_restore(gt->i915, pl1en);
+> >>>>>> +
+> >>>>>>	guc_info(guc, "submission %s\n", str_enabled_disabled(intel_uc_use=
+s_guc_submission(uc)));
+> >>>>>>	guc_info(guc, "SLPC %s\n", str_enabled_disabled(intel_uc_uses_guc_=
+slpc(uc)));
+> >>>>>>    @@ -563,6 +570,8 @@ static int __uc_init_hw(struct intel_uc *uc)
+> >>>>>>	/* Return GT back to RPn */
+> >>>>>>	intel_rps_lower_unslice(&uc_to_gt(uc)->rps);
+> >>>>>>    +	i915_hwmon_power_max_restore(gt->i915, pl1en);
+> >>>>>
+> >>>>> if (pl1en)
+> >>>>>
+> >>>>>  =A0=A0=A0 i915_hwmon_power_max_enable().
+> >>>>
+> >>>> IMO it's better not to have checks in the main __uc_init_hw() functi=
+on (if
+> >>>> we do this we'll need to add 2 checks in __uc_init_hw()). If you rea=
+lly
+> >>>> want we could do something like this inside
+> >>>> i915_hwmon_power_max_disable/i915_hwmon_power_max_restore. But for n=
+ow I
+> >>>> am not making any changes.
+> >>>>
+> >>>> (I can send a patch with the changes if you want to take a look but =
+IMO it
+> >>>> will add more logic/code but without real benefits (it will save a r=
+mw if
+> >>>> the limit was already disabled, but IMO this code is called so infre=
+quently
+> >>>> (only during GuC resets) as to not have any significant impact)).
+> >>>>
+> >>>>>
+> >>>>>> +
+> >>>>>>	__uc_sanitize(uc);
+> >>>>>>		if (!ret) {
+> >>>>>> diff --git a/drivers/gpu/drm/i915/i915_hwmon.c b/drivers/gpu/drm/i=
+915/i915_hwmon.c
+> >>>>>> index ee63a8fd88fc1..769b5bda4d53f 100644
+> >>>>>> --- a/drivers/gpu/drm/i915/i915_hwmon.c
+> >>>>>> +++ b/drivers/gpu/drm/i915/i915_hwmon.c
+> >>>>>> @@ -444,6 +444,45 @@ hwm_power_write(struct hwm_drvdata *ddat, u32=
+ attr, int chan, long val)
+> >>>>>>	}
+> >>>>>>    }
+> >>>>>>    +void i915_hwmon_power_max_disable(struct drm_i915_private *i91=
+5, bool
+> >>>>>> *old)
+> >>>>> Shouldn't we call this i915_hwmon_package_pl1_disable()?
+> >>>>
+> >>>> I did think of using "pl1" in the function name but then decided to =
+retain
+> >>>> "power_max" because other hwmon functions for PL1 limit also use
+> >>>> "power_max" (hwm_power_max_read/hwm_power_max_write) and currently
+> >>>> "hwmon_power_max" is mapped to the PL1 limit. So "power_max" is used=
+ to
+> >>>> show that all these functions deal with the PL1 power limit.
+> >>>>
+> >>>> There is a comment in __uc_init_hw() explaining "power_max" means th=
+e PL1
+> >>>> power limit.
+> >>>>
+> >>>>>> +	__acquires(i915->hwmon->hwmon_lock)
+> >>>>>> +{
+> >>>>>> +	struct i915_hwmon *hwmon =3D i915->hwmon;
+> >>>>>> +	intel_wakeref_t wakeref;
+> >>>>>> +	u32 r;
+> >>>>>> +
+> >>>>>> +	if (!hwmon || !i915_mmio_reg_valid(hwmon->rg.pkg_rapl_limit))
+> >>>>>> +		return;
+> >>>>>> +
+> >>>>>> +	/* Take mutex to prevent concurrent hwm_power_max_write */
+> >>>>>> +	mutex_lock(&hwmon->hwmon_lock);
+> >>>>>> +
+> >>>>>> +	with_intel_runtime_pm(hwmon->ddat.uncore->rpm, wakeref)
+> >>>>>> +		r =3D intel_uncore_rmw(hwmon->ddat.uncore,
+> >>>>>> +				     hwmon->rg.pkg_rapl_limit,
+> >>>>>> +				     PKG_PWR_LIM_1_EN, 0);
+> >>>>> Most of this code (lock and rmw parts) is already inside static void
+> >>>>> hwm_locked_with_pm_intel_uncore_rmw() , can we reuse that here?
+> >>>>
+> >>>> This was the case in v1 of the patch:
+> >>>>
+> >>>> https://patchwork.freedesktop.org/patch/526393/?series=3D115003&rev=
 =3D1
-> > > >
-> > > > But now this cannot be done because if you notice we acquire the mu=
-tex in
-> > > > i915_hwmon_power_max_disable() and release the mutex in
-> > > > i915_hwmon_power_max_restore().
-> > > >
-> > > > I explained the reason why this the mutex is handled this way in my=
- reply
-> > > > to Jani Nikula here:
-> > > >
-> > > > https://patchwork.freedesktop.org/patch/526598/?series=3D115003&rev=
+> >>>>
+> >>>> But now this cannot be done because if you notice we acquire the mut=
+ex in
+> >>>> i915_hwmon_power_max_disable() and release the mutex in
+> >>>> i915_hwmon_power_max_restore().
+> >>>>
+> >>>> I explained the reason why this the mutex is handled this way in my =
+reply
+> >>>> to Jani Nikula here:
+> >>>>
+> >>>> https://patchwork.freedesktop.org/patch/526598/?series=3D115003&rev=
 =3D2
-> > > >
-> > > > Quoting below:
-> > > >
-> > > > ```
-> > > > > > +	/* hwmon_lock mutex is unlocked in hwm_power_max_restore */
-> > > > >
-> > > > > Not too happy about that... any better ideas?
-> > > >
-> > > > Afais, taking the mutex is the only fully correct solution (when we=
- disable
-> > > > the power limit, userspace can go re-enable it). Examples of partly
-> > > > incorrect solutions (which don't take the mutex) include:
-> > > >
-> > > > a. Don't take the mutex, don't do anything, ignore any changes to t=
-he value
-> > > >    if it has changed during GuC reset/fw load (just overwrite the c=
+> >>>>
+> >>>> Quoting below:
+> >>>>
+> >>>> ```
+> >>>>>> +	/* hwmon_lock mutex is unlocked in hwm_power_max_restore */
+> >>>>>
+> >>>>> Not too happy about that... any better ideas?
+> >>>>
+> >>>> Afais, taking the mutex is the only fully correct solution (when we =
+disable
+> >>>> the power limit, userspace can go re-enable it). Examples of partly
+> >>>> incorrect solutions (which don't take the mutex) include:
+> >>>>
+> >>>> a. Don't take the mutex, don't do anything, ignore any changes to th=
+e value
+> >>>>     if it has changed during GuC reset/fw load (just overwrite the c=
 hanged
-> > > >    value). Con: changed value is lost.
-> > > >
-> > > > b. Detect if the value has changed (the limit has been re-enabled) =
-after we
-> > > >    have disabled the limit and in that case skip restoring the valu=
+> >>>>     value). Con: changed value is lost.
+> >>>>
+> >>>> b. Detect if the value has changed (the limit has been re-enabled) a=
+fter we
+> >>>>     have disabled the limit and in that case skip restoring the valu=
 e. But
-> > > >    then someone can say why do we allow enabling the PL1 limit sinc=
+> >>>>     then someone can say why do we allow enabling the PL1 limit sinc=
 e we
-> > > >    want to disable it.
-> > > >
-> > > > Both these are very unlikely scenarios so they might work. But I wo=
-uld
-> > > > first like to explore if holding a mutex across GuC reset is proleb=
-matic
-> > > > since that is /the/ correct solution. But if anyone comes up with a=
- reason
-> > > > why that cannot be done we can look at these other not completely c=
-orrect
-> > > > options.
-> > >
-> > > I see what you are doing and it looks indeed a very safe approach to =
+> >>>>     want to disable it.
+> >>>>
+> >>>> Both these are very unlikely scenarios so they might work. But I wou=
+ld
+> >>>> first like to explore if holding a mutex across GuC reset is prolebm=
+atic
+> >>>> since that is /the/ correct solution. But if anyone comes up with a =
+reason
+> >>>> why that cannot be done we can look at these other not completely co=
+rrect
+> >>>> options.
+> >>>
+> >>> I see what you are doing and it looks indeed a very safe approach to =
 ensure
-> > > the pl1 won't be toggled by other paths while we need some guaranteed=
+> >>> the pl1 won't be toggled by other paths while we need some guaranteed=
  state
-> > > here, or hw init fails badly.
-> > >
-> > > But in the end you are making your lock to protect the code from anot=
+> >>> here, or hw init fails badly.
+> >>>
+> >>> But in the end you are making your lock to protect the code from anot=
 her path
-> > > and not protecting the data itself. The data was already protected in=
+> >>> and not protecting the data itself. The data was already protected in=
  the
-> > > first version with the lock in the rmw.
+> >>> first version with the lock in the rmw.
+> >>
+> >> Sorry I am not really following. Daniel had mentioned this "protecting=
+ code
+> >> vs protecting data" but I am wondering how it is applicable in this
+> >> case. IMO here the data we are protecting is the register which we don=
+'t
+> >> want written to by userland while GuC load is in progress. To do that =
+we
+> >> need to block the code path writing to register. So what we have here =
+seems
+> >> to me to be the simplest and cleanest approach for solving this issue.
 > >
-> > Sorry I am not really following. Daniel had mentioned this "protecting =
-code
-> > vs protecting data" but I am wondering how it is applicable in this
-> > case. IMO here the data we are protecting is the register which we don't
-> > want written to by userland while GuC load is in progress. To do that we
-> > need to block the code path writing to register. So what we have here s=
-eems
-> > to me to be the simplest and cleanest approach for solving this issue.
->
-> I believe your cases here is exactly what Daniel had mentioned as protect=
-ing
-> code and not data. Well, in the end we are of course protecting data to be
-> modified, but in your case you use that mutex to also protect the code pa=
-th
-> and avoid other calls while you are in this guc_init_path...
->
-> Please Daniel, correct me here if I got it wrong.
->
-> What I don't like here is that we lock from one function and keep that fo=
-r a
-> while and unlock from the other function. To protect the data itself in g=
-eneral
-> we just need for a very minimal time while we are modifying the data itse=
-lf.
->
+> > I believe your cases here is exactly what Daniel had mentioned as prote=
+cting
+> > code and not data. Well, in the end we are of course protecting data to=
+ be
+> > modified, but in your case you use that mutex to also protect the code =
+path
+> > and avoid other calls while you are in this guc_init_path...
 > >
-> > > maybe we need to have some kind of a state check with other state-loc=
+> > Please Daniel, correct me here if I got it wrong.
+> >
+> > What I don't like here is that we lock from one function and keep that =
+for a
+> > while and unlock from the other function. To protect the data itself in=
+ general
+> > we just need for a very minimal time while we are modifying the data it=
+self.
+> >
+> >>
+> >>> maybe we need to have some kind of a state check with other state-loc=
 k and
-> > > then if we are in this forced state for init path, the request for th=
+> >>> then if we are in this forced state for init path, the request for th=
 e normal path
-> > > ignores and move one,
+> >>> ignores and move one,
+> >>
+> >> I don't see how this will *not* be racy...
 > >
-> > I don't see how this will *not* be racy...
+> > maybe something like this?:
+> >
+> > at power_max_disable:
+> > mutex_lock(data_lock);
+> >
+> > mutex_lock(state_lock);
+> > state =3D in_use;
+> > mutex_unlock(state_lock);
+> >
+> > mmio_rmw();
+> > mutex_unlock(data_lock);
+> >
+> >
+> > at power_max_restoration:
+> >
+> > at power_max_disable:
+> > mutex_lock(data_lock);
+> >
+> > mutex_lock(state_lock);
+> > state =3D available;
+> > mutex_unlock(state_lock);
+> >
+> > mmio_rmw();
+> > mutex_unlock(data_lock);
+> >
+> > at sysfs fn:
+> >
+> > mutex_lock(data_lock);
+> > mutex_lock(state_lock);
+> > if (state =3D=3D in_use) {
+> >     ret =3D -EAGAIN
+> >     goto out;
+> > }
+> > mutex_unlock(state_lock);
+> >
+> > ....
+> >
+> > out:
+> >
+> > mutex_unlock(data_lock);
 >
-> maybe something like this?:
->
-> at power_max_disable:
-> mutex_lock(data_lock);
->
-> mutex_lock(state_lock);
-> state =3D in_use;
-> mutex_unlock(state_lock);
->
-> mmio_rmw();
-> mutex_unlock(data_lock);
->
->
-> at power_max_restoration:
->
-> at power_max_disable:
-> mutex_lock(data_lock);
->
-> mutex_lock(state_lock);
-> state =3D available;
-> mutex_unlock(state_lock);
->
-> mmio_rmw();
-> mutex_unlock(data_lock);
->
-> at sysfs fn:
->
-> mutex_lock(data_lock);
-> mutex_lock(state_lock);
-> if (state =3D=3D in_use) {
->    ret =3D -EAGAIN
->    goto out;
-> }
-> mutex_unlock(state_lock);
->
-> ....
->
-> out:
->
-> mutex_unlock(data_lock);
+> I agree holding the mutex across functions to cover the GuC init path is
+> not the nicest pattern. Above looks a plausible improvement,
 
-Thanks for suggesting this, actually it worked out quite nicely and I have
-implemented this in the latest version.
+Agree, the above turned out rather nice.
 
-Though I believe state_lock is not needed (data_lock is sufficient) so I
-have skipped that. Please take a look at:
+> although I don't know if EAGAIN is correct for hwmon, or if blocking is.
+
+Yes blocking is the correct uapi behavior, Patch 3/3 in the latest version
+does this:
 
 https://patchwork.freedesktop.org/series/116172/
+
+> Is something expected to be configuring those fields during boot and can
+> it even handle EAGAIN?
+>
+> One advantage of the solution from this patch I can see though is that I
+> think it eliminates data races (restoring the stale value) with fw reload
+> triggered by a potential full GPU reset happening in parallel to sysfs
+> writes.
+>
+> Another thing to check would be if the inversions between
+> hwmon_lock->rpm_get and rpm_get->hwmon_lock are okay.
+>
+> In fact, I am not sure rpm_get in this patch is needed? Seems to be runni=
+ng
+> under paths which guarantee holding it already, if I am not missing
+> something. If not needed then there is obviously no inversion in any way.
+
+Yes, I checked and believe you are right. So I have eliminated rpm_get in
+the disable/restore functions in the latest version.
 
 Thanks.
 --
 Ashutosh
 
-
+> P.S.
+> Do some of the exiting mutex_lock need actually be mutex_lock_interruptib=
+le
+> so sysfs reads/write can Ctrl-C, in theory at least.
 >
+>
+> >>> or maybe we queue some request...
+> >>
+> >> Queuing a request will not be enough (even if this is possible), the
+> >> request will need to wait to complete till GuC load completes. So we'll
+> >> have to complete the request when GuC load completes, similar to relea=
+sing
+> >> the mutex in the current patch. Looks like a much more complicated way=
+ of
+> >> doing what the mutex does very simply.
 > >
-> > > or maybe we queue some request...
+> > The wq would sleep/delay while state =3D=3D in_use, then process the ne=
+xt request...
 > >
-> > Queuing a request will not be enough (even if this is possible), the
-> > request will need to wait to complete till GuC load completes. So we'll
-> > have to complete the request when GuC load completes, similar to releas=
-ing
-> > the mutex in the current patch. Looks like a much more complicated way =
-of
-> > doing what the mutex does very simply.
->
-> The wq would sleep/delay while state =3D=3D in_use, then process the next=
- request...
->
+> >>
+> >> So:
+> >>
+> >> a. What is the real problem with the current implementation?
 > >
-> > So:
+> > probably the big lock used to protect the state machinery...
 > >
-> > a. What is the real problem with the current implementation?
->
-> probably the big lock used to protect the state machinery...
->
-> but if other folks believe that we don't have an actual problem here
-> and this big lock is acceptable as long as it has the annotation for
-> the static analyzers, I'm okay to just let it go...
->
->
+> > but if other folks believe that we don't have an actual problem here
+> > and this big lock is acceptable as long as it has the annotation for
+> > the static analyzers, I'm okay to just let it go...
 > >
-> > b. What would be the correct solution for it? That is how, specifically,
-> >    should we implement it?
->
-> state handling with separated lock from the data itself is my suggestion.
->
 > >
-> > Some more guidance will be helpful if you think this patch has issues.
->
-> I hope Daniel and/or other i915 maintainers can jump here. Specially if
-> I'm being to paranoid and the current patch is enough...
->
+> >>
+> >> b. What would be the correct solution for it? That is how, specificall=
+y,
+> >>     should we implement it?
 > >
-> > Thanks.
-> > --
-> > Ashutosh
+> > state handling with separated lock from the data itself is my suggestio=
+n.
 > >
-> > > > ```
-> > > >
-> > > > > > +
-> > > > > > +	*old =3D !!(r & PKG_PWR_LIM_1_EN);
-> > > > > > +}
-> > > > > > +
-> > > > > > +void i915_hwmon_power_max_restore(struct drm_i915_private *i91=
-5, bool old)
-> > > > > > +	__releases(i915->hwmon->hwmon_lock)
-> > > > > We can just call this i915_hwmon_power_max_enable() and call when=
-ever the
-> > > > > old value was actually enabled. That way, we have proper mirror f=
-unctions.
-> > > >
-> > > > As I explained that would mean adding two checks in the main __uc_i=
-nit_hw()
-> > > > function which I am trying to avoid. So we have disable/restore pai=
-r.
-> > > >
-> > > > > > +{
-> > > > > > +	struct i915_hwmon *hwmon =3D i915->hwmon;
-> > > > > > +	intel_wakeref_t wakeref;
-> > > > > > +
-> > > > > > +	if (!hwmon || !i915_mmio_reg_valid(hwmon->rg.pkg_rapl_limit))
-> > > > > > +		return;
-> > > > > > +
-> > > > > > +	with_intel_runtime_pm(hwmon->ddat.uncore->rpm, wakeref)
-> > > > > > +		intel_uncore_rmw(hwmon->ddat.uncore,
-> > > > > > +				 hwmon->rg.pkg_rapl_limit,
-> > > > > > +				 PKG_PWR_LIM_1_EN,
-> > > > > > +				 old ? PKG_PWR_LIM_1_EN : 0);
-> > > > >
-> > > > > 3rd param should be 0 here, else we will end up clearing other bi=
-ts.
-> > > >
-> > > > No see intel_uncore_rmw(), it will only clear the PKG_PWR_LIM_1_EN =
-bit, so
-> > > > the code here is correct. intel_uncore_rmw() does:
-> > > >
-> > > >         val =3D (old & ~clear) | set;
-> > > >
-> > > > So for now I am not making any changes, if you feel strongly about
-> > > > something one way or another let me know. Anyway these comments sho=
-uld help
-> > > > you understand the patch better so take a look and we can go from t=
-here.
-> > > >
-> > > > Thanks.
-> > > > --
-> > > > Ashutosh
-> > > >
-> > > > > > +
-> > > > > > +	mutex_unlock(&hwmon->hwmon_lock);
-> > > > > > +}
-> > > > > > +
-> > > > > >   static umode_t
-> > > > > >   hwm_energy_is_visible(const struct hwm_drvdata *ddat, u32 att=
-r)
-> > > > > >   {
-> > > > > > diff --git a/drivers/gpu/drm/i915/i915_hwmon.h b/drivers/gpu/dr=
-m/i915/i915_hwmon.h
-> > > > > > index 7ca9cf2c34c96..0fcb7de844061 100644
-> > > > > > --- a/drivers/gpu/drm/i915/i915_hwmon.h
-> > > > > > +++ b/drivers/gpu/drm/i915/i915_hwmon.h
-> > > > > > @@ -7,14 +7,21 @@
-> > > > > >   #ifndef __I915_HWMON_H__
-> > > > > >   #define __I915_HWMON_H__
-> > > > > >   +#include <linux/types.h>
-> > > > > > +
-> > > > > >   struct drm_i915_private;
-> > > > > > +struct intel_gt;
-> > > > > >     #if IS_REACHABLE(CONFIG_HWMON)
-> > > > > >   void i915_hwmon_register(struct drm_i915_private *i915);
-> > > > > >   void i915_hwmon_unregister(struct drm_i915_private *i915);
-> > > > > > +void i915_hwmon_power_max_disable(struct drm_i915_private *i91=
-5, bool *old);
-> > > > > > +void i915_hwmon_power_max_restore(struct drm_i915_private *i91=
-5, bool old);
-> > > > > >   #else
-> > > > > >   static inline void i915_hwmon_register(struct drm_i915_privat=
+> >>
+> >> Some more guidance will be helpful if you think this patch has issues.
+> >
+> > I hope Daniel and/or other i915 maintainers can jump here. Specially if
+> > I'm being to paranoid and the current patch is enough...
+> >
+> >>
+> >> Thanks.
+> >> --
+> >> Ashutosh
+> >>
+> >>>> ```
+> >>>>
+> >>>>>> +
+> >>>>>> +	*old =3D !!(r & PKG_PWR_LIM_1_EN);
+> >>>>>> +}
+> >>>>>> +
+> >>>>>> +void i915_hwmon_power_max_restore(struct drm_i915_private *i915, =
+bool old)
+> >>>>>> +	__releases(i915->hwmon->hwmon_lock)
+> >>>>> We can just call this i915_hwmon_power_max_enable() and call whenev=
+er the
+> >>>>> old value was actually enabled. That way, we have proper mirror fun=
+ctions.
+> >>>>
+> >>>> As I explained that would mean adding two checks in the main __uc_in=
+it_hw()
+> >>>> function which I am trying to avoid. So we have disable/restore pair.
+> >>>>
+> >>>>>> +{
+> >>>>>> +	struct i915_hwmon *hwmon =3D i915->hwmon;
+> >>>>>> +	intel_wakeref_t wakeref;
+> >>>>>> +
+> >>>>>> +	if (!hwmon || !i915_mmio_reg_valid(hwmon->rg.pkg_rapl_limit))
+> >>>>>> +		return;
+> >>>>>> +
+> >>>>>> +	with_intel_runtime_pm(hwmon->ddat.uncore->rpm, wakeref)
+> >>>>>> +		intel_uncore_rmw(hwmon->ddat.uncore,
+> >>>>>> +				 hwmon->rg.pkg_rapl_limit,
+> >>>>>> +				 PKG_PWR_LIM_1_EN,
+> >>>>>> +				 old ? PKG_PWR_LIM_1_EN : 0);
+> >>>>>
+> >>>>> 3rd param should be 0 here, else we will end up clearing other bits.
+> >>>>
+> >>>> No see intel_uncore_rmw(), it will only clear the PKG_PWR_LIM_1_EN b=
+it, so
+> >>>> the code here is correct. intel_uncore_rmw() does:
+> >>>>
+> >>>>          val =3D (old & ~clear) | set;
+> >>>>
+> >>>> So for now I am not making any changes, if you feel strongly about
+> >>>> something one way or another let me know. Anyway these comments shou=
+ld help
+> >>>> you understand the patch better so take a look and we can go from th=
+ere.
+> >>>>
+> >>>> Thanks.
+> >>>> --
+> >>>> Ashutosh
+> >>>>
+> >>>>>> +
+> >>>>>> +	mutex_unlock(&hwmon->hwmon_lock);
+> >>>>>> +}
+> >>>>>> +
+> >>>>>>    static umode_t
+> >>>>>>    hwm_energy_is_visible(const struct hwm_drvdata *ddat, u32 attr)
+> >>>>>>    {
+> >>>>>> diff --git a/drivers/gpu/drm/i915/i915_hwmon.h b/drivers/gpu/drm/i=
+915/i915_hwmon.h
+> >>>>>> index 7ca9cf2c34c96..0fcb7de844061 100644
+> >>>>>> --- a/drivers/gpu/drm/i915/i915_hwmon.h
+> >>>>>> +++ b/drivers/gpu/drm/i915/i915_hwmon.h
+> >>>>>> @@ -7,14 +7,21 @@
+> >>>>>>    #ifndef __I915_HWMON_H__
+> >>>>>>    #define __I915_HWMON_H__
+> >>>>>>    +#include <linux/types.h>
+> >>>>>> +
+> >>>>>>    struct drm_i915_private;
+> >>>>>> +struct intel_gt;
+> >>>>>>      #if IS_REACHABLE(CONFIG_HWMON)
+> >>>>>>    void i915_hwmon_register(struct drm_i915_private *i915);
+> >>>>>>    void i915_hwmon_unregister(struct drm_i915_private *i915);
+> >>>>>> +void i915_hwmon_power_max_disable(struct drm_i915_private *i915, =
+bool *old);
+> >>>>>> +void i915_hwmon_power_max_restore(struct drm_i915_private *i915, =
+bool old);
+> >>>>>>    #else
+> >>>>>>    static inline void i915_hwmon_register(struct drm_i915_private =
+*i915) { };
+> >>>>>>    static inline void i915_hwmon_unregister(struct drm_i915_privat=
 e *i915) { };
-> > > > > >   static inline void i915_hwmon_unregister(struct drm_i915_priv=
-ate *i915) { };
-> > > > > > +static inline void i915_hwmon_power_max_disable(struct drm_i91=
-5_private *i915, bool *old) { };
-> > > > > > +static inline void i915_hwmon_power_max_restore(struct drm_i91=
-5_private *i915, bool old) { };
-> > > > > >   #endif
-> > > > > >     #endif /* __I915_HWMON_H__ */
+> >>>>>> +static inline void i915_hwmon_power_max_disable(struct drm_i915_p=
+rivate *i915, bool *old) { };
+> >>>>>> +static inline void i915_hwmon_power_max_restore(struct drm_i915_p=
+rivate *i915, bool old) { };
+> >>>>>>    #endif
+> >>>>>>      #endif /* __I915_HWMON_H__ */
