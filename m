@@ -2,47 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1F076D9C33
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Apr 2023 17:25:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 743C96D9C50
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Apr 2023 17:29:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E1CCD10EC1B;
-	Thu,  6 Apr 2023 15:25:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 07ECF10E0FD;
+	Thu,  6 Apr 2023 15:29:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5D37610EC1B
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Apr 2023 15:25:40 +0000 (UTC)
-Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77]
- helo=[IPv6:::1]) by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <l.stach@pengutronix.de>)
- id 1pkRTu-0002NT-7K; Thu, 06 Apr 2023 17:24:58 +0200
-Message-ID: <9ac69b11802331f9e024ab837b85214c4243e3fd.camel@pengutronix.de>
-Subject: Re: [Regression] drm/scheduler: track GPU active time per entity
-From: Lucas Stach <l.stach@pengutronix.de>
-To: Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, Daniel
- Vetter <daniel@ffwll.ch>
-Date: Thu, 06 Apr 2023 17:24:55 +0200
-In-Reply-To: <31f03135-40e4-a6ad-37e0-3b434a37922d@amd.com>
-References: <3e00d8a9-b6c4-8202-4f2d-5a659c61d094@redhat.com>
- <2a84875dde6565842aa07ddb96245b7d939cb4fd.camel@pengutronix.de>
- <8b28151c-f2db-af3f-8dff-87dd5d57417b@amd.com>
- <3004a2bf-e725-643e-82af-8a217784e796@redhat.com>
- <013781a3-5abd-8c66-8a0a-dd36c9c487af@amd.com>
- <28d10733-b217-7ccc-4b8c-54bdc8249234@amd.com>
- <CAKMK7uFeeAaG8+1EutgMtmVANTb-acL0faEkJfUp1_35rSjaEg@mail.gmail.com>
- <9c72c7162da56234addd7083ec774e525a13957c.camel@pengutronix.de>
- <31f03135-40e4-a6ad-37e0-3b434a37922d@amd.com>
+Received: from mail-yw1-x1133.google.com (mail-yw1-x1133.google.com
+ [IPv6:2607:f8b0:4864:20::1133])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 30CB010E0FD
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Apr 2023 15:29:12 +0000 (UTC)
+Received: by mail-yw1-x1133.google.com with SMTP id
+ 00721157ae682-545e907790fso630348797b3.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 06 Apr 2023 08:29:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20210112; t=1680794951; x=1683386951;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=kxFTeqIM+fDaf2S47yMcsdQqpuIYfa7qMZjwycfNH5g=;
+ b=cCsSTN64qhk+zz1XDwfKJYV5Vla3s40LS2pOkGuKFZ91uihaisxJE0zTX68pnyUQe5
+ pFa7kJFc4ApdHws+9K+6In7cgWiJGiFdp1KJqLmyIBiA/OLe5zcnhxO/j1U+lFVcoTOQ
+ 0cSKwMteRXgF3ghvwQ3pLf4Wn0TMIjlTpD/TsS7XOwVJvo0W36tHdkZLJb0wxbDmfasV
+ Q5NkfQdPvGtde1ML/KBz4rwxbkEXVpukSoFKQQZ/61kvdyWQH4sXXhCWhgdfkKyBb8x5
+ YOkZMySoy2ITBBrlSnC3gPZ7XOTqJGSPpQoZq2xnfA4hJA6/Pu2rFVZr6OQ0X2eueuBT
+ 6Fxw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1680794951; x=1683386951;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=kxFTeqIM+fDaf2S47yMcsdQqpuIYfa7qMZjwycfNH5g=;
+ b=CRV5h83GCtT3Txfcfd2dZnuNU1Iyzx4b+A9W770/TEGOz8I03SEZOPf1dyk3svOZQr
+ Dbbu90QrR1CPxwSrQ+DI8Wuo09ZV0c2np3yZFn07aBls+WwXVBr3W8rYWCxQ7VHvvNCR
+ tqSkqux+HXPH9Xy2TGdJ8GkQojKqkoTo+ZTggw0tfrFoU+lGv2BOoU5sH+4jp6Ws3K3M
+ P3O/LaO/fsn43A8dWAkxDMjLpNEBYjpdZAOjbAzGzJsF7akO1o//f095U0A8G+xWzGBJ
+ 2hM7PUl/pY+r6M7h5CKdu2jLElFsgGhzjn0jWdsUcqv/sYba1Bhm2uy3CKNtr2HgFwcQ
+ 9CbQ==
+X-Gm-Message-State: AAQBX9eqXNaFWQdO6ABRFjGbJCQd7dlPfnAEIIlf0xdlNq6LA0Urur01
+ LlCupcT6S+389IXmn63kmMM8VJVODpiopU2Po0E=
+X-Google-Smtp-Source: AKy350ZGlnMhrTcj8ggWVDpiiZttcTbM5yc9/n5YlIKY4xLA0FyE8Dzs9supQ62ZYl3Hb+BY3i+mXwNTY/putakI4Us=
+X-Received: by 2002:a81:c509:0:b0:52e:e095:d840 with SMTP id
+ k9-20020a81c509000000b0052ee095d840mr6288437ywi.0.1680794951046; Thu, 06 Apr
+ 2023 08:29:11 -0700 (PDT)
+MIME-Version: 1.0
+References: <20230307-rust-drm-v1-0-917ff5bc80a8@asahilina.net>
+ <20230307-rust-drm-v1-7-917ff5bc80a8@asahilina.net>
+ <ZC7T92F7K9XTZPZ1@phenom.ffwll.local>
+In-Reply-To: <ZC7T92F7K9XTZPZ1@phenom.ffwll.local>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Thu, 6 Apr 2023 17:28:59 +0200
+Message-ID: <CANiq72=E2k7+_cwYw_EjVezk0mWCRqbH4MUjsEmxWgJMh=3AEQ@mail.gmail.com>
+Subject: Re: [PATCH RFC 07/18] rust: drm: mm: Add DRM MM Range Allocator
+ abstraction
+To: Asahi Lina <lina@asahilina.net>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Miguel Ojeda <ojeda@kernel.org>, 
+ Alex Gaynor <alex.gaynor@gmail.com>, Wedson Almeida Filho <wedsonaf@gmail.com>,
+ Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
+ =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Luben Tuikov <luben.tuikov@amd.com>, Jarkko Sakkinen <jarkko@kernel.org>, 
+ Dave Hansen <dave.hansen@linux.intel.com>,
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
+ Karol Herbst <kherbst@redhat.com>, Ella Stanforth <ella@iglunix.org>, 
+ Faith Ekstrand <faith.ekstrand@collabora.com>, Mary <mary@mary.zone>, 
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ rust-for-linux@vger.kernel.org, linux-media@vger.kernel.org, 
+ linaro-mm-sig@lists.linaro.org, linux-sgx@vger.kernel.org, 
+ asahi@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.4 (3.46.4-1.fc37) 
-MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
-X-SA-Exim-Mail-From: l.stach@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,221 +89,134 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Matthew Brost <matthew.brost@intel.com>, tvrtko.ursulin@linux.intel.com,
- andrey.grodzovsky@amd.com, lina@asahilina.net, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Luben Tuikov <luben.tuikov@amd.com>,
- Danilo Krummrich <dakr@redhat.com>, yuq825@gmail.com,
- Bagas Sanjaya <bagasdotme@gmail.com>,
- Boris Brezillon <boris.brezillon@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am Donnerstag, dem 06.04.2023 um 16:21 +0200 schrieb Christian K=C3=B6nig:
-> Am 06.04.23 um 12:45 schrieb Lucas Stach:
-> > Am Donnerstag, dem 06.04.2023 um 10:27 +0200 schrieb Daniel Vetter:
-> > > On Thu, 6 Apr 2023 at 10:22, Christian K=C3=B6nig <christian.koenig@a=
-md.com> wrote:
-> > > > Am 05.04.23 um 18:09 schrieb Luben Tuikov:
-> > > > > On 2023-04-05 10:05, Danilo Krummrich wrote:
-> > > > > > On 4/4/23 06:31, Luben Tuikov wrote:
-> > > > > > > On 2023-03-28 04:54, Lucas Stach wrote:
-> > > > > > > > Hi Danilo,
-> > > > > > > >=20
-> > > > > > > > Am Dienstag, dem 28.03.2023 um 02:57 +0200 schrieb Danilo K=
-rummrich:
-> > > > > > > > > Hi all,
-> > > > > > > > >=20
-> > > > > > > > > Commit df622729ddbf ("drm/scheduler: track GPU active tim=
-e per entity")
-> > > > > > > > > tries to track the accumulated time that a job was active=
- on the GPU
-> > > > > > > > > writing it to the entity through which the job was deploy=
-ed to the
-> > > > > > > > > scheduler originally. This is done within drm_sched_get_c=
-leanup_job()
-> > > > > > > > > which fetches a job from the schedulers pending_list.
-> > > > > > > > >=20
-> > > > > > > > > Doing this can result in a race condition where the entit=
-y is already
-> > > > > > > > > freed, but the entity's newly added elapsed_ns field is s=
-till accessed
-> > > > > > > > > once the job is fetched from the pending_list.
-> > > > > > > > >=20
-> > > > > > > > > After drm_sched_entity_destroy() being called it should b=
-e safe to free
-> > > > > > > > > the structure that embeds the entity. However, a job orig=
-inally handed
-> > > > > > > > > over to the scheduler by this entity might still reside i=
-n the
-> > > > > > > > > schedulers pending_list for cleanup after drm_sched_entit=
-y_destroy()
-> > > > > > > > > already being called and the entity being freed. Hence, w=
-e can run into
-> > > > > > > > > a UAF.
-> > > > > > > > >=20
-> > > > > > > > Sorry about that, I clearly didn't properly consider this c=
-ase.
-> > > > > > > >=20
-> > > > > > > > > In my case it happened that a job, as explained above, wa=
-s just picked
-> > > > > > > > > from the schedulers pending_list after the entity was fre=
-ed due to the
-> > > > > > > > > client application exiting. Meanwhile this freed up memor=
-y was already
-> > > > > > > > > allocated for a subsequent client applications job struct=
-ure again.
-> > > > > > > > > Hence, the new jobs memory got corrupted. Luckily, I was =
-able to
-> > > > > > > > > reproduce the same corruption over and over again by just=
- using
-> > > > > > > > > deqp-runner to run a specific set of VK test cases in par=
-allel.
-> > > > > > > > >=20
-> > > > > > > > > Fixing this issue doesn't seem to be very straightforward=
- though (unless
-> > > > > > > > > I miss something), which is why I'm writing this mail ins=
-tead of sending
-> > > > > > > > > a fix directly.
-> > > > > > > > >=20
-> > > > > > > > > Spontaneously, I see three options to fix it:
-> > > > > > > > >=20
-> > > > > > > > > 1. Rather than embedding the entity into driver specific =
-structures
-> > > > > > > > > (e.g. tied to file_priv) we could allocate the entity sep=
-arately and
-> > > > > > > > > reference count it, such that it's only freed up once all=
- jobs that were
-> > > > > > > > > deployed through this entity are fetched from the schedul=
-ers pending list.
-> > > > > > > > >=20
-> > > > > > > > My vote is on this or something in similar vain for the lon=
-g term. I
-> > > > > > > > have some hope to be able to add a GPU scheduling algorithm=
- with a bit
-> > > > > > > > more fairness than the current one sometime in the future, =
-which
-> > > > > > > > requires execution time tracking on the entities.
-> > > > > > > Danilo,
-> > > > > > >=20
-> > > > > > > Using kref is preferable, i.e. option 1 above.
-> > > > > > I think the only real motivation for doing that would be for ge=
-nerically
-> > > > > > tracking job statistics within the entity a job was deployed th=
-rough. If
-> > > > > > we all agree on tracking job statistics this way I am happy to =
-prepare a
-> > > > > > patch for this option and drop this one:
-> > > > > > https://lore.kernel.org/all/20230331000622.4156-1-dakr@redhat.c=
-om/T/#u
-> > > > > Hmm, I never thought about "job statistics" when I preferred usin=
-g kref above.
-> > > > > The reason kref is attractive is because one doesn't need to worr=
-y about
-> > > > > it--when the last user drops the kref, the release is called to d=
-o
-> > > > > housekeeping. If this never happens, we know that we have a bug t=
-o debug.
-> > > > Yeah, reference counting unfortunately have some traps as well. For
-> > > > example rarely dropping the last reference from interrupt context o=
-r
-> > > > with some unexpected locks help when the cleanup function doesn't e=
-xpect
-> > > > that is a good recipe for problems as well.
-> > > >=20
-> > Fully agreed.
-> >=20
-> > > > > Regarding the patch above--I did look around the code, and it see=
-ms safe,
-> > > > > as per your analysis, I didn't see any reference to entity after =
-job submission,
-> > > > > but I'll comment on that thread as well for the record.
-> > > > Reference counting the entities was suggested before. The intention=
-ally
-> > > > avoided that so far because the entity might be the tip of the iceb=
-erg
-> > > > of stuff you need to keep around.
-> > > >=20
-> > > > For example for command submission you also need the VM and when yo=
-u
-> > > > keep the VM alive you also need to keep the file private alive....
-> > > Yeah refcounting looks often like the easy way out to avoid
-> > > use-after-free issue, until you realize you've just made lifetimes
-> > > unbounded and have some enourmous leaks: entity keeps vm alive, vm
-> > > keeps all the bo alives, somehow every crash wastes more memory
-> > > because vk_device_lost means userspace allocates new stuff for
-> > > everything.
-> > >=20
-> > > If possible a lifetime design where lifetimes have hard bounds and yo=
-u
-> > > just borrow a reference under a lock (or some other ownership rule) i=
-s
-> > > generally much more solid. But also much harder to design correctly
-> > > :-/
-> > >=20
-> > The use we are discussing here is to keep the entity alive as long as
-> > jobs from that entity are still active on the HW. While there are no
-> > hard bounds on when a job will get inactive, at least it's not
-> > unbounded. On a crash/fault the job will be removed from the hardware
-> > pretty soon.
-> >=20
-> > Well behaved jobs after a application shutdown might take a little
-> > longer, but I don't really see the new problem with keeping the entity
-> > alive? As long as a job is active on the hardware, we can't throw out
-> > the VM or BOs, no difference whether the entity is kept alive or not.
->=20
-> Exactly that's the problem. VM & BOs are dropped as soon as the process=
-=20
-> is destroyed, we *don't* wait for the hw to finish before doing so.
->=20
-> Just the backing store managed by all the house keeping objects isn't=20
-> freed until the hw is idle preventing a crash or accessing freed memory.
->=20
-> This behavior is rather important for the OOM killer since we need to be=
-=20
-> able to tear down the process as fast as possible in that case.
->=20
-Are you talking about the dropping of pending jobs in
-drm_sched_entity_kill? I'm certainly not trying to change that in any
-way. Those aren't put onto the hardware yet, so we can always safely
-drop them and do so as fast as possible.
+On Thu, Apr 6, 2023 at 4:15=E2=80=AFPM Daniel Vetter <daniel@ffwll.ch> wrot=
+e:
+>
+> Documentation:
+>
+> In drm we try to document all the interfaces that drivers use with formal
+> docs. Yes there's some areas that are not great for historical reasons,
+> but for new stuff and new wrappers we're really trying:
+>
+> - This helps in telling internal (even across .c files or in rust across
+>   modules within a crate) from stuff drivers access. Sure you have static
+>   in C or pub in rust, but that doesn't tell you whether it's public all
+>   the way to drivers.
 
-What I'm concerned about are the jobs that are already scheduled on the
-HW. At least with Vivante hardware there is no race free way to get rid
-of jobs once they are put on the ring. So whatever the scheduler or DRM
-core is doing, we have to hold on to the BOs and GPU memory management
-structures to keep the hardware from operating on freed memory.
+I think you may be talking about the value high-level docs here, but
+just in case, visibility in Rust is flexible enough to expose (or not)
+APIs to those that you need. In other words, it does tell you (and
+enforces!) whether it is public all the way to drivers.
 
-That's already a lot of memory, so I don't really see the issue with
-keeping the entity around in a quiescent state until all the currently
-queued jobs have left the HW.
+There is also the possibility of even more fancy visibility, but so
+far we just needed `pub(crate)`.
 
-> Changing that is possible, but that's quite a huge change I'm not really=
-=20
-> willing to do just for tracking the time spend.
->=20
-Yea, it's a big change and whether it's a good idea really depends on
-what we a gaining from it. You seem to see quite low value in "just
-tracking the time spent" and that might be true, but it also forces all
-drivers that want to implement fdinfo to roll their own time tracking.
-I would rather see more of this moved to the scheduler and thus shared
-between drivers.
+`rustdoc` also shows/hides things as needed, thus the generated docs
+for the crate should only show what is usable by others.
 
-Regards,
-Lucas
+Then there is the `kernel` crate split, too.
 
-> What we could do is to track the unsignaled fences in each entity=20
-> similar to what amdgpu is doing.
->=20
-> Regards,
-> Christian.
->=20
-> >=20
-> > Some hardware might have ways to expedite job inactivation by
-> > deactivating scheduling queues, or just taking a fault, but for some HW
-> > we'll just have to wait for the job to finish.
-> >=20
-> > Regards,
-> > Lucas
-> >=20
->=20
+> - ideally docs have a short intro section that explains the main concepts
+>   and links to the main data structures and functions. Just to give
+>   readers a good starting point to explore.
 
+Agreed, this is typically done in Rust in the top-level doc comments
+(module or crate). For the Rust side of the kernel, we are definitely
+trying to emphasize the quality of the docs, including compile- and
+runtime-tested examples.
+
+Regarding linking, `rustdoc` already generates a listing with the
+contents of each crate/module even if there is no other docs. So as
+long as the short descriptions of the items are good, it may be fairly
+readable already, e.g. see
+https://rust-for-linux.github.io/docs/rust/kernel/sync/index.html for
+an example in our old `rust` branch. But, of course, you can add extra
+docs at that level too when there are many things or is unclear what
+should be used.
+
+Also note that, sometimes, the docs we write are in the type, rather
+than the module, e.g. see the nice examples Wedson wrote for `RBTree`:
+https://rust-for-linux.github.io/docs/rust/kernel/rbtree/struct.RBTree.html=
+.
+
+> - Linking all the things, so that readers can connect the different parts=
+.
+>   This is really important in C where e.g. get/put() or any such function
+>   pairs all needed to be linked together. With rust I'm hoping that
+>   rustdoc liberally sprinkles links already and we don't have to do this
+>   as much.
+
+If you mean within doc comments, it does! :) It is called "intra-doc
+links". Basically, you just write something in-between square
+brackets, and it is able to create the link to the right thing (in
+most cases, otherwise you can help it more), e.g.
+
+    /// Returns a new [`Foo`].
+
+And, of course, for the rest of things that aren't inside comments, it
+automatically provides links etc.
+
+There has been work on `rustdoc` on getting "Jump to Definition" and
+similar features to work on the source view, too.
+
+> - Short explainers for parameters. For rust this also means type
+>   parameters, for those even simplified examples of how drivers are
+>   supposed to use them would help a lot in reading docs & understanding
+>   concepts.
+
+For parameters, we are not forcing to write explanations for every
+parameter (as in providing a list), but rather writing what is
+actually useful to know (referring to the parameters as needed). So it
+depends on a case-by-case.
+
+In any case, in general is clearer what parameters are compared to C,
+due to the stronger typing. Of course, if one uses integers
+everywhere, it is as confusing as C. But if one has a type, it is
+easier to tell, plus one may jump with a click into the explanation of
+that type etc.
+
+Regarding examples, 100% agreed. And not only that, the examples are
+enforced to be kept up to date by compiling and running them via KUnit
+(not yet submitted for mainline, but we have been enforcing it for our
+old `rust` branch for a long time).
+
+> - Ideally links from the rust to the sphinx side to linke relevant
+>   chapters together. Often the bigger explanations are in .rst files with
+>   DOT graphs (kms has a bunch I've added) or similar, and it doesn't make
+>   that much sense to duplicate all that on the rust side I guess. But it
+>   needs to be discoverable.
+
+Definitely. One next step is having easy-to-write links to the rST
+docs. For this, a couple years ago I talked with the `rustdoc`
+maintainers about having a "External references map file" feature, so
+that we can link rST documents from the Rust docs, including generated
+C docs too. For instance, ideally we would be able to use the square
+brackets around a C type and have it work:
+
+    /// Exposes the kernel=E2=80=99s [`struct wait_queue_head`] as a condit=
+ion variable.
+
+Regarding the bigger explanations: we are trying to keep most of the
+docs close to the Rust code where it makes sense, as
+module-level/crate-level docs, rather than as rST docs. This has
+several benefits, like keeping them closer to the code, the linking
+features, having them organized equally as the code, no need to know
+whether there is a doc somewhere or not (e.g. if it is, it is near the
+code), examples are compiled, etc.
+
+Of course, sometimes longer-form docs and other documents may not make
+sense as part of any code in particular, or may be shared across C and
+Rust, etc., and there it may more sense to use `Documentation/` files
+instead.
+
+But, in general, the idea is that, compared to C, most of the docs go
+into the code. To give an idea of the difference: so far, in our old
+`rust` branch, we only needed a few documents in `Documentation/`
+(e.g. the Quick Start guide etc.), and everything else went into the
+code itself.
+
+Cheers,
+Miguel
