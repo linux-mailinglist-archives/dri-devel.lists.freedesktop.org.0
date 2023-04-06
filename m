@@ -2,49 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BC966D98E0
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Apr 2023 16:04:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D6826D98FD
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Apr 2023 16:06:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 13E3B10E344;
-	Thu,  6 Apr 2023 14:04:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 61D8010EBD3;
+	Thu,  6 Apr 2023 14:06:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 358FB10E344
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Apr 2023 14:04:19 +0000 (UTC)
-Received: from [192.168.100.34] (unknown [109.100.38.211])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: mvlad)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 6D62C66031C8;
- Thu,  6 Apr 2023 15:04:15 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1680789856;
- bh=6PaAgawyVRF3BifQyjQ2u/+MNeezk6hgYZHuGR/kCX0=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=OSro7Mfv1I7TOsq0yHqWL0HLNk4J57vSWqOSjnY/dWkGa0g/auFSo9ly1cZVIlD61
- LQ6TupT1OIeWzMPCRcYT4RaKOJzZQ58ySnaW4qEiae2pVTw4jxlCsLemJEPYO3TmhW
- mG0eooh4DPHkypYh4zUHCGLIdAY8++m4GM1OzGFZkSUo47MPXhVvezM4ree3zCSwtX
- cA+eqAcp/poLxOd1DJCP0riA/MYgSQLEaqPH0YCx6c9RRD4cQMgw3jdasbCDWtGE8b
- S1aL6J9jSXy8XTKdSQUYQdO9ZLN0z2sbL2jfdfg1HAzBnE+ZcNLMJ880W74SX15xVD
- meN4lSWHeOu+w==
-Message-ID: <ae6b8a8d-450a-b919-1d53-93fa0bf67ccc@collabora.com>
-Date: Thu, 6 Apr 2023 17:04:12 +0300
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 78A9610EBD3
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Apr 2023 14:06:37 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 035D61FE10;
+ Thu,  6 Apr 2023 14:06:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1680789996; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=tj6qTYY7HjBmnMQqASkMGFG64SRZ5nWbwwt6tzxcRgc=;
+ b=rvHBfS6gogvIKS2WovtcYsR106i5Tjq5cU3i0pyVVXeX5J+IdGwrUy5cVxbSC7rEOcYUuN
+ gdRVtyDitINz4rfczZjNAiRkxY+HEt1kkOY5tjWweZ2J3cdVv86FTh6Z7dXc1Fa5xxfePP
+ yDVhu5n/+Pfw2Xj2dzYQIZfJnflUEyc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1680789996;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=tj6qTYY7HjBmnMQqASkMGFG64SRZ5nWbwwt6tzxcRgc=;
+ b=YcQ4OxRj56Q1ndvbvFNPAjAa2H/rnTTFQzthtdsdnqAvv70fsma6TU4T/gg2qX1w8ECDl8
+ V9wHzCwWeVJyFEDw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 90DAF1351F;
+ Thu,  6 Apr 2023 14:06:35 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id QOptIuvRLmTYIAAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Thu, 06 Apr 2023 14:06:35 +0000
+Message-ID: <71e5450f-aad2-1f7c-a961-c0b0fce62eea@suse.de>
+Date: Thu, 6 Apr 2023 16:06:35 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH 2/2] vkms: Add support for multiple connectors
-To: Thomas Zimmermann <tzimmermann@suse.de>, =?UTF-8?Q?Ma=c3=adra_Canal?=
- <mcanal@igalia.com>
-References: <20221202142051.136651-3-marius.vlad@collabora.com>
- <20230405135145.305293-1-mcanal@igalia.com>
- <c3a03808-db42-5dca-54d0-2a227d765bf1@collabora.com>
- <ea757d75-869a-3e32-26b8-301514a72a5a@suse.de>
+ Thunderbird/102.9.0
+Subject: Re: [PATCH 01/18] fbdev: Prepare generic architecture helpers
 Content-Language: en-US
-From: Marius Vlad <marius.vlad@collabora.com>
-In-Reply-To: <ea757d75-869a-3e32-26b8-301514a72a5a@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+To: Arnd Bergmann <arnd@arndb.de>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Helge Deller <deller@gmx.de>, Javier Martinez Canillas <javierm@redhat.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+References: <20230405150554.30540-1-tzimmermann@suse.de>
+ <20230405150554.30540-2-tzimmermann@suse.de>
+ <92fe3838-41f0-4e27-8467-161553ff724f@app.fastmail.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <92fe3838-41f0-4e27-8467-161553ff724f@app.fastmail.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------5BePbc0zJRAG34NMI313OlgI"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,183 +73,108 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: melissa.srw@gmail.com, mwen@igalia.com, dri-devel@lists.freedesktop.org,
- rodrigosiqueiramelo@gmail.com, igormtorrente@gmail.com
+Cc: Linux-Arch <linux-arch@vger.kernel.org>, linux-fbdev@vger.kernel.org,
+ linux-ia64@vger.kernel.org, linux-parisc@vger.kernel.org,
+ linux-sh@vger.kernel.org, x86@kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-mips@vger.kernel.org,
+ linux-m68k@lists.linux-m68k.org, loongarch@lists.linux.dev,
+ sparclinux@vger.kernel.org, linux-snps-arc@lists.infradead.org,
+ linuxppc-dev@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Thomas,
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------5BePbc0zJRAG34NMI313OlgI
+Content-Type: multipart/mixed; boundary="------------MODvgaz0WeNglR1dVG2UtKLY";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Arnd Bergmann <arnd@arndb.de>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Helge Deller <deller@gmx.de>, Javier Martinez Canillas <javierm@redhat.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Linux-Arch <linux-arch@vger.kernel.org>, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-snps-arc@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-ia64@vger.kernel.org, loongarch@lists.linux.dev,
+ linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
+ linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ linux-sh@vger.kernel.org, sparclinux@vger.kernel.org, x86@kernel.org
+Message-ID: <71e5450f-aad2-1f7c-a961-c0b0fce62eea@suse.de>
+Subject: Re: [PATCH 01/18] fbdev: Prepare generic architecture helpers
+References: <20230405150554.30540-1-tzimmermann@suse.de>
+ <20230405150554.30540-2-tzimmermann@suse.de>
+ <92fe3838-41f0-4e27-8467-161553ff724f@app.fastmail.com>
+In-Reply-To: <92fe3838-41f0-4e27-8467-161553ff724f@app.fastmail.com>
 
-Thanks for the clarifications! Made a couple of remarks in-line.
+--------------MODvgaz0WeNglR1dVG2UtKLY
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-On 4/6/23 14:29, Thomas Zimmermann wrote:
-> Hi
-> 
-> Am 06.04.23 um 11:17 schrieb Marius Vlad:
->> Hi Maira,
->>
->> Thanks a lot for taking a look. Yeah, indeed, this creates a new 
->> connector, a CRTC and planes for it. Terminology wise, multiple pipes. 
->> The idea is to have multiple outputs, each with its own connector, as 
->> to be able to simulate (a few) more outputs. At least that's what I'm 
->> looking for.
->>
->> I'll adjust the commits description to clarify that.
->>
->> Regarding the planes, it seemed a bit easier to just create a new
->> tuple of planes for each output, as in to reuse vkms_output_init(). So 
->> I guess that you're suggestion would be to make use the existing planes.
->>
->> Seems a bit more work, not that keen on changing that, but I do have 
->> some follow-up questions for my own curiosity in case I do this:
->>
->> -  Don't I need an entire pipe (a primary plane, crtc, encoder, 
->> connector) to power up the end side of the sink (display)?
-> 
-> Yes, you need at least one full pipeline. I don't see how you'd get 
-> something displayed otherwise.
-> 
->> - Can the primary one be sufficient for multiple outputs?
-> 
-> We have no concept of "primary pipelines." The individual components 
-> have index numbers. There's a primary plane attached to each CRTC, but 
-> even that concept comes more from HW limitations and historical designs, 
-> than fundamental requirements.
+SGkNCg0KQW0gMDUuMDQuMjMgdW0gMTc6NTMgc2NocmllYiBBcm5kIEJlcmdtYW5uOg0KPiBP
+biBXZWQsIEFwciA1LCAyMDIzLCBhdCAxNzowNSwgVGhvbWFzIFppbW1lcm1hbm4gd3JvdGU6
+DQo+PiBHZW5lcmljIGltcGxlbWVudGF0aW9ucyBvZiBmYl9wZ3Byb3RlY3QoKSBhbmQgZmJf
+aXNfcHJpbWFyeV9kZXZpY2UoKQ0KPj4gaGF2ZSBiZWVuIGluIHRoZSBzb3VyY2UgY29kZSBm
+b3IgYSBsb25nIHRpbWUuIFByZXBhcmUgdGhlIGhlYWRlciBmaWxlDQo+PiB0byBtYWtlIHVz
+ZSBvZiB0aGVtLg0KPj4NCj4+IEltcHJvdmUgdGhlIGNvZGUgYnkgdXNpbmcgYW4gaW5saW5l
+IGZ1bmN0aW9uIGZvciBmYl9wZ3Byb3RlY3QoKSBhbmQNCj4+IGJ5IHJlbW92aW5nIGluY2x1
+ZGUgc3RhdGVtZW50cy4NCj4+DQo+PiBTeW1ib2xzIGFyZSBwcm90ZWN0ZWQgYnkgcHJlcHJv
+Y2Vzc29yIGd1YXJkcy4gQXJjaGl0ZWN0dXJlcyB0aGF0DQo+PiBwcm92aWRlIGEgc3ltYm9s
+IG5lZWQgdG8gZGVmaW5lIGEgcHJlcHJvY2Vzc29yIHRva2VuIG9mIHRoZSBzYW1lDQo+PiBu
+YW1lIGFuZCB2YWx1ZS4gT3RoZXJ3aXNlIHRoZSBoZWFkZXIgZmlsZSB3aWxsIHByb3ZpZGUg
+YSBnZW5lcmljDQo+PiBpbXBsZW1lbnRhdGlvbi4gVGhpcyBwYXR0ZXJuIGhhcyBiZWVuIHRh
+a2VuIGZyb20gPGFzbS9pby5oPi4NCj4+DQo+PiBTaWduZWQtb2ZmLWJ5OiBUaG9tYXMgWmlt
+bWVybWFubiA8dHppbW1lcm1hbm5Ac3VzZS5kZT4NCj4gDQo+IE1vdmluZyB0aGlzIGludG8g
+Z2VuZXJpYyBjb2RlIGlzIGdvb2QsIGJ1dCBJJ20gbm90IHN1cmUNCj4gYWJvdXQgdGhlIGRl
+ZmF1bHQgZm9yIGZiX3BncHJvdGVjdCgpOg0KPiANCj4+ICsNCj4+ICsjaWZuZGVmIGZiX3Bn
+cHJvdGVjdA0KPj4gKyNkZWZpbmUgZmJfcGdwcm90ZWN0IGZiX3BncHJvdGVjdA0KPj4gK3N0
+YXRpYyBpbmxpbmUgdm9pZCBmYl9wZ3Byb3RlY3Qoc3RydWN0IGZpbGUgKmZpbGUsIHN0cnVj
+dCB2bV9hcmVhX3N0cnVjdCAqdm1hLA0KPj4gKwkJCQl1bnNpZ25lZCBsb25nIG9mZikNCj4+
+ICt7IH0NCj4+ICsjZW5kaWYNCj4gDQo+IEkgdGhpbmsgbW9zdCBhcmNoaXRlY3R1cmVzIHdp
+bGwgd2FudCB0aGUgdmVyc2lvbiB3ZSBoYXZlIG9uDQo+IGFyYywgYXJtLCBhcm02NCwgbG9v
+bmdhcmNoLCBhbmQgc2ggYWxyZWFkeToNCj4gDQo+IHN0YXRpYyBpbmxpbmUgdm9pZCBmYl9w
+Z3Byb3RlY3Qoc3RydWN0IGZpbGUgKmZpbGUsIHN0cnVjdCB2bV9hcmVhX3N0cnVjdCAqdm1h
+LA0KPiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB1bnNpZ25lZCBsb25nIG9m
+ZikNCj4gew0KPiAgICAgICAgIHZtYS0+dm1fcGFnZV9wcm90ID0gcGdwcm90X3dyaXRlY29t
+YmluZSh2bWEtPnZtX3BhZ2VfcHJvdCk7DQo+IH0NCj4gDQo+IHNvIEknZCBzdWdnZXN0IG1h
+a2luZyB0aGF0IHZlcnNpb24gdGhlIGRlZmF1bHQsIGFuZCB0cmVhdGluZyB0aGUNCj4gZW1w
+dHkgb25lcyAobTY4a25vbW11LCBzcGFyYzMyKSBhcyBhcmNoaXRlY3R1cmUgc3BlY2lmaWMN
+Cj4gd29ya2Fyb3VuZHMuDQo+IA0KPiBJIHNlZSB0aGF0IHNwYXJjNjQgYW5kIHBhcmlzYyB1
+c2UgcGdwcm90X3VuY2FjaGVkIGhlcmUsIGJ1dCBhcw0KPiB0aGV5IGRvbid0IGRlZmluZSBh
+IGN1c3RvbSBwZ3Byb3Rfd3JpdGVjb21iaW5lLCB0aGlzIGVuZHMgdXAgYmVpbmcNCj4gdGhl
+IHNhbWUsIGFuZCB0aGV5IGNhbiB1c2UgdGhlIGFib3ZlIGRlZmluaXRpb24gYXMgd2VsbC4N
+Cj4gDQo+IG1pcHMgZGVmaW5lcyBwZ3Byb3Rfd3JpdGVjb21iaW5lIGJ1dCB1c2VzIHBncHJv
+dF9ub25jYWNoZWQNCj4gaW4gZmJfcGdwcm90ZWN0KCksIHdoaWNoIGlzIHByb2JhYmx5IGEg
+bWlzdGFrZSBhbmQgc2hvdWxkIGhhdmUNCj4gYmVlbiB1cGRhdGVkIGFzIHBhcnQgb2YgY29t
+bWl0IDRiMDUwYmE3YTY2YyAoIk1JUFM6IHBndGFibGUuaDoNCj4gSW1wbGVtZW50IHRoZSBw
+Z3Byb3Rfd3JpdGVjb21iaW5lIGZ1bmN0aW9uIGZvciBNSVBTIikuDQoNCkkgd291bGQgbm90
+IHdhbnQgdG8gY2hhbmdlIGFueSBvZiB0aGUgb3RoZXIgcGxhdGZvcm0ncyBmdW5jdGlvbnMg
+dW5sZXNzIA0KdGhlIHJzcCBwbGF0Zm9ybSBtYWludGFpbmVycyBhc2sgbWUgdG8uDQoNCkJl
+c3QgcmVnYXJkcw0KVGhvbWFzDQoNCj4gDQo+ICAgICAgQXJuZA0KDQotLSANClRob21hcyBa
+aW1tZXJtYW5uDQpHcmFwaGljcyBEcml2ZXIgRGV2ZWxvcGVyDQpTVVNFIFNvZnR3YXJlIFNv
+bHV0aW9ucyBHZXJtYW55IEdtYkgNCk1heGZlbGRzdHIuIDUsIDkwNDA5IE7DvHJuYmVyZywg
+R2VybWFueQ0KKEhSQiAzNjgwOSwgQUcgTsO8cm5iZXJnKQ0KR2VzY2jDpGZ0c2bDvGhyZXI6
+IEl2byBUb3Rldg0K
 
-Right, meant the primary plane, rather than pipeline.
+--------------MODvgaz0WeNglR1dVG2UtKLY--
 
-> 
-> For multiple outputs, you can attach multiple encoders/connectors to the 
-> same CRTC. They will then all display the same screen at the same 
-> display resolution
-Yeah, this kind of sounds like cloning to me, and would like to display 
-different things at the same time, on different outputs, to me it sounds 
-I need primary plane and a CRTC for each connector. Right?
+--------------5BePbc0zJRAG34NMI313OlgI
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
-> 
->> - Can the overlay planes be shared or I need to
->>    discard the ones that are already in-use by other outputs?
-> 
-> Even if your hardware planes support it, you cannot share planes among 
-> CRTCs with DRM. At least I'm not aware how to. Each plane struct has a 
-> designated CRTC struct. For most flexibility I'd have to match HW planes 
-> and DRM planes dynamically. For example if you have 2 CRTCs that can 
-> share 10 HW planes, you can allocate 10 DRM planes for each CRTC. The 
-> atomic_check functions have to implement the mapping from hardware to 
-> software plane and fail if no more hardware planes are available.
-> 
-> If you want to display the same screen on multiple CRTCs, it's possible 
-> to share the DRM framebuffers among similar the planes.
+-----BEGIN PGP SIGNATURE-----
 
-Aham, understood, thanks again!
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmQu0esFAwAAAAAACgkQlh/E3EQov+A3
++Q//XOh61SSsVY48Py2Qalvs1ZdXTTRJozsv2OV7IZPGNx2cNXvMk7k0wZz2OwgpV4+lWxgq+yvD
+An33+eafJLUSvtNpjYl5omC4MaOfnHk5CdOFw+exisXyQs+mN4fFeZRfaG8pEloJPbr5hz1Ecl9G
+D0eey1O1uv8TDN/grrY6+6TyOnYQGFmpYYRrE4gKaL5EdRKy1Zs0BQSWXe0sV/4iaAEpJzPuhcfA
+S2EHgrw1S024RFR0tpttyy8RilJa2qahDL8iWrhLIfo3S0ufRvtGLm2QW2K+/x7lOufPlQsw/X16
+c50C6N4UFCtWwlyyJGX5jbN/ewELBAVVLgA6/APMVAnKfg1742JNBSRQ/e19LFrNgiFbk9DD2X47
+z9K7LklM8KoW0GYV7Oihqdeov9mVkbK+kr4euXPEOSvuGLvlW3mm56zvTgDJnKy4szqXr9Z4tJt2
+Eo5QfO2VIAjjji9HdAfc55ygnPfjLikSWUwktYEPsrFv3dYg8BYa6W4uaAzbBwwu1RR+xjfXic40
+Jr+a1a/Bd3HI+zPXW2PF6Fbi9XYn/6DTPy+0UZnuV6NPG9v51ekpdxJFFL6hOGrQBGBP0VOhWKYO
+7c5sc8Bbosxe7TtLw0DnQJRNwIkAkzlKfptXIGasPvIuXrUE4VvceO5fTc1H2IexRQpdBK72wSJ1
+VWE=
+=wP7T
+-----END PGP SIGNATURE-----
 
-> 
-> Best regards
-> Thomas
-> 
->>
->> I'll have a look at that writeback test as well see what's causing that
->> NULL pointer deref.
->>
->>
->> On 4/5/23 16:51, Maíra Canal wrote:
->>> Hi Marius,
->>>
->>>> This patch adds support for creating multiple virtual connectors, in
->>>> case one would need it. Use module parameters to specify how many,
->>>> defaulting to just one, allocating from the start, a maximum of 4
->>>> possible outputs.
->>>
->>> I got a bit confused by this description. The commit message says 
->>> that you
->>> are creating multiple connectors, but it seems like you are creating 
->>> multiple
->>> pipes. From what I could see, for each new connector created, you are 
->>> also
->>> creating a new CRTC and new planes.
->>>
->>> Moreover, if your real intention is to create multiple pipes, I 
->>> believe that
->>> you don't really need to duplicate the planes as well.
->>>
->>> I ran the VKMS CI [1] with your patches applied and, although most of 
->>> the
->>> tests are now passing with multiple pipes, which is really nice, the 
->>> test
->>> kms_writeback crashes with the following error:
->>>
->>> [ 1997.244347] [IGT] kms_writeback: starting subtest 
->>> writeback-check-output
->>> [ 1997.250673] BUG: kernel NULL pointer dereference, address: 
->>> 000000000000016c
->>> [ 1997.250691] #PF: supervisor read access in kernel mode
->>> [ 1997.250693] #PF: error_code(0x0000) - not-present page
->>> [ 1997.250694] PGD 800000001a877067 P4D 800000001a877067 PUD 1a872067 
->>> PMD 0
->>> [ 1997.250697] Oops: 0000 [#1] PREEMPT SMP PTI
->>> [ 1997.250699] CPU: 2 PID: 3223 Comm: kms_writeback Not tainted 
->>> 6.3.0-rc4-g8c2c29ba129f-dirty #257
->>> [ 1997.250701] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), 
->>> BIOS 1.16.2-1.fc37 04/01/2014
->>> [ 1997.250703] RIP: 0010:drm_vblank_get+0xa/0xe0
->>> [ 1997.250710] Code: a9 66 66 66 66 66 66 2e 0f 1f 84 00 00 00 00 00 
->>> 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 55 41 57 41 56 41 55 
->>> 41 54 53 <8b> 87 6c 01 00 00 41 bc ea ff ff ff 85 c0 74 74 89 f5 48 
->>> 89 fb 39
->>> [ 1997.250712] RSP: 0018:ffffb84d407a3b08 EFLAGS: 00010202
->>> [ 1997.250714] RAX: 0000000000000000 RBX: ffffa2eb02bf8b70 RCX: 
->>> 0000000000000000
->>> [ 1997.250718] RDX: ffffa2eb180d2420 RSI: 0000000000000000 RDI: 
->>> 0000000000000000
->>> [ 1997.250719] RBP: ffffa2eb02bf99e8 R08: 0000000000000036 R09: 
->>> ffffa2eb01d620c0
->>> [ 1997.250720] R10: ffffe82b84027e40 R11: ffffffffc0042520 R12: 
->>> ffffa2eb01c01900
->>> [ 1997.250721] R13: ffffa2eb02bf9b60 R14: 0000000000000001 R15: 
->>> ffffa2ea1ecd6b80
->>> [ 1997.250722] FS:  00007f7d44e89a80(0000) GS:ffffa2eb3bd00000(0000) 
->>> knlGS:0000000000000000
->>> [ 1997.250723] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
->>> [ 1997.250725] CR2: 000000000000016c CR3: 000000001ec02000 CR4: 
->>> 00000000000006e0
->>> [ 1997.250728] Call Trace:
->>> [ 1997.250735]  <TASK>
->>> [ 1997.250736]  vkms_set_composer+0x18/0x60 [vkms]
->>> [ 1997.250745]  vkms_wb_atomic_commit+0x93/0x150 [vkms]
->>> [ 1997.250749]  drm_atomic_helper_commit_modeset_enables+0x1d9/0x250
->>> [ 1997.250754]  vkms_atomic_commit_tail+0x33/0xb0 [vkms]
->>> [ 1997.250758]  commit_tail+0x8d/0x170
->>> [ 1997.250761]  drm_atomic_helper_commit+0x26b/0x280
->>> [ 1997.250763]  drm_atomic_commit+0x9f/0xc0
->>> [ 1997.250766]  ? __pfx___drm_printfn_info+0x10/0x10
->>> [ 1997.250769]  drm_mode_atomic_ioctl+0x34c/0x480
->>> [ 1997.250771]  ? __pfx_drm_mode_atomic_ioctl+0x10/0x10
->>> [ 1997.250773]  drm_ioctl_kernel+0xd7/0x150
->>> [ 1997.250780]  drm_ioctl+0x31f/0x490
->>> [ 1997.250781]  ? __pfx_drm_mode_atomic_ioctl+0x10/0x10
->>> [ 1997.250783]  __se_sys_ioctl+0x6d/0xb0
->>> [ 1997.250789]  do_syscall_64+0x43/0x90
->>> [ 1997.250795]  entry_SYSCALL_64_after_hwframe+0x72/0xdc
->>>
->>> [1] 
->>> https://gitlab.freedesktop.org/drm/igt-gpu-tools/-/tree/master/tests/vkms_ci
->>>
->>> Best Regards,
->>> - Maíra Canal
->>>
->>>>
->>>> This is of particular importance when testing out the DRM backend in
->>>> compositors, but also to be able to independently handle multiple
->>>> outputs/connectors, like setting one to off/sleep on while the others
->>>> are on, and combinations that arise from that.
->>>>
->>>> Signed-off-by: Marius Vlad <marius.vlad@collabora.com>
->>>> ---
->>>>   drivers/gpu/drm/vkms/vkms_crtc.c      |  3 +--
->>>>   drivers/gpu/drm/vkms/vkms_drv.c       | 26 ++++++++++++++++++++++----
->>>>   drivers/gpu/drm/vkms/vkms_drv.h       |  8 +++++---
->>>>   drivers/gpu/drm/vkms/vkms_output.c    |  5 ++---
->>>>   drivers/gpu/drm/vkms/vkms_writeback.c | 18 ++++++++----------
->>>>   5 files changed, 38 insertions(+), 22 deletions(-)
->>>>
-> 
+--------------5BePbc0zJRAG34NMI313OlgI--
