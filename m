@@ -2,54 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C15806DA2DD
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Apr 2023 22:32:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F18C6DA2DB
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Apr 2023 22:32:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1380210ECFC;
-	Thu,  6 Apr 2023 20:32:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 66C6410ECFA;
+	Thu,  6 Apr 2023 20:32:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com
  [IPv6:2a00:1450:4864:20::635])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8E9B210ECFE
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Apr 2023 20:32:01 +0000 (UTC)
-Received: by mail-ej1-x635.google.com with SMTP id 11so4213641ejw.0
- for <dri-devel@lists.freedesktop.org>; Thu, 06 Apr 2023 13:32:01 -0700 (PDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DEAB210ECF9
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Apr 2023 20:32:03 +0000 (UTC)
+Received: by mail-ej1-x635.google.com with SMTP id 11so4213857ejw.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 06 Apr 2023 13:32:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1680813121;
+ d=linaro.org; s=google; t=1680813123;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=o7Jy8Z4lQeZ0wRB6o7UIjx/s2l2tRer+BWQLAS8zWPg=;
- b=Z2eFE6i7URGSrUcq19N/qYIU6025nFLK2hWRYbP7q/Cq06Q69LTeZs5RMcQTIMXLVb
- 3GHpjVPXAqoVVTOw6JK42HXPDXsTbbsqk4Kwz1CSpH2dicwn7L3p65C+xVDebLPONsHT
- pHUTiFhJhi53VA8QEY6qBY9w2OgxhjcwL+GG1X7ApeF/CYuxstrcEuf3/hopgWFiFrOI
- weqXUj7Jn1UWWf1nKdrL/UU31no/btv0AYqzRv3ZMmjd6QfDg6RiR0NS7benxEF+sQK6
- R1mBFXwD5ecjSe6BvqnE5orT7bskqLCxT8XxJ5oeu+D3fsYmXXR4GBDYcPO6jVEBvqia
- nBjQ==
+ bh=Y2mVQ5empood++BDorTJ/weXm8Mrumxl4wyeCMmuFPc=;
+ b=DRP5f0xCBkopIx7BmxPv6s1+3FId1k68mLGA9qo2Ng8EZstP3Sy+utxgejlyUM/RcI
+ EsKNucC0AtqH8zTLd7M+LjOzpl/Mz2ZgGFwbDXqLWo24co2uqs4y08qAPGD0epTPmUDn
+ HqbghHxgsKm2QGnpbFyDEjWpRJqlqR2VA0YIYYuVb3ug34fTs78bGdoN6T7iz+xcPavI
+ eEZLasfB8HV22tARMLXazLczPKWcfXzyRpJX/RRm/ftFCizli/zRyzL7zdvp+RJZJwWP
+ sKPh4Ii4UelEha6smoN1/1l2X1RzB4E9iLl1hxkgjT6138duMap5w2dVkOmyLbZ2FjsU
+ opug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680813121;
+ d=1e100.net; s=20210112; t=1680813123;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=o7Jy8Z4lQeZ0wRB6o7UIjx/s2l2tRer+BWQLAS8zWPg=;
- b=YlJ4HpkMO1fxkkq+EwP1IKvfw3foyquHs9ECok7749XObrCvg1LkOVzZ+3lavum6U9
- 4niwOmzFArGNDHTCyYQ5fg5E6PUmXmdrPI03edekSkKRxnw1E8aP6VuVcIklb53OsAsD
- m2qz6+oEVdS7zvWRfFxd2FezFQ00amfwhNIhtoXSSbc3XMIm7LEsPkn6GNKY32+uBeF2
- PZrUevseNwlCtMJfyamRRDmsVPMtD555vmBjGqvT4wSM93b5vjgYRcTgiNsDJt5V/18o
- SlT060ewMF+KHmUkMKRcFIS3pH+7W6NnR0h52haDMzADDxT6EzQPcj9i3LFNjbM6AeCG
- 3HlA==
-X-Gm-Message-State: AAQBX9euiKr/bDyLXL2qnujjJrqNXvO9D+pJqVzqRbcCIZncpZQYY+pR
- FsJ9sW1jdirOJDJ0uBf6j5JpVA==
-X-Google-Smtp-Source: AKy350ZWpcLNtPVNGNTGeWcT9D6JcdnabpEIq7kEjhcu9FSp1PxTjFsVhQwwsMEPT5I+96ZRKvmQ6Q==
-X-Received: by 2002:a17:906:6046:b0:93e:9362:7607 with SMTP id
- p6-20020a170906604600b0093e93627607mr129978ejj.20.1680813121112; 
- Thu, 06 Apr 2023 13:32:01 -0700 (PDT)
+ bh=Y2mVQ5empood++BDorTJ/weXm8Mrumxl4wyeCMmuFPc=;
+ b=AFYGCze7I4r2phwzZeySkU0W+TeS+BxRsxqohrqoYNr1v3y6vBPtnLGpB2/0Zrb7xE
+ So+3nRUbUV0xR6mzRGZfI5Jz/TeDSOadlvWxApq8J0/unYFp6HNeCilPnV2jVNlbXXRB
+ lTHYKetjsE2o9uQZHuSH1MMZveYpX+KKJ+lwX98NvcjHIrGAIht/5xvmT/kgAtDfiRum
+ H5xR4N7vGIab644tZz4yOljlzxVQtlKtBDBiryJgJIbJX/EZaa3XXqS+0uShfU1X9N0H
+ aQFf/1cXlXQR31htj3PL6ca/Dj7GTWM77DDVdBXAiGOB8RbazBmIBIiAs8poHTb9paad
+ L9aA==
+X-Gm-Message-State: AAQBX9cESJyuQ5d7SjBqjn39iAgdcfRgLRDHdTnBmzoTrhYjYXpo7dZQ
+ JVaRKXGXhCsyI4P7qgrNn43Lug==
+X-Google-Smtp-Source: AKy350at4RVASepxc3SPs3+U+hY5w5cRaraJu7UW9VBSvb5rm8OUubA+yjerPfhwRUJ+h3KdjE6snA==
+X-Received: by 2002:a17:906:46da:b0:949:8772:8195 with SMTP id
+ k26-20020a17090646da00b0094987728195mr134045ejs.38.1680813123383; 
+ Thu, 06 Apr 2023 13:32:03 -0700 (PDT)
 Received: from krzk-bin.. ([2a02:810d:15c0:828:49e6:bb8c:a05b:c4ed])
  by smtp.gmail.com with ESMTPSA id
- s4-20020a1709067b8400b0092bea699124sm1210330ejo.106.2023.04.06.13.31.59
+ s4-20020a1709067b8400b0092bea699124sm1210330ejo.106.2023.04.06.13.32.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 06 Apr 2023 13:32:00 -0700 (PDT)
+ Thu, 06 Apr 2023 13:32:02 -0700 (PDT)
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 To: Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>,
  Jonathan Corbet <corbet@lwn.net>, Oded Gabbay <ogabbay@kernel.org>,
@@ -87,9 +87,10 @@ To: Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>,
  dri-devel@lists.freedesktop.org, patches@opensource.cirrus.com,
  openbmc@lists.ozlabs.org, linux-rpi-kernel@lists.infradead.org,
  linux-arm-kernel@lists.infradead.org
-Subject: [PATCH 20/68] hwmon: ina3221: constify pointers to hwmon_channel_info
-Date: Thu,  6 Apr 2023 22:30:15 +0200
-Message-Id: <20230406203103.3011503-21-krzysztof.kozlowski@linaro.org>
+Subject: [PATCH 21/68] hwmon: intel-m10-bmc: constify pointers to
+ hwmon_channel_info
+Date: Thu,  6 Apr 2023 22:30:16 +0200
+Message-Id: <20230406203103.3011503-22-krzysztof.kozlowski@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230406203103.3011503-1-krzysztof.kozlowski@linaro.org>
 References: <20230406203103.3011503-1-krzysztof.kozlowski@linaro.org>
@@ -116,22 +117,58 @@ const for safety.
 
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 ---
- drivers/hwmon/ina3221.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/hwmon/intel-m10-bmc-hwmon.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/hwmon/ina3221.c b/drivers/hwmon/ina3221.c
-index f3a4c5633b1e..2735e3782ffb 100644
---- a/drivers/hwmon/ina3221.c
-+++ b/drivers/hwmon/ina3221.c
-@@ -650,7 +650,7 @@ static umode_t ina3221_is_visible(const void *drvdata,
- 				   HWMON_C_CRIT | HWMON_C_CRIT_ALARM | \
- 				   HWMON_C_MAX | HWMON_C_MAX_ALARM)
+diff --git a/drivers/hwmon/intel-m10-bmc-hwmon.c b/drivers/hwmon/intel-m10-bmc-hwmon.c
+index 2f0323c14bab..6512f4bec79a 100644
+--- a/drivers/hwmon/intel-m10-bmc-hwmon.c
++++ b/drivers/hwmon/intel-m10-bmc-hwmon.c
+@@ -24,7 +24,7 @@ struct m10bmc_sdata {
  
--static const struct hwmon_channel_info *ina3221_info[] = {
-+static const struct hwmon_channel_info * const ina3221_info[] = {
- 	HWMON_CHANNEL_INFO(chip,
- 			   HWMON_C_SAMPLES,
- 			   HWMON_C_UPDATE_INTERVAL),
+ struct m10bmc_hwmon_board_data {
+ 	const struct m10bmc_sdata *tables[hwmon_max];
+-	const struct hwmon_channel_info **hinfo;
++	const struct hwmon_channel_info * const *hinfo;
+ };
+ 
+ struct m10bmc_hwmon {
+@@ -67,7 +67,7 @@ static const struct m10bmc_sdata n3000bmc_power_tbl[] = {
+ 	{ 0x160, 0x0, 0x0, 0x0, 0x0, 1000, "Board Power" },
+ };
+ 
+-static const struct hwmon_channel_info *n3000bmc_hinfo[] = {
++static const struct hwmon_channel_info * const n3000bmc_hinfo[] = {
+ 	HWMON_CHANNEL_INFO(temp,
+ 			   HWMON_T_INPUT | HWMON_T_MAX | HWMON_T_MAX_HYST |
+ 			   HWMON_T_CRIT | HWMON_T_CRIT_HYST | HWMON_T_LABEL,
+@@ -154,7 +154,7 @@ static const struct m10bmc_hwmon_board_data n3000bmc_hwmon_bdata = {
+ 	.hinfo = n3000bmc_hinfo,
+ };
+ 
+-static const struct hwmon_channel_info *d5005bmc_hinfo[] = {
++static const struct hwmon_channel_info * const d5005bmc_hinfo[] = {
+ 	HWMON_CHANNEL_INFO(temp,
+ 			   HWMON_T_INPUT | HWMON_T_MAX | HWMON_T_MAX_HYST |
+ 			   HWMON_T_CRIT | HWMON_T_CRIT_HYST | HWMON_T_LABEL,
+@@ -280,7 +280,7 @@ static const struct m10bmc_sdata n5010bmc_curr_tbl[] = {
+ 	{ 0x1a0, 0x0, 0x0, 0x0, 0x0, 1, "CVL2 0.8V Current" },
+ };
+ 
+-static const struct hwmon_channel_info *n5010bmc_hinfo[] = {
++static const struct hwmon_channel_info * const n5010bmc_hinfo[] = {
+ 	HWMON_CHANNEL_INFO(temp,
+ 			   HWMON_T_INPUT | HWMON_T_CRIT | HWMON_T_LABEL,
+ 			   HWMON_T_INPUT | HWMON_T_CRIT | HWMON_T_LABEL,
+@@ -432,7 +432,7 @@ static const struct m10bmc_sdata n6000bmc_power_tbl[] = {
+ 	{ 0x724, 0x0, 0x0, 0x0, 0x0, 1, "Board Power" },
+ };
+ 
+-static const struct hwmon_channel_info *n6000bmc_hinfo[] = {
++static const struct hwmon_channel_info * const n6000bmc_hinfo[] = {
+ 	HWMON_CHANNEL_INFO(temp,
+ 			   HWMON_T_INPUT | HWMON_T_MAX | HWMON_T_CRIT |
+ 			   HWMON_T_LABEL,
 -- 
 2.34.1
 
