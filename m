@@ -1,46 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E7296D9280
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Apr 2023 11:17:11 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 013CE6D92A8
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Apr 2023 11:27:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 96F0310EB3F;
-	Thu,  6 Apr 2023 09:17:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0E2E010EB43;
+	Thu,  6 Apr 2023 09:27:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 98F3B10EB3F
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Apr 2023 09:17:07 +0000 (UTC)
-Received: from [192.168.100.34] (unknown [109.100.38.211])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5A7D010EB43
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Apr 2023 09:27:34 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: mvlad)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 4629466031BD;
- Thu,  6 Apr 2023 10:17:05 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1680772625;
- bh=EWXpga+9Pks1POflkgrlgkk4abEpzqnlsjg11D3sbGY=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=b73AflyAl5HRFaulr+B0yXEP6tcqn5dxoOgr/Ly8sJdD+XOKD5Jy74yTfyUW79YCG
- MEtIo4vYWBg2Qzbdi/lYeV9Tw/5OCvtwAolDsvsO0mibkeZM11oxZNe6I8oYpuib0c
- AyGI+Qq8frNtbNU/zpkLpZnVXmS3yxHGQB/Gw5QzNCa106u0JhRFDjqX4cLfzZPXiK
- DEOmssHedT5q0ydn3T3gjbxGlWPG1+zVAP+Ru0ymLT31aoxHag5Y3xHxMDln3NE3W+
- 6ELhY4J2Wn3FqfT46l4VE3vfcoh3z5hQW8cTNTFj1n1PKFCIDFq9CsPAJQ+uUrXewo
- TzqxCoFRUft3A==
-Message-ID: <c3a03808-db42-5dca-54d0-2a227d765bf1@collabora.com>
-Date: Thu, 6 Apr 2023 12:17:01 +0300
+ (No client certificate requested)
+ (Authenticated sender: lina@asahilina.net)
+ by mail.marcansoft.com (Postfix) with ESMTPSA id 03AC842529;
+ Thu,  6 Apr 2023 09:27:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=asahilina.net;
+ s=default; t=1680773252;
+ bh=adiaPke7ib31zLxkeKxCgB0OeLdl6R7DeSrb3OTrYb4=;
+ h=Date:Subject:From:To:Cc:References:In-Reply-To;
+ b=kg3pvIO+mjbEdCO39a2fr5YvX5/alo1Myov+swiupQXyWXzoRzUR9sYVuqWss7Kkt
+ PEKHiRlX0y+FVa69sMmhY1tp+d+9kAhmiaNGIq9x5wbQiO3+f0XDioIPvgweORoiUJ
+ VFZ4qosUUmykgNoj+peK8OXqrQ5m6gBN1hMwOTqxzbNmmdEBB8iSL7VoWFqNMML1KX
+ pwpsvvcZfQB0ht9mIOuUPGKY0/Z87EpJjpcbTN/aEY3CoaTB++VvUXSmhba9tCVoK+
+ jEPzGcfCofoh3GUcG7mxYz1FBQk9uSsnd4KyN0q2Iqmp1sUjWXsWPB9rIqc2EdFVLl
+ OwTm/bFtcKSlg==
+Message-ID: <4ea53272-6324-96e6-ab29-82bccb624683@asahilina.net>
+Date: Thu, 6 Apr 2023 18:27:27 +0900
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH 2/2] vkms: Add support for multiple connectors
-To: =?UTF-8?Q?Ma=c3=adra_Canal?= <mcanal@igalia.com>
-References: <20221202142051.136651-3-marius.vlad@collabora.com>
- <20230405135145.305293-1-mcanal@igalia.com>
+ Thunderbird/102.9.0
+Subject: Re: [PATCH] drm/scheduler: Fix UAF in
+ drm_sched_fence_get_timeline_name
 Content-Language: en-US
-From: Marius Vlad <marius.vlad@collabora.com>
-In-Reply-To: <20230405135145.305293-1-mcanal@igalia.com>
+From: Asahi Lina <lina@asahilina.net>
+To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ Luben Tuikov <luben.tuikov@amd.com>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Sumit Semwal <sumit.semwal@linaro.org>
+References: <20230406-scheduler-uaf-1-v1-1-8e5662269d25@asahilina.net>
+ <6b3433ee-0712-f789-51ee-3047ead9bb79@amd.com>
+ <cfbaceae-6d40-a8b3-e449-6473be234d2d@asahilina.net>
+ <180bd178-e3c0-85e3-785e-fc8a216cf65e@amd.com>
+ <df226249-734e-cb9e-8bc0-1eff625277e0@asahilina.net>
+In-Reply-To: <df226249-734e-cb9e-8bc0-1eff625277e0@asahilina.net>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -55,113 +61,109 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: melissa.srw@gmail.com, mwen@igalia.com, rodrigosiqueiramelo@gmail.com,
- dri-devel@lists.freedesktop.org, igormtorrente@gmail.com
+Cc: asahi@lists.linux.dev, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Maira,
-
-Thanks a lot for taking a look. Yeah, indeed, this creates a new 
-connector, a CRTC and planes for it. Terminology wise, multiple pipes. 
-The idea is to have multiple outputs, each with its own connector, as to 
-be able to simulate (a few) more outputs. At least that's what I'm 
-looking for.
-
-I'll adjust the commits description to clarify that.
-
-Regarding the planes, it seemed a bit easier to just create a new
-tuple of planes for each output, as in to reuse vkms_output_init(). So I 
-guess that you're suggestion would be to make use the existing planes.
-
-Seems a bit more work, not that keen on changing that, but I do have 
-some follow-up questions for my own curiosity in case I do this:
-
--  Don't I need an entire pipe (a primary plane, crtc, encoder, 
-connector) to power up the end side of the sink (display)?
-- Can the primary one be sufficient for multiple outputs?
-- Can the overlay planes be shared or I need to
-   discard the ones that are already in-use by other outputs?
-
-I'll have a look at that writeback test as well see what's causing that
-NULL pointer deref.
-
-
-On 4/5/23 16:51, Maíra Canal wrote:
-> Hi Marius,
-> 
->> This patch adds support for creating multiple virtual connectors, in
->> case one would need it. Use module parameters to specify how many,
->> defaulting to just one, allocating from the start, a maximum of 4
->> possible outputs.
-> 
-> I got a bit confused by this description. The commit message says that you
-> are creating multiple connectors, but it seems like you are creating multiple
-> pipes. From what I could see, for each new connector created, you are also
-> creating a new CRTC and new planes.
-> 
-> Moreover, if your real intention is to create multiple pipes, I believe that
-> you don't really need to duplicate the planes as well.
-> 
-> I ran the VKMS CI [1] with your patches applied and, although most of the
-> tests are now passing with multiple pipes, which is really nice, the test
-> kms_writeback crashes with the following error:
-> 
-> [ 1997.244347] [IGT] kms_writeback: starting subtest writeback-check-output
-> [ 1997.250673] BUG: kernel NULL pointer dereference, address: 000000000000016c
-> [ 1997.250691] #PF: supervisor read access in kernel mode
-> [ 1997.250693] #PF: error_code(0x0000) - not-present page
-> [ 1997.250694] PGD 800000001a877067 P4D 800000001a877067 PUD 1a872067 PMD 0
-> [ 1997.250697] Oops: 0000 [#1] PREEMPT SMP PTI
-> [ 1997.250699] CPU: 2 PID: 3223 Comm: kms_writeback Not tainted 6.3.0-rc4-g8c2c29ba129f-dirty #257
-> [ 1997.250701] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.16.2-1.fc37 04/01/2014
-> [ 1997.250703] RIP: 0010:drm_vblank_get+0xa/0xe0
-> [ 1997.250710] Code: a9 66 66 66 66 66 66 2e 0f 1f 84 00 00 00 00 00 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 55 41 57 41 56 41 55 41 54 53 <8b> 87 6c 01 00 00 41 bc ea ff ff ff 85 c0 74 74 89 f5 48 89 fb 39
-> [ 1997.250712] RSP: 0018:ffffb84d407a3b08 EFLAGS: 00010202
-> [ 1997.250714] RAX: 0000000000000000 RBX: ffffa2eb02bf8b70 RCX: 0000000000000000
-> [ 1997.250718] RDX: ffffa2eb180d2420 RSI: 0000000000000000 RDI: 0000000000000000
-> [ 1997.250719] RBP: ffffa2eb02bf99e8 R08: 0000000000000036 R09: ffffa2eb01d620c0
-> [ 1997.250720] R10: ffffe82b84027e40 R11: ffffffffc0042520 R12: ffffa2eb01c01900
-> [ 1997.250721] R13: ffffa2eb02bf9b60 R14: 0000000000000001 R15: ffffa2ea1ecd6b80
-> [ 1997.250722] FS:  00007f7d44e89a80(0000) GS:ffffa2eb3bd00000(0000) knlGS:0000000000000000
-> [ 1997.250723] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> [ 1997.250725] CR2: 000000000000016c CR3: 000000001ec02000 CR4: 00000000000006e0
-> [ 1997.250728] Call Trace:
-> [ 1997.250735]  <TASK>
-> [ 1997.250736]  vkms_set_composer+0x18/0x60 [vkms]
-> [ 1997.250745]  vkms_wb_atomic_commit+0x93/0x150 [vkms]
-> [ 1997.250749]  drm_atomic_helper_commit_modeset_enables+0x1d9/0x250
-> [ 1997.250754]  vkms_atomic_commit_tail+0x33/0xb0 [vkms]
-> [ 1997.250758]  commit_tail+0x8d/0x170
-> [ 1997.250761]  drm_atomic_helper_commit+0x26b/0x280
-> [ 1997.250763]  drm_atomic_commit+0x9f/0xc0
-> [ 1997.250766]  ? __pfx___drm_printfn_info+0x10/0x10
-> [ 1997.250769]  drm_mode_atomic_ioctl+0x34c/0x480
-> [ 1997.250771]  ? __pfx_drm_mode_atomic_ioctl+0x10/0x10
-> [ 1997.250773]  drm_ioctl_kernel+0xd7/0x150
-> [ 1997.250780]  drm_ioctl+0x31f/0x490
-> [ 1997.250781]  ? __pfx_drm_mode_atomic_ioctl+0x10/0x10
-> [ 1997.250783]  __se_sys_ioctl+0x6d/0xb0
-> [ 1997.250789]  do_syscall_64+0x43/0x90
-> [ 1997.250795]  entry_SYSCALL_64_after_hwframe+0x72/0xdc
-> 
-> [1] https://gitlab.freedesktop.org/drm/igt-gpu-tools/-/tree/master/tests/vkms_ci
-> 
-> Best Regards,
-> - Maíra Canal
-> 
+On 06/04/2023 18.15, Asahi Lina wrote:
+> On 06/04/2023 18.06, Christian König wrote:
+>> Am 06.04.23 um 10:49 schrieb Asahi Lina:
+>>> On 06/04/2023 17.29, Christian König wrote:
+>>>> Am 05.04.23 um 18:34 schrieb Asahi Lina:
+>>>>> A signaled scheduler fence can outlive its scheduler, since fences are
+>>>>> independently reference counted.
+>>>>
+>>>> Well that is actually not correct. Schedulers are supposed to stay
+>>>> around until the hw they have been driving is no longer present.
+>>>
+>>> But the fences can outlive that. You can GPU render into an imported
+>>> buffer, which attaches a fence to it. Then the GPU goes away but the
+>>> fence is still attached to the buffer. Then you oops when you cat that
+>>> debugfs file...
 >>
->> This is of particular importance when testing out the DRM backend in
->> compositors, but also to be able to independently handle multiple
->> outputs/connectors, like setting one to off/sleep on while the others
->> are on, and combinations that arise from that.
+>> No, exactly that's the point you wouldn't ops.
 >>
->> Signed-off-by: Marius Vlad <marius.vlad@collabora.com>
->> ---
->>   drivers/gpu/drm/vkms/vkms_crtc.c      |  3 +--
->>   drivers/gpu/drm/vkms/vkms_drv.c       | 26 ++++++++++++++++++++++----
->>   drivers/gpu/drm/vkms/vkms_drv.h       |  8 +++++---
->>   drivers/gpu/drm/vkms/vkms_output.c    |  5 ++---
->>   drivers/gpu/drm/vkms/vkms_writeback.c | 18 ++++++++----------
->>   5 files changed, 38 insertions(+), 22 deletions(-)
+>>>
+>>> My use case does this way more often (since schedulers are tied to
+>>> UAPI objects), which is how I found this, but as far as I can tell
+>>> this is already broken for all drivers on unplug/unbind/anything else
+>>> that would destroy the schedulers with fences potentially referenced
+>>> on separate scanout devices or at any other DMA-BUF consumer.
 >>
+>> Even if a GPU is hot plugged the data structures for it should only go
+>> away with the last reference, since the scheduler fence is referencing
+>> the hw fence and the hw fence in turn is referencing the driver this
+>> shouldn't happen.
+> 
+> So those fences can potentially keep half the driver data structures
+> alive just for existing in a signaled state? That doesn't seem sensible
+> (and it definitely doesn't work for our use case where schedulers can be
+> created and destroyed freely, it could lead to way too much junk
+> sticking around in memory).
+> 
+>>>
+>>>> E.g. the reference was scheduler_fence->hw_fence->driver->scheduler.
+>>>
+>>> It's up to drivers not to mess that up, since the HW fence has the
+>>> same requirements that it can outlive other driver objects, just like
+>>> any other fence. That's not something the scheduler has to be
+>>> concerned with, it's a driver correctness issue.
+>>>
+>>> Of course, in C you have to get it right yourself, while with correct
+>>> Rust abstractions will cause your code to fail to compile if you do it
+>>> wrong ^^
+>>>
+>>> In my particular case, the hw_fence is a very dumb object that has no
+>>> references to anything, only an ID and a pending op count. Jobs hold
+>>> references to it and decrement it until it signals, not the other way
+>>> around. So that object can live forever regardless of whether the rest
+>>> of the device is gone.
+>>
+>> That is then certainly a bug. This won't work that way, and the timelime
+>> name is just the tip of the iceberg here.
+>>
+>> The fence reference count needs to keep both the scheduler and driver
+>> alive. Otherwise you could for example unload the module and immediately
+>> ops because your fence_ops go away.
+> 
+> Yes, I realized the module issue after writing the email. But that's the
+> *only* thing it needs to hold a reference to! Which is much more
+> sensible than keeping a huge chunk of UAPI-adjacent data structures
+> alive for a signaled fence that for all we know might stick around
+> forever attached to some buffer.
+> 
+>>>> Your use case is now completely different to that and this won't work
+>>>> any more.
+>>>>
+>>>> This here might just be the first case where that breaks.
+>>>
+>>> This bug already exists, it's just a lot rarer for existing use
+>>> cases... but either way Xe is doing the same thing I am, so I'm not
+>>> the only one here either.
+>>
+>> No it doesn't. You just have implemented the references differently than
+>> they are supposed to be.
+>>
+>> Fixing this one occasion here would mitigate that immediate ops, but
+>> doesn't fix the fundamental problem.
+> 
+> Honestly, at this point I'm starting to doubt whether we want to use
+> drm_scheduler at all, because it clearly wasn't designed for our use
+> case and every time I try to fix something your answer has been "you're
+> using it wrong", and at the same time the practically nonexistent
+> documentation makes it impossible to know how it was actually designed
+> to be used.
+
+Also, requiring that the hw_fence keep the scheduler alive (which is 
+documented nowhere) is a completely ridiculous lifetime requirement and 
+layering violation across multiple subsystems. I have no idea how I'd 
+make Rust abstractions uphold that requirement safely without doing 
+something silly like having abstraction-specific hw_fence wrappers, and 
+then you run into deadlocks due to the scheduler potentially being 
+dropped from the job_done callback when the fence reference is dropped 
+and just... no, please. This is terrible. If you don't want me to fix it 
+we'll have to find another way because I can't work with this.
+
+~~ Lina
+
