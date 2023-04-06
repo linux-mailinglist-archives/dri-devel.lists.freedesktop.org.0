@@ -1,59 +1,90 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83BA76D9D2D
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Apr 2023 18:07:32 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0EB5F6D9D4B
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Apr 2023 18:13:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2528B10EC69;
-	Thu,  6 Apr 2023 16:07:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 989B810EC64;
+	Thu,  6 Apr 2023 16:13:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A31F910EC64;
- Thu,  6 Apr 2023 16:07:15 +0000 (UTC)
-Received: from workpc.. (109-252-119-170.nat.spd-mgts.ru [109.252.119.170])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- (Authenticated sender: dmitry.osipenko)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 7A95A66031D2;
- Thu,  6 Apr 2023 17:07:12 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1680797234;
- bh=2LGtU0pJUE3a/3duS9Vh1FoAGcCC8Le26Q5vq5urikI=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=FUcbSMVcgc77GSMrqGVNkMhvFwZrSGNzJ698IQQ1N3WW5XQazwplcZjVab4Dhy528
- m5HxUf/9rOU2FLKhwrW67htcu162jochjWYkBRmA+QTVzhrnn6rJ3u4lfv3Uycup4j
- 1sd9LzAtcJI7QaRU6krnptZJUaF07uBSbFDVxjeJYIwTp/MuFPWzhxlPUWNG9Kfqxi
- 8f98/oUvPjZNJxsjUuf0HI+PLu4GqPHd2h8KrU2CfmLjYi7NwBIOWxpTZWB5rzMDbj
- fpBU90QCHbraRJM2RJ4yBsfLAS0+BrwY+ZjKEYwiimWBwR95KiLAWOeAWzlYWVxqMM
- dY7Wi3cK2lIwQ==
-From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-To: Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Liam Mark <lmark@codeaurora.org>, Brian Starkey <Brian.Starkey@arm.com>,
- John Stultz <jstultz@google.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Daniel Vetter <daniel@ffwll.ch>, Jani Nikula <jani.nikula@linux.intel.com>,
- Arnd Bergmann <arnd@arndb.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Tomi Valkeinen <tomba@kernel.org>,
- Thierry Reding <thierry.reding@gmail.com>,
- Tomasz Figa <tfiga@chromium.org>,
- Marek Szyprowski <m.szyprowski@samsung.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
- Amol Maheshwari <amahesh@qti.qualcomm.com>,
- Emil Velikov <emil.l.velikov@gmail.com>
-Subject: [PATCH v2 7/7] drm/shmem-helper: Switch to reservation lock
-Date: Thu,  6 Apr 2023 19:06:37 +0300
-Message-Id: <20230406160637.541702-8-dmitry.osipenko@collabora.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230406160637.541702-1-dmitry.osipenko@collabora.com>
-References: <20230406160637.541702-1-dmitry.osipenko@collabora.com>
+Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com
+ [IPv6:2a00:1450:4864:20::631])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CC42010EC64
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Apr 2023 16:13:07 +0000 (UTC)
+Received: by mail-ej1-x631.google.com with SMTP id
+ a640c23a62f3a-947f54f67acso18547266b.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 06 Apr 2023 09:13:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ffwll.ch; s=google; t=1680797584; x=1683389584;
+ h=in-reply-to:content-disposition:mime-version:references
+ :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=Vfjx4v5k+l/m+k+I01SkgtQu9JSM6Qas7cJAMSy1WKg=;
+ b=FGVsLGnGeE0qtVgQqDq4BPwSeaAz1WF5tSkGHuDIkl3Be7JxUUdk4jPZuqR9utDPmM
+ B4jeu9LqyYnob4269auwC1gzJCTyZFtYd0HOfAiD+n9SoRoEhhSRbFUIadqbCko3OKZ+
+ XRdYnyfYRTAM/FeM8iIMoq5cgquy2+B2dvPxQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1680797584; x=1683389584;
+ h=in-reply-to:content-disposition:mime-version:references
+ :mail-followup-to:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=Vfjx4v5k+l/m+k+I01SkgtQu9JSM6Qas7cJAMSy1WKg=;
+ b=10mu/P8r6PbVhyrkzKoZg6kGz2xqbQaPd1gHyK+cBdC/ayRbIoYntHTk3JNR0NXlGQ
+ ubMDL0OHuzD1PftS3ncMWabodY70dhl/XZsoerT79CJ5QQepLy3Eiqllyr/1W/KGNUDI
+ Px5D7EgIEr/zdqOS34LzeJ+hfRhQdPY0uF+uhri3YxTxoBB9S/pXta+K7CbDbYnytKBW
+ nJl3iGwcAzFONNIeoxjdkY0NI9QGAIaoc577Iv4atcYy1/9IftYIfqKwoFSMpkh7//l9
+ JCHzYwvnn/vW7dC/d+zM8cBvfZ/0D8q6xN/A+nYPEvDhlAV8Ushq5KaRPIChGaPa6VjT
+ dhyA==
+X-Gm-Message-State: AAQBX9dQGOsnH+41qMqhyteuT851lRe/Brkw/PJOKoGLKNTEwUZ2FE8c
+ ET/xFcjvQ1HokNQPR7JE8mCT1A==
+X-Google-Smtp-Source: AKy350adRPOHepc4p/aiXqP5G4C815cGF9RqeJGmQvmoul3VRF0NyNNN6MxY7KFP+hx08oWeBDm9og==
+X-Received: by 2002:a17:906:100b:b0:939:5398:768e with SMTP id
+ 11-20020a170906100b00b009395398768emr5972085ejm.7.1680797584091; 
+ Thu, 06 Apr 2023 09:13:04 -0700 (PDT)
+Received: from phenom.ffwll.local (212-51-149-33.fiber7.init7.net.
+ [212.51.149.33]) by smtp.gmail.com with ESMTPSA id
+ fy29-20020a1709069f1d00b0093313f4fc3csm995697ejc.70.2023.04.06.09.13.03
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 06 Apr 2023 09:13:03 -0700 (PDT)
+Date: Thu, 6 Apr 2023 18:13:01 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Asahi Lina <lina@asahilina.net>
+Subject: Re: [Linaro-mm-sig] Re: [PATCH RFC 07/18] rust: drm: mm: Add DRM MM
+ Range Allocator abstraction
+Message-ID: <ZC7vjYUnLZqb0FV4@phenom.ffwll.local>
+Mail-Followup-To: Asahi Lina <lina@asahilina.net>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Miguel Ojeda <ojeda@kernel.org>,
+ Alex Gaynor <alex.gaynor@gmail.com>,
+ Wedson Almeida Filho <wedsonaf@gmail.com>,
+ Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+ =?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ Luben Tuikov <luben.tuikov@amd.com>,
+ Jarkko Sakkinen <jarkko@kernel.org>,
+ Dave Hansen <dave.hansen@linux.intel.com>,
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+ Karol Herbst <kherbst@redhat.com>,
+ Ella Stanforth <ella@iglunix.org>,
+ Faith Ekstrand <faith.ekstrand@collabora.com>,
+ Mary <mary@mary.zone>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+ linux-sgx@vger.kernel.org, asahi@lists.linux.dev
+References: <20230307-rust-drm-v1-0-917ff5bc80a8@asahilina.net>
+ <20230307-rust-drm-v1-7-917ff5bc80a8@asahilina.net>
+ <ZC7T92F7K9XTZPZ1@phenom.ffwll.local>
+ <2a419eff-3566-0aa3-7185-951edde22abb@asahilina.net>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2a419eff-3566-0aa3-7185-951edde22abb@asahilina.net>
+X-Operating-System: Linux phenom 6.1.0-7-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,667 +97,216 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, intel-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-tegra@vger.kernel.org, kernel@collabora.com, linux-media@vger.kernel.org
+Cc: Karol Herbst <kherbst@redhat.com>,
+ Dave Hansen <dave.hansen@linux.intel.com>, dri-devel@lists.freedesktop.org,
+ Mary <mary@mary.zone>, Gary Guo <gary@garyguo.net>,
+ Ella Stanforth <ella@iglunix.org>, Sumit Semwal <sumit.semwal@linaro.org>,
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>, Luben Tuikov <luben.tuikov@amd.com>,
+ Alex Gaynor <alex.gaynor@gmail.com>, Miguel Ojeda <ojeda@kernel.org>,
+ linux-media@vger.kernel.org, Wedson Almeida Filho <wedsonaf@gmail.com>,
+ rust-for-linux@vger.kernel.org, Boqun Feng <boqun.feng@gmail.com>,
+ =?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+ Faith Ekstrand <faith.ekstrand@collabora.com>, linux-sgx@vger.kernel.org,
+ linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
+ Jarkko Sakkinen <jarkko@kernel.org>, asahi@lists.linux.dev,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Replace all drm-shmem locks with a GEM reservation lock. This makes locks
-consistent with dma-buf locking convention where importers are responsible
-for holding reservation lock for all operations performed over dma-bufs,
-preventing deadlock between dma-buf importers and exporters.
+On Fri, Apr 07, 2023 at 12:53:47AM +0900, Asahi Lina wrote:
+> On 06/04/2023 23.15, Daniel Vetter wrote:
+> > On Tue, Mar 07, 2023 at 11:25:32PM +0900, Asahi Lina wrote:
+> > > drm_mm provides a simple range allocator, useful for managing virtual
+> > > address ranges. Add a Rust abstraction to expose this module to Rust
+> > > drivers.
+> > > 
+> > > Signed-off-by: Asahi Lina <lina@asahilina.net>
+> > 
+> > In the cover letter you mentioned the design open about embedded the lock
+> > into the rust wrappers.
+> > 
+> > I think for a first step that's perfectly fine.
+> > 
+> > Longer term we might want to ramp up some "proof of locking"
+> > infrastructure in Rust, where callers can supply a lock guard and ideally
+> > rust validates at compile time that it's for the right type, and at
+> > runtime (like lockdep) that it's consistent and the callers don't mix up
+> > locks (like using different locks for the same drm_mm allocator).
+> 
+> That proof-of-lock tuff works in Rust too as far as I know.
+> 
+> But the general thread safety story in Rust is much simpler, you just use
+> methods that take &mut self when locking is the caller's responsibility.
+> That effectively implies that there can only be one reference that can call
+> those methods at any given time, thanks to the borrow checker. Shared
+> references only give you &self, a locked Mutex upgrades that to &mut self,
+> and that's how you get proof of locking at compile time, through and
+> through, not just for the type but for the specific object.
 
-Suggested-by: Daniel Vetter <daniel@ffwll.ch>
-Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
-Reviewed-by: Emil Velikov <emil.l.velikov@gmail.com>
-Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
----
- drivers/gpu/drm/drm_gem_shmem_helper.c        | 208 ++++++++----------
- drivers/gpu/drm/lima/lima_gem.c               |   8 +-
- drivers/gpu/drm/panfrost/panfrost_drv.c       |   7 +-
- .../gpu/drm/panfrost/panfrost_gem_shrinker.c  |   6 +-
- drivers/gpu/drm/panfrost/panfrost_mmu.c       |  19 +-
- include/drm/drm_gem_shmem_helper.h            |  14 +-
- 6 files changed, 114 insertions(+), 148 deletions(-)
+Hm that still has the problem of making sure that you supply the right
+lock (for generic abstractions like drm_mm or drm/sched where the lock is
+supplied by the driver.
 
-diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
-index 4ea6507a77e5..395942ca36fe 100644
---- a/drivers/gpu/drm/drm_gem_shmem_helper.c
-+++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
-@@ -88,8 +88,6 @@ __drm_gem_shmem_create(struct drm_device *dev, size_t size, bool private)
- 	if (ret)
- 		goto err_release;
- 
--	mutex_init(&shmem->pages_lock);
--	mutex_init(&shmem->vmap_lock);
- 	INIT_LIST_HEAD(&shmem->madv_list);
- 
- 	if (!private) {
-@@ -141,11 +139,13 @@ void drm_gem_shmem_free(struct drm_gem_shmem_object *shmem)
- {
- 	struct drm_gem_object *obj = &shmem->base;
- 
--	drm_WARN_ON(obj->dev, shmem->vmap_use_count);
--
- 	if (obj->import_attach) {
- 		drm_prime_gem_destroy(obj, shmem->sgt);
- 	} else {
-+		dma_resv_lock(shmem->base.resv, NULL);
-+
-+		drm_WARN_ON(obj->dev, shmem->vmap_use_count);
-+
- 		if (shmem->sgt) {
- 			dma_unmap_sgtable(obj->dev->dev, shmem->sgt,
- 					  DMA_BIDIRECTIONAL, 0);
-@@ -154,18 +154,18 @@ void drm_gem_shmem_free(struct drm_gem_shmem_object *shmem)
- 		}
- 		if (shmem->pages)
- 			drm_gem_shmem_put_pages(shmem);
--	}
- 
--	drm_WARN_ON(obj->dev, shmem->pages_use_count);
-+		drm_WARN_ON(obj->dev, shmem->pages_use_count);
-+
-+		dma_resv_unlock(shmem->base.resv);
-+	}
- 
- 	drm_gem_object_release(obj);
--	mutex_destroy(&shmem->pages_lock);
--	mutex_destroy(&shmem->vmap_lock);
- 	kfree(shmem);
- }
- EXPORT_SYMBOL_GPL(drm_gem_shmem_free);
- 
--static int drm_gem_shmem_get_pages_locked(struct drm_gem_shmem_object *shmem)
-+static int drm_gem_shmem_get_pages(struct drm_gem_shmem_object *shmem)
- {
- 	struct drm_gem_object *obj = &shmem->base;
- 	struct page **pages;
-@@ -197,35 +197,16 @@ static int drm_gem_shmem_get_pages_locked(struct drm_gem_shmem_object *shmem)
- }
- 
- /*
-- * drm_gem_shmem_get_pages - Allocate backing pages for a shmem GEM object
-+ * drm_gem_shmem_put_pages - Decrease use count on the backing pages for a shmem GEM object
-  * @shmem: shmem GEM object
-  *
-- * This function makes sure that backing pages exists for the shmem GEM object
-- * and increases the use count.
-- *
-- * Returns:
-- * 0 on success or a negative error code on failure.
-+ * This function decreases the use count and puts the backing pages when use drops to zero.
-  */
--int drm_gem_shmem_get_pages(struct drm_gem_shmem_object *shmem)
-+void drm_gem_shmem_put_pages(struct drm_gem_shmem_object *shmem)
- {
- 	struct drm_gem_object *obj = &shmem->base;
--	int ret;
--
--	drm_WARN_ON(obj->dev, obj->import_attach);
--
--	ret = mutex_lock_interruptible(&shmem->pages_lock);
--	if (ret)
--		return ret;
--	ret = drm_gem_shmem_get_pages_locked(shmem);
--	mutex_unlock(&shmem->pages_lock);
--
--	return ret;
--}
--EXPORT_SYMBOL(drm_gem_shmem_get_pages);
- 
--static void drm_gem_shmem_put_pages_locked(struct drm_gem_shmem_object *shmem)
--{
--	struct drm_gem_object *obj = &shmem->base;
-+	dma_resv_assert_held(shmem->base.resv);
- 
- 	if (drm_WARN_ON_ONCE(obj->dev, !shmem->pages_use_count))
- 		return;
-@@ -243,20 +224,25 @@ static void drm_gem_shmem_put_pages_locked(struct drm_gem_shmem_object *shmem)
- 			  shmem->pages_mark_accessed_on_put);
- 	shmem->pages = NULL;
- }
-+EXPORT_SYMBOL(drm_gem_shmem_put_pages);
- 
--/*
-- * drm_gem_shmem_put_pages - Decrease use count on the backing pages for a shmem GEM object
-- * @shmem: shmem GEM object
-- *
-- * This function decreases the use count and puts the backing pages when use drops to zero.
-- */
--void drm_gem_shmem_put_pages(struct drm_gem_shmem_object *shmem)
-+static int drm_gem_shmem_pin_locked(struct drm_gem_shmem_object *shmem)
-+{
-+	int ret;
-+
-+	dma_resv_assert_held(shmem->base.resv);
-+
-+	ret = drm_gem_shmem_get_pages(shmem);
-+
-+	return ret;
-+}
-+
-+static void drm_gem_shmem_unpin_locked(struct drm_gem_shmem_object *shmem)
- {
--	mutex_lock(&shmem->pages_lock);
--	drm_gem_shmem_put_pages_locked(shmem);
--	mutex_unlock(&shmem->pages_lock);
-+	dma_resv_assert_held(shmem->base.resv);
-+
-+	drm_gem_shmem_put_pages(shmem);
- }
--EXPORT_SYMBOL(drm_gem_shmem_put_pages);
- 
- /**
-  * drm_gem_shmem_pin - Pin backing pages for a shmem GEM object
-@@ -271,10 +257,17 @@ EXPORT_SYMBOL(drm_gem_shmem_put_pages);
- int drm_gem_shmem_pin(struct drm_gem_shmem_object *shmem)
- {
- 	struct drm_gem_object *obj = &shmem->base;
-+	int ret;
- 
- 	drm_WARN_ON(obj->dev, obj->import_attach);
- 
--	return drm_gem_shmem_get_pages(shmem);
-+	ret = dma_resv_lock_interruptible(shmem->base.resv, NULL);
-+	if (ret)
-+		return ret;
-+	ret = drm_gem_shmem_pin_locked(shmem);
-+	dma_resv_unlock(shmem->base.resv);
-+
-+	return ret;
- }
- EXPORT_SYMBOL(drm_gem_shmem_pin);
- 
-@@ -291,12 +284,29 @@ void drm_gem_shmem_unpin(struct drm_gem_shmem_object *shmem)
- 
- 	drm_WARN_ON(obj->dev, obj->import_attach);
- 
--	drm_gem_shmem_put_pages(shmem);
-+	dma_resv_lock(shmem->base.resv, NULL);
-+	drm_gem_shmem_unpin_locked(shmem);
-+	dma_resv_unlock(shmem->base.resv);
- }
- EXPORT_SYMBOL(drm_gem_shmem_unpin);
- 
--static int drm_gem_shmem_vmap_locked(struct drm_gem_shmem_object *shmem,
--				     struct iosys_map *map)
-+/*
-+ * drm_gem_shmem_vmap - Create a virtual mapping for a shmem GEM object
-+ * @shmem: shmem GEM object
-+ * @map: Returns the kernel virtual address of the SHMEM GEM object's backing
-+ *       store.
-+ *
-+ * This function makes sure that a contiguous kernel virtual address mapping
-+ * exists for the buffer backing the shmem GEM object. It hides the differences
-+ * between dma-buf imported and natively allocated objects.
-+ *
-+ * Acquired mappings should be cleaned up by calling drm_gem_shmem_vunmap().
-+ *
-+ * Returns:
-+ * 0 on success or a negative error code on failure.
-+ */
-+int drm_gem_shmem_vmap(struct drm_gem_shmem_object *shmem,
-+		       struct iosys_map *map)
- {
- 	struct drm_gem_object *obj = &shmem->base;
- 	int ret = 0;
-@@ -312,6 +322,8 @@ static int drm_gem_shmem_vmap_locked(struct drm_gem_shmem_object *shmem,
- 	} else {
- 		pgprot_t prot = PAGE_KERNEL;
- 
-+		dma_resv_assert_held(shmem->base.resv);
-+
- 		if (shmem->vmap_use_count++ > 0) {
- 			iosys_map_set_vaddr(map, shmem->vaddr);
- 			return 0;
-@@ -346,45 +358,30 @@ static int drm_gem_shmem_vmap_locked(struct drm_gem_shmem_object *shmem,
- 
- 	return ret;
- }
-+EXPORT_SYMBOL(drm_gem_shmem_vmap);
- 
- /*
-- * drm_gem_shmem_vmap - Create a virtual mapping for a shmem GEM object
-+ * drm_gem_shmem_vunmap - Unmap a virtual mapping for a shmem GEM object
-  * @shmem: shmem GEM object
-- * @map: Returns the kernel virtual address of the SHMEM GEM object's backing
-- *       store.
-- *
-- * This function makes sure that a contiguous kernel virtual address mapping
-- * exists for the buffer backing the shmem GEM object. It hides the differences
-- * between dma-buf imported and natively allocated objects.
-+ * @map: Kernel virtual address where the SHMEM GEM object was mapped
-  *
-- * Acquired mappings should be cleaned up by calling drm_gem_shmem_vunmap().
-+ * This function cleans up a kernel virtual address mapping acquired by
-+ * drm_gem_shmem_vmap(). The mapping is only removed when the use count drops to
-+ * zero.
-  *
-- * Returns:
-- * 0 on success or a negative error code on failure.
-+ * This function hides the differences between dma-buf imported and natively
-+ * allocated objects.
-  */
--int drm_gem_shmem_vmap(struct drm_gem_shmem_object *shmem,
--		       struct iosys_map *map)
--{
--	int ret;
--
--	ret = mutex_lock_interruptible(&shmem->vmap_lock);
--	if (ret)
--		return ret;
--	ret = drm_gem_shmem_vmap_locked(shmem, map);
--	mutex_unlock(&shmem->vmap_lock);
--
--	return ret;
--}
--EXPORT_SYMBOL(drm_gem_shmem_vmap);
--
--static void drm_gem_shmem_vunmap_locked(struct drm_gem_shmem_object *shmem,
--					struct iosys_map *map)
-+void drm_gem_shmem_vunmap(struct drm_gem_shmem_object *shmem,
-+			  struct iosys_map *map)
- {
- 	struct drm_gem_object *obj = &shmem->base;
- 
- 	if (obj->import_attach) {
- 		dma_buf_vunmap(obj->import_attach->dmabuf, map);
- 	} else {
-+		dma_resv_assert_held(shmem->base.resv);
-+
- 		if (drm_WARN_ON_ONCE(obj->dev, !shmem->vmap_use_count))
- 			return;
- 
-@@ -397,26 +394,6 @@ static void drm_gem_shmem_vunmap_locked(struct drm_gem_shmem_object *shmem,
- 
- 	shmem->vaddr = NULL;
- }
--
--/*
-- * drm_gem_shmem_vunmap - Unmap a virtual mapping for a shmem GEM object
-- * @shmem: shmem GEM object
-- * @map: Kernel virtual address where the SHMEM GEM object was mapped
-- *
-- * This function cleans up a kernel virtual address mapping acquired by
-- * drm_gem_shmem_vmap(). The mapping is only removed when the use count drops to
-- * zero.
-- *
-- * This function hides the differences between dma-buf imported and natively
-- * allocated objects.
-- */
--void drm_gem_shmem_vunmap(struct drm_gem_shmem_object *shmem,
--			  struct iosys_map *map)
--{
--	mutex_lock(&shmem->vmap_lock);
--	drm_gem_shmem_vunmap_locked(shmem, map);
--	mutex_unlock(&shmem->vmap_lock);
--}
- EXPORT_SYMBOL(drm_gem_shmem_vunmap);
- 
- static int
-@@ -447,24 +424,24 @@ drm_gem_shmem_create_with_handle(struct drm_file *file_priv,
-  */
- int drm_gem_shmem_madvise(struct drm_gem_shmem_object *shmem, int madv)
- {
--	mutex_lock(&shmem->pages_lock);
-+	dma_resv_assert_held(shmem->base.resv);
- 
- 	if (shmem->madv >= 0)
- 		shmem->madv = madv;
- 
- 	madv = shmem->madv;
- 
--	mutex_unlock(&shmem->pages_lock);
--
- 	return (madv >= 0);
- }
- EXPORT_SYMBOL(drm_gem_shmem_madvise);
- 
--void drm_gem_shmem_purge_locked(struct drm_gem_shmem_object *shmem)
-+void drm_gem_shmem_purge(struct drm_gem_shmem_object *shmem)
- {
- 	struct drm_gem_object *obj = &shmem->base;
- 	struct drm_device *dev = obj->dev;
- 
-+	dma_resv_assert_held(shmem->base.resv);
-+
- 	drm_WARN_ON(obj->dev, !drm_gem_shmem_is_purgeable(shmem));
- 
- 	dma_unmap_sgtable(dev->dev, shmem->sgt, DMA_BIDIRECTIONAL, 0);
-@@ -472,7 +449,7 @@ void drm_gem_shmem_purge_locked(struct drm_gem_shmem_object *shmem)
- 	kfree(shmem->sgt);
- 	shmem->sgt = NULL;
- 
--	drm_gem_shmem_put_pages_locked(shmem);
-+	drm_gem_shmem_put_pages(shmem);
- 
- 	shmem->madv = -1;
- 
-@@ -488,17 +465,6 @@ void drm_gem_shmem_purge_locked(struct drm_gem_shmem_object *shmem)
- 
- 	invalidate_mapping_pages(file_inode(obj->filp)->i_mapping, 0, (loff_t)-1);
- }
--EXPORT_SYMBOL(drm_gem_shmem_purge_locked);
--
--bool drm_gem_shmem_purge(struct drm_gem_shmem_object *shmem)
--{
--	if (!mutex_trylock(&shmem->pages_lock))
--		return false;
--	drm_gem_shmem_purge_locked(shmem);
--	mutex_unlock(&shmem->pages_lock);
--
--	return true;
--}
- EXPORT_SYMBOL(drm_gem_shmem_purge);
- 
- /**
-@@ -551,7 +517,7 @@ static vm_fault_t drm_gem_shmem_fault(struct vm_fault *vmf)
- 	/* We don't use vmf->pgoff since that has the fake offset */
- 	page_offset = (vmf->address - vma->vm_start) >> PAGE_SHIFT;
- 
--	mutex_lock(&shmem->pages_lock);
-+	dma_resv_lock(shmem->base.resv, NULL);
- 
- 	if (page_offset >= num_pages ||
- 	    drm_WARN_ON_ONCE(obj->dev, !shmem->pages) ||
-@@ -563,7 +529,7 @@ static vm_fault_t drm_gem_shmem_fault(struct vm_fault *vmf)
- 		ret = vmf_insert_pfn(vma, vmf->address, page_to_pfn(page));
- 	}
- 
--	mutex_unlock(&shmem->pages_lock);
-+	dma_resv_unlock(shmem->base.resv);
- 
- 	return ret;
- }
-@@ -575,7 +541,7 @@ static void drm_gem_shmem_vm_open(struct vm_area_struct *vma)
- 
- 	drm_WARN_ON(obj->dev, obj->import_attach);
- 
--	mutex_lock(&shmem->pages_lock);
-+	dma_resv_lock(shmem->base.resv, NULL);
- 
- 	/*
- 	 * We should have already pinned the pages when the buffer was first
-@@ -585,7 +551,7 @@ static void drm_gem_shmem_vm_open(struct vm_area_struct *vma)
- 	if (!drm_WARN_ON_ONCE(obj->dev, !shmem->pages_use_count))
- 		shmem->pages_use_count++;
- 
--	mutex_unlock(&shmem->pages_lock);
-+	dma_resv_unlock(shmem->base.resv);
- 
- 	drm_gem_vm_open(vma);
- }
-@@ -595,7 +561,10 @@ static void drm_gem_shmem_vm_close(struct vm_area_struct *vma)
- 	struct drm_gem_object *obj = vma->vm_private_data;
- 	struct drm_gem_shmem_object *shmem = to_drm_gem_shmem_obj(obj);
- 
-+	dma_resv_lock(shmem->base.resv, NULL);
- 	drm_gem_shmem_put_pages(shmem);
-+	dma_resv_unlock(shmem->base.resv);
-+
- 	drm_gem_vm_close(vma);
- }
- 
-@@ -633,7 +602,10 @@ int drm_gem_shmem_mmap(struct drm_gem_shmem_object *shmem, struct vm_area_struct
- 		return ret;
- 	}
- 
-+	dma_resv_lock(shmem->base.resv, NULL);
- 	ret = drm_gem_shmem_get_pages(shmem);
-+	dma_resv_unlock(shmem->base.resv);
-+
- 	if (ret)
- 		return ret;
- 
-@@ -699,7 +671,7 @@ static struct sg_table *drm_gem_shmem_get_pages_sgt_locked(struct drm_gem_shmem_
- 
- 	drm_WARN_ON(obj->dev, obj->import_attach);
- 
--	ret = drm_gem_shmem_get_pages_locked(shmem);
-+	ret = drm_gem_shmem_get_pages(shmem);
- 	if (ret)
- 		return ERR_PTR(ret);
- 
-@@ -721,7 +693,7 @@ static struct sg_table *drm_gem_shmem_get_pages_sgt_locked(struct drm_gem_shmem_
- 	sg_free_table(sgt);
- 	kfree(sgt);
- err_put_pages:
--	drm_gem_shmem_put_pages_locked(shmem);
-+	drm_gem_shmem_put_pages(shmem);
- 	return ERR_PTR(ret);
- }
- 
-@@ -746,11 +718,11 @@ struct sg_table *drm_gem_shmem_get_pages_sgt(struct drm_gem_shmem_object *shmem)
- 	int ret;
- 	struct sg_table *sgt;
- 
--	ret = mutex_lock_interruptible(&shmem->pages_lock);
-+	ret = dma_resv_lock_interruptible(shmem->base.resv, NULL);
- 	if (ret)
- 		return ERR_PTR(ret);
- 	sgt = drm_gem_shmem_get_pages_sgt_locked(shmem);
--	mutex_unlock(&shmem->pages_lock);
-+	dma_resv_unlock(shmem->base.resv);
- 
- 	return sgt;
- }
-diff --git a/drivers/gpu/drm/lima/lima_gem.c b/drivers/gpu/drm/lima/lima_gem.c
-index 10252dc11a22..4f9736e5f929 100644
---- a/drivers/gpu/drm/lima/lima_gem.c
-+++ b/drivers/gpu/drm/lima/lima_gem.c
-@@ -34,7 +34,7 @@ int lima_heap_alloc(struct lima_bo *bo, struct lima_vm *vm)
- 
- 	new_size = min(new_size, bo->base.base.size);
- 
--	mutex_lock(&bo->base.pages_lock);
-+	dma_resv_lock(bo->base.base.resv, NULL);
- 
- 	if (bo->base.pages) {
- 		pages = bo->base.pages;
-@@ -42,7 +42,7 @@ int lima_heap_alloc(struct lima_bo *bo, struct lima_vm *vm)
- 		pages = kvmalloc_array(bo->base.base.size >> PAGE_SHIFT,
- 				       sizeof(*pages), GFP_KERNEL | __GFP_ZERO);
- 		if (!pages) {
--			mutex_unlock(&bo->base.pages_lock);
-+			dma_resv_unlock(bo->base.base.resv);
- 			return -ENOMEM;
- 		}
- 
-@@ -56,13 +56,13 @@ int lima_heap_alloc(struct lima_bo *bo, struct lima_vm *vm)
- 		struct page *page = shmem_read_mapping_page(mapping, i);
- 
- 		if (IS_ERR(page)) {
--			mutex_unlock(&bo->base.pages_lock);
-+			dma_resv_unlock(bo->base.base.resv);
- 			return PTR_ERR(page);
- 		}
- 		pages[i] = page;
- 	}
- 
--	mutex_unlock(&bo->base.pages_lock);
-+	dma_resv_unlock(bo->base.base.resv);
- 
- 	ret = sg_alloc_table_from_pages(&sgt, pages, i, 0,
- 					new_size, GFP_KERNEL);
-diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panfrost/panfrost_drv.c
-index bbada731bbbd..d9dda6acdfac 100644
---- a/drivers/gpu/drm/panfrost/panfrost_drv.c
-+++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
-@@ -407,6 +407,10 @@ static int panfrost_ioctl_madvise(struct drm_device *dev, void *data,
- 
- 	bo = to_panfrost_bo(gem_obj);
- 
-+	ret = dma_resv_lock_interruptible(bo->base.base.resv, NULL);
-+	if (ret)
-+		goto out_put_object;
-+
- 	mutex_lock(&pfdev->shrinker_lock);
- 	mutex_lock(&bo->mappings.lock);
- 	if (args->madv == PANFROST_MADV_DONTNEED) {
-@@ -444,7 +448,8 @@ static int panfrost_ioctl_madvise(struct drm_device *dev, void *data,
- out_unlock_mappings:
- 	mutex_unlock(&bo->mappings.lock);
- 	mutex_unlock(&pfdev->shrinker_lock);
--
-+	dma_resv_unlock(bo->base.base.resv);
-+out_put_object:
- 	drm_gem_object_put(gem_obj);
- 	return ret;
- }
-diff --git a/drivers/gpu/drm/panfrost/panfrost_gem_shrinker.c b/drivers/gpu/drm/panfrost/panfrost_gem_shrinker.c
-index bf0170782f25..6a71a2555f85 100644
---- a/drivers/gpu/drm/panfrost/panfrost_gem_shrinker.c
-+++ b/drivers/gpu/drm/panfrost/panfrost_gem_shrinker.c
-@@ -48,14 +48,14 @@ static bool panfrost_gem_purge(struct drm_gem_object *obj)
- 	if (!mutex_trylock(&bo->mappings.lock))
- 		return false;
- 
--	if (!mutex_trylock(&shmem->pages_lock))
-+	if (!dma_resv_trylock(shmem->base.resv))
- 		goto unlock_mappings;
- 
- 	panfrost_gem_teardown_mappings_locked(bo);
--	drm_gem_shmem_purge_locked(&bo->base);
-+	drm_gem_shmem_purge(&bo->base);
- 	ret = true;
- 
--	mutex_unlock(&shmem->pages_lock);
-+	dma_resv_unlock(shmem->base.resv);
- 
- unlock_mappings:
- 	mutex_unlock(&bo->mappings.lock);
-diff --git a/drivers/gpu/drm/panfrost/panfrost_mmu.c b/drivers/gpu/drm/panfrost/panfrost_mmu.c
-index 666a5e53fe19..0679df57f394 100644
---- a/drivers/gpu/drm/panfrost/panfrost_mmu.c
-+++ b/drivers/gpu/drm/panfrost/panfrost_mmu.c
-@@ -443,6 +443,7 @@ static int panfrost_mmu_map_fault_addr(struct panfrost_device *pfdev, int as,
- 	struct panfrost_gem_mapping *bomapping;
- 	struct panfrost_gem_object *bo;
- 	struct address_space *mapping;
-+	struct drm_gem_object *obj;
- 	pgoff_t page_offset;
- 	struct sg_table *sgt;
- 	struct page **pages;
-@@ -465,15 +466,16 @@ static int panfrost_mmu_map_fault_addr(struct panfrost_device *pfdev, int as,
- 	page_offset = addr >> PAGE_SHIFT;
- 	page_offset -= bomapping->mmnode.start;
- 
--	mutex_lock(&bo->base.pages_lock);
-+	obj = &bo->base.base;
-+
-+	dma_resv_lock(obj->resv, NULL);
- 
- 	if (!bo->base.pages) {
- 		bo->sgts = kvmalloc_array(bo->base.base.size / SZ_2M,
- 				     sizeof(struct sg_table), GFP_KERNEL | __GFP_ZERO);
- 		if (!bo->sgts) {
--			mutex_unlock(&bo->base.pages_lock);
- 			ret = -ENOMEM;
--			goto err_bo;
-+			goto err_unlock;
- 		}
- 
- 		pages = kvmalloc_array(bo->base.base.size >> PAGE_SHIFT,
-@@ -481,9 +483,8 @@ static int panfrost_mmu_map_fault_addr(struct panfrost_device *pfdev, int as,
- 		if (!pages) {
- 			kvfree(bo->sgts);
- 			bo->sgts = NULL;
--			mutex_unlock(&bo->base.pages_lock);
- 			ret = -ENOMEM;
--			goto err_bo;
-+			goto err_unlock;
- 		}
- 		bo->base.pages = pages;
- 		bo->base.pages_use_count = 1;
-@@ -491,7 +492,6 @@ static int panfrost_mmu_map_fault_addr(struct panfrost_device *pfdev, int as,
- 		pages = bo->base.pages;
- 		if (pages[page_offset]) {
- 			/* Pages are already mapped, bail out. */
--			mutex_unlock(&bo->base.pages_lock);
- 			goto out;
- 		}
- 	}
-@@ -502,14 +502,11 @@ static int panfrost_mmu_map_fault_addr(struct panfrost_device *pfdev, int as,
- 	for (i = page_offset; i < page_offset + NUM_FAULT_PAGES; i++) {
- 		pages[i] = shmem_read_mapping_page(mapping, i);
- 		if (IS_ERR(pages[i])) {
--			mutex_unlock(&bo->base.pages_lock);
- 			ret = PTR_ERR(pages[i]);
- 			goto err_pages;
- 		}
- 	}
- 
--	mutex_unlock(&bo->base.pages_lock);
--
- 	sgt = &bo->sgts[page_offset / (SZ_2M / PAGE_SIZE)];
- 	ret = sg_alloc_table_from_pages(sgt, pages + page_offset,
- 					NUM_FAULT_PAGES, 0, SZ_2M, GFP_KERNEL);
-@@ -528,6 +525,8 @@ static int panfrost_mmu_map_fault_addr(struct panfrost_device *pfdev, int as,
- 	dev_dbg(pfdev->dev, "mapped page fault @ AS%d %llx", as, addr);
- 
- out:
-+	dma_resv_unlock(obj->resv);
-+
- 	panfrost_gem_mapping_put(bomapping);
- 
- 	return 0;
-@@ -536,6 +535,8 @@ static int panfrost_mmu_map_fault_addr(struct panfrost_device *pfdev, int as,
- 	sg_free_table(sgt);
- err_pages:
- 	drm_gem_shmem_put_pages(&bo->base);
-+err_unlock:
-+	dma_resv_unlock(obj->resv);
- err_bo:
- 	panfrost_gem_mapping_put(bomapping);
- 	return ret;
-diff --git a/include/drm/drm_gem_shmem_helper.h b/include/drm/drm_gem_shmem_helper.h
-index 5994fed5e327..20ddcd799df9 100644
---- a/include/drm/drm_gem_shmem_helper.h
-+++ b/include/drm/drm_gem_shmem_helper.h
-@@ -26,11 +26,6 @@ struct drm_gem_shmem_object {
- 	 */
- 	struct drm_gem_object base;
- 
--	/**
--	 * @pages_lock: Protects the page table and use count
--	 */
--	struct mutex pages_lock;
--
- 	/**
- 	 * @pages: Page table
- 	 */
-@@ -65,11 +60,6 @@ struct drm_gem_shmem_object {
- 	 */
- 	struct sg_table *sgt;
- 
--	/**
--	 * @vmap_lock: Protects the vmap address and use count
--	 */
--	struct mutex vmap_lock;
--
- 	/**
- 	 * @vaddr: Kernel virtual address of the backing memory
- 	 */
-@@ -109,7 +99,6 @@ struct drm_gem_shmem_object {
- struct drm_gem_shmem_object *drm_gem_shmem_create(struct drm_device *dev, size_t size);
- void drm_gem_shmem_free(struct drm_gem_shmem_object *shmem);
- 
--int drm_gem_shmem_get_pages(struct drm_gem_shmem_object *shmem);
- void drm_gem_shmem_put_pages(struct drm_gem_shmem_object *shmem);
- int drm_gem_shmem_pin(struct drm_gem_shmem_object *shmem);
- void drm_gem_shmem_unpin(struct drm_gem_shmem_object *shmem);
-@@ -128,8 +117,7 @@ static inline bool drm_gem_shmem_is_purgeable(struct drm_gem_shmem_object *shmem
- 		!shmem->base.dma_buf && !shmem->base.import_attach;
- }
- 
--void drm_gem_shmem_purge_locked(struct drm_gem_shmem_object *shmem);
--bool drm_gem_shmem_purge(struct drm_gem_shmem_object *shmem);
-+void drm_gem_shmem_purge(struct drm_gem_shmem_object *shmem);
- 
- struct sg_table *drm_gem_shmem_get_sg_table(struct drm_gem_shmem_object *shmem);
- struct sg_table *drm_gem_shmem_get_pages_sgt(struct drm_gem_shmem_object *shmem);
+Once we have the lock then yeah borrow checker makes sure you can't screw
+up, worst case needs a PhantomData (I guess) as toke of proof to pass
+around the borrowed lifetime (If I got that right from your use of
+PhantomData in the sched wrappers).
+
+> > There's a lot of libraries in the kernel that have this "caller ensures
+> > locking" pattern. drm/sched also has these requirements.
+> 
+> Yup, that all usually maps nicely to &mut self in Rust... except for the
+> issue below.
+> 
+> > There's two other things I'd like to bring up on this patch though, just
+> > because it's a good example. But they're both really general points that
+> > apply for all the rust wrappers.
+> > 
+> > Documentation:
+> > 
+> > In drm we try to document all the interfaces that drivers use with formal
+> > docs. Yes there's some areas that are not great for historical reasons,
+> > but for new stuff and new wrappers we're really trying:
+> > 
+> > - This helps in telling internal (even across .c files or in rust across
+> >    modules within a crate) from stuff drivers access. Sure you have static
+> >    in C or pub in rust, but that doesn't tell you whether it's public all
+> >    the way to drivers.
+> > 
+> > - ideally docs have a short intro section that explains the main concepts
+> >    and links to the main data structures and functions. Just to give
+> >    readers a good starting point to explore.
+> > 
+> > - Linking all the things, so that readers can connect the different parts.
+> >    This is really important in C where e.g. get/put() or any such function
+> >    pairs all needed to be linked together. With rust I'm hoping that
+> >    rustdoc liberally sprinkles links already and we don't have to do this
+> >    as much.
+> > 
+> > - Short explainers for parameters. For rust this also means type
+> >    parameters, for those even simplified examples of how drivers are
+> >    supposed to use them would help a lot in reading docs & understanding
+> >    concepts.
+> > 
+> > - Ideally links from the rust to the sphinx side to linke relevant
+> >    chapters together. Often the bigger explanations are in .rst files with
+> >    DOT graphs (kms has a bunch I've added) or similar, and it doesn't make
+> >    that much sense to duplicate all that on the rust side I guess. But it
+> >    needs to be discoverable.
+> > 
+> > This might be more a discussion topic for the rust people than you
+> > directly. Still needed for the merge-ready patches eventually.
+> 
+> I don't know much about the doc gen stuff on the Rust side so yeah, this is
+> something I need to look into to make it pretty and complete...
+
+From what Miguel has shown I think it's all there already, and the only
+missing pieces are the cross-linking at a chapter level from rustdoc to
+rst and sphinx to rstdoc too ideally. But I think for most rust wrappers
+that will be one link each direction only (e.g. C drm_mm linking to
+kernel::drm::MM and other way round and done). So absolutely no problem if
+that one item is sorted out post merge once rustdoc/kernel-sphinx are
+ready.
+
+> > Refcounting vs borrowing:
+> > 
+> > This is honestly much more the eyebrow raising one than the locking. Very
+> > often on the C side these datastructures all work with borrow semantics,
+> > and you need to explicitly upgrade to a full reference (kref_get or
+> > kref_get_unless_zero, depending whether it's a strong or weak reference)
+> > if you need the object outside of the mutex/lock guard section.
+> > 
+> > Again I think for now it's ok, but the sales pitch of rust is that it
+> > enables borrow lifetime checking with no runtime cost. Plus viz the vm
+> > cleanup example, if you have too many strong backreferences the cleanup
+> > flow gets complicated. And it would suck if rust drivers have to add
+> > complexity like the openrefcount for the vm example simply because we
+> > can't model the borrow semantics well enough to be safe.
+> > 
+> > So not something that's really bad here, but if we need to resort to full
+> > refcounting already for simple datastructures then I'm getting a bit
+> > worried about how well rust will cope with the really nasty borrowed
+> > reference tricks we're playing in other areas.
+> > 
+> > Again more a topic for the rust folks I think than specifically here about
+> > drm_mm wrapping. Just to get things going I think this is fine.
+> 
+> Yeeeeah... this is a *specific* problem. Drop.
+> 
+> The Allocator<T> itself is perfectly safe to implement without any locking,
+> refcounting, or anything. You just make the methods take &mut self (as they
+> already do), the caller can use it with a single reference or wrap it in an
+> Arc<Mutex<T>> and share it, or whatever.
+> 
+> The problem is the Node<A, T>. When you Drop that, it has to go back to the
+> Allocator. But now you're a different object, so no thread safety
+> guarantees. And you need to keep the Allocator alive. So now to make a safe
+> abstraction, you need refcounting and a mutex.
+> 
+> Lifetimes just don't work here, sadly. Not for a useful abstraction.
+> 
+> I'd love to hear from the other Rust folks whether they have any better
+> ideas...
+
+Hm yeah I think I get the gist of the issue. At time of Drop there's no
+allocator reference you can borrow and so you're screwed.
+
+In C we tend to solve that by passing both to the unlink/drop stuff (and
+rust could then ensure that we have legit borrows for both), but I guess
+that just totally wreaks entire wrapper and makes it really rough to use.
+
+> One thing that *can* be done is making the Drop illegal (Rust can't do this
+> "natively" but Linux already has hacks for that, we can make it fail to link
+> if the Drop is ever called). Then you'd have to actively return the Node to
+> the Allocator with a free function. Since Drop is forbidden, and Node is
+> pinned, you'd always have to either return Node objects to the Allocator or
+> leak them. You could drop the Allocator before its nodes, but as far as I
+> know drm_mm can safely handle that (though it will complain), and then due
+> to the previous guarantees the *only* thing you could do with orphan nodes
+> is leak their memory, which is safe.
+> 
+> It would work... but it breaks the whole Rust automagic Drop stuff.
+
+Yeah I think I see the challenge ...
+
+> Thinking about this a bit, I think I want the current mutex/arc semantics
+> for something like a memory allocator (which is one of my primary use cases
+> for drm_mm), since I definitely don't want to be manually returning objects
+> to their allocator all over the place, nor have overarching lifetime
+> requirements that the allocator outlive its objects for safety (that sounds
+> like a can of worms I don't want to open, I'd much rather use a refcount
+> even if I "think" I can prove the lifetime bounds ad-hoc). But for something
+> like a drm_mm that is tracking VA ranges within a VM with all Nodes held
+> internally, maybe I could manage it all internally and have all node
+> destruction be handled via an explicit call into the Allocator.
+
+Yeah I think for gpuva we need to do better, but assuming the gpuva
+library is in C then rust would just need to encode the safety properties
+that (hopefully) the C library guarantees ...
+
+And for any driver that just wants to use some range manager the standard
+wrapping leans heavily on the side of "easy to use".
+
+> Maybe the mm abstraction should offer both options? The extra locking can be
+> implemented in terms of the base unlocked version I think (perhaps with some
+> Deref abuse for ergonomics)... I definitely want to hear more opinions about
+> this from other Rust folks, since there are probably other options I haven't
+> considered...
+
+I don't think we need the more raw/tricky one, at least not until we have
+some serious libraries like gpuva implemented in rust. Or drivers
+reimplementing the gpuva stuff in their driver :-)
+
+> Aside: This, and all the other DRM abstractions, were written before the
+> pin_init stuff from y86 that is in review right now was ready. That may open
+> up more interesting/ergonomic/efficient APIs for some cases, especially
+> where Pin and embedding C types into user objects in some way are involved.
+> So maybe there's room for improvement here. Just a sidenote.
+
+Ah good to know, and yeah that make open some interesting options.
+-Daniel
 -- 
-2.39.2
-
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
