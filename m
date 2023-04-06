@@ -1,62 +1,75 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 894106D94D7
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Apr 2023 13:15:36 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 064846D94E0
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Apr 2023 13:16:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EE2CD10E263;
-	Thu,  6 Apr 2023 11:15:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 64E9210EB5F;
+	Thu,  6 Apr 2023 11:16:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0D2B510E263
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Apr 2023 11:15:29 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 528D51FED2;
- Thu,  6 Apr 2023 11:15:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1680779728; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=24m7oiUZdERwR0bAk2uGjiiwrQhLKxWnRTtyLj8jgLQ=;
- b=XW2ZGOKx2vjC9rjn/4YizCkqnL09EiNgGT89mB16A4EsGCU09bZOHptuMr5kfc58zhVYCN
- M3lIxMX0oNyKg6jrjy3Jke5FmHh3KFWEs6Ztx9AzEzDy7K0L6988cOO2v5tyz/2Y9kvnXQ
- Lcv0nxugAQMwZuOUDYNEjaV5k/fCVfs=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1680779728;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=24m7oiUZdERwR0bAk2uGjiiwrQhLKxWnRTtyLj8jgLQ=;
- b=BhClUP3VzliyflcBv138s6m4SyboTRx6OvHUNb4A2LBpDwdVVAJuerivhvYxTZQkJLz90T
- CyqdOa0+NQh2Q2Bg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 1C83E133E5;
- Thu,  6 Apr 2023 11:15:28 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id LaTOBdCpLmS5PwAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Thu, 06 Apr 2023 11:15:28 +0000
-Message-ID: <b1945325-d662-dece-93bd-af77c92a2cdc@suse.de>
-Date: Thu, 6 Apr 2023 13:15:27 +0200
+Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com
+ [IPv6:2607:f8b0:4864:20::1036])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E942110EB5F;
+ Thu,  6 Apr 2023 11:16:41 +0000 (UTC)
+Received: by mail-pj1-x1036.google.com with SMTP id ml21so14971580pjb.4;
+ Thu, 06 Apr 2023 04:16:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20210112; t=1680779801;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=rHYb6HpZexNXpJPoSYlJ81so+XmwouNfzYZUA6PN18U=;
+ b=SDaFVzdAZ+PGA1ek7sqxgPqbwZ9e8KwjO6kClHWchQUtfi/N49prAHd7IdkbvOwWOZ
+ DDpc8RwXY+XPJeA39kRMrRgHknt+we5V7J+JHaYX9uqFd/iDJ1A1rKFxn75FVGwRN7C9
+ Rdbzb5wpwizbAz8a5w6B4/69ooWI+qcE8ct/52b2eImoo8RvSEHLXnPOtbqnW7eSW6L9
+ xxaoGQJ/MgI5t5o0nrkC1xWa4wVSzkgz4m7Zvjs6kmgLtlBFeUoQQP1O6aHzFLulaVGI
+ eSMeh0uBunp4exeqgVl9B6IKPri0dVWGCtTmJTB+NflZYOgv1UDcFSw+QRTHV2N0jHe+
+ MH0A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1680779801;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=rHYb6HpZexNXpJPoSYlJ81so+XmwouNfzYZUA6PN18U=;
+ b=TMlqI1gtksENkiZWkc9WewW8kBbhJeHk0I66jN9SrwHmon78Pez1qmyD4uXY7BPhdv
+ HkiX1Z/rja5JmtCaDuU3WlnpTv8J5ehQxzL+loF7HOAEFgMt9jQbNIiAqFvky6mbWtyi
+ KVusjqySearJKCRmM/8PRBta02NGvtp+xy7SWQMhPSuMIv6m8zpGXx8R5E9e7RoGBKPB
+ qijIBeeARuCoEMPXowkbgTrmXnrExfXkyTYS8w05YhQUQ/7fFeuF/GNL1u+dYtzyhtkn
+ 4ltFxEe2urQ3Ea80QZ1s+pX7MsXaODkF7FjD7O1iXeIu38mwP4rM9yne4KQB4Y4SX//e
+ dj8g==
+X-Gm-Message-State: AAQBX9dnOSssUXDYilM93BBIZfMUYgm1GovldNmErdyIXo0VWdj3jbRT
+ WTWVfcfOWOdnicq+2zG9f3tjIkOLS3xL+4bSmj4=
+X-Google-Smtp-Source: AKy350arGCXxw7uauw789YlI8TO/HwCaYawY3nlDmw4c5UA3Zi2ES5khLwASbt7Bf6ex+oy5vMfzdUDRk2wt+5Ej38c=
+X-Received: by 2002:a17:902:8684:b0:1a0:6b23:7b55 with SMTP id
+ g4-20020a170902868400b001a06b237b55mr3912998plo.4.1680779800802; Thu, 06 Apr
+ 2023 04:16:40 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH 0/2] drm/vkms: A couple of trivial cleanups
-Content-Language: en-US
-To: Javier Martinez Canillas <javierm@redhat.com>, linux-kernel@vger.kernel.org
-References: <20230406110235.3092055-1-javierm@redhat.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <20230406110235.3092055-1-javierm@redhat.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------NRXLk0sQbn05CuutGW2uWRhu"
+References: <20230404201842.567344-1-daniel.vetter@ffwll.ch>
+ <5556a755-01a1-3620-8693-0fc69c6f627d@suse.de>
+ <3813a2f5-c74a-4760-34ce-1c88f187c91c@suse.de>
+ <ZC04hoHywz0ySzAW@phenom.ffwll.local>
+ <3fd03c4c-3be6-e56b-faec-bd67a58cda09@suse.de>
+ <ZC1BlNCbXPlmAhj0@phenom.ffwll.local>
+ <eee11545-2a78-4556-be82-5178ea09d0d8@suse.de>
+ <877cuqd1f8.fsf@minerva.mail-host-address-is-not-set>
+ <ZC11J3og4Kc9ta6m@phenom.ffwll.local>
+ <242ab20f-affe-b55a-6068-5ea634705cf6@suse.de>
+ <ZC2beu/9inolwIlr@phenom.ffwll.local>
+ <87bkk29smu.fsf@minerva.mail-host-address-is-not-set>
+ <CAKMK7uGbPWE5mg2+ojxxEdfknDzmjDr+5n_y-t-nYNzDFE21EA@mail.gmail.com>
+ <CAMeQTsam0efUrS=x+Eb+p8A3rXgCOUmA7UVjFB=9oAKFoepzOw@mail.gmail.com>
+ <CAKMK7uEKab8UN4U=ztER_4zyODNJhxVhowJ6yDVBWuLd978MDQ@mail.gmail.com>
+In-Reply-To: <CAKMK7uEKab8UN4U=ztER_4zyODNJhxVhowJ6yDVBWuLd978MDQ@mail.gmail.com>
+From: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
+Date: Thu, 6 Apr 2023 13:16:29 +0200
+Message-ID: <CAMeQTsbs01-B4rk3v=+emAm2o2pKB6Ndpz=3AG5VEiHso1D7qA@mail.gmail.com>
+Subject: Re: [Intel-gfx] [PATCH 1/8] drm/gma500: Use
+ drm_aperture_remove_conflicting_pci_framebuffers
+To: Daniel Vetter <daniel@ffwll.ch>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,78 +82,179 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Haneen Mohammed <hamohammed.sa@gmail.com>,
- Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- =?UTF-8?Q?Ma=c3=adra_Canal?= <mcanal@igalia.com>,
- dri-devel@lists.freedesktop.org, Melissa Wen <melissa.srw@gmail.com>,
- Marius Vlad <marius.vlad@collabora.com>
+Cc: Daniel Vetter <daniel.vetter@intel.com>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------NRXLk0sQbn05CuutGW2uWRhu
-Content-Type: multipart/mixed; boundary="------------Z04pnDURB9kYva3fNMUXMM0E";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Javier Martinez Canillas <javierm@redhat.com>,
- linux-kernel@vger.kernel.org
-Cc: =?UTF-8?Q?Ma=c3=adra_Canal?= <mcanal@igalia.com>,
- Marius Vlad <marius.vlad@collabora.com>, Daniel Vetter <daniel@ffwll.ch>,
- David Airlie <airlied@gmail.com>, Haneen Mohammed <hamohammed.sa@gmail.com>,
- Melissa Wen <melissa.srw@gmail.com>,
- Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- dri-devel@lists.freedesktop.org
-Message-ID: <b1945325-d662-dece-93bd-af77c92a2cdc@suse.de>
-Subject: Re: [PATCH 0/2] drm/vkms: A couple of trivial cleanups
-References: <20230406110235.3092055-1-javierm@redhat.com>
-In-Reply-To: <20230406110235.3092055-1-javierm@redhat.com>
+On Thu, Apr 6, 2023 at 9:32=E2=80=AFAM Daniel Vetter <daniel@ffwll.ch> wrot=
+e:
+>
+> On Wed, 5 Apr 2023 at 19:46, Patrik Jakobsson
+> <patrik.r.jakobsson@gmail.com> wrote:
+> >
+> > On Wed, Apr 5, 2023 at 7:15=E2=80=AFPM Daniel Vetter <daniel@ffwll.ch> =
+wrote:
+> > >
+> > > On Wed, 5 Apr 2023 at 18:54, Javier Martinez Canillas
+> > > <javierm@redhat.com> wrote:
+> > > >
+> > > > Daniel Vetter <daniel@ffwll.ch> writes:
+> > > >
+> > > > > On Wed, Apr 05, 2023 at 04:32:19PM +0200, Thomas Zimmermann wrote=
+:
+> > > >
+> > > > [...]
+> > > >
+> > > > >> > > >        /*
+> > > > >> > > >         * WARNING: Apparently we must kick fbdev drivers b=
+efore vgacon,
+> > > > >> > > >         * otherwise the vga fbdev driver falls over.
+> > > > >> > > >         */
+> > > > >> > > >        ret =3D vga_remove_vgacon(pdev);
+> > > > >> >
+> > > > >> > This isn't enough, we also nuke stuff that's mapping the vga f=
+b range.
+> > > >
+> > > > Ah, also need aperture_detach_devices(VGA_FB_PHYS_BASE, VGA_FB_PHYS=
+_SIZE) then.
+> > > >
+> > > > [...]
+> > > >
+> > > > >> int aperture_remove_legacy_vga_devices(struct pci_dev *pdev)
+> > > > >> {
+> > > > >>      aperture_detach_devices(VGA_FB_PHYS_BASE, VGA_FB_PHYS_SIZE)=
+;
+> > > > >>
+> > > > >>      return vga_remove_vgacon(pdev);
+> > > > >> }
+> > > > >>
+> > > > >> And that can be called from gma500 and the pci aperture helper.
+> > > > >
+> > > > > But you still pass a pci_dev to that helper. Which just doesn't m=
+ake any
+> > > > > sense to me (assuming your entire point is that this isn't just a=
+ normal
+> > > > > pci device but some special legacy vga thing), but if we go with =
+(void)
+> > > > > then there's more refactoring to do because the vga_remove_vgacon=
+ also
+> > > > > wants a pdev.
+> > > > >
+> > > > > All so that we don't call aperture_detach_devices() on a bunch of=
+ pci
+> > > > > bars, which apparently is not problem for any other driver, but a=
+bsolutely
+> > > > > is a huge problem for gma500 somehow.
+> > > > >
+> > > > > I don't understand why.
+> > > > >
+> > > >
+> > > > Yeah, agreed that if vga_remove_vgacon() isn't enough and another h=
+elper
+> > > > is needed then starts to get a little silly. Maybe one option is to=
+ add a
+> > > > 3rd param to aperture_remove_conflicting_pci_devices() and skip the=
+ logic
+> > > > to iterate over PCI bars and call aperture_remove_conflicting_devic=
+es() ?
+> > >
+> > > The thing I don't get: Why does this matter for gma500 and not any of
+> > > the other pci devices? Look at your gpu, realize there's a lot more
+> > > than the one pci bar for vram or stolen memory, realize that we're
+> > > nuking bars that cannot possible contain the framebuffer for everyone
+> > > else too. Like the entire "gpus have a lot of bars" thing is the
+> > > reason why I pulled the sysfb_disable one level up, because we've bee=
+n
+> > > doing that quite a few times before this patch (yes it's not the main
+> > > thing, but the side-effect cleanup is why I've gone down this rabbit
+> > > hole and wrote the entire series here):
+> > >
+> > > https://lore.kernel.org/dri-devel/20230404201842.567344-7-daniel.vett=
+er@ffwll.ch/
+> > >
+> > > But somehow for gma500 it's a problem, while for everyone else it's
+> > > fine. That's the part I dont get, or Thomas&me have been talking past
+> > > each another and there's another issue that I'm missing.
+> > > -Daniel
+> >
+> > I'm also getting confused here.
+> >
+> > AFAIK the stolen memory works the same for gma500 hardware as other
+> > Intel GPUs. Are you saying that there is a difference in how gma500
+> > hardware works? I always assumed that i915 got away with not dealing
+> > much with stolen memory because it simply doesn't use it for
+> > allocations. In gma500 we use it for fbdev and cursors. The actual
+> > pages reserved by the bios can be accessed through a pci bar if you
+> > map it so (which IIRC we do) but I suppose that doesn't help
+> > identifying it as a range reserved by other drivers.
+>
+> The other integrated gpu have their fw fb behind a pci bar, and stolen
+> is often entirely hidden from the cpu for direct access. gma500 seems
+> different with having stolen as just a specially marked up range of
+> normal system memory. That's why the usual pci helper doesn't catch
+> everything for gma500.
 
---------------Z04pnDURB9kYva3fNMUXMM0E
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+Right, now I get it. You don't have the GATT on some systems so the
+range can never be inside the aperture on those systems anyway.
 
-SGkNCg0KUmV2aWV3ZWQtYnk6IFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNl
-LmRlPg0KDQpmb3IgdGhlIHNlcmllcy4NCg0KQmVzdCByZWdhcmRzDQpUaG9tYXMNCg0KQW0g
-MDYuMDQuMjMgdW0gMTM6MDIgc2NocmllYiBKYXZpZXIgTWFydGluZXogQ2FuaWxsYXM6DQo+
-IEhlbGxvLA0KPiANCj4gVGhpcyBzZXJpZXMgY29udGFpbnMgdHdvIHRyaXZpYWwgY2xlYW51
-cHMgZm9yIHRoZSB2a21zIGRyaXZlci4NCj4gDQo+IFBhdGNoICMxIGp1c3QgZ2V0cyByaWQg
-b2YgYSB3cmFwcGVyIGhlbHBlciB0aGF0IHdhc24ndCByZWFsbHkgYWRkaW5nIHRoYXQNCj4g
-bXVjaCB2YWx1ZSBhbmQgcGF0Y2ggIzIgZHJvcHMgdGhlIDxkcm0vZHJtX3NpbXBsZV9rbXNf
-aGVscGVyLmg+IGhlYWRlcg0KPiB0aGF0IHdhcyBvbmx5IHVzZWQgdG8gY2FsbCB0aGUgZHJt
-X3NpbXBsZV9lbmNvZGVyX2luaXQoKSBmdW5jdGlvbiBoZWxwZXIuDQo+IA0KPiBCZXN0IHJl
-Z2FyZHMsDQo+IEphdmllcg0KPiANCj4gDQo+IEphdmllciBNYXJ0aW5leiBDYW5pbGxhcyAo
-Mik6DQo+ICAgIGRybS92a21zOiBEcm9wIHZrbXNfY29ubmVjdG9yX2Rlc3Ryb3koKSB3cmFw
-cGVyDQo+ICAgIGRybS92a21zOiBSZW1vdmUgPGRybS9kcm1fc2ltcGxlX2ttc19oZWxwZXIu
-aD4gaW5jbHVkZQ0KPiANCj4gICBkcml2ZXJzL2dwdS9kcm0vdmttcy92a21zX291dHB1dC5j
-IHwgMTUgKysrKysrKy0tLS0tLS0tDQo+ICAgMSBmaWxlIGNoYW5nZWQsIDcgaW5zZXJ0aW9u
-cygrKSwgOCBkZWxldGlvbnMoLSkNCj4gDQo+IA0KPiBiYXNlLWNvbW1pdDogNzdkMDhhMmRl
-NmE0MzUyMWY1YTAyODQ4ZjExMTg1YjZmNDZhZjIxYw0KDQotLSANClRob21hcyBaaW1tZXJt
-YW5uDQpHcmFwaGljcyBEcml2ZXIgRGV2ZWxvcGVyDQpTVVNFIFNvZnR3YXJlIFNvbHV0aW9u
-cyBHZXJtYW55IEdtYkgNCk1heGZlbGRzdHIuIDUsIDkwNDA5IE7DvHJuYmVyZywgR2VybWFu
-eQ0KKEhSQiAzNjgwOSwgQUcgTsO8cm5iZXJnKQ0KR2VzY2jDpGZ0c2bDvGhyZXI6IEl2byBU
-b3Rldg0K
+The GATT probably went away because there is no need for it since you
+don't get coherency with the PowerVR parts anyway.
 
---------------Z04pnDURB9kYva3fNMUXMM0E--
+Thanks for explaining
 
---------------NRXLk0sQbn05CuutGW2uWRhu
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmQuqc8FAwAAAAAACgkQlh/E3EQov+CZ
-pxAAl2ymufGdLxPIFGZa9gXVj1mjMWs757j+OGe0hMrGkDUHWfVlyhV0gbJb1OkhGny5CdRpToZf
-t6NJXPq9TiZPJImjZ2+pCk8dQrXsc/Q1RN4S7pQet6FecETSqA2+dsTIKyxbSMLi5bIusvABokK8
-PbbmcrW9EskxBgxGyUmRJU+2Go2kCBrwt4BQS+tbzMDL6Pn5/kPPp/dCwbQeVNgyyZ6Sv3+b5bBS
-QgQmgKBjutHHgZu9BY+nkmaEwKG8QcJ1T9T8WWbmVv0uaNI9mvoPFlHZMSXaUd147Bzb3jWBGSQ3
-mzQ/RaBHxhg+YcIynO5XVefbsueXxqRVdE/4ixnREIymKlukmTaASlyXxI1UzQNiBB26VHFDZ+WJ
-3GegPCnr7JzcZW5jHYCqsH0JbYnH0JDA9ZKohgwScnkbHLrZl63vawXQwF9MB/jUoGeH/nyzgXAr
-AyKZ5AG7Gyt9fs4psxz8ndUTDgASH715sGv2qLH9C0ak7NhDm/ODP2IwhuCDeI9v7FebM29/tura
-n+6aDbMrvdoqPSpZnHhfD0Hu8MjwMjiZ+ZCSwe1KL592qjitUlb2XxKMvcWLwDzZDRQFWt9w8Uo2
-RFIh4aW2W6Q/MFjdc55qZgzsbZ3ELlIck9hyAnA67zXpFWin+aQRiIA1AtZCZbphHiixENSNIIBl
-4RM=
-=Kk5B
------END PGP SIGNATURE-----
-
---------------NRXLk0sQbn05CuutGW2uWRhu--
+>
+> > The reason I've kept the stolen allocation logic is because some
+> > gma500 systems don't have a lot of memory. But that is mostly the old
+> > Pouslbo systems. Perhaps it is time to ditch the stolen allocation
+> > code?
+>
+> Yeah that's all fine.
+> -Daniel
+>
+> >
+> > -Patrik
+> >
+> > >
+> > > > > Consider this me throwing in the towel. If you&Javier are convinc=
+ed this
+> > > > > makes sense please type it up and merge it, but I'm not going to =
+type
+> > > > > something that just doesn't make sense to me.
+> > > >
+> > > > Honestly, I would just go with the double drm_aperture_remove_*() h=
+elper
+> > > > calls (your original patch) unless that causes real issues. There i=
+s no
+> > > > point on blocking all your series just for this IMO.
+> > > >
+> > > > Then latter if Thomas has strong opinions can send a follow-up patc=
+h for
+> > > > the gma500 driver and the aperture helpers.
+> > > >
+> > > > > -Daniel
+> > > > >
+> > > >
+> > > > --
+> > > > Best regards,
+> > > >
+> > > > Javier Martinez Canillas
+> > > > Core Platforms
+> > > > Red Hat
+> > > >
+> > >
+> > >
+> > > --
+> > > Daniel Vetter
+> > > Software Engineer, Intel Corporation
+> > > http://blog.ffwll.ch
+>
+>
+>
+> --
+> Daniel Vetter
+> Software Engineer, Intel Corporation
+> http://blog.ffwll.ch
