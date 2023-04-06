@@ -2,73 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F4196D91D8
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Apr 2023 10:41:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4150E6D91E3
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Apr 2023 10:44:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C6A0210EB32;
-	Thu,  6 Apr 2023 08:41:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 250BD10EB35;
+	Thu,  6 Apr 2023 08:44:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7A3E410EB2F
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Apr 2023 08:41:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1680770491;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Pm1SmHCiXVJgB9qh3meEK0gPp/5pA8a4oPlDt/MLg/0=;
- b=KkQLf/7MK6kL+XEvxczO3IbOZMCHUvs3NDf5ffzJdvkmHHHWAm/ZWh33nmH2LrWvugyPPU
- NNBB3fc4bg1UCkNs/JeTFyA/kyBD19RZE1tYlxnlSda5eayXCKakkSqz7fjAQHLwwNQEgV
- 52YUiH9drPpZiF8WY7JnbSbrejW1FsY=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-479-BSMb9D3vPY2CYY0M46UzEQ-1; Thu, 06 Apr 2023 04:41:30 -0400
-X-MC-Unique: BSMb9D3vPY2CYY0M46UzEQ-1
-Received: by mail-wm1-f71.google.com with SMTP id
- r11-20020a05600c458b00b003eea8d25f06so18460791wmo.1
- for <dri-devel@lists.freedesktop.org>; Thu, 06 Apr 2023 01:41:30 -0700 (PDT)
+Received: from mail-vs1-xe32.google.com (mail-vs1-xe32.google.com
+ [IPv6:2607:f8b0:4864:20::e32])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 914F410EB35
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Apr 2023 08:44:09 +0000 (UTC)
+Received: by mail-vs1-xe32.google.com with SMTP id cz11so33780864vsb.6
+ for <dri-devel@lists.freedesktop.org>; Thu, 06 Apr 2023 01:44:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1680770648;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=V9qHCmLykS8ziwfzdBHiOw5DQ1ViD+uRbDJHxmIchmw=;
+ b=iNg2KuR9jalZ+h4/VyzMgwrkhyxO32DPxG8d84t4LIfQAyff7IOxa6TnbegwlJqXOz
+ 6jkF2CsM+uUEzhln9YCIFXgmu2XE//qG5SnsKQRKB8o1F7Gp1lhFz9GAMJcg099XbrYD
+ Rc+g8NsHZG6GITq3N8XQOu1OQGDUQmtQMrH5w=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680770489;
- h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Pm1SmHCiXVJgB9qh3meEK0gPp/5pA8a4oPlDt/MLg/0=;
- b=GxwZhJX35Ky1H4q3duE3f1r9RVAJq8R+i/2ZbuxIvWy8eW8xHuXg8afinHCL5JyRjZ
- c01ueg7P6/u+9js1dARYrzM1ai1cJ3vp0kY02p5GlL/CK06UZBU2Aw5OB0cGx94BR1nk
- iO9zz8/juCx1m7hqnp5A/GYzvPwOS6jkz3J7/8wdtC/OfsGfGOi4ZYQR8FV5n9NMcrjD
- 82KsZoeNf0YPbb3GqTNMS7GxihW6SZGHfqsooAp/drQhSM+uVcmoFvJBXSFXEmCNonlH
- cjqtbPToi7Pfw0mpX49VNJMVUkdmi9uD455mw72ggVfjE6I4m7AHqMgCvyM5HzcFKG8Z
- Cntw==
-X-Gm-Message-State: AAQBX9dLRtIeRyo4Q1NfvMmH8eRtCkRNb+ZOQQOvAda0EvqOQu7/WLcB
- Cs+n3ylzjTj/IQwkR1AmtJqGkAb64bCZaWmI/aHVcfuMZGImQRXGozIPJFPpk36xuUrsARxyuao
- rj1NOkKrVUhsit6iooYvAWyCIW/IZ
-X-Received: by 2002:a5d:6309:0:b0:2e4:cc81:8a80 with SMTP id
- i9-20020a5d6309000000b002e4cc818a80mr6460707wru.26.1680770489349; 
- Thu, 06 Apr 2023 01:41:29 -0700 (PDT)
-X-Google-Smtp-Source: AKy350am5itvNAUUxuCrbzZq5VJLvE93M04g9G8abPWVJqsX1oLJzDxvMUuO5eiedGuioDNExXmAnQ==
-X-Received: by 2002:a5d:6309:0:b0:2e4:cc81:8a80 with SMTP id
- i9-20020a5d6309000000b002e4cc818a80mr6460696wru.26.1680770489074; 
- Thu, 06 Apr 2023 01:41:29 -0700 (PDT)
-Received: from localhost ([84.78.248.32]) by smtp.gmail.com with ESMTPSA id
- t13-20020a5d534d000000b002c5d3f0f737sm1136563wrv.30.2023.04.06.01.41.28
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 06 Apr 2023 01:41:28 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>, daniel.vetter@ffwll.ch,
- patrik.r.jakobsson@gmail.com
-Subject: Re: [PATCH v4 1/9] drm/gma500: Use
- drm_aperture_remove_conflicting_pci_framebuffers
-In-Reply-To: <20230406083240.14031-2-tzimmermann@suse.de>
-References: <20230406083240.14031-1-tzimmermann@suse.de>
- <20230406083240.14031-2-tzimmermann@suse.de>
-Date: Thu, 06 Apr 2023 10:41:27 +0200
-Message-ID: <87r0sx8kso.fsf@minerva.mail-host-address-is-not-set>
+ d=1e100.net; s=20210112; t=1680770648;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=V9qHCmLykS8ziwfzdBHiOw5DQ1ViD+uRbDJHxmIchmw=;
+ b=0gZMxszFfigHiTY0IhjujtSN8QarH4BYRY0Aj34fZDxwIHS4MaqX+YqmRU8gRbi7pf
+ SVihzSQF4gcS/Ch0BX9bpiG5Pk4fz4HI/RU8zQH57RaEjaPlR45GBPSqo5rw0KBGVGX5
+ 5hWW8JUrHLtn+lPxakyBSXEgMa66VaXQmNgXggII91RiY+C7zJ8PgJukOc8MvD3hutrk
+ x/6MELhYNstWVg92BDZb/59lq1by5ZSaYePNUNj1RKCed2mX15NSefukgS+xz2NyJpx7
+ OJ5ADHSMATgbqLo6NaWE7VyGh7TYfzdmQMvKv46UTcG/G8U3BVfzIa/Mq8rtaAbYrXgp
+ 55BQ==
+X-Gm-Message-State: AAQBX9c3O/2z4saSTj0IjA537yFYAKoRc8fewA42PP3LCFBOYSfsprQA
+ Apm2X26Qjbyz/gvHGXRWc1i5WTbkypA6VenVCSYWNA==
+X-Google-Smtp-Source: AKy350auiw3Jet0bNm+lP+O0VQZojvLuU9MVfhLLUcEo9lSIXD5q4R+Oxt5HdpQyv/g95Fjz7JjeNxiTLcPhwMDj5yY=
+X-Received: by 2002:a67:d81d:0:b0:429:d443:96a with SMTP id
+ e29-20020a67d81d000000b00429d443096amr6931579vsj.7.1680770648142; Thu, 06 Apr
+ 2023 01:44:08 -0700 (PDT)
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+References: <20230404104800.301150-1-angelogioacchino.delregno@collabora.com>
+ <CAGXv+5FEEkMg+SY7ZkSHN2G9jtT6TBiN9MadZmYGMX_uVi5=gQ@mail.gmail.com>
+ <46a65c4b-4407-d19a-0e4b-6ceab97d8e64@collabora.com>
+In-Reply-To: <46a65c4b-4407-d19a-0e4b-6ceab97d8e64@collabora.com>
+From: Chen-Yu Tsai <wenst@chromium.org>
+Date: Thu, 6 Apr 2023 16:43:56 +0800
+Message-ID: <CAGXv+5E1aSw_ut-kSCPK4=+dabRkmBS7EG4yHX9Zr+YVj5u9ww@mail.gmail.com>
+Subject: Re: [PATCH v3 0/9] MediaTek DisplayPort: support eDP and aux-bus
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,48 +66,207 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
+Cc: chunkuang.hu@kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
+ matthias.bgg@gmail.com, kernel@collabora.com,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Thomas Zimmermann <tzimmermann@suse.de> writes:
-
-> From: Daniel Vetter <daniel.vetter@ffwll.ch>
+On Thu, Apr 6, 2023 at 4:25=E2=80=AFPM AngeloGioacchino Del Regno
+<angelogioacchino.delregno@collabora.com> wrote:
 >
-> This one nukes all framebuffers, which is a bit much. In reality
-> gma500 is igpu and never shipped with anything discrete, so there should
-> not be any difference.
+> Il 06/04/23 09:20, Chen-Yu Tsai ha scritto:
+> > On Tue, Apr 4, 2023 at 6:48=E2=80=AFPM AngeloGioacchino Del Regno
+> > <angelogioacchino.delregno@collabora.com> wrote:
+> >>
+> >> Changes in v3:
+> >>   - Added DPTX AUX block initialization before trying to communicate
+> >>     to stop relying on the bootloader keeping it initialized before
+> >>     booting Linux.
+> >>   - Fixed commit description for patch [09/09] and removed commented
+> >>     out code (that slipped from dev phase.. sorry!).
+> >>
+> >> This series adds "real" support for eDP in the mtk-dp DisplayPort driv=
+er.
+> >>
+> >> Explaining the "real":
+> >> Before this change, the DisplayPort driver did support eDP to some
+> >> extent, but it was treating it entirely like a regular DP interface
+> >> which is partially fine, after all, embedded DisplayPort *is* actually
+> >> DisplayPort, but there might be some differences to account for... and
+> >> this is for both small performance improvements and, more importantly,
+> >> for correct functionality in some systems.
+> >>
+> >> Functionality first:
+> >>
+> >> One of the common differences found in various boards implementing eDP
+> >> and machines using an eDP panel is that many times the HPD line is not
+> >> connected. This *must* be accounted for: at startup, this specific IP
+> >> will raise a HPD interrupt (which should maybe be ignored... as it doe=
+s
+> >> not appear to be a "real" event...) that will make the eDP panel to be
+> >> detected and to actually work but, after a suspend-resume cycle, there
+> >> will be no HPD interrupt (as there's no HPD line in my case!) producin=
+g
+> >> a functionality issue - specifically, the DP Link Training fails becau=
+se
+> >> the panel doesn't get powered up, then it stays black and won't work
+> >> until rebooting the machine (or removing and reinserting the module I
+> >> think, but I haven't tried that).
+> >>
+> >> Now for.. both:
+> >> eDP panels are *e*DP because they are *not* removable (in the sense th=
+at
+> >> you can't unplug the cable without disassembling the machine, in which
+> >> case, the machine shall be powered down..!): this (correct) assumption
+> >> makes us able to solve some issues and to also gain a little performan=
+ce
+> >> during PM operations.
+> >>
+> >> What was done here is:
+> >>   - Caching the EDID if the panel is eDP: we're always going to read t=
+he
+> >>     same data everytime, so we can just cache that (as it's small enou=
+gh)
+> >>     shortening PM resume times for the eDP driver instance;
+> >>   - Always return connector_status_connected if it's eDP: non-removabl=
+e
+> >>     means connector_status_disconnected can't happen during runtime...
+> >>     this also saves us some time and even power, as we won't have to
+> >>     perform yet another power cycle of the HW;
+> >>   - Added aux-bus support!
+> >>     This makes us able to rely on panel autodetection from the EDID,
+> >>     avoiding to add more and more panel timings to panel-edp and, even
+> >>     better, allowing to use one panel node in devicetrees for multiple
+> >>     variants of the same machine since, at that point, it's not import=
+ant
+> >>     to "preventively know" what panel we have (eh, it's autodetected..=
+.!).
+> >>
+> >> This was tested on a MT8195 Cherry Tomato Chromebook (panel-edp on aux=
+-bus)
+> >>
+> >>
+> >> P.S.: For your own testing commodity, here's a reference devicetree:
+> >> &edp_tx {
+> >>          status =3D "okay";
+> >>
+> >>          pinctrl-names =3D "default";
+> >>          pinctrl-0 =3D <&edptx_pins_default>;
+> >>
+> >>          ports {
+> >>                  #address-cells =3D <1>;
+> >>                  #size-cells =3D <0>;
+> >>
+> >>                  port@0 {
+> >>                          reg =3D <0>;
+> >>                          edp_in: endpoint {
+> >>                                  remote-endpoint =3D <&dp_intf0_out>;
+> >>                          };
+> >>                  };
+> >>
+> >>                  port@1 {
+> >>                          reg =3D <1>;
+> >>                          edp_out: endpoint {
+> >>                                  data-lanes =3D <0 1 2 3>;
+> >>                                  remote-endpoint =3D <&panel_in>;
+> >>                          };
+> >>                  };
+> >>          };
+> >>
+> >>          aux-bus {
+> >>                  panel: panel {
+> >>                          compatible =3D "edp-panel";
+> >>                          power-supply =3D <&pp3300_disp_x>;
+> >>                          backlight =3D <&backlight_lcd0>;
+> >>                          port {
+> >>                                  panel_in: endpoint {
+> >>                                          remote-endpoint =3D <&edp_out=
+>;
+> >>                                  };
+> >>                          };
+> >>                  };
+> >>          };
+> >> };
+> >>
+> >> AngeloGioacchino Del Regno (9):
+> >>    drm/mediatek: dp: Cache EDID for eDP panel
+> >>    drm/mediatek: dp: Move AUX and panel poweron/off sequence to functi=
+on
+> >>    drm/mediatek: dp: Always return connected status for eDP in .detect=
+()
+> >>    drm/mediatek: dp: Always set cable_plugged_in at resume for eDP pan=
+el
+> >>    drm/mediatek: dp: Change logging to dev for mtk_dp_aux_transfer()
+> >>    drm/mediatek: dp: Enable event interrupt only when bridge attached
+> >>    drm/mediatek: dp: Use devm variant of drm_bridge_add()
+> >>    drm/mediatek: dp: Move AUX_P0 setting to
+> >>      mtk_dp_initialize_aux_settings()
+> >>    drm/mediatek: dp: Add support for embedded DisplayPort aux-bus
+> >
+> > Tested-by: Chen-Yu Tsai <wenst@chromium.org>
+> >
+> > on MT8195 Tomato: eDP panel works if the display panel regulator is alw=
+ays
+> > on. External DP works.
+> >
+> > Maybe it has something to do with the driver not supporting .wait_hpd_a=
+sserted
+> > and not using a GPIO for HPD?
 >
-> v2: Unfortunately the framebuffer sits outside of the pci bars for
-> gma500, and so only using the pci helpers won't be enough. Otoh if we
-> only use non-pci helper, then we don't get the vga handling, and
-> subsequent refactoring to untangle these special cases won't work.
+> Even before this change I couldn't get the panel to reliably work without=
+ keeping
+> the regulator always on (just to point out that I'm not introducing regre=
+ssions).
 >
-> It's not pretty, but the simplest fix (since gma500 really is the only
-> quirky pci driver like this we have) is to just have both calls.
->
-> v4:
-> - fix Daniel's S-o-b address
->
+> I am already trying to understand why this happens... and I'm still resea=
+rching...
+> but there's what I've seen for now:
+>   * Set the panel regulator as regulator-boot-on;
 
-I believe they want to have their Intel S-o-B as well. I know that dim
-complains but that's what usually happens with danvet's patches AFAIK.
+This simply means when the regulator driver grabs the GPIO, it will grab it
+with output high. It will make no attempt to keep it on.
 
-> Signed-off-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-> Cc: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: Javier Martinez Canillas <javierm@redhat.com>
-> ---
+>   * Boot: edp-panel will correctly read the EDID, then will run the PM su=
+spend
+>     handler
+>   * mtk-dp's .get_edid() callback gets called but, at that time, edp-pane=
+l will
+>     still be suspended (PM resume handler didn't get called)
+>     * Regulator is still down
+>   * Failure.
+> That's not right and probably the .get_edid() callback in mtk-dp has an a=
+buse:
+> there, mtk_dp_parse_capabilities() gets called, which performs initializa=
+tion
+> of some variables for DP link training (essential to get the DP going!).
 
-Patch looks good to me. Although I wonder if should just be dropped in
-favour of yours patch since are now part of the same series?
+I think that's wrong.
 
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+> The question that I am making to myself is whether I should move that els=
+ewhere,
+> if so, what's the right place (making me able to remove the DRM_BRIDGE_OP=
+_EDID
+> bridge flag when eDP + aux-bus), or if I should leave that and make sure =
+that the
+> panel-edp's resume callback is called before .get_edid() from mtk-dp gets=
+ called.
 
--- 
-Best regards,
+I think that's a proper change. Some of the callbacks in the DP driver are
+doing suspicious things, as if the driver came from an era without bridge
+drivers, and was not properly split up to fit the new bridge semantics.
 
-Javier Martinez Canillas
-Core Platforms
-Red Hat
+Same probably goes for the HPD detection.
 
+> That can get done in a separated series (or single patch?)... so that if =
+we get
+> this one picked sooner than later, we can start upstreaming the panel nod=
+es in
+> the Cherry devicetrees and only remove the regulator-always-on later.
+
+I guess that works? Except for battery life lol. It's really up to CK.
+And it's probably too late to upstream the panel nodes for the upcoming
+cycle.
+
+ChenYu
