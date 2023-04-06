@@ -1,24 +1,25 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7BA06DA378
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Apr 2023 22:39:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BFAF36DA379
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Apr 2023 22:39:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A676410ED1E;
-	Thu,  6 Apr 2023 20:39:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F306B10ED1F;
+	Thu,  6 Apr 2023 20:39:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 800B110ED1E
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Apr 2023 20:39:23 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6EC2610ED1F
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Apr 2023 20:39:34 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 07B74617D5;
- Thu,  6 Apr 2023 20:39:23 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D011FC433D2;
- Thu,  6 Apr 2023 20:39:11 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id F1E8860F1D;
+ Thu,  6 Apr 2023 20:39:33 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E02DEC4339B;
+ Thu,  6 Apr 2023 20:39:22 +0000 (UTC)
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 To: Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>,
  Jonathan Corbet <corbet@lwn.net>, Oded Gabbay <ogabbay@kernel.org>,
@@ -55,10 +56,9 @@ To: Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>,
  dri-devel@lists.freedesktop.org, patches@opensource.cirrus.com,
  openbmc@lists.ozlabs.org, linux-rpi-kernel@lists.infradead.org,
  linux-arm-kernel@lists.infradead.org
-Subject: [PATCH 54/68] hwmon: sbtsi_temp: constify pointers to
- hwmon_channel_info
-Date: Thu,  6 Apr 2023 22:38:16 +0200
-Message-Id: <20230406203821.3012402-5-krzysztof.kozlowski@linaro.org>
+Subject: [PATCH 55/68] hwmon: sch5627: constify pointers to hwmon_channel_info
+Date: Thu,  6 Apr 2023 22:38:17 +0200
+Message-Id: <20230406203821.3012402-6-krzysztof.kozlowski@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230406203103.3011503-1-krzysztof.kozlowski@linaro.org>
 References: <20230406203103.3011503-1-krzysztof.kozlowski@linaro.org>
@@ -85,22 +85,22 @@ const for safety.
 
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 ---
- drivers/hwmon/sbtsi_temp.c | 2 +-
+ drivers/hwmon/sch5627.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/hwmon/sbtsi_temp.c b/drivers/hwmon/sbtsi_temp.c
-index 4c37de846f93..7049d9464ac6 100644
---- a/drivers/hwmon/sbtsi_temp.c
-+++ b/drivers/hwmon/sbtsi_temp.c
-@@ -182,7 +182,7 @@ static umode_t sbtsi_is_visible(const void *data,
- 	return 0;
- }
+diff --git a/drivers/hwmon/sch5627.c b/drivers/hwmon/sch5627.c
+index 25fbbd4c9a2b..1bbda3b05532 100644
+--- a/drivers/hwmon/sch5627.c
++++ b/drivers/hwmon/sch5627.c
+@@ -379,7 +379,7 @@ static const struct hwmon_ops sch5627_ops = {
+ 	.write = sch5627_write,
+ };
  
--static const struct hwmon_channel_info *sbtsi_info[] = {
-+static const struct hwmon_channel_info * const sbtsi_info[] = {
+-static const struct hwmon_channel_info *sch5627_info[] = {
++static const struct hwmon_channel_info * const sch5627_info[] = {
  	HWMON_CHANNEL_INFO(chip, HWMON_C_REGISTER_TZ),
- 	HWMON_CHANNEL_INFO(temp, HWMON_T_INPUT | HWMON_T_MIN | HWMON_T_MAX),
- 	NULL
+ 	HWMON_CHANNEL_INFO(temp,
+ 			   HWMON_T_INPUT | HWMON_T_MAX | HWMON_T_CRIT | HWMON_T_FAULT,
 -- 
 2.34.1
 
