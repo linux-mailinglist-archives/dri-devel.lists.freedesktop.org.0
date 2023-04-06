@@ -1,25 +1,24 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C07C56DA3A4
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Apr 2023 22:41:53 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 849C86DA3A9
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Apr 2023 22:42:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0A0E310ED27;
-	Thu,  6 Apr 2023 20:41:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BFFB210ED2A;
+	Thu,  6 Apr 2023 20:42:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D99EB10ED27
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Apr 2023 20:41:49 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A2BBB10ED2A
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Apr 2023 20:42:00 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 6836B64C50;
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 2B59B64C90;
+ Thu,  6 Apr 2023 20:42:00 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 51134C433EF;
  Thu,  6 Apr 2023 20:41:49 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 59D3CC4339C;
- Thu,  6 Apr 2023 20:41:38 +0000 (UTC)
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 To: Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>,
  Jonathan Corbet <corbet@lwn.net>, Oded Gabbay <ogabbay@kernel.org>,
@@ -56,9 +55,10 @@ To: Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>,
  dri-devel@lists.freedesktop.org, patches@opensource.cirrus.com,
  openbmc@lists.ozlabs.org, linux-rpi-kernel@lists.infradead.org,
  linux-arm-kernel@lists.infradead.org
-Subject: [PATCH 66/68] hwmon: tps23861: constify pointers to hwmon_channel_info
-Date: Thu,  6 Apr 2023 22:40:25 +0200
-Message-Id: <20230406204027.3012532-7-krzysztof.kozlowski@linaro.org>
+Subject: [PATCH 67/68] hwmon: w83627ehf: constify pointers to
+ hwmon_channel_info
+Date: Thu,  6 Apr 2023 22:40:26 +0200
+Message-Id: <20230406204027.3012532-8-krzysztof.kozlowski@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230406203103.3011503-1-krzysztof.kozlowski@linaro.org>
 References: <20230406203103.3011503-1-krzysztof.kozlowski@linaro.org>
@@ -85,22 +85,22 @@ const for safety.
 
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 ---
- drivers/hwmon/tps23861.c | 2 +-
+ drivers/hwmon/w83627ehf.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/hwmon/tps23861.c b/drivers/hwmon/tps23861.c
-index 68c77c493270..85a75f551148 100644
---- a/drivers/hwmon/tps23861.c
-+++ b/drivers/hwmon/tps23861.c
-@@ -341,7 +341,7 @@ static int tps23861_read_string(struct device *dev,
- 	return 0;
- }
+diff --git a/drivers/hwmon/w83627ehf.c b/drivers/hwmon/w83627ehf.c
+index 939d4c35e713..fe960c0a624f 100644
+--- a/drivers/hwmon/w83627ehf.c
++++ b/drivers/hwmon/w83627ehf.c
+@@ -1640,7 +1640,7 @@ static const struct hwmon_ops w83627ehf_ops = {
+ 	.write = w83627ehf_write,
+ };
  
--static const struct hwmon_channel_info *tps23861_info[] = {
-+static const struct hwmon_channel_info * const tps23861_info[] = {
- 	HWMON_CHANNEL_INFO(chip,
- 			   HWMON_C_REGISTER_TZ),
- 	HWMON_CHANNEL_INFO(temp,
+-static const struct hwmon_channel_info *w83627ehf_info[] = {
++static const struct hwmon_channel_info * const w83627ehf_info[] = {
+ 	HWMON_CHANNEL_INFO(fan,
+ 		HWMON_F_ALARM | HWMON_F_DIV | HWMON_F_INPUT | HWMON_F_MIN,
+ 		HWMON_F_ALARM | HWMON_F_DIV | HWMON_F_INPUT | HWMON_F_MIN,
 -- 
 2.34.1
 
