@@ -2,74 +2,90 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 064846D94E0
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Apr 2023 13:16:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 554756D9508
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Apr 2023 13:26:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 64E9210EB5F;
-	Thu,  6 Apr 2023 11:16:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 019D410EB63;
+	Thu,  6 Apr 2023 11:25:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com
- [IPv6:2607:f8b0:4864:20::1036])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E942110EB5F;
- Thu,  6 Apr 2023 11:16:41 +0000 (UTC)
-Received: by mail-pj1-x1036.google.com with SMTP id ml21so14971580pjb.4;
- Thu, 06 Apr 2023 04:16:41 -0700 (PDT)
+Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com
+ [IPv6:2a00:1450:4864:20::535])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F349110EB63
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Apr 2023 11:25:52 +0000 (UTC)
+Received: by mail-ed1-x535.google.com with SMTP id
+ 4fb4d7f45d1cf-502208f7cb3so126059a12.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 06 Apr 2023 04:25:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1680779801;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=rHYb6HpZexNXpJPoSYlJ81so+XmwouNfzYZUA6PN18U=;
- b=SDaFVzdAZ+PGA1ek7sqxgPqbwZ9e8KwjO6kClHWchQUtfi/N49prAHd7IdkbvOwWOZ
- DDpc8RwXY+XPJeA39kRMrRgHknt+we5V7J+JHaYX9uqFd/iDJ1A1rKFxn75FVGwRN7C9
- Rdbzb5wpwizbAz8a5w6B4/69ooWI+qcE8ct/52b2eImoo8RvSEHLXnPOtbqnW7eSW6L9
- xxaoGQJ/MgI5t5o0nrkC1xWa4wVSzkgz4m7Zvjs6kmgLtlBFeUoQQP1O6aHzFLulaVGI
- eSMeh0uBunp4exeqgVl9B6IKPri0dVWGCtTmJTB+NflZYOgv1UDcFSw+QRTHV2N0jHe+
- MH0A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680779801;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ d=ffwll.ch; s=google; t=1680780351;
+ h=in-reply-to:content-disposition:mime-version:references
+ :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
  :subject:date:message-id:reply-to;
- bh=rHYb6HpZexNXpJPoSYlJ81so+XmwouNfzYZUA6PN18U=;
- b=TMlqI1gtksENkiZWkc9WewW8kBbhJeHk0I66jN9SrwHmon78Pez1qmyD4uXY7BPhdv
- HkiX1Z/rja5JmtCaDuU3WlnpTv8J5ehQxzL+loF7HOAEFgMt9jQbNIiAqFvky6mbWtyi
- KVusjqySearJKCRmM/8PRBta02NGvtp+xy7SWQMhPSuMIv6m8zpGXx8R5E9e7RoGBKPB
- qijIBeeARuCoEMPXowkbgTrmXnrExfXkyTYS8w05YhQUQ/7fFeuF/GNL1u+dYtzyhtkn
- 4ltFxEe2urQ3Ea80QZ1s+pX7MsXaODkF7FjD7O1iXeIu38mwP4rM9yne4KQB4Y4SX//e
- dj8g==
-X-Gm-Message-State: AAQBX9dnOSssUXDYilM93BBIZfMUYgm1GovldNmErdyIXo0VWdj3jbRT
- WTWVfcfOWOdnicq+2zG9f3tjIkOLS3xL+4bSmj4=
-X-Google-Smtp-Source: AKy350arGCXxw7uauw789YlI8TO/HwCaYawY3nlDmw4c5UA3Zi2ES5khLwASbt7Bf6ex+oy5vMfzdUDRk2wt+5Ej38c=
-X-Received: by 2002:a17:902:8684:b0:1a0:6b23:7b55 with SMTP id
- g4-20020a170902868400b001a06b237b55mr3912998plo.4.1680779800802; Thu, 06 Apr
- 2023 04:16:40 -0700 (PDT)
+ bh=hroPDDqbeK3KP3ft/vk5XXJhx4hlY+C3UjJVTgzuyfY=;
+ b=VRl9UtQfF7A9tPxqhu/i6AA4YLuIE9ggXBEL9ZyuchaTkPNo7wuDK+vnz2hQ+0/bPw
+ TSIKhRD6SA4Z5er4CXRULeRH39V+Y0WalgcRvaUTx8mpQ0PNTxILEYv9A50gi0EUOKyM
+ 42dwpNZOXYiJD2zR/Mrh1SlgOPF/McxwSXF90=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1680780351;
+ h=in-reply-to:content-disposition:mime-version:references
+ :mail-followup-to:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=hroPDDqbeK3KP3ft/vk5XXJhx4hlY+C3UjJVTgzuyfY=;
+ b=gKx++mhB2kvcmOmtRCB2wsvALKz3p+I1/DpcdId4dBe2TWV8qyCk1xmXsXsjkjovPh
+ E69VMeEcqdjdpUb9b0XJpcKIsDs8gYDFqflWvvTeAUfH3tL97Hys9lEa17NprnHd9Krp
+ tLrs6Gd2vdTKJ1n5soVtu8JECXQgfLxtmr1UbEcSiB02gImQuAXkeOLx5ptFLARM2euM
+ lxk2m/7tRAS/0FbtObE1SxONxyUHcQdZ1Ex2fK7p0HcpRAENylQZmK4QZU2pSa8uuRKW
+ YYpZhu2Q9nAApCzOblmvOw/Ieppqod+a3/ogqrR2dQzFlk+dy9KobqtdNGTkcDAFSyEs
+ KV5g==
+X-Gm-Message-State: AAQBX9cxF+MpIBsiuoab2v4dJ6ESbXVQa8YIqtbyF0t/0AMfuaxC96Mo
+ BnBwY0lF/hEFEp572C4nfPkC5Q==
+X-Google-Smtp-Source: AKy350YPfn28LG1fbLn36Juw7fvJRCV/Dyp+bOKOoRgXlKhXaL/TLKj7dKKe5UkKfvhy3hU+bF/k9A==
+X-Received: by 2002:a17:906:2219:b0:92f:39d9:1e50 with SMTP id
+ s25-20020a170906221900b0092f39d91e50mr4936235ejs.3.1680780351274; 
+ Thu, 06 Apr 2023 04:25:51 -0700 (PDT)
+Received: from phenom.ffwll.local (212-51-149-33.fiber7.init7.net.
+ [212.51.149.33]) by smtp.gmail.com with ESMTPSA id
+ p14-20020a1709061b4e00b00930a4e5b46bsm672302ejg.211.2023.04.06.04.25.50
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 06 Apr 2023 04:25:50 -0700 (PDT)
+Date: Thu, 6 Apr 2023 13:25:48 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Asahi Lina <lina@asahilina.net>
+Subject: Re: [Linaro-mm-sig] Re: [PATCH RFC 18/18] drm/asahi: Add the Asahi
+ driver for Apple AGX GPUs
+Message-ID: <ZC6sPBuH3vz7vMO2@phenom.ffwll.local>
+Mail-Followup-To: Asahi Lina <lina@asahilina.net>,
+ David Airlie <airlied@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Miguel Ojeda <ojeda@kernel.org>,
+ Alex Gaynor <alex.gaynor@gmail.com>,
+ Wedson Almeida Filho <wedsonaf@gmail.com>,
+ Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+ =?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ Luben Tuikov <luben.tuikov@amd.com>,
+ Jarkko Sakkinen <jarkko@kernel.org>,
+ Dave Hansen <dave.hansen@linux.intel.com>,
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+ Karol Herbst <kherbst@redhat.com>,
+ Ella Stanforth <ella@iglunix.org>,
+ Faith Ekstrand <faith.ekstrand@collabora.com>,
+ Mary <mary@mary.zone>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+ linux-sgx@vger.kernel.org, asahi@lists.linux.dev
+References: <20230307-rust-drm-v1-0-917ff5bc80a8@asahilina.net>
+ <20230307-rust-drm-v1-18-917ff5bc80a8@asahilina.net>
+ <ZC2JPR3fGm0uE9yW@phenom.ffwll.local>
+ <6200f93d-6d95-5d03-cc1c-22d7924d66eb@asahilina.net>
 MIME-Version: 1.0
-References: <20230404201842.567344-1-daniel.vetter@ffwll.ch>
- <5556a755-01a1-3620-8693-0fc69c6f627d@suse.de>
- <3813a2f5-c74a-4760-34ce-1c88f187c91c@suse.de>
- <ZC04hoHywz0ySzAW@phenom.ffwll.local>
- <3fd03c4c-3be6-e56b-faec-bd67a58cda09@suse.de>
- <ZC1BlNCbXPlmAhj0@phenom.ffwll.local>
- <eee11545-2a78-4556-be82-5178ea09d0d8@suse.de>
- <877cuqd1f8.fsf@minerva.mail-host-address-is-not-set>
- <ZC11J3og4Kc9ta6m@phenom.ffwll.local>
- <242ab20f-affe-b55a-6068-5ea634705cf6@suse.de>
- <ZC2beu/9inolwIlr@phenom.ffwll.local>
- <87bkk29smu.fsf@minerva.mail-host-address-is-not-set>
- <CAKMK7uGbPWE5mg2+ojxxEdfknDzmjDr+5n_y-t-nYNzDFE21EA@mail.gmail.com>
- <CAMeQTsam0efUrS=x+Eb+p8A3rXgCOUmA7UVjFB=9oAKFoepzOw@mail.gmail.com>
- <CAKMK7uEKab8UN4U=ztER_4zyODNJhxVhowJ6yDVBWuLd978MDQ@mail.gmail.com>
-In-Reply-To: <CAKMK7uEKab8UN4U=ztER_4zyODNJhxVhowJ6yDVBWuLd978MDQ@mail.gmail.com>
-From: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
-Date: Thu, 6 Apr 2023 13:16:29 +0200
-Message-ID: <CAMeQTsbs01-B4rk3v=+emAm2o2pKB6Ndpz=3AG5VEiHso1D7qA@mail.gmail.com>
-Subject: Re: [Intel-gfx] [PATCH 1/8] drm/gma500: Use
- drm_aperture_remove_conflicting_pci_framebuffers
-To: Daniel Vetter <daniel@ffwll.ch>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <6200f93d-6d95-5d03-cc1c-22d7924d66eb@asahilina.net>
+X-Operating-System: Linux phenom 6.1.0-7-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,179 +98,92 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@intel.com>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Javier Martinez Canillas <javierm@redhat.com>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Karol Herbst <kherbst@redhat.com>,
+ Dave Hansen <dave.hansen@linux.intel.com>, dri-devel@lists.freedesktop.org,
+ Mary <mary@mary.zone>, Gary Guo <gary@garyguo.net>,
+ Ella Stanforth <ella@iglunix.org>, Sumit Semwal <sumit.semwal@linaro.org>,
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>, Luben Tuikov <luben.tuikov@amd.com>,
+ Alex Gaynor <alex.gaynor@gmail.com>, Miguel Ojeda <ojeda@kernel.org>,
+ linux-media@vger.kernel.org, Wedson Almeida Filho <wedsonaf@gmail.com>,
+ rust-for-linux@vger.kernel.org, Boqun Feng <boqun.feng@gmail.com>,
+ =?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+ Faith Ekstrand <faith.ekstrand@collabora.com>, linux-sgx@vger.kernel.org,
+ linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
+ Jarkko Sakkinen <jarkko@kernel.org>, asahi@lists.linux.dev,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Apr 6, 2023 at 9:32=E2=80=AFAM Daniel Vetter <daniel@ffwll.ch> wrot=
-e:
->
-> On Wed, 5 Apr 2023 at 19:46, Patrik Jakobsson
-> <patrik.r.jakobsson@gmail.com> wrote:
-> >
-> > On Wed, Apr 5, 2023 at 7:15=E2=80=AFPM Daniel Vetter <daniel@ffwll.ch> =
-wrote:
-> > >
-> > > On Wed, 5 Apr 2023 at 18:54, Javier Martinez Canillas
-> > > <javierm@redhat.com> wrote:
-> > > >
-> > > > Daniel Vetter <daniel@ffwll.ch> writes:
-> > > >
-> > > > > On Wed, Apr 05, 2023 at 04:32:19PM +0200, Thomas Zimmermann wrote=
-:
-> > > >
-> > > > [...]
-> > > >
-> > > > >> > > >        /*
-> > > > >> > > >         * WARNING: Apparently we must kick fbdev drivers b=
-efore vgacon,
-> > > > >> > > >         * otherwise the vga fbdev driver falls over.
-> > > > >> > > >         */
-> > > > >> > > >        ret =3D vga_remove_vgacon(pdev);
-> > > > >> >
-> > > > >> > This isn't enough, we also nuke stuff that's mapping the vga f=
-b range.
-> > > >
-> > > > Ah, also need aperture_detach_devices(VGA_FB_PHYS_BASE, VGA_FB_PHYS=
-_SIZE) then.
-> > > >
-> > > > [...]
-> > > >
-> > > > >> int aperture_remove_legacy_vga_devices(struct pci_dev *pdev)
-> > > > >> {
-> > > > >>      aperture_detach_devices(VGA_FB_PHYS_BASE, VGA_FB_PHYS_SIZE)=
-;
-> > > > >>
-> > > > >>      return vga_remove_vgacon(pdev);
-> > > > >> }
-> > > > >>
-> > > > >> And that can be called from gma500 and the pci aperture helper.
-> > > > >
-> > > > > But you still pass a pci_dev to that helper. Which just doesn't m=
-ake any
-> > > > > sense to me (assuming your entire point is that this isn't just a=
- normal
-> > > > > pci device but some special legacy vga thing), but if we go with =
-(void)
-> > > > > then there's more refactoring to do because the vga_remove_vgacon=
- also
-> > > > > wants a pdev.
-> > > > >
-> > > > > All so that we don't call aperture_detach_devices() on a bunch of=
- pci
-> > > > > bars, which apparently is not problem for any other driver, but a=
-bsolutely
-> > > > > is a huge problem for gma500 somehow.
-> > > > >
-> > > > > I don't understand why.
-> > > > >
-> > > >
-> > > > Yeah, agreed that if vga_remove_vgacon() isn't enough and another h=
-elper
-> > > > is needed then starts to get a little silly. Maybe one option is to=
- add a
-> > > > 3rd param to aperture_remove_conflicting_pci_devices() and skip the=
- logic
-> > > > to iterate over PCI bars and call aperture_remove_conflicting_devic=
-es() ?
-> > >
-> > > The thing I don't get: Why does this matter for gma500 and not any of
-> > > the other pci devices? Look at your gpu, realize there's a lot more
-> > > than the one pci bar for vram or stolen memory, realize that we're
-> > > nuking bars that cannot possible contain the framebuffer for everyone
-> > > else too. Like the entire "gpus have a lot of bars" thing is the
-> > > reason why I pulled the sysfb_disable one level up, because we've bee=
-n
-> > > doing that quite a few times before this patch (yes it's not the main
-> > > thing, but the side-effect cleanup is why I've gone down this rabbit
-> > > hole and wrote the entire series here):
-> > >
-> > > https://lore.kernel.org/dri-devel/20230404201842.567344-7-daniel.vett=
-er@ffwll.ch/
-> > >
-> > > But somehow for gma500 it's a problem, while for everyone else it's
-> > > fine. That's the part I dont get, or Thomas&me have been talking past
-> > > each another and there's another issue that I'm missing.
-> > > -Daniel
-> >
-> > I'm also getting confused here.
-> >
-> > AFAIK the stolen memory works the same for gma500 hardware as other
-> > Intel GPUs. Are you saying that there is a difference in how gma500
-> > hardware works? I always assumed that i915 got away with not dealing
-> > much with stolen memory because it simply doesn't use it for
-> > allocations. In gma500 we use it for fbdev and cursors. The actual
-> > pages reserved by the bios can be accessed through a pci bar if you
-> > map it so (which IIRC we do) but I suppose that doesn't help
-> > identifying it as a range reserved by other drivers.
->
-> The other integrated gpu have their fw fb behind a pci bar, and stolen
-> is often entirely hidden from the cpu for direct access. gma500 seems
-> different with having stolen as just a specially marked up range of
-> normal system memory. That's why the usual pci helper doesn't catch
-> everything for gma500.
+On Thu, Apr 06, 2023 at 02:02:55PM +0900, Asahi Lina wrote:
+> On 05/04/2023 23.44, Daniel Vetter wrote:
+> > On Tue, Mar 07, 2023 at 11:25:43PM +0900, Asahi Lina wrote:
+> > > +/// Look up a GEM object handle for a `File` and return an `ObjectRef` for it.
+> > > +pub(crate) fn lookup_handle(file: &DrmFile, handle: u32) -> Result<ObjectRef> {
+> > > +    Ok(ObjectRef::new(shmem::Object::lookup_handle(file, handle)?))
+> > > +}
+> > 
+> > So maybe my expectations for rust typing is a bit too much, but I kinda
+> > expected this to be fully generic:
+> > 
+> > - trait Driver (drm_driver) knows the driver's object type
+> > - a generic create_handle function could ensure that for drm_file (which
+> >    is always for a specific drm_device and hence Driver) can ensure at the
+> >    type level that you only put the right objects into the drm_file
+> > - a generic lookup_handle function on the drm_file knows the Driver trait
+> >    and so can give you back the right type right away.
+> > 
+> > Why the wrapping, what do I miss?
+> 
+> Sigh, so this is one of the many ways I'm trying to work around the "Rust
+> doesn't do subclasses" problem (so we can figure out what the best one is
+> ^^).
+> 
+> The generic shmem::Object::lookup_handle() call *is* fully generic and will
+> get you back a driver-specific object. But since Rust doesn't do
+> subclassing, what you get back isn't a driver-specific type T, but rather a
+> (reference to a) shmem::Object<T>. T represents the inner driver-specific
+> data/functionality (only), and the outer shmem::Object<T> includes the
+> actual drm_gem_shmem_object plus a T. This is backwards from C, where you
+> expect the opposite situation where T contains a shmem object, but that just
+> doesn't work with Rust because there's no way to build a safe API around
+> that model as far as I know.
 
-Right, now I get it. You don't have the GATT on some systems so the
-range can never be inside the aperture on those systems anyway.
+Ah I think I just got confused. I did untangle (I think at least) the
+Object<T> trick, I guess the only thing that confused me here is why this
+is in the shmem module? Or is that the rust problem again?
 
-The GATT probably went away because there is no need for it since you
-don't get coherency with the PowerVR parts anyway.
+I'd kinda have expected that we'd have a gem::Object<T> here that the
+lookup_handle function returns. So for the shmem case I guess that would
+then be gem::Object<shmem::Object<T>> for the driver type T with driver
+specific stuff? I guess not very pretty ...
 
-Thanks for explaining
+> Now the problem is from the higher layers I want object operations that
+> interact with the shmem::Object<T> (that is, they call generic GEM functions
+> on the object). Options so far:
+> 
+> 1. Add an outer wrapper and put that functionality there.
+> 2. Just have the functions on T as helpers, so you need to call T::foo(obj)
+> instead of obj.foo().
+> 3. Use the undocumented method receiver trait thing to make shmem::Object<T>
+> a valid `self` type, plus add auto-Deref to shmem::Object. Then obj.foo()
+> works.
+> 
+> #1 is what I use here. #2 is how the driver-specific File ioctl callbacks
+> are implemented, and also sched::Job<T>. #3 is used for fence callbacks
+> (FenceObject<T>). None of them are great, and I'd love to hear what people
+> think of the various options...
+> 
+> There are other unexplored options, like in this GEM case it could be
+> covered with a driver-internal auxiliary trait impl'd on shmem::Object<T>
+> buuut that doesn't work when you actually need callbacks on T itself to
+> circle back to shmem::Object<T>, as is the case with File/Job/FenceObject.
 
->
-> > The reason I've kept the stolen allocation logic is because some
-> > gma500 systems don't have a lot of memory. But that is mostly the old
-> > Pouslbo systems. Perhaps it is time to ditch the stolen allocation
-> > code?
->
-> Yeah that's all fine.
-> -Daniel
->
-> >
-> > -Patrik
-> >
-> > >
-> > > > > Consider this me throwing in the towel. If you&Javier are convinc=
-ed this
-> > > > > makes sense please type it up and merge it, but I'm not going to =
-type
-> > > > > something that just doesn't make sense to me.
-> > > >
-> > > > Honestly, I would just go with the double drm_aperture_remove_*() h=
-elper
-> > > > calls (your original patch) unless that causes real issues. There i=
-s no
-> > > > point on blocking all your series just for this IMO.
-> > > >
-> > > > Then latter if Thomas has strong opinions can send a follow-up patc=
-h for
-> > > > the gma500 driver and the aperture helpers.
-> > > >
-> > > > > -Daniel
-> > > > >
-> > > >
-> > > > --
-> > > > Best regards,
-> > > >
-> > > > Javier Martinez Canillas
-> > > > Core Platforms
-> > > > Red Hat
-> > > >
-> > >
-> > >
-> > > --
-> > > Daniel Vetter
-> > > Software Engineer, Intel Corporation
-> > > http://blog.ffwll.ch
->
->
->
-> --
-> Daniel Vetter
-> Software Engineer, Intel Corporation
-> http://blog.ffwll.ch
+Ok I think I'm completely lost here. But I also havent' looked at how this
+is all really used in the driver, it's really just the shmem:: module in
+the lookup_handle function which looked strange to me.
+-Daniel
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+hvettp://blog.ffwll.ch
