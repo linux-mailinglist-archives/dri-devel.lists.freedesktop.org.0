@@ -1,53 +1,78 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E7F26D961A
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Apr 2023 13:42:10 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D4A06D961F
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Apr 2023 13:43:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A144610EB7C;
-	Thu,  6 Apr 2023 11:42:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7DD4B10EB99;
+	Thu,  6 Apr 2023 11:43:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 83F4610EB73;
- Thu,  6 Apr 2023 11:42:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1680781323; x=1712317323;
- h=message-id:date:mime-version:from:subject:to:cc;
- bh=gi2mC53mJivL5R5XLapBZo+5LMnagKRJ97SAPr2VTCI=;
- b=kITQpE920HkUQ/QVNJrzuFasM4NfUF43KLJtx5rzudWXgsZ4nQlYtufW
- f86cNL49NDmu4vU3uSMshfE+Jery9gK0u7myHtr9Z1OrFBDwzd5flIheq
- FduJBzvNYMe3EzK1cH15Elbp9u9r0t7L6pT9eNVF1MjSp1hQgxfQaBwYY
- vV0+SJvJRKDSBYosMRiqONrwBqaNZpG+h6Rcwbpot8MwZKTrxD30hEqLU
- 4HiiC4P70lnzzS9TtLZoVDiMz74/kE4rL1ZXmbICsWG8NYgs8rpRj44IH
- 0IgUCgpTkF/X86l7GwJCExX9eGmW0yO50iMYc+nj1cs607cyJStSC9HTi A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10671"; a="331325603"
-X-IronPort-AV: E=Sophos;i="5.98,323,1673942400"; 
- d="scan'208,217";a="331325603"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Apr 2023 04:41:35 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10671"; a="810968195"
-X-IronPort-AV: E=Sophos;i="5.98,323,1673942400"; 
- d="scan'208,217";a="810968195"
-Received: from rvadera-mobl.ger.corp.intel.com (HELO [10.249.34.3])
- ([10.249.34.3])
- by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Apr 2023 04:41:31 -0700
-Content-Type: multipart/alternative;
- boundary="------------m3NKjoEoYhyKBGyCCy0ajgJk"
-Message-ID: <64bb9696-a76a-89d9-1866-bcdf7c69c284@linux.intel.com>
-Date: Thu, 6 Apr 2023 13:41:29 +0200
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 70E4410EB95
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Apr 2023 11:43:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1680781390;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=44fjV+187FPvFXymTOGRK1S1eUOwQG0BRNaEi6eqCcs=;
+ b=NZaoKzyG6M/RauYJKK/NtSKj6sE5ImhbxF7bdI7oOZPF8Tq3fr7Q25RrEbihlrFPU0TWit
+ D+JHgexLpb8aXfNGD6Z6hZ9Gcm/QQmyaDPiPRDvq0k9fWuDndF9V3j01RODTZNuc/W/cy8
+ rNmimIZXdkesuIrNBEWtIuQCEV4NGsA=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-439-ORhEhB8HMl64r1uDpj-f1g-1; Thu, 06 Apr 2023 07:43:09 -0400
+X-MC-Unique: ORhEhB8HMl64r1uDpj-f1g-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ ay37-20020a05600c1e2500b003ee69edec16so20239006wmb.5
+ for <dri-devel@lists.freedesktop.org>; Thu, 06 Apr 2023 04:43:09 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1680781388;
+ h=content-transfer-encoding:mime-version:message-id:date:references
+ :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=44fjV+187FPvFXymTOGRK1S1eUOwQG0BRNaEi6eqCcs=;
+ b=cKgErrdhjXbRt1IfzM3EB8VebRb4e/N8wC0w8D6uw66JzHMW8ca9ol5Hlemux/ICy3
+ 1dBw79Wor1i/JbGl12oxf6ukbFgG/T04K7xIBMAyPMbhqsLzGvptNBxNh8ZHHnsk7xwK
+ cP9N5perheGsD5mufBOyNeYCGFWRRkDKdooyE8+DTDgntxz7A1of6yO3f4X9HUGiGyXc
+ HR/9+vtid0+s96XTK/WuOEavouapox0oAoN3nVirNaBBwFXIbJgC57BuHmYE6wi2Xuuz
+ +rDbv9oHt8T7K+TLMWKMLq5AYSS+SIOeIyJ1fDnCFYK04gHSo8dxoRpo5w/DCf0fpuHk
+ a2fg==
+X-Gm-Message-State: AAQBX9d47qli/AHVGL6Y5xGibYDWagCN69agUE8+9RewRhDf9D8CFt+V
+ Dt42TO6/lm7equdltJX+eVsqEYpjpNzOe39ZAY/ZPEJpW7HqYKcn7LrID+/coERjTP4RoF6Ct3Z
+ 1hdthJ3LukRGblDjkaG1/g6VU38dM
+X-Received: by 2002:a1c:4c09:0:b0:3ef:6fee:8057 with SMTP id
+ z9-20020a1c4c09000000b003ef6fee8057mr7291103wmf.25.1680781388305; 
+ Thu, 06 Apr 2023 04:43:08 -0700 (PDT)
+X-Google-Smtp-Source: AKy350avpYP09FE8ENI0Dv5nt1DTTcCCBLdEcEHHGCxnMqfka0MRyf029ul0rWy8je94skmNpDyaWA==
+X-Received: by 2002:a1c:4c09:0:b0:3ef:6fee:8057 with SMTP id
+ z9-20020a1c4c09000000b003ef6fee8057mr7291088wmf.25.1680781388023; 
+ Thu, 06 Apr 2023 04:43:08 -0700 (PDT)
+Received: from localhost (205.pool92-176-231.dynamic.orange.es.
+ [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
+ l13-20020adff48d000000b002d45575643esm1559085wro.43.2023.04.06.04.43.07
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 06 Apr 2023 04:43:07 -0700 (PDT)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: =?utf-8?Q?Ma=C3=ADra?= Canal <mcanal@igalia.com>, Rodrigo Siqueira
+ <rodrigosiqueiramelo@gmail.com>, Melissa Wen <melissa.srw@gmail.com>,
+ Haneen Mohammed <hamohammed.sa@gmail.com>, Daniel Vetter
+ <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>
+Subject: Re: [PATCH 1/2] drm/vkms: Use drmm_crtc_init_with_planes()
+In-Reply-To: <20230116205800.1266227-1-mcanal@igalia.com>
+References: <20230116205800.1266227-1-mcanal@igalia.com>
+Date: Thu, 06 Apr 2023 13:43:06 +0200
+Message-ID: <87edox8cdx.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Firefox/102.0 Thunderbird/102.9.1
-From: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Subject: [PULL] drm-intel-gt-next
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
-Content-Language: en-US
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,490 +85,29 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- dim-tools@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: Melissa Wen <mwen@igalia.com>,
+ =?utf-8?Q?Ma=C3=ADra?= Canal <mcanal@igalia.com>,
+ =?utf-8?Q?Andr=C3=A9?= Almeida <andrealmeid@igalia.com>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is a multi-part message in MIME format.
---------------m3NKjoEoYhyKBGyCCy0ajgJk
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Ma=C3=ADra Canal <mcanal@igalia.com> writes:
 
-Hi Dave, Daniel,
-Pull request to avoid backmerges. ;)
-Cheers,
-~Maarten
+Hello Ma=C3=ADra,
 
-drm-misc-next-2023-04-06:
-drm-misc-next for v6.4-rc1:
+> Use drmm_crtc_init_with_planes() instead of drm_crtc_init_with_planes()
+> to get rid of the explicit destroy hook in struct drm_crtc_funcs.
+>
+> Signed-off-by: Ma=C3=ADra Canal <mcanal@igalia.com>
+> ---
 
-UAPI Changes:
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 
-Cross-subsystem Changes:
-- Document port and rotation dt bindings better.
-- For panel timing DT bindings, document that vsync and hsync are
-   first, rather than last in image.
-- Fix video/aperture typos.
+--=20
+Best regards,
 
-Core Changes:
-- Reject prime DMA-Buf attachment if get_sg_table is missing.
-   (For self-importing dma-buf only.)
-- Add prime import/export to vram-helper.
-- Fix oops in drm/vblank when init is not called.
-- Fixup xres/yres_virtual and other fixes in fb helper.
-- Improve SCDC debugs.
-- Skip setting deadline on modesets.
-- Assorted TTM fixes.
+Javier Martinez Canillas
+Core Platforms
+Red Hat
 
-Driver Changes:
-- Add lima usage stats.
-- Assorted fixes to bridge/lt8192b, tc358767, ivpu,
-   bridge/ti-sn65dsi83, ps8640.
-- Use pci aperture helpers in drm/ast lynxfb, radeonfb.
-- Revert some lima patches, as they required a commit that has been
-   reverted upstream.
-- Add AUO NE135FBM-N41 v8.1 eDP panel.
-- Add QAIC accel driver.
-The following changes since commit 7d690f936e9bc9fbd6394fb3d4ad181af03ee393:
-
-   drm/panfrost: Add basic support for speed binning (2023-03-31 11:44:11 +0200)
-
-are available in the Git repository at:
-
-   git://anongit.freedesktop.org/drm/drm-misc tags/drm-misc-next-2023-04-06
-
-for you to fetch changes up to e44f18c6ff8beef7b2b10592287f0a9766376d9b:
-
-   drm/ttm: Make the call to ttm_tt_populate() interruptible when faulting (2023-04-06 10:01:42 +0200)
-
-----------------------------------------------------------------
-drm-misc-next for v6.4-rc1:
-
-UAPI Changes:
-
-Cross-subsystem Changes:
-- Document port and rotation dt bindings better.
-- For panel timing DT bindings, document that vsync and hsync are
-   first, rather than last in image.
-- Fix video/aperture typos.
-
-Core Changes:
-- Reject prime DMA-Buf attachment if get_sg_table is missing.
-   (For self-importing dma-buf only.)
-- Add prime import/export to vram-helper.
-- Fix oops in drm/vblank when init is not called.
-- Fixup xres/yres_virtual and other fixes in fb helper.
-- Improve SCDC debugs.
-- Skip setting deadline on modesets.
-- Assorted TTM fixes.
-
-Driver Changes:
-- Add lima usage stats.
-- Assorted fixes to bridge/lt8192b, tc358767, ivpu,
-   bridge/ti-sn65dsi83, ps8640.
-- Use pci aperture helpers in drm/ast lynxfb, radeonfb.
-- Revert some lima patches, as they required a commit that has been
-   reverted upstream.
-- Add AUO NE135FBM-N41 v8.1 eDP panel.
-- Add QAIC accel driver.
-
-----------------------------------------------------------------
-Alexander Stein (2):
-       drm/bridge: ti-sn65dsi83: use dev_err_probe if host attach failed
-       drm/bridge: ti-sn65dsi86: Allow GPIO operations to sleep
-
-AngeloGioacchino Del Regno (1):
-       drm/panel-edp: Add AUO NE135FBM-N41 v8.1 panel entry
-
-Daniel Vetter (7):
-       drm/ast: Use drm_aperture_remove_conflicting_pci_framebuffers
-       staging/lynxfb: Use pci aperture helper
-       fbdev/radeon: use pci aperture helpers
-       drm/fb-helper: set x/yres_virtual in drm_fb_helper_check_var
-       drm/fb-helper: drop redundant pixclock check from drm_fb_helper_set_par()
-       drm/fb-helper: fix input validation gaps in check_var
-       drm/atomic-helper: Don't set deadline for modesets
-
-Erico Nunes (3):
-       drm/lima: add usage counting method to ctx_mgr
-       drm/lima: allocate unique id per drm_file
-       drm/lima: add show_fdinfo for drm usage stats
-
-Francesco Dolcini (1):
-       drm/bridge: lt8912b: Fix DSI Video Mode
-
-Harshit Mogalapalli (1):
-       drm/lima/lima_drv: Add missing unwind goto in lima_pdev_probe()
-
-Jeffrey Hugo (7):
-       accel/qaic: Add documentation for AIC100 accelerator driver
-       accel/qaic: Add uapi and core driver file
-       accel/qaic: Add MHI controller
-       accel/qaic: Add control path
-       accel/qaic: Add datapath
-       accel/qaic: Add qaic driver to the build system
-       MAINTAINERS: Add entry for QAIC driver
-
-Karol Wachowski (1):
-       accel/ivpu: Remove D3hot delay for Meteorlake
-
-Krzysztof Kozlowski (5):
-       dt-bindings: display: sitronix,st7789v: document dc-gpios
-       dt-bindings: display: xinpeng,xpp055c272: document port
-       dt-bindings: display: feiyang,fy07024di26a30d: document port
-       dt-bindings: display: elida,kd35t133: document port and rotation
-       dt-bindings: display: sitronix,st7701: document port and rotation
-
-Luca Ceresoli (2):
-       drm: bridge: ldb: add missing \n in dev_warn() string
-       drm: bridge: ldb: add support for using channel 1 only
-
-Marek Vasut (3):
-       drm/bridge: tc358767: Enable DSI burst mode, LPM, non-continuous clock
-       dt-bindings: display: Start the info graphics with HS/VS change
-       drm/bridge: ti-sn65dsi83: Do not generate HFP/HBP/HSA and EOT packet
-
-Pin-yen Lin (1):
-       drm/bridge: ps8640: Use constant sleep time for polling hpd
-
-Pranjal Ramajor Asha Kanojiya (1):
-       accel/qaic: Add mhi_qaic_cntl
-
-Qiang Yu (3):
-       Revert "drm/lima: add show_fdinfo for drm usage stats"
-       Revert "drm/lima: allocate unique id per drm_file"
-       Revert "drm/lima: add usage counting method to ctx_mgr"
-
-Rob Clark (1):
-       drm/vblank: Fix for drivers that do not drm_vblank_init()
-
-Simon Ser (2):
-       drm/prime: reject DMA-BUF attach when get_sg_table is missing
-       drm/vram-helper: turn on PRIME import/export
-
-Sui Jingfeng (1):
-       video/aperture: Fix typos in comments
-
-Thomas Hellström (3):
-       drm/ttm/pool: Fix ttm_pool_alloc error path
-       drm/ttm: Reduce the number of used allocation orders for TTM pages
-       drm/ttm: Make the call to ttm_tt_populate() interruptible when faulting
-
-Ville Syrjälä (1):
-       drm/scdc-helper: Pimp SCDC debugs
-
-  Documentation/accel/index.rst                      |    1 +
-  Documentation/accel/qaic/aic100.rst                |  510 ++++++
-  Documentation/accel/qaic/index.rst                 |   13 +
-  Documentation/accel/qaic/qaic.rst                  |  170 ++
-  .../bindings/display/panel/elida,kd35t133.yaml     |    9 +
-  .../display/panel/feiyang,fy07024di26a30d.yaml     |    8 +
-  .../bindings/display/panel/panel-timing.yaml       |   46 +-
-  .../bindings/display/panel/sitronix,st7701.yaml    |    9 +
-  .../bindings/display/panel/sitronix,st7789v.yaml   |    4 +
-  .../bindings/display/panel/xinpeng,xpp055c272.yaml |    8 +
-  MAINTAINERS                                        |   10 +
-  drivers/accel/Kconfig                              |    1 +
-  drivers/accel/Makefile                             |    1 +
-  drivers/accel/ivpu/ivpu_drv.c                      |    4 +
-  drivers/accel/qaic/Kconfig                         |   23 +
-  drivers/accel/qaic/Makefile                        |   13 +
-  drivers/accel/qaic/mhi_controller.c                |  563 ++++++
-  drivers/accel/qaic/mhi_controller.h                |   16 +
-  drivers/accel/qaic/mhi_qaic_ctrl.c                 |  569 ++++++
-  drivers/accel/qaic/mhi_qaic_ctrl.h                 |   12 +
-  drivers/accel/qaic/qaic.h                          |  282 +++
-  drivers/accel/qaic/qaic_control.c                  | 1526 ++++++++++++++++
-  drivers/accel/qaic/qaic_data.c                     | 1902 ++++++++++++++++++++
-  drivers/accel/qaic/qaic_drv.c                      |  647 +++++++
-  drivers/gpu/drm/ast/ast_drv.c                      |   16 +-
-  drivers/gpu/drm/bridge/fsl-ldb.c                   |  103 +-
-  drivers/gpu/drm/bridge/lontium-lt8912b.c           |    1 -
-  drivers/gpu/drm/bridge/parade-ps8640.c             |    2 +-
-  drivers/gpu/drm/bridge/synopsys/dw-hdmi.c          |    8 +-
-  drivers/gpu/drm/bridge/tc358767.c                  |    4 +-
-  drivers/gpu/drm/bridge/ti-sn65dsi83.c              |    8 +-
-  drivers/gpu/drm/bridge/ti-sn65dsi86.c              |    4 +-
-  drivers/gpu/drm/display/drm_scdc_helper.c          |   46 +-
-  drivers/gpu/drm/drm_atomic_helper.c                |    6 +
-  drivers/gpu/drm/drm_fb_helper.c                    |   53 +-
-  drivers/gpu/drm/drm_prime.c                        |    6 +-
-  drivers/gpu/drm/drm_vblank.c                       |   10 +-
-  drivers/gpu/drm/i915/display/intel_ddi.c           |    4 +-
-  drivers/gpu/drm/i915/display/intel_hdmi.c          |    8 +-
-  drivers/gpu/drm/lima/lima_drv.c                    |    6 +-
-  drivers/gpu/drm/panel/panel-edp.c                  |    1 +
-  drivers/gpu/drm/tegra/sor.c                        |   15 +-
-  drivers/gpu/drm/ttm/ttm_bo_vm.c                    |   13 +-
-  drivers/gpu/drm/ttm/ttm_pool.c                     |  111 +-
-  drivers/gpu/drm/vc4/vc4_hdmi.c                     |   21 +-
-  drivers/staging/sm750fb/sm750.c                    |   16 +-
-  drivers/video/aperture.c                           |    8 +-
-  drivers/video/fbdev/aty/radeon_base.c              |   10 +-
-  include/drm/display/drm_scdc_helper.h              |    7 +-
-  include/drm/drm_gem_vram_helper.h                  |    4 +-
-  include/uapi/drm/qaic_accel.h                      |  397 ++++
-  51 files changed, 7004 insertions(+), 231 deletions(-)
-  create mode 100644 Documentation/accel/qaic/aic100.rst
-  create mode 100644 Documentation/accel/qaic/index.rst
-  create mode 100644 Documentation/accel/qaic/qaic.rst
-  create mode 100644 drivers/accel/qaic/Kconfig
-  create mode 100644 drivers/accel/qaic/Makefile
-  create mode 100644 drivers/accel/qaic/mhi_controller.c
-  create mode 100644 drivers/accel/qaic/mhi_controller.h
-  create mode 100644 drivers/accel/qaic/mhi_qaic_ctrl.c
-  create mode 100644 drivers/accel/qaic/mhi_qaic_ctrl.h
-  create mode 100644 drivers/accel/qaic/qaic.h
-  create mode 100644 drivers/accel/qaic/qaic_control.c
-  create mode 100644 drivers/accel/qaic/qaic_data.c
-  create mode 100644 drivers/accel/qaic/qaic_drv.c
-  create mode 100644 include/uapi/drm/qaic_accel.h
-
---------------m3NKjoEoYhyKBGyCCy0ajgJk
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-
-<html>
-  <head>
-
-    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-  </head>
-  <body>
-    <pre>Hi Dave, Daniel,
-Pull request to avoid backmerges. ;)
-Cheers,
-~Maarten
-
-drm-misc-next-2023-04-06:
-drm-misc-next for v6.4-rc1:
-
-UAPI Changes:
-
-Cross-subsystem Changes:
-- Document port and rotation dt bindings better.
-- For panel timing DT bindings, document that vsync and hsync are
-  first, rather than last in image.
-- Fix video/aperture typos.
-
-Core Changes:
-- Reject prime DMA-Buf attachment if get_sg_table is missing.
-  (For self-importing dma-buf only.)
-- Add prime import/export to vram-helper.
-- Fix oops in drm/vblank when init is not called.
-- Fixup xres/yres_virtual and other fixes in fb helper.
-- Improve SCDC debugs.
-- Skip setting deadline on modesets.
-- Assorted TTM fixes.
-
-Driver Changes:
-- Add lima usage stats.
-- Assorted fixes to bridge/lt8192b, tc358767, ivpu,
-  bridge/ti-sn65dsi83, ps8640.
-- Use pci aperture helpers in drm/ast lynxfb, radeonfb.
-- Revert some lima patches, as they required a commit that has been
-  reverted upstream.
-- Add AUO NE135FBM-N41 v8.1 eDP panel.
-- Add QAIC accel driver.
-The following changes since commit 7d690f936e9bc9fbd6394fb3d4ad181af03ee393:
-
-  drm/panfrost: Add basic support for speed binning (2023-03-31 11:44:11 +0200)
-
-are available in the Git repository at:
-
-  git://anongit.freedesktop.org/drm/drm-misc tags/drm-misc-next-2023-04-06
-
-for you to fetch changes up to e44f18c6ff8beef7b2b10592287f0a9766376d9b:
-
-  drm/ttm: Make the call to ttm_tt_populate() interruptible when faulting (2023-04-06 10:01:42 +0200)
-
-----------------------------------------------------------------
-drm-misc-next for v6.4-rc1:
-
-UAPI Changes:
-
-Cross-subsystem Changes:
-- Document port and rotation dt bindings better.
-- For panel timing DT bindings, document that vsync and hsync are
-  first, rather than last in image.
-- Fix video/aperture typos.
-
-Core Changes:
-- Reject prime DMA-Buf attachment if get_sg_table is missing.
-  (For self-importing dma-buf only.)
-- Add prime import/export to vram-helper.
-- Fix oops in drm/vblank when init is not called.
-- Fixup xres/yres_virtual and other fixes in fb helper.
-- Improve SCDC debugs.
-- Skip setting deadline on modesets.
-- Assorted TTM fixes.
-
-Driver Changes:
-- Add lima usage stats.
-- Assorted fixes to bridge/lt8192b, tc358767, ivpu,
-  bridge/ti-sn65dsi83, ps8640.
-- Use pci aperture helpers in drm/ast lynxfb, radeonfb.
-- Revert some lima patches, as they required a commit that has been
-  reverted upstream.
-- Add AUO NE135FBM-N41 v8.1 eDP panel.
-- Add QAIC accel driver.
-
-----------------------------------------------------------------
-Alexander Stein (2):
-      drm/bridge: ti-sn65dsi83: use dev_err_probe if host attach failed
-      drm/bridge: ti-sn65dsi86: Allow GPIO operations to sleep
-
-AngeloGioacchino Del Regno (1):
-      drm/panel-edp: Add AUO NE135FBM-N41 v8.1 panel entry
-
-Daniel Vetter (7):
-      drm/ast: Use drm_aperture_remove_conflicting_pci_framebuffers
-      staging/lynxfb: Use pci aperture helper
-      fbdev/radeon: use pci aperture helpers
-      drm/fb-helper: set x/yres_virtual in drm_fb_helper_check_var
-      drm/fb-helper: drop redundant pixclock check from drm_fb_helper_set_par()
-      drm/fb-helper: fix input validation gaps in check_var
-      drm/atomic-helper: Don't set deadline for modesets
-
-Erico Nunes (3):
-      drm/lima: add usage counting method to ctx_mgr
-      drm/lima: allocate unique id per drm_file
-      drm/lima: add show_fdinfo for drm usage stats
-
-Francesco Dolcini (1):
-      drm/bridge: lt8912b: Fix DSI Video Mode
-
-Harshit Mogalapalli (1):
-      drm/lima/lima_drv: Add missing unwind goto in lima_pdev_probe()
-
-Jeffrey Hugo (7):
-      accel/qaic: Add documentation for AIC100 accelerator driver
-      accel/qaic: Add uapi and core driver file
-      accel/qaic: Add MHI controller
-      accel/qaic: Add control path
-      accel/qaic: Add datapath
-      accel/qaic: Add qaic driver to the build system
-      MAINTAINERS: Add entry for QAIC driver
-
-Karol Wachowski (1):
-      accel/ivpu: Remove D3hot delay for Meteorlake
-
-Krzysztof Kozlowski (5):
-      dt-bindings: display: sitronix,st7789v: document dc-gpios
-      dt-bindings: display: xinpeng,xpp055c272: document port
-      dt-bindings: display: feiyang,fy07024di26a30d: document port
-      dt-bindings: display: elida,kd35t133: document port and rotation
-      dt-bindings: display: sitronix,st7701: document port and rotation
-
-Luca Ceresoli (2):
-      drm: bridge: ldb: add missing \n in dev_warn() string
-      drm: bridge: ldb: add support for using channel 1 only
-
-Marek Vasut (3):
-      drm/bridge: tc358767: Enable DSI burst mode, LPM, non-continuous clock
-      dt-bindings: display: Start the info graphics with HS/VS change
-      drm/bridge: ti-sn65dsi83: Do not generate HFP/HBP/HSA and EOT packet
-
-Pin-yen Lin (1):
-      drm/bridge: ps8640: Use constant sleep time for polling hpd
-
-Pranjal Ramajor Asha Kanojiya (1):
-      accel/qaic: Add mhi_qaic_cntl
-
-Qiang Yu (3):
-      Revert "drm/lima: add show_fdinfo for drm usage stats"
-      Revert "drm/lima: allocate unique id per drm_file"
-      Revert "drm/lima: add usage counting method to ctx_mgr"
-
-Rob Clark (1):
-      drm/vblank: Fix for drivers that do not drm_vblank_init()
-
-Simon Ser (2):
-      drm/prime: reject DMA-BUF attach when get_sg_table is missing
-      drm/vram-helper: turn on PRIME import/export
-
-Sui Jingfeng (1):
-      video/aperture: Fix typos in comments
-
-Thomas Hellström (3):
-      drm/ttm/pool: Fix ttm_pool_alloc error path
-      drm/ttm: Reduce the number of used allocation orders for TTM pages
-      drm/ttm: Make the call to ttm_tt_populate() interruptible when faulting
-
-Ville Syrjälä (1):
-      drm/scdc-helper: Pimp SCDC debugs
-
- Documentation/accel/index.rst                      |    1 +
- Documentation/accel/qaic/aic100.rst                |  510 ++++++
- Documentation/accel/qaic/index.rst                 |   13 +
- Documentation/accel/qaic/qaic.rst                  |  170 ++
- .../bindings/display/panel/elida,kd35t133.yaml     |    9 +
- .../display/panel/feiyang,fy07024di26a30d.yaml     |    8 +
- .../bindings/display/panel/panel-timing.yaml       |   46 +-
- .../bindings/display/panel/sitronix,st7701.yaml    |    9 +
- .../bindings/display/panel/sitronix,st7789v.yaml   |    4 +
- .../bindings/display/panel/xinpeng,xpp055c272.yaml |    8 +
- MAINTAINERS                                        |   10 +
- drivers/accel/Kconfig                              |    1 +
- drivers/accel/Makefile                             |    1 +
- drivers/accel/ivpu/ivpu_drv.c                      |    4 +
- drivers/accel/qaic/Kconfig                         |   23 +
- drivers/accel/qaic/Makefile                        |   13 +
- drivers/accel/qaic/mhi_controller.c                |  563 ++++++
- drivers/accel/qaic/mhi_controller.h                |   16 +
- drivers/accel/qaic/mhi_qaic_ctrl.c                 |  569 ++++++
- drivers/accel/qaic/mhi_qaic_ctrl.h                 |   12 +
- drivers/accel/qaic/qaic.h                          |  282 +++
- drivers/accel/qaic/qaic_control.c                  | 1526 ++++++++++++++++
- drivers/accel/qaic/qaic_data.c                     | 1902 ++++++++++++++++++++
- drivers/accel/qaic/qaic_drv.c                      |  647 +++++++
- drivers/gpu/drm/ast/ast_drv.c                      |   16 +-
- drivers/gpu/drm/bridge/fsl-ldb.c                   |  103 +-
- drivers/gpu/drm/bridge/lontium-lt8912b.c           |    1 -
- drivers/gpu/drm/bridge/parade-ps8640.c             |    2 +-
- drivers/gpu/drm/bridge/synopsys/dw-hdmi.c          |    8 +-
- drivers/gpu/drm/bridge/tc358767.c                  |    4 +-
- drivers/gpu/drm/bridge/ti-sn65dsi83.c              |    8 +-
- drivers/gpu/drm/bridge/ti-sn65dsi86.c              |    4 +-
- drivers/gpu/drm/display/drm_scdc_helper.c          |   46 +-
- drivers/gpu/drm/drm_atomic_helper.c                |    6 +
- drivers/gpu/drm/drm_fb_helper.c                    |   53 +-
- drivers/gpu/drm/drm_prime.c                        |    6 +-
- drivers/gpu/drm/drm_vblank.c                       |   10 +-
- drivers/gpu/drm/i915/display/intel_ddi.c           |    4 +-
- drivers/gpu/drm/i915/display/intel_hdmi.c          |    8 +-
- drivers/gpu/drm/lima/lima_drv.c                    |    6 +-
- drivers/gpu/drm/panel/panel-edp.c                  |    1 +
- drivers/gpu/drm/tegra/sor.c                        |   15 +-
- drivers/gpu/drm/ttm/ttm_bo_vm.c                    |   13 +-
- drivers/gpu/drm/ttm/ttm_pool.c                     |  111 +-
- drivers/gpu/drm/vc4/vc4_hdmi.c                     |   21 +-
- drivers/staging/sm750fb/sm750.c                    |   16 +-
- drivers/video/aperture.c                           |    8 +-
- drivers/video/fbdev/aty/radeon_base.c              |   10 +-
- include/drm/display/drm_scdc_helper.h              |    7 +-
- include/drm/drm_gem_vram_helper.h                  |    4 +-
- include/uapi/drm/qaic_accel.h                      |  397 ++++
- 51 files changed, 7004 insertions(+), 231 deletions(-)
- create mode 100644 Documentation/accel/qaic/aic100.rst
- create mode 100644 Documentation/accel/qaic/index.rst
- create mode 100644 Documentation/accel/qaic/qaic.rst
- create mode 100644 drivers/accel/qaic/Kconfig
- create mode 100644 drivers/accel/qaic/Makefile
- create mode 100644 drivers/accel/qaic/mhi_controller.c
- create mode 100644 drivers/accel/qaic/mhi_controller.h
- create mode 100644 drivers/accel/qaic/mhi_qaic_ctrl.c
- create mode 100644 drivers/accel/qaic/mhi_qaic_ctrl.h
- create mode 100644 drivers/accel/qaic/qaic.h
- create mode 100644 drivers/accel/qaic/qaic_control.c
- create mode 100644 drivers/accel/qaic/qaic_data.c
- create mode 100644 drivers/accel/qaic/qaic_drv.c
- create mode 100644 include/uapi/drm/qaic_accel.h
-
-</pre>
-  </body>
-</html>
-
---------------m3NKjoEoYhyKBGyCCy0ajgJk--
