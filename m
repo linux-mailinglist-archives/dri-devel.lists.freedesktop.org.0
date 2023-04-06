@@ -2,127 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB4256D93C5
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Apr 2023 12:14:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6228E6D942E
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Apr 2023 12:32:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 985CB10EB52;
-	Thu,  6 Apr 2023 10:14:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AF61810EB56;
+	Thu,  6 Apr 2023 10:32:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam11on20621.outbound.protection.outlook.com
- [IPv6:2a01:111:f400:7eaa::621])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A157C10EB52;
- Thu,  6 Apr 2023 10:14:45 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=W+oYaiJdB86G0oSBq37ou9siAYiv4f1U912gyPAO0f8FPAzB8xsnKQDOPqRMUU/Na5HjkZncrWhjAa5OQpB+ZpGorvY8zu0yTlYAiNFpB4JUwXMjEwTYE//Wqryf83ikr2ecAcLubfE5lNtdf7IUi6hz3zVi9QYTkNF8+eqAjI6BE/l9+BjKNM/9VX58MsBYZ0jxbp4XUJvrmRlhY6bkHED8fL9ESEvFwyCAadDS6tOAliHtI4bri+GjATQE0jwA34A3GIypYsyXTP5C5HH70FcHjlG7LcCuzfSXwgXoC3+LXJRKwYOqoFoHIqLgKBazNe6LZoc7dJVS1Oponw8W+w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=0eDS+Zkwz9IrfBG66fIV0PLhRzQXqBi/Kc7/DQ37FII=;
- b=nFv5pev8P57nfb1kZscy90nLfnVZCV8MbhkHE97CKBhTgoejjSdgQUsCmrkEa1NIaiGib0P+oGAUALe9P2DOMk/EtEe5VJVKX7fvCAXKCLb+YPJ7qsQ50+xPXHW8Brx2Wb4KcPpxDH3cspLrvPfIEHs+b/m10SpgYYnAXy2s1mXXVhTB9F08VWuOqmJlG6UJfpgvc4oMqHSoJFY5nJVOfaMkFejnPjylcLCSjOglkTm9BziTb+HTMHACtTUN+AGiM5fo67yuhLv9/xf9dI6aJwwt6h52wbiQfdKzlyDi0FxRR1ysloLeCV+9rq+jlo/qHseeknLkz7Ir6Rq5K49kxQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=0eDS+Zkwz9IrfBG66fIV0PLhRzQXqBi/Kc7/DQ37FII=;
- b=qgIhZVMyZeh4+zGbqK9YgxduaR4DSA88krZIDLBTIo2fsTeeW9zZygEkRpYnZeKcc4/n8XpOIlls0pXkeOK5cQMf0om/mSxfnlSgV20Nh7oSi42O/G5J9TdRasis0p8qkDfRpCyfI6FISH+rJNnCEO/BA+cXFOziRzMaW+9zmWo=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
- by PH7PR12MB6441.namprd12.prod.outlook.com (2603:10b6:510:1fb::10)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6254.35; Thu, 6 Apr
- 2023 10:14:42 +0000
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::4624:dc39:943e:6ae]) by BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::4624:dc39:943e:6ae%5]) with mapi id 15.20.6254.035; Thu, 6 Apr 2023
- 10:14:42 +0000
-Message-ID: <cf04d0a6-3485-a1aa-8514-a0ecb4266f03@amd.com>
-Date: Thu, 6 Apr 2023 12:14:36 +0200
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 26B0610EB56
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Apr 2023 10:32:25 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 74D1F22600;
+ Thu,  6 Apr 2023 10:32:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1680777143; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=G/HxR077xGPbYf4zYY1fUWRLYnVvMx7nM+IP9iYRd7c=;
+ b=KLrxtdqZWCmWdqukx5ovNzCkcodHjsMc0QT70dusyPMIhCOErXYbDhsNQvEh9SgNdl3i4u
+ 5qhgtKvVbuPHKzh5PYEy+4W9ZOVRy8ey7abspT9HVgUS3XjnudET+YNbBqy9uf0ptvN6jK
+ QdpNRqIshLZGPNGvJqjd+32tnia8AnQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1680777143;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=G/HxR077xGPbYf4zYY1fUWRLYnVvMx7nM+IP9iYRd7c=;
+ b=83N6pCebzzlcQS7IZ4o3EpiLs2yqIcTlDTcwxuBxx2ilt480EyIamFOeuE45LPdHeVpNXt
+ dknYljI7Luy9oQCw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 4B8E6133E5;
+ Thu,  6 Apr 2023 10:32:23 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id 5zl5EbefLmR+JwAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Thu, 06 Apr 2023 10:32:23 +0000
+Message-ID: <6869588b-c382-fb27-2f25-c6e80038f5bc@suse.de>
+Date: Thu, 6 Apr 2023 12:32:22 +0200
+MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.9.0
-Subject: Re: [RFC PATCH 00/10] Xe DRM scheduler and long running workload plans
+Subject: Re: [PATCH 2/2] vkms: Add support for multiple connectors
 Content-Language: en-US
-To: Daniel Vetter <daniel@ffwll.ch>, Matthew Brost <matthew.brost@intel.com>
-References: <20230404002211.3611376-1-matthew.brost@intel.com>
- <87c7f659-387c-3e23-69c6-03e0c9820bab@amd.com>
- <ZCwoL3Wgv90tlQWR@DUT025-TGLU.fm.intel.com>
- <d740a81a-8919-b6c8-a8c1-f5d8f9c5549c@amd.com>
- <ZC0yq9XZ2t9cV0Nz@phenom.ffwll.local>
- <a2236a9d-e21a-269c-aad3-184c402065b7@amd.com>
- <ZC06Rl6TGe7itZvW@phenom.ffwll.local>
- <ec128743-699b-3722-0ab2-ff96552fdddd@amd.com>
- <CAKMK7uFEGoaOmewGmP4H_ouqZiMKAiaKwEohGCZq5T-UJYMf_w@mail.gmail.com>
- <ZC4pinCurycVe4bi@DUT025-TGLU.fm.intel.com>
- <ZC5oo8ljg5DWHjhk@phenom.ffwll.local>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-In-Reply-To: <ZC5oo8ljg5DWHjhk@phenom.ffwll.local>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR3P281CA0123.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:94::9) To BN8PR12MB3587.namprd12.prod.outlook.com
- (2603:10b6:408:43::13)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|PH7PR12MB6441:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8351aa5c-75c3-4998-ff43-08db3687bcd8
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: XT23af7BSf2AzQecCYqEO5OVlWTy99XySFoFaYY0CURDuw8C2n9prItiHyxpNumyWriGUtVP49co6gKIVmgiRFp8bEVesq/Du2r6yDnuwdEUi+mVb56u4NK+uFI8Dnho2hk3xrP5Nx0JWyfyhjzCzY5LMo1GhrMv6ig1dKFIWJJhnnTtQhz2EjnE1tAIbVFTD9CHJYuAp+X+fI8BAxvgXQpcxdSmd90aTkcVoLRYi3SSY1skMFtaaNNNF3GemdrzUVP/e8qcE/nFSl1SZgRg3N8MrQloHqUGOro2N7ALSff0QZ79yJ4l4Zwj9A562qTgtmNkcYUSnbHdWvEXbdrXsIys8vFBDdQg0O0tc9B8HfWovUydt5RZvaTkU//3QcNWV5X98WTPxXhgSyTDrfkRDUEfdxwqvYhAQcUOnfghca7wF3UDYvt0a408Ci3wgBcXXynccCEg389NQ16B2GRS11WqtimVTKAYKEjUZFz2CJFIRRGSrq9C9R03FDCpnC807RgIhOfAaqcE73JDkaRr4YwspLWJqCbFArhV5f4MEGLKPO2wE56vUX15J4Jyjuu/4Ii/7YyXSLXuKZ6JzClCQdvUl0RG/na1cbidG0tA3/YbP1e4/NS5xlWLQhlSz/GTr1OdaGmI7HFaXi65a9SVIg==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230028)(4636009)(346002)(136003)(366004)(396003)(39860400002)(376002)(451199021)(6486002)(66556008)(2616005)(83380400001)(966005)(6506007)(6512007)(186003)(38100700002)(8936002)(66574015)(7416002)(5660300002)(2906002)(26005)(6666004)(478600001)(36756003)(66476007)(41300700001)(66946007)(8676002)(110136005)(4326008)(86362001)(31696002)(316002)(31686004)(66899021)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?NlphN3pRbFlTSGRoOGV6djh1dy82bi9QU1c5TkJSZWd6U2xFSjBDd3oxcTY4?=
- =?utf-8?B?aFlMRUg5dDhSa0R6TGc3VDNsOWttYnJWQUZBbnpURkJlUW0ra1N6V3pLSGsy?=
- =?utf-8?B?bndoZ2ZKY3ZzZmNKZGhnazJWa3dubm84Mzg2aUZVdHA4VHlnNHdNdHl0VjlI?=
- =?utf-8?B?NjZQc0dlMjh2K2JFSkpnMy9wdGJDRDZPSlRmd0Q0UjFSTWp2OUYzNEp2aEI2?=
- =?utf-8?B?aEhaV3IvMk93SFI1YTdOdi9rUHpEa0tpU3lpRDdiZjV3dmk2YU1tQ1djQ3hD?=
- =?utf-8?B?cS9BaFN5THRxNjJlVzFPKzhoTkg2RXF5M2llRE9QVm93N0hwQXBmaXlXVHJP?=
- =?utf-8?B?cGw4K0V5bDA0QjVKOGc3OExEZy9tS1V2R1ViQTVvc29kR0ZBOE96MUorZDJK?=
- =?utf-8?B?cy9EWmhFMWJTRU93bzFKN1k5TGJialdWT1k4TWtmbFZsYTFFUnBQdGxvS3NN?=
- =?utf-8?B?d3NsbVdncG91V2NVK0Nqb3NSSHZSS3o5aFQvUDVqT2tpczdpckhQN1UxelFo?=
- =?utf-8?B?aVV1ZUFQSEVqMTJLbXFHOFkwOXNMclAwVWQxUGFicWU3bjgra0tHU1dMVVdS?=
- =?utf-8?B?VEdnSUVnMXBhWURUREpleTdLdDRNYjFIK0RKTkRYUGFUdGlQZUx3NWpVcHJn?=
- =?utf-8?B?OTJwdkg0cjZnVVZ4NjJBa1MxQmVlKy9XV0xkUUhUeXBGN0E3YjhXZ2JEMnNp?=
- =?utf-8?B?YmNEQlBqd1lKWVIyYTRBS1djOWhEWTF4VUlKcUp6UDdJMHdaSDkvU3RhMlF6?=
- =?utf-8?B?QkN3M1YzcVhqRFZPV0FuUnhkbFRuMU5RWmlEcitMa0pPRVp1R1JYcmlRTVJZ?=
- =?utf-8?B?N3JXZ1VMMHJoNlhzZXJPZ1Uzb1pDSWtBOGh2QXVseEtpcHRJOE5YRzdZSkxo?=
- =?utf-8?B?VEJLOEdyeGZkalEwWmdmV05JcGNVSFdMc1JaZVR6allZNU9sVlVqWi9NdFdM?=
- =?utf-8?B?QjQySHV4VlFhSjcyYUowOU9tNWFFd1Z5QnZQV0Jud3gzOWVtTlNaUm1JcGZ1?=
- =?utf-8?B?U2tVbGQvM3FNVGtRSTlMbWxMR2JOWEZZUDVtdnlTMzVLMnJvUVVGOGVBYWVZ?=
- =?utf-8?B?bXM1aG92bzhJTWlYVVQyL2RuTnIzVXhJcS9FNmw5Qnc5eHBmUU9tdEJLL1p6?=
- =?utf-8?B?YVU4UzI5VEpvWE9Pdk9rdDJadWlrcXRHd1ROQmRtaU84eDFrTGRGZzZwU1ls?=
- =?utf-8?B?bDhnS3VIWGZXelJFaklmbkMrZ0hiWjZkbkdsV0pOb3A0emlHUk1zd0prTVoy?=
- =?utf-8?B?clRacVhUOThQRkpncmpTVW1rU1RCQ2JBTitCUzJ1N3lZZXJhenBqaG9ManRT?=
- =?utf-8?B?UGkvWUJHblRQdkxHNmRLdGV6cTVyQVV5UWJHdGFZd2EzM1VmVkVOK3pTcEQv?=
- =?utf-8?B?dGE4enFZTWJrbzdxa2dlbUJDWDUvaEpkeHJySmc2LzZvT0I5RGwwZCtvSGVs?=
- =?utf-8?B?NFFIbTFRZlpDQzArVXdPZTlaaUtLM0dKM1pGcGRxRk96Q0FLN0hzdTcwbUFC?=
- =?utf-8?B?bGZZMVZVbldoRWhtVHNoVWFxVEE5c2p5VjFNRWxvN1FtS2lsQ2hIcS9iLzh5?=
- =?utf-8?B?VXdLRjBQUlNVVXFOUDFjWG5NcjZVK0dnV0hxYTZPS1NTV3pnNlFpNjVHVEtr?=
- =?utf-8?B?L0NyNnVaeThvQ2QzdW54dTN1VE1Veld0MUh6RUFORnVxaWtEZHVacE1ZQmdq?=
- =?utf-8?B?cVNRMHhla0x5bFJ2UGVwOUgwUkFibjNKd24xTkxsS1B1OWZ5eWpnbkN5dm03?=
- =?utf-8?B?ZkFCODJObXFLZ2RyU21KYU5OaGQ0RFFCSGpHcEtKZXRYZ0J4SVhFSU40cmFU?=
- =?utf-8?B?dU43WlNlTWU3L3FLYTh4T2g0TVhNZmgxWUVraitYcnFUNGwyNGU1UjVGVXlW?=
- =?utf-8?B?aWJ2cUJMY0NzeC9SamhsOHZ1R3VWSElNV1pnblFqQXlLSzZQVU5VVld4WWhB?=
- =?utf-8?B?ZUlJNDMzWDVtMloyNU56UUw5d1ZMTkJPaXhlK0R1ald0Ky85Y3dNa0QyNEVX?=
- =?utf-8?B?RjlDbFdQODEzcVhaUDZuOHByV2lwK04yMi9hVVZpU2c3cUVMRnJnclBJVDVT?=
- =?utf-8?B?a0xCSXk0RkdrTjY3b0xjWVBZYmcxMUFKV2xpbFFOdTVVcTdYS01KVnRPbitQ?=
- =?utf-8?Q?xmRUJEmfQsTaLb6ZyL4IeC7AL?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8351aa5c-75c3-4998-ff43-08db3687bcd8
-X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Apr 2023 10:14:42.2770 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Z1rm00eWlgTlGN4Fqd8r4rNqirDkFe1OBCITeomsqUiFlDLczYiz7FiA53Wer0+r
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB6441
+To: =?UTF-8?Q?Ma=c3=adra_Canal?= <mcanal@igalia.com>, marius.vlad@collabora.com
+References: <20221202142051.136651-3-marius.vlad@collabora.com>
+ <20230405135145.305293-1-mcanal@igalia.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <20230405135145.305293-1-mcanal@igalia.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------MIpkbZctRDJ0QC0fSDzTB6DJ"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -135,142 +70,141 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: robdclark@chromium.org, thomas.hellstrom@linux.intel.com, airlied@linux.ie,
- lina@asahilina.net, dri-devel@lists.freedesktop.org,
- boris.brezillon@collabora.com, intel-xe@lists.freedesktop.org,
- faith.ekstrand@collabora.com
+Cc: mwen@igalia.com, melissa.srw@gmail.com, dri-devel@lists.freedesktop.org,
+ rodrigosiqueiramelo@gmail.com, igormtorrente@gmail.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 06.04.23 um 08:37 schrieb Daniel Vetter:
-> On Thu, Apr 06, 2023 at 02:08:10AM +0000, Matthew Brost wrote:
->> On Wed, Apr 05, 2023 at 12:12:27PM +0200, Daniel Vetter wrote:
->>> On Wed, 5 Apr 2023 at 11:57, Christian König <christian.koenig@amd.com> wrote:
->>>> Am 05.04.23 um 11:07 schrieb Daniel Vetter:
->>>>> [SNIP]
->>>>>> I would approach it from the complete other side. This component here is a
->>>>>> tool to decide what job should run next.
->>>>>>
->>>>>> How that is then signaled and run should not be part of the scheduler, but
->>>>>> another more higher level component.
->>>>>>
->>>>>> This way you also don't have a problem with not using DMA-fences as
->>>>>> dependencies as well as constrains for running more jobs.
->>>>> I think we're talking about two things here and mixing them up.
->>>>>
->>>>> For the dependencies I agree with you, and imo that higher level tool
->>>>> should probably just be an on-demand submit thread in userspace for the
->>>>> rare case where the kernel would need to sort out a dependency otherwise
->>>>> (due to running out of ringspace in the per-ctx ringbuffer).
->>>>>
->>>>> The other thing is the message passing stuff, and this is what I was
->>>>> talking about above. This has nothing to do with handling dependencies,
->>>>> but with talking to the gpu fw. Here the intel design issue is that the fw
->>>>> only provides a single queue, and it's in-order. Which means it
->>>>> fundamentally has the stalling issue you describe as a point against a
->>>>> message passing design. And fundamentally we need to be able to talk to
->>>>> the fw in the scheduler ->run_job callback.
->>>>>
->>>>> The proposal here for the message passing part is that since it has the
->>>>> stalling issue already anyway, and the scheduler needs to be involved
->>>>> anyway, it makes sense to integrated this (as an optional thing, only for
->>>>> drivers which have this kind of fw interface) into the scheduler.
->>>>> Otherwise you just end up with two layers for no reason and more ping-pong
->>>>> delay because the ->run_job needs to kick off the subordinate driver layer
->>>>> first. Note that for this case the optional message passing support in the
->>>>> drm/scheduler actually makes things better, because it allows you to cut
->>>>> out one layer.
->>>>>
->>>>> Of course if a driver with better fw interface uses this message passing
->>>>> support, then that's bad. Hence the big warning in the kerneldoc.
->>>> Well what I wanted to say is that if you design the dependency handling
->>>> / scheduler properly you don't need the message passing through it.
->>>>
->>>> For example if the GPU scheduler component uses a work item to do it's
->>>> handling instead of a kthread you could also let the driver specify the
->>>> work queue where this work item is executed on.
->>>>
->>>> When you design it like this the driver specifies the thread context of
->>>> execution for it's job. In other words it can specify a single threaded
->>>> firmware work queue as well.
->>>>
->>>> When you then have other messages which needs to be passed to the
->>>> firmware you can also use the same single threaded workqueue for this.
->>>>
->>>> Drivers which have a different firmware interface would just use one of
->>>> the system work queues instead.
->>>>
->>>> This approach basically decouples the GPU scheduler component from the
->>>> message passing functionality.
->>> Hm I guess we've been talking past each another big time, because
->>> that's really what I thought was under discussions? Essentially the
->>> current rfc, but implementing with some polish.
->>>
->> I think Daniel pretty much nailed it here (thanks), to recap:
->>
->> 1. I want the messages in the same worker so run_job / free_job /
->> process_msg execution is mutual exclusive and also so during reset paths
->> if the worker is stopped all the entry points can't be entered.
->>
->> If this is a NAK, then another worker is fine I guess. A lock between
->> run_job / free_job + process_msg should solve the exclusion issue and the
->> reset paths can also stop this new worker too. That being said I'd
->> rather leave this as is but will not fight this point.
->>
->> 2. process_msg is just used to communicate with the firmware using the
->> same queue as submission. Waiting for space in this queue is the only
->> place this function can block (same as submission), well actually we
->> have the concept a preempt time slice but that sleeps for 10 ms by
->> default. Also preempt is only used in LR entities so I don't think it is
->> relavent in this case either.
->>
->> 3. Agree this is in the dma-fence signaling path (if process_msg is in
->> the submission worker) so we can't block indefinitely or an unreasonable
->> period of time (i.e. we must obey dma-fence rules).
-> Just to hammer this in: Not just process_msg is in the dma_fence signaling
-> path, but the entire fw queue where everything is being funneled through,
-> including whatever the fw is doing to process these.
->
-> Yes this is terrible and blew up a few times already :-/
->
-> But also, probably something that the docs really need to hammer in, to
-> make sure people don't look at this and thinkg "hey this seems to be the
-> recommended way to do this on linux". We don't want hw people to build
-> more of these designs, they're an absolute pain to deal with with Linux'
-> dma_fence signalling and gpu job scheduling rules.
->
-> It's just that if you're stuck with such fw, then integrating the flow
-> into drm/sched instead of having an extra layer of workers seems the
-> better of two pretty bad solutions.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------MIpkbZctRDJ0QC0fSDzTB6DJ
+Content-Type: multipart/mixed; boundary="------------EwHbM68hxqhhpAOSoKz0QyAE";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: =?UTF-8?Q?Ma=c3=adra_Canal?= <mcanal@igalia.com>,
+ marius.vlad@collabora.com
+Cc: mwen@igalia.com, rodrigosiqueiramelo@gmail.com,
+ dri-devel@lists.freedesktop.org, melissa.srw@gmail.com,
+ igormtorrente@gmail.com
+Message-ID: <6869588b-c382-fb27-2f25-c6e80038f5bc@suse.de>
+Subject: Re: [PATCH 2/2] vkms: Add support for multiple connectors
+References: <20221202142051.136651-3-marius.vlad@collabora.com>
+ <20230405135145.305293-1-mcanal@igalia.com>
+In-Reply-To: <20230405135145.305293-1-mcanal@igalia.com>
 
-Yeah and if you have such fw limitations, make sure that you use 
-something which is understood by lockdep to feed into it.
+--------------EwHbM68hxqhhpAOSoKz0QyAE
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-In other words, either locks or work item/queue and not some message 
-passing functionality through the scheduler.
+SGkNCg0KQW0gMDUuMDQuMjMgdW0gMTU6NTEgc2NocmllYiBNYcOtcmEgQ2FuYWw6DQo+IEhp
+IE1hcml1cywNCj4gDQo+PiBUaGlzIHBhdGNoIGFkZHMgc3VwcG9ydCBmb3IgY3JlYXRpbmcg
+bXVsdGlwbGUgdmlydHVhbCBjb25uZWN0b3JzLCBpbg0KPj4gY2FzZSBvbmUgd291bGQgbmVl
+ZCBpdC4gVXNlIG1vZHVsZSBwYXJhbWV0ZXJzIHRvIHNwZWNpZnkgaG93IG1hbnksDQo+PiBk
+ZWZhdWx0aW5nIHRvIGp1c3Qgb25lLCBhbGxvY2F0aW5nIGZyb20gdGhlIHN0YXJ0LCBhIG1h
+eGltdW0gb2YgNA0KPj4gcG9zc2libGUgb3V0cHV0cy4NCj4gDQo+IEkgZ290IGEgYml0IGNv
+bmZ1c2VkIGJ5IHRoaXMgZGVzY3JpcHRpb24uIFRoZSBjb21taXQgbWVzc2FnZSBzYXlzIHRo
+YXQgeW91DQo+IGFyZSBjcmVhdGluZyBtdWx0aXBsZSBjb25uZWN0b3JzLCBidXQgaXQgc2Vl
+bXMgbGlrZSB5b3UgYXJlIGNyZWF0aW5nIG11bHRpcGxlDQo+IHBpcGVzLiBGcm9tIHdoYXQg
+SSBjb3VsZCBzZWUsIGZvciBlYWNoIG5ldyBjb25uZWN0b3IgY3JlYXRlZCwgeW91IGFyZSBh
+bHNvDQo+IGNyZWF0aW5nIGEgbmV3IENSVEMgYW5kIG5ldyBwbGFuZXMuDQo+IA0KPiBNb3Jl
+b3ZlciwgaWYgeW91ciByZWFsIGludGVudGlvbiBpcyB0byBjcmVhdGUgbXVsdGlwbGUgcGlw
+ZXMsIEkgYmVsaWV2ZSB0aGF0DQo+IHlvdSBkb24ndCByZWFsbHkgbmVlZCB0byBkdXBsaWNh
+dGUgdGhlIHBsYW5lcyBhcyB3ZWxsLg0KDQpUZXJtaW5vbG9neSBjYW4gYmUgZnV6enksIGJ1
+dCBhIHBpcGUgaXMgdHlwaWNhbGx5IGNvbnNpZGVyZWQgZXZlcnl0aGluZyANCmZyb20gcGxh
+bmUgdG8gY29ubmVjdG9yLiBEZXBlbmRpbmcgb24gdGhlIGhhcmR3YXJlLCBzb21lIGNvbXBv
+bmVudHMgY2FuIA0KYmUgcGFydCBvZiBtdWx0aXBsZSBwaXBlcyBvciBjaGFuZ2UgcGlwZXMs
+IHRob3VnaC4NCg0KQmVzdCByZWdhcmRzDQpUaG9tYXMNCg0KPiANCj4gSSByYW4gdGhlIFZL
+TVMgQ0kgWzFdIHdpdGggeW91ciBwYXRjaGVzIGFwcGxpZWQgYW5kLCBhbHRob3VnaCBtb3N0
+IG9mIHRoZQ0KPiB0ZXN0cyBhcmUgbm93IHBhc3Npbmcgd2l0aCBtdWx0aXBsZSBwaXBlcywg
+d2hpY2ggaXMgcmVhbGx5IG5pY2UsIHRoZSB0ZXN0DQo+IGttc193cml0ZWJhY2sgY3Jhc2hl
+cyB3aXRoIHRoZSBmb2xsb3dpbmcgZXJyb3I6DQo+IA0KPiBbIDE5OTcuMjQ0MzQ3XSBbSUdU
+XSBrbXNfd3JpdGViYWNrOiBzdGFydGluZyBzdWJ0ZXN0IHdyaXRlYmFjay1jaGVjay1vdXRw
+dXQNCj4gWyAxOTk3LjI1MDY3M10gQlVHOiBrZXJuZWwgTlVMTCBwb2ludGVyIGRlcmVmZXJl
+bmNlLCBhZGRyZXNzOiAwMDAwMDAwMDAwMDAwMTZjDQo+IFsgMTk5Ny4yNTA2OTFdICNQRjog
+c3VwZXJ2aXNvciByZWFkIGFjY2VzcyBpbiBrZXJuZWwgbW9kZQ0KPiBbIDE5OTcuMjUwNjkz
+XSAjUEY6IGVycm9yX2NvZGUoMHgwMDAwKSAtIG5vdC1wcmVzZW50IHBhZ2UNCj4gWyAxOTk3
+LjI1MDY5NF0gUEdEIDgwMDAwMDAwMWE4NzcwNjcgUDREIDgwMDAwMDAwMWE4NzcwNjcgUFVE
+IDFhODcyMDY3IFBNRCAwDQo+IFsgMTk5Ny4yNTA2OTddIE9vcHM6IDAwMDAgWyMxXSBQUkVF
+TVBUIFNNUCBQVEkNCj4gWyAxOTk3LjI1MDY5OV0gQ1BVOiAyIFBJRDogMzIyMyBDb21tOiBr
+bXNfd3JpdGViYWNrIE5vdCB0YWludGVkIDYuMy4wLXJjNC1nOGMyYzI5YmExMjlmLWRpcnR5
+ICMyNTcNCj4gWyAxOTk3LjI1MDcwMV0gSGFyZHdhcmUgbmFtZTogUUVNVSBTdGFuZGFyZCBQ
+QyAoaTQ0MEZYICsgUElJWCwgMTk5NiksIEJJT1MgMS4xNi4yLTEuZmMzNyAwNC8wMS8yMDE0
+DQo+IFsgMTk5Ny4yNTA3MDNdIFJJUDogMDAxMDpkcm1fdmJsYW5rX2dldCsweGEvMHhlMA0K
+PiBbIDE5OTcuMjUwNzEwXSBDb2RlOiBhOSA2NiA2NiA2NiA2NiA2NiA2NiAyZSAwZiAxZiA4
+NCAwMCAwMCAwMCAwMCAwMCA5MCA5MCA5MCA5MCA5MCA5MCA5MCA5MCA5MCA5MCA5MCA5MCA5
+MCA5MCA5MCA5MCA1NSA0MSA1NyA0MSA1NiA0MSA1NSA0MSA1NCA1MyA8OGI+IDg3IDZjIDAx
+IDAwIDAwIDQxIGJjIGVhIGZmIGZmIGZmIDg1IGMwIDc0IDc0IDg5IGY1IDQ4IDg5IGZiIDM5
+DQo+IFsgMTk5Ny4yNTA3MTJdIFJTUDogMDAxODpmZmZmYjg0ZDQwN2EzYjA4IEVGTEFHUzog
+MDAwMTAyMDINCj4gWyAxOTk3LjI1MDcxNF0gUkFYOiAwMDAwMDAwMDAwMDAwMDAwIFJCWDog
+ZmZmZmEyZWIwMmJmOGI3MCBSQ1g6IDAwMDAwMDAwMDAwMDAwMDANCj4gWyAxOTk3LjI1MDcx
+OF0gUkRYOiBmZmZmYTJlYjE4MGQyNDIwIFJTSTogMDAwMDAwMDAwMDAwMDAwMCBSREk6IDAw
+MDAwMDAwMDAwMDAwMDANCj4gWyAxOTk3LjI1MDcxOV0gUkJQOiBmZmZmYTJlYjAyYmY5OWU4
+IFIwODogMDAwMDAwMDAwMDAwMDAzNiBSMDk6IGZmZmZhMmViMDFkNjIwYzANCj4gWyAxOTk3
+LjI1MDcyMF0gUjEwOiBmZmZmZTgyYjg0MDI3ZTQwIFIxMTogZmZmZmZmZmZjMDA0MjUyMCBS
+MTI6IGZmZmZhMmViMDFjMDE5MDANCj4gWyAxOTk3LjI1MDcyMV0gUjEzOiBmZmZmYTJlYjAy
+YmY5YjYwIFIxNDogMDAwMDAwMDAwMDAwMDAwMSBSMTU6IGZmZmZhMmVhMWVjZDZiODANCj4g
+WyAxOTk3LjI1MDcyMl0gRlM6ICAwMDAwN2Y3ZDQ0ZTg5YTgwKDAwMDApIEdTOmZmZmZhMmVi
+M2JkMDAwMDAoMDAwMCkga25sR1M6MDAwMDAwMDAwMDAwMDAwMA0KPiBbIDE5OTcuMjUwNzIz
+XSBDUzogIDAwMTAgRFM6IDAwMDAgRVM6IDAwMDAgQ1IwOiAwMDAwMDAwMDgwMDUwMDMzDQo+
+IFsgMTk5Ny4yNTA3MjVdIENSMjogMDAwMDAwMDAwMDAwMDE2YyBDUjM6IDAwMDAwMDAwMWVj
+MDIwMDAgQ1I0OiAwMDAwMDAwMDAwMDAwNmUwDQo+IFsgMTk5Ny4yNTA3MjhdIENhbGwgVHJh
+Y2U6DQo+IFsgMTk5Ny4yNTA3MzVdICA8VEFTSz4NCj4gWyAxOTk3LjI1MDczNl0gIHZrbXNf
+c2V0X2NvbXBvc2VyKzB4MTgvMHg2MCBbdmttc10NCj4gWyAxOTk3LjI1MDc0NV0gIHZrbXNf
+d2JfYXRvbWljX2NvbW1pdCsweDkzLzB4MTUwIFt2a21zXQ0KPiBbIDE5OTcuMjUwNzQ5XSAg
+ZHJtX2F0b21pY19oZWxwZXJfY29tbWl0X21vZGVzZXRfZW5hYmxlcysweDFkOS8weDI1MA0K
+PiBbIDE5OTcuMjUwNzU0XSAgdmttc19hdG9taWNfY29tbWl0X3RhaWwrMHgzMy8weGIwIFt2
+a21zXQ0KPiBbIDE5OTcuMjUwNzU4XSAgY29tbWl0X3RhaWwrMHg4ZC8weDE3MA0KPiBbIDE5
+OTcuMjUwNzYxXSAgZHJtX2F0b21pY19oZWxwZXJfY29tbWl0KzB4MjZiLzB4MjgwDQo+IFsg
+MTk5Ny4yNTA3NjNdICBkcm1fYXRvbWljX2NvbW1pdCsweDlmLzB4YzANCj4gWyAxOTk3LjI1
+MDc2Nl0gID8gX19wZnhfX19kcm1fcHJpbnRmbl9pbmZvKzB4MTAvMHgxMA0KPiBbIDE5OTcu
+MjUwNzY5XSAgZHJtX21vZGVfYXRvbWljX2lvY3RsKzB4MzRjLzB4NDgwDQo+IFsgMTk5Ny4y
+NTA3NzFdICA/IF9fcGZ4X2RybV9tb2RlX2F0b21pY19pb2N0bCsweDEwLzB4MTANCj4gWyAx
+OTk3LjI1MDc3M10gIGRybV9pb2N0bF9rZXJuZWwrMHhkNy8weDE1MA0KPiBbIDE5OTcuMjUw
+NzgwXSAgZHJtX2lvY3RsKzB4MzFmLzB4NDkwDQo+IFsgMTk5Ny4yNTA3ODFdICA/IF9fcGZ4
+X2RybV9tb2RlX2F0b21pY19pb2N0bCsweDEwLzB4MTANCj4gWyAxOTk3LjI1MDc4M10gIF9f
+c2Vfc3lzX2lvY3RsKzB4NmQvMHhiMA0KPiBbIDE5OTcuMjUwNzg5XSAgZG9fc3lzY2FsbF82
+NCsweDQzLzB4OTANCj4gWyAxOTk3LjI1MDc5NV0gIGVudHJ5X1NZU0NBTExfNjRfYWZ0ZXJf
+aHdmcmFtZSsweDcyLzB4ZGMNCj4gDQo+IFsxXSBodHRwczovL2dpdGxhYi5mcmVlZGVza3Rv
+cC5vcmcvZHJtL2lndC1ncHUtdG9vbHMvLS90cmVlL21hc3Rlci90ZXN0cy92a21zX2NpDQo+
+IA0KPiBCZXN0IFJlZ2FyZHMsDQo+IC0gTWHDrXJhIENhbmFsDQo+IA0KPj4NCj4+IFRoaXMg
+aXMgb2YgcGFydGljdWxhciBpbXBvcnRhbmNlIHdoZW4gdGVzdGluZyBvdXQgdGhlIERSTSBi
+YWNrZW5kIGluDQo+PiBjb21wb3NpdG9ycywgYnV0IGFsc28gdG8gYmUgYWJsZSB0byBpbmRl
+cGVuZGVudGx5IGhhbmRsZSBtdWx0aXBsZQ0KPj4gb3V0cHV0cy9jb25uZWN0b3JzLCBsaWtl
+IHNldHRpbmcgb25lIHRvIG9mZi9zbGVlcCBvbiB3aGlsZSB0aGUgb3RoZXJzDQo+PiBhcmUg
+b24sIGFuZCBjb21iaW5hdGlvbnMgdGhhdCBhcmlzZSBmcm9tIHRoYXQuDQo+Pg0KPj4gU2ln
+bmVkLW9mZi1ieTogTWFyaXVzIFZsYWQgPG1hcml1cy52bGFkQGNvbGxhYm9yYS5jb20+DQo+
+PiAtLS0NCj4+ICAgZHJpdmVycy9ncHUvZHJtL3ZrbXMvdmttc19jcnRjLmMgICAgICB8ICAz
+ICstLQ0KPj4gICBkcml2ZXJzL2dwdS9kcm0vdmttcy92a21zX2Rydi5jICAgICAgIHwgMjYg
+KysrKysrKysrKysrKysrKysrKysrKy0tLS0NCj4+ICAgZHJpdmVycy9ncHUvZHJtL3ZrbXMv
+dmttc19kcnYuaCAgICAgICB8ICA4ICsrKysrLS0tDQo+PiAgIGRyaXZlcnMvZ3B1L2RybS92
+a21zL3ZrbXNfb3V0cHV0LmMgICAgfCAgNSArKy0tLQ0KPj4gICBkcml2ZXJzL2dwdS9kcm0v
+dmttcy92a21zX3dyaXRlYmFjay5jIHwgMTggKysrKysrKystLS0tLS0tLS0tDQo+PiAgIDUg
+ZmlsZXMgY2hhbmdlZCwgMzggaW5zZXJ0aW9ucygrKSwgMjIgZGVsZXRpb25zKC0pDQo+Pg0K
+DQotLSANClRob21hcyBaaW1tZXJtYW5uDQpHcmFwaGljcyBEcml2ZXIgRGV2ZWxvcGVyDQpT
+VVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBHZXJtYW55IEdtYkgNCk1heGZlbGRzdHIuIDUsIDkw
+NDA5IE7DvHJuYmVyZywgR2VybWFueQ0KKEhSQiAzNjgwOSwgQUcgTsO8cm5iZXJnKQ0KR2Vz
+Y2jDpGZ0c2bDvGhyZXI6IEl2byBUb3Rldg0K
 
-As far as I can see the approach with the work item/queue should fit 
-your needs here.
+--------------EwHbM68hxqhhpAOSoKz0QyAE--
 
-Christian.
+--------------MIpkbZctRDJ0QC0fSDzTB6DJ
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
-> -Daniel
->
->   
->> 4. Agree the documentation for thw usage of the messaging interface
->> needs to be clear.
->>
->> 5. Agree that my code could alway use polishing.
->>
->> Lets close on #1 then can I get on general Ack on this part of the RFC
->> and apply the polish in the full review process?
->>
->> Matt
->>
->>> iow I agree with you (I think at least).
->>> -Daniel
->>> -- 
->>> Daniel Vetter
->>> Software Engineer, Intel Corporation
->>> http://blog.ffwll.ch
+-----BEGIN PGP SIGNATURE-----
 
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmQun7YFAwAAAAAACgkQlh/E3EQov+A5
+rBAAsH2BwgwiPvCdeYDI+o4wqwi/n+Tu2AWIVrqWenSwCWyLBGBYqq5g2OWBA8V0MblyeWM+XL8g
+b1MIFzARSEatI/xjG2YkRKtG32ZQTMbc1V0OOYkmedZIuoj/gTob+9xzB6oNPwDz1CddV6xIfue7
+HJL4aZDqRh4yrpJ6fJm+qQjsHLOBytO3Qy0G+yjeDU5IodmwNIt8cCMpa42FjcvqyqzwfI1eQk/t
+Ofsq53Od8LjYeY/5ACqqTlqYcisrLjqU3PSXmfrOnQvPH7zY/fsVpVE6YPYn5WCLAdSkHlfVv4Dl
+fLLNkqecDRyH76Muu8Jsp3wtSt7IJ7Lbi4Vno3TpvBSFHJ9XN595rzq7Uj//O1MAXw+uKPi4Kkvp
+nsOQEpTqlnBfZZvANXidbiWZ4IiPKGvaBx1L9E2cZ81Brb/yQ2tOE19RfQ8dj9tVQLdgaNYFf7hn
+BIoWQt/Ds0TA+tyfvKi9yzyAi7kUCDOO+CEOEzqs1cbbgRDLGRdqetXioI4ueiIYk9W+fd08JF+a
+7K4+GVjFxL+nlgFPbCmSJme2LCtUglRwFZeosew9+E13B3BSmZEonza1DAvHPPVqyMej//S/77cm
+3KxQqizXS38P+h4sclOD8XhK23mFB3AaZ/AnaO//V/8qNSMNXkFLOrcAZ/35PFNJh396bsXvdIOc
+uc4=
+=qis/
+-----END PGP SIGNATURE-----
+
+--------------MIpkbZctRDJ0QC0fSDzTB6DJ--
