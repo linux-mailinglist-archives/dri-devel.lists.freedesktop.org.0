@@ -1,55 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEE7D6D9803
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Apr 2023 15:21:37 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 416B46D97FB
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Apr 2023 15:21:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DE57010EBBF;
-	Thu,  6 Apr 2023 13:21:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1C35F10EBA9;
+	Thu,  6 Apr 2023 13:21:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D3FCE10EBA9
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Apr 2023 13:21:13 +0000 (UTC)
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1903F10EBAE
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Apr 2023 13:21:14 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 7C21B225B3;
+ by smtp-out2.suse.de (Postfix) with ESMTPS id B55FD1FE46;
  Thu,  6 Apr 2023 13:21:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1680787272; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=XwbytnY+jql5Av0MwT7AJMpDG+Xnzjz/bS8IyWvFu+4=;
- b=xvHy/+RGVOLqpjdbvYuj0Hz9U/NUIcaTIO8+qmixjOzuD63nravjKvtagc6vwpseoAFa4Z
- WOKdB5IRQ9HijpVD3F4dJ+w0bdW/mGx1POzOd9tNYewa8zlBjY1EffI7DG52s8af1skZhR
- oZJHHdd/ak9Jnig4yGtlJw+mdk0X8M8=
+ bh=ZHuv7i6TQ34yXo0XsYJLfXMXpD4gSmzt1yYMAFjPJ5A=;
+ b=CE2c33xzPYQ7Vynl2GjGTax1mGgy790qzv0FrPXWnb5xEr87qin1u/Hz0ObsCEaPrZV8mi
+ 21DDGEMY6wB2BplaAdagRpCD9udy8SWwp4OVc/oq4WISSqwthS/oLycJB0obNpWHqoHjIX
+ CIhYHjVtuNIk5GgbDtrk2wlO0xHquYs=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1680787272;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=XwbytnY+jql5Av0MwT7AJMpDG+Xnzjz/bS8IyWvFu+4=;
- b=HLaMcZvds/dg8G1Ryw1Q4qcoaqqMe8nFHbw52azE1DofKP6ZCpddv8st8OxbbBDneslhcQ
- m11jc376qp4zXXAA==
+ bh=ZHuv7i6TQ34yXo0XsYJLfXMXpD4gSmzt1yYMAFjPJ5A=;
+ b=1E0UVW0EHFT6yfKQ4y+tU7tANqHENfaVpLuaaeUNXaPkcpjHsEkNmhVw+N2GHVANQrSHoE
+ TSu6dCvCbru6sKBg==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 37A36133E5;
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 7FF8013A1D;
  Thu,  6 Apr 2023 13:21:12 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id 6Nm4DEjHLmSqBwAAMHmgww
+ by imap2.suse-dmz.suse.de with ESMTPSA id 4JheHkjHLmSqBwAAMHmgww
  (envelope-from <tzimmermann@suse.de>); Thu, 06 Apr 2023 13:21:12 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: javierm@redhat.com, daniel.vetter@ffwll.ch, patrik.r.jakobsson@gmail.com
-Subject: [PATCH v5 6/9] video/aperture: Drop primary argument
-Date: Thu,  6 Apr 2023 15:21:06 +0200
-Message-Id: <20230406132109.32050-7-tzimmermann@suse.de>
+Subject: [PATCH v5 7/9] video/aperture: Only remove sysfb on the default vga
+ pci device
+Date: Thu,  6 Apr 2023 15:21:07 +0200
+Message-Id: <20230406132109.32050-8-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.40.0
 In-Reply-To: <20230406132109.32050-1-tzimmermann@suse.de>
 References: <20230406132109.32050-1-tzimmermann@suse.de>
@@ -67,160 +68,104 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, linux-hyperv@vger.kernel.org,
- Dexuan Cui <decui@microsoft.com>, Helge Deller <deller@gmx.de>,
- Wei Liu <wei.liu@kernel.org>, dri-devel@lists.freedesktop.org,
+Cc: Aaron Plattner <aplattner@nvidia.com>, Helge Deller <deller@gmx.de>,
+ dri-devel@lists.freedesktop.org, stable@vger.kernel.org,
  Thomas Zimmermann <tzimmermann@suse.de>,
- Daniel Vetter <daniel.vetter@intel.com>,
- "K. Y. Srinivasan" <kys@microsoft.com>, Haiyang Zhang <haiyangz@microsoft.com>
+ Alex Deucher <alexander.deucher@amd.com>,
+ Daniel Vetter <daniel.vetter@intel.com>, Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Daniel Vetter <daniel.vetter@ffwll.ch>
 
-With the preceding patches it's become defunct. Also I'm about to add
-a different boolean argument, so it's better to keep the confusion
-down to the absolute minimum.
+Instead of calling aperture_remove_conflicting_devices() to remove the
+conflicting devices, just call to aperture_detach_devices() to detach
+the device that matches the same PCI BAR / aperture range. Since the
+former is just a wrapper of the latter plus a sysfb_disable() call,
+and now that's done in this function but only for the primary devices.
 
-v2: Since the hypervfb patch got droppped (it's only a pci device for
-gen1 vm, not for gen2) there is one leftover user in an actual driver
-left to touch.
+This fixes a regression introduced by commit ee7a69aa38d8 ("fbdev:
+Disable sysfb device registration when removing conflicting FBs"),
+where we remove the sysfb when loading a driver for an unrelated pci
+device, resulting in the user losing their efifb console or similar.
+
+Note that in practice this only is a problem with the nvidia blob,
+because that's the only gpu driver people might install which does not
+come with an fbdev driver of it's own. For everyone else the real gpu
+driver will restore a working console.
+
+Also note that in the referenced bug there's confusion that this same
+bug also happens on amdgpu. But that was just another amdgpu specific
+regression, which just happened to happen at roughly the same time and
+with the same user-observable symptoms. That bug is fixed now, see
+https://bugzilla.kernel.org/show_bug.cgi?id=216331#c15
+
+Note that we should not have any such issues on non-pci multi-gpu
+issues, because I could only find two such cases:
+- SoC with some external panel over spi or similar. These panel
+  drivers do not use drm_aperture_remove_conflicting_framebuffers(),
+  so no problem.
+- vga+mga, which is a direct console driver and entirely bypasses all
+  this.
+
+For the above reasons the cc: stable is just notionally, this patch
+will need a backport and that's up to nvidia if they care enough.
+
+v2:
+- Explain a bit better why other multi-gpu that aren't pci shouldn't
+  have any issues with making all this fully pci specific.
+
+v3
+- polish commit message (Javier)
 
 v4:
-- fixes to commit message
+- Fix commit message style (i.e., commit 1234 ("..."))
 - fix Daniel's S-o-b address
 
 v5:
 - add back an S-o-b tag with Daniel's Intel address
 
+Fixes: ee7a69aa38d8 ("fbdev: Disable sysfb device registration when removing conflicting FBs")
+Tested-by: Aaron Plattner <aplattner@nvidia.com>
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+Link: https://bugzilla.kernel.org/show_bug.cgi?id=216303#c28
 Signed-off-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Aaron Plattner <aplattner@nvidia.com>
 Cc: Javier Martinez Canillas <javierm@redhat.com>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
 Cc: Helge Deller <deller@gmx.de>
-Cc: linux-fbdev@vger.kernel.org
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: Maxime Ripard <mripard@kernel.org>
-Cc: "K. Y. Srinivasan" <kys@microsoft.com>
-Cc: Haiyang Zhang <haiyangz@microsoft.com>
-Cc: Wei Liu <wei.liu@kernel.org>
-Cc: Dexuan Cui <decui@microsoft.com>
-Cc: linux-hyperv@vger.kernel.org
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+Cc: Sam Ravnborg <sam@ravnborg.org>
+Cc: Alex Deucher <alexander.deucher@amd.com>
+Cc: <stable@vger.kernel.org> # v5.19+ (if someone else does the backport)
 ---
- drivers/gpu/drm/drm_aperture.c  | 2 +-
- drivers/video/aperture.c        | 7 +++----
- drivers/video/fbdev/hyperv_fb.c | 2 +-
- include/linux/aperture.h        | 9 ++++-----
- 4 files changed, 9 insertions(+), 11 deletions(-)
+ drivers/video/aperture.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_aperture.c b/drivers/gpu/drm/drm_aperture.c
-index 697cffbfd603..5729f3bb4398 100644
---- a/drivers/gpu/drm/drm_aperture.c
-+++ b/drivers/gpu/drm/drm_aperture.c
-@@ -168,7 +168,7 @@ EXPORT_SYMBOL(devm_aperture_acquire_from_firmware);
- int drm_aperture_remove_conflicting_framebuffers(resource_size_t base, resource_size_t size,
- 						 const struct drm_driver *req_driver)
- {
--	return aperture_remove_conflicting_devices(base, size, false, req_driver->name);
-+	return aperture_remove_conflicting_devices(base, size, req_driver->name);
- }
- EXPORT_SYMBOL(drm_aperture_remove_conflicting_framebuffers);
- 
 diff --git a/drivers/video/aperture.c b/drivers/video/aperture.c
-index 3aad10ab620e..1356f0e88241 100644
+index 1356f0e88241..e4091688b5eb 100644
 --- a/drivers/video/aperture.c
 +++ b/drivers/video/aperture.c
-@@ -43,7 +43,7 @@
-  *		base = mem->start;
-  *		size = resource_size(mem);
-  *
-- *		ret = aperture_remove_conflicting_devices(base, size, false, "example");
-+ *		ret = aperture_remove_conflicting_devices(base, size, "example");
-  *		if (ret)
-  *			return ret;
-  *
-@@ -274,7 +274,6 @@ static void aperture_detach_devices(resource_size_t base, resource_size_t size)
-  * aperture_remove_conflicting_devices - remove devices in the given range
-  * @base: the aperture's base address in physical memory
-  * @size: aperture size in bytes
-- * @primary: also kick vga16fb if present; only relevant for VGA devices
-  * @name: a descriptive name of the requesting driver
-  *
-  * This function removes devices that own apertures within @base and @size.
-@@ -283,7 +282,7 @@ static void aperture_detach_devices(resource_size_t base, resource_size_t size)
-  * 0 on success, or a negative errno code otherwise
-  */
- int aperture_remove_conflicting_devices(resource_size_t base, resource_size_t size,
--					bool primary, const char *name)
-+					const char *name)
- {
- 	/*
- 	 * If a driver asked to unregister a platform device registered by
-@@ -329,7 +328,7 @@ int aperture_remove_conflicting_pci_devices(struct pci_dev *pdev, const char *na
+@@ -322,15 +322,16 @@ int aperture_remove_conflicting_pci_devices(struct pci_dev *pdev, const char *na
+ 	if (pdev == vga_default_device())
+ 		primary = true;
+ 
++	if (primary)
++		sysfb_disable();
++
+ 	for (bar = 0; bar < PCI_STD_NUM_BARS; ++bar) {
+ 		if (!(pci_resource_flags(pdev, bar) & IORESOURCE_MEM))
+ 			continue;
  
  		base = pci_resource_start(pdev, bar);
  		size = pci_resource_len(pdev, bar);
--		ret = aperture_remove_conflicting_devices(base, size, primary, name);
-+		ret = aperture_remove_conflicting_devices(base, size, name);
- 		if (ret)
- 			return ret;
+-		ret = aperture_remove_conflicting_devices(base, size, name);
+-		if (ret)
+-			return ret;
++		aperture_detach_devices(base, size);
  	}
-diff --git a/drivers/video/fbdev/hyperv_fb.c b/drivers/video/fbdev/hyperv_fb.c
-index ec3f6cf05f8c..54f433e09ab8 100644
---- a/drivers/video/fbdev/hyperv_fb.c
-+++ b/drivers/video/fbdev/hyperv_fb.c
-@@ -1073,7 +1073,7 @@ static int hvfb_getmem(struct hv_device *hdev, struct fb_info *info)
- 	info->screen_size = dio_fb_size;
  
- getmem_done:
--	aperture_remove_conflicting_devices(base, size, false, KBUILD_MODNAME);
-+	aperture_remove_conflicting_devices(base, size, KBUILD_MODNAME);
- 
- 	if (gen2vm) {
- 		/* framebuffer is reallocated, clear screen_info to avoid misuse from kexec */
-diff --git a/include/linux/aperture.h b/include/linux/aperture.h
-index 442f15a57cad..7248727753be 100644
---- a/include/linux/aperture.h
-+++ b/include/linux/aperture.h
-@@ -14,7 +14,7 @@ int devm_aperture_acquire_for_platform_device(struct platform_device *pdev,
- 					      resource_size_t size);
- 
- int aperture_remove_conflicting_devices(resource_size_t base, resource_size_t size,
--					bool primary, const char *name);
-+					const char *name);
- 
- int aperture_remove_conflicting_pci_devices(struct pci_dev *pdev, const char *name);
- #else
-@@ -26,7 +26,7 @@ static inline int devm_aperture_acquire_for_platform_device(struct platform_devi
- }
- 
- static inline int aperture_remove_conflicting_devices(resource_size_t base, resource_size_t size,
--						      bool primary, const char *name)
-+						      const char *name)
- {
- 	return 0;
- }
-@@ -39,7 +39,6 @@ static inline int aperture_remove_conflicting_pci_devices(struct pci_dev *pdev,
- 
- /**
-  * aperture_remove_all_conflicting_devices - remove all existing framebuffers
-- * @primary: also kick vga16fb if present; only relevant for VGA devices
-  * @name: a descriptive name of the requesting driver
-  *
-  * This function removes all graphics device drivers. Use this function on systems
-@@ -48,9 +47,9 @@ static inline int aperture_remove_conflicting_pci_devices(struct pci_dev *pdev,
-  * Returns:
-  * 0 on success, or a negative errno code otherwise
-  */
--static inline int aperture_remove_all_conflicting_devices(bool primary, const char *name)
-+static inline int aperture_remove_all_conflicting_devices(const char *name)
- {
--	return aperture_remove_conflicting_devices(0, (resource_size_t)-1, primary, name);
-+	return aperture_remove_conflicting_devices(0, (resource_size_t)-1, name);
- }
- 
- #endif
+ 	if (primary) {
 -- 
 2.40.0
 
