@@ -2,52 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DEA26D97F5
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Apr 2023 15:21:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B0F96D97FA
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Apr 2023 15:21:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8F43E10EBAF;
-	Thu,  6 Apr 2023 13:21:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7431410EBA7;
+	Thu,  6 Apr 2023 13:21:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7FC6C10EBAF
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 81E7B10EBB0
  for <dri-devel@lists.freedesktop.org>; Thu,  6 Apr 2023 13:21:12 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id DE0162259C;
- Thu,  6 Apr 2023 13:21:10 +0000 (UTC)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 161311FD76;
+ Thu,  6 Apr 2023 13:21:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1680787270; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=GAv6XS5nrrbCBJhJji+K9gU0osW53tEq/QnWPaqpu6s=;
- b=QiV6YYjH4cLGNZD4bxEo5ER3UgqxWlh7iaDqh+z9yKZJ6VDNI6/pzT3TxvyZ34N/Blsy3f
- D1hcokc72kEAFazwuDTtFgoSeeRzbG+a5cqb7MKLDxcjza+IyYk1bJydfxwoT/k1s4OXb9
- lKGRMCN49tQOfFyfhjc/Yqv17T+MKgE=
+ t=1680787271; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=pW5D1P6Sn+wXylKuPdo7ykB1UQ3bmML+uccZPrpHzMI=;
+ b=1QeZOvE9bWoKV9vY17rmY+izlXiOAVdS+GhmcdNj9Yx7xYkQcghLb3uTducvr9rbE7PCuc
+ 3r338mzC8DPhEKiXeWmPwJ54gsyEMExD81psm0tM/f8kCByYMKrWyX9qmAdlD9RmWM3Cq/
+ +H5XKQhEA6S8fgy1C4jRoCnHG7WCcOw=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1680787270;
+ s=susede2_ed25519; t=1680787271;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=GAv6XS5nrrbCBJhJji+K9gU0osW53tEq/QnWPaqpu6s=;
- b=rDVTOUDkg0DGqKx+YoK359lxYOEp154ETm+gAyv9e/9JAs0EfomX8Cqm6UWqCDa+MHSThb
- euvrs2RXtQvT/PCw==
+ mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=pW5D1P6Sn+wXylKuPdo7ykB1UQ3bmML+uccZPrpHzMI=;
+ b=2oEX2/eAzIFvJXv8cAkMIDccxSRQNavKqy58azLXzH5oPhZ/O1nJFBocAmRwPaTOzNz9GV
+ +yv0KUkML+bmmSAg==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id BE09A133E5;
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id E252D13A1D;
  Thu,  6 Apr 2023 13:21:10 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id GHxtLUbHLmSqBwAAMHmgww
+ by imap2.suse-dmz.suse.de with ESMTPSA id iCUwNkbHLmSqBwAAMHmgww
  (envelope-from <tzimmermann@suse.de>); Thu, 06 Apr 2023 13:21:10 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: javierm@redhat.com, daniel.vetter@ffwll.ch, patrik.r.jakobsson@gmail.com
-Subject: [PATCH v5 0/9] video/aperture: Ignore firmware framebuffers with
- non-primary devices
-Date: Thu,  6 Apr 2023 15:21:00 +0200
-Message-Id: <20230406132109.32050-1-tzimmermann@suse.de>
+Subject: [PATCH v5 1/9] drm/gma500: Use
+ drm_aperture_remove_conflicting_pci_framebuffers
+Date: Thu,  6 Apr 2023 15:21:01 +0200
+Message-Id: <20230406132109.32050-2-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.40.0
+In-Reply-To: <20230406132109.32050-1-tzimmermann@suse.de>
+References: <20230406132109.32050-1-tzimmermann@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -62,59 +68,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
+Cc: Daniel Vetter <daniel.vetter@intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Only remove sysfb and VGA devices for primary graphics devices. The
-PCI helper for aperture ownership now detects primary devices. Resolves
-bug reports about lost framebuffer consoles on systems with multiple
-graphics cards.
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
 
-The series picks up Daniel's patchset at v3 from [1] and cleans up a few
-minor things. There's another patch on top that clarifys gma500's
-special case.
+This one nukes all framebuffers, which is a bit much. In reality
+gma500 is igpu and never shipped with anything discrete, so there should
+not be any difference.
+
+v2: Unfortunately the framebuffer sits outside of the pci bars for
+gma500, and so only using the pci helpers won't be enough. Otoh if we
+only use non-pci helper, then we don't get the vga handling, and
+subsequent refactoring to untangle these special cases won't work.
+
+It's not pretty, but the simplest fix (since gma500 really is the only
+quirky pci driver like this we have) is to just have both calls.
+
+v4:
+- fix Daniel's S-o-b address
 
 v5:
-	* fix gma500 comment
-	* add S-o-b tag with Daniel's Intel address
-v4:
-	* add gma500 patch on top of v3
-	* fix Daniel's S-o-b address
-	* fix various typos in the commit messages
+- add back an S-o-b tag with Daniel's Intel address
 
-Daniel Vetter (8):
-  drm/gma500: Use drm_aperture_remove_conflicting_pci_framebuffers
-  video/aperture: use generic code to figure out the vga default device
-  drm/aperture: Remove primary argument
-  video/aperture: Only kick vgacon when the pdev is decoding vga
-  video/aperture: Move vga handling to pci function
-  video/aperture: Drop primary argument
-  video/aperture: Only remove sysfb on the default vga pci device
-  fbdev: Simplify fb_is_primary_device for x86
+Signed-off-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+Cc: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Javier Martinez Canillas <javierm@redhat.com>
+---
+ drivers/gpu/drm/gma500/psb_drv.c | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
 
-Thomas Zimmermann (1):
-  video/aperture: Provide a VGA helper for gma500 and internal use
-
- arch/x86/video/fbdev.c                      | 13 +---
- drivers/gpu/drm/arm/hdlcd_drv.c             |  2 +-
- drivers/gpu/drm/armada/armada_drv.c         |  2 +-
- drivers/gpu/drm/drm_aperture.c              | 11 +---
- drivers/gpu/drm/gma500/psb_drv.c            | 43 ++++++++++---
- drivers/gpu/drm/hyperv/hyperv_drm_drv.c     |  1 -
- drivers/gpu/drm/meson/meson_drv.c           |  2 +-
- drivers/gpu/drm/msm/msm_fbdev.c             |  2 +-
- drivers/gpu/drm/rockchip/rockchip_drm_drv.c |  2 +-
- drivers/gpu/drm/stm/drv.c                   |  2 +-
- drivers/gpu/drm/sun4i/sun4i_drv.c           |  2 +-
- drivers/gpu/drm/tegra/drm.c                 |  2 +-
- drivers/gpu/drm/vc4/vc4_drv.c               |  2 +-
- drivers/video/aperture.c                    | 70 ++++++++++++++-------
- drivers/video/fbdev/hyperv_fb.c             |  2 +-
- include/drm/drm_aperture.h                  |  7 +--
- include/linux/aperture.h                    | 16 +++--
- 17 files changed, 108 insertions(+), 73 deletions(-)
-
+diff --git a/drivers/gpu/drm/gma500/psb_drv.c b/drivers/gpu/drm/gma500/psb_drv.c
+index 2ce96b1b9c74..f1e0eed8fea4 100644
+--- a/drivers/gpu/drm/gma500/psb_drv.c
++++ b/drivers/gpu/drm/gma500/psb_drv.c
+@@ -422,12 +422,17 @@ static int psb_pci_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
+ 
+ 	/*
+ 	 * We cannot yet easily find the framebuffer's location in memory. So
+-	 * remove all framebuffers here.
++	 * remove all framebuffers here. Note that we still want the pci special
++	 * handling to kick out vgacon.
+ 	 *
+ 	 * TODO: Refactor psb_driver_load() to map vdc_reg earlier. Then we
+ 	 *       might be able to read the framebuffer range from the device.
+ 	 */
+-	ret = drm_aperture_remove_framebuffers(true, &driver);
++	ret = drm_aperture_remove_framebuffers(false, &driver);
++	if (ret)
++		return ret;
++
++	ret = drm_aperture_remove_conflicting_pci_framebuffers(pdev, &driver);
+ 	if (ret)
+ 		return ret;
+ 
 -- 
 2.40.0
 
