@@ -2,23 +2,24 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 261BD6DA37F
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Apr 2023 22:40:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DABD06DA383
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Apr 2023 22:40:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 32A9410ED23;
-	Thu,  6 Apr 2023 20:40:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 19EEB10ED22;
+	Thu,  6 Apr 2023 20:40:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 44BBF10ED23
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Apr 2023 20:40:20 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8D80110ED22
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Apr 2023 20:40:43 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id AF9E462C36;
- Thu,  6 Apr 2023 20:40:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 42E77C433EF;
- Thu,  6 Apr 2023 20:40:08 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id EAC5864C57;
+ Thu,  6 Apr 2023 20:40:42 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B771BC433EF;
+ Thu,  6 Apr 2023 20:40:31 +0000 (UTC)
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 To: Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>,
  Jonathan Corbet <corbet@lwn.net>, Oded Gabbay <ogabbay@kernel.org>,
@@ -55,10 +56,9 @@ To: Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>,
  dri-devel@lists.freedesktop.org, patches@opensource.cirrus.com,
  openbmc@lists.ozlabs.org, linux-rpi-kernel@lists.infradead.org,
  linux-arm-kernel@lists.infradead.org
-Subject: [PATCH 59/68] hwmon: sparx5-temp: constify pointers to
- hwmon_channel_info
-Date: Thu,  6 Apr 2023 22:38:21 +0200
-Message-Id: <20230406203821.3012402-10-krzysztof.kozlowski@linaro.org>
+Subject: [PATCH 60/68] hwmon: sy7636a: constify pointers to hwmon_channel_info
+Date: Thu,  6 Apr 2023 22:40:19 +0200
+Message-Id: <20230406204027.3012532-1-krzysztof.kozlowski@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230406203103.3011503-1-krzysztof.kozlowski@linaro.org>
 References: <20230406203103.3011503-1-krzysztof.kozlowski@linaro.org>
@@ -85,19 +85,19 @@ const for safety.
 
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 ---
- drivers/hwmon/sparx5-temp.c | 2 +-
+ drivers/hwmon/sy7636a-hwmon.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/hwmon/sparx5-temp.c b/drivers/hwmon/sparx5-temp.c
-index 04fd8505e5d6..d640904939cd 100644
---- a/drivers/hwmon/sparx5-temp.c
-+++ b/drivers/hwmon/sparx5-temp.c
-@@ -86,7 +86,7 @@ static umode_t s5_is_visible(const void *_data, enum hwmon_sensor_types type,
- 	}
- }
+diff --git a/drivers/hwmon/sy7636a-hwmon.c b/drivers/hwmon/sy7636a-hwmon.c
+index 6dd9c2a0f0e0..ed110884786b 100644
+--- a/drivers/hwmon/sy7636a-hwmon.c
++++ b/drivers/hwmon/sy7636a-hwmon.c
+@@ -52,7 +52,7 @@ static const struct hwmon_ops sy7636a_hwmon_ops = {
+ 	.read = sy7636a_read,
+ };
  
--static const struct hwmon_channel_info *s5_info[] = {
-+static const struct hwmon_channel_info * const s5_info[] = {
+-static const struct hwmon_channel_info *sy7636a_info[] = {
++static const struct hwmon_channel_info * const sy7636a_info[] = {
  	HWMON_CHANNEL_INFO(chip, HWMON_C_REGISTER_TZ),
  	HWMON_CHANNEL_INFO(temp, HWMON_T_INPUT),
  	NULL
