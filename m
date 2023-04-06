@@ -2,63 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5635F6D904E
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Apr 2023 09:14:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93FAD6D905C
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Apr 2023 09:20:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 75A2E10E130;
-	Thu,  6 Apr 2023 07:14:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C53B210E064;
+	Thu,  6 Apr 2023 07:20:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1192B10E09C;
- Thu,  6 Apr 2023 07:14:29 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id BB1831FF47;
- Thu,  6 Apr 2023 07:14:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1680765267; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=BGYCg/cGe58PXwHwgN/RxSagps5ek5W254aLHT5TirY=;
- b=IZq+ZjroXoLZzkpsPhL+Zf/VJT3w6bPQv7kN8Ob5WDm4AxEzasfPBxBfL8lidiFZL2BTla
- YP7InuJkb0WPJT2TBEkesmht+pIgqWMVoXDwU2z82/xZycgH4YZCAd4/0MNT7HeFzCnC7p
- wCzFDTTAYtykapPGIymR6mkMhHx6oi0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1680765267;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=BGYCg/cGe58PXwHwgN/RxSagps5ek5W254aLHT5TirY=;
- b=0cqg3sPSb/0HPZI4gsr9Jl/Nf4ucTw1M6/FvIw79h+hhUaFv8UR03XxroDVGEoQi2o69Ix
- Cv6cCjTInFnKmnBw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 95E791351F;
- Thu,  6 Apr 2023 07:14:27 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id yfV/IlNxLmS6PAAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Thu, 06 Apr 2023 07:14:27 +0000
-Message-ID: <66f9196e-df2b-19ce-e2ec-15f7a81d63c7@suse.de>
-Date: Thu, 6 Apr 2023 09:14:26 +0200
+Received: from mail-vs1-xe32.google.com (mail-vs1-xe32.google.com
+ [IPv6:2607:f8b0:4864:20::e32])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BE4EE10E064
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Apr 2023 07:20:49 +0000 (UTC)
+Received: by mail-vs1-xe32.google.com with SMTP id b6so30405914vsu.12
+ for <dri-devel@lists.freedesktop.org>; Thu, 06 Apr 2023 00:20:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1680765648;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=fQZnNfr+rBhTTZliY5pXLRCg5E7GawaSZx7bLaXCUWA=;
+ b=gr03IPWw8xCzO8z1s3XXV8rA2qkRF5MmfLt98sAud2m8xi8lHXgs60q7bNsxZL2Smi
+ gl4QsqQiSVY1Y6QC4MOOGJUcCUc+Bl7XzvwW6pKcVW+WPYG9F2fhIvv+IuZYXlwMTX+s
+ jfF8gl0U1RG9xhEe0cfOB6cNyJ2Q4H65kuKiE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1680765648;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=fQZnNfr+rBhTTZliY5pXLRCg5E7GawaSZx7bLaXCUWA=;
+ b=HS488/Ux90IVHolJie8hd3jp9cQOZrOlmhKcrgB3NWF8r0yQexNxQPP1q8fBET3RCQ
+ gD+Zug7AtJdanLbki0NAdDm5UL21BnH7og0mqiUql0K6OZGobaFaH0d3bq18f6a1saYY
+ SgTPNxmh4qtmWhoetwnVk2/A2IKV3UX+BA1X6iyYAagBqQXwZLQAt6FJFLn4vMm+jx66
+ pEZwsctFSuCEsKKBuVw4yNYDLpEDoIMgKxAqbq+y8tG5+TU2Zzt0L+aV7Spx7gmlcR4I
+ 3K1ZWIRirUrdT8Sc0v9LHC3i5HzcTrZNWbo1IZIep6QbeiG0INh1i75HS/7/tHgrFG96
+ eC+w==
+X-Gm-Message-State: AAQBX9eCIFg7ybGIq3KhrY8wpGArMY08JGLGWfUXL9eZv9y8ZaJi88Nq
+ FEt6zgJ0W0vV7luIMK2Lxop6C42DwceVTfOT+FcOoQ==
+X-Google-Smtp-Source: AKy350ZKHVlhoBhxEN/6Xhz9wuYrGUS4GAEp7DN3aTjD5fTNIAiVKilFb0mDuij13QyIaSLsC3aOGmsypz86GhOovyQ=
+X-Received: by 2002:a67:c01c:0:b0:425:cf00:e332 with SMTP id
+ v28-20020a67c01c000000b00425cf00e332mr6176192vsi.7.1680765648481; Thu, 06 Apr
+ 2023 00:20:48 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH 1/8] drm/gma500: Use
- drm_aperture_remove_conflicting_pci_framebuffers
-To: Daniel Vetter <daniel.vetter@ffwll.ch>,
- DRI Development <dri-devel@lists.freedesktop.org>
-References: <20230404201842.567344-1-daniel.vetter@ffwll.ch>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <20230404201842.567344-1-daniel.vetter@ffwll.ch>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------BH3rk9LG2lA3qJBPMIELS096"
+References: <20230404104800.301150-1-angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20230404104800.301150-1-angelogioacchino.delregno@collabora.com>
+From: Chen-Yu Tsai <wenst@chromium.org>
+Date: Thu, 6 Apr 2023 15:20:37 +0800
+Message-ID: <CAGXv+5FEEkMg+SY7ZkSHN2G9jtT6TBiN9MadZmYGMX_uVi5=gQ@mail.gmail.com>
+Subject: Re: [PATCH v3 0/9] MediaTek DisplayPort: support eDP and aux-bus
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,261 +64,131 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@intel.com>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Javier Martinez Canillas <javierm@redhat.com>
+Cc: chunkuang.hu@kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
+ matthias.bgg@gmail.com, kernel@collabora.com,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------BH3rk9LG2lA3qJBPMIELS096
-Content-Type: multipart/mixed; boundary="------------90w9BPDQ22WQHum4ABhrlOTA";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>,
- DRI Development <dri-devel@lists.freedesktop.org>
-Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Daniel Vetter <daniel.vetter@intel.com>,
- Patrik Jakobsson <patrik.r.jakobsson@gmail.com>,
- Javier Martinez Canillas <javierm@redhat.com>
-Message-ID: <66f9196e-df2b-19ce-e2ec-15f7a81d63c7@suse.de>
-Subject: Re: [PATCH 1/8] drm/gma500: Use
- drm_aperture_remove_conflicting_pci_framebuffers
-References: <20230404201842.567344-1-daniel.vetter@ffwll.ch>
-In-Reply-To: <20230404201842.567344-1-daniel.vetter@ffwll.ch>
+On Tue, Apr 4, 2023 at 6:48=E2=80=AFPM AngeloGioacchino Del Regno
+<angelogioacchino.delregno@collabora.com> wrote:
+>
+> Changes in v3:
+>  - Added DPTX AUX block initialization before trying to communicate
+>    to stop relying on the bootloader keeping it initialized before
+>    booting Linux.
+>  - Fixed commit description for patch [09/09] and removed commented
+>    out code (that slipped from dev phase.. sorry!).
+>
+> This series adds "real" support for eDP in the mtk-dp DisplayPort driver.
+>
+> Explaining the "real":
+> Before this change, the DisplayPort driver did support eDP to some
+> extent, but it was treating it entirely like a regular DP interface
+> which is partially fine, after all, embedded DisplayPort *is* actually
+> DisplayPort, but there might be some differences to account for... and
+> this is for both small performance improvements and, more importantly,
+> for correct functionality in some systems.
+>
+> Functionality first:
+>
+> One of the common differences found in various boards implementing eDP
+> and machines using an eDP panel is that many times the HPD line is not
+> connected. This *must* be accounted for: at startup, this specific IP
+> will raise a HPD interrupt (which should maybe be ignored... as it does
+> not appear to be a "real" event...) that will make the eDP panel to be
+> detected and to actually work but, after a suspend-resume cycle, there
+> will be no HPD interrupt (as there's no HPD line in my case!) producing
+> a functionality issue - specifically, the DP Link Training fails because
+> the panel doesn't get powered up, then it stays black and won't work
+> until rebooting the machine (or removing and reinserting the module I
+> think, but I haven't tried that).
+>
+> Now for.. both:
+> eDP panels are *e*DP because they are *not* removable (in the sense that
+> you can't unplug the cable without disassembling the machine, in which
+> case, the machine shall be powered down..!): this (correct) assumption
+> makes us able to solve some issues and to also gain a little performance
+> during PM operations.
+>
+> What was done here is:
+>  - Caching the EDID if the panel is eDP: we're always going to read the
+>    same data everytime, so we can just cache that (as it's small enough)
+>    shortening PM resume times for the eDP driver instance;
+>  - Always return connector_status_connected if it's eDP: non-removable
+>    means connector_status_disconnected can't happen during runtime...
+>    this also saves us some time and even power, as we won't have to
+>    perform yet another power cycle of the HW;
+>  - Added aux-bus support!
+>    This makes us able to rely on panel autodetection from the EDID,
+>    avoiding to add more and more panel timings to panel-edp and, even
+>    better, allowing to use one panel node in devicetrees for multiple
+>    variants of the same machine since, at that point, it's not important
+>    to "preventively know" what panel we have (eh, it's autodetected...!).
+>
+> This was tested on a MT8195 Cherry Tomato Chromebook (panel-edp on aux-bu=
+s)
+>
+>
+> P.S.: For your own testing commodity, here's a reference devicetree:
+> &edp_tx {
+>         status =3D "okay";
+>
+>         pinctrl-names =3D "default";
+>         pinctrl-0 =3D <&edptx_pins_default>;
+>
+>         ports {
+>                 #address-cells =3D <1>;
+>                 #size-cells =3D <0>;
+>
+>                 port@0 {
+>                         reg =3D <0>;
+>                         edp_in: endpoint {
+>                                 remote-endpoint =3D <&dp_intf0_out>;
+>                         };
+>                 };
+>
+>                 port@1 {
+>                         reg =3D <1>;
+>                         edp_out: endpoint {
+>                                 data-lanes =3D <0 1 2 3>;
+>                                 remote-endpoint =3D <&panel_in>;
+>                         };
+>                 };
+>         };
+>
+>         aux-bus {
+>                 panel: panel {
+>                         compatible =3D "edp-panel";
+>                         power-supply =3D <&pp3300_disp_x>;
+>                         backlight =3D <&backlight_lcd0>;
+>                         port {
+>                                 panel_in: endpoint {
+>                                         remote-endpoint =3D <&edp_out>;
+>                                 };
+>                         };
+>                 };
+>         };
+> };
+>
+> AngeloGioacchino Del Regno (9):
+>   drm/mediatek: dp: Cache EDID for eDP panel
+>   drm/mediatek: dp: Move AUX and panel poweron/off sequence to function
+>   drm/mediatek: dp: Always return connected status for eDP in .detect()
+>   drm/mediatek: dp: Always set cable_plugged_in at resume for eDP panel
+>   drm/mediatek: dp: Change logging to dev for mtk_dp_aux_transfer()
+>   drm/mediatek: dp: Enable event interrupt only when bridge attached
+>   drm/mediatek: dp: Use devm variant of drm_bridge_add()
+>   drm/mediatek: dp: Move AUX_P0 setting to
+>     mtk_dp_initialize_aux_settings()
+>   drm/mediatek: dp: Add support for embedded DisplayPort aux-bus
 
---------------90w9BPDQ22WQHum4ABhrlOTA
-Content-Type: multipart/mixed; boundary="------------m2XW94l20N1PYqz1PR2YY8vT"
+Tested-by: Chen-Yu Tsai <wenst@chromium.org>
 
---------------m2XW94l20N1PYqz1PR2YY8vT
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+on MT8195 Tomato: eDP panel works if the display panel regulator is always
+on. External DP works.
 
-SGkNCg0KQXR0YWNoZWQgaXMgdGhlIHBhdGNoIHRvIHByb3ZpZGUgZ21hNTAwIHdpdGggYW4g
-aW50ZXJmYWNlIHRvIHJlbW92ZSB0aGUgDQpWR0EgZGV2aWNlcy4gSG9wZWZ1bGx5IHRoaXMs
-IG90aGVyd2lzZSwgSSdkIHJlc3BpbiB0aGUgd2hvbGUgc2VyaWVzLg0KDQpCZXN0IHJlZ2Fy
-ZHMNClRob21hcw0KDQpBbSAwNC4wNC4yMyB1bSAyMjoxOCBzY2hyaWViIERhbmllbCBWZXR0
-ZXI6DQo+IFRoaXMgb25lIG51a2VzIGFsbCBmcmFtZWJ1ZmZlcnMsIHdoaWNoIGlzIGEgYml0
-IG11Y2guIEluIHJlYWxpdHkNCj4gZ21hNTAwIGlzIGlncHUgYW5kIG5ldmVyIHNoaXBwZWQg
-d2l0aCBhbnl0aGluZyBkaXNjcmV0ZSwgc28gdGhlcmUgc2hvdWxkDQo+IG5vdCBiZSBhbnkg
-ZGlmZmVyZW5jZS4NCj4gDQo+IHYyOiBVbmZvcnR1bmF0ZWx5IHRoZSBmcmFtZWJ1ZmZlciBz
-aXRzIG91dHNpZGUgb2YgdGhlIHBjaSBiYXJzIGZvcg0KPiBnbWE1MDAsIGFuZCBzbyBvbmx5
-IHVzaW5nIHRoZSBwY2kgaGVscGVycyB3b24ndCBiZSBlbm91Z2guIE90b2ggaWYgd2UNCj4g
-b25seSB1c2Ugbm9uLXBjaSBoZWxwZXIsIHRoZW4gd2UgZG9uJ3QgZ2V0IHRoZSB2Z2EgaGFu
-ZGxpbmcsIGFuZA0KPiBzdWJzZXF1ZW50IHJlZmFjdG9yaW5nIHRvIHVudGFuZ2xlIHRoZXNl
-IHNwZWNpYWwgY2FzZXMgd29uJ3Qgd29yay4NCj4gDQo+IEl0J3Mgbm90IHByZXR0eSwgYnV0
-IHRoZSBzaW1wbGVzdCBmaXggKHNpbmNlIGdtYTUwMCByZWFsbHkgaXMgdGhlIG9ubHkNCj4g
-cXVpcmt5IHBjaSBkcml2ZXIgbGlrZSB0aGlzIHdlIGhhdmUpIGlzIHRvIGp1c3QgaGF2ZSBi
-b3RoIGNhbGxzLg0KPiANCj4gU2lnbmVkLW9mZi1ieTogRGFuaWVsIFZldHRlciA8ZGFuaWVs
-LnZldHRlckBpbnRlbC5jb20+DQo+IENjOiBQYXRyaWsgSmFrb2Jzc29uIDxwYXRyaWsuci5q
-YWtvYnNzb25AZ21haWwuY29tPg0KPiBDYzogVGhvbWFzIFppbW1lcm1hbm4gPHR6aW1tZXJt
-YW5uQHN1c2UuZGU+DQo+IENjOiBKYXZpZXIgTWFydGluZXogQ2FuaWxsYXMgPGphdmllcm1A
-cmVkaGF0LmNvbT4NCj4gLS0tDQo+ICAgZHJpdmVycy9ncHUvZHJtL2dtYTUwMC9wc2JfZHJ2
-LmMgfCA5ICsrKysrKystLQ0KPiAgIDEgZmlsZSBjaGFuZ2VkLCA3IGluc2VydGlvbnMoKyks
-IDIgZGVsZXRpb25zKC0pDQo+IA0KPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2dt
-YTUwMC9wc2JfZHJ2LmMgYi9kcml2ZXJzL2dwdS9kcm0vZ21hNTAwL3BzYl9kcnYuYw0KPiBp
-bmRleCAyY2U5NmIxYjljNzQuLmYxZTBlZWQ4ZmVhNCAxMDA2NDQNCj4gLS0tIGEvZHJpdmVy
-cy9ncHUvZHJtL2dtYTUwMC9wc2JfZHJ2LmMNCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2dt
-YTUwMC9wc2JfZHJ2LmMNCj4gQEAgLTQyMiwxMiArNDIyLDE3IEBAIHN0YXRpYyBpbnQgcHNi
-X3BjaV9wcm9iZShzdHJ1Y3QgcGNpX2RldiAqcGRldiwgY29uc3Qgc3RydWN0IHBjaV9kZXZp
-Y2VfaWQgKmVudCkNCj4gICANCj4gICAJLyoNCj4gICAJICogV2UgY2Fubm90IHlldCBlYXNp
-bHkgZmluZCB0aGUgZnJhbWVidWZmZXIncyBsb2NhdGlvbiBpbiBtZW1vcnkuIFNvDQo+IC0J
-ICogcmVtb3ZlIGFsbCBmcmFtZWJ1ZmZlcnMgaGVyZS4NCj4gKwkgKiByZW1vdmUgYWxsIGZy
-YW1lYnVmZmVycyBoZXJlLiBOb3RlIHRoYXQgd2Ugc3RpbGwgd2FudCB0aGUgcGNpIHNwZWNp
-YWwNCj4gKwkgKiBoYW5kbGluZyB0byBraWNrIG91dCB2Z2Fjb24uDQo+ICAgCSAqDQo+ICAg
-CSAqIFRPRE86IFJlZmFjdG9yIHBzYl9kcml2ZXJfbG9hZCgpIHRvIG1hcCB2ZGNfcmVnIGVh
-cmxpZXIuIFRoZW4gd2UNCj4gICAJICogICAgICAgbWlnaHQgYmUgYWJsZSB0byByZWFkIHRo
-ZSBmcmFtZWJ1ZmZlciByYW5nZSBmcm9tIHRoZSBkZXZpY2UuDQo+ICAgCSAqLw0KPiAtCXJl
-dCA9IGRybV9hcGVydHVyZV9yZW1vdmVfZnJhbWVidWZmZXJzKHRydWUsICZkcml2ZXIpOw0K
-PiArCXJldCA9IGRybV9hcGVydHVyZV9yZW1vdmVfZnJhbWVidWZmZXJzKGZhbHNlLCAmZHJp
-dmVyKTsNCj4gKwlpZiAocmV0KQ0KPiArCQlyZXR1cm4gcmV0Ow0KPiArDQo+ICsJcmV0ID0g
-ZHJtX2FwZXJ0dXJlX3JlbW92ZV9jb25mbGljdGluZ19wY2lfZnJhbWVidWZmZXJzKHBkZXYs
-ICZkcml2ZXIpOw0KPiAgIAlpZiAocmV0KQ0KPiAgIAkJcmV0dXJuIHJldDsNCj4gICANCg0K
-LS0gDQpUaG9tYXMgWmltbWVybWFubg0KR3JhcGhpY3MgRHJpdmVyIERldmVsb3Blcg0KU1VT
-RSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFueSBHbWJIDQpNYXhmZWxkc3RyLiA1LCA5MDQw
-OSBOw7xybmJlcmcsIEdlcm1hbnkNCihIUkIgMzY4MDksIEFHIE7DvHJuYmVyZykNCkdlc2No
-w6RmdHNmw7xocmVyOiBJdm8gVG90ZXYNCg==
---------------m2XW94l20N1PYqz1PR2YY8vT
-Content-Type: text/x-patch; charset=UTF-8;
- name="0001-video-aperture-Provide-a-VGA-helper-for-gma500-and-i.patch"
-Content-Disposition: attachment;
- filename*0="0001-video-aperture-Provide-a-VGA-helper-for-gma500-and-i.pa";
- filename*1="tch"
-Content-Transfer-Encoding: base64
-
-RnJvbSAxYTZjNjczMGY5MzU2NzQ0NGE2YmZlY2YxYjliYWUyMjU2M2E1YzlkIE1vbiBTZXAg
-MTcgMDA6MDA6MDAgMjAwMQpGcm9tOiBUaG9tYXMgWmltbWVybWFubiA8dHppbW1lcm1hbm5A
-c3VzZS5kZT4KRGF0ZTogV2VkLCA1IEFwciAyMDIzIDIxOjA0OjM0ICswMjAwClN1YmplY3Q6
-IHZpZGVvL2FwZXJ0dXJlOiBQcm92aWRlIGEgVkdBIGhlbHBlciBmb3IgZ21hNTAwIGFuZCBp
-bnRlcm5hbCB1c2UKClRoZSBoYXJkd2FyZSBmb3IgZ21hNTAwIGlzIGRpZmZlcmVudCBmcm9t
-IHRoZSByZXN0LCBhcyBpdCB1c2VzIHN0b2xlbgpmcmFtZWJ1ZmZlciBtZW1vcnkgdGhhdCBp
-cyBub3QgYXZhaWxhYmxlIHZpYSBQQ0kgQkFSLiBUaGUgcmVndWxhciBQQ0kKcmVtb3ZhbCBo
-ZWxwZXIgY2Fubm90IGRldGVjdCB0aGUgZnJhbWVidWZmZXIsIHdoaWxlIHRoZSBub24tUENJ
-IGhlbHBlcgptaXNzZXMgcG9zc2libGUgY29uZmxpY3RpbmcgVkdBIGRldmljZXMgKGkuZS4s
-IGEgZnJhbWVidWZmZXIgb3IgdGV4dApjb25zb2xlKS4KCkdtYTUwMCB0aGVyZWZvcmUgY2Fs
-bHMgYm90aCBoZWxwZXJzIHRvIGNhdGNoIGFsbCBjYXNlcy4gSXQncyBjb25mdXNpbmcKYXMg
-aXQgaW1wbGllcyB0aGF0IHRoZXJlJ3Mgc29tZXRoaW5nIGFib3V0IHRoZSBQQ0kgZGV2aWNl
-IHRoYXQgcmVxdWlyZXMKb3duZXJzaGlwIG1hbmFnZW1lbnQuIFRoZSByZWxhdGlvbnNoaXAg
-YmV0d2VlbiB0aGUgUENJIGRldmljZSBhbmQgdGhlClZHQSBkZXZpY2VzIGlzIG5vbi1vYnZp
-b3VzLiBBdCB3b3JzdCwgcmVhZGVycyBtaWdodCBhc3N1bWUgdGhhdCBjYWxsaW5nCnR3byBm
-dW5jdGlvbnMgZm9yIGFwZXJ0dXJlIGNsZWFyaW5nIG93bmVyc2hpcCBpcyBhIGJ1ZyBpbiB0
-aGUgZHJpdmVyLgoKSGVuY2UsIG1vdmUgdGhlIFBDSSByZW1vdmFsIGhlbHBlcidzIGNvZGUg
-Zm9yIFZHQSBmdW5jdGlvbmFsaXR5IGludG8KYSBzZXBhcmF0ZSBmdW5jdGlvbiBhbmQgY2Fs
-bCB0aGlzIGZ1bmN0aW9uIGZyb20gZ21hNTAwLiBEb2N1bWVudHMgdGhlCnB1cnBvc2Ugb2Yg
-ZWFjaCBjYWxsIHRvIGFwZXJ0dXJlIGhlbHBlcnMuIFRoZSBjaGFuZ2UgY29udGFpbnMgY29t
-bWVudHMKYW5kIGV4YW1wbGUgY29kZSBmb3JtIHRoZSBkaXNjdXNzaW9uIGF0IFsxXS4KClNp
-Z25lZC1vZmYtYnk6IFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPgpM
-aW5rOiBodHRwczovL3BhdGNod29yay5rZXJuZWwub3JnL3Byb2plY3QvZHJpLWRldmVsL3Bh
-dGNoLzIwMjMwNDA0MjAxODQyLjU2NzM0NC0xLWRhbmllbC52ZXR0ZXJAZmZ3bGwuY2gvICMg
-MQotLS0KIGRyaXZlcnMvZ3B1L2RybS9nbWE1MDAvcHNiX2Rydi5jIHwgNDggKysrKysrKysr
-KysrKysrKysrLS0tLS0tLS0KIGRyaXZlcnMvdmlkZW8vYXBlcnR1cmUuYyAgICAgICAgIHwg
-NTggKysrKysrKysrKysrKysrKysrKysrKy0tLS0tLS0tLS0KIGluY2x1ZGUvbGludXgvYXBl
-cnR1cmUuaCAgICAgICAgIHwgIDcgKysrKwogMyBmaWxlcyBjaGFuZ2VkLCA4MSBpbnNlcnRp
-b25zKCspLCAzMiBkZWxldGlvbnMoLSkKCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0v
-Z21hNTAwL3BzYl9kcnYuYyBiL2RyaXZlcnMvZ3B1L2RybS9nbWE1MDAvcHNiX2Rydi5jCmlu
-ZGV4IDRiYjA2YTg5ZTQ4ZC4uNTFmZDM0YmI4NGYzIDEwMDY0NAotLS0gYS9kcml2ZXJzL2dw
-dS9kcm0vZ21hNTAwL3BzYl9kcnYuYworKysgYi9kcml2ZXJzL2dwdS9kcm0vZ21hNTAwL3Bz
-Yl9kcnYuYwpAQCAtNyw2ICs3LDcgQEAKICAqCiAgKioqKioqKioqKioqKioqKioqKioqKioq
-KioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKiovCiAK
-KyNpbmNsdWRlIDxsaW51eC9hcGVydHVyZS5oPgogI2luY2x1ZGUgPGxpbnV4L2NwdS5oPgog
-I2luY2x1ZGUgPGxpbnV4L21vZHVsZS5oPgogI2luY2x1ZGUgPGxpbnV4L25vdGlmaWVyLmg+
-CkBAIC0xOSw3ICsyMCw2IEBACiAjaW5jbHVkZSA8YWNwaS92aWRlby5oPgogCiAjaW5jbHVk
-ZSA8ZHJtL2RybS5oPgotI2luY2x1ZGUgPGRybS9kcm1fYXBlcnR1cmUuaD4KICNpbmNsdWRl
-IDxkcm0vZHJtX2Rydi5oPgogI2luY2x1ZGUgPGRybS9kcm1fZmlsZS5oPgogI2luY2x1ZGUg
-PGRybS9kcm1faW9jdGwuaD4KQEAgLTQxNCwyNSArNDE0LDQ1IEBAIHN0YXRpYyBpbnQgcHNi
-X2RyaXZlcl9sb2FkKHN0cnVjdCBkcm1fZGV2aWNlICpkZXYsIHVuc2lnbmVkIGxvbmcgZmxh
-Z3MpCiAJcmV0dXJuIHJldDsKIH0KIAotc3RhdGljIGludCBwc2JfcGNpX3Byb2JlKHN0cnVj
-dCBwY2lfZGV2ICpwZGV2LCBjb25zdCBzdHJ1Y3QgcGNpX2RldmljZV9pZCAqZW50KQorLyoK
-KyAqIEhhcmR3YXJlIGZvciBnbWE1MDAgaXMgYSBoeWJyaWQgZGV2aWNlLCB3aGljaCBib3Ro
-IGFjdHMgYXMgYSBQQ0kKKyAqIGRldmljZSAoZm9yIGxlZ2FjeSB2Z2EgZnVuY3Rpb25hbGl0
-eSkgYnV0IGFsc28gbW9yZSBsaWtlIGFuCisgKiBpbnRlZ3JhdGVkIGRpc3BsYXkgb24gYSBT
-b0Mgd2hlcmUgdGhlIGZyYW1lYnVmZmVyIHNpbXBseQorICogcmVzaWRlcyBpbiBtYWluIG1l
-bW9yeSBhbmQgbm90IGluIGEgc3BlY2lhbCBQQ0kgYmFyICh0aGF0CisgKiBpbnRlcm5hbGx5
-IHJlZGlyZWN0cyB0byBhIHN0b2xlbiByYW5nZSBvZiBtYWluIG1lbW9yeSkgbGlrZSBhbGwK
-KyAqIG90aGVyIGludGVncmF0ZWQgUENJIGRpc3BsYXkgZGV2aWNlcyBoYXZlLgorICoKKyAq
-IFRvIGNhdGNoIGFsbCBjYXNlcyB3ZSBuZWVkIHRvIHJlbW92ZSBjb25mbGljdGluZyBmaXJt
-d2FyZSBkZXZpY2VzCisgKiBmb3IgdGhlIHN0b2xlbiBzeXN0ZW0gbWVtb3J5IGFuZCBmb3Ig
-dGhlIFZHQSBmdW5jdGlvbmFsaXR5LiBBcyB3ZQorICogY3VycmVudGx5IGNhbm5vdCBlYXNp
-bHkgZmluZCB0aGUgZnJhbWVidWZmZXIncyBsb2NhdGlvbiBpbiBzdG9sZW4KKyAqIG1lbW9y
-eSwgd2UgcmVtb3ZlIGFsbCBmcmFtZWJ1ZmZlcnMgaGVyZS4KKyAqCisgKiBUT0RPOiBSZWZh
-Y3RvciBwc2JfZHJpdmVyX2xvYWQoKSB0byBtYXAgdmRjX3JlZyBlYXJsaWVyLiBUaGVuCisg
-KiAgICAgICB3ZSBtaWdodCBiZSBhYmxlIHRvIHJlYWQgdGhlIGZyYW1lYnVmZmVyIHJhbmdl
-IGZyb20gdGhlCisgKiAgICAgICBkZXZpY2UuCisgKi8KK3N0YXRpYyBpbnQgZ21hX3JlbW92
-ZV9jb25mbGljdGluZ19mcmFtZWJ1ZmZlcnMoc3RydWN0IHBjaV9kZXYgKnBkZXYsCisJCQkJ
-CSAgICAgICBjb25zdCBzdHJ1Y3QgZHJtX2RyaXZlciAqcmVxX2RyaXZlcikKIHsKLQlzdHJ1
-Y3QgZHJtX3BzYl9wcml2YXRlICpkZXZfcHJpdjsKLQlzdHJ1Y3QgZHJtX2RldmljZSAqZGV2
-OworCXJlc291cmNlX3NpemVfdCBiYXNlID0gMDsKKwlyZXNvdXJjZV9zaXplX3Qgc2l6ZSA9
-IFBIWVNfQUREUl9NQVg7CisJY29uc3QgY2hhciAqbmFtZSA9IHJlcV9kcml2ZXItPm5hbWU7
-CiAJaW50IHJldDsKIAotCS8qCi0JICogV2UgY2Fubm90IHlldCBlYXNpbHkgZmluZCB0aGUg
-ZnJhbWVidWZmZXIncyBsb2NhdGlvbiBpbiBtZW1vcnkuIFNvCi0JICogcmVtb3ZlIGFsbCBm
-cmFtZWJ1ZmZlcnMgaGVyZS4gTm90ZSB0aGF0IHdlIHN0aWxsIHdhbnQgdGhlIHBjaSBzcGVj
-aWFsCi0JICogaGFuZGxpbmcgdG8ga2ljayBvdXQgdmdhY29uLgotCSAqCi0JICogVE9ETzog
-UmVmYWN0b3IgcHNiX2RyaXZlcl9sb2FkKCkgdG8gbWFwIHZkY19yZWcgZWFybGllci4gVGhl
-biB3ZQotCSAqICAgICAgIG1pZ2h0IGJlIGFibGUgdG8gcmVhZCB0aGUgZnJhbWVidWZmZXIg
-cmFuZ2UgZnJvbSB0aGUgZGV2aWNlLgotCSAqLwotCXJldCA9IGRybV9hcGVydHVyZV9yZW1v
-dmVfZnJhbWVidWZmZXJzKCZkcml2ZXIpOworCXJldCA9IGFwZXJ0dXJlX3JlbW92ZV9jb25m
-bGljdGluZ19kZXZpY2VzKGJhc2UsIHNpemUsIG5hbWUpOwogCWlmIChyZXQpCiAJCXJldHVy
-biByZXQ7CiAKLQlyZXQgPSBkcm1fYXBlcnR1cmVfcmVtb3ZlX2NvbmZsaWN0aW5nX3BjaV9m
-cmFtZWJ1ZmZlcnMocGRldiwgJmRyaXZlcik7CisJcmV0dXJuIF9fYXBlcnR1cmVfcmVtb3Zl
-X2xlZ2FjeV92Z2FfZGV2aWNlcyhwZGV2KTsKK30KKworc3RhdGljIGludCBwc2JfcGNpX3By
-b2JlKHN0cnVjdCBwY2lfZGV2ICpwZGV2LCBjb25zdCBzdHJ1Y3QgcGNpX2RldmljZV9pZCAq
-ZW50KQoreworCXN0cnVjdCBkcm1fcHNiX3ByaXZhdGUgKmRldl9wcml2OworCXN0cnVjdCBk
-cm1fZGV2aWNlICpkZXY7CisJaW50IHJldDsKKworCXJldCA9IGdtYV9yZW1vdmVfY29uZmxp
-Y3RpbmdfZnJhbWVidWZmZXJzKHBkZXYsICZkcml2ZXIpOwogCWlmIChyZXQpCiAJCXJldHVy
-biByZXQ7CiAKZGlmZiAtLWdpdCBhL2RyaXZlcnMvdmlkZW8vYXBlcnR1cmUuYyBiL2RyaXZl
-cnMvdmlkZW8vYXBlcnR1cmUuYwppbmRleCBlOTlmOTRiMzFlZTQuLmNhMWQxM2E5OWYzZiAx
-MDA2NDQKLS0tIGEvZHJpdmVycy92aWRlby9hcGVydHVyZS5jCisrKyBiL2RyaXZlcnMvdmlk
-ZW8vYXBlcnR1cmUuYwpAQCAtMzAxLDYgKzMwMSwzNyBAQCBpbnQgYXBlcnR1cmVfcmVtb3Zl
-X2NvbmZsaWN0aW5nX2RldmljZXMocmVzb3VyY2Vfc2l6ZV90IGJhc2UsIHJlc291cmNlX3Np
-emVfdCBzaQogfQogRVhQT1JUX1NZTUJPTChhcGVydHVyZV9yZW1vdmVfY29uZmxpY3Rpbmdf
-ZGV2aWNlcyk7CiAKKy8qKgorICogX19hcGVydHVyZV9yZW1vdmVfbGVnYWN5X3ZnYV9kZXZp
-Y2VzIC0gcmVtb3ZlIGxlZ2FjeSBWR0EgZGV2aWNlcyBvZiBhIFBDSSBkZXZpY2VzCisgKiBA
-cGRldjogUENJIGRldmljZQorICoKKyAqIFRoaXMgZnVuY3Rpb24gcmVtb3ZlcyBWR0EgZGV2
-aWNlcyBwcm92aWRlZCBieSBAcGRldiwgc3VjaCBhcyBhIFZHQQorICogZnJhbWVidWZmZXIg
-b3IgYSBjb25zb2xlLiBUaGlzIGlzIHVzZWZ1bCBpZiB5b3UgaGF2ZSBhIFZHQS1jb21wYXRp
-YmxlCisgKiBQQ0kgZ3JhcGhpY3MgZGV2aWNlIHdpdGggZnJhbWVidWZmZXJzIGluIG5vbi1C
-QVIgbG9jYXRpb25zLiBEcml2ZXJzCisgKiBzaG91bGQgYWNxdWlyZSBvd25lcnNoaXAgb2Yg
-dGhvc2UgbWVtb3J5IGFyZWFzIGFuZCBhZnRlcndhcmRzIGNhbGwKKyAqIHRoaXMgaGVscGVy
-IHRvIHJlbGVhc2UgcmVtYWluaW5nIFZHQSBkZXZpY2VzLgorICoKKyAqIElmIHlvdXIgaGFy
-ZHdhcmUgaGFzIGl0cyBmcmFtZWJ1ZmZlcnMgYWNjZXNzaWJsZSB2aWEgUENJIEJBUlMsIHVz
-ZQorICogYXBlcnR1cmVfcmVtb3ZlX2NvbmZsaWN0aW5nX3BjaV9kZXZpY2VzKCkgaW5zdGVh
-ZC4gVGhlIGZ1bmN0aW9uIHdpbGwKKyAqIHJlbGVhc2UgYW55IFZHQSBkZXZpY2VzIGF1dG9t
-YXRpY2FsbHkuCisgKgorICogV0FSTklORzogQXBwYXJlbnRseSB3ZSBtdXN0IHJlbW92ZSBn
-cmFwaGljcyBkcml2ZXJzIGJlZm9yZSBjYWxsaW5nCisgKiAgICAgICAgICB0aGlzIGhlbHBl
-ci4gT3RoZXJ3aXNlIHRoZSB2Z2EgZmJkZXYgZHJpdmVyIGZhbGxzIG92ZXIgaWYKKyAqICAg
-ICAgICAgIHdlIGhhdmUgdmdhY29uIGNvbmZpZ3VyZWQuCisgKgorICogUmV0dXJuczoKKyAq
-IDAgb24gc3VjY2Vzcywgb3IgYSBuZWdhdGl2ZSBlcnJubyBjb2RlIG90aGVyd2lzZQorICov
-CitpbnQgX19hcGVydHVyZV9yZW1vdmVfbGVnYWN5X3ZnYV9kZXZpY2VzKHN0cnVjdCBwY2lf
-ZGV2ICpwZGV2KQoreworCS8qIFZHQSBmcmFtZWJ1ZmZlciAqLworCWFwZXJ0dXJlX2RldGFj
-aF9kZXZpY2VzKFZHQV9GQl9QSFlTX0JBU0UsIFZHQV9GQl9QSFlTX1NJWkUpOworCisJLyog
-VkdBIHRleHRtb2RlIGNvbnNvbGUgKi8KKwlyZXR1cm4gdmdhX3JlbW92ZV92Z2Fjb24ocGRl
-dik7Cit9CitFWFBPUlRfU1lNQk9MKF9fYXBlcnR1cmVfcmVtb3ZlX2xlZ2FjeV92Z2FfZGV2
-aWNlcyk7CisKIC8qKgogICogYXBlcnR1cmVfcmVtb3ZlX2NvbmZsaWN0aW5nX3BjaV9kZXZp
-Y2VzIC0gcmVtb3ZlIGV4aXN0aW5nIGZyYW1lYnVmZmVycyBmb3IgUENJIGRldmljZXMKICAq
-IEBwZGV2OiBQQ0kgZGV2aWNlCkBAIC0zMTcsNyArMzQ4LDcgQEAgaW50IGFwZXJ0dXJlX3Jl
-bW92ZV9jb25mbGljdGluZ19wY2lfZGV2aWNlcyhzdHJ1Y3QgcGNpX2RldiAqcGRldiwgY29u
-c3QgY2hhciAqbmEKIHsKIAlib29sIHByaW1hcnk7CiAJcmVzb3VyY2Vfc2l6ZV90IGJhc2Us
-IHNpemU7Ci0JaW50IGJhciwgcmV0OworCWludCBiYXIsIHJldCA9IDA7CiAKIAlwcmltYXJ5
-ID0gcGRldiA9PSB2Z2FfZGVmYXVsdF9kZXZpY2UoKTsKIApAQCAtMzMzLDI0ICszNjQsMTUg
-QEAgaW50IGFwZXJ0dXJlX3JlbW92ZV9jb25mbGljdGluZ19wY2lfZGV2aWNlcyhzdHJ1Y3Qg
-cGNpX2RldiAqcGRldiwgY29uc3QgY2hhciAqbmEKIAkJYXBlcnR1cmVfZGV0YWNoX2Rldmlj
-ZXMoYmFzZSwgc2l6ZSk7CiAJfQogCi0JaWYgKHByaW1hcnkpIHsKLQkJLyoKLQkJICogSWYg
-dGhpcyBpcyB0aGUgcHJpbWFyeSBhZGFwdGVyLCB0aGVyZSBjb3VsZCBiZSBhIFZHQSBkZXZp
-Y2UKLQkJICogdGhhdCBjb25zdW1lcyB0aGUgVkdBIGZyYW1lYnVmZmVyIEkvTyByYW5nZS4g
-UmVtb3ZlIHRoaXMKLQkJICogZGV2aWNlIGFzIHdlbGwuCi0JCSAqLwotCQlhcGVydHVyZV9k
-ZXRhY2hfZGV2aWNlcyhWR0FfRkJfUEhZU19CQVNFLCBWR0FfRkJfUEhZU19TSVpFKTsKLQot
-CQkvKgotCQkgKiBXQVJOSU5HOiBBcHBhcmVudGx5IHdlIG11c3Qga2ljayBmYmRldiBkcml2
-ZXJzIGJlZm9yZSB2Z2Fjb24sCi0JCSAqIG90aGVyd2lzZSB0aGUgdmdhIGZiZGV2IGRyaXZl
-ciBmYWxscyBvdmVyLgotCQkgKi8KLQkJcmV0ID0gdmdhX3JlbW92ZV92Z2Fjb24ocGRldik7
-Ci0JCWlmIChyZXQpCi0JCQlyZXR1cm4gcmV0OwotCX0KKwkvKgorCSAqIElmIHRoaXMgaXMg
-dGhlIHByaW1hcnkgYWRhcHRlciwgdGhlcmUgY291bGQgYmUgYSBWR0EgZGV2aWNlCisJICog
-dGhhdCBjb25zdW1lcyB0aGUgVkdBIGZyYW1lYnVmZmVyIEkvTyByYW5nZS4gUmVtb3ZlIHRo
-aXMKKwkgKiBkZXZpY2UgYXMgd2VsbC4KKwkgKi8KKwlpZiAocHJpbWFyeSkKKwkJcmV0ID0g
-X19hcGVydHVyZV9yZW1vdmVfbGVnYWN5X3ZnYV9kZXZpY2VzKHBkZXYpOwogCi0JcmV0dXJu
-IDA7CisJcmV0dXJuIHJldDsKIAogfQogRVhQT1JUX1NZTUJPTChhcGVydHVyZV9yZW1vdmVf
-Y29uZmxpY3RpbmdfcGNpX2RldmljZXMpOwpkaWZmIC0tZ2l0IGEvaW5jbHVkZS9saW51eC9h
-cGVydHVyZS5oIGIvaW5jbHVkZS9saW51eC9hcGVydHVyZS5oCmluZGV4IDcyNDg3Mjc3NTNi
-ZS4uMWE5YTg4YjExNTg0IDEwMDY0NAotLS0gYS9pbmNsdWRlL2xpbnV4L2FwZXJ0dXJlLmgK
-KysrIGIvaW5jbHVkZS9saW51eC9hcGVydHVyZS5oCkBAIC0xNiw2ICsxNiw4IEBAIGludCBk
-ZXZtX2FwZXJ0dXJlX2FjcXVpcmVfZm9yX3BsYXRmb3JtX2RldmljZShzdHJ1Y3QgcGxhdGZv
-cm1fZGV2aWNlICpwZGV2LAogaW50IGFwZXJ0dXJlX3JlbW92ZV9jb25mbGljdGluZ19kZXZp
-Y2VzKHJlc291cmNlX3NpemVfdCBiYXNlLCByZXNvdXJjZV9zaXplX3Qgc2l6ZSwKIAkJCQkJ
-Y29uc3QgY2hhciAqbmFtZSk7CiAKK2ludCBfX2FwZXJ0dXJlX3JlbW92ZV9sZWdhY3lfdmdh
-X2RldmljZXMoc3RydWN0IHBjaV9kZXYgKnBkZXYpOworCiBpbnQgYXBlcnR1cmVfcmVtb3Zl
-X2NvbmZsaWN0aW5nX3BjaV9kZXZpY2VzKHN0cnVjdCBwY2lfZGV2ICpwZGV2LCBjb25zdCBj
-aGFyICpuYW1lKTsKICNlbHNlCiBzdGF0aWMgaW5saW5lIGludCBkZXZtX2FwZXJ0dXJlX2Fj
-cXVpcmVfZm9yX3BsYXRmb3JtX2RldmljZShzdHJ1Y3QgcGxhdGZvcm1fZGV2aWNlICpwZGV2
-LApAQCAtMzEsNiArMzMsMTEgQEAgc3RhdGljIGlubGluZSBpbnQgYXBlcnR1cmVfcmVtb3Zl
-X2NvbmZsaWN0aW5nX2RldmljZXMocmVzb3VyY2Vfc2l6ZV90IGJhc2UsIHJlc28KIAlyZXR1
-cm4gMDsKIH0KIAorc3RhdGljIGlubGluZSBpbnQgX19hcGVydHVyZV9yZW1vdmVfbGVnYWN5
-X3ZnYV9kZXZpY2VzKHN0cnVjdCBwY2lfZGV2ICpwZGV2KQoreworCXJldHVybiAwOworfQor
-CiBzdGF0aWMgaW5saW5lIGludCBhcGVydHVyZV9yZW1vdmVfY29uZmxpY3RpbmdfcGNpX2Rl
-dmljZXMoc3RydWN0IHBjaV9kZXYgKnBkZXYsIGNvbnN0IGNoYXIgKm5hbWUpCiB7CiAJcmV0
-dXJuIDA7Ci0tIAoyLjQwLjAKCg==
-
---------------m2XW94l20N1PYqz1PR2YY8vT--
-
---------------90w9BPDQ22WQHum4ABhrlOTA--
-
---------------BH3rk9LG2lA3qJBPMIELS096
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmQucVIFAwAAAAAACgkQlh/E3EQov+CT
-eA/8DFNAVzXZk6TkcG4wR95ydkWngX1EAdBdc8l4PTQjkUkBekpSG6ZO6c8DANIP1AshV/5yE5j7
-TDIP5NgEk5ABZMY+vSTz2J2IAGw/EpT/+8aZDfCo2puI1r+usc1eMQRNQOCHthPeJKW5ASVBxD8R
-9w70ElyK29GoR+50GX7JnFLptIAg1qNVRSn63ksXjNJ5JNKwyX54GJvLg+TNc44wwbTPJNrcB45h
-9/NNRHgHulkxjrUnhl6oMbRHd7EaCPWVne3pTBznFfBMW81ltr01HFUGC+1SDLa1QOmTKsVwXuzO
-q1WAmsX1E523cCcQuWcl3p+Fqw9pr6Iw9Zuu6PTh7Lk5nOjYBrbplFgCRBzNZNfJDenUUheQqVYH
-gxFM3RzHEyqU5dysu7x1CCw+x9xXsUii+6r/8GYA9+Cv8BSpcxj3WxWVNCx3bMttIdm+riIgeid5
-nr4hGRXw8UdSOqgJmPO1kZ7l9C20KdE+U3rvp9ehblMo2UOE5Txam8JQam20vqAIxDUCXFsXaHZl
-w+cx993nBaWNLV94rswcEBRrvY6VyNDKl97ivM7ysV/hXNdbHYJJZIj+1q6x2z705CnK+xofHqkh
-8isl5+IBbJ+MApBLOND0FUwiS7eu5AeIj+tM9a3b+6tKzeOwRAUhImjrfnU/FgRmgXsNxUNVZ/0j
-/wI=
-=Gh1O
------END PGP SIGNATURE-----
-
---------------BH3rk9LG2lA3qJBPMIELS096--
+Maybe it has something to do with the driver not supporting .wait_hpd_asser=
+ted
+and not using a GPIO for HPD?
