@@ -2,23 +2,24 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69BF16DA369
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Apr 2023 22:37:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AB976DA36A
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Apr 2023 22:37:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A8E2A10ED18;
-	Thu,  6 Apr 2023 20:37:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8953210ED19;
+	Thu,  6 Apr 2023 20:37:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1379D10ED18
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Apr 2023 20:37:26 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 428AD10ED19
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Apr 2023 20:37:39 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 7068360F95;
+ by dfw.source.kernel.org (Postfix) with ESMTPS id A33A460F63;
+ Thu,  6 Apr 2023 20:37:38 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5CBD2C433EF;
  Thu,  6 Apr 2023 20:37:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C6DAEC4339C;
- Thu,  6 Apr 2023 20:37:14 +0000 (UTC)
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 To: Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>,
  Jonathan Corbet <corbet@lwn.net>, Oded Gabbay <ogabbay@kernel.org>,
@@ -55,9 +56,10 @@ To: Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>,
  dri-devel@lists.freedesktop.org, patches@opensource.cirrus.com,
  openbmc@lists.ozlabs.org, linux-rpi-kernel@lists.infradead.org,
  linux-arm-kernel@lists.infradead.org
-Subject: [PATCH 48/68] hwmon: nzxt: constify pointers to hwmon_channel_info
-Date: Thu,  6 Apr 2023 22:35:29 +0200
-Message-Id: <20230406203530.3012191-7-krzysztof.kozlowski@linaro.org>
+Subject: [PATCH 49/68] hwmon: oxp-sensors: constify pointers to
+ hwmon_channel_info
+Date: Thu,  6 Apr 2023 22:35:30 +0200
+Message-Id: <20230406203530.3012191-8-krzysztof.kozlowski@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230406203103.3011503-1-krzysztof.kozlowski@linaro.org>
 References: <20230406203103.3011503-1-krzysztof.kozlowski@linaro.org>
@@ -84,36 +86,22 @@ const for safety.
 
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 ---
- drivers/hwmon/nzxt-kraken2.c | 2 +-
- drivers/hwmon/nzxt-smart2.c  | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ drivers/hwmon/oxp-sensors.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/hwmon/nzxt-kraken2.c b/drivers/hwmon/nzxt-kraken2.c
-index 89f7ea4f42d4..428c77b5fce5 100644
---- a/drivers/hwmon/nzxt-kraken2.c
-+++ b/drivers/hwmon/nzxt-kraken2.c
-@@ -86,7 +86,7 @@ static const struct hwmon_ops kraken2_hwmon_ops = {
- 	.read_string = kraken2_read_string,
- };
+diff --git a/drivers/hwmon/oxp-sensors.c b/drivers/hwmon/oxp-sensors.c
+index 36872b57912a..ae67207030e8 100644
+--- a/drivers/hwmon/oxp-sensors.c
++++ b/drivers/hwmon/oxp-sensors.c
+@@ -239,7 +239,7 @@ static int oxp_platform_write(struct device *dev, enum hwmon_sensor_types type,
+ }
  
--static const struct hwmon_channel_info *kraken2_info[] = {
-+static const struct hwmon_channel_info * const kraken2_info[] = {
- 	HWMON_CHANNEL_INFO(temp,
- 			   HWMON_T_INPUT | HWMON_T_LABEL),
+ /* Known sensors in the OXP EC controllers */
+-static const struct hwmon_channel_info *oxp_platform_sensors[] = {
++static const struct hwmon_channel_info * const oxp_platform_sensors[] = {
  	HWMON_CHANNEL_INFO(fan,
-diff --git a/drivers/hwmon/nzxt-smart2.c b/drivers/hwmon/nzxt-smart2.c
-index e5edf8071f39..7aa586eb74be 100644
---- a/drivers/hwmon/nzxt-smart2.c
-+++ b/drivers/hwmon/nzxt-smart2.c
-@@ -663,7 +663,7 @@ static const struct hwmon_ops nzxt_smart2_hwmon_ops = {
- 	.write = nzxt_smart2_hwmon_write,
- };
- 
--static const struct hwmon_channel_info *nzxt_smart2_channel_info[] = {
-+static const struct hwmon_channel_info * const nzxt_smart2_channel_info[] = {
- 	HWMON_CHANNEL_INFO(fan, HWMON_F_INPUT | HWMON_F_LABEL,
- 			   HWMON_F_INPUT | HWMON_F_LABEL,
- 			   HWMON_F_INPUT | HWMON_F_LABEL),
+ 			   HWMON_F_INPUT),
+ 	HWMON_CHANNEL_INFO(pwm,
 -- 
 2.34.1
 
