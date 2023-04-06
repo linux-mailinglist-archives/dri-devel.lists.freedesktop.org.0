@@ -2,54 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B21426D91B6
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Apr 2023 10:33:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F2B56D91B1
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Apr 2023 10:33:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5CBA510EB30;
-	Thu,  6 Apr 2023 08:32:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2B92D10EB24;
+	Thu,  6 Apr 2023 08:32:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B504C10EB1E
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Apr 2023 08:32:45 +0000 (UTC)
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 980B010EB1B
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Apr 2023 08:32:46 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 4F2AC21FB8;
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 79AB921FDE;
  Thu,  6 Apr 2023 08:32:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1680769964; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=XKBHrMS7FMlxLjl03JkFeFxbWJ2g6H+zJbTU4mqVMyk=;
- b=p/7yN2L9yX/d6un7sr58uECoekbM8uu/iAvD0FF+HW9iiXslYiNR38naKifWEL5dm5Utyj
- HH4ni4wXjbKNptCPwlY/6ckzvWfPYp5vWrwjSnzJr8irsEgnuz/EmuhJpiXoEUH3f/+DO3
- 7ypnD4jEuK6hO3xH+EuRk9JXk/Dnz1g=
+ bh=PH78YwG3Pg5iRbmDVhx2aBy6aWQaeKxD64LfoEiYvRw=;
+ b=y+ymM8rmkQLw3TseXG/tT4RcVfzjY+lQBN/wBzR5jBDL+gmSaodet01emguqhGb4pIrCOR
+ dyeb7VHxKErrrgmjnD/Ddv69u8oJ6U2ArtT7ALhGtkgdTRnUD6R40eVmZe6hZbUUO5cr98
+ pU6UlEOgrqmsAqcThUw7TMm7ypnZukk=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1680769964;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=XKBHrMS7FMlxLjl03JkFeFxbWJ2g6H+zJbTU4mqVMyk=;
- b=HkAZHfTOU9neZsJGddh7hPH/JvgG6dwRgHPa4dSAnl+sEsNrgxj69pvIofm+3VgPKoc1j6
- /q/TB2zZRQkn3jAQ==
+ bh=PH78YwG3Pg5iRbmDVhx2aBy6aWQaeKxD64LfoEiYvRw=;
+ b=2KV1GNU8jLf5kdVXJxqGHBi+tFTRMok4d7Ifq8tfvesbErdwYcls/54aGl/ohoSkwIt9Dr
+ hCbHk2oua6hf7UAg==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 1057C133E5;
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 54B1C133E5;
  Thu,  6 Apr 2023 08:32:44 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id 4AIfA6yDLmQZZgAAMHmgww
+ by imap2.suse-dmz.suse.de with ESMTPSA id 2FDIE6yDLmQZZgAAMHmgww
  (envelope-from <tzimmermann@suse.de>); Thu, 06 Apr 2023 08:32:44 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: javierm@redhat.com, daniel.vetter@ffwll.ch, patrik.r.jakobsson@gmail.com
-Subject: [PATCH v4 8/9] fbdev: Simplify fb_is_primary_device for x86
-Date: Thu,  6 Apr 2023 10:32:39 +0200
-Message-Id: <20230406083240.14031-9-tzimmermann@suse.de>
+Subject: [PATCH v4 9/9] video/aperture: Provide a VGA helper for gma500 and
+ internal use
+Date: Thu,  6 Apr 2023 10:32:40 +0200
+Message-Id: <20230406083240.14031-10-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.40.0
 In-Reply-To: <20230406083240.14031-1-tzimmermann@suse.de>
 References: <20230406083240.14031-1-tzimmermann@suse.de>
@@ -67,87 +68,223 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: x86@kernel.org, Helge Deller <deller@gmx.de>,
- Dave Hansen <dave.hansen@linux.intel.com>, dri-devel@lists.freedesktop.org,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- Thomas Zimmermann <tzimmermann@suse.de>, "H. Peter Anvin" <hpa@zytor.com>,
- Thomas Gleixner <tglx@linutronix.de>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
+The hardware for gma500 is different from the rest, as it uses stolen
+framebuffer memory that is not available via PCI BAR. The regular PCI
+removal helper cannot detect the framebuffer, while the non-PCI helper
+misses possible conflicting VGA devices (i.e., a framebuffer or text
+console).
 
-vga_default_device really is supposed to cover all corners, at least
-for x86. Additionally checking for rom shadowing should be redundant,
-because the bios/fw only does that for the boot vga device.
+Gma500 therefore calls both helpers to catch all cases. It's confusing
+as it implies that there's something about the PCI device that requires
+ownership management. The relationship between the PCI device and the
+VGA devices is non-obvious. At worst, readers might assume that calling
+two functions for clearing aperture ownership is a bug in the driver.
 
-If this turns out to be wrong, then most likely that's a special case
-which should be added to the vgaarb code, not replicated all over.
+Hence, move the PCI removal helper's code for VGA functionality into
+a separate function and call this function from gma500. Documents the
+purpose of each call to aperture helpers. The change contains comments
+and example code form the discussion at [1].
 
-Patch motived by changes to the aperture helpers, which also have this
-open code in a bunch of places, and which are all removed in a
-clean-up series. This function here is just for selecting the default
-fbdev device for fbcon, but I figured for consistency it might be good
-to throw this patch in on top.
-
-Note that the shadow rom check predates vgaarb, which was only wired
-up in commit 88674088d10c ("x86: Use vga_default_device() when
-determining whether an fb is primary"). That patch doesn't explain why
-we still fall back to the shadow rom check.
-
-v4:
-- fix commit message style (i.e., commit 1234 ("..."))
-- fix Daniel's S-o-b address
-
-Signed-off-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: Helge Deller <deller@gmx.de>
-Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: Javier Martinez Canillas <javierm@redhat.com>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Thomas Gleixner <tglx@linutronix.de>
-Cc: Ingo Molnar <mingo@redhat.com>
-Cc: Borislav Petkov <bp@alien8.de>
-Cc: Dave Hansen <dave.hansen@linux.intel.com>
-Cc: x86@kernel.org
-Cc: "H. Peter Anvin" <hpa@zytor.com>
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+Link: https://patchwork.kernel.org/project/dri-devel/patch/20230404201842.567344-1-daniel.vetter@ffwll.ch/ # 1
 ---
- arch/x86/video/fbdev.c | 13 +------------
- 1 file changed, 1 insertion(+), 12 deletions(-)
+ drivers/gpu/drm/gma500/psb_drv.c | 48 ++++++++++++++++++--------
+ drivers/video/aperture.c         | 58 ++++++++++++++++++++++----------
+ include/linux/aperture.h         |  7 ++++
+ 3 files changed, 81 insertions(+), 32 deletions(-)
 
-diff --git a/arch/x86/video/fbdev.c b/arch/x86/video/fbdev.c
-index 9fd24846d094..5ec4eafbb981 100644
---- a/arch/x86/video/fbdev.c
-+++ b/arch/x86/video/fbdev.c
-@@ -14,26 +14,15 @@
- int fb_is_primary_device(struct fb_info *info)
+diff --git a/drivers/gpu/drm/gma500/psb_drv.c b/drivers/gpu/drm/gma500/psb_drv.c
+index 4bb06a89e48d..f50a9a58a2db 100644
+--- a/drivers/gpu/drm/gma500/psb_drv.c
++++ b/drivers/gpu/drm/gma500/psb_drv.c
+@@ -7,6 +7,7 @@
+  *
+  **************************************************************************/
+ 
++#include <linux/aperture.h>
+ #include <linux/cpu.h>
+ #include <linux/module.h>
+ #include <linux/notifier.h>
+@@ -19,7 +20,6 @@
+ #include <acpi/video.h>
+ 
+ #include <drm/drm.h>
+-#include <drm/drm_aperture.h>
+ #include <drm/drm_drv.h>
+ #include <drm/drm_file.h>
+ #include <drm/drm_ioctl.h>
+@@ -414,25 +414,45 @@ static int psb_driver_load(struct drm_device *dev, unsigned long flags)
+ 	return ret;
+ }
+ 
+-static int psb_pci_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
++/*
++ * Hardware for gma500 is a hybrid device, which both acts as a PCI
++ * device (for legacy vga functionality) but also more like an
++ * integrated display on a SoC where the framebuffer simply
++ * resides in main memory and not in a special PCI bar (that
++ * internally redirects to a stolen range of main memory) like all
++ * other integrated PCI display devices have.
++ *
++ * To catch all cases we need to remove conflicting firmware devices
++ * for the stolen system memory and for the VGA functionality. As we
++ * currently cannot easily find the framebuffer's location in stolen
++ * memory, we remove all framebuffers here.
++ *
++ * TODO: Refactor psb_driver_load() to map vdc_reg earlier. Then
++ *       we might be able to read the framebuffer range from the
++ *       device.
++ */
++static int gma_remove_conflicting_framebuffers(struct pci_dev *pdev,
++					       const struct drm_driver *req_driver)
  {
- 	struct device *device = info->device;
--	struct pci_dev *default_device = vga_default_device();
- 	struct pci_dev *pci_dev;
--	struct resource *res;
+-	struct drm_psb_private *dev_priv;
+-	struct drm_device *dev;
++	resource_size_t base = 0;
++	resource_size_t size = U32_MAX; /* 4 GiB HW limit */
++	const char *name = req_driver->name;
+ 	int ret;
  
- 	if (!device || !dev_is_pci(device))
- 		return 0;
+-	/*
+-	 * We cannot yet easily find the framebuffer's location in memory. So
+-	 * remove all framebuffers here. Note that we still want the pci special
+-	 * handling to kick out vgacon.
+-	 *
+-	 * TODO: Refactor psb_driver_load() to map vdc_reg earlier. Then we
+-	 *       might be able to read the framebuffer range from the device.
+-	 */
+-	ret = drm_aperture_remove_framebuffers(&driver);
++	ret = aperture_remove_conflicting_devices(base, size, name);
+ 	if (ret)
+ 		return ret;
  
- 	pci_dev = to_pci_dev(device);
+-	ret = drm_aperture_remove_conflicting_pci_framebuffers(pdev, &driver);
++	return __aperture_remove_legacy_vga_devices(pdev);
++}
++
++static int psb_pci_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
++{
++	struct drm_psb_private *dev_priv;
++	struct drm_device *dev;
++	int ret;
++
++	ret = gma_remove_conflicting_framebuffers(pdev, &driver);
+ 	if (ret)
+ 		return ret;
  
--	if (default_device) {
--		if (pci_dev == default_device)
--			return 1;
--		return 0;
+diff --git a/drivers/video/aperture.c b/drivers/video/aperture.c
+index e4091688b5eb..2824345e87ef 100644
+--- a/drivers/video/aperture.c
++++ b/drivers/video/aperture.c
+@@ -301,6 +301,37 @@ int aperture_remove_conflicting_devices(resource_size_t base, resource_size_t si
+ }
+ EXPORT_SYMBOL(aperture_remove_conflicting_devices);
+ 
++/**
++ * __aperture_remove_legacy_vga_devices - remove legacy VGA devices of a PCI devices
++ * @pdev: PCI device
++ *
++ * This function removes VGA devices provided by @pdev, such as a VGA
++ * framebuffer or a console. This is useful if you have a VGA-compatible
++ * PCI graphics device with framebuffers in non-BAR locations. Drivers
++ * should acquire ownership of those memory areas and afterwards call
++ * this helper to release remaining VGA devices.
++ *
++ * If your hardware has its framebuffers accessible via PCI BARS, use
++ * aperture_remove_conflicting_pci_devices() instead. The function will
++ * release any VGA devices automatically.
++ *
++ * WARNING: Apparently we must remove graphics drivers before calling
++ *          this helper. Otherwise the vga fbdev driver falls over if
++ *          we have vgacon configured.
++ *
++ * Returns:
++ * 0 on success, or a negative errno code otherwise
++ */
++int __aperture_remove_legacy_vga_devices(struct pci_dev *pdev)
++{
++	/* VGA framebuffer */
++	aperture_detach_devices(VGA_FB_PHYS_BASE, VGA_FB_PHYS_SIZE);
++
++	/* VGA textmode console */
++	return vga_remove_vgacon(pdev);
++}
++EXPORT_SYMBOL(__aperture_remove_legacy_vga_devices);
++
+ /**
+  * aperture_remove_conflicting_pci_devices - remove existing framebuffers for PCI devices
+  * @pdev: PCI device
+@@ -317,7 +348,7 @@ int aperture_remove_conflicting_pci_devices(struct pci_dev *pdev, const char *na
+ {
+ 	bool primary = false;
+ 	resource_size_t base, size;
+-	int bar, ret;
++	int bar, ret = 0;
+ 
+ 	if (pdev == vga_default_device())
+ 		primary = true;
+@@ -334,24 +365,15 @@ int aperture_remove_conflicting_pci_devices(struct pci_dev *pdev, const char *na
+ 		aperture_detach_devices(base, size);
+ 	}
+ 
+-	if (primary) {
+-		/*
+-		 * If this is the primary adapter, there could be a VGA device
+-		 * that consumes the VGA framebuffer I/O range. Remove this
+-		 * device as well.
+-		 */
+-		aperture_detach_devices(VGA_FB_PHYS_BASE, VGA_FB_PHYS_SIZE);
+-
+-		/*
+-		 * WARNING: Apparently we must kick fbdev drivers before vgacon,
+-		 * otherwise the vga fbdev driver falls over.
+-		 */
+-		ret = vga_remove_vgacon(pdev);
+-		if (ret)
+-			return ret;
 -	}
--
--	res = pci_dev->resource + PCI_ROM_RESOURCE;
--
--	if (res->flags & IORESOURCE_ROM_SHADOW)
-+	if (pci_dev == vga_default_device())
- 		return 1;
--
++	/*
++	 * If this is the primary adapter, there could be a VGA device
++	 * that consumes the VGA framebuffer I/O range. Remove this
++	 * device as well.
++	 */
++	if (primary)
++		ret = __aperture_remove_legacy_vga_devices(pdev);
+ 
+-	return 0;
++	return ret;
+ 
+ }
+ EXPORT_SYMBOL(aperture_remove_conflicting_pci_devices);
+diff --git a/include/linux/aperture.h b/include/linux/aperture.h
+index 7248727753be..1a9a88b11584 100644
+--- a/include/linux/aperture.h
++++ b/include/linux/aperture.h
+@@ -16,6 +16,8 @@ int devm_aperture_acquire_for_platform_device(struct platform_device *pdev,
+ int aperture_remove_conflicting_devices(resource_size_t base, resource_size_t size,
+ 					const char *name);
+ 
++int __aperture_remove_legacy_vga_devices(struct pci_dev *pdev);
++
+ int aperture_remove_conflicting_pci_devices(struct pci_dev *pdev, const char *name);
+ #else
+ static inline int devm_aperture_acquire_for_platform_device(struct platform_device *pdev,
+@@ -31,6 +33,11 @@ static inline int aperture_remove_conflicting_devices(resource_size_t base, reso
  	return 0;
  }
- EXPORT_SYMBOL(fb_is_primary_device);
+ 
++static inline int __aperture_remove_legacy_vga_devices(struct pci_dev *pdev)
++{
++	return 0;
++}
++
+ static inline int aperture_remove_conflicting_pci_devices(struct pci_dev *pdev, const char *name)
+ {
+ 	return 0;
 -- 
 2.40.0
 
