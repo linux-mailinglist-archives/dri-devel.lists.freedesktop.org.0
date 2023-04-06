@@ -1,61 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FA8A6D9801
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Apr 2023 15:21:35 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id EF4606D9847
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Apr 2023 15:32:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 74CF510EBAE;
-	Thu,  6 Apr 2023 13:21:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DE7D510EBB2;
+	Thu,  6 Apr 2023 13:32:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 893AB10EBAC
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Apr 2023 13:21:14 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5ECD910EBB2
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Apr 2023 13:32:40 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 317EC225C5;
- Thu,  6 Apr 2023 13:21:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1680787273; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=WwGd3fyUQxX5/b6B75t5TqHVB0Ajp/EYptQ798I0y+M=;
- b=hH3Sa5Lzyk0ccQGNCLiCIo7KhJIY5035bOritrAzzAWozvjmMO6FYuGewCLi/EL1WHuZaq
- C0FtSPSsdzd0DGWAirrwWGy30KWcRWzqlXnBTy+hRHW40tMqAgd2tzwgFqjUSOXf45ir4e
- Q+QR6QT7DiQU1Ke4NYKWrMLWOeVuQok=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1680787273;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=WwGd3fyUQxX5/b6B75t5TqHVB0Ajp/EYptQ798I0y+M=;
- b=42tbhQ0Wm4fRx8KtEdTRt9aflkKLZSlw46vyvql/u6sv0eFzZYZMmOUHR0f4VfJRSHSloN
- RAS3zSrouWEXo0AQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 0E5A413A1D;
- Thu,  6 Apr 2023 13:21:13 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id 2KqiAknHLmSqBwAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Thu, 06 Apr 2023 13:21:13 +0000
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: javierm@redhat.com, daniel.vetter@ffwll.ch, patrik.r.jakobsson@gmail.com
-Subject: [PATCH v5 9/9] video/aperture: Provide a VGA helper for gma500 and
- internal use
-Date: Thu,  6 Apr 2023 15:21:09 +0200
-Message-Id: <20230406132109.32050-10-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.40.0
-In-Reply-To: <20230406132109.32050-1-tzimmermann@suse.de>
-References: <20230406132109.32050-1-tzimmermann@suse.de>
+ (Authenticated sender: lina@asahilina.net)
+ by mail.marcansoft.com (Postfix) with ESMTPSA id 4563742553;
+ Thu,  6 Apr 2023 13:32:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=asahilina.net;
+ s=default; t=1680787958;
+ bh=aEI0aURBjcZmrGJ/9aJsra7/owWOVAMMqi4NSiovp3U=;
+ h=Date:Subject:To:References:From:Cc:In-Reply-To;
+ b=e1y6iFkmRNoIrIBw8pzrMHQ0qglTHsizYwYKGNyIGig+wmRR50q5bItUSTFqFQQUr
+ 6QQa3xz6KLcqdXTLz99ig9SdCL5/N4SaW2H0sYjTMUqL5y6Zqs65drRFKGLSdEbXLf
+ zcg8PL4MrXeP1TFMRZ9Jh7znsO+glM6Ue17Tolgf1SsSO1cbtMrSk8jrMGVfifq/GK
+ zeR/+vQCasvRCdLDwM5vn5h3Qh6h70xlLi/Wo8Q8Xt6DI39JKLdPTVFPWlEVF+n8Pc
+ bCZw3jnpMmbOhG72EJvRMrhl6tpDNhSxvhOgeQDqXrOFkELrls+z0+XTBYsYMihX9Z
+ g80SjKWVfgWHQ==
+Message-ID: <5330cde5-2d04-200f-d606-5467f20a5f7f@asahilina.net>
+Date: Thu, 6 Apr 2023 22:32:29 +0900
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [Linaro-mm-sig] Re: [PATCH RFC 18/18] drm/asahi: Add the Asahi
+ driver for Apple AGX GPUs
+Content-Language: en-US
+To: Daniel Vetter <daniel@ffwll.ch>
+References: <20230307-rust-drm-v1-0-917ff5bc80a8@asahilina.net>
+ <20230307-rust-drm-v1-18-917ff5bc80a8@asahilina.net>
+ <ZC2JPR3fGm0uE9yW@phenom.ffwll.local>
+ <6200f93d-6d95-5d03-cc1c-22d7924d66eb@asahilina.net>
+ <ZC6sPBuH3vz7vMO2@phenom.ffwll.local>
+From: Asahi Lina <lina@asahilina.net>
+In-Reply-To: <ZC6sPBuH3vz7vMO2@phenom.ffwll.local>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,227 +59,125 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
+Cc: Karol Herbst <kherbst@redhat.com>,
+ Dave Hansen <dave.hansen@linux.intel.com>, dri-devel@lists.freedesktop.org,
+ Mary <mary@mary.zone>, Gary Guo <gary@garyguo.net>,
+ Ella Stanforth <ella@iglunix.org>, Sumit Semwal <sumit.semwal@linaro.org>,
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>, Luben Tuikov <luben.tuikov@amd.com>,
+ Alex Gaynor <alex.gaynor@gmail.com>, Miguel Ojeda <ojeda@kernel.org>,
+ linux-media@vger.kernel.org, Wedson Almeida Filho <wedsonaf@gmail.com>,
+ rust-for-linux@vger.kernel.org, Boqun Feng <boqun.feng@gmail.com>,
+ =?UTF-8?Q?Bj=c3=b6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
+ Faith Ekstrand <faith.ekstrand@collabora.com>, linux-sgx@vger.kernel.org,
+ linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
+ Jarkko Sakkinen <jarkko@kernel.org>, asahi@lists.linux.dev,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The hardware for gma500 is different from the rest, as it uses stolen
-framebuffer memory that is not available via PCI BAR. The regular PCI
-removal helper cannot detect the framebuffer, while the non-PCI helper
-misses possible conflicting VGA devices (i.e., a framebuffer or text
-console).
+On 06/04/2023 20.25, Daniel Vetter wrote:
+> On Thu, Apr 06, 2023 at 02:02:55PM +0900, Asahi Lina wrote:
+>> On 05/04/2023 23.44, Daniel Vetter wrote:
+>>> On Tue, Mar 07, 2023 at 11:25:43PM +0900, Asahi Lina wrote:
+>>>> +/// Look up a GEM object handle for a `File` and return an `ObjectRef` for it.
+>>>> +pub(crate) fn lookup_handle(file: &DrmFile, handle: u32) -> Result<ObjectRef> {
+>>>> +    Ok(ObjectRef::new(shmem::Object::lookup_handle(file, handle)?))
+>>>> +}
+>>>
+>>> So maybe my expectations for rust typing is a bit too much, but I kinda
+>>> expected this to be fully generic:
+>>>
+>>> - trait Driver (drm_driver) knows the driver's object type
+>>> - a generic create_handle function could ensure that for drm_file (which
+>>>     is always for a specific drm_device and hence Driver) can ensure at the
+>>>     type level that you only put the right objects into the drm_file
+>>> - a generic lookup_handle function on the drm_file knows the Driver trait
+>>>     and so can give you back the right type right away.
+>>>
+>>> Why the wrapping, what do I miss?
+>>
+>> Sigh, so this is one of the many ways I'm trying to work around the "Rust
+>> doesn't do subclasses" problem (so we can figure out what the best one is
+>> ^^).
+>>
+>> The generic shmem::Object::lookup_handle() call *is* fully generic and will
+>> get you back a driver-specific object. But since Rust doesn't do
+>> subclassing, what you get back isn't a driver-specific type T, but rather a
+>> (reference to a) shmem::Object<T>. T represents the inner driver-specific
+>> data/functionality (only), and the outer shmem::Object<T> includes the
+>> actual drm_gem_shmem_object plus a T. This is backwards from C, where you
+>> expect the opposite situation where T contains a shmem object, but that just
+>> doesn't work with Rust because there's no way to build a safe API around
+>> that model as far as I know.
+> 
+> Ah I think I just got confused. I did untangle (I think at least) the
+> Object<T> trick, I guess the only thing that confused me here is why this
+> is in the shmem module? Or is that the rust problem again?
+> 
+> I'd kinda have expected that we'd have a gem::Object<T> here that the
+> lookup_handle function returns. So for the shmem case I guess that would
+> then be gem::Object<shmem::Object<T>> for the driver type T with driver
+> specific stuff? I guess not very pretty ...
 
-Gma500 therefore calls both helpers to catch all cases. It's confusing
-as it implies that there's something about the PCI device that requires
-ownership management. The relationship between the PCI device and the
-VGA devices is non-obvious. At worst, readers might assume that calling
-two functions for clearing aperture ownership is a bug in the driver.
+Ahh, uh... Yeah, so shmem objects are allocated their own way (the shmem 
+core expects to kfree them in drm_gem_shmem_free) and 
+bindings::drm_gem_shmem_object already contains a 
+bindings::drm_gem_object. Since the composition is already done in the C 
+side, we can't just do it again in Rust cleanly. That's why I have this 
+weird setup with both a common trait for common GEM functionality and 
+separate actual types that both implement it.
 
-Hence, move the PCI removal helper's code for VGA functionality into
-a separate function and call this function from gma500. Documents the
-purpose of each call to aperture helpers. The change contains comments
-and example code form the discussion at [1].
+Honestly the whole GEM codepath is untested other than the bits 
+inherited by shmem. I'm not sure I'll be able to verify that this all 
+makes sense until another Rust driver comes along that needs something 
+other than shmem. I just felt I had to do *something* for GEM since the 
+hierarchy is there and I needed shmem...
 
-v5:
-	* fix grammar in gma500 comment (Javier)
+This whole gem stuff is IMO the messiest part of the abstractions 
+though, so I'm happy to turn it on its head if it makes it better and 
+someone has an idea of how to do that ^^
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Link: https://patchwork.kernel.org/project/dri-devel/patch/20230404201842.567344-1-daniel.vetter@ffwll.ch/ # 1
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
----
- drivers/gpu/drm/gma500/psb_drv.c | 48 ++++++++++++++++++--------
- drivers/video/aperture.c         | 58 ++++++++++++++++++++++----------
- include/linux/aperture.h         |  7 ++++
- 3 files changed, 81 insertions(+), 32 deletions(-)
+>> Now the problem is from the higher layers I want object operations that
+>> interact with the shmem::Object<T> (that is, they call generic GEM functions
+>> on the object). Options so far:
+>>
+>> 1. Add an outer wrapper and put that functionality there.
+>> 2. Just have the functions on T as helpers, so you need to call T::foo(obj)
+>> instead of obj.foo().
+>> 3. Use the undocumented method receiver trait thing to make shmem::Object<T>
+>> a valid `self` type, plus add auto-Deref to shmem::Object. Then obj.foo()
+>> works.
+>>
+>> #1 is what I use here. #2 is how the driver-specific File ioctl callbacks
+>> are implemented, and also sched::Job<T>. #3 is used for fence callbacks
+>> (FenceObject<T>). None of them are great, and I'd love to hear what people
+>> think of the various options...
+>>
+>> There are other unexplored options, like in this GEM case it could be
+>> covered with a driver-internal auxiliary trait impl'd on shmem::Object<T>
+>> buuut that doesn't work when you actually need callbacks on T itself to
+>> circle back to shmem::Object<T>, as is the case with File/Job/FenceObject.
+> 
+> Ok I think I'm completely lost here. But I also havent' looked at how this
+> is all really used in the driver, it's really just the shmem:: module in
+> the lookup_handle function which looked strange to me.
 
-diff --git a/drivers/gpu/drm/gma500/psb_drv.c b/drivers/gpu/drm/gma500/psb_drv.c
-index 4bb06a89e48d..8b64f61ffaf9 100644
---- a/drivers/gpu/drm/gma500/psb_drv.c
-+++ b/drivers/gpu/drm/gma500/psb_drv.c
-@@ -7,6 +7,7 @@
-  *
-  **************************************************************************/
- 
-+#include <linux/aperture.h>
- #include <linux/cpu.h>
- #include <linux/module.h>
- #include <linux/notifier.h>
-@@ -19,7 +20,6 @@
- #include <acpi/video.h>
- 
- #include <drm/drm.h>
--#include <drm/drm_aperture.h>
- #include <drm/drm_drv.h>
- #include <drm/drm_file.h>
- #include <drm/drm_ioctl.h>
-@@ -414,25 +414,45 @@ static int psb_driver_load(struct drm_device *dev, unsigned long flags)
- 	return ret;
- }
- 
--static int psb_pci_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
-+/*
-+ * Hardware for gma500 is a hybrid device, which both acts as a PCI
-+ * device (for legacy vga functionality) but also more like an
-+ * integrated display on a SoC where the framebuffer simply
-+ * resides in main memory and not in a special PCI bar (that
-+ * internally redirects to a stolen range of main memory) like all
-+ * other integrated PCI display devices implement it.
-+ *
-+ * To catch all cases we need to remove conflicting firmware devices
-+ * for the stolen system memory and for the VGA functionality. As we
-+ * currently cannot easily find the framebuffer's location in stolen
-+ * memory, we remove all framebuffers here.
-+ *
-+ * TODO: Refactor psb_driver_load() to map vdc_reg earlier. Then
-+ *       we might be able to read the framebuffer range from the
-+ *       device.
-+ */
-+static int gma_remove_conflicting_framebuffers(struct pci_dev *pdev,
-+					       const struct drm_driver *req_driver)
- {
--	struct drm_psb_private *dev_priv;
--	struct drm_device *dev;
-+	resource_size_t base = 0;
-+	resource_size_t size = U32_MAX; /* 4 GiB HW limit */
-+	const char *name = req_driver->name;
- 	int ret;
- 
--	/*
--	 * We cannot yet easily find the framebuffer's location in memory. So
--	 * remove all framebuffers here. Note that we still want the pci special
--	 * handling to kick out vgacon.
--	 *
--	 * TODO: Refactor psb_driver_load() to map vdc_reg earlier. Then we
--	 *       might be able to read the framebuffer range from the device.
--	 */
--	ret = drm_aperture_remove_framebuffers(&driver);
-+	ret = aperture_remove_conflicting_devices(base, size, name);
- 	if (ret)
- 		return ret;
- 
--	ret = drm_aperture_remove_conflicting_pci_framebuffers(pdev, &driver);
-+	return __aperture_remove_legacy_vga_devices(pdev);
-+}
-+
-+static int psb_pci_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
-+{
-+	struct drm_psb_private *dev_priv;
-+	struct drm_device *dev;
-+	int ret;
-+
-+	ret = gma_remove_conflicting_framebuffers(pdev, &driver);
- 	if (ret)
- 		return ret;
- 
-diff --git a/drivers/video/aperture.c b/drivers/video/aperture.c
-index e4091688b5eb..2824345e87ef 100644
---- a/drivers/video/aperture.c
-+++ b/drivers/video/aperture.c
-@@ -301,6 +301,37 @@ int aperture_remove_conflicting_devices(resource_size_t base, resource_size_t si
- }
- EXPORT_SYMBOL(aperture_remove_conflicting_devices);
- 
-+/**
-+ * __aperture_remove_legacy_vga_devices - remove legacy VGA devices of a PCI devices
-+ * @pdev: PCI device
-+ *
-+ * This function removes VGA devices provided by @pdev, such as a VGA
-+ * framebuffer or a console. This is useful if you have a VGA-compatible
-+ * PCI graphics device with framebuffers in non-BAR locations. Drivers
-+ * should acquire ownership of those memory areas and afterwards call
-+ * this helper to release remaining VGA devices.
-+ *
-+ * If your hardware has its framebuffers accessible via PCI BARS, use
-+ * aperture_remove_conflicting_pci_devices() instead. The function will
-+ * release any VGA devices automatically.
-+ *
-+ * WARNING: Apparently we must remove graphics drivers before calling
-+ *          this helper. Otherwise the vga fbdev driver falls over if
-+ *          we have vgacon configured.
-+ *
-+ * Returns:
-+ * 0 on success, or a negative errno code otherwise
-+ */
-+int __aperture_remove_legacy_vga_devices(struct pci_dev *pdev)
-+{
-+	/* VGA framebuffer */
-+	aperture_detach_devices(VGA_FB_PHYS_BASE, VGA_FB_PHYS_SIZE);
-+
-+	/* VGA textmode console */
-+	return vga_remove_vgacon(pdev);
-+}
-+EXPORT_SYMBOL(__aperture_remove_legacy_vga_devices);
-+
- /**
-  * aperture_remove_conflicting_pci_devices - remove existing framebuffers for PCI devices
-  * @pdev: PCI device
-@@ -317,7 +348,7 @@ int aperture_remove_conflicting_pci_devices(struct pci_dev *pdev, const char *na
- {
- 	bool primary = false;
- 	resource_size_t base, size;
--	int bar, ret;
-+	int bar, ret = 0;
- 
- 	if (pdev == vga_default_device())
- 		primary = true;
-@@ -334,24 +365,15 @@ int aperture_remove_conflicting_pci_devices(struct pci_dev *pdev, const char *na
- 		aperture_detach_devices(base, size);
- 	}
- 
--	if (primary) {
--		/*
--		 * If this is the primary adapter, there could be a VGA device
--		 * that consumes the VGA framebuffer I/O range. Remove this
--		 * device as well.
--		 */
--		aperture_detach_devices(VGA_FB_PHYS_BASE, VGA_FB_PHYS_SIZE);
--
--		/*
--		 * WARNING: Apparently we must kick fbdev drivers before vgacon,
--		 * otherwise the vga fbdev driver falls over.
--		 */
--		ret = vga_remove_vgacon(pdev);
--		if (ret)
--			return ret;
--	}
-+	/*
-+	 * If this is the primary adapter, there could be a VGA device
-+	 * that consumes the VGA framebuffer I/O range. Remove this
-+	 * device as well.
-+	 */
-+	if (primary)
-+		ret = __aperture_remove_legacy_vga_devices(pdev);
- 
--	return 0;
-+	return ret;
- 
- }
- EXPORT_SYMBOL(aperture_remove_conflicting_pci_devices);
-diff --git a/include/linux/aperture.h b/include/linux/aperture.h
-index 7248727753be..1a9a88b11584 100644
---- a/include/linux/aperture.h
-+++ b/include/linux/aperture.h
-@@ -16,6 +16,8 @@ int devm_aperture_acquire_for_platform_device(struct platform_device *pdev,
- int aperture_remove_conflicting_devices(resource_size_t base, resource_size_t size,
- 					const char *name);
- 
-+int __aperture_remove_legacy_vga_devices(struct pci_dev *pdev);
-+
- int aperture_remove_conflicting_pci_devices(struct pci_dev *pdev, const char *name);
- #else
- static inline int devm_aperture_acquire_for_platform_device(struct platform_device *pdev,
-@@ -31,6 +33,11 @@ static inline int aperture_remove_conflicting_devices(resource_size_t base, reso
- 	return 0;
- }
- 
-+static inline int __aperture_remove_legacy_vga_devices(struct pci_dev *pdev)
-+{
-+	return 0;
-+}
-+
- static inline int aperture_remove_conflicting_pci_devices(struct pci_dev *pdev, const char *name)
- {
- 	return 0;
--- 
-2.40.0
+Ah, sorry, I misunderstood what you were talking about in my previous 
+email then. That's just a default trait function. It comes from common 
+functionality in the gem module, but shmem::Object implements the trait 
+so it ends up offering it too (lookup_handle() is not duplicated, it 
+only lives in gem, shmem only has to implement going to/from the 
+drm_gem_object pointer so the rest of the methods can use it). That's 
+part of why the type/trait hierarchy is kind of messy here, it's so I 
+can share functionality between both types even though they are 
+pre-composed on the C side.
+
+In the end the object types are specialized for any given driver, so 
+you're always getting your own unique kind of object anyway. It's just 
+that drivers based on shmem will go through it to reach the common code 
+and work with a shmem::Object<T>, and drivers using raw gem will use 
+gem::Object<T> instead.
+
+~~ Lina
 
