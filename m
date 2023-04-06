@@ -1,69 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 068146D9E2E
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Apr 2023 19:09:38 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 549936D9E38
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Apr 2023 19:11:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 999EF10EC62;
-	Thu,  6 Apr 2023 17:09:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3BE0110EC7C;
+	Thu,  6 Apr 2023 17:11:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-xc2c.google.com (mail-oo1-xc2c.google.com
- [IPv6:2607:f8b0:4864:20::c2c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D57BB10E346
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Apr 2023 17:09:33 +0000 (UTC)
-Received: by mail-oo1-xc2c.google.com with SMTP id
- v2-20020a4ac902000000b005419421eff5so197300ooq.4
- for <dri-devel@lists.freedesktop.org>; Thu, 06 Apr 2023 10:09:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1680800973;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=dOTuvvRX8E86S9xd1w4ZAwjv++Bqe0GGEdg021NRFTw=;
- b=SwK6YjS1Bj/QrEJ/BGvyGLN801+rmzRCF0lXfQ4qV72CkRXyZrBBOb2uO3Xcw3+D8i
- s9EhuJA57WN0WpUwvQ+qc/THHzObxMbmDIKNdM5okr8Sb6gvwNuoKkUuUEJb1zhRx2CH
- b0MJ6GO7wI8bjdFEHpWFQcAxuM5qveGQvRb/g=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680800973;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=dOTuvvRX8E86S9xd1w4ZAwjv++Bqe0GGEdg021NRFTw=;
- b=6RFAPx/JoL/E5JvJGedu1fqvoqgo7dzo9YRG/2UfAxWbgJynIf3RylxAgQwdJofKaS
- TPfxUe7yxzkRFyxDWAWZKvdZNWBjG5vRPj1IRncbhv9LYZbpTJcwO8KsreuwWWJ6lckS
- jBrez0LW9iEMHMgr5830K35sMRNZQbszaNKe+XZMnYh0hx09Ei5urqcuqnS5QmEpwDPF
- 10vahVvRYfxRms1avyypOqbwe6AfrlyR6524mP3r8hlRx20+5qM2y+EMI6beyHfeeOSi
- CvCNYRf4xV3l417OAzhuM+J+afa06NxuSkdll9AEIljOWnVoPh+qV4by+pDKElBGkzFJ
- fxHg==
-X-Gm-Message-State: AAQBX9e38xKhle2FgDKXbdEmkxllVx2OY682UnmYzlf0YicNtoKwhT5f
- FU1YTEaX/FCMx0WTtELU1f0/HkVdJf+ydAl3jTWyrE127QdlMaqG
-X-Google-Smtp-Source: AKy350ZhXCoYZVgqbR6QE5FlENiBS6socZruSbdRtD/Qsc1MrDLM9+06C6kAUTk3fY2Hr/WrudJkVQpuCwJAwCgpp0g=
-X-Received: by 2002:a4a:c617:0:b0:53f:136a:13d0 with SMTP id
- l23-20020a4ac617000000b0053f136a13d0mr2685177ooq.0.1680800972670; Thu, 06 Apr
- 2023 10:09:32 -0700 (PDT)
+Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6C03510EC80
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Apr 2023 17:11:41 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ (Authenticated sender: lina@asahilina.net)
+ by mail.marcansoft.com (Postfix) with ESMTPSA id E4C90447D5;
+ Thu,  6 Apr 2023 17:11:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=asahilina.net;
+ s=default; t=1680801099;
+ bh=EOMIAdo0W5QMtSMnU2GCPBgEEGRchA9dEbzom9bN4w0=;
+ h=Date:Subject:To:References:From:Cc:In-Reply-To;
+ b=qmKaS/zT/Hn9iLOJsrK7dT696Gjz1Eh3CUDpE8nmNfbP/5xz6FnOpOpID5rpkYacz
+ p+WCTyRNf0dM9Uwt35ipHqSvRitQ+wfTAD4X3cdPuhTIzLdthzfx9CeZwEb+ueLXuJ
+ enHlugCfLiK9fORuvmD5OdijtpouclwoeghmRtWPbB/SPPT4pSPAPcJoFwe2XLo2fd
+ 7FsAgCXo4+zvDkn21UaOQWyqbVAjH1IuY+92+X7Fwp9oD4Jb0T9xKBnSo6EUlDeHib
+ 6wu8Vk4ngK96Y73MWkYHLsy9174955izOT8BobqZzgDZUhmk8SRQ3M5ZiDB2ShfCKS
+ ju27yOF1ebj3A==
+Message-ID: <2416c870-d069-defc-d14e-514e7db7d2fd@asahilina.net>
+Date: Fri, 7 Apr 2023 02:11:32 +0900
 MIME-Version: 1.0
-References: <e5eb5ab0-8e51-389c-34ae-7c6004f4b1ba@amd.com>
- <f7b3b70b-c798-b09e-210c-f84eaafd3251@linux.intel.com>
- <5b2e6a78-b743-028c-f54d-af38c130164a@amd.com>
- <16a3a3fd-47c7-d74d-4835-9438ef8d2635@shipmail.org>
- <ZCx0P7GwLh2yOVR4@DUT025-TGLU.fm.intel.com>
- <ZCx5wGTA3RCZGjA4@phenom.ffwll.local>
- <ZCx/C4cOwPcPQZ0R@DUT025-TGLU.fm.intel.com>
- <ZC1y9ON07yTYNTz6@phenom.ffwll.local>
- <ZC4LNOuOza9RX9TJ@DUT025-TGLU.fm.intel.com>
- <ZC5nm73p6SByTXDn@phenom.ffwll.local>
- <ZC76OWKHmjwfx7mo@DUT025-TGLU.fm.intel.com>
-In-Reply-To: <ZC76OWKHmjwfx7mo@DUT025-TGLU.fm.intel.com>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Thu, 6 Apr 2023 19:09:21 +0200
-Message-ID: <CAKMK7uGAy7UrCa097trXbEwLR6bZ27DnnFX6Yo_2s40N4u848g@mail.gmail.com>
-Subject: Re: [RFC PATCH 08/10] dma-buf/dma-fence: Introduce long-running
- completion fences
-To: Matthew Brost <matthew.brost@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [Regression] drm/scheduler: track GPU active time per entity
+Content-Language: en-US
+To: Daniel Vetter <daniel@ffwll.ch>
+References: <8b28151c-f2db-af3f-8dff-87dd5d57417b@amd.com>
+ <3004a2bf-e725-643e-82af-8a217784e796@redhat.com>
+ <013781a3-5abd-8c66-8a0a-dd36c9c487af@amd.com>
+ <28d10733-b217-7ccc-4b8c-54bdc8249234@amd.com>
+ <CAKMK7uFeeAaG8+1EutgMtmVANTb-acL0faEkJfUp1_35rSjaEg@mail.gmail.com>
+ <24fe6e14-0d0a-f874-766d-e8d045d1e80e@asahilina.net>
+ <ZC6ab6LomidehGR3@phenom.ffwll.local>
+ <9500edc9-4e9d-9d64-b444-ea9523779700@asahilina.net>
+ <ZC7LCi0vqFOw3KL5@phenom.ffwll.local>
+ <30534307-24af-b6f8-ea9f-e4264997bf9d@asahilina.net>
+ <ZC7lrOHKCbrbgS3R@phenom.ffwll.local>
+From: Asahi Lina <lina@asahilina.net>
+In-Reply-To: <ZC7lrOHKCbrbgS3R@phenom.ffwll.local>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,431 +64,619 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: robdclark@chromium.org,
- =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- airlied@linux.ie, lina@asahilina.net,
- =?UTF-8?Q?Thomas_Hellstr=C3=B6m_=28Intel=29?= <thomas_os@shipmail.org>,
- dri-devel@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
- boris.brezillon@collabora.com,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- faith.ekstrand@collabora.com
+Cc: Matthew Brost <matthew.brost@intel.com>, andrey.grodzovsky@amd.com,
+ tvrtko.ursulin@linux.intel.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Luben Tuikov <luben.tuikov@amd.com>,
+ Danilo Krummrich <dakr@redhat.com>, yuq825@gmail.com,
+ Bagas Sanjaya <bagasdotme@gmail.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 6 Apr 2023 at 18:58, Matthew Brost <matthew.brost@intel.com> wrote:
->
-> On Thu, Apr 06, 2023 at 08:32:59AM +0200, Daniel Vetter wrote:
-> > On Wed, Apr 05, 2023 at 11:58:44PM +0000, Matthew Brost wrote:
-> > > On Wed, Apr 05, 2023 at 03:09:08PM +0200, Daniel Vetter wrote:
-> > > > On Tue, Apr 04, 2023 at 07:48:27PM +0000, Matthew Brost wrote:
-> > > > > On Tue, Apr 04, 2023 at 09:25:52PM +0200, Daniel Vetter wrote:
-> > > > > > On Tue, Apr 04, 2023 at 07:02:23PM +0000, Matthew Brost wrote:
-> > > > > > > On Tue, Apr 04, 2023 at 08:14:01PM +0200, Thomas Hellstr=C3=
-=B6m (Intel) wrote:
-> > > > > > > >
-> > > > > > > > On 4/4/23 15:10, Christian K=C3=B6nig wrote:
-> > > > > > > > > Am 04.04.23 um 14:54 schrieb Thomas Hellstr=C3=B6m:
-> > > > > > > > > > Hi, Christian,
-> > > > > > > > > >
-> > > > > > > > > > On 4/4/23 11:09, Christian K=C3=B6nig wrote:
-> > > > > > > > > > > Am 04.04.23 um 02:22 schrieb Matthew Brost:
-> > > > > > > > > > > > From: Thomas Hellstr=C3=B6m <thomas.hellstrom@linux=
-.intel.com>
-> > > > > > > > > > > >
-> > > > > > > > > > > > For long-running workloads, drivers either need to =
-open-code
-> > > > > > > > > > > > completion
-> > > > > > > > > > > > waits, invent their own synchronization primitives =
-or internally use
-> > > > > > > > > > > > dma-fences that do not obey the cross-driver dma-fe=
-nce protocol, but
-> > > > > > > > > > > > without any lockdep annotation all these approaches=
- are error prone.
-> > > > > > > > > > > >
-> > > > > > > > > > > > So since for example the drm scheduler uses dma-fen=
-ces it is
-> > > > > > > > > > > > desirable for
-> > > > > > > > > > > > a driver to be able to use it for throttling and er=
-ror
-> > > > > > > > > > > > handling also with
-> > > > > > > > > > > > internal dma-fences tha do not obey the cros-driver
-> > > > > > > > > > > > dma-fence protocol.
-> > > > > > > > > > > >
-> > > > > > > > > > > > Introduce long-running completion fences in form of
-> > > > > > > > > > > > dma-fences, and add
-> > > > > > > > > > > > lockdep annotation for them. In particular:
-> > > > > > > > > > > >
-> > > > > > > > > > > > * Do not allow waiting under any memory management =
-locks.
-> > > > > > > > > > > > * Do not allow to attach them to a dma-resv object.
-> > > > > > > > > > > > * Introduce a new interface for adding callbacks ma=
-king the
-> > > > > > > > > > > > helper adding
-> > > > > > > > > > > >    a callback sign off on that it is aware that the=
- dma-fence may not
-> > > > > > > > > > > >    complete anytime soon. Typically this will be th=
-e
-> > > > > > > > > > > > scheduler chaining
-> > > > > > > > > > > >    a new long-running fence on another one.
-> > > > > > > > > > >
-> > > > > > > > > > > Well that's pretty much what I tried before:
-> > > > > > > > > > > https://lwn.net/Articles/893704/
-> > > > > > > > > > >
-> > > > > > >
-> > > > > > > I don't think this quite the same, this explictly enforces th=
-at we don't
-> > > > > > > break the dma-fence rules (in path of memory allocations, exp=
-orted in
-> > > > > > > any way), essentially this just SW sync point reusing dma-fen=
-ce the
-> > > > > > > infrastructure for signaling / callbacks. I believe your seri=
-es tried to
-> > > > > > > export these fences to user space (admittedly I haven't fully=
- read your
-> > > > > > > series).
-> > > > > > >
-> > > > > > > In this use case we essentially just want to flow control the=
- ring via
-> > > > > > > the dma-scheduler + maintain a list of pending jobs so the TD=
-R can be
-> > > > > > > used for cleanup if LR entity encounters an error. To me this=
- seems
-> > > > > > > perfectly reasonable but I know dma-femce rules are akin to a=
- holy war.
-> > > > > > >
-> > > > > > > If we return NULL in run_job, now we have to be able to sink =
-all jobs
-> > > > > > > in the backend regardless on ring space, maintain a list of j=
-obs pending
-> > > > > > > for cleanup after errors, and write a different cleanup path =
-as now the
-> > > > > > > TDR doesn't work. Seems very, very silly to duplicate all of =
-this code
-> > > > > > > when the DRM scheduler provides all of this for us. Also if w=
-e go this
-> > > > > > > route, now all drivers are going to invent ways to handle LR =
-jobs /w the
-> > > > > > > DRM scheduler.
-> > > > > > >
-> > > > > > > This solution is pretty clear, mark the scheduler as LR, and =
-don't
-> > > > > > > export any fences from the scheduler. If you try to export th=
-ese fences
-> > > > > > > a blow up happens.
-> > > > > >
-> > > > > > The problem is if you mix things up. Like for resets you need a=
-ll the
-> > > > > > schedulers on an engine/set-of-engines to quiescent or things g=
-et
-> > > > > > potentially hilarious. If you now have a scheduler in forever l=
-imbo, the
-> > > > > > dma_fence guarantees are right out the window.
-> > > > > >
-> > > > >
-> > > > > Right, a GT reset on Xe is:
-> > > > >
-> > > > > Stop all schedulers
-> > > > > Do a reset
-> > > > > Ban any schedulers which we think caused the GT reset
-> > > > > Resubmit all schedulers which we think were good
-> > > > > Restart all schedulers
-> > > > >
-> > > > > None of this flow depends on LR dma-fences, all of this uses the =
-DRM
-> > > > > sched infrastructure and work very well compared to the i915. Rew=
-riting
-> > > > > all this with a driver specific implementation is what we are try=
-ing to
-> > > > > avoid.
-> > > > >
-> > > > > Similarly if LR entity hangs on its own (not a GT reset, rather t=
-he
-> > > > > firmware does the reset for us) we use all the DRM scheduler
-> > > > > infrastructure to handle this. Again this works rather well...
-> > > >
-> > > > Yeah this is why I don't think duplicating everything that long-run=
-ning
-> > > > jobs need makes any sense. iow I agree with you.
-> > > >
-> > >
-> > > Glad we agree.
-> > >
-> > > > > > But the issue you're having is fairly specific if it's just abo=
-ut
-> > > > > > ringspace. I think the dumbest fix is to just block in submit i=
-f you run
-> > > > > > out of per-ctx ringspace, and call it a day. This notion that s=
-omehow the
-> > > > >
-> > > > > How does that not break the dma-fence rules? A job can publish it=
-s
-> > > > > finished fence after ARM, if the finished fence fence waits on ri=
-ng
-> > > > > space that may not free up in a reasonable amount of time we now =
-have
-> > > > > broken the dma-dence rules. My understanding is any dma-fence mus=
-t only
-> > > > > on other dma-fence, Christian seems to agree and NAK'd just block=
-ing if
-> > > > > no space available [1]. IMO this series ensures we don't break dm=
-a-fence
-> > > > > rules by restricting how the finished fence can be used.
-> > > >
-> > > > Oh I meant in the submit ioctl, _before_ you even call
-> > > > drm_sched_job_arm(). It's ok to block in there indefinitely.
-> > > >
-> > >
-> > > Ok, but how do we determine if their is ring space, wait on xe_hw_fen=
-ce
-> > > which is a dma-fence. We just move a wait from the scheduler to the e=
-xec
-> > > IOCTL and I realy fail to see the point of that.
-> >
-> > Fill in anything you need into the ring at ioctl time, but don't update
-> > the tail pointers? If there's no space, then EWOULDBLCK.
-> >
->
-> Ok, I can maybe buy this approach and this is fairly easy to do. I'm
-> going to do this for LR jobs only though (non-LR job will still flow
-> control on the ring via the scheduler + write ring in run_job). A bit of
-> duplicate code but I can live with this.
->
-> > > > > > kernel is supposed to provide a bottomless queue of anything us=
-erspace
-> > > > > > submits simply doesn't hold up in reality (as much as userspace=
- standards
-> > > > > > committees would like it to), and as long as it doesn't have a =
-real-world
-> > > > > > perf impact it doesn't really matter why we end up blocking in =
-the submit
-> > > > > > ioctl. It might also be a simple memory allocation that hits a =
-snag in
-> > > > > > page reclaim.
-> > > > > >
-> > > > > > > > > > > And the reasons why it was rejected haven't changed.
-> > > > > > > > > > >
-> > > > > > > > > > > Regards,
-> > > > > > > > > > > Christian.
-> > > > > > > > > > >
-> > > > > > > > > > Yes, TBH this was mostly to get discussion going how we=
-'d best
-> > > > > > > > > > tackle this problem while being able to reuse the sched=
-uler for
-> > > > > > > > > > long-running workloads.
-> > > > > > > > > >
-> > > > > > > > > > I couldn't see any clear decision on your series, thoug=
-h, but one
-> > > > > > > > > > main difference I see is that this is intended for driv=
-er-internal
-> > > > > > > > > > use only. (I'm counting using the drm_scheduler as a he=
-lper for
-> > > > > > > > > > driver-private use). This is by no means a way to try t=
-ackle the
-> > > > > > > > > > indefinite fence problem.
-> > > > > > > > >
-> > > > > > > > > Well this was just my latest try to tackle this, but esse=
-ntially the
-> > > > > > > > > problems are the same as with your approach: When we expr=
-ess such
-> > > > > > > > > operations as dma_fence there is always the change that w=
-e leak that
-> > > > > > > > > somewhere.
-> > > > > > > > >
-> > > > > > > > > My approach of adding a flag noting that this operation i=
-s dangerous and
-> > > > > > > > > can't be synced with something memory management depends =
-on tried to
-> > > > > > > > > contain this as much as possible, but Daniel still pretty=
- clearly
-> > > > > > > > > rejected it (for good reasons I think).
-> > > > > > > > >
-> > > > > > > > > >
-> > > > > > > > > > We could ofc invent a completely different data-type th=
-at abstracts
-> > > > > > > > > > the synchronization the scheduler needs in the long-run=
-ning case, or
-> > > > > > > > > > each driver could hack something up, like sleeping in t=
-he
-> > > > > > > > > > prepare_job() or run_job() callback for throttling, but=
- those waits
-> > > > > > > > > > should still be annotated in one way or annotated one w=
-ay or another
-> > > > > > > > > > (and probably in a similar way across drivers) to make =
-sure we don't
-> > > > > > > > > > do anything bad.
-> > > > > > > > > >
-> > > > > > > > > >  So any suggestions as to what would be the better solu=
-tion here
-> > > > > > > > > > would be appreciated.
-> > > > > > > > >
-> > > > > > > > > Mhm, do we really the the GPU scheduler for that?
-> > > > > > > > >
-> > > > > > >
-> > > > > > > I think we need to solve this within the DRM scheduler one wa=
-y or
-> > > > > > > another.
-> > > > > >
-> > > > > > Yeah so if we conclude that the queue really must be bottomless=
- then I
-> > > > > > agree drm-sched should help out sort out the mess. Because I'm =
-guessing
-> > > > > > that every driver will have this issue. But that's a big if.
-> > > > > >
-> > > > > > I guess if we teach the drm scheduler that some jobs are fairly=
- endless
-> > > > > > then maybe it wouldn't be too far-fetched to also teach it to w=
-ait for a
-> > > > > > previous one to finish (but not with the dma_fence that preempt=
-s, which we
-> > > > > > put into the dma_resv for memory management, but some other str=
-uct
-> > > > > > completion). The scheduler already has a concept of not stuffin=
-g too much
-> > > > > > stuff into the same queue after all, so this should fit?
-> > > > >
-> > > > > See above, exact same situation as spinning on flow controling th=
-e ring,
-> > > > > this IMO absolutely breaks the dma-fence rules. IMO the correct s=
-olution
-> > > > > is to have a DRM that doesn't export dma-fences, this is exactly =
-what
-> > > > > this series does as if we try to, boom lockdep / warn on blow up.
-> > > >
-> > > > I dont think it's impossible to do this correctly, but definitely v=
-ery,
-> > > > very hard. Which is why neither Christian nor me like the idea :-)
-> > > >
-> > > > Essentially you'd have to make sure that any indefinite way will st=
-ill
-> > > > react to drm_sched_job, so that you're not holding up a gt reset or
-> > > > anything like that, but only ever hold up forward progress for this
-> > > > specific scheduler/drm_sched_entity. Which you can do as long (and =
-again,
-> > > > another hugely tricky detail) you still obey the preempt-ctx dma_fe=
-nce and
-> > > > manage to preempt the underlying long-running ctx even when the drm=
-/sched
-> > > > is stuck waiting for an indefinite fence (like waiting for ringspac=
-e or
-> > > > something like that).
-> > > >
-> > > > So I don't think it's impossible, but very far away from "a good id=
-ea" :-)
-> > > >
-> > > > Hence to proposal to bail out of this entire mess by throwing EWOUL=
-DBLCK
-> > > > back to userspace directly from the ioctl function, where you still=
- can do
-> > > > that without breaking any dma_fence rules. Or if it's not a case th=
-at
-> > > > matters in practice, simply block in the ioctl handler instead of
-> > > > returning EWOULDBLCK.
-> > >
-> > > Returning EWOULDBLCK on a full ring is reasonsible I guess but again
-> > > without returning a fence in run job the TDR can't be used for clean =
-up
-> > > on LR entities which will result in duplicate code open coded by each
-> > > driver. Same goes for checking ring full in exec.
-> > >
-> > > How about this:
-> > > - We mark xe_hw_fence as LR to ensure it can't be exported, return th=
-is
-> > >   in run_job which gives flow control on the ring + the handy TDR
-> > >   functionality
-> > > - When a scheduler is marked as LR, we do not generate finished fence=
-s
-> > >   for jobs
-> > > - We heavily, heavily scrutinize any usage of the LR fence flag going
-> > >   foward
-> > > - We document all of this very loudly
-> > >
-> > > Is this reasonable?
-> >
-> > I'm not seeing why it's needed? If you're worried about TDR duplication
-> > then I think we need something else. Because for long-running ctx we ne=
-ver
-> > have a timeout of the ctx itself (by definition). The only thing we tim=
-e
-> > out on is the preempt, so I guess what could be done:
-> > - have the minimal scaffolding to support the preempt-ctx fence in
-> >   drm_sched_entity
-> > - when the preempt ctx fence enables signalling a) callback to the driv=
-er
-> >   to start the preempt (which should signal the fence) b) start a timer=
-,
-> >   which should catch if the preempt takes too long
->
-> The GuC does this for us, no need.
->
-> > - if the timeout first (importantly we only enable that when the
-> >   preemption is trigger, not by default), kick of the normal drm/sched =
-tdr
-> >   flow. maybe needs some adjustements in case there's different handlin=
-g
-> >   needed for when a preemption times out compared to just a job timing =
-out
-> >
->
-> The GuC imforms us this and yea we kick the TDR.
+On 07/04/2023 00.30, Daniel Vetter wrote:
+> On Thu, Apr 06, 2023 at 11:43:19PM +0900, Asahi Lina wrote:
+>> On 06/04/2023 22.37, Daniel Vetter wrote:
+>>> On Thu, Apr 06, 2023 at 09:21:47PM +0900, Asahi Lina wrote:
+>>>> On 06/04/2023 19.09, Daniel Vetter wrote:
+>>>>> On Thu, Apr 06, 2023 at 06:05:11PM +0900, Asahi Lina wrote:
+>>>>>> On 06/04/2023 17.27, Daniel Vetter wrote:
+>>>>>>> On Thu, 6 Apr 2023 at 10:22, Christian König <christian.koenig@amd.com> wrote:
+>>>>>>>>
+>>>>>>>> Am 05.04.23 um 18:09 schrieb Luben Tuikov:
+>>>>>>>>> On 2023-04-05 10:05, Danilo Krummrich wrote:
+>>>>>>>>>> On 4/4/23 06:31, Luben Tuikov wrote:
+>>>>>>>>>>> On 2023-03-28 04:54, Lucas Stach wrote:
+>>>>>>>>>>>> Hi Danilo,
+>>>>>>>>>>>>
+>>>>>>>>>>>> Am Dienstag, dem 28.03.2023 um 02:57 +0200 schrieb Danilo Krummrich:
+>>>>>>>>>>>>> Hi all,
+>>>>>>>>>>>>>
+>>>>>>>>>>>>> Commit df622729ddbf ("drm/scheduler: track GPU active time per entity")
+>>>>>>>>>>>>> tries to track the accumulated time that a job was active on the GPU
+>>>>>>>>>>>>> writing it to the entity through which the job was deployed to the
+>>>>>>>>>>>>> scheduler originally. This is done within drm_sched_get_cleanup_job()
+>>>>>>>>>>>>> which fetches a job from the schedulers pending_list.
+>>>>>>>>>>>>>
+>>>>>>>>>>>>> Doing this can result in a race condition where the entity is already
+>>>>>>>>>>>>> freed, but the entity's newly added elapsed_ns field is still accessed
+>>>>>>>>>>>>> once the job is fetched from the pending_list.
+>>>>>>>>>>>>>
+>>>>>>>>>>>>> After drm_sched_entity_destroy() being called it should be safe to free
+>>>>>>>>>>>>> the structure that embeds the entity. However, a job originally handed
+>>>>>>>>>>>>> over to the scheduler by this entity might still reside in the
+>>>>>>>>>>>>> schedulers pending_list for cleanup after drm_sched_entity_destroy()
+>>>>>>>>>>>>> already being called and the entity being freed. Hence, we can run into
+>>>>>>>>>>>>> a UAF.
+>>>>>>>>>>>>>
+>>>>>>>>>>>> Sorry about that, I clearly didn't properly consider this case.
+>>>>>>>>>>>>
+>>>>>>>>>>>>> In my case it happened that a job, as explained above, was just picked
+>>>>>>>>>>>>> from the schedulers pending_list after the entity was freed due to the
+>>>>>>>>>>>>> client application exiting. Meanwhile this freed up memory was already
+>>>>>>>>>>>>> allocated for a subsequent client applications job structure again.
+>>>>>>>>>>>>> Hence, the new jobs memory got corrupted. Luckily, I was able to
+>>>>>>>>>>>>> reproduce the same corruption over and over again by just using
+>>>>>>>>>>>>> deqp-runner to run a specific set of VK test cases in parallel.
+>>>>>>>>>>>>>
+>>>>>>>>>>>>> Fixing this issue doesn't seem to be very straightforward though (unless
+>>>>>>>>>>>>> I miss something), which is why I'm writing this mail instead of sending
+>>>>>>>>>>>>> a fix directly.
+>>>>>>>>>>>>>
+>>>>>>>>>>>>> Spontaneously, I see three options to fix it:
+>>>>>>>>>>>>>
+>>>>>>>>>>>>> 1. Rather than embedding the entity into driver specific structures
+>>>>>>>>>>>>> (e.g. tied to file_priv) we could allocate the entity separately and
+>>>>>>>>>>>>> reference count it, such that it's only freed up once all jobs that were
+>>>>>>>>>>>>> deployed through this entity are fetched from the schedulers pending list.
+>>>>>>>>>>>>>
+>>>>>>>>>>>> My vote is on this or something in similar vain for the long term. I
+>>>>>>>>>>>> have some hope to be able to add a GPU scheduling algorithm with a bit
+>>>>>>>>>>>> more fairness than the current one sometime in the future, which
+>>>>>>>>>>>> requires execution time tracking on the entities.
+>>>>>>>>>>> Danilo,
+>>>>>>>>>>>
+>>>>>>>>>>> Using kref is preferable, i.e. option 1 above.
+>>>>>>>>>> I think the only real motivation for doing that would be for generically
+>>>>>>>>>> tracking job statistics within the entity a job was deployed through. If
+>>>>>>>>>> we all agree on tracking job statistics this way I am happy to prepare a
+>>>>>>>>>> patch for this option and drop this one:
+>>>>>>>>>> https://lore.kernel.org/all/20230331000622.4156-1-dakr@redhat.com/T/#u
+>>>>>>>>> Hmm, I never thought about "job statistics" when I preferred using kref above.
+>>>>>>>>> The reason kref is attractive is because one doesn't need to worry about
+>>>>>>>>> it--when the last user drops the kref, the release is called to do
+>>>>>>>>> housekeeping. If this never happens, we know that we have a bug to debug.
+>>>>>>>>
+>>>>>>>> Yeah, reference counting unfortunately have some traps as well. For
+>>>>>>>> example rarely dropping the last reference from interrupt context or
+>>>>>>>> with some unexpected locks help when the cleanup function doesn't expect
+>>>>>>>> that is a good recipe for problems as well.
+>>>>>>>>
+>>>>>>>>> Regarding the patch above--I did look around the code, and it seems safe,
+>>>>>>>>> as per your analysis, I didn't see any reference to entity after job submission,
+>>>>>>>>> but I'll comment on that thread as well for the record.
+>>>>>>>>
+>>>>>>>> Reference counting the entities was suggested before. The intentionally
+>>>>>>>> avoided that so far because the entity might be the tip of the iceberg
+>>>>>>>> of stuff you need to keep around.
+>>>>>>>>
+>>>>>>>> For example for command submission you also need the VM and when you
+>>>>>>>> keep the VM alive you also need to keep the file private alive....
+>>>>>>>
+>>>>>>> Yeah refcounting looks often like the easy way out to avoid
+>>>>>>> use-after-free issue, until you realize you've just made lifetimes
+>>>>>>> unbounded and have some enourmous leaks: entity keeps vm alive, vm
+>>>>>>> keeps all the bo alives, somehow every crash wastes more memory
+>>>>>>> because vk_device_lost means userspace allocates new stuff for
+>>>>>>> everything.
+>>>>>>
+>>>>>> Refcounting everywhere has been working well for us, so well that so far all
+>>>>>> the oopses we've hit have been... drm_sched bugs like this one, not anything
+>>>>>> in the driver. But at least in Rust you have the advantage that you can't
+>>>>>> just forget a decref in a rarely-hit error path (or worse, forget an incref
+>>>>>> somewhere important)... ^^
+>>>>>>
+>>>>>>> If possible a lifetime design where lifetimes have hard bounds and you
+>>>>>>> just borrow a reference under a lock (or some other ownership rule) is
+>>>>>>> generally much more solid. But also much harder to design correctly
+>>>>>>> :-/
+>>>>>>>
+>>>>>>>> Additional to that we have some ugly inter dependencies between tearing
+>>>>>>>> down an application (potential with a KILL signal from the OOM killer)
+>>>>>>>> and backward compatibility for some applications which render something
+>>>>>>>> and quit before the rendering is completed in the hardware.
+>>>>>>>
+>>>>>>> Yeah I think that part would also be good to sort out once&for all in
+>>>>>>> drm/sched, because i915 has/had the same struggle.
+>>>>>>> -Daniel
+>>>>>>>
+>>>>>>
+>>>>>> Is this really a thing? I think that's never going to work well for explicit
+>>>>>> sync, since the kernel doesn't even know what BOs it has to keep alive for a
+>>>>>> job... I guess it could keep the entire file and all of its objects/VMs/etc
+>>>>>> alive until all of its submissions complete but... ewww.
+>>>>>>
+>>>>>> Our Mesa implementation synchronously waits for all jobs on context destroy
+>>>>>> for this reason, but if you just kill the app, yeah, you get faults as
+>>>>>> running GPU jobs have BOs yanked out from under them. Kill loops make for a
+>>>>>> good way of testing fault handling...
+>>>>>
+>>>>> You wind down the entire thing on file close? Like
+>>>>> - stop all context
+>>>>> - tear down all context
+>>>>> - tear down all vm
+>>>>> - tear down all obj
+>>>>>
+>>>>> Just winding things down in a random order and then letting gpu fault
+>>>>> handling sort out the mess doesn't strike me as particularly clean design
+>>>>> ...
+>>>> The idea is that object drop order generally doesn't matter since things
+>>>> that care about other things should own them or hold references to them
+>>>> anyway, so the dependency graph of all the resources is encoded directly in
+>>>> the type hierarchy instead of having to open-code a "cleanup procedure"...
+>>>> which then invariably leads to corner cases when you have to do the same
+>>>> thing, or part of it, for error handling.
+>>>>
+>>>> This has been working *very* well! It solves the issue of error handling
+>>>> since error handling just unwinds whatever was done to that point naturally
+>>>> in Rust (? operator), so there's practically no open-coded error handling
+>>>> code anywhere. The first time we ran into OOMs (Xonotic with no Mesa texture
+>>>> compression support yet, on 8GB machines on max settings...) the whole thing
+>>>> just worked. OOM killer went rampant and shmem doesn't account stuff to
+>>>> processes properly of course, but all the error paths, allocation errors,
+>>>> etc... all of that just worked, first try, across dozens of error paths that
+>>>> had never been tested before, not a single oops or deadlock or leak or
+>>>> anything in sight. Similarly, yesterday I did manage to run into drm_sched
+>>>> failing to create kthreads (the scaling issue Matthew's series fixes)... and
+>>>> still, that was fine. That happens on queue creation so it just bubbled up
+>>>> to Mesa as a failed ioctl and things kept moving along nicely otherwise. I
+>>>> even have nice ergonomic XArray semantics so that you can reserve a new
+>>>> slot, allocate some object, then populate it, and if you don't (because you
+>>>> errored out in between) it automatically gets freed again without explicit
+>>>> cleanup code.
+>>>>
+>>>> And it also means that I can encode *firmware* resource dependencies in the
+>>>> type system (with Rust lifetimes attached to *GPU* pointers even - it's a
+>>>> bit dodgy how it's done but it works well in practice). Since it is
+>>>> absolutely critical that the firmware objects respect their lifetimes or
+>>>> else the whole thing crashes irrecoverably, this is the only way I feel it's
+>>>> been even practical to write this driver and not be a firmware crash mess.
+>>>> Of course we still get some crashes due to flaws in how I understand the
+>>>> firmware, but it's always things I don't know, not things I accidentally
+>>>> messed up in some corner case code path we don't normally hit, since I just
+>>>> don't have to think about that as long as the hierarchy is right.
+>>>>
+>>>> I actually don't know exactly what precise order things get dropped in for
+>>>> this reason! I could find out, and it's predictable in Rust, what I mean is
+>>>> that thinking about a total order like that is not necessary for correctness
+>>>> as long as I got the ownership right. Off the top of my head though, it goes
+>>>> very roughly like this:
+>>>>
+>>>> - On File close, all the GEM objects get closed (DRM core does this)
+>>>> - This triggers explicit drops of all mappings in those GEM objects owned by
+>>>> that File (identified by unique ID, this is the one annoying circular
+>>>> reference thing I mentioned in the other thread...). At this point the GPU
+>>>> probably faults but we don't care. *
+>>>> - The File itself gets dropped, which drops the XArrays for queues and
+>>>> (UAPI) VMs
+>>>>     - UAPI VMs getting dropped doesn't do much other than unmap a single dummy
+>>>> object. The underlying MMU VM is refcounted and jobs hold references. This
+>>>> also drops the userspace VM object allocator used for kernel-managed
+>>>> allocations, but that too is internally refcounted and won't go away until
+>>>> all of its allocations do.
+>>>> - Queues get dropped, which mostly drops a bunch of references to things
+>>>> that no longer matter, along with the scheduler and scheduler entity.
+>>>> - The entity already has a reference to the scheduler in the abstraction (to
+>>>> meet the soundness requirement), so the entity necessarily goes first. That
+>>>> kills all not yet scheduled jobs, freeing any resources they might use.
+>>>> - Then the scheduler gets torn down, and with my other patch that logically
+>>>> kills all in-flight jobs, detaching their hardware fences and dropping the
+>>>> job objects. This... still doesn't do much other than drop some references
+>>>> that we don't care about.
+>>>> - At this point, if any jobs are in flight, their firmware objects and all
+>>>> of the type hierarchy that goes with them is still alive, as well as the
+>>>> firmware queues they're in and the Rust objects representing them, the VMs
+>>>> they use, the Events they have been allocated...
+>>>> - Jobs complete (successfully or fault), then when complete get popped off
+>>>> of the Rust-side queue objects that represent the firmware queues.
+>>>> - When any given FW queue is empty, it relinquishes its assigned firmware
+>>>> event ID. That causes the event system to drop its owner reference to it,
+>>>> which means the queue itself gets dropped (since the UAPI Queue that also
+>>>> held a reference is gone). That then also drops a reference to what I call
+>>>> the GpuContext.
+>>>> - To avoid deadlocks, completed job objects are freed in another thread
+>>>> (ugly hack right now, should be done better in the future). Eventually as
+>>>> that happens, any resources they reference are dropped, including some
+>>>> shared ones that are logically tied to the scheduler/queues, references to
+>>>> the MMU VM address space, references to the VM slot that address space is
+>>>> assigned to, objects allocated out of user VM space, everything. Refcounts
+>>>> everywhere for anything shared, direct ownership of child structures for
+>>>> anything that isn't (work buffers, firmware command lists, etc.). I once
+>>>> tried to make a slide of the references and pointers involved in just the
+>>>> vertex half of a single GPU job and... even just that was quite interesting.
+>>>> - When the last job completes, that drops the last reference to the VM slot,
+>>>> which means the backing VM is logically detached from the GPU MMU (this is
+>>>> lazy though, it's still there in practice).
+>>>> - When the last firmware queue is dropped for a logical queue/sched/etc
+>>>> (which means no more jobs are running at the GPU for that context), that
+>>>> drops the last reference to the GpuContext. That also gets shoved into
+>>>> another thread context for cleanup to avoid deadlocks with fault recovery.
+>>>> - When that is finally cleaned up, a firmware command is sent to invalidate
+>>>> the GpuContext. I'm still figuring out what that does and what the lifetime
+>>>> rules are here (this is the only explicit invalidation command that exists),
+>>>> but as of yesterday I know that at the very least we need to keep hold of
+>>>> any Tiled Vertex Buffer associated with it until after inval, so that now
+>>>> has a reference to it that gets dropped after the firmware acknowledges the
+>>>> invalidation (unless it's a non-render-capable Queue, then no TVB
+>>>> necessary).
+>>>> - When the Buffer gets dropped, that frees both its backing memory and
+>>>> (virtual) page list structures, which are in user VM space, as well as some
+>>>> kernel firmware objects.
+>>>> - If things have happened in the order I listed here, those will be the last
+>>>> allocations in the two user VM space heap object allocators, so those now
+>>>> get dropped, which drops the mappings of their backing GEM objects,
+>>>> unmapping them from the MMU VM page tables.
+>>>> - Those mappings will now be the last references to the actual MMU VM
+>>>> object, so that it gets destroyed (the lazy detach comes into effect here,
+>>>> PT base address is removed from the VM context base table, full ASID
+>>>> invalidate, etc.), which with it drops the IoPgTable that backs it, which
+>>>> frees the page tables.
+>>>> - Then finally the GEM objects backing the userspace allocators get dropped
+>>>> as well, which will be the last reference to them, so those get freed.
+>>>
+>>> Thanks for the write up!
+>>>
+>>> Maybe some more fundamental thoughts on this entire endeavour:
+>>>
+>>> I think one thing that's causing a lot of friction that in C drivers at
+>>> least some of these things are done with implied/borrowed references. If
+>>> you want an absolute shocking example, the gpu crash dump sampling for a
+>>> driver that does dynamic memory management can be pretty epic:
+>>>
+>>> - the timeout handler is guaranteed (well if the driver didn't screw up
+>>>     things, which mostly boils down to call drm_sched_stop() before it
+>>>     analyzes anything at all wrt gpu hw state) to hold up the drm_job
+>>>     completion fence
+>>>
+>>> - this fence is (at submit ioctl time) installed into all the dma_resv
+>>>     fence containers for the vm (single shared dma_resv for all vm-private obj for
+>>>     efficiency, all shareable gem_bo have their own dma_resv)
+>>>
+>>> - the memory manager guarantees that it will not free (or even move in the
+>>>     case of ttm) the buffer while a fence is unsingalled. ttm does this by
+>>>     delaying the free as needed, i915-gem and some of the others did this by
+>>>     trying to hold onto extra references. the latter causes way too much
+>>>     problems with reference dropping in my experience looking at a decade of
+>>>     drivers getting details wrong here.
+>>>
+>>> - which means the crash dump handler can have a plain list of gem_bo to
+>>>     record, without any references, because they wont go away before it
+>>>     finishes.
+>>>
+>>> - more fun even, you could directly sample the memory locations at ioctl
+>>>     submit time, and even when ttm moves the buffers around in a pipelined
+>>>     fashion: your timeout handler wont run before all the jobs to move the
+>>>     buffer into the right location have completed, and it will not unblock
+>>>     any subsequent move or eviction that's already queued up. Which means
+>>>     even the raw memory address will point at the right stuff.
+>>>
+>>> This is just one example. drm and the kernel is full of these borrowed
+>>> reference tricks with often cross through the entire stack, so rust has to
+>>> be able to cope. The sales pitch of rust, and really the reason it's the
+>>> first non-C language in linux, is that with the borrow semantics, it can
+>>> validate this stuff at compile time, and allow kernel drivers to continue
+>>> playing these tricks to outright avoid any and all refcounting needs. If
+>>> rust doesn't deliver and we need to have all the refcounting again to make
+>>> rust drivers safe I think that'll cast serious doubts on the viability of
+>>> rust-in-linux.
+>>
+>> Right, so the thing is Rust can encode *some* borrowed reference semantics
+>> at compile time, namely what Rust lifetimes can represent. But you can't
+>> encode arbitrarily complex "I can guarantee this is alive right now because
+>> reasons A,B,C,D" semantics in the type system. For arbitrarily complex rules
+>> like that, you need to either refcount, or use unsafe and raw pointers. For
+>> example, in my driver I use raw pointers in the event slot acquisition to
+>> point to the actual u32s that hold the event values, because I can guarantee
+>> through the semantics of that module that those will always be valid
+>> pointers to the live array (and never alias too), even though I can't encode
+>> that in the type system. Throwing around refcounted pointers to the whole
+>> object there would be silly, so instead I just used unsafe and left a SAFETY
+>> comment explaining why it's safe.
+>>
+>> In the end, unsafe isn't any worse than C (it's strictly better, you still
+>> get the borrow checker and type safety and everything else), so I don't
+>> think Rust not being able to solve all of these problems is really a good
+>> argument against Rust. The idea, and where Rust really shines, is that even
+>> when you have to do this you are *containing* the unsafe code within places
+>> where it can be audited and explained. And when the majority of the code is
+>> safe, and when you strive to make the interfaces between modules safe, and
+>> when you limit the ability of cross-module interactions to break safety (Not
+>> eliminate! In abstractions yes, and in userspace Rust this is expected, but
+>> within a driver it gets more interesting and I can spend a long time talking
+>> about how safety boundaries in drivers are complicated and a bit porous...)
+>> you end up reducing the chances of safety bugs by orders of magnitude
+>> anyway.
+>>
+>> And it worked, right? I have ~128 unsafe{} blocks in the driver and still no
+>> oopses in production ^^
+>>
+>> But (big but!) the idea with safe Rust abstractions (the stuff in rust/) is
+>> that they absolutely do need to be safe (unless marked unsafe, but that
+>> sucks...), because then implicitly you are documenting the safety/lifetime
+>> requirements in the type system and that's hugely beneficial for common
+>> code. It means users of those APIs don't have to think about the internals
+>> and safety invariants and all that. Drivers still have to worry about
+>> internal safety, but they don't have to worry about messing up the interface
+>> with common code. That's also very beneficial for allowing refactoring of
+>> that common code without worrying that you'll break users.
+>>
+>> So technically we could just give up and mark the drm_sched abstraction
+>> unsafe and actually document all of these safety requirements (which is the
+>> other side of the coin - if you want to use unsafe, you get to write the
+>> docs, lawyer style! That's the rule! No getting by with vague docs with
+>> dozens of unexplained corner cases!). But, honestly, I think that would be
+>> kind of sad... drm_sched really should have a self-contained, safe API, and
+>> I just don't see a good reason why it can't other than it not having been
+>> designed with this in mind initially. It was ported out of a driver, and not
+>> that long ago, right? That explains a lot, because it means it is probably
+>> leaking all of these assumptions from that driver's internal design... and
+>> it probably doesn't help that the people maintaining it all seem to be from
+>> that particular company either. It's easy to have tunnel vision if you
+>> mostly work on one use case...
+> 
+> Nah I don't want to give up. What I expect to happen is that rust
+> abstractions will need to be a lot more opionated about how to do certain
+> things. And then the abstractions together with the C code provide the
+> guarantee that the rust driver is safe.
+> 
+>>> Now there's definitely going to be hilarious bugs uncovered on the C side,
+>>> and semantics that need to be clarified, but I think enabling scary tricks
+>>> like the above one is what'll fundamentally make or break rust in linux.
+>>
+>> For the specific case of crash dumps and stop-the-world stuff like that...
+>> yeah, those are some of the worst things to fit in otherwise nice Rust
+>> designs because they violate layering left and right. I don't have a good
+>> answer for how exactly I'd do this in my driver yet. I'm sure it *can* be
+>> done, and there's always unsafe if needed, since at that point you're
+>> dealing in driver code and that's a lot less contentious than an abstraction
+>> being unsafe itself...
+>>
+>> My initial plan for FW crash dumps is going to be fairly easy because I only
+>> really care about dumping the firmware object arena and maybe actual
+>> firmware .data, and that's all GPU-global anyway, and it won't be hard to
+>> poke my way into the global allocators to take a snapshot of their backing
+>> GEM objects. There's a global alloc lock involved there which is all I need
+>> for basic consistency and getting the locking right for allocs as far as
+>> deadlock risk is something I need to care about for other reasons anyway. It
+>> won't guarantee that nobody else is *writing* to any of that memory while I
+>> take a snapshot, but I don't really care about that since it would be rare
+>> and should be limited to newly-allocated memory the firmware doesn't yet
+>> care about anyway.
+> 
+> So this is were crash dump capturing gets fun. If that lock covers any
+> memory allocations, you can't take it in the tdr path.
+> 
+> The simplest way out is to make context crashes permanent and bail out the
+> entire crash capturing to a worker (which needs gem bo references) that
+> doesn't block anything (so not even guilty/victim reporting to userspace)
+> and can take locks and capture things at leasure.
 
-You might still need the kernel fallback when guc dies? But yeah not
-sure how much similarity is then left with the end-of-batch timed-out.
+Yeah, I'm pretty sure we can just do that by doing things in the 
+opposite order. Our FW crashes are permanent GPU crashes, so we can just 
+signal first *then* take the snapshot right in the event RX thread. 
+After all, the firmware just crashed, so that thread is never going to 
+get another message again and is as good as any other. Signaling will 
+cause a bunch of stuff to be freed, but as long as nothing allocs GPU 
+memory on top (I can add a guard to fail allocs after a crash), it won't 
+make a difference for non-debug dumps (in debug mode it will mark all 
+freed objects as DEAD which will show up in the metadata blocks, but I 
+can probably just add a special case to make it not do that after a 
+crash, which is a good idea for hypervisor-based debugging too anyway).
 
-> > I think this might make sense for sharing timeout handling needs for
-> > long-running context. What you proposed I don't really follow why it
-> > should exist, because that kind of timeout handling should not ever hap=
-pen
-> > for long-running jobs.
->
-> We use just the TDR a as single cleanup point for all entities. In the
-> case of a LR entity this occurs if the GuC issues a reset on the
-> entity (liekly preempt timeout), the entity takes a non-recoverable page
-> fail, or the entity to the root cause of a GT reset. The pending job
-> list here is handy, that why I wanted to return xe_hw_fence in run_job
-> to hold the job in the scheduler pending list. The doesn't TDR won't
-> fire if the pending list is empty.
->
-> Based on what you are saying my new proposal:
->
-> 1. Write ring in exec for LR jobs, return -EWOULDBLCK if no space in
-> ring
-> 2. Return NULL in run_job (or alternatively a signaled fence)
-> 3. Have specical cased cleanup flow for LR entites (not the TDR, rather
-> likely a different worker we kick owned by the xe_engine).
-> 4. Document this some that this how drivers are expected to do LR
-> workloads plus DRM scheduler
->
-> 1 & 3 are pretty clear duplicates of code but I can live with that if
-> I can get Ack on the plan + move on. The coding will not be all that
-> difficult either, I am just being difficult. In the is probably a 100ish
-> lines of code.
+> Only works when userspace obeys the promise of not overwriting the memory
+> meanwhile, which is what you get for vk_device_lost.
 
-For 1 I guess you could also write the ring stuff for end-of-batch
-code from the ioctl (and then just block for the ring to advance
-enough if needed). That is how we had i915-gem operate before
-i915-scheduler happened.
+Userspace won't have access to firmware memory anyway, which is what I 
+really care about. Honestly, I'm not sure we have much of a use case for 
+full-GPU postmortem debugging like that. If the firmware crashed I 99% 
+only care about the firmware heap + firmware .data (which I can snoop 
+out of its RAM carveout), and maybe a trace log of recent driver events 
+*and* firmware ktrace events (yes, the firmware has its own tracing!). 
+If the GPU faulted the driver shouldn't even have to care much more than 
+it already does. We already pass user fault info down into Mesa, and 
+already print the likely culprit BO right in Mesa together with fault 
+unit, type, etc. (it's cute!). I think I'd rather just add a strict 
+fault mode that fully kills the context on fault (and ideally does 
+something to prevent the firmware from even trying to execute any 
+already queued commands after the crash one, TBD how to do this but I 
+bet it's possible during the recovery cycle) and then Mesa finds out 
+about the fault as soon as possible and we can implement GPU-side crash 
+dumps right in userspace.
 
-For 3 I'm not sure there's really that much to share, the end-of-batch
-and preempt-ctx dma_fence are just rather different. I'm not too clear
-on why LR needs a special cleanup flow, isn't it roughly the same:
-- stop drm/sched from pushing in new jobs
-- preempt the ctx to kill it
+We could even add stuff to the kernel to gather rich execution state 
+info and pass it back to Mesa too, it's just going to take a ton of 
+reverse engineering of the GPU registers to understand them since 
+normally only firmware deals with that... but it's totally possible and 
+I already have a huge list of "interesting" register addresses because 
+the macOS driver has a big debug print function that gets called on GPU 
+faults... which has all the printk()s compiled out in release builds, 
+but it still reads all the registers anyway, so I see all the register 
+reads in my hypervisor log! ^^
 
-With xe I don't think we ever want to let existing jobs complete,
-neither for legacy nor for lr ctx.
+> 
+>> In the end, nothing stops you from having piles of raw pointer backdoors,
+>> having a rule that "this is only used for the crash handler", and then
+>> having a couple pages of SAFETY comments in that bit of the code with a big
+>> "here be dragons" disclaimer. It won't make that particular chunk of code
+>> any less likely to have bugs than the equivalent C code, but at least the
+>> rest of the driver isn't affected, and hopefully you can at least avoid
+>> unsafe in some subsets of the troublesome part too ^^
+>>
+>> There's also a flipside to this though: Who cares if you take extra
+>> redundant GEM BO references in the crash handler due to API safety? After
+>> all, it's not a perf-sensitive codepath. Of course, if safety causes you to
+>> add refcounting at all where none would otherwise be needed, or to have to
+>> do more of it in hot paths, or to introduce extra locking that could cause
+>> deadlocks that's a different story. But I think the thought process is very
+>> different between Rust and C here, when writing drivers. In C, it takes
+>> extra work to be safe, so chances are most people won't write defensive code
+>> like that even where there is no performance reason not to, since it's
+>> outright easier to read code the less safe it is. Rust isn't like that! Most
+>> safety is encoded in types (automatic reference counting is a big one here),
+>> so it doesn't take any extra effort to be safe, while it usually does to do
+>> it unsafely (unsafe {} blocks if nothing else). So then you write safe code
+>> by default... which yes, might do some extra refcounting and locking and
+>> stuff, but you can always optimize that later, profiler in hand. Once you
+>> know you need unsafe for real perf reasons, by all means, and I expect to
+>> end up doing a round of profiling in the future and have to poke some holes
+>> in things too. But until then... safe is just easier and, well, safer!
+> 
+> The problem with extra refcounting is dropping them. There's endless
+> amounts of fun where dropping a kref at the wrong time goes boom (wrong
+> context, holding wrong locks). Or then you delay it and userspace gets
+> annoyed (task_work for struct file is fun), so just unconditionally
+> stuffing everything you free into a worker isn't always the right thing
+> either.
+> 
+> And rust makes this extremely easy, all the Drop stuff isn't visible
+> anywhere in the code, and you'll never screw up the error paths. So my
+> take is a bit that unless you've excluded a borrow based design as
+> impossible already, sprinkling Arc<T> all over isn't really solid either.
 
+Yes, this is definitely a problem... This is where I really hope we get 
+the execution context stuff some day, so this can also be checked at 
+compile time. Fingers crossed!
 
-> What do you think Daniel, seem like a reasonable plan?
+> 
+>>> In the end it'll be lots of detail work, and I really hope it all works
+>>> out.
+>>>
+>>>> I probably got more than one thing wrong there, and there's layers of
+>>>> complexity I glossed over, but that's the rough idea ^^
+>>>>
+>>>> * If we need to fix this then we're going to need some kind of signal from
+>>>> the DRM core that this is happening and it's not normal user-triggered GEM
+>>>> closing, and it's going to be interesting... it also means we need some kind
+>>>> of mechanism to transfer responsibility over those mappings to all in-flight
+>>>> jobs themselves, because normally userspace is strictly responsible for all
+>>>> mappings in an explicit sync VM bind style world, and now we're adding a
+>>>> special case where we freeze the state of the VM until all in-flight jobs
+>>>> are done when the File goes away instead of eagerly freeing things. That's a
+>>>> very weird departure from how the whole thing normally works, so if we
+>>>> really want that I'm going to have to think of how to do it reasonably. It
+>>>> might be easier once we implement the full VM map range tracking which will
+>>>> likely flip the VM<->GEM object relationship around a bit.
+>>>
+>>> See my other reply for you how can untangle this potentially on the vm_id
+>>> subthread. I think in general rust Drop is awesome, but there's cases
+>>> where we'll have to be more explicit at unwinding things. At least in the
+>>> linux kernel the general consensus is that too much refcounting is a
+>>> maintenance disaster because you end up dropping the final reference in
+>>> all kinds of really bad places (interrupt handlers, while holding the
+>>> wrong locks, holding them too long).
+>>
+>> Yeah, that's one I've run into, it's why I have a few places with subtle
+>> code to avoid that and more things will need cleaning up too...
+>>
+>> This is something that I expect will become Rust compile-time magic in the
+>> future though! There's already been talk about being able to prove that
+>> things are only ever called from the right execution context. Then if you
+>> have a Drop of a reference whose underlying type is not safe to Drop from
+>> IRQ context in IRQ context, the compiler complains. It's not clear exactly
+>> what this will look like yet, but it's an active topic of discussion. And
+>> that's another nice thing about Rust: we can actually help drive the
+>> evolution of the language, much faster than with C!
+>>
+>>> Somewhat related I also expect that
+>>> rust drivers will need to have quite a few manual drop calls to
+>>> artificially limit lifetime, because sometimes when you drop things the
+>>> wrong way round (e.g. drop the refcount while still having the mutex guard
+>>> live) results in deadlocks.
+>>
+>> Yup! ^^
+>>
+>> drivers/gpu/drm/asahi$ grep -r core::mem::drop | wc -l
+>> 17
+>>
+>> Rust is magic but it won't magically solve all of our problems!
+>>
+>> (I don't think all of those 17 are necessary, some are just places where I
+>> wanted to be explicit/safer or bound critical sections more, but a few are
+>> definitely there to avoid deadlocks.)
+>>
+>> Simple Arc<Mutex<T>> usage isn't a problem though, you can't drop the
+>> refcount without dropping the guard first there (lifetimes prevent it). The
+>> tricky bit is when you have to call into *another* agent that owns a
+>> reference to the same object, after having done something while holding the
+>> mutex. Then you really need to drop the guard first.
+> 
+> Yeah it's the cross object/module/crate fun for refcount dropping.
+> 
+> The trouble is that refcount bugs are substantially worse to validate at
+> runtime than locking. Locking isn't optional, so generally all you need to
+> do is enable lockdep and run through all the codepaths and you're good.
+> Sometimes that's a bit too tough and you can insert fake lockdep contexts
+> to tie things together like fs_reclaim or dma_fence_signalling, but
+> by&large it's not that hard to validate at runtime to a reasonable
+> confidence.
+> 
+> Reference dropping otoh isn't, because usually userspace holds onto a
+> reference and drops the final reference through a syscall in a very well
+> defined place. Now you could just add a fake lockdep context to pretend
+> that any kref_put could be the final one, but generally this results in a
+> lot of false positives (because of borrowed or implied references
+> protecting you from the final reference drop). Which means unless you've
+> gone through the trouble of proving that your final kref_put/rust Arc
+> drops are never in a bad place (which means pretty much uncovering the
+> entire Drop hierarchy mentally in every place) you have some potentially
+> really nasty problems at hand.
 
-Yeah my comments above are just minor side questions, I think this is
-roughly what we want. Plus/minus polish details of how much code
-sharing between legacy/lr ctx in xe and for lr with other drivers
-makes sense or not. I think the in-fences handling (because that ties
-into memory management when eviction and restoring a vm) is the big
-part which ideally has as much shared as possible. Which I think this
-achieves.
--Daniel
---
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Ah... honestly, I would actually want the strict version of that where 
+any ref drop could be the last one. It's the only model that will work 
+with future compile time checks anyway (unless you add explicit 
+annotations to ignore some drops, maybe something like a nonfinal_drop() 
+method that consumes a reference and instead asserts that it *isn't* the 
+final one for these cases). It might be annoying to annotate those and 
+get rid of the false positives, but annoying compilers and tooling is 
+how we get safety in Rust after all ^^
+
+This isn't actually that bad, since for objects with this problem I *do* 
+want to actually expose the Drop hierarchy. Usually when this happens I 
+*think* I know where this stuff gets dropped, so it'd be nice if the 
+compiler told me if I'm wrong. I'm actually considering implementing the 
+undroppable trick in some places in the driver to bring these out, 
+especially once I really start worrying about not screwing up fence 
+signaling. It'd be trivial to have an ExplicitlyDropped<T> type (similar 
+to ManuallyDrop<T>) that just refuses to be dropped automatically at 
+compile/link time, but lets you do an .explicit_drop() instead.
+
+> And unlike rust in C all the _put() calls are at least explicitly staring
+> at you and reminding you that you're piling up a mountain that might come
+> crashing down in an avalanche :-) Ofc you're also all but guaranteed to
+> have screwed up an error path, but that's at least a runtime validation
+> solveable problem nowadays with kasan + code coverage checks (not that
+> we're any good at it tbh, syzkaller has clearly opinions to the contrary
+> here).
+
+^^
+
+Hey, I haven't even started talking about the other safety things Rust 
+can help with that I don't use yet! Stuff like asserting that struct 
+types are safe to have in UAPIs and zero-initialize, and that we never 
+leak stack contents and things like that... No matter where all this 
+leads us, I think it's going to be good for the kernel ^^
+
+> 
+>>> There's going to be lots of fun here :-)
+>>
+>> It's already been fun and I don't expect it to get any less fun ^^
+> 
+> Oh that's for sure.
+> 
+>>
+>> ~~ Lina
+>>
+> 
+
+~~ Lina
+
