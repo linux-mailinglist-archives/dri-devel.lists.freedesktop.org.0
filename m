@@ -2,53 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BABF56DA032
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Apr 2023 20:46:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CFCE6DA050
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Apr 2023 20:49:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DCAB310EC81;
-	Thu,  6 Apr 2023 18:46:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F32D410ECC2;
+	Thu,  6 Apr 2023 18:49:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5712610ECB7
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Apr 2023 18:46:15 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 2296564B21;
- Thu,  6 Apr 2023 18:46:14 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 87E11C433A8;
- Thu,  6 Apr 2023 18:46:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1680806773;
- bh=NOHkbcmChU0EoECgkxk50BPdN3RseIXsqov+K9V64NM=;
- h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
- b=oSMzD/kjnvnc/hIhAce85nkdWF7kUPUpfqeu/52giUWMuDBfKu2atPCmGVxI9BIRB
- QIyPYqrtxvh/KtnvihECMmVkewg+WtY6WJN2OB1U460BxSHV1pFuHF0cuZTyUBMIds
- dHtu6RTYaaGHFLC//OScLsPjq482je4Zj1W9qlksKIemMb60U1Ji8tg7MYcJVLjPWy
- KB4Qggo7nBjxvixj+NvHmP1XOPft5mvcBAo19T7u8brsbOi2ZBXRgQSKU1HWt5wUQ9
- UxauagE5U4fvfzSP7I/19FuAaS6MVoHJC64KaYw0QtHR3zZRGBMMhZLxlyLX7kKOhI
- T/M1c9ENqhZVQ==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org
- (localhost.localdomain [127.0.0.1])
- by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id
- 760F8C4167B; Thu,  6 Apr 2023 18:46:13 +0000 (UTC)
-Subject: Re: [PULL] drm-fixes for -rc6
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <ZC76YY3s8vi/3hgl@phenom.ffwll.local>
-References: <ZC76YY3s8vi/3hgl@phenom.ffwll.local>
-X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
-X-PR-Tracked-Message-Id: <ZC76YY3s8vi/3hgl@phenom.ffwll.local>
-X-PR-Tracked-Remote: git://anongit.freedesktop.org/drm/drm
- tags/drm-fixes-2023-04-06
-X-PR-Tracked-Commit-Id: 3dfa8926efa910d423844bfc0132f70cd07f76e2
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: ac6c043391b266a360a53f933638003365bd10c9
-Message-Id: <168080677347.24406.17212363319212610713.pr-tracker-bot@kernel.org>
-Date: Thu, 06 Apr 2023 18:46:13 +0000
-To: Daniel Vetter <daniel.vetter@ffwll.ch>
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1BA4310EC96
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Apr 2023 18:49:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=vv9p36pSfVVoQknH9JtxiCCAUv1QguPev9d79lvW674=; b=TLaEx0bx0XMqzHpOiO7ybWruq4
+ 5nYoh3ZGHppMmhCjw2wa7a9UGpTqr3IQYBIySZoe3hY/eD4OuDY9WhEavT8MdiXzuhBFKurm9flJy
+ mn89YuaCmCgVUZWRCmCf5WuQ+MPWaIYNAfmDPmdmQS0Fprgr6vTgr9w7eSuC3QJGiS4jU/8mkjNNy
+ 9Y56wkr5hozGWUD1vVeG/UuXlghAZU7MC2JFTN97d5vSHUuhr49iXQD3WvXNBjPQWVTz5scUrClX1
+ KTseJOw/RK/xMU5acJl/sLOj4ruojHf6og6l1wiWbkKteHphQxvBlDa/Zralzk2bEMDID3FG7HN3o
+ OF2Dx38g==;
+Received: from [187.36.234.139] (helo=[192.168.1.195])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1pkUfQ-008IcV-B9; Thu, 06 Apr 2023 20:49:04 +0200
+Message-ID: <7270502b-16b7-d7b2-833d-aac822ee25c9@igalia.com>
+Date: Thu, 6 Apr 2023 15:48:58 -0300
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.1
+Subject: Re: [PATCH] drm/vkms: add module parameter to set background color
+Content-Language: en-US
+To: Daniel Vetter <daniel@ffwll.ch>
+References: <20230406172002.124456-1-mcanal@igalia.com>
+ <CAKMK7uETXGbd23KfvmCUz5BvmCHYdDFyZ0pbxzDBppViJe2JeQ@mail.gmail.com>
+ <823a45d9-cb32-8592-98ce-8e81cad4e709@igalia.com>
+ <ZC8ODj+1jXlf22zi@phenom.ffwll.local>
+From: =?UTF-8?Q?Ma=c3=adra_Canal?= <mcanal@igalia.com>
+In-Reply-To: <ZC8ODj+1jXlf22zi@phenom.ffwll.local>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,21 +57,245 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>,
- LKML <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>
+Cc: Melissa Wen <mwen@igalia.com>, Haneen Mohammed <hamohammed.sa@gmail.com>,
+ dri-devel@lists.freedesktop.org,
+ Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ Igor Matheus Andrade Torrente <igormtorrente@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The pull request you sent on Thu, 6 Apr 2023 18:59:13 +0200:
+On 4/6/23 15:23, Daniel Vetter wrote:
+> On Thu, Apr 06, 2023 at 03:06:56PM -0300, Maíra Canal wrote:
+>> On 4/6/23 14:28, Daniel Vetter wrote:
+>>> On Thu, 6 Apr 2023 at 19:20, Maíra Canal <mcanal@igalia.com> wrote:
+>>>>
+>>>> After commit 8ba1648567e2 ("drm: vkms: Refactor the plane composer to
+>>>> accept new formats") the composition is no longer performed on top of
+>>>> the primary plane, but instead on top of the CRTC, which means that
+>>>> now we have a background.
+>>>>
+>>>> This opens to the possibility of coloring the background with a
+>>>> personalized color. Therefore, create a module parameter that takes a
+>>>> unsigned long number as an XRGB16161616 color and set the background
+>>>> color to it. That said, the composition will be performed on top of
+>>>> this background color. By default, the background color is black.
+>>>>
+>>>> Signed-off-by: Maíra Canal <mcanal@igalia.com>
+>>>> ---
+>>>>
+>>>> This patch intends to add a background color property to vkms through
+>>>> a module parameter. Another option would be to implement this property
+>>>> by adding a new KMS property that would indicate the background color.
+>>>> It would be nice to hear other opinions on what would be the best
+>>>> approach.
+>>>
+>>> These patches (and I think even igts for them) have been floating
+>>> around for years. The hang-up is the userspace. Turns out all
+>>> compositors want for background is black, thus far no one has figured
+>>> out a real use-case for anything else.
+>>>
+>>> Maybe some time ...
+>>>
+>>
+>> But, would it be okay to add this feature as a vkms' module parameter?
+> 
+> Yeah I think that's ok.
+> 
+>>>> Moreover, I wrote some IGT tests to ensure that the functionality is
+>>>> working correctly [1]. The tests take the CRC of a colored primary
+>>>> plane, offset the primary plane out of the screen, and take the CRC
+>>>> of the colored background. The two CRC must be equal.
+>>>>
+>>>> [1] https://gitlab.freedesktop.org/mairacanal/igt-gpu-tools/-/tree/vkms/background-color
+>>>
+>>> I wonder whether it would be more useful to have this as a Kunit
+>>> validation test to very that the vkms composing code works correctly?
+>>> Still with the modparam and vkms_config to handle it all cleanly.
+>>
+>> Not sure if this would fit as a unit test, as the vkms composing
+>> code basically outputs a CRC, which can be better verified by
+>> the userspace. The output_buffer and stage_buffer are internal
+>> variables, so it would be difficult to evaluate them with a KUnit
+>> test.
+>>
+>> With the IGT test, we can assure that the background composition
+>> is being performed properly using the CRC in a negative test and
+>> also some positive tests.
+> 
+> I was just thinking of how you could keep the test, because igt is for
+> uapi in general. So doesn't fit all that well, validating internals is
+> more what kunit is supposed to do.
 
-> git://anongit.freedesktop.org/drm/drm tags/drm-fixes-2023-04-06
+I'm not sure if testing the composition is an internal behavior, because
+the output of the composition is a CRC that is exposed to the userspace.
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/ac6c043391b266a360a53f933638003365bd10c9
+Moreover, we need some sort of variable output to create a KUnit test,
+which is not the case for vkms. The output_buffer and stage_buffer
+are internal variables and they are overwritten on each iteration of
+the blend loop.
 
-Thank you!
+As this property would be exclusive to vkms, I believe it would be okay
+to add a vkms-specific IGT test to verify the correct behavior of the
+background.
 
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+Best Regards,
+- Maíra Canal
+
+> -Daniel
+> 
+>>
+>> Best Regards,
+>> - Maíra Canal
+>>
+>>> -Daniel
+>>>
+>>>>
+>>>> Best Regards,
+>>>> - Maíra Canal
+>>>>
+>>>> ---
+>>>>    Documentation/gpu/vkms.rst           |  2 --
+>>>>    drivers/gpu/drm/vkms/vkms_composer.c | 20 ++++++++++++++------
+>>>>    drivers/gpu/drm/vkms/vkms_drv.c      |  6 ++++++
+>>>>    drivers/gpu/drm/vkms/vkms_drv.h      |  4 ++++
+>>>>    4 files changed, 24 insertions(+), 8 deletions(-)
+>>>>
+>>>> diff --git a/Documentation/gpu/vkms.rst b/Documentation/gpu/vkms.rst
+>>>> index 49db221c0f52..dc01689d8c76 100644
+>>>> --- a/Documentation/gpu/vkms.rst
+>>>> +++ b/Documentation/gpu/vkms.rst
+>>>> @@ -121,8 +121,6 @@ There's lots of plane features we could add support for:
+>>>>    - ARGB format on primary plane: blend the primary plane into background with
+>>>>      translucent alpha.
+>>>>
+>>>> -- Add background color KMS property[Good to get started].
+>>>> -
+>>>>    - Full alpha blending on all planes.
+>>>>
+>>>>    - Rotation, scaling.
+>>>> diff --git a/drivers/gpu/drm/vkms/vkms_composer.c b/drivers/gpu/drm/vkms/vkms_composer.c
+>>>> index 8e53fa80742b..07345faee98a 100644
+>>>> --- a/drivers/gpu/drm/vkms/vkms_composer.c
+>>>> +++ b/drivers/gpu/drm/vkms/vkms_composer.c
+>>>> @@ -79,7 +79,8 @@ static void fill_background(const struct pixel_argb_u16 *background_color,
+>>>>     * from all planes, calculates the crc32 of the output from the former step,
+>>>>     * and, if necessary, convert and store the output to the writeback buffer.
+>>>>     */
+>>>> -static void blend(struct vkms_writeback_job *wb,
+>>>> +static void blend(struct vkms_device *vkms_dev,
+>>>> +                 struct vkms_writeback_job *wb,
+>>>>                     struct vkms_crtc_state *crtc_state,
+>>>>                     u32 *crc32, struct line_buffer *stage_buffer,
+>>>>                     struct line_buffer *output_buffer, size_t row_size)
+>>>> @@ -87,7 +88,12 @@ static void blend(struct vkms_writeback_job *wb,
+>>>>           struct vkms_plane_state **plane = crtc_state->active_planes;
+>>>>           u32 n_active_planes = crtc_state->num_active_planes;
+>>>>
+>>>> -       const struct pixel_argb_u16 background_color = { .a = 0xffff };
+>>>> +       const struct pixel_argb_u16 background_color = {
+>>>> +               .a =  0xffff,
+>>>> +               .r = (*vkms_dev->config->background_color >> 32) & 0xffff,
+>>>> +               .g = (*vkms_dev->config->background_color >> 16) & 0xffff,
+>>>> +               .b = *vkms_dev->config->background_color & 0xffff,
+>>>> +       };
+>>>>
+>>>>           size_t crtc_y_limit = crtc_state->base.crtc->mode.vdisplay;
+>>>>
+>>>> @@ -139,7 +145,8 @@ static int check_iosys_map(struct vkms_crtc_state *crtc_state)
+>>>>           return 0;
+>>>>    }
+>>>>
+>>>> -static int compose_active_planes(struct vkms_writeback_job *active_wb,
+>>>> +static int compose_active_planes(struct vkms_device *vkms_dev,
+>>>> +                                struct vkms_writeback_job *active_wb,
+>>>>                                    struct vkms_crtc_state *crtc_state,
+>>>>                                    u32 *crc32)
+>>>>    {
+>>>> @@ -178,7 +185,7 @@ static int compose_active_planes(struct vkms_writeback_job *active_wb,
+>>>>                   goto free_stage_buffer;
+>>>>           }
+>>>>
+>>>> -       blend(active_wb, crtc_state, crc32, &stage_buffer,
+>>>> +       blend(vkms_dev, active_wb, crtc_state, crc32, &stage_buffer,
+>>>>                 &output_buffer, line_width * pixel_size);
+>>>>
+>>>>           kvfree(output_buffer.pixels);
+>>>> @@ -205,6 +212,7 @@ void vkms_composer_worker(struct work_struct *work)
+>>>>           struct drm_crtc *crtc = crtc_state->base.crtc;
+>>>>           struct vkms_writeback_job *active_wb = crtc_state->active_writeback;
+>>>>           struct vkms_output *out = drm_crtc_to_vkms_output(crtc);
+>>>> +       struct vkms_device *vkms_dev = vkms_output_to_vkms_device(out);
+>>>>           bool crc_pending, wb_pending;
+>>>>           u64 frame_start, frame_end;
+>>>>           u32 crc32 = 0;
+>>>> @@ -228,9 +236,9 @@ void vkms_composer_worker(struct work_struct *work)
+>>>>                   return;
+>>>>
+>>>>           if (wb_pending)
+>>>> -               ret = compose_active_planes(active_wb, crtc_state, &crc32);
+>>>> +               ret = compose_active_planes(vkms_dev, active_wb, crtc_state, &crc32);
+>>>>           else
+>>>> -               ret = compose_active_planes(NULL, crtc_state, &crc32);
+>>>> +               ret = compose_active_planes(vkms_dev, NULL, crtc_state, &crc32);
+>>>>
+>>>>           if (ret)
+>>>>                   return;
+>>>> diff --git a/drivers/gpu/drm/vkms/vkms_drv.c b/drivers/gpu/drm/vkms/vkms_drv.c
+>>>> index 6d3a2d57d992..a4938dcb8c3e 100644
+>>>> --- a/drivers/gpu/drm/vkms/vkms_drv.c
+>>>> +++ b/drivers/gpu/drm/vkms/vkms_drv.c
+>>>> @@ -51,6 +51,10 @@ static bool enable_overlay;
+>>>>    module_param_named(enable_overlay, enable_overlay, bool, 0444);
+>>>>    MODULE_PARM_DESC(enable_overlay, "Enable/Disable overlay support");
+>>>>
+>>>> +static unsigned long background_color = 0x000000000000;
+>>>> +module_param_named(background_color, background_color, ulong, 0644);
+>>>> +MODULE_PARM_DESC(background_color, "Background color (0xRRRRGGGGBBBB)");
+>>>> +
+>>>>    DEFINE_DRM_GEM_FOPS(vkms_driver_fops);
+>>>>
+>>>>    static void vkms_release(struct drm_device *dev)
+>>>> @@ -99,6 +103,7 @@ static int vkms_config_show(struct seq_file *m, void *data)
+>>>>           seq_printf(m, "writeback=%d\n", vkmsdev->config->writeback);
+>>>>           seq_printf(m, "cursor=%d\n", vkmsdev->config->cursor);
+>>>>           seq_printf(m, "overlay=%d\n", vkmsdev->config->overlay);
+>>>> +       seq_printf(m, "background_color=0x%lx\n", *vkmsdev->config->background_color);
+>>>>
+>>>>           return 0;
+>>>>    }
+>>>> @@ -226,6 +231,7 @@ static int __init vkms_init(void)
+>>>>           config->cursor = enable_cursor;
+>>>>           config->writeback = enable_writeback;
+>>>>           config->overlay = enable_overlay;
+>>>> +       config->background_color = &background_color;
+>>>>
+>>>>           ret = vkms_create(config);
+>>>>           if (ret)
+>>>> diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/vkms_drv.h
+>>>> index 4a248567efb2..4bc2e6a6d219 100644
+>>>> --- a/drivers/gpu/drm/vkms/vkms_drv.h
+>>>> +++ b/drivers/gpu/drm/vkms/vkms_drv.h
+>>>> @@ -113,6 +113,7 @@ struct vkms_config {
+>>>>           bool writeback;
+>>>>           bool cursor;
+>>>>           bool overlay;
+>>>> +       unsigned long *background_color;
+>>>>           /* only set when instantiated */
+>>>>           struct vkms_device *dev;
+>>>>    };
+>>>> @@ -127,6 +128,9 @@ struct vkms_device {
+>>>>    #define drm_crtc_to_vkms_output(target) \
+>>>>           container_of(target, struct vkms_output, crtc)
+>>>>
+>>>> +#define vkms_output_to_vkms_device(target) \
+>>>> +       container_of(target, struct vkms_device, output)
+>>>> +
+>>>>    #define drm_device_to_vkms_device(target) \
+>>>>           container_of(target, struct vkms_device, drm)
+>>>>
+>>>> --
+>>>> 2.39.2
+>>>>
+>>>
+>>>
+> 
