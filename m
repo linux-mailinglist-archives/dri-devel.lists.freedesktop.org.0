@@ -1,24 +1,24 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C75596DA376
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Apr 2023 22:39:04 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id ADA326DA377
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Apr 2023 22:39:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1704F10ED1D;
-	Thu,  6 Apr 2023 20:39:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0BE9B10ED15;
+	Thu,  6 Apr 2023 20:39:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3F7BA10ED1C
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Apr 2023 20:39:00 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 62F3D10ED1E
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Apr 2023 20:39:12 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id BA80B60F88;
+ by dfw.source.kernel.org (Postfix) with ESMTPS id DB3FF60DF4;
+ Thu,  6 Apr 2023 20:39:11 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EAB5FC4339C;
  Thu,  6 Apr 2023 20:38:59 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B9EF4C433A0;
- Thu,  6 Apr 2023 20:38:48 +0000 (UTC)
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 To: Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>,
  Jonathan Corbet <corbet@lwn.net>, Oded Gabbay <ogabbay@kernel.org>,
@@ -55,10 +55,9 @@ To: Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>,
  dri-devel@lists.freedesktop.org, patches@opensource.cirrus.com,
  openbmc@lists.ozlabs.org, linux-rpi-kernel@lists.infradead.org,
  linux-arm-kernel@lists.infradead.org
-Subject: [PATCH 52/68] hwmon: raspberrypi: constify pointers to
- hwmon_channel_info
-Date: Thu,  6 Apr 2023 22:38:14 +0200
-Message-Id: <20230406203821.3012402-3-krzysztof.kozlowski@linaro.org>
+Subject: [PATCH 53/68] hwmon: sbrmi: constify pointers to hwmon_channel_info
+Date: Thu,  6 Apr 2023 22:38:15 +0200
+Message-Id: <20230406203821.3012402-4-krzysztof.kozlowski@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230406203103.3011503-1-krzysztof.kozlowski@linaro.org>
 References: <20230406203103.3011503-1-krzysztof.kozlowski@linaro.org>
@@ -85,21 +84,21 @@ const for safety.
 
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 ---
- drivers/hwmon/raspberrypi-hwmon.c | 2 +-
+ drivers/hwmon/sbrmi.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/hwmon/raspberrypi-hwmon.c b/drivers/hwmon/raspberrypi-hwmon.c
-index 1650d3b4c26e..65cc52e47db0 100644
---- a/drivers/hwmon/raspberrypi-hwmon.c
-+++ b/drivers/hwmon/raspberrypi-hwmon.c
-@@ -87,7 +87,7 @@ static umode_t rpi_is_visible(const void *_data, enum hwmon_sensor_types type,
- 	return 0444;
+diff --git a/drivers/hwmon/sbrmi.c b/drivers/hwmon/sbrmi.c
+index 8ea5a4d3219f..529f0e766319 100644
+--- a/drivers/hwmon/sbrmi.c
++++ b/drivers/hwmon/sbrmi.c
+@@ -265,7 +265,7 @@ static umode_t sbrmi_is_visible(const void *data,
+ 	return 0;
  }
  
--static const struct hwmon_channel_info *rpi_info[] = {
-+static const struct hwmon_channel_info * const rpi_info[] = {
- 	HWMON_CHANNEL_INFO(in,
- 			   HWMON_I_LCRIT_ALARM),
+-static const struct hwmon_channel_info *sbrmi_info[] = {
++static const struct hwmon_channel_info * const sbrmi_info[] = {
+ 	HWMON_CHANNEL_INFO(power,
+ 			   HWMON_P_INPUT | HWMON_P_CAP | HWMON_P_CAP_MAX),
  	NULL
 -- 
 2.34.1
