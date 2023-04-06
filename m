@@ -1,83 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA70A6D9633
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Apr 2023 13:47:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 367866D9664
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Apr 2023 13:54:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8B11910EB73;
-	Thu,  6 Apr 2023 11:47:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0F7CD10E0F3;
+	Thu,  6 Apr 2023 11:54:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 189B810EB73
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Apr 2023 11:47:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1680781639;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=e7IWx4hjGZbxBgRuJKLc+v5jOw355RVkzN+v5YQUB+I=;
- b=MkergpM96z/csU3YaRRkz/shT6iqph+erqRwOgu/FFGSNpaYqjQ5YZFp1+WL8cmj8RxXna
- YiwO+VtND3eN5sqMqUDsOYuTs9ydy01EHqSun3hhx+SevNnegH3sQ5rgs6/42HZt1AJVWR
- q1yy6pzuWbCISiYVeTMtcrTzbwpmscY=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-139-4c9hcofcOaWuRRDEuplvDg-1; Thu, 06 Apr 2023 07:47:18 -0400
-X-MC-Unique: 4c9hcofcOaWuRRDEuplvDg-1
-Received: by mail-wm1-f71.google.com with SMTP id
- l16-20020a05600c4f1000b003ef6ed5f645so15156330wmq.9
- for <dri-devel@lists.freedesktop.org>; Thu, 06 Apr 2023 04:47:18 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680781637;
- h=content-transfer-encoding:mime-version:message-id:date:references
- :in-reply-to:subject:to:from:x-gm-message-state:from:to:cc:subject
- :date:message-id:reply-to;
- bh=iWwwDUBcTxMQFoR2Rf9eY7h3vDUIUGt5Sqa76Fd1rXQ=;
- b=BulZtNjpNEAhLWOxVkK+8HTlkibz+Pfp+xwY2mVG7SU7ffUqDeJxq/oJCDZkJj5jxF
- OusKvahacDV7XtxUYJC79xPmXIsQCThEqn4s2WBeSdr2u9gj+Oa+0Hwv+/+GvIT3XfQb
- KBHB0pxqxcOT9S63aBZmNuFu8WzgrHoZxm42lQbSmBzbIHbYCDoZvJWahmMn+ecZkzrS
- xgAaNC3qSfIjKkNG/EFAi06f7MxTrGn8Y47WIxsc0qjygckv4dpiBja1/SV7pW2wzqRL
- ogPRth/YPjGkPeCMGJhym8e3J17ZzZ2etZxHzKMxdccJAy030Oq6nNu7OJK0RtNye7XD
- bgaQ==
-X-Gm-Message-State: AAQBX9eNZH6v6h2K2TInQ8GG7C3yOlifZCVBgJY5JGeNLlTkETkSiGjy
- gLZB16u4aMaSw+X/SElnXeagKB6fe4OsJRdt94ppXcM0ITp9Io2wOP7ZLYoWsTon1icf94qrhT/
- t1zSG6togzN3FZnqHdf7hVoA5d+qq
-X-Received: by 2002:a7b:c384:0:b0:3e9:f15b:935b with SMTP id
- s4-20020a7bc384000000b003e9f15b935bmr6859112wmj.32.1680781637698; 
- Thu, 06 Apr 2023 04:47:17 -0700 (PDT)
-X-Google-Smtp-Source: AKy350Z0w2RyUkiZdYYT4EK5OLcz6zUdIliWv60GkRn8oIaecMiGXS9uj7lrRVOK6go6/Yfh3Z6Q3g==
-X-Received: by 2002:a7b:c384:0:b0:3e9:f15b:935b with SMTP id
- s4-20020a7bc384000000b003e9f15b935bmr6859102wmj.32.1680781637431; 
- Thu, 06 Apr 2023 04:47:17 -0700 (PDT)
-Received: from localhost (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- q31-20020a05600c331f00b003ee610d1ce9sm5006690wmp.34.2023.04.06.04.47.17
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 06 Apr 2023 04:47:17 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: =?utf-8?Q?Ma=C3=ADra?= Canal <mcanal@igalia.com>,
- linux-kernel@vger.kernel.org, Thomas
- Zimmermann <tzimmermann@suse.de>, Marius Vlad <marius.vlad@collabora.com>,
- David Airlie <airlied@gmail.com>, Haneen Mohammed
- <hamohammed.sa@gmail.com>, Melissa Wen <melissa.srw@gmail.com>, Rodrigo
- Siqueira <rodrigosiqueiramelo@gmail.com>, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH 1/2] drm/vkms: Drop vkms_connector_destroy() wrapper
-In-Reply-To: <accdc804-19e7-df59-7dd3-69c83f52405d@igalia.com>
-References: <20230406110235.3092055-1-javierm@redhat.com>
- <20230406110235.3092055-2-javierm@redhat.com>
- <ZC6o4l7tzSIwFTKw@phenom.ffwll.local>
- <accdc804-19e7-df59-7dd3-69c83f52405d@igalia.com>
-Date: Thu, 06 Apr 2023 13:47:16 +0200
-Message-ID: <878rf58c6z.fsf@minerva.mail-host-address-is-not-set>
+Received: from mx1.riseup.net (mx1.riseup.net [198.252.153.129])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C198E10E0F3
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Apr 2023 11:54:01 +0000 (UTC)
+Received: from fews2.riseup.net (fews2-pn.riseup.net [10.0.1.84])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
+ client-signature RSA-PSS (2048 bits) client-digest SHA256)
+ (Client CN "mail.riseup.net", Issuer "R3" (not verified))
+ by mx1.riseup.net (Postfix) with ESMTPS id 4PsfzY0WGzzDqT0;
+ Thu,  6 Apr 2023 11:54:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
+ t=1680782041; bh=kd3CsBc+oDe96DQJYr6v0/y5ofANxR1YpVaEnnPaE8c=;
+ h=From:To:Cc:Subject:Date:From;
+ b=MZIzXOJ/inOJbgo9u6uHu+cwugiGkHcdXL6cunHTjp2EzbaNua/o/ufv52iVk4I7l
+ kZuocM+N2aZh5V8TGNP8wQfWhh62ZO/dbWYfhcGjKKsHlK+D9NDBCIR53y3EQg86K0
+ bKnNpGMC/aFXmaarGQB+e3qS+f1o3Oo9nizwYyLw=
+X-Riseup-User-ID: E3C609D3AB9849FC759BF5E9A4C35C677F22F579ACFC604C2720051C0ADD5A45
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ by fews2.riseup.net (Postfix) with ESMTPSA id 4PsfzR263zz1yTd;
+ Thu,  6 Apr 2023 11:53:54 +0000 (UTC)
+From: Arthur Grillo <arthurgrillo@riseup.net>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH v4 0/5] Create tests for the drm_rect functions
+Date: Thu,  6 Apr 2023 08:53:33 -0300
+Message-Id: <20230406115338.36228-1-arthurgrillo@riseup.net>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,46 +48,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: carlos.craveiro@usp.br, tales.aparecida@gmail.com, dlatypov@google.com,
+ javierm@redhat.com, mairacanal@riseup.net, maxime@cerno.tech,
+ andrealmeid@riseup.net, Arthur Grillo <arthurgrillo@riseup.net>,
+ matheus.vieira.g@usp.br
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Ma=C3=ADra Canal <mcanal@igalia.com> writes:
+This patchset seeks to add unit tests for the rest of the functions on
+the drm_rect.c.
 
-Hello Ma=C3=ADra,
+The test coverage report generated by the gcov[1] tool states that this
+set reaches 100% of coverage on the drm_rect.c file. This would be
+very good for future development on the file.
 
-> On 4/6/23 08:11, Daniel Vetter wrote:
->> On Thu, Apr 06, 2023 at 01:02:34PM +0200, Javier Martinez Canillas wrote=
-:
->>> This helper is just a wrapper that calls drm_connector_cleanup(), there=
-'s
->>> no need to have another level of indirection.
->>>
->>> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
->>=20
->> On both patches:
->>=20
->> Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
->>=20
->> Aside, would be a nice cleanup to move vkms output stuff (crtc and
->> connector) over to the drmm_ stuff. The plane already does that.
->
-> I sent a patch [1] a while ago moving the CRTC to the drmm_ functions.
-> If you could take a look at it, it would be great.
->
-> [1] https://lore.kernel.org/dri-devel/20230116205800.1266227-1-mcanal@iga=
-lia.com/T/
->
+If you want to see the coverage report, I uploaded on the link below:
+https://grillo-0.github.io/coverage-reports/more-rect-tests/drivers/gpu/drm/drm_rect.c.gcov.html
 
-I've now reviewed both patches from your series and they look good to me.
+Thanks for reviewing!
 
-> Best Regards,
-> - Ma=C3=ADra Canal
->
-
---=20
 Best regards,
+~Arthur Grillo
 
-Javier Martinez Canillas
-Core Platforms
-Red Hat
+---
+
+v1->v2: https://lore.kernel.org/all/20230322140701.69852-1-arthurgrillo@riseup.net/
+- Create parameterized tests for drm_rect_intersect().
+- Use .16 binary fixed point values on the drm_rect_calc_hscale() and
+  drm_rect_calc_vscale() tests.
+- Replace INT_MIN for 0 on the on the drm_rect_calc_hscale() and
+  drm_rect_calc_vscale() tests.
+- Assign nonzero values to the width and height parameters of the
+  drm_rect_rotate() and drm_rect_rotate_inv() tests.
+- Switch memcpy to a simple variable assignment on the drm_rect_rotate()
+  and drm_rect_rotate_inv() tests.
+
+v2->v3: https://lore.kernel.org/all/20230327133848.5250-1-arthurgrillo@riseup.net/
+- Change "x" to lowercase on the drm_rect_intersect() cases.
+- Remove the option for no description on the drm_rect_intersect() cases.
+- Add a test for rects with zero height and width on the
+  drm_rect_intersect().
+- Switch to parameterized tests for drm_rect_calc_hscale() and
+  drm_rect_calc_vscale().
+- Add a test for a dst drm_rect with zero width for
+  drm_rect_calc_hscale() and zero height for drm_rect_calc_vscale().
+- Place an "-" on the drm_rect_rotate case names to match the userspace.
+- s/drm_rect_case_desc/drm_rect_rotate_case_desc/
+- Improve the commit messages.
+
+v3->v4: https://lore.kernel.org/all/20230404184158.26290-1-arthurgrillo@riseup.net/
+- Place parenthesis around .16 fixed point values before making it
+  negative to avoid error when generating tests coverages.
+
+---
+
+[1]: https://gcc.gnu.org/onlinedocs/gcc/Gcov.html#Gcov
+
+---
+
+
+Arthur Grillo (5):
+  drm/tests: Add test cases for drm_rect_intersect()
+  drm/tests: Add test cases for drm_rect_calc_hscale()
+  drm/tests: Add test cases for drm_rect_calc_vscale()
+  drm/tests: Add test cases for drm_rect_rotate()
+  drm/test: Add test cases for drm_rect_rotate_inv()
+
+ drivers/gpu/drm/tests/drm_rect_test.c | 362 ++++++++++++++++++++++++++
+ 1 file changed, 362 insertions(+)
+
+-- 
+2.39.2
 
