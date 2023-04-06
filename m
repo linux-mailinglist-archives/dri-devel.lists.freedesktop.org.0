@@ -1,57 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA6B46DA46A
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Apr 2023 23:07:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A2DF6DA51B
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Apr 2023 23:59:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2D01110ED29;
-	Thu,  6 Apr 2023 21:07:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1F00E10ED31;
+	Thu,  6 Apr 2023 21:59:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0E14910ED29
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Apr 2023 21:07:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1680815236; x=1712351236;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=VoLLDF9MVAIjloSkpliRlQJxsY39EfmlYAD9O1M+fD8=;
- b=BmX1UMTlRyU7JxphIAr/IuLsl5+Mgzc8pJjyG8U9TPhlFaTwQDuxrPEY
- J6NAa5XnLbqF7tcRavUwnGaTC1JTdK8I2YfkgHwJSAE0L6yAERHIHngui
- kvygaZregHPwBwHG+CRAXrWFdQXPDK+RLreOpXTzun1QewJkFlyPNI92v
- oGxmoXTOOgUpxUFnw9eMtU4gqRmIxtGdMwJsN83mxt0A5zNHmFrnhH72M
- sqYMQNceXJ3vAlftblvcEyyRUDr64UjtrEmlyn/1BatvZGKQK83KDKrD6
- YsaEDgWA+m/T9wkEa0L22ImYkSD7QbagtM6zrPxNcQcFNkQxDw5bCwRam g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10672"; a="326914847"
-X-IronPort-AV: E=Sophos;i="5.98,323,1673942400"; d="scan'208";a="326914847"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Apr 2023 14:07:15 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10672"; a="687291433"
-X-IronPort-AV: E=Sophos;i="5.98,323,1673942400"; d="scan'208";a="687291433"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
- by orsmga002.jf.intel.com with ESMTP; 06 Apr 2023 14:07:12 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1pkWp5-000RmG-1j;
- Thu, 06 Apr 2023 21:07:11 +0000
-Date: Fri, 7 Apr 2023 05:06:31 +0800
-From: kernel test robot <lkp@intel.com>
-To: =?iso-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- Melissa Wen <mwen@igalia.com>, Haneen Mohammed <hamohammed.sa@gmail.com>,
- Igor Matheus Andrade Torrente <igormtorrente@gmail.com>
-Subject: Re: [PATCH] drm/vkms: add module parameter to set background color
-Message-ID: <202304070429.B1aKOT5a-lkp@intel.com>
-References: <20230406172002.124456-1-mcanal@igalia.com>
+Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com
+ [IPv6:2607:f8b0:4864:20::1030])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7F62C10E26F;
+ Thu,  6 Apr 2023 21:59:33 +0000 (UTC)
+Received: by mail-pj1-x1030.google.com with SMTP id
+ b5-20020a17090a6e0500b0023f32869993so49081pjk.1; 
+ Thu, 06 Apr 2023 14:59:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20210112; t=1680818372;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=Sh/cSP01X7baGcBhRNO/UI6rxYCvlWhn8fT2Xxx8V1w=;
+ b=azChA4iepORRwqBwYlga8jmqES47PmBJA5H4jRgGIU3000G70/o9VhARuDB1XtGsBc
+ mH8UaxWpwVLdiaLlBaJaU55y4KuwD9IKO9Ua3KkuHO+LNup8POI2vC3l9CingB0a0eu9
+ nWVoSeBc8hrKvw1nfAAPnDs20BeohnBGxnO7eFF6yGE8jfDH03BImspXFCQ/xyc+jP/U
+ IPhGxj1EVBH2GxK69LIGwDmemiYftXGPY146TYIXu9BfECVe1ElHW7Oh03WIXB5iGqU/
+ asZ41EYXFuQJDgQRDOZW07YbL24980B2UX2NHmrVRLIHlkFcf62y5ROmZkLW8H098J2Q
+ sD1g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1680818372;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=Sh/cSP01X7baGcBhRNO/UI6rxYCvlWhn8fT2Xxx8V1w=;
+ b=E1316tkpEQ8tIl8ZxYZZSo+ybpF3wzkS1NNh8+NCguUJMno+w2mspIT34vp4FgWBnt
+ WGWSjpUW7Lh95ZNPxYTTzetIPNPXfmz9S8xPvQIQK9/VGm75WQmCWuTlCwswG40HPwXh
+ bGtclu59Krqpw80t4uC5NeSwW2Je7nH7gLmjpi2aOJaiWacdyl0qQm5ccjFKK0H2PNMn
+ oaJ08q5VuWLwSawyLZoBCcXFg86r91oZqx59IRrEyN4gGWAijdjN3G2PZi8ugpGSR2l5
+ +/0Br9HnmLBMzpxaz4bCf6brbfXhdRXMuRJ4HXFhvnyZlxFDqeFKLVbWABerIxN11FOb
+ hQeg==
+X-Gm-Message-State: AAQBX9eBT4uflB5xPGV1KwoS9NPcpqnH0lLnriUE+A+i0JFXGcrOO/m4
+ d2Or3iZNaqev4qHFQFkx2UlhmJf7yUs=
+X-Google-Smtp-Source: AKy350bo4KJeNsRKbrWCg7w+eKRCQynE4zWn4ZdEYUZrNEVMBtjR+F8D6ulk5dyu7iGJS3DU+v2I3A==
+X-Received: by 2002:a05:6a20:8bb0:b0:d9:4c19:fe6a with SMTP id
+ m48-20020a056a208bb000b000d94c19fe6amr746759pzh.9.1680818372270; 
+ Thu, 06 Apr 2023 14:59:32 -0700 (PDT)
+Received: from localhost ([2a00:79e1:abd:4a00:61b:48ed:72ab:435b])
+ by smtp.gmail.com with ESMTPSA id
+ x53-20020a056a000bf500b005a87d636c70sm1790621pfu.130.2023.04.06.14.59.31
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 06 Apr 2023 14:59:31 -0700 (PDT)
+From: Rob Clark <robdclark@gmail.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [RFC 0/2] drm: fdinfo memory stats
+Date: Thu,  6 Apr 2023 14:59:15 -0700
+Message-Id: <20230406215917.1475704-1-robdclark@gmail.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230406172002.124456-1-mcanal@igalia.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,104 +70,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?iso-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>,
- dri-devel@lists.freedesktop.org, oe-kbuild-all@lists.linux.dev
+Cc: Rob Clark <robdclark@chromium.org>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+ linux-arm-msm@vger.kernel.org, Christopher Healy <healych@amazon.com>,
+ open list <linux-kernel@vger.kernel.org>, Sean Paul <sean@poorly.run>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Maíra,
+From: Rob Clark <robdclark@chromium.org>
 
-kernel test robot noticed the following build warnings:
+Similar motivation to other similar recent attempt[1].  But with an
+attempt to have some shared code for this.  As well as documentation.
 
-[auto build test WARNING on drm-misc/drm-misc-next]
-[also build test WARNING on drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.3-rc5 next-20230406]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+It is probably a bit UMA-centric, I guess devices with VRAM might want
+some placement stats as well.  But this seems like a reasonable start.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Ma-ra-Canal/drm-vkms-add-module-parameter-to-set-background-color/20230407-012233
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20230406172002.124456-1-mcanal%40igalia.com
-patch subject: [PATCH] drm/vkms: add module parameter to set background color
-config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20230407/202304070429.B1aKOT5a-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/d725068207852d3b6a0dd795bf224422804101e1
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Ma-ra-Canal/drm-vkms-add-module-parameter-to-set-background-color/20230407-012233
-        git checkout d725068207852d3b6a0dd795bf224422804101e1
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=powerpc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=powerpc SHELL=/bin/bash drivers/gpu/
+TODO gputop support?
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304070429.B1aKOT5a-lkp@intel.com/
+[1] https://patchwork.freedesktop.org/series/112397/
 
-All warnings (new ones prefixed by >>):
+Rob Clark (2):
+  drm: Add fdinfo memory stats
+  drm/msm: Add memory stats to fdinfo
 
-   drivers/gpu/drm/vkms/vkms_composer.c: In function 'blend':
->> drivers/gpu/drm/vkms/vkms_composer.c:93:59: warning: right shift count >= width of type [-Wshift-count-overflow]
-      93 |                 .r = (*vkms_dev->config->background_color >> 32) & 0xffff,
-         |                                                           ^~
-
-
-vim +93 drivers/gpu/drm/vkms/vkms_composer.c
-
-    70	
-    71	/**
-    72	 * @wb_frame_info: The writeback frame buffer metadata
-    73	 * @crtc_state: The crtc state
-    74	 * @crc32: The crc output of the final frame
-    75	 * @output_buffer: A buffer of a row that will receive the result of the blend(s)
-    76	 * @stage_buffer: The line with the pixels from plane being blend to the output
-    77	 *
-    78	 * This function blends the pixels (Using the `pre_mul_alpha_blend`)
-    79	 * from all planes, calculates the crc32 of the output from the former step,
-    80	 * and, if necessary, convert and store the output to the writeback buffer.
-    81	 */
-    82	static void blend(struct vkms_device *vkms_dev,
-    83			  struct vkms_writeback_job *wb,
-    84			  struct vkms_crtc_state *crtc_state,
-    85			  u32 *crc32, struct line_buffer *stage_buffer,
-    86			  struct line_buffer *output_buffer, size_t row_size)
-    87	{
-    88		struct vkms_plane_state **plane = crtc_state->active_planes;
-    89		u32 n_active_planes = crtc_state->num_active_planes;
-    90	
-    91		const struct pixel_argb_u16 background_color = {
-    92			.a =  0xffff,
-  > 93			.r = (*vkms_dev->config->background_color >> 32) & 0xffff,
-    94			.g = (*vkms_dev->config->background_color >> 16) & 0xffff,
-    95			.b = *vkms_dev->config->background_color & 0xffff,
-    96		};
-    97	
-    98		size_t crtc_y_limit = crtc_state->base.crtc->mode.vdisplay;
-    99	
-   100		for (size_t y = 0; y < crtc_y_limit; y++) {
-   101			fill_background(&background_color, output_buffer);
-   102	
-   103			/* The active planes are composed associatively in z-order. */
-   104			for (size_t i = 0; i < n_active_planes; i++) {
-   105				if (!check_y_limit(plane[i]->frame_info, y))
-   106					continue;
-   107	
-   108				plane[i]->plane_read(stage_buffer, plane[i]->frame_info, y);
-   109				pre_mul_alpha_blend(plane[i]->frame_info, stage_buffer,
-   110						    output_buffer);
-   111			}
-   112	
-   113			*crc32 = crc32_le(*crc32, (void *)output_buffer->pixels, row_size);
-   114	
-   115			if (wb)
-   116				wb->wb_write(&wb->wb_frame_info, output_buffer, y);
-   117		}
-   118	}
-   119	
+ Documentation/gpu/drm-usage-stats.rst | 21 +++++++
+ drivers/gpu/drm/drm_file.c            | 79 +++++++++++++++++++++++++++
+ drivers/gpu/drm/msm/msm_drv.c         | 26 ++++++++-
+ drivers/gpu/drm/msm/msm_gpu.c         |  2 -
+ include/drm/drm_file.h                | 10 ++++
+ 5 files changed, 135 insertions(+), 3 deletions(-)
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+2.39.2
+
