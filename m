@@ -1,45 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FEDA6D9F1C
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Apr 2023 19:44:51 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 66F136D9F18
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Apr 2023 19:44:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C539310EC9C;
-	Thu,  6 Apr 2023 17:44:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5B32610EC92;
+	Thu,  6 Apr 2023 17:44:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A545110EC7F;
- Thu,  6 Apr 2023 17:44:28 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 10C3710E0F6;
+ Thu,  6 Apr 2023 17:44:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1680803068; x=1712339068;
+ t=1680803069; x=1712339069;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=x4YjkUSZw6mQBKKJgGED461ue96NjYsdDw2EFqe6ABk=;
- b=mmP6mo8ymicBwuaFF0st8tiHqHbwsOSsc4gfDzZl/POCcUvzw9u8fAwl
- 3Kbjr3zwPa1zvwKURBWq3T4vOkplcTxWzgEXbC1tta75SJvnII/tEfpmn
- g6G9CRSfw2RfW+/Ir5hR6MaLDAWosMmdD+T7j+8Ztblv6SYSc0fIPZ6zE
- NaEY0SYGLkeGdzBtcrkt7YiAgBz1j48y+UaxBqiUNgTVyp+CE2Fo7Foou
- 8Yu46ig1XTnjieuR/ypY8FdsG54NZQN8dM+ErtsTvfhsWGM98c20He3w8
- wE1hsyIUq9CXHwugNcEvwqQO8/OVvAXKDpToLDYJHjO25FRCANr9udSt8 w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10672"; a="345432458"
-X-IronPort-AV: E=Sophos;i="5.98,323,1673942400"; d="scan'208";a="345432458"
+ bh=lKn5lSoM48G93Sause8w4TR/nHjXfAOxePFi6dcd3TI=;
+ b=F43w4IGguGpp7/6fFfW5NtGMs7T9VI6jjxh3Py7gA+oe2yoeovemPSKH
+ gqQTXt88d1VWkBXGaUB95ULHDy4/1jVZ0+vidpE9cW7jePNIgAQIsNLfO
+ uOrUUTVKz/e+Yz2zF6nftYfNWSWY74zWyzwoVouZMHBKyh4dezclRe02V
+ 1h8fIl/24Ikqxy6os/LNovv15vjgdoalx/r4E91w+z+/Ui/S4V6/d+2Wn
+ Et0aLBlxJF1rz0rIyIcY2Jo568wt/oxJeio0hSkBKBLKzfEgjGGRQ5n9T
+ OyHfMKoD4Gn3CgEJwV2NPbIMFIDstN3Od39OfOJFCXlBEw5ZLKd0o+MRu w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10672"; a="345432461"
+X-IronPort-AV: E=Sophos;i="5.98,323,1673942400"; d="scan'208";a="345432461"
 Received: from orsmga007.jf.intel.com ([10.7.209.58])
  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  06 Apr 2023 10:44:28 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10672"; a="680757354"
-X-IronPort-AV: E=Sophos;i="5.98,323,1673942400"; d="scan'208";a="680757354"
+X-IronPort-AV: E=McAfee;i="6600,9927,10672"; a="680757357"
+X-IronPort-AV: E=Sophos;i="5.98,323,1673942400"; d="scan'208";a="680757357"
 Received: from aalteres-desk.fm.intel.com ([10.80.57.53])
  by orsmga007.jf.intel.com with ESMTP; 06 Apr 2023 10:44:28 -0700
 From: Alan Previn <alan.previn.teres.alexis@intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v7 4/8] drm/i915/pxp: Add GSC-CS backend to send GSC fw
- messages
-Date: Thu,  6 Apr 2023 10:44:15 -0700
-Message-Id: <20230406174419.471256-5-alan.previn.teres.alexis@intel.com>
+Subject: [PATCH v7 5/8] drm/i915/pxp: Add ARB session creation and cleanup
+Date: Thu,  6 Apr 2023 10:44:16 -0700
+Message-Id: <20230406174419.471256-6-alan.previn.teres.alexis@intel.com>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230406174419.471256-1-alan.previn.teres.alexis@intel.com>
 References: <20230406174419.471256-1-alan.previn.teres.alexis@intel.com>
@@ -66,396 +65,396 @@ Cc: Alan Previn <alan.previn.teres.alexis@intel.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add GSC engine based method for sending PXP firmware packets
-to the GSC firmware for MTL (and future) products.
+Add MTL's function for ARB session creation using PXP firmware
+version 4.3 ABI structure format.
 
-Use the newly added helpers to populate the GSC-CS memory
-header and send the message packet to the FW by dispatching
-the GSC_HECI_CMD_PKT instruction on the GSC engine.
+Also add MTL's function for ARB session invalidation but this
+reuses PXP firmware version 4.2 ABI structure format.
 
-We use non-priveleged batches for submission to GSC engine
-which require two buffers for the request:
-     - a buffer for the HECI packet that contains PXP FW commands
-     - a batch-buffer that contains the engine instruction for
-       sending the HECI packet to the GSC firmware.
+For both cases, in the back-end gsccs functions for sending messages
+to the firmware inspect the GSC-CS-Mem-Header's pending-bit which
+means the GSC firmware is busy and we should retry.
 
-Thus, add the allocation and freeing of these buffers in gsccs
-init and fini.
-
-The GSC-fw may reply to commands with a SUCCESS but with an
-additional pending-bit set in the reply packet. This bit
-means the GSC-FW is currently busy and the caller needs to
-try again with the gsc_message_handle the fw returned. Thus,
-add a wrapper to continuously retry send_message while
-replaying the gsc_message_handle. Retries need to follow the
-arch-spec count and delay until GSC-FW replies with the real
-SUCCESS or timeout after that spec'd delay.
-
-The GSC-fw requires a non-zero host_session_handle provided
-by the caller to enable gsc_message_handle tracking. Thus,
-allocate the host_session_handle at init and destroy it
-at fini (the latter requiring an FYI to the gsc-firmware).
+Given the last hw requirement, lets also update functions in
+front-end layer that wait for session creation or teardown
+completion to use new worst case timeout periods.
 
 Signed-off-by: Alan Previn <alan.previn.teres.alexis@intel.com>
 ---
- .../i915/gt/uc/intel_gsc_uc_heci_cmd_submit.h |   1 +
- .../drm/i915/pxp/intel_pxp_cmd_interface_43.h |   3 +
- drivers/gpu/drm/i915/pxp/intel_pxp_gsccs.c    | 240 +++++++++++++++++-
- drivers/gpu/drm/i915/pxp/intel_pxp_gsccs.h    |   4 +
- drivers/gpu/drm/i915/pxp/intel_pxp_types.h    |   6 +
- 5 files changed, 253 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/i915/gt/uc/intel_gsc_fw.c     |  10 ++
+ drivers/gpu/drm/i915/gt/uc/intel_gsc_fw.h     |   1 +
+ drivers/gpu/drm/i915/pxp/intel_pxp.c          |  28 +++-
+ .../drm/i915/pxp/intel_pxp_cmd_interface_43.h |  21 +++
+ drivers/gpu/drm/i915/pxp/intel_pxp_gsccs.c    | 130 ++++++++++++++++++
+ drivers/gpu/drm/i915/pxp/intel_pxp_gsccs.h    |   8 +-
+ drivers/gpu/drm/i915/pxp/intel_pxp_session.c  |  11 +-
+ 7 files changed, 202 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_gsc_uc_heci_cmd_submit.h b/drivers/gpu/drm/i915/gt/uc/intel_gsc_uc_heci_cmd_submit.h
-index 3addce861854..e4d6662339e8 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_gsc_uc_heci_cmd_submit.h
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_gsc_uc_heci_cmd_submit.h
-@@ -51,6 +51,7 @@ struct intel_gsc_mtl_header {
- 	 */
- 	u32 flags;
- #define GSC_OUTFLAG_MSG_PENDING 1
-+#define GSC_INFLAG_MSG_CLEANUP BIT(1)
+diff --git a/drivers/gpu/drm/i915/gt/uc/intel_gsc_fw.c b/drivers/gpu/drm/i915/gt/uc/intel_gsc_fw.c
+index 1d9fdfb11268..85f720af2f75 100644
+--- a/drivers/gpu/drm/i915/gt/uc/intel_gsc_fw.c
++++ b/drivers/gpu/drm/i915/gt/uc/intel_gsc_fw.c
+@@ -13,6 +13,7 @@
+ #define GSC_FW_STATUS_REG			_MMIO(0x116C40)
+ #define GSC_FW_CURRENT_STATE			REG_GENMASK(3, 0)
+ #define   GSC_FW_CURRENT_STATE_RESET		0
++#define   GSC_FW_PROXY_STATE_NORMAL		5
+ #define GSC_FW_INIT_COMPLETE_BIT		REG_BIT(9)
  
- 	u32 status;
- } __packed;
+ static bool gsc_is_in_reset(struct intel_uncore *uncore)
+@@ -31,6 +32,15 @@ bool intel_gsc_uc_fw_init_done(struct intel_gsc_uc *gsc)
+ 	return fw_status & GSC_FW_INIT_COMPLETE_BIT;
+ }
+ 
++bool intel_gsc_uc_fw_proxy_init_done(struct intel_gsc_uc *gsc)
++{
++	struct intel_uncore *uncore = gsc_uc_to_gt(gsc)->uncore;
++	u32 fw_status = intel_uncore_read(uncore, GSC_FW_STATUS_REG);
++
++	return REG_FIELD_GET(GSC_FW_CURRENT_STATE, fw_status) ==
++	       GSC_FW_PROXY_STATE_NORMAL;
++}
++
+ static int emit_gsc_fw_load(struct i915_request *rq, struct intel_gsc_uc *gsc)
+ {
+ 	u32 offset = i915_ggtt_offset(gsc->local);
+diff --git a/drivers/gpu/drm/i915/gt/uc/intel_gsc_fw.h b/drivers/gpu/drm/i915/gt/uc/intel_gsc_fw.h
+index f4c1106bb2a9..fff8928218df 100644
+--- a/drivers/gpu/drm/i915/gt/uc/intel_gsc_fw.h
++++ b/drivers/gpu/drm/i915/gt/uc/intel_gsc_fw.h
+@@ -13,5 +13,6 @@ struct intel_uncore;
+ 
+ int intel_gsc_uc_fw_upload(struct intel_gsc_uc *gsc);
+ bool intel_gsc_uc_fw_init_done(struct intel_gsc_uc *gsc);
++bool intel_gsc_uc_fw_proxy_init_done(struct intel_gsc_uc *gsc);
+ 
+ #endif
+diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp.c b/drivers/gpu/drm/i915/pxp/intel_pxp.c
+index 8949d4be7882..550457bbb034 100644
+--- a/drivers/gpu/drm/i915/pxp/intel_pxp.c
++++ b/drivers/gpu/drm/i915/pxp/intel_pxp.c
+@@ -291,6 +291,8 @@ static bool pxp_component_bound(struct intel_pxp *pxp)
+ 
+ static int __pxp_global_teardown_final(struct intel_pxp *pxp)
+ {
++	int timeout;
++
+ 	if (!pxp->arb_is_valid)
+ 		return 0;
+ 	/*
+@@ -300,7 +302,12 @@ static int __pxp_global_teardown_final(struct intel_pxp *pxp)
+ 	intel_pxp_mark_termination_in_progress(pxp);
+ 	intel_pxp_terminate(pxp, false);
+ 
+-	if (!wait_for_completion_timeout(&pxp->termination, msecs_to_jiffies(250)))
++	if (HAS_ENGINE(pxp->ctrl_gt, GSC0))
++		timeout = GSCFW_MAX_ROUND_TRIP_LATENCY_MS;
++	else
++		timeout = 250;
++
++	if (!wait_for_completion_timeout(&pxp->termination, msecs_to_jiffies(timeout)))
+ 		return -ETIMEDOUT;
+ 
+ 	return 0;
+@@ -308,6 +315,8 @@ static int __pxp_global_teardown_final(struct intel_pxp *pxp)
+ 
+ static int __pxp_global_teardown_restart(struct intel_pxp *pxp)
+ {
++	int timeout;
++
+ 	if (pxp->arb_is_valid)
+ 		return 0;
+ 	/*
+@@ -316,7 +325,12 @@ static int __pxp_global_teardown_restart(struct intel_pxp *pxp)
+ 	 */
+ 	pxp_queue_termination(pxp);
+ 
+-	if (!wait_for_completion_timeout(&pxp->termination, msecs_to_jiffies(250)))
++	if (HAS_ENGINE(pxp->ctrl_gt, GSC0))
++		timeout = GSCFW_MAX_ROUND_TRIP_LATENCY_MS;
++	else
++		timeout = 250;
++
++	if (!wait_for_completion_timeout(&pxp->termination, msecs_to_jiffies(timeout)))
+ 		return -ETIMEDOUT;
+ 
+ 	return 0;
+@@ -354,8 +368,14 @@ int intel_pxp_start(struct intel_pxp *pxp)
+ 	if (!intel_pxp_is_enabled(pxp))
+ 		return -ENODEV;
+ 
+-	if (wait_for(pxp_component_bound(pxp), 250))
+-		return -ENXIO;
++	if (HAS_ENGINE(pxp->ctrl_gt, GSC0)) {
++		/* Use a larger 1 second timeout considering all the dependencies. */
++		if (wait_for(intel_pxp_gsccs_is_ready_for_sessions(pxp), 1000))
++			return -ENXIO;
++	} else {
++		if (wait_for(pxp_component_bound(pxp), 250))
++			return -ENXIO;
++	}
+ 
+ 	mutex_lock(&pxp->arb_mutex);
+ 
 diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp_cmd_interface_43.h b/drivers/gpu/drm/i915/pxp/intel_pxp_cmd_interface_43.h
-index ad67e3f49c20..c65ada99e54f 100644
+index c65ada99e54f..09777719cd84 100644
 --- a/drivers/gpu/drm/i915/pxp/intel_pxp_cmd_interface_43.h
 +++ b/drivers/gpu/drm/i915/pxp/intel_pxp_cmd_interface_43.h
-@@ -12,6 +12,9 @@
+@@ -11,6 +11,7 @@
+ 
  /* PXP-Cmd-Op definitions */
  #define PXP43_CMDID_START_HUC_AUTH 0x0000003A
++#define PXP43_CMDID_INIT_SESSION 0x00000036
  
-+/* PXP-Packet sizes for MTL's GSCCS-HECI instruction */
-+#define PXP43_MAX_HECI_INOUT_SIZE (SZ_32K)
-+
- /* PXP-Input-Packet: HUC-Authentication */
- struct pxp43_start_huc_auth_in {
+ /* PXP-Packet sizes for MTL's GSCCS-HECI instruction */
+ #define PXP43_MAX_HECI_INOUT_SIZE (SZ_32K)
+@@ -26,4 +27,24 @@ struct pxp43_start_huc_auth_out {
  	struct pxp_cmd_header header;
+ } __packed;
+ 
++/* PXP-Input-Packet: Init PXP session */
++struct pxp43_create_arb_in {
++	struct pxp_cmd_header header;
++		/* header.stream_id fields for vesion 4.3 of Init PXP session: */
++		#define PXP43_INIT_SESSION_VALID BIT(0)
++		#define PXP43_INIT_SESSION_APPTYPE BIT(1)
++		#define PXP43_INIT_SESSION_APPID GENMASK(17, 2)
++	u32 protection_mode;
++		#define PXP43_INIT_SESSION_PROTECTION_ARB 0x2
++	u32 sub_session_id;
++	u32 init_flags;
++	u32 rsvd[12];
++} __packed;
++
++/* PXP-Input-Packet: Init PXP session */
++struct pxp43_create_arb_out {
++	struct pxp_cmd_header header;
++	u32 rsvd[8];
++} __packed;
++
+ #endif /* __INTEL_PXP_FW_INTERFACE_43_H__ */
 diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp_gsccs.c b/drivers/gpu/drm/i915/pxp/intel_pxp_gsccs.c
-index bad55719a7ac..16e3b73d0653 100644
+index 16e3b73d0653..4bc276daca16 100644
 --- a/drivers/gpu/drm/i915/pxp/intel_pxp_gsccs.c
 +++ b/drivers/gpu/drm/i915/pxp/intel_pxp_gsccs.c
-@@ -6,23 +6,232 @@
+@@ -6,13 +6,46 @@
  #include "gem/i915_gem_internal.h"
  
  #include "gt/intel_context.h"
-+#include "gt/uc/intel_gsc_uc_heci_cmd_submit.h"
++#include "gt/uc/intel_gsc_fw.h"
+ #include "gt/uc/intel_gsc_uc_heci_cmd_submit.h"
  
  #include "i915_drv.h"
++#include "intel_pxp_cmd_interface_42.h"
  #include "intel_pxp_cmd_interface_43.h"
  #include "intel_pxp_gsccs.h"
  #include "intel_pxp_types.h"
  
-+static int
-+gsccs_send_message(struct intel_pxp *pxp,
-+		   void *msg_in, size_t msg_in_size,
-+		   void *msg_out, size_t msg_out_size_max,
-+		   size_t *msg_out_len,
-+		   u64 *gsc_msg_handle_retry)
++static bool
++is_fw_err_platform_config(u32 type)
 +{
-+	struct intel_gt *gt = pxp->ctrl_gt;
-+	struct drm_i915_private *i915 = gt->i915;
-+	struct gsccs_session_resources *exec_res =  &pxp->gsccs_res;
-+	struct intel_gsc_mtl_header *header = exec_res->pkt_vaddr;
-+	struct intel_gsc_heci_non_priv_pkt pkt;
-+	size_t max_msg_size;
-+	u32 reply_size;
-+	int ret;
-+
-+	if (!exec_res->ce)
-+		return -ENODEV;
-+
-+	max_msg_size = PXP43_MAX_HECI_INOUT_SIZE - sizeof(*header);
-+
-+	if (msg_in_size > max_msg_size || msg_out_size_max > max_msg_size)
-+		return -ENOSPC;
-+
-+	if (!exec_res->pkt_vma || !exec_res->bb_vma)
-+		return -ENOENT;
-+
-+	GEM_BUG_ON(exec_res->pkt_vma->size < (2 * PXP43_MAX_HECI_INOUT_SIZE));
-+
-+	mutex_lock(&pxp->tee_mutex);
-+
-+	memset(header, 0, sizeof(*header));
-+	intel_gsc_uc_heci_cmd_emit_mtl_header(header, HECI_MEADDRESS_PXP,
-+					      msg_in_size + sizeof(*header),
-+					      exec_res->host_session_handle);
-+
-+	/* check if this is a host-session-handle cleanup call (empty packet) */
-+	if (!msg_in && !msg_out)
-+		header->flags |= GSC_INFLAG_MSG_CLEANUP;
-+
-+	/* copy caller provided gsc message handle if this is polling for a prior msg completion */
-+	header->gsc_message_handle = *gsc_msg_handle_retry;
-+
-+	/* NOTE: zero size packets are used for session-cleanups */
-+	if (msg_in && msg_in_size)
-+		memcpy(exec_res->pkt_vaddr + sizeof(*header), msg_in, msg_in_size);
-+
-+	pkt.addr_in = i915_vma_offset(exec_res->pkt_vma);
-+	pkt.size_in = header->message_size;
-+	pkt.addr_out = pkt.addr_in + PXP43_MAX_HECI_INOUT_SIZE;
-+	pkt.size_out = msg_out_size_max + sizeof(*header);
-+	pkt.heci_pkt_vma = exec_res->pkt_vma;
-+	pkt.bb_vma = exec_res->bb_vma;
-+
-+	/*
-+	 * Before submitting, let's clear-out the validity marker on the reply offset.
-+	 * We use offset PXP43_MAX_HECI_INOUT_SIZE for reply location so point header there.
-+	 */
-+	header = exec_res->pkt_vaddr + PXP43_MAX_HECI_INOUT_SIZE;
-+	header->validity_marker = 0;
-+
-+	ret = intel_gsc_uc_heci_cmd_submit_nonpriv(&gt->uc.gsc,
-+						   exec_res->ce, &pkt, exec_res->bb_vaddr,
-+						   GSC_REPLY_LATENCY_MS);
-+	if (ret) {
-+		drm_err(&i915->drm, "failed to send gsc PXP msg (%d)\n", ret);
-+		goto unlock;
++	switch (type) {
++	case PXP_STATUS_ERROR_API_VERSION:
++	case PXP_STATUS_PLATFCONFIG_KF1_NOVERIF:
++	case PXP_STATUS_PLATFCONFIG_KF1_BAD:
++		return true;
++	default:
++		break;
 +	}
-+
-+	/* Response validity marker, status and busyness */
-+	if (header->validity_marker != GSC_HECI_VALIDITY_MARKER) {
-+		drm_err(&i915->drm, "gsc PXP reply with invalid validity marker\n");
-+		ret = -EINVAL;
-+		goto unlock;
-+	}
-+	if (header->status != 0) {
-+		drm_dbg(&i915->drm, "gsc PXP reply status has error = 0x%08x\n",
-+			header->status);
-+		ret = -EINVAL;
-+		goto unlock;
-+	}
-+	if (header->flags & GSC_OUTFLAG_MSG_PENDING) {
-+		drm_dbg(&i915->drm, "gsc PXP reply is busy\n");
-+		/*
-+		 * When the GSC firmware replies with pending bit, it means that the requested
-+		 * operation has begun but the completion is pending and the caller needs
-+		 * to re-request with the gsc_message_handle that was returned by the firmware.
-+		 * until the pending bit is turned off.
-+		 */
-+		*gsc_msg_handle_retry = header->gsc_message_handle;
-+		ret = -EAGAIN;
-+		goto unlock;
-+	}
-+
-+	reply_size = header->message_size - sizeof(*header);
-+	if (reply_size > msg_out_size_max) {
-+		drm_warn(&i915->drm, "caller with insufficient PXP reply size %u (%ld)\n",
-+			 reply_size, msg_out_size_max);
-+		reply_size = msg_out_size_max;
-+	}
-+
-+	if (msg_out)
-+		memcpy(msg_out, exec_res->pkt_vaddr + PXP43_MAX_HECI_INOUT_SIZE + sizeof(*header),
-+		       reply_size);
-+	if (msg_out_len)
-+		*msg_out_len = reply_size;
-+
-+unlock:
-+	mutex_unlock(&pxp->tee_mutex);
-+	return ret;
++	return false;
 +}
 +
-+static int
-+gsccs_send_message_retry_complete(struct intel_pxp *pxp,
-+				  void *msg_in, size_t msg_in_size,
-+				  void *msg_out, size_t msg_out_size_max,
-+				  size_t *msg_out_len)
++static const char *
++fw_err_to_string(u32 type)
 +{
-+	u64 gsc_session_retry = 0;
-+	int ret, tries = 0;
-+
-+	/*
-+	 * Keep sending request if GSC firmware was busy. Based on fw specs +
-+	 * sw overhead (and testing) we expect a worst case pending-bit delay of
-+	 * GSC_PENDING_RETRY_MAXCOUNT x GSC_PENDING_RETRY_PAUSE_MS millisecs.
-+	 */
-+	do {
-+		ret = gsccs_send_message(pxp, msg_in, msg_in_size, msg_out, msg_out_size_max,
-+					 msg_out_len, &gsc_session_retry);
-+		/* Only try again if gsc says so */
-+		if (ret != -EAGAIN)
-+			break;
-+
-+		msleep(GSC_PENDING_RETRY_PAUSE_MS);
-+	} while (++tries < GSC_PENDING_RETRY_MAXCOUNT);
-+
-+	return ret;
-+}
-+
-+static void
-+gsccs_cleanup_fw_host_session_handle(struct intel_pxp *pxp)
-+{
-+	struct drm_i915_private *i915 = pxp->ctrl_gt->i915;
-+	int ret;
-+
-+	ret = gsccs_send_message_retry_complete(pxp, NULL, 0, NULL, 0, NULL);
-+	if (ret)
-+		drm_dbg(&i915->drm, "Failed to send gsccs msg host-session-cleanup: ret=[%d]\n",
-+			ret);
-+}
-+
- static void
- gsccs_destroy_execution_resource(struct intel_pxp *pxp)
- {
- 	struct gsccs_session_resources *exec_res = &pxp->gsccs_res;
- 
-+	if (exec_res->host_session_handle)
-+		gsccs_cleanup_fw_host_session_handle(pxp);
- 	if (exec_res->ce)
- 		intel_context_put(exec_res->ce);
-+	if (exec_res->bb_vma)
-+		i915_vma_unpin_and_release(&exec_res->bb_vma, I915_VMA_RELEASE_MAP);
-+	if (exec_res->pkt_vma)
-+		i915_vma_unpin_and_release(&exec_res->pkt_vma, I915_VMA_RELEASE_MAP);
- 
- 	memset(exec_res, 0, sizeof(*exec_res));
- }
- 
-+static int
-+gsccs_create_buffer(struct intel_gt *gt,
-+		    const char *bufname, size_t size,
-+		    struct i915_vma **vma, void **map)
-+{
-+	struct drm_i915_private *i915 = gt->i915;
-+	struct drm_i915_gem_object *obj;
-+	int err = 0;
-+
-+	obj = i915_gem_object_create_internal(i915, size);
-+	if (IS_ERR(obj)) {
-+		drm_err(&i915->drm, "Failed to allocate gsccs backend %s.\n", bufname);
-+		err = PTR_ERR(obj);
-+		goto out_none;
++	switch (type) {
++	case PXP_STATUS_ERROR_API_VERSION:
++		return "ERR_API_VERSION";
++	case PXP_STATUS_NOT_READY:
++		return "ERR_NOT_READY";
++	case PXP_STATUS_PLATFCONFIG_KF1_NOVERIF:
++	case PXP_STATUS_PLATFCONFIG_KF1_BAD:
++		return "ERR_PLATFORM_CONFIG";
++	default:
++		break;
 +	}
-+
-+	*vma = i915_vma_instance(obj, gt->vm, NULL);
-+	if (IS_ERR(*vma)) {
-+		drm_err(&i915->drm, "Failed to vma-instance gsccs backend %s.\n", bufname);
-+		err = PTR_ERR(*vma);
-+		goto out_put;
-+	}
-+
-+	/* return a virtual pointer */
-+	*map = i915_gem_object_pin_map_unlocked(obj, i915_coherent_map_type(i915, obj, true));
-+	if (IS_ERR(*map)) {
-+		drm_err(&i915->drm, "Failed to map gsccs backend %s.\n", bufname);
-+		err = PTR_ERR(*map);
-+		goto out_put;
-+	}
-+
-+	/* all PXP sessions commands are treated as non-privileged */
-+	err = i915_vma_pin(*vma, 0, 0, PIN_USER);
-+	if (err) {
-+		drm_err(&i915->drm, "Failed to vma-pin gsccs backend %s.\n", bufname);
-+		goto out_unmap;
-+	}
-+
-+	return 0;
-+
-+out_unmap:
-+	i915_gem_object_unpin_map(obj);
-+out_put:
-+	i915_gem_object_put(obj);
-+out_none:
-+	*vma = NULL;
-+	*map = NULL;
-+
-+	return err;
++	return NULL;
 +}
 +
  static int
- gsccs_allocate_execution_resource(struct intel_pxp *pxp)
- {
-@@ -30,6 +239,7 @@ gsccs_allocate_execution_resource(struct intel_pxp *pxp)
- 	struct gsccs_session_resources *exec_res = &pxp->gsccs_res;
- 	struct intel_engine_cs *engine = gt->engine[GSC0];
- 	struct intel_context *ce;
-+	int err = 0;
- 
- 	/*
- 	 * First, ensure the GSC engine is present.
-@@ -38,18 +248,46 @@ gsccs_allocate_execution_resource(struct intel_pxp *pxp)
- 	if (!engine)
- 		return -ENODEV;
- 
-+	/*
-+	 * Now, allocate, pin and map two objects, one for the heci message packet
-+	 * and another for the batch buffer we submit into GSC engine (that includes the packet).
-+	 * NOTE: GSC-CS backend is currently only supported on MTL, so we allocate shmem.
-+	 */
-+	err = gsccs_create_buffer(pxp->ctrl_gt, "Heci Packet",
-+				  2 * PXP43_MAX_HECI_INOUT_SIZE,
-+				  &exec_res->pkt_vma, &exec_res->pkt_vaddr);
-+	if (err)
-+		return err;
-+
-+	err = gsccs_create_buffer(pxp->ctrl_gt, "Batch Buffer", PAGE_SIZE,
-+				  &exec_res->bb_vma, &exec_res->bb_vaddr);
-+	if (err)
-+		goto free_pkt;
-+
- 	/* Finally, create an intel_context to be used during the submission */
- 	ce = intel_context_create(engine);
- 	if (IS_ERR(ce)) {
- 		drm_err(&gt->i915->drm, "Failed creating gsccs backend ctx\n");
--		return PTR_ERR(ce);
-+		err = PTR_ERR(ce);
-+		goto free_batch;
- 	}
- 
- 	i915_vm_put(ce->vm);
- 	ce->vm = i915_vm_get(pxp->ctrl_gt->vm);
- 	exec_res->ce = ce;
- 
-+	/* initialize host-session-handle (for all i915-to-gsc-firmware PXP cmds) */
-+	get_random_bytes(&exec_res->host_session_handle, sizeof(exec_res->host_session_handle));
-+
- 	return 0;
-+
-+free_batch:
-+	i915_vma_unpin_and_release(&exec_res->bb_vma, I915_VMA_RELEASE_MAP);
-+free_pkt:
-+	i915_vma_unpin_and_release(&exec_res->pkt_vma, I915_VMA_RELEASE_MAP);
-+	memset(exec_res, 0, sizeof(*exec_res));
-+
-+	return err;
+ gsccs_send_message(struct intel_pxp *pxp,
+ 		   void *msg_in, size_t msg_in_size,
+@@ -152,6 +185,103 @@ gsccs_send_message_retry_complete(struct intel_pxp *pxp,
+ 	return ret;
  }
  
- void intel_pxp_gsccs_fini(struct intel_pxp *pxp)
++bool intel_pxp_gsccs_is_ready_for_sessions(struct intel_pxp *pxp)
++{
++	/*
++	 * GSC-fw loading, HuC-fw loading, HuC-fw authentication and
++	 * GSC-proxy init flow (requiring an mei component driver)
++	 * must all occur first before we can start requesting for PXP
++	 * sessions. Checking for completion on HuC authentication and
++	 * gsc-proxy init flow (the last set of dependencies that
++	 * are out of order) will suffice.
++	 */
++	if (intel_huc_is_authenticated(&pxp->ctrl_gt->uc.huc) &&
++	    intel_gsc_uc_fw_proxy_init_done(&pxp->ctrl_gt->uc.gsc))
++		return true;
++
++	return false;
++}
++
++int intel_pxp_gsccs_create_session(struct intel_pxp *pxp,
++				   int arb_session_id)
++{
++	struct drm_i915_private *i915 = pxp->ctrl_gt->i915;
++	struct pxp43_create_arb_in msg_in = {0};
++	struct pxp43_create_arb_out msg_out = {0};
++	int ret;
++
++	msg_in.header.api_version = PXP_APIVER(4, 3);
++	msg_in.header.command_id = PXP43_CMDID_INIT_SESSION;
++	msg_in.header.stream_id = (FIELD_PREP(PXP43_INIT_SESSION_APPID, arb_session_id) |
++				   FIELD_PREP(PXP43_INIT_SESSION_VALID, 1) |
++				   FIELD_PREP(PXP43_INIT_SESSION_APPTYPE, 0));
++	msg_in.header.buffer_len = sizeof(msg_in) - sizeof(msg_in.header);
++	msg_in.protection_mode = PXP43_INIT_SESSION_PROTECTION_ARB;
++
++	ret = gsccs_send_message_retry_complete(pxp,
++						&msg_in, sizeof(msg_in),
++						&msg_out, sizeof(msg_out), NULL);
++	if (ret) {
++		drm_err(&i915->drm, "Failed to init session %d, ret=[%d]\n", arb_session_id, ret);
++	} else if (msg_out.header.status != 0) {
++		if (is_fw_err_platform_config(msg_out.header.status)) {
++			drm_info_once(&i915->drm,
++				      "PXP init-session-%d failed due to BIOS/SOC:0x%08x:%s\n",
++				      arb_session_id, msg_out.header.status,
++				      fw_err_to_string(msg_out.header.status));
++		} else {
++			drm_dbg(&i915->drm, "PXP init-session-%d failed 0x%08x:%st:\n",
++				arb_session_id, msg_out.header.status,
++				fw_err_to_string(msg_out.header.status));
++			drm_dbg(&i915->drm, "     cmd-detail: ID=[0x%08x],API-Ver-[0x%08x]\n",
++				msg_in.header.command_id, msg_in.header.api_version);
++		}
++	}
++
++	return ret;
++}
++
++void intel_pxp_gsccs_end_arb_fw_session(struct intel_pxp *pxp, u32 session_id)
++{
++	struct drm_i915_private *i915 = pxp->ctrl_gt->i915;
++	struct pxp42_inv_stream_key_in msg_in = {0};
++	struct pxp42_inv_stream_key_out msg_out = {0};
++	int ret = 0;
++
++	/*
++	 * Stream key invalidation reuses the same version 4.2 input/output
++	 * command format but firmware requires 4.3 API interaction
++	 */
++	msg_in.header.api_version = PXP_APIVER(4, 3);
++	msg_in.header.command_id = PXP42_CMDID_INVALIDATE_STREAM_KEY;
++	msg_in.header.buffer_len = sizeof(msg_in) - sizeof(msg_in.header);
++
++	msg_in.header.stream_id = FIELD_PREP(PXP_CMDHDR_EXTDATA_SESSION_VALID, 1);
++	msg_in.header.stream_id |= FIELD_PREP(PXP_CMDHDR_EXTDATA_APP_TYPE, 0);
++	msg_in.header.stream_id |= FIELD_PREP(PXP_CMDHDR_EXTDATA_SESSION_ID, session_id);
++
++	ret = gsccs_send_message_retry_complete(pxp,
++						&msg_in, sizeof(msg_in),
++						&msg_out, sizeof(msg_out), NULL);
++	if (ret) {
++		drm_err(&i915->drm, "Failed to inv-stream-key-%u, ret=[%d]\n",
++			session_id, ret);
++	} else if (msg_out.header.status != 0) {
++		if (is_fw_err_platform_config(msg_out.header.status)) {
++			drm_info_once(&i915->drm,
++				      "PXP inv-stream-key-%u failed due to BIOS/SOC :0x%08x:%s\n",
++				      session_id, msg_out.header.status,
++				      fw_err_to_string(msg_out.header.status));
++		} else {
++			drm_dbg(&i915->drm, "PXP inv-stream-key-%u failed 0x%08x:%s:\n",
++				session_id, msg_out.header.status,
++				fw_err_to_string(msg_out.header.status));
++			drm_dbg(&i915->drm, "     cmd-detail: ID=[0x%08x],API-Ver-[0x%08x]\n",
++				msg_in.header.command_id, msg_in.header.api_version);
++		}
++	}
++}
++
+ static void
+ gsccs_cleanup_fw_host_session_handle(struct intel_pxp *pxp)
+ {
 diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp_gsccs.h b/drivers/gpu/drm/i915/pxp/intel_pxp_gsccs.h
-index 354ea9a8f940..bd1c028bc80f 100644
+index bd1c028bc80f..820c2def21ee 100644
 --- a/drivers/gpu/drm/i915/pxp/intel_pxp_gsccs.h
 +++ b/drivers/gpu/drm/i915/pxp/intel_pxp_gsccs.h
-@@ -10,6 +10,10 @@
+@@ -10,14 +10,18 @@
  
  struct intel_pxp;
  
-+#define GSC_REPLY_LATENCY_MS 200
-+#define GSC_PENDING_RETRY_MAXCOUNT 40
-+#define GSC_PENDING_RETRY_PAUSE_MS 50
-+
+-#define GSC_REPLY_LATENCY_MS 200
++#define GSC_REPLY_LATENCY_MS 210
+ #define GSC_PENDING_RETRY_MAXCOUNT 40
+ #define GSC_PENDING_RETRY_PAUSE_MS 50
++#define GSCFW_MAX_ROUND_TRIP_LATENCY_MS (GSC_PENDING_RETRY_MAXCOUNT * GSC_PENDING_RETRY_PAUSE_MS)
+ 
  #ifdef CONFIG_DRM_I915_PXP
  void intel_pxp_gsccs_fini(struct intel_pxp *pxp);
  int intel_pxp_gsccs_init(struct intel_pxp *pxp);
-diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp_types.h b/drivers/gpu/drm/i915/pxp/intel_pxp_types.h
-index fdd98911968d..73392fbab7ee 100644
---- a/drivers/gpu/drm/i915/pxp/intel_pxp_types.h
-+++ b/drivers/gpu/drm/i915/pxp/intel_pxp_types.h
-@@ -38,6 +38,12 @@ struct intel_pxp {
- 	struct gsccs_session_resources {
- 		u64 host_session_handle; /* used by firmware to link commands to sessions */
- 		struct intel_context *ce; /* context for gsc command submission */
-+
-+		struct i915_vma *pkt_vma; /* GSC FW cmd packet vma */
-+		void *pkt_vaddr;  /* GSC FW cmd packet virt pointer */
-+
-+		struct i915_vma *bb_vma; /* HECI_PKT batch buffer vma */
-+		void *bb_vaddr; /* HECI_PKT batch buffer virt pointer */
- 	} gsccs_res;
  
- 	/**
++int intel_pxp_gsccs_create_session(struct intel_pxp *pxp, int arb_session_id);
++void intel_pxp_gsccs_end_arb_fw_session(struct intel_pxp *pxp, u32 arb_session_id);
++
+ #else
+ static inline void intel_pxp_gsccs_fini(struct intel_pxp *pxp)
+ {
+@@ -30,4 +34,6 @@ static inline int intel_pxp_gsccs_init(struct intel_pxp *pxp)
+ 
+ #endif
+ 
++bool intel_pxp_gsccs_is_ready_for_sessions(struct intel_pxp *pxp);
++
+ #endif /*__INTEL_PXP_GSCCS_H__ */
+diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp_session.c b/drivers/gpu/drm/i915/pxp/intel_pxp_session.c
+index 7899079e17b0..e4d8242302c5 100644
+--- a/drivers/gpu/drm/i915/pxp/intel_pxp_session.c
++++ b/drivers/gpu/drm/i915/pxp/intel_pxp_session.c
+@@ -7,6 +7,7 @@
+ 
+ #include "intel_pxp.h"
+ #include "intel_pxp_cmd.h"
++#include "intel_pxp_gsccs.h"
+ #include "intel_pxp_session.h"
+ #include "intel_pxp_tee.h"
+ #include "intel_pxp_types.h"
+@@ -62,7 +63,10 @@ static int pxp_create_arb_session(struct intel_pxp *pxp)
+ 		return -EEXIST;
+ 	}
+ 
+-	ret = intel_pxp_tee_cmd_create_arb_session(pxp, ARB_SESSION);
++	if (HAS_ENGINE(pxp->ctrl_gt, GSC0))
++		ret = intel_pxp_gsccs_create_session(pxp, ARB_SESSION);
++	else
++		ret = intel_pxp_tee_cmd_create_arb_session(pxp, ARB_SESSION);
+ 	if (ret) {
+ 		drm_err(&gt->i915->drm, "tee cmd for arb session creation failed\n");
+ 		return ret;
+@@ -106,7 +110,10 @@ static int pxp_terminate_arb_session_and_global(struct intel_pxp *pxp)
+ 
+ 	intel_uncore_write(gt->uncore, KCR_GLOBAL_TERMINATE(pxp->kcr_base), 1);
+ 
+-	intel_pxp_tee_end_arb_fw_session(pxp, ARB_SESSION);
++	if (HAS_ENGINE(gt, GSC0))
++		intel_pxp_gsccs_end_arb_fw_session(pxp, ARB_SESSION);
++	else
++		intel_pxp_tee_end_arb_fw_session(pxp, ARB_SESSION);
+ 
+ 	return ret;
+ }
 -- 
 2.39.0
 
