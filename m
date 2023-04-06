@@ -1,25 +1,24 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D1E26DA372
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Apr 2023 22:38:40 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A75956DA374
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Apr 2023 22:38:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 71EC310ED1A;
-	Thu,  6 Apr 2023 20:38:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A56A110ED1B;
+	Thu,  6 Apr 2023 20:38:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 55AD710ED1A
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Apr 2023 20:38:37 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8689810ED1B
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Apr 2023 20:38:49 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id C2E8F60F7E;
+ by dfw.source.kernel.org (Postfix) with ESMTPS id CBDD960F77;
+ Thu,  6 Apr 2023 20:38:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B237AC4339E;
  Thu,  6 Apr 2023 20:38:36 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 99A21C433D2;
- Thu,  6 Apr 2023 20:38:25 +0000 (UTC)
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 To: Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>,
  Jonathan Corbet <corbet@lwn.net>, Oded Gabbay <ogabbay@kernel.org>,
@@ -56,9 +55,9 @@ To: Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>,
  dri-devel@lists.freedesktop.org, patches@opensource.cirrus.com,
  openbmc@lists.ozlabs.org, linux-rpi-kernel@lists.infradead.org,
  linux-arm-kernel@lists.infradead.org
-Subject: [PATCH 50/68] hwmon: peci: constify pointers to hwmon_channel_info
-Date: Thu,  6 Apr 2023 22:38:12 +0200
-Message-Id: <20230406203821.3012402-1-krzysztof.kozlowski@linaro.org>
+Subject: [PATCH 51/68] hwmon: powr1220: constify pointers to hwmon_channel_info
+Date: Thu,  6 Apr 2023 22:38:13 +0200
+Message-Id: <20230406203821.3012402-2-krzysztof.kozlowski@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230406203103.3011503-1-krzysztof.kozlowski@linaro.org>
 References: <20230406203103.3011503-1-krzysztof.kozlowski@linaro.org>
@@ -85,36 +84,22 @@ const for safety.
 
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 ---
- drivers/hwmon/peci/cputemp.c  | 2 +-
- drivers/hwmon/peci/dimmtemp.c | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ drivers/hwmon/powr1220.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/hwmon/peci/cputemp.c b/drivers/hwmon/peci/cputemp.c
-index 87d56f0fc888..e5b65a382772 100644
---- a/drivers/hwmon/peci/cputemp.c
-+++ b/drivers/hwmon/peci/cputemp.c
-@@ -447,7 +447,7 @@ static const struct hwmon_ops peci_cputemp_ops = {
- 	.read = cputemp_read,
- };
- 
--static const struct hwmon_channel_info *peci_cputemp_info[] = {
-+static const struct hwmon_channel_info * const peci_cputemp_info[] = {
- 	HWMON_CHANNEL_INFO(temp,
- 			   /* Die temperature */
- 			   HWMON_T_LABEL | HWMON_T_INPUT | HWMON_T_MAX |
-diff --git a/drivers/hwmon/peci/dimmtemp.c b/drivers/hwmon/peci/dimmtemp.c
-index 0a633bda3668..ed968401f93c 100644
---- a/drivers/hwmon/peci/dimmtemp.c
-+++ b/drivers/hwmon/peci/dimmtemp.c
-@@ -300,7 +300,7 @@ static int create_dimm_temp_label(struct peci_dimmtemp *priv, int chan)
+diff --git a/drivers/hwmon/powr1220.c b/drivers/hwmon/powr1220.c
+index f77dc6db31ac..9cb0c2de5219 100644
+--- a/drivers/hwmon/powr1220.c
++++ b/drivers/hwmon/powr1220.c
+@@ -248,7 +248,7 @@ powr1220_read(struct device *dev, enum hwmon_sensor_types type, u32
  	return 0;
  }
  
--static const struct hwmon_channel_info *peci_dimmtemp_temp_info[] = {
-+static const struct hwmon_channel_info * const peci_dimmtemp_temp_info[] = {
- 	HWMON_CHANNEL_INFO(temp,
- 			   [0 ... DIMM_NUMS_MAX - 1] = HWMON_T_LABEL |
- 				HWMON_T_INPUT | HWMON_T_MAX | HWMON_T_CRIT),
+-static const struct hwmon_channel_info *powr1220_info[] = {
++static const struct hwmon_channel_info * const powr1220_info[] = {
+ 	HWMON_CHANNEL_INFO(in,
+ 			   HWMON_I_INPUT | HWMON_I_HIGHEST | HWMON_I_LABEL,
+ 			   HWMON_I_INPUT | HWMON_I_HIGHEST | HWMON_I_LABEL,
 -- 
 2.34.1
 
