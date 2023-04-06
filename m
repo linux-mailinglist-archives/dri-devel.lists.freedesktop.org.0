@@ -2,84 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 667096D9CDF
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Apr 2023 17:59:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45CE16D9CFD
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Apr 2023 18:05:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5734710E05B;
-	Thu,  6 Apr 2023 15:59:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 12FDF10EC31;
+	Thu,  6 Apr 2023 16:05:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com
- [IPv6:2a00:1450:4864:20::533])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F277210E05B
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Apr 2023 15:59:37 +0000 (UTC)
-Received: by mail-ed1-x533.google.com with SMTP id
- 4fb4d7f45d1cf-502aa0f24daso168841a12.1
- for <dri-devel@lists.freedesktop.org>; Thu, 06 Apr 2023 08:59:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1680796776;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:mail-followup-to:message-id:subject:cc:to
- :from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=AplaefBCy4jgU0hSoDn8uiF5723L/p4wjvwrPGw0IfA=;
- b=gGKuB4DXICi8Qyrsr/iB5D2crNbj234tTQQX25ZKovI11TOejRxqtHRV9XZSwmjbsm
- dyCTMAPlbXxtY2BjIa33zif3zSmqA/s3H/rScTKe9O96zoPrBkuZURo9TcM/hokdgXKK
- ZLYF17+DF5Y6/cYDuwrWaCJ0PdcZI3b16iG2c=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680796776;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:mail-followup-to:message-id:subject:cc:to
- :from:date:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=AplaefBCy4jgU0hSoDn8uiF5723L/p4wjvwrPGw0IfA=;
- b=pRc1gQfGzjvUgDs8/oKKx1Zp5TSU/60a6zIjKjKP/AXwsJrqwW2eMeqpWj1MSMj46N
- 0n3plX4z/XJid0xYhnL6aqMugo4qJdmlmSe0wFStDsLg/ghqoJ1Rv1RuNwECIggX2WLD
- 8jEkjdHT9BwrZ+XksUgJbE81xIWbZMn8+rP0ekPUuIoGCUhAtl0ULjzW2RV38rGd12Sa
- DIcS7760L9VQzFMznN9tBkRIstmzd7NhKbii/ygjvI8NeA+W60vZ1/SnI/XivQCMwXlM
- YexmtfH68+tk83oXJDtLbbonZfLpaFi8QcDMw3AGzvOZEsRpahYvJ/5ITq2CShRgWXfB
- zB8g==
-X-Gm-Message-State: AAQBX9eC+7RCtFLOWqouxA0+g9iX/lRThqVC4LW6ri+QxRGgvmrKFK4f
- Zz2d/wO2txxyaKLteQXrTrDIhw==
-X-Google-Smtp-Source: AKy350YHIgePAu2+ro+fzbAXMA/CtM0AI/WX/4aNshApMGbl7AMOGARvO0Mww9K50QkZRokT46Ekag==
-X-Received: by 2002:a05:6402:27ce:b0:502:c397:adc8 with SMTP id
- c14-20020a05640227ce00b00502c397adc8mr63407ede.1.1680796776024; 
- Thu, 06 Apr 2023 08:59:36 -0700 (PDT)
-Received: from phenom.ffwll.local (212-51-149-33.fiber7.init7.net.
- [212.51.149.33]) by smtp.gmail.com with ESMTPSA id
- i11-20020a50870b000000b004bd6e3ed196sm892265edb.86.2023.04.06.08.59.35
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 06 Apr 2023 08:59:35 -0700 (PDT)
-Date: Thu, 6 Apr 2023 17:59:33 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Subject: Re: [Regression] drm/scheduler: track GPU active time per entity
-Message-ID: <ZC7sZfn9XJpqN7ni@phenom.ffwll.local>
-Mail-Followup-To: Christian =?iso-8859-1?Q?K=F6nig?=
- <christian.koenig@amd.com>, 
- Lucas Stach <l.stach@pengutronix.de>,
- Luben Tuikov <luben.tuikov@amd.com>,
- Danilo Krummrich <dakr@redhat.com>, Dave Airlie <airlied@gmail.com>,
- Bagas Sanjaya <bagasdotme@gmail.com>, andrey.grodzovsky@amd.com,
- tvrtko.ursulin@linux.intel.com,
- Matthew Brost <matthew.brost@intel.com>, yuq825@gmail.com,
- Boris Brezillon <boris.brezillon@collabora.com>, lina@asahilina.net,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <2a84875dde6565842aa07ddb96245b7d939cb4fd.camel@pengutronix.de>
- <8b28151c-f2db-af3f-8dff-87dd5d57417b@amd.com>
- <3004a2bf-e725-643e-82af-8a217784e796@redhat.com>
- <013781a3-5abd-8c66-8a0a-dd36c9c487af@amd.com>
- <28d10733-b217-7ccc-4b8c-54bdc8249234@amd.com>
- <CAKMK7uFeeAaG8+1EutgMtmVANTb-acL0faEkJfUp1_35rSjaEg@mail.gmail.com>
- <9c72c7162da56234addd7083ec774e525a13957c.camel@pengutronix.de>
- <31f03135-40e4-a6ad-37e0-3b434a37922d@amd.com>
- <9ac69b11802331f9e024ab837b85214c4243e3fd.camel@pengutronix.de>
- <cdc29af8-8c04-cf46-1872-3feab954bc55@amd.com>
+Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8B4F910EC31
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Apr 2023 16:05:09 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits))
+ (No client certificate requested)
+ (Authenticated sender: lina@asahilina.net)
+ by mail.marcansoft.com (Postfix) with ESMTPSA id 0BE7942529;
+ Thu,  6 Apr 2023 16:05:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=asahilina.net;
+ s=default; t=1680797107;
+ bh=W0GosPfDacdVDq1FAyzUHCQaB9zv6PQPmS1vLdHnKQA=;
+ h=Date:Subject:To:References:From:In-Reply-To;
+ b=iAfV7p0T+1eaS8GrScZ1pOIMzHRYAc/lPATW7AAtA9h+sKU5BiWtfPkREufz1HKGs
+ 289tD5z3EqWeQmT+Wi/W9zW5tx+pe0yU8FSO9ZwIrl/efPjomrdN9ofSf0GkhDPVq4
+ 312c42FtGS43DfHFW3X0m20AvxpuXRHDtE/5LITrVWvAFfqRP076xWGv+NNPrEjuGY
+ 5EqW1gBzsw/dAMJFDLBabsvNmBNiKgqTIQUF1s2xQGm1EtvNzVn6gBy8RWTXRkVcYY
+ kSl6RWXG4ypNZ22578cjGOjOaKw9GT2aqWVhytUD/H22QtntuZHq0Mg1Rh0bdJvg9t
+ BQAqcMsvvJInA==
+Message-ID: <d2615710-28c3-2bbb-e0b5-b87eb8d1aa8f@asahilina.net>
+Date: Fri, 7 Apr 2023 01:04:59 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <cdc29af8-8c04-cf46-1872-3feab954bc55@amd.com>
-X-Operating-System: Linux phenom 6.1.0-7-amd64 
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH RFC 09/18] rust: drm: syncobj: Add DRM Sync Object
+ abstraction
+Content-Language: en-US
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Miguel Ojeda <ojeda@kernel.org>,
+ Alex Gaynor <alex.gaynor@gmail.com>,
+ Wedson Almeida Filho <wedsonaf@gmail.com>, Boqun Feng
+ <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+ =?UTF-8?Q?Bj=c3=b6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ Luben Tuikov <luben.tuikov@amd.com>, Jarkko Sakkinen <jarkko@kernel.org>,
+ Dave Hansen <dave.hansen@linux.intel.com>,
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>, Karol Herbst <kherbst@redhat.com>,
+ Ella Stanforth <ella@iglunix.org>,
+ Faith Ekstrand <faith.ekstrand@collabora.com>, Mary <mary@mary.zone>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ rust-for-linux@vger.kernel.org, linux-media@vger.kernel.org,
+ linaro-mm-sig@lists.linaro.org, linux-sgx@vger.kernel.org,
+ asahi@lists.linux.dev
+References: <20230307-rust-drm-v1-0-917ff5bc80a8@asahilina.net>
+ <20230307-rust-drm-v1-9-917ff5bc80a8@asahilina.net>
+ <ZC1qn/VCVpudivh9@phenom.ffwll.local>
+From: Asahi Lina <lina@asahilina.net>
+In-Reply-To: <ZC1qn/VCVpudivh9@phenom.ffwll.local>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,191 +74,216 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Matthew Brost <matthew.brost@intel.com>, andrey.grodzovsky@amd.com,
- tvrtko.ursulin@linux.intel.com, lina@asahilina.net,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Luben Tuikov <luben.tuikov@amd.com>, Danilo Krummrich <dakr@redhat.com>,
- yuq825@gmail.com, Bagas Sanjaya <bagasdotme@gmail.com>,
- Boris Brezillon <boris.brezillon@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Apr 06, 2023 at 05:33:18PM +0200, Christian König wrote:
-> Am 06.04.23 um 17:24 schrieb Lucas Stach:
-> > Am Donnerstag, dem 06.04.2023 um 16:21 +0200 schrieb Christian König:
-> > > Am 06.04.23 um 12:45 schrieb Lucas Stach:
-> > > > Am Donnerstag, dem 06.04.2023 um 10:27 +0200 schrieb Daniel Vetter:
-> > > > > On Thu, 6 Apr 2023 at 10:22, Christian König <christian.koenig@amd.com> wrote:
-> > > > > > Am 05.04.23 um 18:09 schrieb Luben Tuikov:
-> > > > > > > On 2023-04-05 10:05, Danilo Krummrich wrote:
-> > > > > > > > On 4/4/23 06:31, Luben Tuikov wrote:
-> > > > > > > > > On 2023-03-28 04:54, Lucas Stach wrote:
-> > > > > > > > > > Hi Danilo,
-> > > > > > > > > > 
-> > > > > > > > > > Am Dienstag, dem 28.03.2023 um 02:57 +0200 schrieb Danilo Krummrich:
-> > > > > > > > > > > Hi all,
-> > > > > > > > > > > 
-> > > > > > > > > > > Commit df622729ddbf ("drm/scheduler: track GPU active time per entity")
-> > > > > > > > > > > tries to track the accumulated time that a job was active on the GPU
-> > > > > > > > > > > writing it to the entity through which the job was deployed to the
-> > > > > > > > > > > scheduler originally. This is done within drm_sched_get_cleanup_job()
-> > > > > > > > > > > which fetches a job from the schedulers pending_list.
-> > > > > > > > > > > 
-> > > > > > > > > > > Doing this can result in a race condition where the entity is already
-> > > > > > > > > > > freed, but the entity's newly added elapsed_ns field is still accessed
-> > > > > > > > > > > once the job is fetched from the pending_list.
-> > > > > > > > > > > 
-> > > > > > > > > > > After drm_sched_entity_destroy() being called it should be safe to free
-> > > > > > > > > > > the structure that embeds the entity. However, a job originally handed
-> > > > > > > > > > > over to the scheduler by this entity might still reside in the
-> > > > > > > > > > > schedulers pending_list for cleanup after drm_sched_entity_destroy()
-> > > > > > > > > > > already being called and the entity being freed. Hence, we can run into
-> > > > > > > > > > > a UAF.
-> > > > > > > > > > > 
-> > > > > > > > > > Sorry about that, I clearly didn't properly consider this case.
-> > > > > > > > > > 
-> > > > > > > > > > > In my case it happened that a job, as explained above, was just picked
-> > > > > > > > > > > from the schedulers pending_list after the entity was freed due to the
-> > > > > > > > > > > client application exiting. Meanwhile this freed up memory was already
-> > > > > > > > > > > allocated for a subsequent client applications job structure again.
-> > > > > > > > > > > Hence, the new jobs memory got corrupted. Luckily, I was able to
-> > > > > > > > > > > reproduce the same corruption over and over again by just using
-> > > > > > > > > > > deqp-runner to run a specific set of VK test cases in parallel.
-> > > > > > > > > > > 
-> > > > > > > > > > > Fixing this issue doesn't seem to be very straightforward though (unless
-> > > > > > > > > > > I miss something), which is why I'm writing this mail instead of sending
-> > > > > > > > > > > a fix directly.
-> > > > > > > > > > > 
-> > > > > > > > > > > Spontaneously, I see three options to fix it:
-> > > > > > > > > > > 
-> > > > > > > > > > > 1. Rather than embedding the entity into driver specific structures
-> > > > > > > > > > > (e.g. tied to file_priv) we could allocate the entity separately and
-> > > > > > > > > > > reference count it, such that it's only freed up once all jobs that were
-> > > > > > > > > > > deployed through this entity are fetched from the schedulers pending list.
-> > > > > > > > > > > 
-> > > > > > > > > > My vote is on this or something in similar vain for the long term. I
-> > > > > > > > > > have some hope to be able to add a GPU scheduling algorithm with a bit
-> > > > > > > > > > more fairness than the current one sometime in the future, which
-> > > > > > > > > > requires execution time tracking on the entities.
-> > > > > > > > > Danilo,
-> > > > > > > > > 
-> > > > > > > > > Using kref is preferable, i.e. option 1 above.
-> > > > > > > > I think the only real motivation for doing that would be for generically
-> > > > > > > > tracking job statistics within the entity a job was deployed through. If
-> > > > > > > > we all agree on tracking job statistics this way I am happy to prepare a
-> > > > > > > > patch for this option and drop this one:
-> > > > > > > > https://lore.kernel.org/all/20230331000622.4156-1-dakr@redhat.com/T/#u
-> > > > > > > Hmm, I never thought about "job statistics" when I preferred using kref above.
-> > > > > > > The reason kref is attractive is because one doesn't need to worry about
-> > > > > > > it--when the last user drops the kref, the release is called to do
-> > > > > > > housekeeping. If this never happens, we know that we have a bug to debug.
-> > > > > > Yeah, reference counting unfortunately have some traps as well. For
-> > > > > > example rarely dropping the last reference from interrupt context or
-> > > > > > with some unexpected locks help when the cleanup function doesn't expect
-> > > > > > that is a good recipe for problems as well.
-> > > > > > 
-> > > > Fully agreed.
-> > > > 
-> > > > > > > Regarding the patch above--I did look around the code, and it seems safe,
-> > > > > > > as per your analysis, I didn't see any reference to entity after job submission,
-> > > > > > > but I'll comment on that thread as well for the record.
-> > > > > > Reference counting the entities was suggested before. The intentionally
-> > > > > > avoided that so far because the entity might be the tip of the iceberg
-> > > > > > of stuff you need to keep around.
-> > > > > > 
-> > > > > > For example for command submission you also need the VM and when you
-> > > > > > keep the VM alive you also need to keep the file private alive....
-> > > > > Yeah refcounting looks often like the easy way out to avoid
-> > > > > use-after-free issue, until you realize you've just made lifetimes
-> > > > > unbounded and have some enourmous leaks: entity keeps vm alive, vm
-> > > > > keeps all the bo alives, somehow every crash wastes more memory
-> > > > > because vk_device_lost means userspace allocates new stuff for
-> > > > > everything.
-> > > > > 
-> > > > > If possible a lifetime design where lifetimes have hard bounds and you
-> > > > > just borrow a reference under a lock (or some other ownership rule) is
-> > > > > generally much more solid. But also much harder to design correctly
-> > > > > :-/
-> > > > > 
-> > > > The use we are discussing here is to keep the entity alive as long as
-> > > > jobs from that entity are still active on the HW. While there are no
-> > > > hard bounds on when a job will get inactive, at least it's not
-> > > > unbounded. On a crash/fault the job will be removed from the hardware
-> > > > pretty soon.
-> > > > 
-> > > > Well behaved jobs after a application shutdown might take a little
-> > > > longer, but I don't really see the new problem with keeping the entity
-> > > > alive? As long as a job is active on the hardware, we can't throw out
-> > > > the VM or BOs, no difference whether the entity is kept alive or not.
-> > > Exactly that's the problem. VM & BOs are dropped as soon as the process
-> > > is destroyed, we *don't* wait for the hw to finish before doing so.
-> > > 
-> > > Just the backing store managed by all the house keeping objects isn't
-> > > freed until the hw is idle preventing a crash or accessing freed memory.
-> > > 
-> > > This behavior is rather important for the OOM killer since we need to be
-> > > able to tear down the process as fast as possible in that case.
-> > > 
-> > Are you talking about the dropping of pending jobs in
-> > drm_sched_entity_kill? I'm certainly not trying to change that in any
-> > way. Those aren't put onto the hardware yet, so we can always safely
-> > drop them and do so as fast as possible.
-> > 
-> > What I'm concerned about are the jobs that are already scheduled on the
-> > HW. At least with Vivante hardware there is no race free way to get rid
-> > of jobs once they are put on the ring. So whatever the scheduler or DRM
-> > core is doing, we have to hold on to the BOs and GPU memory management
-> > structures to keep the hardware from operating on freed memory.
-> > 
-> > That's already a lot of memory, so I don't really see the issue with
-> > keeping the entity around in a quiescent state until all the currently
-> > queued jobs have left the HW.
-> > 
-> > > Changing that is possible, but that's quite a huge change I'm not really
-> > > willing to do just for tracking the time spend.
-> > > 
-> > Yea, it's a big change and whether it's a good idea really depends on
-> > what we a gaining from it. You seem to see quite low value in "just
-> > tracking the time spent" and that might be true, but it also forces all
-> > drivers that want to implement fdinfo to roll their own time tracking.
-> > I would rather see more of this moved to the scheduler and thus shared
-> > between drivers.
+On 05/04/2023 21.33, Daniel Vetter wrote:
+> On Tue, Mar 07, 2023 at 11:25:34PM +0900, Asahi Lina wrote:
+>> DRM Sync Objects are a container for a DMA fence, and can be waited on
+>> signaled, exported, and imported from userspace. Add a Rust abstraction
+>> so Rust DRM drivers can support this functionality.
+>>
+>> Signed-off-by: Asahi Lina <lina@asahilina.net>
+>> ---
+>>   rust/bindings/bindings_helper.h |  1 +
+>>   rust/helpers.c                  | 19 ++++++++++
+>>   rust/kernel/drm/mod.rs          |  1 +
+>>   rust/kernel/drm/syncobj.rs      | 77 +++++++++++++++++++++++++++++++++++++++++
+>>   4 files changed, 98 insertions(+)
+>>
+>> diff --git a/rust/bindings/bindings_helper.h b/rust/bindings/bindings_helper.h
+>> index 705af292a5b4..b6696011f3a4 100644
+>> --- a/rust/bindings/bindings_helper.h
+>> +++ b/rust/bindings/bindings_helper.h
+>> @@ -12,6 +12,7 @@
+>>   #include <drm/drm_gem.h>
+>>   #include <drm/drm_gem_shmem_helper.h>
+>>   #include <drm/drm_ioctl.h>
+>> +#include <drm/drm_syncobj.h>
+>>   #include <linux/delay.h>
+>>   #include <linux/device.h>
+>>   #include <linux/dma-fence.h>
+>> diff --git a/rust/helpers.c b/rust/helpers.c
+>> index 8e906a7a7d8a..11965b1e2f4e 100644
+>> --- a/rust/helpers.c
+>> +++ b/rust/helpers.c
+>> @@ -20,6 +20,7 @@
+>>   
+>>   #include <drm/drm_gem.h>
+>>   #include <drm/drm_gem_shmem_helper.h>
+>> +#include <drm/drm_syncobj.h>
+>>   #include <linux/bug.h>
+>>   #include <linux/build_bug.h>
+>>   #include <linux/device.h>
+>> @@ -461,6 +462,24 @@ __u64 rust_helper_drm_vma_node_offset_addr(struct drm_vma_offset_node *node)
+>>   }
+>>   EXPORT_SYMBOL_GPL(rust_helper_drm_vma_node_offset_addr);
+>>   
+>> +void rust_helper_drm_syncobj_get(struct drm_syncobj *obj)
+>> +{
+>> +	drm_syncobj_get(obj);
+>> +}
+>> +EXPORT_SYMBOL_GPL(rust_helper_drm_syncobj_get);
+>> +
+>> +void rust_helper_drm_syncobj_put(struct drm_syncobj *obj)
+>> +{
+>> +	drm_syncobj_put(obj);
+>> +}
+>> +EXPORT_SYMBOL_GPL(rust_helper_drm_syncobj_put);
+>> +
+>> +struct dma_fence *rust_helper_drm_syncobj_fence_get(struct drm_syncobj *syncobj)
+>> +{
+>> +	return drm_syncobj_fence_get(syncobj);
+>> +}
+>> +EXPORT_SYMBOL_GPL(rust_helper_drm_syncobj_fence_get);
+>> +
+>>   #ifdef CONFIG_DRM_GEM_SHMEM_HELPER
+>>   
+>>   void rust_helper_drm_gem_shmem_object_free(struct drm_gem_object *obj)
+>> diff --git a/rust/kernel/drm/mod.rs b/rust/kernel/drm/mod.rs
+>> index 73fab2dee3af..dae98826edfd 100644
+>> --- a/rust/kernel/drm/mod.rs
+>> +++ b/rust/kernel/drm/mod.rs
+>> @@ -8,3 +8,4 @@ pub mod file;
+>>   pub mod gem;
+>>   pub mod ioctl;
+>>   pub mod mm;
+>> +pub mod syncobj;
+>> diff --git a/rust/kernel/drm/syncobj.rs b/rust/kernel/drm/syncobj.rs
+>> new file mode 100644
+>> index 000000000000..10eed05eb27a
+>> --- /dev/null
+>> +++ b/rust/kernel/drm/syncobj.rs
+>> @@ -0,0 +1,77 @@
+>> +// SPDX-License-Identifier: GPL-2.0 OR MIT
+>> +
+>> +//! DRM Sync Objects
+>> +//!
+>> +//! C header: [`include/linux/drm/drm_syncobj.h`](../../../../include/linux/drm/drm_syncobj.h)
+>> +
+>> +use crate::{bindings, dma_fence::*, drm, error::Result, prelude::*};
+>> +
+>> +/// A DRM Sync Object
+>> +///
+>> +/// # Invariants
+>> +/// ptr is a valid pointer to a drm_syncobj and we own a reference to it.
+>> +pub struct SyncObj {
+>> +    ptr: *mut bindings::drm_syncobj,
+>> +}
+>> +
+>> +impl SyncObj {
+>> +    /// Looks up a sync object by its handle for a given `File`.
+>> +    pub fn lookup_handle(file: &impl drm::file::GenericFile, handle: u32) -> Result<SyncObj> {
+>> +        // SAFETY: The arguments are all valid per the type invariants.
+>> +        let ptr = unsafe { bindings::drm_syncobj_find(file.raw() as *mut _, handle) };
 > 
-> That's generally a good idea, but if that means that we need to restructure
-> the whole entity handling then I would object. That's simply not worth it
-> when we can implement it differently.
+> Just an aside, but the semantics of this are nasty: You're not allowed to
+> hold any locks while calling this. We have runtime checks for that (if you
+> enable lockdep), but I don't see any way to encode that on the rust side
+> and check it at compile time :-/
+
+Oof, yeah, that's not possible today. Maybe in the future though, it's 
+similar to the execution context stuff...
+
 > 
-> What we could do is to keep the submitted fences around in the entity.
-> Similar to the tracking amdgpu does, see struct amdgpu_ctx_entity.
+>> +
+>> +        if ptr.is_null() {
+>> +            Err(ENOENT)
+>> +        } else {
+>> +            Ok(SyncObj { ptr })
+>> +        }
+>> +    }
+>> +
+>> +    /// Returns the DMA fence associated with this sync object, if any.
+>> +    pub fn fence_get(&self) -> Option<Fence> {
+>> +        let fence = unsafe { bindings::drm_syncobj_fence_get(self.ptr) };
+>> +        if fence.is_null() {
+>> +            None
+>> +        } else {
+>> +            // SAFETY: The pointer is non-NULL and drm_syncobj_fence_get acquired an
+>> +            // additional reference.
+>> +            Some(unsafe { Fence::from_raw(fence) })
+>> +        }
+>> +    }
+>> +
+>> +    /// Replaces the DMA fence with a new one, or removes it if fence is None.
+>> +    pub fn replace_fence(&self, fence: Option<&Fence>) {
+>> +        unsafe {
+>> +            bindings::drm_syncobj_replace_fence(
+>> +                self.ptr,
+>> +                fence.map_or(core::ptr::null_mut(), |a| a.raw()),
+>> +            )
+>> +        };
+>> +    }
+>> +
+>> +    /// Adds a new timeline point to the syncobj.
+>> +    pub fn add_point(&self, chain: FenceChain, fence: &Fence, point: u64) {
+>> +        // SAFETY: All arguments should be valid per the respective type invariants.
+>> +        // This takes over the FenceChain ownership.
+>> +        unsafe { bindings::drm_syncobj_add_point(self.ptr, chain.into_raw(), fence.raw(), point) };
+>> +    }
+>> +}
+>> +
+>> +impl Drop for SyncObj {
+>> +    fn drop(&mut self) {
+>> +        // SAFETY: We own a reference to this syncobj.
+>> +        unsafe { bindings::drm_syncobj_put(self.ptr) };
+>> +    }
+>> +}
+>> +
+>> +impl Clone for SyncObj {
+>> +    fn clone(&self) -> Self {
+>> +        // SAFETY: `ptr` is valid per the type invariant and we own a reference to it.
+>> +        unsafe { bindings::drm_syncobj_get(self.ptr) };
 > 
-> This way the entity doesn't needs to stay around after it delivered the job
-> to the hw.
+> So yeah syncobj are refcounted because they're shareable uapi objects (you
+> can pass them around as fd), but that really should be entirely the
+> subsystems business, not for drivers.
+> 
+> This is kinda like drm_file, which is also refcounted (by virtue of
+> hanging of struct file), but the refcounting is entirely handled by the
+> vfs and all drivers get is a borrowed reference, which nicely bounds the
+> lifetime to the callback (which is usually an ioctl handler). I think we
+> want the same semantics for syncobj, because if a driver is hanging onto a
+> syncobj for longer than the ioctl. If my rust understanding is right we'd
+> get that by dropping Clone here and relying on lookup_handle only being
+> able to return stuff that's bound by the drm_file?
 
-I've done a _very_ cursory look, but from that the design seems to be that
-we only keep something very small around to avoid oopsing (just
-drm_sched_entity) and the overall gpu ctx goes away synchronously (more or
-less) when userspace destroys it.
+Yeah, that should work! Lifetimes are perfect for this kind of stuff. I 
+need to test it out and see what the right way to do it is (lifetime 
+parameter or actual reference straight into the drm_syncobj) and see how 
+it fits into the driver but I don't see why it wouldn't work, since I 
+don't hold onto sync objects for longer than the ioctl. Might just need 
+some minor refactoring since the current driver ioctl code wasn't 
+written with lifetimes in mind ^^
 
-And then the actual fdinfo reporting or any reporting is a pure pull model
-where you come from drm_file -> gpu ctx -> amdgpu_ctx_entity and have
-borrowed references by holding enough locks.
+> People are talking about drivers holding onto syncobj for longer, but I'm
+> still not sold on the idea that this is any good and doesn't just bend the
+> dma_fence and syncobj rules a bit too much over the breaking point. For
+> kernel drivers it really should be just a different way to lookup and
+> return dma_fence from the ioctl, pretty much matching what you could also
+> do with sync_file (but since syncobj provides generic compat ioctl to
+> convert to/from sync_file drivders only need to handle syncobj).
 
-The push model, where the scheduler job actively pushes the stats all the
-way to the userspace/uapi ctx object is imo impossible to get right.
-i915-gem tried a few times, and solutions start with sprinkling rcu
-everywhere and only get worse. Imo absolute no-go.
+Yeah, if you think restricting the API for this on the Rust side makes 
+sense it works for me! I'm all for not abstracting features that aren't 
+considered particularly useful/safe/a good idea.
 
-If I understand this right then yes I think extracting the
-amgpu_ctx_entity split into a bit of helper. Might want to extract the
-context xarray and lookup too and put it into drm_file, including the
-amdgpu_ctx_mgr->lock and iterating over stats for fdinfo maybe too to make
-this really worth it.
+> -Daniel
+> 
+> 
+>> +        SyncObj { ptr: self.ptr }
+>> +    }
+>> +}
+>> +
+>> +// SAFETY: drm_syncobj operations are internally locked.
+>> +unsafe impl Sync for SyncObj {}
+>> +unsafe impl Send for SyncObj {}
+>>
+>> -- 
+>> 2.35.1
+>>
+> 
 
-Of all the failed attempts I've seen for exposing ctx stats this (amdgpu
-push model) is imo the only solid one.
+~~ Lina
 
-Cheers, Daniel
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
