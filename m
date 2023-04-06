@@ -2,60 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F2B56D91B1
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Apr 2023 10:33:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C87A36D91B7
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Apr 2023 10:33:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2B92D10EB24;
-	Thu,  6 Apr 2023 08:32:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DAF7710E1D9;
+	Thu,  6 Apr 2023 08:33:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 980B010EB1B
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Apr 2023 08:32:46 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5B85610E1D9
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Apr 2023 08:33:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+ t=1680770027; x=1712306027;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=y+EiDbt6+9flm5vZwsDuGRO1Myee4WNbpa10ykr3LLY=;
+ b=FjafkKdSPVcoe48nHgOkiK6lEYSIwRD1r9tyMjFNKTyOZxN5uCjv77qH
+ A0a4kFChqaQcY94kpPEtp3aQFVjN7adB9cHr4p/rZ0sVlBELzo+53e19/
+ 1PoT9z1GLrqGLxMqyAa9B3uTGrZve8bM8m0aS8ymh6tXjrzLKkxec+zWU
+ 8tWQ4D6TupqtMaVqjGPIt2SdgQzeHXb0nyuHdMydC33616Yf3lFzMzUqR
+ dU/g6lFlakwgMqIa7L0xGMw8qRfVAUgVDliIDC1dLIJOCt36mYiAMkSwH
+ 6IZ3DCEVqBwSVvGhghb8N/yZha4QyQcVCcLsdETZYEdGARpD82Hr0X9fs w==;
+X-IronPort-AV: E=Sophos;i="5.98,323,1673910000"; d="scan'208";a="30186126"
+Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
+ by mx1-pgp.tq-group.com with ESMTP; 06 Apr 2023 10:33:44 +0200
+Received: from mx1.tq-group.com ([192.168.6.7])
+ by tq-pgp-pr1.tq-net.de (PGP Universal service);
+ Thu, 06 Apr 2023 10:33:44 +0200
+X-PGP-Universal: processed;
+ by tq-pgp-pr1.tq-net.de on Thu, 06 Apr 2023 10:33:44 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+ t=1680770024; x=1712306024;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=y+EiDbt6+9flm5vZwsDuGRO1Myee4WNbpa10ykr3LLY=;
+ b=NJSYGUAbtcM2B55v9CYdvlug82vEmbIH4DXlZUQl7m07ZN32irKEE04L
+ xBkvuzvZui+6xN3Gdlz1AFCN5Grsm9qb/6T4QhwMK/KOfdQnO4Gc+mupg
+ 1eLNI7QkGj/hc1k9bOfnV1NHM1pAf2bX3mcMZwsXzO852Nbv9yh6N05D2
+ HrNuHXtWyTzapmjk+QkfgnhF6i1Pb92mkIFyq5Z7Dc2wwkD0/H3kVvq80
+ 76zasi4NKwdMUgQ6xcCk9cpK9zmtPNyg8eA+YQCfOqJJzzCQ9B7CFZTOx
+ UwB5G6YYtptJi6bh3A3pz30AuieBbKsbXdp14BwwKHCjfGZdz/JacLbhj g==;
+X-IronPort-AV: E=Sophos;i="5.98,323,1673910000"; d="scan'208";a="30186125"
+Received: from vtuxmail01.tq-net.de ([10.115.0.20])
+ by mx1.tq-group.com with ESMTP; 06 Apr 2023 10:33:44 +0200
+Received: from steina-w.localnet (unknown [10.123.53.21])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 79AB921FDE;
- Thu,  6 Apr 2023 08:32:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1680769964; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=PH78YwG3Pg5iRbmDVhx2aBy6aWQaeKxD64LfoEiYvRw=;
- b=y+ymM8rmkQLw3TseXG/tT4RcVfzjY+lQBN/wBzR5jBDL+gmSaodet01emguqhGb4pIrCOR
- dyeb7VHxKErrrgmjnD/Ddv69u8oJ6U2ArtT7ALhGtkgdTRnUD6R40eVmZe6hZbUUO5cr98
- pU6UlEOgrqmsAqcThUw7TMm7ypnZukk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1680769964;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=PH78YwG3Pg5iRbmDVhx2aBy6aWQaeKxD64LfoEiYvRw=;
- b=2KV1GNU8jLf5kdVXJxqGHBi+tFTRMok4d7Ifq8tfvesbErdwYcls/54aGl/ohoSkwIt9Dr
- hCbHk2oua6hf7UAg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 54B1C133E5;
- Thu,  6 Apr 2023 08:32:44 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id 2FDIE6yDLmQZZgAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Thu, 06 Apr 2023 08:32:44 +0000
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: javierm@redhat.com, daniel.vetter@ffwll.ch, patrik.r.jakobsson@gmail.com
-Subject: [PATCH v4 9/9] video/aperture: Provide a VGA helper for gma500 and
- internal use
-Date: Thu,  6 Apr 2023 10:32:40 +0200
-Message-Id: <20230406083240.14031-10-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.40.0
-In-Reply-To: <20230406083240.14031-1-tzimmermann@suse.de>
-References: <20230406083240.14031-1-tzimmermann@suse.de>
+ by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 4D28D280056;
+ Thu,  6 Apr 2023 10:33:44 +0200 (CEST)
+From: Alexander Stein <alexander.stein@ew.tq-group.com>
+To: Jagan Teki <jagan@amarulasolutions.com>
+Subject: Re: RFC: DSI/DRM multiplexer bridge
+Date: Thu, 06 Apr 2023 10:33:41 +0200
+Message-ID: <3727424.e9J7NaK4W3@steina-w>
+Organization: TQ-Systems GmbH
+In-Reply-To: <CAMty3ZAQyADGLVcB13qJdEy_BiZEKpyDfCr9QrM-ucFLFPZLcw@mail.gmail.com>
+References: <2991779.e9J7NaK4W3@steina-w>
+ <CAMty3ZAQyADGLVcB13qJdEy_BiZEKpyDfCr9QrM-ucFLFPZLcw@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,223 +76,126 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The hardware for gma500 is different from the rest, as it uses stolen
-framebuffer memory that is not available via PCI BAR. The regular PCI
-removal helper cannot detect the framebuffer, while the non-PCI helper
-misses possible conflicting VGA devices (i.e., a framebuffer or text
-console).
+Hi Jagan,
 
-Gma500 therefore calls both helpers to catch all cases. It's confusing
-as it implies that there's something about the PCI device that requires
-ownership management. The relationship between the PCI device and the
-VGA devices is non-obvious. At worst, readers might assume that calling
-two functions for clearing aperture ownership is a bug in the driver.
+thanks for your reply.
 
-Hence, move the PCI removal helper's code for VGA functionality into
-a separate function and call this function from gma500. Documents the
-purpose of each call to aperture helpers. The change contains comments
-and example code form the discussion at [1].
+Am Mittwoch, 5. April 2023, 16:39:07 CEST schrieb Jagan Teki:
+> On Wed, Apr 5, 2023 at 7:39=E2=80=AFPM Alexander Stein
+>=20
+> <alexander.stein@ew.tq-group.com> wrote:
+> > Hi,
+> >=20
+> > my platform has a DIP switch controlled multiplexer for MIPI DSI output
+> > signals. One output has a TI SN65DSI84 (LVDS) and the other output has a
+> > TI
+> > SN65DSI86 (eDP) attached to it. The Multiplexer status can be read back
+> > from a GPIO. The GPIO is also IRQ capable, so it would be possible to
+> > support hotplug additionally later on.
+>=20
+> I have this requirement a year back [1] but my design has i.mx8mq DSI
+> outputs to SN65DSI84(LVDS) and ADV7533 (HDMI) and GPIO has muxed as
+> IRQ in order to find the bridge selection. (not confused with HDMI
+> HPD).
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Link: https://patchwork.kernel.org/project/dri-devel/patch/20230404201842.567344-1-daniel.vetter@ffwll.ch/ # 1
----
- drivers/gpu/drm/gma500/psb_drv.c | 48 ++++++++++++++++++--------
- drivers/video/aperture.c         | 58 ++++++++++++++++++++++----------
- include/linux/aperture.h         |  7 ++++
- 3 files changed, 81 insertions(+), 32 deletions(-)
+Looks quite similar. This platform can be used using imx8mq, imx8mm or im8x=
+mn.=20
+That mentioned GPIO is also not the HDMI HPD, but connected to a DIP switch=
+ on=20
+the mainboard to be changed manually.
 
-diff --git a/drivers/gpu/drm/gma500/psb_drv.c b/drivers/gpu/drm/gma500/psb_drv.c
-index 4bb06a89e48d..f50a9a58a2db 100644
---- a/drivers/gpu/drm/gma500/psb_drv.c
-+++ b/drivers/gpu/drm/gma500/psb_drv.c
-@@ -7,6 +7,7 @@
-  *
-  **************************************************************************/
- 
-+#include <linux/aperture.h>
- #include <linux/cpu.h>
- #include <linux/module.h>
- #include <linux/notifier.h>
-@@ -19,7 +20,6 @@
- #include <acpi/video.h>
- 
- #include <drm/drm.h>
--#include <drm/drm_aperture.h>
- #include <drm/drm_drv.h>
- #include <drm/drm_file.h>
- #include <drm/drm_ioctl.h>
-@@ -414,25 +414,45 @@ static int psb_driver_load(struct drm_device *dev, unsigned long flags)
- 	return ret;
- }
- 
--static int psb_pci_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
-+/*
-+ * Hardware for gma500 is a hybrid device, which both acts as a PCI
-+ * device (for legacy vga functionality) but also more like an
-+ * integrated display on a SoC where the framebuffer simply
-+ * resides in main memory and not in a special PCI bar (that
-+ * internally redirects to a stolen range of main memory) like all
-+ * other integrated PCI display devices have.
-+ *
-+ * To catch all cases we need to remove conflicting firmware devices
-+ * for the stolen system memory and for the VGA functionality. As we
-+ * currently cannot easily find the framebuffer's location in stolen
-+ * memory, we remove all framebuffers here.
-+ *
-+ * TODO: Refactor psb_driver_load() to map vdc_reg earlier. Then
-+ *       we might be able to read the framebuffer range from the
-+ *       device.
-+ */
-+static int gma_remove_conflicting_framebuffers(struct pci_dev *pdev,
-+					       const struct drm_driver *req_driver)
- {
--	struct drm_psb_private *dev_priv;
--	struct drm_device *dev;
-+	resource_size_t base = 0;
-+	resource_size_t size = U32_MAX; /* 4 GiB HW limit */
-+	const char *name = req_driver->name;
- 	int ret;
- 
--	/*
--	 * We cannot yet easily find the framebuffer's location in memory. So
--	 * remove all framebuffers here. Note that we still want the pci special
--	 * handling to kick out vgacon.
--	 *
--	 * TODO: Refactor psb_driver_load() to map vdc_reg earlier. Then we
--	 *       might be able to read the framebuffer range from the device.
--	 */
--	ret = drm_aperture_remove_framebuffers(&driver);
-+	ret = aperture_remove_conflicting_devices(base, size, name);
- 	if (ret)
- 		return ret;
- 
--	ret = drm_aperture_remove_conflicting_pci_framebuffers(pdev, &driver);
-+	return __aperture_remove_legacy_vga_devices(pdev);
-+}
-+
-+static int psb_pci_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
-+{
-+	struct drm_psb_private *dev_priv;
-+	struct drm_device *dev;
-+	int ret;
-+
-+	ret = gma_remove_conflicting_framebuffers(pdev, &driver);
- 	if (ret)
- 		return ret;
- 
-diff --git a/drivers/video/aperture.c b/drivers/video/aperture.c
-index e4091688b5eb..2824345e87ef 100644
---- a/drivers/video/aperture.c
-+++ b/drivers/video/aperture.c
-@@ -301,6 +301,37 @@ int aperture_remove_conflicting_devices(resource_size_t base, resource_size_t si
- }
- EXPORT_SYMBOL(aperture_remove_conflicting_devices);
- 
-+/**
-+ * __aperture_remove_legacy_vga_devices - remove legacy VGA devices of a PCI devices
-+ * @pdev: PCI device
-+ *
-+ * This function removes VGA devices provided by @pdev, such as a VGA
-+ * framebuffer or a console. This is useful if you have a VGA-compatible
-+ * PCI graphics device with framebuffers in non-BAR locations. Drivers
-+ * should acquire ownership of those memory areas and afterwards call
-+ * this helper to release remaining VGA devices.
-+ *
-+ * If your hardware has its framebuffers accessible via PCI BARS, use
-+ * aperture_remove_conflicting_pci_devices() instead. The function will
-+ * release any VGA devices automatically.
-+ *
-+ * WARNING: Apparently we must remove graphics drivers before calling
-+ *          this helper. Otherwise the vga fbdev driver falls over if
-+ *          we have vgacon configured.
-+ *
-+ * Returns:
-+ * 0 on success, or a negative errno code otherwise
-+ */
-+int __aperture_remove_legacy_vga_devices(struct pci_dev *pdev)
-+{
-+	/* VGA framebuffer */
-+	aperture_detach_devices(VGA_FB_PHYS_BASE, VGA_FB_PHYS_SIZE);
-+
-+	/* VGA textmode console */
-+	return vga_remove_vgacon(pdev);
-+}
-+EXPORT_SYMBOL(__aperture_remove_legacy_vga_devices);
-+
- /**
-  * aperture_remove_conflicting_pci_devices - remove existing framebuffers for PCI devices
-  * @pdev: PCI device
-@@ -317,7 +348,7 @@ int aperture_remove_conflicting_pci_devices(struct pci_dev *pdev, const char *na
- {
- 	bool primary = false;
- 	resource_size_t base, size;
--	int bar, ret;
-+	int bar, ret = 0;
- 
- 	if (pdev == vga_default_device())
- 		primary = true;
-@@ -334,24 +365,15 @@ int aperture_remove_conflicting_pci_devices(struct pci_dev *pdev, const char *na
- 		aperture_detach_devices(base, size);
- 	}
- 
--	if (primary) {
--		/*
--		 * If this is the primary adapter, there could be a VGA device
--		 * that consumes the VGA framebuffer I/O range. Remove this
--		 * device as well.
--		 */
--		aperture_detach_devices(VGA_FB_PHYS_BASE, VGA_FB_PHYS_SIZE);
--
--		/*
--		 * WARNING: Apparently we must kick fbdev drivers before vgacon,
--		 * otherwise the vga fbdev driver falls over.
--		 */
--		ret = vga_remove_vgacon(pdev);
--		if (ret)
--			return ret;
--	}
-+	/*
-+	 * If this is the primary adapter, there could be a VGA device
-+	 * that consumes the VGA framebuffer I/O range. Remove this
-+	 * device as well.
-+	 */
-+	if (primary)
-+		ret = __aperture_remove_legacy_vga_devices(pdev);
- 
--	return 0;
-+	return ret;
- 
- }
- EXPORT_SYMBOL(aperture_remove_conflicting_pci_devices);
-diff --git a/include/linux/aperture.h b/include/linux/aperture.h
-index 7248727753be..1a9a88b11584 100644
---- a/include/linux/aperture.h
-+++ b/include/linux/aperture.h
-@@ -16,6 +16,8 @@ int devm_aperture_acquire_for_platform_device(struct platform_device *pdev,
- int aperture_remove_conflicting_devices(resource_size_t base, resource_size_t size,
- 					const char *name);
- 
-+int __aperture_remove_legacy_vga_devices(struct pci_dev *pdev);
-+
- int aperture_remove_conflicting_pci_devices(struct pci_dev *pdev, const char *name);
- #else
- static inline int devm_aperture_acquire_for_platform_device(struct platform_device *pdev,
-@@ -31,6 +33,11 @@ static inline int aperture_remove_conflicting_devices(resource_size_t base, reso
- 	return 0;
- }
- 
-+static inline int __aperture_remove_legacy_vga_devices(struct pci_dev *pdev)
-+{
-+	return 0;
-+}
-+
- static inline int aperture_remove_conflicting_pci_devices(struct pci_dev *pdev, const char *name)
- {
- 	return 0;
--- 
-2.40.0
+> > My initial idea was to create a DRM multiplexer bridge driver which
+> > (depending on the input GPIO) allows only one output to be enabled.
+> > Unfortunately ti- sn65dsi86.c driver expects a DSI host on remote node 0
+> > (see ti_sn_attach_host and ti_sn_bridge_parse_dsi_host), so it does not
+> > work. ti-sn65dsi83.c just requires a drm_bridge.
+>=20
+> Yes, we need to have a finite amount of pipeline changes. assuming
+> that your mux bridge sits between DSI to Output interfaces the
+> proposed mux bridge selects which pipeline.
+
+My setup looks like this, but the switch is a different one than yours.
+
+                              | =3D> SN54DSI86 =3D> DP Connector
+DSI Host =3D> display-switch =3D> |
+                              | =3D> SN65DSI83 =3D> Panel-Simple
+
+> > What is the best approach for this? I currently see two approaches:
+> > * Create an explicit DSI/DRM multiplexer bridge driver which registers
+> > itself as DSI host
+> > * Create a DRM multiplexer bridge (only). But this needs to remove the =
+DSI
+> > device registration from ti-sn65dsi86.c
+>=20
+> Based on my experience, having a muxed bridge between in and out would
+> be proper in order to satisfy the pipeline as well as the design. That
+> mux bridge has to be a normal bridge doesn't aware of DSI or any other
+> interface like one of the submissions has done in the recent mailing
+> list. [2] Things would be complicated when we switch the outputs but
+> we still use normal static switching of outputs in a proper way.
+>=20
+> > I am aware that DSI support is suboptimal, so I'm not sure which approa=
+ch
+> > on the TI bridge drivers is the correct one and needs to be considered =
+as
+> > given. Any ideas?
+>=20
+> I did implement some complicated things of switching outputs at
+> runtime but the idea of the switching pipelines would be similar if
+> you want to implement it in a normal static way. Here are some details
+> and a demo of how those been worked. [3] [4]
+
+Thanks for the links. From what I read in those discussions dynamically=20
+(re)building the bridge chains it not correct/acceptable. Instead two bridg=
+es=20
+shall be created, but only one connector at the end shall be enabled. This=
+=20
+would look like this:
+
+   switched-bridge
+    +------------+                 +-------------+
+    | drm_bridge-|- next_bridge -- | LVDS bridge |- connector
+    |            |                 +-------------+
+in -|            |
+    |            |                 +-------------+
+    | drm_bridge-|- next_bridge -- | eDP bridge  |- connector
+    +------------+                 +-------------+
+          ^
+          |
+      DIP switch
+
+But here I'm not so sure how an (hotplug) event (e.g. IRQ) on the switched-
+bridge can be forwarded to the connectors. But this hotplug event seems to =
+be=20
+essential so that DRM master can reconfigure it's output.
+
+Best regards,
+Alexander
+
+> [1]
+> https://lore.kernel.org/all/CAMty3ZD7eFi4o7ZXNtjShoLd5yj3wn85Fm6ZNL89=3DQ=
+pWj4
+> 4KPw@mail.gmail.com/T/ [2]
+> https://patchwork.kernel.org/project/dri-devel/patch/20230218111712.23802=
+25
+> -6-treapking@chromium.org/ [3]
+> https://indico.freedesktop.org/event/2/contributions/76/
+> [4] https://www.youtube.com/watch?v=3DPoYdP9fPn-4&t=3D624s
+>=20
+> Thanks,
+> Jagan.
+
+
+=2D-=20
+TQ-Systems GmbH | M=C3=BChlstra=C3=9Fe 2, Gut Delling | 82229 Seefeld, Germ=
+any
+Amtsgericht M=C3=BCnchen, HRB 105018
+Gesch=C3=A4ftsf=C3=BChrer: Detlef Schneider, R=C3=BCdiger Stahl, Stefan Sch=
+neider
+http://www.tq-group.com/
+
 
