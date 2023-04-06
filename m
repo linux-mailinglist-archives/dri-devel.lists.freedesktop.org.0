@@ -1,56 +1,120 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 040B76D9185
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Apr 2023 10:28:40 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B6D36D918F
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Apr 2023 10:30:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2A5EC10EB18;
-	Thu,  6 Apr 2023 08:28:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0F31910E04A;
+	Thu,  6 Apr 2023 08:30:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0F20710E042;
- Thu,  6 Apr 2023 08:28:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1680769716; x=1712305716;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=k+BVWs8NgiEmdecuHLLQGoCKPF5YzsGFM77/xx3IiIc=;
- b=XbZ4sSnFT7q9aSg4fxiJeQNJHYxHSZoW+FXBV0y0Spx6BB2m4A07+4g0
- YaJIXtlBg9b4Klfaa9MU+IiOrT5YJRVUpv14mC2oeLLOgHEXUFu9Sh9cy
- 7KriMXOh6gbDcQbBrx/aw4nR0jUGZLNWAIPeD+pkLpX239pBt+vnF4R8D
- UDowFov0D2/ACIDeLjZOp7WNi0l7TqOoHacEhsD/kWIAPieVcH0rCaeco
- r3rDqFkGSAS4vtQza8UaFpb/Wk9EWnVhNMuKJoAgiFHNYNGsZzqIiVQgb
- 3qIgnC5csXDl7pIuoLJKuf9f/5IU+loEYEEgYFu3lz9JE9yUxU1CSHMJf g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10671"; a="370514068"
-X-IronPort-AV: E=Sophos;i="5.98,323,1673942400"; d="scan'208";a="370514068"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Apr 2023 01:28:35 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10671"; a="689593544"
-X-IronPort-AV: E=Sophos;i="5.98,323,1673942400"; d="scan'208";a="689593544"
-Received: from nirmoyda-mobl.ger.corp.intel.com (HELO [10.249.32.200])
- ([10.249.32.200])
- by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Apr 2023 01:28:33 -0700
-Message-ID: <e7f8baa8-dbdb-4362-6024-f7349b3ab2ed@linux.intel.com>
-Date: Thu, 6 Apr 2023 10:28:31 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.1
-Subject: Re: [Intel-gfx] [PATCH 1/7] drm/i915/mtl: Define MOCS and PAT tables
- for MTL
-To: fei.yang@intel.com, intel-gfx@lists.freedesktop.org
-References: <20230401063830.438127-1-fei.yang@intel.com>
- <20230401063830.438127-2-fei.yang@intel.com>
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam12on2043.outbound.protection.outlook.com [40.107.237.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0D25E10E042
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Apr 2023 08:30:05 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=HkCdzaP7FYBYxjykvugjBE2deNyHswwe/jcaY0Mdvm48BKYczLxpdmlKZAOGbODgpuvzgL8qvbk3RFOMs1aT7ztTdIx9zEuiP7t5ZQrxvSbLatQbycYCKEHo6iueyBT8vZtwi+CF0Jn+EYdkoxgRm9dB+AlmSpfuueNrYBNkkzuhLjvVmUt3TOZcSxcllD1f9tF2TSD0mRHwNRKEVROcAHZwFY0pwPmSp4Ni73Adut05YCFpgXII9xmnQy5CjydCtotWOkuKCPToa7A5bZmiRSKFLQCEya4OpT5T+gFfcYWfP181aEuJCJHHEo+3uI9zmLohIRbyt3av+iAzoUmqlw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=8UDJ9K5Kd2d2vofQe6y/L7WFn+vz8w0I3qjwIjaIkt8=;
+ b=DUT5xeb2AjZaj/dXFt0KlcQj+UgeAQVtUufSuF2GjRuMXNADRf1o/c2Mb38Ohx3kPHkrrtxVOrxY8NwVJzKLzNcJotG4HbQhI43DWkPuxveqD4aZ04gKBQElIpLK8ctymqccZfxSDTFTo7+NTE1xskwhBaAYcXj1DtIQjEZAzcxl0jqq2te13/bdTPsOTRz2bSTQX5NJBnyKD+omd3RmdDl/1nHbeIgCjcJyrPKUiI+vZy3BdTLihKpfG2FOdyJ4UZ6iqrx5nLxfJB0TyT4I4cddHh3ef3+nuaANTMvOMO6MamkTD9JV3qujaTupKhZQ7oBJhQy9hLSOTdI2sdpHMg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=8UDJ9K5Kd2d2vofQe6y/L7WFn+vz8w0I3qjwIjaIkt8=;
+ b=ahJRMQSRQ2nG2qIMpysbXtr1hpuQXN69c3KCz/lDYzSN6g23KR0yDpMG5V360LN5r8JvSK58KSbzCpxUIginrmxsr5ZemyFeGDKtAJ0SPNmHWmwgQucCW/a8UW63KFILGIxvT6VCYBpH8KsPz8oZalF2NNgZ6trgkZ/JqAhxuI0=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
+ by BY5PR12MB4081.namprd12.prod.outlook.com (2603:10b6:a03:20e::21)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6254.38; Thu, 6 Apr
+ 2023 08:30:03 +0000
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::4624:dc39:943e:6ae]) by BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::4624:dc39:943e:6ae%5]) with mapi id 15.20.6254.035; Thu, 6 Apr 2023
+ 08:30:03 +0000
+Message-ID: <6b3433ee-0712-f789-51ee-3047ead9bb79@amd.com>
+Date: Thu, 6 Apr 2023 10:29:57 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH] drm/scheduler: Fix UAF in
+ drm_sched_fence_get_timeline_name
 Content-Language: en-US
-From: "Das, Nirmoy" <nirmoy.das@linux.intel.com>
-In-Reply-To: <20230401063830.438127-2-fei.yang@intel.com>
+To: Asahi Lina <lina@asahilina.net>, Luben Tuikov <luben.tuikov@amd.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Sumit Semwal <sumit.semwal@linaro.org>
+References: <20230406-scheduler-uaf-1-v1-1-8e5662269d25@asahilina.net>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+In-Reply-To: <20230406-scheduler-uaf-1-v1-1-8e5662269d25@asahilina.net>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: FR3P281CA0185.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:a4::18) To BN8PR12MB3587.namprd12.prod.outlook.com
+ (2603:10b6:408:43::13)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|BY5PR12MB4081:EE_
+X-MS-Office365-Filtering-Correlation-Id: 0d364b42-9579-40ab-db13-08db36791e27
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: yqx7XAob0yPjpkhT28BNGuVmCG954QAICNsMr6ZVk8y2DoT8Kgm5vU8EvKGXiJD4BYN4phU596Mo/bpq3FU2r01ziLsOT0ubmP9ghrLz//3zX2jd2emoTtKKHdGilFm7X795Q1wWxtCNfGrihV0J7H/+PMZVa48AU3o9kUL21hKxS3WWex/yLvH8twSfqA94oCwqipXNkBqMqQBrvUwvQEOPs5Fwjo6TJH3KqzbBqp43/Od4vJgXYAkJ7NlURifqBrG/JfYfxUhgJHgXVJ1VeumEyr0kuZ2V8U+JMze4PKlhESQpH5XazzTdM8mWpiJ+xxB2ib9gOaME9aOtRohVL9FdcA+WoOKKF3AQcc+mH70ykCJrwJFlb108qqP8Ty7LkAMKBBgS+GFfIsEsQpj7cLhWsammJ6aIef6OABsVO6q/icg+P/O2a1r+yFQH+5S2P4CJLL6BgktwmzZ0nF90wK7lZoiD/oerG7eefakOJgUzasxceVzbErAWs6U2KN1U3dxk+FFlZARG1DFUY+4PkiiWyUe71A0bbBUFqyX7qpmp5tjvMLZmoOARTqZ+KueUlgz0LgoMuYd3laJA/Bod3/i2/u4+lR40x47s2hdjNlCY4prk9YfYBjFw32JUZJaSO1aPVo2Vzp02wc5e1N+l6g==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230028)(4636009)(366004)(136003)(346002)(396003)(376002)(39860400002)(451199021)(2616005)(83380400001)(6486002)(316002)(478600001)(110136005)(6506007)(26005)(6666004)(186003)(6512007)(2906002)(4326008)(5660300002)(36756003)(38100700002)(66476007)(8676002)(41300700001)(66556008)(86362001)(66946007)(31696002)(8936002)(31686004)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?cGQzYkdYL0ljeHpUNmFkSmphWUhZQ0phZmgweWlkUWNvZVQ2Qk1OVWgxd1ls?=
+ =?utf-8?B?a2RJSE56cVBBNk5aRDl1Q3R6QjBiTUN1ZitCQXkzaXVnb0ZiVVBRMllMZHZM?=
+ =?utf-8?B?V3FYOTJXOUhhNzh5UGU5MVRUUWV0YWwwY0tUZzJieWFQMGFJaXFPL0FIK2dB?=
+ =?utf-8?B?akx0VjhDNSs4ZHdYdGNic3NzWnFRSS8wSkJzM2NoaWM2SCs1RmplMktVTCtn?=
+ =?utf-8?B?UUh3NGVxWmFQNnVqKytjajhCaTh3WXFIdXdmUHdGc1RCaHdGckhHNnFDSWI1?=
+ =?utf-8?B?OG40RVp3VXdMNDJDdEpaL3E1azhDL1FrTlIycy93UHo0V1NKQ1kyTFJmMGpL?=
+ =?utf-8?B?TXZJdG4vWWxYMTdnZlBFVlJlbExHcWJpSGVlR0VKRUdIUmJRaTJqMWFlWDhV?=
+ =?utf-8?B?clVIRWhQOGxpb29GRkVGaXpvV3MwQSswMHhEU0pEMmVmOVJEU2JPMytVdWM0?=
+ =?utf-8?B?RUl0NVBhNW1FRU9Ic0lTbjF1d2N5dXhjMnBPTEMrRFdQMkdGbEZnTFl6TFo0?=
+ =?utf-8?B?M01wWU5RNEZVWUY4MmM0ZkJhR3VFUlVPUnJUWTN0L1dQVWZZbjlMUENLOW0z?=
+ =?utf-8?B?T3A1aWJCaWlud3FsRDNUTHZMMnowNzNQU0lTZEdRTVBRbTVRWGRXaVFZTGcr?=
+ =?utf-8?B?UE41ekVuUlh2SWFvWnVWQklibnZOaVpSOENadEw1bHJJWEhpYlhIVzloQUk1?=
+ =?utf-8?B?bDgwUmVsbk80Wk5DeC9ZQmhEWittNEl0NGVrQmhoWUlsemJZMERqM2Vvd0t5?=
+ =?utf-8?B?aVFBTHA3QnYrQnFTSjZhZ3BwSEJ3amNxUzdPdjM5dUdEYmU5alRJQ2llaFJZ?=
+ =?utf-8?B?aFJ3NzBSbUFkbjBjQjdtNGRtd2UyNkhVV2RiWnBwVEgyK2JvVkk0YnV3RjVB?=
+ =?utf-8?B?MFhuelhxMHF1YzEzaXYrbmxFeTZPeDA3OWIraG5OWWxYU2NVa0RhY3lxN3VW?=
+ =?utf-8?B?Um1QQThJQ3hwQXczZ1RXOHg5eDgzbTFZdWN6dW5pUDN1Zm9RaFVCUTQ4N3Uv?=
+ =?utf-8?B?ZE9yYzdtTTJJLzh3ZVZSZGVjaGtGdEpEV1F3bTc0OUtYQ0VvQk9qbGhQd3Qz?=
+ =?utf-8?B?bmloQXBHVmRYQnRMZDR6emVudGdYSVdXZ0dzckdVV0hkYjh1Nndpa2FxdlF4?=
+ =?utf-8?B?K0xUbE5ucGFURkJtdkRaOWdvVHMzR2ovZUdlTldDUDBrTkFyOTZmcXF2RjBF?=
+ =?utf-8?B?dk1CeW9ENWlPaU5waVhVR0xDaEdGN2ZZa0ZaSkR2MzNxMlFpTlF0VGJiTVdT?=
+ =?utf-8?B?WUMybk42U3pLL211YmpEQ3dEdWdURlR2bjBBQnZ0di9OUGVJeXdEYXJ4NnZ4?=
+ =?utf-8?B?SjVLUG9DWlNpWFZjcDlJZldNQnRxV0xHbHQ4Qk9ITmd5RDAvK0JkL1FReXlW?=
+ =?utf-8?B?MmlYaW5JQ0s2cHlFY09iTmp3TVhwd09hbGZlYTBQWnFaRUFiais3SWdwN2ZS?=
+ =?utf-8?B?Z0JadEtsNXgyNmdDbm5KUmNrQVNYYlFQYjhmdy9jTk43TlVnUjBHUWpubENM?=
+ =?utf-8?B?d215d3RuNTV4TUl5MDFYWkc5aXJoTWlPS3JmcnBoY2FMdUFuWTF4ck5mdVc1?=
+ =?utf-8?B?TXhaT2p3T3pwVXEwVGszbjk1TG12UWk4SUF1aGUvRXMwTVRTWVNQRU52WVlP?=
+ =?utf-8?B?WFk3UTlscFNOWW1KT0drMGlrZGNIK3FkOXo3WHhzdnhsZUZRNnByWE92MGYz?=
+ =?utf-8?B?dnJ6c1EydWZ1NHlBTzdVb1RFd3BRUEl1d1dxNld0UkVUVlhkTW1qMjM1aVk3?=
+ =?utf-8?B?dW9ocFkzLzBTc3pUdXJhRGZXZWl3aWdHLzBRNzl6cWs3SXZNNTdjTHF3ejY2?=
+ =?utf-8?B?enpSWGJlVFhTZURJYUQ1Qm52RjUzUzV6ZTQrNUNRZm5Na3hLakxLWmxjcFFi?=
+ =?utf-8?B?TlQwMW9pU0d4UmtYVkxTR1JqUGhSTHo0REltZ1R1SGlRMUI1ZGMzUHlCa2lO?=
+ =?utf-8?B?UmdBZnUvWWd4QUFIUnNoWTlTeFViUVZRNWhnaU5jZ2o1eXg0UGxIWFR6bmZl?=
+ =?utf-8?B?NUpFZWFyMDdHdkE3Z3VDOVdBL3JGNVZ4Z2gwVDBCc2xWTHl2aHB2ZVlPT2ZQ?=
+ =?utf-8?B?QVlkWGF2cVZ6NW02MWdaMTExaEhiQ3hnN1RBZmNBaFBPRVM3MjhPMUVRUEY0?=
+ =?utf-8?Q?UJTtjqvjSWHAwLsxRlLlFSLJv?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0d364b42-9579-40ab-db13-08db36791e27
+X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Apr 2023 08:30:03.0519 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: xfvgIUCt6uTfgLrm2TrC4x+qF5guyHBoOEBy7dWQwDNxdMsIrzlCf1lQ8+1rdtTO
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR12MB4081
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,480 +127,103 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Matt Roper <matthew.d.roper@intel.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>, dri-devel@lists.freedesktop.org
+Cc: asahi@lists.linux.dev, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Fei,
+Am 05.04.23 um 18:34 schrieb Asahi Lina:
+> A signaled scheduler fence can outlive its scheduler, since fences are
+> independently reference counted.
 
-On 4/1/2023 8:38 AM, fei.yang@intel.com wrote:
-> From: Fei Yang <fei.yang@intel.com>
->
-> On MTL, GT can no longer allocate on LLC - only the CPU can.
-> This, along with addition of support for ADM/L4 cache calls a
-> MOCS/PAT table update.
-> Also add PTE encode functions for MTL as it has different PAT
-> index definition than previous platforms.
->
-> BSpec: 44509, 45101, 44235
->
-> Cc: Matt Roper <matthew.d.roper@intel.com>
-> Cc: Lucas De Marchi <lucas.demarchi@intel.com>
-> Signed-off-by: Madhumitha Tolakanahalli Pradeep <madhumitha.tolakanahalli.pradeep@intel.com>
-> Signed-off-by: Aravind Iddamsetty <aravind.iddamsetty@intel.com>
-> Signed-off-by: Fei Yang <fei.yang@intel.com>
-> ---
->   drivers/gpu/drm/i915/display/intel_dpt.c |  2 +-
->   drivers/gpu/drm/i915/gt/gen8_ppgtt.c     | 43 ++++++++++++--
->   drivers/gpu/drm/i915/gt/gen8_ppgtt.h     |  3 +
->   drivers/gpu/drm/i915/gt/intel_ggtt.c     | 36 ++++++++++-
->   drivers/gpu/drm/i915/gt/intel_gtt.c      | 23 ++++++-
->   drivers/gpu/drm/i915/gt/intel_gtt.h      | 20 ++++++-
->   drivers/gpu/drm/i915/gt/intel_mocs.c     | 76 ++++++++++++++++++++++--
->   drivers/gpu/drm/i915/gt/selftest_mocs.c  |  2 +-
->   drivers/gpu/drm/i915/i915_pci.c          |  1 +
->   9 files changed, 189 insertions(+), 17 deletions(-)
->
-> diff --git a/drivers/gpu/drm/i915/display/intel_dpt.c b/drivers/gpu/drm/i915/display/intel_dpt.c
-> index b8027392144d..c5eacfdba1a5 100644
-> --- a/drivers/gpu/drm/i915/display/intel_dpt.c
-> +++ b/drivers/gpu/drm/i915/display/intel_dpt.c
-> @@ -300,7 +300,7 @@ intel_dpt_create(struct intel_framebuffer *fb)
->   	vm->vma_ops.bind_vma    = dpt_bind_vma;
->   	vm->vma_ops.unbind_vma  = dpt_unbind_vma;
->   
-> -	vm->pte_encode = gen8_ggtt_pte_encode;
-> +	vm->pte_encode = vm->gt->ggtt->vm.pte_encode;
->   
->   	dpt->obj = dpt_obj;
->   	dpt->obj->is_dpt = true;
-> diff --git a/drivers/gpu/drm/i915/gt/gen8_ppgtt.c b/drivers/gpu/drm/i915/gt/gen8_ppgtt.c
-> index 4daaa6f55668..4197b43150cc 100644
-> --- a/drivers/gpu/drm/i915/gt/gen8_ppgtt.c
-> +++ b/drivers/gpu/drm/i915/gt/gen8_ppgtt.c
-> @@ -55,6 +55,34 @@ static u64 gen8_pte_encode(dma_addr_t addr,
->   	return pte;
->   }
->   
-> +static u64 mtl_pte_encode(dma_addr_t addr,
-> +			  enum i915_cache_level level,
-> +			  u32 flags)
-> +{
-> +	gen8_pte_t pte = addr | GEN8_PAGE_PRESENT | GEN8_PAGE_RW;
-> +
-> +	if (unlikely(flags & PTE_READ_ONLY))
-> +		pte &= ~GEN8_PAGE_RW;
-> +
-> +	if (flags & PTE_LM)
-> +		pte |= GEN12_PPGTT_PTE_LM | GEN12_PPGTT_PTE_NC;
-> +
-> +	switch (level) {
-> +	case I915_CACHE_NONE:
-> +		pte |= GEN12_PPGTT_PTE_PAT1;
-> +		break;
-> +	case I915_CACHE_LLC:
-> +	case I915_CACHE_L3_LLC:
-> +		pte |= GEN12_PPGTT_PTE_PAT0 | GEN12_PPGTT_PTE_PAT1;
-> +		break;
-> +	case I915_CACHE_WT:
-> +		pte |= GEN12_PPGTT_PTE_PAT0;
-> +		break;
-> +	}
-> +
-> +	return pte;
-> +}
-> +
->   static void gen8_ppgtt_notify_vgt(struct i915_ppgtt *ppgtt, bool create)
->   {
->   	struct drm_i915_private *i915 = ppgtt->vm.i915;
-> @@ -427,7 +455,7 @@ gen8_ppgtt_insert_pte(struct i915_ppgtt *ppgtt,
->   		      u32 flags)
->   {
->   	struct i915_page_directory *pd;
-> -	const gen8_pte_t pte_encode = gen8_pte_encode(0, cache_level, flags);
-> +	const gen8_pte_t pte_encode = ppgtt->vm.pte_encode(0, cache_level, flags);
->   	gen8_pte_t *vaddr;
->   
->   	pd = i915_pd_entry(pdp, gen8_pd_index(idx, 2));
-> @@ -580,7 +608,7 @@ static void gen8_ppgtt_insert_huge(struct i915_address_space *vm,
->   				   enum i915_cache_level cache_level,
->   				   u32 flags)
->   {
-> -	const gen8_pte_t pte_encode = gen8_pte_encode(0, cache_level, flags);
-> +	const gen8_pte_t pte_encode = vm->pte_encode(0, cache_level, flags);
->   	unsigned int rem = sg_dma_len(iter->sg);
->   	u64 start = vma_res->start;
->   
-> @@ -743,7 +771,7 @@ static void gen8_ppgtt_insert_entry(struct i915_address_space *vm,
->   	GEM_BUG_ON(pt->is_compact);
->   
->   	vaddr = px_vaddr(pt);
-> -	vaddr[gen8_pd_index(idx, 0)] = gen8_pte_encode(addr, level, flags);
-> +	vaddr[gen8_pd_index(idx, 0)] = vm->pte_encode(addr, level, flags);
->   	drm_clflush_virt_range(&vaddr[gen8_pd_index(idx, 0)], sizeof(*vaddr));
->   }
->   
-> @@ -773,7 +801,7 @@ static void __xehpsdv_ppgtt_insert_entry_lm(struct i915_address_space *vm,
->   	}
->   
->   	vaddr = px_vaddr(pt);
-> -	vaddr[gen8_pd_index(idx, 0) / 16] = gen8_pte_encode(addr, level, flags);
-> +	vaddr[gen8_pd_index(idx, 0) / 16] = vm->pte_encode(addr, level, flags);
->   }
->   
->   static void xehpsdv_ppgtt_insert_entry(struct i915_address_space *vm,
-> @@ -820,7 +848,7 @@ static int gen8_init_scratch(struct i915_address_space *vm)
->   		pte_flags |= PTE_LM;
->   
->   	vm->scratch[0]->encode =
-> -		gen8_pte_encode(px_dma(vm->scratch[0]),
-> +		vm->pte_encode(px_dma(vm->scratch[0]),
->   				I915_CACHE_NONE, pte_flags);
->   
->   	for (i = 1; i <= vm->top; i++) {
-> @@ -963,7 +991,10 @@ struct i915_ppgtt *gen8_ppgtt_create(struct intel_gt *gt,
->   	 */
->   	ppgtt->vm.alloc_scratch_dma = alloc_pt_dma;
->   
-> -	ppgtt->vm.pte_encode = gen8_pte_encode;
-> +	if (GRAPHICS_VER_FULL(gt->i915) >= IP_VER(12, 70))
-> +		ppgtt->vm.pte_encode = mtl_pte_encode;
-> +	else
-> +		ppgtt->vm.pte_encode = gen8_pte_encode;
->   
->   	ppgtt->vm.bind_async_flags = I915_VMA_LOCAL_BIND;
->   	ppgtt->vm.insert_entries = gen8_ppgtt_insert;
-> diff --git a/drivers/gpu/drm/i915/gt/gen8_ppgtt.h b/drivers/gpu/drm/i915/gt/gen8_ppgtt.h
-> index f541d19264b4..6b8ce7f4d25a 100644
-> --- a/drivers/gpu/drm/i915/gt/gen8_ppgtt.h
-> +++ b/drivers/gpu/drm/i915/gt/gen8_ppgtt.h
-> @@ -18,5 +18,8 @@ struct i915_ppgtt *gen8_ppgtt_create(struct intel_gt *gt,
->   u64 gen8_ggtt_pte_encode(dma_addr_t addr,
->   			 enum i915_cache_level level,
->   			 u32 flags);
-> +u64 mtl_ggtt_pte_encode(dma_addr_t addr,
-> +			unsigned int pat_index,
-> +			u32 flags);
->   
->   #endif
-> diff --git a/drivers/gpu/drm/i915/gt/intel_ggtt.c b/drivers/gpu/drm/i915/gt/intel_ggtt.c
-> index 3c7f1ed92f5b..ba3109338aee 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_ggtt.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_ggtt.c
-> @@ -220,6 +220,33 @@ static void guc_ggtt_invalidate(struct i915_ggtt *ggtt)
->   	}
->   }
->   
-> +u64 mtl_ggtt_pte_encode(dma_addr_t addr,
-> +			enum i915_cache_level level,
-> +			u32 flags)
-> +{
-> +	gen8_pte_t pte = addr | GEN8_PAGE_PRESENT;
-> +
-> +	GEM_BUG_ON(addr & ~GEN12_GGTT_PTE_ADDR_MASK);
-> +
-> +	if (flags & PTE_LM)
-> +		pte |= GEN12_GGTT_PTE_LM;
-> +
-> +	switch (level) {
-> +	case I915_CACHE_NONE:
-> +		pte |= MTL_GGTT_PTE_PAT1;
-> +		break;
-> +	case I915_CACHE_LLC:
-> +	case I915_CACHE_L3_LLC:
-> +		pte |= MTL_GGTT_PTE_PAT0 | MTL_GGTT_PTE_PAT1;
-> +		break;
-> +	case I915_CACHE_WT:
-> +		pte |= MTL_GGTT_PTE_PAT0;
-> +		break;
-> +	}
-> +
-> +	return pte;
-> +}
-> +
->   u64 gen8_ggtt_pte_encode(dma_addr_t addr,
->   			 enum i915_cache_level level,
->   			 u32 flags)
-> @@ -247,7 +274,7 @@ static void gen8_ggtt_insert_page(struct i915_address_space *vm,
->   	gen8_pte_t __iomem *pte =
->   		(gen8_pte_t __iomem *)ggtt->gsm + offset / I915_GTT_PAGE_SIZE;
->   
-> -	gen8_set_pte(pte, gen8_ggtt_pte_encode(addr, level, flags));
-> +	gen8_set_pte(pte, ggtt->vm.pte_encode(addr, level, flags));
->   
->   	ggtt->invalidate(ggtt);
->   }
-> @@ -257,8 +284,8 @@ static void gen8_ggtt_insert_entries(struct i915_address_space *vm,
->   				     enum i915_cache_level level,
->   				     u32 flags)
->   {
-> -	const gen8_pte_t pte_encode = gen8_ggtt_pte_encode(0, level, flags);
->   	struct i915_ggtt *ggtt = i915_vm_to_ggtt(vm);
-> +	const gen8_pte_t pte_encode = ggtt->vm.pte_encode(0, level, flags);
->   	gen8_pte_t __iomem *gte;
->   	gen8_pte_t __iomem *end;
->   	struct sgt_iter iter;
-> @@ -981,7 +1008,10 @@ static int gen8_gmch_probe(struct i915_ggtt *ggtt)
->   	ggtt->vm.vma_ops.bind_vma    = intel_ggtt_bind_vma;
->   	ggtt->vm.vma_ops.unbind_vma  = intel_ggtt_unbind_vma;
->   
-> -	ggtt->vm.pte_encode = gen8_ggtt_pte_encode;
-> +	if (GRAPHICS_VER_FULL(i915) >= IP_VER(12, 70))
-> +		ggtt->vm.pte_encode = mtl_ggtt_pte_encode;
-> +	else
-> +		ggtt->vm.pte_encode = gen8_ggtt_pte_encode;
->   
->   	return ggtt_probe_common(ggtt, size);
->   }
-> diff --git a/drivers/gpu/drm/i915/gt/intel_gtt.c b/drivers/gpu/drm/i915/gt/intel_gtt.c
-> index 4f436ba7a3c8..1e1b34e22cf5 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_gtt.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_gtt.c
-> @@ -468,6 +468,25 @@ void gtt_write_workarounds(struct intel_gt *gt)
->   	}
->   }
->   
-> +static void mtl_setup_private_ppat(struct intel_uncore *uncore)
-> +{
-> +	intel_uncore_write(uncore, GEN12_PAT_INDEX(0),
-> +			   MTL_PPAT_L4_0_WB);
-> +	intel_uncore_write(uncore, GEN12_PAT_INDEX(1),
-> +			   MTL_PPAT_L4_1_WT);
-> +	intel_uncore_write(uncore, GEN12_PAT_INDEX(2),
-> +			   MTL_PPAT_L4_3_UC);
-> +	intel_uncore_write(uncore, GEN12_PAT_INDEX(3),
-> +			   MTL_PPAT_L4_0_WB | MTL_2_COH_1W);
-> +	intel_uncore_write(uncore, GEN12_PAT_INDEX(4),
-> +			   MTL_PPAT_L4_0_WB | MTL_3_COH_2W);
-> +
-> +	/*
-> +	 * Remaining PAT entries are left at the hardware-default
-> +	 * fully-cached setting
-> +	 */
-> +}
-> +
->   static void tgl_setup_private_ppat(struct intel_uncore *uncore)
->   {
->   	/* TGL doesn't support LLC or AGE settings */
-> @@ -603,7 +622,9 @@ void setup_private_pat(struct intel_gt *gt)
->   
->   	GEM_BUG_ON(GRAPHICS_VER(i915) < 8);
->   
-> -	if (GRAPHICS_VER_FULL(i915) >= IP_VER(12, 50))
-> +	if (IS_METEORLAKE(i915))
-> +		mtl_setup_private_ppat(uncore);
+Well that is actually not correct. Schedulers are supposed to stay 
+around until the hw they have been driving is no longer present.
 
+E.g. the reference was scheduler_fence->hw_fence->driver->scheduler.
 
-Could you please sync this with DII. We should be programming PAT for 
-media tile too.
+Your use case is now completely different to that and this won't work 
+any more.
 
-I have refactor this patch in DII along with taking care of media tile 
-and I think we should
-
-get those changes here too.
-
+This here might just be the first case where that breaks.
 
 Regards,
+Christian.
 
-Nirmoy
-
-> +	else if (GRAPHICS_VER_FULL(i915) >= IP_VER(12, 50))
->   		xehp_setup_private_ppat(gt);
->   	else if (GRAPHICS_VER(i915) >= 12)
->   		tgl_setup_private_ppat(uncore);
-> diff --git a/drivers/gpu/drm/i915/gt/intel_gtt.h b/drivers/gpu/drm/i915/gt/intel_gtt.h
-> index 69ce55f517f5..b632167eaf2e 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_gtt.h
-> +++ b/drivers/gpu/drm/i915/gt/intel_gtt.h
-> @@ -88,9 +88,18 @@ typedef u64 gen8_pte_t;
->   #define BYT_PTE_SNOOPED_BY_CPU_CACHES	REG_BIT(2)
->   #define BYT_PTE_WRITEABLE		REG_BIT(1)
+>   Therefore, we can't reference the
+> scheduler in the get_timeline_name() implementation.
+>
+> Fixes oopses on `cat /sys/kernel/debug/dma_buf/bufinfo` when shared
+> dma-bufs reference fences from GPU schedulers that no longer exist.
+>
+> Signed-off-by: Asahi Lina <lina@asahilina.net>
+> ---
+>   drivers/gpu/drm/scheduler/sched_entity.c | 7 ++++++-
+>   drivers/gpu/drm/scheduler/sched_fence.c  | 4 +++-
+>   include/drm/gpu_scheduler.h              | 5 +++++
+>   3 files changed, 14 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/drm/scheduler/sched_entity.c
+> index 15d04a0ec623..8b3b949b2ce8 100644
+> --- a/drivers/gpu/drm/scheduler/sched_entity.c
+> +++ b/drivers/gpu/drm/scheduler/sched_entity.c
+> @@ -368,7 +368,12 @@ static bool drm_sched_entity_add_dependency_cb(struct drm_sched_entity *entity)
 >   
-> +#define GEN12_PPGTT_PTE_PAT3    BIT_ULL(62)
->   #define GEN12_PPGTT_PTE_LM	BIT_ULL(11)
-> +#define GEN12_PPGTT_PTE_PAT2    BIT_ULL(7)
-> +#define GEN12_PPGTT_PTE_NC      BIT_ULL(5)
-> +#define GEN12_PPGTT_PTE_PAT1    BIT_ULL(4)
-> +#define GEN12_PPGTT_PTE_PAT0    BIT_ULL(3)
->   
-> -#define GEN12_GGTT_PTE_LM	BIT_ULL(1)
-> +#define GEN12_GGTT_PTE_LM		BIT_ULL(1)
-> +#define MTL_GGTT_PTE_PAT0		BIT_ULL(52)
-> +#define MTL_GGTT_PTE_PAT1		BIT_ULL(53)
-> +#define GEN12_GGTT_PTE_ADDR_MASK	GENMASK_ULL(45, 12)
-> +#define MTL_GGTT_PTE_PAT_MASK		GENMASK_ULL(53, 52)
->   
->   #define GEN12_PDE_64K BIT(6)
->   #define GEN12_PTE_PS64 BIT(8)
-> @@ -147,6 +156,15 @@ typedef u64 gen8_pte_t;
->   #define GEN8_PDE_IPS_64K BIT(11)
->   #define GEN8_PDE_PS_2M   BIT(7)
->   
-> +#define MTL_PPAT_L4_CACHE_POLICY_MASK	REG_GENMASK(3, 2)
-> +#define MTL_PAT_INDEX_COH_MODE_MASK	REG_GENMASK(1, 0)
-> +#define MTL_PPAT_L4_3_UC	REG_FIELD_PREP(MTL_PPAT_L4_CACHE_POLICY_MASK, 3)
-> +#define MTL_PPAT_L4_1_WT	REG_FIELD_PREP(MTL_PPAT_L4_CACHE_POLICY_MASK, 1)
-> +#define MTL_PPAT_L4_0_WB	REG_FIELD_PREP(MTL_PPAT_L4_CACHE_POLICY_MASK, 0)
-> +#define MTL_3_COH_2W	REG_FIELD_PREP(MTL_PAT_INDEX_COH_MODE_MASK, 3)
-> +#define MTL_2_COH_1W	REG_FIELD_PREP(MTL_PAT_INDEX_COH_MODE_MASK, 2)
-> +#define MTL_0_COH_NON	REG_FIELD_PREP(MTL_PAT_INDEX_COH_MODE_MASK, 0)
-> +
->   enum i915_cache_level;
->   
->   struct drm_i915_gem_object;
-> diff --git a/drivers/gpu/drm/i915/gt/intel_mocs.c b/drivers/gpu/drm/i915/gt/intel_mocs.c
-> index 69b489e8dfed..89570f137b2c 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_mocs.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_mocs.c
-> @@ -40,6 +40,10 @@ struct drm_i915_mocs_table {
->   #define LE_COS(value)		((value) << 15)
->   #define LE_SSE(value)		((value) << 17)
->   
-> +/* Defines for the tables (GLOB_MOCS_0 - GLOB_MOCS_16) */
-> +#define _L4_CACHEABILITY(value)	((value) << 2)
-> +#define IG_PAT(value)		((value) << 8)
-> +
->   /* Defines for the tables (LNCFMOCS0 - LNCFMOCS31) - two entries per word */
->   #define L3_ESC(value)		((value) << 0)
->   #define L3_SCC(value)		((value) << 1)
-> @@ -50,6 +54,7 @@ struct drm_i915_mocs_table {
->   /* Helper defines */
->   #define GEN9_NUM_MOCS_ENTRIES	64  /* 63-64 are reserved, but configured. */
->   #define PVC_NUM_MOCS_ENTRIES	3
-> +#define MTL_NUM_MOCS_ENTRIES	16
->   
->   /* (e)LLC caching options */
->   /*
-> @@ -73,6 +78,12 @@ struct drm_i915_mocs_table {
->   #define L3_2_RESERVED		_L3_CACHEABILITY(2)
->   #define L3_3_WB			_L3_CACHEABILITY(3)
->   
-> +/* L4 caching options */
-> +#define L4_0_WB			_L4_CACHEABILITY(0)
-> +#define L4_1_WT			_L4_CACHEABILITY(1)
-> +#define L4_2_RESERVED		_L4_CACHEABILITY(2)
-> +#define L4_3_UC			_L4_CACHEABILITY(3)
-> +
->   #define MOCS_ENTRY(__idx, __control_value, __l3cc_value) \
->   	[__idx] = { \
->   		.control_value = __control_value, \
-> @@ -416,6 +427,57 @@ static const struct drm_i915_mocs_entry pvc_mocs_table[] = {
->   	MOCS_ENTRY(2, 0, L3_3_WB),
->   };
->   
-> +static const struct drm_i915_mocs_entry mtl_mocs_table[] = {
-> +	/* Error - Reserved for Non-Use */
-> +	MOCS_ENTRY(0,
-> +		   IG_PAT(0),
-> +		   L3_LKUP(1) | L3_3_WB),
-> +	/* Cached - L3 + L4 */
-> +	MOCS_ENTRY(1,
-> +		   IG_PAT(1),
-> +		   L3_LKUP(1) | L3_3_WB),
-> +	/* L4 - GO:L3 */
-> +	MOCS_ENTRY(2,
-> +		   IG_PAT(1),
-> +		   L3_LKUP(1) | L3_1_UC),
-> +	/* Uncached - GO:L3 */
-> +	MOCS_ENTRY(3,
-> +		   IG_PAT(1) | L4_3_UC,
-> +		   L3_LKUP(1) | L3_1_UC),
-> +	/* L4 - GO:Mem */
-> +	MOCS_ENTRY(4,
-> +		   IG_PAT(1),
-> +		   L3_LKUP(1) | L3_GLBGO(1) | L3_1_UC),
-> +	/* Uncached - GO:Mem */
-> +	MOCS_ENTRY(5,
-> +		   IG_PAT(1) | L4_3_UC,
-> +		   L3_LKUP(1) | L3_GLBGO(1) | L3_1_UC),
-> +	/* L4 - L3:NoLKUP; GO:L3 */
-> +	MOCS_ENTRY(6,
-> +		   IG_PAT(1),
-> +		   L3_1_UC),
-> +	/* Uncached - L3:NoLKUP; GO:L3 */
-> +	MOCS_ENTRY(7,
-> +		   IG_PAT(1) | L4_3_UC,
-> +		   L3_1_UC),
-> +	/* L4 - L3:NoLKUP; GO:Mem */
-> +	MOCS_ENTRY(8,
-> +		   IG_PAT(1),
-> +		   L3_GLBGO(1) | L3_1_UC),
-> +	/* Uncached - L3:NoLKUP; GO:Mem */
-> +	MOCS_ENTRY(9,
-> +		   IG_PAT(1) | L4_3_UC,
-> +		   L3_GLBGO(1) | L3_1_UC),
-> +	/* Display - L3; L4:WT */
-> +	MOCS_ENTRY(14,
-> +		   IG_PAT(1) | L4_1_WT,
-> +		   L3_LKUP(1) | L3_3_WB),
-> +	/* CCS - Non-Displayable */
-> +	MOCS_ENTRY(15,
-> +		   IG_PAT(1),
-> +		   L3_GLBGO(1) | L3_1_UC),
-> +};
-> +
->   enum {
->   	HAS_GLOBAL_MOCS = BIT(0),
->   	HAS_ENGINE_MOCS = BIT(1),
-> @@ -445,7 +507,13 @@ static unsigned int get_mocs_settings(const struct drm_i915_private *i915,
->   	memset(table, 0, sizeof(struct drm_i915_mocs_table));
->   
->   	table->unused_entries_index = I915_MOCS_PTE;
-> -	if (IS_PONTEVECCHIO(i915)) {
-> +	if (IS_METEORLAKE(i915)) {
-> +		table->size = ARRAY_SIZE(mtl_mocs_table);
-> +		table->table = mtl_mocs_table;
-> +		table->n_entries = MTL_NUM_MOCS_ENTRIES;
-> +		table->uc_index = 9;
-> +		table->unused_entries_index = 1;
-> +	} else if (IS_PONTEVECCHIO(i915)) {
->   		table->size = ARRAY_SIZE(pvc_mocs_table);
->   		table->table = pvc_mocs_table;
->   		table->n_entries = PVC_NUM_MOCS_ENTRIES;
-> @@ -646,9 +714,9 @@ void intel_mocs_init_engine(struct intel_engine_cs *engine)
->   		init_l3cc_table(engine->gt, &table);
->   }
->   
-> -static u32 global_mocs_offset(void)
-> +static u32 global_mocs_offset(struct intel_gt *gt)
+>   		/*
+>   		 * Fence is from the same scheduler, only need to wait for
+> -		 * it to be scheduled
+> +		 * it to be scheduled.
+> +		 *
+> +		 * Note: s_fence->sched could have been freed and reallocated
+> +		 * as another scheduler. This false positive case is okay, as if
+> +		 * the old scheduler was freed all of its jobs must have
+> +		 * signaled their completion fences.
+>   		 */
+>   		fence = dma_fence_get(&s_fence->scheduled);
+>   		dma_fence_put(entity->dependency);
+> diff --git a/drivers/gpu/drm/scheduler/sched_fence.c b/drivers/gpu/drm/scheduler/sched_fence.c
+> index 7fd869520ef2..33b145dfa38c 100644
+> --- a/drivers/gpu/drm/scheduler/sched_fence.c
+> +++ b/drivers/gpu/drm/scheduler/sched_fence.c
+> @@ -66,7 +66,7 @@ static const char *drm_sched_fence_get_driver_name(struct dma_fence *fence)
+>   static const char *drm_sched_fence_get_timeline_name(struct dma_fence *f)
 >   {
-> -	return i915_mmio_reg_offset(GEN12_GLOBAL_MOCS(0));
-> +	return i915_mmio_reg_offset(GEN12_GLOBAL_MOCS(0)) + gt->uncore->gsi_offset;
+>   	struct drm_sched_fence *fence = to_drm_sched_fence(f);
+> -	return (const char *)fence->sched->name;
+> +	return (const char *)fence->sched_name;
 >   }
 >   
->   void intel_set_mocs_index(struct intel_gt *gt)
-> @@ -671,7 +739,7 @@ void intel_mocs_init(struct intel_gt *gt)
->   	 */
->   	flags = get_mocs_settings(gt->i915, &table);
->   	if (flags & HAS_GLOBAL_MOCS)
-> -		__init_mocs_table(gt->uncore, &table, global_mocs_offset());
-> +		__init_mocs_table(gt->uncore, &table, global_mocs_offset(gt));
+>   static void drm_sched_fence_free_rcu(struct rcu_head *rcu)
+> @@ -168,6 +168,8 @@ void drm_sched_fence_init(struct drm_sched_fence *fence,
+>   	unsigned seq;
 >   
->   	/*
->   	 * Initialize the L3CC table as part of mocs initalization to make
-> diff --git a/drivers/gpu/drm/i915/gt/selftest_mocs.c b/drivers/gpu/drm/i915/gt/selftest_mocs.c
-> index ca009a6a13bd..730796346514 100644
-> --- a/drivers/gpu/drm/i915/gt/selftest_mocs.c
-> +++ b/drivers/gpu/drm/i915/gt/selftest_mocs.c
-> @@ -137,7 +137,7 @@ static int read_mocs_table(struct i915_request *rq,
->   		return 0;
->   
->   	if (HAS_GLOBAL_MOCS_REGISTERS(rq->engine->i915))
-> -		addr = global_mocs_offset();
-> +		addr = global_mocs_offset(rq->engine->gt);
->   	else
->   		addr = mocs_offset(rq->engine);
->   
-> diff --git a/drivers/gpu/drm/i915/i915_pci.c b/drivers/gpu/drm/i915/i915_pci.c
-> index 621730b6551c..480b128499ae 100644
-> --- a/drivers/gpu/drm/i915/i915_pci.c
-> +++ b/drivers/gpu/drm/i915/i915_pci.c
-> @@ -1149,6 +1149,7 @@ static const struct intel_device_info mtl_info = {
->   	.has_flat_ccs = 0,
->   	.has_gmd_id = 1,
->   	.has_guc_deprivilege = 1,
-> +	.has_llc = 0,
->   	.has_mslice_steering = 0,
->   	.has_snoop = 1,
->   	.__runtime.memory_regions = REGION_SMEM | REGION_STOLEN_LMEM,
+>   	fence->sched = entity->rq->sched;
+> +	strlcpy(fence->sched_name, entity->rq->sched->name,
+> +		sizeof(fence->sched_name));
+>   	seq = atomic_inc_return(&entity->fence_seq);
+>   	dma_fence_init(&fence->scheduled, &drm_sched_fence_ops_scheduled,
+>   		       &fence->lock, entity->fence_context, seq);
+> diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
+> index 9db9e5e504ee..49f019731891 100644
+> --- a/include/drm/gpu_scheduler.h
+> +++ b/include/drm/gpu_scheduler.h
+> @@ -295,6 +295,11 @@ struct drm_sched_fence {
+>            * @lock: the lock used by the scheduled and the finished fences.
+>            */
+>   	spinlock_t			lock;
+> +        /**
+> +         * @sched_name: the name of the scheduler that owns this fence. We
+> +         * keep a copy here since fences can outlive their scheduler.
+> +         */
+> +	char sched_name[16];
+>           /**
+>            * @owner: job owner for debugging
+>            */
+>
+> ---
+> base-commit: fe15c26ee26efa11741a7b632e9f23b01aca4cc6
+> change-id: 20230406-scheduler-uaf-1-994ec34cac93
+>
+> Thank you,
+> ~~ Lina
+>
+
