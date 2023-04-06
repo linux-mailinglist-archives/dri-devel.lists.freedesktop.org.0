@@ -2,54 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 841656DA2C9
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Apr 2023 22:31:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ADE336DA2CA
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Apr 2023 22:31:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2798810ECED;
-	Thu,  6 Apr 2023 20:31:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1546510ECF2;
+	Thu,  6 Apr 2023 20:31:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com
- [IPv6:2a00:1450:4864:20::62a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4E07810ECED
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Apr 2023 20:31:40 +0000 (UTC)
-Received: by mail-ej1-x62a.google.com with SMTP id g18so4212132ejj.5
- for <dri-devel@lists.freedesktop.org>; Thu, 06 Apr 2023 13:31:40 -0700 (PDT)
+Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com
+ [IPv6:2a00:1450:4864:20::62b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 79C4A10ECED
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Apr 2023 20:31:42 +0000 (UTC)
+Received: by mail-ej1-x62b.google.com with SMTP id n21so4220036ejz.4
+ for <dri-devel@lists.freedesktop.org>; Thu, 06 Apr 2023 13:31:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1680813100;
+ d=linaro.org; s=google; t=1680813102;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=MMh9pMv1c2N5CZKj6o4hVDzOl36SVdvTrKYi4l5Ys4M=;
- b=bpvK+tpA6trKtvJrV4DZCtbwNaI1kDImEVeVQL637eqQHty8z4Qq9fSRbGNcHRWRG/
- FPMf9aY2qxiCS6r+3ssc+K9dV71SFj0TYCnZ2GHj5F16M/z752xuBwB8YxPNXqAuuARn
- TZrkjmRJ/rQCutKuBNz2TU/i/xu064lmxWLYCKcWS54oyvpm2JboWOLAXeyI8hy8SoVK
- pjZ3tPar2gZ6Gfrpr+nUYGX2MDmRbgg2z/AKPjwETZd3VjfaMa47TfTd9QpVeKAgh4c7
- D91heJ9XLjTA52/d2UQYgc+iTqtGkcUYCtjf6kKM9ouXIhYev1rb5rlvfNp/wprEAqHK
- ip/w==
+ bh=Q738x7YwOS0X3XmE9hZfN9Ce15/MYjfZeq6pSQ5ilpI=;
+ b=zy7BsgELujF2TPKCiJuSaYGU32HQ47Wnx8gile3JZ+/AgQXY8WdeOW4obbFD1dAIRj
+ uvJw+TfNSxls3c5pR8LDLmgLowzfPQsPuBV/CW056h9mYKnjpTUtCfltSV71rmQHN/z2
+ /eyqN6fAe25ulQsOOcjeqVFUCuoARqhTmXUuHld3T29X0n09hsvJMgBzTEIMKTFW2km9
+ /IXj7PDEAjhd4WAMeo8Fxh+szfqGiQOS0CXJTWgk4wpQ1uexo3u3NO41aKEWdOdVtnBL
+ WqCMfNpldHDYZIWn27eqxOPcANqyCMYrQ5IKv4Si6qKXHV4X+Qh5rGVvEYsb/EPDUFMh
+ Hq1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680813100;
+ d=1e100.net; s=20210112; t=1680813102;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=MMh9pMv1c2N5CZKj6o4hVDzOl36SVdvTrKYi4l5Ys4M=;
- b=eDOLTbLGrefGcknQlXKYtasuf9p9ZT7b92gYC+LlGHs8VbCv626QlKbzKW2Rlcr/2H
- D2dI2kNbCAwza6wocUw+tdczgtfHElBX6ydDwvwll3hBMX+Qghhy6UFCUxCPzUNXfx98
- fl+ds+7h2snVseu1RmBS5M1IsnqsussOhAG3OtCxkh1qgoMttr8gDsIGeJOlp6nLddPJ
- zRKV8r3CyrHJeo/OIXzUnWY4gbZrAy1bGbXIcxL/rzNYAIPpp7lVH6e1iW89UzKqwx4C
- +XtgUsW+3sxxTIn90Utfl9npWKOAugG7IPlog8GbCwUKZtg4uS6rrfhYZzckjgveqArW
- W5cA==
-X-Gm-Message-State: AAQBX9dum7B3/kC71jxs8bR3Lmbmgx6NqFEsJWGOzJNvegv6HFtPAcSd
- 8TQLzC59k6eN2y+sWE1z+wqq8A==
-X-Google-Smtp-Source: AKy350Yud0CdyQeRWD/f32T/icmKifXpYmvMz9y9aU59vYOZT5+tyTqiYLMimp0uRkG+9Xvbh1C6OQ==
-X-Received: by 2002:a17:906:24d7:b0:932:2874:cc5 with SMTP id
- f23-20020a17090624d700b0093228740cc5mr235929ejb.16.1680813099901; 
- Thu, 06 Apr 2023 13:31:39 -0700 (PDT)
+ bh=Q738x7YwOS0X3XmE9hZfN9Ce15/MYjfZeq6pSQ5ilpI=;
+ b=1PNvzRyjVWPLuyzpiZIl97GGNfqAo8Y2f0YgZ+CwncIklQAmLWjOowbVpscVbHMK3K
+ 4VCk/ePRyper7HaQ8yyFp7uPclTIvTbVeeC0d7gHsTXGF9nccOs/6hOa4pPpf+/UGprX
+ fOFudgXm1gTttkWQNaH4tkjI2hnq0T4cGsn49M+xjUSRwUPQ+Unisr/G9SKbeSkXkPww
+ tWXsy56wIfivRzh3fkeEdnXroERvF21nmQIIUoKbjkXQs+7KSwqcFpE6PjwpoWQsrPfU
+ lx1s29gk038lEalki3YIsjBMsbcuIbN5TyK/iUzZRI5HEQDxI97HfLEzCyEtQvdp/jyx
+ gMjQ==
+X-Gm-Message-State: AAQBX9e+NrdK5x+3+ffRBKlj+UzyWg0oGwRVIpdNXmK8o16UMRM5qLM6
+ D9Ka30ZoUQQNF3wdI5/7KjwR7Q==
+X-Google-Smtp-Source: AKy350YG+aKLeJk+41CCwPZ32gqUjvwfzA9HY7Ve4lEg7WnoUkQNi0XJVnjTSA7FZiCwflxqK0bw0w==
+X-Received: by 2002:a17:907:6ea6:b0:8f0:143d:ee34 with SMTP id
+ sh38-20020a1709076ea600b008f0143dee34mr7334618ejc.1.1680813102050; 
+ Thu, 06 Apr 2023 13:31:42 -0700 (PDT)
 Received: from krzk-bin.. ([2a02:810d:15c0:828:49e6:bb8c:a05b:c4ed])
  by smtp.gmail.com with ESMTPSA id
- s4-20020a1709067b8400b0092bea699124sm1210330ejo.106.2023.04.06.13.31.37
+ s4-20020a1709067b8400b0092bea699124sm1210330ejo.106.2023.04.06.13.31.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 06 Apr 2023 13:31:39 -0700 (PDT)
+ Thu, 06 Apr 2023 13:31:41 -0700 (PDT)
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 To: Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>,
  Jonathan Corbet <corbet@lwn.net>, Oded Gabbay <ogabbay@kernel.org>,
@@ -87,9 +87,9 @@ To: Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>,
  dri-devel@lists.freedesktop.org, patches@opensource.cirrus.com,
  openbmc@lists.ozlabs.org, linux-rpi-kernel@lists.infradead.org,
  linux-arm-kernel@lists.infradead.org
-Subject: [PATCH 11/68] hwmon: bt1-pvt: constify pointers to hwmon_channel_info
-Date: Thu,  6 Apr 2023 22:30:06 +0200
-Message-Id: <20230406203103.3011503-12-krzysztof.kozlowski@linaro.org>
+Subject: [PATCH 12/68] hwmon: corsair: constify pointers to hwmon_channel_info
+Date: Thu,  6 Apr 2023 22:30:07 +0200
+Message-Id: <20230406203103.3011503-13-krzysztof.kozlowski@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230406203103.3011503-1-krzysztof.kozlowski@linaro.org>
 References: <20230406203103.3011503-1-krzysztof.kozlowski@linaro.org>
@@ -116,30 +116,35 @@ const for safety.
 
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 ---
- drivers/hwmon/bt1-pvt.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/hwmon/corsair-cpro.c | 2 +-
+ drivers/hwmon/corsair-psu.c  | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/hwmon/bt1-pvt.c b/drivers/hwmon/bt1-pvt.c
-index 21ab172774ec..8d402a627306 100644
---- a/drivers/hwmon/bt1-pvt.c
-+++ b/drivers/hwmon/bt1-pvt.c
-@@ -379,7 +379,7 @@ static int pvt_read_alarm(struct pvt_hwmon *pvt, enum pvt_sensor_type type,
- 	return 0;
- }
+diff --git a/drivers/hwmon/corsair-cpro.c b/drivers/hwmon/corsair-cpro.c
+index fa6aa4fc8b52..463ab4296ede 100644
+--- a/drivers/hwmon/corsair-cpro.c
++++ b/drivers/hwmon/corsair-cpro.c
+@@ -385,7 +385,7 @@ static const struct hwmon_ops ccp_hwmon_ops = {
+ 	.write = ccp_write,
+ };
  
--static const struct hwmon_channel_info *pvt_channel_info[] = {
-+static const struct hwmon_channel_info * const pvt_channel_info[] = {
+-static const struct hwmon_channel_info *ccp_info[] = {
++static const struct hwmon_channel_info * const ccp_info[] = {
  	HWMON_CHANNEL_INFO(chip,
- 			   HWMON_C_REGISTER_TZ | HWMON_C_UPDATE_INTERVAL),
+ 			   HWMON_C_REGISTER_TZ),
  	HWMON_CHANNEL_INFO(temp,
-@@ -523,7 +523,7 @@ static int pvt_read_alarm(struct pvt_hwmon *pvt, enum pvt_sensor_type type,
- 	return -EOPNOTSUPP;
- }
+diff --git a/drivers/hwmon/corsair-psu.c b/drivers/hwmon/corsair-psu.c
+index 2210aa62e3d0..dc24c566d08b 100644
+--- a/drivers/hwmon/corsair-psu.c
++++ b/drivers/hwmon/corsair-psu.c
+@@ -571,7 +571,7 @@ static const struct hwmon_ops corsairpsu_hwmon_ops = {
+ 	.read_string	= corsairpsu_hwmon_ops_read_string,
+ };
  
--static const struct hwmon_channel_info *pvt_channel_info[] = {
-+static const struct hwmon_channel_info * const pvt_channel_info[] = {
+-static const struct hwmon_channel_info *corsairpsu_info[] = {
++static const struct hwmon_channel_info * const corsairpsu_info[] = {
  	HWMON_CHANNEL_INFO(chip,
- 			   HWMON_C_REGISTER_TZ | HWMON_C_UPDATE_INTERVAL),
+ 			   HWMON_C_REGISTER_TZ),
  	HWMON_CHANNEL_INFO(temp,
 -- 
 2.34.1
