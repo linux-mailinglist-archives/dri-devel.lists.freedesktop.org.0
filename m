@@ -2,50 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C58A26D8EAE
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Apr 2023 07:10:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE2326D8ED9
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Apr 2023 07:33:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2068710EACD;
-	Thu,  6 Apr 2023 05:10:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 459D510EAD8;
+	Thu,  6 Apr 2023 05:33:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 20F0A10EACD
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Apr 2023 05:09:58 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits))
- (No client certificate requested)
- (Authenticated sender: lina@asahilina.net)
- by mail.marcansoft.com (Postfix) with ESMTPSA id AFC0C42494;
- Thu,  6 Apr 2023 05:09:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=asahilina.net;
- s=default; t=1680757796;
- bh=zLLtvp1wx7c1UDNlTKe6kg9bIIg37y5fJnKwZQvAJ2Q=;
- h=Date:Subject:From:To:Cc:References:In-Reply-To;
- b=DQ1+ZlgRBNIfMYWHR2U9G4uiVDt3T6qab2toMmETW55z0zVv/P+2cm3zPOGUlFSu4
- zI1mDctpjgbkItPQ0HnHTtOu888Zbe0524eMsrZ1dgYL6Gfe+5eZOFJyHhFj/4WBZs
- SPfg/f0jUT8JFTfLAdqwbw1o5A0/Yt3Xz5aOOqzKHDtD48ZhujGPtn2HUZEQfU/dOD
- qnVlGPkiGW1lERp8POXcFrsQ+sGwayWhcxPjEWWGG1t6v+UDQR7LiV02M2uerw+MOK
- G1irCrwEJi3N5UolxXP6P4vHFNtHB7M+OGUo/D7OAdrev9aSdO39GnsQYI6/h2Gweb
- ycpfc29EV5hXQ==
-Message-ID: <df68305d-fbf0-8f03-d9fb-4502632beec6@asahilina.net>
-Date: Thu, 6 Apr 2023 14:09:48 +0900
+Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com
+ [IPv6:2a00:1450:4864:20::62d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2248210EAD8
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Apr 2023 05:33:45 +0000 (UTC)
+Received: by mail-ej1-x62d.google.com with SMTP id
+ a640c23a62f3a-94706a972f3so10045266b.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 05 Apr 2023 22:33:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ffwll.ch; s=google; t=1680759222; x=1683351222;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=LlhKyDdCS8tjZZVSetQBGPdajpitrR2LB+A3xrN7ebo=;
+ b=X09EU2h4W9xa0EBV9xkW23CpwYKt+/SSMHOFRifPyhmqjOXW06lU+vzbXPFCufRlVs
+ E6YoWDfPEkRyqnPID/DDhYojT/rJqLSccuVuJ3RAsfDpbnceEHHr6KAmB+vdxbC+XtM7
+ 1vov1rpmIx1Uzps3lKaruYot0+YAdyeMfCM3Y=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1680759222; x=1683351222;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=LlhKyDdCS8tjZZVSetQBGPdajpitrR2LB+A3xrN7ebo=;
+ b=dgu2eNoevAekuuE9v7jjeeNwV+PKmiA/oD94GdT8GJhNmHy72AClZoxeX4OIxEQhEl
+ Zima/bUfuibfHR5eHPgxA2Ueizwh7rr3PLj1aSNzcJlNFURqFrbaMGOvPKTb4JI9Gu2Z
+ EMb9kOzCz/+uCqHYNHofV2Cdy9TBTQBj9gjkorxWWDgJZlcsqe8IojbwKNj6uyHTtqTu
+ gLNN3C8OIfI2kG24BC8u3G96DII14ejIhcxlbxf061k99diualXA//drM3P6pylGvh+f
+ woifC6dwJub/a7mWez3GDRxII7Zog5LzpIe6A4g5lSzv80p+H4NShQ8JCEWoIVQOYR5b
+ L5tw==
+X-Gm-Message-State: AAQBX9e9f3CQw4G8Yx1elR0188VrxdgZwJMtKtPK8dtc3YUtXmv9nrPn
+ ycsn3RcfH8cp6m7BoaMlRruJBQ==
+X-Google-Smtp-Source: AKy350bZSL9jYbQLkFQk5JwKFwqfd/z1/KvQgvEpWo1Gc/++msO3WANDZEiHwOh9/U7ZkH92ZT+Awg==
+X-Received: by 2002:a17:906:20d7:b0:930:aa02:f9cf with SMTP id
+ c23-20020a17090620d700b00930aa02f9cfmr3589925ejc.2.1680759222408; 
+ Wed, 05 Apr 2023 22:33:42 -0700 (PDT)
+Received: from phenom.ffwll.local (212-51-149-33.fiber7.init7.net.
+ [212.51.149.33]) by smtp.gmail.com with ESMTPSA id
+ ml15-20020a170906cc0f00b00947732c6521sm309396ejb.79.2023.04.05.22.33.41
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 05 Apr 2023 22:33:41 -0700 (PDT)
+Date: Thu, 6 Apr 2023 07:33:40 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Rob Clark <robdclark@gmail.com>
+Subject: Re: [Intel-gfx] [PATCH] drm/atomic-helper: Don't set deadline for
+ modesets
+Message-ID: <ZC5ZtOdJSM3nDapM@phenom.ffwll.local>
+References: <20230405081650.797972-1-daniel.vetter@ffwll.ch>
+ <20230405133105.947834-1-daniel.vetter@ffwll.ch>
+ <CAF6AEGsFTSSQMMnr8PkJ4CBhwVnYBsxdZGP1SO9aZyeLhO0Ohg@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH RFC 18/18] drm/asahi: Add the Asahi driver for Apple AGX
- GPUs
-Content-Language: en-US
-From: Asahi Lina <lina@asahilina.net>
-To: Daniel Vetter <daniel@ffwll.ch>
-References: <20230307-rust-drm-v1-0-917ff5bc80a8@asahilina.net>
- <20230307-rust-drm-v1-18-917ff5bc80a8@asahilina.net>
- <ZC2JPR3fGm0uE9yW@phenom.ffwll.local>
- <6200f93d-6d95-5d03-cc1c-22d7924d66eb@asahilina.net>
-In-Reply-To: <6200f93d-6d95-5d03-cc1c-22d7924d66eb@asahilina.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAF6AEGsFTSSQMMnr8PkJ4CBhwVnYBsxdZGP1SO9aZyeLhO0Ohg@mail.gmail.com>
+X-Operating-System: Linux phenom 6.1.0-7-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,83 +75,74 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Karol Herbst <kherbst@redhat.com>,
- Dave Hansen <dave.hansen@linux.intel.com>, dri-devel@lists.freedesktop.org,
- Mary <mary@mary.zone>, Gary Guo <gary@garyguo.net>,
- Ella Stanforth <ella@iglunix.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- Alyssa Rosenzweig <alyssa@rosenzweig.io>, Luben Tuikov <luben.tuikov@amd.com>,
- Alex Gaynor <alex.gaynor@gmail.com>, Miguel Ojeda <ojeda@kernel.org>,
- linux-media@vger.kernel.org, Wedson Almeida Filho <wedsonaf@gmail.com>,
- rust-for-linux@vger.kernel.org, Boqun Feng <boqun.feng@gmail.com>,
- =?UTF-8?Q?Bj=c3=b6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
- Faith Ekstrand <faith.ekstrand@collabora.com>, linux-sgx@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
- Jarkko Sakkinen <jarkko@kernel.org>, asahi@lists.linux.dev,
+Cc: Rob Clark <robdclark@chromium.org>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
  Thomas Zimmermann <tzimmermann@suse.de>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Daniel Vetter <daniel.vetter@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Same as the prior email, this was supposed to go to Daniel...
+On Wed, Apr 05, 2023 at 06:50:22AM -0700, Rob Clark wrote:
+> On Wed, Apr 5, 2023 at 6:31 AM Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
+> >
+> > If the crtc is being switched on or off then the semantics of
+> > computing the timestampe of the next vblank is somewhat ill-defined.
+> > And indeed, the code splats with a warning in the timestamp
+> > computation code. Specifically it hits the check to make sure that
+> > atomic drivers have full set up the timing constants in the drm_vblank
+> > structure, and that's just not the case before the crtc is actually
+> > on.
+> >
+> > For robustness it seems best to just not set deadlines for modesets.
+> >
+> > v2: Also skip on inactive crtc (Ville)
+> >
+> > Link: https://lore.kernel.org/dri-devel/dfc21f18-7e1e-48f0-c05a-d659b9c90b91@linaro.org/
+> > Fixes: d39e48ca80c0 ("drm/atomic-helper: Set fence deadline for vblank")
+> > Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
+> > Cc: Rob Clark <robdclark@chromium.org>
+> > Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+> > Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> > Cc: Maxime Ripard <mripard@kernel.org>
+> > Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> > Reported-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> > Tested-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org> # test patch only
+> > Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> 
+> Reviewed-by: Rob Clark <robdclark@gmail.com>
 
-On 06/04/2023 14.02, Asahi Lina wrote:
-> On 05/04/2023 23.44, Daniel Vetter wrote:
->> On Tue, Mar 07, 2023 at 11:25:43PM +0900, Asahi Lina wrote:
->>> +/// Look up a GEM object handle for a `File` and return an `ObjectRef` for it.
->>> +pub(crate) fn lookup_handle(file: &DrmFile, handle: u32) -> Result<ObjectRef> {
->>> +    Ok(ObjectRef::new(shmem::Object::lookup_handle(file, handle)?))
->>> +}
->>
->> So maybe my expectations for rust typing is a bit too much, but I kinda
->> expected this to be fully generic:
->>
->> - trait Driver (drm_driver) knows the driver's object type
->> - a generic create_handle function could ensure that for drm_file (which
->>     is always for a specific drm_device and hence Driver) can ensure at the
->>     type level that you only put the right objects into the drm_file
->> - a generic lookup_handle function on the drm_file knows the Driver trait
->>     and so can give you back the right type right away.
->>
->> Why the wrapping, what do I miss?
-> 
-> Sigh, so this is one of the many ways I'm trying to work around the
-> "Rust doesn't do subclasses" problem (so we can figure out what the best
-> one is ^^).
-> 
-> The generic shmem::Object::lookup_handle() call *is* fully generic and
-> will get you back a driver-specific object. But since Rust doesn't do
-> subclassing, what you get back isn't a driver-specific type T, but
-> rather a (reference to a) shmem::Object<T>. T represents the inner
-> driver-specific data/functionality (only), and the outer
-> shmem::Object<T> includes the actual drm_gem_shmem_object plus a T. This
-> is backwards from C, where you expect the opposite situation where T
-> contains a shmem object, but that just doesn't work with Rust because
-> there's no way to build a safe API around that model as far as I know.
-> 
-> Now the problem is from the higher layers I want object operations that
-> interact with the shmem::Object<T> (that is, they call generic GEM
-> functions on the object). Options so far:
-> 
-> 1. Add an outer wrapper and put that functionality there.
-> 2. Just have the functions on T as helpers, so you need to call
-> T::foo(obj) instead of obj.foo().
-> 3. Use the undocumented method receiver trait thing to make
-> shmem::Object<T> a valid `self` type, plus add auto-Deref to
-> shmem::Object. Then obj.foo() works.
-> 
-> #1 is what I use here. #2 is how the driver-specific File ioctl
-> callbacks are implemented, and also sched::Job<T>. #3 is used for fence
-> callbacks (FenceObject<T>). None of them are great, and I'd love to hear
-> what people think of the various options...
-> 
-> There are other unexplored options, like in this GEM case it could be
-> covered with a driver-internal auxiliary trait impl'd on
-> shmem::Object<T> buuut that doesn't work when you actually need
-> callbacks on T itself to circle back to shmem::Object<T>, as is the case
-> with File/Job/FenceObject.
-> 
-> ~~ Lina
-> 
+Merged to drm-misc-next, thanks for review.
 
-~~ Lina
+> 
+> > ---
+> >  drivers/gpu/drm/drm_atomic_helper.c | 6 ++++++
+> >  1 file changed, 6 insertions(+)
+> >
+> > diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
+> > index f21b5a74176c..d44fb9b87ef8 100644
+> > --- a/drivers/gpu/drm/drm_atomic_helper.c
+> > +++ b/drivers/gpu/drm/drm_atomic_helper.c
+> > @@ -1528,6 +1528,12 @@ static void set_fence_deadline(struct drm_device *dev,
+> >         for_each_new_crtc_in_state (state, crtc, new_crtc_state, i) {
+> >                 ktime_t v;
+> >
+> > +               if (drm_atomic_crtc_needs_modeset(new_crtc_state))
+> > +                       continue;
+> > +
+> > +               if (!new_crtc_state->active)
+> > +                       continue;
+> > +
+> >                 if (drm_crtc_next_vblank_start(crtc, &v))
+> >                         continue;
+> >
+> > --
+> > 2.40.0
+> >
 
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
