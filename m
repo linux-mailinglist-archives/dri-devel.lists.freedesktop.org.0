@@ -1,74 +1,78 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC7FE6D9627
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Apr 2023 13:45:20 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BA70A6D9633
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Apr 2023 13:47:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8D9C5891BA;
-	Thu,  6 Apr 2023 11:45:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8B11910EB73;
+	Thu,  6 Apr 2023 11:47:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6362B891BA
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Apr 2023 11:45:15 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 189B810EB73
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Apr 2023 11:47:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1680781514;
+ s=mimecast20190719; t=1680781639;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=73fvDKXKJiwqfPloJX+LFAnqnwpAkmZ6k8UwLhKl54I=;
- b=eAyn5RgG+0jYRU1IR6luIETRKlSLHOMUpTRQ0bI+PVlEHN6V79swd3UnCtdR8ySG7EamNd
- xkUpfv/qiNEh92XznBwslemSolX03IA1lSPII5+aM9XSHDM7xrOnt3+ISyNmlRr4RUsh6R
- MBPhH+t0cBh2FOp2/BEMMg0/EVYyHik=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=e7IWx4hjGZbxBgRuJKLc+v5jOw355RVkzN+v5YQUB+I=;
+ b=MkergpM96z/csU3YaRRkz/shT6iqph+erqRwOgu/FFGSNpaYqjQ5YZFp1+WL8cmj8RxXna
+ YiwO+VtND3eN5sqMqUDsOYuTs9ydy01EHqSun3hhx+SevNnegH3sQ5rgs6/42HZt1AJVWR
+ q1yy6pzuWbCISiYVeTMtcrTzbwpmscY=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-576-iNHr9fA6Ofq29IhlLQQ6HQ-1; Thu, 06 Apr 2023 07:45:13 -0400
-X-MC-Unique: iNHr9fA6Ofq29IhlLQQ6HQ-1
-Received: by mail-wm1-f72.google.com with SMTP id
- m5-20020a05600c4f4500b003ee8db23ef9so20057874wmq.8
- for <dri-devel@lists.freedesktop.org>; Thu, 06 Apr 2023 04:45:13 -0700 (PDT)
+ us-mta-139-4c9hcofcOaWuRRDEuplvDg-1; Thu, 06 Apr 2023 07:47:18 -0400
+X-MC-Unique: 4c9hcofcOaWuRRDEuplvDg-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ l16-20020a05600c4f1000b003ef6ed5f645so15156330wmq.9
+ for <dri-devel@lists.freedesktop.org>; Thu, 06 Apr 2023 04:47:18 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680781512;
+ d=1e100.net; s=20210112; t=1680781637;
  h=content-transfer-encoding:mime-version:message-id:date:references
- :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=73fvDKXKJiwqfPloJX+LFAnqnwpAkmZ6k8UwLhKl54I=;
- b=trJjgJ5Ya13uRZREgbDzVLND2mVaSitU+NpnzW/HaQ8uoagb0ndXwxpMVMLX644DZv
- q5s48QRmdJrSmVjr6gpmzBuIBFYUHz7IqeR2tdMJgIjLcBq9NBsXuOsCfHukEWQoCLzI
- mlz/TwLUyjS48DWGDAQdxT6e76FBGfNfnh9ePZH6qzX2+ba2ISMTbNuWw8XnxST3uUXx
- BSp3ySxBA4mWbM7/0HHvxEg6t8Tyz+WKXAQovehRdjUl++xdWnFLmElCE9C/zKBdkbUS
- PGGUyoglvBbMXNk4KoV/1A8EGSgXX0aJlbcm+Oo5seUGVHyFxAms/xu8QMHsKO55vzrQ
- dP4A==
-X-Gm-Message-State: AAQBX9dAIOiBstL4HCSwVLKLkI3m86qbn6NaTr6AO7Z5zfMWg1E2oN52
- C3wjakfEETpcesYcOe3/Bp5B7+anvxr2sw0Bvt071q9SoJDj+bBrDMj8d5qUJoPty7uM3cATObb
- nK7ucKtTtVx2/0q29fUS1/rd8S3EP
-X-Received: by 2002:a5d:4143:0:b0:2ce:9f0d:df51 with SMTP id
- c3-20020a5d4143000000b002ce9f0ddf51mr7219572wrq.69.1680781512276; 
- Thu, 06 Apr 2023 04:45:12 -0700 (PDT)
-X-Google-Smtp-Source: AKy350bBXZvWBsv2iUOjKDFuIx096QDwRVXdj5Wnr7qncvtEADI0rR1JbrEgGisCQmfGxq6p2RIwvQ==
-X-Received: by 2002:a5d:4143:0:b0:2ce:9f0d:df51 with SMTP id
- c3-20020a5d4143000000b002ce9f0ddf51mr7219558wrq.69.1680781512002; 
- Thu, 06 Apr 2023 04:45:12 -0700 (PDT)
+ :in-reply-to:subject:to:from:x-gm-message-state:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=iWwwDUBcTxMQFoR2Rf9eY7h3vDUIUGt5Sqa76Fd1rXQ=;
+ b=BulZtNjpNEAhLWOxVkK+8HTlkibz+Pfp+xwY2mVG7SU7ffUqDeJxq/oJCDZkJj5jxF
+ OusKvahacDV7XtxUYJC79xPmXIsQCThEqn4s2WBeSdr2u9gj+Oa+0Hwv+/+GvIT3XfQb
+ KBHB0pxqxcOT9S63aBZmNuFu8WzgrHoZxm42lQbSmBzbIHbYCDoZvJWahmMn+ecZkzrS
+ xgAaNC3qSfIjKkNG/EFAi06f7MxTrGn8Y47WIxsc0qjygckv4dpiBja1/SV7pW2wzqRL
+ ogPRth/YPjGkPeCMGJhym8e3J17ZzZ2etZxHzKMxdccJAy030Oq6nNu7OJK0RtNye7XD
+ bgaQ==
+X-Gm-Message-State: AAQBX9eNZH6v6h2K2TInQ8GG7C3yOlifZCVBgJY5JGeNLlTkETkSiGjy
+ gLZB16u4aMaSw+X/SElnXeagKB6fe4OsJRdt94ppXcM0ITp9Io2wOP7ZLYoWsTon1icf94qrhT/
+ t1zSG6togzN3FZnqHdf7hVoA5d+qq
+X-Received: by 2002:a7b:c384:0:b0:3e9:f15b:935b with SMTP id
+ s4-20020a7bc384000000b003e9f15b935bmr6859112wmj.32.1680781637698; 
+ Thu, 06 Apr 2023 04:47:17 -0700 (PDT)
+X-Google-Smtp-Source: AKy350Z0w2RyUkiZdYYT4EK5OLcz6zUdIliWv60GkRn8oIaecMiGXS9uj7lrRVOK6go6/Yfh3Z6Q3g==
+X-Received: by 2002:a7b:c384:0:b0:3e9:f15b:935b with SMTP id
+ s4-20020a7bc384000000b003e9f15b935bmr6859102wmj.32.1680781637431; 
+ Thu, 06 Apr 2023 04:47:17 -0700 (PDT)
 Received: from localhost (205.pool92-176-231.dynamic.orange.es.
  [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- l13-20020a5d668d000000b002e61e002943sm1518324wru.116.2023.04.06.04.45.11
+ q31-20020a05600c331f00b003ee610d1ce9sm5006690wmp.34.2023.04.06.04.47.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 06 Apr 2023 04:45:11 -0700 (PDT)
+ Thu, 06 Apr 2023 04:47:17 -0700 (PDT)
 From: Javier Martinez Canillas <javierm@redhat.com>
-To: =?utf-8?Q?Ma=C3=ADra?= Canal <mcanal@igalia.com>, Rodrigo Siqueira
- <rodrigosiqueiramelo@gmail.com>, Melissa Wen <melissa.srw@gmail.com>,
- Haneen Mohammed <hamohammed.sa@gmail.com>, Daniel Vetter
- <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>
-Subject: Re: [PATCH 2/2] drm/vkms: Use drmm_mode_config_init()
-In-Reply-To: <20230116205800.1266227-2-mcanal@igalia.com>
-References: <20230116205800.1266227-1-mcanal@igalia.com>
- <20230116205800.1266227-2-mcanal@igalia.com>
-Date: Thu, 06 Apr 2023 13:45:11 +0200
-Message-ID: <87bkk18cag.fsf@minerva.mail-host-address-is-not-set>
+To: =?utf-8?Q?Ma=C3=ADra?= Canal <mcanal@igalia.com>,
+ linux-kernel@vger.kernel.org, Thomas
+ Zimmermann <tzimmermann@suse.de>, Marius Vlad <marius.vlad@collabora.com>,
+ David Airlie <airlied@gmail.com>, Haneen Mohammed
+ <hamohammed.sa@gmail.com>, Melissa Wen <melissa.srw@gmail.com>, Rodrigo
+ Siqueira <rodrigosiqueiramelo@gmail.com>, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH 1/2] drm/vkms: Drop vkms_connector_destroy() wrapper
+In-Reply-To: <accdc804-19e7-df59-7dd3-69c83f52405d@igalia.com>
+References: <20230406110235.3092055-1-javierm@redhat.com>
+ <20230406110235.3092055-2-javierm@redhat.com>
+ <ZC6o4l7tzSIwFTKw@phenom.ffwll.local>
+ <accdc804-19e7-df59-7dd3-69c83f52405d@igalia.com>
+Date: Thu, 06 Apr 2023 13:47:16 +0200
+Message-ID: <878rf58c6z.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
@@ -86,23 +90,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Melissa Wen <mwen@igalia.com>,
- =?utf-8?Q?Ma=C3=ADra?= Canal <mcanal@igalia.com>,
- =?utf-8?Q?Andr=C3=A9?= Almeida <andrealmeid@igalia.com>,
- dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Ma=C3=ADra Canal <mcanal@igalia.com> writes:
 
-> Use drmm_mode_config_init() instead of drm_mode_config_init(), as it allo=
-ws
-> us to assure that the resource will be properly cleaned.
->
-> Signed-off-by: Ma=C3=ADra Canal <mcanal@igalia.com>
-> ---
+Hello Ma=C3=ADra,
 
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+> On 4/6/23 08:11, Daniel Vetter wrote:
+>> On Thu, Apr 06, 2023 at 01:02:34PM +0200, Javier Martinez Canillas wrote=
+:
+>>> This helper is just a wrapper that calls drm_connector_cleanup(), there=
+'s
+>>> no need to have another level of indirection.
+>>>
+>>> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
+>>=20
+>> On both patches:
+>>=20
+>> Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+>>=20
+>> Aside, would be a nice cleanup to move vkms output stuff (crtc and
+>> connector) over to the drmm_ stuff. The plane already does that.
+>
+> I sent a patch [1] a while ago moving the CRTC to the drmm_ functions.
+> If you could take a look at it, it would be great.
+>
+> [1] https://lore.kernel.org/dri-devel/20230116205800.1266227-1-mcanal@iga=
+lia.com/T/
+>
+
+I've now reviewed both patches from your series and they look good to me.
+
+> Best Regards,
+> - Ma=C3=ADra Canal
+>
 
 --=20
 Best regards,
