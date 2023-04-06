@@ -1,74 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB81E6D91CC
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Apr 2023 10:38:37 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E5916D91D3
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Apr 2023 10:40:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 170E210EB31;
-	Thu,  6 Apr 2023 08:38:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5A5FB10EB2E;
+	Thu,  6 Apr 2023 08:40:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A7B8310EB31
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Apr 2023 08:38:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1680770311;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=hkchePf9OLmsTXYWAsI9wTVTm6UQ5Vnb4omxYS3AXNw=;
- b=ACL6mvFobAv5dfoou+87RyD0EwsvR7eTNmnavKKuRJRM4se7SigkuVEedq7gsE9wivIken
- Ha7CzD5dkHYR1e0IZFaBoDi9INHCgQMKgrjN1S1e4V8LFn+/6oxGiLN4Z8LUgRLjQy5jkS
- cIm/XukvVTjaeByOPAM/qq7M3l0BTXw=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-13-m9rThREMPjO7gdhoS8ac4w-1; Thu, 06 Apr 2023 04:38:27 -0400
-X-MC-Unique: m9rThREMPjO7gdhoS8ac4w-1
-Received: by mail-wm1-f71.google.com with SMTP id
- m7-20020a05600c4f4700b003ee7e120bdfso18014306wmq.6
- for <dri-devel@lists.freedesktop.org>; Thu, 06 Apr 2023 01:38:27 -0700 (PDT)
+Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com
+ [IPv6:2a00:1450:4864:20::52d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1E81A10EB2E
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Apr 2023 08:40:06 +0000 (UTC)
+Received: by mail-ed1-x52d.google.com with SMTP id
+ 4fb4d7f45d1cf-502208f7cb3so102632a12.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 06 Apr 2023 01:40:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ffwll.ch; s=google; t=1680770403;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=Y3SR5g993gE0jwFV3/gL39Q2ly/8K2VYBDk+BWXiReo=;
+ b=RjT3vLh/mu8GkN42AX8zB3gIqJQQrLwQAyir2BLesfuByZEVg4BP/e5a3av/U1X0Gw
+ BDtlML7HzLAuIsHRTg+Y3ya4Uv/brH35xC47HqL/2pwmXwNIzTA70gTsL9ks6NFAko9l
+ EqO7oQMqP59SV93LbsymwsGkOOEcoM8j7INrc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680770306;
- h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=hkchePf9OLmsTXYWAsI9wTVTm6UQ5Vnb4omxYS3AXNw=;
- b=P64xNVU6s8/J7ANKqK44t3ZaVo4rcalza+YNjQ6RomCjpegqwP5110S6oCuEW9IpXp
- EDA7fInpb+rJ/fG61uHF61H5msdS7b6V3KXlRFGeAXKt9qztuUXFyRj2N6+jdoihnGzi
- VvRi3pPE9lgmMCE8wLhA2hPW3P9DNOXEvvy4IVVJr/6bl41Z0IfJE3C+w8en9gWRRWI5
- Ijp2LUsqZ//mKHt56CMjcKe2lkzPpLy1k1iaW3h87lj4wRXqz3Z8HF7zAPNRYjUQDsgQ
- e8BrLeP0gH7denSPPcbu8zYnsSBcDysBuyKWnYwJ25AAEty5pjIwH8/qkzecpxEt7YtZ
- HfGw==
-X-Gm-Message-State: AAQBX9fdmMC4SjJxv0B1AWt9bMQNSYUbDF1tjKQjUkSVNPPy5cyx7O/L
- SQ2FC14YmmOTXwBzLUjB+IeL5hhc7dZ0RxQbWNMNGedhewrPJn+79WYa1dkDRo93ggtseCldGgJ
- cu/7IFEupggp8BRikRmL1krKK1fSq
-X-Received: by 2002:a1c:f216:0:b0:3ee:4ff0:83d6 with SMTP id
- s22-20020a1cf216000000b003ee4ff083d6mr6819316wmc.40.1680770306382; 
- Thu, 06 Apr 2023 01:38:26 -0700 (PDT)
-X-Google-Smtp-Source: AKy350Yojg2hQUkAVKwGstUj4dhtr6KfgtFqksoey1inKawioKRJeSTROyvsWZxKKEZVNw0r4QsONg==
-X-Received: by 2002:a1c:f216:0:b0:3ee:4ff0:83d6 with SMTP id
- s22-20020a1cf216000000b003ee4ff083d6mr6819298wmc.40.1680770306081; 
- Thu, 06 Apr 2023 01:38:26 -0700 (PDT)
-Received: from localhost ([84.78.248.32]) by smtp.gmail.com with ESMTPSA id
- m21-20020a7bcb95000000b003ee4e99a8f6sm912948wmi.33.2023.04.06.01.38.25
+ d=1e100.net; s=20210112; t=1680770403;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Y3SR5g993gE0jwFV3/gL39Q2ly/8K2VYBDk+BWXiReo=;
+ b=Sus6SpyyrGbjVywd3a25TZ6JlM+EKqekz2yDacV+uX0KfyVeT6LFK1SWd1FGT2frlJ
+ QirOZJmAI/KlU61sCqL+NfsoSvFLqDqs4Hq1a+nGnOilSDM0/07Wi5rZalpSlXZoT29i
+ nyGbXl2qUnEZ0N125v++L3h36kw7dvnpn08W3DGRK77rAb9q+jUx+DyM1+D5q6Ley3R/
+ +L9Zsx24G9GXDQo1r6ovK2PE5obMEAAhwACXEHNry7NvJePJWsVRhiztFHEs4NqIptgc
+ xuxiMlKrXoF1HlttESka9YbDTz5NR506mK6ao1DHXl+p1hCXt/2vAVxo98PP8q+KGOuM
+ FmfQ==
+X-Gm-Message-State: AAQBX9fdhPDz3Du92XKHll2gB1AcIMzi5zgBfk4ATSbthPNL4k6q0+lJ
+ Uvgh8vWtO7j0P+qwKPZS1697OA==
+X-Google-Smtp-Source: AKy350a9UAvh2U4QREiedEqkVswYHGlRUdD9HP2yQbBn9dNEpR331UtpqTm0AXBi9vj4TnRoCikEbw==
+X-Received: by 2002:a05:6402:2811:b0:502:465:28e1 with SMTP id
+ h17-20020a056402281100b00502046528e1mr5580318ede.0.1680770402822; 
+ Thu, 06 Apr 2023 01:40:02 -0700 (PDT)
+Received: from phenom.ffwll.local (212-51-149-33.fiber7.init7.net.
+ [212.51.149.33]) by smtp.gmail.com with ESMTPSA id
+ w17-20020a1709062f9100b009331450d04esm506262eji.178.2023.04.06.01.40.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 06 Apr 2023 01:38:25 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>, Daniel Vetter
- <daniel.vetter@ffwll.ch>, DRI Development <dri-devel@lists.freedesktop.org>
-Subject: Re: [PATCH 1/8] drm/gma500: Use
- drm_aperture_remove_conflicting_pci_framebuffers
-In-Reply-To: <66f9196e-df2b-19ce-e2ec-15f7a81d63c7@suse.de>
-References: <20230404201842.567344-1-daniel.vetter@ffwll.ch>
- <66f9196e-df2b-19ce-e2ec-15f7a81d63c7@suse.de>
-Date: Thu, 06 Apr 2023 10:38:24 +0200
-Message-ID: <87ttxt8kxr.fsf@minerva.mail-host-address-is-not-set>
+ Thu, 06 Apr 2023 01:40:02 -0700 (PDT)
+Date: Thu, 6 Apr 2023 10:40:00 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH v4 9/9] video/aperture: Provide a VGA helper for gma500
+ and internal use
+Message-ID: <ZC6FYK6nbF2HOIAa@phenom.ffwll.local>
+References: <20230406083240.14031-1-tzimmermann@suse.de>
+ <20230406083240.14031-10-tzimmermann@suse.de>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230406083240.14031-10-tzimmermann@suse.de>
+X-Operating-System: Linux phenom 6.1.0-7-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,44 +72,69 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@intel.com>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>
+Cc: daniel.vetter@ffwll.ch, dri-devel@lists.freedesktop.org, javierm@redhat.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Thomas Zimmermann <tzimmermann@suse.de> writes:
-
-[...]
-
-> Am 04.04.23 um 22:18 schrieb Daniel Vetter:
+On Thu, Apr 06, 2023 at 10:32:40AM +0200, Thomas Zimmermann wrote:
+> The hardware for gma500 is different from the rest, as it uses stolen
+> framebuffer memory that is not available via PCI BAR. The regular PCI
+> removal helper cannot detect the framebuffer, while the non-PCI helper
+> misses possible conflicting VGA devices (i.e., a framebuffer or text
+> console).
+> 
 > Gma500 therefore calls both helpers to catch all cases. It's confusing
 > as it implies that there's something about the PCI device that requires
 > ownership management. The relationship between the PCI device and the
 > VGA devices is non-obvious. At worst, readers might assume that calling
-> two functions for aperture clearing ownership is a bug in the driver.
->
-
-Yeah, or someone looking as the driver for reference may wrongly think
-that calling both aperture helpers are needed for PCI drivers and that
-is not the case.
-
+> two functions for clearing aperture ownership is a bug in the driver.
+> 
 > Hence, move the PCI removal helper's code for VGA functionality into
 > a separate function and call this function from gma500. Documents the
 > purpose of each call to aperture helpers. The change contains comments
 > and example code form the discussion at [1].
->
+> 
 > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 > Link: https://patchwork.kernel.org/project/dri-devel/patch/20230404201842.567344-1-daniel.vetter@ffwll.ch/ # 1
+
+I'm still not clued in on why we need this, but I also don't think it's
+terrible, so ...
+
+Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+
+
 > ---
-
-Looks good to me and I agree that it makes the code easier to understand.
-
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
-
-I've a couple of comments below though:
-
-[...]
-
+>  drivers/gpu/drm/gma500/psb_drv.c | 48 ++++++++++++++++++--------
+>  drivers/video/aperture.c         | 58 ++++++++++++++++++++++----------
+>  include/linux/aperture.h         |  7 ++++
+>  3 files changed, 81 insertions(+), 32 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/gma500/psb_drv.c b/drivers/gpu/drm/gma500/psb_drv.c
+> index 4bb06a89e48d..f50a9a58a2db 100644
+> --- a/drivers/gpu/drm/gma500/psb_drv.c
+> +++ b/drivers/gpu/drm/gma500/psb_drv.c
+> @@ -7,6 +7,7 @@
+>   *
+>   **************************************************************************/
+>  
+> +#include <linux/aperture.h>
+>  #include <linux/cpu.h>
+>  #include <linux/module.h>
+>  #include <linux/notifier.h>
+> @@ -19,7 +20,6 @@
+>  #include <acpi/video.h>
+>  
+>  #include <drm/drm.h>
+> -#include <drm/drm_aperture.h>
+>  #include <drm/drm_drv.h>
+>  #include <drm/drm_file.h>
+>  #include <drm/drm_ioctl.h>
+> @@ -414,25 +414,45 @@ static int psb_driver_load(struct drm_device *dev, unsigned long flags)
+>  	return ret;
+>  }
+>  
+> -static int psb_pci_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
+> +/*
 > + * Hardware for gma500 is a hybrid device, which both acts as a PCI
 > + * device (for legacy vga functionality) but also more like an
 > + * integrated display on a SoC where the framebuffer simply
@@ -126,9 +142,6 @@ I've a couple of comments below though:
 > + * internally redirects to a stolen range of main memory) like all
 > + * other integrated PCI display devices have.
 > + *
-
-Is "have" the correct word here or "do" ? Or maybe "are implemented" ?
-
 > + * To catch all cases we need to remove conflicting firmware devices
 > + * for the stolen system memory and for the VGA functionality. As we
 > + * currently cannot easily find the framebuffer's location in stolen
@@ -144,7 +157,7 @@ Is "have" the correct word here or "do" ? Or maybe "are implemented" ?
 > -	struct drm_psb_private *dev_priv;
 > -	struct drm_device *dev;
 > +	resource_size_t base = 0;
-> +	resource_size_t size = PHYS_ADDR_MAX;
+> +	resource_size_t size = U32_MAX; /* 4 GiB HW limit */
 > +	const char *name = req_driver->name;
 >  	int ret;
 >  
@@ -163,13 +176,26 @@ Is "have" the correct word here or "do" ? Or maybe "are implemented" ?
 >  
 > -	ret = drm_aperture_remove_conflicting_pci_framebuffers(pdev, &driver);
 > +	return __aperture_remove_legacy_vga_devices(pdev);
-
-I don't like the __ prefix for this function name, as it usually implies
-that is a function that is only local to the compilation unit. But it is
-an exported symbol from the aperture infrastructure.
-
-[...]
-  
+> +}
+> +
+> +static int psb_pci_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
+> +{
+> +	struct drm_psb_private *dev_priv;
+> +	struct drm_device *dev;
+> +	int ret;
+> +
+> +	ret = gma_remove_conflicting_framebuffers(pdev, &driver);
+>  	if (ret)
+>  		return ret;
+>  
+> diff --git a/drivers/video/aperture.c b/drivers/video/aperture.c
+> index e4091688b5eb..2824345e87ef 100644
+> --- a/drivers/video/aperture.c
+> +++ b/drivers/video/aperture.c
+> @@ -301,6 +301,37 @@ int aperture_remove_conflicting_devices(resource_size_t base, resource_size_t si
+>  }
+>  EXPORT_SYMBOL(aperture_remove_conflicting_devices);
+>  
 > +/**
 > + * __aperture_remove_legacy_vga_devices - remove legacy VGA devices of a PCI devices
 > + * @pdev: PCI device
@@ -200,16 +226,82 @@ an exported symbol from the aperture infrastructure.
 > +	return vga_remove_vgacon(pdev);
 > +}
 > +EXPORT_SYMBOL(__aperture_remove_legacy_vga_devices);
-
-I would just call this symbol aperture_remove_legacy_vga_devices() as
-mentioned, the fact that aperture_remove_conflicting_pci_devices() use it
-internally is an implementation detail IMO. But it's an exported symbol so
-the naming should be consistent.
+> +
+>  /**
+>   * aperture_remove_conflicting_pci_devices - remove existing framebuffers for PCI devices
+>   * @pdev: PCI device
+> @@ -317,7 +348,7 @@ int aperture_remove_conflicting_pci_devices(struct pci_dev *pdev, const char *na
+>  {
+>  	bool primary = false;
+>  	resource_size_t base, size;
+> -	int bar, ret;
+> +	int bar, ret = 0;
+>  
+>  	if (pdev == vga_default_device())
+>  		primary = true;
+> @@ -334,24 +365,15 @@ int aperture_remove_conflicting_pci_devices(struct pci_dev *pdev, const char *na
+>  		aperture_detach_devices(base, size);
+>  	}
+>  
+> -	if (primary) {
+> -		/*
+> -		 * If this is the primary adapter, there could be a VGA device
+> -		 * that consumes the VGA framebuffer I/O range. Remove this
+> -		 * device as well.
+> -		 */
+> -		aperture_detach_devices(VGA_FB_PHYS_BASE, VGA_FB_PHYS_SIZE);
+> -
+> -		/*
+> -		 * WARNING: Apparently we must kick fbdev drivers before vgacon,
+> -		 * otherwise the vga fbdev driver falls over.
+> -		 */
+> -		ret = vga_remove_vgacon(pdev);
+> -		if (ret)
+> -			return ret;
+> -	}
+> +	/*
+> +	 * If this is the primary adapter, there could be a VGA device
+> +	 * that consumes the VGA framebuffer I/O range. Remove this
+> +	 * device as well.
+> +	 */
+> +	if (primary)
+> +		ret = __aperture_remove_legacy_vga_devices(pdev);
+>  
+> -	return 0;
+> +	return ret;
+>  
+>  }
+>  EXPORT_SYMBOL(aperture_remove_conflicting_pci_devices);
+> diff --git a/include/linux/aperture.h b/include/linux/aperture.h
+> index 7248727753be..1a9a88b11584 100644
+> --- a/include/linux/aperture.h
+> +++ b/include/linux/aperture.h
+> @@ -16,6 +16,8 @@ int devm_aperture_acquire_for_platform_device(struct platform_device *pdev,
+>  int aperture_remove_conflicting_devices(resource_size_t base, resource_size_t size,
+>  					const char *name);
+>  
+> +int __aperture_remove_legacy_vga_devices(struct pci_dev *pdev);
+> +
+>  int aperture_remove_conflicting_pci_devices(struct pci_dev *pdev, const char *name);
+>  #else
+>  static inline int devm_aperture_acquire_for_platform_device(struct platform_device *pdev,
+> @@ -31,6 +33,11 @@ static inline int aperture_remove_conflicting_devices(resource_size_t base, reso
+>  	return 0;
+>  }
+>  
+> +static inline int __aperture_remove_legacy_vga_devices(struct pci_dev *pdev)
+> +{
+> +	return 0;
+> +}
+> +
+>  static inline int aperture_remove_conflicting_pci_devices(struct pci_dev *pdev, const char *name)
+>  {
+>  	return 0;
+> -- 
+> 2.40.0
+> 
 
 -- 
-Best regards,
-
-Javier Martinez Canillas
-Core Platforms
-Red Hat
-
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
