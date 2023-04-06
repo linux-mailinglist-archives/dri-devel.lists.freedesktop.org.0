@@ -2,53 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC11A6D985D
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Apr 2023 15:36:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F5966D985F
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Apr 2023 15:37:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9E84710E8A9;
-	Thu,  6 Apr 2023 13:36:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 72DA810E616;
+	Thu,  6 Apr 2023 13:37:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3591810E65B
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Apr 2023 13:36:49 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits))
- (No client certificate requested)
- (Authenticated sender: lina@asahilina.net)
- by mail.marcansoft.com (Postfix) with ESMTPSA id 2D18842553;
- Thu,  6 Apr 2023 13:36:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=asahilina.net;
- s=default; t=1680788208;
- bh=nWxGyCXdBGraibvzVGzPbEcsSVWskl7AnTnyd7R9wW4=;
- h=Date:Subject:To:References:From:Cc:In-Reply-To;
- b=QXFMaR6uq8kBfJn6aAxNyW2tO87rQgjXIdlv00Gosef9lTKvtWEG4aNkJNZxnI2l3
- gc3JhDk1uPH/lnYRdsOsK18ORjApAZDKyJkHDrI1jUhKzJRP8IlNgXgVTz71kyUwss
- +eYKH945WsW6oS/OB+f2NWj48bVwgVmXYu4fmayqI4bgfqXdCrApo4drI2ZfHxYs0h
- ixUxX1L3+p7JIsP8bxb7oaFr2Fr8rIT07i+50NN8hpypKphZ+zw72XT9Boyw6WL+ns
- 5ALfNahOX93lRau4khJ8paQW4GVpD5IeMh++NlCWOjiUrVdAULSqpREX9tfg4dQ3aC
- oLrRtHCkk/JcA==
-Message-ID: <f9f5b35e-6a52-530e-aa44-c37132494546@asahilina.net>
-Date: Thu, 6 Apr 2023 22:36:44 +0900
+Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com
+ [IPv6:2a00:1450:4864:20::62b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A936610E616
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Apr 2023 13:37:18 +0000 (UTC)
+Received: by mail-ej1-x62b.google.com with SMTP id
+ a640c23a62f3a-930bc91df7bso131745166b.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 06 Apr 2023 06:37:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ffwll.ch; s=google; t=1680788237;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:mail-followup-to:message-id:subject:cc:to
+ :from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=3xvl/7BEIIFJFgXPPYUZyc6n81AD8w6ycb9PdQpxyb4=;
+ b=CFvT1Ny1pH4n4AFy4Fp7kbONPuiHeYCMCgnd4evGR7Kitr8X5fDI0kbNUbM+2MHslN
+ SLwt3QY0if7IV7qzjdqocgNdCO6U2L3pjwpSw+ccdAU0/02yryGBzjl9e2KJDLYTvrF0
+ MW1jVkRRAiIR+NAw1IS0whl/X2chN8cr4dt9Q=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1680788237;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:mail-followup-to:message-id:subject:cc:to
+ :from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=3xvl/7BEIIFJFgXPPYUZyc6n81AD8w6ycb9PdQpxyb4=;
+ b=sbKyk2A+wVhcNqqQJdAyR+0/08lUfYKwqQe1tPEjTo0P0RDa7/AA2paqzgPpaqcJLL
+ hKtrJfR8h0Bpu/O88ZTLf4q3zuoSil5BbTND4k3i61+4jOQntoV8C9nGC4kafkvmpslY
+ cZOUH8Z4v+NGWlOsAJWQguxTw71rMIvcrJ48I71nrlm1bMz260pgt61TLPEXpDWaElVi
+ tTyrExOOdIAkqFVImTGRWKy8O2IT+JF71fezAJon5UplfA1eBOEbZPnbEqAedI5QzgHL
+ LwfadQYl0R+9mwp/kAzXQOzfTG8otgT4ZdSIyCPHbw0ayRQgs5QmBBJWnb/wG4Bq2Chw
+ DU1Q==
+X-Gm-Message-State: AAQBX9f5CUcab1Dk8AxR9TJ4kKaIQSutoQSAxz2K8VyBcRPPWpjNMieq
+ r6kvQAb+umzUl+t2Qvh7Q3yIOQ==
+X-Google-Smtp-Source: AKy350bVE7hrdim88USw/1tVexr22W3iJQ7zwq41xJx/bMb6hnFzsotrXrJE3Vm3umjhQkLV8pOepw==
+X-Received: by 2002:a17:906:114:b0:947:f415:db23 with SMTP id
+ 20-20020a170906011400b00947f415db23mr6185741eje.1.1680788236776; 
+ Thu, 06 Apr 2023 06:37:16 -0700 (PDT)
+Received: from phenom.ffwll.local (212-51-149-33.fiber7.init7.net.
+ [212.51.149.33]) by smtp.gmail.com with ESMTPSA id
+ k9-20020a170906970900b0092fdb0b2e5dsm832728ejx.93.2023.04.06.06.37.15
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 06 Apr 2023 06:37:16 -0700 (PDT)
+Date: Thu, 6 Apr 2023 15:37:14 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Asahi Lina <lina@asahilina.net>
+Subject: Re: [Regression] drm/scheduler: track GPU active time per entity
+Message-ID: <ZC7LCi0vqFOw3KL5@phenom.ffwll.local>
+Mail-Followup-To: Asahi Lina <lina@asahilina.net>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ Luben Tuikov <luben.tuikov@amd.com>,
+ Danilo Krummrich <dakr@redhat.com>,
+ Lucas Stach <l.stach@pengutronix.de>,
+ Dave Airlie <airlied@gmail.com>,
+ Bagas Sanjaya <bagasdotme@gmail.com>, andrey.grodzovsky@amd.com,
+ tvrtko.ursulin@linux.intel.com,
+ Matthew Brost <matthew.brost@intel.com>, yuq825@gmail.com,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <3e00d8a9-b6c4-8202-4f2d-5a659c61d094@redhat.com>
+ <2a84875dde6565842aa07ddb96245b7d939cb4fd.camel@pengutronix.de>
+ <8b28151c-f2db-af3f-8dff-87dd5d57417b@amd.com>
+ <3004a2bf-e725-643e-82af-8a217784e796@redhat.com>
+ <013781a3-5abd-8c66-8a0a-dd36c9c487af@amd.com>
+ <28d10733-b217-7ccc-4b8c-54bdc8249234@amd.com>
+ <CAKMK7uFeeAaG8+1EutgMtmVANTb-acL0faEkJfUp1_35rSjaEg@mail.gmail.com>
+ <24fe6e14-0d0a-f874-766d-e8d045d1e80e@asahilina.net>
+ <ZC6ab6LomidehGR3@phenom.ffwll.local>
+ <9500edc9-4e9d-9d64-b444-ea9523779700@asahilina.net>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH] drm/scheduler: Fix UAF in
- drm_sched_fence_get_timeline_name
-Content-Language: en-US
-To: Daniel Vetter <daniel@ffwll.ch>
-References: <20230406-scheduler-uaf-1-v1-1-8e5662269d25@asahilina.net>
- <6b3433ee-0712-f789-51ee-3047ead9bb79@amd.com>
- <cfbaceae-6d40-a8b3-e449-6473be234d2d@asahilina.net>
- <180bd178-e3c0-85e3-785e-fc8a216cf65e@amd.com>
- <df226249-734e-cb9e-8bc0-1eff625277e0@asahilina.net>
- <4ea53272-6324-96e6-ab29-82bccb624683@asahilina.net>
- <ZC6Vh2gG91zXUKJW@phenom.ffwll.local>
-From: Asahi Lina <lina@asahilina.net>
-In-Reply-To: <ZC6Vh2gG91zXUKJW@phenom.ffwll.local>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <9500edc9-4e9d-9d64-b444-ea9523779700@asahilina.net>
+X-Operating-System: Linux phenom 6.1.0-7-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,192 +93,346 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Sumit Semwal <sumit.semwal@linaro.org>, Luben Tuikov <luben.tuikov@amd.com>,
- asahi@lists.linux.dev,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- linux-media@vger.kernel.org
+Cc: Matthew Brost <matthew.brost@intel.com>, andrey.grodzovsky@amd.com,
+ Bagas Sanjaya <bagasdotme@gmail.com>, tvrtko.ursulin@linux.intel.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Luben Tuikov <luben.tuikov@amd.com>, Danilo Krummrich <dakr@redhat.com>,
+ yuq825@gmail.com, Boris Brezillon <boris.brezillon@collabora.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 06/04/2023 18.48, Daniel Vetter wrote:
-> On Thu, Apr 06, 2023 at 06:27:27PM +0900, Asahi Lina wrote:
->> On 06/04/2023 18.15, Asahi Lina wrote:
->>> On 06/04/2023 18.06, Christian König wrote:
->>>> Am 06.04.23 um 10:49 schrieb Asahi Lina:
->>>>> On 06/04/2023 17.29, Christian König wrote:
->>>>>> Am 05.04.23 um 18:34 schrieb Asahi Lina:
->>>>>>> A signaled scheduler fence can outlive its scheduler, since fences are
->>>>>>> independently reference counted.
->>>>>>
->>>>>> Well that is actually not correct. Schedulers are supposed to stay
->>>>>> around until the hw they have been driving is no longer present.
->>>>>
->>>>> But the fences can outlive that. You can GPU render into an imported
->>>>> buffer, which attaches a fence to it. Then the GPU goes away but the
->>>>> fence is still attached to the buffer. Then you oops when you cat that
->>>>> debugfs file...
->>>>
->>>> No, exactly that's the point you wouldn't ops.
->>>>
->>>>>
->>>>> My use case does this way more often (since schedulers are tied to
->>>>> UAPI objects), which is how I found this, but as far as I can tell
->>>>> this is already broken for all drivers on unplug/unbind/anything else
->>>>> that would destroy the schedulers with fences potentially referenced
->>>>> on separate scanout devices or at any other DMA-BUF consumer.
->>>>
->>>> Even if a GPU is hot plugged the data structures for it should only go
->>>> away with the last reference, since the scheduler fence is referencing
->>>> the hw fence and the hw fence in turn is referencing the driver this
->>>> shouldn't happen.
->>>
->>> So those fences can potentially keep half the driver data structures
->>> alive just for existing in a signaled state? That doesn't seem sensible
->>> (and it definitely doesn't work for our use case where schedulers can be
->>> created and destroyed freely, it could lead to way too much junk
->>> sticking around in memory).
+On Thu, Apr 06, 2023 at 09:21:47PM +0900, Asahi Lina wrote:
+> On 06/04/2023 19.09, Daniel Vetter wrote:
+> > On Thu, Apr 06, 2023 at 06:05:11PM +0900, Asahi Lina wrote:
+> > > On 06/04/2023 17.27, Daniel Vetter wrote:
+> > > > On Thu, 6 Apr 2023 at 10:22, Christian K�nig <christian.koenig@amd.com> wrote:
+> > > > > 
+> > > > > Am 05.04.23 um 18:09 schrieb Luben Tuikov:
+> > > > > > On 2023-04-05 10:05, Danilo Krummrich wrote:
+> > > > > > > On 4/4/23 06:31, Luben Tuikov wrote:
+> > > > > > > > On 2023-03-28 04:54, Lucas Stach wrote:
+> > > > > > > > > Hi Danilo,
+> > > > > > > > > 
+> > > > > > > > > Am Dienstag, dem 28.03.2023 um 02:57 +0200 schrieb Danilo Krummrich:
+> > > > > > > > > > Hi all,
+> > > > > > > > > > 
+> > > > > > > > > > Commit df622729ddbf ("drm/scheduler: track GPU active time per entity")
+> > > > > > > > > > tries to track the accumulated time that a job was active on the GPU
+> > > > > > > > > > writing it to the entity through which the job was deployed to the
+> > > > > > > > > > scheduler originally. This is done within drm_sched_get_cleanup_job()
+> > > > > > > > > > which fetches a job from the schedulers pending_list.
+> > > > > > > > > > 
+> > > > > > > > > > Doing this can result in a race condition where the entity is already
+> > > > > > > > > > freed, but the entity's newly added elapsed_ns field is still accessed
+> > > > > > > > > > once the job is fetched from the pending_list.
+> > > > > > > > > > 
+> > > > > > > > > > After drm_sched_entity_destroy() being called it should be safe to free
+> > > > > > > > > > the structure that embeds the entity. However, a job originally handed
+> > > > > > > > > > over to the scheduler by this entity might still reside in the
+> > > > > > > > > > schedulers pending_list for cleanup after drm_sched_entity_destroy()
+> > > > > > > > > > already being called and the entity being freed. Hence, we can run into
+> > > > > > > > > > a UAF.
+> > > > > > > > > > 
+> > > > > > > > > Sorry about that, I clearly didn't properly consider this case.
+> > > > > > > > > 
+> > > > > > > > > > In my case it happened that a job, as explained above, was just picked
+> > > > > > > > > > from the schedulers pending_list after the entity was freed due to the
+> > > > > > > > > > client application exiting. Meanwhile this freed up memory was already
+> > > > > > > > > > allocated for a subsequent client applications job structure again.
+> > > > > > > > > > Hence, the new jobs memory got corrupted. Luckily, I was able to
+> > > > > > > > > > reproduce the same corruption over and over again by just using
+> > > > > > > > > > deqp-runner to run a specific set of VK test cases in parallel.
+> > > > > > > > > > 
+> > > > > > > > > > Fixing this issue doesn't seem to be very straightforward though (unless
+> > > > > > > > > > I miss something), which is why I'm writing this mail instead of sending
+> > > > > > > > > > a fix directly.
+> > > > > > > > > > 
+> > > > > > > > > > Spontaneously, I see three options to fix it:
+> > > > > > > > > > 
+> > > > > > > > > > 1. Rather than embedding the entity into driver specific structures
+> > > > > > > > > > (e.g. tied to file_priv) we could allocate the entity separately and
+> > > > > > > > > > reference count it, such that it's only freed up once all jobs that were
+> > > > > > > > > > deployed through this entity are fetched from the schedulers pending list.
+> > > > > > > > > > 
+> > > > > > > > > My vote is on this or something in similar vain for the long term. I
+> > > > > > > > > have some hope to be able to add a GPU scheduling algorithm with a bit
+> > > > > > > > > more fairness than the current one sometime in the future, which
+> > > > > > > > > requires execution time tracking on the entities.
+> > > > > > > > Danilo,
+> > > > > > > > 
+> > > > > > > > Using kref is preferable, i.e. option 1 above.
+> > > > > > > I think the only real motivation for doing that would be for generically
+> > > > > > > tracking job statistics within the entity a job was deployed through. If
+> > > > > > > we all agree on tracking job statistics this way I am happy to prepare a
+> > > > > > > patch for this option and drop this one:
+> > > > > > > https://lore.kernel.org/all/20230331000622.4156-1-dakr@redhat.com/T/#u
+> > > > > > Hmm, I never thought about "job statistics" when I preferred using kref above.
+> > > > > > The reason kref is attractive is because one doesn't need to worry about
+> > > > > > it--when the last user drops the kref, the release is called to do
+> > > > > > housekeeping. If this never happens, we know that we have a bug to debug.
+> > > > > 
+> > > > > Yeah, reference counting unfortunately have some traps as well. For
+> > > > > example rarely dropping the last reference from interrupt context or
+> > > > > with some unexpected locks help when the cleanup function doesn't expect
+> > > > > that is a good recipe for problems as well.
+> > > > > 
+> > > > > > Regarding the patch above--I did look around the code, and it seems safe,
+> > > > > > as per your analysis, I didn't see any reference to entity after job submission,
+> > > > > > but I'll comment on that thread as well for the record.
+> > > > > 
+> > > > > Reference counting the entities was suggested before. The intentionally
+> > > > > avoided that so far because the entity might be the tip of the iceberg
+> > > > > of stuff you need to keep around.
+> > > > > 
+> > > > > For example for command submission you also need the VM and when you
+> > > > > keep the VM alive you also need to keep the file private alive....
+> > > > 
+> > > > Yeah refcounting looks often like the easy way out to avoid
+> > > > use-after-free issue, until you realize you've just made lifetimes
+> > > > unbounded and have some enourmous leaks: entity keeps vm alive, vm
+> > > > keeps all the bo alives, somehow every crash wastes more memory
+> > > > because vk_device_lost means userspace allocates new stuff for
+> > > > everything.
+> > > 
+> > > Refcounting everywhere has been working well for us, so well that so far all
+> > > the oopses we've hit have been... drm_sched bugs like this one, not anything
+> > > in the driver. But at least in Rust you have the advantage that you can't
+> > > just forget a decref in a rarely-hit error path (or worse, forget an incref
+> > > somewhere important)... ^^
+> > > 
+> > > > If possible a lifetime design where lifetimes have hard bounds and you
+> > > > just borrow a reference under a lock (or some other ownership rule) is
+> > > > generally much more solid. But also much harder to design correctly
+> > > > :-/
+> > > > 
+> > > > > Additional to that we have some ugly inter dependencies between tearing
+> > > > > down an application (potential with a KILL signal from the OOM killer)
+> > > > > and backward compatibility for some applications which render something
+> > > > > and quit before the rendering is completed in the hardware.
+> > > > 
+> > > > Yeah I think that part would also be good to sort out once&for all in
+> > > > drm/sched, because i915 has/had the same struggle.
+> > > > -Daniel
+> > > > 
+> > > 
+> > > Is this really a thing? I think that's never going to work well for explicit
+> > > sync, since the kernel doesn't even know what BOs it has to keep alive for a
+> > > job... I guess it could keep the entire file and all of its objects/VMs/etc
+> > > alive until all of its submissions complete but... ewww.
+> > > 
+> > > Our Mesa implementation synchronously waits for all jobs on context destroy
+> > > for this reason, but if you just kill the app, yeah, you get faults as
+> > > running GPU jobs have BOs yanked out from under them. Kill loops make for a
+> > > good way of testing fault handling...
+> > 
+> > You wind down the entire thing on file close? Like
+> > - stop all context
+> > - tear down all context
+> > - tear down all vm
+> > - tear down all obj
+> > 
+> > Just winding things down in a random order and then letting gpu fault
+> > handling sort out the mess doesn't strike me as particularly clean design
+> > ...
+> The idea is that object drop order generally doesn't matter since things
+> that care about other things should own them or hold references to them
+> anyway, so the dependency graph of all the resources is encoded directly in
+> the type hierarchy instead of having to open-code a "cleanup procedure"...
+> which then invariably leads to corner cases when you have to do the same
+> thing, or part of it, for error handling.
 > 
-> This is why the split betwen the hw fence and the public sched fence.
-> Because once the hw fence stuff is sorted it should all be able to go
-> away, without the public fence keeping everything alive.
-
-That doesn't seem to be how it works though... as far as I can tell the 
-public finished fence keeps the public scheduled fence alive, which 
-keeps the hw fence alive.
-
-If that is how it is supposed to work, then we're back at this being a 
-simple UAF which is fixed by this patch (and then the fence code also 
-needs to be fixed to actually drop the parent fence reference when it 
-signals).
-
->> Also, requiring that the hw_fence keep the scheduler alive (which is
->> documented nowhere) is a completely ridiculous lifetime requirement and
->> layering violation across multiple subsystems. I have no idea how I'd make
->> Rust abstractions uphold that requirement safely without doing something
->> silly like having abstraction-specific hw_fence wrappers, and then you run
->> into deadlocks due to the scheduler potentially being dropped from the
->> job_done callback when the fence reference is dropped and just... no,
->> please. This is terrible. If you don't want me to fix it we'll have to find
->> another way because I can't work with this.
+> This has been working *very* well! It solves the issue of error handling
+> since error handling just unwinds whatever was done to that point naturally
+> in Rust (? operator), so there's practically no open-coded error handling
+> code anywhere. The first time we ran into OOMs (Xonotic with no Mesa texture
+> compression support yet, on 8GB machines on max settings...) the whole thing
+> just worked. OOM killer went rampant and shmem doesn't account stuff to
+> processes properly of course, but all the error paths, allocation errors,
+> etc... all of that just worked, first try, across dozens of error paths that
+> had never been tested before, not a single oops or deadlock or leak or
+> anything in sight. Similarly, yesterday I did manage to run into drm_sched
+> failing to create kthreads (the scaling issue Matthew's series fixes)... and
+> still, that was fine. That happens on queue creation so it just bubbled up
+> to Mesa as a failed ioctl and things kept moving along nicely otherwise. I
+> even have nice ergonomic XArray semantics so that you can reserve a new
+> slot, allocate some object, then populate it, and if you don't (because you
+> errored out in between) it automatically gets freed again without explicit
+> cleanup code.
 > 
-> So generally the hw fence keeps the underlying gpu ctx alive, and the gpu
-> context keeps the gpu vm alive. Pretty much has to, or your gpu starts
-> executing stuff that's freed.
+> And it also means that I can encode *firmware* resource dependencies in the
+> type system (with Rust lifetimes attached to *GPU* pointers even - it's a
+> bit dodgy how it's done but it works well in practice). Since it is
+> absolutely critical that the firmware objects respect their lifetimes or
+> else the whole thing crashes irrecoverably, this is the only way I feel it's
+> been even practical to write this driver and not be a firmware crash mess.
+> Of course we still get some crashes due to flaws in how I understand the
+> firmware, but it's always things I don't know, not things I accidentally
+> messed up in some corner case code path we don't normally hit, since I just
+> don't have to think about that as long as the hierarchy is right.
+> 
+> I actually don't know exactly what precise order things get dropped in for
+> this reason! I could find out, and it's predictable in Rust, what I mean is
+> that thinking about a total order like that is not necessary for correctness
+> as long as I got the ownership right. Off the top of my head though, it goes
+> very roughly like this:
+> 
+> - On File close, all the GEM objects get closed (DRM core does this)
+> - This triggers explicit drops of all mappings in those GEM objects owned by
+> that File (identified by unique ID, this is the one annoying circular
+> reference thing I mentioned in the other thread...). At this point the GPU
+> probably faults but we don't care. *
+> - The File itself gets dropped, which drops the XArrays for queues and
+> (UAPI) VMs
+>   - UAPI VMs getting dropped doesn't do much other than unmap a single dummy
+> object. The underlying MMU VM is refcounted and jobs hold references. This
+> also drops the userspace VM object allocator used for kernel-managed
+> allocations, but that too is internally refcounted and won't go away until
+> all of its allocations do.
+> - Queues get dropped, which mostly drops a bunch of references to things
+> that no longer matter, along with the scheduler and scheduler entity.
+> - The entity already has a reference to the scheduler in the abstraction (to
+> meet the soundness requirement), so the entity necessarily goes first. That
+> kills all not yet scheduled jobs, freeing any resources they might use.
+> - Then the scheduler gets torn down, and with my other patch that logically
+> kills all in-flight jobs, detaching their hardware fences and dropping the
+> job objects. This... still doesn't do much other than drop some references
+> that we don't care about.
+> - At this point, if any jobs are in flight, their firmware objects and all
+> of the type hierarchy that goes with them is still alive, as well as the
+> firmware queues they're in and the Rust objects representing them, the VMs
+> they use, the Events they have been allocated...
+> - Jobs complete (successfully or fault), then when complete get popped off
+> of the Rust-side queue objects that represent the firmware queues.
+> - When any given FW queue is empty, it relinquishes its assigned firmware
+> event ID. That causes the event system to drop its owner reference to it,
+> which means the queue itself gets dropped (since the UAPI Queue that also
+> held a reference is gone). That then also drops a reference to what I call
+> the GpuContext.
+> - To avoid deadlocks, completed job objects are freed in another thread
+> (ugly hack right now, should be done better in the future). Eventually as
+> that happens, any resources they reference are dropped, including some
+> shared ones that are logically tied to the scheduler/queues, references to
+> the MMU VM address space, references to the VM slot that address space is
+> assigned to, objects allocated out of user VM space, everything. Refcounts
+> everywhere for anything shared, direct ownership of child structures for
+> anything that isn't (work buffers, firmware command lists, etc.). I once
+> tried to make a slide of the references and pointers involved in just the
+> vertex half of a single GPU job and... even just that was quite interesting.
+> - When the last job completes, that drops the last reference to the VM slot,
+> which means the backing VM is logically detached from the GPU MMU (this is
+> lazy though, it's still there in practice).
+> - When the last firmware queue is dropped for a logical queue/sched/etc
+> (which means no more jobs are running at the GPU for that context), that
+> drops the last reference to the GpuContext. That also gets shoved into
+> another thread context for cleanup to avoid deadlocks with fault recovery.
+> - When that is finally cleaned up, a firmware command is sent to invalidate
+> the GpuContext. I'm still figuring out what that does and what the lifetime
+> rules are here (this is the only explicit invalidation command that exists),
+> but as of yesterday I know that at the very least we need to keep hold of
+> any Tiled Vertex Buffer associated with it until after inval, so that now
+> has a reference to it that gets dropped after the firmware acknowledges the
+> invalidation (unless it's a non-render-capable Queue, then no TVB
+> necessary).
+> - When the Buffer gets dropped, that frees both its backing memory and
+> (virtual) page list structures, which are in user VM space, as well as some
+> kernel firmware objects.
+> - If things have happened in the order I listed here, those will be the last
+> allocations in the two user VM space heap object allocators, so those now
+> get dropped, which drops the mappings of their backing GEM objects,
+> unmapping them from the MMU VM page tables.
+> - Those mappings will now be the last references to the actual MMU VM
+> object, so that it gets destroyed (the lazy detach comes into effect here,
+> PT base address is removed from the VM context base table, full ASID
+> invalidate, etc.), which with it drops the IoPgTable that backs it, which
+> frees the page tables.
+> - Then finally the GEM objects backing the userspace allocators get dropped
+> as well, which will be the last reference to them, so those get freed.
 
-I do that using a different mechanism, since the way this GPU signals 
-events doesn't map directly to fences, nor to the UAPI queue's (and 
-therefore the DRM scheduler's hw fence's) idea of what job completion 
-is. There's sort of a timeline mechanism instead, but the timelines are 
-24 bits and wrap and there's a global set of 128 of them and multiple 
-can be required for a single drm_scheduler job. Keeping queues alive 
-(which then keep active jobs alive which keep whatever resources they 
-require alive) happens at the level of those 128 event slots, as I call 
-them, which hold a reference to whatever queue is assigned to them. Once 
-those signal the queues walk through pending jobs until the signaled 
-value, and that's where the hw fence gets signaled. After that the jobs 
-that were just completed are freed (This is a sticky point right now due 
-to possible deadlocks if done on the event thread. What I'm doing right 
-now is a bit of a hack that works well enough in practice, but I want to 
-refactor it to be cleaner once we have more Rust abstractions to work 
-with...)
+Thanks for the write up!
 
-It might actually make sense to start moving some lifetimes into the 
-hw_fence if we find we need to more tightly tie firmware lifetimes 
-together (this is TBD, I'm still figuring out all the corner case 
-rules), but that's only practical if the drm_sched fence doesn't hold up 
-the entire hw_fence. For that to make sense the hw_fence needs to be 
-able to go away soon after it signals.
+Maybe some more fundamental thoughts on this entire endeavour:
 
-This whole thing is pretty messy and I'm open to refactoring ideas, I 
-just don't want to have to keep drm_sched instances lying around just 
-because someone has a buffer reference with one of its fences 
-installed... those potentially long-lived fences shouldn't keep anything 
-more than small bits of driver-global state alive (ideally just the 
-module itself).
+I think one thing that's causing a lot of friction that in C drivers at
+least some of these things are done with implied/borrowed references. If
+you want an absolute shocking example, the gpu crash dump sampling for a
+driver that does dynamic memory management can be pretty epic:
 
-> Now for fw scheduler gpu ctx isn't just drm_sched_entity, but also
-> drm_scheduler. Plus whatever driver stuff you have lying around for a ctx.
-> Plus ofc a reference to the vm, which might in turn keep a ton of gem_bo
-> alive.
+- the timeout handler is guaranteed (well if the driver didn't screw up
+  things, which mostly boils down to call drm_sched_stop() before it
+  analyzes anything at all wrt gpu hw state) to hold up the drm_job
+  completion fence
 
-In this case I don't actually keep the user BOs alive (because that's a 
-File level thing), and yes that does mean if you kill a process using 
-the GPU chances are it's going to fault as all the userspace buffers 
-disappear. But I do keep all the firmware and kernel-allocated objects 
-and BOs around of course, those are the ones that have references from 
-the pending job objects in one way or another (and which are critical to 
-keep alive, as otherwise the firmware will crash). I don't keep the 
-scheduler though, since that's just a higher-level thing to me, not 
-something the GPU itself cares about. If userspace goes away and BOs are 
-going away anyway, we might as well cancel all pending jobs and let any 
-currently executing ones freewheel (that was one of my earlier patches) 
-while allowing the scheduler to be torn down.
+- this fence is (at submit ioctl time) installed into all the dma_resv
+  fence containers for the vm (single shared dma_resv for all vm-private obj for
+  efficiency, all shareable gem_bo have their own dma_resv)
 
-If we need to though, I can figure out some way to keep the BO 
-mapping/etc state alive when the File goes away until jobs complete. 
-It's just sort of academic because userspace is supposed to clean up 
-after itself and wait for all jobs, and there's no way for the kernel to 
-guarantee the GPU won't fault anyway, so a malicious userspace could 
-always do the wrong thing...
+- the memory manager guarantees that it will not free (or even move in the
+  case of ttm) the buffer while a fence is unsingalled. ttm does this by
+  delaying the free as needed, i915-gem and some of the others did this by
+  trying to hold onto extra references. the latter causes way too much
+  problems with reference dropping in my experience looking at a decade of
+  drivers getting details wrong here.
 
-> Still I'm not seeing where the fundamental issue is in this refcount
-> scheme, or where it's silly? Mapping this all to Rust correctly is a
-> challenge for sure, and also untangling the assumption that drm_scheduler
-> is suddenly a lot more dynamic object (see my other reply), but
-> fundamentally calling this all silly and terrible I don't understand ...
+- which means the crash dump handler can have a plain list of gem_bo to
+  record, without any references, because they wont go away before it
+  finishes.
 
-Christian is saying that the hw fence needs to keep a transitive 
-reference to the scheduler. How do we enforce that? Fences are one 
-abstraction, and the scheduler is another. We can't encode that a given 
-generic Fence implementation contains a reference to a given scheduler 
-in the type system.
+- more fun even, you could directly sample the memory locations at ioctl
+  submit time, and even when ttm moves the buffers around in a pipelined
+  fashion: your timeout handler wont run before all the jobs to move the
+  buffer into the right location have completed, and it will not unblock
+  any subsequent move or eviction that's already queued up. Which means
+  even the raw memory address will point at the right stuff.
 
-Rust abstractions are easy to write for self-contained subsystems with 
-clear lifetime rules for their components. They are hard to write for 
-convoluted lifetime rules that span several modules (without built-in 
-refcounting to deal with it), and it is exactly those kinds of designs 
-that are error-prone to use and document, regardless of whether you're 
-writing Rust or C. From what Christian says, drm_sched today has that 
-kind of design and it is intentional.
+This is just one example. drm and the kernel is full of these borrowed
+reference tricks with often cross through the entire stack, so rust has to
+be able to cope. The sales pitch of rust, and really the reason it's the
+first non-C language in linux, is that with the borrow semantics, it can
+validate this stuff at compile time, and allow kernel drivers to continue
+playing these tricks to outright avoid any and all refcounting needs. If
+rust doesn't deliver and we need to have all the refcounting again to make
+rust drivers safe I think that'll cast serious doubts on the viability of
+rust-in-linux.
 
-Since we can't express complex lifetime relationships in the type system 
-in a usable way, we have to use refcounting. So first, that means the 
-DRM scheduler needs to be refcounted (it actually already is in my 
-abstraction, due to the Entity reference). Next, since there's a 
-cross-subsystem lifetime requirement, that means we can no longer accept 
-arbitrary generic user fences returned to the drm_sched as a hw fence. 
-Instead we need some kind of wrapper fence similar to what drm_sched 
-itself does, or a special subtype leaking into the dma_fence 
-abstraction, or an open coded proxy into the underlying user fence that 
-isn't actually its own fence, or something.
+Now there's definitely going to be hilarious bugs uncovered on the C side,
+and semantics that need to be clarified, but I think enabling scary tricks
+like the above one is what'll fundamentally make or break rust in linux.
 
-Now your hw fence keeps a reference to the DRM scheduler, fine. Now what 
-happens when a job completes? It signals the hw fence. The DRM scheduler 
-thread/workqueue wakes up, signals the job complete fence, and frees the 
-job including dropping its fence reference. What happens if nobody else 
-is actually holding a reference to those fences? Freeing the job frees 
-them too. Which frees the hw fence. What if that was the last reference 
-to the DRM scheduler left? We free the DRM scheduler... from its own 
-thread. Deadlock!
+In the end it'll be lots of detail work, and I really hope it all works
+out.
 
-This is the exact same situation that led to my previous patch to 
-directly kill jobs when you free the scheduler, because the alternative 
-to keep memory safety was to have jobs hold a reference to the 
-scheduler, and then you run into the same deadlock (with fewer steps 
-because fences aren't involved). I tried it, it doesn't work.
+> I probably got more than one thing wrong there, and there's layers of
+> complexity I glossed over, but that's the rough idea ^^
+> 
+> * If we need to fix this then we're going to need some kind of signal from
+> the DRM core that this is happening and it's not normal user-triggered GEM
+> closing, and it's going to be interesting... it also means we need some kind
+> of mechanism to transfer responsibility over those mappings to all in-flight
+> jobs themselves, because normally userspace is strictly responsible for all
+> mappings in an explicit sync VM bind style world, and now we're adding a
+> special case where we freeze the state of the VM until all in-flight jobs
+> are done when the File goes away instead of eagerly freeing things. That's a
+> very weird departure from how the whole thing normally works, so if we
+> really want that I'm going to have to think of how to do it reasonably. It
+> might be easier once we implement the full VM map range tracking which will
+> likely flip the VM<->GEM object relationship around a bit.
 
-Of course you could fix it with a sidecar "job freer" thread/workqueue 
-or something on the abstraction side to get it out of that execution 
-context... and now we're on the way to reimplementing half of the 
-scheduler. In my experience, when you start having to add piles of 
-functionality to ensure safety and provide a clean Rust API on top of 
-the underlying C API, to the point where you're duplicating things the C 
-implementation does in order to do them safely, that means the 
-underlying C API is not good and you need to fix it instead...
+See my other reply for you how can untangle this potentially on the vm_id
+subthread. I think in general rust Drop is awesome, but there's cases
+where we'll have to be more explicit at unwinding things. At least in the
+linux kernel the general consensus is that too much refcounting is a
+maintenance disaster because you end up dropping the final reference in
+all kinds of really bad places (interrupt handlers, while holding the
+wrong locks, holding them too long). Somewhat related I also expect that
+rust drivers will need to have quite a few manual drop calls to
+artificially limit lifetime, because sometimes when you drop things the
+wrong way round (e.g. drop the refcount while still having the mutex guard
+live) results in deadlocks.
 
-So far, drm_sched has been the only component where I've run into 
-this... repeatedly... across several footguns in the API... ;;
-
-~~ Lina
-
+There's going to be lots of fun here :-)
+-Daniel
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
