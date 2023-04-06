@@ -2,33 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A14E6D9D10
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Apr 2023 18:07:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A4DE6D9D1A
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Apr 2023 18:07:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1739010EC4B;
-	Thu,  6 Apr 2023 16:07:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D5F3B10EC4A;
+	Thu,  6 Apr 2023 16:07:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AD48310EC88;
- Thu,  6 Apr 2023 16:07:06 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DFBB610EC5C;
+ Thu,  6 Apr 2023 16:07:08 +0000 (UTC)
 Received: from workpc.. (109-252-119-170.nat.spd-mgts.ru [109.252.119.170])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
  (Authenticated sender: dmitry.osipenko)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 7007066031DB;
- Thu,  6 Apr 2023 17:07:03 +0100 (BST)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id B5DED66031E0;
+ Thu,  6 Apr 2023 17:07:05 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1680797225;
- bh=rvdy/3koIHZzgBU5kiqAP2iCy3wZx5b0JXTIR0fi+xo=;
+ s=mail; t=1680797227;
+ bh=+y9WRIJ4shQTe2dz4WBdbVwQw7y2f8JJMM7aQYwXu1I=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=d/WbIEQynYpmc1xVO9rE6G+Vg2FfZlZVZ+cqJCVsXibp41ZjKgUTTdmKOFNrMfjWV
- 5XrC5G9WTKtE0Uq7Sbzsdo3cqIOKXsltRTuMt/ZMiWERYGogw79oh2CdyEROR0nKke
- bRZtKiO3xGJC7yACTO6TvVa/ZzqfqHX264+7iDb0ouUuGMTCby6+nKtsR5Nyg2M0DT
- 2t3C+dQwcG5cTk4rh1EKXgBBB7EiguriqnkPkaPnFeXjnn9fso7kX0+U1NfIBoPp9Y
- /hXBGXM+bSCXJSxEsYcCI10TyB9WNdXrVoEfj/MqdXbZOyaeYLd/oJZOTypPLVi0jc
- IrX0m90B64ZEA==
+ b=CBhAGKo6G+0QBfaJo75kb4LKjTBYR2m6NK1xy5J0DRNvIebZ9QaxkjBr9agK4Rfuy
+ ya/DQ9dnvLpP+edoT6nG21XhAwBhG60O1YO7t1DqYlUrGKbRLXi+u3BbSKpek0Q1el
+ ws6XQty7fBHw0izzYZMPNNq6cqpE6zk8TekNCpy6hig7/HWwD4iPzPpEcZuTbboNp2
+ 1tz7YmR5XokeqFuKb4iQE3yXW/2rybS3mjbmFlsPsmK8fyxFps2Nrde+Yo5ySOeK0q
+ DJP1wS9uzUngRbwvYc5t+wO3ku3aqPK2XWdhMfQeLveiQjy6rtG3zyIV/KdDBE6Gn0
+ 0bpHdsfZmKfFQ==
 From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
 To: Sumit Semwal <sumit.semwal@linaro.org>,
  =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
@@ -46,10 +46,10 @@ To: Sumit Semwal <sumit.semwal@linaro.org>,
  Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
  Amol Maheshwari <amahesh@qti.qualcomm.com>,
  Emil Velikov <emil.l.velikov@gmail.com>
-Subject: [PATCH v2 3/7] udmabuf: Don't assert held reservation lock for
+Subject: [PATCH v2 4/7] fastrpc: Don't assert held reservation lock for
  dma-buf mmapping
-Date: Thu,  6 Apr 2023 19:06:33 +0300
-Message-Id: <20230406160637.541702-4-dmitry.osipenko@collabora.com>
+Date: Thu,  6 Apr 2023 19:06:34 +0300
+Message-Id: <20230406160637.541702-5-dmitry.osipenko@collabora.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230406160637.541702-1-dmitry.osipenko@collabora.com>
 References: <20230406160637.541702-1-dmitry.osipenko@collabora.com>
@@ -80,28 +80,36 @@ We're going to change dma-buf mmap() locking policy such that exporters
 will have to handle the lock. The previous locking policy caused deadlock
 problem for DRM drivers in a case of self-imported dma-bufs once these
 drivers are moved to use reservation lock universally. The problem is
-solved by moving the lock down to exporters. This patch prepares udmabuf
+solved by moving the lock down to exporters. This patch prepares fastrpc
 for the locking policy update.
 
 Reviewed-by: Emil Velikov <emil.l.velikov@gmail.com>
 Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
 ---
- drivers/dma-buf/udmabuf.c | 2 --
- 1 file changed, 2 deletions(-)
+ drivers/misc/fastrpc.c | 3 ---
+ 1 file changed, 3 deletions(-)
 
-diff --git a/drivers/dma-buf/udmabuf.c b/drivers/dma-buf/udmabuf.c
-index 740d6e426ee9..277f1afa9552 100644
---- a/drivers/dma-buf/udmabuf.c
-+++ b/drivers/dma-buf/udmabuf.c
-@@ -52,8 +52,6 @@ static int mmap_udmabuf(struct dma_buf *buf, struct vm_area_struct *vma)
- {
- 	struct udmabuf *ubuf = buf->priv;
+diff --git a/drivers/misc/fastrpc.c b/drivers/misc/fastrpc.c
+index a701132638cf..7e9c9ad37fd9 100644
+--- a/drivers/misc/fastrpc.c
++++ b/drivers/misc/fastrpc.c
+@@ -6,7 +6,6 @@
+ #include <linux/device.h>
+ #include <linux/dma-buf.h>
+ #include <linux/dma-mapping.h>
+-#include <linux/dma-resv.h>
+ #include <linux/idr.h>
+ #include <linux/list.h>
+ #include <linux/miscdevice.h>
+@@ -733,8 +732,6 @@ static int fastrpc_mmap(struct dma_buf *dmabuf,
+ 	struct fastrpc_buf *buf = dmabuf->priv;
+ 	size_t size = vma->vm_end - vma->vm_start;
  
--	dma_resv_assert_held(buf->resv);
+-	dma_resv_assert_held(dmabuf->resv);
 -
- 	if ((vma->vm_flags & (VM_SHARED | VM_MAYSHARE)) == 0)
- 		return -EINVAL;
- 
+ 	return dma_mmap_coherent(buf->dev, vma, buf->virt,
+ 				 FASTRPC_PHYS(buf->phys), size);
+ }
 -- 
 2.39.2
 
