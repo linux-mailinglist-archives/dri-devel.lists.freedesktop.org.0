@@ -1,82 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 100966D97B9
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Apr 2023 15:15:23 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6AB166D97BF
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Apr 2023 15:16:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EDB0B10E274;
-	Thu,  6 Apr 2023 13:15:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4CE5510EBA5;
+	Thu,  6 Apr 2023 13:16:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 52AED10E274
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Apr 2023 13:15:18 +0000 (UTC)
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 336CtgpR005869; Thu, 6 Apr 2023 13:15:12 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=VgptuWmvnTV4QXXieO/XlZuODhpj1GMNPeBjg8JdrsQ=;
- b=Ck3+ixweb4menAXsUUd6muCTwzk8RNs6T3e15TT/2TfPVifbOoOrKVaggMlG+tFsdlxs
- eJz4rE+1/AXHuMl06+cP2dPKctQE+Q1v0Pgknqz8Zr41U6CGRkaKQnBtT6zVpiMFVT68
- myyhF+bsd/m730Ir0wnSb/pMSW4JJzqHXZXXu/V1Sv5R02MQ4NOeC6tNiQuKmWhU1iVP
- yBhZOMK2h6tCbC8y/54AVrOOVcdjDDTAmubRcjPgUNNLLgTwlvQnIbGQmzbaxu64UhQz
- Zkndutemy6uNghSkM74Yv42QMKMMuNuVDxLrceaw8uB6JkWGwUDBi+mPaEHjueqaJrUD zQ== 
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3psgehhth4-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 06 Apr 2023 13:15:12 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 336DFBXf029517
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 6 Apr 2023 13:15:11 GMT
-Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Thu, 6 Apr 2023
- 06:15:10 -0700
-Message-ID: <b760e4bc-3f28-0fb7-3e15-76c3964d5407@quicinc.com>
-Date: Thu, 6 Apr 2023 07:15:09 -0600
+Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D5EC410EBA3
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Apr 2023 13:16:07 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits))
+ (No client certificate requested)
+ (Authenticated sender: lina@asahilina.net)
+ by mail.marcansoft.com (Postfix) with ESMTPSA id 75CE042529;
+ Thu,  6 Apr 2023 13:15:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=asahilina.net;
+ s=default; t=1680786965;
+ bh=FXYWaCQJmvQ2uEK4t/LcGzB0UZXt8EVoDewSRAD9yQ4=;
+ h=Date:Subject:To:References:From:Cc:In-Reply-To;
+ b=EYu4KLeC3T6XjUipJywqNbLZTq2rmmytoRE7PPXKZhaFPmkDs3IOk/BY1b/euMIEt
+ awIZZVpcIcRb0mDQxgtXHotjQjZRYOtKKbUsmDIKAJuck2+OVBKfKL8guPCLIDWgCd
+ I2WzfPWu79kEAa1XTgmMOP8ZUuODKC2MiMnGxlBdmpfyGCQGJL7tHhbbdR6mk3LQsb
+ DML/MQZG1f5azO+AA+dwTRhS1Z6EnnleeVSTaYK90uSkF0GIDTvxKCAjvBxyGnZ9B8
+ P+7j/B90feZWEadJ0qavWrS6TX+sl6swTpmXBj6dKOFUYEiNiWSgyI8T/rU5NkIyCs
+ KE4UYCnwILrXg==
+Message-ID: <37e2861d-ab9f-6b83-9186-d9ffc6845e8a@asahilina.net>
+Date: Thu, 6 Apr 2023 22:15:56 +0900
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.0
-Subject: Re: [PATCH v5 0/8] QAIC accel driver
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [Linaro-mm-sig] Re: [PATCH RFC 18/18] drm/asahi: Add the Asahi
+ driver for Apple AGX GPUs
 Content-Language: en-US
-To: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>, Daniel Vetter
- <daniel@ffwll.ch>, Oded Gabbay <ogabbay@kernel.org>
-References: <1679932497-30277-1-git-send-email-quic_jhugo@quicinc.com>
- <857db3fb-b006-4aa8-a7f8-2ae0b8a160c9@quicinc.com>
- <c5d11a88-351a-8eaf-f1d2-d7cf37cdf81c@linux.intel.com>
- <CAFCwf12iVZkcPKOEc911-fCd4-YzHYJzs_p36jfBiT=VkcO9uQ@mail.gmail.com>
- <ZC13QdSRybIe3nvk@phenom.ffwll.local>
- <32ee0be5-99cf-7b0b-e195-73c6ef3294af@quicinc.com>
- <228d379b-e4e5-5324-4bcf-6152faf5c54f@linux.intel.com>
-From: Jeffrey Hugo <quic_jhugo@quicinc.com>
-In-Reply-To: <228d379b-e4e5-5324-4bcf-6152faf5c54f@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: NRMBVTDak9LjPc6dYIonhFulH05qMBwZ
-X-Proofpoint-ORIG-GUID: NRMBVTDak9LjPc6dYIonhFulH05qMBwZ
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-04-06_06,2023-04-06_02,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 adultscore=0
- clxscore=1015 lowpriorityscore=0 bulkscore=0 priorityscore=1501
- impostorscore=0 spamscore=0 mlxlogscore=999 phishscore=0 suspectscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2303200000 definitions=main-2304060117
+To: Daniel Vetter <daniel@ffwll.ch>
+References: <20230307-rust-drm-v1-0-917ff5bc80a8@asahilina.net>
+ <20230307-rust-drm-v1-18-917ff5bc80a8@asahilina.net>
+ <ZC2HtBOaoUAzVCVH@phenom.ffwll.local>
+ <8d28f1d3-14b0-78c5-aa16-e81e2a8a3685@asahilina.net>
+ <ZC6zSnB6pSELiy+I@phenom.ffwll.local>
+From: Asahi Lina <lina@asahilina.net>
+In-Reply-To: <ZC6zSnB6pSELiy+I@phenom.ffwll.local>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,64 +59,306 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: mani@kernel.org, linux-arm-msm@vger.kernel.org, linux-doc@vger.kernel.org,
- dri-devel@lists.freedesktop.org, quic_ajitpals@quicinc.com,
- quic_pkanojiy@quicinc.com, stanislaw.gruszka@linux.intel.com,
- quic_carlv@quicinc.com, bagasdotme@gmail.com
+Cc: Karol Herbst <kherbst@redhat.com>,
+ Dave Hansen <dave.hansen@linux.intel.com>, dri-devel@lists.freedesktop.org,
+ Mary <mary@mary.zone>, Gary Guo <gary@garyguo.net>,
+ Ella Stanforth <ella@iglunix.org>, Sumit Semwal <sumit.semwal@linaro.org>,
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>, Luben Tuikov <luben.tuikov@amd.com>,
+ Alex Gaynor <alex.gaynor@gmail.com>, Miguel Ojeda <ojeda@kernel.org>,
+ linux-media@vger.kernel.org, Wedson Almeida Filho <wedsonaf@gmail.com>,
+ rust-for-linux@vger.kernel.org, Boqun Feng <boqun.feng@gmail.com>,
+ =?UTF-8?Q?Bj=c3=b6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
+ Faith Ekstrand <faith.ekstrand@collabora.com>, linux-sgx@vger.kernel.org,
+ linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
+ Jarkko Sakkinen <jarkko@kernel.org>, asahi@lists.linux.dev,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 4/6/2023 12:34 AM, Jacek Lawrynowicz wrote:
-> I've merged the patchset to drm-misc-next.
-> Congrats Jeffrey :)
-
-Thanks!
-
+On 06/04/2023 20.55, Daniel Vetter wrote:
+> On Thu, Apr 06, 2023 at 01:44:22PM +0900, Asahi Lina wrote:
+>> On 05/04/2023 23.37, Daniel Vetter wrote:
+>>> On Tue, Mar 07, 2023 at 11:25:43PM +0900, Asahi Lina wrote:
+>>>> +/// A generic monotonically incrementing ID used to uniquely identify object instances within the
+>>>> +/// driver.
+>>>> +pub(crate) struct ID(AtomicU64);
+>>>> +
+>>>> +impl ID {
+>>>> +    /// Create a new ID counter with a given value.
+>>>> +    fn new(val: u64) -> ID {
+>>>> +        ID(AtomicU64::new(val))
+>>>> +    }
+>>>> +
+>>>> +    /// Fetch the next unique ID.
+>>>> +    pub(crate) fn next(&self) -> u64 {
+>>>> +        self.0.fetch_add(1, Ordering::Relaxed)
+>>>> +    }
+>>>> +}
+>>>
+>>> Continuing the theme of me commenting on individual things, I stumbled
+>>> over this because I noticed that there's a lot of id based lookups where I
+>>> don't expect them, and started chasing.
+>>>
+>>> - For ids use xarray, not atomic counters. Yes I know dma_fence timelines
+>>>     gets this wrong, this goes back to an innocent time where we didn't
+>>>     allocate more than one timeline per engine, and no one fixed it since
+>>>     then. Yes u64 should be big enough for everyone :-/
+>>>
+>>> - Attaching ID spaces to drm_device is also not great. drm is full of
+>>>     these mistakes. Much better if their per drm_file and so private to each
+>>>     client.
+>>>
+>>> - They shouldn't be used for anything else than uapi id -> kernel object
+>>>     lookup at the beginning of ioctl code, and nowhere else. At least from
+>>>     skimming it seems like these are used all over the driver codebase,
+>>>     which does freak me out. At least on the C side that's a clear indicator
+>>>     for a refcount/lockin/data structure model that's not thought out at
+>>>     all.
+>>>
+>>> What's going on here, what do I miss?
+>>
+>> These aren't UAPI IDs, they are driver-internal IDs (the UAPI IDs do use
+>> xarray and are per-File). Most of them are just for debugging, so that when
+>> I enable full debug spam I have some way to correlate different things that
+>> are happening together (this subset of interleaved log lines relate to the
+>> same submission). Basically just object names that are easier to read (and
+>> less of a security leak) than pointers and guaranteed not to repeat. You
+>> could get rid of most of them and it wouldn't affect the driver design, it
+>> just makes it very hard to see what's going on with debug logs ^^;
+>>
+>> There are only two that are ever used for non-debugging purposes: the VM ID,
+>> and the File ID. Both are per-device global IDs attached to the VMs (not the
+>> UAPI VM objects, but rather the underlyng MMU address space managers they
+>> represent, including the kernel-internal ones) and to Files themselves. They
+>> are used for destroying GEM objects: since the objects are also
+>> device-global across multiple clients, I need a way to do things like "clean
+>> up all mappings for this File" or "clean up all mappings for this VM".
+>> There's an annoying circular reference between GEM objects and their
+>> mappings, which is why this is explicitly coded out in destroy paths instead
+>> of naturally happening via Drop semantics (without that cleanup code, the
+>> circular reference leaks it).
+>>
+>> So e.g. when a File does a GEM close or explicitly asks for all mappings of
+>> an object to be removed, it goes out to the (possibly shared) GEM object and
+>> tells it to drop all mappings marked as owned by that unique File ID. When
+>> an explicit "unmap all in VM" op happens, it asks the GEM object to drop all
+>> mappings for that underlying VM ID. Similarly, when a UAPI VM object is
+>> dropped (in the Drop impl, so both explicitly and when the whole File/xarray
+>> is dropped and such), that does an explicit unmap of a special dummy object
+>> it owns which would otherwise leak since it is not tracked as a GEM object
+>> owned by that File and therefore not handled by GEM closing. And again along
+>> the same lines, the allocators in alloc.rs explicitly destroy the mappings
+>> for their backing GEM objects on Drop. All this is due to that annoying
+>> circular reference between VMs and GEM objects that I'm not sure how to fix.
+>>
+>> Note that if I *don't* do this (or forget to do it somewhere) the
+>> consequence is just that we leak memory, and if you try to destroy the wrong
+>> IDs somehow the worst that can happen is you unmap things you shouldn't and
+>> fault the GPU (or, in the kernel or kernel-managed user VM cases,
+>> potentially the firmware). Rust safety guarantees still keep things from
+>> going entirely off the rails within the kernel, since everything that
+>> matters is reference counted (which is why these reference cycles are
+>> possible at all).
+>>
+>> This all started when I was looking at the panfrost driver for reference. It
+>> does the same thing except it uses actual pointers to the owning entities
+>> instead of IDs, and pointer comparison (see panfrost_gem_close). Of course
+>> you could try do that in Rust too (literally storing and comparing raw
+>> pointers that aren't owned references), but then you're introducing a Pin<>
+>> requirement on those objects to make their addresses stable and it feels way
+>> more icky and error-prone than unique IDs (since addresses can be reused).
+>> panfrost only has a single mmu (what I call the raw VM) per File while I
+>> have an arbitrary number, which is why I end up with the extra
+>> distinction/complexity of both File and VM IDs, but the concept is the same.
+>>
+>> Some of this is going to be refactored when I implement arbitrary VM range
+>> mapping/unmapping, which would be a good time to improve this... but is
+>> there something particularly wrong/broken about the way I'm doing it now
+>> that I missed? I figured unique u64 IDs would be a pretty safe way to
+>> identify entities and cleanup the mappings when needed.
 > 
-> On 05.04.2023 16:28, Jeffrey Hugo wrote:
->> On 4/5/2023 7:27 AM, Daniel Vetter wrote:
->>> On Wed, Apr 05, 2023 at 03:35:19PM +0300, Oded Gabbay wrote:
->>>> On Wed, Apr 5, 2023 at 2:26 PM Jacek Lawrynowicz
->>>> <jacek.lawrynowicz@linux.intel.com> wrote:
->>>>>
->>>>> Hi,
->>>>>
->>>>> On 03.04.2023 19:22, Jeffrey Hugo wrote:
->>>>>> On 3/27/2023 9:54 AM, Jeffrey Hugo wrote:
->>>>>>> This series introduces a driver under the accel subsystem (QAIC -
->>>>>>> Qualcomm AIC) for the Qualcomm Cloud AI 100 product (AIC100).  AIC100 is
->>>>>>> a PCIe adapter card that hosts a dedicated machine learning inference
->>>>>>> accelerator.
->>>>>>>
->>>>>>> The previous version (v4) can be found at:
->>>>>>> https://lore.kernel.org/all/1679325074-5494-1-git-send-email-quic_jhugo@quicinc.com/
->>>>>>
->>>>>> Looks like things have been silent on this revision and we have a number of review tags already.  Seems like this series is ready for merge.
->>>>>>
->>>>>> I'd like to see this queued for 6.4 if possible.  Given that we are at 6.3-rc5, it seems like this would need to be merged now(ish) to make 6.4.
->>>>>>
->>>>>> Jacek, since you have commit permissions in drm-misc and are an active Accel maintainer, I wonder if it would be appropriate for you to merge this series to drm-misc.  Thoughts?
->>>>>
->>>>> I'm would be happy to merge it but I think it needs to be acked by Oded first.
->>>>>
->>>>> Regards,
->>>>> Jacek
->>>>
->>>> Hi,
->>>> Entire patch-set is:
->>>> Acked-by: Oded Gabbay <ogabbay@kernel.org>
->>>
->>> Once Jacke has pushed this I htink it would also be good to get Jeffrey
->>> commit rights for drm-misc, so that in the future bugfixes for the qaic
->>> driver can be pushed directly by the qaic team. Still with acks/r-b
->>> requirements as per usual, and I guess for anything bigger/new uapi an ack
->>> from oded is needed.
->>>
->>> https://drm.pages.freedesktop.org/maintainer-tools/commit-access.html#drm-misc
->>>
->>> Cheers, Daniel
->>
->> Yep.  This is the plan per my understanding.
->>
->> -Jeff
+> Ok, some attempt at going through the vm_id/file_id stuff. Extremely
+> high-level purely informed by having read too many drivers:
+> 
+> First on the drm_file/struct file/file_id. This is the uapi interface
+> object, and it's refcounted in the vfs, but that's entirely the vfs'
+> business and none of the driver (or even subsystem). Once userspace has
+> done the final close() the file is gone, there's no way to ever get
+> anything meaningfully out of it because userspace dropped it. So if the
+> driver has any kind of backpointer to that's a design bug, because in all
+> the place you might want to care (ioctl, fdinfo for schedu stats, any
+> other file_operations callback) the vfs ensures it stays alive during the
+> callback and you essentially have a borrowed reference.
+
+Right, there's none of that for the File, and it is not refcounted 
+itself. Certainly there are no direct references, and as for the IDs: 
+the IDs of relevant Files live in GEM objects that hold mappings owned 
+by that file. As part of File close all the GEM objects get closed, 
+which removes those mappings. So by the time the File goes away there 
+should be no references to its ID anywhere (other than if I stashed some 
+away for debugging, I forget whether I did in some child object).
+
+If this process breaks for some reason (say, stray mappings remain 
+indexed to a File ID that is gone), that means we leak the mappings, 
+which leaks the GEM objects themselves and the VM they are mapped to. 
+Not great but not fireworks either. As long as the DRM core properly 
+calls the GEM close callback on everything before calling the File close 
+callback though, that shouldn't happen.
+
+> I've seen a lot of drivers try to make clever backpointings to stuff
+> that's essentially tied to the drm_file, and I've not found a single case
+> that made sense. iow, file_id as a lookup thingie needs to go. In
+> principle it's the same argument I've made already for the syncobj rust
+> wrappers. For specific uses I guess I need some rust reading help, but
+> from your description it sounds like the vm_id is much more the core
+> piece.
+
+The file ID is simply how GEM mappings are identified as belonging to an 
+active file within the mapping list of an object. GEM object close is 
+literally the only place this ID is ever used for anything other than 
+passing around:
+
+/// Callback to drop all mappings for a GEM object owned by a given `File`
+fn close(obj: &Object, file: &DrmFile) {
+     mod_pr_debug!("DriverObject::close vm_id={:?} id={}\n", obj.vm_id, 
+obj.id);
+     obj.drop_file_mappings(file.inner().file_id());
+}
+
+I could also just iterate through the VM XArray for the File and drop 
+mappings one VM at a time instead of doing all of them in one go, it's 
+just slightly more cumbersome (though potentially less code because I 
+could get rid of all the forwarding the file_id I do now).
+
+On the other hand, once we implement arbitrary VM maps, I suspect this 
+is going to go away anyway with the new design, so I'm not really very 
+inclined to fix it until that happens... ^^
+
+> So for that we have the gpu ctx -> vm -> gem_bos chain of reference. Now
+> on the C side if you have a modern driver that uses the
+> vm_bind/unbind/gpuva manager approach, the reference counts go in that
+> single direction only, anything else is essentially borrowed references
+> under protection of a mutex/lock or similar thing (for e.g. going from the
+> bo to the vm for eviction).
+
+Right, so that is what is going to change with the pending refactor. 
+What I have right now is a design that used to be the old driver-managed 
+VM design (and still retains part of that for kernel-managed objects) 
+for the old synchronous demo UAPI, that I then shoehorned into the 
+redesigned vm_bind UAPI by just not supporting the interesting cases 
+(partial maps/unmaps/remaps, etc.). This is all temporary, it's just to 
+get us by for now since OpenGL doesn't need it and there is no usable 
+Vulkan driver that cares yet... I wanted to focus on the explicit sync 
+and general sched/queuing part of the new UAPI before I got to the VM 
+bind stuff, since I figured that would be more interesting (and pulls in 
+all the new abstractions, plus major perf benefit). So the UAPI itself 
+has vm_bind but only the "easy" subset of cases are supported by the 
+driver (whole object maps/unmaps) and the refcounting is still backwards.
+
+As I said this originally came from the Panfrost design that doesn't 
+have vm_bind but instead keeps a list of mappings with pointer equality 
+checks in BOs... so that's why ^^
+
+Thanks for explaining the design approach though, it's roughly what I 
+had in mind but it's good to hear I'm on the right track! I'd love to go 
+into more detail about how to implement vm_bind if you have time though 
+(maybe a meeting?). In particular things like using the mm allocator to 
+keep track of mapping ranges and supporting splitting and all that.
+
+> In addition to the above chain the xarray in the drm_file also holds
+> references to each of these. So far so good, in the drm_file ->postclose
+> callback you just walk the xarrays and drop all the references, and
+> everything gets cleaned up, at least in the C world.
+
+In the Rust world you just do nothing since the XArray abstraction knows 
+how to drop all of its contained objects!
+
+> But if either due to the uabi being a bit more legacy, or Rust requiring
+> that the backpointers are reference-counted from the gem_bo->vma->vm and
+> can't follow borrow semantics (afaiui the usual linux list_head pattern of
+> walking the list under a lock giving you a borrowed reference for each
+> element doesn't work too well in rust?) then that's not a problem, you can
+> still all clean it out:
+> 
+> - The key bit is that your vm struct needs both a refcount like kref and
+>    a separate open count. Each gpu ctx and the xarray for vm objects in
+>    drm_file hold _both_ the kref and the open refcount (in rust the open
+>    refcount implies the Arc or things go sideways).
+> 
+> - the other key bit is that drm_file ->postclose does _not_ have simple
+>    Drop semantics, it's more explicit.
+> 
+> - in the drm_file lastclose you first walk all the gpu ctx. The simplest
+>    semantics is that close() synchronously tears down all leftover gpu ctx,
+>    i.e. you unload them from the gpu. Details are under a lot of discussion
+>    in the various scheduler threads, but essentially this should ensure
+>    that the gpu ctx destruction completely removes all references to the
+>    ctx. If instead you have the legacy problem of apps expecting that
+>    rendering continues even if they called exit() before it finishes, then
+>    it gets more messy. I have no idea whether that's still a problem for
+>    new drivers or can be avoided.
+> 
+> - Next up you do the same thing for the vm xarray (which drops both the
+>    kref an open refcounts).
+> 
+> - At this point there might still be a ton of vm objects around with
+>    elevated kref. Except not, because at this point the open refcount of
+>    each vm should have dropped to zero. When that happens the vm object
+>    itself is still alive, plus even better for rust, you are in the
+>    vm_close(vm) function call so you have a full borrowed reference to
+>    that. Which means you can walk the entire address space and unmap
+>    everything explicit. Which should get rid of any gem_bo->vma->vm
+>    backpointers you have lying around.
+> 
+> - At that point all your vm objects are gone too, because the kref managed
+>    backpointers are gone.
+> 
+> - You walk the xarray of gem_bo (well the drm subsystem does that for
+>    you), which cleans out the reamining references to gem_bo. Only the
+>    gem_bo which are shared with other process or have a dma_buf will
+>    survive, like they should.
+> 
+> No leak, no funky driver-internal vm_id based lookup, and with rust we
+> should even be able to guarantee you never mix up Arc<Vm> with OpenRef<Vm>
+> (or however that exactly works in rust types, I have not much real clue).
+
+That would totally work, and actually I already use somewhat analogous 
+mechanisms in other places like firmware queues!
+
+If this all weren't getting turned on its head for the new VM management 
+I'd implement it, but hopefully we can agree there's not much point 
+right now... I'd rather focus on the DRM abstraction design and work on 
+improving the driver in parallel right now, and then about one kernel 
+cycle or so from now it should definitely be in a better place for 
+review. Honestly, there are bigger design problems with the driver right 
+now than these IDs (that I already know about)... so I want to focus 
+more on the abstractions and their usage right now than the internal 
+driver design which I *know* has problems ^^
+
+Rust is really good at getting you to come up with a *safe* design as 
+far as memory and ownership, but that doesn't mean it's perfectly clean 
+code and more importantly it does nothing for deadlocks and allocating 
+in the wrong paths and getting resource allocation semantics right etc 
+etc. The GPU FW queue stuff is at the very least due for another major 
+refactor/cleanup to defer resource allocation and actual queuing to job 
+prepare/run time (right now there's some horrible hacks to do it upfront 
+at submit because I don't have a mechanism to back-patch job structures 
+with those resource IDs later at exec time, but I want to add that), and 
+along the way I can also fix the using job fences to block on pending 
+job count thing that Christian really wants me to do instead of the 
+can_run_job thing, and then getting all this resource stuff truly right 
+is also going to mean eventually using fences to handle blocking on 
+resource exhaustion too (though maybe I can get away with implementing 
+that a bit later)...
+
+The driver works stupidly well for how quickly I wrote it, but it still 
+has all these rough edges that definitely need fixing before it's 
+something I could say I'm happy with... I'm sure if you start hammering 
+it with evil workloads you will hit some of its current problems (like I 
+did yesterday with the deadlocks on GpuContext inval). I also need to 
+learn more about the subtleties of fence signaling and all that, 
+especially once a shrinker comes into play...
+
+~~ Lina
 
