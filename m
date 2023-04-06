@@ -1,120 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B6D36D918F
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Apr 2023 10:30:10 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 798696D91AF
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Apr 2023 10:33:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0F31910E04A;
-	Thu,  6 Apr 2023 08:30:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 383E810EB1B;
+	Thu,  6 Apr 2023 08:32:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam12on2043.outbound.protection.outlook.com [40.107.237.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0D25E10E042
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Apr 2023 08:30:05 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=HkCdzaP7FYBYxjykvugjBE2deNyHswwe/jcaY0Mdvm48BKYczLxpdmlKZAOGbODgpuvzgL8qvbk3RFOMs1aT7ztTdIx9zEuiP7t5ZQrxvSbLatQbycYCKEHo6iueyBT8vZtwi+CF0Jn+EYdkoxgRm9dB+AlmSpfuueNrYBNkkzuhLjvVmUt3TOZcSxcllD1f9tF2TSD0mRHwNRKEVROcAHZwFY0pwPmSp4Ni73Adut05YCFpgXII9xmnQy5CjydCtotWOkuKCPToa7A5bZmiRSKFLQCEya4OpT5T+gFfcYWfP181aEuJCJHHEo+3uI9zmLohIRbyt3av+iAzoUmqlw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=8UDJ9K5Kd2d2vofQe6y/L7WFn+vz8w0I3qjwIjaIkt8=;
- b=DUT5xeb2AjZaj/dXFt0KlcQj+UgeAQVtUufSuF2GjRuMXNADRf1o/c2Mb38Ohx3kPHkrrtxVOrxY8NwVJzKLzNcJotG4HbQhI43DWkPuxveqD4aZ04gKBQElIpLK8ctymqccZfxSDTFTo7+NTE1xskwhBaAYcXj1DtIQjEZAzcxl0jqq2te13/bdTPsOTRz2bSTQX5NJBnyKD+omd3RmdDl/1nHbeIgCjcJyrPKUiI+vZy3BdTLihKpfG2FOdyJ4UZ6iqrx5nLxfJB0TyT4I4cddHh3ef3+nuaANTMvOMO6MamkTD9JV3qujaTupKhZQ7oBJhQy9hLSOTdI2sdpHMg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=8UDJ9K5Kd2d2vofQe6y/L7WFn+vz8w0I3qjwIjaIkt8=;
- b=ahJRMQSRQ2nG2qIMpysbXtr1hpuQXN69c3KCz/lDYzSN6g23KR0yDpMG5V360LN5r8JvSK58KSbzCpxUIginrmxsr5ZemyFeGDKtAJ0SPNmHWmwgQucCW/a8UW63KFILGIxvT6VCYBpH8KsPz8oZalF2NNgZ6trgkZ/JqAhxuI0=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
- by BY5PR12MB4081.namprd12.prod.outlook.com (2603:10b6:a03:20e::21)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6254.38; Thu, 6 Apr
- 2023 08:30:03 +0000
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::4624:dc39:943e:6ae]) by BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::4624:dc39:943e:6ae%5]) with mapi id 15.20.6254.035; Thu, 6 Apr 2023
- 08:30:03 +0000
-Message-ID: <6b3433ee-0712-f789-51ee-3047ead9bb79@amd.com>
-Date: Thu, 6 Apr 2023 10:29:57 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH] drm/scheduler: Fix UAF in
- drm_sched_fence_get_timeline_name
-Content-Language: en-US
-To: Asahi Lina <lina@asahilina.net>, Luben Tuikov <luben.tuikov@amd.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Sumit Semwal <sumit.semwal@linaro.org>
-References: <20230406-scheduler-uaf-1-v1-1-8e5662269d25@asahilina.net>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20230406-scheduler-uaf-1-v1-1-8e5662269d25@asahilina.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR3P281CA0185.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:a4::18) To BN8PR12MB3587.namprd12.prod.outlook.com
- (2603:10b6:408:43::13)
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1521610EB1B
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Apr 2023 08:32:45 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 3898D1FD76;
+ Thu,  6 Apr 2023 08:32:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1680769962; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=fJCj8Uvt0KzyLJO6eavrEb7OrxraNCNBdnmz7J37JkM=;
+ b=mUaGcHYW9Uci4e/HgjWYmw6/RT3n7WuwuKgrRJBIk+HKRApS+ng6AiGJ0/EgON0ulhZ62F
+ VEY1TQ5l7AWBQBcSLVRPz9AGx8jn5Q3zgJAn/n7dLoYnYFBwnJF99JL0CRlteXOjJY5HW5
+ 7q1zc74gpwS3qqB+Haud0IgQzt7Irtg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1680769962;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=fJCj8Uvt0KzyLJO6eavrEb7OrxraNCNBdnmz7J37JkM=;
+ b=UhmJXzGPwoVyEcjNHbUmLLdNtSc4Zqze43AF/yM0bCWaNhotFlBTSIj0F6eJXYBY0qFdvt
+ UlrJlntETAZGZWBg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 17063133E5;
+ Thu,  6 Apr 2023 08:32:42 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id 736bBKqDLmQZZgAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Thu, 06 Apr 2023 08:32:42 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: javierm@redhat.com, daniel.vetter@ffwll.ch, patrik.r.jakobsson@gmail.com
+Subject: [PATCH v4 0/9] video/aperture: Ignore firmware framebuffers with
+ non-primary devices
+Date: Thu,  6 Apr 2023 10:32:31 +0200
+Message-Id: <20230406083240.14031-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|BY5PR12MB4081:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0d364b42-9579-40ab-db13-08db36791e27
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: yqx7XAob0yPjpkhT28BNGuVmCG954QAICNsMr6ZVk8y2DoT8Kgm5vU8EvKGXiJD4BYN4phU596Mo/bpq3FU2r01ziLsOT0ubmP9ghrLz//3zX2jd2emoTtKKHdGilFm7X795Q1wWxtCNfGrihV0J7H/+PMZVa48AU3o9kUL21hKxS3WWex/yLvH8twSfqA94oCwqipXNkBqMqQBrvUwvQEOPs5Fwjo6TJH3KqzbBqp43/Od4vJgXYAkJ7NlURifqBrG/JfYfxUhgJHgXVJ1VeumEyr0kuZ2V8U+JMze4PKlhESQpH5XazzTdM8mWpiJ+xxB2ib9gOaME9aOtRohVL9FdcA+WoOKKF3AQcc+mH70ykCJrwJFlb108qqP8Ty7LkAMKBBgS+GFfIsEsQpj7cLhWsammJ6aIef6OABsVO6q/icg+P/O2a1r+yFQH+5S2P4CJLL6BgktwmzZ0nF90wK7lZoiD/oerG7eefakOJgUzasxceVzbErAWs6U2KN1U3dxk+FFlZARG1DFUY+4PkiiWyUe71A0bbBUFqyX7qpmp5tjvMLZmoOARTqZ+KueUlgz0LgoMuYd3laJA/Bod3/i2/u4+lR40x47s2hdjNlCY4prk9YfYBjFw32JUZJaSO1aPVo2Vzp02wc5e1N+l6g==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230028)(4636009)(366004)(136003)(346002)(396003)(376002)(39860400002)(451199021)(2616005)(83380400001)(6486002)(316002)(478600001)(110136005)(6506007)(26005)(6666004)(186003)(6512007)(2906002)(4326008)(5660300002)(36756003)(38100700002)(66476007)(8676002)(41300700001)(66556008)(86362001)(66946007)(31696002)(8936002)(31686004)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?cGQzYkdYL0ljeHpUNmFkSmphWUhZQ0phZmgweWlkUWNvZVQ2Qk1OVWgxd1ls?=
- =?utf-8?B?a2RJSE56cVBBNk5aRDl1Q3R6QjBiTUN1ZitCQXkzaXVnb0ZiVVBRMllMZHZM?=
- =?utf-8?B?V3FYOTJXOUhhNzh5UGU5MVRUUWV0YWwwY0tUZzJieWFQMGFJaXFPL0FIK2dB?=
- =?utf-8?B?akx0VjhDNSs4ZHdYdGNic3NzWnFRSS8wSkJzM2NoaWM2SCs1RmplMktVTCtn?=
- =?utf-8?B?UUh3NGVxWmFQNnVqKytjajhCaTh3WXFIdXdmUHdGc1RCaHdGckhHNnFDSWI1?=
- =?utf-8?B?OG40RVp3VXdMNDJDdEpaL3E1azhDL1FrTlIycy93UHo0V1NKQ1kyTFJmMGpL?=
- =?utf-8?B?TXZJdG4vWWxYMTdnZlBFVlJlbExHcWJpSGVlR0VKRUdIUmJRaTJqMWFlWDhV?=
- =?utf-8?B?clVIRWhQOGxpb29GRkVGaXpvV3MwQSswMHhEU0pEMmVmOVJEU2JPMytVdWM0?=
- =?utf-8?B?RUl0NVBhNW1FRU9Ic0lTbjF1d2N5dXhjMnBPTEMrRFdQMkdGbEZnTFl6TFo0?=
- =?utf-8?B?M01wWU5RNEZVWUY4MmM0ZkJhR3VFUlVPUnJUWTN0L1dQVWZZbjlMUENLOW0z?=
- =?utf-8?B?T3A1aWJCaWlud3FsRDNUTHZMMnowNzNQU0lTZEdRTVBRbTVRWGRXaVFZTGcr?=
- =?utf-8?B?UE41ekVuUlh2SWFvWnVWQklibnZOaVpSOENadEw1bHJJWEhpYlhIVzloQUk1?=
- =?utf-8?B?bDgwUmVsbk80Wk5DeC9ZQmhEWittNEl0NGVrQmhoWUlsemJZMERqM2Vvd0t5?=
- =?utf-8?B?aVFBTHA3QnYrQnFTSjZhZ3BwSEJ3amNxUzdPdjM5dUdEYmU5alRJQ2llaFJZ?=
- =?utf-8?B?aFJ3NzBSbUFkbjBjQjdtNGRtd2UyNkhVV2RiWnBwVEgyK2JvVkk0YnV3RjVB?=
- =?utf-8?B?MFhuelhxMHF1YzEzaXYrbmxFeTZPeDA3OWIraG5OWWxYU2NVa0RhY3lxN3VW?=
- =?utf-8?B?Um1QQThJQ3hwQXczZ1RXOHg5eDgzbTFZdWN6dW5pUDN1Zm9RaFVCUTQ4N3Uv?=
- =?utf-8?B?ZE9yYzdtTTJJLzh3ZVZSZGVjaGtGdEpEV1F3bTc0OUtYQ0VvQk9qbGhQd3Qz?=
- =?utf-8?B?bmloQXBHVmRYQnRMZDR6emVudGdYSVdXZ0dzckdVV0hkYjh1Nndpa2FxdlF4?=
- =?utf-8?B?K0xUbE5ucGFURkJtdkRaOWdvVHMzR2ovZUdlTldDUDBrTkFyOTZmcXF2RjBF?=
- =?utf-8?B?dk1CeW9ENWlPaU5waVhVR0xDaEdGN2ZZa0ZaSkR2MzNxMlFpTlF0VGJiTVdT?=
- =?utf-8?B?WUMybk42U3pLL211YmpEQ3dEdWdURlR2bjBBQnZ0di9OUGVJeXdEYXJ4NnZ4?=
- =?utf-8?B?SjVLUG9DWlNpWFZjcDlJZldNQnRxV0xHbHQ4Qk9ITmd5RDAvK0JkL1FReXlW?=
- =?utf-8?B?MmlYaW5JQ0s2cHlFY09iTmp3TVhwd09hbGZlYTBQWnFaRUFiais3SWdwN2ZS?=
- =?utf-8?B?Z0JadEtsNXgyNmdDbm5KUmNrQVNYYlFQYjhmdy9jTk43TlVnUjBHUWpubENM?=
- =?utf-8?B?d215d3RuNTV4TUl5MDFYWkc5aXJoTWlPS3JmcnBoY2FMdUFuWTF4ck5mdVc1?=
- =?utf-8?B?TXhaT2p3T3pwVXEwVGszbjk1TG12UWk4SUF1aGUvRXMwTVRTWVNQRU52WVlP?=
- =?utf-8?B?WFk3UTlscFNOWW1KT0drMGlrZGNIK3FkOXo3WHhzdnhsZUZRNnByWE92MGYz?=
- =?utf-8?B?dnJ6c1EydWZ1NHlBTzdVb1RFd3BRUEl1d1dxNld0UkVUVlhkTW1qMjM1aVk3?=
- =?utf-8?B?dW9ocFkzLzBTc3pUdXJhRGZXZWl3aWdHLzBRNzl6cWs3SXZNNTdjTHF3ejY2?=
- =?utf-8?B?enpSWGJlVFhTZURJYUQ1Qm52RjUzUzV6ZTQrNUNRZm5Na3hLakxLWmxjcFFi?=
- =?utf-8?B?TlQwMW9pU0d4UmtYVkxTR1JqUGhSTHo0REltZ1R1SGlRMUI1ZGMzUHlCa2lO?=
- =?utf-8?B?UmdBZnUvWWd4QUFIUnNoWTlTeFViUVZRNWhnaU5jZ2o1eXg0UGxIWFR6bmZl?=
- =?utf-8?B?NUpFZWFyMDdHdkE3Z3VDOVdBL3JGNVZ4Z2gwVDBCc2xWTHl2aHB2ZVlPT2ZQ?=
- =?utf-8?B?QVlkWGF2cVZ6NW02MWdaMTExaEhiQ3hnN1RBZmNBaFBPRVM3MjhPMUVRUEY0?=
- =?utf-8?Q?UJTtjqvjSWHAwLsxRlLlFSLJv?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0d364b42-9579-40ab-db13-08db36791e27
-X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Apr 2023 08:30:03.0519 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: xfvgIUCt6uTfgLrm2TrC4x+qF5guyHBoOEBy7dWQwDNxdMsIrzlCf1lQ8+1rdtTO
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR12MB4081
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -127,103 +62,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: asahi@lists.linux.dev, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 05.04.23 um 18:34 schrieb Asahi Lina:
-> A signaled scheduler fence can outlive its scheduler, since fences are
-> independently reference counted.
+Only remove sysfb and VGA devices for primary graphics devices. The
+PCI helper for aperture ownership now detects primary devices. Resolves
+bug reports about lost framebuffer consoles on systems with multiple
+graphics cards.
 
-Well that is actually not correct. Schedulers are supposed to stay 
-around until the hw they have been driving is no longer present.
+The series picks up Daniel's patchset at v3 from [1] and cleans up a few
+minor things. There's another patch on top that clarifys gma500's
+special case.
 
-E.g. the reference was scheduler_fence->hw_fence->driver->scheduler.
+v4:
+	* add gma500 patch on top of v3
+	* fix Daniel's S-o-b address
+	* fix various typos in the commit messages
 
-Your use case is now completely different to that and this won't work 
-any more.
+[1] https://lore.kernel.org/dri-devel/66f9196e-df2b-19ce-e2ec-15f7a81d63c7@suse.de/T/#t
 
-This here might just be the first case where that breaks.
+Daniel Vetter (8):
+  drm/gma500: Use drm_aperture_remove_conflicting_pci_framebuffers
+  video/aperture: use generic code to figure out the vga default device
+  drm/aperture: Remove primary argument
+  video/aperture: Only kick vgacon when the pdev is decoding vga
+  video/aperture: Move vga handling to pci function
+  video/aperture: Drop primary argument
+  video/aperture: Only remove sysfb on the default vga pci device
+  fbdev: Simplify fb_is_primary_device for x86
 
-Regards,
-Christian.
+Thomas Zimmermann (1):
+  video/aperture: Provide a VGA helper for gma500 and internal use
 
->   Therefore, we can't reference the
-> scheduler in the get_timeline_name() implementation.
->
-> Fixes oopses on `cat /sys/kernel/debug/dma_buf/bufinfo` when shared
-> dma-bufs reference fences from GPU schedulers that no longer exist.
->
-> Signed-off-by: Asahi Lina <lina@asahilina.net>
-> ---
->   drivers/gpu/drm/scheduler/sched_entity.c | 7 ++++++-
->   drivers/gpu/drm/scheduler/sched_fence.c  | 4 +++-
->   include/drm/gpu_scheduler.h              | 5 +++++
->   3 files changed, 14 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/drm/scheduler/sched_entity.c
-> index 15d04a0ec623..8b3b949b2ce8 100644
-> --- a/drivers/gpu/drm/scheduler/sched_entity.c
-> +++ b/drivers/gpu/drm/scheduler/sched_entity.c
-> @@ -368,7 +368,12 @@ static bool drm_sched_entity_add_dependency_cb(struct drm_sched_entity *entity)
->   
->   		/*
->   		 * Fence is from the same scheduler, only need to wait for
-> -		 * it to be scheduled
-> +		 * it to be scheduled.
-> +		 *
-> +		 * Note: s_fence->sched could have been freed and reallocated
-> +		 * as another scheduler. This false positive case is okay, as if
-> +		 * the old scheduler was freed all of its jobs must have
-> +		 * signaled their completion fences.
->   		 */
->   		fence = dma_fence_get(&s_fence->scheduled);
->   		dma_fence_put(entity->dependency);
-> diff --git a/drivers/gpu/drm/scheduler/sched_fence.c b/drivers/gpu/drm/scheduler/sched_fence.c
-> index 7fd869520ef2..33b145dfa38c 100644
-> --- a/drivers/gpu/drm/scheduler/sched_fence.c
-> +++ b/drivers/gpu/drm/scheduler/sched_fence.c
-> @@ -66,7 +66,7 @@ static const char *drm_sched_fence_get_driver_name(struct dma_fence *fence)
->   static const char *drm_sched_fence_get_timeline_name(struct dma_fence *f)
->   {
->   	struct drm_sched_fence *fence = to_drm_sched_fence(f);
-> -	return (const char *)fence->sched->name;
-> +	return (const char *)fence->sched_name;
->   }
->   
->   static void drm_sched_fence_free_rcu(struct rcu_head *rcu)
-> @@ -168,6 +168,8 @@ void drm_sched_fence_init(struct drm_sched_fence *fence,
->   	unsigned seq;
->   
->   	fence->sched = entity->rq->sched;
-> +	strlcpy(fence->sched_name, entity->rq->sched->name,
-> +		sizeof(fence->sched_name));
->   	seq = atomic_inc_return(&entity->fence_seq);
->   	dma_fence_init(&fence->scheduled, &drm_sched_fence_ops_scheduled,
->   		       &fence->lock, entity->fence_context, seq);
-> diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
-> index 9db9e5e504ee..49f019731891 100644
-> --- a/include/drm/gpu_scheduler.h
-> +++ b/include/drm/gpu_scheduler.h
-> @@ -295,6 +295,11 @@ struct drm_sched_fence {
->            * @lock: the lock used by the scheduled and the finished fences.
->            */
->   	spinlock_t			lock;
-> +        /**
-> +         * @sched_name: the name of the scheduler that owns this fence. We
-> +         * keep a copy here since fences can outlive their scheduler.
-> +         */
-> +	char sched_name[16];
->           /**
->            * @owner: job owner for debugging
->            */
->
-> ---
-> base-commit: fe15c26ee26efa11741a7b632e9f23b01aca4cc6
-> change-id: 20230406-scheduler-uaf-1-994ec34cac93
->
-> Thank you,
-> ~~ Lina
->
+ arch/x86/video/fbdev.c                      | 13 +---
+ drivers/gpu/drm/arm/hdlcd_drv.c             |  2 +-
+ drivers/gpu/drm/armada/armada_drv.c         |  2 +-
+ drivers/gpu/drm/drm_aperture.c              | 11 +---
+ drivers/gpu/drm/gma500/psb_drv.c            | 43 ++++++++++---
+ drivers/gpu/drm/hyperv/hyperv_drm_drv.c     |  1 -
+ drivers/gpu/drm/meson/meson_drv.c           |  2 +-
+ drivers/gpu/drm/msm/msm_fbdev.c             |  2 +-
+ drivers/gpu/drm/rockchip/rockchip_drm_drv.c |  2 +-
+ drivers/gpu/drm/stm/drv.c                   |  2 +-
+ drivers/gpu/drm/sun4i/sun4i_drv.c           |  2 +-
+ drivers/gpu/drm/tegra/drm.c                 |  2 +-
+ drivers/gpu/drm/vc4/vc4_drv.c               |  2 +-
+ drivers/video/aperture.c                    | 70 ++++++++++++++-------
+ drivers/video/fbdev/hyperv_fb.c             |  2 +-
+ include/drm/drm_aperture.h                  |  7 +--
+ include/linux/aperture.h                    | 16 +++--
+ 17 files changed, 108 insertions(+), 73 deletions(-)
+
+-- 
+2.40.0
 
