@@ -2,24 +2,23 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 679E26DA394
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Apr 2023 22:41:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6EB976DA39B
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Apr 2023 22:41:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 834D510ED24;
-	Thu,  6 Apr 2023 20:41:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6939D10ED33;
+	Thu,  6 Apr 2023 20:41:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4915210ED24
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Apr 2023 20:41:17 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0865C10ED2A
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Apr 2023 20:41:28 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id AFE7B64C39;
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 7524962C30;
+ Thu,  6 Apr 2023 20:41:27 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 92F0EC4339C;
  Thu,  6 Apr 2023 20:41:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7AE7BC433D2;
- Thu,  6 Apr 2023 20:41:05 +0000 (UTC)
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 To: Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>,
  Jonathan Corbet <corbet@lwn.net>, Oded Gabbay <ogabbay@kernel.org>,
@@ -56,9 +55,9 @@ To: Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>,
  dri-devel@lists.freedesktop.org, patches@opensource.cirrus.com,
  openbmc@lists.ozlabs.org, linux-rpi-kernel@lists.infradead.org,
  linux-arm-kernel@lists.infradead.org
-Subject: [PATCH 63/68] hwmon: tmp108: constify pointers to hwmon_channel_info
-Date: Thu,  6 Apr 2023 22:40:22 +0200
-Message-Id: <20230406204027.3012532-4-krzysztof.kozlowski@linaro.org>
+Subject: [PATCH 64/68] hwmon: tmp464: constify pointers to hwmon_channel_info
+Date: Thu,  6 Apr 2023 22:40:23 +0200
+Message-Id: <20230406204027.3012532-5-krzysztof.kozlowski@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230406203103.3011503-1-krzysztof.kozlowski@linaro.org>
 References: <20230406203103.3011503-1-krzysztof.kozlowski@linaro.org>
@@ -85,21 +84,21 @@ const for safety.
 
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 ---
- drivers/hwmon/tmp108.c | 2 +-
+ drivers/hwmon/tmp464.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/hwmon/tmp108.c b/drivers/hwmon/tmp108.c
-index acb4ba750b09..43784c289a9e 100644
---- a/drivers/hwmon/tmp108.c
-+++ b/drivers/hwmon/tmp108.c
-@@ -272,7 +272,7 @@ static umode_t tmp108_is_visible(const void *data, enum hwmon_sensor_types type,
- 	}
- }
+diff --git a/drivers/hwmon/tmp464.c b/drivers/hwmon/tmp464.c
+index 7814f39bd1a3..9213a493a590 100644
+--- a/drivers/hwmon/tmp464.c
++++ b/drivers/hwmon/tmp464.c
+@@ -589,7 +589,7 @@ static const struct hwmon_ops tmp464_ops = {
+ 	.write = tmp464_write,
+ };
  
--static const struct hwmon_channel_info *tmp108_info[] = {
-+static const struct hwmon_channel_info * const tmp108_info[] = {
+-static const struct hwmon_channel_info *tmp464_info[] = {
++static const struct hwmon_channel_info * const tmp464_info[] = {
  	HWMON_CHANNEL_INFO(chip,
- 			   HWMON_C_REGISTER_TZ | HWMON_C_UPDATE_INTERVAL),
+ 			   HWMON_C_UPDATE_INTERVAL),
  	HWMON_CHANNEL_INFO(temp,
 -- 
 2.34.1
