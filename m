@@ -1,17 +1,17 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7445A6D9786
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Apr 2023 15:02:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BE2A26D9787
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Apr 2023 15:02:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 75B2610E391;
-	Thu,  6 Apr 2023 13:02:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CE62210EB90;
+	Thu,  6 Apr 2023 13:02:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 53CA010E370
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Apr 2023 13:02:20 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E63C510E391
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Apr 2023 13:02:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
  h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:
@@ -19,23 +19,23 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=mAXYJfVMl6MbhpO8q1jmwzjnQfk9vRmbQou0gYkg6Ds=; b=lWqmwW6fFvebc2pkw0xiqQtf2e
- a4fKK3lEOdYr5XixBX+MCyuOv2BBgPfV41HrhtXH5HeklV9GkAIP/YJ+PoC7aTqv2sw3KZ99ipVEb
- OxGbDMyFC5t4zNIV7FXS6l5+1qXhiMB+NZbnPPyKmCgd0gWxErAtoLoM2hYX0BmvUS/eo+zIL4G7i
- Zkb4Y+D92Mn+ex9sZ+PwldnEDzhtE6ISNDQuA6yTfp130gVQ1mOAr44IHGAHLFvbfiGFw7wtUWQwY
- hExJ4Pvoa/V3DoAzc+rMFoweROKHLfGkn9oM0zTwDWUqOXZ2dSheedSbXqiuXLZcwjSMD0xsFZ0pG
- S/oHWrnw==;
+ bh=HGSWzD8/tLZV+T56VOcM69YG1VcCQfm8Z6T3Bdgvjhc=; b=BsLl5kCQOO9Cbg+YAp3bqMf31J
+ /mtdivcaPnJ/sRjtEyVj/aIwlnRIE+EA/goCGwSIm1gO2gm/59ekDNPlPWP94pQ6cNUIn9cM8yI2C
+ PnqD4BGzHn6b7W6FPTkEHkAbKB4euG6XjFok8Cd4Yt4djoav9KyfXCfB3oK2L3nT/vE11M+vVbDFo
+ nlBm2gxDDNhxF3QoscULvG55h4tMnx9kmI8kdJ+ImAlfc7ZhZxcusqLl2uPH3SPfCQ1y5ViiSP6c2
+ eF8AzCaCZeAscYc8MOZwHHvcUBP/zYCtTPrmPL8ESJRqtaUVPtu0f9lAUMYtkD9QWHFikYCx3hckt
+ 2dqY5LMQ==;
 Received: from [187.36.234.139] (helo=bowie..)
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1pkPFo-0084OI-El; Thu, 06 Apr 2023 15:02:16 +0200
+ id 1pkPFr-0084OI-Jv; Thu, 06 Apr 2023 15:02:19 +0200
 From: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>
 To: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
  Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
  Melissa Wen <mwen@igalia.com>, Haneen Mohammed <hamohammed.sa@gmail.com>
-Subject: [PATCH 5/6] drm/vkms: add reflect-y property
-Date: Thu,  6 Apr 2023 10:01:37 -0300
-Message-Id: <20230406130138.70752-6-mcanal@igalia.com>
+Subject: [PATCH 6/6] drm/vkms: drop "Rotation" TODO
+Date: Thu,  6 Apr 2023 10:01:38 -0300
+Message-Id: <20230406130138.70752-7-mcanal@igalia.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230406130138.70752-1-mcanal@igalia.com>
 References: <20230406130138.70752-1-mcanal@igalia.com>
@@ -59,77 +59,27 @@ Cc: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Currently, vkms only support the reflect-x property. Therefore, add the
-reflect-y property to vkms through a software implementation of the
-operation. This is possible by reverse reading the y axis during the
-blending.
-
-Now, vkms support all possible rotation values.
-
-Tested with igt@kms_rotation_crc@primary-reflect-y and
-igt@kms_rotation_crc@sprite-reflect-y [1].
-
-[1] https://patchwork.freedesktop.org/series/116025/
+Now that VKMS supports all values of rotation and reflection, drop the
+"Rotation" task from the TODO list.
 
 Signed-off-by: Maíra Canal <mcanal@igalia.com>
 ---
- drivers/gpu/drm/vkms/vkms_composer.c |  7 ++++++-
- drivers/gpu/drm/vkms/vkms_plane.c    | 16 ++++------------
- 2 files changed, 10 insertions(+), 13 deletions(-)
+ Documentation/gpu/vkms.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/vkms/vkms_composer.c b/drivers/gpu/drm/vkms/vkms_composer.c
-index 25d412f555ae..0566eb8e2dee 100644
---- a/drivers/gpu/drm/vkms/vkms_composer.c
-+++ b/drivers/gpu/drm/vkms/vkms_composer.c
-@@ -92,8 +92,13 @@ static int get_y_pos(struct vkms_frame_info *frame_info, int y)
- 			return -1;
- 		return y + frame_info->dst.x1;
- 	default:
--		return y;
-+		break;
- 	}
-+
-+	if (frame_info->rotation & DRM_MODE_REFLECT_Y)
-+		return drm_rect_height(&frame_info->dst) - y - 1;
-+
-+	return y;
- }
+diff --git a/Documentation/gpu/vkms.rst b/Documentation/gpu/vkms.rst
+index 49db221c0f52..413e6815b9bc 100644
+--- a/Documentation/gpu/vkms.rst
++++ b/Documentation/gpu/vkms.rst
+@@ -125,7 +125,7 @@ There's lots of plane features we could add support for:
  
- static bool check_limit(struct vkms_frame_info *frame_info, int pos)
-diff --git a/drivers/gpu/drm/vkms/vkms_plane.c b/drivers/gpu/drm/vkms/vkms_plane.c
-index e2bd2231fe4c..3f82b5315fef 100644
---- a/drivers/gpu/drm/vkms/vkms_plane.c
-+++ b/drivers/gpu/drm/vkms/vkms_plane.c
-@@ -121,12 +121,8 @@ static void vkms_plane_atomic_update(struct drm_plane *plane,
- 	frame_info->fb = fb;
- 	memcpy(&frame_info->map, &shadow_plane_state->data, sizeof(frame_info->map));
- 	drm_framebuffer_get(frame_info->fb);
--	frame_info->rotation = drm_rotation_simplify(new_state->rotation,
--						     DRM_MODE_ROTATE_0 |
--						     DRM_MODE_ROTATE_90 |
--						     DRM_MODE_ROTATE_180 |
--						     DRM_MODE_ROTATE_270 |
--						     DRM_MODE_REFLECT_X);
-+	frame_info->rotation = drm_rotation_simplify(new_state->rotation, DRM_MODE_ROTATE_MASK |
-+						     DRM_MODE_REFLECT_MASK);
+ - Full alpha blending on all planes.
  
- 	drm_rect_rotate(&frame_info->dst, drm_rect_width(&frame_info->dst),
- 			drm_rect_height(&frame_info->dst), frame_info->rotation);
-@@ -240,12 +236,8 @@ struct vkms_plane *vkms_plane_init(struct vkms_device *vkmsdev,
+-- Rotation, scaling.
++- Scaling.
  
- 	drm_plane_helper_add(&plane->base, funcs);
- 
--	drm_plane_create_rotation_property(&plane->base, DRM_MODE_ROTATE_0,
--					   DRM_MODE_ROTATE_0 |
--					   DRM_MODE_ROTATE_90 |
--					   DRM_MODE_ROTATE_180 |
--					   DRM_MODE_ROTATE_270 |
--					   DRM_MODE_REFLECT_X);
-+	drm_plane_create_rotation_property(&plane->base, DRM_MODE_ROTATE_0, DRM_MODE_ROTATE_MASK |
-+					   DRM_MODE_REFLECT_MASK);
- 
- 	return plane;
- }
+ - Additional buffer formats, especially YUV formats for video like NV12.
+   Low/high bpp RGB formats would also be interesting.
 -- 
 2.39.2
 
