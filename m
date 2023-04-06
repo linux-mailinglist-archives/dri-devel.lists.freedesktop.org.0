@@ -1,79 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E216F6D9331
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Apr 2023 11:49:04 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A5C1A6D935D
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Apr 2023 11:56:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8901C10E235;
-	Thu,  6 Apr 2023 09:49:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6605310E217;
+	Thu,  6 Apr 2023 09:56:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com
- [IPv6:2a00:1450:4864:20::633])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8A80010E235
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Apr 2023 09:49:00 +0000 (UTC)
-Received: by mail-ej1-x633.google.com with SMTP id
- a640c23a62f3a-947a47eb908so67370066b.0
- for <dri-devel@lists.freedesktop.org>; Thu, 06 Apr 2023 02:49:00 -0700 (PDT)
+Received: from mail-yb1-xb30.google.com (mail-yb1-xb30.google.com
+ [IPv6:2607:f8b0:4864:20::b30])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 876AB10E217
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Apr 2023 09:56:05 +0000 (UTC)
+Received: by mail-yb1-xb30.google.com with SMTP id j7so45556923ybg.4
+ for <dri-devel@lists.freedesktop.org>; Thu, 06 Apr 2023 02:56:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1680774538;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:mail-followup-to:message-id:subject:cc:to
- :from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=aDwrP3AJyNgCVfwTeR5DD8c7qrP0LtIWfiov4Z3AarM=;
- b=cstLYe7M4RoxLG29+q0M6d7Lm5hfQEeU3UG61zxe8QVyXdYljKPBzpCJHnzcKEABSa
- 0OGVHekcbqLxOesJvFlIiwjJUmbcLSzV5nbaivV08Rpxv/E7QBYqBKdIP/LorG1wgfHc
- udnXrNomIhQJLByUElhfl7ovERpDrSY54m02E=
+ d=amarulasolutions.com; s=google; t=1680774964; x=1683366964;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=XjCG3Q6AYxOryEA8ZgASmWpaFiAiJ5P0PIAmbv1Qha4=;
+ b=HN2r0iJXGRybyNxGizfPSdV27HwaEomPeeQhT0RvKthr254s9pQ8CBZUd/qn9CzYd2
+ TFL7mMKjwNJJoZ03RwZ1OK+uAHj79AmISmRVhMqiaSghP2DD7oo9I/ufNFE2uZt2eMPf
+ qlvsiSyFvHr3SklTMe4uasOP1yr0IfXxIEuxQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680774538;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:mail-followup-to:message-id:subject:cc:to
- :from:date:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=aDwrP3AJyNgCVfwTeR5DD8c7qrP0LtIWfiov4Z3AarM=;
- b=vlJrsaqa4DwKzTtyJKlCNyZdMv4zhOzobHSATpqD4QB/U+ke5iOg+UH4/RjVnoj396
- 9k7+O2kSJDaUI/gHztsXjaTUuEM1f+1P4vAhzKo+1CJLZ26kkLJwPUo4Dp9r3WgwFVyE
- W/wEWAS3l19oz8DVSMQOaq3E6337kVzvPi8r7bxjR7xWqC2gvaKWLQE8LWRZCYCd8jl9
- CVcBdWN7MBfi3f9lOAgAvYttnrQAiawbQSMdcFYZoYOOHBLFX9MWy25MOopHbSgdWUt7
- dlQMhDDYMnwR1OB3yAyFxf9y7eqLlqKUoK0MYo7wQKl3E1DvTmf6rm5BDDhoRQ/SN+iV
- pLEA==
-X-Gm-Message-State: AAQBX9eRn8svYOzjmOw8+BnSoPqA8eNBLMjMlqk3PJCl5CsAa3DzdHQ8
- YLWYczsmOvwY93GsXto0bKRo8AGBscqNqSpLkaU=
-X-Google-Smtp-Source: AKy350Z0g0Bo4tFTGxtpF07AEU8bHqYdbH9guA26p5+I5RST2ZBfr8PxxEqR2cMj6wyMxRMTmvQ+Hg==
-X-Received: by 2002:a17:906:2216:b0:947:bff2:1c2d with SMTP id
- s22-20020a170906221600b00947bff21c2dmr5909987ejs.3.1680774538287; 
- Thu, 06 Apr 2023 02:48:58 -0700 (PDT)
-Received: from phenom.ffwll.local (212-51-149-33.fiber7.init7.net.
- [212.51.149.33]) by smtp.gmail.com with ESMTPSA id
- qb19-20020a1709077e9300b00948da767832sm581534ejc.152.2023.04.06.02.48.57
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 06 Apr 2023 02:48:57 -0700 (PDT)
-Date: Thu, 6 Apr 2023 11:48:55 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Asahi Lina <lina@asahilina.net>
-Subject: Re: [PATCH] drm/scheduler: Fix UAF in
- drm_sched_fence_get_timeline_name
-Message-ID: <ZC6Vh2gG91zXUKJW@phenom.ffwll.local>
-Mail-Followup-To: Asahi Lina <lina@asahilina.net>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- Luben Tuikov <luben.tuikov@amd.com>,
- David Airlie <airlied@gmail.com>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, asahi@lists.linux.dev
-References: <20230406-scheduler-uaf-1-v1-1-8e5662269d25@asahilina.net>
- <6b3433ee-0712-f789-51ee-3047ead9bb79@amd.com>
- <cfbaceae-6d40-a8b3-e449-6473be234d2d@asahilina.net>
- <180bd178-e3c0-85e3-785e-fc8a216cf65e@amd.com>
- <df226249-734e-cb9e-8bc0-1eff625277e0@asahilina.net>
- <4ea53272-6324-96e6-ab29-82bccb624683@asahilina.net>
+ d=1e100.net; s=20210112; t=1680774964; x=1683366964;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=XjCG3Q6AYxOryEA8ZgASmWpaFiAiJ5P0PIAmbv1Qha4=;
+ b=1UjnzFxKeMHOxzOC4qtChfEg0k5yhm8gpqNttoaVnkW74LoiN5Gcg+M63wcHB5kDYF
+ tCdaxtdRZP5U2kKlFdqzUfCvK+3lQ0csfN5Hy+qam15z4XBVg2eggH93jLcSEz5jjQUy
+ 0DVUCVMkZkGfgAc5XCi/LQqJMeqOOyoUqpQYjjmyF9ZLawJ4OfQbnQq/AqCAHDTafXXz
+ nGc9UMBmK7TuMzBxiXpt7E4zZJsg7/Q2K6t2EyvjAxCUIwNYbP3wljSRUmOTwMF6bTIP
+ 94rNDrfTNbg5sWGf8xulTpHs1TFuRhitZK7vQm3mtFjobFLOwVRYyM/0k2Wzoq/NS2pp
+ 0a5w==
+X-Gm-Message-State: AAQBX9eUs0xnOhI3Unn2immAmZmjQ0iOTLqxjOhv9Br11xplx97qoLts
+ 96TYfh7imREPNcUl21X5V2z47d5p6ed7JaY2x4oUzg==
+X-Google-Smtp-Source: AKy350Y20Tvy9Pz8kQ3XjOx/qzZe6DNgCvEW9GFW6R7ZP5QUBuStlkvdNQDjl/6ZCg/LNj26+93FIe4gAt/JEHLpkDs=
+X-Received: by 2002:a25:738f:0:b0:b78:4b00:7772 with SMTP id
+ o137-20020a25738f000000b00b784b007772mr1690192ybc.5.1680774964319; Thu, 06
+ Apr 2023 02:56:04 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <4ea53272-6324-96e6-ab29-82bccb624683@asahilina.net>
-X-Operating-System: Linux phenom 6.1.0-7-amd64 
+References: <2991779.e9J7NaK4W3@steina-w>
+ <CAMty3ZAQyADGLVcB13qJdEy_BiZEKpyDfCr9QrM-ucFLFPZLcw@mail.gmail.com>
+ <3727424.e9J7NaK4W3@steina-w>
+ <CAKMK7uFXvGu7E9w3a+5DUCqUoXXJd2jcDhWP-i_uk4pBVr0vyA@mail.gmail.com>
+In-Reply-To: <CAKMK7uFXvGu7E9w3a+5DUCqUoXXJd2jcDhWP-i_uk4pBVr0vyA@mail.gmail.com>
+From: Jagan Teki <jagan@amarulasolutions.com>
+Date: Thu, 6 Apr 2023 15:25:52 +0530
+Message-ID: <CAMty3ZBV-oH0KZPYb_ibER9PXVoAsG_9TR3LxpeYRPRtxgXsow@mail.gmail.com>
+Subject: Re: RFC: DSI/DRM multiplexer bridge
+To: Alexander Stein <alexander.stein@ew.tq-group.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,133 +67,148 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Sumit Semwal <sumit.semwal@linaro.org>, Luben Tuikov <luben.tuikov@amd.com>,
- asahi@lists.linux.dev,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- linux-media@vger.kernel.org
+Cc: Neil Armstrong <neil.armstrong@linaro.org>, Jonas Karlman <jonas@kwiboo.se>,
+ dri-devel@lists.freedesktop.org, Robert Foss <robert.foss@linaro.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Apr 06, 2023 at 06:27:27PM +0900, Asahi Lina wrote:
-> On 06/04/2023 18.15, Asahi Lina wrote:
-> > On 06/04/2023 18.06, Christian König wrote:
-> > > Am 06.04.23 um 10:49 schrieb Asahi Lina:
-> > > > On 06/04/2023 17.29, Christian König wrote:
-> > > > > Am 05.04.23 um 18:34 schrieb Asahi Lina:
-> > > > > > A signaled scheduler fence can outlive its scheduler, since fences are
-> > > > > > independently reference counted.
-> > > > > 
-> > > > > Well that is actually not correct. Schedulers are supposed to stay
-> > > > > around until the hw they have been driving is no longer present.
-> > > > 
-> > > > But the fences can outlive that. You can GPU render into an imported
-> > > > buffer, which attaches a fence to it. Then the GPU goes away but the
-> > > > fence is still attached to the buffer. Then you oops when you cat that
-> > > > debugfs file...
-> > > 
-> > > No, exactly that's the point you wouldn't ops.
-> > > 
-> > > > 
-> > > > My use case does this way more often (since schedulers are tied to
-> > > > UAPI objects), which is how I found this, but as far as I can tell
-> > > > this is already broken for all drivers on unplug/unbind/anything else
-> > > > that would destroy the schedulers with fences potentially referenced
-> > > > on separate scanout devices or at any other DMA-BUF consumer.
-> > > 
-> > > Even if a GPU is hot plugged the data structures for it should only go
-> > > away with the last reference, since the scheduler fence is referencing
-> > > the hw fence and the hw fence in turn is referencing the driver this
-> > > shouldn't happen.
-> > 
-> > So those fences can potentially keep half the driver data structures
-> > alive just for existing in a signaled state? That doesn't seem sensible
-> > (and it definitely doesn't work for our use case where schedulers can be
-> > created and destroyed freely, it could lead to way too much junk
-> > sticking around in memory).
+[Replying the Daniel thread since he included bridge maintainers]
 
-This is why the split betwen the hw fence and the public sched fence.
-Because once the hw fence stuff is sorted it should all be able to go
-away, without the public fence keeping everything alive.
+On Thu, Apr 6, 2023 at 2:07=E2=80=AFPM Daniel Vetter <daniel@ffwll.ch> wrot=
+e:
+>
+> Adding the usual bridge maintainer/review folks since this looks tricky.
+> -Daniel
+>
+> On Thu, 6 Apr 2023 at 10:33, Alexander Stein
+> <alexander.stein@ew.tq-group.com> wrote:
+> >
+> > Hi Jagan,
+> >
+> > thanks for your reply.
+> >
+> > Am Mittwoch, 5. April 2023, 16:39:07 CEST schrieb Jagan Teki:
+> > > On Wed, Apr 5, 2023 at 7:39=E2=80=AFPM Alexander Stein
+> > >
+> > > <alexander.stein@ew.tq-group.com> wrote:
+> > > > Hi,
+> > > >
+> > > > my platform has a DIP switch controlled multiplexer for MIPI DSI ou=
+tput
+> > > > signals. One output has a TI SN65DSI84 (LVDS) and the other output =
+has a
+> > > > TI
+> > > > SN65DSI86 (eDP) attached to it. The Multiplexer status can be read =
+back
+> > > > from a GPIO. The GPIO is also IRQ capable, so it would be possible =
+to
+> > > > support hotplug additionally later on.
+> > >
+> > > I have this requirement a year back [1] but my design has i.mx8mq DSI
+> > > outputs to SN65DSI84(LVDS) and ADV7533 (HDMI) and GPIO has muxed as
+> > > IRQ in order to find the bridge selection. (not confused with HDMI
+> > > HPD).
+> >
+> > Looks quite similar. This platform can be used using imx8mq, imx8mm or =
+im8xmn.
+> > That mentioned GPIO is also not the HDMI HPD, but connected to a DIP sw=
+itch on
+> > the mainboard to be changed manually.
 
-> > > > > E.g. the reference was scheduler_fence->hw_fence->driver->scheduler.
-> > > > 
-> > > > It's up to drivers not to mess that up, since the HW fence has the
-> > > > same requirements that it can outlive other driver objects, just like
-> > > > any other fence. That's not something the scheduler has to be
-> > > > concerned with, it's a driver correctness issue.
-> > > > 
-> > > > Of course, in C you have to get it right yourself, while with correct
-> > > > Rust abstractions will cause your code to fail to compile if you do it
-> > > > wrong ^^
-> > > > 
-> > > > In my particular case, the hw_fence is a very dumb object that has no
-> > > > references to anything, only an ID and a pending op count. Jobs hold
-> > > > references to it and decrement it until it signals, not the other way
-> > > > around. So that object can live forever regardless of whether the rest
-> > > > of the device is gone.
-> > > 
-> > > That is then certainly a bug. This won't work that way, and the timelime
-> > > name is just the tip of the iceberg here.
-> > > 
-> > > The fence reference count needs to keep both the scheduler and driver
-> > > alive. Otherwise you could for example unload the module and immediately
-> > > ops because your fence_ops go away.
-> > 
-> > Yes, I realized the module issue after writing the email. But that's the
-> > *only* thing it needs to hold a reference to! Which is much more
-> > sensible than keeping a huge chunk of UAPI-adjacent data structures
-> > alive for a signaled fence that for all we know might stick around
-> > forever attached to some buffer.
-> > 
-> > > > > Your use case is now completely different to that and this won't work
-> > > > > any more.
-> > > > > 
-> > > > > This here might just be the first case where that breaks.
-> > > > 
-> > > > This bug already exists, it's just a lot rarer for existing use
-> > > > cases... but either way Xe is doing the same thing I am, so I'm not
-> > > > the only one here either.
-> > > 
-> > > No it doesn't. You just have implemented the references differently than
-> > > they are supposed to be.
-> > > 
-> > > Fixing this one occasion here would mitigate that immediate ops, but
-> > > doesn't fix the fundamental problem.
-> > 
-> > Honestly, at this point I'm starting to doubt whether we want to use
-> > drm_scheduler at all, because it clearly wasn't designed for our use
-> > case and every time I try to fix something your answer has been "you're
-> > using it wrong", and at the same time the practically nonexistent
-> > documentation makes it impossible to know how it was actually designed
-> > to be used.
-> 
-> Also, requiring that the hw_fence keep the scheduler alive (which is
-> documented nowhere) is a completely ridiculous lifetime requirement and
-> layering violation across multiple subsystems. I have no idea how I'd make
-> Rust abstractions uphold that requirement safely without doing something
-> silly like having abstraction-specific hw_fence wrappers, and then you run
-> into deadlocks due to the scheduler potentially being dropped from the
-> job_done callback when the fence reference is dropped and just... no,
-> please. This is terrible. If you don't want me to fix it we'll have to find
-> another way because I can't work with this.
+So, you need to manually adjust the switch and boot the required
+output and the state of the output depends on the set switch gpios
+isn't it? do you need to set any gpio so that the required output will
+select?
 
-So generally the hw fence keeps the underlying gpu ctx alive, and the gpu
-context keeps the gpu vm alive. Pretty much has to, or your gpu starts
-executing stuff that's freed.
+> >
+> > > > My initial idea was to create a DRM multiplexer bridge driver which
+> > > > (depending on the input GPIO) allows only one output to be enabled.
+> > > > Unfortunately ti- sn65dsi86.c driver expects a DSI host on remote n=
+ode 0
+> > > > (see ti_sn_attach_host and ti_sn_bridge_parse_dsi_host), so it does=
+ not
+> > > > work. ti-sn65dsi83.c just requires a drm_bridge.
+> > >
+> > > Yes, we need to have a finite amount of pipeline changes. assuming
+> > > that your mux bridge sits between DSI to Output interfaces the
+> > > proposed mux bridge selects which pipeline.
+> >
+> > My setup looks like this, but the switch is a different one than yours.
+> >
+> >                               | =3D> SN54DSI86 =3D> DP Connector
+> > DSI Host =3D> display-switch =3D> |
+> >                               | =3D> SN65DSI83 =3D> Panel-Simple
 
-Now for fw scheduler gpu ctx isn't just drm_sched_entity, but also
-drm_scheduler. Plus whatever driver stuff you have lying around for a ctx.
-Plus ofc a reference to the vm, which might in turn keep a ton of gem_bo
-alive.
+This looks correct to me, as I designed the similar one.
 
-Still I'm not seeing where the fundamental issue is in this refcount
-scheme, or where it's silly? Mapping this all to Rust correctly is a
-challenge for sure, and also untangling the assumption that drm_scheduler
-is suddenly a lot more dynamic object (see my other reply), but
-fundamentally calling this all silly and terrible I don't understand ...
--Daniel
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+> >
+> > > > What is the best approach for this? I currently see two approaches:
+> > > > * Create an explicit DSI/DRM multiplexer bridge driver which regist=
+ers
+> > > > itself as DSI host
+> > > > * Create a DRM multiplexer bridge (only). But this needs to remove =
+the DSI
+> > > > device registration from ti-sn65dsi86.c
+> > >
+> > > Based on my experience, having a muxed bridge between in and out woul=
+d
+> > > be proper in order to satisfy the pipeline as well as the design. Tha=
+t
+> > > mux bridge has to be a normal bridge doesn't aware of DSI or any othe=
+r
+> > > interface like one of the submissions has done in the recent mailing
+> > > list. [2] Things would be complicated when we switch the outputs but
+> > > we still use normal static switching of outputs in a proper way.
+> > >
+> > > > I am aware that DSI support is suboptimal, so I'm not sure which ap=
+proach
+> > > > on the TI bridge drivers is the correct one and needs to be conside=
+red as
+> > > > given. Any ideas?
+> > >
+> > > I did implement some complicated things of switching outputs at
+> > > runtime but the idea of the switching pipelines would be similar if
+> > > you want to implement it in a normal static way. Here are some detail=
+s
+> > > and a demo of how those been worked. [3] [4]
+> >
+> > Thanks for the links. From what I read in those discussions dynamically
+> > (re)building the bridge chains it not correct/acceptable. Instead two b=
+ridges
+> > shall be created, but only one connector at the end shall be enabled. T=
+his
+> > would look like this:
+> >
+> >    switched-bridge
+> >     +------------+                 +-------------+
+> >     | drm_bridge-|- next_bridge -- | LVDS bridge |- connector
+> >     |            |                 +-------------+
+> > in -|            |
+> >     |            |                 +-------------+
+> >     | drm_bridge-|- next_bridge -- | eDP bridge  |- connector
+> >     +------------+                 +-------------+
+> >           ^
+> >           |
+> >       DIP switch
+> >
+> > But here I'm not so sure how an (hotplug) event (e.g. IRQ) on the switc=
+hed-
+> > bridge can be forwarded to the connectors. But this hotplug event seems=
+ to be
+> > essential so that DRM master can reconfigure it's output.
+
+In my opinion, the switched-bridge needs to focus on switching the
+outputs based on DIP gpios, and hotplug events need to handle the
+associated display bridges like DP, HDMI, etc. It is possible for the
+switched-bridge to route the output displays without the hot plug.
+
+Assume the switched-bridge has port 1 and ep 0 connected to LVDS and
+port 1 and ep 1 connected to DP. then find and attach them at the
+bridge attach function. and do the necessary gpio enablements in
+enable or pre_enables.
+
+Thanks,
+Jagan.
