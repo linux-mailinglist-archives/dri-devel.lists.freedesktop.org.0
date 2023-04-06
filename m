@@ -1,24 +1,25 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3CE66DA367
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Apr 2023 22:37:07 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CE4546DA368
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Apr 2023 22:37:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2866C10ED16;
-	Thu,  6 Apr 2023 20:37:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1E30410ED17;
+	Thu,  6 Apr 2023 20:37:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 08A3F10ED16
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Apr 2023 20:37:04 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 75D5810ED17
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Apr 2023 20:37:15 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 82B9564C19;
+ by dfw.source.kernel.org (Postfix) with ESMTPS id D4A10648E2;
+ Thu,  6 Apr 2023 20:37:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6C2A6C4339E;
  Thu,  6 Apr 2023 20:37:03 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 126FFC4339B;
- Thu,  6 Apr 2023 20:36:51 +0000 (UTC)
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 To: Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>,
  Jonathan Corbet <corbet@lwn.net>, Oded Gabbay <ogabbay@kernel.org>,
@@ -55,10 +56,10 @@ To: Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>,
  dri-devel@lists.freedesktop.org, patches@opensource.cirrus.com,
  openbmc@lists.ozlabs.org, linux-rpi-kernel@lists.infradead.org,
  linux-arm-kernel@lists.infradead.org
-Subject: [PATCH 46/68] hwmon: npcm750-pwm: constify pointers to
+Subject: [PATCH 47/68] hwmon: ntc_thermistor: constify pointers to
  hwmon_channel_info
-Date: Thu,  6 Apr 2023 22:35:27 +0200
-Message-Id: <20230406203530.3012191-5-krzysztof.kozlowski@linaro.org>
+Date: Thu,  6 Apr 2023 22:35:28 +0200
+Message-Id: <20230406203530.3012191-6-krzysztof.kozlowski@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230406203103.3011503-1-krzysztof.kozlowski@linaro.org>
 References: <20230406203103.3011503-1-krzysztof.kozlowski@linaro.org>
@@ -85,22 +86,22 @@ const for safety.
 
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 ---
- drivers/hwmon/npcm750-pwm-fan.c | 2 +-
+ drivers/hwmon/ntc_thermistor.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/hwmon/npcm750-pwm-fan.c b/drivers/hwmon/npcm750-pwm-fan.c
-index 11a28609da3c..10ed3f4335d4 100644
---- a/drivers/hwmon/npcm750-pwm-fan.c
-+++ b/drivers/hwmon/npcm750-pwm-fan.c
-@@ -629,7 +629,7 @@ static umode_t npcm7xx_is_visible(const void *data,
- 	}
+diff --git a/drivers/hwmon/ntc_thermistor.c b/drivers/hwmon/ntc_thermistor.c
+index 9c9e9f4ccb9e..ef75b63f5894 100644
+--- a/drivers/hwmon/ntc_thermistor.c
++++ b/drivers/hwmon/ntc_thermistor.c
+@@ -546,7 +546,7 @@ static umode_t ntc_is_visible(const void *data, enum hwmon_sensor_types type,
+ 	return 0;
  }
  
--static const struct hwmon_channel_info *npcm7xx_info[] = {
-+static const struct hwmon_channel_info * const npcm7xx_info[] = {
- 	HWMON_CHANNEL_INFO(pwm,
- 			   HWMON_PWM_INPUT,
- 			   HWMON_PWM_INPUT,
+-static const struct hwmon_channel_info *ntc_info[] = {
++static const struct hwmon_channel_info * const ntc_info[] = {
+ 	HWMON_CHANNEL_INFO(chip, HWMON_C_REGISTER_TZ),
+ 	HWMON_CHANNEL_INFO(temp, HWMON_T_INPUT | HWMON_T_TYPE),
+ 	NULL
 -- 
 2.34.1
 
