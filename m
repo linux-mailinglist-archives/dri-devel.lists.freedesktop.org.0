@@ -1,24 +1,25 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98C876DA35B
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Apr 2023 22:35:49 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CAF4B6DA360
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Apr 2023 22:36:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3F09210ED00;
-	Thu,  6 Apr 2023 20:35:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 60CB210ED13;
+	Thu,  6 Apr 2023 20:36:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 13B6B10ED00
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Apr 2023 20:35:46 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EE0C310ED03
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Apr 2023 20:36:28 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 6253E60FB3;
- Thu,  6 Apr 2023 20:35:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0C716C433D2;
- Thu,  6 Apr 2023 20:35:33 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 4AB7B63F62;
+ Thu,  6 Apr 2023 20:36:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2008FC433D2;
+ Thu,  6 Apr 2023 20:36:15 +0000 (UTC)
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 To: Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>,
  Jonathan Corbet <corbet@lwn.net>, Oded Gabbay <ogabbay@kernel.org>,
@@ -55,10 +56,9 @@ To: Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>,
  dri-devel@lists.freedesktop.org, patches@opensource.cirrus.com,
  openbmc@lists.ozlabs.org, linux-rpi-kernel@lists.infradead.org,
  linux-arm-kernel@lists.infradead.org
-Subject: [PATCH 42/68] hwmon: mc34vr500: constify pointers to
- hwmon_channel_info
-Date: Thu,  6 Apr 2023 22:35:23 +0200
-Message-Id: <20230406203530.3012191-1-krzysztof.kozlowski@linaro.org>
+Subject: [PATCH 43/68] hwmon: mcp3021: constify pointers to hwmon_channel_info
+Date: Thu,  6 Apr 2023 22:35:24 +0200
+Message-Id: <20230406203530.3012191-2-krzysztof.kozlowski@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230406203103.3011503-1-krzysztof.kozlowski@linaro.org>
 References: <20230406203103.3011503-1-krzysztof.kozlowski@linaro.org>
@@ -85,22 +85,22 @@ const for safety.
 
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 ---
- drivers/hwmon/mc34vr500.c | 2 +-
+ drivers/hwmon/mcp3021.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/hwmon/mc34vr500.c b/drivers/hwmon/mc34vr500.c
-index 6268e973049c..6a7a950a9332 100644
---- a/drivers/hwmon/mc34vr500.c
-+++ b/drivers/hwmon/mc34vr500.c
-@@ -138,7 +138,7 @@ static int mc34vr500_read(struct device *dev, enum hwmon_sensor_types type,
- 	}
+diff --git a/drivers/hwmon/mcp3021.c b/drivers/hwmon/mcp3021.c
+index e093b1998296..a5f7a294f33d 100644
+--- a/drivers/hwmon/mcp3021.c
++++ b/drivers/hwmon/mcp3021.c
+@@ -102,7 +102,7 @@ static umode_t mcp3021_is_visible(const void *_data,
+ 	return 0444;
  }
  
--static const struct hwmon_channel_info *mc34vr500_info[] = {
-+static const struct hwmon_channel_info * const mc34vr500_info[] = {
- 	HWMON_CHANNEL_INFO(in, HWMON_I_MIN_ALARM),
- 	HWMON_CHANNEL_INFO(temp, HWMON_T_MAX_ALARM | HWMON_T_CRIT_ALARM
- 			   | HWMON_T_EMERGENCY_ALARM),
+-static const struct hwmon_channel_info *mcp3021_info[] = {
++static const struct hwmon_channel_info * const mcp3021_info[] = {
+ 	HWMON_CHANNEL_INFO(in, HWMON_I_INPUT),
+ 	NULL
+ };
 -- 
 2.34.1
 
