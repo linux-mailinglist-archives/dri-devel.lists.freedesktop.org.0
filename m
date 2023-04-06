@@ -1,25 +1,24 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FD066DA37B
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Apr 2023 22:39:49 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C26B06DA37C
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Apr 2023 22:40:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 578B810ED1C;
-	Thu,  6 Apr 2023 20:39:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B6B9110ED21;
+	Thu,  6 Apr 2023 20:40:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E832610ED20
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Apr 2023 20:39:45 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 78C0010ED27
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Apr 2023 20:39:57 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 68DE364C3B;
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 014A8644AD;
+ Thu,  6 Apr 2023 20:39:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 53B61C4339E;
  Thu,  6 Apr 2023 20:39:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ECE2DC433D2;
- Thu,  6 Apr 2023 20:39:33 +0000 (UTC)
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 To: Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>,
  Jonathan Corbet <corbet@lwn.net>, Oded Gabbay <ogabbay@kernel.org>,
@@ -56,9 +55,9 @@ To: Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>,
  dri-devel@lists.freedesktop.org, patches@opensource.cirrus.com,
  openbmc@lists.ozlabs.org, linux-rpi-kernel@lists.infradead.org,
  linux-arm-kernel@lists.infradead.org
-Subject: [PATCH 56/68] hwmon: sht4x: constify pointers to hwmon_channel_info
-Date: Thu,  6 Apr 2023 22:38:18 +0200
-Message-Id: <20230406203821.3012402-7-krzysztof.kozlowski@linaro.org>
+Subject: [PATCH 57/68] hwmon: sl28cpld: constify pointers to hwmon_channel_info
+Date: Thu,  6 Apr 2023 22:38:19 +0200
+Message-Id: <20230406203821.3012402-8-krzysztof.kozlowski@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230406203103.3011503-1-krzysztof.kozlowski@linaro.org>
 References: <20230406203103.3011503-1-krzysztof.kozlowski@linaro.org>
@@ -85,22 +84,22 @@ const for safety.
 
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 ---
- drivers/hwmon/sht4x.c | 2 +-
+ drivers/hwmon/sl28cpld-hwmon.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/hwmon/sht4x.c b/drivers/hwmon/sht4x.c
-index 13e042927bf8..5bbe09135ab9 100644
---- a/drivers/hwmon/sht4x.c
-+++ b/drivers/hwmon/sht4x.c
-@@ -214,7 +214,7 @@ static int sht4x_hwmon_write(struct device *dev, enum hwmon_sensor_types type,
- 	}
+diff --git a/drivers/hwmon/sl28cpld-hwmon.c b/drivers/hwmon/sl28cpld-hwmon.c
+index 9ce4899a81a5..e020f25c9300 100644
+--- a/drivers/hwmon/sl28cpld-hwmon.c
++++ b/drivers/hwmon/sl28cpld-hwmon.c
+@@ -67,7 +67,7 @@ static int sl28cpld_hwmon_read(struct device *dev,
+ 	return 0;
  }
  
--static const struct hwmon_channel_info *sht4x_info[] = {
-+static const struct hwmon_channel_info * const sht4x_info[] = {
- 	HWMON_CHANNEL_INFO(chip, HWMON_C_UPDATE_INTERVAL),
- 	HWMON_CHANNEL_INFO(temp, HWMON_T_INPUT),
- 	HWMON_CHANNEL_INFO(humidity, HWMON_H_INPUT),
+-static const struct hwmon_channel_info *sl28cpld_hwmon_info[] = {
++static const struct hwmon_channel_info * const sl28cpld_hwmon_info[] = {
+ 	HWMON_CHANNEL_INFO(fan, HWMON_F_INPUT),
+ 	NULL
+ };
 -- 
 2.34.1
 
