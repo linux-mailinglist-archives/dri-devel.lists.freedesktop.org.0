@@ -2,73 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A59B6D8F95
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Apr 2023 08:37:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BDF76D9048
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Apr 2023 09:13:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D610410E114;
-	Thu,  6 Apr 2023 06:37:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6590310E043;
+	Thu,  6 Apr 2023 07:13:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com
- [IPv6:2a00:1450:4864:20::633])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A75A989190
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Apr 2023 06:37:27 +0000 (UTC)
-Received: by mail-ej1-x633.google.com with SMTP id
- a640c23a62f3a-947a47eb908so65168366b.0
- for <dri-devel@lists.freedesktop.org>; Wed, 05 Apr 2023 23:37:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1680763046;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=Ko2mW8NuwLC4Pqij6a0t5WM27xHJK8Wt75JHDmhBP+Q=;
- b=bqHmya4Qjk/WzovNL7Re/PNIA8usuAR17hcUwk/yYPJmK6X+NBZjuIersg8RwTIG6z
- 6RkPDBzkbSdqVoXciUf6mpA+GkETzxKasJfkreT/XSnEcTJMmYMQhdm1v0+Sq8JdeAWQ
- b/3pxmjeA/dmeSYi9qvR/V9KELTtaEOmEnceQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680763046;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Ko2mW8NuwLC4Pqij6a0t5WM27xHJK8Wt75JHDmhBP+Q=;
- b=Mp46LPj9xJ6/UJfD83nAL3N9yy62J3zOPXkKDEE0rupPpX19as0EyiEwn9RaA+8sr9
- BUV4fPM+q8P2LxigNifiyhuozQv3Y/PWvGIF9YEcdeOa2lL7eYRhjNh1400KAzWhZYVc
- s9GxgUBMGIOfiDAKqJ7x9Rt5vV1Jyws72yvPfYmMuJkjuWVOl16vioFUZhCqBEJ2XUul
- aZ0/MhnFjvIUcMK1TptZQh5EiHGWqTfC9oCj3HcBOW3KsEz0EsDHNDsyxRSYPX0UIslG
- yQ7yyi0jrkUF7ajnxoynOnhkDIij0S8Rh7DQ8YlKzYHWlPruHgrYLm/CfgnjI9DSg/JM
- vEqw==
-X-Gm-Message-State: AAQBX9feTie0RBf3As87fmztdBnPO4KhCnJRu3NRiQoilOuhSpJ2bo3x
- E6GK4VgwGWntI1oNln3M70PjzJ62AhrAZ6oRtx8=
-X-Google-Smtp-Source: AKy350YPj3wAbu9Gg7FY2HmNT7z60zuIwpFHHTe3b4EkkIy7GihaTpxsqyApPNlxJItw62Ls5rMsyg==
-X-Received: by 2002:a17:906:24b:b0:947:8734:a05b with SMTP id
- 11-20020a170906024b00b009478734a05bmr5185860ejl.7.1680763045875; 
- Wed, 05 Apr 2023 23:37:25 -0700 (PDT)
-Received: from phenom.ffwll.local (212-51-149-33.fiber7.init7.net.
- [212.51.149.33]) by smtp.gmail.com with ESMTPSA id
- qf11-20020a1709077f0b00b009477c83c3b9sm364082ejc.133.2023.04.05.23.37.25
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 05 Apr 2023 23:37:25 -0700 (PDT)
-Date: Thu, 6 Apr 2023 08:37:23 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Matthew Brost <matthew.brost@intel.com>
-Subject: Re: [RFC PATCH 00/10] Xe DRM scheduler and long running workload plans
-Message-ID: <ZC5oo8ljg5DWHjhk@phenom.ffwll.local>
-References: <20230404002211.3611376-1-matthew.brost@intel.com>
- <87c7f659-387c-3e23-69c6-03e0c9820bab@amd.com>
- <ZCwoL3Wgv90tlQWR@DUT025-TGLU.fm.intel.com>
- <d740a81a-8919-b6c8-a8c1-f5d8f9c5549c@amd.com>
- <ZC0yq9XZ2t9cV0Nz@phenom.ffwll.local>
- <a2236a9d-e21a-269c-aad3-184c402065b7@amd.com>
- <ZC06Rl6TGe7itZvW@phenom.ffwll.local>
- <ec128743-699b-3722-0ab2-ff96552fdddd@amd.com>
- <CAKMK7uFEGoaOmewGmP4H_ouqZiMKAiaKwEohGCZq5T-UJYMf_w@mail.gmail.com>
- <ZC4pinCurycVe4bi@DUT025-TGLU.fm.intel.com>
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 39A3710E043
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Apr 2023 07:13:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1680765218; x=1712301218;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=BuEF1CyEkIkMQlRz+wZXU2V/d6N/p0drfYe2/0btPPM=;
+ b=ZWkMmV5KZ0Nu0Lg0hhU0V8wU9GP7xgMxggSSjv6RHvBh8biNpQc9QY7I
+ BrLg/LVDcLorcerxdjE2LBkCPYGCfSl5935chGUzVzLHb+TFXS3mzM9/D
+ faR9mzSmnuWXjHZ/a7G45QrpmMZkzjlAQFfrql7MplzRmkwnE1rkfW+A1
+ UCIaAvNCowk8Xg1mbwAP0VA6LoA4RRr353MnHDjHuqfTlKVUBlRb3rH0m
+ y15WfEBZPJjs28fe9gRgpTRUXDrv+vbqBl4qIKYPzLkRONMgZh2voCVPb
+ FBdwaWbGFhYBLpC4KGw9CUxy9pBEzbxYK6qBlSeZKWRw9p4uHnMT7cdpk w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10671"; a="407761097"
+X-IronPort-AV: E=Sophos;i="5.98,323,1673942400"; d="scan'208";a="407761097"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Apr 2023 00:07:58 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10671"; a="798214593"
+X-IronPort-AV: E=Sophos;i="5.98,323,1673942400"; d="scan'208";a="798214593"
+Received: from radustef-mobl.ger.corp.intel.com (HELO [10.249.33.56])
+ ([10.249.33.56])
+ by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Apr 2023 00:07:55 -0700
+Message-ID: <d93c90c2-5796-9e92-4a23-140a6caa6087@linux.intel.com>
+Date: Thu, 6 Apr 2023 09:07:52 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Firefox/102.0 Thunderbird/102.9.1
+Subject: Re: [PATCH] drm/doc/rfc: Introduce the merge plan for the Xe driver.
+Content-Language: en-US
+To: Rodrigo Vivi <rodrigo.vivi@intel.com>, dri-devel@lists.freedesktop.org
+References: <20230405195205.1674844-1-rodrigo.vivi@intel.com>
+From: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+In-Reply-To: <20230405195205.1674844-1-rodrigo.vivi@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <ZC4pinCurycVe4bi@DUT025-TGLU.fm.intel.com>
-X-Operating-System: Linux phenom 6.1.0-7-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,139 +61,274 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: robdclark@chromium.org, thomas.hellstrom@linux.intel.com, airlied@linux.ie,
- lina@asahilina.net, dri-devel@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, boris.brezillon@collabora.com,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- faith.ekstrand@collabora.com
+Cc: Matthew Brost <matthew.brost@intel.com>,
+ =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, Oded Gabbay <ogabbay@kernel.org>,
+ Francois Dugast <francois.dugast@intel.com>, Dave Airlie <airlied@redhat.com>,
+ Luis Strano <luis.strano@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Apr 06, 2023 at 02:08:10AM +0000, Matthew Brost wrote:
-> On Wed, Apr 05, 2023 at 12:12:27PM +0200, Daniel Vetter wrote:
-> > On Wed, 5 Apr 2023 at 11:57, Christian K�nig <christian.koenig@amd.com> wrote:
-> > >
-> > > Am 05.04.23 um 11:07 schrieb Daniel Vetter:
-> > > > [SNIP]
-> > > >> I would approach it from the complete other side. This component here is a
-> > > >> tool to decide what job should run next.
-> > > >>
-> > > >> How that is then signaled and run should not be part of the scheduler, but
-> > > >> another more higher level component.
-> > > >>
-> > > >> This way you also don't have a problem with not using DMA-fences as
-> > > >> dependencies as well as constrains for running more jobs.
-> > > > I think we're talking about two things here and mixing them up.
-> > > >
-> > > > For the dependencies I agree with you, and imo that higher level tool
-> > > > should probably just be an on-demand submit thread in userspace for the
-> > > > rare case where the kernel would need to sort out a dependency otherwise
-> > > > (due to running out of ringspace in the per-ctx ringbuffer).
-> > > >
-> > > > The other thing is the message passing stuff, and this is what I was
-> > > > talking about above. This has nothing to do with handling dependencies,
-> > > > but with talking to the gpu fw. Here the intel design issue is that the fw
-> > > > only provides a single queue, and it's in-order. Which means it
-> > > > fundamentally has the stalling issue you describe as a point against a
-> > > > message passing design. And fundamentally we need to be able to talk to
-> > > > the fw in the scheduler ->run_job callback.
-> > > >
-> > > > The proposal here for the message passing part is that since it has the
-> > > > stalling issue already anyway, and the scheduler needs to be involved
-> > > > anyway, it makes sense to integrated this (as an optional thing, only for
-> > > > drivers which have this kind of fw interface) into the scheduler.
-> > > > Otherwise you just end up with two layers for no reason and more ping-pong
-> > > > delay because the ->run_job needs to kick off the subordinate driver layer
-> > > > first. Note that for this case the optional message passing support in the
-> > > > drm/scheduler actually makes things better, because it allows you to cut
-> > > > out one layer.
-> > > >
-> > > > Of course if a driver with better fw interface uses this message passing
-> > > > support, then that's bad. Hence the big warning in the kerneldoc.
-> > >
-> > > Well what I wanted to say is that if you design the dependency handling
-> > > / scheduler properly you don't need the message passing through it.
-> > >
-> > > For example if the GPU scheduler component uses a work item to do it's
-> > > handling instead of a kthread you could also let the driver specify the
-> > > work queue where this work item is executed on.
-> > >
-> > > When you design it like this the driver specifies the thread context of
-> > > execution for it's job. In other words it can specify a single threaded
-> > > firmware work queue as well.
-> > >
-> > > When you then have other messages which needs to be passed to the
-> > > firmware you can also use the same single threaded workqueue for this.
-> > >
-> > > Drivers which have a different firmware interface would just use one of
-> > > the system work queues instead.
-> > >
-> > > This approach basically decouples the GPU scheduler component from the
-> > > message passing functionality.
-> > 
-> > Hm I guess we've been talking past each another big time, because
-> > that's really what I thought was under discussions? Essentially the
-> > current rfc, but implementing with some polish.
-> >
-> 
-> I think Daniel pretty much nailed it here (thanks), to recap:
-> 
-> 1. I want the messages in the same worker so run_job / free_job /
-> process_msg execution is mutual exclusive and also so during reset paths
-> if the worker is stopped all the entry points can't be entered.
-> 
-> If this is a NAK, then another worker is fine I guess. A lock between
-> run_job / free_job + process_msg should solve the exclusion issue and the
-> reset paths can also stop this new worker too. That being said I'd
-> rather leave this as is but will not fight this point.
-> 
-> 2. process_msg is just used to communicate with the firmware using the
-> same queue as submission. Waiting for space in this queue is the only
-> place this function can block (same as submission), well actually we
-> have the concept a preempt time slice but that sleeps for 10 ms by
-> default. Also preempt is only used in LR entities so I don't think it is
-> relavent in this case either.
-> 
-> 3. Agree this is in the dma-fence signaling path (if process_msg is in
-> the submission worker) so we can't block indefinitely or an unreasonable
-> period of time (i.e. we must obey dma-fence rules).
+Hey,
 
-Just to hammer this in: Not just process_msg is in the dma_fence signaling
-path, but the entire fw queue where everything is being funneled through,
-including whatever the fw is doing to process these.
-
-Yes this is terrible and blew up a few times already :-/
-
-But also, probably something that the docs really need to hammer in, to
-make sure people don't look at this and thinkg "hey this seems to be the
-recommended way to do this on linux". We don't want hw people to build
-more of these designs, they're an absolute pain to deal with with Linux'
-dma_fence signalling and gpu job scheduling rules.
-
-It's just that if you're stuck with such fw, then integrating the flow
-into drm/sched instead of having an extra layer of workers seems the
-better of two pretty bad solutions.
--Daniel
-
- 
-> 4. Agree the documentation for thw usage of the messaging interface
-> needs to be clear.
-> 
-> 5. Agree that my code could alway use polishing.
-> 
-> Lets close on #1 then can I get on general Ack on this part of the RFC
-> and apply the polish in the full review process?
-> 
-> Matt
-> 
-> > iow I agree with you (I think at least).
-> > -Daniel
-> > -- 
-> > Daniel Vetter
-> > Software Engineer, Intel Corporation
-> > http://blog.ffwll.ch
-
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+On 2023-04-05 21:52, Rodrigo Vivi wrote:
+> Let’s establish a merge plan for Xe, by writing down clear pre-merge goals, in
+> order to avoid unnecessary delays.
+>
+> This initial document starts with a TODO list containing items with clear and
+> measurable key results. Xe’s initial pull request should only be sent to
+> dri-devel after all the items are clearly resolved.
+>
+> Since many of them involve some level of a community consensus, in many cases,
+> the consensus will be reached in follow-up patches to this document with more
+> details of the API or helpers that will be developed or modified.
+>
+> Cc: Dave Airlie <airlied@redhat.com>
+> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+> Cc: Oded Gabbay <ogabbay@kernel.org>
+> Signed-off-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
+> Signed-off-by: Francois Dugast <francois.dugast@intel.com>
+> Signed-off-by: Luis Strano <luis.strano@intel.com>
+> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+> Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+Signed-off-by: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> ---
+>   Documentation/gpu/rfc/index.rst |   4 +
+>   Documentation/gpu/rfc/xe.rst    | 216 ++++++++++++++++++++++++++++++++
+>   2 files changed, 220 insertions(+)
+>   create mode 100644 Documentation/gpu/rfc/xe.rst
+>
+> diff --git a/Documentation/gpu/rfc/index.rst b/Documentation/gpu/rfc/index.rst
+> index 476719771eef..e4f7b005138d 100644
+> --- a/Documentation/gpu/rfc/index.rst
+> +++ b/Documentation/gpu/rfc/index.rst
+> @@ -31,3 +31,7 @@ host such documentation:
+>   .. toctree::
+>   
+>       i915_vm_bind.rst
+> +
+> +.. toctree::
+> +
+> +   xe.rst
+> diff --git a/Documentation/gpu/rfc/xe.rst b/Documentation/gpu/rfc/xe.rst
+> new file mode 100644
+> index 000000000000..1e3e7e9c67c3
+> --- /dev/null
+> +++ b/Documentation/gpu/rfc/xe.rst
+> @@ -0,0 +1,216 @@
+> +==========================
+> +Xe – Merge Acceptance Plan
+> +==========================
+> +Xe is a new driver for Intel GPUs that supports both integrated and
+> +discrete platforms starting with Tiger Lake (first Intel Xe Architecture).
+> +
+> +This document aims to establish a merge plan for the Xe, by writing down clear
+> +pre-merge goals, in order to avoid unnecessary delays.
+> +
+> +Xe – Overview
+> +=============
+> +The main motivation of Xe is to have a fresh base to work from that is
+> +unencumbered by older platforms, whilst also taking the opportunity to
+> +rearchitect our driver to increase sharing across the drm subsystem, both
+> +leveraging and allowing us to contribute more towards other shared components
+> +like TTM and drm/scheduler.
+> +
+> +This is also an opportunity to start from the beginning with a clean uAPI that is
+> +extensible by design and already aligned with the modern userspace needs. For
+> +this reason, the memory model is solely based on GPU Virtual Address space
+> +bind/unbind (‘VM_BIND’) of GEM buffer objects (BOs) and execution only supporting
+> +explicit synchronization. With persistent mapping across the execution, the
+> +userspace does not need to provide a list of all required mappings during each
+> +submission.
+> +
+> +The new driver leverages a lot from i915. As for display, the intent is to share
+> +the display code with the i915 driver so that there is maximum reuse there.
+> +
+> +As for the power management area, the goal is to have a much-simplified support
+> +for the system suspend states (S-states), PCI device suspend states (D-states),
+> +GPU/Render suspend states (R-states) and frequency management. It should leverage
+> +as much as possible all the existent PCI-subsystem infrastructure (pm and
+> +runtime_pm) and underlying firmware components such PCODE and GuC for the power
+> +states and frequency decisions.
+> +
+> +Repository:
+> +
+> +https://gitlab.freedesktop.org/drm/xe/kernel (branch drm-xe-next)
+> +
+> +Xe – Platforms
+> +==============
+> +Currently, Xe is already functional and has experimental support for multiple
+> +platforms starting from Tiger Lake, with initial support in userspace implemented
+> +in Mesa (for Iris and Anv, our OpenGL and Vulkan drivers), as well as in NEO
+> +(for OpenCL and Level0).
+> +
+> +During a transition period, platforms will be supported by both Xe and i915.
+> +However, the force_probe mechanism existent in both drivers will allow only one
+> +official and by-default probe at a given time.
+> +
+> +For instance, in order to probe a DG2 which PCI ID is 0x5690 by Xe instead of
+> +i915, the following set of parameters need to be used:
+> +
+> +```
+> +i915.force_probe=!5690 xe.force_probe=5690
+> +```
+> +
+> +In both drivers, the ‘.require_force_probe’ protection forces the user to use the
+> +force_probe parameter while the driver is under development. This protection is
+> +only removed when the support for the platform and the uAPI are stable. Stability
+> +which needs to be demonstrated by CI results.
+> +
+> +In order to avoid user space regressions, i915 will continue to support all the
+> +current platforms that are already out of this protection. Xe support will be
+> +forever experimental and dependent on the usage of force_probe for these
+> +platforms.
+> +
+> +When the time comes for Xe, the protection will be lifted on Xe and kept in i915.
+> +
+> +Xe driver will be protected with both STAGING Kconfig and force_probe. Changes in
+> +the uAPI are expected while the driver is behind these protections. STAGING will
+> +be removed when the driver uAPI gets to a mature state where we can guarantee the
+> +‘no regression’ rule. Then force_probe will be lifted only for future platforms
+> +that will be productized with Xe driver, but not with i915.
+> +
+> +Xe – Pre-Merge Goals
+> +====================
+> +
+> +Drm_scheduler
+> +-------------
+> +Xe primarily uses Firmware based scheduling (GuC FW). However, it will use
+> +drm_scheduler as the scheduler ‘frontend’ for userspace submission in order to
+> +resolve syncobj and dma-buf implicit sync dependencies. However, drm_scheduler is
+> +not yet prepared to handle the 1-to-1 relationship between drm_gpu_scheduler and
+> +drm_sched_entity.
+> +
+> +Deeper changes to drm_scheduler should *not* be required to get Xe accepted, but
+> +some consensus needs to be reached between Xe and other community drivers that
+> +could also benefit from this work, for coupling FW based/assisted submission such
+> +as the ARM’s new Mali GPU driver, and others.
+> +
+> +As a key measurable result, the patch series introducing Xe itself shall not
+> +depend on any other patch touching drm_scheduler itself that was not yet merged
+> +through drm-misc. This, by itself, already includes the reach of an agreement for
+> +uniform 1 to 1 relationship implementation / usage across drivers.
+> +
+> +GPU VA
+> +------
+> +Two main goals of Xe are meeting together here:
+> +
+> +1) Have an uAPI that aligns with modern UMD needs.
+> +
+> +2) Early upstream engagement.
+> +
+> +RedHat engineers working on Nouveau proposed a new DRM feature to handle keeping
+> +track of GPU virtual address mappings. This is still not merged upstream, but
+> +this aligns very well with our goals and with our VM_BIND. The engagement with
+> +upstream and the port of Xe towards GPUVA is already ongoing.
+> +
+> +As a key measurable result, Xe needs to be aligned with the GPU VA and working in
+> +our tree. Missing Nouveau patches should *not* block Xe and any needed GPUVA
+> +related patch should be independent and present on dri-devel or acked by
+> +maintainers to go along with the first Xe pull request towards drm-next.
+> +
+> +DRM_VM_BIND
+> +-----------
+> +Nouveau, and Xe are all implementing ‘VM_BIND’ and new ‘Exec’ uAPIs in order to
+> +fulfill the needs of the modern uAPI. Xe merge should *not* be blocked on the
+> +development of a common new drm_infrastructure. However, the Xe team needs to
+> +engage with the community to explore the options of a common API.
+> +
+> +As a key measurable result, the DRM_VM_BIND needs to be documented in this file
+> +below, or this entire block deleted if the consensus is for independent drivers
+> +vm_bind ioctls.
+> +
+> +Although having a common DRM level IOCTL for VM_BIND is not a requirement to get
+> +Xe merged, it is mandatory to enforce the overall locking scheme for all major
+> +structs and list (so vm and vma). So, a consensus is needed, and possibly some
+> +common helpers. If helpers are needed, they should be also documented in this
+> +document.
+> +
+> +ASYNC VM_BIND
+> +-------------
+> +Although having a common DRM level IOCTL for VM_BIND is not a requirement to get
+> +Xe merged, it is mandatory to have a cross-driver consensus and understanding how
+> +to handle async VM_BIND and interactions with userspace memory fences. Ideally
+> +with helper support so people don't get it wrong in all possible ways.
+> +
+> +As a key measurable result, the benefits of ASYNC VM_BIND and a discussion of
+> +various flavors, error handling and a sample API should be documented here or in
+> +a separate document pointed to by this document.
+> +
+> +Userptr integration and vm_bind
+> +-------------------------------
+> +Different drivers implement different ways of dealing with execution of userptr.
+> +With multiple drivers currently introducing support to VM_BIND, the goal is to
+> +aim for a DRM consensus on what’s the best way to have that support. To some
+> +extent this is already getting addressed itself with the GPUVA where likely the
+> +userptr will be a GPUVA with a NULL GEM call VM bind directly on the userptr.
+> +However, there are more aspects around the rules for that and the usage of
+> +mmu_notifiers, locking and other aspects.
+> +
+> +This task here has the goal of introducing a documentation of the basic rules.
+> +
+> +The documentation *needs* to first live in this document (API session below) and
+> +then moved to another more specific document or at Xe level or at DRM level.
+> +
+> +Documentation should include:
+> +
+> + * The userptr part of the VM_BIND api.
+> +
+> + * Locking, including the page-faulting case.
+> +
+> + * O(1) complexity under VM_BIND.
+> +
+> +Some parts of userptr like mmu_notifiers should become GPUVA or DRM helpers when
+> +the second driver supporting VM_BIND+userptr appears. Details to be defined when
+> +the time comes.
+> +
+> +Long running compute: minimal data structure/scaffolding
+> +--------------------------------------------------------
+> +The generic scheduler code needs to include the handling of endless compute
+> +contexts, with the minimal scaffolding for preempt-ctx fences (probably on the
+> +drm_sched_entity) and making sure drm_scheduler can cope with the lack of job
+> +completion fence.
+> +
+> +The goal is to achieve a consensus ahead of Xe initial pull-request, ideally with
+> +this minimal drm/scheduler work, if needed, merged to drm-misc in a way that any
+> +drm driver, including Xe, could re-use and add their own individual needs on top
+> +in a next stage. However, this should not block the initial merge.
+> +
+> +As a key measurable result, the handling of the long running jobs and the minimal
+> +scaffolding should be documented here or in a separate document pointed to by
+> +this document.
+> +
+> +Display integration with i915
+> +-----------------------------
+> +In order to share the display code with the i915 driver so that there is maximum
+> +reuse, the i915/display/ code is built twice, once for i915.ko and then for
+> +xe.ko. Currently, the i915/display code in Xe tree is polluted with many 'ifdefs'
+> +depending on the build target. The goal is to refactor both Xe and i915/display
+> +code simultaneously in order to get a clean result before they land upstream, so
+> +that display can already be part of the initial pull request towards drm-next.
+> +
+> +However, display code should not gate the acceptance of Xe in upstream. Xe
+> +patches will be refactored in a way that display code can be removed, if needed,
+> +from the first pull request of Xe towards drm-next. The expectation is that when
+> +both drivers are part of the drm-tip, the introduction of cleaner patches will be
+> +easier and speed up.
+> +
+> +Drm_exec
+> +--------
+> +Helper to make dma_resv locking for a big number of buffers is getting removed in
+> +the drm_exec series proposed in https://patchwork.freedesktop.org/patch/524376/
+> +If that happens, Xe needs to change and incorporate the changes in the driver.
+> +The goal is to engage with the Community to understand if the best approach is to
+> +move that to the drivers that are using it or if we should keep the helpers in
+> +place waiting for Xe to get merged.
+> +
+> +As a key measurable result, we need to have a community consensus documented in
+> +this document and the Xe driver prepared for the changes, if necessary.
+> +
+> +Xe – uAPI high level overview
+> +=============================
+> +
+> +...Warning: To be done in follow up patches after/when/where the main consensus in various items are individually reached.
