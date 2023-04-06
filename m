@@ -1,59 +1,126 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A6276D915F
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Apr 2023 10:21:06 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CA6856D9164
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Apr 2023 10:22:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 67E7A10E0A4;
-	Thu,  6 Apr 2023 08:21:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F36E110E0EE;
+	Thu,  6 Apr 2023 08:22:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vs1-xe30.google.com (mail-vs1-xe30.google.com
- [IPv6:2607:f8b0:4864:20::e30])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3D81310E0EE
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Apr 2023 08:21:01 +0000 (UTC)
-Received: by mail-vs1-xe30.google.com with SMTP id cz11so33741467vsb.6
- for <dri-devel@lists.freedesktop.org>; Thu, 06 Apr 2023 01:21:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1680769260;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=nAfsXtBn0nzDoaEWurrUoZWu1BXoDWafMp8Ribw2xoM=;
- b=RWBBfn97A35m/Jk0+ZQHiYyz1tSkPCA8NXd7OvfztgUpqnxS4IwrXVkPgsvbhI3K8J
- C2Y1gq8zbIz8ovfukafOgPsUgiw3fdIeDRR2tV18tFbtNt6tWwiKMxM0vzPzoPg84LTN
- MlOAEz0P0HNHAPDpegqFGjb1/3jTgRac52EvA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680769260;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=nAfsXtBn0nzDoaEWurrUoZWu1BXoDWafMp8Ribw2xoM=;
- b=ylo+6445Yoc4TazcvSWajn+HoybgWofYhme+KjHYAqXp62jp2FG9yvNKUBzvsq6Wn8
- qHOQZqbN6nrK3oltakNtHsgro1MeP3J3C6zzL9h+J68+vl9jWj3rGXDNIv659mvpM8i1
- 3lR5px+7lEesiznmfd3x1tFGmDsu9B5zhreuh7JCEHhWsQhlgmS/DSyVF7ejR2u9xj0K
- Bh2sX3s5LPM86I+PYul0B6HwJ+5+otlNukbnr6OgXG8FEOjJHGpHZVcKtNVwlOowuv+f
- +5JYPACq9F9T9fpP774coWnmkPnp7dtwjY2wo+lFz3Qmg4XXzF3SLDycLB8kz/s3jZLe
- DZlg==
-X-Gm-Message-State: AAQBX9c2Jh3g8AXJgScJ3mESdsjwXLG3HKl6oPg7VWhlXLhi0x4RNQTr
- l6PNlXH48DeyYui/D0A50zhqVNUrwwvWKJDhuurkxA==
-X-Google-Smtp-Source: AKy350az8HRB7kj3jahdnvQ8woBX6GVD/2pwkH0213hhBPvI/j4AeaNthtmiBUpiixn8/Rtdqp8Pfx5DUNJg/F/8jvI=
-X-Received: by 2002:a67:c81e:0:b0:414:4ef3:839 with SMTP id
- u30-20020a67c81e000000b004144ef30839mr6485313vsk.7.1680769259766; Thu, 06 Apr
- 2023 01:20:59 -0700 (PDT)
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com
+ (mail-co1nam11on2078.outbound.protection.outlook.com [40.107.220.78])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B971D10E0EE
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Apr 2023 08:22:30 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=VB7a2FvzXljm+U2/iG15GeFHC0E81fsNi0j3FRYBRLBWL8d+OdNmbYMjUvu3iT+H0Ia9KFCbCR7z+FaHP4BIw8QxwVj485ygdGY8Dfmfla6cUFdTtxy+baW5tvPd8g3ZpSv9mEhb0OtPNPOHMF8+1xho1StL2Ui04KJbDlXVF75Va2DUjN/cWef+o40QPbylv2iyKxoopXoVjcNXDaMYLxcqTaVY/Z2aP0HMYermDBBlhCDKVZnuYAMBuj8BHv2GlNFm9sY0J40h68ll4Hg9aidpIo6hn6LuozHC+wp7hiUtAx3VmtTYnin1lyGsWTS07xHOXQKXjOz7OOgKYxZg3g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=lQUPRbst5eTIAXVr9fXpxkx7ebHW2pJMRa/k67OK0+k=;
+ b=CrgFquyj6yy49os1qT/2/8l/xKoQLR+Dq1C2wNHh5al03z5Wices+BGvZdZLt5u4mT9vmfeSU87/s3oaH0qc6pc/PE+4aExQcgdwxkICbXRaksbO3Cef+m9PQwIqeiP3QPK58ipHl6ytjoYcBgcP0EciYgBmXoiXgRdOpj1rJqLdjdFwLo1vieCe7LyqMyNH23H6hS1HgqbBjp2Cmw7wYZ8nUn+yO0Ia5eRvr1/VSn96A4AMQEqfUEv3l1rhM9wHSRuVVa/wckZyi+C3Hb7hK+OqAoiZyUGkZF1Ec5ZyZeLPSabhgdSASrla/c7dlb4pSJLhD5B0SezmOu2VUY0Mwg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=lQUPRbst5eTIAXVr9fXpxkx7ebHW2pJMRa/k67OK0+k=;
+ b=lfgihwintg+o4vkSmcYfr/hc4CpMfF0T5PL09u2Yv/HIZFN7HC8obpjhVmuF3t7+dPC8ZX2ewIhh1ndw6YA3Ro8t8iIOVI1oIgWmXkMcuDgR4IiFzaIBmKvVefBdPDFpW5s0swiIecUGoWUdM48p7OqsWCGD9lsSCG/TNW4+qoQ=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
+ by BY5PR12MB4081.namprd12.prod.outlook.com (2603:10b6:a03:20e::21)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6254.38; Thu, 6 Apr
+ 2023 08:22:26 +0000
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::4624:dc39:943e:6ae]) by BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::4624:dc39:943e:6ae%5]) with mapi id 15.20.6254.035; Thu, 6 Apr 2023
+ 08:22:26 +0000
+Message-ID: <28d10733-b217-7ccc-4b8c-54bdc8249234@amd.com>
+Date: Thu, 6 Apr 2023 10:22:20 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [Regression] drm/scheduler: track GPU active time per entity
+Content-Language: en-US
+To: Luben Tuikov <luben.tuikov@amd.com>, Danilo Krummrich <dakr@redhat.com>,
+ Lucas Stach <l.stach@pengutronix.de>, daniel@ffwll.ch,
+ Dave Airlie <airlied@gmail.com>, Bagas Sanjaya <bagasdotme@gmail.com>,
+ andrey.grodzovsky@amd.com, tvrtko.ursulin@linux.intel.com,
+ Matthew Brost <matthew.brost@intel.com>, yuq825@gmail.com,
+ Boris Brezillon <boris.brezillon@collabora.com>, lina@asahilina.net
+References: <3e00d8a9-b6c4-8202-4f2d-5a659c61d094@redhat.com>
+ <2a84875dde6565842aa07ddb96245b7d939cb4fd.camel@pengutronix.de>
+ <8b28151c-f2db-af3f-8dff-87dd5d57417b@amd.com>
+ <3004a2bf-e725-643e-82af-8a217784e796@redhat.com>
+ <013781a3-5abd-8c66-8a0a-dd36c9c487af@amd.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+In-Reply-To: <013781a3-5abd-8c66-8a0a-dd36c9c487af@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: AM9P195CA0013.EURP195.PROD.OUTLOOK.COM
+ (2603:10a6:20b:21f::18) To BN8PR12MB3587.namprd12.prod.outlook.com
+ (2603:10b6:408:43::13)
 MIME-Version: 1.0
-References: <20230404104800.301150-1-angelogioacchino.delregno@collabora.com>
- <20230404104800.301150-3-angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20230404104800.301150-3-angelogioacchino.delregno@collabora.com>
-From: Chen-Yu Tsai <wenst@chromium.org>
-Date: Thu, 6 Apr 2023 16:20:48 +0800
-Message-ID: <CAGXv+5FrUPUg_SsRz6LrW_K_C7By2tSCQ9W_MNJr8XCOcn7gLA@mail.gmail.com>
-Subject: Re: [PATCH v3 2/9] drm/mediatek: dp: Move AUX and panel poweron/off
- sequence to function
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|BY5PR12MB4081:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3bf2f3ce-ec9b-4f8c-3703-08db36780e14
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: XTlMTXhzw3Q1ddHD2xe5d8dhPB6IlOrORuO6OzVZol6sFGd6avp1kznFurpF7vXeUc8zvdLFzbfwaNJqxaRHINS63RocHTzmUsNnEjmBNsw+aGWxfE8OH+egXV4w3JBLPAp+FgyepclSzK58DraVZnoej/QZTzppTT+W+UEuyJguAj113ii6wmJ8a57539g/ZC0HzfQFbVe3B54crFkNGJvsHsh0YiMjG9lFIanuASOCVLyCH5DjwoOtL/iZ3KM4ATJx6+7MTieVIrasDBc/TFoZpfzVgF3rvYZ1txcwU73ECqJ9CnUHhIcvQuQ3Ggb6jF32t5QhLC7epmw3RqLYC9UV90Aw7br3vi0drloRYeXWQ6JDIMjsCduekdBbcx3Cb6FWITRaUfdYfRKo9lU8w8/+9gdO4S9ebd0IyF7vXQP2buTgJIRm8fsD2W/6QS2LlE0LFfm4cJoQKcBIjIZ/wzbk9XQGAniBGTw3Fe/dkAsE99BKUdUVlI4GNKz/Y/DJAZMbvW3ffwUUO0lgb2aP6Blbu3MHb1sGNDgfIIVzxzGFDlO/S67/kHf9va16SqaaJt9x9HoU4ZdCbqQYmtF97WIUVjRmnC4kENpom4b7YQ8OV94Pv8L+7NrvSsEQpDdnm04sBpKfXbdhmkP6wp7og4TKlbNUF/P9cSDTZKbWsJs=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230028)(4636009)(366004)(136003)(346002)(396003)(376002)(39860400002)(451199021)(2616005)(83380400001)(966005)(6486002)(316002)(478600001)(110136005)(6506007)(26005)(6666004)(186003)(53546011)(6512007)(7416002)(2906002)(4326008)(5660300002)(36756003)(38100700002)(66476007)(921005)(8676002)(41300700001)(66556008)(86362001)(66946007)(31696002)(8936002)(31686004)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?cUZENEtJdG1lTDBoRWJuZ1ZEeEJMWThFQW5yTnpoakZSOG9xUGNrYmlLdEJ1?=
+ =?utf-8?B?SE5hUXVzdkFPUnZkVVNHU0N5Ukd2eTFPMVVnc2N2M1pmY25wVGtiSDhzb29Z?=
+ =?utf-8?B?cjlDVkNBQWZHbHdQT0Z2eExJNWZ0SC9tTTdEUUwzU0JjQUFsNDZLOVZ5UGIy?=
+ =?utf-8?B?WElpWU1MR1RFSGJDMVdaQjVjVGxMNEJhVEVBREZWQitPc0VmT2VJekN5TWNL?=
+ =?utf-8?B?enBkY21KZEZ1UGs3R1J2ZnM1aDgrZ2cxYTQwZnNEM2oxVmZ0WktTbGpwUEJQ?=
+ =?utf-8?B?cjV5VHlMRlJQRnpjZFAyam52TDl1eW1GMnpFVjNXRVh6WkxXbEpMYUNFL3RW?=
+ =?utf-8?B?RjZaL01ITzR6eHg2NUoyQWNsRmZtbHVnbUY4MkpMMGI5Qk9rR0hMbnZrRDE2?=
+ =?utf-8?B?Z1NmaUh6Y2paVnZtUEdUSm5Jc1VvUThTTlluVkEvck9EV200S2laVUVrWFVY?=
+ =?utf-8?B?ODNWOTdaSEh6MkdicEplTmlBdllDdi8zNmllUWRPOHN3eVRUamxXelhXQ0Jo?=
+ =?utf-8?B?V3NnZ09rb2FxMGkvLzBwN1doZnNtalIxdjVYYkcyRE1xNk9OdkpCQ3diM1BD?=
+ =?utf-8?B?cXBTVmZ5cVh4SVB5WnBrSXBQYzF2TkgvQkluT3ZHV1BkcU1ocG5idmVsbWpU?=
+ =?utf-8?B?WEw5dFJJaCs0QTdCUVRCdjU4emJ1ODlhR0VGN1Q0VUlyZHBvM0ZvQWlIYTc4?=
+ =?utf-8?B?eFR4Q0lOelBtcWN1NzVkbWdGRTMrYmh1blMrZ1dSTlc1cnN4NUpNWU4zbHNK?=
+ =?utf-8?B?aHQvdkVEL3kyY25SWTVXRkVtend2dmxZb1RPa3JweVZiN29UTFJGTHRYY0RE?=
+ =?utf-8?B?SW9TM1JvRFZIYmJsQ3hCN0ZoazVIQmdEMnpZNmlTVXkyQzMweGJadDdOSjVt?=
+ =?utf-8?B?OWdjcE9qVG8rRVV5ZlhJM25aVDdvNHBySWZNRUtHd3lCS0JpUGdKeitVajky?=
+ =?utf-8?B?L2pZT1dyUnpJSlB4QmNFQWM2TUVLSUh5b3U1K3FOazZNL1hJUkFvd29kK1p2?=
+ =?utf-8?B?SWdxeXFQRXZNcnZncGkveFJNMWxONHlpekJpcklURUl3MzNkd21YUVVwMjZY?=
+ =?utf-8?B?U1dEQjZNTS9NYXBjZnFZTnkrWkNCYURWUERqSWsyRWZhaHQrZExnRWpNQmtL?=
+ =?utf-8?B?TC91Yys4UmQ0dVBQOGVRVGhxajk3TkhwMWJxMjBOK1NMN3ZieHluUXlQK3Zr?=
+ =?utf-8?B?eHJjMDEvT2hyejRLTkxzLzJJMXBuZ1dTREFqdmYySGUzNXpscWhIUE1qOE00?=
+ =?utf-8?B?ZzlEckpGUzFnT1ZvTkFPTWY0azRpR0VzYzJNYXh0MWdNblkxejU0Vm5VUU1k?=
+ =?utf-8?B?YTFITllZY1QyUnVwbUpVYmZncGx2Z2NJS3pEQk8xa0VpdGJhQWhqd3RNbkxN?=
+ =?utf-8?B?QzliU21zSmtNcVVLU0k1eWQwblFNWEJYWmtnMk1GNjhmOWtMSjJIUFB4RjRX?=
+ =?utf-8?B?R3Vhb3liaVVla1pMYzUvR1Jlc1FQUW9jZnBUMEVaYUZNUmtlUC9xMnU3aGt3?=
+ =?utf-8?B?dHJTTVJldTI5cEdTVmNUc0FRQ1pjVFA5RmxPckwvbFBXU2RoaWVOK3ZOSmRQ?=
+ =?utf-8?B?KzdmNWtwRFNxUll6RFdnMkdGYUNoZ2VwQklFRE1taEtXbklReFR1S1lEeUNt?=
+ =?utf-8?B?N0dtQnI3UzZ5c2hXNDVNNS9YQWZFTjczTnA2L2RFRG9BY2xSK0NoMk9EMnpu?=
+ =?utf-8?B?anJxMEhLdnhXWUU0NlZrbXhuNnRDMTZrY2dzV2JwNWhtZC93MFJmNk1TcU1J?=
+ =?utf-8?B?YjBtcUpEelhQMndseTd6eGx2WllmdjJIeWM3VFE5eVdYMzF0ZlVRVUFkV1Nj?=
+ =?utf-8?B?V1hncTVxR3ZBTHkzSWs3cm4ycW84TW9aVEZ0bHliR0wwMFp4ZzY0ZGNYcEwx?=
+ =?utf-8?B?TGpkSzYvSzdRZXNpU2ZKcXdCdktBYjh4SlpTRFhPTEZMUWJEamViM3NjZVdt?=
+ =?utf-8?B?emxLbmNaTWl5ZW10SFQ5RWVkSi9yTUVxcVFoTHBmdzlMVEp6UVkrYVROckJL?=
+ =?utf-8?B?TzRJNlAvbHJqSUkvWUZIeTRiZHdERG45MCs5bHBnN2MwQW9UdnBYWS9RRnZr?=
+ =?utf-8?B?YUg0c2IrM2pyTkdMYWhKcnpEdFkvQUdKSGw5ZWFFTXJ3aFd6VzJ5MHRyQWNE?=
+ =?utf-8?Q?ufzEiSUZufRy/93zkdD5yCscC?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3bf2f3ce-ec9b-4f8c-3703-08db36780e14
+X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Apr 2023 08:22:26.4781 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: AqqPlI25AzpdG9C7m3dbmXsQW3OEl1gcjJlhPbm9gZsPwjYpdJuH0ZLGpTCb0B+e
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR12MB4081
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,186 +133,142 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: chunkuang.hu@kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
- matthias.bgg@gmail.com, kernel@collabora.com,
- linux-arm-kernel@lists.infradead.org
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Apr 4, 2023 at 6:48=E2=80=AFPM AngeloGioacchino Del Regno
-<angelogioacchino.delregno@collabora.com> wrote:
->
-> Everytime we run bridge detection and/or EDID read we run a poweron
-> and poweroff sequence for both the AUX and the panel; moreover, this
-> is also done when enabling the bridge in the .atomic_enable() callback.
->
-> Move this power on/off sequence to a new mtk_dp_aux_panel_poweron()
-> function as to commonize it.
-> Note that, before this commit, in mtk_dp_bridge_atomic_enable() only
-> the AUX was getting powered on but the panel was left powered off if
-> the DP cable wasn't plugged in while now we unconditionally send a D0
-> request and this is done for two reasons:
->  - First, whether this request fails or not, it takes the same time
->    and anyway the DP hardware won't produce any error (or, if it
->    does, it's ignorable because it won't block further commands)
->  - Second, training the link between a sleeping/standby/unpowered
->    display makes little sense.
->
-> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@coll=
-abora.com>
-> ---
->  drivers/gpu/drm/mediatek/mtk_dp.c | 76 ++++++++++++-------------------
->  1 file changed, 30 insertions(+), 46 deletions(-)
->
-> diff --git a/drivers/gpu/drm/mediatek/mtk_dp.c b/drivers/gpu/drm/mediatek=
-/mtk_dp.c
-> index 84f82cc68672..76ea94167531 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_dp.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_dp.c
-> @@ -1253,6 +1253,29 @@ static void mtk_dp_audio_mute(struct mtk_dp *mtk_d=
-p, bool mute)
->                            val[2], AU_TS_CFG_DP_ENC0_P0_MASK);
->  }
->
-> +static void mtk_dp_aux_panel_poweron(struct mtk_dp *mtk_dp, bool pwron)
-> +{
-> +       if (pwron) {
-> +               /* power on aux */
-> +               mtk_dp_update_bits(mtk_dp, MTK_DP_TOP_PWR_STATE,
-> +                                  DP_PWR_STATE_BANDGAP_TPLL_LANE,
-> +                                  DP_PWR_STATE_MASK);
-> +
-> +               /* power on panel */
-> +               drm_dp_dpcd_writeb(&mtk_dp->aux, DP_SET_POWER, DP_SET_POW=
-ER_D0);
-> +               usleep_range(2000, 5000);
-> +       } else {
-> +               /* power off panel */
-> +               drm_dp_dpcd_writeb(&mtk_dp->aux, DP_SET_POWER, DP_SET_POW=
-ER_D3);
-> +               usleep_range(2000, 3000);
-> +
-> +               /* power off aux */
-> +               mtk_dp_update_bits(mtk_dp, MTK_DP_TOP_PWR_STATE,
-> +                                  DP_PWR_STATE_BANDGAP_TPLL,
-> +                                  DP_PWR_STATE_MASK);
-> +       }
-> +}
-> +
->  static void mtk_dp_power_enable(struct mtk_dp *mtk_dp)
->  {
->         mtk_dp_update_bits(mtk_dp, MTK_DP_TOP_RESET_AND_PROBE,
-> @@ -1937,16 +1960,9 @@ static enum drm_connector_status mtk_dp_bdg_detect=
-(struct drm_bridge *bridge)
->         if (!mtk_dp->train_info.cable_plugged_in)
->                 return ret;
->
-> -       if (!enabled) {
-> -               /* power on aux */
-> -               mtk_dp_update_bits(mtk_dp, MTK_DP_TOP_PWR_STATE,
-> -                                  DP_PWR_STATE_BANDGAP_TPLL_LANE,
-> -                                  DP_PWR_STATE_MASK);
-> +       if (!enabled)
-> +               mtk_dp_aux_panel_poweron(mtk_dp, true);
->
-> -               /* power on panel */
-> -               drm_dp_dpcd_writeb(&mtk_dp->aux, DP_SET_POWER, DP_SET_POW=
-ER_D0);
+Am 05.04.23 um 18:09 schrieb Luben Tuikov:
+> On 2023-04-05 10:05, Danilo Krummrich wrote:
+>> On 4/4/23 06:31, Luben Tuikov wrote:
+>>> On 2023-03-28 04:54, Lucas Stach wrote:
+>>>> Hi Danilo,
+>>>>
+>>>> Am Dienstag, dem 28.03.2023 um 02:57 +0200 schrieb Danilo Krummrich:
+>>>>> Hi all,
+>>>>>
+>>>>> Commit df622729ddbf ("drm/scheduler: track GPU active time per entity")
+>>>>> tries to track the accumulated time that a job was active on the GPU
+>>>>> writing it to the entity through which the job was deployed to the
+>>>>> scheduler originally. This is done within drm_sched_get_cleanup_job()
+>>>>> which fetches a job from the schedulers pending_list.
+>>>>>
+>>>>> Doing this can result in a race condition where the entity is already
+>>>>> freed, but the entity's newly added elapsed_ns field is still accessed
+>>>>> once the job is fetched from the pending_list.
+>>>>>
+>>>>> After drm_sched_entity_destroy() being called it should be safe to free
+>>>>> the structure that embeds the entity. However, a job originally handed
+>>>>> over to the scheduler by this entity might still reside in the
+>>>>> schedulers pending_list for cleanup after drm_sched_entity_destroy()
+>>>>> already being called and the entity being freed. Hence, we can run into
+>>>>> a UAF.
+>>>>>
+>>>> Sorry about that, I clearly didn't properly consider this case.
+>>>>
+>>>>> In my case it happened that a job, as explained above, was just picked
+>>>>> from the schedulers pending_list after the entity was freed due to the
+>>>>> client application exiting. Meanwhile this freed up memory was already
+>>>>> allocated for a subsequent client applications job structure again.
+>>>>> Hence, the new jobs memory got corrupted. Luckily, I was able to
+>>>>> reproduce the same corruption over and over again by just using
+>>>>> deqp-runner to run a specific set of VK test cases in parallel.
+>>>>>
+>>>>> Fixing this issue doesn't seem to be very straightforward though (unless
+>>>>> I miss something), which is why I'm writing this mail instead of sending
+>>>>> a fix directly.
+>>>>>
+>>>>> Spontaneously, I see three options to fix it:
+>>>>>
+>>>>> 1. Rather than embedding the entity into driver specific structures
+>>>>> (e.g. tied to file_priv) we could allocate the entity separately and
+>>>>> reference count it, such that it's only freed up once all jobs that were
+>>>>> deployed through this entity are fetched from the schedulers pending list.
+>>>>>
+>>>> My vote is on this or something in similar vain for the long term. I
+>>>> have some hope to be able to add a GPU scheduling algorithm with a bit
+>>>> more fairness than the current one sometime in the future, which
+>>>> requires execution time tracking on the entities.
+>>> Danilo,
+>>>
+>>> Using kref is preferable, i.e. option 1 above.
+>> I think the only real motivation for doing that would be for generically
+>> tracking job statistics within the entity a job was deployed through. If
+>> we all agree on tracking job statistics this way I am happy to prepare a
+>> patch for this option and drop this one:
+>> https://lore.kernel.org/all/20230331000622.4156-1-dakr@redhat.com/T/#u
+> Hmm, I never thought about "job statistics" when I preferred using kref above.
+> The reason kref is attractive is because one doesn't need to worry about
+> it--when the last user drops the kref, the release is called to do
+> housekeeping. If this never happens, we know that we have a bug to debug.
 
-I suspect the original code was somewhat wrong already? We shouldn't need
-to pull the panel out of standby just for HPD or reading EDID.
+Yeah, reference counting unfortunately have some traps as well. For 
+example rarely dropping the last reference from interrupt context or 
+with some unexpected locks help when the cleanup function doesn't expect 
+that is a good recipe for problems as well.
 
-This driver probably needs a lot more cleanup. :/
+> Regarding the patch above--I did look around the code, and it seems safe,
+> as per your analysis, I didn't see any reference to entity after job submission,
+> but I'll comment on that thread as well for the record.
 
-ChenYu
+Reference counting the entities was suggested before. The intentionally 
+avoided that so far because the entity might be the tip of the iceberg 
+of stuff you need to keep around.
 
-> -               usleep_range(2000, 5000);
-> -       }
->         /*
->          * Some dongles still source HPD when they do not connect to any
->          * sink device. To avoid this, we need to read the sink count
-> @@ -1958,16 +1974,8 @@ static enum drm_connector_status mtk_dp_bdg_detect=
-(struct drm_bridge *bridge)
->         if (DP_GET_SINK_COUNT(sink_count))
->                 ret =3D connector_status_connected;
+For example for command submission you also need the VM and when you 
+keep the VM alive you also need to keep the file private alive....
+
+Additional to that we have some ugly inter dependencies between tearing 
+down an application (potential with a KILL signal from the OOM killer) 
+and backward compatibility for some applications which render something 
+and quit before the rendering is completed in the hardware.
+
+Regards,
+Christian.
+
 >
-> -       if (!enabled) {
-> -               /* power off panel */
-> -               drm_dp_dpcd_writeb(&mtk_dp->aux, DP_SET_POWER, DP_SET_POW=
-ER_D3);
-> -               usleep_range(2000, 3000);
-> -
-> -               /* power off aux */
-> -               mtk_dp_update_bits(mtk_dp, MTK_DP_TOP_PWR_STATE,
-> -                                  DP_PWR_STATE_BANDGAP_TPLL,
-> -                                  DP_PWR_STATE_MASK);
-> -       }
-> +       if (!enabled)
-> +               mtk_dp_aux_panel_poweron(mtk_dp, false);
+> Regards,
+> Luben
 >
->         return ret;
->  }
-> @@ -1983,15 +1991,7 @@ static struct edid *mtk_dp_get_edid(struct drm_bri=
-dge *bridge,
->
->         if (!enabled) {
->                 drm_atomic_bridge_chain_pre_enable(bridge, connector->sta=
-te->state);
-> -
-> -               /* power on aux */
-> -               mtk_dp_update_bits(mtk_dp, MTK_DP_TOP_PWR_STATE,
-> -                                  DP_PWR_STATE_BANDGAP_TPLL_LANE,
-> -                                  DP_PWR_STATE_MASK);
-> -
-> -               /* power on panel */
-> -               drm_dp_dpcd_writeb(&mtk_dp->aux, DP_SET_POWER, DP_SET_POW=
-ER_D0);
-> -               usleep_range(2000, 5000);
-> +               mtk_dp_aux_panel_poweron(mtk_dp, true);
->         }
->
->         /* eDP panels aren't removable, so we can return a cached EDID. *=
-/
-> @@ -2015,15 +2015,7 @@ static struct edid *mtk_dp_get_edid(struct drm_bri=
-dge *bridge,
->         }
->
->         if (!enabled) {
-> -               /* power off panel */
-> -               drm_dp_dpcd_writeb(&mtk_dp->aux, DP_SET_POWER, DP_SET_POW=
-ER_D3);
-> -               usleep_range(2000, 3000);
-> -
-> -               /* power off aux */
-> -               mtk_dp_update_bits(mtk_dp, MTK_DP_TOP_PWR_STATE,
-> -                                  DP_PWR_STATE_BANDGAP_TPLL,
-> -                                  DP_PWR_STATE_MASK);
-> -
-> +               mtk_dp_aux_panel_poweron(mtk_dp, false);
->                 drm_atomic_bridge_chain_post_disable(bridge, connector->s=
-tate->state);
->         }
->
-> @@ -2188,15 +2180,7 @@ static void mtk_dp_bridge_atomic_enable(struct drm=
-_bridge *bridge,
->                 return;
->         }
->
-> -       /* power on aux */
-> -       mtk_dp_update_bits(mtk_dp, MTK_DP_TOP_PWR_STATE,
-> -                          DP_PWR_STATE_BANDGAP_TPLL_LANE,
-> -                          DP_PWR_STATE_MASK);
-> -
-> -       if (mtk_dp->train_info.cable_plugged_in) {
-> -               drm_dp_dpcd_writeb(&mtk_dp->aux, DP_SET_POWER, DP_SET_POW=
-ER_D0);
-> -               usleep_range(2000, 5000);
-> -       }
-> +       mtk_dp_aux_panel_poweron(mtk_dp, true);
->
->         /* Training */
->         ret =3D mtk_dp_training(mtk_dp);
-> --
-> 2.40.0
->
+>> Christian mentioned amdgpu tried something similar to what Lucas tried
+>> running into similar trouble, backed off and implemented it in another
+>> way - a driver specific way I guess?
+>>
+>>> Lucas, can you shed some light on,
+>>>
+>>> 1. In what way the current FIFO scheduling is unfair, and
+>>> 2. shed some details on this "scheduling algorithm with a bit
+>>> more fairness than the current one"?
+>>>
+>>> Regards,
+>>> Luben
+>>>
+>>>>> 2. Somehow make sure drm_sched_entity_destroy() does block until all
+>>>>> jobs deployed through this entity were fetched from the schedulers
+>>>>> pending list. Though, I'm pretty sure that this is not really desirable.
+>>>>>
+>>>>> 3. Just revert the change and let drivers implement tracking of GPU
+>>>>> active times themselves.
+>>>>>
+>>>> Given that we are already pretty late in the release cycle and etnaviv
+>>>> being the only driver so far making use of the scheduler elapsed time
+>>>> tracking I think the right short term solution is to either move the
+>>>> tracking into etnaviv or just revert the change for now. I'll have a
+>>>> look at this.
+>>>>
+>>>> Regards,
+>>>> Lucas
+>>>>
+>>>>> In the case of just reverting the change I'd propose to also set a jobs
+>>>>> entity pointer to NULL  once the job was taken from the entity, such
+>>>>> that in case of a future issue we fail where the actual issue resides
+>>>>> and to make it more obvious that the field shouldn't be used anymore
+>>>>> after the job was taken from the entity.
+>>>>>
+>>>>> I'm happy to implement the solution we agree on. However, it might also
+>>>>> make sense to revert the change until we have a solution in place. I'm
+>>>>> also happy to send a revert with a proper description of the problem.
+>>>>> Please let me know what you think.
+>>>>>
+>>>>> - Danilo
+>>>>>
+
