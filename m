@@ -1,34 +1,34 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D0E86D9D23
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Apr 2023 18:07:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AA0306D9D2A
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Apr 2023 18:07:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A90C410EC4D;
-	Thu,  6 Apr 2023 16:07:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4798E10EC59;
+	Thu,  6 Apr 2023 16:07:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0D6B910EC59;
- Thu,  6 Apr 2023 16:07:11 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8B01910EC5E;
+ Thu,  6 Apr 2023 16:07:13 +0000 (UTC)
 Received: from workpc.. (109-252-119-170.nat.spd-mgts.ru [109.252.119.170])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
  (Authenticated sender: dmitry.osipenko)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id E9B2466031D1;
- Thu,  6 Apr 2023 17:07:07 +0100 (BST)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 1412B66031DE;
+ Thu,  6 Apr 2023 17:07:10 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1680797229;
- bh=wj+P+EtiPQCYCAqaOfmF5IaGcLMSp7ArisVFY//b40U=;
+ s=mail; t=1680797232;
+ bh=i+8ZTN0RqkBszh4mtnmP6dUFSRdIZ0W3HJzBJKtrT90=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=dDh9OxapAut2zQhFRSrbI/+hjrpKAvecRLRtluAeSqQ3GU5A6dgzGCPej98M2C4Pb
- t5B7IeeGk4qNEZNDe9U7sEGUg0WuWZpOW/0Vp0Qs4y3lX6GwFF+fFdmpatY4V5Mlmt
- KM0wByYF0IBApZsQ4NuvG/0nrVSrcHmDl5itivQyySQ0cSVHV4I/0bYSyE7R3QDO+a
- U0rZ5dSyCUN4FKN06SWLVi1bCNw+iNkZxwffS2HB2ESb0xsbofPCVdsjt8OMltO+Fk
- UIkA0VDBY9UN6MWnpj3Bg4I4Cg1goyscSabpnRECxuMpjv9Gc6C0onSx0LrESjvibf
- 9Q74VGdT/vuAA==
+ b=JD3kaKCZfu72elUMIMaTzy55WisgCoHuHIk7bt98jXNjZwBf8mC8cTGW5aI7A6sh9
+ RcbHeVqfSLlyqPzVVN+Snzq5qkxI58jfDBD6igXWXrEs8ZFTmRod7mEpVb+JD0rY4e
+ STMB6FbcN9hD+dvEfu4YuYGfi8jYrX3p9zG8lHg5moNOV/CQQRBRLCYjIbIODA641Z
+ g3My4K+RpFyxYb3BD2c6AvX7Y+czPh42DeO/WtFuGoiPexhrlLsBc5g+EvwPFgzioc
+ 6VNj+QYGZsYpIZ87NYwgfKh3PMgPLZ44XRa0Xxl2RRS2GeRbp8coHz/JmSBCGETjAc
+ 2jiTJaQSCNqQA==
 From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
 To: Sumit Semwal <sumit.semwal@linaro.org>,
  =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
@@ -46,15 +46,13 @@ To: Sumit Semwal <sumit.semwal@linaro.org>,
  Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
  Amol Maheshwari <amahesh@qti.qualcomm.com>,
  Emil Velikov <emil.l.velikov@gmail.com>
-Subject: [PATCH v2 5/7] drm: Don't assert held reservation lock for dma-buf
- mmapping
-Date: Thu,  6 Apr 2023 19:06:35 +0300
-Message-Id: <20230406160637.541702-6-dmitry.osipenko@collabora.com>
+Subject: [PATCH v2 6/7] dma-buf: Change locking policy for mmap()
+Date: Thu,  6 Apr 2023 19:06:36 +0300
+Message-Id: <20230406160637.541702-7-dmitry.osipenko@collabora.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230406160637.541702-1-dmitry.osipenko@collabora.com>
 References: <20230406160637.541702-1-dmitry.osipenko@collabora.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -74,78 +72,82 @@ Cc: linux-arm-msm@vger.kernel.org, intel-gfx@lists.freedesktop.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Don't assert held dma-buf reservation lock on memory mapping of exported
-buffer.
-
-We're going to change dma-buf mmap() locking policy such that exporters
-will have to handle the lock. The previous locking policy caused deadlock
-problem for DRM drivers in a case of self-imported dma-bufs once these
-drivers are moved to use reservation lock universally. The problem is
-solved by moving the lock down to exporters. This patch prepares DRM
-drivers for the locking policy update.
+Change locking policy of mmap() callback, making exporters responsible
+for handling dma-buf reservation locking. Previous locking policy stated
+that dma-buf is locked for both importers and exporters by the dma-buf
+core, which caused a deadlock problem for DRM drivers in a case of
+self-imported dma-bufs which required to take the lock from the DRM
+exporter side.
 
 Reviewed-by: Emil Velikov <emil.l.velikov@gmail.com>
-Acked-by: Christian König <christian.koenig@amd.com>
 Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
 ---
- drivers/gpu/drm/drm_prime.c                | 2 --
- drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c | 2 --
- drivers/gpu/drm/omapdrm/omap_gem_dmabuf.c  | 2 --
- drivers/gpu/drm/tegra/gem.c                | 2 --
- 4 files changed, 8 deletions(-)
+ drivers/dma-buf/dma-buf.c | 17 +++--------------
+ 1 file changed, 3 insertions(+), 14 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_prime.c b/drivers/gpu/drm/drm_prime.c
-index 149cd4ff6a3b..cea85e84666f 100644
---- a/drivers/gpu/drm/drm_prime.c
-+++ b/drivers/gpu/drm/drm_prime.c
-@@ -781,8 +781,6 @@ int drm_gem_dmabuf_mmap(struct dma_buf *dma_buf, struct vm_area_struct *vma)
- 	struct drm_gem_object *obj = dma_buf->priv;
- 	struct drm_device *dev = obj->dev;
+diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+index aa4ea8530cb3..21916bba77d5 100644
+--- a/drivers/dma-buf/dma-buf.c
++++ b/drivers/dma-buf/dma-buf.c
+@@ -131,7 +131,6 @@ static struct file_system_type dma_buf_fs_type = {
+ static int dma_buf_mmap_internal(struct file *file, struct vm_area_struct *vma)
+ {
+ 	struct dma_buf *dmabuf;
+-	int ret;
  
--	dma_resv_assert_held(dma_buf->resv);
--
- 	if (!dev->driver->gem_prime_mmap)
- 		return -ENOSYS;
- 
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c b/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
-index fd556a076d05..1df74f7aa3dc 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
-@@ -97,8 +97,6 @@ static int i915_gem_dmabuf_mmap(struct dma_buf *dma_buf, struct vm_area_struct *
- 	struct drm_i915_private *i915 = to_i915(obj->base.dev);
- 	int ret;
- 
--	dma_resv_assert_held(dma_buf->resv);
--
- 	if (obj->base.size < vma->vm_end - vma->vm_start)
+ 	if (!is_dma_buf_file(file))
+ 		return -EINVAL;
+@@ -147,11 +146,7 @@ static int dma_buf_mmap_internal(struct file *file, struct vm_area_struct *vma)
+ 	    dmabuf->size >> PAGE_SHIFT)
  		return -EINVAL;
  
-diff --git a/drivers/gpu/drm/omapdrm/omap_gem_dmabuf.c b/drivers/gpu/drm/omapdrm/omap_gem_dmabuf.c
-index 3abc47521b2c..8e194dbc9506 100644
---- a/drivers/gpu/drm/omapdrm/omap_gem_dmabuf.c
-+++ b/drivers/gpu/drm/omapdrm/omap_gem_dmabuf.c
-@@ -66,8 +66,6 @@ static int omap_gem_dmabuf_mmap(struct dma_buf *buffer,
- 	struct drm_gem_object *obj = buffer->priv;
- 	int ret = 0;
- 
--	dma_resv_assert_held(buffer->resv);
+-	dma_resv_lock(dmabuf->resv, NULL);
+-	ret = dmabuf->ops->mmap(dmabuf, vma);
+-	dma_resv_unlock(dmabuf->resv);
 -
- 	ret = drm_gem_mmap_obj(obj, omap_gem_mmap_size(obj), vma);
- 	if (ret < 0)
- 		return ret;
-diff --git a/drivers/gpu/drm/tegra/gem.c b/drivers/gpu/drm/tegra/gem.c
-index bce991a2ccc0..871ef5d26523 100644
---- a/drivers/gpu/drm/tegra/gem.c
-+++ b/drivers/gpu/drm/tegra/gem.c
-@@ -693,8 +693,6 @@ static int tegra_gem_prime_mmap(struct dma_buf *buf, struct vm_area_struct *vma)
- 	struct drm_gem_object *gem = buf->priv;
- 	int err;
+-	return ret;
++	return dmabuf->ops->mmap(dmabuf, vma);
+ }
  
--	dma_resv_assert_held(buf->resv);
+ static loff_t dma_buf_llseek(struct file *file, loff_t offset, int whence)
+@@ -850,6 +845,7 @@ static struct sg_table * __map_dma_buf(struct dma_buf_attachment *attach,
+  *     - &dma_buf_ops.release()
+  *     - &dma_buf_ops.begin_cpu_access()
+  *     - &dma_buf_ops.end_cpu_access()
++ *     - &dma_buf_ops.mmap()
+  *
+  * 2. These &dma_buf_ops callbacks are invoked with locked dma-buf
+  *    reservation and exporter can't take the lock:
+@@ -858,7 +854,6 @@ static struct sg_table * __map_dma_buf(struct dma_buf_attachment *attach,
+  *     - &dma_buf_ops.unpin()
+  *     - &dma_buf_ops.map_dma_buf()
+  *     - &dma_buf_ops.unmap_dma_buf()
+- *     - &dma_buf_ops.mmap()
+  *     - &dma_buf_ops.vmap()
+  *     - &dma_buf_ops.vunmap()
+  *
+@@ -1463,8 +1458,6 @@ EXPORT_SYMBOL_NS_GPL(dma_buf_end_cpu_access, DMA_BUF);
+ int dma_buf_mmap(struct dma_buf *dmabuf, struct vm_area_struct *vma,
+ 		 unsigned long pgoff)
+ {
+-	int ret;
 -
- 	err = drm_gem_mmap_obj(gem, gem->size, vma);
- 	if (err < 0)
- 		return err;
+ 	if (WARN_ON(!dmabuf || !vma))
+ 		return -EINVAL;
+ 
+@@ -1485,11 +1478,7 @@ int dma_buf_mmap(struct dma_buf *dmabuf, struct vm_area_struct *vma,
+ 	vma_set_file(vma, dmabuf->file);
+ 	vma->vm_pgoff = pgoff;
+ 
+-	dma_resv_lock(dmabuf->resv, NULL);
+-	ret = dmabuf->ops->mmap(dmabuf, vma);
+-	dma_resv_unlock(dmabuf->resv);
+-
+-	return ret;
++	return dmabuf->ops->mmap(dmabuf, vma);
+ }
+ EXPORT_SYMBOL_NS_GPL(dma_buf_mmap, DMA_BUF);
+ 
 -- 
 2.39.2
 
