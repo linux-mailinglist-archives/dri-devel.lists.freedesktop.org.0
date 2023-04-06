@@ -1,54 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BDF76D9048
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Apr 2023 09:13:45 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5635F6D904E
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Apr 2023 09:14:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6590310E043;
-	Thu,  6 Apr 2023 07:13:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 75A2E10E130;
+	Thu,  6 Apr 2023 07:14:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 39A3710E043
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Apr 2023 07:13:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1680765218; x=1712301218;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=BuEF1CyEkIkMQlRz+wZXU2V/d6N/p0drfYe2/0btPPM=;
- b=ZWkMmV5KZ0Nu0Lg0hhU0V8wU9GP7xgMxggSSjv6RHvBh8biNpQc9QY7I
- BrLg/LVDcLorcerxdjE2LBkCPYGCfSl5935chGUzVzLHb+TFXS3mzM9/D
- faR9mzSmnuWXjHZ/a7G45QrpmMZkzjlAQFfrql7MplzRmkwnE1rkfW+A1
- UCIaAvNCowk8Xg1mbwAP0VA6LoA4RRr353MnHDjHuqfTlKVUBlRb3rH0m
- y15WfEBZPJjs28fe9gRgpTRUXDrv+vbqBl4qIKYPzLkRONMgZh2voCVPb
- FBdwaWbGFhYBLpC4KGw9CUxy9pBEzbxYK6qBlSeZKWRw9p4uHnMT7cdpk w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10671"; a="407761097"
-X-IronPort-AV: E=Sophos;i="5.98,323,1673942400"; d="scan'208";a="407761097"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Apr 2023 00:07:58 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10671"; a="798214593"
-X-IronPort-AV: E=Sophos;i="5.98,323,1673942400"; d="scan'208";a="798214593"
-Received: from radustef-mobl.ger.corp.intel.com (HELO [10.249.33.56])
- ([10.249.33.56])
- by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Apr 2023 00:07:55 -0700
-Message-ID: <d93c90c2-5796-9e92-4a23-140a6caa6087@linux.intel.com>
-Date: Thu, 6 Apr 2023 09:07:52 +0200
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1192B10E09C;
+ Thu,  6 Apr 2023 07:14:29 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id BB1831FF47;
+ Thu,  6 Apr 2023 07:14:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1680765267; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=BGYCg/cGe58PXwHwgN/RxSagps5ek5W254aLHT5TirY=;
+ b=IZq+ZjroXoLZzkpsPhL+Zf/VJT3w6bPQv7kN8Ob5WDm4AxEzasfPBxBfL8lidiFZL2BTla
+ YP7InuJkb0WPJT2TBEkesmht+pIgqWMVoXDwU2z82/xZycgH4YZCAd4/0MNT7HeFzCnC7p
+ wCzFDTTAYtykapPGIymR6mkMhHx6oi0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1680765267;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=BGYCg/cGe58PXwHwgN/RxSagps5ek5W254aLHT5TirY=;
+ b=0cqg3sPSb/0HPZI4gsr9Jl/Nf4ucTw1M6/FvIw79h+hhUaFv8UR03XxroDVGEoQi2o69Ix
+ Cv6cCjTInFnKmnBw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 95E791351F;
+ Thu,  6 Apr 2023 07:14:27 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id yfV/IlNxLmS6PAAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Thu, 06 Apr 2023 07:14:27 +0000
+Message-ID: <66f9196e-df2b-19ce-e2ec-15f7a81d63c7@suse.de>
+Date: Thu, 6 Apr 2023 09:14:26 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Firefox/102.0 Thunderbird/102.9.1
-Subject: Re: [PATCH] drm/doc/rfc: Introduce the merge plan for the Xe driver.
+ Thunderbird/102.9.0
+Subject: Re: [PATCH 1/8] drm/gma500: Use
+ drm_aperture_remove_conflicting_pci_framebuffers
+To: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ DRI Development <dri-devel@lists.freedesktop.org>
+References: <20230404201842.567344-1-daniel.vetter@ffwll.ch>
 Content-Language: en-US
-To: Rodrigo Vivi <rodrigo.vivi@intel.com>, dri-devel@lists.freedesktop.org
-References: <20230405195205.1674844-1-rodrigo.vivi@intel.com>
-From: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-In-Reply-To: <20230405195205.1674844-1-rodrigo.vivi@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <20230404201842.567344-1-daniel.vetter@ffwll.ch>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------BH3rk9LG2lA3qJBPMIELS096"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,274 +71,261 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Matthew Brost <matthew.brost@intel.com>,
- =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, Oded Gabbay <ogabbay@kernel.org>,
- Francois Dugast <francois.dugast@intel.com>, Dave Airlie <airlied@redhat.com>,
- Luis Strano <luis.strano@intel.com>
+Cc: Daniel Vetter <daniel.vetter@intel.com>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ Javier Martinez Canillas <javierm@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hey,
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------BH3rk9LG2lA3qJBPMIELS096
+Content-Type: multipart/mixed; boundary="------------90w9BPDQ22WQHum4ABhrlOTA";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ DRI Development <dri-devel@lists.freedesktop.org>
+Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ Daniel Vetter <daniel.vetter@intel.com>,
+ Patrik Jakobsson <patrik.r.jakobsson@gmail.com>,
+ Javier Martinez Canillas <javierm@redhat.com>
+Message-ID: <66f9196e-df2b-19ce-e2ec-15f7a81d63c7@suse.de>
+Subject: Re: [PATCH 1/8] drm/gma500: Use
+ drm_aperture_remove_conflicting_pci_framebuffers
+References: <20230404201842.567344-1-daniel.vetter@ffwll.ch>
+In-Reply-To: <20230404201842.567344-1-daniel.vetter@ffwll.ch>
 
-On 2023-04-05 21:52, Rodrigo Vivi wrote:
-> Let’s establish a merge plan for Xe, by writing down clear pre-merge goals, in
-> order to avoid unnecessary delays.
->
-> This initial document starts with a TODO list containing items with clear and
-> measurable key results. Xe’s initial pull request should only be sent to
-> dri-devel after all the items are clearly resolved.
->
-> Since many of them involve some level of a community consensus, in many cases,
-> the consensus will be reached in follow-up patches to this document with more
-> details of the API or helpers that will be developed or modified.
->
-> Cc: Dave Airlie <airlied@redhat.com>
-> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-> Cc: Oded Gabbay <ogabbay@kernel.org>
-> Signed-off-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
-> Signed-off-by: Francois Dugast <francois.dugast@intel.com>
-> Signed-off-by: Luis Strano <luis.strano@intel.com>
-> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-> Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-Signed-off-by: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> ---
->   Documentation/gpu/rfc/index.rst |   4 +
->   Documentation/gpu/rfc/xe.rst    | 216 ++++++++++++++++++++++++++++++++
->   2 files changed, 220 insertions(+)
->   create mode 100644 Documentation/gpu/rfc/xe.rst
->
-> diff --git a/Documentation/gpu/rfc/index.rst b/Documentation/gpu/rfc/index.rst
-> index 476719771eef..e4f7b005138d 100644
-> --- a/Documentation/gpu/rfc/index.rst
-> +++ b/Documentation/gpu/rfc/index.rst
-> @@ -31,3 +31,7 @@ host such documentation:
->   .. toctree::
->   
->       i915_vm_bind.rst
-> +
-> +.. toctree::
-> +
-> +   xe.rst
-> diff --git a/Documentation/gpu/rfc/xe.rst b/Documentation/gpu/rfc/xe.rst
-> new file mode 100644
-> index 000000000000..1e3e7e9c67c3
-> --- /dev/null
-> +++ b/Documentation/gpu/rfc/xe.rst
-> @@ -0,0 +1,216 @@
-> +==========================
-> +Xe – Merge Acceptance Plan
-> +==========================
-> +Xe is a new driver for Intel GPUs that supports both integrated and
-> +discrete platforms starting with Tiger Lake (first Intel Xe Architecture).
-> +
-> +This document aims to establish a merge plan for the Xe, by writing down clear
-> +pre-merge goals, in order to avoid unnecessary delays.
-> +
-> +Xe – Overview
-> +=============
-> +The main motivation of Xe is to have a fresh base to work from that is
-> +unencumbered by older platforms, whilst also taking the opportunity to
-> +rearchitect our driver to increase sharing across the drm subsystem, both
-> +leveraging and allowing us to contribute more towards other shared components
-> +like TTM and drm/scheduler.
-> +
-> +This is also an opportunity to start from the beginning with a clean uAPI that is
-> +extensible by design and already aligned with the modern userspace needs. For
-> +this reason, the memory model is solely based on GPU Virtual Address space
-> +bind/unbind (‘VM_BIND’) of GEM buffer objects (BOs) and execution only supporting
-> +explicit synchronization. With persistent mapping across the execution, the
-> +userspace does not need to provide a list of all required mappings during each
-> +submission.
-> +
-> +The new driver leverages a lot from i915. As for display, the intent is to share
-> +the display code with the i915 driver so that there is maximum reuse there.
-> +
-> +As for the power management area, the goal is to have a much-simplified support
-> +for the system suspend states (S-states), PCI device suspend states (D-states),
-> +GPU/Render suspend states (R-states) and frequency management. It should leverage
-> +as much as possible all the existent PCI-subsystem infrastructure (pm and
-> +runtime_pm) and underlying firmware components such PCODE and GuC for the power
-> +states and frequency decisions.
-> +
-> +Repository:
-> +
-> +https://gitlab.freedesktop.org/drm/xe/kernel (branch drm-xe-next)
-> +
-> +Xe – Platforms
-> +==============
-> +Currently, Xe is already functional and has experimental support for multiple
-> +platforms starting from Tiger Lake, with initial support in userspace implemented
-> +in Mesa (for Iris and Anv, our OpenGL and Vulkan drivers), as well as in NEO
-> +(for OpenCL and Level0).
-> +
-> +During a transition period, platforms will be supported by both Xe and i915.
-> +However, the force_probe mechanism existent in both drivers will allow only one
-> +official and by-default probe at a given time.
-> +
-> +For instance, in order to probe a DG2 which PCI ID is 0x5690 by Xe instead of
-> +i915, the following set of parameters need to be used:
-> +
-> +```
-> +i915.force_probe=!5690 xe.force_probe=5690
-> +```
-> +
-> +In both drivers, the ‘.require_force_probe’ protection forces the user to use the
-> +force_probe parameter while the driver is under development. This protection is
-> +only removed when the support for the platform and the uAPI are stable. Stability
-> +which needs to be demonstrated by CI results.
-> +
-> +In order to avoid user space regressions, i915 will continue to support all the
-> +current platforms that are already out of this protection. Xe support will be
-> +forever experimental and dependent on the usage of force_probe for these
-> +platforms.
-> +
-> +When the time comes for Xe, the protection will be lifted on Xe and kept in i915.
-> +
-> +Xe driver will be protected with both STAGING Kconfig and force_probe. Changes in
-> +the uAPI are expected while the driver is behind these protections. STAGING will
-> +be removed when the driver uAPI gets to a mature state where we can guarantee the
-> +‘no regression’ rule. Then force_probe will be lifted only for future platforms
-> +that will be productized with Xe driver, but not with i915.
-> +
-> +Xe – Pre-Merge Goals
-> +====================
-> +
-> +Drm_scheduler
-> +-------------
-> +Xe primarily uses Firmware based scheduling (GuC FW). However, it will use
-> +drm_scheduler as the scheduler ‘frontend’ for userspace submission in order to
-> +resolve syncobj and dma-buf implicit sync dependencies. However, drm_scheduler is
-> +not yet prepared to handle the 1-to-1 relationship between drm_gpu_scheduler and
-> +drm_sched_entity.
-> +
-> +Deeper changes to drm_scheduler should *not* be required to get Xe accepted, but
-> +some consensus needs to be reached between Xe and other community drivers that
-> +could also benefit from this work, for coupling FW based/assisted submission such
-> +as the ARM’s new Mali GPU driver, and others.
-> +
-> +As a key measurable result, the patch series introducing Xe itself shall not
-> +depend on any other patch touching drm_scheduler itself that was not yet merged
-> +through drm-misc. This, by itself, already includes the reach of an agreement for
-> +uniform 1 to 1 relationship implementation / usage across drivers.
-> +
-> +GPU VA
-> +------
-> +Two main goals of Xe are meeting together here:
-> +
-> +1) Have an uAPI that aligns with modern UMD needs.
-> +
-> +2) Early upstream engagement.
-> +
-> +RedHat engineers working on Nouveau proposed a new DRM feature to handle keeping
-> +track of GPU virtual address mappings. This is still not merged upstream, but
-> +this aligns very well with our goals and with our VM_BIND. The engagement with
-> +upstream and the port of Xe towards GPUVA is already ongoing.
-> +
-> +As a key measurable result, Xe needs to be aligned with the GPU VA and working in
-> +our tree. Missing Nouveau patches should *not* block Xe and any needed GPUVA
-> +related patch should be independent and present on dri-devel or acked by
-> +maintainers to go along with the first Xe pull request towards drm-next.
-> +
-> +DRM_VM_BIND
-> +-----------
-> +Nouveau, and Xe are all implementing ‘VM_BIND’ and new ‘Exec’ uAPIs in order to
-> +fulfill the needs of the modern uAPI. Xe merge should *not* be blocked on the
-> +development of a common new drm_infrastructure. However, the Xe team needs to
-> +engage with the community to explore the options of a common API.
-> +
-> +As a key measurable result, the DRM_VM_BIND needs to be documented in this file
-> +below, or this entire block deleted if the consensus is for independent drivers
-> +vm_bind ioctls.
-> +
-> +Although having a common DRM level IOCTL for VM_BIND is not a requirement to get
-> +Xe merged, it is mandatory to enforce the overall locking scheme for all major
-> +structs and list (so vm and vma). So, a consensus is needed, and possibly some
-> +common helpers. If helpers are needed, they should be also documented in this
-> +document.
-> +
-> +ASYNC VM_BIND
-> +-------------
-> +Although having a common DRM level IOCTL for VM_BIND is not a requirement to get
-> +Xe merged, it is mandatory to have a cross-driver consensus and understanding how
-> +to handle async VM_BIND and interactions with userspace memory fences. Ideally
-> +with helper support so people don't get it wrong in all possible ways.
-> +
-> +As a key measurable result, the benefits of ASYNC VM_BIND and a discussion of
-> +various flavors, error handling and a sample API should be documented here or in
-> +a separate document pointed to by this document.
-> +
-> +Userptr integration and vm_bind
-> +-------------------------------
-> +Different drivers implement different ways of dealing with execution of userptr.
-> +With multiple drivers currently introducing support to VM_BIND, the goal is to
-> +aim for a DRM consensus on what’s the best way to have that support. To some
-> +extent this is already getting addressed itself with the GPUVA where likely the
-> +userptr will be a GPUVA with a NULL GEM call VM bind directly on the userptr.
-> +However, there are more aspects around the rules for that and the usage of
-> +mmu_notifiers, locking and other aspects.
-> +
-> +This task here has the goal of introducing a documentation of the basic rules.
-> +
-> +The documentation *needs* to first live in this document (API session below) and
-> +then moved to another more specific document or at Xe level or at DRM level.
-> +
-> +Documentation should include:
-> +
-> + * The userptr part of the VM_BIND api.
-> +
-> + * Locking, including the page-faulting case.
-> +
-> + * O(1) complexity under VM_BIND.
-> +
-> +Some parts of userptr like mmu_notifiers should become GPUVA or DRM helpers when
-> +the second driver supporting VM_BIND+userptr appears. Details to be defined when
-> +the time comes.
-> +
-> +Long running compute: minimal data structure/scaffolding
-> +--------------------------------------------------------
-> +The generic scheduler code needs to include the handling of endless compute
-> +contexts, with the minimal scaffolding for preempt-ctx fences (probably on the
-> +drm_sched_entity) and making sure drm_scheduler can cope with the lack of job
-> +completion fence.
-> +
-> +The goal is to achieve a consensus ahead of Xe initial pull-request, ideally with
-> +this minimal drm/scheduler work, if needed, merged to drm-misc in a way that any
-> +drm driver, including Xe, could re-use and add their own individual needs on top
-> +in a next stage. However, this should not block the initial merge.
-> +
-> +As a key measurable result, the handling of the long running jobs and the minimal
-> +scaffolding should be documented here or in a separate document pointed to by
-> +this document.
-> +
-> +Display integration with i915
-> +-----------------------------
-> +In order to share the display code with the i915 driver so that there is maximum
-> +reuse, the i915/display/ code is built twice, once for i915.ko and then for
-> +xe.ko. Currently, the i915/display code in Xe tree is polluted with many 'ifdefs'
-> +depending on the build target. The goal is to refactor both Xe and i915/display
-> +code simultaneously in order to get a clean result before they land upstream, so
-> +that display can already be part of the initial pull request towards drm-next.
-> +
-> +However, display code should not gate the acceptance of Xe in upstream. Xe
-> +patches will be refactored in a way that display code can be removed, if needed,
-> +from the first pull request of Xe towards drm-next. The expectation is that when
-> +both drivers are part of the drm-tip, the introduction of cleaner patches will be
-> +easier and speed up.
-> +
-> +Drm_exec
-> +--------
-> +Helper to make dma_resv locking for a big number of buffers is getting removed in
-> +the drm_exec series proposed in https://patchwork.freedesktop.org/patch/524376/
-> +If that happens, Xe needs to change and incorporate the changes in the driver.
-> +The goal is to engage with the Community to understand if the best approach is to
-> +move that to the drivers that are using it or if we should keep the helpers in
-> +place waiting for Xe to get merged.
-> +
-> +As a key measurable result, we need to have a community consensus documented in
-> +this document and the Xe driver prepared for the changes, if necessary.
-> +
-> +Xe – uAPI high level overview
-> +=============================
-> +
-> +...Warning: To be done in follow up patches after/when/where the main consensus in various items are individually reached.
+--------------90w9BPDQ22WQHum4ABhrlOTA
+Content-Type: multipart/mixed; boundary="------------m2XW94l20N1PYqz1PR2YY8vT"
+
+--------------m2XW94l20N1PYqz1PR2YY8vT
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
+
+SGkNCg0KQXR0YWNoZWQgaXMgdGhlIHBhdGNoIHRvIHByb3ZpZGUgZ21hNTAwIHdpdGggYW4g
+aW50ZXJmYWNlIHRvIHJlbW92ZSB0aGUgDQpWR0EgZGV2aWNlcy4gSG9wZWZ1bGx5IHRoaXMs
+IG90aGVyd2lzZSwgSSdkIHJlc3BpbiB0aGUgd2hvbGUgc2VyaWVzLg0KDQpCZXN0IHJlZ2Fy
+ZHMNClRob21hcw0KDQpBbSAwNC4wNC4yMyB1bSAyMjoxOCBzY2hyaWViIERhbmllbCBWZXR0
+ZXI6DQo+IFRoaXMgb25lIG51a2VzIGFsbCBmcmFtZWJ1ZmZlcnMsIHdoaWNoIGlzIGEgYml0
+IG11Y2guIEluIHJlYWxpdHkNCj4gZ21hNTAwIGlzIGlncHUgYW5kIG5ldmVyIHNoaXBwZWQg
+d2l0aCBhbnl0aGluZyBkaXNjcmV0ZSwgc28gdGhlcmUgc2hvdWxkDQo+IG5vdCBiZSBhbnkg
+ZGlmZmVyZW5jZS4NCj4gDQo+IHYyOiBVbmZvcnR1bmF0ZWx5IHRoZSBmcmFtZWJ1ZmZlciBz
+aXRzIG91dHNpZGUgb2YgdGhlIHBjaSBiYXJzIGZvcg0KPiBnbWE1MDAsIGFuZCBzbyBvbmx5
+IHVzaW5nIHRoZSBwY2kgaGVscGVycyB3b24ndCBiZSBlbm91Z2guIE90b2ggaWYgd2UNCj4g
+b25seSB1c2Ugbm9uLXBjaSBoZWxwZXIsIHRoZW4gd2UgZG9uJ3QgZ2V0IHRoZSB2Z2EgaGFu
+ZGxpbmcsIGFuZA0KPiBzdWJzZXF1ZW50IHJlZmFjdG9yaW5nIHRvIHVudGFuZ2xlIHRoZXNl
+IHNwZWNpYWwgY2FzZXMgd29uJ3Qgd29yay4NCj4gDQo+IEl0J3Mgbm90IHByZXR0eSwgYnV0
+IHRoZSBzaW1wbGVzdCBmaXggKHNpbmNlIGdtYTUwMCByZWFsbHkgaXMgdGhlIG9ubHkNCj4g
+cXVpcmt5IHBjaSBkcml2ZXIgbGlrZSB0aGlzIHdlIGhhdmUpIGlzIHRvIGp1c3QgaGF2ZSBi
+b3RoIGNhbGxzLg0KPiANCj4gU2lnbmVkLW9mZi1ieTogRGFuaWVsIFZldHRlciA8ZGFuaWVs
+LnZldHRlckBpbnRlbC5jb20+DQo+IENjOiBQYXRyaWsgSmFrb2Jzc29uIDxwYXRyaWsuci5q
+YWtvYnNzb25AZ21haWwuY29tPg0KPiBDYzogVGhvbWFzIFppbW1lcm1hbm4gPHR6aW1tZXJt
+YW5uQHN1c2UuZGU+DQo+IENjOiBKYXZpZXIgTWFydGluZXogQ2FuaWxsYXMgPGphdmllcm1A
+cmVkaGF0LmNvbT4NCj4gLS0tDQo+ICAgZHJpdmVycy9ncHUvZHJtL2dtYTUwMC9wc2JfZHJ2
+LmMgfCA5ICsrKysrKystLQ0KPiAgIDEgZmlsZSBjaGFuZ2VkLCA3IGluc2VydGlvbnMoKyks
+IDIgZGVsZXRpb25zKC0pDQo+IA0KPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2dt
+YTUwMC9wc2JfZHJ2LmMgYi9kcml2ZXJzL2dwdS9kcm0vZ21hNTAwL3BzYl9kcnYuYw0KPiBp
+bmRleCAyY2U5NmIxYjljNzQuLmYxZTBlZWQ4ZmVhNCAxMDA2NDQNCj4gLS0tIGEvZHJpdmVy
+cy9ncHUvZHJtL2dtYTUwMC9wc2JfZHJ2LmMNCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2dt
+YTUwMC9wc2JfZHJ2LmMNCj4gQEAgLTQyMiwxMiArNDIyLDE3IEBAIHN0YXRpYyBpbnQgcHNi
+X3BjaV9wcm9iZShzdHJ1Y3QgcGNpX2RldiAqcGRldiwgY29uc3Qgc3RydWN0IHBjaV9kZXZp
+Y2VfaWQgKmVudCkNCj4gICANCj4gICAJLyoNCj4gICAJICogV2UgY2Fubm90IHlldCBlYXNp
+bHkgZmluZCB0aGUgZnJhbWVidWZmZXIncyBsb2NhdGlvbiBpbiBtZW1vcnkuIFNvDQo+IC0J
+ICogcmVtb3ZlIGFsbCBmcmFtZWJ1ZmZlcnMgaGVyZS4NCj4gKwkgKiByZW1vdmUgYWxsIGZy
+YW1lYnVmZmVycyBoZXJlLiBOb3RlIHRoYXQgd2Ugc3RpbGwgd2FudCB0aGUgcGNpIHNwZWNp
+YWwNCj4gKwkgKiBoYW5kbGluZyB0byBraWNrIG91dCB2Z2Fjb24uDQo+ICAgCSAqDQo+ICAg
+CSAqIFRPRE86IFJlZmFjdG9yIHBzYl9kcml2ZXJfbG9hZCgpIHRvIG1hcCB2ZGNfcmVnIGVh
+cmxpZXIuIFRoZW4gd2UNCj4gICAJICogICAgICAgbWlnaHQgYmUgYWJsZSB0byByZWFkIHRo
+ZSBmcmFtZWJ1ZmZlciByYW5nZSBmcm9tIHRoZSBkZXZpY2UuDQo+ICAgCSAqLw0KPiAtCXJl
+dCA9IGRybV9hcGVydHVyZV9yZW1vdmVfZnJhbWVidWZmZXJzKHRydWUsICZkcml2ZXIpOw0K
+PiArCXJldCA9IGRybV9hcGVydHVyZV9yZW1vdmVfZnJhbWVidWZmZXJzKGZhbHNlLCAmZHJp
+dmVyKTsNCj4gKwlpZiAocmV0KQ0KPiArCQlyZXR1cm4gcmV0Ow0KPiArDQo+ICsJcmV0ID0g
+ZHJtX2FwZXJ0dXJlX3JlbW92ZV9jb25mbGljdGluZ19wY2lfZnJhbWVidWZmZXJzKHBkZXYs
+ICZkcml2ZXIpOw0KPiAgIAlpZiAocmV0KQ0KPiAgIAkJcmV0dXJuIHJldDsNCj4gICANCg0K
+LS0gDQpUaG9tYXMgWmltbWVybWFubg0KR3JhcGhpY3MgRHJpdmVyIERldmVsb3Blcg0KU1VT
+RSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFueSBHbWJIDQpNYXhmZWxkc3RyLiA1LCA5MDQw
+OSBOw7xybmJlcmcsIEdlcm1hbnkNCihIUkIgMzY4MDksIEFHIE7DvHJuYmVyZykNCkdlc2No
+w6RmdHNmw7xocmVyOiBJdm8gVG90ZXYNCg==
+--------------m2XW94l20N1PYqz1PR2YY8vT
+Content-Type: text/x-patch; charset=UTF-8;
+ name="0001-video-aperture-Provide-a-VGA-helper-for-gma500-and-i.patch"
+Content-Disposition: attachment;
+ filename*0="0001-video-aperture-Provide-a-VGA-helper-for-gma500-and-i.pa";
+ filename*1="tch"
+Content-Transfer-Encoding: base64
+
+RnJvbSAxYTZjNjczMGY5MzU2NzQ0NGE2YmZlY2YxYjliYWUyMjU2M2E1YzlkIE1vbiBTZXAg
+MTcgMDA6MDA6MDAgMjAwMQpGcm9tOiBUaG9tYXMgWmltbWVybWFubiA8dHppbW1lcm1hbm5A
+c3VzZS5kZT4KRGF0ZTogV2VkLCA1IEFwciAyMDIzIDIxOjA0OjM0ICswMjAwClN1YmplY3Q6
+IHZpZGVvL2FwZXJ0dXJlOiBQcm92aWRlIGEgVkdBIGhlbHBlciBmb3IgZ21hNTAwIGFuZCBp
+bnRlcm5hbCB1c2UKClRoZSBoYXJkd2FyZSBmb3IgZ21hNTAwIGlzIGRpZmZlcmVudCBmcm9t
+IHRoZSByZXN0LCBhcyBpdCB1c2VzIHN0b2xlbgpmcmFtZWJ1ZmZlciBtZW1vcnkgdGhhdCBp
+cyBub3QgYXZhaWxhYmxlIHZpYSBQQ0kgQkFSLiBUaGUgcmVndWxhciBQQ0kKcmVtb3ZhbCBo
+ZWxwZXIgY2Fubm90IGRldGVjdCB0aGUgZnJhbWVidWZmZXIsIHdoaWxlIHRoZSBub24tUENJ
+IGhlbHBlcgptaXNzZXMgcG9zc2libGUgY29uZmxpY3RpbmcgVkdBIGRldmljZXMgKGkuZS4s
+IGEgZnJhbWVidWZmZXIgb3IgdGV4dApjb25zb2xlKS4KCkdtYTUwMCB0aGVyZWZvcmUgY2Fs
+bHMgYm90aCBoZWxwZXJzIHRvIGNhdGNoIGFsbCBjYXNlcy4gSXQncyBjb25mdXNpbmcKYXMg
+aXQgaW1wbGllcyB0aGF0IHRoZXJlJ3Mgc29tZXRoaW5nIGFib3V0IHRoZSBQQ0kgZGV2aWNl
+IHRoYXQgcmVxdWlyZXMKb3duZXJzaGlwIG1hbmFnZW1lbnQuIFRoZSByZWxhdGlvbnNoaXAg
+YmV0d2VlbiB0aGUgUENJIGRldmljZSBhbmQgdGhlClZHQSBkZXZpY2VzIGlzIG5vbi1vYnZp
+b3VzLiBBdCB3b3JzdCwgcmVhZGVycyBtaWdodCBhc3N1bWUgdGhhdCBjYWxsaW5nCnR3byBm
+dW5jdGlvbnMgZm9yIGFwZXJ0dXJlIGNsZWFyaW5nIG93bmVyc2hpcCBpcyBhIGJ1ZyBpbiB0
+aGUgZHJpdmVyLgoKSGVuY2UsIG1vdmUgdGhlIFBDSSByZW1vdmFsIGhlbHBlcidzIGNvZGUg
+Zm9yIFZHQSBmdW5jdGlvbmFsaXR5IGludG8KYSBzZXBhcmF0ZSBmdW5jdGlvbiBhbmQgY2Fs
+bCB0aGlzIGZ1bmN0aW9uIGZyb20gZ21hNTAwLiBEb2N1bWVudHMgdGhlCnB1cnBvc2Ugb2Yg
+ZWFjaCBjYWxsIHRvIGFwZXJ0dXJlIGhlbHBlcnMuIFRoZSBjaGFuZ2UgY29udGFpbnMgY29t
+bWVudHMKYW5kIGV4YW1wbGUgY29kZSBmb3JtIHRoZSBkaXNjdXNzaW9uIGF0IFsxXS4KClNp
+Z25lZC1vZmYtYnk6IFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPgpM
+aW5rOiBodHRwczovL3BhdGNod29yay5rZXJuZWwub3JnL3Byb2plY3QvZHJpLWRldmVsL3Bh
+dGNoLzIwMjMwNDA0MjAxODQyLjU2NzM0NC0xLWRhbmllbC52ZXR0ZXJAZmZ3bGwuY2gvICMg
+MQotLS0KIGRyaXZlcnMvZ3B1L2RybS9nbWE1MDAvcHNiX2Rydi5jIHwgNDggKysrKysrKysr
+KysrKysrKysrLS0tLS0tLS0KIGRyaXZlcnMvdmlkZW8vYXBlcnR1cmUuYyAgICAgICAgIHwg
+NTggKysrKysrKysrKysrKysrKysrKysrKy0tLS0tLS0tLS0KIGluY2x1ZGUvbGludXgvYXBl
+cnR1cmUuaCAgICAgICAgIHwgIDcgKysrKwogMyBmaWxlcyBjaGFuZ2VkLCA4MSBpbnNlcnRp
+b25zKCspLCAzMiBkZWxldGlvbnMoLSkKCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0v
+Z21hNTAwL3BzYl9kcnYuYyBiL2RyaXZlcnMvZ3B1L2RybS9nbWE1MDAvcHNiX2Rydi5jCmlu
+ZGV4IDRiYjA2YTg5ZTQ4ZC4uNTFmZDM0YmI4NGYzIDEwMDY0NAotLS0gYS9kcml2ZXJzL2dw
+dS9kcm0vZ21hNTAwL3BzYl9kcnYuYworKysgYi9kcml2ZXJzL2dwdS9kcm0vZ21hNTAwL3Bz
+Yl9kcnYuYwpAQCAtNyw2ICs3LDcgQEAKICAqCiAgKioqKioqKioqKioqKioqKioqKioqKioq
+KioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKiovCiAK
+KyNpbmNsdWRlIDxsaW51eC9hcGVydHVyZS5oPgogI2luY2x1ZGUgPGxpbnV4L2NwdS5oPgog
+I2luY2x1ZGUgPGxpbnV4L21vZHVsZS5oPgogI2luY2x1ZGUgPGxpbnV4L25vdGlmaWVyLmg+
+CkBAIC0xOSw3ICsyMCw2IEBACiAjaW5jbHVkZSA8YWNwaS92aWRlby5oPgogCiAjaW5jbHVk
+ZSA8ZHJtL2RybS5oPgotI2luY2x1ZGUgPGRybS9kcm1fYXBlcnR1cmUuaD4KICNpbmNsdWRl
+IDxkcm0vZHJtX2Rydi5oPgogI2luY2x1ZGUgPGRybS9kcm1fZmlsZS5oPgogI2luY2x1ZGUg
+PGRybS9kcm1faW9jdGwuaD4KQEAgLTQxNCwyNSArNDE0LDQ1IEBAIHN0YXRpYyBpbnQgcHNi
+X2RyaXZlcl9sb2FkKHN0cnVjdCBkcm1fZGV2aWNlICpkZXYsIHVuc2lnbmVkIGxvbmcgZmxh
+Z3MpCiAJcmV0dXJuIHJldDsKIH0KIAotc3RhdGljIGludCBwc2JfcGNpX3Byb2JlKHN0cnVj
+dCBwY2lfZGV2ICpwZGV2LCBjb25zdCBzdHJ1Y3QgcGNpX2RldmljZV9pZCAqZW50KQorLyoK
+KyAqIEhhcmR3YXJlIGZvciBnbWE1MDAgaXMgYSBoeWJyaWQgZGV2aWNlLCB3aGljaCBib3Ro
+IGFjdHMgYXMgYSBQQ0kKKyAqIGRldmljZSAoZm9yIGxlZ2FjeSB2Z2EgZnVuY3Rpb25hbGl0
+eSkgYnV0IGFsc28gbW9yZSBsaWtlIGFuCisgKiBpbnRlZ3JhdGVkIGRpc3BsYXkgb24gYSBT
+b0Mgd2hlcmUgdGhlIGZyYW1lYnVmZmVyIHNpbXBseQorICogcmVzaWRlcyBpbiBtYWluIG1l
+bW9yeSBhbmQgbm90IGluIGEgc3BlY2lhbCBQQ0kgYmFyICh0aGF0CisgKiBpbnRlcm5hbGx5
+IHJlZGlyZWN0cyB0byBhIHN0b2xlbiByYW5nZSBvZiBtYWluIG1lbW9yeSkgbGlrZSBhbGwK
+KyAqIG90aGVyIGludGVncmF0ZWQgUENJIGRpc3BsYXkgZGV2aWNlcyBoYXZlLgorICoKKyAq
+IFRvIGNhdGNoIGFsbCBjYXNlcyB3ZSBuZWVkIHRvIHJlbW92ZSBjb25mbGljdGluZyBmaXJt
+d2FyZSBkZXZpY2VzCisgKiBmb3IgdGhlIHN0b2xlbiBzeXN0ZW0gbWVtb3J5IGFuZCBmb3Ig
+dGhlIFZHQSBmdW5jdGlvbmFsaXR5LiBBcyB3ZQorICogY3VycmVudGx5IGNhbm5vdCBlYXNp
+bHkgZmluZCB0aGUgZnJhbWVidWZmZXIncyBsb2NhdGlvbiBpbiBzdG9sZW4KKyAqIG1lbW9y
+eSwgd2UgcmVtb3ZlIGFsbCBmcmFtZWJ1ZmZlcnMgaGVyZS4KKyAqCisgKiBUT0RPOiBSZWZh
+Y3RvciBwc2JfZHJpdmVyX2xvYWQoKSB0byBtYXAgdmRjX3JlZyBlYXJsaWVyLiBUaGVuCisg
+KiAgICAgICB3ZSBtaWdodCBiZSBhYmxlIHRvIHJlYWQgdGhlIGZyYW1lYnVmZmVyIHJhbmdl
+IGZyb20gdGhlCisgKiAgICAgICBkZXZpY2UuCisgKi8KK3N0YXRpYyBpbnQgZ21hX3JlbW92
+ZV9jb25mbGljdGluZ19mcmFtZWJ1ZmZlcnMoc3RydWN0IHBjaV9kZXYgKnBkZXYsCisJCQkJ
+CSAgICAgICBjb25zdCBzdHJ1Y3QgZHJtX2RyaXZlciAqcmVxX2RyaXZlcikKIHsKLQlzdHJ1
+Y3QgZHJtX3BzYl9wcml2YXRlICpkZXZfcHJpdjsKLQlzdHJ1Y3QgZHJtX2RldmljZSAqZGV2
+OworCXJlc291cmNlX3NpemVfdCBiYXNlID0gMDsKKwlyZXNvdXJjZV9zaXplX3Qgc2l6ZSA9
+IFBIWVNfQUREUl9NQVg7CisJY29uc3QgY2hhciAqbmFtZSA9IHJlcV9kcml2ZXItPm5hbWU7
+CiAJaW50IHJldDsKIAotCS8qCi0JICogV2UgY2Fubm90IHlldCBlYXNpbHkgZmluZCB0aGUg
+ZnJhbWVidWZmZXIncyBsb2NhdGlvbiBpbiBtZW1vcnkuIFNvCi0JICogcmVtb3ZlIGFsbCBm
+cmFtZWJ1ZmZlcnMgaGVyZS4gTm90ZSB0aGF0IHdlIHN0aWxsIHdhbnQgdGhlIHBjaSBzcGVj
+aWFsCi0JICogaGFuZGxpbmcgdG8ga2ljayBvdXQgdmdhY29uLgotCSAqCi0JICogVE9ETzog
+UmVmYWN0b3IgcHNiX2RyaXZlcl9sb2FkKCkgdG8gbWFwIHZkY19yZWcgZWFybGllci4gVGhl
+biB3ZQotCSAqICAgICAgIG1pZ2h0IGJlIGFibGUgdG8gcmVhZCB0aGUgZnJhbWVidWZmZXIg
+cmFuZ2UgZnJvbSB0aGUgZGV2aWNlLgotCSAqLwotCXJldCA9IGRybV9hcGVydHVyZV9yZW1v
+dmVfZnJhbWVidWZmZXJzKCZkcml2ZXIpOworCXJldCA9IGFwZXJ0dXJlX3JlbW92ZV9jb25m
+bGljdGluZ19kZXZpY2VzKGJhc2UsIHNpemUsIG5hbWUpOwogCWlmIChyZXQpCiAJCXJldHVy
+biByZXQ7CiAKLQlyZXQgPSBkcm1fYXBlcnR1cmVfcmVtb3ZlX2NvbmZsaWN0aW5nX3BjaV9m
+cmFtZWJ1ZmZlcnMocGRldiwgJmRyaXZlcik7CisJcmV0dXJuIF9fYXBlcnR1cmVfcmVtb3Zl
+X2xlZ2FjeV92Z2FfZGV2aWNlcyhwZGV2KTsKK30KKworc3RhdGljIGludCBwc2JfcGNpX3By
+b2JlKHN0cnVjdCBwY2lfZGV2ICpwZGV2LCBjb25zdCBzdHJ1Y3QgcGNpX2RldmljZV9pZCAq
+ZW50KQoreworCXN0cnVjdCBkcm1fcHNiX3ByaXZhdGUgKmRldl9wcml2OworCXN0cnVjdCBk
+cm1fZGV2aWNlICpkZXY7CisJaW50IHJldDsKKworCXJldCA9IGdtYV9yZW1vdmVfY29uZmxp
+Y3RpbmdfZnJhbWVidWZmZXJzKHBkZXYsICZkcml2ZXIpOwogCWlmIChyZXQpCiAJCXJldHVy
+biByZXQ7CiAKZGlmZiAtLWdpdCBhL2RyaXZlcnMvdmlkZW8vYXBlcnR1cmUuYyBiL2RyaXZl
+cnMvdmlkZW8vYXBlcnR1cmUuYwppbmRleCBlOTlmOTRiMzFlZTQuLmNhMWQxM2E5OWYzZiAx
+MDA2NDQKLS0tIGEvZHJpdmVycy92aWRlby9hcGVydHVyZS5jCisrKyBiL2RyaXZlcnMvdmlk
+ZW8vYXBlcnR1cmUuYwpAQCAtMzAxLDYgKzMwMSwzNyBAQCBpbnQgYXBlcnR1cmVfcmVtb3Zl
+X2NvbmZsaWN0aW5nX2RldmljZXMocmVzb3VyY2Vfc2l6ZV90IGJhc2UsIHJlc291cmNlX3Np
+emVfdCBzaQogfQogRVhQT1JUX1NZTUJPTChhcGVydHVyZV9yZW1vdmVfY29uZmxpY3Rpbmdf
+ZGV2aWNlcyk7CiAKKy8qKgorICogX19hcGVydHVyZV9yZW1vdmVfbGVnYWN5X3ZnYV9kZXZp
+Y2VzIC0gcmVtb3ZlIGxlZ2FjeSBWR0EgZGV2aWNlcyBvZiBhIFBDSSBkZXZpY2VzCisgKiBA
+cGRldjogUENJIGRldmljZQorICoKKyAqIFRoaXMgZnVuY3Rpb24gcmVtb3ZlcyBWR0EgZGV2
+aWNlcyBwcm92aWRlZCBieSBAcGRldiwgc3VjaCBhcyBhIFZHQQorICogZnJhbWVidWZmZXIg
+b3IgYSBjb25zb2xlLiBUaGlzIGlzIHVzZWZ1bCBpZiB5b3UgaGF2ZSBhIFZHQS1jb21wYXRp
+YmxlCisgKiBQQ0kgZ3JhcGhpY3MgZGV2aWNlIHdpdGggZnJhbWVidWZmZXJzIGluIG5vbi1C
+QVIgbG9jYXRpb25zLiBEcml2ZXJzCisgKiBzaG91bGQgYWNxdWlyZSBvd25lcnNoaXAgb2Yg
+dGhvc2UgbWVtb3J5IGFyZWFzIGFuZCBhZnRlcndhcmRzIGNhbGwKKyAqIHRoaXMgaGVscGVy
+IHRvIHJlbGVhc2UgcmVtYWluaW5nIFZHQSBkZXZpY2VzLgorICoKKyAqIElmIHlvdXIgaGFy
+ZHdhcmUgaGFzIGl0cyBmcmFtZWJ1ZmZlcnMgYWNjZXNzaWJsZSB2aWEgUENJIEJBUlMsIHVz
+ZQorICogYXBlcnR1cmVfcmVtb3ZlX2NvbmZsaWN0aW5nX3BjaV9kZXZpY2VzKCkgaW5zdGVh
+ZC4gVGhlIGZ1bmN0aW9uIHdpbGwKKyAqIHJlbGVhc2UgYW55IFZHQSBkZXZpY2VzIGF1dG9t
+YXRpY2FsbHkuCisgKgorICogV0FSTklORzogQXBwYXJlbnRseSB3ZSBtdXN0IHJlbW92ZSBn
+cmFwaGljcyBkcml2ZXJzIGJlZm9yZSBjYWxsaW5nCisgKiAgICAgICAgICB0aGlzIGhlbHBl
+ci4gT3RoZXJ3aXNlIHRoZSB2Z2EgZmJkZXYgZHJpdmVyIGZhbGxzIG92ZXIgaWYKKyAqICAg
+ICAgICAgIHdlIGhhdmUgdmdhY29uIGNvbmZpZ3VyZWQuCisgKgorICogUmV0dXJuczoKKyAq
+IDAgb24gc3VjY2Vzcywgb3IgYSBuZWdhdGl2ZSBlcnJubyBjb2RlIG90aGVyd2lzZQorICov
+CitpbnQgX19hcGVydHVyZV9yZW1vdmVfbGVnYWN5X3ZnYV9kZXZpY2VzKHN0cnVjdCBwY2lf
+ZGV2ICpwZGV2KQoreworCS8qIFZHQSBmcmFtZWJ1ZmZlciAqLworCWFwZXJ0dXJlX2RldGFj
+aF9kZXZpY2VzKFZHQV9GQl9QSFlTX0JBU0UsIFZHQV9GQl9QSFlTX1NJWkUpOworCisJLyog
+VkdBIHRleHRtb2RlIGNvbnNvbGUgKi8KKwlyZXR1cm4gdmdhX3JlbW92ZV92Z2Fjb24ocGRl
+dik7Cit9CitFWFBPUlRfU1lNQk9MKF9fYXBlcnR1cmVfcmVtb3ZlX2xlZ2FjeV92Z2FfZGV2
+aWNlcyk7CisKIC8qKgogICogYXBlcnR1cmVfcmVtb3ZlX2NvbmZsaWN0aW5nX3BjaV9kZXZp
+Y2VzIC0gcmVtb3ZlIGV4aXN0aW5nIGZyYW1lYnVmZmVycyBmb3IgUENJIGRldmljZXMKICAq
+IEBwZGV2OiBQQ0kgZGV2aWNlCkBAIC0zMTcsNyArMzQ4LDcgQEAgaW50IGFwZXJ0dXJlX3Jl
+bW92ZV9jb25mbGljdGluZ19wY2lfZGV2aWNlcyhzdHJ1Y3QgcGNpX2RldiAqcGRldiwgY29u
+c3QgY2hhciAqbmEKIHsKIAlib29sIHByaW1hcnk7CiAJcmVzb3VyY2Vfc2l6ZV90IGJhc2Us
+IHNpemU7Ci0JaW50IGJhciwgcmV0OworCWludCBiYXIsIHJldCA9IDA7CiAKIAlwcmltYXJ5
+ID0gcGRldiA9PSB2Z2FfZGVmYXVsdF9kZXZpY2UoKTsKIApAQCAtMzMzLDI0ICszNjQsMTUg
+QEAgaW50IGFwZXJ0dXJlX3JlbW92ZV9jb25mbGljdGluZ19wY2lfZGV2aWNlcyhzdHJ1Y3Qg
+cGNpX2RldiAqcGRldiwgY29uc3QgY2hhciAqbmEKIAkJYXBlcnR1cmVfZGV0YWNoX2Rldmlj
+ZXMoYmFzZSwgc2l6ZSk7CiAJfQogCi0JaWYgKHByaW1hcnkpIHsKLQkJLyoKLQkJICogSWYg
+dGhpcyBpcyB0aGUgcHJpbWFyeSBhZGFwdGVyLCB0aGVyZSBjb3VsZCBiZSBhIFZHQSBkZXZp
+Y2UKLQkJICogdGhhdCBjb25zdW1lcyB0aGUgVkdBIGZyYW1lYnVmZmVyIEkvTyByYW5nZS4g
+UmVtb3ZlIHRoaXMKLQkJICogZGV2aWNlIGFzIHdlbGwuCi0JCSAqLwotCQlhcGVydHVyZV9k
+ZXRhY2hfZGV2aWNlcyhWR0FfRkJfUEhZU19CQVNFLCBWR0FfRkJfUEhZU19TSVpFKTsKLQot
+CQkvKgotCQkgKiBXQVJOSU5HOiBBcHBhcmVudGx5IHdlIG11c3Qga2ljayBmYmRldiBkcml2
+ZXJzIGJlZm9yZSB2Z2Fjb24sCi0JCSAqIG90aGVyd2lzZSB0aGUgdmdhIGZiZGV2IGRyaXZl
+ciBmYWxscyBvdmVyLgotCQkgKi8KLQkJcmV0ID0gdmdhX3JlbW92ZV92Z2Fjb24ocGRldik7
+Ci0JCWlmIChyZXQpCi0JCQlyZXR1cm4gcmV0OwotCX0KKwkvKgorCSAqIElmIHRoaXMgaXMg
+dGhlIHByaW1hcnkgYWRhcHRlciwgdGhlcmUgY291bGQgYmUgYSBWR0EgZGV2aWNlCisJICog
+dGhhdCBjb25zdW1lcyB0aGUgVkdBIGZyYW1lYnVmZmVyIEkvTyByYW5nZS4gUmVtb3ZlIHRo
+aXMKKwkgKiBkZXZpY2UgYXMgd2VsbC4KKwkgKi8KKwlpZiAocHJpbWFyeSkKKwkJcmV0ID0g
+X19hcGVydHVyZV9yZW1vdmVfbGVnYWN5X3ZnYV9kZXZpY2VzKHBkZXYpOwogCi0JcmV0dXJu
+IDA7CisJcmV0dXJuIHJldDsKIAogfQogRVhQT1JUX1NZTUJPTChhcGVydHVyZV9yZW1vdmVf
+Y29uZmxpY3RpbmdfcGNpX2RldmljZXMpOwpkaWZmIC0tZ2l0IGEvaW5jbHVkZS9saW51eC9h
+cGVydHVyZS5oIGIvaW5jbHVkZS9saW51eC9hcGVydHVyZS5oCmluZGV4IDcyNDg3Mjc3NTNi
+ZS4uMWE5YTg4YjExNTg0IDEwMDY0NAotLS0gYS9pbmNsdWRlL2xpbnV4L2FwZXJ0dXJlLmgK
+KysrIGIvaW5jbHVkZS9saW51eC9hcGVydHVyZS5oCkBAIC0xNiw2ICsxNiw4IEBAIGludCBk
+ZXZtX2FwZXJ0dXJlX2FjcXVpcmVfZm9yX3BsYXRmb3JtX2RldmljZShzdHJ1Y3QgcGxhdGZv
+cm1fZGV2aWNlICpwZGV2LAogaW50IGFwZXJ0dXJlX3JlbW92ZV9jb25mbGljdGluZ19kZXZp
+Y2VzKHJlc291cmNlX3NpemVfdCBiYXNlLCByZXNvdXJjZV9zaXplX3Qgc2l6ZSwKIAkJCQkJ
+Y29uc3QgY2hhciAqbmFtZSk7CiAKK2ludCBfX2FwZXJ0dXJlX3JlbW92ZV9sZWdhY3lfdmdh
+X2RldmljZXMoc3RydWN0IHBjaV9kZXYgKnBkZXYpOworCiBpbnQgYXBlcnR1cmVfcmVtb3Zl
+X2NvbmZsaWN0aW5nX3BjaV9kZXZpY2VzKHN0cnVjdCBwY2lfZGV2ICpwZGV2LCBjb25zdCBj
+aGFyICpuYW1lKTsKICNlbHNlCiBzdGF0aWMgaW5saW5lIGludCBkZXZtX2FwZXJ0dXJlX2Fj
+cXVpcmVfZm9yX3BsYXRmb3JtX2RldmljZShzdHJ1Y3QgcGxhdGZvcm1fZGV2aWNlICpwZGV2
+LApAQCAtMzEsNiArMzMsMTEgQEAgc3RhdGljIGlubGluZSBpbnQgYXBlcnR1cmVfcmVtb3Zl
+X2NvbmZsaWN0aW5nX2RldmljZXMocmVzb3VyY2Vfc2l6ZV90IGJhc2UsIHJlc28KIAlyZXR1
+cm4gMDsKIH0KIAorc3RhdGljIGlubGluZSBpbnQgX19hcGVydHVyZV9yZW1vdmVfbGVnYWN5
+X3ZnYV9kZXZpY2VzKHN0cnVjdCBwY2lfZGV2ICpwZGV2KQoreworCXJldHVybiAwOworfQor
+CiBzdGF0aWMgaW5saW5lIGludCBhcGVydHVyZV9yZW1vdmVfY29uZmxpY3RpbmdfcGNpX2Rl
+dmljZXMoc3RydWN0IHBjaV9kZXYgKnBkZXYsIGNvbnN0IGNoYXIgKm5hbWUpCiB7CiAJcmV0
+dXJuIDA7Ci0tIAoyLjQwLjAKCg==
+
+--------------m2XW94l20N1PYqz1PR2YY8vT--
+
+--------------90w9BPDQ22WQHum4ABhrlOTA--
+
+--------------BH3rk9LG2lA3qJBPMIELS096
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmQucVIFAwAAAAAACgkQlh/E3EQov+CT
+eA/8DFNAVzXZk6TkcG4wR95ydkWngX1EAdBdc8l4PTQjkUkBekpSG6ZO6c8DANIP1AshV/5yE5j7
+TDIP5NgEk5ABZMY+vSTz2J2IAGw/EpT/+8aZDfCo2puI1r+usc1eMQRNQOCHthPeJKW5ASVBxD8R
+9w70ElyK29GoR+50GX7JnFLptIAg1qNVRSn63ksXjNJ5JNKwyX54GJvLg+TNc44wwbTPJNrcB45h
+9/NNRHgHulkxjrUnhl6oMbRHd7EaCPWVne3pTBznFfBMW81ltr01HFUGC+1SDLa1QOmTKsVwXuzO
+q1WAmsX1E523cCcQuWcl3p+Fqw9pr6Iw9Zuu6PTh7Lk5nOjYBrbplFgCRBzNZNfJDenUUheQqVYH
+gxFM3RzHEyqU5dysu7x1CCw+x9xXsUii+6r/8GYA9+Cv8BSpcxj3WxWVNCx3bMttIdm+riIgeid5
+nr4hGRXw8UdSOqgJmPO1kZ7l9C20KdE+U3rvp9ehblMo2UOE5Txam8JQam20vqAIxDUCXFsXaHZl
+w+cx993nBaWNLV94rswcEBRrvY6VyNDKl97ivM7ysV/hXNdbHYJJZIj+1q6x2z705CnK+xofHqkh
+8isl5+IBbJ+MApBLOND0FUwiS7eu5AeIj+tM9a3b+6tKzeOwRAUhImjrfnU/FgRmgXsNxUNVZ/0j
+/wI=
+=Gh1O
+-----END PGP SIGNATURE-----
+
+--------------BH3rk9LG2lA3qJBPMIELS096--
