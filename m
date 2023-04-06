@@ -1,84 +1,128 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 609786D93B7
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Apr 2023 12:10:01 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BB4256D93C5
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Apr 2023 12:14:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C820A10E080;
-	Thu,  6 Apr 2023 10:09:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 985CB10EB52;
+	Thu,  6 Apr 2023 10:14:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com
- [IPv6:2a00:1450:4864:20::635])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E163110E080
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Apr 2023 10:09:55 +0000 (UTC)
-Received: by mail-ej1-x635.google.com with SMTP id
- a640c23a62f3a-94706a972f3so12057766b.0
- for <dri-devel@lists.freedesktop.org>; Thu, 06 Apr 2023 03:09:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1680775794; x=1683367794;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:mail-followup-to:message-id:subject:cc:to
- :from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=4HBKvH8V7M1lBLL5TQIDjgH0SCrQV4oywXFEheo/M70=;
- b=EF6N1aw9UhTUuKcVRiKpHKGK4m1zxumK3qFWPACifQF56rGgZ44CQ8ZbTX8Rq9ONoA
- RMKT0nt4HP6SKzokNUOAbBDCHl9p0Iv1JE8UTDuXk7J6nukc5V6nkj0YhBPSrnXPHQXm
- +LSUedZszZESoIabBZKRvGpNCvAHBITv4dLZ0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680775794; x=1683367794;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:mail-followup-to:message-id:subject:cc:to
- :from:date:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=4HBKvH8V7M1lBLL5TQIDjgH0SCrQV4oywXFEheo/M70=;
- b=OqqfyWnyFZO9VlsdZ/i+YJ88wkdANA4CuJhEE6KEXWoO5Oe6xvg8/A86TM8Y8Px8vi
- b7LigkGhIT840iA0LCM7gSdBbi345KqKvI8VzazdUI1rVJHs5vxzZUHd2WfnMlst7PNz
- tL+H4bzhd3BylhlzwpziYGuvve7vED+kZqdU3ti+zOXddxhKdIg5/Z1mBL6YYAARZ8Q5
- 2v21cEwbNjbQqneKR9GHgQLU90kQMprC4FWZDr9Gr6OQHB6ZBD/lvC3c2kZVCTRqri7X
- kEuxg69ZaKXFE7EhBkaw2mGmkgZVRh7oAztePQHy/MNL3TJ4Blll76GfrII5sS25lTXI
- L8Yg==
-X-Gm-Message-State: AAQBX9fq+S7Axa+g2ljekpjdt2m04mijrLrdyI4/ZZI80+UkN00fU3Br
- ikREZFv89MpEKetDSt0k1Xp2dBXngaTMCXZ9IZY=
-X-Google-Smtp-Source: AKy350YfLK7GO92UadMTpNYe6UJGW56bevN3Py0GBNmsZou3a6WpOMtNo+vxF8Qq2wudwIWP/dH7/Q==
-X-Received: by 2002:a17:906:20d7:b0:930:aa02:f9cf with SMTP id
- c23-20020a17090620d700b00930aa02f9cfmr4146422ejc.2.1680775794027; 
- Thu, 06 Apr 2023 03:09:54 -0700 (PDT)
-Received: from phenom.ffwll.local (212-51-149-33.fiber7.init7.net.
- [212.51.149.33]) by smtp.gmail.com with ESMTPSA id
- h12-20020a170906854c00b009476309c1d9sm601670ejy.125.2023.04.06.03.09.53
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 06 Apr 2023 03:09:53 -0700 (PDT)
-Date: Thu, 6 Apr 2023 12:09:51 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Asahi Lina <lina@asahilina.net>
-Subject: Re: [Regression] drm/scheduler: track GPU active time per entity
-Message-ID: <ZC6ab6LomidehGR3@phenom.ffwll.local>
-Mail-Followup-To: Asahi Lina <lina@asahilina.net>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- Luben Tuikov <luben.tuikov@amd.com>,
- Danilo Krummrich <dakr@redhat.com>,
- Lucas Stach <l.stach@pengutronix.de>,
- Dave Airlie <airlied@gmail.com>,
- Bagas Sanjaya <bagasdotme@gmail.com>, andrey.grodzovsky@amd.com,
- tvrtko.ursulin@linux.intel.com,
- Matthew Brost <matthew.brost@intel.com>, yuq825@gmail.com,
- Boris Brezillon <boris.brezillon@collabora.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <3e00d8a9-b6c4-8202-4f2d-5a659c61d094@redhat.com>
- <2a84875dde6565842aa07ddb96245b7d939cb4fd.camel@pengutronix.de>
- <8b28151c-f2db-af3f-8dff-87dd5d57417b@amd.com>
- <3004a2bf-e725-643e-82af-8a217784e796@redhat.com>
- <013781a3-5abd-8c66-8a0a-dd36c9c487af@amd.com>
- <28d10733-b217-7ccc-4b8c-54bdc8249234@amd.com>
- <CAKMK7uFeeAaG8+1EutgMtmVANTb-acL0faEkJfUp1_35rSjaEg@mail.gmail.com>
- <24fe6e14-0d0a-f874-766d-e8d045d1e80e@asahilina.net>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam11on20621.outbound.protection.outlook.com
+ [IPv6:2a01:111:f400:7eaa::621])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A157C10EB52;
+ Thu,  6 Apr 2023 10:14:45 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=W+oYaiJdB86G0oSBq37ou9siAYiv4f1U912gyPAO0f8FPAzB8xsnKQDOPqRMUU/Na5HjkZncrWhjAa5OQpB+ZpGorvY8zu0yTlYAiNFpB4JUwXMjEwTYE//Wqryf83ikr2ecAcLubfE5lNtdf7IUi6hz3zVi9QYTkNF8+eqAjI6BE/l9+BjKNM/9VX58MsBYZ0jxbp4XUJvrmRlhY6bkHED8fL9ESEvFwyCAadDS6tOAliHtI4bri+GjATQE0jwA34A3GIypYsyXTP5C5HH70FcHjlG7LcCuzfSXwgXoC3+LXJRKwYOqoFoHIqLgKBazNe6LZoc7dJVS1Oponw8W+w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=0eDS+Zkwz9IrfBG66fIV0PLhRzQXqBi/Kc7/DQ37FII=;
+ b=nFv5pev8P57nfb1kZscy90nLfnVZCV8MbhkHE97CKBhTgoejjSdgQUsCmrkEa1NIaiGib0P+oGAUALe9P2DOMk/EtEe5VJVKX7fvCAXKCLb+YPJ7qsQ50+xPXHW8Brx2Wb4KcPpxDH3cspLrvPfIEHs+b/m10SpgYYnAXy2s1mXXVhTB9F08VWuOqmJlG6UJfpgvc4oMqHSoJFY5nJVOfaMkFejnPjylcLCSjOglkTm9BziTb+HTMHACtTUN+AGiM5fo67yuhLv9/xf9dI6aJwwt6h52wbiQfdKzlyDi0FxRR1ysloLeCV+9rq+jlo/qHseeknLkz7Ir6Rq5K49kxQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=0eDS+Zkwz9IrfBG66fIV0PLhRzQXqBi/Kc7/DQ37FII=;
+ b=qgIhZVMyZeh4+zGbqK9YgxduaR4DSA88krZIDLBTIo2fsTeeW9zZygEkRpYnZeKcc4/n8XpOIlls0pXkeOK5cQMf0om/mSxfnlSgV20Nh7oSi42O/G5J9TdRasis0p8qkDfRpCyfI6FISH+rJNnCEO/BA+cXFOziRzMaW+9zmWo=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
+ by PH7PR12MB6441.namprd12.prod.outlook.com (2603:10b6:510:1fb::10)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6254.35; Thu, 6 Apr
+ 2023 10:14:42 +0000
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::4624:dc39:943e:6ae]) by BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::4624:dc39:943e:6ae%5]) with mapi id 15.20.6254.035; Thu, 6 Apr 2023
+ 10:14:42 +0000
+Message-ID: <cf04d0a6-3485-a1aa-8514-a0ecb4266f03@amd.com>
+Date: Thu, 6 Apr 2023 12:14:36 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [RFC PATCH 00/10] Xe DRM scheduler and long running workload plans
+Content-Language: en-US
+To: Daniel Vetter <daniel@ffwll.ch>, Matthew Brost <matthew.brost@intel.com>
+References: <20230404002211.3611376-1-matthew.brost@intel.com>
+ <87c7f659-387c-3e23-69c6-03e0c9820bab@amd.com>
+ <ZCwoL3Wgv90tlQWR@DUT025-TGLU.fm.intel.com>
+ <d740a81a-8919-b6c8-a8c1-f5d8f9c5549c@amd.com>
+ <ZC0yq9XZ2t9cV0Nz@phenom.ffwll.local>
+ <a2236a9d-e21a-269c-aad3-184c402065b7@amd.com>
+ <ZC06Rl6TGe7itZvW@phenom.ffwll.local>
+ <ec128743-699b-3722-0ab2-ff96552fdddd@amd.com>
+ <CAKMK7uFEGoaOmewGmP4H_ouqZiMKAiaKwEohGCZq5T-UJYMf_w@mail.gmail.com>
+ <ZC4pinCurycVe4bi@DUT025-TGLU.fm.intel.com>
+ <ZC5oo8ljg5DWHjhk@phenom.ffwll.local>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+In-Reply-To: <ZC5oo8ljg5DWHjhk@phenom.ffwll.local>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <24fe6e14-0d0a-f874-766d-e8d045d1e80e@asahilina.net>
-X-Operating-System: Linux phenom 6.1.0-7-amd64 
+X-ClientProxiedBy: FR3P281CA0123.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:94::9) To BN8PR12MB3587.namprd12.prod.outlook.com
+ (2603:10b6:408:43::13)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|PH7PR12MB6441:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8351aa5c-75c3-4998-ff43-08db3687bcd8
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: XT23af7BSf2AzQecCYqEO5OVlWTy99XySFoFaYY0CURDuw8C2n9prItiHyxpNumyWriGUtVP49co6gKIVmgiRFp8bEVesq/Du2r6yDnuwdEUi+mVb56u4NK+uFI8Dnho2hk3xrP5Nx0JWyfyhjzCzY5LMo1GhrMv6ig1dKFIWJJhnnTtQhz2EjnE1tAIbVFTD9CHJYuAp+X+fI8BAxvgXQpcxdSmd90aTkcVoLRYi3SSY1skMFtaaNNNF3GemdrzUVP/e8qcE/nFSl1SZgRg3N8MrQloHqUGOro2N7ALSff0QZ79yJ4l4Zwj9A562qTgtmNkcYUSnbHdWvEXbdrXsIys8vFBDdQg0O0tc9B8HfWovUydt5RZvaTkU//3QcNWV5X98WTPxXhgSyTDrfkRDUEfdxwqvYhAQcUOnfghca7wF3UDYvt0a408Ci3wgBcXXynccCEg389NQ16B2GRS11WqtimVTKAYKEjUZFz2CJFIRRGSrq9C9R03FDCpnC807RgIhOfAaqcE73JDkaRr4YwspLWJqCbFArhV5f4MEGLKPO2wE56vUX15J4Jyjuu/4Ii/7YyXSLXuKZ6JzClCQdvUl0RG/na1cbidG0tA3/YbP1e4/NS5xlWLQhlSz/GTr1OdaGmI7HFaXi65a9SVIg==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230028)(4636009)(346002)(136003)(366004)(396003)(39860400002)(376002)(451199021)(6486002)(66556008)(2616005)(83380400001)(966005)(6506007)(6512007)(186003)(38100700002)(8936002)(66574015)(7416002)(5660300002)(2906002)(26005)(6666004)(478600001)(36756003)(66476007)(41300700001)(66946007)(8676002)(110136005)(4326008)(86362001)(31696002)(316002)(31686004)(66899021)(45980500001)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?NlphN3pRbFlTSGRoOGV6djh1dy82bi9QU1c5TkJSZWd6U2xFSjBDd3oxcTY4?=
+ =?utf-8?B?aFlMRUg5dDhSa0R6TGc3VDNsOWttYnJWQUZBbnpURkJlUW0ra1N6V3pLSGsy?=
+ =?utf-8?B?bndoZ2ZKY3ZzZmNKZGhnazJWa3dubm84Mzg2aUZVdHA4VHlnNHdNdHl0VjlI?=
+ =?utf-8?B?NjZQc0dlMjh2K2JFSkpnMy9wdGJDRDZPSlRmd0Q0UjFSTWp2OUYzNEp2aEI2?=
+ =?utf-8?B?aEhaV3IvMk93SFI1YTdOdi9rUHpEa0tpU3lpRDdiZjV3dmk2YU1tQ1djQ3hD?=
+ =?utf-8?B?cS9BaFN5THRxNjJlVzFPKzhoTkg2RXF5M2llRE9QVm93N0hwQXBmaXlXVHJP?=
+ =?utf-8?B?cGw4K0V5bDA0QjVKOGc3OExEZy9tS1V2R1ViQTVvc29kR0ZBOE96MUorZDJK?=
+ =?utf-8?B?cy9EWmhFMWJTRU93bzFKN1k5TGJialdWT1k4TWtmbFZsYTFFUnBQdGxvS3NN?=
+ =?utf-8?B?d3NsbVdncG91V2NVK0Nqb3NSSHZSS3o5aFQvUDVqT2tpczdpckhQN1UxelFo?=
+ =?utf-8?B?aVV1ZUFQSEVqMTJLbXFHOFkwOXNMclAwVWQxUGFicWU3bjgra0tHU1dMVVdS?=
+ =?utf-8?B?VEdnSUVnMXBhWURUREpleTdLdDRNYjFIK0RKTkRYUGFUdGlQZUx3NWpVcHJn?=
+ =?utf-8?B?OTJwdkg0cjZnVVZ4NjJBa1MxQmVlKy9XV0xkUUhUeXBGN0E3YjhXZ2JEMnNp?=
+ =?utf-8?B?YmNEQlBqd1lKWVIyYTRBS1djOWhEWTF4VUlKcUp6UDdJMHdaSDkvU3RhMlF6?=
+ =?utf-8?B?QkN3M1YzcVhqRFZPV0FuUnhkbFRuMU5RWmlEcitMa0pPRVp1R1JYcmlRTVJZ?=
+ =?utf-8?B?N3JXZ1VMMHJoNlhzZXJPZ1Uzb1pDSWtBOGh2QXVseEtpcHRJOE5YRzdZSkxo?=
+ =?utf-8?B?VEJLOEdyeGZkalEwWmdmV05JcGNVSFdMc1JaZVR6allZNU9sVlVqWi9NdFdM?=
+ =?utf-8?B?QjQySHV4VlFhSjcyYUowOU9tNWFFd1Z5QnZQV0Jud3gzOWVtTlNaUm1JcGZ1?=
+ =?utf-8?B?U2tVbGQvM3FNVGtRSTlMbWxMR2JOWEZZUDVtdnlTMzVLMnJvUVVGOGVBYWVZ?=
+ =?utf-8?B?bXM1aG92bzhJTWlYVVQyL2RuTnIzVXhJcS9FNmw5Qnc5eHBmUU9tdEJLL1p6?=
+ =?utf-8?B?YVU4UzI5VEpvWE9Pdk9rdDJadWlrcXRHd1ROQmRtaU84eDFrTGRGZzZwU1ls?=
+ =?utf-8?B?bDhnS3VIWGZXelJFaklmbkMrZ0hiWjZkbkdsV0pOb3A0emlHUk1zd0prTVoy?=
+ =?utf-8?B?clRacVhUOThQRkpncmpTVW1rU1RCQ2JBTitCUzJ1N3lZZXJhenBqaG9ManRT?=
+ =?utf-8?B?UGkvWUJHblRQdkxHNmRLdGV6cTVyQVV5UWJHdGFZd2EzM1VmVkVOK3pTcEQv?=
+ =?utf-8?B?dGE4enFZTWJrbzdxa2dlbUJDWDUvaEpkeHJySmc2LzZvT0I5RGwwZCtvSGVs?=
+ =?utf-8?B?NFFIbTFRZlpDQzArVXdPZTlaaUtLM0dKM1pGcGRxRk96Q0FLN0hzdTcwbUFC?=
+ =?utf-8?B?bGZZMVZVbldoRWhtVHNoVWFxVEE5c2p5VjFNRWxvN1FtS2lsQ2hIcS9iLzh5?=
+ =?utf-8?B?VXdLRjBQUlNVVXFOUDFjWG5NcjZVK0dnV0hxYTZPS1NTV3pnNlFpNjVHVEtr?=
+ =?utf-8?B?L0NyNnVaeThvQ2QzdW54dTN1VE1Veld0MUh6RUFORnVxaWtEZHVacE1ZQmdq?=
+ =?utf-8?B?cVNRMHhla0x5bFJ2UGVwOUgwUkFibjNKd24xTkxsS1B1OWZ5eWpnbkN5dm03?=
+ =?utf-8?B?ZkFCODJObXFLZ2RyU21KYU5OaGQ0RFFCSGpHcEtKZXRYZ0J4SVhFSU40cmFU?=
+ =?utf-8?B?dU43WlNlTWU3L3FLYTh4T2g0TVhNZmgxWUVraitYcnFUNGwyNGU1UjVGVXlW?=
+ =?utf-8?B?aWJ2cUJMY0NzeC9SamhsOHZ1R3VWSElNV1pnblFqQXlLSzZQVU5VVld4WWhB?=
+ =?utf-8?B?ZUlJNDMzWDVtMloyNU56UUw5d1ZMTkJPaXhlK0R1ald0Ky85Y3dNa0QyNEVX?=
+ =?utf-8?B?RjlDbFdQODEzcVhaUDZuOHByV2lwK04yMi9hVVZpU2c3cUVMRnJnclBJVDVT?=
+ =?utf-8?B?a0xCSXk0RkdrTjY3b0xjWVBZYmcxMUFKV2xpbFFOdTVVcTdYS01KVnRPbitQ?=
+ =?utf-8?Q?xmRUJEmfQsTaLb6ZyL4IeC7AL?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8351aa5c-75c3-4998-ff43-08db3687bcd8
+X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Apr 2023 10:14:42.2770 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Z1rm00eWlgTlGN4Fqd8r4rNqirDkFe1OBCITeomsqUiFlDLczYiz7FiA53Wer0+r
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB6441
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,149 +135,142 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Matthew Brost <matthew.brost@intel.com>, andrey.grodzovsky@amd.com,
- Bagas Sanjaya <bagasdotme@gmail.com>, tvrtko.ursulin@linux.intel.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Luben Tuikov <luben.tuikov@amd.com>, Danilo Krummrich <dakr@redhat.com>,
- yuq825@gmail.com, Boris Brezillon <boris.brezillon@collabora.com>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Cc: robdclark@chromium.org, thomas.hellstrom@linux.intel.com, airlied@linux.ie,
+ lina@asahilina.net, dri-devel@lists.freedesktop.org,
+ boris.brezillon@collabora.com, intel-xe@lists.freedesktop.org,
+ faith.ekstrand@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Apr 06, 2023 at 06:05:11PM +0900, Asahi Lina wrote:
-> On 06/04/2023 17.27, Daniel Vetter wrote:
-> > On Thu, 6 Apr 2023 at 10:22, Christian König <christian.koenig@amd.com> wrote:
-> > > 
-> > > Am 05.04.23 um 18:09 schrieb Luben Tuikov:
-> > > > On 2023-04-05 10:05, Danilo Krummrich wrote:
-> > > > > On 4/4/23 06:31, Luben Tuikov wrote:
-> > > > > > On 2023-03-28 04:54, Lucas Stach wrote:
-> > > > > > > Hi Danilo,
-> > > > > > > 
-> > > > > > > Am Dienstag, dem 28.03.2023 um 02:57 +0200 schrieb Danilo Krummrich:
-> > > > > > > > Hi all,
-> > > > > > > > 
-> > > > > > > > Commit df622729ddbf ("drm/scheduler: track GPU active time per entity")
-> > > > > > > > tries to track the accumulated time that a job was active on the GPU
-> > > > > > > > writing it to the entity through which the job was deployed to the
-> > > > > > > > scheduler originally. This is done within drm_sched_get_cleanup_job()
-> > > > > > > > which fetches a job from the schedulers pending_list.
-> > > > > > > > 
-> > > > > > > > Doing this can result in a race condition where the entity is already
-> > > > > > > > freed, but the entity's newly added elapsed_ns field is still accessed
-> > > > > > > > once the job is fetched from the pending_list.
-> > > > > > > > 
-> > > > > > > > After drm_sched_entity_destroy() being called it should be safe to free
-> > > > > > > > the structure that embeds the entity. However, a job originally handed
-> > > > > > > > over to the scheduler by this entity might still reside in the
-> > > > > > > > schedulers pending_list for cleanup after drm_sched_entity_destroy()
-> > > > > > > > already being called and the entity being freed. Hence, we can run into
-> > > > > > > > a UAF.
-> > > > > > > > 
-> > > > > > > Sorry about that, I clearly didn't properly consider this case.
-> > > > > > > 
-> > > > > > > > In my case it happened that a job, as explained above, was just picked
-> > > > > > > > from the schedulers pending_list after the entity was freed due to the
-> > > > > > > > client application exiting. Meanwhile this freed up memory was already
-> > > > > > > > allocated for a subsequent client applications job structure again.
-> > > > > > > > Hence, the new jobs memory got corrupted. Luckily, I was able to
-> > > > > > > > reproduce the same corruption over and over again by just using
-> > > > > > > > deqp-runner to run a specific set of VK test cases in parallel.
-> > > > > > > > 
-> > > > > > > > Fixing this issue doesn't seem to be very straightforward though (unless
-> > > > > > > > I miss something), which is why I'm writing this mail instead of sending
-> > > > > > > > a fix directly.
-> > > > > > > > 
-> > > > > > > > Spontaneously, I see three options to fix it:
-> > > > > > > > 
-> > > > > > > > 1. Rather than embedding the entity into driver specific structures
-> > > > > > > > (e.g. tied to file_priv) we could allocate the entity separately and
-> > > > > > > > reference count it, such that it's only freed up once all jobs that were
-> > > > > > > > deployed through this entity are fetched from the schedulers pending list.
-> > > > > > > > 
-> > > > > > > My vote is on this or something in similar vain for the long term. I
-> > > > > > > have some hope to be able to add a GPU scheduling algorithm with a bit
-> > > > > > > more fairness than the current one sometime in the future, which
-> > > > > > > requires execution time tracking on the entities.
-> > > > > > Danilo,
-> > > > > > 
-> > > > > > Using kref is preferable, i.e. option 1 above.
-> > > > > I think the only real motivation for doing that would be for generically
-> > > > > tracking job statistics within the entity a job was deployed through. If
-> > > > > we all agree on tracking job statistics this way I am happy to prepare a
-> > > > > patch for this option and drop this one:
-> > > > > https://lore.kernel.org/all/20230331000622.4156-1-dakr@redhat.com/T/#u
-> > > > Hmm, I never thought about "job statistics" when I preferred using kref above.
-> > > > The reason kref is attractive is because one doesn't need to worry about
-> > > > it--when the last user drops the kref, the release is called to do
-> > > > housekeeping. If this never happens, we know that we have a bug to debug.
-> > > 
-> > > Yeah, reference counting unfortunately have some traps as well. For
-> > > example rarely dropping the last reference from interrupt context or
-> > > with some unexpected locks help when the cleanup function doesn't expect
-> > > that is a good recipe for problems as well.
-> > > 
-> > > > Regarding the patch above--I did look around the code, and it seems safe,
-> > > > as per your analysis, I didn't see any reference to entity after job submission,
-> > > > but I'll comment on that thread as well for the record.
-> > > 
-> > > Reference counting the entities was suggested before. The intentionally
-> > > avoided that so far because the entity might be the tip of the iceberg
-> > > of stuff you need to keep around.
-> > > 
-> > > For example for command submission you also need the VM and when you
-> > > keep the VM alive you also need to keep the file private alive....
-> > 
-> > Yeah refcounting looks often like the easy way out to avoid
-> > use-after-free issue, until you realize you've just made lifetimes
-> > unbounded and have some enourmous leaks: entity keeps vm alive, vm
-> > keeps all the bo alives, somehow every crash wastes more memory
-> > because vk_device_lost means userspace allocates new stuff for
-> > everything.
-> 
-> Refcounting everywhere has been working well for us, so well that so far all
-> the oopses we've hit have been... drm_sched bugs like this one, not anything
-> in the driver. But at least in Rust you have the advantage that you can't
-> just forget a decref in a rarely-hit error path (or worse, forget an incref
-> somewhere important)... ^^
-> 
-> > If possible a lifetime design where lifetimes have hard bounds and you
-> > just borrow a reference under a lock (or some other ownership rule) is
-> > generally much more solid. But also much harder to design correctly
-> > :-/
-> > 
-> > > Additional to that we have some ugly inter dependencies between tearing
-> > > down an application (potential with a KILL signal from the OOM killer)
-> > > and backward compatibility for some applications which render something
-> > > and quit before the rendering is completed in the hardware.
-> > 
-> > Yeah I think that part would also be good to sort out once&for all in
-> > drm/sched, because i915 has/had the same struggle.
-> > -Daniel
-> > 
-> 
-> Is this really a thing? I think that's never going to work well for explicit
-> sync, since the kernel doesn't even know what BOs it has to keep alive for a
-> job... I guess it could keep the entire file and all of its objects/VMs/etc
-> alive until all of its submissions complete but... ewww.
-> 
-> Our Mesa implementation synchronously waits for all jobs on context destroy
-> for this reason, but if you just kill the app, yeah, you get faults as
-> running GPU jobs have BOs yanked out from under them. Kill loops make for a
-> good way of testing fault handling...
+Am 06.04.23 um 08:37 schrieb Daniel Vetter:
+> On Thu, Apr 06, 2023 at 02:08:10AM +0000, Matthew Brost wrote:
+>> On Wed, Apr 05, 2023 at 12:12:27PM +0200, Daniel Vetter wrote:
+>>> On Wed, 5 Apr 2023 at 11:57, Christian KÃ¶nig <christian.koenig@amd.com> wrote:
+>>>> Am 05.04.23 um 11:07 schrieb Daniel Vetter:
+>>>>> [SNIP]
+>>>>>> I would approach it from the complete other side. This component here is a
+>>>>>> tool to decide what job should run next.
+>>>>>>
+>>>>>> How that is then signaled and run should not be part of the scheduler, but
+>>>>>> another more higher level component.
+>>>>>>
+>>>>>> This way you also don't have a problem with not using DMA-fences as
+>>>>>> dependencies as well as constrains for running more jobs.
+>>>>> I think we're talking about two things here and mixing them up.
+>>>>>
+>>>>> For the dependencies I agree with you, and imo that higher level tool
+>>>>> should probably just be an on-demand submit thread in userspace for the
+>>>>> rare case where the kernel would need to sort out a dependency otherwise
+>>>>> (due to running out of ringspace in the per-ctx ringbuffer).
+>>>>>
+>>>>> The other thing is the message passing stuff, and this is what I was
+>>>>> talking about above. This has nothing to do with handling dependencies,
+>>>>> but with talking to the gpu fw. Here the intel design issue is that the fw
+>>>>> only provides a single queue, and it's in-order. Which means it
+>>>>> fundamentally has the stalling issue you describe as a point against a
+>>>>> message passing design. And fundamentally we need to be able to talk to
+>>>>> the fw in the scheduler ->run_job callback.
+>>>>>
+>>>>> The proposal here for the message passing part is that since it has the
+>>>>> stalling issue already anyway, and the scheduler needs to be involved
+>>>>> anyway, it makes sense to integrated this (as an optional thing, only for
+>>>>> drivers which have this kind of fw interface) into the scheduler.
+>>>>> Otherwise you just end up with two layers for no reason and more ping-pong
+>>>>> delay because the ->run_job needs to kick off the subordinate driver layer
+>>>>> first. Note that for this case the optional message passing support in the
+>>>>> drm/scheduler actually makes things better, because it allows you to cut
+>>>>> out one layer.
+>>>>>
+>>>>> Of course if a driver with better fw interface uses this message passing
+>>>>> support, then that's bad. Hence the big warning in the kerneldoc.
+>>>> Well what I wanted to say is that if you design the dependency handling
+>>>> / scheduler properly you don't need the message passing through it.
+>>>>
+>>>> For example if the GPU scheduler component uses a work item to do it's
+>>>> handling instead of a kthread you could also let the driver specify the
+>>>> work queue where this work item is executed on.
+>>>>
+>>>> When you design it like this the driver specifies the thread context of
+>>>> execution for it's job. In other words it can specify a single threaded
+>>>> firmware work queue as well.
+>>>>
+>>>> When you then have other messages which needs to be passed to the
+>>>> firmware you can also use the same single threaded workqueue for this.
+>>>>
+>>>> Drivers which have a different firmware interface would just use one of
+>>>> the system work queues instead.
+>>>>
+>>>> This approach basically decouples the GPU scheduler component from the
+>>>> message passing functionality.
+>>> Hm I guess we've been talking past each another big time, because
+>>> that's really what I thought was under discussions? Essentially the
+>>> current rfc, but implementing with some polish.
+>>>
+>> I think Daniel pretty much nailed it here (thanks), to recap:
+>>
+>> 1. I want the messages in the same worker so run_job / free_job /
+>> process_msg execution is mutual exclusive and also so during reset paths
+>> if the worker is stopped all the entry points can't be entered.
+>>
+>> If this is a NAK, then another worker is fine I guess. A lock between
+>> run_job / free_job + process_msg should solve the exclusion issue and the
+>> reset paths can also stop this new worker too. That being said I'd
+>> rather leave this as is but will not fight this point.
+>>
+>> 2. process_msg is just used to communicate with the firmware using the
+>> same queue as submission. Waiting for space in this queue is the only
+>> place this function can block (same as submission), well actually we
+>> have the concept a preempt time slice but that sleeps for 10 ms by
+>> default. Also preempt is only used in LR entities so I don't think it is
+>> relavent in this case either.
+>>
+>> 3. Agree this is in the dma-fence signaling path (if process_msg is in
+>> the submission worker) so we can't block indefinitely or an unreasonable
+>> period of time (i.e. we must obey dma-fence rules).
+> Just to hammer this in: Not just process_msg is in the dma_fence signaling
+> path, but the entire fw queue where everything is being funneled through,
+> including whatever the fw is doing to process these.
+>
+> Yes this is terrible and blew up a few times already :-/
+>
+> But also, probably something that the docs really need to hammer in, to
+> make sure people don't look at this and thinkg "hey this seems to be the
+> recommended way to do this on linux". We don't want hw people to build
+> more of these designs, they're an absolute pain to deal with with Linux'
+> dma_fence signalling and gpu job scheduling rules.
+>
+> It's just that if you're stuck with such fw, then integrating the flow
+> into drm/sched instead of having an extra layer of workers seems the
+> better of two pretty bad solutions.
 
-You wind down the entire thing on file close? Like
-- stop all context
-- tear down all context
-- tear down all vm
-- tear down all obj
+Yeah and if you have such fw limitations, make sure that you use 
+something which is understood by lockdep to feed into it.
 
-Just winding things down in a random order and then letting gpu fault
-handling sort out the mess doesn't strike me as particularly clean design
-...
+In other words, either locks or work item/queue and not some message 
+passing functionality through the scheduler.
 
-Cheers, Daniel
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+As far as I can see the approach with the work item/queue should fit 
+your needs here.
+
+Christian.
+
+> -Daniel
+>
+>   
+>> 4. Agree the documentation for thw usage of the messaging interface
+>> needs to be clear.
+>>
+>> 5. Agree that my code could alway use polishing.
+>>
+>> Lets close on #1 then can I get on general Ack on this part of the RFC
+>> and apply the polish in the full review process?
+>>
+>> Matt
+>>
+>>> iow I agree with you (I think at least).
+>>> -Daniel
+>>> -- 
+>>> Daniel Vetter
+>>> Software Engineer, Intel Corporation
+>>> http://blog.ffwll.ch
+
