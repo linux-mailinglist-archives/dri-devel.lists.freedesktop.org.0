@@ -1,55 +1,69 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93FAD6D905C
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Apr 2023 09:20:55 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 39BB96D9077
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Apr 2023 09:32:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C53B210E064;
-	Thu,  6 Apr 2023 07:20:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 37BC310EAF7;
+	Thu,  6 Apr 2023 07:32:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vs1-xe32.google.com (mail-vs1-xe32.google.com
- [IPv6:2607:f8b0:4864:20::e32])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BE4EE10E064
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Apr 2023 07:20:49 +0000 (UTC)
-Received: by mail-vs1-xe32.google.com with SMTP id b6so30405914vsu.12
- for <dri-devel@lists.freedesktop.org>; Thu, 06 Apr 2023 00:20:49 -0700 (PDT)
+Received: from mail-oi1-x22b.google.com (mail-oi1-x22b.google.com
+ [IPv6:2607:f8b0:4864:20::22b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D642410EAF7
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Apr 2023 07:32:08 +0000 (UTC)
+Received: by mail-oi1-x22b.google.com with SMTP id bx42so12906173oib.6
+ for <dri-devel@lists.freedesktop.org>; Thu, 06 Apr 2023 00:32:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1680765648;
+ d=ffwll.ch; s=google; t=1680766327;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=fQZnNfr+rBhTTZliY5pXLRCg5E7GawaSZx7bLaXCUWA=;
- b=gr03IPWw8xCzO8z1s3XXV8rA2qkRF5MmfLt98sAud2m8xi8lHXgs60q7bNsxZL2Smi
- gl4QsqQiSVY1Y6QC4MOOGJUcCUc+Bl7XzvwW6pKcVW+WPYG9F2fhIvv+IuZYXlwMTX+s
- jfF8gl0U1RG9xhEe0cfOB6cNyJ2Q4H65kuKiE=
+ bh=B/DSO7OfVGYLg6YRT1xg7Rl40zRCVw5jeawk/5VIDIM=;
+ b=J0xcqy4/o157Vkxd5wth+8Hh3h5HEmXOt8CnoLEm1fMEP47OWZUUQGlXSWyGYwzM/F
+ mwMdb7dve0svdOHo0Bk16U2IIlHHRmN9ZUTWnMqicZn0mHvT2RTzp/pK+yeUEWzqOfXz
+ ncLvaXSa8930QxSLc6GZZiacDc5mmTfVKvKnc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680765648;
+ d=1e100.net; s=20210112; t=1680766327;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=fQZnNfr+rBhTTZliY5pXLRCg5E7GawaSZx7bLaXCUWA=;
- b=HS488/Ux90IVHolJie8hd3jp9cQOZrOlmhKcrgB3NWF8r0yQexNxQPP1q8fBET3RCQ
- gD+Zug7AtJdanLbki0NAdDm5UL21BnH7og0mqiUql0K6OZGobaFaH0d3bq18f6a1saYY
- SgTPNxmh4qtmWhoetwnVk2/A2IKV3UX+BA1X6iyYAagBqQXwZLQAt6FJFLn4vMm+jx66
- pEZwsctFSuCEsKKBuVw4yNYDLpEDoIMgKxAqbq+y8tG5+TU2Zzt0L+aV7Spx7gmlcR4I
- 3K1ZWIRirUrdT8Sc0v9LHC3i5HzcTrZNWbo1IZIep6QbeiG0INh1i75HS/7/tHgrFG96
- eC+w==
-X-Gm-Message-State: AAQBX9eCIFg7ybGIq3KhrY8wpGArMY08JGLGWfUXL9eZv9y8ZaJi88Nq
- FEt6zgJ0W0vV7luIMK2Lxop6C42DwceVTfOT+FcOoQ==
-X-Google-Smtp-Source: AKy350ZKHVlhoBhxEN/6Xhz9wuYrGUS4GAEp7DN3aTjD5fTNIAiVKilFb0mDuij13QyIaSLsC3aOGmsypz86GhOovyQ=
-X-Received: by 2002:a67:c01c:0:b0:425:cf00:e332 with SMTP id
- v28-20020a67c01c000000b00425cf00e332mr6176192vsi.7.1680765648481; Thu, 06 Apr
- 2023 00:20:48 -0700 (PDT)
+ bh=B/DSO7OfVGYLg6YRT1xg7Rl40zRCVw5jeawk/5VIDIM=;
+ b=hCG2yycDDW5PRe+zHl8vO5m0+sjFkp6Ya3xN9iQsoW+7rE7YD/5cm7CkSuIgd2uuJg
+ dI3u1anafsZJ3ON4kaYenjJux0FPjq217OvJywcwqQs1z0E3fuSSmeq5GJdZOMiovxkV
+ VQDEL7tTmROLOC7DFldz1fwGnVkZFEwwjKJnbk0TmcJYExPokPIATH+Oo6YFop4cLAL/
+ RPCkKciDZoXvTDPw3Xo/IUn0K6mOSlTKdRaPlqkRI+ktxofUlV240qId4du4V8gzSG5W
+ E70PFx8U36W5+Nty/u96sXQwc1kuu1EN/EEb7ArK8h+QYDWjCOsHobPXMindr+mV3DNV
+ 22Bw==
+X-Gm-Message-State: AAQBX9d8szQihrotuS1OfYrAETgDbb+xbLuf8+TRZbK7+nBhc00dtZL9
+ icc6EoHl3MPxavYeJuz0/M88tFwq4AU2Pas4qfr/iQ==
+X-Google-Smtp-Source: AKy350aLJrHe9Iv6tP0aWcFnn+UTFdGnp04KLcVFYe+sBjXDG6Are7TNP+igDKXKtUND9fRTMC4PHrcHsLq9d3nTrFA=
+X-Received: by 2002:a05:6808:2807:b0:387:1afd:5924 with SMTP id
+ et7-20020a056808280700b003871afd5924mr2465067oib.8.1680766327612; Thu, 06 Apr
+ 2023 00:32:07 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230404104800.301150-1-angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20230404104800.301150-1-angelogioacchino.delregno@collabora.com>
-From: Chen-Yu Tsai <wenst@chromium.org>
-Date: Thu, 6 Apr 2023 15:20:37 +0800
-Message-ID: <CAGXv+5FEEkMg+SY7ZkSHN2G9jtT6TBiN9MadZmYGMX_uVi5=gQ@mail.gmail.com>
-Subject: Re: [PATCH v3 0/9] MediaTek DisplayPort: support eDP and aux-bus
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+References: <20230404201842.567344-1-daniel.vetter@ffwll.ch>
+ <5556a755-01a1-3620-8693-0fc69c6f627d@suse.de>
+ <3813a2f5-c74a-4760-34ce-1c88f187c91c@suse.de>
+ <ZC04hoHywz0ySzAW@phenom.ffwll.local>
+ <3fd03c4c-3be6-e56b-faec-bd67a58cda09@suse.de>
+ <ZC1BlNCbXPlmAhj0@phenom.ffwll.local>
+ <eee11545-2a78-4556-be82-5178ea09d0d8@suse.de>
+ <877cuqd1f8.fsf@minerva.mail-host-address-is-not-set>
+ <ZC11J3og4Kc9ta6m@phenom.ffwll.local>
+ <242ab20f-affe-b55a-6068-5ea634705cf6@suse.de>
+ <ZC2beu/9inolwIlr@phenom.ffwll.local>
+ <87bkk29smu.fsf@minerva.mail-host-address-is-not-set>
+ <CAKMK7uGbPWE5mg2+ojxxEdfknDzmjDr+5n_y-t-nYNzDFE21EA@mail.gmail.com>
+ <CAMeQTsam0efUrS=x+Eb+p8A3rXgCOUmA7UVjFB=9oAKFoepzOw@mail.gmail.com>
+In-Reply-To: <CAMeQTsam0efUrS=x+Eb+p8A3rXgCOUmA7UVjFB=9oAKFoepzOw@mail.gmail.com>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Thu, 6 Apr 2023 09:31:56 +0200
+Message-ID: <CAKMK7uEKab8UN4U=ztER_4zyODNJhxVhowJ6yDVBWuLd978MDQ@mail.gmail.com>
+Subject: Re: [Intel-gfx] [PATCH 1/8] drm/gma500: Use
+ drm_aperture_remove_conflicting_pci_framebuffers
+To: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -64,131 +78,164 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: chunkuang.hu@kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
- matthias.bgg@gmail.com, kernel@collabora.com,
- linux-arm-kernel@lists.infradead.org
+Cc: Daniel Vetter <daniel.vetter@intel.com>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Apr 4, 2023 at 6:48=E2=80=AFPM AngeloGioacchino Del Regno
-<angelogioacchino.delregno@collabora.com> wrote:
+On Wed, 5 Apr 2023 at 19:46, Patrik Jakobsson
+<patrik.r.jakobsson@gmail.com> wrote:
 >
-> Changes in v3:
->  - Added DPTX AUX block initialization before trying to communicate
->    to stop relying on the bootloader keeping it initialized before
->    booting Linux.
->  - Fixed commit description for patch [09/09] and removed commented
->    out code (that slipped from dev phase.. sorry!).
+> On Wed, Apr 5, 2023 at 7:15=E2=80=AFPM Daniel Vetter <daniel@ffwll.ch> wr=
+ote:
+> >
+> > On Wed, 5 Apr 2023 at 18:54, Javier Martinez Canillas
+> > <javierm@redhat.com> wrote:
+> > >
+> > > Daniel Vetter <daniel@ffwll.ch> writes:
+> > >
+> > > > On Wed, Apr 05, 2023 at 04:32:19PM +0200, Thomas Zimmermann wrote:
+> > >
+> > > [...]
+> > >
+> > > >> > > >        /*
+> > > >> > > >         * WARNING: Apparently we must kick fbdev drivers bef=
+ore vgacon,
+> > > >> > > >         * otherwise the vga fbdev driver falls over.
+> > > >> > > >         */
+> > > >> > > >        ret =3D vga_remove_vgacon(pdev);
+> > > >> >
+> > > >> > This isn't enough, we also nuke stuff that's mapping the vga fb =
+range.
+> > >
+> > > Ah, also need aperture_detach_devices(VGA_FB_PHYS_BASE, VGA_FB_PHYS_S=
+IZE) then.
+> > >
+> > > [...]
+> > >
+> > > >> int aperture_remove_legacy_vga_devices(struct pci_dev *pdev)
+> > > >> {
+> > > >>      aperture_detach_devices(VGA_FB_PHYS_BASE, VGA_FB_PHYS_SIZE);
+> > > >>
+> > > >>      return vga_remove_vgacon(pdev);
+> > > >> }
+> > > >>
+> > > >> And that can be called from gma500 and the pci aperture helper.
+> > > >
+> > > > But you still pass a pci_dev to that helper. Which just doesn't mak=
+e any
+> > > > sense to me (assuming your entire point is that this isn't just a n=
+ormal
+> > > > pci device but some special legacy vga thing), but if we go with (v=
+oid)
+> > > > then there's more refactoring to do because the vga_remove_vgacon a=
+lso
+> > > > wants a pdev.
+> > > >
+> > > > All so that we don't call aperture_detach_devices() on a bunch of p=
+ci
+> > > > bars, which apparently is not problem for any other driver, but abs=
+olutely
+> > > > is a huge problem for gma500 somehow.
+> > > >
+> > > > I don't understand why.
+> > > >
+> > >
+> > > Yeah, agreed that if vga_remove_vgacon() isn't enough and another hel=
+per
+> > > is needed then starts to get a little silly. Maybe one option is to a=
+dd a
+> > > 3rd param to aperture_remove_conflicting_pci_devices() and skip the l=
+ogic
+> > > to iterate over PCI bars and call aperture_remove_conflicting_devices=
+() ?
+> >
+> > The thing I don't get: Why does this matter for gma500 and not any of
+> > the other pci devices? Look at your gpu, realize there's a lot more
+> > than the one pci bar for vram or stolen memory, realize that we're
+> > nuking bars that cannot possible contain the framebuffer for everyone
+> > else too. Like the entire "gpus have a lot of bars" thing is the
+> > reason why I pulled the sysfb_disable one level up, because we've been
+> > doing that quite a few times before this patch (yes it's not the main
+> > thing, but the side-effect cleanup is why I've gone down this rabbit
+> > hole and wrote the entire series here):
+> >
+> > https://lore.kernel.org/dri-devel/20230404201842.567344-7-daniel.vetter=
+@ffwll.ch/
+> >
+> > But somehow for gma500 it's a problem, while for everyone else it's
+> > fine. That's the part I dont get, or Thomas&me have been talking past
+> > each another and there's another issue that I'm missing.
+> > -Daniel
 >
-> This series adds "real" support for eDP in the mtk-dp DisplayPort driver.
+> I'm also getting confused here.
 >
-> Explaining the "real":
-> Before this change, the DisplayPort driver did support eDP to some
-> extent, but it was treating it entirely like a regular DP interface
-> which is partially fine, after all, embedded DisplayPort *is* actually
-> DisplayPort, but there might be some differences to account for... and
-> this is for both small performance improvements and, more importantly,
-> for correct functionality in some systems.
->
-> Functionality first:
->
-> One of the common differences found in various boards implementing eDP
-> and machines using an eDP panel is that many times the HPD line is not
-> connected. This *must* be accounted for: at startup, this specific IP
-> will raise a HPD interrupt (which should maybe be ignored... as it does
-> not appear to be a "real" event...) that will make the eDP panel to be
-> detected and to actually work but, after a suspend-resume cycle, there
-> will be no HPD interrupt (as there's no HPD line in my case!) producing
-> a functionality issue - specifically, the DP Link Training fails because
-> the panel doesn't get powered up, then it stays black and won't work
-> until rebooting the machine (or removing and reinserting the module I
-> think, but I haven't tried that).
->
-> Now for.. both:
-> eDP panels are *e*DP because they are *not* removable (in the sense that
-> you can't unplug the cable without disassembling the machine, in which
-> case, the machine shall be powered down..!): this (correct) assumption
-> makes us able to solve some issues and to also gain a little performance
-> during PM operations.
->
-> What was done here is:
->  - Caching the EDID if the panel is eDP: we're always going to read the
->    same data everytime, so we can just cache that (as it's small enough)
->    shortening PM resume times for the eDP driver instance;
->  - Always return connector_status_connected if it's eDP: non-removable
->    means connector_status_disconnected can't happen during runtime...
->    this also saves us some time and even power, as we won't have to
->    perform yet another power cycle of the HW;
->  - Added aux-bus support!
->    This makes us able to rely on panel autodetection from the EDID,
->    avoiding to add more and more panel timings to panel-edp and, even
->    better, allowing to use one panel node in devicetrees for multiple
->    variants of the same machine since, at that point, it's not important
->    to "preventively know" what panel we have (eh, it's autodetected...!).
->
-> This was tested on a MT8195 Cherry Tomato Chromebook (panel-edp on aux-bu=
-s)
->
->
-> P.S.: For your own testing commodity, here's a reference devicetree:
-> &edp_tx {
->         status =3D "okay";
->
->         pinctrl-names =3D "default";
->         pinctrl-0 =3D <&edptx_pins_default>;
->
->         ports {
->                 #address-cells =3D <1>;
->                 #size-cells =3D <0>;
->
->                 port@0 {
->                         reg =3D <0>;
->                         edp_in: endpoint {
->                                 remote-endpoint =3D <&dp_intf0_out>;
->                         };
->                 };
->
->                 port@1 {
->                         reg =3D <1>;
->                         edp_out: endpoint {
->                                 data-lanes =3D <0 1 2 3>;
->                                 remote-endpoint =3D <&panel_in>;
->                         };
->                 };
->         };
->
->         aux-bus {
->                 panel: panel {
->                         compatible =3D "edp-panel";
->                         power-supply =3D <&pp3300_disp_x>;
->                         backlight =3D <&backlight_lcd0>;
->                         port {
->                                 panel_in: endpoint {
->                                         remote-endpoint =3D <&edp_out>;
->                                 };
->                         };
->                 };
->         };
-> };
->
-> AngeloGioacchino Del Regno (9):
->   drm/mediatek: dp: Cache EDID for eDP panel
->   drm/mediatek: dp: Move AUX and panel poweron/off sequence to function
->   drm/mediatek: dp: Always return connected status for eDP in .detect()
->   drm/mediatek: dp: Always set cable_plugged_in at resume for eDP panel
->   drm/mediatek: dp: Change logging to dev for mtk_dp_aux_transfer()
->   drm/mediatek: dp: Enable event interrupt only when bridge attached
->   drm/mediatek: dp: Use devm variant of drm_bridge_add()
->   drm/mediatek: dp: Move AUX_P0 setting to
->     mtk_dp_initialize_aux_settings()
->   drm/mediatek: dp: Add support for embedded DisplayPort aux-bus
+> AFAIK the stolen memory works the same for gma500 hardware as other
+> Intel GPUs. Are you saying that there is a difference in how gma500
+> hardware works? I always assumed that i915 got away with not dealing
+> much with stolen memory because it simply doesn't use it for
+> allocations. In gma500 we use it for fbdev and cursors. The actual
+> pages reserved by the bios can be accessed through a pci bar if you
+> map it so (which IIRC we do) but I suppose that doesn't help
+> identifying it as a range reserved by other drivers.
 
-Tested-by: Chen-Yu Tsai <wenst@chromium.org>
+The other integrated gpu have their fw fb behind a pci bar, and stolen
+is often entirely hidden from the cpu for direct access. gma500 seems
+different with having stolen as just a specially marked up range of
+normal system memory. That's why the usual pci helper doesn't catch
+everything for gma500.
 
-on MT8195 Tomato: eDP panel works if the display panel regulator is always
-on. External DP works.
+> The reason I've kept the stolen allocation logic is because some
+> gma500 systems don't have a lot of memory. But that is mostly the old
+> Pouslbo systems. Perhaps it is time to ditch the stolen allocation
+> code?
 
-Maybe it has something to do with the driver not supporting .wait_hpd_asser=
-ted
-and not using a GPIO for HPD?
+Yeah that's all fine.
+-Daniel
+
+>
+> -Patrik
+>
+> >
+> > > > Consider this me throwing in the towel. If you&Javier are convinced=
+ this
+> > > > makes sense please type it up and merge it, but I'm not going to ty=
+pe
+> > > > something that just doesn't make sense to me.
+> > >
+> > > Honestly, I would just go with the double drm_aperture_remove_*() hel=
+per
+> > > calls (your original patch) unless that causes real issues. There is =
+no
+> > > point on blocking all your series just for this IMO.
+> > >
+> > > Then latter if Thomas has strong opinions can send a follow-up patch =
+for
+> > > the gma500 driver and the aperture helpers.
+> > >
+> > > > -Daniel
+> > > >
+> > >
+> > > --
+> > > Best regards,
+> > >
+> > > Javier Martinez Canillas
+> > > Core Platforms
+> > > Red Hat
+> > >
+> >
+> >
+> > --
+> > Daniel Vetter
+> > Software Engineer, Intel Corporation
+> > http://blog.ffwll.ch
+
+
+
+--=20
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
