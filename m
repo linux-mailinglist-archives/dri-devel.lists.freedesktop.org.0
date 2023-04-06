@@ -2,54 +2,23 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11B786DA308
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Apr 2023 22:32:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98C876DA35B
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Apr 2023 22:35:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D3B2A10ED11;
-	Thu,  6 Apr 2023 20:32:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3F09210ED00;
+	Thu,  6 Apr 2023 20:35:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com
- [IPv6:2a00:1450:4864:20::632])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B916010ED11
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Apr 2023 20:32:52 +0000 (UTC)
-Received: by mail-ej1-x632.google.com with SMTP id 11so4218974ejw.0
- for <dri-devel@lists.freedesktop.org>; Thu, 06 Apr 2023 13:32:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1680813171;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=F6xd2tffMesWFruLPM1ew1mkLwGCByzlCgeOCdIQWX8=;
- b=DwuJ2jedcpUw2EfvPj3qQD1GgTtcC/5Qz7Treay1VS8UPa/mRtH03W7FaWhnMeSVe0
- PR60NrOAMxI36GmZqVwHD489+b1fGEZXoaQmBJb8peldCOzclB6kz61j2O9c0o5njqSO
- y1ufd3TaYUXMgcSkqCXKyd/2sV8X3tI/OrX1pC2epQLCA+MC2DO6GQ44uHahiMQMOtSr
- zRDVEBJbiCJ/xklk8TCU5UPVgnqvvD4C/TsZNszCuOXo6NLxg+og6J50vyYNv19AS2iV
- NrFNV1DpY2Qyg0dFBMRhrb5DyS26YyhZ3QxL4x4LK7L737Iqxdg2U52WTqMDM1Rtw5Yf
- FynA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680813171;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=F6xd2tffMesWFruLPM1ew1mkLwGCByzlCgeOCdIQWX8=;
- b=lWUQ1bdZiXRjIR0tPoWozEJVv73kZynChAfE/IPrWnRf2wXiXh5CXhmh7KCTPbgPL3
- P0MQ4rjf60g09spszOXm3o+2IgkWgysOI7/vTcHZD9mQp4XkINj99IPrb+ZXf3Oi2Jcp
- Z/yTwGSBSbNyW7eDa8dFXxCP3Gj9D/htLJqO0I2VccoAy/DMNkkzeYkKEsg17eP0/DFD
- wV3o7KrzUSRfSaM66Eqkq9W2l5aqi1CwMh6NiBqOzObofXyWRFrDerk4EDZd4vbzBRCo
- 9nnz5ItFaJTLlueimhsFB+8XJZYUv1ypF8rh0k6k/T2PeY/olJF3JXNCNF8wM20w9X0J
- ZApg==
-X-Gm-Message-State: AAQBX9eWiGQdkR6j9ks4f5OroIZgRd6GkWpr25gXmVh/O6idNoMzZnC7
- ia9Fbow+dG2fjYwikx5NrL0bPw==
-X-Google-Smtp-Source: AKy350YQQ4yv0Yy1Sm/TSHO4269gRNFhi/NQTvipZiwH14XFvPbV3LSIfiiAbAQvS7lc25T4DePO7Q==
-X-Received: by 2002:a17:906:a414:b0:905:a46b:a725 with SMTP id
- l20-20020a170906a41400b00905a46ba725mr6085652ejz.16.1680813171250; 
- Thu, 06 Apr 2023 13:32:51 -0700 (PDT)
-Received: from krzk-bin.. ([2a02:810d:15c0:828:49e6:bb8c:a05b:c4ed])
- by smtp.gmail.com with ESMTPSA id
- s4-20020a1709067b8400b0092bea699124sm1210330ejo.106.2023.04.06.13.32.49
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 06 Apr 2023 13:32:50 -0700 (PDT)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 13B6B10ED00
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Apr 2023 20:35:46 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 6253E60FB3;
+ Thu,  6 Apr 2023 20:35:45 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0C716C433D2;
+ Thu,  6 Apr 2023 20:35:33 +0000 (UTC)
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 To: Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>,
  Jonathan Corbet <corbet@lwn.net>, Oded Gabbay <ogabbay@kernel.org>,
@@ -81,15 +50,15 @@ To: Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>,
  Daniel Machon <daniel.machon@microchip.com>, UNGLinuxDriver@microchip.com,
  Agathe Porte <agathe.porte@nokia.com>,
  Eric Tremblay <etremblay@distech-controls.com>,
- Robert Marko <robert.marko@sartura.hr>,
- Luka Perkov <luka.perkov@sartura.hr>, linux-hwmon@vger.kernel.org,
+ Robert Marko <robert.marko@sartura.hr>, linux-hwmon@vger.kernel.org,
  linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
  dri-devel@lists.freedesktop.org, patches@opensource.cirrus.com,
  openbmc@lists.ozlabs.org, linux-rpi-kernel@lists.infradead.org,
  linux-arm-kernel@lists.infradead.org
-Subject: [PATCH 41/68] hwmon: max6650: constify pointers to hwmon_channel_info
-Date: Thu,  6 Apr 2023 22:30:36 +0200
-Message-Id: <20230406203103.3011503-42-krzysztof.kozlowski@linaro.org>
+Subject: [PATCH 42/68] hwmon: mc34vr500: constify pointers to
+ hwmon_channel_info
+Date: Thu,  6 Apr 2023 22:35:23 +0200
+Message-Id: <20230406203530.3012191-1-krzysztof.kozlowski@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230406203103.3011503-1-krzysztof.kozlowski@linaro.org>
 References: <20230406203103.3011503-1-krzysztof.kozlowski@linaro.org>
@@ -116,22 +85,22 @@ const for safety.
 
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 ---
- drivers/hwmon/max6650.c | 2 +-
+ drivers/hwmon/mc34vr500.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/hwmon/max6650.c b/drivers/hwmon/max6650.c
-index f8d4534ce172..19e2c762ed2d 100644
---- a/drivers/hwmon/max6650.c
-+++ b/drivers/hwmon/max6650.c
-@@ -737,7 +737,7 @@ static umode_t max6650_is_visible(const void *_data,
- 	return 0;
+diff --git a/drivers/hwmon/mc34vr500.c b/drivers/hwmon/mc34vr500.c
+index 6268e973049c..6a7a950a9332 100644
+--- a/drivers/hwmon/mc34vr500.c
++++ b/drivers/hwmon/mc34vr500.c
+@@ -138,7 +138,7 @@ static int mc34vr500_read(struct device *dev, enum hwmon_sensor_types type,
+ 	}
  }
  
--static const struct hwmon_channel_info *max6650_info[] = {
-+static const struct hwmon_channel_info * const max6650_info[] = {
- 	HWMON_CHANNEL_INFO(fan, HWMON_F_INPUT | HWMON_F_TARGET | HWMON_F_DIV |
- 			   HWMON_F_MIN_ALARM | HWMON_F_MAX_ALARM |
- 			   HWMON_F_FAULT,
+-static const struct hwmon_channel_info *mc34vr500_info[] = {
++static const struct hwmon_channel_info * const mc34vr500_info[] = {
+ 	HWMON_CHANNEL_INFO(in, HWMON_I_MIN_ALARM),
+ 	HWMON_CHANNEL_INFO(temp, HWMON_T_MAX_ALARM | HWMON_T_CRIT_ALARM
+ 			   | HWMON_T_EMERGENCY_ALARM),
 -- 
 2.34.1
 
