@@ -1,54 +1,76 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE28C6D923A
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Apr 2023 11:05:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B3F16D923D
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Apr 2023 11:05:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9C64A10EB3E;
-	Thu,  6 Apr 2023 09:05:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EC6F310EB40;
+	Thu,  6 Apr 2023 09:05:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2AFAE10EB3E
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Apr 2023 09:05:18 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits))
- (No client certificate requested)
- (Authenticated sender: lina@asahilina.net)
- by mail.marcansoft.com (Postfix) with ESMTPSA id DF7AF42528;
- Thu,  6 Apr 2023 09:05:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=asahilina.net;
- s=default; t=1680771916;
- bh=L2mgRFIsiDrq4UmWAD/bAElglOyJx/ilSQqRLQnCbBY=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To;
- b=U4a86YUTEZzifO170+N2QFi7WGWWoj4z4f9W5RP5eHfXd04mqcApRFR+Hz4PPB99o
- O3u2xVKS12xnUUe/0F0H19BMcXzTnAMDRiUn24sapXXi0+tMICoApZQKTmsaQHZbgr
- sNIIo2r86gu1R4q1jLB4dhd8Qxv+TJBPa5RQqevScGgc9gzCY7PkaSE1+bGsvkXAu+
- zy56y4XD4wYshcGbYpQbqcdbycINfy7/Lf5XLhbfnzKBA17Bjfk0406MsjPtxgXAkU
- 1iN/CmlOHt5fw85dMZI+oqOi5VLRpsGoLGvX6WW0gkz/yeRhpvJeHmAjzyoLi1hxiJ
- cE9eROoHyWoTQ==
-Message-ID: <24fe6e14-0d0a-f874-766d-e8d045d1e80e@asahilina.net>
-Date: Thu, 6 Apr 2023 18:05:11 +0900
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C214810EB3F
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Apr 2023 09:05:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1680771947;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=2ykhPQtv509Jd5lq9iZLBJbGhGg0HZUUvY7XmspuQb0=;
+ b=RqKO6mAXh8hymYRmk2JNy/UsAppzzPA//MphVr+C4vRUo4ml4O4bjDDPrXE1ki7Dr19SWX
+ buFCL3FLNZU3McJVZRbc0B2ky6q/psV0cLs+r99tnCPu8XeGQb6K2AjSlYDE83ti8Z6kw7
+ ylztjLykXMOzhIB2TalD7HwGosPjMOU=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-628-Y_61IOySMU6WSamlh8m1Qw-1; Thu, 06 Apr 2023 05:05:46 -0400
+X-MC-Unique: Y_61IOySMU6WSamlh8m1Qw-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ m4-20020adfa3c4000000b002e75158e632so2113015wrb.17
+ for <dri-devel@lists.freedesktop.org>; Thu, 06 Apr 2023 02:05:46 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1680771945;
+ h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=2ykhPQtv509Jd5lq9iZLBJbGhGg0HZUUvY7XmspuQb0=;
+ b=gKCOXYac/34kRxcQYw8aHRyxA4jvHfmw1pk/ad+BKV1oBQ5fLQHaDoKBmdibxmnWzk
+ vU1ZfOQxMug7MRJTNDCPKXRyfTr8yjqdt279OA1RKubCipUpsd5/NcPn7ODisTO5qqBU
+ My8pye1G+v/ZiFB9ELw48JvVkgzEtElZqNTzrxJlG2rcLh+z7STkmCOGzCmBmtzVWrpq
+ Vv01ofINRvpByHcVGCDaGoNKasKhMkiFafN92hW7xloEA1izjgffgEWjsOyVC38TzNJz
+ vkij7cvf0mpqeyNIb3o19yXVMG4IPSXd0/oRUeRRE+9yVaWD4AHg5LNG/hNLznjywGnR
+ OQCw==
+X-Gm-Message-State: AAQBX9e+0l/Fu42uOuY1SniwEOk7ES10sq03/t31PAFXSoQ/3oIJ+xNu
+ zuoosHoYQcDQo8Hao8sZYb+SpBTZrtodSFKCcZRd2PpD6A4S2SsOQQjy0feJCR8YAv8wElsakft
+ 1+J5ZDWZIDHXszDFQNyCnnH6pnjd7g6mtB4ID
+X-Received: by 2002:a05:600c:2183:b0:3f0:3d45:9aec with SMTP id
+ e3-20020a05600c218300b003f03d459aecmr6518421wme.4.1680771945724; 
+ Thu, 06 Apr 2023 02:05:45 -0700 (PDT)
+X-Google-Smtp-Source: AKy350ZrvGmFgJCSlceaf+ANiMJN21tX2PikZ0ugl5e+iKVyQwx4n6bhGi4e4RDjBd8NE1G43zH8AA==
+X-Received: by 2002:a05:600c:2183:b0:3f0:3d45:9aec with SMTP id
+ e3-20020a05600c218300b003f03d459aecmr6518405wme.4.1680771945447; 
+ Thu, 06 Apr 2023 02:05:45 -0700 (PDT)
+Received: from localhost ([84.78.248.32]) by smtp.gmail.com with ESMTPSA id
+ q31-20020a05600c331f00b003ee610d1ce9sm4621096wmp.34.2023.04.06.02.05.45
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 06 Apr 2023 02:05:45 -0700 (PDT)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>, Daniel Vetter
+ <daniel.vetter@ffwll.ch>, DRI Development <dri-devel@lists.freedesktop.org>
+Subject: Re: [PATCH 1/8] drm/gma500: Use
+ drm_aperture_remove_conflicting_pci_framebuffers
+In-Reply-To: <f5f9fe8e-9df2-e201-b7f3-be717fa4bdb8@suse.de>
+References: <20230404201842.567344-1-daniel.vetter@ffwll.ch>
+ <66f9196e-df2b-19ce-e2ec-15f7a81d63c7@suse.de>
+ <87ttxt8kxr.fsf@minerva.mail-host-address-is-not-set>
+ <f5f9fe8e-9df2-e201-b7f3-be717fa4bdb8@suse.de>
+Date: Thu, 06 Apr 2023 11:05:44 +0200
+Message-ID: <87jzyp8jo7.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [Regression] drm/scheduler: track GPU active time per entity
-Content-Language: en-US
-To: Daniel Vetter <daniel@ffwll.ch>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-References: <3e00d8a9-b6c4-8202-4f2d-5a659c61d094@redhat.com>
- <2a84875dde6565842aa07ddb96245b7d939cb4fd.camel@pengutronix.de>
- <8b28151c-f2db-af3f-8dff-87dd5d57417b@amd.com>
- <3004a2bf-e725-643e-82af-8a217784e796@redhat.com>
- <013781a3-5abd-8c66-8a0a-dd36c9c487af@amd.com>
- <28d10733-b217-7ccc-4b8c-54bdc8249234@amd.com>
- <CAKMK7uFeeAaG8+1EutgMtmVANTb-acL0faEkJfUp1_35rSjaEg@mail.gmail.com>
-From: Asahi Lina <lina@asahilina.net>
-In-Reply-To: <CAKMK7uFeeAaG8+1EutgMtmVANTb-acL0faEkJfUp1_35rSjaEg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,135 +83,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Matthew Brost <matthew.brost@intel.com>, andrey.grodzovsky@amd.com,
- tvrtko.ursulin@linux.intel.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Luben Tuikov <luben.tuikov@amd.com>,
- Danilo Krummrich <dakr@redhat.com>, yuq825@gmail.com,
- Bagas Sanjaya <bagasdotme@gmail.com>,
- Boris Brezillon <boris.brezillon@collabora.com>
+Cc: Daniel Vetter <daniel.vetter@intel.com>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 06/04/2023 17.27, Daniel Vetter wrote:
-> On Thu, 6 Apr 2023 at 10:22, Christian König <christian.koenig@amd.com> wrote:
->>
->> Am 05.04.23 um 18:09 schrieb Luben Tuikov:
->>> On 2023-04-05 10:05, Danilo Krummrich wrote:
->>>> On 4/4/23 06:31, Luben Tuikov wrote:
->>>>> On 2023-03-28 04:54, Lucas Stach wrote:
->>>>>> Hi Danilo,
->>>>>>
->>>>>> Am Dienstag, dem 28.03.2023 um 02:57 +0200 schrieb Danilo Krummrich:
->>>>>>> Hi all,
->>>>>>>
->>>>>>> Commit df622729ddbf ("drm/scheduler: track GPU active time per entity")
->>>>>>> tries to track the accumulated time that a job was active on the GPU
->>>>>>> writing it to the entity through which the job was deployed to the
->>>>>>> scheduler originally. This is done within drm_sched_get_cleanup_job()
->>>>>>> which fetches a job from the schedulers pending_list.
->>>>>>>
->>>>>>> Doing this can result in a race condition where the entity is already
->>>>>>> freed, but the entity's newly added elapsed_ns field is still accessed
->>>>>>> once the job is fetched from the pending_list.
->>>>>>>
->>>>>>> After drm_sched_entity_destroy() being called it should be safe to free
->>>>>>> the structure that embeds the entity. However, a job originally handed
->>>>>>> over to the scheduler by this entity might still reside in the
->>>>>>> schedulers pending_list for cleanup after drm_sched_entity_destroy()
->>>>>>> already being called and the entity being freed. Hence, we can run into
->>>>>>> a UAF.
->>>>>>>
->>>>>> Sorry about that, I clearly didn't properly consider this case.
->>>>>>
->>>>>>> In my case it happened that a job, as explained above, was just picked
->>>>>>> from the schedulers pending_list after the entity was freed due to the
->>>>>>> client application exiting. Meanwhile this freed up memory was already
->>>>>>> allocated for a subsequent client applications job structure again.
->>>>>>> Hence, the new jobs memory got corrupted. Luckily, I was able to
->>>>>>> reproduce the same corruption over and over again by just using
->>>>>>> deqp-runner to run a specific set of VK test cases in parallel.
->>>>>>>
->>>>>>> Fixing this issue doesn't seem to be very straightforward though (unless
->>>>>>> I miss something), which is why I'm writing this mail instead of sending
->>>>>>> a fix directly.
->>>>>>>
->>>>>>> Spontaneously, I see three options to fix it:
->>>>>>>
->>>>>>> 1. Rather than embedding the entity into driver specific structures
->>>>>>> (e.g. tied to file_priv) we could allocate the entity separately and
->>>>>>> reference count it, such that it's only freed up once all jobs that were
->>>>>>> deployed through this entity are fetched from the schedulers pending list.
->>>>>>>
->>>>>> My vote is on this or something in similar vain for the long term. I
->>>>>> have some hope to be able to add a GPU scheduling algorithm with a bit
->>>>>> more fairness than the current one sometime in the future, which
->>>>>> requires execution time tracking on the entities.
->>>>> Danilo,
->>>>>
->>>>> Using kref is preferable, i.e. option 1 above.
->>>> I think the only real motivation for doing that would be for generically
->>>> tracking job statistics within the entity a job was deployed through. If
->>>> we all agree on tracking job statistics this way I am happy to prepare a
->>>> patch for this option and drop this one:
->>>> https://lore.kernel.org/all/20230331000622.4156-1-dakr@redhat.com/T/#u
->>> Hmm, I never thought about "job statistics" when I preferred using kref above.
->>> The reason kref is attractive is because one doesn't need to worry about
->>> it--when the last user drops the kref, the release is called to do
->>> housekeeping. If this never happens, we know that we have a bug to debug.
->>
->> Yeah, reference counting unfortunately have some traps as well. For
->> example rarely dropping the last reference from interrupt context or
->> with some unexpected locks help when the cleanup function doesn't expect
->> that is a good recipe for problems as well.
->>
->>> Regarding the patch above--I did look around the code, and it seems safe,
->>> as per your analysis, I didn't see any reference to entity after job submission,
->>> but I'll comment on that thread as well for the record.
->>
->> Reference counting the entities was suggested before. The intentionally
->> avoided that so far because the entity might be the tip of the iceberg
->> of stuff you need to keep around.
->>
->> For example for command submission you also need the VM and when you
->> keep the VM alive you also need to keep the file private alive....
-> 
-> Yeah refcounting looks often like the easy way out to avoid
-> use-after-free issue, until you realize you've just made lifetimes
-> unbounded and have some enourmous leaks: entity keeps vm alive, vm
-> keeps all the bo alives, somehow every crash wastes more memory
-> because vk_device_lost means userspace allocates new stuff for
-> everything.
+Thomas Zimmermann <tzimmermann@suse.de> writes:
 
-Refcounting everywhere has been working well for us, so well that so far 
-all the oopses we've hit have been... drm_sched bugs like this one, not 
-anything in the driver. But at least in Rust you have the advantage that 
-you can't just forget a decref in a rarely-hit error path (or worse, 
-forget an incref somewhere important)... ^^
+[...]
 
-> If possible a lifetime design where lifetimes have hard bounds and you
-> just borrow a reference under a lock (or some other ownership rule) is
-> generally much more solid. But also much harder to design correctly
-> :-/
-> 
->> Additional to that we have some ugly inter dependencies between tearing
->> down an application (potential with a KILL signal from the OOM killer)
->> and backward compatibility for some applications which render something
->> and quit before the rendering is completed in the hardware.
-> 
-> Yeah I think that part would also be good to sort out once&for all in
-> drm/sched, because i915 has/had the same struggle.
-> -Daniel
-> 
+>>> +EXPORT_SYMBOL(__aperture_remove_legacy_vga_devices);
+>> 
+>> I would just call this symbol aperture_remove_legacy_vga_devices() as
+>> mentioned, the fact that aperture_remove_conflicting_pci_devices() use it
+>> internally is an implementation detail IMO. But it's an exported symbol so
+>> the naming should be consistent.
+>
+> That prefix __ is supposed to indicate that it's not a all-in-one 
+> solution. Most of all, it doesn't do sysfb_disable(). The helper is 
+> meant to be used as part of a larger function. I tried to outline this 
+> in the comment, where I say that drivers should first aquire framebuffer 
+> ownership and then call this helper. If naming isn't a showstopper, I'd 
+> like to keep the underscores.
+>
 
-Is this really a thing? I think that's never going to work well for 
-explicit sync, since the kernel doesn't even know what BOs it has to 
-keep alive for a job... I guess it could keep the entire file and all of 
-its objects/VMs/etc alive until all of its submissions complete but... ewww.
+Sure, I see that we have other symbols exported in DRM that have a __
+prefix in their name. So maybe I am the one who was confused on the
+meaning of it.
 
-Our Mesa implementation synchronously waits for all jobs on context 
-destroy for this reason, but if you just kill the app, yeah, you get 
-faults as running GPU jobs have BOs yanked out from under them. Kill 
-loops make for a good way of testing fault handling...
+-- 
+Best regards,
 
-~~ Lina
+Javier Martinez Canillas
+Core Platforms
+Red Hat
 
