@@ -2,54 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C15686DA300
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Apr 2023 22:32:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 89FD76DA2FB
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Apr 2023 22:32:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B4D8510ED0D;
-	Thu,  6 Apr 2023 20:32:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 96D3410ED08;
+	Thu,  6 Apr 2023 20:32:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com
- [IPv6:2a00:1450:4864:20::62c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 75F0010ED0C
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Apr 2023 20:32:41 +0000 (UTC)
-Received: by mail-ej1-x62c.google.com with SMTP id jw24so4221715ejc.3
- for <dri-devel@lists.freedesktop.org>; Thu, 06 Apr 2023 13:32:41 -0700 (PDT)
+Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com
+ [IPv6:2a00:1450:4864:20::636])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C817510ED08
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Apr 2023 20:32:42 +0000 (UTC)
+Received: by mail-ej1-x636.google.com with SMTP id g18so4217916ejj.5
+ for <dri-devel@lists.freedesktop.org>; Thu, 06 Apr 2023 13:32:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1680813160;
+ d=linaro.org; s=google; t=1680813162;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=ppNE/j5dH4h2kt/jgazVM6wfbsekqqd/ryXw3i4bi1M=;
- b=cQgako4VzcQupeFA8QvrnuOXoQ5KeRWJ1lAGsViufDEK8wPY4Nj5S1aYfozyq6/bU/
- NAv+2rf5QIGvFjbb0f7CinR03b1RxkXEQ+lyM5bhcW3jfUupKTOJM0+MLKGeSIi/trsn
- Eta0Qdrcxi7qmX81Um3MTiLu8D/Gu8SNu90BCc3E270I4w3xH3bfBQvomRv/y3/exaWl
- 7j99fW+W+fbPgH5dvpuwWqDXwEi22ruCJXJZUvSo1epPn6D7ExpksQ4JsvQ3LxBx/IeP
- Ax1fkWw7nAUpf2oIGXMHplxMFJSXgv6mqpA136lolg5Ek1FMixre+pHiOjWYNQjLiOr5
- a9Yg==
+ bh=yu09rRuq25z5vSgNy1uvwATC8+EvP1JWMz5329MS+70=;
+ b=Er6spU2uAbZju8iYd4yhN6tt1CtOtNQzNFT+yYRHnRP/5jjQX8N7RirDF6DGIA2kQC
+ 83ax5VbrN5FgKerCnIzVQRZMjJexJomDZ6LtuwTtKSTbMwGHrnnNVDHjqvBC/EN8X/Av
+ wjwSqiHeFGRx+IcD7T0WLfTlgtbcbe3vbzRL0pdLBB81Ib+1n7Bs9v01REshrVjYUxiS
+ UhPaAOfCNuKPtZn1KxaQw0H3ZXwUYN1XNJRTjDD/yoH9gkq2ZblWiqGCH1tWaQABrTzS
+ 8aRY2nKPl6D1rzBKjoDf4j6OlLG0MYNalyJU9fGGy0+Oos2YirdAkawRLXpdBI96qpZ5
+ utOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680813160;
+ d=1e100.net; s=20210112; t=1680813162;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=ppNE/j5dH4h2kt/jgazVM6wfbsekqqd/ryXw3i4bi1M=;
- b=Pp81itEtpsooHLZ513rFqFG42S74pEl2zSJxV9cBFIUc20XizPj2MUsdTXORucckeb
- YMnfs3uHJGqKMqaEjmmMyg8rUAcQpq7zOfxm+xQSnpVy7qXQpjmnzxDqTEKlIJ7b5v+f
- rKN8JvapskYW54CCOugpI8mFCcLxej1WHU2AaKcBtgiywnm3juW5BrNemUIy07t0ecB2
- +9EktCRzJqrMVFiuXn/OqiA+5zQRmbUDpX+3x5PDDhDsJSBQ4F1EegNOpvlOsD0gogk+
- 7lkCtiBwQ6tJ6eC0uSxdm4eUN1hHTK6ByU0OwYwZVvpCmHBxXKNiUUnKcCbMlBFFFDeE
- E/hA==
-X-Gm-Message-State: AAQBX9eJERmnu0EEhGq1rsEdAEwEo4VEe+PaLXaUs7jW3jSBRE2DqD5M
- nsRT/1QtNGisS2m5GuT74a2i8Q==
-X-Google-Smtp-Source: AKy350aghcMvibuC07Vsb1fyHFGf7R3/xbMTh207yfOWRgC42TQZhq0hGqVSSQR51VINp6KB122GeA==
-X-Received: by 2002:a17:906:f142:b0:948:f810:2960 with SMTP id
- gw2-20020a170906f14200b00948f8102960mr6266458ejb.22.1680813159668; 
- Thu, 06 Apr 2023 13:32:39 -0700 (PDT)
+ bh=yu09rRuq25z5vSgNy1uvwATC8+EvP1JWMz5329MS+70=;
+ b=iJ/pvyB0sW8XNMrBYOftagGd4OQd6NxpHCh2DGQOUcfef7knXnLjNAu4wktDkmtHEI
+ dOFtZiziQwE6mPfc1DCVCzcOwtOlWbEpkB+hU9GTUyaEM/MTaH9E0g/wwIg47K5bjgWz
+ h2sVfW1IFviC6/yi5VNtpkAI4AYv8edKqLw5KAJJDjg1efOS5HBjAMdTWGNjhgGGTNJ9
+ Wbq+25lBiLXcD7R4OKPuG8J8w3mJYuqY6kvtg02/ixLV4qd3itpmFYy3kTrs92KKkJVa
+ 4SV+P4blipQ3ruTBHpeFgFVGNCL6dwQ+41WTsZz7PhJl8o8UjT3aaspSTTlES5B7ijtW
+ v1YA==
+X-Gm-Message-State: AAQBX9c3NbebggIvxJV+GP90A3conLkOGg+6aOkHLvwchOKMCr9XT++n
+ 5wCQRhPrYORTjL96zB/FOsGBzw==
+X-Google-Smtp-Source: AKy350Y2U0dgGwrPTwBB5Jgq8qLRVpEH7+smPCxiK1hop12hSkAyhsBX5i0qbVARF5sKL2C+fHU+5A==
+X-Received: by 2002:a17:906:b206:b0:932:5f7d:db33 with SMTP id
+ p6-20020a170906b20600b009325f7ddb33mr128737ejz.34.1680813162311; 
+ Thu, 06 Apr 2023 13:32:42 -0700 (PDT)
 Received: from krzk-bin.. ([2a02:810d:15c0:828:49e6:bb8c:a05b:c4ed])
  by smtp.gmail.com with ESMTPSA id
- s4-20020a1709067b8400b0092bea699124sm1210330ejo.106.2023.04.06.13.32.37
+ s4-20020a1709067b8400b0092bea699124sm1210330ejo.106.2023.04.06.13.32.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 06 Apr 2023 13:32:39 -0700 (PDT)
+ Thu, 06 Apr 2023 13:32:41 -0700 (PDT)
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 To: Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>,
  Jonathan Corbet <corbet@lwn.net>, Oded Gabbay <ogabbay@kernel.org>,
@@ -87,9 +87,9 @@ To: Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>,
  dri-devel@lists.freedesktop.org, patches@opensource.cirrus.com,
  openbmc@lists.ozlabs.org, linux-rpi-kernel@lists.infradead.org,
  linux-arm-kernel@lists.infradead.org
-Subject: [PATCH 36/68] hwmon: max31730: constify pointers to hwmon_channel_info
-Date: Thu,  6 Apr 2023 22:30:31 +0200
-Message-Id: <20230406203103.3011503-37-krzysztof.kozlowski@linaro.org>
+Subject: [PATCH 37/68] hwmon: max31760: constify pointers to hwmon_channel_info
+Date: Thu,  6 Apr 2023 22:30:32 +0200
+Message-Id: <20230406203103.3011503-38-krzysztof.kozlowski@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230406203103.3011503-1-krzysztof.kozlowski@linaro.org>
 References: <20230406203103.3011503-1-krzysztof.kozlowski@linaro.org>
@@ -116,22 +116,22 @@ const for safety.
 
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 ---
- drivers/hwmon/max31730.c | 2 +-
+ drivers/hwmon/max31760.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/hwmon/max31730.c b/drivers/hwmon/max31730.c
-index 746a767c9fc6..924333d89ce4 100644
---- a/drivers/hwmon/max31730.c
-+++ b/drivers/hwmon/max31730.c
-@@ -248,7 +248,7 @@ static umode_t max31730_is_visible(const void *data,
- 	return 0;
+diff --git a/drivers/hwmon/max31760.c b/drivers/hwmon/max31760.c
+index 06d5f39dc33d..4489110f109c 100644
+--- a/drivers/hwmon/max31760.c
++++ b/drivers/hwmon/max31760.c
+@@ -318,7 +318,7 @@ static int max31760_write(struct device *dev, enum hwmon_sensor_types type,
+ 	}
  }
  
--static const struct hwmon_channel_info *max31730_info[] = {
-+static const struct hwmon_channel_info * const max31730_info[] = {
+-static const struct hwmon_channel_info *max31760_info[] = {
++static const struct hwmon_channel_info * const max31760_info[] = {
  	HWMON_CHANNEL_INFO(chip,
  			   HWMON_C_REGISTER_TZ),
- 	HWMON_CHANNEL_INFO(temp,
+ 	HWMON_CHANNEL_INFO(fan,
 -- 
 2.34.1
 
