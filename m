@@ -1,36 +1,79 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D3496DA0D1
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Apr 2023 21:15:20 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DF8A36DA20D
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Apr 2023 21:58:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8680310ECA6;
-	Thu,  6 Apr 2023 19:15:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 25AE810E264;
+	Thu,  6 Apr 2023 19:58:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.sf-mail.de (mail.sf-mail.de
- [IPv6:2a01:4f8:1c17:6fae:616d:6c69:616d:6c69])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ED09110ECA6
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Apr 2023 19:15:16 +0000 (UTC)
-Received: (qmail 22331 invoked from network); 6 Apr 2023 19:08:40 -0000
-Received: from unknown ([2001:9e8:6dc6:3c00:76d4:35ff:feb7:be92]:48442 HELO
- eto.sf-tec.de) (auth=eike@sf-mail.de)
- by mail.sf-mail.de (Qsmtpd 0.38dev) with (TLS_AES_256_GCM_SHA384 encrypted)
- ESMTPSA for <arnd@arndb.de>; Thu, 06 Apr 2023 21:08:40 +0200
-From: Rolf Eike Beer <eike-kernel@sf-tec.de>
-To: arnd@arndb.de, daniel.vetter@ffwll.ch, deller@gmx.de, javierm@redhat.com,
- gregkh@linuxfoundation.org, Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH 12/18] arch/parisc: Implement fb_is_primary_device() under
- arch/parisc
-Date: Thu, 06 Apr 2023 21:08:33 +0200
-Message-ID: <5921681.lOV4Wx5bFT@eto.sf-tec.de>
-In-Reply-To: <20230405150554.30540-13-tzimmermann@suse.de>
-References: <20230405150554.30540-1-tzimmermann@suse.de>
- <20230405150554.30540-13-tzimmermann@suse.de>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1667F10E264
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Apr 2023 19:58:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1680811105;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=LRqwdTQMWkbHJObb62Qyqd5cmfrq+lMBU33zKFDK0cA=;
+ b=VO96n2bGTU/YzYB71Qq2wcqF9UiUzCyzJzq3yw665XitJdXIJRtgBN+Ho9g362N27HnLEt
+ w6779i7hzBpaU68AwjeQ2D5oh/Z8n3K3WqFxB/gorBRgol/xahG2vnanSAvcDMlhYG0P9v
+ UVJ8mGD74PKQ1qxTbQkLkyNxvqaGo6c=
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
+ [209.85.222.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-561-x6FLPFMoPemkOS4vEB0jJA-1; Thu, 06 Apr 2023 15:58:21 -0400
+X-MC-Unique: x6FLPFMoPemkOS4vEB0jJA-1
+Received: by mail-qk1-f200.google.com with SMTP id
+ c80-20020ae9ed53000000b007468c560e1bso18394445qkg.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 06 Apr 2023 12:58:21 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1680811101;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=LRqwdTQMWkbHJObb62Qyqd5cmfrq+lMBU33zKFDK0cA=;
+ b=Cm4rSlrFSsXqwuzuRIobnAvlmQewhx2HFiAl2dBSeUlQrxu2SokvWtH0OgJSxjou4F
+ Dib6CeNtXsT2w/9JpGwghmOiR+23vCci7EgQnDoSoxzDyku4/eSzJHkavJ+2VcZO2Sld
+ GbUHhtPwMsYEYJOKofa+3+kR8nXDPELzl9qjxYu58hnyAWL/IPstnOnn5Eo3ER0euH7m
+ XaKQmvOrTFpiRI0RoQlcV8qCzowAg+98J8ftVvlZheWmAHDXcVml09F+MUVsHIn4YlKX
+ 2eUDSYhlVk9XyNr3INQrIgM3rNOltJrhWfYMb+sqNMF1XLCIJZvMnGEt+YytKH+TYr7Z
+ AUsA==
+X-Gm-Message-State: AAQBX9cvfCHYNa4EbXTKYSM4bWv1LvZXokFiOqRnZm3XF6Uzv0KmKXDY
+ j1OPsFSQgDjGtxxKGmQue4RjnZ0+la5g1gOJR0S22JRsVsLYSJju1bd7b5djYUfs4xvyPZ4wkvH
+ VITE4We52Ou3vJ6hC/0nbyBekn4Fy
+X-Received: by 2002:a05:6214:d88:b0:56f:52ba:ccf7 with SMTP id
+ e8-20020a0562140d8800b0056f52baccf7mr730996qve.14.1680811101487; 
+ Thu, 06 Apr 2023 12:58:21 -0700 (PDT)
+X-Google-Smtp-Source: AKy350Zp+eBXfawoiv3Bq3fAJCCQ9Lkm2x6dWbrn6iRjoMte3WoDewQoxo6DwdNhkhrR4LeP5Aop1w==
+X-Received: by 2002:a05:6214:d88:b0:56f:52ba:ccf7 with SMTP id
+ e8-20020a0562140d8800b0056f52baccf7mr730984qve.14.1680811101252; 
+ Thu, 06 Apr 2023 12:58:21 -0700 (PDT)
+Received: from dell-per740-01.7a2m.lab.eng.bos.redhat.com
+ (nat-pool-bos-t.redhat.com. [66.187.233.206])
+ by smtp.gmail.com with ESMTPSA id
+ mk21-20020a056214581500b005dd8b9345f0sm733097qvb.136.2023.04.06.12.58.20
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 06 Apr 2023 12:58:20 -0700 (PDT)
+From: Tom Rix <trix@redhat.com>
+To: harry.wentland@amd.com, sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com,
+ alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
+ airlied@gmail.com, daniel@ffwll.ch, Brian.Chang@amd.com,
+ Martin.Leung@amd.com, David.Galiffi@amd.com, Ethan.Wellenreiter@amd.com,
+ martin.tsai@amd.com, tales.aparecida@gmail.com
+Subject: [PATCH] drm/amd/display: set variables aperture_default_system and
+ context0_default_system storage-class-specifier to static
+Date: Thu,  6 Apr 2023 15:58:18 -0400
+Message-Id: <20230406195818.1958162-1-trix@redhat.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="nextPart4819412.31r3eYUQgx";
- micalg="pgp-sha1"; protocol="application/pgp-signature"
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"; x-default=true
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -43,71 +86,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arch@vger.kernel.org, linux-fbdev@vger.kernel.org,
- linux-ia64@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
- linux-parisc@vger.kernel.org, linux-sh@vger.kernel.org, x86@kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-mips@vger.kernel.org,
- "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
- linux-m68k@lists.linux-m68k.org, loongarch@lists.linux.dev,
- sparclinux@vger.kernel.org, linux-snps-arc@lists.infradead.org,
- linuxppc-dev@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org
+Cc: Tom Rix <trix@redhat.com>, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---nextPart4819412.31r3eYUQgx
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"; protected-headers="v1"
-From: Rolf Eike Beer <eike-kernel@sf-tec.de>
-Date: Thu, 06 Apr 2023 21:08:33 +0200
-Message-ID: <5921681.lOV4Wx5bFT@eto.sf-tec.de>
-In-Reply-To: <20230405150554.30540-13-tzimmermann@suse.de>
+smatch reports
+drivers/gpu/drm/amd/amdgpu/../display/dc/dcn10/dcn10_hubp.c:758:10: warning: symbol
+  'aperture_default_system' was not declared. Should it be static?
+drivers/gpu/drm/amd/amdgpu/../display/dc/dcn10/dcn10_hubp.c:759:10: warning: symbol
+  'context0_default_system' was not declared. Should it be static?
 
-Am Mittwoch, 5. April 2023, 17:05:48 CEST schrieb Thomas Zimmermann:
-> Move PARISC's implementation of fb_is_primary_device() into the
-> architecture directory. This the place of the declaration and
-> where other architectures implement this function. No functional
-> changes.
+These variables are only used in one file so should be static.
 
-> diff --git a/arch/parisc/video/fbdev.c b/arch/parisc/video/fbdev.c
-> new file mode 100644
-> index 000000000000..4a0ae08fc75b
-> --- /dev/null
-> +++ b/arch/parisc/video/fbdev.c
-> @@ -0,0 +1,27 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/*
-> + * Copyright (C) 2000 Philipp Rumpf <prumpf@tux.org>
-> + * Copyright (C) 2001-2020 Helge Deller <deller@gmx.de>
-> + * Copyright (C) 2001-2002 Thomas Bogendoerfer <tsbogend@alpha.franken.de>
-> + */
-> +
-> +#include <linux/module.h>
-> +
-> +#include <asm/fb.h>
-> +
-> +#include <video/sticore.h>
-> +
-> +int fb_is_primary_device(struct fb_info *info)
-> +{
+Signed-off-by: Tom Rix <trix@redhat.com>
+---
+ drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hubp.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Looking at this makes me wonder why the argument to all of these functions 
-isn't const? Not your fault, but could be a candidate for patch #19?
-
-Eike
---nextPart4819412.31r3eYUQgx
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part.
-Content-Transfer-Encoding: 7Bit
-
------BEGIN PGP SIGNATURE-----
-
-iF0EABECAB0WIQSaYVDeqwKa3fTXNeNcpIk+abn8TgUCZC8YsQAKCRBcpIk+abn8
-TroxAKCInC1+nDFT2zUZ2BABKO6rWJJXygCfXz1dtt8vvCEpTBZxHF+hSbDdIVk=
-=5z1v
------END PGP SIGNATURE-----
-
---nextPart4819412.31r3eYUQgx--
-
-
+diff --git a/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hubp.c b/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hubp.c
+index a142a00bc432..bf399819ca80 100644
+--- a/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hubp.c
++++ b/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hubp.c
+@@ -755,8 +755,8 @@ bool hubp1_is_flip_pending(struct hubp *hubp)
+ 	return false;
+ }
+ 
+-uint32_t aperture_default_system = 1;
+-uint32_t context0_default_system; /* = 0;*/
++static uint32_t aperture_default_system = 1;
++static uint32_t context0_default_system; /* = 0;*/
+ 
+ static void hubp1_set_vm_system_aperture_settings(struct hubp *hubp,
+ 		struct vm_system_aperture_param *apt)
+-- 
+2.27.0
 
