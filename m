@@ -1,38 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3CCC6DADA7
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Apr 2023 15:35:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A1F076D9C33
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Apr 2023 17:25:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D4C4310E32E;
-	Fri,  7 Apr 2023 13:35:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E1CCD10EC1B;
+	Thu,  6 Apr 2023 15:25:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id F379910EC1B
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Apr 2023 15:21:25 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D72F1169E;
- Thu,  6 Apr 2023 08:22:08 -0700 (PDT)
-Received: from [10.2.7.51] (stinger.cambridge.arm.com [10.2.7.51])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id ADE653F762;
- Thu,  6 Apr 2023 08:21:17 -0700 (PDT)
-Message-ID: <a54a4ea0-f9f5-6869-9629-747c3889a1de@arm.com>
-Date: Thu, 6 Apr 2023 16:21:15 +0100
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5D37610EC1B
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Apr 2023 15:25:40 +0000 (UTC)
+Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77]
+ helo=[IPv6:::1]) by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <l.stach@pengutronix.de>)
+ id 1pkRTu-0002NT-7K; Thu, 06 Apr 2023 17:24:58 +0200
+Message-ID: <9ac69b11802331f9e024ab837b85214c4243e3fd.camel@pengutronix.de>
+Subject: Re: [Regression] drm/scheduler: track GPU active time per entity
+From: Lucas Stach <l.stach@pengutronix.de>
+To: Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, Daniel
+ Vetter <daniel@ffwll.ch>
+Date: Thu, 06 Apr 2023 17:24:55 +0200
+In-Reply-To: <31f03135-40e4-a6ad-37e0-3b434a37922d@amd.com>
+References: <3e00d8a9-b6c4-8202-4f2d-5a659c61d094@redhat.com>
+ <2a84875dde6565842aa07ddb96245b7d939cb4fd.camel@pengutronix.de>
+ <8b28151c-f2db-af3f-8dff-87dd5d57417b@amd.com>
+ <3004a2bf-e725-643e-82af-8a217784e796@redhat.com>
+ <013781a3-5abd-8c66-8a0a-dd36c9c487af@amd.com>
+ <28d10733-b217-7ccc-4b8c-54bdc8249234@amd.com>
+ <CAKMK7uFeeAaG8+1EutgMtmVANTb-acL0faEkJfUp1_35rSjaEg@mail.gmail.com>
+ <9c72c7162da56234addd7083ec774e525a13957c.camel@pengutronix.de>
+ <31f03135-40e4-a6ad-37e0-3b434a37922d@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4 (3.46.4-1.fc37) 
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH v3 36/65] clk: versatile: sp810: Add a determine_rate hook
-Content-Language: en-US
-To: Maxime Ripard <maxime@cerno.tech>
-References: <20221018-clk-range-checks-fixes-v3-0-9a1358472d52@cerno.tech>
- <20221018-clk-range-checks-fixes-v3-36-9a1358472d52@cerno.tech>
-From: Pawel Moll <pawel.moll@arm.com>
-In-Reply-To: <20221018-clk-range-checks-fixes-v3-36-9a1358472d52@cerno.tech>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Fri, 07 Apr 2023 13:35:17 +0000
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,82 +55,221 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Prashant Gaikwad <pgaikwad@nvidia.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Michael Turquette <mturquette@baylibre.com>, Sekhar Nori <nsekhar@ti.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- dri-devel@lists.freedesktop.org, Liam Girdwood <lgirdwood@gmail.com>,
- Paul Cercueil <paul@crapouillou.net>, Max Filippov <jcmvbkbc@gmail.com>,
- Thierry Reding <thierry.reding@gmail.com>, linux-phy@lists.infradead.org,
- linux-stm32@st-md-mailman.stormreply.com, Abel Vesa <abelvesa@kernel.org>,
- Kishon Vijay Abraham I <kishon@kernel.org>,
- Samuel Holland <samuel@sholland.org>, Takashi Iwai <tiwai@suse.com>,
- linux-tegra@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>, Chen-Yu Tsai <wens@csie.org>,
- NXP Linux Team <linux-imx@nxp.com>, Orson Zhai <orsonzhai@gmail.com>,
- Ulf Hansson <ulf.hansson@linaro.org>, linux-mips@vger.kernel.org,
- Luca Ceresoli <luca.ceresoli@bootlin.com>, linux-rtc@vger.kernel.org,
- Charles Keepax <ckeepax@opensource.cirrus.com>,
- David Lechner <david@lechnology.com>, alsa-devel@alsa-project.org,
- Manivannan Sadhasivam <mani@kernel.org>, linux-kernel@vger.kernel.org,
- Sascha Hauer <s.hauer@pengutronix.de>, linux-actions@lists.infradead.org,
- Richard Fitzgerald <rf@opensource.cirrus.com>, Mark Brown <broonie@kernel.org>,
- linux-mediatek@lists.infradead.org,
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- Matthias Brugger <matthias.bgg@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
- linux-arm-kernel@lists.infradead.org,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Alessandro Zummo <a.zummo@towertech.it>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>, linux-sunxi@lists.linux.dev,
- Stephen Boyd <sboyd@kernel.org>, patches@opensource.cirrus.com,
- Peter De Schrijver <pdeschrijver@nvidia.com>,
- Nicolas Ferre <nicolas.ferre@microchip.com>,
- =?UTF-8?Q?Andreas_F=c3=a4rber?= <afaerber@suse.de>,
- linux-renesas-soc@vger.kernel.org, Dinh Nguyen <dinguyen@kernel.org>,
- Vinod Koul <vkoul@kernel.org>, Pengutronix Kernel Team <kernel@pengutronix.de>,
- Chunyan Zhang <zhang.lyra@gmail.com>, Shawn Guo <shawnguo@kernel.org>,
- Claudiu Beznea <claudiu.beznea@microchip.com>
+Cc: Matthew Brost <matthew.brost@intel.com>, tvrtko.ursulin@linux.intel.com,
+ andrey.grodzovsky@amd.com, lina@asahilina.net, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Luben Tuikov <luben.tuikov@amd.com>,
+ Danilo Krummrich <dakr@redhat.com>, yuq825@gmail.com,
+ Bagas Sanjaya <bagasdotme@gmail.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 04/04/2023 11:11, Maxime Ripard wrote:
-> The Versatile sp810 "timerclken" clock implements a mux with a
-> set_parent hook, but doesn't provide a determine_rate implementation.
-> 
-> This is a bit odd, since set_parent() is there to, as its name implies,
-> change the parent of a clock. 
+Am Donnerstag, dem 06.04.2023 um 16:21 +0200 schrieb Christian K=C3=B6nig:
+> Am 06.04.23 um 12:45 schrieb Lucas Stach:
+> > Am Donnerstag, dem 06.04.2023 um 10:27 +0200 schrieb Daniel Vetter:
+> > > On Thu, 6 Apr 2023 at 10:22, Christian K=C3=B6nig <christian.koenig@a=
+md.com> wrote:
+> > > > Am 05.04.23 um 18:09 schrieb Luben Tuikov:
+> > > > > On 2023-04-05 10:05, Danilo Krummrich wrote:
+> > > > > > On 4/4/23 06:31, Luben Tuikov wrote:
+> > > > > > > On 2023-03-28 04:54, Lucas Stach wrote:
+> > > > > > > > Hi Danilo,
+> > > > > > > >=20
+> > > > > > > > Am Dienstag, dem 28.03.2023 um 02:57 +0200 schrieb Danilo K=
+rummrich:
+> > > > > > > > > Hi all,
+> > > > > > > > >=20
+> > > > > > > > > Commit df622729ddbf ("drm/scheduler: track GPU active tim=
+e per entity")
+> > > > > > > > > tries to track the accumulated time that a job was active=
+ on the GPU
+> > > > > > > > > writing it to the entity through which the job was deploy=
+ed to the
+> > > > > > > > > scheduler originally. This is done within drm_sched_get_c=
+leanup_job()
+> > > > > > > > > which fetches a job from the schedulers pending_list.
+> > > > > > > > >=20
+> > > > > > > > > Doing this can result in a race condition where the entit=
+y is already
+> > > > > > > > > freed, but the entity's newly added elapsed_ns field is s=
+till accessed
+> > > > > > > > > once the job is fetched from the pending_list.
+> > > > > > > > >=20
+> > > > > > > > > After drm_sched_entity_destroy() being called it should b=
+e safe to free
+> > > > > > > > > the structure that embeds the entity. However, a job orig=
+inally handed
+> > > > > > > > > over to the scheduler by this entity might still reside i=
+n the
+> > > > > > > > > schedulers pending_list for cleanup after drm_sched_entit=
+y_destroy()
+> > > > > > > > > already being called and the entity being freed. Hence, w=
+e can run into
+> > > > > > > > > a UAF.
+> > > > > > > > >=20
+> > > > > > > > Sorry about that, I clearly didn't properly consider this c=
+ase.
+> > > > > > > >=20
+> > > > > > > > > In my case it happened that a job, as explained above, wa=
+s just picked
+> > > > > > > > > from the schedulers pending_list after the entity was fre=
+ed due to the
+> > > > > > > > > client application exiting. Meanwhile this freed up memor=
+y was already
+> > > > > > > > > allocated for a subsequent client applications job struct=
+ure again.
+> > > > > > > > > Hence, the new jobs memory got corrupted. Luckily, I was =
+able to
+> > > > > > > > > reproduce the same corruption over and over again by just=
+ using
+> > > > > > > > > deqp-runner to run a specific set of VK test cases in par=
+allel.
+> > > > > > > > >=20
+> > > > > > > > > Fixing this issue doesn't seem to be very straightforward=
+ though (unless
+> > > > > > > > > I miss something), which is why I'm writing this mail ins=
+tead of sending
+> > > > > > > > > a fix directly.
+> > > > > > > > >=20
+> > > > > > > > > Spontaneously, I see three options to fix it:
+> > > > > > > > >=20
+> > > > > > > > > 1. Rather than embedding the entity into driver specific =
+structures
+> > > > > > > > > (e.g. tied to file_priv) we could allocate the entity sep=
+arately and
+> > > > > > > > > reference count it, such that it's only freed up once all=
+ jobs that were
+> > > > > > > > > deployed through this entity are fetched from the schedul=
+ers pending list.
+> > > > > > > > >=20
+> > > > > > > > My vote is on this or something in similar vain for the lon=
+g term. I
+> > > > > > > > have some hope to be able to add a GPU scheduling algorithm=
+ with a bit
+> > > > > > > > more fairness than the current one sometime in the future, =
+which
+> > > > > > > > requires execution time tracking on the entities.
+> > > > > > > Danilo,
+> > > > > > >=20
+> > > > > > > Using kref is preferable, i.e. option 1 above.
+> > > > > > I think the only real motivation for doing that would be for ge=
+nerically
+> > > > > > tracking job statistics within the entity a job was deployed th=
+rough. If
+> > > > > > we all agree on tracking job statistics this way I am happy to =
+prepare a
+> > > > > > patch for this option and drop this one:
+> > > > > > https://lore.kernel.org/all/20230331000622.4156-1-dakr@redhat.c=
+om/T/#u
+> > > > > Hmm, I never thought about "job statistics" when I preferred usin=
+g kref above.
+> > > > > The reason kref is attractive is because one doesn't need to worr=
+y about
+> > > > > it--when the last user drops the kref, the release is called to d=
+o
+> > > > > housekeeping. If this never happens, we know that we have a bug t=
+o debug.
+> > > > Yeah, reference counting unfortunately have some traps as well. For
+> > > > example rarely dropping the last reference from interrupt context o=
+r
+> > > > with some unexpected locks help when the cleanup function doesn't e=
+xpect
+> > > > that is a good recipe for problems as well.
+> > > >=20
+> > Fully agreed.
+> >=20
+> > > > > Regarding the patch above--I did look around the code, and it see=
+ms safe,
+> > > > > as per your analysis, I didn't see any reference to entity after =
+job submission,
+> > > > > but I'll comment on that thread as well for the record.
+> > > > Reference counting the entities was suggested before. The intention=
+ally
+> > > > avoided that so far because the entity might be the tip of the iceb=
+erg
+> > > > of stuff you need to keep around.
+> > > >=20
+> > > > For example for command submission you also need the VM and when yo=
+u
+> > > > keep the VM alive you also need to keep the file private alive....
+> > > Yeah refcounting looks often like the easy way out to avoid
+> > > use-after-free issue, until you realize you've just made lifetimes
+> > > unbounded and have some enourmous leaks: entity keeps vm alive, vm
+> > > keeps all the bo alives, somehow every crash wastes more memory
+> > > because vk_device_lost means userspace allocates new stuff for
+> > > everything.
+> > >=20
+> > > If possible a lifetime design where lifetimes have hard bounds and yo=
+u
+> > > just borrow a reference under a lock (or some other ownership rule) i=
+s
+> > > generally much more solid. But also much harder to design correctly
+> > > :-/
+> > >=20
+> > The use we are discussing here is to keep the entity alive as long as
+> > jobs from that entity are still active on the HW. While there are no
+> > hard bounds on when a job will get inactive, at least it's not
+> > unbounded. On a crash/fault the job will be removed from the hardware
+> > pretty soon.
+> >=20
+> > Well behaved jobs after a application shutdown might take a little
+> > longer, but I don't really see the new problem with keeping the entity
+> > alive? As long as a job is active on the hardware, we can't throw out
+> > the VM or BOs, no difference whether the entity is kept alive or not.
+>=20
+> Exactly that's the problem. VM & BOs are dropped as soon as the process=
+=20
+> is destroyed, we *don't* wait for the hw to finish before doing so.
+>=20
+> Just the backing store managed by all the house keeping objects isn't=20
+> freed until the hw is idle preventing a crash or accessing freed memory.
+>=20
+> This behavior is rather important for the OOM killer since we need to be=
+=20
+> able to tear down the process as fast as possible in that case.
+>=20
+Are you talking about the dropping of pending jobs in
+drm_sched_entity_kill? I'm certainly not trying to change that in any
+way. Those aren't put onto the hardware yet, so we can always safely
+drop them and do so as fast as possible.
 
-Explanation of this mystery is pretty simple - the original patch:
+What I'm concerned about are the jobs that are already scheduled on the
+HW. At least with Vivante hardware there is no race free way to get rid
+of jobs once they are put on the ring. So whatever the scheduler or DRM
+core is doing, we have to hold on to the BOs and GPU memory management
+structures to keep the hardware from operating on freed memory.
 
-	commit 6e973d2c438502dcf956e76305258ba7d1c7d1d3
-	Author: Pawel Moll <pawel.moll@arm.com>
-	Date:   Thu Apr 18 18:23:22 2013 +0100
+That's already a lot of memory, so I don't really see the issue with
+keeping the entity around in a quiescent state until all the currently
+queued jobs have left the HW.
 
-	    clk: vexpress: Add separate SP810 driver
+> Changing that is possible, but that's quite a huge change I'm not really=
+=20
+> willing to do just for tracking the time spend.
+>=20
+Yea, it's a big change and whether it's a good idea really depends on
+what we a gaining from it. You seem to see quite low value in "just
+tracking the time spent" and that might be true, but it also forces all
+drivers that want to implement fdinfo to roll their own time tracking.
+I would rather see more of this moved to the scheduler and thus shared
+between drivers.
 
-predates introduction of determine_rate to clk_ops...
+Regards,
+Lucas
 
-	commit 71472c0c06cf9a3d1540762ea205654c584e3bc4
-	Author: James Hogan <jhogan@kernel.org>
-	Date:   Mon Jul 29 12:25:00 2013 +0100
+> What we could do is to track the unsignaled fences in each entity=20
+> similar to what amdgpu is doing.
+>=20
+> Regards,
+> Christian.
+>=20
+> >=20
+> > Some hardware might have ways to expedite job inactivation by
+> > deactivating scheduling queues, or just taking a fault, but for some HW
+> > we'll just have to wait for the job to finish.
+> >=20
+> > Regards,
+> > Lucas
+> >=20
+>=20
 
-	    clk: add support for clock reparent on set_rate
-
-and clearly no one (the author included ;-) bothered to have another
-look at this side of the driver.
-
-> And if it was an oversight, then we are at least explicit about our
-> behavior now and it can be further refined down the line.
-
-It's been one hell of a memory lane trip, but my recollection suggest
-that the main goal of the driver was simply initialisation of the mux
-to select the 1MHz parent, because the other option - 32kHz - just
-didn't make any sense whatsoever. And that would be the case on every
-single platform using SP810 I know (or at least: knew), so it's seems
-to me that making the state permanent, as you're suggesting (or I
-think you're suggesting?) it's the right thing to do.
-
-Thanks!
-
-Paweł
