@@ -2,51 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F9D96D9711
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Apr 2023 14:34:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EBA4A6D9718
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Apr 2023 14:38:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B05EB10E36D;
-	Thu,  6 Apr 2023 12:34:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AA9BE10E35A;
+	Thu,  6 Apr 2023 12:38:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1DD6110E31E;
- Thu,  6 Apr 2023 12:34:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1680784453; x=1712320453;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version:content-transfer-encoding;
- bh=LpplrNcPreA3YB2CXjm71103HDFKmhUjT7oX29AVvIc=;
- b=X1AMswFJAbv5cznlNYkqUoDlJWfmEhdRxFYp0zrG29jgUrE85LWatg8I
- VxktV8c+yqcTEV3pcA+MvW3ufvzyY4V503jPOO2Aa9HctKuxZuNnGYf1b
- PmM8Z3W600Y0E4P1Qk2jYhcz8Q3vARkg+gfFfFtULWWy5+X50ASxL/qUf
- BrRNi4tuWhmUVV9+tUC9ULAlNXtBdV7F1Rk80P9t/DloWemsMmIVqXIIw
- MVkACfdnluH8aadHZTrgBsGMe90dY9tU0bKJfb36gNJ6cnDdAFOS7ogP4
- VqAwBbCuPOp9/HgT/6Scanqg4CULWTHYsv9SfofWdu0eaH7x+hr3OikVK w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10671"; a="345323424"
-X-IronPort-AV: E=Sophos;i="5.98,323,1673942400"; d="scan'208";a="345323424"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Apr 2023 05:34:10 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10671"; a="756363287"
-X-IronPort-AV: E=Sophos;i="5.98,323,1673942400"; d="scan'208";a="756363287"
-Received: from unknown (HELO localhost) ([10.237.66.160])
- by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Apr 2023 05:34:07 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Dave Airlie
- <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
+Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com
+ [IPv6:2a00:1450:4864:20::62e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2ACF210E31E
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Apr 2023 12:38:06 +0000 (UTC)
+Received: by mail-ej1-x62e.google.com with SMTP id
+ a640c23a62f3a-947f54f67acso16533566b.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 06 Apr 2023 05:38:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ffwll.ch; s=google; t=1680784683; x=1683376683;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=0o0i6oK4LGQoPEyZShn5tfjjc1h/PsxrgfVbb1dsNKw=;
+ b=hyCoXYLRqkTZX/dd7Bbvk0RC/qS+WxkvBfuNLFdG1eReMbqTi1FG38AijQ0L3upYdi
+ HESli4E95ry/H0gfazC8CQ0BENN6e6kk4EAzSoylDfh/5bPn/R3Io92pdVZDDQWA7Gyf
+ b/6tdUYU5aAy3+Gle27C28Srdq0LSfqFF7eeg=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1680784683; x=1683376683;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=0o0i6oK4LGQoPEyZShn5tfjjc1h/PsxrgfVbb1dsNKw=;
+ b=dusTVF2hvKjmhqn0Dl0YtQdXYwhGeGPGp1aQZ/4Qr5EQGRDlSfecbzOUA/+NreGk4K
+ uTxhwniQ6EXMpL1z6KdE1wJx9+J9Jn3f6E3MRb1tlURMxWlDEzOUcdeDjTFI/aWexsnI
+ ikLtXgDgx6p3EJ2AkMt2FnYsWE4DDj1bDq96M11Evbg+VA1GsO7itLtu4Kq8Z28ZAtxk
+ Y/0n1CQQOEVd+uuAyC/16zF34gHFKjiZqyIYnV9bYBmixAW+ZS9fzS/A+saHW2ZkYZVb
+ mNyKUuUqr2eYzyz5Zh6fU5YRchNTlkLpfXHt0InmnwqGHtN+nPypn4u+1ZGvItF85OnD
+ qe7Q==
+X-Gm-Message-State: AAQBX9eNuF1pcy44Kn0N44ttZpPNzYCeNiM2SPZoXnfibEmfs/t8uVeM
+ 5CQPoAlg5OAginPqnCZL9dMHGQ==
+X-Google-Smtp-Source: AKy350b/cW6p8AlGvOUCrbRgmAosybVI8S1PRl0dmboaB2oGZm7S6khcbPFWKIVYvwKtvkeQVJXQBw==
+X-Received: by 2002:a17:906:2218:b0:8f5:14ab:94bc with SMTP id
+ s24-20020a170906221800b008f514ab94bcmr4398493ejs.6.1680784683143; 
+ Thu, 06 Apr 2023 05:38:03 -0700 (PDT)
+Received: from phenom.ffwll.local (212-51-149-33.fiber7.init7.net.
+ [212.51.149.33]) by smtp.gmail.com with ESMTPSA id
+ mb14-20020a170906eb0e00b00947a749fc3esm771645ejb.33.2023.04.06.05.38.02
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 06 Apr 2023 05:38:02 -0700 (PDT)
+Date: Thu, 6 Apr 2023 14:38:00 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
 Subject: Re: [PULL] drm-intel-gt-next
-In-Reply-To: <64bb9696-a76a-89d9-1866-bcdf7c69c284@linux.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <64bb9696-a76a-89d9-1866-bcdf7c69c284@linux.intel.com>
-Date: Thu, 06 Apr 2023 15:34:04 +0300
-Message-ID: <87v8i9xk8z.fsf@intel.com>
+Message-ID: <ZC69KBn9wEjHAhnF@phenom.ffwll.local>
+References: <ZC6APj/feB+jBf2d@jlahtine-mobl.ger.corp.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZC6APj/feB+jBf2d@jlahtine-mobl.ger.corp.intel.com>
+X-Operating-System: Linux phenom 6.1.0-7-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,260 +71,288 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- dim-tools@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ dim-tools@lists.freedesktop.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
  dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, intel-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 06 Apr 2023, Maarten Lankhorst <maarten.lankhorst@linux.intel.com> =
-wrote:
-> Hi Dave, Daniel,
-> Pull request to avoid backmerges. ;)
-> Cheers,
-> ~Maarten
-
-Not using dim for this? Is the subject line copy-pasted from another
-pull request? :)
-
-BR,
-Jani.
-
->
-> drm-misc-next-2023-04-06:
-> drm-misc-next for v6.4-rc1:
->
+On Thu, Apr 06, 2023 at 11:18:06AM +0300, Joonas Lahtinen wrote:
+> Hi Dave & Daniel,
+> 
+> Here goes the final drm-intel-gt-next pull request for v6.4.
+> 
+> As top items we have a fix for context runtime accounting, Meteorlake
+> enabling, DMAR error noise elimination due to GPU error capture, BAR
+> resizing forcewake fix and memory contents clearing fix for discrete.
+> More robust GuC loading on systems with IFWI that leaves GPU to slow
+> frequency and a potential UAF closed on perf add_config IOCTL.
+> 
+> There is also change to the uAPI headers to eliminate flexible-array
+> member kernel-wide request, which does not impact binaries and also
+> should not impact compilation.
+> 
+> Then the usual amount of smaller fixes and cleanups. A good amount of
+> kerneldoc fixes included.
+> 
+> Best Regards, Joonas
+> 
+> ***
+> 
+> drm-intel-gt-next-2023-04-06:
+> 
 > UAPI Changes:
->
-> Cross-subsystem Changes:
-> - Document port and rotation dt bindings better.
-> - For panel timing DT bindings, document that vsync and hsync are
->    first, rather than last in image.
-> - Fix video/aperture typos.
->
-> Core Changes:
-> - Reject prime DMA-Buf attachment if get_sg_table is missing.
->    (For self-importing dma-buf only.)
-> - Add prime import/export to vram-helper.
-> - Fix oops in drm/vblank when init is not called.
-> - Fixup xres/yres_virtual and other fixes in fb helper.
-> - Improve SCDC debugs.
-> - Skip setting deadline on modesets.
-> - Assorted TTM fixes.
->
+> 
+> - (Build-time only, should not have any impact)
+>   drm/i915/uapi: Replace fake flex-array with flexible-array member
+> 
+>   "Zero-length arrays as fake flexible arrays are deprecated and we are
+>   moving towards adopting C99 flexible-array members instead."
+> 
+>   This is on core kernel request moving towards GCC 13.
+> 
 > Driver Changes:
-> - Add lima usage stats.
-> - Assorted fixes to bridge/lt8192b, tc358767, ivpu,
->    bridge/ti-sn65dsi83, ps8640.
-> - Use pci aperture helpers in drm/ast lynxfb, radeonfb.
-> - Revert some lima patches, as they required a commit that has been
->    reverted upstream.
-> - Add AUO NE135FBM-N41 v8.1 eDP panel.
-> - Add QAIC accel driver.
-> The following changes since commit 7d690f936e9bc9fbd6394fb3d4ad181af03ee3=
-93:
->
->    drm/panfrost: Add basic support for speed binning (2023-03-31 11:44:11=
- +0200)
->
+> 
+> - Fix context runtime accounting on sysfs fdinfo for heavy workloads (Tvrtko)
+> - Add support for OA media units on MTL (Umesh)
+> - Add new workarounds for Meteorlake (Daniele, Radhakrishna, Haridhar)
+> - Fix sysfs to read actual frequency for MTL and Gen6 and earlier
+>   (Ashutosh)
+> - Synchronize i915/BIOS on C6 enabling on MTL (Vinay)
+> - Fix DMAR error noise due to GPU error capture (Andrej)
+> - Fix forcewake during BAR resize on discrete (Andrzej)
+> - Flush lmem contents after construction on discrete (Chris)
+> - Fix GuC loading timeout on systems where IFWI programs low boot
+>   frequency (John)
+> - Fix race condition UAF in i915_perf_add_config_ioctl (Min)
+> 
+> - Sanitycheck MMIO access early in driver load and during forcewake
+>   (Matt)
+> - Wakeref fixes for GuC RC error scenario and active VM tracking (Chris)
+> - Cancel HuC delayed load timer on reset (Daniele)
+> - Limit double GT reset to pre-MTL (Daniele)
+> - Use i915 instead of dev_priv insied the file_priv structure (Andi)
+> - Improve GuC load error reporting (John)
+> - Simplify VCS/BSD engine selection logic (Tvrtko)
+> - Perform uc late init after probe error injection (Andrzej)
+> - Fix format for perf_limit_reasons in debugfs (Vinay)
+> - Create per-gt debugfs files (Andi)
+> 
+> - Documentation and kerneldoc fixes (Nirmoy, Lee)
+> - Selftest improvements (Fei, Jonathan)
+> 
+> The following changes since commit d2a9692ad4295e227e3352fdbf14b8491b01e1c9:
+> 
+>   drm/i915/gt: make kobj attributes const (2023-03-15 12:20:11 +0200)
+> 
 > are available in the Git repository at:
->
->    git://anongit.freedesktop.org/drm/drm-misc tags/drm-misc-next-2023-04-=
-06
->
-> for you to fetch changes up to e44f18c6ff8beef7b2b10592287f0a9766376d9b:
->
->    drm/ttm: Make the call to ttm_tt_populate() interruptible when faultin=
-g (2023-04-06 10:01:42 +0200)
->
-> ----------------------------------------------------------------
-> drm-misc-next for v6.4-rc1:
->
-> UAPI Changes:
->
-> Cross-subsystem Changes:
-> - Document port and rotation dt bindings better.
-> - For panel timing DT bindings, document that vsync and hsync are
->    first, rather than last in image.
-> - Fix video/aperture typos.
->
-> Core Changes:
-> - Reject prime DMA-Buf attachment if get_sg_table is missing.
->    (For self-importing dma-buf only.)
-> - Add prime import/export to vram-helper.
-> - Fix oops in drm/vblank when init is not called.
-> - Fixup xres/yres_virtual and other fixes in fb helper.
-> - Improve SCDC debugs.
-> - Skip setting deadline on modesets.
-> - Assorted TTM fixes.
->
-> Driver Changes:
-> - Add lima usage stats.
-> - Assorted fixes to bridge/lt8192b, tc358767, ivpu,
->    bridge/ti-sn65dsi83, ps8640.
-> - Use pci aperture helpers in drm/ast lynxfb, radeonfb.
-> - Revert some lima patches, as they required a commit that has been
->    reverted upstream.
-> - Add AUO NE135FBM-N41 v8.1 eDP panel.
-> - Add QAIC accel driver.
->
-> ----------------------------------------------------------------
-> Alexander Stein (2):
->        drm/bridge: ti-sn65dsi83: use dev_err_probe if host attach failed
->        drm/bridge: ti-sn65dsi86: Allow GPIO operations to sleep
->
-> AngeloGioacchino Del Regno (1):
->        drm/panel-edp: Add AUO NE135FBM-N41 v8.1 panel entry
->
-> Daniel Vetter (7):
->        drm/ast: Use drm_aperture_remove_conflicting_pci_framebuffers
->        staging/lynxfb: Use pci aperture helper
->        fbdev/radeon: use pci aperture helpers
->        drm/fb-helper: set x/yres_virtual in drm_fb_helper_check_var
->        drm/fb-helper: drop redundant pixclock check from drm_fb_helper_se=
-t_par()
->        drm/fb-helper: fix input validation gaps in check_var
->        drm/atomic-helper: Don't set deadline for modesets
->
-> Erico Nunes (3):
->        drm/lima: add usage counting method to ctx_mgr
->        drm/lima: allocate unique id per drm_file
->        drm/lima: add show_fdinfo for drm usage stats
->
-> Francesco Dolcini (1):
->        drm/bridge: lt8912b: Fix DSI Video Mode
->
-> Harshit Mogalapalli (1):
->        drm/lima/lima_drv: Add missing unwind goto in lima_pdev_probe()
->
-> Jeffrey Hugo (7):
->        accel/qaic: Add documentation for AIC100 accelerator driver
->        accel/qaic: Add uapi and core driver file
->        accel/qaic: Add MHI controller
->        accel/qaic: Add control path
->        accel/qaic: Add datapath
->        accel/qaic: Add qaic driver to the build system
->        MAINTAINERS: Add entry for QAIC driver
->
-> Karol Wachowski (1):
->        accel/ivpu: Remove D3hot delay for Meteorlake
->
-> Krzysztof Kozlowski (5):
->        dt-bindings: display: sitronix,st7789v: document dc-gpios
->        dt-bindings: display: xinpeng,xpp055c272: document port
->        dt-bindings: display: feiyang,fy07024di26a30d: document port
->        dt-bindings: display: elida,kd35t133: document port and rotation
->        dt-bindings: display: sitronix,st7701: document port and rotation
->
-> Luca Ceresoli (2):
->        drm: bridge: ldb: add missing \n in dev_warn() string
->        drm: bridge: ldb: add support for using channel 1 only
->
-> Marek Vasut (3):
->        drm/bridge: tc358767: Enable DSI burst mode, LPM, non-continuous c=
-lock
->        dt-bindings: display: Start the info graphics with HS/VS change
->        drm/bridge: ti-sn65dsi83: Do not generate HFP/HBP/HSA and EOT pack=
-et
->
-> Pin-yen Lin (1):
->        drm/bridge: ps8640: Use constant sleep time for polling hpd
->
-> Pranjal Ramajor Asha Kanojiya (1):
->        accel/qaic: Add mhi_qaic_cntl
->
-> Qiang Yu (3):
->        Revert "drm/lima: add show_fdinfo for drm usage stats"
->        Revert "drm/lima: allocate unique id per drm_file"
->        Revert "drm/lima: add usage counting method to ctx_mgr"
->
-> Rob Clark (1):
->        drm/vblank: Fix for drivers that do not drm_vblank_init()
->
-> Simon Ser (2):
->        drm/prime: reject DMA-BUF attach when get_sg_table is missing
->        drm/vram-helper: turn on PRIME import/export
->
-> Sui Jingfeng (1):
->        video/aperture: Fix typos in comments
->
-> Thomas Hellstr=C3=B6m (3):
->        drm/ttm/pool: Fix ttm_pool_alloc error path
->        drm/ttm: Reduce the number of used allocation orders for TTM pages
->        drm/ttm: Make the call to ttm_tt_populate() interruptible when fau=
-lting
->
-> Ville Syrj=C3=A4l=C3=A4 (1):
->        drm/scdc-helper: Pimp SCDC debugs
->
->   Documentation/accel/index.rst                      |    1 +
->   Documentation/accel/qaic/aic100.rst                |  510 ++++++
->   Documentation/accel/qaic/index.rst                 |   13 +
->   Documentation/accel/qaic/qaic.rst                  |  170 ++
->   .../bindings/display/panel/elida,kd35t133.yaml     |    9 +
->   .../display/panel/feiyang,fy07024di26a30d.yaml     |    8 +
->   .../bindings/display/panel/panel-timing.yaml       |   46 +-
->   .../bindings/display/panel/sitronix,st7701.yaml    |    9 +
->   .../bindings/display/panel/sitronix,st7789v.yaml   |    4 +
->   .../bindings/display/panel/xinpeng,xpp055c272.yaml |    8 +
->   MAINTAINERS                                        |   10 +
->   drivers/accel/Kconfig                              |    1 +
->   drivers/accel/Makefile                             |    1 +
->   drivers/accel/ivpu/ivpu_drv.c                      |    4 +
->   drivers/accel/qaic/Kconfig                         |   23 +
->   drivers/accel/qaic/Makefile                        |   13 +
->   drivers/accel/qaic/mhi_controller.c                |  563 ++++++
->   drivers/accel/qaic/mhi_controller.h                |   16 +
->   drivers/accel/qaic/mhi_qaic_ctrl.c                 |  569 ++++++
->   drivers/accel/qaic/mhi_qaic_ctrl.h                 |   12 +
->   drivers/accel/qaic/qaic.h                          |  282 +++
->   drivers/accel/qaic/qaic_control.c                  | 1526 +++++++++++++=
-+++
->   drivers/accel/qaic/qaic_data.c                     | 1902 +++++++++++++=
-+++++++
->   drivers/accel/qaic/qaic_drv.c                      |  647 +++++++
->   drivers/gpu/drm/ast/ast_drv.c                      |   16 +-
->   drivers/gpu/drm/bridge/fsl-ldb.c                   |  103 +-
->   drivers/gpu/drm/bridge/lontium-lt8912b.c           |    1 -
->   drivers/gpu/drm/bridge/parade-ps8640.c             |    2 +-
->   drivers/gpu/drm/bridge/synopsys/dw-hdmi.c          |    8 +-
->   drivers/gpu/drm/bridge/tc358767.c                  |    4 +-
->   drivers/gpu/drm/bridge/ti-sn65dsi83.c              |    8 +-
->   drivers/gpu/drm/bridge/ti-sn65dsi86.c              |    4 +-
->   drivers/gpu/drm/display/drm_scdc_helper.c          |   46 +-
->   drivers/gpu/drm/drm_atomic_helper.c                |    6 +
->   drivers/gpu/drm/drm_fb_helper.c                    |   53 +-
->   drivers/gpu/drm/drm_prime.c                        |    6 +-
->   drivers/gpu/drm/drm_vblank.c                       |   10 +-
->   drivers/gpu/drm/i915/display/intel_ddi.c           |    4 +-
->   drivers/gpu/drm/i915/display/intel_hdmi.c          |    8 +-
->   drivers/gpu/drm/lima/lima_drv.c                    |    6 +-
->   drivers/gpu/drm/panel/panel-edp.c                  |    1 +
->   drivers/gpu/drm/tegra/sor.c                        |   15 +-
->   drivers/gpu/drm/ttm/ttm_bo_vm.c                    |   13 +-
->   drivers/gpu/drm/ttm/ttm_pool.c                     |  111 +-
->   drivers/gpu/drm/vc4/vc4_hdmi.c                     |   21 +-
->   drivers/staging/sm750fb/sm750.c                    |   16 +-
->   drivers/video/aperture.c                           |    8 +-
->   drivers/video/fbdev/aty/radeon_base.c              |   10 +-
->   include/drm/display/drm_scdc_helper.h              |    7 +-
->   include/drm/drm_gem_vram_helper.h                  |    4 +-
->   include/uapi/drm/qaic_accel.h                      |  397 ++++
->   51 files changed, 7004 insertions(+), 231 deletions(-)
->   create mode 100644 Documentation/accel/qaic/aic100.rst
->   create mode 100644 Documentation/accel/qaic/index.rst
->   create mode 100644 Documentation/accel/qaic/qaic.rst
->   create mode 100644 drivers/accel/qaic/Kconfig
->   create mode 100644 drivers/accel/qaic/Makefile
->   create mode 100644 drivers/accel/qaic/mhi_controller.c
->   create mode 100644 drivers/accel/qaic/mhi_controller.h
->   create mode 100644 drivers/accel/qaic/mhi_qaic_ctrl.c
->   create mode 100644 drivers/accel/qaic/mhi_qaic_ctrl.h
->   create mode 100644 drivers/accel/qaic/qaic.h
->   create mode 100644 drivers/accel/qaic/qaic_control.c
->   create mode 100644 drivers/accel/qaic/qaic_data.c
->   create mode 100644 drivers/accel/qaic/qaic_drv.c
->   create mode 100644 include/uapi/drm/qaic_accel.h
+> 
+>   git://anongit.freedesktop.org/drm/drm-intel tags/drm-intel-gt-next-2023-04-06
+> 
+> for you to fetch changes up to 4b51210f98c2b89ce37aede5b8dc5105be0572c6:
+> 
+>   drm/i915/mtl: Add Wa_14017856879 (2023-04-05 07:59:12 -0700)
 
---=20
-Jani Nikula, Intel Open Source Graphics Center
+Pulled, thanks
+
+> 
+> ----------------------------------------------------------------
+> UAPI Changes:
+> 
+> - (Build-time only, should not have any impact)
+>   drm/i915/uapi: Replace fake flex-array with flexible-array member
+> 
+>   "Zero-length arrays as fake flexible arrays are deprecated and we are
+>   moving towards adopting C99 flexible-array members instead."
+> 
+>   This is on core kernel request moving towards GCC 13.
+> 
+> Driver Changes:
+> 
+> - Fix context runtime accounting on sysfs fdinfo for heavy workloads (Tvrtko)
+> - Add support for OA media units on MTL (Umesh)
+> - Add new workarounds for Meteorlake (Daniele, Radhakrishna, Haridhar)
+> - Fix sysfs to read actual frequency for MTL and Gen6 and earlier
+>   (Ashutosh)
+> - Synchronize i915/BIOS on C6 enabling on MTL (Vinay)
+> - Fix DMAR error noise due to GPU error capture (Andrej)
+> - Fix forcewake during BAR resize on discrete (Andrzej)
+> - Flush lmem contents after construction on discrete (Chris)
+> - Fix GuC loading timeout on systems where IFWI programs low boot
+>   frequency (John)
+> - Fix race condition UAF in i915_perf_add_config_ioctl (Min)
+> 
+> - Sanitycheck MMIO access early in driver load and during forcewake
+>   (Matt)
+> - Wakeref fixes for GuC RC error scenario and active VM tracking (Chris)
+> - Cancel HuC delayed load timer on reset (Daniele)
+> - Limit double GT reset to pre-MTL (Daniele)
+> - Use i915 instead of dev_priv insied the file_priv structure (Andi)
+> - Improve GuC load error reporting (John)
+> - Simplify VCS/BSD engine selection logic (Tvrtko)
+> - Perform uc late init after probe error injection (Andrzej)
+> - Fix format for perf_limit_reasons in debugfs (Vinay)
+> - Create per-gt debugfs files (Andi)
+> 
+> - Documentation and kerneldoc fixes (Nirmoy, Lee)
+> - Selftest improvements (Fei, Jonathan)
+> 
+> ----------------------------------------------------------------
+> Andi Shyti (3):
+>       drm/i915/gt: Create per-gt debugfs files
+>       drm/i915/debugfs: Enable upper layer interfaces to act on all gt's
+>       drm/i915: Use i915 instead of dev_priv insied the file_priv structure
+> 
+> Andrzej Hajda (4):
+>       drm/i915/gt: prevent forcewake releases during BAR resize
+>       drm/i915/gt: introduce vm->scratch_range callback
+>       drm/i915: add guard page to ggtt->error_capture
+>       drm/i915/gt: perform uc late init after probe error injection
+> 
+> Ashutosh Dixit (1):
+>       drm/i915/pmu: Use functions common with sysfs to read actual freq
+> 
+> Chris Wilson (3):
+>       drm/i915/gem: Flush lmem contents after construction
+>       drm/i915/perf: Drop wakeref on GuC RC error
+>       drm/i915/gt: Hold a wakeref for the active VM
+> 
+> Daniele Ceraolo Spurio (3):
+>       drm/i915/huc: Cancel HuC delayed load timer on reset.
+>       drm/i915: limit double GT reset to pre-MTL
+>       drm/i915/gsc: implement wa 14015076503
+> 
+> Fei Yang (1):
+>       drm/i915/selftests: keep same cache settings as timeline
+> 
+> Gustavo A. R. Silva (1):
+>       drm/i915/uapi: Replace fake flex-array with flexible-array member
+> 
+> Haridhar Kalvala (1):
+>       drm/i915/mtl: Add Wa_14017856879
+> 
+> John Harrison (2):
+>       drm/i915/guc: Improve GuC load error reporting
+>       drm/i915/guc: Allow for very slow GuC loading
+> 
+> Jonathan Cavitt (1):
+>       drm/i915/selftests: Drop igt_cs_tlb
+> 
+> Lee Jones (13):
+>       drm/i915/i915_scatterlist: Fix kerneldoc formatting issue - missing '@'
+>       drm/i915/intel_region_ttm: Provide missing description for 'offset' param
+>       drm/i915/gt/intel_rps: Demote a kerneldoc abuse for ips_ping_for_i915_load()
+>       drm/i915/gem/i915_gem_create: Provide the function names for proper kerneldoc headers
+>       drm/i915/gem/i915_gem_domain: Provide function names to complete proper kerneldoc
+>       drm/i915/gem/i915_gem_ttm_pm: Provide a couple of missing descriptions for 'flags' and remove some superfluous ones
+>       drm/i915/gem/i915_gem_ttm: Demote half-filled kerneldoc
+>       drm/i915/gem/i915_gem_ttm_move: Provide a couple of missing descriptions for 'num_pages' and 'ctx'
+>       drm/i915/gem/i915_gem_wait: Provide function name to validate the kerneldoc header
+>       drm/i915/gem/i915_gem_object: Demote non-kerneldoc header with no param descriptions
+>       drm/i915/i915_gem: Provide function names to complete the expected kerneldoc format
+>       drm/i915/gt/uc/intel_guc_hwconfig: Demote a few non-conforming kerneldoc headers
+>       drm/i915/i915_vma: Provide one missing param and demote another non-kerneldoc header
+> 
+> Matt Roper (2):
+>       drm/i915: Sanitycheck MMIO access early in driver load
+>       drm/i915: Check for unreliable MMIO during forcewake
+> 
+> Min Li (1):
+>       drm/i915: fix race condition UAF in i915_perf_add_config_ioctl
+> 
+> Nirmoy Das (1):
+>       drm/i915/gt: Update engine_init_common documentation
+> 
+> Radhakrishna Sripada (2):
+>       drm/i915/mtl: Add workarounds Wa_14017066071 and Wa_14017654203
+>       drm/i915/mtl: Add Wa_22015279794
+> 
+> Tvrtko Ursulin (2):
+>       drm/i915: Simplify vcs/bsd engine selection
+>       drm/i915: Fix context runtime accounting
+> 
+> Umesh Nerlige Ramappa (10):
+>       drm/i915/perf: Validate OA sseu config outside switch
+>       drm/i915/perf: Group engines into respective OA groups
+>       drm/i915/perf: Fail modprobe if i915_perf_init fails on OOM
+>       drm/i915/perf: Parse 64bit report header formats correctly
+>       drm/i915/perf: Handle non-power-of-2 reports
+>       drm/i915/perf: Add engine class instance parameters to perf
+>       drm/i915/perf: Add support for OA media units
+>       drm/i915/perf: Pass i915 object to perf revision helper
+>       drm/i915/perf: Wa_14017512683: Disable OAM if media C6 is enabled in BIOS
+>       drm/i915/mtl: Disable C6 on MTL A0 for media
+> 
+> Vinay Belgaumkar (2):
+>       drm/i915: Fix format for perf_limit_reasons
+>       drm/i915/mtl: Synchronize i915/BIOS on C6 enabling
+> 
+>  drivers/gpu/drm/i915/gem/i915_gem_context.c        |  22 +-
+>  drivers/gpu/drm/i915/gem/i915_gem_create.c         |   7 +-
+>  drivers/gpu/drm/i915/gem/i915_gem_domain.c         |  14 +-
+>  drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c     |  10 +-
+>  drivers/gpu/drm/i915/gem/i915_gem_lmem.c           |   3 +-
+>  drivers/gpu/drm/i915/gem/i915_gem_object.c         |   2 +-
+>  drivers/gpu/drm/i915/gem/i915_gem_ttm.c            |   2 +-
+>  drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c       |   3 +
+>  drivers/gpu/drm/i915/gem/i915_gem_ttm_pm.c         |   5 +-
+>  drivers/gpu/drm/i915/gem/i915_gem_wait.c           |   2 +-
+>  drivers/gpu/drm/i915/gt/intel_context.h            |  15 +-
+>  drivers/gpu/drm/i915/gt/intel_engine_cs.c          |   4 +-
+>  drivers/gpu/drm/i915/gt/intel_engine_pm.c          |   9 +
+>  drivers/gpu/drm/i915/gt/intel_engine_types.h       |  10 +
+>  .../gpu/drm/i915/gt/intel_execlists_submission.c   |  12 +-
+>  drivers/gpu/drm/i915/gt/intel_ggtt.c               |  43 +-
+>  drivers/gpu/drm/i915/gt/intel_ggtt_gmch.c          |   1 +
+>  drivers/gpu/drm/i915/gt/intel_gt.c                 |   4 +-
+>  drivers/gpu/drm/i915/gt/intel_gt_debugfs.c         |   4 +-
+>  drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.c      |   2 +-
+>  drivers/gpu/drm/i915/gt/intel_gt_regs.h            |   9 +
+>  drivers/gpu/drm/i915/gt/intel_gtt.h                |   2 +
+>  drivers/gpu/drm/i915/gt/intel_rc6.c                |  27 +
+>  drivers/gpu/drm/i915/gt/intel_rc6.h                |   2 +
+>  drivers/gpu/drm/i915/gt/intel_rc6_types.h          |   2 +
+>  drivers/gpu/drm/i915/gt/intel_region_lmem.c        |  25 +-
+>  drivers/gpu/drm/i915/gt/intel_reset.c              | 119 ++++-
+>  drivers/gpu/drm/i915/gt/intel_rps.c                |  40 +-
+>  drivers/gpu/drm/i915/gt/intel_rps.h                |   4 +-
+>  drivers/gpu/drm/i915/gt/intel_sseu.c               |   3 +-
+>  drivers/gpu/drm/i915/gt/intel_workarounds.c        |  19 +
+>  drivers/gpu/drm/i915/gt/selftest_timeline.c        |  14 +-
+>  drivers/gpu/drm/i915/gt/uc/abi/guc_errors_abi.h    |  17 +
+>  drivers/gpu/drm/i915/gt/uc/intel_gsc_fw.h          |   2 +
+>  drivers/gpu/drm/i915/gt/uc/intel_guc.h             |   2 +
+>  drivers/gpu/drm/i915/gt/uc/intel_guc_fw.c          | 141 ++++-
+>  drivers/gpu/drm/i915/gt/uc/intel_guc_hwconfig.c    |   6 +-
+>  drivers/gpu/drm/i915/gt/uc/intel_guc_log.c         |   5 +-
+>  drivers/gpu/drm/i915/gt/uc/intel_guc_reg.h         |   4 +-
+>  drivers/gpu/drm/i915/gt/uc/intel_huc.c             |   7 +
+>  drivers/gpu/drm/i915/gt/uc/intel_huc.h             |   7 +-
+>  drivers/gpu/drm/i915/gt/uc/intel_uc_debugfs.c      |   2 +
+>  drivers/gpu/drm/i915/i915_debugfs.c                |  36 +-
+>  drivers/gpu/drm/i915/i915_driver.c                 |   4 +-
+>  drivers/gpu/drm/i915/i915_drm_client.c             |   2 +-
+>  drivers/gpu/drm/i915/i915_drv.h                    |   2 +
+>  drivers/gpu/drm/i915/i915_file_private.h           |   2 +-
+>  drivers/gpu/drm/i915/i915_gem.c                    |  10 +-
+>  drivers/gpu/drm/i915/i915_getparam.c               |   2 +-
+>  drivers/gpu/drm/i915/i915_pci.c                    |   1 +
+>  drivers/gpu/drm/i915/i915_perf.c                   | 570 ++++++++++++++++-----
+>  drivers/gpu/drm/i915/i915_perf.h                   |   4 +-
+>  drivers/gpu/drm/i915/i915_perf_oa_regs.h           |  78 +++
+>  drivers/gpu/drm/i915/i915_perf_types.h             |  75 ++-
+>  drivers/gpu/drm/i915/i915_pmu.c                    |  10 +-
+>  drivers/gpu/drm/i915/i915_reg.h                    |  14 +-
+>  drivers/gpu/drm/i915/i915_scatterlist.c            |   2 +-
+>  drivers/gpu/drm/i915/i915_vma.c                    |   3 +-
+>  drivers/gpu/drm/i915/intel_device_info.h           |   1 +
+>  drivers/gpu/drm/i915/intel_region_ttm.c            |   1 +
+>  drivers/gpu/drm/i915/intel_uncore.c                |  47 +-
+>  drivers/gpu/drm/i915/selftests/i915_gem_gtt.c      | 356 -------------
+>  include/uapi/drm/i915_drm.h                        |  25 +-
+>  63 files changed, 1241 insertions(+), 637 deletions(-)
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
