@@ -2,62 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF8CA6DB2C6
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Apr 2023 20:30:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2EDB6DB57C
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Apr 2023 22:54:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4968310EE44;
-	Fri,  7 Apr 2023 18:30:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D6AC810EE4E;
+	Fri,  7 Apr 2023 20:54:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com
- [IPv6:2607:f8b0:4864:20::102c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A5EC910EE44
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Apr 2023 18:30:07 +0000 (UTC)
-Received: by mail-pj1-x102c.google.com with SMTP id
- 98e67ed59e1d1-23fd46e5be0so219941a91.0
- for <dri-devel@lists.freedesktop.org>; Fri, 07 Apr 2023 11:30:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20210112; t=1680892207; x=1683484207;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=6HFtEQBBSrqrPLBtxkiSj0n1tTAIZHxJ4QeL5qxREtA=;
- b=SGVhjkvM7NMsU3Ujj47loy8mP8KYq9yQKj7qCA7dGa6PS0QGifsVTLCvMX9UxzGjCw
- HT6NnidZGBo053+sewjwtJyGcjS4BoV9MUYXQDd9xRILSKr9204cTvzS2huicN0Fg5x0
- VW8PHcQrfrG/EesRu2lov5LxIsQw03EgW78SwfOHXkerwYqWrGckT2wpZlFFc+qLJXbg
- pXqLIx3yiEOUSdKq0fZfiKJwysQO1jEwJbUVhZuBCnDkSz4gKhfr9dkB/wGt0+7bEl7f
- UtG7bO146qYi7lU2K57GH3F31N+1GGgq+wW9M3CzOfDNs4dxg/65laKeUwfT2VD2zhVv
- cBmg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680892207; x=1683484207;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=6HFtEQBBSrqrPLBtxkiSj0n1tTAIZHxJ4QeL5qxREtA=;
- b=bDh4Z1+QUc2GgG0jsj/BwK0npuulwNRtvjXGLSMOr1LT+FERIoY/9RAlOT2UBGhomP
- 0IJAGJwMBExRj5yB2SN3zXhKv3DNoFhW5++rlh1lfTqLe73+zEE0QVd2+i+pbZlXbjYe
- V07kgbwo4p4bIUDFcrHJZE/BEsGRs2IzngVxVaAOMldUiYkky5O9io4d2PgIktd0MD7e
- EszGNYxG+HRROwDOilaCtjjeREbts6aEFOv8BkKVr85kPcpIpVTWKqR9SA6vas/a77Cy
- vDauQ0VypkIYoXNPBCvoRj2+TTM1HJGE6HYQEVt3BvQ84Bk1oSE++lmNNlMvZvZsQD/P
- xCOA==
-X-Gm-Message-State: AAQBX9fjM5JUepIqZWRm4mJSkB7e9qejdNY8Yf4XzVC23AQBGqnOjyMg
- V/L42215V6xe/lRtoO4hnNp/hTcuyC97UNogVSHYtg==
-X-Google-Smtp-Source: AKy350Zn9nhE87iZkJPFl7414s8bVyJul5VukIyzyCsiFEtRHapVK5V9N1ZeYdKb2AlkJUj1xE94rcNxMRPPdz4DjIU=
-X-Received: by 2002:a05:6a00:2e23:b0:62a:d87a:a375 with SMTP id
- fc35-20020a056a002e2300b0062ad87aa375mr1663621pfb.4.1680892206429; Fri, 07
- Apr 2023 11:30:06 -0700 (PDT)
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8E93E10EE55
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 Apr 2023 20:54:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de; s=s31663417;
+ t=1680900841; i=deller@gmx.de;
+ bh=550F14P5Hzd4WFJcjAc0nSlwr1Mlxm9P3KdstqvYPGk=;
+ h=X-UI-Sender-Class:Date:To:Cc:References:From:Subject:In-Reply-To;
+ b=CE4AF4jF6VOWktxBzClZOl5vUQHiiEhYBJNUnsfHZqOHZbHNusYql0atRM4eUZ6nB
+ 1eYWC/yHqKQQuFg+ylVvFxcFac5jrrau55TTzji74ytL+GFWS+FzyiK79fpUFbqMtW
+ b8rzXvsFD6+TVT2FqzQ2Dbs+WbF3dIckDyHca/j19tmPfJOUrTV8QLfmvhzX+rM+HA
+ aoqiUgGvGxFramOFJgeu3DJpMM1ymMDsYlclrU4CuloXCzA7iwQaa6POMfPp0VrfoN
+ lGfbp3UvOwWc9LGY784Dv8FWolPpRHI4Yq76ql4+R/dJpkpVFNS5NZq3u5BdtvNKzY
+ 7J8zJk1bgVwmA==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [192.168.20.60] ([94.134.149.92]) by mail.gmx.net (mrgmx005
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1MBDnI-1pfz0B0Qmc-00CeYv; Fri, 07
+ Apr 2023 22:54:01 +0200
+Message-ID: <85282243-33a6-a311-0b50-a7edfc4c4c6e@gmx.de>
+Date: Fri, 7 Apr 2023 22:54:00 +0200
 MIME-Version: 1.0
-References: <20230325134503.1335510-1-trix@redhat.com>
- <CAKwvOdng_wH8qKnnGN=VpUhLK9q6wyc7sZKO7ORt-3QOKVP_nw@mail.gmail.com>
-In-Reply-To: <CAKwvOdng_wH8qKnnGN=VpUhLK9q6wyc7sZKO7ORt-3QOKVP_nw@mail.gmail.com>
-From: Nick Desaulniers <ndesaulniers@google.com>
-Date: Fri, 7 Apr 2023 11:29:55 -0700
-Message-ID: <CAKwvOd=CVq3DTPwUgDgghJBKsUKgL69K7Hne5=gY9V7vwshfAg@mail.gmail.com>
-Subject: Re: [PATCH] drm/amd/display: remove unused matching_stream_ptrs
- variable
-To: Tom Rix <trix@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Content-Language: en-US
+To: Thomas Zimmermann <tzimmermann@suse.de>, javierm@redhat.com,
+ daniel.vetter@ffwll.ch, patrik.r.jakobsson@gmail.com
+References: <20230406132109.32050-1-tzimmermann@suse.de>
+ <20230406132109.32050-3-tzimmermann@suse.de>
+From: Helge Deller <deller@gmx.de>
+Subject: Re: [PATCH v5 2/9] video/aperture: use generic code to figure out the
+ vga default device
+In-Reply-To: <20230406132109.32050-3-tzimmermann@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:pl3kcAyEcut6Yyrp868xThy7FcYNZdvudStKiKyhyjuNbeEWiX9
+ 7LrauqZWeVyTIN4Kns/I+r90UluJeIPhF0kSYd6Puzo08poKBy2A+1nIawYFjZAmGzLjKMZ
+ 1xYr7rZ0ah7PFQj3eswWxcAKb7Qxb4C3r60B9yX6EigoI1tQyTLbjN6FfYZWgpM2SZL6v8d
+ 8MYx1uAv+agZxEvonxK6A==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:gJLwJ3UW3r0=;oCNjJrVLRm1YHRaPyFBjKSiMuXA
+ g5mVkNsG+2vEaJL6xe1tpXDTRE6XZUmyo8onWTANFhDyPNKs5C2qHYTQ6HHjIUL5KCRMN9+D5
+ CxnRar81A34eAuyUABQt/6KT1yHoYoW5E3PBbk45PQW92t19ymIxBixTbmPHHhEe8nFFnCBxS
+ d0ojrRyUuZgJE8O6t4zPpCDtE+Kn9ER1ry3yyQVmG0WkU9egWap3A6fK1f0MhqiAwACz8hlay
+ EUYPxNu2DxRXdOwRO33TE/bIAU8YoFz/VB246dLuJA4lByxAEjXJQbnzLIvjofM7h8rgua767
+ 9K/eJ3d70AoOphqiL8IBcfS00IRF8G+Upej0jlNKCke7wj5RVR4PIe6gu3fIFJP7i/SJ+ecrl
+ v0saQLA+xkNS6m6UaRhg5t9H4aGILj/FGra16X3SvDfcG6cwswwZNkZ5jvhZEvjsJTAYmfbJ8
+ vh7cWV7M4S0x8Rha3yuHQ9XYCt4U1+J3O7a6NGqAWcVhm+3RGQssM2d9QZL63X6gZG8tyi/i2
+ E3jwj/sUVZHnUMVUbKl1zLfuF80A4a102ip80T7Nkdi0ggN1D/L2kmywc9rennQ32uKowahpH
+ 1w6pe8TmKkF4mcbqx2JWk1u6J/J9tTVLKjxfd1YkxR5XeXU2qCJv2V/QTzLhyfgdcu4BEWBNE
+ 4/S5wlav+9tm+GbMbNuo2hg//cFdfhinY6IkzS0upBtdpuzLeGbbP2QjfEky0C3Q1UUMzSDMI
+ 4BxIqJwxX+npEmJXrMjzqqYs2H1Y8JqMwsio8V2WTwE58v0/h9LaLJSKWqN0Esnn4f9qdOYkv
+ KImnPU+FljAtuKdhrUPhc/9Wz6Fn4TB/cZOIExUXyyNl7/kWcqKXm7fKhP6BH6SnvbDniBd/q
+ 9CDWq8o7uSLdIhXgDtXEM6gTUTWVbbrNG0AHsH6w657tw9do0v3mp5YGKSuRuHkFFsfmvfslE
+ HifTEQ==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,80 +74,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Cruise.Hung@amd.com, llvm@lists.linux.dev, sunpeng.li@amd.com,
- Xinhui.Pan@amd.com, Rodrigo.Siqueira@amd.com, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, wenjing.liu@amd.com, nathan@kernel.org,
- dri-devel@lists.freedesktop.org, alexander.deucher@amd.com, Jun.Lei@amd.com,
- christian.koenig@amd.com, Jimmy.Kizito@amd.com
+Cc: Bjorn Helgaas <bhelgaas@google.com>,
+ Daniel Vetter <daniel.vetter@intel.com>, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-pci@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Apr 7, 2023 at 10:52=E2=80=AFAM Nick Desaulniers
-<ndesaulniers@google.com> wrote:
+On 4/6/23 15:21, Thomas Zimmermann wrote:
+> From: Daniel Vetter <daniel.vetter@ffwll.ch>
 >
-> Jimmy, can you review?
+> Since vgaarb has been promoted to be a core piece of the pci subsystem
+> we don't have to open code random guesses anymore, we actually know
+> this in a platform agnostic way, and there's no need for an x86
+> specific hack. See also commit 1d38fe6ee6a8 ("PCI/VGA: Move vgaarb to
+> drivers/pci")
 >
-> The change LGTM; but I'm not sure if there was something else intended he=
-re.
-
-Nevermind, Jimmy's email address bounced.
-Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
-
+> This should not result in any functional change, and the non-x86
+> multi-gpu pci systems are probably rare enough to not matter (I don't
+> know of any tbh). But it's a nice cleanup, so let's do it.
 >
-> On Sat, Mar 25, 2023 at 6:45=E2=80=AFAM Tom Rix <trix@redhat.com> wrote:
-> >
-> > clang with W=3D1 reports
-> > drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_link_enc_cfg.c:625:6: =
-error:
-> >   variable 'matching_stream_ptrs' set but not used [-Werror,-Wunused-bu=
-t-set-variable]
-> >         int matching_stream_ptrs =3D 0;
-> >             ^
-> > This variable is not used so remove it.
-> >
-> > Signed-off-by: Tom Rix <trix@redhat.com>
-> > ---
-> >  drivers/gpu/drm/amd/display/dc/core/dc_link_enc_cfg.c | 5 +----
-> >  1 file changed, 1 insertion(+), 4 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_link_enc_cfg.c b/dr=
-ivers/gpu/drm/amd/display/dc/core/dc_link_enc_cfg.c
-> > index 41198c729d90..30c0644d4418 100644
-> > --- a/drivers/gpu/drm/amd/display/dc/core/dc_link_enc_cfg.c
-> > +++ b/drivers/gpu/drm/amd/display/dc/core/dc_link_enc_cfg.c
-> > @@ -622,7 +622,6 @@ bool link_enc_cfg_validate(struct dc *dc, struct dc=
-_state *state)
-> >         int i, j;
-> >         uint8_t valid_count =3D 0;
-> >         uint8_t dig_stream_count =3D 0;
-> > -       int matching_stream_ptrs =3D 0;
-> >         int eng_ids_per_ep_id[MAX_PIPES] =3D {0};
-> >         int ep_ids_per_eng_id[MAX_PIPES] =3D {0};
-> >         int valid_bitmap =3D 0;
-> > @@ -645,9 +644,7 @@ bool link_enc_cfg_validate(struct dc *dc, struct dc=
-_state *state)
-> >                 struct link_enc_assignment assignment =3D state->res_ct=
-x.link_enc_cfg_ctx.link_enc_assignments[i];
-> >
-> >                 if (assignment.valid) {
-> > -                       if (assignment.stream =3D=3D state->streams[i])
-> > -                               matching_stream_ptrs++;
-> > -                       else
-> > +                       if (assignment.stream !=3D state->streams[i])
-> >                                 valid_stream_ptrs =3D false;
-> >                 }
-> >         }
-> > --
-> > 2.27.0
-> >
+> There's been a few questions on previous iterations on dri-devel and
+> irc:
 >
+> - fb_is_primary_device() seems to be yet another implementation of
+>    this theme, and at least on x86 it checks for both
+>    vga_default_device OR rom shadowing. There shouldn't ever be a case
+>    where rom shadowing gives any additional hints about the boot vga
+>    device, but if there is then the default vga selection in vgaarb
+>    should probably be fixed. And not special-case checks replicated all
+>    over.
 >
-> --
-> Thanks,
-> ~Nick Desaulniers
+> - Thomas also brought up that on most !x86 systems
+>    fb_is_primary_device() returns 0, except on sparc/parisc. But these
+>    2 special cases are about platform specific devices and not pci, so
+>    shouldn't have any interactions.
 
+Nearly all graphics cards on parisc machines are actually PCI cards,
+but the way we handle the handover to graphics mode with STIcore doesn't
+conflicts with your planned aperture changes.
+So no problem as far as I can see for parisc...
 
-
---=20
-Thanks,
-~Nick Desaulniers
+Helge
