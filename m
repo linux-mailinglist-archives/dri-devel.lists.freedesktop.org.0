@@ -1,58 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A6816DB250
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Apr 2023 20:01:38 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 19B5D6DB2B0
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Apr 2023 20:17:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2EC1D10E2EF;
-	Fri,  7 Apr 2023 18:01:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3DAB510ED43;
+	Fri,  7 Apr 2023 18:17:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x52c.google.com (mail-pg1-x52c.google.com
- [IPv6:2607:f8b0:4864:20::52c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3755F10E2EF
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Apr 2023 18:01:32 +0000 (UTC)
-Received: by mail-pg1-x52c.google.com with SMTP id
- 41be03b00d2f7-5131c8656a6so149082a12.1
- for <dri-devel@lists.freedesktop.org>; Fri, 07 Apr 2023 11:01:32 -0700 (PDT)
+Received: from mail-pf1-x42c.google.com (mail-pf1-x42c.google.com
+ [IPv6:2607:f8b0:4864:20::42c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AC2ED10ED43
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 Apr 2023 18:17:15 +0000 (UTC)
+Received: by mail-pf1-x42c.google.com with SMTP id
+ d2e1a72fcca58-62815785926so1034499b3a.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 07 Apr 2023 11:17:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20210112; t=1680890491; x=1683482491;
+ d=google.com; s=20210112; t=1680891435; x=1683483435;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=q77ZcgCYnodZClKQX1HhPOSoqs2rfxGtOfBwRswul/4=;
- b=b8gKd+6rbeWwg8r+DFOMum1BwImUQSQAJBPrje68ohZORJXaU6x2Xjwzkhvjx0zkBd
- 5h5bRrw74dAx8oRlL3w74Jr9fcAfAvcocqj/1iJERl3gENUbwc4NGQ55i5HQ+b+0ZP09
- 0rez9y9Qa5huxDLtpYeke3L8uF9vTMjRiL+vSbvl9/TsWbbjtrZCUB3oXEknJi7Yhk47
- JXF9nbuPR2gdw5dq4TaBv2MF+VCKznTZ3GqXyMZ37PRQS5m96O2D+EIpIAaQFlYoGbdz
- WsWo06NQmP1P4MIKU9TIsU4519oxYzv7nhhKpZgz+FnI+GxMuVQaX78O9G7tHEuj/+r8
- t6sA==
+ bh=NuwimqlPO9HpY2//fLh7FzFmSEeSG4CgWKNzgwGf5e0=;
+ b=Pxebkcm9CczGaHvPx5PvvvRnR6vaeDp6HKms/KgNAqJQXvWemgVDWj5OCZHUEsr5j3
+ G9LMgv/KajspUvAGyGLQ7Iszic6kbG9P2k5NSjI2veF2IMW/awCFrSItQeZmJWK2XLZ8
+ i6eaSk3xj2bQYr9/oCtHhhg4bWIW25XK+DRij7sRFBY0PrKPBfd43oe3kVErQiVRHnnP
+ rBC1NfOjx2peA67xPLFCrmXLrsiOeHJW2kZXiKf92yzvKxgztNNJ4tJanifs/JMLrTin
+ Iun3CcwO27658Fb0advMSuPzDrAVtKjlY5wElw8gSey5BR3sb1CzIGcoUtpUEIO4NNiT
+ hDXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680890491; x=1683482491;
+ d=1e100.net; s=20210112; t=1680891435; x=1683483435;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=q77ZcgCYnodZClKQX1HhPOSoqs2rfxGtOfBwRswul/4=;
- b=kfPow7a0cgpn6e2w3A2qn2ApyJP6w7SD7Ht7f4Va8ubmhtTXf+X1sg7QAEEFkatjEl
- r5tEjvghMW12DaQ/RE0bva30k7reB4b/uOBRrGXWLLk8gI8yks4LdZQGivl1AUDAGlI3
- rwIGs6NOOQuMzigkc3bP/mEyVztXKM9O6RpoU5pmKexZOvi52K6ZDpexGcjLc+ecdd3g
- D/P+E5OLXbwla8qy3wHC0Re0h+tKSNZwl5OXhQeqYMjeR2AeBM3zVPAGmFmDkBb1yc33
- uuZTdXoEMdEtn3dvzI4A64KeQiR7aJZKYroOHZF+Nw8433no4nkBcoWeNYWJm9jH9k39
- CIiA==
-X-Gm-Message-State: AAQBX9f3mRCS6tOQqvkAAfS3MK2IPxbxYsDGKeACSVMh67SndY9OmptX
- 9MbmxcURf85i+cBCgi2ouMlSPjow4p8bAUFsjpbtrA==
-X-Google-Smtp-Source: AKy350ZHpTLUkU+XPnuqC13BzSbCyuTyl9RXM3G4Em3Qru7EkrOtM+34INuQ/mLJt+FyJN0GtVAS94TF68VaGc2rObc=
-X-Received: by 2002:a05:6a00:2e28:b0:625:c55f:bc66 with SMTP id
- fc40-20020a056a002e2800b00625c55fbc66mr1615956pfb.4.1680890490979; Fri, 07
- Apr 2023 11:01:30 -0700 (PDT)
+ bh=NuwimqlPO9HpY2//fLh7FzFmSEeSG4CgWKNzgwGf5e0=;
+ b=JseCZ246iOwHKcepGBRlK3yTAXDmLszy7yOzzBZLZeHdEV2RtZ+oQdEfWigXmC63y7
+ RNo+cq38yj0ojeOWlyZ0afVCVxnW63OT2qPoT6YsolQW2xtAzbi8V1q1qpYjICBxL7db
+ XqMqAqRdcMDA7KQZYQI7ijVF/h+dOrSMhZZkrcIH4KkG0EYD4fZfoThMC0bN+zaduoiL
+ WlBx84D6GXJmn+I5Cy9UO7yyP4/emNQmnDjkJvVHM4maoCBIFTn+ehfvvvhCZnTviJPk
+ DhpnF5RKZr95ocUyndbhLbzKcIckoh8Z/XhtZ0lYHQ6fMRxV3iCvYYlWmUa+M9szHivW
+ 3HwA==
+X-Gm-Message-State: AAQBX9evEE69F9Yxn3U8H8O19t2KNp7hgfEfo3AW363hWATJDoNeBrTW
+ k/Ry6ZSjzw9uDmagFDae7bphrxbOWv4Tbsqr3eYHPA==
+X-Google-Smtp-Source: AKy350Y6wWEggvCrlIf1bje2atujKhf9qMM/qxlunzgcridw/Fvst4ed6hVP1rP9DeneT/1K3zn48LLIF486O17fgc0=
+X-Received: by 2002:a05:6a00:2ea8:b0:61c:67d2:a332 with SMTP id
+ fd40-20020a056a002ea800b0061c67d2a332mr1427088pfb.3.1680891434554; Fri, 07
+ Apr 2023 11:17:14 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230329231407.1816570-1-trix@redhat.com>
-In-Reply-To: <20230329231407.1816570-1-trix@redhat.com>
+References: <20230331164041.1859088-1-trix@redhat.com>
+In-Reply-To: <20230331164041.1859088-1-trix@redhat.com>
 From: Nick Desaulniers <ndesaulniers@google.com>
-Date: Fri, 7 Apr 2023 11:01:19 -0700
-Message-ID: <CAKwvOdnQCVZ+gqOWzsRvkSKbYFJdh5yAJEN-TT+7MC4e8tdu8A@mail.gmail.com>
-Subject: Re: [PATCH] drm/nouveau/svm: remove unused ret variable
+Date: Fri, 7 Apr 2023 11:17:03 -0700
+Message-ID: <CAKwvOd=5Uw=6_8erAq0gt_-URUqXgK2ZvtCv5Ch_VZdk01sayQ@mail.gmail.com>
+Subject: Re: [PATCH] drm/amd/pm: remove unused num_of_active_display variable
 To: Tom Rix <trix@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -68,62 +68,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kherbst@redhat.com, nouveau@lists.freedesktop.org, llvm@lists.linux.dev,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- nathan@kernel.org, bskeggs@redhat.com
+Cc: tim.huang@amd.com, lijo.lazar@amd.com, andrealmeid@igalia.com,
+ KevinYang.Wang@amd.com, kenneth.feng@amd.com, dri-devel@lists.freedesktop.org,
+ Xinhui.Pan@amd.com, llvm@lists.linux.dev, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, nathan@kernel.org, mario.limonciello@amd.com,
+ alexander.deucher@amd.com, Kun.Liu2@amd.com, evan.quan@amd.com,
+ christian.koenig@amd.com, Hawking.Zhang@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Mar 29, 2023 at 4:14=E2=80=AFPM Tom Rix <trix@redhat.com> wrote:
+On Fri, Mar 31, 2023 at 9:40=E2=80=AFAM Tom Rix <trix@redhat.com> wrote:
 >
 > clang with W=3D1 reports
-> drivers/gpu/drm/nouveau/nouveau_svm.c:929:6: error: variable
->   'ret' set but not used [-Werror,-Wunused-but-set-variable]
->         int ret;
+> drivers/gpu/drm/amd/amdgpu/../pm/swsmu/amdgpu_smu.c:1700:6: error: variab=
+le
+>   'num_of_active_display' set but not used [-Werror,-Wunused-but-set-vari=
+able]
+>         int num_of_active_display =3D 0;
 >             ^
 > This variable is not used so remove it.
 >
 > Signed-off-by: Tom Rix <trix@redhat.com>
+
+Thanks for the patch!
+Fixes: commit 75145aab7a0d ("drm/amdgpu/swsmu: clean up a bunch of
+stale interfaces")
+Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
+
 > ---
->  drivers/gpu/drm/nouveau/nouveau_svm.c | 5 ++---
->  1 file changed, 2 insertions(+), 3 deletions(-)
+>  drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c | 7 -------
+>  1 file changed, 7 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/nouveau/nouveau_svm.c b/drivers/gpu/drm/nouv=
-eau/nouveau_svm.c
-> index a74ba8d84ba7..e072d610f2f9 100644
-> --- a/drivers/gpu/drm/nouveau/nouveau_svm.c
-> +++ b/drivers/gpu/drm/nouveau/nouveau_svm.c
-> @@ -926,15 +926,14 @@ nouveau_pfns_map(struct nouveau_svmm *svmm, struct =
-mm_struct *mm,
->                  unsigned long addr, u64 *pfns, unsigned long npages)
+> diff --git a/drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c b/drivers/gpu/drm/=
+amd/pm/swsmu/amdgpu_smu.c
+> index b5d64749990e..f93f7a9ed631 100644
+> --- a/drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c
+> +++ b/drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c
+> @@ -1696,8 +1696,6 @@ static int smu_display_configuration_change(void *h=
+andle,
+>                                             const struct amd_pp_display_c=
+onfiguration *display_config)
 >  {
->         struct nouveau_pfnmap_args *args =3D nouveau_pfns_to_args(pfns);
-> -       int ret;
+>         struct smu_context *smu =3D handle;
+> -       int index =3D 0;
+> -       int num_of_active_display =3D 0;
 >
->         args->p.addr =3D addr;
->         args->p.size =3D npages << PAGE_SHIFT;
+>         if (!smu->pm_enabled || !smu->adev->pm.dpm_enabled)
+>                 return -EOPNOTSUPP;
+> @@ -1708,11 +1706,6 @@ static int smu_display_configuration_change(void *=
+handle,
+>         smu_set_min_dcef_deep_sleep(smu,
+>                                     display_config->min_dcef_deep_sleep_s=
+et_clk / 100);
 >
->         mutex_lock(&svmm->mutex);
->
-> -       ret =3D nvif_object_ioctl(&svmm->vmm->vmm.object, args,
-> -                               struct_size(args, p.phys, npages), NULL);
-> +       nvif_object_ioctl(&svmm->vmm->vmm.object, args,
-> +                         struct_size(args, p.phys, npages), NULL);
-
-nvif_object_ioctl() may return -ENOSYS.  Seeing other call sites have
-comments like:
-114     /*XXX: warn? */
-134     /*XXX: warn? */
-
-or other places where the return code isn't checked makes me think
-that a better approach would be to
-1. plumb error codes back up through nouveau_pfns_map() (and other
-call sites of nvif_object_ioctl)
-2. consider making nvif_object_ioctl __must_check
-
->
->         mutex_unlock(&svmm->mutex);
+> -       for (index =3D 0; index < display_config->num_path_including_non_=
+display; index++) {
+> -               if (display_config->displays[index].controller_id !=3D 0)
+> -                       num_of_active_display++;
+> -       }
+> -
+>         return 0;
 >  }
+>
 > --
 > 2.27.0
 >
