@@ -1,57 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72AC66DB2BF
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Apr 2023 20:25:10 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CF8CA6DB2C6
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Apr 2023 20:30:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0A7C010EE42;
-	Fri,  7 Apr 2023 18:25:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4968310EE44;
+	Fri,  7 Apr 2023 18:30:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x631.google.com (mail-pl1-x631.google.com
- [IPv6:2607:f8b0:4864:20::631])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 188FE10EE37
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Apr 2023 18:25:03 +0000 (UTC)
-Received: by mail-pl1-x631.google.com with SMTP id ji2so1037264plb.0
- for <dri-devel@lists.freedesktop.org>; Fri, 07 Apr 2023 11:25:02 -0700 (PDT)
+Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com
+ [IPv6:2607:f8b0:4864:20::102c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A5EC910EE44
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 Apr 2023 18:30:07 +0000 (UTC)
+Received: by mail-pj1-x102c.google.com with SMTP id
+ 98e67ed59e1d1-23fd46e5be0so219941a91.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 07 Apr 2023 11:30:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20210112; t=1680891902; x=1683483902;
+ d=google.com; s=20210112; t=1680892207; x=1683484207;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=YqDA4WRbqZ8pZx3U3y6YYJyg8kkdxxYYCziSSoMs6f4=;
- b=IxJT4QMtg5r1G4F+GoM/q1tJVSZvAIzcvgcNYRgfVw3xxAXMfzR1j8kFIJQ5+3LOP1
- 3YHWb+PmbJpffDwUvHHaOXgcH2jW/vRq4CF9OWiUG3Yw3QmAQYL8j8U1clL3OB9jmSOy
- OyqeP0yvsylVpyedaCAmYyRhVhsHlrqYdOQkm6zEPNpcuTzw6LZR0eNjDkzB3H5FNkR2
- wu7pPND7ZoQbJtAPGlxSLa4vkDjlLenKV/r5RHZaltDRU/HzSi58qR/dbY+sR1VRcn3Y
- RBguN4BK97kV/rDwV1gdLloP/3QNpzjoWbdXoWTvO7wu3ee35i1j5aMXZ8rUuik0aKWR
- rCjw==
+ bh=6HFtEQBBSrqrPLBtxkiSj0n1tTAIZHxJ4QeL5qxREtA=;
+ b=SGVhjkvM7NMsU3Ujj47loy8mP8KYq9yQKj7qCA7dGa6PS0QGifsVTLCvMX9UxzGjCw
+ HT6NnidZGBo053+sewjwtJyGcjS4BoV9MUYXQDd9xRILSKr9204cTvzS2huicN0Fg5x0
+ VW8PHcQrfrG/EesRu2lov5LxIsQw03EgW78SwfOHXkerwYqWrGckT2wpZlFFc+qLJXbg
+ pXqLIx3yiEOUSdKq0fZfiKJwysQO1jEwJbUVhZuBCnDkSz4gKhfr9dkB/wGt0+7bEl7f
+ UtG7bO146qYi7lU2K57GH3F31N+1GGgq+wW9M3CzOfDNs4dxg/65laKeUwfT2VD2zhVv
+ cBmg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680891902; x=1683483902;
+ d=1e100.net; s=20210112; t=1680892207; x=1683484207;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=YqDA4WRbqZ8pZx3U3y6YYJyg8kkdxxYYCziSSoMs6f4=;
- b=Q9snJzpQ1qjrM4DHyv7q+bBRFCeCr80zlAQn5khvsxCziQd1KMZiOSPp7TCEyAFNg9
- gEHCZ+bL5hIJ6vzwQzancjWkfhjlzh+Gv1C5T8EECY5ssyU/EUl5K+FooA0Me56GbRpp
- ngEb/+vOt8G9/uEvxmglqCP2mF47DhVaPORQHY6uZCk68rLHE6V+3LtGSTYQIxEogd1D
- E3Gv7OE7/22bfoVlOYKi8hxPtRV6qVk/QPfA21mKjo6hBNng5Cvazos9jHmFNrl/AGdo
- usO9X9pyX52pJBqaxlpKpf9MITXwZ5TnuEBaPQ/vdDIPZS3hbM80m4Xf8fdy6jmxInvP
- t4BQ==
-X-Gm-Message-State: AAQBX9cEvlRjhnnrub740lXLhsb8g9k5TOM24S45SV5MM1v68rAoJXiR
- k+wlUcqeRMTUwUbi/166VtMy158s0XVIAykJaiWJOw==
-X-Google-Smtp-Source: AKy350bXQUYcPYmDw9ucdCsVzHEhLhSxuODvj2EavnS9lslRG5I8VtiLzyQAXkkbbqqxnfc/IY218hVz5XmMfH2ovNY=
-X-Received: by 2002:a17:902:e54d:b0:19e:f660:81ee with SMTP id
- n13-20020a170902e54d00b0019ef66081eemr1104963plf.2.1680891902021; Fri, 07 Apr
- 2023 11:25:02 -0700 (PDT)
+ bh=6HFtEQBBSrqrPLBtxkiSj0n1tTAIZHxJ4QeL5qxREtA=;
+ b=bDh4Z1+QUc2GgG0jsj/BwK0npuulwNRtvjXGLSMOr1LT+FERIoY/9RAlOT2UBGhomP
+ 0IJAGJwMBExRj5yB2SN3zXhKv3DNoFhW5++rlh1lfTqLe73+zEE0QVd2+i+pbZlXbjYe
+ V07kgbwo4p4bIUDFcrHJZE/BEsGRs2IzngVxVaAOMldUiYkky5O9io4d2PgIktd0MD7e
+ EszGNYxG+HRROwDOilaCtjjeREbts6aEFOv8BkKVr85kPcpIpVTWKqR9SA6vas/a77Cy
+ vDauQ0VypkIYoXNPBCvoRj2+TTM1HJGE6HYQEVt3BvQ84Bk1oSE++lmNNlMvZvZsQD/P
+ xCOA==
+X-Gm-Message-State: AAQBX9fjM5JUepIqZWRm4mJSkB7e9qejdNY8Yf4XzVC23AQBGqnOjyMg
+ V/L42215V6xe/lRtoO4hnNp/hTcuyC97UNogVSHYtg==
+X-Google-Smtp-Source: AKy350Zn9nhE87iZkJPFl7414s8bVyJul5VukIyzyCsiFEtRHapVK5V9N1ZeYdKb2AlkJUj1xE94rcNxMRPPdz4DjIU=
+X-Received: by 2002:a05:6a00:2e23:b0:62a:d87a:a375 with SMTP id
+ fc35-20020a056a002e2300b0062ad87aa375mr1663621pfb.4.1680892206429; Fri, 07
+ Apr 2023 11:30:06 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230331204209.1863060-1-trix@redhat.com>
-In-Reply-To: <20230331204209.1863060-1-trix@redhat.com>
+References: <20230325134503.1335510-1-trix@redhat.com>
+ <CAKwvOdng_wH8qKnnGN=VpUhLK9q6wyc7sZKO7ORt-3QOKVP_nw@mail.gmail.com>
+In-Reply-To: <CAKwvOdng_wH8qKnnGN=VpUhLK9q6wyc7sZKO7ORt-3QOKVP_nw@mail.gmail.com>
 From: Nick Desaulniers <ndesaulniers@google.com>
-Date: Fri, 7 Apr 2023 11:24:50 -0700
-Message-ID: <CAKwvOdmkyXgii52gyD5uO7=BwYu0iJ9QZtbOcusE2PeH24f6uw@mail.gmail.com>
-Subject: Re: [PATCH] drm/nouveau/acr: remove unused loc variable
+Date: Fri, 7 Apr 2023 11:29:55 -0700
+Message-ID: <CAKwvOd=CVq3DTPwUgDgghJBKsUKgL69K7Hne5=gY9V7vwshfAg@mail.gmail.com>
+Subject: Re: [PATCH] drm/amd/display: remove unused matching_stream_ptrs
+ variable
 To: Tom Rix <trix@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -67,61 +70,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kherbst@redhat.com, nouveau@lists.freedesktop.org, llvm@lists.linux.dev,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- nathan@kernel.org, bskeggs@redhat.com, gsamaiya@nvidia.com
+Cc: Cruise.Hung@amd.com, llvm@lists.linux.dev, sunpeng.li@amd.com,
+ Xinhui.Pan@amd.com, Rodrigo.Siqueira@amd.com, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, wenjing.liu@amd.com, nathan@kernel.org,
+ dri-devel@lists.freedesktop.org, alexander.deucher@amd.com, Jun.Lei@amd.com,
+ christian.koenig@amd.com, Jimmy.Kizito@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Mar 31, 2023 at 1:42=E2=80=AFPM Tom Rix <trix@redhat.com> wrote:
+On Fri, Apr 7, 2023 at 10:52=E2=80=AFAM Nick Desaulniers
+<ndesaulniers@google.com> wrote:
 >
-> clang with W=3D1 reports
-> drivers/gpu/drm/nouveau/nvkm/subdev/acr/lsfw.c:221:7: error: variable
->   'loc' set but not used [-Werror,-Wunused-but-set-variable]
->                 u32 loc, sig, cnt, *meta;
->                     ^
-> This variable is not used so remove it.
+> Jimmy, can you review?
 >
-> Signed-off-by: Tom Rix <trix@redhat.com>
+> The change LGTM; but I'm not sure if there was something else intended he=
+re.
 
-Ben, any idea if this was supposed to be used somewhere? If not:
-
-Fixes: 4b569ded09fd ("drm/nouveau/acr/ga102: initial support")
+Nevermind, Jimmy's email address bounced.
 Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
 
-> ---
->  drivers/gpu/drm/nouveau/nvkm/subdev/acr/lsfw.c | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/acr/lsfw.c b/drivers/gpu=
-/drm/nouveau/nvkm/subdev/acr/lsfw.c
-> index f36a359d4531..bd104a030243 100644
-> --- a/drivers/gpu/drm/nouveau/nvkm/subdev/acr/lsfw.c
-> +++ b/drivers/gpu/drm/nouveau/nvkm/subdev/acr/lsfw.c
-> @@ -218,7 +218,7 @@ nvkm_acr_lsfw_load_sig_image_desc_v2(struct nvkm_subd=
-ev *subdev,
->                 const struct firmware *hsbl;
->                 const struct nvfw_ls_hsbl_bin_hdr *hdr;
->                 const struct nvfw_ls_hsbl_hdr *hshdr;
-> -               u32 loc, sig, cnt, *meta;
-> +               u32 sig, cnt, *meta;
+> On Sat, Mar 25, 2023 at 6:45=E2=80=AFAM Tom Rix <trix@redhat.com> wrote:
+> >
+> > clang with W=3D1 reports
+> > drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_link_enc_cfg.c:625:6: =
+error:
+> >   variable 'matching_stream_ptrs' set but not used [-Werror,-Wunused-bu=
+t-set-variable]
+> >         int matching_stream_ptrs =3D 0;
+> >             ^
+> > This variable is not used so remove it.
+> >
+> > Signed-off-by: Tom Rix <trix@redhat.com>
+> > ---
+> >  drivers/gpu/drm/amd/display/dc/core/dc_link_enc_cfg.c | 5 +----
+> >  1 file changed, 1 insertion(+), 4 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_link_enc_cfg.c b/dr=
+ivers/gpu/drm/amd/display/dc/core/dc_link_enc_cfg.c
+> > index 41198c729d90..30c0644d4418 100644
+> > --- a/drivers/gpu/drm/amd/display/dc/core/dc_link_enc_cfg.c
+> > +++ b/drivers/gpu/drm/amd/display/dc/core/dc_link_enc_cfg.c
+> > @@ -622,7 +622,6 @@ bool link_enc_cfg_validate(struct dc *dc, struct dc=
+_state *state)
+> >         int i, j;
+> >         uint8_t valid_count =3D 0;
+> >         uint8_t dig_stream_count =3D 0;
+> > -       int matching_stream_ptrs =3D 0;
+> >         int eng_ids_per_ep_id[MAX_PIPES] =3D {0};
+> >         int ep_ids_per_eng_id[MAX_PIPES] =3D {0};
+> >         int valid_bitmap =3D 0;
+> > @@ -645,9 +644,7 @@ bool link_enc_cfg_validate(struct dc *dc, struct dc=
+_state *state)
+> >                 struct link_enc_assignment assignment =3D state->res_ct=
+x.link_enc_cfg_ctx.link_enc_assignments[i];
+> >
+> >                 if (assignment.valid) {
+> > -                       if (assignment.stream =3D=3D state->streams[i])
+> > -                               matching_stream_ptrs++;
+> > -                       else
+> > +                       if (assignment.stream !=3D state->streams[i])
+> >                                 valid_stream_ptrs =3D false;
+> >                 }
+> >         }
+> > --
+> > 2.27.0
+> >
 >
->                 ret =3D nvkm_firmware_load_name(subdev, path, "hs_bl_sig"=
-, ver, &hsbl);
->                 if (ret)
-> @@ -227,7 +227,6 @@ nvkm_acr_lsfw_load_sig_image_desc_v2(struct nvkm_subd=
-ev *subdev,
->                 hdr =3D nvfw_ls_hsbl_bin_hdr(subdev, hsbl->data);
->                 hshdr =3D nvfw_ls_hsbl_hdr(subdev, hsbl->data + hdr->head=
-er_offset);
->                 meta =3D (u32 *)(hsbl->data + hshdr->meta_data_offset);
-> -               loc =3D *(u32 *)(hsbl->data + hshdr->patch_loc);
->                 sig =3D *(u32 *)(hsbl->data + hshdr->patch_sig);
->                 cnt =3D *(u32 *)(hsbl->data + hshdr->num_sig);
 >
 > --
-> 2.27.0
->
+> Thanks,
+> ~Nick Desaulniers
+
 
 
 --=20
