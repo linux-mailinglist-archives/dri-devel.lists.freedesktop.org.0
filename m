@@ -1,48 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F4696DB1CD
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Apr 2023 19:38:49 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2928D6DB209
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Apr 2023 19:50:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5051B10EE34;
-	Fri,  7 Apr 2023 17:38:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 152F810E28B;
+	Fri,  7 Apr 2023 17:49:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 83B1410EE32;
- Fri,  7 Apr 2023 17:38:44 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 1124B652B1;
- Fri,  7 Apr 2023 17:38:44 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F1B8EC4339E;
- Fri,  7 Apr 2023 17:38:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1680889123;
- bh=ShYE/NmpoSW62Nvk+UDzbzXRAyY8hKK3U9ol2L/cDjg=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=M0dcZC1PwRN2HkRpAf18Y8Sc3xtdV99EC+vxYRCkvNNAP+f919nIOyOf5C1k+lysA
- DsIPR1Qt8nC4oUYnjInR8TIxqXfTv7etNNAZFIr8N3Z4pgJcnzOnfgGSt+8WWdyUnl
- AtCK3R+vmetr+XaPeV8TeeBy7ElBS52aIWcd/f+6IC92wBZ6VtySpHzS+akBWGLAPm
- 9FGQ7rTD0MB43HTwT8UqysfMbMPTFlPqN0cgjcBIFUJ0L4OURVzzGJE92PFWqiUUkv
- QzbufEidnsWI3M3Syk9Vjk2T1AbA0NyhHej5ZBtJs+zEboLXJ09NMin4l6aPtNNsSc
- ndslYUpGWzB9w==
-From: Bjorn Andersson <andersson@kernel.org>
-To: dri-devel@lists.freedesktop.org,
-	Rob Clark <robdclark@gmail.com>
-Subject: Re: (subset) [PATCH v2 00/23] drm/msm+PM+icc: Make job_run()
- reclaim-safe
-Date: Fri,  7 Apr 2023 10:41:19 -0700
-Message-Id: <168088927578.2561591.14585371270684166515.b4-ty@kernel.org>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230320144356.803762-1-robdclark@gmail.com>
-References: <20230320144356.803762-1-robdclark@gmail.com>
+Received: from mail-pl1-x629.google.com (mail-pl1-x629.google.com
+ [IPv6:2607:f8b0:4864:20::629])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B138210E124
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 Apr 2023 17:49:56 +0000 (UTC)
+Received: by mail-pl1-x629.google.com with SMTP id
+ d9443c01a7336-1a51d48b25fso684535ad.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 07 Apr 2023 10:49:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=google.com; s=20210112; t=1680889796; x=1683481796;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=YOYR5yl6ypiXPPEsw9LGpTcARLtmR0joIO+5Gy/Ym7k=;
+ b=gSjbHOfHvFZTwg2Y8sJqAABr4qbOs+k2r0fQ+0VSOZk6KDkWrDRTPyg4C52MCNHNE1
+ mBU7V9D/2Md0WXYZkvllimMI1smpQ1C1kFfkReM4r8ktSoI3kxRfchhJRzDwgRFuoOlt
+ vbOvICGQVOBv1Qn70leZLT6df/AwluazWABijBn2vcVMO1zE/lo9kQiJeI00WteSuQzO
+ 4E7JC3dixEOti4CtUDh751L3OUzUjfxsuq57/AW2RnR6Le3p9lCuvLXaMRlsFskWX/9J
+ owh1Fitcsrv4fXxFYKplshFL978dzQ3D+fBn9bMuWz/gIKi76FWckOOCuAdt9sSYV7S2
+ Fb2g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1680889796; x=1683481796;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=YOYR5yl6ypiXPPEsw9LGpTcARLtmR0joIO+5Gy/Ym7k=;
+ b=MsAYd10TzFByCJ8bOtvTQ4CO5Mz/pnZsmMXVo/nQwTzeHyQMMbiz8VBncB463YvOds
+ a0keusOOXcybzus0LNo6c/t+tItASg0jpoHgHrSdU1tRw47FJDszSEZZCPpc1dT9D0H7
+ QX4iniBTUesVjOI2H8L8efg/rLRdOGIbxGVMTsvZI5bN5IQus8o/7e6auV/MBpLvCJqG
+ k73/OGLtvvEnYTXiQtX+/E26vSgLaE2YzJDUYweOGwM1hu7F5EDEIKU2zabepWSZKORH
+ 6GyXpi7/m/Zjs7KqUfwRwkwB5s0SH9MisoSKC6KAwAHPakzVVI/OTMcQq5A1N2/GNULj
+ 3vZw==
+X-Gm-Message-State: AAQBX9esTUXXFjmKJoEyMmqAnw5j4OOFMhaqvM36SxQuCMDjDCspGGZ6
+ suMMW3G6wEUHuRC23htSHg9FGXTbJWq0xwVrhk90Ag==
+X-Google-Smtp-Source: AKy350YcyBmqWjxSDZIDUgohnwuC5OCKa+DcG7pxNN+qXdDBC9rHkNcGfLqqt8MDPERyF6go6jpkdZN6egNSE+y9cQE=
+X-Received: by 2002:a05:6a00:2d88:b0:625:c832:6a10 with SMTP id
+ fb8-20020a056a002d8800b00625c8326a10mr1535733pfb.4.1680889795599; Fri, 07 Apr
+ 2023 10:49:55 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+References: <20230324195403.2655148-1-trix@redhat.com>
+In-Reply-To: <20230324195403.2655148-1-trix@redhat.com>
+From: Nick Desaulniers <ndesaulniers@google.com>
+Date: Fri, 7 Apr 2023 10:49:44 -0700
+Message-ID: <CAKwvOdndQiSbMK6a7nU01HiovY-Bdjt4m4gOO5m5A36y8qQ8=A@mail.gmail.com>
+Subject: Re: [PATCH] drm/vmwgfx: remove unused mksstat_init_record function
+To: Tom Rix <trix@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,41 +68,79 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, Nathan Chancellor <nathan@kernel.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>,
- Akhil P Oommen <quic_akhilpo@quicinc.com>, Sean Paul <sean@poorly.run>,
- "open list:DEVICE FREQUENCY DEVFREQ" <linux-pm@vger.kernel.org>,
- Konrad Dybcio <konrad.dybcio@somainline.org>,
- Douglas Anderson <dianders@chromium.org>,
- "Joel Fernandes \(Google\)" <joel@joelfernandes.org>,
- open list <linux-kernel@vger.kernel.org>, Luca Weiss <luca@z3ntu.xyz>,
- "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
- Geert Uytterhoeven <geert@linux-m68k.org>, linux-arm-msm@vger.kernel.org,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- freedreno@lists.freedesktop.org, Maximilian Luz <luzmaximilian@gmail.com>,
- "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
+Cc: llvm@lists.linux.dev, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, nathan@kernel.org,
+ linux-graphics-maintainer@vmware.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 20 Mar 2023 07:43:22 -0700, Rob Clark wrote:
-> From: Rob Clark <robdclark@chromium.org>
-> 
-> Inspired by https://lore.kernel.org/dri-devel/20200604081224.863494-10-daniel.vetter@ffwll.ch/
-> it seemed like a good idea to get rid of memory allocation in job_run()
-> fence signaling path, and use lockdep annotations to yell at us about
-> anything that could deadlock against shrinker/reclaim.  Anything that
-> can trigger reclaim, or block on any other thread that has triggered
-> reclaim, can block the GPU shrinker from releasing memory if it is
-> waiting the job to complete, causing deadlock.
-> 
-> [...]
+On Fri, Mar 24, 2023 at 12:54=E2=80=AFPM Tom Rix <trix@redhat.com> wrote:
+>
+> clang with W=3D1 reports
+> drivers/gpu/drm/vmwgfx/vmwgfx_msg.c:716:21: error: unused function
+>   'mksstat_init_record' [-Werror,-Wunused-function]
+> static inline char *mksstat_init_record(mksstat_kern_stats_t stat_idx,
+>                     ^
+> This function is not used so remove it.
+>
+> Signed-off-by: Tom Rix <trix@redhat.com>
+> ---
+>  drivers/gpu/drm/vmwgfx/vmwgfx_msg.c | 26 --------------------------
+>  1 file changed, 26 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_msg.c b/drivers/gpu/drm/vmwgfx=
+/vmwgfx_msg.c
+> index e76976a95a1e..ca1a3fe44fa5 100644
+> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_msg.c
+> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_msg.c
+> @@ -702,32 +702,6 @@ static inline void hypervisor_ppn_remove(PPN64 pfn)
+>  /* Header to the text description of mksGuestStat instance descriptor */
+>  #define MKSSTAT_KERNEL_DESCRIPTION "vmwgfx"
+>
+> -/**
+> - * mksstat_init_record: Initializes an MKSGuestStatCounter-based record
+> - * for the respective mksGuestStat index.
+> - *
+> - * @stat_idx: Index of the MKSGuestStatCounter-based mksGuestStat record=
+.
+> - * @pstat: Pointer to array of MKSGuestStatCounterTime.
+> - * @pinfo: Pointer to array of MKSGuestStatInfoEntry.
+> - * @pstrs: Pointer to current end of the name/description sequence.
+> - * Return: Pointer to the new end of the names/description sequence.
+> - */
+> -
+> -static inline char *mksstat_init_record(mksstat_kern_stats_t stat_idx,
+> -       MKSGuestStatCounterTime *pstat, MKSGuestStatInfoEntry *pinfo, cha=
+r *pstrs)
+> -{
+> -       char *const pstrd =3D pstrs + strlen(mksstat_kern_name_desc[stat_=
+idx][0]) + 1;
+> -       strcpy(pstrs, mksstat_kern_name_desc[stat_idx][0]);
+> -       strcpy(pstrd, mksstat_kern_name_desc[stat_idx][1]);
+> -
+> -       pinfo[stat_idx].name.s =3D pstrs;
+> -       pinfo[stat_idx].description.s =3D pstrd;
+> -       pinfo[stat_idx].flags =3D MKS_GUEST_STAT_FLAG_NONE;
 
-Applied, thanks!
+This was the last user of MKS_GUEST_STAT_FLAG_NONE, is there anything
+else to clean up there?  Otherwise LGTM.
+Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
 
-[20/23] soc: qcom: smd-rpm: Use GFP_ATOMIC in write path
-        commit: 5808c532ca0a983d643319caca44f2bcb148298f
+> -       pinfo[stat_idx].stat.counter =3D (MKSGuestStatCounter *)&pstat[st=
+at_idx];
+> -
+> -       return pstrd + strlen(mksstat_kern_name_desc[stat_idx][1]) + 1;
+> -}
+> -
+>  /**
+>   * mksstat_init_record_time: Initializes an MKSGuestStatCounterTime-base=
+d record
+>   * for the respective mksGuestStat index.
+> --
+> 2.27.0
+>
 
-Best regards,
--- 
-Bjorn Andersson <andersson@kernel.org>
+
+--=20
+Thanks,
+~Nick Desaulniers
