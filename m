@@ -2,39 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 561E36DADC3
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Apr 2023 15:39:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 785576DADC6
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Apr 2023 15:39:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B79BF10E639;
-	Fri,  7 Apr 2023 13:39:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 836AF10EAA4;
+	Fri,  7 Apr 2023 13:39:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net
  [IPv6:2001:4b98:dc4:8::228])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 524E310E639
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Apr 2023 13:39:27 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D039110E755
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 Apr 2023 13:39:31 +0000 (UTC)
 Received: from booty.fritz.box (unknown [77.244.183.192])
  (Authenticated sender: luca.ceresoli@bootlin.com)
- by mail.gandi.net (Postfix) with ESMTPA id CD5DD1BF20F;
- Fri,  7 Apr 2023 13:39:19 +0000 (UTC)
+ by mail.gandi.net (Postfix) with ESMTPA id AA3A91BF203;
+ Fri,  7 Apr 2023 13:39:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1680874764;
+ t=1680874770;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=A/GjZm5PPxLztBEpj4lMVnSCCudcNgYBjQRLkBLEI30=;
- b=WxtWIMPtddf+2FUa/a0HVHnY4euAeiVs6YXyQlQN3Wp7nq72Qtshwh1LTxkH2aEt88dC5g
- OqwWxNTHNO2W9wygHUT2X/SiGChF3YqRSRc9Xy5/2qlIJDVkF8aID7z0YOTMojij9z/0UX
- I+277d/0pMyFF8hMDwH6HlH3VcTuujRQ0r3/K6rbHs41729G4W9dRY3CSDvezgibDZGwtb
- eRwd3EPS8m569Uc3tkP10//ZWmNEoybtrU+sBuoCqacDmCRT7YHFfbE/6g8F3lTT0l5LVD
- CrYWGmUxd9kCzf/4hlrtLnb03MeAihlMas++UGvuYSndmhgfH6Bdlv2b4S39CQ==
+ bh=4M+3Ec5aqFaKvdFzu+ibwr6LsVG/WUQeKXGIcBKEyq8=;
+ b=kHdbmHKEkLdndA6YmBETpnHiHmKKpkrKJc9fAUc8/zymm/vY9DPOUmiKBJykm3Y4rkn+a8
+ f4aWaINB6ofjnEUP2sY05C9RAV//KRZb0eM885AoBY7bTuYiiefBjctz3uCnlY86E6kipv
+ mOIYVaRLXcecCuuQ1BuEMThuVsKbLe9bqalUSgxH5ZIAhKa2bPiOpVbYJ21q/JmwQTJZbS
+ kjtDBk6d0+tjoyisxSCkOiZ959stNGEEL+affK9BbT0qKliWX8hTPOWhU5/SBo35GguEuq
+ qQWRdD+EEu1MQJHKExQS/HguwjjEadbLG8tzGZG97p9wDUQ3xVgY2m8tGRsl5g==
 From: Luca Ceresoli <luca.ceresoli@bootlin.com>
 To: linux-tegra@vger.kernel.org
-Subject: [PATCH v5 03/20] staging: media: tegra-video: improve documentation
- of tegra_video_format fields
-Date: Fri,  7 Apr 2023 15:38:35 +0200
-Message-Id: <20230407133852.2850145-4-luca.ceresoli@bootlin.com>
+Subject: [PATCH v5 04/20] staging: media: tegra-video: document
+ tegra_channel_get_remote_source_subdev
+Date: Fri,  7 Apr 2023 15:38:36 +0200
+Message-Id: <20230407133852.2850145-5-luca.ceresoli@bootlin.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230407133852.2850145-1-luca.ceresoli@bootlin.com>
 References: <20230407133852.2850145-1-luca.ceresoli@bootlin.com>
@@ -69,7 +69,7 @@ Cc: devicetree@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Some fields are irrelevant for Tegra20/VIP. Add a note to clarify that.
+Clarify what this function does.
 
 Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 Reviewed-by: Dmitry Osipenko <digetx@gmail.com>
@@ -84,28 +84,23 @@ Changed in v4:
 No changes in v3
 No changes in v2
 ---
- drivers/staging/media/tegra-video/vi.h | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ drivers/staging/media/tegra-video/vi.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/drivers/staging/media/tegra-video/vi.h b/drivers/staging/media/tegra-video/vi.h
-index a68e2c02c7b0..5396bf53ab75 100644
---- a/drivers/staging/media/tegra-video/vi.h
-+++ b/drivers/staging/media/tegra-video/vi.h
-@@ -260,11 +260,11 @@ enum tegra_image_dt {
- /**
-  * struct tegra_video_format - Tegra video format description
-  *
-- * @img_dt: image data type
-- * @bit_width: format width in bits per component
-+ * @img_dt: MIPI CSI-2 data type (for CSI-2 only)
-+ * @bit_width: format width in bits per component (for CSI/Tegra210 only)
-  * @code: media bus format code
-  * @bpp: bytes per pixel (when stored in memory)
-- * @img_fmt: image format
-+ * @img_fmt: image format (for CSI/Tegra210 only)
-  * @fourcc: V4L2 pixel format FCC identifier
-  */
- struct tegra_video_format {
+diff --git a/drivers/staging/media/tegra-video/vi.c b/drivers/staging/media/tegra-video/vi.c
+index 11dd142c98c5..44c56dc85980 100644
+--- a/drivers/staging/media/tegra-video/vi.c
++++ b/drivers/staging/media/tegra-video/vi.c
+@@ -164,6 +164,9 @@ tegra_channel_get_remote_csi_subdev(struct tegra_vi_channel *chan)
+ 	return media_entity_to_v4l2_subdev(pad->entity);
+ }
+ 
++/*
++ * Walk up the chain until the initial source (e.g. image sensor)
++ */
+ struct v4l2_subdev *
+ tegra_channel_get_remote_source_subdev(struct tegra_vi_channel *chan)
+ {
 -- 
 2.34.1
 
