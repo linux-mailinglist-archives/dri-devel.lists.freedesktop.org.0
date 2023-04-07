@@ -2,58 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEC7A6DB218
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Apr 2023 19:53:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A6816DB250
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Apr 2023 20:01:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C327610E124;
-	Fri,  7 Apr 2023 17:53:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2EC1D10E2EF;
+	Fri,  7 Apr 2023 18:01:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x535.google.com (mail-pg1-x535.google.com
- [IPv6:2607:f8b0:4864:20::535])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 82A1110E20F
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Apr 2023 17:53:01 +0000 (UTC)
-Received: by mail-pg1-x535.google.com with SMTP id q191so7582430pgq.7
- for <dri-devel@lists.freedesktop.org>; Fri, 07 Apr 2023 10:53:01 -0700 (PDT)
+Received: from mail-pg1-x52c.google.com (mail-pg1-x52c.google.com
+ [IPv6:2607:f8b0:4864:20::52c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3755F10E2EF
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 Apr 2023 18:01:32 +0000 (UTC)
+Received: by mail-pg1-x52c.google.com with SMTP id
+ 41be03b00d2f7-5131c8656a6so149082a12.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 07 Apr 2023 11:01:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20210112; t=1680889980; x=1683481980;
+ d=google.com; s=20210112; t=1680890491; x=1683482491;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=KYBbdfYMz/vjcXkNGYT26LJaYJDJYJgOQo589rbtS2s=;
- b=DqKYdsHfDx8zdLJVjdTiTFTABvHWdnCrcEmv1w5HVb7vZJgYb9t4uDuX/Cr9FthsY+
- sNlQf5412FR4vITwMaeTaoKN8vXOBxK5I09sKXDtFLOCDcucYYJqntHqjO3K/idXejnx
- mpjwZtwsKYITG3OUusv3MCa9zgiWgd4qcE93WnOc5b19hJYSRsJv9ND+hyeP42g88eNa
- 4M5aWWIG7t2lc67vCrkzFbzHfaMpEH2orbYitLkGcLjlPGiRbePJKxB3XQzuoavzhYGq
- dWt2ylU++nmF7XJzcfQQHXSf1nOsa4/z1PObYwy+i3A5Vf3jwiWGU3HMphpiMtUKlzUK
- V5Qg==
+ bh=q77ZcgCYnodZClKQX1HhPOSoqs2rfxGtOfBwRswul/4=;
+ b=b8gKd+6rbeWwg8r+DFOMum1BwImUQSQAJBPrje68ohZORJXaU6x2Xjwzkhvjx0zkBd
+ 5h5bRrw74dAx8oRlL3w74Jr9fcAfAvcocqj/1iJERl3gENUbwc4NGQ55i5HQ+b+0ZP09
+ 0rez9y9Qa5huxDLtpYeke3L8uF9vTMjRiL+vSbvl9/TsWbbjtrZCUB3oXEknJi7Yhk47
+ JXF9nbuPR2gdw5dq4TaBv2MF+VCKznTZ3GqXyMZ37PRQS5m96O2D+EIpIAaQFlYoGbdz
+ WsWo06NQmP1P4MIKU9TIsU4519oxYzv7nhhKpZgz+FnI+GxMuVQaX78O9G7tHEuj/+r8
+ t6sA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680889980; x=1683481980;
+ d=1e100.net; s=20210112; t=1680890491; x=1683482491;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=KYBbdfYMz/vjcXkNGYT26LJaYJDJYJgOQo589rbtS2s=;
- b=OOHBBOhCALjqIMZA5B+dmd6XUhqzvdCYNQlRkoTcdoTdYN1hIllLgvTO/IPIGxJinC
- FEbpoWjUfDE7H3UOeq0n7IvupP4q9eoJ7d1ztHObvFjw9xQmyTqbuk1NqvP/Fd2rSsi4
- 0sT407WF/gc9g3G4Rd+bXa4KUvm7R8pKxaWWGlaDH8BW6kyL8o0ZAU5z39F/KD+rYMfe
- Q/8T2xtoXMcHoqKsi1oeRpERDG/TvqjJdTYFacILLRkjtMR6RRTvLWrCRSSpJlF1PlcA
- Sbj17ph6VX+mY9l/w6xPuPARQR0+yKorN5d+43EvEdUfJXJInfZQwn2beV0d9Ui4FZ14
- 1UXw==
-X-Gm-Message-State: AAQBX9fAfu7Z0rjbxkI+QSebfXBkeEoSj1jlnDdNsbeWRvf5ghVKOqUK
- g3gte3B93NtTIXSX+MyeqOIMWDaG84sVnrnqXy0ilQ==
-X-Google-Smtp-Source: AKy350a+v8VTeVHFSzQqt9MX7OgojFeGTP3VMzP+2ISQI5Bm8J3rb6li0V3ygg9UHvL/3/kvKvVCidFCyNNRg0JU/is=
-X-Received: by 2002:a65:5b43:0:b0:50f:5f89:2a9d with SMTP id
- y3-20020a655b43000000b0050f5f892a9dmr671939pgr.1.1680889980187; Fri, 07 Apr
- 2023 10:53:00 -0700 (PDT)
+ bh=q77ZcgCYnodZClKQX1HhPOSoqs2rfxGtOfBwRswul/4=;
+ b=kfPow7a0cgpn6e2w3A2qn2ApyJP6w7SD7Ht7f4Va8ubmhtTXf+X1sg7QAEEFkatjEl
+ r5tEjvghMW12DaQ/RE0bva30k7reB4b/uOBRrGXWLLk8gI8yks4LdZQGivl1AUDAGlI3
+ rwIGs6NOOQuMzigkc3bP/mEyVztXKM9O6RpoU5pmKexZOvi52K6ZDpexGcjLc+ecdd3g
+ D/P+E5OLXbwla8qy3wHC0Re0h+tKSNZwl5OXhQeqYMjeR2AeBM3zVPAGmFmDkBb1yc33
+ uuZTdXoEMdEtn3dvzI4A64KeQiR7aJZKYroOHZF+Nw8433no4nkBcoWeNYWJm9jH9k39
+ CIiA==
+X-Gm-Message-State: AAQBX9f3mRCS6tOQqvkAAfS3MK2IPxbxYsDGKeACSVMh67SndY9OmptX
+ 9MbmxcURf85i+cBCgi2ouMlSPjow4p8bAUFsjpbtrA==
+X-Google-Smtp-Source: AKy350ZHpTLUkU+XPnuqC13BzSbCyuTyl9RXM3G4Em3Qru7EkrOtM+34INuQ/mLJt+FyJN0GtVAS94TF68VaGc2rObc=
+X-Received: by 2002:a05:6a00:2e28:b0:625:c55f:bc66 with SMTP id
+ fc40-20020a056a002e2800b00625c55fbc66mr1615956pfb.4.1680890490979; Fri, 07
+ Apr 2023 11:01:30 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230325134503.1335510-1-trix@redhat.com>
-In-Reply-To: <20230325134503.1335510-1-trix@redhat.com>
+References: <20230329231407.1816570-1-trix@redhat.com>
+In-Reply-To: <20230329231407.1816570-1-trix@redhat.com>
 From: Nick Desaulniers <ndesaulniers@google.com>
-Date: Fri, 7 Apr 2023 10:52:49 -0700
-Message-ID: <CAKwvOdng_wH8qKnnGN=VpUhLK9q6wyc7sZKO7ORt-3QOKVP_nw@mail.gmail.com>
-Subject: Re: [PATCH] drm/amd/display: remove unused matching_stream_ptrs
- variable
-To: Jimmy.Kizito@amd.com
+Date: Fri, 7 Apr 2023 11:01:19 -0700
+Message-ID: <CAKwvOdnQCVZ+gqOWzsRvkSKbYFJdh5yAJEN-TT+7MC4e8tdu8A@mail.gmail.com>
+Subject: Re: [PATCH] drm/nouveau/svm: remove unused ret variable
+To: Tom Rix <trix@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -68,62 +68,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Cruise.Hung@amd.com, llvm@lists.linux.dev, sunpeng.li@amd.com,
- Xinhui.Pan@amd.com, Rodrigo.Siqueira@amd.com, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, wenjing.liu@amd.com, nathan@kernel.org,
- dri-devel@lists.freedesktop.org, Tom Rix <trix@redhat.com>,
- alexander.deucher@amd.com, Jun.Lei@amd.com, christian.koenig@amd.com
+Cc: kherbst@redhat.com, nouveau@lists.freedesktop.org, llvm@lists.linux.dev,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ nathan@kernel.org, bskeggs@redhat.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Jimmy, can you review?
-
-The change LGTM; but I'm not sure if there was something else intended here=
-.
-
-On Sat, Mar 25, 2023 at 6:45=E2=80=AFAM Tom Rix <trix@redhat.com> wrote:
+On Wed, Mar 29, 2023 at 4:14=E2=80=AFPM Tom Rix <trix@redhat.com> wrote:
 >
 > clang with W=3D1 reports
-> drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_link_enc_cfg.c:625:6: er=
-ror:
->   variable 'matching_stream_ptrs' set but not used [-Werror,-Wunused-but-=
-set-variable]
->         int matching_stream_ptrs =3D 0;
+> drivers/gpu/drm/nouveau/nouveau_svm.c:929:6: error: variable
+>   'ret' set but not used [-Werror,-Wunused-but-set-variable]
+>         int ret;
 >             ^
 > This variable is not used so remove it.
 >
 > Signed-off-by: Tom Rix <trix@redhat.com>
 > ---
->  drivers/gpu/drm/amd/display/dc/core/dc_link_enc_cfg.c | 5 +----
->  1 file changed, 1 insertion(+), 4 deletions(-)
+>  drivers/gpu/drm/nouveau/nouveau_svm.c | 5 ++---
+>  1 file changed, 2 insertions(+), 3 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_link_enc_cfg.c b/driv=
-ers/gpu/drm/amd/display/dc/core/dc_link_enc_cfg.c
-> index 41198c729d90..30c0644d4418 100644
-> --- a/drivers/gpu/drm/amd/display/dc/core/dc_link_enc_cfg.c
-> +++ b/drivers/gpu/drm/amd/display/dc/core/dc_link_enc_cfg.c
-> @@ -622,7 +622,6 @@ bool link_enc_cfg_validate(struct dc *dc, struct dc_s=
-tate *state)
->         int i, j;
->         uint8_t valid_count =3D 0;
->         uint8_t dig_stream_count =3D 0;
-> -       int matching_stream_ptrs =3D 0;
->         int eng_ids_per_ep_id[MAX_PIPES] =3D {0};
->         int ep_ids_per_eng_id[MAX_PIPES] =3D {0};
->         int valid_bitmap =3D 0;
-> @@ -645,9 +644,7 @@ bool link_enc_cfg_validate(struct dc *dc, struct dc_s=
-tate *state)
->                 struct link_enc_assignment assignment =3D state->res_ctx.=
-link_enc_cfg_ctx.link_enc_assignments[i];
+> diff --git a/drivers/gpu/drm/nouveau/nouveau_svm.c b/drivers/gpu/drm/nouv=
+eau/nouveau_svm.c
+> index a74ba8d84ba7..e072d610f2f9 100644
+> --- a/drivers/gpu/drm/nouveau/nouveau_svm.c
+> +++ b/drivers/gpu/drm/nouveau/nouveau_svm.c
+> @@ -926,15 +926,14 @@ nouveau_pfns_map(struct nouveau_svmm *svmm, struct =
+mm_struct *mm,
+>                  unsigned long addr, u64 *pfns, unsigned long npages)
+>  {
+>         struct nouveau_pfnmap_args *args =3D nouveau_pfns_to_args(pfns);
+> -       int ret;
 >
->                 if (assignment.valid) {
-> -                       if (assignment.stream =3D=3D state->streams[i])
-> -                               matching_stream_ptrs++;
-> -                       else
-> +                       if (assignment.stream !=3D state->streams[i])
->                                 valid_stream_ptrs =3D false;
->                 }
->         }
+>         args->p.addr =3D addr;
+>         args->p.size =3D npages << PAGE_SHIFT;
+>
+>         mutex_lock(&svmm->mutex);
+>
+> -       ret =3D nvif_object_ioctl(&svmm->vmm->vmm.object, args,
+> -                               struct_size(args, p.phys, npages), NULL);
+> +       nvif_object_ioctl(&svmm->vmm->vmm.object, args,
+> +                         struct_size(args, p.phys, npages), NULL);
+
+nvif_object_ioctl() may return -ENOSYS.  Seeing other call sites have
+comments like:
+114     /*XXX: warn? */
+134     /*XXX: warn? */
+
+or other places where the return code isn't checked makes me think
+that a better approach would be to
+1. plumb error codes back up through nouveau_pfns_map() (and other
+call sites of nvif_object_ioctl)
+2. consider making nvif_object_ioctl __must_check
+
+>
+>         mutex_unlock(&svmm->mutex);
+>  }
 > --
 > 2.27.0
 >
