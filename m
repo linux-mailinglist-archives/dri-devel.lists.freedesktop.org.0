@@ -1,63 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 403236DA914
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Apr 2023 08:47:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 321516DA943
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Apr 2023 09:11:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 07F8E10ECD6;
-	Fri,  7 Apr 2023 06:47:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BFA3910EDA9;
+	Fri,  7 Apr 2023 07:11:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 817EF10E7E7
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Apr 2023 06:47:06 +0000 (UTC)
-X-UUID: ffc5408ad50f11eda9a90f0bb45854f4-20230407
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From;
- bh=xaEbqvdFL2sMRb9qOiKPJP+92YdZ91YByOWQGwr67+I=; 
- b=pCeUkTz2RXRP97Yagloa7O+ZJ9ztUtV3+i5oi88OetZmGjhmaefhsml8/NVyMVD+W4KCSWr7LPgdvSjStjUpP/tlS6pm2/8bRt+peZFlCrWi7/B8FCR9e7PmUVZU3ph0igzGu7voU4M1MJzGugkZAaKl1cnsZIEPbPc2GZBjQsY=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.22, REQID:3e2cc629-6017-4f3f-88b9-d7b8da11f4cd, IP:0,
- U
- RL:0,TC:0,Content:0,EDM:0,RT:0,SF:95,FILE:0,BULK:0,RULE:Release_Ham,ACTION
- :release,TS:95
-X-CID-INFO: VERSION:1.1.22, REQID:3e2cc629-6017-4f3f-88b9-d7b8da11f4cd, IP:0,
- URL
- :0,TC:0,Content:0,EDM:0,RT:0,SF:95,FILE:0,BULK:0,RULE:Spam_GS981B3D,ACTION
- :quarantine,TS:95
-X-CID-META: VersionHash:120426c, CLOUDID:7a5a0bf8-ddba-41c3-91d9-10eeade8eac7,
- B
- ulkID:230407144701WMXUDZ45,BulkQuantity:0,Recheck:0,SF:48|38|29|28|17|19,T
- C:nil,Content:0,EDM:-3,IP:nil,URL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0
- ,OSI:0,OSA:0,AV:0
-X-CID-BVR: 0
-X-CID-BAS: 0,_,0,_
-X-UUID: ffc5408ad50f11eda9a90f0bb45854f4-20230407
-Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by
- mailgw01.mediatek.com (envelope-from <jason-jh.lin@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 1666433541; Fri, 07 Apr 2023 14:47:01 +0800
-Received: from mtkmbs13n1.mediatek.inc (172.21.101.193) by
- mtkmbs13n1.mediatek.inc (172.21.101.193) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.25; Fri, 7 Apr 2023 14:46:59 +0800
-Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
- mtkmbs13n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.1118.25 via Frontend Transport; Fri, 7 Apr 2023 14:46:59 +0800
-From: Jason-JH.Lin <jason-jh.lin@mediatek.com>
-To: Chun-Kuang Hu <chunkuang.hu@kernel.org>, AngeloGioacchino Del Regno
- <angelogioacchino.delregno@collabora.com>
-Subject: [PATCH 5/5] drm/mediatek: Fix dereference before null check
-Date: Fri, 7 Apr 2023 14:46:57 +0800
-Message-ID: <20230407064657.12350-6-jason-jh.lin@mediatek.com>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <20230407064657.12350-1-jason-jh.lin@mediatek.com>
-References: <20230407064657.12350-1-jason-jh.lin@mediatek.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CDCD310ED7C;
+ Fri,  7 Apr 2023 07:11:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1680851483; x=1712387483;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=wwm1p7oh2dN3aQ8fQul99QpRNFCUTiW8QHC9X1YRoAw=;
+ b=cIxrqXuZFhofUe/cCREqSZVhYEUuJx3uKhjoQLg9HizCwtl1G0qVn8to
+ nId/Km1lNkYV4CvJktLoBdhE4fdwR7wUOXyGwf5JrBE8gWWAra2p7ASOW
+ FF1XVQCNIzF2Y1UjNX23V2+8fMiaJsewl0wS2DzX3sTYyqnFguEQFgLKe
+ vZcwXw2V0rrMP4Bwj2tp+5Uj4MXsBn3jfcedhcqGVZUXqNLLbobv4V40R
+ JjtMRpxRBGJZlEKNPzdHs67lS5iE11+Z8lcC9/Ids3Nc+qPoTcvbnuQWz
+ DZnCqXBEFAgaDlWXSnFU1xGxYI7xqKQUZltzXD8c97eW+SunXNbs4yt+x w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10672"; a="344711190"
+X-IronPort-AV: E=Sophos;i="5.98,326,1673942400"; d="scan'208";a="344711190"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Apr 2023 00:11:12 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10672"; a="680953410"
+X-IronPort-AV: E=Sophos;i="5.98,326,1673942400"; d="scan'208";a="680953410"
+Received: from fyang16-desk.jf.intel.com ([10.24.96.243])
+ by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Apr 2023 00:11:12 -0700
+From: fei.yang@intel.com
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH 0/8] drm/i915/mtl: Define MOCS and PAT tables for MTL
+Date: Fri,  7 Apr 2023 00:12:28 -0700
+Message-Id: <20230407071236.1960642-1-fei.yang@intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain
-X-MTK: N
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,57 +55,79 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Jason-JH . Lin" <jason-jh.lin@mediatek.com>,
- Singo Chang <singo.chang@mediatek.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- Rex-BC Chen <rex-bc.chen@mediatek.com>,
- Jason-ch Chen <jason-ch.chen@mediatek.com>, Nancy Lin <nancy.lin@mediatek.com>,
- linux-mediatek@lists.infradead.org, Shawn Sung <shawn.sung@mediatek.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- linux-arm-kernel@lists.infradead.org
+Cc: Fei Yang <fei.yang@intel.com>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Null-checking state suggests that it may be null, but it has already
-been dereferenced on drm_atomic_get_new_plane_state(state, plane).
+From: Fei Yang <fei.yang@intel.com>
 
-The parameter state will never be NULL currently, so just remove the
-state is NULL flow in this function.
+The series includes patches needed to enable MTL.
+Also add new extension for GEM_CREATE uAPI to let
+user space set cache policy for buffer objects.
 
-Signed-off-by: Jason-JH.Lin <jason-jh.lin@mediatek.com>
-Fixes: 5ddb0bd4ddc3 ("drm/atomic: Pass the full state to planes async atomic check and update")
----
- drivers/gpu/drm/mediatek/mtk_drm_plane.c | 9 ++-------
- 1 file changed, 2 insertions(+), 7 deletions(-)
+Fei Yang (8):
+  drm/i915/mtl: Define MOCS and PAT tables for MTL
+  drm/i915/mtl: enforce mtl PTE encode
+  drm/i915/mtl: workaround coherency issue for Media
+  drm/i915/mtl: end support for set caching ioctl
+  drm/i915: preparation for using PAT index
+  drm/i915: use pat_index instead of cache_level
+  drm/i915: making mtl pte encode generic for gen12
+  drm/i915: Allow user to set cache at BO creation
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_plane.c b/drivers/gpu/drm/mediatek/mtk_drm_plane.c
-index a1337f386bbf..e14b2920d242 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_plane.c
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_plane.c
-@@ -103,8 +103,7 @@ static void mtk_drm_plane_destroy_state(struct drm_plane *plane,
- static int mtk_plane_atomic_async_check(struct drm_plane *plane,
- 					struct drm_atomic_state *state)
- {
--	struct drm_plane_state *new_plane_state = drm_atomic_get_new_plane_state(state,
--										 plane);
-+	struct drm_plane_state *new_plane_state = drm_atomic_get_new_plane_state(state, plane);
- 	struct drm_crtc_state *crtc_state;
- 	int ret;
- 
-@@ -122,11 +121,7 @@ static int mtk_plane_atomic_async_check(struct drm_plane *plane,
- 	if (ret)
- 		return ret;
- 
--	if (state)
--		crtc_state = drm_atomic_get_existing_crtc_state(state,
--								new_plane_state->crtc);
--	else /* Special case for asynchronous cursor updates. */
--		crtc_state = new_plane_state->crtc->state;
-+	crtc_state = drm_atomic_get_existing_crtc_state(state, new_plane_state->crtc);
- 
- 	return drm_atomic_helper_check_plane_state(plane->state, crtc_state,
- 						   DRM_PLANE_NO_SCALING,
+ drivers/gpu/drm/i915/display/intel_dpt.c      | 14 ++--
+ drivers/gpu/drm/i915/gem/i915_gem_create.c    | 36 ++++++++
+ drivers/gpu/drm/i915/gem/i915_gem_domain.c    | 30 +++----
+ .../gpu/drm/i915/gem/i915_gem_execbuffer.c    | 10 ++-
+ drivers/gpu/drm/i915/gem/i915_gem_mman.c      |  3 +-
+ drivers/gpu/drm/i915/gem/i915_gem_object.c    | 61 +++++++++++++-
+ drivers/gpu/drm/i915/gem/i915_gem_object.h    |  8 ++
+ .../gpu/drm/i915/gem/i915_gem_object_types.h  | 26 +++++-
+ drivers/gpu/drm/i915/gem/i915_gem_pages.c     |  5 +-
+ drivers/gpu/drm/i915/gem/i915_gem_shmem.c     |  9 +-
+ drivers/gpu/drm/i915/gem/i915_gem_shrinker.c  |  2 -
+ drivers/gpu/drm/i915/gem/i915_gem_stolen.c    |  4 +-
+ drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c  | 16 ++--
+ .../gpu/drm/i915/gem/selftests/huge_pages.c   |  2 +-
+ .../drm/i915/gem/selftests/i915_gem_migrate.c |  2 +-
+ .../drm/i915/gem/selftests/i915_gem_mman.c    |  2 +-
+ drivers/gpu/drm/i915/gt/gen6_ppgtt.c          | 10 ++-
+ drivers/gpu/drm/i915/gt/gen8_ppgtt.c          | 81 +++++++++++++-----
+ drivers/gpu/drm/i915/gt/gen8_ppgtt.h          |  6 +-
+ drivers/gpu/drm/i915/gt/intel_ggtt.c          | 84 +++++++++++++------
+ drivers/gpu/drm/i915/gt/intel_gtt.c           | 23 ++++-
+ drivers/gpu/drm/i915/gt/intel_gtt.h           | 38 ++++++---
+ drivers/gpu/drm/i915/gt/intel_migrate.c       | 47 ++++++-----
+ drivers/gpu/drm/i915/gt/intel_migrate.h       | 13 ++-
+ drivers/gpu/drm/i915/gt/intel_mocs.c          | 76 ++++++++++++++++-
+ drivers/gpu/drm/i915/gt/intel_ppgtt.c         |  6 +-
+ drivers/gpu/drm/i915/gt/selftest_migrate.c    | 47 ++++++-----
+ drivers/gpu/drm/i915/gt/selftest_mocs.c       |  2 +-
+ drivers/gpu/drm/i915/gt/selftest_reset.c      |  8 +-
+ drivers/gpu/drm/i915/gt/selftest_timeline.c   |  2 +-
+ drivers/gpu/drm/i915/gt/selftest_tlb.c        |  4 +-
+ drivers/gpu/drm/i915/gt/uc/intel_gsc_fw.c     | 13 +++
+ drivers/gpu/drm/i915/gt/uc/intel_guc.c        |  7 ++
+ drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c     | 18 ++--
+ drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c      | 10 ++-
+ drivers/gpu/drm/i915/i915_debugfs.c           | 55 +++++++++---
+ drivers/gpu/drm/i915/i915_gem.c               | 16 +++-
+ drivers/gpu/drm/i915/i915_gpu_error.c         |  8 +-
+ drivers/gpu/drm/i915/i915_pci.c               | 76 +++++++++++++++--
+ drivers/gpu/drm/i915/i915_vma.c               | 16 ++--
+ drivers/gpu/drm/i915/i915_vma.h               |  2 +-
+ drivers/gpu/drm/i915/i915_vma_types.h         |  2 -
+ drivers/gpu/drm/i915/intel_device_info.h      |  5 ++
+ drivers/gpu/drm/i915/selftests/i915_gem.c     |  5 +-
+ .../gpu/drm/i915/selftests/i915_gem_evict.c   |  4 +-
+ drivers/gpu/drm/i915/selftests/i915_gem_gtt.c | 15 ++--
+ .../drm/i915/selftests/intel_memory_region.c  |  4 +-
+ .../gpu/drm/i915/selftests/mock_gem_device.c  |  6 ++
+ drivers/gpu/drm/i915/selftests/mock_gtt.c     |  8 +-
+ include/uapi/drm/i915_drm.h                   | 36 ++++++++
+ tools/include/uapi/drm/i915_drm.h             | 36 ++++++++
+ 51 files changed, 788 insertions(+), 231 deletions(-)
+
 -- 
-2.18.0
+2.25.1
 
