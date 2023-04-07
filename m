@@ -2,44 +2,137 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 850566DADE3
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Apr 2023 15:41:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 841D16DAE30
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Apr 2023 15:47:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3273110ED97;
-	Fri,  7 Apr 2023 13:41:00 +0000 (UTC)
-X-Original-To: dri-devel@lists.freedesktop.org
-Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net
- [IPv6:2001:4b98:dc4:8::228])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2333610ED97
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Apr 2023 13:40:57 +0000 (UTC)
-Received: from booty.fritz.box (unknown [77.244.183.192])
- (Authenticated sender: luca.ceresoli@bootlin.com)
- by mail.gandi.net (Postfix) with ESMTPA id C9A401BF20B;
- Fri,  7 Apr 2023 13:40:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1680874855;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=yIgL3koahZ/2FrRxGOiNxWzxr0MGFcQR6ppLnJ+o6hg=;
- b=RdW/xlItXYhFu9Vv5TnJriPVFBkFHvcsRTlroMWkzNdDSojlJaQeHZcJzs2mh1LMZFuL2Z
- 76y73GedfH6X3kYEbqtOGg6N5KIaxOHcVB0WJwTuF8bGXzOFUJAEXnlF/3gVoPV2mwsuAe
- 816KxCoPA2L6EUHZxAeVMMKr834Aiy7HOyWM+9uKx3nDFHiW4Ed5j1AMAMTX6vzyfHikkQ
- NEtA8llf0b/QGmeM2ivCTQL1lMvRx+bMSrvikIA51FpgaK+K2BsdWdTxq/I3we3i+85hll
- grwxMo4av2FLykKCNip06PGeZoyDohXXVX1v6I2/m6jwE0GJ4RX42070rJKB3g==
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-To: linux-tegra@vger.kernel.org
-Subject: [PATCH v5 20/20] staging: media: tegra-video: add support for Tegra20
- parallel input
-Date: Fri,  7 Apr 2023 15:38:52 +0200
-Message-Id: <20230407133852.2850145-21-luca.ceresoli@bootlin.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230407133852.2850145-1-luca.ceresoli@bootlin.com>
-References: <20230407133852.2850145-1-luca.ceresoli@bootlin.com>
+	by gabe.freedesktop.org (Postfix) with ESMTP id 17AB910E033;
+	Fri,  7 Apr 2023 13:47:30 +0000 (UTC)
+X-Original-To: DRI-Devel@lists.freedesktop.org
+Delivered-To: DRI-Devel@lists.freedesktop.org
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7FDCA10E033;
+ Fri,  7 Apr 2023 13:47:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1680875248; x=1712411248;
+ h=date:from:to:cc:subject:message-id:references:
+ in-reply-to:mime-version;
+ bh=09DVNyZIEYCYFdYbHdT2IkE88Kg4XLeGPfRwNkWbnzI=;
+ b=oFVZj2ji5tc6aZHYahZaUKkwxd/PpMiHjtZFJ+BzqXAhA1VX7bIwnkl/
+ ctDguzaJ0GvZ3Za6yF8ayuRxHIPIld4Njc4aY8hNcUK0TB80yraLA53kR
+ 5Zj7CCExmHmbfZj0/AndhBQL8Xsu1p4vdD8z/lrxU1nFyQaUWZzFX0Jhv
+ CULXDz7qCj8rjrrW5fctLY8BV0b/jJ8xh+heu1vtimrNmbNv6bARQAsNG
+ pgNHNYAIV3cHeklks+0vMrzVAz1xXOdyZ7x5UVOk41IBWUx8B2sm+K5qa
+ EGdyhm4SKW58TmI3aVyJCMAI5HS+ChL6lfub6xse8HiZTbXm0w1MGGD+d A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10672"; a="345636764"
+X-IronPort-AV: E=Sophos;i="5.98,327,1673942400"; d="scan'208";a="345636764"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Apr 2023 06:47:27 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10672"; a="687519566"
+X-IronPort-AV: E=Sophos;i="5.98,327,1673942400"; d="scan'208";a="687519566"
+Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
+ by orsmga002.jf.intel.com with ESMTP; 07 Apr 2023 06:47:27 -0700
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.21; Fri, 7 Apr 2023 06:47:26 -0700
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.21 via Frontend Transport; Fri, 7 Apr 2023 06:47:26 -0700
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (104.47.59.169)
+ by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.21; Fri, 7 Apr 2023 06:47:26 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=SVZIlyFZXWjWB9nH0uPL4X1LLE76QdMUNae3bZZGu60pjqM7UpCuMucx/2glOtpxYDgSDvPmM6JKEDNLi7ySeJfzfnj+jd5jDLK50MbKtxOlxY+3x4EHDvdSXrjBoZJ3SGv9ZNNMspW3R7W564HTebw4NHtaVATgTWYAg//WjD3czfcWBdMy96S3ha9O21FhRODxyKvVis4Kn24koA4j7ikPUV43Nhz43mLCMOkdD1lTc10hfIcgjjHkfHyCVODEMEIiHA6lkErLeF8b/l4kZlqt2GTdmjV+s3Bp7n8afwDFUu6dDCfZxpJ0n9pDXJVY4sdic4Fh4srQgSmlpcrq5g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=W/iUIz1claKdbLz3NU7PhI2h7XYYf1S8eHttWd+wPCc=;
+ b=dP2k7kxDwPUJabJVH7Qo1fBBli3B4JAdpCFGdPRlXp0YSkOdPDAmTtbgX3sFfFzRPTnfeh6cZQFgbOdFwzKNtKtbgN/Zy2WokCiLw7vWsE3ils17yJZXhrFf9mh6ZoJLvGrpTRgWhWe17olxOF1PX/u/vvocWujcmJ3PpguWbvbVshkslSGIVr5+3fIwI1pCU1Svd0+SIEXQ/nSx10BmuUdEzvXOF3jBy+1ESP1SJC/wHL9h9LBOYu2lCBJino0oqO6cO08hsFA1Cl/TSYG1e0vbq13R+Xyl88IlQJXYqFy0cLC7mD+MDYbBSQxHJla+uTWrKimiLaa6KaPlpWkLgg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from CY5PR11MB6139.namprd11.prod.outlook.com (2603:10b6:930:29::17)
+ by BL3PR11MB6315.namprd11.prod.outlook.com (2603:10b6:208:3b2::12)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6254.35; Fri, 7 Apr
+ 2023 13:47:24 +0000
+Received: from CY5PR11MB6139.namprd11.prod.outlook.com
+ ([fe80::2629:fb12:6221:3745]) by CY5PR11MB6139.namprd11.prod.outlook.com
+ ([fe80::2629:fb12:6221:3745%6]) with mapi id 15.20.6277.030; Fri, 7 Apr 2023
+ 13:47:24 +0000
+Date: Fri, 7 Apr 2023 06:47:21 -0700
+From: Lucas De Marchi <lucas.demarchi@intel.com>
+To: Rodrigo Vivi <rodrigo.vivi@intel.com>
+Subject: Re: [CI] drm/i915/mtl: Define GuC firmware version for MTL
+Message-ID: <20230407134721.tg75qg3jwpqgbms5@ldmartin-desk2.lan>
+X-Patchwork-Hint: comment
+References: <20230331225216.4188274-1-John.C.Harrison@Intel.com>
+ <20230407003758.lbpvzisom3rw5erx@ldmartin-desk2.lan>
+ <ZC/mUClubdajvFlf@intel.com>
+Content-Type: text/plain; charset="us-ascii"; format=flowed
+Content-Disposition: inline
+In-Reply-To: <ZC/mUClubdajvFlf@intel.com>
+X-ClientProxiedBy: BYAPR11CA0069.namprd11.prod.outlook.com
+ (2603:10b6:a03:80::46) To CY5PR11MB6139.namprd11.prod.outlook.com
+ (2603:10b6:930:29::17)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CY5PR11MB6139:EE_|BL3PR11MB6315:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8e094108-591a-4bbf-9e12-08db376e9de1
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: OdqMnO4KpcJNQgryd78B5cWkHPlJnofvByv9Aeoe9w2tagouRyc7SyKJBTO2xH6i89JYKlS9StfWN/dUo2qdgFv5dWyBC27dQjE4Rv3uhdppcwowqMWaBC331giBYzwCdnAxTseaYvh9CAvp4x/hVaICSThkKu/p+euDlO4z+UJey4yuvs60sBQa9nZv/ku19qN59jCPAEaJJ7WVmytz3iJ5rR/d5vB9brAB3TXFqmNdxg6N7Ew1ON3dE17yWjt6b8Cz9ZgO11i6cIg3Bxx54JwmjEniYlOL15P8RGU1FFsvkXpgJamaetaLWWkqxsglUG6+AfRMsgsI3dppdqo9ak47FW8I8CJ4Zlv0drStOEZ3gNO+Ln3cteRpmnd0FP/Br7+rhuy56Uf+hwVqYqH+zho3eAVJAo7iGBtiZUrVfNVocrcZAQqtBkZ7FVilsIMes6OiyIe/AXpLxbAmnZihjCVXzJseXr9d46eUZF92cOr2RuPrnNhumKTzDqMdKScWqdiXs/0s7EmkTa5Rz2+5awtzkUeiTkXvSywae9FMVcmtKRx+7+7zQgwbe1YUVJ5f
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CY5PR11MB6139.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230028)(39860400002)(366004)(396003)(136003)(346002)(376002)(451199021)(4326008)(186003)(966005)(6486002)(6666004)(83380400001)(86362001)(478600001)(54906003)(6636002)(82960400001)(66556008)(66476007)(66946007)(41300700001)(316002)(1076003)(2906002)(8936002)(8676002)(6862004)(36756003)(5660300002)(38100700002)(6506007)(9686003)(6512007)(26005);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?/+mq5kGFCntS8lDRFopdFZrjg1Ov1W4MAykftl4cKM625NcZBDwLRRuE9HyF?=
+ =?us-ascii?Q?sEvQOvMefCZ+bhEQNe2Xq11PibMz4ldpCHFTRJXPnqzV8G8J4gK57WQlZ2vY?=
+ =?us-ascii?Q?0NJPdTwkCE9vI93fvbNLvdLn6P7acsdEWiB3PlEo4vZGU6oUXFm5zYsskD4v?=
+ =?us-ascii?Q?W+PnO0KzF0p3tWfsDx1LLbH96DckdmgHdoS1FhZbX5LMJAiEYxBEpkOxXZJH?=
+ =?us-ascii?Q?3Xl1XQt42as0V8N2pJJO/3jZI/hIP/sXOvQsr7qUPbgPVlRT7DVx8iuMYRWY?=
+ =?us-ascii?Q?JRJTidLJYQ8+YhUg4fb7R79cCkIaCqO644qo4gGZo4OO0tmS68etbIPMtsM8?=
+ =?us-ascii?Q?QEBL5fdqtzPKVayRHjD1NcnBO62WvDY9Rs/meKMkcVu1/7i/KVqhl02Cd+Gq?=
+ =?us-ascii?Q?p92hRtVVmN4XkMyzYhfRhlI4CHIBKRxl9YHPprz0vWYStFrwF3c+09GkZw81?=
+ =?us-ascii?Q?rvkTO90Bed6ycwjZp+RZeTF8No29kUkjEDXjebc7WknK1J9CoPNOUlJrw6lE?=
+ =?us-ascii?Q?aXPmO2JLyCLvYW3vReFvQs9+GjzMSCYZ2D3/F+UTCG2oIgvMh2b7XT7mthwq?=
+ =?us-ascii?Q?hjOQLIXslTul0VNSMWklpLUUJBFxELucOt4vfjbk5A7nEmIn8Ri4nC9HbAlF?=
+ =?us-ascii?Q?uU6Qv/PjX7JGjLqDXPQjif16RHS4CfeJRNNXRuVhUk0vnDb2l5FM1quRWIGw?=
+ =?us-ascii?Q?BikklHQySduqkyoI+BEdZAFWgIIaSOQOTWkqUuqmb+ZomhmGzvnxHfn88VNQ?=
+ =?us-ascii?Q?u+LolHt0qJgpBjXFqW1ZIkUNGVGATeguf0bhnm283MfswcWk1tnfgi1eaNnV?=
+ =?us-ascii?Q?Nm6/rnSe5M3K8OcNPI2H8UBbMWm4jI0NrgSdaRVXcqYJ6SKpxYDnb4vhOeri?=
+ =?us-ascii?Q?Y75hpDCdnqbwmgJ9eI/OrsrYeyjVkCLYfnpOen4puBXA/ApwnoyiGcQVbqP8?=
+ =?us-ascii?Q?HzUoXjE2WYA6qxA0p2RJQLQaTF3DhT+C/CJ2Dp+QoB5OLn9lNxC24hwEI1oi?=
+ =?us-ascii?Q?UnrJIAnAfA5zTv7esMosbVaMbuij2KQQdPSZNJAVDyKNQgqq2iBRiGe0vha2?=
+ =?us-ascii?Q?ahy7KmfwaWFSpW87m3HCLrF5tYMwRtSfj+zAKKKbpx+GqJFyp/ZsKh9mTJ2R?=
+ =?us-ascii?Q?fIz/awiG0euOwfduEgaMsOX4dXWRPffh7Z/NCgZ5u9jma+E9ct8cDd4/GxbV?=
+ =?us-ascii?Q?u1emh1N3KzTIuwlu0HIALn/8iQ5xW6qOXUekRi/EDctstkqxz4OjibqYPr2n?=
+ =?us-ascii?Q?FzefHxGaBC70rcxGmdzDNdMWOK76y0HRN60aADptflcQW8RS615fpEP4Ip1P?=
+ =?us-ascii?Q?3W9Cgmw70s8Cx/298/+Bq6rkPRXgG9F8BG5OkpSKz329VZy5tgcKdT87xplw?=
+ =?us-ascii?Q?nFFuqoc9hWoDXj+pAibggxsIruEOR+1Vb9JW+eKe1NJ4pVzy3/8NqtHa2J9G?=
+ =?us-ascii?Q?MnuzDNjHMgG5XHcp/bEgsx6yU/Mv/S3EOTZY5TQshSXHwj1m7k4l29YHnvXV?=
+ =?us-ascii?Q?4WsC6x6J3k086W9ZUZk6Or0iki9wV9fGH8dZJFiO/xCBuJN3dnJNYFvP9o9R?=
+ =?us-ascii?Q?ZClmJ+iMpbdnoJ6eG6pJkQMqfLvdB0LKt6EJT5pOJTU3NzOdXMjUr0QgUbJ1?=
+ =?us-ascii?Q?/A=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8e094108-591a-4bbf-9e12-08db376e9de1
+X-MS-Exchange-CrossTenant-AuthSource: CY5PR11MB6139.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Apr 2023 13:47:23.9642 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: SnsSYx6rDnrZEqiDvtZqYPPuP4zteS4F2L6MfubV0kQe4PNDIIVTY9Un0ja7JPuhtm1M/f5RSqawhIUbgqmguxJTd8OS95dKb8e9re1R49E=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL3PR11MB6315
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,1189 +145,110 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Richard Leitner <richard.leitner@skidata.com>,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- Luca Ceresoli <luca.ceresoli@bootlin.com>, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
- Jonathan Hunter <jonathanh@nvidia.com>,
- Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- Sowjanya Komatineni <skomatineni@nvidia.com>, dri-devel@lists.freedesktop.org,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Hans Verkuil <hverkuil-cisco@xs4all.nl>, Dmitry Osipenko <digetx@gmail.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Intel-GFX@lists.freedesktop.org,
+ Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
+ DRI-Devel@lists.freedesktop.org, John.C.Harrison@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The VI peripheral of Tegra supports capturing from MIPI CSI-2 or parallel
-video (called VIP in the docs).
+On Fri, Apr 07, 2023 at 05:45:52AM -0400, Rodrigo Vivi wrote:
+>On Thu, Apr 06, 2023 at 05:37:58PM -0700, Lucas De Marchi wrote:
+>> On Fri, Mar 31, 2023 at 03:52:16PM -0700, John.C.Harrison@Intel.com wrote:
+>> > From: John Harrison <John.C.Harrison@Intel.com>
+>> >
+>> > First release of GuC for Meteorlake.
+>> >
+>> > NB: As this is still pre-release and likely to change, use explicit
+>> > versioning for now. The official, full release will use reduced
+>> > version naming.
+>> >
+>> > Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
+>>
+>> Applied to topic/core-for-CI with acks by Rodrigo and Tvrtko.
+>> Reference issue: https://gitlab.freedesktop.org/drm/intel/-/issues/8343
+>>
+>> Going forward we should plan to have these kind of patches in
+>> drm-intel-gt-next itself rather than using the CI branch. The CI branch
+>> is not the proper place.
+>>
+>> To be clear, since MTL is under force probe and not normally enabled,
+>> it's ok to bump the major version without retaining compabibility with
+>> the previous version, as per
+>> https://docs.kernel.org/driver-api/firmware/firmware-usage-guidelines.html
+>>
+>>
+>> I think the main blocker right now to use drm-intel-gt-next would be
+>> because MODULE_FIRMWARE() is unaware of force_probe. Then distros
+>> would start getting a warning when creating their initrd that they may
+>> have missed a firmware. But that firmware itself is not present in the
+>> upstream linux-firmware repo.  We can think about a way to hide the fw
+>> def for *new* firmware (not the legacy ones) that are using the mmp
+>> version.
+>
+>Maybe we should simply move to the final version path sooner than later?
+>
+>Even if that means more updates in the blobs at linux-firmware.git, that
+>would allow the OSVs to have this final patch sooner in their trees.
 
-The staging tegra-video driver currently implements MIPI CSI-2 video
-capture for Tegra210. Add support for parallel video capture (VIP) on
-Tegra20. With the generalizations added to the VI driver in previous
-commits, this is only a matter of adding the vip.c and tegra20.c
-implementations and registering them.
+it doesn't help much OSVs:  the firmware being used here is the full
+version, not the major-only version.  And if we commit this firmware
+with the major-only version, there is a chance the distro will update
+the kernel without updating the firmware and we will have the wrong
+firmware there, one that is not supposed to be used.
 
-Unfortunately there was no documentation available for the VI or VIP
-peripherals of Tegra20 (or any other Tegra chips). This implementation has
-been based entirely on the code from a vendor kernel based on Linux 3.1 and
-massively adapted to fit into the tegra-video driver. Parts of this code is
-definitely non-optimal to say the least (especially tegra20_vi_enable() and
-the single-frame capture logic), but it was impossible to improve it.
+Also, if we commit all the "temporary" versions in the linux-firmware.git
+repo, we may start to blow up its size. I'm not sure this is a best
+practice for HW that is not available to the general public.
 
-Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Reviewed-by: Dmitry Osipenko <digetx@gmail.com>
+Options I see for future:
 
----
+1)
+	a) keep these temporary fw in our drm-firmware repo;
+	b) hide the fw def under a kconfig
 
-Changed in v5:
- - Fixed small typo
- - Upgraded copyright year
+2)
+	a) accept this kind o changes in the CI branch
 
-Changed in v4:
- - Added review tags
+3)
+	a) commit to linux-firmware.git, knowing this is not a version
+	that will be generally used
+	b) commit to kernel in the usual way
 
-Changed in v3 (suggested by Dmitry Osipenko):
- - merged the VIP patch and the Tegra20 patch to avoid chicken-egg problem
-   due to the two modules depending on each other at build time
- - move tegra20_vip_soc to vip.c
- - remove channel@0 node from device tree parsing
- - remove unused variable
+Any other?
 
-Changed in v2:
- - fix tegra20_vi_enable() to clear bit when on==false
- - clamp width/height from set/try_fmt to avoid returning sizeimage=0
-   (fixes v4l2-compliance)
----
- drivers/staging/media/tegra-video/Makefile  |   2 +
- drivers/staging/media/tegra-video/tegra20.c | 661 ++++++++++++++++++++
- drivers/staging/media/tegra-video/vi.c      |   3 +
- drivers/staging/media/tegra-video/vi.h      |   3 +
- drivers/staging/media/tegra-video/video.c   |   5 +
- drivers/staging/media/tegra-video/video.h   |   1 +
- drivers/staging/media/tegra-video/vip.c     | 290 +++++++++
- drivers/staging/media/tegra-video/vip.h     |  68 ++
- 8 files changed, 1033 insertions(+)
- create mode 100644 drivers/staging/media/tegra-video/tegra20.c
- create mode 100644 drivers/staging/media/tegra-video/vip.c
- create mode 100644 drivers/staging/media/tegra-video/vip.h
+Note that this also impacts xe. Right now xe is not merged upstream,
+so this is just ignored: there we have already the firmware version
+for MTL and for PVC in the kernel.  Eventually we will need a similar
+mechanism though, so better we agree upfront what that is.
 
-diff --git a/drivers/staging/media/tegra-video/Makefile b/drivers/staging/media/tegra-video/Makefile
-index dfa2ef8f99ef..6c7552e05109 100644
---- a/drivers/staging/media/tegra-video/Makefile
-+++ b/drivers/staging/media/tegra-video/Makefile
-@@ -2,7 +2,9 @@
- tegra-video-objs := \
- 		video.o \
- 		vi.o \
-+		vip.o \
- 		csi.o
- 
-+tegra-video-$(CONFIG_ARCH_TEGRA_2x_SOC)  += tegra20.o
- tegra-video-$(CONFIG_ARCH_TEGRA_210_SOC) += tegra210.o
- obj-$(CONFIG_VIDEO_TEGRA) += tegra-video.o
-diff --git a/drivers/staging/media/tegra-video/tegra20.c b/drivers/staging/media/tegra-video/tegra20.c
-new file mode 100644
-index 000000000000..c25286772603
---- /dev/null
-+++ b/drivers/staging/media/tegra-video/tegra20.c
-@@ -0,0 +1,661 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * Tegra20-specific VI implementation
-+ *
-+ * Copyright (C) 2023 SKIDATA GmbH
-+ * Author: Luca Ceresoli <luca.ceresoli@bootlin.com>
-+ */
-+
-+/*
-+ * This source file contains Tegra20 supported video formats,
-+ * VI and VIP SoC specific data, operations and registers accessors.
-+ */
-+
-+#include <linux/bitfield.h>
-+#include <linux/delay.h>
-+#include <linux/host1x.h>
-+#include <linux/kernel.h>
-+#include <linux/kthread.h>
-+#include <linux/v4l2-mediabus.h>
-+
-+#include "vip.h"
-+#include "vi.h"
-+
-+#define TEGRA_VI_SYNCPT_WAIT_TIMEOUT			msecs_to_jiffies(200)
-+
-+/* This are just good-sense numbers. The actual min/max is not documented. */
-+#define TEGRA20_MIN_WIDTH	32U
-+#define TEGRA20_MIN_HEIGHT	32U
-+#define TEGRA20_MAX_WIDTH	2048U
-+#define TEGRA20_MAX_HEIGHT	2048U
-+
-+/* --------------------------------------------------------------------------
-+ * Registers
-+ */
-+
-+#define TEGRA_VI_CONT_SYNCPT_OUT_1			0x0060
-+#define       VI_CONT_SYNCPT_OUT_1_CONTINUOUS_SYNCPT	BIT(8)
-+#define       VI_CONT_SYNCPT_OUT_1_SYNCPT_IDX_SFT	0
-+
-+#define TEGRA_VI_VI_INPUT_CONTROL			0x0088
-+#define       VI_INPUT_FIELD_DETECT			BIT(27)
-+#define       VI_INPUT_BT656				BIT(25)
-+#define       VI_INPUT_YUV_INPUT_FORMAT_SFT		8  /* bits [9:8] */
-+#define       VI_INPUT_YUV_INPUT_FORMAT_UYVY		(0 << VI_INPUT_YUV_INPUT_FORMAT_SFT)
-+#define       VI_INPUT_YUV_INPUT_FORMAT_VYUY		(1 << VI_INPUT_YUV_INPUT_FORMAT_SFT)
-+#define       VI_INPUT_YUV_INPUT_FORMAT_YUYV		(2 << VI_INPUT_YUV_INPUT_FORMAT_SFT)
-+#define       VI_INPUT_YUV_INPUT_FORMAT_YVYU		(3 << VI_INPUT_YUV_INPUT_FORMAT_SFT)
-+#define       VI_INPUT_INPUT_FORMAT_SFT			2  /* bits [5:2] */
-+#define       VI_INPUT_INPUT_FORMAT_YUV422		(0 << VI_INPUT_INPUT_FORMAT_SFT)
-+#define       VI_INPUT_VIP_INPUT_ENABLE			BIT(1)
-+
-+#define TEGRA_VI_VI_CORE_CONTROL			0x008c
-+#define       VI_VI_CORE_CONTROL_PLANAR_CONV_IN_SEL_EXT	BIT(31)
-+#define       VI_VI_CORE_CONTROL_CSC_INPUT_SEL_EXT	BIT(30)
-+#define       VI_VI_CORE_CONTROL_INPUT_TO_ALT_MUX_SFT	27
-+#define       VI_VI_CORE_CONTROL_INPUT_TO_CORE_EXT_SFT	24
-+#define       VI_VI_CORE_CONTROL_OUTPUT_TO_ISP_EXT_SFT	21
-+#define       VI_VI_CORE_CONTROL_ISP_HOST_STALL_OFF	BIT(20)
-+#define       VI_VI_CORE_CONTROL_V_DOWNSCALING		BIT(19)
-+#define       VI_VI_CORE_CONTROL_V_AVERAGING		BIT(18)
-+#define       VI_VI_CORE_CONTROL_H_DOWNSCALING		BIT(17)
-+#define       VI_VI_CORE_CONTROL_H_AVERAGING		BIT(16)
-+#define       VI_VI_CORE_CONTROL_CSC_INPUT_SEL		BIT(11)
-+#define       VI_VI_CORE_CONTROL_PLANAR_CONV_INPUT_SEL	BIT(10)
-+#define       VI_VI_CORE_CONTROL_INPUT_TO_CORE_SFT	8
-+#define       VI_VI_CORE_CONTROL_ISP_DOWNSAMPLE_SFT	5
-+#define       VI_VI_CORE_CONTROL_OUTPUT_TO_EPP_SFT	2
-+#define       VI_VI_CORE_CONTROL_OUTPUT_TO_ISP_SFT	0
-+
-+#define TEGRA_VI_VI_FIRST_OUTPUT_CONTROL		0x0090
-+#define       VI_OUTPUT_FORMAT_EXT			BIT(22)
-+#define       VI_OUTPUT_V_DIRECTION			BIT(20)
-+#define       VI_OUTPUT_H_DIRECTION			BIT(19)
-+#define       VI_OUTPUT_YUV_OUTPUT_FORMAT_SFT		17
-+#define       VI_OUTPUT_YUV_OUTPUT_FORMAT_UYVY		(0 << VI_OUTPUT_YUV_OUTPUT_FORMAT_SFT)
-+#define       VI_OUTPUT_YUV_OUTPUT_FORMAT_VYUY		(1 << VI_OUTPUT_YUV_OUTPUT_FORMAT_SFT)
-+#define       VI_OUTPUT_YUV_OUTPUT_FORMAT_YUYV		(2 << VI_OUTPUT_YUV_OUTPUT_FORMAT_SFT)
-+#define       VI_OUTPUT_YUV_OUTPUT_FORMAT_YVYU		(3 << VI_OUTPUT_YUV_OUTPUT_FORMAT_SFT)
-+#define       VI_OUTPUT_OUTPUT_BYTE_SWAP		BIT(16)
-+#define       VI_OUTPUT_LAST_PIXEL_DUPLICATION		BIT(8)
-+#define       VI_OUTPUT_OUTPUT_FORMAT_SFT		0
-+#define       VI_OUTPUT_OUTPUT_FORMAT_YUV422POST	(3 << VI_OUTPUT_OUTPUT_FORMAT_SFT)
-+#define       VI_OUTPUT_OUTPUT_FORMAT_YUV420PLANAR	(6 << VI_OUTPUT_OUTPUT_FORMAT_SFT)
-+
-+#define TEGRA_VI_VIP_H_ACTIVE				0x00a4
-+#define       VI_VIP_H_ACTIVE_PERIOD_SFT		16 /* active pixels/line, must be even */
-+#define       VI_VIP_H_ACTIVE_START_SFT			0
-+
-+#define TEGRA_VI_VIP_V_ACTIVE				0x00a8
-+#define       VI_VIP_V_ACTIVE_PERIOD_SFT		16 /* active lines */
-+#define       VI_VIP_V_ACTIVE_START_SFT			0
-+
-+#define TEGRA_VI_VB0_START_ADDRESS_FIRST		0x00c4
-+#define TEGRA_VI_VB0_BASE_ADDRESS_FIRST			0x00c8
-+#define TEGRA_VI_VB0_START_ADDRESS_U			0x00cc
-+#define TEGRA_VI_VB0_BASE_ADDRESS_U			0x00d0
-+#define TEGRA_VI_VB0_START_ADDRESS_V			0x00d4
-+#define TEGRA_VI_VB0_BASE_ADDRESS_V			0x00d8
-+
-+#define TEGRA_VI_FIRST_OUTPUT_FRAME_SIZE		0x00e0
-+#define       VI_FIRST_OUTPUT_FRAME_HEIGHT_SFT		16
-+#define       VI_FIRST_OUTPUT_FRAME_WIDTH_SFT		0
-+
-+#define TEGRA_VI_VB0_COUNT_FIRST			0x00e4
-+
-+#define TEGRA_VI_VB0_SIZE_FIRST				0x00e8
-+#define       VI_VB0_SIZE_FIRST_V_SFT			16
-+#define       VI_VB0_SIZE_FIRST_H_SFT			0
-+
-+#define TEGRA_VI_VB0_BUFFER_STRIDE_FIRST		0x00ec
-+#define       VI_VB0_BUFFER_STRIDE_FIRST_CHROMA_SFT	30
-+#define       VI_VB0_BUFFER_STRIDE_FIRST_LUMA_SFT	0
-+
-+#define TEGRA_VI_H_LPF_CONTROL				0x0108
-+#define       VI_H_LPF_CONTROL_CHROMA_SFT		16
-+#define       VI_H_LPF_CONTROL_LUMA_SFT			0
-+
-+#define TEGRA_VI_H_DOWNSCALE_CONTROL			0x010c
-+#define TEGRA_VI_V_DOWNSCALE_CONTROL			0x0110
-+
-+#define TEGRA_VI_VIP_INPUT_STATUS			0x0144
-+
-+#define TEGRA_VI_VI_DATA_INPUT_CONTROL			0x0168
-+#define       VI_DATA_INPUT_SFT				0 /* [11:0] = mask pin inputs to VI core */
-+
-+#define TEGRA_VI_PIN_INPUT_ENABLE			0x016c
-+#define       VI_PIN_INPUT_VSYNC			BIT(14)
-+#define       VI_PIN_INPUT_HSYNC			BIT(13)
-+#define       VI_PIN_INPUT_VD_SFT			0 /* [11:0] = data bin N input enable */
-+
-+#define TEGRA_VI_PIN_INVERSION				0x0174
-+#define       VI_PIN_INVERSION_VSYNC_ACTIVE_HIGH	BIT(1)
-+#define       VI_PIN_INVERSION_HSYNC_ACTIVE_HIGH	BIT(0)
-+
-+#define TEGRA_VI_CAMERA_CONTROL				0x01a0
-+#define       VI_CAMERA_CONTROL_STOP_CAPTURE		BIT(2)
-+#define       VI_CAMERA_CONTROL_TEST_MODE		BIT(1)
-+#define       VI_CAMERA_CONTROL_VIP_ENABLE		BIT(0)
-+
-+#define TEGRA_VI_VI_ENABLE				0x01a4
-+#define       VI_VI_ENABLE_SW_FLOW_CONTROL_OUT1		BIT(1)
-+#define       VI_VI_ENABLE_FIRST_OUTPUT_TO_MEM_DISABLE	BIT(0)
-+
-+#define TEGRA_VI_VI_RAISE				0x01ac
-+#define       VI_VI_RAISE_ON_EDGE			BIT(0)
-+
-+/* --------------------------------------------------------------------------
-+ * VI
-+ */
-+
-+static void tegra20_vi_write(struct tegra_vi_channel *chan, unsigned int addr, u32 val)
-+{
-+	writel(val, chan->vi->iomem + addr);
-+}
-+
-+/*
-+ * Get the main input format (YUV/RGB...) and the YUV variant as values to
-+ * be written into registers for the current VI input mbus code.
-+ */
-+static void tegra20_vi_get_input_formats(struct tegra_vi_channel *chan,
-+					 unsigned int *main_input_format,
-+					 unsigned int *yuv_input_format)
-+{
-+	unsigned int input_mbus_code = chan->fmtinfo->code;
-+
-+	(*main_input_format) = VI_INPUT_INPUT_FORMAT_YUV422;
-+
-+	switch (input_mbus_code) {
-+	case MEDIA_BUS_FMT_UYVY8_2X8:
-+		(*yuv_input_format) = VI_INPUT_YUV_INPUT_FORMAT_UYVY;
-+		break;
-+	case MEDIA_BUS_FMT_VYUY8_2X8:
-+		(*yuv_input_format) = VI_INPUT_YUV_INPUT_FORMAT_VYUY;
-+		break;
-+	case MEDIA_BUS_FMT_YUYV8_2X8:
-+		(*yuv_input_format) = VI_INPUT_YUV_INPUT_FORMAT_YUYV;
-+		break;
-+	case MEDIA_BUS_FMT_YVYU8_2X8:
-+		(*yuv_input_format) = VI_INPUT_YUV_INPUT_FORMAT_YVYU;
-+		break;
-+	}
-+}
-+
-+/*
-+ * Get the main output format (YUV/RGB...) and the YUV variant as values to
-+ * be written into registers for the current VI output pixel format.
-+ */
-+static void tegra20_vi_get_output_formats(struct tegra_vi_channel *chan,
-+					  unsigned int *main_output_format,
-+					  unsigned int *yuv_output_format)
-+{
-+	u32 output_fourcc = chan->format.pixelformat;
-+
-+	/* Default to YUV422 non-planar (U8Y8V8Y8) after downscaling */
-+	(*main_output_format) = VI_OUTPUT_OUTPUT_FORMAT_YUV422POST;
-+	(*yuv_output_format) = VI_OUTPUT_YUV_OUTPUT_FORMAT_UYVY;
-+
-+	switch (output_fourcc) {
-+	case V4L2_PIX_FMT_UYVY:
-+		(*yuv_output_format) = VI_OUTPUT_YUV_OUTPUT_FORMAT_UYVY;
-+		break;
-+	case V4L2_PIX_FMT_VYUY:
-+		(*yuv_output_format) = VI_OUTPUT_YUV_OUTPUT_FORMAT_VYUY;
-+		break;
-+	case V4L2_PIX_FMT_YUYV:
-+		(*yuv_output_format) = VI_OUTPUT_YUV_OUTPUT_FORMAT_YUYV;
-+		break;
-+	case V4L2_PIX_FMT_YVYU:
-+		(*yuv_output_format) = VI_OUTPUT_YUV_OUTPUT_FORMAT_YVYU;
-+		break;
-+	case V4L2_PIX_FMT_YUV420:
-+	case V4L2_PIX_FMT_YVU420:
-+		(*main_output_format) = VI_OUTPUT_OUTPUT_FORMAT_YUV420PLANAR;
-+		break;
-+	}
-+}
-+
-+/*
-+ * Make the VI accessible (needed on Tegra20).
-+ *
-+ * This function writes an unknown bit into an unknown register. The code
-+ * comes from a downstream 3.1 kernel that has a working VIP driver for
-+ * Tegra20, and removing it makes the VI completely unaccessible. It should
-+ * be rewritten and possibly moved elsewhere, but the appropriate location
-+ * and implementation is unknown due to a total lack of documentation.
-+ */
-+static int tegra20_vi_enable(struct tegra_vi *vi, bool on)
-+{
-+	/* from arch/arm/mach-tegra/iomap.h */
-+	const phys_addr_t TEGRA_APB_MISC_BASE = 0x70000000;
-+	const unsigned long reg_offset = 0x42c;
-+	void __iomem *apb_misc;
-+	u32 val;
-+
-+	apb_misc = ioremap(TEGRA_APB_MISC_BASE, PAGE_SIZE);
-+	if (!apb_misc)
-+		apb_misc = ERR_PTR(-ENOENT);
-+	if (IS_ERR(apb_misc))
-+		return dev_err_probe(vi->dev, PTR_ERR(apb_misc), "cannot access APB_MISC");
-+
-+	val = readl(apb_misc + reg_offset);
-+	val &= ~BIT(0);
-+	val |= on ? BIT(0) : 0;
-+	writel(val, apb_misc + reg_offset);
-+	iounmap(apb_misc);
-+
-+	return 0;
-+}
-+
-+static int tegra20_channel_host1x_syncpt_init(struct tegra_vi_channel *chan)
-+{
-+	struct tegra_vi *vi = chan->vi;
-+	struct host1x_syncpt *out_sp;
-+
-+	out_sp = host1x_syncpt_request(&vi->client, HOST1X_SYNCPT_CLIENT_MANAGED);
-+	if (!out_sp)
-+		return dev_err_probe(vi->dev, -ENOMEM, "failed to request syncpoint\n");
-+
-+	chan->mw_ack_sp[0] = out_sp;
-+
-+	return 0;
-+}
-+
-+static void tegra20_channel_host1x_syncpt_free(struct tegra_vi_channel *chan)
-+{
-+	host1x_syncpt_put(chan->mw_ack_sp[0]);
-+}
-+
-+static void tegra20_fmt_align(struct v4l2_pix_format *pix, unsigned int bpp)
-+{
-+	pix->width  = clamp(pix->width,  TEGRA20_MIN_WIDTH,  TEGRA20_MAX_WIDTH);
-+	pix->height = clamp(pix->height, TEGRA20_MIN_HEIGHT, TEGRA20_MAX_HEIGHT);
-+
-+	switch (pix->pixelformat) {
-+	case V4L2_PIX_FMT_UYVY:
-+	case V4L2_PIX_FMT_VYUY:
-+	case V4L2_PIX_FMT_YUYV:
-+	case V4L2_PIX_FMT_YVYU:
-+		pix->bytesperline = roundup(pix->width, 2) * 2;
-+		pix->sizeimage = roundup(pix->width, 2) * 2 * pix->height;
-+		break;
-+	case V4L2_PIX_FMT_YUV420:
-+	case V4L2_PIX_FMT_YVU420:
-+		pix->bytesperline = roundup(pix->width, 8);
-+		pix->sizeimage = roundup(pix->width, 8) * pix->height * 3 / 2;
-+		break;
-+	}
-+}
-+
-+/*
-+ * Compute buffer offsets once per stream so that
-+ * tegra20_channel_vi_buffer_setup() only has to do very simple maths for
-+ * each buffer.
-+ */
-+static void tegra20_channel_queue_setup(struct tegra_vi_channel *chan)
-+{
-+	unsigned int stride = chan->format.bytesperline;
-+	unsigned int height = chan->format.height;
-+
-+	chan->start_offset = 0;
-+
-+	switch (chan->format.pixelformat) {
-+	case V4L2_PIX_FMT_UYVY:
-+	case V4L2_PIX_FMT_VYUY:
-+	case V4L2_PIX_FMT_YUYV:
-+	case V4L2_PIX_FMT_YVYU:
-+		if (chan->vflip)
-+			chan->start_offset += stride * (height - 1);
-+		if (chan->hflip)
-+			chan->start_offset += stride - 1;
-+		break;
-+
-+	case V4L2_PIX_FMT_YUV420:
-+	case V4L2_PIX_FMT_YVU420:
-+		chan->addr_offset_u = stride * height;
-+		chan->addr_offset_v = chan->addr_offset_u + stride * height / 4;
-+
-+		/* For YVU420, we swap the locations of the U and V planes. */
-+		if (chan->format.pixelformat == V4L2_PIX_FMT_YVU420) {
-+			unsigned long temp;
-+
-+			temp = chan->addr_offset_u;
-+			chan->addr_offset_u = chan->addr_offset_v;
-+			chan->addr_offset_v = temp;
-+		}
-+
-+		chan->start_offset_u = chan->addr_offset_u;
-+		chan->start_offset_v = chan->addr_offset_v;
-+
-+		if (chan->vflip) {
-+			chan->start_offset   += stride * (height - 1);
-+			chan->start_offset_u += (stride / 2) * ((height / 2) - 1);
-+			chan->start_offset_v += (stride / 2) * ((height / 2) - 1);
-+		}
-+		if (chan->hflip) {
-+			chan->start_offset   += stride - 1;
-+			chan->start_offset_u += (stride / 2) - 1;
-+			chan->start_offset_v += (stride / 2) - 1;
-+		}
-+		break;
-+	}
-+}
-+
-+static void release_buffer(struct tegra_vi_channel *chan,
-+			   struct tegra_channel_buffer *buf,
-+			   enum vb2_buffer_state state)
-+{
-+	struct vb2_v4l2_buffer *vb = &buf->buf;
-+
-+	vb->sequence = chan->sequence++;
-+	vb->field = V4L2_FIELD_NONE;
-+	vb->vb2_buf.timestamp = ktime_get_ns();
-+	vb2_buffer_done(&vb->vb2_buf, state);
-+}
-+
-+static void tegra20_channel_vi_buffer_setup(struct tegra_vi_channel *chan,
-+					    struct tegra_channel_buffer *buf)
-+{
-+	dma_addr_t base = buf->addr;
-+
-+	switch (chan->fmtinfo->fourcc) {
-+	case V4L2_PIX_FMT_YUV420:
-+	case V4L2_PIX_FMT_YVU420:
-+		tegra20_vi_write(chan, TEGRA_VI_VB0_BASE_ADDRESS_U,  base + chan->addr_offset_u);
-+		tegra20_vi_write(chan, TEGRA_VI_VB0_START_ADDRESS_U, base + chan->start_offset_u);
-+		tegra20_vi_write(chan, TEGRA_VI_VB0_BASE_ADDRESS_V,  base + chan->addr_offset_v);
-+		tegra20_vi_write(chan, TEGRA_VI_VB0_START_ADDRESS_V, base + chan->start_offset_v);
-+		fallthrough;
-+
-+	case V4L2_PIX_FMT_UYVY:
-+	case V4L2_PIX_FMT_VYUY:
-+	case V4L2_PIX_FMT_YUYV:
-+	case V4L2_PIX_FMT_YVYU:
-+		tegra20_vi_write(chan, TEGRA_VI_VB0_BASE_ADDRESS_FIRST,  base);
-+		tegra20_vi_write(chan, TEGRA_VI_VB0_START_ADDRESS_FIRST, base + chan->start_offset);
-+		break;
-+	}
-+}
-+
-+static int tegra20_channel_capture_frame(struct tegra_vi_channel *chan,
-+					 struct tegra_channel_buffer *buf)
-+{
-+	int err;
-+
-+	chan->next_out_sp_idx++;
-+
-+	tegra20_channel_vi_buffer_setup(chan, buf);
-+
-+	tegra20_vi_write(chan, TEGRA_VI_CAMERA_CONTROL, VI_CAMERA_CONTROL_VIP_ENABLE);
-+
-+	/* Wait for syncpt counter to reach frame start event threshold */
-+	err = host1x_syncpt_wait(chan->mw_ack_sp[0], chan->next_out_sp_idx,
-+				 TEGRA_VI_SYNCPT_WAIT_TIMEOUT, NULL);
-+	if (err) {
-+		host1x_syncpt_incr(chan->mw_ack_sp[0]);
-+		dev_err_ratelimited(&chan->video.dev, "frame start syncpt timeout: %d\n", err);
-+		release_buffer(chan, buf, VB2_BUF_STATE_ERROR);
-+		return err;
-+	}
-+
-+	tegra20_vi_write(chan, TEGRA_VI_CAMERA_CONTROL,
-+			 VI_CAMERA_CONTROL_STOP_CAPTURE | VI_CAMERA_CONTROL_VIP_ENABLE);
-+
-+	release_buffer(chan, buf, VB2_BUF_STATE_DONE);
-+
-+	return 0;
-+}
-+
-+static int tegra20_chan_capture_kthread_start(void *data)
-+{
-+	struct tegra_vi_channel *chan = data;
-+	struct tegra_channel_buffer *buf;
-+	unsigned int retries = 0;
-+	int err = 0;
-+
-+	while (1) {
-+		/*
-+		 * Source is not streaming if error is non-zero.
-+		 * So, do not dequeue buffers on error and let the thread sleep
-+		 * till kthread stop signal is received.
-+		 */
-+		wait_event_interruptible(chan->start_wait,
-+					 kthread_should_stop() ||
-+					 (!list_empty(&chan->capture) && !err));
-+
-+		if (kthread_should_stop())
-+			break;
-+
-+		/* dequeue the buffer and start capture */
-+		spin_lock(&chan->start_lock);
-+		if (list_empty(&chan->capture)) {
-+			spin_unlock(&chan->start_lock);
-+			continue;
-+		}
-+
-+		buf = list_first_entry(&chan->capture, struct tegra_channel_buffer, queue);
-+		list_del_init(&buf->queue);
-+		spin_unlock(&chan->start_lock);
-+
-+		err = tegra20_channel_capture_frame(chan, buf);
-+		if (!err) {
-+			retries = 0;
-+			continue;
-+		}
-+
-+		if (retries++ > chan->syncpt_timeout_retry)
-+			vb2_queue_error(&chan->queue);
-+		else
-+			err = 0;
-+	}
-+
-+	return 0;
-+}
-+
-+static void tegra20_camera_capture_setup(struct tegra_vi_channel *chan)
-+{
-+	u32 output_fourcc = chan->format.pixelformat;
-+	int width  = chan->format.width;
-+	int height = chan->format.height;
-+	int stride_l = chan->format.bytesperline;
-+	int stride_c = (output_fourcc == V4L2_PIX_FMT_YUV420 ||
-+			output_fourcc == V4L2_PIX_FMT_YVU420) ? 1 : 0;
-+	int main_output_format;
-+	int yuv_output_format;
-+
-+	tegra20_vi_get_output_formats(chan, &main_output_format, &yuv_output_format);
-+
-+	/*
-+	 * Set up low pass filter.  Use 0x240 for chromaticity and 0x240
-+	 * for luminance, which is the default and means not to touch
-+	 * anything.
-+	 */
-+	tegra20_vi_write(chan, TEGRA_VI_H_LPF_CONTROL,
-+			 0x0240 << VI_H_LPF_CONTROL_LUMA_SFT |
-+			 0x0240 << VI_H_LPF_CONTROL_CHROMA_SFT);
-+
-+	/* Set up raise-on-edge, so we get an interrupt on end of frame. */
-+	tegra20_vi_write(chan, TEGRA_VI_VI_RAISE, VI_VI_RAISE_ON_EDGE);
-+
-+	tegra20_vi_write(chan, TEGRA_VI_VI_FIRST_OUTPUT_CONTROL,
-+			 (chan->vflip ? VI_OUTPUT_V_DIRECTION : 0) |
-+			 (chan->hflip ? VI_OUTPUT_H_DIRECTION : 0) |
-+			 yuv_output_format << VI_OUTPUT_YUV_OUTPUT_FORMAT_SFT |
-+			 main_output_format << VI_OUTPUT_OUTPUT_FORMAT_SFT);
-+
-+	/* Set up frame size */
-+	tegra20_vi_write(chan, TEGRA_VI_FIRST_OUTPUT_FRAME_SIZE,
-+			 height << VI_FIRST_OUTPUT_FRAME_HEIGHT_SFT |
-+			 width  << VI_FIRST_OUTPUT_FRAME_WIDTH_SFT);
-+
-+	/* First output memory enabled */
-+	tegra20_vi_write(chan, TEGRA_VI_VI_ENABLE, 0);
-+
-+	/* Set the number of frames in the buffer */
-+	tegra20_vi_write(chan, TEGRA_VI_VB0_COUNT_FIRST, 1);
-+
-+	/* Set up buffer frame size */
-+	tegra20_vi_write(chan, TEGRA_VI_VB0_SIZE_FIRST,
-+			 height << VI_VB0_SIZE_FIRST_V_SFT |
-+			 width  << VI_VB0_SIZE_FIRST_H_SFT);
-+
-+	tegra20_vi_write(chan, TEGRA_VI_VB0_BUFFER_STRIDE_FIRST,
-+			 stride_l << VI_VB0_BUFFER_STRIDE_FIRST_LUMA_SFT |
-+			 stride_c << VI_VB0_BUFFER_STRIDE_FIRST_CHROMA_SFT);
-+
-+	tegra20_vi_write(chan, TEGRA_VI_VI_ENABLE, 0);
-+}
-+
-+static int tegra20_vi_start_streaming(struct vb2_queue *vq, u32 count)
-+{
-+	struct tegra_vi_channel *chan = vb2_get_drv_priv(vq);
-+	struct media_pipeline *pipe = &chan->video.pipe;
-+	int err;
-+
-+	chan->next_out_sp_idx = host1x_syncpt_read(chan->mw_ack_sp[0]);
-+
-+	err = video_device_pipeline_start(&chan->video, pipe);
-+	if (err)
-+		goto error_pipeline_start;
-+
-+	tegra20_camera_capture_setup(chan);
-+
-+	err = tegra_channel_set_stream(chan, true);
-+	if (err)
-+		goto error_set_stream;
-+
-+	chan->sequence = 0;
-+
-+	chan->kthread_start_capture = kthread_run(tegra20_chan_capture_kthread_start,
-+						  chan, "%s:0", chan->video.name);
-+	if (IS_ERR(chan->kthread_start_capture)) {
-+		err = PTR_ERR(chan->kthread_start_capture);
-+		chan->kthread_start_capture = NULL;
-+		dev_err_probe(&chan->video.dev, err, "failed to run capture kthread\n");
-+		goto error_kthread_start;
-+	}
-+
-+	return 0;
-+
-+error_kthread_start:
-+	tegra_channel_set_stream(chan, false);
-+error_set_stream:
-+	video_device_pipeline_stop(&chan->video);
-+error_pipeline_start:
-+	tegra_channel_release_buffers(chan, VB2_BUF_STATE_QUEUED);
-+
-+	return err;
-+}
-+
-+static void tegra20_vi_stop_streaming(struct vb2_queue *vq)
-+{
-+	struct tegra_vi_channel *chan = vb2_get_drv_priv(vq);
-+
-+	if (chan->kthread_start_capture) {
-+		kthread_stop(chan->kthread_start_capture);
-+		chan->kthread_start_capture = NULL;
-+	}
-+
-+	tegra_channel_release_buffers(chan, VB2_BUF_STATE_ERROR);
-+	tegra_channel_set_stream(chan, false);
-+	video_device_pipeline_stop(&chan->video);
-+}
-+
-+static const struct tegra_vi_ops tegra20_vi_ops = {
-+	.vi_enable = tegra20_vi_enable,
-+	.channel_host1x_syncpt_init = tegra20_channel_host1x_syncpt_init,
-+	.channel_host1x_syncpt_free = tegra20_channel_host1x_syncpt_free,
-+	.vi_fmt_align = tegra20_fmt_align,
-+	.channel_queue_setup = tegra20_channel_queue_setup,
-+	.vi_start_streaming = tegra20_vi_start_streaming,
-+	.vi_stop_streaming = tegra20_vi_stop_streaming,
-+};
-+
-+#define TEGRA20_VIDEO_FMT(MBUS_CODE, BPP, FOURCC)	\
-+{							\
-+	.code    = MEDIA_BUS_FMT_##MBUS_CODE,		\
-+	.bpp     = BPP,					\
-+	.fourcc  = V4L2_PIX_FMT_##FOURCC,		\
-+}
-+
-+static const struct tegra_video_format tegra20_video_formats[] = {
-+	TEGRA20_VIDEO_FMT(UYVY8_2X8, 2, UYVY),
-+	TEGRA20_VIDEO_FMT(VYUY8_2X8, 2, VYUY),
-+	TEGRA20_VIDEO_FMT(YUYV8_2X8, 2, YUYV),
-+	TEGRA20_VIDEO_FMT(YVYU8_2X8, 2, YVYU),
-+	TEGRA20_VIDEO_FMT(UYVY8_2X8, 1, YUV420),
-+	TEGRA20_VIDEO_FMT(UYVY8_2X8, 1, YVU420),
-+};
-+
-+const struct tegra_vi_soc tegra20_vi_soc = {
-+	.video_formats = tegra20_video_formats,
-+	.nformats = ARRAY_SIZE(tegra20_video_formats),
-+	.default_video_format = &tegra20_video_formats[0],
-+	.ops = &tegra20_vi_ops,
-+	.vi_max_channels = 1, /* parallel input (VIP) */
-+	.vi_max_clk_hz = 150000000,
-+	.has_h_v_flip = true,
-+};
-+
-+/* --------------------------------------------------------------------------
-+ * VIP
-+ */
-+
-+/*
-+ * VIP-specific configuration for stream start.
-+ *
-+ * Whatever is common among VIP and CSI is done by the VI component (see
-+ * tegra20_vi_start_streaming()). Here we do what is VIP-specific.
-+ */
-+static int tegra20_vip_start_streaming(struct tegra_vip_channel *vip_chan)
-+{
-+	struct tegra_vi_channel *vi_chan = v4l2_get_subdev_hostdata(&vip_chan->subdev);
-+	int width  = vi_chan->format.width;
-+	int height = vi_chan->format.height;
-+
-+	unsigned int main_input_format;
-+	unsigned int yuv_input_format;
-+
-+	tegra20_vi_get_input_formats(vi_chan, &main_input_format, &yuv_input_format);
-+
-+	tegra20_vi_write(vi_chan, TEGRA_VI_VI_CORE_CONTROL, 0);
-+
-+	tegra20_vi_write(vi_chan, TEGRA_VI_VI_INPUT_CONTROL,
-+			 VI_INPUT_VIP_INPUT_ENABLE | main_input_format | yuv_input_format);
-+
-+	tegra20_vi_write(vi_chan, TEGRA_VI_V_DOWNSCALE_CONTROL, 0);
-+	tegra20_vi_write(vi_chan, TEGRA_VI_H_DOWNSCALE_CONTROL, 0);
-+
-+	tegra20_vi_write(vi_chan, TEGRA_VI_VIP_V_ACTIVE, height << VI_VIP_V_ACTIVE_PERIOD_SFT);
-+	tegra20_vi_write(vi_chan, TEGRA_VI_VIP_H_ACTIVE,
-+			 roundup(width, 2) << VI_VIP_H_ACTIVE_PERIOD_SFT);
-+
-+	/*
-+	 * For VIP, D9..D2 is mapped to the video decoder's P7..P0.
-+	 * Disable/mask out the other Dn wires. When not in BT656
-+	 * mode we also need the V/H sync.
-+	 */
-+	tegra20_vi_write(vi_chan, TEGRA_VI_PIN_INPUT_ENABLE,
-+			 GENMASK(9, 2) << VI_PIN_INPUT_VD_SFT |
-+			 VI_PIN_INPUT_HSYNC | VI_PIN_INPUT_VSYNC);
-+	tegra20_vi_write(vi_chan, TEGRA_VI_VI_DATA_INPUT_CONTROL,
-+			 GENMASK(9, 2) << VI_DATA_INPUT_SFT);
-+	tegra20_vi_write(vi_chan, TEGRA_VI_PIN_INVERSION, 0);
-+
-+	tegra20_vi_write(vi_chan, TEGRA_VI_CONT_SYNCPT_OUT_1,
-+			 VI_CONT_SYNCPT_OUT_1_CONTINUOUS_SYNCPT |
-+			 host1x_syncpt_id(vi_chan->mw_ack_sp[0])
-+			 << VI_CONT_SYNCPT_OUT_1_SYNCPT_IDX_SFT);
-+
-+	tegra20_vi_write(vi_chan, TEGRA_VI_CAMERA_CONTROL, VI_CAMERA_CONTROL_STOP_CAPTURE);
-+
-+	return 0;
-+}
-+
-+static const struct tegra_vip_ops tegra20_vip_ops = {
-+	.vip_start_streaming = tegra20_vip_start_streaming,
-+};
-+
-+const struct tegra_vip_soc tegra20_vip_soc = {
-+	.ops = &tegra20_vip_ops,
-+};
-diff --git a/drivers/staging/media/tegra-video/vi.c b/drivers/staging/media/tegra-video/vi.c
-index 39e9df895ede..08cd1c7a6576 100644
---- a/drivers/staging/media/tegra-video/vi.c
-+++ b/drivers/staging/media/tegra-video/vi.c
-@@ -1959,6 +1959,9 @@ static int tegra_vi_remove(struct platform_device *pdev)
- }
- 
- static const struct of_device_id tegra_vi_of_id_table[] = {
-+#if defined(CONFIG_ARCH_TEGRA_2x_SOC)
-+	{ .compatible = "nvidia,tegra20-vi",  .data = &tegra20_vi_soc },
-+#endif
- #if defined(CONFIG_ARCH_TEGRA_210_SOC)
- 	{ .compatible = "nvidia,tegra210-vi", .data = &tegra210_vi_soc },
- #endif
-diff --git a/drivers/staging/media/tegra-video/vi.h b/drivers/staging/media/tegra-video/vi.h
-index 778c0ec475ab..1e6a5caa7082 100644
---- a/drivers/staging/media/tegra-video/vi.h
-+++ b/drivers/staging/media/tegra-video/vi.h
-@@ -296,6 +296,9 @@ struct tegra_video_format {
- 	u32 fourcc;
- };
- 
-+#if defined(CONFIG_ARCH_TEGRA_2x_SOC)
-+extern const struct tegra_vi_soc tegra20_vi_soc;
-+#endif
- #if defined(CONFIG_ARCH_TEGRA_210_SOC)
- extern const struct tegra_vi_soc tegra210_vi_soc;
- #endif
-diff --git a/drivers/staging/media/tegra-video/video.c b/drivers/staging/media/tegra-video/video.c
-index d966b319553f..074ad0dc56ca 100644
---- a/drivers/staging/media/tegra-video/video.c
-+++ b/drivers/staging/media/tegra-video/video.c
-@@ -123,6 +123,10 @@ static int host1x_video_remove(struct host1x_device *dev)
- }
- 
- static const struct of_device_id host1x_video_subdevs[] = {
-+#if defined(CONFIG_ARCH_TEGRA_2x_SOC)
-+	{ .compatible = "nvidia,tegra20-vip", },
-+	{ .compatible = "nvidia,tegra20-vi", },
-+#endif
- #if defined(CONFIG_ARCH_TEGRA_210_SOC)
- 	{ .compatible = "nvidia,tegra210-csi", },
- 	{ .compatible = "nvidia,tegra210-vi", },
-@@ -141,6 +145,7 @@ static struct host1x_driver host1x_video_driver = {
- 
- static struct platform_driver * const drivers[] = {
- 	&tegra_csi_driver,
-+	&tegra_vip_driver,
- 	&tegra_vi_driver,
- };
- 
-diff --git a/drivers/staging/media/tegra-video/video.h b/drivers/staging/media/tegra-video/video.h
-index 1e9be1474a9c..7275affa6558 100644
---- a/drivers/staging/media/tegra-video/video.h
-+++ b/drivers/staging/media/tegra-video/video.h
-@@ -24,5 +24,6 @@ int tegra_v4l2_nodes_setup_tpg(struct tegra_video_device *vid);
- void tegra_v4l2_nodes_cleanup_tpg(struct tegra_video_device *vid);
- 
- extern struct platform_driver tegra_vi_driver;
-+extern struct platform_driver tegra_vip_driver;
- extern struct platform_driver tegra_csi_driver;
- #endif
-diff --git a/drivers/staging/media/tegra-video/vip.c b/drivers/staging/media/tegra-video/vip.c
-new file mode 100644
-index 000000000000..6e71d56bc7e3
---- /dev/null
-+++ b/drivers/staging/media/tegra-video/vip.c
-@@ -0,0 +1,290 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * Parallel video capture module (VIP) for the Tegra VI.
-+ *
-+ * This file implements the VIP-specific infrastructure.
-+ *
-+ * Copyright (C) 2023 SKIDATA GmbH
-+ * Author: Luca Ceresoli <luca.ceresoli@bootlin.com>
-+ */
-+
-+#include <linux/device.h>
-+#include <linux/host1x.h>
-+#include <linux/module.h>
-+#include <linux/of.h>
-+#include <linux/of_graph.h>
-+#include <linux/of_device.h>
-+#include <linux/platform_device.h>
-+#include <linux/pm_runtime.h>
-+
-+#include <media/v4l2-fwnode.h>
-+
-+#include "vip.h"
-+
-+static inline struct tegra_vip *host1x_client_to_vip(struct host1x_client *client)
-+{
-+	return container_of(client, struct tegra_vip, client);
-+}
-+
-+static inline struct tegra_vip_channel *subdev_to_vip_channel(struct v4l2_subdev *subdev)
-+{
-+	return container_of(subdev, struct tegra_vip_channel, subdev);
-+}
-+
-+static inline struct tegra_vip *vip_channel_to_vip(struct tegra_vip_channel *chan)
-+{
-+	return container_of(chan, struct tegra_vip, chan);
-+}
-+
-+/* Find the previous subdev in the pipeline (i.e. the one connected to our sink pad) */
-+static struct v4l2_subdev *tegra_vip_channel_get_prev_subdev(struct tegra_vip_channel *chan)
-+{
-+	struct media_pad *remote_pad;
-+
-+	remote_pad = media_pad_remote_pad_first(&chan->pads[TEGRA_VIP_PAD_SINK]);
-+	if (!remote_pad)
-+		return NULL;
-+
-+	return media_entity_to_v4l2_subdev(remote_pad->entity);
-+}
-+
-+static int tegra_vip_enable_stream(struct v4l2_subdev *subdev)
-+{
-+	struct tegra_vip_channel *vip_chan = subdev_to_vip_channel(subdev);
-+	struct tegra_vip *vip = vip_channel_to_vip(vip_chan);
-+	struct v4l2_subdev *prev_subdev = tegra_vip_channel_get_prev_subdev(vip_chan);
-+	int err;
-+
-+	err = pm_runtime_resume_and_get(vip->dev);
-+	if (err)
-+		return dev_err_probe(vip->dev, err, "failed to get runtime PM\n");
-+
-+	err = vip->soc->ops->vip_start_streaming(vip_chan);
-+	if (err < 0)
-+		goto err_start_streaming;
-+
-+	err = v4l2_subdev_call(prev_subdev, video, s_stream, true);
-+	if (err < 0 && err != -ENOIOCTLCMD)
-+		goto err_prev_subdev_start_stream;
-+
-+	return 0;
-+
-+err_prev_subdev_start_stream:
-+err_start_streaming:
-+	pm_runtime_put(vip->dev);
-+	return err;
-+}
-+
-+static int tegra_vip_disable_stream(struct v4l2_subdev *subdev)
-+{
-+	struct tegra_vip_channel *vip_chan = subdev_to_vip_channel(subdev);
-+	struct tegra_vip *vip = vip_channel_to_vip(vip_chan);
-+	struct v4l2_subdev *prev_subdev = tegra_vip_channel_get_prev_subdev(vip_chan);
-+
-+	v4l2_subdev_call(prev_subdev, video, s_stream, false);
-+
-+	pm_runtime_put(vip->dev);
-+
-+	return 0;
-+}
-+
-+static int tegra_vip_s_stream(struct v4l2_subdev *subdev, int enable)
-+{
-+	int err;
-+
-+	if (enable)
-+		err = tegra_vip_enable_stream(subdev);
-+	else
-+		err = tegra_vip_disable_stream(subdev);
-+
-+	return err;
-+}
-+
-+static const struct v4l2_subdev_video_ops tegra_vip_video_ops = {
-+	.s_stream = tegra_vip_s_stream,
-+};
-+
-+static const struct v4l2_subdev_ops tegra_vip_ops = {
-+	.video  = &tegra_vip_video_ops,
-+};
-+
-+static int tegra_vip_channel_of_parse(struct tegra_vip *vip)
-+{
-+	struct device *dev = vip->dev;
-+	struct device_node *np = dev->of_node;
-+	struct v4l2_fwnode_endpoint v4l2_ep = {
-+		.bus_type = V4L2_MBUS_PARALLEL
-+	};
-+	struct fwnode_handle *fwh;
-+	struct device_node *ep;
-+	unsigned int num_pads;
-+	int err;
-+
-+	dev_dbg(dev, "Parsing %pOF", np);
-+
-+	ep = of_graph_get_endpoint_by_regs(np, 0, 0);
-+	if (!ep) {
-+		err = -EINVAL;
-+		dev_err_probe(dev, err, "%pOF: error getting endpoint node\n", np);
-+		goto err_node_put;
-+	}
-+
-+	fwh = of_fwnode_handle(ep);
-+	err = v4l2_fwnode_endpoint_parse(fwh, &v4l2_ep);
-+	of_node_put(ep);
-+	if (err) {
-+		dev_err_probe(dev, err, "%pOF: failed to parse v4l2 endpoint\n", np);
-+		goto err_node_put;
-+	}
-+
-+	num_pads = of_graph_get_endpoint_count(np);
-+	if (num_pads != TEGRA_VIP_PADS_NUM) {
-+		err = -EINVAL;
-+		dev_err_probe(dev, err, "%pOF: need 2 pads, got %d\n", np, num_pads);
-+		goto err_node_put;
-+	}
-+
-+	vip->chan.of_node = of_node_get(np);
-+	vip->chan.pads[TEGRA_VIP_PAD_SINK].flags = MEDIA_PAD_FL_SINK;
-+	vip->chan.pads[TEGRA_VIP_PAD_SOURCE].flags = MEDIA_PAD_FL_SOURCE;
-+
-+	return 0;
-+
-+err_node_put:
-+	of_node_put(np);
-+	return err;
-+}
-+
-+static int tegra_vip_channel_init(struct tegra_vip *vip)
-+{
-+	struct v4l2_subdev *subdev;
-+	int err;
-+
-+	subdev = &vip->chan.subdev;
-+	v4l2_subdev_init(subdev, &tegra_vip_ops);
-+	subdev->dev = vip->dev;
-+	snprintf(subdev->name, V4L2_SUBDEV_NAME_SIZE, "%s",
-+		 kbasename(vip->chan.of_node->full_name));
-+
-+	v4l2_set_subdevdata(subdev, &vip->chan);
-+	subdev->fwnode = of_fwnode_handle(vip->chan.of_node);
-+	subdev->entity.function = MEDIA_ENT_F_VID_IF_BRIDGE;
-+
-+	err = media_entity_pads_init(&subdev->entity, TEGRA_VIP_PADS_NUM, vip->chan.pads);
-+	if (err)
-+		return dev_err_probe(vip->dev, err, "failed to initialize media entity\n");
-+
-+	err = v4l2_async_register_subdev(subdev);
-+	if (err) {
-+		dev_err_probe(vip->dev, err, "failed to register subdev\n");
-+		goto err_register_subdev;
-+	}
-+
-+	return 0;
-+
-+err_register_subdev:
-+	media_entity_cleanup(&subdev->entity);
-+	return err;
-+}
-+
-+static int tegra_vip_init(struct host1x_client *client)
-+{
-+	struct tegra_vip *vip = host1x_client_to_vip(client);
-+	int err;
-+
-+	err = tegra_vip_channel_of_parse(vip);
-+	if (err)
-+		return err;
-+
-+	err = tegra_vip_channel_init(vip);
-+	if (err)
-+		goto err_init;
-+
-+	return 0;
-+
-+err_init:
-+	of_node_put(vip->chan.of_node);
-+	return err;
-+}
-+
-+static int tegra_vip_exit(struct host1x_client *client)
-+{
-+	struct tegra_vip *vip = host1x_client_to_vip(client);
-+	struct v4l2_subdev *subdev = &vip->chan.subdev;
-+
-+	v4l2_async_unregister_subdev(subdev);
-+	media_entity_cleanup(&subdev->entity);
-+	of_node_put(vip->chan.of_node);
-+
-+	return 0;
-+}
-+
-+static const struct host1x_client_ops vip_client_ops = {
-+	.init = tegra_vip_init,
-+	.exit = tegra_vip_exit,
-+};
-+
-+static int tegra_vip_probe(struct platform_device *pdev)
-+{
-+	struct tegra_vip *vip;
-+	int err;
-+
-+	dev_dbg(&pdev->dev, "Probing VIP \"%s\" from %pOF\n", pdev->name, pdev->dev.of_node);
-+
-+	vip = devm_kzalloc(&pdev->dev, sizeof(*vip), GFP_KERNEL);
-+	if (!vip)
-+		return -ENOMEM;
-+
-+	vip->soc = of_device_get_match_data(&pdev->dev);
-+
-+	vip->dev = &pdev->dev;
-+	platform_set_drvdata(pdev, vip);
-+
-+	/* initialize host1x interface */
-+	INIT_LIST_HEAD(&vip->client.list);
-+	vip->client.ops = &vip_client_ops;
-+	vip->client.dev = &pdev->dev;
-+
-+	err = host1x_client_register(&vip->client);
-+	if (err)
-+		return dev_err_probe(&pdev->dev, err, "failed to register host1x client\n");
-+
-+	pm_runtime_enable(&pdev->dev);
-+
-+	return 0;
-+}
-+
-+static int tegra_vip_remove(struct platform_device *pdev)
-+{
-+	struct tegra_vip *vip = platform_get_drvdata(pdev);
-+	int err;
-+
-+	err = host1x_client_unregister(&vip->client);
-+	if (err)
-+		return dev_err_probe(&pdev->dev, err, "failed to unregister host1x client\n");
-+
-+	pm_runtime_disable(&pdev->dev);
-+
-+	return 0;
-+}
-+
-+#if defined(CONFIG_ARCH_TEGRA_2x_SOC)
-+extern const struct tegra_vip_soc tegra20_vip_soc;
-+#endif
-+
-+static const struct of_device_id tegra_vip_of_id_table[] = {
-+#if defined(CONFIG_ARCH_TEGRA_2x_SOC)
-+	{ .compatible = "nvidia,tegra20-vip", .data = &tegra20_vip_soc },
-+#endif
-+	{ }
-+};
-+MODULE_DEVICE_TABLE(of, tegra_vip_of_id_table);
-+
-+struct platform_driver tegra_vip_driver = {
-+	.driver = {
-+		.name		= "tegra-vip",
-+		.of_match_table	= tegra_vip_of_id_table,
-+	},
-+	.probe			= tegra_vip_probe,
-+	.remove			= tegra_vip_remove,
-+};
-diff --git a/drivers/staging/media/tegra-video/vip.h b/drivers/staging/media/tegra-video/vip.h
-new file mode 100644
-index 000000000000..32ceaaccbba2
---- /dev/null
-+++ b/drivers/staging/media/tegra-video/vip.h
-@@ -0,0 +1,68 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
-+/*
-+ * Copyright (C) 2023 SKIDATA GmbH
-+ * Author: Luca Ceresoli <luca.ceresoli@bootlin.com>
-+ */
-+
-+#ifndef __TEGRA_VIP_H__
-+#define __TEGRA_VIP_H__
-+
-+#include <media/media-entity.h>
-+#include <media/v4l2-async.h>
-+#include <media/v4l2-subdev.h>
-+
-+enum {
-+	TEGRA_VIP_PAD_SINK,
-+	TEGRA_VIP_PAD_SOURCE,
-+	TEGRA_VIP_PADS_NUM,
-+};
-+
-+struct tegra_vip;
-+
-+/**
-+ * struct tegra_vip_channel - Tegra VIP (parallel video capture) channel
-+ *
-+ * @subdev: V4L2 subdevice associated with this channel
-+ * @pads: media pads for the subdevice entity
-+ * @of_node: vip device tree node
-+ */
-+struct tegra_vip_channel {
-+	struct v4l2_subdev subdev;
-+	struct media_pad pads[TEGRA_VIP_PADS_NUM];
-+	struct device_node *of_node;
-+};
-+
-+/**
-+ * struct tegra_vip_ops - Tegra VIP operations
-+ *
-+ * @vip_start_streaming: programs vip hardware to enable streaming.
-+ */
-+struct tegra_vip_ops {
-+	int (*vip_start_streaming)(struct tegra_vip_channel *vip_chan);
-+};
-+
-+/**
-+ * struct tegra_vip_soc - NVIDIA Tegra VIP SoC structure
-+ *
-+ * @ops: vip hardware operations
-+ */
-+struct tegra_vip_soc {
-+	const struct tegra_vip_ops *ops;
-+};
-+
-+/**
-+ * struct tegra_vip - NVIDIA Tegra VIP device structure
-+ *
-+ * @dev: device struct
-+ * @client: host1x_client struct
-+ * @soc: pointer to SoC data structure
-+ * @chan: the VIP channel
-+ */
-+struct tegra_vip {
-+	struct device *dev;
-+	struct host1x_client client;
-+	const struct tegra_vip_soc *soc;
-+	struct tegra_vip_channel chan;
-+};
-+
-+#endif
--- 
-2.34.1
+Lucas De Marchi
 
+>
+>>
+>> For now, let's keep this as is and use the CI branch to assess the
+>> driver health with GuC.
+>>
+>>
+>> thanks
+>> Lucas De Marchi
+>>
+>> > ---
+>> > drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c | 1 +
+>> > 1 file changed, 1 insertion(+)
+>> >
+>> > diff --git a/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c b/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
+>> > index 264c952f777bb..1ac6f9f340e31 100644
+>> > --- a/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
+>> > +++ b/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
+>> > @@ -79,6 +79,7 @@ void intel_uc_fw_change_status(struct intel_uc_fw *uc_fw,
+>> >  * security fixes, etc. to be enabled.
+>> >  */
+>> > #define INTEL_GUC_FIRMWARE_DEFS(fw_def, guc_maj, guc_mmp) \
+>> > +	fw_def(METEORLAKE,   0, guc_mmp(mtl,  70, 6, 5)) \
+>> > 	fw_def(DG2,          0, guc_maj(dg2,  70, 5)) \
+>> > 	fw_def(ALDERLAKE_P,  0, guc_maj(adlp, 70, 5)) \
+>> > 	fw_def(ALDERLAKE_P,  0, guc_mmp(adlp, 70, 1, 1)) \
+>> > --
+>> > 2.39.1
+>> >
