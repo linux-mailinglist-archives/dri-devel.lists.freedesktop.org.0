@@ -2,40 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8AE2B6DA90F
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Apr 2023 08:47:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5693F6DA910
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Apr 2023 08:47:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2B37610E7E7;
+	by gabe.freedesktop.org (Postfix) with ESMTP id A147A10E819;
 	Fri,  7 Apr 2023 06:47:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 836DB10E819
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Apr 2023 06:47:05 +0000 (UTC)
-X-UUID: ff745670d50f11eda9a90f0bb45854f4-20230407
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4B97F10E7E7
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 Apr 2023 06:47:04 +0000 (UTC)
+X-UUID: ff8dd348d50f11eda9a90f0bb45854f4-20230407
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
  s=dk; 
  h=Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From;
- bh=z8dlLD1sv9f2NE8zrNy/h9dCS9iBY/r8jXl3iTCVF0I=; 
- b=KRXdx7weIHB5IUlsqggXGIyrg/9LcAzSEcnpKZm8xj5JEAjxnfCY0cvRAE7ldGWuZmpen7WX8jcgOBFksj+yni5FpWNq5jsCwuBRxdyKpTtDLbUiiNDw0+BJnvZGv8MKeY+Y4nHG/x0IjTXmhZhRIA+Ce6w5duzws5YTRe3MDXQ=;
+ bh=9L84OZjF4WOz0zPEZnr9/avuUjm8MDXhSEkt/M3EmU8=; 
+ b=nwOD1ONV34AlpNl6+IX9UUjHpRDMXUVK4s/wAQJ1B5aOpAOwTjBNogCe+F7XKjWa6HnqMspNDR3v8tHrT8S3IZ4Zc7mOIdV+NnggMJILu3kUNO7l92wkECKBxr0q960Wz4imkY5Q1hyLHz63ue5Z/VIu6pVe+NjMqzl9k8n7pbU=;
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.22, REQID:f3c8e788-a68f-428e-a11d-fcbbb5b4b025, IP:0,
+X-CID-O-INFO: VERSION:1.1.22, REQID:72ffb03f-35d5-4fd8-852e-3d7ff7e2bd89, IP:0,
  U
  RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
  release,TS:0
-X-CID-META: VersionHash:120426c, CLOUDID:b37b9c2a-564d-42d9-9875-7c868ee415ec,
+X-CID-META: VersionHash:120426c, CLOUDID:f1a77db5-beed-4dfc-bd9c-e1b22fa6ccc4,
  B
  ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
  RL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0
-X-CID-BVR: 0,NGT
-X-CID-BAS: 0,NGT,0,_
-X-UUID: ff745670d50f11eda9a90f0bb45854f4-20230407
-Received: from mtkmbs11n1.mediatek.inc [(172.21.101.185)] by
+X-CID-BVR: 0
+X-CID-BAS: 0,_,0,_
+X-UUID: ff8dd348d50f11eda9a90f0bb45854f4-20230407
+Received: from mtkmbs13n2.mediatek.inc [(172.21.101.108)] by
  mailgw01.mediatek.com (envelope-from <jason-jh.lin@mediatek.com>)
  (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 796966629; Fri, 07 Apr 2023 14:47:00 +0800
+ with ESMTP id 413791441; Fri, 07 Apr 2023 14:47:00 +0800
 Received: from mtkmbs13n1.mediatek.inc (172.21.101.193) by
- mtkmbs11n2.mediatek.inc (172.21.101.187) with Microsoft SMTP Server
+ mtkmbs13n2.mediatek.inc (172.21.101.108) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
  15.2.1118.25; Fri, 7 Apr 2023 14:46:59 +0800
 Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
@@ -44,9 +44,9 @@ Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
 From: Jason-JH.Lin <jason-jh.lin@mediatek.com>
 To: Chun-Kuang Hu <chunkuang.hu@kernel.org>, AngeloGioacchino Del Regno
  <angelogioacchino.delregno@collabora.com>
-Subject: [PATCH 2/5] drm/mediatek: Add cnt checking for coverity issue
-Date: Fri, 7 Apr 2023 14:46:54 +0800
-Message-ID: <20230407064657.12350-3-jason-jh.lin@mediatek.com>
+Subject: [PATCH 3/5] drm/mediatek: Add initialization for mtk_gem_obj
+Date: Fri, 7 Apr 2023 14:46:55 +0800
+Message-ID: <20230407064657.12350-4-jason-jh.lin@mediatek.com>
 X-Mailer: git-send-email 2.18.0
 In-Reply-To: <20230407064657.12350-1-jason-jh.lin@mediatek.com>
 References: <20230407064657.12350-1-jason-jh.lin@mediatek.com>
@@ -77,44 +77,33 @@ Cc: "Jason-JH . Lin" <jason-jh.lin@mediatek.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-CERT-C Characters and Strings (CERT STR31-C)
-all_drm_priv[cnt] evaluates to an address that could be at negative
-offset of an array.
+Calling mtk_gem_obj = kzalloc() which returns uninitialized memory,
+because mtk_gem_obj is uninitialized.
 
-In mtk_drm_get_all_drm_priv():
-Guarantee that storage for strings has sufficient space for character
-data and the null terminator.
+It may cause using uninitialized value mtk_gem_obj->base.resv
+when calling drm_gem_object_init().
 
-So change cnt to unsigned int and check its max value.
+So add initialization for mtk_gem_obj.
 
 Signed-off-by: Jason-JH.Lin <jason-jh.lin@mediatek.com>
-Fixes: 1ef7ed48356c ("drm/mediatek: Modify mediatek-drm for mt8195 multi mmsys support")
+Fixes: 119f5173628a ("drm/mediatek: Add DRM Driver for Mediatek SoC MT8173.")
 ---
- drivers/gpu/drm/mediatek/mtk_drm_drv.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/mediatek/mtk_drm_gem.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.c b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-index 86255a066faf..fcfa10332166 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-@@ -378,7 +378,7 @@ static bool mtk_drm_get_all_drm_priv(struct device *dev)
- 	const struct of_device_id *of_id;
- 	struct device_node *node;
- 	struct device *drm_dev;
--	int cnt = 0;
-+	unsigned int cnt = 0;
- 	int i, j;
+diff --git a/drivers/gpu/drm/mediatek/mtk_drm_gem.c b/drivers/gpu/drm/mediatek/mtk_drm_gem.c
+index a25b28d3ee90..9b8f72ed12e4 100644
+--- a/drivers/gpu/drm/mediatek/mtk_drm_gem.c
++++ b/drivers/gpu/drm/mediatek/mtk_drm_gem.c
+@@ -33,7 +33,7 @@ static const struct drm_gem_object_funcs mtk_drm_gem_object_funcs = {
+ static struct mtk_drm_gem_obj *mtk_drm_gem_init(struct drm_device *dev,
+ 						unsigned long size)
+ {
+-	struct mtk_drm_gem_obj *mtk_gem_obj;
++	struct mtk_drm_gem_obj *mtk_gem_obj = NULL;
+ 	int ret;
  
- 	for_each_child_of_node(phandle->parent, node) {
-@@ -397,7 +397,7 @@ static bool mtk_drm_get_all_drm_priv(struct device *dev)
- 			continue;
- 
- 		all_drm_priv[cnt] = dev_get_drvdata(drm_dev);
--		if (all_drm_priv[cnt] && all_drm_priv[cnt]->mtk_drm_bound)
-+		if (cnt < MAX_CRTC && all_drm_priv[cnt] && all_drm_priv[cnt]->mtk_drm_bound)
- 			cnt++;
- 	}
- 
+ 	size = round_up(size, PAGE_SIZE);
 -- 
 2.18.0
 
