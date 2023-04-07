@@ -1,39 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 454AF6DADD4
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Apr 2023 15:40:17 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 23B976DADD5
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Apr 2023 15:40:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5E07610EBC6;
-	Fri,  7 Apr 2023 13:40:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4909D10EBD7;
+	Fri,  7 Apr 2023 13:40:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net
  [IPv6:2001:4b98:dc4:8::228])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 98D9B10EBC6
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Apr 2023 13:40:12 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F323010EBD7
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 Apr 2023 13:40:16 +0000 (UTC)
 Received: from booty.fritz.box (unknown [77.244.183.192])
  (Authenticated sender: luca.ceresoli@bootlin.com)
- by mail.gandi.net (Postfix) with ESMTPA id 090971BF205;
- Fri,  7 Apr 2023 13:40:00 +0000 (UTC)
+ by mail.gandi.net (Postfix) with ESMTPA id BCB451BF20A;
+ Fri,  7 Apr 2023 13:40:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1680874809;
+ t=1680874814;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=kUmFRT8Feq147dzZJ+UxUhEHuVDTM6lRC0Uxl+5isTk=;
- b=P1BHlCptoOBpfPSARHdqgL3Ju3Mdf4pm7N2XVSePnEwwERXbbNDV3KcdciwMM4O6PY9qvP
- MlgBBcj/+jn+pkfsDN+byAoiyaQVd9N7L6MGvLItzbA2yQOD13cQM7NiDBMzwfxTEY6ci+
- xbvL8vYD3gO9FyDJaO0OB4EnIIJgpb0XeIJbd524B07CmyC0ZbZ3j5SpPKu4/4km0xPWbE
- D0UQaKqitVK+/FwpEfUSW8IBM4saKddE8tMNBRu7Pod0Ma3BolEPfjdvfAeTudllxa6vvb
- Ijj9pzn7QvHLZIJ+HY1HuCEwG7Dr0pjPZXQ4B4Ep27orh/3cO+IfjkQZlHPbJA==
+ bh=ancsjPRzD7RkHIrMd+4Fj+5TdggxMO2abcceDc4ZHko=;
+ b=ZOe+ejUnRImwjrhYuF/F6gvvAvnhLJgFzvzu4RXS7DFZn71GKfft22VGHFmhkzRRadJcAe
+ wsDp6GF04msG4XbtGMvOKJ0sLd3ViGbZwiyEhWZI9Il1yWwu2VtiHi1O0m4TXzOy9wN5hZ
+ Zm856YCo5TJuhDTgXVgnb8Xxz+TdgnzTbJcZY7o283nDcfikNTa+8cgTlspZLDPVI4jMmS
+ 7O3zW9oROE7JeepPjsePPKhMT848cR7CtxXszid3dA1EFLOgAhvjsAOxLuY4R5RoogL4Hc
+ YqTb9qCR/A7tdHD0V1D8FyWo3FLQY+mpWbwtXMZ6NiCezZE4iT8ztUEYrmNJHQ==
 From: Luca Ceresoli <luca.ceresoli@bootlin.com>
 To: linux-tegra@vger.kernel.org
-Subject: [PATCH v5 10/20] staging: media: tegra-video: remove unneeded include
-Date: Fri,  7 Apr 2023 15:38:42 +0200
-Message-Id: <20230407133852.2850145-11-luca.ceresoli@bootlin.com>
+Subject: [PATCH v5 11/20] staging: media: tegra-video: Kconfig: allow TPG only
+ on Tegra210
+Date: Fri,  7 Apr 2023 15:38:43 +0200
+Message-Id: <20230407133852.2850145-12-luca.ceresoli@bootlin.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230407133852.2850145-1-luca.ceresoli@bootlin.com>
 References: <20230407133852.2850145-1-luca.ceresoli@bootlin.com>
@@ -68,8 +69,10 @@ Cc: devicetree@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-There is only a pointer reference to struct tegra_vi in video.h, thus vi.h
-is not needed.
+We are about to add support for the Tegra20 parallel video capture, which
+has no TPG. In preparation for that, limit the VIDEO_TEGRA_TPG option to
+Tegra210 which is the only implementation currently provided by this
+driver.
 
 Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 Reviewed-by: Dmitry Osipenko <digetx@gmail.com>
@@ -84,21 +87,20 @@ Changed in v4:
 No changes in v3
 No changes in v2
 ---
- drivers/staging/media/tegra-video/video.h | 1 -
- 1 file changed, 1 deletion(-)
+ drivers/staging/media/tegra-video/Kconfig | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/staging/media/tegra-video/video.h b/drivers/staging/media/tegra-video/video.h
-index fadaf2189dc9..1e9be1474a9c 100644
---- a/drivers/staging/media/tegra-video/video.h
-+++ b/drivers/staging/media/tegra-video/video.h
-@@ -12,7 +12,6 @@
- #include <media/v4l2-device.h>
- 
- #include "vi.h"
--#include "csi.h"
- 
- struct tegra_video_device {
- 	struct v4l2_device v4l2_dev;
+diff --git a/drivers/staging/media/tegra-video/Kconfig b/drivers/staging/media/tegra-video/Kconfig
+index df1b2cff2417..c53441822fdf 100644
+--- a/drivers/staging/media/tegra-video/Kconfig
++++ b/drivers/staging/media/tegra-video/Kconfig
+@@ -15,5 +15,6 @@ config VIDEO_TEGRA
+ config VIDEO_TEGRA_TPG
+ 	bool "NVIDIA Tegra VI driver TPG mode"
+ 	depends on VIDEO_TEGRA
++	depends on ARCH_TEGRA_210_SOC
+ 	help
+ 	  Say yes here to enable Tegra internal TPG mode
 -- 
 2.34.1
 
