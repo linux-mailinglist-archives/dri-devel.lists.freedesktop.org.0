@@ -2,39 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24C3E6DADBF
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Apr 2023 15:39:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 561E36DADC3
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Apr 2023 15:39:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8FE1910E622;
+	by gabe.freedesktop.org (Postfix) with ESMTP id B79BF10E639;
 	Fri,  7 Apr 2023 13:39:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net
  [IPv6:2001:4b98:dc4:8::228])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 99F8610E639
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Apr 2023 13:39:20 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 524E310E639
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 Apr 2023 13:39:27 +0000 (UTC)
 Received: from booty.fritz.box (unknown [77.244.183.192])
  (Authenticated sender: luca.ceresoli@bootlin.com)
- by mail.gandi.net (Postfix) with ESMTPA id 1F9521BF211;
- Fri,  7 Apr 2023 13:39:12 +0000 (UTC)
+ by mail.gandi.net (Postfix) with ESMTPA id CD5DD1BF20F;
+ Fri,  7 Apr 2023 13:39:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1680874759;
+ t=1680874764;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=RvR14qKJHlBTfqwGzmKgQjJzvSmX6egcCOLi5S9wPq4=;
- b=TcCqSwZ4o62hItJihYOL5yTwXoCsWJDNT3kK9c7VCN3g8CjEv1PD44lzY2AAfSyfhrnfcy
- p8bDJRu+tBC9qWSstV8xc+gManGC3w4+D9Y1M05FJjsLqZiHC73hRN7weUDinvbpaHhIN/
- B5WA5XFpwxnS49ULizKBfCyOyXJKiZ7IaMySmW3SaFuGgKyAYkN7Ct0P9k16o57QXifv3l
- TbsVGrKlcmbCh0004sx012ojf2p00Wfz0JxHa/zAgn5j4PSRcyc5shk/oSpspDwisKjo58
- l9xZFFlgSTYWt34vcOx6zIzh2b6PzLkMkwoa3g/ZhTU8Ozlg6rWTFVO+Z8lapQ==
+ bh=A/GjZm5PPxLztBEpj4lMVnSCCudcNgYBjQRLkBLEI30=;
+ b=WxtWIMPtddf+2FUa/a0HVHnY4euAeiVs6YXyQlQN3Wp7nq72Qtshwh1LTxkH2aEt88dC5g
+ OqwWxNTHNO2W9wygHUT2X/SiGChF3YqRSRc9Xy5/2qlIJDVkF8aID7z0YOTMojij9z/0UX
+ I+277d/0pMyFF8hMDwH6HlH3VcTuujRQ0r3/K6rbHs41729G4W9dRY3CSDvezgibDZGwtb
+ eRwd3EPS8m569Uc3tkP10//ZWmNEoybtrU+sBuoCqacDmCRT7YHFfbE/6g8F3lTT0l5LVD
+ CrYWGmUxd9kCzf/4hlrtLnb03MeAihlMas++UGvuYSndmhgfH6Bdlv2b4S39CQ==
 From: Luca Ceresoli <luca.ceresoli@bootlin.com>
 To: linux-tegra@vger.kernel.org
-Subject: [PATCH v5 02/20] dt-bindings: display: tegra: vi: add 'vip' property
- and example
-Date: Fri,  7 Apr 2023 15:38:34 +0200
-Message-Id: <20230407133852.2850145-3-luca.ceresoli@bootlin.com>
+Subject: [PATCH v5 03/20] staging: media: tegra-video: improve documentation
+ of tegra_video_format fields
+Date: Fri,  7 Apr 2023 15:38:35 +0200
+Message-Id: <20230407133852.2850145-4-luca.ceresoli@bootlin.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230407133852.2850145-1-luca.ceresoli@bootlin.com>
 References: <20230407133852.2850145-1-luca.ceresoli@bootlin.com>
@@ -64,136 +64,48 @@ Cc: devicetree@vger.kernel.org,
  Thierry Reding <thierry.reding@gmail.com>,
  Sowjanya Komatineni <skomatineni@nvidia.com>, dri-devel@lists.freedesktop.org,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>, Dmitry Osipenko <digetx@gmail.com>,
  Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The Tegra20 VI peripheral can receive parallel input from the VIP parallel
-input module. Add it to the allowed properties and augment the existing
-nvidia,tegra20-vi example to show a 'vip' property.
+Some fields are irrelevant for Tegra20/VIP. Add a note to clarify that.
 
 Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Reviewed-by: Rob Herring <robh@kernel.org>
+Reviewed-by: Dmitry Osipenko <digetx@gmail.com>
 
 ---
 
 No changes in v5
 
-Changed in RESEND,v4:
- - Add Reviewed-by: Rob Herring <robh@kernel.org>
-
 Changed in v4:
- - complete the removal of 'channel@0'
+ - Added review tags
 
-Changed in v3 (suggested by Rob Herring):
- - drop 'endpoint', unneeded as there's no extra properties in the
-   endpoints
-
-Changed in v2 (suggested by Krzysztof Kozlowski):
- - rename "i2c3" -> "ic2"
- - add review tag
+No changes in v3
+No changes in v2
 ---
- .../display/tegra/nvidia,tegra20-vi.yaml      | 59 +++++++++++++++++++
- MAINTAINERS                                   |  1 +
- 2 files changed, 60 insertions(+)
+ drivers/staging/media/tegra-video/vi.h | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-vi.yaml b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-vi.yaml
-index a42bf33d1e7d..2181855a0920 100644
---- a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-vi.yaml
-+++ b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-vi.yaml
-@@ -73,6 +73,18 @@ properties:
-   avdd-dsi-csi-supply:
-     description: DSI/CSI power supply. Must supply 1.2 V.
- 
-+  vip:
-+    $ref: /schemas/display/tegra/nvidia,tegra20-vip.yaml
-+
-+  ports:
-+    $ref: /schemas/graph.yaml#/properties/ports
-+
-+    properties:
-+      port@0:
-+        $ref: /schemas/graph.yaml#/properties/port
-+        description:
-+          Input from the VIP (parallel input capture) module
-+
- patternProperties:
-   "^csi@[0-9a-f]+$":
-     type: object
-@@ -108,6 +120,22 @@ examples:
-     #include <dt-bindings/clock/tegra20-car.h>
-     #include <dt-bindings/interrupt-controller/arm-gic.h>
- 
-+    i2c {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+        camera@48 {
-+            compatible = "aptina,mt9v111";
-+            reg = <0x48>;
-+            clocks = <&camera_clk>;
-+
-+            port {
-+                mt9v111_out: endpoint {
-+                    remote-endpoint = <&vi_vip_in>;
-+                };
-+            };
-+        };
-+    };
-+
-     vi@54080000 {
-         compatible = "nvidia,tegra20-vi";
-         reg = <0x54080000 0x00040000>;
-@@ -115,6 +143,37 @@ examples:
-         clocks = <&tegra_car TEGRA20_CLK_VI>;
-         resets = <&tegra_car 100>;
-         reset-names = "vi";
-+
-+        vip {
-+            compatible = "nvidia,tegra20-vip";
-+            ports {
-+                #address-cells = <1>;
-+                #size-cells = <0>;
-+                port@0 {
-+                    reg = <0>;
-+                    vi_vip_in: endpoint {
-+                        remote-endpoint = <&mt9v111_out>;
-+                    };
-+                };
-+                port@1 {
-+                    reg = <1>;
-+                    vi_vip_out: endpoint {
-+                        remote-endpoint = <&vi_in>;
-+                    };
-+                };
-+            };
-+        };
-+
-+        ports {
-+            #address-cells = <1>;
-+            #size-cells = <0>;
-+            port@0 {
-+                reg = <0>;
-+                vi_in: endpoint {
-+                    remote-endpoint = <&vi_vip_out>;
-+                };
-+            };
-+        };
-     };
- 
-   - |
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 4e326a9ec281..219eb8fb76b3 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -20615,6 +20615,7 @@ L:	linux-media@vger.kernel.org
- L:	linux-tegra@vger.kernel.org
- S:	Maintained
- F:	Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-host1x.yaml
-+F:	Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-vi.yaml
- F:	Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-vip.yaml
- F:	drivers/staging/media/tegra-video/
- 
+diff --git a/drivers/staging/media/tegra-video/vi.h b/drivers/staging/media/tegra-video/vi.h
+index a68e2c02c7b0..5396bf53ab75 100644
+--- a/drivers/staging/media/tegra-video/vi.h
++++ b/drivers/staging/media/tegra-video/vi.h
+@@ -260,11 +260,11 @@ enum tegra_image_dt {
+ /**
+  * struct tegra_video_format - Tegra video format description
+  *
+- * @img_dt: image data type
+- * @bit_width: format width in bits per component
++ * @img_dt: MIPI CSI-2 data type (for CSI-2 only)
++ * @bit_width: format width in bits per component (for CSI/Tegra210 only)
+  * @code: media bus format code
+  * @bpp: bytes per pixel (when stored in memory)
+- * @img_fmt: image format
++ * @img_fmt: image format (for CSI/Tegra210 only)
+  * @fourcc: V4L2 pixel format FCC identifier
+  */
+ struct tegra_video_format {
 -- 
 2.34.1
 
