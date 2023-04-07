@@ -2,38 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C17B36DADC8
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Apr 2023 15:39:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DABA6DADCC
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Apr 2023 15:40:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BFA1E10EAA6;
-	Fri,  7 Apr 2023 13:39:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8147C10EAB3;
+	Fri,  7 Apr 2023 13:39:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net
  [IPv6:2001:4b98:dc4:8::228])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9A6C910EAA7
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Apr 2023 13:39:49 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4B6ED10EAA7
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 Apr 2023 13:39:56 +0000 (UTC)
 Received: from booty.fritz.box (unknown [77.244.183.192])
  (Authenticated sender: luca.ceresoli@bootlin.com)
- by mail.gandi.net (Postfix) with ESMTPA id 1E8631BF20F;
- Fri,  7 Apr 2023 13:39:39 +0000 (UTC)
+ by mail.gandi.net (Postfix) with ESMTPA id 213161BF20E;
+ Fri,  7 Apr 2023 13:39:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1680874786;
+ t=1680874793;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=O1b3tQZjx33SYaPtp9yoUCaBglbhWSfSIc4ZfLVZFLg=;
- b=j38unkacWRPw7U7zkTL/nkzUf4Ou+TqwWo8eMbIPFBGlbCBPUKXQuVq3qxE/asYVl1yHgO
- QC1BJYY1O6jsc6t5onTEKxP2/Gd3PMXHWSuRyFzIywIrfeYHEND+1lQr1/mNyKUQ24wwLE
- 81tvU70Y2/u1HH6tb+q62H/Jn1weCDUui9JE6gCrot5A8x6XHnMfb6g12SZEwbsa00RQye
- iEK/1+3uHHS/DwI/thV3T5gYEvbgkPGROGdKZXeW336MNnaeEBBGYMCO7KHnWzu+1jpbKT
- xLuj38WWozUqzga4/CXH14J+j2sSkO3iNfLOvRBEPyCtHUw0voIkiJ68GYl+3A==
+ bh=PLj+HTnVwetVKCJYGoFXl8GPfSvVBH6A468cry27oag=;
+ b=Q161tZV+jeLOXvhQkBerEA1g5pxQ9hbaarPBua7Vxnwx7xhJtnpuFjPhHAGF6Akytc0Hf3
+ erPQMOM/h5zCQTLTT/Sr0gAn1XDQCGa5FBvUB1U6C5T1nKed49RiLv+/w6064U1u3W2Mbi
+ F6/zvcmjnCQQNWeSfOmOHIQfjkWIja4zH2yx/TIJYUWwOL+pPNRY4ntwbCSqxAkbtgxlsU
+ DSUgCyrdB91T595fSnGmNdZjKdw6E4LIbPJPIiiosrkIhtEVnpIOeQwb8mvt9MvqHLmzdx
+ I3nX3fzaNjHPjXTQ/daBFcDHQDz8ibxhSvH6Lt0Z5v1UneITFF2gteKUJ2l0mA==
 From: Luca Ceresoli <luca.ceresoli@bootlin.com>
 To: linux-tegra@vger.kernel.org
-Subject: [PATCH v5 06/20] staging: media: tegra-video: improve error messages
-Date: Fri,  7 Apr 2023 15:38:38 +0200
-Message-Id: <20230407133852.2850145-7-luca.ceresoli@bootlin.com>
+Subject: [PATCH v5 07/20] staging: media: tegra-video: slightly simplify
+ cleanup on errors
+Date: Fri,  7 Apr 2023 15:38:39 +0200
+Message-Id: <20230407133852.2850145-8-luca.ceresoli@bootlin.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230407133852.2850145-1-luca.ceresoli@bootlin.com>
 References: <20230407133852.2850145-1-luca.ceresoli@bootlin.com>
@@ -68,18 +69,8 @@ Cc: devicetree@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-tegra_vi_channels_alloc() can primarily fail for two reasons:
-
- 1. "ports" node not found
- 2. port_num > vi->soc->vi_max_channels
-
-Case 1 prints nothing, case 2 has a dev_err(). The caller [tegra_vi_init()]
-has a generic dev_err() on any failure. This mean that in case 2 we print
-two messages, and in case 1 we only print a generic message.
-
-Remove the generic message and add a specific message when case 1 happens,
-so that we always have one specific message without even increasing the
-number of dev_dbg*() calls.
+of_node_put(node) does nothing if node == NULL, so it can be moved to the
+cleanup section at the bottom.
 
 Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 Reviewed-by: Dmitry Osipenko <digetx@gmail.com>
@@ -94,35 +85,46 @@ Changed in v4:
 No changes in v3
 No changes in v2
 ---
- drivers/staging/media/tegra-video/vi.c | 7 ++-----
- 1 file changed, 2 insertions(+), 5 deletions(-)
+ drivers/staging/media/tegra-video/vi.c | 8 +++-----
+ 1 file changed, 3 insertions(+), 5 deletions(-)
 
 diff --git a/drivers/staging/media/tegra-video/vi.c b/drivers/staging/media/tegra-video/vi.c
-index 79dd02a1e29b..1c0424bf1ab0 100644
+index 1c0424bf1ab0..ce4ff4cbf587 100644
 --- a/drivers/staging/media/tegra-video/vi.c
 +++ b/drivers/staging/media/tegra-video/vi.c
-@@ -1361,7 +1361,7 @@ static int tegra_vi_channels_alloc(struct tegra_vi *vi)
+@@ -1352,7 +1352,7 @@ static int tegra_vi_channels_alloc(struct tegra_vi *vi)
+ 	struct device_node *node = vi->dev->of_node;
+ 	struct device_node *ep = NULL;
+ 	struct device_node *ports;
+-	struct device_node *port;
++	struct device_node *port = NULL;
+ 	unsigned int port_num;
+ 	struct device_node *parent;
+ 	struct v4l2_fwnode_endpoint v4l2_ep = { .bus_type = 0 };
+@@ -1375,7 +1375,6 @@ static int tegra_vi_channels_alloc(struct tegra_vi *vi)
+ 			dev_err(vi->dev, "invalid port num %d for %pOF\n",
+ 				port_num, port);
+ 			ret = -EINVAL;
+-			of_node_put(port);
+ 			goto cleanup;
+ 		}
  
- 	ports = of_get_child_by_name(node, "ports");
- 	if (!ports)
--		return -ENODEV;
-+		return dev_err_probe(vi->dev, -ENODEV, "%pOF: missing 'ports' node\n", node);
+@@ -1398,13 +1397,12 @@ static int tegra_vi_channels_alloc(struct tegra_vi *vi)
  
- 	for_each_child_of_node(ports, port) {
- 		if (!of_node_name_eq(port, "port"))
-@@ -1921,11 +1921,8 @@ static int tegra_vi_init(struct host1x_client *client)
- 		ret = tegra_vi_tpg_channels_alloc(vi);
- 	else
- 		ret = tegra_vi_channels_alloc(vi);
--	if (ret < 0) {
--		dev_err(vi->dev,
--			"failed to allocate vi channels: %d\n", ret);
-+	if (ret < 0)
- 		goto free_chans;
--	}
+ 		lanes = v4l2_ep.bus.mipi_csi2.num_data_lanes;
+ 		ret = tegra_vi_channel_alloc(vi, port_num, port, lanes);
+-		if (ret < 0) {
+-			of_node_put(port);
++		if (ret < 0)
+ 			goto cleanup;
+-		}
+ 	}
  
- 	ret = tegra_vi_channels_init(vi);
- 	if (ret < 0)
+ cleanup:
++	of_node_put(port);
+ 	of_node_put(ports);
+ 	return ret;
+ }
 -- 
 2.34.1
 
