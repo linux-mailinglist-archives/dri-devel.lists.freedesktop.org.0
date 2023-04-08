@@ -2,61 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F1D16DBAF5
-	for <lists+dri-devel@lfdr.de>; Sat,  8 Apr 2023 14:38:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E3686DB8C0
+	for <lists+dri-devel@lfdr.de>; Sat,  8 Apr 2023 06:09:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0429110E17C;
-	Sat,  8 Apr 2023 12:38:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3DF5610E0B5;
+	Sat,  8 Apr 2023 04:09:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x736.google.com (mail-qk1-x736.google.com
- [IPv6:2607:f8b0:4864:20::736])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F11E410E044
- for <dri-devel@lists.freedesktop.org>; Sat,  8 Apr 2023 03:14:31 +0000 (UTC)
-Received: by mail-qk1-x736.google.com with SMTP id bi39so6582799qkb.13
- for <dri-devel@lists.freedesktop.org>; Fri, 07 Apr 2023 20:14:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1680923670; x=1683515670;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=xMTKJDQ8CdgEq5oydLbuNOEjnz2pC0DL2nvx8nYSz/g=;
- b=Q48jvsiIcW6+33OEw+8Rq2By/0rqAJXsy0pbv5Ivxlezjf2NnrQr5WO9WV+cxoLcY4
- P4kvSheOQQeR0uxecCxHXF+4BBRhAOXGI4WkJvpj5P7NfRHT9rW3MJ8D6DuRWfDCLkXR
- AFXPr5fol0nMe116ZVgI6KN3Rfqc2Pq1dm9gSnEsJN/j6UYohxHtO902BVIzNVuFdVNC
- /6lGFGdZ6rb2LdPUgWznZV/BfG818fKJT4SRzSLMRP0ZWiwsm080D2I4WjAiFqki9T3g
- LJb/wdZ3AiTLkMiuSZDD6T/DVSEAPKUcD9BfAUZz4xCW8GxKZ/LqMV60r7GQGYdLknPi
- 4QXQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680923670; x=1683515670;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=xMTKJDQ8CdgEq5oydLbuNOEjnz2pC0DL2nvx8nYSz/g=;
- b=O5OF9qzRO9oXI44NlHc0bKEj7sUvesULd9Wp/ApubsaxJ3tY+Ks77VUiihWc54sfIT
- bXZAc7tpjdZsTs9HDzFRkEuFOsFWkh9Wt5EG48FKTx00LFODtl5+QXR2iN4+hSt7YN+p
- ue6BFnNNf2nhAp4f3Wsjjqid2skHCwsZzKhBn6XQqXWwY91xt0B9a6Eb2JaTjDsVrGMY
- ngVfeyFtrJhsNJu3tNP+lQL8LDX5ppj+UpWbrimRg2dx1poF6u7dmHmMzyt2fUCU5DlD
- GcdzpZhZMDXdjb3OQvMklG9wfqBVjtzRiJMQ0hSfwr54eG5eUdY23tlL2vGTMkJ8MAMw
- xVFg==
-X-Gm-Message-State: AAQBX9cnOVyXE2vdllTx1gshXvyAiIw8+XoYl/lHuHdf62l/dOoS99rx
- PhErcn2eYr2aN2Xb9ncMV59Qi+V+YQlTypKCYZM=
-X-Google-Smtp-Source: AKy350Z3AtOV3Hj8e2V0+G3cXlcE2CUJYghvIUSBZ5M8j+IP946o3xKT9Fp538mrEE70dVq7aSFML1TYV1nrT8gDZvc=
-X-Received: by 2002:a05:620a:1981:b0:74a:5c5:944 with SMTP id
- bm1-20020a05620a198100b0074a05c50944mr1150949qkb.4.1680923670462; Fri, 07 Apr
- 2023 20:14:30 -0700 (PDT)
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1C63B10E0B5;
+ Sat,  8 Apr 2023 04:09:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1680926981; x=1712462981;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=I85LnZNyBLif63Nt+7CkFxtYuaxsLLp2R4nv7/uIJo0=;
+ b=eDf+4NykiCKc+xnJkuhj7vHHWhmFDeRyqv27Dk4U9OWqntm1hku3gG1S
+ p+ywMp4PhLEh9bz/1gUMCYrhghxuJRCAk2NKk4k8LZW6jegkwFd6Hdbui
+ GnkW4EoA7mvu8AYjLEofFTgF8RZGZDLFZV/wtX2XjNXPb9r000n6LHwcz
+ OZ2Zqj/JHBPDiKMgHARmSTnkvewB6Ey61NKenOmCufizuC4NkBVRgrn2S
+ kQZCpD3G4R6MPp5kACOQV8wYCsQe0Gx1GkA4XdLPUOZ5dIJIAVntKjB8+
+ mN14iNfVp7eGbnqHU+Ukvb7vPV5wLHEDzBUcDLYiqoUW+2FZ9j8dX4xO5 Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10673"; a="341861522"
+X-IronPort-AV: E=Sophos;i="5.98,328,1673942400"; d="scan'208";a="341861522"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Apr 2023 21:09:31 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10673"; a="831368603"
+X-IronPort-AV: E=Sophos;i="5.98,328,1673942400"; d="scan'208";a="831368603"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+ by fmsmga001.fm.intel.com with ESMTP; 07 Apr 2023 21:09:28 -0700
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1pkztH-000TIP-1p;
+ Sat, 08 Apr 2023 04:09:27 +0000
+Date: Sat, 8 Apr 2023 12:09:08 +0800
+From: kernel test robot <lkp@intel.com>
+To: Lyude Paul <lyude@redhat.com>, dri-devel@lists.freedesktop.org,
+ nouveau@lists.freedesktop.org
+Subject: Re: [PATCH 2/2] drm/nouveau/kms: Add INHERIT ioctl to nvkm/nvif for
+ reading IOR state
+Message-ID: <202304081129.AMXCmyn2-lkp@intel.com>
+References: <20230407222133.1425969-2-lyude@redhat.com>
 MIME-Version: 1.0
-References: <20230406203103.3011503-1-krzysztof.kozlowski@linaro.org>
- <20230406203530.3012191-7-krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230406203530.3012191-7-krzysztof.kozlowski@linaro.org>
-From: Aleksandr Mezin <mezin.alexander@gmail.com>
-Date: Sat, 8 Apr 2023 06:14:19 +0300
-Message-ID: <CADnvcfKwHJ=dOFH1+DsDfn6Y5k6xdzA7QR1uVDv1afwCsiso3w@mail.gmail.com>
-Subject: Re: [PATCH 48/68] hwmon: nzxt: constify pointers to hwmon_channel_info
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Mailman-Approved-At: Sat, 08 Apr 2023 12:37:55 +0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230407222133.1425969-2-lyude@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,47 +61,93 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tomer Maimon <tmaimon77@gmail.com>,
- Eric Tremblay <etremblay@distech-controls.com>, Tom Rix <trix@redhat.com>,
- Jean-Marie Verdun <verdun@hpe.com>, Clemens Ladisch <clemens@ladisch.de>,
- dri-devel@lists.freedesktop.org, =?UTF-8?B?TnVubyBTw6E=?= <nuno.sa@analog.com>,
- Rudolf Marek <r.marek@assembler.cz>, UNGLinuxDriver@microchip.com,
- Florian Fainelli <f.fainelli@gmail.com>,
- Benjamin Fair <benjaminfair@google.com>, Jonathan Corbet <corbet@lwn.net>,
- Steen Hegelund <Steen.Hegelund@microchip.com>, linux-doc@vger.kernel.org,
- Jonas Malaco <jonas@protocubo.io>,
- Derek John Clark <derekjohn.clark@gmail.com>, openbmc@lists.ozlabs.org,
- Nancy Yuen <yuenn@google.com>,
- Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
- linux-arm-kernel@lists.infradead.org, Aleksa Savic <savicaleksa83@gmail.com>,
- Guenter Roeck <linux@roeck-us.net>, Jean Delvare <jdelvare@suse.com>,
- Charles Keepax <ckeepax@opensource.cirrus.com>,
- Daniel Machon <daniel.machon@microchip.com>,
- Michael Hennerich <Michael.Hennerich@analog.com>,
- Robert Marko <robert.marko@sartura.hr>,
- =?UTF-8?Q?Joaqu=C3=ADn_Ignacio_Aramend=C3=ADa?= <samsagax@gmail.com>,
- Wilken Gottwalt <wilken.gottwalt@posteo.net>,
- Richard Fitzgerald <rf@opensource.cirrus.com>,
- Agathe Porte <agathe.porte@nokia.com>, linux-rpi-kernel@lists.infradead.org,
- Nick Hawkins <nick.hawkins@hpe.com>, Tali Perry <tali.perry1@gmail.com>,
- Lars Povlsen <lars.povlsen@microchip.com>, linux-hwmon@vger.kernel.org,
- Hans de Goede <hdegoede@redhat.com>, Avi Fishman <avifishman70@gmail.com>,
- Patrick Venture <venture@google.com>, Oded Gabbay <ogabbay@kernel.org>,
- Iwona Winiarska <iwona.winiarska@intel.com>, linux-kernel@vger.kernel.org,
- Jack Doan <me@jackdoan.com>, Michael Walle <michael@walle.cc>,
- Marius Zachmann <mail@mariuszachmann.de>,
- Ibrahim Tilki <Ibrahim.Tilki@analog.com>, patches@opensource.cirrus.com,
- =?UTF-8?Q?Pali_Roh=C3=A1r?= <pali@kernel.org>, Xu Yilun <yilun.xu@intel.com>
+Cc: Kees Cook <keescook@chromium.org>, Karol Herbst <kherbst@redhat.com>,
+ Jani Nikula <jani.nikula@intel.com>, llvm@lists.linux.dev,
+ open list <linux-kernel@vger.kernel.org>, Ben Skeggs <bskeggs@redhat.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, oe-kbuild-all@lists.linux.dev,
+ Dave Airlie <airlied@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Apr 6, 2023 at 11:37=E2=80=AFPM Krzysztof Kozlowski
-<krzysztof.kozlowski@linaro.org> wrote:
-> -static const struct hwmon_channel_info *nzxt_smart2_channel_info[] =3D {
-> +static const struct hwmon_channel_info * const nzxt_smart2_channel_info[=
-] =3D {
+Hi Lyude,
 
-In the rest of nzxt-smart2.c there are spaces only before "*", not on
-both sides (and there are a few "*const" already). Would be nice to
-keep it consistent. The same seems to be true for nzxt-kraken2.c
-(although I'm not a maintainer)
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on drm-misc/drm-misc-next]
+[also build test WARNING on drm/drm-next drm-exynos/exynos-drm-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.3-rc5 next-20230406]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Lyude-Paul/drm-nouveau-kms-Add-INHERIT-ioctl-to-nvkm-nvif-for-reading-IOR-state/20230408-062329
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20230407222133.1425969-2-lyude%40redhat.com
+patch subject: [PATCH 2/2] drm/nouveau/kms: Add INHERIT ioctl to nvkm/nvif for reading IOR state
+config: arm64-buildonly-randconfig-r001-20230403 (https://download.01.org/0day-ci/archive/20230408/202304081129.AMXCmyn2-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 2c57868e2e877f73c339796c3374ae660bb77f0d)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install arm64 cross compiling tool for clang build
+        # apt-get install binutils-aarch64-linux-gnu
+        # https://github.com/intel-lab-lkp/linux/commit/a3d963915cf6f2d87b57146f7bc57a6a89d90cf6
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Lyude-Paul/drm-nouveau-kms-Add-INHERIT-ioctl-to-nvkm-nvif-for-reading-IOR-state/20230408-062329
+        git checkout a3d963915cf6f2d87b57146f7bc57a6a89d90cf6
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash drivers/gpu/drm/
+
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202304081129.AMXCmyn2-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/gpu/drm/nouveau/dispnv50/disp.c:2554:1: warning: no previous prototype for function 'nv50_display_read_hw_state' [-Wmissing-prototypes]
+   nv50_display_read_hw_state(struct nouveau_drm *drm)
+   ^
+   drivers/gpu/drm/nouveau/dispnv50/disp.c:2553:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   void
+   ^
+   static 
+   drivers/gpu/drm/nouveau/dispnv50/disp.c:2618:1: warning: no previous prototype for function 'nv50_display_create' [-Wmissing-prototypes]
+   nv50_display_create(struct drm_device *dev)
+   ^
+   drivers/gpu/drm/nouveau/dispnv50/disp.c:2617:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   int
+   ^
+   static 
+   2 warnings generated.
+
+
+vim +/nv50_display_read_hw_state +2554 drivers/gpu/drm/nouveau/dispnv50/disp.c
+
+  2551	
+  2552	/* Read back the currently programmed display state */
+  2553	void
+> 2554	nv50_display_read_hw_state(struct nouveau_drm *drm)
+  2555	{
+  2556		struct drm_device *dev = drm->dev;
+  2557		struct drm_encoder *encoder;
+  2558		struct drm_modeset_acquire_ctx ctx;
+  2559		struct nv50_disp *disp = nv50_disp(dev);
+  2560		int ret;
+  2561	
+  2562		DRM_MODESET_LOCK_ALL_BEGIN(dev, ctx, 0, ret);
+  2563	
+  2564		drm_for_each_encoder(encoder, dev) {
+  2565			if (encoder->encoder_type == DRM_MODE_ENCODER_DPMST)
+  2566				continue;
+  2567	
+  2568			nv50_display_read_hw_or_state(dev, disp, nouveau_encoder(encoder));
+  2569		}
+  2570	
+  2571		DRM_MODESET_LOCK_ALL_END(dev, ctx, ret);
+  2572	}
+  2573	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
