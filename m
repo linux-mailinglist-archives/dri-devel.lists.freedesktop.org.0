@@ -2,69 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F8116DBAF1
-	for <lists+dri-devel@lfdr.de>; Sat,  8 Apr 2023 14:38:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C02316DBA1A
+	for <lists+dri-devel@lfdr.de>; Sat,  8 Apr 2023 12:38:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1B83810E16A;
-	Sat,  8 Apr 2023 12:37:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CB81210E083;
+	Sat,  8 Apr 2023 10:38:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x334.google.com (mail-ot1-x334.google.com
- [IPv6:2607:f8b0:4864:20::334])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B9DA110E083
- for <dri-devel@lists.freedesktop.org>; Sat,  8 Apr 2023 10:33:35 +0000 (UTC)
-Received: by mail-ot1-x334.google.com with SMTP id
- bu14-20020a0568300d0e00b0069fab3f4cafso418541otb.9
- for <dri-devel@lists.freedesktop.org>; Sat, 08 Apr 2023 03:33:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=protocubo.io; s=google; t=1680950013; x=1683542013;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=atnnfYB8H/1cRTIRhOKd2CzwH9WdqCAcJhjKRDN3luY=;
- b=f36p8T3+z/J6u/o8geXfldjzGTUKvuBwnCOq8aVhPB5Yq0scv4lu22t0IvydiWVBM7
- CU08wz3QuGcIPb3yAdVhAgW3usOu6fLAX0B9dTUyF+DdJBVTJT8oOMZeeGHVuzEsk8U/
- ACJmBPiPbyDgvFE4BNoYWI2q2/7yDxQ5j48C6PILBZX/SdxNHL3oqGlqu/dDTMUrJmJs
- 0bwnWui1/dIDcDI/PfO4ScpNdmG7VY3T6R/tIZlS7SRCQlputLk0u0J6wwKpSjlPmnKv
- U/RapLU0djwI0HQLlzVT8qQP9mV23Tbd/Y8AXD8hueIbuxcQessr9EfpsfZaTW/UQGCf
- bfxQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680950013; x=1683542013;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=atnnfYB8H/1cRTIRhOKd2CzwH9WdqCAcJhjKRDN3luY=;
- b=Un49vIJcjenv3ql30s9jSLeX2wZlfDXGUV+qdASwCrCbuHllR6iznAqMoUnX4LCK8U
- xhwqw3z5UREheNZNzd+9h9SZgyMcqHujiFxpfpXLUp6fFA9s4zH+7bWWmF8GxdgbyB0W
- Le5prA5JSlMOSfKR56rfPNeSxhNQ/BONii67CIydYUfHDteVodRost282p6PqSHKxKH2
- +pcF19nMR+y6oIWRvLsk2ezb1SVz1+kyqDRVuUMwRJzL6ogn4GkS6fbckwrGq58U8Wbi
- yxagrDF0SNMKcCiXvad4YDPxM3paHwqyybtXyVZ6sSWpQhHNoNpX/IkRmIT7rmWrn4HN
- 3o+w==
-X-Gm-Message-State: AAQBX9fC1RkU6bJ339b8v4jDRj/lHfeY+mufM9o/JOzzIJGxmf4M5UkI
- n/8BwZSCf/FtETKIStDn2sDWdA==
-X-Google-Smtp-Source: AKy350absmUQ6HrjCN8ybKL7JT651jVYn5RTh9izjX/ysr91076zOIBiNMnDzdw113Fn8tlB/GuQ7Q==
-X-Received: by 2002:a05:6830:101:b0:6a1:7f69:ffbf with SMTP id
- i1-20020a056830010100b006a17f69ffbfmr2146604otp.36.1680950013453; 
- Sat, 08 Apr 2023 03:33:33 -0700 (PDT)
-Received: from calvin.localdomain ([2804:14d:5c5e:5d5b::1000])
- by smtp.gmail.com with ESMTPSA id
- m14-20020a9d6ace000000b0068bcf7995aesm2442533otq.64.2023.04.08.03.33.22
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 08 Apr 2023 03:33:32 -0700 (PDT)
-Date: Sat, 8 Apr 2023 07:33:20 -0300
-From: Jonas Malaco <jonas@protocubo.io>
-To: Aleksandr Mezin <mezin.alexander@gmail.com>
-Subject: Re: [PATCH 48/68] hwmon: nzxt: constify pointers to hwmon_channel_info
-Message-ID: <jkptl4g7jwhz3mij5wffbw2qlwvxsmnwpqhyalq2ayd76pde2h@jfdw7jisg4at>
-References: <20230406203103.3011503-1-krzysztof.kozlowski@linaro.org>
- <20230406203530.3012191-7-krzysztof.kozlowski@linaro.org>
- <CADnvcfKwHJ=dOFH1+DsDfn6Y5k6xdzA7QR1uVDv1afwCsiso3w@mail.gmail.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A6A1810E083
+ for <dri-devel@lists.freedesktop.org>; Sat,  8 Apr 2023 10:38:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1680950333; x=1712486333;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=tj/ggpYw50HfAyBFPq7ICd0Kc7tgKVtlkma/BblHx2Y=;
+ b=fMteUlNDmv2Nw3G7d1z29TVFGCYd9nkcKlO/H1x12yPOjhxxrsWQcsqZ
+ ZJtwifZjeIna+48tGVBvmXVGnUe+44oBAjo/q+014Bn6ONhJTyQwGbE6d
+ n0TssVJzTwhEX4PCQ05EKCZK1dhUYzskFKGALKvuz9Mt792bY5tMj5P0i
+ kcb9bQ3MCW1RgfYl7wiOCeNgsiDvH94cCh1jLmKwjw3CExcHGYJ9VFs0w
+ 54phoF2883NiGMiYpyRO0hoWnQUPVW0Pd+SU6pfFxPPWMbtxg0o3pKUFP
+ qhe/uaKQr+R1wFsxUI9xfzFYIuWXaw+z8gnb2JEiFPzEwPwgI7pCaqQfD A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10673"; a="344911162"
+X-IronPort-AV: E=Sophos;i="5.98,329,1673942400"; d="scan'208";a="344911162"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Apr 2023 03:38:52 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10673"; a="665149579"
+X-IronPort-AV: E=Sophos;i="5.98,329,1673942400"; d="scan'208";a="665149579"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+ by orsmga006.jf.intel.com with ESMTP; 08 Apr 2023 03:38:48 -0700
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1pl5y0-000Tdf-0b;
+ Sat, 08 Apr 2023 10:38:44 +0000
+Date: Sat, 8 Apr 2023 18:38:33 +0800
+From: kernel test robot <lkp@intel.com>
+To: Deepanshu Kartikey <kartikey406@gmail.com>, gregkh@linuxfoundation.org
+Subject: Re: [PATCH] Staging: fbtft: fbtft-bus: fixed extra space and
+ parenthesis issue
+Message-ID: <202304081830.7kKqUkLL-lkp@intel.com>
+References: <20230408050323.70919-1-kartikey406@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CADnvcfKwHJ=dOFH1+DsDfn6Y5k6xdzA7QR1uVDv1afwCsiso3w@mail.gmail.com>
-X-Mailman-Approved-At: Sat, 08 Apr 2023 12:37:55 +0000
+In-Reply-To: <20230408050323.70919-1-kartikey406@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,60 +60,122 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tomer Maimon <tmaimon77@gmail.com>,
- Eric Tremblay <etremblay@distech-controls.com>, Tom Rix <trix@redhat.com>,
- Jean-Marie Verdun <verdun@hpe.com>, Clemens Ladisch <clemens@ladisch.de>,
- dri-devel@lists.freedesktop.org, Nuno =?utf-8?B?U8Oh?= <nuno.sa@analog.com>,
- Rudolf Marek <r.marek@assembler.cz>, Michael Walle <michael@walle.cc>,
- UNGLinuxDriver@microchip.com, Florian Fainelli <f.fainelli@gmail.com>,
- Benjamin Fair <benjaminfair@google.com>, Jonathan Corbet <corbet@lwn.net>,
- Steen Hegelund <Steen.Hegelund@microchip.com>, linux-doc@vger.kernel.org,
- Derek John Clark <derekjohn.clark@gmail.com>, openbmc@lists.ozlabs.org,
- Nancy Yuen <yuenn@google.com>,
- Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
- linux-arm-kernel@lists.infradead.org, Aleksa Savic <savicaleksa83@gmail.com>,
- Guenter Roeck <linux@roeck-us.net>, Jean Delvare <jdelvare@suse.com>,
- Charles Keepax <ckeepax@opensource.cirrus.com>,
- Daniel Machon <daniel.machon@microchip.com>,
- Michael Hennerich <Michael.Hennerich@analog.com>,
- Robert Marko <robert.marko@sartura.hr>,
- =?utf-8?Q?Joaqu=C3=ADn_Ignacio_Aramend=C3=ADa?= <samsagax@gmail.com>,
- Wilken Gottwalt <wilken.gottwalt@posteo.net>,
- Richard Fitzgerald <rf@opensource.cirrus.com>,
- Agathe Porte <agathe.porte@nokia.com>, linux-rpi-kernel@lists.infradead.org,
- Nick Hawkins <nick.hawkins@hpe.com>, Tali Perry <tali.perry1@gmail.com>,
- Lars Povlsen <lars.povlsen@microchip.com>, linux-hwmon@vger.kernel.org,
- Hans de Goede <hdegoede@redhat.com>, Avi Fishman <avifishman70@gmail.com>,
- Patrick Venture <venture@google.com>, Oded Gabbay <ogabbay@kernel.org>,
- Iwona Winiarska <iwona.winiarska@intel.com>, linux-kernel@vger.kernel.org,
- Jack Doan <me@jackdoan.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Marius Zachmann <mail@mariuszachmann.de>,
- Ibrahim Tilki <Ibrahim.Tilki@analog.com>, patches@opensource.cirrus.com,
- Pali =?utf-8?B?Um9ow6Fy?= <pali@kernel.org>, Xu Yilun <yilun.xu@intel.com>
+Cc: linux-fbdev@vger.kernel.org, llvm@lists.linux.dev,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, oe-kbuild-all@lists.linux.dev,
+ Deepanshu Kartikey <kartikey406@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Apr 08, 2023 at 06:14:19AM +0300, Aleksandr Mezin wrote:
-> On Thu, Apr 6, 2023 at 11:37 PM Krzysztof Kozlowski
-> <krzysztof.kozlowski@linaro.org> wrote:
-> > -static const struct hwmon_channel_info *nzxt_smart2_channel_info[] = {
-> > +static const struct hwmon_channel_info * const nzxt_smart2_channel_info[] = {
-> 
-> In the rest of nzxt-smart2.c there are spaces only before "*", not on
-> both sides (and there are a few "*const" already). Would be nice to
-> keep it consistent. The same seems to be true for nzxt-kraken2.c
-> (although I'm not a maintainer)
+Hi Deepanshu,
 
-While I don't have a strong preference for either `* const` or `*const`,
-it would be prefereable to use a single style in any given file.
+kernel test robot noticed the following build errors:
 
-As the kernel seems to favor the former style:
+[auto build test ERROR on staging/staging-testing]
 
-$ rg -F '*const ' | wc -l
-2593
-$ rg -F '* const ' | wc -l
-15359
+url:    https://github.com/intel-lab-lkp/linux/commits/Deepanshu-Kartikey/Staging-fbtft-fbtft-bus-fixed-extra-space-and-parenthesis-issue/20230408-130429
+patch link:    https://lore.kernel.org/r/20230408050323.70919-1-kartikey406%40gmail.com
+patch subject: [PATCH] Staging: fbtft: fbtft-bus: fixed extra space and parenthesis issue
+config: i386-randconfig-a002-20230403 (https://download.01.org/0day-ci/archive/20230408/202304081830.7kKqUkLL-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/a5c79ed6665465f3101e8251ca030a600cf1ea88
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Deepanshu-Kartikey/Staging-fbtft-fbtft-bus-fixed-extra-space-and-parenthesis-issue/20230408-130429
+        git checkout a5c79ed6665465f3101e8251ca030a600cf1ea88
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
 
-it would be better to change the other two locations in nzxt-kraken2.c
-to also use `* const`.
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202304081830.7kKqUkLL-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> drivers/staging/fbtft/fbtft-bus.c:65:53: error: too few arguments provided to function-like macro invocation
+   define_fbtft_write_reg(fbtft_write_reg8_bus8, u8, u8)
+                                                       ^
+   drivers/staging/fbtft/fbtft-bus.c:14:9: note: macro 'define_fbtft_write_reg' defined here
+   #define define_fbtft_write_reg(func, buffer_type, data_type, modifier)        \
+           ^
+>> drivers/staging/fbtft/fbtft-bus.c:65:1: error: unknown type name 'define_fbtft_write_reg'
+   define_fbtft_write_reg(fbtft_write_reg8_bus8, u8, u8)
+   ^
+   drivers/staging/fbtft/fbtft-bus.c:67:57: error: too few arguments provided to function-like macro invocation
+   define_fbtft_write_reg(fbtft_write_reg16_bus16, u16, u16)
+                                                           ^
+   drivers/staging/fbtft/fbtft-bus.c:14:9: note: macro 'define_fbtft_write_reg' defined here
+   #define define_fbtft_write_reg(func, buffer_type, data_type, modifier)        \
+           ^
+   drivers/staging/fbtft/fbtft-bus.c:67:1: error: unknown type name 'define_fbtft_write_reg'
+   define_fbtft_write_reg(fbtft_write_reg16_bus16, u16, u16)
+   ^
+>> drivers/staging/fbtft/fbtft-bus.c:86:3: error: non-void function 'fbtft_write_reg8_bus9' should return a value [-Wreturn-type]
+                   return;
+                   ^
+   drivers/staging/fbtft/fbtft-bus.c:109:3: error: non-void function 'fbtft_write_reg8_bus9' should return a value [-Wreturn-type]
+                   return;
+                   ^
+   6 errors generated.
+
+
+vim +65 drivers/staging/fbtft/fbtft-bus.c
+
+    64	
+  > 65	define_fbtft_write_reg(fbtft_write_reg8_bus8, u8, u8)
+    66	define_fbtft_write_reg(fbtft_write_reg16_bus8, __be16, u16, cpu_to_be16)
+  > 67	define_fbtft_write_reg(fbtft_write_reg16_bus16, u16, u16)
+    68	
+    69	void fbtft_write_reg8_bus9(struct fbtft_par *par, int len, ...)
+    70	{
+    71		va_list args;
+    72		int i, ret;
+    73		int pad = 0;
+    74		u16 *buf = (u16 *)par->buf;
+    75	
+    76		if (unlikely(par->debug & DEBUG_WRITE_REGISTER)) {
+    77			va_start(args, len);
+    78			for (i = 0; i < len; i++)
+    79				*(((u8 *)buf) + i) = (u8)va_arg(args, unsigned int);
+    80			va_end(args);
+    81			fbtft_par_dbg_hex(DEBUG_WRITE_REGISTER, par,
+    82					  par->info->device, u8, buf, len, "%s: ",
+    83					  __func__);
+    84		}
+    85		if (len <= 0)
+  > 86			return;
+    87	
+    88		if (par->spi && (par->spi->bits_per_word == 8)) {
+    89			/* we're emulating 9-bit, pad start of buffer with no-ops
+    90			 * (assuming here that zero is a no-op)
+    91			 */
+    92			pad = (len % 4) ? 4 - (len % 4) : 0;
+    93			for (i = 0; i < pad; i++)
+    94				*buf++ = 0x000;
+    95		}
+    96	
+    97		va_start(args, len);
+    98		*buf++ = (u8)va_arg(args, unsigned int);
+    99		i = len - 1;
+   100		while (i--) {
+   101			*buf = (u8)va_arg(args, unsigned int);
+   102			*buf++ |= 0x100; /* dc=1 */
+   103		}
+   104		va_end(args);
+   105		ret = par->fbtftops.write(par, par->buf, (len + pad) * sizeof(u16));
+   106		if (ret < 0) {
+   107			dev_err(par->info->device,
+   108				"write() failed and returned %d\n", ret);
+   109			return;
+   110		}
+   111	}
+   112	EXPORT_SYMBOL(fbtft_write_reg8_bus9);
+   113	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
