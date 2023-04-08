@@ -2,68 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C1826DB941
-	for <lists+dri-devel@lfdr.de>; Sat,  8 Apr 2023 09:07:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9BA36DB952
+	for <lists+dri-devel@lfdr.de>; Sat,  8 Apr 2023 09:45:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B484210E11A;
-	Sat,  8 Apr 2023 07:07:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 66F1610E030;
+	Sat,  8 Apr 2023 07:45:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com
- [IPv6:2a00:1450:4864:20::62b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D15B610E11A
- for <dri-devel@lists.freedesktop.org>; Sat,  8 Apr 2023 07:07:43 +0000 (UTC)
-Received: by mail-ej1-x62b.google.com with SMTP id
- a640c23a62f3a-9476e2fa157so210586366b.3
- for <dri-devel@lists.freedesktop.org>; Sat, 08 Apr 2023 00:07:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1680937660;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=vXoFjgpD9Cwq3kIRxNGd8ecDEoW5EyNl4Aqp94FhPuY=;
- b=T3cs/IbldKyYw0jlOQBYubSsMBksZ/OsOf01EiSQRyLFouIQ/LDT6VDaWTlzucFVme
- RSog9LR8VZ4x519GvDIpPxMIeqdaNYkx/9wcSNiDms+hRFIxycfbb2vt/vJSRXP7GG8/
- bq5r5YGs8GbCitPKhjmMiXFm917Yv4Osfscaa5ScKJNuBPNjLtOIIgnEdyfIz8CLEiy9
- KcDOBHFXhvjTUzSF/hP7E8h2EGvBLHJJNFz9vXMbRbOV0UqwzixgBXrC2WlY+5hJIogd
- CIHCqETGiVSLF9EXN2q69VUcLduz0rrPXxn/vxw0FT5shCF0rvelG2pwLZdE/ZSCRqsw
- uPLg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680937660;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=vXoFjgpD9Cwq3kIRxNGd8ecDEoW5EyNl4Aqp94FhPuY=;
- b=Bv4AE10+ENpDYikHNupEq9YbI5FANDgAU0mSuX+ht0maVLFl6g6UvOP5pP22qzDawe
- Ox5Aa2cOPZ4uKM9MgdYzt/EreqJzQytNPu89IOhQ5rz6scbWg7cg9ISVwaCEyMCznkIx
- vOC5dDLyh0gRTJtjbc7qsg69t82iizMoR9LjMZQcOqenQZjGHkbot+hIiBjFBuJztwVI
- /WyhRSgpjgWBLNZMxQNelS8oNQb3ylzD3vc6I7JV2Iyz6mJB0uzz2VfmKXdZxU4GqV2Q
- bBMBatNiMftMf/oQ9YHcwNURb/0ExA37zmc2H3u0VumyG63JI5jYYtVY3fip+e9UXFbF
- XUOQ==
-X-Gm-Message-State: AAQBX9fBft/SGm6sNW9N7+gu2A66Kk93fpa8Qmj4ablP092XoJfEolDs
- kKBWmdlGnz6pfewzosECCCA=
-X-Google-Smtp-Source: AKy350ax5r2EKzYegd2xSOZGrwHN58yVwJQh5K3T49zBPaaDMonr78zO1J+MoRtd49ztjKFYPf0xuw==
-X-Received: by 2002:a05:6402:b09:b0:501:cde5:4cc9 with SMTP id
- bm9-20020a0564020b0900b00501cde54cc9mr3621206edb.39.1680937659702; 
- Sat, 08 Apr 2023 00:07:39 -0700 (PDT)
-Received: from jernej-laptop.localnet (89-212-118-115.static.t-2.net.
- [89.212.118.115]) by smtp.gmail.com with ESMTPSA id
- c90-20020a509fe3000000b005047d3c8700sm1285380edf.65.2023.04.08.00.07.38
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 08 Apr 2023 00:07:39 -0700 (PDT)
-From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Maxime Ripard <maxime@cerno.tech>, Roman Beranek <romanberanek@icloud.com>
-Subject: Re: [PATCH] drm/sun4i: uncouple DSI dotclock divider from
- TCON0_DCLK_REG
-Date: Sat, 08 Apr 2023 09:07:37 +0200
-Message-ID: <2219295.iZASKD2KPV@jernej-laptop>
-In-Reply-To: <CROTQHUM88W0.2URPO95U5ZMS5@void.crly.cz>
-References: <20230320161636.24411-1-romanberanek@icloud.com>
- <20230329195802.veybo3367zifw77n@penduick>
- <CROTQHUM88W0.2URPO95U5ZMS5@void.crly.cz>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4F2B310E030
+ for <dri-devel@lists.freedesktop.org>; Sat,  8 Apr 2023 07:45:20 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 5CFFB61551;
+ Sat,  8 Apr 2023 07:45:18 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D8867C433EF;
+ Sat,  8 Apr 2023 07:45:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1680939917;
+ bh=YaUho/VPCOlj4Q5FLtGuBi+JUcU0gM9iFb8ECZ4FFUY=;
+ h=From:To:Cc:Subject:Date:From;
+ b=ZJYsFRm5B4geOWjbbW2yQTk7T1ewa9lHzFlIwtzeaWy7b8wJXymcqq9kGCLF23Umv
+ VXdGr8bjPdptYir1fMghajJnJBXJLskb0zv71V/5V4R57+BkPAleqjxF/gVs4vI+op
+ uL3hDKFYAQOZbIjhPEO6I1NXRv2B31Bqh7ZJJHY4XKdFYX94wCdXxuGM0HP6yJsTM2
+ QIZqIjrZW9l5UyotEhv0A/D0t4gBc94N+GHtVVDsx1kzrCE/oCyN/kPUUcEr95rbYk
+ 881tIuYS2Bi16RM6y8K8vzlKYZBQuG21BBKqgtfU9GyYeEFa5Uu0aumAteUn5lp2MA
+ RoyaUmjXVgQ8w==
+From: Oded Gabbay <ogabbay@kernel.org>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH 1/4] accel/habanalabs: remove Gaudi1 multi MSI code
+Date: Sat,  8 Apr 2023 10:45:09 +0300
+Message-Id: <20230408074512.2277163-1-ogabbay@kernel.org>
+X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,56 +50,210 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Samuel Holland <samuel@sholland.org>, Frank Oltmanns <frank@oltmanns.dev>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Chen-Yu Tsai <wens@csie.org>, linux-sunxi@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org
+Cc: Ofir Bitton <obitton@habana.ai>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Dne sreda, 05. april 2023 ob 14:34:11 CEST je Roman Beranek napisal(a):
-> Hello Maxime,
-> 
-> On Wed Mar 29, 2023 at 9:58 PM CEST, Maxime Ripard wrote:
-> > > In order to preserve semantic correctness however, I propose to preface
-> > > the change with a patch that renames sun4i_dotclock and tcon-pixel-clock
-> > > such that dot/pixel is replaced with d/data. What do you think?
-> > 
-> > I don't think it's exposed to the userspace in any way so it makes sense
-> > to me
-> Here's a new series that includes those renames:
-> <https://lore.kernel.org/all/20230331110245.43527-1-me@crly.cz/>
-> 
-> It turns out however that the new dclk rates can't be set exactly as
-> requested without touching pll-video0*, tcon0 now therefore gets
-> reparented from pll-mipi to pll-video0-2x which, as it further turns
-> out, breaks DSI. While simply forbidding the video0-2x mux option seems
-> to me as the right way to go because there's not much use for it with
-> non-DSI interfaces either besides the opportunity to power pll-mipi
-> down, I'd like to run by you first.
+From: Ofir Bitton <obitton@habana.ai>
 
-It's been a long time since I looked at A64 HDMI clocks, but IIRC, pll-video0 
-is the only useful source for HDMI PHY (as opposed to HDMI controller.)
-So question remains how to properly support both displays at the same time.
+Multi MSI interrupts aren't working in Gaudi1 and because of that,
+we are only using a single MSI interrupt. Therefore, let's remove this
+dead code in order to avoid confusion.
 
-Have you ever tried to make HDMI and DSI work at the same time? This is one of 
-issues of the PinePhone IIUC.
+Signed-off-by: Ofir Bitton <obitton@habana.ai>
+Reviewed-by: Oded Gabbay <ogabbay@kernel.org>
+Signed-off-by: Oded Gabbay <ogabbay@kernel.org>
+---
+ drivers/accel/habanalabs/gaudi/gaudi.c  | 83 ++-----------------------
+ drivers/accel/habanalabs/gaudi/gaudiP.h | 15 -----
+ 2 files changed, 5 insertions(+), 93 deletions(-)
 
-
-> 
-> Kind regards,
-> Roman
-> 
-> * As pll-mipi doesn't have CLK_SET_RATE_PARENT flag set, pll-video0
->   retains its boot-time rate of 294 MHz set by sunxi-dw-hdmi driver
->   in u-boot. Why 294 MHz (as opposed to the default rate of 297 MHz)?
->   The driver actually asks for 297 MHz, clock_set_pll3 rounds it to
->   294 MHz though because it limits itself to 6 MHz steps.
-
-Yeah, we added CLK_SET_RATE_PARENT flag to several clocks after initial driver 
-was merged. Adding this flag sounds completely reasonable.
-
-Best regards,
-Jernej
-
+diff --git a/drivers/accel/habanalabs/gaudi/gaudi.c b/drivers/accel/habanalabs/gaudi/gaudi.c
+index 2ad8e4efce7f..a29aa8f7b6f3 100644
+--- a/drivers/accel/habanalabs/gaudi/gaudi.c
++++ b/drivers/accel/habanalabs/gaudi/gaudi.c
+@@ -2020,38 +2020,6 @@ static int gaudi_enable_msi_single(struct hl_device *hdev)
+ 	return rc;
+ }
+ 
+-static int gaudi_enable_msi_multi(struct hl_device *hdev)
+-{
+-	int cq_cnt = hdev->asic_prop.completion_queues_count;
+-	int rc, i, irq_cnt_init, irq;
+-
+-	for (i = 0, irq_cnt_init = 0 ; i < cq_cnt ; i++, irq_cnt_init++) {
+-		irq = gaudi_pci_irq_vector(hdev, i, false);
+-		rc = request_irq(irq, hl_irq_handler_cq, 0, gaudi_irq_name[i],
+-				&hdev->completion_queue[i]);
+-		if (rc) {
+-			dev_err(hdev->dev, "Failed to request IRQ %d", irq);
+-			goto free_irqs;
+-		}
+-	}
+-
+-	irq = gaudi_pci_irq_vector(hdev, GAUDI_EVENT_QUEUE_MSI_IDX, true);
+-	rc = request_irq(irq, hl_irq_handler_eq, 0, gaudi_irq_name[cq_cnt],
+-				&hdev->event_queue);
+-	if (rc) {
+-		dev_err(hdev->dev, "Failed to request IRQ %d", irq);
+-		goto free_irqs;
+-	}
+-
+-	return 0;
+-
+-free_irqs:
+-	for (i = 0 ; i < irq_cnt_init ; i++)
+-		free_irq(gaudi_pci_irq_vector(hdev, i, false),
+-				&hdev->completion_queue[i]);
+-	return rc;
+-}
+-
+ static int gaudi_enable_msi(struct hl_device *hdev)
+ {
+ 	struct gaudi_device *gaudi = hdev->asic_specific;
+@@ -2066,14 +2034,7 @@ static int gaudi_enable_msi(struct hl_device *hdev)
+ 		return rc;
+ 	}
+ 
+-	if (rc < NUMBER_OF_INTERRUPTS) {
+-		gaudi->multi_msi_mode = false;
+-		rc = gaudi_enable_msi_single(hdev);
+-	} else {
+-		gaudi->multi_msi_mode = true;
+-		rc = gaudi_enable_msi_multi(hdev);
+-	}
+-
++	rc = gaudi_enable_msi_single(hdev);
+ 	if (rc)
+ 		goto free_pci_irq_vectors;
+ 
+@@ -2089,47 +2050,23 @@ static int gaudi_enable_msi(struct hl_device *hdev)
+ static void gaudi_sync_irqs(struct hl_device *hdev)
+ {
+ 	struct gaudi_device *gaudi = hdev->asic_specific;
+-	int i, cq_cnt = hdev->asic_prop.completion_queues_count;
+ 
+ 	if (!(gaudi->hw_cap_initialized & HW_CAP_MSI))
+ 		return;
+ 
+ 	/* Wait for all pending IRQs to be finished */
+-	if (gaudi->multi_msi_mode) {
+-		for (i = 0 ; i < cq_cnt ; i++)
+-			synchronize_irq(gaudi_pci_irq_vector(hdev, i, false));
+-
+-		synchronize_irq(gaudi_pci_irq_vector(hdev,
+-						GAUDI_EVENT_QUEUE_MSI_IDX,
+-						true));
+-	} else {
+-		synchronize_irq(gaudi_pci_irq_vector(hdev, 0, false));
+-	}
++	synchronize_irq(gaudi_pci_irq_vector(hdev, 0, false));
+ }
+ 
+ static void gaudi_disable_msi(struct hl_device *hdev)
+ {
+ 	struct gaudi_device *gaudi = hdev->asic_specific;
+-	int i, irq, cq_cnt = hdev->asic_prop.completion_queues_count;
+ 
+ 	if (!(gaudi->hw_cap_initialized & HW_CAP_MSI))
+ 		return;
+ 
+ 	gaudi_sync_irqs(hdev);
+-
+-	if (gaudi->multi_msi_mode) {
+-		irq = gaudi_pci_irq_vector(hdev, GAUDI_EVENT_QUEUE_MSI_IDX,
+-						true);
+-		free_irq(irq, &hdev->event_queue);
+-
+-		for (i = 0 ; i < cq_cnt ; i++) {
+-			irq = gaudi_pci_irq_vector(hdev, i, false);
+-			free_irq(irq, &hdev->completion_queue[i]);
+-		}
+-	} else {
+-		free_irq(gaudi_pci_irq_vector(hdev, 0, false), hdev);
+-	}
+-
++	free_irq(gaudi_pci_irq_vector(hdev, 0, false), hdev);
+ 	pci_free_irq_vectors(hdev->pdev);
+ 
+ 	gaudi->hw_cap_initialized &= ~HW_CAP_MSI;
+@@ -3924,11 +3861,7 @@ static int gaudi_init_cpu_queues(struct hl_device *hdev, u32 cpu_timeout)
+ 
+ 	WREG32(mmCPU_IF_PF_PQ_PI, 0);
+ 
+-	if (gaudi->multi_msi_mode)
+-		WREG32(mmCPU_IF_QUEUE_INIT, PQ_INIT_STATUS_READY_FOR_CP);
+-	else
+-		WREG32(mmCPU_IF_QUEUE_INIT,
+-			PQ_INIT_STATUS_READY_FOR_CP_SINGLE_MSI);
++	WREG32(mmCPU_IF_QUEUE_INIT, PQ_INIT_STATUS_READY_FOR_CP_SINGLE_MSI);
+ 
+ 	irq_handler_offset = prop->gic_interrupts_enable ?
+ 			mmGIC_DISTRIBUTOR__5_GICD_SETSPI_NSR :
+@@ -5605,7 +5538,6 @@ static void gaudi_add_end_of_cb_packets(struct hl_device *hdev, void *kernel_add
+ 				u32 len, u32 original_len, u64 cq_addr, u32 cq_val,
+ 				u32 msi_vec, bool eb)
+ {
+-	struct gaudi_device *gaudi = hdev->asic_specific;
+ 	struct packet_msg_prot *cq_pkt;
+ 	struct packet_nop *cq_padding;
+ 	u64 msi_addr;
+@@ -5635,12 +5567,7 @@ static void gaudi_add_end_of_cb_packets(struct hl_device *hdev, void *kernel_add
+ 	tmp |= FIELD_PREP(GAUDI_PKT_CTL_MB_MASK, 1);
+ 	cq_pkt->ctl = cpu_to_le32(tmp);
+ 	cq_pkt->value = cpu_to_le32(1);
+-
+-	if (gaudi->multi_msi_mode)
+-		msi_addr = mmPCIE_MSI_INTR_0 + msi_vec * 4;
+-	else
+-		msi_addr = mmPCIE_CORE_MSI_REQ;
+-
++	msi_addr = hdev->pdev ? mmPCIE_CORE_MSI_REQ : mmPCIE_MSI_INTR_0 + msi_vec * 4;
+ 	cq_pkt->addr = cpu_to_le64(CFG_BASE + msi_addr);
+ }
+ 
+diff --git a/drivers/accel/habanalabs/gaudi/gaudiP.h b/drivers/accel/habanalabs/gaudi/gaudiP.h
+index 3d88d56c8eb3..b8fa724be5a1 100644
+--- a/drivers/accel/habanalabs/gaudi/gaudiP.h
++++ b/drivers/accel/habanalabs/gaudi/gaudiP.h
+@@ -28,20 +28,8 @@
+ #define NUMBER_OF_COLLECTIVE_QUEUES	12
+ #define NUMBER_OF_SOBS_IN_GRP		11
+ 
+-/*
+- * Number of MSI interrupts IDS:
+- * Each completion queue has 1 ID
+- * The event queue has 1 ID
+- */
+-#define NUMBER_OF_INTERRUPTS		(NUMBER_OF_CMPLT_QUEUES + \
+-						NUMBER_OF_CPU_HW_QUEUES)
+-
+ #define GAUDI_STREAM_MASTER_ARR_SIZE	8
+ 
+-#if (NUMBER_OF_INTERRUPTS > GAUDI_MSI_ENTRIES)
+-#error "Number of MSI interrupts must be smaller or equal to GAUDI_MSI_ENTRIES"
+-#endif
+-
+ #define CORESIGHT_TIMEOUT_USEC		100000		/* 100 ms */
+ 
+ #define GAUDI_MAX_CLK_FREQ		2200000000ull	/* 2200 MHz */
+@@ -324,8 +312,6 @@ struct gaudi_internal_qman_info {
+  *                      signal we can use this engine in later code paths.
+  *                      Each bit is cleared upon reset of its corresponding H/W
+  *                      engine.
+- * @multi_msi_mode: whether we are working in multi MSI single MSI mode.
+- *                  Multi MSI is possible only with IOMMU enabled.
+  * @mmu_cache_inv_pi: PI for MMU cache invalidation flow. The H/W expects an
+  *                    8-bit value so use u8.
+  */
+@@ -345,7 +331,6 @@ struct gaudi_device {
+ 	u32				events_stat[GAUDI_EVENT_SIZE];
+ 	u32				events_stat_aggregate[GAUDI_EVENT_SIZE];
+ 	u32				hw_cap_initialized;
+-	u8				multi_msi_mode;
+ 	u8				mmu_cache_inv_pi;
+ };
+ 
+-- 
+2.40.0
 
