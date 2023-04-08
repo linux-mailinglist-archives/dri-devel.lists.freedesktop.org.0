@@ -2,43 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 948526DBC18
-	for <lists+dri-devel@lfdr.de>; Sat,  8 Apr 2023 18:10:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED84C6DBC38
+	for <lists+dri-devel@lfdr.de>; Sat,  8 Apr 2023 18:50:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9505710E0DA;
-	Sat,  8 Apr 2023 16:10:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5010710E15C;
+	Sat,  8 Apr 2023 16:50:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailbackend.panix.com (mailbackend.panix.com [166.84.1.89])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 85A8B10E0DA
- for <dri-devel@lists.freedesktop.org>; Sat,  8 Apr 2023 16:10:40 +0000 (UTC)
-Received: from mail.panix.com (localhost [127.0.0.1])
- by mailbackend.panix.com (Postfix) with ESMTPA id 4Pv0Zk40xWz3pXr;
- Sat,  8 Apr 2023 12:10:38 -0400 (EDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=panix.com; s=panix;
- t=1680970238; bh=2iUZf5TN6bhjLSuVEYfr0CxofZxrklYy9ca0vsjzZs0=;
- h=In-Reply-To:References:Date:Subject:From:To:Cc;
- b=TzvwiVFWvCZg6rEjjTNrxAWMnWpbjFPEyz8zJ0EL+BC7dOfQpnYwnTtqMkIxWcY/K
- WiVN3XjOdZN2A3Z6o6semY8Ke0ZvFr3oazKs82XOpQaRYJtATcuxdEU9O08to5ADi2
- MIsIDpPlvA/RWPzHH/zPmXTs+YJjvb2nxP31aI6I=
-X-Panix-Received: from 166.84.1.1
- (SquirrelMail authenticated user pa@panix.com)
- by mail.panix.com with HTTP; Sat, 8 Apr 2023 12:10:38 -0400
-Message-ID: <2ca4fbdb87a335522c22551658576e55.squirrel@mail.panix.com>
-In-Reply-To: <4Psm6B6Lqkz1QXM@panix3.panix.com>
-References: <20230102112927.26565-1-tzimmermann@suse.de>
- <20230102112927.26565-2-tzimmermann@suse.de>
- <4Psm6B6Lqkz1QXM@panix3.panix.com>
-Date: Sat, 8 Apr 2023 12:10:38 -0400
-Subject: Re: [PATCH v3 01/13] firmware/sysfb: Fix EFI/VESA format selection
-From: "Pierre Asselin" <pa@panix.com>
-To: "Pierre Asselin" <pa@panix.com>
-User-Agent: SquirrelMail/1.4.23-p1
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E5B1510E12C
+ for <dri-devel@lists.freedesktop.org>; Sat,  8 Apr 2023 16:50:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1680972630;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=qy6SYd3f0i8ho8eow+vyxJgxXrM08wU7g/SGD1LI0yQ=;
+ b=i1Gx6z0jy16VyqEUyKRFEYmd9wPWBp0MM3rjsYHxAUbDE8suZf9FnMrA/Gtli4K6hK0w1a
+ BikDCdXGiFGWXclHQK71JzLbOS5OAQ615Rlz6MlZFezFB5GkwPfwaEKpGPzBCeTaLOJJeS
+ l4jOPIKBcZUR4ybc8/257vuVzVW/Uco=
+Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
+ [209.85.219.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-55-Q-8cJqOUM_qEdJDBzCGuzQ-1; Sat, 08 Apr 2023 12:50:26 -0400
+X-MC-Unique: Q-8cJqOUM_qEdJDBzCGuzQ-1
+Received: by mail-qv1-f70.google.com with SMTP id
+ f6-20020a0cc306000000b005a676b725a2so804709qvi.18
+ for <dri-devel@lists.freedesktop.org>; Sat, 08 Apr 2023 09:50:26 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1680972626;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=qy6SYd3f0i8ho8eow+vyxJgxXrM08wU7g/SGD1LI0yQ=;
+ b=hC/l1xPmYKcHxiengGvjre3B0awJI98vqE2CSGQCXw7NTtI7uSZM3X6RjP6ZbxrUF/
+ xVlLaS9enTVeEkGItrZCfbfbWkYp6q3QeUz1mbcxNQAXilJmhkY3S7Zo/KhgHf0ysw9k
+ QUCnqjWtY1B5qty3JWD9zWZYvLSrIbrI4hxq5OXCizwfObTdjrV0Ujfaz7GhMpzXhLX0
+ prRr6VSA8eczf4xS7Fot6pFFWPw33hceqnLfuYYsnXSTkDAIMFef9Hu0TK3ET4V4A0K8
+ 6tGW+vC5jdJJ8b9yefAt8FKQ7ARI2kfmrxkoQFkTH85lrYAb4qzYOwQ+YCbfEg9O/PB3
+ JWrg==
+X-Gm-Message-State: AAQBX9cHWfSfDEKtF6Ewi9O+VvZyLOr0uet1ZoAqcyfrU4K/LfLF7+7B
+ a3CDYYyurEqCPrxueDix2GaPHkNMn9xa8dzu4dcJoDWUlFVsj10e0w+j8Oq1eZcTQSPJyVxn8Zg
+ f+LGFgq0f4Pv7Tty+OI4OieGSvoYu
+X-Received: by 2002:a05:622a:15c3:b0:3e1:b06d:e9e1 with SMTP id
+ d3-20020a05622a15c300b003e1b06de9e1mr3842264qty.57.1680972626213; 
+ Sat, 08 Apr 2023 09:50:26 -0700 (PDT)
+X-Google-Smtp-Source: AKy350a46s9y+/itqppzPjf57cV1ZevRRKIKzqVvsO1UIrG/xBtSg7j5IKxAIQvMkkT/GV64uTG74Q==
+X-Received: by 2002:a05:622a:15c3:b0:3e1:b06d:e9e1 with SMTP id
+ d3-20020a05622a15c300b003e1b06de9e1mr3842236qty.57.1680972625999; 
+ Sat, 08 Apr 2023 09:50:25 -0700 (PDT)
+Received: from dell-per740-01.7a2m.lab.eng.bos.redhat.com
+ (nat-pool-bos-t.redhat.com. [66.187.233.206])
+ by smtp.gmail.com with ESMTPSA id
+ s128-20020a372c86000000b0074688c36facsm2113865qkh.56.2023.04.08.09.50.25
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 08 Apr 2023 09:50:25 -0700 (PDT)
+From: Tom Rix <trix@redhat.com>
+To: airlied@redhat.com, kraxel@redhat.com, airlied@gmail.com, daniel@ffwll.ch,
+ nathan@kernel.org, ndesaulniers@google.com
+Subject: [PATCH] drm/qxl: remove variable count
+Date: Sat,  8 Apr 2023 12:50:23 -0400
+Message-Id: <20230408165023.2706235-1-trix@redhat.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-Content-Type: text/plain;charset=iso-8859-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
-X-Priority: 3 (Normal)
-Importance: Normal
+Content-Type: text/plain; charset="US-ASCII"; x-default=true
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,20 +82,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Pierre Asselin <pa@panix.com>, javierm@redhat.com, mairacanal@riseup.net,
- dri-devel@lists.freedesktop.org, tzimmermann@suse.de,
- jose.exposito89@gmail.com
+Cc: Tom Rix <trix@redhat.com>, llvm@lists.linux.dev,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ virtualization@lists.linux-foundation.org, spice-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Oh oh, I just reproduced the problem on a desktop tower, a Dell Precision
-T3610, probably 2019 vintage.  The only thing in common with the old
-laptop, that I can think of, is that both use the legacy BIOS.  The Dell
-has EFI but the graphics card may not support that; there is no integrated
-graphics, if I switch to EFI and lose the video I may not be able to switch
-back.
+clang with W=1 reports
+drivers/gpu/drm/qxl/qxl_cmd.c:424:6: error: variable
+  'count' set but not used [-Werror,-Wunused-but-set-variable]
+        int count = 0;
+            ^
+This variable is not used so remove it.
 
-Recommend some testing on boxes with legacy BIOS.
+Signed-off-by: Tom Rix <trix@redhat.com>
+---
+ drivers/gpu/drm/qxl/qxl_cmd.c | 2 --
+ 1 file changed, 2 deletions(-)
 
---PA
+diff --git a/drivers/gpu/drm/qxl/qxl_cmd.c b/drivers/gpu/drm/qxl/qxl_cmd.c
+index 281edab518cd..d6ea01f3797b 100644
+--- a/drivers/gpu/drm/qxl/qxl_cmd.c
++++ b/drivers/gpu/drm/qxl/qxl_cmd.c
+@@ -421,7 +421,6 @@ int qxl_surface_id_alloc(struct qxl_device *qdev,
+ {
+ 	uint32_t handle;
+ 	int idr_ret;
+-	int count = 0;
+ again:
+ 	idr_preload(GFP_ATOMIC);
+ 	spin_lock(&qdev->surf_id_idr_lock);
+@@ -433,7 +432,6 @@ int qxl_surface_id_alloc(struct qxl_device *qdev,
+ 	handle = idr_ret;
+ 
+ 	if (handle >= qdev->rom->n_surfaces) {
+-		count++;
+ 		spin_lock(&qdev->surf_id_idr_lock);
+ 		idr_remove(&qdev->surf_id_idr, handle);
+ 		spin_unlock(&qdev->surf_id_idr_lock);
+-- 
+2.27.0
 
