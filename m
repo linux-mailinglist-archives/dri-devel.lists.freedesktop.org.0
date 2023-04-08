@@ -2,60 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5595B6DB7D0
-	for <lists+dri-devel@lfdr.de>; Sat,  8 Apr 2023 02:28:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 185336DB7D7
+	for <lists+dri-devel@lfdr.de>; Sat,  8 Apr 2023 02:28:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EE05D10EE82;
-	Sat,  8 Apr 2023 00:27:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5026510EEA5;
+	Sat,  8 Apr 2023 00:28:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com
- [IPv6:2a00:1450:4864:20::12f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 21BD410EE97
+Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com
+ [IPv6:2a00:1450:4864:20::132])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1A4BB10E0A6
  for <dri-devel@lists.freedesktop.org>; Sat,  8 Apr 2023 00:27:54 +0000 (UTC)
-Received: by mail-lf1-x12f.google.com with SMTP id z8so1931338lfb.12
- for <dri-devel@lists.freedesktop.org>; Fri, 07 Apr 2023 17:27:53 -0700 (PDT)
+Received: by mail-lf1-x132.google.com with SMTP id z26so15737lfj.11
+ for <dri-devel@lists.freedesktop.org>; Fri, 07 Apr 2023 17:27:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1680913671;
+ d=linaro.org; s=google; t=1680913672;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=XsyKZB+D1tDZFHgYJ4nYnuAQxnj0NBUo0WN0E3vSvz8=;
- b=NlvOLk2Y56T0fwX79yVLjJGI5j879fgEL5zhJt67rHQAXuk2daI9u1kLkCXSSVp1sg
- U46Rq6c7hKYD4MyzrwVzMX7/Vz7W9PNoMxQ4RFWr4myqgBxxBx2Kx3oyCrBQBgu55f42
- l3qa6VTU3jK8DKBDYUP8pGlpD7hKPsfYIpJ9itaxMmALEl2TsN66HXszJJDjYTq1zJuO
- 36vUJl9plOYYDfDd03BhwXQmj/2C96NnSquLHaqUajxYX1CW5OqmAivzjWuqjVxdtvOH
- U/gbjK+bx4OjG8Kl5kXkvs3iv8AOqTbcaq7x4vL4dzHNa2TaqItE3cxoU6LV/Wbea66C
- QPpA==
+ bh=6txo25Wu2LginmNBg9i/jzko9c9Q+UvG1RiqkPryuNY=;
+ b=Sud1ba3V80zlMu15MHeHOKh+IoaK4BTQoaVu0tJmIvHs/v4vfeZ/ZiUAGnTizVOaKi
+ 9PmZ/Zz5Wvn2H5B3ndPeh7yErarwikM1hcuA1xgJ/MgDd8lzQfU9en/k9Vi0hBtEkX8J
+ XJvvdSScgpEWHdCp53B4D2uDxeOeEA9LG3xGOAmv5oy1yTZ+OddY3CqHvyHoh5JrkAhz
+ 1x8xvsc84P0HvXOULo1ckIPdllyHe50x2iH5Zn2CcpsqmkgoEG7g1fwH3HRhKn3+XyND
+ r3BzC2GIA1LDRjJTO3iUTpLIGHUl212Qxe4X9GxFFY0OnklODn6BoYeq5y5katg0cK6E
+ hUcQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680913671;
+ d=1e100.net; s=20210112; t=1680913672;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=XsyKZB+D1tDZFHgYJ4nYnuAQxnj0NBUo0WN0E3vSvz8=;
- b=zrMFEL5NfpWIm+HhvQujzC7sQQxTMZz2B7FExismJpxTLQ889mNC9WeIBgyRe9jsza
- LkwPHV0mE1LW1UCtF1KAOjmmY9jVrgIRosBCOB1PiOfWM24t7Tj3U+7LsGULNf9rR9RF
- ai4ZaldS2QU4Xf8JiU5wBnlFoQXBXv+GWRUESSkEpBiN/692cxqGkLaWuVcqe+aPGXTU
- z4jwO6lWE8Upa9G8C0cLoorsnW2XvB6N7C1E5gqfh5WV3VzwvAHVWanlaO2wP5oMGUhE
- zwQXM5Ya/p7nXq2Hb0m29XQFwxOvAK6c2scfGnsWAzrCv1waKFxRmk/M9kVBfhFd53Ru
- l5Rg==
-X-Gm-Message-State: AAQBX9e1et2RNOKIt8MnbW/wj+hY14Re/k5J2m0j9YNOOJNqRChRYRQW
- qziT+IlOBrQ2tXpDE5vCRxuWvw==
-X-Google-Smtp-Source: AKy350YpHkd6OCTnLxCT96ewnA6MFSt7fuXBRdgMA7jCrAHRUqCS0Bs63YreBas+vmLB7je2iUFycg==
-X-Received: by 2002:a05:6512:318e:b0:4eb:4274:df34 with SMTP id
- i14-20020a056512318e00b004eb4274df34mr907019lfe.9.1680913671724; 
- Fri, 07 Apr 2023 17:27:51 -0700 (PDT)
+ bh=6txo25Wu2LginmNBg9i/jzko9c9Q+UvG1RiqkPryuNY=;
+ b=GeCq7sMcrxmwb4C9t834Gg35qpPPz0GLkxUTpm6Ly9VJsRF7MfbR8CSV6qze03pkaB
+ 4+r/pnAt4y7uSPQQLGdBPSB3ccSAUJnJlXEeestJ2R+w2yF6bNvAZoeD3dpKR6UqyHP9
+ pyPE//t/Oo85EsSy369FHj1K2JfDYUAU0C5yPE8tq8NSzDAqVdkBOHTUjySyA+BlfkoB
+ kcLFmh4mc+OABfzWKTDep3ERSyQgV8x6fpexVVc8fevID29KL8iIOxExypqwj1PI0lIC
+ ALUdWwGOSO5SwlWM7g3t/tkaM77K0DiFYEmK4qcDS3mjyAluYrWlgZ+H1JBiuB21cpSf
+ Pplw==
+X-Gm-Message-State: AAQBX9dto7T57QQ4zb1B6yS9cCf8ocpI6Q523YIGFkINPHxbunWvasgi
+ 8Ab239ogz8vZLlmZE6MUu2TaRA==
+X-Google-Smtp-Source: AKy350bSxb9AOIbCsP14Uq4g851N70Ma4fNxTBfkT83qLqUK5dF263XCV2Dyv3fOfpiZXi+t3qFIxA==
+X-Received: by 2002:ac2:550e:0:b0:4ec:61b8:9480 with SMTP id
+ j14-20020ac2550e000000b004ec61b89480mr94440lfk.33.1680913672461; 
+ Fri, 07 Apr 2023 17:27:52 -0700 (PDT)
 Received: from eriador.lan (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi.
  [2001:14ba:a085:4d00::8a5]) by smtp.gmail.com with ESMTPSA id
  q15-20020a19a40f000000b004db3e2d3efesm915759lfc.204.2023.04.07.17.27.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 07 Apr 2023 17:27:51 -0700 (PDT)
+ Fri, 07 Apr 2023 17:27:52 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
  Abhinav Kumar <quic_abhinavk@quicinc.com>
-Subject: [PATCH v5 1/4] drm/msm/dpu: enable DPU_CTL_SPLIT_DISPLAY for sc8280xp
-Date: Sat,  8 Apr 2023 03:27:47 +0300
-Message-Id: <20230408002750.2722304-2-dmitry.baryshkov@linaro.org>
+Subject: [PATCH v5 2/4] drm/msm/dpu: enable DSPP_2/3 for LM_2/3 on sm8450
+Date: Sat,  8 Apr 2023 03:27:48 +0300
+Message-Id: <20230408002750.2722304-3-dmitry.baryshkov@linaro.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230408002750.2722304-1-dmitry.baryshkov@linaro.org>
 References: <20230408002750.2722304-1-dmitry.baryshkov@linaro.org>
@@ -79,40 +79,30 @@ Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Theoretically, since sm8150 we should be using a single CTL for the
-split panel case, but since we do not support it for now, fallback to
-DPU_CTL_SPLIT_DISPLAY.
+Mark DSPP_2 and DSPP_3 as used for LM_2 and LM_3
 
+Fixes: 100d7ef6995d ("drm/msm/dpu: add support for SM8450")
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h
-index 9aab110b8c44..622992ae53ef 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h
-@@ -42,17 +42,18 @@ static const struct dpu_mdp_cfg sc8280xp_mdp[] = {
- 	},
- };
- 
-+/* FIXME: get rid of DPU_CTL_SPLIT_DISPLAY in favour of proper ACTIVE_CTL support */
- static const struct dpu_ctl_cfg sc8280xp_ctl[] = {
- 	{
- 	.name = "ctl_0", .id = CTL_0,
- 	.base = 0x15000, .len = 0x204,
--	.features = CTL_SC7280_MASK,
-+	.features = BIT(DPU_CTL_SPLIT_DISPLAY) | CTL_SC7280_MASK,
- 	.intr_start = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR2, 9),
- 	},
- 	{
- 	.name = "ctl_1", .id = CTL_1,
- 	.base = 0x16000, .len = 0x204,
--	.features = CTL_SC7280_MASK,
-+	.features = BIT(DPU_CTL_SPLIT_DISPLAY) | CTL_SC7280_MASK,
- 	.intr_start = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR2, 10),
- 	},
- 	{
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h
+index 02a259b6b426..e111ca1f4bf5 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h
+@@ -107,9 +107,9 @@ static const struct dpu_lm_cfg sm8450_lm[] = {
+ 	LM_BLK("lm_1", LM_1, 0x45000, MIXER_SDM845_MASK,
+ 		&sdm845_lm_sblk, PINGPONG_1, LM_0, DSPP_1),
+ 	LM_BLK("lm_2", LM_2, 0x46000, MIXER_SDM845_MASK,
+-		&sdm845_lm_sblk, PINGPONG_2, LM_3, 0),
++		&sdm845_lm_sblk, PINGPONG_2, LM_3, DSPP_2),
+ 	LM_BLK("lm_3", LM_3, 0x47000, MIXER_SDM845_MASK,
+-		&sdm845_lm_sblk, PINGPONG_3, LM_2, 0),
++		&sdm845_lm_sblk, PINGPONG_3, LM_2, DSPP_3),
+ 	LM_BLK("lm_4", LM_4, 0x48000, MIXER_SDM845_MASK,
+ 		&sdm845_lm_sblk, PINGPONG_4, LM_5, 0),
+ 	LM_BLK("lm_5", LM_5, 0x49000, MIXER_SDM845_MASK,
 -- 
 2.39.2
 
