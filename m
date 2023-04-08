@@ -2,62 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 124BF6DBC51
-	for <lists+dri-devel@lfdr.de>; Sat,  8 Apr 2023 19:26:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 006BC6DBC62
+	for <lists+dri-devel@lfdr.de>; Sat,  8 Apr 2023 19:47:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0C3E210E008;
-	Sat,  8 Apr 2023 17:26:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B6C6B10E162;
+	Sat,  8 Apr 2023 17:47:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9245A10E008
- for <dri-devel@lists.freedesktop.org>; Sat,  8 Apr 2023 17:26:23 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 264EF615C9
- for <dri-devel@lists.freedesktop.org>; Sat,  8 Apr 2023 17:26:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 20E09C433AC
- for <dri-devel@lists.freedesktop.org>; Sat,  8 Apr 2023 17:26:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1680974781;
- bh=EbwBsbbBX1k/IYvJcy89H8BUt9WiZ8jMSdIX3nktH+I=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=bre7BkEa9geQtV+n6TVQTAC+k14qEk2AXI8JIkmHUNxYGHO7r6X7Bxg+gNokjkjAS
- 03gE/YpT9lfrgLwWctQpokWIXJ4rUfc0EjAhgsltUOD7JTsfKolrK5eWIbnvSZIjWV
- 3z8Cv8bGykTxUUk4MWuS+aA3SOgTRdXbRou5Nl8cJvD2WdTqjmiBZdBKtO2VG+yPU9
- 4jlix8vkIHqS8U8QihLALlvTiB/kKEY7rnqFPlWbfJd+MMAsAV1VwEfFjW+CrT6s3Y
- jp6GHF1sbfJN5INbRFowxZqJtYkp8nizUSDqnnjYXFaPy8vXkBYifC7wMgDe0pZp3i
- wKpTDGqaoYUpA==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id 11FE1C43144; Sat,  8 Apr 2023 17:26:21 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 201497] [amdgpu]: '*ERROR* No EDID read' is back in 4.19
-Date: Sat, 08 Apr 2023 17:26:20 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: erenoglu@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: cc
-Message-ID: <bug-201497-2300-fsdoyaI1tA@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-201497-2300@https.bugzilla.kernel.org/>
-References: <bug-201497-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from mail-ot1-x330.google.com (mail-ot1-x330.google.com
+ [IPv6:2607:f8b0:4864:20::330])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B759B10E162
+ for <dri-devel@lists.freedesktop.org>; Sat,  8 Apr 2023 17:47:46 +0000 (UTC)
+Received: by mail-ot1-x330.google.com with SMTP id
+ 46e09a7af769-6a3e0c725cbso57210a34.1
+ for <dri-devel@lists.freedesktop.org>; Sat, 08 Apr 2023 10:47:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20210112; t=1680976065; x=1683568065;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=mxx7dBXytjcvNm/rosWinVPjziS+rj8SL88BmUqc9E4=;
+ b=BrNwpICCDSH3WMVLXtDJp08IMOJLzOL6jtHSWroA8TtRbW4pkVaiKyeGbnXq11ZJ+U
+ jNwiKlqusYdGnoSL3QWDNc90CNOsbpgXILGxCHUCxwHdaEBO3xgV6VJfvucG4qkK7Eri
+ /f02jrUpc3jeDZmpNiHJ8ugivGFzKnpEBtqD1rYrsqzcIccHjLMrVAvOxQ56s9nPFlov
+ 5pkRDT3IuOX9XgMCt8xwCwzTmoD14On7Nzqgbi9AmoEVyt1ioR15T13evasWWBBKX5JO
+ O8VIDHx0guD5ekK5AJprthQMZL0wz+8FySzeKBwM4tEMF1CCfynljR07lB0qtJNizA/n
+ MPdw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1680976065; x=1683568065;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=mxx7dBXytjcvNm/rosWinVPjziS+rj8SL88BmUqc9E4=;
+ b=IfsXJa69YojybC0msI+WjeEiEVl670ng/zxHAF8Nb5ueRx8mOeTjHK0Fg/FBfub9Rz
+ QzUsypp70J7/9ftm8nSfXidLnbTInNiC3mGTH0iROvX3Dq4pB5kWC2lstHGNtS64oSSu
+ 6h2Om/71wqdPHJ10J+QUFFo8igmOtucPj6YpxhABqEUXHpvgWLhWf5k8py9KYA3ikeZi
+ g48SlDDq1bC7LcsYKeXOJYnYF6+h2LhmgtJ+ZjWo78PAGnCt8rwfrTaNUrAKVnrwUfbk
+ LRL7rv+qSniCaG7S7OY04Ulu0i4Z8tZyurl+BuFc1S8J9Rt5uBDyhh8AYvrSxNRM2AtB
+ omhg==
+X-Gm-Message-State: AAQBX9fSju7IFqMHtngLcKZ6GOvmCW50cX7psN562KtdpJEibrw8Wefz
+ 9fscO1T2VEATm/A+PB+jYPE=
+X-Google-Smtp-Source: AKy350YfWPPhiA07t0vZNxQB6bRWNnhghQHfxIA4MFZyyof9eJboYjDRI10kDRtqt4SphuQsHTGgFQ==
+X-Received: by 2002:a05:6870:b512:b0:17e:3772:bdcc with SMTP id
+ v18-20020a056870b51200b0017e3772bdccmr1479902oap.5.1680976065298; 
+ Sat, 08 Apr 2023 10:47:45 -0700 (PDT)
+Received: from fabio-Precision-3551.. ([2804:14c:485:4b69:c705:4ba6:4922:a289])
+ by smtp.gmail.com with ESMTPSA id
+ w2-20020a056830110200b006a13f7701e3sm2724210otq.32.2023.04.08.10.47.41
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 08 Apr 2023 10:47:44 -0700 (PDT)
+From: Fabio Estevam <festevam@gmail.com>
+To: robh+dt@kernel.org
+Subject: [PATCH] dt-bindings: drm/bridge: ti-sn65dsi86: Fix the
+ video-interfaces.yaml references 
+Date: Sat,  8 Apr 2023 14:47:36 -0300
+Message-Id: <20230408174736.1789082-1-festevam@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,32 +71,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: neil.armstrong@linaro.org, Fabio Estevam <festevam@denx.de>,
+ devicetree@vger.kernel.org, dianders@chromium.org,
+ dri-devel@lists.freedesktop.org, krzysztof.kozlowski+dt@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D201497
+From: Fabio Estevam <festevam@denx.de>
 
-Emre (erenoglu@gmail.com) changed:
+video-interface.txt does not exist anymore, as it has been converted
+to video-interfaces.yaml.
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-                 CC|                            |erenoglu@gmail.com
+Update the references to the new file name.
 
---- Comment #25 from Emre (erenoglu@gmail.com) ---
-I still see this error in 6.2.10-arch1-1. It happens for displays connected
-through a USB-C hub:
+Signed-off-by: Fabio Estevam <festevam@denx.de>
+---
+ .../devicetree/bindings/display/bridge/ti,sn65dsi86.yaml  | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-[    5.230549] EDID block 0 is all zeroes
-[    5.230552] [drm:dc_link_add_remote_sink [amdgpu]] *ERROR* Bad EDID,
-status3!
+diff --git a/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi86.yaml b/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi86.yaml
+index 911564468c5e..967b1deb4936 100644
+--- a/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi86.yaml
++++ b/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi86.yaml
+@@ -106,7 +106,7 @@ properties:
+                     description:
+                       If you have 1 logical lane the bridge supports routing
+                       to either port 0 or port 1.  Port 0 is suggested.
+-                      See ../../media/video-interface.txt for details.
++                      See ../../media/video-interfaces.yaml for details.
+ 
+                   - minItems: 2
+                     maxItems: 2
+@@ -118,7 +118,7 @@ properties:
+                     description:
+                       If you have 2 logical lanes the bridge supports
+                       reordering but only on physical ports 0 and 1.
+-                      See ../../media/video-interface.txt for details.
++                      See ../../media/video-interfaces.yaml for details.
+ 
+                   - minItems: 4
+                     maxItems: 4
+@@ -132,7 +132,7 @@ properties:
+                     description:
+                       If you have 4 logical lanes the bridge supports
+                       reordering in any way.
+-                      See ../../media/video-interface.txt for details.
++                      See ../../media/video-interfaces.yaml for details.
+ 
+               lane-polarities:
+                 minItems: 1
+@@ -141,7 +141,7 @@ properties:
+                   enum:
+                     - 0
+                     - 1
+-                description: See ../../media/video-interface.txt
++                description: See ../../media/video-interfaces.yaml
+ 
+             dependencies:
+               lane-polarities: [data-lanes]
+-- 
+2.34.1
 
-A suspend / resume after system boots to login screen solves the issue. But=
- it
-comes back sometimes when display is suspended due to idle or other system
-suspend/resume cycles.
-
---=20
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are watching the assignee of the bug.=
