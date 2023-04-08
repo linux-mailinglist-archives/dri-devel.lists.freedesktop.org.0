@@ -1,69 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 130A46DB9F2
-	for <lists+dri-devel@lfdr.de>; Sat,  8 Apr 2023 11:48:00 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F8116DBAF1
+	for <lists+dri-devel@lfdr.de>; Sat,  8 Apr 2023 14:38:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9007C10E0CB;
-	Sat,  8 Apr 2023 09:47:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1B83810E16A;
+	Sat,  8 Apr 2023 12:37:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com
- [IPv6:2a00:1450:4864:20::629])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 88A8F10E0CB
- for <dri-devel@lists.freedesktop.org>; Sat,  8 Apr 2023 09:47:49 +0000 (UTC)
-Received: by mail-ej1-x629.google.com with SMTP id jg21so1611234ejc.2
- for <dri-devel@lists.freedesktop.org>; Sat, 08 Apr 2023 02:47:49 -0700 (PDT)
+Received: from mail-ot1-x334.google.com (mail-ot1-x334.google.com
+ [IPv6:2607:f8b0:4864:20::334])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B9DA110E083
+ for <dri-devel@lists.freedesktop.org>; Sat,  8 Apr 2023 10:33:35 +0000 (UTC)
+Received: by mail-ot1-x334.google.com with SMTP id
+ bu14-20020a0568300d0e00b0069fab3f4cafso418541otb.9
+ for <dri-devel@lists.freedesktop.org>; Sat, 08 Apr 2023 03:33:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1680947267; x=1683539267;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=a7JcVwqthdcJ8hCQRH20mpyswxWH0pIeDYiRTxlRyzE=;
- b=GrOTY5DqaxGZuDFLw9SJTkHvxA73yO/zPw/FZKG55r+tjyVbuOG+a2XAJUlYkxu+ku
- 1pwXUF0J7QenhGNPYk2ljI8NhvtWOFetj+golw0VWH+Y4Nw4CpMaYl0a6zIFMJbMnysc
- WDNkab6lVRbLfP1a+o0Ef8S4x9x65IQ23WZZY4mqpCY8uBwLUXQys/oAMCF/Q7ExVfmH
- 1bL0xYnF9N/Y1B+4kkcqMY1KHCvEwW6U4dZUj0crpahel0qCBNO7pQDEiHlFSU8dDGB6
- OLS3BtHd1OQQ39TRP73/Sm/eGJo+oGGJLfswJ+UMOjl4FJ/i6CcEbUKl7/yEGZxl0HEe
- S3gg==
+ d=protocubo.io; s=google; t=1680950013; x=1683542013;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=atnnfYB8H/1cRTIRhOKd2CzwH9WdqCAcJhjKRDN3luY=;
+ b=f36p8T3+z/J6u/o8geXfldjzGTUKvuBwnCOq8aVhPB5Yq0scv4lu22t0IvydiWVBM7
+ CU08wz3QuGcIPb3yAdVhAgW3usOu6fLAX0B9dTUyF+DdJBVTJT8oOMZeeGHVuzEsk8U/
+ ACJmBPiPbyDgvFE4BNoYWI2q2/7yDxQ5j48C6PILBZX/SdxNHL3oqGlqu/dDTMUrJmJs
+ 0bwnWui1/dIDcDI/PfO4ScpNdmG7VY3T6R/tIZlS7SRCQlputLk0u0J6wwKpSjlPmnKv
+ U/RapLU0djwI0HQLlzVT8qQP9mV23Tbd/Y8AXD8hueIbuxcQessr9EfpsfZaTW/UQGCf
+ bfxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680947267; x=1683539267;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=a7JcVwqthdcJ8hCQRH20mpyswxWH0pIeDYiRTxlRyzE=;
- b=yJ1HuEw01mHgqCn46Bevr8ehyqZee+isUI5X2bT0xm/ObRT+AsJtaPfH6jECxKxTBd
- PfkG2BIUUBSYNNvABZDxe9rnGtip0VBHWewy1lmLaFkgMcNlWZlBrBajfXAILwIx2jxQ
- EU0usDDBH2rgvxyBF7Wa//Qc2wdl6VU9jIZUvrO7QCb9iPyhiuP6EKkqv5Deg5bJvsYX
- BAmebcO+OvklKhBz9eZe6RcfmjrsHOV4oRG/zBMxrhhEiUcdUXa/6Rj0r4NTuWH1KHZd
- zFiB2uk1jhIGih/tsfKpSgl5SgpLsThqvPd4nxEmDHgEyhQENIxL0NCWX0Np5H8YF6lP
- TLkw==
-X-Gm-Message-State: AAQBX9dDX2zKDYnSCtVFnfZGeGD0UZi5pvJFfsQR8ikrmeKbKoDkjiQv
- h3+riZib5i2PXp0LB2GxhKc=
-X-Google-Smtp-Source: AKy350b6o8A/fVh/YL6rI4iMR4TK2MLQhaSPsZkerv2yJgeK2/onG9QYyVuPaJ/tfM+ENyVqTAXrLQ==
-X-Received: by 2002:a17:907:a08:b0:93b:b8f3:225d with SMTP id
- bb8-20020a1709070a0800b0093bb8f3225dmr1490869ejc.15.1680947267449; 
- Sat, 08 Apr 2023 02:47:47 -0700 (PDT)
-Received: from xeon.. ([188.163.112.79]) by smtp.gmail.com with ESMTPSA id
- a21-20020a50c315000000b0050481736f0csm982297edb.12.2023.04.08.02.47.46
+ d=1e100.net; s=20210112; t=1680950013; x=1683542013;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=atnnfYB8H/1cRTIRhOKd2CzwH9WdqCAcJhjKRDN3luY=;
+ b=Un49vIJcjenv3ql30s9jSLeX2wZlfDXGUV+qdASwCrCbuHllR6iznAqMoUnX4LCK8U
+ xhwqw3z5UREheNZNzd+9h9SZgyMcqHujiFxpfpXLUp6fFA9s4zH+7bWWmF8GxdgbyB0W
+ Le5prA5JSlMOSfKR56rfPNeSxhNQ/BONii67CIydYUfHDteVodRost282p6PqSHKxKH2
+ +pcF19nMR+y6oIWRvLsk2ezb1SVz1+kyqDRVuUMwRJzL6ogn4GkS6fbckwrGq58U8Wbi
+ yxagrDF0SNMKcCiXvad4YDPxM3paHwqyybtXyVZ6sSWpQhHNoNpX/IkRmIT7rmWrn4HN
+ 3o+w==
+X-Gm-Message-State: AAQBX9fC1RkU6bJ339b8v4jDRj/lHfeY+mufM9o/JOzzIJGxmf4M5UkI
+ n/8BwZSCf/FtETKIStDn2sDWdA==
+X-Google-Smtp-Source: AKy350absmUQ6HrjCN8ybKL7JT651jVYn5RTh9izjX/ysr91076zOIBiNMnDzdw113Fn8tlB/GuQ7Q==
+X-Received: by 2002:a05:6830:101:b0:6a1:7f69:ffbf with SMTP id
+ i1-20020a056830010100b006a17f69ffbfmr2146604otp.36.1680950013453; 
+ Sat, 08 Apr 2023 03:33:33 -0700 (PDT)
+Received: from calvin.localdomain ([2804:14d:5c5e:5d5b::1000])
+ by smtp.gmail.com with ESMTPSA id
+ m14-20020a9d6ace000000b0068bcf7995aesm2442533otq.64.2023.04.08.03.33.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 08 Apr 2023 02:47:47 -0700 (PDT)
-From: Svyatoslav Ryhel <clamor95@gmail.com>
-To: Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Thierry Reding <thierry.reding@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Svyatoslav Ryhel <clamor95@gmail.com>,
- Maxim Schwalm <maxim.schwalm@gmail.com>, Dmitry Osipenko <digetx@gmail.com>
-Subject: [PATCH v1 2/2] ARM: tegra: transformers: add connector node
-Date: Sat,  8 Apr 2023 12:47:23 +0300
-Message-Id: <20230408094723.12733-3-clamor95@gmail.com>
-X-Mailer: git-send-email 2.37.2
-In-Reply-To: <20230408094723.12733-1-clamor95@gmail.com>
-References: <20230408094723.12733-1-clamor95@gmail.com>
+ Sat, 08 Apr 2023 03:33:32 -0700 (PDT)
+Date: Sat, 8 Apr 2023 07:33:20 -0300
+From: Jonas Malaco <jonas@protocubo.io>
+To: Aleksandr Mezin <mezin.alexander@gmail.com>
+Subject: Re: [PATCH 48/68] hwmon: nzxt: constify pointers to hwmon_channel_info
+Message-ID: <jkptl4g7jwhz3mij5wffbw2qlwvxsmnwpqhyalq2ayd76pde2h@jfdw7jisg4at>
+References: <20230406203103.3011503-1-krzysztof.kozlowski@linaro.org>
+ <20230406203530.3012191-7-krzysztof.kozlowski@linaro.org>
+ <CADnvcfKwHJ=dOFH1+DsDfn6Y5k6xdzA7QR1uVDv1afwCsiso3w@mail.gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <CADnvcfKwHJ=dOFH1+DsDfn6Y5k6xdzA7QR1uVDv1afwCsiso3w@mail.gmail.com>
+X-Mailman-Approved-At: Sat, 08 Apr 2023 12:37:55 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,103 +77,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-tegra@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: Tomer Maimon <tmaimon77@gmail.com>,
+ Eric Tremblay <etremblay@distech-controls.com>, Tom Rix <trix@redhat.com>,
+ Jean-Marie Verdun <verdun@hpe.com>, Clemens Ladisch <clemens@ladisch.de>,
+ dri-devel@lists.freedesktop.org, Nuno =?utf-8?B?U8Oh?= <nuno.sa@analog.com>,
+ Rudolf Marek <r.marek@assembler.cz>, Michael Walle <michael@walle.cc>,
+ UNGLinuxDriver@microchip.com, Florian Fainelli <f.fainelli@gmail.com>,
+ Benjamin Fair <benjaminfair@google.com>, Jonathan Corbet <corbet@lwn.net>,
+ Steen Hegelund <Steen.Hegelund@microchip.com>, linux-doc@vger.kernel.org,
+ Derek John Clark <derekjohn.clark@gmail.com>, openbmc@lists.ozlabs.org,
+ Nancy Yuen <yuenn@google.com>,
+ Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+ linux-arm-kernel@lists.infradead.org, Aleksa Savic <savicaleksa83@gmail.com>,
+ Guenter Roeck <linux@roeck-us.net>, Jean Delvare <jdelvare@suse.com>,
+ Charles Keepax <ckeepax@opensource.cirrus.com>,
+ Daniel Machon <daniel.machon@microchip.com>,
+ Michael Hennerich <Michael.Hennerich@analog.com>,
+ Robert Marko <robert.marko@sartura.hr>,
+ =?utf-8?Q?Joaqu=C3=ADn_Ignacio_Aramend=C3=ADa?= <samsagax@gmail.com>,
+ Wilken Gottwalt <wilken.gottwalt@posteo.net>,
+ Richard Fitzgerald <rf@opensource.cirrus.com>,
+ Agathe Porte <agathe.porte@nokia.com>, linux-rpi-kernel@lists.infradead.org,
+ Nick Hawkins <nick.hawkins@hpe.com>, Tali Perry <tali.perry1@gmail.com>,
+ Lars Povlsen <lars.povlsen@microchip.com>, linux-hwmon@vger.kernel.org,
+ Hans de Goede <hdegoede@redhat.com>, Avi Fishman <avifishman70@gmail.com>,
+ Patrick Venture <venture@google.com>, Oded Gabbay <ogabbay@kernel.org>,
+ Iwona Winiarska <iwona.winiarska@intel.com>, linux-kernel@vger.kernel.org,
+ Jack Doan <me@jackdoan.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Marius Zachmann <mail@mariuszachmann.de>,
+ Ibrahim Tilki <Ibrahim.Tilki@analog.com>, patches@opensource.cirrus.com,
+ Pali =?utf-8?B?Um9ow6Fy?= <pali@kernel.org>, Xu Yilun <yilun.xu@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-All ASUS Transformers have micro-HDMI connector directly available.
-After Tegra HDMI got bridge/connector support, we should use connector
-framework for proper HW description.
+On Sat, Apr 08, 2023 at 06:14:19AM +0300, Aleksandr Mezin wrote:
+> On Thu, Apr 6, 2023 at 11:37 PM Krzysztof Kozlowski
+> <krzysztof.kozlowski@linaro.org> wrote:
+> > -static const struct hwmon_channel_info *nzxt_smart2_channel_info[] = {
+> > +static const struct hwmon_channel_info * const nzxt_smart2_channel_info[] = {
+> 
+> In the rest of nzxt-smart2.c there are spaces only before "*", not on
+> both sides (and there are a few "*const" already). Would be nice to
+> keep it consistent. The same seems to be true for nzxt-kraken2.c
+> (although I'm not a maintainer)
 
-Tested-by: Andreas Westman Dorcsak <hedmoo@yahoo.com> # ASUS TF T30
-Tested-by: Robert Eckelmann <longnoserob@gmail.com> # ASUS TF101 T20
-Tested-by: Svyatoslav Ryhel <clamor95@gmail.com> # ASUS TF201 T30
-Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
----
- arch/arm/boot/dts/tegra20-asus-tf101.dts      | 22 ++++++++++++++++---
- .../dts/tegra30-asus-transformer-common.dtsi  | 21 ++++++++++++++++--
- 2 files changed, 38 insertions(+), 5 deletions(-)
+While I don't have a strong preference for either `* const` or `*const`,
+it would be prefereable to use a single style in any given file.
 
-diff --git a/arch/arm/boot/dts/tegra20-asus-tf101.dts b/arch/arm/boot/dts/tegra20-asus-tf101.dts
-index 7b2969656ec9..d8d14aa145e5 100644
---- a/arch/arm/boot/dts/tegra20-asus-tf101.dts
-+++ b/arch/arm/boot/dts/tegra20-asus-tf101.dts
-@@ -82,9 +82,11 @@ hdmi@54280000 {
- 			pll-supply = <&hdmi_pll_reg>;
- 			hdmi-supply = <&vdd_hdmi_en>;
- 
--			nvidia,ddc-i2c-bus = <&hdmi_ddc>;
--			nvidia,hpd-gpio = <&gpio TEGRA_GPIO(N, 7)
--				GPIO_ACTIVE_HIGH>;
-+			port@0 {
-+				hdmi_out: endpoint {
-+					remote-endpoint = <&connector_in>;
-+				};
-+			};
- 		};
- 	};
- 
-@@ -963,6 +965,20 @@ clk32k_in: clock-32k-in {
- 		#clock-cells = <0>;
- 	};
- 
-+	connector {
-+		compatible = "hdmi-connector";
-+		type = "d";
-+
-+		hpd-gpios = <&gpio TEGRA_GPIO(N, 7) GPIO_ACTIVE_HIGH>;
-+		ddc-i2c-bus = <&hdmi_ddc>;
-+
-+		port {
-+			connector_in: endpoint {
-+				remote-endpoint = <&hdmi_out>;
-+			};
-+		};
-+	};
-+
- 	cpus {
- 		cpu0: cpu@0 {
- 			cpu-supply = <&vdd_cpu>;
-diff --git a/arch/arm/boot/dts/tegra30-asus-transformer-common.dtsi b/arch/arm/boot/dts/tegra30-asus-transformer-common.dtsi
-index 1861b2de2dc3..b0d041a5b20f 100644
---- a/arch/arm/boot/dts/tegra30-asus-transformer-common.dtsi
-+++ b/arch/arm/boot/dts/tegra30-asus-transformer-common.dtsi
-@@ -80,8 +80,11 @@ hdmi: hdmi@54280000 {
- 			pll-supply = <&vdd_1v8_vio>;
- 			vdd-supply = <&vdd_3v3_sys>;
- 
--			nvidia,hpd-gpio = <&gpio TEGRA_GPIO(N, 7) GPIO_ACTIVE_HIGH>;
--			nvidia,ddc-i2c-bus = <&hdmi_ddc>;
-+			port@0 {
-+				hdmi_out: endpoint {
-+					remote-endpoint = <&connector_in>;
-+				};
-+			};
- 		};
- 	};
- 
-@@ -1492,6 +1495,20 @@ clk32k_in: clock-32k {
- 		clock-output-names = "pmic-oscillator";
- 	};
- 
-+	connector {
-+		compatible = "hdmi-connector";
-+		type = "d";
-+
-+		hpd-gpios = <&gpio TEGRA_GPIO(N, 7) GPIO_ACTIVE_HIGH>;
-+		ddc-i2c-bus = <&hdmi_ddc>;
-+
-+		port {
-+			connector_in: endpoint {
-+				remote-endpoint = <&hdmi_out>;
-+			};
-+		};
-+	};
-+
- 	cpus {
- 		cpu0: cpu@0 {
- 			cpu-supply = <&vdd_cpu>;
--- 
-2.37.2
+As the kernel seems to favor the former style:
 
+$ rg -F '*const ' | wc -l
+2593
+$ rg -F '* const ' | wc -l
+15359
+
+it would be better to change the other two locations in nzxt-kraken2.c
+to also use `* const`.
