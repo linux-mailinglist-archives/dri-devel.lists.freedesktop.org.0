@@ -1,43 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B379C6DBAF6
-	for <lists+dri-devel@lfdr.de>; Sat,  8 Apr 2023 14:38:17 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CE756DB9A1
+	for <lists+dri-devel@lfdr.de>; Sat,  8 Apr 2023 10:22:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9B7B410E330;
-	Sat,  8 Apr 2023 12:38:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DD06E10E11E;
+	Sat,  8 Apr 2023 08:22:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 361 seconds by postgrey-1.36 at gabe;
- Sat, 08 Apr 2023 08:26:40 UTC
-Received: from box.trvn.ru (box.trvn.ru [194.87.146.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7E9C710E135
- for <dri-devel@lists.freedesktop.org>; Sat,  8 Apr 2023 08:26:40 +0000 (UTC)
-Received: from authenticated-user (box.trvn.ru [194.87.146.52])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 40B1810E11E
+ for <dri-devel@lists.freedesktop.org>; Sat,  8 Apr 2023 08:22:10 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by box.trvn.ru (Postfix) with ESMTPSA id 4E41A403B9;
- Sat,  8 Apr 2023 13:20:22 +0500 (+05)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=trvn.ru; s=mail;
- t=1680942024; bh=Y181UBUuQt0Yz6wrLdhP3fSIP/gjJyv15QxkjEagobQ=;
- h=From:To:Cc:Subject:Date:From;
- b=3vKEgYBGornwzWMelWt7EtctVaQhOrdarn9z1whe/u/khh7eTECg5YFqUmEcdP3gM
- Mp52s7Co+rpXFfU+/nsApePsmXMAVAK1wlriErVpMYeXdOf1STHQDdtmazfRpxFfg+
- /fd1KYDqR4YavhwXU6JyPNXcQ+KKVECUbj1LYzY2RK0+JUdwnVjasHGP6Q5tUk78bA
- nZkczZqyqtWtJVrpPFbs4AeEaiV9v/h0JlysiMecVCVESrEWEpxloaTT/J55Lva8NF
- buvbimuxWHRZ3gHEzZWysYCp9c1AIdqXrMbCcVfwk9Zc+FTL8lntcX3Pcx7HovGhAI
- hLUJ6jeKkFWDA==
-From: Nikita Travkin <nikita@trvn.ru>
-To: andrzej.hajda@intel.com,
-	neil.armstrong@linaro.org,
-	rfoss@kernel.org
-Subject: [PATCH] drm/bridge: ti-sn65dsi86: Implement wait_hpd_asserted
-Date: Sat,  8 Apr 2023 13:20:14 +0500
-Message-Id: <20230408082014.235425-1-nikita@trvn.ru>
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 4D9BA611CC;
+ Sat,  8 Apr 2023 08:22:10 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5FD5EC433D2;
+ Sat,  8 Apr 2023 08:22:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1680942129;
+ bh=LTWRdAclgGf11bub+IQh60JZrPzmwlbMWa/9Z716qSU=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=CiUbg6k7a01CUs2enncs4M+wclwylBvOp3cbPeU6RqZ4N8aJf7Pbkz1+n15UIkWTU
+ K40sPDnS0IC1ns3lIJbiv2riZ7Z3MCufpjJXE0kuWM+jDBobqilLVnq73ZFTbY17Re
+ dGbZCIB0RYIDEtkr8nETqePS82PNXkftlh7ttV8g=
+Date: Sat, 8 Apr 2023 10:22:06 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Deepanshu Kartikey <kartikey406@gmail.com>
+Subject: Re: [PATCH] staging: fbtft: fbtft-bus.c added params
+Message-ID: <2023040822-trend-squeegee-16e7@gregkh>
+References: <20230408081817.81562-1-kartikey406@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Sat, 08 Apr 2023 12:37:55 +0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230408081817.81562-1-kartikey406@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,71 +49,80 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jonas@kwiboo.se, dri-devel@lists.freedesktop.org, dianders@chromium.org,
- jernej.skrabec@gmail.com, linux-kernel@vger.kernel.org,
- Laurent.pinchart@ideasonboard.com, Nikita Travkin <nikita@trvn.ru>
+Cc: linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This bridge doesn't actually implement HPD due to it being way too slow
-but instead expects the panel driver to wait enough to assume HPD is
-asserted. However some panels (such as the generic 'edp-panel') expect
-the bridge to deal with the delay and pass maximum delay to the aux
-instead.
+On Sat, Apr 08, 2023 at 01:48:17PM +0530, Deepanshu Kartikey wrote:
+> Added cpu_to_be16 param in define_fbtft_write_reg
+> 
+> Signed-off-by: Deepanshu Kartikey <kartikey406@gmail.com>
+> ---
+>  drivers/staging/fbtft/fbtft-bus.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/staging/fbtft/fbtft-bus.c b/drivers/staging/fbtft/fbtft-bus.c
+> index 3d422bc11641..228a5430c1d5 100644
+> --- a/drivers/staging/fbtft/fbtft-bus.c
+> +++ b/drivers/staging/fbtft/fbtft-bus.c
+> @@ -62,9 +62,9 @@ out:									      \
+>  }                                                                             \
+>  EXPORT_SYMBOL(func);
+>  
+> -define_fbtft_write_reg(fbtft_write_reg8_bus8, u8, u8, )
+> -define_fbtft_write_reg(fbtft_write_reg16_bus8, __be16, u16, cpu_to_be16)
+> -define_fbtft_write_reg(fbtft_write_reg16_bus16, u16, u16, )
+> +define_fbtft_write_reg(fbtft_write_reg8_bus8, u8, u8, cpu_to_be16);
+> +define_fbtft_write_reg(fbtft_write_reg16_bus8, __be16, u16, cpu_to_be16);
+> +define_fbtft_write_reg(fbtft_write_reg16_bus16, u16, u16, cpu_to_be16);
+>  
+>  void fbtft_write_reg8_bus9(struct fbtft_par *par, int len, ...)
+>  {
+> -- 
+> 2.25.1
+> 
+> 
 
-In order to support such panels, add a dummy implementation of wait
-that would just sleep the maximum delay and assume no failure has
-happened.
+Hi,
 
-Signed-off-by: Nikita Travkin <nikita@trvn.ru>
----
-This was suggested in [1] to make sure DT users can be semantically
-correct (not adding no-hpd when the line is actually there) while
-still using a hard delay to be faster than waiting the long debounce
-time.
+This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
+a patch that has triggered this response.  He used to manually respond
+to these common problems, but in order to save his sanity (he kept
+writing the same thing over and over, yet to different people), I was
+created.  Hopefully you will not take offence and will fix the problem
+in your patch and resubmit it so that it can be accepted into the Linux
+kernel tree.
 
-[1] - https://lore.kernel.org/all/CAD=FV=VR7sKsquE25eF7joc7gPApu-vqwduZzjE=wFCoXjMYnQ@mail.gmail.com/
----
- drivers/gpu/drm/bridge/ti-sn65dsi86.c | 19 +++++++++++++++++++
- 1 file changed, 19 insertions(+)
+You are receiving this message because of the following common error(s)
+as indicated below:
 
-diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-index 7a748785c545..260cad1fd1da 100644
---- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-+++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-@@ -618,6 +618,24 @@ static ssize_t ti_sn_aux_transfer(struct drm_dp_aux *aux,
- 	return len;
- }
- 
-+static int ti_sn_aux_wait_hpd_asserted(struct drm_dp_aux *aux, unsigned long wait_us)
-+{
-+	/*
-+	 * The HPD in this chip is a bit useless (See comment in
-+	 * ti_sn65dsi86_enable_comms) so if our driver is expected to wait
-+	 * for HPD, we just assume it's asserted after the wait_us delay.
-+	 *
-+	 * In case we are asked to wait forever (wait_us=0) take conservative
-+	 * 500ms delay.
-+	 */
-+	if (wait_us == 0)
-+		wait_us = 500000;
-+
-+	usleep_range(wait_us, wait_us + 1000);
-+
-+	return 0;
-+}
-+
- static int ti_sn_aux_probe(struct auxiliary_device *adev,
- 			   const struct auxiliary_device_id *id)
- {
-@@ -627,6 +645,7 @@ static int ti_sn_aux_probe(struct auxiliary_device *adev,
- 	pdata->aux.name = "ti-sn65dsi86-aux";
- 	pdata->aux.dev = &adev->dev;
- 	pdata->aux.transfer = ti_sn_aux_transfer;
-+	pdata->aux.wait_hpd_asserted = ti_sn_aux_wait_hpd_asserted;
- 	drm_dp_aux_init(&pdata->aux);
- 
- 	ret = devm_of_dp_aux_populate_ep_devices(&pdata->aux);
--- 
-2.39.2
+- You sent multiple patches, yet no indication of which ones should be
+  applied in which order.  Greg could just guess, but if you are
+  receiving this email, he guessed wrong and the patches didn't apply.
+  Please read the section entitled "The canonical patch format" in the
+  kernel file, Documentation/process/submitting-patches.rst for a
+  description of how to do this so that Greg has a chance to apply these
+  correctly.
 
+- You did not specify a description of why the patch is needed, or
+  possibly, any description at all, in the email body.  Please read the
+  section entitled "The canonical patch format" in the kernel file,
+  Documentation/process/submitting-patches.rst for what is needed in
+  order to properly describe the change.
+
+- You did not write a descriptive Subject: for the patch, allowing Greg,
+  and everyone else, to know what this patch is all about.  Please read
+  the section entitled "The canonical patch format" in the kernel file,
+  Documentation/process/submitting-patches.rst for what a proper
+  Subject: line should look like.
+
+
+If you wish to discuss this problem further, or you have questions about
+how to resolve this issue, please feel free to respond to this email and
+Greg will reply once he has dug out from the pending patches received
+from other developers.
+
+thanks,
+
+greg k-h's patch email bot
