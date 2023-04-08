@@ -2,52 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C02316DBA1A
-	for <lists+dri-devel@lfdr.de>; Sat,  8 Apr 2023 12:38:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8095A6DBA63
+	for <lists+dri-devel@lfdr.de>; Sat,  8 Apr 2023 13:27:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CB81210E083;
-	Sat,  8 Apr 2023 10:38:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F1DA610E138;
+	Sat,  8 Apr 2023 11:27:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A6A1810E083
- for <dri-devel@lists.freedesktop.org>; Sat,  8 Apr 2023 10:38:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1680950333; x=1712486333;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=tj/ggpYw50HfAyBFPq7ICd0Kc7tgKVtlkma/BblHx2Y=;
- b=fMteUlNDmv2Nw3G7d1z29TVFGCYd9nkcKlO/H1x12yPOjhxxrsWQcsqZ
- ZJtwifZjeIna+48tGVBvmXVGnUe+44oBAjo/q+014Bn6ONhJTyQwGbE6d
- n0TssVJzTwhEX4PCQ05EKCZK1dhUYzskFKGALKvuz9Mt792bY5tMj5P0i
- kcb9bQ3MCW1RgfYl7wiOCeNgsiDvH94cCh1jLmKwjw3CExcHGYJ9VFs0w
- 54phoF2883NiGMiYpyRO0hoWnQUPVW0Pd+SU6pfFxPPWMbtxg0o3pKUFP
- qhe/uaKQr+R1wFsxUI9xfzFYIuWXaw+z8gnb2JEiFPzEwPwgI7pCaqQfD A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10673"; a="344911162"
-X-IronPort-AV: E=Sophos;i="5.98,329,1673942400"; d="scan'208";a="344911162"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Apr 2023 03:38:52 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10673"; a="665149579"
-X-IronPort-AV: E=Sophos;i="5.98,329,1673942400"; d="scan'208";a="665149579"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
- by orsmga006.jf.intel.com with ESMTP; 08 Apr 2023 03:38:48 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1pl5y0-000Tdf-0b;
- Sat, 08 Apr 2023 10:38:44 +0000
-Date: Sat, 8 Apr 2023 18:38:33 +0800
-From: kernel test robot <lkp@intel.com>
-To: Deepanshu Kartikey <kartikey406@gmail.com>, gregkh@linuxfoundation.org
-Subject: Re: [PATCH] Staging: fbtft: fbtft-bus: fixed extra space and
- parenthesis issue
-Message-ID: <202304081830.7kKqUkLL-lkp@intel.com>
-References: <20230408050323.70919-1-kartikey406@gmail.com>
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de
+ [80.237.130.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CDF4B10E138
+ for <dri-devel@lists.freedesktop.org>; Sat,  8 Apr 2023 11:27:03 +0000 (UTC)
+Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
+ by wp530.webpack.hosteurope.de running ExIM with esmtpsa
+ (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ id 1pl6ib-0007Dc-An; Sat, 08 Apr 2023 13:26:53 +0200
+Message-ID: <b6e7abcf-499c-da4b-7249-749fa525a911@leemhuis.info>
+Date: Sat, 8 Apr 2023 13:26:50 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230408050323.70919-1-kartikey406@gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.1
+Subject: Re: [PATCH v3 01/13] firmware/sysfb: Fix EFI/VESA format selection
+To: Pierre Asselin <pa@panix.com>, tzimmermann@suse.de, mripard@kernel.org,
+ mairacanal@riseup.net, maarten.lankhorst@linux.intel.com,
+ jose.exposito89@gmail.com, javierm@redhat.com, daniel@ffwll.ch,
+ airlied@gmail.com
+References: <20230102112927.26565-1-tzimmermann@suse.de>
+ <20230102112927.26565-2-tzimmermann@suse.de>
+ <4Psm6B6Lqkz1QXM@panix3.panix.com>
+Content-Language: en-US, de-DE
+From: "Linux regression tracking #adding (Thorsten Leemhuis)"
+ <regressions@leemhuis.info>
+In-Reply-To: <4Psm6B6Lqkz1QXM@panix3.panix.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-bounce-key: webpack.hosteurope.de; regressions@leemhuis.info; 1680953223;
+ 23a50cd7; 
+X-HE-SMSGID: 1pl6ib-0007Dc-An
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,122 +51,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, llvm@lists.linux.dev,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, oe-kbuild-all@lists.linux.dev,
- Deepanshu Kartikey <kartikey406@gmail.com>
+Reply-To: Linux regressions mailing list <regressions@lists.linux.dev>
+Cc: Linux kernel regressions list <regressions@lists.linux.dev>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Deepanshu,
+[CCing the regression list, as it should be in the loop for regressions:
+https://docs.kernel.org/admin-guide/reporting-regressions.html]
 
-kernel test robot noticed the following build errors:
+[TLDR: I'm adding this report to the list of tracked Linux kernel
+regressions; the text you find below is based on a few templates
+paragraphs you might have encountered already in similar form.
+See link in footer if these mails annoy you.]
 
-[auto build test ERROR on staging/staging-testing]
+On 06.04.23 17:45, Pierre Asselin wrote:
+> Thomas Zimmermann <tzimmermann@suse.de> wrote:
+> [...] 
+> Starting at linux-6.3-rc1 my simplefb picks the wrong mode and garbles
+> the display This is on a 16-year old i686 laptop.  I can post lshw or
+> dmidecode output if it helps.
+> [...] 
+> I bisected it to f35cd3fa77293c2cd03e94b6a6151e1a7d9309cf
+>     firmware/sysfb: Fix EFI/VESA format selection
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Deepanshu-Kartikey/Staging-fbtft-fbtft-bus-fixed-extra-space-and-parenthesis-issue/20230408-130429
-patch link:    https://lore.kernel.org/r/20230408050323.70919-1-kartikey406%40gmail.com
-patch subject: [PATCH] Staging: fbtft: fbtft-bus: fixed extra space and parenthesis issue
-config: i386-randconfig-a002-20230403 (https://download.01.org/0day-ci/archive/20230408/202304081830.7kKqUkLL-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/a5c79ed6665465f3101e8251ca030a600cf1ea88
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Deepanshu-Kartikey/Staging-fbtft-fbtft-bus-fixed-extra-space-and-parenthesis-issue/20230408-130429
-        git checkout a5c79ed6665465f3101e8251ca030a600cf1ea88
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
+Thanks for the report. To be sure the issue doesn't fall through the
+cracks unnoticed, I'm adding it to regzbot, the Linux kernel regression
+tracking bot:
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304081830.7kKqUkLL-lkp@intel.com/
+#regzbot ^introduced f35cd3fa77293c2cd03e
+#regzbot title firmware/sysfb: wrong mode and display garbled on 16-year
+old i686 laptop
+#regzbot ignore-activity
 
-All errors (new ones prefixed by >>):
+This isn't a regression? This issue or a fix for it are already
+discussed somewhere else? It was fixed already? You want to clarify when
+the regression started to happen? Or point out I got the title or
+something else totally wrong? Then just reply and tell me -- ideally
+while also telling regzbot about it, as explained by the page listed in
+the footer of this mail.
 
->> drivers/staging/fbtft/fbtft-bus.c:65:53: error: too few arguments provided to function-like macro invocation
-   define_fbtft_write_reg(fbtft_write_reg8_bus8, u8, u8)
-                                                       ^
-   drivers/staging/fbtft/fbtft-bus.c:14:9: note: macro 'define_fbtft_write_reg' defined here
-   #define define_fbtft_write_reg(func, buffer_type, data_type, modifier)        \
-           ^
->> drivers/staging/fbtft/fbtft-bus.c:65:1: error: unknown type name 'define_fbtft_write_reg'
-   define_fbtft_write_reg(fbtft_write_reg8_bus8, u8, u8)
-   ^
-   drivers/staging/fbtft/fbtft-bus.c:67:57: error: too few arguments provided to function-like macro invocation
-   define_fbtft_write_reg(fbtft_write_reg16_bus16, u16, u16)
-                                                           ^
-   drivers/staging/fbtft/fbtft-bus.c:14:9: note: macro 'define_fbtft_write_reg' defined here
-   #define define_fbtft_write_reg(func, buffer_type, data_type, modifier)        \
-           ^
-   drivers/staging/fbtft/fbtft-bus.c:67:1: error: unknown type name 'define_fbtft_write_reg'
-   define_fbtft_write_reg(fbtft_write_reg16_bus16, u16, u16)
-   ^
->> drivers/staging/fbtft/fbtft-bus.c:86:3: error: non-void function 'fbtft_write_reg8_bus9' should return a value [-Wreturn-type]
-                   return;
-                   ^
-   drivers/staging/fbtft/fbtft-bus.c:109:3: error: non-void function 'fbtft_write_reg8_bus9' should return a value [-Wreturn-type]
-                   return;
-                   ^
-   6 errors generated.
+Developers: When fixing the issue, remember to add 'Link:' tags pointing
+to the report (the parent of this mail). See page linked in footer for
+details.
 
-
-vim +65 drivers/staging/fbtft/fbtft-bus.c
-
-    64	
-  > 65	define_fbtft_write_reg(fbtft_write_reg8_bus8, u8, u8)
-    66	define_fbtft_write_reg(fbtft_write_reg16_bus8, __be16, u16, cpu_to_be16)
-  > 67	define_fbtft_write_reg(fbtft_write_reg16_bus16, u16, u16)
-    68	
-    69	void fbtft_write_reg8_bus9(struct fbtft_par *par, int len, ...)
-    70	{
-    71		va_list args;
-    72		int i, ret;
-    73		int pad = 0;
-    74		u16 *buf = (u16 *)par->buf;
-    75	
-    76		if (unlikely(par->debug & DEBUG_WRITE_REGISTER)) {
-    77			va_start(args, len);
-    78			for (i = 0; i < len; i++)
-    79				*(((u8 *)buf) + i) = (u8)va_arg(args, unsigned int);
-    80			va_end(args);
-    81			fbtft_par_dbg_hex(DEBUG_WRITE_REGISTER, par,
-    82					  par->info->device, u8, buf, len, "%s: ",
-    83					  __func__);
-    84		}
-    85		if (len <= 0)
-  > 86			return;
-    87	
-    88		if (par->spi && (par->spi->bits_per_word == 8)) {
-    89			/* we're emulating 9-bit, pad start of buffer with no-ops
-    90			 * (assuming here that zero is a no-op)
-    91			 */
-    92			pad = (len % 4) ? 4 - (len % 4) : 0;
-    93			for (i = 0; i < pad; i++)
-    94				*buf++ = 0x000;
-    95		}
-    96	
-    97		va_start(args, len);
-    98		*buf++ = (u8)va_arg(args, unsigned int);
-    99		i = len - 1;
-   100		while (i--) {
-   101			*buf = (u8)va_arg(args, unsigned int);
-   102			*buf++ |= 0x100; /* dc=1 */
-   103		}
-   104		va_end(args);
-   105		ret = par->fbtftops.write(par, par->buf, (len + pad) * sizeof(u16));
-   106		if (ret < 0) {
-   107			dev_err(par->info->device,
-   108				"write() failed and returned %d\n", ret);
-   109			return;
-   110		}
-   111	}
-   112	EXPORT_SYMBOL(fbtft_write_reg8_bus9);
-   113	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
+--
+Everything you wanna know about Linux kernel regression tracking:
+https://linux-regtracking.leemhuis.info/about/#tldr
+That page also explains what to do if mails like this annoy you.
