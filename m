@@ -2,58 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88E126DBAE6
-	for <lists+dri-devel@lfdr.de>; Sat,  8 Apr 2023 14:28:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 163866DBB37
+	for <lists+dri-devel@lfdr.de>; Sat,  8 Apr 2023 15:44:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4889710E15F;
-	Sat,  8 Apr 2023 12:28:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 740D310E0CE;
+	Sat,  8 Apr 2023 13:44:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb30.google.com (mail-yb1-xb30.google.com
- [IPv6:2607:f8b0:4864:20::b30])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5BFD38876A;
- Sat,  8 Apr 2023 12:28:17 +0000 (UTC)
-Received: by mail-yb1-xb30.google.com with SMTP id m16so30759094ybk.0;
- Sat, 08 Apr 2023 05:28:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1680956896; x=1683548896;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=xesmN7ACvFsONZVtIWgg/NPtUmXwqhWd4yT+IAnjfP4=;
- b=qZAg5MBr717O6bx0hgvhFUHBeDocPLLbIuA4KYCL38V8KmSODY3s29neoV0F+KxB+t
- uVdJRLOkJJ/TFr4CqqAFxKHHyIZiAQYiFHOvIpDwZ7RfFS8lTjrA68zg68wyKX3/XOeS
- ils7qUiFHh3I1dzvFQqWhiIgcc3Qk59aHiQA5gqJjP/i1RnyH1bYLu2SiINjgmHZ8l+N
- 9cItVocN4nwDjALaZDuOIKRIScblnBOByJbDfHd0sTg3KyBmDPhNTvfGe+2gRsF/ouUn
- XdzsbLap+ojWLYG2FRj8jeLCQ/WaGGKCb7db7/oUCAfwxs8oAJjm3599KC6+fNxRUVkp
- usug==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0BE6F10E0F0
+ for <dri-devel@lists.freedesktop.org>; Sat,  8 Apr 2023 13:43:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1680961437;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=cWTGZwUDsK+ArhfUvsnQDdChpakeTyXMHjj4Kv1VcJU=;
+ b=KieWFbmq1WnBk97p4I8uENpESW6+/s8uiTVC42y5gP72em1Vn7xFpV6eg5aMaSOKX0liEo
+ i9EEIPkb/gWHyyC7RUfWZM7iCJxPwT38ErDCEQzzXmn1raOr/3ajLdAwrhVdx6i+ijkd6q
+ y7wYwoSDXp5ajwqIVAcnVBVsq44n2RE=
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
+ [209.85.160.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-637-5nfOKzvFPkG9KZBLUg-7ag-1; Sat, 08 Apr 2023 09:43:54 -0400
+X-MC-Unique: 5nfOKzvFPkG9KZBLUg-7ag-1
+Received: by mail-qt1-f198.google.com with SMTP id
+ t30-20020a05622a181e00b003e37dd114e3so801997qtc.10
+ for <dri-devel@lists.freedesktop.org>; Sat, 08 Apr 2023 06:43:54 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680956896; x=1683548896;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ d=1e100.net; s=20210112; t=1680961433;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=xesmN7ACvFsONZVtIWgg/NPtUmXwqhWd4yT+IAnjfP4=;
- b=AOJFF4zrPk9y/Hrk3iLRECPLbnXD6jBU3Jx0Afz/Nr4jTISsgkUpteI56PvEAkqayU
- BRhAWqNNOOQlJ9P3W+AeAtP1zRdHSdBw6LTKTTCt2YblaKQaV2vV0mi+VIwdmnxr6y+J
- FoHhUOsBulEWuMmjk5pgAtOLY6yVy2saWeI8AKAlPdUw2znC7VfNDqnGcD/B9emVu2n6
- q/JmlFjqEniuTPHx/7rBf1EEBLX0RrrIeJrMermtitDtacl6WpqLkUS7t0ac3raeJmYe
- 8LniU3T1l73dS95IXPh8ZxbbgZcNTwMWFnbskn2W5s+AfDCzGYN0AxXKMgqO8v989gpW
- PG6g==
-X-Gm-Message-State: AAQBX9ekkzpP8SWeZDv6OLmTlIeI0P7k8Cyry6VsfI+K1/GcN20Xvamd
- pp/Pdy7fxYVti6vWObZo0vEiHsABZkA1vsxUCSI=
-X-Google-Smtp-Source: AKy350aY3jUZf5q2Y/64Ci72Ay5Sn65XYDDQWcwgFPC3PiVDm2NdvEfKa52juQSG5IL+Fu7hfyN+4JOB9Rn/BlI+5m4=
-X-Received: by 2002:a25:d657:0:b0:b76:ae61:b68b with SMTP id
- n84-20020a25d657000000b00b76ae61b68bmr2784453ybg.5.1680956896058; Sat, 08 Apr
- 2023 05:28:16 -0700 (PDT)
+ bh=cWTGZwUDsK+ArhfUvsnQDdChpakeTyXMHjj4Kv1VcJU=;
+ b=JuYLWyPkESZfeEfSvF1mULe1FSstHSXzksMakMcwJ46W88ioJ0UOD2t+4eAz6ApsBW
+ 3viiL1FcuLX5ilJ23No/ekPZKAKmmRf7fmwiSVQ8rKzLdug4WdH4akKTQMAT6apLyjQ8
+ x29TrFdiUGQqWzOOO+aBtmWjwEj2A04PjhGgUQk5NBdqD2N1RF3SsN0QtUFNpPwRYcts
+ tN4ZEuWXDmOR0DZQJ/Xn4DLQHQ8TkIEfd/1wrmAvdhAYERzAm0L1iIOtgcEqg00Mthpj
+ l0XifJCeR+Qu0pwzDwO5Reopa1xlWPf421UqoeYkS8O55NBm370lCBCvnq7+bic978TT
+ EYPg==
+X-Gm-Message-State: AAQBX9cRR8tRKGSRW09F7rpRPSHdVipbroa8qc2htisPDUxk+LPwD3mU
+ 1n2LjaaGCTHL/Gw0qzpcIifi9t/ZcbYoUtZ8F0OTDMbgclOUhbXu3+egWsWBXFFuQdaBsbpfBgl
+ n42ilpUqfh7mRy9O4AksG4cdI92G4
+X-Received: by 2002:a05:622a:1ba4:b0:3e6:6d82:3fd8 with SMTP id
+ bp36-20020a05622a1ba400b003e66d823fd8mr3795522qtb.17.1680961433689; 
+ Sat, 08 Apr 2023 06:43:53 -0700 (PDT)
+X-Google-Smtp-Source: AKy350YDlN+3ZRDKytX5Na9sWA4wfmdLE+QkD9JBOEgqvZpj+T/K9mAWJXM0MJJelMtg0nudO6TROA==
+X-Received: by 2002:a05:622a:1ba4:b0:3e6:6d82:3fd8 with SMTP id
+ bp36-20020a05622a1ba400b003e66d823fd8mr3795488qtb.17.1680961433420; 
+ Sat, 08 Apr 2023 06:43:53 -0700 (PDT)
+Received: from dell-per740-01.7a2m.lab.eng.bos.redhat.com
+ (nat-pool-bos-t.redhat.com. [66.187.233.206])
+ by smtp.gmail.com with ESMTPSA id
+ h22-20020ac85056000000b003e302c1f498sm1833122qtm.37.2023.04.08.06.43.52
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 08 Apr 2023 06:43:53 -0700 (PDT)
+From: Tom Rix <trix@redhat.com>
+To: harry.wentland@amd.com, sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com,
+ alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
+ airlied@gmail.com, daniel@ffwll.ch, Pavle.Kotarac@amd.com, Jun.Lei@amd.com,
+ nicholas.kazlauskas@amd.com, Charlene.Liu@amd.com,
+ aurabindo.pillai@amd.com, Dmytro.Laktyushkin@amd.com
+Subject: [PATCH] drm/amd/display: set variables dml*_funcs
+ storage-class-specifier to static
+Date: Sat,  8 Apr 2023 09:43:48 -0400
+Message-Id: <20230408134348.2703105-1-trix@redhat.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-References: <20230406215917.1475704-1-robdclark@gmail.com>
- <20230406215917.1475704-3-robdclark@gmail.com>
-In-Reply-To: <20230406215917.1475704-3-robdclark@gmail.com>
-From: Emil Velikov <emil.l.velikov@gmail.com>
-Date: Sat, 8 Apr 2023 13:28:04 +0100
-Message-ID: <CACvgo50FEYhdpp3nqX-AyAvLK8hJnK2xynTtLnCb9A+GSeHCvg@mail.gmail.com>
-Subject: Re: [RFC 2/2] drm/msm: Add memory stats to fdinfo
-To: Rob Clark <robdclark@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"; x-default=true
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,87 +86,103 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, linux-arm-msm@vger.kernel.org,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
- Christopher Healy <healych@amazon.com>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>,
- open list <linux-kernel@vger.kernel.org>
+Cc: Tom Rix <trix@redhat.com>, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 6 Apr 2023 at 22:59, Rob Clark <robdclark@gmail.com> wrote:
->
-> From: Rob Clark <robdclark@chromium.org>
->
-> Use the new helper to export stats about memory usage.
->
-> Signed-off-by: Rob Clark <robdclark@chromium.org>
-> ---
->  drivers/gpu/drm/msm/msm_drv.c | 26 +++++++++++++++++++++++++-
->  drivers/gpu/drm/msm/msm_gpu.c |  2 --
->  2 files changed, 25 insertions(+), 3 deletions(-)
->
-> diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
-> index 9b6f17b1261f..385776f6a531 100644
-> --- a/drivers/gpu/drm/msm/msm_drv.c
-> +++ b/drivers/gpu/drm/msm/msm_drv.c
-> @@ -1043,17 +1043,40 @@ static const struct drm_ioctl_desc msm_ioctls[] = {
->         DRM_IOCTL_DEF_DRV(MSM_SUBMITQUEUE_QUERY, msm_ioctl_submitqueue_query, DRM_RENDER_ALLOW),
->  };
->
-> +enum drm_gem_object_status gem_status(struct drm_gem_object *obj)
-> +{
-> +       struct msm_gem_object *msm_obj = to_msm_bo(obj);
-> +       enum drm_gem_object_status status = 0;
-> +
-> +       if (!dma_resv_test_signaled(obj->resv, dma_resv_usage_rw(true)))
-> +               status |= DRM_GEM_OBJECT_ACTIVE;
-> +
-> +       if (msm_obj->pages)
-> +               status |= DRM_GEM_OBJECT_RESIDENT;
-> +
-> +       if (msm_obj->madv == MSM_MADV_DONTNEED)
-> +               status |= DRM_GEM_OBJECT_PURGEABLE;
-> +
-> +       return status;
-> +}
-> +
->  static void msm_fop_show_fdinfo(struct seq_file *m, struct file *f)
->  {
->         struct drm_file *file = f->private_data;
->         struct drm_device *dev = file->minor->dev;
->         struct msm_drm_private *priv = dev->dev_private;
-> +       struct msm_file_private *ctx = file->driver_priv;
->         struct drm_printer p = drm_seq_file_printer(m);
->
->         if (!priv->gpu)
->                 return;
->
-> -       msm_gpu_show_fdinfo(priv->gpu, file->driver_priv, &p);
-> +       drm_printf(&p, "drm-driver:\t%s\n", dev->driver->name);
-> +       drm_printf(&p, "drm-client-id:\t%u\n", ctx->seqno);
-> +
-> +       msm_gpu_show_fdinfo(priv->gpu, ctx, &p);
-> +
-> +       drm_print_memory_stats(file, &p, gem_status);
->  }
->
->  static const struct file_operations fops = {
-> @@ -1067,6 +1090,7 @@ static const struct drm_driver msm_driver = {
->                                 DRIVER_RENDER |
->                                 DRIVER_ATOMIC |
->                                 DRIVER_MODESET |
-> +                               DRIVER_SYNCOBJ_TIMELINE |
+smatch reports
+drivers/gpu/drm/amd/amdgpu/../display/dc/dml/display_mode_lib.c:44:24: warning: symbol
+  'dml20_funcs' was not declared. Should it be static?
+drivers/gpu/drm/amd/amdgpu/../display/dc/dml/display_mode_lib.c:51:24: warning: symbol
+  'dml20v2_funcs' was not declared. Should it be static?
+drivers/gpu/drm/amd/amdgpu/../display/dc/dml/display_mode_lib.c:58:24: warning: symbol
+  'dml21_funcs' was not declared. Should it be static?
+drivers/gpu/drm/amd/amdgpu/../display/dc/dml/display_mode_lib.c:65:24: warning: symbol
+  'dml30_funcs' was not declared. Should it be static?
+drivers/gpu/drm/amd/amdgpu/../display/dc/dml/display_mode_lib.c:72:24: warning: symbol
+  'dml31_funcs' was not declared. Should it be static?
+drivers/gpu/drm/amd/amdgpu/../display/dc/dml/display_mode_lib.c:79:24: warning: symbol
+  'dml314_funcs' was not declared. Should it be static?
+drivers/gpu/drm/amd/amdgpu/../display/dc/dml/display_mode_lib.c:86:24: warning: symbol
+  'dml32_funcs' was not declared. Should it be static?
 
-This line should probably be its own patch. AFAICT it was supported
-since ab723b7a992a19b843f798b183f53f7472f598c8, although explicitly
-kept disabled until there's userspace/turnip support.
+These variables are only used in one file so should be static.
+Cleanup whitespace, use tabs consistently for indents.
 
-With the above line removed, the patch is:
-Reviewed-by: Emil Velikov <emil.l.velikov@gmail.com>
+Signed-off-by: Tom Rix <trix@redhat.com>
+---
+ .../drm/amd/display/dc/dml/display_mode_lib.c | 24 +++++++++----------
+ 1 file changed, 12 insertions(+), 12 deletions(-)
 
-HTH
-Emil
+diff --git a/drivers/gpu/drm/amd/display/dc/dml/display_mode_lib.c b/drivers/gpu/drm/amd/display/dc/dml/display_mode_lib.c
+index 4125d3d111d1..bdf3ac6cadd5 100644
+--- a/drivers/gpu/drm/amd/display/dc/dml/display_mode_lib.c
++++ b/drivers/gpu/drm/amd/display/dc/dml/display_mode_lib.c
+@@ -41,51 +41,51 @@
+ #include "dcn32/display_rq_dlg_calc_32.h"
+ #include "dml_logger.h"
+ 
+-const struct dml_funcs dml20_funcs = {
++static const struct dml_funcs dml20_funcs = {
+ 	.validate = dml20_ModeSupportAndSystemConfigurationFull,
+ 	.recalculate = dml20_recalculate,
+ 	.rq_dlg_get_dlg_reg = dml20_rq_dlg_get_dlg_reg,
+ 	.rq_dlg_get_rq_reg = dml20_rq_dlg_get_rq_reg
+ };
+ 
+-const struct dml_funcs dml20v2_funcs = {
++static const struct dml_funcs dml20v2_funcs = {
+ 	.validate = dml20v2_ModeSupportAndSystemConfigurationFull,
+ 	.recalculate = dml20v2_recalculate,
+ 	.rq_dlg_get_dlg_reg = dml20v2_rq_dlg_get_dlg_reg,
+ 	.rq_dlg_get_rq_reg = dml20v2_rq_dlg_get_rq_reg
+ };
+ 
+-const struct dml_funcs dml21_funcs = {
+-        .validate = dml21_ModeSupportAndSystemConfigurationFull,
+-        .recalculate = dml21_recalculate,
+-        .rq_dlg_get_dlg_reg = dml21_rq_dlg_get_dlg_reg,
+-        .rq_dlg_get_rq_reg = dml21_rq_dlg_get_rq_reg
++static const struct dml_funcs dml21_funcs = {
++	.validate = dml21_ModeSupportAndSystemConfigurationFull,
++	.recalculate = dml21_recalculate,
++	.rq_dlg_get_dlg_reg = dml21_rq_dlg_get_dlg_reg,
++	.rq_dlg_get_rq_reg = dml21_rq_dlg_get_rq_reg
+ };
+ 
+-const struct dml_funcs dml30_funcs = {
++static const struct dml_funcs dml30_funcs = {
+ 	.validate = dml30_ModeSupportAndSystemConfigurationFull,
+ 	.recalculate = dml30_recalculate,
+ 	.rq_dlg_get_dlg_reg = dml30_rq_dlg_get_dlg_reg,
+ 	.rq_dlg_get_rq_reg = dml30_rq_dlg_get_rq_reg
+ };
+ 
+-const struct dml_funcs dml31_funcs = {
++static const struct dml_funcs dml31_funcs = {
+ 	.validate = dml31_ModeSupportAndSystemConfigurationFull,
+ 	.recalculate = dml31_recalculate,
+ 	.rq_dlg_get_dlg_reg = dml31_rq_dlg_get_dlg_reg,
+ 	.rq_dlg_get_rq_reg = dml31_rq_dlg_get_rq_reg
+ };
+ 
+-const struct dml_funcs dml314_funcs = {
++static const struct dml_funcs dml314_funcs = {
+ 	.validate = dml314_ModeSupportAndSystemConfigurationFull,
+ 	.recalculate = dml314_recalculate,
+ 	.rq_dlg_get_dlg_reg = dml314_rq_dlg_get_dlg_reg,
+ 	.rq_dlg_get_rq_reg = dml314_rq_dlg_get_rq_reg
+ };
+ 
+-const struct dml_funcs dml32_funcs = {
++static const struct dml_funcs dml32_funcs = {
+ 	.validate = dml32_ModeSupportAndSystemConfigurationFull,
+-    .recalculate = dml32_recalculate,
++	.recalculate = dml32_recalculate,
+ 	.rq_dlg_get_dlg_reg_v2 = dml32_rq_dlg_get_dlg_reg,
+ 	.rq_dlg_get_rq_reg_v2 = dml32_rq_dlg_get_rq_reg
+ };
+-- 
+2.27.0
+
