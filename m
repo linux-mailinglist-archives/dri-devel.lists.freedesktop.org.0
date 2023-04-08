@@ -1,52 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 863506DBC54
-	for <lists+dri-devel@lfdr.de>; Sat,  8 Apr 2023 19:27:13 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 124BF6DBC51
+	for <lists+dri-devel@lfdr.de>; Sat,  8 Apr 2023 19:26:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 798D210E12C;
-	Sat,  8 Apr 2023 17:27:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0C3E210E008;
+	Sat,  8 Apr 2023 17:26:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5501B10E12C
- for <dri-devel@lists.freedesktop.org>; Sat,  8 Apr 2023 17:27:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1680974829; x=1712510829;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=20Gp8Ob9sY0l7Q3kLwGChvRjnxAHs9YuVEd44YUhsWE=;
- b=M7E42hQgR4A/CvU2XrlUglH068Nbo4KKBMrpjLQULI+ayRmQr7sHH2W7
- MUfMHY5cBgV6pcpPfzV90aFdbEe2QFVtIbcj+4xKOwE5dH8jWKq+5X7A7
- JFIEADgfXIKVN26fyXtKmXqiEqmY90Q99qPjhKHPHMOHsbSSMbQi6juQZ
- HPx6WP7x/OgYgSy5FQkhS1jxqc+QmtEQnZC9E1PSN/QbaiisFMwB1ndU5
- 4rvzDrkQobR3nLOrZ8dvQ2dRogIN8/NhipXeM1X/3iO4EIwGuctgQYdmI
- ZvYfncjLp/EfU4dd59OjerRJlNBMKAKZEAGDD45gGhTaOmXe5akm4IEC/ w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10674"; a="322789170"
-X-IronPort-AV: E=Sophos;i="5.98,329,1673942400"; d="scan'208";a="322789170"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Apr 2023 10:27:07 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10674"; a="681311839"
-X-IronPort-AV: E=Sophos;i="5.98,329,1673942400"; d="scan'208";a="681311839"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
- by orsmga007.jf.intel.com with ESMTP; 08 Apr 2023 10:27:04 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1plCLA-000Twb-01;
- Sat, 08 Apr 2023 17:27:04 +0000
-Date: Sun, 9 Apr 2023 01:26:13 +0800
-From: kernel test robot <lkp@intel.com>
-To: Deepanshu Kartikey <kartikey406@gmail.com>, gregkh@linuxfoundation.org
-Subject: Re: [PATCH] staging: fbtft: fbtft-bus.c added params
-Message-ID: <202304090139.b8XZpHpu-lkp@intel.com>
-References: <20230408081817.81562-1-kartikey406@gmail.com>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9245A10E008
+ for <dri-devel@lists.freedesktop.org>; Sat,  8 Apr 2023 17:26:23 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 264EF615C9
+ for <dri-devel@lists.freedesktop.org>; Sat,  8 Apr 2023 17:26:22 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 20E09C433AC
+ for <dri-devel@lists.freedesktop.org>; Sat,  8 Apr 2023 17:26:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1680974781;
+ bh=EbwBsbbBX1k/IYvJcy89H8BUt9WiZ8jMSdIX3nktH+I=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=bre7BkEa9geQtV+n6TVQTAC+k14qEk2AXI8JIkmHUNxYGHO7r6X7Bxg+gNokjkjAS
+ 03gE/YpT9lfrgLwWctQpokWIXJ4rUfc0EjAhgsltUOD7JTsfKolrK5eWIbnvSZIjWV
+ 3z8Cv8bGykTxUUk4MWuS+aA3SOgTRdXbRou5Nl8cJvD2WdTqjmiBZdBKtO2VG+yPU9
+ 4jlix8vkIHqS8U8QihLALlvTiB/kKEY7rnqFPlWbfJd+MMAsAV1VwEfFjW+CrT6s3Y
+ jp6GHF1sbfJN5INbRFowxZqJtYkp8nizUSDqnnjYXFaPy8vXkBYifC7wMgDe0pZp3i
+ wKpTDGqaoYUpA==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
+ from userid 48) id 11FE1C43144; Sat,  8 Apr 2023 17:26:21 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 201497] [amdgpu]: '*ERROR* No EDID read' is back in 4.19
+Date: Sat, 08 Apr 2023 17:26:20 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: erenoglu@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: cc
+Message-ID: <bug-201497-2300-fsdoyaI1tA@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-201497-2300@https.bugzilla.kernel.org/>
+References: <bug-201497-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230408081817.81562-1-kartikey406@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,67 +70,32 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- oe-kbuild-all@lists.linux.dev, Deepanshu Kartikey <kartikey406@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Deepanshu,
+https://bugzilla.kernel.org/show_bug.cgi?id=3D201497
 
-kernel test robot noticed the following build warnings:
+Emre (erenoglu@gmail.com) changed:
 
-[auto build test WARNING on staging/staging-testing]
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+                 CC|                            |erenoglu@gmail.com
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Deepanshu-Kartikey/staging-fbtft-fbtft-bus-c-added-params/20230408-161947
-patch link:    https://lore.kernel.org/r/20230408081817.81562-1-kartikey406%40gmail.com
-patch subject: [PATCH] staging: fbtft: fbtft-bus.c added params
-config: i386-randconfig-s001-20230403 (https://download.01.org/0day-ci/archive/20230409/202304090139.b8XZpHpu-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
-reproduce:
-        # apt-get install sparse
-        # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://github.com/intel-lab-lkp/linux/commit/038bedbb2c34ffc5e5ce77d5f49811778be8d631
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Deepanshu-Kartikey/staging-fbtft-fbtft-bus-c-added-params/20230408-161947
-        git checkout 038bedbb2c34ffc5e5ce77d5f49811778be8d631
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=i386 olddefconfig
-        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=i386 SHELL=/bin/bash drivers/staging/fbtft/
+--- Comment #25 from Emre (erenoglu@gmail.com) ---
+I still see this error in 6.2.10-arch1-1. It happens for displays connected
+through a USB-C hub:
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304090139.b8XZpHpu-lkp@intel.com/
+[    5.230549] EDID block 0 is all zeroes
+[    5.230552] [drm:dc_link_add_remote_sink [amdgpu]] *ERROR* Bad EDID,
+status3!
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/staging/fbtft/fbtft-bus.c:65:1: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned char [usertype] @@     got restricted __be16 [usertype] @@
-   drivers/staging/fbtft/fbtft-bus.c:65:1: sparse:     expected unsigned char [usertype]
-   drivers/staging/fbtft/fbtft-bus.c:65:1: sparse:     got restricted __be16 [usertype]
->> drivers/staging/fbtft/fbtft-bus.c:65:1: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned char [usertype] @@     got restricted __be16 [usertype] @@
-   drivers/staging/fbtft/fbtft-bus.c:65:1: sparse:     expected unsigned char [usertype]
-   drivers/staging/fbtft/fbtft-bus.c:65:1: sparse:     got restricted __be16 [usertype]
->> drivers/staging/fbtft/fbtft-bus.c:65:1: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned char [usertype] @@     got restricted __be16 [usertype] @@
-   drivers/staging/fbtft/fbtft-bus.c:65:1: sparse:     expected unsigned char [usertype]
-   drivers/staging/fbtft/fbtft-bus.c:65:1: sparse:     got restricted __be16 [usertype]
-   drivers/staging/fbtft/fbtft-bus.c:67:1: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [usertype] @@     got restricted __be16 [usertype] @@
-   drivers/staging/fbtft/fbtft-bus.c:67:1: sparse:     expected unsigned short [usertype]
-   drivers/staging/fbtft/fbtft-bus.c:67:1: sparse:     got restricted __be16 [usertype]
-   drivers/staging/fbtft/fbtft-bus.c:67:1: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [usertype] @@     got restricted __be16 [usertype] @@
-   drivers/staging/fbtft/fbtft-bus.c:67:1: sparse:     expected unsigned short [usertype]
-   drivers/staging/fbtft/fbtft-bus.c:67:1: sparse:     got restricted __be16 [usertype]
-   drivers/staging/fbtft/fbtft-bus.c:67:1: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [usertype] @@     got restricted __be16 [usertype] @@
-   drivers/staging/fbtft/fbtft-bus.c:67:1: sparse:     expected unsigned short [usertype]
-   drivers/staging/fbtft/fbtft-bus.c:67:1: sparse:     got restricted __be16 [usertype]
+A suspend / resume after system boots to login screen solves the issue. But=
+ it
+comes back sometimes when display is suspended due to idle or other system
+suspend/resume cycles.
 
-vim +65 drivers/staging/fbtft/fbtft-bus.c
+--=20
+You may reply to this email to add a comment.
 
-    64	
-  > 65	define_fbtft_write_reg(fbtft_write_reg8_bus8, u8, u8, cpu_to_be16);
-    66	define_fbtft_write_reg(fbtft_write_reg16_bus8, __be16, u16, cpu_to_be16);
-    67	define_fbtft_write_reg(fbtft_write_reg16_bus16, u16, u16, cpu_to_be16);
-    68	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+You are receiving this mail because:
+You are watching the assignee of the bug.=
