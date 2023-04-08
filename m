@@ -1,46 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF7066DB954
-	for <lists+dri-devel@lfdr.de>; Sat,  8 Apr 2023 09:45:33 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 25C956DB9A7
+	for <lists+dri-devel@lfdr.de>; Sat,  8 Apr 2023 10:23:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6E84710E11B;
-	Sat,  8 Apr 2023 07:45:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 346FA10E134;
+	Sat,  8 Apr 2023 08:23:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8FAA310E11B
- for <dri-devel@lists.freedesktop.org>; Sat,  8 Apr 2023 07:45:23 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 0AAFA60AB7;
- Sat,  8 Apr 2023 07:45:23 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 87B24C4339B;
- Sat,  8 Apr 2023 07:45:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1680939922;
- bh=AK74XR+UpvNqgv2uILfTqQFwyI1jrXLow0DFBNJfK7Y=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=SRzQAmipYDgVkv2Zc484p+d0LdUANIcA5pFTQVdGY38Z6WSuX81vVcxX76ChT5lWJ
- 306yMBTPg488DFsoQyk13ZVQhFdHTe5vuKo83ukKtrQBYOWd+z5tzv5Qus9qtVFIhR
- 6RwNgi/lb+Bz0TMwtgzCEHa0i+0B3N7xC6ADN4wt/urQ7otfk6ZXo+4tphDbbHsLDF
- kr4uR3SVQsB3ng3hGbqh0UH2LqKlSQkNIlItyu0vipZOd6aO/7+l1baxNhYGhoGt6m
- HVMwbexNHLuXJ2+NN9JKHn4lLi4mQzckBxwl+R8NenqraOMmKOHnA+RuN0FYWtKgX9
- K30/3KWd7aSBw==
-From: Oded Gabbay <ogabbay@kernel.org>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 4/4] accel/habanalabs: add missing error flow in
- hl_sysfs_init()
-Date: Sat,  8 Apr 2023 10:45:12 +0300
-Message-Id: <20230408074512.2277163-4-ogabbay@kernel.org>
-X-Mailer: git-send-email 2.40.0
-In-Reply-To: <20230408074512.2277163-1-ogabbay@kernel.org>
-References: <20230408074512.2277163-1-ogabbay@kernel.org>
+X-Greylist: delayed 909 seconds by postgrey-1.36 at gabe;
+ Sat, 08 Apr 2023 08:23:04 UTC
+Received: from sender-of-o51.zoho.in (sender-of-o51.zoho.in [103.117.158.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5F65710E134
+ for <dri-devel@lists.freedesktop.org>; Sat,  8 Apr 2023 08:23:04 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1680941265; cv=none; d=zohomail.in; s=zohoarc; 
+ b=KWoq/BDSD1asMcSy0D9FCEUwTle7J4nr43DDY3fBiPTYG9/i+Kk3aCOjeNoOcAmNAKSTdA/bYB01meEhk0iQN0PciRbvOQq/XKZLP5iFywT7mx+879vREwwzivmMSRS3b0yN2gjzLgCqgITJAu6FbNJfSiI82EbLOn1CM8uWNC8=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.in;
+ s=zohoarc; t=1680941265;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:To;
+ bh=qh8xtmC1qTrqy5bGNgR12Ei7zL2n3kqYPlSYKbj6iHg=; 
+ b=e0nG4N6ouIEOHn7ecCZVfa7lkbhM016lVyo5/0knlPCC+6DMyFck87fn974avb7VP18TatSwb5ndgv8vdG9msIyKziVJRKVWgiTYAM2VsGtrjyL5ByhFhBdbDv4jnjDoy1yxT1PjlYZ8fOAFQdk/t1voDF21fvWZ6M05vkcXTvQ=
+ARC-Authentication-Results: i=1; mx.zohomail.in; dkim=pass  header.i=siddh.me;
+ spf=pass  smtp.mailfrom=code@siddh.me;
+ dmarc=pass header.from=<code@siddh.me>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1680941265; 
+ s=zmail; d=siddh.me; i=code@siddh.me;
+ h=Date:Date:From:From:To:To:Cc:Cc:Message-ID:In-Reply-To:References:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+ bh=qh8xtmC1qTrqy5bGNgR12Ei7zL2n3kqYPlSYKbj6iHg=;
+ b=E9XsTWEI5+hjDKNFyApLlYnL0V4Gr/tMr3uVwPmfmi4XPtqYqCdwjMGvFriLwlDu
+ 0BJMynqkuE+YlS3GHNAUmxJh7jEqWmZAcfmXsmc0huqeP503mET5RR7Ys/z8RShbWxq
+ CgADTqF1gCvAzg6rBwgv753lUtHNo3/7mQq1eFAM=
+Received: from mail.zoho.in by mx.zoho.in
+ with SMTP id 1680941252991104.24842012139527;
+ Sat, 8 Apr 2023 13:37:32 +0530 (IST)
+Date: Sat, 08 Apr 2023 13:37:32 +0530
+From: Siddh Raman Pant <code@siddh.me>
+To: "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>,
+ "Maxime Ripard" <mripard@kernel.org>,
+ "Thomas Zimmermann" <tzimmermann@suse.de>,
+ "David Airlie" <airlied@gmail.com>, "Daniel Vetter" <daniel@ffwll.ch>,
+ "Jim Cromie" <jim.cromie@gmail.com>, "Sam Ravnborg" <sam@ravnborg.org>,
+ "Jani Nikula" <jani.nikula@linux.intel.com>,
+ "Suraj Upadhyay" <usuraj35@gmail.com>
+Message-ID: <1875fe8015d.134ced49297190.1370743243402238612@siddh.me>
+In-Reply-To: <cover.1677574322.git.code@siddh.me>
+References: <cover.1677574322.git.code@siddh.me>
+Subject: Re: [PATCH v8 0/8] drm: Remove usage of deprecated DRM_* macros
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+Importance: Medium
+User-Agent: Zoho Mail
+X-Mailer: Zoho Mail
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,43 +65,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tomer Tayar <ttayar@habana.ai>
+Cc: linux-kernel <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Tomer Tayar <ttayar@habana.ai>
+On Tue, 28 Feb 2023 14:55:04 +0530, Siddh Raman Pant wrote:
+> This patchset aims to remove usages of deprecated DRM_* macros from the
+> files residing in drivers/gpu/drm root.
+> 
+> In process, I found out that NULL as first argument of drm_dbg_* wasn't
+> working, but it was listed as the alternative in deprecation comment,
+> so I fixed that before removing usages of DRM_DEBUG_* macros.
+> 
+> Courtesy discussion on v1, I added support for NULL in drm_()* macros too.
+> 
+> Courtesy discussion on v7, I removed generic macro stuff meant to accomodate
+> stuff like mipi_dsi_host, and instead reverted a commit which used the
+> drm_err() macro incorrectly by passing mipi_dsi_host.
+> 
+> This patchset should be applied in order as changes might be dependent.
+> 
+> Please review and let me know if any errors are there, and hopefully
+> this gets accepted.
+> 
+> [...]
+> 
+> Siddh Raman Pant (8):
+>   Revert "drm: mipi-dsi: Convert logging to drm_* functions."
+>   drm/print: Fix and add support for NULL as first argument in drm_*
+>     macros
+>   drm: Remove usage of deprecated DRM_INFO
+>   drm: Remove usage of deprecated DRM_NOTE
+>   drm: Remove usage of deprecated DRM_ERROR
+>   drm: Remove usage of deprecated DRM_DEBUG
+>   drm: Remove usage of deprecated DRM_DEBUG_DRIVER
+>   drm: Remove usage of deprecated DRM_DEBUG_KMS
+> 
+>  [...]
 
-hl_sysfs_fini() is called only if hl_sysfs_init() completes
-successfully. Therefore if hl_sysfs_init() fails, need to remove any
-sysfs group that was added until that point.
+Hello,
 
-Signed-off-by: Tomer Tayar <ttayar@habana.ai>
-Reviewed-by: Oded Gabbay <ogabbay@kernel.org>
-Signed-off-by: Oded Gabbay <ogabbay@kernel.org>
----
- drivers/accel/habanalabs/common/sysfs.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+Please review these patches and let me know if any further changes
+are required. I feel they should be good to merge now.
 
-diff --git a/drivers/accel/habanalabs/common/sysfs.c b/drivers/accel/habanalabs/common/sysfs.c
-index 735d8bed0066..01f89f029355 100644
---- a/drivers/accel/habanalabs/common/sysfs.c
-+++ b/drivers/accel/habanalabs/common/sysfs.c
-@@ -497,10 +497,14 @@ int hl_sysfs_init(struct hl_device *hdev)
- 	if (rc) {
- 		dev_err(hdev->dev,
- 			"Failed to add groups to device, error %d\n", rc);
--		return rc;
-+		goto remove_groups;
- 	}
- 
- 	return 0;
-+
-+remove_groups:
-+	device_remove_groups(hdev->dev, hl_dev_attr_groups);
-+	return rc;
- }
- 
- void hl_sysfs_fini(struct hl_device *hdev)
--- 
-2.40.0
+Context: https://lore.kernel.org/dri-devel/cover.1677574322.git.code@siddh.me/
 
+Thanks,
+Siddh
