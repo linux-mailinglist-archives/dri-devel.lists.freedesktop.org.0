@@ -1,57 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 601D56DBAD2
-	for <lists+dri-devel@lfdr.de>; Sat,  8 Apr 2023 14:20:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 88E126DBAE6
+	for <lists+dri-devel@lfdr.de>; Sat,  8 Apr 2023 14:28:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0FB5F10E159;
-	Sat,  8 Apr 2023 12:20:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4889710E15F;
+	Sat,  8 Apr 2023 12:28:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb2d.google.com (mail-yb1-xb2d.google.com
- [IPv6:2607:f8b0:4864:20::b2d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BC09E10E0D9;
- Sat,  8 Apr 2023 12:20:15 +0000 (UTC)
-Received: by mail-yb1-xb2d.google.com with SMTP id ch3so1909718ybb.4;
- Sat, 08 Apr 2023 05:20:15 -0700 (PDT)
+Received: from mail-yb1-xb30.google.com (mail-yb1-xb30.google.com
+ [IPv6:2607:f8b0:4864:20::b30])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5BFD38876A;
+ Sat,  8 Apr 2023 12:28:17 +0000 (UTC)
+Received: by mail-yb1-xb30.google.com with SMTP id m16so30759094ybk.0;
+ Sat, 08 Apr 2023 05:28:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1680956414; x=1683548414;
+ d=gmail.com; s=20210112; t=1680956896; x=1683548896;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=qhbv7Y5Jgs9ftPKleaknEhF4CyhB+GwqEo6U+Rr9mIc=;
- b=kewdyz87bq2iHid5EObeNKszKFtBaD+7IqwhaAlfkh4BXU43XHG0n2XFhE+8I64XoZ
- 5vf/WXHewQ2r1JosqkV7cmmaF7Xo3YvF0R2w4N6H6HLcWl1GoA2FLD4ofgwx0JxaTTrq
- CSipUN6RQEUZwSJzL3lwv1Zny4ZWY4oDtBZPqBNHgqwrrBaVhKwRgM/zpeASYlW2SZhI
- 71EqJEbs7Yhe+LjUaohEKTrE1vaWHdE4ojLs8Vewlr/uKsjzGq2f9FzNuRbS0G7zV1WF
- 3SXZPxBoJCq5Ci9ZklpxYDXRQs/JwtNjqxDNdLTG9w7dTOcoV2GFEBeH5krYm5I5IZ02
- 8ApA==
+ bh=xesmN7ACvFsONZVtIWgg/NPtUmXwqhWd4yT+IAnjfP4=;
+ b=qZAg5MBr717O6bx0hgvhFUHBeDocPLLbIuA4KYCL38V8KmSODY3s29neoV0F+KxB+t
+ uVdJRLOkJJ/TFr4CqqAFxKHHyIZiAQYiFHOvIpDwZ7RfFS8lTjrA68zg68wyKX3/XOeS
+ ils7qUiFHh3I1dzvFQqWhiIgcc3Qk59aHiQA5gqJjP/i1RnyH1bYLu2SiINjgmHZ8l+N
+ 9cItVocN4nwDjALaZDuOIKRIScblnBOByJbDfHd0sTg3KyBmDPhNTvfGe+2gRsF/ouUn
+ XdzsbLap+ojWLYG2FRj8jeLCQ/WaGGKCb7db7/oUCAfwxs8oAJjm3599KC6+fNxRUVkp
+ usug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680956414; x=1683548414;
+ d=1e100.net; s=20210112; t=1680956896; x=1683548896;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=qhbv7Y5Jgs9ftPKleaknEhF4CyhB+GwqEo6U+Rr9mIc=;
- b=GWtB4l7qzeV+kRGdkQ7CZwSe/d7FjM/47Ut+vBGQ62ABQWwHTuPMiJQC205XmYaPKM
- lmEA5QvuHj2/+1HWA7g86E6Tnk6DZseo9JdhDtvENdBEc0MUetopFi0x52mJIqoCRDZu
- xWkC79SrSfzcNF3Z+RzXEo2HampWhi0ueDAxoEgXri6GBXl6+Aae/Qovs3xIHjzwbooT
- C3P7fYI8nZFh2y2HktQhiPPS2qVGSHB66DFGkTSEpbxgPVY7LyUB1NALFrh/ifHYO527
- OTM9c8ugs41931/e0/uncAuP3lpFTbPK6nf/GYHIUJn1+OcgX7j9E4oTov1J3goJHLNi
- uFcw==
-X-Gm-Message-State: AAQBX9djJiMASHfzIca5+0fcR7mE/yD+VQQy9jlrhLDtSIl34ZpE7AP+
- KnlYVnK8SXvLIn3XyZJZoKW+B/+AhMwlL4mSmiM=
-X-Google-Smtp-Source: AKy350byafsIIuMRDAbzbtG99qHBwJjc6HbvgeYdBJg3DC7Y1cC2snm+nm7ja1eD+czjeKKSwOkkAYx2grZ+GMjtYY4=
-X-Received: by 2002:a25:be11:0:b0:b7d:4c96:de0 with SMTP id
- h17-20020a25be11000000b00b7d4c960de0mr993477ybk.5.1680956414354; Sat, 08 Apr
- 2023 05:20:14 -0700 (PDT)
+ bh=xesmN7ACvFsONZVtIWgg/NPtUmXwqhWd4yT+IAnjfP4=;
+ b=AOJFF4zrPk9y/Hrk3iLRECPLbnXD6jBU3Jx0Afz/Nr4jTISsgkUpteI56PvEAkqayU
+ BRhAWqNNOOQlJ9P3W+AeAtP1zRdHSdBw6LTKTTCt2YblaKQaV2vV0mi+VIwdmnxr6y+J
+ FoHhUOsBulEWuMmjk5pgAtOLY6yVy2saWeI8AKAlPdUw2znC7VfNDqnGcD/B9emVu2n6
+ q/JmlFjqEniuTPHx/7rBf1EEBLX0RrrIeJrMermtitDtacl6WpqLkUS7t0ac3raeJmYe
+ 8LniU3T1l73dS95IXPh8ZxbbgZcNTwMWFnbskn2W5s+AfDCzGYN0AxXKMgqO8v989gpW
+ PG6g==
+X-Gm-Message-State: AAQBX9ekkzpP8SWeZDv6OLmTlIeI0P7k8Cyry6VsfI+K1/GcN20Xvamd
+ pp/Pdy7fxYVti6vWObZo0vEiHsABZkA1vsxUCSI=
+X-Google-Smtp-Source: AKy350aY3jUZf5q2Y/64Ci72Ay5Sn65XYDDQWcwgFPC3PiVDm2NdvEfKa52juQSG5IL+Fu7hfyN+4JOB9Rn/BlI+5m4=
+X-Received: by 2002:a25:d657:0:b0:b76:ae61:b68b with SMTP id
+ n84-20020a25d657000000b00b76ae61b68bmr2784453ybg.5.1680956896058; Sat, 08 Apr
+ 2023 05:28:16 -0700 (PDT)
 MIME-Version: 1.0
 References: <20230406215917.1475704-1-robdclark@gmail.com>
- <20230406215917.1475704-2-robdclark@gmail.com>
-In-Reply-To: <20230406215917.1475704-2-robdclark@gmail.com>
+ <20230406215917.1475704-3-robdclark@gmail.com>
+In-Reply-To: <20230406215917.1475704-3-robdclark@gmail.com>
 From: Emil Velikov <emil.l.velikov@gmail.com>
-Date: Sat, 8 Apr 2023 13:20:03 +0100
-Message-ID: <CACvgo50nOw-82pc2mEbydWH3=RDXuOKwnBnjmOhV-UYcbjRKQA@mail.gmail.com>
-Subject: Re: [RFC 1/2] drm: Add fdinfo memory stats
+Date: Sat, 8 Apr 2023 13:28:04 +0100
+Message-ID: <CACvgo50FEYhdpp3nqX-AyAvLK8hJnK2xynTtLnCb9A+GSeHCvg@mail.gmail.com>
+Subject: Re: [RFC 2/2] drm/msm: Add memory stats to fdinfo
 To: Rob Clark <robdclark@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -67,91 +67,85 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Rob Clark <robdclark@chromium.org>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
- linux-arm-msm@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
- Christopher Healy <healych@amazon.com>, dri-devel@lists.freedesktop.org,
- open list <linux-kernel@vger.kernel.org>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, linux-arm-msm@vger.kernel.org,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
+ Christopher Healy <healych@amazon.com>,
  Boris Brezillon <boris.brezillon@collabora.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, freedreno@lists.freedesktop.org
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>,
+ open list <linux-kernel@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hey Rob,
-
 On Thu, 6 Apr 2023 at 22:59, Rob Clark <robdclark@gmail.com> wrote:
-
-> +- drm-purgeable-memory: <uint> [KiB|MiB]
-> +
-> +The total size of buffers that are purgable.
-
-s/purgable/purgeable/
-
-
-> +static void print_size(struct drm_printer *p, const char *stat, size_t sz)
+>
+> From: Rob Clark <robdclark@chromium.org>
+>
+> Use the new helper to export stats about memory usage.
+>
+> Signed-off-by: Rob Clark <robdclark@chromium.org>
+> ---
+>  drivers/gpu/drm/msm/msm_drv.c | 26 +++++++++++++++++++++++++-
+>  drivers/gpu/drm/msm/msm_gpu.c |  2 --
+>  2 files changed, 25 insertions(+), 3 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
+> index 9b6f17b1261f..385776f6a531 100644
+> --- a/drivers/gpu/drm/msm/msm_drv.c
+> +++ b/drivers/gpu/drm/msm/msm_drv.c
+> @@ -1043,17 +1043,40 @@ static const struct drm_ioctl_desc msm_ioctls[] = {
+>         DRM_IOCTL_DEF_DRV(MSM_SUBMITQUEUE_QUERY, msm_ioctl_submitqueue_query, DRM_RENDER_ALLOW),
+>  };
+>
+> +enum drm_gem_object_status gem_status(struct drm_gem_object *obj)
 > +{
-> +       const char *units[] = {"B", "KiB", "MiB", "GiB"};
-
-The documentation says:
-
-> Default unit shall be bytes with optional unit specifiers of 'KiB' or 'MiB'
-> indicating kibi- or mebi-bytes.
-
-So I would drop the B and/or update the documentation to mention B && GiB.
-
-> +       unsigned u;
+> +       struct msm_gem_object *msm_obj = to_msm_bo(obj);
+> +       enum drm_gem_object_status status = 0;
 > +
-> +       for (u = 0; u < ARRAY_SIZE(units) - 1; u++) {
-> +               if (sz < SZ_1K)
-> +                       break;
-> +               sz /= SZ_1K;
-
-IIRC size_t can be 64bit, so we should probably use do_div() here.
-
-> +       }
+> +       if (!dma_resv_test_signaled(obj->resv, dma_resv_usage_rw(true)))
+> +               status |= DRM_GEM_OBJECT_ACTIVE;
 > +
-> +       drm_printf(p, "%s:\t%lu %s\n", stat, sz, units[u]);
+> +       if (msm_obj->pages)
+> +               status |= DRM_GEM_OBJECT_RESIDENT;
+> +
+> +       if (msm_obj->madv == MSM_MADV_DONTNEED)
+> +               status |= DRM_GEM_OBJECT_PURGEABLE;
+> +
+> +       return status;
 > +}
 > +
-> +/**
-> + * drm_print_memory_stats - Helper to print standard fdinfo memory stats
-> + * @file: the DRM file
-> + * @p: the printer to print output to
-> + * @status: callback to get driver tracked object status
-> + *
-> + * Helper to iterate over GEM objects with a handle allocated in the specified
-> + * file.  The optional status callback can return additional object state which
-
-s/return additional/return an additional/
-
-> + * determines which stats the object is counted against.  The callback is called
-> + * under table_lock.  Racing against object status change is "harmless", and the
-> + * callback can expect to not race against object destroy.
-
-s/destroy/destruction/
-
-> + */
-> +void drm_print_memory_stats(struct drm_file *file, struct drm_printer *p,
-> +                           enum drm_gem_object_status (*status)(struct drm_gem_object *))
-> +{
-
-> +               if (s & DRM_GEM_OBJECT_RESIDENT) {
-> +                       size.resident += obj->size;
-> +                       s &= ~DRM_GEM_OBJECT_PURGEABLE;
-
-Is MSM capable of marking the object as both purgeable and resident or
-is this to catch other drivers? Should we add a note to the
-documentation above - resident memory cannot be purgeable
-
-> +               }
+>  static void msm_fop_show_fdinfo(struct seq_file *m, struct file *f)
+>  {
+>         struct drm_file *file = f->private_data;
+>         struct drm_device *dev = file->minor->dev;
+>         struct msm_drm_private *priv = dev->dev_private;
+> +       struct msm_file_private *ctx = file->driver_priv;
+>         struct drm_printer p = drm_seq_file_printer(m);
+>
+>         if (!priv->gpu)
+>                 return;
+>
+> -       msm_gpu_show_fdinfo(priv->gpu, file->driver_priv, &p);
+> +       drm_printf(&p, "drm-driver:\t%s\n", dev->driver->name);
+> +       drm_printf(&p, "drm-client-id:\t%u\n", ctx->seqno);
 > +
-> +               if (s & DRM_GEM_OBJECT_ACTIVE) {
-> +                       size.active += obj->size;
-> +                       s &= ~DRM_GEM_OBJECT_PURGEABLE;
+> +       msm_gpu_show_fdinfo(priv->gpu, ctx, &p);
+> +
+> +       drm_print_memory_stats(file, &p, gem_status);
+>  }
+>
+>  static const struct file_operations fops = {
+> @@ -1067,6 +1090,7 @@ static const struct drm_driver msm_driver = {
+>                                 DRIVER_RENDER |
+>                                 DRIVER_ATOMIC |
+>                                 DRIVER_MODESET |
+> +                               DRIVER_SYNCOBJ_TIMELINE |
 
-Ditto.
+This line should probably be its own patch. AFAICT it was supported
+since ab723b7a992a19b843f798b183f53f7472f598c8, although explicitly
+kept disabled until there's userspace/turnip support.
 
-With the above nits, the patch is:
+With the above line removed, the patch is:
 Reviewed-by: Emil Velikov <emil.l.velikov@gmail.com>
 
 HTH
