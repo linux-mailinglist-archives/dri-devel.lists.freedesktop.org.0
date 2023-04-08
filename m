@@ -1,58 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25C956DB9A7
-	for <lists+dri-devel@lfdr.de>; Sat,  8 Apr 2023 10:23:08 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D82F96DBAF0
+	for <lists+dri-devel@lfdr.de>; Sat,  8 Apr 2023 14:38:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 346FA10E134;
-	Sat,  8 Apr 2023 08:23:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A9F3510E167;
+	Sat,  8 Apr 2023 12:37:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 909 seconds by postgrey-1.36 at gabe;
- Sat, 08 Apr 2023 08:23:04 UTC
-Received: from sender-of-o51.zoho.in (sender-of-o51.zoho.in [103.117.158.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5F65710E134
- for <dri-devel@lists.freedesktop.org>; Sat,  8 Apr 2023 08:23:04 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1680941265; cv=none; d=zohomail.in; s=zohoarc; 
- b=KWoq/BDSD1asMcSy0D9FCEUwTle7J4nr43DDY3fBiPTYG9/i+Kk3aCOjeNoOcAmNAKSTdA/bYB01meEhk0iQN0PciRbvOQq/XKZLP5iFywT7mx+879vREwwzivmMSRS3b0yN2gjzLgCqgITJAu6FbNJfSiI82EbLOn1CM8uWNC8=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.in;
- s=zohoarc; t=1680941265;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:To;
- bh=qh8xtmC1qTrqy5bGNgR12Ei7zL2n3kqYPlSYKbj6iHg=; 
- b=e0nG4N6ouIEOHn7ecCZVfa7lkbhM016lVyo5/0knlPCC+6DMyFck87fn974avb7VP18TatSwb5ndgv8vdG9msIyKziVJRKVWgiTYAM2VsGtrjyL5ByhFhBdbDv4jnjDoy1yxT1PjlYZ8fOAFQdk/t1voDF21fvWZ6M05vkcXTvQ=
-ARC-Authentication-Results: i=1; mx.zohomail.in; dkim=pass  header.i=siddh.me;
- spf=pass  smtp.mailfrom=code@siddh.me;
- dmarc=pass header.from=<code@siddh.me>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1680941265; 
- s=zmail; d=siddh.me; i=code@siddh.me;
- h=Date:Date:From:From:To:To:Cc:Cc:Message-ID:In-Reply-To:References:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
- bh=qh8xtmC1qTrqy5bGNgR12Ei7zL2n3kqYPlSYKbj6iHg=;
- b=E9XsTWEI5+hjDKNFyApLlYnL0V4Gr/tMr3uVwPmfmi4XPtqYqCdwjMGvFriLwlDu
- 0BJMynqkuE+YlS3GHNAUmxJh7jEqWmZAcfmXsmc0huqeP503mET5RR7Ys/z8RShbWxq
- CgADTqF1gCvAzg6rBwgv753lUtHNo3/7mQq1eFAM=
-Received: from mail.zoho.in by mx.zoho.in
- with SMTP id 1680941252991104.24842012139527;
- Sat, 8 Apr 2023 13:37:32 +0530 (IST)
-Date: Sat, 08 Apr 2023 13:37:32 +0530
-From: Siddh Raman Pant <code@siddh.me>
-To: "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>,
- "Maxime Ripard" <mripard@kernel.org>,
- "Thomas Zimmermann" <tzimmermann@suse.de>,
- "David Airlie" <airlied@gmail.com>, "Daniel Vetter" <daniel@ffwll.ch>,
- "Jim Cromie" <jim.cromie@gmail.com>, "Sam Ravnborg" <sam@ravnborg.org>,
- "Jani Nikula" <jani.nikula@linux.intel.com>,
- "Suraj Upadhyay" <usuraj35@gmail.com>
-Message-ID: <1875fe8015d.134ced49297190.1370743243402238612@siddh.me>
-In-Reply-To: <cover.1677574322.git.code@siddh.me>
-References: <cover.1677574322.git.code@siddh.me>
-Subject: Re: [PATCH v8 0/8] drm: Remove usage of deprecated DRM_* macros
+Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com
+ [IPv6:2607:f8b0:4864:20::1036])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7A9F110E11E
+ for <dri-devel@lists.freedesktop.org>; Sat,  8 Apr 2023 08:18:38 +0000 (UTC)
+Received: by mail-pj1-x1036.google.com with SMTP id
+ 60-20020a17090a09c200b0023fcc8ce113so3063162pjo.4
+ for <dri-devel@lists.freedesktop.org>; Sat, 08 Apr 2023 01:18:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20210112; t=1680941917; x=1683533917;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=bVLjHTnOtdfrJmTguxNf65pHe59NsHzZRHirsqU2kkI=;
+ b=LAkalLbOacgneAq/9b8eeeOoWRMpWZze5EjlrBhbPhcJu8WyMkwdeaBsZfHX+WNzMD
+ dz60VvUvcmOQoLrqDopgqWu+mtWYcqPHmaKFZh6gIgVIS5mgiZIfczY1SRXgPV2SobAa
+ 3eYpJfNCkhxRQoZ62c71hVvEcmZSMdFk98VqqTPaKPSMsfjLmoxHX6E2V0O/Gzmso0W5
+ Pxd3kwS0pi5f2esDq+fSIGIpLqW939GitYraC8A85/XLgRLnURCPhE5QV6/Qxqz+a01y
+ onWw2G55D96NGWu98LyYc93v37bITK4fBllZRVitQlyvdYTzWjCrQTShJrlQrldetbC4
+ w2Wg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1680941917; x=1683533917;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=bVLjHTnOtdfrJmTguxNf65pHe59NsHzZRHirsqU2kkI=;
+ b=sSwfvl2R0XpD3GeZicz2xqEWsw5DU0Mpj/kTqj2BjL37G2cNn8nIE/xExUNJD/+kYc
+ 0tpk29/onquCwHmH9Na9Os4bRoyzxliqdG3rZ3Q4RiQ30JFdxnFLqfHE9iJ4s4qIHV1A
+ lj39ra7x21KYS5yf+kauewVCFWYu300+iU60T/aoITRfQdG538QrdIWfy4wfl9Mm8s06
+ 8QkEmlJA22CQA5f2sv3UWG6aZGMlSrwkFQ4LzQVJDVgmCLpZRxyH4SDQxiq11Mxn+xV7
+ 0NGKnxzgIDjLnBIZ5VRLfduITj5ug1Zb357LT/MQeYt8hVvkBeNsOwm1cR1uD3gGbt21
+ 9dqw==
+X-Gm-Message-State: AAQBX9ffwKkSHjKuKJ2KZwsmAdN86PiLKfSYBFKlgOMYOgnaJfIDjU6C
+ oIvm+oWuvc5Xp7+0o/AKe2s=
+X-Google-Smtp-Source: AKy350bL0LN8dYz+jJU6fEe9hPwD6r8Q52aLOrCDPnHNJ9uC8agiAAXug61dMxZjdY0aZTUZ5aK/dw==
+X-Received: by 2002:a17:90b:3b42:b0:240:1e0b:a7b7 with SMTP id
+ ot2-20020a17090b3b4200b002401e0ba7b7mr1780396pjb.39.1680941917202; 
+ Sat, 08 Apr 2023 01:18:37 -0700 (PDT)
+Received: from localhost.localdomain ([2405:201:682f:3808:8475:d375:707b:4600])
+ by smtp.gmail.com with ESMTPSA id
+ 14-20020a17090a08ce00b0023f21584dc7sm3796658pjn.55.2023.04.08.01.18.34
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 08 Apr 2023 01:18:36 -0700 (PDT)
+From: Deepanshu Kartikey <kartikey406@gmail.com>
+To: gregkh@linuxfoundation.org
+Subject: [PATCH] staging: fbtft: fbtft-bus.c added params
+Date: Sat,  8 Apr 2023 13:48:17 +0530
+Message-Id: <20230408081817.81562-1-kartikey406@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-Importance: Medium
-User-Agent: Zoho Mail
-X-Mailer: Zoho Mail
+Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Sat, 08 Apr 2023 12:37:55 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,51 +71,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
+Cc: Deepanshu Kartikey <kartikey406@gmail.com>, linux-fbdev@vger.kernel.org,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 28 Feb 2023 14:55:04 +0530, Siddh Raman Pant wrote:
-> This patchset aims to remove usages of deprecated DRM_* macros from the
-> files residing in drivers/gpu/drm root.
-> 
-> In process, I found out that NULL as first argument of drm_dbg_* wasn't
-> working, but it was listed as the alternative in deprecation comment,
-> so I fixed that before removing usages of DRM_DEBUG_* macros.
-> 
-> Courtesy discussion on v1, I added support for NULL in drm_()* macros too.
-> 
-> Courtesy discussion on v7, I removed generic macro stuff meant to accomodate
-> stuff like mipi_dsi_host, and instead reverted a commit which used the
-> drm_err() macro incorrectly by passing mipi_dsi_host.
-> 
-> This patchset should be applied in order as changes might be dependent.
-> 
-> Please review and let me know if any errors are there, and hopefully
-> this gets accepted.
-> 
-> [...]
-> 
-> Siddh Raman Pant (8):
->   Revert "drm: mipi-dsi: Convert logging to drm_* functions."
->   drm/print: Fix and add support for NULL as first argument in drm_*
->     macros
->   drm: Remove usage of deprecated DRM_INFO
->   drm: Remove usage of deprecated DRM_NOTE
->   drm: Remove usage of deprecated DRM_ERROR
->   drm: Remove usage of deprecated DRM_DEBUG
->   drm: Remove usage of deprecated DRM_DEBUG_DRIVER
->   drm: Remove usage of deprecated DRM_DEBUG_KMS
-> 
->  [...]
+Added cpu_to_be16 param in define_fbtft_write_reg
 
-Hello,
+Signed-off-by: Deepanshu Kartikey <kartikey406@gmail.com>
+---
+ drivers/staging/fbtft/fbtft-bus.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-Please review these patches and let me know if any further changes
-are required. I feel they should be good to merge now.
+diff --git a/drivers/staging/fbtft/fbtft-bus.c b/drivers/staging/fbtft/fbtft-bus.c
+index 3d422bc11641..228a5430c1d5 100644
+--- a/drivers/staging/fbtft/fbtft-bus.c
++++ b/drivers/staging/fbtft/fbtft-bus.c
+@@ -62,9 +62,9 @@ out:									      \
+ }                                                                             \
+ EXPORT_SYMBOL(func);
+ 
+-define_fbtft_write_reg(fbtft_write_reg8_bus8, u8, u8, )
+-define_fbtft_write_reg(fbtft_write_reg16_bus8, __be16, u16, cpu_to_be16)
+-define_fbtft_write_reg(fbtft_write_reg16_bus16, u16, u16, )
++define_fbtft_write_reg(fbtft_write_reg8_bus8, u8, u8, cpu_to_be16);
++define_fbtft_write_reg(fbtft_write_reg16_bus8, __be16, u16, cpu_to_be16);
++define_fbtft_write_reg(fbtft_write_reg16_bus16, u16, u16, cpu_to_be16);
+ 
+ void fbtft_write_reg8_bus9(struct fbtft_par *par, int len, ...)
+ {
+-- 
+2.25.1
 
-Context: https://lore.kernel.org/dri-devel/cover.1677574322.git.code@siddh.me/
-
-Thanks,
-Siddh
