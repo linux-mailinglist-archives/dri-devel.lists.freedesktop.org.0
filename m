@@ -1,62 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 006BC6DBC62
-	for <lists+dri-devel@lfdr.de>; Sat,  8 Apr 2023 19:47:54 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D2EC6DBE3D
+	for <lists+dri-devel@lfdr.de>; Sun,  9 Apr 2023 03:13:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B6C6B10E162;
-	Sat,  8 Apr 2023 17:47:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 229B210E03F;
+	Sun,  9 Apr 2023 01:13:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x330.google.com (mail-ot1-x330.google.com
- [IPv6:2607:f8b0:4864:20::330])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B759B10E162
- for <dri-devel@lists.freedesktop.org>; Sat,  8 Apr 2023 17:47:46 +0000 (UTC)
-Received: by mail-ot1-x330.google.com with SMTP id
- 46e09a7af769-6a3e0c725cbso57210a34.1
- for <dri-devel@lists.freedesktop.org>; Sat, 08 Apr 2023 10:47:46 -0700 (PDT)
+Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com
+ [IPv6:2a00:1450:4864:20::12b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 78DE110E03F
+ for <dri-devel@lists.freedesktop.org>; Sun,  9 Apr 2023 01:13:33 +0000 (UTC)
+Received: by mail-lf1-x12b.google.com with SMTP id z26so2471366lfj.11
+ for <dri-devel@lists.freedesktop.org>; Sat, 08 Apr 2023 18:13:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1680976065; x=1683568065;
+ d=linaro.org; s=google; t=1681002811;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=mxx7dBXytjcvNm/rosWinVPjziS+rj8SL88BmUqc9E4=;
- b=BrNwpICCDSH3WMVLXtDJp08IMOJLzOL6jtHSWroA8TtRbW4pkVaiKyeGbnXq11ZJ+U
- jNwiKlqusYdGnoSL3QWDNc90CNOsbpgXILGxCHUCxwHdaEBO3xgV6VJfvucG4qkK7Eri
- /f02jrUpc3jeDZmpNiHJ8ugivGFzKnpEBtqD1rYrsqzcIccHjLMrVAvOxQ56s9nPFlov
- 5pkRDT3IuOX9XgMCt8xwCwzTmoD14On7Nzqgbi9AmoEVyt1ioR15T13evasWWBBKX5JO
- O8VIDHx0guD5ekK5AJprthQMZL0wz+8FySzeKBwM4tEMF1CCfynljR07lB0qtJNizA/n
- MPdw==
+ bh=CbjQ0WKEphE5FlH/qtxRkisOHTrSOYqQhF4V+6PLF/o=;
+ b=PKqlLEZxtOe6s1vdAnOGOwxUtkZWKXJsUtN/RyKHajUTZX+UqEBNSsCErw4OfxEmBg
+ xToYumVLt9O5W8v4CHhZ/HrMDXk8f6vCYrt5x2Cw25N1RbWmhj2tf0rN0I6sN2UxFRzT
+ q4cdRC+riooBOssQ2/3gCBxFm9LbIX8nJudQZiK1NRYkapGIoEgLAeoz846T/IDqsPvN
+ 9LTI6rA0611SRS5rJoM5X2W+j8UClh1YPmLr/WHCvmxCf33McZdhp2k0Pq/IOO8p972x
+ cfX9F63p42NYUMPwniDdRnFQXaQ/o3on4/baUH0FbVLeddHB6O62rISAU5rAbkcZa7Wx
+ CVgA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680976065; x=1683568065;
+ d=1e100.net; s=20210112; t=1681002811;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=mxx7dBXytjcvNm/rosWinVPjziS+rj8SL88BmUqc9E4=;
- b=IfsXJa69YojybC0msI+WjeEiEVl670ng/zxHAF8Nb5ueRx8mOeTjHK0Fg/FBfub9Rz
- QzUsypp70J7/9ftm8nSfXidLnbTInNiC3mGTH0iROvX3Dq4pB5kWC2lstHGNtS64oSSu
- 6h2Om/71wqdPHJ10J+QUFFo8igmOtucPj6YpxhABqEUXHpvgWLhWf5k8py9KYA3ikeZi
- g48SlDDq1bC7LcsYKeXOJYnYF6+h2LhmgtJ+ZjWo78PAGnCt8rwfrTaNUrAKVnrwUfbk
- LRL7rv+qSniCaG7S7OY04Ulu0i4Z8tZyurl+BuFc1S8J9Rt5uBDyhh8AYvrSxNRM2AtB
- omhg==
-X-Gm-Message-State: AAQBX9fSju7IFqMHtngLcKZ6GOvmCW50cX7psN562KtdpJEibrw8Wefz
- 9fscO1T2VEATm/A+PB+jYPE=
-X-Google-Smtp-Source: AKy350YfWPPhiA07t0vZNxQB6bRWNnhghQHfxIA4MFZyyof9eJboYjDRI10kDRtqt4SphuQsHTGgFQ==
-X-Received: by 2002:a05:6870:b512:b0:17e:3772:bdcc with SMTP id
- v18-20020a056870b51200b0017e3772bdccmr1479902oap.5.1680976065298; 
- Sat, 08 Apr 2023 10:47:45 -0700 (PDT)
-Received: from fabio-Precision-3551.. ([2804:14c:485:4b69:c705:4ba6:4922:a289])
+ bh=CbjQ0WKEphE5FlH/qtxRkisOHTrSOYqQhF4V+6PLF/o=;
+ b=5QEwHaJ/uJvEWXk5HsBMJZOBhN38pq2sJdyrgvTRaCHc+z3mG3TRDHw9xVjFgcegS1
+ IxNotU+sj+7u64hpHKTS+fRnqxL9eSDgNwrKuQ5ySTpy5tNV1jFDBsEwtETt+s01nGW3
+ /Zj5nhvh3G4xDopPd0TjqwxIk8jeMUhfAqGeHptozfrPP/p0CxVF4jbOzA2l3wSlz/xo
+ jiq1UbWbRYJZOIeR/kENgrGwboaL2uM2aGIuiCQXzT3VV6NDjuGBYkJ5OeYbHVlvFsaZ
+ uqkhzxWr/J+LOjVaAQhc/CBrZYfX3vD7YKYhkFaVH037T1GvSSqSB/msVAZ5vnSOc6QS
+ qlyg==
+X-Gm-Message-State: AAQBX9e+QstE+eShK4EHf1UImI0FJQSVXgn3u0+jaMCYjB9TdlSq4wK7
+ juD7v8HLAkU8FzjOkE5xHHP+DA==
+X-Google-Smtp-Source: AKy350Ykxuwz5RwN/KYGVrdZATEgGYWrGy2cC6FLUroM05rMoGs/UwHy4fk/Pv406T3tTYKZWvTv0g==
+X-Received: by 2002:ac2:5097:0:b0:4eb:401e:1b76 with SMTP id
+ f23-20020ac25097000000b004eb401e1b76mr1925852lfm.52.1681002810675; 
+ Sat, 08 Apr 2023 18:13:30 -0700 (PDT)
+Received: from umbar.unikie.fi ([192.130.178.91])
  by smtp.gmail.com with ESMTPSA id
- w2-20020a056830110200b006a13f7701e3sm2724210otq.32.2023.04.08.10.47.41
+ f8-20020ac25328000000b004eaf2291dcdsm1379210lfh.102.2023.04.08.18.13.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 08 Apr 2023 10:47:44 -0700 (PDT)
-From: Fabio Estevam <festevam@gmail.com>
-To: robh+dt@kernel.org
-Subject: [PATCH] dt-bindings: drm/bridge: ti-sn65dsi86: Fix the
- video-interfaces.yaml references 
-Date: Sat,  8 Apr 2023 14:47:36 -0300
-Message-Id: <20230408174736.1789082-1-festevam@gmail.com>
-X-Mailer: git-send-email 2.34.1
+ Sat, 08 Apr 2023 18:13:30 -0700 (PDT)
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>
+Subject: [RFC PATCH] drm/msm/a5xx: really check for A510 in a5xx_gpu_init
+Date: Sun,  9 Apr 2023 04:13:29 +0300
+Message-Id: <20230409011329.2365570-1-dmitry.baryshkov@linaro.org>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -71,64 +70,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: neil.armstrong@linaro.org, Fabio Estevam <festevam@denx.de>,
- devicetree@vger.kernel.org, dianders@chromium.org,
- dri-devel@lists.freedesktop.org, krzysztof.kozlowski+dt@linaro.org
+Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ Bjorn Andersson <andersson@kernel.org>, Adam Skladowski <a39.skl@gmail.com>,
+ dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Fabio Estevam <festevam@denx.de>
+The commit 010c8bbad2cb ("drm: msm: adreno: Disable preemption on Adreno
+510") added special handling for a510 (this SKU doesn't seem to support
+preemption, so the driver should clamp nr_rings to 1). However the
+gpu->revn is not yet set (it is set later, in adreno_gpu_init()) and
+thus the condition is always false. Check config->rev instead.
 
-video-interface.txt does not exist anymore, as it has been converted
-to video-interfaces.yaml.
-
-Update the references to the new file name.
-
-Signed-off-by: Fabio Estevam <festevam@denx.de>
+Fixes: 010c8bbad2cb ("drm: msm: adreno: Disable preemption on Adreno 510")
+Reported-by: Adam Skladowski <a39.skl@gmail.com>
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- .../devicetree/bindings/display/bridge/ti,sn65dsi86.yaml  | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/msm/adreno/a5xx_gpu.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi86.yaml b/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi86.yaml
-index 911564468c5e..967b1deb4936 100644
---- a/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi86.yaml
-+++ b/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi86.yaml
-@@ -106,7 +106,7 @@ properties:
-                     description:
-                       If you have 1 logical lane the bridge supports routing
-                       to either port 0 or port 1.  Port 0 is suggested.
--                      See ../../media/video-interface.txt for details.
-+                      See ../../media/video-interfaces.yaml for details.
+diff --git a/drivers/gpu/drm/msm/adreno/a5xx_gpu.c b/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
+index 1e8d2982d603..a99310b68793 100644
+--- a/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
++++ b/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
+@@ -1743,6 +1743,7 @@ struct msm_gpu *a5xx_gpu_init(struct drm_device *dev)
+ {
+ 	struct msm_drm_private *priv = dev->dev_private;
+ 	struct platform_device *pdev = priv->gpu_pdev;
++	struct adreno_platform_config *config = pdev->dev.platform_data;
+ 	struct a5xx_gpu *a5xx_gpu = NULL;
+ 	struct adreno_gpu *adreno_gpu;
+ 	struct msm_gpu *gpu;
+@@ -1769,7 +1770,7 @@ struct msm_gpu *a5xx_gpu_init(struct drm_device *dev)
  
-                   - minItems: 2
-                     maxItems: 2
-@@ -118,7 +118,7 @@ properties:
-                     description:
-                       If you have 2 logical lanes the bridge supports
-                       reordering but only on physical ports 0 and 1.
--                      See ../../media/video-interface.txt for details.
-+                      See ../../media/video-interfaces.yaml for details.
+ 	nr_rings = 4;
  
-                   - minItems: 4
-                     maxItems: 4
-@@ -132,7 +132,7 @@ properties:
-                     description:
-                       If you have 4 logical lanes the bridge supports
-                       reordering in any way.
--                      See ../../media/video-interface.txt for details.
-+                      See ../../media/video-interfaces.yaml for details.
+-	if (adreno_is_a510(adreno_gpu))
++	if (adreno_cmp_rev(ADRENO_REV(5, 1, 0, ANY_ID), config->rev))
+ 		nr_rings = 1;
  
-               lane-polarities:
-                 minItems: 1
-@@ -141,7 +141,7 @@ properties:
-                   enum:
-                     - 0
-                     - 1
--                description: See ../../media/video-interface.txt
-+                description: See ../../media/video-interfaces.yaml
- 
-             dependencies:
-               lane-polarities: [data-lanes]
+ 	ret = adreno_gpu_init(dev, pdev, adreno_gpu, &funcs, nr_rings);
 -- 
-2.34.1
+2.30.2
 
