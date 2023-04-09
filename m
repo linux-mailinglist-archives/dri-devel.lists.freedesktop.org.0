@@ -1,63 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D2EC6DBE3D
-	for <lists+dri-devel@lfdr.de>; Sun,  9 Apr 2023 03:13:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7771F6DBF3D
+	for <lists+dri-devel@lfdr.de>; Sun,  9 Apr 2023 10:53:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 229B210E03F;
-	Sun,  9 Apr 2023 01:13:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E731210E0D5;
+	Sun,  9 Apr 2023 08:53:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com
- [IPv6:2a00:1450:4864:20::12b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 78DE110E03F
- for <dri-devel@lists.freedesktop.org>; Sun,  9 Apr 2023 01:13:33 +0000 (UTC)
-Received: by mail-lf1-x12b.google.com with SMTP id z26so2471366lfj.11
- for <dri-devel@lists.freedesktop.org>; Sat, 08 Apr 2023 18:13:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1681002811;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=CbjQ0WKEphE5FlH/qtxRkisOHTrSOYqQhF4V+6PLF/o=;
- b=PKqlLEZxtOe6s1vdAnOGOwxUtkZWKXJsUtN/RyKHajUTZX+UqEBNSsCErw4OfxEmBg
- xToYumVLt9O5W8v4CHhZ/HrMDXk8f6vCYrt5x2Cw25N1RbWmhj2tf0rN0I6sN2UxFRzT
- q4cdRC+riooBOssQ2/3gCBxFm9LbIX8nJudQZiK1NRYkapGIoEgLAeoz846T/IDqsPvN
- 9LTI6rA0611SRS5rJoM5X2W+j8UClh1YPmLr/WHCvmxCf33McZdhp2k0Pq/IOO8p972x
- cfX9F63p42NYUMPwniDdRnFQXaQ/o3on4/baUH0FbVLeddHB6O62rISAU5rAbkcZa7Wx
- CVgA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1681002811;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=CbjQ0WKEphE5FlH/qtxRkisOHTrSOYqQhF4V+6PLF/o=;
- b=5QEwHaJ/uJvEWXk5HsBMJZOBhN38pq2sJdyrgvTRaCHc+z3mG3TRDHw9xVjFgcegS1
- IxNotU+sj+7u64hpHKTS+fRnqxL9eSDgNwrKuQ5ySTpy5tNV1jFDBsEwtETt+s01nGW3
- /Zj5nhvh3G4xDopPd0TjqwxIk8jeMUhfAqGeHptozfrPP/p0CxVF4jbOzA2l3wSlz/xo
- jiq1UbWbRYJZOIeR/kENgrGwboaL2uM2aGIuiCQXzT3VV6NDjuGBYkJ5OeYbHVlvFsaZ
- uqkhzxWr/J+LOjVaAQhc/CBrZYfX3vD7YKYhkFaVH037T1GvSSqSB/msVAZ5vnSOc6QS
- qlyg==
-X-Gm-Message-State: AAQBX9e+QstE+eShK4EHf1UImI0FJQSVXgn3u0+jaMCYjB9TdlSq4wK7
- juD7v8HLAkU8FzjOkE5xHHP+DA==
-X-Google-Smtp-Source: AKy350Ykxuwz5RwN/KYGVrdZATEgGYWrGy2cC6FLUroM05rMoGs/UwHy4fk/Pv406T3tTYKZWvTv0g==
-X-Received: by 2002:ac2:5097:0:b0:4eb:401e:1b76 with SMTP id
- f23-20020ac25097000000b004eb401e1b76mr1925852lfm.52.1681002810675; 
- Sat, 08 Apr 2023 18:13:30 -0700 (PDT)
-Received: from umbar.unikie.fi ([192.130.178.91])
- by smtp.gmail.com with ESMTPSA id
- f8-20020ac25328000000b004eaf2291dcdsm1379210lfh.102.2023.04.08.18.13.29
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 08 Apr 2023 18:13:30 -0700 (PDT)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>
-Subject: [RFC PATCH] drm/msm/a5xx: really check for A510 in a5xx_gpu_init
-Date: Sun,  9 Apr 2023 04:13:29 +0300
-Message-Id: <20230409011329.2365570-1-dmitry.baryshkov@linaro.org>
-X-Mailer: git-send-email 2.30.2
+Received: from mout02.posteo.de (mout02.posteo.de [185.67.36.66])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 18B1C10E0D5
+ for <dri-devel@lists.freedesktop.org>; Sun,  9 Apr 2023 08:21:32 +0000 (UTC)
+Received: from submission (posteo.de [185.67.36.169]) 
+ by mout02.posteo.de (Postfix) with ESMTPS id CE4F3240159
+ for <dri-devel@lists.freedesktop.org>; Sun,  9 Apr 2023 10:21:29 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=posteo.net; s=2017;
+ t=1681028489; bh=GCmo/FQZEbl3ShLJvIwU3fxDcrVQZl3kl6EFP8KaIFc=;
+ h=Date:From:To:Cc:Subject:From;
+ b=Caf1SSvgMuXeYpAY5NXoJcSW/DiduWlRF7Bm5M8X3AE3VK+hU3Ib3EZYWatrGRd9d
+ hU0/cOD7ET8SMU2+DLk17dFFzv1hrUfgy0Bax1G+hqhb9tCYqW0Pbpj/3ALnAZEtBq
+ B1V0jf2KyKj1suPHOS1nmHTyGFys4XOZB6L6oAqouycgkMElq1TeRmuFRiVd/sWHsP
+ x0JVTTDepAAX2XyI0JMlZ6fsVIFC1hh0O2lw9e/P6nV9KUNC3NpEBZ85PtaXqPU1nr
+ rx+KvREciQJ3SSOD5AoBMnPsDx4f1p1ajoU5JpiE1wRXhTtiT87pqoAJrNpnl0DsQU
+ sqQQk9gm7S7rw==
+Received: from customer (localhost [127.0.0.1])
+ by submission (posteo.de) with ESMTPSA id 4PvQ6k2vpXz6tvw;
+ Sun,  9 Apr 2023 10:21:18 +0200 (CEST)
+Date: Sun,  9 Apr 2023 08:21:17 +0000
+From: Wilken Gottwalt <wilken.gottwalt@posteo.net>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: Re: [PATCH 12/68] hwmon: corsair: constify pointers to
+ hwmon_channel_info
+Message-ID: <20230409102117.6fcdc42f@posteo.net>
+In-Reply-To: <20230406203103.3011503-13-krzysztof.kozlowski@linaro.org>
+References: <20230406203103.3011503-1-krzysztof.kozlowski@linaro.org>
+ <20230406203103.3011503-13-krzysztof.kozlowski@linaro.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Mailman-Approved-At: Sun, 09 Apr 2023 08:53:20 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,46 +52,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- Bjorn Andersson <andersson@kernel.org>, Adam Skladowski <a39.skl@gmail.com>,
- dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>
+Cc: Tomer Maimon <tmaimon77@gmail.com>,
+ Eric Tremblay <etremblay@distech-controls.com>, Tom Rix <trix@redhat.com>,
+ Jean-Marie Verdun <verdun@hpe.com>, Clemens Ladisch <clemens@ladisch.de>,
+ dri-devel@lists.freedesktop.org, Tali Perry <tali.perry1@gmail.com>,
+ Rudolf Marek <r.marek@assembler.cz>,
+ Aleksandr Mezin <mezin.alexander@gmail.com>,
+ Florian Fainelli <f.fainelli@gmail.com>, Luka Perkov <luka.perkov@sartura.hr>,
+ Benjamin Fair <benjaminfair@google.com>, Jonathan Corbet <corbet@lwn.net>,
+ Steen Hegelund <Steen.Hegelund@microchip.com>, linux-doc@vger.kernel.org,
+ Jonas Malaco <jonas@protocubo.io>,
+ Derek John Clark <derekjohn.clark@gmail.com>, UNGLinuxDriver@microchip.com,
+ Nancy Yuen <yuenn@google.com>,
+ Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+ linux-arm-kernel@lists.infradead.org, Aleksa Savic <savicaleksa83@gmail.com>,
+ Guenter Roeck <linux@roeck-us.net>, Jean Delvare <jdelvare@suse.com>,
+ Charles Keepax <ckeepax@opensource.cirrus.com>,
+ Daniel Machon <daniel.machon@microchip.com>,
+ Michael Hennerich <Michael.Hennerich@analog.com>, openbmc@lists.ozlabs.org,
+ Robert Marko <robert.marko@sartura.hr>,
+ =?ISO-8859-1?Q?Joaqu=EDn?= Ignacio =?ISO-8859-1?Q?Aramend=EDa?=
+ <samsagax@gmail.com>, Hans de Goede <hdegoede@redhat.com>,
+ Richard Fitzgerald <rf@opensource.cirrus.com>,
+ Agathe Porte <agathe.porte@nokia.com>, linux-rpi-kernel@lists.infradead.org,
+ Nick Hawkins <nick.hawkins@hpe.com>,
+ Nuno =?ISO-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+ Lars Povlsen <lars.povlsen@microchip.com>, linux-hwmon@vger.kernel.org,
+ Avi Fishman <avifishman70@gmail.com>, Patrick Venture <venture@google.com>,
+ Oded Gabbay <ogabbay@kernel.org>, Iwona Winiarska <iwona.winiarska@intel.com>,
+ linux-kernel@vger.kernel.org, Jack Doan <me@jackdoan.com>,
+ Michael Walle <michael@walle.cc>, Marius Zachmann <mail@mariuszachmann.de>,
+ Ibrahim Tilki <Ibrahim.Tilki@analog.com>, patches@opensource.cirrus.com,
+ Pali =?ISO-8859-1?Q?Roh=E1r?= <pali@kernel.org>, Xu Yilun <yilun.xu@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The commit 010c8bbad2cb ("drm: msm: adreno: Disable preemption on Adreno
-510") added special handling for a510 (this SKU doesn't seem to support
-preemption, so the driver should clamp nr_rings to 1). However the
-gpu->revn is not yet set (it is set later, in adreno_gpu_init()) and
-thus the condition is always false. Check config->rev instead.
+On Thu,  6 Apr 2023 22:30:07 +0200
+Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> wrote:
 
-Fixes: 010c8bbad2cb ("drm: msm: adreno: Disable preemption on Adreno 510")
-Reported-by: Adam Skladowski <a39.skl@gmail.com>
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- drivers/gpu/drm/msm/adreno/a5xx_gpu.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+> diff --git a/drivers/hwmon/corsair-psu.c b/drivers/hwmon/corsair-psu.c
+> index 2210aa62e3d0..dc24c566d08b 100644
+> --- a/drivers/hwmon/corsair-psu.c
+> +++ b/drivers/hwmon/corsair-psu.c
+> @@ -571,7 +571,7 @@ static const struct hwmon_ops corsairpsu_hwmon_ops = {
+>  	.read_string	= corsairpsu_hwmon_ops_read_string,
+>  };
+>  
+> -static const struct hwmon_channel_info *corsairpsu_info[] = {
+> +static const struct hwmon_channel_info * const corsairpsu_info[] = {
+>  	HWMON_CHANNEL_INFO(chip,
+>  			   HWMON_C_REGISTER_TZ),
+>  	HWMON_CHANNEL_INFO(temp,
 
-diff --git a/drivers/gpu/drm/msm/adreno/a5xx_gpu.c b/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
-index 1e8d2982d603..a99310b68793 100644
---- a/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
-+++ b/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
-@@ -1743,6 +1743,7 @@ struct msm_gpu *a5xx_gpu_init(struct drm_device *dev)
- {
- 	struct msm_drm_private *priv = dev->dev_private;
- 	struct platform_device *pdev = priv->gpu_pdev;
-+	struct adreno_platform_config *config = pdev->dev.platform_data;
- 	struct a5xx_gpu *a5xx_gpu = NULL;
- 	struct adreno_gpu *adreno_gpu;
- 	struct msm_gpu *gpu;
-@@ -1769,7 +1770,7 @@ struct msm_gpu *a5xx_gpu_init(struct drm_device *dev)
- 
- 	nr_rings = 4;
- 
--	if (adreno_is_a510(adreno_gpu))
-+	if (adreno_cmp_rev(ADRENO_REV(5, 1, 0, ANY_ID), config->rev))
- 		nr_rings = 1;
- 
- 	ret = adreno_gpu_init(dev, pdev, adreno_gpu, &funcs, nr_rings);
--- 
-2.30.2
+Wait a minute. Can you at least match it to the coding style of the driver?
+A lot of work went into it to keep it consistent.
 
+greetings,
+Will
