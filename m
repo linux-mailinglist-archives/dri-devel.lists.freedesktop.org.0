@@ -1,60 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1C176DCB80
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Apr 2023 21:25:28 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A8A56DCB81
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Apr 2023 21:25:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 46C5010E0D7;
-	Mon, 10 Apr 2023 19:25:24 +0000 (UTC)
-X-Original-To: dri-devel@lists.freedesktop.org
-Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22a.google.com (mail-lj1-x22a.google.com
- [IPv6:2a00:1450:4864:20::22a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C210510E0D7
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Apr 2023 19:25:22 +0000 (UTC)
-Received: by mail-lj1-x22a.google.com with SMTP id x31so2154733ljq.10
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Apr 2023 12:25:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1681154720;
- h=cc:to:subject:message-id:date:user-agent:from:references
- :in-reply-to:mime-version:from:to:cc:subject:date:message-id
- :reply-to; bh=oMLZlLsk1ZmBuhpTjnkgtNlwoW9RY3W1zOG3l2TynA0=;
- b=NQsdCq7Vc3vBXOHSG2Gd4Ecu1AFWfemrladBsEVaJFxDiRyS3vD4YPE2ayQkKhGyVi
- 4LytdPMMCdaA5hUJf1o+Axu0RaD1HLuWqSgIWCdAMMCGbSv8uLe2421ZjgDk+S58uBAH
- rwPGIdjovXJz0qjgfN0zr7Psrt5S8NwG+M6Ts=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1681154720;
- h=cc:to:subject:message-id:date:user-agent:from:references
- :in-reply-to:mime-version:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=oMLZlLsk1ZmBuhpTjnkgtNlwoW9RY3W1zOG3l2TynA0=;
- b=H0xgiYLC0WPiGqYyzNyOnbMTeSGFPvirailQKcuHDD65l6koS6sUa+tAruRO+k2Oon
- mMj/q1OOUswTJJCLrrDHhpIsWw5UKDlMGTH3nreoSoiE0kWBbYmuKlNTpJ3BYlfQOaes
- O/qk6iN+wPBxAWRx9tB8lzn6cJHASiMTOISFx1i3oNIYyhjJRWIoQ0kDXKfLweWvTJgg
- +Cmw86BdU9hsgLsOJpX8gi/bYksX/1x8gqvZ/JhETjGXe6wxoGunhr1igAmSTW9PoD/Y
- gp9kJFk+Xrzs1fDell1VDQaulT/mCwQY68IrQIedpMhcbRfMgGnTNiV9elOtesi1xwIa
- f1HA==
-X-Gm-Message-State: AAQBX9dSf5MrGVuw3254BrpMd+vyKdwA6BLEWd6uVgrHGoDTZGtICkM9
- nZRjXpzks5kOyMNb63t5dTwA1IBwx7Ebar7aHsSq2A==
-X-Google-Smtp-Source: AKy350aM7EnTjHmbJKpnZSSwSWV8UNF3S78abKV89jAc10QXM95eqRFSxU6PMpjTGWeMKs4+jQ5mVRRL9wTvlBjw5Tg=
-X-Received: by 2002:a2e:a9a6:0:b0:2a7:6f6a:baf with SMTP id
- x38-20020a2ea9a6000000b002a76f6a0bafmr2522173ljq.0.1681154720194; Mon, 10 Apr
- 2023 12:25:20 -0700 (PDT)
-Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Mon, 10 Apr 2023 12:25:19 -0700
+	by gabe.freedesktop.org (Postfix) with ESMTP id D12B110E0C5;
+	Mon, 10 Apr 2023 19:25:49 +0000 (UTC)
+X-Original-To: DRI-Devel@lists.freedesktop.org
+Delivered-To: DRI-Devel@lists.freedesktop.org
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9AE2110E0C5;
+ Mon, 10 Apr 2023 19:25:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1681154748; x=1712690748;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=v1bE4KrSONyhEiQO+BzQePccr9+MJLmzEu4za0y099U=;
+ b=cX3mr8cohBtPzufZuoUWvvZ8JNoQgJ63es84dAH4noqxd3yty1dTSIfq
+ p2kom8Y8EmUVp989Ft5cT5bxIW9Fm6u6MfV6nnPXlYI7OF6hcG7MYbrN3
+ UFxEoaFGip5rlN139QcMR9++o7h4ggLOwQtkMUlMduQHJ4UhmbYPboZEe
+ g5i7L4LuU7ThDPyQUCaWw2EGIMon19D/sYHpku3HmMJ82mlvHKIy4y+6g
+ CSCmFxQGTlL5UHRhSJ05zKLwetiW7UYDavPvPWvDOJlaZkDsTmduVjKwj
+ egtXvJi+88pueu7LiLfB2ti9RO6X4C5z+7Zn6lHEs3IuF/v9RTZaLpAsS Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10676"; a="323797868"
+X-IronPort-AV: E=Sophos;i="5.98,333,1673942400"; d="scan'208";a="323797868"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Apr 2023 12:25:47 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10676"; a="638554241"
+X-IronPort-AV: E=Sophos;i="5.98,333,1673942400"; d="scan'208";a="638554241"
+Received: from relo-linux-5.jf.intel.com ([10.165.21.152])
+ by orsmga003.jf.intel.com with ESMTP; 10 Apr 2023 12:25:43 -0700
+From: John.C.Harrison@Intel.com
+To: Intel-GFX@Lists.FreeDesktop.Org
+Subject: [PATCH 0/2] Add support for dumping error captures via kernel logging
+Date: Mon, 10 Apr 2023 12:25:21 -0700
+Message-Id: <20230410192523.2020049-1-John.C.Harrison@Intel.com>
+X-Mailer: git-send-email 2.39.1
 MIME-Version: 1.0
-In-Reply-To: <20230407010741.2033800-1-dmitry.baryshkov@linaro.org>
-References: <20230407010741.2033800-1-dmitry.baryshkov@linaro.org>
-From: Stephen Boyd <swboyd@chromium.org>
-User-Agent: alot/0.10
-Date: Mon, 10 Apr 2023 12:25:19 -0700
-Message-ID: <CAE-0n52St9X1EA=PUKYFM22Er3+o_2aYC8eAskHr4KtMoQVQsA@mail.gmail.com>
-Subject: Re: [PATCH] drm/msm/adreno: fix sparse warnings in a6xx code
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark <robdclark@gmail.com>,
- Sean Paul <sean@poorly.run>
-Content-Type: text/plain; charset="UTF-8"
+Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
+ Swindon SN3 1RJ
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,30 +56,29 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel test robot <lkp@intel.com>, linux-arm-msm@vger.kernel.org,
- Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org
+Cc: John Harrison <John.C.Harrison@Intel.com>, DRI-Devel@Lists.FreeDesktop.Org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Dmitry Baryshkov (2023-04-06 18:07:41)
-> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gmu.h b/drivers/gpu/drm/msm/adreno/a6xx_gmu.h
-> index 0bc3eb443fec..84d345af126f 100644
-> --- a/drivers/gpu/drm/msm/adreno/a6xx_gmu.h
-> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gmu.h
-> @@ -51,8 +51,8 @@ struct a6xx_gmu {
->
->         struct msm_gem_address_space *aspace;
->
-> -       void * __iomem mmio;
-> -       void * __iomem rscc;
-> +       void __iomem * mmio;
-> +       void __iomem * rscc;
+From: John Harrison <John.C.Harrison@Intel.com>
 
-Should stick that * to the member name.
+Sometimes, the only effective way to debug an issue is to dump all the
+interesting information at the point of failure. So add support for
+doing that.
 
-	void __iomem *rscc;
+Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
 
-with that
 
-Reviewed-by: Stephen Boyd <swboyd@chromium.org>
+John Harrison (2):
+  drm/i915: Dump error capture to kernel log
+  drm/i915/guc: Dump error capture to dmesg on CTB error
+
+ drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c |  53 +++++++++
+ drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h |   6 +
+ drivers/gpu/drm/i915/i915_gpu_error.c     | 130 ++++++++++++++++++++++
+ drivers/gpu/drm/i915/i915_gpu_error.h     |   8 ++
+ 4 files changed, 197 insertions(+)
+
+-- 
+2.39.1
+
