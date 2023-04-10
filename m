@@ -1,46 +1,123 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24DB06DC6F2
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Apr 2023 14:55:03 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E89CE6DC800
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Apr 2023 16:46:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 57BF310E081;
-	Mon, 10 Apr 2023 12:54:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 82BED10E3A4;
+	Mon, 10 Apr 2023 14:46:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 020CD10E081
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Apr 2023 12:54:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-Id:
- Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:Content-Description:
- Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
- In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=WJCj+V70hpVc3xrgHcQqTuyuJDo+GPXNf6JHMzFdl8s=; b=KHhbuXdKuX3aK1aJKS3b6YXYD5
- 2wVDsytSbZjKnMPf1b49xSE1w9M6CcNplY4FZbA0bBsUAiejv5HuXoRRWsrrkq6M3jbxEoWyPczs1
- tmrKx10XJuZIvm+osf3lqprZTTclhg4pEhs2hxc4Sf8WSqktqQUnljC+tPZnnyZUXStyU8Aypsvo+
- bN7CYOimHQStcGjXGIGIZkEWcCjha/eVeGoTEXDgK8lgEjbGXYTTV2BWysj9aVXxRlvKDyxpJKnXP
- YcokfE9Tby1Dn9RYQ9iL50iQI7/dMyW2xQNmCCtTDXu7HCxrtEqMiEZCb012rn4H0sSj4ykoN9md4
- Z8wB6Mfw==;
-Received: from [177.34.168.16] (helo=bowie..)
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1plr2q-00DrKZ-Vd; Mon, 10 Apr 2023 14:54:53 +0200
-From: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>
-To: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- Melissa Wen <mwen@igalia.com>, Haneen Mohammed <hamohammed.sa@gmail.com>,
- Igor Matheus Andrade Torrente <igormtorrente@gmail.com>
-Subject: [PATCH v2] drm/vkms: add module parameter to set background color
-Date: Mon, 10 Apr 2023 09:54:35 -0300
-Message-Id: <20230410125435.128689-1-mcanal@igalia.com>
-X-Mailer: git-send-email 2.39.2
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam10on2058.outbound.protection.outlook.com [40.107.94.58])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 70AC810E39A;
+ Mon, 10 Apr 2023 14:46:27 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=X4WINfzecwP54fF4RLBtZhFzXJIVcf5JRpOgzj2cLys0tbayw1bJp57EaEEH8OmQC62nWVb14YwGRM6DcozI2TSxnFYsda2ZYNiQv/DAvfabHbLgOOPyDj5hkk7NAhHveHZjQA4s8dPd8Oege5ajq09e4PnvFHzYTtX8EwxA4kyMXzmWXcXqY+i0GEkZcJUeExppHnctZxPEum6lfwG20bKslFl/0f9ClKuN1iOmQ+rIVJY0MD0EFkmtWBVCTpiXZBZTWjAezVwnQND8qJAdb3p6n/DEafKbp8OXiak+67ToTmxoSZwNyYFRPvOudWDFcE8wi3KqoGIBdURxNLXWuQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=r1+j4iSJkvXRZYQCs/Lc6/hx5wP9D/Wau3seB+PheBU=;
+ b=VuH6g3n4iRYzcJBx3SdpiFiSQfAf0YXHcc1eeJCYLwRjZSQ0aAZtFt8ZYfbharYNHC2eP3X6tfpm9sujk/qlJBLuddLnQF6ZuNOrx+MUNS9yDGym1XsygWLAcX/imtuDZBNOMB+7/dn3Wjjogcg7yg8YPtFmi+9XKu3adDDxOH/TnTYap75J+ToakDHVcJOGsBRpM0aTy0PinsK66aWUSLPn8lBTo3I8IJjmGD++f/vJG+xaZBBbV1HrDGmZF2xYYZCEs4ieaUS3M5Jswfdn75mCICgbgD4OTkJEjElb+fwlSYRPTXH6kq3KAt+qH+6h/DzyR+y5bwAqybfbJcG+jA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=r1+j4iSJkvXRZYQCs/Lc6/hx5wP9D/Wau3seB+PheBU=;
+ b=H48r8XIX7cob2jno+NKsclenRKUNnSugYfRhQvrL2rvt5GV86B3/7IFYo0r9FA5d6lMrYjPWuYkyAr6EEnD5BxanxKYdVCwT8EoXj3z85VwwOONUFKiebqiGASbyR0s2MbchsPVvrYPgBl6b9254Dm1fAYVffNJWbiNv+N27BcQ=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from DM4PR12MB6280.namprd12.prod.outlook.com (2603:10b6:8:a2::11) by
+ DM4PR12MB5771.namprd12.prod.outlook.com (2603:10b6:8:62::16) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6254.33; Mon, 10 Apr 2023 14:46:25 +0000
+Received: from DM4PR12MB6280.namprd12.prod.outlook.com
+ ([fe80::fe53:2742:10f9:b8f1]) by DM4PR12MB6280.namprd12.prod.outlook.com
+ ([fe80::fe53:2742:10f9:b8f1%9]) with mapi id 15.20.6277.038; Mon, 10 Apr 2023
+ 14:46:24 +0000
+Message-ID: <c4fbb44b-ed31-96b2-2342-b654299f72dc@amd.com>
+Date: Mon, 10 Apr 2023 10:47:46 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.1
+Subject: Re: [PATCH] drm/amd/display: remove unused matching_stream_ptrs
+ variable
+To: Tom Rix <trix@redhat.com>, harry.wentland@amd.com, sunpeng.li@amd.com,
+ Rodrigo.Siqueira@amd.com, alexander.deucher@amd.com,
+ christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
+ daniel@ffwll.ch, nathan@kernel.org, ndesaulniers@google.com,
+ Jun.Lei@amd.com, wenjing.liu@amd.com, Jimmy.Kizito@amd.com,
+ Cruise.Hung@amd.com
+References: <20230325134503.1335510-1-trix@redhat.com>
+Content-Language: en-US
+From: Hamza Mahfooz <hamza.mahfooz@amd.com>
+In-Reply-To: <20230325134503.1335510-1-trix@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: YT4PR01CA0478.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:d6::9) To DM4PR12MB6280.namprd12.prod.outlook.com
+ (2603:10b6:8:a2::11)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM4PR12MB6280:EE_|DM4PR12MB5771:EE_
+X-MS-Office365-Filtering-Correlation-Id: b40c687c-927c-4f80-8e7a-08db39d25b9d
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: XcPTlPJapfmg80n7hWthQyxfC9YiPNyL2r5FRn7yI2yqf3ziTGwszR5DBolxWzVZ7pEoHRZV4UeMkJFwRyoFHBoBXXIQThAC56S/DivGb2TN8UrqsT75uDHDhKksSOkIK9460Pyub1kDY1vkEvnr2/hayXRuNuqZiZhrf5vYlIVIsoml82nuHb4EHY80jva7rEjNHV370FxifXZhmKM3zVz4UjnQAN0kd7XT6ooW0ka5BlRYRLbFRyhz0DBELXvENXcZIdjuC4vL3rJSmUx/HN/tX0w6GLdniPZmSG9B2xT1k7M/SIKzOjSnQYfV3oPOer6+8GZfiTKLQdIOhIvt6EVm6vQFnQLUoMFvOIh2K5aq3EDLbjDh8XsK1HUkTO+Y6EuvWst7lXKcdPE4egeEkzlBIEwVf8Qk7Mf8KNbWB7U2Eq0M74kXlf1JihlY7GFAYm2mob0j+MAmgpFbkp7NjZYSK8sAF9KW6HtqETL8LbX2EkUBjcac02qeytWB7RiFiefGXHwQdLH8VmWWNbiZ3a+T+R50nHmmjLZMkHckuXaN6ZbcPrY/AQ9beEwdsfyq5a6g70eSwd7C2EUwG+Uvm3BqVB8Qtdo9XEHn3XkZ/ewcKvd/orP5vEWRmPC7wN6SS9gwldbNvTj8rWVWqkNWOhER5ScAElfq1vL/oVoiUxY=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM4PR12MB6280.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230028)(4636009)(396003)(39860400002)(376002)(346002)(136003)(366004)(451199021)(36756003)(2906002)(6512007)(6486002)(316002)(6636002)(6506007)(53546011)(26005)(2616005)(478600001)(31686004)(66946007)(186003)(86362001)(8676002)(66476007)(66556008)(6666004)(83380400001)(31696002)(4326008)(921005)(41300700001)(44832011)(5660300002)(38100700002)(8936002)(45980500001)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?NlVRd2YwV0U5WkxxZ1BIZHVvNUZxTVM2U3FLV1c5RDBkNWkwWG1XblJRTDRm?=
+ =?utf-8?B?eHc5MllDNGJzcURpblRJbXFJZ3FzQUtaMVIwYmVhQWV2emtoalBGUGZUZnBo?=
+ =?utf-8?B?RGZaVS9UN0ROZXl3RVArcEN1VjJlWFFNODljdWhkUUl1V3daS29ycERvd2RG?=
+ =?utf-8?B?NDlyeHlkSThGZ3BZVVVpbTgySDRoS1dBaXlYck9RMlluZjdINU40MjZiSVZw?=
+ =?utf-8?B?SEx2TWFuRVU3ekpMT09uSDBHMmk1bkJ6UlpmTDE3NDBxSUExWFlENld5ZzA0?=
+ =?utf-8?B?MUh6QWw1QXN3TW5obEV4QW5FRGhwVUF1ZStLU3dydk9pMHdKLzZtM3YrWVoy?=
+ =?utf-8?B?d3VRalJ2MG5rbFlCWU1XcUE5bEtrc2J5aWUyemtFbTRnSFJoZE9ocG03R1Fi?=
+ =?utf-8?B?YllnNGNiMWYvNkZvSHpSNEE2RFM4R21GRi9LVzU3Qk8yL0xxUjRNN2ZZMExC?=
+ =?utf-8?B?UWpGZmNKdkwzTklDV1RvOFRFUG03dW85Z2VPSHlrQUhVNEJPajEva3hDNnpQ?=
+ =?utf-8?B?Q2N2bklLY2RBYTJObHl5N2dhZXhzTUdGdGU2UGxNMmpQRkpVYmZ6MW9hSHI5?=
+ =?utf-8?B?Q2tadTh3ZzJvakkwNFdudFZFcTlEejM4eTB5YWI1YXhYYzNkUm5JTkpSc3R0?=
+ =?utf-8?B?ZmVnYU1hT1ZtZ0ZwVmRmUmtKUUhVNVlnN3JXTG9MNXVEdHZpOFU2RG11OTVs?=
+ =?utf-8?B?elB6bENnejRpRHJtQmNpdmQyQVRXelA3ZWJjaFlrc1BNVDBTSHcvK1hwTm9j?=
+ =?utf-8?B?ZElmaE82aGRYWnRMQUkrNHNkcmcwaUc2TDRwdGxhaCtHRk1kT1RCZ2FFL0Zm?=
+ =?utf-8?B?Uy9oWURNTjFHdW0zekp2YkFFTFdESVdkeis0b0V6Um5MMThkeVRab1o1SWUy?=
+ =?utf-8?B?RFFaaE5NRzQyQUFTNGUzTTJINWtyNHB3V0dVT2hRMTZYTXRVSEE1M01DYkxj?=
+ =?utf-8?B?R01Qb0YwSTg0S0xxajVSUERydXhYSmRxS0R3ditFa3c3SDR2Z1NOemRlWW9V?=
+ =?utf-8?B?TjVMU2pNRVFqTjVBTTlOMStaRWZRUk5QZ2trU3RhUE1ZNGhzWFFkdWhpZDVr?=
+ =?utf-8?B?d0NZZmhMdEFYejVpVEpLZitwL3pxbFVWY240aEtxSWs3QVBidXVmbHhxL0lR?=
+ =?utf-8?B?V3VBVDJvT1Y2M25xU0xQUm9yWlR1YVNmYktiZldTQ3pxYVRZK2ErQldqVFVq?=
+ =?utf-8?B?MkZlc28yR1FNS043ZTVGeERQT2FHbllSeTJVVnZuRmZiTzR0a1QxRFFHQzMz?=
+ =?utf-8?B?MGRqWENtYllLdFlnZUY3N3RhbjZSbGZLbUZlYkZvUHFiLzVwelFYVkhmQWlM?=
+ =?utf-8?B?bEZEenNWMHVYTTdOeW9VM2tzeUFMdWMxNG1TYy9BSlh5RStiUnRxM2dNbTV6?=
+ =?utf-8?B?MlJYcC9mdENuL3Z6M1ZDS0QxcGh5bXAwYnEvY2x0TzRxbUJ3Q3NYWDVZN1pr?=
+ =?utf-8?B?NEQwSVpuR3BTMDAzNlVWUWlPb1R3Z1lOKzBrYS80MTBNd0VOanJvcDBvWldt?=
+ =?utf-8?B?YW1uN1IwMmNacmJGZFpNSTJlVHl3MnNXbEp0U0JuZTNxckN3NVRYZzk1Q2VI?=
+ =?utf-8?B?R2xqc1NBMHhKMlByRVhiaWxIcE9DbzZHelpld3l3U1NnaWlqQ1R6aGUxOXp3?=
+ =?utf-8?B?cTBPVUY4OFY0YmlCTnBWVCtlSXVKV3JpN1dwMnBJbjFvM3JnbkZPZTAvejRX?=
+ =?utf-8?B?emlTMkpsbnFMUUdyUnRvd0NhVTNCaXVPbmVMbXBZdUlJZUVMNEVodVV3VVhn?=
+ =?utf-8?B?ZWExbGdhRUh3WHBEKzlSVlVXd3NZNVM4bTBPNC9xLzcyamoxeWxPQUVzM0tm?=
+ =?utf-8?B?Q2x6eU4vai9OVlBxT0kvRlk1YUljdkh6azRjd0pna2x0OS9hd1ZWQWR2RkxR?=
+ =?utf-8?B?VmdDbVMyTUlvY1dJRW5HR0VxNk14UTNWRUYrZUwzNXduSWJtSzJRWk01aHlM?=
+ =?utf-8?B?M0I0NVpiQTBMWGtBN3o0eUE5dmRxdWp3Ry8wYzZWdGF5VW5la1c4amV6enNx?=
+ =?utf-8?B?Q205SEJ6VU4vdzdOaGM5MzliU3Aza3c4RmQ4cUZRUjNVejF0M0RLeEtVL2VB?=
+ =?utf-8?B?QWN1dnUzK1NKRUNmV0JFSmFxdFNkVCtkTVRGYkZvbmNkaE9QZEFjKzJJRDJQ?=
+ =?utf-8?Q?WSAdqpvoG4PsK5UPaxWY+SVE4?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b40c687c-927c-4f80-8e7a-08db39d25b9d
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB6280.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Apr 2023 14:46:24.8760 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: mpKUB3+KvIo5ohLBroyRwydNfWZ6RCIgHRxFFwKTRlcQmztky9WRn5cXZGosemYLlWfQalVsYIjaAgqgyo2VOQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB5771
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,180 +130,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>,
- dri-devel@lists.freedesktop.org
+Cc: llvm@lists.linux.dev, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-After commit 8ba1648567e2 ("drm: vkms: Refactor the plane composer to
-accept new formats") the composition is no longer performed on top of
-the primary plane, but instead on top of the CRTC, which means that
-now we have a background.
+On 3/25/23 09:45, Tom Rix wrote:
+> clang with W=1 reports
+> drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_link_enc_cfg.c:625:6: error:
+>    variable 'matching_stream_ptrs' set but not used [-Werror,-Wunused-but-set-variable]
+>          int matching_stream_ptrs = 0;
+>              ^
+> This variable is not used so remove it.
+> 
+> Signed-off-by: Tom Rix <trix@redhat.com>
 
-This opens to the possibility of coloring the background with a
-personalized color. Therefore, create a module parameter that takes a
-unsigned int number as an XRGB8888 color and set the background
-color to it. That said, the composition will be performed on top of
-this background color. By default, the background color is black.
+Applied, thanks!
 
-Signed-off-by: Maíra Canal <mcanal@igalia.com>
----
-
-In order to test this functionality, I wrote some IGT tests to ensure that
-it is working correctly [1]. The tests take the CRC of a colored primary
-plane, offset the primary plane out of the screen, and take the CRC
-of the colored background. The two CRC must be equal.
-
-v1 -> v2 [2]
-
-* Use XRGB8888 as input format to avoid compilation errors on PPC (kernel test robot)
-
-[1] https://gitlab.freedesktop.org/mairacanal/igt-gpu-tools/-/tree/vkms/background-color
-[2] https://lore.kernel.org/dri-devel/20230406172002.124456-1-mcanal@igalia.com/T/
-
-Best Regards,
-- Maíra Canal
-
----
- Documentation/gpu/vkms.rst           |  2 --
- drivers/gpu/drm/vkms/vkms_composer.c | 20 ++++++++++++++------
- drivers/gpu/drm/vkms/vkms_drv.c      |  6 ++++++
- drivers/gpu/drm/vkms/vkms_drv.h      |  4 ++++
- 4 files changed, 24 insertions(+), 8 deletions(-)
-
-diff --git a/Documentation/gpu/vkms.rst b/Documentation/gpu/vkms.rst
-index 49db221c0f52..dc01689d8c76 100644
---- a/Documentation/gpu/vkms.rst
-+++ b/Documentation/gpu/vkms.rst
-@@ -121,8 +121,6 @@ There's lots of plane features we could add support for:
- - ARGB format on primary plane: blend the primary plane into background with
-   translucent alpha.
- 
--- Add background color KMS property[Good to get started].
--
- - Full alpha blending on all planes.
- 
- - Rotation, scaling.
-diff --git a/drivers/gpu/drm/vkms/vkms_composer.c b/drivers/gpu/drm/vkms/vkms_composer.c
-index 8e53fa80742b..b0056fad908e 100644
---- a/drivers/gpu/drm/vkms/vkms_composer.c
-+++ b/drivers/gpu/drm/vkms/vkms_composer.c
-@@ -79,7 +79,8 @@ static void fill_background(const struct pixel_argb_u16 *background_color,
-  * from all planes, calculates the crc32 of the output from the former step,
-  * and, if necessary, convert and store the output to the writeback buffer.
-  */
--static void blend(struct vkms_writeback_job *wb,
-+static void blend(struct vkms_device *vkms_dev,
-+		  struct vkms_writeback_job *wb,
- 		  struct vkms_crtc_state *crtc_state,
- 		  u32 *crc32, struct line_buffer *stage_buffer,
- 		  struct line_buffer *output_buffer, size_t row_size)
-@@ -87,7 +88,12 @@ static void blend(struct vkms_writeback_job *wb,
- 	struct vkms_plane_state **plane = crtc_state->active_planes;
- 	u32 n_active_planes = crtc_state->num_active_planes;
- 
--	const struct pixel_argb_u16 background_color = { .a = 0xffff };
-+	const struct pixel_argb_u16 background_color = {
-+		.a =  0xffff,
-+		.r = ((*vkms_dev->config->background_color >> 16) & 0xff) * 257,
-+		.g = ((*vkms_dev->config->background_color >> 8) & 0xff) * 257,
-+		.b = (*vkms_dev->config->background_color & 0xff) * 257,
-+	};
- 
- 	size_t crtc_y_limit = crtc_state->base.crtc->mode.vdisplay;
- 
-@@ -139,7 +145,8 @@ static int check_iosys_map(struct vkms_crtc_state *crtc_state)
- 	return 0;
- }
- 
--static int compose_active_planes(struct vkms_writeback_job *active_wb,
-+static int compose_active_planes(struct vkms_device *vkms_dev,
-+				 struct vkms_writeback_job *active_wb,
- 				 struct vkms_crtc_state *crtc_state,
- 				 u32 *crc32)
- {
-@@ -178,7 +185,7 @@ static int compose_active_planes(struct vkms_writeback_job *active_wb,
- 		goto free_stage_buffer;
- 	}
- 
--	blend(active_wb, crtc_state, crc32, &stage_buffer,
-+	blend(vkms_dev, active_wb, crtc_state, crc32, &stage_buffer,
- 	      &output_buffer, line_width * pixel_size);
- 
- 	kvfree(output_buffer.pixels);
-@@ -205,6 +212,7 @@ void vkms_composer_worker(struct work_struct *work)
- 	struct drm_crtc *crtc = crtc_state->base.crtc;
- 	struct vkms_writeback_job *active_wb = crtc_state->active_writeback;
- 	struct vkms_output *out = drm_crtc_to_vkms_output(crtc);
-+	struct vkms_device *vkms_dev = vkms_output_to_vkms_device(out);
- 	bool crc_pending, wb_pending;
- 	u64 frame_start, frame_end;
- 	u32 crc32 = 0;
-@@ -228,9 +236,9 @@ void vkms_composer_worker(struct work_struct *work)
- 		return;
- 
- 	if (wb_pending)
--		ret = compose_active_planes(active_wb, crtc_state, &crc32);
-+		ret = compose_active_planes(vkms_dev, active_wb, crtc_state, &crc32);
- 	else
--		ret = compose_active_planes(NULL, crtc_state, &crc32);
-+		ret = compose_active_planes(vkms_dev, NULL, crtc_state, &crc32);
- 
- 	if (ret)
- 		return;
-diff --git a/drivers/gpu/drm/vkms/vkms_drv.c b/drivers/gpu/drm/vkms/vkms_drv.c
-index 6d3a2d57d992..bb6990882608 100644
---- a/drivers/gpu/drm/vkms/vkms_drv.c
-+++ b/drivers/gpu/drm/vkms/vkms_drv.c
-@@ -51,6 +51,10 @@ static bool enable_overlay;
- module_param_named(enable_overlay, enable_overlay, bool, 0444);
- MODULE_PARM_DESC(enable_overlay, "Enable/Disable overlay support");
- 
-+static unsigned int background_color;
-+module_param_named(background_color, background_color, uint, 0644);
-+MODULE_PARM_DESC(background_color, "Background color (0xRRGGBB)");
-+
- DEFINE_DRM_GEM_FOPS(vkms_driver_fops);
- 
- static void vkms_release(struct drm_device *dev)
-@@ -99,6 +103,7 @@ static int vkms_config_show(struct seq_file *m, void *data)
- 	seq_printf(m, "writeback=%d\n", vkmsdev->config->writeback);
- 	seq_printf(m, "cursor=%d\n", vkmsdev->config->cursor);
- 	seq_printf(m, "overlay=%d\n", vkmsdev->config->overlay);
-+	seq_printf(m, "background_color=0x%x\n", *vkmsdev->config->background_color);
- 
- 	return 0;
- }
-@@ -226,6 +231,7 @@ static int __init vkms_init(void)
- 	config->cursor = enable_cursor;
- 	config->writeback = enable_writeback;
- 	config->overlay = enable_overlay;
-+	config->background_color = &background_color;
- 
- 	ret = vkms_create(config);
- 	if (ret)
-diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/vkms_drv.h
-index 4a248567efb2..95e779ef017b 100644
---- a/drivers/gpu/drm/vkms/vkms_drv.h
-+++ b/drivers/gpu/drm/vkms/vkms_drv.h
-@@ -113,6 +113,7 @@ struct vkms_config {
- 	bool writeback;
- 	bool cursor;
- 	bool overlay;
-+	unsigned int *background_color;
- 	/* only set when instantiated */
- 	struct vkms_device *dev;
- };
-@@ -127,6 +128,9 @@ struct vkms_device {
- #define drm_crtc_to_vkms_output(target) \
- 	container_of(target, struct vkms_output, crtc)
- 
-+#define vkms_output_to_vkms_device(target) \
-+	container_of(target, struct vkms_device, output)
-+
- #define drm_device_to_vkms_device(target) \
- 	container_of(target, struct vkms_device, drm)
- 
+> ---
+>   drivers/gpu/drm/amd/display/dc/core/dc_link_enc_cfg.c | 5 +----
+>   1 file changed, 1 insertion(+), 4 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_link_enc_cfg.c b/drivers/gpu/drm/amd/display/dc/core/dc_link_enc_cfg.c
+> index 41198c729d90..30c0644d4418 100644
+> --- a/drivers/gpu/drm/amd/display/dc/core/dc_link_enc_cfg.c
+> +++ b/drivers/gpu/drm/amd/display/dc/core/dc_link_enc_cfg.c
+> @@ -622,7 +622,6 @@ bool link_enc_cfg_validate(struct dc *dc, struct dc_state *state)
+>   	int i, j;
+>   	uint8_t valid_count = 0;
+>   	uint8_t dig_stream_count = 0;
+> -	int matching_stream_ptrs = 0;
+>   	int eng_ids_per_ep_id[MAX_PIPES] = {0};
+>   	int ep_ids_per_eng_id[MAX_PIPES] = {0};
+>   	int valid_bitmap = 0;
+> @@ -645,9 +644,7 @@ bool link_enc_cfg_validate(struct dc *dc, struct dc_state *state)
+>   		struct link_enc_assignment assignment = state->res_ctx.link_enc_cfg_ctx.link_enc_assignments[i];
+>   
+>   		if (assignment.valid) {
+> -			if (assignment.stream == state->streams[i])
+> -				matching_stream_ptrs++;
+> -			else
+> +			if (assignment.stream != state->streams[i])
+>   				valid_stream_ptrs = false;
+>   		}
+>   	}
 -- 
-2.39.2
+Hamza
 
