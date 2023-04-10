@@ -1,60 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8E176DC443
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Apr 2023 10:24:08 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 256EB6DD410
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Apr 2023 09:23:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2C45010E25D;
-	Mon, 10 Apr 2023 08:24:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 89E8E10E223;
+	Tue, 11 Apr 2023 07:23:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0A9B510E25D;
- Mon, 10 Apr 2023 08:24:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1681115041; x=1712651041;
- h=mime-version:content-transfer-encoding:in-reply-to:
- references:subject:from:cc:to:date:message-id;
- bh=9zTMhQjBSMrmpp3t5rh3NIbfiaHV3UcaF9aPOHUQvck=;
- b=IVoH3GopwKTkxRkcKuxYXWttHqB6dUXAlJtGG7FBfqGi0Rmrc4rQqQOf
- TgwBB12k47b1pzlV234qEcjXEvDsMb7VzXcDJZz682/NPo8yzxGsYtBgs
- af8gfOs9NfEHSuZa/gBjVgTjhwewGxN4kzeUwz9kAUnxiToqtnJGVUwzV
- 1epy9eUTt+EexDuqLlAQ3SK+8560XSdVe+CEAqWLuFpARbVmMNqAT9Dyk
- bVC5ewSxzm/Gyy3gykwYA/cYm0uZy6Qy7PeNHk9rv6J6PnuXwKEDWu0oW
- lqkoENqtrZpcC7Bjvrrw3MdzK3VianIbf5ezp/4W9frHU8ksj9hNGH4E7 A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10675"; a="343319058"
-X-IronPort-AV: E=Sophos;i="5.98,333,1673942400"; d="scan'208";a="343319058"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Apr 2023 01:23:59 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10675"; a="681674077"
-X-IronPort-AV: E=Sophos;i="5.98,333,1673942400"; d="scan'208";a="681674077"
-Received: from mgenc-mobl.amr.corp.intel.com (HELO localhost) ([10.209.7.100])
- by orsmga007-auth.jf.intel.com with
- ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Apr 2023 01:23:59 -0700
-Content-Type: text/plain; charset="utf-8"
+Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com
+ [IPv6:2a00:1450:4864:20::636])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C693810E2B1
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Apr 2023 08:49:40 +0000 (UTC)
+Received: by mail-ej1-x636.google.com with SMTP id ga37so11283865ejc.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Apr 2023 01:49:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20210112; t=1681116579; x=1683708579;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=y5ePFxjbLBzvierh0vPmoX2AJ6odjU/okQNVSYo6+J0=;
+ b=RCJpuhAmaiEhyX7miTtpDm2B6aHyY7G7AUvRlRukNsyjL70ZJsCQAtaj3OQvh5OYPV
+ TFriUULQnUDlx2HjEsI/Kw2Ah9VIJ9ZIeDYYBye3hexNLts3plMTPCJjFWrxMbIu6Eag
+ XjqvoXa1xSsAljafdAreM72uC7lUHl6yPkaAmYZuhufCOwNvWRRWHj1YBOsWfhdoFgnF
+ kSBopPrfEZ28my/Fa41Qr6TJNH9JpbaOPigMEYVU/B8HSmVqjIqBmV8qS+8UuhdK0dRL
+ nxO6iYDY4vXdt8A9z2+h74Uj92wooKBV/Qh70Eg4GbRrknLo9F3pWeHJHPTVX9UIkidz
+ CSUA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1681116579; x=1683708579;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=y5ePFxjbLBzvierh0vPmoX2AJ6odjU/okQNVSYo6+J0=;
+ b=Nyq9KK8XT7/64K1U94etHyfRhzVRKT42qlvxRMIiNlr1C24CU8b1DEHuTVdQ1dPL5V
+ Nvie84DeCzbmaHHJvRzcrHmXq9aOk/YdwyY89tdN3UP94an85IKT5nDSt0MpY2yF5OEx
+ 8PacSwY928wTwdQB7zbVI5kJyWZ1bZxn25TJzrTaonu1OTkJkCBwvmv+9Q1o+oMNXtKo
+ TXxc45WtM6iH3QP1gOn7u+g+K/nFk96VEFy8TWkW8btwTfsTFenQ5EcgIT8AWDv+KjNP
+ P/8o3uq2hoMisg97nBHoBbibDAU828jAWPnb2WkV3jY+PoCT6gkVZCdABM2GQUhEHQ+O
+ vFrQ==
+X-Gm-Message-State: AAQBX9e5aKmdAy9CvG0zgncgedeHwRgQlse546ZSfzPdhhD3A3SpQxxz
+ vilMkwQ8uZzET39LYW2JwDI=
+X-Google-Smtp-Source: AKy350bKbp2C72vty5skdGElAcpoLwKvITKzpR2b0BLRFPeIA6nODgwcXIjQGRg4GNgULAPUQS2ugA==
+X-Received: by 2002:a17:906:8585:b0:94a:7a2f:d6e8 with SMTP id
+ v5-20020a170906858500b0094a7a2fd6e8mr2904492ejx.61.1681116578666; 
+ Mon, 10 Apr 2023 01:49:38 -0700 (PDT)
+Received: from localhost.localdomain ([154.72.161.184])
+ by smtp.gmail.com with ESMTPSA id
+ v13-20020a50954d000000b004fc649481basm4709962eda.58.2023.04.10.01.49.12
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 10 Apr 2023 01:49:38 -0700 (PDT)
+From: Brandon Cheo Fusi <fusibrandon13@gmail.com>
+To: maxime@cerno.tech
+Subject: [PATCH 0/2] drm: sun4i/dsi: allow modeset helpers to manage display
+Date: Mon, 10 Apr 2023 09:47:48 +0100
+Message-Id: <20230410084750.164016-1-fusibrandon13@gmail.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <168072640394.392286.10003850953246720395@jljusten-skl>
-References: <20230401063830.438127-1-fei.yang@intel.com>
- <20230401063830.438127-8-fei.yang@intel.com>
- <7aa541f8-55e3-a182-5390-6ca161edb70b@intel.com>
- <BYAPR11MB256790AC5BDC891F186E000E9A939@BYAPR11MB2567.namprd11.prod.outlook.com>
- <7fd9424a-678a-0d90-715c-f63179552093@intel.com>
- <168072640394.392286.10003850953246720395@jljusten-skl>
-Subject: Re: [Intel-gfx] [PATCH 7/7] drm/i915: Allow user to set cache at BO
- creation
-From: Jordan Justen <jordan.l.justen@intel.com>
-To: "Yang, Fei" <fei.yang@intel.com>,
- Lionel Landwerlin <lionel.g.landwerlin@intel.com>, "Roper,
- Matthew D" <matthew.d.roper@intel.com>,
- Chris Wilson <chris.p.wilson@linux.intel.com>, intel-gfx@lists.freedesktop.org
-Date: Mon, 10 Apr 2023 01:23:59 -0700
-Message-ID: <168111503901.392286.9448911281846869775@jljusten-skl>
-User-Agent: alot/0.10
+Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Tue, 11 Apr 2023 07:23:39 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,82 +70,32 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Kenneth Graunke <kenneth@whitecape.org>, dri-devel@lists.freedesktop.org
+Cc: krzysztof.kozlowski+dt@linaro.org, dri-devel@lists.freedesktop.org,
+ andrzej.hajda@intel.com, sam@ravnborg.org, marex@denx.de, rfoss@kernel.org,
+ dave.stevenson@raspberrypi.com, jernej.skrabec@gmail.com, wens@csie.org,
+ jagan@amarulasolutions.com, linux-sunxi@lists.linux.dev,
+ devicetree@vger.kernel.org, tzimmermann@suse.de, robh+dt@kernel.org,
+ linux-arm-kernel@lists.infradead.org, neil.armstrong@linaro.org,
+ Brandon Cheo Fusi <fusibrandon13@gmail.com>, samuel@sholland.org,
+ linux-amarula@amarulasolutions.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2023-04-05 13:26:43, Jordan Justen wrote:
-> On 2023-04-05 00:45:24, Lionel Landwerlin wrote:
-> > On 04/04/2023 19:04, Yang, Fei wrote:
-> > >> Subject: Re: [Intel-gfx] [PATCH 7/7] drm/i915: Allow user to set cac=
-he at BO creation
-> > >>
-> > >> Just like the protected content uAPI, there is no way for userspace =
-to tell
-> > >> this feature is available other than trying using it.
-> > >>
-> > >> Given the issues with protected content, is it not thing we could wa=
-nt to add?
-> > > Sorry I'm not aware of the issues with protected content, could you e=
-laborate?
-> > > There was a long discussion on teams uAPI channel, could you comment =
-there if
-> > > any concerns?
-> > >
-> >=20
-> > We wanted to have a getparam to detect protected support and were told =
+This change moves DSI PHY poweron/off from the encoder to the TCON. 
 
-> > to detect it by trying to create a context with it.
-> >=20
->=20
-> An extensions system where the detection mechanism is "just try it",
-> and assume it's not supported if it fails. ??
->=20
+As a consequence enabling or disabling the DSI sink can be left to the modeset
+helpers, and bridge support easily introduced without touching the 
+drm_encoder.bridge_chain or converting the encoder to a drm_bridge.
 
-I guess no one wants to discuss the issues with this so-called
-detection mechanism for i915 extensions. (Just try it and if it fails,
-it must not be supported.)
+Brandon Cheo Fusi (2):
+  drm: sun4i/dsi: factor out DSI PHY poweron and poweroff
+  drm: sun4i: tie DSI PHY Poweron/off to crtc enable/disable
 
-I wonder how many ioctls we will be making a couple years down the
-road just to see what the kernel supports.
+ drivers/gpu/drm/sun4i/sun4i_tcon.c     | 10 +++-
+ drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c | 64 ++++++++++++--------------
+ drivers/gpu/drm/sun4i/sun6i_mipi_dsi.h |  4 ++
+ 3 files changed, 43 insertions(+), 35 deletions(-)
 
-Maybe we'll get more fun 8 second timeouts to deal with. Maybe these
-probing ioctls failing or succeeding will alter the kmd's state in
-some unexpected way.
+-- 
+2.30.2
 
-It'll also be fun to debug cases where the driver is not starting up
-with the noise of a bunch of probing ioctls flying by.
-
-I thought about suggesting at least something like
-I915_PARAM_CMD_PARSER_VERSION, but I don't know if that could have
-prevented this 8 second timeout for creating a protected content
-context. Maybe it's better than nothing though.
-
-Of course, there was also the vague idea I threw out below for getting
-a list of supported extentions.
-
--Jordan
-
->=20
-> This seem likely to get more and more problematic as a detection
-> mechanism as more extensions are added.
->=20
-> >=20
-> > Now it appears trying to create a protected context can block for=20
-> > several seconds.
-> >=20
-> > Since we have to report capabilities to the user even before it creates=
-=20
-> > protected contexts, any app is at risk of blocking.
-> >=20
->=20
-> This failure path is not causing any re-thinking about using this as
-> the extension detection mechanism?
->=20
-> Doesn't the ioctl# + input-struct-size + u64-extension# identify the
-> extension such that the kernel could indicate if it is supported or
-> not. (Or, perhaps return an array of the supported extensions so the
-> umd doesn't have to potentially make many ioctls for each extension of
-> interest.)
->=20
-> -Jordan
