@@ -2,63 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 472F26DC550
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Apr 2023 11:46:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16A6B6DC6BC
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Apr 2023 14:26:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2B0C110E2C2;
-	Mon, 10 Apr 2023 09:46:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 06F5210E063;
+	Mon, 10 Apr 2023 12:26:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com
- [209.85.128.180])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 39FF310E2C2
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Apr 2023 09:46:01 +0000 (UTC)
-Received: by mail-yw1-f180.google.com with SMTP id
- 00721157ae682-54ef6ca60ceso77621687b3.3
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Apr 2023 02:46:01 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1681119959;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=aW3geLGISJ5Wl59n77OgvFtQOg4LkNPXguyTMjOYNek=;
- b=fMqQNQ1Sbfs9I5tKhVOQk3Qh+grA2PHWQ+amKvFLx7PIuy24krmkxPzeWgtJzFVP/M
- DXEPDhIW5Kgx4MiBzfDMlgfyJFvxdaH+hLjj5RbEpOTbqawZ8PMLbnoj87t4eEonfubq
- 4sYK23trkBSmjnIppDlSmTQnNZewiH9UsfhdkNxUwkgXYVMvLRcaohkDqQmEuhZJX58j
- QFp8HNrjGVHLGtT0hfmfcwERJC1bT3YHFKF/OQ6wU2AVZRNJBrKKBlPlDLQ+R6h2HWQq
- SHKc/c+85phMRE4MokUWVi5qRDCfHZo2aZCBO3ecE78961qWgW6qZa+x/U7A6KHhY8oL
- fpOA==
-X-Gm-Message-State: AAQBX9cmlpXsXLOmCOtFHSXk6FSYHkQP/hIUIRjomtx9+XLfd/vmeZ2N
- vhefiI3pIle4XbPib8HGS1MxiZlhRsQniQ==
-X-Google-Smtp-Source: AKy350Zn4mH1UXhUMf5yrKBJpZRIXgfaBhY8j1M4NnsQEh0chrx1k0W5w821/lm20tuQtXCxYujLoA==
-X-Received: by 2002:a81:4f42:0:b0:54e:fa90:5b9a with SMTP id
- d63-20020a814f42000000b0054efa905b9amr4156145ywb.45.1681119959519; 
- Mon, 10 Apr 2023 02:45:59 -0700 (PDT)
-Received: from mail-yb1-f174.google.com (mail-yb1-f174.google.com.
- [209.85.219.174]) by smtp.gmail.com with ESMTPSA id
- p145-20020a819897000000b0054ee8426468sm1341787ywg.21.2023.04.10.02.45.58
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 10 Apr 2023 02:45:59 -0700 (PDT)
-Received: by mail-yb1-f174.google.com with SMTP id e127so3987818ybf.8
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Apr 2023 02:45:58 -0700 (PDT)
-X-Received: by 2002:a25:cb52:0:b0:a02:a3a6:78fa with SMTP id
- b79-20020a25cb52000000b00a02a3a678famr4936366ybg.12.1681119958795; Mon, 10
- Apr 2023 02:45:58 -0700 (PDT)
-MIME-Version: 1.0
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 959E910E063
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Apr 2023 12:26:00 +0000 (UTC)
+Received: from pendragon.ideasonboard.com
+ (133-32-181-51.west.xps.vectant.ne.jp [133.32.181.51])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 857C925E9;
+ Mon, 10 Apr 2023 14:25:56 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1681129557;
+ bh=67lduPacpLMhq2ux8wEvh/kW0ZiVWSVK8q5xSlMbhFE=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=XnkLoWVVNjS1PQpP3QBcSk4z1swpJB8JK3C2aU6BSsmi7Qfo/7HZzobRc9HwMDJ7S
+ DhYty61c5DwflKTO4eSM0mCRH4z2OuYfn9/lago/eXx/MxkBVm7vQ5//sGg9Fl3Pv/
+ eRn2HhOx4rosR2/u1KG19b4ybsgZlz1eaeGwMt7A=
+Date: Mon, 10 Apr 2023 15:26:07 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Subject: Re: [PATCH 3/5] drm: shmobile: Switch to drm_crtc_init_with_planes()
+Message-ID: <20230410122607.GA11253@pendragon.ideasonboard.com>
 References: <cover.1680273039.git.geert+renesas@glider.be>
- <972e66cd36e9173ea6817d41565f708cb84bc2f4.1680273039.git.geert+renesas@glider.be>
- <20230405040211.GK9915@pendragon.ideasonboard.com>
-In-Reply-To: <20230405040211.GK9915@pendragon.ideasonboard.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 10 Apr 2023 11:45:43 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdXjry9-owh6nrtdXXi9wtvgJRROd+P6=zRq0se8PJ4jMQ@mail.gmail.com>
-Message-ID: <CAMuHMdXjry9-owh6nrtdXXi9wtvgJRROd+P6=zRq0se8PJ4jMQ@mail.gmail.com>
-Subject: Re: [PATCH 5/5] drm: shmobile: Make DRM_SHMOBILE visible on Renesas
- SoC platforms
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ <df4099d79c985c73bdc890eb0e026494b7fa5c96.1680273039.git.geert+renesas@glider.be>
+ <20230405035952.GI9915@pendragon.ideasonboard.com>
+ <CAMuHMdUMEVYRr9oYBB=50WJtM4St1UfVkGMw09dchjgoUC2Q6A@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAMuHMdUMEVYRr9oYBB=50WJtM4St1UfVkGMw09dchjgoUC2Q6A@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,51 +56,93 @@ Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Laurent,
+Hi Geert,
 
-On Wed, Apr 5, 2023 at 6:02=E2=80=AFAM Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
-> On Fri, Mar 31, 2023 at 04:48:11PM +0200, Geert Uytterhoeven wrote:
-> > The LCD Controller supported by the drm-shmob driver is not only presen=
-t
-> > on SuperH SH-Mobile SoCs, but also on Renesas ARM SH/R-Mobile SoCs.
-> > Make its option visible, so the user can enable support for it.
+On Mon, Apr 10, 2023 at 11:35:56AM +0200, Geert Uytterhoeven wrote:
+> On Wed, Apr 5, 2023 at 5:59 AM Laurent Pinchart wrote:
+> > On Fri, Mar 31, 2023 at 04:48:09PM +0200, Geert Uytterhoeven wrote:
+> > > The SH-Mobile DRM driver uses the legacy drm_crtc_init(), which
+> > > advertizes only the formats in safe_modeset_formats[] (XR24 and AR24) as
+> > > being supported.
+> > >
+> > > Switch to drm_crtc_init_with_planes(), and advertize all supported
+> > > (A)RGB modes, so we can use RGB565 as the default mode for the console.
+> > >
+> > > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> 
+> > > --- a/drivers/gpu/drm/shmobile/shmob_drm_crtc.c
+> > > +++ b/drivers/gpu/drm/shmobile/shmob_drm_crtc.c
+> > > @@ -18,6 +18,7 @@
+> > >  #include <drm/drm_gem_dma_helper.h>
+> > >  #include <drm/drm_modeset_helper.h>
+> > >  #include <drm/drm_modeset_helper_vtables.h>
+> > > +#include <drm/drm_plane_helper.h>
+> > >  #include <drm/drm_probe_helper.h>
+> > >  #include <drm/drm_simple_kms_helper.h>
+> > >  #include <drm/drm_vblank.h>
+> > > @@ -478,16 +479,41 @@ static const struct drm_crtc_funcs crtc_funcs = {
+> > >       .disable_vblank = shmob_drm_disable_vblank,
+> > >  };
+> > >
+> > > +static const uint32_t modeset_formats[] = {
+> > > +     DRM_FORMAT_RGB565,
+> > > +     DRM_FORMAT_RGB888,
+> > > +     DRM_FORMAT_ARGB8888,
+> > > +     DRM_FORMAT_XRGB8888,
+> > > +};
+> > > +
+> > > +static const struct drm_plane_funcs primary_plane_funcs = {
+> > > +     DRM_PLANE_NON_ATOMIC_FUNCS,
+> > > +};
+> > > +
+> > >  int shmob_drm_crtc_create(struct shmob_drm_device *sdev)
+> > >  {
+> > >       struct drm_crtc *crtc = &sdev->crtc.crtc;
+> > > +     struct drm_plane *primary;
+> > >       int ret;
+> > >
+> > >       sdev->crtc.dpms = DRM_MODE_DPMS_OFF;
+> > >
+> > > -     ret = drm_crtc_init(sdev->ddev, crtc, &crtc_funcs);
+> > > -     if (ret < 0)
+> > > +     primary = __drm_universal_plane_alloc(sdev->ddev, sizeof(*primary), 0,
+> > > +                                           0, &primary_plane_funcs,
+> > > +                                           modeset_formats,
+> > > +                                           ARRAY_SIZE(modeset_formats),
+> > > +                                           NULL, DRM_PLANE_TYPE_PRIMARY,
+> > > +                                           NULL);
+> > > +     if (IS_ERR(primary))
+> > > +             return PTR_ERR(primary);
 > >
-> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> > ---
-> >  drivers/gpu/drm/shmobile/Kconfig | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/gpu/drm/shmobile/Kconfig b/drivers/gpu/drm/shmobil=
-e/Kconfig
-> > index 4ec5dc74a6b0b880..719d4e7a5cd75aad 100644
-> > --- a/drivers/gpu/drm/shmobile/Kconfig
-> > +++ b/drivers/gpu/drm/shmobile/Kconfig
-> > @@ -2,7 +2,7 @@
-> >  config DRM_SHMOBILE
-> >       tristate "DRM Support for SH Mobile"
-> >       depends on DRM && ARM
->
-> There shouldn't be anything ARM-dependent, could you drop "&& ARM" while
-> at it ?
+> > This seems like a bit of a hack to me. Why don't you use the planes
+> 
+> I'm following what Thomas did in the nouveau driver....
+> 
+> > created by shmob_drm_plane_create() instead of allocating a new one ?
+> 
+> Is that possible? shmob_drm_plane_create() creates overlay planes,
+> while this is for the primary plane.
 
-Oops, that was added back in 2014, when the driver stopped building on SH.
-The build issue seems to be fixed, so I'll drop the dependency on ARM.
+You're right, for some reason I overlooked that. Sorry for the noise.
 
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+It would be good to move handling of the primary plane to
+shmob_drm_plane.c, but that's for later, when moving the driver to the
+atomic API. For now,
 
-Thanks!
+Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 
-Gr{oetje,eeting}s,
+> > > +
+> > > +     ret = drm_crtc_init_with_planes(sdev->ddev, crtc, primary, NULL,
+> > > +                                     &crtc_funcs, NULL);
+> > > +     if (ret < 0) {
+> > > +             drm_plane_cleanup(primary);
+> > > +             kfree(primary);
+> > >               return ret;
+> > > +     }
+> > >
+> > >       drm_crtc_helper_add(crtc, &crtc_helper_funcs);
 
-                        Geert
+-- 
+Regards,
 
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+Laurent Pinchart
