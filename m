@@ -1,46 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46C006DCA37
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Apr 2023 19:50:59 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 92D336DCA45
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Apr 2023 19:57:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 932A210E1EE;
-	Mon, 10 Apr 2023 17:50:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C955B10E3F6;
+	Mon, 10 Apr 2023 17:57:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D466110E1EE
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Apr 2023 17:50:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
- Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=tWhmGtBxUELj+NALmzMx7P3ohScaP//45di7JbTIfqc=; b=OCqZJxcN81Y3+olGKoql5itLFa
- WgNOwy2AV+I2QtW3+CAFMSu303dFfsLNhA9Eb45b2LE243+G6MLuk1K3ft+MTmDKBlHgu8FP/3VnU
- ClWg6xPnldW9YFKabMbdAK37iFNST1S9EffkXPlwc6dfiB3U4E3qsqG/m1Zjd7DfxIfGts6jwVx8r
- dWp97VQWNX3xaj6D5BoDwtiTYFHkc66++626QeXWGNMdm6Qcei+flUk1/n/jmHVkvBuTkmLUSgoN7
- mm6TSZq8GQv4RWDwXIhvdWOmSQRixvJJGofNHGo8JykFmbq+Rl8fTxDqvdzi60txJS24+Glxw/S/2
- zz7O/knw==;
-Received: from [38.44.66.31] (helo=mail.igalia.com)
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1plvfA-00E0I8-Ju; Mon, 10 Apr 2023 19:50:44 +0200
-Date: Mon, 10 Apr 2023 16:50:36 -0100
-From: Melissa Wen <mwen@igalia.com>
-To: Simon Ser <contact@emersion.fr>
-Subject: Re: [PATCH v2] drm/vkms: add module parameter to set background color
-Message-ID: <20230410175036.tqjbwrd4ldcnnqlf@mail.igalia.com>
-References: <20230410125435.128689-1-mcanal@igalia.com>
- <gY5DtUoeqVhT1HdJU8yjHSqwe9gTIbV6Q2yVDYRyI_JGHS6Lo73Ivjs2G8d_5T_qL2q7pOhjC6O_aPk2Pnn3npdhzh2Y-_nrD98r3ONMrWc=@emersion.fr>
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B769310E213
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Apr 2023 17:57:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1681149460; x=1712685460;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=GGZihadSCBgzCcdSKBrsS74hHB5H97zTUqXPQmXpWRE=;
+ b=cmC+k5epsLQ/uBrSfjBetQqbpU9w8IsEBYPH6Qzvy54v7xWa26w5vh+4
+ r25jk6OZJuppqmiLnMr/6w2YTwx9DPyU2WHIV7CjwwWspq0k1hrJmEz8f
+ SMCCTLIRw6hf1TCSsUImIlu3ySjkjOdk1vJCeKK7srrl2zZYB5KoKFLWR
+ V/7kofT7YjM7ix9sblc0elPES54XM3UGDCd97gfHI56aaYvJU2wFmKhV3
+ AZWohZiRNSd3LZjCBVQuxHHQumiGkTWhWIknjfpobR7ct7IyJH22aNfv1
+ VOcR5NJ2fkYI5duJpksfKY9eJ7R0Wq2OvWdQAIcTqkYp39YGnKwGUhPEH Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10676"; a="406247821"
+X-IronPort-AV: E=Sophos;i="5.98,333,1673942400"; d="scan'208";a="406247821"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Apr 2023 10:57:39 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10676"; a="799581024"
+X-IronPort-AV: E=Sophos;i="5.98,333,1673942400"; d="scan'208";a="799581024"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+ by fmsmga002.fm.intel.com with ESMTP; 10 Apr 2023 10:57:32 -0700
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1plvlk-000VYf-07;
+ Mon, 10 Apr 2023 17:57:32 +0000
+Date: Tue, 11 Apr 2023 01:57:26 +0800
+From: kernel test robot <lkp@intel.com>
+To: Brandon Cheo Fusi <fusibrandon13@gmail.com>, maxime@cerno.tech
+Subject: Re: [PATCH 1/2] drm: sun4i/dsi: factor out DSI PHY poweron and
+ poweroff
+Message-ID: <202304110110.ZLinpepn-lkp@intel.com>
+References: <20230410084750.164016-2-fusibrandon13@gmail.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="dughwqgsy7tnmtax"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <gY5DtUoeqVhT1HdJU8yjHSqwe9gTIbV6Q2yVDYRyI_JGHS6Lo73Ivjs2G8d_5T_qL2q7pOhjC6O_aPk2Pnn3npdhzh2Y-_nrD98r3ONMrWc=@emersion.fr>
+In-Reply-To: <20230410084750.164016-2-fusibrandon13@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,59 +60,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Haneen Mohammed <hamohammed.sa@gmail.com>,
- Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>,
- dri-devel@lists.freedesktop.org,
- Igor Matheus Andrade Torrente <igormtorrente@gmail.com>
+Cc: krzysztof.kozlowski+dt@linaro.org, dri-devel@lists.freedesktop.org,
+ andrzej.hajda@intel.com, sam@ravnborg.org, marex@denx.de, rfoss@kernel.org,
+ dave.stevenson@raspberrypi.com, jernej.skrabec@gmail.com, wens@csie.org,
+ jagan@amarulasolutions.com, linux-sunxi@lists.linux.dev,
+ devicetree@vger.kernel.org, robh+dt@kernel.org, oe-kbuild-all@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, neil.armstrong@linaro.org,
+ Brandon Cheo Fusi <fusibrandon13@gmail.com>, samuel@sholland.org,
+ tzimmermann@suse.de, linux-amarula@amarulasolutions.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Brandon,
 
---dughwqgsy7tnmtax
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+kernel test robot noticed the following build errors:
 
-On 04/10, Simon Ser wrote:
-> I think this should be a KMS property instead of a module parameter.
-> Is there a reason why this patch uses a module parameter? It breaks
-> user-space expectations.
+[auto build test ERROR on sunxi/sunxi/for-next]
+[also build test ERROR on linus/master v6.3-rc6 next-20230406]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Hi Simon,
+url:    https://github.com/intel-lab-lkp/linux/commits/Brandon-Cheo-Fusi/drm-sun4i-dsi-factor-out-DSI-PHY-poweron-and-poweroff/20230410-165257
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/sunxi/linux.git sunxi/for-next
+patch link:    https://lore.kernel.org/r/20230410084750.164016-2-fusibrandon13%40gmail.com
+patch subject: [PATCH 1/2] drm: sun4i/dsi: factor out DSI PHY poweron and poweroff
+config: ia64-allyesconfig (https://download.01.org/0day-ci/archive/20230411/202304110110.ZLinpepn-lkp@intel.com/config)
+compiler: ia64-linux-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/afa9cb6821e4527f07c10a777ea44e380b524858
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Brandon-Cheo-Fusi/drm-sun4i-dsi-factor-out-DSI-PHY-poweron-and-poweroff/20230410-165257
+        git checkout afa9cb6821e4527f07c10a777ea44e380b524858
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 SHELL=/bin/bash drivers/gpu/
 
-a KMS property is what we have on vkms TODO [1] and the module parameter
-was Ma=EDra's first step to open a discussion for this property [2].
-AFAIK, we would need to create the KMS property first, but it seems
-there isn't an userspace case/need to support this API change.
-Do you know any valid use cases to support a bkg color property?
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202304110110.ZLinpepn-lkp@intel.com/
 
-BR,
+All errors (new ones prefixed by >>):
 
-Melissa
+>> drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c:843:27: error: initialization of 'void (*)(struct drm_encoder *)' from incompatible pointer type 'void (*)(struct drm_encoder *, struct drm_atomic_state *)' [-Werror=incompatible-pointer-types]
+     843 |         .enable         = sun6i_dsi_encoder_enable,
+         |                           ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c:843:27: note: (near initialization for 'sun6i_dsi_enc_helper_funcs.enable')
+   cc1: some warnings being treated as errors
 
-[1] https://dri.freedesktop.org/docs/drm/gpu/vkms.html#add-plane-features
-[2] https://lore.kernel.org/dri-devel/20230406172002.124456-1-mcanal@igalia=
-=2Ecom/
 
---dughwqgsy7tnmtax
-Content-Type: application/pgp-signature; name="signature.asc"
+vim +843 drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c
 
------BEGIN PGP SIGNATURE-----
+133add5b5ad42b Maxime Ripard 2018-04-04  841  
+133add5b5ad42b Maxime Ripard 2018-04-04  842  static const struct drm_encoder_helper_funcs sun6i_dsi_enc_helper_funcs = {
+133add5b5ad42b Maxime Ripard 2018-04-04 @843  	.enable		= sun6i_dsi_encoder_enable,
+133add5b5ad42b Maxime Ripard 2018-04-04  844  };
+133add5b5ad42b Maxime Ripard 2018-04-04  845  
 
-iQIzBAABCgAdFiEEd8WOo/JViG+Tu+XIwqF3j0dLehwFAmQ0TGcACgkQwqF3j0dL
-ehx3gA//dlZXMGMTtJl8zxu8S4udoCkeeUjvi1CqegZXJ6fPzvTUTcID6t+PxTfU
-LKtoWKdqNR/RZ7luDrkx5beLvrjSEYv3aAiiq6XE4I4C7FCrzs8l+goDr8tLYtDy
-Hsm/ST1RggzhfVE3wHWY0dti2FX6lTkMk1TPRcGwBTbS22bIGEim03iDAOfOWj//
-579TLuYmNqthsB+U81GdJcMQQ2k2duJ57qv5gaDWIhn9w0+drPLMG5gbjDa+eA5L
-Pp6J+TWQTGMPDzbCvkXaW3rjU1y4nMzvq/yxWmYS4EEVo6b1ZqYmYmsz3gKpmn30
-RvoVDS32C2YiD9xm5EJn84q0HUQHcUtXJQ4hE27UOZ5hQcrzCsotu+7SAjTaLBtK
-6wpj5AYVQi0neQlc3Z8gqwIytgsR8Fwr1xP9qz72aAGaXlFWc1z6EJE1lmPwrHI1
-VUl7xR5IG9dj282N/78c6y1IimDj8Kj+BhdU1Rh3zUvDPR4eiAppKZhMKTOzeF32
-ke28vbUsDG6Xhc3mhe8NwXB7t7Jx3PATkBUgPw0imZ6oY7EXNDoTmjC38qnl1aey
-D+W4KOUPVq6wcSKAUWRN3x8r3+91g4ZwjyUdUtqkCNjx9dUwDjKyzc5EVlIxv8WP
-NGnyeLkLCNrKoNQtt7LmaZ3NlfmPHwPTUYO6aOxrP3C0/Nvzcio=
-=GGyx
------END PGP SIGNATURE-----
-
---dughwqgsy7tnmtax--
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
