@@ -1,59 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C24C6DCB8C
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Apr 2023 21:28:42 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9646F6DCBD2
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Apr 2023 21:54:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3B62210E26B;
-	Mon, 10 Apr 2023 19:28:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 952C910E30C;
+	Mon, 10 Apr 2023 19:54:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x230.google.com (mail-lj1-x230.google.com
- [IPv6:2a00:1450:4864:20::230])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6C20410E25B
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Apr 2023 19:28:35 +0000 (UTC)
-Received: by mail-lj1-x230.google.com with SMTP id be27so6309815ljb.12
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Apr 2023 12:28:35 -0700 (PDT)
+Received: from mail-yw1-x1134.google.com (mail-yw1-x1134.google.com
+ [IPv6:2607:f8b0:4864:20::1134])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4D1C710E30C
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Apr 2023 19:54:47 +0000 (UTC)
+Received: by mail-yw1-x1134.google.com with SMTP id
+ 00721157ae682-54ee9ad5eb3so113801187b3.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Apr 2023 12:54:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1681154913;
- h=cc:to:subject:message-id:date:user-agent:from:references
- :in-reply-to:mime-version:from:to:cc:subject:date:message-id
- :reply-to; bh=cV7iHlDSCkwR3Z86lazv55Ruacc6OCgU/OMjDSnBLGA=;
- b=lmMtmMZYSPau5HIiRuvkaPYnLQadTiUc8bYELRlQYBN/6UsWZoNLmz+hsApbhEmaNJ
- rt3P9DWoya5zNZhEg8f6onN7v7cpTwYGWY/7VQk4RL9aVM9T1w6FMR642KNDTrR/DjZz
- IYjZnIcz4cf+6qeXWblu/JVVdkd2sfUWA6wks=
+ d=linaro.org; s=google; t=1681156486;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=hVSuxMbAqEPyVi9yC8m6tq1S+nROIsHX2hkvUDvRI/o=;
+ b=YOBTOqGxNCmNhgEmYv0FNp0qxvtNLFWoU6pCg8staBFs6JHY3hDi7xVDJPoLCc3H1C
+ EprPsB5Pt8sGVU1O+P7VbUX/VGdSszLu4mheYIHdzJCot9D1XI6gtEpMBsuNUfFcK+YF
+ jzUv+cp5t0W60N1uC28sAV4Ek5bCr7nk0ZhgZkRAfY0edgUb8RKJVfh1sCe3Rf3PjZQp
+ 4fiAPJX8c5yBAJbuXSjy8GgkMXam0KpQRXxPu+vXu3p3/jZhhtBR7nKRJKdgxSsvWit9
+ yNJyGfcFGeyKXFfJjQF54Yhs0VuRYHNrG2UCMm7ZRNFVhUXFkQfOmQHjAZlqfdkCs5/V
+ px8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1681154913;
- h=cc:to:subject:message-id:date:user-agent:from:references
- :in-reply-to:mime-version:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=cV7iHlDSCkwR3Z86lazv55Ruacc6OCgU/OMjDSnBLGA=;
- b=oTsl6PfDeUie06TiS+kH/DUeauV1Wv0oi5XbMDXI1kn9Cnb1EDUPbzy5dRMpFJin38
- NOr3Ob98iJHHTGEA9o5BNajJca2Zzji//ZOthG2jmJP/y1D6Sh7i+1Br8dSyixtH4qiu
- fgoiZKpU8jB7rsNsmDRoGQeM9rYmUf3IYFb+RpWVun3dc4K4zeVZQ4cpNgKBdObB3clU
- yq6O5uOzIzMW8IJGTQ/rIpokVfhDrniyjab8bpP+ugFz+gGE199Hc2WduOWjhrV+KNTA
- d6Fv8YxRImhD6vbvPNQenMXGCFQiQqGM9Y+c60wES6yC2O/tEviVZSJfoWVWBEMYn3UF
- dGRw==
-X-Gm-Message-State: AAQBX9dgFM1qgvCRH/8X4j15JSpx9qgz8LAch8cRWelhx/mnim60V0YD
- NPpQT2G4Qc9SLJM5QiE9i/jvSdhnrJyH1BBjs9SNqQ==
-X-Google-Smtp-Source: AKy350alTOxLOMLHu6EdCkF/pTKW48gCDfBI3KpxJaXbdN8LaZEHWn9jGZb5m808HwS5cTn3lAVhtWfPsMYChQpj/0k=
-X-Received: by 2002:a2e:9842:0:b0:2a7:828c:591b with SMTP id
- e2-20020a2e9842000000b002a7828c591bmr702366ljj.10.1681154913050; Mon, 10 Apr
- 2023 12:28:33 -0700 (PDT)
-Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Mon, 10 Apr 2023 12:28:32 -0700
+ d=1e100.net; s=20210112; t=1681156486;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=hVSuxMbAqEPyVi9yC8m6tq1S+nROIsHX2hkvUDvRI/o=;
+ b=POzSCIIFsclYm4859vxlDBYJA1hUvGItLguk39it8tMpyURWiRFX6jk1bm3vpKXsHB
+ Vr1mlCdvhBG1Oq8bFC+k54RnzUY5RtKPjL0ESiuUDuQbTx435kpfX0r3ZTqPvyHx3+Z9
+ Gq+S2X69d5WU3jpbZsfmOFG1d4zBBQ05OkaxdTw1fpeOWEYnvnial/816EA3L5V7rbM3
+ x0NwaxifY47SPYZDRJ4t+dfvcoRGfWbf+sLuj7y8zpvj2+qGdyDEKkY8223CggBAGOub
+ EfTgPozuTDzm2xvf2k5N16EmFLbvpKt/a1bukpGzT08c5ZMHbfwa6djQSqmznX2I+N94
+ zcog==
+X-Gm-Message-State: AAQBX9eCOguUCHkxMzmWDhdoE4RnMA09YouYNL3j3Q7CTjYzgI440OqQ
+ mARbb1mJSnhFofB5rj7sMm7EsyZufYvcqKVj0uVt/A==
+X-Google-Smtp-Source: AKy350ZgRZcZYpWJQUeIosylHkgPa4AxB8416V8GRr7Kq8Bb3lqiDtKZkIPHZeIbY0SdqCZNDCk2b/r4BVo2IMy4MwM=
+X-Received: by 2002:a81:ae51:0:b0:54c:1ab:6aaf with SMTP id
+ g17-20020a81ae51000000b0054c01ab6aafmr6290994ywk.5.1681156485968; Mon, 10 Apr
+ 2023 12:54:45 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20230409011329.2365570-1-dmitry.baryshkov@linaro.org>
 References: <20230409011329.2365570-1-dmitry.baryshkov@linaro.org>
-From: Stephen Boyd <swboyd@chromium.org>
-User-Agent: alot/0.10
-Date: Mon, 10 Apr 2023 12:28:32 -0700
-Message-ID: <CAE-0n51mkvb0nmF19NTXeLegzJJU=53ywUOqEP0skMtU3Oh3xA@mail.gmail.com>
+ <CAE-0n51mkvb0nmF19NTXeLegzJJU=53ywUOqEP0skMtU3Oh3xA@mail.gmail.com>
+In-Reply-To: <CAE-0n51mkvb0nmF19NTXeLegzJJU=53ywUOqEP0skMtU3Oh3xA@mail.gmail.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Mon, 10 Apr 2023 22:54:35 +0300
+Message-ID: <CAA8EJpqvuOTd-_aLDxoRnBx1rFg2scwGEH=W76G0aEUEX9uOgA@mail.gmail.com>
 Subject: Re: [RFC PATCH] drm/msm/a5xx: really check for A510 in a5xx_gpu_init
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark <robdclark@gmail.com>,
- Sean Paul <sean@poorly.run>
+To: Stephen Boyd <swboyd@chromium.org>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -67,23 +67,32 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, Bjorn Andersson <andersson@kernel.org>,
- Adam Skladowski <a39.skl@gmail.com>, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org
+Cc: freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>,
+ Bjorn Andersson <andersson@kernel.org>, Adam Skladowski <a39.skl@gmail.com>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
+ linux-arm-msm@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Dmitry Baryshkov (2023-04-08 18:13:29)
-> The commit 010c8bbad2cb ("drm: msm: adreno: Disable preemption on Adreno
-> 510") added special handling for a510 (this SKU doesn't seem to support
-> preemption, so the driver should clamp nr_rings to 1). However the
-> gpu->revn is not yet set (it is set later, in adreno_gpu_init()) and
-> thus the condition is always false. Check config->rev instead.
+On Mon, 10 Apr 2023 at 22:28, Stephen Boyd <swboyd@chromium.org> wrote:
 >
-> Fixes: 010c8bbad2cb ("drm: msm: adreno: Disable preemption on Adreno 510")
-> Reported-by: Adam Skladowski <a39.skl@gmail.com>
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> ---
+> Quoting Dmitry Baryshkov (2023-04-08 18:13:29)
+> > The commit 010c8bbad2cb ("drm: msm: adreno: Disable preemption on Adreno
+> > 510") added special handling for a510 (this SKU doesn't seem to support
+> > preemption, so the driver should clamp nr_rings to 1). However the
+> > gpu->revn is not yet set (it is set later, in adreno_gpu_init()) and
+> > thus the condition is always false. Check config->rev instead.
+> >
+> > Fixes: 010c8bbad2cb ("drm: msm: adreno: Disable preemption on Adreno 510")
+> > Reported-by: Adam Skladowski <a39.skl@gmail.com>
+> > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> > ---
+>
+> Maybe as a followup you can put a WARN_ON_ONCE() inside a new function
+> that gets gpu->revn and warns if the value is 0?
 
-Maybe as a followup you can put a WARN_ON_ONCE() inside a new function
-that gets gpu->revn and warns if the value is 0?
+Sounds like a good idea.
+
+-- 
+With best wishes
+Dmitry
