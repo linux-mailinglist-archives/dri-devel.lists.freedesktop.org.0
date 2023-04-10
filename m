@@ -1,63 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF8BB6DC522
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Apr 2023 11:36:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 890A36DC55F
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Apr 2023 11:54:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A567310E0AA;
-	Mon, 10 Apr 2023 09:36:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5048310E062;
+	Mon, 10 Apr 2023 09:54:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com
- [209.85.128.178])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 67DED10E0AA
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Apr 2023 09:36:12 +0000 (UTC)
-Received: by mail-yw1-f178.google.com with SMTP id
- 00721157ae682-54e40113cf3so128620547b3.12
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Apr 2023 02:36:12 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1681119371;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=FHSMM1KvEHdmSEiK3Kz5ib8QCRDoCzAK4drVjX0gWY8=;
- b=qqXhWoisDmj64EjgyB9DWvF5461ZOVpuNZSjpQHp5fV2Tx3KcJMan/tmBSRAQTZgem
- uN3GWh7dOjLD4VbtJXjPotoAAi7BMQawEWHzJeFK6HmOUl/RLBCkAdNkovg/pYsRjWzc
- 6LIwQvOWi/mRrl/0OrNm4CZ90iknKJl+KFqN22qWtpTzkd3FE8aSRfSCusVsh5b43FGP
- OUhVTuoeg28GgLnSihSLSn6/J/HgJy2hfhhh1+az3tI0D5xNXQGpPKre2fDn+xz0kjBH
- mv370PLdonD30ybgDSbHkBEN8TsbmC+UGpfo8DG2s/MuBKal3l3hqf7CZmZ1uxVhtusi
- MOXQ==
-X-Gm-Message-State: AAQBX9fE/KrYUc6l4FWeJymjFW9WqVFVfa482cF4lp0uueY2Rc6Zp6i+
- ZFCa+1S360Z7a8qk/88jIao2kiej/fSqog==
-X-Google-Smtp-Source: AKy350YuWjO0R2IrIiTgoaTiTBWwgcwEa2LnSumofv6Xgm1LuLLZBNcRCEFGGzmue/6esL0LjWxalw==
-X-Received: by 2002:a0d:ea4b:0:b0:54e:d9df:7e48 with SMTP id
- t72-20020a0dea4b000000b0054ed9df7e48mr5637964ywe.21.1681119370752; 
- Mon, 10 Apr 2023 02:36:10 -0700 (PDT)
-Received: from mail-yb1-f179.google.com (mail-yb1-f179.google.com.
- [209.85.219.179]) by smtp.gmail.com with ESMTPSA id
- f10-20020a81414a000000b00545a08184desm2700216ywk.110.2023.04.10.02.36.10
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 10 Apr 2023 02:36:10 -0700 (PDT)
-Received: by mail-yb1-f179.google.com with SMTP id z9so3971700ybs.9
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Apr 2023 02:36:10 -0700 (PDT)
-X-Received: by 2002:a25:df0b:0:b0:b75:9519:dbcd with SMTP id
- w11-20020a25df0b000000b00b759519dbcdmr6808406ybg.12.1681119369989; Mon, 10
- Apr 2023 02:36:09 -0700 (PDT)
+X-Greylist: delayed 1052 seconds by postgrey-1.36 at gabe;
+ Mon, 10 Apr 2023 09:54:24 UTC
+Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com
+ [67.231.149.25])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DEA7A10E062
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Apr 2023 09:54:24 +0000 (UTC)
+Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
+ by mx0a-001ae601.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 33A7r9Lt019697; Mon, 10 Apr 2023 04:36:15 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com;
+ h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=PODMain02222019;
+ bh=+HukSUvI/kCUUncwKWci9mPfS5LDyGCwR3HBx0GVrAs=;
+ b=VyMltFGcMJz9Fo96jwj0voLCc/MyQ6TuYb7AB8OBO0WIQG+3ueNwcRlmimRr5ax8Lalm
+ 9zqscYCBdnc5TRuyeAGFmcWqCBJQJmHrI56LW7Dk0FGp9YQpas/ojASbr5btgJvIoT73
+ S1KxCU8LkHwVei7JvpI8ACVQAq/enUwThmVdGJZpn8Zx2zPyrUYy5PKwdrw6oSfDv1BH
+ l95JsMzlvJd2u+xQJCXydr3SCk5dfYCC7jlv4biWfA4bNOXOlsxb68bu+IWlx4sMYaWT
+ 7NhxKKG4Jl+RSzcPY7sSMV9fHZTXKOOnpzSbeI+XHdFVloRXPQFwFEg5DU57cRqcElXC YQ== 
+Received: from ediex02.ad.cirrus.com ([84.19.233.68])
+ by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 3pu5p3jd3m-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 10 Apr 2023 04:36:14 -0500
+Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex02.ad.cirrus.com
+ (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.26; Mon, 10 Apr
+ 2023 04:36:12 -0500
+Received: from ediswmail.ad.cirrus.com (198.61.86.93) by
+ anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
+ 15.2.1118.26 via Frontend Transport; Mon, 10 Apr 2023 04:36:12 -0500
+Received: from ediswmail.ad.cirrus.com (ediswmail.ad.cirrus.com [198.61.86.93])
+ by ediswmail.ad.cirrus.com (Postfix) with ESMTP id 7630D11D4;
+ Mon, 10 Apr 2023 09:36:12 +0000 (UTC)
+Date: Mon, 10 Apr 2023 09:36:12 +0000
+From: Charles Keepax <ckeepax@opensource.cirrus.com>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: Re: [PATCH 30/68] hwmon: lochnagar: constify pointers to
+ hwmon_channel_info
+Message-ID: <20230410093612.GW68926@ediswmail.ad.cirrus.com>
+References: <20230406203103.3011503-1-krzysztof.kozlowski@linaro.org>
+ <20230406203103.3011503-31-krzysztof.kozlowski@linaro.org>
 MIME-Version: 1.0
-References: <cover.1680273039.git.geert+renesas@glider.be>
- <df4099d79c985c73bdc890eb0e026494b7fa5c96.1680273039.git.geert+renesas@glider.be>
- <20230405035952.GI9915@pendragon.ideasonboard.com>
-In-Reply-To: <20230405035952.GI9915@pendragon.ideasonboard.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 10 Apr 2023 11:35:56 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUMEVYRr9oYBB=50WJtM4St1UfVkGMw09dchjgoUC2Q6A@mail.gmail.com>
-Message-ID: <CAMuHMdUMEVYRr9oYBB=50WJtM4St1UfVkGMw09dchjgoUC2Q6A@mail.gmail.com>
-Subject: Re: [PATCH 3/5] drm: shmobile: Switch to drm_crtc_init_with_planes()
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20230406203103.3011503-31-krzysztof.kozlowski@linaro.org>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-Proofpoint-ORIG-GUID: fWu5-qrICvMoiuyJqdY1n9J2l14KWHY2
+X-Proofpoint-GUID: fWu5-qrICvMoiuyJqdY1n9J2l14KWHY2
+X-Proofpoint-Spam-Reason: safe
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,109 +70,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-renesas-soc@vger.kernel.org,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Cc: Tomer Maimon <tmaimon77@gmail.com>,
+ Eric Tremblay <etremblay@distech-controls.com>, Tom Rix <trix@redhat.com>,
+ Jean-Marie Verdun <verdun@hpe.com>, Clemens Ladisch <clemens@ladisch.de>,
+ dri-devel@lists.freedesktop.org, Tali Perry <tali.perry1@gmail.com>,
+ Rudolf Marek <r.marek@assembler.cz>,
+ Aleksandr Mezin <mezin.alexander@gmail.com>,
+ Florian Fainelli <f.fainelli@gmail.com>, Luka Perkov <luka.perkov@sartura.hr>,
+ Benjamin Fair <benjaminfair@google.com>, Jonathan Corbet <corbet@lwn.net>,
+ Steen Hegelund <Steen.Hegelund@microchip.com>, linux-doc@vger.kernel.org,
+ Jonas Malaco <jonas@protocubo.io>,
+ Derek John Clark <derekjohn.clark@gmail.com>, UNGLinuxDriver@microchip.com,
+ Nancy Yuen <yuenn@google.com>,
+ Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+ linux-arm-kernel@lists.infradead.org, Aleksa Savic <savicaleksa83@gmail.com>,
+ Guenter Roeck <linux@roeck-us.net>, Jean Delvare <jdelvare@suse.com>,
+ Daniel Machon <daniel.machon@microchip.com>,
+ Michael Hennerich <Michael.Hennerich@analog.com>, openbmc@lists.ozlabs.org,
+ Robert Marko <robert.marko@sartura.hr>,
+ =?iso-8859-1?Q?Joaqu=EDn_Ignacio_Aramend=EDa?= <samsagax@gmail.com>,
+ Wilken Gottwalt <wilken.gottwalt@posteo.net>,
+ Richard Fitzgerald <rf@opensource.cirrus.com>,
+ Agathe Porte <agathe.porte@nokia.com>, linux-rpi-kernel@lists.infradead.org,
+ Nick Hawkins <nick.hawkins@hpe.com>,
+ Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+ Lars Povlsen <lars.povlsen@microchip.com>, linux-hwmon@vger.kernel.org,
+ Hans de Goede <hdegoede@redhat.com>, Avi Fishman <avifishman70@gmail.com>,
+ Patrick Venture <venture@google.com>, Oded Gabbay <ogabbay@kernel.org>,
+ Iwona Winiarska <iwona.winiarska@intel.com>, linux-kernel@vger.kernel.org,
+ Jack Doan <me@jackdoan.com>, Michael Walle <michael@walle.cc>,
+ Marius Zachmann <mail@mariuszachmann.de>,
+ Ibrahim Tilki <Ibrahim.Tilki@analog.com>, patches@opensource.cirrus.com,
+ Pali =?iso-8859-1?Q?Roh=E1r?= <pali@kernel.org>, Xu Yilun <yilun.xu@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Laurent,
+On Thu, Apr 06, 2023 at 10:30:25PM +0200, Krzysztof Kozlowski wrote:
+> Statically allocated array of pointed to hwmon_channel_info can be made
+> const for safety.
+> 
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> ---
 
-Thanks for your comments!
+Acked-by: Charles Keepax <ckeepax@opensource.cirrus.com>
 
-On Wed, Apr 5, 2023 at 5:59=E2=80=AFAM Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
-> On Fri, Mar 31, 2023 at 04:48:09PM +0200, Geert Uytterhoeven wrote:
-> > The SH-Mobile DRM driver uses the legacy drm_crtc_init(), which
-> > advertizes only the formats in safe_modeset_formats[] (XR24 and AR24) a=
-s
-> > being supported.
-> >
-> > Switch to drm_crtc_init_with_planes(), and advertize all supported
-> > (A)RGB modes, so we can use RGB565 as the default mode for the console.
-> >
-> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-
-> > --- a/drivers/gpu/drm/shmobile/shmob_drm_crtc.c
-> > +++ b/drivers/gpu/drm/shmobile/shmob_drm_crtc.c
-> > @@ -18,6 +18,7 @@
-> >  #include <drm/drm_gem_dma_helper.h>
-> >  #include <drm/drm_modeset_helper.h>
-> >  #include <drm/drm_modeset_helper_vtables.h>
-> > +#include <drm/drm_plane_helper.h>
-> >  #include <drm/drm_probe_helper.h>
-> >  #include <drm/drm_simple_kms_helper.h>
-> >  #include <drm/drm_vblank.h>
-> > @@ -478,16 +479,41 @@ static const struct drm_crtc_funcs crtc_funcs =3D=
- {
-> >       .disable_vblank =3D shmob_drm_disable_vblank,
-> >  };
-> >
-> > +static const uint32_t modeset_formats[] =3D {
-> > +     DRM_FORMAT_RGB565,
-> > +     DRM_FORMAT_RGB888,
-> > +     DRM_FORMAT_ARGB8888,
-> > +     DRM_FORMAT_XRGB8888,
-> > +};
-> > +
-> > +static const struct drm_plane_funcs primary_plane_funcs =3D {
-> > +     DRM_PLANE_NON_ATOMIC_FUNCS,
-> > +};
-> > +
-> >  int shmob_drm_crtc_create(struct shmob_drm_device *sdev)
-> >  {
-> >       struct drm_crtc *crtc =3D &sdev->crtc.crtc;
-> > +     struct drm_plane *primary;
-> >       int ret;
-> >
-> >       sdev->crtc.dpms =3D DRM_MODE_DPMS_OFF;
-> >
-> > -     ret =3D drm_crtc_init(sdev->ddev, crtc, &crtc_funcs);
-> > -     if (ret < 0)
-> > +     primary =3D __drm_universal_plane_alloc(sdev->ddev, sizeof(*prima=
-ry), 0,
-> > +                                           0, &primary_plane_funcs,
-> > +                                           modeset_formats,
-> > +                                           ARRAY_SIZE(modeset_formats)=
-,
-> > +                                           NULL, DRM_PLANE_TYPE_PRIMAR=
-Y,
-> > +                                           NULL);
-> > +     if (IS_ERR(primary))
-> > +             return PTR_ERR(primary);
->
-> This seems like a bit of a hack to me. Why don't you use the planes
-
-I'm following what Thomas did in the nouveau driver....
-
-> created by shmob_drm_plane_create() instead of allocating a new one ?
-
-Is that possible? shmob_drm_plane_create() creates overlay planes,
-while this is for the primary plane.
-
->
-> > +
-> > +     ret =3D drm_crtc_init_with_planes(sdev->ddev, crtc, primary, NULL=
-,
-> > +                                     &crtc_funcs, NULL);
-> > +     if (ret < 0) {
-> > +             drm_plane_cleanup(primary);
-> > +             kfree(primary);
-> >               return ret;
-> > +     }
-> >
-> >       drm_crtc_helper_add(crtc, &crtc_helper_funcs);
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+Thanks,
+Charles
