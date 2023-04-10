@@ -1,63 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24C0F6DCD97
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Apr 2023 00:40:44 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E7346DCD9F
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Apr 2023 00:43:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3CC4D10E438;
-	Mon, 10 Apr 2023 22:40:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 331F110E43C;
+	Mon, 10 Apr 2023 22:43:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x229.google.com (mail-lj1-x229.google.com
- [IPv6:2a00:1450:4864:20::229])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 45DB210E438
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Apr 2023 22:40:38 +0000 (UTC)
-Received: by mail-lj1-x229.google.com with SMTP id e9so35901241ljq.4
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Apr 2023 15:40:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1681166436;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=ExpMxaiAsYSC/kxMJmZJo/lYKKpscHCMufENOoO0Jss=;
- b=LQtBg78Rc3RIjK/NZdxj45la/WmU3KKsbqGoThwHmVhqr3sy6wHRVnWkYRDTAvL1gj
- A2QPJYb0iISeYpolqz32lfMnFZD/beoqQMmWmbFbG7qE2qZCv+23MhSJwlY3i3nkd+FW
- JW7nTn8cza7x6vw/Rw8fOH/gM97LocbXHoy91RAP7ewNzl7zhNHjIupJbPT3yhi6jwbc
- jQjCtBOZ7GK4ODk6HkE1XaL27zXdUCOA4T0iI5sCn1hXsWa0SvbpPg6glS7ou/9QTrHR
- YW32M0rBskdbBsueG1Ba+I6KTSG1jJaFNxErCLgEvFOjO2KSn9OoBmkTcJQ6YAvJ4Oa/
- yXPw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1681166436;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=ExpMxaiAsYSC/kxMJmZJo/lYKKpscHCMufENOoO0Jss=;
- b=aI2qvuNVkc6hnVCwfxEcaUqSPb+0ZeGDhMTrYuQHT1Qq8urbc1inn0gWyDcuX8XZAz
- 6o9hUpzF8WikzlzwZ/jPt2g2OcYGEf5VyzcDVOd84CfHjz8rnlPAOqDPnQbLra7BWIe5
- NnvFHniVWBTVTAVofYx/zAEddfNSxA9gok6k7HzcmEy8XeCzWiqBvhbi6aT5ALtc0Khx
- +abFXl0VhIGo4dVUMAIZul72q0K+pPWAAasO9BD1YmfbWt+HFqH0Sp3HUSCnm7+I45Z9
- Vq+UNl27N923WzVsp9pOw5kY2dpZZXQJZkrWm0iHeM35mb6NX4zbWek4BcJhgl7Ofad9
- rSsw==
-X-Gm-Message-State: AAQBX9e4gEDu6HyA8gGYe52qKHAsaaQdkcTh4dsTQ3Jr8Rw2mzolFwbS
- f8ZKUvo86rhNgqPIu7oXDiGhlg==
-X-Google-Smtp-Source: AKy350aZM/Dm9IAVjkzrpnrNGKkAnyaxL3kEvMMKkv5S1Zqvl3B8sQgi0Z5WHmQ0jjUxAcOa5vxccg==
-X-Received: by 2002:a2e:9d08:0:b0:29a:1f7d:38b1 with SMTP id
- t8-20020a2e9d08000000b0029a1f7d38b1mr3633969lji.28.1681166435783; 
- Mon, 10 Apr 2023 15:40:35 -0700 (PDT)
-Received: from umbar.unikie.fi ([192.130.178.91])
- by smtp.gmail.com with ESMTPSA id
- y4-20020a2e95c4000000b002a77e01c3a0sm518102ljh.23.2023.04.10.15.40.35
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 10 Apr 2023 15:40:35 -0700 (PDT)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>
-Subject: [PATCH v2] drm/msm/adreno: fix sparse warnings in a6xx code
-Date: Tue, 11 Apr 2023 01:40:34 +0300
-Message-Id: <20230410224034.443210-1-dmitry.baryshkov@linaro.org>
-X-Mailer: git-send-email 2.30.2
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 40D6410E43B;
+ Mon, 10 Apr 2023 22:43:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1681166591; x=1712702591;
+ h=date:message-id:from:to:cc:subject:in-reply-to:
+ references:mime-version;
+ bh=xk0edMKFeflPpIytVjYpBJTZht+BUxxlmyGglSwLMvk=;
+ b=cB98wI5K+NoVQIts2fGn8Ag2EW6BHcXbbnOb7CcrWBaSZUtMdanMa3C7
+ vyqQkrMKBaRF6m/CMKUx44rxjoDkpvcB32SMk20dICwps5vV0chUDK84p
+ ocJXSJF32tjuXTrmNa864Mqj5jO+i73FPqMhRRbdTwwkj2J1pU+LruZWD
+ HRz+Nt8nV1sMAV/zIlQAqsTmf/vK0uOAbNVM+2tFY4VMSbHEAT293bk7X
+ ZdZtRzoMPYijrmRRLrWCILjEcnZRe5qEoO/KUZslCr2VjqyllUgCjKyCV
+ CPFl7iwLEz8dotlpv9QpbWJdoDqO2NgD5VAWco80CqHIAXosO51mkX80K g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10676"; a="342234762"
+X-IronPort-AV: E=Sophos;i="5.98,333,1673942400"; d="scan'208";a="342234762"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Apr 2023 15:43:10 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10676"; a="638598776"
+X-IronPort-AV: E=Sophos;i="5.98,333,1673942400"; d="scan'208";a="638598776"
+Received: from adixit-mobl.amr.corp.intel.com (HELO adixit-arch.intel.com)
+ ([10.251.5.8])
+ by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Apr 2023 15:43:10 -0700
+Date: Mon, 10 Apr 2023 15:40:55 -0700
+Message-ID: <877cuje4y0.wl-ashutosh.dixit@intel.com>
+From: "Dixit, Ashutosh" <ashutosh.dixit@intel.com>
+To: Rodrigo Vivi <rodrigo.vivi@intel.com>
+Subject: Re: [Intel-gfx] [PATCH 3/3] drm/i915/hwmon: Block waiting for GuC
+ reset to complete
+In-Reply-To: <ZC/4puC4sAanEGjE@intel.com>
+References: <20230406044522.3108359-1-ashutosh.dixit@intel.com>	<20230406044522.3108359-4-ashutosh.dixit@intel.com>	<ZC/4puC4sAanEGjE@intel.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?ISO-8859-4?Q?Goj=F2?=) APEL-LB/10.8 EasyPG/1.0.0
+ Emacs/28.2 (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,47 +61,116 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, kernel test robot <lkp@intel.com>,
- linux-arm-msm@vger.kernel.org, Bjorn Andersson <andersson@kernel.org>,
- Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Sparse reports plenty of warnings against the a6xx code because of
-a6xx_gmu::mmio and a6xx_gmu::rscc members. For some reason they were
-defined as __iomem pointers rather than pointers to __iomem memory.
-Correct the __iomem attribute.
+On Fri, 07 Apr 2023 04:04:06 -0700, Rodrigo Vivi wrote:
+>
 
-Fixes: 02ef80c54e7c ("drm/msm/a6xx: update pdc/rscc GMU registers for A640/A650")
-Reported-by: kernel test robot <lkp@intel.com>
-Link: https://lore.kernel.org/oe-kbuild-all/202304070550.NrbhJCvP-lkp@intel.com/
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
-Reviewed-by: Stephen Boyd <swboyd@chromium.org>
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
+Hi Rodrigo,
 
-Changes since v1: removed whispace after the star (Stephen)
+> On Wed, Apr 05, 2023 at 09:45:22PM -0700, Ashutosh Dixit wrote:
+> > Instead of erroring out when GuC reset is in progress, block waiting for
+> > GuC reset to complete which is a more reasonable uapi behavior.
+> >
+> > Signed-off-by: Ashutosh Dixit <ashutosh.dixit@intel.com>
+> > ---
+> >  drivers/gpu/drm/i915/i915_hwmon.c | 13 ++++++++++---
+> >  1 file changed, 10 insertions(+), 3 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/i915/i915_hwmon.c b/drivers/gpu/drm/i915/i915_hwmon.c
+> > index 9ab8971679fe3..4343efb48e61b 100644
+> > --- a/drivers/gpu/drm/i915/i915_hwmon.c
+> > +++ b/drivers/gpu/drm/i915/i915_hwmon.c
+> > @@ -51,6 +51,7 @@ struct hwm_drvdata {
+> >	char name[12];
+> >	int gt_n;
+> >	bool reset_in_progress;
+> > +	wait_queue_head_t wqh;
+> >  };
+> >
+> >  struct i915_hwmon {
+> > @@ -400,10 +401,15 @@ hwm_power_max_write(struct hwm_drvdata *ddat, long val)
+> >	int ret = 0;
+> >	u32 nval;
+> >
+> > +retry:
+> >	mutex_lock(&hwmon->hwmon_lock);
+> >	if (hwmon->ddat.reset_in_progress) {
+> > -		ret = -EAGAIN;
+> > -		goto unlock;
+> > +		mutex_unlock(&hwmon->hwmon_lock);
+> > +		ret = wait_event_interruptible(ddat->wqh,
+> > +					       !hwmon->ddat.reset_in_progress);
+>
+> this is indeed very clever!
 
----
- drivers/gpu/drm/msm/adreno/a6xx_gmu.h | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Not clever, see below :/
 
-diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gmu.h b/drivers/gpu/drm/msm/adreno/a6xx_gmu.h
-index 0bc3eb443fec..4759a8ce51e4 100644
---- a/drivers/gpu/drm/msm/adreno/a6xx_gmu.h
-+++ b/drivers/gpu/drm/msm/adreno/a6xx_gmu.h
-@@ -51,8 +51,8 @@ struct a6xx_gmu {
- 
- 	struct msm_gem_address_space *aspace;
- 
--	void * __iomem mmio;
--	void * __iomem rscc;
-+	void __iomem *mmio;
-+	void __iomem *rscc;
- 
- 	int hfi_irq;
- 	int gmu_irq;
--- 
-2.30.2
+> my fear is probably due to the lack of knowledge on this wait queue, but
+> I'm wondering what could go wrong if due to some funny race you enter this
+> check right after wake_up_all below has passed and then you will be here
+> indefinitely waiting...
 
+You are absolutely right, there is indeed a race in the patch because in
+the above code when we drop the mutex (mutex_unlock) the wake_up_all can
+happen before we have queued ourselves for the wake up.
+
+Solving this race needs a more complicated prepare_to_wait/finish_wait
+sequence which I have gone ahead and implemented in patch v2. The v2 code
+is also a standard code pattern and the pattern I have implemented is
+basically the same as that in intel_guc_wait_for_pending_msg() in i915
+which I liked.
+
+I have read in several places (e.g. in the Advanced Sleeping section in
+https://static.lwn.net/images/pdf/LDD3/ch06.pdf and in kernel documentation
+for try_to_wake_up()) that this sequence will avoid the race (between
+schedule() and wake_up()). The crucial difference from the v1 patch is that
+in v2 the mutex is dropped after we queue ourselves in prepare_to_wait()
+just before calling schedule_timeout().
+
+> maybe just use the timeout version to be on the safeside and then return the
+> -EAGAIN on timeout?
+
+Also incorporated timeout in the new version. All code paths in the new
+patch have been tested.
+
+Thanks.
+--
+Ashutosh
+
+> > +		if (ret)
+> > +			return ret;
+> > +		goto retry;
+> >	}
+> >	wakeref = intel_runtime_pm_get(ddat->uncore->rpm);
+> >
+> > @@ -426,7 +432,6 @@ hwm_power_max_write(struct hwm_drvdata *ddat, long val)
+> >			 PKG_PWR_LIM_1_EN | PKG_PWR_LIM_1, nval);
+> >  exit:
+> >	intel_runtime_pm_put(ddat->uncore->rpm, wakeref);
+> > -unlock:
+> >	mutex_unlock(&hwmon->hwmon_lock);
+> >	return ret;
+> >  }
+> > @@ -508,6 +513,7 @@ void i915_hwmon_power_max_restore(struct drm_i915_private *i915, bool old)
+> >	intel_uncore_rmw(hwmon->ddat.uncore, hwmon->rg.pkg_rapl_limit,
+> >			 PKG_PWR_LIM_1_EN, old ? PKG_PWR_LIM_1_EN : 0);
+> >	hwmon->ddat.reset_in_progress = false;
+> > +	wake_up_all(&hwmon->ddat.wqh);
+> >
+> >	mutex_unlock(&hwmon->hwmon_lock);
+> >  }
+> > @@ -784,6 +790,7 @@ void i915_hwmon_register(struct drm_i915_private *i915)
+> >	ddat->uncore = &i915->uncore;
+> >	snprintf(ddat->name, sizeof(ddat->name), "i915");
+> >	ddat->gt_n = -1;
+> > +	init_waitqueue_head(&ddat->wqh);
+> >
+> >	for_each_gt(gt, i915, i) {
+> >		ddat_gt = hwmon->ddat_gt + i;
+> > --
+> > 2.38.0
+> >
