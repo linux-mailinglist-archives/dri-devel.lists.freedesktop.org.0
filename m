@@ -2,122 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB7C46DC809
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Apr 2023 16:47:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F0F66DC812
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Apr 2023 16:51:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8896610E3AF;
-	Mon, 10 Apr 2023 14:47:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7D54810E3AE;
+	Mon, 10 Apr 2023 14:51:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam12on2043.outbound.protection.outlook.com [40.107.237.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EE84210E3A0;
- Mon, 10 Apr 2023 14:47:51 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=HNCFKPXxYy5F1nqpVfbm9m4ij2Dp4wQwJgZotemXk3Cv32LBQECDBONiSJJctDi9kE8sfzFcPm+66dfzeEQRtezjWQCUto7Efwsf2QVw1AKlUTplS/mYs1CJhd7HvvgpDfRc5GEHEdTOblmltr2gsFvtuJOWfS9g+bfGH59P/ueBRPezsZCYYYDznNs3kxFXGjnKH5tia+mdED0ncwlJofebAShRyPW6B2Ne7zjzYDQmlCz9hWvSZF1cUWooxjx0PVmmhSkbO3WwAmJN8eXpQA82sRL4pbe0Fhq9ivzwyBr+/EEW6E2pBvqA+mAUKNVluki5s9Alit2gVA8/etC99g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=lMmEzuy259m9MJGu1sIJOY1M97d39JlZyKes1BDmvVg=;
- b=CTb1W4Q03HsIhVzO3Uc/vQI9xb7QRsxGsyL/MAvURI2kVF27ZOp2QcKnsR7GNGRTC9jsWc1mVYP4nHSAXea4D0AXRbAcgQ+FB2ii9/NhFhhyXYW4OFBkpnrJvxxaVi9zyYkaMfJk+fVTq0rLUbVCBhj67X3zRIv6COFwfO/bLrFS+cHjkjX3xEMAd+VZw7Z4tR03vMfM4X4UGOVdNU6Q1OWUAP2ArCsZez76AfnJhYsRth1kA6u0wGRLFC8ySp2Jo4KTp7MKsh2OKQqYZUElAwEz/F1PSpsVCwZwo9TjkA4V8XvkbfxwFas1yJqKlXhlWEs8L2evqu5IBMBukWYL8g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=lMmEzuy259m9MJGu1sIJOY1M97d39JlZyKes1BDmvVg=;
- b=QlI9pFMKfViCi7o3CxvbdGB/JT7n3WkwqDeo1+dahY6rPlaQ8QtAeyNUWQQEfal1DR42pQIh2EfknwAfpbl4NnX7zoVNfyW9O5YckVdeaQaQImwa/9Nh1OmvJwqpHz7RY8O4GsVQ++JEkw4Jla9sifd+Rgu5Fcu1MC4ntFXEA2c=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from DM4PR12MB6280.namprd12.prod.outlook.com (2603:10b6:8:a2::11) by
- PH8PR12MB7110.namprd12.prod.outlook.com (2603:10b6:510:22e::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6277.35; Mon, 10 Apr
- 2023 14:47:49 +0000
-Received: from DM4PR12MB6280.namprd12.prod.outlook.com
- ([fe80::fe53:2742:10f9:b8f1]) by DM4PR12MB6280.namprd12.prod.outlook.com
- ([fe80::fe53:2742:10f9:b8f1%9]) with mapi id 15.20.6277.038; Mon, 10 Apr 2023
- 14:47:49 +0000
-Message-ID: <2a608e8f-823a-7c01-8dc5-ad6c86e5f306@amd.com>
-Date: Mon, 10 Apr 2023 10:49:12 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.1
-Subject: Re: [PATCH] drm/amd/display: set variables dml*_funcs
- storage-class-specifier to static
-Content-Language: en-US
-To: Tom Rix <trix@redhat.com>, harry.wentland@amd.com, sunpeng.li@amd.com,
- Rodrigo.Siqueira@amd.com, alexander.deucher@amd.com,
- christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
- daniel@ffwll.ch, Pavle.Kotarac@amd.com, Jun.Lei@amd.com,
- nicholas.kazlauskas@amd.com, Charlene.Liu@amd.com, aurabindo.pillai@amd.com,
- Dmytro.Laktyushkin@amd.com
-References: <20230408134348.2703105-1-trix@redhat.com>
-From: Hamza Mahfooz <hamza.mahfooz@amd.com>
-In-Reply-To: <20230408134348.2703105-1-trix@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: YT4PR01CA0114.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b01:d7::19) To DM4PR12MB6280.namprd12.prod.outlook.com
- (2603:10b6:8:a2::11)
+Received: from mail-oi1-x22c.google.com (mail-oi1-x22c.google.com
+ [IPv6:2607:f8b0:4864:20::22c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 06D5910E0F2;
+ Mon, 10 Apr 2023 14:51:02 +0000 (UTC)
+Received: by mail-oi1-x22c.google.com with SMTP id bx42so19739650oib.6;
+ Mon, 10 Apr 2023 07:51:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20210112; t=1681138261;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=FYqIXLd/Ui+m5kacLJQwCPmC6WRf1zhaMMvCIl50OKc=;
+ b=SdHQY+kxqdYyirfQzPkkm43q013klRATWGu8bK7bBvtAC3AzE+/5oXIEb8kLcHl81E
+ ru6C96HGhhDyf7ZO2eM0c5XuyXB0ksjm72kVigh/YjUag+ApQm4joyGtqK1MOpI7dgKK
+ Lqgo/jBvktZeLos+SJS/pCKYULcKu81rlWPIlvW2CbOVO9kgZZM6sm3pXqNzH+L1x/GT
+ 52BSQl6cYo/zJoXWvJzta0uTzwriCpJqjjS8LUN8MJT1rclnwX4O7qk3D5zPQgb5MYJH
+ ltI6uotOpf2tpZdEssQzR35iXGr/YCmcz7m7ZnwFeFGo3TJZDArltkFlon8QLGiWSQbM
+ HJWg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1681138261;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=FYqIXLd/Ui+m5kacLJQwCPmC6WRf1zhaMMvCIl50OKc=;
+ b=R5MefNLkbX+sVlZKTG7Ay0Yh9tvWA6CDAJTYI/j/FqmpRixk7SksG9szB3pPX2zJDj
+ 02X6oQcGVqhDyJIsr0LJ14oF0EajqvVT2m3PNgnQ3tQ9wfpLDu3nHMPewXvaStdeUCc8
+ 7ldR3KdAFGeycPI+VlCJfIa3LMuBpor9zEyms8Va1qp0/x1mg2TtgS2SCNM3e1Jn+MVF
+ 5omXr9N3YTqiXvJjRs204E6WdUUF2jjbdP0NvsJ1HeP0ccYx4rgbDto/y1BmOOnpzHv1
+ e9ch/x988zThX7vFmFjgz8fyv3ohy0fmi96dom6AYKBsCdZPY6hwHLajcEosBcNWTiwp
+ 6AIQ==
+X-Gm-Message-State: AAQBX9cCw2ClfqHgob1A4cM4Nqr6Ocff7DY5WXzyI0jV2pkskVomw6+O
+ xnOm6Ytp0rLOZu+RQ9Js6H+cKHans1drLTO5Z94=
+X-Google-Smtp-Source: AKy350ar3ah3hKO2dKn189wU+6RozyDTSirrTYiBWqD2bZFO5HY6oJJOz+X/f0jTtHesgMe53T1M1Fx1taj3ExviO2Y=
+X-Received: by 2002:aca:171a:0:b0:386:e7e7:d93d with SMTP id
+ j26-20020aca171a000000b00386e7e7d93dmr3086294oii.5.1681138261556; Mon, 10 Apr
+ 2023 07:51:01 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR12MB6280:EE_|PH8PR12MB7110:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2a36ef29-11a8-4d4a-36d2-08db39d28df1
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: LXDkC+1Z79aVin+ZqMnpK8Fbk/kMOhJZDdr67jRO3T08t99DEcQ54FOICeP14gNC6gWgimO5+LO/tjgjxWt0+D2BgNngEmWUCOGmNBvVpGH5pDiGgjqfsIsbSYqS1dIU/1suxMb4WGHNcViIPgwTYhMEeI6dBdVIKgnIi3DL3D2exMN76Sqaep4FYG0JjtAWfl+YZ0sEf7uj+dKxMAEwU1GIX9zLV8WQpdRQ/JM57Eu22DwMPsvJzwpu9XHQp2/elpSuQ7dWHqhCjXVodKs3onoDfIDuKTKXxzHKejIyoBLw5srJj7okZFvl8c/mjAdZzRP5z7+D/BBrH1rpeHT4WLnDpXSMPkFumORbcyGeVD2AR68I7dpkbobQutj/s4PPK4+mUy6PpDmNdBhAyGXJa2L/2NcEblJC78APA1M7Ggwv2Z4M6X7Le9Npso9Zp/elk6/95t6Z1jTNWkD9A9M1gjmLnEPbXe8Z6RjHEQIzNcBvZRLU3UhRFkgKFK2z9KKheBbGLVIkDyU8VqHQXaPZKyJcP2h91jl5IpEg8hXpxGsjH+ckVYKxB7t4C80ymE9B71PC3VIOuoFGPer2qc9hnzSFIYuhtXFbNvN/3/pwWzCerh1gVlpIPahYQ9Eyfr59dc9T+q1zSNXDZspsYf8IteWX4+m1/CaeQwpSGH3UYA4=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM4PR12MB6280.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230028)(4636009)(376002)(346002)(366004)(396003)(136003)(39860400002)(451199021)(86362001)(31696002)(36756003)(316002)(41300700001)(8676002)(4326008)(6636002)(66946007)(6486002)(478600001)(66476007)(66556008)(5660300002)(2906002)(44832011)(8936002)(921005)(38100700002)(186003)(53546011)(6666004)(6506007)(26005)(6512007)(2616005)(83380400001)(31686004)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?dnJJZU5jeVRIbW9zYWMwSlNlRHFEMjhMNjNmR3ZsQUVOZndncHd5b2JOSGlB?=
- =?utf-8?B?S2ZzbTdya1laZW5DN0dvaFdPY0F2YXlEWjlFVXMxamJXT0o4S091QkNMSFZC?=
- =?utf-8?B?Z0NjUGFaVC94bTRaL3VwOTh5Z3d4VDlnbVZWNGlqNmlwMHZXcndhUCtZV2hk?=
- =?utf-8?B?MTd1OENzbnVJbTlWZzhuUDAwdGxySW9DYTNCQ2pkS2xkaWhsNkdMa0NTakxu?=
- =?utf-8?B?VjE1Mm1uWThsMmxGa3JGMjRXZ2RhRDdzRTUvUFQ2QkVwNDI4Q25qTHMvanRM?=
- =?utf-8?B?Y29jQzBNa2o4OGo4bnhQYmtmN1BFaVZTUDFPZC9VL0tROUJqWE9xTmJLR3FS?=
- =?utf-8?B?QUJIT1VDWG0vb3ZlNk8yM1ZCNkpDZUorb2NabUVvTUF1eVgzWitxakI4OVNm?=
- =?utf-8?B?dXhZc0czbFpYb3pKcXdldXBTT1FBVWNjN091RUZkRzJ1YWsxK3p6YWZFNGVQ?=
- =?utf-8?B?TXJVSDh6WG02akhlZjI2cDViaGhSZytGSXlhbzZaWWgzd3cyVHBlNWV4Z1RT?=
- =?utf-8?B?NTVNKzlyZzNJYTZSMjdNVkd5MHRaWUxCQkpkS01pVUlIRVBNajZjWUdncmRs?=
- =?utf-8?B?bGtSZVBKQXEzeEhJZGxXWnlVOVJwSnltT01vT2IyM2RmSkVsN2hRRHBUVkJ3?=
- =?utf-8?B?dXNVK2dFWEw1aXRkVlJyaFhFVmpTbkNoQW56azJUQXBXOUlPclppbWpHRllC?=
- =?utf-8?B?NUZVUDUyQU9SbTVCTCtzTTZaMG9xai9oUE1walRnM3ZkYS9LVkJOK1JzZE04?=
- =?utf-8?B?MFl0cllyODNFSXRpTVhLcTRtV1QxQmxIZUNHdUlOdHJBZDNxTitmUnRmK1lP?=
- =?utf-8?B?aE5oeUJFbEFnNG9VWUIxVEdPQVNmM0M1OFNta29YWXcrK0srSTc2dXltUmVk?=
- =?utf-8?B?THV0K1Zvd1BuMzhkbU03SXFaZ3Y5RTdWaHpzZER1dVdaRGF2cTViZUoxU0hn?=
- =?utf-8?B?YnFxNUhQbXhFb1hialV3ZEtJVzhjQXcyczFJV3dqMmhVVWJGc0ZmVVFHVDlO?=
- =?utf-8?B?U0hOeGh4a282OFBwK09XcnJmcEprZytpcDB4L040K1RVWjZSWU9Nalprb0hH?=
- =?utf-8?B?V3loQmdoNkZOenVjRnVRd0pwUlI1RE9TVjFaUjZGQ3VmUDdkZS9DZG91Y3g4?=
- =?utf-8?B?RWQzeFdBZDUzK083U2g1bGhRek0ycWQ5VUU2MU0vVTZ3Uzc3ZWVUVTlRZzZJ?=
- =?utf-8?B?N0V5eTFyM3JSWGRBcWxua1VSbVFiZVpUbWwvMmFxaG42cGhON1JpRlFuTHZH?=
- =?utf-8?B?MTZWZFlHOEFhMFRiNFNucGtOOUFDcmlxcWx0aWVuSzhWQ0FtWmpDVW9lWm01?=
- =?utf-8?B?b1djeTJ1MlpoZFBsaVh2TnpjRHVRaDhWMUpLVkNNR1E2YnIxMHh4dERmNWJu?=
- =?utf-8?B?K01Rd1FtazZDRE9VVGxsMCs2NjJUMXlhVjVOV3loNEk4ZERMZlpPbVdlK05B?=
- =?utf-8?B?R2paeXVqOUVNSVE2K2hOcTBhbEtJM1YxWCsrTHVtWUV6S21LK24zeitpdnlI?=
- =?utf-8?B?TzU2K21VYUFUSll1Z3J0VUFkNU0rd3VQbG5nMTBsQXM2dzVETnNYcmtkUDF3?=
- =?utf-8?B?ZmttSmE4WFBQQ05sMVBBcFlDL2NuL0dlNzFVaGxPUnRrOGtXN3JJUnVHdVBN?=
- =?utf-8?B?NWxEK25NUFdLVEg1aUt3WDlsbGZmQlBNMUgrdG9CcFdlMlU5dFVVWWx3VVVO?=
- =?utf-8?B?Sk9hL0tjdGc5NVQ5MXk1LzlEZ2lnVWFzZGxrcGlhOVE4QWEyTDdHV280THBO?=
- =?utf-8?B?bzMybDdsRklJMUEyemQ5NHBIVjdUUVU2bnY2YmxIaVZneEw3eDFESTFiaHdy?=
- =?utf-8?B?UTJMWFJCb3ZMWFVaRWlhREQ4N3o3MnpZVUJ6bW1NWk5wZHByaG9YNVVpNW8x?=
- =?utf-8?B?QnEvMUY4R0NzZk9GQVYzQ0JFMFhrL1NISnJsRFFVRkFRS3dTeVBpV1plM0wy?=
- =?utf-8?B?R2VLSU85a2R3REJSVlFOWkhEM3hMWGIxR1hBaDgwWTZyckUrR0FiN29OV1ho?=
- =?utf-8?B?NjEycVVmT0xQMGs3VnNvVWxDaVJsWXlUd1UxR1BnZHZtVjhkQ1pzY0VOZGlG?=
- =?utf-8?B?NnFuRzZadTFTTHd4ZE1xN21rUzViYURES2pqNWlndXlkeVFQVENxeHUrWTB0?=
- =?utf-8?Q?QL9aNSjht4lOxVlTnSDALL973?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2a36ef29-11a8-4d4a-36d2-08db39d28df1
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB6280.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Apr 2023 14:47:49.2138 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: t98YHPHl2fmc8QR3jkBDDY2QJNe1P8QP75vjGn5XoALAPz72r9AIPDAIW8GiAN8ZVAC51PuXcVz2CrqFHrq4aQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR12MB7110
+From: Rob Clark <robdclark@gmail.com>
+Date: Mon, 10 Apr 2023 07:50:50 -0700
+Message-ID: <CAF6AEGvwuj5tabyW910+N-B=5kFNAC7QNYoQ=0xi3roBjQvFFQ@mail.gmail.com>
+Subject: [pull] drm/msm: drm-msm-next-2023-04-10 for v6.4
+To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -130,107 +64,439 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
+Cc: Akhil P Oommen <quic_akhilpo@quicinc.com>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ freedreno <freedreno@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 4/8/23 09:43, Tom Rix wrote:
-> smatch reports
-> drivers/gpu/drm/amd/amdgpu/../display/dc/dml/display_mode_lib.c:44:24: warning: symbol
->    'dml20_funcs' was not declared. Should it be static?
-> drivers/gpu/drm/amd/amdgpu/../display/dc/dml/display_mode_lib.c:51:24: warning: symbol
->    'dml20v2_funcs' was not declared. Should it be static?
-> drivers/gpu/drm/amd/amdgpu/../display/dc/dml/display_mode_lib.c:58:24: warning: symbol
->    'dml21_funcs' was not declared. Should it be static?
-> drivers/gpu/drm/amd/amdgpu/../display/dc/dml/display_mode_lib.c:65:24: warning: symbol
->    'dml30_funcs' was not declared. Should it be static?
-> drivers/gpu/drm/amd/amdgpu/../display/dc/dml/display_mode_lib.c:72:24: warning: symbol
->    'dml31_funcs' was not declared. Should it be static?
-> drivers/gpu/drm/amd/amdgpu/../display/dc/dml/display_mode_lib.c:79:24: warning: symbol
->    'dml314_funcs' was not declared. Should it be static?
-> drivers/gpu/drm/amd/amdgpu/../display/dc/dml/display_mode_lib.c:86:24: warning: symbol
->    'dml32_funcs' was not declared. Should it be static?
-> 
-> These variables are only used in one file so should be static.
-> Cleanup whitespace, use tabs consistently for indents.
-> 
-> Signed-off-by: Tom Rix <trix@redhat.com>
+Hi Dave,
 
-Applied, thanks!
+This is the main pull for v6.4, see below for description.  A bit big
+this time because of (1) generated header updates and (2) dpu hw
+catelog rework which split the increasingly unwieldy
+big-giant-file-of-tables into per-SoC files.  But those are mainly
+mechanical churn.
 
-> ---
->   .../drm/amd/display/dc/dml/display_mode_lib.c | 24 +++++++++----------
->   1 file changed, 12 insertions(+), 12 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/amd/display/dc/dml/display_mode_lib.c b/drivers/gpu/drm/amd/display/dc/dml/display_mode_lib.c
-> index 4125d3d111d1..bdf3ac6cadd5 100644
-> --- a/drivers/gpu/drm/amd/display/dc/dml/display_mode_lib.c
-> +++ b/drivers/gpu/drm/amd/display/dc/dml/display_mode_lib.c
-> @@ -41,51 +41,51 @@
->   #include "dcn32/display_rq_dlg_calc_32.h"
->   #include "dml_logger.h"
->   
-> -const struct dml_funcs dml20_funcs = {
-> +static const struct dml_funcs dml20_funcs = {
->   	.validate = dml20_ModeSupportAndSystemConfigurationFull,
->   	.recalculate = dml20_recalculate,
->   	.rq_dlg_get_dlg_reg = dml20_rq_dlg_get_dlg_reg,
->   	.rq_dlg_get_rq_reg = dml20_rq_dlg_get_rq_reg
->   };
->   
-> -const struct dml_funcs dml20v2_funcs = {
-> +static const struct dml_funcs dml20v2_funcs = {
->   	.validate = dml20v2_ModeSupportAndSystemConfigurationFull,
->   	.recalculate = dml20v2_recalculate,
->   	.rq_dlg_get_dlg_reg = dml20v2_rq_dlg_get_dlg_reg,
->   	.rq_dlg_get_rq_reg = dml20v2_rq_dlg_get_rq_reg
->   };
->   
-> -const struct dml_funcs dml21_funcs = {
-> -        .validate = dml21_ModeSupportAndSystemConfigurationFull,
-> -        .recalculate = dml21_recalculate,
-> -        .rq_dlg_get_dlg_reg = dml21_rq_dlg_get_dlg_reg,
-> -        .rq_dlg_get_rq_reg = dml21_rq_dlg_get_rq_reg
-> +static const struct dml_funcs dml21_funcs = {
-> +	.validate = dml21_ModeSupportAndSystemConfigurationFull,
-> +	.recalculate = dml21_recalculate,
-> +	.rq_dlg_get_dlg_reg = dml21_rq_dlg_get_dlg_reg,
-> +	.rq_dlg_get_rq_reg = dml21_rq_dlg_get_rq_reg
->   };
->   
-> -const struct dml_funcs dml30_funcs = {
-> +static const struct dml_funcs dml30_funcs = {
->   	.validate = dml30_ModeSupportAndSystemConfigurationFull,
->   	.recalculate = dml30_recalculate,
->   	.rq_dlg_get_dlg_reg = dml30_rq_dlg_get_dlg_reg,
->   	.rq_dlg_get_rq_reg = dml30_rq_dlg_get_rq_reg
->   };
->   
-> -const struct dml_funcs dml31_funcs = {
-> +static const struct dml_funcs dml31_funcs = {
->   	.validate = dml31_ModeSupportAndSystemConfigurationFull,
->   	.recalculate = dml31_recalculate,
->   	.rq_dlg_get_dlg_reg = dml31_rq_dlg_get_dlg_reg,
->   	.rq_dlg_get_rq_reg = dml31_rq_dlg_get_rq_reg
->   };
->   
-> -const struct dml_funcs dml314_funcs = {
-> +static const struct dml_funcs dml314_funcs = {
->   	.validate = dml314_ModeSupportAndSystemConfigurationFull,
->   	.recalculate = dml314_recalculate,
->   	.rq_dlg_get_dlg_reg = dml314_rq_dlg_get_dlg_reg,
->   	.rq_dlg_get_rq_reg = dml314_rq_dlg_get_rq_reg
->   };
->   
-> -const struct dml_funcs dml32_funcs = {
-> +static const struct dml_funcs dml32_funcs = {
->   	.validate = dml32_ModeSupportAndSystemConfigurationFull,
-> -    .recalculate = dml32_recalculate,
-> +	.recalculate = dml32_recalculate,
->   	.rq_dlg_get_dlg_reg_v2 = dml32_rq_dlg_get_dlg_reg,
->   	.rq_dlg_get_rq_reg_v2 = dml32_rq_dlg_get_rq_reg
->   };
--- 
-Hamza
+The following changes since commit e752ab11dcb48353727ea26eefd740155e028865=
+:
 
+  Merge remote-tracking branch 'drm/drm-next' into msm-next
+(2023-03-20 10:31:25 -0700)
+
+are available in the Git repository at:
+
+  https://gitlab.freedesktop.org/drm/msm.git tags/drm-msm-next-2023-04-10
+
+for you to fetch changes up to ac7e7c9c65ecfb1fcc99de91cfd6b17a8d4cb9c1:
+
+  drm/msm/dpu: drop unused macros from hw catalog (2023-04-07 03:54:50 +030=
+0)
+
+----------------------------------------------------------------
+main pull request for v6.4
+
+Core Display:
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+* Bugfixes for error handling during probe
+* rework UBWC decoder programming
+* prepare_commit cleanup
+* bindings for SM8550 (MDSS, DPU), SM8450 (DP)
+* timeout calculation fixup
+* atomic: use drm_crtc_next_vblank_start() instead of our own
+  custom thing to calculate the start of next vblank
+
+DP:
+=3D=3D
+* interrupts cleanup
+
+DPU:
+=3D=3D=3D
+* DSPP sub-block flush on sc7280
+* support AR30 in addition to XR30 format
+* Allow using REC_0 and REC_1 to handle wide (4k) RGB planes
+* Split the HW catalog into individual per-SoC files
+
+DSI:
+=3D=3D=3D
+* rework DSI instance ID detection on obscure platforms
+
+GPU:
+=3D=3D=3D
+* uapi C++ compatibility fix
+* a6xx: More robust gdsc reset
+* a3xx and a4xx devfreq support
+* update generated headers
+* various cleanups and fixes
+* GPU and GEM updates to avoid allocations which could trigger
+  reclaim (shrinker) in fence signaling path
+* dma-fence deadline hint support and wait-boost
+* a640 speedbin support
+* a650 speedbin support
+
+----------------------------------------------------------------
+Abhinav Kumar (3):
+      MAINTAINERS: Update the URI for MSM DRM bugs
+      drm/msm/dpu: log the multirect_index in _dpu_crtc_blend_setup_pipe
+      drm/msm/dpu: remove unused dpu_plane_validate_multirect_v2 function
+
+Adam Skladowski (1):
+      drm: msm: adreno: Disable preemption on Adreno 510
+
+Akhil P Oommen (3):
+      drm/msm/a6xx: Vote for cx gdsc from gpu driver
+      drm/msm/a6xx: Remove cx gdsc polling using 'reset'
+      drm/msm/a6xx: Use genpd notifier to ensure cx-gdsc collapse
+
+Arnd Bergmann (1):
+      drm/msm/a6xx: add CONFIG_PM dependency
+
+Colin Ian King (2):
+      drm/msm/mdss: Fix spelling mistake "Unuspported" -> "Unsupported"
+      drm/msm/dp: Fix spelling mistake "Capabiity" -> "Capability"
+
+Danylo Piliaiev (1):
+      drm/msm: Rename drm_msm_gem_submit_reloc::or in C++ code
+
+Dmitry Baryshkov (67):
+      drm/msm/adreno: stall translation on fault for all GPU families
+      drm/msm/adreno: split a6xx fault handler into generic and a6xx parts
+      drm/msm/a5xx: add devcoredump support to the fault handler
+      drm/msm/mdss: convert UBWC setup to use match data
+      drm/msm/mdss: add data for sc8180xp
+      drm/msm/mdss: add the sdm845 data for completeness
+      drm/msm/dpu: rename struct dpu_hw_pipe(_cfg) to dpu_hw_sspp(_cfg)
+      drm/msm/dpu: move SSPP allocation to the RM
+      drm/msm/dpu: move SSPP debugfs creation to dpu_kms.c
+      drm/msm/dpu: drop EAGAIN check from dpu_format_populate_layout
+      drm/msm/dpu: move pipe_hw to dpu_plane_state
+      drm/msm/dpu: drop dpu_plane_pipe function
+      drm/msm/dpu: introduce struct dpu_sw_pipe
+      drm/msm/dpu: use dpu_sw_pipe for dpu_hw_sspp callbacks
+      drm/msm/dpu: pass dpu_format to _dpu_hw_sspp_setup_scaler3()
+      drm/msm/dpu: clean up SRC addresses when setting up SSPP for solid fi=
+ll
+      drm/msm/dpu: move stride programming to dpu_hw_sspp_setup_sourceaddre=
+ss
+      drm/msm/dpu: remove dpu_hw_fmt_layout from struct dpu_hw_sspp_cfg
+      drm/msm/dpu: rename dpu_hw_sspp_cfg to dpu_sw_pipe_cfg
+      drm/msm/dpu: drop src_split and multirect check from dpu_crtc_atomic_=
+check
+      drm/msm/dpu: don't use unsupported blend stages
+      drm/msm/dpu: move the rest of plane checks to dpu_plane_atomic_check(=
+)
+      drm/msm/dpu: drop redundant plane dst check from dpu_crtc_atomic_chec=
+k()
+      drm/msm/dpu: rewrite plane's QoS-related functions to take
+dpu_sw_pipe and dpu_format
+      drm/msm/dpu: make _dpu_plane_calc_clk accept mode directly
+      drm/msm/dpu: add dpu_hw_sspp_cfg to dpu_plane_state
+      drm/msm/dpu: simplify dpu_plane_validate_src()
+      drm/msm/dpu: rework dpu_plane_sspp_atomic_update()
+      drm/msm/dpu: rework dpu_plane_atomic_check()
+      drm/msm/dpu: rework plane CSC setting
+      drm/msm/dpu: rework static color fill code
+      drm/msm/dpu: split pipe handling from _dpu_crtc_blend_setup_mixer
+      drm/msm/dpu: add support for wide planes
+      drm/msm/dpu: populate SmartDMA features in hw catalog
+      drm/msm/dpu: drop smart_dma_rev from dpu_caps
+      Merge branch 'msm-next-lumag-dpu' into msm-next-lumag
+      Merge branches 'msm-next-lumag-dp', 'msm-next-lumag-dsi',
+'msm-next-lumag-mdp5' and 'msm-next-lumag-mdp4' into msm-next-lumag
+      drm/msm/dpu: constify DSC data structures
+      drm/msm/dpu: mark remaining pp data as const
+      drm/msm/dpu: move UBWC/memory configuration to separate struct
+      drm/msm/dpu: split SM8550 catalog entry to the separate file
+      drm/msm/dpu: split SC8280XP catalog entry to the separate file
+      drm/msm/dpu: split SC7280 catalog entry to the separate file
+      drm/msm/dpu: split SM8350 catalog entry to the separate file
+      drm/msm/dpu: split SM6115 catalog entry to the separate file
+      drm/msm/dpu: split QCM2290 catalog entry to the separate file
+      drm/msm/dpu: split SC7180 catalog entry to the separate file
+      drm/msm/dpu: split SM8250 catalog entry to the separate file
+      drm/msm/dpu: split SC8180X catalog entry to the separate file
+      drm/msm/dpu: split SM8150 catalog entry to the separate file
+      drm/msm/dpu: split MSM8998 catalog entry to the separate file
+      drm/msm/dpu: split SDM845 catalog entry to the separate file
+      drm/msm/dpu: duplicate sdm845 catalog entries
+      drm/msm/dpu: duplicate sc7180 catalog entries
+      drm/msm/dpu: duplicate sm8150 catalog entries
+      drm/msm/dpu: duplicate sm8250 catalog entries
+      drm/msm/dpu: duplicate sm8350 catalog entries
+      drm/msm/dpu: expand sc8180x catalog
+      drm/msm/dpu: expand sc7180 catalog
+      drm/msm/dpu: expand sm6115 catalog
+      drm/msm/dpu: expand sm8550 catalog
+      drm/msm/dpu: use defined symbol for sc8280xp's maxwidth
+      drm/msm/dpu: catalog: add comments regarding DPU_CTL_SPLIT_DISPLAY
+      drm/msm/dpu: drop duplicate vig_sblk instances
+      drm/msm/dpu: inline IRQ_n_MASK defines
+      drm/msm/dpu: fetch DPU configuration from match data
+      drm/msm/dpu: drop unused macros from hw catalog
+
+Douglas Anderson (2):
+      drm/msm/dp: Clean up handling of DP AUX interrupts
+      drm/msm/dp: Return IRQ_NONE for unhandled interrupts
+
+Geert Uytterhoeven (1):
+      drm/msm/dpu: Fix bit-shifting UB in DPU_HW_VER() macro
+
+Jessica Zhang (4):
+      drm/msm: Check for NULL before calling prepare_commit()
+      drm/msm/dpu: Move TE setup to prepare_for_kickoff()
+      drm/msm/dpu: Remove empty prepare_commit() function
+      drm/msm/mdp4: Remove empty prepare_commit() function
+
+Johan Hovold (12):
+      drm/msm/adreno: fix runtime PM imbalance at gpu load
+      drm/msm/adreno: drop bogus pm_runtime_set_active()
+      drm/msm/adreno: clean up component ops indentation
+      Revert "drm/msm: Add missing check and destroy for
+alloc_ordered_workqueue"
+      Revert "drm/msm: Fix failure paths in msm_drm_init()"
+      drm/msm: fix NULL-deref on snapshot tear down
+      drm/msm: fix NULL-deref on irq uninstall
+      drm/msm: fix drm device leak on bind errors
+      drm/msm: fix vram leak on bind errors
+      drm/msm: fix missing wq allocation error handling
+      drm/msm: fix workqueue leak on bind errors
+      drm/msm: move include directive
+
+Kalyan Thota (4):
+      drm/msm/disp/dpu1: add support for dspp sub block flush in sc7280
+      drm/msm/dpu: add DSPPs into reservation upon a CTM request
+      drm/msm/dpu: avoid unnecessary check in DPU reservations
+      drm/msm/dpu: manage DPU resources if CTM is requested
+
+Konrad Dybcio (18):
+      drm/msm/adreno: Use OPP for every GPU generation
+      drm/msm/a3xx: Implement .gpu_busy
+      drm/msm/a4xx: Implement .gpu_busy
+      drm/msm/adreno: Enable optional icc voting from OPP tables
+      drm/msm/a6xx: Add support for A640 speed binning
+      drm/msm/a6xx: Add support for A650 speed binning
+      drm/msm/adreno: adreno_gpu: Don't set OPP scaling clock w/ GMU
+      drm/msm/adreno: adreno_gpu: Use suspend() instead of idle() on load e=
+rror
+      dt-bindings: display/msm: dsi-controller-main: Fix deprecated
+QCM2290 compatible
+      drm/msm/dsi: Get rid of msm_dsi_config::num_dsi
+      drm/msm/dsi: Fix DSI index detection when version clash occurs
+      drm/msm/dsi: dsi_cfg: Deduplicate identical structs
+      drm/msm/dsi: dsi_cfg: Merge SC7180 config into SDM845
+      drm/msm/dsi: Switch the QCM2290-specific compatible to index autodete=
+ction
+      drm/msm/dsi: Remove custom DSI config handling
+      dt-bindings: display/msm: dsi-controller-main: Add SM6115
+      drm/msm/dpu: Allow variable SSPP_BLK size
+      drm/msm/dpu: Allow variable INTF_BLK size
+
+Leonard Lausen (1):
+      drm/msm/dpu: Add support for AR30 format
+
+Ma=C3=ADra Canal (1):
+      drm/msm: Use drm_sched_job_add_syncobj_dependency()
+
+Neil Armstrong (4):
+      dt-bindings: display/msm: document MDSS on SM8550
+      dt-bindings: display: msm: sm8450-mdss: Fix DSI compatible
+      dt-bindings: display/msm: document DPU on SM8550
+      dt-bindings: display: msm: dp-controller: document SM8450 compatible
+
+Rob Clark (29):
+      drm/msm/a6xx: Some reg64 conversion
+      drm/msm: Update generated headers
+      dma-buf/dma-fence: Add deadline awareness
+      dma-buf/fence-array: Add fence deadline support
+      drm/msm: Pre-allocate hw_fence
+      drm/msm: Move submit bo flags update from obj lock
+      drm/msm/gem: Tidy up VMA API
+      drm/msm: Decouple vma tracking from obj lock
+      drm/msm/gem: Simplify vmap vs LRU tracking
+      drm/gem: Export drm_gem_lru_move_tail_locked()
+      drm/msm/gem: Move update_lru()
+      drm/msm/gem: Protect pin_count/madv by LRU lock
+      drm/msm/gem: Avoid obj lock in job_run()
+      drm/msm: Switch idr_lock to spinlock
+      drm/msm: Use idr_preload()
+      drm/msm/gpu: Move fw loading out of hw_init() path
+      drm/msm/gpu: Move BO allocation out of hw_init
+      drm/msm/a6xx: Move ioremap out of hw_init path
+      dma-buf/fence-chain: Add fence deadline support
+      dma-buf/dma-resv: Add a way to set fence deadline
+      dma-buf/sync_file: Surface sync-file uABI
+      drm/scheduler: Add fence deadline support
+      drm/vblank: Add helper to get next vblank time
+      drm/atomic-helper: Set fence deadline for vblank
+      Merge tag 'dma-fence-deadline' into HEAD
+      drm/msm: Add deadline based boost support
+      drm/msm: Add wait-boost support
+      drm/msm/atomic: Switch to vblank_start helper
+      drm/msm: Avoid rounding down to zero jiffies
+
+Thomas Zimmermann (8):
+      drm/msm: Include <linux/io.h>
+      drm/msm: Clear aperture ownership outside of fbdev code
+      drm/msm: Remove fb from struct msm_fbdev
+      drm/msm: Remove struct msm_fbdev
+      drm/msm: Remove fbdev from struct msm_drm_private
+      drm/msm: Move module parameter 'fbdev' to fbdev code
+      drm/msm: Initialize fbdev DRM client
+      drm/msm: Implement fbdev emulation as in-kernel client
+
+Tom Rix (1):
+      drm/msm/mdp5: set varaiable msm8x76_config
+storage-class-specifier to static
+
+Vinod Polimera (2):
+      drm/msm/dpu: set dirty_fb flag while in self refresh mode
+      msm/disp/dpu: allow atomic_check in PSR usecase
+
+ .../bindings/display/msm/dp-controller.yaml        |   25 +-
+ .../bindings/display/msm/dsi-controller-main.yaml  |    9 +-
+ .../bindings/display/msm/qcom,sm6115-mdss.yaml     |   10 +-
+ .../bindings/display/msm/qcom,sm8450-mdss.yaml     |    6 +-
+ .../bindings/display/msm/qcom,sm8550-dpu.yaml      |  133 ++
+ .../bindings/display/msm/qcom,sm8550-mdss.yaml     |  333 +++
+ Documentation/driver-api/dma-buf.rst               |   16 +-
+ MAINTAINERS                                        |    1 +
+ drivers/dma-buf/dma-fence-array.c                  |   11 +
+ drivers/dma-buf/dma-fence-chain.c                  |   12 +
+ drivers/dma-buf/dma-fence.c                        |   59 +
+ drivers/dma-buf/dma-resv.c                         |   22 +
+ drivers/gpu/drm/drm_atomic_helper.c                |   37 +
+ drivers/gpu/drm/drm_gem.c                          |   11 +-
+ drivers/gpu/drm/drm_vblank.c                       |   53 +-
+ drivers/gpu/drm/msm/Kconfig                        |    2 +
+ drivers/gpu/drm/msm/adreno/a2xx.xml.h              |   54 +-
+ drivers/gpu/drm/msm/adreno/a3xx.xml.h              |   30 +-
+ drivers/gpu/drm/msm/adreno/a3xx_gpu.c              |   11 +
+ drivers/gpu/drm/msm/adreno/a4xx.xml.h              |   38 +-
+ drivers/gpu/drm/msm/adreno/a4xx_gpu.c              |   11 +
+ drivers/gpu/drm/msm/adreno/a5xx.xml.h              |   44 +-
+ drivers/gpu/drm/msm/adreno/a5xx_gpu.c              |   69 +-
+ drivers/gpu/drm/msm/adreno/a6xx.xml.h              |  795 ++++++--
+ drivers/gpu/drm/msm/adreno/a6xx_gmu.c              |   64 +-
+ drivers/gpu/drm/msm/adreno/a6xx_gmu.h              |    7 +
+ drivers/gpu/drm/msm/adreno/a6xx_gmu.xml.h          |   30 +-
+ drivers/gpu/drm/msm/adreno/a6xx_gpu.c              |  183 +-
+ drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c        |    2 +-
+ drivers/gpu/drm/msm/adreno/adreno_common.xml.h     |   52 +-
+ drivers/gpu/drm/msm/adreno/adreno_device.c         |   33 +-
+ drivers/gpu/drm/msm/adreno/adreno_gpu.c            |  174 +-
+ drivers/gpu/drm/msm/adreno/adreno_gpu.h            |    4 +
+ drivers/gpu/drm/msm/adreno/adreno_pm4.xml.h        |  115 +-
+ .../drm/msm/disp/dpu1/catalog/dpu_3_0_msm8998.h    |  210 ++
+ .../gpu/drm/msm/disp/dpu1/catalog/dpu_4_0_sdm845.h |  210 ++
+ .../gpu/drm/msm/disp/dpu1/catalog/dpu_5_0_sm8150.h |  237 +++
+ .../drm/msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h    |  217 ++
+ .../gpu/drm/msm/disp/dpu1/catalog/dpu_6_0_sm8250.h |  244 +++
+ .../gpu/drm/msm/disp/dpu1/catalog/dpu_6_2_sc7180.h |  156 ++
+ .../gpu/drm/msm/disp/dpu1/catalog/dpu_6_3_sm6115.h |  129 ++
+ .../drm/msm/disp/dpu1/catalog/dpu_6_5_qcm2290.h    |  119 ++
+ .../gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h |  226 ++
+ .../gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h |  158 ++
+ .../drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h   |  222 ++
+ .../gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h |  234 +++
+ .../gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h |  239 +++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c           |  297 +--
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c        |   57 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h        |    7 -
+ .../gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c   |    8 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_formats.c        |   21 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c     | 2152 +---------------=
+----
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h     |   94 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c         |   49 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h         |    5 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.c         |    4 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c        |  187 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h        |  115 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c            |   96 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h            |    1 -
+ drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c          |  867 ++++----
+ drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h          |   40 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c             |   22 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h             |   12 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_trace.h          |   19 +-
+ drivers/gpu/drm/msm/disp/mdp4/mdp4.xml.h           |   40 +-
+ drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c           |    5 -
+ drivers/gpu/drm/msm/disp/mdp5/mdp5.xml.h           |   40 +-
+ drivers/gpu/drm/msm/disp/mdp5/mdp5_cfg.c           |    2 +-
+ drivers/gpu/drm/msm/disp/mdp_common.xml.h          |   40 +-
+ drivers/gpu/drm/msm/disp/msm_disp_snapshot.c       |    3 -
+ drivers/gpu/drm/msm/dp/dp_aux.c                    |   90 +-
+ drivers/gpu/drm/msm/dp/dp_aux.h                    |    2 +-
+ drivers/gpu/drm/msm/dp/dp_catalog.c                |    2 +-
+ drivers/gpu/drm/msm/dp/dp_catalog.h                |    2 +-
+ drivers/gpu/drm/msm/dp/dp_ctrl.c                   |   10 +-
+ drivers/gpu/drm/msm/dp/dp_ctrl.h                   |    2 +-
+ drivers/gpu/drm/msm/dp/dp_display.c                |    8 +-
+ drivers/gpu/drm/msm/dp/dp_link.c                   |    2 +-
+ drivers/gpu/drm/msm/dsi/dsi.c                      |    7 +-
+ drivers/gpu/drm/msm/dsi/dsi.xml.h                  |   41 +-
+ drivers/gpu/drm/msm/dsi/dsi_cfg.c                  |  161 +-
+ drivers/gpu/drm/msm/dsi/dsi_cfg.h                  |    9 +-
+ drivers/gpu/drm/msm/dsi/dsi_host.c                 |   14 +-
+ drivers/gpu/drm/msm/dsi/dsi_phy_10nm.xml.h         |   40 +-
+ drivers/gpu/drm/msm/dsi/dsi_phy_14nm.xml.h         |   40 +-
+ drivers/gpu/drm/msm/dsi/dsi_phy_20nm.xml.h         |   40 +-
+ drivers/gpu/drm/msm/dsi/dsi_phy_28nm.xml.h         |   40 +-
+ drivers/gpu/drm/msm/dsi/dsi_phy_28nm_8960.xml.h    |   40 +-
+ drivers/gpu/drm/msm/dsi/dsi_phy_7nm.xml.h          |   36 +-
+ drivers/gpu/drm/msm/dsi/mmss_cc.xml.h              |   40 +-
+ drivers/gpu/drm/msm/dsi/sfpb.xml.h                 |   38 +-
+ drivers/gpu/drm/msm/hdmi/hdmi.xml.h                |   62 +-
+ drivers/gpu/drm/msm/hdmi/qfprom.xml.h              |   40 +-
+ drivers/gpu/drm/msm/msm_atomic.c                   |   29 +-
+ drivers/gpu/drm/msm/msm_debugfs.c                  |    6 +-
+ drivers/gpu/drm/msm/msm_drv.c                      |  109 +-
+ drivers/gpu/drm/msm/msm_drv.h                      |   15 +-
+ drivers/gpu/drm/msm/msm_fbdev.c                    |  173 +-
+ drivers/gpu/drm/msm/msm_fence.c                    |   86 +-
+ drivers/gpu/drm/msm/msm_fence.h                    |   23 +-
+ drivers/gpu/drm/msm/msm_gem.c                      |  150 +-
+ drivers/gpu/drm/msm/msm_gem.h                      |   29 +-
+ drivers/gpu/drm/msm/msm_gem_submit.c               |   37 +-
+ drivers/gpu/drm/msm/msm_gem_vma.c                  |   91 +-
+ drivers/gpu/drm/msm/msm_gpu.c                      |    8 +-
+ drivers/gpu/drm/msm/msm_gpu.h                      |   12 +-
+ drivers/gpu/drm/msm/msm_gpu_devfreq.c              |    2 +-
+ drivers/gpu/drm/msm/msm_io_utils.c                 |    1 +
+ drivers/gpu/drm/msm/msm_iommu.c                    |   38 +-
+ drivers/gpu/drm/msm/msm_kms.h                      |    8 -
+ drivers/gpu/drm/msm/msm_mdss.c                     |  198 +-
+ drivers/gpu/drm/msm/msm_mmu.h                      |    1 +
+ drivers/gpu/drm/msm/msm_ringbuffer.c               |    8 +-
+ drivers/gpu/drm/msm/msm_submitqueue.c              |    2 +-
+ drivers/gpu/drm/scheduler/sched_fence.c            |   46 +
+ drivers/gpu/drm/scheduler/sched_main.c             |    2 +-
+ include/drm/drm_gem.h                              |    1 +
+ include/drm/drm_vblank.h                           |    1 +
+ include/drm/gpu_scheduler.h                        |   17 +
+ include/linux/dma-fence.h                          |   22 +
+ include/linux/dma-resv.h                           |    2 +
+ include/uapi/drm/msm_drm.h                         |   18 +-
+ include/uapi/linux/sync_file.h                     |   37 +-
+ 125 files changed, 6659 insertions(+), 4519 deletions(-)
+ create mode 100644
+Documentation/devicetree/bindings/display/msm/qcom,sm8550-dpu.yaml
+ create mode 100644
+Documentation/devicetree/bindings/display/msm/qcom,sm8550-mdss.yaml
+ create mode 100644 drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_3_0_msm8998.h
+ create mode 100644 drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_4_0_sdm845.h
+ create mode 100644 drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_0_sm8150.h
+ create mode 100644 drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h
+ create mode 100644 drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_0_sm8250.h
+ create mode 100644 drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_2_sc7180.h
+ create mode 100644 drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_3_sm6115.h
+ create mode 100644 drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_5_qcm2290.h
+ create mode 100644 drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h
+ create mode 100644 drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h
+ create mode 100644 drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.=
+h
+ create mode 100644 drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h
+ create mode 100644 drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h
