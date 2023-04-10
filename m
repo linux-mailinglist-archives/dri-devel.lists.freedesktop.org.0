@@ -1,114 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E28786DC939
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Apr 2023 18:25:01 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 30D356DC93F
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Apr 2023 18:25:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F2BC310E0EA;
-	Mon, 10 Apr 2023 16:24:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2E2A010E103;
+	Mon, 10 Apr 2023 16:25:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from JPN01-TYC-obe.outbound.protection.outlook.com
- (mail-tycjpn01on20701.outbound.protection.outlook.com
- [IPv6:2a01:111:f403:7010::701])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 51DF010E0EA
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Apr 2023 16:24:56 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Xy6mFRtFkb4EaCrSslgq6Igpuh6LP1XpO4sPP1z3w3uV36fmnoNFFpdg13LsUuM6p239VBINIef/c81by8RqZgGAepiQC56MUR9o2URB14EMdRuh8dIVxCcEVC0Ii5Taj+MNjMuL9dSLCYRoHCMGH+X438e0T0hFS8VDSbHRrUer0CODqk3LZQa5hIJXpMWqzOzHrm43SNIj/K4o8YXBemCcN2UwnlRdEk7BnU4iC3KlgH9PjqCs82HRy4vXcXFqHcQQ7Yt6Sw69EKEyYxD90Uq80gyT71uqxzZzHqxFwzuFWpEk0DqyDTpsVEU6IQCZ7fU8WHiGBnE87ott0ov/sg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=FQ27K0RxqNTCZAMmNxfI3AINJ66YAVSdZfiXZD0bzh4=;
- b=VomF1gUiQmBvGMgpFB2WN4E7vkrZladGM2ac8QPgQS0BfI3Rg//lXQXSY15w8oTpk/P8XBiU5fttvT98XIX0gMUS6GxfLwhUAUuzgFQ++j1TUn2Z6yZ9UvhNU8W3P2CD0DdIvgFJZlkYzXZ5lKrf9yWdJZSbwsr6Y9d1mL8mT2LlIC9jvXeUdReO5RyQlZIykbX7rlEuroWP2hGMfKckf0vn7grSoXXERb4eOq9EMFjVRgNqkeU1WF7b9PAxREo8d4g1lJr1TtvjmmUAQAotRB20K9EQd679lJTBWoYP0npRjYuiicdhitjvI52QEuUrbQeG8B66hKsWbWxQArtfNw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=FQ27K0RxqNTCZAMmNxfI3AINJ66YAVSdZfiXZD0bzh4=;
- b=HJZrKRpqbpQoPRhTsW/vfGwN8zD44G7C2eHb09K17d/VsCmhDnfx9kUsGVuj/gpQmh9BjB4s2UfcY0EQgcr7hJRk98706l2ZaYrmdUuaRg7+28aHy9GlLFJXpg+Ucwu2q48r0YUc94bjjxTqVYlfSbPloyyx2SSSdK5Wsp0Fd8Y=
-Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com (2603:1096:604:bb::5)
- by TYAPR01MB6251.jpnprd01.prod.outlook.com (2603:1096:402:3d::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6277.38; Mon, 10 Apr
- 2023 16:24:52 +0000
-Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com
- ([fe80::e521:994c:bb0e:9bf6]) by OS0PR01MB5922.jpnprd01.prod.outlook.com
- ([fe80::e521:994c:bb0e:9bf6%6]) with mapi id 15.20.6277.038; Mon, 10 Apr 2023
- 16:24:51 +0000
-From: Biju Das <biju.das.jz@bp.renesas.com>
-To: Biju Das <biju.das.jz@bp.renesas.com>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>
-Subject: RE: [PATCH 1/2] dt-bindings: drm: bridge: adi,adv7533: Document
- adi,disable-lanes-override property
-Thread-Topic: [PATCH 1/2] dt-bindings: drm: bridge: adi,adv7533: Document
- adi,disable-lanes-override property
-Thread-Index: AQHYM8fvckkeEfT5Y0ipcPVDIHWbCa8nKXxQ
-Date: Mon, 10 Apr 2023 16:24:51 +0000
-Message-ID: <OS0PR01MB5922F8930C3ABC13A2A746AB86959@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-References: <20220309151109.20957-1-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20220309151109.20957-1-biju.das.jz@bp.renesas.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: OS0PR01MB5922:EE_|TYAPR01MB6251:EE_
-x-ms-office365-filtering-correlation-id: 559ac06f-e236-4e2b-8823-08db39e01c60
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: Kuc62OyiveJDRktBqa2QILqtuh860ow8AVS84iI0gCRF1gS7xPKTy7YvEO4LjN7L6vzCoeHkiP3KQHMkJ15VdgNizIGt021JUnnVzns1DW8RJnkXb+7dRulSyP/Eg85eBlX46ACj290mfy7eTVJcbf3um17pjch0VQ/uALWBrIAfoozXRsT4lOaRvVn0T/O25g9WStFmgOpckhCs6JrOIbOwhLraUiJwjys2l7fN1K6wPnc5H8XXgd2+zMLd0uoNAO3N/zlAYt0WoIGYYSEpC/WtMjL2FofIOKOzQE7qAksDKsRBs4iHFf+0vEBFKA4AeS7/pfKJe+D1exlvJkCSDT06cSRZMz1Df7gsd+WVBS3GN84CDjjLNws2whovoBh17Vf6tR8F66RHO63AN8SDZrPOIn2j09AQspC0X7tOebqpg8gT1G2/B3jFYUUs5vTtBbg9dJSIIyHH1iF6+nmjRj2k0F07p5xlnjKariQe07NsDyPrAhH0ImB1gwUHYqEfqkJL3ji/fo07UzrAJJhnPRZTC+LENm9BRTJS9djgO51CZ9tUGPmBsVyPi+OY6eZcugTsWZwjBaVNn6RlILkK0YnDTjHdvX58X9xJwAjaD+UMWSxk6L7eWb/OhIpax0pHCBA8WcWgFw4gSfOrQTDXvA==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:OS0PR01MB5922.jpnprd01.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230028)(4636009)(39860400002)(366004)(346002)(396003)(376002)(136003)(451199021)(7696005)(71200400001)(478600001)(86362001)(55016003)(33656002)(83380400001)(122000001)(38100700002)(38070700005)(966005)(2906002)(54906003)(110136005)(316002)(9686003)(186003)(53546011)(6506007)(26005)(66476007)(41300700001)(66446008)(8936002)(8676002)(66556008)(52536014)(64756008)(5660300002)(76116006)(66946007)(4326008);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?YMYga8s93JKXsBdKfQ3TeyhASRxlv5142ZCheUEv8neHvwu2glTPUT7BCz?=
- =?iso-8859-1?Q?9R+94nNT4cWBnuqYdifB98peko/BlFkZP3SarMnIw8jaeQ12XEuNNun54q?=
- =?iso-8859-1?Q?vm0vyLX4CCb4dhl8VcZ846k+8PvEVAkbXbFqhMRro4YthR8l1f7EuONqtm?=
- =?iso-8859-1?Q?tmq0R34LP4ya/bN6PIRrQQ6AW38GGItKNu7o+wsPVIk2i+tukQWkyakzzI?=
- =?iso-8859-1?Q?2FL1MW202DZM033od9NvLVwRQIVP9BluZ2mJP2X2gNrOn0gnK/K4v16ayq?=
- =?iso-8859-1?Q?dMa1/4dwvoSWvO70Kx3X4207Jp7tsx7oHv4SEjjuaGQ+mKdH0uoY/l+Dfc?=
- =?iso-8859-1?Q?57lkatInItCqVQSHp+ikIcQwz4n1xRHFkrqcDgpiYDpNG0Wbc+2BDFT0Nr?=
- =?iso-8859-1?Q?zFioSnEan42ZA2ji5g2AeWt/lZu6em5ek+bKgj5/6aycHKLxy4RwuU+iZU?=
- =?iso-8859-1?Q?T1N+NxiZj9rEhENMkk0lIshsfuXOv+AtP9yuTVx8W3QBtcdGtUomJdrekz?=
- =?iso-8859-1?Q?qTSpP/+TrTNVCAoSlhDeYU3jVjWc5tx+CkHbRCLWT40fOaF49gHis/7XBh?=
- =?iso-8859-1?Q?cJ+KhjOtoUezTAhm70aD6zN7xjuhvZHqQ/k43uRF1TSj1NzolqubYgKdXt?=
- =?iso-8859-1?Q?VpYUaPvs3M1oVi9V0rKuFu61o8jollKQavpwuiGJCjfG+QFTbrRuyz3NWp?=
- =?iso-8859-1?Q?E9Ih3Th3DHDZME/6RVK6OCb9UlLR1BPRCeidnpqFSnPkH6blHDJHZJOuN/?=
- =?iso-8859-1?Q?WECyxbNHpnR5XKSsOrhqL6le+Ak0Elj9BSJrUmyW7lnSN3r65jG+WumKoR?=
- =?iso-8859-1?Q?T5AtlsudrlmH0T25/RlBPYC2vNnuEugrrfYIDA7VEZcNvxolipKVznGyD1?=
- =?iso-8859-1?Q?W7y/vxYCWAIR3Esr5Hcwo7BcJAhgl6q5T3Q0eHfWrC2QmEzOiVzn9Sllf0?=
- =?iso-8859-1?Q?HKwR3LlYZdhDdicz0Fk6JXsnmktBSO5cSXddyKIA22Qn8WgdbOAFZniAAV?=
- =?iso-8859-1?Q?MZXkgb8MXAPZ90jZyS49PZJUaLLsF1YgPtjKV4XO6jX0Nq1zZd5qQT1vXX?=
- =?iso-8859-1?Q?iDpKz9VUZ68g1pw8BjQxZzCpx0USRtTCaqdqG1aJuUb8XVAVi/VFqqBIZo?=
- =?iso-8859-1?Q?gTpp60cmMC1IXNIhy9n7uivY+9avlZgkbv37t3y8hOszo+Y+Fhk0Rhp+TH?=
- =?iso-8859-1?Q?HId9alSgdU91FCmCanW4oisqkobGx2diVMHiGMPOaDMn+oooI7xJfAKGqj?=
- =?iso-8859-1?Q?mBZ2dCe6DlR5Q5CcvON1/AFUUUN1vMqf87RSQOq8fOdzold6E29Iiwkc1T?=
- =?iso-8859-1?Q?LMhHA4knPyfr/WR+T8vZl4vnOHukjJcgKhSIjaeUssDx0WT66MiJxiyT8S?=
- =?iso-8859-1?Q?s4qWdAagx0MhnjktlXb8d9uMovxyL1PjWgkIGP7CW7SyjO8PoAKsphsRFF?=
- =?iso-8859-1?Q?OFkh0MM9xh9x5P27tgyvqV79MZEpPeLIiPhN7YSMRZYhUmqrPEpgyq/iGk?=
- =?iso-8859-1?Q?B3EusDeM5jmHzqB0Wh99PoYv0YHVO5GsUqMGhCOL1hNa9BAERaEY/bFuw7?=
- =?iso-8859-1?Q?QueGtbu3gtdQ42Yyn860WPEGjfOqsv0vKapvtgsmOjPfECqUJ5KI396H2I?=
- =?iso-8859-1?Q?1eEocftWzFWmAa7/MFXnQKKGHozTZuhT1e?=
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2CCA310E103
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Apr 2023 16:25:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1681143940; x=1712679940;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=lbhk0L0CrBS6dQ4+A5wBYzm+KcA4M5qf6qZwh3rIz+E=;
+ b=kobcw9UfNSYNQs3T8siPir9Ea6RxbZew4I4gIo+1wC6P6ZayGOvzsuha
+ GlZnA3g1MLdGLP7LAIbWI2NPQabzNZoXWIR7fcWJIH8dDjh3Jt+ynI1Rb
+ 2zA2ZO0l4vNYdA6eXuDhkC5gjN3f0AasK45IlhuWr2PBMQsVOpQ1/et8K
+ DbsBkgZC4ykNBWqFTCYDdguMcsf15lr5XO/sTFAZIOnaw+xuHXBeyqRU7
+ 2tlXyTOQSMhC7+yRmwRNOAUbA2O+TMc+PFLynDaa8Ns2NNErfP8clJRId
+ dAwNuHDg6CrPUMlB5W2mAX21j+vyU+2zg2CbfSvOFCILODme+CDAV4PqF w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10676"; a="323755194"
+X-IronPort-AV: E=Sophos;i="5.98,333,1673942400"; d="scan'208";a="323755194"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Apr 2023 09:25:38 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10676"; a="720886084"
+X-IronPort-AV: E=Sophos;i="5.98,333,1673942400"; d="scan'208";a="720886084"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+ by orsmga001.jf.intel.com with ESMTP; 10 Apr 2023 09:25:30 -0700
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1pluKf-000VUL-0b;
+ Mon, 10 Apr 2023 16:25:29 +0000
+Date: Tue, 11 Apr 2023 00:25:23 +0800
+From: kernel test robot <lkp@intel.com>
+To: Brandon Cheo Fusi <fusibrandon13@gmail.com>, maxime@cerno.tech
+Subject: Re: [PATCH 1/2] drm: sun4i/dsi: factor out DSI PHY poweron and
+ poweroff
+Message-ID: <202304110053.n5nu03YZ-lkp@intel.com>
+References: <20230410084750.164016-2-fusibrandon13@gmail.com>
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: OS0PR01MB5922.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 559ac06f-e236-4e2b-8823-08db39e01c60
-X-MS-Exchange-CrossTenant-originalarrivaltime: 10 Apr 2023 16:24:51.3981 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: GsYPcsv5np6bHRGyXu2UA3swZaOGK+EB9uMaXj2BvnM/QfH0JZUL+OfcbqKmz/76j2hRWrfsG2iTXirFxGAZN1vwMsWezWuaazAODbhC7sc=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYAPR01MB6251
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230410084750.164016-2-fusibrandon13@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -121,84 +60,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- Chris Paterson <Chris.Paterson2@renesas.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Biju Das <biju.das@bp.renesas.com>,
- "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- =?iso-8859-1?Q?Ricardo_Ca=F1uelo?= <ricardo.canuelo@collabora.com>
+Cc: krzysztof.kozlowski+dt@linaro.org, llvm@lists.linux.dev,
+ dri-devel@lists.freedesktop.org, andrzej.hajda@intel.com, sam@ravnborg.org,
+ marex@denx.de, rfoss@kernel.org, samuel@sholland.org, jernej.skrabec@gmail.com,
+ wens@csie.org, jagan@amarulasolutions.com, linux-sunxi@lists.linux.dev,
+ devicetree@vger.kernel.org, robh+dt@kernel.org, oe-kbuild-all@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, neil.armstrong@linaro.org,
+ Brandon Cheo Fusi <fusibrandon13@gmail.com>, dave.stevenson@raspberrypi.com,
+ tzimmermann@suse.de, linux-amarula@amarulasolutions.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi All,
+Hi Brandon,
 
-I would like to drop this patch as[1] and [2] fixes the issue
+kernel test robot noticed the following build errors:
 
-[1] https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/com=
-mit/drivers/gpu/drm/bridge/adv7511/adv7533.c?h=3Dnext-20230406&id=3D9a0cdcd=
-6649b76f0b7ceec0e55b0a718321e34d3
+[auto build test ERROR on sunxi/sunxi/for-next]
+[also build test ERROR on linus/master v6.3-rc6 next-20230406]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-[2] https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/com=
-mit/drivers/gpu/drm/bridge/adv7511/adv7533.c?h=3Dnext-20230406&id=3Dee0285e=
-13455fdbce5de315bdbe91b5f198a2a06
+url:    https://github.com/intel-lab-lkp/linux/commits/Brandon-Cheo-Fusi/drm-sun4i-dsi-factor-out-DSI-PHY-poweron-and-poweroff/20230410-165257
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/sunxi/linux.git sunxi/for-next
+patch link:    https://lore.kernel.org/r/20230410084750.164016-2-fusibrandon13%40gmail.com
+patch subject: [PATCH 1/2] drm: sun4i/dsi: factor out DSI PHY poweron and poweroff
+config: arm64-randconfig-r002-20230410 (https://download.01.org/0day-ci/archive/20230411/202304110053.n5nu03YZ-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 2c57868e2e877f73c339796c3374ae660bb77f0d)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install arm64 cross compiling tool for clang build
+        # apt-get install binutils-aarch64-linux-gnu
+        # https://github.com/intel-lab-lkp/linux/commit/afa9cb6821e4527f07c10a777ea44e380b524858
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Brandon-Cheo-Fusi/drm-sun4i-dsi-factor-out-DSI-PHY-poweron-and-poweroff/20230410-165257
+        git checkout afa9cb6821e4527f07c10a777ea44e380b524858
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash drivers/gpu/drm/sun4i/
 
-Cheers,
-Biju
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202304110053.n5nu03YZ-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c:843:13: error: incompatible function pointer types initializing 'void (*)(struct drm_encoder *)' with an expression of type 'void (struct drm_encoder *, struct drm_atomic_state *)' [-Wincompatible-function-pointer-types]
+           .enable         = sun6i_dsi_encoder_enable,
+                             ^~~~~~~~~~~~~~~~~~~~~~~~
+   1 error generated.
 
 
-> -----Original Message-----
-> From: Biju Das <biju.das.jz@bp.renesas.com>
-> Sent: Wednesday, March 9, 2022 3:11 PM
-> To: David Airlie <airlied@linux.ie>; Daniel Vetter <daniel@ffwll.ch>; Rob
-> Herring <robh+dt@kernel.org>
-> Cc: Biju Das <biju.das.jz@bp.renesas.com>; Ricardo Ca=F1uelo
-> <ricardo.canuelo@collabora.com>; Laurent Pinchart
-> <laurent.pinchart@ideasonboard.com>; dri-devel@lists.freedesktop.org;
-> devicetree@vger.kernel.org; Geert Uytterhoeven <geert+renesas@glider.be>;
-> Chris Paterson <Chris.Paterson2@renesas.com>; Biju Das
-> <biju.das@bp.renesas.com>; Prabhakar Mahadev Lad <prabhakar.mahadev-
-> lad.rj@bp.renesas.com>; linux-renesas-soc@vger.kernel.org
-> Subject: [PATCH 1/2] dt-bindings: drm: bridge: adi,adv7533: Document
-> adi,disable-lanes-override property
->=20
-> On Renesas RZ/{G2L,V2L} platforms changing the lanes from 4 to 3 at lower
-> frequencies causes display instability. On such platforms, it is better t=
-o
-> avoid switching lanes from 4 to 3 as it needs different set of PLL parame=
-ter
-> constraints to make the display stable with 3 lanes.
->=20
-> This patch introduces 'adi,disable-lanes-override' property to disable la=
-ne
-> switching at lower frequencies.
->=20
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> ---
->  .../devicetree/bindings/display/bridge/adi,adv7533.yaml      | 5 +++++
->  1 file changed, 5 insertions(+)
->=20
-> diff --git
-> a/Documentation/devicetree/bindings/display/bridge/adi,adv7533.yaml
-> b/Documentation/devicetree/bindings/display/bridge/adi,adv7533.yaml
-> index f36209137c8a..2dc378039d21 100644
-> --- a/Documentation/devicetree/bindings/display/bridge/adi,adv7533.yaml
-> +++ b/Documentation/devicetree/bindings/display/bridge/adi,adv7533.yaml
-> @@ -84,6 +84,11 @@ properties:
->        timings for HDMI output.
->      type: boolean
->=20
-> +  adi,disable-lanes-override:
-> +    description:
-> +      Disables the overriding lanes at lower frequencies.
-> +    type: boolean
-> +
->    adi,dsi-lanes:
->      description: Number of DSI data lanes connected to the DSI host.
->      $ref: /schemas/types.yaml#/definitions/uint32
-> --
-> 2.17.1
+vim +843 drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c
 
+133add5b5ad42b Maxime Ripard 2018-04-04  841  
+133add5b5ad42b Maxime Ripard 2018-04-04  842  static const struct drm_encoder_helper_funcs sun6i_dsi_enc_helper_funcs = {
+133add5b5ad42b Maxime Ripard 2018-04-04 @843  	.enable		= sun6i_dsi_encoder_enable,
+133add5b5ad42b Maxime Ripard 2018-04-04  844  };
+133add5b5ad42b Maxime Ripard 2018-04-04  845  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
