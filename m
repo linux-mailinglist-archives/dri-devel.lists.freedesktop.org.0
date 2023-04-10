@@ -1,43 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16A6B6DC6BC
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Apr 2023 14:26:08 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F25C6DC6D9
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Apr 2023 14:46:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 06F5210E063;
-	Mon, 10 Apr 2023 12:26:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 46CF710E2DF;
+	Mon, 10 Apr 2023 12:46:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 959E910E063
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Apr 2023 12:26:00 +0000 (UTC)
-Received: from pendragon.ideasonboard.com
- (133-32-181-51.west.xps.vectant.ne.jp [133.32.181.51])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 857C925E9;
- Mon, 10 Apr 2023 14:25:56 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1681129557;
- bh=67lduPacpLMhq2ux8wEvh/kW0ZiVWSVK8q5xSlMbhFE=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=XnkLoWVVNjS1PQpP3QBcSk4z1swpJB8JK3C2aU6BSsmi7Qfo/7HZzobRc9HwMDJ7S
- DhYty61c5DwflKTO4eSM0mCRH4z2OuYfn9/lago/eXx/MxkBVm7vQ5//sGg9Fl3Pv/
- eRn2HhOx4rosR2/u1KG19b4ybsgZlz1eaeGwMt7A=
-Date: Mon, 10 Apr 2023 15:26:07 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Subject: Re: [PATCH 3/5] drm: shmobile: Switch to drm_crtc_init_with_planes()
-Message-ID: <20230410122607.GA11253@pendragon.ideasonboard.com>
-References: <cover.1680273039.git.geert+renesas@glider.be>
- <df4099d79c985c73bdc890eb0e026494b7fa5c96.1680273039.git.geert+renesas@glider.be>
- <20230405035952.GI9915@pendragon.ideasonboard.com>
- <CAMuHMdUMEVYRr9oYBB=50WJtM4St1UfVkGMw09dchjgoUC2Q6A@mail.gmail.com>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5EB1110E2FC
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Apr 2023 12:46:43 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 6A4DE612F5;
+ Mon, 10 Apr 2023 12:46:42 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B6F7AC433D2;
+ Mon, 10 Apr 2023 12:46:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1681130801;
+ bh=suhdnWiH8Z05FFFeZgNpP3i3isrTAKZtOUnNWfjZrcE=;
+ h=Date:From:To:Cc:Subject:From;
+ b=f4qUJ3OwVeKc/0JiTqGZ7vvd9VsCB8fnOKn9Q9fQppIOUmHhyMehIJ4bGAX4Jsz4y
+ wbBi2W8Mjkl/IESDYZ/Y45UTyUbjIGJ1idTyt2K8r5dMMaKZbjC/rWbTo8XCXPS3Jp
+ up+PXvJHqizjBGsJSsQfQxzVgg6S8XvjW6URciL1IGInBcP5b9y3LfuyLWmwv/Wv8p
+ KZOUXfQYgUEt/qe3+TCVcoqOCijSklY4lF4UHowbTnycARfXUUS2K5Vy6zwjoRAwr0
+ zZB+HJSw/mMx4j59qq8Efj+6vNKC+WtT/rQV8wYb0JjYBR9i/jpZQyYIyeiSWkQrFE
+ cdGlQpj0ysMvg==
+Date: Mon, 10 Apr 2023 15:46:37 +0300
+From: Oded Gabbay <ogabbay@kernel.org>
+To: airlied@gmail.com, daniel.vetter@ffwll.ch
+Subject: [git pull] habanalabs for drm-next-6.4
+Message-ID: <20230410124637.GA2441888@ogabbay-vm-u20.habana-labs.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAMuHMdUMEVYRr9oYBB=50WJtM4St1UfVkGMw09dchjgoUC2Q6A@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,99 +50,109 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-renesas-soc@vger.kernel.org,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Geert,
+Hi Dave, Daniel.
 
-On Mon, Apr 10, 2023 at 11:35:56AM +0200, Geert Uytterhoeven wrote:
-> On Wed, Apr 5, 2023 at 5:59 AM Laurent Pinchart wrote:
-> > On Fri, Mar 31, 2023 at 04:48:09PM +0200, Geert Uytterhoeven wrote:
-> > > The SH-Mobile DRM driver uses the legacy drm_crtc_init(), which
-> > > advertizes only the formats in safe_modeset_formats[] (XR24 and AR24) as
-> > > being supported.
-> > >
-> > > Switch to drm_crtc_init_with_planes(), and advertize all supported
-> > > (A)RGB modes, so we can use RGB565 as the default mode for the console.
-> > >
-> > > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> 
-> > > --- a/drivers/gpu/drm/shmobile/shmob_drm_crtc.c
-> > > +++ b/drivers/gpu/drm/shmobile/shmob_drm_crtc.c
-> > > @@ -18,6 +18,7 @@
-> > >  #include <drm/drm_gem_dma_helper.h>
-> > >  #include <drm/drm_modeset_helper.h>
-> > >  #include <drm/drm_modeset_helper_vtables.h>
-> > > +#include <drm/drm_plane_helper.h>
-> > >  #include <drm/drm_probe_helper.h>
-> > >  #include <drm/drm_simple_kms_helper.h>
-> > >  #include <drm/drm_vblank.h>
-> > > @@ -478,16 +479,41 @@ static const struct drm_crtc_funcs crtc_funcs = {
-> > >       .disable_vblank = shmob_drm_disable_vblank,
-> > >  };
-> > >
-> > > +static const uint32_t modeset_formats[] = {
-> > > +     DRM_FORMAT_RGB565,
-> > > +     DRM_FORMAT_RGB888,
-> > > +     DRM_FORMAT_ARGB8888,
-> > > +     DRM_FORMAT_XRGB8888,
-> > > +};
-> > > +
-> > > +static const struct drm_plane_funcs primary_plane_funcs = {
-> > > +     DRM_PLANE_NON_ATOMIC_FUNCS,
-> > > +};
-> > > +
-> > >  int shmob_drm_crtc_create(struct shmob_drm_device *sdev)
-> > >  {
-> > >       struct drm_crtc *crtc = &sdev->crtc.crtc;
-> > > +     struct drm_plane *primary;
-> > >       int ret;
-> > >
-> > >       sdev->crtc.dpms = DRM_MODE_DPMS_OFF;
-> > >
-> > > -     ret = drm_crtc_init(sdev->ddev, crtc, &crtc_funcs);
-> > > -     if (ret < 0)
-> > > +     primary = __drm_universal_plane_alloc(sdev->ddev, sizeof(*primary), 0,
-> > > +                                           0, &primary_plane_funcs,
-> > > +                                           modeset_formats,
-> > > +                                           ARRAY_SIZE(modeset_formats),
-> > > +                                           NULL, DRM_PLANE_TYPE_PRIMARY,
-> > > +                                           NULL);
-> > > +     if (IS_ERR(primary))
-> > > +             return PTR_ERR(primary);
-> >
-> > This seems like a bit of a hack to me. Why don't you use the planes
-> 
-> I'm following what Thomas did in the nouveau driver....
-> 
-> > created by shmob_drm_plane_create() instead of allocating a new one ?
-> 
-> Is that possible? shmob_drm_plane_create() creates overlay planes,
-> while this is for the primary plane.
+An additional pull request for 6.4.
 
-You're right, for some reason I overlooked that. Sorry for the noise.
+Mostly bug fixes and cleanups.
 
-It would be good to move handling of the primary plane to
-shmob_drm_plane.c, but that's for later, when moving the driver to the
-atomic API. For now,
+Full details are in the signed tag.
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Thanks,
+Oded
 
-> > > +
-> > > +     ret = drm_crtc_init_with_planes(sdev->ddev, crtc, primary, NULL,
-> > > +                                     &crtc_funcs, NULL);
-> > > +     if (ret < 0) {
-> > > +             drm_plane_cleanup(primary);
-> > > +             kfree(primary);
-> > >               return ret;
-> > > +     }
-> > >
-> > >       drm_crtc_helper_add(crtc, &crtc_helper_funcs);
+The following changes since commit 4d877b1a6e855d1c8685fa0e27ad7a521b31b6ca:
 
--- 
-Regards,
+  Merge tag 'drm-intel-next-2023-04-06' of git://anongit.freedesktop.org/drm/drm-intel into drm-next (2023-04-06 16:31:33 +0200)
 
-Laurent Pinchart
+are available in the Git repository at:
+
+  https://git.kernel.org/pub/scm/linux/kernel/git/ogabbay/linux.git tags/drm-habanalabs-next-2023-04-10
+
+for you to fetch changes up to 56499c461589634f2c89ffbd9cfb78268191d349:
+
+  accel/habanalabs: add missing error flow in hl_sysfs_init() (2023-04-08 10:44:23 +0300)
+
+----------------------------------------------------------------
+This tag contains additional habanalabs driver changes for v6.4:
+
+- uAPI changes:
+  - Add a definition of a new Gaudi2 server type. This is used by userspace
+    to know what is the connectivity between the accelerators inside the
+    server
+
+- New features and improvements:
+  - speedup h/w queues test in Gaudi2 to reduce device initialization times.
+
+- Firmware related fixes:
+  - Fixes to the handshake protocol during f/w initialization.
+  - Sync f/w events interrupt in hard reset to avoid warning message.
+  - Improvements to extraction of the firmware version.
+
+- Misc bug fixes and code cleanups. Notable fixes are:
+  - Multiple fixes for interrupt handling in Gaudi2.
+  - Unmap mapped memory in case TLB invalidation fails.
+
+----------------------------------------------------------------
+Cai Huoqing (1):
+      accel/habanalabs: Remove redundant pci_clear_master
+
+Dafna Hirschfeld (2):
+      accel/habanalabs: check return value of add_va_block_locked
+      accel/habanalabs: improvements to FW ver extraction
+
+Dani Liberman (2):
+      accel/habanalabs: fix access error clear event
+      accel/habanalabs: fix handling of arc farm sei event
+
+Koby Elbaz (3):
+      accel/habanalabs: unmap mapped memory when TLB inv fails
+      accel/habanalabs: change COMMS warning messages to error level
+      accel/habanalabs: don't wait for STS_OK after sending COMMS WFE
+
+Moti Haimovski (1):
+      accel/habanalabs: speedup h/w queues test in Gaudi2
+
+Oded Gabbay (1):
+      accel/habanalabs/uapi: new Gaudi2 server type
+
+Ofir Bitton (5):
+      accel/habanalabs: fix HBM MMU interrupt handling
+      accel/habanalabs: print raw binning masks in debug level
+      accel/habanalabs: fix wrong reset and event flags
+      accel/habanalabs: fixes for unexpected error interrupt
+      accel/habanalabs: remove Gaudi1 multi MSI code
+
+Tal Cohen (4):
+      accel/habanalabs: print event type when device is disabled
+      accel/habanalabs: remove duplicated disable pci msg
+      accel/habanalabs: send disable pci when compute ctx is active
+      accel/habanalabs: sync f/w events interrupt in hard reset
+
+Tomer Tayar (3):
+      accel/habanalabs: remove completion from abnormal interrupt work name
+      accel/habanalabs: fix events mask of decoder abnormal interrupts
+      accel/habanalabs: add missing error flow in hl_sysfs_init()
+
+ drivers/accel/habanalabs/common/command_buffer.c   |  15 +-
+ drivers/accel/habanalabs/common/decoder.c          |  40 ++-
+ drivers/accel/habanalabs/common/device.c           |  54 ++--
+ drivers/accel/habanalabs/common/firmware_if.c      |  17 +-
+ drivers/accel/habanalabs/common/habanalabs.h       |  14 +-
+ drivers/accel/habanalabs/common/irq.c              |  11 +-
+ drivers/accel/habanalabs/common/memory.c           |  11 +-
+ drivers/accel/habanalabs/common/mmu/mmu.c          |   8 +-
+ drivers/accel/habanalabs/common/pci/pci.c          |   2 -
+ drivers/accel/habanalabs/common/sysfs.c            |   6 +-
+ drivers/accel/habanalabs/gaudi/gaudi.c             |  86 +----
+ drivers/accel/habanalabs/gaudi/gaudiP.h            |  15 -
+ drivers/accel/habanalabs/gaudi2/gaudi2.c           | 347 +++++++++++++++------
+ drivers/accel/habanalabs/gaudi2/gaudi2P.h          |  17 +
+ drivers/accel/habanalabs/goya/goya.c               |   1 +
+ .../include/gaudi2/asic_reg/gaudi2_regs.h          |   4 +-
+ include/uapi/drm/habanalabs_accel.h                |   3 +-
+ 17 files changed, 382 insertions(+), 269 deletions(-)
