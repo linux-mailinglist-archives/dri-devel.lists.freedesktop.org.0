@@ -1,67 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9B3B6DD411
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Apr 2023 09:23:50 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 661B36DC4BE
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Apr 2023 11:00:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9BE1D10E29D;
-	Tue, 11 Apr 2023 07:23:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E525C10E0C9;
+	Mon, 10 Apr 2023 09:00:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com
- [IPv6:2a00:1450:4864:20::62a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CB3C910E29B
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Apr 2023 08:52:10 +0000 (UTC)
-Received: by mail-ej1-x62a.google.com with SMTP id
- a640c23a62f3a-94a34d33accso110456766b.2
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Apr 2023 01:52:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1681116729; x=1683708729;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=qCvx4T7aanPiUqpFl/M0cMKkdvIDQFWcCiUFxZeM/NU=;
- b=Y/dl73ECeQJmxGjfNGFXGoj+tH3jDlPFyNtkQbgPt8AGF/iCm+V3lt8qgzwpYsWWQl
- wBHBNEH6FPMOWum5niMWUFshrjNYbyWkAfFqnqBwNR6SU0IOERdQPagVi6odqzeOjOQU
- whQYjImi9JeZaGl8e3AFT197+L4iOOkPhsyq+7sVrAorYzbmmXXGG9n9MbXBgSHeoYyq
- z82tM8UGSbFqUermTYc8JIH/T1BBIg7mlSpio1NEcsquv6gZzA+L/vHSkKf1IbS//v+h
- DZgXthrfsyELJywaonFiGARS6cuv/z8C3d5DMbN1qUQajV8vb0goOsA9kHN4xSFsDMGC
- SoUg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1681116729; x=1683708729;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=qCvx4T7aanPiUqpFl/M0cMKkdvIDQFWcCiUFxZeM/NU=;
- b=KTDwc+D/4EBAlUXF+PSy5J9e88TAoOubKnWL/dp5mkq/i+b3UPAbt7uapS9lNsUv/T
- IiFw52/GRz+eWaALCcZk+hUdTmLnRm5pazYOFqUbs25A3LIEksowKr+ol9X7i8FpY5WJ
- 6Ar3Unmr/qAYvaO4SsegNK7bcn6/4ZfiS6CX8S7tc8yKRFlaArTBd01PfbxbimoEAHQe
- MDxLMKKdG2tBkRfYMTly0MPieBGqjWpoGY0Ns76XMNGoxIDUbi588Luf4R3oILP7IZC3
- sDwUz1fSfwuLY2HqWoZD4BviVNCwyXRgsxmkqOH7L3SS3KQxLwPWDO7AeO1Jmbv007sE
- Rcyg==
-X-Gm-Message-State: AAQBX9f3ITbtNl6Ah92r979O2b9vcAf/Zx0XPVyzNDaZhX6MFILPFBVy
- SyrgfJ6cnd52qxsQ2gFB0sE=
-X-Google-Smtp-Source: AKy350b+eqHkqWt2X3cAZ+ksESIZiHh0LCjG8NmoiClTQLYlCGhrNn9z1ont5uVVtrkNnozW62+qaA==
-X-Received: by 2002:a05:6402:138e:b0:504:8c4a:d1e with SMTP id
- b14-20020a056402138e00b005048c4a0d1emr5611231edv.8.1681116728661; 
- Mon, 10 Apr 2023 01:52:08 -0700 (PDT)
-Received: from localhost.localdomain ([154.72.161.184])
- by smtp.gmail.com with ESMTPSA id
- v13-20020a50954d000000b004fc649481basm4709962eda.58.2023.04.10.01.51.41
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 10 Apr 2023 01:52:08 -0700 (PDT)
-From: Brandon Cheo Fusi <fusibrandon13@gmail.com>
-To: maxime@cerno.tech
-Subject: [PATCH 2/2] drm: sun4i: tie DSI PHY Poweron/off to crtc enable/disable
-Date: Mon, 10 Apr 2023 09:47:50 +0100
-Message-Id: <20230410084750.164016-3-fusibrandon13@gmail.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20230410084750.164016-1-fusibrandon13@gmail.com>
-References: <20230410084750.164016-1-fusibrandon13@gmail.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 34A7510E0C9;
+ Mon, 10 Apr 2023 09:00:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1681117204; x=1712653204;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=dqF2REshPEPcaWNr3EMg4H0fo/5f+H+KwIw4rUrhjRc=;
+ b=fqPAh+neaqzPKOzmmazkroBh3uv+YNDZRaNKC4ElhDcPUOicKCILJ5MJ
+ fT5UEco5uztKe6KwvXjxwg0ec4+it6KJ7ETeWt6O7shyFdq2VllgDEA4H
+ Tb1MUxFtog0yGXGTHXFcZwxVrc0k4GJKYuddkGqpK92/97+JgnSpiWnjj
+ jIrUGqK1vUHAIq0xPwC62zVlvZrMcxkgNnEpWyfDatROlJ/H/S5hZcpQh
+ dxKSqcKDZQ9dBYgk1BXpsnpcJ/BGErH7f4jO0RsZ40CySwwi9tEAmwyG6
+ wWfU7P6DhJie76MTxFDzOxv6oIP/hKF9BH0mBqbdlggT2DZz9snnStlT0 A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10675"; a="342081042"
+X-IronPort-AV: E=Sophos;i="5.98,333,1673942400"; d="scan'208";a="342081042"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Apr 2023 02:00:03 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10675"; a="688209076"
+X-IronPort-AV: E=Sophos;i="5.98,333,1673942400"; d="scan'208";a="688209076"
+Received: from liuzhao-optiplex-7080.sh.intel.com (HELO localhost)
+ ([10.239.160.28])
+ by orsmga002.jf.intel.com with ESMTP; 10 Apr 2023 01:59:58 -0700
+Date: Mon, 10 Apr 2023 17:08:45 +0800
+From: Zhao Liu <zhao1.liu@linux.intel.com>
+To: Thomas =?utf-8?B?SGVsbHN0cu+/vW0=?= <thomas.hellstrom@linux.intel.com>,
+ Matthew Auld <matthew.auld@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Subject: Re: [PATCH v2 9/9] drm/i915: Use kmap_local_page() in
+ gem/i915_gem_execbuffer.c
+Message-ID: <ZDPSHYn02GWTSMG4@liuzhao-OptiPlex-7080>
+References: <20230329073220.3982460-1-zhao1.liu@linux.intel.com>
+ <64265ef8725fe_375f7e294a@iweiny-mobl.notmuch>
+ <fdc8a470-1e6b-815d-e367-a9df1b0b14dd@linux.intel.com>
+ <2177327.1BCLMh4Saa@suse>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Tue, 11 Apr 2023 07:23:39 +0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2177327.1BCLMh4Saa@suse>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,61 +63,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: krzysztof.kozlowski+dt@linaro.org, dri-devel@lists.freedesktop.org,
- andrzej.hajda@intel.com, sam@ravnborg.org, marex@denx.de, rfoss@kernel.org,
- dave.stevenson@raspberrypi.com, jernej.skrabec@gmail.com, wens@csie.org,
- jagan@amarulasolutions.com, linux-sunxi@lists.linux.dev,
- devicetree@vger.kernel.org, tzimmermann@suse.de, robh+dt@kernel.org,
- linux-arm-kernel@lists.infradead.org, neil.armstrong@linaro.org,
- Brandon Cheo Fusi <fusibrandon13@gmail.com>, samuel@sholland.org,
- linux-amarula@amarulasolutions.com
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Zhenyu Wang <zhenyu.z.wang@intel.com>, Ira Weiny <ira.weiny@intel.com>,
+ intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Chris Wilson <chris@chris-wilson.co.uk>, dri-devel@lists.freedesktop.org,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ "Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
+ Christian =?utf-8?B?S++/vW5pZw==?= <christian.koenig@amd.com>,
+ Zhao Liu <zhao1.liu@intel.com>, Nirmoy Das <nirmoy.das@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Poweron/off the DSI PHY when the crtc is enabled/disabled. This allows the modeset
-helpers to manage the DSI sink while preserving the old drm_panel_<prepare,enable>
-and drm_panel_<disable,unprepare> sequences.
+Thanks all for your review!
 
-Signed-off-by: Brandon Cheo Fusi <fusibrandon13@gmail.com>
----
- drivers/gpu/drm/sun4i/sun4i_tcon.c | 10 +++++++++-
- 1 file changed, 9 insertions(+), 1 deletion(-)
+On Fri, Mar 31, 2023 at 05:32:17PM +0200, Fabio M. De Francesco wrote:
+> Date: Fri, 31 Mar 2023 17:32:17 +0200
+> From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+> Subject: Re: [PATCH v2 9/9] drm/i915: Use kmap_local_page() in
+>  gem/i915_gem_execbuffer.c
+> 
+> On venerd? 31 marzo 2023 13:30:20 CEST Tvrtko Ursulin wrote:
+> > On 31/03/2023 05:18, Ira Weiny wrote:
+> 
 
-diff --git a/drivers/gpu/drm/sun4i/sun4i_tcon.c b/drivers/gpu/drm/sun4i/sun4i_tcon.c
-index 523a6d787..6f50dc66a 100644
---- a/drivers/gpu/drm/sun4i/sun4i_tcon.c
-+++ b/drivers/gpu/drm/sun4i/sun4i_tcon.c
-@@ -190,7 +190,7 @@ void sun4i_tcon_set_status(struct sun4i_tcon *tcon,
- 			   const struct drm_encoder *encoder,
- 			   bool enabled)
- {
--	bool is_lvds = false;
-+	bool is_lvds = false, is_dsi = false;
- 	int channel;
- 
- 	switch (encoder->encoder_type) {
-@@ -198,6 +198,8 @@ void sun4i_tcon_set_status(struct sun4i_tcon *tcon,
- 		is_lvds = true;
- 		fallthrough;
- 	case DRM_MODE_ENCODER_DSI:
-+		is_dsi = true;
-+		fallthrough;
- 	case DRM_MODE_ENCODER_NONE:
- 		channel = 0;
- 		break;
-@@ -221,6 +223,12 @@ void sun4i_tcon_set_status(struct sun4i_tcon *tcon,
- 		sun4i_tcon_lvds_set_status(tcon, encoder, true);
- 
- 	sun4i_tcon_channel_set_status(tcon, channel, enabled);
-+
-+	if (is_dsi) {
-+		/* turn DSI phy on or off */
-+		(enabled) ? sun6i_dsi_phy_power_on(encoder)
-+				  : sun6i_dsi_phy_power_off(encoder);
-+	}
- }
- 
- void sun4i_tcon_enable_vblank(struct sun4i_tcon *tcon, bool enable)
--- 
-2.30.2
+[snip]
 
+>  
+> > However I am unsure if disabling pagefaulting is needed or not. Thomas,
+> > Matt, being the last to touch this area, perhaps you could have a look?
+> > Because I notice we have a fallback iomap path which still uses
+> > io_mapping_map_atomic_wc. So if kmap_atomic to kmap_local conversion is
+> > safe, does the iomap side also needs converting to
+> > io_mapping_map_local_wc? Or they have separate requirements?
+> 
+> AFAIK, the requirements for io_mapping_map_local_wc() are the same as for 
+> kmap_local_page(): the kernel virtual address is _only_ valid in the caller 
+> context, and map/unmap nesting must be done in stack-based ordering (LIFO).
+> 
+> I think a follow up patch could safely switch to io_mapping_map_local_wc() / 
+> io_mapping_unmap_local_wc since the address is local to context.
+> 
+> However, not being an expert, reading your note now I suspect that I'm missing 
+> something. Can I ask why you think that page-faults disabling might be 
+> necessary? 
+
+
+About the disabling of pagefault here, could you please talk more about
+it? :-)
+
+From previous discussions and commit history, I didn't find relevant
+information and I lack background knowledge about it...
+
+If we have the reason to diable pagefault, I will fix and refresh the new
+version.
+
+Thanks,
+Zhao
+
+> 
+> Thanks,
+> 
+> Fabio
+> 
+> > Regards,
+> > 
+> > Tvrtko
+> 
+> 
+> 
