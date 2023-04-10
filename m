@@ -1,58 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C1096DCD41
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Apr 2023 00:06:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4495F6DCD86
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Apr 2023 00:38:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7A35510E29A;
-	Mon, 10 Apr 2023 22:06:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E3AAE10E42A;
+	Mon, 10 Apr 2023 22:38:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-xf34.google.com (mail-qv1-xf34.google.com
- [IPv6:2607:f8b0:4864:20::f34])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 35ACE10E1E3;
- Mon, 10 Apr 2023 22:06:09 +0000 (UTC)
-Received: by mail-qv1-xf34.google.com with SMTP id kj14so4254804qvb.12;
- Mon, 10 Apr 2023 15:06:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1681164368;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=pjZar/MQ6b8qhGH+7PNrFyUqecvUssrkJbOR7pgMRKc=;
- b=AKjhpvE8a0FvmQzxH1oSCFwMlFKaSCrVrgg0QM/2yl87UEhKP7TdhrsHaOiQqAglRR
- tJQKz35Vz27LR72Y8GaYQ8hDq++AkfUTdJdNStkY3CkPdkWoKR2HAtMcUz3DFpRUI5dw
- lZ+nY+lm3TuDg9cX7+rBZa2823hR2Tc7BVvmiIAyLtCXkWiikUlV/hr3HbJTelbjfb5T
- 3GfG5rhUCDByztzWW2+UUT7XZSqfje8/JQpcD8U2tbbrJMSut2QFtnCrPZXUFqVLTncR
- h9q8h4cSKGKp1+4s6yQG9eS7k2Z2yyk2GOmIdFr1q4bdqNjFy/gl8P6l8OnGI+P4Z1OT
- sB/g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1681164368;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=pjZar/MQ6b8qhGH+7PNrFyUqecvUssrkJbOR7pgMRKc=;
- b=wdZ1tgrn8TP2DXlfU5G0TuphQ1MTbFa5khTb7w5uwFM4Umv1xUU+U0VJ+nonyxVa84
- KmGnje7MB+585a/z1CaEFrqNlEd6i24lgh7MxBJrL+5vSGXYCrLhk6nAIFg++9N9IKDC
- lUk3s2v83L1av7wmJRoEMuySLvKDZbFS9KJnCH7pggZ7wFGmvxSfWNIUYv6CX06sUcKx
- ENT5zCuz3GOOa2ON4IakuCWiChELLoepTu61o98CflGuWFwRJoQ7DIgSUK9s049apA23
- EOLBGaQZDlJpc/rRgRmeHQ/oQ3WBpgKK0qGK8HPL1xt0OISsdA6F76utj7RDuFrv50eD
- UCXw==
-X-Gm-Message-State: AAQBX9d7veNpH1/XakT2+fMj6yeVXGKioo18FPY/XuwBtyKjQB7/mpSv
- Qgg4D9HYXThjU/zuZS/8ejYtHPceO4Q0LbY0gug=
-X-Google-Smtp-Source: AKy350ZCO2ODxbxkhuEt1R/ncctGRfvUhnl8jBM9I1A4QEn77gjZc7dDt155ded3USH7Jve042Cl5hhNInj2Nt4O8CU=
-X-Received: by 2002:a05:6214:560b:b0:56f:80e:701b with SMTP id
- mg11-20020a056214560b00b0056f080e701bmr2493952qvb.2.1681164367933; Mon, 10
- Apr 2023 15:06:07 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230405110455.1368428-1-kherbst@redhat.com>
-In-Reply-To: <20230405110455.1368428-1-kherbst@redhat.com>
-From: Ben Skeggs <skeggsb@gmail.com>
-Date: Tue, 11 Apr 2023 08:05:56 +1000
-Message-ID: <CACAvsv6ODb++b3nZMJcv2__rUC7M0K1BDiZqoh9tLhNqtSxKzQ@mail.gmail.com>
-Subject: Re: [PATCH] drm/nouveau/fb: add missing sysmen flush callbacks
-To: Karol Herbst <kherbst@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A246110E3AB;
+ Mon, 10 Apr 2023 22:38:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1681166289; x=1712702289;
+ h=date:message-id:from:to:cc:subject:in-reply-to:
+ references:mime-version;
+ bh=MbiTwmL/8SOSA0Q+qbZ1OUT/Tl5r3SQeYoU0kT4FeDo=;
+ b=W8jT0Ytcy08Ayf2623GgYTzR4vNA/pglCFTm92dq6Vdcm9a8GeCUEFgT
+ q2HsdqMtxisubQuNe7c8VQMJ3Q1njXGylDK3nqJioNRgqUojJKAn+nD/X
+ N3fjTQzNqdV28+GJwqXGL5GYo+YG2wARnnq0Wp2WZK+nSdss6G4zRZrkr
+ uoOfx9CgFghFO0ankYYLZ4KNZeZM9sw1YbErmH2g4wUYe4vM/aTZrGt5U
+ /yvgJDAmiwnqYCc/0O50Gal8dEfysbX8hZeSJgyRTP54sIIs/OV2AEV55
+ o1YhJaf6z22Ph3QZFZBIZwMyiiuZ9VrLJAZ6CZgvz498ti/eKjZcqpbNL Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10676"; a="327565472"
+X-IronPort-AV: E=Sophos;i="5.98,333,1673942400"; d="scan'208";a="327565472"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Apr 2023 15:38:08 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10676"; a="832122817"
+X-IronPort-AV: E=Sophos;i="5.98,333,1673942400"; d="scan'208";a="832122817"
+Received: from adixit-mobl.amr.corp.intel.com (HELO adixit-arch.intel.com)
+ ([10.251.5.8])
+ by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Apr 2023 15:38:08 -0700
+Date: Mon, 10 Apr 2023 15:17:33 -0700
+Message-ID: <878reze60y.wl-ashutosh.dixit@intel.com>
+From: "Dixit, Ashutosh" <ashutosh.dixit@intel.com>
+To: Rodrigo Vivi <rodrigo.vivi@intel.com>
+Subject: Re: [Intel-gfx] [PATCH 2/3] drm/i915/guc: Disable PL1 power limit
+ when loading GuC firmware
+In-Reply-To: <ZC/5r96UYIZCKjW9@intel.com>
+References: <20230406044522.3108359-1-ashutosh.dixit@intel.com>	<20230406044522.3108359-3-ashutosh.dixit@intel.com>	<ZC/5r96UYIZCKjW9@intel.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?ISO-8859-4?Q?Goj=F2?=) APEL-LB/10.8 EasyPG/1.0.0
+ Emacs/28.2 (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,75 +61,225 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Ben Skeggs <bskeggs@redhat.com>
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 5 Apr 2023 at 21:05, Karol Herbst <kherbst@redhat.com> wrote:
+On Fri, 07 Apr 2023 04:08:31 -0700, Rodrigo Vivi wrote:
 >
-> Closes: https://gitlab.freedesktop.org/drm/nouveau/-/issues/203
-> Fixes: 5728d064190e1 ("drm/nouveau/fb: handle sysmem flush page from common code")
-> Signed-off-by: Karol Herbst <kherbst@redhat.com>
-Oops, that must've gotten lost in a rebase somehow.
 
-Reviewed-by: Ben Skeggs <bskeggs@redhat.com>
+Hi Rodrigo,
 
-> ---
->  drivers/gpu/drm/nouveau/nvkm/subdev/fb/gf108.c | 1 +
->  drivers/gpu/drm/nouveau/nvkm/subdev/fb/gk104.c | 1 +
->  drivers/gpu/drm/nouveau/nvkm/subdev/fb/gk110.c | 1 +
->  drivers/gpu/drm/nouveau/nvkm/subdev/fb/gm107.c | 1 +
->  4 files changed, 4 insertions(+)
+> On Wed, Apr 05, 2023 at 09:45:21PM -0700, Ashutosh Dixit wrote:
+> > On dGfx, the PL1 power limit being enabled and set to a low value results
+> > in a low GPU operating freq. It also negates the freq raise operation which
+> > is done before GuC firmware load. As a result GuC firmware load can time
+> > out. Such timeouts were seen in the GL #8062 bug below (where the PL1 power
+> > limit was enabled and set to a low value). Therefore disable the PL1 power
+> > limit when allowed by HW when loading GuC firmware.
+> >
+> > v2:
+> >  - Take mutex (to disallow writes to power1_max) across GuC reset/fw load
+> >  - Add hwm_power_max_restore to error return code path
+> >
+> > v3 (Jani N):
+> >  - Add/remove explanatory comments
+> >  - Function renames
+> >  - Type corrections
+> >  - Locking annotation
+> >
+> > v4:
+> >  - Don't hold the lock across GuC reset (Rodrigo)
+> >  - New locking scheme (suggested by Rodrigo)
+> >  - Eliminate rpm_get in power_max_disable/restore, not needed (Tvrtko)
+> >
+> > Link: https://gitlab.freedesktop.org/drm/intel/-/issues/8062
+> > Signed-off-by: Ashutosh Dixit <ashutosh.dixit@intel.com>
+> > ---
+> >  drivers/gpu/drm/i915/gt/uc/intel_uc.c |  9 ++++++
+> >  drivers/gpu/drm/i915/i915_hwmon.c     | 40 +++++++++++++++++++++++++++
+> >  drivers/gpu/drm/i915/i915_hwmon.h     |  7 +++++
+> >  3 files changed, 56 insertions(+)
+> >
+> > diff --git a/drivers/gpu/drm/i915/gt/uc/intel_uc.c b/drivers/gpu/drm/i915/gt/uc/intel_uc.c
+> > index 4ccb4be4c9cba..aa8e35a5636a0 100644
+> > --- a/drivers/gpu/drm/i915/gt/uc/intel_uc.c
+> > +++ b/drivers/gpu/drm/i915/gt/uc/intel_uc.c
+> > @@ -18,6 +18,7 @@
+> >  #include "intel_uc.h"
+> >
+> >  #include "i915_drv.h"
+> > +#include "i915_hwmon.h"
+> >
+> >  static const struct intel_uc_ops uc_ops_off;
+> >  static const struct intel_uc_ops uc_ops_on;
+> > @@ -461,6 +462,7 @@ static int __uc_init_hw(struct intel_uc *uc)
+> >	struct intel_guc *guc = &uc->guc;
+> >	struct intel_huc *huc = &uc->huc;
+> >	int ret, attempts;
+> > +	bool pl1en;
 >
-> diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/fb/gf108.c b/drivers/gpu/drm/nouveau/nvkm/subdev/fb/gf108.c
-> index 76678dd60f93f..c4c6f67af7ccc 100644
-> --- a/drivers/gpu/drm/nouveau/nvkm/subdev/fb/gf108.c
-> +++ b/drivers/gpu/drm/nouveau/nvkm/subdev/fb/gf108.c
-> @@ -31,6 +31,7 @@ gf108_fb = {
->         .init = gf100_fb_init,
->         .init_page = gf100_fb_init_page,
->         .intr = gf100_fb_intr,
-> +       .sysmem.flush_page_init = gf100_fb_sysmem_flush_page_init,
->         .ram_new = gf108_ram_new,
->         .default_bigpage = 17,
->  };
-> diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/fb/gk104.c b/drivers/gpu/drm/nouveau/nvkm/subdev/fb/gk104.c
-> index f73442ccb424b..433fa966ba231 100644
-> --- a/drivers/gpu/drm/nouveau/nvkm/subdev/fb/gk104.c
-> +++ b/drivers/gpu/drm/nouveau/nvkm/subdev/fb/gk104.c
-> @@ -77,6 +77,7 @@ gk104_fb = {
->         .init = gf100_fb_init,
->         .init_page = gf100_fb_init_page,
->         .intr = gf100_fb_intr,
-> +       .sysmem.flush_page_init = gf100_fb_sysmem_flush_page_init,
->         .ram_new = gk104_ram_new,
->         .default_bigpage = 17,
->         .clkgate_pack = gk104_fb_clkgate_pack,
-> diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/fb/gk110.c b/drivers/gpu/drm/nouveau/nvkm/subdev/fb/gk110.c
-> index 45d6cdffafeed..4dc283dedf8b5 100644
-> --- a/drivers/gpu/drm/nouveau/nvkm/subdev/fb/gk110.c
-> +++ b/drivers/gpu/drm/nouveau/nvkm/subdev/fb/gk110.c
-> @@ -59,6 +59,7 @@ gk110_fb = {
->         .init = gf100_fb_init,
->         .init_page = gf100_fb_init_page,
->         .intr = gf100_fb_intr,
-> +       .sysmem.flush_page_init = gf100_fb_sysmem_flush_page_init,
->         .ram_new = gk104_ram_new,
->         .default_bigpage = 17,
->         .clkgate_pack = gk110_fb_clkgate_pack,
-> diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/fb/gm107.c b/drivers/gpu/drm/nouveau/nvkm/subdev/fb/gm107.c
-> index de52462a92bf0..90bfff616d35b 100644
-> --- a/drivers/gpu/drm/nouveau/nvkm/subdev/fb/gm107.c
-> +++ b/drivers/gpu/drm/nouveau/nvkm/subdev/fb/gm107.c
-> @@ -31,6 +31,7 @@ gm107_fb = {
->         .init = gf100_fb_init,
->         .init_page = gf100_fb_init_page,
->         .intr = gf100_fb_intr,
-> +       .sysmem.flush_page_init = gf100_fb_sysmem_flush_page_init,
->         .ram_new = gm107_ram_new,
->         .default_bigpage = 17,
->  };
-> --
-> 2.39.2
+> we need to initialize this to make warn free builds happy...
+> what's our default btw? false? true? we need to read it back?
+
+Yes this was a real bug caught by the kernel build robot. We don't know the
+default till we read it back, which would mean exposing a new function. I
+have avoided exposing the new function, i.e. I have fixed this by creating a
+new (err_rps) label which will make sure that the variable is not used
+unless it is initialized. I am not expecting to see warnings from the build
+robot with this fix now.
+
+> >
+> >	GEM_BUG_ON(!intel_uc_supports_guc(uc));
+> >	GEM_BUG_ON(!intel_uc_wants_guc(uc));
+> > @@ -491,6 +493,9 @@ static int __uc_init_hw(struct intel_uc *uc)
+> >	else
+> >		attempts = 1;
+> >
+> > +	/* Disable a potentially low PL1 power limit to allow freq to be raised */
+> > +	i915_hwmon_power_max_disable(gt->i915, &pl1en);
+> > +
+> >	intel_rps_raise_unslice(&uc_to_gt(uc)->rps);
+> >
+> >	while (attempts--) {
+> > @@ -547,6 +552,8 @@ static int __uc_init_hw(struct intel_uc *uc)
+> >		intel_rps_lower_unslice(&uc_to_gt(uc)->rps);
+> >	}
+> >
+> > +	i915_hwmon_power_max_restore(gt->i915, pl1en);
+> > +
+> >	guc_info(guc, "submission %s\n", str_enabled_disabled(intel_uc_uses_guc_submission(uc)));
+> >	guc_info(guc, "SLPC %s\n", str_enabled_disabled(intel_uc_uses_guc_slpc(uc)));
+> >
+> > @@ -563,6 +570,8 @@ static int __uc_init_hw(struct intel_uc *uc)
+> >	/* Return GT back to RPn */
+> >	intel_rps_lower_unslice(&uc_to_gt(uc)->rps);
+> >
+> > +	i915_hwmon_power_max_restore(gt->i915, pl1en);
+> > +
+> >	__uc_sanitize(uc);
+> >
+> >	if (!ret) {
+> > diff --git a/drivers/gpu/drm/i915/i915_hwmon.c b/drivers/gpu/drm/i915/i915_hwmon.c
+> > index 7f44e809ca155..9ab8971679fe3 100644
+> > --- a/drivers/gpu/drm/i915/i915_hwmon.c
+> > +++ b/drivers/gpu/drm/i915/i915_hwmon.c
+> > @@ -50,6 +50,7 @@ struct hwm_drvdata {
+> >	struct hwm_energy_info ei;		/*  Energy info for energy1_input */
+> >	char name[12];
+> >	int gt_n;
+> > +	bool reset_in_progress;
+> >  };
+> >
+> >  struct i915_hwmon {
+> > @@ -400,6 +401,10 @@ hwm_power_max_write(struct hwm_drvdata *ddat, long val)
+> >	u32 nval;
+> >
+> >	mutex_lock(&hwmon->hwmon_lock);
+> > +	if (hwmon->ddat.reset_in_progress) {
+> > +		ret = -EAGAIN;
+> > +		goto unlock;
+> > +	}
+> >	wakeref = intel_runtime_pm_get(ddat->uncore->rpm);
+> >
+> >	/* Disable PL1 limit and verify, because the limit cannot be disabled on all platforms */
+> > @@ -421,6 +426,7 @@ hwm_power_max_write(struct hwm_drvdata *ddat, long val)
+> >			 PKG_PWR_LIM_1_EN | PKG_PWR_LIM_1, nval);
+> >  exit:
+> >	intel_runtime_pm_put(ddat->uncore->rpm, wakeref);
+> > +unlock:
+> >	mutex_unlock(&hwmon->hwmon_lock);
+> >	return ret;
+> >  }
+> > @@ -472,6 +478,40 @@ hwm_power_write(struct hwm_drvdata *ddat, u32 attr, int chan, long val)
+> >	}
+> >  }
+> >
+> > +void i915_hwmon_power_max_disable(struct drm_i915_private *i915, bool *old)
+> > +{
+> > +	struct i915_hwmon *hwmon = i915->hwmon;
+> > +	u32 r;
+> > +
+> > +	if (!hwmon || !i915_mmio_reg_valid(hwmon->rg.pkg_rapl_limit))
+> > +		return;
+> > +
+> > +	mutex_lock(&hwmon->hwmon_lock);
+> > +
+> > +	hwmon->ddat.reset_in_progress = true;
+> > +	r = intel_uncore_rmw(hwmon->ddat.uncore, hwmon->rg.pkg_rapl_limit,
+> > +			     PKG_PWR_LIM_1_EN, 0);
+> > +	*old = !!(r & PKG_PWR_LIM_1_EN);
+> > +
+> > +	mutex_unlock(&hwmon->hwmon_lock);
+> > +}
+> > +
+> > +void i915_hwmon_power_max_restore(struct drm_i915_private *i915, bool old)
+> > +{
+> > +	struct i915_hwmon *hwmon = i915->hwmon;
+> > +
+> > +	if (!hwmon || !i915_mmio_reg_valid(hwmon->rg.pkg_rapl_limit))
+> > +		return;
+> > +
+> > +	mutex_lock(&hwmon->hwmon_lock);
+> > +
+> > +	intel_uncore_rmw(hwmon->ddat.uncore, hwmon->rg.pkg_rapl_limit,
+> > +			 PKG_PWR_LIM_1_EN, old ? PKG_PWR_LIM_1_EN : 0);
+> > +	hwmon->ddat.reset_in_progress = false;
+> > +
+> > +	mutex_unlock(&hwmon->hwmon_lock);
+> > +}
 >
+> you could have combined both functions in a
+> i915_hwmon_power_max_set(struct drm_i915_private *i915, bool val, bool *old)
+>
+> then pass NULL to old on the restoration times
+> and have
+>     if (old)
+>		*old = !!(r & PKG_PWR_LIM_1_EN);
+>
+> But really up to you here, the current code is clear to follow imho
+> so, with the pl1en initialization fixed:
+
+Yes, left this as is.
+
+>
+> Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
+
+Have retained the R-b since the fix in __uc_init_hw is minor.
+
+Thanks!
+Ashutosh
+
+> > +
+> >  static umode_t
+> >  hwm_energy_is_visible(const struct hwm_drvdata *ddat, u32 attr)
+> >  {
+> > diff --git a/drivers/gpu/drm/i915/i915_hwmon.h b/drivers/gpu/drm/i915/i915_hwmon.h
+> > index 7ca9cf2c34c96..0fcb7de844061 100644
+> > --- a/drivers/gpu/drm/i915/i915_hwmon.h
+> > +++ b/drivers/gpu/drm/i915/i915_hwmon.h
+> > @@ -7,14 +7,21 @@
+> >  #ifndef __I915_HWMON_H__
+> >  #define __I915_HWMON_H__
+> >
+> > +#include <linux/types.h>
+> > +
+> >  struct drm_i915_private;
+> > +struct intel_gt;
+> >
+> >  #if IS_REACHABLE(CONFIG_HWMON)
+> >  void i915_hwmon_register(struct drm_i915_private *i915);
+> >  void i915_hwmon_unregister(struct drm_i915_private *i915);
+> > +void i915_hwmon_power_max_disable(struct drm_i915_private *i915, bool *old);
+> > +void i915_hwmon_power_max_restore(struct drm_i915_private *i915, bool old);
+> >  #else
+> >  static inline void i915_hwmon_register(struct drm_i915_private *i915) { };
+> >  static inline void i915_hwmon_unregister(struct drm_i915_private *i915) { };
+> > +static inline void i915_hwmon_power_max_disable(struct drm_i915_private *i915, bool *old) { };
+> > +static inline void i915_hwmon_power_max_restore(struct drm_i915_private *i915, bool old) { };
+> >  #endif
+> >
+> >  #endif /* __I915_HWMON_H__ */
+> > --
+> > 2.38.0
+> >
