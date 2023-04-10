@@ -2,62 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 890A36DC55F
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Apr 2023 11:54:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 472F26DC550
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Apr 2023 11:46:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5048310E062;
-	Mon, 10 Apr 2023 09:54:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2B0C110E2C2;
+	Mon, 10 Apr 2023 09:46:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 1052 seconds by postgrey-1.36 at gabe;
- Mon, 10 Apr 2023 09:54:24 UTC
-Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com
- [67.231.149.25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DEA7A10E062
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Apr 2023 09:54:24 +0000 (UTC)
-Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
- by mx0a-001ae601.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 33A7r9Lt019697; Mon, 10 Apr 2023 04:36:15 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com;
- h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=PODMain02222019;
- bh=+HukSUvI/kCUUncwKWci9mPfS5LDyGCwR3HBx0GVrAs=;
- b=VyMltFGcMJz9Fo96jwj0voLCc/MyQ6TuYb7AB8OBO0WIQG+3ueNwcRlmimRr5ax8Lalm
- 9zqscYCBdnc5TRuyeAGFmcWqCBJQJmHrI56LW7Dk0FGp9YQpas/ojASbr5btgJvIoT73
- S1KxCU8LkHwVei7JvpI8ACVQAq/enUwThmVdGJZpn8Zx2zPyrUYy5PKwdrw6oSfDv1BH
- l95JsMzlvJd2u+xQJCXydr3SCk5dfYCC7jlv4biWfA4bNOXOlsxb68bu+IWlx4sMYaWT
- 7NhxKKG4Jl+RSzcPY7sSMV9fHZTXKOOnpzSbeI+XHdFVloRXPQFwFEg5DU57cRqcElXC YQ== 
-Received: from ediex02.ad.cirrus.com ([84.19.233.68])
- by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 3pu5p3jd3m-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 10 Apr 2023 04:36:14 -0500
-Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex02.ad.cirrus.com
- (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.26; Mon, 10 Apr
- 2023 04:36:12 -0500
-Received: from ediswmail.ad.cirrus.com (198.61.86.93) by
- anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
- 15.2.1118.26 via Frontend Transport; Mon, 10 Apr 2023 04:36:12 -0500
-Received: from ediswmail.ad.cirrus.com (ediswmail.ad.cirrus.com [198.61.86.93])
- by ediswmail.ad.cirrus.com (Postfix) with ESMTP id 7630D11D4;
- Mon, 10 Apr 2023 09:36:12 +0000 (UTC)
-Date: Mon, 10 Apr 2023 09:36:12 +0000
-From: Charles Keepax <ckeepax@opensource.cirrus.com>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: Re: [PATCH 30/68] hwmon: lochnagar: constify pointers to
- hwmon_channel_info
-Message-ID: <20230410093612.GW68926@ediswmail.ad.cirrus.com>
-References: <20230406203103.3011503-1-krzysztof.kozlowski@linaro.org>
- <20230406203103.3011503-31-krzysztof.kozlowski@linaro.org>
+Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com
+ [209.85.128.180])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 39FF310E2C2
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Apr 2023 09:46:01 +0000 (UTC)
+Received: by mail-yw1-f180.google.com with SMTP id
+ 00721157ae682-54ef6ca60ceso77621687b3.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Apr 2023 02:46:01 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1681119959;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=aW3geLGISJ5Wl59n77OgvFtQOg4LkNPXguyTMjOYNek=;
+ b=fMqQNQ1Sbfs9I5tKhVOQk3Qh+grA2PHWQ+amKvFLx7PIuy24krmkxPzeWgtJzFVP/M
+ DXEPDhIW5Kgx4MiBzfDMlgfyJFvxdaH+hLjj5RbEpOTbqawZ8PMLbnoj87t4eEonfubq
+ 4sYK23trkBSmjnIppDlSmTQnNZewiH9UsfhdkNxUwkgXYVMvLRcaohkDqQmEuhZJX58j
+ QFp8HNrjGVHLGtT0hfmfcwERJC1bT3YHFKF/OQ6wU2AVZRNJBrKKBlPlDLQ+R6h2HWQq
+ SHKc/c+85phMRE4MokUWVi5qRDCfHZo2aZCBO3ecE78961qWgW6qZa+x/U7A6KHhY8oL
+ fpOA==
+X-Gm-Message-State: AAQBX9cmlpXsXLOmCOtFHSXk6FSYHkQP/hIUIRjomtx9+XLfd/vmeZ2N
+ vhefiI3pIle4XbPib8HGS1MxiZlhRsQniQ==
+X-Google-Smtp-Source: AKy350Zn4mH1UXhUMf5yrKBJpZRIXgfaBhY8j1M4NnsQEh0chrx1k0W5w821/lm20tuQtXCxYujLoA==
+X-Received: by 2002:a81:4f42:0:b0:54e:fa90:5b9a with SMTP id
+ d63-20020a814f42000000b0054efa905b9amr4156145ywb.45.1681119959519; 
+ Mon, 10 Apr 2023 02:45:59 -0700 (PDT)
+Received: from mail-yb1-f174.google.com (mail-yb1-f174.google.com.
+ [209.85.219.174]) by smtp.gmail.com with ESMTPSA id
+ p145-20020a819897000000b0054ee8426468sm1341787ywg.21.2023.04.10.02.45.58
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 10 Apr 2023 02:45:59 -0700 (PDT)
+Received: by mail-yb1-f174.google.com with SMTP id e127so3987818ybf.8
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Apr 2023 02:45:58 -0700 (PDT)
+X-Received: by 2002:a25:cb52:0:b0:a02:a3a6:78fa with SMTP id
+ b79-20020a25cb52000000b00a02a3a678famr4936366ybg.12.1681119958795; Mon, 10
+ Apr 2023 02:45:58 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20230406203103.3011503-31-krzysztof.kozlowski@linaro.org>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-Proofpoint-ORIG-GUID: fWu5-qrICvMoiuyJqdY1n9J2l14KWHY2
-X-Proofpoint-GUID: fWu5-qrICvMoiuyJqdY1n9J2l14KWHY2
-X-Proofpoint-Spam-Reason: safe
+References: <cover.1680273039.git.geert+renesas@glider.be>
+ <972e66cd36e9173ea6817d41565f708cb84bc2f4.1680273039.git.geert+renesas@glider.be>
+ <20230405040211.GK9915@pendragon.ideasonboard.com>
+In-Reply-To: <20230405040211.GK9915@pendragon.ideasonboard.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 10 Apr 2023 11:45:43 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXjry9-owh6nrtdXXi9wtvgJRROd+P6=zRq0se8PJ4jMQ@mail.gmail.com>
+Message-ID: <CAMuHMdXjry9-owh6nrtdXXi9wtvgJRROd+P6=zRq0se8PJ4jMQ@mail.gmail.com>
+Subject: Re: [PATCH 5/5] drm: shmobile: Make DRM_SHMOBILE visible on Renesas
+ SoC platforms
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,49 +71,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tomer Maimon <tmaimon77@gmail.com>,
- Eric Tremblay <etremblay@distech-controls.com>, Tom Rix <trix@redhat.com>,
- Jean-Marie Verdun <verdun@hpe.com>, Clemens Ladisch <clemens@ladisch.de>,
- dri-devel@lists.freedesktop.org, Tali Perry <tali.perry1@gmail.com>,
- Rudolf Marek <r.marek@assembler.cz>,
- Aleksandr Mezin <mezin.alexander@gmail.com>,
- Florian Fainelli <f.fainelli@gmail.com>, Luka Perkov <luka.perkov@sartura.hr>,
- Benjamin Fair <benjaminfair@google.com>, Jonathan Corbet <corbet@lwn.net>,
- Steen Hegelund <Steen.Hegelund@microchip.com>, linux-doc@vger.kernel.org,
- Jonas Malaco <jonas@protocubo.io>,
- Derek John Clark <derekjohn.clark@gmail.com>, UNGLinuxDriver@microchip.com,
- Nancy Yuen <yuenn@google.com>,
- Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
- linux-arm-kernel@lists.infradead.org, Aleksa Savic <savicaleksa83@gmail.com>,
- Guenter Roeck <linux@roeck-us.net>, Jean Delvare <jdelvare@suse.com>,
- Daniel Machon <daniel.machon@microchip.com>,
- Michael Hennerich <Michael.Hennerich@analog.com>, openbmc@lists.ozlabs.org,
- Robert Marko <robert.marko@sartura.hr>,
- =?iso-8859-1?Q?Joaqu=EDn_Ignacio_Aramend=EDa?= <samsagax@gmail.com>,
- Wilken Gottwalt <wilken.gottwalt@posteo.net>,
- Richard Fitzgerald <rf@opensource.cirrus.com>,
- Agathe Porte <agathe.porte@nokia.com>, linux-rpi-kernel@lists.infradead.org,
- Nick Hawkins <nick.hawkins@hpe.com>,
- Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
- Lars Povlsen <lars.povlsen@microchip.com>, linux-hwmon@vger.kernel.org,
- Hans de Goede <hdegoede@redhat.com>, Avi Fishman <avifishman70@gmail.com>,
- Patrick Venture <venture@google.com>, Oded Gabbay <ogabbay@kernel.org>,
- Iwona Winiarska <iwona.winiarska@intel.com>, linux-kernel@vger.kernel.org,
- Jack Doan <me@jackdoan.com>, Michael Walle <michael@walle.cc>,
- Marius Zachmann <mail@mariuszachmann.de>,
- Ibrahim Tilki <Ibrahim.Tilki@analog.com>, patches@opensource.cirrus.com,
- Pali =?iso-8859-1?Q?Roh=E1r?= <pali@kernel.org>, Xu Yilun <yilun.xu@intel.com>
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-renesas-soc@vger.kernel.org,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Apr 06, 2023 at 10:30:25PM +0200, Krzysztof Kozlowski wrote:
-> Statically allocated array of pointed to hwmon_channel_info can be made
-> const for safety.
-> 
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> ---
+Hi Laurent,
 
-Acked-by: Charles Keepax <ckeepax@opensource.cirrus.com>
+On Wed, Apr 5, 2023 at 6:02=E2=80=AFAM Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+> On Fri, Mar 31, 2023 at 04:48:11PM +0200, Geert Uytterhoeven wrote:
+> > The LCD Controller supported by the drm-shmob driver is not only presen=
+t
+> > on SuperH SH-Mobile SoCs, but also on Renesas ARM SH/R-Mobile SoCs.
+> > Make its option visible, so the user can enable support for it.
+> >
+> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> > ---
+> >  drivers/gpu/drm/shmobile/Kconfig | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/gpu/drm/shmobile/Kconfig b/drivers/gpu/drm/shmobil=
+e/Kconfig
+> > index 4ec5dc74a6b0b880..719d4e7a5cd75aad 100644
+> > --- a/drivers/gpu/drm/shmobile/Kconfig
+> > +++ b/drivers/gpu/drm/shmobile/Kconfig
+> > @@ -2,7 +2,7 @@
+> >  config DRM_SHMOBILE
+> >       tristate "DRM Support for SH Mobile"
+> >       depends on DRM && ARM
+>
+> There shouldn't be anything ARM-dependent, could you drop "&& ARM" while
+> at it ?
 
-Thanks,
-Charles
+Oops, that was added back in 2014, when the driver stopped building on SH.
+The build issue seems to be fixed, so I'll drop the dependency on ARM.
+
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+Thanks!
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
