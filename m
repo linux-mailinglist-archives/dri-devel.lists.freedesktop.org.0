@@ -2,64 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F74D6DCC9B
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Apr 2023 23:06:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C1096DCD41
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Apr 2023 00:06:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2109010E25E;
-	Mon, 10 Apr 2023 21:06:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7A35510E29A;
+	Mon, 10 Apr 2023 22:06:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x631.google.com (mail-pl1-x631.google.com
- [IPv6:2607:f8b0:4864:20::631])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 37EA810E25B;
- Mon, 10 Apr 2023 21:06:24 +0000 (UTC)
-Received: by mail-pl1-x631.google.com with SMTP id p8so5822744plk.9;
- Mon, 10 Apr 2023 14:06:24 -0700 (PDT)
+Received: from mail-qv1-xf34.google.com (mail-qv1-xf34.google.com
+ [IPv6:2607:f8b0:4864:20::f34])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 35ACE10E1E3;
+ Mon, 10 Apr 2023 22:06:09 +0000 (UTC)
+Received: by mail-qv1-xf34.google.com with SMTP id kj14so4254804qvb.12;
+ Mon, 10 Apr 2023 15:06:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1681160783;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=WoMJpN6B4g/LBSey9MdJhme7GrVtOKGM7Nwy9VTZNzg=;
- b=BlcXAsRgjAj5Zu7jvrN45QfBFtRGjkaydvijkD/qrVhkC1Yt9q6sd8dm98PttiR8sm
- QflvYmOB7VE+sOqDGY0XMVxVuRgmNkAjdXdOFtTjpSniEvUyBp7pRYpcTHdUeHclmGK8
- bNXPEUvkNQxR8M/uwkG1tf+nxg/pmPIZ+/yP04zMGApmPhHTIZOFOzLNuhyF/NL6GTnM
- ZWtZ8rUTbBiQo1fngvQ6WDKxEeYtxUVsUbH5Dc7hl9Hgpa2GwaSojtfxzXFIyXh5QFb5
- cTP14VXyq3G/UfBUWdraL0wT9B9mH+90WD5JdKNL6FTJ529Nx+eGWES2juRXXSN5Sunh
- wAxA==
+ d=gmail.com; s=20210112; t=1681164368;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=pjZar/MQ6b8qhGH+7PNrFyUqecvUssrkJbOR7pgMRKc=;
+ b=AKjhpvE8a0FvmQzxH1oSCFwMlFKaSCrVrgg0QM/2yl87UEhKP7TdhrsHaOiQqAglRR
+ tJQKz35Vz27LR72Y8GaYQ8hDq++AkfUTdJdNStkY3CkPdkWoKR2HAtMcUz3DFpRUI5dw
+ lZ+nY+lm3TuDg9cX7+rBZa2823hR2Tc7BVvmiIAyLtCXkWiikUlV/hr3HbJTelbjfb5T
+ 3GfG5rhUCDByztzWW2+UUT7XZSqfje8/JQpcD8U2tbbrJMSut2QFtnCrPZXUFqVLTncR
+ h9q8h4cSKGKp1+4s6yQG9eS7k2Z2yyk2GOmIdFr1q4bdqNjFy/gl8P6l8OnGI+P4Z1OT
+ sB/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1681160783;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=WoMJpN6B4g/LBSey9MdJhme7GrVtOKGM7Nwy9VTZNzg=;
- b=hzLoJDlwZ8jikjii9k7JL+3EOq5LXqqqs1v+vFo8zMVVR13il8QD/02PaJLI/gNKii
- UdFRM+I2nxQcbj6358ow0FuJUWsR2mpZUtn/WKb6c4S18W8banSzrBeEC4r9UYv1jV6+
- 6bsG4Ps4Fjf11wCn3nSVe7XFnBjZPW0zEE6stPsNgN6dkO00wVrO5lGy0O6WQhDNNUKB
- hi941B8BfL4NC6Xa/MTROoy7jdupZy5EgJ+Fe7iIMnu6gZhCjbSpXbXjdTc/dB8LyPTS
- 7Z3soBU8dhzCfHh10mIj8y0dKNs/Al9/26tyu9Wh2sy7BpdLk6bp/bvu2Nt2VG70KaBX
- 6vOg==
-X-Gm-Message-State: AAQBX9edYTYoqCFZBSCKKLEYJOjtFcMYhfIE/cnR7u7ex40cqRUVs+N6
- VSk3JpYW36Yqh/urPEpv0v9/4EWEj40=
-X-Google-Smtp-Source: AKy350auT6h4uHmPGN7puvU25ZQAvvzrs8Ijoo87GihNfVZmS8pmOvwOPMZawn9IN4ZfWVzrBZBXuQ==
-X-Received: by 2002:a05:6a20:21ca:b0:cc:c5db:ea4a with SMTP id
- p10-20020a056a2021ca00b000ccc5dbea4amr8359014pzb.33.1681160783384; 
- Mon, 10 Apr 2023 14:06:23 -0700 (PDT)
-Received: from localhost ([2a00:79e1:abd:4a00:61b:48ed:72ab:435b])
- by smtp.gmail.com with ESMTPSA id
- x13-20020a63f70d000000b005023496e339sm7242152pgh.63.2023.04.10.14.06.22
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 10 Apr 2023 14:06:23 -0700 (PDT)
-From: Rob Clark <robdclark@gmail.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 2/2] drm/msm: Add memory stats to fdinfo
-Date: Mon, 10 Apr 2023 14:06:07 -0700
-Message-Id: <20230410210608.1873968-3-robdclark@gmail.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230410210608.1873968-1-robdclark@gmail.com>
-References: <20230410210608.1873968-1-robdclark@gmail.com>
+ d=1e100.net; s=20210112; t=1681164368;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=pjZar/MQ6b8qhGH+7PNrFyUqecvUssrkJbOR7pgMRKc=;
+ b=wdZ1tgrn8TP2DXlfU5G0TuphQ1MTbFa5khTb7w5uwFM4Umv1xUU+U0VJ+nonyxVa84
+ KmGnje7MB+585a/z1CaEFrqNlEd6i24lgh7MxBJrL+5vSGXYCrLhk6nAIFg++9N9IKDC
+ lUk3s2v83L1av7wmJRoEMuySLvKDZbFS9KJnCH7pggZ7wFGmvxSfWNIUYv6CX06sUcKx
+ ENT5zCuz3GOOa2ON4IakuCWiChELLoepTu61o98CflGuWFwRJoQ7DIgSUK9s049apA23
+ EOLBGaQZDlJpc/rRgRmeHQ/oQ3WBpgKK0qGK8HPL1xt0OISsdA6F76utj7RDuFrv50eD
+ UCXw==
+X-Gm-Message-State: AAQBX9d7veNpH1/XakT2+fMj6yeVXGKioo18FPY/XuwBtyKjQB7/mpSv
+ Qgg4D9HYXThjU/zuZS/8ejYtHPceO4Q0LbY0gug=
+X-Google-Smtp-Source: AKy350ZCO2ODxbxkhuEt1R/ncctGRfvUhnl8jBM9I1A4QEn77gjZc7dDt155ded3USH7Jve042Cl5hhNInj2Nt4O8CU=
+X-Received: by 2002:a05:6214:560b:b0:56f:80e:701b with SMTP id
+ mg11-20020a056214560b00b0056f080e701bmr2493952qvb.2.1681164367933; Mon, 10
+ Apr 2023 15:06:07 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20230405110455.1368428-1-kherbst@redhat.com>
+In-Reply-To: <20230405110455.1368428-1-kherbst@redhat.com>
+From: Ben Skeggs <skeggsb@gmail.com>
+Date: Tue, 11 Apr 2023 08:05:56 +1000
+Message-ID: <CACAvsv6ODb++b3nZMJcv2__rUC7M0K1BDiZqoh9tLhNqtSxKzQ@mail.gmail.com>
+Subject: Re: [PATCH] drm/nouveau/fb: add missing sysmen flush callbacks
+To: Karol Herbst <kherbst@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,89 +65,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, linux-arm-msm@vger.kernel.org,
- Emil Velikov <emil.l.velikov@gmail.com>,
- Christopher Healy <healych@amazon.com>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- freedreno@lists.freedesktop.org, open list <linux-kernel@vger.kernel.org>
+Cc: nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Ben Skeggs <bskeggs@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Rob Clark <robdclark@chromium.org>
+On Wed, 5 Apr 2023 at 21:05, Karol Herbst <kherbst@redhat.com> wrote:
+>
+> Closes: https://gitlab.freedesktop.org/drm/nouveau/-/issues/203
+> Fixes: 5728d064190e1 ("drm/nouveau/fb: handle sysmem flush page from common code")
+> Signed-off-by: Karol Herbst <kherbst@redhat.com>
+Oops, that must've gotten lost in a rebase somehow.
 
-Use the new helper to export stats about memory usage.
+Reviewed-by: Ben Skeggs <bskeggs@redhat.com>
 
-v2: Drop unintended hunk
-
-Signed-off-by: Rob Clark <robdclark@chromium.org>
-Reviewed-by: Emil Velikov <emil.l.velikov@gmail.com>
----
- drivers/gpu/drm/msm/msm_drv.c | 25 ++++++++++++++++++++++++-
- drivers/gpu/drm/msm/msm_gpu.c |  2 --
- 2 files changed, 24 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
-index 9b6f17b1261f..9acc3ebfbc08 100644
---- a/drivers/gpu/drm/msm/msm_drv.c
-+++ b/drivers/gpu/drm/msm/msm_drv.c
-@@ -1043,17 +1043,40 @@ static const struct drm_ioctl_desc msm_ioctls[] = {
- 	DRM_IOCTL_DEF_DRV(MSM_SUBMITQUEUE_QUERY, msm_ioctl_submitqueue_query, DRM_RENDER_ALLOW),
- };
- 
-+enum drm_gem_object_status gem_status(struct drm_gem_object *obj)
-+{
-+	struct msm_gem_object *msm_obj = to_msm_bo(obj);
-+	enum drm_gem_object_status status = 0;
-+
-+	if (!dma_resv_test_signaled(obj->resv, dma_resv_usage_rw(true)))
-+		status |= DRM_GEM_OBJECT_ACTIVE;
-+
-+	if (msm_obj->pages)
-+		status |= DRM_GEM_OBJECT_RESIDENT;
-+
-+	if (msm_obj->madv == MSM_MADV_DONTNEED)
-+		status |= DRM_GEM_OBJECT_PURGEABLE;
-+
-+	return status;
-+}
-+
- static void msm_fop_show_fdinfo(struct seq_file *m, struct file *f)
- {
- 	struct drm_file *file = f->private_data;
- 	struct drm_device *dev = file->minor->dev;
- 	struct msm_drm_private *priv = dev->dev_private;
-+	struct msm_file_private *ctx = file->driver_priv;
- 	struct drm_printer p = drm_seq_file_printer(m);
- 
- 	if (!priv->gpu)
- 		return;
- 
--	msm_gpu_show_fdinfo(priv->gpu, file->driver_priv, &p);
-+	drm_printf(&p, "drm-driver:\t%s\n", dev->driver->name);
-+	drm_printf(&p, "drm-client-id:\t%u\n", ctx->seqno);
-+
-+	msm_gpu_show_fdinfo(priv->gpu, ctx, &p);
-+
-+	drm_print_memory_stats(file, &p, gem_status);
- }
- 
- static const struct file_operations fops = {
-diff --git a/drivers/gpu/drm/msm/msm_gpu.c b/drivers/gpu/drm/msm/msm_gpu.c
-index 26ebda40be4f..c403912d13ab 100644
---- a/drivers/gpu/drm/msm/msm_gpu.c
-+++ b/drivers/gpu/drm/msm/msm_gpu.c
-@@ -151,8 +151,6 @@ int msm_gpu_pm_suspend(struct msm_gpu *gpu)
- void msm_gpu_show_fdinfo(struct msm_gpu *gpu, struct msm_file_private *ctx,
- 			 struct drm_printer *p)
- {
--	drm_printf(p, "drm-driver:\t%s\n", gpu->dev->driver->name);
--	drm_printf(p, "drm-client-id:\t%u\n", ctx->seqno);
- 	drm_printf(p, "drm-engine-gpu:\t%llu ns\n", ctx->elapsed_ns);
- 	drm_printf(p, "drm-cycles-gpu:\t%llu\n", ctx->cycles);
- 	drm_printf(p, "drm-maxfreq-gpu:\t%u Hz\n", gpu->fast_rate);
--- 
-2.39.2
-
+> ---
+>  drivers/gpu/drm/nouveau/nvkm/subdev/fb/gf108.c | 1 +
+>  drivers/gpu/drm/nouveau/nvkm/subdev/fb/gk104.c | 1 +
+>  drivers/gpu/drm/nouveau/nvkm/subdev/fb/gk110.c | 1 +
+>  drivers/gpu/drm/nouveau/nvkm/subdev/fb/gm107.c | 1 +
+>  4 files changed, 4 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/fb/gf108.c b/drivers/gpu/drm/nouveau/nvkm/subdev/fb/gf108.c
+> index 76678dd60f93f..c4c6f67af7ccc 100644
+> --- a/drivers/gpu/drm/nouveau/nvkm/subdev/fb/gf108.c
+> +++ b/drivers/gpu/drm/nouveau/nvkm/subdev/fb/gf108.c
+> @@ -31,6 +31,7 @@ gf108_fb = {
+>         .init = gf100_fb_init,
+>         .init_page = gf100_fb_init_page,
+>         .intr = gf100_fb_intr,
+> +       .sysmem.flush_page_init = gf100_fb_sysmem_flush_page_init,
+>         .ram_new = gf108_ram_new,
+>         .default_bigpage = 17,
+>  };
+> diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/fb/gk104.c b/drivers/gpu/drm/nouveau/nvkm/subdev/fb/gk104.c
+> index f73442ccb424b..433fa966ba231 100644
+> --- a/drivers/gpu/drm/nouveau/nvkm/subdev/fb/gk104.c
+> +++ b/drivers/gpu/drm/nouveau/nvkm/subdev/fb/gk104.c
+> @@ -77,6 +77,7 @@ gk104_fb = {
+>         .init = gf100_fb_init,
+>         .init_page = gf100_fb_init_page,
+>         .intr = gf100_fb_intr,
+> +       .sysmem.flush_page_init = gf100_fb_sysmem_flush_page_init,
+>         .ram_new = gk104_ram_new,
+>         .default_bigpage = 17,
+>         .clkgate_pack = gk104_fb_clkgate_pack,
+> diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/fb/gk110.c b/drivers/gpu/drm/nouveau/nvkm/subdev/fb/gk110.c
+> index 45d6cdffafeed..4dc283dedf8b5 100644
+> --- a/drivers/gpu/drm/nouveau/nvkm/subdev/fb/gk110.c
+> +++ b/drivers/gpu/drm/nouveau/nvkm/subdev/fb/gk110.c
+> @@ -59,6 +59,7 @@ gk110_fb = {
+>         .init = gf100_fb_init,
+>         .init_page = gf100_fb_init_page,
+>         .intr = gf100_fb_intr,
+> +       .sysmem.flush_page_init = gf100_fb_sysmem_flush_page_init,
+>         .ram_new = gk104_ram_new,
+>         .default_bigpage = 17,
+>         .clkgate_pack = gk110_fb_clkgate_pack,
+> diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/fb/gm107.c b/drivers/gpu/drm/nouveau/nvkm/subdev/fb/gm107.c
+> index de52462a92bf0..90bfff616d35b 100644
+> --- a/drivers/gpu/drm/nouveau/nvkm/subdev/fb/gm107.c
+> +++ b/drivers/gpu/drm/nouveau/nvkm/subdev/fb/gm107.c
+> @@ -31,6 +31,7 @@ gm107_fb = {
+>         .init = gf100_fb_init,
+>         .init_page = gf100_fb_init_page,
+>         .intr = gf100_fb_intr,
+> +       .sysmem.flush_page_init = gf100_fb_sysmem_flush_page_init,
+>         .ram_new = gm107_ram_new,
+>         .default_bigpage = 17,
+>  };
+> --
+> 2.39.2
+>
