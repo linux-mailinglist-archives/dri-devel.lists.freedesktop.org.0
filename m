@@ -1,71 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 487FA6DE773
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Apr 2023 00:46:39 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C8EC76DE79E
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Apr 2023 00:57:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F0EEC10E04B;
-	Tue, 11 Apr 2023 22:46:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DC29C10E0FF;
+	Tue, 11 Apr 2023 22:57:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com
- [IPv6:2a00:1450:4864:20::12c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EB14B10E04B
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Apr 2023 22:46:33 +0000 (UTC)
-Received: by mail-lf1-x12c.google.com with SMTP id z26so12229394lfj.11
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Apr 2023 15:46:33 -0700 (PDT)
+Received: from mail-pl1-x629.google.com (mail-pl1-x629.google.com
+ [IPv6:2607:f8b0:4864:20::629])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5F47E10E00C;
+ Tue, 11 Apr 2023 22:57:42 +0000 (UTC)
+Received: by mail-pl1-x629.google.com with SMTP id la3so9234909plb.11;
+ Tue, 11 Apr 2023 15:57:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1681253191; x=1683845191;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=vPQslJNp3mv+NTxxi/+JnTD498FdxuUbK0Kjk/H6R1I=;
- b=ggwD1spgRfSGAzjqndMC7HbihkTAUzlWxIjDzG6NkKFqkHQkYkyO0TpXjZeFfW2O6+
- /gcLGechUXVtX1LUVbb/frBKi02YybN4Df7ZFUB3bm8CBNaLEVj0iW9IxMLHHQo/2nZe
- HjNYu4Rtyc3cqVSm8uqfpHQQJjmw/V+rRvbyEdZk+QL6ZsXIfvu6gENpF5qJ4TVO9gV6
- PYz8/wSz8+mo/869D3krUBOE6YTGwTV//V5vP//UxVEi4hoIEeTpXJAfmZRmaR33Ck4V
- EalwevHbrmXjn77SJsC1nryjBZu7pEVsxvJmedBqS7HuWnl1F7Oy4lIVLEKRtdsBE8sl
- ontA==
+ d=gmail.com; s=20221208; t=1681253861;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=nII3QwEycAnovqWQfjWZu+6YGPxxA4KRFjzFYjJblIQ=;
+ b=ZAC+uXDhUxji26Ze6K9nnsc/qkqNfO/BNR+cWRfv0hEqJWuCAoTGY1LTVUBy4ONBTf
+ d5T8GAeHi8KkynlfafbWzNvIw8wZ0uFodWqaCNwNH0rH6wqDKr5SayKPsyT7ylkMtLcC
+ pZX//qJfNqMpJOx/Ig3MPM377p5o6FHoboEBNshuT+8sJ4dqh9QgsSyozzxjDaXnSTQv
+ YF+g/WDxpn77tLAABR4mVDSCUoE4ya4pOQ7XFK62nfOirsVqbS5WMoPIH30lmx+68HyH
+ YWchXD690VQkVdW5neJpK+KTaD9WQ6vzmlCtQISpk7MCZ4jnFlY4JIi4AKUB6bxeUnAD
+ XuAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1681253191; x=1683845191;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=vPQslJNp3mv+NTxxi/+JnTD498FdxuUbK0Kjk/H6R1I=;
- b=HSx9KezTUXXi8Ija6AOpI8QtagqV1bhXQRyHzj2jz092XToN2s/IhChftz+erVlEbL
- HEXrrjuzGzVF9qzoKC4AlhWfB0lczPthNH1yZVI+aEolF3TXpzgPojjYmwUYH4UVtM2m
- AkoSSaGkMoOydcr3mqpkoj9yTViJ9CkJMNFC9l5PIq8Nbw/Psll0KK2LAizpuhymF0fg
- p447AthvYE6miHcvAZjNbxwnKWyCOj+d3A4D7kEX3tjnUP1Xld1IZ3Gq7OHI6a8J69OY
- 9GLn0YIys5nVPEpV71VPMxFgWzDi+g4x0lRP1dK2OSRwG34dNbhEOUWCTPeT/uWR4EDi
- Unng==
-X-Gm-Message-State: AAQBX9dsHwhlQlMfVR6o9u7emvVOkUPfB9GMf46u1FaFgSR9HWlVZ196
- ueHC4L8p1Hdu8OdJzGTwuZJkQQ==
-X-Google-Smtp-Source: AKy350YRm3WG6Bx8TrGJD8ffdBV7TmvIVsnuGuHf9TJIpAE1QlV3/3ejTxel4C6YgctZz7bRgXjjXw==
-X-Received: by 2002:a19:7014:0:b0:4dd:9b6b:6b5b with SMTP id
- h20-20020a197014000000b004dd9b6b6b5bmr3326272lfc.16.1681253191554; 
- Tue, 11 Apr 2023 15:46:31 -0700 (PDT)
-Received: from ?IPV6:2001:14ba:a085:4d00::8a5?
- (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a085:4d00::8a5])
+ d=1e100.net; s=20210112; t=1681253861;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=nII3QwEycAnovqWQfjWZu+6YGPxxA4KRFjzFYjJblIQ=;
+ b=v4bWjPalvB5VsAEQPwWspZZWziNcHZW1tDc/yKPeQ2aU/oV7RY6h5hQUDD5V6Igvft
+ VY5sXLXLc7xMqoqJsojkqatLUGXqk1+BCCZiEkctbepBWzSSepcXQmL+p+Ut1piYSq/F
+ L2Iynvq5fXzT/zrU72s1ezDl/Y3Mnqu3KzvAnQ7bz6U073maUU6y8M6/AnG9Y6ppHnZT
+ Kc+qwfDkklHcsdempU1RxIMtzZD/q/trQg8SfGhdWPjadA6Cppc0qHzHmYOvBZnR8Ifx
+ MjJOysS8HQJzCcE83Rl6PtaEtVjyeCOGRMmzMlUWncaAuTK8zIffcYpGvpB1LE0twRas
+ Q0jQ==
+X-Gm-Message-State: AAQBX9cu1qnze7pgOTngDLaDBmNQoY//9Fei1VO5Gq+3r5oqYMVoA4sF
+ UqzqGNjH0buDs1w453HXU3zsBtkFf+M=
+X-Google-Smtp-Source: AKy350b3kN3Vv7Rn1Xudjo2ScWIpD4ohPF62kNG35kDDgi5zG4c7QyA4AJOOZxCvGcg2yWirfkC2pA==
+X-Received: by 2002:a05:6a20:1b11:b0:db:4fae:ad15 with SMTP id
+ ch17-20020a056a201b1100b000db4faead15mr15979423pzb.42.1681253861084; 
+ Tue, 11 Apr 2023 15:57:41 -0700 (PDT)
+Received: from localhost ([2a00:79e1:abd:4a00:61b:48ed:72ab:435b])
  by smtp.gmail.com with ESMTPSA id
- b7-20020ac24107000000b004e9b307d2c8sm2707629lfi.238.2023.04.11.15.46.30
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 11 Apr 2023 15:46:31 -0700 (PDT)
-Message-ID: <e6407312-c2fb-e77e-0c9e-abc2a014464a@linaro.org>
-Date: Wed, 12 Apr 2023 01:46:30 +0300
+ n4-20020aa78a44000000b006338e0a9728sm6657912pfa.109.2023.04.11.15.57.40
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 11 Apr 2023 15:57:40 -0700 (PDT)
+From: Rob Clark <robdclark@gmail.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH v3 0/7] drm: fdinfo memory stats
+Date: Tue, 11 Apr 2023 15:56:05 -0700
+Message-Id: <20230411225725.2032862-1-robdclark@gmail.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH] MAINTAINERS: Add Marijn Suijten as drm/msm reviewer
-Content-Language: en-GB
-To: Marijn Suijten <marijn.suijten@somainline.org>,
- phone-devel@vger.kernel.org, linux-kernel@vger.kernel.org,
- Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>
-References: <20230411224308.440550-1-marijn.suijten@somainline.org>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <20230411224308.440550-1-marijn.suijten@somainline.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,47 +69,69 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Konrad Dybcio <konrad.dybcio@linaro.org>, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>,
- dri-devel@lists.freedesktop.org
+Cc: "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+ open list <linux-kernel@vger.kernel.org>,
+ =?UTF-8?q?Michel=20D=C3=A4nzer?= <mdaenzer@redhat.com>,
+ YiPeng Chai <YiPeng.Chai@amd.com>,
+ Mario Limonciello <mario.limonciello@amd.com>,
+ Rob Clark <robdclark@chromium.org>, Guchun Chen <guchun.chen@amd.com>,
+ Shashank Sharma <shashank.sharma@amd.com>,
+ "open list:RADEON and AMDGPU DRM DRIVERS" <amd-gfx@lists.freedesktop.org>,
+ Russell King <linux+etnaviv@armlinux.org.uk>,
+ Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>,
+ linux-arm-msm@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+ "moderated list:DRM DRIVERS FOR VIVANTE GPU IP"
+ <etnaviv@lists.freedesktop.org>, Evan Quan <evan.quan@amd.com>,
+ Sean Paul <sean@poorly.run>, Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
+ Emil Velikov <emil.l.velikov@gmail.com>,
+ Christopher Healy <healych@amazon.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Alex Deucher <alexander.deucher@amd.com>, freedreno@lists.freedesktop.org,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Hawking Zhang <Hawking.Zhang@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 12/04/2023 01:43, Marijn Suijten wrote:
-> As I get more and more active in the drm/msm space, yet sometimes miss
-> out on patches (where I was involved in previous discussions), add
-> myself as reviewer to make this involvement clear.
-> 
-> Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
-> ---
-> 
-> Note that this is only a slight commitment from my part to look at
-> patches arriving in this area, most notably on the DPU1 driver and only
-> if day-to-day workload allows for it.
+From: Rob Clark <robdclark@chromium.org>
 
-I think Marijn does a good job of reviewing incoming patches in the 
-mentioned area.
+Similar motivation to other similar recent attempt[1].  But with an
+attempt to have some shared code for this.  As well as documentation.
 
-Acked-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+It is probably a bit UMA-centric, I guess devices with VRAM might want
+some placement stats as well.  But this seems like a reasonable start.
 
-> 
->   MAINTAINERS | 1 +
->   1 file changed, 1 insertion(+)
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 04d7c816d46a..fd1b717c57d8 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -6536,6 +6536,7 @@ M:	Rob Clark <robdclark@gmail.com>
->   M:	Abhinav Kumar <quic_abhinavk@quicinc.com>
->   M:	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
->   R:	Sean Paul <sean@poorly.run>
-> +R:	Marijn Suijten <marijn.suijten@somainline.org>
->   L:	linux-arm-msm@vger.kernel.org
->   L:	dri-devel@lists.freedesktop.org
->   L:	freedreno@lists.freedesktop.org
+Basic gputop support: https://patchwork.freedesktop.org/series/116236/
+And already nvtop support: https://github.com/Syllo/nvtop/pull/204
+
+[1] https://patchwork.freedesktop.org/series/112397/
+
+Rob Clark (7):
+  drm: Add common fdinfo helper
+  drm/msm: Switch to fdinfo helper
+  drm/amdgpu: Switch to fdinfo helper
+  drm/i915: Switch to fdinfo helper
+  drm/etnaviv: Switch to fdinfo helper
+  drm: Add fdinfo memory stats
+  drm/msm: Add memory stats to fdinfo
+
+ Documentation/gpu/drm-usage-stats.rst      |  21 ++++
+ drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c    |   3 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_fdinfo.c |  16 ++-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_fdinfo.h |   2 +-
+ drivers/gpu/drm/drm_file.c                 | 115 +++++++++++++++++++++
+ drivers/gpu/drm/etnaviv/etnaviv_drv.c      |  10 +-
+ drivers/gpu/drm/i915/i915_driver.c         |   3 +-
+ drivers/gpu/drm/i915/i915_drm_client.c     |  18 +---
+ drivers/gpu/drm/i915/i915_drm_client.h     |   2 +-
+ drivers/gpu/drm/msm/msm_drv.c              |  11 +-
+ drivers/gpu/drm/msm/msm_gem.c              |  15 +++
+ drivers/gpu/drm/msm/msm_gpu.c              |   2 -
+ include/drm/drm_drv.h                      |   7 ++
+ include/drm/drm_file.h                     |   5 +
+ include/drm/drm_gem.h                      |  19 ++++
+ 15 files changed, 208 insertions(+), 41 deletions(-)
 
 -- 
-With best wishes
-Dmitry
+2.39.2
 
