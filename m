@@ -1,73 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D8C36DDD29
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Apr 2023 16:03:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DEEC96DDD3E
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Apr 2023 16:05:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 525BA10E327;
-	Tue, 11 Apr 2023 14:03:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0323510E391;
+	Tue, 11 Apr 2023 14:05:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8686310E327
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Apr 2023 14:03:37 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BFD0510E391
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Apr 2023 14:05:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1681221816;
+ s=mimecast20190719; t=1681221949;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=CIGXauWS2Wr91Jq5IW+UgW4CSynzPp3COFUoOkdMkhA=;
- b=FzydlkumLHMVM9OsUFfK4os7M9gci/UOqBNKCFWI/oBe4fAJ70u6zmwCz+hDctx+Yj33jy
- gwmozQIwKYzbvaaYquyViJplWxuEuwnOxpk+x1hgdheohiGJxfjiv2FmQaiiVUa2K52TTT
- CzAFcqTk+mRIM5JF9c+k8FXArWLdRNQ=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=7Ptm4DEXFusgjoGKLkYnDTCXvT/rOJ3Pu6Hnf86R9zo=;
+ b=PyX6VJwvQm1z457Pv5ErwuO/BLosH3ii7rcpe2qB9Pz0TcNWns1TFpT/nDKMKGkLtaD5J5
+ 62aRvJPw/bshLHZSyWHaOfw21Qu7DTFi+Ch1X/2BX4szkaAQxpg6XjN2c9mnjCetKqv0aO
+ EjfKeGZcX1AkZ0iYsMY7vU5KEPjVT0Y=
+Received: from mail-lf1-f69.google.com (mail-lf1-f69.google.com
+ [209.85.167.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-524-MUVXAd_VNwaGV2TUXaKSVg-1; Tue, 11 Apr 2023 10:03:29 -0400
-X-MC-Unique: MUVXAd_VNwaGV2TUXaKSVg-1
-Received: by mail-wm1-f71.google.com with SMTP id
- l18-20020a05600c1d1200b003ef7b61e2fdso15918422wms.4
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Apr 2023 07:03:29 -0700 (PDT)
+ us-mta-644-HV52FOKuPkmug-AY5CQbCg-1; Tue, 11 Apr 2023 10:05:48 -0400
+X-MC-Unique: HV52FOKuPkmug-AY5CQbCg-1
+Received: by mail-lf1-f69.google.com with SMTP id
+ q17-20020a05651232b100b004e99d8785f0so3265382lfe.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Apr 2023 07:05:47 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1681221808;
- h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=CIGXauWS2Wr91Jq5IW+UgW4CSynzPp3COFUoOkdMkhA=;
- b=oIWKbvz+WgH1rkyyZgUZw42O5qubQN4iOfJq/DiBs0rjFIJMOSA9O2INR3T0Jznxyy
- IS5s+CNDDme4+/m3eLHabV8XoBP0eeBB7muuKZw7Te6/h1uHy/I2weQFGJdiR/Pxl5YZ
- oIMaJpt2SzE7dj8+9h58WousR2rcukBgvEUeU5XB5R2EgJg60cM72kDhk0IRy1d6Fep7
- afi/kFSUuAdsl29+WC0+vfRm1rMfSl09+WRU8eDvYGf6rVfCYDwEwTKQ9uSobUr+SpM6
- 3gW73lhHQZ2o2kMkyLmxOg1IDZJxBJ7F7HuSHyK7ypTPUVVMZkEA2R/j3DSVyqQ+SkkS
- HmmQ==
-X-Gm-Message-State: AAQBX9d0Adj8A2xwqaZ6yCa3nwmiSncdpGkURw1jAZ+sypFQ6JIf7NJN
- AqqHy+JL9nnChuhcuoSIvMM/1wDM+3vHvOIXIw6z0nvjVVu7cmTCz3kWA+lb7z81Ex+QfLhiWA+
- lQi/o8f6VsVV/bMzmej8agDDbhIfs
-X-Received: by 2002:a05:600c:246:b0:3ef:62c6:9930 with SMTP id
- 6-20020a05600c024600b003ef62c69930mr2272902wmj.3.1681221808152; 
- Tue, 11 Apr 2023 07:03:28 -0700 (PDT)
-X-Google-Smtp-Source: AKy350aKiEZG2/eTE3qgJobPobJFBtpp/GDgmMcutPCUe6o6pFTDe6EfUfpz+ooaKEyqriEN7AUpYw==
-X-Received: by 2002:a05:600c:246:b0:3ef:62c6:9930 with SMTP id
- 6-20020a05600c024600b003ef62c69930mr2272867wmj.3.1681221807826; 
- Tue, 11 Apr 2023 07:03:27 -0700 (PDT)
-Received: from localhost (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- j23-20020a05600c1c1700b003ee443bf0c7sm20919284wms.16.2023.04.11.07.03.26
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 11 Apr 2023 07:03:27 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>, Intel Graphics Development
- <intel-gfx@lists.freedesktop.org>
-Subject: Re: [PATCH] fbmem: Reject FB_ACTIVATE_KD_TEXT from userspace
-In-Reply-To: <20230404193934.472457-1-daniel.vetter@ffwll.ch>
-References: <20230404193934.472457-1-daniel.vetter@ffwll.ch>
-Date: Tue, 11 Apr 2023 16:03:24 +0200
-Message-ID: <874jpmtt1v.fsf@minerva.mail-host-address-is-not-set>
+ d=1e100.net; s=20210112; t=1681221946;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=7Ptm4DEXFusgjoGKLkYnDTCXvT/rOJ3Pu6Hnf86R9zo=;
+ b=Aoq95dBnxTNCdatLvGFrmMH7pWKNv43y7brS9DwtTB5EHUlokD79cBTJcTLWcAKQBN
+ KAh+jBkMSUp0ha9NslwDG33F/yKqv7grCzovlhXE9A2aAegZ1XNpyifG0RlxBGDSI2Rv
+ eVJJtlaIo4P3cd9LOHEx/tOZpkEuDHehBliu3bBHjGY/Xngo4IsQf37F2Jn3lmBI1VOU
+ pLaYB5OKp7mPKLl4sWz/jHrqytS22jvhzBUXcBx1r41XT/4jDvZh9LFU6mCdH43xsipr
+ oYGW3Y/f7xIm+6H/WDYC1CIwJkfFwfZJPAspYFBB4dSm1ChNZAKF9CW9sID1ake7q9aR
+ hH/g==
+X-Gm-Message-State: AAQBX9cfgmC0rT4W5orp37tPmpNBh4H3nUv8bz/XruojO9Mvk3zgdej3
+ 6cb9tjafgYZQnWKDzepL+KUAhFDo8iEzjnLxkY1uIU1zGIh7CuK51O/VdC4ZgvDAxTad7PF8S9i
+ BgWvQ0SCVWZHTBVVV6/HSAno5rXhGd4AFkJ9tfeseqBAA
+X-Received: by 2002:ac2:5549:0:b0:4ec:8087:b346 with SMTP id
+ l9-20020ac25549000000b004ec8087b346mr3055932lfk.11.1681221946754; 
+ Tue, 11 Apr 2023 07:05:46 -0700 (PDT)
+X-Google-Smtp-Source: AKy350ZHNUuRwFptiOr8WxUy16ysnLhlRlVskTDI96rBiwONMf4bIomWxULQGE6LPuV3y9HwCEdj7RLbrvl/9EFHYWk=
+X-Received: by 2002:ac2:5549:0:b0:4ec:8087:b346 with SMTP id
+ l9-20020ac25549000000b004ec8087b346mr3055928lfk.11.1681221946462; Tue, 11 Apr
+ 2023 07:05:46 -0700 (PDT)
 MIME-Version: 1.0
+References: <20221229155249.669436-1-ben-linux@fluff.org>
+In-Reply-To: <20221229155249.669436-1-ben-linux@fluff.org>
+From: Karol Herbst <kherbst@redhat.com>
+Date: Tue, 11 Apr 2023 16:05:35 +0200
+Message-ID: <CACO55tujarFtbLjTKGcbpuYHp-8jAdLSSrXcwRawPOtcXAKQRA@mail.gmail.com>
+Subject: Re: [PATCH] drm/nouveau/mc/ga100: make ga100_mc_device static
+To: Ben Dooks <ben-linux@fluff.org>
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,64 +77,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Shigeru Yoshida <syoshida@redhat.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, dri-devel@lists.freedesktop.org,
- Daniel Vetter <daniel.vetter@intel.com>, Sam Ravnborg <sam@ravnborg.org>,
- Helge Deller <deller@gmx.de>,
- Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
- Geert Uytterhoeven <geert@linux-m68k.org>,
- Samuel Thibault <samuel.thibault@ens-lyon.org>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- Michel =?utf-8?Q?D=C3=A4nzer?= <michel@daenzer.net>, shlomo@fastmail.com,
- Nathan Chancellor <natechancellor@gmail.com>, stable@vger.kernel.org,
- Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Alex Deucher <alexander.deucher@amd.com>, Peter Rosin <peda@axentia.se>,
- Qiujun Huang <hqjagain@gmail.com>
+Cc: nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ bskeggs@redhat.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Daniel Vetter <daniel.vetter@ffwll.ch> writes:
+Reviewed-by: Karol Herbst <kherbst@redhat.com>
 
-> This is an oversight from dc5bdb68b5b3 ("drm/fb-helper: Fix vt
-> restore") - I failed to realize that nasty userspace could set this.
+On Thu, Dec 29, 2022 at 4:52=E2=80=AFPM Ben Dooks <ben-linux@fluff.org> wro=
+te:
 >
-> It's not pretty to mix up kernel-internal and userspace uapi flags
-> like this, but since the entire fb_var_screeninfo structure is uapi
-> we'd need to either add a new parameter to the ->fb_set_par callback
-> and fb_set_par() function, which has a _lot_ of users. Or some other
-> fairly ugly side-channel int fb_info. Neither is a pretty prospect.
+> Make ga100_mc_device static as it isn't exported, to
+> fix the following sparse warning:
 >
-> Instead just correct the issue at hand by filtering out this
-> kernel-internal flag in the ioctl handling code.
+> drivers/gpu/drm/nouveau/nvkm/subdev/mc/ga100.c:51:1: warning: symbol 'ga1=
+00_mc_device' was not declared. Should it be static?
 >
-> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> Fixes: dc5bdb68b5b3 ("drm/fb-helper: Fix vt restore")
-
-[..]
-
-> diff --git a/drivers/video/fbdev/core/fbmem.c b/drivers/video/fbdev/core/fbmem.c
-> index 875541ff185b..3fd95a79e4c3 100644
-> --- a/drivers/video/fbdev/core/fbmem.c
-> +++ b/drivers/video/fbdev/core/fbmem.c
-> @@ -1116,6 +1116,8 @@ static long do_fb_ioctl(struct fb_info *info, unsigned int cmd,
->  	case FBIOPUT_VSCREENINFO:
->  		if (copy_from_user(&var, argp, sizeof(var)))
->  			return -EFAULT;
-> +		/* only for kernel-internal use */
-> +		var.activate &= ~FB_ACTIVATE_KD_TEXT;
->  		console_lock();
-
-I don't have a better idea on how to fix this and as you said the whole
-struct fb_var_screeninfo is an uAPI anyways...
-
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
-
--- 
-Best regards,
-
-Javier Martinez Canillas
-Core Platforms
-Red Hat
+> Signed-off-by: Ben Dooks <ben-linux@fluff.org>
+> ---
+>  drivers/gpu/drm/nouveau/nvkm/subdev/mc/ga100.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/mc/ga100.c b/drivers/gpu=
+/drm/nouveau/nvkm/subdev/mc/ga100.c
+> index 1e2eabec1a76..5d28d30d09d5 100644
+> --- a/drivers/gpu/drm/nouveau/nvkm/subdev/mc/ga100.c
+> +++ b/drivers/gpu/drm/nouveau/nvkm/subdev/mc/ga100.c
+> @@ -47,7 +47,7 @@ ga100_mc_device_enabled(struct nvkm_mc *mc, u32 mask)
+>         return (nvkm_rd32(mc->subdev.device, 0x000600) & mask) =3D=3D mas=
+k;
+>  }
+>
+> -const struct nvkm_mc_device_func
+> +static const struct nvkm_mc_device_func
+>  ga100_mc_device =3D {
+>         .enabled =3D ga100_mc_device_enabled,
+>         .enable =3D ga100_mc_device_enable,
+> --
+> 2.39.0
+>
 
