@@ -1,64 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB9116DDDB4
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Apr 2023 16:25:36 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9726C6DDDFF
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Apr 2023 16:32:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 094BC10E344;
-	Tue, 11 Apr 2023 14:25:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DA61010E249;
+	Tue, 11 Apr 2023 14:32:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com
- [IPv6:2a00:1450:4864:20::333])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6B91410E33D
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Apr 2023 14:25:28 +0000 (UTC)
-Received: by mail-wm1-x333.google.com with SMTP id
- 5b1f17b1804b1-3f0769b0699so247085e9.1
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Apr 2023 07:25:28 -0700 (PDT)
+Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com
+ [IPv6:2607:f8b0:4864:20::632])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 93B8510E249;
+ Tue, 11 Apr 2023 14:32:05 +0000 (UTC)
+Received: by mail-pl1-x632.google.com with SMTP id e13so7704128plc.12;
+ Tue, 11 Apr 2023 07:32:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1681223127;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=nPl52zwZFqxFoLbQW3KmJiSTSJqHgYxpwyxrA8GGUVI=;
- b=aou7CDIrnNiNpRZ9vrXCkgg9JQSL8DyPPKGiBu7gOtvSFEu3i1aIK7uo7jYY9nu5PL
- QViPwUe67gMScvFwVG6h0pAT1DdDtr4aiabj0CRfwzxcoNGWEfqyeYQUWcFMZOpdvnT1
- 2/EqP3ka6kgSyVhAt0WKyAEB41yaTZN+aerf4=
+ d=gmail.com; s=20210112; t=1681223525; x=1683815525;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=PXgLo5OVfNAMT7/smDiYjz0MFkV0iyCkx0eeELk7SYQ=;
+ b=nWRgNU6YMWDga7MwAbjU/V74AQGnljhjJKMzMvS5+zZe+eZkOWLvU0j0Kj2gkVbslF
+ JbJNdl6F3f4bhb7ulZcZ7RWGJMGc8jaBuEiPKZvhTbERDDQAp3gygl20Xuy9NntBgtab
+ CTzVb4XHhPYunKKJ6RDg+blRZY8agaSnfX9ZNLnVpbCyzzdGxi2aL3k3yrAoqxlxiWQF
+ +jm5uA5h3wLbKPyN0iM7oh0R/yPlC+O5PptXtwm5fvPK65cpjo0c8NMoTu7+CJWQtW0I
+ HDa4eqjUl6+tHKrogQqOms+cjKPdTF3c6dVBeFc/8iyo1ZJpDUegBw8XdYm3Aw+S3Lb+
+ hV8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1681223127;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=nPl52zwZFqxFoLbQW3KmJiSTSJqHgYxpwyxrA8GGUVI=;
- b=boYJ13i+gB3QtbqZrHjZ48Zfqr8ftHvBGQfU/M6L8KkbHPi1ohMe1+JRJSih39eGR6
- AWJuggLYicLp8PGvBFCrkEdWaWhCQPeruUYD0fTFYI6ZDvbm/g2UAr6SBR57PjnbaDPo
- tKNbV8cVTZLp3EUh8ndyvYemFUTHfzex2be+W1myxZjgnrpE7VOvCqcPw6/XQkE0Hpr9
- LpU3ZjtzXA/0Fpyy863ibRyl7h+uSiMu1zgGOxFz8ar/zn6+YXUQuUS24CMK3J0SuAvE
- JfP9K6M+sz3r3GKzM+DziR5ecHPOQVXW2uCSSkmvdHt2kA8WyhvIot5gKmC0thSPDw21
- xzrQ==
-X-Gm-Message-State: AAQBX9d3inNsHdRH1nwG134xRkpPiVv8aE/WTZHKlUq98Z53C1bQ01Oq
- KplIxJOFpoS5b32p4wblgRl01A==
-X-Google-Smtp-Source: AKy350bVqa3FiK6rDx8e6zZqGaQGSFUXTkbWlEiv8uT/S5y7XR09QNJJqNpC+LA2Z2yQSacn3USH9w==
-X-Received: by 2002:a05:600c:4709:b0:3f0:84b7:22cf with SMTP id
- v9-20020a05600c470900b003f084b722cfmr6036840wmo.2.1681223126745; 
- Tue, 11 Apr 2023 07:25:26 -0700 (PDT)
-Received: from phenom.ffwll.local (212-51-149-33.fiber7.init7.net.
- [212.51.149.33]) by smtp.gmail.com with ESMTPSA id
- g6-20020a05600c4ec600b003edc4788fa0sm21560834wmq.2.2023.04.11.07.25.25
+ d=1e100.net; s=20210112; t=1681223525; x=1683815525;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=PXgLo5OVfNAMT7/smDiYjz0MFkV0iyCkx0eeELk7SYQ=;
+ b=jCLHwJ9jhmoxhJB54KasMK6EFbtYfa4O0gAKd1MnsVc0sq8PIDipvfFu29v3D80/BZ
+ epyni8/BowusnYUCeyPZJHcxF0z5KWyiSXpeQCmjp/kRzoKS8eP5yPSJ71PMqIWs9p6l
+ 4OpRl0S3I5M9UCIfk6M/smmrBfWHzQJWPtzzw4MzQjt93945yjf2veEl0tRlXMLvubqo
+ TGCa5dN10bnHAad1eVlg+GgkXXfU7BI4Jxfj/Hqnps571LuQWigIxh8C/oFB7C7jpIrF
+ 1U6vcjXkT2J6faxA8VGvK4b5fmM6/lJXQS3IslfNgjRWWXYS6kzVa1TXu7jwpiOQdsrl
+ FRcQ==
+X-Gm-Message-State: AAQBX9fQDiCiC9p9esIhHQZ1YJS9KEnyyj6kgE4TVdl55tWPkWUORT3b
+ zYEEpxR2meVhgchtiTAqRPY=
+X-Google-Smtp-Source: AKy350ZvBkJkHrK+EOEBnmvu2iSV8npZ2azOJz2Iz/9s7a8goU5uQtXMWfijuKHhwAIu8hkJ7Kn6KA==
+X-Received: by 2002:a17:902:ecca:b0:1a1:ab85:1e1e with SMTP id
+ a10-20020a170902ecca00b001a1ab851e1emr15137887plh.22.1681223524440; 
+ Tue, 11 Apr 2023 07:32:04 -0700 (PDT)
+Received: from localhost.localdomain (n220246252240.netvigator.com.
+ [220.246.252.240]) by smtp.gmail.com with ESMTPSA id
+ jk1-20020a170903330100b0019ea9e5815bsm9829721plb.45.2023.04.11.07.31.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 11 Apr 2023 07:25:26 -0700 (PDT)
-Date: Tue, 11 Apr 2023 16:25:24 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Javier Martinez Canillas <javierm@redhat.com>
-Subject: Re: [PATCH] fbmem: Reject FB_ACTIVATE_KD_TEXT from userspace
-Message-ID: <ZDVt1Koi39w7aQE8@phenom.ffwll.local>
-References: <20230404193934.472457-1-daniel.vetter@ffwll.ch>
- <874jpmtt1v.fsf@minerva.mail-host-address-is-not-set>
+ Tue, 11 Apr 2023 07:32:04 -0700 (PDT)
+From: Jianhua Lu <lujianhua000@gmail.com>
+To: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Sean Paul <sean@poorly.run>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Krishna Manikandan <quic_mkrishn@quicinc.com>
+Subject: [PATCH] dt-bindings: display/msm: dsi-controller-main: Document qcom,
+ master-dsi and qcom, sync-dual-dsi
+Date: Tue, 11 Apr 2023 22:31:49 +0800
+Message-Id: <20230411143149.16742-1-lujianhua000@gmail.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <874jpmtt1v.fsf@minerva.mail-host-address-is-not-set>
-X-Operating-System: Linux phenom 6.1.0-7-amd64 
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,74 +75,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Shigeru Yoshida <syoshida@redhat.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, dri-devel@lists.freedesktop.org,
- Daniel Vetter <daniel.vetter@intel.com>, Sam Ravnborg <sam@ravnborg.org>,
- Helge Deller <deller@gmx.de>,
- Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
- Geert Uytterhoeven <geert@linux-m68k.org>,
- Samuel Thibault <samuel.thibault@ens-lyon.org>,
- Michel =?iso-8859-1?Q?D=E4nzer?= <michel@daenzer.net>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- shlomo@fastmail.com, Nathan Chancellor <natechancellor@gmail.com>,
- stable@vger.kernel.org, Noralf =?iso-8859-1?Q?Tr=F8nnes?= <noralf@tronnes.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Alex Deucher <alexander.deucher@amd.com>, Peter Rosin <peda@axentia.se>,
- Qiujun Huang <hqjagain@gmail.com>
+Cc: devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Jianhua Lu <lujianhua000@gmail.com>, ~postmarketos/upstreaming@lists.sr.ht,
+ phone-devel@vger.kernel.org, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Apr 11, 2023 at 04:03:24PM +0200, Javier Martinez Canillas wrote:
-> Daniel Vetter <daniel.vetter@ffwll.ch> writes:
-> 
-> > This is an oversight from dc5bdb68b5b3 ("drm/fb-helper: Fix vt
-> > restore") - I failed to realize that nasty userspace could set this.
-> >
-> > It's not pretty to mix up kernel-internal and userspace uapi flags
-> > like this, but since the entire fb_var_screeninfo structure is uapi
-> > we'd need to either add a new parameter to the ->fb_set_par callback
-> > and fb_set_par() function, which has a _lot_ of users. Or some other
-> > fairly ugly side-channel int fb_info. Neither is a pretty prospect.
-> >
-> > Instead just correct the issue at hand by filtering out this
-> > kernel-internal flag in the ioctl handling code.
-> >
-> > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> > Fixes: dc5bdb68b5b3 ("drm/fb-helper: Fix vt restore")
-> 
-> [..]
-> 
-> > diff --git a/drivers/video/fbdev/core/fbmem.c b/drivers/video/fbdev/core/fbmem.c
-> > index 875541ff185b..3fd95a79e4c3 100644
-> > --- a/drivers/video/fbdev/core/fbmem.c
-> > +++ b/drivers/video/fbdev/core/fbmem.c
-> > @@ -1116,6 +1116,8 @@ static long do_fb_ioctl(struct fb_info *info, unsigned int cmd,
-> >  	case FBIOPUT_VSCREENINFO:
-> >  		if (copy_from_user(&var, argp, sizeof(var)))
-> >  			return -EFAULT;
-> > +		/* only for kernel-internal use */
-> > +		var.activate &= ~FB_ACTIVATE_KD_TEXT;
-> >  		console_lock();
-> 
-> I don't have a better idea on how to fix this and as you said the whole
-> struct fb_var_screeninfo is an uAPI anyways...
-> 
-> Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+This fixes warning:
+  sm8250-xiaomi-elish-csot.dtb: dsi@ae94000: Unevaluated properties are not allowed ('qcom,master-dsi', 'qcom,sync-dual-dsi' were unexpected)
 
-Thanks for taking a look, merged to drm-misc-fixes.
+Signed-off-by: Jianhua Lu <lujianhua000@gmail.com>
+---
+ .../bindings/display/msm/dsi-controller-main.yaml    | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
-> 
-> -- 
-> Best regards,
-> 
-> Javier Martinez Canillas
-> Core Platforms
-> Red Hat
-> 
-
+diff --git a/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml b/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml
+index e6c1ebfe8a32..940a506a289d 100644
+--- a/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml
++++ b/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml
+@@ -82,6 +82,18 @@ properties:
+       Indicates if the DSI controller is driving a panel which needs
+       2 DSI links.
+ 
++  qcom,master-dsi:
++    type: boolean
++    description: |
++      Indicates if the DSI controller is the master DSI controller when
++      qcom,dual-dsi-mode enabled.
++
++  qcom,sync-dual-dsi:
++    type: boolean
++    description: |
++      Indicates if the DSI controller need to sync the other DSI controller
++      with MIPI DCS commands when qcom,dual-dsi-mode enabled.
++
+   assigned-clocks:
+     minItems: 2
+     maxItems: 4
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+2.39.2
+
