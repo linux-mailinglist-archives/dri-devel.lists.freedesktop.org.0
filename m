@@ -2,86 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E79F6DE396
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Apr 2023 20:14:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D09A86DE3CA
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Apr 2023 20:21:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 608A410E5F8;
-	Tue, 11 Apr 2023 18:13:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 591C610E239;
+	Tue, 11 Apr 2023 18:21:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3473C10E5F8
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Apr 2023 18:13:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1681236835;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=RerCY0HGkQYWMAGOybHYjUb4SPrEcjg1XoaZcfXg++g=;
- b=WByFDvgkYjWHCMfYelL4q0fZIeRInpoJaCPPXRPrsjUAocNh0ZoxQsqbXOoGdnVEowZT9q
- UG2Clg9D1IeXoQrf0+ZhQeELgF75GE6FZiDOYTA4CKuU4V34tCQ5EiD6ET7fz+8Fd85v72
- AQuNAA+NAqaKQYaHHl+HWXsEfamHj6g=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-586-sVw2ExHGMpC13P5iqK-iMQ-1; Tue, 11 Apr 2023 14:13:54 -0400
-X-MC-Unique: sVw2ExHGMpC13P5iqK-iMQ-1
-Received: by mail-ej1-f72.google.com with SMTP id
- c25-20020a17090603d900b0094a5a6c90c5so2697861eja.3
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Apr 2023 11:13:54 -0700 (PDT)
+Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com
+ [IPv6:2a00:1450:4864:20::436])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B7EEE10E239
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Apr 2023 18:21:28 +0000 (UTC)
+Received: by mail-wr1-x436.google.com with SMTP id
+ ffacd0b85a97d-2ef1e98d6bfso437571f8f.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Apr 2023 11:21:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ffwll.ch; s=google; t=1681237285; x=1683829285;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:mail-followup-to:message-id:subject:cc:to
+ :from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=PkwB6wdOwbBLoG6Y0240YbS2lyf1pUe4TVGYxzb7N+4=;
+ b=GVT2ANAkS8lnAikzVcILMBYYhL0xMigcWLHHOlnO+0O0xq9h+l5JyaH32ntwZwUhdl
+ p478VjpaNBCglRLds0tjMMjkLi5VnlluKPqtKDv2DnD/PgdnzuejUigQbQRQlUlHaMEv
+ tdJsw8oHEHtHhx2/GL0xF8iiGTTVUngY4T9xM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1681236833;
- h=content-transfer-encoding:in-reply-to:organization:from
- :content-language:references:cc:to:subject:user-agent:mime-version
- :date:message-id:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=RerCY0HGkQYWMAGOybHYjUb4SPrEcjg1XoaZcfXg++g=;
- b=ifUIpevKUQTwOy8yBuzvmpP7Z0dmnLYTEhXhXHAUeMiuBQH7HVdkVVsjYhVqGkQcID
- 1vz+fUbs8ymxHAMNTck+n491aEzsKQIOQdpkKO4BeIm2t8zu38e3yKQ+RTaMhoT22Ux7
- NJ1i0/Hlcnw5Pf0QcXGuN3/wz6tvi+v9HyjItsrcquyvydzRTtyRHBjX0GvL7DgaBdXz
- 8w55kqsbR2a4pKP6wy7dPUbCmW6tkdGtXHe5iVAjkc4o5m0EX2yOV3psvTKm/mxymnr8
- KlsriM8xt32tWj0nUQB0lSocIC7sBIt6g5MKl0QvWZstLG0MuK631MAEb0nGgYbOO9yF
- fcGQ==
-X-Gm-Message-State: AAQBX9fQZMbPNpLh7SnKFvMzDC/lErl2StqFTKtDWg/DAdx1ZXk+XftS
- V8Gr9zg8wZiolCRW6jsE+ejqJmN8/xjmHgAbEUTGjUs6yRw8YLtDWBUvA02zWiJhcr6paazAkWK
- a5u5gS4K+FaAVc0TYt3F5PJ7SMJRr
-X-Received: by 2002:a17:906:b2c8:b0:92f:f655:cc78 with SMTP id
- cf8-20020a170906b2c800b0092ff655cc78mr3605089ejb.53.1681236833082; 
- Tue, 11 Apr 2023 11:13:53 -0700 (PDT)
-X-Google-Smtp-Source: AKy350bdO2gyZ3joFZbc+2ky2KNki/3ikt5tL+a0aCOQ5MzjlIgiZGpN0xDyLgfYz1JG/c8F5CKPcA==
-X-Received: by 2002:a17:906:b2c8:b0:92f:f655:cc78 with SMTP id
- cf8-20020a170906b2c800b0092ff655cc78mr3605065ejb.53.1681236832744; 
- Tue, 11 Apr 2023 11:13:52 -0700 (PDT)
-Received: from ?IPV6:2a02:810d:4b3f:de78:642:1aff:fe31:a15c?
- ([2a02:810d:4b3f:de78:642:1aff:fe31:a15c])
- by smtp.gmail.com with ESMTPSA id
- m11-20020a17090677cb00b0094e44445f30sm291729ejn.215.2023.04.11.11.13.51
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 11 Apr 2023 11:13:52 -0700 (PDT)
-Message-ID: <32c28b47-2a3b-db1d-e927-ae44d52cae0b@redhat.com>
-Date: Tue, 11 Apr 2023 20:13:50 +0200
+ d=1e100.net; s=20210112; t=1681237285; x=1683829285;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:mail-followup-to:message-id:subject:cc:to
+ :from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=PkwB6wdOwbBLoG6Y0240YbS2lyf1pUe4TVGYxzb7N+4=;
+ b=ld/NgCXxlUrLF1Dza0aZw25XBkh1vz8FSsZ5b7u+MmMxG53Mqke7Q52MxCuHLRiAev
+ kjX3+eremU353ZhFvaKv10nc+wYsh/rTGMUkXFs3Y+qcapakaG4Jbe07KGLHvgBVrAEg
+ CJHU2ElNw+Gl9Em5rC03wu3XEAWnfOzUEvdZ3DzYCNRX/wS1f11lvzEo6R+7FTcCAOEp
+ XzWet/gBF6iUtOOpD0hCRFxn+LNcberfCN0opKZ8SXWX5i4DPM0gQhhsz6ZKGl2KuCWm
+ ajQc4D/b/b35plT7DwUOS6X+PW94ltU6daIfMR3LhQ+RWroSTYLzFcGx5knT6gk88Ifo
+ czqQ==
+X-Gm-Message-State: AAQBX9c7ZJdanZYD96rXHI+UPYyMy7eEWeM6BEp5cljGSHrLzKSKkHvu
+ VilYNtnpnWFDs63E2KNH9MFE8w==
+X-Google-Smtp-Source: AKy350YELrooW0gOiwUcdOVihkEery8ZVxwTyvoCX2lKo+cr82pGoMxLmBKsYXsQnzM/IoxkAtSDzA==
+X-Received: by 2002:a05:600c:1c90:b0:3e8:7ca3:8424 with SMTP id
+ k16-20020a05600c1c9000b003e87ca38424mr72655wms.1.1681237285154; 
+ Tue, 11 Apr 2023 11:21:25 -0700 (PDT)
+Received: from phenom.ffwll.local (212-51-149-33.fiber7.init7.net.
+ [212.51.149.33]) by smtp.gmail.com with ESMTPSA id
+ c24-20020a7bc858000000b003ef5b011b30sm17844642wml.8.2023.04.11.11.21.24
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 11 Apr 2023 11:21:24 -0700 (PDT)
+Date: Tue, 11 Apr 2023 20:21:22 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Jeffrey Hugo <quic_jhugo@quicinc.com>
+Subject: Re: linux-next: build failure after merge of the driver-core tree
+Message-ID: <ZDWlIuRHYPP1DeYi@phenom.ffwll.local>
+Mail-Followup-To: Jeffrey Hugo <quic_jhugo@quicinc.com>,
+ Greg KH <greg@kroah.com>, Stephen Rothwell <sfr@canb.auug.org.au>,
+ Oded Gabbay <ogabbay@kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ DRI <dri-devel@lists.freedesktop.org>,
+ Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>,
+ Linux Next Mailing List <linux-next@vger.kernel.org>,
+ Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
+ Dave Airlie <airlied@redhat.com>
+References: <20230411143812.11a4b00d@canb.auug.org.au>
+ <ZDUuiB+E1tIJ95LY@phenom.ffwll.local>
+ <2023041123-tractor-quake-c44d@gregkh>
+ <ZDV2Nvs57Orx47tj@phenom.ffwll.local>
+ <1094266f-d845-9fa4-9f44-85de8352c04f@quicinc.com>
+ <2023041131-boxy-excavator-1183@gregkh>
+ <04155e87-16f7-9916-6aa8-b4842ef92b83@quicinc.com>
+ <3879d287-81e0-5e25-8c58-f9554ce2303b@quicinc.com>
+ <ZDWLRxkFjsGZazXD@phenom.ffwll.local>
+ <19e3438f-8e85-9da4-cd9d-8fc19559abd7@quicinc.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH] drm/scheduler: set entity to NULL in
- drm_sched_entity_pop_job()
-To: Luben Tuikov <luben.tuikov@amd.com>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- airlied@gmail.com, daniel@ffwll.ch, l.stach@pengutronix.de,
- "Prosyak, Vitaly" <Vitaly.Prosyak@amd.com>
-References: <20230331000622.4156-1-dakr@redhat.com>
- <6ad72a7f-302f-4be1-0d53-00ff9dc37ef7@amd.com>
- <ecef210b-dc7d-e385-f9b2-927d55a6777e@amd.com>
-From: Danilo Krummrich <dakr@redhat.com>
-Organization: RedHat
-In-Reply-To: <ecef210b-dc7d-e385-f9b2-927d55a6777e@amd.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <19e3438f-8e85-9da4-cd9d-8fc19559abd7@quicinc.com>
+X-Operating-System: Linux phenom 6.1.0-7-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,88 +91,253 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: Stephen Rothwell <sfr@canb.auug.org.au>, Greg KH <greg@kroah.com>,
+ Oded Gabbay <ogabbay@kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ DRI <dri-devel@lists.freedesktop.org>,
+ Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>,
+ Linux Next Mailing List <linux-next@vger.kernel.org>,
+ Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
+ Dave Airlie <airlied@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 4/5/23 19:39, Luben Tuikov wrote:
-> On 2023-03-31 01:59, Christian KÃ¶nig wrote:
->> Am 31.03.23 um 02:06 schrieb Danilo Krummrich:
->>> It already happend a few times that patches slipped through which
->>> implemented access to an entity through a job that was already removed
->>> from the entities queue. Since jobs and entities might have different
->>> lifecycles, this can potentially cause UAF bugs.
->>>
->>> In order to make it obvious that a jobs entity pointer shouldn't be
->>> accessed after drm_sched_entity_pop_job() was called successfully, set
->>> the jobs entity pointer to NULL once the job is removed from the entity
->>> queue.
->>>
->>> Moreover, debugging a potential NULL pointer dereference is way easier
->>> than potentially corrupted memory through a UAF.
->>>
->>> Signed-off-by: Danilo Krummrich <dakr@redhat.com>
->>
->> In general "YES PLEASE!", but I fear that this will break amdgpus reset
->> sequence.
->>
->> On the other hand when amdgpu still relies on that pointer it's clearly
->> a bug (which I pointed out tons of times before).
->>
->> Luben any opinion on that? Could you drive cleaning that up as well?
+On Tue, Apr 11, 2023 at 11:18:29AM -0600, Jeffrey Hugo wrote:
+> On 4/11/2023 10:31 AM, Daniel Vetter wrote:
+> > On Tue, Apr 11, 2023 at 09:29:27AM -0600, Jeffrey Hugo wrote:
+> > > On 4/11/2023 9:26 AM, Jeffrey Hugo wrote:
+> > > > On 4/11/2023 9:13 AM, Greg KH wrote:
+> > > > > On Tue, Apr 11, 2023 at 09:08:39AM -0600, Jeffrey Hugo wrote:
+> > > > > > On 4/11/2023 9:01 AM, Daniel Vetter wrote:
+> > > > > > > On Tue, Apr 11, 2023 at 12:40:28PM +0200, Greg KH wrote:
+> > > > > > > > On Tue, Apr 11, 2023 at 11:55:20AM +0200, Daniel Vetter wrote:
+> > > > > > > > > On Tue, Apr 11, 2023 at 02:38:12PM +1000, Stephen Rothwell wrote:
+> > > > > > > > > > Hi all,
+> > > > > > > > > > 
+> > > > > > > > > > After merging the driver-core tree, today's linux-next build (x86_64
+> > > > > > > > > > allmodconfig) failed like this:
+> > > > > > > > > > 
+> > > > > > > > > > In file included from include/linux/linkage.h:7,
+> > > > > > > > > >                     from include/linux/kernel.h:17,
+> > > > > > > > > >                     from drivers/accel/qaic/mhi_qaic_ctrl.c:4:
+> > > > > > > > > > drivers/accel/qaic/mhi_qaic_ctrl.c: In function
+> > > > > > > > > > 'mhi_qaic_ctrl_init':
+> > > > > > > > > > include/linux/export.h:27:22: error: passing
+> > > > > > > > > > argument 1 of 'class_create' from incompatible
+> > > > > > > > > > pointer type
+> > > > > > > > > > [-Werror=incompatible-pointer-types]
+> > > > > > > > > >       27 | #define THIS_MODULE (&__this_module)
+> > > > > > > > > >          |                     ~^~~~~~~~~~~~~~~
+> > > > > > > > > >          |                      |
+> > > > > > > > > >          |                      struct module *
+> > > > > > > > > > drivers/accel/qaic/mhi_qaic_ctrl.c:544:38: note:
+> > > > > > > > > > in expansion of macro 'THIS_MODULE'
+> > > > > > > > > >      544 |         mqc_dev_class =
+> > > > > > > > > > class_create(THIS_MODULE,
+> > > > > > > > > > MHI_QAIC_CTRL_DRIVER_NAME);
+> > > > > > > > > >          |                                      ^~~~~~~~~~~
+> > > > > > > > > > In file included from include/linux/device.h:31,
+> > > > > > > > > >                     from include/linux/mhi.h:9,
+> > > > > > > > > >                     from drivers/accel/qaic/mhi_qaic_ctrl.c:5:
+> > > > > > > > > > include/linux/device/class.h:229:54: note:
+> > > > > > > > > > expected 'const char *' but argument is of type
+> > > > > > > > > > 'struct module *'
+> > > > > > > > > >      229 | struct class * __must_check
+> > > > > > > > > > class_create(const char *name);
+> > > > > > > > > >          |                                          ~~~~~~~~~~~~^~~~
+> > > > > > > > > > drivers/accel/qaic/mhi_qaic_ctrl.c:544:25:
+> > > > > > > > > > error: too many arguments to function
+> > > > > > > > > > 'class_create'
+> > > > > > > > > >      544 |         mqc_dev_class =
+> > > > > > > > > > class_create(THIS_MODULE,
+> > > > > > > > > > MHI_QAIC_CTRL_DRIVER_NAME);
+> > > > > > > > > >          |                         ^~~~~~~~~~~~
+> > > > > > > > > > include/linux/device/class.h:229:29: note: declared here
+> > > > > > > > > >      229 | struct class * __must_check
+> > > > > > > > > > class_create(const char *name);
+> > > > > > > > > >          |                             ^~~~~~~~~~~~
+> > > > > > > > > > 
+> > > > > > > > > > Caused by commit
+> > > > > > > > > > 
+> > > > > > > > > >      1aaba11da9aa ("driver core: class: remove
+> > > > > > > > > > module * from class_create()")
+> > > > > > > > > > 
+> > > > > > > > > > interacting with commit
+> > > > > > > > > > 
+> > > > > > > > > >      566fc96198b4 ("accel/qaic: Add mhi_qaic_cntl")
+> > > > > > > > > > 
+> > > > > > > > > > from the drm tree.
+> > > > > > > > > > 
+> > > > > > > > > > I have applied the following merge fix patch for today.
+> > > > > > > > > > 
+> > > > > > > > > > From: Stephen Rothwell <sfr@canb.auug.org.au>
+> > > > > > > > > > Date: Tue, 11 Apr 2023 14:16:57 +1000
+> > > > > > > > > > Subject: [PATCH] fixup for "driver core: class:
+> > > > > > > > > > remove module * from class_create()"
+> > > > > > > > > > 
+> > > > > > > > > > interacting with "accel/qaic: Add mhi_qaic_cntl"
+> > > > > > > > > > 
+> > > > > > > > > > Signed-off-by: Stephen Rothwell <sfr@canb.auug.org.au>
+> > > > > > > > > 
+> > > > > > > > > Thanks for the fixup. Since Dave is out I've made a
+> > > > > > > > > note about this in my
+> > > > > > > > > handover mail so it won't get lost in the drm-next
+> > > > > > > > > merge window pull. I
+> > > > > > > > > don't think we need any other coordination than
+> > > > > > > > > mention it in each pull to
+> > > > > > > > > Linus, topic tree seems overkill for this. Plus there's no way I can
+> > > > > > > > > untangle the drm tree anyway :-).
+> > > > > > > > 
+> > > > > > > > Want me to submit a patch for the drm tree that moves this to use
+> > > > > > > > class_register() instead, which will make the
+> > > > > > > > merge/build issue go away
+> > > > > > > > for you?  That's my long-term goal here anyway, so converting this new
+> > > > > > > > code to this api today would be something I have to do eventually :)
+> > > > > > > 
+> > > > > > > We kinda closed drm-next for feature work mostly already (just pulling
+> > > > > > > stuff in from subtrees), so won't really help for this merge window.
+> > > > > > > 
+> > > > > > > For everything else I think this is up to Oded, I had no
+> > > > > > > idea qaic needed
+> > > > > > > it's entire own dev class and I don't want to dig into this
+> > > > > > > for the risk I
+> > > > > > > might freak out :-)
+> > > > > > > 
+> > > > > > > Adding Oded.
+> > > > > > > 
+> > > > > > > Cheers, Daniel
+> > > > > > 
+> > > > > > Sorry for the mess.
+> > > > > > 
+> > > > > > I made a note to update to class_register() once my drm-misc access is
+> > > > > > sorted out.  Looks like we'll address the conflict in the merge
+> > > > > > window, and
+> > > > > > catch the update to the new API in the following release.
+> > > > > 
+> > > > > Wait, I think the large question is, "why does this need a separate
+> > > > > class"?  Why are you not using the accel char device and class?  That is
+> > > > > what everything under accel/ should be using, otherwise why put it in
+> > > > > there?
+> > > > > 
+> > > > > And what exactly are you using that class for?  Just device nodes?  If
+> > > > > so, how many?
+> > > > > 
+> > > > > thanks,
+> > > > > 
+> > > > > greg k-h
+> > > > 
+> > > > 
+> > > > Remember MHI_UCI that then evolved into the WWAN subsystem?  I pointed
+> > > > out at the time that AIC100/QAIC would need the same functionality.
+> > > > You/Jakub told myself/Mani/Loic that a combined implementation is not
+> > > > acceptable, and every area needs to implement their own version of
+> > > > MHI_UCI.
+> > > > 
+> > > > We took the WWAN subsystem and simplified it to meet our needs.
+> > > > 
+> > > > The functionality is QAIC specific, so wedging it into the Accel node
+> > > > seems to be a poor fit as it would subject Habana and iVPU to the same.
+> > > 
+> > > Also, I forgot to mention.  QAIC is sharing userspace components with WWAN,
+> > > so we really cannot diverge from what WWAN has done and define a new API
+> > > through the Accel node.
+> > 
+> > So there is an accel/drm_device in the qaic driver, but there's also this
+> > different class thing, which I don't get.
+> > 
+> > And yeah if that's an entirely orthogonal thing then I guess that should
+> > be in a different driver/subsystem, all supported with the aux bus to
+> > multiplex the underlying device.
+> > 
+> > I haven't found any explanation for what MHI is (or any of the other
+> > acrynoms), so I'm entirely lost.
 > 
-> I didn't find any references to scheduling entity after the job
-> is submitted to the hardware. (I commented the same in the other
-> thread, we just need to decide which way to go.)
+> MHI is documented at Documentation/mhi/
+> It is also referenced in the QAIC documentation - Documentation/accel/qaic/
+> 
+> It stands for "Modem Host Interface" (arguably a bad name now, but you can
+> guess where it came from).  It is a Qualcomm hardware block and associated
+> software protocol that provides logical channels over a hardware link.  Most
+> commonly used for PCIe.
+> 
+> Pretty much any modern Qualcomm PCIe device implements it.  4G modems, 5G
+> modems, Wifi adapters, AIC100, etc.  Instead of talking "PCIe", the host
+> talks "MHI" to the devices in most cases.
+> 
+> The core implementation for MHI exists in drivers/bus/mhi
+> 
+> MHI_UCI is the MHI Userspace Character Interface.  It looked like most buses
+> (eg USB) provide some direct device access to userspace.  MHI_UCI was
+> formulated along those same lines - provide direct userspace access to a
+> whitelist of channels.  Qualcomm provides some fairly extensive userspace
+> utilities, and various communities have developed open source alternatives
+> using this mechanism.
+> 
+> MHI_UCI was proposed to the community as the common driver (misc device) for
+> all of the MHI devices.  The Net folks came along, saw that it was used for
+> 4G/5G modems (Wireless Wide Area Network devices or WWAN) and decided that
+> they would not tolerate a common implementation.  They NACK'd MHI_UCI and
+> required that a WWAN specific subsystem be developed which would only
+> service WWAN devices.  The Net folks decreed that other subsystems which
+> needed the same functionality need to have their own copy of the
+> implementation.
+> 
+> QAIC devices expose Sahara (a boot time protocol) which has an existing
+> userspace that is also used with Modems, although it looks like WWAN doesn't
+> currently support those generations of products today.  QAIC devices also
+> support DIAG, which is currently supported in WWAN.  The intent was to add
+> the QAIC support for DIAG at a later time since it is not required for the
+> bare minimum viable driver.
+> 
+> So, QAIC devices support the same services, would use the same userspace,
+> but can't use a common implementation because Jakub(net) doesn't want to
+> share and convinced Greg to go along.  I'm not interested in pushing a cross
+> tree fight (arguably already did that with MHI_UCI).  If neither Greg nor
+> Net will accept a common implementation that accelerators can use (QAIC),
+> then the only place I can fit this is in the Accel area.
+> 
+> Using aux bus seems to make little difference if QAIC is the only consumer
+> of this.  I'm willing to refactor the implementation with some feedback and
+> guidence, but the uAPI seems set in stone due to the existing userspace and
+> WWAN (char devs with open/close/read/write/poll).
 
-AFAICS from the other mail thread it seems to be consensus to not 
-ref-count entities and handle job statistics differently.
+Ok, so MHI _is_ the bus. Thanks for the explainer, I should have searched
+a bit more in Documentation/
 
-Should we go ahead and take this patch then? Maybe it also makes sense 
-to send a V2 additionally adding a comment to the drm_sched_job 
-structure mentioning that .entity must not be used after the job was 
-taken from the entities queue.
+> What would make you less unhappy?
 
-- Danilo
+The MHI generic userspace driver interface needs to be in drivers/bus/mhi,
+not in a random driver. I think we should revert 566fc96198b4
+("accel/qaic: Add mhi_qaic_cntl") and re-land that through Greg's tree (or
+wherever mhi patches go to). This of course assuming that the accel
+userspace on top of the accel/drm_device does work stand-alone, and it's
+just the tooling and other userspace that needs MHI_UCI. If we end with a
+non-functional stack due to that, then I guess the entire driver is a bit
+up for questions, because at least the accel runtime is supposed to just
+run on top of the accel devnode and nothing else. Otherwise container
+stuff gets really bad, among a lot of other things.
+
+Cheers, Daniel
+
+
 
 > 
-> Regards,
-> Luben
-> 
->>
->> Thanks,
->> Christian.
->>
->>> ---
->>> I'm aware that drivers could already use job->entity in arbitrary places, since
->>> they in control of when the entity is actually freed. A quick grep didn't give
->>> me any results where this would actually be the case, however maybe I also just
->>> didn't catch it.
->>>
->>> If, therefore, we don't want to set job->entity to NULL I think we should at
->>> least add a comment somewhere.
->>> ---
->>>
->>>    drivers/gpu/drm/scheduler/sched_entity.c | 6 ++++++
->>>    1 file changed, 6 insertions(+)
->>>
->>> diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/drm/scheduler/sched_entity.c
->>> index 15d04a0ec623..a9c6118e534b 100644
->>> --- a/drivers/gpu/drm/scheduler/sched_entity.c
->>> +++ b/drivers/gpu/drm/scheduler/sched_entity.c
->>> @@ -448,6 +448,12 @@ struct drm_sched_job *drm_sched_entity_pop_job(struct drm_sched_entity *entity)
->>>    			drm_sched_rq_update_fifo(entity, next->submit_ts);
->>>    	}
->>>    
->>> +	/* Jobs and entities might have different lifecycles. Since we're
->>> +	 * removing the job from the entities queue, set the jobs entity pointer
->>> +	 * to NULL to prevent any future access of the entity through this job.
->>> +	 */
->>> +	sched_job->entity = NULL;
->>> +
->>>    	return sched_job;
->>>    }
->>>    
->>
+> > -Daniel
+> > 
+> > > 
+> > > > 
+> > > > We need (eventually) 128 device nodes.  We have systems with 32 QAIC
+> > > > devices, and each QAIC device uses 4 device nodes (32 * 4 = 128).  WWAN
+> > > > subsystem would be similar.  Looks like each 5G modem is 6 nodes per
+> > > > device, so if you had 22 5G modems on a system, you'd have 132 device
+> > > > nodes.  I'm not aware of any such system, but it could exist.
+> > > > 
+> > > > -Jeff
+> > > 
+> > 
 > 
 
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
