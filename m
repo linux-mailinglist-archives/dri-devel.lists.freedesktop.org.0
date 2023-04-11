@@ -2,46 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 815646DD5E3
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Apr 2023 10:49:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0ABA56DD610
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Apr 2023 10:58:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 16E6310E0F8;
-	Tue, 11 Apr 2023 08:49:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4A72E10E4F9;
+	Tue, 11 Apr 2023 08:58:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from 189.cn (ptr.189.cn [183.61.185.101])
- by gabe.freedesktop.org (Postfix) with ESMTP id CD9C310E0F8
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Apr 2023 08:49:25 +0000 (UTC)
-HMM_SOURCE_IP: 10.64.8.41:52050.376874080
-HMM_ATTACHE_NUM: 0000
-HMM_SOURCE_TYPE: SMTP
-Received: from clientip-114.242.206.180 (unknown [10.64.8.41])
- by 189.cn (HERMES) with SMTP id BEB57100208;
- Tue, 11 Apr 2023 16:49:20 +0800 (CST)
-Received: from  ([114.242.206.180])
- by gateway-151646-dep-7b48884fd-ljp89 with ESMTP id
- 1b31214f715b4affa0bb41c4bfa92964 for emil.l.velikov@gmail.com; 
- Tue, 11 Apr 2023 16:49:23 CST
-X-Transaction-ID: 1b31214f715b4affa0bb41c4bfa92964
-X-Real-From: 15330273260@189.cn
-X-Receive-IP: 114.242.206.180
-X-MEDUSA-Status: 0
-Message-ID: <2f024efb-3e9f-8777-9f32-ca1f0e436b40@189.cn>
-Date: Tue, 11 Apr 2023 16:49:19 +0800
+Received: from mail-4317.proton.ch (mail-4317.proton.ch [185.70.43.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3B18810E507
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Apr 2023 08:58:35 +0000 (UTC)
+Date: Tue, 11 Apr 2023 08:58:16 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
+ s=protonmail; t=1681203511; x=1681462711;
+ bh=hI+4Bv/fxhLw+i3kOzKkNs5Uckfc3Tr8LxD+E+2bjfI=;
+ h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+ Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+ Message-ID:BIMI-Selector;
+ b=MNz6k+RUX/QRRHr8X4TsnAlJ4Tpb7lIhVztZ1yp9EXUxGFBRo2lTuCOBMgGVR2+DY
+ 6cjb2r7CDVoGIDMEm2jOO4Ov66je+IuUOP8CFVGVMhojb+P23TsrUyov5C1OXbjC0i
+ t3l1d1SE9Ymx8AVKoLHqMIGY8qc58hKHdlvj5phsZU58pAY4u5b2QpfBiuE6FjkgqK
+ IlpJZASMavmFuNh+YGPcG3xnqmziM5HNU22vIk1qigwRRtXyEz/oU6ZWx3mjv/9Mt2
+ te75UBvch6yJtiSOLye/t1qEk4KpZoysaLIK4spDshaqEPF1cioENq1xbKAdzVStGQ
+ kH2uWcbEGcrhQ==
+To: Melissa Wen <mwen@igalia.com>
+From: Simon Ser <contact@emersion.fr>
+Subject: Re: [PATCH v2] drm/vkms: add module parameter to set background color
+Message-ID: <86KSXjLyx61ozmy_5grAFQ5XGxnysnSnGRCD6FQsgzrUc2xnXQpv06rcPu9FWkXNo7PLu7dEMTmsX9uWVvEMSKYW62ELEjloEfHGCZUqob8=@emersion.fr>
+In-Reply-To: <20230410175036.tqjbwrd4ldcnnqlf@mail.igalia.com>
+References: <20230410125435.128689-1-mcanal@igalia.com>
+ <gY5DtUoeqVhT1HdJU8yjHSqwe9gTIbV6Q2yVDYRyI_JGHS6Lo73Ivjs2G8d_5T_qL2q7pOhjC6O_aPk2Pnn3npdhzh2Y-_nrD98r3ONMrWc=@emersion.fr>
+ <20230410175036.tqjbwrd4ldcnnqlf@mail.igalia.com>
+Feedback-ID: 1358184:user:proton
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH v10 2/2] drm: add kms driver for loongson display
- controller
-Content-Language: en-US
-To: Emil Velikov <emil.l.velikov@gmail.com>
-References: <20230403171304.2157326-1-suijingfeng@loongson.cn>
- <20230403171304.2157326-3-suijingfeng@loongson.cn>
- <CACvgo53h+X26wngVmxpn3oVb9kbJezTHx61p3rZDR7sw1AQrWQ@mail.gmail.com>
-From: Sui Jingfeng <15330273260@189.cn>
-In-Reply-To: <CACvgo53h+X26wngVmxpn3oVb9kbJezTHx61p3rZDR7sw1AQrWQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,87 +49,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nathan@kernel.org, loongson-kernel@lists.loongnix.cn,
- Thomas Zimmermann <tzimmermann@suse.de>, Li Yi <liyi@loongson.cn>,
- linux-kernel@vger.kernel.org, Christian Koenig <christian.koenig@amd.com>,
- linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
- Sumit Semwal <sumit.semwal@linaro.org>, linux-media@vger.kernel.org
+Cc: Haneen Mohammed <hamohammed.sa@gmail.com>,
+ Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ =?utf-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
+ dri-devel@lists.freedesktop.org,
+ Igor Matheus Andrade Torrente <igormtorrente@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi,
 
-On 2023/4/4 22:10, Emil Velikov wrote:
->> --- /dev/null
->> +++ b/drivers/gpu/drm/loongson/lsdc_drv.c
->> +static const struct lsdc_desc dc_in_ls7a1000 = {
->> +       .chip = CHIP_LS7A1000,
->> +       .num_of_crtc = LSDC_NUM_CRTC,
->> +       .max_pixel_clk = 200000,
->> +       .max_width = 2048,
->> +       .max_height = 2048,
->> +       .num_of_hw_cursor = 1,
->> +       .hw_cursor_w = 32,
->> +       .hw_cursor_h = 32,
->> +       .pitch_align = 256,
->> +       .mc_bits = 40,
->> +       .has_vblank_counter = false,
->> +       .has_scan_pos = true,
->> +       .has_builtin_i2c = true,
->> +       .has_vram = true,
->> +       .has_hpd_reg = false,
->> +       .is_soc = false,
->> +};
->> +
->> +static const struct lsdc_desc dc_in_ls7a2000 = {
->> +       .chip = CHIP_LS7A2000,
->> +       .num_of_crtc = LSDC_NUM_CRTC,
->> +       .max_pixel_clk = 350000,
->> +       .max_width = 4096,
->> +       .max_height = 4096,
->> +       .num_of_hw_cursor = 2,
->> +       .hw_cursor_w = 64,
->> +       .hw_cursor_h = 64,
->> +       .pitch_align = 64,
->> +       .mc_bits = 40, /* support 48, but use 40 for backward compatibility */
->> +       .has_vblank_counter = true,
->> +       .has_scan_pos = true,
->> +       .has_builtin_i2c = true,
->> +       .has_vram = true,
->> +       .has_hpd_reg = true,
->> +       .is_soc = false,
->> +};
->> +
-> Roughly a quarter of the above are identical. It might be better to
-> drop them for now and re-introduce as needed with future code.
->
-My initial intent here is to give a skeleton of our hardware features to 
-reviewers,
+On Monday, April 10th, 2023 at 19:50, Melissa Wen <mwen@igalia.com> wrote:
 
-Not only for gearing the control, but also for easier the reviewing process.
+> On 04/10, Simon Ser wrote:
+>=20
+> > I think this should be a KMS property instead of a module parameter.
+> > Is there a reason why this patch uses a module parameter? It breaks
+> > user-space expectations.
+>=20
+> a KMS property is what we have on vkms TODO [1] and the module parameter
+> was Ma=C3=ADra's first step to open a discussion for this property [2].
+> AFAIK, we would need to create the KMS property first, but it seems
+> there isn't an userspace case/need to support this API change.
+> Do you know any valid use cases to support a bkg color property?
 
-Without this, other part of this patch may looks questionable again.
+There have been previous attempts for msm [1] and i915 [2].
 
+From user-space PoV, a KMS property would be useful, for instance to
+render single color background images. I can type some user-space code
+if that helps.
 
-We  could remove all of the features look up key in the struct lsdc_desc,
+If this is a module parameter instead of a KMS property, what purpose
+does this achieve? What is the use-case? Just trying to understand the
+motivation here.
 
-leave the .chip member there only.  Hard coded everything else according 
-to the chip only.
+Thanks,
 
-But the code looks ugly by doing that way. We want weaken the
+Simon
 
-If loongson SoC is introduced, the identical will decrease.
-
-It's OK,  I could drop as much as possible at next version.
-
->> +const char *chip_to_str(enum loongson_chip_family chip)
->> +{
->> +       if (chip == CHIP_LS7A2000)
->> +               return "LS7A2000";
->> +
->> +       if (chip == CHIP_LS7A1000)
->> +               return "LS7A1000";
->> +
-> If it were me, I would add the name into the lsdc_desc.
->
-Agree, this is acceptable. Will be changed at the next version.
+[1]: https://lore.kernel.org/dri-devel/20221028225952.160-1-quic_jesszhan@q=
+uicinc.com/
+[2]: https://lore.kernel.org/dri-devel/20190930224707.14904-1-matthew.d.rop=
+er@intel.com/
