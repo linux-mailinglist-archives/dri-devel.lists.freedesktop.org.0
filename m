@@ -1,52 +1,78 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDF286DE748
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Apr 2023 00:30:01 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 310DF6DE750
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Apr 2023 00:32:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6A2CE10E6B1;
-	Tue, 11 Apr 2023 22:29:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E26AF10E1BD;
+	Tue, 11 Apr 2023 22:32:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 70A3A10E6B4;
- Tue, 11 Apr 2023 22:29:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1681252192; x=1712788192;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=utq7zjFIZnTbI517Po7IKHQ7PiuadAtLPEgHNn3pZ1c=;
- b=FaeAPrJb1oxapGI8xOQ2jh755/vDEXGbaz45yYv3QW8dKsLRFKl5htuD
- QL0nE90qMVIrINkI9tpB/ruvY2MsOkfWSqAEdTNd78GTjDXMqGbJnkHYI
- KXBVwCbdczZcN+dYXj90DaNrb94amK2YvutOU3hBnzfWhu+AAaRoDDRtv
- WipSFiQcE2uonquFy0b42scldNNG1rrbH2fSRB0boPGU9VtG/CnaeXR4s
- VBPTVKKXoCnx/2ppah3rVnFkzhxfvzscWxJ7r21OEHL+ySv13WxHmXsQu
- sQ1kZuudWDGGSXe6MAzA5zwffXcWPaD6DMWRw/VYPe74EAiSDjdB53piH A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10677"; a="342506275"
-X-IronPort-AV: E=Sophos;i="5.98,336,1673942400"; d="scan'208";a="342506275"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Apr 2023 15:29:52 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10677"; a="753296842"
-X-IronPort-AV: E=Sophos;i="5.98,336,1673942400"; d="scan'208";a="753296842"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.70])
- by fmsmga008.fm.intel.com with SMTP; 11 Apr 2023 15:29:50 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Wed, 12 Apr 2023 01:29:49 +0300
-From: Ville Syrjala <ville.syrjala@linux.intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH 6/6] drm/i915: Do state check for color management changes
-Date: Wed, 12 Apr 2023 01:29:31 +0300
-Message-Id: <20230411222931.15127-7-ville.syrjala@linux.intel.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230411222931.15127-1-ville.syrjala@linux.intel.com>
-References: <20230411222931.15127-1-ville.syrjala@linux.intel.com>
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A0FC310E04B;
+ Tue, 11 Apr 2023 22:32:15 +0000 (UTC)
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 33BMStLg031622; Tue, 11 Apr 2023 22:32:09 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=Mr6GXrTuhEUBqy88mYBuWY/Dl14Q3Lg1h/xPDdKoBic=;
+ b=DSx6Qagq+IjlIrVsPz1QRaG/poZCRzj9KiWQGbhXV3aKF8I3CdzgKfFLprUtoG1TAPRD
+ usM46d7Mtd4fxWB27WSRsZqQacY08oFl6lREsz9zg5BxDzXLj8N2NwovOxdgAvB4Jtft
+ /mSs6fbE3Rl7zmgy+Hauy27Mv/NTRthjEhuu/CUZY5hogmC1nqcjna9SpOPwXUi8227X
+ 6D9nedbvMA/ta+7xr+TR6qF/t8Cgx1TMsVBItAyZjY4pfxfNjbFQ0gG0jXOvNOHoTNQV
+ 88EfluutGNxFTQbJaGlj/rHCM/U1X789ECBEl10XM0LXHZ580TV6elI9PDkPUi1eXg61 Sw== 
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3pw3cehrmw-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 11 Apr 2023 22:32:08 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 33BMW7cX015787
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 11 Apr 2023 22:32:07 GMT
+Received: from [10.110.115.18] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Tue, 11 Apr
+ 2023 15:32:06 -0700
+Message-ID: <96416911-bca3-b007-b036-1c4463e83aaa@quicinc.com>
+Date: Tue, 11 Apr 2023 15:32:05 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.2
+Subject: Re: [Freedreno] [PATCH] drm/msm/dpu: add DSC range checking during
+ resource reservation
+Content-Language: en-US
+To: Marijn Suijten <marijn.suijten@somainline.org>, Kuogee Hsieh
+ <quic_khsieh@quicinc.com>
+References: <1681247380-1607-1-git-send-email-quic_khsieh@quicinc.com>
+ <qvgbm3wimai3jytnikbcixipvwqn2uywqpg4mn6mjh5atergfx@wa4edsrp7y22>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <qvgbm3wimai3jytnikbcixipvwqn2uywqpg4mn6mjh5atergfx@wa4edsrp7y22>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: xsU1Py_vZuZpRTn7y_nnQww8idMIm17b
+X-Proofpoint-GUID: xsU1Py_vZuZpRTn7y_nnQww8idMIm17b
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-04-11_16,2023-04-11_02,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0
+ malwarescore=0 phishscore=0 adultscore=0 impostorscore=0
+ priorityscore=1501 clxscore=1015 bulkscore=0 mlxscore=0 suspectscore=0
+ spamscore=0 mlxlogscore=999 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2303200000 definitions=main-2304110202
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,42 +85,94 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Uma Shankar <uma.shankar@intel.com>, dri-devel@lists.freedesktop.org
+Cc: sean@poorly.run, vkoul@kernel.org, quic_sbillaka@quicinc.com,
+ freedreno@lists.freedesktop.org, andersson@kernel.org, dianders@chromium.org,
+ dri-devel@lists.freedesktop.org, swboyd@chromium.org, agross@kernel.org,
+ linux-arm-msm@vger.kernel.org, dmitry.baryshkov@linaro.org,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Ville Syrjälä <ville.syrjala@linux.intel.com>
+Hi Marijn
 
-In order to validate LUT programming more thoroughly let's
-do a state check for all color management updates as well.
+On 4/11/2023 3:24 PM, Marijn Suijten wrote:
+> Again, don't forget to include previous reviewers in cc, please :)
+> 
+> On 2023-04-11 14:09:40, Kuogee Hsieh wrote:
+>> Perform DSC range checking to make sure correct DSC is requested before
+>> reserve resource for it.
+> 
+> This isn't performing any range checking for resource reservations /
+> requests: this is only validating the constants written in our catalog
+> and seems rather useless.  It isn't fixing any real bug either, so the
+> Fixes: tag below seems extraneous.
+> 
+> Given prior comments from Abhinav that "the kernel should be trusted",
+> we should remove this validation for all the other blocks instead.
+> 
 
-Not sure we really want this outside CI. It is rather heavy
-and color management updates could become rather common
-with all the HDR/etc. stuff happening. Maybe we should have
-an extra knob for this that we could enable in CI?
+The purpose of this check is that today all our blocks in RM use the 
+DSC_* enum as the size.
 
-v2: Skip for initial_commit to avoid FDI dotclock
-    sanity checks/etc. tripping up
+struct dpu_hw_blk *dsc_blks[DSC_MAX - DSC_0];
 
-Reviewed-by: Uma Shankar <uma.shankar@intel.com>
-Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
----
- drivers/gpu/drm/i915/display/intel_modeset_verify.c | 2 ++
- 1 file changed, 2 insertions(+)
+If the device tree ends up with more DSC blocks than the DSC_* enum, how 
+can we avoid this issue today? Not because its a bug in device tree but 
+how many static number of DSCs are hard-coded in RM.
 
-diff --git a/drivers/gpu/drm/i915/display/intel_modeset_verify.c b/drivers/gpu/drm/i915/display/intel_modeset_verify.c
-index 842d70f0dfd2..9e4767e1b900 100644
---- a/drivers/gpu/drm/i915/display/intel_modeset_verify.c
-+++ b/drivers/gpu/drm/i915/display/intel_modeset_verify.c
-@@ -228,6 +228,8 @@ void intel_modeset_verify_crtc(struct intel_crtc *crtc,
- 			       struct intel_crtc_state *new_crtc_state)
- {
- 	if (!intel_crtc_needs_modeset(new_crtc_state) &&
-+	    (!intel_crtc_needs_color_update(new_crtc_state) ||
-+	     new_crtc_state->inherited) &&
- 	    !intel_crtc_needs_fastset(new_crtc_state))
- 		return;
- 
--- 
-2.39.2
+And like you said, this is not specific to DSC. Such checks are present 
+for other blocks too.
 
+>> Fixes: c985d7bb64ff ("drm/msm/disp/dpu1: Add DSC support in RM")
+>> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
+>> ---
+>>   drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c | 10 +++++++++-
+>>   1 file changed, 9 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
+>> index f4dda88..95e58f1 100644
+>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
+>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
+>> @@ -1,6 +1,7 @@
+>>   // SPDX-License-Identifier: GPL-2.0-only
+>>   /*
+>>    * Copyright (c) 2016-2018, The Linux Foundation. All rights reserved.
+>> + * Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved.
+>>    */
+>>   
+>>   #define pr_fmt(fmt)	"[drm:%s] " fmt, __func__
+>> @@ -250,6 +251,11 @@ int dpu_rm_init(struct dpu_rm *rm,
+>>   		struct dpu_hw_dsc *hw;
+>>   		const struct dpu_dsc_cfg *dsc = &cat->dsc[i];
+>>   
+>> +		if (dsc->id < DSC_0 || dsc->id >= DSC_MAX) {
+>> +			DPU_ERROR("skip dsc %d with invalid id\n", dsc->id);
+>> +			continue;
+>> +		}
+>> +
+>>   		hw = dpu_hw_dsc_init(dsc->id, mmio, cat);
+>>   		if (IS_ERR_OR_NULL(hw)) {
+>>   			rc = PTR_ERR(hw);
+>> @@ -557,8 +563,10 @@ static int _dpu_rm_make_reservation(
+>>   	}
+>>   
+>>   	ret  = _dpu_rm_reserve_dsc(rm, global_state, enc, &reqs->topology);
+>> -	if (ret)
+>> +	if (ret) {
+>> +		DPU_ERROR("unable to find appropriate DSC\n");
+> 
+> This, while a nice addition, should go in a different patch.
+> 
+> Thanks!
+> 
+> - Marijn
+> 
+>>   		return ret;
+>> +	}
+>>   
+>>   	return ret;
+>>   }
+>> -- 
+>> The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
+>> a Linux Foundation Collaborative Project
+>>
