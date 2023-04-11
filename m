@@ -2,44 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1D996DD0D7
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Apr 2023 06:25:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A55446DD0D0
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Apr 2023 06:25:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0893710E498;
-	Tue, 11 Apr 2023 04:25:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E368010E48A;
+	Tue, 11 Apr 2023 04:24:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 73B4C10E488;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8F2F210E483;
  Tue, 11 Apr 2023 04:24:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1681187095; x=1712723095;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=mimFT8zYFhXcNoEJn/DBtOqsgUiybNqopJT2tRggkf8=;
- b=cH8NdMhQ29N0GgfTAuXaKH7hSurrQjfw6EzDBa8roGeHZALAnbjwe6Di
- TWqd5TuV2C1ZkuamhEVuuGevuuyBSGfYAU40tLKu8eydIvh1XKcea7drG
- pTXR3kpR0hvHkwIYiiHI1/DrBWtAsAeMHnH045yrFE4d02XbV0UdYY1xg
- ohIfP4PJZwJmmCpXmQW2x/2GU3VlvOVqIsPkLgjpURh3VUPmBs759DWUy
- 9p+rZcr1oSs3Hy5DF7ArMn3z2WqLB9qtMhoxwRnRp/X/6h337qSSDX8bS
- GwwphGZbL0cpixfrMrjSS1jMN1/pfZuvlQGj4qDmZYFf5QjlbXS82fPmL w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10676"; a="343524157"
-X-IronPort-AV: E=Sophos;i="5.98,335,1673942400"; d="scan'208";a="343524157"
+ bh=OQPdZJ6uq86fDdelr+3CJppVufDNxUytLNp6b889BE4=;
+ b=KGnscHgPIqjW0Tl6TAYTe1FnT4vcdvg4+dLEiUgz5AFR4nMVSnsKN+hJ
+ 6vYP/fN9M4+TGWG322woRqLg0BAn1fJonR6bL/uz0F3Vtg1UscgbieI1v
+ q3n9KPZbvE3Qhlo/FXVIYti9RMXUAHnJuVaM0B646ZxNubOWTQfY86wN6
+ vo3zDk8rmg1mpeexKLb3jOPpUibSN0gXl6Azh72rD8ldliPm65iABgagw
+ 4WQKrjb+iKdo8rFkPNlhwjsbi1IOCHIYpkInRQGU5Y0Q6+NML6wO8HVTn
+ cQbOsuN4ufYzTq6ElvFmd7oIlSwW0o3Z18MyaosdeiHApXrgxpxqK2X+Z g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10676"; a="343524158"
+X-IronPort-AV: E=Sophos;i="5.98,335,1673942400"; d="scan'208";a="343524158"
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  10 Apr 2023 21:24:54 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10676"; a="777763908"
-X-IronPort-AV: E=Sophos;i="5.98,335,1673942400"; d="scan'208";a="777763908"
+X-IronPort-AV: E=McAfee;i="6600,9927,10676"; a="777763911"
+X-IronPort-AV: E=Sophos;i="5.98,335,1673942400"; d="scan'208";a="777763911"
 Received: from fyang16-desk.jf.intel.com ([10.24.96.243])
  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  10 Apr 2023 21:24:54 -0700
 From: fei.yang@intel.com
 To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH 3/9] drm/i915/mtl: Add PTE encode function
-Date: Mon, 10 Apr 2023 21:26:07 -0700
-Message-Id: <20230411042613.3178711-4-fei.yang@intel.com>
+Subject: [PATCH 4/9] drm/i915/mtl: workaround coherency issue for Media
+Date: Mon, 10 Apr 2023 21:26:08 -0700
+Message-Id: <20230411042613.3178711-5-fei.yang@intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20230411042613.3178711-1-fei.yang@intel.com>
 References: <20230411042613.3178711-1-fei.yang@intel.com>
@@ -63,212 +63,146 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Fei Yang <fei.yang@intel.com>
 
-PTE encode functions are platform dependent. This patch implements
-PTE functions for MTL, and ensures the correct PTE encode function
-is used by calling pte_encode function pointer instead of the
-hardcoded gen8 version of PTE encode.
+This patch implements Wa_22016122933.
+
+In MTL, memory writes initiated by Media tile update the whole
+cache line even for partial writes. This creates a coherency
+problem for cacheable memory if both CPU and GPU are writing data
+to different locations within a single cache line. CTB communication
+is impacted by this issue because the head and tail pointers are
+adjacent words within a cache line (see struct guc_ct_buffer_desc),
+where one is written by GuC and the other by the host.
+This patch circumvents the issue by making CPU/GPU shared memory
+uncacheable (WC on CPU side, and PAT index 2 for GPU). Also for
+CTB which is being updated by both CPU and GuC, mfence instruction
+is added to make sure the CPU writes are visible to GPU right away
+(flush the write combining buffer).
+
+While fixing the CTB issue, we noticed some random GSC firmware
+loading failure because the share buffers are cacheable (WB) on CPU
+side but uncached on GPU side. To fix these issues we need to map
+such shared buffers as WC on CPU side. Since such allocations are
+not all done through GuC allocator, to avoid too many code changes,
+the i915_coherent_map_type() is now hard coded to return WC for MTL.
+
+BSpec: 45101
 
 Signed-off-by: Fei Yang <fei.yang@intel.com>
 ---
- drivers/gpu/drm/i915/display/intel_dpt.c |  2 +-
- drivers/gpu/drm/i915/gt/gen8_ppgtt.c     | 45 ++++++++++++++++++++----
- drivers/gpu/drm/i915/gt/gen8_ppgtt.h     |  3 ++
- drivers/gpu/drm/i915/gt/intel_ggtt.c     | 36 +++++++++++++++++--
- 4 files changed, 75 insertions(+), 11 deletions(-)
+ drivers/gpu/drm/i915/gem/i915_gem_pages.c |  5 ++++-
+ drivers/gpu/drm/i915/gt/uc/intel_gsc_fw.c | 13 +++++++++++++
+ drivers/gpu/drm/i915/gt/uc/intel_guc.c    |  7 +++++++
+ drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c | 18 ++++++++++++------
+ 4 files changed, 36 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/display/intel_dpt.c b/drivers/gpu/drm/i915/display/intel_dpt.c
-index b8027392144d..c5eacfdba1a5 100644
---- a/drivers/gpu/drm/i915/display/intel_dpt.c
-+++ b/drivers/gpu/drm/i915/display/intel_dpt.c
-@@ -300,7 +300,7 @@ intel_dpt_create(struct intel_framebuffer *fb)
- 	vm->vma_ops.bind_vma    = dpt_bind_vma;
- 	vm->vma_ops.unbind_vma  = dpt_unbind_vma;
- 
--	vm->pte_encode = gen8_ggtt_pte_encode;
-+	vm->pte_encode = vm->gt->ggtt->vm.pte_encode;
- 
- 	dpt->obj = dpt_obj;
- 	dpt->obj->is_dpt = true;
-diff --git a/drivers/gpu/drm/i915/gt/gen8_ppgtt.c b/drivers/gpu/drm/i915/gt/gen8_ppgtt.c
-index 4daaa6f55668..11b91e0453c8 100644
---- a/drivers/gpu/drm/i915/gt/gen8_ppgtt.c
-+++ b/drivers/gpu/drm/i915/gt/gen8_ppgtt.c
-@@ -55,6 +55,34 @@ static u64 gen8_pte_encode(dma_addr_t addr,
- 	return pte;
- }
- 
-+static u64 mtl_pte_encode(dma_addr_t addr,
-+			  enum i915_cache_level level,
-+			  u32 flags)
-+{
-+	gen8_pte_t pte = addr | GEN8_PAGE_PRESENT | GEN8_PAGE_RW;
-+
-+	if (unlikely(flags & PTE_READ_ONLY))
-+		pte &= ~GEN8_PAGE_RW;
-+
-+	if (flags & PTE_LM)
-+		pte |= GEN12_PPGTT_PTE_LM | GEN12_PPGTT_PTE_NC;
-+
-+	switch (level) {
-+	case I915_CACHE_NONE:
-+		pte |= GEN12_PPGTT_PTE_PAT1;
-+		break;
-+	case I915_CACHE_LLC:
-+	case I915_CACHE_L3_LLC:
-+		pte |= GEN12_PPGTT_PTE_PAT0 | GEN12_PPGTT_PTE_PAT1;
-+		break;
-+	case I915_CACHE_WT:
-+		pte |= GEN12_PPGTT_PTE_PAT0;
-+		break;
-+	}
-+
-+	return pte;
-+}
-+
- static void gen8_ppgtt_notify_vgt(struct i915_ppgtt *ppgtt, bool create)
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_pages.c b/drivers/gpu/drm/i915/gem/i915_gem_pages.c
+index ecd86130b74f..89fc8ea6bcfc 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_pages.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_pages.c
+@@ -469,7 +469,10 @@ enum i915_map_type i915_coherent_map_type(struct drm_i915_private *i915,
+ 					  struct drm_i915_gem_object *obj,
+ 					  bool always_coherent)
  {
- 	struct drm_i915_private *i915 = ppgtt->vm.i915;
-@@ -427,7 +455,7 @@ gen8_ppgtt_insert_pte(struct i915_ppgtt *ppgtt,
- 		      u32 flags)
- {
- 	struct i915_page_directory *pd;
--	const gen8_pte_t pte_encode = gen8_pte_encode(0, cache_level, flags);
-+	const gen8_pte_t pte_encode = ppgtt->vm.pte_encode(0, cache_level, flags);
- 	gen8_pte_t *vaddr;
+-	if (i915_gem_object_is_lmem(obj))
++	/*
++	 * Wa_22016122933: always return I915_MAP_WC for MTL
++	 */
++	if (i915_gem_object_is_lmem(obj) || IS_METEORLAKE(i915))
+ 		return I915_MAP_WC;
+ 	if (HAS_LLC(i915) || always_coherent)
+ 		return I915_MAP_WB;
+diff --git a/drivers/gpu/drm/i915/gt/uc/intel_gsc_fw.c b/drivers/gpu/drm/i915/gt/uc/intel_gsc_fw.c
+index 1d9fdfb11268..236673c02f9a 100644
+--- a/drivers/gpu/drm/i915/gt/uc/intel_gsc_fw.c
++++ b/drivers/gpu/drm/i915/gt/uc/intel_gsc_fw.c
+@@ -110,6 +110,13 @@ static int gsc_fw_load_prepare(struct intel_gsc_uc *gsc)
+ 	if (obj->base.size < gsc->fw.size)
+ 		return -ENOSPC;
  
- 	pd = i915_pd_entry(pdp, gen8_pd_index(idx, 2));
-@@ -580,7 +608,7 @@ static void gen8_ppgtt_insert_huge(struct i915_address_space *vm,
- 				   enum i915_cache_level cache_level,
- 				   u32 flags)
- {
--	const gen8_pte_t pte_encode = gen8_pte_encode(0, cache_level, flags);
-+	const gen8_pte_t pte_encode = vm->pte_encode(0, cache_level, flags);
- 	unsigned int rem = sg_dma_len(iter->sg);
- 	u64 start = vma_res->start;
++	/*
++	 * Wa_22016122933: For MTL the shared memory needs to be mapped
++	 * as WC on CPU side and UC (PAT index 2) on GPU side
++	 */
++	if (IS_METEORLAKE(i915))
++		i915_gem_object_set_cache_coherency(obj, I915_CACHE_NONE);
++
+ 	dst = i915_gem_object_pin_map_unlocked(obj,
+ 					       i915_coherent_map_type(i915, obj, true));
+ 	if (IS_ERR(dst))
+@@ -125,6 +132,12 @@ static int gsc_fw_load_prepare(struct intel_gsc_uc *gsc)
+ 	memset(dst, 0, obj->base.size);
+ 	memcpy(dst, src, gsc->fw.size);
  
-@@ -743,7 +771,7 @@ static void gen8_ppgtt_insert_entry(struct i915_address_space *vm,
- 	GEM_BUG_ON(pt->is_compact);
++	/*
++	 * Wa_22016122933: Making sure the data in dst is
++	 * visible to GSC right away
++	 */
++	intel_guc_write_barrier(&gt->uc.guc);
++
+ 	i915_gem_object_unpin_map(gsc->fw.obj);
+ 	i915_gem_object_unpin_map(obj);
  
- 	vaddr = px_vaddr(pt);
--	vaddr[gen8_pd_index(idx, 0)] = gen8_pte_encode(addr, level, flags);
-+	vaddr[gen8_pd_index(idx, 0)] = vm->pte_encode(addr, level, flags);
- 	drm_clflush_virt_range(&vaddr[gen8_pd_index(idx, 0)], sizeof(*vaddr));
- }
+diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc.c b/drivers/gpu/drm/i915/gt/uc/intel_guc.c
+index d76508fa3af7..f9bddaa876d9 100644
+--- a/drivers/gpu/drm/i915/gt/uc/intel_guc.c
++++ b/drivers/gpu/drm/i915/gt/uc/intel_guc.c
+@@ -743,6 +743,13 @@ struct i915_vma *intel_guc_allocate_vma(struct intel_guc *guc, u32 size)
+ 	if (IS_ERR(obj))
+ 		return ERR_CAST(obj);
  
-@@ -773,7 +801,7 @@ static void __xehpsdv_ppgtt_insert_entry_lm(struct i915_address_space *vm,
++	/*
++	 * Wa_22016122933: For MTL the shared memory needs to be mapped
++	 * as WC on CPU side and UC (PAT index 2) on GPU side
++	 */
++	if (IS_METEORLAKE(gt->i915))
++		i915_gem_object_set_cache_coherency(obj, I915_CACHE_NONE);
++
+ 	vma = i915_vma_instance(obj, &gt->ggtt->vm, NULL);
+ 	if (IS_ERR(vma))
+ 		goto err;
+diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
+index 1803a633ed64..98e682b7df07 100644
+--- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
++++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
+@@ -415,12 +415,6 @@ static int ct_write(struct intel_guc_ct *ct,
  	}
+ 	GEM_BUG_ON(tail > size);
  
- 	vaddr = px_vaddr(pt);
--	vaddr[gen8_pd_index(idx, 0) / 16] = gen8_pte_encode(addr, level, flags);
-+	vaddr[gen8_pd_index(idx, 0) / 16] = vm->pte_encode(addr, level, flags);
- }
+-	/*
+-	 * make sure H2G buffer update and LRC tail update (if this triggering a
+-	 * submission) are visible before updating the descriptor tail
+-	 */
+-	intel_guc_write_barrier(ct_to_guc(ct));
+-
+ 	/* update local copies */
+ 	ctb->tail = tail;
+ 	GEM_BUG_ON(atomic_read(&ctb->space) < len + GUC_CTB_HDR_LEN);
+@@ -429,6 +423,12 @@ static int ct_write(struct intel_guc_ct *ct,
+ 	/* now update descriptor */
+ 	WRITE_ONCE(desc->tail, tail);
  
- static void xehpsdv_ppgtt_insert_entry(struct i915_address_space *vm,
-@@ -820,8 +848,8 @@ static int gen8_init_scratch(struct i915_address_space *vm)
- 		pte_flags |= PTE_LM;
- 
- 	vm->scratch[0]->encode =
--		gen8_pte_encode(px_dma(vm->scratch[0]),
--				I915_CACHE_NONE, pte_flags);
-+		vm->pte_encode(px_dma(vm->scratch[0]),
-+			       I915_CACHE_NONE, pte_flags);
- 
- 	for (i = 1; i <= vm->top; i++) {
- 		struct drm_i915_gem_object *obj;
-@@ -963,7 +991,10 @@ struct i915_ppgtt *gen8_ppgtt_create(struct intel_gt *gt,
- 	 */
- 	ppgtt->vm.alloc_scratch_dma = alloc_pt_dma;
- 
--	ppgtt->vm.pte_encode = gen8_pte_encode;
-+	if (GRAPHICS_VER_FULL(gt->i915) >= IP_VER(12, 70))
-+		ppgtt->vm.pte_encode = mtl_pte_encode;
-+	else
-+		ppgtt->vm.pte_encode = gen8_pte_encode;
- 
- 	ppgtt->vm.bind_async_flags = I915_VMA_LOCAL_BIND;
- 	ppgtt->vm.insert_entries = gen8_ppgtt_insert;
-diff --git a/drivers/gpu/drm/i915/gt/gen8_ppgtt.h b/drivers/gpu/drm/i915/gt/gen8_ppgtt.h
-index f541d19264b4..6b8ce7f4d25a 100644
---- a/drivers/gpu/drm/i915/gt/gen8_ppgtt.h
-+++ b/drivers/gpu/drm/i915/gt/gen8_ppgtt.h
-@@ -18,5 +18,8 @@ struct i915_ppgtt *gen8_ppgtt_create(struct intel_gt *gt,
- u64 gen8_ggtt_pte_encode(dma_addr_t addr,
- 			 enum i915_cache_level level,
- 			 u32 flags);
-+u64 mtl_ggtt_pte_encode(dma_addr_t addr,
-+			unsigned int pat_index,
-+			u32 flags);
- 
- #endif
-diff --git a/drivers/gpu/drm/i915/gt/intel_ggtt.c b/drivers/gpu/drm/i915/gt/intel_ggtt.c
-index 3c7f1ed92f5b..ba3109338aee 100644
---- a/drivers/gpu/drm/i915/gt/intel_ggtt.c
-+++ b/drivers/gpu/drm/i915/gt/intel_ggtt.c
-@@ -220,6 +220,33 @@ static void guc_ggtt_invalidate(struct i915_ggtt *ggtt)
- 	}
- }
- 
-+u64 mtl_ggtt_pte_encode(dma_addr_t addr,
-+			enum i915_cache_level level,
-+			u32 flags)
-+{
-+	gen8_pte_t pte = addr | GEN8_PAGE_PRESENT;
++	/*
++	 * make sure H2G buffer update and LRC tail update (if this triggering a
++	 * submission) are visible before updating the descriptor tail
++	 */
++	intel_guc_write_barrier(ct_to_guc(ct));
 +
-+	GEM_BUG_ON(addr & ~GEN12_GGTT_PTE_ADDR_MASK);
-+
-+	if (flags & PTE_LM)
-+		pte |= GEN12_GGTT_PTE_LM;
-+
-+	switch (level) {
-+	case I915_CACHE_NONE:
-+		pte |= MTL_GGTT_PTE_PAT1;
-+		break;
-+	case I915_CACHE_LLC:
-+	case I915_CACHE_L3_LLC:
-+		pte |= MTL_GGTT_PTE_PAT0 | MTL_GGTT_PTE_PAT1;
-+		break;
-+	case I915_CACHE_WT:
-+		pte |= MTL_GGTT_PTE_PAT0;
-+		break;
-+	}
-+
-+	return pte;
-+}
-+
- u64 gen8_ggtt_pte_encode(dma_addr_t addr,
- 			 enum i915_cache_level level,
- 			 u32 flags)
-@@ -247,7 +274,7 @@ static void gen8_ggtt_insert_page(struct i915_address_space *vm,
- 	gen8_pte_t __iomem *pte =
- 		(gen8_pte_t __iomem *)ggtt->gsm + offset / I915_GTT_PAGE_SIZE;
+ 	return 0;
  
--	gen8_set_pte(pte, gen8_ggtt_pte_encode(addr, level, flags));
-+	gen8_set_pte(pte, ggtt->vm.pte_encode(addr, level, flags));
+ corrupted:
+@@ -902,6 +902,12 @@ static int ct_read(struct intel_guc_ct *ct, struct ct_incoming_msg **msg)
+ 	/* now update descriptor */
+ 	WRITE_ONCE(desc->head, head);
  
- 	ggtt->invalidate(ggtt);
- }
-@@ -257,8 +284,8 @@ static void gen8_ggtt_insert_entries(struct i915_address_space *vm,
- 				     enum i915_cache_level level,
- 				     u32 flags)
- {
--	const gen8_pte_t pte_encode = gen8_ggtt_pte_encode(0, level, flags);
- 	struct i915_ggtt *ggtt = i915_vm_to_ggtt(vm);
-+	const gen8_pte_t pte_encode = ggtt->vm.pte_encode(0, level, flags);
- 	gen8_pte_t __iomem *gte;
- 	gen8_pte_t __iomem *end;
- 	struct sgt_iter iter;
-@@ -981,7 +1008,10 @@ static int gen8_gmch_probe(struct i915_ggtt *ggtt)
- 	ggtt->vm.vma_ops.bind_vma    = intel_ggtt_bind_vma;
- 	ggtt->vm.vma_ops.unbind_vma  = intel_ggtt_unbind_vma;
++	/*
++	 * Wa_22016122933: Making sure the head update is
++	 * visible to GuC right away
++	 */
++	intel_guc_write_barrier(ct_to_guc(ct));
++
+ 	return available - len;
  
--	ggtt->vm.pte_encode = gen8_ggtt_pte_encode;
-+	if (GRAPHICS_VER_FULL(i915) >= IP_VER(12, 70))
-+		ggtt->vm.pte_encode = mtl_ggtt_pte_encode;
-+	else
-+		ggtt->vm.pte_encode = gen8_ggtt_pte_encode;
- 
- 	return ggtt_probe_common(ggtt, size);
- }
+ corrupted:
 -- 
 2.25.1
 
