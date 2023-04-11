@@ -2,74 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98CAF6DDEB4
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Apr 2023 17:01:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B7CFA6DDEBD
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Apr 2023 17:02:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6CA2410E582;
-	Tue, 11 Apr 2023 15:01:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D8FBD10E583;
+	Tue, 11 Apr 2023 15:02:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com
- [IPv6:2a00:1450:4864:20::42e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F1A3810E582
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Apr 2023 15:01:14 +0000 (UTC)
-Received: by mail-wr1-x42e.google.com with SMTP id
- ffacd0b85a97d-2efbab477a6so113771f8f.1
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Apr 2023 08:01:14 -0700 (PDT)
+Received: from mail-oi1-x22f.google.com (mail-oi1-x22f.google.com
+ [IPv6:2607:f8b0:4864:20::22f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8C7A610E583;
+ Tue, 11 Apr 2023 15:02:22 +0000 (UTC)
+Received: by mail-oi1-x22f.google.com with SMTP id bb20so731977oib.12;
+ Tue, 11 Apr 2023 08:02:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1681225273; x=1683817273;
- h=in-reply-to:content-disposition:mime-version:references
- :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
- :subject:date:message-id:reply-to;
- bh=p5X6MAk0ycdyWUIs+bI10cqIdEaTFo7OsdLJazRF6W4=;
- b=I5dJGkU+8/zCsX059XnDP41lbfObXsEprjlJwOEdjXnaMwmF/xe4879vsPOSYbvLeN
- GjOI4IuIHRrfsIYOhkeGkS1pTC10qm94MV82STUC5efmZvozDMMfs/NXdg2W1JSjXn8L
- HJj7rUW7GOULQiR9TtLDhNb0/nN8O4XhvIqN8=
+ d=gmail.com; s=20210112; t=1681225341;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=2WJpgC9tCR8udl5BovYzFlcONxJeVE/qdJ1S1reXt5E=;
+ b=VsL3u5pOE/5IW3p3ulEMJtpEvaImLs5+xtOp2Gxms1RMPA9RVBx5/L8A+UefiuApt1
+ x7bVqF2L8QNuiYODEVADMlCaVMntM/anO13q5izgGfJnMTY8U7P6I5aK+oDgitnOBaEh
+ qmFVeCdTutHisXuxKmbW6LXKQkpdH4j3B7twZIyDnsfwMMX7JV8V8SLPo8H+gRQ/iAzx
+ lf+K3PLIgXy14Pxk4bCaqZWNTmLMvckmqaSCTTDeM9kMKEK0hMvLnKD0Qkx0+YEC/ZRC
+ ITYRZKCUdpfFPzX9N2dak+kG7IbrtVZRaJ5EmYU4KFhIrs00dAShwAdv6xhPL2kRJc+n
+ CakQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1681225273; x=1683817273;
- h=in-reply-to:content-disposition:mime-version:references
- :mail-followup-to:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=p5X6MAk0ycdyWUIs+bI10cqIdEaTFo7OsdLJazRF6W4=;
- b=ChFF7IhM74NfxxHsgXA2PvsE5OQzWP/o68bDCl7XnsctmTfgcfaCu65VWsOyYm6nCZ
- TNfKw6BRWbujbRXOkpC3QFz1CoZ6ci3MhjTo3fUmva6YCHkrzDbp37l6L5I2/NpavSGo
- 4g1HOycG+ZoVudbxzU4szebOM0k8CUvfMTn3hsHsGq/zVpnreEC71YekcngpDfeYLNK1
- WZMav29routHX3C9JEhV9/Riqp55XwyXGXzdywzPqEeuUsv3b9ynXjBn3mVN89Cno+Ny
- 4hxZ84p+Zpj3BpAvSCdK/gJr4cGJO5lyOm2iveg03Ho5cnQcn6UtXUUmWvzfdVPrxels
- Gh4g==
-X-Gm-Message-State: AAQBX9egQQ38cdQnpFi07Yq1uLzkRRJNNg5FVBRk4ZwGWZgzkP/6qYjQ
- iQ3RCraFJVs4lDK7exEMPTqDRg==
-X-Google-Smtp-Source: AKy350Y2w1T0rz4N/FvRZIpzEHOepBmJZn8uoGYoxs2MFy7RDHglu0yv8BxU4chJkRQTTJGEfaLenA==
-X-Received: by 2002:a05:600c:3ca3:b0:3eb:2e2a:be95 with SMTP id
- bg35-20020a05600c3ca300b003eb2e2abe95mr8317833wmb.2.1681225273221; 
- Tue, 11 Apr 2023 08:01:13 -0700 (PDT)
-Received: from phenom.ffwll.local (212-51-149-33.fiber7.init7.net.
- [212.51.149.33]) by smtp.gmail.com with ESMTPSA id
- u14-20020a05600c00ce00b003ed243222adsm17186003wmm.42.2023.04.11.08.01.12
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 11 Apr 2023 08:01:12 -0700 (PDT)
-Date: Tue, 11 Apr 2023 17:01:10 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Greg KH <greg@kroah.com>, Oded Gabbay <ogabbay@kernel.org>
-Subject: Re: linux-next: build failure after merge of the driver-core tree
-Message-ID: <ZDV2Nvs57Orx47tj@phenom.ffwll.local>
-Mail-Followup-To: Greg KH <greg@kroah.com>, Oded Gabbay <ogabbay@kernel.org>,
- Stephen Rothwell <sfr@canb.auug.org.au>,
- Dave Airlie <airlied@redhat.com>,
- Jeffrey Hugo <quic_jhugo@quicinc.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- DRI <dri-devel@lists.freedesktop.org>,
- Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>,
- Linux Next Mailing List <linux-next@vger.kernel.org>,
- Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
-References: <20230411143812.11a4b00d@canb.auug.org.au>
- <ZDUuiB+E1tIJ95LY@phenom.ffwll.local>
- <2023041123-tractor-quake-c44d@gregkh>
+ d=1e100.net; s=20210112; t=1681225341;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=2WJpgC9tCR8udl5BovYzFlcONxJeVE/qdJ1S1reXt5E=;
+ b=ZHdEKlrop1/OEsEdhCbtKpkYpjHh4cRDNR9DcP74Y9WVaOzQSCW12Jl8covVPpjBHz
+ 3Z9A1vdhQUTa/v38UJ6l770DN1dFiIwlH4SecK4tmOmB0kkAMb2OREj1BvLTGwSnxulX
+ tQjT10zRqdtcay0w0WMXkOwJLHbV1QYmxAPfsciwo9yEYvnZEn814JJBhT2l6cdxzOoZ
+ +lsxtTYpVi5rBNhwuJivx2fzRBZ7JTouA8tvtp2ZeU4FI5DDoAd562YhDnbNnzRW+bc4
+ 8Tm5/4G1re9rVSKxG4OlX3qw6nyOiroYK0nrmnkD7cnRzGISPtZqmHU6o4bcXQ0ZBXq2
+ O9lA==
+X-Gm-Message-State: AAQBX9eY9g2pdESJHgXUpg7x66EzPWzQl+Jfq2tCqyjQwQ4NYQVbT8SP
+ UCKRQMYdWbHctObZI+j7oEWDcA46AsRSJxrUr2Q=
+X-Google-Smtp-Source: AKy350YwtRIiyCDeEf6JFQH53X2u6nZHWvn5d3u/Drcf/pPiALqRx7i8rjGAzsLiwjvV95U1/m3LauiEIuV3O9FcwoI=
+X-Received: by 2002:a05:6808:2994:b0:384:1e6a:bf10 with SMTP id
+ ex20-20020a056808299400b003841e6abf10mr2176191oib.5.1681225341294; Tue, 11
+ Apr 2023 08:02:21 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2023041123-tractor-quake-c44d@gregkh>
-X-Operating-System: Linux phenom 6.1.0-7-amd64
+References: <20230410210608.1873968-1-robdclark@gmail.com>
+ <20230410210608.1873968-2-robdclark@gmail.com>
+ <ZDU5vvc4V85E9hqP@phenom.ffwll.local>
+In-Reply-To: <ZDU5vvc4V85E9hqP@phenom.ffwll.local>
+From: Rob Clark <robdclark@gmail.com>
+Date: Tue, 11 Apr 2023 08:02:09 -0700
+Message-ID: <CAF6AEGuzfvC0v7bo_OD7mP6C9cA4mJeTvdM+i7e1hVS-Tv+AFQ@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] drm: Add fdinfo memory stats
+To: Rob Clark <robdclark@gmail.com>, dri-devel@lists.freedesktop.org, 
+ linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org, 
+ Boris Brezillon <boris.brezillon@collabora.com>, 
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Christopher Healy <healych@amazon.com>, 
+ Emil Velikov <emil.l.velikov@gmail.com>, Rob Clark <robdclark@chromium.org>, 
+ David Airlie <airlied@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ Jonathan Corbet <corbet@lwn.net>,
+ "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>, 
+ open list <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,92 +80,237 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Stephen Rothwell <sfr@canb.auug.org.au>,
- Jeffrey Hugo <quic_jhugo@quicinc.com>, Oded Gabbay <ogabbay@kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- DRI <dri-devel@lists.freedesktop.org>,
- Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>,
- Linux Next Mailing List <linux-next@vger.kernel.org>,
- Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
- Dave Airlie <airlied@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Apr 11, 2023 at 12:40:28PM +0200, Greg KH wrote:
-> On Tue, Apr 11, 2023 at 11:55:20AM +0200, Daniel Vetter wrote:
-> > On Tue, Apr 11, 2023 at 02:38:12PM +1000, Stephen Rothwell wrote:
-> > > Hi all,
-> > > 
-> > > After merging the driver-core tree, today's linux-next build (x86_64
-> > > allmodconfig) failed like this:
-> > > 
-> > > In file included from include/linux/linkage.h:7,
-> > >                  from include/linux/kernel.h:17,
-> > >                  from drivers/accel/qaic/mhi_qaic_ctrl.c:4:
-> > > drivers/accel/qaic/mhi_qaic_ctrl.c: In function 'mhi_qaic_ctrl_init':
-> > > include/linux/export.h:27:22: error: passing argument 1 of 'class_create' from incompatible pointer type [-Werror=incompatible-pointer-types]
-> > >    27 | #define THIS_MODULE (&__this_module)
-> > >       |                     ~^~~~~~~~~~~~~~~
-> > >       |                      |
-> > >       |                      struct module *
-> > > drivers/accel/qaic/mhi_qaic_ctrl.c:544:38: note: in expansion of macro 'THIS_MODULE'
-> > >   544 |         mqc_dev_class = class_create(THIS_MODULE, MHI_QAIC_CTRL_DRIVER_NAME);
-> > >       |                                      ^~~~~~~~~~~
-> > > In file included from include/linux/device.h:31,
-> > >                  from include/linux/mhi.h:9,
-> > >                  from drivers/accel/qaic/mhi_qaic_ctrl.c:5:
-> > > include/linux/device/class.h:229:54: note: expected 'const char *' but argument is of type 'struct module *'
-> > >   229 | struct class * __must_check class_create(const char *name);
-> > >       |                                          ~~~~~~~~~~~~^~~~
-> > > drivers/accel/qaic/mhi_qaic_ctrl.c:544:25: error: too many arguments to function 'class_create'
-> > >   544 |         mqc_dev_class = class_create(THIS_MODULE, MHI_QAIC_CTRL_DRIVER_NAME);
-> > >       |                         ^~~~~~~~~~~~
-> > > include/linux/device/class.h:229:29: note: declared here
-> > >   229 | struct class * __must_check class_create(const char *name);
-> > >       |                             ^~~~~~~~~~~~
-> > > 
-> > > Caused by commit
-> > > 
-> > >   1aaba11da9aa ("driver core: class: remove module * from class_create()")
-> > > 
-> > > interacting with commit
-> > > 
-> > >   566fc96198b4 ("accel/qaic: Add mhi_qaic_cntl")
-> > > 
-> > > from the drm tree.
-> > > 
-> > > I have applied the following merge fix patch for today.
-> > > 
-> > > From: Stephen Rothwell <sfr@canb.auug.org.au>
-> > > Date: Tue, 11 Apr 2023 14:16:57 +1000
-> > > Subject: [PATCH] fixup for "driver core: class: remove module * from class_create()"
-> > > 
-> > > interacting with "accel/qaic: Add mhi_qaic_cntl"
-> > > 
-> > > Signed-off-by: Stephen Rothwell <sfr@canb.auug.org.au>
-> > 
-> > Thanks for the fixup. Since Dave is out I've made a note about this in my
-> > handover mail so it won't get lost in the drm-next merge window pull. I
-> > don't think we need any other coordination than mention it in each pull to
-> > Linus, topic tree seems overkill for this. Plus there's no way I can
-> > untangle the drm tree anyway :-).
-> 
-> Want me to submit a patch for the drm tree that moves this to use
-> class_register() instead, which will make the merge/build issue go away
-> for you?  That's my long-term goal here anyway, so converting this new
-> code to this api today would be something I have to do eventually :)
+On Tue, Apr 11, 2023 at 3:43=E2=80=AFAM Daniel Vetter <daniel@ffwll.ch> wro=
+te:
+>
+> On Mon, Apr 10, 2023 at 02:06:06PM -0700, Rob Clark wrote:
+> > From: Rob Clark <robdclark@chromium.org>
+> >
+> > Add a helper to dump memory stats to fdinfo.  For the things the drm
+> > core isn't aware of, use a callback.
+> >
+> > v2: Fix typos, change size units to match docs, use div_u64
+> >
+> > Signed-off-by: Rob Clark <robdclark@chromium.org>
+> > Reviewed-by: Emil Velikov <emil.l.velikov@gmail.com>
+>
+> Uh can't we wire this up by default? Having this as a per-driver opt-in
+> sounds like we'll get maximally fragmented drm fd_info, and since that's
+> uapi I don't think that's any good at all.
 
-We kinda closed drm-next for feature work mostly already (just pulling
-stuff in from subtrees), so won't really help for this merge window.
+That is the reason for the centralized documentation of the props (and
+why for this one I added a helper, rather than continuing the current
+pattern of everyone rolling their own)..
 
-For everything else I think this is up to Oded, I had no idea qaic needed
-it's entire own dev class and I don't want to dig into this for the risk I
-might freak out :-)
+We _could_ (and I had contemplated) doing this all in core if (a) we
+move madv to drm_gem_object, and (b) track
+drm_gem_get_pages()/drm_gem_put_pages().  I guess neither is totally
+unreasonable, pretty much all the non-ttm/non-cma GEM drivers have
+some form of madvise ioctl and use
+drm_gem_get_pages()/drm_gem_put_pages()..
 
-Adding Oded.
+BR,
+-R
 
-Cheers, Daniel
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+> I think it's time we have
+> - drm_fd_info
+> - rolled out to all drivers in their fops
+> - with feature checks as appropriate
+> - push the driver-specific things into a drm_driver callback
+>
+> And I guess start peopling giving a hard time for making things needless
+> driver-specifict ... there's really no reason at all this is not
+> consistent across drivers.
+> -Daniel
+>
+> > ---
+> >  Documentation/gpu/drm-usage-stats.rst | 21 +++++++
+> >  drivers/gpu/drm/drm_file.c            | 79 +++++++++++++++++++++++++++
+> >  include/drm/drm_file.h                | 10 ++++
+> >  3 files changed, 110 insertions(+)
+> >
+> > diff --git a/Documentation/gpu/drm-usage-stats.rst b/Documentation/gpu/=
+drm-usage-stats.rst
+> > index b46327356e80..b5e7802532ed 100644
+> > --- a/Documentation/gpu/drm-usage-stats.rst
+> > +++ b/Documentation/gpu/drm-usage-stats.rst
+> > @@ -105,6 +105,27 @@ object belong to this client, in the respective me=
+mory region.
+> >  Default unit shall be bytes with optional unit specifiers of 'KiB' or =
+'MiB'
+> >  indicating kibi- or mebi-bytes.
+> >
+> > +- drm-shared-memory: <uint> [KiB|MiB]
+> > +
+> > +The total size of buffers that are shared with another file (ie. have =
+more
+> > +than a single handle).
+> > +
+> > +- drm-private-memory: <uint> [KiB|MiB]
+> > +
+> > +The total size of buffers that are not shared with another file.
+> > +
+> > +- drm-resident-memory: <uint> [KiB|MiB]
+> > +
+> > +The total size of buffers that are resident in system memory.
+> > +
+> > +- drm-purgeable-memory: <uint> [KiB|MiB]
+> > +
+> > +The total size of buffers that are purgeable.
+> > +
+> > +- drm-active-memory: <uint> [KiB|MiB]
+> > +
+> > +The total size of buffers that are active on one or more rings.
+> > +
+> >  - drm-cycles-<str> <uint>
+> >
+> >  Engine identifier string must be the same as the one specified in the
+> > diff --git a/drivers/gpu/drm/drm_file.c b/drivers/gpu/drm/drm_file.c
+> > index a51ff8cee049..085b01842a87 100644
+> > --- a/drivers/gpu/drm/drm_file.c
+> > +++ b/drivers/gpu/drm/drm_file.c
+> > @@ -42,6 +42,7 @@
+> >  #include <drm/drm_client.h>
+> >  #include <drm/drm_drv.h>
+> >  #include <drm/drm_file.h>
+> > +#include <drm/drm_gem.h>
+> >  #include <drm/drm_print.h>
+> >
+> >  #include "drm_crtc_internal.h"
+> > @@ -868,6 +869,84 @@ void drm_send_event(struct drm_device *dev, struct=
+ drm_pending_event *e)
+> >  }
+> >  EXPORT_SYMBOL(drm_send_event);
+> >
+> > +static void print_size(struct drm_printer *p, const char *stat, size_t=
+ sz)
+> > +{
+> > +     const char *units[] =3D {"", " KiB", " MiB"};
+> > +     unsigned u;
+> > +
+> > +     for (u =3D 0; u < ARRAY_SIZE(units) - 1; u++) {
+> > +             if (sz < SZ_1K)
+> > +                     break;
+> > +             sz =3D div_u64(sz, SZ_1K);
+> > +     }
+> > +
+> > +     drm_printf(p, "%s:\t%zu%s\n", stat, sz, units[u]);
+> > +}
+> > +
+> > +/**
+> > + * drm_print_memory_stats - Helper to print standard fdinfo memory sta=
+ts
+> > + * @file: the DRM file
+> > + * @p: the printer to print output to
+> > + * @status: callback to get driver tracked object status
+> > + *
+> > + * Helper to iterate over GEM objects with a handle allocated in the s=
+pecified
+> > + * file.  The optional status callback can return additional object st=
+ate which
+> > + * determines which stats the object is counted against.  The callback=
+ is called
+> > + * under table_lock.  Racing against object status change is "harmless=
+", and the
+> > + * callback can expect to not race against object destruction.
+> > + */
+> > +void drm_print_memory_stats(struct drm_file *file, struct drm_printer =
+*p,
+> > +                         enum drm_gem_object_status (*status)(struct d=
+rm_gem_object *))
+> > +{
+> > +     struct drm_gem_object *obj;
+> > +     struct {
+> > +             size_t shared;
+> > +             size_t private;
+> > +             size_t resident;
+> > +             size_t purgeable;
+> > +             size_t active;
+> > +     } size =3D {0};
+> > +     int id;
+> > +
+> > +     spin_lock(&file->table_lock);
+> > +     idr_for_each_entry (&file->object_idr, obj, id) {
+> > +             enum drm_gem_object_status s =3D 0;
+> > +
+> > +             if (status)
+> > +                     s =3D status(obj);
+> > +
+> > +             if (obj->handle_count > 1) {
+> > +                     size.shared +=3D obj->size;
+> > +             } else {
+> > +                     size.private +=3D obj->size;
+> > +             }
+> > +
+> > +             if (s & DRM_GEM_OBJECT_RESIDENT) {
+> > +                     size.resident +=3D obj->size;
+> > +                     s &=3D ~DRM_GEM_OBJECT_PURGEABLE;
+> > +             }
+> > +
+> > +             if (s & DRM_GEM_OBJECT_ACTIVE) {
+> > +                     size.active +=3D obj->size;
+> > +                     s &=3D ~DRM_GEM_OBJECT_PURGEABLE;
+> > +             }
+> > +
+> > +             if (s & DRM_GEM_OBJECT_PURGEABLE)
+> > +                     size.purgeable +=3D obj->size;
+> > +     }
+> > +     spin_unlock(&file->table_lock);
+> > +
+> > +     print_size(p, "drm-shared-memory", size.shared);
+> > +     print_size(p, "drm-private-memory", size.private);
+> > +
+> > +     if (status) {
+> > +             print_size(p, "drm-resident-memory", size.resident);
+> > +             print_size(p, "drm-purgeable-memory", size.purgeable);
+> > +             print_size(p, "drm-active-memory", size.active);
+> > +     }
+> > +}
+> > +EXPORT_SYMBOL(drm_print_memory_stats);
+> > +
+> >  /**
+> >   * mock_drm_getfile - Create a new struct file for the drm device
+> >   * @minor: drm minor to wrap (e.g. #drm_device.primary)
+> > diff --git a/include/drm/drm_file.h b/include/drm/drm_file.h
+> > index 0d1f853092ab..7bd8a1374f39 100644
+> > --- a/include/drm/drm_file.h
+> > +++ b/include/drm/drm_file.h
+> > @@ -41,6 +41,7 @@
+> >  struct dma_fence;
+> >  struct drm_file;
+> >  struct drm_device;
+> > +struct drm_printer;
+> >  struct device;
+> >  struct file;
+> >
+> > @@ -438,6 +439,15 @@ void drm_send_event_timestamp_locked(struct drm_de=
+vice *dev,
+> >                                    struct drm_pending_event *e,
+> >                                    ktime_t timestamp);
+> >
+> > +enum drm_gem_object_status {
+> > +     DRM_GEM_OBJECT_RESIDENT  =3D BIT(0),
+> > +     DRM_GEM_OBJECT_PURGEABLE =3D BIT(1),
+> > +     DRM_GEM_OBJECT_ACTIVE    =3D BIT(2),
+> > +};
+> > +
+> > +void drm_print_memory_stats(struct drm_file *file, struct drm_printer =
+*p,
+> > +                         enum drm_gem_object_status (*status)(struct d=
+rm_gem_object *));
+> > +
+> >  struct file *mock_drm_getfile(struct drm_minor *minor, unsigned int fl=
+ags);
+> >
+> >  #endif /* _DRM_FILE_H_ */
+> > --
+> > 2.39.2
+> >
+>
+> --
+> Daniel Vetter
+> Software Engineer, Intel Corporation
+> http://blog.ffwll.ch
