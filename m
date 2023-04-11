@@ -1,62 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F74D6DD7FB
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Apr 2023 12:34:35 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A26A6DD80B
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Apr 2023 12:36:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1201710E096;
-	Tue, 11 Apr 2023 10:34:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6A3C610E0B0;
+	Tue, 11 Apr 2023 10:36:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com
- [IPv6:2a00:1450:4864:20::42d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8B44C10E096
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Apr 2023 10:34:30 +0000 (UTC)
-Received: by mail-wr1-x42d.google.com with SMTP id
- ffacd0b85a97d-2ef1e98d6bfso382533f8f.0
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Apr 2023 03:34:30 -0700 (PDT)
+Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com
+ [IPv6:2a00:1450:4864:20::435])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E5D6310E0B0
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Apr 2023 10:36:26 +0000 (UTC)
+Received: by mail-wr1-x435.google.com with SMTP id
+ ffacd0b85a97d-2ef1e98d6bfso382643f8f.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Apr 2023 03:36:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1681209268; x=1683801268;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=I00mnwr030X+et6YWjpBcS7r+cVDcxfdrqBbP1jIoBM=;
- b=lm4SAcep/XKl1DZtHx5RTnpfJ2QZ0uSgLV/tMXtRo6yNSY+5ouhTp3b1ztrR1Zz5y4
- Fpgs8z/yS9ASMTVO4mGxJKV3KX/P9UZQVFCYF2OPh9rN8nEiIft0NgpawA/KrD4bkfCV
- AP08oczleELGSTIr3+96GC3S+9J7wEM7pN1r8=
+ d=ffwll.ch; s=google; t=1681209385; x=1683801385;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=iSQvnYG8c9OxHw/e20PtXdprFdX0XrEjSsyRYld3AH4=;
+ b=CqJVgB7MCCi6zHeQIK3lAFJnLKmX6LHFQKfCjF1h0JB8WzBsrDPGfB2QjKwfFnqXjf
+ Ouj6D4D651bAHYelfOfzSIj5jb4pVAY57cZAlUUBKbYAT/vY0+5TzaYqO9aEV77kft+i
+ pr+Usk1eRPkhKe2QnXNdyTIGbz/I1k0cX2YYM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1681209268; x=1683801268;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=I00mnwr030X+et6YWjpBcS7r+cVDcxfdrqBbP1jIoBM=;
- b=ZWXpRSl1iIKHLRkUi8dhhT19EY6iEZzeJqDAO3t7lvJz758lAvokA7xxJ50wQlZxvc
- jIVILeTZpbVew2SypmgX+BMNklgswyBK+BOrx2KS85Rlcc58x/1k6c684QA2RiKt4wam
- YfyQ8No52RFho7DG7uzsMUuduKQmlLph92x0pTdPvKMYa+o6xQ+7Lm1rW/9B2+XmCxQf
- kVzB8JyVrl3e/3dVn7PJYlG56+f410TvUNe0Ys9ENqPCOmwNfc8RS2debmDW/Wq00MUU
- Uhh8W8m3su9b3yx1hU7Z/oRQyk5aKTJNMZCA+ikpvuwExM9oa9AqlW6lGgb+I+dirtEA
- JaQg==
-X-Gm-Message-State: AAQBX9fgRcbPPPfguPsG5tX/CTIYHJwiIQgAFGko7fmqXKPl075412LD
- gzinkekL53CWyDDnTAjoEVlS4oUxk5r9PEdwhAY=
-X-Google-Smtp-Source: AKy350ZFqsZmlLAPU6QHNMV5/R/+jpvUG7up53DzrKvTEPAhfUGJeW9YvXZUQC8obhZoatB+t3AEbA==
-X-Received: by 2002:a05:6000:c7:b0:2ef:bb5d:adf8 with SMTP id
- q7-20020a05600000c700b002efbb5dadf8mr5043209wrx.2.1681209268492; 
- Tue, 11 Apr 2023 03:34:28 -0700 (PDT)
+ d=1e100.net; s=20210112; t=1681209385; x=1683801385;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=iSQvnYG8c9OxHw/e20PtXdprFdX0XrEjSsyRYld3AH4=;
+ b=bK3w24zIdS0zgbmiY9VlcxCRQzZhqsvB09x8zszfvV2hPWYcdsVhjov/J+IyogXn6j
+ vPC7tVuyQ2y+aFOaajRj5S9xDt3dlTI5qA94EwXBQxaSQLWY1gLao6hGVOFXTAbjt07o
+ 4WzexIxlmnIuw7yvcEaNgw2JqvWdVzRzedr3U/eV4lozjdbf0buce5MPOcr7UpAtNPlO
+ wL1DaaELPHHYZ+jmSkY9Xc56zCCzdzONud1+luiq/hRcK1oS7QzWvllzUCcBQt51wU2A
+ 8Db+e9fgGEVuR9W0+bJf2juZofkpW3TpZZbjF/1Sdl0qoiE3KCADzPqsGECU6aQtuB/H
+ Mg/Q==
+X-Gm-Message-State: AAQBX9fIP4maLj/tx7q9stQtoVzisv0EmijRnWXXv4qvUCx83CeqWxfS
+ On6m4XScHaT0kguzrqqeCaPJ2Q==
+X-Google-Smtp-Source: AKy350YfHKqHbVjC//SSw/0EqTDC0aeGqVId/ZWL2WEvNHV/PRcRdp29cnnrt+B83qvQKTBc0VvNKQ==
+X-Received: by 2002:a5d:4d4d:0:b0:2d3:b1fa:302c with SMTP id
+ a13-20020a5d4d4d000000b002d3b1fa302cmr5362482wru.5.1681209385256; 
+ Tue, 11 Apr 2023 03:36:25 -0700 (PDT)
 Received: from phenom.ffwll.local (212-51-149-33.fiber7.init7.net.
  [212.51.149.33]) by smtp.gmail.com with ESMTPSA id
- b2-20020adff242000000b002d322b9a7f5sm14286203wrp.88.2023.04.11.03.34.27
+ k1-20020adfe3c1000000b002f01e181c4asm6532427wrm.5.2023.04.11.03.36.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 11 Apr 2023 03:34:28 -0700 (PDT)
-Date: Tue, 11 Apr 2023 12:34:26 +0200
+ Tue, 11 Apr 2023 03:36:24 -0700 (PDT)
+Date: Tue, 11 Apr 2023 12:36:22 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Subject: Re: [GIT PULL] mediatek drm next for 6.4
-Message-ID: <ZDU3sqNGhNFwbINx@phenom.ffwll.local>
-References: <20230410233005.2572-1-chunkuang.hu@kernel.org>
+To: Simon Ser <contact@emersion.fr>
+Subject: Re: [PATCH v2] drm/vkms: add module parameter to set background color
+Message-ID: <ZDU4JkdZSXGXcxAt@phenom.ffwll.local>
+References: <20230410125435.128689-1-mcanal@igalia.com>
+ <gY5DtUoeqVhT1HdJU8yjHSqwe9gTIbV6Q2yVDYRyI_JGHS6Lo73Ivjs2G8d_5T_qL2q7pOhjC6O_aPk2Pnn3npdhzh2Y-_nrD98r3ONMrWc=@emersion.fr>
+ <20230410175036.tqjbwrd4ldcnnqlf@mail.igalia.com>
+ <86KSXjLyx61ozmy_5grAFQ5XGxnysnSnGRCD6FQsgzrUc2xnXQpv06rcPu9FWkXNo7PLu7dEMTmsX9uWVvEMSKYW62ELEjloEfHGCZUqob8=@emersion.fr>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20230410233005.2572-1-chunkuang.hu@kernel.org>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <86KSXjLyx61ozmy_5grAFQ5XGxnysnSnGRCD6FQsgzrUc2xnXQpv06rcPu9FWkXNo7PLu7dEMTmsX9uWVvEMSKYW62ELEjloEfHGCZUqob8=@emersion.fr>
 X-Operating-System: Linux phenom 6.1.0-7-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -70,110 +75,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Nathan Lu <nathan.lu@mediatek.com>, Xinlei Lee <xinlei.lee@mediatek.com>,
- Justin Green <greenjustin@chromium.org>,
- Alexandre Mergnat <amergnat@baylibre.com>, David Airlie <airlied@linux.ie>,
- "Jason-JH . Lin" <jason-jh.lin@mediatek.com>, dri-devel@lists.freedesktop.org,
- "Nancy . Lin" <nancy.lin@mediatek.com>, linux-mediatek@lists.infradead.org,
- Chen-Yu Tsai <wenst@chromium.org>
+Cc: Haneen Mohammed <hamohammed.sa@gmail.com>,
+ Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ =?iso-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>,
+ dri-devel@lists.freedesktop.org, Melissa Wen <mwen@igalia.com>,
+ Igor Matheus Andrade Torrente <igormtorrente@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Apr 10, 2023 at 11:30:05PM +0000, Chun-Kuang Hu wrote:
-> Hi, Dave & Daniel:
+On Tue, Apr 11, 2023 at 08:58:16AM +0000, Simon Ser wrote:
+> Hi,
 > 
-> This includes:
+> On Monday, April 10th, 2023 at 19:50, Melissa Wen <mwen@igalia.com> wrote:
 > 
-> 1. Add support for 10-bit overlays
-> 2. Add MediaTek SoC DRM (vdosys1) support for mt8195
-> 3. Change mmsys compatible for mt8195 mediatek-drm
-> 4. Only trigger DRM HPD events if bridge is attached
-> 5. Change the aux retries times when receiving AUX_DEFER
+> > On 04/10, Simon Ser wrote:
+> > 
+> > > I think this should be a KMS property instead of a module parameter.
+> > > Is there a reason why this patch uses a module parameter? It breaks
+> > > user-space expectations.
+> > 
+> > a KMS property is what we have on vkms TODO [1] and the module parameter
+> > was Maíra's first step to open a discussion for this property [2].
+> > AFAIK, we would need to create the KMS property first, but it seems
+> > there isn't an userspace case/need to support this API change.
+> > Do you know any valid use cases to support a bkg color property?
 > 
-> Regards,
-> Chun-Kuang.
+> There have been previous attempts for msm [1] and i915 [2].
 > 
-> The following changes since commit fe15c26ee26efa11741a7b632e9f23b01aca4cc6:
-> 
->   Linux 6.3-rc1 (2023-03-05 14:52:03 -0800)
-> 
-> are available in the Git repository at:
-> 
->   https://git.kernel.org/pub/scm/linux/kernel/git/chunkuang.hu/linux.git tags/mediatek-drm-next-6.4
-> 
-> for you to fetch changes up to 9243d70e05c5989f84f840612965f96b524da925:
-> 
->   drm/mediatek: dp: Change the aux retries times when receiving AUX_DEFER (2023-04-03 16:49:49 +0000)
+> From user-space PoV, a KMS property would be useful, for instance to
+> render single color background images. I can type some user-space code
+> if that helps.
 
-Pulled, thanks
+Yeah the hold-up thus far was that no one ever came up with an actually
+useful use in a compositor for this. Everyone seems happy with black, but
+maybe with proper color rendering this is changing :-)
 
-> 
-> ----------------------------------------------------------------
-> Mediatek DRM Next for Linux 6.4
-> 
-> 1. Add support for 10-bit overlays
-> 2. Add MediaTek SoC DRM (vdosys1) support for mt8195
-> 3. Change mmsys compatible for mt8195 mediatek-drm
-> 4. Only trigger DRM HPD events if bridge is attached
-> 5. Change the aux retries times when receiving AUX_DEFER
-> 
-> ----------------------------------------------------------------
-> Alexandre Mergnat (1):
->       dt-bindings: display: mediatek: clean unnecessary item
-> 
-> Chen-Yu Tsai (1):
->       drm/mediatek: dp: Only trigger DRM HPD events if bridge is attached
-> 
-> Jason-JH.Lin (1):
->       drm/mediatek: Change mmsys compatible for mt8195 mediatek-drm
-> 
-> Justin Green (3):
->       drm/mediatek: Refactor pixel format logic
->       drm/mediatek: Add support for AR30 and BA30 overlays
->       drm/mediatek: Enable AR30 and BA30 overlays on MT8195
-> 
-> Nancy.Lin (9):
->       dt-bindings: mediatek: add ethdr definition for mt8195
->       drm/mediatek: Add ETHDR support for MT8195
->       drm/mediatek: Add ovl_adaptor support for MT8195
->       drm/mediatek: Add dma dev get function
->       drm/mediatek: Modify mediatek-drm for mt8195 multi mmsys support
->       drm/mediatek: Add drm ovl_adaptor sub driver for MT8195
->       drm/mediatek: Add mediatek-drm of vdosys1 support for MT8195
->       drm/mediatek: Add mdp_rdma get format function
->       drm/mediatek: Add ovl_adaptor get format function
-> 
-> Nathan Lu (1):
->       drm/mediatek: Add mediatek-drm of vdosys0 support for mt8188
-> 
-> Xinlei Lee (1):
->       drm/mediatek: dp: Change the aux retries times when receiving AUX_DEFER
-> 
->  .../bindings/display/mediatek/mediatek,ccorr.yaml  |   5 +-
->  .../bindings/display/mediatek/mediatek,ethdr.yaml  | 182 +++++++
->  drivers/gpu/drm/mediatek/Makefile                  |   2 +
->  drivers/gpu/drm/mediatek/mtk_disp_drv.h            |  35 ++
->  drivers/gpu/drm/mediatek/mtk_disp_ovl.c            |  94 ++++
->  drivers/gpu/drm/mediatek/mtk_disp_ovl_adaptor.c    | 547 +++++++++++++++++++++
->  drivers/gpu/drm/mediatek/mtk_disp_rdma.c           |  38 ++
->  drivers/gpu/drm/mediatek/mtk_dp.c                  |  15 +-
->  drivers/gpu/drm/mediatek/mtk_drm_crtc.c            |  89 +++-
->  drivers/gpu/drm/mediatek/mtk_drm_crtc.h            |   6 +-
->  drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c        | 135 +++--
->  drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h        |  78 ++-
->  drivers/gpu/drm/mediatek/mtk_drm_drv.c             | 475 ++++++++++--------
->  drivers/gpu/drm/mediatek/mtk_drm_drv.h             |  30 +-
->  drivers/gpu/drm/mediatek/mtk_drm_plane.c           |  24 +-
->  drivers/gpu/drm/mediatek/mtk_drm_plane.h           |   3 +-
->  drivers/gpu/drm/mediatek/mtk_ethdr.c               | 370 ++++++++++++++
->  drivers/gpu/drm/mediatek/mtk_ethdr.h               |  25 +
->  drivers/gpu/drm/mediatek/mtk_mdp_rdma.c            |  24 +
->  19 files changed, 1858 insertions(+), 319 deletions(-)
->  create mode 100644 Documentation/devicetree/bindings/display/mediatek/mediatek,ethdr.yaml
->  create mode 100644 drivers/gpu/drm/mediatek/mtk_disp_ovl_adaptor.c
->  create mode 100644 drivers/gpu/drm/mediatek/mtk_ethdr.c
->  create mode 100644 drivers/gpu/drm/mediatek/mtk_ethdr.h
+> If this is a module parameter instead of a KMS property, what purpose
+> does this achieve? What is the use-case? Just trying to understand the
+> motivation here.
 
+Just a step to get things going, occasionally that's needed ...
+-Daniel
 -- 
 Daniel Vetter
 Software Engineer, Intel Corporation
