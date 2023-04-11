@@ -1,50 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BC266DD0D6
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Apr 2023 06:25:25 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BF3B26DD109
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Apr 2023 06:38:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CFF8710E48E;
-	Tue, 11 Apr 2023 04:25:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3B27910E480;
+	Tue, 11 Apr 2023 04:38:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BC79710E483;
- Tue, 11 Apr 2023 04:24:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1681187096; x=1712723096;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=Kk6MG7LpDQT4eujaYDoj8WyIt45VlxyjzUIO8vk1/aY=;
- b=FWZjUeGj7RqxlH8fVfd9aqXK7g9299EYp7NMAzwzTN6OJ5xeXXkUJfFZ
- TETgnJPo8hZHbUvvygzBUygkR6YqpR0q/3ZUktlxL5IsSEoayAVZuD0Ti
- mjickkxwUluC5pjK4h76Ji2scMtwyBs2juEvjqFXo+XdwG/7z1Qk2Ez84
- IHHkMOKfkm17sf1mUuQdDKXQyMGIDRHTFOoR7ka4a9ECuu04KbRYEhW3n
- R5xZc78M+gdCvCNIOp97GSf+be7LSv21tYalDybrkVvPmVViZm8C+C84u
- eHJ5xu0c7cwnpvfFv6CYwg8piZlE+ca9TA6GcK49+Y/dgk2bKlVDKuVJW w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10676"; a="343524166"
-X-IronPort-AV: E=Sophos;i="5.98,335,1673942400"; d="scan'208";a="343524166"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Apr 2023 21:24:55 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10676"; a="777763933"
-X-IronPort-AV: E=Sophos;i="5.98,335,1673942400"; d="scan'208";a="777763933"
-Received: from fyang16-desk.jf.intel.com ([10.24.96.243])
- by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Apr 2023 21:24:55 -0700
-From: fei.yang@intel.com
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH 9/9] drm/i915: Allow user to set cache at BO creation
-Date: Mon, 10 Apr 2023 21:26:13 -0700
-Message-Id: <20230411042613.3178711-10-fei.yang@intel.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230411042613.3178711-1-fei.yang@intel.com>
-References: <20230411042613.3178711-1-fei.yang@intel.com>
+Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 34F9D10E480
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Apr 2023 04:38:19 +0000 (UTC)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4PwY4P6hPMz4xDh;
+ Tue, 11 Apr 2023 14:38:13 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
+ s=201702; t=1681187894;
+ bh=WdSzwCZdNIk1Z37Sc1D9XVh7arO8HT97XygbtDMgy60=;
+ h=Date:From:To:Cc:Subject:From;
+ b=uYMLANMPITzNsdWvDMXmJCKRGFyxfTh+fPL8h3ELKKWRo8qmYu4DXxXvLiVrZYlCp
+ y+MgWLG9pF1pcR/KBJbabELnZpxroDlL0qcfz3k0occz9hs7tQqKFHiXfmmNFfo92+
+ zrZRIglKt1HsDpcmwJq4rCLvcG9fE8xiYYO7ERYvolZDDbeNnhosjqBg/LIDXP8N3A
+ 7kfHSYlzXGMqa5ppxGFIMRbUo2ZNf8Pzx3tTaC0wyIh4w6zVxlLBu4XQotVasQmvGE
+ XP9PsvpiUlk1Mc5kyayn6qQBYwZmLdnRys4FPN/48lUFGevLJcz+WmNZVdSl9TWXu8
+ kR9twwQnskM4A==
+Date: Tue, 11 Apr 2023 14:38:12 +1000
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Greg KH <greg@kroah.com>, Dave Airlie <airlied@redhat.com>
+Subject: linux-next: build failure after merge of the driver-core tree
+Message-ID: <20230411143812.11a4b00d@canb.auug.org.au>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; boundary="Sig_/RN2rq.fb+YeY=+.0XxKESjO";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,240 +48,114 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Matt Roper <matthew.d.roper@intel.com>,
- Chris Wilson <chris.p.wilson@linux.intel.com>, Fei Yang <fei.yang@intel.com>,
- dri-devel@lists.freedesktop.org, Andi Shyti <andi.shyti@linux.intel.com>
+Cc: Jeffrey Hugo <quic_jhugo@quicinc.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ DRI <dri-devel@lists.freedesktop.org>,
+ Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>,
+ Linux Next Mailing List <linux-next@vger.kernel.org>,
+ Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Fei Yang <fei.yang@intel.com>
+--Sig_/RN2rq.fb+YeY=+.0XxKESjO
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-To comply with the design that buffer objects shall have immutable
-cache setting through out its life cycle, {set, get}_caching ioctl's
-are no longer supported from MTL onward. With that change caching
-policy can only be set at object creation time. The current code
-applies a default (platform dependent) cache setting for all objects.
-However this is not optimal for performance tuning. The patch extends
-the existing gem_create uAPI to let user set PAT index for the object
-at creation time.
-The new extension is platform independent, so UMD's can switch to using
-this extension for older platforms as well, while {set, get}_caching are
-still supported on these legacy paltforms for compatibility reason.
+Hi all,
 
-Cc: Chris Wilson <chris.p.wilson@linux.intel.com>
-Cc: Matt Roper <matthew.d.roper@intel.com>
-Cc: Andi Shyti <andi.shyti@linux.intel.com>
-Signed-off-by: Fei Yang <fei.yang@intel.com>
+After merging the driver-core tree, today's linux-next build (x86_64
+allmodconfig) failed like this:
+
+In file included from include/linux/linkage.h:7,
+                 from include/linux/kernel.h:17,
+                 from drivers/accel/qaic/mhi_qaic_ctrl.c:4:
+drivers/accel/qaic/mhi_qaic_ctrl.c: In function 'mhi_qaic_ctrl_init':
+include/linux/export.h:27:22: error: passing argument 1 of 'class_create' f=
+rom incompatible pointer type [-Werror=3Dincompatible-pointer-types]
+   27 | #define THIS_MODULE (&__this_module)
+      |                     ~^~~~~~~~~~~~~~~
+      |                      |
+      |                      struct module *
+drivers/accel/qaic/mhi_qaic_ctrl.c:544:38: note: in expansion of macro 'THI=
+S_MODULE'
+  544 |         mqc_dev_class =3D class_create(THIS_MODULE, MHI_QAIC_CTRL_D=
+RIVER_NAME);
+      |                                      ^~~~~~~~~~~
+In file included from include/linux/device.h:31,
+                 from include/linux/mhi.h:9,
+                 from drivers/accel/qaic/mhi_qaic_ctrl.c:5:
+include/linux/device/class.h:229:54: note: expected 'const char *' but argu=
+ment is of type 'struct module *'
+  229 | struct class * __must_check class_create(const char *name);
+      |                                          ~~~~~~~~~~~~^~~~
+drivers/accel/qaic/mhi_qaic_ctrl.c:544:25: error: too many arguments to fun=
+ction 'class_create'
+  544 |         mqc_dev_class =3D class_create(THIS_MODULE, MHI_QAIC_CTRL_D=
+RIVER_NAME);
+      |                         ^~~~~~~~~~~~
+include/linux/device/class.h:229:29: note: declared here
+  229 | struct class * __must_check class_create(const char *name);
+      |                             ^~~~~~~~~~~~
+
+Caused by commit
+
+  1aaba11da9aa ("driver core: class: remove module * from class_create()")
+
+interacting with commit
+
+  566fc96198b4 ("accel/qaic: Add mhi_qaic_cntl")
+
+from the drm tree.
+
+I have applied the following merge fix patch for today.
+
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+Date: Tue, 11 Apr 2023 14:16:57 +1000
+Subject: [PATCH] fixup for "driver core: class: remove module * from class_=
+create()"
+
+interacting with "accel/qaic: Add mhi_qaic_cntl"
+
+Signed-off-by: Stephen Rothwell <sfr@canb.auug.org.au>
 ---
- drivers/gpu/drm/i915/gem/i915_gem_create.c | 36 ++++++++++++++++++++++
- drivers/gpu/drm/i915/gem/i915_gem_object.c |  6 ++++
- include/uapi/drm/i915_drm.h                | 36 ++++++++++++++++++++++
- tools/include/uapi/drm/i915_drm.h          | 36 ++++++++++++++++++++++
- 4 files changed, 114 insertions(+)
+ drivers/accel/qaic/mhi_qaic_ctrl.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_create.c b/drivers/gpu/drm/i915/gem/i915_gem_create.c
-index bfe1dbda4cb7..723c3ddd6c74 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_create.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_create.c
-@@ -245,6 +245,7 @@ struct create_ext {
- 	unsigned int n_placements;
- 	unsigned int placement_mask;
- 	unsigned long flags;
-+	unsigned int pat_index;
- };
- 
- static void repr_placements(char *buf, size_t size,
-@@ -394,11 +395,39 @@ static int ext_set_protected(struct i915_user_extension __user *base, void *data
- 	return 0;
- }
- 
-+static int ext_set_pat(struct i915_user_extension __user *base, void *data)
-+{
-+	struct create_ext *ext_data = data;
-+	struct drm_i915_private *i915 = ext_data->i915;
-+	struct drm_i915_gem_create_ext_set_pat ext;
-+	unsigned int max_pat_index;
-+
-+	BUILD_BUG_ON(sizeof(struct drm_i915_gem_create_ext_set_pat) !=
-+		     offsetofend(struct drm_i915_gem_create_ext_set_pat, rsvd));
-+
-+	if (copy_from_user(&ext, base, sizeof(ext)))
-+		return -EFAULT;
-+
-+	max_pat_index = INTEL_INFO(i915)->max_pat_index;
-+
-+	if (ext.pat_index > max_pat_index) {
-+		drm_dbg(&i915->drm, "PAT index is invalid: %u\n",
-+			ext.pat_index);
-+		return -EINVAL;
-+	}
-+
-+	ext_data->pat_index = ext.pat_index;
-+
-+	return 0;
-+}
-+
- static const i915_user_extension_fn create_extensions[] = {
- 	[I915_GEM_CREATE_EXT_MEMORY_REGIONS] = ext_set_placements,
- 	[I915_GEM_CREATE_EXT_PROTECTED_CONTENT] = ext_set_protected,
-+	[I915_GEM_CREATE_EXT_SET_PAT] = ext_set_pat,
- };
- 
-+#define PAT_INDEX_NOT_SET	0xffff
- /**
-  * i915_gem_create_ext_ioctl - Creates a new mm object and returns a handle to it.
-  * @dev: drm device pointer
-@@ -418,6 +447,7 @@ i915_gem_create_ext_ioctl(struct drm_device *dev, void *data,
- 	if (args->flags & ~I915_GEM_CREATE_EXT_FLAG_NEEDS_CPU_ACCESS)
- 		return -EINVAL;
- 
-+	ext_data.pat_index = PAT_INDEX_NOT_SET;
- 	ret = i915_user_extensions(u64_to_user_ptr(args->extensions),
- 				   create_extensions,
- 				   ARRAY_SIZE(create_extensions),
-@@ -454,5 +484,11 @@ i915_gem_create_ext_ioctl(struct drm_device *dev, void *data,
- 	if (IS_ERR(obj))
- 		return PTR_ERR(obj);
- 
-+	if (ext_data.pat_index != PAT_INDEX_NOT_SET) {
-+		i915_gem_object_set_pat_index(obj, ext_data.pat_index);
-+		/* Mark pat_index is set by UMD */
-+		obj->cache_level = I915_CACHE_INVAL;
-+	}
-+
- 	return i915_gem_publish(obj, file, &args->size, &args->handle);
- }
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.c b/drivers/gpu/drm/i915/gem/i915_gem_object.c
-index 27c948350b5b..61651f7e5806 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_object.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_object.c
-@@ -209,6 +209,12 @@ bool i915_gem_object_can_bypass_llc(struct drm_i915_gem_object *obj)
- 	if (!(obj->flags & I915_BO_ALLOC_USER))
- 		return false;
- 
-+	/*
-+	 * Always flush cache for UMD objects at creation time.
-+	 */
-+	if (obj->cache_level == I915_CACHE_INVAL)
-+		return true;
-+
- 	/*
- 	 * EHL and JSL add the 'Bypass LLC' MOCS entry, which should make it
- 	 * possible for userspace to bypass the GTT caching bits set by the
-diff --git a/include/uapi/drm/i915_drm.h b/include/uapi/drm/i915_drm.h
-index dba7c5a5b25e..03c5c314846e 100644
---- a/include/uapi/drm/i915_drm.h
-+++ b/include/uapi/drm/i915_drm.h
-@@ -3630,9 +3630,13 @@ struct drm_i915_gem_create_ext {
- 	 *
- 	 * For I915_GEM_CREATE_EXT_PROTECTED_CONTENT usage see
- 	 * struct drm_i915_gem_create_ext_protected_content.
-+	 *
-+	 * For I915_GEM_CREATE_EXT_SET_PAT usage see
-+	 * struct drm_i915_gem_create_ext_set_pat.
- 	 */
- #define I915_GEM_CREATE_EXT_MEMORY_REGIONS 0
- #define I915_GEM_CREATE_EXT_PROTECTED_CONTENT 1
-+#define I915_GEM_CREATE_EXT_SET_PAT 2
- 	__u64 extensions;
- };
- 
-@@ -3747,6 +3751,38 @@ struct drm_i915_gem_create_ext_protected_content {
- 	__u32 flags;
- };
- 
-+/**
-+ * struct drm_i915_gem_create_ext_set_pat - The
-+ * I915_GEM_CREATE_EXT_SET_PAT extension.
-+ *
-+ * If this extension is provided, the specified caching policy (PAT index) is
-+ * applied to the buffer object.
-+ *
-+ * Below is an example on how to create an object with specific caching policy:
-+ *
-+ * .. code-block:: C
-+ *
-+ *      struct drm_i915_gem_create_ext_set_pat set_pat_ext = {
-+ *              .base = { .name = I915_GEM_CREATE_EXT_SET_PAT },
-+ *              .pat_index = 0,
-+ *      };
-+ *      struct drm_i915_gem_create_ext create_ext = {
-+ *              .size = PAGE_SIZE,
-+ *              .extensions = (uintptr_t)&set_pat_ext,
-+ *      };
-+ *
-+ *      int err = ioctl(fd, DRM_IOCTL_I915_GEM_CREATE_EXT, &create_ext);
-+ *      if (err) ...
-+ */
-+struct drm_i915_gem_create_ext_set_pat {
-+	/** @base: Extension link. See struct i915_user_extension. */
-+	struct i915_user_extension base;
-+	/** @pat_index: PAT index to be set */
-+	__u32 pat_index;
-+	/** @rsvd: reserved for future use */
-+	__u32 rsvd;
-+};
-+
- /* ID of the protected content session managed by i915 when PXP is active */
- #define I915_PROTECTED_CONTENT_DEFAULT_SESSION 0xf
- 
-diff --git a/tools/include/uapi/drm/i915_drm.h b/tools/include/uapi/drm/i915_drm.h
-index 8df261c5ab9b..8cdcdb5fac26 100644
---- a/tools/include/uapi/drm/i915_drm.h
-+++ b/tools/include/uapi/drm/i915_drm.h
-@@ -3607,9 +3607,13 @@ struct drm_i915_gem_create_ext {
- 	 *
- 	 * For I915_GEM_CREATE_EXT_PROTECTED_CONTENT usage see
- 	 * struct drm_i915_gem_create_ext_protected_content.
-+	 *
-+	 * For I915_GEM_CREATE_EXT_SET_PAT usage see
-+	 * struct drm_i915_gem_create_ext_set_pat.
- 	 */
- #define I915_GEM_CREATE_EXT_MEMORY_REGIONS 0
- #define I915_GEM_CREATE_EXT_PROTECTED_CONTENT 1
-+#define I915_GEM_CREATE_EXT_SET_PAT 2
- 	__u64 extensions;
- };
- 
-@@ -3724,6 +3728,38 @@ struct drm_i915_gem_create_ext_protected_content {
- 	__u32 flags;
- };
- 
-+/**
-+ * struct drm_i915_gem_create_ext_set_pat - The
-+ * I915_GEM_CREATE_EXT_SET_PAT extension.
-+ *
-+ * If this extension is provided, the specified caching policy (PAT index) is
-+ * applied to the buffer object.
-+ *
-+ * Below is an example on how to create an object with specific caching policy:
-+ *
-+ * .. code-block:: C
-+ *
-+ *      struct drm_i915_gem_create_ext_set_pat set_pat_ext = {
-+ *              .base = { .name = I915_GEM_CREATE_EXT_SET_PAT },
-+ *              .pat_index = 0,
-+ *      };
-+ *      struct drm_i915_gem_create_ext create_ext = {
-+ *              .size = PAGE_SIZE,
-+ *              .extensions = (uintptr_t)&set_pat_ext,
-+ *      };
-+ *
-+ *      int err = ioctl(fd, DRM_IOCTL_I915_GEM_CREATE_EXT, &create_ext);
-+ *      if (err) ...
-+ */
-+struct drm_i915_gem_create_ext_set_pat {
-+	/** @base: Extension link. See struct i915_user_extension. */
-+	struct i915_user_extension base;
-+	/** @pat_index: PAT index to be set */
-+	__u32 pat_index;
-+	/** @rsvd: reserved for future use */
-+	__u32 rsvd;
-+};
-+
- /* ID of the protected content session managed by i915 when PXP is active */
- #define I915_PROTECTED_CONTENT_DEFAULT_SESSION 0xf
- 
--- 
-2.25.1
+diff --git a/drivers/accel/qaic/mhi_qaic_ctrl.c b/drivers/accel/qaic/mhi_qa=
+ic_ctrl.c
+index 0c7e571f1f12..96db1580c72d 100644
+--- a/drivers/accel/qaic/mhi_qaic_ctrl.c
++++ b/drivers/accel/qaic/mhi_qaic_ctrl.c
+@@ -541,7 +541,7 @@ int mhi_qaic_ctrl_init(void)
+ 		return ret;
+=20
+ 	mqc_dev_major =3D ret;
+-	mqc_dev_class =3D class_create(THIS_MODULE, MHI_QAIC_CTRL_DRIVER_NAME);
++	mqc_dev_class =3D class_create(MHI_QAIC_CTRL_DRIVER_NAME);
+ 	if (IS_ERR(mqc_dev_class)) {
+ 		ret =3D PTR_ERR(mqc_dev_class);
+ 		goto unregister_chrdev;
+--=20
+2.39.2
 
+--=20
+Cheers,
+Stephen Rothwell
+
+--Sig_/RN2rq.fb+YeY=+.0XxKESjO
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmQ05DUACgkQAVBC80lX
+0Gzfawf/V6Ir//QkheAAJFTEKt7tmcD6f3dmgoe6LYBfJMDotCoLMV41HiUwuHwn
+R78oYX30+Progok1U7tY6mM0nOelwknl7DuGpmZOg7ldLsmzMDRd7wNFvQsW22t/
+zSH96sNga0vEZZ1FEdtZEnAsfMZ1aYHW/NgOYYpP4sKDenYkGCIOFmm5xdBwzwr9
+F/3AJVl3Fy97P3OCfm+fH2OR7wuvOBuf9U8n0pxlwjorV1jeBlajn0NeJaC10Vr/
+UU6XzoZnL+06GbJGW4/sdlib9lLoQYQhN5HPxaWLwU8ehxLWSezJo5F9fPy2s9w8
+BZ71ZMWxuwGu1xmxFUMVs3lfsrKfsw==
+=10Kj
+-----END PGP SIGNATURE-----
+
+--Sig_/RN2rq.fb+YeY=+.0XxKESjO--
