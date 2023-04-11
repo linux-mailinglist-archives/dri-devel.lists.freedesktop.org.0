@@ -2,141 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF0256DDD11
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Apr 2023 15:59:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 386F96DDD27
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Apr 2023 16:02:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CB37610E2B3;
-	Tue, 11 Apr 2023 13:59:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5C90110E267;
+	Tue, 11 Apr 2023 14:02:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM02-BN1-obe.outbound.protection.outlook.com
- (mail-bn1nam02on2048.outbound.protection.outlook.com [40.107.212.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 18E9910E2B3;
- Tue, 11 Apr 2023 13:59:27 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ASFpLqmSOht2HeBeeaLG2Fxftjh2cMeH3Exbgc2dBhfarnVHtoqD+ttfHqtLmh6MW4l6qecVIo7xTmx669Jz2xtUQAwzH1MSTWoq1DPcEg74PMyG8DJg6J+kJLzWePRXsWzBpwK6pmg3YwjEeiteQO+1/1P+wj38zjpsAP9i18mGPkoYwbmjlK2b0s0tNjuKi0NQhjW8RfhkfeMuqahS6uHPPVqyWUlTSa0moDIiEdlCJY+5+vPqJBp6n2nf8hiKvtsp7nm04BiiLgEh87VVwnGDfhRXofeJBkn0fEfPlUvzP23pdi5UyWwLA/UGMj3JD5bQBnVSeBrZHA5Q/TJ0Zw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=/XX3IadskVX6rlJgCDkyY3k0bCPL1gJ1GMIxZCoW3bk=;
- b=N0G7CDuzw5ujl0VN1KUQl6Qw9MP9i0KgIKhIftltYTNNlHlMO6ucpYz8XuH/yAZZr7k7H0QEbt/fjFmwBsOlVda5oZIl30+/ABEclhV+g8Vztw9/H23z+/71HBXilWf7N4Cb01zGTYiRtdo64P5O43jsvDxEt6S0uBKbMe0UjAonVnILoiWjVstWvID4np5DFYgIySZvGtFacZ+C7iirquJ9UBneCm20pT8VTyxyiIXIDK4yyz3XdO9f9ZZo6WxHQcqeNkXMl3ll10vE5zFXaHBxrJBi/XjEH4FKWl21hIB/+3AtnEPNWXlhsT/3aFUMDi4xngOkiW/oLJn0Glyl8A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=/XX3IadskVX6rlJgCDkyY3k0bCPL1gJ1GMIxZCoW3bk=;
- b=NQq8nomlE8eB1/1hssxH8CU+DbvS3zK4WoznKGDrH1/gy8lwm/xPiJ2+MmgIBtaYnjQJ4iq5GkuN6dYTLxbihohqI5vkBiFU0DXo9LrNMH6tmpi575v9nGe9lWIDIh6yCIwDC5Io1JKhNfvCOOuvYXKT52h6Xpgqmyw+GPg34Ps=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN9PR12MB5115.namprd12.prod.outlook.com (2603:10b6:408:118::14)
- by DM6PR12MB4075.namprd12.prod.outlook.com (2603:10b6:5:21d::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6277.38; Tue, 11 Apr
- 2023 13:59:19 +0000
-Received: from BN9PR12MB5115.namprd12.prod.outlook.com
- ([fe80::f170:8d72:ca64:bb26]) by BN9PR12MB5115.namprd12.prod.outlook.com
- ([fe80::f170:8d72:ca64:bb26%5]) with mapi id 15.20.6277.034; Tue, 11 Apr 2023
- 13:59:19 +0000
-Message-ID: <c265e914-4ba4-1af8-a504-21dd859f0226@amd.com>
-Date: Tue, 11 Apr 2023 09:59:16 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH 1/5] drm/amdgpu: Move a variable assignment behind a null
- pointer check in amdgpu_ras_interrupt_dispatch()
-Content-Language: en-US
-To: Markus Elfring <Markus.Elfring@web.de>, kernel-janitors@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Alan Liu <HaoPing.Liu@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
- Alex Hung <alex.hung@amd.com>, Alexey Kodanev <aleksei.kodanev@bell-sw.com>,
- Aurabindo Pillai <aurabindo.pillai@amd.com>,
- Bhanuprakash Modem <bhanuprakash.modem@intel.com>,
- Candice Li <candice.li@amd.com>, Charlene Liu <charlene.liu@amd.com>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
- David Tadokoro <davidbtadokoro@usp.br>, Eryk Brol <eryk.brol@amd.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Hamza Mahfooz <hamza.mahfooz@amd.com>,
- Harry Wentland <harry.wentland@amd.com>,
- Hawking Zhang <Hawking.Zhang@amd.com>, hersen wu <hersenxs.wu@amd.com>,
- Jiapeng Chong <jiapeng.chong@linux.alibaba.com>, Jun Lei <jun.lei@amd.com>,
- Leo Li <sunpeng.li@amd.com>, Mikita Lipski <mikita.lipski@amd.com>,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
- Stanley Yang <Stanley.Yang@amd.com>, Tao Zhou <tao.zhou1@amd.com>,
- Tom Rix <trix@redhat.com>, Victor Zhao <Victor.Zhao@amd.com>,
- Wayne Lin <Wayne.Lin@amd.com>, Wenjing Liu <wenjing.liu@amd.com>,
- Xinhui Pan <Xinhui.Pan@amd.com>, YiPeng Chai <YiPeng.Chai@amd.com>,
- Zhan Liu <zhan.liu@amd.com>
-References: <40c60719-4bfe-b1a4-ead7-724b84637f55@web.de>
- <1a11455f-ab57-dce0-1677-6beb8492a257@web.de>
- <2258ce64-2a14-6778-8319-b342b06a1f33@web.de>
- <0d4b92ab-f7c2-4f18-f3c3-c0f82ba47fc8@web.de>
-From: Felix Kuehling <felix.kuehling@amd.com>
-In-Reply-To: <0d4b92ab-f7c2-4f18-f3c3-c0f82ba47fc8@web.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: YT4P288CA0015.CANP288.PROD.OUTLOOK.COM
- (2603:10b6:b01:d4::15) To BN9PR12MB5115.namprd12.prod.outlook.com
- (2603:10b6:408:118::14)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DF65510E267
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Apr 2023 14:02:18 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 0700162707;
+ Tue, 11 Apr 2023 14:02:18 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 16C44C4339B;
+ Tue, 11 Apr 2023 14:02:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1681221737;
+ bh=brthp7BBH+PGtQXnrKSGU+jMcTxFN/s6LWe+5O56hcc=;
+ h=Subject:To:Cc:From:Date:From;
+ b=KTGBb1E3QvqTR1LwW0ebOlB2vCgXQRp6D0Gtvx4gWFaKL/nLNXenB6L5RL1ew+s/h
+ Ly2P0rFxKbEVGUmnEQxnLfumLz49wOtt5cXDb2G016m4VcjveBiPwCx6uPso6gR+DS
+ lIymZ81E43NEXPvhPPvq3lTMkDadw45FsNB1sygI=
+Subject: Patch "drm/display/dp_mst: Handle old/new payload states in
+ drm_dp_remove_payload()" has been added to the 6.1-stable tree
+To: Wayne.Lin@amd.com, alexander.deucher@amd.com, bskeggs@redhat.com,
+ daniel@ffwll.ch, dri-devel@lists.freedesktop.org, gregkh@linuxfoundation.org,
+ harry.wentland@amd.com, imre.deak@intel.com, jani.nikula@intel.com,
+ kherbst@redhat.com, lyude@redhat.com, mario.limonciello@amd.com,
+ ville.syrjala@linux.intel.com, wayne.lin@amd.com
+From: <gregkh@linuxfoundation.org>
+Date: Tue, 11 Apr 2023 16:01:57 +0200
+Message-ID: <2023041157-stress-distress-c0de@gregkh>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN9PR12MB5115:EE_|DM6PR12MB4075:EE_
-X-MS-Office365-Filtering-Correlation-Id: 75f42b95-04c6-464f-186e-08db3a94f19d
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 4dYSFSsUxDf4Xj3j+OtAN93ClZ8pDoSIizUpRx/csEqtB7myh17+N/UIrYPSjO/M4nv6RIsvofLeZAzUImZ1oqtB+j54mO09td4kHiq5iGZ1OkeriTfBRPlWTVaNtWKvBj+jT+KNBBtmptXYwoHw07GEJEEh1kmZQGeqf3+pIhY7+AXWsPCZ+EiFk6dfTmgHaIC8+k/yGhQCaHKGvDGv08xvnCsshSrFUwRlNmdGK8oOJAD9XWVZJA4suqV1+YqNf/vUKWqhwcTBvc2IkZvfE9i/rMxhclqTmbF6hAd7xR3unVq2/niOpFaw2XEUQOdJVT7q+/5Lj/QU4Vh/cjxCKjjs52mVJaX5bP+HToGfkc4hNvN4ul5ZkeDjHdEcoOs/3BN9ACS90yy1txm8cf2efj4Ke1z26+JToh5NIgiasCyJMhq0KFfJIiIfviwEbpNrDk2/Tv9und9NAp3+cvXO8fvpEOHDJ/o8h2I2q0WAxop/gwl2343lT8f9fQXjrwZAGhsi2PpB3SRKsfkkaRb5edZ/IpFWLcpotQ5vRPvttc8t7OG5n0P45KwYp08Wo3qesc5buvCer683lspiemlBEo9r5l9f1CyJOkwK5psmNmLY6Nkshik3MByyX3l9i473LP4ECpba6i7uRh15MDg1gvjTDLzMxYShj8gOdC5yw70=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN9PR12MB5115.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230028)(4636009)(346002)(376002)(366004)(136003)(39860400002)(396003)(451199021)(36756003)(31696002)(86362001)(41300700001)(110136005)(316002)(478600001)(6486002)(6636002)(4326008)(66556008)(66946007)(8676002)(66476007)(5660300002)(7416002)(2906002)(44832011)(8936002)(921005)(38100700002)(186003)(6666004)(26005)(6512007)(6506007)(2616005)(83380400001)(31686004)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Y3A5cGNUbUtWT1FrNUtlOXlqd2toNkUrRFNJSExiVlQzbzVjcXV3TXVZRVNx?=
- =?utf-8?B?NVdSc0xZK3JEQlJnTVBROEEyVzMxMWhoZ1dmNVRuc2J4NExuR2Y3UEJHM0Vn?=
- =?utf-8?B?d2lzUjJjME82bTlKQk8veXgxUUl1Uy9nVnd2WWRyWHREWVRQY3NWY2tsN3o3?=
- =?utf-8?B?eFExNDJFUUQ0UVZVSFhsR2VwYVZ1eW1mOW1LUEd4TjUrSlU4VlRKdUYvUmR4?=
- =?utf-8?B?dGFsejlLK1A0RlBud0MwZ0JTQ1ZHNWdCQTk1cFB3VFlteVdFNENUSUVLSUgx?=
- =?utf-8?B?KzlGN3E4NGFwWWJjR2pqZVlqQURlZnVHa2IvRFpDS3FyTjhKelN3aDYxRldh?=
- =?utf-8?B?dU9oVGlWdHNjQ1diRjhPQXhnVlp4dHpBK21FOUF1dHNOVFltS09tVnBWZDEv?=
- =?utf-8?B?YXczLzlBa2p2KzUvNjBBSStpdmNqUkV3ZUc3T3NGc3ZCYTR5VFR4QlZyYzVr?=
- =?utf-8?B?QUlPVTJ2VmUzemhQQXZWMHo1SWFvRHZlYlB3TDBOQ3hvc0NUUVJyUEMwVGQ0?=
- =?utf-8?B?cTVpSFhjTHkxNDdWRHpWdExzQWtKanV4TUgwWHU5L0gwcm55dnFVSjExYnpr?=
- =?utf-8?B?NlpUSXZQamVyc1F2UVFjSjNUZUVLSE9DbXZGOTlqZjl1cjg4NHJ2UGV5S0xm?=
- =?utf-8?B?SlJUUG9qZ0dNa1JEWS9RaHZKVll4c1drUXFwWTJXZFZ6aVBTeEozeGhESCtl?=
- =?utf-8?B?QlplNE9wL3VYUjdacHdTL1Y3clpJRHorZ3c2YUYrSGVjWDdBUDRORFdnQVhT?=
- =?utf-8?B?Sk1FREJNdWZlYVdZRUdJN0Y1OGpJK0VXNGgzYWxKN2V6L0lySTgwQWFPUHp4?=
- =?utf-8?B?dnFWNVZ5WHYvRU1qRk5remxsWnhmc0hZcWJ2cit5RTdlV1dVNXJKWDR6ZVU3?=
- =?utf-8?B?S2FXak9MNkFJd1k2V3hjRzBka0VITllISmlnRGc1MzdUeVVodEZvV3MrSlFV?=
- =?utf-8?B?YlJZY2Z5WFRCZlRQTjBiRDVNVGRkdDBUck1zdW00NWZJZncxOVc2R0lkZEo4?=
- =?utf-8?B?S3lZSzY5STByeEIzanZnRlEvaWRVQmtLR0Z5RHFhSmdJc29CQWNZT2V4bDZF?=
- =?utf-8?B?V1ZPejhxZzFsU2NvYXpMbEoxbkk0VU1BbEhtOUZIQjQyOUN1UURHZlNiUEV3?=
- =?utf-8?B?dlBxSUp5a3VxU0g1dVU5Wld6ZEZ2NC9ZSnJ0ZzNuUGpleWZ5QVh2SjY3WTFR?=
- =?utf-8?B?L2c5K1RMcTlSengwYk4wTWVNTUJCS2FseXJLSityZ1NzZnJIRUdhRDZodnpw?=
- =?utf-8?B?RUlaQUl3dTI3dHczdXg5amVkS3lQeEt5WldMejRtb25NYWhzTWo0dVhielhi?=
- =?utf-8?B?VUlLMFFPMTdkTm1RdWxRVU9NYzY5V1NYcFI5aXhBUjNRVVRZVUZWWm9NN3Zs?=
- =?utf-8?B?K3lpWk9sNFZVaEFHcUFuK3dsOTZLdk4zL1hyOHloYzcrVTR1ODNFSUMyZVBx?=
- =?utf-8?B?SWkrM0pBTFBXdjhpczhCVjMvWjlTSVI3SGJGN0UycUpObmJpcWZ1YnZxaWp2?=
- =?utf-8?B?NHNESE9pcWhSYmZqMGVVeVBOcWZjNjhNbk0yZnQ0ZDZtQ3p1MXc5dmUxckxW?=
- =?utf-8?B?WWJaKzdDSXl1MlhwWXBPSm5jb293dVBObUEwUlBXZWxEOUprZUxZOGN0b1pv?=
- =?utf-8?B?M3JDNm0wZUFpTWxRZzM0MHZuRWF6dWswamZ5Y0FNaEpHTTBudUZRZXVDOXN3?=
- =?utf-8?B?MTFhNmU3RHNWR2JjcHFBRXpOU3cvNFcwZmwvNWZxMktyeWg3djFONW93eldJ?=
- =?utf-8?B?VW9aV2JEakZZRDJIc3hzajZmWUlZcDhlNklOZ1NjdjJiUURZaEFGdE9oVUJ4?=
- =?utf-8?B?UUdwR24zOTFEWWQ0amJUUXh1N3ZtQTJWTFFYQnY3dGRib0hsbk5lNXlVVVlq?=
- =?utf-8?B?QzRYOTJ0RVg1SDdwZWFrZmRTclVrUTJJUUdTRDJqOTI0K05UaHhCVjhMaWZ3?=
- =?utf-8?B?YkJNSlJYWXhtcXFkQjJwaFN1Z2JORnE5cWhDY28wUTc2aFBHZUF4SDdOUG9B?=
- =?utf-8?B?eDgzUmNrSlJNTjVkaVFoZGV2ZklpR3MxMTZQZVpzZ0tobFhnTFdMdjh6ZzFw?=
- =?utf-8?B?bys5V1E1S1hqMkhXRGlvVHhyWnJlSTlzOVAyZkxlazZjb2J2SDdSQXZiMXdS?=
- =?utf-8?Q?WDGIp6cqnwpv4ONmJJa6yYPNU?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 75f42b95-04c6-464f-186e-08db3a94f19d
-X-MS-Exchange-CrossTenant-AuthSource: BN9PR12MB5115.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Apr 2023 13:59:18.8865 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Hb3X7szGtJac5soYjJDYvbSPUvEtWKD209kWTMMYBBxk5cPPwpQxUO/7jOepesJVqaynhjU7obk/L7KinIdNtw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4075
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-stable: commit
+X-Patchwork-Hint: ignore 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -149,56 +53,200 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: LKML <linux-kernel@vger.kernel.org>, cocci@inria.fr
+Cc: stable-commits@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 2023-04-11 um 09:42 schrieb Markus Elfring:
-> Date: Tue, 11 Apr 2023 10:52:48 +0200
->
-> The address of a data structure member was determined before
-> a corresponding null pointer check in the implementation of
-> the function “amdgpu_ras_interrupt_dispatch”.
->
-> Thus avoid the risk for undefined behaviour by moving the assignment
-> for the variable “data” behind the null pointer check.
->
-> This issue was detected by using the Coccinelle software.
->
-> Fixes: c030f2e4166c3f5597c7e7a70bcd9ab383695de4 ("drm/amdgpu: add amdgpu_ras.c to support ras (v2)")
-> Signed-off-by: Markus Elfring <elfring@users.sourceforge.net>
-> ---
->   drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c | 3 ++-
->   1 file changed, 2 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c
-> index 4069bce9479f..a920c7888d07 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c
-> @@ -1730,11 +1730,12 @@ int amdgpu_ras_interrupt_dispatch(struct amdgpu_device *adev,
->   		struct ras_dispatch_if *info)
->   {
->   	struct ras_manager *obj = amdgpu_ras_find_obj(adev, &info->head);
-> -	struct ras_ih_data *data = &obj->ih_data;
-> +	struct ras_ih_data *data;
-I'm curious, this only takes the address of obj->ih_data. It doesn't 
-dereference the pointer until after the !obj check below. How is this 
-undefined behaviour? Is this about the compiler being free to reorder 
-stuff for optimization, unaware of the dependency? Is there a link to an 
-explanation that could be added to the commit description?
 
-Thanks,
-   Felix
+This is a note to let you know that I've just added the patch titled
+
+    drm/display/dp_mst: Handle old/new payload states in drm_dp_remove_payload()
+
+to the 6.1-stable tree which can be found at:
+    http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
+
+The filename of the patch is:
+     drm-display-dp_mst-handle-old-new-payload-states-in-drm_dp_remove_payload.patch
+and it can be found in the queue-6.1 subdirectory.
+
+If you, or anyone else, feels it should not be added to the stable tree,
+please let <stable@vger.kernel.org> know about it.
 
 
->
->   	if (!obj)
->   		return -EINVAL;
->
-> +	data = &obj->ih_data;
->   	if (data->inuse == 0)
->   		return 0;
->
-> --
-> 2.40.0
->
+From e761cc20946a0094df71cb31a565a6a0d03bd8be Mon Sep 17 00:00:00 2001
+From: Imre Deak <imre.deak@intel.com>
+Date: Mon, 6 Feb 2023 13:48:54 +0200
+Subject: drm/display/dp_mst: Handle old/new payload states in drm_dp_remove_payload()
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+From: Imre Deak <imre.deak@intel.com>
+
+commit e761cc20946a0094df71cb31a565a6a0d03bd8be upstream.
+
+Atm, drm_dp_remove_payload() uses the same payload state to both get the
+vc_start_slot required for the payload removal DPCD message and to
+deduct time_slots from vc_start_slot of all payloads after the one being
+removed.
+
+The above isn't always correct, as vc_start_slot must be the up-to-date
+version contained in the new payload state, but time_slots must be the
+one used when the payload was previously added, contained in the old
+payload state. The new payload's time_slots can change vs. the old one
+if the current atomic commit changes the corresponding mode.
+
+This patch let's drivers pass the old and new payload states to
+drm_dp_remove_payload(), but keeps these the same for now in all drivers
+not to change the behavior. A follow-up i915 patch will pass in that
+driver the correct old and new states to the function.
+
+Cc: Lyude Paul <lyude@redhat.com>
+Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
+Cc: Ben Skeggs <bskeggs@redhat.com>
+Cc: Karol Herbst <kherbst@redhat.com>
+Cc: Harry Wentland <harry.wentland@amd.com>
+Cc: Alex Deucher <alexander.deucher@amd.com>
+Cc: Wayne Lin <Wayne.Lin@amd.com>
+Cc: stable@vger.kernel.org # 6.1
+Cc: dri-devel@lists.freedesktop.org
+Reviewed-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
+Reviewed-by: Lyude Paul <lyude@redhat.com>
+Acked-by: Lyude Paul <lyude@redhat.com>
+Acked-by: Daniel Vetter <daniel@ffwll.ch>
+Acked-by: Wayne Lin <wayne.lin@amd.com>
+Acked-by: Jani Nikula <jani.nikula@intel.com>
+Signed-off-by: Imre Deak <imre.deak@intel.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/20230206114856.2665066-2-imre.deak@intel.com
+Hand modified for missing 8c7d980da9ba3eb67a1b40fd4b33bcf49397084b
+Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+---
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c |    2 -
+ drivers/gpu/drm/display/drm_dp_mst_topology.c             |   26 +++++++-------
+ drivers/gpu/drm/i915/display/intel_dp_mst.c               |    4 +-
+ drivers/gpu/drm/nouveau/dispnv50/disp.c                   |    2 -
+ include/drm/display/drm_dp_mst_helper.h                   |    3 +
+ 5 files changed, 21 insertions(+), 16 deletions(-)
+
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
+@@ -206,7 +206,7 @@ bool dm_helpers_dp_mst_write_payload_all
+ 	if (enable)
+ 		drm_dp_add_payload_part1(mst_mgr, mst_state, payload);
+ 	else
+-		drm_dp_remove_payload(mst_mgr, mst_state, payload);
++		drm_dp_remove_payload(mst_mgr, mst_state, payload, payload);
+ 
+ 	/* mst_mgr->->payloads are VC payload notify MST branch using DPCD or
+ 	 * AUX message. The sequence is slot 1-63 allocated sequence for each
+--- a/drivers/gpu/drm/display/drm_dp_mst_topology.c
++++ b/drivers/gpu/drm/display/drm_dp_mst_topology.c
+@@ -3342,7 +3342,8 @@ EXPORT_SYMBOL(drm_dp_add_payload_part1);
+  * drm_dp_remove_payload() - Remove an MST payload
+  * @mgr: Manager to use.
+  * @mst_state: The MST atomic state
+- * @payload: The payload to write
++ * @old_payload: The payload with its old state
++ * @new_payload: The payload to write
+  *
+  * Removes a payload from an MST topology if it was successfully assigned a start slot. Also updates
+  * the starting time slots of all other payloads which would have been shifted towards the start of
+@@ -3350,36 +3351,37 @@ EXPORT_SYMBOL(drm_dp_add_payload_part1);
+  */
+ void drm_dp_remove_payload(struct drm_dp_mst_topology_mgr *mgr,
+ 			   struct drm_dp_mst_topology_state *mst_state,
+-			   struct drm_dp_mst_atomic_payload *payload)
++			   const struct drm_dp_mst_atomic_payload *old_payload,
++			   struct drm_dp_mst_atomic_payload *new_payload)
+ {
+ 	struct drm_dp_mst_atomic_payload *pos;
+ 	bool send_remove = false;
+ 
+ 	/* We failed to make the payload, so nothing to do */
+-	if (payload->vc_start_slot == -1)
++	if (new_payload->vc_start_slot == -1)
+ 		return;
+ 
+ 	mutex_lock(&mgr->lock);
+-	send_remove = drm_dp_mst_port_downstream_of_branch(payload->port, mgr->mst_primary);
++	send_remove = drm_dp_mst_port_downstream_of_branch(new_payload->port, mgr->mst_primary);
+ 	mutex_unlock(&mgr->lock);
+ 
+ 	if (send_remove)
+-		drm_dp_destroy_payload_step1(mgr, mst_state, payload);
++		drm_dp_destroy_payload_step1(mgr, mst_state, new_payload);
+ 	else
+ 		drm_dbg_kms(mgr->dev, "Payload for VCPI %d not in topology, not sending remove\n",
+-			    payload->vcpi);
++			    new_payload->vcpi);
+ 
+ 	list_for_each_entry(pos, &mst_state->payloads, next) {
+-		if (pos != payload && pos->vc_start_slot > payload->vc_start_slot)
+-			pos->vc_start_slot -= payload->time_slots;
++		if (pos != new_payload && pos->vc_start_slot > new_payload->vc_start_slot)
++			pos->vc_start_slot -= old_payload->time_slots;
+ 	}
+-	payload->vc_start_slot = -1;
++	new_payload->vc_start_slot = -1;
+ 
+ 	mgr->payload_count--;
+-	mgr->next_start_slot -= payload->time_slots;
++	mgr->next_start_slot -= old_payload->time_slots;
+ 
+-	if (payload->delete)
+-		drm_dp_mst_put_port_malloc(payload->port);
++	if (new_payload->delete)
++		drm_dp_mst_put_port_malloc(new_payload->port);
+ }
+ EXPORT_SYMBOL(drm_dp_remove_payload);
+ 
+--- a/drivers/gpu/drm/i915/display/intel_dp_mst.c
++++ b/drivers/gpu/drm/i915/display/intel_dp_mst.c
+@@ -366,6 +366,8 @@ static void intel_mst_disable_dp(struct
+ 		to_intel_connector(old_conn_state->connector);
+ 	struct drm_dp_mst_topology_state *mst_state =
+ 		drm_atomic_get_mst_topology_state(&state->base, &intel_dp->mst_mgr);
++	struct drm_dp_mst_atomic_payload *payload =
++		drm_atomic_get_mst_payload_state(mst_state, connector->port);
+ 	struct drm_i915_private *i915 = to_i915(connector->base.dev);
+ 
+ 	drm_dbg_kms(&i915->drm, "active links %d\n",
+@@ -374,7 +376,7 @@ static void intel_mst_disable_dp(struct
+ 	intel_hdcp_disable(intel_mst->connector);
+ 
+ 	drm_dp_remove_payload(&intel_dp->mst_mgr, mst_state,
+-			      drm_atomic_get_mst_payload_state(mst_state, connector->port));
++			      payload, payload);
+ 
+ 	intel_audio_codec_disable(encoder, old_crtc_state, old_conn_state);
+ }
+--- a/drivers/gpu/drm/nouveau/dispnv50/disp.c
++++ b/drivers/gpu/drm/nouveau/dispnv50/disp.c
+@@ -1028,7 +1028,7 @@ nv50_msto_prepare(struct drm_atomic_stat
+ 
+ 	// TODO: Figure out if we want to do a better job of handling VCPI allocation failures here?
+ 	if (msto->disabled) {
+-		drm_dp_remove_payload(mgr, mst_state, payload);
++		drm_dp_remove_payload(mgr, mst_state, payload, payload);
+ 	} else {
+ 		if (msto->enabled)
+ 			drm_dp_add_payload_part1(mgr, mst_state, payload);
+--- a/include/drm/display/drm_dp_mst_helper.h
++++ b/include/drm/display/drm_dp_mst_helper.h
+@@ -841,7 +841,8 @@ int drm_dp_add_payload_part2(struct drm_
+ 			     struct drm_dp_mst_atomic_payload *payload);
+ void drm_dp_remove_payload(struct drm_dp_mst_topology_mgr *mgr,
+ 			   struct drm_dp_mst_topology_state *mst_state,
+-			   struct drm_dp_mst_atomic_payload *payload);
++			   const struct drm_dp_mst_atomic_payload *old_payload,
++			   struct drm_dp_mst_atomic_payload *new_payload);
+ 
+ int drm_dp_check_act_status(struct drm_dp_mst_topology_mgr *mgr);
+ 
+
+
+Patches currently in stable-queue which might be from imre.deak@intel.com are
+
+queue-6.1/drm-i915-dp_mst-fix-payload-removal-during-output-disabling.patch
+queue-6.1/drm-display-dp_mst-handle-old-new-payload-states-in-drm_dp_remove_payload.patch
