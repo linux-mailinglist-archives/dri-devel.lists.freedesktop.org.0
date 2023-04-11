@@ -2,63 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE9006DD7EB
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Apr 2023 12:28:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C55086DD7F7
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Apr 2023 12:32:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 243D510E1AD;
-	Tue, 11 Apr 2023 10:28:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 90AF910E1DF;
+	Tue, 11 Apr 2023 10:32:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-f48.google.com (mail-ot1-f48.google.com
- [209.85.210.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2F93A10E1AD
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Apr 2023 10:28:15 +0000 (UTC)
-Received: by mail-ot1-f48.google.com with SMTP id
- f10-20020a9d2c0a000000b006a13f728172so1498809otb.3
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Apr 2023 03:28:15 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1681208894;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com
+ [IPv6:2a00:1450:4864:20::329])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2A79710E1DF
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Apr 2023 10:32:07 +0000 (UTC)
+Received: by mail-wm1-x329.google.com with SMTP id
+ 5b1f17b1804b1-3f04eb5d1a7so4429125e9.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Apr 2023 03:32:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ffwll.ch; s=google; t=1681209125; x=1683801125;
+ h=in-reply-to:content-disposition:mime-version:references
+ :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
  :subject:date:message-id:reply-to;
- bh=9k4ZTujQ4vL3rn+nuolFAvnH5smJoZ+VnOtxKctHstQ=;
- b=gNEjuFBcqn6/lOVatQwMmR1GcF8thXowqr/fRJPkgNghhMYcjv2oZp1NgB+QeocHo/
- HasUYvHM3pU+Fboe+DKH3dlSRYwEPMic7S8vyD1tqbAySk8qZMwgr6FCWqpca3C1IUUi
- VkvWBMflZrQutak3rPgI2bamP6/oglkZZoNuTIfzpyDDmxZ5pMHdF0D5v6piw8rF9lZV
- UDECTLJhuaGa3PTMIddmyby4q94trv7YaVLdDmnHSJHK2hLyai/8HTwGC2E31G1794k6
- ecBsXGlpTjiPZBRUtfpz+2D23yClaqh4+B7hMng0JR+o6wEhd1Fx82Sn2tQ6RTnDSjLn
- NhZg==
-X-Gm-Message-State: AAQBX9cYBPhkOrXk995ohqxEbpaDc9x9FGb0ndvvSH0VGXFh3n7vSXIN
- 5rAc7I+bBvNQiT1FvwIopmBZZ7CAvcuacUt+
-X-Google-Smtp-Source: AKy350Z+cbMYT+8MdL98t6djxCWA0fgy80xTg0BWVym5OcAGSh6cVHk+jQZ1sF2kLVq6E3LAKGCpOw==
-X-Received: by 2002:a9d:774b:0:b0:69d:8cb2:d38 with SMTP id
- t11-20020a9d774b000000b0069d8cb20d38mr5931974otl.11.1681208893696; 
- Tue, 11 Apr 2023 03:28:13 -0700 (PDT)
-Received: from mail-oo1-f45.google.com (mail-oo1-f45.google.com.
- [209.85.161.45]) by smtp.gmail.com with ESMTPSA id
- n19-20020a9d64d3000000b0069f0794861asm5206573otl.63.2023.04.11.03.28.12
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 11 Apr 2023 03:28:12 -0700 (PDT)
-Received: by mail-oo1-f45.google.com with SMTP id
- c17-20020a4aa4d1000000b005418821052aso2096029oom.6
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Apr 2023 03:28:12 -0700 (PDT)
-X-Received: by 2002:a25:d74c:0:b0:b46:c5aa:86ef with SMTP id
- o73-20020a25d74c000000b00b46c5aa86efmr5126210ybg.12.1681208871324; Tue, 11
- Apr 2023 03:27:51 -0700 (PDT)
+ bh=UWlYQX4Y1ZrzJyCNGQSUMnvOvpF/Z/nFIdYNxxNfrEg=;
+ b=czHW7oszK57m41YR1u+rD3WPMSqPt6wloedBSlnzaMzPEUQ/AHMXNTewQNCzs/8uUD
+ IFEphUmtf6E4QUbYANlkCNzJe1Mknn9tNbRgPUXAABh8MhWaBbw1CR71cEdupmHjjTAh
+ elfhAUeAnv6GIjWOC7PEKocqH2pcKofnzo9K8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1681209125; x=1683801125;
+ h=in-reply-to:content-disposition:mime-version:references
+ :mail-followup-to:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=UWlYQX4Y1ZrzJyCNGQSUMnvOvpF/Z/nFIdYNxxNfrEg=;
+ b=jayEUToOKKNnFvoAmaW4EVNPDXnww3Fi1uGBMPd19++8MbsEUsOP8HiW04l5e0Hvj9
+ 5RSbjHzqsSTOwutn7rDZlYyj3Y8goF8cYJpVi6DQodAgC89sR0CAaUmQJzVL9K/K1CB0
+ kA5raf+8ENzg23E7uQvtMM0NpW8VtE0vJC4Gnv55m4+ON7oRX4smMn4rYaMhhb/hhMWk
+ v3u2KOFroBCkDgu5QFl7ZNkL/voBUR+izFEU079ZSZWsqfhprn6UhxMt6BTJShm/BGBx
+ 3XY9x7CZ/6oxXIjqXecQJo/a5xz4lgtNh62bvuBBwG56RxXdCwK4sQRSjFFN/ovdcyRd
+ hfuw==
+X-Gm-Message-State: AAQBX9cQq1Uaohf1eY8dULAAdoEXSyW19qu9perQO7C1+xkJcbu9akhT
+ vduUaRcqPWzDFoh59UALoP5dCw==
+X-Google-Smtp-Source: AKy350YHW26EoAnUgqXxjoecjfwc/bqx2pfSiH62+M+X8xHeutLKJ3Eqi5SeePtTr8IKBvV/huRCow==
+X-Received: by 2002:a5d:50c5:0:b0:2f0:244c:2780 with SMTP id
+ f5-20020a5d50c5000000b002f0244c2780mr4057657wrt.7.1681209125018; 
+ Tue, 11 Apr 2023 03:32:05 -0700 (PDT)
+Received: from phenom.ffwll.local (212-51-149-33.fiber7.init7.net.
+ [212.51.149.33]) by smtp.gmail.com with ESMTPSA id
+ r10-20020adfe68a000000b002c7b229b1basm14182353wrm.15.2023.04.11.03.32.04
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 11 Apr 2023 03:32:04 -0700 (PDT)
+Date: Tue, 11 Apr 2023 12:32:02 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: "Nancy.Lin" <nancy.lin@mediatek.com>
+Subject: Re: [PATCH v3 1/2] drm/mediatek: Add mdp_rdma get format function
+Message-ID: <ZDU3IiewmLW1pDyn@phenom.ffwll.local>
+Mail-Followup-To: "Nancy.Lin" <nancy.lin@mediatek.com>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ David Airlie <airlied@gmail.com>, dri-devel@lists.freedesktop.org,
+ linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ singo.chang@mediatek.com, shawn.sung@mediatek.com
+References: <20230330032614.18837-1-nancy.lin@mediatek.com>
+ <20230330032614.18837-2-nancy.lin@mediatek.com>
 MIME-Version: 1.0
-References: <20221018-clk-range-checks-fixes-v3-0-9a1358472d52@cerno.tech>
- <20221018-clk-range-checks-fixes-v3-28-9a1358472d52@cerno.tech>
-In-Reply-To: <20221018-clk-range-checks-fixes-v3-28-9a1358472d52@cerno.tech>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 11 Apr 2023 12:27:38 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdXUEOP_3zjf8nwDyHvZVG-D0AsBjnr=esKzejMMcEiLSQ@mail.gmail.com>
-Message-ID: <CAMuHMdXUEOP_3zjf8nwDyHvZVG-D0AsBjnr=esKzejMMcEiLSQ@mail.gmail.com>
-Subject: Re: [PATCH v3 28/65] clk: renesas: r9a06g032: Add a determine_rate
- hook
-To: Maxime Ripard <maxime@cerno.tech>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230330032614.18837-2-nancy.lin@mediatek.com>
+X-Operating-System: Linux phenom 6.1.0-7-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,120 +82,90 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Prashant Gaikwad <pgaikwad@nvidia.com>,
- Herve Codina <herve.codina@bootlin.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Michael Turquette <mturquette@baylibre.com>, Sekhar Nori <nsekhar@ti.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- dri-devel@lists.freedesktop.org, Liam Girdwood <lgirdwood@gmail.com>,
- Paul Cercueil <paul@crapouillou.net>, Max Filippov <jcmvbkbc@gmail.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- Miquel Raynal <miquel.raynal@bootlin.com>, linux-phy@lists.infradead.org,
- linux-clk@vger.kernel.org, Abel Vesa <abelvesa@kernel.org>,
- Kishon Vijay Abraham I <kishon@kernel.org>,
- Samuel Holland <samuel@sholland.org>, Takashi Iwai <tiwai@suse.com>,
- linux-tegra@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>, Chen-Yu Tsai <wens@csie.org>,
- NXP Linux Team <linux-imx@nxp.com>, Orson Zhai <orsonzhai@gmail.com>,
- Ulf Hansson <ulf.hansson@linaro.org>, linux-mips@vger.kernel.org,
- Luca Ceresoli <luca.ceresoli@bootlin.com>, linux-rtc@vger.kernel.org,
- Charles Keepax <ckeepax@opensource.cirrus.com>,
- David Lechner <david@lechnology.com>, alsa-devel@alsa-project.org,
- Manivannan Sadhasivam <mani@kernel.org>, linux-kernel@vger.kernel.org,
- Sascha Hauer <s.hauer@pengutronix.de>, linux-actions@lists.infradead.org,
- Gareth Williams <gareth.williams.jx@renesas.com>,
- Richard Fitzgerald <rf@opensource.cirrus.com>, Mark Brown <broonie@kernel.org>,
- linux-mediatek@lists.infradead.org,
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- Matthias Brugger <matthias.bgg@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
- linux-arm-kernel@lists.infradead.org,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Alessandro Zummo <a.zummo@towertech.it>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>, linux-sunxi@lists.linux.dev,
- Ralph Siemsen <ralph.siemsen@linaro.org>, Stephen Boyd <sboyd@kernel.org>,
- patches@opensource.cirrus.com, Peter De Schrijver <pdeschrijver@nvidia.com>,
- linux-stm32@st-md-mailman.stormreply.com,
- Nicolas Ferre <nicolas.ferre@microchip.com>,
- =?UTF-8?Q?Andreas_F=C3=A4rber?= <afaerber@suse.de>,
- linux-renesas-soc@vger.kernel.org, Dinh Nguyen <dinguyen@kernel.org>,
- Vinod Koul <vkoul@kernel.org>, Pengutronix Kernel Team <kernel@pengutronix.de>,
- Chunyan Zhang <zhang.lyra@gmail.com>, Shawn Guo <shawnguo@kernel.org>,
- Claudiu Beznea <claudiu.beznea@microchip.com>
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>, singo.chang@mediatek.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ linux-mediatek@lists.infradead.org, Matthias Brugger <matthias.bgg@gmail.com>,
+ shawn.sung@mediatek.com, linux-arm-kernel@lists.infradead.org,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-CC Gareth, Herv=C3=A9, Miquel, Ralph
+On Thu, Mar 30, 2023 at 11:26:13AM +0800, Nancy.Lin wrote:
+> Add mdp_rdma get_format and get_num_formats function.
+> 
+> Signed-off-by: Nancy.Lin <nancy.lin@mediatek.com>
 
-On Tue, Apr 4, 2023 at 2:44=E2=80=AFPM Maxime Ripard <maxime@cerno.tech> wr=
-ote:
-> The Renesas r9a06g032 bitselect clock implements a mux with a set_parent
-> hook, but doesn't provide a determine_rate implementation.
->
-> This is a bit odd, since set_parent() is there to, as its name implies,
-> change the parent of a clock. However, the most likely candidate to
-> trigger that parent change is a call to clk_set_rate(), with
-> determine_rate() figuring out which parent is the best suited for a
-> given rate.
->
-> The other trigger would be a call to clk_set_parent(), but it's far less
-> used, and it doesn't look like there's any obvious user for that clock.
->
-> So, the set_parent hook is effectively unused, possibly because of an
-> oversight. However, it could also be an explicit decision by the
-> original author to avoid any reparenting but through an explicit call to
-> clk_set_parent().
->
-> The latter case would be equivalent to setting the flag
-> CLK_SET_RATE_NO_REPARENT, together with setting our determine_rate hook
-> to __clk_mux_determine_rate(). Indeed, if no determine_rate
-> implementation is provided, clk_round_rate() (through
-> clk_core_round_rate_nolock()) will call itself on the parent if
-> CLK_SET_RATE_PARENT is set, and will not change the clock rate
-> otherwise. __clk_mux_determine_rate() has the exact same behavior when
-> CLK_SET_RATE_NO_REPARENT is set.
->
-> And if it was an oversight, then we are at least explicit about our
-> behavior now and it can be further refined down the line.
->
-> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+The mtk get_formats stuff seems like a lot of midlayering for not much
+reasons? Is that really needed?
 
-LGTM, so
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-But I do not have the hardware.
+Just a drive-by questions I had while merging the pr.
+-Daniel
 
-> --- a/drivers/clk/renesas/r9a06g032-clocks.c
-> +++ b/drivers/clk/renesas/r9a06g032-clocks.c
-> @@ -1121,6 +1121,7 @@ static int r9a06g032_clk_mux_set_parent(struct clk_=
-hw *hw, u8 index)
+> ---
+>  drivers/gpu/drm/mediatek/mtk_disp_drv.h |  3 +++
+>  drivers/gpu/drm/mediatek/mtk_mdp_rdma.c | 24 ++++++++++++++++++++++++
+>  2 files changed, 27 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/mediatek/mtk_disp_drv.h b/drivers/gpu/drm/mediatek/mtk_disp_drv.h
+> index 0d28b2e2069c..17b169530beb 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_disp_drv.h
+> +++ b/drivers/gpu/drm/mediatek/mtk_disp_drv.h
+> @@ -152,4 +152,7 @@ void mtk_mdp_rdma_start(struct device *dev, struct cmdq_pkt *cmdq_pkt);
+>  void mtk_mdp_rdma_stop(struct device *dev, struct cmdq_pkt *cmdq_pkt);
+>  void mtk_mdp_rdma_config(struct device *dev, struct mtk_mdp_rdma_cfg *cfg,
+>  			 struct cmdq_pkt *cmdq_pkt);
+> +const u32 *mtk_mdp_rdma_get_formats(struct device *dev);
+> +size_t mtk_mdp_rdma_get_num_formats(struct device *dev);
+> +
+>  #endif
+> diff --git a/drivers/gpu/drm/mediatek/mtk_mdp_rdma.c b/drivers/gpu/drm/mediatek/mtk_mdp_rdma.c
+> index eecfa98ff52e..e06db6e56b5f 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_mdp_rdma.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_mdp_rdma.c
+> @@ -62,6 +62,20 @@
+>  #define RDMA_CSC_FULL709_TO_RGB			5
+>  #define RDMA_CSC_BT601_TO_RGB			6
+>  
+> +static const u32 formats[] = {
+> +	DRM_FORMAT_XRGB8888,
+> +	DRM_FORMAT_ARGB8888,
+> +	DRM_FORMAT_BGRX8888,
+> +	DRM_FORMAT_BGRA8888,
+> +	DRM_FORMAT_ABGR8888,
+> +	DRM_FORMAT_XBGR8888,
+> +	DRM_FORMAT_RGB888,
+> +	DRM_FORMAT_BGR888,
+> +	DRM_FORMAT_RGB565,
+> +	DRM_FORMAT_UYVY,
+> +	DRM_FORMAT_YUYV,
+> +};
+> +
+>  enum rdma_format {
+>  	RDMA_INPUT_FORMAT_RGB565 = 0,
+>  	RDMA_INPUT_FORMAT_RGB888 = 1,
+> @@ -219,6 +233,16 @@ void mtk_mdp_rdma_config(struct device *dev, struct mtk_mdp_rdma_cfg *cfg,
+>  			   MDP_RDMA_MF_CLIP_SIZE, FLD_MF_CLIP_H);
 >  }
->
->  static const struct clk_ops clk_bitselect_ops =3D {
-> +       .determine_rate =3D __clk_mux_determine_rate,
->         .get_parent =3D r9a06g032_clk_mux_get_parent,
->         .set_parent =3D r9a06g032_clk_mux_set_parent,
->  };
-> @@ -1145,7 +1146,7 @@ r9a06g032_register_bitsel(struct r9a06g032_priv *cl=
-ocks,
->
->         init.name =3D desc->name;
->         init.ops =3D &clk_bitselect_ops;
-> -       init.flags =3D CLK_SET_RATE_PARENT;
-> +       init.flags =3D CLK_SET_RATE_PARENT | CLK_SET_RATE_NO_REPARENT;
->         init.parent_names =3D names;
->         init.num_parents =3D 2;
->
+>  
+> +const u32 *mtk_mdp_rdma_get_formats(struct device *dev)
+> +{
+> +	return formats;
+> +}
+> +
+> +size_t mtk_mdp_rdma_get_num_formats(struct device *dev)
+> +{
+> +	return ARRAY_SIZE(formats);
+> +}
+> +
+>  int mtk_mdp_rdma_clk_enable(struct device *dev)
+>  {
+>  	struct mtk_mdp_rdma *rdma = dev_get_drvdata(dev);
+> -- 
+> 2.18.0
+> 
 
-Gr{oetje,eeting}s,
-
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
