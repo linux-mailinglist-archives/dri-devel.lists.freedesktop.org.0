@@ -2,69 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F4196DE71C
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Apr 2023 00:17:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 11BC86DE72D
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Apr 2023 00:22:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7871C10E18E;
-	Tue, 11 Apr 2023 22:17:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4C22710E107;
+	Tue, 11 Apr 2023 22:22:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com
- [IPv6:2a00:1450:4864:20::12e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5187710E047
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Apr 2023 22:17:21 +0000 (UTC)
-Received: by mail-lf1-x12e.google.com with SMTP id d7so23363647lfj.3
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Apr 2023 15:17:21 -0700 (PDT)
+Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com
+ [IPv6:2a00:1450:4864:20::134])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 69C6C10E107
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Apr 2023 22:22:04 +0000 (UTC)
+Received: by mail-lf1-x134.google.com with SMTP id t20so12259044lfd.5
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Apr 2023 15:22:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1681251439; x=1683843439;
+ d=linaro.org; s=google; t=1681251722; x=1683843722;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=YZyUOASgExhF30LjNQ41eGkCS/vfjzdSaSnhxhM63Ck=;
- b=lcvg1vWS/bkdJlOWf8z6hh5bj/Yu9IFc5rBB2HZ4EcdOWmSBi1qepkWi+zVad/LQKx
- E50NrOUdnoXoPbrWK0/4ji5eBoH4RJCfKrhORZnFVp1h0nAqldt04QZS4WqeQ6/wicww
- LwHNnB3fi3NcOIhg4n6VD1mL01c9M32Xc6yApX8akulyI3b+aklUynPu1124W1qOzIlD
- NLbNFWVac8pZjaxqvhPTvWhANWtBlt4EdexU6Eur0CrqluwNLj370L/jVL7IKfqGqjLg
- DIsY6358PgeDbx/rntImSIywdOQyaNSMD1ITbNfLGOnIH7BRUbNsufWgpAjdFDnU0VOy
- WgQQ==
+ bh=bnJqJOHWM+i9yYeCdM/t4B9MeXWhn4I1ekLcXvd6lHg=;
+ b=TtLJ4EI/MxAfwkyCoXHF6vMi538qX4N5Eh3lSLgwY9Hp1V9UsojQVkDRy6sCgac936
+ uFPQGqPqWZyNDJLjGGmOWGvAvMGfrGZX8sOkuHeW0zbTJSYTISU1XlVRGlOxGxWj3Sdu
+ neoJIWVtsAJztSlAfPxqyDVnYf3Z0p2Oj9ZXnjvQOl/pETNgaGclKKusfcjB96RcV3xo
+ mpSQ4GjnUCMdcBtJ4qRcJSHycsfbM83mYhLTn7l5B7GEE8VKwNi4ihda3PuJKsyHMZLe
+ BZ32ZRjiM1vFkTmvAiWeMM6tuKCDUbixQBJgpsYtiZlfNFxXsM+Jho5t4XBYk7t2fY5U
+ ZcSw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1681251439; x=1683843439;
+ d=1e100.net; s=20210112; t=1681251722; x=1683843722;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=YZyUOASgExhF30LjNQ41eGkCS/vfjzdSaSnhxhM63Ck=;
- b=kXBPWQD/CfbklZOp0x8GrMEy3IQzyiUIRUOY1RiKqIzT7qxgg4RBO1CpFV2UxDdNEc
- Lx1eTJ9avMI8ZdY/3UKrubJ09EyRTPhpjnWYNrudp6fGGxCCuiUTP/jm58eyLBABNnMa
- sDsuB4q1fqR0coFCzBHp/j4GreLBZxx9xjVnLJWkiong1+80BPmdaMQxQbbKMKn2SOn4
- H+JZyUpLqvZY5W3SNhd6eXT+FXEKAvCyBFwvYmK/LaeMxRRi++byBRNbeemZq8cifXdv
- b8LZ8A717uiZbUWmRr1TiDAWqtgf1oW90CA7/vgvrJ1iI6+ObluWxnW1r9adDUjQiAI+
- Ff0w==
-X-Gm-Message-State: AAQBX9eXU7OD5Ua0Pumo9ypGgt/+M1wzwXG8B4b1YDzLo19ioZIfFWrn
- qalbaBFowXfdFlA8LBuNQ50Ehg==
-X-Google-Smtp-Source: AKy350ZBOK0SaKJPGnFnIZHsueajzDe6qTwVnM7E1/+6bHqNmgIm8oaBqfNP7Q6f05CXQ1eplHfRAQ==
-X-Received: by 2002:ac2:55a4:0:b0:4ec:857d:9c94 with SMTP id
- y4-20020ac255a4000000b004ec857d9c94mr36989lfg.15.1681251439037; 
- Tue, 11 Apr 2023 15:17:19 -0700 (PDT)
+ bh=bnJqJOHWM+i9yYeCdM/t4B9MeXWhn4I1ekLcXvd6lHg=;
+ b=G4ZRw3xE+7q+50bHLfna67bCUU2InMIud9OgQI6LlDnKJS27A4guQIEqM88qMG2AFw
+ t6+6wl1RMDGhkpkhAfYBwXMuLwltuk7ATmm7VYTuRp1UbDvSUYFHdrOzoAyReG2ETry9
+ FpTzJlp4DmpqyCpV812iYbxyaviSBed1w3p/eWbywobuWR82eSOwLFDid/l/zuc7YGCB
+ fmtAFVYFWsJrWbWOGpmkX+z4Wf7KVQJL0jTJ2OMrsgz7SkjswhwG2fgKA+PYryjpYySf
+ 6dw4UmbPXd3NAPONc20+u5rtG31oPLMRSOxMWTe7iwj4Q/m2ImC9iGfSYNxrDxh4sTRk
+ OKrA==
+X-Gm-Message-State: AAQBX9e+D5pET/trRK0sm3g33AJhMV044Om37OYZLb4f1CKgB9CBdqwS
+ ICPm9G9kACzJPebL+uyXEbVgbw==
+X-Google-Smtp-Source: AKy350YCVh8sqlclvyGDYItY0bdZX5DwXT15GKdMRT6i4yqUjFGy9SGZz1hBjSstG6Pnf62SBVGXeg==
+X-Received: by 2002:ac2:4315:0:b0:4ec:8e83:dafd with SMTP id
+ l21-20020ac24315000000b004ec8e83dafdmr133404lfh.19.1681251722273; 
+ Tue, 11 Apr 2023 15:22:02 -0700 (PDT)
 Received: from ?IPV6:2001:14ba:a085:4d00::8a5?
  (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a085:4d00::8a5])
  by smtp.gmail.com with ESMTPSA id
- o28-20020ac2495c000000b004eb0eafaa02sm2709428lfi.243.2023.04.11.15.17.18
+ c11-20020ac244ab000000b004e792045b3dsm2706181lfm.106.2023.04.11.15.22.01
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 11 Apr 2023 15:17:18 -0700 (PDT)
-Message-ID: <30585d08-88ca-e3a9-6f83-128d49d1d1fc@linaro.org>
-Date: Wed, 12 Apr 2023 01:17:18 +0300
+ Tue, 11 Apr 2023 15:22:01 -0700 (PDT)
+Message-ID: <cfb8b5c2-f5e0-48b3-fab2-9708190df1c3@linaro.org>
+Date: Wed, 12 Apr 2023 01:22:01 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.9.0
-Subject: Re: [PATCH] drm/msm/dpu: always program dsc active bits
+Subject: Re: [PATCH] drm/msm/dpu: add DSC range checking during resource
+ reservation
 Content-Language: en-GB
 To: Kuogee Hsieh <quic_khsieh@quicinc.com>, robdclark@gmail.com,
  sean@poorly.run, swboyd@chromium.org, dianders@chromium.org,
  vkoul@kernel.org, daniel@ffwll.ch, airlied@gmail.com, agross@kernel.org,
  andersson@kernel.org
-References: <1681247095-1201-1-git-send-email-quic_khsieh@quicinc.com>
+References: <1681247380-1607-1-git-send-email-quic_khsieh@quicinc.com>
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <1681247095-1201-1-git-send-email-quic_khsieh@quicinc.com>
+In-Reply-To: <1681247380-1607-1-git-send-email-quic_khsieh@quicinc.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -85,41 +86,62 @@ Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 12/04/2023 00:04, Kuogee Hsieh wrote:
-> In current code, the dsc active bits are set only if the cfg->dsc is set.
-> However, for displays which are hot-pluggable, there can be a use-case
-> of disconnecting a DSC supported sink and connecting a non-DSC sink.
+On 12/04/2023 00:09, Kuogee Hsieh wrote:
+> Perform DSC range checking to make sure correct DSC is requested before
+> reserve resource for it.
 > 
-> For those cases we need to clear DSC active bits during teardown.
+> Fixes: c985d7bb64ff ("drm/msm/disp/dpu1: Add DSC support in RM")
 
-Please correct me if I'm wrong here, shouldn't we start using 
-reset_intf_cfg() during teardown / unplug?
+$ git log -p -1 c985d7bb64ff
+fatal: ambiguous argument 'c985d7bb64ff': unknown revision or path not 
+in the working tree.
 
-> 
-> Fixes: ede3c6bb00c ("drm/msm/disp/dpu1: Add DSC support in hw_ctl")
+I assume this was generated against some internal tree. Please. Please. 
+Don't do this again. I hoped that this was pointed out ages ago, but 
+probably not. No fixes, commits, tests against internal trees, no matter 
+how precious they are to you.
+
 > Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
 > ---
->   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c | 7 +++----
->   1 file changed, 3 insertions(+), 4 deletions(-)
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c | 10 +++++++++-
+>   1 file changed, 9 insertions(+), 1 deletion(-)
 > 
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
-> index bbdc95c..88e4efe 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
-> @@ -541,10 +541,9 @@ static void dpu_hw_ctl_intf_cfg_v1(struct dpu_hw_ctl *ctx,
->   	if (cfg->merge_3d)
->   		DPU_REG_WRITE(c, CTL_MERGE_3D_ACTIVE,
->   			      BIT(cfg->merge_3d - MERGE_3D_0));
-> -	if (cfg->dsc) {
-> -		DPU_REG_WRITE(&ctx->hw, CTL_FLUSH, DSC_IDX);
-> -		DPU_REG_WRITE(c, CTL_DSC_ACTIVE, cfg->dsc);
-> -	}
-> +
-> +	DPU_REG_WRITE(&ctx->hw, CTL_FLUSH, DSC_IDX);
-> +	DPU_REG_WRITE(c, CTL_DSC_ACTIVE, cfg->dsc);
->   }
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
+> index f4dda88..95e58f1 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
+> @@ -1,6 +1,7 @@
+>   // SPDX-License-Identifier: GPL-2.0-only
+>   /*
+>    * Copyright (c) 2016-2018, The Linux Foundation. All rights reserved.
+> + * Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved.
+>    */
 >   
->   static void dpu_hw_ctl_intf_cfg(struct dpu_hw_ctl *ctx,
+>   #define pr_fmt(fmt)	"[drm:%s] " fmt, __func__
+> @@ -250,6 +251,11 @@ int dpu_rm_init(struct dpu_rm *rm,
+>   		struct dpu_hw_dsc *hw;
+>   		const struct dpu_dsc_cfg *dsc = &cat->dsc[i];
+>   
+> +		if (dsc->id < DSC_0 || dsc->id >= DSC_MAX) {
+> +			DPU_ERROR("skip dsc %d with invalid id\n", dsc->id);
+> +			continue;
+> +		}
+> +
+>   		hw = dpu_hw_dsc_init(dsc->id, mmio, cat);
+>   		if (IS_ERR_OR_NULL(hw)) {
+>   			rc = PTR_ERR(hw);
+> @@ -557,8 +563,10 @@ static int _dpu_rm_make_reservation(
+>   	}
+>   
+>   	ret  = _dpu_rm_reserve_dsc(rm, global_state, enc, &reqs->topology);
+> -	if (ret)
+> +	if (ret) {
+> +		DPU_ERROR("unable to find appropriate DSC\n");
+>   		return ret;
+> +	}
+>   
+>   	return ret;
+>   }
 
 -- 
 With best wishes
