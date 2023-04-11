@@ -2,49 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34B0E6DDBE8
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Apr 2023 15:17:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 909166DDC6A
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Apr 2023 15:42:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 75D2610E228;
-	Tue, 11 Apr 2023 13:17:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B0F2B10E355;
+	Tue, 11 Apr 2023 13:42:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E1B8B10E228
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Apr 2023 13:17:17 +0000 (UTC)
-Received: from relay7-d.mail.gandi.net (unknown [217.70.183.200])
- by mslow1.mail.gandi.net (Postfix) with ESMTP id A951DCB1FF
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Apr 2023 13:09:53 +0000 (UTC)
-Received: (Authenticated sender: miquel.raynal@bootlin.com)
- by mail.gandi.net (Postfix) with ESMTPSA id 8667320007;
- Tue, 11 Apr 2023 13:09:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1681218585;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=zj1JtAKrv3GVkrzExsf9B7vpxAMSpGNgfjgQje0eTak=;
- b=oNG2Rb7etLGd3op/Iz2fmq0xokA2awaHaTUwmpMIqfWRcdiVNffJhH1OiD/NJa8U8VhbyA
- yF9MXtYH8Fxz3M+cAq/7V/oq1xoDx4mXB50I/MCViACuf5Xj/3sm+jiFSUhQyd/GFiKSU+
- MvbhXoQ5xcQFvUgIZ6glZLEM1HPSvT3ZkSE8cIw3GiRKuf3ey7u+ch+9vo/URZlNg8hBkX
- sdQ/9ZojYLUArwz1K4ERP3d5/cBFRF6/83yyqSdXppNVR0gRdgwuMipAeMDZ8IGKN7s335
- n6r/K2t/A0PaaBtBH3FUkAWJV3CrDikEbkeZlUHa/BD6XrUBmGFFsgVYyetBaQ==
-Date: Tue, 11 Apr 2023 15:09:30 +0200
-From: Miquel Raynal <miquel.raynal@bootlin.com>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Subject: Re: [PATCH v3 28/65] clk: renesas: r9a06g032: Add a determine_rate
- hook
-Message-ID: <20230411150930.4fb22d7e@xps-13>
-In-Reply-To: <CAMuHMdXUEOP_3zjf8nwDyHvZVG-D0AsBjnr=esKzejMMcEiLSQ@mail.gmail.com>
-References: <20221018-clk-range-checks-fixes-v3-0-9a1358472d52@cerno.tech>
- <20221018-clk-range-checks-fixes-v3-28-9a1358472d52@cerno.tech>
- <CAMuHMdXUEOP_3zjf8nwDyHvZVG-D0AsBjnr=esKzejMMcEiLSQ@mail.gmail.com>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
+Received: from mout.web.de (mout.web.de [212.227.15.4])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C993D10E355;
+ Tue, 11 Apr 2023 13:42:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de; s=s29768273;
+ t=1681220572; i=markus.elfring@web.de;
+ bh=OgaLLOQi3BLhTZK7PXXmygRTTkKNgw64HGqUqvj1wCI=;
+ h=X-UI-Sender-Class:Date:Subject:From:To:References:Cc:In-Reply-To;
+ b=tUMzmmTI1st/xbVtse2EplbW74uz3t6inOCFOEszggyuD6hBerpT7oG7ITRpvVGM9
+ qnU82q/OD8x+pFYX5McTqzwg50cIns2B7qTuhpcStDvR14mjIN2wMdzwLWR3b/qDsk
+ g12u2b0QPUWOxKq+6VFLoqeUaflpm0UKRgLrEMqbio725PNRP9f0yrgR93liBrMA6m
+ spNgNoxSzBmEpHMrDLOuU2hVPKOIDc7gjxgG5mJGWjhZGoQj5Q0+8reJrIUcZa7DFb
+ 9QsQlmz2UL8iagH1LvhfzsHujpBFqcYhCvBwAW00YzH1vHsFnfRiwA+o6FshSL1mGk
+ FdVtz5MGjgAhw==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.21] ([94.31.80.83]) by smtp.web.de (mrweb006
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 1M43KW-1pmEAw1S6a-000RFh; Tue, 11
+ Apr 2023 15:36:46 +0200
+Message-ID: <2258ce64-2a14-6778-8319-b342b06a1f33@web.de>
+Date: Tue, 11 Apr 2023 15:36:30 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.1
+Subject: [PATCH 0/5] drm/amd: Adjustments for three function implementations
+From: Markus Elfring <Markus.Elfring@web.de>
+To: kernel-janitors@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, Alan Liu <HaoPing.Liu@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>, Alex Hung <alex.hung@amd.com>,
+ Alexey Kodanev <aleksei.kodanev@bell-sw.com>,
+ Aurabindo Pillai <aurabindo.pillai@amd.com>,
+ Bhanuprakash Modem <bhanuprakash.modem@intel.com>,
+ Candice Li <candice.li@amd.com>, Charlene Liu <charlene.liu@amd.com>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
+ David Tadokoro <davidbtadokoro@usp.br>, Eryk Brol <eryk.brol@amd.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Hamza Mahfooz <hamza.mahfooz@amd.com>,
+ Harry Wentland <harry.wentland@amd.com>,
+ Hawking Zhang <Hawking.Zhang@amd.com>, hersen wu <hersenxs.wu@amd.com>,
+ Jiapeng Chong <jiapeng.chong@linux.alibaba.com>, Jun Lei <jun.lei@amd.com>,
+ Leo Li <sunpeng.li@amd.com>, Mikita Lipski <mikita.lipski@amd.com>,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+ Stanley Yang <Stanley.Yang@amd.com>, Tao Zhou <tao.zhou1@amd.com>,
+ Tom Rix <trix@redhat.com>, Victor Zhao <Victor.Zhao@amd.com>,
+ Wayne Lin <Wayne.Lin@amd.com>, Wenjing Liu <wenjing.liu@amd.com>,
+ Xinhui Pan <Xinhui.Pan@amd.com>, YiPeng Chai <YiPeng.Chai@amd.com>,
+ Zhan Liu <zhan.liu@amd.com>
+References: <40c60719-4bfe-b1a4-ead7-724b84637f55@web.de>
+ <1a11455f-ab57-dce0-1677-6beb8492a257@web.de>
+Content-Language: en-GB
+In-Reply-To: <1a11455f-ab57-dce0-1677-6beb8492a257@web.de>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:Wsv7nBnFp1BYjqo/ByyaPrBnKZPriMlSmoRCWlDHk0on2YSaRs8
+ 4cMs4oUIBAwmnnWXpHtRTHBSJi8QMKFcHU7avEDVgcbe0s3aEu6GupXXHhCePuqY9pdFjnS
+ a3wIAMsbpUVnfSNoUATeoayKxFqUNwe9TpTbGlf3KmopmSSS3rXdhXAvfVqZzUDcM9XChah
+ PbP8tgwGn68yzSPB/hATA==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:dG+teEJQyng=;9iP0F3ryAgH9PP87giDU1FkTcpV
+ sYzTGspTxfg2QovIbQu6yOmrs91xRwJUtaIuo3yjoYXG5Pdux8eeza4J01JNLkY0E1Xo1wzzm
+ RHPM+7WW9Hm023ZBADN/iYJSCIpM4pz0pwAAx0kCIYbwa+JbvhDCjzi6XXkBiOi54TlQiCilx
+ 8dqG4aRiPfBnQXRc7TcY2L6qNiSgPlTKnpLGa204txnulTU670oXB8licxJ0qzA10ZkThpwJl
+ LRgQEkjuhISUPZKIpvyYfjBzHYcSvB7sLa2J2ba0JTnmpnNz1n3gFYhNuhKacaEWKC/1JlpFf
+ 4AfeaDnTvdPnM0FDqR8jKNiGlGv+M+vPVfa3/PLRnTsvuVuVkEnTZttr+0v81ghPMJtmZOn61
+ o7yrayWPjyG9mhr9BrkiRTCBeXMR6J1S0XuwRv8eADte8uqgWDNsHVR80xnRGspGpbWsll6eW
+ V4sQ1KeUBZWbp7NJB/LhZVymOLnpER9Fn6SjAKUf253/2RUNpXLiqEz/VWj5DuRodSgYKVMZH
+ k05DYGVmBE4LvN5bo8OS7pAP8QrXioeSFR8S5VSQ3BZQQz5OAn+A9uPhdEjCZ5vOSV4s3B552
+ mCVNq2rZ5yg9Phufgr6cqnipJO3tgzm6MckpmXaRVhw8QLKxdB2s2M85azIsYg6ZvXrej46L2
+ RoIg9Jj/mVWNL/O2m1ZJDAXzsSRdWri270y4MsIvPvI2j5Wh8WO4N3F6Yvg4AIQkVoTniTb9F
+ iP8Pj0EtwVR7v/2pVqS03pz5F/9Bgd0+JxoLdZiPyCuBl2i8ShDnLRLBdgjy7RMfw3qC/YCky
+ kdv9eOl4C6+fAM2isUAZyyp5oMUwTWaN+UAhVyh+tZA1cer4CMflVZjXmfG3O/ZGRD7CPGJkK
+ XtMNOi7TomIUlX6yVwr7wls5uycOjMKQSmE5iJzqzbJ9kATvZAw+RYAKR
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,142 +92,31 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Prashant Gaikwad <pgaikwad@nvidia.com>,
- Herve Codina <herve.codina@bootlin.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Michael Turquette <mturquette@baylibre.com>, Sekhar Nori <nsekhar@ti.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- dri-devel@lists.freedesktop.org, Liam Girdwood <lgirdwood@gmail.com>,
- Paul Cercueil <paul@crapouillou.net>, Max Filippov <jcmvbkbc@gmail.com>,
- Thierry Reding <thierry.reding@gmail.com>, linux-phy@lists.infradead.org,
- linux-clk@vger.kernel.org, Abel Vesa <abelvesa@kernel.org>,
- Kishon Vijay Abraham I <kishon@kernel.org>,
- Samuel Holland <samuel@sholland.org>, Takashi Iwai <tiwai@suse.com>,
- linux-tegra@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>, Chen-Yu Tsai <wens@csie.org>,
- NXP Linux Team <linux-imx@nxp.com>, Orson Zhai <orsonzhai@gmail.com>,
- Ulf Hansson <ulf.hansson@linaro.org>, linux-mips@vger.kernel.org,
- Luca Ceresoli <luca.ceresoli@bootlin.com>, linux-rtc@vger.kernel.org,
- Charles Keepax <ckeepax@opensource.cirrus.com>,
- David Lechner <david@lechnology.com>, alsa-devel@alsa-project.org,
- Manivannan Sadhasivam <mani@kernel.org>, linux-kernel@vger.kernel.org,
- Sascha Hauer <s.hauer@pengutronix.de>, linux-actions@lists.infradead.org,
- Gareth Williams <gareth.williams.jx@renesas.com>,
- Richard Fitzgerald <rf@opensource.cirrus.com>, Mark Brown <broonie@kernel.org>,
- linux-mediatek@lists.infradead.org, Maxime Ripard <maxime@cerno.tech>,
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- Matthias Brugger <matthias.bgg@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
- linux-arm-kernel@lists.infradead.org,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Alessandro Zummo <a.zummo@towertech.it>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>, linux-sunxi@lists.linux.dev,
- Ralph Siemsen <ralph.siemsen@linaro.org>, Stephen Boyd <sboyd@kernel.org>,
- patches@opensource.cirrus.com, Peter De Schrijver <pdeschrijver@nvidia.com>,
- linux-stm32@st-md-mailman.stormreply.com,
- Nicolas Ferre <nicolas.ferre@microchip.com>,
- Andreas =?UTF-8?B?RsOkcmJlcg==?= <afaerber@suse.de>,
- linux-renesas-soc@vger.kernel.org, Dinh Nguyen <dinguyen@kernel.org>,
- Vinod Koul <vkoul@kernel.org>, Pengutronix Kernel Team <kernel@pengutronix.de>,
- Chunyan Zhang <zhang.lyra@gmail.com>, Shawn Guo <shawnguo@kernel.org>,
- Claudiu Beznea <claudiu.beznea@microchip.com>
+Cc: LKML <linux-kernel@vger.kernel.org>, cocci@inria.fr
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Geert & Maxime,
+Date: Tue, 11 Apr 2023 14:36:36 +0200
 
-geert@linux-m68k.org wrote on Tue, 11 Apr 2023 12:27:38 +0200:
+Some update suggestions were taken into account
+from static source code analysis.
 
-> CC Gareth, Herv=C3=A9, Miquel, Ralph
->=20
-> On Tue, Apr 4, 2023 at 2:44=E2=80=AFPM Maxime Ripard <maxime@cerno.tech> =
-wrote:
-> > The Renesas r9a06g032 bitselect clock implements a mux with a set_parent
-> > hook, but doesn't provide a determine_rate implementation.
-> >
-> > This is a bit odd, since set_parent() is there to, as its name implies,
-> > change the parent of a clock. However, the most likely candidate to
-> > trigger that parent change is a call to clk_set_rate(), with
-> > determine_rate() figuring out which parent is the best suited for a
-> > given rate.
-> >
-> > The other trigger would be a call to clk_set_parent(), but it's far less
-> > used, and it doesn't look like there's any obvious user for that clock.
-> >
-> > So, the set_parent hook is effectively unused, possibly because of an
-> > oversight. However, it could also be an explicit decision by the
-> > original author to avoid any reparenting but through an explicit call to
-> > clk_set_parent().
-> >
-> > The latter case would be equivalent to setting the flag
-> > CLK_SET_RATE_NO_REPARENT, together with setting our determine_rate hook
-> > to __clk_mux_determine_rate(). Indeed, if no determine_rate
-> > implementation is provided, clk_round_rate() (through
-> > clk_core_round_rate_nolock()) will call itself on the parent if
-> > CLK_SET_RATE_PARENT is set, and will not change the clock rate
-> > otherwise. __clk_mux_determine_rate() has the exact same behavior when
-> > CLK_SET_RATE_NO_REPARENT is set.
-> >
-> > And if it was an oversight, then we are at least explicit about our
-> > behavior now and it can be further refined down the line.
-> >
-> > Signed-off-by: Maxime Ripard <maxime@cerno.tech> =20
->=20
-> LGTM, so
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Markus Elfring (5)
+  amdgpu: Move a variable assignment behind a null pointer check in amdgpu=
+_ras_interrupt_dispatch()
+  display: Move three variable assignments behind condition checks in trig=
+ger_hotplug()
+  display: Delete three unnecessary variable initialisations in trigger_ho=
+tplug()
+  display: Delete a redundant statement in trigger_hotplug()
+  display: Move an expression into a return statement in dcn201_link_encod=
+er_create()
 
-I searched for 'possible callers', I didn't find any places
-where this would be used on the consumer side. However, downstream,
-there is a rzn1-clock-bitselect.c clock driver which states:
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c       |  3 ++-
+ .../amd/display/amdgpu_dm/amdgpu_dm_debugfs.c | 19 ++++++++++---------
+ .../amd/display/dc/dcn201/dcn201_resource.c   |  4 +---
+ 3 files changed, 13 insertions(+), 13 deletions(-)
 
-+ * This clock provider handles the case of the RZN1 where you have periphe=
-rals
-+ * that have two potential clock source and two gates, one for each of the
-+ * clock source - the used clock source (for all sub clocks) is selected b=
-y a
-+ * single bit.
-+ * That single bit affects all sub-clocks, and therefore needs to change t=
-he
-+ * active gate (and turn the others off) and force a recalculation of the =
-rates.
+=2D-
+2.40.0
 
-I don't know how much of this file has been upstreamed (under a
-different form) but this might very well be related to the fact that
-reparenting in some cases would be a major issue and thus needs to be
-avoided unless done on purpose (guessing?).
-
-Maybe Ralph can comment, but for what I understand,
-
-Reviewed-by: Miquel Raynal <miquel.raynal@bootlin.com>
-
-> But I do not have the hardware.
->=20
-> > --- a/drivers/clk/renesas/r9a06g032-clocks.c
-> > +++ b/drivers/clk/renesas/r9a06g032-clocks.c
-> > @@ -1121,6 +1121,7 @@ static int r9a06g032_clk_mux_set_parent(struct cl=
-k_hw *hw, u8 index)
-> >  }
-> >
-> >  static const struct clk_ops clk_bitselect_ops =3D {
-> > +       .determine_rate =3D __clk_mux_determine_rate,
-> >         .get_parent =3D r9a06g032_clk_mux_get_parent,
-> >         .set_parent =3D r9a06g032_clk_mux_set_parent,
-> >  };
-> > @@ -1145,7 +1146,7 @@ r9a06g032_register_bitsel(struct r9a06g032_priv *=
-clocks,
-> >
-> >         init.name =3D desc->name;
-> >         init.ops =3D &clk_bitselect_ops;
-> > -       init.flags =3D CLK_SET_RATE_PARENT;
-> > +       init.flags =3D CLK_SET_RATE_PARENT | CLK_SET_RATE_NO_REPARENT;
-> >         init.parent_names =3D names;
-> >         init.num_parents =3D 2;
-> > =20
->=20
-> Gr{oetje,eeting}s,
->=20
->                         Geert
->=20
-
-Thanks,
-Miqu=C3=A8l
