@@ -1,31 +1,31 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1A496DD9B7
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Apr 2023 13:43:17 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 334F56DD9B8
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Apr 2023 13:43:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EE05F10E2AE;
-	Tue, 11 Apr 2023 11:43:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2CB3F10E2FE;
+	Tue, 11 Apr 2023 11:43:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com
- [210.160.252.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 30BF010E2AE
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Apr 2023 11:43:13 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.98,336,1673881200"; d="scan'208";a="159045199"
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com
+ [210.160.252.171])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 929E110E2FE
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Apr 2023 11:43:18 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.98,336,1673881200"; d="scan'208";a="155597350"
 Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
- by relmlie6.idc.renesas.com with ESMTP; 11 Apr 2023 20:43:12 +0900
+ by relmlie5.idc.renesas.com with ESMTP; 11 Apr 2023 20:43:17 +0900
 Received: from localhost.localdomain (unknown [10.226.93.123])
- by relmlir5.idc.renesas.com (Postfix) with ESMTP id 73536400195D;
- Tue, 11 Apr 2023 20:43:08 +0900 (JST)
+ by relmlir5.idc.renesas.com (Postfix) with ESMTP id 78145400564A;
+ Tue, 11 Apr 2023 20:43:13 +0900 (JST)
 From: Biju Das <biju.das.jz@bp.renesas.com>
 To: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
  Mauro Carvalho Chehab <mchehab@kernel.org>,
  Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>
-Subject: [PATCH v7 06/17] drm: rcar-du: Move rcar_du_vsp_{map,unmap}_fb()
-Date: Tue, 11 Apr 2023 12:42:24 +0100
-Message-Id: <20230411114235.366042-7-biju.das.jz@bp.renesas.com>
+Subject: [PATCH v7 07/17] drm: rcar-du: Move rcar_du_dumb_create()
+Date: Tue, 11 Apr 2023 12:42:25 +0100
+Message-Id: <20230411114235.366042-8-biju.das.jz@bp.renesas.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20230411114235.366042-1-biju.das.jz@bp.renesas.com>
 References: <20230411114235.366042-1-biju.das.jz@bp.renesas.com>
@@ -53,7 +53,7 @@ Cc: devicetree@vger.kernel.org, Chris Paterson <Chris.Paterson2@renesas.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Move rcar_du_vsp_{map,unmap}_fb() to RCar DU VSP lib.
+Move rcar_du_dumb_create() to RCar DU KMS lib.
 
 Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 ---
@@ -63,303 +63,140 @@ v1->v6:
  * Rebased on drm-misc-next and DU-next.
 v1:
  * Created the lib suggested by Laurent.
-
 Ref:
  https://patchwork.kernel.org/project/linux-renesas-soc/patch/20220316131100.30685-6-biju.das.jz@bp.renesas.com/
 ---
- drivers/gpu/drm/rcar-du/rcar_du_vsp.c     | 78 ---------------------
- drivers/gpu/drm/rcar-du/rcar_du_vsp.h     | 18 -----
- drivers/gpu/drm/rcar-du/rcar_du_vsp_lib.c | 84 +++++++++++++++++++++++
- drivers/gpu/drm/rcar-du/rcar_du_vsp_lib.h | 20 ++++++
- 4 files changed, 104 insertions(+), 96 deletions(-)
+ drivers/gpu/drm/rcar-du/rcar_du_kms.c     | 21 -----------------
+ drivers/gpu/drm/rcar-du/rcar_du_kms.h     |  5 ----
+ drivers/gpu/drm/rcar-du/rcar_du_kms_lib.c | 28 +++++++++++++++++++++++
+ drivers/gpu/drm/rcar-du/rcar_du_kms_lib.h |  7 ++++++
+ 4 files changed, 35 insertions(+), 26 deletions(-)
 
-diff --git a/drivers/gpu/drm/rcar-du/rcar_du_vsp.c b/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
-index 55557d9a3bc8..d461043c7828 100644
---- a/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
-+++ b/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
-@@ -11,11 +11,8 @@
- #include <drm/drm_atomic_helper.h>
- #include <drm/drm_blend.h>
- #include <drm/drm_crtc.h>
--#include <drm/drm_fb_dma_helper.h>
--#include <drm/drm_fourcc.h>
- #include <drm/drm_framebuffer.h>
- #include <drm/drm_gem_atomic_helper.h>
--#include <drm/drm_gem_dma_helper.h>
- #include <drm/drm_managed.h>
- #include <drm/drm_vblank.h>
- 
-@@ -208,68 +205,6 @@ static void rcar_du_vsp_plane_setup(struct rcar_du_vsp_plane *plane)
- 			      plane->index, &cfg);
+diff --git a/drivers/gpu/drm/rcar-du/rcar_du_kms.c b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
+index 3141d447e979..4b5511a20313 100644
+--- a/drivers/gpu/drm/rcar-du/rcar_du_kms.c
++++ b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
+@@ -81,27 +81,6 @@ struct drm_gem_object *rcar_du_gem_prime_import_sg_table(struct drm_device *dev,
+ 	return gem_obj;
  }
  
--int rcar_du_vsp_map_fb(struct rcar_du_vsp *vsp, struct drm_framebuffer *fb,
--		       struct sg_table sg_tables[3])
+-int rcar_du_dumb_create(struct drm_file *file, struct drm_device *dev,
+-			struct drm_mode_create_dumb *args)
 -{
--	struct rcar_du_device *rcdu = vsp->dev;
--	unsigned int i, j;
--	int ret;
+-	struct rcar_du_device *rcdu = to_rcar_du_device(dev);
+-	unsigned int min_pitch = DIV_ROUND_UP(args->width * args->bpp, 8);
+-	unsigned int align;
 -
--	for (i = 0; i < fb->format->num_planes; ++i) {
--		struct drm_gem_dma_object *gem = drm_fb_dma_get_gem_obj(fb, i);
--		struct sg_table *sgt = &sg_tables[i];
+-	/*
+-	 * The R8A7779 DU requires a 16 pixels pitch alignment as documented,
+-	 * but the R8A7790 DU seems to require a 128 bytes pitch alignment.
+-	 */
+-	if (rcar_du_needs(rcdu, RCAR_DU_QUIRK_ALIGN_128B))
+-		align = 128;
+-	else
+-		align = 16 * args->bpp / 8;
 -
--		if (gem->sgt) {
--			struct scatterlist *src;
--			struct scatterlist *dst;
+-	args->pitch = roundup(min_pitch, align);
 -
--			/*
--			 * If the GEM buffer has a scatter gather table, it has
--			 * been imported from a dma-buf and has no physical
--			 * address as it might not be physically contiguous.
--			 * Copy the original scatter gather table to map it to
--			 * the VSP.
--			 */
--			ret = sg_alloc_table(sgt, gem->sgt->orig_nents,
--					     GFP_KERNEL);
--			if (ret)
--				goto fail;
--
--			src = gem->sgt->sgl;
--			dst = sgt->sgl;
--			for (j = 0; j < gem->sgt->orig_nents; ++j) {
--				sg_set_page(dst, sg_page(src), src->length,
--					    src->offset);
--				src = sg_next(src);
--				dst = sg_next(dst);
--			}
--		} else {
--			ret = dma_get_sgtable(rcdu->dev, sgt, gem->vaddr,
--					      gem->dma_addr, gem->base.size);
--			if (ret)
--				goto fail;
--		}
--
--		ret = vsp1_du_map_sg(vsp->vsp, sgt);
--		if (ret) {
--			sg_free_table(sgt);
--			goto fail;
--		}
--	}
--
--	return 0;
--
--fail:
--	while (i--) {
--		struct sg_table *sgt = &sg_tables[i];
--
--		vsp1_du_unmap_sg(vsp->vsp, sgt);
--		sg_free_table(sgt);
--	}
--
--	return ret;
+-	return drm_gem_dma_dumb_create_internal(file, dev, args);
 -}
 -
- static int rcar_du_vsp_plane_prepare_fb(struct drm_plane *plane,
- 					struct drm_plane_state *state)
- {
-@@ -291,19 +226,6 @@ static int rcar_du_vsp_plane_prepare_fb(struct drm_plane *plane,
- 	return drm_gem_plane_helper_prepare_fb(plane, state);
- }
+ static struct drm_framebuffer *
+ rcar_du_fb_create(struct drm_device *dev, struct drm_file *file_priv,
+ 		  const struct drm_mode_fb_cmd2 *mode_cmd)
+diff --git a/drivers/gpu/drm/rcar-du/rcar_du_kms.h b/drivers/gpu/drm/rcar-du/rcar_du_kms.h
+index d2d4f34fe557..5490c99947fd 100644
+--- a/drivers/gpu/drm/rcar-du/rcar_du_kms.h
++++ b/drivers/gpu/drm/rcar-du/rcar_du_kms.h
+@@ -13,18 +13,13 @@
+ #include "rcar_du_kms_lib.h"
  
--void rcar_du_vsp_unmap_fb(struct rcar_du_vsp *vsp, struct drm_framebuffer *fb,
--			  struct sg_table sg_tables[3])
--{
--	unsigned int i;
+ struct dma_buf_attachment;
+-struct drm_file;
+ struct drm_device;
+ struct drm_gem_object;
+-struct drm_mode_create_dumb;
+ struct rcar_du_device;
+ struct sg_table;
+ 
+ int rcar_du_modeset_init(struct rcar_du_device *rcdu);
+ 
+-int rcar_du_dumb_create(struct drm_file *file, struct drm_device *dev,
+-			struct drm_mode_create_dumb *args);
 -
--	for (i = 0; i < fb->format->num_planes; ++i) {
--		struct sg_table *sgt = &sg_tables[i];
--
--		vsp1_du_unmap_sg(vsp->vsp, sgt);
--		sg_free_table(sgt);
--	}
--}
--
- static void rcar_du_vsp_plane_cleanup_fb(struct drm_plane *plane,
- 					 struct drm_plane_state *state)
- {
-diff --git a/drivers/gpu/drm/rcar-du/rcar_du_vsp.h b/drivers/gpu/drm/rcar-du/rcar_du_vsp.h
-index b610e6b40304..4022ed014353 100644
---- a/drivers/gpu/drm/rcar-du/rcar_du_vsp.h
-+++ b/drivers/gpu/drm/rcar-du/rcar_du_vsp.h
-@@ -14,10 +14,7 @@
- 
- #include "rcar_du_vsp_lib.h"
- 
--struct drm_framebuffer;
- struct rcar_du_format_info;
--struct rcar_du_vsp;
--struct sg_table;
- 
- struct rcar_du_vsp_plane {
- 	struct drm_plane plane;
-@@ -61,10 +58,6 @@ to_rcar_vsp_plane_state(struct drm_plane_state *state)
- int rcar_du_vsp_init(struct rcar_du_vsp *vsp, struct device_node *np,
- 		     unsigned int crtcs);
- void rcar_du_vsp_enable(struct rcar_du_crtc *crtc);
--int rcar_du_vsp_map_fb(struct rcar_du_vsp *vsp, struct drm_framebuffer *fb,
--		       struct sg_table sg_tables[3]);
--void rcar_du_vsp_unmap_fb(struct rcar_du_vsp *vsp, struct drm_framebuffer *fb,
--			  struct sg_table sg_tables[3]);
- #else
- static inline int rcar_du_vsp_init(struct rcar_du_vsp *vsp,
- 				   struct device_node *np,
-@@ -73,17 +66,6 @@ static inline int rcar_du_vsp_init(struct rcar_du_vsp *vsp,
- 	return -ENXIO;
- }
- static inline void rcar_du_vsp_enable(struct rcar_du_crtc *crtc) { };
--static inline int rcar_du_vsp_map_fb(struct rcar_du_vsp *vsp,
--				     struct drm_framebuffer *fb,
--				     struct sg_table sg_tables[3])
--{
--	return -ENXIO;
--}
--static inline void rcar_du_vsp_unmap_fb(struct rcar_du_vsp *vsp,
--					struct drm_framebuffer *fb,
--					struct sg_table sg_tables[3])
--{
--}
- #endif
- 
- #endif /* __RCAR_DU_VSP_H__ */
-diff --git a/drivers/gpu/drm/rcar-du/rcar_du_vsp_lib.c b/drivers/gpu/drm/rcar-du/rcar_du_vsp_lib.c
-index ecf0801202b7..92ae3b0cf995 100644
---- a/drivers/gpu/drm/rcar-du/rcar_du_vsp_lib.c
-+++ b/drivers/gpu/drm/rcar-du/rcar_du_vsp_lib.c
-@@ -7,6 +7,15 @@
+ struct drm_gem_object *rcar_du_gem_prime_import_sg_table(struct drm_device *dev,
+ 				struct dma_buf_attachment *attach,
+ 				struct sg_table *sgt);
+diff --git a/drivers/gpu/drm/rcar-du/rcar_du_kms_lib.c b/drivers/gpu/drm/rcar-du/rcar_du_kms_lib.c
+index 5921040586fc..e88f753704cd 100644
+--- a/drivers/gpu/drm/rcar-du/rcar_du_kms_lib.c
++++ b/drivers/gpu/drm/rcar-du/rcar_du_kms_lib.c
+@@ -7,10 +7,13 @@
   * Contact: Laurent Pinchart (laurent.pinchart@ideasonboard.com)
   */
  
-+#include <drm/drm_fb_dma_helper.h>
-+#include <drm/drm_fourcc.h>
-+#include <drm/drm_framebuffer.h>
-+#include <drm/drm_gem_atomic_helper.h>
++#include <drm/drm_device.h>
+ #include <drm/drm_framebuffer.h>
 +#include <drm/drm_gem_dma_helper.h>
-+
-+#include <linux/dma-mapping.h>
-+#include <linux/scatterlist.h>
-+
- #include <media/vsp1.h>
  
- #include "rcar_du_drv.h"
-@@ -34,3 +43,78 @@ void rcar_du_vsp_atomic_flush(struct rcar_du_crtc *crtc)
+ #include <linux/videodev2.h>
  
- 	vsp1_du_atomic_flush(crtc->vsp->vsp, crtc->vsp_pipe, &cfg);
++#include "rcar_du_drv.h"
+ #include "rcar_du_kms.h"
+ #include "rcar_du_regs.h"
+ 
+@@ -333,3 +336,28 @@ const struct rcar_du_format_info *rcar_du_format_info(u32 fourcc)
+ 
+ 	return NULL;
  }
 +
-+int rcar_du_vsp_map_fb(struct rcar_du_vsp *vsp, struct drm_framebuffer *fb,
-+		       struct sg_table sg_tables[3])
++/* -----------------------------------------------------------------------------
++ * Frame buffer
++ */
++
++int rcar_du_dumb_create(struct drm_file *file, struct drm_device *dev,
++			struct drm_mode_create_dumb *args)
 +{
-+	struct rcar_du_device *rcdu = vsp->dev;
-+	unsigned int i, j;
-+	int ret;
++	struct rcar_du_device *rcdu = to_rcar_du_device(dev);
++	unsigned int min_pitch = DIV_ROUND_UP(args->width * args->bpp, 8);
++	unsigned int align;
 +
-+	for (i = 0; i < fb->format->num_planes; ++i) {
-+		struct drm_gem_dma_object *gem = drm_fb_dma_get_gem_obj(fb, i);
-+		struct sg_table *sgt = &sg_tables[i];
++	/*
++	 * The R8A7779 DU requires a 16 pixels pitch alignment as documented,
++	 * but the R8A7790 DU seems to require a 128 bytes pitch alignment.
++	 */
++	if (rcar_du_needs(rcdu, RCAR_DU_QUIRK_ALIGN_128B))
++		align = 128;
++	else
++		align = 16 * args->bpp / 8;
 +
-+		if (gem->sgt) {
-+			struct scatterlist *src;
-+			struct scatterlist *dst;
++	args->pitch = roundup(min_pitch, align);
 +
-+			/*
-+			 * If the GEM buffer has a scatter gather table, it has
-+			 * been imported from a dma-buf and has no physical
-+			 * address as it might not be physically contiguous.
-+			 * Copy the original scatter gather table to map it to
-+			 * the VSP.
-+			 */
-+			ret = sg_alloc_table(sgt, gem->sgt->orig_nents,
-+					     GFP_KERNEL);
-+			if (ret)
-+				goto fail;
-+
-+			src = gem->sgt->sgl;
-+			dst = sgt->sgl;
-+			for (j = 0; j < gem->sgt->orig_nents; ++j) {
-+				sg_set_page(dst, sg_page(src), src->length,
-+					    src->offset);
-+				src = sg_next(src);
-+				dst = sg_next(dst);
-+			}
-+		} else {
-+			ret = dma_get_sgtable(rcdu->dev, sgt, gem->vaddr,
-+					      gem->dma_addr, gem->base.size);
-+			if (ret)
-+				goto fail;
-+		}
-+
-+		ret = vsp1_du_map_sg(vsp->vsp, sgt);
-+		if (ret) {
-+			sg_free_table(sgt);
-+			goto fail;
-+		}
-+	}
-+
-+	return 0;
-+
-+fail:
-+	while (i--) {
-+		struct sg_table *sgt = &sg_tables[i];
-+
-+		vsp1_du_unmap_sg(vsp->vsp, sgt);
-+		sg_free_table(sgt);
-+	}
-+
-+	return ret;
++	return drm_gem_dma_dumb_create_internal(file, dev, args);
 +}
-+
-+void rcar_du_vsp_unmap_fb(struct rcar_du_vsp *vsp, struct drm_framebuffer *fb,
-+			  struct sg_table sg_tables[3])
-+{
-+	unsigned int i;
-+
-+	for (i = 0; i < fb->format->num_planes; ++i) {
-+		struct sg_table *sgt = &sg_tables[i];
-+
-+		vsp1_du_unmap_sg(vsp->vsp, sgt);
-+		sg_free_table(sgt);
-+	}
-+}
-diff --git a/drivers/gpu/drm/rcar-du/rcar_du_vsp_lib.h b/drivers/gpu/drm/rcar-du/rcar_du_vsp_lib.h
-index 1506e739f714..d59182b2630f 100644
---- a/drivers/gpu/drm/rcar-du/rcar_du_vsp_lib.h
-+++ b/drivers/gpu/drm/rcar-du/rcar_du_vsp_lib.h
-@@ -10,14 +10,34 @@
- #ifndef __RCAR_DU_VSP_LIB_H__
- #define __RCAR_DU_VSP_LIB_H__
+diff --git a/drivers/gpu/drm/rcar-du/rcar_du_kms_lib.h b/drivers/gpu/drm/rcar-du/rcar_du_kms_lib.h
+index d72069436cac..6e4cfe2ef867 100644
+--- a/drivers/gpu/drm/rcar-du/rcar_du_kms_lib.h
++++ b/drivers/gpu/drm/rcar-du/rcar_du_kms_lib.h
+@@ -12,6 +12,10 @@
  
-+struct drm_framebuffer;
-+struct rcar_du_vsp;
-+struct sg_table;
-+
- #ifdef CONFIG_DRM_RCAR_VSP
- void rcar_du_vsp_disable(struct rcar_du_crtc *crtc);
- void rcar_du_vsp_atomic_begin(struct rcar_du_crtc *crtc);
- void rcar_du_vsp_atomic_flush(struct rcar_du_crtc *crtc);
-+int rcar_du_vsp_map_fb(struct rcar_du_vsp *vsp, struct drm_framebuffer *fb,
-+		       struct sg_table sg_tables[3]);
-+void rcar_du_vsp_unmap_fb(struct rcar_du_vsp *vsp, struct drm_framebuffer *fb,
-+			  struct sg_table sg_tables[3]);
- #else
- static inline void rcar_du_vsp_disable(struct rcar_du_crtc *crtc) { };
- static inline void rcar_du_vsp_atomic_begin(struct rcar_du_crtc *crtc) { };
- static inline void rcar_du_vsp_atomic_flush(struct rcar_du_crtc *crtc) { };
-+static inline int rcar_du_vsp_map_fb(struct rcar_du_vsp *vsp,
-+				     struct drm_framebuffer *fb,
-+				     struct sg_table sg_tables[3])
-+{
-+	return -ENXIO;
-+}
-+
-+static inline void rcar_du_vsp_unmap_fb(struct rcar_du_vsp *vsp,
-+					struct drm_framebuffer *fb,
-+					struct sg_table sg_tables[3])
-+{
-+}
- #endif
+ #include <linux/types.h>
  
- #endif /* __RCAR_DU_VSP_LIB_H__ */
++struct drm_device;
++struct drm_file;
++struct drm_mode_create_dumb;
++
+ struct rcar_du_format_info {
+ 	u32 fourcc;
+ 	u32 v4l2;
+@@ -24,4 +28,7 @@ struct rcar_du_format_info {
+ 
+ const struct rcar_du_format_info *rcar_du_format_info(u32 fourcc);
+ 
++int rcar_du_dumb_create(struct drm_file *file, struct drm_device *dev,
++			struct drm_mode_create_dumb *args);
++
+ #endif /* __RCAR_DU_KMS_LIB_H__ */
 -- 
 2.25.1
 
