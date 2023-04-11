@@ -1,40 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17A3A6DDC65
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Apr 2023 15:42:38 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B3E646DDC79
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Apr 2023 15:44:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C57DD10E318;
-	Tue, 11 Apr 2023 13:42:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B0F6010E4ED;
+	Tue, 11 Apr 2023 13:44:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 311 seconds by postgrey-1.36 at gabe;
- Tue, 11 Apr 2023 13:42:30 UTC
-Received: from mout.web.de (mout.web.de [212.227.15.3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 06EB110E2F5;
- Tue, 11 Apr 2023 13:42:29 +0000 (UTC)
+Received: from mout.web.de (mout.web.de [212.227.15.4])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D936B10E36D;
+ Tue, 11 Apr 2023 13:44:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de; s=s29768273;
- t=1681220529; i=markus.elfring@web.de;
- bh=MdVoBfc/dINhWnEEIR/uciIViBWA6WiKvA2ZgQLTO6U=;
+ t=1681220630; i=markus.elfring@web.de;
+ bh=7QMVGNLkemqceAqBuvWC+EimKfuSgO/00Je536TRm9Y=;
  h=X-UI-Sender-Class:Date:Subject:From:To:Cc:References:In-Reply-To;
- b=LJvC47Keh162g60XJxLk25jMiGsplj3uqBrXyV0WKxPlF5qGl+XdM7ARKYR5L71JE
- 1b9sMiQ65irha7oV82FWxVd4SzME7q8Whi317lDv4PnsOw1kXFpGuEW4nErDoDKXwh
- srg2XlbsAsWku69qqHL86adLV4o4uCHza6M8I5TdHSA812He42XG5StoVU8k/9s3hl
- Czk1Swjq4qpPdFy1emDuRxtwyt5sLqD2W3ID4nex/yAb4gvSSaHzxvLU6UPzyScouf
- fC28gyJvIjIpvem0ns93BHSZbbX0py8Nn5TECeaFfKbqUtsryNqEB4kp+smxkEyNS0
- SdPkXCb0MBGSA==
+ b=TNbeE3ytFDGYp1ad5equCMWRYcyu6KB2oYURomUJlIoPZoIO/KN54tb1SfxL6BqLq
+ l/AYUVrEa6hBQj3RMMMQOF4qj+r7j/hhvQYR1N25TWaPMIijjfzu5RR3nHG1bsW8C5
+ e90IUwjLq+nj2ijxljzvKl11s0DtzqOV6y8KIUuumr0nI343XLaxhtW38s+7OOw5tB
+ /5GjVvG5EwZXQoo+2YkYUtpF5yle1KUrAYmeYrM2EEV3G+afwxwAiW5NbS9BeWmRkC
+ uj+vGn/63pZiLlAhwkoVsYCsOwXZZMmWZdWSZtXeAEcFpcF2yrSw1D6UhthD/m0XMg
+ ZbPGuyVtmkgJQ==
 X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
 Received: from [192.168.178.21] ([94.31.80.83]) by smtp.web.de (mrweb005
- [213.165.67.108]) with ESMTPSA (Nemesis) id 1MidHP-1qGMD93cff-00fjHF; Tue, 11
- Apr 2023 15:42:09 +0200
-Message-ID: <0d4b92ab-f7c2-4f18-f3c3-c0f82ba47fc8@web.de>
-Date: Tue, 11 Apr 2023 15:42:07 +0200
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 1MC0PR-1peE4x0VmH-00CVOk; Tue, 11
+ Apr 2023 15:43:50 +0200
+Message-ID: <89048a5f-2dbb-012c-41f5-7c300e8415f5@web.de>
+Date: Tue, 11 Apr 2023 15:43:48 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.9.1
-Subject: [PATCH 1/5] drm/amdgpu: Move a variable assignment behind a null
- pointer check in amdgpu_ras_interrupt_dispatch()
+Subject: [PATCH 2/5] drm/amd/display: Move three variable assignments behind
+ condition checks in trigger_hotplug()
 Content-Language: en-GB
 From: Markus Elfring <Markus.Elfring@web.de>
 To: kernel-janitors@vger.kernel.org, amd-gfx@lists.freedesktop.org,
@@ -65,25 +63,25 @@ References: <40c60719-4bfe-b1a4-ead7-724b84637f55@web.de>
 In-Reply-To: <2258ce64-2a14-6778-8319-b342b06a1f33@web.de>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:25febEqWetoQFrH/VBrwzBfTZugoK4sRWe5E4/QkInoeM7mmYZD
- TAwrXHKHDI9pkIADa8o8P5ZXEeWc53/5VA2ElTgbNWnpDUpzd8KvpK80DhfwPvGN6e/Ecpa
- L9+Oy8j2pqZgtAhQTdDKZu2mzIKAq5DryqasE9YtyWkeT+b93vSX8KPc6BszT3hKXYoZxt3
- YG8zPMqts/i/f6BWFEEog==
+X-Provags-ID: V03:K1:PqPz95aENc2yY4ywu1s1GTinq81kvAZt6m4fTsE0rOeI88+DpZU
+ h65mIHIHhsh1du5/3FvC1i+ZotOzl1F8SpGJu+FuqahoYLTdb3RXneyQLNSpRbcUL3U0tC2
+ Zmaa4JSg35REbB3IqmGjTNAATjBYHPmvG7mASbc8cdbNoecMOBRRBsQT3gLNEa0JoYyuLD0
+ MPKJ2lk12ufmrxTcHgRyg==
 X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:rk04CgmiAgM=;BjHW4/lmZCg4/XhetZVbD0uiU/7
- 6xo7boTMuwYxpNVQsDmg37k+mhVfwgK5T6tbTthJjc0R7/TjZokWwAWgzkefPt3epO9/9BFOz
- pq6Toe1LfbPOPTR9QwrFxd7tRD+hBXGelxeor5euggerPKgvKDOZIBEGgN/ZsnNRVvnN6LxpM
- GCvhcL6GPK+D/uNk7iv+5wMnPH1IflQ+A3xOz15LXHDSAC7uQ/isKCWKST1PvUnkptJSrzw7u
- jgZxR3QI2WA58N4n/5HSx7zdm3lF5f8/5Zwg5BL+PW8b98YV0PrnNoTAp441+7ML71OpHpMOR
- lnaUfJx+yl0S70j42GgynhWHDdDtkut9hqIRZMa0oXvKQFN0mIc0xs6ZSY3Gg1LwiZ7WZPrvm
- LAIGAk89jrFoT6UdclsdWvyBgCdAdJX9f7uZQaABpBAROIiGBdtLcBx3SVtMwtm7wDStJSO4O
- BdkDzyZv3GgsCH3+73vMXdZW3nkrcfkC6dL9ptxhozWkd5NB6JR9X4CmOILZHMuP3UHzqoe2b
- +pcCtRRz5/g6lUxZ//771PTzwsKgYdzMs8tZG1Zmi97T9BfjeJzYMepSU21RFXrmXC+VZUpD7
- MJooViMRuqTey1bP3pfiM6KcMcR9HEx7Wz9IGQyCN5J3rG50x4/+68j7rtPepA04tNUdW9Pi3
- nuzTspL78ixzLw785rGRZ6TvI3Neu8IqHNPznd3h43PSjN6EcN6kxkUKivkYvEOCfjvr+Nby8
- QMyPvW1rypdAYWpla7LvgjIbatJJwbm73kwgrB6LtPB7qTZ752KgSTWM3jnb6abcl3VwatFsu
- b/C5xu/WxV6e7ectsHQj2L/ZU7i92GUREA0WKGNCBB6DFdX8U9kaLRspS4rmDfME6lKPGHvgO
- PpOl9b+2/01y1F71kTEcQDT5NcZ4755N8bC96sTBRKI/EWyg7aza/YCEk
+UI-OutboundReport: notjunk:1;M01:P0:Qx+AswJDC80=;EGkA7B18JdiviSfPLVea3rozgG2
+ 2RIVxfybNO+4m31FcnHVIKyDa6rnqKNDmiVXxPLqQZU0h1y5rjWx444VRFYoob46lhh+b5a20
+ +54IS/teRxhSvI09Ng1nHqycTcPBns9oY2+U0JLH/Fqwys8GDA1LmnmfCQLJKz/MyzNAECerx
+ 6qDoKWwIBNGVRC4YVZcHvRlhAvy5lr+wP0bOTe/eWnTDV+qnTcsTal4F1cEzgWfjtzaYAkP+X
+ zQc99Bbe2NXv1LhO9LigMQFD04QNQkDbxT1TsofT9u0pDvMI11U5hOTIAacm7FmT5uy3hSaaG
+ /angXBm+xe3EFcdYfrF89xEVyJJ3mm8btP39hNv+Z5hvuoRI0cSvIIDC2j6e1GQTkaYgxer5j
+ 8D2YOcMTdOeqRRW3LieuaeCxz5Nwtv1ZlIs4qjSXabTO7g0lfxvIL7e06df8t18VjahTY2kVZ
+ A7yNXFUe6Tj3XXM4nsAjmKZPJzUQhmsmUzS4aFHDQihKewLLKB9SeCXDZD1NvEOiae16tjlRz
+ 16iWbNm8daZ+vOIIP96hapZAMvjLh1pRw/8NYEOEjwZXSIqkDL2t4Xu13XQToY3+96bPCec1U
+ NKo8BFcMeqSo4Cn4GALJVNMMHHE+G2XZnNKM33besDS5YpqwuHit+plx3H49KR8kE0waj8nSi
+ QNQOD/BQ9TciNiAA2twZA2ucsqd08loqZ/I/8gfLP/9nJPLVkB0zwqENECpfk2TJdgl56TEKL
+ +5+r6QFKBsQjccf+AtZMaF6hOuwx/7h7j9kS0z6fpHfvatcnPUsKJId3cIBMJRWjrUfDWhjSP
+ 27ZBHWFkZ8OK+6xjSIqsMvXcUwGaGoYMDeeYf39PmTuyl+PdLhGraKP+WHY0p3YT++Z6Nla6y
+ 0stSTVLGh5Fb2ZJGH1SzasRGut01NgMIqsk0ZGgD+XDtLBFZpPAX36YfK
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,44 +98,63 @@ Cc: LKML <linux-kernel@vger.kernel.org>, cocci@inria.fr
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Date: Tue, 11 Apr 2023 10:52:48 +0200
+Date: Tue, 11 Apr 2023 11:39:02 +0200
 
 The address of a data structure member was determined before
 a corresponding null pointer check in the implementation of
-the function =E2=80=9Camdgpu_ras_interrupt_dispatch=E2=80=9D.
+the function =E2=80=9Ctrigger_hotplug=E2=80=9D.
 
 Thus avoid the risk for undefined behaviour by moving the assignment
-for the variable =E2=80=9Cdata=E2=80=9D behind the null pointer check.
+for three local variables behind some condition checks.
 
 This issue was detected by using the Coccinelle software.
 
-Fixes: c030f2e4166c3f5597c7e7a70bcd9ab383695de4 ("drm/amdgpu: add amdgpu_r=
-as.c to support ras (v2)")
+Fixes: 6f77b2ac628073f647041a92b36c824ae3aef16e ("drm/amd/display: Add con=
+nector HPD trigger debugfs entry")
 Signed-off-by: Markus Elfring <elfring@users.sourceforge.net>
 =2D--
- drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c  | 10 +++++++---
+ 1 file changed, 7 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c b/drivers/gpu/drm/amd=
-/amdgpu/amdgpu_ras.c
-index 4069bce9479f..a920c7888d07 100644
-=2D-- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c
-@@ -1730,11 +1730,12 @@ int amdgpu_ras_interrupt_dispatch(struct amdgpu_de=
-vice *adev,
- 		struct ras_dispatch_if *info)
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c b/d=
+rivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c
+index 827fcb4fb3b3..b3cfd7dfbb28 100644
+=2D-- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c
+@@ -1205,10 +1205,10 @@ static ssize_t trigger_hotplug(struct file *f, con=
+st char __user *buf,
+ 							size_t size, loff_t *pos)
  {
- 	struct ras_manager *obj =3D amdgpu_ras_find_obj(adev, &info->head);
--	struct ras_ih_data *data =3D &obj->ih_data;
-+	struct ras_ih_data *data;
-
- 	if (!obj)
+ 	struct amdgpu_dm_connector *aconnector =3D file_inode(f)->i_private;
+-	struct drm_connector *connector =3D &aconnector->base;
++	struct drm_connector *connector;
+ 	struct dc_link *link =3D NULL;
+-	struct drm_device *dev =3D connector->dev;
+-	struct amdgpu_device *adev =3D drm_to_adev(dev);
++	struct drm_device *dev;
++	struct amdgpu_device *adev;
+ 	enum dc_connection_type new_connection_type =3D dc_connection_none;
+ 	char *wr_buf =3D NULL;
+ 	uint32_t wr_buf_size =3D 42;
+@@ -1253,12 +1253,16 @@ static ssize_t trigger_hotplug(struct file *f, con=
+st char __user *buf,
  		return -EINVAL;
+ 	}
 
-+	data =3D &obj->ih_data;
- 	if (data->inuse =3D=3D 0)
- 		return 0;
++	connector =3D &aconnector->base;
++	dev =3D connector->dev;
++
+ 	if (param[0] =3D=3D 1) {
 
+ 		if (!dc_link_detect_connection_type(aconnector->dc_link, &new_connectio=
+n_type) &&
+ 			new_connection_type !=3D dc_connection_none)
+ 			goto unlock;
+
++		adev =3D drm_to_adev(dev);
+ 		mutex_lock(&adev->dm.dc_lock);
+ 		ret =3D dc_link_detect(aconnector->dc_link, DETECT_REASON_HPD);
+ 		mutex_unlock(&adev->dm.dc_lock);
 =2D-
 2.40.0
 
