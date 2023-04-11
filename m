@@ -2,73 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C55086DD7F7
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Apr 2023 12:32:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F74D6DD7FB
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Apr 2023 12:34:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 90AF910E1DF;
-	Tue, 11 Apr 2023 10:32:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1201710E096;
+	Tue, 11 Apr 2023 10:34:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com
- [IPv6:2a00:1450:4864:20::329])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2A79710E1DF
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Apr 2023 10:32:07 +0000 (UTC)
-Received: by mail-wm1-x329.google.com with SMTP id
- 5b1f17b1804b1-3f04eb5d1a7so4429125e9.1
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Apr 2023 03:32:07 -0700 (PDT)
+Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com
+ [IPv6:2a00:1450:4864:20::42d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8B44C10E096
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Apr 2023 10:34:30 +0000 (UTC)
+Received: by mail-wr1-x42d.google.com with SMTP id
+ ffacd0b85a97d-2ef1e98d6bfso382533f8f.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Apr 2023 03:34:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1681209125; x=1683801125;
- h=in-reply-to:content-disposition:mime-version:references
- :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
- :subject:date:message-id:reply-to;
- bh=UWlYQX4Y1ZrzJyCNGQSUMnvOvpF/Z/nFIdYNxxNfrEg=;
- b=czHW7oszK57m41YR1u+rD3WPMSqPt6wloedBSlnzaMzPEUQ/AHMXNTewQNCzs/8uUD
- IFEphUmtf6E4QUbYANlkCNzJe1Mknn9tNbRgPUXAABh8MhWaBbw1CR71cEdupmHjjTAh
- elfhAUeAnv6GIjWOC7PEKocqH2pcKofnzo9K8=
+ d=ffwll.ch; s=google; t=1681209268; x=1683801268;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=I00mnwr030X+et6YWjpBcS7r+cVDcxfdrqBbP1jIoBM=;
+ b=lm4SAcep/XKl1DZtHx5RTnpfJ2QZ0uSgLV/tMXtRo6yNSY+5ouhTp3b1ztrR1Zz5y4
+ Fpgs8z/yS9ASMTVO4mGxJKV3KX/P9UZQVFCYF2OPh9rN8nEiIft0NgpawA/KrD4bkfCV
+ AP08oczleELGSTIr3+96GC3S+9J7wEM7pN1r8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1681209125; x=1683801125;
- h=in-reply-to:content-disposition:mime-version:references
- :mail-followup-to:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=UWlYQX4Y1ZrzJyCNGQSUMnvOvpF/Z/nFIdYNxxNfrEg=;
- b=jayEUToOKKNnFvoAmaW4EVNPDXnww3Fi1uGBMPd19++8MbsEUsOP8HiW04l5e0Hvj9
- 5RSbjHzqsSTOwutn7rDZlYyj3Y8goF8cYJpVi6DQodAgC89sR0CAaUmQJzVL9K/K1CB0
- kA5raf+8ENzg23E7uQvtMM0NpW8VtE0vJC4Gnv55m4+ON7oRX4smMn4rYaMhhb/hhMWk
- v3u2KOFroBCkDgu5QFl7ZNkL/voBUR+izFEU079ZSZWsqfhprn6UhxMt6BTJShm/BGBx
- 3XY9x7CZ/6oxXIjqXecQJo/a5xz4lgtNh62bvuBBwG56RxXdCwK4sQRSjFFN/ovdcyRd
- hfuw==
-X-Gm-Message-State: AAQBX9cQq1Uaohf1eY8dULAAdoEXSyW19qu9perQO7C1+xkJcbu9akhT
- vduUaRcqPWzDFoh59UALoP5dCw==
-X-Google-Smtp-Source: AKy350YHW26EoAnUgqXxjoecjfwc/bqx2pfSiH62+M+X8xHeutLKJ3Eqi5SeePtTr8IKBvV/huRCow==
-X-Received: by 2002:a5d:50c5:0:b0:2f0:244c:2780 with SMTP id
- f5-20020a5d50c5000000b002f0244c2780mr4057657wrt.7.1681209125018; 
- Tue, 11 Apr 2023 03:32:05 -0700 (PDT)
+ d=1e100.net; s=20210112; t=1681209268; x=1683801268;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=I00mnwr030X+et6YWjpBcS7r+cVDcxfdrqBbP1jIoBM=;
+ b=ZWXpRSl1iIKHLRkUi8dhhT19EY6iEZzeJqDAO3t7lvJz758lAvokA7xxJ50wQlZxvc
+ jIVILeTZpbVew2SypmgX+BMNklgswyBK+BOrx2KS85Rlcc58x/1k6c684QA2RiKt4wam
+ YfyQ8No52RFho7DG7uzsMUuduKQmlLph92x0pTdPvKMYa+o6xQ+7Lm1rW/9B2+XmCxQf
+ kVzB8JyVrl3e/3dVn7PJYlG56+f410TvUNe0Ys9ENqPCOmwNfc8RS2debmDW/Wq00MUU
+ Uhh8W8m3su9b3yx1hU7Z/oRQyk5aKTJNMZCA+ikpvuwExM9oa9AqlW6lGgb+I+dirtEA
+ JaQg==
+X-Gm-Message-State: AAQBX9fgRcbPPPfguPsG5tX/CTIYHJwiIQgAFGko7fmqXKPl075412LD
+ gzinkekL53CWyDDnTAjoEVlS4oUxk5r9PEdwhAY=
+X-Google-Smtp-Source: AKy350ZFqsZmlLAPU6QHNMV5/R/+jpvUG7up53DzrKvTEPAhfUGJeW9YvXZUQC8obhZoatB+t3AEbA==
+X-Received: by 2002:a05:6000:c7:b0:2ef:bb5d:adf8 with SMTP id
+ q7-20020a05600000c700b002efbb5dadf8mr5043209wrx.2.1681209268492; 
+ Tue, 11 Apr 2023 03:34:28 -0700 (PDT)
 Received: from phenom.ffwll.local (212-51-149-33.fiber7.init7.net.
  [212.51.149.33]) by smtp.gmail.com with ESMTPSA id
- r10-20020adfe68a000000b002c7b229b1basm14182353wrm.15.2023.04.11.03.32.04
+ b2-20020adff242000000b002d322b9a7f5sm14286203wrp.88.2023.04.11.03.34.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 11 Apr 2023 03:32:04 -0700 (PDT)
-Date: Tue, 11 Apr 2023 12:32:02 +0200
+ Tue, 11 Apr 2023 03:34:28 -0700 (PDT)
+Date: Tue, 11 Apr 2023 12:34:26 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
-To: "Nancy.Lin" <nancy.lin@mediatek.com>
-Subject: Re: [PATCH v3 1/2] drm/mediatek: Add mdp_rdma get format function
-Message-ID: <ZDU3IiewmLW1pDyn@phenom.ffwll.local>
-Mail-Followup-To: "Nancy.Lin" <nancy.lin@mediatek.com>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- David Airlie <airlied@gmail.com>, dri-devel@lists.freedesktop.org,
- linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- singo.chang@mediatek.com, shawn.sung@mediatek.com
-References: <20230330032614.18837-1-nancy.lin@mediatek.com>
- <20230330032614.18837-2-nancy.lin@mediatek.com>
+To: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Subject: Re: [GIT PULL] mediatek drm next for 6.4
+Message-ID: <ZDU3sqNGhNFwbINx@phenom.ffwll.local>
+References: <20230410233005.2572-1-chunkuang.hu@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230330032614.18837-2-nancy.lin@mediatek.com>
+In-Reply-To: <20230410233005.2572-1-chunkuang.hu@kernel.org>
 X-Operating-System: Linux phenom 6.1.0-7-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -82,88 +70,109 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>, singo.chang@mediatek.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- linux-mediatek@lists.infradead.org, Matthias Brugger <matthias.bgg@gmail.com>,
- shawn.sung@mediatek.com, linux-arm-kernel@lists.infradead.org,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: Nathan Lu <nathan.lu@mediatek.com>, Xinlei Lee <xinlei.lee@mediatek.com>,
+ Justin Green <greenjustin@chromium.org>,
+ Alexandre Mergnat <amergnat@baylibre.com>, David Airlie <airlied@linux.ie>,
+ "Jason-JH . Lin" <jason-jh.lin@mediatek.com>, dri-devel@lists.freedesktop.org,
+ "Nancy . Lin" <nancy.lin@mediatek.com>, linux-mediatek@lists.infradead.org,
+ Chen-Yu Tsai <wenst@chromium.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Mar 30, 2023 at 11:26:13AM +0800, Nancy.Lin wrote:
-> Add mdp_rdma get_format and get_num_formats function.
+On Mon, Apr 10, 2023 at 11:30:05PM +0000, Chun-Kuang Hu wrote:
+> Hi, Dave & Daniel:
 > 
-> Signed-off-by: Nancy.Lin <nancy.lin@mediatek.com>
-
-The mtk get_formats stuff seems like a lot of midlayering for not much
-reasons? Is that really needed?
-
-Just a drive-by questions I had while merging the pr.
--Daniel
-
-> ---
->  drivers/gpu/drm/mediatek/mtk_disp_drv.h |  3 +++
->  drivers/gpu/drm/mediatek/mtk_mdp_rdma.c | 24 ++++++++++++++++++++++++
->  2 files changed, 27 insertions(+)
+> This includes:
 > 
-> diff --git a/drivers/gpu/drm/mediatek/mtk_disp_drv.h b/drivers/gpu/drm/mediatek/mtk_disp_drv.h
-> index 0d28b2e2069c..17b169530beb 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_disp_drv.h
-> +++ b/drivers/gpu/drm/mediatek/mtk_disp_drv.h
-> @@ -152,4 +152,7 @@ void mtk_mdp_rdma_start(struct device *dev, struct cmdq_pkt *cmdq_pkt);
->  void mtk_mdp_rdma_stop(struct device *dev, struct cmdq_pkt *cmdq_pkt);
->  void mtk_mdp_rdma_config(struct device *dev, struct mtk_mdp_rdma_cfg *cfg,
->  			 struct cmdq_pkt *cmdq_pkt);
-> +const u32 *mtk_mdp_rdma_get_formats(struct device *dev);
-> +size_t mtk_mdp_rdma_get_num_formats(struct device *dev);
-> +
->  #endif
-> diff --git a/drivers/gpu/drm/mediatek/mtk_mdp_rdma.c b/drivers/gpu/drm/mediatek/mtk_mdp_rdma.c
-> index eecfa98ff52e..e06db6e56b5f 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_mdp_rdma.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_mdp_rdma.c
-> @@ -62,6 +62,20 @@
->  #define RDMA_CSC_FULL709_TO_RGB			5
->  #define RDMA_CSC_BT601_TO_RGB			6
->  
-> +static const u32 formats[] = {
-> +	DRM_FORMAT_XRGB8888,
-> +	DRM_FORMAT_ARGB8888,
-> +	DRM_FORMAT_BGRX8888,
-> +	DRM_FORMAT_BGRA8888,
-> +	DRM_FORMAT_ABGR8888,
-> +	DRM_FORMAT_XBGR8888,
-> +	DRM_FORMAT_RGB888,
-> +	DRM_FORMAT_BGR888,
-> +	DRM_FORMAT_RGB565,
-> +	DRM_FORMAT_UYVY,
-> +	DRM_FORMAT_YUYV,
-> +};
-> +
->  enum rdma_format {
->  	RDMA_INPUT_FORMAT_RGB565 = 0,
->  	RDMA_INPUT_FORMAT_RGB888 = 1,
-> @@ -219,6 +233,16 @@ void mtk_mdp_rdma_config(struct device *dev, struct mtk_mdp_rdma_cfg *cfg,
->  			   MDP_RDMA_MF_CLIP_SIZE, FLD_MF_CLIP_H);
->  }
->  
-> +const u32 *mtk_mdp_rdma_get_formats(struct device *dev)
-> +{
-> +	return formats;
-> +}
-> +
-> +size_t mtk_mdp_rdma_get_num_formats(struct device *dev)
-> +{
-> +	return ARRAY_SIZE(formats);
-> +}
-> +
->  int mtk_mdp_rdma_clk_enable(struct device *dev)
->  {
->  	struct mtk_mdp_rdma *rdma = dev_get_drvdata(dev);
-> -- 
-> 2.18.0
+> 1. Add support for 10-bit overlays
+> 2. Add MediaTek SoC DRM (vdosys1) support for mt8195
+> 3. Change mmsys compatible for mt8195 mediatek-drm
+> 4. Only trigger DRM HPD events if bridge is attached
+> 5. Change the aux retries times when receiving AUX_DEFER
 > 
+> Regards,
+> Chun-Kuang.
+> 
+> The following changes since commit fe15c26ee26efa11741a7b632e9f23b01aca4cc6:
+> 
+>   Linux 6.3-rc1 (2023-03-05 14:52:03 -0800)
+> 
+> are available in the Git repository at:
+> 
+>   https://git.kernel.org/pub/scm/linux/kernel/git/chunkuang.hu/linux.git tags/mediatek-drm-next-6.4
+> 
+> for you to fetch changes up to 9243d70e05c5989f84f840612965f96b524da925:
+> 
+>   drm/mediatek: dp: Change the aux retries times when receiving AUX_DEFER (2023-04-03 16:49:49 +0000)
+
+Pulled, thanks
+
+> 
+> ----------------------------------------------------------------
+> Mediatek DRM Next for Linux 6.4
+> 
+> 1. Add support for 10-bit overlays
+> 2. Add MediaTek SoC DRM (vdosys1) support for mt8195
+> 3. Change mmsys compatible for mt8195 mediatek-drm
+> 4. Only trigger DRM HPD events if bridge is attached
+> 5. Change the aux retries times when receiving AUX_DEFER
+> 
+> ----------------------------------------------------------------
+> Alexandre Mergnat (1):
+>       dt-bindings: display: mediatek: clean unnecessary item
+> 
+> Chen-Yu Tsai (1):
+>       drm/mediatek: dp: Only trigger DRM HPD events if bridge is attached
+> 
+> Jason-JH.Lin (1):
+>       drm/mediatek: Change mmsys compatible for mt8195 mediatek-drm
+> 
+> Justin Green (3):
+>       drm/mediatek: Refactor pixel format logic
+>       drm/mediatek: Add support for AR30 and BA30 overlays
+>       drm/mediatek: Enable AR30 and BA30 overlays on MT8195
+> 
+> Nancy.Lin (9):
+>       dt-bindings: mediatek: add ethdr definition for mt8195
+>       drm/mediatek: Add ETHDR support for MT8195
+>       drm/mediatek: Add ovl_adaptor support for MT8195
+>       drm/mediatek: Add dma dev get function
+>       drm/mediatek: Modify mediatek-drm for mt8195 multi mmsys support
+>       drm/mediatek: Add drm ovl_adaptor sub driver for MT8195
+>       drm/mediatek: Add mediatek-drm of vdosys1 support for MT8195
+>       drm/mediatek: Add mdp_rdma get format function
+>       drm/mediatek: Add ovl_adaptor get format function
+> 
+> Nathan Lu (1):
+>       drm/mediatek: Add mediatek-drm of vdosys0 support for mt8188
+> 
+> Xinlei Lee (1):
+>       drm/mediatek: dp: Change the aux retries times when receiving AUX_DEFER
+> 
+>  .../bindings/display/mediatek/mediatek,ccorr.yaml  |   5 +-
+>  .../bindings/display/mediatek/mediatek,ethdr.yaml  | 182 +++++++
+>  drivers/gpu/drm/mediatek/Makefile                  |   2 +
+>  drivers/gpu/drm/mediatek/mtk_disp_drv.h            |  35 ++
+>  drivers/gpu/drm/mediatek/mtk_disp_ovl.c            |  94 ++++
+>  drivers/gpu/drm/mediatek/mtk_disp_ovl_adaptor.c    | 547 +++++++++++++++++++++
+>  drivers/gpu/drm/mediatek/mtk_disp_rdma.c           |  38 ++
+>  drivers/gpu/drm/mediatek/mtk_dp.c                  |  15 +-
+>  drivers/gpu/drm/mediatek/mtk_drm_crtc.c            |  89 +++-
+>  drivers/gpu/drm/mediatek/mtk_drm_crtc.h            |   6 +-
+>  drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c        | 135 +++--
+>  drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h        |  78 ++-
+>  drivers/gpu/drm/mediatek/mtk_drm_drv.c             | 475 ++++++++++--------
+>  drivers/gpu/drm/mediatek/mtk_drm_drv.h             |  30 +-
+>  drivers/gpu/drm/mediatek/mtk_drm_plane.c           |  24 +-
+>  drivers/gpu/drm/mediatek/mtk_drm_plane.h           |   3 +-
+>  drivers/gpu/drm/mediatek/mtk_ethdr.c               | 370 ++++++++++++++
+>  drivers/gpu/drm/mediatek/mtk_ethdr.h               |  25 +
+>  drivers/gpu/drm/mediatek/mtk_mdp_rdma.c            |  24 +
+>  19 files changed, 1858 insertions(+), 319 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/display/mediatek/mediatek,ethdr.yaml
+>  create mode 100644 drivers/gpu/drm/mediatek/mtk_disp_ovl_adaptor.c
+>  create mode 100644 drivers/gpu/drm/mediatek/mtk_ethdr.c
+>  create mode 100644 drivers/gpu/drm/mediatek/mtk_ethdr.h
 
 -- 
 Daniel Vetter
