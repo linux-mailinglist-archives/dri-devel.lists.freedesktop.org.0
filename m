@@ -2,45 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FDD96DE73D
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Apr 2023 00:29:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E48106DE73F
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Apr 2023 00:29:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4F97210E1D0;
-	Tue, 11 Apr 2023 22:29:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5153410E1DD;
+	Tue, 11 Apr 2023 22:29:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4EA0710E1BD;
- Tue, 11 Apr 2023 22:29:37 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 454BC10E1D0;
+ Tue, 11 Apr 2023 22:29:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1681252177; x=1712788177;
+ t=1681252180; x=1712788180;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=e16JYrNG13ZK09W8a6cvMfAnKuNMv4L12FVaChTOJe0=;
- b=h9m2orW1OEZ3joe8KSkyQnjbH+mepwljHKWm/jjmHhBfWpqm8CXCR+xs
- aiK22SUDzo6NnZtIZNBDdQtw9BlgPaITsa0LL5PMpOuyU9y7oVX77dIFu
- FK440pTzUVFlkRc1Q8BzzoQ0Xz5Jg110nT8NF5JMt3Qh37YFe9+kwVEwE
- +9C8QBV0dpClwRU8rq6Zme0MMxnFnK5zobPJ1aKsYJVqo8Est3Ne/CXw1
- Mbbwt+dtv/bcrxEty8VdWuO6raYDP2La3P1obYbQPi7cXjKgn3SgA76QP
- 4rYL2u14FjbvMcwS7TNCMpFVYszOD77lJtmtW2gXirayh35LLj/L4tR4y g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10677"; a="342506221"
-X-IronPort-AV: E=Sophos;i="5.98,336,1673942400"; d="scan'208";a="342506221"
+ bh=VO+hzf+JZT0LDwb9AwFVSgz/6tqEyB7SG90J+rO9ms0=;
+ b=VPyn28V8v2XJ1Y3YyJmovgJF0vycrrUIZ9uyHX8dKsoBSfXLVcdSm8QU
+ EfbGaBG6bPvO+QWAjoDAeBiL35/0JaKacyaHolOwmVfKxm+VvZC6RSPy9
+ 12c9n6GEHn28orODkEiXyQih5cWXHBwdNsgg4ucPOHqCudIbDGCh1NBot
+ hFEZpRpxJ4mzLocqi5jDT5XWVHic5RBmd9qaEVZh8Y7FOOXMka2jUAbyQ
+ dPWin0IHAZ+6/i+ixJouZ9mpEL7zJikSOporKia1d5XvHJ0ktuOBR27kX
+ eXXrQ/X8QOIvRRiSW3KqZzWoJCtHFb2PhEqvvMp8Qzo7Nry57qSakCL1c Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10677"; a="342506235"
+X-IronPort-AV: E=Sophos;i="5.98,336,1673942400"; d="scan'208";a="342506235"
 Received: from fmsmga008.fm.intel.com ([10.253.24.58])
  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Apr 2023 15:29:37 -0700
+ 11 Apr 2023 15:29:40 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10677"; a="753296797"
-X-IronPort-AV: E=Sophos;i="5.98,336,1673942400"; d="scan'208";a="753296797"
+X-IronPort-AV: E=McAfee;i="6600,9927,10677"; a="753296812"
+X-IronPort-AV: E=Sophos;i="5.98,336,1673942400"; d="scan'208";a="753296812"
 Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.70])
- by fmsmga008.fm.intel.com with SMTP; 11 Apr 2023 15:29:35 -0700
+ by fmsmga008.fm.intel.com with SMTP; 11 Apr 2023 15:29:38 -0700
 Received: by stinkbox (sSMTP sendmail emulation);
- Wed, 12 Apr 2023 01:29:34 +0300
+ Wed, 12 Apr 2023 01:29:37 +0300
 From: Ville Syrjala <ville.syrjala@linux.intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH 1/6] drm/uapi: Document CTM matrix better
-Date: Wed, 12 Apr 2023 01:29:26 +0300
-Message-Id: <20230411222931.15127-2-ville.syrjala@linux.intel.com>
+Subject: [PATCH 2/6] drm/i915: Expose crtc CTM property on ilk/snb
+Date: Wed, 12 Apr 2023 01:29:27 +0300
+Message-Id: <20230411222931.15127-3-ville.syrjala@linux.intel.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230411222931.15127-1-ville.syrjala@linux.intel.com>
 References: <20230411222931.15127-1-ville.syrjala@linux.intel.com>
@@ -65,29 +65,33 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Ville Syrjälä <ville.syrjala@linux.intel.com>
 
-Document in which order the CTM matrix elements are stored.
+The ilk/snb code is internally fully capable of handling the
+CTM property, so expose it.
+
+Note that we still choose not to expose DEGAMMA_LUT though.
+The hardware is capable if degamma or gamma, but not both
+similtanously due to lack of the split gamma mode. Exposing
+both LUTs might encourage userspace to try enabling both
+at the same time.
 
 Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
 ---
- include/uapi/drm/drm_mode.h | 5 +++++
- 1 file changed, 5 insertions(+)
+ drivers/gpu/drm/i915/display/intel_color.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/include/uapi/drm/drm_mode.h b/include/uapi/drm/drm_mode.h
-index 46becedf5b2f..43691058d28f 100644
---- a/include/uapi/drm/drm_mode.h
-+++ b/include/uapi/drm/drm_mode.h
-@@ -834,6 +834,11 @@ struct drm_color_ctm {
+diff --git a/drivers/gpu/drm/i915/display/intel_color.c b/drivers/gpu/drm/i915/display/intel_color.c
+index 07f1afe1d406..4fc16cac052d 100644
+--- a/drivers/gpu/drm/i915/display/intel_color.c
++++ b/drivers/gpu/drm/i915/display/intel_color.c
+@@ -3473,7 +3473,7 @@ void intel_color_crtc_init(struct intel_crtc *crtc)
+ 
+ 	gamma_lut_size = INTEL_INFO(i915)->display.color.gamma_lut_size;
+ 	degamma_lut_size = INTEL_INFO(i915)->display.color.degamma_lut_size;
+-	has_ctm = degamma_lut_size != 0;
++	has_ctm = DISPLAY_VER(i915) >= 5 && !IS_VALLEYVIEW(i915);
+ 
  	/*
- 	 * Conversion matrix in S31.32 sign-magnitude
- 	 * (not two's complement!) format.
-+	 *
-+	 * out   matrix    in
-+	 * |R|   |0 1 2|   |R|
-+	 * |G| = |3 4 5| x |G|
-+	 * |B|   |6 7 8|   |B|
- 	 */
- 	__u64 matrix[9];
- };
+ 	 * "DPALETTE_A: NOTE: The 8-bit (non-10-bit) mode is the
 -- 
 2.39.2
 
