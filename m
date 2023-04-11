@@ -2,64 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89FE86DE176
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Apr 2023 18:51:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5D3D6DE187
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Apr 2023 18:53:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C1E9410E5C4;
-	Tue, 11 Apr 2023 16:51:01 +0000 (UTC)
-X-Original-To: DRI-Devel@lists.freedesktop.org
-Delivered-To: DRI-Devel@lists.freedesktop.org
-Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com
- [IPv6:2a00:1450:4864:20::431])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7D94710E5C4
- for <DRI-Devel@lists.freedesktop.org>; Tue, 11 Apr 2023 16:50:58 +0000 (UTC)
-Received: by mail-wr1-x431.google.com with SMTP id
- ffacd0b85a97d-2efbab477a6so134273f8f.1
- for <DRI-Devel@lists.freedesktop.org>; Tue, 11 Apr 2023 09:50:58 -0700 (PDT)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 57FD110E5CB;
+	Tue, 11 Apr 2023 16:53:23 +0000 (UTC)
+X-Original-To: dri-devel@lists.freedesktop.org
+Delivered-To: dri-devel@lists.freedesktop.org
+Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com
+ [IPv6:2a00:1450:4864:20::432])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 10CCC10E5CB
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Apr 2023 16:53:21 +0000 (UTC)
+Received: by mail-wr1-x432.google.com with SMTP id
+ ffacd0b85a97d-2f4130b898cso19227f8f.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Apr 2023 09:53:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1681231856; x=1683823856;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=QL/V4wI4ML101SKyIQPan4pJ4v63I4EVDHy0KtN5OQg=;
- b=gUTbCnAJ3y8fVip7IvJBfz7Tkf5sPyWHCR4IxZL5t4tAqaO0AbwGMLM8cbfk1F49ei
- 3uPOfe9Gl9aD2LEUImr5gtjJ9kRaJUHMZSbmIHj7fgu27ZsjJ/IjGJdcvXmQpNxnEV/M
- wB2f7xqWBOEfi3CePjJP1xxGJ4w7ZSdjWS18w=
+ d=ffwll.ch; s=google; t=1681232000;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:mail-followup-to:message-id:subject:cc:to
+ :from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=+gfcS2tsX9XYUKArm1OCX22keoi76nV+AVghU8pmdeQ=;
+ b=ZHwBGcIXDowSL7P0mmBS86mEH7x4yQD/opnqA2YmT3uLGcV8wIz3w7kfDDiqRZH8wK
+ CvPWLRqV56VJ/fHFbywikIUe0WbQ4aqOlQbMcsWioRrumzFp7GM23LX4kQisKX4N65dC
+ bSyte7J7M300AOpKo4rtQgSP5iikR5XAeKqVY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1681231856; x=1683823856;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=QL/V4wI4ML101SKyIQPan4pJ4v63I4EVDHy0KtN5OQg=;
- b=QMUxIyGh/oA55eIYhj9vF4xHkWAPxLzrq9dc5dZ61NxrZzuEves3K/ToduulHeRPkR
- ukGQJ0YOfwkz7CfAxESyIWm3y0QH2e04LaDVIW2rlxPY0/w/x/+DEVs0jwAGBJ/wEE5z
- tpF5FGo8JFUXRTLTUMeuJICVGwvBYaP0/W+lBy2pfvYIhrVQt7VsnT7Fg5L/aS6o4niR
- I2pmFrWgtU/BXsduhAoq5wUW+i9vE2rv5DO1zaPTxWYwECE84nZmsq/MzYJH0OKUuMVq
- nSt1rbRScyKYLI5IfGvlNiEdzfmoX9p9bJ4xnGVMVUaYXwycem+R3r12o+tZahz+ExTo
- c7vg==
-X-Gm-Message-State: AAQBX9c5tUDC+sqqXY35EwRtAklLl1EUwPEA6DDRjLeHlA7JDeE9tXTY
- r/lT+65T75xkVsIe0JQlCJ4amJuMxFwkluGRn5E=
-X-Google-Smtp-Source: AKy350amJ281Ietp9/8+xhDYRWhGSeAhOHWeWARx9YVB0rDDNC4BMvK5mWe+YGptUJXtA/FglW/3DQ==
-X-Received: by 2002:a5d:4750:0:b0:2ef:b4e1:d0da with SMTP id
- o16-20020a5d4750000000b002efb4e1d0damr6830605wrs.7.1681231856311; 
- Tue, 11 Apr 2023 09:50:56 -0700 (PDT)
+ d=1e100.net; s=20210112; t=1681232000;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:mail-followup-to:message-id:subject:cc:to
+ :from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=+gfcS2tsX9XYUKArm1OCX22keoi76nV+AVghU8pmdeQ=;
+ b=ysuuTCzm8mC8QIQ/yWdg/RDFWfxiXnVcARFALz+mFQTQSLwWMNsDra57oMf61V7hM5
+ qQXImTr2WPJw/NiUBk+H68sSYNII7arSM0RIDxzzV/ug24Y1Ivrbs5En56b64JakMBwp
+ 8SoG/rxyKJbLl9za53bAPTX1ShgDwyKZXYl79stUrwEzoTT6yELgGKMuXDNPdcfaDFe3
+ F0PomKyD1mYFUfcWMKbcScyHViPex286bTk+CJFbAm/j8Vpo4Ad3klC80q6zUEo9K9hl
+ /GmXVVZvQWpSv/4yXKEORIKsubJ0kWK4wUqUCXNz/DCmgXCvV5/8eTpPXpq4daC6Omb2
+ N2eg==
+X-Gm-Message-State: AAQBX9fmFyIbDTm5KLR4uQGVd8Rn2qDDuupomrPYiX5YjELENw5yN+eL
+ jbmCslnMTg7MEp7xiSnOwIglsQ==
+X-Google-Smtp-Source: AKy350br+rdKktY3gNnwuJRPjU8rT52r6Z6DA+ZmF+aY8UidhYk2IuG1US9rA79MkKG7FwSbsx8pVQ==
+X-Received: by 2002:a05:600c:3490:b0:3f0:7ec7:a71 with SMTP id
+ a16-20020a05600c349000b003f07ec70a71mr8239096wmq.4.1681231999969; 
+ Tue, 11 Apr 2023 09:53:19 -0700 (PDT)
 Received: from phenom.ffwll.local (212-51-149-33.fiber7.init7.net.
  [212.51.149.33]) by smtp.gmail.com with ESMTPSA id
- i5-20020adff305000000b002efb4dc5a5fsm11159695wro.7.2023.04.11.09.50.55
+ k23-20020a05600c0b5700b003ee44b2effasm17500892wmr.12.2023.04.11.09.53.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 11 Apr 2023 09:50:55 -0700 (PDT)
-Date: Tue, 11 Apr 2023 18:50:53 +0200
+ Tue, 11 Apr 2023 09:53:19 -0700 (PDT)
+Date: Tue, 11 Apr 2023 18:53:17 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
-To: John Harrison <john.c.harrison@intel.com>
-Subject: Re: [PATCH 0/2] Add support for dumping error captures via kernel
- logging
-Message-ID: <ZDWP7TRexJRphUNQ@phenom.ffwll.local>
-References: <20230410192523.2020049-1-John.C.Harrison@Intel.com>
- <ZDVxocPZR1Ad2QLa@intel.com>
- <f4c5dfbf-6dc2-52cb-c31d-c6e78646bcac@intel.com>
+To: Rob Clark <robdclark@gmail.com>
+Subject: Re: [PATCH v2 0/2] drm: fdinfo memory stats
+Message-ID: <ZDWQfbUBhyJf1Ezx@phenom.ffwll.local>
+Mail-Followup-To: Rob Clark <robdclark@gmail.com>,
+ dri-devel@lists.freedesktop.org, Rob Clark <robdclark@chromium.org>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+ linux-arm-msm@vger.kernel.org,
+ Emil Velikov <emil.l.velikov@gmail.com>,
+ Christopher Healy <healych@amazon.com>,
+ open list <linux-kernel@vger.kernel.org>,
+ Sean Paul <sean@poorly.run>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ freedreno@lists.freedesktop.org
+References: <20230410210608.1873968-1-robdclark@gmail.com>
+ <CAF6AEGvs4XMggPMthiJ89SiaUj3k+nY95OhxLZ5cD-01XPco4Q@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <f4c5dfbf-6dc2-52cb-c31d-c6e78646bcac@intel.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAF6AEGvs4XMggPMthiJ89SiaUj3k+nY95OhxLZ5cD-01XPco4Q@mail.gmail.com>
 X-Operating-System: Linux phenom 6.1.0-7-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -73,77 +85,69 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Intel-GFX@lists.freedesktop.org, DRI-Devel@lists.freedesktop.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: Rob Clark <robdclark@chromium.org>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+ linux-arm-msm@vger.kernel.org, Emil Velikov <emil.l.velikov@gmail.com>,
+ Christopher Healy <healych@amazon.com>, dri-devel@lists.freedesktop.org,
+ open list <linux-kernel@vger.kernel.org>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Apr 11, 2023 at 09:41:04AM -0700, John Harrison wrote:
-> On 4/11/2023 07:41, Rodrigo Vivi wrote:
-> > On Mon, Apr 10, 2023 at 12:25:21PM -0700, John.C.Harrison@Intel.com wrote:
-> > > From: John Harrison <John.C.Harrison@Intel.com>
-> > > 
-> > > Sometimes, the only effective way to debug an issue is to dump all the
-> > > interesting information at the point of failure. So add support for
-> > > doing that.
-> > No! Please no!
-> > We have some of this on Xe and I'm hating it. I'm going to try to remove
-> > from there soon. It is horrible when you lost the hability to use dmesg
-> > directly because it goes over the number of lines it saves... or even
-> > with dmesg -w it goes over the number of lines of your terminal...
-> > or the ssh and serial slowness when printing a bunch of information.
-> > 
-> > We probably want to be able to capture multiple error states and be
-> > able to cross them with a kernel timeline, but definitely not overflood
-> > our log terminals.
-> I think you are missing the point.
+On Tue, Apr 11, 2023 at 09:47:32AM -0700, Rob Clark wrote:
+> On Mon, Apr 10, 2023 at 2:06 PM Rob Clark <robdclark@gmail.com> wrote:
+> >
+> > From: Rob Clark <robdclark@chromium.org>
+> >
+> > Similar motivation to other similar recent attempt[1].  But with an
+> > attempt to have some shared code for this.  As well as documentation.
+> >
+> > It is probably a bit UMA-centric, I guess devices with VRAM might want
+> > some placement stats as well.  But this seems like a reasonable start.
+> >
+> > Basic gputop support: https://patchwork.freedesktop.org/series/116236/
+> > And already nvtop support: https://github.com/Syllo/nvtop/pull/204
 > 
-> This is the emergency backup plan for when nothing else works. It is not on
-> by default. It should never happen on an end user system unless we
-> specifically request them to run with a patched kernel to enable a dump at a
-> specific point.
-> 
-> But there are (many) times when nothing else works. In those instances, it
-> is extremely useful to be able to dump the system state in this manner.
-> 
-> It is code we have been using internally for some time and it has helped
-> resolve a number of different difficult to debug bugs. As our Xe generation
-> platforms are now out in the wild and no longer just internal, it is also
-> proving important to have this facility available in upstream trees as well.
-> And having it merged rather than floating around as random patches passed
-> from person to person is far easier to manage and would also help reduce the
-> internal tree burden.
+> On a related topic, I'm wondering if it would make sense to report
+> some more global things (temp, freq, etc) via fdinfo?  Some of this,
+> tools like nvtop could get by trawling sysfs or other driver specific
+> ways.  But maybe it makes sense to have these sort of things reported
+> in a standardized way (even though they aren't really per-drm_file)
 
-Note that Xe needs to move over to devcoredump infrastructure, so if you
-need dumping straight to dmesg that would be a patch for that subsystem in
-the future.
+I think that's a bit much layering violation, we'd essentially have to
+reinvent the hwmon sysfs uapi in fdinfo. Not really a business I want to
+be in :-)
 
-Not sure how much you want to add fun here in the i915-gem deadend, I'll
-leave that up to i915 maintainers.
-
-Just figured this is a good place to drop this aside :-)
+What might be needed is better glue to go from the fd or fdinfo to the
+right hw device and then crawl around the hwmon in sysfs automatically. I
+would not be surprised at all if we really suck on this, probably more
+likely on SoC than pci gpus where at least everything should be under the
+main pci sysfs device.
 -Daniel
 
 > 
-> John.
+> BR,
+> -R
 > 
-> > > Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
-> > > 
-> > > 
-> > > John Harrison (2):
-> > >    drm/i915: Dump error capture to kernel log
-> > >    drm/i915/guc: Dump error capture to dmesg on CTB error
-> > > 
-> > >   drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c |  53 +++++++++
-> > >   drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h |   6 +
-> > >   drivers/gpu/drm/i915/i915_gpu_error.c     | 130 ++++++++++++++++++++++
-> > >   drivers/gpu/drm/i915/i915_gpu_error.h     |   8 ++
-> > >   4 files changed, 197 insertions(+)
-> > > 
-> > > -- 
-> > > 2.39.1
-> > > 
 > 
+> > [1] https://patchwork.freedesktop.org/series/112397/
+> >
+> > Rob Clark (2):
+> >   drm: Add fdinfo memory stats
+> >   drm/msm: Add memory stats to fdinfo
+> >
+> >  Documentation/gpu/drm-usage-stats.rst | 21 +++++++
+> >  drivers/gpu/drm/drm_file.c            | 79 +++++++++++++++++++++++++++
+> >  drivers/gpu/drm/msm/msm_drv.c         | 25 ++++++++-
+> >  drivers/gpu/drm/msm/msm_gpu.c         |  2 -
+> >  include/drm/drm_file.h                | 10 ++++
+> >  5 files changed, 134 insertions(+), 3 deletions(-)
+> >
+> > --
+> > 2.39.2
+> >
 
 -- 
 Daniel Vetter
