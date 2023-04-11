@@ -1,85 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C09156DE15A
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Apr 2023 18:45:38 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 92E756DE166
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Apr 2023 18:47:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E7A2310E5BA;
-	Tue, 11 Apr 2023 16:45:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DC36D10E5C1;
+	Tue, 11 Apr 2023 16:47:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5D03410E5A8;
- Tue, 11 Apr 2023 16:45:32 +0000 (UTC)
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 33BFCKMc021594; Tue, 11 Apr 2023 16:44:57 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=0CKCWoC0k7KLWRFjtiYq6s4O/Ry3B7Oq7ug3SOT91RI=;
- b=Hdtc46rjwn9ItMyK3znLdC9hJrUpik9xuAIewQ9vNgz/JORJXEt5KKc1mQvGHbXcyS3u
- G195KpLwjQIltRsUdMIQiVhZMo/HjLA9agqqSwWnT1FSrLL4/UvVkvsr5J73DTKTLrqN
- 9K0TjH9KwuiVDyFQKpT8y3GznCU5yLBtw4RP4fIja5vuGwxtAcxVjZJC8oShhSRCO58A
- l+hFwVk2lBBnFbjGgaAkwguzoS758WgfYizGHa/iT5iuCiP1w7gja8ha0zdX+3F+HD+B
- MX6ZQ6yHUopF6gRTfSMjSpoxaJEJUuhujwd1u23bvOpkFQgHJPmbqsqnNgTfUI6LI2uG KA== 
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3pw0jpshe4-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 11 Apr 2023 16:44:57 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 33BGiu46025508
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 11 Apr 2023 16:44:56 GMT
-Received: from [10.110.115.18] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Tue, 11 Apr
- 2023 09:44:55 -0700
-Message-ID: <c7dc7a53-8f4b-1b83-ae80-fc6ab5a03263@quicinc.com>
-Date: Tue, 11 Apr 2023 09:44:54 -0700
+Received: from mail-ot1-x32c.google.com (mail-ot1-x32c.google.com
+ [IPv6:2607:f8b0:4864:20::32c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 97A3B10E5C1;
+ Tue, 11 Apr 2023 16:47:46 +0000 (UTC)
+Received: by mail-ot1-x32c.google.com with SMTP id
+ c2-20020a056830348200b006a3ab0ba8a2so8520448otu.1; 
+ Tue, 11 Apr 2023 09:47:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20210112; t=1681231665;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=OV/uuQZ41eH3AQ7KVpUu+AQP65VPVOJDNUkIUJlBcW8=;
+ b=ALQTVoEl7wQY9jAJxk0yqxFfjaxMFaPOmj6cSreJmDXg/u1zQR8Rc3xaHDUE5ad62Z
+ 1DZYDLrcYgg+vGsbWtCR9YnkL1shWqQlphCoEndFk0WqgHzB5KHhM5NMJi6ybli25XLH
+ /PqGEq9YSe2ZHUdh9itXmvtkMFUIbJQOAWYnMghcQOHuj9eFTo9v7AznbmToeSj0RA3Y
+ 6PsxHTQ2B72r58m0Diz6P0JkhRFGVJ1LSu3ZnhIfllMQwM3ra3rZxIoThOD7I1Qpb7TD
+ iIOCe2QB9toNJUAns/FAFQarLo9QSqnCsYkpXfG0+nqaiTHI5WdH2It0a/OWGyFPJGtG
+ xH5A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1681231665;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=OV/uuQZ41eH3AQ7KVpUu+AQP65VPVOJDNUkIUJlBcW8=;
+ b=Ik+2eHgMFCZLrqJbR8gfJo7JXkzZdOK+MHiQPWMZW52X4Lyiso14LhCSrBeQ5E5Ri1
+ s38YEwg30txM0/J1vr7pWUgll0a/pB8yly0KEGkzYMxJhn437tkn3YN/ztSr/sBPt8E1
+ JuNr0hmtDZnPksGPGqX8WLxFxuphVwmbkLbCiGwXWg15/qtvh47niag1Gs1hP12R4eHn
+ J7GZ8LIPV3AThLlja+L4SsDynlxsUnoJkcWQWOJEAAlADX/T/sD/KdAxuCJz6CCCW2nR
+ EdZkyTUpYxn3He+UygkwQk+uExRxb8PZVN4vq9uvUuKLj3gEOAcAh5HXOtzFqfVXMiBx
+ VUYg==
+X-Gm-Message-State: AAQBX9d3ANLxHUn8YIW9Bq7+j3LXrSuY9vmWKGsh1fmVQ5bJ69EQIPJo
+ oWFHsR1O3rZXBQds4ASlqKogCX37/VHBZVip9Kialq/R
+X-Google-Smtp-Source: AKy350Zp/HByftvsIEBW+tEKszX5mY603bGDJCqGixLoxpUthI8l72LdtmsEHqerAO8/qJT918CEfStcjHdTFsPjnUU=
+X-Received: by 2002:a05:6830:1b62:b0:6a4:17b6:8767 with SMTP id
+ d2-20020a0568301b6200b006a417b68767mr12354ote.7.1681231663656; Tue, 11 Apr
+ 2023 09:47:43 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.2
-Subject: Re: [PATCH] drm/msm/dpu: Delete a variable initialisation before a
- null pointer check in two functions
-Content-Language: en-US
-To: Markus Elfring <Markus.Elfring@web.de>, <kernel-janitors@vger.kernel.org>, 
- <freedreno@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
- <linux-arm-msm@vger.kernel.org>, Archit Taneja <architt@codeaurora.org>,
- Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>, Dmitry
- Baryshkov <dmitry.baryshkov@linaro.org>, Jeykumar Sankaran
- <jsanka@codeaurora.org>, Jordan Crouse <jordan@cosmicpenguin.net>,
- Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, Vinod Koul
- <vkoul@kernel.org>
-References: <40c60719-4bfe-b1a4-ead7-724b84637f55@web.de>
- <1a11455f-ab57-dce0-1677-6beb8492a257@web.de>
- <13566308-9a80-e4aa-f64e-978c02b1406d@web.de>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <13566308-9a80-e4aa-f64e-978c02b1406d@web.de>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: X2UpLHKqjQEgmDCCvWadAWe8k_ojcOsu
-X-Proofpoint-ORIG-GUID: X2UpLHKqjQEgmDCCvWadAWe8k_ojcOsu
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-04-11_11,2023-04-11_02,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0 mlxscore=0
- impostorscore=0 bulkscore=0 phishscore=0 malwarescore=0 suspectscore=0
- adultscore=0 spamscore=0 priorityscore=1501 clxscore=1011 mlxlogscore=999
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2303200000
- definitions=main-2304110152
+References: <20230410210608.1873968-1-robdclark@gmail.com>
+In-Reply-To: <20230410210608.1873968-1-robdclark@gmail.com>
+From: Rob Clark <robdclark@gmail.com>
+Date: Tue, 11 Apr 2023 09:47:32 -0700
+Message-ID: <CAF6AEGvs4XMggPMthiJ89SiaUj3k+nY95OhxLZ5cD-01XPco4Q@mail.gmail.com>
+Subject: Re: [PATCH v2 0/2] drm: fdinfo memory stats
+To: dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,60 +68,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: LKML <linux-kernel@vger.kernel.org>, cocci@inria.fr
+Cc: Rob Clark <robdclark@chromium.org>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+ linux-arm-msm@vger.kernel.org, Emil Velikov <emil.l.velikov@gmail.com>,
+ Christopher Healy <healych@amazon.com>,
+ open list <linux-kernel@vger.kernel.org>, Sean Paul <sean@poorly.run>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Mon, Apr 10, 2023 at 2:06=E2=80=AFPM Rob Clark <robdclark@gmail.com> wro=
+te:
+>
+> From: Rob Clark <robdclark@chromium.org>
+>
+> Similar motivation to other similar recent attempt[1].  But with an
+> attempt to have some shared code for this.  As well as documentation.
+>
+> It is probably a bit UMA-centric, I guess devices with VRAM might want
+> some placement stats as well.  But this seems like a reasonable start.
+>
+> Basic gputop support: https://patchwork.freedesktop.org/series/116236/
+> And already nvtop support: https://github.com/Syllo/nvtop/pull/204
+
+On a related topic, I'm wondering if it would make sense to report
+some more global things (temp, freq, etc) via fdinfo?  Some of this,
+tools like nvtop could get by trawling sysfs or other driver specific
+ways.  But maybe it makes sense to have these sort of things reported
+in a standardized way (even though they aren't really per-drm_file)
+
+BR,
+-R
 
 
-On 4/11/2023 9:38 AM, Markus Elfring wrote:
-> Date: Tue, 11 Apr 2023 18:24:24 +0200
-> 
-> The address of a data structure member was determined before
-> a corresponding null pointer check in the implementation of
-> the functions “dpu_hw_pp_enable_te” and “dpu_hw_pp_get_vsync_info”.
-> 
-> Thus avoid the risk for undefined behaviour by removing extra
-> initialisations for the variable “c” (also because it was already
-> reassigned with the same value behind this pointer check).
-> 
-> This issue was detected by using the Coccinelle software.
-> 
-> Fixes: 25fdd5933e4c0f5fe2ea5cd59994f8ac5fbe90ef ("drm/msm: Add SDM845 DPU support")
-
-Fixes: 25fdd5933e4c ("drm/msm: Add SDM845 DPU support")
-
-We usually have 12 chars of the hash. Other than that,
-
-Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
-
-> Signed-off-by: Markus Elfring <elfring@users.sourceforge.net>
-> ---
->   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.c | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.c
-> index 0fcad9760b6f..870ab3ebbc94 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.c
-> @@ -176,7 +176,7 @@ static int dpu_hw_pp_enable_te(struct dpu_hw_pingpong *pp, bool enable)
->   static int dpu_hw_pp_connect_external_te(struct dpu_hw_pingpong *pp,
->   		bool enable_external_te)
->   {
-> -	struct dpu_hw_blk_reg_map *c = &pp->hw;
-> +	struct dpu_hw_blk_reg_map *c;
->   	u32 cfg;
->   	int orig;
-> 
-> @@ -221,7 +221,7 @@ static int dpu_hw_pp_get_vsync_info(struct dpu_hw_pingpong *pp,
-> 
->   static u32 dpu_hw_pp_get_line_count(struct dpu_hw_pingpong *pp)
->   {
-> -	struct dpu_hw_blk_reg_map *c = &pp->hw;
-> +	struct dpu_hw_blk_reg_map *c;
->   	u32 height, init;
->   	u32 line = 0xFFFF;
-> 
+> [1] https://patchwork.freedesktop.org/series/112397/
+>
+> Rob Clark (2):
+>   drm: Add fdinfo memory stats
+>   drm/msm: Add memory stats to fdinfo
+>
+>  Documentation/gpu/drm-usage-stats.rst | 21 +++++++
+>  drivers/gpu/drm/drm_file.c            | 79 +++++++++++++++++++++++++++
+>  drivers/gpu/drm/msm/msm_drv.c         | 25 ++++++++-
+>  drivers/gpu/drm/msm/msm_gpu.c         |  2 -
+>  include/drm/drm_file.h                | 10 ++++
+>  5 files changed, 134 insertions(+), 3 deletions(-)
+>
 > --
-> 2.40.0
-> 
+> 2.39.2
+>
