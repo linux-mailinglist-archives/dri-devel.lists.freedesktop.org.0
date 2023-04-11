@@ -2,29 +2,29 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7515D6DDA62
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Apr 2023 14:08:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C74B26DDA67
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Apr 2023 14:08:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BC0FE10E509;
-	Tue, 11 Apr 2023 12:08:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 14D4110E526;
+	Tue, 11 Apr 2023 12:08:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com
- [210.160.252.171])
- by gabe.freedesktop.org (Postfix) with ESMTP id 8762610E528
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Apr 2023 12:08:51 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.98,336,1673881200"; d="scan'208";a="155600422"
+Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com
+ [210.160.252.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 1D31C10E526
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Apr 2023 12:08:55 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.98,336,1673881200"; d="scan'208";a="159048250"
 Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
- by relmlie5.idc.renesas.com with ESMTP; 11 Apr 2023 21:08:50 +0900
+ by relmlie6.idc.renesas.com with ESMTP; 11 Apr 2023 21:08:55 +0900
 Received: from localhost.localdomain (unknown [10.226.93.123])
- by relmlir5.idc.renesas.com (Postfix) with ESMTP id 619A0400C4C3;
- Tue, 11 Apr 2023 21:08:46 +0900 (JST)
+ by relmlir5.idc.renesas.com (Postfix) with ESMTP id 63690400C4C3;
+ Tue, 11 Apr 2023 21:08:51 +0900 (JST)
 From: Biju Das <biju.das.jz@bp.renesas.com>
 To: Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>
-Subject: [PATCH v7 7/8] arm64: dts: renesas: rzg2l-smarc: Enable DU and link
+Subject: [PATCH v7 8/8] arm64: dts: renesas: rzg2lc-smarc: Enable DU and link
  with DSI
-Date: Tue, 11 Apr 2023 13:08:09 +0100
-Message-Id: <20230411120810.368437-8-biju.das.jz@bp.renesas.com>
+Date: Tue, 11 Apr 2023 13:08:10 +0100
+Message-Id: <20230411120810.368437-9-biju.das.jz@bp.renesas.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20230411120810.368437-1-biju.das.jz@bp.renesas.com>
 References: <20230411120810.368437-1-biju.das.jz@bp.renesas.com>
@@ -52,18 +52,21 @@ Cc: devicetree@vger.kernel.org, Chris Paterson <Chris.Paterson2@renesas.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Enable DU and link with DSI on RZ/{G2L,V2L} SMARC EVK.
+Enable DU on RZ/G2LC SMARC EVK by linking with DSI.
 
 Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 ---
- arch/arm64/boot/dts/renesas/rzg2l-smarc.dtsi | 21 ++++++++++++++++++++
+v7:
+ * New patch.
+---
+ arch/arm64/boot/dts/renesas/rzg2lc-smarc.dtsi | 21 +++++++++++++++++++
  1 file changed, 21 insertions(+)
 
-diff --git a/arch/arm64/boot/dts/renesas/rzg2l-smarc.dtsi b/arch/arm64/boot/dts/renesas/rzg2l-smarc.dtsi
-index 2a158a954b2f..cd4f569df5cd 100644
---- a/arch/arm64/boot/dts/renesas/rzg2l-smarc.dtsi
-+++ b/arch/arm64/boot/dts/renesas/rzg2l-smarc.dtsi
-@@ -49,6 +49,7 @@ ports {
+diff --git a/arch/arm64/boot/dts/renesas/rzg2lc-smarc.dtsi b/arch/arm64/boot/dts/renesas/rzg2lc-smarc.dtsi
+index 6818fd49b2be..a56110b6d0d4 100644
+--- a/arch/arm64/boot/dts/renesas/rzg2lc-smarc.dtsi
++++ b/arch/arm64/boot/dts/renesas/rzg2lc-smarc.dtsi
+@@ -63,6 +63,7 @@ ports {
  		port@0 {
  			reg = <0>;
  			dsi0_in: endpoint {
@@ -71,7 +74,7 @@ index 2a158a954b2f..cd4f569df5cd 100644
  			};
  		};
  
-@@ -62,6 +63,26 @@ dsi0_out: endpoint {
+@@ -76,6 +77,26 @@ dsi0_out: endpoint {
  	};
  };
  
