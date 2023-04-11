@@ -1,41 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF3B26DD109
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Apr 2023 06:38:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 337D06DD1DD
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Apr 2023 07:39:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3B27910E480;
-	Tue, 11 Apr 2023 04:38:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8733110E4AD;
+	Tue, 11 Apr 2023 05:39:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 34F9D10E480
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Apr 2023 04:38:19 +0000 (UTC)
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4PwY4P6hPMz4xDh;
- Tue, 11 Apr 2023 14:38:13 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
- s=201702; t=1681187894;
- bh=WdSzwCZdNIk1Z37Sc1D9XVh7arO8HT97XygbtDMgy60=;
- h=Date:From:To:Cc:Subject:From;
- b=uYMLANMPITzNsdWvDMXmJCKRGFyxfTh+fPL8h3ELKKWRo8qmYu4DXxXvLiVrZYlCp
- y+MgWLG9pF1pcR/KBJbabELnZpxroDlL0qcfz3k0occz9hs7tQqKFHiXfmmNFfo92+
- zrZRIglKt1HsDpcmwJq4rCLvcG9fE8xiYYO7ERYvolZDDbeNnhosjqBg/LIDXP8N3A
- 7kfHSYlzXGMqa5ppxGFIMRbUo2ZNf8Pzx3tTaC0wyIh4w6zVxlLBu4XQotVasQmvGE
- XP9PsvpiUlk1Mc5kyayn6qQBYwZmLdnRys4FPN/48lUFGevLJcz+WmNZVdSl9TWXu8
- kR9twwQnskM4A==
-Date: Tue, 11 Apr 2023 14:38:12 +1000
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Greg KH <greg@kroah.com>, Dave Airlie <airlied@redhat.com>
-Subject: linux-next: build failure after merge of the driver-core tree
-Message-ID: <20230411143812.11a4b00d@canb.auug.org.au>
+Received: from 189.cn (ptr.189.cn [183.61.185.101])
+ by gabe.freedesktop.org (Postfix) with ESMTP id C2FE910E4AD
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Apr 2023 05:39:14 +0000 (UTC)
+HMM_SOURCE_IP: 10.64.8.43:59606.589911955
+HMM_ATTACHE_NUM: 0000
+HMM_SOURCE_TYPE: SMTP
+Received: from clientip-114.242.206.180 (unknown [10.64.8.43])
+ by 189.cn (HERMES) with SMTP id 6BC8C1002F6;
+ Tue, 11 Apr 2023 13:39:08 +0800 (CST)
+Received: from  ([114.242.206.180])
+ by gateway-151646-dep-7b48884fd-tj646 with ESMTP id
+ f7efde40c6bc459b9f649b6547f1e147 for emil.l.velikov@gmail.com; 
+ Tue, 11 Apr 2023 13:39:11 CST
+X-Transaction-ID: f7efde40c6bc459b9f649b6547f1e147
+X-Real-From: 15330273260@189.cn
+X-Receive-IP: 114.242.206.180
+X-MEDUSA-Status: 0
+Message-ID: <c29da6cf-98be-42fc-c415-28732f6b6b1f@189.cn>
+Date: Tue, 11 Apr 2023 13:39:07 +0800
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/RN2rq.fb+YeY=+.0XxKESjO";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH v10 2/2] drm: add kms driver for loongson display
+ controller
+Content-Language: en-US
+To: Emil Velikov <emil.l.velikov@gmail.com>
+References: <20230403171304.2157326-1-suijingfeng@loongson.cn>
+ <20230403171304.2157326-3-suijingfeng@loongson.cn>
+ <CACvgo53h+X26wngVmxpn3oVb9kbJezTHx61p3rZDR7sw1AQrWQ@mail.gmail.com>
+From: Sui Jingfeng <15330273260@189.cn>
+In-Reply-To: <CACvgo53h+X26wngVmxpn3oVb9kbJezTHx61p3rZDR7sw1AQrWQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,114 +54,106 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jeffrey Hugo <quic_jhugo@quicinc.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- DRI <dri-devel@lists.freedesktop.org>,
- Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>,
- Linux Next Mailing List <linux-next@vger.kernel.org>,
- Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+Cc: nathan@kernel.org, loongson-kernel@lists.loongnix.cn,
+ Thomas Zimmermann <tzimmermann@suse.de>, Li Yi <liyi@loongson.cn>,
+ linux-kernel@vger.kernel.org, Christian Koenig <christian.koenig@amd.com>,
+ linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
+ Sumit Semwal <sumit.semwal@linaro.org>, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/RN2rq.fb+YeY=+.0XxKESjO
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Hi,
 
-Hi all,
+On 2023/4/4 22:10, Emil Velikov wrote:
+>> +static void lsdc_crtc_reset(struct drm_crtc *crtc)
+>> +{
+>> +       struct lsdc_display_pipe *dispipe = crtc_to_display_pipe(crtc);
+>> +       struct drm_device *ddev = crtc->dev;
+>> +       struct lsdc_device *ldev = to_lsdc(ddev);
+>> +       struct lsdc_crtc_state *priv_crtc_state;
+>> +       unsigned int index = dispipe->index;
+>> +       u32 val;
+>> +
+>> +       val = LSDC_PF_XRGB8888 | CFG_RESET_N;
+>> +       if (ldev->descp->chip == CHIP_LS7A2000)
+>> +               val |= LSDC_DMA_STEP_64_BYTES;
+>> +
+>> +       lsdc_crtc_wreg32(ldev, LSDC_CRTC0_CFG_REG, index, val);
+>> +
+>> +       if (ldev->descp->chip == CHIP_LS7A2000) {
+>> +               val = PHY_CLOCK_EN | PHY_DATA_EN;
+>> +               lsdc_crtc_wreg32(ldev, LSDC_CRTC0_PANEL_CONF_REG, index, val);
+>> +       }
+>> +
+> AFAICT no other driver touches the HW in their reset callback. Should
+> the above be moved to another callback?
+>
+You may correct in the 95% of all cases.
 
-After merging the driver-core tree, today's linux-next build (x86_64
-allmodconfig) failed like this:
+After reading the comments of the reset callback of struct 
+drm_crtc_funcs in drm_crtc.h,
 
-In file included from include/linux/linkage.h:7,
-                 from include/linux/kernel.h:17,
-                 from drivers/accel/qaic/mhi_qaic_ctrl.c:4:
-drivers/accel/qaic/mhi_qaic_ctrl.c: In function 'mhi_qaic_ctrl_init':
-include/linux/export.h:27:22: error: passing argument 1 of 'class_create' f=
-rom incompatible pointer type [-Werror=3Dincompatible-pointer-types]
-   27 | #define THIS_MODULE (&__this_module)
-      |                     ~^~~~~~~~~~~~~~~
-      |                      |
-      |                      struct module *
-drivers/accel/qaic/mhi_qaic_ctrl.c:544:38: note: in expansion of macro 'THI=
-S_MODULE'
-  544 |         mqc_dev_class =3D class_create(THIS_MODULE, MHI_QAIC_CTRL_D=
-RIVER_NAME);
-      |                                      ^~~~~~~~~~~
-In file included from include/linux/device.h:31,
-                 from include/linux/mhi.h:9,
-                 from drivers/accel/qaic/mhi_qaic_ctrl.c:5:
-include/linux/device/class.h:229:54: note: expected 'const char *' but argu=
-ment is of type 'struct module *'
-  229 | struct class * __must_check class_create(const char *name);
-      |                                          ~~~~~~~~~~~~^~~~
-drivers/accel/qaic/mhi_qaic_ctrl.c:544:25: error: too many arguments to fun=
-ction 'class_create'
-  544 |         mqc_dev_class =3D class_create(THIS_MODULE, MHI_QAIC_CTRL_D=
-RIVER_NAME);
-      |                         ^~~~~~~~~~~~
-include/linux/device/class.h:229:29: note: declared here
-  229 | struct class * __must_check class_create(const char *name);
-      |                             ^~~~~~~~~~~~
+It seems that it does not prohibit us to touches the hardware.
 
-Caused by commit
+I copy that comments and paste into here for easier to read,as below:
 
-  1aaba11da9aa ("driver core: class: remove module * from class_create()")
 
-interacting with commit
+     /*
+      * @reset:
+      *
+      * Reset CRTC hardware and software state to off. This function isn't
+      * called by the core directly, only through drm_mode_config_reset().
+      * It's not a helper hook only for historical reasons.
+      *
+      * Atomic drivers can use drm_atomic_helper_crtc_reset() to reset
+      * atomic state using this hook.
+      */
 
-  566fc96198b4 ("accel/qaic: Add mhi_qaic_cntl")
 
-from the drm tree.
+It seem allowable to reset CRTC hardware in this callback, did it cue us?
 
-I have applied the following merge fix patch for today.
+What we know is that this reset callback (and others, such as encoder's 
+reset)
 
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-Date: Tue, 11 Apr 2023 14:16:57 +1000
-Subject: [PATCH] fixup for "driver core: class: remove module * from class_=
-create()"
+is called by drm_mode_config_reset(). It is the first set of functions 
+get called
 
-interacting with "accel/qaic: Add mhi_qaic_cntl"
+before other hardware related callbacks.
 
-Signed-off-by: Stephen Rothwell <sfr@canb.auug.org.au>
----
- drivers/accel/qaic/mhi_qaic_ctrl.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/accel/qaic/mhi_qaic_ctrl.c b/drivers/accel/qaic/mhi_qa=
-ic_ctrl.c
-index 0c7e571f1f12..96db1580c72d 100644
---- a/drivers/accel/qaic/mhi_qaic_ctrl.c
-+++ b/drivers/accel/qaic/mhi_qaic_ctrl.c
-@@ -541,7 +541,7 @@ int mhi_qaic_ctrl_init(void)
- 		return ret;
-=20
- 	mqc_dev_major =3D ret;
--	mqc_dev_class =3D class_create(THIS_MODULE, MHI_QAIC_CTRL_DRIVER_NAME);
-+	mqc_dev_class =3D class_create(MHI_QAIC_CTRL_DRIVER_NAME);
- 	if (IS_ERR(mqc_dev_class)) {
- 		ret =3D PTR_ERR(mqc_dev_class);
- 		goto unregister_chrdev;
---=20
-2.39.2
+I don't not see how other drivers implement this callback, after you 
+mention this
 
---=20
-Cheers,
-Stephen Rothwell
+I skim over a few, I found tilcdc also writing the hardware in their 
+tilcdc_crtc_reset()
 
---Sig_/RN2rq.fb+YeY=+.0XxKESjO
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
+function. See it in drm/tildc/tilclc_crtc.c
 
------BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmQ05DUACgkQAVBC80lX
-0Gzfawf/V6Ir//QkheAAJFTEKt7tmcD6f3dmgoe6LYBfJMDotCoLMV41HiUwuHwn
-R78oYX30+Progok1U7tY6mM0nOelwknl7DuGpmZOg7ldLsmzMDRd7wNFvQsW22t/
-zSH96sNga0vEZZ1FEdtZEnAsfMZ1aYHW/NgOYYpP4sKDenYkGCIOFmm5xdBwzwr9
-F/3AJVl3Fy97P3OCfm+fH2OR7wuvOBuf9U8n0pxlwjorV1jeBlajn0NeJaC10Vr/
-UU6XzoZnL+06GbJGW4/sdlib9lLoQYQhN5HPxaWLwU8ehxLWSezJo5F9fPy2s9w8
-BZ71ZMWxuwGu1xmxFUMVs3lfsrKfsw==
-=10Kj
------END PGP SIGNATURE-----
+In addition, Loongson platform support efifb,  in order to light up the 
+monitor in
 
---Sig_/RN2rq.fb+YeY=+.0XxKESjO--
+firmware stage and the booting stage, the firmware touch the display 
+hardware
+
+register directly. After efifb get kick out, when drm/loongson driver 
+taken over the
+
+hardware, the register setting state still remain in the hardware 
+register. Those
+
+register setting may no longer correct for the subsequent operationd. 
+What we
+
+doing here is to giving the hardware a basic healthy state prepare to be 
+update
+
+further. As the reset callback is call very early, we found that it's 
+the best fit.
+
+The reset will also get called when resume(S3).
+
+
+The problem is that we don't find a good to place to move those setting 
+currently.
+
