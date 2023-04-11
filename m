@@ -1,65 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B4EA6DE457
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Apr 2023 20:53:01 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B880D6DE4BA
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Apr 2023 21:21:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6214310E612;
-	Tue, 11 Apr 2023 18:52:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 97ED110E618;
+	Tue, 11 Apr 2023 19:21:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com
- [IPv6:2a00:1450:4864:20::333])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 10D6710E632
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Apr 2023 18:52:55 +0000 (UTC)
-Received: by mail-wm1-x333.google.com with SMTP id
- v14-20020a05600c470e00b003f06520825fso10195562wmo.0
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Apr 2023 11:52:54 -0700 (PDT)
+Received: from mail-yw1-x112c.google.com (mail-yw1-x112c.google.com
+ [IPv6:2607:f8b0:4864:20::112c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2BA8C10E23B
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Apr 2023 19:21:39 +0000 (UTC)
+Received: by mail-yw1-x112c.google.com with SMTP id
+ 00721157ae682-54c061acbc9so316836557b3.11
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Apr 2023 12:21:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1681239173; x=1683831173;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=dlX5GB/6VyU7aDk+z9ZCkWDR2g+EBJDJyCilYhIFk4Y=;
- b=W8ShJmOrranBwVJX3XSKbLDjxHBq8vJhBijCgc7L4jjwlg2g6LZg+GXeM7mRztXf/U
- ZKVYRs1p00CHF1cn38ax4sIO5XWOY8EngVoOKtLZ3jkRjPquHajLNYCxPkwNa+T48Mjq
- 9mMBUNgeylWBYKNdk0F5+ZKjLtRKrC7BeAePFrTlgKsDg0JtOftdh3Q6QkRdYHfghwle
- jtApdt9IEd7ZI3pg0ZrDHrU7mTF7pZYGToUpux2xUSStqkVsUwk+2hBldlWxMhdyjReg
- 0kme7KzGOkoTiL8IGpY/VIwwNgrE5P6YmYqBnjDapbi50AHy2zpLxU7RM7FuwczYu8Dy
- aqaA==
+ d=chromium.org; s=google; t=1681240897; x=1683832897;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=b0pWNUner6HZpj2mgz7mwe38cCf4K3c4XkTiPKpjEJc=;
+ b=RRh3QoutRS+2+cQHp2e701Gtn2U1A1+atWoa1dPicm57v0QtgikJXIANmTd+LDHttA
+ 29B7KSSb3kXzXikbZMccI/OL9X85TF8oopYzbYf4yElnaqgzr33gXiQykEfRV9rJofXi
+ ltdISIEULFKTJThPiF4N+NbbT0ytWzCJAK/2M=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1681239173; x=1683831173;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ d=1e100.net; s=20210112; t=1681240897; x=1683832897;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=dlX5GB/6VyU7aDk+z9ZCkWDR2g+EBJDJyCilYhIFk4Y=;
- b=zDfEtkRpo8C01rLg5QBYLENWazONVwZ5kF9RTX2uqqoGtZ2J9us1tw9ni0CmbiLQSI
- 2zcECcbjfwlZuUDyRyHJcnYIZKj6V4vcLsqXmcGhkGv9/Wpb3UmChSgv7+h+Zd1DF6MT
- My7+0SrZwi8dw8ET8BQeTKdp+vxPu+LTAPNNOQU9qRfqZ26lmqtdGSrKZVe+PSUQUvCW
- gtTHVdQSJQatswZ/McXMCtsbqmjvHgECuiI3WGZwTiEmm6G0TvMk6hU43/2jEfr0FHvS
- lMQHogHu5orm1eUrRZXvBcMrGeOHGtpigDNMjWR8AxAeh1OtJKLJ1usHUx1I8PL47cTH
- IjOQ==
-X-Gm-Message-State: AAQBX9c4wpS4l6gW4kRib1wDWN6VZKE/NJbku4yKAS9G9n/1UGXUSgFV
- Roc0sYMBFqnjgX8Xr6qOMa2w1vTtU7g6r0v2C5wesw==
-X-Google-Smtp-Source: AKy350avcqgtyEtfJTx+rDWfyknXY3joKVtnEOuccyJ8fg2RCwOtWrljTtm/ZHINwoDB1WX5BjrL9rmuJtt0OrNEvi8=
-X-Received: by 2002:a1c:7507:0:b0:3f0:8add:2710 with SMTP id
- o7-20020a1c7507000000b003f08add2710mr1431109wmc.6.1681239173160; Tue, 11 Apr
- 2023 11:52:53 -0700 (PDT)
+ bh=b0pWNUner6HZpj2mgz7mwe38cCf4K3c4XkTiPKpjEJc=;
+ b=oqIHmtoaC4v9V8vpd26qwY7KuQXa5/BLKJEBZ1Hi/n/Y8C/R9MBZJE0inXFVnsUUpt
+ V+pDXWMYzNvE43d2ZKyfB0dHKfaKik1X+swgueVVx+4TZEedNCeLWGMlUjIvDKuiEj6e
+ YVhTL+c9Q4wKxGz1joe4I+9JKgnk7sEJDqQ1Pj1Ga01Fx0yCnzsm9MRPK1OQCtp7p34P
+ xswcmdP20mE0yMF7O7IXIP4KpEDDhrBkDBOGkuOXMLIdtlrt9YHSJfNwEhGljGxyBP4U
+ 4faqvY9AusuUdUwY7uUkj/wRTO1r+V8enVStFBckQFaZHKpGqkhlCHEsCg5YrcmCKvIK
+ PKbA==
+X-Gm-Message-State: AAQBX9eVyFXdIs3M1lzVaMMlJyu5xk62DRQxVKyK9GyMVKgrfle1UiNq
+ a+yYSmV/qneA0vCagzD0U+P2LUVhDI/o6ShuMM8=
+X-Google-Smtp-Source: AKy350Y+xX7nfv8OmHrlOQoBibFhg/Nd9ia2dRuk69P1P5YDXyCjDvXxb+QyK3HTWQobTbQ/p6i3Qg==
+X-Received: by 2002:a81:92c9:0:b0:54f:8af6:bb13 with SMTP id
+ j192-20020a8192c9000000b0054f8af6bb13mr216212ywg.3.1681240897739; 
+ Tue, 11 Apr 2023 12:21:37 -0700 (PDT)
+Received: from localhost ([2620:0:1035:15:2991:9b76:4e62:65bf])
+ by smtp.gmail.com with UTF8SMTPSA id
+ n124-20020a0dcb82000000b00545a0818493sm3689913ywd.35.2023.04.11.12.21.36
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 11 Apr 2023 12:21:37 -0700 (PDT)
+From: Mark Yacoub <markyacoub@chromium.org>
+X-Google-Original-From: Mark Yacoub <markyacoub@google.com>
+To: 
+Subject: [PATCH v9 00/10] drm/hdcp: Pull HDCP auth/exchange/check into helpers
+Date: Tue, 11 Apr 2023 15:21:24 -0400
+Message-Id: <20230411192134.508113-1-markyacoub@google.com>
+X-Mailer: git-send-email 2.40.0.577.gac1e443424-goog
 MIME-Version: 1.0
-References: <20211225063151.2110878-1-nikita.yoush@cogentembedded.com>
- <Yczy3UYpU2UMFQ6N@pendragon.ideasonboard.com>
- <164563304251.4066078.10022034509552549983@Monstersaurus>
- <YhZf+Fs2AP+btuJj@pendragon.ideasonboard.com>
- <164563575394.4066078.17104997030535169083@Monstersaurus>
- <7163f30b-6496-5762-0d9d-96834fb7452d@ideasonboard.com>
- <a28a4858-c66a-6737-a9fc-502f591ba2d5@ideasonboard.com>
-In-Reply-To: <a28a4858-c66a-6737-a9fc-502f591ba2d5@ideasonboard.com>
-From: Yongqin Liu <yongqin.liu@linaro.org>
-Date: Wed, 12 Apr 2023 02:52:40 +0800
-Message-ID: <CAMSo37XPdLcVQnRdfL3y4kz82gftg2My0Dvd937GW=N9MiqURA@mail.gmail.com>
-Subject: Re: [PATCH] drm/bridge_connector: enable HPD by default if supported
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,108 +68,76 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Nikita Yushchenko <nikita.yoush@cogentembedded.com>,
- David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Jacopo Mondi <jacopo+renesas@jmondi.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Thomas Zimmermann <tzimmermann@suse.de>
+Cc: suraj.kandpal@intel.com, intel-gfx@lists.freedesktop.org,
+ dianders@chromium.org, dri-devel@lists.freedesktop.org, seanpaul@chromium.org,
+ dmitry.baryshkov@linaro.org, freedreno@lists.freedesktop.org,
+ Mark Yacoub <markyacoub@google.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-HI, All
+Hi all,
+This is v7 of the HDCP patches. The patches are authored by Sean Paul. 
+I rebased and addressed the review comments in v6-v9.
 
-Just an updated here.
-As the commits listed the the following link merged into the
-android-mainline kernel:
-    https://lore.kernel.org/linux-arm-kernel/20221102180705.459294-1-dmitry.baryshkov@linaro.org/T/
-The problem caused by this commit with x15 build is gone now.
+Main change in v9 is renaming i915 priv data and moving the display type specific init to the drm helper instead of the driver.
+
+Patches 1-4 focus on moving the common HDCP helpers to common DRM. 
+This introduces a slight change in the original intel flow
+as it splits the unique driver protocol from the generic implementation.
+
+Patches 5-7 split the HDCP flow on the i915 driver to make use of the common DRM helpers.
+
+Patches 8-10 implement HDCP on MSM driver.
 
 Thanks,
-Yongqin Liu
-On Mon, 5 Sept 2022 at 13:26, Tomi Valkeinen
-<tomi.valkeinen@ideasonboard.com> wrote:
->
-> On 31/08/2022 16:02, Tomi Valkeinen wrote:
-> > Hi,
-> >
-> > On 23/02/2022 19:02, Kieran Bingham wrote:
-> >> Quoting Laurent Pinchart (2022-02-23 16:25:28)
-> >>> Hello,
-> >>>
-> >>> On Wed, Feb 23, 2022 at 04:17:22PM +0000, Kieran Bingham wrote:
-> >>>> Quoting Laurent Pinchart (2021-12-29 23:44:29)
-> >>>>> On Sat, Dec 25, 2021 at 09:31:51AM +0300, Nikita Yushchenko wrote:
-> >>>>>> Hotplug events reported by bridge drivers over
-> >>>>>> drm_bridge_hpd_notify()
-> >>>>>> get ignored unless somebody calls drm_bridge_hpd_enable(). When the
-> >>>>>> connector for the bridge is bridge_connector, such a call is done
-> >>>>>> from
-> >>>>>> drm_bridge_connector_enable_hpd().
-> >>>>>>
-> >>>>>> However drm_bridge_connector_enable_hpd() is never called on init
-> >>>>>> paths,
-> >>>>>> documentation suggests that it is intended for suspend/resume paths.
-> >>>>>
-> >>>>> Hmmmm... I'm in two minds about this. The problem description is
-> >>>>> correct, but I wonder if HPD should be enabled unconditionally
-> >>>>> here, or
-> >>>>> if this should be left to display drivers to control.
-> >>>>> drivers/gpu/drm/imx/dcss/dcss-kms.c enables HPD manually at init time,
-> >>>>> other drivers don't.
-> >>>>>
-> >>>>> It feels like this should be under control of the display controller
-> >>>>> driver, but I can't think of a use case for not enabling HPD at init
-> >>>>> time. Any second opinion from anyone ?
-> >>>>
-> >>>> This patch solves an issue I have where I have recently enabled HPD on
-> >>>> the SN65DSI86, but without this, I do not get calls to my
-> >>>> .hpd_enable or
-> >>>> .hpd_disable hooks that I have added to the ti_sn_bridge_funcs.
-> >>>>
-> >>>> So it needs to be enabled somewhere, and this seems reasonable to me?
-> >>>> It's not directly related to the display controller - as it's a factor
-> >>>> of the bridge?
-> >>>>
-> >>>> On Falcon-V3U with HPD additions to SN65DSI86:
-> >>>> Tested-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-> >>>
-> >>> If you think this is right, then
-> >>>
-> >>> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> >>
-> >> I do, and at the very least it works for me, and fixes Nikita's issue so
-> >> to me that's enough for:
-> >
-> > So who disables the HPD now?
-> >
-> > Is the drm_bridge_connector_enable_hpd &
-> > drm_bridge_connector_disable_hpd documentation now wrong as they talk
-> > about suspend/resume handlers?
->
-> To give more context, currently omapdrm enables the HPDs at init time
-> and disables them at remove time. With this patch, the HPDs are enabled
-> twice, leading to a WARN.
->
-> imx and msm drivers also seem to call drm_bridge_connector_enable_hpd(),
-> so I would guess those also WARN with this patch.
->
-> Afaics, this patch alone is broken, as it just disregards the drivers
-> that already enable the HPD, and also as it doesn't handle the disabling
-> of the HPD, or give any guidelines on how the drivers should now manage
-> the HPD.
->
-> My suggestion is to revert this one.
->
->   Tomi
+-Mark Yacoub
 
+Sean Paul (10):
+  drm/hdcp: Add drm_hdcp_atomic_check()
+  drm/hdcp: Avoid changing crtc state in hdcp atomic check
+  drm/hdcp: Update property value on content type and user changes
+  drm/hdcp: Expand HDCP helper library for enable/disable/check
+  drm/i915/hdcp: Consolidate HDCP setup/state cache
+  drm/i915/hdcp: Retain hdcp_capable return codes
+  drm/i915/hdcp: Use HDCP helpers for i915
+  dt-bindings: msm/dp: Add bindings for HDCP registers
+  arm64: dts: qcom: sc7180: Add support for HDCP in dp-controller
+  drm/msm: Implement HDCP 1.x using the new drm HDCP helpers
 
+ .../bindings/display/msm/dp-controller.yaml   |    7 +-
+ arch/arm64/boot/dts/qcom/sc7180-trogdor.dtsi  |    8 +
+ drivers/gpu/drm/display/drm_hdcp_helper.c     | 1224 +++++++++++++++++
+ drivers/gpu/drm/i915/display/intel_atomic.c   |    8 +-
+ drivers/gpu/drm/i915/display/intel_ddi.c      |   32 +-
+ .../drm/i915/display/intel_display_debugfs.c  |   12 +-
+ .../drm/i915/display/intel_display_types.h    |   51 +-
+ drivers/gpu/drm/i915/display/intel_dp_hdcp.c  |  352 ++---
+ drivers/gpu/drm/i915/display/intel_dp_mst.c   |   16 +-
+ drivers/gpu/drm/i915/display/intel_hdcp.c     | 1060 +++-----------
+ drivers/gpu/drm/i915/display/intel_hdcp.h     |   48 +-
+ drivers/gpu/drm/i915/display/intel_hdmi.c     |  267 ++--
+ drivers/gpu/drm/msm/Kconfig                   |    1 +
+ drivers/gpu/drm/msm/Makefile                  |    1 +
+ drivers/gpu/drm/msm/dp/dp_catalog.c           |  156 +++
+ drivers/gpu/drm/msm/dp/dp_catalog.h           |   18 +
+ drivers/gpu/drm/msm/dp/dp_debug.c             |   46 +-
+ drivers/gpu/drm/msm/dp/dp_debug.h             |   11 +-
+ drivers/gpu/drm/msm/dp/dp_display.c           |   39 +-
+ drivers/gpu/drm/msm/dp/dp_display.h           |    5 +
+ drivers/gpu/drm/msm/dp/dp_drm.c               |   39 +-
+ drivers/gpu/drm/msm/dp/dp_drm.h               |    7 +
+ drivers/gpu/drm/msm/dp/dp_hdcp.c              |  389 ++++++
+ drivers/gpu/drm/msm/dp/dp_hdcp.h              |   33 +
+ drivers/gpu/drm/msm/dp/dp_parser.c            |   14 +
+ drivers/gpu/drm/msm/dp/dp_parser.h            |    4 +
+ drivers/gpu/drm/msm/dp/dp_reg.h               |   30 +-
+ drivers/gpu/drm/msm/msm_atomic.c              |   19 +
+ include/drm/display/drm_hdcp.h                |  296 ++++
+ include/drm/display/drm_hdcp_helper.h         |   23 +
+ 30 files changed, 2867 insertions(+), 1349 deletions(-)
+ create mode 100644 drivers/gpu/drm/msm/dp/dp_hdcp.c
+ create mode 100644 drivers/gpu/drm/msm/dp/dp_hdcp.h
 
 -- 
-Best Regards,
-Yongqin Liu
----------------------------------------------------------------
-#mailing list
-linaro-android@lists.linaro.org
-http://lists.linaro.org/mailman/listinfo/linaro-android
+2.40.0.577.gac1e443424-goog
+
