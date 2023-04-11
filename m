@@ -2,77 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39B5B6DE12E
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Apr 2023 18:43:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C09156DE15A
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Apr 2023 18:45:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9EE8A10E105;
-	Tue, 11 Apr 2023 16:43:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E7A2310E5BA;
+	Tue, 11 Apr 2023 16:45:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22d.google.com (mail-lj1-x22d.google.com
- [IPv6:2a00:1450:4864:20::22d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BC57810E5A8
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Apr 2023 16:43:09 +0000 (UTC)
-Received: by mail-lj1-x22d.google.com with SMTP id bx15so7212233ljb.7
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Apr 2023 09:43:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1681231387;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=f+Yn3w4i6ERhJRbEalDkX81nXU5W6d0rrV0jXP7xE40=;
- b=QFgUdLSiBrEwNbHQ04X1boTAoorIGTiF6sCjmJuNEhDh5YRYplW2HFsR/8qPj/zRH6
- bFS+gA3Kcbkf5sO/PY5yrQ2o2ENpG6g4z5qxUGFRBvtZSFGdmi6K/UO+W6AEXlEjWD31
- Pr50qHaLDkwLcPVUVVGO/FK9xlZ+qAwk6dBMFFp5pmfikoC8gr1g29K6Didkx5KkdYsJ
- OEgBDmqZ1qAXNZ9EcusjJDJ1R9zA76y0Nngb0ZJtx7apwCfRD8zhizpFLAj5q31eZXl2
- qWAXXNYtMDXsNjdtbojR9WBVyRNxyw2y2pbxV3Sb2WrvPyD17LGjevDRBLeTLq0tDcp9
- c1Dw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1681231387;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=f+Yn3w4i6ERhJRbEalDkX81nXU5W6d0rrV0jXP7xE40=;
- b=V0g0qWGM764N9zsqP6pcfT167glpFQcuGi0Bvkn0oPBcnN55JKSRVzPxF+OCwrmUiA
- MWYjhwe5Gn5FzKLsCzX/wkWKTLKQK6rzLrjpEHWPMGAP4yvYBJ3Q7Qp0933SF6BBbXzK
- aT3P5xEAUuAkYUL5yfu7nVkRZYHModmwzuPDo8n1tOEjtY2/6hHOhibaG5AIcnAtv0Cy
- 0dzUB/0AtqbXPidqOMk4I/AvxA44M4DXT7yiRgRjTmHk0Tc/z79BlX2K1UIyqXZMUR4r
- nOynkSLGeEA+P/iM68GsvMOkQHbmG2jA9sSZFwcsNezffGsHxTMlr2AvxRLnu2SajLOR
- IjRA==
-X-Gm-Message-State: AAQBX9ftHucZ8zmoHvfDmGvOMz7AtY7oU0P4C10nEUWi8vxjTmAUGZsJ
- PdD5EEP/izeE9ExtU5bMu3lBZw==
-X-Google-Smtp-Source: AKy350bMk4SkskVqv2ia31J+GxA0ArmyEzCNBnop1DJ9H7MWNk8XMD336eB/RYppFHgASDqtT8IemQ==
-X-Received: by 2002:a2e:82ce:0:b0:2a2:ca91:a99e with SMTP id
- n14-20020a2e82ce000000b002a2ca91a99emr4943313ljh.39.1681231387322; 
- Tue, 11 Apr 2023 09:43:07 -0700 (PDT)
-Received: from ?IPV6:2001:14ba:a085:4d00::8a5?
- (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a085:4d00::8a5])
- by smtp.gmail.com with ESMTPSA id
- x28-20020ac25ddc000000b004e8017a2510sm2606561lfq.183.2023.04.11.09.43.06
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 11 Apr 2023 09:43:06 -0700 (PDT)
-Message-ID: <90f32378-fa1c-a23e-2db2-2e83a42fd45e@linaro.org>
-Date: Tue, 11 Apr 2023 19:43:06 +0300
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5D03410E5A8;
+ Tue, 11 Apr 2023 16:45:32 +0000 (UTC)
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 33BFCKMc021594; Tue, 11 Apr 2023 16:44:57 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=0CKCWoC0k7KLWRFjtiYq6s4O/Ry3B7Oq7ug3SOT91RI=;
+ b=Hdtc46rjwn9ItMyK3znLdC9hJrUpik9xuAIewQ9vNgz/JORJXEt5KKc1mQvGHbXcyS3u
+ G195KpLwjQIltRsUdMIQiVhZMo/HjLA9agqqSwWnT1FSrLL4/UvVkvsr5J73DTKTLrqN
+ 9K0TjH9KwuiVDyFQKpT8y3GznCU5yLBtw4RP4fIja5vuGwxtAcxVjZJC8oShhSRCO58A
+ l+hFwVk2lBBnFbjGgaAkwguzoS758WgfYizGHa/iT5iuCiP1w7gja8ha0zdX+3F+HD+B
+ MX6ZQ6yHUopF6gRTfSMjSpoxaJEJUuhujwd1u23bvOpkFQgHJPmbqsqnNgTfUI6LI2uG KA== 
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3pw0jpshe4-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 11 Apr 2023 16:44:57 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 33BGiu46025508
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 11 Apr 2023 16:44:56 GMT
+Received: from [10.110.115.18] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Tue, 11 Apr
+ 2023 09:44:55 -0700
+Message-ID: <c7dc7a53-8f4b-1b83-ae80-fc6ab5a03263@quicinc.com>
+Date: Tue, 11 Apr 2023 09:44:54 -0700
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.2
 Subject: Re: [PATCH] drm/msm/dpu: Delete a variable initialisation before a
  null pointer check in two functions
-Content-Language: en-GB
-To: Markus Elfring <Markus.Elfring@web.de>, kernel-janitors@vger.kernel.org,
- freedreno@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-arm-msm@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Archit Taneja <architt@codeaurora.org>, Daniel Vetter <daniel@ffwll.ch>,
- David Airlie <airlied@gmail.com>, Jeykumar Sankaran <jsanka@codeaurora.org>,
- Jordan Crouse <jordan@cosmicpenguin.net>, Rob Clark <robdclark@gmail.com>,
- Sean Paul <sean@poorly.run>, Vinod Koul <vkoul@kernel.org>
+Content-Language: en-US
+To: Markus Elfring <Markus.Elfring@web.de>, <kernel-janitors@vger.kernel.org>, 
+ <freedreno@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
+ <linux-arm-msm@vger.kernel.org>, Archit Taneja <architt@codeaurora.org>,
+ Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>, Dmitry
+ Baryshkov <dmitry.baryshkov@linaro.org>, Jeykumar Sankaran
+ <jsanka@codeaurora.org>, Jordan Crouse <jordan@cosmicpenguin.net>,
+ Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, Vinod Koul
+ <vkoul@kernel.org>
 References: <40c60719-4bfe-b1a4-ead7-724b84637f55@web.de>
  <1a11455f-ab57-dce0-1677-6beb8492a257@web.de>
  <13566308-9a80-e4aa-f64e-978c02b1406d@web.de>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
 In-Reply-To: <13566308-9a80-e4aa-f64e-978c02b1406d@web.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: X2UpLHKqjQEgmDCCvWadAWe8k_ojcOsu
+X-Proofpoint-ORIG-GUID: X2UpLHKqjQEgmDCCvWadAWe8k_ojcOsu
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-04-11_11,2023-04-11_02,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0 mlxscore=0
+ impostorscore=0 bulkscore=0 phishscore=0 malwarescore=0 suspectscore=0
+ adultscore=0 spamscore=0 priorityscore=1501 clxscore=1011 mlxlogscore=999
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2303200000
+ definitions=main-2304110152
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,7 +96,9 @@ Cc: LKML <linux-kernel@vger.kernel.org>, cocci@inria.fr
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/04/2023 19:38, Markus Elfring wrote:
+
+
+On 4/11/2023 9:38 AM, Markus Elfring wrote:
 > Date: Tue, 11 Apr 2023 18:24:24 +0200
 > 
 > The address of a data structure member was determined before
@@ -104,12 +113,11 @@ On 11/04/2023 19:38, Markus Elfring wrote:
 > 
 > Fixes: 25fdd5933e4c0f5fe2ea5cd59994f8ac5fbe90ef ("drm/msm: Add SDM845 DPU support")
 
-Plese follow the format for the Fixes tags and limit the hash to 12 
-chars. Proper tag:
-
 Fixes: 25fdd5933e4c ("drm/msm: Add SDM845 DPU support")
 
-Other than that LGTM.
+We usually have 12 chars of the hash. Other than that,
+
+Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
 
 > Signed-off-by: Markus Elfring <elfring@users.sourceforge.net>
 > ---
@@ -141,8 +149,3 @@ Other than that LGTM.
 > --
 > 2.40.0
 > 
-
--- 
-With best wishes
-Dmitry
-
