@@ -1,61 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C5036DE01B
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Apr 2023 17:56:29 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A80316DE023
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Apr 2023 17:58:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5649B10E58F;
-	Tue, 11 Apr 2023 15:56:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B4E6610E5A0;
+	Tue, 11 Apr 2023 15:58:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x332.google.com (mail-ot1-x332.google.com
- [IPv6:2607:f8b0:4864:20::332])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B5E9310E37F;
- Tue, 11 Apr 2023 15:56:25 +0000 (UTC)
-Received: by mail-ot1-x332.google.com with SMTP id
- cp25-20020a056830661900b00693ce5a2f3eso4074770otb.8; 
- Tue, 11 Apr 2023 08:56:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1681228583;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=blZTaPYlMR7AQP+71+NEiokmd1N4qfMAzJNYCFJD4Bg=;
- b=jzQOnNVGM/ALI7dsZpyXhpbkIed3eDV57GxgWlpta6fNfcxOBW8cKWKutgcRGcGN2m
- EN5waxx7JzGYnfsRtlkenrRFv/IWlfX9x0S7hgnhb9CkYiVgXQa032iqqQ6rsVabP0Lg
- bpuWeSnPVxoX1G7EIQb9WuBEIEMc12ZiGEOba4pzgcNmcKcOVX+DoMxTuimUCsQvbe+F
- YakMQbPbQvLIU3YdWoIJ51O1kxnIlCmencEORCpfLbx9MiYppacowNxPSO1wUpX4f4kr
- uq3ehEVVnifACLQTB2tqyAhRq6ROlPPLr1bcVRxzCXtVxFrR5rFLRTxt+UYZxLI5IQ8v
- CbgA==
+Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com
+ [209.85.128.173])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 22B6B10E37F;
+ Tue, 11 Apr 2023 15:58:02 +0000 (UTC)
+Received: by mail-yw1-f173.google.com with SMTP id
+ 00721157ae682-5491fa028adso489769007b3.10; 
+ Tue, 11 Apr 2023 08:58:02 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1681228583;
+ d=1e100.net; s=20210112; t=1681228680;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=blZTaPYlMR7AQP+71+NEiokmd1N4qfMAzJNYCFJD4Bg=;
- b=IwwLjgQd/mxcpzPHnuUptGCGvIONbx8LzYxrHcnvanhJ6wEcqFWXy5oADnhiSU+dQ5
- gKhfo6n7jTfI3P1txu27307n64x31QvYvFFboTkQDz+xnBS3xQjcTKHq+2yzvFM/0qAi
- 643KJqKDejxbjpHq3JEf5GdKXpNtsgMjBZGk4IHKqCRG5Q0E1Y5sbFq+iDexHkm1y+t9
- 0lk74ZB4at54RWP0pCjZeNgoN81H/nnR7mMONH2Y2F3cpFHP3CGSj/FlbFGwZETfuDzT
- b5X3F0WlRGrDJOK6G9zOME4TYZQ6i+rZl3KjetTUESBy9MM0YHoTMaMQeKgQPAI8ISiW
- gbJA==
-X-Gm-Message-State: AAQBX9fbxnfZdvfUT2Nc1h4NHUj3yOVP7SGFerZ39WjRXXjek1q6dZHJ
- AY4nvYlI83XfZEcJd+2bLhNgl5Lq0Z7DpiKtLNabDh3+
-X-Google-Smtp-Source: AKy350ZeTt35ctmMkf1y/Tm/091yGhyN8QNjPCOcWeYZuyqpqiPMUz4+j/S2KORH+eswkhXOEbtBcjdcg+grziNVopo=
-X-Received: by 2002:a05:6830:108c:b0:6a3:e43a:c707 with SMTP id
- y12-20020a056830108c00b006a3e43ac707mr2862709oto.7.1681228583088; Tue, 11 Apr
- 2023 08:56:23 -0700 (PDT)
+ bh=f+3w89leq3eEIkwoZcDVhq9F0DoH4q/Sj2floJIfCG0=;
+ b=nbG6FGyfIyP9Z+C29I6hztMKGubg9X3ytmJtrpsh7upKQW2l3WsoGkKUDNujNPSdhr
+ OCF6IE/fcMcAdSWbD5oqulccMZWb9KNe+CijMYFugk3y0XIHyh6Paw8oz9lGMCbh8WQT
+ qQfTdXq9RM7ILwL/75IrZgSxZPL3pmtQhBQEnAG+LwWc8KwYDxGHyszgHSYpT9lWb2/S
+ zvfNtO9guqNWWKcfRgZ2+4yVQtjmGxlkISWvrAmjmZ2/aCQ4Q2BJ891Dg57VRu2lmGNa
+ KRmx+WYHH4wtdcYJdV2t9QCKDe9y4fmfgeIl2f62oMiuQ9JT4g4JDH5o7ZuEm/38Xw9j
+ jlIQ==
+X-Gm-Message-State: AAQBX9d3WI14JD1V6hg60UnKHE1KaYo5JPO74mQemzx9icEKWfNt3K00
+ CXDWj+W7Qc674s9iZ8o3rvrMPHajEnj0EA==
+X-Google-Smtp-Source: AKy350YLQGCcnAD5Owu02qeMWZr/5RVA9DuDqjCD0v+1mJTXI/cApxKS/N71bNAVGwLhqvsqHIoE6w==
+X-Received: by 2002:a0d:d413:0:b0:54c:cab:66d8 with SMTP id
+ w19-20020a0dd413000000b0054c0cab66d8mr2666786ywd.31.1681228680420; 
+ Tue, 11 Apr 2023 08:58:00 -0700 (PDT)
+Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com.
+ [209.85.219.175]) by smtp.gmail.com with ESMTPSA id
+ a71-20020a811a4a000000b0054640a352f2sm3548523ywa.20.2023.04.11.08.57.58
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 11 Apr 2023 08:57:58 -0700 (PDT)
+Received: by mail-yb1-f175.google.com with SMTP id ch3so9764594ybb.4;
+ Tue, 11 Apr 2023 08:57:58 -0700 (PDT)
+X-Received: by 2002:a25:7654:0:b0:b8e:e0db:5b9d with SMTP id
+ r81-20020a257654000000b00b8ee0db5b9dmr4304677ybc.12.1681228677832; Tue, 11
+ Apr 2023 08:57:57 -0700 (PDT)
 MIME-Version: 1.0
-References: <CAF6AEGvwuj5tabyW910+N-B=5kFNAC7QNYoQ=0xi3roBjQvFFQ@mail.gmail.com>
- <ZDU2ASmAWEL0yjrc@phenom.ffwll.local>
- <CAF6AEGsLnPempzs1nCEKc4hNF54A_e5eG0gi92hyMd-y3_b3Sg@mail.gmail.com>
- <ZDV1+T9n4HCPnfUM@phenom.ffwll.local>
-In-Reply-To: <ZDV1+T9n4HCPnfUM@phenom.ffwll.local>
-From: Rob Clark <robdclark@gmail.com>
-Date: Tue, 11 Apr 2023 08:56:11 -0700
-Message-ID: <CAF6AEGtbwS7-SKd_Q8t0AEPsE0j7ZsvHK2DmH-Ggnp0V6jhXoQ@mail.gmail.com>
-Subject: Re: [pull] drm/msm: drm-msm-next-2023-04-10 for v6.4
+References: <20230404193934.472457-1-daniel.vetter@ffwll.ch>
+ <ZDVkSaskEvwix8Bz@phenom.ffwll.local>
+In-Reply-To: <ZDVkSaskEvwix8Bz@phenom.ffwll.local>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 11 Apr 2023 17:57:44 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdUVME6RnXkq-0FsUdH6-hqe5BqeT2UzgtW1uK+sg0GsQg@mail.gmail.com>
+Message-ID: <CAMuHMdUVME6RnXkq-0FsUdH6-hqe5BqeT2UzgtW1uK+sg0GsQg@mail.gmail.com>
+Subject: Re: [PATCH] fbmem: Reject FB_ACTIVATE_KD_TEXT from userspace
 To: Daniel Vetter <daniel@ffwll.ch>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -71,46 +68,74 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Akhil P Oommen <quic_akhilpo@quicinc.com>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- freedreno <freedreno@lists.freedesktop.org>
+Cc: linux-fbdev@vger.kernel.org, Shigeru Yoshida <syoshida@redhat.com>,
+ David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ Daniel Vetter <daniel.vetter@intel.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Helge Deller <deller@gmx.de>,
+ Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
+ Samuel Thibault <samuel.thibault@ens-lyon.org>,
+ =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel@daenzer.net>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ shlomo@fastmail.com, Nathan Chancellor <natechancellor@gmail.com>,
+ stable@vger.kernel.org, =?UTF-8?Q?Noralf_Tr=C3=B8nnes?= <noralf@tronnes.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Alex Deucher <alexander.deucher@amd.com>, Peter Rosin <peda@axentia.se>,
+ Qiujun Huang <hqjagain@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Apr 11, 2023 at 8:00=E2=80=AFAM Daniel Vetter <daniel@ffwll.ch> wro=
+Hi Daniel,
+
+On Tue, Apr 11, 2023 at 3:44=E2=80=AFPM Daniel Vetter <daniel@ffwll.ch> wro=
 te:
->
-> On Tue, Apr 11, 2023 at 07:55:33AM -0700, Rob Clark wrote:
-> > On Tue, Apr 11, 2023 at 3:27=E2=80=AFAM Daniel Vetter <daniel@ffwll.ch>=
- wrote:
-> > > > Konrad Dybcio (18):
-> > > >       drm/msm/adreno: Use OPP for every GPU generation
-> > >
-> > > This had a minor conflict with refactoring from drm-misc-next, I went
-> > > what's in your pr. Please double check I didn't screw up, but at leas=
-t it
-> > > compiles :-)
+> On Tue, Apr 04, 2023 at 09:39:34PM +0200, Daniel Vetter wrote:
+> > This is an oversight from dc5bdb68b5b3 ("drm/fb-helper: Fix vt
+> > restore") - I failed to realize that nasty userspace could set this.
 > >
-> > Hmm, am I looking at the wrong thing.. the conflict I'm seeing is with
-> > drm_gem_lru (and looks to be correctly resolved)
->
-> Yeah that one was trivial. Unfortunately git does not report anything if
-> you only keep one or the other branch entirely in your resolution, so the
-> only way for you to see the conflict is to re-create the merge :-) Or at
-> least my git foo isn't good enough for a better way ...
+> > It's not pretty to mix up kernel-internal and userspace uapi flags
+> > like this, but since the entire fb_var_screeninfo structure is uapi
+> > we'd need to either add a new parameter to the ->fb_set_par callback
+> > and fb_set_par() function, which has a _lot_ of users. Or some other
+> > fairly ugly side-channel int fb_info. Neither is a pretty prospect.
+> >
+> > Instead just correct the issue at hand by filtering out this
+> > kernel-internal flag in the ioctl handling code.
+> >
+> > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> > Fixes: dc5bdb68b5b3 ("drm/fb-helper: Fix vt restore")
 
-Ahh, right.. yes, this looks like the correct resolution (change
-coming from drm-misc side was something that was removed from msm-next
-side)
+> An Ack on this (or a better idea) would be great, so I can stuff it into
+> -fixes.
 
-BR,
--R
+I don't understand what the original commit this fixes is doing anyway...
 
-> -Daniel
-> --
-> Daniel Vetter
-> Software Engineer, Intel Corporation
-> http://blog.ffwll.ch
+> > --- a/drivers/video/fbdev/core/fbmem.c
+> > +++ b/drivers/video/fbdev/core/fbmem.c
+> > @@ -1116,6 +1116,8 @@ static long do_fb_ioctl(struct fb_info *info, uns=
+igned int cmd,
+> >       case FBIOPUT_VSCREENINFO:
+> >               if (copy_from_user(&var, argp, sizeof(var)))
+> >                       return -EFAULT;
+> > +             /* only for kernel-internal use */
+> > +             var.activate &=3D ~FB_ACTIVATE_KD_TEXT;
+> >               console_lock();
+> >               lock_fb_info(info);
+> >               ret =3D fbcon_modechange_possible(info, &var);
+
+Perhaps FB_ACTIVATE_KD_TEXT should be removed (marked as
+reserved) from include/uapi/linux/fb.h, too?
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
