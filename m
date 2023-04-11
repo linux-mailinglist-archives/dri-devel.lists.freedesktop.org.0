@@ -1,124 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DDF66DE332
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Apr 2023 19:54:39 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id EB6DC6DE33A
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Apr 2023 19:54:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A179210E34D;
-	Tue, 11 Apr 2023 17:54:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4717A10E5F5;
+	Tue, 11 Apr 2023 17:54:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from MW2PR02CU002.outbound.protection.outlook.com
- (mail-westus2azon11013005.outbound.protection.outlook.com [52.101.49.5])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8434F10E34D
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Apr 2023 17:54:33 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=UNr0yLV0CCoKTjQfCoJqME2SgA3yYtoXiVauvymMaiR+aueXPCpHTwN1sN+mORq30m/PLb5z3YAA71EbqO3D/VVGA+UqPP9dfeC5ZaIGmIdB4rIHiV6xT1XNnX0zhf3ccj8BM2NveLgCgFF35S6XzGCUPhzkXlbROGNfjNTSNyCl4jYvK7Hc7Hly3EBamODVaYuvufZxpi6lps3vaHg8ufYPwXqdsrDaksnry13QICY9m9ItE2T82zqhnPigfDMDLAOmiPZEbGWPIRJw8EZC2tjbpgVm/HQnDIRjeVCmzFtPSV/tN6g9svpqrSf9Ez5sTyPU9nI0lMATzApg+DdVrg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Kc4KD0zweSE20s1/cw8qWDR4AhSBC15h9rjxz9ud2ow=;
- b=ZMqfdMY3J/p9REJZP6zk7flwTGcmgNXz8Nbm9kBBEs8eI+/snRBE6S3E6vOrKcyXSVVkoKlO9GE1Ko2eQ/XnqBlAysloKQ1tuIclghU7437AtNb+HO76B0i7elr1F9CCEJfEjIcLpgkVXOPMEw7/zBI+mJyyoBwJzOeOKzknNpbOgyXDCqUL5b0Fo70uG79qMeNTLmW5qDb4cwHvCfJocMWTnY2sOVa2r9ZER6oGqjNlX9gOBoNvQWpIzJmi4I/d7LvptCvwcbN6CUt5T3DMlAgHQRlk9hsD4YLxbHE1Yxd82v9Jk3wQF7uOSRpEWZECygyH9UhrZpsIYcAQoAOGoQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=vmware.com; dmarc=pass action=none header.from=vmware.com;
- dkim=pass header.d=vmware.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vmware.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Kc4KD0zweSE20s1/cw8qWDR4AhSBC15h9rjxz9ud2ow=;
- b=EvoLoI/EUghGnqu2vNNZlQKHvFmKqUEWUyBSPR5bSgSCfnQ641AHfjY/gWqVlAb6IvCn2gbYS1H3V0jlZCBTPWp4l4fvkkuHRMS0WFlh8gAIKQI2xntzCOqBlzSgGDh3uIrs5X9OiI28UrtDyFX0hZRwYVHKmDGa4dpTPw1PsyE=
-Received: from CH3PR05MB10206.namprd05.prod.outlook.com
- (2603:10b6:610:155::10) by MN2PR05MB6048.namprd05.prod.outlook.com
- (2603:10b6:208:d0::16) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6277.36; Tue, 11 Apr
- 2023 17:54:26 +0000
-Received: from CH3PR05MB10206.namprd05.prod.outlook.com
- ([fe80::b4c3:9441:f0:efb8]) by CH3PR05MB10206.namprd05.prod.outlook.com
- ([fe80::b4c3:9441:f0:efb8%6]) with mapi id 15.20.6298.028; Tue, 11 Apr 2023
- 17:54:26 +0000
-From: Zack Rusin <zackr@vmware.com>
-To: "daniel@ffwll.ch" <daniel@ffwll.ch>, "nathan@kernel.org"
- <nathan@kernel.org>, "ndesaulniers@google.com" <ndesaulniers@google.com>,
- Linux-graphics-maintainer <Linux-graphics-maintainer@vmware.com>,
- "trix@redhat.com" <trix@redhat.com>, "airlied@gmail.com" <airlied@gmail.com>
-Subject: Re: [PATCH] drm/vmwgfx: remove unused vmw_overlay function
-Thread-Topic: [PATCH] drm/vmwgfx: remove unused vmw_overlay function
-Thread-Index: AQHZXCJfQ+s7JMgTuEarwKwV+53z968mhQmA
-Date: Tue, 11 Apr 2023 17:54:26 +0000
-Message-ID: <466f4517100964537142f698e82cffb87acd39fb.camel@vmware.com>
-References: <20230321182414.1826372-1-trix@redhat.com>
-In-Reply-To: <20230321182414.1826372-1-trix@redhat.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Evolution 3.48.0-1 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=vmware.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: CH3PR05MB10206:EE_|MN2PR05MB6048:EE_
-x-ms-office365-filtering-correlation-id: b21a6cca-89a6-47df-2466-08db3ab5caa8
-x-ld-processed: b39138ca-3cee-4b4a-a4d6-cd83d9dd62f0,ExtAddr
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: puq21ZqvtA/7MGmyx2xXaRiFzwcS+IaPSlMH+dpdWPq40MX7kMaPwkjPfS0c/cgR+MINy+5yWsqz2LQMSm+QDSs4Ant48Cg+l1Tw9+od+GwNL6DJO2ArxPaMIuMo1iFpMtFplTuMhUihK7Z6lQUPxqRp0K982kboJOQvsDqD2e0DnzDIfFy4sJXtf7aVNW3l1bD8SAx79TN7185e0/XnmdRRxlxECfKa2jCq1vrc5b9Ow9tURNl9OuKm8SHKVnfwK7yVswUX5ahoSlmflA012CJD0zhwby+mbCCpirSAOiWXbMHgXeFrML55ku2sDgELE5hRO498BGzGSWFzTPL7shsoLZ9mGdOmSPhs29SPBVjWpA3JujtIGckFpiuHRcoiAHz2X3zSDgvYXyHu0D7zPN9pcjncJOv18oQo45eE2LKJv2sCzalEtNxZoq5GYRXVEq1SLaI8SRgcbtHsHoi9kiJWq32ivyg1CTSr8n/ytLH7rtdXWuqYwEKjyucCZSwPt+HQWDWXP2uHYRVG1kfueYhahq/Xlm6w8D+aLAELzDL+9RQiSAK27bJrF7QpftazLHvVJyAQgPe+GdB7LsbLh+syQaGZ1TLhJ7Uro6xDiwn9iKww3wNPo10LS5bXL0B2
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CH3PR05MB10206.namprd05.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230028)(4636009)(366004)(396003)(376002)(346002)(136003)(39860400002)(451199021)(478600001)(71200400001)(6506007)(316002)(6512007)(110136005)(26005)(54906003)(186003)(5660300002)(6486002)(91956017)(4744005)(2906002)(66556008)(76116006)(66946007)(4326008)(64756008)(41300700001)(66446008)(8676002)(8936002)(66476007)(38100700002)(122000001)(36756003)(2616005)(38070700005)(86362001);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?M3FZSE5naVpNVHk5aFR2Sk85ZHgrdldQSmk4NVJCaTZ0REpnM3JaOWxlLzNl?=
- =?utf-8?B?Q3Q1MlpFZDJRMEFHK1VJcnFyUlY3bXZ5M0xSUVU2RkEvOXc4ZE1YWmd2aERV?=
- =?utf-8?B?STYya3prelVrQ2RGR2pTeklWbHpseGdTNU1RcitPMWQ5eVg1RHFzQkM0MFZx?=
- =?utf-8?B?NFR2N3g1MTJuYUMxT1U4SmxQdENpNlBqTUZXK3ExMlEzT29XbGUyOFErUkti?=
- =?utf-8?B?UWJTV015enlyWlh3YnVOb0Q4c2s4RitVRXR6K21JZ1BiVWVhaW8ya1BWK3Mv?=
- =?utf-8?B?ejJLRUdXR3VlcDIxMGw5OGY3TG9EQlgxbklvMXpRbHZSL2VKcXpaTGREamJG?=
- =?utf-8?B?bUpESkpKZWFydGFPTkRNaUtRbU9mSVVWWVVncXN3a2RpOWhncXBQaUxFYVJB?=
- =?utf-8?B?UFhaVEpnVWFvVVZTQ2tWWFZhUjJXb0g2OUgxejVNRG5DOUQrZWFiN3pmYjRV?=
- =?utf-8?B?bmIraW9hU2d0UHV4VEpzWlJSdTRRc1AwSjNGTjh0cncxbFNKaHZZY1BpcmVo?=
- =?utf-8?B?QkFKS1Nkc05hOERsU05WeXljeDlwYW1YS0FVMDlEVE05dkx5T21XK3hiNkdt?=
- =?utf-8?B?L1cyVUpjK1JWQktsRndSMlJyUDZ4Z1lHUnZUNXlHZEVCeFhXNFVCVXdsVnZP?=
- =?utf-8?B?bEF1TE5XenBoSzR4bTFLQ2YzQVlaeWw3U1VUY0JhcXdxcXE0RWZPUUxvckEr?=
- =?utf-8?B?cnJqdXJBLzJDNW52bjFWS2tNZkFwdk9aMzRWY1RZQyswWmVDcU9QUTY1SjAy?=
- =?utf-8?B?bXRGYzVCRHg1MkZoL2ZZR0VjVDJNVW5oYU5OeWJES1E3Q2FndlFpWTFjSVhT?=
- =?utf-8?B?NEhJOGFsYnIrQ0ZPeUVhRHpOY29Mc2R0ZGtXWWlMK29TRm1GOTdKRkpJbnpl?=
- =?utf-8?B?V3UyZXNqd05YY2dheHVJZE9YbEtIT0FwWEdlTjdhbzBkWUxiY0ZzYUY3MldR?=
- =?utf-8?B?K01FZ010TnJMQmVhSndhRXFsczBncnQ3dU9SUTJmdHUzNUc1T2tRdUg2NHlY?=
- =?utf-8?B?MDdVbzNDSnlLUWl2Mmoxd3NoOE1rU3NyUWtaQWdQSEVTL2ErT1M1NzY5ZGZ5?=
- =?utf-8?B?c0dvNFdHd21rUnV3ZXdYdTc1bWlSZGUrS0pIeGpJOFo3U3dzYUtPaDg5WUdS?=
- =?utf-8?B?ZXRnRVA4bEx0em91YURFUk1sck1DUUJUd0VBU0xmWThsMGh2VjhyZ1NUVm1M?=
- =?utf-8?B?Y1BMaGF4UkR6Ri9CZHFaZHN0bzF0QzVIaWtqdzV5UE1EWTlFU2x4NGZobkVL?=
- =?utf-8?B?VWpUSWlWdGpyOTBHOS82QWd2eFNiNHRoS0R1bEZUZm8wbER1alZDK3U1cGZG?=
- =?utf-8?B?RVlnYVd4QWplWTB5UkNaVU1KV3dIbWR4U2I1T2t5T1FlTTNqOExFQjJiTlVO?=
- =?utf-8?B?dS95aUx1MGdwZVFhRXh3MUNHcmZrNFcyM0RDMmU3UHQwWkEwZ3NOV05qVnlN?=
- =?utf-8?B?VWxDVVhTTkxTZjNJejdmSmdUUzZ5V1ZSTHVFR01PSFQ1VWFXUnN6dE1oQkNE?=
- =?utf-8?B?RkdGcHZBbWFRL1dsM0ViS0pyTXM2bGwyTysxb3lyS1UxclNvM3lYekVlL2NW?=
- =?utf-8?B?Q09YMVRHMUE5VEEyOWN5aU1lYWI3bkh5ZWZWYlhpQ1BGempYR3Fyakp4STlZ?=
- =?utf-8?B?SWVFUm5hREx2NUZiQjhMQWtndVllN3lGV2J4enJBYXhFcFZkbVd6SmFZQ3Bp?=
- =?utf-8?B?OFp2dDZacjlpMXNEM2JKSWN3R2NKWU9rVVZsQno5c0JjSmRXVk8xOEJkcUFl?=
- =?utf-8?B?amV4QkJJNk84cTZLcHNDMGticlkra1Z0QTVoZ3lHY0VWZld5eTgrUXVFMGVD?=
- =?utf-8?B?MEM3elhCeHlPK3FmbnZwR1IxNFRaVDlJUS9UWUFTQXluai9WV3FDT3BTVmdR?=
- =?utf-8?B?Q20yNDVJY09RQU5qWmdwWFl4ZktGTjdEc1dkKzgrMEIwNWd0VWJMS09GY3No?=
- =?utf-8?B?TFIwdWVYc1pLREpGakFNekVtVFhqb1NPNGdlaUQ1RVRYem92ak4yWXNmMTNu?=
- =?utf-8?B?TkdjZFcwcUtWQy91WXJHaWNXNEF4NjQ0M0plQ3VNY2JoWVBkMTErcjJ6cmJw?=
- =?utf-8?B?dVRkdnlXblVhYVNwdW1udmdYbVpGVEptbTRFYUhRZzhDOStETm9YTE5CREpt?=
- =?utf-8?Q?ziVy3XOXqA8XATEcxykYnWTF/?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <A30070B6451B3E4C9233F0734BD70154@namprd05.prod.outlook.com>
-Content-Transfer-Encoding: base64
+Received: from mail-oa1-x2d.google.com (mail-oa1-x2d.google.com
+ [IPv6:2001:4860:4864:20::2d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 13C0710E5F5
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Apr 2023 17:54:56 +0000 (UTC)
+Received: by mail-oa1-x2d.google.com with SMTP id
+ 586e51a60fabf-1842df7cb53so10751018fac.10
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Apr 2023 10:54:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ffwll.ch; s=google; t=1681235696;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=dEmhq6StNBANIzyvzC5EtsmO79k4eP1w7agQCFvyQ6I=;
+ b=ZbeWSwGnpqtXii2alIsHudZn7NgE2rLbD4EIPGKhG23rUanuICQ0uk0RGsvMqA/p+W
+ I+3N1Zg218rXegeLmbBc2vyA350SjbVbeuKh8RAcubDR2fCmVmp9GJKLGggo2tXdM9na
+ FcJbbkjmct4kjaGzLfblfJqV3KOfyQcEOXCgc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1681235696;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=dEmhq6StNBANIzyvzC5EtsmO79k4eP1w7agQCFvyQ6I=;
+ b=trCwnIQMgy+Xq2PZSzvdV+KfStco2d29FjL9RQzKgoN2FhGkShiS5IYo4FlH8jyUff
+ ynpWqvr94jrzkrcDAL+3y5scPdRnB7Hq2LauuiXmSf4UESzRSX40h8E0P+w+QGL90glG
+ gp1oKWlEpoxsAx72AT6CroE3UOLWsf/RziUyIWJWtGiBv/5SW7CGeM/kYSXCSp8Py2GD
+ b0y9LUfI00fxJ0KtfZ4X4lahxC1H6VHdtWhLfuZ6c46ACRHBQLAk7Fz077+BKDiHQlCq
+ 1zopErrQMuUdzxDE2/IC5HogQD1w/cBJzO28t4tYEaNK39vd0OTah63RFqMjSNQ76uTd
+ PIpg==
+X-Gm-Message-State: AAQBX9dCA17n5kfHrxvfNyRBJnbk80PqaKUl3yGhm7yJCQW3GlgyEe0g
+ ANfC+BriDkTHImUCbea0L44A3F77C9k/v8suAGH2OA==
+X-Google-Smtp-Source: AKy350a2dyr6Z51YMtW5ze/Xz4s/YMtjvwSXRMtJ/rdFcf6usPGlsAVXim4qq92VVm85nfI/25tvTd+ApkaX9G6uTqo=
+X-Received: by 2002:a05:6870:fba1:b0:184:5cd2:9f9c with SMTP id
+ kv33-20020a056870fba100b001845cd29f9cmr2419157oab.8.1681235695897; Tue, 11
+ Apr 2023 10:54:55 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: vmware.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: CH3PR05MB10206.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b21a6cca-89a6-47df-2466-08db3ab5caa8
-X-MS-Exchange-CrossTenant-originalarrivaltime: 11 Apr 2023 17:54:26.6202 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: b39138ca-3cee-4b4a-a4d6-cd83d9dd62f0
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: aJOECwb//QAFF13BxPX4fQeidI3xmLVOCAI7uB7clGS7WQRq9KFkASWgv3+x2jN7LrDPwgEocX4hX2VRCmAXZA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR05MB6048
+References: <20230405195205.1674844-1-rodrigo.vivi@intel.com>
+In-Reply-To: <20230405195205.1674844-1-rodrigo.vivi@intel.com>
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+Date: Tue, 11 Apr 2023 19:54:44 +0200
+Message-ID: <CAKMK7uGSByfvxHnY3omh7S_XV2RShnG9nBan4374Kv90bVN5sQ@mail.gmail.com>
+Subject: Re: [PATCH] drm/doc/rfc: Introduce the merge plan for the Xe driver.
+To: Rodrigo Vivi <rodrigo.vivi@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -131,19 +65,433 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "llvm@lists.linux.dev" <llvm@lists.linux.dev>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Cc: Matthew Brost <matthew.brost@intel.com>,
+ =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Oded Gabbay <ogabbay@kernel.org>, Francois Dugast <francois.dugast@intel.com>,
+ dri-devel@lists.freedesktop.org, Dave Airlie <airlied@redhat.com>,
+ Luis Strano <luis.strano@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVHVlLCAyMDIzLTAzLTIxIGF0IDE0OjI0IC0wNDAwLCBUb20gUml4IHdyb3RlOg0KPiBjbGFu
-ZyB3aXRoIFc9MSByZXBvcnRzDQo+IGRyaXZlcnMvZ3B1L2RybS92bXdnZngvdm13Z2Z4X292ZXJs
-YXkuYzo1NjozNTogZXJyb3I6DQo+IMKgIHVudXNlZCBmdW5jdGlvbiAndm13X292ZXJsYXknIFst
-V2Vycm9yLC1XdW51c2VkLWZ1bmN0aW9uXQ0KPiBzdGF0aWMgaW5saW5lIHN0cnVjdCB2bXdfb3Zl
-cmxheSAqdm13X292ZXJsYXkoc3RydWN0IGRybV9kZXZpY2UgKmRldikNCj4gwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIF4N
-Cj4gVGhpcyBmdW5jdGlvbiBpcyBub3QgdXNlZCwgc28gcmVtb3ZlIGl0Lg0KPiANCj4gU2lnbmVk
-LW9mZi1ieTogVG9tIFJpeCA8dHJpeEByZWRoYXQuY29tPg0KDQpUaGFuayB5b3UgZm9yIHRoZSBw
-YXRjaC4gSSB3ZW50IGFoZWFkIGFuZCBwdXNoZWQgaXQgdG8gdGhlIGRybS1taXNjLW5leHQgYnJh
-bmNoIGluDQpkcm0tbWlzYyB0cmVlLg0KDQp6DQo=
+On Wed, 5 Apr 2023 at 21:52, Rodrigo Vivi <rodrigo.vivi@intel.com> wrote:
+>
+> Let=E2=80=99s establish a merge plan for Xe, by writing down clear pre-me=
+rge goals, in
+> order to avoid unnecessary delays.
+>
+> This initial document starts with a TODO list containing items with clear=
+ and
+> measurable key results. Xe=E2=80=99s initial pull request should only be =
+sent to
+> dri-devel after all the items are clearly resolved.
+>
+> Since many of them involve some level of a community consensus, in many c=
+ases,
+> the consensus will be reached in follow-up patches to this document with =
+more
+> details of the API or helpers that will be developed or modified.
+>
+> Cc: Dave Airlie <airlied@redhat.com>
+> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+> Cc: Oded Gabbay <ogabbay@kernel.org>
+> Signed-off-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
+> Signed-off-by: Francois Dugast <francois.dugast@intel.com>
+> Signed-off-by: Luis Strano <luis.strano@intel.com>
+> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+> Signed-off-by: Thomas Hellstr=C3=B6m <thomas.hellstrom@linux.intel.com>
+> ---
+>  Documentation/gpu/rfc/index.rst |   4 +
+>  Documentation/gpu/rfc/xe.rst    | 216 ++++++++++++++++++++++++++++++++
+>  2 files changed, 220 insertions(+)
+>  create mode 100644 Documentation/gpu/rfc/xe.rst
+>
+> diff --git a/Documentation/gpu/rfc/index.rst b/Documentation/gpu/rfc/inde=
+x.rst
+> index 476719771eef..e4f7b005138d 100644
+> --- a/Documentation/gpu/rfc/index.rst
+> +++ b/Documentation/gpu/rfc/index.rst
+> @@ -31,3 +31,7 @@ host such documentation:
+>  .. toctree::
+>
+>      i915_vm_bind.rst
+> +
+> +.. toctree::
+> +
+> +   xe.rst
+> diff --git a/Documentation/gpu/rfc/xe.rst b/Documentation/gpu/rfc/xe.rst
+> new file mode 100644
+> index 000000000000..1e3e7e9c67c3
+> --- /dev/null
+> +++ b/Documentation/gpu/rfc/xe.rst
+> @@ -0,0 +1,216 @@
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D
+> +Xe =E2=80=93 Merge Acceptance Plan
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D
+> +Xe is a new driver for Intel GPUs that supports both integrated and
+> +discrete platforms starting with Tiger Lake (first Intel Xe Architecture=
+).
+> +
+> +This document aims to establish a merge plan for the Xe, by writing down=
+ clear
+> +pre-merge goals, in order to avoid unnecessary delays.
+> +
+> +Xe =E2=80=93 Overview
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +The main motivation of Xe is to have a fresh base to work from that is
+> +unencumbered by older platforms, whilst also taking the opportunity to
+> +rearchitect our driver to increase sharing across the drm subsystem, bot=
+h
+> +leveraging and allowing us to contribute more towards other shared compo=
+nents
+> +like TTM and drm/scheduler.
+> +
+> +This is also an opportunity to start from the beginning with a clean uAP=
+I that is
+> +extensible by design and already aligned with the modern userspace needs=
+. For
+> +this reason, the memory model is solely based on GPU Virtual Address spa=
+ce
+> +bind/unbind (=E2=80=98VM_BIND=E2=80=99) of GEM buffer objects (BOs) and =
+execution only supporting
+> +explicit synchronization. With persistent mapping across the execution, =
+the
+> +userspace does not need to provide a list of all required mappings durin=
+g each
+> +submission.
+> +
+> +The new driver leverages a lot from i915. As for display, the intent is =
+to share
+> +the display code with the i915 driver so that there is maximum reuse the=
+re.
+> +
+> +As for the power management area, the goal is to have a much-simplified =
+support
+> +for the system suspend states (S-states), PCI device suspend states (D-s=
+tates),
+> +GPU/Render suspend states (R-states) and frequency management. It should=
+ leverage
+> +as much as possible all the existent PCI-subsystem infrastructure (pm an=
+d
+> +runtime_pm) and underlying firmware components such PCODE and GuC for th=
+e power
+> +states and frequency decisions.
+> +
+> +Repository:
+> +
+> +https://gitlab.freedesktop.org/drm/xe/kernel (branch drm-xe-next)
+> +
+> +Xe =E2=80=93 Platforms
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +Currently, Xe is already functional and has experimental support for mul=
+tiple
+> +platforms starting from Tiger Lake, with initial support in userspace im=
+plemented
+> +in Mesa (for Iris and Anv, our OpenGL and Vulkan drivers), as well as in=
+ NEO
+> +(for OpenCL and Level0).
+> +
+> +During a transition period, platforms will be supported by both Xe and i=
+915.
+> +However, the force_probe mechanism existent in both drivers will allow o=
+nly one
+> +official and by-default probe at a given time.
+> +
+> +For instance, in order to probe a DG2 which PCI ID is 0x5690 by Xe inste=
+ad of
+> +i915, the following set of parameters need to be used:
+> +
+> +```
+> +i915.force_probe=3D!5690 xe.force_probe=3D5690
+> +```
+> +
+> +In both drivers, the =E2=80=98.require_force_probe=E2=80=99 protection f=
+orces the user to use the
+> +force_probe parameter while the driver is under development. This protec=
+tion is
+> +only removed when the support for the platform and the uAPI are stable. =
+Stability
+> +which needs to be demonstrated by CI results.
+> +
+> +In order to avoid user space regressions, i915 will continue to support =
+all the
+> +current platforms that are already out of this protection. Xe support wi=
+ll be
+> +forever experimental and dependent on the usage of force_probe for these
+> +platforms.
+> +
+> +When the time comes for Xe, the protection will be lifted on Xe and kept=
+ in i915.
+> +
+> +Xe driver will be protected with both STAGING Kconfig and force_probe. C=
+hanges in
+> +the uAPI are expected while the driver is behind these protections. STAG=
+ING will
+> +be removed when the driver uAPI gets to a mature state where we can guar=
+antee the
+> +=E2=80=98no regression=E2=80=99 rule. Then force_probe will be lifted on=
+ly for future platforms
+> +that will be productized with Xe driver, but not with i915.
+> +
+> +Xe =E2=80=93 Pre-Merge Goals
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +Drm_scheduler
+> +-------------
+> +Xe primarily uses Firmware based scheduling (GuC FW). However, it will u=
+se
+> +drm_scheduler as the scheduler =E2=80=98frontend=E2=80=99 for userspace =
+submission in order to
+> +resolve syncobj and dma-buf implicit sync dependencies. However, drm_sch=
+eduler is
+> +not yet prepared to handle the 1-to-1 relationship between drm_gpu_sched=
+uler and
+> +drm_sched_entity.
+> +
+> +Deeper changes to drm_scheduler should *not* be required to get Xe accep=
+ted, but
+> +some consensus needs to be reached between Xe and other community driver=
+s that
+> +could also benefit from this work, for coupling FW based/assisted submis=
+sion such
+> +as the ARM=E2=80=99s new Mali GPU driver, and others.
+> +
+> +As a key measurable result, the patch series introducing Xe itself shall=
+ not
+> +depend on any other patch touching drm_scheduler itself that was not yet=
+ merged
+> +through drm-misc. This, by itself, already includes the reach of an agre=
+ement for
+> +uniform 1 to 1 relationship implementation / usage across drivers.
+> +
+> +GPU VA
+> +------
+> +Two main goals of Xe are meeting together here:
+> +
+> +1) Have an uAPI that aligns with modern UMD needs.
+> +
+> +2) Early upstream engagement.
+> +
+> +RedHat engineers working on Nouveau proposed a new DRM feature to handle=
+ keeping
+> +track of GPU virtual address mappings. This is still not merged upstream=
+, but
+> +this aligns very well with our goals and with our VM_BIND. The engagemen=
+t with
+> +upstream and the port of Xe towards GPUVA is already ongoing.
+> +
+> +As a key measurable result, Xe needs to be aligned with the GPU VA and w=
+orking in
+> +our tree. Missing Nouveau patches should *not* block Xe and any needed G=
+PUVA
+> +related patch should be independent and present on dri-devel or acked by
+> +maintainers to go along with the first Xe pull request towards drm-next.
+> +
+> +DRM_VM_BIND
+> +-----------
+> +Nouveau, and Xe are all implementing =E2=80=98VM_BIND=E2=80=99 and new =
+=E2=80=98Exec=E2=80=99 uAPIs in order to
+> +fulfill the needs of the modern uAPI. Xe merge should *not* be blocked o=
+n the
+> +development of a common new drm_infrastructure. However, the Xe team nee=
+ds to
+> +engage with the community to explore the options of a common API.
+> +
+> +As a key measurable result, the DRM_VM_BIND needs to be documented in th=
+is file
+> +below, or this entire block deleted if the consensus is for independent =
+drivers
+> +vm_bind ioctls.
+> +
+> +Although having a common DRM level IOCTL for VM_BIND is not a requiremen=
+t to get
+> +Xe merged, it is mandatory to enforce the overall locking scheme for all=
+ major
+> +structs and list (so vm and vma). So, a consensus is needed, and possibl=
+y some
+> +common helpers. If helpers are needed, they should be also documented in=
+ this
+> +document.
+> +
+> +ASYNC VM_BIND
+> +-------------
+> +Although having a common DRM level IOCTL for VM_BIND is not a requiremen=
+t to get
+> +Xe merged, it is mandatory to have a cross-driver consensus and understa=
+nding how
+> +to handle async VM_BIND and interactions with userspace memory fences. I=
+deally
+> +with helper support so people don't get it wrong in all possible ways.
+> +
+> +As a key measurable result, the benefits of ASYNC VM_BIND and a discussi=
+on of
+> +various flavors, error handling and a sample API should be documented he=
+re or in
+> +a separate document pointed to by this document.
+
+I think it'd be good to explicit mention mesa as stakeholder here,
+since there's already a pile of worker infra in mesa, and vulkan
+binding engines (or whatever they're called again) are a primary user
+for all this. If it doesn't fit for vulkan, it's pretty much no-go :-)
+
+But also fine as-is.
+
+> +Userptr integration and vm_bind
+> +-------------------------------
+> +Different drivers implement different ways of dealing with execution of =
+userptr.
+> +With multiple drivers currently introducing support to VM_BIND, the goal=
+ is to
+> +aim for a DRM consensus on what=E2=80=99s the best way to have that supp=
+ort. To some
+> +extent this is already getting addressed itself with the GPUVA where lik=
+ely the
+> +userptr will be a GPUVA with a NULL GEM call VM bind directly on the use=
+rptr.
+> +However, there are more aspects around the rules for that and the usage =
+of
+> +mmu_notifiers, locking and other aspects.
+> +
+> +This task here has the goal of introducing a documentation of the basic =
+rules.
+> +
+> +The documentation *needs* to first live in this document (API session be=
+low) and
+> +then moved to another more specific document or at Xe level or at DRM le=
+vel.
+> +
+> +Documentation should include:
+> +
+> + * The userptr part of the VM_BIND api.
+> +
+> + * Locking, including the page-faulting case.
+> +
+> + * O(1) complexity under VM_BIND.
+> +
+> +Some parts of userptr like mmu_notifiers should become GPUVA or DRM help=
+ers when
+> +the second driver supporting VM_BIND+userptr appears. Details to be defi=
+ned when
+> +the time comes.
+
+Yeah I think this here is a good compromise to not hold up Xe
+unecessarily until every bit of shared infra is in place.
+
+> +
+> +Long running compute: minimal data structure/scaffolding
+> +--------------------------------------------------------
+> +The generic scheduler code needs to include the handling of endless comp=
+ute
+> +contexts, with the minimal scaffolding for preempt-ctx fences (probably =
+on the
+> +drm_sched_entity) and making sure drm_scheduler can cope with the lack o=
+f job
+> +completion fence.
+> +
+> +The goal is to achieve a consensus ahead of Xe initial pull-request, ide=
+ally with
+> +this minimal drm/scheduler work, if needed, merged to drm-misc in a way =
+that any
+> +drm driver, including Xe, could re-use and add their own individual need=
+s on top
+> +in a next stage. However, this should not block the initial merge.
+> +
+> +As a key measurable result, the handling of the long running jobs and th=
+e minimal
+> +scaffolding should be documented here or in a separate document pointed =
+to by
+> +this document.
+
+This is up to you, but given that i915 does not (at least in upstream)
+support long-running compute workloads, you might want to think about
+delaying this to post-merge work. It would remove a substantial
+discussion topic where reaching consensus could take a while out of
+the merge critical path.
+
+Of course still needs to be done eventually, so good to keep this
+here. Just saying that from drm maintainer perspective an xe driver
+without long-running compute enabled doesn't look like a showstopper
+for merging to me.
+
+> +
+> +Display integration with i915
+> +-----------------------------
+> +In order to share the display code with the i915 driver so that there is=
+ maximum
+> +reuse, the i915/display/ code is built twice, once for i915.ko and then =
+for
+> +xe.ko. Currently, the i915/display code in Xe tree is polluted with many=
+ 'ifdefs'
+> +depending on the build target. The goal is to refactor both Xe and i915/=
+display
+> +code simultaneously in order to get a clean result before they land upst=
+ream, so
+> +that display can already be part of the initial pull request towards drm=
+-next.
+> +
+> +However, display code should not gate the acceptance of Xe in upstream. =
+Xe
+> +patches will be refactored in a way that display code can be removed, if=
+ needed,
+> +from the first pull request of Xe towards drm-next. The expectation is t=
+hat when
+> +both drivers are part of the drm-tip, the introduction of cleaner patche=
+s will be
+> +easier and speed up.
+
+Would be good to have Jani's ack on this :-) I don't really have
+opinions on how to best do this all.
+
+> +
+> +Drm_exec
+> +--------
+> +Helper to make dma_resv locking for a big number of buffers is getting r=
+emoved in
+> +the drm_exec series proposed in https://patchwork.freedesktop.org/patch/=
+524376/
+> +If that happens, Xe needs to change and incorporate the changes in the d=
+river.
+> +The goal is to engage with the Community to understand if the best appro=
+ach is to
+> +move that to the drivers that are using it or if we should keep the help=
+ers in
+> +place waiting for Xe to get merged.
+
+Maybe mention that this ties into vm_bind too and long-running compute
+support, since that's also places that probably benefit from these
+drm_exec helpers.
+
+> +
+> +As a key measurable result, we need to have a community consensus docume=
+nted in
+> +this document and the Xe driver prepared for the changes, if necessary.
+> +
+> +Xe =E2=80=93 uAPI high level overview
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D
+> +
+> +...Warning: To be done in follow up patches after/when/where the main co=
+nsensus in various items are individually reached.
+
+I think the only missing piece (maybe better in the commit message) is
+that Oded is volunteer to shoulder the "does this look good for
+upstream" responsibility as his trial-by-fire for accel maintainer. Or
+whatever Oded wants to put there for his Ack.
+
+Dave is back next week if you want his ack, but maybe an ack from
+nouveau or amd folks might be more useful. Otoh all that feedback will
+kick in for each of these topics.
+
+One tiny thing: devcoredump instead of hand-rolling for gpu crash
+dumps please - every driver in drm that added support for this after
+i915 uses this. New sysfs uabi for this is no-go, we have a standard
+one now :-)
+
+Anyway all kinda details: Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+
+Cheers, Daniel
+--=20
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
