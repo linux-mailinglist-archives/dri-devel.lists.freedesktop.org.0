@@ -2,28 +2,28 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B5BF6DDA57
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Apr 2023 14:08:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BB5A6DDA5E
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Apr 2023 14:08:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C1D2710E4F6;
-	Tue, 11 Apr 2023 12:08:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 598DB10E4F7;
+	Tue, 11 Apr 2023 12:08:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com
- [210.160.252.171])
- by gabe.freedesktop.org (Postfix) with ESMTP id 36EEA10E4F6
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Apr 2023 12:08:41 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.98,336,1673881200"; d="scan'208";a="155600395"
+Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com
+ [210.160.252.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 8812410E4F7
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Apr 2023 12:08:46 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.98,336,1673881200"; d="scan'208";a="159048230"
 Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
- by relmlie5.idc.renesas.com with ESMTP; 11 Apr 2023 21:08:40 +0900
+ by relmlie6.idc.renesas.com with ESMTP; 11 Apr 2023 21:08:45 +0900
 Received: from localhost.localdomain (unknown [10.226.93.123])
- by relmlir5.idc.renesas.com (Postfix) with ESMTP id CC99F40065A3;
- Tue, 11 Apr 2023 21:08:36 +0900 (JST)
+ by relmlir5.idc.renesas.com (Postfix) with ESMTP id 9239E40029C6;
+ Tue, 11 Apr 2023 21:08:41 +0900 (JST)
 From: Biju Das <biju.das.jz@bp.renesas.com>
 To: Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>
-Subject: [PATCH v7 5/8] arm64: dts: renesas: r9a07g044: Add DU node
-Date: Tue, 11 Apr 2023 13:08:07 +0100
-Message-Id: <20230411120810.368437-6-biju.das.jz@bp.renesas.com>
+Subject: [PATCH v7 6/8] arm64: dts: renesas: r9a07g054: Add DU node
+Date: Tue, 11 Apr 2023 13:08:08 +0100
+Message-Id: <20230411120810.368437-7-biju.das.jz@bp.renesas.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20230411120810.368437-1-biju.das.jz@bp.renesas.com>
 References: <20230411120810.368437-1-biju.das.jz@bp.renesas.com>
@@ -51,40 +51,40 @@ Cc: devicetree@vger.kernel.org, Chris Paterson <Chris.Paterson2@renesas.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add DU node to RZ/G2L SoC DTSI.
+Add DU node to RZ/V2L SoC DTSI.
 
 Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 ---
 v7:
  * New patch.
 ---
- arch/arm64/boot/dts/renesas/r9a07g044.dtsi | 14 ++++++++++++++
+ arch/arm64/boot/dts/renesas/r9a07g054.dtsi | 14 ++++++++++++++
  1 file changed, 14 insertions(+)
 
-diff --git a/arch/arm64/boot/dts/renesas/r9a07g044.dtsi b/arch/arm64/boot/dts/renesas/r9a07g044.dtsi
-index 23bd28dd4d95..003a3711ad56 100644
---- a/arch/arm64/boot/dts/renesas/r9a07g044.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r9a07g044.dtsi
-@@ -671,6 +671,20 @@ fcpvd: fcp@10880000 {
- 			resets = <&cpg R9A07G044_LCDC_RESET_N>;
+diff --git a/arch/arm64/boot/dts/renesas/r9a07g054.dtsi b/arch/arm64/boot/dts/renesas/r9a07g054.dtsi
+index 244934ce5991..c20bc859331d 100644
+--- a/arch/arm64/boot/dts/renesas/r9a07g054.dtsi
++++ b/arch/arm64/boot/dts/renesas/r9a07g054.dtsi
+@@ -677,6 +677,20 @@ fcpvd: fcp@10880000 {
+ 			resets = <&cpg R9A07G054_LCDC_RESET_N>;
  		};
  
 +		du: display@10890000 {
-+			compatible = "renesas,r9a07g044-du";
++			compatible = "renesas,r9a07g054-du";
 +			reg = <0 0x10890000 0 0x10000>;
 +			interrupts = <GIC_SPI 152 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&cpg CPG_MOD R9A07G044_LCDC_CLK_A>,
-+				 <&cpg CPG_MOD R9A07G044_LCDC_CLK_P>,
-+				 <&cpg CPG_MOD R9A07G044_LCDC_CLK_D>;
++			clocks = <&cpg CPG_MOD R9A07G054_LCDC_CLK_A>,
++				 <&cpg CPG_MOD R9A07G054_LCDC_CLK_P>,
++				 <&cpg CPG_MOD R9A07G054_LCDC_CLK_D>;
 +			clock-names = "aclk", "pclk", "vclk";
 +			power-domains = <&cpg>;
-+			resets = <&cpg R9A07G044_LCDC_RESET_N>;
++			resets = <&cpg R9A07G054_LCDC_RESET_N>;
 +			renesas,vsps = <&vspd 0>;
 +			status = "disabled";
 +		};
 +
  		cpg: clock-controller@11010000 {
- 			compatible = "renesas,r9a07g044-cpg";
+ 			compatible = "renesas,r9a07g054-cpg";
  			reg = <0 0x11010000 0 0x10000>;
 -- 
 2.25.1
