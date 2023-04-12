@@ -1,49 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A49B6DF299
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Apr 2023 13:09:47 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 809606DF2AD
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Apr 2023 13:11:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0E72810E2BF;
-	Wed, 12 Apr 2023 11:09:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0644B10E76D;
+	Wed, 12 Apr 2023 11:11:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 560 seconds by postgrey-1.36 at gabe;
- Wed, 12 Apr 2023 11:09:40 UTC
-Received: from gnuweeb.org (gnuweeb.org [51.81.211.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E82EB10E2BF;
- Wed, 12 Apr 2023 11:09:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gnuweeb.org;
- s=default; t=1681297218;
- bh=xR4GuTL5Nmxsxu18JrbipI8OGiSCJg9nlLups6OAbag=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To;
- b=THfXqEBdjK14et4Ik0idqXMu7LfYqJY7h/jq/AXfwPLM9Lico4dOaOkW7jkqfFwQK
- b1pZ2hoKCYrblbz0q/6YkguN6Ejq8zm1O9W/XLdrdSPE42Pi1neLaqLPqhL91LIkrF
- 3jOjZ7XmbNY6Aq5DMJItnxRSS2jBlw2PMUA03eQk/6Hof38BXvBdpsQ3m7Ua4ofCAI
- V/SLD1x8nkrmO7bYb+rAx0IRaxGxMp5sIVic7l3Ag/IEZsqU6TsL4CrXpahHcOMgdv
- h7KnVf/JaR+mdmoBqC7ZHDjEn65aRbYGyX295KOGs5uhu+wR+lEEnHGiHmZetM9umA
- pcx1ExMLp2Oqg==
-Received: from biznet-home.integral.gnuweeb.org (unknown [182.253.88.211])
- by gnuweeb.org (Postfix) with ESMTPSA id C9409245324;
- Wed, 12 Apr 2023 18:00:11 +0700 (WIB)
-Date: Wed, 12 Apr 2023 18:00:07 +0700
-From: Ammar Faizi <ammarfaizi2@gnuweeb.org>
-To: Bagas Sanjaya <bagasdotme@gmail.com>
-Subject: Re: Linux 6.2.1 hits a display driver bug (list_del corruption,
- ffff88811b4af298->next is NULL)
-Message-ID: <ZDaPNx7WSKeMqgmj@biznet-home.integral.gnuweeb.org>
-References: <6feae796-db3f-1135-a607-cfefb0259788@gnuweeb.org>
- <ZAGqet3U8AMm4Uf1@debian.me>
- <ZAOTU5CRwdEC1lGH@biznet-home.integral.gnuweeb.org>
- <87v8jetaik.fsf@intel.com>
- <ZAXT1B1GTlmA78Ld@biznet-home.integral.gnuweeb.org>
- <ZDYw0vVg7Y1oExJL@debian.me>
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0B4ED10E76D
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Apr 2023 11:11:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1681297898; x=1712833898;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=76DLrp0RGGeobv/NosOYg0K+7IDWw6HvLII3x3cZtJY=;
+ b=Ir4Dj2at6rE2mZu6j5rZ8mxbFtq1mqwaI3sGgClvrr1JSPKtSpxUPgpS
+ GFMDAdyrFB2FtwZ7ua7KiW3OfEj9BKssMaiDGyaYcAiSq5GVTa2LO3fcs
+ rV9bcjQgy/JOw/LdvyHii6s1ZXv2pYpWSa4P+ucSrJnOz3xCCW4axqPY/
+ 1VtCBmCls3fCSK3gksqhCZpSYIe06l2DCp48hVHmIe9EJyzPUy6U1cSuI
+ JmmOLOnap+NzY2EkoCizMGZdOiHgZgQfOCfbgnfOvOTEO8oXdfoajB3yg
+ oD5o1yAbzjY1vdF4WkVGeY7HgwbW9s3l49LjzRpiDNKFTaVlh9zEfX4Rz A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10677"; a="324227698"
+X-IronPort-AV: E=Sophos;i="5.98,339,1673942400"; d="scan'208";a="324227698"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Apr 2023 04:11:37 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10677"; a="753490575"
+X-IronPort-AV: E=Sophos;i="5.98,339,1673942400"; d="scan'208";a="753490575"
+Received: from ahajda-mobl.ger.corp.intel.com (HELO [10.213.31.124])
+ ([10.213.31.124])
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Apr 2023 04:11:34 -0700
+Message-ID: <079ee7c1-3777-e828-9db3-e4edb5a102dc@intel.com>
+Date: Wed, 12 Apr 2023 13:11:32 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZDYw0vVg7Y1oExJL@debian.me>
-X-Bpl: hUx9VaHkTWcLO7S8CQCslj6OzqBx2hfLChRz45nPESx5VSB/xuJQVOKOB1zSXE3yc9ntP27bV1M1
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Firefox/102.0 Thunderbird/102.9.1
+Subject: Re: [PATCH] MAINTAINERS: add drm_bridge for drm bridge maintainers
+Content-Language: en-US
+To: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ DRI Development <dri-devel@lists.freedesktop.org>
+References: <20230412080921.10171-1-daniel.vetter@ffwll.ch>
+From: Andrzej Hajda <andrzej.hajda@intel.com>
+Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
+ Gdansk - KRS 101882 - NIP 957-07-52-316
+In-Reply-To: <20230412080921.10171-1-daniel.vetter@ffwll.ch>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,41 +64,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Linux Regressions <regressions@lists.linux.dev>,
- Intel GFX Mailing List <intel-gfx@lists.freedesktop.org>,
- linux-kernel@vger.kernel.org,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- Stanislav Lisovskiy <stanislav.lisovskiy@intel.com>,
- linaro-mm-sig@lists.linaro.org,
- Linux regression tracking <regressions@leemhuis.info>,
- dri-devel@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Manasi Navare <manasi.d.navare@intel.com>,
- Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>,
- Sumit Semwal <sumit.semwal@linaro.org>, linux-media@vger.kernel.org
+Cc: Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Jagan Teki <jagan@amarulasolutions.com>,
+ Daniel Vetter <daniel.vetter@intel.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Apr 12, 2023 at 11:17:22AM +0700, Bagas Sanjaya wrote:
-> From gitlab issue above, I don't see any progress on bisection attempt.
-> Ammar, have you successfully boot Ubuntu 20.04 with v5.10 kernel and
-> test there?
 
-I am still using Ubuntu 22.04. Haven't tried 20.04. I'll arrange time
-for it this week.
 
-> Anyway, I'm adding this to regzbot (with tentative commit range):
-> 
-> #regzbot introduced: v5.10..v5.15.103
-> #regzbot title: Linux 6.2.1 hits a display driver bug (list_del corruption, ffff88811b4af298->next is NULL)
-> #regzbot link: https://gitlab.freedesktop.org/drm/intel/-/issues/8274
-> 
-> (Also Cc: Thorsten)
+On 12.04.2023 10:09, Daniel Vetter wrote:
+> Otherwise core changes don't get noticed by the right people. I
+> noticed this because a patch set from Jagan Teki seems to have fallen
+> through the cracks.
+>
+> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> Cc: Jagan Teki <jagan@amarulasolutions.com>
+> Cc: Andrzej Hajda <andrzej.hajda@intel.com>
+> Cc: Neil Armstrong <neil.armstrong@linaro.org>
+> Cc: Robert Foss <rfoss@kernel.org>
+> Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+> Cc: Jonas Karlman <jonas@kwiboo.se>
+> Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
+> --
 
-Not sure why you marked it as regression. I haven't even found the last
-good commit. It's possible that it's always broken since the beginning.
+Reviewed-by: Andrzej Hajda <andrzej.hajda@intel.com>
 
--- 
-Ammar Faizi
+Regards
+Andrzej
+> Jagan, with this your bridge series should find the right people!
+>
+> Cheers, Daniel
+> ---
+>   MAINTAINERS | 1 +
+>   1 file changed, 1 insertion(+)
+>
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 6a4625710f25..cf2add900c8b 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -6843,6 +6843,7 @@ T:	git git://anongit.freedesktop.org/drm/drm-misc
+>   F:	Documentation/devicetree/bindings/display/bridge/
+>   F:	drivers/gpu/drm/bridge/
+>   F:	include/drm/drm_bridge.h
+> +F:	drivers/gpu/drm/drm_bridge.c
+>   
+>   DRM DRIVERS FOR EXYNOS
+>   M:	Inki Dae <inki.dae@samsung.com>
 
