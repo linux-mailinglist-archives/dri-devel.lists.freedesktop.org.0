@@ -1,50 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4387D6DF79E
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Apr 2023 15:48:09 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9ECED6DF7A3
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Apr 2023 15:48:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 052EF10E7EC;
-	Wed, 12 Apr 2023 13:48:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 687CE10E7FA;
+	Wed, 12 Apr 2023 13:48:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3D8DF10E7EC
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Apr 2023 13:48:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=EaF+IRHMeKaDW7N5a2FpFMZwuLFcLlvfJIbEB4VtUE8=; b=V2G/cSYLDmTFOzRruuW6F0GF8z
- YGpSkBvB7iX9Kg3SRLxAqPYTAy7KCbE1UdRCyM/FRjUBRHFt9+7EiUvdpYLF0MJw7yUl0QKOjNoJK
- 0DBZ+wbAayLX+vKNfWrdjrLzXqJW/GGHwlJkcF8vPIQ6TmCz41e9j/xFehpZMyRJ+3STV/MJ8A/pe
- CpmJr4WmzcNT/0Z3iN9zpeXeaVn6u/zIipq7R81uVdeSIckvfuheUP7WxJW+KZczOE3MljBiUb/ws
- rsPHcf8ukUH5x6brBo53PX5CFLqKRPtnJmlNXpoazJpjkQ1MhiCOBh8T2NxjH+yyzfk58SqtuqjkX
- 5VP40oaw==;
-Received: from [177.34.168.16] (helo=[192.168.0.4])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1pmapK-00Gr2n-Un; Wed, 12 Apr 2023 15:47:59 +0200
-Message-ID: <4e697e1c-03ef-bc7a-d122-b85eaa54a46d@igalia.com>
-Date: Wed, 12 Apr 2023 10:47:50 -0300
+Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com
+ [IPv6:2a00:1450:4864:20::333])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E058F10E7FA
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Apr 2023 13:48:40 +0000 (UTC)
+Received: by mail-wm1-x333.google.com with SMTP id
+ hg25-20020a05600c539900b003f05a99a841so14156451wmb.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Apr 2023 06:48:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=baylibre-com.20210112.gappssmtp.com; s=20210112; t=1681307319; x=1683899319; 
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=Bb6P2byqyLNvxYx5mpnu/HADSn0CeAL5J6+dhakFGrg=;
+ b=X5GLXeJDIHOwYV33b0gurB0ztbWSgIyEeiSSG0/C6Vpi4vK1fhMxGZNWKHD8UQZzjk
+ RuUJfvCOgJehPIKFMlGxnNZAvJI9GIH8z0noUWQLiVAewf3Ov7fFOfl/1Ho2YD7CuH1v
+ Mm0T1u3w2UKESMcBO8HOKdgRlp73K2s5Zp4rc3jAxXmWyikjLX9YlrbmWLIfo2SaHcy0
+ uSFCHjhPiRlfecUqaDRr/qTj86ljC3cS5s8uM7A+xA/Kda0UKaKzVyd95X5aCn4lmbSq
+ 7H3VZFmtr/dj0eo6tq9m9Gn+I5n2PI7CSAnwklU5ceCFwMDUpTortZkODsAaWO8gUi/E
+ eEIw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1681307319; x=1683899319;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=Bb6P2byqyLNvxYx5mpnu/HADSn0CeAL5J6+dhakFGrg=;
+ b=R/IyZEit1RkKg4rvinxFHU+lCWvtlPUM26hnYrK8dck5TgkI9Sp6YuT3oWo9/2oL69
+ FdmzkL2yMeoZVeG6Wp4L5VZU6a58Dug2XGT2pDfCZUqftdnY/uqNj0ptbJdYPixIJ2Bf
+ 7u3vmDh+wca5K3g/ycuaeIbhkhBzT+uUnO1cyJfLQR4dRm0eE6TAFR9PaFEb5oxSiJyF
+ mvaq8GRcBV2FwHKvDdMKNQp4Xpj0kjOQUQrmnZrPcPRiYeNU47XSts51kjuu6UCPFykO
+ MoeYu1T2RjpFv31judrqrIxcSQRZP1VHkhXv0DzomMqK3EVYMOWUlr6eLkl7eXFFfCfh
+ 747Q==
+X-Gm-Message-State: AAQBX9cRydp0CgA/DEsSUswpZvB490y2Cq5/HKrSyx062grI2dr1lEQw
+ KgJWaRb81udSEXjNlQkBHuBaMw==
+X-Google-Smtp-Source: AKy350Z/ROia9nB7VNPQp9VQ8QMdkRRPlJGnrcpi8r3HW5TGeAv0xb6C9Cd+EosDMxX9OgVXXjaA1w==
+X-Received: by 2002:a05:600c:230c:b0:3ea:f73e:9d8a with SMTP id
+ 12-20020a05600c230c00b003eaf73e9d8amr12320568wmo.30.1681307318747; 
+ Wed, 12 Apr 2023 06:48:38 -0700 (PDT)
+Received: from [192.168.1.172] (158.22.5.93.rev.sfr.net. [93.5.22.158])
+ by smtp.gmail.com with ESMTPSA id
+ n20-20020a05600c4f9400b003ed51cdb94csm2535939wmq.26.2023.04.12.06.48.37
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 12 Apr 2023 06:48:38 -0700 (PDT)
+Message-ID: <3dab974e-4244-feda-4b85-d48a18013219@baylibre.com>
+Date: Wed, 12 Apr 2023 15:48:37 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.1
-Subject: Re: [PATCH 1/2] drm/vkms: Use drmm_crtc_init_with_planes()
-To: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- Melissa Wen <melissa.srw@gmail.com>,
- Haneen Mohammed <hamohammed.sa@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- David Airlie <airlied@gmail.com>
-References: <20230116205800.1266227-1-mcanal@igalia.com>
+ Thunderbird/102.9.0
+Subject: Re: [PATCH -next 1/3] drm/mediatek: Use
+ devm_platform_ioremap_resource()
 Content-Language: en-US
-From: =?UTF-8?Q?Ma=c3=adra_Canal?= <mcanal@igalia.com>
-In-Reply-To: <20230116205800.1266227-1-mcanal@igalia.com>
+To: Yang Li <yang.lee@linux.alibaba.com>, airlied@gmail.com
+References: <20230412064635.41315-1-yang.lee@linux.alibaba.com>
+From: Alexandre Mergnat <amergnat@baylibre.com>
+In-Reply-To: <20230412064635.41315-1-yang.lee@linux.alibaba.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,47 +77,24 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Melissa Wen <mwen@igalia.com>,
- =?UTF-8?Q?Andr=c3=a9_Almeida?= <andrealmeid@igalia.com>,
- dri-devel@lists.freedesktop.org
+Cc: chunkuang.hu@kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
+ matthias.bgg@gmail.com, linux-arm-kernel@lists.infradead.org,
+ angelogioacchino.delregno@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 1/16/23 17:58, Maíra Canal wrote:
-> Use drmm_crtc_init_with_planes() instead of drm_crtc_init_with_planes()
-> to get rid of the explicit destroy hook in struct drm_crtc_funcs.
+On 12/04/2023 08:46, Yang Li wrote:
+> Remove variable 'res' and convert platform_get_resource(),
+> devm_ioremap_resource() to a single call to
+> devm_platform_ioremap_resource(), as this is exactly what this function
+> does.
 > 
-> Signed-off-by: Maíra Canal <mcanal@igalia.com>
+> Signed-off-by: Yang Li<yang.lee@linux.alibaba.com>
 
-Pushed to drm-misc (drm-misc-next).
+Reviewed-by: Alexandre Mergnat <amergnat@baylibre.com>
 
-Best Regards,
-- Maíra Canal
+-- 
+Regards,
+Alexandre
 
-> ---
->   drivers/gpu/drm/vkms/vkms_crtc.c | 5 ++---
->   1 file changed, 2 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/vkms/vkms_crtc.c b/drivers/gpu/drm/vkms/vkms_crtc.c
-> index 57bbd32e9beb..515f6772b866 100644
-> --- a/drivers/gpu/drm/vkms/vkms_crtc.c
-> +++ b/drivers/gpu/drm/vkms/vkms_crtc.c
-> @@ -161,7 +161,6 @@ static void vkms_atomic_crtc_reset(struct drm_crtc *crtc)
->   
->   static const struct drm_crtc_funcs vkms_crtc_funcs = {
->   	.set_config             = drm_atomic_helper_set_config,
-> -	.destroy                = drm_crtc_cleanup,
->   	.page_flip              = drm_atomic_helper_page_flip,
->   	.reset                  = vkms_atomic_crtc_reset,
->   	.atomic_duplicate_state = vkms_atomic_crtc_duplicate_state,
-> @@ -282,8 +281,8 @@ int vkms_crtc_init(struct drm_device *dev, struct drm_crtc *crtc,
->   	struct vkms_output *vkms_out = drm_crtc_to_vkms_output(crtc);
->   	int ret;
->   
-> -	ret = drm_crtc_init_with_planes(dev, crtc, primary, cursor,
-> -					&vkms_crtc_funcs, NULL);
-> +	ret = drmm_crtc_init_with_planes(dev, crtc, primary, cursor,
-> +					 &vkms_crtc_funcs, NULL);
->   	if (ret) {
->   		DRM_ERROR("Failed to init CRTC\n");
->   		return ret;
