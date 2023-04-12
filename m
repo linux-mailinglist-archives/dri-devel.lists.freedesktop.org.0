@@ -1,78 +1,71 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E133A6E0066
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Apr 2023 23:04:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CD9A96E00DC
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Apr 2023 23:29:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2C81F10E98F;
-	Wed, 12 Apr 2023 21:04:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2E1B010E994;
+	Wed, 12 Apr 2023 21:29:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 07B0110E989
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Apr 2023 21:04:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1681333459;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=p0bMZvsE0YPLZTGS16xnH5Lejha4qtBtyQdG3KbiVSs=;
- b=YxucbKKFGhveqg7ETknpsLR/I4Km5QUdJr0kn6888g/AVuYrZ6+3bBdP9hNS0zsGOp7svY
- mTJeg2nYPcJ0FOA/NvPGFvASLIHF+pV/6JxWpruxATS1HYq1I2El/PfFCzoDqxPZgd0fl1
- EHYP6F72lybFfa+THpS8SVKHtdPGsOI=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-84-VgghQjlNNYiARMfcFbNczQ-1; Wed, 12 Apr 2023 17:04:18 -0400
-X-MC-Unique: VgghQjlNNYiARMfcFbNczQ-1
-Received: by mail-wr1-f69.google.com with SMTP id
- q1-20020adfb181000000b002d716fc080fso2156410wra.22
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Apr 2023 14:04:18 -0700 (PDT)
+Received: from mail-yw1-x1132.google.com (mail-yw1-x1132.google.com
+ [IPv6:2607:f8b0:4864:20::1132])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F271E10E994
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Apr 2023 21:29:42 +0000 (UTC)
+Received: by mail-yw1-x1132.google.com with SMTP id
+ 00721157ae682-54f6fc7943eso126939157b3.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Apr 2023 14:29:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1681334980; x=1683926980;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=qIFurHY4aPiYQuUul9p4NVclPM+cy68RDu8zSAULlSk=;
+ b=WEU63ujznZh2FcZqfQgowPZU2HcBYvcEMe/zC1BxEKqLnXcHH561gRAmJOIfzm8S4k
+ 4hiI/ecM/AOOmcyqoraeX+t2VSf0M3eu98eCH0Rv5ZM21WNnine1/WxcyLhEsQUopmqJ
+ SxmJbvKC+Twhth5ppCg4C1yp7y2ckq/G5IjxU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681333457; x=1683925457;
- h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=p0bMZvsE0YPLZTGS16xnH5Lejha4qtBtyQdG3KbiVSs=;
- b=GoefI5F/lacBq89YJkUgnroOXQ5CTMVzetlxdtnVQyQI5aNl4NTdJEPeEI9fcejFmW
- Pc3/tlzOV6VtLuTu6ehZeUa2kDfEQFNfB2m/hQKztWj83izo3qFd7BbwH9gHpeS73Apz
- 5H/pDrG/tS5oCKs4f1j/+TdDQI2QZH/FUfLUv00qKjwuICzElz4IbNZbdsxRiL4wLHFv
- nKHSaUqNOuqe076efuLTUq/GjIYjoCe0sJCNmMXCJKcat+2+lRaMZ109HxuyI+zZ8zLY
- 9jwqXG7XPOUd0tBtNSkzZUoC0IRgDLnBUaYDvbcDE+o6HkfvpHL4tRjCxl+Kt2uSldms
- ZpDg==
-X-Gm-Message-State: AAQBX9fyzVYts7mmZvx4XLhXfyQEO8S7LgKzbc2srDxuKmeYE/9btSN8
- OBWv+WRvqXjkzdTzUW8A+kYIyCiBQx0nNS+kG6N8Io/aYB0W1VuWORrNKzdinf25mSKxDeauoHy
- tHFjLfeJGXwOjNo4g6KyejGWKUVfB
-X-Received: by 2002:a7b:cb49:0:b0:3eb:3104:efec with SMTP id
- v9-20020a7bcb49000000b003eb3104efecmr76069wmj.16.1681333457422; 
- Wed, 12 Apr 2023 14:04:17 -0700 (PDT)
-X-Google-Smtp-Source: AKy350YjRcE/zRqnHDiEsrN2JH7uxueKk3X88weqqIILukDbFDl5GuAcq0iOc8eQT5UTTwngdY48nw==
-X-Received: by 2002:a7b:cb49:0:b0:3eb:3104:efec with SMTP id
- v9-20020a7bcb49000000b003eb3104efecmr76061wmj.16.1681333457103; 
- Wed, 12 Apr 2023 14:04:17 -0700 (PDT)
-Received: from localhost (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- 6-20020a05600c228600b003ed2c0a0f37sm3535032wmf.35.2023.04.12.14.04.16
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 12 Apr 2023 14:04:16 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Pierre Asselin <pa@panix.com>
-Subject: Re: [PATCH] firmware/sysfb: Fix wrong stride when bits-per-pixel is
- calculated
-In-Reply-To: <1afd3044c2aca9322ecf304941c7df66.squirrel@mail.panix.com>
-References: <20230412150225.3757223-1-javierm@redhat.com>
- <2e07f818ccdff7023a060e732d7c4ef6.squirrel@mail.panix.com>
- <87jzyhror0.fsf@minerva.mail-host-address-is-not-set>
- <beeff0335ab4cc244d214a7baadba371.squirrel@mail.panix.com>
- <CAFOAJEdKBUg91pDmNYYw5xigUxjifBgOLz2YgD+xQ+WyEy=V2w@mail.gmail.com>
- <1afd3044c2aca9322ecf304941c7df66.squirrel@mail.panix.com>
-Date: Wed, 12 Apr 2023 23:04:15 +0200
-Message-ID: <87fs94stgw.fsf@minerva.mail-host-address-is-not-set>
+ d=1e100.net; s=20221208; t=1681334980; x=1683926980;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=qIFurHY4aPiYQuUul9p4NVclPM+cy68RDu8zSAULlSk=;
+ b=U3q7TvzPJWaPJDKEr1cNlcAzPXb28dy2FFZ+xRndskoXEb2QPnYtoUB/zeQQ/LT1R6
+ GtLmTqMlsTR/kSrfoTBDqeajJPbPj2TpveWCGFfFNSE3mlbpXdcN6YIgkQsphoQGuDPz
+ 76hkGmGEvlEZUdhY3KgFcBFJSYMNJfA0R4Pj2iQhNZex3Rq+AGpDMVFQiVk4vXZJJ9fT
+ uOnu+zeQfSOPQee8SvxyFtwNhLTgo1XLTXNKZRg23FesqPmAWI/2rSbmQqOLQUZguY4h
+ RGdBk303ikozwmz3LxvwCIuOxApP9ghRnjJ7hhT3EBhdX2QajGN4jX4ltwxuh+ubzMWD
+ 3lgQ==
+X-Gm-Message-State: AAQBX9dod+C6FjwUwt9DJIK3Z+CPIi8j6gcBGk+L929hm7mLiQpGUwkB
+ uJbV8pXxB1yZQeFgucoVKyPnhMNy4hwTAzKwCFg=
+X-Google-Smtp-Source: AKy350Z6T85FlKjd3ATpjgmi+l8pdiCAWxAQVf2rQHBcIlmfE1Imsi9QatNEMOzo/jHb1BrYBUbAZg==
+X-Received: by 2002:a81:5d89:0:b0:544:75c2:d4a1 with SMTP id
+ r131-20020a815d89000000b0054475c2d4a1mr15703088ywb.17.1681334979833; 
+ Wed, 12 Apr 2023 14:29:39 -0700 (PDT)
+Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com.
+ [209.85.128.173]) by smtp.gmail.com with ESMTPSA id
+ dc21-20020a05690c0f1500b00545a08184d8sm4437527ywb.104.2023.04.12.14.29.38
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 12 Apr 2023 14:29:39 -0700 (PDT)
+Received: by mail-yw1-f173.google.com with SMTP id
+ 00721157ae682-54ee0b73e08so247524467b3.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Apr 2023 14:29:38 -0700 (PDT)
+X-Received: by 2002:a81:c145:0:b0:545:1d7f:abfe with SMTP id
+ e5-20020a81c145000000b005451d7fabfemr10843020ywl.7.1681334978361; Wed, 12 Apr
+ 2023 14:29:38 -0700 (PDT)
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+References: <20230410165908.3094626-1-dmitry.baryshkov@linaro.org>
+In-Reply-To: <20230410165908.3094626-1-dmitry.baryshkov@linaro.org>
+From: Doug Anderson <dianders@chromium.org>
+Date: Wed, 12 Apr 2023 14:29:26 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=XpPLU+_pC9MWskhm8nu8X1dmt-8dhzaYqo1J+sbBdDkA@mail.gmail.com>
+Message-ID: <CAD=FV=XpPLU+_pC9MWskhm8nu8X1dmt-8dhzaYqo1J+sbBdDkA@mail.gmail.com>
+Subject: Re: [PATCH] drm/msm/a6xx: initialize GMU mutex earlier
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,114 +78,96 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jocelyn Falempe <jfalempe@redhat.com>, Pierre Asselin <pa@panix.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Hans de Goede <hdegoede@redhat.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Ard Biesheuvel <ardb@kernel.org>
+Cc: freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>, linux-arm-msm@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-"Pierre Asselin" <pa@panix.com> writes:
+Hi,
 
->> And can you share the "linelength=" print out from simplefb ?
+On Mon, Apr 10, 2023 at 9:59=E2=80=AFAM Dmitry Baryshkov
+<dmitry.baryshkov@linaro.org> wrote:
 >
-> Okay.  Three cases, see below.
+> Move GMU mutex initialization earlier to make sure that it is always
+> initialized. a6xx_destroy can be called from ther failure path before
+> GMU initialization.
 >
-> Your patch tries to fix the stride, but what if it's the _depth_
-> that's wrong ?  Grub sets the mode, the pre-regression kernel picks this:
->     format=x8r8g8b8, mode=1024x768x32, linelength=4096
+> This fixes the following backtrace:
 >
-
-Yes, it seems the VBE mode set by GRUB is x8r8g8b8. And the line length
-calculation is also correct: 1024 * (32 / 8) = 4096.
-
-> ========== Good ======================================================
-> grub: gfxpayload=1024x768x24
-> [    0.003333] Console: colour dummy device 128x48
-> [    0.003333] printk: console [tty0] enabled
-> [    0.417054] fbcon: Taking over console
-> [    0.513399] pci 0000:01:05.0: vgaarb: setting as boot VGA device
-> [    0.513431] pci 0000:01:05.0: vgaarb: bridge control possible
-> [    0.513455] pci 0000:01:05.0: vgaarb: VGA device added:
-> decodes=io+mem,owns=io+mem,locks=none
-> [    0.513490] vgaarb: loaded
-> [    3.337529] simple-framebuffer simple-framebuffer.0: framebuffer at
-> 0xd8000000, 0x240000 bytes
-> [    3.337567] simple-framebuffer simple-framebuffer.0: format=r8g8b8,
-> mode=1024x768x24, linelength=3072
-
-This is also correct when GRUB sets it to r8g8b8, since the line length
-is: 1024 * (24 / 8) = 3072.
-
-> [    3.338000] Console: switching to colour frame buffer device 128x48
-> [    3.566490] simple-framebuffer simple-framebuffer.0: fb0: simplefb
-> registered!
+> ------------[ cut here ]------------
+> DEBUG_LOCKS_WARN_ON(lock->magic !=3D lock)
+> WARNING: CPU: 0 PID: 58 at kernel/locking/mutex.c:582 __mutex_lock+0x1ec/=
+0x3d0
+> Modules linked in:
+> CPU: 0 PID: 58 Comm: kworker/u16:1 Not tainted 6.3.0-rc5-00155-g187c06436=
+519 #565
+> Hardware name: Qualcomm Technologies, Inc. SM8350 HDK (DT)
+> Workqueue: events_unbound deferred_probe_work_func
+> pstate: 60400005 (nZCv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=3D--)
+> pc : __mutex_lock+0x1ec/0x3d0
+> lr : __mutex_lock+0x1ec/0x3d0
+> sp : ffff800008993620
+> x29: ffff800008993620 x28: 0000000000000002 x27: ffff47b253c52800
+> x26: 0000000001000606 x25: ffff47b240bb2810 x24: fffffffffffffff4
+> x23: 0000000000000000 x22: ffffc38bba15ac14 x21: 0000000000000002
+> x20: ffff800008993690 x19: ffff47b2430cc668 x18: fffffffffffe98f0
+> x17: 6f74616c75676572 x16: 20796d6d75642067 x15: 0000000000000038
+> x14: 0000000000000000 x13: ffffc38bbba050b8 x12: 0000000000000666
+> x11: 0000000000000222 x10: ffffc38bbba603e8 x9 : ffffc38bbba050b8
+> x8 : 00000000ffffefff x7 : ffffc38bbba5d0b8 x6 : 0000000000000222
+> x5 : 000000000000bff4 x4 : 40000000fffff222 x3 : 0000000000000000
+> x2 : 0000000000000000 x1 : 0000000000000000 x0 : ffff47b240cb1880
+> Call trace:
+>  __mutex_lock+0x1ec/0x3d0
+>  mutex_lock_nested+0x2c/0x38
+>  a6xx_destroy+0xa0/0x138
+>  a6xx_gpu_init+0x41c/0x618
+>  adreno_bind+0x188/0x290
+>  component_bind_all+0x118/0x248
+>  msm_drm_bind+0x1c0/0x670
+>  try_to_bring_up_aggregate_device+0x164/0x1d0
+>  __component_add+0xa8/0x16c
+>  component_add+0x14/0x20
+>  dsi_dev_attach+0x20/0x2c
+>  dsi_host_attach+0x9c/0x144
+>  devm_mipi_dsi_attach+0x34/0xac
+>  lt9611uxc_attach_dsi.isra.0+0x84/0xfc
+>  lt9611uxc_probe+0x5b8/0x67c
+>  i2c_device_probe+0x1ac/0x358
+>  really_probe+0x148/0x2ac
+>  __driver_probe_device+0x78/0xe0
+>  driver_probe_device+0x3c/0x160
+>  __device_attach_driver+0xb8/0x138
+>  bus_for_each_drv+0x84/0xe0
+>  __device_attach+0x9c/0x188
+>  device_initial_probe+0x14/0x20
+>  bus_probe_device+0xac/0xb0
+>  deferred_probe_work_func+0x8c/0xc8
+>  process_one_work+0x2bc/0x594
+>  worker_thread+0x228/0x438
+>  kthread+0x108/0x10c
+>  ret_from_fork+0x10/0x20
+> irq event stamp: 299345
+> hardirqs last  enabled at (299345): [<ffffc38bb9ba61e4>] put_cpu_partial+=
+0x1c8/0x22c
+> hardirqs last disabled at (299344): [<ffffc38bb9ba61dc>] put_cpu_partial+=
+0x1c0/0x22c
+> softirqs last  enabled at (296752): [<ffffc38bb9890434>] _stext+0x434/0x4=
+e8
+> softirqs last disabled at (296741): [<ffffc38bb989669c>] ____do_softirq+0=
+x10/0x1c
+> ---[ end trace 0000000000000000 ]---
 >
-> ========== Bad after patch, typing blind to log in !==================
-> grub: gfxpayload=keep
-> [    0.003333] Console: colour dummy device 128x48
-> [    0.003333] printk: console [tty0] enabled
-> [    0.423925] fbcon: Taking over console
-> [    0.520030] pci 0000:01:05.0: vgaarb: setting as boot VGA device
-> [    0.520061] pci 0000:01:05.0: vgaarb: bridge control possible
-> [    0.520085] pci 0000:01:05.0: vgaarb: VGA device added:
-> decodes=io+mem,owns=io+mem,locks=none
-> [    0.520120] vgaarb: loaded
-> [    3.290444] simple-framebuffer simple-framebuffer.0: framebuffer at
-> 0xd8000000, 0x240000 bytes
-> [    3.290483] simple-framebuffer simple-framebuffer.0: format=r8g8b8,
-> mode=1024x768x24, linelength=3072
+> Fixes: 4cd15a3e8b36 ("drm/msm/a6xx: Make GPU destroy a bit safer")
+> Cc: Douglas Anderson <dianders@chromium.org>
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> ---
+>  drivers/gpu/drm/msm/adreno/a6xx_gmu.c | 2 --
+>  drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 2 ++
+>  2 files changed, 2 insertions(+), 2 deletions(-)
 
-Now, this is the part where things start to break I believe. Because you
-mentioned before that gfxpayload=keep used to set the format to xr8g8b8
-but now after my patch (and also after the original commit f35cd3fa7729)
-it is set to r8g8b8 instead.
+Sorry for the breakage and thanks for the fix!
 
-That *shouldn't* be an issue because it only means that the alpha channel
-is discarded but maybe it is an issue for your display controller?
-
-By the way, in https://www.panix.com/~pa/linux-6.3-simplefb/selected-modes
-that you shared before the gfxpayload=keep GRUB option used to also led to
-the pixel format being set to r8g8b8 instead of xr8g8b8. The difference is
-that in that output the line lenght didn't match the pixel format and size:
-
-[    3.290596] simple-framebuffer simple-framebuffer.0: format=r8g8b8, mode=1024x768x24, linelength=4096
-
-but after my patch you mentioned that is:
-
-[    3.290483] simple-framebuffer simple-framebuffer.0: format=r8g8b8, mode=1024x768x24, linelength=3072
-
-which at least matches, so in a way is an improvement (even when it still
-doesn't work).
-
-> [    3.290916] Console: switching to colour frame buffer device 128x48
-> [    3.519523] simple-framebuffer simple-framebuffer.0: fb0: simplefb
-> registered!
->
-> ========== Good, earlier kernel before regression ====================
-> grub: gfxpayload=keep
-> [    0.226675] Console: colour dummy device 128x48
-> [    0.228643] printk: console [tty0] enabled
-> [    0.429214] fbcon: Taking over console
-> [    0.524994] pci 0000:01:05.0: vgaarb: setting as boot VGA device
-> [    0.525025] pci 0000:01:05.0: vgaarb: bridge control possible
-> [    0.525049] pci 0000:01:05.0: vgaarb: VGA device added:
-> decodes=io+mem,owns=io+mem,locks=none
-> [    0.525082] vgaarb: loaded
-> [    3.320474] simple-framebuffer simple-framebuffer.0: framebuffer at
-> 0xd8000000, 0x300000 bytes
-> [    3.320513] simple-framebuffer simple-framebuffer.0: format=x8r8g8b8,
-> mode=1024x768x32, linelength=4096
-
-Yes, and it works because is the correct mode it seems but for some reason
-after commit f35cd3fa7729 the pixel format is calculated incorrectly. We
-can see that the total framebuffer size is 0x300000 bytes, which matches a
-1024x768x34 mode framebuffer: 1024 * 768 * (34 / 8) = 3342336 = 0x300000.
-
--- 
-Best regards,
-
-Javier Martinez Canillas
-Core Platforms
-Red Hat
-
+Reviewed-by: Douglas Anderson <dianders@chromium.org>
