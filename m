@@ -2,48 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD1F06DED37
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Apr 2023 10:06:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D27D6DED3D
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Apr 2023 10:09:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 86A8F10E716;
-	Wed, 12 Apr 2023 08:06:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F001D10E29E;
+	Wed, 12 Apr 2023 08:09:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 038AD10E716
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Apr 2023 08:06:31 +0000 (UTC)
-Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
- [2.237.20.237])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: kholk11)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id A856F66031FF;
- Wed, 12 Apr 2023 09:06:28 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1681286789;
- bh=jwulId4nLUPcaw4BGk1KKXtBppWVtodS0kpW0W1yZiQ=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=WYZWNGIRibERfGpNAaJvjB9EBu3kf8VWvlTd2PwEopynZ+waRY/xEs/bV3+iScqdm
- rmPFvNRz6mPUPZd8jQqKKYvAMRve/jPY/FhVD1szcA9abbC8/y81yn/y5gzi//NAQm
- k9rg0bQLDv6yJ1fIl15EqJx1xdq+kAq1mqtMHxeyEh5NYx14GNFz09+uF1cNr+snjl
- +VQXyLLHwM9MBAR3XBAbOXdsu7oLsafPb57FPkkC4KUW+p4fFeMYWY1f9iFnq4f6s6
- JuxMEIoMTjFaY6lU22+Ug331DW3S0XOrnZv2cjyMgghWqoOLxeUQ6zshtuIcOYztYT
- JRg+8T6BiAxTg==
-Message-ID: <783c03af-fc88-96c8-c6fc-6f02051dc6b1@collabora.com>
-Date: Wed, 12 Apr 2023 10:06:25 +0200
+Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com
+ [IPv6:2a00:1450:4864:20::329])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C1D1B10E29E
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Apr 2023 08:09:25 +0000 (UTC)
+Received: by mail-wm1-x329.google.com with SMTP id
+ 5b1f17b1804b1-3f080f4fbe1so4131945e9.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Apr 2023 01:09:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ffwll.ch; s=google; t=1681286964; x=1683878964;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=PRpqY9VnGSh6SWM569hybEzeQi5osbuqvPfjOLwbDuw=;
+ b=Qm65QtZlp/M2//H/gVc+zucvGfZY0CvKRPCjsrkz4EmJt5ySIXfIWZ8OJaO8mVjnlH
+ 68tbbKYo85d1+0/wnsa1JC62P9hv0RH+C2ewhJw2femZJgVi9KxrFVWDzi7mvh+ZS8zW
+ iCVPhnGaWs2hj8RsKuzsDtzgMWcWru94KlmXs=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1681286964; x=1683878964;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=PRpqY9VnGSh6SWM569hybEzeQi5osbuqvPfjOLwbDuw=;
+ b=Nvz1E4SMZhewjjJRxnlzRMT5v37uAnNPMY/pQXVc7rJ9rUvyWAB7TTjTBMKXzGBZzu
+ xJDhIEVdywwISz5agrpcO3rrM6AEsgMXUe/g84aiGduDz5R/jpiWhlVJL2B1zyHxuBTG
+ C6i9n65EvSjDZvs584wjSzbYvywKbtP73OcdGQxBtYIs7MnJLdSbB+nZGK6XYKWZNtME
+ 5jv5a2E/UntuQsAfDNC7FI/J1+ID8aKlWPY7mdw6vLNe1NbIC3qVvqQYrBG3q/KSv/4Q
+ xa4QMyy7HqHeKXZ+GRl1Krz9e4WQcewjdb4iofACzzuDVGlMzmO7rSabhgFei7JKg2pG
+ B/zw==
+X-Gm-Message-State: AAQBX9dmgPYXguFILv0Xmu3Z1bhRwZEiRcWF1rPXCZr6/5zRlG6ve+9n
+ ZZqWyZaTGdq2eHlTYvRTUrNsxMS/SP/GeQDbNIw=
+X-Google-Smtp-Source: AKy350ZxBqJopoX9C3cTKC8lsLY06mfTvsOHj1yjUVLJkBbj+hE2jEwUXAQro8fimiyHScajAkRa3A==
+X-Received: by 2002:a05:600c:3109:b0:3ef:7795:e5b1 with SMTP id
+ g9-20020a05600c310900b003ef7795e5b1mr11524734wmo.4.1681286964196; 
+ Wed, 12 Apr 2023 01:09:24 -0700 (PDT)
+Received: from phenom.ffwll.local (212-51-149-33.fiber7.init7.net.
+ [212.51.149.33]) by smtp.gmail.com with ESMTPSA id
+ e2-20020a05600c218200b003ede06f3178sm1456973wme.31.2023.04.12.01.09.23
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 12 Apr 2023 01:09:23 -0700 (PDT)
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+To: DRI Development <dri-devel@lists.freedesktop.org>
+Subject: [PATCH] MAINTAINERS: add drm_bridge for drm bridge maintainers
+Date: Wed, 12 Apr 2023 10:09:20 +0200
+Message-Id: <20230412080921.10171-1-daniel.vetter@ffwll.ch>
+X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.1
-Subject: Re: [PATCH v3 1/9] drm/mediatek: dp: Cache EDID for eDP panel
-To: Matthias Brugger <matthias.bgg@gmail.com>, chunkuang.hu@kernel.org
-References: <20230404104800.301150-1-angelogioacchino.delregno@collabora.com>
- <20230404104800.301150-2-angelogioacchino.delregno@collabora.com>
- <09c61b94-1ed1-eb72-9682-1f1f203f6f63@gmail.com>
-Content-Language: en-US
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <09c61b94-1ed1-eb72-9682-1f1f203f6f63@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -57,82 +67,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-mediatek@lists.infradead.org, wenst@chromium.org, kernel@collabora.com,
- linux-arm-kernel@lists.infradead.org
+Cc: Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Jonas Karlman <jonas@kwiboo.se>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Jagan Teki <jagan@amarulasolutions.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Daniel Vetter <daniel.vetter@intel.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Il 12/04/23 09:08, Matthias Brugger ha scritto:
-> 
-> 
-> On 04/04/2023 12:47, AngeloGioacchino Del Regno wrote:
->> Since eDP panels are not removable it is safe to cache the EDID:
->> this will avoid a relatively long read transaction at every PM
->> resume that is unnecessary only in the "special" case of eDP,
->> hence speeding it up a little, as from now on, as resume operation,
->> we will perform only link training.
->>
->> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
->> ---
->>   drivers/gpu/drm/mediatek/mtk_dp.c | 11 ++++++++++-
->>   1 file changed, 10 insertions(+), 1 deletion(-)
->>
->> diff --git a/drivers/gpu/drm/mediatek/mtk_dp.c b/drivers/gpu/drm/mediatek/mtk_dp.c
->> index 1f94fcc144d3..84f82cc68672 100644
->> --- a/drivers/gpu/drm/mediatek/mtk_dp.c
->> +++ b/drivers/gpu/drm/mediatek/mtk_dp.c
->> @@ -118,6 +118,7 @@ struct mtk_dp {
->>       const struct mtk_dp_data *data;
->>       struct mtk_dp_info info;
->>       struct mtk_dp_train_info train_info;
->> +    struct edid *edid;
->>       struct platform_device *phy_dev;
->>       struct phy *phy;
->> @@ -1993,7 +1994,11 @@ static struct edid *mtk_dp_get_edid(struct drm_bridge 
->> *bridge,
->>           usleep_range(2000, 5000);
->>       }
->> -    new_edid = drm_get_edid(connector, &mtk_dp->aux.ddc);
->> +    /* eDP panels aren't removable, so we can return a cached EDID. */
->> +    if (mtk_dp->edid && mtk_dp->bridge.type == DRM_MODE_CONNECTOR_eDP)
->> +        new_edid = drm_edid_duplicate(mtk_dp->edid);
->> +    else
->> +        new_edid = drm_get_edid(connector, &mtk_dp->aux.ddc);
-> 
-> Maybe it would make sense to add a macro for the check of mtk_dp->bridge.type == 
-> DRM_MODE_CONNECTOR_eDP
-> it would make the code more readable.
-> 
+Otherwise core changes don't get noticed by the right people. I
+noticed this because a patch set from Jagan Teki seems to have fallen
+through the cracks.
 
-I had the same idea... but then avoided that because in most (if not all?) of the
-DRM drivers (at least, the one I've read) this check is always open coded, so I
-wrote it like that for consistency and nothing else.
+Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+Cc: Jagan Teki <jagan@amarulasolutions.com>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>
+Cc: Robert Foss <rfoss@kernel.org>
+Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Cc: Jonas Karlman <jonas@kwiboo.se>
+Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
+--
+Jagan, with this your bridge series should find the right people!
 
-I have no strong opinions on that though!
+Cheers, Daniel
+---
+ MAINTAINERS | 1 +
+ 1 file changed, 1 insertion(+)
 
->>       /*
->>        * Parse capability here to let atomic_get_input_bus_fmts and
->> @@ -2022,6 +2027,10 @@ static struct edid *mtk_dp_get_edid(struct drm_bridge 
->> *bridge,
->>           drm_atomic_bridge_chain_post_disable(bridge, connector->state->state);
->>       }
->> +    /* If this is an eDP panel and the read EDID is good, cache it for later */
->> +    if (mtk_dp->bridge.type == DRM_MODE_CONNECTOR_eDP && !mtk_dp->edid && new_edid)
->> +        mtk_dp->edid = drm_edid_duplicate(new_edid);
->> +
-> 
-> How about putting this in an else if branch of mtk_dp_parse_capabilities. At least 
-> we could get rid of the check regarding if new_edid != NULL.
-> 
-> I was thinking on how to put both if statements in one block, but I think the 
-> problem is, that we would leak memory if the capability parsing failes due to the 
-> call to drm_edid_duplicate(). Correct?
-> 
-
-Correct. The only other "good" place would be in the `if (new_edid)` conditional,
-but that wouldn't be as readable as it is right now...
-
-Cheers,
-Angelo
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 6a4625710f25..cf2add900c8b 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -6843,6 +6843,7 @@ T:	git git://anongit.freedesktop.org/drm/drm-misc
+ F:	Documentation/devicetree/bindings/display/bridge/
+ F:	drivers/gpu/drm/bridge/
+ F:	include/drm/drm_bridge.h
++F:	drivers/gpu/drm/drm_bridge.c
+ 
+ DRM DRIVERS FOR EXYNOS
+ M:	Inki Dae <inki.dae@samsung.com>
+-- 
+2.40.0
 
