@@ -1,44 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CC066DF384
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Apr 2023 13:28:58 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A20E6DF3C0
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Apr 2023 13:34:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F22F510E786;
-	Wed, 12 Apr 2023 11:28:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F042010E795;
+	Wed, 12 Apr 2023 11:33:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9F85510E794
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Apr 2023 11:28:24 +0000 (UTC)
-Received: from IcarusMOD.eternityproject.eu (2-237-20-237.ip236.fastwebnet.it
- [2.237.20.237])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: kholk11)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 3B916660324D;
- Wed, 12 Apr 2023 12:28:22 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1681298903;
- bh=FrZ0bhYSUc3f/6EFDPkgRvN3ofxA9mQ25dTr2lufmAQ=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=H8J6WREJiSELQuQdZAUz06U2x3wIhPE+Q73DAEJDcHAcSc9VSJDn3cW93Gr96UhOP
- cDi5DV6unFsMDzilzcl3hZLFPCTwx3Pukl2mFwU71JHaBzJ2yyXe3Z7KA+s/JC7jho
- y4DZuZ/BblFZ2xonu/ZK+OUKSyeyZPQdRQHXyq87SORhUaosLkUSNPmhb/gnmvwnY/
- 2di2KwWct0SxcrpIrPd9Bc6FCCLRBHerlNBBM84qKxMEIk+ZlJJhWcrxJJqhEtNGl+
- 1tiwyeWlhwQkAdiHk8G+xC5NTgFQd86wKoDDajqup5ztiKjP/29yuHs9/1tB6gIyp3
- 3SJCSlOfuWxBg==
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-To: matthias.bgg@gmail.com
-Subject: [PATCH 27/27] arm64: dts: mediatek: mt6795-xperia-m5: Add Bosch
- BMM050 Magnetometer
-Date: Wed, 12 Apr 2023 13:27:39 +0200
-Message-Id: <20230412112739.160376-28-angelogioacchino.delregno@collabora.com>
-X-Mailer: git-send-email 2.40.0
-In-Reply-To: <20230412112739.160376-1-angelogioacchino.delregno@collabora.com>
-References: <20230412112739.160376-1-angelogioacchino.delregno@collabora.com>
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 72DD510E794;
+ Wed, 12 Apr 2023 11:33:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1681299236; x=1712835236;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=DL3MgYnzKAEXsAUQPyglUiDH5LIQHjqJDKbmsnSxR2c=;
+ b=iGqUShfJNso8amxKg6c52WHt7sbyeq0Kh+CT93W7nmk+TK33JvTU72//
+ rMa+lS2cFeLceVRdphvsCTg+/6QxgN3CwM7jCJBuiFJsaThnsgsKTyT/D
+ Vk9hXDxCKo1MhnieqpbDVpKQ4tgWjCl3RDehwlounw0kzHZTo6euGeDLc
+ /t+QhDeeaRbvmfuuerbytgfHllRb8fWkWRVIIQYNxsthQL/+XQhgtDIlR
+ r2mdCLF5xa0Bt7kMlk7c9HD8AyBk+ecSHI3+n2ddSGhUwUYCpOv3uG2UM
+ vrS0bFlMaFEKeuZMHcHYGJE5j9FjeCJrDzr/rATHzvZ6K3da4fnrC7d8P g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10677"; a="327978204"
+X-IronPort-AV: E=Sophos;i="5.98,339,1673942400"; d="scan'208";a="327978204"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Apr 2023 04:33:55 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10677"; a="778268708"
+X-IronPort-AV: E=Sophos;i="5.98,339,1673942400"; d="scan'208";a="778268708"
+Received: from zbiro-mobl.ger.corp.intel.com (HELO intel.com)
+ ([10.251.212.144])
+ by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Apr 2023 04:33:51 -0700
+From: Andi Shyti <andi.shyti@linux.intel.com>
+To: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ stable@vger.kernel.org
+Subject: [PATCH v5 0/5] Fix error propagation amongst request
+Date: Wed, 12 Apr 2023 13:33:03 +0200
+Message-Id: <20230412113308.812468-1-andi.shyti@linux.intel.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -53,45 +57,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
- thierry.reding@gmail.com, krzysztof.kozlowski+dt@linaro.org,
- linux-phy@lists.infradead.org, kernel@collabora.com, kishon@kernel.org,
- phone-devel@vger.kernel.org, jassisinghbrar@gmail.com,
- linux-pwm@vger.kernel.org, u.kleine-koenig@pengutronix.de,
- chunkuang.hu@kernel.org, jitao.shi@mediatek.com, xinlei.lee@mediatek.com,
- houlong.wei@mediatek.com, chunfeng.yun@mediatek.com, robh+dt@kernel.org,
- linux-mediatek@lists.infradead.org, ~postmarketos/upstreaming@lists.sr.ht,
- linux-arm-kernel@lists.infradead.org, angelogioacchino.delregno@collabora.com,
- linux-kernel@vger.kernel.org, vkoul@kernel.org
+Cc: Maciej Patelczyk <maciej.patelczyk@intel.com>,
+ Andi Shyti <andi.shyti@linux.intel.com>, Andi Shyti <andi.shyti@kernel.org>,
+ Matthew Auld <matthew.auld@intel.com>, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Chris Wilson <chris.p.wilson@linux.intel.com>,
+ Nirmoy Das <nirmoy.das@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This smartphone features a Bosch BMM050 Magnetometer on I2C3: enable
-it with the BMM150 binding, as that driver supports BMM050 as well.
-For this sensor, there is no interrupt pin;
-readings were validated in sysfs.
+Hi,
 
-Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
----
- arch/arm64/boot/dts/mediatek/mt6795-sony-xperia-m5.dts | 5 +++++
- 1 file changed, 5 insertions(+)
+This series of two patches fixes the issue introduced in
+cf586021642d80 ("drm/i915/gt: Pipelined page migration") where,
+as reported by Matt, in a chain of requests an error is reported
+only if happens in the last request.
 
-diff --git a/arch/arm64/boot/dts/mediatek/mt6795-sony-xperia-m5.dts b/arch/arm64/boot/dts/mediatek/mt6795-sony-xperia-m5.dts
-index 0b0519f6b2f1..b5746e6d0b15 100644
---- a/arch/arm64/boot/dts/mediatek/mt6795-sony-xperia-m5.dts
-+++ b/arch/arm64/boot/dts/mediatek/mt6795-sony-xperia-m5.dts
-@@ -75,6 +75,11 @@ accelerometer@10 {
- 		pinctrl-names = "default";
- 		pinctrl-0 = <&accel_pins>;
- 	};
-+
-+	magnetometer@12 {
-+		compatible = "bosch,bmm150";
-+		reg = <0x12>;
-+	};
- };
- 
- &i2c2 {
+However Chris noticed that without ensuring exclusivity in the
+locking we might end up in some deadlock. That's why patch 1
+throttles for the ringspace in order to make sure that no one is
+holding it.
+
+Version 1 of this patch has been reviewed by matt and this
+version is adding Chris exclusive locking.
+
+Thanks Chris for this work.
+
+Andi
+
+Changelog
+=========
+v4 -> v5
+ - add timeline locking also in the copy operation, which was
+   forgottein in v4.
+ - rearrange the patches in order to avoid a bisect break.
+
+v3 -> v4
+ - In v3 the timeline was being locked, but I forgot that also
+   request_create() and request_add() are locking the timeline
+   as well. The former does the locking, the latter does the
+   unlocking. In order to avoid this extra lock/unlock, we need
+   the "_locked" version of the said functions.
+
+v2 -> v3
+ - Really lock the timeline before generating all the requests
+   until the last.
+
+v1 -> v2
+ - Add patch 1 for ensuring exclusive locking of the timeline
+ - Reword git commit of patch 2.
+
+Andi Shyti (4):
+  drm/i915/gt: Add intel_context_timeline_is_locked helper
+  drm/i915: Create the locked version of the request create
+  drm/i915: Create the locked version of the request add
+  drm/i915/gt: Make sure that errors are propagated through request
+    chains
+
+Chris Wilson (1):
+  drm/i915: Throttle for ringspace prior to taking the timeline mutex
+
+ drivers/gpu/drm/i915/gt/intel_context.c | 41 ++++++++++++++++++
+ drivers/gpu/drm/i915/gt/intel_context.h |  8 ++++
+ drivers/gpu/drm/i915/gt/intel_migrate.c | 51 +++++++++++++++++------
+ drivers/gpu/drm/i915/i915_request.c     | 55 +++++++++++++++++++------
+ drivers/gpu/drm/i915/i915_request.h     |  3 ++
+ 5 files changed, 133 insertions(+), 25 deletions(-)
+
 -- 
-2.40.0
+2.39.2
 
