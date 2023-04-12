@@ -2,132 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD0896E08F5
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Apr 2023 10:33:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FC326DFCD9
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Apr 2023 19:44:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C075910EA6A;
-	Thu, 13 Apr 2023 08:33:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9954110E8E9;
+	Wed, 12 Apr 2023 17:44:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 771 seconds by postgrey-1.36 at gabe;
- Wed, 12 Apr 2023 17:48:09 UTC
-Received: from mx07-0063e101.pphosted.com (mx07-0063e101.pphosted.com
- [205.220.184.123])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CF08D10E821
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Apr 2023 17:48:09 +0000 (UTC)
-Received: from pps.filterd (m0247495.ppops.net [127.0.0.1])
- by mx08-0063e101.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 33CHZFnT022708; Wed, 12 Apr 2023 18:35:15 +0100
-Received: from ind01-bmx-obe.outbound.protection.outlook.com
- (mail-bmxind01lp2233.outbound.protection.outlook.com [104.47.74.233])
- by mx08-0063e101.pphosted.com (PPS) with ESMTPS id 3ptwgya01h-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 12 Apr 2023 18:35:15 +0100
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=IOD4wsIByIoKsiELNOmkTOowD+TGnbLMU1jRGjJPRb4Pz0Po962cLCy6SKRSsa6FsJpjH4fJDR3sahvDiApa3wIuHBbqERdfPIiw0PVk2aaaPSgJ9cp+NDhswn0FOmGoa0H6Xuro8U9QYrEyYLzlJLM3BQQQKwuQ4Zw8zpbUMDvleWx/Hko+8sHfe8slBkKb33d2mwYdag3OeBALqbQM7paAfbRqIbxW2OVpLwHMRB3p1Xk2GLyL969mfji38jDFsYnoTnJSwxmozEdXbFsRsBlhjz+Twj1p9RJvHyk5/jnKdP1klvPxGwTl56/XfGaL4mdng8AlIJFDXE05zoRFPA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=QvQo2QTnFc6PnhwvyN4x0vgtasuhGfQIJ8BwhVIeqF4=;
- b=Vg19ng3GJkfuvsjxWuJfOiNGz2HZNpnogNlmeif1Vu6hiZ748W7IKther0QaxqYUWJr/5dcFvZ+oAwiYANbwgP7KfdIJn5qf3nLv6WUAQsHR1bvK7LD2sCJC4TsA7+SxidRJz2IthhmyIGju2ZD+lKgAw+g86gvMbRl3gVqNzjN/4R4b4XIZv3Sn4Vtg0wOlxA3sImBvW003CiT2C63QUAPzi/Bli3oTMTus/CmepZ6GN3NemZYNMufiXlrN9pTO5hOO3O9/4xgUo2vhBne8CPXJTw3zVUQRK5is724uYvhxQQAnr70piIbGggXAW8u0N9weFsEvL+xKb5x61cSfJw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=blaize.com; dmarc=pass action=none header.from=blaize.com;
- dkim=pass header.d=blaize.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=BLAIZE.COM;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=QvQo2QTnFc6PnhwvyN4x0vgtasuhGfQIJ8BwhVIeqF4=;
- b=jNSz0lmCgHgcjxMU4qfZ2sBy+jzETIogBrZ21xCw7rv3I6zub/vKCc1i6ncJCwS014t5UlvjEVpvDWCYuSqBsOfEgo4MjQZXiB7sZxQbdX3Y+wWSyM7VocZA/Tdr+o00r5MpUzgq5xTGv0RWV2FKioU+foj9fNgirHArfW8r2ow=
-Received: from PN3PR01MB7255.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c01:8a::12)
- by MAZPR01MB5695.INDPRD01.PROD.OUTLOOK.COM (2603:1096:a01:63::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6298.30; Wed, 12 Apr
- 2023 17:35:07 +0000
-Received: from PN3PR01MB7255.INDPRD01.PROD.OUTLOOK.COM
- ([fe80::fb61:6425:3c3c:f35c]) by PN3PR01MB7255.INDPRD01.PROD.OUTLOOK.COM
- ([fe80::fb61:6425:3c3c:f35c%4]) with mapi id 15.20.6298.028; Wed, 12 Apr 2023
- 17:35:07 +0000
-From: James Cowgill <james.cowgill@blaize.com>
-To: Neil Armstrong <neil.armstrong@linaro.org>, Sam Ravnborg
- <sam@ravnborg.org>, David Airlie <airlied@gmail.com>, Daniel Vetter
- <daniel@ffwll.ch>, Philippe CORNU <philippe.cornu@st.com>, Thierry Reding
- <treding@nvidia.com>
-Subject: [RESEND PATCH] drm/panel: otm8009a: Set backlight parent to panel
- device
-Thread-Topic: [RESEND PATCH] drm/panel: otm8009a: Set backlight parent to
- panel device
-Thread-Index: AQHZbWUfGy1msHv/AUKBj1pHg3WUfA==
-Date: Wed, 12 Apr 2023 17:35:07 +0000
-Message-ID: <20230412173450.199592-1-james.cowgill@blaize.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: PN3PR01MB7255:EE_|MAZPR01MB5695:EE_
-x-ms-office365-filtering-correlation-id: 8b7ea748-136d-40b3-5822-08db3b7c4209
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: QscvbKP1Gu0snYOCT7WWa+z/DChpBZlcIvEvLbl+M7BbvAlIjCzt8TcKp4dSB44SlVcSevv1MKsd7/lrfxL8tTouZbHJFUcxEpgRTz0stz08lMs06RQ0ZbYbiLWhPD0xfzTbtwshPl8CqzR8WsVwypceYwhh9wp6zlXoUNg6xzTh5PSLcgr6e+Qgjb6G8GaymAvtPRrMg9WipsLYa62iaARjsbW0GU0SPl5n6IpPkFJzIzPsec0mUH5PM+eP4fppKJW0XQ3HdBdUejWuqIeesQ/IMLwvFXBKMoMfCmV3sO16RC+729pSgB6qVbP/6ttDsAexUoQVYmVVxuSPu2DVqnJ/h+AAavl46aQo4gKYkIt+pHDxAxrn4EE6lcvhz6qMpoPFGzWuGhNCXdS436oI2k8cfiqbVur/2VbcQsrp1HUc1SDR0s43SA2d2xOEdQ7KkMrTzbZ0A7regjIOOMqJ4TB78W0weermIhJWe1mqFPd0vEHR966Nd53LOcqDBbzzN+tn5smkJR9QSQ0/UtGNzsxYwZAlUPqwKn7TJlSZSuJyRW6iU44oe2WnSYyWTrD2nexGS0f/8oPBFpV7DU3rLUQkQ+RKDL9W+4aiEo59fIx2Vi1Xg3ew8IcAZXidcYTU
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PN3PR01MB7255.INDPRD01.PROD.OUTLOOK.COM; PTR:; CAT:NONE;
- SFS:(13230028)(136003)(39840400004)(396003)(376002)(366004)(346002)(451199021)(66946007)(478600001)(66556008)(66476007)(64756008)(66446008)(76116006)(4326008)(91956017)(86362001)(54906003)(316002)(110136005)(26005)(6512007)(6506007)(1076003)(55236004)(186003)(38070700005)(36756003)(5660300002)(44832011)(71200400001)(8676002)(8936002)(38100700002)(2616005)(2906002)(41300700001)(6486002)(122000001)(83380400001);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?PHGy9/DQeGlK1PlhPfH7jCH5C6DIcL0sQyrW3wTQKEJ+DU6lzOps1QBAG/?=
- =?iso-8859-1?Q?Lwnzu5XOyyJr0oRULl793oqtK3Ym8x7liIvxUs03s4vUy8E6AXl4IuXGOx?=
- =?iso-8859-1?Q?6rSdF5Z7yzdHx8ZIyR+FmKqunzHETeTNdvbQ/Ap6UZXmYAJMyqwBhyjgYg?=
- =?iso-8859-1?Q?8NcdlmOU3pa7Bu/OD5rCaQQNYmooMv0Crn5wfcJBcfW3hNfeBgO/7pnNvd?=
- =?iso-8859-1?Q?sqkWF3KxPVhuRpz7Nersa59sPBp/+GPnJN8stXpl2gXYnsv/9L3h4KnLen?=
- =?iso-8859-1?Q?WR3oNglFYpIUC+VInD/3kR7XADgUlpa9ky0388/wpFVFq1TibShhOMoGyN?=
- =?iso-8859-1?Q?9DjFCg6T+XFx52TVKot5l6kcQRxP/ghegx+o0gcsqHCqCrFVBMHkeeAm1m?=
- =?iso-8859-1?Q?Bf7Bd5SRW22qERYecwpu76fIV33MW5GRQW+DprAPwITl8JNRX/+Hd3N3gF?=
- =?iso-8859-1?Q?4+dlFPTi0e+J1Hw3+GSVc8eMmDwkkhPxaMOLO1LDNLCu3uf2ORubGPBXG5?=
- =?iso-8859-1?Q?ao73DT8fnl9iOBKeguI3dZ0fT5elOCdZ2GwS5JXwgbP30ufrw1OJk//hit?=
- =?iso-8859-1?Q?WxnR9xzNxSAzg6MLYBbmfem3hRhGLq2rwQF7P/LMAvM78vE36CM0fQD7Bm?=
- =?iso-8859-1?Q?QKnz2tt/9PUsMR0yqqOYZ9V7+fE47Io+plT19dXRt8/4wqH5Pxb695eEnb?=
- =?iso-8859-1?Q?wSW9nygf5Z+wk3jwfdtIscIYmjJKzIQetX1SnSrqCv3rY+54cttK+qu9yv?=
- =?iso-8859-1?Q?zXOi07OKkqGoxmTVmsE67bWJXJNtf4AHkgwd8gdWtzJAieqKc1FzlVzpcR?=
- =?iso-8859-1?Q?cU1Vm87CjxCmweabK+g3nKHMzz8FXmwB6AlFMcAHdyqDHyJcGOKH06Mfx/?=
- =?iso-8859-1?Q?BMvsK4oBLAJyGY/LqlS1YNmwzP8ICajriaq+LjkA8gWFH0DfqRRaxhwxIe?=
- =?iso-8859-1?Q?NdYsnPkuCrFaqdTlZSC2EQzcfgU4kiYwmmqmvIrJPGJGxQ2QOmRmM0/xIa?=
- =?iso-8859-1?Q?zqveNgUKeDBXbrf954niVpwpZhBPn/SPt2mS/oUY1Wn1ifsgZmC/RQ8Y4N?=
- =?iso-8859-1?Q?iEQKq1KuO+qNvbYsf/krLFlnUYTcvnCeBL+WtzAHF5IM2TpVmjs+hFV3h1?=
- =?iso-8859-1?Q?DykgC8jiM3TFT4HeXm7GGGXwRKBSapHb3DwrcLoJN0tQ4q6Xi5P7RWUG3Z?=
- =?iso-8859-1?Q?Tq6BDW+gVEJt+FZeVf2wBuya1Br074sWGtF91NLMiz00sH43GBqC/LbWU6?=
- =?iso-8859-1?Q?x/Y9tYWCHRQnTd0hsqf4vtg8mlC/yjVeu5ahFx6H2jNwvP5hx0hybwpZMu?=
- =?iso-8859-1?Q?SKX7Pu/pVLpL+hBiTRqnD4fq3yMfyEcmb21Z/cklBFk2QYZf/yRuCTHdDb?=
- =?iso-8859-1?Q?JGw8F2VGNYZezI5siv4AD/DbRVvs6WUm5YG358FhEg071vuv/4fnUk+Z2k?=
- =?iso-8859-1?Q?rtEUSphBLZFDoDLk61znPGWsYblFHbTAOBtTIWcWC7fu9tp/e1k9jVP8L7?=
- =?iso-8859-1?Q?1nOxbqYtSiyZfU1LgvxB5Wttyq4OsuIKTFOoJcB63049MOCyFSGMc8YUyt?=
- =?iso-8859-1?Q?Biz+r9HNiB4ZCj/VVSxhHvgbNnHxuwqRLTgDU0Xcot7D3UkaOPT9WuHLbT?=
- =?iso-8859-1?Q?ermYSqyMbS7iRcWxvtZuhqE/iJDYVqB1xf?=
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com
+ [IPv6:2a00:1450:4864:20::32f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EFB6710E821
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Apr 2023 17:44:48 +0000 (UTC)
+Received: by mail-wm1-x32f.google.com with SMTP id
+ 5b1f17b1804b1-3f0968734f6so1970275e9.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Apr 2023 10:44:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ffwll.ch; s=google; t=1681321484; x=1683913484;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:mail-followup-to:message-id:subject:cc:to
+ :from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=2E0Nnkjs6iVqwiEdn+EifW7LQwJ4sdMIYsZcK2qTBrM=;
+ b=Zz4FH4NvcRfFdyp5S5sewPtFadS9p8YCpfkoqjhRUiDQjek6rZF9KLoBKSZtGQO0UN
+ 8xvH+hMM6jtHRPVF/5/fsTUV4DtrrgoIEEZkRj8LT9GP7frmZyeURDkXwdsVoVf2nd8b
+ 5RzU1whlc2WCsmvQFNwHgeZ1HfZ3UT2QK7r3w=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1681321484; x=1683913484;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:mail-followup-to:message-id:subject:cc:to
+ :from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=2E0Nnkjs6iVqwiEdn+EifW7LQwJ4sdMIYsZcK2qTBrM=;
+ b=iABdIZMp6H0S+FhV1ShmZBrztd3B5Mr6LqfzWcCebGLXLK9wr2SDdq6ldco+N55nXW
+ CxtZJstNk33HY/hCIA3M5svVLr+UPlDTwjZe0DSREGVEqSaiEKvefbnpYOCGJ+ppWPkB
+ vJal8GdK3uqoSnIXb9FnZR6hfswot5mYn1R5Gs6AlN50LUyfOEvKV3JZcFa5Xcqoh5wD
+ rPZ9D2nNa0ODVgmIaUKwhZgOC6azEhXL/GuUptaH88H5dWtu2BcMitsXfMdkWiQLX/YV
+ eMCJ/gONJ2F/PN1yRZI6qouJy65KRlmQND2NcoDePCNMY5Ow44Dy8DV+40VkA+kf89ej
+ XePg==
+X-Gm-Message-State: AAQBX9ceZqIERaAe3ajxQTLoRbfQLHr/GU4XzlpCD25kX2JIUXZjW2bR
+ 0ts0+chZIryyPRZ4xlXANTTokw==
+X-Google-Smtp-Source: AKy350Y+XWemTa+mLbLg/mxf9bQ1L3pmRsAspFQVVFKFppaJ5qUP0XyY8xP4nBnfCCgkjj9Cs7PDtw==
+X-Received: by 2002:a5d:664e:0:b0:2c7:1c72:699f with SMTP id
+ f14-20020a5d664e000000b002c71c72699fmr2458605wrw.4.1681321484469; 
+ Wed, 12 Apr 2023 10:44:44 -0700 (PDT)
+Received: from phenom.ffwll.local (212-51-149-33.fiber7.init7.net.
+ [212.51.149.33]) by smtp.gmail.com with ESMTPSA id
+ m3-20020adfdc43000000b002c5691f13eesm17760896wrj.50.2023.04.12.10.44.43
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 12 Apr 2023 10:44:44 -0700 (PDT)
+Date: Wed, 12 Apr 2023 19:44:41 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Sui Jingfeng <15330273260@189.cn>
+Subject: Re: [PATCH] drm/fbdev-generic: fix potential out-of-bounds access
+Message-ID: <ZDbuCWKfFlWyiOGp@phenom.ffwll.local>
+Mail-Followup-To: Sui Jingfeng <15330273260@189.cn>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>,
+ Sui Jingfeng <suijingfeng@loongson.cn>, Li Yi <liyi@loongson.cn>,
+ Helge Deller <deller@gmx.de>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ linux-kernel@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, loongson-kernel@lists.loongnix.cn
+References: <20230409132110.494630-1-15330273260@189.cn>
+ <ZDV0Te65tSh4Q/vc@phenom.ffwll.local>
+ <42f16d0d-4e1a-a016-f4cc-af24efa75f1c@189.cn>
 MIME-Version: 1.0
-X-OriginatorOrg: blaize.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: PN3PR01MB7255.INDPRD01.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8b7ea748-136d-40b3-5822-08db3b7c4209
-X-MS-Exchange-CrossTenant-originalarrivaltime: 12 Apr 2023 17:35:07.2638 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 9d1c3c89-8615-4064-88a7-bb1a8537c779
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: VNXwmNTUlnPciRSfY2n2mBsma8HfEyVsX9iWE5TZRZmFsG1iZN9YewRl2dpfsKslasWzuPL9cCERGkvTcX+oUsJyLwxBA76lAbWbKkTPVsU=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MAZPR01MB5695
-X-Proofpoint-GUID: dFacKEj5WTGz5ekLtbGnTCMVS5upKklJ
-X-Proofpoint-ORIG-GUID: dFacKEj5WTGz5ekLtbGnTCMVS5upKklJ
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-04-12_08,2023-04-12_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1011 mlxscore=0
- malwarescore=0 lowpriorityscore=0 priorityscore=1501 mlxlogscore=830
- impostorscore=0 bulkscore=0 spamscore=0 phishscore=0 suspectscore=0
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2303200000 definitions=main-2304120151
-X-Mailman-Approved-At: Thu, 13 Apr 2023 08:33:23 +0000
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <42f16d0d-4e1a-a016-f4cc-af24efa75f1c@189.cn>
+X-Operating-System: Linux phenom 6.1.0-7-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -140,40 +85,229 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: James Cowgill <james.cowgill@blaize.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "stable@vger.kernel.org" <stable@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Cc: Lucas De Marchi <lucas.demarchi@intel.com>, linux-fbdev@vger.kernel.org,
+ Sui Jingfeng <suijingfeng@loongson.cn>, Li Yi <liyi@loongson.cn>,
+ Helge Deller <deller@gmx.de>, linux-kernel@vger.kernel.org,
+ loongson-kernel@lists.loongnix.cn, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is the logical place to put the backlight device, and it also
-fixes a kernel crash if the MIPI host is removed. Previously the
-backlight device would be unregistered twice when this happened - once
-as a child of the MIPI host through `mipi_dsi_host_unregister`, and
-once when the panel device is destroyed.
+On Thu, Apr 13, 2023 at 01:13:37AM +0800, Sui Jingfeng wrote:
+> Hi,
+> 
+> On 2023/4/11 22:53, Daniel Vetter wrote:
+> > On Sun, Apr 09, 2023 at 09:21:10PM +0800, Sui Jingfeng wrote:
+> > > From: Sui Jingfeng <suijingfeng@loongson.cn>
+> > > 
+> > > We should setting the screen buffer size according to the screen's actual
+> > > size, rather than the size of the GEM object backing the front framebuffer.
+> > > The size of GEM buffer is page size aligned, while the size of active area
+> > > of a specific screen is *NOT* necessarily page size aliged. For example,
+> > > 1680x1050, 1600x900, 1440x900, 800x6000 etc. In those case, the damage rect
+> > > computed by drm_fb_helper_memory_range_to_clip() goes out of bottom bounds
+> > > of the display.
+> > > 
+> > > Run fbdev test of IGT on a x86+ast2400 platform with 1680x1050 resolution
+> > > will cause the system hang with the following call trace:
+> > > 
+> > >    Oops: 0000 [#1] PREEMPT SMP PTI
+> > >    [IGT] fbdev: starting subtest eof
+> > >    Workqueue: events drm_fb_helper_damage_work [drm_kms_helper]
+> > >    [IGT] fbdev: starting subtest nullptr
+> > > 
+> > >    RIP: 0010:memcpy_erms+0xa/0x20
+> > >    RSP: 0018:ffffa17d40167d98 EFLAGS: 00010246
+> > >    RAX: ffffa17d4eb7fa80 RBX: ffffa17d40e0aa80 RCX: 00000000000014c0
+> > >    RDX: 0000000000001a40 RSI: ffffa17d40e0b000 RDI: ffffa17d4eb80000
+> > >    RBP: ffffa17d40167e20 R08: 0000000000000000 R09: ffff89522ecff8c0
+> > >    R10: ffffa17d4e4c5000 R11: 0000000000000000 R12: ffffa17d4eb7fa80
+> > >    R13: 0000000000001a40 R14: 000000000000041a R15: ffffa17d40167e30
+> > >    FS:  0000000000000000(0000) GS:ffff895257380000(0000) knlGS:0000000000000000
+> > >    CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> > >    CR2: ffffa17d40e0b000 CR3: 00000001eaeca006 CR4: 00000000001706e0
+> > >    Call Trace:
+> > >     <TASK>
+> > >     ? drm_fbdev_generic_helper_fb_dirty+0x207/0x330 [drm_kms_helper]
+> > >     drm_fb_helper_damage_work+0x8f/0x170 [drm_kms_helper]
+> > >     process_one_work+0x21f/0x430
+> > >     worker_thread+0x4e/0x3c0
+> > >     ? __pfx_worker_thread+0x10/0x10
+> > >     kthread+0xf4/0x120
+> > >     ? __pfx_kthread+0x10/0x10
+> > >     ret_from_fork+0x2c/0x50
+> > >     </TASK>
+> > >    CR2: ffffa17d40e0b000
+> > >    ---[ end trace 0000000000000000 ]---
+> > > 
+> > > We also add trival code in this patch to restrict the damage rect beyond
+> > > the last line of the framebuffer.
+> > Nice catch!
+>  :)
+> > > Signed-off-by: Sui Jingfeng <suijingfeng@loongson.cn>
+> > > ---
+> > >   drivers/gpu/drm/drm_fb_helper.c     | 2 +-
+> > >   drivers/gpu/drm/drm_fbdev_generic.c | 2 ++
+> > >   2 files changed, 3 insertions(+), 1 deletion(-)
+> > > 
+> > > diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
+> > > index 64458982be40..a2b749372759 100644
+> > > --- a/drivers/gpu/drm/drm_fb_helper.c
+> > > +++ b/drivers/gpu/drm/drm_fb_helper.c
+> > > @@ -645,7 +645,7 @@ static void drm_fb_helper_memory_range_to_clip(struct fb_info *info, off_t off,
+> > >   	u32 x1 = 0;
+> > >   	u32 y1 = off / info->fix.line_length;
+> > >   	u32 x2 = info->var.xres;
+> > > -	u32 y2 = DIV_ROUND_UP(end, info->fix.line_length);
+> > > +	u32 y2 = min_t(u32, DIV_ROUND_UP(end, info->fix.line_length), info->var.yres);
+> > So for additional robustness I think it'd be good if we change the entire
+> > computation here to use drm_framebuffer data and not fb_info data, because
+> > fundamentally that's what the drm kms code consumes. It should all match
+> > anyway, but I think it makes the code more obviously correct.
+> > 
+> > So in the entire function instead of looking at fb_info->fix we should
+> > probably look at
+> > 
+> > 	struct drm_fb_helper *helper = info->par;
+> > 
+> > And then helper->fb->pitches[0] and helper->fb->height.
+> > 
+> > If you agree would be great if you can please respin with that (and the
+> > commit message augmented to explain why we do the change)?
+> 
+> Yes, I'm agree.
+> 
+> Thank you for guidance, I will refine this patch with `helper = info->par`.
+> 
+> I will send a v2 when I finished.
+> 
+> > >   	if ((y2 - y1) == 1) {
+> > >   		/*
+> > > diff --git a/drivers/gpu/drm/drm_fbdev_generic.c b/drivers/gpu/drm/drm_fbdev_generic.c
+> > > index 8e5148bf40bb..a6daecb5f640 100644
+> > > --- a/drivers/gpu/drm/drm_fbdev_generic.c
+> > > +++ b/drivers/gpu/drm/drm_fbdev_generic.c
+> > > @@ -95,6 +95,8 @@ static int drm_fbdev_generic_helper_fb_probe(struct drm_fb_helper *fb_helper,
+> > >   	fb_helper->fb = buffer->fb;
+> > >   	screen_size = buffer->gem->size;
+> > I guess you forgot to remove this line here?
+> 
+> Yes, this line should be removed in this patch. I overlooked this, sorry.
+> 
+> > Also I'm not understanding
+> > why this matters, I think you're fix only needs the above chunk, not this
+> > one? If I got this right then please drop this part, there's drivers which
+> > only use drm_fb_helper.c but not drm_fbdev_generic.c, and from what I can
+> > tell they all still set the gem buffer size here.
+> > 
+> > If otoh we need this too, then there's a few more places that need to be
+> > fixed.
+> 
+> I think we need this line, otherwise wrapped around will be happen.
+> 
+> Because I found that the value of variable`y1` will be larger in number than
+> the variable `y2` by 1,
+> 
+> which are computed  in drm_fb_helper_memory_range_to_clip().
+> 
+> 
+> This phenomenon will emerged on platforms with large page size or
+> 
+> non page size divisiable display resolution case. Take the LoongArch and
+> Mips as an example,
+> 
+> the default page size is 16KB(to avoid cache alias).  Even with the most
+> frequently used
+> 
+> 1920x1080 screen, the screen_size can not be divided exactly.
+> 
+> The total size of the shadow buffer is 1920x1080x4 bytes, 1920x1080x4 /
+> 16384 = 506.25
+> 
+> TTM manage the vram in the term of pages, so TTM will allocate 507 pages for
+> us.
+> 
+> 507x16384 = 8306688 bytes.
+> 
+> 
+> drm_fb_helper_memory_range_to_clip() will be called when running fbdev eof
+> test in the IGT.
+> 
+> with 8306688 as its second parameter. while 8306688 / (1920x4) = 1081, this
+> cause y1 out of bound.
+> 
+> Simply restrict y2 with a min_t() function yeild 1080 in this case, but y2 -
+> y1 cause *wrap around* here.
+> 
+> because they are both unsigned number.
+> 
+> 
+> drm_rect_init() function cast this unsigned int type to int type in end of
+> drm_fb_helper_memory_range_to_clip(),
+> 
+> but the last argument of drm_fb_helper_damage() function is a u32 type,
+> 
+> it cast the return value of  drm_rect_height(&damage_area) back to unsigned
+> type.
+> 
+> Yet, another wrapped around with truncation happened in
+> drm_fb_helper_add_damage_clip()
+> 
+> called by subsequent drm_fb_helper_damage() function.
+> 
+> I finally got reject by drm_fbdev_generic_helper_fb_dirty() with follow
+> code:
+> 
+> ```
+> 
+>     /* Call damage handlers only if necessary */
+>     if (!(clip->x1 < clip->x2 && clip->y1 < clip->y2))
+>         return 0;
+> 
+> ```
+> 
+> On x86-64 platform, because 1920x1080x4 dumb buffer is lucky, it be divided
+> exactly by 4KB(page size).
+> 
+> But other resolution will not as luck as this one. Right, fbdev test will be
+> pasted, but wrap around
+> 
+> happens many time.
+> 
+> Therefore, as long as a larger buffer is allowed to exposed to the
+> user-space.
+> 
+> A chance is given to the user-space,  to go beyond of the bottom bound of
+> the actual active display area.
+> 
+> I not sure if this is intended, I feel it should not be allowable by
+> intuition.
 
-Fixes: 12a6cbd4f3f1 ("drm/panel: otm8009a: Use new backlight API")
-Signed-off-by: James Cowgill <james.cowgill@blaize.com>
-Cc: stable@vger.kernel.org
----
- drivers/gpu/drm/panel/panel-orisetech-otm8009a.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Ah yes, thanks for the in-depth explanation. But I think we need a
+different fix, by also limiting y1. Otherwise for really big page sizes
+(64k on arm64 iirc) and really small screens (there's i2c panels with just
+a few lines) we might still run into the issue of y1 being too large.
 
-diff --git a/drivers/gpu/drm/panel/panel-orisetech-otm8009a.c b/drivers/gpu=
-/drm/panel/panel-orisetech-otm8009a.c
-index b4729a94c34a8..898b892f11439 100644
---- a/drivers/gpu/drm/panel/panel-orisetech-otm8009a.c
-+++ b/drivers/gpu/drm/panel/panel-orisetech-otm8009a.c
-@@ -471,7 +471,7 @@ static int otm8009a_probe(struct mipi_dsi_device *dsi)
- 		       DRM_MODE_CONNECTOR_DSI);
-=20
- 	ctx->bl_dev =3D devm_backlight_device_register(dev, dev_name(dev),
--						     dsi->host->dev, ctx,
-+						     dev, ctx,
- 						     &otm8009a_backlight_ops,
- 						     NULL);
- 	if (IS_ERR(ctx->bl_dev)) {
---=20
-2.39.1
+So we need to limit both y1 and y2. I think it's ok to let y1 == y2 slip
+through, since as you point out that's filtered later on.
 
+The userspace api is that we should expose the full fbdev buffer and allow
+writes into the entire thing. It's just that for the explicit upload with
+damage rects we need to make sure we're staying within the real buffer.
+-Daniel
+
+> > > +	screen_size = sizes->surface_height * buffer->fb->pitches[0];
+> > > +
+> > >   	screen_buffer = vzalloc(screen_size);
+> > >   	if (!screen_buffer) {
+> > >   		ret = -ENOMEM;
+> > Cheers, Daniel
+> > 
+> > > -- 
+> > > 2.25.1
+> > > 
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
