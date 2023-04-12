@@ -1,52 +1,83 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA2A46E0258
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Apr 2023 01:13:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 288AB6E0282
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Apr 2023 01:25:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8A19F10E9D8;
-	Wed, 12 Apr 2023 23:13:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CAC0410E9F2;
+	Wed, 12 Apr 2023 23:25:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailbackend.panix.com (mailbackend.panix.com [166.84.1.89])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BEE0E10E9D8
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Apr 2023 23:13:36 +0000 (UTC)
-Received: from mail.panix.com (localhost [127.0.0.1])
- by mailbackend.panix.com (Postfix) with ESMTPA id 4Pxdmv04mMz2pZC;
- Wed, 12 Apr 2023 19:13:34 -0400 (EDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=panix.com; s=panix;
- t=1681341215; bh=McaN/f68QlopTbL9CcHx2/7yPR1k84y49eeRf5KpOh4=;
- h=In-Reply-To:References:Date:Subject:From:To:Cc;
- b=aC0EK7Yd+e4ZrZT+QJpsf6afc4ZK9GbZ6iR+Q0gtbWGAq9DeZGdQ51ei9XS9G0pkZ
- aY1TkHLRgFRO+krj7tY/Hjm7vye2qmOcBUPLkpDF6ryItMyNrkWXTmgxc431nNSj6E
- dOCXhNkgnM2y+jLST9k5p1+biiUsVkd/7rCMNvnE=
-X-Panix-Received: from 166.84.1.2
- (SquirrelMail authenticated user pa@panix.com)
- by mail.panix.com with HTTP; Wed, 12 Apr 2023 19:13:35 -0400
-Message-ID: <9e6fff69b09b36cbdd96499cd0015154.squirrel@mail.panix.com>
-In-Reply-To: <87a5zcsqg8.fsf@minerva.mail-host-address-is-not-set>
-References: <20230412150225.3757223-1-javierm@redhat.com>
- <2e07f818ccdff7023a060e732d7c4ef6.squirrel@mail.panix.com>
- <87jzyhror0.fsf@minerva.mail-host-address-is-not-set>
- <beeff0335ab4cc244d214a7baadba371.squirrel@mail.panix.com>
- <CAFOAJEdKBUg91pDmNYYw5xigUxjifBgOLz2YgD+xQ+WyEy=V2w@mail.gmail.com>
- <1afd3044c2aca9322ecf304941c7df66.squirrel@mail.panix.com>
- <87fs94stgw.fsf@minerva.mail-host-address-is-not-set>
- <87cz48srs4.fsf@minerva.mail-host-address-is-not-set>
- <40edb0fdb0eaff434f4872dd677923a6.squirrel@mail.panix.com>
- <87a5zcsqg8.fsf@minerva.mail-host-address-is-not-set>
-Date: Wed, 12 Apr 2023 19:13:35 -0400
-Subject: Re: [PATCH] firmware/sysfb: Fix wrong stride when bits-per-pixel is
- calculated
-From: "Pierre Asselin" <pa@panix.com>
-To: "Javier Martinez Canillas" <javierm@redhat.com>
-User-Agent: SquirrelMail/1.4.23-p1
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9143D10E9E3;
+ Wed, 12 Apr 2023 23:25:23 +0000 (UTC)
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 33CNJnBL003497; Wed, 12 Apr 2023 23:25:20 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=from : subject :
+ date : message-id : mime-version : content-type :
+ content-transfer-encoding : to : cc; s=qcppdkim1;
+ bh=x2U/7GEQAmyLIF1raM1xoJPaYlZ9vWdyT03UyDASMC0=;
+ b=mNRYiW6M0ZGheiaAawRflht+SasMvHXg5bIzE7hyJL9sCN08226NgI3mfd+Zf5Adf48n
+ aknjsv6uo/IGtokjyY5fGLvGtkiPE4J051W8MWlUKNtEeQP/pZcdiHUlBt7JWcGW14JD
+ IrGRAcxKyIcf2KAlHNRqLCWFOf+/QE02qdV8l6C/51bTc51GbH6PYZ0K5YVE1AgPTl/Y
+ LR3jphklVTjbSncJK/VZl/rCv679hKMijFZOEMf6TujHBEzAe5+QZr0sgsUPLiCIvLmZ
+ hhBwalgLaVZgfkUIZBazujBvY5Ymib0x5t0/uq/MYoiSWEFSRIduDZXOroivSzeVLhhG uQ== 
+Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3pwqent0yr-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 12 Apr 2023 23:25:20 +0000
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
+ [10.46.141.250])
+ by NASANPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 33CNPJFE006942
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 12 Apr 2023 23:25:19 GMT
+Received: from jesszhan-linux.qualcomm.com (10.80.80.8) by
+ nasanex01b.na.qualcomm.com (10.46.141.250) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.42; Wed, 12 Apr 2023 16:25:19 -0700
+From: Jessica Zhang <quic_jesszhan@quicinc.com>
+Subject: [PATCH v6 0/7] Introduce MSM-specific DSC helpers
+Date: Wed, 12 Apr 2023 16:25:14 -0700
+Message-ID: <20230329-rfc-msm-dsc-helper-v6-0-cb7f59f0f7fb@quicinc.com>
 MIME-Version: 1.0
-Content-Type: text/plain;charset=iso-8859-1
-Content-Transfer-Encoding: 8bit
-X-Priority: 3 (Normal)
-Importance: Normal
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIANo9N2QC/4XOu07EMBAF0F9ZucbIj/hFhYS0BSUliMIej4klk
+ uzaEIFW+Xec7SASKe9o7pm5kIolYyV3hwspOOeap7EFfXMg0PvxDWmOLRPBhGRSOFoS0KEONFa
+ gPb6fsFBnuXcKYwqRkVYMviINxY/Qr9XH57+Fp+PDuncqmPLX9fjLa8t9rh9T+b7+MvN1+u/Zm
+ VNGk8TOuKRc0PH+/Jkhj3AL00BWcBb7iGiIBC4Bo5I6iC0i9xHZEB0QWBTGeCu3SLePdA3hwTg
+ wNkgWzRZR+4hqCOPMdoxHY63+jSzL8gN9WZVE8gEAAA==
+To: <freedreno@lists.freedesktop.org>
+X-Mailer: b4 0.13-dev-00303
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1681341919; l=3930;
+ i=quic_jesszhan@quicinc.com; s=20230329; h=from:subject:message-id;
+ bh=ZYW75BS9qge31yoUH3gbn/FZyJ6L3LvAQjIs9FWgTKw=;
+ b=QUB7jhr7lAqx4xnUH74Xs5LnnfBdGqZasvvbXz7SABN+xp9koh6e4N1Ag1gFylW/eOcbGBAaX
+ zxoTAtAADDdDZVZ0wJqvibe3wZ/l5bma1kFwQZBcabM28lBuTNUwzQp
+X-Developer-Key: i=quic_jesszhan@quicinc.com; a=ed25519;
+ pk=gAUCgHZ6wTJOzQa3U0GfeCDH7iZLlqIEPo4rrjfDpWE=
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: vnhXvqMz0w_EpXz1UsOCcJvqlmJLjm20
+X-Proofpoint-ORIG-GUID: vnhXvqMz0w_EpXz1UsOCcJvqlmJLjm20
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-04-12_13,2023-04-12_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0
+ bulkscore=0 priorityscore=1501 adultscore=0 phishscore=0 clxscore=1015
+ spamscore=0 suspectscore=0 malwarescore=0 mlxlogscore=999 mlxscore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2303200000 definitions=main-2304120197
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,57 +90,101 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jocelyn Falempe <jfalempe@redhat.com>, Pierre Asselin <pa@panix.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Hans de Goede <hdegoede@redhat.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Ard Biesheuvel <ardb@kernel.org>
+Cc: linux-arm-msm@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ dri-devel@lists.freedesktop.org, Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, Dmitry
+ Baryshkov <dmitry.baryshkov@linaro.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>, Sean Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-(Okay, can't back out *all* of the first patch, just the assignment
-to mode->stride.)
+There are some overlap in calculations for MSM-specific DSC variables
+between DP and DSI. In addition, the calculations for initial_scale_value
+and det_thresh_flatness that are defined within the DSC 1.2 specifications,
+but aren't yet included in drm_dsc_helper.c.
 
-Anyway, here you go:
+This series moves these calculations to a shared msm_dsc_helper.c file and
+defines drm_dsc_helper methods for initial_scale_value and
+det_thresh_flatness.
 
-grub: gfxpayload=keep
-[    0.003333] Console: colour dummy device 128x48
-[    0.003333] printk: console [tty0] enabled
-[    0.419983] fbcon: Taking over console
-[    0.516198] pci 0000:01:05.0: vgaarb: setting as boot VGA device
-[    0.516229] pci 0000:01:05.0: vgaarb: bridge control possible
-[    0.516253] pci 0000:01:05.0: vgaarb: VGA device added:
-decodes=io+mem,owns=io+mem,locks=none
-[    0.516288] vgaarb: loaded
-[    3.343649] simple-framebuffer simple-framebuffer.0: framebuffer at
-0xd8000000, 0x300000 bytes
-[    3.343687] simple-framebuffer simple-framebuffer.0: format=r8g8b8,
-mode=1024x768x24, linelength=4096
-[    3.344199] Console: switching to colour frame buffer device 128x48
-[    3.681177] simple-framebuffer simple-framebuffer.0: fb0: simplefb
-registered!
+Note: For now, the MSM specific helper methods are only called for the DSI
+path, but will called for DP once DSC 1.2 support for DP has been added.
 
-[    3.343345] sysfb: si->lfb_depth 32 si->lfb_width 1024
-[    3.343372] sysfb: si->red_size 8 si->red_pos 16
-[    3.343392] sysfb: si->green_size 8 si->green_pos 8
-[    3.343413] sysfb: si->blue_size 8 si->blue_pos 0
-[    3.343433] sysfb: si->rsvd_size 0 si->rsvd_pos 0
-[    3.343453] sysfb: bits_per_pixel 24 si->lfb_linelength 4096
-[    3.343476] sysfb: stride 3072
-[    3.343493] sysfb: format r8g8b8
+Depends on: "drm/i915: move DSC RC tables to drm_dsc_helper.c" [1]
 
-So it's the rsvd_size and rsvd_pos that are bogus.  The fix would be to:
-  1) believe si->lfb_depth
-  2) fill with ones a bitmask of size si->lfb_depth
-  3) clear chunks of bits based on si->{red,green,blue,rsvd}_{size,pos}
-  4) printk if the bitmask is not all zeros
-  5) override rsvd_{size,pos} based on the bitmask
-That way you know where the 'x' goes in xrgb.
+[1] https://patchwork.freedesktop.org/series/114472/
 
-Hm.  Could that fix my two boxes but cause a regression for someone else ?
-What if _depth is low but the rsvd_ are right ?
-Then _width and _linelength would be inconsistent with _depth but
-consistent with the recomputed bits_per_pixel ?  How many ways can the
-firmware lie ?
+---
+Changes in v6:
+- Documented return values for MSM DSC helpers
+- Fixed dependency issue in msm_dsc_helper.c
+- Link to v5: https://lore.kernel.org/r/20230329-rfc-msm-dsc-helper-v5-0-0108401d7886@quicinc.com
 
-We need more testers, don't we ?
+Changes in v5:
+- Picked up Reviewed-by tags
+- "Fix calculations pkt_per_line" --> "... Fix calculation for pkt_per_line"
+- Split dsc->slice_width check into a separate patch
+- Picked up Dmitry's msm/dsi patch ("drm/msm/dsi: use new helpers for
+  DSC setup")
+- Simplified MSM DSC helper math
+- Removed unused headers in MSM DSC helper files
+- Link to v4: https://lore.kernel.org/r/20230329-rfc-msm-dsc-helper-v4-0-1b79c78b30d7@quicinc.com
+
+Changes in v4:
+- Changed msm_dsc_get_uncompressed_pclk_per_intf to msm_dsc_get_pclk_per_intf
+- Moved pclk_per_intf calculation for dsi_timing_setup to `if
+  (msm_host->dsc)` block
+- Link to v3: https://lore.kernel.org/r/20230329-rfc-msm-dsc-helper-v3-0-6bec0d277a83@quicinc.com
+
+Changes in v3:
+- Cleaned up unused parameters
+- Reworded some calculations for clarity
+- Changed get_bytes_per_soft_slice() to a public method
+- Added comment documentation to MSM DSC helpers
+- Changed msm_dsc_get_eol_byte_num() to *_get_bytes_per_intf()
+- Split dsi_timing_setup() hdisplay calculation to a separate patch
+- Dropped 78c8b81d57d8 ("drm/display/dsc: Add flatness and initial scale
+  value calculations") patch as it was absorbed in Dmitry's DSC series [1]
+- Link to v2: https://lore.kernel.org/r/20230329-rfc-msm-dsc-helper-v2-0-3c13ced536b2@quicinc.com
+
+Changes in v2:
+- Changed det_thresh_flatness to flatness_det_thresh
+- Moved msm_dsc_helper files to msm/ directory
+- Fixed type mismatch issues in MSM DSC helpers
+- Dropped MSM_DSC_SLICE_PER_PKT macro
+- Removed get_comp_ratio() helper
+- Style changes to improve readability
+- Use drm_dsc_get_bpp_int() instead of DSC_BPP macro
+- Picked up Fixes tags for patches 3/5 and 4/5
+- Picked up Reviewed-by for patch 4/5
+- Split eol_byte_num and pkt_per_line calculation into a separate patch
+- Moved pclk_per_line calculation into `if (dsc)` block in
+  dsi_timing_setup()
+- Link to v1: https://lore.kernel.org/r/20230329-rfc-msm-dsc-helper-v1-0-f3e479f59b6d@quicinc.com
+
+---
+Dmitry Baryshkov (1):
+      drm/msm/dsi: use new helpers for DSC setup
+
+Jessica Zhang (6):
+      drm/msm: Add MSM-specific DSC helper methods
+      drm/msm/dpu: Use DRM DSC helper for det_thresh_flatness
+      drm/msm/dpu: Fix slice_last_group_size calculation
+      drm/msm/dsi: Use MSM and DRM DSC helper methods
+      drm/msm/dsi: update hdisplay calculation for dsi_timing_setup
+      drm/msm/dsi: Fix calculation for pkt_per_line
+
+ drivers/gpu/drm/msm/Makefile               |  1 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.c |  9 ++--
+ drivers/gpu/drm/msm/dsi/dsi_host.c         | 76 +++++++---------------------
+ drivers/gpu/drm/msm/msm_dsc_helper.c       | 26 ++++++++++
+ drivers/gpu/drm/msm/msm_dsc_helper.h       | 81 ++++++++++++++++++++++++++++++
+ 5 files changed, 132 insertions(+), 61 deletions(-)
+---
+base-commit: 7417f9c699613f284bd4edc93adccac3ea3ced0f
+change-id: 20230329-rfc-msm-dsc-helper-981a95edfbd0
+
+Best regards,
+-- 
+Jessica Zhang <quic_jesszhan@quicinc.com>
 
