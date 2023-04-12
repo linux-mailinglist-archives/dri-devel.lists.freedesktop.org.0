@@ -1,40 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A90B86DF377
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Apr 2023 13:28:42 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CC066DF384
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Apr 2023 13:28:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C547B10E7B0;
-	Wed, 12 Apr 2023 11:28:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F22F510E786;
+	Wed, 12 Apr 2023 11:28:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4495310E78D
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Apr 2023 11:28:23 +0000 (UTC)
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9F85510E794
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Apr 2023 11:28:24 +0000 (UTC)
 Received: from IcarusMOD.eternityproject.eu (2-237-20-237.ip236.fastwebnet.it
  [2.237.20.237])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: kholk11)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id CB19C66032EB;
- Wed, 12 Apr 2023 12:28:20 +0100 (BST)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 3B916660324D;
+ Wed, 12 Apr 2023 12:28:22 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1681298902;
- bh=xUQYw0z/3eD48tbUC6FkC0FmT/7tvqDbRz8S5+ghVDQ=;
+ s=mail; t=1681298903;
+ bh=FrZ0bhYSUc3f/6EFDPkgRvN3ofxA9mQ25dTr2lufmAQ=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=UiDRoD/awykx1G8oFAEFQ1z3rHmX6u5CgvPp9Ttb5eVfOz2rGgXgHCyHyJPDPppAB
- Z9BZ+0ieRQczDcAEh7xhreHlVE8xq8tUQ4rmfBrKhruvRyXpIgMNJ2/wveG2HfzXv3
- xmfXU/jdBAoaLjMqDdLEIwx2mljisr8xT2QkGN0XiNE1WcR2ttFQ0rTbn7/POWQGaU
- 1Q3uno27kmTpcLMA6VWSEq1yaZ00V/A2W297bWYJ4jTAZ9o4avL5bthLXTgWaNWw5h
- t7neth4CgeLeEKOGT8X/PRCvHjidg16w9ZBqySIAADjhpwuYEW6O8dtUvZYzbpznPA
- bJySENdAEub7g==
+ b=H8J6WREJiSELQuQdZAUz06U2x3wIhPE+Q73DAEJDcHAcSc9VSJDn3cW93Gr96UhOP
+ cDi5DV6unFsMDzilzcl3hZLFPCTwx3Pukl2mFwU71JHaBzJ2yyXe3Z7KA+s/JC7jho
+ y4DZuZ/BblFZ2xonu/ZK+OUKSyeyZPQdRQHXyq87SORhUaosLkUSNPmhb/gnmvwnY/
+ 2di2KwWct0SxcrpIrPd9Bc6FCCLRBHerlNBBM84qKxMEIk+ZlJJhWcrxJJqhEtNGl+
+ 1tiwyeWlhwQkAdiHk8G+xC5NTgFQd86wKoDDajqup5ztiKjP/29yuHs9/1tB6gIyp3
+ 3SJCSlOfuWxBg==
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 To: matthias.bgg@gmail.com
-Subject: [PATCH 26/27] arm64: dts: mediatek: mt6795-xperia-m5: Add Bosch
- BMA255 Accelerometer
-Date: Wed, 12 Apr 2023 13:27:38 +0200
-Message-Id: <20230412112739.160376-27-angelogioacchino.delregno@collabora.com>
+Subject: [PATCH 27/27] arm64: dts: mediatek: mt6795-xperia-m5: Add Bosch
+ BMM050 Magnetometer
+Date: Wed, 12 Apr 2023 13:27:39 +0200
+Message-Id: <20230412112739.160376-28-angelogioacchino.delregno@collabora.com>
 X-Mailer: git-send-email 2.40.0
 In-Reply-To: <20230412112739.160376-1-angelogioacchino.delregno@collabora.com>
 References: <20230412112739.160376-1-angelogioacchino.delregno@collabora.com>
@@ -65,46 +66,32 @@ Cc: devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add the BMA255 Accelerometer on I2C3 and its pin definitions.
+This smartphone features a Bosch BMM050 Magnetometer on I2C3: enable
+it with the BMM150 binding, as that driver supports BMM050 as well.
+For this sensor, there is no interrupt pin;
+readings were validated in sysfs.
 
 Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 ---
- .../boot/dts/mediatek/mt6795-sony-xperia-m5.dts   | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
+ arch/arm64/boot/dts/mediatek/mt6795-sony-xperia-m5.dts | 5 +++++
+ 1 file changed, 5 insertions(+)
 
 diff --git a/arch/arm64/boot/dts/mediatek/mt6795-sony-xperia-m5.dts b/arch/arm64/boot/dts/mediatek/mt6795-sony-xperia-m5.dts
-index 155a573eac4c..0b0519f6b2f1 100644
+index 0b0519f6b2f1..b5746e6d0b15 100644
 --- a/arch/arm64/boot/dts/mediatek/mt6795-sony-xperia-m5.dts
 +++ b/arch/arm64/boot/dts/mediatek/mt6795-sony-xperia-m5.dts
-@@ -68,6 +68,13 @@ &i2c1 {
- 	pinctrl-names = "default";
- 	pinctrl-0 = <&i2c1_pins>;
- 	status = "okay";
+@@ -75,6 +75,11 @@ accelerometer@10 {
+ 		pinctrl-names = "default";
+ 		pinctrl-0 = <&accel_pins>;
+ 	};
 +
-+	accelerometer@10 {
-+		compatible = "bosch,bma255";
-+		reg = <0x10>;
-+		pinctrl-names = "default";
-+		pinctrl-0 = <&accel_pins>;
++	magnetometer@12 {
++		compatible = "bosch,bmm150";
++		reg = <0x12>;
 +	};
  };
  
  &i2c2 {
-@@ -247,6 +254,14 @@ pins-irq {
- 		};
- 	};
- 
-+	accel_pins: accelerometer-pins {
-+		pins-irq {
-+			pinmux = <PINMUX_GPIO12__FUNC_GPIO12>;
-+			bias-pull-up;
-+			input-enable;
-+		};
-+	};
-+
- 	i2c0_pins: i2c0-pins {
- 		pins-bus {
- 			pinmux = <PINMUX_GPIO45__FUNC_SDA0>,
 -- 
 2.40.0
 
