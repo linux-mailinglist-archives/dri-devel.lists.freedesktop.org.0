@@ -2,49 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E7D96DF664
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Apr 2023 15:04:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20D6D6DF66B
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Apr 2023 15:04:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2EAC510E7DC;
-	Wed, 12 Apr 2023 13:03:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C0F8810E7DA;
+	Wed, 12 Apr 2023 13:04:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4AAC110E7DC
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Apr 2023 13:03:54 +0000 (UTC)
-Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
- [2.237.20.237])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits))
- (No client certificate requested) (Authenticated sender: kholk11)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id AE81F6603102;
- Wed, 12 Apr 2023 14:03:50 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1681304632;
- bh=n6UmEOVTw+KXN9/725bQQxVPB20qNDRrZSlz09sXOMo=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=AQGqtRCpfP1ZuiophrOrBi4nZp+IoEZLBUmkBU7M1yFW3J4w/j+9WFvTAaK4aAfy0
- 5mYHWH2h9wjO2WBZ32CNT1xRWPLebR3bOjhc4EYA2r8GAUkpXyuAw45LR3pxru37GU
- TJBMilPa+oR0ba/Sl+XjUj2izfyuitVr5N5O7t6jLvyKSSm9hcJWe2N8F2ludKsfQs
- BPXQNPKykaAn/QFWyaCAVLBVUDCUiSYmVAgcgUuhU29wxTbleKy57mWETsDJ/lmNi4
- eoW0EreMLhn9a2r7hNzEA0Rgm3J1Ixu9cUE3XdTH20jdV2vDUVROKrAgOAx3yO8xAA
- GmQOR2WRqCCBw==
-Message-ID: <eb770f19-ada5-81bb-5ea3-798edabca70f@collabora.com>
-Date: Wed, 12 Apr 2023 15:03:48 +0200
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C636E10E7DA;
+ Wed, 12 Apr 2023 13:04:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1681304687; x=1712840687;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=+vfO5vfOeKbHHyY+aPIlI/pNdTJqkSIshp1Ptu35OHk=;
+ b=HgMdPBjP+HByzFi2v4A7Q2Pc7JWTXUympbhI7DSG7WtOObfFZwSpeYT1
+ EZjRJNT+SKc7WTLwpEOAZNaoqSQQF5tH15nb3gka5cf4HF7g92UPCZ/0a
+ PG0TNBQ/39LQyy2CvARs0gH4wUuFDm9+Om1Ke5aWiB7vP6lwfdMvzywNV
+ jAfXGSMlToBnHrswsuQhuvFRKQWwn85swAMBKY4KlIgbvLxLK8X0eVQUl
+ 2XCGj7T8pr5Tb3ve3go56Ox0bmJowRoHxqdRfwLhl+6ywOb/FnhHnC2Y3
+ vK3tAzcYjklQIepkhH29f06k9C2Vv1WUKav8jxkncUlHk/fXIZyK3/jFe Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10678"; a="324251412"
+X-IronPort-AV: E=Sophos;i="5.98,339,1673942400"; d="scan'208";a="324251412"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Apr 2023 06:04:36 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10678"; a="688944649"
+X-IronPort-AV: E=Sophos;i="5.98,339,1673942400"; d="scan'208";a="688944649"
+Received: from ahajda-mobl.ger.corp.intel.com (HELO [10.213.31.124])
+ ([10.213.31.124])
+ by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Apr 2023 06:04:33 -0700
+Message-ID: <04f9e2ac-0967-1e26-fbfc-da7ff54c9a62@intel.com>
+Date: Wed, 12 Apr 2023 15:04:32 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.1
-Subject: Re: [PATCH 02/27] dt-bindings: phy: mediatek, dsi-phy: Add compatible
- for MT6795 Helio X10
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Firefox/102.0 Thunderbird/102.9.1
+Subject: Re: [PATCH v5 2/5] drm/i915: Create the locked version of the request
+ create
 Content-Language: en-US
-To: Alexandre Mergnat <amergnat@baylibre.com>, matthias.bgg@gmail.com
-References: <20230412112739.160376-1-angelogioacchino.delregno@collabora.com>
- <20230412112739.160376-3-angelogioacchino.delregno@collabora.com>
- <20684378-cf3e-0299-d390-287b7bafbda5@baylibre.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20684378-cf3e-0299-d390-287b7bafbda5@baylibre.com>
+To: Andi Shyti <andi.shyti@linux.intel.com>, intel-gfx@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org, stable@vger.kernel.org
+References: <20230412113308.812468-1-andi.shyti@linux.intel.com>
+ <20230412113308.812468-3-andi.shyti@linux.intel.com>
+From: Andrzej Hajda <andrzej.hajda@intel.com>
+Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
+ Gdansk - KRS 101882 - NIP 957-07-52-316
+In-Reply-To: <20230412113308.812468-3-andi.shyti@linux.intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,68 +66,117 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
- thierry.reding@gmail.com, krzysztof.kozlowski+dt@linaro.org,
- linux-phy@lists.infradead.org, kernel@collabora.com, xinlei.lee@mediatek.com,
- kishon@kernel.org, phone-devel@vger.kernel.org, jassisinghbrar@gmail.com,
- linux-pwm@vger.kernel.org, u.kleine-koenig@pengutronix.de,
- chunkuang.hu@kernel.org, jitao.shi@mediatek.com, houlong.wei@mediatek.com,
- chunfeng.yun@mediatek.com, robh+dt@kernel.org,
- linux-mediatek@lists.infradead.org, ~postmarketos/upstreaming@lists.sr.ht,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- vkoul@kernel.org
+Cc: Andi Shyti <andi.shyti@kernel.org>,
+ Maciej Patelczyk <maciej.patelczyk@intel.com>,
+ Matthew Auld <matthew.auld@intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Chris Wilson <chris.p.wilson@linux.intel.com>,
+ Nirmoy Das <nirmoy.das@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Il 12/04/23 14:59, Alexandre Mergnat ha scritto:
-> On 12/04/2023 13:27, AngeloGioacchino Del Regno wrote:
->> Add a compatible string for MediaTek Helio X10 MT6795: this SoC uses
->> the same DSI PHY as MT8173.
->>
->> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
->> ---
->>   Documentation/devicetree/bindings/phy/mediatek,dsi-phy.yaml | 4 ++++
->>   1 file changed, 4 insertions(+)
->>
->> diff --git a/Documentation/devicetree/bindings/phy/mediatek,dsi-phy.yaml 
->> b/Documentation/devicetree/bindings/phy/mediatek,dsi-phy.yaml
->> index 26f2b887cfc1..a9f78344efdb 100644
->> --- a/Documentation/devicetree/bindings/phy/mediatek,dsi-phy.yaml
->> +++ b/Documentation/devicetree/bindings/phy/mediatek,dsi-phy.yaml
->> @@ -24,6 +24,10 @@ properties:
->>             - enum:
->>                 - mediatek,mt7623-mipi-tx
->>             - const: mediatek,mt2701-mipi-tx
->> +      - items:
->> +          - enum:
->> +              - mediatek,mt6795-mipi-tx
->> +          - const: mediatek,mt8173-mipi-tx
-> 
-> AFAIK, it should be:
->        - items:
->            - const: mediatek,mt6795-mipi-tx
->            - const: mediatek,mt8173-mipi-tx
-> 
-> Since it isn't respected above for mt7623, it may be tolerated.
-> Please, take this comment as a suggestion, isn't a NAK from me.
-> 
 
-First of all, Thanks!
-I want to explain, though, the reason for that.
 
-If you check all the commits, on some I did it as you just proposed, while
-on some others I did it with an enum before const: that's simply because I
-*totally expect* some to grow, while others (const - const) I was either
-unsure, or totally *not* expecting them to grow soon!
+On 12.04.2023 13:33, Andi Shyti wrote:
+> Make version of the request creation that doesn't hold any
+> lock.
+>
+> Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
+> Cc: stable@vger.kernel.org
+> Reviewed-by: Nirmoy Das <nirmoy.das@intel.com>
+> ---
+>   drivers/gpu/drm/i915/i915_request.c | 38 +++++++++++++++++++++--------
+>   drivers/gpu/drm/i915/i915_request.h |  2 ++
+>   2 files changed, 30 insertions(+), 10 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/i915/i915_request.c b/drivers/gpu/drm/i915/i915_request.c
+> index 630a732aaecca..58662360ac34e 100644
+> --- a/drivers/gpu/drm/i915/i915_request.c
+> +++ b/drivers/gpu/drm/i915/i915_request.c
+> @@ -1028,15 +1028,11 @@ __i915_request_create(struct intel_context *ce, gfp_t gfp)
+>   	return ERR_PTR(ret);
+>   }
+>   
+> -struct i915_request *
+> -i915_request_create(struct intel_context *ce)
+> +static struct i915_request *
+> +__i915_request_create_locked(struct intel_context *ce)
+>   {
+> +	struct intel_timeline *tl = ce->timeline;
+>   	struct i915_request *rq;
+> -	struct intel_timeline *tl;
+> -
+> -	tl = intel_context_timeline_lock(ce);
+> -	if (IS_ERR(tl))
+> -		return ERR_CAST(tl);
+>   
+>   	/* Move our oldest request to the slab-cache (if not in use!) */
+>   	rq = list_first_entry(&tl->requests, typeof(*rq), link);
+> @@ -1046,16 +1042,38 @@ i915_request_create(struct intel_context *ce)
+>   	intel_context_enter(ce);
+>   	rq = __i915_request_create(ce, GFP_KERNEL);
+>   	intel_context_exit(ce); /* active reference transferred to request */
+> +
+>   	if (IS_ERR(rq))
+> -		goto err_unlock;
+> +		return rq;
+>   
+>   	/* Check that we do not interrupt ourselves with a new request */
+>   	rq->cookie = lockdep_pin_lock(&tl->mutex);
+>   
+>   	return rq;
+> +}
+> +
+> +struct i915_request *
+> +i915_request_create_locked(struct intel_context *ce)
+> +{
+> +	intel_context_assert_timeline_is_locked(ce->timeline);
+> +
+> +	return __i915_request_create_locked(ce);
+> +}
 
->>         - items:
->>             - enum:
->>                 - mediatek,mt8365-mipi-tx
-> 
-> Reviewed-by: Alexandre Mergnat <amergnat@baylibre.com>
-> 
+I wonder if we really need to have such granularity? Leaving only 
+i915_request_create_locked and removing __i915_request_create_locked 
+would simplify little bit the code,
+I guess the cost of calling intel_context_assert_timeline_is_locked 
+twice sometimes is not big, or maybe it can be re-arranged, up to you.
 
-Thanks again!
+Reviewed-by: Andrzej Hajda <andrzej.hajda@intel.com>
 
-Cheers,
-Angelo
+Regards
+Andrzej
+
+
+> +
+> +struct i915_request *
+> +i915_request_create(struct intel_context *ce)
+> +{
+> +	struct i915_request *rq;
+> +	struct intel_timeline *tl;
+> +
+> +	tl = intel_context_timeline_lock(ce);
+> +	if (IS_ERR(tl))
+> +		return ERR_CAST(tl);
+> +
+> +	rq = __i915_request_create_locked(ce);
+> +	if (IS_ERR(rq))
+> +		intel_context_timeline_unlock(tl);
+>   
+> -err_unlock:
+> -	intel_context_timeline_unlock(tl);
+>   	return rq;
+>   }
+>   
+> diff --git a/drivers/gpu/drm/i915/i915_request.h b/drivers/gpu/drm/i915/i915_request.h
+> index f5e1bb5e857aa..bb48bd4605c03 100644
+> --- a/drivers/gpu/drm/i915/i915_request.h
+> +++ b/drivers/gpu/drm/i915/i915_request.h
+> @@ -374,6 +374,8 @@ struct i915_request * __must_check
+>   __i915_request_create(struct intel_context *ce, gfp_t gfp);
+>   struct i915_request * __must_check
+>   i915_request_create(struct intel_context *ce);
+> +struct i915_request * __must_check
+> +i915_request_create_locked(struct intel_context *ce);
+>   
+>   void __i915_request_skip(struct i915_request *rq);
+>   bool i915_request_set_error_once(struct i915_request *rq, int error);
+
