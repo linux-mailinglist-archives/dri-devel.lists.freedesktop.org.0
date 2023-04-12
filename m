@@ -2,51 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C37AF6DFDE7
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Apr 2023 20:47:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19CBC6DFDF2
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Apr 2023 20:51:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9C69010E0BF;
-	Wed, 12 Apr 2023 18:47:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DCE2810E91B;
+	Wed, 12 Apr 2023 18:51:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from phobos.denx.de (phobos.denx.de
- [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3D03710E0BF
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Apr 2023 18:47:37 +0000 (UTC)
-Received: from mail.denx.de (unknown
- [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (No client certificate requested)
- (Authenticated sender: festevam@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id 1019D85FB2;
- Wed, 12 Apr 2023 20:47:29 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1681325249;
- bh=EtZZqzZL2vJAf9fyVdNPVZrxI5cAm4RiU1gbQP4NE+8=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=GgqWufzouxctSPf+epllIXpkN9PapbNIURu6tAFJD1M/oiQaKmTGxhkRdm2O2GwnI
- D52tlsMrvK9WeYupVftkKBumP3sS/ODeDsPMvYZBDU/18PQu9WOnEy0yePl5PCl0sV
- rkX0LzYemZ5UpC2aTvBBihgvUV27xvZOzrPyZkZtWWVU2cC/bChUhEo+fBkfeMcDpm
- Wu4X1F1mBYdh68EakzNny3wThNtKMwnFJXSu8lbIeNFW91UpMIERjUQFKYpTo2m2an
- jHGmzlrRRwyWUXB6PF+YLQsPS+UvsoBR3bZ45WFiYXb5vIpOrBFfCWcFkqTtXnx1GO
- RWp7nlRj2mp1Q==
+Received: from relay04.th.seeweb.it (relay04.th.seeweb.it
+ [IPv6:2001:4b7a:2000:18::165])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BD77E10E91F
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Apr 2023 18:50:58 +0000 (UTC)
+Received: from SoMainline.org (94-211-6-86.cable.dynamic.v4.ziggo.nl
+ [94.211.6.86])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
+ SHA256) (No client certificate requested)
+ by m-r1.th.seeweb.it (Postfix) with ESMTPSA id BFAD320251;
+ Wed, 12 Apr 2023 20:50:53 +0200 (CEST)
+Date: Wed, 12 Apr 2023 20:50:51 +0200
+From: Marijn Suijten <marijn.suijten@somainline.org>
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Subject: Re: [Freedreno] [PATCH] drm/msm/dpu: add DSC range checking during
+ resource reservation
+Message-ID: <szwu75yxcfxeyvfvrsyuoc3jeoaylydwtlzm3cevmpr3zpmfpo@wrdgbf3w3de2>
+References: <1681247380-1607-1-git-send-email-quic_khsieh@quicinc.com>
+ <qvgbm3wimai3jytnikbcixipvwqn2uywqpg4mn6mjh5atergfx@wa4edsrp7y22>
+ <96416911-bca3-b007-b036-1c4463e83aaa@quicinc.com>
+ <24c5aa23-9b3c-787c-10aa-e9d5ad91512b@linaro.org>
+ <49479b93-b364-d882-7a77-08223a94ed36@quicinc.com>
+ <tczt5alqbadkodgorqm4pljpqkn5bc4efpxiy3em7bgu7gqaka@3cdszu4k6rhk>
+ <8310d7ce-7ac0-05a6-b95a-c18a498f7644@quicinc.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-Date: Wed, 12 Apr 2023 15:47:28 -0300
-From: Fabio Estevam <festevam@denx.de>
-To: Rob Herring <robh@kernel.org>
-Subject: Re: [PATCH v2 1/2] dt-bindings: samsung,mipi-dsim: Add
- 'lane-polarities'
-In-Reply-To: <20230412144300.GA2328336-robh@kernel.org>
-References: <20230406190354.1641352-1-festevam@gmail.com>
- <20230412144300.GA2328336-robh@kernel.org>
-Message-ID: <4455923593064a4ad5b39a9030ded528@denx.de>
-X-Sender: festevam@denx.de
-User-Agent: Roundcube Webmail/1.3.6
-X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
-X-Virus-Status: Clean
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <8310d7ce-7ac0-05a6-b95a-c18a498f7644@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,88 +49,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: marex@denx.de, neil.armstrong@linaro.org, devicetree@vger.kernel.org,
- dri-devel@lists.freedesktop.org, jagan@amarulasolutions.com,
- krzysztof.kozlowski+dt@linaro.org
+Cc: sean@poorly.run, vkoul@kernel.org, quic_sbillaka@quicinc.com,
+ freedreno@lists.freedesktop.org, andersson@kernel.org, dianders@chromium.org,
+ dri-devel@lists.freedesktop.org, Kuogee Hsieh <quic_khsieh@quicinc.com>,
+ agross@kernel.org, linux-arm-msm@vger.kernel.org,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, swboyd@chromium.org,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Rob,
-
-On 12/04/2023 11:43, Rob Herring wrote:
-
-> No, this should be video-interfaces.yaml since you use properties from
-> it.
-
-Ok, will change it.
-
+On 2023-04-12 10:48:18, Abhinav Kumar wrote:
+[..]
+> > The only way to trigger this newly introduced range check is by omitting
+> > the DSC_x constants and manually writing e.g. an out-of-range value 10
+> > here, or setting DSC_NONE.  This is only allowed for interfaces.
+> > 
 > 
->> +            unevaluatedProperties: false
->> +
->> +            properties:
->> +              data-lanes:
->> +                oneOf:
->> +                  - minItems: 1
->> +                    maxItems: 4
->> +                    uniqueItems: true
->> +                    items:
->> +                      enum: [ 1, 2, 3, 4 ]
+> Correct, its just working on an implicit understanding that the indices 
+> in the catalog
+
+.. this sentence appears to be incomplete: what did you want to say? ..
+
+> which might still be right stick to the RM limits.
 > 
-> The h/w really supports any combination of lanes to be used?
+> Thats why this is not bad to have.
 
-The MIPI DSIM IP supports the usage of 1, 2, 3, or 4 data lanes.
+What do you mean by "RM limits"?  We have constants in the kernel that
+both define the maximum number of blocks in these arrays and a
+predefined set of ids that block can have.  These are all used in
+constant structs in the catalog, so there's nothing "software" or
+SoC-specific limiting about this (except what is available in the
+arrays).
 
-The following cases are possible:
+[..]
+> I think kuogee just added this to keep it consistent with other checks 
+> present in the RM. So I didnt see any harm with that.
 
-data-lanes = <1>;
-data-lanes = <1 2>;
-data-lanes = <1 2 3>;
-data-lanes = <1 2 3 4>;
+Yep, that's the only reason
 
-Lane reordering is not supported.
+> If he did see an issue, i will let him report that here.
 
-> 
->> +                    description:
->> +                      See ../../media/video-interfaces.yaml for 
->> details.
->> +
->> +              lane-polarities:
->> +                minItems: 1
->> +                maxItems: 5
->> +                items:
->> +                  enum: [ 0, 1 ]
->> +                description:
->> +                  See ../../media/video-interfaces.yaml for details.
->> +                  The Samsung MIPI DSI IP requires that all the data 
->> lanes have
->> +                  the same polarity.
-> 
-> Sounds like a constraint:
-> 
-> oneOf:
->   - items:
->       const: 0
->   - items:
->       const: 1
+If so an out-of-bounds constant was hardcoded in dpu_hw_catalog.c.
 
-Imagine a board that has 4 data lanes and only the clock lane is 
-inverted.
+> Otherwise, I dont want to spend more time discussing this bounds check 
+> when other blocks already have it.
 
-The representation is (the first entry is the clock lane, followed by 
-the 4 data lanes):
+I'll whip up a patch to clear out the extraneous lookup (assuming there
+is no other reason/dependency for it to be there...) and can follow that
+up with removing these range checks of known-good values in `const
+struct` fields.
 
-lane-polarities = <1 0 0 0 0>;
-
-If the board has no inversion on the clock lane, and has the data lanes 
-inverted:
-
-lane-polarities = <0 1 1 1 1>;
-
-Should I keep the data-lanes and lane-polarities description as in this 
-patch?
-
-Please advise.
-
-Thanks,
-
-Fabio Estevam
+- Marijn
