@@ -2,73 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 260566DE8AB
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Apr 2023 03:07:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AF066DE8C9
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Apr 2023 03:22:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E9D8A10E2D1;
-	Wed, 12 Apr 2023 01:06:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EF6D710E011;
+	Wed, 12 Apr 2023 01:22:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com
- [IPv6:2a00:1450:4864:20::12d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 48AEB10E284
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Apr 2023 01:06:54 +0000 (UTC)
-Received: by mail-lf1-x12d.google.com with SMTP id i26so13029850lfc.6
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Apr 2023 18:06:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1681261609; x=1683853609;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=N/gZ6cj/6Omli4sjrZld+bXqKW2xcaRiN8ew1uF6z4Q=;
- b=qg/wgnV2eqb3f3qQ00x6+C/wLebXtdwYd60rDUlRcu0B87vzIOf+Xu/PPuWjxfhOl/
- /RZKj2IE4PiUFEKdIVr4Zd19MTDnpzLVNkD7OCJ2YEZLGr3a2CCsGr4c57IEr3NXeyZn
- 3Ohj60QVPeGofBqYQTB74rITk+TTv6Kkh/DpLSpTTIEjIz6auBkcU1TcRwhnd1EpPdJz
- 0chkGhO9nWNZDcKABqTQ8qhonjZilzuAUZGjCOTxUXPJaA3A2K5rPqLhS29LOQ8S5vxM
- Iq0keKRq5+xe+VbJXK8f3fYpMPoO/Bla/y2Waa51VfXG1TRqcyoPJzlHXfzaSZHPtTrc
- z+ng==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1681261609; x=1683853609;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=N/gZ6cj/6Omli4sjrZld+bXqKW2xcaRiN8ew1uF6z4Q=;
- b=69DtjXfYQJYHbLg5eT2jOAVSe/eoqe0Wyr76at+EudfcuYVkZKzwhHRWvKSvUHsoaZ
- Pi2nZq+VOwgX6CnZnUjiP1ST1eZfD3DsPWIvvjDV4o+7XjS0gaU027saq0kCtwhkxM48
- McZ9d1299BAeWUs2ZMMPIGqzxGJy5uNuwNBY6L+QD53owGFjQWRwysdMWwORLDGyhzbn
- +0zymzExw2N3JqS6ihZbnguCnV5SjQ3jxDet2TIdyeE6xGpwGqiN2FkYrueOO5Or/eVY
- LJl7KaQzzA1VgH2xZ2Z5Zr2nZXrQDHrCQnkWxNxexIWfkx2nP4guqDBCwqaZB/4yqNoK
- hzLg==
-X-Gm-Message-State: AAQBX9fR7QnANY6t9hVekPdU39eus9p5CA8NLUqDtIllFvQi59HG9OCL
- KBjN0R4Z6R/g4WNZ87RStfr7Kw==
-X-Google-Smtp-Source: AKy350bo4WvmONxNFFnQIrtl/U3MsUQ1AvPbCr7NIx57Gv8KxdTGkpb0fgFvDk5kBTujWXmxM1wm0Q==
-X-Received: by 2002:a19:c504:0:b0:4b5:8298:5867 with SMTP id
- w4-20020a19c504000000b004b582985867mr115362lfe.66.1681261609629; 
- Tue, 11 Apr 2023 18:06:49 -0700 (PDT)
-Received: from ?IPV6:2001:14ba:a085:4d00::8a5?
- (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a085:4d00::8a5])
- by smtp.gmail.com with ESMTPSA id
- u11-20020ac2518b000000b004d5a6dcb94fsm2781793lfi.33.2023.04.11.18.06.48
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 11 Apr 2023 18:06:49 -0700 (PDT)
-Message-ID: <24c5aa23-9b3c-787c-10aa-e9d5ad91512b@linaro.org>
-Date: Wed, 12 Apr 2023 04:06:48 +0300
+Received: from gandalf.ozlabs.org (mail.ozlabs.org
+ [IPv6:2404:9400:2221:ea00::3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0CC4010E011
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Apr 2023 01:22:24 +0000 (UTC)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4Px4gs0Th5z4x84;
+ Wed, 12 Apr 2023 11:22:17 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
+ s=201702; t=1681262538;
+ bh=XhOrU+QFWcb+CVANp9ratxZSEqdjnqay4In+Rbto5+I=;
+ h=Date:From:To:Cc:Subject:From;
+ b=EJ6xW+ViyMy/3l95STmnF2XsHDzfs6v3XJ65nsMjXlz2b+cIJ0WZxcbSBghzkNhIY
+ y4WQyMc5T2B014GaSVJuc+yOWKxcAx1WsGrScj/Y4rstQW8SEP+dZTdp65zBkFKCyu
+ koNlBmgtk15pUMQy0aU1+iLuOUA91mssXJgi1i5CxRqMftXOzDLd95DEsO5wdVNLjX
+ TXkbXLE/EH9nKNngCEXxTfTep1uSb7pXTpoFTkkY+BuqC8Iich5gJ8JWeJIlkbKIdG
+ neOj1Bxbs7IT9UnlAC0Pq+xa+lPPflSLbtzcZj7Bp9hZuf/iIkS5EeoQmrWfycJbit
+ Nm/prWt0Jrjqg==
+Date: Wed, 12 Apr 2023 11:22:13 +1000
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Dave Airlie <airlied@redhat.com>, DRI <dri-devel@lists.freedesktop.org>,
+ Michael Ellerman <mpe@ellerman.id.au>
+Subject: linux-next: manual merge of the drm tree with the powerpc tree
+Message-ID: <20230412112213.59365041@canb.auug.org.au>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [Freedreno] [PATCH] drm/msm/dpu: add DSC range checking during
- resource reservation
-Content-Language: en-GB
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- Kuogee Hsieh <quic_khsieh@quicinc.com>
-References: <1681247380-1607-1-git-send-email-quic_khsieh@quicinc.com>
- <qvgbm3wimai3jytnikbcixipvwqn2uywqpg4mn6mjh5atergfx@wa4edsrp7y22>
- <96416911-bca3-b007-b036-1c4463e83aaa@quicinc.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <96416911-bca3-b007-b036-1c4463e83aaa@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; boundary="Sig_/60om+LnrpZ0CbC8sc7Il/5w";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,115 +50,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: sean@poorly.run, vkoul@kernel.org, quic_sbillaka@quicinc.com,
- freedreno@lists.freedesktop.org, andersson@kernel.org, dianders@chromium.org,
- dri-devel@lists.freedesktop.org, swboyd@chromium.org, agross@kernel.org,
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: Alex Deucher <alexander.deucher@amd.com>,
+ Linux Next Mailing List <linux-next@vger.kernel.org>,
+ PowerPC <linuxppc-dev@lists.ozlabs.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 12/04/2023 01:32, Abhinav Kumar wrote:
-> Hi Marijn
-> 
-> On 4/11/2023 3:24 PM, Marijn Suijten wrote:
->> Again, don't forget to include previous reviewers in cc, please :)
->>
->> On 2023-04-11 14:09:40, Kuogee Hsieh wrote:
->>> Perform DSC range checking to make sure correct DSC is requested before
->>> reserve resource for it.
+--Sig_/60om+LnrpZ0CbC8sc7Il/5w
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-nit: reserving
+Hi all,
 
->>
->> This isn't performing any range checking for resource reservations /
->> requests: this is only validating the constants written in our catalog
->> and seems rather useless.  It isn't fixing any real bug either, so the
->> Fixes: tag below seems extraneous.
->>
->> Given prior comments from Abhinav that "the kernel should be trusted",
->> we should remove this validation for all the other blocks instead.
->>
-> 
-> The purpose of this check is that today all our blocks in RM use the 
-> DSC_* enum as the size.
-> 
-> struct dpu_hw_blk *dsc_blks[DSC_MAX - DSC_0];
-> 
-> If the device tree ends up with more DSC blocks than the DSC_* enum, how 
-> can we avoid this issue today? Not because its a bug in device tree but 
-> how many static number of DSCs are hard-coded in RM.
+Today's linux-next merge of the drm tree got a conflict in:
 
-We don't have these blocks in device tree. And dpu_hw_catalog shouldn't 
-use indices outside of enum dpu_dsc.
+  drivers/gpu/drm/amd/display/Kconfig
 
-Marijn proposed to pass struct dpu_foo_cfg directly to 
-dpu_hw_foo_init(). This will allow us to drop these checks completely.
+between commit:
 
-For the time being, I think it might be better to add these checks for 
-DSC for the sake of uniformity.
+  78f0929884d4 ("powerpc/64: Always build with 128-bit long double")
 
-> 
-> And like you said, this is not specific to DSC. Such checks are present 
-> for other blocks too.
-> 
->>> Fixes: c985d7bb64ff ("drm/msm/disp/dpu1: Add DSC support in RM")
->>> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
->>> ---
->>>   drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c | 10 +++++++++-
->>>   1 file changed, 9 insertions(+), 1 deletion(-)
->>>
->>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c 
->>> b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
->>> index f4dda88..95e58f1 100644
->>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
->>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
->>> @@ -1,6 +1,7 @@
->>>   // SPDX-License-Identifier: GPL-2.0-only
->>>   /*
->>>    * Copyright (c) 2016-2018, The Linux Foundation. All rights reserved.
->>> + * Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights 
->>> reserved.
->>>    */
->>>   #define pr_fmt(fmt)    "[drm:%s] " fmt, __func__
->>> @@ -250,6 +251,11 @@ int dpu_rm_init(struct dpu_rm *rm,
->>>           struct dpu_hw_dsc *hw;
->>>           const struct dpu_dsc_cfg *dsc = &cat->dsc[i];
->>> +        if (dsc->id < DSC_0 || dsc->id >= DSC_MAX) {
->>> +            DPU_ERROR("skip dsc %d with invalid id\n", dsc->id);
->>> +            continue;
->>> +        }
->>> +
->>>           hw = dpu_hw_dsc_init(dsc->id, mmio, cat);
->>>           if (IS_ERR_OR_NULL(hw)) {
->>>               rc = PTR_ERR(hw);
->>> @@ -557,8 +563,10 @@ static int _dpu_rm_make_reservation(
->>>       }
->>>       ret  = _dpu_rm_reserve_dsc(rm, global_state, enc, 
->>> &reqs->topology);
->>> -    if (ret)
->>> +    if (ret) {
->>> +        DPU_ERROR("unable to find appropriate DSC\n");
->>
->> This, while a nice addition, should go in a different patch.
+from the powerpc tree and commit:
 
-I'd agree here, a separate patch.
+  4652ae7a51b7 ("drm/amd/display: Rename DCN config to FP")
 
->>
->> Thanks!
->>
->> - Marijn
->>
->>>           return ret;
->>> +    }
->>>       return ret;
->>>   }
->>> -- 
->>> The Qualcomm Innovation Center, Inc. is a member of the Code Aurora 
->>> Forum,
->>> a Linux Foundation Collaborative Project
->>>
+from the drm tree.
 
--- 
-With best wishes
-Dmitry
+I fixed it up (I used the powerpc version - with "(PPC64 && ALTIVEC)")
+and can carry the fix as necessary. This is now fixed as far as
+linux-next is concerned, but any non trivial conflicts should be
+mentioned to your upstream maintainer when your tree is submitted for
+merging.  You may also want to consider cooperating with the maintainer
+of the conflicting tree to minimise any particularly complex conflicts.
 
+--=20
+Cheers,
+Stephen Rothwell
+
+--Sig_/60om+LnrpZ0CbC8sc7Il/5w
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmQ2B8YACgkQAVBC80lX
+0GxzBAf+Lg//lxSU8q+Rc5ntDb5otOp2iFJrWaVe1Q233Y12PERCK4EyuK18LIr4
+x1W0O/2YNMfLrOw8ptMSYsSLQIm7Z1NbpotR3w/0mNaR2utwEbKYf4N/sd8R2p1u
+mkCAX1apB7e/P54o6fOq12/dj4cEFdnnR83OlULTGEp/JyRyKm2W3sHzrf8Mp1aF
+t1BIS7cwYu970Tz+W0U3cVEljay9mdscGOYBdiw3L9+s9D2AWv+ocOboj/7aDZtK
+goNTeHu8/h+CQCFc/ulDaBdWk52b/uy+kbSKDNy1rulbNNs7jA+3PxNs/+dOIwsA
+qPBJveVZlPWhkQ66ZdZZ9/5LoBr3TQ==
+=MaU1
+-----END PGP SIGNATURE-----
+
+--Sig_/60om+LnrpZ0CbC8sc7Il/5w--
