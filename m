@@ -1,48 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B60D16DF3CA
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Apr 2023 13:34:32 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 131D96DF3CB
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Apr 2023 13:34:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B437310E7A4;
-	Wed, 12 Apr 2023 11:34:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 021F310E7A6;
+	Wed, 12 Apr 2023 11:34:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8952210E7A3;
- Wed, 12 Apr 2023 11:34:27 +0000 (UTC)
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 544F710E7A7;
+ Wed, 12 Apr 2023 11:34:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1681299267; x=1712835267;
+ t=1681299276; x=1712835276;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=4jsuxaOlQQhIILu8/DTGj4Auy5P5LrqrCa5YmCivzaQ=;
- b=lT4s/gYFqRdodmUovbSKWUlRBg4MK7AuSrmfspeb5my2pqxGzcXqJ4cB
- FVi1hG7+awBvxkw3xKm0UqMdFwVBQtuo9EccuMW496PezqEbe3PQ2adSM
- TIPEvLoUcPS0BrBnhwVdeynaHt1IhmSojGh8PwUv/s6xd0V0YKe3rM5eN
- 1OPz42kcO7JGUxd+BmF/MKeFypT/BJcCcdu1t40GNapP9y8fU//CFeqbU
- MD15Jt+NzPi0sfM/7y+TDyyDJDWX8ud6S6jpluaGgRs8uZg4tVdvfrAs1
- J3Ma48HJohH4vGnxkJ61WpgReW/slxX+S8V5jWZCmBaNjXBMRAlojhfEt w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10677"; a="430152016"
-X-IronPort-AV: E=Sophos;i="5.98,339,1673942400"; d="scan'208";a="430152016"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Apr 2023 04:34:26 -0700
+ bh=puz0lkr0ae7G+kGiGt2AiDRFdSeU49k5Kj6BcTSHsEo=;
+ b=YnE0FVy0SUXZPsFmCKUCtSZ47GcDzNcf2I5PXMgGDeyei6ldhiAUuXQo
+ qa69SC9SsluefDS4Wqo5Lu8ij0OOlySdxtka30fnTIFSLZTbtRKqpSXzS
+ V4pxmMuD2HPxHrjz13c/JOoeFTDKaTUClzSDny/oEMWpLyDmdUfYc+nul
+ oy0Vv4nEvrNNiKD0Z1VxsMvyPdWweh49l+O+7FGtXZUcUVSL1jf5mHmLP
+ aIcru+FX5jSkXE0rhlhd1z9lf00j9ke5KTMVddVmp2mbbLitcwpccZzlW
+ FV3PcwkSLL9/hDyujfRb+a6TTqWK/+3Detq61AiN8xV7yiXw51sujdKB9 Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10677"; a="332562327"
+X-IronPort-AV: E=Sophos;i="5.98,339,1673942400"; d="scan'208";a="332562327"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Apr 2023 04:34:34 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10677"; a="800275732"
-X-IronPort-AV: E=Sophos;i="5.98,339,1673942400"; d="scan'208";a="800275732"
+X-IronPort-AV: E=McAfee;i="6600,9927,10677"; a="758203253"
+X-IronPort-AV: E=Sophos;i="5.98,339,1673942400"; d="scan'208";a="758203253"
 Received: from zbiro-mobl.ger.corp.intel.com (HELO intel.com)
  ([10.251.212.144])
- by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Apr 2023 04:34:22 -0700
+ by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Apr 2023 04:34:31 -0700
 From: Andi Shyti <andi.shyti@linux.intel.com>
 To: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  stable@vger.kernel.org
-Subject: [PATCH v5 4/5] drm/i915: Throttle for ringspace prior to taking the
- timeline mutex
-Date: Wed, 12 Apr 2023 13:33:07 +0200
-Message-Id: <20230412113308.812468-5-andi.shyti@linux.intel.com>
+Subject: [PATCH v5 5/5] drm/i915/gt: Make sure that errors are propagated
+ through request chains
+Date: Wed, 12 Apr 2023 13:33:08 +0200
+Message-Id: <20230412113308.812468-6-andi.shyti@linux.intel.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230412113308.812468-1-andi.shyti@linux.intel.com>
 References: <20230412113308.812468-1-andi.shyti@linux.intel.com>
@@ -69,106 +69,147 @@ Cc: Maciej Patelczyk <maciej.patelczyk@intel.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Chris Wilson <chris@chris-wilson.co.uk>
+Currently, when we perform operations such as clearing or copying
+large blocks of memory, we generate multiple requests that are
+executed in a chain.
 
-Before taking exclusive ownership of the ring for emitting the request,
-wait for space in the ring to become available. This allows others to
-take the timeline->mutex to make forward progresses while userspace is
-blocked.
+However, if one of these requests fails, we may not realize it
+unless it happens to be the last request in the chain. This is
+because errors are not properly propagated.
 
-In particular, this allows regular clients to issue requests on the
-kernel context, potentially filling the ring, but allow the higher
-priority heartbeats and pulses to still be submitted without being
-blocked by the less critical work.
+For this we need to keep propagating the chain of fence
+notification in order to always reach the final fence associated
+to the final request.
 
-Signed-off-by: Chris Wilson <chris.p.wilson@linux.intel.com>
-Cc: Maciej Patelczyk <maciej.patelczyk@intel.com>
-Cc: stable@vger.kernel.org
+To address this issue, we need to ensure that the chain of fence
+notifications is always propagated so that we can reach the final
+fence associated with the last request. By doing so, we will be
+able to detect any memory operation  failures and determine
+whether the memory is still invalid.
+
+On copy and clear migration signal fences upon completion.
+
+On copy and clear migration, signal fences upon request
+completion to ensure that we have a reliable perpetuation of the
+operation outcome.
+
+Fixes: cf586021642d80 ("drm/i915/gt: Pipelined page migration")
+Reported-by: Matthew Auld <matthew.auld@intel.com>
+Suggested-by: Chris Wilson <chris@chris-wilson.co.uk>
 Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
-Reviewed-by: Andrzej Hajda <andrzej.hajda@intel.com>
+Cc: stable@vger.kernel.org
+Reviewed-by: Matthew Auld <matthew.auld@intel.com>
+Acked-by: Nirmoy Das <nirmoy.das@intel.com>
 ---
- drivers/gpu/drm/i915/gt/intel_context.c | 41 +++++++++++++++++++++++++
- drivers/gpu/drm/i915/gt/intel_context.h |  2 ++
- drivers/gpu/drm/i915/i915_request.c     |  3 ++
- 3 files changed, 46 insertions(+)
+ drivers/gpu/drm/i915/gt/intel_migrate.c | 51 +++++++++++++++++++------
+ 1 file changed, 39 insertions(+), 12 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/gt/intel_context.c b/drivers/gpu/drm/i915/gt/intel_context.c
-index 2aa63ec521b89..59cd612a23561 100644
---- a/drivers/gpu/drm/i915/gt/intel_context.c
-+++ b/drivers/gpu/drm/i915/gt/intel_context.c
-@@ -626,6 +626,47 @@ bool intel_context_revoke(struct intel_context *ce)
- 	return ret;
- }
+diff --git a/drivers/gpu/drm/i915/gt/intel_migrate.c b/drivers/gpu/drm/i915/gt/intel_migrate.c
+index 3f638f1987968..668c95af8cbcf 100644
+--- a/drivers/gpu/drm/i915/gt/intel_migrate.c
++++ b/drivers/gpu/drm/i915/gt/intel_migrate.c
+@@ -742,13 +742,19 @@ intel_context_migrate_copy(struct intel_context *ce,
+ 			dst_offset = 2 * CHUNK_SZ;
+ 	}
  
-+int intel_context_throttle(const struct intel_context *ce)
-+{
-+	const struct intel_ring *ring = ce->ring;
-+	const struct intel_timeline *tl = ce->timeline;
-+	struct i915_request *rq;
-+	int err = 0;
++	/*
++	 * While building the chain of requests, we need to ensure
++	 * that no one can sneak into the timeline unnoticed.
++	 */
++	mutex_lock(&ce->timeline->mutex);
 +
-+	if (READ_ONCE(ring->space) >= SZ_1K)
-+		return 0;
-+
-+	rcu_read_lock();
-+	list_for_each_entry_reverse(rq, &tl->requests, link) {
-+		if (__i915_request_is_complete(rq))
+ 	do {
+ 		int len;
+ 
+-		rq = i915_request_create(ce);
++		rq = i915_request_create_locked(ce);
+ 		if (IS_ERR(rq)) {
+ 			err = PTR_ERR(rq);
+-			goto out_ce;
 +			break;
-+
-+		if (rq->ring != ring)
-+			continue;
-+
-+		/* Wait until there will be enough space following that rq */
-+		if (__intel_ring_space(rq->postfix,
-+				       ring->emit,
-+				       ring->size) < ring->size / 2) {
-+			if (i915_request_get_rcu(rq)) {
-+				rcu_read_unlock();
-+
-+				if (i915_request_wait(rq,
-+						      I915_WAIT_INTERRUPTIBLE,
-+						      MAX_SCHEDULE_TIMEOUT) < 0)
-+					err = -EINTR;
-+
-+				rcu_read_lock();
-+				i915_request_put(rq);
-+			}
-+			break;
+ 		}
+ 
+ 		if (deps) {
+@@ -878,10 +884,14 @@ intel_context_migrate_copy(struct intel_context *ce,
+ 
+ 		/* Arbitration is re-enabled between requests. */
+ out_rq:
+-		if (*out)
++		i915_sw_fence_await(&rq->submit);
++		i915_request_get(rq);
++		i915_request_add_locked(rq);
++		if (*out) {
++			i915_sw_fence_complete(&(*out)->submit);
+ 			i915_request_put(*out);
+-		*out = i915_request_get(rq);
+-		i915_request_add(rq);
 +		}
-+	}
-+	rcu_read_unlock();
++		*out = rq;
+ 
+ 		if (err)
+ 			break;
+@@ -905,7 +915,10 @@ intel_context_migrate_copy(struct intel_context *ce,
+ 		cond_resched();
+ 	} while (1);
+ 
+-out_ce:
++	mutex_unlock(&ce->timeline->mutex);
 +
-+	return err;
-+}
-+
- #if IS_ENABLED(CONFIG_DRM_I915_SELFTEST)
- #include "selftest_context.c"
- #endif
-diff --git a/drivers/gpu/drm/i915/gt/intel_context.h b/drivers/gpu/drm/i915/gt/intel_context.h
-index f2f79ff0dfd1d..c0db00ac6b950 100644
---- a/drivers/gpu/drm/i915/gt/intel_context.h
-+++ b/drivers/gpu/drm/i915/gt/intel_context.h
-@@ -233,6 +233,8 @@ static inline void intel_context_exit(struct intel_context *ce)
- 	ce->ops->exit(ce);
++	if (*out)
++		i915_sw_fence_complete(&(*out)->submit);
+ 	return err;
  }
  
-+int intel_context_throttle(const struct intel_context *ce);
-+
- static inline struct intel_context *intel_context_get(struct intel_context *ce)
- {
- 	kref_get(&ce->ref);
-diff --git a/drivers/gpu/drm/i915/i915_request.c b/drivers/gpu/drm/i915/i915_request.c
-index 21032b3b9d330..0b7c6aede0c6b 100644
---- a/drivers/gpu/drm/i915/i915_request.c
-+++ b/drivers/gpu/drm/i915/i915_request.c
-@@ -1057,6 +1057,9 @@ i915_request_create_locked(struct intel_context *ce)
- {
- 	intel_context_assert_timeline_is_locked(ce->timeline);
+@@ -999,13 +1012,19 @@ intel_context_migrate_clear(struct intel_context *ce,
+ 	if (HAS_64K_PAGES(i915) && is_lmem)
+ 		offset = CHUNK_SZ;
  
-+	if (intel_context_throttle(ce))
-+		return ERR_PTR(-EINTR);
++	/*
++	 * While building the chain of requests, we need to ensure
++	 * that no one can sneak into the timeline unnoticed.
++	 */
++	mutex_lock(&ce->timeline->mutex);
 +
- 	return __i915_request_create_locked(ce);
+ 	do {
+ 		int len;
+ 
+-		rq = i915_request_create(ce);
++		rq = i915_request_create_locked(ce);
+ 		if (IS_ERR(rq)) {
+ 			err = PTR_ERR(rq);
+-			goto out_ce;
++			break;
+ 		}
+ 
+ 		if (deps) {
+@@ -1056,17 +1075,25 @@ intel_context_migrate_clear(struct intel_context *ce,
+ 
+ 		/* Arbitration is re-enabled between requests. */
+ out_rq:
+-		if (*out)
++		i915_sw_fence_await(&rq->submit);
++		i915_request_get(rq);
++		i915_request_add_locked(rq);
++		if (*out) {
++			i915_sw_fence_complete(&(*out)->submit);
+ 			i915_request_put(*out);
+-		*out = i915_request_get(rq);
+-		i915_request_add(rq);
++		}
++		*out = rq;
++
+ 		if (err || !it.sg || !sg_dma_len(it.sg))
+ 			break;
+ 
+ 		cond_resched();
+ 	} while (1);
+ 
+-out_ce:
++	mutex_unlock(&ce->timeline->mutex);
++
++	if (*out)
++		i915_sw_fence_complete(&(*out)->submit);
+ 	return err;
  }
  
 -- 
