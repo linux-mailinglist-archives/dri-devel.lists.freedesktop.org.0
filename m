@@ -1,77 +1,80 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0E5D6DE909
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Apr 2023 03:38:33 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C89E16DE91A
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Apr 2023 03:50:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8AC5210E183;
-	Wed, 12 Apr 2023 01:38:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 387DF10E6D7;
+	Wed, 12 Apr 2023 01:50:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22e.google.com (mail-lj1-x22e.google.com
- [IPv6:2a00:1450:4864:20::22e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C12CB10E183
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Apr 2023 01:38:27 +0000 (UTC)
-Received: by mail-lj1-x22e.google.com with SMTP id e20so10190399lji.6
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Apr 2023 18:38:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1681263505; x=1683855505;
- h=cc:to:subject:message-id:date:user-agent:from:references
- :in-reply-to:mime-version:from:to:cc:subject:date:message-id
- :reply-to; bh=x4I7A7fTrqw2RjiH+FANl1pHUb1mo4v70F1ZP1YYmH0=;
- b=eddehjaxa279W/YrUOmm1WgvC8vDX4Tc3sYAKlXKYyV36fw4dQ/qyq+r8+UTYIVkmA
- 9+nD3VH5DqzPAN3u0aJka1TzhZNJ0Mozj2KrChdbZxyRaHskhIAL2Yl4+XW3MpxGifyX
- TewzYAl4ZckxEtP5KKFLTI/6fnR6+sgtt05Cw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1681263505; x=1683855505;
- h=cc:to:subject:message-id:date:user-agent:from:references
- :in-reply-to:mime-version:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=x4I7A7fTrqw2RjiH+FANl1pHUb1mo4v70F1ZP1YYmH0=;
- b=GkT3FqunyRu67wfT3aFdmGSkFFqOG+UgOhTg9doqDF/iZqSiumXuOosjFxH8/+0DZw
- ZUVQzso/fcQjea0DhKndNKbxjYMviMSph71X6Beh5EIGEv/abmFKC3/sB/1qpxE7cWlp
- WaYk6N/Uw9QOGlm6N7ntrpmZdFyUDSFhqWmIPNaXmO8fJV/33jfHmWs6QgDmD/0CgSe3
- BY/8spTFGx4v7VTcKK6Lp6JvDuH/Agy5ONbj9StOYIdTPcZcDY//2NDr5/EgAIvn2i6U
- /FSP0lKbLcx5H+9yunA4BDXxmDEd2OejIhDfEffOrNcs+SbXb3EsloM+qkA1a6KlAoCE
- 9/8w==
-X-Gm-Message-State: AAQBX9fvv88JXwByyB6N4MS+AIbbVzgobbXwqpu+XEoADY3uLYDWa6lm
- xRWWL2EsjdJkCjMbZUsu86puJWEYn3OOrAZGmUh2UA==
-X-Google-Smtp-Source: AKy350ZrQD2Vb2BW3i4nlZswnqh11mfvwRG/pRKEBtPfKm06ImQY4Wy4cFsAYomIBa6rGCRvOo5AoNfsAyZRUXeax+8=
-X-Received: by 2002:a2e:8e96:0:b0:2a7:8402:c934 with SMTP id
- z22-20020a2e8e96000000b002a78402c934mr1460102ljk.10.1681263505347; Tue, 11
- Apr 2023 18:38:25 -0700 (PDT)
-Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Tue, 11 Apr 2023 18:38:24 -0700
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 634C310E6D0;
+ Wed, 12 Apr 2023 01:50:35 +0000 (UTC)
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 33C0keBK015548; Wed, 12 Apr 2023 01:50:27 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=a2Sk2OO/jA5sTTJNE4j6qslc9o4ud7/nASEjTzby/kg=;
+ b=k06ldBsHfCuOUN9bWtG1ybUc57+GvHL4M9Wr3IkfM9W4jDGwOA4jegh8fpqDCqqmmoO3
+ tL4dculmqyhWYCDklPxGZqXJaEn6R17zsQnnOsWtj/iYId6xXrt3DjUysRRfZmXZHD4o
+ GuDr9QQdipdhjap571oDtYXrCWyknzBrVdNbcdvYSy/wJktQG5VgspiE2fCnG7qC9OV1
+ 9ISppgEHRlAiLHmMlwsWbrvOAcQPrShCXsI6eSlujKLkdfhqGWwGy0pi9R9Sd3LLWu1t
+ jp6lhdlmE76loTu0MaAPeMuP8JmsCEU0/p4BMaUjQboPnoIdpyLbjwihZQUWhvvYIZHz rA== 
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3pw3cva1k4-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 12 Apr 2023 01:50:26 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 33C1oPl9003394
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 12 Apr 2023 01:50:25 GMT
+Received: from [10.110.115.18] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Tue, 11 Apr
+ 2023 18:50:24 -0700
+Message-ID: <49479b93-b364-d882-7a77-08223a94ed36@quicinc.com>
+Date: Tue, 11 Apr 2023 18:50:24 -0700
 MIME-Version: 1.0
-In-Reply-To: <20230331091145.737305-5-treapking@chromium.org>
-References: <20230331091145.737305-1-treapking@chromium.org>
- <20230331091145.737305-5-treapking@chromium.org>
-From: Stephen Boyd <swboyd@chromium.org>
-User-Agent: alot/0.10
-Date: Tue, 11 Apr 2023 18:38:24 -0700
-Message-ID: <CAE-0n51E5foFWQAsA73662_5e6XP426wuUCVVmcS5UWwiYpDmw@mail.gmail.com>
-Subject: Re: [PATCH v15 04/10] dt-bindings: display: bridge: anx7625: Add
- mode-switch support
-To: Andrzej Hajda <andrzej.hajda@intel.com>, 
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Benson Leung <bleung@chromium.org>, 
- Daniel Scally <djrscally@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- David Airlie <airlied@gmail.com>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Guenter Roeck <groeck@chromium.org>, 
- Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Jonas Karlman <jonas@kwiboo.se>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>,
- Pin-yen Lin <treapking@chromium.org>, 
- Prashant Malani <pmalani@chromium.org>,
- "Rafael J . Wysocki" <rafael@kernel.org>, 
- Rob Herring <robh+dt@kernel.org>, Robert Foss <rfoss@kernel.org>, 
- Sakari Ailus <sakari.ailus@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.2
+Subject: Re: [Freedreno] [PATCH] drm/msm/dpu: add DSC range checking during
+ resource reservation
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Marijn Suijten
+ <marijn.suijten@somainline.org>, Kuogee Hsieh <quic_khsieh@quicinc.com>
+References: <1681247380-1607-1-git-send-email-quic_khsieh@quicinc.com>
+ <qvgbm3wimai3jytnikbcixipvwqn2uywqpg4mn6mjh5atergfx@wa4edsrp7y22>
+ <96416911-bca3-b007-b036-1c4463e83aaa@quicinc.com>
+ <24c5aa23-9b3c-787c-10aa-e9d5ad91512b@linaro.org>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <24c5aa23-9b3c-787c-10aa-e9d5ad91512b@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: yuaxNTFyxmKnrkjQkZcIqr8zdsDZ_GJP
+X-Proofpoint-ORIG-GUID: yuaxNTFyxmKnrkjQkZcIqr8zdsDZ_GJP
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-04-11_16,2023-04-11_02,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 spamscore=0
+ suspectscore=0 phishscore=0 adultscore=0 clxscore=1015 bulkscore=0
+ mlxlogscore=999 impostorscore=0 lowpriorityscore=0 mlxscore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2303200000 definitions=main-2304120014
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,145 +87,129 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, devicetree@vger.kernel.org,
- =?UTF-8?B?TsOtY29sYXMgRiAuIFIgLiBBIC4gUHJhZG8=?= <nfraprado@collabora.com>,
- chrome-platform@lists.linux.dev, Chen-Yu Tsai <wenst@chromium.org>,
- Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Hsin-Yi Wang <hsinyi@chromium.org>,
- Xin Ji <xji@analogixsemi.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: sean@poorly.run, vkoul@kernel.org, quic_sbillaka@quicinc.com,
+ freedreno@lists.freedesktop.org, andersson@kernel.org, dianders@chromium.org,
+ dri-devel@lists.freedesktop.org, swboyd@chromium.org, agross@kernel.org,
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Pin-yen Lin (2023-03-31 02:11:39)
-> diff --git a/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml b/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml
-> index b42553ac505c..604c7391d74f 100644
-> --- a/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml
-> +++ b/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml
-> @@ -12,7 +12,8 @@ maintainers:
->
->  description: |
->    The ANX7625 is an ultra-low power 4K Mobile HD Transmitter
-> -  designed for portable devices.
-> +  designed for portable devices. Product brief is available at
-> +  https://www.analogix.com/en/system/files/AA-002291-PB-6-ANX7625_ProductBrief.pdf
->
->  properties:
->    compatible:
-> @@ -112,9 +113,40 @@ properties:
->                data-lanes: true
->
->        port@1:
-> -        $ref: /schemas/graph.yaml#/properties/port
-> +        $ref: /schemas/graph.yaml#/$defs/port-base
->          description:
-> -          Video port for panel or connector.
-> +          Video port for panel or connector. Each endpoint connects to a video
-> +          output downstream, and the "data-lanes" property is used to describe
-> +          the pin connections. 0, 1, 2, 3 in "data-lanes" maps to SSRX1, SSTX1,
-> +          SSRX2, SSTX2, respectively.
-> +
-> +        patternProperties:
-> +          "^endpoint@[01]$":
-> +            $ref: /schemas/media/video-interfaces.yaml#
-> +            properties:
-> +              reg: true
-> +
-> +              remote-endpoint: true
-> +
-> +              data-lanes:
-> +                oneOf:
-> +                  - items:
-> +                      - enum: [0, 1, 2, 3]
-> +
-> +                  - items:
-> +                      - const: 0
-> +                      - const: 1
-> +
-> +                  - items:
-> +                      - const: 2
-> +                      - const: 3
-> +
-> +              mode-switch:
 
-Is it possible to not have this property? Can we have the driver for
-this anx device look at the remote-endpoint and if it sees that it is
-not a drm_bridge or panel on the other end, or a DP connector, that it
-should register a typec mode switch (or two depending on the number of
-endpoints in port@1)? Is there any case where that doesn't hold true?
 
-I see these possible scenarios:
+On 4/11/2023 6:06 PM, Dmitry Baryshkov wrote:
+> On 12/04/2023 01:32, Abhinav Kumar wrote:
+>> Hi Marijn
+>>
+>> On 4/11/2023 3:24 PM, Marijn Suijten wrote:
+>>> Again, don't forget to include previous reviewers in cc, please :)
+>>>
+>>> On 2023-04-11 14:09:40, Kuogee Hsieh wrote:
+>>>> Perform DSC range checking to make sure correct DSC is requested before
+>>>> reserve resource for it.
+> 
+> nit: reserving
+> 
+>>>
+>>> This isn't performing any range checking for resource reservations /
+>>> requests: this is only validating the constants written in our catalog
+>>> and seems rather useless.  It isn't fixing any real bug either, so the
+>>> Fixes: tag below seems extraneous.
+>>>
+>>> Given prior comments from Abhinav that "the kernel should be trusted",
+>>> we should remove this validation for all the other blocks instead.
+>>>
+>>
+>> The purpose of this check is that today all our blocks in RM use the 
+>> DSC_* enum as the size.
+>>
+>> struct dpu_hw_blk *dsc_blks[DSC_MAX - DSC_0];
+>>
+>> If the device tree ends up with more DSC blocks than the DSC_* enum, 
+>> how can we avoid this issue today? Not because its a bug in device 
+>> tree but how many static number of DSCs are hard-coded in RM.
+> 
+> We don't have these blocks in device tree. And dpu_hw_catalog shouldn't 
+> use indices outside of enum dpu_dsc.
+> 
 
-1. DPI to DP bridge steering DP to one of two usb-c-connectors
+ah, my bad, i should have said catalog here. Okay so the expectation is 
+that dpu_hw_catalog.c will program the indices to match the RM limits.
 
-In this case, endpoint@0 is connected to one usb-c-connector and
-endpoint@1 is connected to another usb-c-connector. The input endpoint
-is only connected to DPI. The USB endpoint is not present (although I
-don't see this described in the binding either, so we would need a
-port@2, entirely optional to describe USB3 input). The driver will
-register two mode switches.
+I still stand by the fact that the hardware capabilities coming from 
+catalog should be trusted but this is just the SW index.
 
-2. DPI to DP bridge with USB3 to one usb-c-connector
+> Marijn proposed to pass struct dpu_foo_cfg directly to 
+> dpu_hw_foo_init(). This will allow us to drop these checks completely.
+> 
 
-In this case, endpoint@1 doesn't exist. The SSTX1/2 and SSRX1/2 pins are
-all connected to a usb-c-connector node. The input ports (0 and 2) are
-connected to both DPI and USB. The device acts as both a mode-switch and
-an orientation-switch. It registers both switches. I wonder if there is
-any benefit to describing SBU connections or CC connections? Maybe we
-don't register the orientation-switch if the SBU or CC connection isn't
-described?
+Ah okay, sure, would like to see that then uniformly get rid of these 
+checks.
 
-3. DPI to DP bridge connected to eDP panel
+> For the time being, I think it might be better to add these checks for 
+> DSC for the sake of uniformity.
+> 
 
-In this case, endpoint@1 doesn't exist. The USB endpoint is not present
-(port@2). Depending on how the crosspoint should be configured, we'll
-need to use data-lanes in the port@1 endpoint to describe which SSTRX
-pair to use (1 or 2). Or we'll have to use the endpoint's reg property
-to describe which pair to drive DP on. Presumably the default
-configuration is SSRX2/SSTX2 providing 2 lanes of DP to an eDP panel.
-The endpoint@0 in port@1 will be connected to a drm_panel, and the
-driver will be able to detect this properly by checking for the
-existence of an aux-bus node or the return value of
-of_dp_aux_populate_bus().
+Yes, i think so too.
 
-4. DPI to DP bridge connected to DP connector
-
-This is similar to the eDP panel scenario #3. In this case, endpoint@1
-doesn't exist. The USB endpoint is not present (port@2). Same story
-about port@1 and lane configuration, but we don't have an aux-bus node.
-In this case, the drivers/gpu/drm/bridge/display-connector.c driver will
-probe for the dp-connector node and add a drm_bridge. This anx driver
-will similarly add a drm_bridge, but it needs to look at the node
-connected on port@1:endpoint@0 with drm_of_get_bridge() and check if it
-is a drm_bridge (DP connector) or if it is some type-c thing (connector
-or orientation-switch).
-
-I think having this mode-switch property here lets us avoid calling
-drm_of_get_bridge() unconditionally in anx7625_parse_dt().
-drm_of_get_bridge() will always return -EPROBE_DEFER when this is the
-last drm_bridge in the chain and the other side of the endpoint is a
-type-c thing (scenarios #1 and #2). Maybe we should teach
-drm_of_get_bridge() that a drm_bridge might be connected to a type-c
-device and have it not return -EPROBE_DEFER in that case. Or make some
-new API like drm_of_get_bridge_typec() that checks if the typec
-framework knows about the endpoint in question (as either a typec switch
-or a connector) and returns a NULL bridge pointer. If we had that then I
-think this property is not necessary.
-
-Hopefully the usb-c-connector can always be registered with the typec
-framework? I'm worried that the driver that registers the
-usb-c-connector node may want to form a struct typec_port with
-typec_register_port() and that will get stuck in a similar -EPROBE_DEFER
-loop waiting for this mode-switch to appear. So having this property
-also avoids that problem by telling typec framework to wait until this
-driver can register a mode-switch.
-
-TL;DR: Is this mode-switch property a workaround for probe defer? Can we
-figure out where the mode switch is in software and not have the
-property in DT? If we can it would certainly improve things because
-forgetting to add the property can lead to broken behavior, and we don't
-do anything like this for chains of drm_bridge devices. We just describe
-the display chain and let the kernel figure out which bridge should
-handle hpd, edid reading, or mode detection, etc.
+>>
+>> And like you said, this is not specific to DSC. Such checks are 
+>> present for other blocks too.
+>>
+>>>> Fixes: c985d7bb64ff ("drm/msm/disp/dpu1: Add DSC support in RM")
+>>>> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
+>>>> ---
+>>>>   drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c | 10 +++++++++-
+>>>>   1 file changed, 9 insertions(+), 1 deletion(-)
+>>>>
+>>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c 
+>>>> b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
+>>>> index f4dda88..95e58f1 100644
+>>>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
+>>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
+>>>> @@ -1,6 +1,7 @@
+>>>>   // SPDX-License-Identifier: GPL-2.0-only
+>>>>   /*
+>>>>    * Copyright (c) 2016-2018, The Linux Foundation. All rights 
+>>>> reserved.
+>>>> + * Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights 
+>>>> reserved.
+>>>>    */
+>>>>   #define pr_fmt(fmt)    "[drm:%s] " fmt, __func__
+>>>> @@ -250,6 +251,11 @@ int dpu_rm_init(struct dpu_rm *rm,
+>>>>           struct dpu_hw_dsc *hw;
+>>>>           const struct dpu_dsc_cfg *dsc = &cat->dsc[i];
+>>>> +        if (dsc->id < DSC_0 || dsc->id >= DSC_MAX) {
+>>>> +            DPU_ERROR("skip dsc %d with invalid id\n", dsc->id);
+>>>> +            continue;
+>>>> +        }
+>>>> +
+>>>>           hw = dpu_hw_dsc_init(dsc->id, mmio, cat);
+>>>>           if (IS_ERR_OR_NULL(hw)) {
+>>>>               rc = PTR_ERR(hw);
+>>>> @@ -557,8 +563,10 @@ static int _dpu_rm_make_reservation(
+>>>>       }
+>>>>       ret  = _dpu_rm_reserve_dsc(rm, global_state, enc, 
+>>>> &reqs->topology);
+>>>> -    if (ret)
+>>>> +    if (ret) {
+>>>> +        DPU_ERROR("unable to find appropriate DSC\n");
+>>>
+>>> This, while a nice addition, should go in a different patch.
+> 
+> I'd agree here, a separate patch.
+> 
+>>>
+>>> Thanks!
+>>>
+>>> - Marijn
+>>>
+>>>>           return ret;
+>>>> +    }
+>>>>       return ret;
+>>>>   }
+>>>> -- 
+>>>> The Qualcomm Innovation Center, Inc. is a member of the Code Aurora 
+>>>> Forum,
+>>>> a Linux Foundation Collaborative Project
+>>>>
+> 
