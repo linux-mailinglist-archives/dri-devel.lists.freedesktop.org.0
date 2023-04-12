@@ -1,41 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 213546DF35C
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Apr 2023 13:28:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A50876DF361
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Apr 2023 13:28:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1D6BD10E78A;
+	by gabe.freedesktop.org (Postfix) with ESMTP id EA4A410E78B;
 	Wed, 12 Apr 2023 11:28:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from madras.collabora.co.uk (madras.collabora.co.uk
  [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7143310E782
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Apr 2023 11:28:03 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D440510E785
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Apr 2023 11:28:04 +0000 (UTC)
 Received: from IcarusMOD.eternityproject.eu (2-237-20-237.ip236.fastwebnet.it
  [2.237.20.237])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: kholk11)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 07D11660321E;
- Wed, 12 Apr 2023 12:28:00 +0100 (BST)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 72B416603D19;
+ Wed, 12 Apr 2023 12:28:02 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1681298882;
- bh=ihRc7NW3u9lJ+DzQXHQTvckSkaFbsH5d9ZJ2q3uZyKY=;
+ s=mail; t=1681298883;
+ bh=fXye3dLdrd01pW9dkK8SQo3s3rXAglHlbcKU/jyx0I0=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=i3z1ACTD+TcOpq3a/byJzDApL7CEueY+nBR6mABbIrjQ5sSAPbwV6IE5eTX6mCLm2
- lRDAJXLZNhc2e97olxSh4nsQ2KRpAvtiF37iTgyiv83PuOUyO8PgTVQd/R3dFFPfu3
- YjtEEUPufVL5WJBQTXwu2jrQKhZeuYz9aV32/yY4IRsI2e6ytTgTb87vLu7ilXzOpZ
- KfV8IwJPJWiy9ACGmk+qC/kkHOQZGlLiqhhzeQC1DQjodJvnHCfIhK7QXsU3qLKZzf
- XVn4Yp9SvOmhWoY1rKeHpxvhgy7ut9Uv1z3olvpzrQncfviVdTXWWtioAGqbc3r2W0
- Fkyc2cDQyo2NA==
+ b=Ej6OkOeOtAUWnvV/z/G7eS/S0Cw+BAmPSrNTkwFSGZFaIysb5396dfynJAghUtK/y
+ nhsRGbTG2MGS0RjjV4J0zm+UF0XkMAs4isip2S4VkgLK/4zRjYM5y02ULzC6WYQBV0
+ zpn8Sz1d2NfRLK0MHvFa5XerUCPFlebhaQi5dOt1/PJvT7GQX8d8S9KabYzOFByr45
+ EGVmZXukzKo7kVOkvSunIe+Wg6HazK4BxmfrYMeNkA6PPpo3O6iMV5IoxCY0My37d+
+ 2JSysFi39qmy+GE/ECFjnA91ZtghOFibEdqHSnfQMOiRGzqolI5KvS0+6v/PBIrEGD
+ OS4NKIms3vDWA==
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 To: matthias.bgg@gmail.com
-Subject: [PATCH 12/27] dt-bindings: display: mediatek: split: Add compatible
+Subject: [PATCH 13/27] dt-bindings: display: mediatek: ufoe: Add compatible
  for MediaTek MT6795
-Date: Wed, 12 Apr 2023 13:27:24 +0200
-Message-Id: <20230412112739.160376-13-angelogioacchino.delregno@collabora.com>
+Date: Wed, 12 Apr 2023 13:27:25 +0200
+Message-Id: <20230412112739.160376-14-angelogioacchino.delregno@collabora.com>
 X-Mailer: git-send-email 2.40.0
 In-Reply-To: <20230412112739.160376-1-angelogioacchino.delregno@collabora.com>
 References: <20230412112739.160376-1-angelogioacchino.delregno@collabora.com>
@@ -66,25 +66,25 @@ Cc: devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add a compatible string for MediaTek Helio X10 MT6795's SPLIT block: this
+Add a compatible string for MediaTek Helio X10 MT6795's UFOE block: this
 is the same as MT8173.
 
 Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 ---
- .../devicetree/bindings/display/mediatek/mediatek,split.yaml   | 3 +++
+ .../devicetree/bindings/display/mediatek/mediatek,ufoe.yaml    | 3 +++
  1 file changed, 3 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,split.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,split.yaml
-index 35ace1f322e8..fa6dd9b649fe 100644
---- a/Documentation/devicetree/bindings/display/mediatek/mediatek,split.yaml
-+++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,split.yaml
-@@ -23,6 +23,9 @@ properties:
+diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,ufoe.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,ufoe.yaml
+index b8bb135fe96b..282925a73804 100644
+--- a/Documentation/devicetree/bindings/display/mediatek/mediatek,ufoe.yaml
++++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,ufoe.yaml
+@@ -24,6 +24,9 @@ properties:
      oneOf:
        - items:
-           - const: mediatek,mt8173-disp-split
+           - const: mediatek,mt8173-disp-ufoe
 +      - items:
-+          - const: mediatek,mt6795-disp-split
-+          - const: mediatek,mt8173-disp-split
++          - const: mediatek,mt6795-disp-ufoe
++          - const: mediatek,mt8173-disp-ufoe
  
    reg:
      maxItems: 1
