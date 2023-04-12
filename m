@@ -1,53 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 131D96DF3CB
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Apr 2023 13:34:40 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 588776DF3D9
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Apr 2023 13:36:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 021F310E7A6;
-	Wed, 12 Apr 2023 11:34:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9B97510E7AA;
+	Wed, 12 Apr 2023 11:36:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 544F710E7A7;
- Wed, 12 Apr 2023 11:34:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1681299276; x=1712835276;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=puz0lkr0ae7G+kGiGt2AiDRFdSeU49k5Kj6BcTSHsEo=;
- b=YnE0FVy0SUXZPsFmCKUCtSZ47GcDzNcf2I5PXMgGDeyei6ldhiAUuXQo
- qa69SC9SsluefDS4Wqo5Lu8ij0OOlySdxtka30fnTIFSLZTbtRKqpSXzS
- V4pxmMuD2HPxHrjz13c/JOoeFTDKaTUClzSDny/oEMWpLyDmdUfYc+nul
- oy0Vv4nEvrNNiKD0Z1VxsMvyPdWweh49l+O+7FGtXZUcUVSL1jf5mHmLP
- aIcru+FX5jSkXE0rhlhd1z9lf00j9ke5KTMVddVmp2mbbLitcwpccZzlW
- FV3PcwkSLL9/hDyujfRb+a6TTqWK/+3Detq61AiN8xV7yiXw51sujdKB9 Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10677"; a="332562327"
-X-IronPort-AV: E=Sophos;i="5.98,339,1673942400"; d="scan'208";a="332562327"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Apr 2023 04:34:34 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10677"; a="758203253"
-X-IronPort-AV: E=Sophos;i="5.98,339,1673942400"; d="scan'208";a="758203253"
-Received: from zbiro-mobl.ger.corp.intel.com (HELO intel.com)
- ([10.251.212.144])
- by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Apr 2023 04:34:31 -0700
-From: Andi Shyti <andi.shyti@linux.intel.com>
-To: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- stable@vger.kernel.org
-Subject: [PATCH v5 5/5] drm/i915/gt: Make sure that errors are propagated
- through request chains
-Date: Wed, 12 Apr 2023 13:33:08 +0200
-Message-Id: <20230412113308.812468-6-andi.shyti@linux.intel.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230412113308.812468-1-andi.shyti@linux.intel.com>
-References: <20230412113308.812468-1-andi.shyti@linux.intel.com>
+Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com
+ [IPv6:2a00:1450:4864:20::42c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 50F8C10E794
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Apr 2023 11:36:25 +0000 (UTC)
+Received: by mail-wr1-x42c.google.com with SMTP id j11so14198955wrd.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Apr 2023 04:36:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1681299383; x=1683891383;
+ h=content-transfer-encoding:in-reply-to:organization:content-language
+ :references:cc:to:subject:reply-to:from:user-agent:mime-version:date
+ :message-id:from:to:cc:subject:date:message-id:reply-to;
+ bh=S8BFR8AVgPS2QYGOohorLBlsx1T7B+KgsXDilsI77iY=;
+ b=FVaOusrvG8+tO8XLfRkjzpO9MbhXan/wD6ka3h0NyKsVGArbBHWbpw2xVQlQFEZgPM
+ QzUcn0NqGlwiduOj/0TrT1TqupkDyaA76L4y+55rqyNxXhxu8c0s1VCZ8R5q3xJYPcq4
+ GEsUnQkrL6ELREePWeykFlYlZjJSv5schlkgVHuvPo7rVMXQDq1rRTev7354EPdfvbmv
+ AMebHH9544qX+Nmf1xdmJ8fJtSavrRe2Srx9pGAG2xpNqwj5e4aowZZsvJ/GsaUDCte9
+ Bx8uOB0UkD5yJ1eKbyJARHEpnh9pOKvijI78A5mcGjtIAkJI9rxMT/rm2nduByP1KiSG
+ 3YNQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1681299383; x=1683891383;
+ h=content-transfer-encoding:in-reply-to:organization:content-language
+ :references:cc:to:subject:reply-to:from:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=S8BFR8AVgPS2QYGOohorLBlsx1T7B+KgsXDilsI77iY=;
+ b=dfJ5mavzKyu2c4krr1MNodSQG3oEAiq7ucU/P1RF8yA4ywjZJ25wyaRn8ibOdAMQ4a
+ Sx9biDr+GPVYnBfZGRVyh4vh1SW+sZ8gwQetzwjEvnqKIUduLDt+brmg/+G+HekVTvBR
+ HE4lNLRYHqoQ+7nxP3btD9qx4L4jQ0382P4HO1l5JeuLg7oRUw6gx7m3pYYPq8knafVc
+ hmuNKl8YiGLuv2Pl7p27xgE0c0Q9ixMlfzsZwgVNbkxDhFEYKmT6L/pF7y5fRsyKwQTD
+ UErFGy7vHhtsFLHaJpoYysx+MZ+37SpDsiEjAJ4TPJXmwM7Eg3nVhOiVqnJ2ReoskqZ6
+ i4ig==
+X-Gm-Message-State: AAQBX9eJO7DzhhCH8iBJOfLis57PWmVPisEZDgn2mpTz4YqF2BjeOYHX
+ 2m7io1h4VkcslAyJ9HHMhw7Ayw==
+X-Google-Smtp-Source: AKy350aoHIXNxxlI9Ttapv30eVixQuDhlAiHxMIwXGTZMaZRmAY5p2tY8FHp1547mN6H+xoiBNs0nA==
+X-Received: by 2002:a05:6000:550:b0:2d5:39d:514f with SMTP id
+ b16-20020a056000055000b002d5039d514fmr1549498wrf.65.1681299382793; 
+ Wed, 12 Apr 2023 04:36:22 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:982:cbb0:b777:4c24:cbcf:795f?
+ ([2a01:e0a:982:cbb0:b777:4c24:cbcf:795f])
+ by smtp.gmail.com with ESMTPSA id
+ c4-20020a5d5284000000b002d1801018e2sm16958010wrv.63.2023.04.12.04.36.21
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 12 Apr 2023 04:36:22 -0700 (PDT)
+Message-ID: <2d6a07ec-5094-62d5-9767-d8119ffd9eb4@linaro.org>
+Date: Wed, 12 Apr 2023 13:36:21 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.1
+From: Neil Armstrong <neil.armstrong@linaro.org>
+Subject: Re: [PATCH] MAINTAINERS: add drm_bridge for drm bridge maintainers
+To: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ DRI Development <dri-devel@lists.freedesktop.org>
+References: <20230412080921.10171-1-daniel.vetter@ffwll.ch>
+Content-Language: en-US
+Organization: Linaro Developer Services
+In-Reply-To: <20230412080921.10171-1-daniel.vetter@ffwll.ch>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,158 +79,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Maciej Patelczyk <maciej.patelczyk@intel.com>,
- Andi Shyti <andi.shyti@linux.intel.com>, Andi Shyti <andi.shyti@kernel.org>,
- Matthew Auld <matthew.auld@intel.com>, Andrzej Hajda <andrzej.hajda@intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Chris Wilson <chris.p.wilson@linux.intel.com>,
- Nirmoy Das <nirmoy.das@intel.com>
+Reply-To: neil.armstrong@linaro.org
+Cc: Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Jagan Teki <jagan@amarulasolutions.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Daniel Vetter <daniel.vetter@intel.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Currently, when we perform operations such as clearing or copying
-large blocks of memory, we generate multiple requests that are
-executed in a chain.
+On 12/04/2023 10:09, Daniel Vetter wrote:
+> Otherwise core changes don't get noticed by the right people. I
+> noticed this because a patch set from Jagan Teki seems to have fallen
+> through the cracks.
+> 
+> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> Cc: Jagan Teki <jagan@amarulasolutions.com>
+> Cc: Andrzej Hajda <andrzej.hajda@intel.com>
+> Cc: Neil Armstrong <neil.armstrong@linaro.org>
+> Cc: Robert Foss <rfoss@kernel.org>
+> Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+> Cc: Jonas Karlman <jonas@kwiboo.se>
+> Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
+> --
+> Jagan, with this your bridge series should find the right people!
+> 
+> Cheers, Daniel
+> ---
+>   MAINTAINERS | 1 +
+>   1 file changed, 1 insertion(+)
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 6a4625710f25..cf2add900c8b 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -6843,6 +6843,7 @@ T:	git git://anongit.freedesktop.org/drm/drm-misc
+>   F:	Documentation/devicetree/bindings/display/bridge/
+>   F:	drivers/gpu/drm/bridge/
+>   F:	include/drm/drm_bridge.h
+> +F:	drivers/gpu/drm/drm_bridge.c
+>   
+>   DRM DRIVERS FOR EXYNOS
+>   M:	Inki Dae <inki.dae@samsung.com>
 
-However, if one of these requests fails, we may not realize it
-unless it happens to be the last request in the chain. This is
-because errors are not properly propagated.
-
-For this we need to keep propagating the chain of fence
-notification in order to always reach the final fence associated
-to the final request.
-
-To address this issue, we need to ensure that the chain of fence
-notifications is always propagated so that we can reach the final
-fence associated with the last request. By doing so, we will be
-able to detect any memory operation  failures and determine
-whether the memory is still invalid.
-
-On copy and clear migration signal fences upon completion.
-
-On copy and clear migration, signal fences upon request
-completion to ensure that we have a reliable perpetuation of the
-operation outcome.
-
-Fixes: cf586021642d80 ("drm/i915/gt: Pipelined page migration")
-Reported-by: Matthew Auld <matthew.auld@intel.com>
-Suggested-by: Chris Wilson <chris@chris-wilson.co.uk>
-Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
-Cc: stable@vger.kernel.org
-Reviewed-by: Matthew Auld <matthew.auld@intel.com>
-Acked-by: Nirmoy Das <nirmoy.das@intel.com>
----
- drivers/gpu/drm/i915/gt/intel_migrate.c | 51 +++++++++++++++++++------
- 1 file changed, 39 insertions(+), 12 deletions(-)
-
-diff --git a/drivers/gpu/drm/i915/gt/intel_migrate.c b/drivers/gpu/drm/i915/gt/intel_migrate.c
-index 3f638f1987968..668c95af8cbcf 100644
---- a/drivers/gpu/drm/i915/gt/intel_migrate.c
-+++ b/drivers/gpu/drm/i915/gt/intel_migrate.c
-@@ -742,13 +742,19 @@ intel_context_migrate_copy(struct intel_context *ce,
- 			dst_offset = 2 * CHUNK_SZ;
- 	}
- 
-+	/*
-+	 * While building the chain of requests, we need to ensure
-+	 * that no one can sneak into the timeline unnoticed.
-+	 */
-+	mutex_lock(&ce->timeline->mutex);
-+
- 	do {
- 		int len;
- 
--		rq = i915_request_create(ce);
-+		rq = i915_request_create_locked(ce);
- 		if (IS_ERR(rq)) {
- 			err = PTR_ERR(rq);
--			goto out_ce;
-+			break;
- 		}
- 
- 		if (deps) {
-@@ -878,10 +884,14 @@ intel_context_migrate_copy(struct intel_context *ce,
- 
- 		/* Arbitration is re-enabled between requests. */
- out_rq:
--		if (*out)
-+		i915_sw_fence_await(&rq->submit);
-+		i915_request_get(rq);
-+		i915_request_add_locked(rq);
-+		if (*out) {
-+			i915_sw_fence_complete(&(*out)->submit);
- 			i915_request_put(*out);
--		*out = i915_request_get(rq);
--		i915_request_add(rq);
-+		}
-+		*out = rq;
- 
- 		if (err)
- 			break;
-@@ -905,7 +915,10 @@ intel_context_migrate_copy(struct intel_context *ce,
- 		cond_resched();
- 	} while (1);
- 
--out_ce:
-+	mutex_unlock(&ce->timeline->mutex);
-+
-+	if (*out)
-+		i915_sw_fence_complete(&(*out)->submit);
- 	return err;
- }
- 
-@@ -999,13 +1012,19 @@ intel_context_migrate_clear(struct intel_context *ce,
- 	if (HAS_64K_PAGES(i915) && is_lmem)
- 		offset = CHUNK_SZ;
- 
-+	/*
-+	 * While building the chain of requests, we need to ensure
-+	 * that no one can sneak into the timeline unnoticed.
-+	 */
-+	mutex_lock(&ce->timeline->mutex);
-+
- 	do {
- 		int len;
- 
--		rq = i915_request_create(ce);
-+		rq = i915_request_create_locked(ce);
- 		if (IS_ERR(rq)) {
- 			err = PTR_ERR(rq);
--			goto out_ce;
-+			break;
- 		}
- 
- 		if (deps) {
-@@ -1056,17 +1075,25 @@ intel_context_migrate_clear(struct intel_context *ce,
- 
- 		/* Arbitration is re-enabled between requests. */
- out_rq:
--		if (*out)
-+		i915_sw_fence_await(&rq->submit);
-+		i915_request_get(rq);
-+		i915_request_add_locked(rq);
-+		if (*out) {
-+			i915_sw_fence_complete(&(*out)->submit);
- 			i915_request_put(*out);
--		*out = i915_request_get(rq);
--		i915_request_add(rq);
-+		}
-+		*out = rq;
-+
- 		if (err || !it.sg || !sg_dma_len(it.sg))
- 			break;
- 
- 		cond_resched();
- 	} while (1);
- 
--out_ce:
-+	mutex_unlock(&ce->timeline->mutex);
-+
-+	if (*out)
-+		i915_sw_fence_complete(&(*out)->submit);
- 	return err;
- }
- 
--- 
-2.39.2
-
+Acked-by: Neil Armstrong <neil.armstrong@linaro.org>
