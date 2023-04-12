@@ -1,64 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0BE56DFF5E
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Apr 2023 22:05:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 404366DFF6C
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Apr 2023 22:10:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1952610E952;
-	Wed, 12 Apr 2023 20:05:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0AF6910E954;
+	Wed, 12 Apr 2023 20:10:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F091210E952
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Apr 2023 20:05:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de; s=s31663417;
- t=1681329912; i=deller@gmx.de;
- bh=DhiBhSI+RKwKHjN5fzhNl0KOn0kW2D3gA0VJTq059aw=;
- h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:In-Reply-To;
- b=llgcc53DMxxE6lpZd5HyuAX1EYgvG3AyV0ww1S/ozYH6kLhL7wp+j6n2wNq0+3W4L
- vCQWpBCwaYbW4CD1LZO7ws9qHj5VSjkjO8gu0CMR4DAzp0xsf7qgpdfUlocN0FdbhT
- PdEcuQuawOnPFSr/GtELlAw/i5neuudZC6PRAsf6AX5aDBkYUgsU+xLo7EpDAbYplL
- CiO5l0DaYU0VPZTRFo/kckeeVV27/WbQAwtYp4i9NZNY0fa8Ud0zdfmHQQTk02BKRy
- +8MsVFODiP6amZKil2Z1Z6LiE6N2T3dXIBppyGDG2DLqKy1rUBju61fNz2/+ri9aHB
- ZNgAmGyrN8W1g==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.20.60] ([94.134.156.74]) by mail.gmx.net (mrgmx105
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MMofc-1q3Fd61ygm-00ImUk; Wed, 12
- Apr 2023 22:05:12 +0200
-Message-ID: <9d0c09c0-73ff-d655-d5d2-17c90b3e69ec@gmx.de>
-Date: Wed, 12 Apr 2023 22:05:12 +0200
+Received: from mail-oa1-x32.google.com (mail-oa1-x32.google.com
+ [IPv6:2001:4860:4864:20::32])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DC9D510E954;
+ Wed, 12 Apr 2023 20:09:59 +0000 (UTC)
+Received: by mail-oa1-x32.google.com with SMTP id
+ 586e51a60fabf-187878a90e6so1146106fac.0; 
+ Wed, 12 Apr 2023 13:09:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1681330199;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=WJBfqgHDVPfKU8NYqpJEjIgLGTuDGEpHWnbrpLt7FQE=;
+ b=P6HsoZ0NO/iam4SNYEbrXw4BqROT0RRXrgJ56x/VXdrUO32o3wsGnWJlcvQ5kffrR2
+ Zd4+0RlZ1ieNb7R97RYmYIsqKoZbH2TjIW6m5fVv2lF+z9I9iv0fq0vxsvZZilWGYile
+ VKOiAnijri3ZrRanaWrQL+DL9+dkL1rVE57qLQNITZ/1s9333Seu0eNYkoEnUG5CZPD+
+ IwjBiUNNbxHp3HobiCjdKVtVWkMHjHJA0DDkECfia5oRkwIAjaqqWNdzNhbhFA+XNYO2
+ yku1PJNKqKZBovbVqFUe7oiv/GppRXV9JkT17ByV30ZEy6j1b2/mPxlfPVLiKV2qPKWE
+ X6Kw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1681330199;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=WJBfqgHDVPfKU8NYqpJEjIgLGTuDGEpHWnbrpLt7FQE=;
+ b=EdyqFCYUxu/WYLrRgTvt2WtahN9VboR7UnqbLDo7ERPsxxU6YYZla0sQdsxXwAVAx4
+ Sjm3BjIcNB09MzfMwDXZk8O35GxEcwamBBlEqyHfAxcGUBPW4eMqL+2bWMTUkb3DnpVq
+ EQuqUEhZp9e3aYzVNhrkXKVjTmYq1Q4gWD4dpx7nsn3xQpSIQktctxs5WeF3LOBa+b8n
+ L/647BbSKbIN8SRM6tKeofrhsYGU8mxy39N0GfHidlkYOfADO9x2divzkqytzlnVYsD1
+ kstqXR33l0qEdwB6VQX5Ydwd8Nq+yHe1Ye55s1QQCqNJlLhYJpmi0WVVGT3ngCcMBpA4
+ FuJQ==
+X-Gm-Message-State: AAQBX9flXvgCCduiqVW7WhAhwiC7tNC++m+vo/2lt7YoSDwFsVepCCt3
+ BUj45hQgtlrh6CN5T9rYpQktnKyu/JPcvCicpGI=
+X-Google-Smtp-Source: AKy350aZmcFxxAhjq8LuFNpT8Di/LKsi2s2OUu0hdtvPIfK+7c8LRJpt3pcAkoIfaq3PQlRent59Q5QZU0OwSwceIq8=
+X-Received: by 2002:a05:6870:fbaa:b0:17f:2918:2f46 with SMTP id
+ kv42-20020a056870fbaa00b0017f29182f46mr64463oab.5.1681330198644; Wed, 12 Apr
+ 2023 13:09:58 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH] fbdev: modedb: Fix kernel crash in fb_videomode_to_var()
-Content-Language: en-US
-To: Daniel Vetter <daniel@ffwll.ch>
-References: <ZB4GS3zT3oh/afkf@ls3530> <ZDb6IF6Jj0xtVlme@phenom.ffwll.local>
-From: Helge Deller <deller@gmx.de>
-In-Reply-To: <ZDb6IF6Jj0xtVlme@phenom.ffwll.local>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+References: <20230410210608.1873968-1-robdclark@gmail.com>
+ <CAF6AEGvs4XMggPMthiJ89SiaUj3k+nY95OhxLZ5cD-01XPco4Q@mail.gmail.com>
+ <ZDWQfbUBhyJf1Ezx@phenom.ffwll.local>
+ <CAF6AEGtYw4Dn80OtrnJESkkDXxhUdAr6Nuva+Jo3ExW8MXH++Q@mail.gmail.com>
+ <CAA8EJppnEwcHM++YUYZGrNXEha=-ZVAexBdkMVsU52PTOs4VnA@mail.gmail.com>
+ <CAF6AEGsE3NOe9TkEzrk5rr-D2PoKaxF5Yn3W8wWew8um6r2EXw@mail.gmail.com>
+ <d93f4256-4554-e031-9730-4ca2a7de6aaf@linaro.org>
+ <ZDZntP+0wG6+QyHh@phenom.ffwll.local> <ZDaoT44hqnIH4ZX3@intel.com>
+In-Reply-To: <ZDaoT44hqnIH4ZX3@intel.com>
+From: Rob Clark <robdclark@gmail.com>
+Date: Wed, 12 Apr 2023 13:09:47 -0700
+Message-ID: <CAF6AEGtOEwG+Wdh_7Nox8pqmWJ=nMs-GFEqTU42Mf=wOFGKfRQ@mail.gmail.com>
+Subject: Re: [Freedreno] [PATCH v2 0/2] drm: fdinfo memory stats
+To: Rodrigo Vivi <rodrigo.vivi@intel.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:3jgaTRHzRGNrj0o+HV3TGa0EqKAIuiqEQiypQJXVw2r6YHDpUjN
- 5IqVgbeqHbvWMGCsU8CiZkS6uCydMwnV2LuikyGBKTR8J6azhwPiQPL9a63g49T9ldT+tPy
- kNXwZdrPGXnGXQd5c+u+nuEN21SoPi491Y1sFrZY96rm/gubGYjzYWxqtOvi4rBwpXw565M
- jz8L9HmaIymVrTYPwGvnw==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:fTaMX4pGaiQ=;GlzweesCCZ9Rclzl/v7IJobYtvL
- SRDIN3kr7Y18uN/DgIuCcKJl9BEmECkMd31L4jGx7ICRDCeva3ouZjpajYcZKXHVJ69QoiKO5
- z/lgijr1ytdwOfDgHuIGpvQ3RfG1m+c09CAMoF6J57jJJWSYb3zVjFFlfh81wgs1RVj4xKTE4
- LAOblf8ENfgxrloggfD/nsUmahonIkMq626q5FtK5qwROmJVxUevTsvkA9Vri0HvnLgodIitq
- oK42O120SA0iBHFU+dn5YOstXQghZSoOC4CzZDUoA8WfvUrRUYiqJfaJUWEN28b/gIEn+v7sT
- s45YJfxEX7OHi4RvI1W6G1a+EH0hmgQgouVsCF3/NMmoWcP/yRvmtHtYG2spZPr8fvqrz6P+O
- K3/T20BEB9A51Ub+Qv99WjZ8fynodtFe5CUCrhQxyQXy562sdXj7NnixFGfpPpgIak/EXZL0I
- A9n+wHYembAjfdh4eHcqtmmPGZHs6Bs8m4cVXoUjI1Gy8/Ba4qETcl8hEhvGRFOvFZ1zPWywk
- A8V/GMjSEh2VIEbkkWk8ZaHt1p32tcLLnpueencVzk8bmWhosPNqiimz+ZQ9bxbQQMTWU3cJe
- 67qf3fyxdvWkDlDhqNtUI6B54DPU0uHcHWTUCBOzbK/UMR80/42tUpr2Jpd8J77MPKzHU2rFB
- Yow2h/XHevAkkUPGrhWZnrh3vkW9PW+jhc8tuRBKsSHNqVOvyIXfu2Z8wEAgEIQjFv/ngbiyM
- Ulr0ykrWxb06KTOXlNIlVX664nTxvWm336oepLakr1sQ7GEVLj2fu1d0LFrvkYoIvK68fZL+p
- 1ba+YdsFxzZJimuXVKDKmj6ZNcSoHq70dysRfW5VRAo1gLZPTjwY8NMQkjpczz2CnF4AqgIyo
- 6Zo2tYMQWYCvE9uMer8P9bwTwImnp/XntVn0hDDiKeO50cXFJg5JDwyfdAajPAve7+CQrz2sg
- oFrqoQ==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,78 +75,256 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, linux-parisc@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: Rob Clark <robdclark@chromium.org>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+ linux-arm-msm@vger.kernel.org, Emil Velikov <emil.l.velikov@gmail.com>,
+ Christopher Healy <healych@amazon.com>, dri-devel@lists.freedesktop.org,
+ open list <linux-kernel@vger.kernel.org>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 4/12/23 20:36, Daniel Vetter wrote:
-> On Fri, Mar 24, 2023 at 09:21:31PM +0100, Helge Deller wrote:
->> Fix a kernel crash in the fbdev modedb code which can happen if you boo=
+On Wed, Apr 12, 2023 at 5:47=E2=80=AFAM Rodrigo Vivi <rodrigo.vivi@intel.co=
+m> wrote:
+>
+> On Wed, Apr 12, 2023 at 10:11:32AM +0200, Daniel Vetter wrote:
+> > On Wed, Apr 12, 2023 at 01:36:52AM +0300, Dmitry Baryshkov wrote:
+> > > On 11/04/2023 21:28, Rob Clark wrote:
+> > > > On Tue, Apr 11, 2023 at 10:36=E2=80=AFAM Dmitry Baryshkov
+> > > > <dmitry.baryshkov@linaro.org> wrote:
+> > > > >
+> > > > > On Tue, 11 Apr 2023 at 20:13, Rob Clark <robdclark@gmail.com> wro=
+te:
+> > > > > >
+> > > > > > On Tue, Apr 11, 2023 at 9:53=E2=80=AFAM Daniel Vetter <daniel@f=
+fwll.ch> wrote:
+> > > > > > >
+> > > > > > > On Tue, Apr 11, 2023 at 09:47:32AM -0700, Rob Clark wrote:
+> > > > > > > > On Mon, Apr 10, 2023 at 2:06=E2=80=AFPM Rob Clark <robdclar=
+k@gmail.com> wrote:
+> > > > > > > > >
+> > > > > > > > > From: Rob Clark <robdclark@chromium.org>
+> > > > > > > > >
+> > > > > > > > > Similar motivation to other similar recent attempt[1].  B=
+ut with an
+> > > > > > > > > attempt to have some shared code for this.  As well as do=
+cumentation.
+> > > > > > > > >
+> > > > > > > > > It is probably a bit UMA-centric, I guess devices with VR=
+AM might want
+> > > > > > > > > some placement stats as well.  But this seems like a reas=
+onable start.
+> > > > > > > > >
+> > > > > > > > > Basic gputop support: https://patchwork.freedesktop.org/s=
+eries/116236/
+> > > > > > > > > And already nvtop support: https://github.com/Syllo/nvtop=
+/pull/204
+> > > > > > > >
+> > > > > > > > On a related topic, I'm wondering if it would make sense to=
+ report
+> > > > > > > > some more global things (temp, freq, etc) via fdinfo?  Some=
+ of this,
+> > > > > > > > tools like nvtop could get by trawling sysfs or other drive=
+r specific
+> > > > > > > > ways.  But maybe it makes sense to have these sort of thing=
+s reported
+> > > > > > > > in a standardized way (even though they aren't really per-d=
+rm_file)
+> > > > > > >
+> > > > > > > I think that's a bit much layering violation, we'd essentiall=
+y have to
+> > > > > > > reinvent the hwmon sysfs uapi in fdinfo. Not really a busines=
+s I want to
+> > > > > > > be in :-)
+> > > > > >
+> > > > > > I guess this is true for temp (where there are thermal zones wi=
+th
+> > > > > > potentially multiple temp sensors.. but I'm still digging my wa=
+y thru
+> > > > > > the thermal_cooling_device stuff)
+> > > > >
+> > > > > It is slightly ugly. All thermal zones and cooling devices are vi=
+rtual
+> > > > > devices (so, even no connection to the particular tsens device). =
+One
+> > > > > can either enumerate them by checking
+> > > > > /sys/class/thermal/thermal_zoneN/type or enumerate them through
+> > > > > /sys/class/hwmon. For cooling devices again the only enumeration =
+is
+> > > > > through /sys/class/thermal/cooling_deviceN/type.
+> > > > >
+> > > > > Probably it should be possible to push cooling devices and therma=
+l
+> > > > > zones under corresponding providers. However I do not know if the=
+re is
+> > > > > a good way to correlate cooling device (ideally a part of GPU) to=
+ the
+> > > > > thermal_zone (which in our case is provided by tsens / temp_alarm
+> > > > > rather than GPU itself).
+> > > > >
+> > > > > >
+> > > > > > But what about freq?  I think, esp for cases where some "fw thi=
+ng" is
+> > > > > > controlling the freq we end up needing to use gpu counters to m=
+easure
+> > > > > > the freq.
+> > > > >
+> > > > > For the freq it is slightly easier: /sys/class/devfreq/*, devices=
+ are
+> > > > > registered under proper parent (IOW, GPU). So one can read
+> > > > > /sys/class/devfreq/3d00000.gpu/cur_freq or
+> > > > > /sys/bus/platform/devices/3d00000.gpu/devfreq/3d00000.gpu/cur_fre=
+q.
+> > > > >
+> > > > > However because of the components usage, there is no link from
+> > > > > /sys/class/drm/card0
+> > > > > (/sys/devices/platform/soc@0/ae00000.display-subsystem/ae01000.di=
+splay-controller/drm/card0)
+> > > > > to /sys/devices/platform/soc@0/3d00000.gpu, the GPU unit.
+> > > > >
+> > > > > Getting all these items together in a platform-independent way wo=
+uld
+> > > > > be definitely an important but complex topic.
+> > > >
+> > > > But I don't believe any of the pci gpu's use devfreq ;-)
+> > > >
+> > > > And also, you can't expect the CPU to actually know the freq when f=
+w
+> > > > is the one controlling freq.  We can, currently, have a reasonable
+> > > > approximation from devfreq but that stops if IFPC is implemented.  =
+And
+> > > > other GPUs have even less direct control.  So freq is a thing that =
+I
+> > > > don't think we should try to get from "common frameworks"
+> > >
+> > > I think it might be useful to add another passive devfreq governor ty=
+pe for
+> > > external frequencies. This way we can use the same interface to expor=
 t
->> a system without any graphic card driver, in which case the dummycon
->> driver takes the console. If you then load a fbdev graphics driver and
->> start a the X11-fbdev the kernel will crash with a backtrace:
->>
->>    IAOQ[0]: fb_videomode_to_var+0xc/0x88
->>   Backtrace:
->>    [<10582ff8>] display_to_var+0x28/0xe8
->>    [<1058584c>] fbcon_switch+0x15c/0x55c
->>    [<105a8a1c>] redraw_screen+0xdc/0x228
->>    [<1059d6f8>] complete_change_console+0x50/0x140
->>    [<1059eae0>] change_console+0x6c/0xdc
->>    [<105ab4f4>] console_callback+0x1a0/0x1a8
->>    [<101cb5e8>] process_one_work+0x1c4/0x3cc
->>    [<101cb978>] worker_thread+0x188/0x4b4
->>    [<101d5a94>] kthread+0xec/0xf4
->>    [<1018801c>] ret_from_kernel_thread+0x1c/0x24
->>
->> The problem is, that the dummycon driver may not have a valid monitor
->> mode defined (which is ok for that driver), so the mode field in
->> fbcon_display can be NULL.
->>
->> Fix the crash by simply returning from fb_var_to_videomode()
->> if the video mode field is NULL.
->>
->> Signed-off-by: Helge Deller <deller@gmx.de>
->> Cc: stable <stable@kernel.org>
+> > > non-CPU-controlled frequencies.
+> >
+> > Yeah this sounds like a decent idea to me too. It might also solve the =
+fun
+> > of various pci devices having very non-standard freq controls in sysfs
+> > (looking at least at i915 here ...)
 >
-> Also here since the other thread is private: I don't think this makes
-> sense, and it shouldn't happen that disp->mode is bogus when we have an
-> fbdev bound for that vc.
+> I also like the idea of having some common infrastructure for the GPU fre=
+q.
 >
-> I think the below might work, I spotted this while auditing code around
-> this (but it turned out to be a dead-end for the bug I was chasing):
+> hwmon have a good infrastructure, but they are more focused on individual
+> monitoring devices and not very welcomed to embedded monitoring and contr=
+ol.
+> I still want to check the opportunity to see if at least some freq contro=
+l
+> could be aligned there.
 >
-> diff --git a/drivers/video/fbdev/core/fbcon.c b/drivers/video/fbdev/core=
-/fbcon.c
-> index eb565a10e5cd..1f2ab00ec6d4 100644
-> --- a/drivers/video/fbdev/core/fbcon.c
-> +++ b/drivers/video/fbdev/core/fbcon.c
-> @@ -2684,8 +2684,8 @@ static void fbcon_modechanged(struct fb_info *info=
-)
->   	p =3D &fb_display[vc->vc_num];
->   	set_blitting_type(vc, info);
+> Another thing that complicates that is that there are multiple frequency
+> domains and controls with multipliers in Intel GPU that are not very
+> standard or easy to integrate.
 >
-> +	var_to_display(p, &info->var, info);
->   	if (con_is_visible(vc)) {
-> -		var_to_display(p, &info->var, info);
->   		cols =3D FBCON_SWAP(ops->rotate, info->var.xres, info->var.yres);
->   		rows =3D FBCON_SWAP(ops->rotate, info->var.yres, info->var.xres);
->   		cols /=3D vc->vc_font.width;
+> On a quick glace this devfreq seems neat because it aligns with the cpufr=
+eq
+> and governors. But again it would be hard to align with the multiple doma=
+ins
+> and controls. But it deserves a look.
 >
-> If this works I can bake it into a real patch.
+> I will take a look to both fronts for Xe: hwmon and devfreq. Right now on
+> Xe we have a lot less controls than i915, but I can imagine soon there
+> will be requirements to make that to grow and I fear that we end up just
+> like i915. So I will take a look before that happens.
 
-Daniel, thanks for your suggested patch!
-Actually I currently can't reproduce my original problem any longer.
-It happened with a specific fbdev driver which I'm currenlty working on, a=
-nd
-in which I probably missed to set a valid video mode, which then led to th=
-e patch
-I originally sent.
-So, for now just ignore my patch.
+So it looks like i915 (dgpu only) and nouveau already use hwmon.. so
+maybe this is a good way to expose temp.  Maybe we can wire up some
+sort of helper for drivers which use thermal_cooling_device (which can
+be composed of multiple sensors) to give back an aggregate temp for
+hwmon to report?
 
-If it happens again I'll test your patch and report back.
+Freq could possibly be added to hwmon (ie. seems like a reasonable
+attribute to add).  Devfreq might also be an option but on arm it
+isn't necessarily associated with the drm device, whereas we could
+associate the hwmon with the drm device to make it easier for
+userspace to find.
 
-Thanks!
-Helge
+BR,
+-R
+
+> >
+> > I guess it would minimally be a good idea if we could document this, or
+> > maybe have a reference implementation in nvtop or whatever the cool thi=
+ng
+> > is rn.
+> > -Daniel
+> >
+> > >
+> > > >
+> > > > BR,
+> > > > -R
+> > > >
+> > > > > >
+> > > > > > > What might be needed is better glue to go from the fd or fdin=
+fo to the
+> > > > > > > right hw device and then crawl around the hwmon in sysfs auto=
+matically. I
+> > > > > > > would not be surprised at all if we really suck on this, prob=
+ably more
+> > > > > > > likely on SoC than pci gpus where at least everything should =
+be under the
+> > > > > > > main pci sysfs device.
+> > > > > >
+> > > > > > yeah, I *think* userspace would have to look at /proc/device-tr=
+ee to
+> > > > > > find the cooling device(s) associated with the gpu.. at least I=
+ don't
+> > > > > > see a straightforward way to figure it out just for sysfs
+> > > > > >
+> > > > > > BR,
+> > > > > > -R
+> > > > > >
+> > > > > > > -Daniel
+> > > > > > >
+> > > > > > > >
+> > > > > > > > BR,
+> > > > > > > > -R
+> > > > > > > >
+> > > > > > > >
+> > > > > > > > > [1] https://patchwork.freedesktop.org/series/112397/
+> > > > > > > > >
+> > > > > > > > > Rob Clark (2):
+> > > > > > > > >    drm: Add fdinfo memory stats
+> > > > > > > > >    drm/msm: Add memory stats to fdinfo
+> > > > > > > > >
+> > > > > > > > >   Documentation/gpu/drm-usage-stats.rst | 21 +++++++
+> > > > > > > > >   drivers/gpu/drm/drm_file.c            | 79 ++++++++++++=
++++++++++++++++
+> > > > > > > > >   drivers/gpu/drm/msm/msm_drv.c         | 25 ++++++++-
+> > > > > > > > >   drivers/gpu/drm/msm/msm_gpu.c         |  2 -
+> > > > > > > > >   include/drm/drm_file.h                | 10 ++++
+> > > > > > > > >   5 files changed, 134 insertions(+), 3 deletions(-)
+> > > > > > > > >
+> > > > > > > > > --
+> > > > > > > > > 2.39.2
+> > > > > > > > >
+> > > > > > >
+> > > > > > > --
+> > > > > > > Daniel Vetter
+> > > > > > > Software Engineer, Intel Corporation
+> > > > > > > http://blog.ffwll.ch
+> > > > >
+> > > > >
+> > > > >
+> > > > > --
+> > > > > With best wishes
+> > > > > Dmitry
+> > >
+> > > --
+> > > With best wishes
+> > > Dmitry
+> > >
+> >
+> > --
+> > Daniel Vetter
+> > Software Engineer, Intel Corporation
+> > http://blog.ffwll.ch
