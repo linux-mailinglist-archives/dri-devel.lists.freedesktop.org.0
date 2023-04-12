@@ -1,52 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8098C6DF73B
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Apr 2023 15:32:42 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C99F96DF76E
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Apr 2023 15:40:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 47EA410E7F1;
-	Wed, 12 Apr 2023 13:32:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 34A6710E07C;
+	Wed, 12 Apr 2023 13:40:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 211C210E7E5;
- Wed, 12 Apr 2023 13:32:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1681306357; x=1712842357;
- h=message-id:date:mime-version:from:subject:to:cc:
- content-transfer-encoding;
- bh=a+DUgoFx53ai7zeE+1wZ7ShrSVGe9fQWLh8Xn2jLHBU=;
- b=gYzdDKAoNAotccS3JMEhHB3lSbyKv/y+/HPc991/TWjIUGQhnotwKOAq
- qiy6/VZTdgMyPqx2zmnUBYHfXi8DV4emGHA9wlbgRVXeutDDnLG5rClDb
- T2GzhRVstmB5X7Igvd1GLevlOWmz27z75iDSvhfmnx0YgqI0R0Iroj6zO
- 4Qz2cxJrHkcQ1gVXtA1xBlHiIvdOaQMcGjiZvpySNUyUPVhLdLkZJETUl
- 8fOfpb+YUrp2MT7r1HLbBjATAyiKsN2EN26DOLmuPGvd3XhW3JZV4QIUQ
- UjoYVrJSfN2A727O5hT+jO1waXkIC7+giqBoFGxpXPqEFADoYf+ks93Jb A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10678"; a="332592919"
-X-IronPort-AV: E=Sophos;i="5.98,339,1673942400"; d="scan'208";a="332592919"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Apr 2023 06:32:35 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10678"; a="691531915"
-X-IronPort-AV: E=Sophos;i="5.98,339,1673942400"; d="scan'208";a="691531915"
-Received: from gjebert-mobl.amr.corp.intel.com (HELO [10.252.57.51])
- ([10.252.57.51])
- by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Apr 2023 06:32:33 -0700
-Message-ID: <b7c37d4e-8f16-85dc-0f5f-3bd98f961395@linux.intel.com>
-Date: Wed, 12 Apr 2023 15:32:30 +0200
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D7BCF10E07C
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Apr 2023 13:40:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1681306813;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=jQ6mJvnGaQk+RNp54KZbj74EGw8UX/r2OpNLi6ETIYg=;
+ b=H3dRyudPzG5eYD5IJ496ZnS+YucPuDxyvhWOXP+zc3WS9CuO2dn03s1GvDpXeXXj0lShlq
+ G0prpRuF4VcakFZcE3ZApgnDZtjiHZ/a+vNLXXvJCItliPfcZV/hZj9fofauAX4yXYJt69
+ KJlYrsKFO11OUHBsuT73N++jvd8SPEU=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-517-JmSfxG6yMSq834Ohkp5s-g-1; Wed, 12 Apr 2023 09:40:12 -0400
+X-MC-Unique: JmSfxG6yMSq834Ohkp5s-g-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id CFC4F3815EEF;
+ Wed, 12 Apr 2023 13:40:11 +0000 (UTC)
+Received: from hydra.redhat.com (unknown [10.39.194.61])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id EB0DA492C3E;
+ Wed, 12 Apr 2023 13:40:10 +0000 (UTC)
+From: Jocelyn Falempe <jfalempe@redhat.com>
+To: dri-devel@lists.freedesktop.org, tzimmermann@suse.de, airlied@redhat.com,
+ javierm@redhat.com, lyude@redhat.com
+Subject: [RFC PATCH 0/2] drm/mgag200: Use 24bit format in VRAM
+Date: Wed, 12 Apr 2023 15:39:10 +0200
+Message-Id: <20230412133912.610294-1-jfalempe@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Firefox/102.0 Thunderbird/102.9.1
-From: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Subject: [PULL] drm-misc-next
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"; x-default=true
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,131 +60,20 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- dim-tools@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+The bandwidth between system memory and VRAM is very limited
+on G200.
+So when using a 32bit framebuffer on system memory, convert it to 24bit
+when copying the frame to the VRAM, this allows to go 33% faster.
+Converting the format on the fly is negligible, even on low end CPU.
 
-Good afternoon Daniel, Dave,
+[PATCH 1/2] drm/mgag200: simplify offset and scale computation.
+[PATCH 2/2] drm/mgag200: Use 24bit format in VRAM
 
-One last pull request for drm-misc-next.
+drivers/gpu/drm/mgag200/mgag200_mode.c | 87 ++++++++++++++++++++++++++++++++++++---------------------------------------------------
+ 1 file changed, 36 insertions(+), 51 deletions(-)
 
-Small one, so easy to merge. As a result also more likely to eat your 
-computer alive. ;)
 
-Cheers,
-
-~Maarten
-
-drm-misc-next-2023-04-12:
-
-drm-misc-next for v6.4-rc1:
-
-Cross-subsystem Changes:
-- Convert MIPI DSIM bridge to yaml.
-
-Core Changes:
-- Fix UAF race in drm scheduler.
-
-Driver Changes:
-- Add primary plane positioning support to VKMS.
-- Convert omapdrm fbdev emulation to in-kernel client.
-- Assorted small fixes to vkms, vc4, nouveau, vmwgfx.
-The following changes since commit e44f18c6ff8beef7b2b10592287f0a9766376d9b:
-
-   drm/ttm: Make the call to ttm_tt_populate() interruptible when 
-faulting (2023-04-06 10:01:42 +0200)
-
-are available in the Git repository at:
-
-   git://anongit.freedesktop.org/drm/drm-misc tags/drm-misc-next-2023-04-12
-
-for you to fetch changes up to fd35174e13f98f9232c4aa66689816731d34ca28:
-
-   drm/vmwgfx: remove unused vmw_overlay function (2023-04-11 13:48:55 
--0400)
-
-----------------------------------------------------------------
-drm-misc-next for v6.4-rc1:
-
-Cross-subsystem Changes:
-- Convert MIPI DSIM bridge to yaml.
-
-Core Changes:
-- Fix UAF race in drm scheduler.
-
-Driver Changes:
-- Add primary plane positioning support to VKMS.
-- Convert omapdrm fbdev emulation to in-kernel client.
-- Assorted small fixes to vkms, vc4, nouveau, vmwgfx.
-
-----------------------------------------------------------------
-Asahi Lina (1):
-       drm/scheduler: Fix UAF race in drm_sched_entity_push_job()
-
-Ben Dooks (1):
-       drm/nouveau/mc/ga100: make ga100_mc_device static
-
-Jagan Teki (1):
-       dt-bindings: bridge: Convert Samsung MIPI DSIM bridge to yaml
-
-Javier Martinez Canillas (2):
-       drm/vkms: Drop vkms_connector_destroy() wrapper
-       drm/vkms: Remove <drm/drm_simple_kms_helper.h> include
-
-Martin Krastev (2):
-       drm/vmwgfx: Drop mksstat_init_record fn as currently unused
-       drm/vmwgfx: Fix Legacy Display Unit atomic drm support
-
-Maíra Canal (2):
-       drm/vkms: remove the need for the primary plane to be visible
-       drm/vkms: allow the primary plane to be positioned
-
-Thomas Zimmermann (5):
-       drm/omapdrm: Include <linux/of.h>
-       drm/omapdrm: Remove fb from struct omap_fbdev
-       drm/omapdrm: Remove bo from struct omap_fbdev
-       drm/omapdrm: Remove fbdev from struct omap_drm_private
-       drm/omapdrm: Implement fbdev emulation as in-kernel client
-
-Tom Rix (2):
-       drm/vc4: remove unused render_wait variable
-       drm/vmwgfx: remove unused vmw_overlay function
-
-Zack Rusin (1):
-       drm/vmwgfx: Print errors when running on broken/unsupported configs
-
-ruanjinjie (1):
-       drm/nouveau/disp: make gv100_disp_core_mthd_base static
-
-  .../bindings/display/bridge/samsung,mipi-dsim.yaml | 255 
-+++++++++++++++++++++
-  .../bindings/display/exynos/exynos_dsim.txt        |  92 --------
-  MAINTAINERS                                        |   1 +
-  drivers/gpu/drm/nouveau/nvkm/engine/disp/gv100.c   |   2 +-
-  drivers/gpu/drm/nouveau/nvkm/subdev/mc/ga100.c     |   2 +-
-  drivers/gpu/drm/omapdrm/omap_debugfs.c             |   6 +-
-  drivers/gpu/drm/omapdrm/omap_drv.c                 |  13 +-
-  drivers/gpu/drm/omapdrm/omap_drv.h                 |   3 -
-  drivers/gpu/drm/omapdrm/omap_fbdev.c               | 163 ++++++++-----
-  drivers/gpu/drm/omapdrm/omap_fbdev.h               |   9 +-
-  drivers/gpu/drm/scheduler/sched_entity.c           |  11 +-
-  drivers/gpu/drm/vc4/vc4_irq.c                      |   2 -
-  drivers/gpu/drm/vkms/vkms_output.c                 |  15 +-
-  drivers/gpu/drm/vkms/vkms_plane.c                  |  10 +-
-  drivers/gpu/drm/vmwgfx/vmwgfx_drv.c                |  29 +++
-  drivers/gpu/drm/vmwgfx/vmwgfx_drv.h                |   2 +
-  drivers/gpu/drm/vmwgfx/vmwgfx_kms.c                |  62 +----
-  drivers/gpu/drm/vmwgfx/vmwgfx_kms.h                |   5 -
-  drivers/gpu/drm/vmwgfx/vmwgfx_ldu.c                |  45 +++-
-  drivers/gpu/drm/vmwgfx/vmwgfx_msg.c                |  35 +--
-  drivers/gpu/drm/vmwgfx/vmwgfx_overlay.c            |   6 -
-  21 files changed, 465 insertions(+), 303 deletions(-)
-  create mode 100644 
-Documentation/devicetree/bindings/display/bridge/samsung,mipi-dsim.yaml
-  delete mode 100644 
-Documentation/devicetree/bindings/display/exynos/exynos_dsim.txt
 
