@@ -2,55 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CD036DF256
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Apr 2023 12:57:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 658FD6DF258
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Apr 2023 12:57:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CCE7710E1FB;
-	Wed, 12 Apr 2023 10:57:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 538CD10E76E;
+	Wed, 12 Apr 2023 10:57:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 37A3710E1FB;
- Wed, 12 Apr 2023 10:57:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1681297020; x=1712833020;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=eAVhAyKlWSfWcuwpRUyUn3dwT8yYviAi7Ud2w47dyfw=;
- b=UlVVyq7QBmUPbz6v82bbRI8Kne/+BICSIpBs3HPyX/F0K8IvddufpDww
- VitBdnLxI+UVUM5Za3oQ0LdtYwIBrE56yqF0+IyrRk3JZv10Yd9O1ARZy
- pPNsDgofXEAwGVMuEPKM3qCurEpW7b+Rlbbss/o6UshA5kn5wME/Wwy0j
- Np/OuHUzOeG5rNfdxNtUR+6XnVAUDLBwVnhk6Nhz3+ZhczbD9GObZP4tr
- AOdutmnK/pE91agz3Vt7qjBKKsr1SKrRD07aRFEEpWVWbKg+/3yq6hgku
- oBi2K8cWpbQUBRlpLFjREkgef2gAa0NppnkqTVhxG8ZLpwj1/4WgdDO/V w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10677"; a="327971806"
-X-IronPort-AV: E=Sophos;i="5.98,339,1673942400"; d="scan'208";a="327971806"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Apr 2023 03:56:59 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10677"; a="682451053"
-X-IronPort-AV: E=Sophos;i="5.98,339,1673942400"; d="scan'208";a="682451053"
-Received: from zbiro-mobl.ger.corp.intel.com (HELO intel.com)
- ([10.251.212.144])
- by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Apr 2023 03:56:54 -0700
-Date: Wed, 12 Apr 2023 12:56:26 +0200
-From: Andi Shyti <andi.shyti@linux.intel.com>
-To: Rodrigo Vivi <rodrigo.vivi@intel.com>
-Subject: Re: [Intel-gfx] [PATCH v4 5/5] drm/i915/gt: Make sure that errors
- are propagated through request chains
-Message-ID: <ZDaOWhKiG5jD7ftp@ashyti-mobl2.lan>
-References: <20230308094106.203686-1-andi.shyti@linux.intel.com>
- <20230308094106.203686-6-andi.shyti@linux.intel.com>
- <1bee29d0-a5cc-9ff3-d164-f162259558e2@intel.com>
- <ZDVwMawvlOLZ2VZt@intel.com>
+Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com
+ [IPv6:2a00:1450:4864:20::32e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C1E7810E1FB
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Apr 2023 10:57:01 +0000 (UTC)
+Received: by mail-wm1-x32e.google.com with SMTP id
+ 5b1f17b1804b1-3f04275b2bdso55045e9.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Apr 2023 03:57:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=google.com; s=20221208; t=1681297019; x=1683889019;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=y2nt7ejQK3jr9r1+vnQD1e3FmdrT042GNN9tIEQMZ1E=;
+ b=t7IOWsunQ1sr66lSoyGmmloi1T7w/NIIGJTgTYknCs01CRxFh0HkL+XaWQZeJTATMh
+ r6QHRJc3LNXb8iHN0R505gFWgcLgHKVpuJhHIpIF2SsQ3b9Jmoxr/agsV8XqsLsIDZFX
+ Z+qpDunVqPcRk9zrzNmHnwNHHc4P2VKyUcseK+zcEp8O3lL9H/0XmOMvsSznsUqbmX5J
+ PsrZ9Nk7fMzmQrgKayfGs0Fh21dySgLR0Vc/qGE5rmjQTtJWCjXLnGieu8CdAO1PrPgl
+ zyVhFPsa2WNucdD87EcMD/7aI+bqug13OCFd+dkQmTPqH7/BKllfO0Fd9yt1rJabNLA7
+ sz5w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1681297019; x=1683889019;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=y2nt7ejQK3jr9r1+vnQD1e3FmdrT042GNN9tIEQMZ1E=;
+ b=j2rNzsXlcUrwMvaw68RyJr8pH24Se+i/S2Vh0OKoOsDlyY3HLFusr3SD4J39QqlsYR
+ zyZl1OPdoDq7T7CuIfkGV2XZmvryeviI22wAjZY3n6ojDvOf26+wlzyyBbfsa3IIgyUG
+ o/k1vVFe3Kqe3aVeaS2CWOt+30B1/++NofsN5xaDtLHWUD2xCnMwId1J2oLfVHzETtCo
+ 1btGl54lmENudHjIsk2BxNXsY5Ejlgf280WBs/shCb64GsJFP/Mdtd7pbborkmqpsh4D
+ Uot57m4aT166I9r1G/FKDwmWUmbJcxCdg/NZUdV+yoB9TBL4bqCDD+xduC2MVyPJuvZZ
+ GqMw==
+X-Gm-Message-State: AAQBX9f2r3wCJ+J2+IA56GrB3XBwzD6ny0eBwacivjuv2Qeg7kBCKQ8j
+ JYgqvV7g2G7FtrjkiW2H4zKxbM9mvmngyljVYEWSzQ==
+X-Google-Smtp-Source: AKy350ZR5xCsHi5eVXAzVMAg74DbXOVxZwSG6Tj6+e2urajU4bQH/MinMa3dSR5ARaqb2khKmss74CtU7opeYyoeB+U=
+X-Received: by 2002:a05:600c:5405:b0:3df:f3cb:e8ce with SMTP id
+ he5-20020a05600c540500b003dff3cbe8cemr393512wmb.7.1681297018926; Wed, 12 Apr
+ 2023 03:56:58 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-15
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <ZDVwMawvlOLZ2VZt@intel.com>
+References: <CANp29Y4V7LsaJk0h3GyWV-chE8YkwM2qX33_hy9ZF5si8ZLdDg@mail.gmail.com>
+ <000000000000e9e5a905f9214d8c@google.com>
+In-Reply-To: <000000000000e9e5a905f9214d8c@google.com>
+From: Aleksandr Nogikh <nogikh@google.com>
+Date: Wed, 12 Apr 2023 12:56:47 +0200
+Message-ID: <CANp29Y4UGZpm6JadD0+5kWFZn1DuL54VWN4QT+2CnaryeqWBXg@mail.gmail.com>
+Subject: Re: [syzbot] [dri?] WARNING in vkms_get_vblank_timestamp
+To: syzbot <syzbot+75cc0f9f7e6324dd2501@syzkaller.appspotmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,87 +69,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Andi Shyti <andi.shyti@kernel.org>, intel-gfx@lists.freedesktop.org,
- Matthew Auld <matthew.auld@intel.com>, dri-devel@lists.freedesktop.org,
- Maciej Patelczyk <maciej.patelczyk@intel.com>, stable@vger.kernel.org,
- Andi Shyti <andi.shyti@linux.intel.com>,
- Chris Wilson <chris.p.wilson@linux.intel.com>, "Das,
- Nirmoy" <nirmoy.das@intel.com>
+Cc: hamohammed.sa@gmail.com, rodrigosiqueiramelo@gmail.com,
+ syzkaller-bugs@googlegroups.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, melissa.srw@gmail.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Rodrigo,
+Let's close the bug on syzbot so that the bot can report similar bugs
+in the future:
 
-> > > Currently, when we perform operations such as clearing or copying
-> > > large blocks of memory, we generate multiple requests that are
-> > > executed in a chain.
-> > > 
-> > > However, if one of these requests fails, we may not realize it
-> > > unless it happens to be the last request in the chain. This is
-> > > because errors are not properly propagated.
-> > > 
-> > > For this we need to keep propagating the chain of fence
-> > > notification in order to always reach the final fence associated
-> > > to the final request.
-> > > 
-> > > To address this issue, we need to ensure that the chain of fence
-> > > notifications is always propagated so that we can reach the final
-> > > fence associated with the last request. By doing so, we will be
-> > > able to detect any memory operation  failures and determine
-> > > whether the memory is still invalid.
-> > > 
-> > > On copy and clear migration signal fences upon completion.
-> > > 
-> > > On copy and clear migration, signal fences upon request
-> > > completion to ensure that we have a reliable perpetuation of the
-> > > operation outcome.
-> > > 
-> > > Fixes: cf586021642d80 ("drm/i915/gt: Pipelined page migration")
-> > > Reported-by: Matthew Auld <matthew.auld@intel.com>
-> > > Suggested-by: Chris Wilson <chris@chris-wilson.co.uk>
-> > > Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
-> > > Cc: stable@vger.kernel.org
-> > > Reviewed-by: Matthew Auld <matthew.auld@intel.com>
-> > With  Matt's comment regarding missing lock in intel_context_migrate_clear
-> > addressed, this is:
-> > 
-> > Acked-by: Nirmoy Das <nirmoy.das@intel.com>
-> 
-> Nack!
-> 
-> Please get some ack from Joonas or Tvrtko before merging this series.
+#syz fix: drm/atomic-helper: Don't set deadline for modesets
 
-There is no architectural change... of course, Joonas and Tvrtko
-are more than welcome (and actually invited) to look into this
-patch.
-
-And, btw, there are still some discussions ongoing on this whole
-series, so that I'm not going to merge it any time soon. I'm just
-happy to revive the discussion.
-
-> It is a big series targeting stable o.O where the revisions in the cover
-> letter are not helping me to be confident that this is the right approach
-> instead of simply reverting the original offending commit:
-> 
-> cf586021642d ("drm/i915/gt: Pipelined page migration")
-
-Why should we remove all the migration completely? What about the
-copy?
-
-> It looks to me that we are adding magic on top of magic to workaround
-> the deadlocks, but then adding more waits inside locks... And this with
-> the hang checks vs heartbeats, is this really an issue on current upstream
-> code? or was only on DII?
-
-There is no real magic happening here. It's just that the error
-message was not reaching the end of the operation while this
-patch is passing it over.
-
-> Where was the bug report to start with?
-
-Matt has reported this, I will give to you the necessary links to
-it offline.
-
-Thanks for looking into this,
-Andi
+On Wed, Apr 12, 2023 at 12:45=E2=80=AFPM syzbot
+<syzbot+75cc0f9f7e6324dd2501@syzkaller.appspotmail.com> wrote:
+>
+> Hello,
+>
+> syzbot has tested the proposed patch and the reproducer did not trigger a=
+ny issue:
+>
+> Reported-and-tested-by: syzbot+75cc0f9f7e6324dd2501@syzkaller.appspotmail=
+.com
+>
+> Tested on:
+>
+> commit:         7d8214bb Add linux-next specific files for 20230412
+> git tree:       linux-next
+> console output: https://syzkaller.appspot.com/x/log.txt?x=3D1387763dc8000=
+0
+> kernel config:  https://syzkaller.appspot.com/x/.config?x=3D923e20c1867d7=
+c1c
+> dashboard link: https://syzkaller.appspot.com/bug?extid=3D75cc0f9f7e6324d=
+d2501
+> compiler:       gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binuti=
+ls for Debian) 2.35.2
+>
+> Note: no patches were applied.
+> Note: testing is done by a robot and is best-effort only.
