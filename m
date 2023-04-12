@@ -1,91 +1,74 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93E246DE866
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Apr 2023 02:10:31 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 260566DE8AB
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Apr 2023 03:07:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7424910E6D3;
-	Wed, 12 Apr 2023 00:10:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E9D8A10E2D1;
+	Wed, 12 Apr 2023 01:06:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam11on2040.outbound.protection.outlook.com [40.107.236.40])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F112B10E6D3
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Apr 2023 00:10:26 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=VUU8YdRxFr8uf+Ao4zba39BvJm4zyIxed/i9ZfPTFKZCFMUxezBYtFH6gZ66xEA5f+LtvTPxr3Z0UdoB3/L1y1prUQj2aL95FtZvIvDdsPt5xsodRaqt3iD+vxa+EoEkdwg+gX7v5KG9H10D8rVT6lZBDkgPqci+OlMIPczEOX00QYWQ5DVrkk17VbmXdFPeplS2RwuJWxUCKkdddoZJGT/ODhrC2VwXRUdLverZHFb2ltEZg2QotByuKcbQOtff0FqFAFGjdULp5qkiH/EtsMlARB/0GZigGlIgL6QVatrpeOJMmTvI2ZdPYJrRZW5qmwXEOv2sONM4BZRWNhmjtw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=E95oua5PmlULaxqqutfKvb+BXc2C/6aGLoleJj1x0pI=;
- b=kFWatfzcXGlfEBNPDlPnQeuAnevvWfAhB5SaAE76c9J6Mh0NDm3WVa3mbsQ51vmzFDScKkHZUvyGnCsyp+B5iRS8T/P4fwhf85OPqy+d3ZH2g942pY+EDxJPag6n+9dM4glFXUpzzzfrzNUmyrPlBykLvc67rDesi/9ez373VsxhMlkVBr/2qAuMU6Xf8SFAt2Pd7AFXVT6didwk1yeWg9QjQGJLtt2rVX8t+EpnyLDSS1VSYyrhX6t44hNmt/phu4LCKQc8K5hTHcQUNd0P/lusbBLbEXaf3lgrvRdLtSuPiSvWqqr1pqNEwKNRUXHPfbXP7Z7h68sQQnxbYhyv1Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=gmail.com smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=E95oua5PmlULaxqqutfKvb+BXc2C/6aGLoleJj1x0pI=;
- b=D3yw4LrSG/aDPZODt2SnbhYE1ItaW31wpjGrRi1vjRjsb2Rd85NOKZ/De8AobDBtNIPulbDORE0chqDGrTrPyNaY5qWcWQqOxQJ8/b7hjc563ZnUIQkk9oRQdTweABAd9hYw9rJD0wNb/c1OjWajuejoBsLmaxqG3B5ntj8Qfx8=
-Received: from DS7PR03CA0257.namprd03.prod.outlook.com (2603:10b6:5:3b3::22)
- by SN7PR12MB6909.namprd12.prod.outlook.com (2603:10b6:806:263::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6277.38; Wed, 12 Apr
- 2023 00:10:24 +0000
-Received: from DM6NAM11FT105.eop-nam11.prod.protection.outlook.com
- (2603:10b6:5:3b3:cafe::af) by DS7PR03CA0257.outlook.office365.com
- (2603:10b6:5:3b3::22) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6277.35 via Frontend
- Transport; Wed, 12 Apr 2023 00:10:24 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- DM6NAM11FT105.mail.protection.outlook.com (10.13.173.164) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.6298.29 via Frontend Transport; Wed, 12 Apr 2023 00:10:24 +0000
-Received: from smtp.xilinx.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Tue, 11 Apr
- 2023 19:10:22 -0500
-From: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
-To: <airlied@gmail.com>, <daniel@ffwll.ch>
-Subject: [PATCH v2] drm/display: Add missing OLED Vesa brightnesses definitions
-Date: Tue, 11 Apr 2023 18:09:43 -0600
-Message-ID: <20230412000943.429031-1-Rodrigo.Siqueira@amd.com>
-X-Mailer: git-send-email 2.39.2
+Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com
+ [IPv6:2a00:1450:4864:20::12d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 48AEB10E284
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Apr 2023 01:06:54 +0000 (UTC)
+Received: by mail-lf1-x12d.google.com with SMTP id i26so13029850lfc.6
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Apr 2023 18:06:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1681261609; x=1683853609;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=N/gZ6cj/6Omli4sjrZld+bXqKW2xcaRiN8ew1uF6z4Q=;
+ b=qg/wgnV2eqb3f3qQ00x6+C/wLebXtdwYd60rDUlRcu0B87vzIOf+Xu/PPuWjxfhOl/
+ /RZKj2IE4PiUFEKdIVr4Zd19MTDnpzLVNkD7OCJ2YEZLGr3a2CCsGr4c57IEr3NXeyZn
+ 3Ohj60QVPeGofBqYQTB74rITk+TTv6Kkh/DpLSpTTIEjIz6auBkcU1TcRwhnd1EpPdJz
+ 0chkGhO9nWNZDcKABqTQ8qhonjZilzuAUZGjCOTxUXPJaA3A2K5rPqLhS29LOQ8S5vxM
+ Iq0keKRq5+xe+VbJXK8f3fYpMPoO/Bla/y2Waa51VfXG1TRqcyoPJzlHXfzaSZHPtTrc
+ z+ng==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1681261609; x=1683853609;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=N/gZ6cj/6Omli4sjrZld+bXqKW2xcaRiN8ew1uF6z4Q=;
+ b=69DtjXfYQJYHbLg5eT2jOAVSe/eoqe0Wyr76at+EudfcuYVkZKzwhHRWvKSvUHsoaZ
+ Pi2nZq+VOwgX6CnZnUjiP1ST1eZfD3DsPWIvvjDV4o+7XjS0gaU027saq0kCtwhkxM48
+ McZ9d1299BAeWUs2ZMMPIGqzxGJy5uNuwNBY6L+QD53owGFjQWRwysdMWwORLDGyhzbn
+ +0zymzExw2N3JqS6ihZbnguCnV5SjQ3jxDet2TIdyeE6xGpwGqiN2FkYrueOO5Or/eVY
+ LJl7KaQzzA1VgH2xZ2Z5Zr2nZXrQDHrCQnkWxNxexIWfkx2nP4guqDBCwqaZB/4yqNoK
+ hzLg==
+X-Gm-Message-State: AAQBX9fR7QnANY6t9hVekPdU39eus9p5CA8NLUqDtIllFvQi59HG9OCL
+ KBjN0R4Z6R/g4WNZ87RStfr7Kw==
+X-Google-Smtp-Source: AKy350bo4WvmONxNFFnQIrtl/U3MsUQ1AvPbCr7NIx57Gv8KxdTGkpb0fgFvDk5kBTujWXmxM1wm0Q==
+X-Received: by 2002:a19:c504:0:b0:4b5:8298:5867 with SMTP id
+ w4-20020a19c504000000b004b582985867mr115362lfe.66.1681261609629; 
+ Tue, 11 Apr 2023 18:06:49 -0700 (PDT)
+Received: from ?IPV6:2001:14ba:a085:4d00::8a5?
+ (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a085:4d00::8a5])
+ by smtp.gmail.com with ESMTPSA id
+ u11-20020ac2518b000000b004d5a6dcb94fsm2781793lfi.33.2023.04.11.18.06.48
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 11 Apr 2023 18:06:49 -0700 (PDT)
+Message-ID: <24c5aa23-9b3c-787c-10aa-e9d5ad91512b@linaro.org>
+Date: Wed, 12 Apr 2023 04:06:48 +0300
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [Freedreno] [PATCH] drm/msm/dpu: add DSC range checking during
+ resource reservation
+Content-Language: en-GB
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Kuogee Hsieh <quic_khsieh@quicinc.com>
+References: <1681247380-1607-1-git-send-email-quic_khsieh@quicinc.com>
+ <qvgbm3wimai3jytnikbcixipvwqn2uywqpg4mn6mjh5atergfx@wa4edsrp7y22>
+ <96416911-bca3-b007-b036-1c4463e83aaa@quicinc.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <96416911-bca3-b007-b036-1c4463e83aaa@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM6NAM11FT105:EE_|SN7PR12MB6909:EE_
-X-MS-Office365-Filtering-Correlation-Id: ae2418a0-7b47-4388-13d6-08db3aea4ff8
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: q7PboFcve4o+7Ne1MazbcJNL7lkWXXPZpM+kidXuwojg9YTXMosJCDIdeEcLZqu7XNGvAwIag1VBI3TcZkjhRpIxFCK9pL6noHDPAI3yqYB0/jObaxGYs2fm9J5rSNmylZtiqEzJLZMFkvDcO5iu9t1VUwXwUvuvE2voLrq/N9w8U6M81awDycbJvAlhxLQ6y5angTXt3vrLKjrE3kbuknn8RNjQp06BHZkd2aVzdabmGx0tmRbI8xomiP1EGUhzCqYFN79dnyIPi8xlZ+9mG2OjKqf63iN2ZBlpMbahg0C5G5cXqNKrz2L4mfTgGnhQH6zYUIYYQhTie4uR1Oex0bRJx+TI8NoXS7AhX/9iFyscPKLROFWm+i6Lfl8oYOg+rhaEtKG+udqqJVLgmd5hEIGhP5cxj+dB2xGzmlgrFoBKX2IH3vR5N2zWyOGVmKJsVLhDFmqVYCYtM78hmPv4X9BTXt+g6XxgrKkpQdYJcCjZX+iD8D/BpPApzGWo4Gw6EO3pGRSAVFV0KRTVVkDNQaYidClF25ia1RGB6ABGIJhJtHreguItuYOdu9aiZZQ+sf24kduRygYvPUwuLc+QR6nHcHlbBdV00OJNycNeW6nOq3r+LRD/yfrw76uNGiPRiZyZD3hHwc6fICQZ0Pge54FRgZzYtIZIH6nesZij3NwQVQl6cyytYvvg+QPOWf0F6EhnAgigLISoTKI8oFs+KOWPluOa8XQRUnXQ1jNeGfQ=
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230028)(4636009)(396003)(346002)(39860400002)(376002)(136003)(451199021)(36840700001)(40470700004)(46966006)(66899021)(40460700003)(54906003)(8676002)(4326008)(70586007)(70206006)(478600001)(41300700001)(110136005)(316002)(36756003)(86362001)(83380400001)(336012)(2616005)(426003)(26005)(1076003)(6666004)(47076005)(8936002)(2906002)(82310400005)(5660300002)(40480700001)(36860700001)(16526019)(186003)(82740400003)(81166007)(356005)(36900700001);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Apr 2023 00:10:24.0692 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: ae2418a0-7b47-4388-13d6-08db3aea4ff8
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT105.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB6909
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,53 +81,115 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Felipe Clark <felipe.clark@amd.com>,
- Iswara Negulendran <iswara.nagulendran@amd.com>,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Anthony Koo <anthony.koo@amd.com>
+Cc: sean@poorly.run, vkoul@kernel.org, quic_sbillaka@quicinc.com,
+ freedreno@lists.freedesktop.org, andersson@kernel.org, dianders@chromium.org,
+ dri-devel@lists.freedesktop.org, swboyd@chromium.org, agross@kernel.org,
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This commit adds missing luminance control registers to enable a more
-standard way (VESA) to deal with eDP luminance control.
+On 12/04/2023 01:32, Abhinav Kumar wrote:
+> Hi Marijn
+> 
+> On 4/11/2023 3:24 PM, Marijn Suijten wrote:
+>> Again, don't forget to include previous reviewers in cc, please :)
+>>
+>> On 2023-04-11 14:09:40, Kuogee Hsieh wrote:
+>>> Perform DSC range checking to make sure correct DSC is requested before
+>>> reserve resource for it.
 
-Cc: Anthony Koo <anthony.koo@amd.com>
-Cc: Iswara Negulendran <iswara.nagulendran@amd.com>
-Cc: Felipe Clark <felipe.clark@amd.com>
-Cc: Harry Wentland <Harry.Wentland@amd.com>
-Signed-off-by: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
----
- include/drm/display/drm_dp.h | 3 +++
- 1 file changed, 3 insertions(+)
+nit: reserving
 
-diff --git a/include/drm/display/drm_dp.h b/include/drm/display/drm_dp.h
-index ed10e6b6f99d..7ad749423a48 100644
---- a/include/drm/display/drm_dp.h
-+++ b/include/drm/display/drm_dp.h
-@@ -973,6 +973,7 @@
- 
- #define DP_EDP_GENERAL_CAP_2		    0x703
- # define DP_EDP_OVERDRIVE_ENGINE_ENABLED		(1 << 0)
-+# define DP_EDP_PANEL_LUMINANCE_CONTROL_CAPABLE		(1<<4)
- 
- #define DP_EDP_GENERAL_CAP_3		    0x704    /* eDP 1.4 */
- # define DP_EDP_X_REGION_CAP_MASK			(0xf << 0)
-@@ -998,6 +999,7 @@
- # define DP_EDP_DYNAMIC_BACKLIGHT_ENABLE		(1 << 4)
- # define DP_EDP_REGIONAL_BACKLIGHT_ENABLE		(1 << 5)
- # define DP_EDP_UPDATE_REGION_BRIGHTNESS		(1 << 6) /* eDP 1.4 */
-+# define DP_EDP_PANEL_LUMINANCE_CONTROL_ENABLE		(1<<7)
- 
- #define DP_EDP_BACKLIGHT_BRIGHTNESS_MSB     0x722
- #define DP_EDP_BACKLIGHT_BRIGHTNESS_LSB     0x723
-@@ -1022,6 +1024,7 @@
- 
- #define DP_EDP_DBC_MINIMUM_BRIGHTNESS_SET   0x732
- #define DP_EDP_DBC_MAXIMUM_BRIGHTNESS_SET   0x733
-+#define DP_EDP_PANEL_TARGET_LUMINANCE_VALUE 0x734
- 
- #define DP_EDP_REGIONAL_BACKLIGHT_BASE      0x740    /* eDP 1.4 */
- #define DP_EDP_REGIONAL_BACKLIGHT_0	    0x741    /* eDP 1.4 */
+>>
+>> This isn't performing any range checking for resource reservations /
+>> requests: this is only validating the constants written in our catalog
+>> and seems rather useless.  It isn't fixing any real bug either, so the
+>> Fixes: tag below seems extraneous.
+>>
+>> Given prior comments from Abhinav that "the kernel should be trusted",
+>> we should remove this validation for all the other blocks instead.
+>>
+> 
+> The purpose of this check is that today all our blocks in RM use the 
+> DSC_* enum as the size.
+> 
+> struct dpu_hw_blk *dsc_blks[DSC_MAX - DSC_0];
+> 
+> If the device tree ends up with more DSC blocks than the DSC_* enum, how 
+> can we avoid this issue today? Not because its a bug in device tree but 
+> how many static number of DSCs are hard-coded in RM.
+
+We don't have these blocks in device tree. And dpu_hw_catalog shouldn't 
+use indices outside of enum dpu_dsc.
+
+Marijn proposed to pass struct dpu_foo_cfg directly to 
+dpu_hw_foo_init(). This will allow us to drop these checks completely.
+
+For the time being, I think it might be better to add these checks for 
+DSC for the sake of uniformity.
+
+> 
+> And like you said, this is not specific to DSC. Such checks are present 
+> for other blocks too.
+> 
+>>> Fixes: c985d7bb64ff ("drm/msm/disp/dpu1: Add DSC support in RM")
+>>> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
+>>> ---
+>>>   drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c | 10 +++++++++-
+>>>   1 file changed, 9 insertions(+), 1 deletion(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c 
+>>> b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
+>>> index f4dda88..95e58f1 100644
+>>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
+>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
+>>> @@ -1,6 +1,7 @@
+>>>   // SPDX-License-Identifier: GPL-2.0-only
+>>>   /*
+>>>    * Copyright (c) 2016-2018, The Linux Foundation. All rights reserved.
+>>> + * Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights 
+>>> reserved.
+>>>    */
+>>>   #define pr_fmt(fmt)    "[drm:%s] " fmt, __func__
+>>> @@ -250,6 +251,11 @@ int dpu_rm_init(struct dpu_rm *rm,
+>>>           struct dpu_hw_dsc *hw;
+>>>           const struct dpu_dsc_cfg *dsc = &cat->dsc[i];
+>>> +        if (dsc->id < DSC_0 || dsc->id >= DSC_MAX) {
+>>> +            DPU_ERROR("skip dsc %d with invalid id\n", dsc->id);
+>>> +            continue;
+>>> +        }
+>>> +
+>>>           hw = dpu_hw_dsc_init(dsc->id, mmio, cat);
+>>>           if (IS_ERR_OR_NULL(hw)) {
+>>>               rc = PTR_ERR(hw);
+>>> @@ -557,8 +563,10 @@ static int _dpu_rm_make_reservation(
+>>>       }
+>>>       ret  = _dpu_rm_reserve_dsc(rm, global_state, enc, 
+>>> &reqs->topology);
+>>> -    if (ret)
+>>> +    if (ret) {
+>>> +        DPU_ERROR("unable to find appropriate DSC\n");
+>>
+>> This, while a nice addition, should go in a different patch.
+
+I'd agree here, a separate patch.
+
+>>
+>> Thanks!
+>>
+>> - Marijn
+>>
+>>>           return ret;
+>>> +    }
+>>>       return ret;
+>>>   }
+>>> -- 
+>>> The Qualcomm Innovation Center, Inc. is a member of the Code Aurora 
+>>> Forum,
+>>> a Linux Foundation Collaborative Project
+>>>
+
 -- 
-2.39.2
+With best wishes
+Dmitry
 
