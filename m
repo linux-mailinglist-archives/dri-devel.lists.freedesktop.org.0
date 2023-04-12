@@ -1,58 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7C776DEBC0
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Apr 2023 08:22:47 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 53F226DEBC6
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Apr 2023 08:25:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8EB5A10E6E4;
-	Wed, 12 Apr 2023 06:22:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BC72910E6F2;
+	Wed, 12 Apr 2023 06:25:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb29.google.com (mail-yb1-xb29.google.com
- [IPv6:2607:f8b0:4864:20::b29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 02A2C10E6E4
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Apr 2023 06:22:41 +0000 (UTC)
-Received: by mail-yb1-xb29.google.com with SMTP id v7so9137688ybi.0
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Apr 2023 23:22:41 -0700 (PDT)
+Received: from mail-yw1-x112e.google.com (mail-yw1-x112e.google.com
+ [IPv6:2607:f8b0:4864:20::112e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 640CF10E6F2
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Apr 2023 06:25:39 +0000 (UTC)
+Received: by mail-yw1-x112e.google.com with SMTP id
+ 00721157ae682-54c17fa9ae8so300330937b3.5
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Apr 2023 23:25:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amarulasolutions.com; s=google; t=1681280560; x=1683872560;
+ d=amarulasolutions.com; s=google; t=1681280738; x=1683872738;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=YzcrBClP4MIHnVurnvFYvhgN/8pmFCKNIuz7VTzapVA=;
- b=YzPK9hDu8+2ofDgjkX1XGFJlilqcAr+JEsJVbC7AD2+u0418tPscg/z0EjH6MviPHD
- c9ve8VKvfAJahccPZXf8pcZMifkffWndVrIbMxROzMF3uaIlBHEvs+FFkHNWMZck3WKE
- QFDtCUU52YrJ7Qq6+iPhmrGWNLSgbXV0bO/HE=
+ bh=jhpyBirk3tYbblseoMyBba93jj3Bl/duZG+Dack8flE=;
+ b=grGlxbpyy8NfuDw2kUj/q+KkbN2kiqb1LtrqmIYRqtx2XVb2lcxd49dFz5ggkXg5x5
+ gO3ppDDV6t9zfmgCMA+/jXNRa7VsX/Ftomi9M3nNytRUiHQsRfYBWleqEVuv0QIJxP3C
+ SMVMQMzbkrnaO1NkziVN8N2y5ACDclLbgxa90=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1681280560; x=1683872560;
+ d=1e100.net; s=20210112; t=1681280738; x=1683872738;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=YzcrBClP4MIHnVurnvFYvhgN/8pmFCKNIuz7VTzapVA=;
- b=rwib2b36xoPWZ0nVrMCHORPEuTUaEKHDpjgp5I4rAJkfEADUjbyhpoS1fDhUnLiy+1
- YOBvp0yZ8ic5DAoPuqYEsTBBZVDeTDhPD47STXPuA/7Sdf41MzgQJj92npMB/nIuGwzT
- ilXsOe1B1WzQG+bar6zbceqPxaEvY0tg+0YBsVGiNzE4fNazBi3RzTWD1ovjCtF4CbCH
- UC43s0jn+ohq1+B9JCnSzH3wgnrmRLcTmhCYAi+RqBiNah2mCt/6ajCRzZ5ehEi32Key
- n8W78XMt15w88f5WrzT8G+i7svV9zjKUCIsgmnNdVN2ZmkFcB5bV1/zfy3raInGDUM1L
- 6P5g==
-X-Gm-Message-State: AAQBX9el48whKtGj0epeIeJD4QFRe7t/m8C0TrTAyF2re0HMBTKYU19T
- +Lq5P1606Z+J7WvZ2kERfrEt+zyuxDWzr/OMSAIEVA==
-X-Google-Smtp-Source: AKy350Zuqe9iTS9RPEw9I9hZwmrcQG/OjkegDB9AiIAhx0ame+wn+ingo80HND/tQHbiW3/CgVklaBcee09PS7L/X0s=
-X-Received: by 2002:a25:d653:0:b0:b3b:fb47:8534 with SMTP id
- n80-20020a25d653000000b00b3bfb478534mr6978632ybg.5.1681280560568; Tue, 11 Apr
- 2023 23:22:40 -0700 (PDT)
+ bh=jhpyBirk3tYbblseoMyBba93jj3Bl/duZG+Dack8flE=;
+ b=jGMUQxJ2s8nejUW/JeePaB+BMae/YQoYMnumY+YpauhwRvDImNSnXO2YUX7TaCY0tX
+ WupC286REHp0bFp2kN7pcNAoRuCUh+af7nQR6uN+H8YHtyGMh3yY6V6ce9IVXi423nyz
+ oVr08+dpPrfREfgncSRYnBPBOrXWqbuX2IVOkWNftXg3mbh6Ukrod3m2okT85fjo/Hgr
+ q0mzZT00hGNVOJb9O0ghT7ItGRlJsf8GkUK/VyCod4vd0UE8wdcgcbr3a9mX+FRwOmYS
+ R8o9jbY/WzJw9XPpS1dw+INbjrYMuh83DeR1t8Q2ZVOZTr++3tpdVGfO/FJquNtsc/Ud
+ Lrzw==
+X-Gm-Message-State: AAQBX9e1s59l6eB7vQjggXF2aqd5x64RWhEqOuIawVUOL/V9i6exQvhJ
+ 3kVmmb0VhSjlrv/tKgA/xR2cIygdPD5SARWqjNC0Hg==
+X-Google-Smtp-Source: AKy350YSTeHGYU2/C6QSrrxqNviNP2zksoKcUwdUpaGiLruK7+7kEG+tLjFYGvf9vxmYedH/KOVWstc+TMfHW2WMi0A=
+X-Received: by 2002:a81:b61c:0:b0:54f:a5f0:2763 with SMTP id
+ u28-20020a81b61c000000b0054fa5f02763mr137333ywh.0.1681280738040; Tue, 11 Apr
+ 2023 23:25:38 -0700 (PDT)
 MIME-Version: 1.0
-References: <2991779.e9J7NaK4W3@steina-w>
- <CAKMK7uFXvGu7E9w3a+5DUCqUoXXJd2jcDhWP-i_uk4pBVr0vyA@mail.gmail.com>
- <CAMty3ZBV-oH0KZPYb_ibER9PXVoAsG_9TR3LxpeYRPRtxgXsow@mail.gmail.com>
- <9098102.CDJkKcVGEf@steina-w>
-In-Reply-To: <9098102.CDJkKcVGEf@steina-w>
+References: <20230328170752.1102347-1-jagan@amarulasolutions.com>
+In-Reply-To: <20230328170752.1102347-1-jagan@amarulasolutions.com>
 From: Jagan Teki <jagan@amarulasolutions.com>
-Date: Wed, 12 Apr 2023 11:52:28 +0530
-Message-ID: <CAMty3ZCXjwU2pJPfHzikKnj0nhujk_=kfRau2Bj9Lz1DRLHhMw@mail.gmail.com>
-Subject: Re: RFC: DSI/DRM multiplexer bridge
-To: Alexander Stein <alexander.stein@ew.tq-group.com>
+Date: Wed, 12 Apr 2023 11:55:26 +0530
+Message-ID: <CAMty3ZBnAw+VHXoZuSgZPmSTMYd-nxBw5cZ+OxLYxqrXRX=MNg@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] drm/bridge: Fix improper bridge init order with
+ pre_enable_prev_first
+To: Dave Stevenson <dave.stevenson@raspberrypi.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Maxime Ripard <mripard@kernel.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -67,216 +73,126 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>, Jonas Karlman <jonas@kwiboo.se>,
- dri-devel@lists.freedesktop.org, Robert Foss <robert.foss@linaro.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Marek Vasut <marex@denx.de>,
+ linux-amarula <linux-amarula@amarulasolutions.com>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Apr 11, 2023 at 1:17=E2=80=AFPM Alexander Stein
-<alexander.stein@ew.tq-group.com> wrote:
->
-> Am Donnerstag, 6. April 2023, 11:55:52 CEST schrieb Jagan Teki:
-> > [Replying the Daniel thread since he included bridge maintainers]
-> >
-> > On Thu, Apr 6, 2023 at 2:07=E2=80=AFPM Daniel Vetter <daniel@ffwll.ch> =
-wrote:
-> > > Adding the usual bridge maintainer/review folks since this looks tric=
-ky.
-> > > -Daniel
-> > >
-> > > On Thu, 6 Apr 2023 at 10:33, Alexander Stein
-> > >
-> > > <alexander.stein@ew.tq-group.com> wrote:
-> > > > Hi Jagan,
-> > > >
-> > > > thanks for your reply.
-> > > >
-> > > > Am Mittwoch, 5. April 2023, 16:39:07 CEST schrieb Jagan Teki:
-> > > > > On Wed, Apr 5, 2023 at 7:39=E2=80=AFPM Alexander Stein
-> > > > >
-> > > > > <alexander.stein@ew.tq-group.com> wrote:
-> > > > > > Hi,
-> > > > > >
-> > > > > > my platform has a DIP switch controlled multiplexer for MIPI DS=
-I
-> > > > > > output
-> > > > > > signals. One output has a TI SN65DSI84 (LVDS) and the other out=
-put
-> > > > > > has a
-> > > > > > TI
-> > > > > > SN65DSI86 (eDP) attached to it. The Multiplexer status can be r=
-ead
-> > > > > > back
-> > > > > > from a GPIO. The GPIO is also IRQ capable, so it would be possi=
-ble
-> > > > > > to
-> > > > > > support hotplug additionally later on.
-> > > > >
-> > > > > I have this requirement a year back [1] but my design has i.mx8mq=
- DSI
-> > > > > outputs to SN65DSI84(LVDS) and ADV7533 (HDMI) and GPIO has muxed =
-as
-> > > > > IRQ in order to find the bridge selection. (not confused with HDM=
-I
-> > > > > HPD).
-> > > >
-> > > > Looks quite similar. This platform can be used using imx8mq, imx8mm=
- or
-> > > > im8xmn. That mentioned GPIO is also not the HDMI HPD, but connected=
- to
-> > > > a DIP switch on the mainboard to be changed manually.
-> >
-> > So, you need to manually adjust the switch and boot the required
-> > output and the state of the output depends on the set switch gpios
-> > isn't it? do you need to set any gpio so that the required output will
-> > select?
->
-> That's correct. There is no GPIO I need to set by software for the output=
-s
-> (despite the enable GPIO on the DSI-to-X bridges, but this is handled in =
-their
-> appropriate drivers).
+Hi Dave,
 
-If we don't do any gpio handling in mux-bridge then why do we need
-mux-bridge? what exactly is the job of the mux-bridge driver?
+Added Maxime, Laurent [which I thought I added before]
 
+On Tue, Mar 28, 2023 at 10:38=E2=80=AFPM Jagan Teki <jagan@amarulasolutions=
+.com> wrote:
 >
-> > > > > > My initial idea was to create a DRM multiplexer bridge driver w=
-hich
-> > > > > > (depending on the input GPIO) allows only one output to be enab=
-led.
-> > > > > > Unfortunately ti- sn65dsi86.c driver expects a DSI host on remo=
-te
-> > > > > > node 0
-> > > > > > (see ti_sn_attach_host and ti_sn_bridge_parse_dsi_host), so it =
-does
-> > > > > > not
-> > > > > > work. ti-sn65dsi83.c just requires a drm_bridge.
-> > > > >
-> > > > > Yes, we need to have a finite amount of pipeline changes. assumin=
-g
-> > > > > that your mux bridge sits between DSI to Output interfaces the
-> > > > > proposed mux bridge selects which pipeline.
-> > > >
-> > > > My setup looks like this, but the switch is a different one than yo=
-urs.
-> > > >
-> > > >                               | =3D> SN54DSI86 =3D> DP Connector
-> > > >
-> > > > DSI Host =3D> display-switch =3D> |
-> > > >
-> > > >                               | =3D> SN65DSI83 =3D> Panel-Simple
-> >
-> > This looks correct to me, as I designed the similar one.
-> >
-> > > > > > What is the best approach for this? I currently see two approac=
-hes:
-> > > > > > * Create an explicit DSI/DRM multiplexer bridge driver which
-> > > > > > registers
-> > > > > > itself as DSI host
-> > > > > > * Create a DRM multiplexer bridge (only). But this needs to rem=
-ove
-> > > > > > the DSI
-> > > > > > device registration from ti-sn65dsi86.c
-> > > > >
-> > > > > Based on my experience, having a muxed bridge between in and out =
-would
-> > > > > be proper in order to satisfy the pipeline as well as the design.=
- That
-> > > > > mux bridge has to be a normal bridge doesn't aware of DSI or any =
-other
-> > > > > interface like one of the submissions has done in the recent mail=
-ing
-> > > > > list. [2] Things would be complicated when we switch the outputs =
-but
-> > > > > we still use normal static switching of outputs in a proper way.
-> > > > >
-> > > > > > I am aware that DSI support is suboptimal, so I'm not sure whic=
-h
-> > > > > > approach
-> > > > > > on the TI bridge drivers is the correct one and needs to be
-> > > > > > considered as
-> > > > > > given. Any ideas?
-> > > > >
-> > > > > I did implement some complicated things of switching outputs at
-> > > > > runtime but the idea of the switching pipelines would be similar =
-if
-> > > > > you want to implement it in a normal static way. Here are some de=
-tails
-> > > > > and a demo of how those been worked. [3] [4]
-> > > >
-> > > > Thanks for the links. From what I read in those discussions dynamic=
-ally
-> > > > (re)building the bridge chains it not correct/acceptable. Instead t=
-wo
-> > > > bridges shall be created, but only one connector at the end shall b=
-e
-> > > > enabled. This> >
-> > > > would look like this:
-> > > >    switched-bridge
-> > > >
-> > > >     +------------+                 +-------------+
-> > > >
-> > > >     | drm_bridge-|- next_bridge -- | LVDS bridge |- connector
-> > > >     |
-> > > >     |            |                 +-------------+
-> > > >
-> > > > in -|            |
-> > > >
-> > > >     |            |                 +-------------+
-> > > >     |
-> > > >     | drm_bridge-|- next_bridge -- | eDP bridge  |- connector
-> > > >
-> > > >     +------------+                 +-------------+
-> > > >
-> > > >           ^
-> > > >
-> > > >       DIP switch
-> > > >
-> > > > But here I'm not so sure how an (hotplug) event (e.g. IRQ) on the
-> > > > switched-
-> > > > bridge can be forwarded to the connectors. But this hotplug event s=
-eems
-> > > > to be essential so that DRM master can reconfigure it's output.
-> >
-> > In my opinion, the switched-bridge needs to focus on switching the
-> > outputs based on DIP gpios, and hotplug events need to handle the
-> > associated display bridges like DP, HDMI, etc. It is possible for the
-> > switched-bridge to route the output displays without the hot plug.
+> For a given bridge pipeline if any bridge sets pre_enable_prev_first
+> flag then the pre_enable for the previous bridge will be called before
+> pre_enable of this bridge and opposite is done for post_disable.
 >
-> I agree, IMHO hotplug/HPD events is related to downstream connectors.
+> These are the potential bridge flags to alter bridge init order in order
+> to satisfy the MIPI DSI host and downstream panel or bridge to function.
+> However the existing pre_enable_prev_first logic with associated bridge
+> ordering has broken for both pre_enable and post_disable calls.
 >
-> > Assume the switched-bridge has port 1 and ep 0 connected to LVDS and
-> > port 1 and ep 1 connected to DP. then find and attach them at the
-> > bridge attach function. and do the necessary gpio enablements in
-> > enable or pre_enables.
+> [pre_enable]
 >
-> Ah nice. My initial idea was:
-> * port 0 ep 0: input
-> * port 1 ep 0: LVDS
-> * port 2 ep 0: DP
+> The altered bridge ordering has failed if two consecutive bridges on a
+> given pipeline enables the pre_enable_prev_first flag.
 >
-> But using two endpoints in one port looks neat. Although I'm not sure if =
-there
-> is an actual difference.
+> Example:
+> - Panel
+> - Bridge 1
+> - Bridge 2 pre_enable_prev_first
+> - Bridge 3
+> - Bridge 4 pre_enable_prev_first
+> - Bridge 5 pre_enable_prev_first
+> - Bridge 6
+> - Encoder
+>
+> In this example, Bridge 4 and Bridge 5 have pre_enable_prev_first.
+>
+> The logic looks for a bridge which enabled pre_enable_prev_first flag
+> on each iteration and assigned the previou bridge to limit pointer
+> if the bridge doesn't enable pre_enable_prev_first flags.
+>
+> If control found Bridge 2 is pre_enable_prev_first then the iteration
+> looks for Bridge 3 and found it is not pre_enable_prev_first and assigns
+> it's previous Bridge 4 to limit pointer and calls pre_enable of Bridge 3
+> and Bridge 2 and assign iter pointer with limit which is Bridge 4.
+>
+> Here is the actual problem, for the next iteration control look for
+> Bridge 5 instead of Bridge 4 has iter pointer in previous iteration
+> moved to Bridge 4 so this iteration skips the Bridge 4. The iteration
+> found Bridge 6 doesn't pre_enable_prev_first flags so the limit assigned
+> to Encoder. From next iteration Encoder skips as it is the last bridge
+> for reverse order pipeline.
+>
+> So, the resulting pre_enable bridge order would be,
+> - Panel, Bridge 1, Bridge 3, Bridge 2, Bridge 6, Bridge 5.
+>
+> This patch fixes this by assigning limit to next pointer instead of
+> previous bridge since the iteration always looks for bridge that does
+> NOT request prev so assigning next makes sure the last bridge on a
+> given iteration what exactly the limit bridge is.
+>
+> So, the resulting pre_enable bridge order with fix would be,
+> - Panel, Bridge 1, Bridge 3, Bridge 2, Bridge 6, Bridge 5, Bridge 4,
+>   Encoder.
+>
+> [post_disable]
+>
+> The altered bridge ordering has failed if two consecutive bridges on a
+> given pipeline enables the pre_enable_prev_first flag.
+>
+> Example:
+> - Panel
+> - Bridge 1
+> - Bridge 2 pre_enable_prev_first
+> - Bridge 3
+> - Bridge 4 pre_enable_prev_first
+> - Bridge 5 pre_enable_prev_first
+> - Bridge 6
+> - Encoder
+>
+> In this example Bridge 5 and Bridge 4 have pre_enable_prev_first.
+>
+> The logic looks for a bridge which enabled pre_enable_prev_first flags
+> on each iteration and assigned the previou bridge to next and next to
+> limit pointer if the bridge does enable pre_enable_prev_first flag.
+>
+> If control starts from Bridge 6 then it found next Bridge 5 is
+> pre_enable_prev_first and immediately the next assigned to previous
+> Bridge 6 and limit assignments to next Bridge 6 and call post_enable
+> of Bridge 6 even though the next consecutive Bridge 5 is enabled with
+> pre_enable_prev_first. This clearly misses the logic to find the state
+> of next conducive bridge as everytime the next and limit assigns
+> previous bridge if given bridge enabled pre_enable_prev_first.
+>
+> So, the resulting post_disable bridge order would be,
+> - Encoder, Bridge 6, Bridge 5, Bridge 4, Bridge 3, Bridge 2, Bridge 1,
+>   Panel.
+>
+> This patch fixes this by assigning next with previou bridge only if the
+> bridge doesn't enable pre_enable_prev_first flag and the next further
+> assign it to limit. This way we can find the bridge that NOT requested
+> prev to disable last.
+>
+> So, the resulting pre_enable bridge order with fix would be,
+> - Encoder, Bridge 4, Bridge 5, Bridge 6, Bridge 2, Bridge 3, Bridge 1,
+>   Panel.
+>
+> Validated the bridge init ordering by incorporating dummy bridges in
+> the sun6i-mipi-dsi pipeline
+>
+> Fixes: 4fb912e5e190 ("drm/bridge: Introduce pre_enable_prev_first to
+> alter bridge init order")
+> Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
+> ---
+> Changes for v2:
+> - add missing dri-devel in CC
 
-This is also possible but sometimes port 1 with ep 0, 1 means we
-pipeline offers 2 outputs but one at a time.
-
-> But if the GPIO check is only done in enable/pre_enable there is no way t=
-o
-> support changing the DIP switch aka switched-bridge at runtime. There is
-> nothing the hotplug (non-HPD) event can be sent to, no?
-
-The idea here is to change the bridge chain and this can be done in
-static via dt or runtime. In your case the state of the DIP-switch
-resembles desired output, correct? if so if we read that state at
-run-time, find the output, and attach that particular bridge chain. Fo
-dt case of showing output read the dt about the output state and
-attach the bridge chain accordingly.
+Would you please look into this issue?
 
 Thanks,
 Jagan.
