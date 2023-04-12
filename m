@@ -1,80 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B92D86DED25
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Apr 2023 10:01:44 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DD1F06DED37
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Apr 2023 10:06:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5FCFE10E72A;
-	Wed, 12 Apr 2023 08:01:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 86A8F10E716;
+	Wed, 12 Apr 2023 08:06:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com
- [IPv6:2a00:1450:4864:20::335])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2878D10E72D
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Apr 2023 08:01:40 +0000 (UTC)
-Received: by mail-wm1-x335.google.com with SMTP id
- 5b1f17b1804b1-3f080f4fbe1so4117375e9.0
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Apr 2023 01:01:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1681286499; x=1683878499;
- h=in-reply-to:content-disposition:mime-version:references
- :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
- :subject:date:message-id:reply-to;
- bh=usxsIwPfR/jBzt5G755oCQZvTnpW/1OqLJBWqcv6Qrk=;
- b=OtKWUa6jI0KcBLBN3oD/q3av8J2pqFdx1JTLgdBG/HriWtRXeWNVb/JHI0KA+Z7a43
- 8SRpNeETcy/f6jwiRngK3D+i/VqMZ6bPSuJBrSR28FH4ehBYbjVEcaMO+EFZkPQGBXRq
- PdUFY8fmukqBYaBeiHzQ03DzQdJ09koE4/SUs=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1681286499; x=1683878499;
- h=in-reply-to:content-disposition:mime-version:references
- :mail-followup-to:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=usxsIwPfR/jBzt5G755oCQZvTnpW/1OqLJBWqcv6Qrk=;
- b=SyoSj0aC2fCRAVGE5zOzLZzzEXHdgfne2NCbtrzVSsMxICX6cUtHQYcZPG8z7bOULU
- G/yUM9ma5YM6UkRcaX/tvUeXsOFMlg9u9eKVEOHwbLWaBh4rdSRpUrPpFq07SJoPeeVu
- qb68QS7eH+O5+pdG+Q2PMaebkDcqGgHlWgBmEsvlZd8s/27lQRS6ohdbJVx+27lUCjvN
- houO+JhMcPcUZ49J4ie41mYHyZECaCBN5Pr4Lo6X8WFE8NYzs+uelYeDHHmknjWGNPMB
- +/drTQV2IOnf7q5+Djbdf2nUeP435XphDtzyeMUL8kyRYGaRiIB2GKqHmPFDwZWeHrcF
- kuCA==
-X-Gm-Message-State: AAQBX9c4Hc/KPSZXkc5gQoljqX0gzhGK0xlg5ARmyIwPyuL/5lfIWX2q
- LQaBjx2+O+MJz0lO0yw5EcsqGg==
-X-Google-Smtp-Source: AKy350ZEQ50V1V6HKttuUaO/U1mjlGEseB0SYTVz6qfuzfynrOwUlXAMSCL53PHfomXoeTjzBcMvww==
-X-Received: by 2002:a05:6000:1050:b0:2f0:843:fc0d with SMTP id
- c16-20020a056000105000b002f00843fc0dmr5705190wrx.5.1681286498852; 
- Wed, 12 Apr 2023 01:01:38 -0700 (PDT)
-Received: from phenom.ffwll.local (212-51-149-33.fiber7.init7.net.
- [212.51.149.33]) by smtp.gmail.com with ESMTPSA id
- w17-20020a5d5451000000b002f3fcb1869csm1862512wrv.64.2023.04.12.01.01.37
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 12 Apr 2023 01:01:38 -0700 (PDT)
-Date: Wed, 12 Apr 2023 10:01:36 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Rob Clark <robdclark@gmail.com>
-Subject: Re: [PATCH v3 6/7] drm: Add fdinfo memory stats
-Message-ID: <ZDZlYNN/LEdUxZgP@phenom.ffwll.local>
-Mail-Followup-To: Rob Clark <robdclark@gmail.com>,
- dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Christopher Healy <healych@amazon.com>,
- Emil Velikov <emil.l.velikov@gmail.com>,
- Rob Clark <robdclark@chromium.org>,
- David Airlie <airlied@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Jonathan Corbet <corbet@lwn.net>,
- "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
- open list <linux-kernel@vger.kernel.org>
-References: <20230411225725.2032862-1-robdclark@gmail.com>
- <20230411225725.2032862-7-robdclark@gmail.com>
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 038AD10E716
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Apr 2023 08:06:31 +0000 (UTC)
+Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
+ [2.237.20.237])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: kholk11)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id A856F66031FF;
+ Wed, 12 Apr 2023 09:06:28 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1681286789;
+ bh=jwulId4nLUPcaw4BGk1KKXtBppWVtodS0kpW0W1yZiQ=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=WYZWNGIRibERfGpNAaJvjB9EBu3kf8VWvlTd2PwEopynZ+waRY/xEs/bV3+iScqdm
+ rmPFvNRz6mPUPZd8jQqKKYvAMRve/jPY/FhVD1szcA9abbC8/y81yn/y5gzi//NAQm
+ k9rg0bQLDv6yJ1fIl15EqJx1xdq+kAq1mqtMHxeyEh5NYx14GNFz09+uF1cNr+snjl
+ +VQXyLLHwM9MBAR3XBAbOXdsu7oLsafPb57FPkkC4KUW+p4fFeMYWY1f9iFnq4f6s6
+ JuxMEIoMTjFaY6lU22+Ug331DW3S0XOrnZv2cjyMgghWqoOLxeUQ6zshtuIcOYztYT
+ JRg+8T6BiAxTg==
+Message-ID: <783c03af-fc88-96c8-c6fc-6f02051dc6b1@collabora.com>
+Date: Wed, 12 Apr 2023 10:06:25 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230411225725.2032862-7-robdclark@gmail.com>
-X-Operating-System: Linux phenom 6.1.0-7-amd64 
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.1
+Subject: Re: [PATCH v3 1/9] drm/mediatek: dp: Cache EDID for eDP panel
+To: Matthias Brugger <matthias.bgg@gmail.com>, chunkuang.hu@kernel.org
+References: <20230404104800.301150-1-angelogioacchino.delregno@collabora.com>
+ <20230404104800.301150-2-angelogioacchino.delregno@collabora.com>
+ <09c61b94-1ed1-eb72-9682-1f1f203f6f63@gmail.com>
+Content-Language: en-US
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <09c61b94-1ed1-eb72-9682-1f1f203f6f63@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,230 +57,82 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Jonathan Corbet <corbet@lwn.net>,
- linux-arm-msm@vger.kernel.org,
- "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
- Emil Velikov <emil.l.velikov@gmail.com>,
- Christopher Healy <healych@amazon.com>, dri-devel@lists.freedesktop.org,
- open list <linux-kernel@vger.kernel.org>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- freedreno@lists.freedesktop.org
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-mediatek@lists.infradead.org, wenst@chromium.org, kernel@collabora.com,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Apr 11, 2023 at 03:56:11PM -0700, Rob Clark wrote:
-> From: Rob Clark <robdclark@chromium.org>
+Il 12/04/23 09:08, Matthias Brugger ha scritto:
 > 
-> Add support to dump GEM stats to fdinfo.
 > 
-> v2: Fix typos, change size units to match docs, use div_u64
-> v3: Do it in core
+> On 04/04/2023 12:47, AngeloGioacchino Del Regno wrote:
+>> Since eDP panels are not removable it is safe to cache the EDID:
+>> this will avoid a relatively long read transaction at every PM
+>> resume that is unnecessary only in the "special" case of eDP,
+>> hence speeding it up a little, as from now on, as resume operation,
+>> we will perform only link training.
+>>
+>> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+>> ---
+>>   drivers/gpu/drm/mediatek/mtk_dp.c | 11 ++++++++++-
+>>   1 file changed, 10 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/gpu/drm/mediatek/mtk_dp.c b/drivers/gpu/drm/mediatek/mtk_dp.c
+>> index 1f94fcc144d3..84f82cc68672 100644
+>> --- a/drivers/gpu/drm/mediatek/mtk_dp.c
+>> +++ b/drivers/gpu/drm/mediatek/mtk_dp.c
+>> @@ -118,6 +118,7 @@ struct mtk_dp {
+>>       const struct mtk_dp_data *data;
+>>       struct mtk_dp_info info;
+>>       struct mtk_dp_train_info train_info;
+>> +    struct edid *edid;
+>>       struct platform_device *phy_dev;
+>>       struct phy *phy;
+>> @@ -1993,7 +1994,11 @@ static struct edid *mtk_dp_get_edid(struct drm_bridge 
+>> *bridge,
+>>           usleep_range(2000, 5000);
+>>       }
+>> -    new_edid = drm_get_edid(connector, &mtk_dp->aux.ddc);
+>> +    /* eDP panels aren't removable, so we can return a cached EDID. */
+>> +    if (mtk_dp->edid && mtk_dp->bridge.type == DRM_MODE_CONNECTOR_eDP)
+>> +        new_edid = drm_edid_duplicate(mtk_dp->edid);
+>> +    else
+>> +        new_edid = drm_get_edid(connector, &mtk_dp->aux.ddc);
 > 
-> Signed-off-by: Rob Clark <robdclark@chromium.org>
-> Reviewed-by: Emil Velikov <emil.l.velikov@gmail.com>
-> ---
->  Documentation/gpu/drm-usage-stats.rst | 21 ++++++++
->  drivers/gpu/drm/drm_file.c            | 76 +++++++++++++++++++++++++++
->  include/drm/drm_file.h                |  1 +
->  include/drm/drm_gem.h                 | 19 +++++++
->  4 files changed, 117 insertions(+)
-> 
-> diff --git a/Documentation/gpu/drm-usage-stats.rst b/Documentation/gpu/drm-usage-stats.rst
-> index b46327356e80..b5e7802532ed 100644
-> --- a/Documentation/gpu/drm-usage-stats.rst
-> +++ b/Documentation/gpu/drm-usage-stats.rst
-> @@ -105,6 +105,27 @@ object belong to this client, in the respective memory region.
->  Default unit shall be bytes with optional unit specifiers of 'KiB' or 'MiB'
->  indicating kibi- or mebi-bytes.
->  
-> +- drm-shared-memory: <uint> [KiB|MiB]
-> +
-> +The total size of buffers that are shared with another file (ie. have more
-> +than a single handle).
-> +
-> +- drm-private-memory: <uint> [KiB|MiB]
-> +
-> +The total size of buffers that are not shared with another file.
-> +
-> +- drm-resident-memory: <uint> [KiB|MiB]
-> +
-> +The total size of buffers that are resident in system memory.
-> +
-> +- drm-purgeable-memory: <uint> [KiB|MiB]
-> +
-> +The total size of buffers that are purgeable.
-> +
-> +- drm-active-memory: <uint> [KiB|MiB]
-> +
-> +The total size of buffers that are active on one or more rings.
-> +
->  - drm-cycles-<str> <uint>
->  
->  Engine identifier string must be the same as the one specified in the
-> diff --git a/drivers/gpu/drm/drm_file.c b/drivers/gpu/drm/drm_file.c
-> index 37dfaa6be560..46fdd843bb3a 100644
-> --- a/drivers/gpu/drm/drm_file.c
-> +++ b/drivers/gpu/drm/drm_file.c
-> @@ -42,6 +42,7 @@
->  #include <drm/drm_client.h>
->  #include <drm/drm_drv.h>
->  #include <drm/drm_file.h>
-> +#include <drm/drm_gem.h>
->  #include <drm/drm_print.h>
->  
->  #include "drm_crtc_internal.h"
-> @@ -871,6 +872,79 @@ void drm_send_event(struct drm_device *dev, struct drm_pending_event *e)
->  }
->  EXPORT_SYMBOL(drm_send_event);
->  
-> +static void print_size(struct drm_printer *p, const char *stat, size_t sz)
-> +{
-> +	const char *units[] = {"", " KiB", " MiB"};
-> +	unsigned u;
-> +
-> +	for (u = 0; u < ARRAY_SIZE(units) - 1; u++) {
-> +		if (sz < SZ_1K)
-> +			break;
-> +		sz = div_u64(sz, SZ_1K);
-> +	}
-> +
-> +	drm_printf(p, "%s:\t%zu%s\n", stat, sz, units[u]);
-> +}
-> +
-> +static void print_memory_stats(struct drm_printer *p, struct drm_file *file)
-> +{
-> +	struct drm_gem_object *obj;
-> +	struct {
-> +		size_t shared;
-> +		size_t private;
-> +		size_t resident;
-> +		size_t purgeable;
-> +		size_t active;
-> +	} size = {0};
-> +	bool has_status = false;
-> +	int id;
-> +
-> +	spin_lock(&file->table_lock);
-> +	idr_for_each_entry (&file->object_idr, obj, id) {
-> +		enum drm_gem_object_status s = 0;
-> +
-> +		if (obj->funcs && obj->funcs->status) {
-> +			s = obj->funcs->status(obj);
-> +			has_status = true;
-> +		}
-> +
-> +		if (obj->handle_count > 1) {
-> +			size.shared += obj->size;
-> +		} else {
-> +			size.private += obj->size;
-> +		}
-> +
-> +		if (s & DRM_GEM_OBJECT_RESIDENT) {
-> +			size.resident += obj->size;
-> +		} else {
-> +			/* If already purged or not yet backed by pages, don't
-> +			 * count it as purgeable:
-> +			 */
-> +			s &= ~DRM_GEM_OBJECT_PURGEABLE;
-> +		}
-> +
-> +		if (!dma_resv_test_signaled(obj->resv, dma_resv_usage_rw(true))) {
-> +			size.active += obj->size;
-> +
-> +			/* If still active, don't count as purgeable: */
-
-Maybe mention this in the kerneldoc for DRM_GEM_OBJECT_PURGEABLE?
-
-Otherwise looks tidy:
-
-Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-
-> +			s &= ~DRM_GEM_OBJECT_PURGEABLE;
-> +		}
-> +
-> +		if (s & DRM_GEM_OBJECT_PURGEABLE)
-> +			size.purgeable += obj->size;
-> +	}
-> +	spin_unlock(&file->table_lock);
-> +
-> +	print_size(p, "drm-shared-memory", size.shared);
-> +	print_size(p, "drm-private-memory", size.private);
-> +	print_size(p, "drm-active-memory", size.active);
-> +
-> +	if (has_status) {
-> +		print_size(p, "drm-resident-memory", size.resident);
-> +		print_size(p, "drm-purgeable-memory", size.purgeable);
-> +	}
-> +}
-> +
->  /**
->   * drm_fop_show_fdinfo - helper for drm file fops
->   * @seq_file: output stream
-> @@ -904,6 +978,8 @@ void drm_fop_show_fdinfo(struct seq_file *m, struct file *f)
->  
->  	if (dev->driver->show_fdinfo)
->  		dev->driver->show_fdinfo(&p, file);
-> +
-> +	print_memory_stats(&p, file);
->  }
->  EXPORT_SYMBOL(drm_fop_show_fdinfo);
->  
-> diff --git a/include/drm/drm_file.h b/include/drm/drm_file.h
-> index dfa995b787e1..e5b40084538f 100644
-> --- a/include/drm/drm_file.h
-> +++ b/include/drm/drm_file.h
-> @@ -41,6 +41,7 @@
->  struct dma_fence;
->  struct drm_file;
->  struct drm_device;
-> +struct drm_printer;
->  struct device;
->  struct file;
->  
-> diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
-> index 189fd618ca65..213917bb6b11 100644
-> --- a/include/drm/drm_gem.h
-> +++ b/include/drm/drm_gem.h
-> @@ -42,6 +42,14 @@
->  struct iosys_map;
->  struct drm_gem_object;
->  
-> +/**
-> + * enum drm_gem_object_status - bitmask of object state for fdinfo reporting
-> + */
-> +enum drm_gem_object_status {
-> +	DRM_GEM_OBJECT_RESIDENT  = BIT(0),
-> +	DRM_GEM_OBJECT_PURGEABLE = BIT(1),
-> +};
-> +
->  /**
->   * struct drm_gem_object_funcs - GEM object functions
->   */
-> @@ -174,6 +182,17 @@ struct drm_gem_object_funcs {
->  	 */
->  	int (*evict)(struct drm_gem_object *obj);
->  
-> +	/**
-> +	 * @status:
-> +	 *
-> +	 * The optional status callback can return additional object state
-> +	 * which determines which stats the object is counted against.  The
-> +	 * callback is called under table_lock.  Racing against object status
-> +	 * change is "harmless", and the callback can expect to not race
-> +	 * against object destruction.
-> +	 */
-> +	enum drm_gem_object_status (*status)(struct drm_gem_object *obj);
-> +
->  	/**
->  	 * @vm_ops:
->  	 *
-> -- 
-> 2.39.2
+> Maybe it would make sense to add a macro for the check of mtk_dp->bridge.type == 
+> DRM_MODE_CONNECTOR_eDP
+> it would make the code more readable.
 > 
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+I had the same idea... but then avoided that because in most (if not all?) of the
+DRM drivers (at least, the one I've read) this check is always open coded, so I
+wrote it like that for consistency and nothing else.
+
+I have no strong opinions on that though!
+
+>>       /*
+>>        * Parse capability here to let atomic_get_input_bus_fmts and
+>> @@ -2022,6 +2027,10 @@ static struct edid *mtk_dp_get_edid(struct drm_bridge 
+>> *bridge,
+>>           drm_atomic_bridge_chain_post_disable(bridge, connector->state->state);
+>>       }
+>> +    /* If this is an eDP panel and the read EDID is good, cache it for later */
+>> +    if (mtk_dp->bridge.type == DRM_MODE_CONNECTOR_eDP && !mtk_dp->edid && new_edid)
+>> +        mtk_dp->edid = drm_edid_duplicate(new_edid);
+>> +
+> 
+> How about putting this in an else if branch of mtk_dp_parse_capabilities. At least 
+> we could get rid of the check regarding if new_edid != NULL.
+> 
+> I was thinking on how to put both if statements in one block, but I think the 
+> problem is, that we would leak memory if the capability parsing failes due to the 
+> call to drm_edid_duplicate(). Correct?
+> 
+
+Correct. The only other "good" place would be in the `if (new_edid)` conditional,
+but that wouldn't be as readable as it is right now...
+
+Cheers,
+Angelo
+
