@@ -2,47 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16EBB6DF3C2
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Apr 2023 13:34:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CBA26DF3C4
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Apr 2023 13:34:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D411310E79C;
-	Wed, 12 Apr 2023 11:34:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8987410E79B;
+	Wed, 12 Apr 2023 11:34:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ACB2610E798;
- Wed, 12 Apr 2023 11:34:03 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A10BF10E79B;
+ Wed, 12 Apr 2023 11:34:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1681299243; x=1712835243;
+ t=1681299251; x=1712835251;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=QV8fCkV7Ki8q1dYVTX3JPG1FpteI9tEg2KLpZ1mBAjo=;
- b=iLa8ZELn66IpCRD7T65axbqAuwa295EfpjhJzjxF9GzhU4CwfPTWIqp1
- UMMswkjytvqX6MznGVMxc+Fy5Rk44cAJ49MD401Bxln91hctdPeAJJtjT
- JZKzkiz2M9JmoeizgJryyfuAqPMoWi4KharoKJ7nsISTi55SyHe90YjpF
- /DMF/EoESXMcushPk7BHWUwTwoxXqBGDtjE3LFdzhAZ2Ic6QT0+FQGU0N
- cB5TxMEFrYLtN//zd5DEAFl36kNjm+TSf9QRLti6c5+xOJ3EGLqxoz7zc
- NKoAGIc6JK09FnSwcWCSKzcSG0LAym2ICaO3E5lgJ9w0gYsokuM0Mzuvc A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10677"; a="327978228"
-X-IronPort-AV: E=Sophos;i="5.98,339,1673942400"; d="scan'208";a="327978228"
+ bh=aEIb9Mq/7D1tsIdAe1YAywtVS++LBAWPYPNIcRYan0c=;
+ b=g4l/mqHSYmzQQNoQgwW++LwlG5v++JtVcJbuu+0+bSaCeYTPr2KdPUTZ
+ fZUyCLkuZppSKkvi9XKNZY8dH1Vwdzr8zbodF8Xyv60R91oLTy/DGAyYf
+ VI/X1eGemyLG91l/toafuv8X9KyoD7axAGmJhuYt1qgaYGnYcT0H5P8Lg
+ nAz6DSA9D0zSt/l5Uc649aYRP9e+6yWeh91eesqMHUr/E7BQBgOb1849n
+ tzNLU8E+dMkeYIlf2NYj6IADOepLXXq1YXVZCq9s3mIkRGvhzqfNmbnHp
+ Wf5h9AcWnAs+psPlymjRAx1xkfZ1q6a/IAOO8ZqsnVToRrVYQ1kvFZm/D Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10677"; a="327978247"
+X-IronPort-AV: E=Sophos;i="5.98,339,1673942400"; d="scan'208";a="327978247"
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Apr 2023 04:34:03 -0700
+ 12 Apr 2023 04:34:11 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10677"; a="778268744"
-X-IronPort-AV: E=Sophos;i="5.98,339,1673942400"; d="scan'208";a="778268744"
+X-IronPort-AV: E=McAfee;i="6600,9927,10677"; a="778268808"
+X-IronPort-AV: E=Sophos;i="5.98,339,1673942400"; d="scan'208";a="778268808"
 Received: from zbiro-mobl.ger.corp.intel.com (HELO intel.com)
  ([10.251.212.144])
  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Apr 2023 04:33:59 -0700
+ 12 Apr 2023 04:34:06 -0700
 From: Andi Shyti <andi.shyti@linux.intel.com>
 To: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  stable@vger.kernel.org
-Subject: [PATCH v5 1/5] drm/i915/gt: Add intel_context_timeline_is_locked
- helper
-Date: Wed, 12 Apr 2023 13:33:04 +0200
-Message-Id: <20230412113308.812468-2-andi.shyti@linux.intel.com>
+Subject: [PATCH v5 2/5] drm/i915: Create the locked version of the request
+ create
+Date: Wed, 12 Apr 2023 13:33:05 +0200
+Message-Id: <20230412113308.812468-3-andi.shyti@linux.intel.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230412113308.812468-1-andi.shyti@linux.intel.com>
 References: <20230412113308.812468-1-andi.shyti@linux.intel.com>
@@ -69,41 +69,95 @@ Cc: Maciej Patelczyk <maciej.patelczyk@intel.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-We have:
-
- - intel_context_timeline_lock()
- - intel_context_timeline_unlock()
-
-In the next patches we will also need:
-
- - intel_context_timeline_is_locked()
-
-Add it.
+Make version of the request creation that doesn't hold any
+lock.
 
 Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
 Cc: stable@vger.kernel.org
 Reviewed-by: Nirmoy Das <nirmoy.das@intel.com>
 ---
- drivers/gpu/drm/i915/gt/intel_context.h | 6 ++++++
- 1 file changed, 6 insertions(+)
+ drivers/gpu/drm/i915/i915_request.c | 38 +++++++++++++++++++++--------
+ drivers/gpu/drm/i915/i915_request.h |  2 ++
+ 2 files changed, 30 insertions(+), 10 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/gt/intel_context.h b/drivers/gpu/drm/i915/gt/intel_context.h
-index 48f888c3da083..f2f79ff0dfd1d 100644
---- a/drivers/gpu/drm/i915/gt/intel_context.h
-+++ b/drivers/gpu/drm/i915/gt/intel_context.h
-@@ -270,6 +270,12 @@ static inline void intel_context_timeline_unlock(struct intel_timeline *tl)
- 	mutex_unlock(&tl->mutex);
+diff --git a/drivers/gpu/drm/i915/i915_request.c b/drivers/gpu/drm/i915/i915_request.c
+index 630a732aaecca..58662360ac34e 100644
+--- a/drivers/gpu/drm/i915/i915_request.c
++++ b/drivers/gpu/drm/i915/i915_request.c
+@@ -1028,15 +1028,11 @@ __i915_request_create(struct intel_context *ce, gfp_t gfp)
+ 	return ERR_PTR(ret);
  }
  
-+static inline void intel_context_assert_timeline_is_locked(struct intel_timeline *tl)
-+	__must_hold(&tl->mutex)
-+{
-+	lockdep_assert_held(&tl->mutex);
+-struct i915_request *
+-i915_request_create(struct intel_context *ce)
++static struct i915_request *
++__i915_request_create_locked(struct intel_context *ce)
+ {
++	struct intel_timeline *tl = ce->timeline;
+ 	struct i915_request *rq;
+-	struct intel_timeline *tl;
+-
+-	tl = intel_context_timeline_lock(ce);
+-	if (IS_ERR(tl))
+-		return ERR_CAST(tl);
+ 
+ 	/* Move our oldest request to the slab-cache (if not in use!) */
+ 	rq = list_first_entry(&tl->requests, typeof(*rq), link);
+@@ -1046,16 +1042,38 @@ i915_request_create(struct intel_context *ce)
+ 	intel_context_enter(ce);
+ 	rq = __i915_request_create(ce, GFP_KERNEL);
+ 	intel_context_exit(ce); /* active reference transferred to request */
++
+ 	if (IS_ERR(rq))
+-		goto err_unlock;
++		return rq;
+ 
+ 	/* Check that we do not interrupt ourselves with a new request */
+ 	rq->cookie = lockdep_pin_lock(&tl->mutex);
+ 
+ 	return rq;
 +}
 +
- int intel_context_prepare_remote_request(struct intel_context *ce,
- 					 struct i915_request *rq);
++struct i915_request *
++i915_request_create_locked(struct intel_context *ce)
++{
++	intel_context_assert_timeline_is_locked(ce->timeline);
++
++	return __i915_request_create_locked(ce);
++}
++
++struct i915_request *
++i915_request_create(struct intel_context *ce)
++{
++	struct i915_request *rq;
++	struct intel_timeline *tl;
++
++	tl = intel_context_timeline_lock(ce);
++	if (IS_ERR(tl))
++		return ERR_CAST(tl);
++
++	rq = __i915_request_create_locked(ce);
++	if (IS_ERR(rq))
++		intel_context_timeline_unlock(tl);
  
+-err_unlock:
+-	intel_context_timeline_unlock(tl);
+ 	return rq;
+ }
+ 
+diff --git a/drivers/gpu/drm/i915/i915_request.h b/drivers/gpu/drm/i915/i915_request.h
+index f5e1bb5e857aa..bb48bd4605c03 100644
+--- a/drivers/gpu/drm/i915/i915_request.h
++++ b/drivers/gpu/drm/i915/i915_request.h
+@@ -374,6 +374,8 @@ struct i915_request * __must_check
+ __i915_request_create(struct intel_context *ce, gfp_t gfp);
+ struct i915_request * __must_check
+ i915_request_create(struct intel_context *ce);
++struct i915_request * __must_check
++i915_request_create_locked(struct intel_context *ce);
+ 
+ void __i915_request_skip(struct i915_request *rq);
+ bool i915_request_set_error_once(struct i915_request *rq, int error);
 -- 
 2.39.2
 
