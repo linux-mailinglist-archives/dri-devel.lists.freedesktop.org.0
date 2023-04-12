@@ -1,77 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF8936DF317
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Apr 2023 13:22:51 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CB8BB6DF338
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Apr 2023 13:27:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C9B3E10E774;
-	Wed, 12 Apr 2023 11:22:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 71DA010E784;
+	Wed, 12 Apr 2023 11:27:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E2AB310E774
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Apr 2023 11:22:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1681298562;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=RU2igHCjVcnp40gn9ktCo/+j2WwhkOyeeWPcVnAXlR4=;
- b=jHAXbrZvY0WBOr3DzbygZz3bFXxQMCS76Ntg2gIJNEtYf5f+ehcYVIRFL6K/EHq/dmPrOj
- egJXA4ojMnrjngcqtqJLDXpLjIxPx756l93qL7pRkHq5FNTYFzSGbWcF7+glkTDqTn1yyI
- nzEaeyFab8S1RkkJxwEemEBpLkqIKiM=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-630-J07uwuEnOf-5V_dlvRrH4A-1; Wed, 12 Apr 2023 07:22:41 -0400
-X-MC-Unique: J07uwuEnOf-5V_dlvRrH4A-1
-Received: by mail-wm1-f70.google.com with SMTP id
- h15-20020a05600c350f00b003f09815147dso1209344wmq.3
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Apr 2023 04:22:40 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1681298559; x=1683890559;
- h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=RU2igHCjVcnp40gn9ktCo/+j2WwhkOyeeWPcVnAXlR4=;
- b=UulJ5xLzJliNR2uof20ZrGkVkLUbUBcgoTUWolU/HZc7LWh+Di/KjRapInmityOWD/
- pHw7NqFy44Plql1k/IxjONlxszTrutdjJ569hkOwqfcEv5HyHwWmYPy5UNt+1XI5PZnW
- H7I2I2Gk0gNoJSPkVBZHv7KWiXKmDJwAjLXCXLvP7pvyOPVM0Ssh2R9YR+zn8ozWJZ6+
- amAYuHWjo/yyS72a0lQSWxykYztqU0N1jZiYvOfHWIoVuKJGIezYoexIxzdXXxSkYygk
- d6IJkGVHiHouFQESqw9wHLfJTCFeahhDXiZQ1x0ra7f+AFIeEpelmZa38JGdt+dT6hjg
- 4PyA==
-X-Gm-Message-State: AAQBX9eNt4Cp1RxDUV9kR/8JeIA7+/a5hc/L+n2tya+agRFbzeX1Hd4F
- Bgt2qaGtfY+ENLHKtUmraioJE+OSoX/qbN3lBaQ4VtsNaXV3zC674RiSDReGTm6uo3Cbb0+jLqH
- wOCbg5xfg8uUIGv3e+4CFOJNxC8Io
-X-Received: by 2002:a5d:688b:0:b0:2ef:ba74:44d0 with SMTP id
- h11-20020a5d688b000000b002efba7444d0mr4678819wru.23.1681298559140; 
- Wed, 12 Apr 2023 04:22:39 -0700 (PDT)
-X-Google-Smtp-Source: AKy350aHY5WOl500qZV473myVvizDChWrNr10FHZvHuqlt3+jhEvYKw5rvgWaMuzeEZaD5PnsMJI7w==
-X-Received: by 2002:a5d:688b:0:b0:2ef:ba74:44d0 with SMTP id
- h11-20020a5d688b000000b002efba7444d0mr4678798wru.23.1681298558781; 
- Wed, 12 Apr 2023 04:22:38 -0700 (PDT)
-Received: from localhost (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- a4-20020a5d5084000000b002f4c2ea66absm958449wrt.85.2023.04.12.04.22.38
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 12 Apr 2023 04:22:38 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Pierre Asselin <pa@panix.com>
-Subject: Re: [PATCH v3 01/13] firmware/sysfb: Fix EFI/VESA format selection
-In-Reply-To: <dfb4f25ca8dfb0d81d778d6315f104ad.squirrel@mail.panix.com>
-References: <20230102112927.26565-1-tzimmermann@suse.de>
- <20230102112927.26565-2-tzimmermann@suse.de>
- <4Psm6B6Lqkz1QXM@panix3.panix.com>
- <2ca4fbdb87a335522c22551658576e55.squirrel@mail.panix.com>
- <87zg7es99j.fsf@minerva.mail-host-address-is-not-set>
- <dfb4f25ca8dfb0d81d778d6315f104ad.squirrel@mail.panix.com>
-Date: Wed, 12 Apr 2023 13:22:37 +0200
-Message-ID: <87sfd5s5tu.fsf@minerva.mail-host-address-is-not-set>
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 08D6210E0ED
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Apr 2023 11:27:47 +0000 (UTC)
+Received: from IcarusMOD.eternityproject.eu (2-237-20-237.ip236.fastwebnet.it
+ [2.237.20.237])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: kholk11)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id E9F0166031FD;
+ Wed, 12 Apr 2023 12:27:43 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1681298865;
+ bh=32UdFXijYBib4vR9joUGUAiEkWAou0hF5vRoluMMzmk=;
+ h=From:To:Cc:Subject:Date:From;
+ b=BiBaGeFnyTrcIxvJX6jmx3uPgTyhmYXutJUmtZYAcc439FhGgMtJWa0u9UEl5UIda
+ GDZIZCJF1kGnqsFs21NB3AwPeD216mgM8jcj28XYHnggRV2M/t4GEnZLSzczsMnoZx
+ QnxEalzaxf1jPZsAnbf+4WuTj5hpQBYgWqqR261FIlruszRUWgOgcT2oe80m/INuM6
+ 7p9hjVjRvZiEGXq/4Odxo0hA0mWvxreaoKJe4Hz8HJ/MUOPntGD1+87uq/l/IbcO7c
+ RItxu5syCydks3mijaUHvoh2SHNIoAyIvigQqLKZyejdfy2vwokLhMXHeyOyJkqHqp
+ ui0QOYiDsGRZg==
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+To: matthias.bgg@gmail.com
+Subject: [PATCH 00/27] MediaTek Helio X10 - Mailbox, Display, MMC/SD/SDIO
+Date: Wed, 12 Apr 2023 13:27:12 +0200
+Message-Id: <20230412112739.160376-1-angelogioacchino.delregno@collabora.com>
+X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,123 +49,117 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Pierre Asselin <pa@panix.com>, mairacanal@riseup.net,
- dri-devel@lists.freedesktop.org, tzimmermann@suse.de,
- jose.exposito89@gmail.com
+Cc: devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ thierry.reding@gmail.com, krzysztof.kozlowski+dt@linaro.org,
+ linux-phy@lists.infradead.org, kernel@collabora.com, kishon@kernel.org,
+ phone-devel@vger.kernel.org, jassisinghbrar@gmail.com,
+ linux-pwm@vger.kernel.org, u.kleine-koenig@pengutronix.de,
+ chunkuang.hu@kernel.org, jitao.shi@mediatek.com, xinlei.lee@mediatek.com,
+ houlong.wei@mediatek.com, chunfeng.yun@mediatek.com, robh+dt@kernel.org,
+ linux-mediatek@lists.infradead.org, ~postmarketos/upstreaming@lists.sr.ht,
+ linux-arm-kernel@lists.infradead.org, angelogioacchino.delregno@collabora.com,
+ linux-kernel@vger.kernel.org, vkoul@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-"Pierre Asselin" <pa@panix.com> writes:
+In this series I'm adding support for the DDC (display) block found
+in the MediaTek Helio X10, the MT6331 PMIC and its peripherals, and
+eMMC, MicroSD slot and SDIO.
+Support for the PMIC (...regulators!) is essential to get all of the
+mtk-sd hardware to work, especially the eMMC where vol switching is
+happening (3.3 -> 1.8V for DDR -> UHS timing switch!).
 
->> Can you please share you grub config file? It seems that is set to
->> GRUB_GFXMODE=1024x768x32 but the actual mode is set to 1024x768x24 ?
->
-> Okay, but you'll be sorry...  The gfxmode is set to "keep" in all the
-> entries.  https://www.panix.com/~pa/linux-6.3-simplefb/grub.cfg .
->
-> The "TEST" entry was used to bisect.  The "PRE-TEST" was to set things
-> up, to receive the bzImages compiled on a faster machine. Now I boot
-> the "Linux 6.3.0-rc5-x86".
->
->
->> That is, it fails when the picked format is DRM_FORMAT_RGB8888 but
->> works when is DRM_FORMAT_XRGB888. I can't spot any error in Thomas'
->> patch so I wonder if the problem is with what grub is passing to the
->> kernel.
->>
->> The mentioned vga=0x318 workaround that you mentioned makes the mode
->> passed to match the selected DRM_FORMAT_RGB888 which I guess is why
->> that worked for you.
->
-> All right, I did a series of reboots, editing the grub command line
-> to change the "gfxpayload=" grub option or the "vga=" kernel option.
-> In each case I captured the output of
->   "dmesg | egrep -i 'fbcon|console|fb0|frameb|simple|vga|vesa'
->
-> https://www.panix.com/~pa/linux-6.3-simplefb/selected-modes
->
-> (D'oh.  My script printed "vga=vga=" twice when that option was set.
-> Good enough as is.)
->
-> Note the difference in linelength= between the bad and good r8g8b8.
-> Does it mean anything ?
->  (bad)> format=r8g8b8, mode=1024x768x24, linelength=4096
-> (good)> format=r8g8b8, mode=1024x768x24, linelength=3072
->
+As for the GCE mailbox, MMSYS and IOMMU... these were included in
+the previous series but couldn't make it due to the bindings not
+being reviewed in time (btw, thanks Matthias for reducing my backlog
+by partially picking the applicable commits in the previous one, that
+was highly appreciated!), so they're making yet another appearance in
+this series.
 
-Ah! That's a good data point and I believe that found a possible issue in
-the sysfb format selection logic. Can you please try the following patch?
+Regarding the display blocks, they're tested on the Sony Xperia M5
+with its internal panel (on DSI0) but the panel node is not included
+in this series because I have to cleanup the timings a bit before
+upstreaming it.
 
-From 55b5375c528b4128350dfa2126277049f8821349 Mon Sep 17 00:00:00 2001
-From: Javier Martinez Canillas <javierm@redhat.com>
-Date: Wed, 12 Apr 2023 13:20:48 +0200
-Subject: [PATCH] firmware/sysfb: Fix wrong stride when bits-per-pixel is
- calculated
+...and regarding everything else, it's all, again, tested on that
+same Xperia M5 smartphone :-)
 
-The commit f35cd3fa7729 ("firmware/sysfb: Fix EFI/VESA format selection")
-fixed format selection by calculating the bits-per-pixel instead of just
-using the reported color depth.
 
-But unfortunately this broke some modes because the stride is always set
-to the reported line length (in bytes), which could not match the actual
-stride if the calculated bits-per-pixel doesn't match the reported depth.
+* Important note: *
 
-Fixes: commit f35cd3fa7729 ("firmware/sysfb: Fix EFI/VESA format selection")
-Reported-by: Pierre Asselin <pa@panix.com>
-Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
----
- drivers/firmware/sysfb_simplefb.c | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
+Devicetree commits of this series all depend on the dt-bindings
+commits of this same series.
+This series also depends on [1] for PMIC functionality, as all of the
+(older only?) MediaTek smartphone platforms have two PMICs, a main
+one and a companion one - in this specific case, it's MT6331+MT6332.
 
-diff --git a/drivers/firmware/sysfb_simplefb.c b/drivers/firmware/sysfb_simplefb.c
-index 82c64cb9f531..5dc23e57089f 100644
---- a/drivers/firmware/sysfb_simplefb.c
-+++ b/drivers/firmware/sysfb_simplefb.c
-@@ -28,7 +28,7 @@ __init bool sysfb_parse_mode(const struct screen_info *si,
- 			     struct simplefb_platform_data *mode)
- {
- 	__u8 type;
--	u32 bits_per_pixel;
-+	u32 bits_per_pixel, stride;
- 	unsigned int i;
- 
- 	type = si->orig_video_isVGA;
-@@ -54,14 +54,19 @@ __init bool sysfb_parse_mode(const struct screen_info *si,
- 	 * bits_per_pixel here and ignore lfb_depth. In the loop below,
- 	 * ignore simplefb formats with alpha bits, as EFI and VESA
- 	 * don't specify alpha channels.
-+	 *
-+	 * If a calculated bits_per_pixel is used instead of lfb_depth,
-+	 * then also ignore lfb_linelength and calculate the stride.
- 	 */
- 	if (si->lfb_depth > 8) {
- 		bits_per_pixel = max(max3(si->red_size + si->red_pos,
- 					  si->green_size + si->green_pos,
- 					  si->blue_size + si->blue_pos),
- 				     si->rsvd_size + si->rsvd_pos);
-+		stride = DIV_ROUND_UP(si->lfb_width * bits_per_pixel, 8);
- 	} else {
- 		bits_per_pixel = si->lfb_depth;
-+		stride = si->lfb_linelength;
- 	}
- 
- 	for (i = 0; i < ARRAY_SIZE(formats); ++i) {
-@@ -80,7 +85,7 @@ __init bool sysfb_parse_mode(const struct screen_info *si,
- 			mode->format = f->name;
- 			mode->width = si->lfb_width;
- 			mode->height = si->lfb_height;
--			mode->stride = si->lfb_linelength;
-+			mode->stride = stride;
- 			return true;
- 		}
- 	}
+[1]: https://lore.kernel.org/all/20230324094205.33266-1-angelogioacchino.delregno@collabora.com/
 
-base-commit: fd35174e13f98f9232c4aa66689816731d34ca28
+AngeloGioacchino Del Regno (27):
+  dt-bindings: pwm: Add compatible for MediaTek MT6795
+  dt-bindings: phy: mediatek,dsi-phy: Add compatible for MT6795 Helio
+    X10
+  dt-bindings: display: mediatek: dpi: Add compatible for MediaTek
+    MT6795
+  dt-bindings: display: mediatek: aal: Add compatible for MediaTek
+    MT6795
+  dt-bindings: display: mediatek: dsi: Add compatible for MediaTek
+    MT6795
+  dt-bindings: display: mediatek: ovl: Add compatible for MediaTek
+    MT6795
+  dt-bindings: display: mediatek: rdma: Add compatible for MediaTek
+    MT6795
+  dt-bindings: display: mediatek: wdma: Add compatible for MediaTek
+    MT6795
+  dt-bindings: display: mediatek: color: Add compatible for MediaTek
+    MT6795
+  dt-bindings: display: mediatek: gamma: Add compatible for MediaTek
+    MT6795
+  dt-bindings: display: mediatek: merge: Add compatible for MediaTek
+    MT6795
+  dt-bindings: display: mediatek: split: Add compatible for MediaTek
+    MT6795
+  dt-bindings: display: mediatek: ufoe: Add compatible for MediaTek
+    MT6795
+  dt-bindings: display: mediatek: od: Add compatible for MediaTek MT6795
+  dt-bindings: mailbox: mediatek,gce-mailbox: Add support for MT6795
+  arm64: dts: mediatek: mt6795: Add support for the CMDQ/GCE mailbox
+  arm64: dts: mediatek: mt6795: Add MMSYS node for multimedia clocks
+  arm64: dts: mediatek: mt6795: Add support for IOMMU and LARBs
+  arm64: dts: mediatek: mt6795: Add support for display blocks and
+    DPI/DSI
+  arm64: dts: mediatek: mt6795: Add tertiary PWM node
+  arm64: dts: mediatek: mt6795: Add PMIC Wrapper node
+  arm64: dts: mediatek: mt6795: Copyright header additions
+  arm64: dts: mediatek: Add MT6331 PMIC devicetree
+  arm64: dts: mediatek: mt6795-xperia-m5: Add MT6331 Combo PMIC
+  arm64: dts: mediatek: mt6795-xperia-m5: Add eMMC, MicroSD slot, SDIO
+  arm64: dts: mediatek: mt6795-xperia-m5: Add Bosch BMA255 Accelerometer
+  arm64: dts: mediatek: mt6795-xperia-m5: Add Bosch BMM050 Magnetometer
+
+ .../display/mediatek/mediatek,aal.yaml        |   1 +
+ .../display/mediatek/mediatek,color.yaml      |   1 +
+ .../display/mediatek/mediatek,dpi.yaml        |  23 +-
+ .../display/mediatek/mediatek,dsi.yaml        |  19 +-
+ .../display/mediatek/mediatek,gamma.yaml      |   4 +
+ .../display/mediatek/mediatek,merge.yaml      |   3 +
+ .../display/mediatek/mediatek,od.yaml         |   3 +
+ .../display/mediatek/mediatek,ovl.yaml        |   4 +
+ .../display/mediatek/mediatek,rdma.yaml       |   4 +
+ .../display/mediatek/mediatek,split.yaml      |   3 +
+ .../display/mediatek/mediatek,ufoe.yaml       |   3 +
+ .../display/mediatek/mediatek,wdma.yaml       |   3 +
+ .../mailbox/mediatek,gce-mailbox.yaml         |  20 +-
+ .../bindings/phy/mediatek,dsi-phy.yaml        |   4 +
+ .../bindings/pwm/mediatek,pwm-disp.yaml       |   4 +-
+ arch/arm64/boot/dts/mediatek/mt6331.dtsi      | 284 ++++++++++++++
+ .../dts/mediatek/mt6795-sony-xperia-m5.dts    | 121 ++++++
+ arch/arm64/boot/dts/mediatek/mt6795.dtsi      | 365 ++++++++++++++++++
+ include/dt-bindings/gce/mediatek,mt6795-gce.h | 123 ++++++
+ 19 files changed, 968 insertions(+), 25 deletions(-)
+ create mode 100644 arch/arm64/boot/dts/mediatek/mt6331.dtsi
+ create mode 100644 include/dt-bindings/gce/mediatek,mt6795-gce.h
+
 -- 
-
-Best regards,
-
-Javier Martinez Canillas
-Core Platforms
-Red Hat
+2.40.0
 
