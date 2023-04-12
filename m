@@ -1,56 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E1426DF99E
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Apr 2023 17:18:56 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A46116DF9BA
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Apr 2023 17:20:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AD3A010E86B;
-	Wed, 12 Apr 2023 15:18:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1AC8F10E873;
+	Wed, 12 Apr 2023 15:20:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-f170.google.com (mail-oi1-f170.google.com
- [209.85.167.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 61ED810E86B
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Apr 2023 15:18:50 +0000 (UTC)
-Received: by mail-oi1-f170.google.com with SMTP id bm45so2222492oib.4
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Apr 2023 08:18:50 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1681312729; x=1683904729;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+Received: from mail-oa1-x2c.google.com (mail-oa1-x2c.google.com
+ [IPv6:2001:4860:4864:20::2c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 414B610E870;
+ Wed, 12 Apr 2023 15:20:36 +0000 (UTC)
+Received: by mail-oa1-x2c.google.com with SMTP id
+ 586e51a60fabf-1841c57c221so16442728fac.3; 
+ Wed, 12 Apr 2023 08:20:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1681312835; x=1683904835;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=J1rryL6U4mVQ09wLHpMpKxLtoPKlN4qyacoLMBPLIA8=;
- b=TCtQv6jqduxLbF9n62avPnojThETw0zuoVVBP9KBlJ/O5An74/IFYqft+D47/+N7P7
- MoXdFItmZAuFSASx5UeXj1IEFzLGB1gXMSUVgs96BElwHIl2XVsVyd0jNGjcUP7h3PRF
- xD0VZDIYDzZaq4mdn9H2eOviUu2Ca20xv3cmVnWDy0uNEZOy0rYdeL48P6+wMz4caJIm
- R38vYT0Pkc4aMKKQyzWWPAcPj0fqdNkRjMnlJhO+7X1Gxt/uCz09aKvpmu+1iwxXJj2l
- 5TXXgoBc5h1yce6uyZKZ1rACcjHQfTZTcXs9sLabB9ROqJyTZTISHgOo1nBagWOvfoOy
- jg7w==
-X-Gm-Message-State: AAQBX9f8NVqbwyvVpAYPVrpT9qSbdY9QQBkhbc4rakrulb2KA3HEadtg
- pEUNBAIWnUyzl9Cktc1FPA==
-X-Google-Smtp-Source: AKy350ZQbeCh5cmuFfBKiLl5geDZUvxtr5QiIwe7+jUSiiP4xOlRTlJOwAPMqYo7nFte+GQkh0totg==
-X-Received: by 2002:a05:6808:2089:b0:38b:be56:81 with SMTP id
- s9-20020a056808208900b0038bbe560081mr5854480oiw.28.1681312729319; 
- Wed, 12 Apr 2023 08:18:49 -0700 (PDT)
-Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net.
- [66.90.144.107]) by smtp.gmail.com with ESMTPSA id
- r206-20020acaf3d7000000b0038bf8c6151fsm558883oih.6.2023.04.12.08.18.48
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 12 Apr 2023 08:18:49 -0700 (PDT)
-Received: (nullmailer pid 2453568 invoked by uid 1000);
- Wed, 12 Apr 2023 15:18:48 -0000
-Date: Wed, 12 Apr 2023 10:18:48 -0500
-From: Rob Herring <robh@kernel.org>
-To: Fabio Estevam <festevam@gmail.com>
-Subject: Re: [PATCH] dt-bindings: drm/bridge: ti-sn65dsi86: Fix the
- video-interfaces.yaml references
-Message-ID: <20230412151848.GA2452008-robh@kernel.org>
-References: <20230408174736.1789082-1-festevam@gmail.com>
+ bh=7SkQUe1sjVjm42OHiHhks/DOrgWsxVG26S1+y3HVvJk=;
+ b=gkhlF4kzoVQ3so1r46S3MCKarEYn8iRvENC4uneOuGL3oeNRHP3y/Dfzskiy/EveNi
+ IExZmlF1+CSpGYXUR28ehshK5OODFllNsVWJjJ41+DTQWJ8l4OYmjbIqlmSzAMOZ/M+0
+ Mw8cD0yJ3tnnZ9JSJ5UZvahqZu8e3m2z3z/eAebu8svyj2QPgHswjDu9DpcpM6whN5qi
+ xb+KFASS84EpvMI/2rVqUohivtr0cujvYtNp+NbVppgfsjIsfv15X8PqDjiGrj3NsqXL
+ FAhIVEVHDXGmUhSN6ojiDFIAbb4mEkbhiLVnLgD+Qlo4Y9ZsxnXA9cb2C5ykNtsp4uej
+ slAQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1681312835; x=1683904835;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=7SkQUe1sjVjm42OHiHhks/DOrgWsxVG26S1+y3HVvJk=;
+ b=MYUV1CZysDfO+/Bo8WHJqizhmlJYUw1omopkCQ6PmK9PbkTBcXbiV8YAgkrUw893ig
+ 5CITP5/6cfSLa6CFDbwqZtH06O2gzjnBr+hZ5Q5i4CCagu2L0ypY6AOSaXDf6pdzQzQ0
+ 2B76hrMkGNfq4YLXsMWIroAVbu0sSTcLTabCxxF1OmJdA37xw+PCYPEmhRIMkq10lCY/
+ P57akuDgF1Dh2lUahUMd56M+dzuO8v+kQEeIThFjFncaGiIoCBALEdY2x+U4pPcxtfRw
+ rjNusqhrW7+iGL/dLZGEgpCcIUxpZBVVoNQKpbOwn9BqqYumn4nCy0hfK4JAX6P+6xYC
+ uKJg==
+X-Gm-Message-State: AAQBX9c6gMUe94c28jYue0H/jHlBT+oHaIPuGDoVRRF3pcRIUP4fdB8Y
+ MEn+eMpc3QCC6ce0yQWRAjx9/jT2Spdz5c4fAQcPWt+Su6c=
+X-Google-Smtp-Source: AKy350YGghYNh91iovq41s2Uzcr2C1jcbbEj9Nd9XDec0GIcwxWjGH4t3ykPmNDskbpvwkZL9ifIyrCykZ0DRLa8HP4=
+X-Received: by 2002:a05:6870:3050:b0:184:56bd:363a with SMTP id
+ u16-20020a056870305000b0018456bd363amr3697696oau.3.1681312834820; Wed, 12 Apr
+ 2023 08:20:34 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230408174736.1789082-1-festevam@gmail.com>
+References: <20230403182808.8699-1-n.zhandarovich@fintech.ru>
+ <BL1PR12MB51446866BAE5945297315399F79A9@BL1PR12MB5144.namprd12.prod.outlook.com>
+ <5d5b0b94-4dd4-2a95-a777-521b65f6f053@fintech.ru>
+In-Reply-To: <5d5b0b94-4dd4-2a95-a777-521b65f6f053@fintech.ru>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Wed, 12 Apr 2023 11:20:23 -0400
+Message-ID: <CADnq5_PECupBm9ADGs5DsfM4i7FJCORD_s6=8Ky=416eFX4CTg@mail.gmail.com>
+Subject: Re: [PATCH] radeon: avoid double free in ci_dpm_init()
+To: Nikita Zhandarovich <n.zhandarovich@fintech.ru>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,69 +70,142 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: neil.armstrong@linaro.org, Fabio Estevam <festevam@denx.de>,
- devicetree@vger.kernel.org, dianders@chromium.org,
- dri-devel@lists.freedesktop.org, krzysztof.kozlowski+dt@linaro.org
+Cc: "lvc-project@linuxtesting.org" <lvc-project@linuxtesting.org>, "Pan,
+ Xinhui" <Xinhui.Pan@amd.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>, "Deucher,
+ Alexander" <Alexander.Deucher@amd.com>, "Koenig,
+ Christian" <Christian.Koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Apr 08, 2023 at 02:47:36PM -0300, Fabio Estevam wrote:
-> From: Fabio Estevam <festevam@denx.de>
-> 
-> video-interface.txt does not exist anymore, as it has been converted
-> to video-interfaces.yaml.
-> 
-> Update the references to the new file name.
-> 
-> Signed-off-by: Fabio Estevam <festevam@denx.de>
-> ---
->  .../devicetree/bindings/display/bridge/ti,sn65dsi86.yaml  | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi86.yaml b/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi86.yaml
-> index 911564468c5e..967b1deb4936 100644
-> --- a/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi86.yaml
-> +++ b/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi86.yaml
-> @@ -106,7 +106,7 @@ properties:
->                      description:
->                        If you have 1 logical lane the bridge supports routing
->                        to either port 0 or port 1.  Port 0 is suggested.
-> -                      See ../../media/video-interface.txt for details.
-> +                      See ../../media/video-interfaces.yaml for details.
+On Wed, Apr 12, 2023 at 8:39=E2=80=AFAM Nikita Zhandarovich
+<n.zhandarovich@fintech.ru> wrote:
+>
+>
+>
+> On 4/11/23 14:11, Deucher, Alexander wrote:
+> > [Public]
+> >
+> >> -----Original Message-----
+> >> From: Nikita Zhandarovich <n.zhandarovich@fintech.ru>
+> >> Sent: Monday, April 3, 2023 2:28 PM
+> >> To: Deucher, Alexander <Alexander.Deucher@amd.com>
+> >> Cc: Nikita Zhandarovich <n.zhandarovich@fintech.ru>; Koenig, Christian
+> >> <Christian.Koenig@amd.com>; Pan, Xinhui <Xinhui.Pan@amd.com>; David
+> >> Airlie <airlied@gmail.com>; Daniel Vetter <daniel@ffwll.ch>; amd-
+> >> gfx@lists.freedesktop.org; dri-devel@lists.freedesktop.org; linux-
+> >> kernel@vger.kernel.org; lvc-project@linuxtesting.org
+> >> Subject: [PATCH] radeon: avoid double free in ci_dpm_init()
+> >>
+> >> There are several calls to ci_dpm_fini() in ci_dpm_init() when there o=
+ccur
+> >> errors in functions like r600_parse_extended_power_table().
+> >> This is harmful as it can lead to double free situations: for instance=
+,
+> >> r600_parse_extended_power_table() will call for
+> >> r600_free_extended_power_table() as will ci_dpm_fini(), both of which =
+will
+> >> try to free resources.
+> >> Other drivers do not call *_dpm_fini functions from their respective
+> >> *_dpm_init calls - neither should cpm_dpm_init().
+> >>
+> >> Fix this by removing extra calls to ci_dpm_fini().
+> >
+> > You can't just drop the calls to fini().  You'll need to properly unwin=
+d to avoid leaking memory.
+> >
+> > Alex
+> >>>
+> >> Found by Linux Verification Center (linuxtesting.org) with static anal=
+ysis tool
+> >> SVACE.
+> >>
+> >> Fixes: cc8dbbb4f62a ("drm/radeon: add dpm support for CI dGPUs (v2)")
+> >> Cc: stable@vger.kernel.org
+> >> Co-developed-by: Natalia Petrova <n.petrova@fintech.ru>
+> >> Signed-off-by: Nikita Zhandarovich <n.zhandarovich@fintech.ru>
+> >>
+> >> ---
+> >>  drivers/gpu/drm/radeon/ci_dpm.c | 20 +++++---------------
+> >>  1 file changed, 5 insertions(+), 15 deletions(-)
+> >>
+> >> diff --git a/drivers/gpu/drm/radeon/ci_dpm.c
+> >> b/drivers/gpu/drm/radeon/ci_dpm.c index 8ef25ab305ae..7b77d4c93f1d
+> >> 100644
+> >> --- a/drivers/gpu/drm/radeon/ci_dpm.c
+> >> +++ b/drivers/gpu/drm/radeon/ci_dpm.c
+> >> @@ -5677,28 +5677,20 @@ int ci_dpm_init(struct radeon_device *rdev)
+> >>      pi->pcie_lane_powersaving.min =3D 16;
+> >>
+> >>      ret =3D ci_get_vbios_boot_values(rdev, &pi->vbios_boot_state);
+> >> -    if (ret) {
+> >> -            ci_dpm_fini(rdev);
+> >> +    if (ret)
+> >>              return ret;
+> >> -    }
+> >>
+> >>      ret =3D r600_get_platform_caps(rdev);
+> >> -    if (ret) {
+> >> -            ci_dpm_fini(rdev);
+> >> +    if (ret)
+> >>              return ret;
+> >> -    }
+> >>
+> >>      ret =3D r600_parse_extended_power_table(rdev);
+> >> -    if (ret) {
+> >> -            ci_dpm_fini(rdev);
+> >> +    if (ret)
+> >>              return ret;
+> >> -    }
+> >>
+> >>      ret =3D ci_parse_power_table(rdev);
+> >> -    if (ret) {
+> >> -            ci_dpm_fini(rdev);
+> >> +    if (ret)
+> >>              return ret;
+> >> -    }
+> >>
+> >>      pi->dll_default_on =3D false;
+> >>      pi->sram_end =3D SMC_RAM_END;
+> >> @@ -5749,10 +5741,8 @@ int ci_dpm_init(struct radeon_device *rdev)
+> >>              kcalloc(4,
+> >>                      sizeof(struct
+> >> radeon_clock_voltage_dependency_entry),
+> >>                      GFP_KERNEL);
+> >> -    if (!rdev-
+> >>> pm.dpm.dyn_state.vddc_dependency_on_dispclk.entries) {
+> >> -            ci_dpm_fini(rdev);
+> >> +    if (!rdev-
+> >>> pm.dpm.dyn_state.vddc_dependency_on_dispclk.entries)
+> >>              return -ENOMEM;
+> >> -    }
+> >>      rdev->pm.dpm.dyn_state.vddc_dependency_on_dispclk.count =3D 4;
+> >>      rdev-
+> >>> pm.dpm.dyn_state.vddc_dependency_on_dispclk.entries[0].clk =3D 0;
+> >>      rdev-
+> >>> pm.dpm.dyn_state.vddc_dependency_on_dispclk.entries[0].v =3D 0;
+>
+>
+> I think you are correct when it comes to ensuring we deal with memory
+> issues in ci_dpm_init().
+>
+> However, I could use some direction on how to deal with the problem of
+> freeing only previously allocated resources. For instance, once
+> ci_parse_power_table() fails, it is not clear what we should and should
+> not free.
 
-I would just drop this. There *should* be a $ref to the schema already 
-up above here.
+You'll want to free any memory allocated in ci_dpm_init().  Any of the
+functions called from that function should clean themselves up if they
+allocate any memory, but if not, they should be fixed.
 
->  
->                    - minItems: 2
->                      maxItems: 2
-> @@ -118,7 +118,7 @@ properties:
->                      description:
->                        If you have 2 logical lanes the bridge supports
->                        reordering but only on physical ports 0 and 1.
-> -                      See ../../media/video-interface.txt for details.
-> +                      See ../../media/video-interfaces.yaml for details.
->  
->                    - minItems: 4
->                      maxItems: 4
-> @@ -132,7 +132,7 @@ properties:
->                      description:
->                        If you have 4 logical lanes the bridge supports
->                        reordering in any way.
-> -                      See ../../media/video-interface.txt for details.
-> +                      See ../../media/video-interfaces.yaml for details.
->  
->                lane-polarities:
->                  minItems: 1
-> @@ -141,7 +141,7 @@ properties:
->                    enum:
->                      - 0
->                      - 1
-> -                description: See ../../media/video-interface.txt
-> +                description: See ../../media/video-interfaces.yaml
->  
->              dependencies:
->                lane-polarities: [data-lanes]
-> -- 
-> 2.34.1
-> 
+Alex
+
+
+>
+> I wanna point out that in this case I would like to fix both double and
+> uninitialized free issues as it can also lead to undefined behavior.
+>
+> Thanks for your patience,
+> Nikita
