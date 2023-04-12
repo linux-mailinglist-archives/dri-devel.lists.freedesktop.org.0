@@ -1,40 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 952096DF34C
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Apr 2023 13:28:16 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C6C1C6DF347
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Apr 2023 13:28:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DB69F10E77B;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 497B810E770;
 	Wed, 12 Apr 2023 11:28:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2667510E0ED
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Apr 2023 11:27:52 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 85E6410E0ED
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Apr 2023 11:27:53 +0000 (UTC)
 Received: from IcarusMOD.eternityproject.eu (2-237-20-237.ip236.fastwebnet.it
  [2.237.20.237])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: kholk11)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id A92A8660321B;
- Wed, 12 Apr 2023 12:27:49 +0100 (BST)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 231636603213;
+ Wed, 12 Apr 2023 12:27:51 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1681298871;
- bh=ldbfDeNpQ5/zM9eHSB8JeIaBEL0OQKQfjXn1SCCi2DU=;
+ s=mail; t=1681298872;
+ bh=lu2YqjszT6GAQfheSYtmuPDjTI03Qls3ZRurM5/bzdk=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=mxXjiJZ7p1YY1OBLjncsrhMXEP05TZ0vQDDw0eNavUZTqfIUSBJNLAPI/rIf/1mBq
- fW8TNlmIwFwmGQfnFIQf05/YA2CPZVCyesNm6ws6hfc0FknxVQR6pzmR9dot980XC4
- pWZ6jir2AzEAzQ9AHpJLlrT0sXC/TCV9e9WLeWaKkQhhWaCvE7xD6KueZe4vjo25HE
- /01O4v6h5nBb8/KUU8c/v8uqAY3B1YccUB4i8RTLhfvuE87uV6ei8Q1lZL4t2vYIYx
- yB/4gBkWRSWVVX1eelHbULStSTgwINvWXqhXuWzIK3HPlsjrHXwvNzvRz0la2VFOc9
- bLAKwfRYagZeA==
+ b=UOZnOw2J87HqYSwK3AmmugMo0zxjvfBq7HlkaMBwgOEibqfmGDylJYzvoabSKOCFm
+ Gpoq95VCcoNzMiyLhc7EfhZG3PMNDwkHi/tcs3brHC6NcLq51IzjMrFIEH32AQERie
+ aAbFzQA2Gbw6p1jjT5A8naU3ZQT5iGBGvMXf4kSSMwFrp5KWaLzDTPMtcnEoFj2jJ4
+ gX2agOSfKZpLT5d7dueZvC46+auOanKQOKTidisZWyYDhZvdaD+jVTKlYLJsAzIf9O
+ 3J2Fy7OkjNMDm3rNwSbwUDncpPbyhmbdg67VZglnh/xgdtnIn5QfrMFV3n+IPvWmeo
+ yIpS2GztN7+0g==
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 To: matthias.bgg@gmail.com
-Subject: [PATCH 04/27] dt-bindings: display: mediatek: aal: Add compatible for
+Subject: [PATCH 05/27] dt-bindings: display: mediatek: dsi: Add compatible for
  MediaTek MT6795
-Date: Wed, 12 Apr 2023 13:27:16 +0200
-Message-Id: <20230412112739.160376-5-angelogioacchino.delregno@collabora.com>
+Date: Wed, 12 Apr 2023 13:27:17 +0200
+Message-Id: <20230412112739.160376-6-angelogioacchino.delregno@collabora.com>
 X-Mailer: git-send-email 2.40.0
 In-Reply-To: <20230412112739.160376-1-angelogioacchino.delregno@collabora.com>
 References: <20230412112739.160376-1-angelogioacchino.delregno@collabora.com>
@@ -65,26 +65,44 @@ Cc: devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add a compatible string for MediaTek Helio X10 MT6795: similarly to
-MT8173, this SoC has the gamma LUT registers in DISP_AAL.
+Add a compatible string for MediaTek Helio X10 MT6795, using the same
+DSI block as MT8173.
 
 Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 ---
- .../devicetree/bindings/display/mediatek/mediatek,aal.yaml       | 1 +
- 1 file changed, 1 insertion(+)
+ .../display/mediatek/mediatek,dsi.yaml        | 19 ++++++++++++-------
+ 1 file changed, 12 insertions(+), 7 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,aal.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,aal.yaml
-index 92741486c24d..7fd42c8fdc32 100644
---- a/Documentation/devicetree/bindings/display/mediatek/mediatek,aal.yaml
-+++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,aal.yaml
-@@ -27,6 +27,7 @@ properties:
-       - items:
-           - enum:
-               - mediatek,mt2712-disp-aal
-+              - mediatek,mt6795-disp-aal
-           - const: mediatek,mt8173-disp-aal
-       - items:
-           - enum:
+diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,dsi.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,dsi.yaml
+index 4707b60238b0..12441b937684 100644
+--- a/Documentation/devicetree/bindings/display/mediatek/mediatek,dsi.yaml
++++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,dsi.yaml
+@@ -22,13 +22,18 @@ allOf:
+ 
+ properties:
+   compatible:
+-    enum:
+-      - mediatek,mt2701-dsi
+-      - mediatek,mt7623-dsi
+-      - mediatek,mt8167-dsi
+-      - mediatek,mt8173-dsi
+-      - mediatek,mt8183-dsi
+-      - mediatek,mt8186-dsi
++    oneOf:
++      - enum:
++          - mediatek,mt2701-dsi
++          - mediatek,mt7623-dsi
++          - mediatek,mt8167-dsi
++          - mediatek,mt8173-dsi
++          - mediatek,mt8183-dsi
++          - mediatek,mt8186-dsi
++      - items:
++          - enum:
++              - mediatek,mt6795-dsi
++          - const: mediatek,mt8173-dsi
+ 
+   reg:
+     maxItems: 1
 -- 
 2.40.0
 
