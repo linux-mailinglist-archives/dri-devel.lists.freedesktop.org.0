@@ -2,70 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 532BE6DF2E6
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Apr 2023 13:16:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF8936DF317
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Apr 2023 13:22:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 70FE910E76C;
-	Wed, 12 Apr 2023 11:16:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C9B3E10E774;
+	Wed, 12 Apr 2023 11:22:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com
- [IPv6:2a00:1450:4864:20::32d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 180C410E76C
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Apr 2023 11:16:11 +0000 (UTC)
-Received: by mail-wm1-x32d.google.com with SMTP id
- n19-20020a05600c501300b003f064936c3eso11011045wmr.0
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Apr 2023 04:16:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1681298169; x=1683890169;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=3oYUJMojD0ryoRHItO91lvPbTnTt0bQOfwf2G2otABA=;
- b=UnMwH+JjCQ8EQWQ9vLoNqgyX+7QvrHcuazJ4jFKYqPcDCdxeNDp+x9SPiRVbE70Vre
- 9gx+uV/w0WEcVmrtFYxLaxPFlM3lIO7OzjXijSkfmmgoS00nWPPXm7tsNxSzfpnTt8e8
- xfixhDnKWplpU11hkit9j/B5cKVDVE0MIkifuytYOy3jtopZkV6qK3KzEwRn3Mo0qsB5
- u4U/B7/V4kUdX0s7exfVXuW/VaZtM0scyVFrLyyl+9TEDgeKU8uwRLuZ49NDS3rQPpqJ
- TWE4me1IIa3pUaEV31yVYbdz2C2W+/QL7T30NmjtPygbK6JDnbAiezzdZdF6R+RbJPZ2
- +j2g==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E2AB310E774
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Apr 2023 11:22:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1681298562;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=RU2igHCjVcnp40gn9ktCo/+j2WwhkOyeeWPcVnAXlR4=;
+ b=jHAXbrZvY0WBOr3DzbygZz3bFXxQMCS76Ntg2gIJNEtYf5f+ehcYVIRFL6K/EHq/dmPrOj
+ egJXA4ojMnrjngcqtqJLDXpLjIxPx756l93qL7pRkHq5FNTYFzSGbWcF7+glkTDqTn1yyI
+ nzEaeyFab8S1RkkJxwEemEBpLkqIKiM=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-630-J07uwuEnOf-5V_dlvRrH4A-1; Wed, 12 Apr 2023 07:22:41 -0400
+X-MC-Unique: J07uwuEnOf-5V_dlvRrH4A-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ h15-20020a05600c350f00b003f09815147dso1209344wmq.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Apr 2023 04:22:40 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1681298169; x=1683890169;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=3oYUJMojD0ryoRHItO91lvPbTnTt0bQOfwf2G2otABA=;
- b=r73z0alR7kffSQYJJ6HjPe7Azs8dogdHNg3qz54/NHnCr+/8VrRrYGseDAtsXd6iQ9
- xEaUC7MANjNIIUHbhyAF1Mww9fi72WSiejvWiN36XL3ml/hRe+8brdO17gjNVMvedxPk
- XwMO4z7rJrEkHMFAWwPC1d+Sw/vKK33poHiSzBGzZA6a/cywUk4pMHXdwnxD6givIIVY
- OLBTEykAXQ2B+8crrDfS1nuO0AC3hoB28merPdlSLPlcAPbv1UC7MHaI7pnVbmbhxntA
- A2NGzX87ZzWqlLQUl0/wEFhd9S915J2ran29tQfD7eWl7WwWZZsAPck1KPz4t6oAVCWx
- G/+A==
-X-Gm-Message-State: AAQBX9dnrB0PSKrCtlvEbIEJoqAJK5VfslDX7H2DL5a4DYFqFhqq21Ws
- DIhLU795+dLx28XNo6yLXTk=
-X-Google-Smtp-Source: AKy350Ytb3nPP2kCpTxqr/Xs1qPJNN6qUvMq7Y9nRQ5UQ+DeYLvOYyNhKVCasxGI+ZcqtJSr3tcJjQ==
-X-Received: by 2002:a1c:cc17:0:b0:3eb:9822:f0 with SMTP id
- h23-20020a1ccc17000000b003eb982200f0mr4214599wmb.30.1681298168974; 
- Wed, 12 Apr 2023 04:16:08 -0700 (PDT)
-Received: from [192.168.2.177] ([207.188.167.132])
- by smtp.gmail.com with ESMTPSA id
- n15-20020a1c720f000000b003edc11c2ecbsm2055322wmc.4.2023.04.12.04.16.07
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 12 Apr 2023 04:16:07 -0700 (PDT)
-Message-ID: <9f42d92c-c111-1ad7-ea5b-c52efb71d15d@gmail.com>
-Date: Wed, 12 Apr 2023 13:16:07 +0200
+ d=1e100.net; s=20210112; t=1681298559; x=1683890559;
+ h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=RU2igHCjVcnp40gn9ktCo/+j2WwhkOyeeWPcVnAXlR4=;
+ b=UulJ5xLzJliNR2uof20ZrGkVkLUbUBcgoTUWolU/HZc7LWh+Di/KjRapInmityOWD/
+ pHw7NqFy44Plql1k/IxjONlxszTrutdjJ569hkOwqfcEv5HyHwWmYPy5UNt+1XI5PZnW
+ H7I2I2Gk0gNoJSPkVBZHv7KWiXKmDJwAjLXCXLvP7pvyOPVM0Ssh2R9YR+zn8ozWJZ6+
+ amAYuHWjo/yyS72a0lQSWxykYztqU0N1jZiYvOfHWIoVuKJGIezYoexIxzdXXxSkYygk
+ d6IJkGVHiHouFQESqw9wHLfJTCFeahhDXiZQ1x0ra7f+AFIeEpelmZa38JGdt+dT6hjg
+ 4PyA==
+X-Gm-Message-State: AAQBX9eNt4Cp1RxDUV9kR/8JeIA7+/a5hc/L+n2tya+agRFbzeX1Hd4F
+ Bgt2qaGtfY+ENLHKtUmraioJE+OSoX/qbN3lBaQ4VtsNaXV3zC674RiSDReGTm6uo3Cbb0+jLqH
+ wOCbg5xfg8uUIGv3e+4CFOJNxC8Io
+X-Received: by 2002:a5d:688b:0:b0:2ef:ba74:44d0 with SMTP id
+ h11-20020a5d688b000000b002efba7444d0mr4678819wru.23.1681298559140; 
+ Wed, 12 Apr 2023 04:22:39 -0700 (PDT)
+X-Google-Smtp-Source: AKy350aHY5WOl500qZV473myVvizDChWrNr10FHZvHuqlt3+jhEvYKw5rvgWaMuzeEZaD5PnsMJI7w==
+X-Received: by 2002:a5d:688b:0:b0:2ef:ba74:44d0 with SMTP id
+ h11-20020a5d688b000000b002efba7444d0mr4678798wru.23.1681298558781; 
+ Wed, 12 Apr 2023 04:22:38 -0700 (PDT)
+Received: from localhost (205.pool92-176-231.dynamic.orange.es.
+ [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
+ a4-20020a5d5084000000b002f4c2ea66absm958449wrt.85.2023.04.12.04.22.38
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 12 Apr 2023 04:22:38 -0700 (PDT)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Pierre Asselin <pa@panix.com>
+Subject: Re: [PATCH v3 01/13] firmware/sysfb: Fix EFI/VESA format selection
+In-Reply-To: <dfb4f25ca8dfb0d81d778d6315f104ad.squirrel@mail.panix.com>
+References: <20230102112927.26565-1-tzimmermann@suse.de>
+ <20230102112927.26565-2-tzimmermann@suse.de>
+ <4Psm6B6Lqkz1QXM@panix3.panix.com>
+ <2ca4fbdb87a335522c22551658576e55.squirrel@mail.panix.com>
+ <87zg7es99j.fsf@minerva.mail-host-address-is-not-set>
+ <dfb4f25ca8dfb0d81d778d6315f104ad.squirrel@mail.panix.com>
+Date: Wed, 12 Apr 2023 13:22:37 +0200
+Message-ID: <87sfd5s5tu.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [PATCH -next 3/3] drm/mediatek: Use
- devm_platform_ioremap_resource()
-Content-Language: en-US
-To: Yang Li <yang.lee@linux.alibaba.com>, airlied@gmail.com
-References: <20230412064635.41315-1-yang.lee@linux.alibaba.com>
- <20230412064635.41315-3-yang.lee@linux.alibaba.com>
-From: Matthias Brugger <matthias.bgg@gmail.com>
-In-Reply-To: <20230412064635.41315-3-yang.lee@linux.alibaba.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,47 +84,123 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: chunkuang.hu@kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, angelogioacchino.delregno@collabora.com
+Cc: Pierre Asselin <pa@panix.com>, mairacanal@riseup.net,
+ dri-devel@lists.freedesktop.org, tzimmermann@suse.de,
+ jose.exposito89@gmail.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+"Pierre Asselin" <pa@panix.com> writes:
 
+>> Can you please share you grub config file? It seems that is set to
+>> GRUB_GFXMODE=1024x768x32 but the actual mode is set to 1024x768x24 ?
+>
+> Okay, but you'll be sorry...  The gfxmode is set to "keep" in all the
+> entries.  https://www.panix.com/~pa/linux-6.3-simplefb/grub.cfg .
+>
+> The "TEST" entry was used to bisect.  The "PRE-TEST" was to set things
+> up, to receive the bzImages compiled on a faster machine. Now I boot
+> the "Linux 6.3.0-rc5-x86".
+>
+>
+>> That is, it fails when the picked format is DRM_FORMAT_RGB8888 but
+>> works when is DRM_FORMAT_XRGB888. I can't spot any error in Thomas'
+>> patch so I wonder if the problem is with what grub is passing to the
+>> kernel.
+>>
+>> The mentioned vga=0x318 workaround that you mentioned makes the mode
+>> passed to match the selected DRM_FORMAT_RGB888 which I guess is why
+>> that worked for you.
+>
+> All right, I did a series of reboots, editing the grub command line
+> to change the "gfxpayload=" grub option or the "vga=" kernel option.
+> In each case I captured the output of
+>   "dmesg | egrep -i 'fbcon|console|fb0|frameb|simple|vga|vesa'
+>
+> https://www.panix.com/~pa/linux-6.3-simplefb/selected-modes
+>
+> (D'oh.  My script printed "vga=vga=" twice when that option was set.
+> Good enough as is.)
+>
+> Note the difference in linelength= between the bad and good r8g8b8.
+> Does it mean anything ?
+>  (bad)> format=r8g8b8, mode=1024x768x24, linelength=4096
+> (good)> format=r8g8b8, mode=1024x768x24, linelength=3072
+>
 
-On 12/04/2023 08:46, Yang Li wrote:
-> Remove variable 'res' and convert platform_get_resource(),
-> devm_ioremap_resource() to a single call to
-> devm_platform_ioremap_resource(), as this is exactly what this function
-> does.
-> 
-> Signed-off-by: Yang Li <yang.lee@linux.alibaba.com>
+Ah! That's a good data point and I believe that found a possible issue in
+the sysfb format selection logic. Can you please try the following patch?
 
-Reviewed-by: Matthias Brugger <matthias.bgg@gmail.com>
+From 55b5375c528b4128350dfa2126277049f8821349 Mon Sep 17 00:00:00 2001
+From: Javier Martinez Canillas <javierm@redhat.com>
+Date: Wed, 12 Apr 2023 13:20:48 +0200
+Subject: [PATCH] firmware/sysfb: Fix wrong stride when bits-per-pixel is
+ calculated
 
-> ---
->   drivers/gpu/drm/mediatek/mtk_disp_ccorr.c | 4 +---
->   1 file changed, 1 insertion(+), 3 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/mediatek/mtk_disp_ccorr.c b/drivers/gpu/drm/mediatek/mtk_disp_ccorr.c
-> index 1773379b2439..5cee84cce0be 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_disp_ccorr.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_disp_ccorr.c
-> @@ -159,7 +159,6 @@ static int mtk_disp_ccorr_probe(struct platform_device *pdev)
->   {
->   	struct device *dev = &pdev->dev;
->   	struct mtk_disp_ccorr *priv;
-> -	struct resource *res;
->   	int ret;
->   
->   	priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
-> @@ -172,8 +171,7 @@ static int mtk_disp_ccorr_probe(struct platform_device *pdev)
->   		return PTR_ERR(priv->clk);
->   	}
->   
-> -	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-> -	priv->regs = devm_ioremap_resource(dev, res);
-> +	priv->regs = devm_platform_ioremap_resource(pdev, 0);
->   	if (IS_ERR(priv->regs)) {
->   		dev_err(dev, "failed to ioremap ccorr\n");
->   		return PTR_ERR(priv->regs);
+The commit f35cd3fa7729 ("firmware/sysfb: Fix EFI/VESA format selection")
+fixed format selection by calculating the bits-per-pixel instead of just
+using the reported color depth.
+
+But unfortunately this broke some modes because the stride is always set
+to the reported line length (in bytes), which could not match the actual
+stride if the calculated bits-per-pixel doesn't match the reported depth.
+
+Fixes: commit f35cd3fa7729 ("firmware/sysfb: Fix EFI/VESA format selection")
+Reported-by: Pierre Asselin <pa@panix.com>
+Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
+---
+ drivers/firmware/sysfb_simplefb.c | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/firmware/sysfb_simplefb.c b/drivers/firmware/sysfb_simplefb.c
+index 82c64cb9f531..5dc23e57089f 100644
+--- a/drivers/firmware/sysfb_simplefb.c
++++ b/drivers/firmware/sysfb_simplefb.c
+@@ -28,7 +28,7 @@ __init bool sysfb_parse_mode(const struct screen_info *si,
+ 			     struct simplefb_platform_data *mode)
+ {
+ 	__u8 type;
+-	u32 bits_per_pixel;
++	u32 bits_per_pixel, stride;
+ 	unsigned int i;
+ 
+ 	type = si->orig_video_isVGA;
+@@ -54,14 +54,19 @@ __init bool sysfb_parse_mode(const struct screen_info *si,
+ 	 * bits_per_pixel here and ignore lfb_depth. In the loop below,
+ 	 * ignore simplefb formats with alpha bits, as EFI and VESA
+ 	 * don't specify alpha channels.
++	 *
++	 * If a calculated bits_per_pixel is used instead of lfb_depth,
++	 * then also ignore lfb_linelength and calculate the stride.
+ 	 */
+ 	if (si->lfb_depth > 8) {
+ 		bits_per_pixel = max(max3(si->red_size + si->red_pos,
+ 					  si->green_size + si->green_pos,
+ 					  si->blue_size + si->blue_pos),
+ 				     si->rsvd_size + si->rsvd_pos);
++		stride = DIV_ROUND_UP(si->lfb_width * bits_per_pixel, 8);
+ 	} else {
+ 		bits_per_pixel = si->lfb_depth;
++		stride = si->lfb_linelength;
+ 	}
+ 
+ 	for (i = 0; i < ARRAY_SIZE(formats); ++i) {
+@@ -80,7 +85,7 @@ __init bool sysfb_parse_mode(const struct screen_info *si,
+ 			mode->format = f->name;
+ 			mode->width = si->lfb_width;
+ 			mode->height = si->lfb_height;
+-			mode->stride = si->lfb_linelength;
++			mode->stride = stride;
+ 			return true;
+ 		}
+ 	}
+
+base-commit: fd35174e13f98f9232c4aa66689816731d34ca28
+-- 
+
+Best regards,
+
+Javier Martinez Canillas
+Core Platforms
+Red Hat
+
