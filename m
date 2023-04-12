@@ -1,42 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19CBC6DFDF2
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Apr 2023 20:51:04 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 819726DFDF6
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Apr 2023 20:51:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DCE2810E91B;
-	Wed, 12 Apr 2023 18:51:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CED9C10E921;
+	Wed, 12 Apr 2023 18:51:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay04.th.seeweb.it (relay04.th.seeweb.it
- [IPv6:2001:4b7a:2000:18::165])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BD77E10E91F
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Apr 2023 18:50:58 +0000 (UTC)
-Received: from SoMainline.org (94-211-6-86.cable.dynamic.v4.ziggo.nl
- [94.211.6.86])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
- SHA256) (No client certificate requested)
- by m-r1.th.seeweb.it (Postfix) with ESMTPSA id BFAD320251;
- Wed, 12 Apr 2023 20:50:53 +0200 (CEST)
-Date: Wed, 12 Apr 2023 20:50:51 +0200
-From: Marijn Suijten <marijn.suijten@somainline.org>
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>
-Subject: Re: [Freedreno] [PATCH] drm/msm/dpu: add DSC range checking during
- resource reservation
-Message-ID: <szwu75yxcfxeyvfvrsyuoc3jeoaylydwtlzm3cevmpr3zpmfpo@wrdgbf3w3de2>
-References: <1681247380-1607-1-git-send-email-quic_khsieh@quicinc.com>
- <qvgbm3wimai3jytnikbcixipvwqn2uywqpg4mn6mjh5atergfx@wa4edsrp7y22>
- <96416911-bca3-b007-b036-1c4463e83aaa@quicinc.com>
- <24c5aa23-9b3c-787c-10aa-e9d5ad91512b@linaro.org>
- <49479b93-b364-d882-7a77-08223a94ed36@quicinc.com>
- <tczt5alqbadkodgorqm4pljpqkn5bc4efpxiy3em7bgu7gqaka@3cdszu4k6rhk>
- <8310d7ce-7ac0-05a6-b95a-c18a498f7644@quicinc.com>
+Received: from mailbackend.panix.com (mailbackend.panix.com [166.84.1.89])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2735610E928
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Apr 2023 18:51:12 +0000 (UTC)
+Received: from mail.panix.com (localhost [127.0.0.1])
+ by mailbackend.panix.com (Postfix) with ESMTPA id 4PxWy64scTzDns;
+ Wed, 12 Apr 2023 14:51:10 -0400 (EDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=panix.com; s=panix;
+ t=1681325471; bh=1zojjQh2KHF4lxw3AQTN3IiyhnTTFBbmKUEaatf8U9M=;
+ h=In-Reply-To:References:Date:Subject:From:To:Cc;
+ b=emdc5cCZiwjrEVmxWuvmxiL+UP9dn31dc54FOebWZzQlFMFSj5mAw1a+3wj7woIca
+ PqIRVnwKT73ttNl5B2Y/Hud/8zmt2DD8br4Ub4bHMA9Au+jjs56BCJKe8KnOKkSGlg
+ dt/3PD3YMFYED7+D4j5FknzLaboVlSAYSgQGrSkM=
+X-Panix-Received: from 166.84.1.2
+ (SquirrelMail authenticated user pa@panix.com)
+ by mail.panix.com with HTTP; Wed, 12 Apr 2023 14:51:10 -0400
+Message-ID: <1afd3044c2aca9322ecf304941c7df66.squirrel@mail.panix.com>
+In-Reply-To: <CAFOAJEdKBUg91pDmNYYw5xigUxjifBgOLz2YgD+xQ+WyEy=V2w@mail.gmail.com>
+References: <20230412150225.3757223-1-javierm@redhat.com>
+ <2e07f818ccdff7023a060e732d7c4ef6.squirrel@mail.panix.com>
+ <87jzyhror0.fsf@minerva.mail-host-address-is-not-set>
+ <beeff0335ab4cc244d214a7baadba371.squirrel@mail.panix.com>
+ <CAFOAJEdKBUg91pDmNYYw5xigUxjifBgOLz2YgD+xQ+WyEy=V2w@mail.gmail.com>
+Date: Wed, 12 Apr 2023 14:51:10 -0400
+Subject: Re: [PATCH] firmware/sysfb: Fix wrong stride when bits-per-pixel is
+ calculated
+From: "Pierre Asselin" <pa@panix.com>
+To: "Javier Martinez Canillas" <javierm@redhat.com>
+User-Agent: SquirrelMail/1.4.23-p1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <8310d7ce-7ac0-05a6-b95a-c18a498f7644@quicinc.com>
+Content-Type: text/plain;charset=iso-8859-1
+Content-Transfer-Encoding: 8bit
+X-Priority: 3 (Normal)
+Importance: Normal
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,54 +54,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: sean@poorly.run, vkoul@kernel.org, quic_sbillaka@quicinc.com,
- freedreno@lists.freedesktop.org, andersson@kernel.org, dianders@chromium.org,
- dri-devel@lists.freedesktop.org, Kuogee Hsieh <quic_khsieh@quicinc.com>,
- agross@kernel.org, linux-arm-msm@vger.kernel.org,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, swboyd@chromium.org,
- linux-kernel@vger.kernel.org
+Cc: Jocelyn Falempe <jfalempe@redhat.com>, Pierre Asselin <pa@panix.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Hans de Goede <hdegoede@redhat.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Ard Biesheuvel <ardb@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2023-04-12 10:48:18, Abhinav Kumar wrote:
-[..]
-> > The only way to trigger this newly introduced range check is by omitting
-> > the DSC_x constants and manually writing e.g. an out-of-range value 10
-> > here, or setting DSC_NONE.  This is only allowed for interfaces.
-> > 
-> 
-> Correct, its just working on an implicit understanding that the indices 
-> in the catalog
+> And can you share the "linelength=" print out from simplefb ?
 
-.. this sentence appears to be incomplete: what did you want to say? ..
+Okay.  Three cases, see below.
 
-> which might still be right stick to the RM limits.
-> 
-> Thats why this is not bad to have.
+Your patch tries to fix the stride, but what if it's the _depth_
+that's wrong ?  Grub sets the mode, the pre-regression kernel picks this:
+    format=x8r8g8b8, mode=1024x768x32, linelength=4096
 
-What do you mean by "RM limits"?  We have constants in the kernel that
-both define the maximum number of blocks in these arrays and a
-predefined set of ids that block can have.  These are all used in
-constant structs in the catalog, so there's nothing "software" or
-SoC-specific limiting about this (except what is available in the
-arrays).
+========== Good ======================================================
+grub: gfxpayload=1024x768x24
+[    0.003333] Console: colour dummy device 128x48
+[    0.003333] printk: console [tty0] enabled
+[    0.417054] fbcon: Taking over console
+[    0.513399] pci 0000:01:05.0: vgaarb: setting as boot VGA device
+[    0.513431] pci 0000:01:05.0: vgaarb: bridge control possible
+[    0.513455] pci 0000:01:05.0: vgaarb: VGA device added:
+decodes=io+mem,owns=io+mem,locks=none
+[    0.513490] vgaarb: loaded
+[    3.337529] simple-framebuffer simple-framebuffer.0: framebuffer at
+0xd8000000, 0x240000 bytes
+[    3.337567] simple-framebuffer simple-framebuffer.0: format=r8g8b8,
+mode=1024x768x24, linelength=3072
+[    3.338000] Console: switching to colour frame buffer device 128x48
+[    3.566490] simple-framebuffer simple-framebuffer.0: fb0: simplefb
+registered!
 
-[..]
-> I think kuogee just added this to keep it consistent with other checks 
-> present in the RM. So I didnt see any harm with that.
+========== Bad after patch, typing blind to log in !==================
+grub: gfxpayload=keep
+[    0.003333] Console: colour dummy device 128x48
+[    0.003333] printk: console [tty0] enabled
+[    0.423925] fbcon: Taking over console
+[    0.520030] pci 0000:01:05.0: vgaarb: setting as boot VGA device
+[    0.520061] pci 0000:01:05.0: vgaarb: bridge control possible
+[    0.520085] pci 0000:01:05.0: vgaarb: VGA device added:
+decodes=io+mem,owns=io+mem,locks=none
+[    0.520120] vgaarb: loaded
+[    3.290444] simple-framebuffer simple-framebuffer.0: framebuffer at
+0xd8000000, 0x240000 bytes
+[    3.290483] simple-framebuffer simple-framebuffer.0: format=r8g8b8,
+mode=1024x768x24, linelength=3072
+[    3.290916] Console: switching to colour frame buffer device 128x48
+[    3.519523] simple-framebuffer simple-framebuffer.0: fb0: simplefb
+registered!
 
-Yep, that's the only reason
+========== Good, earlier kernel before regression ====================
+grub: gfxpayload=keep
+[    0.226675] Console: colour dummy device 128x48
+[    0.228643] printk: console [tty0] enabled
+[    0.429214] fbcon: Taking over console
+[    0.524994] pci 0000:01:05.0: vgaarb: setting as boot VGA device
+[    0.525025] pci 0000:01:05.0: vgaarb: bridge control possible
+[    0.525049] pci 0000:01:05.0: vgaarb: VGA device added:
+decodes=io+mem,owns=io+mem,locks=none
+[    0.525082] vgaarb: loaded
+[    3.320474] simple-framebuffer simple-framebuffer.0: framebuffer at
+0xd8000000, 0x300000 bytes
+[    3.320513] simple-framebuffer simple-framebuffer.0: format=x8r8g8b8,
+mode=1024x768x32, linelength=4096
+[    3.320983] Console: switching to colour frame buffer device 128x48
+[    3.415643] simple-framebuffer simple-framebuffer.0: fb0: simplefb
+registered!
 
-> If he did see an issue, i will let him report that here.
 
-If so an out-of-bounds constant was hardcoded in dpu_hw_catalog.c.
-
-> Otherwise, I dont want to spend more time discussing this bounds check 
-> when other blocks already have it.
-
-I'll whip up a patch to clear out the extraneous lookup (assuming there
-is no other reason/dependency for it to be there...) and can follow that
-up with removing these range checks of known-good values in `const
-struct` fields.
-
-- Marijn
