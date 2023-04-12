@@ -1,71 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 869446DF65D
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Apr 2023 15:03:20 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E7D96DF664
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Apr 2023 15:04:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F41FC10E7D9;
-	Wed, 12 Apr 2023 13:03:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2EAC510E7DC;
+	Wed, 12 Apr 2023 13:03:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com
- [IPv6:2a00:1450:4864:20::335])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B4DB610E7DA
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Apr 2023 13:03:15 +0000 (UTC)
-Received: by mail-wm1-x335.google.com with SMTP id l16so6012432wms.1
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Apr 2023 06:03:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20210112.gappssmtp.com; s=20210112; t=1681304594; x=1683896594; 
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=yjIdUq4Jsx9/GasEwdm41tjYbvcUo9h/pUwit0AG0qw=;
- b=I+U9p2RUdQ0jma7vWiMjgOivywGBJsk9WNavQzLUEh/9XwD46/PWdCmz2jtHMZlyPh
- IJR47kFbuS2krTR8D8TwAoya05XsgHSzcDXHIKFJzmddiFLXTOi+ZU/7tUJOrDz/yILl
- SIXsvKy2gl0NfWrtKgHqPiamvl5ngUisfT9GXgEKfhhEJvyICrgLJbZ3lPLJT7BHpfo+
- OSGfbwxEm0Np0ji7Ls9mAhsRxdI+nrPhkMNNSp2Nx/v3JKn9KszmNHXabkT74hCnStwN
- NBB9zEfXfbjr1st9ZZsooom9HhGVRXK1j0XWYSO1zD6vifKgxUFKlHowMFXVEnUTh0NE
- pq4Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1681304594; x=1683896594;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=yjIdUq4Jsx9/GasEwdm41tjYbvcUo9h/pUwit0AG0qw=;
- b=quHwkXmfMkCd38fz2d/aWG8uBHitHztNm8FAV25KwnmjdgvJLD/lAbbKx9iYiPa+V5
- ZcSgxNM2fw+bPHvQPKr+d8QLg9oT842CGSzRwagZyp03DPSHDA4DTAu/9hBTYrJxPJi/
- lPTg+eRSaBwiTiC2OuICewuu9lMqX9gOQ7WvIM9f0hSMVCp4ewUxBL905T34BM3YI+i/
- N+ER9vUvFHlbqaX71RJE4WI71OCaiCsYPWF5mMmT9xrACh/N8tEWIwwFVujJZD11lfZk
- B2gY6ZL8RWqNgG1BFp58ITyHzEv8zMFpLomKVqLZf2cSxROHxT23Mr9ojpqdjBD3uL4x
- AjIQ==
-X-Gm-Message-State: AAQBX9c5Uys/r3lAX2lZ2oI1H/tUSxy+3WD34I5ToeneRPmikxHEQXPj
- a39saBSoluV2WiHQGFFPEX1R+Q==
-X-Google-Smtp-Source: AKy350bDmpM+Lm/AqJiXBxAL4RoNuLKnffa2b9rPXFmlseSpOQ7ouXWDEFlId84sgS3bp9uw+f9nsQ==
-X-Received: by 2002:a05:600c:292:b0:3f0:a137:90d9 with SMTP id
- 18-20020a05600c029200b003f0a13790d9mr218544wmk.3.1681304594013; 
- Wed, 12 Apr 2023 06:03:14 -0700 (PDT)
-Received: from [192.168.1.172] (158.22.5.93.rev.sfr.net. [93.5.22.158])
- by smtp.gmail.com with ESMTPSA id
- h15-20020a05600c350f00b003ee9f396dcesm2439248wmq.30.2023.04.12.06.03.12
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 12 Apr 2023 06:03:13 -0700 (PDT)
-Message-ID: <c2b4cc90-9dd7-60b5-66f0-56a4d19d63e3@baylibre.com>
-Date: Wed, 12 Apr 2023 15:03:12 +0200
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4AAC110E7DC
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Apr 2023 13:03:54 +0000 (UTC)
+Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
+ [2.237.20.237])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits))
+ (No client certificate requested) (Authenticated sender: kholk11)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id AE81F6603102;
+ Wed, 12 Apr 2023 14:03:50 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1681304632;
+ bh=n6UmEOVTw+KXN9/725bQQxVPB20qNDRrZSlz09sXOMo=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=AQGqtRCpfP1ZuiophrOrBi4nZp+IoEZLBUmkBU7M1yFW3J4w/j+9WFvTAaK4aAfy0
+ 5mYHWH2h9wjO2WBZ32CNT1xRWPLebR3bOjhc4EYA2r8GAUkpXyuAw45LR3pxru37GU
+ TJBMilPa+oR0ba/Sl+XjUj2izfyuitVr5N5O7t6jLvyKSSm9hcJWe2N8F2ludKsfQs
+ BPXQNPKykaAn/QFWyaCAVLBVUDCUiSYmVAgcgUuhU29wxTbleKy57mWETsDJ/lmNi4
+ eoW0EreMLhn9a2r7hNzEA0Rgm3J1Ixu9cUE3XdTH20jdV2vDUVROKrAgOAx3yO8xAA
+ GmQOR2WRqCCBw==
+Message-ID: <eb770f19-ada5-81bb-5ea3-798edabca70f@collabora.com>
+Date: Wed, 12 Apr 2023 15:03:48 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH 04/27] dt-bindings: display: mediatek: aal: Add compatible
- for MediaTek MT6795
+ Thunderbird/102.9.1
+Subject: Re: [PATCH 02/27] dt-bindings: phy: mediatek, dsi-phy: Add compatible
+ for MT6795 Helio X10
 Content-Language: en-US
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- matthias.bgg@gmail.com
+To: Alexandre Mergnat <amergnat@baylibre.com>, matthias.bgg@gmail.com
 References: <20230412112739.160376-1-angelogioacchino.delregno@collabora.com>
- <20230412112739.160376-5-angelogioacchino.delregno@collabora.com>
-From: Alexandre Mergnat <amergnat@baylibre.com>
-In-Reply-To: <20230412112739.160376-5-angelogioacchino.delregno@collabora.com>
+ <20230412112739.160376-3-angelogioacchino.delregno@collabora.com>
+ <20684378-cf3e-0299-d390-287b7bafbda5@baylibre.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20684378-cf3e-0299-d390-287b7bafbda5@baylibre.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,15 +70,55 @@ Cc: devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 12/04/2023 13:27, AngeloGioacchino Del Regno wrote:
-> Add a compatible string for MediaTek Helio X10 MT6795: similarly to
-> MT8173, this SoC has the gamma LUT registers in DISP_AAL.
+Il 12/04/23 14:59, Alexandre Mergnat ha scritto:
+> On 12/04/2023 13:27, AngeloGioacchino Del Regno wrote:
+>> Add a compatible string for MediaTek Helio X10 MT6795: this SoC uses
+>> the same DSI PHY as MT8173.
+>>
+>> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+>> ---
+>>   Documentation/devicetree/bindings/phy/mediatek,dsi-phy.yaml | 4 ++++
+>>   1 file changed, 4 insertions(+)
+>>
+>> diff --git a/Documentation/devicetree/bindings/phy/mediatek,dsi-phy.yaml 
+>> b/Documentation/devicetree/bindings/phy/mediatek,dsi-phy.yaml
+>> index 26f2b887cfc1..a9f78344efdb 100644
+>> --- a/Documentation/devicetree/bindings/phy/mediatek,dsi-phy.yaml
+>> +++ b/Documentation/devicetree/bindings/phy/mediatek,dsi-phy.yaml
+>> @@ -24,6 +24,10 @@ properties:
+>>             - enum:
+>>                 - mediatek,mt7623-mipi-tx
+>>             - const: mediatek,mt2701-mipi-tx
+>> +      - items:
+>> +          - enum:
+>> +              - mediatek,mt6795-mipi-tx
+>> +          - const: mediatek,mt8173-mipi-tx
 > 
-> Signed-off-by: AngeloGioacchino Del Regno<angelogioacchino.delregno@collabora.com>
+> AFAIK, it should be:
+>        - items:
+>            - const: mediatek,mt6795-mipi-tx
+>            - const: mediatek,mt8173-mipi-tx
+> 
+> Since it isn't respected above for mt7623, it may be tolerated.
+> Please, take this comment as a suggestion, isn't a NAK from me.
+> 
 
-Reviewed-by: Alexandre Mergnat <amergnat@baylibre.com>
+First of all, Thanks!
+I want to explain, though, the reason for that.
 
--- 
-Regards,
-Alexandre
+If you check all the commits, on some I did it as you just proposed, while
+on some others I did it with an enum before const: that's simply because I
+*totally expect* some to grow, while others (const - const) I was either
+unsure, or totally *not* expecting them to grow soon!
 
+>>         - items:
+>>             - enum:
+>>                 - mediatek,mt8365-mipi-tx
+> 
+> Reviewed-by: Alexandre Mergnat <amergnat@baylibre.com>
+> 
+
+Thanks again!
+
+Cheers,
+Angelo
