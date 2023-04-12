@@ -1,81 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FE836DFCEA
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Apr 2023 19:48:32 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C707E6DFD22
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Apr 2023 19:58:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A613F10E8F1;
-	Wed, 12 Apr 2023 17:48:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E8F5310E821;
+	Wed, 12 Apr 2023 17:58:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BDD9B10E821;
- Wed, 12 Apr 2023 17:48:26 +0000 (UTC)
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 33CA99Mq022716; Wed, 12 Apr 2023 17:48:21 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=EyLhPn//btq9T0BetjGBN+pTDY5gSmiuWU+VuI7EBnQ=;
- b=DT6s9HosGa1Q11OBaTx2/dpm4+AwI4tlNOpu8NjJvJp9ObNqW/9eqa16CYyVBtPktObP
- HP8wcf133TT2F7cPTTvL56SdGzsVdQ4YsElC4auyNDtppvXqkyqjRDN65evaliWo0Aca
- gUsVGHEE4LSbkICr3vf5vqJ1TaYH1soRT2Uo/dMEw5V4GLawEuR5hfYWrw5T+6o2/vhy
- Xou3XMdxBmQ3Rs37u/srgYSWoXvSdpNDemqJdurPJFAP3F9UbWj4KwrohKH/xkZvaEkj
- F9XEezVWEu1blY3elv4mDOTpqbGCFhBXGbYceMZYAJ9JaH0NJZIv7VH20E0tuY2215lQ jg== 
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3pwqn1he21-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 12 Apr 2023 17:48:21 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 33CHmKwN008631
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 12 Apr 2023 17:48:20 GMT
-Received: from [10.110.115.18] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Wed, 12 Apr
- 2023 10:48:18 -0700
-Message-ID: <8310d7ce-7ac0-05a6-b95a-c18a498f7644@quicinc.com>
-Date: Wed, 12 Apr 2023 10:48:18 -0700
+Received: from mail-ot1-x32f.google.com (mail-ot1-x32f.google.com
+ [IPv6:2607:f8b0:4864:20::32f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CB6D110E821
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Apr 2023 17:58:13 +0000 (UTC)
+Received: by mail-ot1-x32f.google.com with SMTP id
+ 46e09a7af769-6a4152eac7eso70041a34.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Apr 2023 10:58:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1681322292; x=1683914292;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=d2uw0pnbO7YgaFGMc7HjwyNcPXnRtQStNSMvy/NZNMw=;
+ b=CRINQtglWRDFKrsCRyvGOzktaOvab5x2F96gRppWJOzYoS862rqLvBuQGiHPG+vZRq
+ vWKFw1rYOoYQ/XnyCN69hnv6NBOlvUDUg0m7k7i4Z6B7jGmLDjBwKU7g8ev7GrJJ9cNY
+ gaNzzAUqG0xy5cDFqECC7IAlO3l01MACdBNdE8Y/a1DK0S715Ux/ROLM0WAprekl3R7N
+ 2kANckd4+cjTPf1XrBspGHrQaZNJRus9y4WgSaYnOVPX96zthFOL+qEQ0FV7hwDb1V89
+ weGEq2rF7yq9rMALQ7BETyBpfn0/pFN59Ig+7aKhprypXJ/NiKtnxpua5xbG5qzKzxAw
+ bW3A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1681322292; x=1683914292;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=d2uw0pnbO7YgaFGMc7HjwyNcPXnRtQStNSMvy/NZNMw=;
+ b=NSc3lLOkpwmVMp8+g6UUFjr1J4ibTIoN+HN3NFlnoKG1bTsoXKTFzbQyFF9c8EQX5f
+ 7gZdnN0FmymO+nR0sr5g7BlPsKO+2GQCYlCC3enXCo6mOP/W1rJdetQsk67YIueeKouw
+ ETSRSrr9Lya6WxL3WHkRFOhPL3BVDRGN30CifAtlB5eZRyIAJu3ek0HK8TexzfALn2EL
+ bdizZwoI3mJnYgyQD0jLqemVBtykYhfOHJHpOM7FinxbIgBWOiv1kEPdDlg8l0Ap2Ls5
+ ODRy+F3Mcw3Sps5qodlZLjGKTG4nfEWcVukfqd3APzDtEVIaHA4yxMlgtr0V/5dtobIk
+ z/YA==
+X-Gm-Message-State: AAQBX9d8ofbW4n5WWiIjrhoH19WblZUmJdEiuYzGcmwhi3JAMOlkI7jB
+ 6QQZ6Kq1DJGMsghAaO1kVUPAZvEY9Tg=
+X-Google-Smtp-Source: AKy350abdyjnrVs0S69rq9Jb8RhHOVKQq6sbgPsExmOg+jtr0lPrDBjrMAIAi1t6JtCIT5V+Efd0gQ==
+X-Received: by 2002:a05:6870:a18a:b0:183:cf65:a4bd with SMTP id
+ a10-20020a056870a18a00b00183cf65a4bdmr9607102oaf.5.1681322292431; 
+ Wed, 12 Apr 2023 10:58:12 -0700 (PDT)
+Received: from fabio-Precision-3551.. ([2804:14c:485:4b69:9b67:19cc:485f:3268])
+ by smtp.gmail.com with ESMTPSA id
+ zh20-20020a0568716b9400b0017281100b75sm6323803oab.42.2023.04.12.10.58.09
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 12 Apr 2023 10:58:11 -0700 (PDT)
+From: Fabio Estevam <festevam@gmail.com>
+To: dianders@chromium.org
+Subject: [PATCH] dt-bindings: drm/bridge: ti-sn65dsi86: Fix the
+ video-interfaces.yaml references
+Date: Wed, 12 Apr 2023 14:58:00 -0300
+Message-Id: <20230412175800.2537812-1-festevam@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.2
-Subject: Re: [Freedreno] [PATCH] drm/msm/dpu: add DSC range checking during
- resource reservation
-Content-Language: en-US
-To: Marijn Suijten <marijn.suijten@somainline.org>
-References: <1681247380-1607-1-git-send-email-quic_khsieh@quicinc.com>
- <qvgbm3wimai3jytnikbcixipvwqn2uywqpg4mn6mjh5atergfx@wa4edsrp7y22>
- <96416911-bca3-b007-b036-1c4463e83aaa@quicinc.com>
- <24c5aa23-9b3c-787c-10aa-e9d5ad91512b@linaro.org>
- <49479b93-b364-d882-7a77-08223a94ed36@quicinc.com>
- <tczt5alqbadkodgorqm4pljpqkn5bc4efpxiy3em7bgu7gqaka@3cdszu4k6rhk>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <tczt5alqbadkodgorqm4pljpqkn5bc4efpxiy3em7bgu7gqaka@3cdszu4k6rhk>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: cfDe27o5uOMI5L-02-GKp4b40WpZrkSQ
-X-Proofpoint-ORIG-GUID: cfDe27o5uOMI5L-02-GKp4b40WpZrkSQ
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-04-12_08,2023-04-12_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 spamscore=0
- lowpriorityscore=0 phishscore=0 adultscore=0 bulkscore=0 suspectscore=0
- impostorscore=0 clxscore=1015 mlxlogscore=999 priorityscore=1501
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2303200000 definitions=main-2304120153
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,126 +71,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: sean@poorly.run, vkoul@kernel.org, quic_sbillaka@quicinc.com,
- freedreno@lists.freedesktop.org, andersson@kernel.org, dianders@chromium.org,
- dri-devel@lists.freedesktop.org, Kuogee Hsieh <quic_khsieh@quicinc.com>,
- agross@kernel.org, linux-arm-msm@vger.kernel.org,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, swboyd@chromium.org,
- linux-kernel@vger.kernel.org
+Cc: neil.armstrong@linaro.org, Fabio Estevam <festevam@denx.de>,
+ devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+From: Fabio Estevam <festevam@denx.de>
 
+video-interface.txt does not exist anymore, as it has been converted
+to video-interfaces.yaml.
 
-On 4/12/2023 12:38 AM, Marijn Suijten wrote:
-> On 2023-04-11 18:50:24, Abhinav Kumar wrote:
->>
->>
->> On 4/11/2023 6:06 PM, Dmitry Baryshkov wrote:
->>> On 12/04/2023 01:32, Abhinav Kumar wrote:
->>>> Hi Marijn
->>>>
->>>> On 4/11/2023 3:24 PM, Marijn Suijten wrote:
->>>>> Again, don't forget to include previous reviewers in cc, please :)
->>>>>
->>>>> On 2023-04-11 14:09:40, Kuogee Hsieh wrote:
->>>>>> Perform DSC range checking to make sure correct DSC is requested before
->>>>>> reserve resource for it.
->>>
->>> nit: reserving
->>>
->>>>>
->>>>> This isn't performing any range checking for resource reservations /
->>>>> requests: this is only validating the constants written in our catalog
->>>>> and seems rather useless.  It isn't fixing any real bug either, so the
->>>>> Fixes: tag below seems extraneous.
->>>>>
->>>>> Given prior comments from Abhinav that "the kernel should be trusted",
->>>>> we should remove this validation for all the other blocks instead.
->>>>>
->>>>
->>>> The purpose of this check is that today all our blocks in RM use the
->>>> DSC_* enum as the size.
->>>>
->>>> struct dpu_hw_blk *dsc_blks[DSC_MAX - DSC_0];
->>>>
->>>> If the device tree ends up with more DSC blocks than the DSC_* enum,
->>>> how can we avoid this issue today? Not because its a bug in device
->>>> tree but how many static number of DSCs are hard-coded in RM.
->>>
->>> We don't have these blocks in device tree. And dpu_hw_catalog shouldn't
->>> use indices outside of enum dpu_dsc.
->>>
->>
->> ah, my bad, i should have said catalog here. Okay so the expectation is
->> that dpu_hw_catalog.c will program the indices to match the RM limits.
->>
->> I still stand by the fact that the hardware capabilities coming from
->> catalog should be trusted but this is just the SW index.
-> 
-> These come from the catalog.  Here's how it looks for sdm845:
-> 
-> 	static struct dpu_dsc_cfg sdm845_dsc[] = {
-> 		DSC_BLK("dsc_0", DSC_0, 0x80000, 0),
-> 		DSC_BLK("dsc_1", DSC_1, 0x80400, 0),
-> 		DSC_BLK("dsc_2", DSC_2, 0x80800, 0),
-> 		DSC_BLK("dsc_3", DSC_3, 0x80c00, 0),
-> 	};
-> 
-> The only way to trigger this newly introduced range check is by omitting
-> the DSC_x constants and manually writing e.g. an out-of-range value 10
-> here, or setting DSC_NONE.  This is only allowed for interfaces.
-> 
+Instead of referencing video-interfaces.yaml multiple times,
+pass it as a $ref to the schema.
 
-Correct, its just working on an implicit understanding that the indices 
-in the catalog which might still be right stick to the RM limits.
+Signed-off-by: Fabio Estevam <festevam@denx.de>
+---
+Changes since v1:
+- Pass  video-interfaces.yaml as a $ref to the schema. (Rob)
 
-Thats why this is not bad to have.
+ .../devicetree/bindings/display/bridge/ti,sn65dsi86.yaml    | 6 +-----
+ 1 file changed, 1 insertion(+), 5 deletions(-)
 
-> As we trust the kernel, hence this config, the if introduced here (and
-> already present for other blocks) has pretty much no effect.
-> 
->>> Marijn proposed to pass struct dpu_foo_cfg directly to
->>> dpu_hw_foo_init(). This will allow us to drop these checks completely.
->>>
->>
->> Ah okay, sure, would like to see that then uniformly get rid of these
->> checks.
-> 
-> This suggested change won't make a difference to the range check
-> introduced here.  The range-check validates that the catalog sets `id`
-> to a sensible value (since we do not use array indices for this, we
-> could even decide to do so via `[DSC_0] = (struct dpu_dsc_cfg){ ... }`
-> if we so desire in the future).
-> 
-> It'll only get rid of the `_xxx_offset` functions looping through the
-> arrays in the catalog again, to find a catalog pointer with matching
-> `id` while we aleady have exactly that pointer here via &cat->dsc[i].
-> 
-> The only semantic difference incurred by the change is when the same
-> `id` value is (erroneously) used multiple times in an array: the current
-> implementation will always find and return the first block while the
-> suggestion will make sure all blocks are used.
-> But again, reusing an `id` is an error and shouldn't happen.
-> 
->>> For the time being, I think it might be better to add these checks for
->>> DSC for the sake of uniformity.
->>>
->>
->> Yes, i think so too.
-> 
-> I'd rather see a separate patch removing them then, as my suggestion
-> won't affect the legality of the range check.
-> 
+diff --git a/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi86.yaml b/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi86.yaml
+index 911564468c5e..6ec6d287bff4 100644
+--- a/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi86.yaml
++++ b/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi86.yaml
+@@ -90,7 +90,7 @@ properties:
+ 
+         properties:
+           endpoint:
+-            $ref: /schemas/graph.yaml#/$defs/endpoint-base
++            $ref: /schemas/media/video-interfaces.yaml#
+             unevaluatedProperties: false
+ 
+             properties:
+@@ -106,7 +106,6 @@ properties:
+                     description:
+                       If you have 1 logical lane the bridge supports routing
+                       to either port 0 or port 1.  Port 0 is suggested.
+-                      See ../../media/video-interface.txt for details.
+ 
+                   - minItems: 2
+                     maxItems: 2
+@@ -118,7 +117,6 @@ properties:
+                     description:
+                       If you have 2 logical lanes the bridge supports
+                       reordering but only on physical ports 0 and 1.
+-                      See ../../media/video-interface.txt for details.
+ 
+                   - minItems: 4
+                     maxItems: 4
+@@ -132,7 +130,6 @@ properties:
+                     description:
+                       If you have 4 logical lanes the bridge supports
+                       reordering in any way.
+-                      See ../../media/video-interface.txt for details.
+ 
+               lane-polarities:
+                 minItems: 1
+@@ -141,7 +138,6 @@ properties:
+                   enum:
+                     - 0
+                     - 1
+-                description: See ../../media/video-interface.txt
+ 
+             dependencies:
+               lane-polarities: [data-lanes]
+-- 
+2.34.1
 
-I think kuogee just added this to keep it consistent with other checks 
-present in the RM. So I didnt see any harm with that.
-
-If he did see an issue, i will let him report that here.
-
-Otherwise, I dont want to spend more time discussing this bounds check 
-when other blocks already have it.
-
-So, upto you guys to fight it out.
-
-> - Marijn
