@@ -1,68 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9ECED6DF7A3
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Apr 2023 15:48:44 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CC116DF7A6
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Apr 2023 15:49:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 687CE10E7FA;
-	Wed, 12 Apr 2023 13:48:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C206D10E2E5;
+	Wed, 12 Apr 2023 13:49:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com
- [IPv6:2a00:1450:4864:20::333])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E058F10E7FA
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Apr 2023 13:48:40 +0000 (UTC)
-Received: by mail-wm1-x333.google.com with SMTP id
- hg25-20020a05600c539900b003f05a99a841so14156451wmb.3
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Apr 2023 06:48:40 -0700 (PDT)
+Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com
+ [IPv6:2a00:1450:4864:20::329])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A6AE610E2E5
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Apr 2023 13:49:22 +0000 (UTC)
+Received: by mail-wm1-x329.google.com with SMTP id q5so6564279wmo.4
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Apr 2023 06:49:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20210112.gappssmtp.com; s=20210112; t=1681307319; x=1683899319; 
+ d=baylibre-com.20210112.gappssmtp.com; s=20210112; t=1681307360; x=1683899360; 
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
  bh=Bb6P2byqyLNvxYx5mpnu/HADSn0CeAL5J6+dhakFGrg=;
- b=X5GLXeJDIHOwYV33b0gurB0ztbWSgIyEeiSSG0/C6Vpi4vK1fhMxGZNWKHD8UQZzjk
- RuUJfvCOgJehPIKFMlGxnNZAvJI9GIH8z0noUWQLiVAewf3Ov7fFOfl/1Ho2YD7CuH1v
- Mm0T1u3w2UKESMcBO8HOKdgRlp73K2s5Zp4rc3jAxXmWyikjLX9YlrbmWLIfo2SaHcy0
- uSFCHjhPiRlfecUqaDRr/qTj86ljC3cS5s8uM7A+xA/Kda0UKaKzVyd95X5aCn4lmbSq
- 7H3VZFmtr/dj0eo6tq9m9Gn+I5n2PI7CSAnwklU5ceCFwMDUpTortZkODsAaWO8gUi/E
- eEIw==
+ b=P+Olpx6A3/vNNZTdwI1G9eweBEoTH2LcwW2usLoVzpvOgrv5iZZ+KFMS27g/J/nfqZ
+ reVa1Zx0lcjz6/7AlgdAny5ttEg1/A8/XSCvh2l7OO2rKzCVgRxHBPkkemKIOni+lCny
+ 1THlxhFeo2QlJMDkwR0f/NFAEgK1tfH/W+ftLtUkhnUkFrRnyqeBhWwbh6g6ZChXZS8s
+ HI7sgOh5GakN3NTsu2jN1Z8PWH55G04Rj6Whp8gqyK4cGvTzgM+FgKSZT5UUCB/Ye6W7
+ BWa3lO6jD0+wwjP/KXSgknZEQUIMW5tR2eS+YesJAdlkZt8k8+BlQiVYPZ8zhiccPFSJ
+ vCwA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1681307319; x=1683899319;
+ d=1e100.net; s=20210112; t=1681307360; x=1683899360;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
  bh=Bb6P2byqyLNvxYx5mpnu/HADSn0CeAL5J6+dhakFGrg=;
- b=R/IyZEit1RkKg4rvinxFHU+lCWvtlPUM26hnYrK8dck5TgkI9Sp6YuT3oWo9/2oL69
- FdmzkL2yMeoZVeG6Wp4L5VZU6a58Dug2XGT2pDfCZUqftdnY/uqNj0ptbJdYPixIJ2Bf
- 7u3vmDh+wca5K3g/ycuaeIbhkhBzT+uUnO1cyJfLQR4dRm0eE6TAFR9PaFEb5oxSiJyF
- mvaq8GRcBV2FwHKvDdMKNQp4Xpj0kjOQUQrmnZrPcPRiYeNU47XSts51kjuu6UCPFykO
- MoeYu1T2RjpFv31judrqrIxcSQRZP1VHkhXv0DzomMqK3EVYMOWUlr6eLkl7eXFFfCfh
- 747Q==
-X-Gm-Message-State: AAQBX9cRydp0CgA/DEsSUswpZvB490y2Cq5/HKrSyx062grI2dr1lEQw
- KgJWaRb81udSEXjNlQkBHuBaMw==
-X-Google-Smtp-Source: AKy350Z/ROia9nB7VNPQp9VQ8QMdkRRPlJGnrcpi8r3HW5TGeAv0xb6C9Cd+EosDMxX9OgVXXjaA1w==
-X-Received: by 2002:a05:600c:230c:b0:3ea:f73e:9d8a with SMTP id
- 12-20020a05600c230c00b003eaf73e9d8amr12320568wmo.30.1681307318747; 
- Wed, 12 Apr 2023 06:48:38 -0700 (PDT)
+ b=bAhICKoKWOW4FCyLrXGk2QkJYQ9YD3kB4WVYUtHI2LCDlBmFdpTbe2tEpWMs2uMDrB
+ cLJnMyO4vsRjkVDDJRxOKEAaRNbu7AQWg2hTHkpNsglN0rVMFUbgE60xb/vQ7XaCD2BB
+ KiW0+fguIJSbeSKmHozsal+122+HVRZ5gsAiDFK62mE3qi4alKv+9TEASHxLQQKaC9As
+ RihP7I4PFdVDcCNyG1liP0coyqRmcNdjkwX093PJFlAG0Dl+If8DG0nLoU42Mt9Pn0fZ
+ vjNYOaOun3PRvMZF+XdTYn2u5WXn5HtF5GsmpBz2nUNDFhsYN9QmAMFvtA6zVbQKitgL
+ WxMg==
+X-Gm-Message-State: AAQBX9djjDtoTLZPT+dwe+7cWdVIx9fLxwR1XJtYhNIWt7IulzfBYnpY
+ 5cUx2aVwdhp/7Hmbc27XfKyqMw==
+X-Google-Smtp-Source: AKy350Z5xFXV56UaJrsLbPCn9vUe4kX4KLRpXMruYqeY/5IcZ7js+EzGemp3jS4cE2erPI4Z/lM59A==
+X-Received: by 2002:a7b:c7d4:0:b0:3ef:68d5:9573 with SMTP id
+ z20-20020a7bc7d4000000b003ef68d59573mr4733356wmk.19.1681307360680; 
+ Wed, 12 Apr 2023 06:49:20 -0700 (PDT)
 Received: from [192.168.1.172] (158.22.5.93.rev.sfr.net. [93.5.22.158])
  by smtp.gmail.com with ESMTPSA id
- n20-20020a05600c4f9400b003ed51cdb94csm2535939wmq.26.2023.04.12.06.48.37
+ o24-20020a05600c379800b003edd1c44b57sm2451789wmr.27.2023.04.12.06.49.19
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 12 Apr 2023 06:48:38 -0700 (PDT)
-Message-ID: <3dab974e-4244-feda-4b85-d48a18013219@baylibre.com>
-Date: Wed, 12 Apr 2023 15:48:37 +0200
+ Wed, 12 Apr 2023 06:49:20 -0700 (PDT)
+Message-ID: <de6bd3f0-5e54-7f03-f01a-4095aaf87dd7@baylibre.com>
+Date: Wed, 12 Apr 2023 15:49:19 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.9.0
-Subject: Re: [PATCH -next 1/3] drm/mediatek: Use
+Subject: Re: [PATCH -next 2/3] drm/mediatek: Use
  devm_platform_ioremap_resource()
 Content-Language: en-US
 To: Yang Li <yang.lee@linux.alibaba.com>, airlied@gmail.com
 References: <20230412064635.41315-1-yang.lee@linux.alibaba.com>
+ <20230412064635.41315-2-yang.lee@linux.alibaba.com>
 From: Alexandre Mergnat <amergnat@baylibre.com>
-In-Reply-To: <20230412064635.41315-1-yang.lee@linux.alibaba.com>
+In-Reply-To: <20230412064635.41315-2-yang.lee@linux.alibaba.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
