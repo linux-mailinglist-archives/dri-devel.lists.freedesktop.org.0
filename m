@@ -1,49 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 871216DF596
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Apr 2023 14:39:08 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DB3E36DF59A
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Apr 2023 14:39:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3F0B910E7C8;
-	Wed, 12 Apr 2023 12:39:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E265C10E7D2;
+	Wed, 12 Apr 2023 12:39:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E06D810E7C9
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Apr 2023 12:39:03 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 6312C6341A;
- Wed, 12 Apr 2023 12:39:03 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7770FC433D2;
- Wed, 12 Apr 2023 12:38:58 +0000 (UTC)
-Message-ID: <f133f378-4e4b-8747-4c0c-58caca861c4b@xs4all.nl>
-Date: Wed, 12 Apr 2023 14:38:56 +0200
+Received: from exchange.fintech.ru (e10edge.fintech.ru [195.54.195.159])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AB7D210E7DE;
+ Wed, 12 Apr 2023 12:39:12 +0000 (UTC)
+Received: from Ex16-01.fintech.ru (10.0.10.18) by exchange.fintech.ru
+ (195.54.195.169) with Microsoft SMTP Server (TLS) id 14.3.498.0; Wed, 12 Apr
+ 2023 15:39:08 +0300
+Received: from [192.168.211.128] (10.0.253.138) by Ex16-01.fintech.ru
+ (10.0.10.18) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2242.4; Wed, 12 Apr
+ 2023 15:39:08 +0300
+Message-ID: <5d5b0b94-4dd4-2a95-a777-521b65f6f053@fintech.ru>
+Date: Wed, 12 Apr 2023 05:39:04 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [v9] media: mediatek: vcodec: support stateless AV1 decoder
+ Thunderbird/102.9.0
+Subject: Re: [PATCH] radeon: avoid double free in ci_dpm_init()
+To: "Deucher, Alexander" <Alexander.Deucher@amd.com>
+References: <20230403182808.8699-1-n.zhandarovich@fintech.ru>
+ <BL1PR12MB51446866BAE5945297315399F79A9@BL1PR12MB5144.namprd12.prod.outlook.com>
 Content-Language: en-US
-From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-To: Xiaoyong Lu <xiaoyong.lu@mediatek.com>,
- Yunfei Dong <yunfei.dong@mediatek.com>,
- Alexandre Courbot <acourbot@chromium.org>,
- Nicolas Dufresne <nicolas@ndufresne.ca>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Tiffany Lin <tiffany.lin@mediatek.com>,
- Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring
- <robh+dt@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>,
- Tomasz Figa <tfiga@google.com>
-References: <20230412033022.7766-1-xiaoyong.lu@mediatek.com>
- <00a8fb79-580e-5389-f03f-abb7bba9f092@xs4all.nl>
-In-Reply-To: <00a8fb79-580e-5389-f03f-abb7bba9f092@xs4all.nl>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+From: Nikita Zhandarovich <n.zhandarovich@fintech.ru>
+In-Reply-To: <BL1PR12MB51446866BAE5945297315399F79A9@BL1PR12MB5144.namprd12.prod.outlook.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.0.253.138]
+X-ClientProxiedBy: Ex16-02.fintech.ru (10.0.10.19) To Ex16-01.fintech.ru
+ (10.0.10.18)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,59 +48,125 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Irui Wang <irui.wang@mediatek.com>, George Sun <george.sun@mediatek.com>,
- Steve Cho <stevecho@chromium.org>, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel <dri-devel@lists.freedesktop.org>,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- linux-mediatek@lists.infradead.org, Hsin-Yi Wang <hsinyi@chromium.org>,
- Fritz Koenig <frkoenig@chromium.org>, linux-arm-kernel@lists.infradead.org,
- linux-media@vger.kernel.org
+Cc: "lvc-project@linuxtesting.org" <lvc-project@linuxtesting.org>, "Pan,
+ Xinhui" <Xinhui.Pan@amd.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, "Koenig,
+ Christian" <Christian.Koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 12/04/2023 14:22, Hans Verkuil wrote:
-> On 12/04/2023 05:30, Xiaoyong Lu wrote:
->> Add mediatek av1 decoder linux driver which use the stateless API in
->> MT8195.
+
+
+On 4/11/23 14:11, Deucher, Alexander wrote:
+> [Public]
+> 
+>> -----Original Message-----
+>> From: Nikita Zhandarovich <n.zhandarovich@fintech.ru>
+>> Sent: Monday, April 3, 2023 2:28 PM
+>> To: Deucher, Alexander <Alexander.Deucher@amd.com>
+>> Cc: Nikita Zhandarovich <n.zhandarovich@fintech.ru>; Koenig, Christian
+>> <Christian.Koenig@amd.com>; Pan, Xinhui <Xinhui.Pan@amd.com>; David
+>> Airlie <airlied@gmail.com>; Daniel Vetter <daniel@ffwll.ch>; amd-
+>> gfx@lists.freedesktop.org; dri-devel@lists.freedesktop.org; linux-
+>> kernel@vger.kernel.org; lvc-project@linuxtesting.org
+>> Subject: [PATCH] radeon: avoid double free in ci_dpm_init()
 >>
->> Signed-off-by: Xiaoyong Lu<xiaoyong.lu@mediatek.com>
->> Tested-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
->> Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
->> Tested-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
->> Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+>> There are several calls to ci_dpm_fini() in ci_dpm_init() when there occur
+>> errors in functions like r600_parse_extended_power_table().
+>> This is harmful as it can lead to double free situations: for instance,
+>> r600_parse_extended_power_table() will call for
+>> r600_free_extended_power_table() as will ci_dpm_fini(), both of which will
+>> try to free resources.
+>> Other drivers do not call *_dpm_fini functions from their respective
+>> *_dpm_init calls - neither should cpm_dpm_init().
+>>
+>> Fix this by removing extra calls to ci_dpm_fini().
 > 
-> Hmm, I get this compile error:
+> You can't just drop the calls to fini().  You'll need to properly unwind to avoid leaking memory.
 > 
-> drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c: In function ‘vdec_av1_slice_setup_uh’:
-> drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:48:58: error: ‘V4L2_AV1_FRAME_FLAG_UNIFORM_TILE_SPACING’ undeclared (first use in this function); did you mean
-> ‘V4L2_AV1_TILE_INFO_FLAG_UNIFORM_TILE_SPACING’?
->    48 | #define FH_FLAG(x, name)                (!!((x)->flags & V4L2_AV1_FRAME_FLAG_##name))
->       |                                                          ^~~~~~~~~~~~~~~~~~~~
-> drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:1322:41: note: in expansion of macro ‘FH_FLAG’
->  1322 |         uh->uniform_tile_spacing_flag = FH_FLAG(ctrl_fh, UNIFORM_TILE_SPACING);
->       |                                         ^~~~~~~
-> drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:48:58: note: each undeclared identifier is reported only once for each function it appears in
->    48 | #define FH_FLAG(x, name)                (!!((x)->flags & V4L2_AV1_FRAME_FLAG_##name))
->       |                                                          ^~~~~~~~~~~~~~~~~~~~
-> drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:1322:41: note: in expansion of macro ‘FH_FLAG’
->  1322 |         uh->uniform_tile_spacing_flag = FH_FLAG(ctrl_fh, UNIFORM_TILE_SPACING);
->       |                                         ^~~~~~~
-> 
-> This flag was renamed from V4L2_AV1_FRAME_FLAG_UNIFORM_TILE_SPACING to
-> V4L2_AV1_TILE_INFO_FLAG_UNIFORM_TILE_SPACING in v5 of the AV1 uAPI.
-> 
-> So this suggests to me that you are testing with an old version of the AV1
-> uAPI. The correct one is v7:
-> 
-> https://patchwork.linuxtv.org/project/linux-media/patch/20230306161850.492072-1-daniel.almeida@collabora.com/
-> 
-> You have to compile and test with that v7 patch since that's the version we
-> want to merge.
+> Alex
+>>>
+>> Found by Linux Verification Center (linuxtesting.org) with static analysis tool
+>> SVACE.
+>>
+>> Fixes: cc8dbbb4f62a ("drm/radeon: add dpm support for CI dGPUs (v2)")
+>> Cc: stable@vger.kernel.org
+>> Co-developed-by: Natalia Petrova <n.petrova@fintech.ru>
+>> Signed-off-by: Nikita Zhandarovich <n.zhandarovich@fintech.ru>
+>>
+>> ---
+>>  drivers/gpu/drm/radeon/ci_dpm.c | 20 +++++---------------
+>>  1 file changed, 5 insertions(+), 15 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/radeon/ci_dpm.c
+>> b/drivers/gpu/drm/radeon/ci_dpm.c index 8ef25ab305ae..7b77d4c93f1d
+>> 100644
+>> --- a/drivers/gpu/drm/radeon/ci_dpm.c
+>> +++ b/drivers/gpu/drm/radeon/ci_dpm.c
+>> @@ -5677,28 +5677,20 @@ int ci_dpm_init(struct radeon_device *rdev)
+>>  	pi->pcie_lane_powersaving.min = 16;
+>>
+>>  	ret = ci_get_vbios_boot_values(rdev, &pi->vbios_boot_state);
+>> -	if (ret) {
+>> -		ci_dpm_fini(rdev);
+>> +	if (ret)
+>>  		return ret;
+>> -	}
+>>
+>>  	ret = r600_get_platform_caps(rdev);
+>> -	if (ret) {
+>> -		ci_dpm_fini(rdev);
+>> +	if (ret)
+>>  		return ret;
+>> -	}
+>>
+>>  	ret = r600_parse_extended_power_table(rdev);
+>> -	if (ret) {
+>> -		ci_dpm_fini(rdev);
+>> +	if (ret)
+>>  		return ret;
+>> -	}
+>>
+>>  	ret = ci_parse_power_table(rdev);
+>> -	if (ret) {
+>> -		ci_dpm_fini(rdev);
+>> +	if (ret)
+>>  		return ret;
+>> -	}
+>>
+>>  	pi->dll_default_on = false;
+>>  	pi->sram_end = SMC_RAM_END;
+>> @@ -5749,10 +5741,8 @@ int ci_dpm_init(struct radeon_device *rdev)
+>>  		kcalloc(4,
+>>  			sizeof(struct
+>> radeon_clock_voltage_dependency_entry),
+>>  			GFP_KERNEL);
+>> -	if (!rdev-
+>>> pm.dpm.dyn_state.vddc_dependency_on_dispclk.entries) {
+>> -		ci_dpm_fini(rdev);
+>> +	if (!rdev-
+>>> pm.dpm.dyn_state.vddc_dependency_on_dispclk.entries)
+>>  		return -ENOMEM;
+>> -	}
+>>  	rdev->pm.dpm.dyn_state.vddc_dependency_on_dispclk.count = 4;
+>>  	rdev-
+>>> pm.dpm.dyn_state.vddc_dependency_on_dispclk.entries[0].clk = 0;
+>>  	rdev-
+>>> pm.dpm.dyn_state.vddc_dependency_on_dispclk.entries[0].v = 0;
 
-smatch also gave this error:
 
-vdec_av1_req_lat_if.c:2121 vdec_av1_slice_lat_decode() error: we previously assumed 'pfc' could be null (see line 2056)
+I think you are correct when it comes to ensuring we deal with memory
+issues in ci_dpm_init().
 
-Regards,
+However, I could use some direction on how to deal with the problem of
+freeing only previously allocated resources. For instance, once
+ci_parse_power_table() fails, it is not clear what we should and should
+not free.
 
-	Hans
+I wanna point out that in this case I would like to fix both double and
+uninitialized free issues as it can also lead to undefined behavior.
+
+Thanks for your patience,
+Nikita
