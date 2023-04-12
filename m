@@ -2,52 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D39E26DF90D
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Apr 2023 16:53:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E6426DF944
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Apr 2023 17:02:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F0D5810E85D;
-	Wed, 12 Apr 2023 14:53:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8A6A210E869;
+	Wed, 12 Apr 2023 15:02:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ED71110E85D
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Apr 2023 14:53:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1681311206; x=1712847206;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=LUFgVaaXrvK/HYl8CKrYvLgWg5X07neWYVCIZdAkKX0=;
- b=RnzxbAo35RIoXNd1cv3DVHEmI/cwKRoB/1n83tulZHDo6S1mB8GWwLrg
- rRCLWpCCBf/KX2jywac8R33jeRS7j4Gvdbf59kJLt/ZiCmO2Fi/e8u5+Q
- QDzKeg8hBQxEu+OBaVsVgezAoFyVIO5diNoXgb9ESy0eHQMDqFTJZQTdY
- 0y16Gs/wnw6adiwCasBt+hL8vVKYDOj2l0XxBX0pSjz2ED/k7mJ2epXvp
- y6O5/lnzXisMtYWhBogQqa7jY5reJDr/fG5h45mKU1W/bwAsZDxUuiMsw
- tKqvgbD3z3v/RVRM9soAFf8LQbZ7Ny9oXC0VpHJu2Yl9UYrDNq6mFrDQr w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10678"; a="341411763"
-X-IronPort-AV: E=Sophos;i="5.98,339,1673942400"; d="scan'208";a="341411763"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Apr 2023 07:53:25 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10678"; a="666385676"
-X-IronPort-AV: E=Sophos;i="5.98,339,1673942400"; d="scan'208";a="666385676"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.70])
- by orsmga006.jf.intel.com with SMTP; 12 Apr 2023 07:53:21 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Wed, 12 Apr 2023 17:53:20 +0300
-Date: Wed, 12 Apr 2023 17:53:20 +0300
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: =?iso-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>
-Subject: Re: [PATCH] drm/gem: Check for valid formats
-Message-ID: <ZDbF4Lgct8Fyj7Wa@intel.com>
-References: <20230412142923.136707-1-mcanal@igalia.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F141010E869
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Apr 2023 15:02:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1681311771;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=fOTqvY719R4jZzP4ns7YSiBLEN7m3bKNAvtcXsEuWyw=;
+ b=YS+d5bA88HBhosMJWyxz8LgmLkbZkvtVqoVYKcA1mSO7Yqwq5kzpcWkgWhF9MeHd22Ijdk
+ ofWgSy5cHHaq16UsVd7z756n+FUPZv5ZRz3nqCwYnZevPM2c4cof746ZbUILCBLlEpXobf
+ dc8BXaEhil7adVV8gr01FMNcbRVQvDo=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-67-Jq_QeBlgN02CQxWnjQ48jw-1; Wed, 12 Apr 2023 11:02:47 -0400
+X-MC-Unique: Jq_QeBlgN02CQxWnjQ48jw-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ bg10-20020a05600c3c8a00b003ef7b61e2fdso486606wmb.4
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Apr 2023 08:02:46 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1681311765; x=1683903765;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=fOTqvY719R4jZzP4ns7YSiBLEN7m3bKNAvtcXsEuWyw=;
+ b=4wNQVbqbn1hxrQ+nCqB7AT4MiQRDqxNJ2US4S0cnnAgIdIR31eNYA7s4GuN+Wse/GC
+ aw+q+Yd36IhjmjFrXMcFZPI1xFdRcRjWfP8Fqgxof+BekMvsmLylcf2vwWgMWzTq1SEB
+ aFXJKgZxpFkIzuS1nEue5U8w200qY6pCgcmXXKOVbPxqm+7cUI1zzN4K/dFPtOz+pldW
+ hPUiDgeACE8X0vBdGbQgcrfe/54mDef3kLfMAZJaYNTHTC3gltyBov0nhXIqzbcq5X6K
+ Wse6/2uyPWF4bVhEOiyLKxejMFeZ+470B4q35vzWqgO5eTiBYfOlUydwwGRmqqPjTROc
+ O4lw==
+X-Gm-Message-State: AAQBX9fIxtWd2lMUnra2I8gesiOVCceryloAN44vwsPSdO2YfUPhSUfl
+ +w58DF94qvsDNsLNsLP52boNmR7A59wGCbnU/FUSJD96Ae9OzSJQbuaT3/0bXw3PAA7VePQuRXB
+ dWUdpMrR2ef99HPOIGFg2MgL9q8lV
+X-Received: by 2002:a7b:c406:0:b0:3ed:ca62:418e with SMTP id
+ k6-20020a7bc406000000b003edca62418emr12888226wmi.9.1681311765048; 
+ Wed, 12 Apr 2023 08:02:45 -0700 (PDT)
+X-Google-Smtp-Source: AKy350Zs3sEW6ZK/haeqlD0EesehbH1qFxifoinpDruNHzuIvT1CjAWb8Wn3A32owwiWpevsufxCtA==
+X-Received: by 2002:a7b:c406:0:b0:3ed:ca62:418e with SMTP id
+ k6-20020a7bc406000000b003edca62418emr12888200wmi.9.1681311764728; 
+ Wed, 12 Apr 2023 08:02:44 -0700 (PDT)
+Received: from minerva.home (205.pool92-176-231.dynamic.orange.es.
+ [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
+ s5-20020a7bc385000000b003edcc2223c6sm2620876wmj.28.2023.04.12.08.02.43
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 12 Apr 2023 08:02:44 -0700 (PDT)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: linux-kernel@vger.kernel.org
+Subject: [PATCH] firmware/sysfb: Fix wrong stride when bits-per-pixel is
+ calculated
+Date: Wed, 12 Apr 2023 17:02:25 +0200
+Message-Id: <20230412150225.3757223-1-javierm@redhat.com>
+X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230412142923.136707-1-mcanal@igalia.com>
-X-Patchwork-Hint: comment
+Content-Type: text/plain; charset="US-ASCII"; x-default=true
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,123 +81,74 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, Melissa Wen <mwen@igalia.com>,
- dri-devel@lists.freedesktop.org
+Cc: Jocelyn Falempe <jfalempe@redhat.com>, Pierre Asselin <pa@panix.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org,
+ Hans de Goede <hdegoede@redhat.com>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Ard Biesheuvel <ardb@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Apr 12, 2023 at 11:29:23AM -0300, Maíra Canal wrote:
-> Currently, drm_gem_fb_create() doesn't check if the pixel format is
-> supported, which can lead to the acceptance of invalid pixel formats
-> e.g. the acceptance of invalid modifiers. Therefore, add a check for
-> valid formats on drm_gem_fb_create().
-> 
-> Moreover, note that this check is only valid for atomic drivers,
-> because, for non-atomic drivers, checking drm_any_plane_has_format() is
-> not possible since the format list for the primary plane is fake, and
-> we'd therefor reject valid formats.
-> 
-> Adding this check to drm_gem_fb_create() will guarantee that the
-> igt@kms_addfb_basic@addfb25-bad-modifier IGT test passes for drivers
-> using this callback.
-> 
-> Signed-off-by: Maíra Canal <mcanal@igalia.com>
+The commit f35cd3fa7729 ("firmware/sysfb: Fix EFI/VESA format selection")
+fixed format selection, by calculating the bits-per-pixel instead of just
+using the reported color depth.
 
-Seems sane enough, assuming all the drivers using this are happy
-with the baked in !modifiers -> linear assumption. That might be
-a good thing to highlight in the docs.
+But unfortunately this broke some modes because the stride is always set
+to the reported line length (in bytes), which could not match the actual
+stride if the calculated bits-per-pixel doesn't match the reported depth.
 
-Reviewed-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
+Fixes: f35cd3fa7729 ("firmware/sysfb: Fix EFI/VESA format selection")
+Reported-by: Pierre Asselin <pa@panix.com>
+Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
+---
 
-BTW long ago I tried to make igt check this stugg a bit
-more vehemently:
-https://patchwork.freedesktop.org/patch/239814/?series=46876&rev=1
-Someone might want to pick that up again and see if it
-cab be makde to work with more drivers than just i915.
+ drivers/firmware/sysfb_simplefb.c | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
 
-> ---
-> 
-> This patch is a recapture of a series I sent a while ago. Initially, I sent a
-> patch [1] similar to this one in which I introduced the format check to
-> drm_gem_fb_create().
-> 
-> Based on the feedback on the patch, I placed the check inside
-> framebuffer_check() [2] so that it wouldn't be needed to hit any driver-specific
-> code path when the check fails. Therefore, we could remove the check from the
-> specific drivers (i915, amdgpu, and vmwgfx).
-> 
-> But, with some new feedback, it was shown that introducing this check inside
-> framebuffer_check() is problematic for the i915 driver [3]. So, I kept the check
-> inside the i915 driver and removed the check from amdgpu and vmwgfx [4]. But,
-> this yet hasn't solved the i915 problem [5].
-> 
-> As we cannot add the check inside framebuffer_check() without affecting the i915
-> behavior, I propose going back to the original patch. This way we can guarantee
-> a more uniform behavior from the drivers that use the drm_gem_fb_create()
-> callback.
-> 
-> [1] https://lore.kernel.org/dri-devel/20230103125322.855089-1-mcanal@igalia.com/T/
-> [2] https://lore.kernel.org/dri-devel/20230109105807.18172-1-mcanal@igalia.com/T/
-> [3] https://lore.kernel.org/dri-devel/Y8AAdW2y7zN7DCUZ@intel.com/
-> [4] https://lore.kernel.org/dri-devel/20230113112743.188486-1-mcanal@igalia.com/T/
-> [5] https://lore.kernel.org/dri-devel/Y8FXWvEhO7GCRKVJ@intel.com/
-> 
-> Best Regards,
-> - Maíra Canal
-> 
-> ---
->  Documentation/gpu/todo.rst                   | 7 ++-----
->  drivers/gpu/drm/drm_gem_framebuffer_helper.c | 9 +++++++++
->  2 files changed, 11 insertions(+), 5 deletions(-)
-> 
-> diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
-> index 1f8a5ebe188e..68bdafa0284f 100644
-> --- a/Documentation/gpu/todo.rst
-> +++ b/Documentation/gpu/todo.rst
-> @@ -276,11 +276,8 @@ Various hold-ups:
->  - Need to switch to drm_fbdev_generic_setup(), otherwise a lot of the custom fb
->    setup code can't be deleted.
->  
-> -- Many drivers wrap drm_gem_fb_create() only to check for valid formats. For
-> -  atomic drivers we could check for valid formats by calling
-> -  drm_plane_check_pixel_format() against all planes, and pass if any plane
-> -  supports the format. For non-atomic that's not possible since like the format
-> -  list for the primary plane is fake and we'd therefor reject valid formats.
-> +- Need to switch to drm_gem_fb_create(), as now drm_gem_fb_create() checks for
-> +  valid formats for atomic drivers.
->  
->  - Many drivers subclass drm_framebuffer, we'd need a embedding compatible
->    version of the varios drm_gem_fb_create functions. Maybe called
-> diff --git a/drivers/gpu/drm/drm_gem_framebuffer_helper.c b/drivers/gpu/drm/drm_gem_framebuffer_helper.c
-> index e93533b86037..b8a615a138cd 100644
-> --- a/drivers/gpu/drm/drm_gem_framebuffer_helper.c
-> +++ b/drivers/gpu/drm/drm_gem_framebuffer_helper.c
-> @@ -9,6 +9,7 @@
->  #include <linux/module.h>
->  
->  #include <drm/drm_damage_helper.h>
-> +#include <drm/drm_drv.h>
->  #include <drm/drm_fourcc.h>
->  #include <drm/drm_framebuffer.h>
->  #include <drm/drm_gem.h>
-> @@ -164,6 +165,14 @@ int drm_gem_fb_init_with_funcs(struct drm_device *dev,
->  		return -EINVAL;
->  	}
->  
-> +	if (drm_drv_uses_atomic_modeset(dev) &&
-> +	    !drm_any_plane_has_format(dev, mode_cmd->pixel_format,
-> +				      mode_cmd->modifier[0])) {
-> +		drm_dbg(dev, "Unsupported pixel format %p4cc / modifier 0x%llx\n",
-> +			&mode_cmd->pixel_format, mode_cmd->modifier[0]);
-> +		return -EINVAL;
-> +	}
-> +
->  	for (i = 0; i < info->num_planes; i++) {
->  		unsigned int width = mode_cmd->width / (i ? info->hsub : 1);
->  		unsigned int height = mode_cmd->height / (i ? info->vsub : 1);
-> -- 
-> 2.39.2
+diff --git a/drivers/firmware/sysfb_simplefb.c b/drivers/firmware/sysfb_simplefb.c
+index 82c64cb9f531..5dc23e57089f 100644
+--- a/drivers/firmware/sysfb_simplefb.c
++++ b/drivers/firmware/sysfb_simplefb.c
+@@ -28,7 +28,7 @@ __init bool sysfb_parse_mode(const struct screen_info *si,
+ 			     struct simplefb_platform_data *mode)
+ {
+ 	__u8 type;
+-	u32 bits_per_pixel;
++	u32 bits_per_pixel, stride;
+ 	unsigned int i;
+ 
+ 	type = si->orig_video_isVGA;
+@@ -54,14 +54,19 @@ __init bool sysfb_parse_mode(const struct screen_info *si,
+ 	 * bits_per_pixel here and ignore lfb_depth. In the loop below,
+ 	 * ignore simplefb formats with alpha bits, as EFI and VESA
+ 	 * don't specify alpha channels.
++	 *
++	 * If a calculated bits_per_pixel is used instead of lfb_depth,
++	 * then also ignore lfb_linelength and calculate the stride.
+ 	 */
+ 	if (si->lfb_depth > 8) {
+ 		bits_per_pixel = max(max3(si->red_size + si->red_pos,
+ 					  si->green_size + si->green_pos,
+ 					  si->blue_size + si->blue_pos),
+ 				     si->rsvd_size + si->rsvd_pos);
++		stride = DIV_ROUND_UP(si->lfb_width * bits_per_pixel, 8);
+ 	} else {
+ 		bits_per_pixel = si->lfb_depth;
++		stride = si->lfb_linelength;
+ 	}
+ 
+ 	for (i = 0; i < ARRAY_SIZE(formats); ++i) {
+@@ -80,7 +85,7 @@ __init bool sysfb_parse_mode(const struct screen_info *si,
+ 			mode->format = f->name;
+ 			mode->width = si->lfb_width;
+ 			mode->height = si->lfb_height;
+-			mode->stride = si->lfb_linelength;
++			mode->stride = stride;
+ 			return true;
+ 		}
+ 	}
 
+base-commit: e62252bc55b6d4eddc6c2bdbf95a448180d6a08d
 -- 
-Ville Syrjälä
-Intel
+2.40.0
+
