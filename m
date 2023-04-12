@@ -1,40 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56E3C6DF374
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Apr 2023 13:28:39 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 421C26DF373
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Apr 2023 13:28:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 50D2A10E4BB;
-	Wed, 12 Apr 2023 11:28:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 527A510E790;
+	Wed, 12 Apr 2023 11:28:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B431510E791
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Apr 2023 11:28:14 +0000 (UTC)
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 39B2B10E785
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Apr 2023 11:28:16 +0000 (UTC)
 Received: from IcarusMOD.eternityproject.eu (2-237-20-237.ip236.fastwebnet.it
  [2.237.20.237])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: kholk11)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 65634660322C;
- Wed, 12 Apr 2023 12:28:12 +0100 (BST)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id C6A0066058AD;
+ Wed, 12 Apr 2023 12:28:13 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1681298893;
- bh=FBEtOJ4WIs2BY9QNkotVKZUvt7CQzM53jFa4FvLuaOU=;
+ s=mail; t=1681298895;
+ bh=GDKZQ67J0y6mdLDj0BABrBY5g8TxhLW2mBwCl/mxgGQ=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=DoAp7wTIj1oqZn671PpiSDWzBbaVQ4ovQGo02MLSH9jh2QhQzCG/mpRMzm0xRzhrr
- v9+b7inz9dkg+vX6tWhbS93utWRW+io95SFdVmlDy/JZ1Oypsn7EF3Zo9KxnWrqQN5
- Ih9qxPG5xZ6/xcjq+KpEWcpHf5SRXFI7GTDfCuKthurFADfPnKBEyLjEV/794Ui4fB
- FFxpuexeNlO4cpeYi+AsEGgPtSGgsrGJ97cHLaOVhv73lN9BStPj/13Tju1jXh/NMr
- ehMlB9AcJcIqYo0loEHD9jY9AOOK9/NgAh41AsuP5iYysfQWtfB3kaz3PffcnP9a9E
- zYnotGletuYNA==
+ b=USPyrLGQvib/VqoSxzNh1ByE6Zrr7sFSutJabzc9WhYYc/x/VpCTGKKAOEc0UMOuK
+ Rnt7i8WXOD5hJhzh1o95KJm9bkyeCFrDnxuskXkmJq4952fh+xYaJUDRHzuw8V1oHC
+ EUnmGBIayDtvV9txyr1hCII0h5UHXhlF1Vi5gW2deQlk1MD9MmlBcuOs/7BPpy7RRI
+ cjkKdSYHQ69s6yN4h+91GhmNywZq/EYwq5EvsT5TnkgPvy8QQ3FmqC2ZqDjR9iqM67
+ 2j2McbHXbS4IiXpjR306aI3y39j5RSfy783/BSAU2LHTWjdinnUpXQ8DwjIJ5V4jIa
+ 405BvuAl3FcFA==
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 To: matthias.bgg@gmail.com
-Subject: [PATCH 20/27] arm64: dts: mediatek: mt6795: Add tertiary PWM node
-Date: Wed, 12 Apr 2023 13:27:32 +0200
-Message-Id: <20230412112739.160376-21-angelogioacchino.delregno@collabora.com>
+Subject: [PATCH 21/27] arm64: dts: mediatek: mt6795: Add PMIC Wrapper node
+Date: Wed, 12 Apr 2023 13:27:33 +0200
+Message-Id: <20230412112739.160376-22-angelogioacchino.delregno@collabora.com>
 X-Mailer: git-send-email 2.40.0
 In-Reply-To: <20230412112739.160376-1-angelogioacchino.delregno@collabora.com>
 References: <20230412112739.160376-1-angelogioacchino.delregno@collabora.com>
@@ -65,46 +64,35 @@ Cc: devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The PWM at 0x11006000 is the tertiary PWM; unlike PWM0, PWM1, this is
-not display specific and can be used as a generic PWM controller.
-
-This node is left disabled as usage is board-specific.
+Add the pwrap node: this is used to communicate with the PMIC(s).
 
 Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 ---
- arch/arm64/boot/dts/mediatek/mt6795.dtsi | 19 +++++++++++++++++++
- 1 file changed, 19 insertions(+)
+ arch/arm64/boot/dts/mediatek/mt6795.dtsi | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
 diff --git a/arch/arm64/boot/dts/mediatek/mt6795.dtsi b/arch/arm64/boot/dts/mediatek/mt6795.dtsi
-index cf45cb4ad3d2..50d9276d18c6 100644
+index 50d9276d18c6..29ca9a7bf0b3 100644
 --- a/arch/arm64/boot/dts/mediatek/mt6795.dtsi
 +++ b/arch/arm64/boot/dts/mediatek/mt6795.dtsi
-@@ -583,6 +583,25 @@ uart3: serial@11005000 {
- 			status = "disabled";
+@@ -391,6 +391,17 @@ timer: timer@10008000 {
+ 			clocks = <&system_clk>, <&clk32k>;
  		};
  
-+		pwm2: pwm@11006000 {
-+			compatible = "mediatek,mt6795-pwm";
-+			reg = <0 0x11006000 0 0x1000>;
-+			#pwm-cells = <2>;
-+			interrupts = <GIC_SPI 77 IRQ_TYPE_LEVEL_LOW>;
-+			clocks = <&topckgen CLK_TOP_PWM_SEL>,
-+				 <&pericfg CLK_PERI_PWM>,
-+				 <&pericfg CLK_PERI_PWM1>,
-+				 <&pericfg CLK_PERI_PWM2>,
-+				 <&pericfg CLK_PERI_PWM3>,
-+				 <&pericfg CLK_PERI_PWM4>,
-+				 <&pericfg CLK_PERI_PWM5>,
-+				 <&pericfg CLK_PERI_PWM6>,
-+				 <&pericfg CLK_PERI_PWM7>;
-+			clock-names = "top", "main", "pwm1", "pwm2", "pwm3",
-+				      "pwm4", "pwm5", "pwm6", "pwm7";
-+			status = "disabled";
++		pwrap: pwrap@1000d000 {
++			compatible = "mediatek,mt6795-pwrap";
++			reg = <0 0x1000d000 0 0x1000>;
++			reg-names = "pwrap";
++			interrupts = <GIC_SPI 161 IRQ_TYPE_LEVEL_HIGH>;
++			resets = <&infracfg MT6795_INFRA_RST0_PMIC_WRAP_RST>;
++			reset-names = "pwrap";
++			clocks = <&topckgen CLK_TOP_PMICSPI_SEL>, <&clk26m>;
++			clock-names = "spi", "wrap";
 +		};
 +
- 		i2c0: i2c@11007000 {
- 			compatible = "mediatek,mt6795-i2c", "mediatek,mt8173-i2c";
- 			reg = <0 0x11007000 0 0x70>, <0 0x11000100 0 0x80>;
+ 		sysirq: intpol-controller@10200620 {
+ 			compatible = "mediatek,mt6795-sysirq",
+ 				     "mediatek,mt6577-sysirq";
 -- 
 2.40.0
 
