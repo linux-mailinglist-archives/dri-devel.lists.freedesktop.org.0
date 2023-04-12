@@ -2,67 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 197F26DF730
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Apr 2023 15:29:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8098C6DF73B
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Apr 2023 15:32:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6595710E7E3;
-	Wed, 12 Apr 2023 13:29:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 47EA410E7F1;
+	Wed, 12 Apr 2023 13:32:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com
- [IPv6:2a00:1450:4864:20::32e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7F98510E7E3
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Apr 2023 13:29:13 +0000 (UTC)
-Received: by mail-wm1-x32e.google.com with SMTP id
- gw11-20020a05600c850b00b003f07d305b32so7290897wmb.4
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Apr 2023 06:29:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1681306151; x=1683898151;
- h=content-transfer-encoding:mime-version:date:message-id:subject
- :references:in-reply-to:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=rFMQXzqic9JADR3uZcH2w2pLYBrlMwgqKANbtNBvuNQ=;
- b=KQWTqp+sMD6gnRpGq8joFWXdscoNOxnaGk0s6RAYKsxDwnJ3g3hjVyH0a+jH9/75it
- okDq8QsBYYXQIRkHUSA29l26VwaDSdN25ETX0ubow7qscj40ffabCFZvdh4SaJ1EX+m0
- XKYdqy+5xScW4m3qUO3R6sBKPVJonOiUIKuIIARW25ITmWfTyHlymZmcyukbK5jeMEcX
- Q26A5/RbhDrLAx0zsdwrV63JRohAyNWDMWPc+lAvrtaFF8AkoEEWrMwRyG49eGYnMnYb
- pYayiGfSs/uLmqmHHoDXa4yf531KVH87wQnZMp+D47HHi9td8HfjvXlbI2Y8szOTMnqo
- eAOw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1681306151; x=1683898151;
- h=content-transfer-encoding:mime-version:date:message-id:subject
- :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=rFMQXzqic9JADR3uZcH2w2pLYBrlMwgqKANbtNBvuNQ=;
- b=BlB1yf6c+NqtWl7StPN9thrC1bFalBCE2rTgVEy+m/ZVLMFiR84OUISb5okao3gRph
- f4NJkYNBghXXSwSLQKG7gyoYkAV86fmLorhxVkXPmPpVIaT4MiU4x8KrpcdKDbiQidGZ
- PV0805fQTCwCDk+Lb1EZ+WDIlm1LoGxGNq/CosoVPhIfME4QPszC8x1V2oZdak2Fhh92
- ZaM2iO9Hv7lxUT8/hwzhku5A49aI9ARz1S8QSWUqkhetgLTGY+mm/PXW5ybl81EuwnHH
- ewX2Uq2q4RBJKFo0Nnl3HT4NVNFKajSOtgyFf5rb5Vqr8NTzxSvwyMZnY+rak8iIP2V2
- WCwg==
-X-Gm-Message-State: AAQBX9chjM8InLDNHRlQvg8t4FxfeCUOUEEGsBfGHT/jLod+W0CshSPy
- 78dUmUKk8HvULl/qLXtq2fUOEg==
-X-Google-Smtp-Source: AKy350a/A+h1URbKShg3o1vNKy6JcHbFlbF7MIEcwg5pHLdOIBOskauxh+QIAig75k5aoFgC43/Hfw==
-X-Received: by 2002:a1c:770a:0:b0:3ee:289a:43a7 with SMTP id
- t10-20020a1c770a000000b003ee289a43a7mr14199701wmi.22.1681306151434; 
- Wed, 12 Apr 2023 06:29:11 -0700 (PDT)
-Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:52eb:f6ff:feb3:451a])
- by smtp.gmail.com with ESMTPSA id
- u15-20020a05600c19cf00b003ede3f5c81fsm2462924wmq.41.2023.04.12.06.29.10
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 12 Apr 2023 06:29:11 -0700 (PDT)
-From: Neil Armstrong <neil.armstrong@linaro.org>
-To: DRI Development <dri-devel@lists.freedesktop.org>, 
- Daniel Vetter <daniel.vetter@ffwll.ch>
-In-Reply-To: <20230412080921.10171-1-daniel.vetter@ffwll.ch>
-References: <20230412080921.10171-1-daniel.vetter@ffwll.ch>
-Subject: Re: [PATCH] MAINTAINERS: add drm_bridge for drm bridge maintainers
-Message-Id: <168130615042.1549456.3446270515068509416.b4-ty@linaro.org>
-Date: Wed, 12 Apr 2023 15:29:10 +0200
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 211C210E7E5;
+ Wed, 12 Apr 2023 13:32:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1681306357; x=1712842357;
+ h=message-id:date:mime-version:from:subject:to:cc:
+ content-transfer-encoding;
+ bh=a+DUgoFx53ai7zeE+1wZ7ShrSVGe9fQWLh8Xn2jLHBU=;
+ b=gYzdDKAoNAotccS3JMEhHB3lSbyKv/y+/HPc991/TWjIUGQhnotwKOAq
+ qiy6/VZTdgMyPqx2zmnUBYHfXi8DV4emGHA9wlbgRVXeutDDnLG5rClDb
+ T2GzhRVstmB5X7Igvd1GLevlOWmz27z75iDSvhfmnx0YgqI0R0Iroj6zO
+ 4Qz2cxJrHkcQ1gVXtA1xBlHiIvdOaQMcGjiZvpySNUyUPVhLdLkZJETUl
+ 8fOfpb+YUrp2MT7r1HLbBjATAyiKsN2EN26DOLmuPGvd3XhW3JZV4QIUQ
+ UjoYVrJSfN2A727O5hT+jO1waXkIC7+giqBoFGxpXPqEFADoYf+ks93Jb A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10678"; a="332592919"
+X-IronPort-AV: E=Sophos;i="5.98,339,1673942400"; d="scan'208";a="332592919"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Apr 2023 06:32:35 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10678"; a="691531915"
+X-IronPort-AV: E=Sophos;i="5.98,339,1673942400"; d="scan'208";a="691531915"
+Received: from gjebert-mobl.amr.corp.intel.com (HELO [10.252.57.51])
+ ([10.252.57.51])
+ by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Apr 2023 06:32:33 -0700
+Message-ID: <b7c37d4e-8f16-85dc-0f5f-3bd98f961395@linux.intel.com>
+Date: Wed, 12 Apr 2023 15:32:30 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.12.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Firefox/102.0 Thunderbird/102.9.1
+From: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Subject: [PULL] drm-misc-next
+To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,40 +59,131 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Jagan Teki <jagan@amarulasolutions.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Daniel Vetter <daniel.vetter@intel.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ dim-tools@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
 
-On Wed, 12 Apr 2023 10:09:20 +0200, Daniel Vetter wrote:
-> Otherwise core changes don't get noticed by the right people. I
-> noticed this because a patch set from Jagan Teki seems to have fallen
-> through the cracks.
-> 
-> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> Cc: Jagan Teki <jagan@amarulasolutions.com>
-> Cc: Andrzej Hajda <andrzej.hajda@intel.com>
-> Cc: Neil Armstrong <neil.armstrong@linaro.org>
-> Cc: Robert Foss <rfoss@kernel.org>
-> Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-> Cc: Jonas Karlman <jonas@kwiboo.se>
-> Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
-> --
-> Jagan, with this your bridge series should find the right people!
-> 
-> [...]
+Good afternoon Daniel, Dave,
 
-Thanks, Applied to https://anongit.freedesktop.org/git/drm/drm-misc.git (drm-misc-next)
+One last pull request for drm-misc-next.
 
-[1/1] MAINTAINERS: add drm_bridge for drm bridge maintainers
-      https://cgit.freedesktop.org/drm/drm-misc/commit/?id=bfa8342c27c67e86a7b7022df06848709386e00d
+Small one, so easy to merge. As a result also more likely to eat your 
+computer alive. ;)
 
--- 
-Neil
+Cheers,
+
+~Maarten
+
+drm-misc-next-2023-04-12:
+
+drm-misc-next for v6.4-rc1:
+
+Cross-subsystem Changes:
+- Convert MIPI DSIM bridge to yaml.
+
+Core Changes:
+- Fix UAF race in drm scheduler.
+
+Driver Changes:
+- Add primary plane positioning support to VKMS.
+- Convert omapdrm fbdev emulation to in-kernel client.
+- Assorted small fixes to vkms, vc4, nouveau, vmwgfx.
+The following changes since commit e44f18c6ff8beef7b2b10592287f0a9766376d9b:
+
+   drm/ttm: Make the call to ttm_tt_populate() interruptible when 
+faulting (2023-04-06 10:01:42 +0200)
+
+are available in the Git repository at:
+
+   git://anongit.freedesktop.org/drm/drm-misc tags/drm-misc-next-2023-04-12
+
+for you to fetch changes up to fd35174e13f98f9232c4aa66689816731d34ca28:
+
+   drm/vmwgfx: remove unused vmw_overlay function (2023-04-11 13:48:55 
+-0400)
+
+----------------------------------------------------------------
+drm-misc-next for v6.4-rc1:
+
+Cross-subsystem Changes:
+- Convert MIPI DSIM bridge to yaml.
+
+Core Changes:
+- Fix UAF race in drm scheduler.
+
+Driver Changes:
+- Add primary plane positioning support to VKMS.
+- Convert omapdrm fbdev emulation to in-kernel client.
+- Assorted small fixes to vkms, vc4, nouveau, vmwgfx.
+
+----------------------------------------------------------------
+Asahi Lina (1):
+       drm/scheduler: Fix UAF race in drm_sched_entity_push_job()
+
+Ben Dooks (1):
+       drm/nouveau/mc/ga100: make ga100_mc_device static
+
+Jagan Teki (1):
+       dt-bindings: bridge: Convert Samsung MIPI DSIM bridge to yaml
+
+Javier Martinez Canillas (2):
+       drm/vkms: Drop vkms_connector_destroy() wrapper
+       drm/vkms: Remove <drm/drm_simple_kms_helper.h> include
+
+Martin Krastev (2):
+       drm/vmwgfx: Drop mksstat_init_record fn as currently unused
+       drm/vmwgfx: Fix Legacy Display Unit atomic drm support
+
+Maíra Canal (2):
+       drm/vkms: remove the need for the primary plane to be visible
+       drm/vkms: allow the primary plane to be positioned
+
+Thomas Zimmermann (5):
+       drm/omapdrm: Include <linux/of.h>
+       drm/omapdrm: Remove fb from struct omap_fbdev
+       drm/omapdrm: Remove bo from struct omap_fbdev
+       drm/omapdrm: Remove fbdev from struct omap_drm_private
+       drm/omapdrm: Implement fbdev emulation as in-kernel client
+
+Tom Rix (2):
+       drm/vc4: remove unused render_wait variable
+       drm/vmwgfx: remove unused vmw_overlay function
+
+Zack Rusin (1):
+       drm/vmwgfx: Print errors when running on broken/unsupported configs
+
+ruanjinjie (1):
+       drm/nouveau/disp: make gv100_disp_core_mthd_base static
+
+  .../bindings/display/bridge/samsung,mipi-dsim.yaml | 255 
++++++++++++++++++++++
+  .../bindings/display/exynos/exynos_dsim.txt        |  92 --------
+  MAINTAINERS                                        |   1 +
+  drivers/gpu/drm/nouveau/nvkm/engine/disp/gv100.c   |   2 +-
+  drivers/gpu/drm/nouveau/nvkm/subdev/mc/ga100.c     |   2 +-
+  drivers/gpu/drm/omapdrm/omap_debugfs.c             |   6 +-
+  drivers/gpu/drm/omapdrm/omap_drv.c                 |  13 +-
+  drivers/gpu/drm/omapdrm/omap_drv.h                 |   3 -
+  drivers/gpu/drm/omapdrm/omap_fbdev.c               | 163 ++++++++-----
+  drivers/gpu/drm/omapdrm/omap_fbdev.h               |   9 +-
+  drivers/gpu/drm/scheduler/sched_entity.c           |  11 +-
+  drivers/gpu/drm/vc4/vc4_irq.c                      |   2 -
+  drivers/gpu/drm/vkms/vkms_output.c                 |  15 +-
+  drivers/gpu/drm/vkms/vkms_plane.c                  |  10 +-
+  drivers/gpu/drm/vmwgfx/vmwgfx_drv.c                |  29 +++
+  drivers/gpu/drm/vmwgfx/vmwgfx_drv.h                |   2 +
+  drivers/gpu/drm/vmwgfx/vmwgfx_kms.c                |  62 +----
+  drivers/gpu/drm/vmwgfx/vmwgfx_kms.h                |   5 -
+  drivers/gpu/drm/vmwgfx/vmwgfx_ldu.c                |  45 +++-
+  drivers/gpu/drm/vmwgfx/vmwgfx_msg.c                |  35 +--
+  drivers/gpu/drm/vmwgfx/vmwgfx_overlay.c            |   6 -
+  21 files changed, 465 insertions(+), 303 deletions(-)
+  create mode 100644 
+Documentation/devicetree/bindings/display/bridge/samsung,mipi-dsim.yaml
+  delete mode 100644 
+Documentation/devicetree/bindings/display/exynos/exynos_dsim.txt
 
