@@ -2,49 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 270F76DF707
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Apr 2023 15:24:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 197F26DF730
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Apr 2023 15:29:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C491210E7DB;
-	Wed, 12 Apr 2023 13:24:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6595710E7E3;
+	Wed, 12 Apr 2023 13:29:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2EC9A10E7DB
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Apr 2023 13:23:58 +0000 (UTC)
-Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
- [2.237.20.237])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits))
- (No client certificate requested) (Authenticated sender: kholk11)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 681776603102;
- Wed, 12 Apr 2023 14:23:55 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1681305836;
- bh=C+NuJI3gJQOvg2W2Jt6ytwX+Z1SaqR9sW/KQiI2QbiI=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=Mbo9WZ5dvorklyrGK5QC93j7iWln5Nb1/0dZiovAp8HYc7dmf9gr1K3T6vJUTMDWF
- KBjARKXpwJsIkz1QJ6vDHsZNtV8kVU8Jj0BV/XrzMCX1c1zsD2DUMe4viOORDcm+52
- D80e6axsE5IlRNwR26L7uf7pl+V6gFyzIck6f29rFY9zvzhCBp1KiKmTBlTC9kQ/9M
- nyf4m+rOp2OB3OrxR2uLA6qWo7Ku1L2tyeEtuX5E/XpQrCrk7x6GAIxCwcOCbvoPUc
- 8UrR0BepUKP3t0nKCa3Is6oXrI8kWwrNKpeDT69WR3iL8uathgheIz0FQheBvmzc8w
- wAERQg2FZvT8g==
-Message-ID: <c66642f5-470f-9d39-19d8-e76f8b6288b3@collabora.com>
-Date: Wed, 12 Apr 2023 15:23:53 +0200
+Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com
+ [IPv6:2a00:1450:4864:20::32e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7F98510E7E3
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Apr 2023 13:29:13 +0000 (UTC)
+Received: by mail-wm1-x32e.google.com with SMTP id
+ gw11-20020a05600c850b00b003f07d305b32so7290897wmb.4
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Apr 2023 06:29:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1681306151; x=1683898151;
+ h=content-transfer-encoding:mime-version:date:message-id:subject
+ :references:in-reply-to:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=rFMQXzqic9JADR3uZcH2w2pLYBrlMwgqKANbtNBvuNQ=;
+ b=KQWTqp+sMD6gnRpGq8joFWXdscoNOxnaGk0s6RAYKsxDwnJ3g3hjVyH0a+jH9/75it
+ okDq8QsBYYXQIRkHUSA29l26VwaDSdN25ETX0ubow7qscj40ffabCFZvdh4SaJ1EX+m0
+ XKYdqy+5xScW4m3qUO3R6sBKPVJonOiUIKuIIARW25ITmWfTyHlymZmcyukbK5jeMEcX
+ Q26A5/RbhDrLAx0zsdwrV63JRohAyNWDMWPc+lAvrtaFF8AkoEEWrMwRyG49eGYnMnYb
+ pYayiGfSs/uLmqmHHoDXa4yf531KVH87wQnZMp+D47HHi9td8HfjvXlbI2Y8szOTMnqo
+ eAOw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1681306151; x=1683898151;
+ h=content-transfer-encoding:mime-version:date:message-id:subject
+ :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=rFMQXzqic9JADR3uZcH2w2pLYBrlMwgqKANbtNBvuNQ=;
+ b=BlB1yf6c+NqtWl7StPN9thrC1bFalBCE2rTgVEy+m/ZVLMFiR84OUISb5okao3gRph
+ f4NJkYNBghXXSwSLQKG7gyoYkAV86fmLorhxVkXPmPpVIaT4MiU4x8KrpcdKDbiQidGZ
+ PV0805fQTCwCDk+Lb1EZ+WDIlm1LoGxGNq/CosoVPhIfME4QPszC8x1V2oZdak2Fhh92
+ ZaM2iO9Hv7lxUT8/hwzhku5A49aI9ARz1S8QSWUqkhetgLTGY+mm/PXW5ybl81EuwnHH
+ ewX2Uq2q4RBJKFo0Nnl3HT4NVNFKajSOtgyFf5rb5Vqr8NTzxSvwyMZnY+rak8iIP2V2
+ WCwg==
+X-Gm-Message-State: AAQBX9chjM8InLDNHRlQvg8t4FxfeCUOUEEGsBfGHT/jLod+W0CshSPy
+ 78dUmUKk8HvULl/qLXtq2fUOEg==
+X-Google-Smtp-Source: AKy350a/A+h1URbKShg3o1vNKy6JcHbFlbF7MIEcwg5pHLdOIBOskauxh+QIAig75k5aoFgC43/Hfw==
+X-Received: by 2002:a1c:770a:0:b0:3ee:289a:43a7 with SMTP id
+ t10-20020a1c770a000000b003ee289a43a7mr14199701wmi.22.1681306151434; 
+ Wed, 12 Apr 2023 06:29:11 -0700 (PDT)
+Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:52eb:f6ff:feb3:451a])
+ by smtp.gmail.com with ESMTPSA id
+ u15-20020a05600c19cf00b003ede3f5c81fsm2462924wmq.41.2023.04.12.06.29.10
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 12 Apr 2023 06:29:11 -0700 (PDT)
+From: Neil Armstrong <neil.armstrong@linaro.org>
+To: DRI Development <dri-devel@lists.freedesktop.org>, 
+ Daniel Vetter <daniel.vetter@ffwll.ch>
+In-Reply-To: <20230412080921.10171-1-daniel.vetter@ffwll.ch>
+References: <20230412080921.10171-1-daniel.vetter@ffwll.ch>
+Subject: Re: [PATCH] MAINTAINERS: add drm_bridge for drm bridge maintainers
+Message-Id: <168130615042.1549456.3446270515068509416.b4-ty@linaro.org>
+Date: Wed, 12 Apr 2023 15:29:10 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.1
-Subject: Re: [PATCH 22/27] arm64: dts: mediatek: mt6795: Copyright header
- additions
-Content-Language: en-US
-To: Matthias Brugger <matthias.bgg@gmail.com>
-References: <20230412112739.160376-1-angelogioacchino.delregno@collabora.com>
- <20230412112739.160376-23-angelogioacchino.delregno@collabora.com>
- <7466cf12-9411-cb35-8e8b-fa50f5efe492@gmail.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <7466cf12-9411-cb35-8e8b-fa50f5efe492@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.12.1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,58 +75,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
- thierry.reding@gmail.com, krzysztof.kozlowski+dt@linaro.org,
- linux-phy@lists.infradead.org, kernel@collabora.com, xinlei.lee@mediatek.com,
- kishon@kernel.org, phone-devel@vger.kernel.org, jassisinghbrar@gmail.com,
- linux-pwm@vger.kernel.org, u.kleine-koenig@pengutronix.de,
- chunkuang.hu@kernel.org, jitao.shi@mediatek.com, houlong.wei@mediatek.com,
- chunfeng.yun@mediatek.com, robh+dt@kernel.org,
- linux-mediatek@lists.infradead.org, ~postmarketos/upstreaming@lists.sr.ht,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- vkoul@kernel.org
+Cc: Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Jagan Teki <jagan@amarulasolutions.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Daniel Vetter <daniel.vetter@intel.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Il 12/04/23 14:41, Matthias Brugger ha scritto:
-> 
-> 
-> On 12/04/2023 13:27, AngeloGioacchino Del Regno wrote:
->> I have added more than 800 lines to this devicetree: adding myself to
->> the copyright header.
->>
->> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
->> ---
->>   arch/arm64/boot/dts/mediatek/mt6795.dtsi | 3 +++
->>   1 file changed, 3 insertions(+)
->>
->> diff --git a/arch/arm64/boot/dts/mediatek/mt6795.dtsi 
->> b/arch/arm64/boot/dts/mediatek/mt6795.dtsi
->> index 29ca9a7bf0b3..a4c950b65006 100644
->> --- a/arch/arm64/boot/dts/mediatek/mt6795.dtsi
->> +++ b/arch/arm64/boot/dts/mediatek/mt6795.dtsi
->> @@ -2,6 +2,9 @@
->>   /*
->>    * Copyright (c) 2015 MediaTek Inc.
->>    * Author: Mars.C <mars.cheng@mediatek.com>
->> + *
->> + * Copyright (C) 2023 Collabora Ltd.
->> + *                    AngeloGioacchino Del Regno 
->> <angelogioacchino.delregno@collabora.com>
-> 
-> Indentation?
-> 
-> BTW from what I understand the copyright will be by your employer, Collabora not 
-> you, but I'm not an legal expert :)
-> 
+Hi,
 
-The copyright *is* by my employer ... but at the same time I'm adding my name,
-because it's me performing the work.
+On Wed, 12 Apr 2023 10:09:20 +0200, Daniel Vetter wrote:
+> Otherwise core changes don't get noticed by the right people. I
+> noticed this because a patch set from Jagan Teki seems to have fallen
+> through the cracks.
+> 
+> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> Cc: Jagan Teki <jagan@amarulasolutions.com>
+> Cc: Andrzej Hajda <andrzej.hajda@intel.com>
+> Cc: Neil Armstrong <neil.armstrong@linaro.org>
+> Cc: Robert Foss <rfoss@kernel.org>
+> Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+> Cc: Jonas Karlman <jonas@kwiboo.se>
+> Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
+> --
+> Jagan, with this your bridge series should find the right people!
+> 
+> [...]
 
-I didn't write (c) myname, but (c) employer, myname - that's ok :-)
+Thanks, Applied to https://anongit.freedesktop.org/git/drm/drm-misc.git (drm-misc-next)
 
-Or was the comment about the commit description? Should that be reworded?
+[1/1] MAINTAINERS: add drm_bridge for drm bridge maintainers
+      https://cgit.freedesktop.org/drm/drm-misc/commit/?id=bfa8342c27c67e86a7b7022df06848709386e00d
 
-Cheers,
-Angelo
+-- 
+Neil
 
