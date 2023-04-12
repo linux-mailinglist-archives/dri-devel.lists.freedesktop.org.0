@@ -1,72 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 588776DF3D9
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Apr 2023 13:36:30 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C43456DF440
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Apr 2023 13:53:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9B97510E7AA;
-	Wed, 12 Apr 2023 11:36:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 862F110E794;
+	Wed, 12 Apr 2023 11:52:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com
- [IPv6:2a00:1450:4864:20::42c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 50F8C10E794
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Apr 2023 11:36:25 +0000 (UTC)
-Received: by mail-wr1-x42c.google.com with SMTP id j11so14198955wrd.2
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Apr 2023 04:36:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1681299383; x=1683891383;
- h=content-transfer-encoding:in-reply-to:organization:content-language
- :references:cc:to:subject:reply-to:from:user-agent:mime-version:date
- :message-id:from:to:cc:subject:date:message-id:reply-to;
- bh=S8BFR8AVgPS2QYGOohorLBlsx1T7B+KgsXDilsI77iY=;
- b=FVaOusrvG8+tO8XLfRkjzpO9MbhXan/wD6ka3h0NyKsVGArbBHWbpw2xVQlQFEZgPM
- QzUcn0NqGlwiduOj/0TrT1TqupkDyaA76L4y+55rqyNxXhxu8c0s1VCZ8R5q3xJYPcq4
- GEsUnQkrL6ELREePWeykFlYlZjJSv5schlkgVHuvPo7rVMXQDq1rRTev7354EPdfvbmv
- AMebHH9544qX+Nmf1xdmJ8fJtSavrRe2Srx9pGAG2xpNqwj5e4aowZZsvJ/GsaUDCte9
- Bx8uOB0UkD5yJ1eKbyJARHEpnh9pOKvijI78A5mcGjtIAkJI9rxMT/rm2nduByP1KiSG
- 3YNQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1681299383; x=1683891383;
- h=content-transfer-encoding:in-reply-to:organization:content-language
- :references:cc:to:subject:reply-to:from:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=S8BFR8AVgPS2QYGOohorLBlsx1T7B+KgsXDilsI77iY=;
- b=dfJ5mavzKyu2c4krr1MNodSQG3oEAiq7ucU/P1RF8yA4ywjZJ25wyaRn8ibOdAMQ4a
- Sx9biDr+GPVYnBfZGRVyh4vh1SW+sZ8gwQetzwjEvnqKIUduLDt+brmg/+G+HekVTvBR
- HE4lNLRYHqoQ+7nxP3btD9qx4L4jQ0382P4HO1l5JeuLg7oRUw6gx7m3pYYPq8knafVc
- hmuNKl8YiGLuv2Pl7p27xgE0c0Q9ixMlfzsZwgVNbkxDhFEYKmT6L/pF7y5fRsyKwQTD
- UErFGy7vHhtsFLHaJpoYysx+MZ+37SpDsiEjAJ4TPJXmwM7Eg3nVhOiVqnJ2ReoskqZ6
- i4ig==
-X-Gm-Message-State: AAQBX9eJO7DzhhCH8iBJOfLis57PWmVPisEZDgn2mpTz4YqF2BjeOYHX
- 2m7io1h4VkcslAyJ9HHMhw7Ayw==
-X-Google-Smtp-Source: AKy350aoHIXNxxlI9Ttapv30eVixQuDhlAiHxMIwXGTZMaZRmAY5p2tY8FHp1547mN6H+xoiBNs0nA==
-X-Received: by 2002:a05:6000:550:b0:2d5:39d:514f with SMTP id
- b16-20020a056000055000b002d5039d514fmr1549498wrf.65.1681299382793; 
- Wed, 12 Apr 2023 04:36:22 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:982:cbb0:b777:4c24:cbcf:795f?
- ([2a01:e0a:982:cbb0:b777:4c24:cbcf:795f])
- by smtp.gmail.com with ESMTPSA id
- c4-20020a5d5284000000b002d1801018e2sm16958010wrv.63.2023.04.12.04.36.21
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 12 Apr 2023 04:36:22 -0700 (PDT)
-Message-ID: <2d6a07ec-5094-62d5-9767-d8119ffd9eb4@linaro.org>
-Date: Wed, 12 Apr 2023 13:36:21 +0200
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 369B610E794
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Apr 2023 11:52:56 +0000 (UTC)
+Received: from IcarusMOD.eternityproject.eu (2-237-20-237.ip236.fastwebnet.it
+ [2.237.20.237])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: kholk11)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 52D9266031FE;
+ Wed, 12 Apr 2023 12:52:54 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1681300375;
+ bh=8iaiiDcFwWvEikKyBM/EHvngwZZN5lPfvgSCIoQUJv0=;
+ h=From:To:Cc:Subject:Date:From;
+ b=HHHKkgfyhj8S7yhY+Yhqg5BII5aB2y4NIJHNgD+UjIk95Qs4+XnnnbmvVgE6gcy5B
+ VUkR5cIoL6Qz7QKfOgOknbZKRJAKvrQ9LIg7FNPrdgXhaVff43Uxp9OfiPiF1IhswS
+ 2IWH/up5QzCII5y3wzkkDi+ZX/wZO2D4tp27kk3WJNpwSj4ScylG+oGjAWgtKvCB0s
+ T8I6atAlXtuPgL4qZMlujWS6wFGf4dxa0mJCx9UcF1WDYRQKNJ4Uoht5S8YvsQdneo
+ B2qmRBiJov9X8jsAX72k0C9alFpSGqjl7tflXp7cV+u1z03CrJGOaLVBXqCPUQVIGK
+ 5ufVyt/9cF+nA==
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+To: chunkuang.hu@kernel.org
+Subject: [PATCH 0/4] drm/mediatek: Small mtk-dpi cleanups
+Date: Wed, 12 Apr 2023 13:52:46 +0200
+Message-Id: <20230412115250.164899-1-angelogioacchino.delregno@collabora.com>
+X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.1
-From: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH] MAINTAINERS: add drm_bridge for drm bridge maintainers
-To: Daniel Vetter <daniel.vetter@ffwll.ch>,
- DRI Development <dri-devel@lists.freedesktop.org>
-References: <20230412080921.10171-1-daniel.vetter@ffwll.ch>
-Content-Language: en-US
-Organization: Linaro Developer Services
-In-Reply-To: <20230412080921.10171-1-daniel.vetter@ffwll.ch>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,48 +50,26 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: neil.armstrong@linaro.org
-Cc: Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Jagan Teki <jagan@amarulasolutions.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Daniel Vetter <daniel.vetter@intel.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-mediatek@lists.infradead.org, matthias.bgg@gmail.com,
+ kernel@collabora.com, linux-arm-kernel@lists.infradead.org,
+ angelogioacchino.delregno@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 12/04/2023 10:09, Daniel Vetter wrote:
-> Otherwise core changes don't get noticed by the right people. I
-> noticed this because a patch set from Jagan Teki seems to have fallen
-> through the cracks.
-> 
-> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> Cc: Jagan Teki <jagan@amarulasolutions.com>
-> Cc: Andrzej Hajda <andrzej.hajda@intel.com>
-> Cc: Neil Armstrong <neil.armstrong@linaro.org>
-> Cc: Robert Foss <rfoss@kernel.org>
-> Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-> Cc: Jonas Karlman <jonas@kwiboo.se>
-> Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
-> --
-> Jagan, with this your bridge series should find the right people!
-> 
-> Cheers, Daniel
-> ---
->   MAINTAINERS | 1 +
->   1 file changed, 1 insertion(+)
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 6a4625710f25..cf2add900c8b 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -6843,6 +6843,7 @@ T:	git git://anongit.freedesktop.org/drm/drm-misc
->   F:	Documentation/devicetree/bindings/display/bridge/
->   F:	drivers/gpu/drm/bridge/
->   F:	include/drm/drm_bridge.h
-> +F:	drivers/gpu/drm/drm_bridge.c
->   
->   DRM DRIVERS FOR EXYNOS
->   M:	Inki Dae <inki.dae@samsung.com>
+This is a small cleanup of the mtk-dpi driver, switching it to devm
+variants where possible and where it made sense, and reducing lines
+while retaining and improving human readability.
 
-Acked-by: Neil Armstrong <neil.armstrong@linaro.org>
+AngeloGioacchino Del Regno (4):
+  drm/mediatek: mtk_dpi: Simplify with devm_drm_bridge_add()
+  drm/mediatek: mtk_dpi: Simplify with dev_err_probe()
+  drm/mediatek: mtk_dpi: Switch to devm_drm_of_get_bridge()
+  drm/mediatek: mtk_dpi: Use devm_platform_get_and_ioremap_resource()
+
+ drivers/gpu/drm/mediatek/mtk_dpi.c | 59 +++++++++++-------------------
+ 1 file changed, 21 insertions(+), 38 deletions(-)
+
+-- 
+2.40.0
+
