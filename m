@@ -2,52 +2,117 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CCF96DF069
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Apr 2023 11:28:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24EA76DF081
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Apr 2023 11:35:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 08E9D10E00D;
-	Wed, 12 Apr 2023 09:28:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 497FF10E75A;
+	Wed, 12 Apr 2023 09:34:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AF0BC10E00D;
- Wed, 12 Apr 2023 09:28:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1681291703; x=1712827703;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=1XG569kGv8nlWRcNovu9X9F1sTsgpbkAJeSf7sdQN2g=;
- b=dM3mDFlBm5ZH7wYwCs9tgUDw9QanuxrGCe3D5ubCSZYBv7qyQLMM9h4o
- 1UBL2Ge8ihgobGVYfJyiymTGvEVh64RYmdrEW1ybIcNN1rkeW2B1O23ZL
- NnBS2yodySQgEToWy9ZtFOASbS9zrOqemhLxQbzULHoeT7EtV4m6//jwc
- QGxbGupztXtecB6uQqyF/fO1nD69MJckMw/VbWECiidCHabc1Elu0fByc
- Unar75uaqnetpEI7f8wgLxhOQCeytdq5lPvMMLs61wi8Zizpy8I/9STuR
- wBFZZ+VAAz7BNJUZgWc9ZjhEUSpFy+F0hfKyXlTsBDQd6U9ehRDxU7rKg g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10677"; a="346523261"
-X-IronPort-AV: E=Sophos;i="5.98,338,1673942400"; d="scan'208";a="346523261"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Apr 2023 02:28:23 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10677"; a="800237928"
-X-IronPort-AV: E=Sophos;i="5.98,338,1673942400"; d="scan'208";a="800237928"
-Received: from smoticic-mobl.ger.corp.intel.com (HELO localhost)
- ([10.252.45.172])
- by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Apr 2023 02:28:20 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Rui Salvaterra <rsalvaterra@gmail.com>, rodrigo.vivi@intel.com,
- tvrtko.ursulin@linux.intel.com, paulmck@kernel.org
-Subject: Re: [BUG?] INFO: rcu_sched detected expedited stalls on CPUs/tasks:
- { 0-.... } 3 jiffies s: 309 root: 0x1/.
-In-Reply-To: <CALjTZvZ=Y1psyd0nmfzm6GhqMKvq5V_NQCWb_X02nasp1CpfcQ@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <CALjTZvZ=Y1psyd0nmfzm6GhqMKvq5V_NQCWb_X02nasp1CpfcQ@mail.gmail.com>
-Date: Wed, 12 Apr 2023 12:28:17 +0300
-Message-ID: <87r0spcuvi.fsf@intel.com>
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com
+ (mail-bn7nam10on2056.outbound.protection.outlook.com [40.107.92.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AA2EE10E760;
+ Wed, 12 Apr 2023 09:34:54 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=DDBQg5Ltmk6IyyMaCnyr9eFscdTLIC1eaGOb2sdRaUiPzafM+COLvHQ1vFnBEBgq2hOXP4A1+qs4XQZt/GR0dVN8lEiIvHbqjePd8bPG4kFisTPRTjMHVgqJwksSG7xn3mfey2D03cxxp6bhJUFMCJ4E5pePLED2At0wXn71LknEu95BjqU7fuR+lKkwahNlOPGoB2Q0efnnrBsoH9IEYM1Pa8mNtyhI9TtvodkEFp4jHZ+lEhn5wExfLJrevS05t7Jw7kF+NfJMnQlxkqsJt0+i2sek/9Tz/13dzTVFnoas9En6FWgbym2PAcJeBN3P1WOi/bZZKt9lldxC/kSHPg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=iE0klUOBZbYPO/mdIXqnbAJFbU2i0fBqb0LNCGnZzRA=;
+ b=fbO6BV2nz0EMrvtM6QW5EIoHovbn6O4Z5tGF/tCDOQz/iCV5V8t9qzSLaU3SqyrzVxmFHEPDNhghXLhxbLUfTIWtTk/hRXladeLgKr0I3AF3tl/3WhoamMcCIPHYl03236PuTgs9ITNmCEbnlfY1yRRmwmP7CyQWZn/dUB1A6fXw/d+JlPF3gUenUV7D4me6pClu9unfE9ckB9jmOM2dpfcj3Nj0Q94vvKWZcT6TtAUY9+k/RHy2M9ltvUTFja6uRVQHBWfb9h09EEi7Qskdr41aS/eKI0dGHi5XnfwI8Vjayvxt2uadk8Fg0E4kY8YrYHsgdEaNbLtvBAx+u7lvxA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=iE0klUOBZbYPO/mdIXqnbAJFbU2i0fBqb0LNCGnZzRA=;
+ b=uqq/8Sa9HuZQ2U2TyAULFIEwvPnLVqe9NAVtkOAt/+FiYu55ji9nOJPPMmtaEY+YninwlOOQreSpy9lkErXUsWyu1B4VIew6gFXwGKA0bbWkCtkNDRWeNW69QTpFlWAPf6g2F9TZhCBhudvrhCrYzZ+NdTRvMP7Zg4yAlUvgKpE=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
+ by SJ0PR12MB5609.namprd12.prod.outlook.com (2603:10b6:a03:42c::12)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6277.38; Wed, 12 Apr
+ 2023 09:34:51 +0000
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::4624:dc39:943e:6ae]) by BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::4624:dc39:943e:6ae%5]) with mapi id 15.20.6277.036; Wed, 12 Apr 2023
+ 09:34:51 +0000
+Message-ID: <bbbbbf34-2ea5-5344-30db-f976c5198d75@amd.com>
+Date: Wed, 12 Apr 2023 11:34:44 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH v3 0/7] drm: fdinfo memory stats
+Content-Language: en-US
+To: Rob Clark <robdclark@gmail.com>, dri-devel@lists.freedesktop.org
+References: <20230411225725.2032862-1-robdclark@gmail.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+In-Reply-To: <20230411225725.2032862-1-robdclark@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: FR3P281CA0073.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:1f::17) To BN8PR12MB3587.namprd12.prod.outlook.com
+ (2603:10b6:408:43::13)
 MIME-Version: 1.0
-Content-Type: text/plain
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|SJ0PR12MB5609:EE_
+X-MS-Office365-Filtering-Correlation-Id: 64bed3b7-92ef-4d48-1ef6-08db3b392a28
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: QXxfMHGKAAQwLH1MBNyZrm5IQSC7OOdp5P5R/JxbnOPR3pwAcMtHDUACjgDRwxJixZssIE8ThKNqHMFqTEfETjaD3FkD5NANzGwVj8vgLYC0th62YG+uBpedIPfoCP+BPSHs5A+VFy4bJ3RuLJZBKfh+qz5oqccrsdzBZ81JKvpcwSzAzEcwmRUlb3vJvMacPxUhyEWY5goWR0taMo/r0um0x7RWRXzNMLS7bpXOYavPTn9Z8W307K9zLDhR5wHB5ND9Umamx4RoWs+Uz5Kk4AcbymS2GPD5fDRrF6Yx2tebQ429T7WElvjQ4BPDsZONntzJhWORF+ZUoDLrmeRgoBXIfWiLHRozJlWTE2RSTSizMHExjLqJ/Th+UHkIOjOLHaJNmYo6vfVgmQFfKkfpXqq5vpXF9aEAearrjpB4TvcD/b4QaQLZEVyIAKOtuGh5SLwm2jPCwp8tYZeVvYPofkmv5C2q7CV28Zz44GipdbteLuxI+BXDiNpWUbIpQLXIv9jh2SN68Xw+VRBeUdCLEuDtSZeUic1uvnohtlFgLgbW/LON6nh5o0OwP8hB31a4M546e8S1wI85EgxIOZb/XcZmCtb7/0MyTqBZ2GUYlbiZyFwuCv86i91XgiCS/HGLKSaNiLKwXcL7dB21dTaGlw==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230028)(4636009)(396003)(376002)(346002)(366004)(136003)(39860400002)(451199021)(478600001)(6512007)(54906003)(5660300002)(6506007)(186003)(66556008)(6486002)(966005)(316002)(2906002)(66946007)(4326008)(41300700001)(7416002)(6666004)(8936002)(8676002)(66476007)(38100700002)(31696002)(83380400001)(36756003)(2616005)(86362001)(31686004)(45980500001)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?V3NmcTFhc3lzVEJ4RlZ0TUtYSFRBM1pJWjkxbDhjSjRLS0tUeTBvNjhTaUxY?=
+ =?utf-8?B?NFEwRkVMZWh3MUxpZSs3TXpWMzkwNEQ3Z1NiUkRQL1A5T0tFUGxoTnNBc09y?=
+ =?utf-8?B?ci9Iam1jSTJNaVp1U2VlekROWmpVaGhPNXNUY2ExTjVuRUQrcWRsbVVWcmxz?=
+ =?utf-8?B?OXVWcTVZeVFuYXo1OVFjR1hFMGxkMFVTWGpIZVpoVW4yNWdmSTQxd01RcXhu?=
+ =?utf-8?B?UU9pR1BqQXRteGhVOHEyUzRiblNNSDY2YSt4OUlaZC9UUlhPLzZ0V2xoZURv?=
+ =?utf-8?B?YlJYOHIxem9WUFlNbVlXUXYva25mL1ZHUlVkaTd4U3V6MlhOd1VWVEhFb1Jx?=
+ =?utf-8?B?TXh6RDlXRnl4eXRsTWo5UEl0MnV1bmFMNWIveGhEN3dxamQvam12ZEJ5VEJ3?=
+ =?utf-8?B?SHNnSWNuc1NyS3hJNjNxSmR6R25BbjhxOFVkUHJieDFkeURLcmZ3Q2tJZ01C?=
+ =?utf-8?B?UnA3KzAzTitGZGRDQmR4VFZqenU4V2dvMmRKRDNwY3RoTUwrUWVGRjF0Qm5U?=
+ =?utf-8?B?Rk1IS2ExYzB3dkJzaUErTnlZdW5DaGY5Mm1LM0RLbjcvV1UwODhjdThmdzZu?=
+ =?utf-8?B?bE81aVJGZUlmK2JxQzFETzBnaUxNTTRYOUVGZGRld1J6NlhhSW41Vmh4Skxk?=
+ =?utf-8?B?ZmthWFlUMExzSVdZTDdsYk9JK2MyTWZUU0RKYmh0K0p1U1JTTURvVmdZaXVZ?=
+ =?utf-8?B?cTVTNVFyVVpHaVh3NmtiYjkySUlSUFVFT1VWQXEzQ0RLZkUxbnpnU0lCaGEz?=
+ =?utf-8?B?andrbWJSTk5BK1I0aGNrUEN3bTdtQXFLYmwxU3VtRnhBaTRKcm82RXFBd1h0?=
+ =?utf-8?B?ZVZaR1N2bTdsU3ZwekhmMTgvdWNpZ21BcGQrc1B2NHdselpYbXNPZG5ibGda?=
+ =?utf-8?B?a3VYRit3eURaNXRKcS9POUJmR3BOUk52anRlTGkzREVuNFlLdnVGYnJHYWNw?=
+ =?utf-8?B?ajhkZ1BrOVdMT0lqZ0dmNTk5eDhoeUZrenUwTXhQaVpqc3gwRmw4RU1DQVk2?=
+ =?utf-8?B?TU5JeFQzMjN4bktpSFdrQUJwUmdpVmlGcFJ2czQvZGxoUFJmNFUxN0RVUXRa?=
+ =?utf-8?B?NHo3dGN1L3dYOVlZRHFGdVZZTUlwbWpJdTRSNWVneTd5OVhDc0JaWi9MT1pH?=
+ =?utf-8?B?REpXdE5QUklpWWE0bTZiTWNHQ0tvUTJTZXNmUWR2dG8yMXQvelNXQXNWOENo?=
+ =?utf-8?B?aWJSYUlDNW5RajBpTm9JejVNRVFLOGo5SnFVMzJKNUZObW8yeHlBZExjZG53?=
+ =?utf-8?B?SWJXTHlTdTZYZHFnL1dFeEdNSGRnWGNGTU05QXFtSWxYZkNXTnl4UmpJbFVE?=
+ =?utf-8?B?aG1ISUhneTlLYy9DSnZjTW9rOExKOHozNjg0M3BrdHI4MTF5Skw4T09NbGtn?=
+ =?utf-8?B?d2VXZXUwWUZDWVk4WlMyTnVaQnE5NEVDOFoyR0lrMm01RmxiUFdPTWxwbkhJ?=
+ =?utf-8?B?ZDFiOXEzNjFwOUxNa2dkTm5JTWYvajltNGZta1lybi93ZDFkU2N1NzJTclRp?=
+ =?utf-8?B?ZTlsaDFxK3R3emNKNlU0d3E3RlNVS0NZZEgzb0EzODFUU1c5emtYMXJuemlN?=
+ =?utf-8?B?eUZxWFYyZHMycEorY2lHdGVROWdYVVdwdU5XL1RQcm5sVk54aU1BYXZLZ0F5?=
+ =?utf-8?B?OE0wcFM4NnFhTUpvMXd3bnFUNHh2RzEvbW9LRDVvdjAxRkQvVnJJeHJ3aDk3?=
+ =?utf-8?B?VkJHQllrQnpCTGJsekZ0amwxZ2w0MHBLcXlxMnhsOEVNNjFPS2tDNWtwTjdv?=
+ =?utf-8?B?OTVkYUd0blRFWUE5UW12aW8waHZ4Ly9NTW9Ta3B4UWQ3VUI2eHAyTUY4clVa?=
+ =?utf-8?B?NjdVRnJ5a0pQN2xzWnVINXRFcVRiNENzZGlJMXJ3VE0vV1hxK0I2THJSNytR?=
+ =?utf-8?B?NE02amJQWE1TZ3Q3MXZZTUd2bENoY0xOTmtxdUF6bElLUFhBMENJekY1N252?=
+ =?utf-8?B?NktaRHh5U2lxVHp2OXlZZnRLQnY4KytFNVhVdG0vYjVZRG9UWlNFZ09VVnJW?=
+ =?utf-8?B?N2lHNG9nVkVLaVZTRTd0RUhwQ01Ub2R2Tk5tTVU1UG8zYUJDT3UzSURld2Fr?=
+ =?utf-8?B?NktnZzZXbmp5OCtMQTEwajlGTml2aStvNDhtMEJJTE9PbjRBNXRWN1QzR2xm?=
+ =?utf-8?B?RExCOTRydWVlOE5tMERHRzlFK0cwVm1MbXNuVzBrV0JSU0V6c1B1TGM4Tjkr?=
+ =?utf-8?Q?7tY0fjpLH1fgYWww6YFJRkYQMJsLHfi6diY9bGxZpumA?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 64bed3b7-92ef-4d48-1ef6-08db3b392a28
+X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Apr 2023 09:34:51.3276 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: n9spp2wRJW+iqGyVo5++TTHxI4WShdBi+Gw/mOXSbG7ZmeoLJXAn9XEUcpLku0Au
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR12MB5609
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,106 +125,79 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+ open list <linux-kernel@vger.kernel.org>,
+ =?UTF-8?Q?Michel_D=c3=a4nzer?= <mdaenzer@redhat.com>,
+ YiPeng Chai <YiPeng.Chai@amd.com>,
+ Mario Limonciello <mario.limonciello@amd.com>,
+ Rob Clark <robdclark@chromium.org>, Guchun Chen <guchun.chen@amd.com>,
+ Shashank Sharma <shashank.sharma@amd.com>,
+ "open list:RADEON and AMDGPU DRM DRIVERS" <amd-gfx@lists.freedesktop.org>,
+ Russell King <linux+etnaviv@armlinux.org.uk>,
+ Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>,
+ linux-arm-msm@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+ "moderated list:DRM DRIVERS FOR VIVANTE GPU IP"
+ <etnaviv@lists.freedesktop.org>, Evan Quan <evan.quan@amd.com>,
+ Sean Paul <sean@poorly.run>, Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
+ Emil Velikov <emil.l.velikov@gmail.com>,
+ Christopher Healy <healych@amazon.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Alex Deucher <alexander.deucher@amd.com>, freedreno@lists.freedesktop.org,
+ Hawking Zhang <Hawking.Zhang@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 12 Apr 2023, Rui Salvaterra <rsalvaterra@gmail.com> wrote:
-> Hi, everyone,
+Am 12.04.23 um 00:56 schrieb Rob Clark:
+> From: Rob Clark <robdclark@chromium.org>
 >
-> I apologise in advance if I've sent this to {too many, the wrong}
-> people. For some time now, I've been getting sporadic (in about one
-> out of five boots) DRM-related RCU complaints on an Ivy Bridge-based
-> (Core i7-3720QM) Mac Mini. Call trace (on Linux 6.3-rc6) follows:
+> Similar motivation to other similar recent attempt[1].  But with an
+> attempt to have some shared code for this.  As well as documentation.
+>
+> It is probably a bit UMA-centric, I guess devices with VRAM might want
+> some placement stats as well.  But this seems like a reasonable start.
+>
+> Basic gputop support: https://patchwork.freedesktop.org/series/116236/
+> And already nvtop support: https://github.com/Syllo/nvtop/pull/204
+>
+> [1] https://patchwork.freedesktop.org/series/112397/
 
-Please file a bug at fdo gitlab [1]. Add drm.debug=0xe and maybe
-log_buf_len=4M or similar kernel parameters, and attach dmesg all the
-way from boot to reproducing the problem.
+I think the extra client id looks a bit superfluous since the ino of the 
+file should already be unique and IIRC we have been already using that one.
 
-How long is "for some time now"?
+Apart from that looks good to me,
+Christian.
 
-BR,
-Jani.
+PS: For some reason only the two patches I was CCed on ended up in my 
+inbox, dri-devel swallowed all the rest and hasn't spit it out yet. Had 
+to dig up the rest from patchwork.
 
-
-[1] https://gitlab.freedesktop.org/drm/intel/wikis/How-to-file-i915-bugs
 
 >
-> [    5.794026] rcu: INFO: rcu_sched detected expedited stalls on
-> CPUs/tasks: { 0-.... } 3 jiffies s: 309 root: 0x1/.
-> [    5.794044] rcu: blocking rcu_node structures (internal RCU debug):
-> [    5.794045] Sending NMI from CPU 1 to CPUs 0:
-> [    5.794049] NMI backtrace for cpu 0
-> [    5.794051] CPU: 0 PID: 537 Comm: Xorg Not tainted 6.3.0-rc6-debug+ #57
-> [    5.794053] Hardware name: Apple Inc.
-> Macmini6,2/Mac-F65AE981FFA204ED, BIOS 429.0.0.0.0 03/18/2022
-> [    5.794054] RIP: 0010:fwtable_read32+0x45/0x100
-> [    5.794060] Code: 5e 00 49 89 c5 48 8b 45 08 8b b0 2c 1d 00 00 85
-> f6 0f 85 94 00 00 00 8d 83 00 00 fc ff 3d ff 5f 0d 00 77 28 48 03 5d
-> 00 8b 1b <48> 8b 45 08 8b 88 2c 1d 00 00 85 c9 75 48 4c 89 ee 4c 89 e7
-> e8 82
-> [    5.794061] RSP: 0018:ffff88810d17f968 EFLAGS: 00000082
-> [    5.794063] RAX: 0000000000085010 RBX: 0000000000000200 RCX: ffff888101d80000
-> [    5.794064] RDX: 0000000000000001 RSI: 0000000000000000 RDI: ffff888101d81f28
-> [    5.794064] RBP: ffff888101d81f08 R08: 0000000000000000 R09: 00000000000032ab
-> [    5.794065] R10: 0000000000000001 R11: 00000000000061b2 R12: ffff888101d81f28
-> [    5.794066] R13: 0000000000000246 R14: ffff888102f693d0 R15: ffff88810d17faef
-> [    5.794067] FS:  00007f579a20da80(0000) GS:ffff888267200000(0000)
-> knlGS:0000000000000000
-> [    5.794068] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> [    5.794069] CR2: 000055fe9b660028 CR3: 0000000111e97004 CR4: 00000000001706f0
-> [    5.794069] Call Trace:
-> [    5.794071]  <TASK>
-> [    5.794073]  get_reserved.isra.0+0x23/0x30
-> [    5.794076]  get_clock+0x25/0x70
-> [    5.794078]  sclhi+0x43/0x70
-> [    5.794081]  i2c_stop+0x2b/0x40
-> [    5.794083]  bit_xfer+0x22a/0x5d0
-> [    5.794085]  ? __pm_runtime_resume+0x40/0x50
-> [    5.794088]  ? __intel_display_power_get_domain.part.0+0x4d/0x60
-> [    5.794092]  gmbus_xfer+0x3c/0x90
-> [    5.794094]  __i2c_transfer+0x15b/0x4d0
-> [    5.794096]  i2c_transfer+0x3c/0xa0
-> [    5.794098]  drm_do_probe_ddc_edid+0xad/0x120
-> [    5.794101]  drm_get_edid+0x71/0x90
-> [    5.794104]  intel_crt_get_edid+0xf/0x80
-> [    5.794106]  intel_crt_detect_ddc+0x28/0xc0
-> [    5.794107]  intel_crt_detect+0x1f5/0xc40
-> [    5.794108]  ? pollwake+0x61/0x70
-> [    5.794111]  drm_helper_probe_detect+0x43/0xa0
-> [    5.794115]  drm_helper_probe_single_connector_modes+0x403/0x490
-> [    5.794117]  drm_mode_getconnector+0x32d/0x430
-> [    5.794119]  ? drm_connector_list_iter_next+0x7c/0xa0
-> [    5.794120]  ? drm_connector_property_set_ioctl+0x30/0x30
-> [    5.794122]  drm_ioctl_kernel+0x91/0x130
-> [    5.794124]  drm_ioctl+0x1d8/0x410
-> [    5.794125]  ? drm_connector_property_set_ioctl+0x30/0x30
-> [    5.794127]  __x64_sys_ioctl+0x3b9/0x8f0
-> [    5.794129]  ? handle_mm_fault+0xc1/0x170
-> [    5.794131]  ? exc_page_fault+0x18b/0x470
-> [    5.794134]  do_syscall_64+0x2b/0x50
-> [    5.794136]  entry_SYSCALL_64_after_hwframe+0x46/0xb0
-> [    5.794139] RIP: 0033:0x7f579a1119ef
-> [    5.794141] Code: 00 48 89 44 24 18 31 c0 48 8d 44 24 60 c7 04 24
-> 10 00 00 00 48 89 44 24 08 48 8d 44 24 20 48 89 44 24 10 b8 10 00 00
-> 00 0f 05 <89> c2 3d 00 f0 ff ff 77 18 48 8b 44 24 18 64 48 2b 04 25 28
-> 00 00
-> [    5.794142] RSP: 002b:00007ffc1dee7620 EFLAGS: 00000246 ORIG_RAX:
-> 0000000000000010
-> [    5.794143] RAX: ffffffffffffffda RBX: 000055fe9b660060 RCX: 00007f579a1119ef
-> [    5.794144] RDX: 00007ffc1dee76c0 RSI: 00000000c05064a7 RDI: 000000000000000f
-> [    5.794144] RBP: 00007ffc1dee76c0 R08: 0000000000000000 R09: 0000000000000000
-> [    5.794145] R10: 00007f579a6bc1d8 R11: 0000000000000246 R12: 00000000c05064a7
-> [    5.794146] R13: 000000000000000f R14: 00000000c05064a7 R15: 00007ffc1dee76c0
-> [    5.794147]  </TASK>
+> Rob Clark (7):
+>    drm: Add common fdinfo helper
+>    drm/msm: Switch to fdinfo helper
+>    drm/amdgpu: Switch to fdinfo helper
+>    drm/i915: Switch to fdinfo helper
+>    drm/etnaviv: Switch to fdinfo helper
+>    drm: Add fdinfo memory stats
+>    drm/msm: Add memory stats to fdinfo
 >
-> Please let me know if you need any additional information (kconfig,
-> etc.) in order to fix this. I will, of course, be happy to test any
-> patch thrown my way.
+>   Documentation/gpu/drm-usage-stats.rst      |  21 ++++
+>   drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c    |   3 +-
+>   drivers/gpu/drm/amd/amdgpu/amdgpu_fdinfo.c |  16 ++-
+>   drivers/gpu/drm/amd/amdgpu/amdgpu_fdinfo.h |   2 +-
+>   drivers/gpu/drm/drm_file.c                 | 115 +++++++++++++++++++++
+>   drivers/gpu/drm/etnaviv/etnaviv_drv.c      |  10 +-
+>   drivers/gpu/drm/i915/i915_driver.c         |   3 +-
+>   drivers/gpu/drm/i915/i915_drm_client.c     |  18 +---
+>   drivers/gpu/drm/i915/i915_drm_client.h     |   2 +-
+>   drivers/gpu/drm/msm/msm_drv.c              |  11 +-
+>   drivers/gpu/drm/msm/msm_gem.c              |  15 +++
+>   drivers/gpu/drm/msm/msm_gpu.c              |   2 -
+>   include/drm/drm_drv.h                      |   7 ++
+>   include/drm/drm_file.h                     |   5 +
+>   include/drm/drm_gem.h                      |  19 ++++
+>   15 files changed, 208 insertions(+), 41 deletions(-)
 >
-> Kind regards,
-> Rui
 
--- 
-Jani Nikula, Intel Open Source Graphics Center
