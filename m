@@ -2,81 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7694B6DFE36
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Apr 2023 20:59:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 987AE6DFE70
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Apr 2023 21:10:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5D37010E926;
-	Wed, 12 Apr 2023 18:59:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D9D4B10E931;
+	Wed, 12 Apr 2023 19:10:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A8EDE10E926;
- Wed, 12 Apr 2023 18:59:50 +0000 (UTC)
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7F6F810E92D;
+ Wed, 12 Apr 2023 19:10:00 +0000 (UTC)
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
  by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 33CI7IWr024906; Wed, 12 Apr 2023 18:59:46 GMT
+ 33CBj4Yh029675; Wed, 12 Apr 2023 19:09:58 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=TaIn1GO7ajcT9IGQ63Uw2sjmE7ififai7+zoeqqWTB8=;
- b=RfUC+iK/JuzzFrxEq/0bGXd+hj3YGMWz82z1acUhcG/9VF/Hvp2GeoAf3aGyvbQASzwn
- t1Dh9WjPFPT715oodoN2M7xO5PRdR0kPbutZKetj9Z4dO4wti0ASrL9EGaH8teDzAUzw
- iGm5SiMz0VGDpn1o6nNPlfSHx27V6hzx42ZYRG10fssnrLjhats0wmqMayQoAEJIWvpR
- YFDptS6/tZ3wBaBgl47orOuvLe7n74M6Z4eeUdfRBbYyRebYq62Rh88SI0MEYw0t4NCT
- 99Wp2+v7TVuyUu4s6NysT11bQpcRoUvTTDVU4nnDGWz+90zJ0SHc3CFHbe5iCSov/wJe 0g== 
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3pwj7wj6tj-1
+ h=from : subject :
+ date : message-id : mime-version : content-type :
+ content-transfer-encoding : to : cc; s=qcppdkim1;
+ bh=bYVxh75G+VGIFencWNiFy+0OmeGHASli2HrEGxt6LXA=;
+ b=OdoUiRLHcAEqUh1xWYCHmnhs/l/ilSpcYjyjCZbKuwG/s5/pMSFbkl/ofudSIGjzXv7m
+ xr7hBUS+GwKFPpwxoTt65RQ/UA3pb3kp72LvFUR2ov69B/fdfNSy7v55qQDLxlk/hncA
+ i3UMedkkUyZ7M9cnB0L2YFWGUREPS+yk/GOEn8n3sHoQ1xdyVKE5+bJJx7DMdrAuo7V8
+ WBx5IWepaX86Sx7Vn+VPxgxTQeI80SLb1UJlRurVlQR5m4AkYrn8X5lpZ0khiFWQnhIy
+ Dhls9i+sK/AmrDx6+DvJEb/5Dwso4GhccMoGdjeaVoURUe1Trljbt0jeAEAD3Eukr0N5 xg== 
+Received: from nasanppmta04.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3pwqn1hjxm-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 12 Apr 2023 18:59:46 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 33CIxjXr025167
+ Wed, 12 Apr 2023 19:09:58 +0000
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
+ [10.46.141.250])
+ by NASANPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 33CJ9vbH019211
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 12 Apr 2023 18:59:45 GMT
-Received: from [10.110.73.215] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Wed, 12 Apr
- 2023 11:59:44 -0700
-Message-ID: <74c5da6d-d103-a9c8-33ce-84f44b3962ed@quicinc.com>
-Date: Wed, 12 Apr 2023 11:59:43 -0700
+ Wed, 12 Apr 2023 19:09:57 GMT
+Received: from jesszhan-linux.qualcomm.com (10.80.80.8) by
+ nasanex01b.na.qualcomm.com (10.46.141.250) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.42; Wed, 12 Apr 2023 12:09:56 -0700
+From: Jessica Zhang <quic_jesszhan@quicinc.com>
+Subject: [PATCH v5 0/8] Introduce MSM-specific DSC helpers
+Date: Wed, 12 Apr 2023 12:09:40 -0700
+Message-ID: <20230329-rfc-msm-dsc-helper-v5-0-0108401d7886@quicinc.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.2
-Subject: Re: [Freedreno] [PATCH] drm/msm/dpu: add DSC range checking during
- resource reservation
-Content-Language: en-US
-To: Marijn Suijten <marijn.suijten@somainline.org>
-References: <1681247380-1607-1-git-send-email-quic_khsieh@quicinc.com>
- <qvgbm3wimai3jytnikbcixipvwqn2uywqpg4mn6mjh5atergfx@wa4edsrp7y22>
- <96416911-bca3-b007-b036-1c4463e83aaa@quicinc.com>
- <24c5aa23-9b3c-787c-10aa-e9d5ad91512b@linaro.org>
- <49479b93-b364-d882-7a77-08223a94ed36@quicinc.com>
- <tczt5alqbadkodgorqm4pljpqkn5bc4efpxiy3em7bgu7gqaka@3cdszu4k6rhk>
- <8310d7ce-7ac0-05a6-b95a-c18a498f7644@quicinc.com>
- <szwu75yxcfxeyvfvrsyuoc3jeoaylydwtlzm3cevmpr3zpmfpo@wrdgbf3w3de2>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <szwu75yxcfxeyvfvrsyuoc3jeoaylydwtlzm3cevmpr3zpmfpo@wrdgbf3w3de2>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAPUBN2QC/4XOsU7EMAwG4Fc5ZcYoidumYUJCYmBkBDEkjkMj0
+ fZIoAKd+u6kt8FJdPwt/599EoVz4iJuDieReUklzVMN7dVB0OCmV4YUahZaapSoLeRIMJYRQiE
+ Y+O3IGWyvnG05RB+kqEXvCoPPbqJhqz48/S083t9te8fMMX2djz+/1Dyk8jHn7/Mvi9qm/55dF
+ EiIyI2xsbW+C7fvn4nSRNc0j2IDF72P6IogKSQOLXZeXyK4j2BFOs8kgzbG9XiJNPtIUxHljSX
+ Te5TB/EbWdf0BpZV3Yq0BAAA=
+To: <freedreno@lists.freedesktop.org>
+X-Mailer: b4 0.13-dev-00303
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1681326596; l=3783;
+ i=quic_jesszhan@quicinc.com; s=20230329; h=from:subject:message-id;
+ bh=M73gdAeWXun20r8FqP5kE+eKKXnJOhjIzAQsmY2Dfsk=;
+ b=a31YpSrXEJ1VzYD6dpkLybStZEOY6RRhvG6yeANth0mSo1O2dfdegCNjK8c/tMTqW/tp6iCG/
+ laxvocla2hnBaw/6VBxZyvQDmkWzUzdFubPqreV4oC3xvII+t4qWqDP
+X-Developer-Key: i=quic_jesszhan@quicinc.com; a=ed25519;
+ pk=gAUCgHZ6wTJOzQa3U0GfeCDH7iZLlqIEPo4rrjfDpWE=
 X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
  signatures=585085
-X-Proofpoint-GUID: ODjyePmGtkuD9C71SPfBGhBmPRtGvuii
-X-Proofpoint-ORIG-GUID: ODjyePmGtkuD9C71SPfBGhBmPRtGvuii
+X-Proofpoint-GUID: f2x8NRSac5nCtyY_7MGNApJSTJfIVj3A
+X-Proofpoint-ORIG-GUID: f2x8NRSac5nCtyY_7MGNApJSTJfIVj3A
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
  definitions=2023-04-12_10,2023-04-12_01,2023-02-09_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0
- malwarescore=0 clxscore=1015 impostorscore=0 phishscore=0 spamscore=0
- suspectscore=0 adultscore=0 mlxscore=0 mlxlogscore=875 bulkscore=0
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ mlxscore=0 spamscore=0
+ lowpriorityscore=0 phishscore=0 adultscore=0 bulkscore=0 suspectscore=0
+ impostorscore=0 clxscore=1015 mlxlogscore=999 priorityscore=1501
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2303200000 definitions=main-2304120164
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -90,85 +90,97 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_sbillaka@quicinc.com, sean@poorly.run, andersson@kernel.org,
- dianders@chromium.org, dri-devel@lists.freedesktop.org,
- Kuogee Hsieh <quic_khsieh@quicinc.com>, vkoul@kernel.org, agross@kernel.org,
- linux-arm-msm@vger.kernel.org, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- swboyd@chromium.org, freedreno@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
+Cc: linux-arm-msm@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ dri-devel@lists.freedesktop.org, Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, Dmitry
+ Baryshkov <dmitry.baryshkov@linaro.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>, Sean Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+There are some overlap in calculations for MSM-specific DSC variables
+between DP and DSI. In addition, the calculations for initial_scale_value
+and det_thresh_flatness that are defined within the DSC 1.2 specifications,
+but aren't yet included in drm_dsc_helper.c.
 
+This series moves these calculations to a shared msm_dsc_helper.c file and
+defines drm_dsc_helper methods for initial_scale_value and
+det_thresh_flatness.
 
-On 4/12/2023 11:50 AM, Marijn Suijten wrote:
-> On 2023-04-12 10:48:18, Abhinav Kumar wrote:
-> [..]
->>> The only way to trigger this newly introduced range check is by omitting
->>> the DSC_x constants and manually writing e.g. an out-of-range value 10
->>> here, or setting DSC_NONE.  This is only allowed for interfaces.
->>>
->>
->> Correct, its just working on an implicit understanding that the indices
->> in the catalog
-> 
-> .. this sentence appears to be incomplete: what did you want to say? ..
-> 
+Note: For now, the MSM specific helper methods are only called for the DSI
+path, but will called for DP once DSC 1.2 support for DP has been added.
 
-Its complete.
+Depends on: "drm/i915: move DSC RC tables to drm_dsc_helper.c" [1]
 
-"Correct, its just working on an implicit understanding that the indices 
-in the catalog which might still be right stick to the RM limits.
+[1] https://patchwork.freedesktop.org/series/114472/
 
-Thats why this is not bad to have."
+---
+Changes in v5:
+- Picked up Reviewed-by tags
+- "Fix calculations pkt_per_line" --> "... Fix calculation for pkt_per_line"
+- Split dsc->slice_width check into a separate patch
+- Picked up Dmitry's msm/dsi patch ("drm/msm/dsi: use new helpers for
+  DSC setup")
+- Simplified MSM DSC helper math
+- Removed unused headers in MSM DSC helper files
+- Link to v4: https://lore.kernel.org/r/20230329-rfc-msm-dsc-helper-v4-0-1b79c78b30d7@quicinc.com
 
->> which might still be right stick to the RM limits.
->>
->> Thats why this is not bad to have.
-> 
-> What do you mean by "RM limits"?  We have constants in the kernel that
-> both define the maximum number of blocks in these arrays and a
-> predefined set of ids that block can have.  These are all used in
-> constant structs in the catalog, so there's nothing "software" or
-> SoC-specific limiting about this (except what is available in the
-> arrays).
-> 
+Changes in v4:
+- Changed msm_dsc_get_uncompressed_pclk_per_intf to msm_dsc_get_pclk_per_intf
+- Moved pclk_per_intf calculation for dsi_timing_setup to `if
+  (msm_host->dsc)` block
+- Link to v3: https://lore.kernel.org/r/20230329-rfc-msm-dsc-helper-v3-0-6bec0d277a83@quicinc.com
 
-WB_MAX, DSC_MAX, LM_MAX etc are RM limits not catalog limits.
+Changes in v3:
+- Cleaned up unused parameters
+- Reworded some calculations for clarity
+- Changed get_bytes_per_soft_slice() to a public method
+- Added comment documentation to MSM DSC helpers
+- Changed msm_dsc_get_eol_byte_num() to *_get_bytes_per_intf()
+- Split dsi_timing_setup() hdisplay calculation to a separate patch
+- Dropped 78c8b81d57d8 ("drm/display/dsc: Add flatness and initial scale
+  value calculations") patch as it was absorbed in Dmitry's DSC series [1]
+- Link to v2: https://lore.kernel.org/r/20230329-rfc-msm-dsc-helper-v2-0-3c13ced536b2@quicinc.com
 
-For example, LM_MAX is 8 but in the future if could have a HW which has 
-10 LMs. That time if LM_MAX is not increased, its just a SW number.
+Changes in v2:
+- Changed det_thresh_flatness to flatness_det_thresh
+- Moved msm_dsc_helper files to msm/ directory
+- Fixed type mismatch issues in MSM DSC helpers
+- Dropped MSM_DSC_SLICE_PER_PKT macro
+- Removed get_comp_ratio() helper
+- Style changes to improve readability
+- Use drm_dsc_get_bpp_int() instead of DSC_BPP macro
+- Picked up Fixes tags for patches 3/5 and 4/5
+- Picked up Reviewed-by for patch 4/5
+- Split eol_byte_num and pkt_per_line calculation into a separate patch
+- Moved pclk_per_line calculation into `if (dsc)` block in
+  dsi_timing_setup()
+- Link to v1: https://lore.kernel.org/r/20230329-rfc-msm-dsc-helper-v1-0-f3e479f59b6d@quicinc.com
 
-Catalog on the other hand, can still list 10 LMs but with the catch that 
-it uses the indices from the rm. So its just an implicit understanding 
-here that catalog uses indices from RM.
+---
+Dmitry Baryshkov (1):
+      drm/msm/dsi: use new helpers for DSC setup
 
-Nothing prevents someone from manually adding an entry and forgetting to 
-update the *_MAX in the RM.
+Jessica Zhang (7):
+      drm/msm: Add MSM-specific DSC helper methods
+      drm/msm/dpu: Use DRM DSC helper for det_thresh_flatness
+      drm/msm/dpu: Fix slice_last_group_size calculation
+      drm/msm/dsi: Use MSM and DRM DSC helper methods
+      drm/msm/dsi: Add check for slice_width in dsi_timing_setup
+      drm/msm/dsi: update hdisplay calculation for dsi_timing_setup
+      drm/msm/dsi: Fix calculation for pkt_per_line
 
-Although, yes we will catch that in reviews.
+ drivers/gpu/drm/msm/Makefile               |  1 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.c |  9 ++--
+ drivers/gpu/drm/msm/dsi/dsi_host.c         | 82 +++++++++---------------------
+ drivers/gpu/drm/msm/msm_dsc_helper.c       | 25 +++++++++
+ drivers/gpu/drm/msm/msm_dsc_helper.h       | 75 +++++++++++++++++++++++++++
+ 5 files changed, 131 insertions(+), 61 deletions(-)
+---
+base-commit: 7417f9c699613f284bd4edc93adccac3ea3ced0f
+change-id: 20230329-rfc-msm-dsc-helper-981a95edfbd0
 
-> [..]
->> I think kuogee just added this to keep it consistent with other checks
->> present in the RM. So I didnt see any harm with that.
-> 
-> Yep, that's the only reason
-> 
->> If he did see an issue, i will let him report that here.
-> 
-> If so an out-of-bounds constant was hardcoded in dpu_hw_catalog.c.
-> 
->> Otherwise, I dont want to spend more time discussing this bounds check
->> when other blocks already have it.
-> 
-> I'll whip up a patch to clear out the extraneous lookup (assuming there
-> is no other reason/dependency for it to be there...) and can follow that
-> up with removing these range checks of known-good values in `const
-> struct` fields.
-> 
+Best regards,
+-- 
+Jessica Zhang <quic_jesszhan@quicinc.com>
 
-Lets see what you have in mind. As I said, I am not too obsessed with 
-this patch. So i dont want to spend more time convincing why it should 
-be there.
-
-> - Marijn
