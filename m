@@ -2,77 +2,132 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 868D06DFCC6
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Apr 2023 19:33:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD0896E08F5
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Apr 2023 10:33:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 79A2310E8D8;
-	Wed, 12 Apr 2023 17:33:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C075910EA6A;
+	Thu, 13 Apr 2023 08:33:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C6CA610E8D6;
- Wed, 12 Apr 2023 17:33:24 +0000 (UTC)
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 33CAJKAV013575; Wed, 12 Apr 2023 17:33:19 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=+hQca6aJFCTeUv4DhPPARdu8+ozw1MikI+1sASk8QeM=;
- b=Jo+jogq89Vnp6T7RKZ70yo9RgojTCksqe1uEAjXH/dmMz1YFWE0rIY6gk+8PiEBRNVEB
- VL5CwPBE/da6rqSXsaTXrKvs6KFLf/M8MArwbxrZKxlu9+BfAE7y3B/SaHDx+mRmLtsA
- HwSMM+UjukdM+wvPD/+38gFMRl9LumIvH3RNSJ++V8iDyaLCOAtgYfe0FqljSzw5gLin
- PYVR/6jvSag4/ljq6DaNYlRbteuXLpZddVgdd63JBvEUqXBn64HGMoLqSWmOJmlvW15Z
- qD33GKfk4IoYmFD0bUog79pEr0NX4hC+FpdqHD/CS8PQjoK91Fz/1mMhXxWPMNU1orGx 7A== 
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3pwqn1hd6s-1
+X-Greylist: delayed 771 seconds by postgrey-1.36 at gabe;
+ Wed, 12 Apr 2023 17:48:09 UTC
+Received: from mx07-0063e101.pphosted.com (mx07-0063e101.pphosted.com
+ [205.220.184.123])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CF08D10E821
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Apr 2023 17:48:09 +0000 (UTC)
+Received: from pps.filterd (m0247495.ppops.net [127.0.0.1])
+ by mx08-0063e101.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 33CHZFnT022708; Wed, 12 Apr 2023 18:35:15 +0100
+Received: from ind01-bmx-obe.outbound.protection.outlook.com
+ (mail-bmxind01lp2233.outbound.protection.outlook.com [104.47.74.233])
+ by mx08-0063e101.pphosted.com (PPS) with ESMTPS id 3ptwgya01h-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 12 Apr 2023 17:33:18 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 33CHXHl0014185
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 12 Apr 2023 17:33:17 GMT
-Received: from [10.110.115.18] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Wed, 12 Apr
- 2023 10:33:16 -0700
-Message-ID: <e78e576a-2a04-e7ca-f6c4-701d508541ad@quicinc.com>
-Date: Wed, 12 Apr 2023 10:33:15 -0700
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.2
-Subject: Re: [PATCH] drm/msm/dpu: always program dsc active bits
+ Wed, 12 Apr 2023 18:35:15 +0100
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=IOD4wsIByIoKsiELNOmkTOowD+TGnbLMU1jRGjJPRb4Pz0Po962cLCy6SKRSsa6FsJpjH4fJDR3sahvDiApa3wIuHBbqERdfPIiw0PVk2aaaPSgJ9cp+NDhswn0FOmGoa0H6Xuro8U9QYrEyYLzlJLM3BQQQKwuQ4Zw8zpbUMDvleWx/Hko+8sHfe8slBkKb33d2mwYdag3OeBALqbQM7paAfbRqIbxW2OVpLwHMRB3p1Xk2GLyL969mfji38jDFsYnoTnJSwxmozEdXbFsRsBlhjz+Twj1p9RJvHyk5/jnKdP1klvPxGwTl56/XfGaL4mdng8AlIJFDXE05zoRFPA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=QvQo2QTnFc6PnhwvyN4x0vgtasuhGfQIJ8BwhVIeqF4=;
+ b=Vg19ng3GJkfuvsjxWuJfOiNGz2HZNpnogNlmeif1Vu6hiZ748W7IKther0QaxqYUWJr/5dcFvZ+oAwiYANbwgP7KfdIJn5qf3nLv6WUAQsHR1bvK7LD2sCJC4TsA7+SxidRJz2IthhmyIGju2ZD+lKgAw+g86gvMbRl3gVqNzjN/4R4b4XIZv3Sn4Vtg0wOlxA3sImBvW003CiT2C63QUAPzi/Bli3oTMTus/CmepZ6GN3NemZYNMufiXlrN9pTO5hOO3O9/4xgUo2vhBne8CPXJTw3zVUQRK5is724uYvhxQQAnr70piIbGggXAW8u0N9weFsEvL+xKb5x61cSfJw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=blaize.com; dmarc=pass action=none header.from=blaize.com;
+ dkim=pass header.d=blaize.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=BLAIZE.COM;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=QvQo2QTnFc6PnhwvyN4x0vgtasuhGfQIJ8BwhVIeqF4=;
+ b=jNSz0lmCgHgcjxMU4qfZ2sBy+jzETIogBrZ21xCw7rv3I6zub/vKCc1i6ncJCwS014t5UlvjEVpvDWCYuSqBsOfEgo4MjQZXiB7sZxQbdX3Y+wWSyM7VocZA/Tdr+o00r5MpUzgq5xTGv0RWV2FKioU+foj9fNgirHArfW8r2ow=
+Received: from PN3PR01MB7255.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c01:8a::12)
+ by MAZPR01MB5695.INDPRD01.PROD.OUTLOOK.COM (2603:1096:a01:63::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6298.30; Wed, 12 Apr
+ 2023 17:35:07 +0000
+Received: from PN3PR01MB7255.INDPRD01.PROD.OUTLOOK.COM
+ ([fe80::fb61:6425:3c3c:f35c]) by PN3PR01MB7255.INDPRD01.PROD.OUTLOOK.COM
+ ([fe80::fb61:6425:3c3c:f35c%4]) with mapi id 15.20.6298.028; Wed, 12 Apr 2023
+ 17:35:07 +0000
+From: James Cowgill <james.cowgill@blaize.com>
+To: Neil Armstrong <neil.armstrong@linaro.org>, Sam Ravnborg
+ <sam@ravnborg.org>, David Airlie <airlied@gmail.com>, Daniel Vetter
+ <daniel@ffwll.ch>, Philippe CORNU <philippe.cornu@st.com>, Thierry Reding
+ <treding@nvidia.com>
+Subject: [RESEND PATCH] drm/panel: otm8009a: Set backlight parent to panel
+ device
+Thread-Topic: [RESEND PATCH] drm/panel: otm8009a: Set backlight parent to
+ panel device
+Thread-Index: AQHZbWUfGy1msHv/AUKBj1pHg3WUfA==
+Date: Wed, 12 Apr 2023 17:35:07 +0000
+Message-ID: <20230412173450.199592-1-james.cowgill@blaize.com>
+Accept-Language: en-GB, en-US
 Content-Language: en-US
-To: Marijn Suijten <marijn.suijten@somainline.org>
-References: <1681247095-1201-1-git-send-email-quic_khsieh@quicinc.com>
- <z7wj2lcgcdxsqh7ylhec3ig6o4p6q37zqvpzoxp4bd4vid2z2n@ubsgt3ebqrwr>
- <83f9a438-52c5-83f3-1767-92d16518d8f0@quicinc.com>
- <feedv4isliterjtwyicqfarwuvzhtov3jkmvjcwqvt7itkyh7y@e2jq5t6r3lxc>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <feedv4isliterjtwyicqfarwuvzhtov3jkmvjcwqvt7itkyh7y@e2jq5t6r3lxc>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: -r8w261Un6rqEpUZc2hU7W3jdsN8Hsre
-X-Proofpoint-ORIG-GUID: -r8w261Un6rqEpUZc2hU7W3jdsN8Hsre
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: PN3PR01MB7255:EE_|MAZPR01MB5695:EE_
+x-ms-office365-filtering-correlation-id: 8b7ea748-136d-40b3-5822-08db3b7c4209
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: QscvbKP1Gu0snYOCT7WWa+z/DChpBZlcIvEvLbl+M7BbvAlIjCzt8TcKp4dSB44SlVcSevv1MKsd7/lrfxL8tTouZbHJFUcxEpgRTz0stz08lMs06RQ0ZbYbiLWhPD0xfzTbtwshPl8CqzR8WsVwypceYwhh9wp6zlXoUNg6xzTh5PSLcgr6e+Qgjb6G8GaymAvtPRrMg9WipsLYa62iaARjsbW0GU0SPl5n6IpPkFJzIzPsec0mUH5PM+eP4fppKJW0XQ3HdBdUejWuqIeesQ/IMLwvFXBKMoMfCmV3sO16RC+729pSgB6qVbP/6ttDsAexUoQVYmVVxuSPu2DVqnJ/h+AAavl46aQo4gKYkIt+pHDxAxrn4EE6lcvhz6qMpoPFGzWuGhNCXdS436oI2k8cfiqbVur/2VbcQsrp1HUc1SDR0s43SA2d2xOEdQ7KkMrTzbZ0A7regjIOOMqJ4TB78W0weermIhJWe1mqFPd0vEHR966Nd53LOcqDBbzzN+tn5smkJR9QSQ0/UtGNzsxYwZAlUPqwKn7TJlSZSuJyRW6iU44oe2WnSYyWTrD2nexGS0f/8oPBFpV7DU3rLUQkQ+RKDL9W+4aiEo59fIx2Vi1Xg3ew8IcAZXidcYTU
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PN3PR01MB7255.INDPRD01.PROD.OUTLOOK.COM; PTR:; CAT:NONE;
+ SFS:(13230028)(136003)(39840400004)(396003)(376002)(366004)(346002)(451199021)(66946007)(478600001)(66556008)(66476007)(64756008)(66446008)(76116006)(4326008)(91956017)(86362001)(54906003)(316002)(110136005)(26005)(6512007)(6506007)(1076003)(55236004)(186003)(38070700005)(36756003)(5660300002)(44832011)(71200400001)(8676002)(8936002)(38100700002)(2616005)(2906002)(41300700001)(6486002)(122000001)(83380400001);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?PHGy9/DQeGlK1PlhPfH7jCH5C6DIcL0sQyrW3wTQKEJ+DU6lzOps1QBAG/?=
+ =?iso-8859-1?Q?Lwnzu5XOyyJr0oRULl793oqtK3Ym8x7liIvxUs03s4vUy8E6AXl4IuXGOx?=
+ =?iso-8859-1?Q?6rSdF5Z7yzdHx8ZIyR+FmKqunzHETeTNdvbQ/Ap6UZXmYAJMyqwBhyjgYg?=
+ =?iso-8859-1?Q?8NcdlmOU3pa7Bu/OD5rCaQQNYmooMv0Crn5wfcJBcfW3hNfeBgO/7pnNvd?=
+ =?iso-8859-1?Q?sqkWF3KxPVhuRpz7Nersa59sPBp/+GPnJN8stXpl2gXYnsv/9L3h4KnLen?=
+ =?iso-8859-1?Q?WR3oNglFYpIUC+VInD/3kR7XADgUlpa9ky0388/wpFVFq1TibShhOMoGyN?=
+ =?iso-8859-1?Q?9DjFCg6T+XFx52TVKot5l6kcQRxP/ghegx+o0gcsqHCqCrFVBMHkeeAm1m?=
+ =?iso-8859-1?Q?Bf7Bd5SRW22qERYecwpu76fIV33MW5GRQW+DprAPwITl8JNRX/+Hd3N3gF?=
+ =?iso-8859-1?Q?4+dlFPTi0e+J1Hw3+GSVc8eMmDwkkhPxaMOLO1LDNLCu3uf2ORubGPBXG5?=
+ =?iso-8859-1?Q?ao73DT8fnl9iOBKeguI3dZ0fT5elOCdZ2GwS5JXwgbP30ufrw1OJk//hit?=
+ =?iso-8859-1?Q?WxnR9xzNxSAzg6MLYBbmfem3hRhGLq2rwQF7P/LMAvM78vE36CM0fQD7Bm?=
+ =?iso-8859-1?Q?QKnz2tt/9PUsMR0yqqOYZ9V7+fE47Io+plT19dXRt8/4wqH5Pxb695eEnb?=
+ =?iso-8859-1?Q?wSW9nygf5Z+wk3jwfdtIscIYmjJKzIQetX1SnSrqCv3rY+54cttK+qu9yv?=
+ =?iso-8859-1?Q?zXOi07OKkqGoxmTVmsE67bWJXJNtf4AHkgwd8gdWtzJAieqKc1FzlVzpcR?=
+ =?iso-8859-1?Q?cU1Vm87CjxCmweabK+g3nKHMzz8FXmwB6AlFMcAHdyqDHyJcGOKH06Mfx/?=
+ =?iso-8859-1?Q?BMvsK4oBLAJyGY/LqlS1YNmwzP8ICajriaq+LjkA8gWFH0DfqRRaxhwxIe?=
+ =?iso-8859-1?Q?NdYsnPkuCrFaqdTlZSC2EQzcfgU4kiYwmmqmvIrJPGJGxQ2QOmRmM0/xIa?=
+ =?iso-8859-1?Q?zqveNgUKeDBXbrf954niVpwpZhBPn/SPt2mS/oUY1Wn1ifsgZmC/RQ8Y4N?=
+ =?iso-8859-1?Q?iEQKq1KuO+qNvbYsf/krLFlnUYTcvnCeBL+WtzAHF5IM2TpVmjs+hFV3h1?=
+ =?iso-8859-1?Q?DykgC8jiM3TFT4HeXm7GGGXwRKBSapHb3DwrcLoJN0tQ4q6Xi5P7RWUG3Z?=
+ =?iso-8859-1?Q?Tq6BDW+gVEJt+FZeVf2wBuya1Br074sWGtF91NLMiz00sH43GBqC/LbWU6?=
+ =?iso-8859-1?Q?x/Y9tYWCHRQnTd0hsqf4vtg8mlC/yjVeu5ahFx6H2jNwvP5hx0hybwpZMu?=
+ =?iso-8859-1?Q?SKX7Pu/pVLpL+hBiTRqnD4fq3yMfyEcmb21Z/cklBFk2QYZf/yRuCTHdDb?=
+ =?iso-8859-1?Q?JGw8F2VGNYZezI5siv4AD/DbRVvs6WUm5YG358FhEg071vuv/4fnUk+Z2k?=
+ =?iso-8859-1?Q?rtEUSphBLZFDoDLk61znPGWsYblFHbTAOBtTIWcWC7fu9tp/e1k9jVP8L7?=
+ =?iso-8859-1?Q?1nOxbqYtSiyZfU1LgvxB5Wttyq4OsuIKTFOoJcB63049MOCyFSGMc8YUyt?=
+ =?iso-8859-1?Q?Biz+r9HNiB4ZCj/VVSxhHvgbNnHxuwqRLTgDU0Xcot7D3UkaOPT9WuHLbT?=
+ =?iso-8859-1?Q?ermYSqyMbS7iRcWxvtZuhqE/iJDYVqB1xf?=
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-OriginatorOrg: blaize.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: PN3PR01MB7255.INDPRD01.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8b7ea748-136d-40b3-5822-08db3b7c4209
+X-MS-Exchange-CrossTenant-originalarrivaltime: 12 Apr 2023 17:35:07.2638 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 9d1c3c89-8615-4064-88a7-bb1a8537c779
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: VNXwmNTUlnPciRSfY2n2mBsma8HfEyVsX9iWE5TZRZmFsG1iZN9YewRl2dpfsKslasWzuPL9cCERGkvTcX+oUsJyLwxBA76lAbWbKkTPVsU=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MAZPR01MB5695
+X-Proofpoint-GUID: dFacKEj5WTGz5ekLtbGnTCMVS5upKklJ
+X-Proofpoint-ORIG-GUID: dFacKEj5WTGz5ekLtbGnTCMVS5upKklJ
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
  definitions=2023-04-12_08,2023-04-12_01,2023-02-09_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 spamscore=0
- lowpriorityscore=0 phishscore=0 adultscore=0 bulkscore=0 suspectscore=0
- impostorscore=0 clxscore=1015 mlxlogscore=695 priorityscore=1501
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2303200000 definitions=main-2304120150
+ clxscore=1011 mlxscore=0
+ malwarescore=0 lowpriorityscore=0 priorityscore=1501 mlxlogscore=830
+ impostorscore=0 bulkscore=0 spamscore=0 phishscore=0 suspectscore=0
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2303200000 definitions=main-2304120151
+X-Mailman-Approved-At: Thu, 13 Apr 2023 08:33:23 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,56 +140,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, quic_sbillaka@quicinc.com,
- dianders@chromium.org, andersson@kernel.org, dri-devel@lists.freedesktop.org,
- swboyd@chromium.org, vkoul@kernel.org, agross@kernel.org,
- linux-arm-msm@vger.kernel.org, dmitry.baryshkov@linaro.org,
- Kuogee Hsieh <quic_khsieh@quicinc.com>, sean@poorly.run,
- linux-kernel@vger.kernel.org
+Cc: James Cowgill <james.cowgill@blaize.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "stable@vger.kernel.org" <stable@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+This is the logical place to put the backlight device, and it also
+fixes a kernel crash if the MIPI host is removed. Previously the
+backlight device would be unregistered twice when this happened - once
+as a child of the MIPI host through `mipi_dsi_host_unregister`, and
+once when the panel device is destroyed.
 
+Fixes: 12a6cbd4f3f1 ("drm/panel: otm8009a: Use new backlight API")
+Signed-off-by: James Cowgill <james.cowgill@blaize.com>
+Cc: stable@vger.kernel.org
+---
+ drivers/gpu/drm/panel/panel-orisetech-otm8009a.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-On 4/12/2023 12:24 AM, Marijn Suijten wrote:
-> On 2023-04-11 16:45:34, Abhinav Kumar wrote:
-> [..]
->>> Does this flush all DSCs programmed in CTL_DSC_FLUSH as set above?  That
->>> is currently still in `if (cfg->dsc)` and never overwritten if all DSCs
->>> are disabled, should it be taken out of the `if` to make sure no DSCs
->>> are inadvertently flushed, or otherwise cache the "previous mask" to
->>> make sure we flush exactly the right DSC blocks?
->>>
->>
->> Yes, DSC flush is hierarchical. This is the main DSC flush which will
->> enforce the flush of the DSC's we are trying to flush in the
->> CTL_DSC_FLUSH register.
-> 
-> That's what I was thinking, thanks for confirming.
-> 
->> So if DSC was active, the CTL_FLUSH will only enforce the flush of the
->> DSC's programmed in CTL_DSC_FLUSH
->>
->> If DSC is not active, we still need to flush that as well (that was the
->> missing bit).
->>
->> No need to cache previous mask. That programming should be accurate in
->> cfg->dsc already.
-> 
-> This kind of implicit dependency warrants a comment at the very least.
-> 
+diff --git a/drivers/gpu/drm/panel/panel-orisetech-otm8009a.c b/drivers/gpu=
+/drm/panel/panel-orisetech-otm8009a.c
+index b4729a94c34a8..898b892f11439 100644
+--- a/drivers/gpu/drm/panel/panel-orisetech-otm8009a.c
++++ b/drivers/gpu/drm/panel/panel-orisetech-otm8009a.c
+@@ -471,7 +471,7 @@ static int otm8009a_probe(struct mipi_dsi_device *dsi)
+ 		       DRM_MODE_CONNECTOR_DSI);
+=20
+ 	ctx->bl_dev =3D devm_backlight_device_register(dev, dev_name(dev),
+-						     dsi->host->dev, ctx,
++						     dev, ctx,
+ 						     &otm8009a_backlight_ops,
+ 						     NULL);
+ 	if (IS_ERR(ctx->bl_dev)) {
+--=20
+2.39.1
 
-Sure.
-
-> What happens if a device boots without DSC panel connected?  Will
-> CTL_DSC_FLUSH be zero and not (unnecessarily, I assume) flush any of the
-> DSC blocks?  Or could this flush uninitialized state to the block?
-> 
-
-If we bootup without DSC panel connected, the kernel's cfg->dsc will be 
-0 and default register value of CTL_DSC_FLUSH will be 0 so it wont flush 
-any DSC blocks. Sure, as I wrote in the other response, we can move this 
-to reset_intf_cfg later when the other pieces are fixed. And leave a 
-FIXME here.
-
-> - Marijn
