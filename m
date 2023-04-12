@@ -2,59 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E775E6DE8DD
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Apr 2023 03:28:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0E5D6DE909
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Apr 2023 03:38:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 439DB10E6CF;
-	Wed, 12 Apr 2023 01:28:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8AC5210E183;
+	Wed, 12 Apr 2023 01:38:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 348 seconds by postgrey-1.36 at gabe;
- Wed, 12 Apr 2023 01:28:53 UTC
-Received: from st43p00im-ztbu10073601.me.com (st43p00im-ztbu10073601.me.com
- [17.58.63.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DD52610E6CF
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Apr 2023 01:28:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=icloud.com;
- s=1a1hai; t=1681262584;
- bh=5lYEMcGNaDjCakbfqg3dZSHw5YYijll0DV6pUU4IwUQ=;
- h=Mime-Version:Content-Type:Date:Message-Id:Subject:From:To;
- b=atT1omM/juMY7qst5KCgYsE6VaDU9lY5T+rr6QEqEViHM+OS2qQL8LwuyIe7a9Mpm
- 1UBL2YqmM4xmqD/xSJfIzVz7PmkjxvSOBcEsoIE/UQkOFAcd/LfEee3O/9im9b1dnl
- 4UracAxZZ8NNMIjFcgjL6IoYGD1Q9vQtqtsVPYRimlHooPEqc/HvIYMT9XTh+FkCQ1
- YyATazRM8rb1SN7g03dIXN1bdogviM+cFb/8W4WABoZjnaX1BKLUyQCUd5L2S8SpNI
- OAXQM8UUStujT1JHMzhmsklmNMW8eDRshhkwvMMnRNzZn1daAqltxZsq/9I/zscDLW
- l/PqMUceJJ44Q==
-Received: from localhost (st43p00im-dlb-asmtp-mailmevip.me.com [17.42.251.41])
- by st43p00im-ztbu10073601.me.com (Postfix) with ESMTPSA id
- 923FD180C17; Wed, 12 Apr 2023 01:23:01 +0000 (UTC)
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 12 Apr 2023 03:22:59 +0200
-Message-Id: <CRUDUEL17ER4.1R8WRNNB5CJ35@void.crly.cz>
-Subject: Re: [PATCH] drm/sun4i: uncouple DSI dotclock divider from
- TCON0_DCLK_REG
-From: "Roman Beranek" <romanberanek@icloud.com>
-To: =?utf-8?q?Jernej_=C5=A0krabec?= <jernej.skrabec@gmail.com>, "Maxime
- Ripard" <maxime@cerno.tech>
-X-Mailer: aerc 0.14.0
-References: <20230320161636.24411-1-romanberanek@icloud.com>
- <20230329195802.veybo3367zifw77n@penduick>
- <CROTQHUM88W0.2URPO95U5ZMS5@void.crly.cz>
- <2219295.iZASKD2KPV@jernej-laptop>
-In-Reply-To: <2219295.iZASKD2KPV@jernej-laptop>
-X-Proofpoint-GUID: g1DkOftfS7myPiNQXtcxfcmsJmiyUcmX
-X-Proofpoint-ORIG-GUID: g1DkOftfS7myPiNQXtcxfcmsJmiyUcmX
-X-Proofpoint-Virus-Version: =?UTF-8?Q?vendor=3Dfsecure_engine=3D1.1.170-22c6f66c430a71ce266a39bfe25bc?=
- =?UTF-8?Q?2903e8d5c8f:6.0.138,18.0.883,17.0.605.474.0000000_definitions?=
- =?UTF-8?Q?=3D2022-06-21=5F08:2020-02-14=5F02,2022-06-21=5F08,2020-01-23?=
- =?UTF-8?Q?=5F02_signatures=3D0?=
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=24 bulkscore=0
- mlxlogscore=51
- malwarescore=0 adultscore=0 clxscore=1011 spamscore=24 mlxscore=24
- suspectscore=0 phishscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2212070000 definitions=main-2304120009
+Received: from mail-lj1-x22e.google.com (mail-lj1-x22e.google.com
+ [IPv6:2a00:1450:4864:20::22e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C12CB10E183
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Apr 2023 01:38:27 +0000 (UTC)
+Received: by mail-lj1-x22e.google.com with SMTP id e20so10190399lji.6
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Apr 2023 18:38:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1681263505; x=1683855505;
+ h=cc:to:subject:message-id:date:user-agent:from:references
+ :in-reply-to:mime-version:from:to:cc:subject:date:message-id
+ :reply-to; bh=x4I7A7fTrqw2RjiH+FANl1pHUb1mo4v70F1ZP1YYmH0=;
+ b=eddehjaxa279W/YrUOmm1WgvC8vDX4Tc3sYAKlXKYyV36fw4dQ/qyq+r8+UTYIVkmA
+ 9+nD3VH5DqzPAN3u0aJka1TzhZNJ0Mozj2KrChdbZxyRaHskhIAL2Yl4+XW3MpxGifyX
+ TewzYAl4ZckxEtP5KKFLTI/6fnR6+sgtt05Cw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1681263505; x=1683855505;
+ h=cc:to:subject:message-id:date:user-agent:from:references
+ :in-reply-to:mime-version:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=x4I7A7fTrqw2RjiH+FANl1pHUb1mo4v70F1ZP1YYmH0=;
+ b=GkT3FqunyRu67wfT3aFdmGSkFFqOG+UgOhTg9doqDF/iZqSiumXuOosjFxH8/+0DZw
+ ZUVQzso/fcQjea0DhKndNKbxjYMviMSph71X6Beh5EIGEv/abmFKC3/sB/1qpxE7cWlp
+ WaYk6N/Uw9QOGlm6N7ntrpmZdFyUDSFhqWmIPNaXmO8fJV/33jfHmWs6QgDmD/0CgSe3
+ BY/8spTFGx4v7VTcKK6Lp6JvDuH/Agy5ONbj9StOYIdTPcZcDY//2NDr5/EgAIvn2i6U
+ /FSP0lKbLcx5H+9yunA4BDXxmDEd2OejIhDfEffOrNcs+SbXb3EsloM+qkA1a6KlAoCE
+ 9/8w==
+X-Gm-Message-State: AAQBX9fvv88JXwByyB6N4MS+AIbbVzgobbXwqpu+XEoADY3uLYDWa6lm
+ xRWWL2EsjdJkCjMbZUsu86puJWEYn3OOrAZGmUh2UA==
+X-Google-Smtp-Source: AKy350ZrQD2Vb2BW3i4nlZswnqh11mfvwRG/pRKEBtPfKm06ImQY4Wy4cFsAYomIBa6rGCRvOo5AoNfsAyZRUXeax+8=
+X-Received: by 2002:a2e:8e96:0:b0:2a7:8402:c934 with SMTP id
+ z22-20020a2e8e96000000b002a78402c934mr1460102ljk.10.1681263505347; Tue, 11
+ Apr 2023 18:38:25 -0700 (PDT)
+Received: from 753933720722 named unknown by gmailapi.google.com with
+ HTTPREST; Tue, 11 Apr 2023 18:38:24 -0700
+MIME-Version: 1.0
+In-Reply-To: <20230331091145.737305-5-treapking@chromium.org>
+References: <20230331091145.737305-1-treapking@chromium.org>
+ <20230331091145.737305-5-treapking@chromium.org>
+From: Stephen Boyd <swboyd@chromium.org>
+User-Agent: alot/0.10
+Date: Tue, 11 Apr 2023 18:38:24 -0700
+Message-ID: <CAE-0n51E5foFWQAsA73662_5e6XP426wuUCVVmcS5UWwiYpDmw@mail.gmail.com>
+Subject: Re: [PATCH v15 04/10] dt-bindings: display: bridge: anx7625: Add
+ mode-switch support
+To: Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Benson Leung <bleung@chromium.org>, 
+ Daniel Scally <djrscally@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ David Airlie <airlied@gmail.com>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Guenter Roeck <groeck@chromium.org>, 
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Jonas Karlman <jonas@kwiboo.se>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Pin-yen Lin <treapking@chromium.org>, 
+ Prashant Malani <pmalani@chromium.org>,
+ "Rafael J . Wysocki" <rafael@kernel.org>, 
+ Rob Herring <robh+dt@kernel.org>, Robert Foss <rfoss@kernel.org>, 
+ Sakari Ailus <sakari.ailus@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,44 +84,145 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Samuel Holland <samuel@sholland.org>, Frank Oltmanns <frank@oltmanns.dev>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Chen-Yu Tsai <wens@csie.org>, linux-sunxi@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, icenowy@aosc.io
+Cc: Marek Vasut <marex@denx.de>, devicetree@vger.kernel.org,
+ =?UTF-8?B?TsOtY29sYXMgRiAuIFIgLiBBIC4gUHJhZG8=?= <nfraprado@collabora.com>,
+ chrome-platform@lists.linux.dev, Chen-Yu Tsai <wenst@chromium.org>,
+ Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Hsin-Yi Wang <hsinyi@chromium.org>,
+ Xin Ji <xji@analogixsemi.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat Apr 8, 2023 at 9:07 AM CEST, Jernej =C5=A0krabec wrote:
-> Dne sreda, 05. april 2023 ob 14:34:11 CEST je Roman Beranek napisal(a):
-> > While simply forbidding the video0-2x mux option seems
-> > to me as the right way to go because there's not much use for it with
-> > non-DSI interfaces either besides the opportunity to power pll-mipi
-> > down, I'd like to run by you first.
+Quoting Pin-yen Lin (2023-03-31 02:11:39)
+> diff --git a/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml b/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml
+> index b42553ac505c..604c7391d74f 100644
+> --- a/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml
+> +++ b/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml
+> @@ -12,7 +12,8 @@ maintainers:
 >
-> It's been a long time since I looked at A64 HDMI clocks, but IIRC, pll-vi=
-deo0=20
-> is the only useful source for HDMI PHY (as opposed to HDMI controller.)
-> So question remains how to properly support both displays at the same tim=
-e.
+>  description: |
+>    The ANX7625 is an ultra-low power 4K Mobile HD Transmitter
+> -  designed for portable devices.
+> +  designed for portable devices. Product brief is available at
+> +  https://www.analogix.com/en/system/files/AA-002291-PB-6-ANX7625_ProductBrief.pdf
 >
-
-Correct.
-
-> Have you ever tried to make HDMI and DSI work at the same time? This is o=
-ne of=20
-> issues of the PinePhone IIUC.
+>  properties:
+>    compatible:
+> @@ -112,9 +113,40 @@ properties:
+>                data-lanes: true
 >
+>        port@1:
+> -        $ref: /schemas/graph.yaml#/properties/port
+> +        $ref: /schemas/graph.yaml#/$defs/port-base
+>          description:
+> -          Video port for panel or connector.
+> +          Video port for panel or connector. Each endpoint connects to a video
+> +          output downstream, and the "data-lanes" property is used to describe
+> +          the pin connections. 0, 1, 2, 3 in "data-lanes" maps to SSRX1, SSTX1,
+> +          SSRX2, SSTX2, respectively.
+> +
+> +        patternProperties:
+> +          "^endpoint@[01]$":
+> +            $ref: /schemas/media/video-interfaces.yaml#
+> +            properties:
+> +              reg: true
+> +
+> +              remote-endpoint: true
+> +
+> +              data-lanes:
+> +                oneOf:
+> +                  - items:
+> +                      - enum: [0, 1, 2, 3]
+> +
+> +                  - items:
+> +                      - const: 0
+> +                      - const: 1
+> +
+> +                  - items:
+> +                      - const: 2
+> +                      - const: 3
+> +
+> +              mode-switch:
 
-Yes, I have. Prusa3D's SL1 printer, on which I previously worked on,
-uses both outputs simultaneously. I had encountered the same reparenting
-problem back then but since I hadn't been able to identify it,
-I resorted to fiddling with the DSI pixelclock until it worked.=20
+Is it possible to not have this property? Can we have the driver for
+this anx device look at the remote-endpoint and if it sees that it is
+not a drm_bridge or panel on the other end, or a DP connector, that it
+should register a typec mode switch (or two depending on the number of
+endpoints in port@1)? Is there any case where that doesn't hold true?
 
-DSI & HDMI co-existence is yet another reasoni though for forbidding
-the pll-video-2x parent. megi's kernel includes Mr. Zheng's commit which
-does the same.
+I see these possible scenarios:
 
-<https://github.com/megous/linux/commit/7374d57>
+1. DPI to DP bridge steering DP to one of two usb-c-connectors
 
-Best wishes
-Roman Beranek
+In this case, endpoint@0 is connected to one usb-c-connector and
+endpoint@1 is connected to another usb-c-connector. The input endpoint
+is only connected to DPI. The USB endpoint is not present (although I
+don't see this described in the binding either, so we would need a
+port@2, entirely optional to describe USB3 input). The driver will
+register two mode switches.
+
+2. DPI to DP bridge with USB3 to one usb-c-connector
+
+In this case, endpoint@1 doesn't exist. The SSTX1/2 and SSRX1/2 pins are
+all connected to a usb-c-connector node. The input ports (0 and 2) are
+connected to both DPI and USB. The device acts as both a mode-switch and
+an orientation-switch. It registers both switches. I wonder if there is
+any benefit to describing SBU connections or CC connections? Maybe we
+don't register the orientation-switch if the SBU or CC connection isn't
+described?
+
+3. DPI to DP bridge connected to eDP panel
+
+In this case, endpoint@1 doesn't exist. The USB endpoint is not present
+(port@2). Depending on how the crosspoint should be configured, we'll
+need to use data-lanes in the port@1 endpoint to describe which SSTRX
+pair to use (1 or 2). Or we'll have to use the endpoint's reg property
+to describe which pair to drive DP on. Presumably the default
+configuration is SSRX2/SSTX2 providing 2 lanes of DP to an eDP panel.
+The endpoint@0 in port@1 will be connected to a drm_panel, and the
+driver will be able to detect this properly by checking for the
+existence of an aux-bus node or the return value of
+of_dp_aux_populate_bus().
+
+4. DPI to DP bridge connected to DP connector
+
+This is similar to the eDP panel scenario #3. In this case, endpoint@1
+doesn't exist. The USB endpoint is not present (port@2). Same story
+about port@1 and lane configuration, but we don't have an aux-bus node.
+In this case, the drivers/gpu/drm/bridge/display-connector.c driver will
+probe for the dp-connector node and add a drm_bridge. This anx driver
+will similarly add a drm_bridge, but it needs to look at the node
+connected on port@1:endpoint@0 with drm_of_get_bridge() and check if it
+is a drm_bridge (DP connector) or if it is some type-c thing (connector
+or orientation-switch).
+
+I think having this mode-switch property here lets us avoid calling
+drm_of_get_bridge() unconditionally in anx7625_parse_dt().
+drm_of_get_bridge() will always return -EPROBE_DEFER when this is the
+last drm_bridge in the chain and the other side of the endpoint is a
+type-c thing (scenarios #1 and #2). Maybe we should teach
+drm_of_get_bridge() that a drm_bridge might be connected to a type-c
+device and have it not return -EPROBE_DEFER in that case. Or make some
+new API like drm_of_get_bridge_typec() that checks if the typec
+framework knows about the endpoint in question (as either a typec switch
+or a connector) and returns a NULL bridge pointer. If we had that then I
+think this property is not necessary.
+
+Hopefully the usb-c-connector can always be registered with the typec
+framework? I'm worried that the driver that registers the
+usb-c-connector node may want to form a struct typec_port with
+typec_register_port() and that will get stuck in a similar -EPROBE_DEFER
+loop waiting for this mode-switch to appear. So having this property
+also avoids that problem by telling typec framework to wait until this
+driver can register a mode-switch.
+
+TL;DR: Is this mode-switch property a workaround for probe defer? Can we
+figure out where the mode switch is in software and not have the
+property in DT? If we can it would certainly improve things because
+forgetting to add the property can lead to broken behavior, and we don't
+do anything like this for chains of drm_bridge devices. We just describe
+the display chain and let the kernel figure out which bridge should
+handle hpd, edid reading, or mode detection, etc.
