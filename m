@@ -1,44 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 790AB6E0249
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Apr 2023 01:07:28 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AA2A46E0258
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Apr 2023 01:13:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 748E910E9D7;
-	Wed, 12 Apr 2023 23:07:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8A19F10E9D8;
+	Wed, 12 Apr 2023 23:13:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bombadil.infradead.org (bombadil.infradead.org
- [IPv6:2607:7c80:54:3::133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D52C510E9D8
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Apr 2023 23:07:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
- Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
- Message-ID:Sender:Reply-To:Content-ID:Content-Description;
- bh=7HhdItHAdBJmzHTfScdmkqFlRVS7ZJYIvKVZxWllbFs=; b=c/bWin99hoForEDgQPu1N4UZ4Y
- hBduKaO0LsfpESU/IMcijRkepfGBTxWY0HBPfNVbAPlAw0shj6Ib6g4cbFeq0yy4EoM+ZNoYkZpDs
- CjtxHuNMmmRCL4caf7ZxJNp1rEonD/fyg6gPaeJ0Pagjl226Si0kLPJCi3wHtCctWaw78BSY/lBe9
- 59cVGuJ565MxSAt2wHXfjSNsOSjCQyY8uPp+KdHghPELTPPeEulhX4YLCKDsJhxSV8QX+gln5NQHn
- vuk8ILybfVXDjzJhz6RkScRdV/CR675gkW8KRDGTfjwTbTNDIkN7iWLzcK016chE2K2//+sZA9/p+
- c2vvkq3Q==;
-Received: from [2601:1c2:980:9ec0::2764]
- by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
- id 1pmjYc-004bMr-2J; Wed, 12 Apr 2023 23:07:18 +0000
-Message-ID: <2ecbfefe-10bc-4abc-eb07-e0f14229eb1a@infradead.org>
-Date: Wed, 12 Apr 2023 16:07:17 -0700
+Received: from mailbackend.panix.com (mailbackend.panix.com [166.84.1.89])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BEE0E10E9D8
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Apr 2023 23:13:36 +0000 (UTC)
+Received: from mail.panix.com (localhost [127.0.0.1])
+ by mailbackend.panix.com (Postfix) with ESMTPA id 4Pxdmv04mMz2pZC;
+ Wed, 12 Apr 2023 19:13:34 -0400 (EDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=panix.com; s=panix;
+ t=1681341215; bh=McaN/f68QlopTbL9CcHx2/7yPR1k84y49eeRf5KpOh4=;
+ h=In-Reply-To:References:Date:Subject:From:To:Cc;
+ b=aC0EK7Yd+e4ZrZT+QJpsf6afc4ZK9GbZ6iR+Q0gtbWGAq9DeZGdQ51ei9XS9G0pkZ
+ aY1TkHLRgFRO+krj7tY/Hjm7vye2qmOcBUPLkpDF6ryItMyNrkWXTmgxc431nNSj6E
+ dOCXhNkgnM2y+jLST9k5p1+biiUsVkd/7rCMNvnE=
+X-Panix-Received: from 166.84.1.2
+ (SquirrelMail authenticated user pa@panix.com)
+ by mail.panix.com with HTTP; Wed, 12 Apr 2023 19:13:35 -0400
+Message-ID: <9e6fff69b09b36cbdd96499cd0015154.squirrel@mail.panix.com>
+In-Reply-To: <87a5zcsqg8.fsf@minerva.mail-host-address-is-not-set>
+References: <20230412150225.3757223-1-javierm@redhat.com>
+ <2e07f818ccdff7023a060e732d7c4ef6.squirrel@mail.panix.com>
+ <87jzyhror0.fsf@minerva.mail-host-address-is-not-set>
+ <beeff0335ab4cc244d214a7baadba371.squirrel@mail.panix.com>
+ <CAFOAJEdKBUg91pDmNYYw5xigUxjifBgOLz2YgD+xQ+WyEy=V2w@mail.gmail.com>
+ <1afd3044c2aca9322ecf304941c7df66.squirrel@mail.panix.com>
+ <87fs94stgw.fsf@minerva.mail-host-address-is-not-set>
+ <87cz48srs4.fsf@minerva.mail-host-address-is-not-set>
+ <40edb0fdb0eaff434f4872dd677923a6.squirrel@mail.panix.com>
+ <87a5zcsqg8.fsf@minerva.mail-host-address-is-not-set>
+Date: Wed, 12 Apr 2023 19:13:35 -0400
+Subject: Re: [PATCH] firmware/sysfb: Fix wrong stride when bits-per-pixel is
+ calculated
+From: "Pierre Asselin" <pa@panix.com>
+To: "Javier Martinez Canillas" <javierm@redhat.com>
+User-Agent: SquirrelMail/1.4.23-p1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH] dma-buf/sync_file: Fix doc build warning
-Content-Language: en-US
-To: Rob Clark <robdclark@gmail.com>, dri-devel@lists.freedesktop.org
-References: <20230330142720.882045-1-robdclark@gmail.com>
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20230330142720.882045-1-robdclark@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain;charset=iso-8859-1
+Content-Transfer-Encoding: 8bit
+X-Priority: 3 (Normal)
+Importance: Normal
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,49 +59,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, Stephen Rothwell <sfr@canb.auug.org.au>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- open list <linux-kernel@vger.kernel.org>, Greg Hackmann <ghackmann@google.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Gustavo Padovan <gustavo@padovan.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- "open list:SYNC FILE FRAMEWORK" <linux-media@vger.kernel.org>
+Cc: Jocelyn Falempe <jfalempe@redhat.com>, Pierre Asselin <pa@panix.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Hans de Goede <hdegoede@redhat.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Ard Biesheuvel <ardb@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+(Okay, can't back out *all* of the first patch, just the assignment
+to mode->stride.)
 
+Anyway, here you go:
 
-On 3/30/23 07:27, Rob Clark wrote:
-> From: Rob Clark <robdclark@chromium.org>
-> 
-> Fixes warning:
-> 
->   include/uapi/linux/sync_file.h:77: warning: Function parameter or member 'num_fences' not described in 'sync_file_info'
-> 
-> Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
-> Fixes: 2d75c88fefb2 ("staging/android: refactor SYNC IOCTLs")
-> Signed-off-by: Rob Clark <robdclark@chromium.org>
+grub: gfxpayload=keep
+[    0.003333] Console: colour dummy device 128x48
+[    0.003333] printk: console [tty0] enabled
+[    0.419983] fbcon: Taking over console
+[    0.516198] pci 0000:01:05.0: vgaarb: setting as boot VGA device
+[    0.516229] pci 0000:01:05.0: vgaarb: bridge control possible
+[    0.516253] pci 0000:01:05.0: vgaarb: VGA device added:
+decodes=io+mem,owns=io+mem,locks=none
+[    0.516288] vgaarb: loaded
+[    3.343649] simple-framebuffer simple-framebuffer.0: framebuffer at
+0xd8000000, 0x300000 bytes
+[    3.343687] simple-framebuffer simple-framebuffer.0: format=r8g8b8,
+mode=1024x768x24, linelength=4096
+[    3.344199] Console: switching to colour frame buffer device 128x48
+[    3.681177] simple-framebuffer simple-framebuffer.0: fb0: simplefb
+registered!
 
-Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+[    3.343345] sysfb: si->lfb_depth 32 si->lfb_width 1024
+[    3.343372] sysfb: si->red_size 8 si->red_pos 16
+[    3.343392] sysfb: si->green_size 8 si->green_pos 8
+[    3.343413] sysfb: si->blue_size 8 si->blue_pos 0
+[    3.343433] sysfb: si->rsvd_size 0 si->rsvd_pos 0
+[    3.343453] sysfb: bits_per_pixel 24 si->lfb_linelength 4096
+[    3.343476] sysfb: stride 3072
+[    3.343493] sysfb: format r8g8b8
 
-Thanks.
+So it's the rsvd_size and rsvd_pos that are bogus.  The fix would be to:
+  1) believe si->lfb_depth
+  2) fill with ones a bitmask of size si->lfb_depth
+  3) clear chunks of bits based on si->{red,green,blue,rsvd}_{size,pos}
+  4) printk if the bitmask is not all zeros
+  5) override rsvd_{size,pos} based on the bitmask
+That way you know where the 'x' goes in xrgb.
 
-> ---
->  include/uapi/linux/sync_file.h | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/include/uapi/linux/sync_file.h b/include/uapi/linux/sync_file.h
-> index d61752dca4c6..ff1f38889dcf 100644
-> --- a/include/uapi/linux/sync_file.h
-> +++ b/include/uapi/linux/sync_file.h
-> @@ -56,7 +56,7 @@ struct sync_fence_info {
->   * @name:	name of fence
->   * @status:	status of fence. 1: signaled 0:active <0:error
->   * @flags:	sync_file_info flags
-> - * @num_fences	number of fences in the sync_file
-> + * @num_fences:	number of fences in the sync_file
->   * @pad:	padding for 64-bit alignment, should always be zero
->   * @sync_fence_info: pointer to array of struct &sync_fence_info with all
->   *		 fences in the sync_file
+Hm.  Could that fix my two boxes but cause a regression for someone else ?
+What if _depth is low but the rsvd_ are right ?
+Then _width and _linelength would be inconsistent with _depth but
+consistent with the recomputed bits_per_pixel ?  How many ways can the
+firmware lie ?
 
--- 
-~Randy
+We need more testers, don't we ?
+
