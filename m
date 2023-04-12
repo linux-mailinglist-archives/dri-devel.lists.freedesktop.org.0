@@ -2,73 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 071EE6DFCC0
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Apr 2023 19:31:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 868D06DFCC6
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Apr 2023 19:33:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 937A810E8D1;
-	Wed, 12 Apr 2023 17:31:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 79A2310E8D8;
+	Wed, 12 Apr 2023 17:33:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9F6E410E8D1
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Apr 2023 17:31:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1681320697;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=TfEBVoMuh9JyHTvdb8tDKkvHKW1yHCS+PCAl2pLfY2E=;
- b=EwD2VqHtiqHXUxkKSjrxAjkmrp0yg/f4Ha6FsgL8myH5ZrCMJmlWHkUrqcG/IrFctGJj7I
- wXClU/rsLe6F6THXczPS88wg34hjtP3RyS036ltTML8fyBhuaeHaWxcV8W3DfPr/2jRlia
- qXkgcBFKVlSxMxct1YXCqXEewTr4z60=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-110-VeibI1J9Pcmqb0DLFlW50A-1; Wed, 12 Apr 2023 13:31:34 -0400
-X-MC-Unique: VeibI1J9Pcmqb0DLFlW50A-1
-Received: by mail-wr1-f71.google.com with SMTP id
- r2-20020adfb1c2000000b002d92bb99383so2089984wra.23
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Apr 2023 10:31:33 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681320692; x=1683912692;
- h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=TfEBVoMuh9JyHTvdb8tDKkvHKW1yHCS+PCAl2pLfY2E=;
- b=hMjNCSzCAC6LtHERVi6rVxk5m2165oXGenoKpXskBndAlYqmLLWhrA6goYCMXWh5Gt
- TpdeCsDtb6HtVRS+IKOgl7Fvwc6R8kush/Azbj4dVcmqH3iSVt6i6C5ZgHi+b57oYq4z
- ejvvPS64LyrV5AZc0KvliGrGHJ8LMDHDB39JXStCrWhBGUmh9E9XKlzF3yR4CsOCaKOu
- IcFlpnLwLJIFzpgz9k8fFSR9ye1dlAWEycMiVHq0snFhs9zE2Wz3ACYDgkUdZbUEBQan
- aQQ3gSajltNlOpw+IR2VN2XzDTnWiBkC1hns6ZLK6N7sEDhhbQcZTPK3yqSq2mRzKIiJ
- kOaA==
-X-Gm-Message-State: AAQBX9ewYrJCrXCq+YppJSMjQbZxZCM5/bU/RGF/pG8wa1KGIxUsnbDu
- gdDgu1iPrWVlBeH8Rts0SSOo1kFNO80wbZBD0DB3EyeW6/PaBXOk4T4Ydza1CKHJKEqgLLRGFNn
- PT8Bk2go8dCOnAgU2mNIRaf3/RI/d
-X-Received: by 2002:a5d:4f06:0:b0:2ce:a7b3:1c71 with SMTP id
- c6-20020a5d4f06000000b002cea7b31c71mr13271014wru.35.1681320692687; 
- Wed, 12 Apr 2023 10:31:32 -0700 (PDT)
-X-Google-Smtp-Source: AKy350YN2PMFM71kRQyiEnrfpzjiNeoWjbiPuuEil1NnO/uUFOG80zKe4TLyarVa7omcBU11lNnprQ==
-X-Received: by 2002:a5d:4f06:0:b0:2ce:a7b3:1c71 with SMTP id
- c6-20020a5d4f06000000b002cea7b31c71mr13270998wru.35.1681320692404; 
- Wed, 12 Apr 2023 10:31:32 -0700 (PDT)
-Received: from localhost (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- i3-20020adfdec3000000b002f24db41f50sm7591393wrn.69.2023.04.12.10.31.31
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 12 Apr 2023 10:31:32 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Pierre Asselin <pa@panix.com>
-Subject: Re: [PATCH] firmware/sysfb: Fix wrong stride when bits-per-pixel is
- calculated
-In-Reply-To: <2e07f818ccdff7023a060e732d7c4ef6.squirrel@mail.panix.com>
-References: <20230412150225.3757223-1-javierm@redhat.com>
- <2e07f818ccdff7023a060e732d7c4ef6.squirrel@mail.panix.com>
-Date: Wed, 12 Apr 2023 19:31:31 +0200
-Message-ID: <87jzyhror0.fsf@minerva.mail-host-address-is-not-set>
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C6CA610E8D6;
+ Wed, 12 Apr 2023 17:33:24 +0000 (UTC)
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 33CAJKAV013575; Wed, 12 Apr 2023 17:33:19 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=+hQca6aJFCTeUv4DhPPARdu8+ozw1MikI+1sASk8QeM=;
+ b=Jo+jogq89Vnp6T7RKZ70yo9RgojTCksqe1uEAjXH/dmMz1YFWE0rIY6gk+8PiEBRNVEB
+ VL5CwPBE/da6rqSXsaTXrKvs6KFLf/M8MArwbxrZKxlu9+BfAE7y3B/SaHDx+mRmLtsA
+ HwSMM+UjukdM+wvPD/+38gFMRl9LumIvH3RNSJ++V8iDyaLCOAtgYfe0FqljSzw5gLin
+ PYVR/6jvSag4/ljq6DaNYlRbteuXLpZddVgdd63JBvEUqXBn64HGMoLqSWmOJmlvW15Z
+ qD33GKfk4IoYmFD0bUog79pEr0NX4hC+FpdqHD/CS8PQjoK91Fz/1mMhXxWPMNU1orGx 7A== 
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3pwqn1hd6s-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 12 Apr 2023 17:33:18 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 33CHXHl0014185
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 12 Apr 2023 17:33:17 GMT
+Received: from [10.110.115.18] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Wed, 12 Apr
+ 2023 10:33:16 -0700
+Message-ID: <e78e576a-2a04-e7ca-f6c4-701d508541ad@quicinc.com>
+Date: Wed, 12 Apr 2023 10:33:15 -0700
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.2
+Subject: Re: [PATCH] drm/msm/dpu: always program dsc active bits
+Content-Language: en-US
+To: Marijn Suijten <marijn.suijten@somainline.org>
+References: <1681247095-1201-1-git-send-email-quic_khsieh@quicinc.com>
+ <z7wj2lcgcdxsqh7ylhec3ig6o4p6q37zqvpzoxp4bd4vid2z2n@ubsgt3ebqrwr>
+ <83f9a438-52c5-83f3-1767-92d16518d8f0@quicinc.com>
+ <feedv4isliterjtwyicqfarwuvzhtov3jkmvjcwqvt7itkyh7y@e2jq5t6r3lxc>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <feedv4isliterjtwyicqfarwuvzhtov3jkmvjcwqvt7itkyh7y@e2jq5t6r3lxc>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: -r8w261Un6rqEpUZc2hU7W3jdsN8Hsre
+X-Proofpoint-ORIG-GUID: -r8w261Un6rqEpUZc2hU7W3jdsN8Hsre
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-04-12_08,2023-04-12_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 spamscore=0
+ lowpriorityscore=0 phishscore=0 adultscore=0 bulkscore=0 suspectscore=0
+ impostorscore=0 clxscore=1015 mlxlogscore=695 priorityscore=1501
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2303200000 definitions=main-2304120150
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,60 +85,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jocelyn Falempe <jfalempe@redhat.com>, Pierre Asselin <pa@panix.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Hans de Goede <hdegoede@redhat.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Ard Biesheuvel <ardb@kernel.org>
+Cc: freedreno@lists.freedesktop.org, quic_sbillaka@quicinc.com,
+ dianders@chromium.org, andersson@kernel.org, dri-devel@lists.freedesktop.org,
+ swboyd@chromium.org, vkoul@kernel.org, agross@kernel.org,
+ linux-arm-msm@vger.kernel.org, dmitry.baryshkov@linaro.org,
+ Kuogee Hsieh <quic_khsieh@quicinc.com>, sean@poorly.run,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-"Pierre Asselin" <pa@panix.com> writes:
 
->> The commit f35cd3fa7729 ("firmware/sysfb: Fix EFI/VESA format selection")
->> fixed format selection, by calculating the bits-per-pixel instead of just
->> using the reported color depth.
+
+On 4/12/2023 12:24 AM, Marijn Suijten wrote:
+> On 2023-04-11 16:45:34, Abhinav Kumar wrote:
+> [..]
+>>> Does this flush all DSCs programmed in CTL_DSC_FLUSH as set above?  That
+>>> is currently still in `if (cfg->dsc)` and never overwritten if all DSCs
+>>> are disabled, should it be taken out of the `if` to make sure no DSCs
+>>> are inadvertently flushed, or otherwise cache the "previous mask" to
+>>> make sure we flush exactly the right DSC blocks?
+>>>
 >>
->> But unfortunately this broke some modes because the stride is always set
->> to the reported line length (in bytes), which could not match the actual
->> stride if the calculated bits-per-pixel doesn't match the reported depth.
+>> Yes, DSC flush is hierarchical. This is the main DSC flush which will
+>> enforce the flush of the DSC's we are trying to flush in the
+>> CTL_DSC_FLUSH register.
+> 
+> That's what I was thinking, thanks for confirming.
+> 
+>> So if DSC was active, the CTL_FLUSH will only enforce the flush of the
+>> DSC's programmed in CTL_DSC_FLUSH
 >>
->> Fixes: f35cd3fa7729 ("firmware/sysfb: Fix EFI/VESA format selection")
->> Reported-by: Pierre Asselin <pa@panix.com>
->> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
->> ---
+>> If DSC is not active, we still need to flush that as well (that was the
+>> missing bit).
 >>
->>  drivers/firmware/sysfb_simplefb.c | 9 +++++++--
->>  1 file changed, 7 insertions(+), 2 deletions(-)
->>
->> diff --git a/drivers/firmware/sysfb_simplefb.c
->> b/drivers/firmware/sysfb_simplefb.c
->> index 82c64cb9f531..5dc23e57089f 100644
->> --- a/drivers/firmware/sysfb_simplefb.c
->> +++ b/drivers/firmware/sysfb_simplefb.c
->>
->> [patch elided]
->
-> NOOOOOO !  The 1024x768x32 screen is all garbled.
-> (gfxpayload=keep, gfxpayload=1024x768x32 or vga=0x318).
->
+>> No need to cache previous mask. That programming should be accurate in
+>> cfg->dsc already.
+> 
+> This kind of implicit dependency warrants a comment at the very least.
+> 
 
-That's suprising... I tested the patch with vga=ask and picked
-1024x768x15, 1024x768x16, 1024x768x24 and 1024x768x32. For all
-cases the bits-per-pixel and line length values were correct.
+Sure.
 
-But I don't have a machine with legacy BIOS so I testee using QEMU and
-SeaBIOS.
+> What happens if a device boots without DSC panel connected?  Will
+> CTL_DSC_FLUSH be zero and not (unnecessarily, I assume) flush any of the
+> DSC blocks?  Or could this flush uninitialized state to the block?
+> 
 
-> The other modes work as before (but the dmesg has less information;
-> I'll investigate.)
->
+If we bootup without DSC panel connected, the kernel's cfg->dsc will be 
+0 and default register value of CTL_DSC_FLUSH will be 0 so it wont flush 
+any DSC blocks. Sure, as I wrote in the other response, we can move this 
+to reset_intf_cfg later when the other pieces are fixed. And leave a 
+FIXME here.
 
-Interesting. So you don't have the simplefb output that you had before ?
-
--- 
-Best regards,
-
-Javier Martinez Canillas
-Core Platforms
-Red Hat
-
+> - Marijn
