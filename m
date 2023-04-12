@@ -2,69 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F07CF6DEC3F
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Apr 2023 09:08:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A6456DEC75
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Apr 2023 09:21:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CA2EF10E71F;
-	Wed, 12 Apr 2023 07:08:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 210C410E285;
+	Wed, 12 Apr 2023 07:21:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com
- [IPv6:2a00:1450:4864:20::436])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BCF7F10E72F
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Apr 2023 07:08:15 +0000 (UTC)
-Received: by mail-wr1-x436.google.com with SMTP id w24so224440wra.10
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Apr 2023 00:08:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1681283293; x=1683875293;
- h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
- :content-language:user-agent:mime-version:date:message-id:from:to:cc
- :subject:date:message-id:reply-to;
- bh=WRVDoRxZOnCqyPQ0MQntkNzttq8Ux3AtLsMWOQ7D4FE=;
- b=ha2vypvTHY16Ds2mJiLw9Or9VCm3IVSgJRWOqg6JpyIS0+hmMidH8e2HNWdCXuFK8H
- O5KpWQANuTJkVDCNNEc/P0VA9ZT9rhHDdmzC9uLkcZwKgCXxK3s1UmlZBuuYrZ6lCvra
- MgNmnP9El5Z0SaWfMs7M1tjvnNrcS0iq1JQeb4AvzVNv9OKirgw0ha9E9VIUp4e6sWBY
- IUB7tUMdRqqYr/QUGmcSIUBCMilREn3H2e9cPJA4KaekF9y//c0x9o6+6xOtF0ZSeCjW
- Hy4uw/Hh4FKmUo3iL7bEuk8Z7Vrox0RQb1eYgfVaGRrtbPrZAM2s7lB9tCYcXWoa/30c
- 8UTg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1681283293; x=1683875293;
- h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
- :content-language:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=WRVDoRxZOnCqyPQ0MQntkNzttq8Ux3AtLsMWOQ7D4FE=;
- b=z8HS7WPHvgJ8NQgzb8JHDEmZwy2B+gvU0J97/LsP9Z77eIesii1r8bBJ3cxL4P1XmU
- Z9PZ0l40CJiliQN0uM/J59ZursGX78ZoY3iBTsC5mFYiG0J2IdFnwBprg70eEiyT44RP
- /FXobY7ni1OVHebY06BKOXKgx6kftJ1fVbMl4ziYHgK+Rxne8B4L6KDdAW2bKfzpWxX5
- OXgHmBAx8dueTmQz0aWebPGmOP9wqXSM9Z0kwVuV3uYsQDZkM+mCIr3h+O5H+R6FpQbs
- oRTUVfaBJyoFKBli508af7j6cj740dKlGGgo/1kz6zkUGRrBHjHzhDoPepp9V+wfomNZ
- 4kFQ==
-X-Gm-Message-State: AAQBX9cWCtSXcePATIkZXe0m3Onr83pPvW9HyuCcEaIlRMA4+pQDo7y9
- FjBPqPRWJ5JHuML1eRv9MXU=
-X-Google-Smtp-Source: AKy350ZtUps0T9bcSmLM6ndGrgQLrodvDdIkAWKxyVJNGFb0684QdbduVSGa5v/3RLCg/FHwnh7rIQ==
-X-Received: by 2002:a5d:4105:0:b0:2d9:10e7:57e8 with SMTP id
- l5-20020a5d4105000000b002d910e757e8mr1152031wrp.16.1681283293444; 
- Wed, 12 Apr 2023 00:08:13 -0700 (PDT)
-Received: from [192.168.2.177] ([207.188.167.132])
- by smtp.gmail.com with ESMTPSA id
- l13-20020adff48d000000b002d45575643esm16249833wro.43.2023.04.12.00.08.11
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 12 Apr 2023 00:08:12 -0700 (PDT)
-Message-ID: <09c61b94-1ed1-eb72-9682-1f1f203f6f63@gmail.com>
-Date: Wed, 12 Apr 2023 09:08:11 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Content-Language: en-US
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- chunkuang.hu@kernel.org
-References: <20230404104800.301150-1-angelogioacchino.delregno@collabora.com>
- <20230404104800.301150-2-angelogioacchino.delregno@collabora.com>
-From: Matthias Brugger <matthias.bgg@gmail.com>
-Subject: Re: [PATCH v3 1/9] drm/mediatek: dp: Cache EDID for eDP panel
-In-Reply-To: <20230404104800.301150-2-angelogioacchino.delregno@collabora.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-Greylist: delayed 397 seconds by postgrey-1.36 at gabe;
+ Wed, 12 Apr 2023 07:21:41 UTC
+Received: from qs51p00im-qukt01071902.me.com (qs51p00im-qukt01071902.me.com
+ [17.57.155.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E252210E285
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Apr 2023 07:21:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=icloud.com;
+ s=1a1hai; t=1681283703;
+ bh=FuHa2VctxY8ljAUtLpIjGV5QmLAE4POaPbEVmwgcH2o=;
+ h=Mime-Version:Content-Type:Date:Message-Id:Subject:From:To;
+ b=qY08AyFEmbBbMRmPeik5yhhAU3lwphghNn24tlEZ05vOVrFWtZSNDXmUtGuHh8n5N
+ vFBfCSUOMVpXxOSzg00fpuzPLEkUrVvbznMG5ErYZEbnDeeVkW/qbjlOxr2oX2Bomy
+ v5KC7nZMd/+z/r5cZ1ilzsAebgJn1m7/DiOQebOT8F4ZVvCSXRwH8NdCfGRPrEJ3oB
+ IW+Pc4wC30B0LWGprb9e4gJMCsOTJFQN0WuKuHYUD5U/L2E8ZltqoR4xXpdes5Ct1i
+ WjQc3/gtJcsSykcDtr8ljRgmxlFNdy87z4EydHZshcht2f70xYrxVMuOJsMe5ICQGc
+ ww/8hNCOGbCqQ==
+Received: from localhost (qs51p00im-dlb-asmtp-mailmevip.me.com [17.57.155.28])
+ by qs51p00im-qukt01071902.me.com (Postfix) with ESMTPSA id
+ 4C7375EC011E; Wed, 12 Apr 2023 07:15:01 +0000 (UTC)
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 12 Apr 2023 09:14:59 +0200
+Message-Id: <CRULBWW4VCWG.3KS7HX7P1G4P6@void.crly.cz>
+Subject: Re: [PATCH] drm/sun4i: uncouple DSI dotclock divider from
+ TCON0_DCLK_REG
+From: "Roman Beranek" <romanberanek@icloud.com>
+To: "Maxime Ripard" <maxime@cerno.tech>
+X-Mailer: aerc 0.14.0
+References: <20230320161636.24411-1-romanberanek@icloud.com>
+ <87wn356ni4.fsf@oltmanns.dev> <20230327202045.ceeqqwjug4ktxtsf@penduick>
+ <CRHKFX934UA0.1MCKCD8SJSPIE@iMac.local>
+ <20230329195802.veybo3367zifw77n@penduick>
+ <CROTQHUM88W0.2URPO95U5ZMS5@void.crly.cz>
+ <pu3vdz4gnkwgn4thg6tndbnvfroevpnq75bqbfv7yyrh4gkv63@xxl3dsjf2ih3>
+In-Reply-To: <pu3vdz4gnkwgn4thg6tndbnvfroevpnq75bqbfv7yyrh4gkv63@xxl3dsjf2ih3>
+X-Proofpoint-GUID: s-iO_fMJ2HHG6apJavxJxsPYR0SgWQJt
+X-Proofpoint-ORIG-GUID: s-iO_fMJ2HHG6apJavxJxsPYR0SgWQJt
+X-Proofpoint-Virus-Version: =?UTF-8?Q?vendor=3Dfsecure_engine=3D1.1.170-22c6f66c430a71ce266a39bfe25bc?=
+ =?UTF-8?Q?2903e8d5c8f:6.0.425,18.0.572,17.11.62.513.0000000_definitions?=
+ =?UTF-8?Q?=3D2022-01-11=5F01:2022-01-11=5F01,2020-02-14=5F11,2021-12-02?=
+ =?UTF-8?Q?=5F01_signatures=3D0?=
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=487
+ phishscore=0
+ bulkscore=0 suspectscore=0 malwarescore=0 spamscore=0 clxscore=1015
+ adultscore=0 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2304120065
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,75 +68,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-mediatek@lists.infradead.org, wenst@chromium.org, kernel@collabora.com,
- linux-arm-kernel@lists.infradead.org
+Cc: Samuel Holland <samuel@sholland.org>, Frank Oltmanns <frank@oltmanns.dev>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, linux-kernel@vger.kernel.org,
+ Chen-Yu Tsai <wens@csie.org>, dri-devel@lists.freedesktop.org,
+ linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Wed Apr 5, 2023 at 5:03 PM CEST, Maxime Ripard wrote:
+> On Wed, Apr 05, 2023 at 02:34:11PM +0200, Roman Beranek wrote:
+> > It turns out however that the new dclk rates can't be set exactly as
+> > requested without touching pll-video0*, tcon0 now therefore gets
+> > reparented from pll-mipi to pll-video0-2x which, as it further turns
+> > out, breaks DSI. While simply forbidding the video0-2x mux option seems
+> > to me as the right way to go because there's not much use for it with
+> > non-DSI interfaces either besides the opportunity to power pll-mipi
+> > down, I'd like to run by you first.
+>
+> Sounds reasonable
 
+Okay, I'm unsure of how to denote that in the code however. Should I
+just comment the parent out of the table and put an explanation in
+a comment nearby? Or just erase it? I couldn't find an applicable
+precedent.
 
-On 04/04/2023 12:47, AngeloGioacchino Del Regno wrote:
-> Since eDP panels are not removable it is safe to cache the EDID:
-> this will avoid a relatively long read transaction at every PM
-> resume that is unnecessary only in the "special" case of eDP,
-> hence speeding it up a little, as from now on, as resume operation,
-> we will perform only link training.
-> 
-> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-> ---
->   drivers/gpu/drm/mediatek/mtk_dp.c | 11 ++++++++++-
->   1 file changed, 10 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/mediatek/mtk_dp.c b/drivers/gpu/drm/mediatek/mtk_dp.c
-> index 1f94fcc144d3..84f82cc68672 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_dp.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_dp.c
-> @@ -118,6 +118,7 @@ struct mtk_dp {
->   	const struct mtk_dp_data *data;
->   	struct mtk_dp_info info;
->   	struct mtk_dp_train_info train_info;
-> +	struct edid *edid;
->   
->   	struct platform_device *phy_dev;
->   	struct phy *phy;
-> @@ -1993,7 +1994,11 @@ static struct edid *mtk_dp_get_edid(struct drm_bridge *bridge,
->   		usleep_range(2000, 5000);
->   	}
->   
-> -	new_edid = drm_get_edid(connector, &mtk_dp->aux.ddc);
-> +	/* eDP panels aren't removable, so we can return a cached EDID. */
-> +	if (mtk_dp->edid && mtk_dp->bridge.type == DRM_MODE_CONNECTOR_eDP)
-> +		new_edid = drm_edid_duplicate(mtk_dp->edid);
-> +	else
-> +		new_edid = drm_get_edid(connector, &mtk_dp->aux.ddc);
+> > * As pll-mipi doesn't have CLK_SET_RATE_PARENT flag set, pll-video0
+> >   retains its boot-time rate of 294 MHz set by sunxi-dw-hdmi driver
+> >   in u-boot. Why 294 MHz (as opposed to the default rate of 297 MHz)?
+> >   The driver actually asks for 297 MHz, clock_set_pll3 rounds it to
+> >   294 MHz though because it limits itself to 6 MHz steps.
+>
+> We could also address that though
 
-Maybe it would make sense to add a macro for the check of mtk_dp->bridge.type == 
-DRM_MODE_CONNECTOR_eDP
-it would make the code more readable.
+Should I include it in v2 of the series, or leave it for later?
 
->   
->   	/*
->   	 * Parse capability here to let atomic_get_input_bus_fmts and
-> @@ -2022,6 +2027,10 @@ static struct edid *mtk_dp_get_edid(struct drm_bridge *bridge,
->   		drm_atomic_bridge_chain_post_disable(bridge, connector->state->state);
->   	}
->   
-> +	/* If this is an eDP panel and the read EDID is good, cache it for later */
-> +	if (mtk_dp->bridge.type == DRM_MODE_CONNECTOR_eDP && !mtk_dp->edid && new_edid)
-> +		mtk_dp->edid = drm_edid_duplicate(new_edid);
-> +
-
-How about putting this in an else if branch of mtk_dp_parse_capabilities. At 
-least we could get rid of the check regarding if new_edid != NULL.
-
-I was thinking on how to put both if statements in one block, but I think the 
-problem is, that we would leak memory if the capability parsing failes due to 
-the call to drm_edid_duplicate(). Correct?
-
-Regards,
-Matthais
-
->   	return new_edid;
->   }.	/
->   
+Thanks,
+Roman
