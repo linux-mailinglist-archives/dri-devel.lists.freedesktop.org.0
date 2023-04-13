@@ -1,65 +1,74 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 870E36E029F
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Apr 2023 01:37:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F5DB6E02FA
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Apr 2023 02:05:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7C12D10E7C4;
-	Wed, 12 Apr 2023 23:37:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 04F5C10E9E7;
+	Thu, 13 Apr 2023 00:05:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 717FB10E7C4
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Apr 2023 23:37:20 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id B70A363A21
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Apr 2023 23:37:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A6E7AC433A1
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Apr 2023 23:37:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1681342637;
- bh=XPnc1KFFUf0qWKm0IhzaEsHbORokq/vVCY1WdIYlrSA=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=ZyiXaI+FsNZ9hn9zAE5mjGYlZH6uP+MR1VLJmB+fqLWtbQIrU8DrGt9T2ZNfergGP
- DC9iNOCE/7jWjpESfbM7oTQ7XpWoXb3QbEF/hTvsuqnvsH0mISeYqsxB8pMrLzV53l
- ZGM7q2uGv41Ie9X3zFGvWC+BZw5AkJ7AyBrFCATuU6qdolCvuhcVNS6Vz2xpsa5i6n
- y/mYtZRiL3misO6f1L+O9ax2bE5CeLQXqvAbtBryWIuTBS4vYcpuU3pMGo0PR93P59
- fI3MJ6esadCpslYseYh5WUAB9j/vJ13ACn5GLBtaKHYcXJDGOviiVIbHcmAJFAwOh6
- DgxAcIp+Zf8OA==
-Received: by mail-lj1-f178.google.com with SMTP id j11so1187612ljq.10
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Apr 2023 16:37:17 -0700 (PDT)
-X-Gm-Message-State: AAQBX9fjt6ynQcetqMymK+B/mzhXPB9A6ntJFa54KaS/uIfM8ANoGojH
- 75EjuP3zrzK/fBGJQ2cTADtetyUzOBa4YKSJhg==
-X-Google-Smtp-Source: AKy350bBrdnIU3ky/e0Yu6oF9aXHAUd6d09dwmO3Kd0JhS8E1krtqtgIZ/HwHr2JngB1yrUihD3gm6BiNWvsorOauBA=
-X-Received: by 2002:a2e:9586:0:b0:2a7:7622:fb01 with SMTP id
- w6-20020a2e9586000000b002a77622fb01mr111974ljh.10.1681342635586; Wed, 12 Apr
- 2023 16:37:15 -0700 (PDT)
+Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com
+ [IPv6:2a00:1450:4864:20::130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DE5BC10E9DB
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Apr 2023 00:05:42 +0000 (UTC)
+Received: by mail-lf1-x130.google.com with SMTP id z8so18712799lfb.12
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Apr 2023 17:05:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1681344338; x=1683936338;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=hqDd36Xna87Ja2uYucxlmnJMfm1J2VYsmJqSFbSPlQI=;
+ b=M2ED25aGEQVOUIoOeRvJA2/4Um84MCt5oMI1eOqRhZd8MaV4+Y1TPJNHMs8KrwEY2f
+ WOHVw7C8nwV27UhqErNVsyhXMCqgrcapez/Zf1h+f9z7IYby3I0/uvalUY9nrtojPuYO
+ LSpCxy5Ve4IAq8jtu3D/xJEpdORhA+7dHclgVsx4MthRUReDLdPHUN6GI0yXWxESO4KU
+ dg908a/VRgW5Pv8dEf2t/RRKLmoO4iu3KMWnKEE0wJAu0/aoXeC9muMdokqYdTSocjsg
+ PlcI1sEJC48Epuh/H733VE60yHmlakZIdcSszVXRgS/mtkZMK60qgbEy7Z5frThxcFSO
+ 1NUQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1681344338; x=1683936338;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=hqDd36Xna87Ja2uYucxlmnJMfm1J2VYsmJqSFbSPlQI=;
+ b=FAoRqUUQANAxhU6PoU8BnTtzhK+hOc8sC7PQ/y2yA9DfOPsKZdWLY+YrxDrBt3iroG
+ 0eHuvLfIgmT7DGLhwYD+3HHeEE9J71RF38NjN46lhfbAtuT8sdPfGdX3QMLfts4VKa9x
+ vp9p82prebt3bX0dUQFIaFG7oNKSJFz8FbChT8SjZz07gE6eLUcuUygRGU2ez557HLIS
+ /Xu/+/CPpZL/g0pBw+5ixCQgswFUQj84GEiYjCtAPBj4ZGQ101R15S+Wn99ZmyjOmcZb
+ 1e96eEsAG39DH0PMK5FbG9Ewem/kEkKM7qyOT5/dHvmZfvX0bsw0UZo4pMjh+wvbFZH2
+ Vljw==
+X-Gm-Message-State: AAQBX9fF1rPi+vY/dwHL9qe+ou8MC6krp235i0R7MTHVREUEaK7eomPH
+ sMetqwMMSgkb3S7mM9ZF2lfQQw==
+X-Google-Smtp-Source: AKy350aWaxxBspAXIGmezaj+Yjct61vVYleYqotsiazvOmF9AB3dmyba3DsfUjtzvzVvI0N9utag3Q==
+X-Received: by 2002:ac2:4461:0:b0:4ec:84ec:db0c with SMTP id
+ y1-20020ac24461000000b004ec84ecdb0cmr183251lfl.52.1681344338198; 
+ Wed, 12 Apr 2023 17:05:38 -0700 (PDT)
+Received: from ?IPV6:2001:14ba:a085:4d00::8a5?
+ (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a085:4d00::8a5])
+ by smtp.gmail.com with ESMTPSA id
+ w7-20020ac254a7000000b004eca35798a4sm41537lfk.32.2023.04.12.17.05.37
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 12 Apr 2023 17:05:37 -0700 (PDT)
+Message-ID: <b1b6ddc7-a793-a1b4-8dd6-8ea69b6e5573@linaro.org>
+Date: Thu, 13 Apr 2023 03:05:37 +0300
 MIME-Version: 1.0
-References: <20230330032614.18837-1-nancy.lin@mediatek.com>
- <20230330032614.18837-2-nancy.lin@mediatek.com>
- <ZDU3IiewmLW1pDyn@phenom.ffwll.local>
-In-Reply-To: <ZDU3IiewmLW1pDyn@phenom.ffwll.local>
-From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Date: Thu, 13 Apr 2023 07:37:03 +0800
-X-Gmail-Original-Message-ID: <CAAOTY_-Yy2B5SkD+WpZPr5PVa=joW4vFxgfU+FcLGYJHPxN+OQ@mail.gmail.com>
-Message-ID: <CAAOTY_-Yy2B5SkD+WpZPr5PVa=joW4vFxgfU+FcLGYJHPxN+OQ@mail.gmail.com>
-Subject: Re: [PATCH v3 1/2] drm/mediatek: Add mdp_rdma get format function
-To: "Nancy.Lin" <nancy.lin@mediatek.com>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
- Philipp Zabel <p.zabel@pengutronix.de>,
- Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- David Airlie <airlied@gmail.com>, 
- dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org, 
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- Project_Global_Chrome_Upstream_Group@mediatek.com, singo.chang@mediatek.com, 
- shawn.sung@mediatek.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH v5 6/8] drm/msm/dsi: Add check for slice_width in
+ dsi_timing_setup
+Content-Language: en-GB
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, freedreno@lists.freedesktop.org
+References: <20230329-rfc-msm-dsc-helper-v5-0-0108401d7886@quicinc.com>
+ <20230329-rfc-msm-dsc-helper-v5-6-0108401d7886@quicinc.com>
+ <c829ff2f-f676-8c6d-2681-1b5da4f9ede7@linaro.org>
+ <e72a1e24-72e1-aad4-bc8f-f23dc84780dc@quicinc.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <e72a1e24-72e1-aad4-bc8f-f23dc84780dc@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,107 +81,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>, Sean Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Daniel:
+On 13/04/2023 01:40, Abhinav Kumar wrote:
+> 
+> 
+> On 4/12/2023 12:24 PM, Dmitry Baryshkov wrote:
+>> On 12/04/2023 22:09, Jessica Zhang wrote:
+>>> Add a check for valid dsc->slice_width value in dsi_timing_setup.
+>>>
+>>> Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
+>>> ---
+>>>   drivers/gpu/drm/msm/dsi/dsi_host.c | 6 ++++++
+>>>   1 file changed, 6 insertions(+)
+>>>
+>>> diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c 
+>>> b/drivers/gpu/drm/msm/dsi/dsi_host.c
+>>> index 508577c596ff..6a6218a9655f 100644
+>>> --- a/drivers/gpu/drm/msm/dsi/dsi_host.c
+>>> +++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
+>>> @@ -937,6 +937,12 @@ static void dsi_timing_setup(struct msm_dsi_host 
+>>> *msm_host, bool is_bonded_dsi)
+>>>               return;
+>>>           }
+>>> +        if (!dsc->slice_width || (mode->hdisplay < dsc->slice_width)) {
+>>
+>> This is an erroneous condition, correct. Can we move it to a better 
+>> place, where we can return an error instead of ignoring it?
+>>
+>> I'd say that we should validate dsc->slice_width at the 
+>> dsi_host_attach(). It well might be a good idea to add a helper that 
+>> validates required dsc properties (e.g. version, bpp/bpc, slice_width, 
+>> slice_height, slice_count).
+>>
+>> As for the mode->hdisplay, we have the following code in 
+>> msm_dsi_host_check_dsc() (where pic_width = mode->hdisplay):
+>>
+>> if (pic_width % dsc->slice_width) {...}
+>>
+>> This way the only way how mode->hdisplay can be less than 
+>> dsc->slice_width is if mode->hdisplay is 0 (which is forbidden if I 
+>> remember correctly). So the second part of the check is useless.
+>>
+> 
+> Lets drop this from this series and come up with a better approach to 
+> validate dsc params. We will take it up once dsc over dsi and dp lands.
 
-Daniel Vetter <daniel@ffwll.ch> =E6=96=BC 2023=E5=B9=B44=E6=9C=8811=E6=97=
-=A5 =E9=80=B1=E4=BA=8C =E4=B8=8B=E5=8D=886:32=E5=AF=AB=E9=81=93=EF=BC=9A
->
-> On Thu, Mar 30, 2023 at 11:26:13AM +0800, Nancy.Lin wrote:
-> > Add mdp_rdma get_format and get_num_formats function.
-> >
-> > Signed-off-by: Nancy.Lin <nancy.lin@mediatek.com>
->
-> The mtk get_formats stuff seems like a lot of midlayering for not much
-> reasons? Is that really needed?
+Sure, why not.
 
-In general, mediatek crtc directly control dma device such as OVL
-(multiple plane), RDMA (single plane) and supported format information
-store in these sub driver. MT8195 hardware use 4 RDMA to work like
-OVL. To simplify the crtc control of dma device, we use a midlayer
-OVL_Adaptor to control the 4 RDMA, so crtc just control one
-OVL_Adaptor. crtc should query supported format from OVL_Adaptor, but
-the supported format store in RDMA driver. That's why we have two
-layer get_formats.
+> 
+>>> +            pr_err("DSI: invalid slice width %d (pic_width: %d)\n",
+>>> +                   dsc->slice_width, mode->hdisplay);
+>>> +            return;
+>>> +        }
+>>> +
+>>>           dsc->pic_width = mode->hdisplay;
+>>>           dsc->pic_height = mode->vdisplay;
+>>>           DBG("Mode %dx%d\n", dsc->pic_width, dsc->pic_height);
+>>>
+>>
 
-Regards,
-Chun-Kuang.
+-- 
+With best wishes
+Dmitry
 
->
-> Just a drive-by questions I had while merging the pr.
-> -Daniel
->
-> > ---
-> >  drivers/gpu/drm/mediatek/mtk_disp_drv.h |  3 +++
-> >  drivers/gpu/drm/mediatek/mtk_mdp_rdma.c | 24 ++++++++++++++++++++++++
-> >  2 files changed, 27 insertions(+)
-> >
-> > diff --git a/drivers/gpu/drm/mediatek/mtk_disp_drv.h b/drivers/gpu/drm/=
-mediatek/mtk_disp_drv.h
-> > index 0d28b2e2069c..17b169530beb 100644
-> > --- a/drivers/gpu/drm/mediatek/mtk_disp_drv.h
-> > +++ b/drivers/gpu/drm/mediatek/mtk_disp_drv.h
-> > @@ -152,4 +152,7 @@ void mtk_mdp_rdma_start(struct device *dev, struct =
-cmdq_pkt *cmdq_pkt);
-> >  void mtk_mdp_rdma_stop(struct device *dev, struct cmdq_pkt *cmdq_pkt);
-> >  void mtk_mdp_rdma_config(struct device *dev, struct mtk_mdp_rdma_cfg *=
-cfg,
-> >                        struct cmdq_pkt *cmdq_pkt);
-> > +const u32 *mtk_mdp_rdma_get_formats(struct device *dev);
-> > +size_t mtk_mdp_rdma_get_num_formats(struct device *dev);
-> > +
-> >  #endif
-> > diff --git a/drivers/gpu/drm/mediatek/mtk_mdp_rdma.c b/drivers/gpu/drm/=
-mediatek/mtk_mdp_rdma.c
-> > index eecfa98ff52e..e06db6e56b5f 100644
-> > --- a/drivers/gpu/drm/mediatek/mtk_mdp_rdma.c
-> > +++ b/drivers/gpu/drm/mediatek/mtk_mdp_rdma.c
-> > @@ -62,6 +62,20 @@
-> >  #define RDMA_CSC_FULL709_TO_RGB                      5
-> >  #define RDMA_CSC_BT601_TO_RGB                        6
-> >
-> > +static const u32 formats[] =3D {
-> > +     DRM_FORMAT_XRGB8888,
-> > +     DRM_FORMAT_ARGB8888,
-> > +     DRM_FORMAT_BGRX8888,
-> > +     DRM_FORMAT_BGRA8888,
-> > +     DRM_FORMAT_ABGR8888,
-> > +     DRM_FORMAT_XBGR8888,
-> > +     DRM_FORMAT_RGB888,
-> > +     DRM_FORMAT_BGR888,
-> > +     DRM_FORMAT_RGB565,
-> > +     DRM_FORMAT_UYVY,
-> > +     DRM_FORMAT_YUYV,
-> > +};
-> > +
-> >  enum rdma_format {
-> >       RDMA_INPUT_FORMAT_RGB565 =3D 0,
-> >       RDMA_INPUT_FORMAT_RGB888 =3D 1,
-> > @@ -219,6 +233,16 @@ void mtk_mdp_rdma_config(struct device *dev, struc=
-t mtk_mdp_rdma_cfg *cfg,
-> >                          MDP_RDMA_MF_CLIP_SIZE, FLD_MF_CLIP_H);
-> >  }
-> >
-> > +const u32 *mtk_mdp_rdma_get_formats(struct device *dev)
-> > +{
-> > +     return formats;
-> > +}
-> > +
-> > +size_t mtk_mdp_rdma_get_num_formats(struct device *dev)
-> > +{
-> > +     return ARRAY_SIZE(formats);
-> > +}
-> > +
-> >  int mtk_mdp_rdma_clk_enable(struct device *dev)
-> >  {
-> >       struct mtk_mdp_rdma *rdma =3D dev_get_drvdata(dev);
-> > --
-> > 2.18.0
-> >
->
-> --
-> Daniel Vetter
-> Software Engineer, Intel Corporation
-> http://blog.ffwll.ch
