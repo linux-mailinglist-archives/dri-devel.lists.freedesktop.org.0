@@ -1,46 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A71F96E12CB
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Apr 2023 18:50:05 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A5136E12CC
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Apr 2023 18:50:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 46AAA10EBA3;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7067E10EBA4;
 	Thu, 13 Apr 2023 16:49:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1170010EB92;
- Thu, 13 Apr 2023 16:49:45 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 17E5110EB99;
+ Thu, 13 Apr 2023 16:49:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1681404585; x=1712940585;
+ t=1681404588; x=1712940588;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=SV7woMv8KAxN1gJYpXb4ARxCSBFCH49G5H+46Oo6RtY=;
- b=XGlgyiun61vhS7dFe2pCUSp8rEwbnEVmHTA4C+ckENNJA94r09elduV3
- adzRIQR59dRY65hce5A8EjYjovts9bx8Ttl56CN1MdyfOnFzAi1rJ9xO1
- 4vwEy2dSCUCUAEND5q7qD9BkUpqW7qofIncEHtJLWS337wwJ7taL8bsqk
- JvbSMJR6S/u6MW59g7EeotM2kHfjVGAZowf6FXhTySSnrhNJI/Y4p9y5I
- 34myYivctvT1KQDaAElsycQzxJErz+WvA8UXLeM5Y/cIPeEiINTTXOYef
- HO6ktHSCF2xUP1oopJHFJaQzyCrdtwL/glAwkx3/OK2knQijna/QQh2tN w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10679"; a="342991139"
-X-IronPort-AV: E=Sophos;i="5.99,194,1677571200"; d="scan'208";a="342991139"
+ bh=utq7zjFIZnTbI517Po7IKHQ7PiuadAtLPEgHNn3pZ1c=;
+ b=NfXIs00nxKOHQjMt4fNRBi74ptbqa5F+4AeA9UizVz6QXpsL3909Qoyg
+ wJGHczeBRpLCnSgpHuppSQsQ/5W5kkyyx+8rJ5YV0oFpPDMwHmg+4C3Lv
+ UxZlACpVKiPckHvFEKAFgpAVXyHXSjhSE+YBXf27Zn4agp2jE6tj00fbj
+ mViNC6dRlPBfR9YZIrWJc9lbJ9dfL8nZypyNelZSf0GuDRDLTV6dEWg9+
+ xSJY92xs2GMmQBpLTU5iHL8fVlhx6R6BMeyMH5NKa/Y69YzjP7T51RARF
+ LixMfcUrR7SlLKXDwgFnllv/20ejLjJ29sP7qIWannYXftXg1y7YID7iY A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10679"; a="342991162"
+X-IronPort-AV: E=Sophos;i="5.99,194,1677571200"; d="scan'208";a="342991162"
 Received: from fmsmga007.fm.intel.com ([10.253.24.52])
  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Apr 2023 09:49:37 -0700
+ 13 Apr 2023 09:49:40 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10679"; a="692037982"
-X-IronPort-AV: E=Sophos;i="5.99,194,1677571200"; d="scan'208";a="692037982"
+X-IronPort-AV: E=McAfee;i="6600,9927,10679"; a="692038030"
+X-IronPort-AV: E=Sophos;i="5.99,194,1677571200"; d="scan'208";a="692038030"
 Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.70])
- by fmsmga007.fm.intel.com with SMTP; 13 Apr 2023 09:49:35 -0700
+ by fmsmga007.fm.intel.com with SMTP; 13 Apr 2023 09:49:38 -0700
 Received: by stinkbox (sSMTP sendmail emulation);
- Thu, 13 Apr 2023 19:49:34 +0300
+ Thu, 13 Apr 2023 19:49:37 +0300
 From: Ville Syrjala <ville.syrjala@linux.intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v2 6/7] drm/i915: No 10bit gamma on desktop gen3 parts
-Date: Thu, 13 Apr 2023 19:49:15 +0300
-Message-Id: <20230413164916.4221-7-ville.syrjala@linux.intel.com>
+Subject: [PATCH v2 7/7] drm/i915: Do state check for color management changes
+Date: Thu, 13 Apr 2023 19:49:16 +0300
+Message-Id: <20230413164916.4221-8-ville.syrjala@linux.intel.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230413164916.4221-1-ville.syrjala@linux.intel.com>
 References: <20230413164916.4221-1-ville.syrjala@linux.intel.com>
@@ -59,96 +59,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: Uma Shankar <uma.shankar@intel.com>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Ville Syrjälä <ville.syrjala@linux.intel.com>
 
-Apparently desktop gen3 parts don't support the
-10bit gamma mode at all. Stop claiming otherwise.
+In order to validate LUT programming more thoroughly let's
+do a state check for all color management updates as well.
 
-As is the case with pipe A on gen3 mobile parts, the
-PIPECONF gamma mode bit can be set but it has no
-effect on the output.
+Not sure we really want this outside CI. It is rather heavy
+and color management updates could become rather common
+with all the HDR/etc. stuff happening. Maybe we should have
+an extra knob for this that we could enable in CI?
 
-PNV seems to be the only slight exception, but generally
-the desktop PNV variant looks more like a mobile part so
-this is not entirely surprising.
+v2: Skip for initial_commit to avoid FDI dotclock
+    sanity checks/etc. tripping up
 
-Fixes: 67630bacae23 ("drm/i915: Add 10bit gamma mode for gen2/3")
+Reviewed-by: Uma Shankar <uma.shankar@intel.com>
 Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
 ---
- drivers/gpu/drm/i915/i915_pci.c | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/i915/display/intel_modeset_verify.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/gpu/drm/i915/i915_pci.c b/drivers/gpu/drm/i915/i915_pci.c
-index cddb6e197972..305c05c3f93b 100644
---- a/drivers/gpu/drm/i915/i915_pci.c
-+++ b/drivers/gpu/drm/i915/i915_pci.c
-@@ -250,13 +250,13 @@ static const struct intel_device_info i865g_info = {
- 	.dma_mask_size = 32, \
- 	I9XX_PIPE_OFFSETS, \
- 	I9XX_CURSOR_OFFSETS, \
--	I9XX_COLORS, \
- 	GEN_DEFAULT_PAGE_SIZES, \
- 	GEN_DEFAULT_REGIONS
+diff --git a/drivers/gpu/drm/i915/display/intel_modeset_verify.c b/drivers/gpu/drm/i915/display/intel_modeset_verify.c
+index 842d70f0dfd2..9e4767e1b900 100644
+--- a/drivers/gpu/drm/i915/display/intel_modeset_verify.c
++++ b/drivers/gpu/drm/i915/display/intel_modeset_verify.c
+@@ -228,6 +228,8 @@ void intel_modeset_verify_crtc(struct intel_crtc *crtc,
+ 			       struct intel_crtc_state *new_crtc_state)
+ {
+ 	if (!intel_crtc_needs_modeset(new_crtc_state) &&
++	    (!intel_crtc_needs_color_update(new_crtc_state) ||
++	     new_crtc_state->inherited) &&
+ 	    !intel_crtc_needs_fastset(new_crtc_state))
+ 		return;
  
- static const struct intel_device_info i915g_info = {
- 	GEN3_FEATURES,
- 	PLATFORM(INTEL_I915G),
-+	I845_COLORS,
- 	.has_coherent_ggtt = false,
- 	.display.cursor_needs_physical = 1,
- 	.display.has_overlay = 1,
-@@ -268,6 +268,7 @@ static const struct intel_device_info i915g_info = {
- static const struct intel_device_info i915gm_info = {
- 	GEN3_FEATURES,
- 	PLATFORM(INTEL_I915GM),
-+	I9XX_COLORS,
- 	.is_mobile = 1,
- 	.display.cursor_needs_physical = 1,
- 	.display.has_overlay = 1,
-@@ -281,6 +282,7 @@ static const struct intel_device_info i915gm_info = {
- static const struct intel_device_info i945g_info = {
- 	GEN3_FEATURES,
- 	PLATFORM(INTEL_I945G),
-+	I845_COLORS,
- 	.display.has_hotplug = 1,
- 	.display.cursor_needs_physical = 1,
- 	.display.has_overlay = 1,
-@@ -292,6 +294,7 @@ static const struct intel_device_info i945g_info = {
- static const struct intel_device_info i945gm_info = {
- 	GEN3_FEATURES,
- 	PLATFORM(INTEL_I945GM),
-+	I9XX_COLORS,
- 	.is_mobile = 1,
- 	.display.has_hotplug = 1,
- 	.display.cursor_needs_physical = 1,
-@@ -306,6 +309,7 @@ static const struct intel_device_info i945gm_info = {
- static const struct intel_device_info g33_info = {
- 	GEN3_FEATURES,
- 	PLATFORM(INTEL_G33),
-+	I845_COLORS,
- 	.display.has_hotplug = 1,
- 	.display.has_overlay = 1,
- 	.dma_mask_size = 36,
-@@ -314,6 +318,7 @@ static const struct intel_device_info g33_info = {
- static const struct intel_device_info pnv_g_info = {
- 	GEN3_FEATURES,
- 	PLATFORM(INTEL_PINEVIEW),
-+	I9XX_COLORS,
- 	.display.has_hotplug = 1,
- 	.display.has_overlay = 1,
- 	.dma_mask_size = 36,
-@@ -322,6 +327,7 @@ static const struct intel_device_info pnv_g_info = {
- static const struct intel_device_info pnv_m_info = {
- 	GEN3_FEATURES,
- 	PLATFORM(INTEL_PINEVIEW),
-+	I9XX_COLORS,
- 	.is_mobile = 1,
- 	.display.has_hotplug = 1,
- 	.display.has_overlay = 1,
 -- 
 2.39.2
 
