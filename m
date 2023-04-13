@@ -2,35 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A3BE6E10B3
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Apr 2023 17:12:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E5ECA6E1117
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Apr 2023 17:27:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 31F7310E2AB;
-	Thu, 13 Apr 2023 15:12:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1468410E172;
+	Thu, 13 Apr 2023 15:27:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from exchange.fintech.ru (exchange.fintech.ru [195.54.195.159])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DA3ED10E159;
- Thu, 13 Apr 2023 15:12:36 +0000 (UTC)
-Received: from Ex16-01.fintech.ru (10.0.10.18) by exchange.fintech.ru
- (195.54.195.159) with Microsoft SMTP Server (TLS) id 14.3.498.0; Thu, 13 Apr
- 2023 18:12:35 +0300
-Received: from localhost (10.0.253.138) by Ex16-01.fintech.ru (10.0.10.18)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2242.4; Thu, 13 Apr
- 2023 18:12:34 +0300
-From: Nikita Zhandarovich <n.zhandarovich@fintech.ru>
-To: Alex Deucher <alexander.deucher@amd.com>
-Subject: [PATCH v2] radeon: avoid double free in ci_dpm_init()
-Date: Thu, 13 Apr 2023 08:12:28 -0700
-Message-ID: <20230413151228.19714-1-n.zhandarovich@fintech.ru>
-X-Mailer: git-send-email 2.25.1
+Received: from mail-oa1-x33.google.com (mail-oa1-x33.google.com
+ [IPv6:2001:4860:4864:20::33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2D97410E172
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Apr 2023 15:27:25 +0000 (UTC)
+Received: by mail-oa1-x33.google.com with SMTP id
+ 586e51a60fabf-183f4efa98aso24422745fac.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Apr 2023 08:27:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1681399644; x=1683991644;
+ h=in-reply-to:content-disposition:mime-version:references:subject:cc
+ :to:from:date:message-id:from:to:cc:subject:date:message-id:reply-to;
+ bh=CUK8UGSHUoiocToUShwFZ6IjnlM5/4ZHnGe4gLnESU0=;
+ b=aeAwlhfbuxDEmGLzmr4qn1sIPbcsAKVCFKFu5pGfong4RuRbDlQ09tEYt4hkfk40Ey
+ cpSkNpSfAF+AbEEbTQeftznc0uVFDpip6Uo1L16NAnp98MBcBEtetImhHGqCiZ8g5pez
+ cD5FrL8Fol+jaO0r9YMWrQiZbQRnXPRStccPuQo1yX5GvLjv03fZPRegLUpQOELRFZWM
+ cPRpK3Ln+iUCDTrPCFr2Q4dkfO18MoGSPcY8fWCCuKpjMC/KlzYU8kNTryN3FMyFZWZb
+ RrfFxTJGoZx2Le2OwVbcCEyAwdtgr1WB1zn7Tdl9EzsG6dlCnOswkKdx6yoFoGlIjLZP
+ PqHw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1681399644; x=1683991644;
+ h=in-reply-to:content-disposition:mime-version:references:subject:cc
+ :to:from:date:message-id:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=CUK8UGSHUoiocToUShwFZ6IjnlM5/4ZHnGe4gLnESU0=;
+ b=DF9w5LcsH1L5cq2/FIPM56Zlbf0045FYIoV8ytD40aS3QVypYRm5LS4XvRl0/kdZ11
+ X5GttZRr2gWVpDmg1B3ZJFyLUYiZx+aFEc2v5Br1tYb/hBjFeqnfeLV+0z3yhAJNQGk4
+ zd3XAvQ7Ip1/Kx5YuKuUPvCTvfc2TYdC98cEG4eZ4Ase800kSQRS3sJfwlps+7nKuEno
+ 2xXBQGr5oPiisv/UtmxJ2zR0gaLnp6ZWiPu8t6haROnTdsXx5MK1qThuEOdXf4X/JJmb
+ V6qNVQuzPajcK9y320VnjZG6I+92ThJfCKZ7UnHumk9y90jnXsDwF/65DpykAWJ6GR4L
+ YsXA==
+X-Gm-Message-State: AAQBX9c1ZFQLhLahDsPgdP5B3o5ip3oS5XSJ9hm8+vEhIIuK7FNBsrC9
+ QhH/fWXjUTtHblmFdfWdlUW3v+ZLNw0=
+X-Google-Smtp-Source: AKy350bz179FxBnltSYj2CIpmACrhB4CeMl7xmLodBy6+1eemMwFHEBVzU8OfoLpGLRd7geQvNvWqg==
+X-Received: by 2002:a05:6870:210:b0:187:87e3:1247 with SMTP id
+ j16-20020a056870021000b0018787e31247mr2186944oad.43.1681399643830; 
+ Thu, 13 Apr 2023 08:27:23 -0700 (PDT)
+Received: from neuromancer. (76-244-6-13.lightspeed.rcsntx.sbcglobal.net.
+ [76.244.6.13]) by smtp.gmail.com with ESMTPSA id
+ r4-20020a056870414400b0017ae909afe8sm793608oad.34.2023.04.13.08.27.23
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 13 Apr 2023 08:27:23 -0700 (PDT)
+Message-ID: <64381f5b.050a0220.1533e.41e2@mx.google.com>
+X-Google-Original-Message-ID: <ZDgfWQKFBMeDrqVu@neuromancer.>
+Date: Thu, 13 Apr 2023 10:27:21 -0500
+From: Chris Morgan <macroalpha82@gmail.com>
+To: Sascha Hauer <s.hauer@pengutronix.de>
+Subject: Re: [PATCH] drm/rockchip: vop2: fix suspend/resume
+References: <20230413144347.3506023-1-s.hauer@pengutronix.de>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.0.253.138]
-X-ClientProxiedBy: Ex16-02.fintech.ru (10.0.10.19) To Ex16-01.fintech.ru
- (10.0.10.18)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230413144347.3506023-1-s.hauer@pengutronix.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -43,114 +73,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Natalia Petrova <n.petrova@fintech.ru>,
- Nikita Zhandarovich <n.zhandarovich@fintech.ru>, "Pan,
- Xinhui" <Xinhui.Pan@amd.com>, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- stable@vger.kernel.org,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- lvc-project@linuxtesting.org
+Cc: =?iso-8859-1?Q?K=F6ry?= Maincent <kory.maincent@bootlin.com>,
+ Sandy Huang <hjc@rock-chips.com>, dri-devel@lists.freedesktop.org,
+ linux-rockchip@lists.infradead.org,
+ Michael Riesch <michael.riesch@wolfvision.net>, kernel@pengutronix.de,
+ stable@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Several calls to ci_dpm_fini() will attempt to free resources that
-either have been freed before or haven't been allocated yet. This
-may lead to undefined or dangerous behaviour.
+On Thu, Apr 13, 2023 at 04:43:47PM +0200, Sascha Hauer wrote:
+> During a suspend/resume cycle the VO power domain will be disabled and
+> the VOP2 registers will reset to their default values. After that the
+> cached register values will be out of sync and the read/modify/write
+> operations we do on the window registers will result in bogus values
+> written. Fix this by re-initializing the register cache each time we
+> enable the VOP2. With this the VOP2 will show a picture after a
+> suspend/resume cycle whereas without this the screen stays dark.
+> 
+> Fixes: 604be85547ce4 ("drm/rockchip: Add VOP2 driver")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Sascha Hauer <s.hauer@pengutronix.de>
+> ---
+>  drivers/gpu/drm/rockchip/rockchip_drm_vop2.c | 8 ++++++++
+>  1 file changed, 8 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
+> index ba3b817895091..d9daa686b014d 100644
+> --- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
+> +++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
+> @@ -215,6 +215,8 @@ struct vop2 {
+>  	struct vop2_win win[];
+>  };
+>  
+> +static const struct regmap_config vop2_regmap_config;
+> +
+>  static struct vop2_video_port *to_vop2_video_port(struct drm_crtc *crtc)
+>  {
+>  	return container_of(crtc, struct vop2_video_port, crtc);
+> @@ -839,6 +841,12 @@ static void vop2_enable(struct vop2 *vop2)
+>  		return;
+>  	}
+>  
+> +	ret = regmap_reinit_cache(vop2->map, &vop2_regmap_config);
+> +	if (ret) {
+> +		drm_err(vop2->drm, "failed to reinit cache: %d\n", ret);
+> +		return;
+> +	}
+> +
+>  	if (vop2->data->soc_id == 3566)
+>  		vop2_writel(vop2, RK3568_OTP_WIN_EN, 1);
+>  
+> -- 
+> 2.39.2
+> 
 
-For instance, if r600_parse_extended_power_table() fails, it might
-call r600_free_extended_power_table() as will ci_dpm_fini() later
-during error handling.
+I confirmed this works on my Anbernic RG353P which uses the rk3566 SOC.
+Before applying the patch I displayed a color pattern with modetest
+before suspend and it appeared correctly. Then I suspended and resumed
+the device, attempted to display the same color pattern, and only got
+a single pixel on an otherwise blank display. After applying the patch
+I performed the same test and the color pattern appeared correctly
+both before and after suspend (and the display was no longer blank
+after resume from suspend).
 
-Fix this by only freeing pointers to objects previously allocated.
-
-Found by Linux Verification Center (linuxtesting.org) with static
-analysis tool SVACE.
-
-Fixes: cc8dbbb4f62a ("drm/radeon: add dpm support for CI dGPUs (v2)")
-Cc: stable@vger.kernel.org
-Co-developed-by: Natalia Petrova <n.petrova@fintech.ru>
-Signed-off-by: Nikita Zhandarovich <n.zhandarovich@fintech.ru>
----
-v2: free only resouces allocated prior, do not remove ci_dpm_fini()
-or other deallocating calls altogether; fix commit message.
-v1: https://lore.kernel.org/all/20230403182808.8699-1-n.zhandarovich@fintech.ru/
-
- drivers/gpu/drm/radeon/ci_dpm.c | 28 ++++++++++++++++++++--------
- 1 file changed, 20 insertions(+), 8 deletions(-)
-
-diff --git a/drivers/gpu/drm/radeon/ci_dpm.c b/drivers/gpu/drm/radeon/ci_dpm.c
-index 8ef25ab305ae..b8f4dac68d85 100644
---- a/drivers/gpu/drm/radeon/ci_dpm.c
-+++ b/drivers/gpu/drm/radeon/ci_dpm.c
-@@ -5517,6 +5517,7 @@ static int ci_parse_power_table(struct radeon_device *rdev)
- 	u8 frev, crev;
- 	u8 *power_state_offset;
- 	struct ci_ps *ps;
-+	int ret;
- 
- 	if (!atom_parse_data_header(mode_info->atom_context, index, NULL,
- 				   &frev, &crev, &data_offset))
-@@ -5546,11 +5547,15 @@ static int ci_parse_power_table(struct radeon_device *rdev)
- 		non_clock_array_index = power_state->v2.nonClockInfoIndex;
- 		non_clock_info = (struct _ATOM_PPLIB_NONCLOCK_INFO *)
- 			&non_clock_info_array->nonClockInfo[non_clock_array_index];
--		if (!rdev->pm.power_state[i].clock_info)
--			return -EINVAL;
-+		if (!rdev->pm.power_state[i].clock_info) {
-+			ret = -EINVAL;
-+			goto err_free_ps;
-+		}
- 		ps = kzalloc(sizeof(struct ci_ps), GFP_KERNEL);
--		if (ps == NULL)
--			return -ENOMEM;
-+		if (ps == NULL) {
-+			ret = -ENOMEM;
-+			goto err_free_ps;
-+		}
- 		rdev->pm.dpm.ps[i].ps_priv = ps;
- 		ci_parse_pplib_non_clock_info(rdev, &rdev->pm.dpm.ps[i],
- 					      non_clock_info,
-@@ -5590,6 +5595,12 @@ static int ci_parse_power_table(struct radeon_device *rdev)
- 	}
- 
- 	return 0;
-+
-+err_free_ps:
-+	for (i = 0; i < rdev->pm.dpm.num_ps; i++)
-+		kfree(rdev->pm.dpm.ps[i].ps_priv);
-+	kfree(rdev->pm.dpm.ps);
-+	return ret;
- }
- 
- static int ci_get_vbios_boot_values(struct radeon_device *rdev,
-@@ -5678,25 +5689,26 @@ int ci_dpm_init(struct radeon_device *rdev)
- 
- 	ret = ci_get_vbios_boot_values(rdev, &pi->vbios_boot_state);
- 	if (ret) {
--		ci_dpm_fini(rdev);
-+		kfree(rdev->pm.dpm.priv);
- 		return ret;
- 	}
- 
- 	ret = r600_get_platform_caps(rdev);
- 	if (ret) {
--		ci_dpm_fini(rdev);
-+		kfree(rdev->pm.dpm.priv);
- 		return ret;
- 	}
- 
- 	ret = r600_parse_extended_power_table(rdev);
- 	if (ret) {
--		ci_dpm_fini(rdev);
-+		kfree(rdev->pm.dpm.priv);
- 		return ret;
- 	}
- 
- 	ret = ci_parse_power_table(rdev);
- 	if (ret) {
--		ci_dpm_fini(rdev);
-+		kfree(rdev->pm.dpm.priv);
-+		r600_free_extended_power_table(rdev);
- 		return ret;
- 	}
- 
+Tested-by: Chris Morgan <macromorgan@hotmail.com>
