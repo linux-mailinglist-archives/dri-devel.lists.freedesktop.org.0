@@ -2,43 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4004D6E08F7
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Apr 2023 10:33:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 47A326E06C2
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Apr 2023 08:09:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7942B10EA6C;
-	Thu, 13 Apr 2023 08:33:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7559310EA2F;
+	Thu, 13 Apr 2023 06:09:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from box.trvn.ru (box.trvn.ru [194.87.146.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E745410E0C0
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Apr 2023 04:19:22 +0000 (UTC)
-Received: from authenticated-user (box.trvn.ru [194.87.146.52])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (No client certificate requested)
- by box.trvn.ru (Postfix) with ESMTPSA id 82FD14137A;
- Thu, 13 Apr 2023 09:19:18 +0500 (+05)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=trvn.ru; s=mail;
- t=1681359558; bh=EACh0p8x8TBQcC+xIl40sDZ9sHJ0nPKMt/fNm93r6ts=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=0esRjPOG+1XrN5sgTC+MdhEiL05H1pBvZD0Z2aG20oXfW/RYRR9HMYxn1BhrGY8ql
- U335OCrrHdVfczRMXLEtduafK/pirEXfDmDUkRzsIWkK5/9u1DEsHnvpl9DmsZysSr
- UzFS5LNa6iL+L4+a7EHMk9eZC2wu7pZaJpW/PaNzAulULzxKcGap14Q9vW4uAO22FS
- YN9kRbI8CY9TxZKwApu8mLGuu6VWzn/ubXyiPnrsFNGBeBm9ZbDxFMoyqLraFeT9LV
- bGfh0w+TzRSTNk6W+zSFGCEsgHW7C0VqY1fxEJv5C9jm4NquY/3KlpWqhVM0D1ffWW
- dOg/PfjGvyjDA==
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4EE1C10EA2C
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Apr 2023 06:09:33 +0000 (UTC)
+X-UUID: be54f300d9c111edb6b9f13eb10bd0fe-20230413
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From;
+ bh=NSAEsm+B43z8/D9Tccqcqtf5P15Y+HR/vIbePCa2H3g=; 
+ b=tA5iyidIPhQQMHw5xWSFXHXMJVeSTZWQsJuq8ylbR5rPYmIE97zyEP7xbBllsgXwyF8KDxKdaasewCNpqKgXtqM1SGpTDFSi95bvrbIVPazIzrbW0XaBVS/VM8tAWOm9BcpPRWMf/oOC5fhN4lczrSkR4Nv2wXdRtN3p5ZWWFQ4=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.22, REQID:27f04fa3-e084-4b4e-9181-b1fa95abf097, IP:0,
+ U
+ RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+ release,TS:0
+X-CID-META: VersionHash:120426c, CLOUDID:7954e983-cd9c-45f5-8134-710979e3df0e,
+ B
+ ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
+ RL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0
+X-CID-BVR: 0
+X-CID-BAS: 0,_,0,_
+X-UUID: be54f300d9c111edb6b9f13eb10bd0fe-20230413
+Received: from mtkmbs11n2.mediatek.inc [(172.21.101.187)] by
+ mailgw02.mediatek.com (envelope-from <xinlei.lee@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 1243500197; Thu, 13 Apr 2023 14:09:26 +0800
+Received: from mtkmbs13n2.mediatek.inc (172.21.101.108) by
+ mtkmbs11n2.mediatek.inc (172.21.101.187) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.25; Thu, 13 Apr 2023 14:09:25 +0800
+Received: from mszsdaap41.gcn.mediatek.inc (10.16.6.141) by
+ mtkmbs13n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.1118.25 via Frontend Transport; Thu, 13 Apr 2023 14:09:24 +0800
+From: <xinlei.lee@mediatek.com>
+To: <chunkuang.hu@kernel.org>, <p.zabel@pengutronix.de>, <airlied@linux.ie>,
+ <daniel@ffwll.ch>, <robh+dt@kernel.org>, <krzysztof.kozlowski+dt@linaro.org>, 
+ <matthias.bgg@gmail.com>, <jitao.shi@mediatek.com>,
+ <shuijing.li@mediatek.com>
+Subject: [PATCH 0/3] Add mt8188 compatiable for DSI cmd packet control
+Date: Thu, 13 Apr 2023 14:09:19 +0800
+Message-ID: <1681366162-4949-1-git-send-email-xinlei.lee@mediatek.com>
+X-Mailer: git-send-email 2.6.4
 MIME-Version: 1.0
-Date: Thu, 13 Apr 2023 09:19:17 +0500
-From: Nikita Travkin <nikita@trvn.ru>
-To: Doug Anderson <dianders@chromium.org>
-Subject: Re: [PATCH] drm/bridge: ti-sn65dsi86: Implement wait_hpd_asserted
-In-Reply-To: <CAD=FV=XEQS9MB4e52B4yLjiP8ksYmeos_emiH4=-adCOwzfGUA@mail.gmail.com>
-References: <20230408082014.235425-1-nikita@trvn.ru>
- <CAD=FV=XEQS9MB4e52B4yLjiP8ksYmeos_emiH4=-adCOwzfGUA@mail.gmail.com>
-Message-ID: <905403377ec62914a2fbe21a6b4a6c8e@trvn.ru>
-X-Sender: nikita@trvn.ru
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Thu, 13 Apr 2023 08:33:23 +0000
+Content-Type: text/plain
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,112 +65,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: neil.armstrong@linaro.org, rfoss@kernel.org, andrzej.hajda@intel.com,
- jonas@kwiboo.se, dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- jernej.skrabec@gmail.com, Laurent.pinchart@ideasonboard.com
+Cc: devicetree@vger.kernel.org, Xinlei Lee <xinlei.lee@mediatek.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Doug Anderson писал(а) 13.04.2023 01:22:
-> Hi,
-> 
-> On Sat, Apr 8, 2023 at 1:20 AM Nikita Travkin <nikita@trvn.ru> wrote:
->>
->> This bridge doesn't actually implement HPD due to it being way too slow
->> but instead expects the panel driver to wait enough to assume HPD is
->> asserted. However some panels (such as the generic 'edp-panel') expect
->> the bridge to deal with the delay and pass maximum delay to the aux
->> instead.
->>
->> In order to support such panels, add a dummy implementation of wait
->> that would just sleep the maximum delay and assume no failure has
->> happened.
->>
->> Signed-off-by: Nikita Travkin <nikita@trvn.ru>
->> ---
->> This was suggested in [1] to make sure DT users can be semantically
->> correct (not adding no-hpd when the line is actually there) while
->> still using a hard delay to be faster than waiting the long debounce
->> time.
->>
->> [1] - https://lore.kernel.org/all/CAD=FV=VR7sKsquE25eF7joc7gPApu-vqwduZzjE=wFCoXjMYnQ@mail.gmail.com/
->> ---
->>  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 19 +++++++++++++++++++
->>  1 file changed, 19 insertions(+)
->>
->> diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
->> index 7a748785c545..260cad1fd1da 100644
->> --- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
->> +++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
->> @@ -618,6 +618,24 @@ static ssize_t ti_sn_aux_transfer(struct drm_dp_aux *aux,
->>         return len;
->>  }
->>
->> +static int ti_sn_aux_wait_hpd_asserted(struct drm_dp_aux *aux, unsigned long wait_us)
->> +{
->> +       /*
->> +        * The HPD in this chip is a bit useless (See comment in
->> +        * ti_sn65dsi86_enable_comms) so if our driver is expected to wait
->> +        * for HPD, we just assume it's asserted after the wait_us delay.
->> +        *
->> +        * In case we are asked to wait forever (wait_us=0) take conservative
->> +        * 500ms delay.
->> +        */
->> +       if (wait_us == 0)
->> +               wait_us = 500000;
->> +
->> +       usleep_range(wait_us, wait_us + 1000);
->> +
->> +       return 0;
->> +}
->> +
->>  static int ti_sn_aux_probe(struct auxiliary_device *adev,
->>                            const struct auxiliary_device_id *id)
->>  {
->> @@ -627,6 +645,7 @@ static int ti_sn_aux_probe(struct auxiliary_device *adev,
->>         pdata->aux.name = "ti-sn65dsi86-aux";
->>         pdata->aux.dev = &adev->dev;
->>         pdata->aux.transfer = ti_sn_aux_transfer;
->> +       pdata->aux.wait_hpd_asserted = ti_sn_aux_wait_hpd_asserted;
-> 
-> This looks reasonable to me, but I think you only want this
-> implementation if the "no-hpd" property _isn't_ present. In other
-> words:
-> 
-> if (!of_property_read_bool(np, "no-hpd"))
->   pdata->aux.wait_hpd_asserted = ti_sn_aux_wait_hpd_asserted;
-> 
-> Essentially:
-> 
-> * If "no-hpd" is present in ti-sn65dsi86 then we'll assume that HPD is
-> handled by the panel driver via a GPIO or a "no-hpd" there (which will
-> cause the panel driver to wait the maximum duration).
-> 
-> * If "no-hpd" isn't present in ti-sn65dsi86 then HPD is actually
-> hooked up and thus the panel driver _won't_ handle it.
-> 
-> Does that seem right? Presumably this should be explained by comments.
-> 
+From: Xinlei Lee <xinlei.lee@mediatek.com>
 
-This does sound reasonable indeed, I didn't think to add it
-conditionally because, looking at the current users of
-wait_hpd_asserted, they will first try the "no-hpd" paths
-and will only call the bridge when they think it's on the
-bridge to wait.
+Add dt-binding documentation of DSI for MediaTek MT8188 SoC.
+Because of the difference between SOC and DSI cmd packet control, for
+MT8188, it is necessary to increase the DSI_CMDQ_SIZE control when
+sending long packets to initialize the panel. Of course, this will not
+affect the sending of short packets.
 
-Thus, if DT is modeled properly - Panel has no-hpd or a gpio,
-wait_hpd_asserted will never be called anyway. Other bridges
-seem to also unconditionally enable the method.
+Base on the branch of linus/master v6.3.
 
-For this to be a trouble, a panel driver has to be "broken"
-with some form of calling wait_hpd_asserted despite knowing
-the HPD line is not hooked up...
+Xinlei Lee (3):
+  dt-bindings: display: mediatek: dsi: Add compatible for MediaTek
+    MT8188
+  drm/mediatek: Add mt8188 dsi compatible to mtk_dsi.c
+  drm/mediatek: dsi: Add dsi cmdq_ctl to send panel initial code
 
-So I feel like guarding the wait_hpd_asserted for no-hpd
-users should not actually change much, but if you think
-I should add the check anyway, please let me know.
+ .../display/mediatek/mediatek,dsi.yaml        |  1 +
+ drivers/gpu/drm/mediatek/mtk_drm_drv.c        |  2 ++
+ drivers/gpu/drm/mediatek/mtk_dsi.c            | 20 +++++++++++++++++++
+ 3 files changed, 23 insertions(+)
 
-Thanks for taking a look!
-Nikita
+-- 
+2.18.0
 
-> -Doug
