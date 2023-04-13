@@ -1,54 +1,75 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 280266E097E
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Apr 2023 10:57:52 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B620E6E0983
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Apr 2023 10:59:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4FC1E10EA8C;
-	Thu, 13 Apr 2023 08:57:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AEBDD10EA8F;
+	Thu, 13 Apr 2023 08:59:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A856C10EA87;
- Thu, 13 Apr 2023 08:57:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1681376262; x=1712912262;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=R/W2+2Y0jxdQJRb5nFh1gZBW3cky7XMwnpXXyfLy4Y0=;
- b=NfImRv+h/jrOo5xufEJ1e2imzTvuHuYFJZvXBAmAVX57P1nTR6delsxm
- N84CyEmY3y8K9EBpmvrfBRpX26DTbwmy5y8qHSKTCdF75/9L59pTrN39d
- SmztGcjywOl5k6y0UcnUOP6L4c/v5RdZLCu/WOz5Pbc5DYep4BxYDrzvI
- cQSgR8FSuBBgUROys3a/Ye5mOZRtiMby3V437mOPj7bN40EzO9NQEnk2L
- AUpptMbsr+6y07yQx9pfmbShKo4r2F+UkdNvbanRNPdm0Jhjo5sxPsq+E
- lbyoawWJ8MQ6/h7KsNQAgKZmhh5RcSRt+IIXjdD6xz1rNhn9eWyCoM5jg g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10678"; a="342875030"
-X-IronPort-AV: E=Sophos;i="5.98,341,1673942400"; d="scan'208";a="342875030"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Apr 2023 01:57:41 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10678"; a="758618275"
-X-IronPort-AV: E=Sophos;i="5.98,341,1673942400"; d="scan'208";a="758618275"
-Received: from zbiro-mobl.ger.corp.intel.com (HELO intel.com)
- ([10.251.212.144])
- by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Apr 2023 01:57:37 -0700
-Date: Thu, 13 Apr 2023 10:57:10 +0200
-From: Andi Shyti <andi.shyti@linux.intel.com>
-To: Andrzej Hajda <andrzej.hajda@intel.com>
-Subject: Re: [PATCH v5 3/5] drm/i915: Create the locked version of the
- request add
-Message-ID: <ZDfD5syNk3+YIU/j@ashyti-mobl2.lan>
-References: <20230412113308.812468-1-andi.shyti@linux.intel.com>
- <20230412113308.812468-4-andi.shyti@linux.intel.com>
- <d00d6c70-67a7-0bed-eeb2-96260da4beec@intel.com>
+Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com
+ [IPv6:2a00:1450:4864:20::42d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D3D1D10EA87
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Apr 2023 08:59:02 +0000 (UTC)
+Received: by mail-wr1-x42d.google.com with SMTP id s12so4986210wrb.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Apr 2023 01:59:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1681376340; x=1683968340;
+ h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
+ :content-language:user-agent:mime-version:date:message-id:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=d7g5hV3NWDVn1/V7aQRt4oQ8CBf16T6HKdjwb2x5bdk=;
+ b=dBQhg5EbOvayR7mx31g2Jml4oYq5/XXxJlntstydhf4l7HpHShRVId/butsUy55+3P
+ EsfmjNNOvORzCCy9QrCrhfQ+NTZ2L3YPpyILbRZZh4Z0DC80Bk+ylhxVs+zuIVYeiEk6
+ WMSrTGlcRp94aMhIDPa9q1PpS6Fdk/5/eCF820KZyQ0No/UnjIG0HBi/m1RC4M68XKHy
+ XeOSWDFKffbUpGzlPRgMTgi2c9AkCSK5nQdePDFLEjMBVDR0WcU73xrKpxaPEEVPltjN
+ 9zZdFEN8Rws2NkH82yXHFR2q4Udm2qOj4psP4gaDMK4HtgQ1oRZANyNdzRZYpIeGAE18
+ vujw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1681376340; x=1683968340;
+ h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
+ :content-language:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=d7g5hV3NWDVn1/V7aQRt4oQ8CBf16T6HKdjwb2x5bdk=;
+ b=MYHNvD10juGB6HFekhaSze1eTgvNkid5Flfc3KGAONtOsE4rHCb+yMBhlLR/GkrGoV
+ 2aR7yAc1jC65liCSt6LXJKyhZe8iy9CBbuZh8YbaQK2ma5MmCt4a8sh9Oh/cXhjq2NLs
+ TyRhSfdTVSJk3WbbsF1x2+4g0/fZ5G2lTBst+fQbs+R6xEYzjvHCE/j4YiPm+MCxGn4e
+ vNHaBjlWln/B1YO1r9O2JJWT54x351v/yJbEWAIDdAtF9CJrVlXt6MJ3W/IQqfmE8UXh
+ NEfzZyn6+vembMRCLMBxgNqoNCpCx87YHmZd4kK/zSptBpp/f+XJ61b5t7IpXeaYEKwt
+ JgIA==
+X-Gm-Message-State: AAQBX9ejm6cJeBsdMp/KDJ+fSmA4wvjB5bhu7aYC+yaJ1T313cfRDeMA
+ bdmJ8O1wNiDmkuYa5wuoWr8=
+X-Google-Smtp-Source: AKy350Zxv3Ko4eW0Fum9TmN1yb7aYSGe0D9dQ8XHg0Ai6fR9/Rf1dH0XSwLKNKkfZjY0IWUaTBv/eg==
+X-Received: by 2002:adf:ef51:0:b0:2f0:2e3a:cc04 with SMTP id
+ c17-20020adfef51000000b002f02e3acc04mr1138305wrp.8.1681376340325; 
+ Thu, 13 Apr 2023 01:59:00 -0700 (PDT)
+Received: from [192.168.0.32] ([37.222.243.26])
+ by smtp.gmail.com with ESMTPSA id
+ j4-20020a5d5644000000b002f02df4c7a3sm819861wrw.30.2023.04.13.01.58.58
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 13 Apr 2023 01:58:59 -0700 (PDT)
+Message-ID: <4b5a6233-c8f3-4d12-7508-45df8b7548f5@gmail.com>
+Date: Thu, 13 Apr 2023 10:58:57 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <d00d6c70-67a7-0bed-eeb2-96260da4beec@intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Content-Language: en-US
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Alexandre Mergnat <amergnat@baylibre.com>
+References: <20230412112739.160376-1-angelogioacchino.delregno@collabora.com>
+ <20230412112739.160376-3-angelogioacchino.delregno@collabora.com>
+ <20684378-cf3e-0299-d390-287b7bafbda5@baylibre.com>
+ <eb770f19-ada5-81bb-5ea3-798edabca70f@collabora.com>
+ <7e53c0b1-3aed-da08-5c57-800ac2277bc6@baylibre.com>
+ <e129b3ff-90b1-3df7-871e-09fba0a960f4@collabora.com>
+From: Matthias Brugger <matthias.bgg@gmail.com>
+Subject: Re: [PATCH 02/27] dt-bindings: phy: mediatek, dsi-phy: Add compatible
+ for MT6795 Helio X10
+In-Reply-To: <e129b3ff-90b1-3df7-871e-09fba0a960f4@collabora.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,38 +82,90 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Maciej Patelczyk <maciej.patelczyk@intel.com>,
- intel-gfx@lists.freedesktop.org, stable@vger.kernel.org,
- Andi Shyti <andi.shyti@kernel.org>, dri-devel@lists.freedesktop.org,
- Andi Shyti <andi.shyti@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Nirmoy Das <nirmoy.das@intel.com>,
- Chris Wilson <chris.p.wilson@linux.intel.com>,
- Matthew Auld <matthew.auld@intel.com>
+Cc: devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ thierry.reding@gmail.com, krzysztof.kozlowski+dt@linaro.org,
+ linux-phy@lists.infradead.org, kernel@collabora.com, xinlei.lee@mediatek.com,
+ kishon@kernel.org, phone-devel@vger.kernel.org, jassisinghbrar@gmail.com,
+ linux-pwm@vger.kernel.org, u.kleine-koenig@pengutronix.de,
+ chunkuang.hu@kernel.org, jitao.shi@mediatek.com, houlong.wei@mediatek.com,
+ chunfeng.yun@mediatek.com, robh+dt@kernel.org,
+ linux-mediatek@lists.infradead.org, ~postmarketos/upstreaming@lists.sr.ht,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ vkoul@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Andrzej,
 
-On Wed, Apr 12, 2023 at 03:06:42PM +0200, Andrzej Hajda wrote:
-> On 12.04.2023 13:33, Andi Shyti wrote:
-> > i915_request_add() assumes that the timeline is locked whtn the
-> *when
-> > function is called. Before exiting it releases the lock. But in
-> > the next commit we have one case where releasing the timeline
-> > mutex is not necessary and we don't want that.
-> > 
-> > Make a new i915_request_add_locked() version of the function
-> > where the lock is not released.
-> > 
-> > Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
-> > Cc: stable@vger.kernel.org
+
+On 12/04/2023 15:17, AngeloGioacchino Del Regno wrote:
+> Il 12/04/23 15:12, Alexandre Mergnat ha scritto:
+>> On 12/04/2023 15:03, AngeloGioacchino Del Regno wrote:
+>>> Il 12/04/23 14:59, Alexandre Mergnat ha scritto:
+>>>> On 12/04/2023 13:27, AngeloGioacchino Del Regno wrote:
+>>>>> Add a compatible string for MediaTek Helio X10 MT6795: this SoC uses
+>>>>> the same DSI PHY as MT8173.
+>>>>>
+>>>>> Signed-off-by: AngeloGioacchino Del Regno 
+>>>>> <angelogioacchino.delregno@collabora.com>
+>>>>> ---
+>>>>>   Documentation/devicetree/bindings/phy/mediatek,dsi-phy.yaml | 4 ++++
+>>>>>   1 file changed, 4 insertions(+)
+>>>>>
+>>>>> diff --git a/Documentation/devicetree/bindings/phy/mediatek,dsi-phy.yaml 
+>>>>> b/Documentation/devicetree/bindings/phy/mediatek,dsi-phy.yaml
+>>>>> index 26f2b887cfc1..a9f78344efdb 100644
+>>>>> --- a/Documentation/devicetree/bindings/phy/mediatek,dsi-phy.yaml
+>>>>> +++ b/Documentation/devicetree/bindings/phy/mediatek,dsi-phy.yaml
+>>>>> @@ -24,6 +24,10 @@ properties:
+>>>>>             - enum:
+>>>>>                 - mediatek,mt7623-mipi-tx
+>>>>>             - const: mediatek,mt2701-mipi-tx
+>>>>> +      - items:
+>>>>> +          - enum:
+>>>>> +              - mediatek,mt6795-mipi-tx
+>>>>> +          - const: mediatek,mt8173-mipi-tx
+>>>>
+>>>> AFAIK, it should be:
+>>>>        - items:
+>>>>            - const: mediatek,mt6795-mipi-tx
+>>>>            - const: mediatek,mt8173-mipi-tx
+>>>>
+>>>> Since it isn't respected above for mt7623, it may be tolerated.
+>>>> Please, take this comment as a suggestion, isn't a NAK from me.
+>>>>
+>>>
+>>> First of all, Thanks!
+>>> I want to explain, though, the reason for that.
+>>>
+>>> If you check all the commits, on some I did it as you just proposed, while
+>>> on some others I did it with an enum before const: that's simply because I
+>>> *totally expect* some to grow, while others (const - const) I was either
+>>> unsure, or totally *not* expecting them to grow soon!
+>>
+>>
+>> That's what I thought. IMHO, if someone add another compat later, he will be 
+>> on charge to change the const by enum front of your "mediatek,mt6795-mipi-tx". 
+>> But my opinion is probably not the most popular.
+>>
+>> I will not make the same feedback for the other patches in this series.
+>>
 > 
-> Have you looked for other potential users of these new helpers?
+> I honestly don't know what's the most popular opinion about that... but whatever,
+> in any case... just want to make sure to communicate that I don't really have
+> strong opinions about doing it one way or the other.
+> 
+> The arguments in favor and against that are probably 1:1... :-D
+> 
 
-not yet, will do!
+Then let me throw in another one :)
 
-> Reviewed-by: Andrzej Hajda <andrzej.hajda@intel.com>
+Take into account that if we expect the compatible to be added somtimes in the 
+future (not the near future) this code will lay around for some time. People 
+will take this code as an example for new code, then we will need to explain 
+it... In that sense it would make more sense to have all made const: const: and 
+change this to enum once a new compatible is added to the mix.
 
-Thanks!
+Said all this, I leave it to the DT maintainers to decide :D
 
-Andi
+Regards,
+Matthias
