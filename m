@@ -2,73 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E5EF6E084E
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Apr 2023 09:55:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD30F6E08F3
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Apr 2023 10:33:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1123210EA4C;
-	Thu, 13 Apr 2023 07:55:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DFFF510EA66;
+	Thu, 13 Apr 2023 08:33:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com
- [IPv6:2a00:1450:4864:20::631])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A2C3210EA4C
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Apr 2023 07:55:08 +0000 (UTC)
-Received: by mail-ej1-x631.google.com with SMTP id q23so25746958ejz.3
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Apr 2023 00:55:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1681372507; x=1683964507;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=2dDPTo7pAbw38LoN+sVNvkK7XTKAxdrh79eGZjH2+lY=;
- b=Ejrj4R/7xT2a4RYe1Y5T3Rn5KiIwqcfdkD9P5InRpKjPemJx6sQLujgw+qPNi3G70W
- 7XUu2f7xAgln3LNKY1dqSmJ0KqJKJbC3KIimV5WiO7DMdnEqfmkMWiAUy54XEtg+/qgs
- 9QhWihYI1B4LlFadoA4BVAkmwgIxchPvHsLvktExzF9YwiAxfnEGcWBrCrkhqgEA1qSh
- W7B8HlC6bwb6Ih39FJMODjSVaNwsxPI5CwCyWvcmXmQFdAaSleuPyywY0X7HiMv2PpIh
- 0kUGBrv5ZJ49p/UiX6ChfmcATbGl7boAb8dElXFBITzgP7oZWMkC1Ymh/RfgcvWijP2z
- PnHg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681372507; x=1683964507;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=2dDPTo7pAbw38LoN+sVNvkK7XTKAxdrh79eGZjH2+lY=;
- b=P0J8rUCVDnNFlp2ZHAgliWOpR06ojSwPQxgEho08KUp5d3pf8eI5bAFJgK5zqWC7pX
- Szb0HKw36ZhAWnurbOmJgxb/c12+VayWnwZ28csD8cu9jEET0dD69YPh+kndu6OpNe5D
- QwspJaN0sNPfxWI6fDL84rfoWo0VYs6ebY/u1fpXuClawVQp/Ks9o3O4iByk21xQ6bLx
- YoRSFNzGsYb4or+BtuM2A5YxJdXbgH/C+42NbgvzGwpBuY7qW2UMKaK8QlPVvDFHG210
- dXY/DgIn2e3x3NWFT4gYLxhmtPwvMBl7YrfbQ2mwE7IaXxf1tz1GKqgNJyNVxrdC+B+U
- aXRA==
-X-Gm-Message-State: AAQBX9ebYzMShrHm44ITRcEuz6dZv1TgvMljq0VD5WWplX6isH6DsqPC
- YMWxVTVzzBdQ2IJCu9XoTAxMlmCIFXDaHiQ1KFA=
-X-Google-Smtp-Source: AKy350ae1oc34Oyo141xL/55tTpu3GLXnkGlh4IkaGPDqJ6dAQ+jgJtHGhDS5ZdMRwOG6ZGU7zZGNQ==
-X-Received: by 2002:a17:907:d306:b0:94d:7e31:e338 with SMTP id
- vg6-20020a170907d30600b0094d7e31e338mr1730607ejc.52.1681372506860; 
- Thu, 13 Apr 2023 00:55:06 -0700 (PDT)
-Received: from ?IPV6:2a02:810d:15c0:828:ec6f:1b33:ab3f:bfd7?
- ([2a02:810d:15c0:828:ec6f:1b33:ab3f:bfd7])
- by smtp.gmail.com with ESMTPSA id
- dn19-20020a17090794d300b0094a6a7a56c0sm602189ejc.18.2023.04.13.00.55.05
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 13 Apr 2023 00:55:06 -0700 (PDT)
-Message-ID: <003e1ff0-591f-3959-ccf9-9fa84cbcc4c4@linaro.org>
-Date: Thu, 13 Apr 2023 09:55:05 +0200
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8D3D810EA5B;
+ Thu, 13 Apr 2023 08:02:27 +0000 (UTC)
+X-UUID: 523ffd16c1d74ba2bebaa48baf1044d8-20230413
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.22, REQID:e27458f9-b223-4a29-a75f-dc1628b0353d, IP:5,
+ U
+ RL:0,TC:0,Content:-5,EDM:0,RT:0,SF:1,FILE:0,BULK:0,RULE:Release_Ham,ACTION
+ :release,TS:1
+X-CID-INFO: VERSION:1.1.22, REQID:e27458f9-b223-4a29-a75f-dc1628b0353d, IP:5,
+ URL
+ :0,TC:0,Content:-5,EDM:0,RT:0,SF:1,FILE:0,BULK:0,RULE:Release_Ham,ACTION:r
+ elease,TS:1
+X-CID-META: VersionHash:120426c, CLOUDID:952432a1-8fcb-430b-954a-ba3f00fa94a5,
+ B
+ ulkID:230413111352DVZVW4B9,BulkQuantity:2,Recheck:0,SF:24|17|19|43|102,TC:
+ nil,Content:0,EDM:-3,IP:-2,URL:0,File:nil,Bulk:40,QS:nil,BEC:nil,COL:0,OSI
+ :0,OSA:0,AV:0
+X-CID-BVR: 0
+X-CID-BAS: 0,_,0,_
+X-UUID: 523ffd16c1d74ba2bebaa48baf1044d8-20230413
+X-User: liucong2@kylinos.cn
+Received: from localhost.localdomain [(116.128.244.169)] by mailgw
+ (envelope-from <liucong2@kylinos.cn>) (Generic MTA)
+ with ESMTP id 1709036445; Thu, 13 Apr 2023 15:57:06 +0800
+From: Cong Liu <liucong2@kylinos.cn>
+To: jani.nikula@linux.intel.com
+Subject: [PATCH] drm/i915: Fix memory leaks in i915 selftests
+Date: Thu, 13 Apr 2023 15:55:26 +0800
+Message-Id: <20230413075526.221068-1-liucong2@kylinos.cn>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <874jpkckxw.fsf@intel.com>
+References: <874jpkckxw.fsf@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.1
-Subject: Re: [PATCH 1/2] dt-bindings: display: mediatek: dp: Add compatible
- for MediaTek MT8188
-Content-Language: en-US
-To: xinlei.lee@mediatek.com, chunkuang.hu@kernel.org, p.zabel@pengutronix.de, 
- airlied@linux.ie, daniel@ffwll.ch, robh+dt@kernel.org,
- krzysztof.kozlowski+dt@linaro.org, matthias.bgg@gmail.com,
- jitao.shi@mediatek.com
-References: <1681358785-6930-1-git-send-email-xinlei.lee@mediatek.com>
- <1681358785-6930-2-git-send-email-xinlei.lee@mediatek.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <1681358785-6930-2-git-send-email-xinlei.lee@mediatek.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Thu, 13 Apr 2023 08:33:23 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,24 +57,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org
+Cc: matthew.brost@intel.com, tvrtko.ursulin@linux.intel.com, mchehab@kernel.org,
+ andrzej.hajda@intel.com, intel-gfx@lists.freedesktop.org,
+ jonathan.cavitt@intel.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, chris@chris-wilson.co.uk,
+ rodrigo.vivi@intel.com, liucong2@kylinos.cn, matthew.auld@intel.com,
+ andi.shyti@linux.intel.com, gwan-gyeong.mun@intel.com, nirmoy.das@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 13/04/2023 06:06, xinlei.lee@mediatek.com wrote:
-> From: Xinlei Lee <xinlei.lee@mediatek.com>
-> 
-> Add dt-binding documentation of dp-tx for MediaTek MT8188 SoC.
-> 
-> Signed-off-by: Xinlei Lee <xinlei.lee@mediatek.com>
-> Signed-off-by: Jitao Shi <jitao.shi@mediatek.com>
-> ---
+This patch fixes memory leaks on error escapes in function fake_get_pages
 
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Fixes: c3bfba9a2225 ("drm/i915: Check for integer truncation on scatterlist creation")
+Signed-off-by: Cong Liu <liucong2@kylinos.cn>
+---
+ drivers/gpu/drm/i915/selftests/i915_gem_gtt.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-Best regards,
-Krzysztof
+diff --git a/drivers/gpu/drm/i915/selftests/i915_gem_gtt.c b/drivers/gpu/drm/i915/selftests/i915_gem_gtt.c
+index 5361ce70d3f2..154801f1c468 100644
+--- a/drivers/gpu/drm/i915/selftests/i915_gem_gtt.c
++++ b/drivers/gpu/drm/i915/selftests/i915_gem_gtt.c
+@@ -69,8 +69,10 @@ static int fake_get_pages(struct drm_i915_gem_object *obj)
+ 
+ 	rem = round_up(obj->base.size, BIT(31)) >> 31;
+ 	/* restricted by sg_alloc_table */
+-	if (overflows_type(rem, unsigned int))
++	if (overflows_type(rem, unsigned int)) {
++		kfree(pages);
+ 		return -E2BIG;
++	}
+ 
+ 	if (sg_alloc_table(pages, rem, GFP)) {
+ 		kfree(pages);
+-- 
+2.34.1
 
+
+No virus found
+		Checked by Hillstone Network AntiVirus
