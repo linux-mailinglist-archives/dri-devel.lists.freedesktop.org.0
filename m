@@ -1,65 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D28DF6E1527
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Apr 2023 21:27:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C7B66E152F
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Apr 2023 21:29:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 472A010E02F;
-	Thu, 13 Apr 2023 19:27:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 33D9410EBF7;
+	Thu, 13 Apr 2023 19:29:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com
- [IPv6:2a00:1450:4864:20::336])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9794910E02F
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Apr 2023 19:27:15 +0000 (UTC)
-Received: by mail-wm1-x336.google.com with SMTP id
- 5b1f17b1804b1-3f080f53fc6so6715305e9.0
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Apr 2023 12:27:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1681414034; x=1684006034;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=/a2zE3xd3xG33l/VNL2fMsP52KS7UNXGPG9UmSq+uv4=;
- b=QHNvfSFQNS1HyatYr7G2sVOSIUHRtbZucFfO8MgaVT2iapJTKOmPqPwQhA0vmHFvJ/
- xE0LwrQMXgbUyhWyHBPLmv7viFy8lngXYlYllJTJYsSjuO+0Toer6v4yLNQl2AbGPYrt
- wy2HkHjDCUJwPWBUuATX+CB4AKhqNiDFWk7Io=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681414034; x=1684006034;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=/a2zE3xd3xG33l/VNL2fMsP52KS7UNXGPG9UmSq+uv4=;
- b=Gl9Nwk/c/rAKvMvQiVUmP02F6+y6fIIlNrftvKEsENQYip8B2bKgCRlscoCdf76o5W
- d7+eC+T9sNKh+YVO7fXHbDWeQFRrxbIQnFbtfx1zyeD31F1zAWiwiCGP6pvn920ul3V9
- lIXDuTroYERV0V9AvrqMud5VQQytn/75ad9upyGfxUAmFh4yILnxF7nz2yGy6EaXCbxn
- nT4vTIO2nImP333hBUzuGaSofaYn0e5Y01L9zBWoIlwzdgLkWkUduL+KvunHTWKMqw/P
- 5Klbi35EqksPimIdC3m1KZqpOBKFJmKmno6c+r6nmApHAODWTD+3J000mBprrM+cQEdX
- VWbQ==
-X-Gm-Message-State: AAQBX9cSIZyrD6JPdyg7+zcUKYgsBTjBXZ8Yv3nbHvm8FCTHQU+tomSN
- DeGTjaJvLPSpaU7QPSO9465Oag==
-X-Google-Smtp-Source: AKy350ZChyKkNqVKRdO6kwmgPYECP09fiu+j3ECCVHCO6Aa6TzTKbFsygO2rEW8FVTrXzK4GrBHTzw==
-X-Received: by 2002:a5d:42d0:0:b0:2ce:a773:1150 with SMTP id
- t16-20020a5d42d0000000b002cea7731150mr1746694wrr.6.1681414034000; 
- Thu, 13 Apr 2023 12:27:14 -0700 (PDT)
-Received: from phenom.ffwll.local (212-51-149-33.fiber7.init7.net.
- [212.51.149.33]) by smtp.gmail.com with ESMTPSA id
- r17-20020a5d4e51000000b002f01e181c4asm1925079wrt.5.2023.04.13.12.27.13
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 13 Apr 2023 12:27:13 -0700 (PDT)
-Date: Thu, 13 Apr 2023 21:27:11 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PULL] drm-misc-fixes
-Message-ID: <ZDhXj8PFyzTSfibk@phenom.ffwll.local>
-References: <20230413184233.GA8148@linux-uq9g>
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 71C1510EBF7
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Apr 2023 19:29:26 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id CFF882193C;
+ Thu, 13 Apr 2023 19:29:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1681414164; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=0XGhTAuXt3lkg+9KaS+ZpjFXeUZHgFOqMY9q75cZyiw=;
+ b=zu7JQzPqNosKg5Y/lu5YDV2v8fHYK3fWYKa6Sm14NOCEbDyetggkXUedGoVTvXNWiebP/W
+ /a5UO21NHpkBAnpwms30is+ugmNqN/tF4dM4Gnf7cEASQTP7XA8PGvVz997QZa20HG74Mn
+ ekbqIy7NhwkVPOkuGdmU9HmGZYdN19s=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1681414164;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=0XGhTAuXt3lkg+9KaS+ZpjFXeUZHgFOqMY9q75cZyiw=;
+ b=76wZX7j50CXnvVUQQClJwK9lQxwjdfb3Pi4ICpVaVH2tF7dFr/gMlgBpOmKWSsMHYXAmtB
+ MqRjTpq4aGLRsoDQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 9FE721390E;
+ Thu, 13 Apr 2023 19:29:24 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id YtOmJRRYOGQ9SQAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Thu, 13 Apr 2023 19:29:24 +0000
+Message-ID: <3f060f42-3b8e-2296-eeb9-0f774b5ae3b6@suse.de>
+Date: Thu, 13 Apr 2023 21:29:24 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230413184233.GA8148@linux-uq9g>
-X-Operating-System: Linux phenom 6.1.0-7-amd64 
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [RFC PATCH 0/2] drm/mgag200: Use 24bit format in VRAM
+Content-Language: en-US
+To: Jocelyn Falempe <jfalempe@redhat.com>, dri-devel@lists.freedesktop.org,
+ airlied@redhat.com, javierm@redhat.com, lyude@redhat.com
+References: <20230412133912.610294-1-jfalempe@redhat.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <20230412133912.610294-1-jfalempe@redhat.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------2AqT6L0GDYFienpCGdsmsQyo"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,85 +70,79 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- dim-tools@lists.freedesktop.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
- dri-devel@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- intel-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Apr 13, 2023 at 08:42:33PM +0200, Thomas Zimmermann wrote:
-> Hi Dave and Daniel,
-> 
-> this is the PR for drm-misc-fixes for this week.
-> 
-> Best regards
-> Thomas
-> 
-> drm-misc-fixes-2023-04-13:
-> Short summary of fixes pull:
-> 
->  * armada: Fix double free
->  * fb: Clear FB_ACTIVATE_KD_TEXT in ioctl
->  * nouveau: Add missing callbacks
->  * scheduler: Fix use-after-free error
-> The following changes since commit 09a9639e56c01c7a00d6c0ca63f4c7c41abe075d:
-> 
->   Linux 6.3-rc6 (2023-04-09 11:15:57 -0700)
-> 
-> are available in the Git repository at:
-> 
->   git://anongit.freedesktop.org/drm/drm-misc tags/drm-misc-fixes-2023-04-13
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------2AqT6L0GDYFienpCGdsmsQyo
+Content-Type: multipart/mixed; boundary="------------UAantKwZvMmDPy2jGMyuBbv0";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Jocelyn Falempe <jfalempe@redhat.com>, dri-devel@lists.freedesktop.org,
+ airlied@redhat.com, javierm@redhat.com, lyude@redhat.com
+Message-ID: <3f060f42-3b8e-2296-eeb9-0f774b5ae3b6@suse.de>
+Subject: Re: [RFC PATCH 0/2] drm/mgag200: Use 24bit format in VRAM
+References: <20230412133912.610294-1-jfalempe@redhat.com>
+In-Reply-To: <20230412133912.610294-1-jfalempe@redhat.com>
 
-Pulled, thanks
+--------------UAantKwZvMmDPy2jGMyuBbv0
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-> 
-> for you to fetch changes up to 5603effb8295ada8419408d038a34ca89d658229:
-> 
->   Merge remote-tracking branch 'drm/drm-fixes' into drm-misc-fixes (2023-04-12 12:01:32 +0200)
-> 
-> ----------------------------------------------------------------
-> Short summary of fixes pull:
-> 
->  * armada: Fix double free
->  * fb: Clear FB_ACTIVATE_KD_TEXT in ioctl
->  * nouveau: Add missing callbacks
->  * scheduler: Fix use-after-free error
-> 
-> ----------------------------------------------------------------
-> Asahi Lina (1):
->       drm/scheduler: Fix UAF race in drm_sched_entity_push_job()
-> 
-> Christophe JAILLET (1):
->       drm/armada: Fix a potential double free in an error handling path
-> 
-> Daniel Vetter (1):
->       fbmem: Reject FB_ACTIVATE_KD_TEXT from userspace
-> 
-> Karol Herbst (1):
->       drm/nouveau/fb: add missing sysmen flush callbacks
-> 
-> Maarten Lankhorst (1):
->       Merge remote-tracking branch 'drm/drm-fixes' into drm-misc-fixes
-> 
->  drivers/gpu/drm/armada/armada_drv.c            |  1 -
->  drivers/gpu/drm/nouveau/nvkm/subdev/fb/gf108.c |  1 +
->  drivers/gpu/drm/nouveau/nvkm/subdev/fb/gk104.c |  1 +
->  drivers/gpu/drm/nouveau/nvkm/subdev/fb/gk110.c |  1 +
->  drivers/gpu/drm/nouveau/nvkm/subdev/fb/gm107.c |  1 +
->  drivers/gpu/drm/scheduler/sched_entity.c       | 11 +++++++++--
->  drivers/video/fbdev/core/fbmem.c               |  2 ++
->  7 files changed, 15 insertions(+), 3 deletions(-)
-> 
-> -- 
-> Thomas Zimmermann
-> Graphics Driver Developer
-> SUSE Software Solutions Germany GmbH
-> Maxfeldstr. 5, 90409 Nürnberg, Germany
-> (HRB 36809, AG Nürnberg)
-> Geschäftsführer: Felix Imendörffer
+SGkNCg0KQW0gMTIuMDQuMjMgdW0gMTU6Mzkgc2NocmllYiBKb2NlbHluIEZhbGVtcGU6DQo+
+IFRoZSBiYW5kd2lkdGggYmV0d2VlbiBzeXN0ZW0gbWVtb3J5IGFuZCBWUkFNIGlzIHZlcnkg
+bGltaXRlZA0KPiBvbiBHMjAwLg0KPiBTbyB3aGVuIHVzaW5nIGEgMzJiaXQgZnJhbWVidWZm
+ZXIgb24gc3lzdGVtIG1lbW9yeSwgY29udmVydCBpdCB0byAyNGJpdA0KPiB3aGVuIGNvcHlp
+bmcgdGhlIGZyYW1lIHRvIHRoZSBWUkFNLCB0aGlzIGFsbG93cyB0byBnbyAzMyUgZmFzdGVy
+Lg0KPiBDb252ZXJ0aW5nIHRoZSBmb3JtYXQgb24gdGhlIGZseSBpcyBuZWdsaWdpYmxlLCBl
+dmVuIG9uIGxvdyBlbmQgQ1BVLg0KDQpJJ20gc2tlcHRpY2FsIGFib3V0IHRoaXMgaWRlYS4g
+V2UgZW11bGF0ZWQgYSBudW1iZXIgb2YgZm9ybWF0cyBpbiANCnNpbXBsZWRybSBhbmQgZ290
+IGEgbG90IG9mIGZsYW1lcyBhbmQgcHVzaGJhY2suIFRoZSBhcmd1bWVudCB3YXMgdGhhdCB3
+ZSANCnNob3VsZCBleHBvcnQgdGhlIGZvcm1hdHMgdGhhdCBoYXJkd2FyZSBzdXBwb3J0cyBh
+bmQgbm90IHByZXRlbmQgdG8gDQpzdXBwb3J0IGFueXRoaW5nIGVsc2UuIFRoZSBvbmx5IGV4
+Y2VwdGlvbiBhbGxvd2VkIHdhcyBlbXVsYXRpbmcgDQpYUkdCODg4OCwgYmVjYXVzZSBpdCdz
+IHRoZSBjb21tb24gZ3JvdW5kIGhhdCBldmVyeXRoaW5nIGluIHVzZXJzcGFjZSANCnN1cHBv
+cnRzLg0KDQpJIHNlZSB0aGF0IHRoaXMgaXMgYSBiaXQgZGlmZmVyZW50IGZyb20geW91ciBw
+YXRjaGVzLCBidXQgbm90IHNvIG11Y2guIA0KV2hlbiB1c2Vyc3BhY2Ugd2FudHMgMzItYml0
+IFhSR0IsIGl0IHNob3VsZCBnZXQgaXQgaWYgcG9zc2libGUuDQoNCkknZCByYXRoZXIgc3Vn
+Z2VzdCB0byBzZXQgdGhlIGNvbnNvbGUgdG8gMTYgYml0IGFuZCBhbHNvIHJlc29ydCB0aGUg
+DQpmb3JtYXRzIGFycmF5LiBJdCBpcyBzdXBwb3NlZCB0byBiZSBzb3J0ZWQgYnkgcHJlZmVy
+ZW5jZS4gUkdCNTY1IHNob3VsZCANCm1heWJlIGJlIHRoZSB0b3AgbW9zdCBlbnRyeSwgZm9s
+bG93ZWQgYnkgUkdCODg4LiBUaGVuIHlvdSdkIGhhdmUgdG8gDQp0ZWFjaCB1c2Vyc3BhY2Ug
+dG8gcmVzcGVjdCB0aGVzZSBzZXR0aW5ncy4gSSdtIG5vdCBzdXJlIGlmIGFsbCANCmNvbXBv
+c2l0b3JzIGRvLg0KDQpCZXN0IHJlZ2FyZHMNClRob21hcw0KDQo+IA0KPiBbUEFUQ0ggMS8y
+XSBkcm0vbWdhZzIwMDogc2ltcGxpZnkgb2Zmc2V0IGFuZCBzY2FsZSBjb21wdXRhdGlvbi4N
+Cj4gW1BBVENIIDIvMl0gZHJtL21nYWcyMDA6IFVzZSAyNGJpdCBmb3JtYXQgaW4gVlJBTQ0K
+PiANCj4gZHJpdmVycy9ncHUvZHJtL21nYWcyMDAvbWdhZzIwMF9tb2RlLmMgfCA4NyArKysr
+KysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKystLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0NCj4gICAxIGZpbGUgY2hhbmdlZCwgMzYg
+aW5zZXJ0aW9ucygrKSwgNTEgZGVsZXRpb25zKC0pDQo+IA0KPiANCj4gDQoNCi0tIA0KVGhv
+bWFzIFppbW1lcm1hbm4NCkdyYXBoaWNzIERyaXZlciBEZXZlbG9wZXINClNVU0UgU29mdHdh
+cmUgU29sdXRpb25zIEdlcm1hbnkgR21iSA0KTWF4ZmVsZHN0ci4gNSwgOTA0MDkgTsO8cm5i
+ZXJnLCBHZXJtYW55DQooSFJCIDM2ODA5LCBBRyBOw7xybmJlcmcpDQpHZXNjaMOkZnRzZsO8
+aHJlcjogSXZvIFRvdGV2DQo=
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+--------------UAantKwZvMmDPy2jGMyuBbv0--
+
+--------------2AqT6L0GDYFienpCGdsmsQyo
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmQ4WBQFAwAAAAAACgkQlh/E3EQov+Bu
++xAAxCECCLZDt43ceLPyL9piGQH6SlqLVV9TD/BGB5wdMb84aC8TqSgvEKYiOEmjLJwR15IwjfSw
+ODi+cRc7uGnUHkixg3RSY+icyXFN6DCAzN4kHKCrcra4xxD71TXp6f+Rk1jv9cmnLMpBnmxsesNM
+NSuUEVCVRafoawQEyfJdffmoNu/EZaYXIvVS4wt9inMJQKAZFNYtO/b1ED+USaMYLx0hLXNyGTRL
+SoXAd+QDEQDsX2IZYgyWt+PbKueoJ0xEej2HJeittDGVEywYgFxPaD9IwiJuPj5w9mmPh6n/gRo0
+7TfXUTUGw/Ilc1H95Pc6WP4EGTvAwH+IKLQA5fKP23Rcc0MN3AkFjWAbPMP4DTM1IimABFvM56El
+RiPeHinBFXfIA9lNTiOdtcAeL3boP+S0KMAKTackJvNv1Hn23IwB5oPtdplD55s3TrjhQCLO3n6O
+Ox22HaM707qi10wRqTZgn6JgbpsIgQKhYK7LdVc9HlMv7aj+K6pJf+14R8EiYuuw7mWS2GipQ4mt
+IbZVtKzXWcLDDBBbn8q2g1ynJK5eYIVxXBYViGp8VIzs0X2/aXVduHvgELRHE9KJ8nijYP5Dp1he
+mIQNA5ocgbA1VYHLGnkP7rMMmcW0AP+kdlDhFm3buFPQgaCKsqpZY32I0FjFpFJypS4WG6m9dMaJ
+t2I=
+=OPq4
+-----END PGP SIGNATURE-----
+
+--------------2AqT6L0GDYFienpCGdsmsQyo--
