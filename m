@@ -1,71 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4C556E0F16
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Apr 2023 15:45:28 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FF246E0E0D
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Apr 2023 15:07:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7047B10E17E;
-	Thu, 13 Apr 2023 13:45:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 09CBF10EAEA;
+	Thu, 13 Apr 2023 13:07:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 2371 seconds by postgrey-1.36 at gabe;
- Thu, 13 Apr 2023 13:45:22 UTC
-Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com
- [91.207.212.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5748810E17E
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Apr 2023 13:45:22 +0000 (UTC)
-Received: from pps.filterd (m0046660.ppops.net [127.0.0.1])
- by mx07-00178001.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 33D9R7j0016008; Thu, 13 Apr 2023 15:05:05 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=selector1;
- bh=fV8X/jR840R+J8jRG+/wDOQExdy42LB4fTNQAvYUlkA=;
- b=paB8uU8oahuqvLfLu5n6ygwrZegvxs4PYDxEKLDQwhECPRUlH9WUP6qhW5DFgaV3IsOY
- 5d2o9U/x58IQSIeKL6z9UlKVC4+1n7bwOQLWOtlWq4S3eKmFlQrbaxXyrKNsJpzu//Xn
- BHIs1HfJl+cnZmUHmwiT4wOK7x9nUk67hYYQ4ucTIcEDiG34vckcgkp6/hYQk8jR7NPJ
- lgfFNJtP4rOmd8o+CiaqGGPDLpJtPQyFXtr8TLshSY4myBw2kyHNsTlpwe67qs5ixDgb
- +8/RYnxc2QXwohJAXz8ZudcWpfCN9lZufFRmGUAvkDxwlNA/TjopuL9gRPX5gwkm4xmM HQ== 
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
- by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3pxf2q9g1g-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 13 Apr 2023 15:05:05 +0200
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
- by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 46D1010002A;
- Thu, 13 Apr 2023 15:05:04 +0200 (CEST)
-Received: from Webmail-eu.st.com (shfdag1node3.st.com [10.75.129.71])
- by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 32D3D21B515;
- Thu, 13 Apr 2023 15:05:04 +0200 (CEST)
-Received: from [10.252.20.144] (10.252.20.144) by SHFDAG1NODE3.st.com
- (10.75.129.71) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.21; Thu, 13 Apr
- 2023 15:05:03 +0200
-Message-ID: <31659e74-661b-8bd3-e64e-33ac6d24f577@foss.st.com>
-Date: Thu, 13 Apr 2023 15:04:37 +0200
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 82DA410EAD8;
+ Thu, 13 Apr 2023 13:07:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1681391262; x=1712927262;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=M2aUEW+IML2DV0GcrvR6z18+5jlp57gNIuCt5UccOMs=;
+ b=dkoFahGr68cnY4bpAIx8G6gvJrZk0MUaJ92P3z+irLBoquvodfKyi+gL
+ mIkjWYrNoLhzi7UkFmvIZ8W/qlKlqs4gO4LUiYYVC6/x4H3lw6DPsXbRL
+ cuxHpqM2OSiW3WhK+IXWYWiaq5OUkXbRj2lfHzez25GywHGaqhmPoHzN9
+ XlOzQ8bX+YA56/Xm6OewwN6t/CANOtj2Gbj0XPh7JDI6Ex/m/uN8xz6BV
+ 9S9CF6TwMv6+SMGsismloVVY7lUJkLucgxEaloQfEK2XD21Caa60M7RyJ
+ cLJOetvLvRHj7QW2i49MIAS7KdoT8KXfOXjsHKqvtBZaLCBwq1MqfI8X/ g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10679"; a="342922391"
+X-IronPort-AV: E=Sophos;i="5.99,193,1677571200"; d="scan'208";a="342922391"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Apr 2023 06:07:41 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10679"; a="639665454"
+X-IronPort-AV: E=Sophos;i="5.99,193,1677571200"; d="scan'208";a="639665454"
+Received: from mmcgar2x-mobl1.ger.corp.intel.com (HELO [10.213.231.135])
+ ([10.213.231.135])
+ by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Apr 2023 06:07:37 -0700
+Message-ID: <76c836a3-30a8-a46e-5a1a-0e3dc5967459@linux.intel.com>
+Date: Thu, 13 Apr 2023 14:07:35 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.9.0
-Subject: Re: [PATCH] drm/stm: ltdc: fix late dereference check
-To: Raphael GALLAIS-POU <gallais1@gnb.st.com>, Raphael Gallais-Pou
- <raphael.gallais-pou@foss.st.com>, Philippe Cornu
- <philippe.cornu@foss.st.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre
- Torgue <alexandre.torgue@foss.st.com>
-References: <20230412092553.279185-1-raphael.gallais-pou@foss.st.com>
+Subject: Re: [PATCH v4 4/6] drm/i915: Switch to fdinfo helper
 Content-Language: en-US
-From: Yannick FERTRE <yannick.fertre@foss.st.com>
-In-Reply-To: <20230412092553.279185-1-raphael.gallais-pou@foss.st.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+To: Rob Clark <robdclark@gmail.com>, dri-devel@lists.freedesktop.org
+References: <20230412224311.23511-1-robdclark@gmail.com>
+ <20230412224311.23511-5-robdclark@gmail.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <20230412224311.23511-5-robdclark@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.252.20.144]
-X-ClientProxiedBy: SHFCAS1NODE1.st.com (10.75.129.72) To SHFDAG1NODE3.st.com
- (10.75.129.71)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-04-13_08,2023-04-13_01,2023-02-09_01
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,59 +63,128 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel test robot <lkp@intel.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-stm32@st-md-mailman.stormreply.com,
- linux-arm-kernel@lists.infradead.org, Dan Carpenter <error27@gmail.com>
+Cc: Rob Clark <robdclark@chromium.org>, linux-arm-msm@vger.kernel.org,
+ intel-gfx@lists.freedesktop.org, Emil Velikov <emil.l.velikov@gmail.com>,
+ Christopher Healy <healych@amazon.com>,
+ open list <linux-kernel@vger.kernel.org>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, freedreno@lists.freedesktop.org,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Raphael,
 
-thanks for the patch.
+On 12/04/2023 23:42, Rob Clark wrote:
+> From: Rob Clark <robdclark@chromium.org>
 
-Reviewed-by: Yannick Fertre <yannick.fertre@foss.st.com>
+There is more do to here to remove my client->id fully (would now be 
+dead code) so maybe easiest if you drop this patch and I do it after you 
+land this and it propagates to our branches? I'd like to avoid pain with 
+conflicts if possible..
 
+Regards,
 
-On 4/12/23 11:25, Raphael GALLAIS-POU wrote:
-> Attention: Sender not authenticated
-> --------------------------------------------------
->
-> In ltdc_crtc_set_crc_source(), struct drm_crtc was dereferenced in a
-> container_of() before the pointer check. This could cause a kernel panic.
->
-> Fix this smatch warning:
-> drivers/gpu/drm/stm/ltdc.c:1124 ltdc_crtc_set_crc_source() warn: variable dereferenced before check 'crtc' (see line 1119)
->
-> Reported-by: kernel test robot <lkp@intel.com>
-> Reported-by: Dan Carpenter <error27@gmail.com>
-> Link: https://lore.kernel.org/lkml/202212241802.zeLFZCXB-lkp@intel.com/
-> Signed-off-by: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
+Tvrtko
+
+> 
+> Signed-off-by: Rob Clark <robdclark@chromium.org>
 > ---
->   drivers/gpu/drm/stm/ltdc.c | 4 +++-
->   1 file changed, 3 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/stm/ltdc.c b/drivers/gpu/drm/stm/ltdc.c
-> index 03c6becda795..b8be4c1db423 100644
-> --- a/drivers/gpu/drm/stm/ltdc.c
-> +++ b/drivers/gpu/drm/stm/ltdc.c
-> @@ -1145,7 +1145,7 @@ static void ltdc_crtc_disable_vblank(struct drm_crtc *crtc)
->
->   static int ltdc_crtc_set_crc_source(struct drm_crtc *crtc, const char *source)
+>   drivers/gpu/drm/i915/i915_driver.c     |  3 ++-
+>   drivers/gpu/drm/i915/i915_drm_client.c | 18 +++++-------------
+>   drivers/gpu/drm/i915/i915_drm_client.h |  2 +-
+>   3 files changed, 8 insertions(+), 15 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/i915_driver.c b/drivers/gpu/drm/i915/i915_driver.c
+> index db7a86def7e2..0d91f85f8b97 100644
+> --- a/drivers/gpu/drm/i915/i915_driver.c
+> +++ b/drivers/gpu/drm/i915/i915_driver.c
+> @@ -1696,7 +1696,7 @@ static const struct file_operations i915_driver_fops = {
+>   	.compat_ioctl = i915_ioc32_compat_ioctl,
+>   	.llseek = noop_llseek,
+>   #ifdef CONFIG_PROC_FS
+> -	.show_fdinfo = i915_drm_client_fdinfo,
+> +	.show_fdinfo = drm_show_fdinfo,
+>   #endif
+>   };
+>   
+> @@ -1796,6 +1796,7 @@ static const struct drm_driver i915_drm_driver = {
+>   	.open = i915_driver_open,
+>   	.lastclose = i915_driver_lastclose,
+>   	.postclose = i915_driver_postclose,
+> +	.show_fdinfo = i915_drm_client_fdinfo,
+>   
+>   	.prime_handle_to_fd = drm_gem_prime_handle_to_fd,
+>   	.prime_fd_to_handle = drm_gem_prime_fd_to_handle,
+> diff --git a/drivers/gpu/drm/i915/i915_drm_client.c b/drivers/gpu/drm/i915/i915_drm_client.c
+> index b09d1d386574..4a77e5e47f79 100644
+> --- a/drivers/gpu/drm/i915/i915_drm_client.c
+> +++ b/drivers/gpu/drm/i915/i915_drm_client.c
+> @@ -101,7 +101,7 @@ static u64 busy_add(struct i915_gem_context *ctx, unsigned int class)
+>   }
+>   
+>   static void
+> -show_client_class(struct seq_file *m,
+> +show_client_class(struct drm_printer *p,
+>   		  struct i915_drm_client *client,
+>   		  unsigned int class)
 >   {
-> -       struct ltdc_device *ldev = crtc_to_ltdc(crtc);
-> +       struct ltdc_device *ldev;
->          int ret;
->
->          DRM_DEBUG_DRIVER("\n");
-> @@ -1153,6 +1153,8 @@ static int ltdc_crtc_set_crc_source(struct drm_crtc *crtc, const char *source)
->          if (!crtc)
->                  return -ENODEV;
->
-> +       ldev = crtc_to_ltdc(crtc);
-> +
->          if (source && strcmp(source, "auto") == 0) {
->                  ldev->crc_active = true;
->                  ret = regmap_set_bits(ldev->regmap, LTDC_GCR, GCR_CRCEN);
-> --
-> 2.25.1
->
+> @@ -117,22 +117,20 @@ show_client_class(struct seq_file *m,
+>   	rcu_read_unlock();
+>   
+>   	if (capacity)
+> -		seq_printf(m, "drm-engine-%s:\t%llu ns\n",
+> +		drm_printf(p, "drm-engine-%s:\t%llu ns\n",
+>   			   uabi_class_names[class], total);
+>   
+>   	if (capacity > 1)
+> -		seq_printf(m, "drm-engine-capacity-%s:\t%u\n",
+> +		drm_printf(p, "drm-engine-capacity-%s:\t%u\n",
+>   			   uabi_class_names[class],
+>   			   capacity);
+>   }
+>   
+> -void i915_drm_client_fdinfo(struct seq_file *m, struct file *f)
+> +void i915_drm_client_fdinfo(struct drm_printer *p, struct drm_file *file)
+>   {
+> -	struct drm_file *file = f->private_data;
+>   	struct drm_i915_file_private *file_priv = file->driver_priv;
+>   	struct drm_i915_private *i915 = file_priv->dev_priv;
+>   	struct i915_drm_client *client = file_priv->client;
+> -	struct pci_dev *pdev = to_pci_dev(i915->drm.dev);
+>   	unsigned int i;
+>   
+>   	/*
+> @@ -141,12 +139,6 @@ void i915_drm_client_fdinfo(struct seq_file *m, struct file *f)
+>   	 * ******************************************************************
+>   	 */
+>   
+> -	seq_printf(m, "drm-driver:\t%s\n", i915->drm.driver->name);
+> -	seq_printf(m, "drm-pdev:\t%04x:%02x:%02x.%d\n",
+> -		   pci_domain_nr(pdev->bus), pdev->bus->number,
+> -		   PCI_SLOT(pdev->devfn), PCI_FUNC(pdev->devfn));
+> -	seq_printf(m, "drm-client-id:\t%u\n", client->id);
+> -
+>   	/*
+>   	 * Temporarily skip showing client engine information with GuC submission till
+>   	 * fetching engine busyness is implemented in the GuC submission backend
+> @@ -155,6 +147,6 @@ void i915_drm_client_fdinfo(struct seq_file *m, struct file *f)
+>   		return;
+>   
+>   	for (i = 0; i < ARRAY_SIZE(uabi_class_names); i++)
+> -		show_client_class(m, client, i);
+> +		show_client_class(p, client, i);
+>   }
+>   #endif
+> diff --git a/drivers/gpu/drm/i915/i915_drm_client.h b/drivers/gpu/drm/i915/i915_drm_client.h
+> index 69496af996d9..ef85fef45de5 100644
+> --- a/drivers/gpu/drm/i915/i915_drm_client.h
+> +++ b/drivers/gpu/drm/i915/i915_drm_client.h
+> @@ -60,7 +60,7 @@ static inline void i915_drm_client_put(struct i915_drm_client *client)
+>   struct i915_drm_client *i915_drm_client_add(struct i915_drm_clients *clients);
+>   
+>   #ifdef CONFIG_PROC_FS
+> -void i915_drm_client_fdinfo(struct seq_file *m, struct file *f);
+> +void i915_drm_client_fdinfo(struct drm_printer *p, struct drm_file *file);
+>   #endif
+>   
+>   void i915_drm_clients_fini(struct i915_drm_clients *clients);
