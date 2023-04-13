@@ -1,63 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DC3A6E148D
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Apr 2023 20:47:30 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id F05DD6E148E
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Apr 2023 20:47:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F2AC910E162;
-	Thu, 13 Apr 2023 18:47:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0C3FB10EBC9;
+	Thu, 13 Apr 2023 18:47:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com
- [IPv6:2a00:1450:4864:20::336])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2D38D10EBF1
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Apr 2023 18:47:22 +0000 (UTC)
-Received: by mail-wm1-x336.google.com with SMTP id
- 5b1f17b1804b1-3f0a72c78feso1784245e9.1
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Apr 2023 11:47:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1681411640; x=1684003640;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=wnotl5kFKcqx2M0iAukhtXHV7Gtd92Q/8R66QpfmpTQ=;
- b=F9Tehjzy+57M7YubuPLGM2390SQY5LLgRU8J0NNoTstl0hF7NMtKfdjXODGSzWj800
- Nfm4BugMucjcdm63sv4Vqy4fC+YZul3rnMEkqsw+IOiiaEPA5f8thnFQzJevkLMLBeMY
- GcVDV6ds2fkmQ9Luy7ctPS5Zhhekcfp8X+uls=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681411640; x=1684003640;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=wnotl5kFKcqx2M0iAukhtXHV7Gtd92Q/8R66QpfmpTQ=;
- b=KTavHPLpOv4C4sF+SiI7KdZBUnt2l+l9g7EGRqdKx7l2NqmhVL3d6Tt1yUFsiR2yCH
- DsSVXHPWcV02hLqTnVOC2TTr5CofrlPJv/1QSAFYKYaQpunQyUwiRdhpxlr+G0eW1alk
- 40QyzsqF2l7mlkKBZ3kiKTiuTJTRI/Q9Lnpro0H/G4+Fgn1FTuKB4jXKOeTyfBVDR4ul
- 61xvwp+l47h0G/ZqVVNOd59c5qysGj3MgyzqIG6f0PO/mM5qfSJoDQBvivXSNkHa03ZY
- pIrY6kEXaklDowFN2MUbxQ6GkAP/GLoltgClq95zXavTuOIjwr9ePbMqqV1Ca6mxmsWD
- x3ig==
-X-Gm-Message-State: AAQBX9dZal049UFtcoaCYKUK9EN7mo5jJK38Kix7BP+/hg+TDCc8OHPO
- jukFDUKHWHRWdKy23sFYUEDCcg==
-X-Google-Smtp-Source: AKy350aI3OO1XGWGiZ8iOD3I4RbjZGx5Ww7U1d34ZD4iFfVcexnGNbCZr+ayQcorQDt02C2nRLiZog==
-X-Received: by 2002:a05:600c:1c8e:b0:3f0:a9b8:e816 with SMTP id
- k14-20020a05600c1c8e00b003f0a9b8e816mr2363668wms.2.1681411640170; 
- Thu, 13 Apr 2023 11:47:20 -0700 (PDT)
-Received: from phenom.ffwll.local (212-51-149-33.fiber7.init7.net.
- [212.51.149.33]) by smtp.gmail.com with ESMTPSA id
- n21-20020a7bc5d5000000b003e91b9a92c9sm2504857wmk.24.2023.04.13.11.47.19
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 13 Apr 2023 11:47:19 -0700 (PDT)
-Date: Thu, 13 Apr 2023 20:47:17 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-Subject: Re: [PULL] drm-intel-next-fixes
-Message-ID: <ZDhONRj2Pk4HHoP3@phenom.ffwll.local>
-References: <ZDfxo+PXyw9ivFLI@jlahtine-mobl.ger.corp.intel.com>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 39FA610EBE0
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Apr 2023 18:47:29 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 34FAC640F0;
+ Thu, 13 Apr 2023 18:47:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E97E3C433D2;
+ Thu, 13 Apr 2023 18:47:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1681411647;
+ bh=mkbJGGjfVkWp270Vlh6GLKeqXvgPYjdfjauLg3DCCWo=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=iU60ymNU//wlioH8Qp0n9wi/EMQ8EVBLnhMKRUSItaFADysFEblNtIvmrNmZL/toK
+ 0FERzr4szZYQ/gXrF2Y/GjqLqfr491cBTjFHq/6J2vv844nMI1c5XQ6rARGqCr0uyt
+ 3ZNDY5jFbTWtqxbPeFeZknN3ls2ketaqRF0AYKR0hrmV/wIupAbTua+oufq374vnYj
+ 0PiI4h6l2vmO56skSGCcnV4FXWL8hTZp9WbQR7ss/oUIlqSB+b40O0b0al5XjQfn5c
+ SipdKARiz8B3fFQx3whLX4uvswZji6RcceMqS1PaBGNYtsMqhZOpyDrA50F6H5fGZY
+ nBFwJ7mzX1Jsg==
+Date: Thu, 13 Apr 2023 11:47:25 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: Stephen Rothwell <sfr@canb.auug.org.au>,
+	Mark Brown <broonie@kernel.org>
+Subject: Re: linux-next: manual merge of the drm tree with the powerpc tree
+Message-ID: <20230413184725.GA3183133@dev-arch.thelio-3990X>
+References: <20230412112213.59365041@canb.auug.org.au>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZDfxo+PXyw9ivFLI@jlahtine-mobl.ger.corp.intel.com>
-X-Operating-System: Linux phenom 6.1.0-7-amd64 
+In-Reply-To: <20230412112213.59365041@canb.auug.org.au>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,58 +52,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- dim-tools@lists.freedesktop.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
- dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, intel-gfx@lists.freedesktop.org
+Cc: PowerPC <linuxppc-dev@lists.ozlabs.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ DRI <dri-devel@lists.freedesktop.org>,
+ Linux Next Mailing List <linux-next@vger.kernel.org>,
+ Michael Ellerman <mpe@ellerman.id.au>,
+ Alex Deucher <alexander.deucher@amd.com>, Dave Airlie <airlied@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Apr 13, 2023 at 03:12:19PM +0300, Joonas Lahtinen wrote:
-> Hi Dave & Daniel,
-> 
-> Just one Cc:stable fix for indirect sampler state this week on
-> drm-intel-next-fixes.
-> 
-> Regards, Joonas
-> 
-> ***
-> 
-> drm-intel-next-fixes-2023-04-13:
-> 
-> Short summary of fixes pull (less than what git shortlog provides):
-> 
-> Just one Cc:stable fix for sampler indirect state in bindless heap.
-> 
-> The following changes since commit 55bf14961db9da61220e6f04bc9919c94b1a6585:
-> 
->   Merge tag 'mediatek-drm-next-6.4' of https://git.kernel.org/pub/scm/linux/kernel/git/chunkuang.hu/linux into drm-next (2023-04-11 12:28:10 +0200)
-> 
-> are available in the Git repository at:
-> 
->   git://anongit.freedesktop.org/drm/drm-intel tags/drm-intel-next-fixes-2023-04-13
+Hi Mark,
 
-Pulled, thanks.
+On Wed, Apr 12, 2023 at 11:22:13AM +1000, Stephen Rothwell wrote:
+> Hi all,
+> 
+> Today's linux-next merge of the drm tree got a conflict in:
+> 
+>   drivers/gpu/drm/amd/display/Kconfig
+> 
+> between commit:
+> 
+>   78f0929884d4 ("powerpc/64: Always build with 128-bit long double")
+> 
+> from the powerpc tree and commit:
+> 
+>   4652ae7a51b7 ("drm/amd/display: Rename DCN config to FP")
+> 
+> from the drm tree.
+> 
+> I fixed it up (I used the powerpc version - with "(PPC64 && ALTIVEC)")
+> and can carry the fix as necessary. This is now fixed as far as
+> linux-next is concerned, but any non trivial conflicts should be
+> mentioned to your upstream maintainer when your tree is submitted for
+> merging.  You may also want to consider cooperating with the maintainer
+> of the conflicting tree to minimise any particularly complex conflicts.
 
-> 
-> for you to fetch changes up to 81900e3a37750d8c6ad705045310e002f6dd0356:
-> 
->   drm/i915: disable sampler indirect state in bindless heap (2023-04-12 11:36:09 +0300)
-> 
-> ----------------------------------------------------------------
-> Short summary of fixes pull (less than what git shortlog provides):
-> 
-> Just one Cc:stable fix for sampler indirect state in bindless heap.
-> 
-> ----------------------------------------------------------------
-> Lionel Landwerlin (1):
->       drm/i915: disable sampler indirect state in bindless heap
-> 
->  drivers/gpu/drm/i915/gt/intel_gt_regs.h     |  1 +
->  drivers/gpu/drm/i915/gt/intel_workarounds.c | 19 +++++++++++++++++++
->  2 files changed, 20 insertions(+)
+This resolution is not quite right on next-20230412 and next-20230413,
+as the drm tree's rename was not taken into account on the conflicting
+line. In other words, I need this diff for everything to work properly.
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+diff --git a/drivers/gpu/drm/amd/display/Kconfig b/drivers/gpu/drm/amd/display/Kconfig
+index b990ef80d686..2d8e55e29637 100644
+--- a/drivers/gpu/drm/amd/display/Kconfig
++++ b/drivers/gpu/drm/amd/display/Kconfig
+@@ -8,7 +8,7 @@ config DRM_AMD_DC
+ 	depends on BROKEN || !CC_IS_CLANG || X86_64 || SPARC64 || ARM64
+ 	select SND_HDA_COMPONENT if SND_HDA_CORE
+ 	# !CC_IS_CLANG: https://github.com/ClangBuiltLinux/linux/issues/1752
+-	select DRM_AMD_DC_DCN if (X86 || (PPC64 && ALTIVEC) || (ARM64 && KERNEL_MODE_NEON && !CC_IS_CLANG))
++	select DRM_AMD_DC_FP if (X86 || (PPC64 && ALTIVEC) || (ARM64 && KERNEL_MODE_NEON && !CC_IS_CLANG))
+ 	help
+ 	  Choose this option if you want to use the new display engine
+ 	  support for AMDGPU. This adds required support for Vega and
+
+Please consider resolving this in a future -next update, I was rather
+surprised that my AMD test machine's graphical output was not working
+until I noticed the configuration difference :)
+
+Cheers,
+Nathan
