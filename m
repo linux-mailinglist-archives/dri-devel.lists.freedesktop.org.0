@@ -1,46 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11B5C6E12C1
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Apr 2023 18:49:55 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D1F566E12C3
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Apr 2023 18:49:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B3EC110EB8D;
-	Thu, 13 Apr 2023 16:49:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AB4F010EB95;
+	Thu, 13 Apr 2023 16:49:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DA5F410E380;
- Thu, 13 Apr 2023 16:49:41 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 875A710E380;
+ Thu, 13 Apr 2023 16:49:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1681404581; x=1712940581;
+ t=1681404582; x=1712940582;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=xt8zT1YZRdFHhWLsgQphruGj5/L9fb/AakwpLz1znqY=;
- b=mCT/P9uxAxcjfX5eWjWFK2ADjiYnYK6WqHI2JBhUwpY9vqs/J8ir6Jwf
- +xEP0muFmxSMCLlw4Nh7KhUrSLcTQxQAe+O+Aa5wKXQfp6WJ4VAHmjwBq
- JlF9fnmDBvNANFoTGpzWRUZ4Mp6zIwOkM5tF6CEX0B0VBrJcqYmURhhfJ
- IpJJg/yCtsx2SGL+osflIsT2TcmhHVPDlcaIkrjIUYjGG+FDgW5kSJTL9
- iU8hvsOPxbgEJ0l7CdzquebAFgtb+voBaTr/INevGTBNDb+tyQZNBl+S0
- 5NjsGQc2mCrHQPkGFhTK2Z1nPPDFfPua4K3MYAIPXJiQ46Qm2e9a9KA75 w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10679"; a="342991084"
-X-IronPort-AV: E=Sophos;i="5.99,194,1677571200"; d="scan'208";a="342991084"
+ bh=xUlOujp3VBoiGcCZqWhzgbXO97qHTua64Yy9wHHgCSs=;
+ b=PslrpN4UWlgquiwONI/ihNCpME7AE06BE8FZzMiexvWq6mEiFJs+Wc39
+ kUmxaoMBQqyehoxIxlLIj2aciHVHPBdBwDSWT1dJ9sbqxtcJgpfX2u0HM
+ Yc/FVCEYjvvEDfCZpyeOoXQJz5x2AyevcB2k3ZnAF51PswIC2sWvGZ91A
+ qItb5bqjF2RjXXKFGHw4dwfeljxIP9hGMwmOONXv5V7bd7jeUeuqrteO/
+ b1IclS88thHgArH5oSw56C7PlM21vun+r2BtCGtkJa+qT8YvO1yOERGfw
+ ofx/VplnBna98aa34j41zLf6IWlLXzLM49FLFtxr97VUdcRorWCIr2Jfh A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10679"; a="342991103"
+X-IronPort-AV: E=Sophos;i="5.99,194,1677571200"; d="scan'208";a="342991103"
 Received: from fmsmga007.fm.intel.com ([10.253.24.52])
  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Apr 2023 09:49:28 -0700
+ 13 Apr 2023 09:49:31 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10679"; a="692037930"
-X-IronPort-AV: E=Sophos;i="5.99,194,1677571200"; d="scan'208";a="692037930"
+X-IronPort-AV: E=McAfee;i="6600,9927,10679"; a="692037932"
+X-IronPort-AV: E=Sophos;i="5.99,194,1677571200"; d="scan'208";a="692037932"
 Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.70])
- by fmsmga007.fm.intel.com with SMTP; 13 Apr 2023 09:49:26 -0700
+ by fmsmga007.fm.intel.com with SMTP; 13 Apr 2023 09:49:29 -0700
 Received: by stinkbox (sSMTP sendmail emulation);
- Thu, 13 Apr 2023 19:49:25 +0300
+ Thu, 13 Apr 2023 19:49:28 +0300
 From: Ville Syrjala <ville.syrjala@linux.intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v2 3/7] drm/i915: Fix CHV CGM CSC coefficient sign handling
-Date: Thu, 13 Apr 2023 19:49:12 +0300
-Message-Id: <20230413164916.4221-4-ville.syrjala@linux.intel.com>
+Subject: [PATCH v2 4/7] drm/i915: Always enable CGM CSC on CHV
+Date: Thu, 13 Apr 2023 19:49:13 +0300
+Message-Id: <20230413164916.4221-5-ville.syrjala@linux.intel.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230413164916.4221-1-ville.syrjala@linux.intel.com>
 References: <20230413164916.4221-1-ville.syrjala@linux.intel.com>
@@ -65,79 +65,70 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Ville Syrjälä <ville.syrjala@linux.intel.com>
 
-The CHV CGM CSC coefficients are in s4.12 two's complement
-format. Fix the CTM->CGM conversion to handle that correctly
-instead of pretending that the hw coefficients are also
-in some sign-magnitude format.
+On CHV toggling the CGM CSC on/off while the pipe is running leads
+to underruns. Looks like we'd have to do the toggling strictly inside
+the start_of_vblank-frame_start window to avoid this, but that window
+is less than a scanline so there's no way we can guarantee hitting it.
+
+As a workaround let's just leave the CGM CSC permanently enabled.
+Fortunately the CGM gamma/degamma units don't seem to suffer from
+this malady.
+
+I also tried turning off CGM unit clock gating, but that did not
+help.
 
 Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
 ---
- drivers/gpu/drm/i915/display/intel_color.c | 46 ++++++++++++++--------
- 1 file changed, 29 insertions(+), 17 deletions(-)
+ drivers/gpu/drm/i915/display/intel_color.c | 21 +++++++++++++++++++--
+ 1 file changed, 19 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/gpu/drm/i915/display/intel_color.c b/drivers/gpu/drm/i915/display/intel_color.c
-index 4fc16cac052d..63141f4ed372 100644
+index 63141f4ed372..7a705e7d8776 100644
 --- a/drivers/gpu/drm/i915/display/intel_color.c
 +++ b/drivers/gpu/drm/i915/display/intel_color.c
-@@ -568,29 +568,41 @@ static void icl_load_csc_matrix(const struct intel_crtc_state *crtc_state)
- 		icl_update_output_csc(crtc, &crtc_state->output_csc);
+@@ -605,6 +605,16 @@ static void chv_cgm_csc_convert_ctm(const struct intel_crtc_state *crtc_state,
+ 		csc->coeff[i] = ctm_to_twos_complement(ctm->matrix[i], 4, 12);
  }
  
-+static u16 ctm_to_twos_complement(u64 coeff, int int_bits, int frac_bits)
-+{
-+	s64 c = CTM_COEFF_ABS(coeff);
++#define CHV_CGM_CSC_COEFF_1_0 (1 << 12)
 +
-+	/* leave an extra bit for rounding */
-+	c >>= 32 - frac_bits - 1;
++static const struct intel_csc_matrix chv_cgm_csc_matrix_identity = {
++	.coeff = {
++		CHV_CGM_CSC_COEFF_1_0, 0, 0,
++		0, CHV_CGM_CSC_COEFF_1_0, 0,
++		0, 0, CHV_CGM_CSC_COEFF_1_0,
++	},
++};
 +
-+	/* round and drop the extra bit */
-+	c = (c + 1) >> 1;
-+
-+	if (CTM_COEFF_NEGATIVE(coeff))
-+		c = -c;
-+
-+	c = clamp(c, -(s64)BIT(int_bits + frac_bits - 1),
-+		  (s64)(BIT(int_bits + frac_bits - 1) - 1));
-+
-+	return c & (BIT(int_bits + frac_bits) - 1);
-+}
-+
-+/*
-+ * CHV Color Gamut Mapping (CGM) CSC
-+ * |r|   | c0 c1 c2 |   |r|
-+ * |g| = | c3 c4 c5 | x |g|
-+ * |b|   | c6 c7 c8 |   |b|
-+ *
-+ * Coefficients are two's complement s4.12.
-+ */
- static void chv_cgm_csc_convert_ctm(const struct intel_crtc_state *crtc_state,
- 				    struct intel_csc_matrix *csc)
- {
- 	const struct drm_color_ctm *ctm = crtc_state->hw.ctm->data;
- 	int i;
- 
--	for (i = 0; i < 9; i++) {
--		u64 abs_coeff = ((1ULL << 63) - 1) & ctm->matrix[i];
--
--		/* Round coefficient. */
--		abs_coeff += 1 << (32 - 13);
--		/* Clamp to hardware limits. */
--		abs_coeff = clamp_val(abs_coeff, 0, CTM_COEFF_8_0 - 1);
--
--		csc->coeff[i] = 0;
--
--		/* Write coefficients in S3.12 format. */
--		if (ctm->matrix[i] & (1ULL << 63))
--			csc->coeff[i] |= 1 << 15;
--
--		csc->coeff[i] |= ((abs_coeff >> 32) & 7) << 12;
--		csc->coeff[i] |= (abs_coeff >> 20) & 0xfff;
--	}
-+	for (i = 0; i < 9; i++)
-+		csc->coeff[i] = ctm_to_twos_complement(ctm->matrix[i], 4, 12);
- }
- 
  static void chv_load_cgm_csc(struct intel_crtc *crtc,
+ 			     const struct intel_csc_matrix *csc)
+ {
+@@ -667,9 +677,9 @@ static void chv_assign_csc(struct intel_crtc_state *crtc_state)
+ 
+ 		chv_cgm_csc_convert_ctm(crtc_state, &crtc_state->csc);
+ 	} else {
+-		drm_WARN_ON(&i915->drm, (crtc_state->cgm_mode & CGM_PIPE_MODE_CSC) != 0);
++		drm_WARN_ON(&i915->drm, (crtc_state->cgm_mode & CGM_PIPE_MODE_CSC) == 0);
+ 
+-		intel_csc_clear(&crtc_state->csc);
++		crtc_state->csc = chv_cgm_csc_matrix_identity;
+ 	}
+ }
+ 
+@@ -2033,6 +2043,13 @@ static u32 chv_cgm_mode(const struct intel_crtc_state *crtc_state)
+ 	    !lut_is_legacy(crtc_state->hw.gamma_lut))
+ 		cgm_mode |= CGM_PIPE_MODE_GAMMA;
+ 
++	/*
++	 * Toggling the CGM CSC on/off outside of the tiny window
++	 * between start of vblank and frame start causes underruns.
++	 * Always enable the CGM CSC as a workaround.
++	 */
++	cgm_mode |= CGM_PIPE_MODE_CSC;
++
+ 	return cgm_mode;
+ }
+ 
 -- 
 2.39.2
 
