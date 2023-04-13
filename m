@@ -1,43 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3AA546E1537
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Apr 2023 21:33:45 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 670D56E155B
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Apr 2023 21:44:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0E44F10EC1C;
-	Thu, 13 Apr 2023 19:33:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2133910EC02;
+	Thu, 13 Apr 2023 19:44:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp.smtpout.orange.fr (smtp-13.smtpout.orange.fr
- [80.12.242.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9D9A310EC24
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Apr 2023 19:33:36 +0000 (UTC)
-Received: from pop-os.home ([86.243.2.178]) by smtp.orange.fr with ESMTPA
- id n2hIpROm9XvOIn2hIpu4Sp; Thu, 13 Apr 2023 21:33:34 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=orange.fr;
- s=t20230301; t=1681414414;
- bh=p8tlc8IxZvfAdUY/OUcVwiltoaAGfLctXu29jYVg/I8=;
- h=From:To:Cc:Subject:Date;
- b=O1nSWm5I/r5qvZA21kpDd+5nm9utlh0pLDctDWI6qhe9pMxWHGl3FKFAkV9XIvdZe
- O2rzxDasWVMEDDDqazKOsHUwLg/RL01XBSx30NTtQ+vODdZ30eikuQ7WdPzU6N8hUq
- RyaiwbxXSQnx6wmRHLOA8wNOyiuhUESX6al0N9RLm1Z+VHWqGQJDvpB1oJVZllR4MW
- NgwIjZdez5HmAyDpPgXqfrAxo8tEVU+JunpWeklzDgpVQHPOwm3P4fw3frTsJm8wOm
- 4CMU//G17rDAly5FRWiMlKfu5rvQTRLIfK0m7j04wMjF/8pP6s8wS9a8B7pPKJ3PpY
- RFvqGJzpe32fg==
-X-ME-Helo: pop-os.home
-X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
-X-ME-Date: Thu, 13 Apr 2023 21:33:34 +0200
-X-ME-IP: 86.243.2.178
-From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-To: Helge Deller <deller@gmx.de>,
-	Cai Huoqing <cai.huoqing@linux.dev>
-Subject: [PATCH] video: fbdev: mmp: Fix deferred clk handling in mmphw_probe()
-Date: Thu, 13 Apr 2023 21:33:17 +0200
-Message-Id: <685f452cacc74f4983aaff2bc28a02a95e8aa8b7.1681414375.git.christophe.jaillet@wanadoo.fr>
-X-Mailer: git-send-email 2.34.1
+Received: from mout.web.de (mout.web.de [212.227.17.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B4EE310EC02
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Apr 2023 19:44:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de; s=s29768273;
+ t=1681415064; i=markus.elfring@web.de;
+ bh=qOGuCShQ+GRXJcmAjLP3izQLsAVZcyAZRpZ35hIizx4=;
+ h=X-UI-Sender-Class:Date:Subject:From:To:References:Cc:In-Reply-To;
+ b=v7/kTXhFY0hABdRHISl9eqtaHuCZ50z3HIKxOSkFHoNRV99hEkySY4UF87tvHiVA4
+ 7JdvHTXYZVXfHruJ8xuMVhYH53wfSFEejUL14u60LVBLN12tdnY4+CcP0Nmq+WYRW1
+ wmlkTF1+OrycjsznOkeYp9Gpd4pUslzaMERtg932Fs4QM4DwcZrcRJyQWxTdNFEJbE
+ SdhlqzrUS50mc9CkqQNSccRSRb+ODfcDo1tNeACgD3yz7CditIAbOe4WkPKjg0+3Qk
+ Dolm14H3zHlXiqSujJRTgquSRbbRRTPmsJ2eBYEsxGGvFZUzMuR4NWNQPNVajUm3uA
+ z3kCajEPpncBw==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.21] ([94.31.85.83]) by smtp.web.de (mrweb106
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 1MN6Bb-1q5xCH3FXZ-00IpMe; Thu, 13
+ Apr 2023 21:44:24 +0200
+Message-ID: <86551e6f-d529-1ff6-6ce6-b9669d10e6cb@web.de>
+Date: Thu, 13 Apr 2023 21:44:23 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: [PATCH] video: au1100fb: Move a variable assignment behind a null
+ pointer check in au1100fb_setmode()
+Content-Language: en-GB
+From: Markus Elfring <Markus.Elfring@web.de>
+To: kernel-janitors@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Antonino Daplas <adaplas@pol.net>,
+ =?UTF-8?Q?Ralf_B=c3=a4chle?= <ralf@linux-mips.org>,
+ Yihao Han <hanyihao@vivo.com>
+References: <40c60719-4bfe-b1a4-ead7-724b84637f55@web.de>
+ <1a11455f-ab57-dce0-1677-6beb8492a257@web.de>
+In-Reply-To: <1a11455f-ab57-dce0-1677-6beb8492a257@web.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:ap6G4YuCFkJzgF5UGRZwAk1oAua1riOUt+7p93mBUS6qNt02wij
+ 9z2rA3YgYx0MKWNgMYyDn3iilQ8dTa0HO1tceJBCPK/86Z4nVRwWwMwqMzuTQOjv32jnj+v
+ 1EuNjemvdabt3Grr/bDKuUS0ADnKyvM2+uOkdsSHrIkGaHqhOvQZOXeu6W1eXkekO9vGHQ7
+ M+oJ/PLYTgY2kMpD4FXXQ==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:NQCZFHsloKI=;3y/e3Z0j8Gr9kr+YduY9YiFkaL2
+ nQAj2khXWc8PbQUyJFUrOhrPx3wykPAhn4nNU2URWghQ0M0wYNxZd73bA1A/n8OWiaCshYnkC
+ EfxjLc0lD2EESI5oXfTpnyivXjKlSoE9Nzv2jR2IJJQaq2HzdEFu4nMSdtYdDZKJ+MJk2sHeJ
+ W3epzIXg2iv00MqsbdlfvXK0NxTXtDBkEfXPKg5sGrfH275X07+9xspLJ8QHWh2whwjU62MCE
+ MpsL7tpW51Q6jWPV4t9Fua4hj+QWeYhrTbVhD2WLIrIu6Jv/p3ipjaikY36tEsSYyJZar0g0d
+ 0Ig6mV2VrB/ASn5JjwDGLctOS+kQl6xLXXybFzSv1JtRDa/EP/2dkzQg+WfN4NVXVxq62yd45
+ vtY3jl/dGR7/UPsm05QlJYXyjm4CDnBPkIhsv7uSeOthCTPCKaAW/IQ5ftWx8D3wsHj9f5+uw
+ qwMj/l/LpxIq0UjGHftFH274BQW79+MyMjDYJCFB+tV/t9tCRjvV6FDsI+RlYHrq0lQP+cyfe
+ O28e3Nwdq0zUPjGgUYDfk2A4HSTsoghDlIwkxQv8tIgjQ3tL9HtqizHGVbHlbdeyYafUFjtUY
+ FmAoYDUpb73CKthaSYuCU4we1fHVo5AYEiIzzjPXNC5ODS7VJRGBd1Lu8jzYI/kdqegt/hzYz
+ 9gGcfVO7KzGyH/AQfRkSSqkFy6fZpdNBL9w1vUvzSOh35J9aZPo5hNFJsiMtWCgyKStoN980K
+ l6+mGuqtsaf6+1LBn7iw09GG9Hud1a8mkrmyu6V2tppbV1feRIp3/fv2U0rJgo+qcNBAERlIM
+ +StJYuAwLs7Bc9nNcF3J0CyJU/tNjlaa0hV5XRdPHWZJJ64z0KrnWRN5aMAb5Dg+QRzM5IJBE
+ uxtBtxFBXMUG2WZ9F6DUhw/CQXIohb1VwvGHxe0ggn1sy5xpNLFHmP8BP
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,41 +75,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
- linux-fbdev@vger.kernel.org, kernel-janitors@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: LKML <linux-kernel@vger.kernel.org>, cocci@inria.fr
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When dev_err_probe() is called, 'ret' holds the value of the previous
-successful devm_request_irq() call.
-'ret' should be assigned with a meaningful value before being used in
-dev_err_probe().
+Date: Thu, 13 Apr 2023 21:35:36 +0200
 
-While at it, use and return "PTR_ERR(ctrl->clk)" instead of a hard-coded
-"-ENOENT" so that -EPROBE_DEFER is handled and propagated correctly.
+The address of a data structure member was determined before
+a corresponding null pointer check in the implementation of
+the function =E2=80=9Cau1100fb_setmode=E2=80=9D.
 
-Fixes: 81b63420564d ("video: fbdev: mmp: Make use of the helper function dev_err_probe()")
-Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
----
- drivers/video/fbdev/mmp/hw/mmp_ctrl.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Thus avoid the risk for undefined behaviour by moving the assignment
+for the variable =E2=80=9Cinfo=E2=80=9D behind the null pointer check.
 
-diff --git a/drivers/video/fbdev/mmp/hw/mmp_ctrl.c b/drivers/video/fbdev/mmp/hw/mmp_ctrl.c
-index a9df8ee79810..51fbf02a0343 100644
---- a/drivers/video/fbdev/mmp/hw/mmp_ctrl.c
-+++ b/drivers/video/fbdev/mmp/hw/mmp_ctrl.c
-@@ -514,9 +514,9 @@ static int mmphw_probe(struct platform_device *pdev)
- 	/* get clock */
- 	ctrl->clk = devm_clk_get(ctrl->dev, mi->clk_name);
- 	if (IS_ERR(ctrl->clk)) {
-+		ret = PTR_ERR(ctrl->clk);
- 		dev_err_probe(ctrl->dev, ret,
- 			      "unable to get clk %s\n", mi->clk_name);
--		ret = -ENOENT;
- 		goto failed;
- 	}
- 	clk_prepare_enable(ctrl->clk);
--- 
-2.34.1
+This issue was detected by using the Coccinelle software.
+
+Fixes: 3b495f2bb749b828499135743b9ddec46e34fda8 ("Au1100 FB driver uplift =
+for 2.6.")
+Signed-off-by: Markus Elfring <elfring@users.sourceforge.net>
+=2D--
+ drivers/video/fbdev/au1100fb.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/video/fbdev/au1100fb.c b/drivers/video/fbdev/au1100fb=
+.c
+index cb317398e71a..fcb47b350bc9 100644
+=2D-- a/drivers/video/fbdev/au1100fb.c
++++ b/drivers/video/fbdev/au1100fb.c
+@@ -137,13 +137,15 @@ static int au1100fb_fb_blank(int blank_mode, struct =
+fb_info *fbi)
+ 	 */
+ int au1100fb_setmode(struct au1100fb_device *fbdev)
+ {
+-	struct fb_info *info =3D &fbdev->info;
++	struct fb_info *info;
+ 	u32 words;
+ 	int index;
+
+ 	if (!fbdev)
+ 		return -EINVAL;
+
++	info =3D &fbdev->info;
++
+ 	/* Update var-dependent FB info */
+ 	if (panel_is_active(fbdev->panel) || panel_is_color(fbdev->panel)) {
+ 		if (info->var.bits_per_pixel <=3D 8) {
+=2D-
+2.40.0
 
