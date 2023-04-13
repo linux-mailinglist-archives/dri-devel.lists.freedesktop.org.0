@@ -1,56 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD5EF6E0C74
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Apr 2023 13:30:13 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D8FB26E0D27
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Apr 2023 13:56:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3EED110EAC4;
-	Thu, 13 Apr 2023 11:30:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F3E2610EAC8;
+	Thu, 13 Apr 2023 11:56:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 53C8D10EACC
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Apr 2023 11:30:07 +0000 (UTC)
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2992610EAC3;
+ Thu, 13 Apr 2023 11:56:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1681385407; x=1712921407;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=TW7DZwYAngC5+Nm9WQMS/VJ5iDejPiTfG0ly/S2pe0M=;
- b=XQQfglETywWaeWcdJ1k4gCj/HywDdiuRz3p+WQWf94E8DBZ8y64DHTg/
- tcLf18SN1F2RBPg9DST6kbbAvjRiRbyoF5VeIq+RFyBCuUc/G/gVJoP+C
- iXpUeAUlAACOICCwAiaYfHLqJoFRnC098HyftizU/xoh+rE0oWrYUeDiN
- ra6526pw7ah0MsR/kx9ykX8TQnh5sbkhijgRKZs+vUzE7q1VyBjvyfx/g
- ImKpwY5P9vWSZ2DxK08lQell8wYrsFq2AS8T1kQwj+HKtOHz0nI2nyIyk
- x8e+2YFyGCsyYNB4u4XUAHqASj6rIKjXtYqoV9AOgTvDOuv4sp2UH8En1 w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10678"; a="323781274"
-X-IronPort-AV: E=Sophos;i="5.99,341,1677571200"; d="scan'208";a="323781274"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Apr 2023 04:29:51 -0700
+ t=1681386978; x=1712922978;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=ZKnATmoQQPk/LdphoLcRFv/nCdSVmhg27B+jVE4GCJE=;
+ b=WjvWB2Q4L5lpyZN55Dm29JwyNtrx67T/R9pdIFQQdXUqS7KkjQzccRP6
+ En8unka1Y8EaAV0Phd9RD5Gp1TE9hHWRyBbqBxOWZeq3ATh3PLDNgnL+l
+ JzWvXzfdlNg5QNQQ6vcI6wxGlq0d4ZsiZi6CG9ZT3hTKFo8s1c3TXVw3G
+ 2TaKAjrNjeSgr/X3uHHvoekSV8oMCxzxZpc3zYin3d6hUY+77J7PR/Nge
+ 10M9jmfaHGivfr54yAGBm1xxejHC9dnhMGvGKJz/pUJg6UtLxhFp7FOx5
+ MTnNeCU/ZWYAaykRBQYQMud2QCxl4u7MC/BlG3snFF5fQH7WgMfWXr0OK Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10678"; a="332871198"
+X-IronPort-AV: E=Sophos;i="5.99,341,1677571200"; d="scan'208";a="332871198"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Apr 2023 04:56:05 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10678"; a="935562139"
-X-IronPort-AV: E=Sophos;i="5.99,341,1677571200"; d="scan'208";a="935562139"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
- by fmsmga006.fm.intel.com with ESMTP; 13 Apr 2023 04:29:47 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1pmv98-000Ydt-2z;
- Thu, 13 Apr 2023 11:29:46 +0000
-Date: Thu, 13 Apr 2023 19:29:03 +0800
-From: kernel test robot <lkp@intel.com>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
- mcanal@igalia.com, stanislaw.gruszka@linux.intel.com,
- ogabbay@kernel.org, quic_jhugo@quicinc.com, daniel@ffwll.ch,
- jani.nikula@linux.intel.com, mwen@igalia.com, maxime@cerno.tech,
- wambui.karugax@gmail.com, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH 2/5] drm/debugfs: rework debugfs directory creation v3
-Message-ID: <202304131935.9BjNzso4-lkp@intel.com>
-References: <20230412145206.2483-3-christian.koenig@amd.com>
+X-IronPort-AV: E=McAfee;i="6600,9927,10678"; a="800790369"
+X-IronPort-AV: E=Sophos;i="5.99,341,1677571200"; d="scan'208";a="800790369"
+Received: from mmcgar2x-mobl1.ger.corp.intel.com (HELO [10.213.231.135])
+ ([10.213.231.135])
+ by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Apr 2023 04:56:02 -0700
+Message-ID: <ca796c78-67cf-c803-b3bc-7d6eaa542b32@linux.intel.com>
+Date: Thu, 13 Apr 2023 12:56:00 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230412145206.2483-3-christian.koenig@amd.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [Intel-gfx] [PATCH v5 5/5] drm/i915/gt: Make sure that errors are
+ propagated through request chains
+Content-Language: en-US
+To: Andi Shyti <andi.shyti@linux.intel.com>, intel-gfx@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org, stable@vger.kernel.org
+References: <20230412113308.812468-1-andi.shyti@linux.intel.com>
+ <20230412113308.812468-6-andi.shyti@linux.intel.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <20230412113308.812468-6-andi.shyti@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,96 +65,193 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: oe-kbuild-all@lists.linux.dev
+Cc: Maciej Patelczyk <maciej.patelczyk@intel.com>,
+ Matthew Auld <matthew.auld@intel.com>, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Nirmoy Das <nirmoy.das@intel.com>,
+ Chris Wilson <chris.p.wilson@linux.intel.com>,
+ Andi Shyti <andi.shyti@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Christian,
 
-kernel test robot noticed the following build errors:
+On 12/04/2023 12:33, Andi Shyti wrote:
+> Currently, when we perform operations such as clearing or copying
+> large blocks of memory, we generate multiple requests that are
+> executed in a chain.
+> 
+> However, if one of these requests fails, we may not realize it
+> unless it happens to be the last request in the chain. This is
+> because errors are not properly propagated.
+> 
+> For this we need to keep propagating the chain of fence
+> notification in order to always reach the final fence associated
+> to the final request.
+> 
+> To address this issue, we need to ensure that the chain of fence
+> notifications is always propagated so that we can reach the final
+> fence associated with the last request. By doing so, we will be
+> able to detect any memory operation  failures and determine
+> whether the memory is still invalid.
 
-[auto build test ERROR on drm-misc/drm-misc-next]
-[also build test ERROR on drm-intel/for-linux-next drm-intel/for-linux-next-fixes tegra/for-next linus/master v6.3-rc6 next-20230412]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Above two paragraphs seems to have redundancy in the message they convey.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Christian-K-nig/drm-debugfs-rework-debugfs-directory-creation-v3/20230412-235231
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20230412145206.2483-3-christian.koenig%40amd.com
-patch subject: [PATCH 2/5] drm/debugfs: rework debugfs directory creation v3
-config: arc-randconfig-r043-20230413 (https://download.01.org/0day-ci/archive/20230413/202304131935.9BjNzso4-lkp@intel.com/config)
-compiler: arceb-elf-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/92a7a4f0fd59d427c5827c323692b76095f90efc
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Christian-K-nig/drm-debugfs-rework-debugfs-directory-creation-v3/20230412-235231
-        git checkout 92a7a4f0fd59d427c5827c323692b76095f90efc
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc SHELL=/bin/bash drivers/gpu/drm/
+> On copy and clear migration signal fences upon completion.
+> 
+> On copy and clear migration, signal fences upon request
+> completion to ensure that we have a reliable perpetuation of the
+> operation outcome.
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304131935.9BjNzso4-lkp@intel.com/
+These two too. So I think commit message can be a bit polished.
 
-All errors (new ones prefixed by >>):
+> Fixes: cf586021642d80 ("drm/i915/gt: Pipelined page migration")
+> Reported-by: Matthew Auld <matthew.auld@intel.com>
+> Suggested-by: Chris Wilson <chris@chris-wilson.co.uk>
+> Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
+> Cc: stable@vger.kernel.org
+> Reviewed-by: Matthew Auld <matthew.auld@intel.com>
+> Acked-by: Nirmoy Das <nirmoy.das@intel.com>
+> ---
+>   drivers/gpu/drm/i915/gt/intel_migrate.c | 51 +++++++++++++++++++------
+>   1 file changed, 39 insertions(+), 12 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/gt/intel_migrate.c b/drivers/gpu/drm/i915/gt/intel_migrate.c
+> index 3f638f1987968..668c95af8cbcf 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_migrate.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_migrate.c
+> @@ -742,13 +742,19 @@ intel_context_migrate_copy(struct intel_context *ce,
+>   			dst_offset = 2 * CHUNK_SZ;
+>   	}
+>   
+> +	/*
+> +	 * While building the chain of requests, we need to ensure
+> +	 * that no one can sneak into the timeline unnoticed.
+> +	 */
+> +	mutex_lock(&ce->timeline->mutex);
+> +
+>   	do {
+>   		int len;
+>   
+> -		rq = i915_request_create(ce);
+> +		rq = i915_request_create_locked(ce);
+>   		if (IS_ERR(rq)) {
+>   			err = PTR_ERR(rq);
+> -			goto out_ce;
+> +			break;
+>   		}
+>   
+>   		if (deps) {
+> @@ -878,10 +884,14 @@ intel_context_migrate_copy(struct intel_context *ce,
+>   
+>   		/* Arbitration is re-enabled between requests. */
+>   out_rq:
+> -		if (*out)
+> +		i915_sw_fence_await(&rq->submit);
+> +		i915_request_get(rq);
+> +		i915_request_add_locked(rq);
+> +		if (*out) {
+> +			i915_sw_fence_complete(&(*out)->submit);
+>   			i915_request_put(*out);
 
-   drivers/gpu/drm/drm_drv.c: In function 'drm_dev_unregister':
->> drivers/gpu/drm/drm_drv.c:1011:9: error: implicit declaration of function 'drm_debugfs_dev_fini'; did you mean 'drm_debugfs_dev_init'? [-Werror=implicit-function-declaration]
-    1011 |         drm_debugfs_dev_fini(dev);
-         |         ^~~~~~~~~~~~~~~~~~~~
-         |         drm_debugfs_dev_init
-   cc1: some warnings being treated as errors
+Could you help me understand this please. I have a few questions - 
+first, what are the actual mechanics of fence error transfer here? I see 
+the submit fence is being blocked until the next request is submitted - 
+effectively previous request is only allowed to get on the hardware 
+after the next one has been queued up. But I don't immediately see what 
+that does in practice.
 
+Second question relates to the need to hold the timeline mutex 
+throughout. Presumably this is so two copy or migrate operations on the 
+same context do not interleave, which can otherwise happen?
 
-vim +1011 drivers/gpu/drm/drm_drv.c
+Would the error propagation be doable without the lock held by chaining 
+on the previous request _completion_ fence? If so I am sure that would 
+have a performance impact, because chunk by chunk would need a GPU<->CPU 
+round trip to schedule. How much of an impact I don't know. Maybe 
+enlarging CHUNK_SZ to compensate is an option?
 
-   974	
-   975	/**
-   976	 * drm_dev_unregister - Unregister DRM device
-   977	 * @dev: Device to unregister
-   978	 *
-   979	 * Unregister the DRM device from the system. This does the reverse of
-   980	 * drm_dev_register() but does not deallocate the device. The caller must call
-   981	 * drm_dev_put() to drop their final reference.
-   982	 *
-   983	 * A special form of unregistering for hotpluggable devices is drm_dev_unplug(),
-   984	 * which can be called while there are still open users of @dev.
-   985	 *
-   986	 * This should be called first in the device teardown code to make sure
-   987	 * userspace can't access the device instance any more.
-   988	 */
-   989	void drm_dev_unregister(struct drm_device *dev)
-   990	{
-   991		if (drm_core_check_feature(dev, DRIVER_LEGACY))
-   992			drm_lastclose(dev);
-   993	
-   994		dev->registered = false;
-   995	
-   996		drm_client_dev_unregister(dev);
-   997	
-   998		if (drm_core_check_feature(dev, DRIVER_MODESET))
-   999			drm_modeset_unregister_all(dev);
-  1000	
-  1001		if (dev->driver->unload)
-  1002			dev->driver->unload(dev);
-  1003	
-  1004		drm_legacy_pci_agp_destroy(dev);
-  1005		drm_legacy_rmmaps(dev);
-  1006	
-  1007		remove_compat_control_link(dev);
-  1008		drm_minor_unregister(dev, DRM_MINOR_ACCEL);
-  1009		drm_minor_unregister(dev, DRM_MINOR_PRIMARY);
-  1010		drm_minor_unregister(dev, DRM_MINOR_RENDER);
-> 1011		drm_debugfs_dev_fini(dev);
-  1012	}
-  1013	EXPORT_SYMBOL(drm_dev_unregister);
-  1014	
+Or if the perf hit would be bearable for stable backports only (much 
+smaller patch) and then for tip we can do this full speed solution.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+But yes, I would first want to understand the actual error propagation 
+mechanism because sadly my working knowledge is a bit rusty.
+
+> -		*out = i915_request_get(rq);
+> -		i915_request_add(rq);
+> +		}
+> +		*out = rq;
+>   
+>   		if (err)
+>   			break;
+> @@ -905,7 +915,10 @@ intel_context_migrate_copy(struct intel_context *ce,
+>   		cond_resched();
+>   	} while (1);
+>   
+> -out_ce:
+> +	mutex_unlock(&ce->timeline->mutex);
+> +
+> +	if (*out)
+> +		i915_sw_fence_complete(&(*out)->submit);
+>   	return err;
+>   }
+>   
+> @@ -999,13 +1012,19 @@ intel_context_migrate_clear(struct intel_context *ce,
+>   	if (HAS_64K_PAGES(i915) && is_lmem)
+>   		offset = CHUNK_SZ;
+>   
+> +	/*
+> +	 * While building the chain of requests, we need to ensure
+> +	 * that no one can sneak into the timeline unnoticed.
+> +	 */
+> +	mutex_lock(&ce->timeline->mutex);
+> +
+>   	do {
+>   		int len;
+>   
+> -		rq = i915_request_create(ce);
+> +		rq = i915_request_create_locked(ce);
+>   		if (IS_ERR(rq)) {
+>   			err = PTR_ERR(rq);
+> -			goto out_ce;
+> +			break;
+>   		}
+>   
+>   		if (deps) {
+> @@ -1056,17 +1075,25 @@ intel_context_migrate_clear(struct intel_context *ce,
+>   
+>   		/* Arbitration is re-enabled between requests. */
+>   out_rq:
+> -		if (*out)
+> +		i915_sw_fence_await(&rq->submit);
+> +		i915_request_get(rq);
+> +		i915_request_add_locked(rq);
+> +		if (*out) {
+> +			i915_sw_fence_complete(&(*out)->submit);
+>   			i915_request_put(*out);
+> -		*out = i915_request_get(rq);
+> -		i915_request_add(rq);
+> +		}
+> +		*out = rq;
+
+Btw if all else fails perhaps these two blocks can be consolidated by 
+something like __chain_requests(rq, out) and all these operations in it. 
+Not sure how much would that save in the grand total.
+
+Regards,
+
+Tvrtko
+
+> +
+>   		if (err || !it.sg || !sg_dma_len(it.sg))
+>   			break;
+>   
+>   		cond_resched();
+>   	} while (1);
+>   
+> -out_ce:
+> +	mutex_unlock(&ce->timeline->mutex);
+> +
+> +	if (*out)
+> +		i915_sw_fence_complete(&(*out)->submit);
+>   	return err;
+>   }
+>   
