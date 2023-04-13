@@ -1,66 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FFD66E03F8
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Apr 2023 04:07:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D6E36E0404
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Apr 2023 04:17:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DEDB110EA03;
-	Thu, 13 Apr 2023 02:07:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6771810EA01;
+	Thu, 13 Apr 2023 02:17:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com
- [IPv6:2607:f8b0:4864:20::1032])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 70AE710EA03
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Apr 2023 02:07:23 +0000 (UTC)
-Received: by mail-pj1-x1032.google.com with SMTP id
- jx2-20020a17090b46c200b002469a9ff94aso11864943pjb.3
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Apr 2023 19:07:23 -0700 (PDT)
+Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com
+ [IPv6:2607:f8b0:4864:20::635])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 585EE10EA01
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Apr 2023 02:17:44 +0000 (UTC)
+Received: by mail-pl1-x635.google.com with SMTP id p8so13565229plk.9
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Apr 2023 19:17:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1681351642; x=1683943642;
+ d=gmail.com; s=20221208; t=1681352264; x=1683944264;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=BEy739Q6DzyPTPI+EMOV/uu+jSkhw/XJ8H+BPcHU6Bs=;
- b=YABSAzecJklqy+eOR5eewLTULsC0NynzfDE9O0fbd42ALSZM+w+gf4McrSErgoyYaK
- Fsnz+P7cNCAKB6FN4O1oatl3SbLvcJW0n4yEcX3KBvmQAOJUyEFssVz+xa4BXuzRBUt6
- zzcSd+nq2FL3bbLR5+tgRXfrbeOgRhnzscVlurEfwPgIU9CXuREmCFZhvruyOhfvWaO+
- VX/NvzU2baoHrG0KY9uHtl7JRkcuuCXJrc6L7bXh8k+4wTki4//kNKgofyHJS5d8aKPC
- lBVmNG5TkTc6pN2SCood8G6R/Q5jxVOEcf+3HY1QpIkQeGZE8e164CmoH9SudD2Dlh7c
- mMRQ==
+ bh=XzcH2FGOl08HFZvLq7fg5qxkoIepaHQ4FukgMx688Jk=;
+ b=gOWuvAiw/ZvvfqD+R8MDOwyGYWTn3B5qj39QZ8QoHVss5kzm89guBxBCR0uqR4ogKJ
+ XQ8zZ+gW4/8bPp407bVQIw7aiWyi/N1bcvg6ooZmrQyCzIINsQqE6hopNKujckzVxWHU
+ NhpZjIjKhjFg5MwRBHFjhOGqEMeGvBNhHVHwdg0pWn8O+YAuZRnTWkLhzfD0Lgv0w1FN
+ tEcnEEht3cEB7aRrrDUdfyWf30L67WBNsQPzm+oZKREc252vG0DmFXJWp3eBVVa9GhvW
+ E0seWLo+LphZR8vL1gG6VgcsPYpkkg/RInVQJWlxiAl41xPRkUh+acdTBHvR1If6rU5A
+ ZDfQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681351642; x=1683943642;
+ d=1e100.net; s=20221208; t=1681352264; x=1683944264;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=BEy739Q6DzyPTPI+EMOV/uu+jSkhw/XJ8H+BPcHU6Bs=;
- b=Uud1sne9fwNTkf6vTxzRk+89UVRpBRYJlb4NQZDsCAFJyYy2KBOKRoH7NWTl4eo6Cr
- vEJW7Lel6hnPdOPTt6FJm0ilRIyy8pGmcLUKhGo+IbSo1APj1vuPfTYL4bxXmTEaKbbJ
- kPB9NRnAkCqVDhYeeZ86qk9a7ihwfGqGjdEz/+dwLyn1bMWK4rI5hHKubiuT+6zjVuzB
- ECjSNhJ3q0uLl22qxDTRZvk+q4M0TIJbqxctQNRTYMM6tI1t0+BWq96Puwv9JB9H6j0m
- Hhr3QIWPDNXLZDErbmQoc8M8kz2tigfakmDVOwhrfuJdle6QpXSBBuCdyiWenqDQXDjQ
- sb4w==
-X-Gm-Message-State: AAQBX9dDoWUhSDjA1EefkAOX1RfxbYUMYHYCM/1CVOmiZsHqCegX21LM
- NFIf44rAOGmq+MnkcbWuMVM=
-X-Google-Smtp-Source: AKy350bRu/BzSqanT7tkZ7WazrwfBESoI0yWMZiJHdyKwePaMYz7NCCNIjcPK2NWOPsAetiGcY7GXQ==
-X-Received: by 2002:a17:90a:b005:b0:23d:16d6:2f05 with SMTP id
- x5-20020a17090ab00500b0023d16d62f05mr212424pjq.22.1681351642301; 
- Wed, 12 Apr 2023 19:07:22 -0700 (PDT)
+ bh=XzcH2FGOl08HFZvLq7fg5qxkoIepaHQ4FukgMx688Jk=;
+ b=AG5LhgH0VoURIgZcVxRyQdNBqgCh94ZXn77vbo1kFo6fXewb5m2F0xbw03EwmQkfQ0
+ CWFxLqUnxuAqwU9B0mjLlzlq1PHNlefHJAh14JkorrJZuqxD/S3KVMzW0c35GiohPB19
+ LBJdZUSba7ubwfMJDdCconIuFSdew73OVyy69weilIKCr+grpQcrEMruc8t9s6kC3HcH
+ +MCn9tjuU1JZIB/PMtm/x75EDlW6m2zuvWOsqkPEZDEugdBaV69I9Y3Jm6BeJTztjyuT
+ X6lZtTOUvvn9iHNWxyPtm+O162hJ+uT8+2CJd1vYGHZBaMFUrHg/kXs+r+pijl0NgG/8
+ S2uQ==
+X-Gm-Message-State: AAQBX9eeZ+iQoDezPbbNv+cYJrzelF2r+xxW9XrDkGwZgiH2le/X4wV7
+ XP1dN9DbiAN8+PXsQaZrkV4=
+X-Google-Smtp-Source: AKy350ZHPpvDc7QsJM94lFPJrADqw+6R9qxFkznRZmfyqpJieEhL/+HXBqbmS8QzvaLxKVY54G2fqA==
+X-Received: by 2002:a17:903:28f:b0:1a6:370c:ce79 with SMTP id
+ j15-20020a170903028f00b001a6370cce79mr462529plr.22.1681352263687; 
+ Wed, 12 Apr 2023 19:17:43 -0700 (PDT)
 Received: from Gentoo (n220246252240.netvigator.com. [220.246.252.240])
  by smtp.gmail.com with ESMTPSA id
- q15-20020a170902bd8f00b001a67759f9f8sm239125pls.106.2023.04.12.19.07.18
+ u5-20020a17090282c500b001a4edbabad3sm234301plz.230.2023.04.12.19.17.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 12 Apr 2023 19:07:21 -0700 (PDT)
-Date: Thu, 13 Apr 2023 10:07:15 +0800
+ Wed, 12 Apr 2023 19:17:43 -0700 (PDT)
+Date: Thu, 13 Apr 2023 10:17:37 +0800
 From: Jianhua Lu <lujianhua000@gmail.com>
 To: Konrad Dybcio <konrad.dybcio@linaro.org>
-Subject: Re: [PATCH 4/5] drm/panel: nt36523: Get orientation from OF
-Message-ID: <ZDdj04+RiBcOP9z0@Gentoo>
+Subject: Re: [PATCH 5/5] drm/panel: nt36523: Add Lenovo J606F panel
+Message-ID: <ZDdmQS/9diY7PJ4A@Gentoo>
 References: <20230412-topic-lenovopanel-v1-0-00b25df46824@linaro.org>
- <20230412-topic-lenovopanel-v1-4-00b25df46824@linaro.org>
+ <20230412-topic-lenovopanel-v1-5-00b25df46824@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230412-topic-lenovopanel-v1-4-00b25df46824@linaro.org>
+In-Reply-To: <20230412-topic-lenovopanel-v1-5-00b25df46824@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,62 +80,63 @@ Cc: Neil Armstrong <neil.armstrong@linaro.org>, devicetree@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Apr 12, 2023 at 09:46:01PM +0200, Konrad Dybcio wrote:
-> Some bright vendors mount their display panels upside down. Add the
-> required pieces to allow for accounting for that.
+On Wed, Apr 12, 2023 at 09:46:02PM +0200, Konrad Dybcio wrote:
+> Some Lenovo J606F tablets come with a 2K (2000x1200) 60Hz 11" 5:3
+> video mode display. Add support for these panels.
 > 
 > Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
-
-Reviewed-by: Jianhua Lu <lujianhua000@gmail.com>
 > ---
->  drivers/gpu/drm/panel/panel-novatek-nt36523.c | 15 +++++++++++++++
->  1 file changed, 15 insertions(+)
+>  drivers/gpu/drm/panel/panel-novatek-nt36523.c | 491 ++++++++++++++++++++++++++
+>  1 file changed, 491 insertions(+)
 > 
 > diff --git a/drivers/gpu/drm/panel/panel-novatek-nt36523.c b/drivers/gpu/drm/panel/panel-novatek-nt36523.c
-> index 3c81ec014eef..db4b4af13ec1 100644
+> index db4b4af13ec1..4bf9f8db26ba 100644
 > --- a/drivers/gpu/drm/panel/panel-novatek-nt36523.c
 > +++ b/drivers/gpu/drm/panel/panel-novatek-nt36523.c
-> @@ -31,6 +31,7 @@ struct panel_info {
->  	struct drm_panel panel;
->  	struct mipi_dsi_device *dsi[2];
->  	const struct panel_desc *desc;
-> +	enum drm_panel_orientation orientation;
+> @@ -13,6 +13,8 @@
+>  #include <linux/of_graph.h>
+>  #include <linux/regulator/consumer.h>
 >  
->  	struct gpio_desc *reset_gpio;
->  	struct backlight_device *backlight;
-> @@ -674,11 +675,19 @@ static int nt36523_get_modes(struct drm_panel *panel,
->  	return pinfo->desc->num_modes;
+[..] 
+> +static const struct panel_desc j606f_boe_desc = {
+> +	.modes = j606f_boe_modes,
+> +	.num_modes = ARRAY_SIZE(j606f_boe_modes),
+> +	.dsi_info = {
+> +		.type = "J606F BOE",
+> +		.channel = 0,
+> +		.node = NULL,
+> +	},
+The dsi_info just be used to register slave dsi, for single dsi case, can drop
+it.
+
+Otherwise looks great, thanks!
+
+Reviewed-by: Jianhua Lu <lujianhua000@gmail.com>
+> +	.width_mm = 143,
+> +	.height_mm = 235,
+> +	.bpc = 8,
+> +	.lanes = 4,
+> +	.format = MIPI_DSI_FMT_RGB888,
+> +	.mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_BURST |
+> +		      MIPI_DSI_CLOCK_NON_CONTINUOUS | MIPI_DSI_MODE_LPM,
+> +	.init_sequence = j606f_boe_init_sequence,
+> +	.has_dcs_backlight = true,
+> +};
+> +
+>  static void nt36523_reset(struct panel_info *pinfo)
+>  {
+>  	gpiod_set_value_cansleep(pinfo->reset_gpio, 1);
+> @@ -826,6 +1313,10 @@ static int nt36523_probe(struct mipi_dsi_device *dsi)
 >  }
 >  
-> +static enum drm_panel_orientation nt36523_get_orientation(struct drm_panel *panel)
-> +{
-> +	struct panel_info *pinfo = to_panel_info(panel);
-> +
-> +	return pinfo->orientation;
-> +}
-> +
->  static const struct drm_panel_funcs nt36523_panel_funcs = {
->  	.disable = nt36523_disable,
->  	.prepare = nt36523_prepare,
->  	.unprepare = nt36523_unprepare,
->  	.get_modes = nt36523_get_modes,
-> +	.get_orientation = nt36523_get_orientation,
->  };
->  
->  static int nt36523_bl_update_status(struct backlight_device *bl)
-> @@ -784,6 +793,12 @@ static int nt36523_probe(struct mipi_dsi_device *dsi)
->  	mipi_dsi_set_drvdata(dsi, pinfo);
->  	drm_panel_init(&pinfo->panel, dev, &nt36523_panel_funcs, DRM_MODE_CONNECTOR_DSI);
->  
-> +	ret = of_drm_get_panel_orientation(dev->of_node, &pinfo->orientation);
-> +	if (ret < 0) {
-> +		dev_err(dev, "%pOF: failed to get orientation %d\n", dev->of_node, ret);
-> +		return ret;
-> +	}
-> +
->  	if (pinfo->desc->has_dcs_backlight) {
->  		pinfo->panel.backlight = nt36523_create_backlight(dsi);
->  		if (IS_ERR(pinfo->panel.backlight))
+>  static const struct of_device_id nt36523_of_match[] = {
+> +	{
+> +		.compatible = "lenovo,j606f-boe-nt36523w",
+> +		.data = &j606f_boe_desc,
+> +	},
+>  	{
+>  		.compatible = "xiaomi,elish-boe-nt36523",
+>  		.data = &elish_boe_desc,
 > 
 > -- 
 > 2.40.0
