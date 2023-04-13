@@ -1,48 +1,71 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FB166E0D9E
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Apr 2023 14:44:00 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 43B106E0DBD
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Apr 2023 14:51:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 054F110E3E0;
-	Thu, 13 Apr 2023 12:43:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 972F410E67A;
+	Thu, 13 Apr 2023 12:51:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 71EF810E3E0
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Apr 2023 12:43:55 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id A825561557;
- Thu, 13 Apr 2023 12:43:54 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 629DDC433D2;
- Thu, 13 Apr 2023 12:43:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1681389834;
- bh=yOCVEPTkqmwzrbgaO4trLtk8j+cugrX7CunNTUSAF4o=;
- h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
- b=eo/swswdEMkWLuTPtC+XSfNe7DxDo2uPvkry0F0awj0Xy5GYN62lRckycHDCOCMu7
- xTfmUHC881NkN6xEPSTxJs6G5rwPTk/OUcFxbKzYP8kJyp0q6BJrFAjtE0YVg52dGa
- l93ocDixpnNZVssYz3IIvocuBFfTq0t72K+VZEeibMLvktwDqj3HLCz/2iA+6z3HW4
- MyiaNaKS4VNCyx0+U8BzxmodHPMZM8Tf0Vnee8zXIaaAPUUcYamTPCurR1YXn2X/Wc
- JUiXEaMgYxyt1j25oDps/VYxBPIEa4XhDa1xKZFX4xJMaXtguQe0XbjNSael1HYD+u
- ONyEslOtsuPag==
-Message-ID: <cc3ceecef10fabf6856e29c2dd22b040b3ea757b.camel@kernel.org>
-Subject: Re: [PATCH] drm: make drm_dp_add_payload_part2 gracefully handle
- NULL state pointer
-From: Jeff Layton <jlayton@kernel.org>
-To: Jani Nikula <jani.nikula@linux.intel.com>, David Airlie
- <airlied@gmail.com>,  Daniel Vetter <daniel@ffwll.ch>
-Date: Thu, 13 Apr 2023 08:43:52 -0400
-In-Reply-To: <87edooarpq.fsf@intel.com>
-References: <20230413111254.22458-1-jlayton@kernel.org>
- <87edooarpq.fsf@intel.com>
-Content-Type: text/plain; charset="ISO-8859-15"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.4 (3.46.4-1.fc37) 
+Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com
+ [IPv6:2a00:1450:4864:20::32e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EC7AE10E67A
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Apr 2023 12:51:41 +0000 (UTC)
+Received: by mail-wm1-x32e.google.com with SMTP id j16so990587wms.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Apr 2023 05:51:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=baylibre-com.20221208.gappssmtp.com; s=20221208; t=1681390299; x=1683982299; 
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=49xLVHrspKSm1a8wJCoZVRSlPwE9xT9Y1ZadXVyJNEg=;
+ b=2z5oZXaHlOTvgVBwEE09zefyoiTfL7dXyOrL3UaR6bRqtM5aMl+yBKFpfvriLk4nUf
+ 5V6y0EqAS8uB36aEwDwy0wizxzcdwIy2qwot0XH3fQw69N2dRIUWCBTpdpwH3KkUU1Vo
+ 6vqCB4w8u5E5kw7CoPLa2T8Xz95KU2Wka5ZPo/9P5Alf5l0NnfUFzFlfR+0YEEl42OGr
+ g+9BlpzFBlMZyqRfTFcq8zfehSi6cX+OyXkc8381As6ZYEZHW+LNpQdf/taYlSrbmpCB
+ pS8N7wUt6wISOFT9j2rO2RNZ1pbvFHe7A3n9ltE/qMPAfjYg7tyugtkji9qV3kCrjXa0
+ SbHw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1681390299; x=1683982299;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=49xLVHrspKSm1a8wJCoZVRSlPwE9xT9Y1ZadXVyJNEg=;
+ b=kKbfXdEtjMwA5JSVVOoo2wBgy+3uYkuZh7cR3zjjxuITSOVCPpmkd1Om8b5Ehn9DhT
+ QdpbGKXibDJhGtSEVkHZx7MunR1ZEkQbgd5gC1QdgX5LaGop5MW1/nErbu8AsNbkEylU
+ 1rAb7QV5N5u52lwQ9qDtpjuHXDRg2xTZqAPoWEc1jR/IATJKRIb2wqACrelrbu+AuiVi
+ 3f1WPDUn2mDcM5EGmYViUpi+DsXnn7qfnB8cMGEAEtjVNMCOO39XtEhYVQeIcS2sw2KI
+ +uAt9Z+pFMa36AnwpiXD6S+JL1AqXWDUOOZbu4pwbCMUb9CSyZgropcZe6BJ1LDLYKwU
+ rd2A==
+X-Gm-Message-State: AAQBX9cAyn1kHMeLyon1AtmAjvMvG7M9khUHwFY9rRARXAqw9ASYvDk4
+ m6KGwkLWrxev7K87VLy7hF6Rhg==
+X-Google-Smtp-Source: AKy350YNCcu7sfyoJFtK9vQbTWVf2clHHcvIihFMcemmZYifJ9kTOlj3H2x67y3zZ17zDEUT00tu9A==
+X-Received: by 2002:a05:600c:2304:b0:3f0:7f07:e617 with SMTP id
+ 4-20020a05600c230400b003f07f07e617mr1799961wmo.8.1681390299485; 
+ Thu, 13 Apr 2023 05:51:39 -0700 (PDT)
+Received: from [127.0.0.1] ([82.66.159.240]) by smtp.gmail.com with ESMTPSA id
+ k17-20020a5d66d1000000b002f67e4d1c63sm156356wrw.12.2023.04.13.05.51.38
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 13 Apr 2023 05:51:39 -0700 (PDT)
+From: Guillaume Ranquet <granquet@baylibre.com>
+Subject: [PATCH 0/2] Fix mtk-hdmi-mt8195 unitialized variable usage and
+ clock rate calculation
+Date: Thu, 13 Apr 2023 14:46:24 +0200
+Message-Id: <20230413-fixes-for-mt8195-hdmi-phy-v1-0-b8482458df0d@baylibre.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAKD5N2QC/x2MQQqDMBBFryKz7oAxDdSuu6iLnkCKTMzYzMIoi
+ RRFvHtjl4/3/9shcRROcC92iPyVJFPIoC4F9J7Ch1FcZqjKSpdXpXGQlRMOU8RxuanaoHej4Ow
+ 3rFkZpa2xRA7y31JitJFC789CnnSB16V7Pl7N6efI/1iW7fs4fk/ly4mLAAAA
+To: Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
+ Philipp Zabel <p.zabel@pengutronix.de>, 
+ Chunfeng Yun <chunfeng.yun@mediatek.com>, Vinod Koul <vkoul@kernel.org>, 
+ Kishon Vijay Abraham I <kishon@kernel.org>, 
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+X-Mailer: b4 0.13-dev
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,67 +78,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alex Deucher <alexander.deucher@amd.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: Guillaume Ranquet <granquet@baylibre.com>,
+ kernel test robot <lkp@intel.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
+ linux-phy@lists.infradead.org, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 2023-04-13 at 15:31 +0300, Jani Nikula wrote:
-> On Thu, 13 Apr 2023, Jeff Layton <jlayton@kernel.org> wrote:
-> > I've been experiencing some intermittent crashes down in the display
-> > driver code. The symptoms are ususally a line like this in dmesg:
-> >=20
-> >     amdgpu 0000:30:00.0: [drm] Failed to create MST payload for port 00=
-0000006d3a3885: -5
-> >=20
-> > ...followed by an Oops due to a NULL pointer dereference.
-> >=20
-> > The real bug is probably in the caller of this function, which is
-> > passing it a NULL state pointer, but this patch at least keeps my
-> > machine from oopsing when this occurs.
->=20
-> My fear is that papering over this makes the root cause harder to find.
->=20
-> Cc: Harry, Alex
->=20
->=20
-> BR,
-> Jani.
->=20
->=20
+I've received a report from kernel test report [1] that a variable was used
+unitialized in the mtk8195 hdmi phy code.
 
-I'm happy to help track down the root cause. Display drivers are
-somewhat outside my wheelhouse though.
+I've upon fixing that issue found out that the clock rate calculation
+was erroneous since the calculus was moved to div_u64.
 
-Maybe we can throw a WARNING when this happens? I'd just like it to not
-crash my machine.
+I'm providing those two fixes on top of 45810d486bb44 from the linux-phy
+repository [2].
 
+[1] https://lore.kernel.org/oe-kbuild-all/202304130304.gMtrUdbd-lkp@intel.com/
+[2] https://git.kernel.org/pub/scm/linux/kernel/git/phy/linux-phy.git
 
-> >=20
-> > Link: https://bugzilla.redhat.com/show_bug.cgi?id=3D2184855
-> > Signed-off-by: Jeff Layton <jlayton@kernel.org>
-> > ---
-> >  drivers/gpu/drm/display/drm_dp_mst_topology.c | 3 ++-
-> >  1 file changed, 2 insertions(+), 1 deletion(-)
-> >=20
-> > diff --git a/drivers/gpu/drm/display/drm_dp_mst_topology.c b/drivers/gp=
-u/drm/display/drm_dp_mst_topology.c
-> > index 38dab76ae69e..87ad406c50f9 100644
-> > --- a/drivers/gpu/drm/display/drm_dp_mst_topology.c
-> > +++ b/drivers/gpu/drm/display/drm_dp_mst_topology.c
-> > @@ -3404,7 +3404,8 @@ int drm_dp_add_payload_part2(struct drm_dp_mst_to=
-pology_mgr *mgr,
-> > =20
-> >  	/* Skip failed payloads */
-> >  	if (payload->vc_start_slot =3D=3D -1) {
-> > -		drm_dbg_kms(state->dev, "Part 1 of payload creation for %s failed, s=
-kipping part 2\n",
-> > +		drm_dbg_kms(state ? state->dev : NULL,
-> > +			    "Part 1 of payload creation for %s failed, skipping part 2\n",
-> >  			    payload->port->connector->name);
-> >  		return -EIO;
-> >  	}
->=20
+Signed-off-by: Guillaume Ranquet <granquet@baylibre.com>
+---
+Guillaume Ranquet (2):
+      phy: mediatek: hdmi: mt8195: fix uninitialized variable usage in pll_calc
+      phy: mediatek: hdmi: mt8195: fix wrong pll calculus
 
---=20
-Jeff Layton <jlayton@kernel.org>
+ drivers/phy/mediatek/phy-mtk-hdmi-mt8195.c | 11 +++++------
+ 1 file changed, 5 insertions(+), 6 deletions(-)
+---
+base-commit: 45810d486bb44bd60213d5f09a713df81b987972
+change-id: 20230413-fixes-for-mt8195-hdmi-phy-9e1513b5baad
+
+Best regards,
+-- 
+Guillaume Ranquet <granquet@baylibre.com>
+
