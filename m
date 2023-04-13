@@ -2,69 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 572466E0DC1
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Apr 2023 14:51:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A218D6E0DDE
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Apr 2023 14:58:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6BECA10EA53;
-	Thu, 13 Apr 2023 12:51:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4B1AA10E34A;
+	Thu, 13 Apr 2023 12:58:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com
- [IPv6:2a00:1450:4864:20::32f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B992910EA53
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Apr 2023 12:51:43 +0000 (UTC)
-Received: by mail-wm1-x32f.google.com with SMTP id
- l10-20020a05600c1d0a00b003f04bd3691eso18933449wms.5
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Apr 2023 05:51:43 -0700 (PDT)
+Received: from mail-oa1-x2c.google.com (mail-oa1-x2c.google.com
+ [IPv6:2001:4860:4864:20::2c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B1E7610E34A
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Apr 2023 12:58:44 +0000 (UTC)
+Received: by mail-oa1-x2c.google.com with SMTP id
+ 586e51a60fabf-1879edfeff5so475844fac.4
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Apr 2023 05:58:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20221208.gappssmtp.com; s=20221208; t=1681390301; x=1683982301; 
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=2NCSyvdX0SmPc9ExxsTpFJ2greUOcRi/vLBExtrGuM4=;
- b=VRVY6mW4C2eeH9XEL2rXf4kib+8LepoYm141EhEj4bMvddMWMZfWEbDgkVd2Fj86U+
- 8XY43D+8ZnAkl+qpBUZPKykNENQ5Z2zTtvwwxjqsxoLGyN15QkzR6S/slTv51nhS+vNl
- 5N3LR05EDvlN7cCZXDgERRZt6CthgOTM29OhPCTT9PWnp1NrXTcfWWrHxW1KAqIMjTR4
- QTTV9BH7BbOjgf1NeAgQSVmxdmGAnc8+GnrYry1RvKBlEC4Y5TjIV8VspCoEIef/ZZQk
- 1JjNRHshJN85qXDV3vS/7/8E/HuDtNGgLzT1FUNEo0/qZmBLSorW4icPeTmIb4cHsuYq
- tUcA==
+ d=gmail.com; s=20221208; t=1681390723; x=1683982723;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=rXjaBjti/iUKdry4pNZBLkaqpq0jQFzIVSNb+LjTSOQ=;
+ b=GoxhB8EAWQLdu/H8D47oCGd/cfMPV2dy4XSBNDggUf5GV2RkgV107+ijoGDiV8RWD2
+ 7OzTimBVJWeMzkRFKh2OH7uSc5N87ODop70VIkkxcSeeMyb9S11wjdQdk1g+crnDytj+
+ RwZ6adC+ZcMp2dMa/WQpTGY1Jn8+iwi30NQx2uZ9qC1G1UzNGlfhu5jq1sZNjg5jEGh1
+ 6yhDJnDms8pLt5wdhKvGXeZIYvj1bjDCYqjp6f2rPNrIeCA2ghNd4zRcaHXSDRfWMswJ
+ 13HHrdSLTJh3VeyZxN1sNrbTEFSZHizpoeqGhYyJYh3wgM11JL/DwuLkvmEkeSnaj+Tj
+ GWhw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681390301; x=1683982301;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+ d=1e100.net; s=20221208; t=1681390723; x=1683982723;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=2NCSyvdX0SmPc9ExxsTpFJ2greUOcRi/vLBExtrGuM4=;
- b=B7GAeht04uWPDF3hv8zqQrZRC6YFuH2uwiXYNmTT7164pyRru0qU2jUPXvr8mtbXRK
- 2z8bMPefWwfN+7ZYRcNS3ewmeHESnLI9cyaIymwGiX+mZDHMHHqGIJVbaV7jOReyrv7s
- A4qp0tonzO2mGGMfxQekiMY5H4EPHCfunq3EshKiCHgBPSG72vEgSSuL8XOUg5kpRzBb
- H5zuAxwIQQY5gkn+nreE3T/hYlIaqd6Viz1uo33BjbpUW72rbv1DzGh0z1iOJo7OFuvZ
- 9UEZI1sE3DSgDIwAeOSpYy3O/Sv5Xx2xzKKDHR67UoFickDzWjEAwgLeU+mc94VjNBfb
- 9vjA==
-X-Gm-Message-State: AAQBX9fHv6EY3h54tU+TBVWo/yPu1SLmfcwMRabwiDOTFdb9aN/+u9Jz
- U0fLaMwYxA7Z1vbsFTitAat2PA==
-X-Google-Smtp-Source: AKy350aa1i5mgrVePFwrBlQob6A/5LRh1D6/2011CW+4P/unl+t6yKRaDKzFUe2AB+mGY/qtrWZ6aA==
-X-Received: by 2002:a1c:4b0b:0:b0:3ef:4138:9eef with SMTP id
- y11-20020a1c4b0b000000b003ef41389eefmr1450843wma.36.1681390301230; 
- Thu, 13 Apr 2023 05:51:41 -0700 (PDT)
-Received: from [127.0.0.1] ([82.66.159.240]) by smtp.gmail.com with ESMTPSA id
- k17-20020a5d66d1000000b002f67e4d1c63sm156356wrw.12.2023.04.13.05.51.40
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 13 Apr 2023 05:51:40 -0700 (PDT)
-From: Guillaume Ranquet <granquet@baylibre.com>
-Date: Thu, 13 Apr 2023 14:46:26 +0200
-Subject: [PATCH 2/2] phy: mediatek: hdmi: mt8195: fix wrong pll calculus
+ bh=rXjaBjti/iUKdry4pNZBLkaqpq0jQFzIVSNb+LjTSOQ=;
+ b=j+rYyZ+sIepT5NIe5kedP/69P6H05m90JCq7L7sSM89G7dQrWN2pazAwew76sFQErr
+ dZpo2DK2KRvXeBEw6C95+jeJYNO5i4gIxE9tMf6PCwVoJ1zO/2dECESmypO8EHrYpmLz
+ 8Lt8MXfYODavg9TmvLGmz8XM7mTnjV0TMICy9jtWXPMn2IeXgpfhi4w1xXvFKC9FgBqk
+ 1yDXiULv/3/gLSVSsq/bPSEHTOb70fTkR1Ptp+PEtkgNKi8E3d/iYB6ARhsJIIrWUIBl
+ u8oPoNCgEV8qtoKGQFklWXpp98pf33q2iz50cOrjp29fBtl2XKvRBJw02F94k8IW+Sye
+ qQpA==
+X-Gm-Message-State: AAQBX9enXQtUSVSZ8BMao1C+albU+467L/GIPXCoUsZWtv2FYFhYh7vw
+ hiMsiKKT4e9oZRpRhuGahCI1KEW+z0fUTF+tWi8=
+X-Google-Smtp-Source: AKy350Z1y9dM8iDVgqISOzZ8l/mDEHlY3dZL7T9/F8xpHHg9PmiemxUsmXcY7nQjhZqbl+/yA+iAn6qjSqRrUiZSI2Y=
+X-Received: by 2002:a05:6870:390d:b0:184:2e38:c7af with SMTP id
+ b13-20020a056870390d00b001842e38c7afmr1270788oap.3.1681390723671; Thu, 13 Apr
+ 2023 05:58:43 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20230413-fixes-for-mt8195-hdmi-phy-v1-2-b8482458df0d@baylibre.com>
-References: <20230413-fixes-for-mt8195-hdmi-phy-v1-0-b8482458df0d@baylibre.com>
-In-Reply-To: <20230413-fixes-for-mt8195-hdmi-phy-v1-0-b8482458df0d@baylibre.com>
-To: Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
- Philipp Zabel <p.zabel@pengutronix.de>, 
- Chunfeng Yun <chunfeng.yun@mediatek.com>, Vinod Koul <vkoul@kernel.org>, 
- Kishon Vijay Abraham I <kishon@kernel.org>, 
- Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-X-Mailer: b4 0.13-dev
+References: <20230413111254.22458-1-jlayton@kernel.org>
+ <87edooarpq.fsf@intel.com>
+In-Reply-To: <87edooarpq.fsf@intel.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Thu, 13 Apr 2023 08:58:32 -0400
+Message-ID: <CADnq5_PVnYMSiKO77+cfg_V-tDKYkVJYN3qGNb1vhQO3QtXskA@mail.gmail.com>
+Subject: Re: [PATCH] drm: make drm_dp_add_payload_part2 gracefully handle NULL
+ state pointer
+To: Jani Nikula <jani.nikula@linux.intel.com>, Wayne Lin <Wayne.Lin@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,47 +70,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Guillaume Ranquet <granquet@baylibre.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
- linux-phy@lists.infradead.org, linux-arm-kernel@lists.infradead.org
+Cc: Jeff Layton <jlayton@kernel.org>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The clock rate calculus in mtk_hdmi_pll_calc() was wrong when it has
-been replaced by 'div_u64'.
++ Wayne
 
-Fix the issue by multiplying the values in the denominator instead of
-dividing them.
-
-Fixes: 45810d486bb44 ("phy: mediatek: add support for phy-mtk-hdmi-mt8195")
-Signed-off-by: Guillaume Ranquet <granquet@baylibre.com>
----
- drivers/phy/mediatek/phy-mtk-hdmi-mt8195.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/phy/mediatek/phy-mtk-hdmi-mt8195.c b/drivers/phy/mediatek/phy-mtk-hdmi-mt8195.c
-index e10da6c4147e..5e84b294a43e 100644
---- a/drivers/phy/mediatek/phy-mtk-hdmi-mt8195.c
-+++ b/drivers/phy/mediatek/phy-mtk-hdmi-mt8195.c
-@@ -271,7 +271,7 @@ static int mtk_hdmi_pll_calc(struct mtk_hdmi_phy *hdmi_phy, struct clk_hw *hw,
- 	 * [32,24] 9bit integer, [23,0]:24bit fraction
- 	 */
- 	pcw = div_u64(((u64)ns_hdmipll_ck) << PCW_DECIMAL_WIDTH,
--		      da_hdmitx21_ref_ck / PLL_FBKDIV_HS3);
-+		      da_hdmitx21_ref_ck * PLL_FBKDIV_HS3);
- 
- 	if (pcw > GENMASK_ULL(32, 0))
- 		return -EINVAL;
-@@ -288,7 +288,7 @@ static int mtk_hdmi_pll_calc(struct mtk_hdmi_phy *hdmi_phy, struct clk_hw *hw,
- 	posdiv2 = 1;
- 
- 	/* Digital clk divider, max /32 */
--	digital_div = div_u64((u64)ns_hdmipll_ck, posdiv1 / posdiv2 / pixel_clk);
-+	digital_div = div_u64(ns_hdmipll_ck, posdiv1 * posdiv2 * pixel_clk);
- 	if (!(digital_div <= 32 && digital_div >= 1))
- 		return -EINVAL;
- 
-
--- 
-2.39.2
-
+On Thu, Apr 13, 2023 at 8:31=E2=80=AFAM Jani Nikula <jani.nikula@linux.inte=
+l.com> wrote:
+>
+> On Thu, 13 Apr 2023, Jeff Layton <jlayton@kernel.org> wrote:
+> > I've been experiencing some intermittent crashes down in the display
+> > driver code. The symptoms are ususally a line like this in dmesg:
+> >
+> >     amdgpu 0000:30:00.0: [drm] Failed to create MST payload for port 00=
+0000006d3a3885: -5
+> >
+> > ...followed by an Oops due to a NULL pointer dereference.
+> >
+> > The real bug is probably in the caller of this function, which is
+> > passing it a NULL state pointer, but this patch at least keeps my
+> > machine from oopsing when this occurs.
+>
+> My fear is that papering over this makes the root cause harder to find.
+>
+> Cc: Harry, Alex
+>
+>
+> BR,
+> Jani.
+>
+>
+> >
+> > Link: https://bugzilla.redhat.com/show_bug.cgi?id=3D2184855
+> > Signed-off-by: Jeff Layton <jlayton@kernel.org>
+> > ---
+> >  drivers/gpu/drm/display/drm_dp_mst_topology.c | 3 ++-
+> >  1 file changed, 2 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/gpu/drm/display/drm_dp_mst_topology.c b/drivers/gp=
+u/drm/display/drm_dp_mst_topology.c
+> > index 38dab76ae69e..87ad406c50f9 100644
+> > --- a/drivers/gpu/drm/display/drm_dp_mst_topology.c
+> > +++ b/drivers/gpu/drm/display/drm_dp_mst_topology.c
+> > @@ -3404,7 +3404,8 @@ int drm_dp_add_payload_part2(struct drm_dp_mst_to=
+pology_mgr *mgr,
+> >
+> >       /* Skip failed payloads */
+> >       if (payload->vc_start_slot =3D=3D -1) {
+> > -             drm_dbg_kms(state->dev, "Part 1 of payload creation for %=
+s failed, skipping part 2\n",
+> > +             drm_dbg_kms(state ? state->dev : NULL,
+> > +                         "Part 1 of payload creation for %s failed, sk=
+ipping part 2\n",
+> >                           payload->port->connector->name);
+> >               return -EIO;
+> >       }
+>
+> --
+> Jani Nikula, Intel Open Source Graphics Center
