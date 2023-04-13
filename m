@@ -2,41 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 683586E0734
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Apr 2023 08:45:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 884D26E073C
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Apr 2023 08:55:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 88DAE10E0CA;
-	Thu, 13 Apr 2023 06:45:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A26DE10E912;
+	Thu, 13 Apr 2023 06:55:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m12.mail.163.com (m12.mail.163.com [220.181.12.198])
- by gabe.freedesktop.org (Postfix) with ESMTP id 6B99410E0CA
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Apr 2023 06:45:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=SUsKt
- 2lHJnjrXbgq0PTMq4qqzRohQ6pUT+rmtPm80ZA=; b=J94kIAJoQVkv8tYUYaLvN
- N0eXHdmWVscOjCErRYCMwjaGc+2H6oWyepXOagOfGpRn6vwLUproNqFVdXSy/G3U
- un5/BpILabGJDG+1QNtxiWl6HS6luLcB1IGMmbjrr/r+PxdyXpnBv6iTklsoxEJv
- irrk70MJ1F1RqU424V/yKo=
-Received: from leanderwang-LC2.localdomain (unknown [111.206.145.21])
- by zwqz-smtp-mta-g3-1 (Coremail) with SMTP id _____wAnUgy+pDdkiIVgBQ--.9286S2; 
- Thu, 13 Apr 2023 14:44:14 +0800 (CST)
-From: Zheng Wang <zyytlz.wz@163.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/bridge: adv7511: fix use after free bug in adv7511_remove
- due to race condition
-Date: Thu, 13 Apr 2023 14:44:12 +0800
-Message-Id: <20230413064412.185040-1-zyytlz.wz@163.com>
-X-Mailer: git-send-email 2.25.1
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6DF8910E912
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Apr 2023 06:55:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1681368902;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=EtHuO00FJiC5lOLplpzGnRuAlZl/i1NIHOiXXk9MsdA=;
+ b=GQ1M8svO/pk6GgL8ftUHgLeCjZqfzDUQBrWgD8AMVpbnHwL+8e5Ry0gxiM+QgGDHHZckVr
+ jwHwPUCK3h6xYdGPjZ0hMUBZS6ELYPkMIrL+hyCQHvQzjDVYSzXgxeV6OwfUdZveRPiHRs
+ q+05esg4VTkf9AC5Kz8KgXhlzV6P+V8=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-82-4c0XYvsWOxS_XSIfK6Fq1g-1; Thu, 13 Apr 2023 02:55:01 -0400
+X-MC-Unique: 4c0XYvsWOxS_XSIfK6Fq1g-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ c30-20020adfa31e000000b002f614bed058so51258wrb.16
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Apr 2023 23:55:01 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1681368900; x=1683960900;
+ h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=EtHuO00FJiC5lOLplpzGnRuAlZl/i1NIHOiXXk9MsdA=;
+ b=aDLczMP1ymbK1xI0yzql6Qvypqb+Lj6mb/AOcBnMSOsG1W/UVVRABpbWO2d0AuH92P
+ 7vxvBVOBy6mAY+Bk4kgnb00xTY1i2qgi7jBAy2K32wC5QZzKPtb2HkI5sTkrlrVPpu9U
+ SNGkSCalJpPj4SsZtDMurgelP+hUgCka6rAEfg7b+MVzrg8w1TBRtMT9erRfuk2O90we
+ kA0dTv9t//x0ccIuoeLonXugk/BOMOQSDQgALNjpZtII0m4xozyLBc0JFUbM3R2fg24V
+ Wd+Fh+RraF2oX2P1VABW+SwT6ONe/Rj62Z1lCfmaj81GWaV+mK3pwsn5ANAumZVyIni5
+ TUqw==
+X-Gm-Message-State: AAQBX9f5ERL5tLldWQEjsxc/gfNVBZMRGdNyJ4N7dQDusrtuSosBqjtv
+ 3um1obGzKrxLBRtw7HcEz4SNg2eviMBPTTfrnej6Nrh6/03s/aiaYjTUyUo8gOQvtZ5irB8OT6R
+ rB6s+fWu53JhQ1fahJEm673o3Acbs
+X-Received: by 2002:a05:6000:1b8c:b0:2ef:bada:2f04 with SMTP id
+ r12-20020a0560001b8c00b002efbada2f04mr517211wru.59.1681368900062; 
+ Wed, 12 Apr 2023 23:55:00 -0700 (PDT)
+X-Google-Smtp-Source: AKy350Z0EZAgpIJMAOpMZ9YL49SvFC6ZDtVmPWTNAfJenweN0E8xHCZ6+EAumcDzrno3Pk/W5NtMoQ==
+X-Received: by 2002:a05:6000:1b8c:b0:2ef:bada:2f04 with SMTP id
+ r12-20020a0560001b8c00b002efbada2f04mr517202wru.59.1681368899789; 
+ Wed, 12 Apr 2023 23:54:59 -0700 (PDT)
+Received: from localhost (205.pool92-176-231.dynamic.orange.es.
+ [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
+ z16-20020a5d4c90000000b002c7163660a9sm560860wrs.105.2023.04.12.23.54.59
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 12 Apr 2023 23:54:59 -0700 (PDT)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Pierre Asselin <pa@panix.com>
+Subject: Re: [PATCH] firmware/sysfb: Fix wrong stride when bits-per-pixel is
+ calculated
+In-Reply-To: <9e6fff69b09b36cbdd96499cd0015154.squirrel@mail.panix.com>
+References: <20230412150225.3757223-1-javierm@redhat.com>
+ <2e07f818ccdff7023a060e732d7c4ef6.squirrel@mail.panix.com>
+ <87jzyhror0.fsf@minerva.mail-host-address-is-not-set>
+ <beeff0335ab4cc244d214a7baadba371.squirrel@mail.panix.com>
+ <CAFOAJEdKBUg91pDmNYYw5xigUxjifBgOLz2YgD+xQ+WyEy=V2w@mail.gmail.com>
+ <1afd3044c2aca9322ecf304941c7df66.squirrel@mail.panix.com>
+ <87fs94stgw.fsf@minerva.mail-host-address-is-not-set>
+ <87cz48srs4.fsf@minerva.mail-host-address-is-not-set>
+ <40edb0fdb0eaff434f4872dd677923a6.squirrel@mail.panix.com>
+ <87a5zcsqg8.fsf@minerva.mail-host-address-is-not-set>
+ <9e6fff69b09b36cbdd96499cd0015154.squirrel@mail.panix.com>
+Date: Thu, 13 Apr 2023 08:54:58 +0200
+Message-ID: <87r0souv99.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: _____wAnUgy+pDdkiIVgBQ--.9286S2
-X-Coremail-Antispam: 1Uf129KBjvJXoW7Ary7JrW3XFWDtrW7Cry8Zrb_yoW8WFWfp3
- y3uF90krWUXFnrKa9rJF43Aa4rCanrtr1S9FZruwnIvrn8ZF1kCrZ0yF15try7XrWkXw42
- qr4UAFykWFn8AaUanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0ziFAprUUUUU=
-X-Originating-IP: [111.206.145.21]
-X-CM-SenderInfo: h2113zf2oz6qqrwthudrp/1tbiXB5QU1Xl6PToPQAAs4
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,60 +90,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: neil.armstrong@linaro.org, andrzej.hajda@intel.com, alex000young@gmail.com,
- jonas@kwiboo.se, linux-kernel@vger.kernel.org, hackerzheng666@gmail.com,
- 1395428693sheep@gmail.com, Zheng Wang <zyytlz.wz@163.com>
+Cc: Jocelyn Falempe <jfalempe@redhat.com>, Pierre Asselin <pa@panix.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Hans de Goede <hdegoede@redhat.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Ard Biesheuvel <ardb@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In adv7511_probe, adv7511->hpd_work is bound with adv7511_hpd_work.
-adv7511_irq_process might be called to start the work.
+"Pierre Asselin" <pa@panix.com> writes:
 
-If we call adv7511_remove with an unfinished work. There may be a
-race condition. Here is the possible sequence:
+[...]
 
-CPU0                  CPU1
+> [    3.343433] sysfb: si->rsvd_size 0 si->rsvd_pos 0
 
-                     |adv7511_hpd_work
-adv7511_remove       |
-cec_devnode_release  |
-cec_unregister_adapter|
-cec_devnode_unregister|
-put_device(&devnode->dev);|
-cec_devnode_release	|
-cec_delete_adapter  |
-kfree(adap);		|
-                     |cec_phys_addr_invalidate
-                     |//use adap
+Thanks for confirming this. I was expected that as mentioned since it was
+the only reasonable explanation for your problem.
 
-Fix it by canceling the work before cleanup in adv7511_remove.
+[...]
 
-This is the patch with new title in order to clarify the bug. Old patch is here.
-The root cause is the same as old one.
+> What if _depth is low but the rsvd_ are right ?
+> Then _width and _linelength would be inconsistent with _depth but
+> consistent with the recomputed bits_per_pixel ?  How many ways can the
+> firmware lie ?
+>
 
-https://lore.kernel.org/all/20230316160548.1566989-1-zyytlz.wz@163.com/
+I don't know. But in your case the firmware is not reporting the mode
+correctly since it is setting a framebuffer of 1024x768 and xRGB but
+is not reporting si->rsvd_size=8 and si->rsvd_pos=24 as it should.
 
-Fixes: 518cb7057a59 ("drm/bridge: adv7511: Use work_struct to defer hotplug handing to out of irq context")
-Signed-off-by: Zheng Wang <zyytlz.wz@163.com>
----
- drivers/gpu/drm/bridge/adv7511/adv7511_drv.c | 4 ++++
- 1 file changed, 4 insertions(+)
+One option is to have a DMI match table similar to what we already have
+for EFI machines in drivers/firmware/efi/sysfb_efi.c but also for BIOS.
 
-diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-index ddceafa7b637..e702a993fe6f 100644
---- a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-+++ b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-@@ -1349,6 +1349,10 @@ static void adv7511_remove(struct i2c_client *i2c)
- {
- 	struct adv7511 *adv7511 = i2c_get_clientdata(i2c);
- 
-+	if (i2c->irq)
-+		devm_free_irq(&i2c->dev, i2c->irq, adv7511);
-+	cancel_work_sync(&adv7511->hpd_work);
-+	
- 	adv7511_uninit_regulators(adv7511);
- 
- 	drm_bridge_remove(&adv7511->bridge);
+The question then is if we can trust other systems to report a proper
+rsvd_size and rsvd_pos...
+
+> We need more testers, don't we ?
+>
+
+It's tricky, yes.
+
 -- 
-2.25.1
+Best regards,
+
+Javier Martinez Canillas
+Core Platforms
+Red Hat
 
