@@ -2,71 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E4896E0992
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Apr 2023 11:02:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B9A106E0B20
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Apr 2023 12:10:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 700DC10EA8E;
-	Thu, 13 Apr 2023 09:02:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A4C9610EAB3;
+	Thu, 13 Apr 2023 10:10:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com
- [IPv6:2a00:1450:4864:20::42e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5AC8110EA8E
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Apr 2023 09:02:30 +0000 (UTC)
-Received: by mail-wr1-x42e.google.com with SMTP id e7so3386826wrc.12
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Apr 2023 02:02:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1681376548; x=1683968548;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=ldTjgbcAixArTLp8Y3OwHiWDDm8sGdVLf5wYTEAfqeg=;
- b=Sq5siWuukFu2ZV2SC5RtzEOr90Zr3KADENV26Bcj0bkBKMEDDDiM4JLiedIbsGmM6/
- BpcIyDVkAfqs0T5sp4+dhaJ/a8fvtOtLU/dVNXQtVb6muPxOUfylQpCtAPUnf9ZDnD1N
- OUsXuUxo4AcxJGPKCiv29bMPXUeeKmzTa5jzzYG9xelseWYh7pI/mtRJw26RhA9rqU+6
- PQMoTZ4VJX8y2aAEA4TQrdn8lu4dKPxyjcspBIKNTkRnc21PjvOPW2Z8ABijJgHRH18k
- VV9O2EQfumjBnwcdMIxGuo+bLSkMnncdkcRHP6m4jYcMjXXD2cjI1EktepxPYL6li4Nc
- I5kA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681376548; x=1683968548;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=ldTjgbcAixArTLp8Y3OwHiWDDm8sGdVLf5wYTEAfqeg=;
- b=C5pp1AJazV0z2o1jv5o41knIqYIA+y/tdsbTAo3VlcWAAT+d89nZSqC8mKV0Ju4k4+
- euguCbXRKoTvdNBosSJQF/aq2RiQZdM/I1ooZ9oNH79Bam0p2r68/MkM0LzyTJWjV9hE
- +Q3j7MtlaTAgLynVYkE3I6JkeW9FmdPnnLqlEq38JpjErUpn9noAGAZPNwxXmv2Ko73R
- 4cMPwqc7Bs0MjXfA0WiYCcjGx7g1I4+83Iw+M0/8wFMfhUOtPWuGG/CE85gNnMUrLI7q
- Qo0bjKgFoflWbKuVCoLo3h14ekbO56mkHwZfnBxvPZ5g0eum6Ox2zJXOF7rRHh7G7ZNw
- f4xg==
-X-Gm-Message-State: AAQBX9dJB4y79xUfLOSnXpa48x4L9rO1olIhLzpHI8vj4CB6yasZflFG
- aAcPSN1wCc+al1XKYuLGsnQ=
-X-Google-Smtp-Source: AKy350asP4+G83mAEIf1p9IarcfPfSoPgb5XVETZON+sPwEmFsRqvaVHYjROuiy2L1CPru9rX5YgVQ==
-X-Received: by 2002:a5d:4d0c:0:b0:2ce:fd37:938c with SMTP id
- z12-20020a5d4d0c000000b002cefd37938cmr907993wrt.50.1681376548080; 
- Thu, 13 Apr 2023 02:02:28 -0700 (PDT)
-Received: from [192.168.0.32] ([37.222.243.26])
- by smtp.gmail.com with ESMTPSA id
- r16-20020a056000015000b002f21a96c161sm820964wrx.70.2023.04.13.02.02.26
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 13 Apr 2023 02:02:27 -0700 (PDT)
-Message-ID: <b986d097-6cb4-cbde-3cd1-b8d68d222d9d@gmail.com>
-Date: Thu, 13 Apr 2023 11:02:25 +0200
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D8CF110EA93;
+ Thu, 13 Apr 2023 09:07:59 +0000 (UTC)
+X-UUID: ac554be449504740905c05f58801cb84-20230413
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.22, REQID:6d0106df-019e-4719-b4d6-b8cfbc9b1b9b, IP:5,
+ U
+ RL:0,TC:0,Content:-5,EDM:0,RT:0,SF:-3,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
+ N:release,TS:-3
+X-CID-INFO: VERSION:1.1.22, REQID:6d0106df-019e-4719-b4d6-b8cfbc9b1b9b, IP:5,
+ URL
+ :0,TC:0,Content:-5,EDM:0,RT:0,SF:-3,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+ release,TS:-3
+X-CID-META: VersionHash:120426c, CLOUDID:5ccdef83-cd9c-45f5-8134-710979e3df0e,
+ B
+ ulkID:230413141019L665JQNP,BulkQuantity:11,Recheck:0,SF:43|24|17|19|102,TC
+ :nil,Content:0,EDM:-3,IP:-2,URL:0,File:nil,Bulk:40,QS:nil,BEC:nil,COL:0,OS
+ I:0,OSA:0,AV:0
+X-CID-BVR: 0
+X-CID-BAS: 0,_,0,_
+X-UUID: ac554be449504740905c05f58801cb84-20230413
+X-User: liucong2@kylinos.cn
+Received: from [172.20.119.219] [(116.128.244.169)] by mailgw
+ (envelope-from <liucong2@kylinos.cn>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES128-GCM-SHA256 128/128)
+ with ESMTP id 1121509071; Thu, 13 Apr 2023 17:07:50 +0800
+Message-ID: <0ff4dfcd-ee87-ddef-df47-4c11edb6ac94@kylinos.cn>
+Date: Thu, 13 Apr 2023 17:07:47 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [PATCH 2/3] drm/mediatek: Add mt8188 dsi compatible to mtk_dsi.c
+ Thunderbird/102.9.0
+Subject: Re: [PATCH] drm/i915: Fix memory leaks in i915 selftests
 Content-Language: en-US
-To: xinlei.lee@mediatek.com, chunkuang.hu@kernel.org, p.zabel@pengutronix.de, 
- airlied@linux.ie, daniel@ffwll.ch, robh+dt@kernel.org,
- krzysztof.kozlowski+dt@linaro.org, jitao.shi@mediatek.com,
- shuijing.li@mediatek.com
-References: <1681366162-4949-1-git-send-email-xinlei.lee@mediatek.com>
- <1681366162-4949-3-git-send-email-xinlei.lee@mediatek.com>
-From: Matthias Brugger <matthias.bgg@gmail.com>
-In-Reply-To: <1681366162-4949-3-git-send-email-xinlei.lee@mediatek.com>
+To: Andi Shyti <andi.shyti@linux.intel.com>
+References: <874jpkckxw.fsf@intel.com>
+ <20230413075526.221068-1-liucong2@kylinos.cn>
+ <ZDfBAs/RKfAljk4o@ashyti-mobl2.lan>
+From: Cong Liu <liucong2@kylinos.cn>
+In-Reply-To: <ZDfBAs/RKfAljk4o@ashyti-mobl2.lan>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
+X-Mailman-Approved-At: Thu, 13 Apr 2023 10:10:28 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,67 +63,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org
+Cc: matthew.brost@intel.com, tvrtko.ursulin@linux.intel.com, mchehab@kernel.org,
+ andrzej.hajda@intel.com, intel-gfx@lists.freedesktop.org,
+ jonathan.cavitt@intel.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, chris@chris-wilson.co.uk,
+ nirmoy.das@intel.com, rodrigo.vivi@intel.com, gwan-gyeong.mun@intel.com,
+ matthew.auld@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Andi,
 
+thank you for your reminder, next time I will pay attention to my 
+format, and when someone has already
+reviewed, add the Reviewed-by field
 
-On 13/04/2023 08:09, xinlei.lee@mediatek.com wrote:
-> From: Xinlei Lee <xinlei.lee@mediatek.com>
-> 
-> Add the compatible because there are different definitions for cmdq
-> register bit control in mt8188.
-> 
-> Signed-off-by: Xinlei Lee <xinlei.lee@mediatek.com>
-> Signed-off-by: Jitao Shi <jitao.shi@mediatek.com>
+Regards.
 
-Reviewed-by: Matthias Brugger <matthias.bgg@gmail.com>
-
-> ---
->   drivers/gpu/drm/mediatek/mtk_drm_drv.c | 2 ++
->   drivers/gpu/drm/mediatek/mtk_dsi.c     | 8 ++++++++
->   2 files changed, 10 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.c b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-> index a13b36ac03a1..9ba05961479d 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-> @@ -654,6 +654,8 @@ static const struct of_device_id mtk_ddp_comp_dt_ids[] = {
->   	  .data = (void *)MTK_DSI },
->   	{ .compatible = "mediatek,mt8186-dsi",
->   	  .data = (void *)MTK_DSI },
-> +	{ .compatible = "mediatek,mt8188-dsi",
-> +	  .data = (void *)MTK_DSI },
->   	{ }
->   };
->   
-> diff --git a/drivers/gpu/drm/mediatek/mtk_dsi.c b/drivers/gpu/drm/mediatek/mtk_dsi.c
-> index 7d5250351193..500a3054282d 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_dsi.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_dsi.c
-> @@ -1208,6 +1208,12 @@ static const struct mtk_dsi_driver_data mt8186_dsi_driver_data = {
->   	.has_size_ctl = true,
->   };
->   
-> +static const struct mtk_dsi_driver_data mt8188_dsi_driver_data = {
-> +	.reg_cmdq_off = 0xd00,
-> +	.has_shadow_ctl = true,
-> +	.has_size_ctl = true,
-> +};
-> +
->   static const struct of_device_id mtk_dsi_of_match[] = {
->   	{ .compatible = "mediatek,mt2701-dsi",
->   	  .data = &mt2701_dsi_driver_data },
-> @@ -1217,6 +1223,8 @@ static const struct of_device_id mtk_dsi_of_match[] = {
->   	  .data = &mt8183_dsi_driver_data },
->   	{ .compatible = "mediatek,mt8186-dsi",
->   	  .data = &mt8186_dsi_driver_data },
-> +	{ .compatible = "mediatek,mt8188-dsi",
-> +	  .data = &mt8188_dsi_driver_data },
->   	{ },
->   };
->   MODULE_DEVICE_TABLE(of, mtk_dsi_of_match);
+On 2023/4/13 16:44, Andi Shyti wrote:
+> On Thu, Apr 13, 2023 at 03:55:26PM +0800, Cong Liu wrote:
+>> This patch fixes memory leaks on error escapes in function fake_get_pages
+>>
+>> Fixes: c3bfba9a2225 ("drm/i915: Check for integer truncation on scatterlist creation")
+>> Signed-off-by: Cong Liu <liucong2@kylinos.cn>
+> OK, while I was proposing the adjustments suggested by Jani you
+> already replied to the e-mail. I will keep your version.
+>
+> Anyway, next time, please, do not forget to add the r-b's, in
+> this case it was Andrzej's.
+>
+> Andi
+>
+>> ---
+>>   drivers/gpu/drm/i915/selftests/i915_gem_gtt.c | 4 +++-
+>>   1 file changed, 3 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/gpu/drm/i915/selftests/i915_gem_gtt.c b/drivers/gpu/drm/i915/selftests/i915_gem_gtt.c
+>> index 5361ce70d3f2..154801f1c468 100644
+>> --- a/drivers/gpu/drm/i915/selftests/i915_gem_gtt.c
+>> +++ b/drivers/gpu/drm/i915/selftests/i915_gem_gtt.c
+>> @@ -69,8 +69,10 @@ static int fake_get_pages(struct drm_i915_gem_object *obj)
+>>   
+>>   	rem = round_up(obj->base.size, BIT(31)) >> 31;
+>>   	/* restricted by sg_alloc_table */
+>> -	if (overflows_type(rem, unsigned int))
+>> +	if (overflows_type(rem, unsigned int)) {
+>> +		kfree(pages);
+>>   		return -E2BIG;
+>> +	}
+>>   
+>>   	if (sg_alloc_table(pages, rem, GFP)) {
+>>   		kfree(pages);
+>> -- 
+>> 2.34.1
+>>
+>>
+>> No virus found
+>> 		Checked by Hillstone Network AntiVirus
