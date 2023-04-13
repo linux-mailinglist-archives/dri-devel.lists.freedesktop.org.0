@@ -2,67 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 670D56E155B
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Apr 2023 21:44:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 317BB6E156D
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Apr 2023 21:51:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2133910EC02;
-	Thu, 13 Apr 2023 19:44:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A960510E00A;
+	Thu, 13 Apr 2023 19:51:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.web.de (mout.web.de [212.227.17.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B4EE310EC02
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Apr 2023 19:44:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de; s=s29768273;
- t=1681415064; i=markus.elfring@web.de;
- bh=qOGuCShQ+GRXJcmAjLP3izQLsAVZcyAZRpZ35hIizx4=;
- h=X-UI-Sender-Class:Date:Subject:From:To:References:Cc:In-Reply-To;
- b=v7/kTXhFY0hABdRHISl9eqtaHuCZ50z3HIKxOSkFHoNRV99hEkySY4UF87tvHiVA4
- 7JdvHTXYZVXfHruJ8xuMVhYH53wfSFEejUL14u60LVBLN12tdnY4+CcP0Nmq+WYRW1
- wmlkTF1+OrycjsznOkeYp9Gpd4pUslzaMERtg932Fs4QM4DwcZrcRJyQWxTdNFEJbE
- SdhlqzrUS50mc9CkqQNSccRSRb+ODfcDo1tNeACgD3yz7CditIAbOe4WkPKjg0+3Qk
- Dolm14H3zHlXiqSujJRTgquSRbbRRTPmsJ2eBYEsxGGvFZUzMuR4NWNQPNVajUm3uA
- z3kCajEPpncBw==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.21] ([94.31.85.83]) by smtp.web.de (mrweb106
- [213.165.67.124]) with ESMTPSA (Nemesis) id 1MN6Bb-1q5xCH3FXZ-00IpMe; Thu, 13
- Apr 2023 21:44:24 +0200
-Message-ID: <86551e6f-d529-1ff6-6ce6-b9669d10e6cb@web.de>
-Date: Thu, 13 Apr 2023 21:44:23 +0200
+Received: from mail-oi1-x235.google.com (mail-oi1-x235.google.com
+ [IPv6:2607:f8b0:4864:20::235])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AB4D810E00A
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Apr 2023 19:51:50 +0000 (UTC)
+Received: by mail-oi1-x235.google.com with SMTP id bl22so28650788oib.11
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Apr 2023 12:51:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ffwll.ch; s=google; t=1681415509; x=1684007509;
+ h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=59xyDC9ZSWXV341Wu5FNueXR+XJowtVJP0DizkPdfFs=;
+ b=h9jPzG/dcUSmvNi2dPyu84iaDmvWbVQHQVlXKglMJlv167YBUDEm3FpOtlXxt9EaCd
+ MtzpzGHTAMLorPU0WONEv6DOwGEIIK0J3mCMAxcLoel7xd3QYAhD9PMqpqrg9lWKXrHu
+ lhSlWQq/SS+sv66P1t6xdTedXwVFW5r7jmweA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1681415509; x=1684007509;
+ h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=59xyDC9ZSWXV341Wu5FNueXR+XJowtVJP0DizkPdfFs=;
+ b=PUjirq4s20oMH8aiesUAxYbYe2KtpLgbe+THMIZ3kr8h2FWt6nw15coK7Sk+66OTA8
+ QIt3e0o4mxi/hlmcXPKidegZ0kQfO649Fpnzj1ypGO1tTb50EKNr0B17oqjtS7fx72sX
+ okpbQCjeZR7pL8XsWl6mkA7vEZlyPBADC+43FyQspc0wV9cKlyCmzFr0zciLQ3MEc7nq
+ Ce/G4SuIxvsv5++WnY54ilKgJsomSd4HlO/bT/DfMWlR30Dq7a3ITILkdpv9E7x8rdrM
+ S66istxZa4jkxf/bx8rVkdiuyrpypGm7XB6L7WwcHLmt2SLz4kPiazhT0RazDrbvtM24
+ 8GFQ==
+X-Gm-Message-State: AAQBX9ej1NFb35wfYd9iQi5MMYTnWwzDT/5/H8yZl9QqICoDAkCbaosT
+ BBzCXexljyh/ua1da4MtV/PiUPUljxZPB33P+Hb7h26k27Kc9b+2
+X-Google-Smtp-Source: AKy350YRwloX6wrMPpX0c5vx9aI9nT3Rkz9UU+Qv6sNaS8uYAcGc+/V8sEso/1ex7VLILj3PMw+fF58bqdYPBRFPhxU=
+X-Received: by 2002:aca:120c:0:b0:38b:f7fa:40ac with SMTP id
+ 12-20020aca120c000000b0038bf7fa40acmr785143ois.8.1681415509145; Thu, 13 Apr
+ 2023 12:51:49 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: [PATCH] video: au1100fb: Move a variable assignment behind a null
- pointer check in au1100fb_setmode()
-Content-Language: en-GB
-From: Markus Elfring <Markus.Elfring@web.de>
-To: kernel-janitors@vger.kernel.org, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Antonino Daplas <adaplas@pol.net>,
- =?UTF-8?Q?Ralf_B=c3=a4chle?= <ralf@linux-mips.org>,
- Yihao Han <hanyihao@vivo.com>
-References: <40c60719-4bfe-b1a4-ead7-724b84637f55@web.de>
- <1a11455f-ab57-dce0-1677-6beb8492a257@web.de>
-In-Reply-To: <1a11455f-ab57-dce0-1677-6beb8492a257@web.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:ap6G4YuCFkJzgF5UGRZwAk1oAua1riOUt+7p93mBUS6qNt02wij
- 9z2rA3YgYx0MKWNgMYyDn3iilQ8dTa0HO1tceJBCPK/86Z4nVRwWwMwqMzuTQOjv32jnj+v
- 1EuNjemvdabt3Grr/bDKuUS0ADnKyvM2+uOkdsSHrIkGaHqhOvQZOXeu6W1eXkekO9vGHQ7
- M+oJ/PLYTgY2kMpD4FXXQ==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:NQCZFHsloKI=;3y/e3Z0j8Gr9kr+YduY9YiFkaL2
- nQAj2khXWc8PbQUyJFUrOhrPx3wykPAhn4nNU2URWghQ0M0wYNxZd73bA1A/n8OWiaCshYnkC
- EfxjLc0lD2EESI5oXfTpnyivXjKlSoE9Nzv2jR2IJJQaq2HzdEFu4nMSdtYdDZKJ+MJk2sHeJ
- W3epzIXg2iv00MqsbdlfvXK0NxTXtDBkEfXPKg5sGrfH275X07+9xspLJ8QHWh2whwjU62MCE
- MpsL7tpW51Q6jWPV4t9Fua4hj+QWeYhrTbVhD2WLIrIu6Jv/p3ipjaikY36tEsSYyJZar0g0d
- 0Ig6mV2VrB/ASn5JjwDGLctOS+kQl6xLXXybFzSv1JtRDa/EP/2dkzQg+WfN4NVXVxq62yd45
- vtY3jl/dGR7/UPsm05QlJYXyjm4CDnBPkIhsv7uSeOthCTPCKaAW/IQ5ftWx8D3wsHj9f5+uw
- qwMj/l/LpxIq0UjGHftFH274BQW79+MyMjDYJCFB+tV/t9tCRjvV6FDsI+RlYHrq0lQP+cyfe
- O28e3Nwdq0zUPjGgUYDfk2A4HSTsoghDlIwkxQv8tIgjQ3tL9HtqizHGVbHlbdeyYafUFjtUY
- FmAoYDUpb73CKthaSYuCU4we1fHVo5AYEiIzzjPXNC5ODS7VJRGBd1Lu8jzYI/kdqegt/hzYz
- 9gGcfVO7KzGyH/AQfRkSSqkFy6fZpdNBL9w1vUvzSOh35J9aZPo5hNFJsiMtWCgyKStoN980K
- l6+mGuqtsaf6+1LBn7iw09GG9Hud1a8mkrmyu6V2tppbV1feRIp3/fv2U0rJgo+qcNBAERlIM
- +StJYuAwLs7Bc9nNcF3J0CyJU/tNjlaa0hV5XRdPHWZJJ64z0KrnWRN5aMAb5Dg+QRzM5IJBE
- uxtBtxFBXMUG2WZ9F6DUhw/CQXIohb1VwvGHxe0ggn1sy5xpNLFHmP8BP
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+Date: Thu, 13 Apr 2023 21:51:38 +0200
+Message-ID: <CAKMK7uHy7FMdpEZLu2TTzgnGOrntBcQi_B0c=X+oT_fyUhcTDw@mail.gmail.com>
+Subject: [PULL] drm-fixes for 6.3-rc7
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,51 +59,99 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: LKML <linux-kernel@vger.kernel.org>, cocci@inria.fr
+Cc: LKML <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Date: Thu, 13 Apr 2023 21:35:36 +0200
+Hi Linus,
 
-The address of a data structure member was determined before
-a corresponding null pointer check in the implementation of
-the function =E2=80=9Cau1100fb_setmode=E2=80=9D.
+People seem back, still not much.
+-Daniel
 
-Thus avoid the risk for undefined behaviour by moving the assignment
-for the variable =E2=80=9Cinfo=E2=80=9D behind the null pointer check.
+drm-fixes-2023-04-13:
+drm-fixes for -rc7
 
-This issue was detected by using the Coccinelle software.
+- two fbcon regressions
+- amdgpu: dp mst, smu13
+- i915: dual link dsi for tgl+
+- armada, nouveau, drm/sched, fbmem
 
-Fixes: 3b495f2bb749b828499135743b9ddec46e34fda8 ("Au1100 FB driver uplift =
-for 2.6.")
-Signed-off-by: Markus Elfring <elfring@users.sourceforge.net>
-=2D--
- drivers/video/fbdev/au1100fb.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+The following changes since commit 09a9639e56c01c7a00d6c0ca63f4c7c41abe075d:
 
-diff --git a/drivers/video/fbdev/au1100fb.c b/drivers/video/fbdev/au1100fb=
-.c
-index cb317398e71a..fcb47b350bc9 100644
-=2D-- a/drivers/video/fbdev/au1100fb.c
-+++ b/drivers/video/fbdev/au1100fb.c
-@@ -137,13 +137,15 @@ static int au1100fb_fb_blank(int blank_mode, struct =
-fb_info *fbi)
- 	 */
- int au1100fb_setmode(struct au1100fb_device *fbdev)
- {
--	struct fb_info *info =3D &fbdev->info;
-+	struct fb_info *info;
- 	u32 words;
- 	int index;
+  Linux 6.3-rc6 (2023-04-09 11:15:57 -0700)
 
- 	if (!fbdev)
- 		return -EINVAL;
+are available in the Git repository at:
 
-+	info =3D &fbdev->info;
-+
- 	/* Update var-dependent FB info */
- 	if (panel_is_active(fbdev->panel) || panel_is_color(fbdev->panel)) {
- 		if (info->var.bits_per_pixel <=3D 8) {
-=2D-
-2.40.0
+  git://anongit.freedesktop.org/drm/drm tags/drm-fixes-2023-04-13
 
+for you to fetch changes up to cab2932213c5cd72a9e04e5e82002e81b946592b:
+
+  Merge tag 'drm-misc-fixes-2023-04-13' of
+git://anongit.freedesktop.org/drm/drm-misc into drm-fixes (2023-04-13
+20:47:58 +0200)
+
+----------------------------------------------------------------
+drm-fixes for -rc7
+
+- two fbcon regressions
+- amdgpu: dp mst, smu13
+- i915: dual link dsi for tgl+
+- armada, nouveau, drm/sched, fbmem
+
+----------------------------------------------------------------
+Asahi Lina (1):
+      drm/scheduler: Fix UAF race in drm_sched_entity_push_job()
+
+Christophe JAILLET (1):
+      drm/armada: Fix a potential double free in an error handling path
+
+Daniel Vetter (6):
+      fbmem: Reject FB_ACTIVATE_KD_TEXT from userspace
+      Merge tag 'amd-drm-fixes-6.3-2023-04-12' of
+https://gitlab.freedesktop.org/agd5f/linux into drm-fixes
+      Merge tag 'drm-intel-fixes-2023-04-13' of
+git://anongit.freedesktop.org/drm/drm-intel into drm-fixes
+      fbcon: Fix error paths in set_con2fb_map
+      fbcon: set_con2fb_map needs to set con2fb_map!
+      Merge tag 'drm-misc-fixes-2023-04-13' of
+git://anongit.freedesktop.org/drm/drm-misc into drm-fixes
+
+Evan Quan (1):
+      drm/amd/pm: correct the pcie link state check for SMU13
+
+Horatio Zhang (2):
+      drm/amd/pm: correct SMU13.0.7 pstate profiling clock settings
+      drm/amd/pm: correct SMU13.0.7 max shader clock reporting
+
+Jani Nikula (1):
+      drm/i915/dsi: fix DSS CTL register offsets for TGL+
+
+Karol Herbst (1):
+      drm/nouveau/fb: add missing sysmen flush callbacks
+
+Maarten Lankhorst (1):
+      Merge remote-tracking branch 'drm/drm-fixes' into drm-misc-fixes
+
+Wayne Lin (1):
+      drm/amd/display: Pass the right info to drm_dp_remove_payload
+
+ .../drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c  | 57 ++++++++++++--
+ drivers/gpu/drm/amd/pm/swsmu/inc/smu_v13_0.h       |  6 ++
+ .../gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_0_ppt.c   |  4 +-
+ .../gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_7_ppt.c   | 87 +++++++++++++++++++---
+ drivers/gpu/drm/armada/armada_drv.c                |  1 -
+ drivers/gpu/drm/i915/display/icl_dsi.c             | 20 ++++-
+ drivers/gpu/drm/nouveau/nvkm/subdev/fb/gf108.c     |  1 +
+ drivers/gpu/drm/nouveau/nvkm/subdev/fb/gk104.c     |  1 +
+ drivers/gpu/drm/nouveau/nvkm/subdev/fb/gk110.c     |  1 +
+ drivers/gpu/drm/nouveau/nvkm/subdev/fb/gm107.c     |  1 +
+ drivers/gpu/drm/scheduler/sched_entity.c           | 11 ++-
+ drivers/video/fbdev/core/fbcon.c                   | 18 ++---
+ drivers/video/fbdev/core/fbmem.c                   |  2 +
+ 13 files changed, 175 insertions(+), 35 deletions(-)
+
+--
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
