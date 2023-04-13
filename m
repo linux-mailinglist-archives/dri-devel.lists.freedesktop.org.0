@@ -2,72 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 057EE6E09C9
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Apr 2023 11:09:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48E8C6E0A08
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Apr 2023 11:21:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3BC1010EA94;
-	Thu, 13 Apr 2023 09:09:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F10B410E12A;
+	Thu, 13 Apr 2023 09:21:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com
- [IPv6:2a00:1450:4864:20::432])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1850410EA94
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Apr 2023 09:09:13 +0000 (UTC)
-Received: by mail-wr1-x432.google.com with SMTP id g5so16867649wrb.5
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Apr 2023 02:09:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1681376951; x=1683968951;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=znt0aWAGbZ2cEMuIGsMFVmr5B4zvykH1K8cbHmpYw3c=;
- b=oT2GSp5inUWHvaFcb5vzUMQY5IyfZpf8HJPlNqPRh86GaPAqAqjVsvyj7iXjYcBf9H
- vuYf4FYZHdECKA/D5frVJFIJ7ZsbOcMTzwyjh8ohd9Gu9cCEgZLmFMynfTjYpytniGux
- JnOhmh9kGDEMJYlJrcT4WbP1Is/apfmclUTqn0f0O/5f/F++ituguozUBvBoWq8rg+qK
- dRcWgY4iJ88jGCwNdfzZoGQgCzkr+fV5iayBfjREwAH9HKYSb6j/fX0xOiGsw2w159CB
- zXILUPMdcpENefj0fabn0vzb8gLlLRchXQi6Q5g5mKEaWQIBnnnBmm8Lr4QdJE6qTYDn
- oKpg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681376951; x=1683968951;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=znt0aWAGbZ2cEMuIGsMFVmr5B4zvykH1K8cbHmpYw3c=;
- b=ewIlz9hO6zhH4UxzVlv9PqUEvLgC8/8PKyu8jRy7AFe+ktj2D1HloAtN5ByF5BeMf2
- +FrPoFDPj1nfRGB0moDY5uDUsGnBqZpnr4/b+AzwDl4XnpUf4DcIVg/Gb/BzbXz8BaM/
- qd0v2MlsA/yxbaC3c16A+tNgz/0zdQWiwQHNyOlhrcVlcCvL2bzO8PWZzJv8ETZtoynQ
- gxjG3HFnnrcoSodZZggQ1F5SYLzwi86acZbEzA0l3M/fXJ6vaK8Zr4+Lt9qHJp6F7z6/
- WPV5YS8EA8abdpYH/V5IjfrSe5HC7fbctuYYmxLJ7N1UpPy1tMHw0JmJj0t6oEBAPjm0
- WMeQ==
-X-Gm-Message-State: AAQBX9fAN4KGDKT3JeeakP+5tP4el7gJ+pQLubpmwXutrEZPAMiXcVD/
- R/u/k2BNUUzFOCvsfuyAbYM=
-X-Google-Smtp-Source: AKy350a9Jsb9eHUuXMFUQ8nkCXFBCQ0OfR4SBVZ0IW9wf1SOpkikmocwd4Zx2WVKOnXSNJgkEI21/w==
-X-Received: by 2002:adf:ebd2:0:b0:2cf:e710:a4b9 with SMTP id
- v18-20020adfebd2000000b002cfe710a4b9mr982347wrn.32.1681376950951; 
- Thu, 13 Apr 2023 02:09:10 -0700 (PDT)
-Received: from [192.168.0.32] ([37.222.243.26])
- by smtp.gmail.com with ESMTPSA id
- m14-20020a056000008e00b002c71b4d476asm812342wrx.106.2023.04.13.02.09.08
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 13 Apr 2023 02:09:09 -0700 (PDT)
-Message-ID: <015f4c60-ed77-9e1f-8a6b-cda6e4f6ac93@gmail.com>
-Date: Thu, 13 Apr 2023 11:09:07 +0200
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1207C10E12A;
+ Thu, 13 Apr 2023 09:21:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1681377663; x=1712913663;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=kshmf7HOU1J5+/GB++4/A9uZL9gr9dS8UYb6DXsRsgU=;
+ b=C7JUkK23k28fGBkpqCb31rktCkTRDEm1XQ48XqAVpve8PCmKkbNNgsxq
+ gjyWV7M5AKt912M7ejMhCQvOiozP175p4OGyAQ9HjNF9Qs08ZM9mu1XLA
+ UmESQACzI7Z9S/52W53nTmen4ZOOu8bCLu52hI7IFbE02q4q7eDU2t86g
+ hNjrm3i6LbhLd6yNqv7nkUzjKAH82S7Pm2yBIJB/8nirskScgR/zmyRbM
+ cPSZtPuDUr2GY7g9BnWnZ8OOFCyZxwZSglPCjysns4/NA5YTPqwfX3SOp
+ Gdhlts+v3ugfEGtvs9vuROkSM9YHtvaoFwm9amAkDCR7xAjQDAMgmN2QD A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10678"; a="406972432"
+X-IronPort-AV: E=Sophos;i="5.98,341,1673942400"; d="scan'208";a="406972432"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Apr 2023 02:21:02 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10678"; a="813389967"
+X-IronPort-AV: E=Sophos;i="5.98,341,1673942400"; d="scan'208";a="813389967"
+Received: from zbiro-mobl.ger.corp.intel.com (HELO intel.com)
+ ([10.251.212.144])
+ by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Apr 2023 02:20:58 -0700
+From: Andi Shyti <andi.shyti@linux.intel.com>
+To: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Paulo Zanoni <paulo.r.zanoni@intel.com>
+Subject: [PATCH v2] drm/i915: Make IRQ reset and postinstall multi-gt aware
+Date: Thu, 13 Apr 2023 11:20:06 +0200
+Message-Id: <20230413092006.931861-1-andi.shyti@linux.intel.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [PATCH 3/3] drm/mediatek: dsi: Add dsi cmdq_ctl to send panel
- initial code
-Content-Language: en-US
-To: xinlei.lee@mediatek.com, chunkuang.hu@kernel.org, p.zabel@pengutronix.de, 
- airlied@linux.ie, daniel@ffwll.ch, robh+dt@kernel.org,
- krzysztof.kozlowski+dt@linaro.org, jitao.shi@mediatek.com,
- shuijing.li@mediatek.com
-References: <1681366162-4949-1-git-send-email-xinlei.lee@mediatek.com>
- <1681366162-4949-4-git-send-email-xinlei.lee@mediatek.com>
-From: Matthias Brugger <matthias.bgg@gmail.com>
-In-Reply-To: <1681366162-4949-4-git-send-email-xinlei.lee@mediatek.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,95 +57,102 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org
+Cc: Andi Shyti <andi.shyti@kernel.org>,
+ Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
+ Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
+ Andi Shyti <andi.shyti@linux.intel.com>,
+ Matt Roper <matthew.d.roper@intel.com>, Nirmoy Das <nirmoy.das@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+From: Paulo Zanoni <paulo.r.zanoni@intel.com>
 
+In multitile systems IRQ need to be reset and enabled per GT.
 
-On 13/04/2023 08:09, xinlei.lee@mediatek.com wrote:
-> From: Xinlei Lee <xinlei.lee@mediatek.com>
-> 
-> For mt8188, add dsi cmdq reg control to send long packets to panel initialization.
-> 
-> Signed-off-by: Xinlei Lee <xinlei.lee@mediatek.com>
-> Signed-off-by: Jitao Shi <jitao.shi@mediatek.com>
-> ---
->   drivers/gpu/drm/mediatek/mtk_dsi.c | 12 ++++++++++++
->   1 file changed, 12 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/mediatek/mtk_dsi.c b/drivers/gpu/drm/mediatek/mtk_dsi.c
-> index 500a3054282d..cbfe5df4647c 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_dsi.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_dsi.c
-> @@ -86,6 +86,7 @@
->   
->   #define DSI_CMDQ_SIZE		0x60
->   #define CMDQ_SIZE			0x3f
-> +#define CMDQ_SIZE_SEL			BIT(15)
->   
->   #define DSI_HSTX_CKL_WC		0x64
->   
-> @@ -178,6 +179,7 @@ struct mtk_dsi_driver_data {
->   	const u32 reg_cmdq_off;
->   	bool has_shadow_ctl;
->   	bool has_size_ctl;
-> +	bool cmdq_long_packet_ctl;
->   };
->   
->   struct mtk_dsi {
-> @@ -965,6 +967,11 @@ static u32 mtk_dsi_recv_cnt(u8 type, u8 *read_data)
->   	return 0;
->   }
->   
-> +static void mtk_dsi_cmd_packet_ctl(struct mtk_dsi *dsi)
-> +{
-> +	mtk_dsi_mask(dsi, DSI_CMDQ_SIZE, CMDQ_SIZE_SEL, CMDQ_SIZE_SEL);
-> +}
-> +
->   static void mtk_dsi_cmdq(struct mtk_dsi *dsi, const struct mipi_dsi_msg *msg)
->   {
->   	const char *tx_buf = msg->tx_buf;
-> @@ -996,6 +1003,8 @@ static void mtk_dsi_cmdq(struct mtk_dsi *dsi, const struct mipi_dsi_msg *msg)
->   
->   	mtk_dsi_mask(dsi, reg_cmdq_off, cmdq_mask, reg_val);
->   	mtk_dsi_mask(dsi, DSI_CMDQ_SIZE, CMDQ_SIZE, cmdq_size);
-> +	if (dsi->driver_data->cmdq_long_packet_ctl)
-> +		mtk_dsi_cmd_packet_ctl(dsi);
+Although in MTL the GUnit misc interrupts register set are
+available only in GT-0, we need to loop through all the GT's
+in order to initialize the media engine which lies on a different
+GT.
 
-Why don't you put the onliner
-mtk_dsi_mask(dsi, DSI_CMDQ_SIZE, CMDQ_SIZE_SEL, CMDQ_SIZE_SEL);
-directly here. Please help me understand why adding another indirection is 
-usefull here.
+Signed-off-by: Paulo Zanoni <paulo.r.zanoni@intel.com>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
+---
+Hi,
 
-Best regards,
-Matthias
+proposing again this patch, apparently GuC needs this patch to
+initialize the media GT.
 
->   }
->   
->   static ssize_t mtk_dsi_host_send_cmd(struct mtk_dsi *dsi,
-> @@ -1200,18 +1209,21 @@ static const struct mtk_dsi_driver_data mt8183_dsi_driver_data = {
->   	.reg_cmdq_off = 0x200,
->   	.has_shadow_ctl = true,
->   	.has_size_ctl = true,
-> +	.cmdq_long_packet_ctl = false,
->   };
->   
->   static const struct mtk_dsi_driver_data mt8186_dsi_driver_data = {
->   	.reg_cmdq_off = 0xd00,
->   	.has_shadow_ctl = true,
->   	.has_size_ctl = true,
-> +	.cmdq_long_packet_ctl = false,
->   };
->   
->   static const struct mtk_dsi_driver_data mt8188_dsi_driver_data = {
->   	.reg_cmdq_off = 0xd00,
->   	.has_shadow_ctl = true,
->   	.has_size_ctl = true,
-> +	.cmdq_long_packet_ctl = true,
->   };
->   
->   static const struct of_device_id mtk_dsi_of_match[] = {
+Andi
+
+Changelog
+=========
+v1 -> v2
+ - improve description in the commit log.
+
+ drivers/gpu/drm/i915/i915_irq.c | 28 ++++++++++++++++++----------
+ 1 file changed, 18 insertions(+), 10 deletions(-)
+
+diff --git a/drivers/gpu/drm/i915/i915_irq.c b/drivers/gpu/drm/i915/i915_irq.c
+index d24bdea65a3dc..524d64bf5d186 100644
+--- a/drivers/gpu/drm/i915/i915_irq.c
++++ b/drivers/gpu/drm/i915/i915_irq.c
+@@ -2764,14 +2764,19 @@ static void dg1_irq_reset(struct drm_i915_private *dev_priv)
+ {
+ 	struct intel_gt *gt = to_gt(dev_priv);
+ 	struct intel_uncore *uncore = gt->uncore;
++	unsigned int i;
+ 
+ 	dg1_master_intr_disable(dev_priv->uncore.regs);
+ 
+-	gen11_gt_irq_reset(gt);
+-	gen11_display_irq_reset(dev_priv);
++	for_each_gt(gt, dev_priv, i) {
++		gen11_gt_irq_reset(gt);
+ 
+-	GEN3_IRQ_RESET(uncore, GEN11_GU_MISC_);
+-	GEN3_IRQ_RESET(uncore, GEN8_PCU_);
++		uncore = gt->uncore;
++		GEN3_IRQ_RESET(uncore, GEN11_GU_MISC_);
++		GEN3_IRQ_RESET(uncore, GEN8_PCU_);
++	}
++
++	gen11_display_irq_reset(dev_priv);
+ }
+ 
+ void gen8_irq_power_well_post_enable(struct drm_i915_private *dev_priv,
+@@ -3425,13 +3430,16 @@ static void gen11_irq_postinstall(struct drm_i915_private *dev_priv)
+ 
+ static void dg1_irq_postinstall(struct drm_i915_private *dev_priv)
+ {
+-	struct intel_gt *gt = to_gt(dev_priv);
+-	struct intel_uncore *uncore = gt->uncore;
+ 	u32 gu_misc_masked = GEN11_GU_MISC_GSE;
++	struct intel_gt *gt;
++	unsigned int i;
+ 
+-	gen11_gt_irq_postinstall(gt);
++	for_each_gt(gt, dev_priv, i) {
++		gen11_gt_irq_postinstall(gt);
+ 
+-	GEN3_IRQ_INIT(uncore, GEN11_GU_MISC_, ~gu_misc_masked, gu_misc_masked);
++		GEN3_IRQ_INIT(gt->uncore, GEN11_GU_MISC_, ~gu_misc_masked,
++			      gu_misc_masked);
++	}
+ 
+ 	if (HAS_DISPLAY(dev_priv)) {
+ 		icp_irq_postinstall(dev_priv);
+@@ -3440,8 +3448,8 @@ static void dg1_irq_postinstall(struct drm_i915_private *dev_priv)
+ 				   GEN11_DISPLAY_IRQ_ENABLE);
+ 	}
+ 
+-	dg1_master_intr_enable(uncore->regs);
+-	intel_uncore_posting_read(uncore, DG1_MSTR_TILE_INTR);
++	dg1_master_intr_enable(to_gt(dev_priv)->uncore->regs);
++	intel_uncore_posting_read(to_gt(dev_priv)->uncore, DG1_MSTR_TILE_INTR);
+ }
+ 
+ static void cherryview_irq_postinstall(struct drm_i915_private *dev_priv)
+-- 
+2.39.2
+
