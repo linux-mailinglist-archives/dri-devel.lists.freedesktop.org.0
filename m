@@ -2,69 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE58E6E0948
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Apr 2023 10:49:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E8696E0956
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Apr 2023 10:52:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 02D0E10EA7D;
-	Thu, 13 Apr 2023 08:49:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4C61610EA81;
+	Thu, 13 Apr 2023 08:52:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com
- [IPv6:2a00:1450:4864:20::529])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0F74210EA7D
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Apr 2023 08:49:34 +0000 (UTC)
-Received: by mail-ed1-x529.google.com with SMTP id
- 4fb4d7f45d1cf-505050c7217so154012a12.0
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Apr 2023 01:49:33 -0700 (PDT)
+Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com
+ [IPv6:2a00:1450:4864:20::633])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9CEE810EA81
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Apr 2023 08:52:31 +0000 (UTC)
+Received: by mail-ej1-x633.google.com with SMTP id
+ a640c23a62f3a-94a34c299d8so63777466b.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Apr 2023 01:52:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1681375772; x=1683967772;
+ d=ffwll.ch; s=google; t=1681375950; x=1683967950;
  h=in-reply-to:content-disposition:mime-version:references
  :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
  :subject:date:message-id:reply-to;
- bh=sijaRA9csYHk+QDl9FlXYhGP0StlKpy6z7FBZEoJClw=;
- b=PtDHsAiBZg/CrfdW3+ViNTDgGocGht9q6tphOmmpvcKYVA26yrLmlRSS9u0gHI/Zn/
- DJOEh/zzXqpQY/9EC6TjRXIjgyJnqy1hTaulP5abma4jA/I6MlK5HR/jqX1Q9ebsd4xi
- ebwSCmGQb+oaEOG2RbDfHhqQETur6Wy+XrcYg=
+ bh=sMMjHV++lPnl4wWzVLV07WrqF25wdRQCEiHAGrnakwo=;
+ b=INrZj4xUMYQleS3Tx0LtKxYjZNVyRan13czZwek2zaZq+oy39DSKAYUFN9zXZsSGPZ
+ IXQZK/sDw+V0IgvjzKewBgW6py3GA2DRPcWTwNYJ05NvKTvZn7J2kI4A5nD8sI9CbXlD
+ RyrJ2xSNhywHxQ3U06eSns8zC8LvAXHccrXpM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681375772; x=1683967772;
+ d=1e100.net; s=20221208; t=1681375950; x=1683967950;
  h=in-reply-to:content-disposition:mime-version:references
  :mail-followup-to:message-id:subject:cc:to:from:date
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=sijaRA9csYHk+QDl9FlXYhGP0StlKpy6z7FBZEoJClw=;
- b=dKht3OGMdJG/Lw22+GuV/HM1Q4/OZhSZ2lHterNKWcoI89CQ0DnBpdh58nLZtk/I8a
- rwezytki4RW7+SXpLwQnBAPw/Dmbhw9Yq360ooue15T7fNdY9QdyufVzWC0F96hKIbxt
- ZjVA5jar/4CeDqXSS+rMPhQPdf+g8WYxJN84PL+8tHJ8EwE3MCQHx2CtZ8FVx7aN/XIB
- VBxBHddCeqaS3D2jsiUcBexSFCYWkfagomORSX0hjpb2EJhTWcTVd0YoyNlenjuAS9Cr
- S9nzZw+qOY50O9aOa7zarIS16cTm+XAs3YaK8MzrcRtOIazGV+hvqRSVYB2uGVdTE0YE
- NMwg==
-X-Gm-Message-State: AAQBX9eFhvrvMJ1FA2MW4k67oCiic/YG+tIwtuuBMD1mpoON0/hgtzbM
- 6ezOTsNHGS3O8RjshwkUip205P28LUnXiNS/bds=
-X-Google-Smtp-Source: AKy350aUV1nyhnQwiZ5Apo2QV3oDfYQiO15+DXNmy9wUYEy48bG3MnWmMH0L0drTzlm7E6J8N0pT+A==
-X-Received: by 2002:a05:6402:518d:b0:502:367:d5b8 with SMTP id
- q13-20020a056402518d00b005020367d5b8mr1839707edd.4.1681375772088; 
- Thu, 13 Apr 2023 01:49:32 -0700 (PDT)
+ bh=sMMjHV++lPnl4wWzVLV07WrqF25wdRQCEiHAGrnakwo=;
+ b=fAY9I2y7znqCo/Fejne9CzeYXVoiB/Mh0siz/WdHJ+QRMo3x4W3iFxMb5CNNPIeWq9
+ 1L+syaPlA2/aPKZiMWUGpEpEr+FMLCFVmxZpLorHuUKdVzDgNQ8T+yDqEP6r1x6zENuo
+ QOWgi/GEp0ZX0Mjhgm0sJJuwJFoz7tGW9Nou0L6Ezj8Bmw+2gWcWTGHj2hiAW1ESMdW0
+ AM/gC2fC36x+5/rslgzEN10Uu8u5I2Nwu8wv1KhXRCF85dHlLSlirWCS+mVB518gflTW
+ QpNzEFZItKUDJyZN/hMo/dXiK7ngrU+I6oOnKbz/ESFf6sjsi+xwPc6IZ0keDhyYtXGB
+ RbWw==
+X-Gm-Message-State: AAQBX9d8Nk7PrZniYRItOLfep94bBSddsJqNWpm+o1CPmcLPoNYxhFpr
+ kvbdorV1t/wGA2WFCwaIUJLg0g==
+X-Google-Smtp-Source: AKy350a1UdfdCDMoh8AkhQ+QpH0nAND8dfeQm38GUk7NQxrjob5RulYvkLQeppGy8jxDZbBiENNV6g==
+X-Received: by 2002:a05:6402:34d0:b0:506:6c2a:528f with SMTP id
+ w16-20020a05640234d000b005066c2a528fmr2140795edc.4.1681375950078; 
+ Thu, 13 Apr 2023 01:52:30 -0700 (PDT)
 Received: from phenom.ffwll.local (212-51-149-33.fiber7.init7.net.
  [212.51.149.33]) by smtp.gmail.com with ESMTPSA id
- j19-20020a508a93000000b00501c2a9e16dsm552679edj.74.2023.04.13.01.49.31
+ s4-20020aa7c544000000b004fc649481basm535310edr.58.2023.04.13.01.52.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 13 Apr 2023 01:49:31 -0700 (PDT)
-Date: Thu, 13 Apr 2023 10:49:29 +0200
+ Thu, 13 Apr 2023 01:52:29 -0700 (PDT)
+Date: Thu, 13 Apr 2023 10:52:27 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
+To: Greg KH <gregkh@linuxfoundation.org>
 Subject: Re: [PATCH] Revert "accel/qaic: Add mhi_qaic_cntl"
-Message-ID: <ZDfCGXPCFkb20jNW@phenom.ffwll.local>
-Mail-Followup-To: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
+Message-ID: <ZDfCyyljbvTrNpeg@phenom.ffwll.local>
+Mail-Followup-To: Greg KH <gregkh@linuxfoundation.org>,
  Jeffrey Hugo <quic_jhugo@quicinc.com>, sfr@canb.auug.org.au,
- mani@kernel.org, greg@kroah.com, ogabbay@kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- quic_pkanojiy@quicinc.com, linux-next@vger.kernel.org,
- jacek.lawrynowicz@linux.intel.com, airlied@redhat.com
+ ogabbay@kernel.org, jacek.lawrynowicz@linux.intel.com,
+ quic_pkanojiy@quicinc.com, mani@kernel.org, airlied@redhat.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-next@vger.kernel.org
 References: <1681307864-3782-1-git-send-email-quic_jhugo@quicinc.com>
- <20230412140542.GA3141290@linux.intel.com>
+ <2023041201-underwear-consumer-1eb8@gregkh>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230412140542.GA3141290@linux.intel.com>
+In-Reply-To: <2023041201-underwear-consumer-1eb8@gregkh>
 X-Operating-System: Linux phenom 6.1.0-7-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -79,14 +79,14 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: sfr@canb.auug.org.au, Jeffrey Hugo <quic_jhugo@quicinc.com>,
- mani@kernel.org, greg@kroah.com, ogabbay@kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- quic_pkanojiy@quicinc.com, linux-next@vger.kernel.org,
- jacek.lawrynowicz@linux.intel.com, airlied@redhat.com
+ mani@kernel.org, ogabbay@kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, quic_pkanojiy@quicinc.com,
+ linux-next@vger.kernel.org, jacek.lawrynowicz@linux.intel.com,
+ airlied@redhat.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Apr 12, 2023 at 04:05:42PM +0200, Stanislaw Gruszka wrote:
+On Wed, Apr 12, 2023 at 07:15:43PM +0200, Greg KH wrote:
 > On Wed, Apr 12, 2023 at 07:57:44AM -0600, Jeffrey Hugo wrote:
 > > This reverts commit 566fc96198b4bb07ca6806386956669881225271.
 > > 
@@ -97,14 +97,25 @@ On Wed, Apr 12, 2023 at 04:05:42PM +0200, Stanislaw Gruszka wrote:
 > > Suggested-by: Daniel Vetter <daniel@ffwll.ch>
 > > Signed-off-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
 > > Reviewed-by: Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>
-> Reviewed-by: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
+> 
+> Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> 
+> And can you cc: me when you resubmit this?  It's not really correct in a
+> number of places and can be made simpler if you really want to have your
+> own class and device major.
 
-I think Ack from Oded would be good (but iirc there's some holidays going
-on), but I guess Greg's is good enough. Can you pls push this to
-drm-misc-next-fixes (it's open now for merge window fixes) since Jeff
-isn't set up yet?
++1 on this, in the other thread my take was that this should go through
+driver model tree in the mhi bus, and I guess needs some review there
+about safety and all that. We do a lot of funny uapi in drm/accel, but
+full generic driver-in-userspace is really not our thing :-)
 
-Thanks, Daniel
+I guess there's also the question whether this should be debugfs (like the
+usb stuff, or did that move by now) or real chardev. Might also make sense
+to integrate with vfio/mdev/iommufd depending how the security model
+works.
+
+But really this is all stuff where I'm hightailing it asap :-)
+-Daniel
 -- 
 Daniel Vetter
 Software Engineer, Intel Corporation
