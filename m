@@ -1,138 +1,130 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C391A6E0BC3
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Apr 2023 12:49:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BE0A56E0B70
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Apr 2023 12:34:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0BA0F10E0FC;
-	Thu, 13 Apr 2023 10:49:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 552A410EAB6;
+	Thu, 13 Apr 2023 10:34:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 869 seconds by postgrey-1.36 at gabe;
- Thu, 13 Apr 2023 10:49:15 UTC
-Received: from mx07-00376f01.pphosted.com (mx07-00376f01.pphosted.com
- [185.132.180.163])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 589F910EABC
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Apr 2023 10:49:15 +0000 (UTC)
-Received: from pps.filterd (m0168889.ppops.net [127.0.0.1])
- by mx07-00376f01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 33D9jA3g027463; Thu, 13 Apr 2023 11:34:39 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=imgtec.com;
- h=from : to : cc :
- subject : date : message-id : in-reply-to : references :
- content-transfer-encoding : content-type : mime-version; s=dk201812;
- bh=+8ut+LhcxC7zEeWx9Tec0AxPcwXEy4AdQOcT8C8qC5c=;
- b=F0H3miTWYQxjIsYI3rlEvvu3t3yo/CuT4rgMS9nmgXWfYQqVN7dnWOddLQYL7DA+k9Zc
- x9WLb7fyvz8jGBgmpFTiRC2N7xtfCzhWSaLkjrsq7IohxotfXQ67dG/FA6FlXVyWX3aN
- ITAlsgYOXXnHpiWKzmhD+ZDFd0CZ/nYbMNO76Qix83iAxU0zY1kYu685npSMBZkT0HQK
- sXqSDtwqT/VXE23i973wvKb6KIFlFH+B0JA3cd0sC0+Ten9ZWfCSvsakai0zHIdQkKw9
- rqPhHmb37C/ggsl7aZCRkaFBDNFoRR0NALMvWyBkTXyMyVbfiQ+iM4pWL0f9MQMWKGRY 7g== 
-Received: from hhmail05.hh.imgtec.org ([217.156.249.195])
- by mx07-00376f01.pphosted.com (PPS) with ESMTPS id 3px7e58bq4-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
- Thu, 13 Apr 2023 11:34:38 +0100
-Received: from HHMAIL05.hh.imgtec.org (10.100.10.120) by
- HHMAIL05.hh.imgtec.org (10.100.10.120) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.23; Thu, 13 Apr 2023 11:34:37 +0100
-Received: from GBR01-LO2-obe.outbound.protection.outlook.com (104.47.21.56) by
- email.imgtec.com (10.100.10.121) with Microsoft SMTP Server
- (version=TLS1_2, 
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.23 via Frontend
- Transport; Thu, 13 Apr 2023 11:34:37 +0100
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam12on2083.outbound.protection.outlook.com [40.107.244.83])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F1F2310E1E4;
+ Thu, 13 Apr 2023 10:34:31 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=PzIsO9yV/PjerJGY49WtJs2rg9bbYayojSxjsFnJHQLxCH1YsAZaKs+u6qQD5BkxA40O0qFihF5l9XSTqEwC4QKyxqKo2rJwO2jvnFF1of8VJyzKYs3B8OZRPysd2jfVRHSaBzF+kqOAPbjWQILtm/x9+bbclMigNxpBRw09EwVsw3bdAXtKoLhouCxinBYewPfeYRda4Lap4Ue56OV4d90EbPcPaKLt1FO17kZhNa/T4IGlzElo8h+7WPiGNL88Z3Nuzv7AAhJ/jB5owyCryTSzgmjMW3VLNwXhYz0g0HQpwwKdME8+N+ehRaAjnMJdv0v08WUDCGoA3oQk8ApCZQ==
+ b=mLHwXpVP9nuss24i07N2cQuwtlk3C9KtEz6uYtWv4AhUuu+/gJcwKSMrfzGLFvxF7zHS3cKxWOVo0HUhz7jT11N3+6sLtAJyldJHbJTcsX29Z2jHsWllHCXqnqdFpRf4s9yOsfgreCL8J3YlyIvcUrQlXP7O4+gqeUhrYO0EXwqNkIdjUIo+spZWPqByc5YvgIqkC9S4fwlSE6nVSD4H+6NhY2meeXU3ZCVWnwCKdE+uoI9jz5BRQx4ZeRRY4UWGFxftKE00jSTsWMBVH389dfdOCbbv/fj1+W07tVoDamYPZJl9D06s3WfxTfqr+TMPpCKsLL3eL+8ouB87MCUAqg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=+8ut+LhcxC7zEeWx9Tec0AxPcwXEy4AdQOcT8C8qC5c=;
- b=Rlpbh7CvxARM2/49TqtEzlnqreFXCDF6LVqGMOZCxmMgT4ahIqlN0QxTGyxt0c0LIhDI7D1155ERmee0iAQ73oyCMoCTJjd78mUqktb2RkaHfmRVLPac8Pmbjyx2DqxJcj9k1ZKWfszOyIpE037mu+VEVgO1x/P3a/S/TMwZYiaTBh/m8PC1vYXDg3W2j9s+l93dSbNwBERMYpq5mzxKOmGfVVQeBxHs4qRbE1I/s4OsIkkPom/DJho8EcGbUFydZu/2a42+IjwF/vMy4ZXVJGKYKrjBjUPV+9Oac5vNh8g11jWF2sxOxBB1I3yZ11W0dJ0eWrFxMLK1QFk9l0Dvag==
+ bh=6IoYGwPqzFOU96283GTtRQtQIDuEGHYZA0fb6UrpAR4=;
+ b=NLPtSHyYbnCpIJRw2Q93l+nptwxGgfqur0HswgY+2csKjHEhAvoU0W1FFZwyhUNjujkJuIxLtvSsqs0SRxExqLi2LduWJbNv0+jGcMbnzFzU5aXO1JhspnDhKPC8VEF30oVtMf8ahvztiwO7CLPkML9ibRNzrREiuVIy3I+L3ppN3ANKqzB1TpRydxAbH/3qUJR+kmcd0lIJJqjLn6kX3OZHTKueTkZV1vEySbG2XPeKvtsvCmFd7wvP5XR3XAI5KYOH9xEEcgTjLDQyThmNEF98Zs3Fv6Q7eC1ncDleK/BzjcvZ66Ll+EXA2GLP2T4I+E4wQP7pW1BE1yrLPYC0Ug==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=imgtec.com; dmarc=pass action=none header.from=imgtec.com;
- dkim=pass header.d=imgtec.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=IMGTecCRM.onmicrosoft.com; s=selector2-IMGTecCRM-onmicrosoft-com;
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+8ut+LhcxC7zEeWx9Tec0AxPcwXEy4AdQOcT8C8qC5c=;
- b=bmXi3T07cTrIUq/7p3zvfZujhE/Ku5e2zLiEFEIE6MwEtpHxjVSxQjDCbZmS9UjjCge0wlZFWQ+aq0cXNNExbHCVw05tMhc8Rb5QqMs7aBkIHztQXmZTsYA69p1tVA+cakYZG5B51dvGwDj7HVrjFH/Q7tnRWx2JC237WAZtgAk=
-Received: from CWLP265MB4817.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:170::9)
- by LO0P265MB6129.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:24e::10) with
- Microsoft SMTP Server (version=TLS1_2,
+ bh=6IoYGwPqzFOU96283GTtRQtQIDuEGHYZA0fb6UrpAR4=;
+ b=HanK2eD1GloyO5Rz0g5m82ekecGXfSJAWdQ/2SccZJF1UDSdaFfBypQrCmDZ7X7jLqTbKmKLU9IR5mw9KKviYK/ga3ajHL/js4c3mPWfTgCIIW0/t7q9ZyMFWR99ti7/taS/JHg+ru6VcpKpIQxMboc4xncqOT0a9pUvhY9Xjog=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BYAPR12MB3589.namprd12.prod.outlook.com (2603:10b6:a03:df::29)
+ by SJ0PR12MB8113.namprd12.prod.outlook.com (2603:10b6:a03:4e0::20)
+ with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6298.30; Thu, 13 Apr
- 2023 10:34:36 +0000
-Received: from CWLP265MB4817.GBRP265.PROD.OUTLOOK.COM
- ([fe80::ff6a:9fe7:c5a:7f79]) by CWLP265MB4817.GBRP265.PROD.OUTLOOK.COM
- ([fe80::ff6a:9fe7:c5a:7f79%7]) with mapi id 15.20.6298.030; Thu, 13 Apr 2023
- 10:34:36 +0000
-From: Sarah Walker <sarah.walker@imgtec.com>
-To: <dri-devel@lists.freedesktop.org>
-Subject: [RFC PATCH v2 2/2] dt-bindings: gpu: Add Imagination Technologies
- PowerVR GPU
-Date: Thu, 13 Apr 2023 11:34:19 +0100
-Message-Id: <20230413103419.293493-3-sarah.walker@imgtec.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230413103419.293493-1-sarah.walker@imgtec.com>
-References: <20230413103419.293493-1-sarah.walker@imgtec.com>
+ 2023 10:34:28 +0000
+Received: from BYAPR12MB3589.namprd12.prod.outlook.com
+ ([fe80::e208:1fec:a14e:eadb]) by BYAPR12MB3589.namprd12.prod.outlook.com
+ ([fe80::e208:1fec:a14e:eadb%4]) with mapi id 15.20.6298.030; Thu, 13 Apr 2023
+ 10:34:28 +0000
+Message-ID: <d862a882-4ecf-dde2-7b41-557f1230ea0e@amd.com>
+Date: Thu, 13 Apr 2023 12:34:19 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH v4 1/6] drm: Add common fdinfo helper
+Content-Language: en-US
+To: Rob Clark <robdclark@gmail.com>, dri-devel@lists.freedesktop.org,
+ linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Christopher Healy <healych@amazon.com>,
+ Emil Velikov <emil.l.velikov@gmail.com>, Rob Clark <robdclark@chromium.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
+ "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+ open list <linux-kernel@vger.kernel.org>
+References: <20230412224311.23511-1-robdclark@gmail.com>
+ <20230412224311.23511-2-robdclark@gmail.com>
+ <ce87917c-6cf1-b1e7-4782-61a7e47aa92d@amd.com>
+ <ZDfBZIuiAuMhuULd@phenom.ffwll.local>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+In-Reply-To: <ZDfBZIuiAuMhuULd@phenom.ffwll.local>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: LO4P265CA0269.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:37a::9) To CWLP265MB4817.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:400:170::9)
+X-ClientProxiedBy: AM3PR03CA0066.eurprd03.prod.outlook.com
+ (2603:10a6:207:5::24) To BYAPR12MB3589.namprd12.prod.outlook.com
+ (2603:10b6:a03:df::29)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CWLP265MB4817:EE_|LO0P265MB6129:EE_
-X-MS-Office365-Filtering-Correlation-Id: ff1aec5d-7411-467b-bcb1-08db3c0aad6e
+X-MS-TrafficTypeDiagnostic: BYAPR12MB3589:EE_|SJ0PR12MB8113:EE_
+X-MS-Office365-Filtering-Correlation-Id: 4019378f-1124-4ff9-5f29-08db3c0aa899
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 4KwwKyEB2pqfjl2S2BtwuRBqG0m7bBH1HNLuzyhUX2KIP4GWlSHCTVUd0Q9lTOGnJZppBGDbaBmrGl0rYyk7nWubmlA7tT1Dou/yDumuuvxuyGeb645rJAeoz1z1y08BPDNZ0s2Ec8x5KdJkZH5ffRFLXXl2xve3FAouupycUL/76Puhgs1qrzGl+cE94SyN9GlvpmCxX2868K/NAoVpBFobIEkCEAT2LQrq3VyGiamRkO1HNokOzHlAq8ZhMG55/jMIALyb0gTxw6XqAztT03enIA9AuW/gO40AmGF2ZM5Zr4mUkQMcjJMqOa73g/dFe30D4tKLiijQqgLLcTHfs9U+ioxAKhkTs4/XEkLyT+gqFIN1ELkvNk367PSavQrI2YMHPUezDGKEJiOerPFeRMU86s3Mb6es5WUGbYL83Cn4zekafTRPppNOFUM9UcbobOvv8Zm0WG4o8wT9bOopr47urFFow/2FLXne3f/PD6QBHPn0UsL9qf5K0Imm0M20EXKIxujtZVlK0DIp1fakeLJz8y3CzcknEgyrPYQ97hxAGkDc6uPX1KiEJX4ciotB/iD4fGzpQemVyavluPFW7mO6QWijSeMtAhT09AsA9Cw=
+X-Microsoft-Antispam-Message-Info: zROIpo8rDj30rV4kg3DaYSMIoT0MbwtIGEUdwfOz25wrtnuUkM1UTKXJnoLkIqsxNJv71ws+GjygQv3P+/y7o3KS5qRI2jZkDApvKUOr6ZuMdVF//esYms2YeqCc2oFnzH26RuiwuuqSvCv/pwXhF/e0ESVQYZxRssexZkNOOi7D7V8WvLtUXUYmqc+znQp88eKOuM2dehdkIGJj3vjqs4rwtXbywFdeUv3DoOv/xyqA2N74M6MX/bBNaVVhh8gTHBhubw5/qljwj57QbfRloWOG9LQedESgO0sgOJ0tcDfy6sQfd4FieWU1WwPPvjeIk1EKSGRGgptKWUSMN/tTh4vUslDc0j+7HWn4QK2HVSzZ6g5rUvytGh6TF5e1VmmJOSqwq9s+2OMDj/6B0Bk3JFa7xAIFDWTF9liFlhzuzNHC1jNbsvTG27y6oPqwjqpKBa8U2w8hkzdNJWYDLoFpXepIDF16UK7O3FHaI7cEp669M0fes8ULxUSWMe7a3mR88UE00TCAOryUpm+IQEAxM5C/0nDiEJSSIyf7HT6x4FO3BuWfyjjpAIXjndQ8PhnsMNOoxeBFeFmlS7V9Mj8FqsCexBb4Suk8iFShfPy3r3K3+KgRLKpqdN4RvnbTlS2A1EPwzhW8GVmM/KXvP9h4bJDGPE2cUA8U3npdd6oCJO8=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CWLP265MB4817.GBRP265.PROD.OUTLOOK.COM; PTR:; CAT:NONE;
- SFS:(13230028)(136003)(366004)(396003)(39850400004)(346002)(376002)(451199021)(5660300002)(38350700002)(41300700001)(38100700002)(36756003)(2906002)(8676002)(86362001)(4326008)(6916009)(66556008)(8936002)(44832011)(66946007)(66476007)(316002)(1076003)(2616005)(83380400001)(6506007)(6512007)(26005)(186003)(478600001)(6486002)(52116002)(6666004);
- DIR:OUT; SFP:1102; 
+ IPV:NLI; SFV:NSPM; H:BYAPR12MB3589.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230028)(4636009)(366004)(136003)(396003)(376002)(39860400002)(346002)(451199021)(316002)(38100700002)(66556008)(66946007)(66476007)(2616005)(5660300002)(41300700001)(66574015)(6666004)(31686004)(36756003)(86362001)(6486002)(31696002)(6512007)(6506007)(26005)(186003)(2906002)(83380400001)(7416002)(8676002)(8936002)(478600001)(921005)(110136005)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?c7gEX+yS+Mkndf1Mqb1OmsnKQ+STN2q1ZjSC2w/JFeEt7GLZ7n8MDR8v/5YC?=
- =?us-ascii?Q?iWBt+fY148skMYVS7VwMPhxS3Y/LBAHfNPLDFR8h2hKmG8khHFS5l5O/ES5w?=
- =?us-ascii?Q?hLLrsgzTuI5hwG8KNR50SGJIHI2iyzf8mS6GlOz3gkreSLY7/S4nDBcpSeFp?=
- =?us-ascii?Q?ngHPCg28EdEAyizfZOp5Bu9fP5TZesXNio0V7NcVUX4RhiStD6CUH/7/rUwR?=
- =?us-ascii?Q?wzUTI6UHMn75O7xEgBWfbdHNtq3oP4HE55ZH8Usdxlytyao053B3SSKK9+rn?=
- =?us-ascii?Q?2wSzknghbNMg9SjY7c3C0ZJQaMccdPxXMRDEn47ZJcDDoQu8As3mPcMb+3NU?=
- =?us-ascii?Q?RRJe3B8Ona5ZJV6dvzAh9HhC7QnFEpA8cBIk3EWDlXZMIxhlEdYa3FzTXQGD?=
- =?us-ascii?Q?z7YNYvas+2LLeRoZgDDFP5YSjYmExQuSIM2leHdt1dZIeXbWQMuBbZqrxO0z?=
- =?us-ascii?Q?gm2K6/GVQE5bR3BcgBNps+fz0/HfmU+itEAnuUV6akVbmhDOuY3Wh5WG01Nj?=
- =?us-ascii?Q?f3RdvRCsFXO8fXA/yk3MP1xiSw1ZJF5Y4XhHK4BL6gfTLx8OMxKtWryKjD2G?=
- =?us-ascii?Q?kUTS6EPFZbrb9rGHPf2sTiR+pjw6P62I57FVFrn67Ax2WfsV4r+wN1z/tJ8y?=
- =?us-ascii?Q?u2lgYWlLZNToCL/KkLEr8aMVOYP0MS2uyy6pZMUvmBLEJ7+s/sc5Ui5ebPfB?=
- =?us-ascii?Q?mVefeHsg632VajBIsg/ubCIZDrcPwjTPdzrp+HcmkLlGUxeD5RMW5I/UFjV9?=
- =?us-ascii?Q?IuHF8j6i5Y1OjdZwOoNDXJgz0XQMIv/b+cnGmvKr/FlmOEVL3jgi6ZWe2AfM?=
- =?us-ascii?Q?6qambFafAvtk0vyK+fG9nYA2aWIlaVhQcy5ZJJh/JqkIfXFOzqrdIt1TJaJq?=
- =?us-ascii?Q?ZXoSils48VuxbG2Y9ZKKkIKm1wkKf+UA1EFPkGc7RG7KnmtxaOKL80oW5Ze3?=
- =?us-ascii?Q?D5UE/skc7wRG9GNekMvo4Aly184R1VI8Aa2DjdOa0LU/ioK2hPV6Vs995nue?=
- =?us-ascii?Q?1NfVzpfAWj/miaDkEr7V7Zi8O4Rbh3mr+djp5DyLgHrPRRsttfp74AlOypGQ?=
- =?us-ascii?Q?wYVbxRshrsOw2L49kGQ/UoLJrUqO1c4UwTYVMLU/DDCTqaRwx+W82sZSmwra?=
- =?us-ascii?Q?2cMB4x9haz4qcO3SLG6dFzLZlXiwceZMYzdPPkK+H/98AEDJIu7TYgYypBFL?=
- =?us-ascii?Q?lJ2tP+dtnAu0TYoqA/jC+iLaaK2jUn3/JMZ1TuMInf+Z17++SKe7WP/SX4u9?=
- =?us-ascii?Q?6pTwJV2FYdZy9CqwKObb485vxkiR7eC02VwEwjDEM+VEbn9Lcv5hLJzBOKQp?=
- =?us-ascii?Q?/1XQsHIBZD0AJTFWU5k37uqp1jTJzOfalBCYnNoR9FtwPXIMtpR6vn20WFKn?=
- =?us-ascii?Q?cNjr2vynZaBxt0YX0skyNqHykx5wP8KGppZ1VfIHtDEmbdSNtc7TGlqsiFUQ?=
- =?us-ascii?Q?yhLO1AOLEitS3FoToXLR1ZpYzcf4JS7IpwQhuBsiqH5IlZPD45Y1aBDVs1L9?=
- =?us-ascii?Q?uFy1HnYOtKOfzmOX6zkel4DQ2LbiqTV3UsX2LGmgn0APV5a6iBp3C/rnpUGR?=
- =?us-ascii?Q?bTKLJVqVnCNnXW4Y4Lp1NGkJGNnihee4uyEjsTXqQWXZl7mZbS7emW6rYSx1?=
- =?us-ascii?Q?Jw=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: ff1aec5d-7411-467b-bcb1-08db3c0aad6e
-X-MS-Exchange-CrossTenant-AuthSource: CWLP265MB4817.GBRP265.PROD.OUTLOOK.COM
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?eFpCK05hdzRwRTJWdFFFNERXdlpad05SendFK01PVm5Bd0t3R2xEQmxFSUxU?=
+ =?utf-8?B?VndSMHFPZ2dsS1lhTDliWW92UGJsZHVkYTJTNmk4dWZQL2VRL3g2bklpRVhC?=
+ =?utf-8?B?a1d6TEJMNWhwcm8yN0xmK0NqRU4vajdiZHRFMjhBZzRnMkl4K3ZJS0NkVXRG?=
+ =?utf-8?B?OVJyYnMzbnl4dXVHL2lXRTROZG5rV1JDeWF4NWlvazJ2bGJuY3FJbzJ3V3FV?=
+ =?utf-8?B?dENnTldtN2h4UjU1cjAwY21MWU4wR0pVWTZhSzRnZHo5aHpYaXVyanB6Y1M1?=
+ =?utf-8?B?NUVKVEJKdDB3dW9USG5ka3JSSFZCRkZYeXhwSmdrU0FibGtHWFpvSS93ZnU5?=
+ =?utf-8?B?QnNGWEJQbEsrcjRVWUtvS2Q4NUl1RC9MTzc0VTVDamxoVFVUMEI5eHRiVFhj?=
+ =?utf-8?B?NDBtSTZPVGpLWDFuRUZveFdqQXN5aElyTWsrTkZaQ2FmeE9RSkV3Um1Wdlp2?=
+ =?utf-8?B?U3NXTzRFVHBuT0lwR2lIaHFYUkZHQ2szcGVxNlRZTUV0Y3Y3cVdKeHAzMEd1?=
+ =?utf-8?B?b2hZaS9yclZmNC9YenMzK2paOWFXYWo3ZHI0TlQ3c0krSHFBUTZXbUdHb1Jh?=
+ =?utf-8?B?YkZqSFdJZng2ZHpqb2JGU3VHc1g5RGFyejRZaUZsWW9JaDZ3Vk14K0F3amwy?=
+ =?utf-8?B?bEdoV3NEWUVBZWVIdGk2Zk1mV0pIeTYvS3EvL2t0LzVFZjBud0NrcG1BeVhi?=
+ =?utf-8?B?V1VGOWpZN1JzYmVPZFAzRFhURFlpQ3pLZTl5angyMGt3cmFrNlVVMDlVazEw?=
+ =?utf-8?B?cUlLMzgzckVRZjY2ckVucFF2b2xjSEhWNUhVMUxKNFJEUkF5RWo5Q0tJS3Q1?=
+ =?utf-8?B?NStqZmJIaDV3WXVjMzgyWnY1ckMxUW92eTRxTjlPU0swOG5iT0VnOUJ1QWhQ?=
+ =?utf-8?B?L3JnV0plRS9CK3VuS0xYL0ZOTjFzdENtcllBZjI4UHNoeTVuUkVSMXVnTE9K?=
+ =?utf-8?B?Y3dIeXcwMi9KcXVZK01FVVNiL2FpUjRraWpDbUhTWVpXTEZ1dk4wZ3M5cUVX?=
+ =?utf-8?B?RGk3Mm53UU9iRFNKNzR5bXpUY0d0Z2VTcGxwZTRQR0U0emFIUXVUb2R3R1o4?=
+ =?utf-8?B?TmVNbHBHdFk3YTNSUVNoMDNRb3o3SVpXekNteXgycVhVRFp5dHE2ZEFwa0x4?=
+ =?utf-8?B?aENyeGlDRVo2TENQeFdPaS8zRGtpWUJjK25SMXZtRzd0aXREQ3VmYUlDODRL?=
+ =?utf-8?B?NkVXazdEd3lrdUxUVWkxQzJwY1dKS1V4bzRzY0JBOE9rTXZXWkZvcDQ3VjQ4?=
+ =?utf-8?B?eW13aGZ4eDlubUF4eTBIQjJwZjEreFpON2d2eHpveXpIdEd1azVwUWs2TmJy?=
+ =?utf-8?B?Q2VFRVlRMU1ZN2M1Y2NHV1VlK3dWUlBzWS85OHFzSmpQQzJReHRIREx0Smti?=
+ =?utf-8?B?SUdlZFRUdndWTEFGcWVkNk9iQjNhTi9DQ3FsNWxBUnZ0SXBpbXduMjFRRm1P?=
+ =?utf-8?B?ZzRKRFMxcFRlcitsT3hVUGQxM2dpalVxMUpieVlRK0xLTnpJanFJZzRTWWR6?=
+ =?utf-8?B?VGtjVW5ENDl2S0JxVjFsTUdNdjRvVU04Rit5WEIrNWlyYm5HTVl3clZLbWpM?=
+ =?utf-8?B?d2ExQWNReXA3ZHpqTUpFcWxSVzBvWXZvZGwrTG1KWXNodzhlNTZCK1ppWkM2?=
+ =?utf-8?B?RkJFU1VLMGZaaWI3cStyRFNFQWN0MFZhN2w0bnNuNkk1bWZhZUhvcjdiT3lS?=
+ =?utf-8?B?dEpGZDhDYjlKRnByOG9jc0wzdHVtTkhubXE5VU0rbE5kWUZGYW9yL0RlWmNn?=
+ =?utf-8?B?RVhoeHpxaWJGTTNBa0w3RXZ1cVNzUG44YTRlSS94U1dJQ2YzMWVIWFJubXBn?=
+ =?utf-8?B?NktycjhNTGw0Qk9rVjA3dnJub2ZNR2NxT1FyR3Y1aEJxSlF1WTh2aU8wVnhM?=
+ =?utf-8?B?OTZ3eFZUd2Y0VkxWMjh2STF4TVprYXdoVVpIelB4WVlUSDh1dFEvQ3NlaDVa?=
+ =?utf-8?B?QUd4TGtkMGVzNUJHa0JxQi93S0VGTFh5bk8zY3puUHdHSnc2UTJpTmsxSUdy?=
+ =?utf-8?B?WjM0UHE2cjIzOGNhTGVvcVBxMjdlSEFsNFc2UEFJb0hUVlZpRWFTQWRDSWJ4?=
+ =?utf-8?B?ZVgwM0YwdkMrYmZVaTlKSHpReWVaaWZPUllxYlNJYmlESjJML3pqSkRqc1hB?=
+ =?utf-8?Q?heMk=3D?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4019378f-1124-4ff9-5f29-08db3c0aa899
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR12MB3589.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Apr 2023 10:34:36.1136 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Apr 2023 10:34:28.2592 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0d5fd8bb-e8c2-4e0a-8dd5-2c264f7140fe
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: RcXHjI6Ghx+HrQX2QNUh9SPEvmpPtmPtUmMHTvgBtilYKHmtJ1K4QdqfnW//pP8hL1llRenrk3hbON2OV586Fg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO0P265MB6129
-X-OriginatorOrg: imgtec.com
-X-EXCLAIMER-MD-CONFIG: 15a78312-3e47-46eb-9010-2e54d84a9631
-X-Proofpoint-GUID: ZuFyTqplLhDROzL0aZuBsx59csp2big5
-X-Proofpoint-ORIG-GUID: ZuFyTqplLhDROzL0aZuBsx59csp2big5
+X-MS-Exchange-CrossTenant-UserPrincipalName: v2WbGx87gR4DUWC6rJ1nih+ETWupX/mZ5yfseTnkwGv+oyYOI6NlQVBvK45tKfaQ
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR12MB8113
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -145,129 +137,185 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: gfx-opensource@list.ti.com, airlied@linux.ie, afd@ti.com, detheridge@ti.com,
- boris.brezillon@collabora.com, rs@ti.com, donald.robson@imgtec.com,
- faith.ekstrand@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Signed-off-by: Sarah Walker <sarah.walker@imgtec.com>
----
- .../devicetree/bindings/gpu/img,powervr.yaml  | 105 ++++++++++++++++++
- 1 file changed, 105 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/gpu/img,powervr.yaml
+Am 13.04.23 um 10:46 schrieb Daniel Vetter:
+> On Thu, Apr 13, 2023 at 10:07:11AM +0200, Christian König wrote:
+>> Am 13.04.23 um 00:42 schrieb Rob Clark:
+>>> From: Rob Clark <robdclark@chromium.org>
+>>>
+>>> Handle a bit of the boiler-plate in a single case, and make it easier to
+>>> add some core tracked stats.
+>>>
+>>> v2: Update drm-usage-stats.rst, 64b client-id, rename drm_show_fdinfo
+>>>
+>>> Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+>>> Signed-off-by: Rob Clark <robdclark@chromium.org>
+>>> ---
+>>>    Documentation/gpu/drm-usage-stats.rst | 10 +++++++-
+>>>    drivers/gpu/drm/drm_file.c            | 35 +++++++++++++++++++++++++++
+>>>    include/drm/drm_drv.h                 |  7 ++++++
+>>>    include/drm/drm_file.h                |  4 +++
+>>>    4 files changed, 55 insertions(+), 1 deletion(-)
+>>>
+>>> diff --git a/Documentation/gpu/drm-usage-stats.rst b/Documentation/gpu/drm-usage-stats.rst
+>>> index b46327356e80..2ab32c40e93c 100644
+>>> --- a/Documentation/gpu/drm-usage-stats.rst
+>>> +++ b/Documentation/gpu/drm-usage-stats.rst
+>>> @@ -126,7 +126,15 @@ percentage utilization of the engine, whereas drm-engine-<str> only reflects
+>>>    time active without considering what frequency the engine is operating as a
+>>>    percentage of it's maximum frequency.
+>>> +Implementation Details
+>>> +======================
+>>> +
+>>> +Drivers should use drm_show_fdinfo() in their `struct file_operations`, and
+>>> +implement &drm_driver.show_fdinfo if they wish to provide any stats which
+>>> +are not provided by drm_show_fdinfo().  But even driver specific stats should
+>>> +be documented above and where possible, aligned with other drivers.
+>> I'm really wondering if it wouldn't be less mid-layering if we let the
+>> drivers call the drm function to print the common values instead of the
+>> other way around?
+> The idea is that we plug this into DRM_GEM_FOPS and then everyone gets it
+> by default. So it's a bit a tradeoff between midlayering and having
+> inconsistent uapi between drivers. And there's generic tools that parse
+> this, so consistency across drivers is good.
+>
+> My gut feeling was that after a bit of experimenting with lots of
+> different drivers for fdinfo stuff it's time to push for a bit more
+> standardization and less fragmentation.
 
-diff --git a/Documentation/devicetree/bindings/gpu/img,powervr.yaml b/Documentation/devicetree/bindings/gpu/img,powervr.yaml
-new file mode 100644
-index 000000000000..f722fd1d4e8f
---- /dev/null
-+++ b/Documentation/devicetree/bindings/gpu/img,powervr.yaml
-@@ -0,0 +1,105 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR MIT)
-+# Copyright (c) 2022 Imagination Technologies Ltd.
-+%YAML 1.2
-+---
-+$id: "http://devicetree.org/schemas/gpu/img-powervr.yaml#"
-+$schema: "http://devicetree.org/meta-schemas/core.yaml#"
-+
-+title: Imagination Technologies PowerVR GPU
-+
-+maintainers:
-+  - Sarah Walker <sarah.walker@imgtec.com>
-+
-+properties:
-+  compatible:
-+    oneOf:
-+      - items:
-+          - enum:
-+              - mediatek,mt8173-gpu
-+          - const: img,powervr-series6xt
-+      - items:
-+          - enum:
-+              - ti,am62-gpu
-+          - const: img,powervr-seriesaxe
-+
-+  reg:
-+    minItems: 1
-+    maxItems: 1
-+
-+  clocks:
-+    minItems: 1
-+    maxItems: 3
-+
-+  clock-names:
-+    items:
-+      - const: core_clk
-+      - const: mem_clk
-+      - const: sys_clk
-+
-+  interrupts:
-+    items:
-+      - description: GPU interrupt
-+
-+  interrupt-names:
-+    items:
-+      - const: gpu
-+
-+  power-domains:
-+    maxItems: 1
-+
-+  operating-points-v2: true
-+  power-supply: true
-+
-+  "#cooling-cells":
-+    const: 2
-+
-+required:
-+  - compatible
-+  - reg
-+  - clocks
-+  - clock-names
-+  - interrupts
-+  - interrupt-names
-+
-+allOf:
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            const: mediatek,mt8173-gpu
-+    then:
-+      properties:
-+        reg:
-+          minItems: 2
-+          maxItems: 2
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            const: img,powervr-series6xt
-+    then:
-+      properties:
-+        clocks:
-+          minItems: 3
-+
-+examples:
-+  - |
-+    #include <dt-bindings/interrupt-controller/irq.h>
-+    #include <dt-bindings/interrupt-controller/arm-gic.h>
-+
-+    gpu@13000000 {
-+        compatible = "mediatek,mt8173-gpu", "img,powervr-series6xt";
-+        reg = <0 0x13000000 0 0xffff>, <0 0x13fff000 0 0x1000>;
-+        power-domains = <&scpsys MT8173_POWER_DOMAIN_MFG>;
-+        power-supply = <&da9211_vgpu_reg>;
-+        operating-points-v2 = <&gpu_opp_table>;
-+        clocks = <&gpu_ckgen 0>,
-+                 <&gpu_ckgen 1>,
-+                 <&gpu_ckgen 2>;
-+        clock-names = "core_clk",
-+                      "mem_clk",
-+                      "sys_clk";
-+        interrupts = <GIC_SPI 217 IRQ_TYPE_LEVEL_LOW>;
-+        interrupt-names = "gpu";
-+    };
-+
--- 
-2.40.0
+Yeah, that's indeed a trade of.
+
+>
+> We can of course later on course-correct and shuffle things around again,
+> e.g. by pushing more things into the gem_bo_fops->status hook (ttm and
+> other memory manager libs could implement a decent one by default), or
+> moving more into the drm_driver->show_fdinfo callback again.
+>
+> If you look at kms we also shuffle things back&forth between core (for
+> more consistency) and drivers (for more flexibility where needed).
+>
+> The important part here imo is that we start with some scaffolding to be
+> able to do this. Like another thing that I think we want is some
+> drm_fdinfo_print functions that make sure the formatting is guaranteed
+> consistents and we don't trip up parsers (like some drivers use " \t" as
+> separator instead of just "\t", I guess by accident).
+
+That's indeed a bit ugly and should probably be fixed on a higher level 
+in the fs code.
+
+Something like fdinfo_print(seq, name, format, value);
+
+>
+>> Apart from thatquestion the patch looks good to me.
+> Ack? Or want the above recorded in the commit message, I think it'd make
+> sense to put it there.
+
+Well if Rob mentions this trade of in the commit message or even better 
+code document feel free to add my rb to the patch.
+
+Christian.
+
+> -Daniel
+>
+>> Christian.
+>>
+>>> +
+>>>    Driver specific implementations
+>>> -===============================
+>>> +-------------------------------
+>>>    :ref:`i915-usage-stats`
+>>> diff --git a/drivers/gpu/drm/drm_file.c b/drivers/gpu/drm/drm_file.c
+>>> index a51ff8cee049..6d5bdd684ae2 100644
+>>> --- a/drivers/gpu/drm/drm_file.c
+>>> +++ b/drivers/gpu/drm/drm_file.c
+>>> @@ -148,6 +148,7 @@ bool drm_dev_needs_global_mutex(struct drm_device *dev)
+>>>     */
+>>>    struct drm_file *drm_file_alloc(struct drm_minor *minor)
+>>>    {
+>>> +	static atomic64_t ident = ATOMIC_INIT(0);
+>>>    	struct drm_device *dev = minor->dev;
+>>>    	struct drm_file *file;
+>>>    	int ret;
+>>> @@ -156,6 +157,8 @@ struct drm_file *drm_file_alloc(struct drm_minor *minor)
+>>>    	if (!file)
+>>>    		return ERR_PTR(-ENOMEM);
+>>> +	/* Get a unique identifier for fdinfo: */
+>>> +	file->client_id = atomic64_inc_return(&ident);
+>>>    	file->pid = get_pid(task_pid(current));
+>>>    	file->minor = minor;
+>>> @@ -868,6 +871,38 @@ void drm_send_event(struct drm_device *dev, struct drm_pending_event *e)
+>>>    }
+>>>    EXPORT_SYMBOL(drm_send_event);
+>>> +/**
+>>> + * drm_show_fdinfo - helper for drm file fops
+>>> + * @seq_file: output stream
+>>> + * @f: the device file instance
+>>> + *
+>>> + * Helper to implement fdinfo, for userspace to query usage stats, etc, of a
+>>> + * process using the GPU.  See also &drm_driver.show_fdinfo.
+>>> + *
+>>> + * For text output format description please see Documentation/gpu/drm-usage-stats.rst
+>>> + */
+>>> +void drm_show_fdinfo(struct seq_file *m, struct file *f)
+>>> +{
+>>> +	struct drm_file *file = f->private_data;
+>>> +	struct drm_device *dev = file->minor->dev;
+>>> +	struct drm_printer p = drm_seq_file_printer(m);
+>>> +
+>>> +	drm_printf(&p, "drm-driver:\t%s\n", dev->driver->name);
+>>> +	drm_printf(&p, "drm-client-id:\t%llu\n", file->client_id);
+>>> +
+>>> +	if (dev_is_pci(dev->dev)) {
+>>> +		struct pci_dev *pdev = to_pci_dev(dev->dev);
+>>> +
+>>> +		drm_printf(&p, "drm-pdev:\t%04x:%02x:%02x.%d\n",
+>>> +			   pci_domain_nr(pdev->bus), pdev->bus->number,
+>>> +			   PCI_SLOT(pdev->devfn), PCI_FUNC(pdev->devfn));
+>>> +	}
+>>> +
+>>> +	if (dev->driver->show_fdinfo)
+>>> +		dev->driver->show_fdinfo(&p, file);
+>>> +}
+>>> +EXPORT_SYMBOL(drm_show_fdinfo);
+>>> +
+>>>    /**
+>>>     * mock_drm_getfile - Create a new struct file for the drm device
+>>>     * @minor: drm minor to wrap (e.g. #drm_device.primary)
+>>> diff --git a/include/drm/drm_drv.h b/include/drm/drm_drv.h
+>>> index 5b86bb7603e7..5edf2a13733b 100644
+>>> --- a/include/drm/drm_drv.h
+>>> +++ b/include/drm/drm_drv.h
+>>> @@ -401,6 +401,13 @@ struct drm_driver {
+>>>    			       struct drm_device *dev, uint32_t handle,
+>>>    			       uint64_t *offset);
+>>> +	/**
+>>> +	 * @show_fdinfo:
+>>> +	 *
+>>> +	 * Print device specific fdinfo.  See Documentation/gpu/drm-usage-stats.rst.
+>>> +	 */
+>>> +	void (*show_fdinfo)(struct drm_printer *p, struct drm_file *f);
+>>> +
+>>>    	/** @major: driver major number */
+>>>    	int major;
+>>>    	/** @minor: driver minor number */
+>>> diff --git a/include/drm/drm_file.h b/include/drm/drm_file.h
+>>> index 0d1f853092ab..6de6d0e9c634 100644
+>>> --- a/include/drm/drm_file.h
+>>> +++ b/include/drm/drm_file.h
+>>> @@ -258,6 +258,9 @@ struct drm_file {
+>>>    	/** @pid: Process that opened this file. */
+>>>    	struct pid *pid;
+>>> +	/** @client_id: A unique id for fdinfo */
+>>> +	u64 client_id;
+>>> +
+>>>    	/** @magic: Authentication magic, see @authenticated. */
+>>>    	drm_magic_t magic;
+>>> @@ -437,6 +440,7 @@ void drm_send_event(struct drm_device *dev, struct drm_pending_event *e);
+>>>    void drm_send_event_timestamp_locked(struct drm_device *dev,
+>>>    				     struct drm_pending_event *e,
+>>>    				     ktime_t timestamp);
+>>> +void drm_show_fdinfo(struct seq_file *m, struct file *f);
+>>>    struct file *mock_drm_getfile(struct drm_minor *minor, unsigned int flags);
 
