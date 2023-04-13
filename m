@@ -2,48 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 006F56E0711
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Apr 2023 08:40:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 683586E0734
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Apr 2023 08:45:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E425710EA33;
-	Thu, 13 Apr 2023 06:40:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 88DAE10E0CA;
+	Thu, 13 Apr 2023 06:45:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 558F910E0BC
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Apr 2023 06:40:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1681368028; x=1712904028;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=R4sbbKw9SV+4dv7MA96nuaYarlE3GDKMuXZCsO8qFDg=;
- b=E4IYuB04thmubx+xDYiAUKBB9KIObAxPoCz52s6Vth82XpFalnKah0cE
- HJsYh2XK0JTiW5EpjZYWbMLzP0E43mWcVN4dthchF9ImQofb+jvqyTdpJ
- g9n9w+nk9qCOMbN8EIC6iX4lI6AswWFdTxpP5jc0kvGvLR9/noUVe+Zcc
- UtJPWUbdWvu4dHxUBZWwcsA0ShO78eDQegMycfsIzu747TE91RpKUlbfo
- /0OF0h4IqqrzaRu80XqL1voqTj8BtvKcjMmavxsPJK3htlvPgVU610adT
- RsAOn8uiDsAgpFRnFnaB4NLZpHj4u14hsvea9YT9JB/GBumfR8Rr6FwhR A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10678"; a="345893873"
-X-IronPort-AV: E=Sophos;i="5.98,339,1673942400"; d="scan'208";a="345893873"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Apr 2023 23:40:25 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10678"; a="1019047808"
-X-IronPort-AV: E=Sophos;i="5.98,339,1673942400"; d="scan'208";a="1019047808"
-Received: from joe-255.igk.intel.com (HELO localhost) ([10.91.220.57])
- by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Apr 2023 23:40:24 -0700
-From: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
+Received: from m12.mail.163.com (m12.mail.163.com [220.181.12.198])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 6B99410E0CA
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Apr 2023 06:45:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+ s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=SUsKt
+ 2lHJnjrXbgq0PTMq4qqzRohQ6pUT+rmtPm80ZA=; b=J94kIAJoQVkv8tYUYaLvN
+ N0eXHdmWVscOjCErRYCMwjaGc+2H6oWyepXOagOfGpRn6vwLUproNqFVdXSy/G3U
+ un5/BpILabGJDG+1QNtxiWl6HS6luLcB1IGMmbjrr/r+PxdyXpnBv6iTklsoxEJv
+ irrk70MJ1F1RqU424V/yKo=
+Received: from leanderwang-LC2.localdomain (unknown [111.206.145.21])
+ by zwqz-smtp-mta-g3-1 (Coremail) with SMTP id _____wAnUgy+pDdkiIVgBQ--.9286S2; 
+ Thu, 13 Apr 2023 14:44:14 +0800 (CST)
+From: Zheng Wang <zyytlz.wz@163.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] accel/ivpu: Reserve all non-command bo's using
- DMA_RESV_USAGE_BOOKKEEP
-Date: Thu, 13 Apr 2023 08:38:10 +0200
-Message-Id: <20230413063810.3167511-1-stanislaw.gruszka@linux.intel.com>
+Subject: [PATCH] drm/bridge: adv7511: fix use after free bug in adv7511_remove
+ due to race condition
+Date: Thu, 13 Apr 2023 14:44:12 +0800
+Message-Id: <20230413064412.185040-1-zyytlz.wz@163.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: _____wAnUgy+pDdkiIVgBQ--.9286S2
+X-Coremail-Antispam: 1Uf129KBjvJXoW7Ary7JrW3XFWDtrW7Cry8Zrb_yoW8WFWfp3
+ y3uF90krWUXFnrKa9rJF43Aa4rCanrtr1S9FZruwnIvrn8ZF1kCrZ0yF15try7XrWkXw42
+ qr4UAFykWFn8AaUanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0ziFAprUUUUU=
+X-Originating-IP: [111.206.145.21]
+X-CM-SenderInfo: h2113zf2oz6qqrwthudrp/1tbiXB5QU1Xl6PToPQAAs4
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,70 +49,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
- Oded Gabbay <ogabbay@kernel.org>, Jeffrey Hugo <quic_jhugo@quicinc.com>,
- Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+Cc: neil.armstrong@linaro.org, andrzej.hajda@intel.com, alex000young@gmail.com,
+ jonas@kwiboo.se, linux-kernel@vger.kernel.org, hackerzheng666@gmail.com,
+ 1395428693sheep@gmail.com, Zheng Wang <zyytlz.wz@163.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use DMA_RESV_USAGE_BOOKKEEP reservation for buffer objects, except for
-command buffers for which we use DMA_RESV_USAGE_WRITE (since VPU can
-write to command buffer context save area).
+In adv7511_probe, adv7511->hpd_work is bound with adv7511_hpd_work.
+adv7511_irq_process might be called to start the work.
 
-Fixes: 0ec8671837a6 ("accel/ivpu: Fix S3 system suspend when not idle")
-Signed-off-by: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
+If we call adv7511_remove with an unfinished work. There may be a
+race condition. Here is the possible sequence:
+
+CPU0                  CPU1
+
+                     |adv7511_hpd_work
+adv7511_remove       |
+cec_devnode_release  |
+cec_unregister_adapter|
+cec_devnode_unregister|
+put_device(&devnode->dev);|
+cec_devnode_release	|
+cec_delete_adapter  |
+kfree(adap);		|
+                     |cec_phys_addr_invalidate
+                     |//use adap
+
+Fix it by canceling the work before cleanup in adv7511_remove.
+
+This is the patch with new title in order to clarify the bug. Old patch is here.
+The root cause is the same as old one.
+
+https://lore.kernel.org/all/20230316160548.1566989-1-zyytlz.wz@163.com/
+
+Fixes: 518cb7057a59 ("drm/bridge: adv7511: Use work_struct to defer hotplug handing to out of irq context")
+Signed-off-by: Zheng Wang <zyytlz.wz@163.com>
 ---
- drivers/accel/ivpu/ivpu_job.c | 21 ++++++++++++++-------
- 1 file changed, 14 insertions(+), 7 deletions(-)
+ drivers/gpu/drm/bridge/adv7511/adv7511_drv.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/drivers/accel/ivpu/ivpu_job.c b/drivers/accel/ivpu/ivpu_job.c
-index 3c6f1e16cf2f..d45be0615b47 100644
---- a/drivers/accel/ivpu/ivpu_job.c
-+++ b/drivers/accel/ivpu/ivpu_job.c
-@@ -431,6 +431,7 @@ ivpu_job_prepare_bos_for_submit(struct drm_file *file, struct ivpu_job *job, u32
- 	struct ivpu_file_priv *file_priv = file->driver_priv;
- 	struct ivpu_device *vdev = file_priv->vdev;
- 	struct ww_acquire_ctx acquire_ctx;
-+	enum dma_resv_usage usage;
- 	struct ivpu_bo *bo;
- 	int ret;
- 	u32 i;
-@@ -461,22 +462,28 @@ ivpu_job_prepare_bos_for_submit(struct drm_file *file, struct ivpu_job *job, u32
+diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
+index ddceafa7b637..e702a993fe6f 100644
+--- a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
++++ b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
+@@ -1349,6 +1349,10 @@ static void adv7511_remove(struct i2c_client *i2c)
+ {
+ 	struct adv7511 *adv7511 = i2c_get_clientdata(i2c);
  
- 	job->cmd_buf_vpu_addr = bo->vpu_addr + commands_offset;
++	if (i2c->irq)
++		devm_free_irq(&i2c->dev, i2c->irq, adv7511);
++	cancel_work_sync(&adv7511->hpd_work);
++	
+ 	adv7511_uninit_regulators(adv7511);
  
--	ret = drm_gem_lock_reservations((struct drm_gem_object **)job->bos, 1, &acquire_ctx);
-+	ret = drm_gem_lock_reservations((struct drm_gem_object **)job->bos, buf_count,
-+					&acquire_ctx);
- 	if (ret) {
- 		ivpu_warn(vdev, "Failed to lock reservations: %d\n", ret);
- 		return ret;
- 	}
- 
--	ret = dma_resv_reserve_fences(bo->base.resv, 1);
--	if (ret) {
--		ivpu_warn(vdev, "Failed to reserve fences: %d\n", ret);
--		goto unlock_reservations;
-+	for (i = 0; i < buf_count; i++) {
-+		ret = dma_resv_reserve_fences(job->bos[i]->base.resv, 1);
-+		if (ret) {
-+			ivpu_warn(vdev, "Failed to reserve fences: %d\n", ret);
-+			goto unlock_reservations;
-+		}
- 	}
- 
--	dma_resv_add_fence(bo->base.resv, job->done_fence, DMA_RESV_USAGE_WRITE);
-+	for (i = 0; i < buf_count; i++) {
-+		usage = (i == CMD_BUF_IDX) ? DMA_RESV_USAGE_WRITE : DMA_RESV_USAGE_BOOKKEEP;
-+		dma_resv_add_fence(job->bos[i]->base.resv, job->done_fence, usage);
-+	}
- 
- unlock_reservations:
--	drm_gem_unlock_reservations((struct drm_gem_object **)job->bos, 1, &acquire_ctx);
-+	drm_gem_unlock_reservations((struct drm_gem_object **)job->bos, buf_count, &acquire_ctx);
- 
- 	wmb(); /* Flush write combining buffers */
- 
+ 	drm_bridge_remove(&adv7511->bridge);
 -- 
 2.25.1
 
