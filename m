@@ -2,73 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F5DB6E02FA
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Apr 2023 02:05:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C172B6E0305
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Apr 2023 02:07:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 04F5C10E9E7;
-	Thu, 13 Apr 2023 00:05:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5B71610E9DB;
+	Thu, 13 Apr 2023 00:07:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com
- [IPv6:2a00:1450:4864:20::130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DE5BC10E9DB
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Apr 2023 00:05:42 +0000 (UTC)
-Received: by mail-lf1-x130.google.com with SMTP id z8so18712799lfb.12
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Apr 2023 17:05:42 -0700 (PDT)
+Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com
+ [IPv6:2a00:1450:4864:20::133])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5B33610E00B
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Apr 2023 00:07:09 +0000 (UTC)
+Received: by mail-lf1-x133.google.com with SMTP id a23so17424144lfk.4
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Apr 2023 17:07:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1681344338; x=1683936338;
+ d=linaro.org; s=google; t=1681344427; x=1683936427;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=hqDd36Xna87Ja2uYucxlmnJMfm1J2VYsmJqSFbSPlQI=;
- b=M2ED25aGEQVOUIoOeRvJA2/4Um84MCt5oMI1eOqRhZd8MaV4+Y1TPJNHMs8KrwEY2f
- WOHVw7C8nwV27UhqErNVsyhXMCqgrcapez/Zf1h+f9z7IYby3I0/uvalUY9nrtojPuYO
- LSpCxy5Ve4IAq8jtu3D/xJEpdORhA+7dHclgVsx4MthRUReDLdPHUN6GI0yXWxESO4KU
- dg908a/VRgW5Pv8dEf2t/RRKLmoO4iu3KMWnKEE0wJAu0/aoXeC9muMdokqYdTSocjsg
- PlcI1sEJC48Epuh/H733VE60yHmlakZIdcSszVXRgS/mtkZMK60qgbEy7Z5frThxcFSO
- 1NUQ==
+ bh=tOd7NOVIuKpcZyAlsPaoi5g+ynF8wF/mSBwzKeYJ5ps=;
+ b=bbMFCdCC5Q+woKKSC+rAMZnhE26CHyAna2FNuf/0daVeomHgUZMCcTz71jrF5gkUOE
+ VFSenACxQ9VBgf3V6mhncJfx26wo0J+QCQeKlH1a4bcU/yxK8wcD1dC868C62AQoSwin
+ V1gJVj9GbVitZPMXvs0GP5y+4Jb+fIUVcTl45+nPD/6bkMBaAmU17Ubyk/5YL2gjRI4U
+ PtkSkD4bqJwRyNeuRCGTlyGIUGy5BosKdfxc7MnczI8Xr+47myEmy17/Eebk126Mjhna
+ h1i72YSoOkzH1Un473uRlcsvGm5yDYkMpibyrWkAUZvymQGpNbdsMmEb2v8C0GNmyM2d
+ mV9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681344338; x=1683936338;
+ d=1e100.net; s=20221208; t=1681344427; x=1683936427;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=hqDd36Xna87Ja2uYucxlmnJMfm1J2VYsmJqSFbSPlQI=;
- b=FAoRqUUQANAxhU6PoU8BnTtzhK+hOc8sC7PQ/y2yA9DfOPsKZdWLY+YrxDrBt3iroG
- 0eHuvLfIgmT7DGLhwYD+3HHeEE9J71RF38NjN46lhfbAtuT8sdPfGdX3QMLfts4VKa9x
- vp9p82prebt3bX0dUQFIaFG7oNKSJFz8FbChT8SjZz07gE6eLUcuUygRGU2ez557HLIS
- /Xu/+/CPpZL/g0pBw+5ixCQgswFUQj84GEiYjCtAPBj4ZGQ101R15S+Wn99ZmyjOmcZb
- 1e96eEsAG39DH0PMK5FbG9Ewem/kEkKM7qyOT5/dHvmZfvX0bsw0UZo4pMjh+wvbFZH2
- Vljw==
-X-Gm-Message-State: AAQBX9fF1rPi+vY/dwHL9qe+ou8MC6krp235i0R7MTHVREUEaK7eomPH
- sMetqwMMSgkb3S7mM9ZF2lfQQw==
-X-Google-Smtp-Source: AKy350aWaxxBspAXIGmezaj+Yjct61vVYleYqotsiazvOmF9AB3dmyba3DsfUjtzvzVvI0N9utag3Q==
-X-Received: by 2002:ac2:4461:0:b0:4ec:84ec:db0c with SMTP id
- y1-20020ac24461000000b004ec84ecdb0cmr183251lfl.52.1681344338198; 
- Wed, 12 Apr 2023 17:05:38 -0700 (PDT)
+ bh=tOd7NOVIuKpcZyAlsPaoi5g+ynF8wF/mSBwzKeYJ5ps=;
+ b=lr3GrRhtzDzWu+q443R065gZlXIJiT0qs3wmzmVvagU0QRqjdJmC1C+nx/3y0TsQa/
+ LjETziX2c4wHjC3gKQMd5zQ4yTjvEP3rzDhZL/Y6AMqQNixZ28U/U/tBHJff6bwfuwUV
+ NWwEaSJyfQLIn9wuVO50awgj3yyH27M8jngmyrwxpW6hSEn4HuVCjPcemRQwtnMApUxT
+ CKUpFIeSYbegrlw6tLKT9YzL07x0DzEK1nkTaDkVoCH6dcJD5rc+p6vivjOMbzA+NbYw
+ m5g2WA7QiU37+LSC/yCpT/rzVbZvMyykpeUmR2i0NfeL1YxOYeE3wj6CimX5p4oy6LAN
+ Aapg==
+X-Gm-Message-State: AAQBX9f2blbbLtcEhSz9YkfxyMy+QtsHEvn1CX23tTYGeFXfLwUTWTBO
+ BtPvInojXFFn6BYFBYRrOcL95Ro1jNscsaeA4ss=
+X-Google-Smtp-Source: AKy350ah9N6A7Y0npbYfR/g5D1BHtXhgKT5/gJslSWdjBm4pzyLOimPO2wm46OYGYljhsX5WI8fW4Q==
+X-Received: by 2002:a05:6512:971:b0:4d7:44c9:9f4c with SMTP id
+ v17-20020a056512097100b004d744c99f4cmr199797lft.4.1681344427048; 
+ Wed, 12 Apr 2023 17:07:07 -0700 (PDT)
 Received: from ?IPV6:2001:14ba:a085:4d00::8a5?
  (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a085:4d00::8a5])
  by smtp.gmail.com with ESMTPSA id
- w7-20020ac254a7000000b004eca35798a4sm41537lfk.32.2023.04.12.17.05.37
+ 16-20020ac25f10000000b004db2ca9dd33sm35088lfq.275.2023.04.12.17.07.06
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 12 Apr 2023 17:05:37 -0700 (PDT)
-Message-ID: <b1b6ddc7-a793-a1b4-8dd6-8ea69b6e5573@linaro.org>
-Date: Thu, 13 Apr 2023 03:05:37 +0300
+ Wed, 12 Apr 2023 17:07:06 -0700 (PDT)
+Message-ID: <be810874-0648-d57b-de7b-54ff7ec4576b@linaro.org>
+Date: Thu, 13 Apr 2023 03:07:06 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.9.0
-Subject: Re: [PATCH v5 6/8] drm/msm/dsi: Add check for slice_width in
- dsi_timing_setup
+Subject: Re: [PATCH v6 2/7] drm/msm: Add MSM-specific DSC helper methods
 Content-Language: en-GB
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, freedreno@lists.freedesktop.org
-References: <20230329-rfc-msm-dsc-helper-v5-0-0108401d7886@quicinc.com>
- <20230329-rfc-msm-dsc-helper-v5-6-0108401d7886@quicinc.com>
- <c829ff2f-f676-8c6d-2681-1b5da4f9ede7@linaro.org>
- <e72a1e24-72e1-aad4-bc8f-f23dc84780dc@quicinc.com>
+To: Jessica Zhang <quic_jesszhan@quicinc.com>, freedreno@lists.freedesktop.org
+References: <20230329-rfc-msm-dsc-helper-v6-0-cb7f59f0f7fb@quicinc.com>
+ <20230329-rfc-msm-dsc-helper-v6-2-cb7f59f0f7fb@quicinc.com>
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <e72a1e24-72e1-aad4-bc8f-f23dc84780dc@quicinc.com>
+In-Reply-To: <20230329-rfc-msm-dsc-helper-v6-2-cb7f59f0f7fb@quicinc.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,69 +77,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Konrad Dybcio <konrad.dybcio@linaro.org>,
+Cc: linux-arm-msm@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ dri-devel@lists.freedesktop.org, Konrad Dybcio <konrad.dybcio@linaro.org>,
  Marijn Suijten <marijn.suijten@somainline.org>, Sean Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 13/04/2023 01:40, Abhinav Kumar wrote:
+On 13/04/2023 02:25, Jessica Zhang wrote:
+> Introduce MSM-specific DSC helper methods, as some calculations are
+> common between DP and DSC.
 > 
+> Changes in v2:
+> - Moved files up to msm/ directory
+> - Dropped get_comp_ratio() helper
+> - Used drm_int2fixp() to convert to integers to fp
+> - Style changes to improve readability
+> - Dropped unused bpp variable in msm_dsc_get_dce_bytes_per_line()
+> - Changed msm_dsc_get_slice_per_intf() to a static inline method
+> - Dropped last division step of msm_dsc_get_pclk_per_line() and changed
+>    method name accordingly
+> - Changed DSC_BPP macro to drm_dsc_get_bpp_int() helper method
+> - Fixed some math issues caused by passing in incorrect types to
+>    drm_fixed methods in get_bytes_per_soft_slice()
 > 
-> On 4/12/2023 12:24 PM, Dmitry Baryshkov wrote:
->> On 12/04/2023 22:09, Jessica Zhang wrote:
->>> Add a check for valid dsc->slice_width value in dsi_timing_setup.
->>>
->>> Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
->>> ---
->>>   drivers/gpu/drm/msm/dsi/dsi_host.c | 6 ++++++
->>>   1 file changed, 6 insertions(+)
->>>
->>> diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c 
->>> b/drivers/gpu/drm/msm/dsi/dsi_host.c
->>> index 508577c596ff..6a6218a9655f 100644
->>> --- a/drivers/gpu/drm/msm/dsi/dsi_host.c
->>> +++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
->>> @@ -937,6 +937,12 @@ static void dsi_timing_setup(struct msm_dsi_host 
->>> *msm_host, bool is_bonded_dsi)
->>>               return;
->>>           }
->>> +        if (!dsc->slice_width || (mode->hdisplay < dsc->slice_width)) {
->>
->> This is an erroneous condition, correct. Can we move it to a better 
->> place, where we can return an error instead of ignoring it?
->>
->> I'd say that we should validate dsc->slice_width at the 
->> dsi_host_attach(). It well might be a good idea to add a helper that 
->> validates required dsc properties (e.g. version, bpp/bpc, slice_width, 
->> slice_height, slice_count).
->>
->> As for the mode->hdisplay, we have the following code in 
->> msm_dsi_host_check_dsc() (where pic_width = mode->hdisplay):
->>
->> if (pic_width % dsc->slice_width) {...}
->>
->> This way the only way how mode->hdisplay can be less than 
->> dsc->slice_width is if mode->hdisplay is 0 (which is forbidden if I 
->> remember correctly). So the second part of the check is useless.
->>
+> Changes in v3:
+> - Dropped src_bpp parameter from all methods -- src_bpp can be
+>    calculated as dsc->bits_per_component * 3
+> - Dropped intf_width parameter from get_bytes_per_soft_slice()
+> - Moved dsc->bits_per_component to numerator calculation in
+>    get_bytes_per_soft_slice()
+> - Renamed msm_dsc_get_uncompressed_pclk_per_line to
+>    *_get_uncompressed_pclk_per_intf()
+> - Removed dsc->slice_width check from
+>    msm_dsc_get_uncompressed_pclk_per_intf()
+> - Made get_bytes_per_soft_slice() a public method (this will be called
+>    later to help calculate DP pclk params)
+> - Added documentation in comments
+> - Moved extra_eol_bytes math out of msm_dsc_get_eol_byte_num() and
+>    renamed msm_dsc_get_eol_byte_num to *_get_bytes_per_intf.
 > 
-> Lets drop this from this series and come up with a better approach to 
-> validate dsc params. We will take it up once dsc over dsi and dp lands.
-
-Sure, why not.
-
+> Changes in v4:
+> - Changed msm_dsc_get_uncompressed_pclk_per_intf to
+>    msm_dsc_get_pclk_per_intf
 > 
->>> +            pr_err("DSI: invalid slice width %d (pic_width: %d)\n",
->>> +                   dsc->slice_width, mode->hdisplay);
->>> +            return;
->>> +        }
->>> +
->>>           dsc->pic_width = mode->hdisplay;
->>>           dsc->pic_height = mode->vdisplay;
->>>           DBG("Mode %dx%d\n", dsc->pic_width, dsc->pic_height);
->>>
->>
+> Changes in v5:
+> - Added extra line at end of msm_dsc_helper.h
+> - Simplified msm_dsc_get_bytes_per_soft_slice() math
+> - Simplified and inlined msm_dsc_get_pclk_per_intf() math
+> - Removed unused headers
+> 
+> Changes in v6:
+> - Documented return value for all helper functions
+> - Fixed dependency issue caused by drm_fixed.h being included before
+>    linux/kernel.h
+> 
+> Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
+> ---
+>   drivers/gpu/drm/msm/Makefile         |  1 +
+>   drivers/gpu/drm/msm/msm_dsc_helper.c | 26 ++++++++++++
+>   drivers/gpu/drm/msm/msm_dsc_helper.h | 81 ++++++++++++++++++++++++++++++++++++
+>   3 files changed, 108 insertions(+)
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
 -- 
 With best wishes
