@@ -1,56 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 412596E1151
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Apr 2023 17:40:04 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A313F6E1159
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Apr 2023 17:42:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8A3AD10E157;
-	Thu, 13 Apr 2023 15:40:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 57A9910E36E;
+	Thu, 13 Apr 2023 15:42:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BF63A10E157
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Apr 2023 15:39:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1681400399; x=1712936399;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=AoLGypafLX9NAuBfVTUVj9m67WG5JbctYwofsqzrUwY=;
- b=Z3Ve3D88fE84issYqBRFUENU1yCypQLbbBRaQAnQxboiiQEdFvphB8Zi
- R/1aQIrZrsQ304aOEIth5zypWe+1EVahAoZJdmcBcw6v8YrG2d13s33SK
- nf6faiiwlMnwGyh0p83kN1IO+MSrmkeEqS+lcloKXlioRmr4ENiKRT1am
- 11fB+SJAWyc1ZdIVGxygQnx5+Tl8k60DFiHYSMPxzxjvDDNbUWMgFjtsC
- mombuKVRJOtJbPbqWRE2u1bEayaPYQNb1lqNtEpk0I7wKrcb892vd0d5K
- PmrP/EylbOrmVLwA8VvvNyXLz2tMuyhl5hYDzLrH2G8g4pHTQ/DyVpqIa w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10679"; a="341711365"
-X-IronPort-AV: E=Sophos;i="5.99,194,1677571200"; d="scan'208";a="341711365"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Apr 2023 08:39:57 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10679"; a="692005071"
-X-IronPort-AV: E=Sophos;i="5.99,194,1677571200"; d="scan'208";a="692005071"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
- by fmsmga007.fm.intel.com with ESMTP; 13 Apr 2023 08:39:54 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1pmz3B-000YmL-02;
- Thu, 13 Apr 2023 15:39:53 +0000
-Date: Thu, 13 Apr 2023 23:39:10 +0800
-From: kernel test robot <lkp@intel.com>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
- mcanal@igalia.com, stanislaw.gruszka@linux.intel.com,
- ogabbay@kernel.org, quic_jhugo@quicinc.com, daniel@ffwll.ch,
- jani.nikula@linux.intel.com, mwen@igalia.com, maxime@cerno.tech,
- wambui.karugax@gmail.com, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH 2/5] drm/debugfs: rework debugfs directory creation v3
-Message-ID: <202304132344.9oz5dfJI-lkp@intel.com>
-References: <20230412145206.2483-3-christian.koenig@amd.com>
+Received: from mail-oa1-x2e.google.com (mail-oa1-x2e.google.com
+ [IPv6:2001:4860:4864:20::2e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0D85C10E320;
+ Thu, 13 Apr 2023 15:42:26 +0000 (UTC)
+Received: by mail-oa1-x2e.google.com with SMTP id
+ 586e51a60fabf-18782426c4bso5196059fac.9; 
+ Thu, 13 Apr 2023 08:42:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1681400546; x=1683992546;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=UvOwIt6zrh6qQP/JicH9P8YGOKCDxcWkEi/fkX5OxdY=;
+ b=DZQPJy/M7D6+C30lu02m120iL+T6vp+vaS8myftqhYSEFMqshFhMy1XMtPH0E3djE7
+ NHM7/n4ECSXGwKKl15MF4BukNnlqTcO+gujVR0gDpwTDsjaTmpIQ4O2goFrmK83zmBWr
+ OGptPOA5KySMwGEkH/4W7DehC1+MuDtbHyU72eDCxDYFtFHPrSwlyu580g35WLeonjxg
+ pORxFfPBUnQCqUIKPkq1dadINCHHNZEptaL0CmBAXcC75tLVavtEQn7/Ym/oMW6bJeVz
+ mh0wJtLteVSJi81WGWRPcq4FzHldaNy514pHneGjC9MNq6I1yPtYPLBrIisCUDe+QgmN
+ gJUg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1681400546; x=1683992546;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=UvOwIt6zrh6qQP/JicH9P8YGOKCDxcWkEi/fkX5OxdY=;
+ b=eWpOefdbj7l3KuFb5r0yCkVBhRt4UZZoaVgy/pJYSsol8uBvdG3bs0qRWoBq0u/RiE
+ GIvMK79wQOyKA5kC+iJ24MCYqfHsWDDmkipfDOdYbOGEXy0u2GY8g0BLcQJMC21239jR
+ RVobDAJY0Y2FtXnendHWC1mU4rd3tgtga5BltoJWypU6GKEHzhSuXP9qU7FAaACcFpLf
+ +4sN8LwvoyJuL557wuRMjJmyQkLjFTN+pehcP8htnSqdcBHcTwDhHRjRzjuMClT3Ic0/
+ DAE6T8jipqje13UnbZHI5UEgrc61GvRSqnxOHpmD4HTmVevr7+42tjnCmIkNM0cosAFI
+ szVw==
+X-Gm-Message-State: AAQBX9fT2J9G59HV087TTDOLKt1r0JrrUhNBROJkQJaQ8pvtmsLnQ2L6
+ ZcG1eIBynifxJEiFtLwdx50x2S2Zo4MJCfmUeKA=
+X-Google-Smtp-Source: AKy350ZAgVzz5BXpDRoz4Vk0NnfWkifKhvoNjPgM4LHsIs0L+m4N8v2UKA5TVoIKsXmP3B/93dtTyfXxAlyBiTZSEXg=
+X-Received: by 2002:a05:6870:8a22:b0:184:2097:e64f with SMTP id
+ p34-20020a0568708a2200b001842097e64fmr1457122oaq.5.1681400545763; Thu, 13 Apr
+ 2023 08:42:25 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230412145206.2483-3-christian.koenig@amd.com>
+References: <20230412224311.23511-1-robdclark@gmail.com>
+ <20230412224311.23511-5-robdclark@gmail.com>
+ <76c836a3-30a8-a46e-5a1a-0e3dc5967459@linux.intel.com>
+In-Reply-To: <76c836a3-30a8-a46e-5a1a-0e3dc5967459@linux.intel.com>
+From: Rob Clark <robdclark@gmail.com>
+Date: Thu, 13 Apr 2023 08:42:12 -0700
+Message-ID: <CAF6AEGu7=fLYsA6sFSNJCB6kNBJLNg8b3Z6L-ROOa31zTeneFg@mail.gmail.com>
+Subject: Re: [PATCH v4 4/6] drm/i915: Switch to fdinfo helper
+To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,140 +70,151 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Cc: Rob Clark <robdclark@chromium.org>, linux-arm-msm@vger.kernel.org,
+ intel-gfx@lists.freedesktop.org, Emil Velikov <emil.l.velikov@gmail.com>,
+ Christopher Healy <healych@amazon.com>, dri-devel@lists.freedesktop.org,
+ open list <linux-kernel@vger.kernel.org>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, freedreno@lists.freedesktop.org,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Christian,
+On Thu, Apr 13, 2023 at 6:07=E2=80=AFAM Tvrtko Ursulin
+<tvrtko.ursulin@linux.intel.com> wrote:
+>
+>
+> On 12/04/2023 23:42, Rob Clark wrote:
+> > From: Rob Clark <robdclark@chromium.org>
+>
+> There is more do to here to remove my client->id fully (would now be
+> dead code) so maybe easiest if you drop this patch and I do it after you
+> land this and it propagates to our branches? I'd like to avoid pain with
+> conflicts if possible..
 
-kernel test robot noticed the following build errors:
+That is fine by me
 
-[auto build test ERROR on drm-misc/drm-misc-next]
-[also build test ERROR on drm-intel/for-linux-next drm-intel/for-linux-next-fixes tegra/for-next linus/master v6.3-rc6 next-20230412]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+BR,
+-R
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Christian-K-nig/drm-debugfs-rework-debugfs-directory-creation-v3/20230412-235231
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20230412145206.2483-3-christian.koenig%40amd.com
-patch subject: [PATCH 2/5] drm/debugfs: rework debugfs directory creation v3
-config: hexagon-randconfig-r002-20230409 (https://download.01.org/0day-ci/archive/20230413/202304132344.9oz5dfJI-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 9638da200e00bd069e6dd63604e14cbafede9324)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/92a7a4f0fd59d427c5827c323692b76095f90efc
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Christian-K-nig/drm-debugfs-rework-debugfs-directory-creation-v3/20230412-235231
-        git checkout 92a7a4f0fd59d427c5827c323692b76095f90efc
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash drivers/gpu/drm/
-
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304132344.9oz5dfJI-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   In file included from drivers/gpu/drm/drm_drv.c:38:
-   In file included from include/drm/drm_accel.h:11:
-   In file included from include/drm/drm_file.h:39:
-   In file included from include/drm/drm_prime.h:37:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __raw_readb(PCI_IOBASE + addr);
-                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-   #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-                                                     ^
-   In file included from drivers/gpu/drm/drm_drv.c:38:
-   In file included from include/drm/drm_accel.h:11:
-   In file included from include/drm/drm_file.h:39:
-   In file included from include/drm/drm_prime.h:37:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-   #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-                                                     ^
-   In file included from drivers/gpu/drm/drm_drv.c:38:
-   In file included from include/drm/drm_accel.h:11:
-   In file included from include/drm/drm_file.h:39:
-   In file included from include/drm/drm_prime.h:37:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writeb(value, PCI_IOBASE + addr);
-                               ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
->> drivers/gpu/drm/drm_drv.c:1011:2: error: call to undeclared function 'drm_debugfs_dev_fini'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-           drm_debugfs_dev_fini(dev);
-           ^
-   drivers/gpu/drm/drm_drv.c:1011:2: note: did you mean 'drm_debugfs_dev_init'?
-   include/drm/drm_drv.h:596:13: note: 'drm_debugfs_dev_init' declared here
-   static void drm_debugfs_dev_init(struct drm_device *dev, struct dentry *root)
-               ^
-   6 warnings and 1 error generated.
-
-
-vim +/drm_debugfs_dev_fini +1011 drivers/gpu/drm/drm_drv.c
-
-   974	
-   975	/**
-   976	 * drm_dev_unregister - Unregister DRM device
-   977	 * @dev: Device to unregister
-   978	 *
-   979	 * Unregister the DRM device from the system. This does the reverse of
-   980	 * drm_dev_register() but does not deallocate the device. The caller must call
-   981	 * drm_dev_put() to drop their final reference.
-   982	 *
-   983	 * A special form of unregistering for hotpluggable devices is drm_dev_unplug(),
-   984	 * which can be called while there are still open users of @dev.
-   985	 *
-   986	 * This should be called first in the device teardown code to make sure
-   987	 * userspace can't access the device instance any more.
-   988	 */
-   989	void drm_dev_unregister(struct drm_device *dev)
-   990	{
-   991		if (drm_core_check_feature(dev, DRIVER_LEGACY))
-   992			drm_lastclose(dev);
-   993	
-   994		dev->registered = false;
-   995	
-   996		drm_client_dev_unregister(dev);
-   997	
-   998		if (drm_core_check_feature(dev, DRIVER_MODESET))
-   999			drm_modeset_unregister_all(dev);
-  1000	
-  1001		if (dev->driver->unload)
-  1002			dev->driver->unload(dev);
-  1003	
-  1004		drm_legacy_pci_agp_destroy(dev);
-  1005		drm_legacy_rmmaps(dev);
-  1006	
-  1007		remove_compat_control_link(dev);
-  1008		drm_minor_unregister(dev, DRM_MINOR_ACCEL);
-  1009		drm_minor_unregister(dev, DRM_MINOR_PRIMARY);
-  1010		drm_minor_unregister(dev, DRM_MINOR_RENDER);
-> 1011		drm_debugfs_dev_fini(dev);
-  1012	}
-  1013	EXPORT_SYMBOL(drm_dev_unregister);
-  1014	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+> Regards,
+>
+> Tvrtko
+>
+> >
+> > Signed-off-by: Rob Clark <robdclark@chromium.org>
+> > ---
+> >   drivers/gpu/drm/i915/i915_driver.c     |  3 ++-
+> >   drivers/gpu/drm/i915/i915_drm_client.c | 18 +++++-------------
+> >   drivers/gpu/drm/i915/i915_drm_client.h |  2 +-
+> >   3 files changed, 8 insertions(+), 15 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/i915/i915_driver.c b/drivers/gpu/drm/i915/=
+i915_driver.c
+> > index db7a86def7e2..0d91f85f8b97 100644
+> > --- a/drivers/gpu/drm/i915/i915_driver.c
+> > +++ b/drivers/gpu/drm/i915/i915_driver.c
+> > @@ -1696,7 +1696,7 @@ static const struct file_operations i915_driver_f=
+ops =3D {
+> >       .compat_ioctl =3D i915_ioc32_compat_ioctl,
+> >       .llseek =3D noop_llseek,
+> >   #ifdef CONFIG_PROC_FS
+> > -     .show_fdinfo =3D i915_drm_client_fdinfo,
+> > +     .show_fdinfo =3D drm_show_fdinfo,
+> >   #endif
+> >   };
+> >
+> > @@ -1796,6 +1796,7 @@ static const struct drm_driver i915_drm_driver =
+=3D {
+> >       .open =3D i915_driver_open,
+> >       .lastclose =3D i915_driver_lastclose,
+> >       .postclose =3D i915_driver_postclose,
+> > +     .show_fdinfo =3D i915_drm_client_fdinfo,
+> >
+> >       .prime_handle_to_fd =3D drm_gem_prime_handle_to_fd,
+> >       .prime_fd_to_handle =3D drm_gem_prime_fd_to_handle,
+> > diff --git a/drivers/gpu/drm/i915/i915_drm_client.c b/drivers/gpu/drm/i=
+915/i915_drm_client.c
+> > index b09d1d386574..4a77e5e47f79 100644
+> > --- a/drivers/gpu/drm/i915/i915_drm_client.c
+> > +++ b/drivers/gpu/drm/i915/i915_drm_client.c
+> > @@ -101,7 +101,7 @@ static u64 busy_add(struct i915_gem_context *ctx, u=
+nsigned int class)
+> >   }
+> >
+> >   static void
+> > -show_client_class(struct seq_file *m,
+> > +show_client_class(struct drm_printer *p,
+> >                 struct i915_drm_client *client,
+> >                 unsigned int class)
+> >   {
+> > @@ -117,22 +117,20 @@ show_client_class(struct seq_file *m,
+> >       rcu_read_unlock();
+> >
+> >       if (capacity)
+> > -             seq_printf(m, "drm-engine-%s:\t%llu ns\n",
+> > +             drm_printf(p, "drm-engine-%s:\t%llu ns\n",
+> >                          uabi_class_names[class], total);
+> >
+> >       if (capacity > 1)
+> > -             seq_printf(m, "drm-engine-capacity-%s:\t%u\n",
+> > +             drm_printf(p, "drm-engine-capacity-%s:\t%u\n",
+> >                          uabi_class_names[class],
+> >                          capacity);
+> >   }
+> >
+> > -void i915_drm_client_fdinfo(struct seq_file *m, struct file *f)
+> > +void i915_drm_client_fdinfo(struct drm_printer *p, struct drm_file *fi=
+le)
+> >   {
+> > -     struct drm_file *file =3D f->private_data;
+> >       struct drm_i915_file_private *file_priv =3D file->driver_priv;
+> >       struct drm_i915_private *i915 =3D file_priv->dev_priv;
+> >       struct i915_drm_client *client =3D file_priv->client;
+> > -     struct pci_dev *pdev =3D to_pci_dev(i915->drm.dev);
+> >       unsigned int i;
+> >
+> >       /*
+> > @@ -141,12 +139,6 @@ void i915_drm_client_fdinfo(struct seq_file *m, st=
+ruct file *f)
+> >        * **************************************************************=
+****
+> >        */
+> >
+> > -     seq_printf(m, "drm-driver:\t%s\n", i915->drm.driver->name);
+> > -     seq_printf(m, "drm-pdev:\t%04x:%02x:%02x.%d\n",
+> > -                pci_domain_nr(pdev->bus), pdev->bus->number,
+> > -                PCI_SLOT(pdev->devfn), PCI_FUNC(pdev->devfn));
+> > -     seq_printf(m, "drm-client-id:\t%u\n", client->id);
+> > -
+> >       /*
+> >        * Temporarily skip showing client engine information with GuC su=
+bmission till
+> >        * fetching engine busyness is implemented in the GuC submission =
+backend
+> > @@ -155,6 +147,6 @@ void i915_drm_client_fdinfo(struct seq_file *m, str=
+uct file *f)
+> >               return;
+> >
+> >       for (i =3D 0; i < ARRAY_SIZE(uabi_class_names); i++)
+> > -             show_client_class(m, client, i);
+> > +             show_client_class(p, client, i);
+> >   }
+> >   #endif
+> > diff --git a/drivers/gpu/drm/i915/i915_drm_client.h b/drivers/gpu/drm/i=
+915/i915_drm_client.h
+> > index 69496af996d9..ef85fef45de5 100644
+> > --- a/drivers/gpu/drm/i915/i915_drm_client.h
+> > +++ b/drivers/gpu/drm/i915/i915_drm_client.h
+> > @@ -60,7 +60,7 @@ static inline void i915_drm_client_put(struct i915_dr=
+m_client *client)
+> >   struct i915_drm_client *i915_drm_client_add(struct i915_drm_clients *=
+clients);
+> >
+> >   #ifdef CONFIG_PROC_FS
+> > -void i915_drm_client_fdinfo(struct seq_file *m, struct file *f);
+> > +void i915_drm_client_fdinfo(struct drm_printer *p, struct drm_file *fi=
+le);
+> >   #endif
+> >
+> >   void i915_drm_clients_fini(struct i915_drm_clients *clients);
