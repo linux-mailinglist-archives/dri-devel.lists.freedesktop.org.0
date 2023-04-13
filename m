@@ -1,125 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BCFE6E0A76
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Apr 2023 11:46:11 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A5926E0A93
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Apr 2023 11:51:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EBA1E10EAA0;
-	Thu, 13 Apr 2023 09:46:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3449B10EA9C;
+	Thu, 13 Apr 2023 09:50:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam11on2041.outbound.protection.outlook.com [40.107.236.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5268710EA9C;
- Thu, 13 Apr 2023 09:46:03 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Ksed7qm8+DI8o2ekWTziZF+yVDiLtPq4lz/DD8TL3ZE2J8sEsInB+lMoIzC/L4U/feg+bandivkL3zbzvOS3vP2Z5nGq09OQs4bg0v/gMI366J0REHxyPEWdLvB55rGYxfvn3Z0+HN5qOHDLtmT7rYxCt0qpmeeNSa1tf+Jq3YEnS7YVnrpisxsoxBW4XVyUw5AbW8529frhGMD8MprVkRQOrTFeiayPy0LmWdDSSjI7lWHRIpJmijNmmROGggIsn1FqQBxqJr10+SfqSIaXBTGKRYSce2yt4mSy4wgpivAUXTUz2fUG/V5nGECas1wMi/mX+Vwzn3Ei3973FEVVHw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=VGBAZqIvRq021UuoDRvOyRPjqaSuQLnoyu4DbRMt5JA=;
- b=iGKY+7FCrjcVjbI1ZYRnPGwG+hdu5DrNXxFUuA71hUeT40OS3P/HUx6tXu//L6+7nF3Dw5qUKUUK7GFOE0xKxuoYpW8TFK/zXehMJsyqh5I01NpWNsqeeKqjppt/fBBHXcZh2/V/NCc0j2KK6Ug2IXEPW+QKCQ1gd45TPzdLUb6Z05D/W6DYV7HOBCFFEQFbVKWyQ2FtTVBdF74Ao3ZuDYETSeYY6FhU6V3EssGxMxUzCyDaHnsyhNKX7QI7wNxO6c2PxhMod0zUWxBeiwO0joUaX3MkEbKcGOHdsYt9Q3ErxUzElXuJdbXZdI9Ou3FnH3m+Zf6QRLBWWQOYDlAOTw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=VGBAZqIvRq021UuoDRvOyRPjqaSuQLnoyu4DbRMt5JA=;
- b=SxF2oH/PeVk51eS72Ju0DOkF2JM9NQifJsXG3K4ahESntm235r7eFynGm0pVIEOGoWSfHpbuy/M33psdT1AuVQBLpjIKZwmKI0zv21M2B71Yd/0rdY00gmtvDgWN3GQhjHPg7bgfMFdWiGya9jpnglJotyNYY6VNscDh529EK9I=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
- by DM6PR12MB4356.namprd12.prod.outlook.com (2603:10b6:5:2aa::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6298.30; Thu, 13 Apr
- 2023 09:45:59 +0000
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::4624:dc39:943e:6ae]) by BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::4624:dc39:943e:6ae%5]) with mapi id 15.20.6277.036; Thu, 13 Apr 2023
- 09:45:59 +0000
-Message-ID: <178a7ee4-1406-ff0f-4529-034f600785a9@amd.com>
-Date: Thu, 13 Apr 2023 11:45:54 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH RESEND v3 2/3] drm/ttm: Reduce the number of used
- allocation orders for TTM pages
-Content-Language: en-US
-To: Daniel Vetter <daniel@ffwll.ch>
-References: <20230404200650.11043-1-thomas.hellstrom@linux.intel.com>
- <20230404200650.11043-3-thomas.hellstrom@linux.intel.com>
- <ZDUtqsNtXcU4W3O6@phenom.ffwll.local>
- <33b145f1-fce5-95f1-357d-dda128e3548d@amd.com>
- <ZDVkhtx1/uToLM5R@phenom.ffwll.local>
- <CAKMK7uEZdWjs9snGdNpzBthOWz0YSCZh-rNKOGywLWozzpFwbA@mail.gmail.com>
- <ae672182-f7a4-7107-1071-1561c49bc122@amd.com>
- <CAKMK7uFVWh16ng_tyuTu-0k4k7Wq5LjpwvJgYuidy-YVPEEQ=A@mail.gmail.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-In-Reply-To: <CAKMK7uFVWh16ng_tyuTu-0k4k7Wq5LjpwvJgYuidy-YVPEEQ=A@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR3P281CA0039.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:4a::11) To BN8PR12MB3587.namprd12.prod.outlook.com
- (2603:10b6:408:43::13)
+Received: from mail-il1-x12b.google.com (mail-il1-x12b.google.com
+ [IPv6:2607:f8b0:4864:20::12b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5DE7610EA9C
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Apr 2023 09:50:56 +0000 (UTC)
+Received: by mail-il1-x12b.google.com with SMTP id
+ e9e14a558f8ab-329518648ebso2072315ab.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Apr 2023 02:50:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1681379455; x=1683971455;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=dL7RXszTwl3tWYCqDnlZ/0M+VW4TE/OYlCTVcW3Fizw=;
+ b=OZCLuONnhpVUw+ouXWcwATwLdSgo2Ccez85OEpH4qGtsFb/Xwjd69EWMaj8vdeU4QT
+ AMARb2wLMMcxVtzGKHqq4cT6FZtGWPQaSgIysE3v4KUhB2dsGTTKY9MCrp0gX3hK4Xwk
+ LUOYG1jTeCZH//fvUjMX+ZlzayLM0iiMU2rsM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1681379455; x=1683971455;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=dL7RXszTwl3tWYCqDnlZ/0M+VW4TE/OYlCTVcW3Fizw=;
+ b=EqeXphwqQ9QvtyA2l3LIHK1GiiqcbUggLS2XAuz/ZAPNDv4eU6TTOolUIbx22Jp2/4
+ pmtWbElcRI4umG6OpsACFPWlbZdwIoxyKtVpb/DVoyVqX+jVVaVQso5qwmUKQ2M8fk65
+ knoMW2lR45U98t4iWA4JFAMPiFBJBqfh4c9fQ0Gj9if9HCQC4rpTLt358qTR8ALOA6Oe
+ /L8r4urTZ/co+LDsbEfnjmKiIONdpSb2migT6B0Bf+TzrYcK6IIpPOTS7RTbYyrgaaeB
+ 9zuv6hPipn5j56DAIMUKEnbT6cGOdmSHwZdb7oOqqSm8t/Ho1KprQoBTDSrp3dSCAAWg
+ LiAg==
+X-Gm-Message-State: AAQBX9dZWSNw6t94UOKS7l35pHERQanBfDrZX2cnZTtvoPubohRfBs2L
+ TsMOQ+FQSdNjtmorcUg473V8pZ1PhZoDKXjW4H+0FA==
+X-Google-Smtp-Source: AKy350bxQ09gUsUhos5IrYrCCoE/uVEAz2HLzWomfX73unodlYIHo5VgDH6iXIfg0Mc9wy4HFN++atjznGCfSKtAlIE=
+X-Received: by 2002:a05:6e02:6c9:b0:316:f93f:6f83 with SMTP id
+ p9-20020a056e0206c900b00316f93f6f83mr590699ils.6.1681379455141; Thu, 13 Apr
+ 2023 02:50:55 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|DM6PR12MB4356:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3ee88fbb-e324-4ab8-e9ff-08db3c03e2c0
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: lNGyD0RbCKm0vydZbmyR3QyGm9DcUpliLuiCjnXu3oEeeHSnS1h8ijH+4TwTlL7sVFjlu06F9fizU8eaPXCIzeVBkB0mIlgxacSwwxXzUuNSOYg2FCVc6o5JH3o1dy8FcS86z1XOgtu2HJk0Zjj6d1EvoLjfbDdeIEMsdIrv1Ydli8DKfSlTaG2/VTXoHBD8eTa5EvJrWNJ4VeHdOhBkodN7mQ5adBoe+R3A4y9dijJ8rP0WKTLbKu0KkIjNXRlFRv0Yywc6irrF/8h6u90CeemHzX7j7xdRv4a8X/QSi/QeAJcnhNRttAt9Z91DrNpnwlvxGaU1AG0nIaCbZKH+1JCabMJEcdoHE08n2j7ue1sZrCaaPeH39cBXJiQdhFZh9m3lSqPDHUpzalEk33J5xgUO79qW/qqcwXGeugZQ5sFmhxwSEf/9KbCV0JwVGYvK46SngyyhuBbyqlu4MOuHA+26y+ShWgi8x44LQNzcUENeAJgg2SUn0/GLfFzDgbH7mhhXVowsnZlM9sOpAMYD3ExeWd6uouJGU+XrIqULthGl3/+pnRl0rUMWv9oTEUlm+0B/YXANDRC5NnpJtPBUtr68l7MK60mFmBJDB1DycxIP3FrZqnnLvURNmjnRqvgXkNHbkuFYaylVmycueWb7Pw==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230028)(4636009)(376002)(39860400002)(136003)(346002)(396003)(366004)(451199021)(5660300002)(8936002)(478600001)(31686004)(54906003)(6666004)(6916009)(83380400001)(41300700001)(4326008)(966005)(8676002)(66946007)(66556008)(6486002)(66476007)(316002)(6506007)(6512007)(186003)(26005)(2906002)(66574015)(2616005)(38100700002)(31696002)(36756003)(86362001)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?UXpuOXBqdDJ0T3N0em50NjkzcERvZkFZUDJaa0lkZkJTVmxkL3Q2RXdNQWRq?=
- =?utf-8?B?cE5kWVpXTWtSeUp3Y2RhV01KbVZMODZKUG9oQkt4RzB0aVg5MHo0YmVTdTNN?=
- =?utf-8?B?eXdKVm5nOURBa0owZVVJdm5xczl2eDBpMXZOWUNhZURCaFdZT0V4L25NRUhT?=
- =?utf-8?B?Q0RqRm1Gd0VTb0FvSDIzTk54N0d4cE1keldVeElTYkdGQWpoQjlLVkxZZUVn?=
- =?utf-8?B?NGZFWWpPRXV1WTh0Sk1QaE5MK1FUV0QyTURwUElEN3VYM1Mydm1KK21HbGpi?=
- =?utf-8?B?SEhQRk9RYkh5V3Job0NiUTVaQW5wenVtWHZveGE1ZjVMdTg1ZTl0QmFVN0RH?=
- =?utf-8?B?TWo1UTFVb3djU1BhYzl6akRiTlF4bElmTFZvY0tzV2oxdkR5UHl6YWp2SUdh?=
- =?utf-8?B?NTI4WjZUYWVyU1VqdzFaWWhwWkNYVWswc0lMWVFZOWlSdllweXN1MS9FNEF4?=
- =?utf-8?B?ZE8vSlNOZFZld3dxUWo0aDdMaDFVdzZkaG1ud3hVTTQ1NVhlUDF2QURrYXBw?=
- =?utf-8?B?YWUrNW5oRFZPc3pveU5ldUxqQ1k2SnVPak51UVhNczE1Z212S2FRTy82Nk4z?=
- =?utf-8?B?SFZBMmJFd2pBQjZrbnFhb1JUTWJuVndjbmNuSWEvWDFIcUdPMlJnOCtIQXBZ?=
- =?utf-8?B?VU9CN1AvS1l3S2FJdWVONFhVWVFzMWs4MEVYNldzZWYrcTZseTVjdUdEcE5j?=
- =?utf-8?B?VFF5SUR0N0o4MXJ5cmt2RFgvKzBuaUlLZ3k5c1Vsakk0SzJMdGt1cWVlUVlr?=
- =?utf-8?B?SmZMazhCU0wvZ0VHR2VONVNvUldQZkh5RnAvVmZWSzAyTDlIemJkdTNyeWV4?=
- =?utf-8?B?K2E2WFVHM3NqZkxWWVE2cXpSc2QveVZENE5iTGdOWW1iRFg0bkhGck9pTzVu?=
- =?utf-8?B?eG9odXcrdDFVYWJCMGpHN3MreGF2WlRtM2Z4b29KUkU5KzBLR0tvMmt5aWdi?=
- =?utf-8?B?WGVXa1d4b3lJUXQxOS90UThxQmRSQVZvVTdlT3BNSEduaXU3OGNpanBZUUZ0?=
- =?utf-8?B?Z21wZmJaR0pPYXordHAwR0ZyTk9nODgyUXRrb2dKbTFDVy9USFY1VGpKSGVm?=
- =?utf-8?B?QmhIc1pMTFpjRDVPTWdPVFpUTTFhM1pGNXpaQXJNTFVOR29Hcnh5RHpldXFj?=
- =?utf-8?B?SzhkaVNDMXV5eVFMaXIvd0tTSU1obW5hUGt1ZmZDSVFOek9mV0hHZWdRYm0y?=
- =?utf-8?B?MGlFNFk4cy9vTXladTl0T1hLOW9UU1pwdHBNZTliR084cWZSMmg0TDUrek5l?=
- =?utf-8?B?ZEhMVFR0dTlDYm9UZVBjME5PNUNZcDREZ1lPMkJJaitndWJpTXZ3OFFWNE9H?=
- =?utf-8?B?a1lrczArMHkzN0xUVGlXaXhlRXR0R0RiR0UvbU5QNUM2ejVmaUNIUmNBOVJw?=
- =?utf-8?B?OTJQTUlPQXdiZlBnb3N5cS9TaFlyTXc2T2Y0dWFYVzdlUnhDUitpbzBHaHJQ?=
- =?utf-8?B?ZFUrVEczTEpUc3BZbm9hM2FRWjJNM3J2UTcxZ2pwaGtneCt2VC9XYUNiNG9k?=
- =?utf-8?B?YXlKK0NvREhzdTVJR3pId0UrOUhtMmg0K0lnRTh4bG1RdVN4dCtPL0lqMkNJ?=
- =?utf-8?B?cmlDUkhsNk5zcW90NXNjcUpabGVQL2tja1RiYit2eFgwQ0JVSExjUTdRWEhp?=
- =?utf-8?B?VEEzVnRiUEtCNWtmRGgvY3ZPakZUc0x0T3NEdDB4TmtFWXJZOU9QTzFLUGlz?=
- =?utf-8?B?azVPMGlkVXR0Z2lkNk9qN2dleHJaUEZIWjVwMDRPZFJSck9lK29qRmVmU2hT?=
- =?utf-8?B?dzQ0ZWJrckRRYXdPM1FpMkRJOFJOTmE3TExiczBlQ3IvcFJaOVNDQ1hEUmVo?=
- =?utf-8?B?dGZnUGU2aVZ2YmsrM1dsNm9wSGE1SytlYlM0M2Z0eXF2TG5nVHVESUdUbUNs?=
- =?utf-8?B?OERzQXpmNFNld0FyclpyQjFKc092dUZvQTVBTmpkRFRuaGc4dDFLaU5NZVpn?=
- =?utf-8?B?VU9udCs4cXdDN1g2bHpVNVg0dzg2aTVnelgyUmhqbDVYQkhEUVdHMDZDaS8x?=
- =?utf-8?B?SnM0SHNBNzZOSVJFV2tZQUpGblNLWXp2RHZJYVRjRmRMbkgwK0VyZGNQT1hO?=
- =?utf-8?B?QlNiaVB5Ri9YcVQ0RGkzTjZaNlVVd2ltdzArMzBUVTNhM21vcy9yVHpVMHd5?=
- =?utf-8?Q?3xvc=3D?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3ee88fbb-e324-4ab8-e9ff-08db3c03e2c0
-X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Apr 2023 09:45:59.1135 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: EGF69ie4O4oU6+w0RNqgDOdBRlT2rJK7zJazQsvF7fZgIv7f+PXWyY8tXHKHthcR
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4356
+References: <20230331091145.737305-1-treapking@chromium.org>
+ <20230331091145.737305-5-treapking@chromium.org>
+ <CAE-0n51E5foFWQAsA73662_5e6XP426wuUCVVmcS5UWwiYpDmw@mail.gmail.com>
+In-Reply-To: <CAE-0n51E5foFWQAsA73662_5e6XP426wuUCVVmcS5UWwiYpDmw@mail.gmail.com>
+From: Pin-yen Lin <treapking@chromium.org>
+Date: Thu, 13 Apr 2023 18:50:44 +0900
+Message-ID: <CAEXTbpdcbB_z4ZGCGzc-cM74ECKyxekbroKCWFnhH8eR=4HmvA@mail.gmail.com>
+Subject: Re: [PATCH v15 04/10] dt-bindings: display: bridge: anx7625: Add
+ mode-switch support
+To: Stephen Boyd <swboyd@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -132,178 +68,193 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
- intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Matthew Auld <matthew.auld@intel.com>
+Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ "Rafael J . Wysocki" <rafael@kernel.org>, dri-devel@lists.freedesktop.org,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Guenter Roeck <groeck@chromium.org>,
+ Marek Vasut <marex@denx.de>, chrome-platform@lists.linux.dev,
+ Robert Foss <rfoss@kernel.org>, Javier Martinez Canillas <javierm@redhat.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, linux-acpi@vger.kernel.org,
+ Chen-Yu Tsai <wenst@chromium.org>, devicetree@vger.kernel.org,
+ =?UTF-8?B?TsOtY29sYXMgRiAuIFIgLiBBIC4gUHJhZG8=?= <nfraprado@collabora.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Rob Herring <robh+dt@kernel.org>,
+ Hsin-Yi Wang <hsinyi@chromium.org>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Xin Ji <xji@analogixsemi.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
+ Daniel Scally <djrscally@gmail.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Prashant Malani <pmalani@chromium.org>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 13.04.23 um 10:48 schrieb Daniel Vetter:
-> On Wed, 12 Apr 2023 at 16:18, Christian König <christian.koenig@amd.com> wrote:
->> Am 12.04.23 um 11:08 schrieb Daniel Vetter:
->>> On Tue, 11 Apr 2023 at 15:45, Daniel Vetter <daniel@ffwll.ch> wrote:
->>>> On Tue, Apr 11, 2023 at 02:11:18PM +0200, Christian König wrote:
->>>>> Am 11.04.23 um 11:51 schrieb Daniel Vetter:
->>>>>> On Tue, Apr 04, 2023 at 10:06:49PM +0200, Thomas Hellström wrote:
->>>>>>> When swapping out, we will split multi-order pages both in order to
->>>>>>> move them to the swap-cache and to be able to return memory to the
->>>>>>> swap cache as soon as possible on a page-by-page basis.
->>>>>>> Reduce the page max order to the system PMD size, as we can then be nicer
->>>>>>> to the system and avoid splitting gigantic pages.
->>>>>>>
->>>>>>> Looking forward to when we might be able to swap out PMD size folios
->>>>>>> without splitting, this will also be a benefit.
->>>>>>>
->>>>>>> v2:
->>>>>>> - Include all orders up to the PMD size (Christian König)
->>>>>>> v3:
->>>>>>> - Avoid compilation errors for architectures with special PFN_SHIFTs
->>>>>>>
->>>>>>> Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
->>>>>>> Reviewed-by: Christian König <christian.koenig@amd.com>
->>>>>> Apparently this fails on ppc build testing. Please supply build fix asap
->>>>>> (or I guess we need to revert). I'm kinda not clear why this only showed
->>>>>> up when I merged the drm-misc-next pr into drm-next ...
->>>>> I'm really wondering this as well. It looks like PMD_SHIFT isn't a constant
->>>>> on this particular platform.
->>>>>
->>>>> But from what I can find in the upstream 6.2 kernel PMD_SHIFT always seems
->>>>> to be a constant.
->>>>>
->>>>> So how exactly can that here break?
->>>> There's some in-flight patches to rework MAX_ORDER and other things in
->>>> linux-next, maybe it's recent? If you check out linux-next then you need
->>>> to reapply the patch (since sfr reverted it).
->>> So I looked and on ppc64 PMD_SHIFT is defined in terms of
->>> PTE_INDEX_SIZE, which is defined (for book3s) in terms of the variable
->>> __pte_index_size. This is in 6.3 already and seems pretty old.
->> Ah! I missed that one, thanks.
->>
->>> So revert? Or fixup patch to make this work on ppc?
->> I think for now just revert or change it so that we check if PMD_SHIFT
->> is a constant.
->>
->> Thomas do you have any quick solution?
-> I guess Thomas is on vacations. Can you pls do the revert and push it
-> to drm-misc-next-fixes so this won't get lost?
+Hi Stephen,
 
-The offending patch hasn't showed up in drm-misc-next-fixes nor 
-drm-misc-fixes yet. Looks like the branches are lacking behind.
-
-I can revert it on drm-misc-next, but I', not 100% sure that will then 
-get picked up in time.
-
-Christian.
-
+On Wed, Apr 12, 2023 at 10:38=E2=80=AFAM Stephen Boyd <swboyd@chromium.org>=
+ wrote:
 >
-> Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+> Quoting Pin-yen Lin (2023-03-31 02:11:39)
+> > diff --git a/Documentation/devicetree/bindings/display/bridge/analogix,=
+anx7625.yaml b/Documentation/devicetree/bindings/display/bridge/analogix,an=
+x7625.yaml
+> > index b42553ac505c..604c7391d74f 100644
+> > --- a/Documentation/devicetree/bindings/display/bridge/analogix,anx7625=
+.yaml
+> > +++ b/Documentation/devicetree/bindings/display/bridge/analogix,anx7625=
+.yaml
+> > @@ -12,7 +12,8 @@ maintainers:
+> >
+> >  description: |
+> >    The ANX7625 is an ultra-low power 4K Mobile HD Transmitter
+> > -  designed for portable devices.
+> > +  designed for portable devices. Product brief is available at
+> > +  https://www.analogix.com/en/system/files/AA-002291-PB-6-ANX7625_Prod=
+uctBrief.pdf
+> >
+> >  properties:
+> >    compatible:
+> > @@ -112,9 +113,40 @@ properties:
+> >                data-lanes: true
+> >
+> >        port@1:
+> > -        $ref: /schemas/graph.yaml#/properties/port
+> > +        $ref: /schemas/graph.yaml#/$defs/port-base
+> >          description:
+> > -          Video port for panel or connector.
+> > +          Video port for panel or connector. Each endpoint connects to=
+ a video
+> > +          output downstream, and the "data-lanes" property is used to =
+describe
+> > +          the pin connections. 0, 1, 2, 3 in "data-lanes" maps to SSRX=
+1, SSTX1,
+> > +          SSRX2, SSTX2, respectively.
+> > +
+> > +        patternProperties:
+> > +          "^endpoint@[01]$":
+> > +            $ref: /schemas/media/video-interfaces.yaml#
+> > +            properties:
+> > +              reg: true
+> > +
+> > +              remote-endpoint: true
+> > +
+> > +              data-lanes:
+> > +                oneOf:
+> > +                  - items:
+> > +                      - enum: [0, 1, 2, 3]
+> > +
+> > +                  - items:
+> > +                      - const: 0
+> > +                      - const: 1
+> > +
+> > +                  - items:
+> > +                      - const: 2
+> > +                      - const: 3
+> > +
+> > +              mode-switch:
 >
-> preemptively for that. Normally I think we could wait a bit more but
-> it's really close to merge window PR and I don't like handing too many
-> open things to Dave when he's back :-)
-> -Daniel
+> Is it possible to not have this property? Can we have the driver for
+> this anx device look at the remote-endpoint and if it sees that it is
+> not a drm_bridge or panel on the other end, or a DP connector, that it
+> should register a typec mode switch (or two depending on the number of
+> endpoints in port@1)? Is there any case where that doesn't hold true?
 >
->> Christian.
->>
->>>
->>>>>>> ---
->>>>>>>     drivers/gpu/drm/ttm/ttm_pool.c | 30 +++++++++++++++++++-----------
->>>>>>>     1 file changed, 19 insertions(+), 11 deletions(-)
->>>>>>>
->>>>>>> diff --git a/drivers/gpu/drm/ttm/ttm_pool.c b/drivers/gpu/drm/ttm/ttm_pool.c
->>>>>>> index dfce896c4bae..18c342a919a2 100644
->>>>>>> --- a/drivers/gpu/drm/ttm/ttm_pool.c
->>>>>>> +++ b/drivers/gpu/drm/ttm/ttm_pool.c
->>>>>>> @@ -47,6 +47,11 @@
->>>>>>>     #include "ttm_module.h"
->>>>>>> +#define TTM_MAX_ORDER (PMD_SHIFT - PAGE_SHIFT)
->>>>>>> +#define __TTM_DIM_ORDER (TTM_MAX_ORDER + 1)
->>>>>>> +/* Some architectures have a weird PMD_SHIFT */
->>>>>>> +#define TTM_DIM_ORDER (__TTM_DIM_ORDER <= MAX_ORDER ? __TTM_DIM_ORDER : MAX_ORDER)
->>>>>>> +
->>>>>>>     /**
->>>>>>>      * struct ttm_pool_dma - Helper object for coherent DMA mappings
->>>>>>>      *
->>>>>>> @@ -65,11 +70,11 @@ module_param(page_pool_size, ulong, 0644);
->>>>>>>     static atomic_long_t allocated_pages;
->>>>>>> -static struct ttm_pool_type global_write_combined[MAX_ORDER];
->>>>>>> -static struct ttm_pool_type global_uncached[MAX_ORDER];
->>>>>>> +static struct ttm_pool_type global_write_combined[TTM_DIM_ORDER];
->>>>>>> +static struct ttm_pool_type global_uncached[TTM_DIM_ORDER];
->>>>>>> -static struct ttm_pool_type global_dma32_write_combined[MAX_ORDER];
->>>>>>> -static struct ttm_pool_type global_dma32_uncached[MAX_ORDER];
->>>>>>> +static struct ttm_pool_type global_dma32_write_combined[TTM_DIM_ORDER];
->>>>>>> +static struct ttm_pool_type global_dma32_uncached[TTM_DIM_ORDER];
->>>>>>>     static spinlock_t shrinker_lock;
->>>>>>>     static struct list_head shrinker_list;
->>>>>>> @@ -444,7 +449,7 @@ int ttm_pool_alloc(struct ttm_pool *pool, struct ttm_tt *tt,
->>>>>>>             else
->>>>>>>                     gfp_flags |= GFP_HIGHUSER;
->>>>>>> - for (order = min_t(unsigned int, MAX_ORDER - 1, __fls(num_pages));
->>>>>>> + for (order = min_t(unsigned int, TTM_MAX_ORDER, __fls(num_pages));
->>>>>>>                  num_pages;
->>>>>>>                  order = min_t(unsigned int, order, __fls(num_pages))) {
->>>>>>>                     struct ttm_pool_type *pt;
->>>>>>> @@ -563,7 +568,7 @@ void ttm_pool_init(struct ttm_pool *pool, struct device *dev,
->>>>>>>             if (use_dma_alloc) {
->>>>>>>                     for (i = 0; i < TTM_NUM_CACHING_TYPES; ++i)
->>>>>>> -                 for (j = 0; j < MAX_ORDER; ++j)
->>>>>>> +                 for (j = 0; j < TTM_DIM_ORDER; ++j)
->>>>>>>                                     ttm_pool_type_init(&pool->caching[i].orders[j],
->>>>>>>                                                        pool, i, j);
->>>>>>>             }
->>>>>>> @@ -583,7 +588,7 @@ void ttm_pool_fini(struct ttm_pool *pool)
->>>>>>>             if (pool->use_dma_alloc) {
->>>>>>>                     for (i = 0; i < TTM_NUM_CACHING_TYPES; ++i)
->>>>>>> -                 for (j = 0; j < MAX_ORDER; ++j)
->>>>>>> +                 for (j = 0; j < TTM_DIM_ORDER; ++j)
->>>>>>>                                     ttm_pool_type_fini(&pool->caching[i].orders[j]);
->>>>>>>             }
->>>>>>> @@ -637,7 +642,7 @@ static void ttm_pool_debugfs_header(struct seq_file *m)
->>>>>>>             unsigned int i;
->>>>>>>             seq_puts(m, "\t ");
->>>>>>> - for (i = 0; i < MAX_ORDER; ++i)
->>>>>>> + for (i = 0; i < TTM_DIM_ORDER; ++i)
->>>>>>>                     seq_printf(m, " ---%2u---", i);
->>>>>>>             seq_puts(m, "\n");
->>>>>>>     }
->>>>>>> @@ -648,7 +653,7 @@ static void ttm_pool_debugfs_orders(struct ttm_pool_type *pt,
->>>>>>>     {
->>>>>>>             unsigned int i;
->>>>>>> - for (i = 0; i < MAX_ORDER; ++i)
->>>>>>> + for (i = 0; i < TTM_DIM_ORDER; ++i)
->>>>>>>                     seq_printf(m, " %8u", ttm_pool_type_count(&pt[i]));
->>>>>>>             seq_puts(m, "\n");
->>>>>>>     }
->>>>>>> @@ -751,13 +756,16 @@ int ttm_pool_mgr_init(unsigned long num_pages)
->>>>>>>     {
->>>>>>>             unsigned int i;
->>>>>>> + BUILD_BUG_ON(TTM_DIM_ORDER > MAX_ORDER);
->>>>>>> + BUILD_BUG_ON(TTM_DIM_ORDER < 1);
->>>>>>> +
->>>>>>>             if (!page_pool_size)
->>>>>>>                     page_pool_size = num_pages;
->>>>>>>             spin_lock_init(&shrinker_lock);
->>>>>>>             INIT_LIST_HEAD(&shrinker_list);
->>>>>>> - for (i = 0; i < MAX_ORDER; ++i) {
->>>>>>> + for (i = 0; i < TTM_DIM_ORDER; ++i) {
->>>>>>>                     ttm_pool_type_init(&global_write_combined[i], NULL,
->>>>>>>                                        ttm_write_combined, i);
->>>>>>>                     ttm_pool_type_init(&global_uncached[i], NULL, ttm_uncached, i);
->>>>>>> @@ -790,7 +798,7 @@ void ttm_pool_mgr_fini(void)
->>>>>>>     {
->>>>>>>             unsigned int i;
->>>>>>> - for (i = 0; i < MAX_ORDER; ++i) {
->>>>>>> + for (i = 0; i < TTM_DIM_ORDER; ++i) {
->>>>>>>                     ttm_pool_type_fini(&global_write_combined[i]);
->>>>>>>                     ttm_pool_type_fini(&global_uncached[i]);
->>>>>>> --
->>>>>>> 2.39.2
->>>>>>>
->>>> --
->>>> Daniel Vetter
->>>> Software Engineer, Intel Corporation
->>>> http://blog.ffwll.ch
->>>
+> I see these possible scenarios:
 >
+> 1. DPI to DP bridge steering DP to one of two usb-c-connectors
+>
+> In this case, endpoint@0 is connected to one usb-c-connector and
+> endpoint@1 is connected to another usb-c-connector. The input endpoint
+> is only connected to DPI. The USB endpoint is not present (although I
+> don't see this described in the binding either, so we would need a
+> port@2, entirely optional to describe USB3 input). The driver will
+> register two mode switches.
+>
+> 2. DPI to DP bridge with USB3 to one usb-c-connector
+>
+> In this case, endpoint@1 doesn't exist. The SSTX1/2 and SSRX1/2 pins are
+> all connected to a usb-c-connector node. The input ports (0 and 2) are
+> connected to both DPI and USB. The device acts as both a mode-switch and
+> an orientation-switch. It registers both switches. I wonder if there is
+> any benefit to describing SBU connections or CC connections? Maybe we
+> don't register the orientation-switch if the SBU or CC connection isn't
+> described?
+>
+> 3. DPI to DP bridge connected to eDP panel
+>
+> In this case, endpoint@1 doesn't exist. The USB endpoint is not present
+> (port@2). Depending on how the crosspoint should be configured, we'll
+> need to use data-lanes in the port@1 endpoint to describe which SSTRX
+> pair to use (1 or 2). Or we'll have to use the endpoint's reg property
+> to describe which pair to drive DP on. Presumably the default
+> configuration is SSRX2/SSTX2 providing 2 lanes of DP to an eDP panel.
+> The endpoint@0 in port@1 will be connected to a drm_panel, and the
+> driver will be able to detect this properly by checking for the
+> existence of an aux-bus node or the return value of
+> of_dp_aux_populate_bus().
 
+Can we assume that the eDP panel always stays behind an `aux-bus`
+node? Can't the panel be connected to the bridge directly in the
+graph? Though this might not matter if we only register mode switches
+when there are usb-c-connectors connected.
+>
+> 4. DPI to DP bridge connected to DP connector
+>
+> This is similar to the eDP panel scenario #3. In this case, endpoint@1
+> doesn't exist. The USB endpoint is not present (port@2). Same story
+> about port@1 and lane configuration, but we don't have an aux-bus node.
+> In this case, the drivers/gpu/drm/bridge/display-connector.c driver will
+> probe for the dp-connector node and add a drm_bridge. This anx driver
+> will similarly add a drm_bridge, but it needs to look at the node
+> connected on port@1:endpoint@0 with drm_of_get_bridge() and check if it
+> is a drm_bridge (DP connector) or if it is some type-c thing (connector
+> or orientation-switch).
+>
+> I think having this mode-switch property here lets us avoid calling
+> drm_of_get_bridge() unconditionally in anx7625_parse_dt().
+> drm_of_get_bridge() will always return -EPROBE_DEFER when this is the
+> last drm_bridge in the chain and the other side of the endpoint is a
+> type-c thing (scenarios #1 and #2). Maybe we should teach
+> drm_of_get_bridge() that a drm_bridge might be connected to a type-c
+> device and have it not return -EPROBE_DEFER in that case. Or make some
+> new API like drm_of_get_bridge_typec() that checks if the typec
+> framework knows about the endpoint in question (as either a typec switch
+> or a connector) and returns a NULL bridge pointer. If we had that then I
+> think this property is not necessary.
+>
+> Hopefully the usb-c-connector can always be registered with the typec
+> framework? I'm worried that the driver that registers the
+> usb-c-connector node may want to form a struct typec_port with
+> typec_register_port() and that will get stuck in a similar -EPROBE_DEFER
+> loop waiting for this mode-switch to appear. So having this property
+> also avoids that problem by telling typec framework to wait until this
+> driver can register a mode-switch.
+>
+> TL;DR: Is this mode-switch property a workaround for probe defer? Can we
+> figure out where the mode switch is in software and not have the
+> property in DT? If we can it would certainly improve things because
+> forgetting to add the property can lead to broken behavior, and we don't
+> do anything like this for chains of drm_bridge devices. We just describe
+> the display chain and let the kernel figure out which bridge should
+> handle hpd, edid reading, or mode detection, etc.
+
+Actually the `mode-switch` property here is mainly because
+`fwnode_typec_mux_get`[1] and `typec_mux_match`[2] only return matches
+when the property is present. I am not sure what side effects would be
+if I remove the ID-matching condition in `typec_mux_match`, so I added
+the property here.
+
+Is it feasible to remove the `mode-switch` property here given the
+existing implementation of the Type-C framework?
+
+[1]: https://elixir.bootlin.com/linux/latest/source/drivers/usb/typec/mux.c=
+#L351
+[2]: https://elixir.bootlin.com/linux/latest/source/drivers/usb/typec/mux.c=
+#L290
+
+Best regards,
+Pin-yen
