@@ -2,67 +2,141 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70C776E1166
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Apr 2023 17:47:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D166D6E1175
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Apr 2023 17:53:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3A9E710EB6B;
-	Thu, 13 Apr 2023 15:47:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9264010EB60;
+	Thu, 13 Apr 2023 15:53:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x32d.google.com (mail-ot1-x32d.google.com
- [IPv6:2607:f8b0:4864:20::32d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3DA5010EB60;
- Thu, 13 Apr 2023 15:47:35 +0000 (UTC)
-Received: by mail-ot1-x32d.google.com with SMTP id
- v15-20020a9d7d0f000000b006a43af689b6so487494otn.0; 
- Thu, 13 Apr 2023 08:47:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1681400854; x=1683992854;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=40QSY4HJ0XRwmV80Hh5Qw6BSE3OLbUgvEyOCmgu55J0=;
- b=A0ksHXt8ehlfq9UKM3D1KM/FCmBS6mOWLxOp3Lw/XLuIF/H66x7SvlEWxjSgcTnSjg
- GELfYNw0e9KrrY8h31Efike5FijaNya91MUn0HfKFNF/i5KD0C33PXgacOK42C9PIDHX
- 44+LsKqvmkXg6ot4w3Q+hmS0fi2pSoQt5tlf0ml49OsHm/svNbNlk7H0QF+cCf8gxkG/
- NKK6lQeStetqKgycujQct2W6PbU364QIlbLFI7qWhAWIIJr5yeKJCKC2+3UdCKDuvue+
- J1Z1pLZwSrk3mj18kaGiuX51Tx20lEIQyFTROmKuhf8vTqC0MsY5sY2qUt/RhU+SCLCI
- 3gzQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681400854; x=1683992854;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=40QSY4HJ0XRwmV80Hh5Qw6BSE3OLbUgvEyOCmgu55J0=;
- b=AoZsPPzLKH0Ffo8EGAgOD/uVwc/ikHJOIjHPNu1c85ff3IvXjLmbiD6un11O4UiY2N
- qWWMNmMmB5zvfheBgXGPdQEcJ0drxsSp9+MX7sSIEelbGA9HV+U3asTGeT7/MV98fsdU
- Y6Rb1Ivlw7OEupNiGUOSvXcw1/7ZMv7KiT1v8SK/eQKocjUDBuNhmyKuSpzEPr3LDQ3+
- tiXssU2YtuZPiIp+KnNV9O7Rg9g7uWtyZeM2zqj4LXymmED4watd79KiBWQOEdQCQcDU
- xaC/0pdFXgt370OBOYKDkiC6pbBYNgHiJEg8a1CiWWkLrdDqfIfRxzDM9npqb5zaXVmY
- zwTQ==
-X-Gm-Message-State: AAQBX9cMQI19R3wFw6/Wl9BAogn3PERNcr/bmkkUXyo1yKyKFJhzEsFE
- CtChtu6FfAfdh9O4p5+tTQe/GEzm/EZDcuzZgfk=
-X-Google-Smtp-Source: AKy350Y0rdOCcBL3A4+nrqG3S2UfhoJ+ePFTYrtKU0G3o3LBOemorq0U2UZp4x70H/0bh0hzdaH2HkeKLdnzOYwxhvA=
-X-Received: by 2002:a05:6830:1bdc:b0:6a1:1b5c:c6db with SMTP id
- v28-20020a0568301bdc00b006a11b5cc6dbmr653947ota.7.1681400853867; Thu, 13 Apr
- 2023 08:47:33 -0700 (PDT)
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A0FE810EB60;
+ Thu, 13 Apr 2023 15:53:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1681401183; x=1712937183;
+ h=date:from:to:cc:subject:message-id:references:
+ in-reply-to:mime-version;
+ bh=RfAjVu+TxXE4QgvMLNgCTuZM80XDfrx3Hv4j2VpY9s8=;
+ b=aOXLjPkOC5PW/P/H0tJX69RL49cCLnMWqTfpX9adLkTy+5KvR74HMZ1L
+ 3SQnYJXyoKspMyIHzbBq5fjoKiUmNFvEE0p6+5Q5PbVahvUt1pG0OWDvT
+ QPgjbXBV9Q71UlzS3bMz/75ag+Lt7Bpxn5QdMi0ocLyA9IjPebCONboBH
+ wySMt7eCKmtHk4SLtaXUnQYzsQZYGT+Lbl6j3xP3IRcSBK1l0+IdLIJ7O
+ YtY6/BAgNE4/U5nKIlHydRwWCinv+7v4Uilnw3VnvJ+TP+PlQkQAIXMpG
+ 4DTWjaL3hvJLnZZGj56TWOb5jACyG89fiWCAEbzXyhc225tzW1BRgwEZg w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10679"; a="323844733"
+X-IronPort-AV: E=Sophos;i="5.99,194,1677571200"; d="scan'208";a="323844733"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Apr 2023 08:52:20 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10679"; a="863830148"
+X-IronPort-AV: E=Sophos;i="5.99,194,1677571200"; d="scan'208";a="863830148"
+Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
+ by orsmga005.jf.intel.com with ESMTP; 13 Apr 2023 08:52:17 -0700
+Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.23; Thu, 13 Apr 2023 08:52:16 -0700
+Received: from orsmsx602.amr.corp.intel.com (10.22.229.15) by
+ ORSMSX611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.23; Thu, 13 Apr 2023 08:52:16 -0700
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ orsmsx602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.23 via Frontend Transport; Thu, 13 Apr 2023 08:52:16 -0700
+Received: from NAM02-DM3-obe.outbound.protection.outlook.com (104.47.56.42) by
+ edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.23; Thu, 13 Apr 2023 08:52:16 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Ccxx/XKrBsB2BDcnUQN8RrXmRAqzwZOHVYmnANutlA909y367Xnf1dhTwGZItYk62ifRsFsadCtYwWpZUG3KK/Jp8IO4Nmi5qxovUWHSkHi2PMKNqHiODjc7hmaHSZqo5t7lkouMtvUXSBLhkbctsWBwyCM47G24eqKEOVTj6PdylsZ/7EEKdXQ52sSCJ4Vd/IfafT59o92y/da9GtV8BiKiUrqM5tcFAlpYQno1QqHm92yPBNNfb/SyAGdCNRYfdNB4eWuSd2L8/Ezf9xE+VKM8SdF/xMiaHndKcM3wg6bGSxQV+6MoGL9wJCxm862QuqnQOsQKpyQFMHX29Jxg3Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=qKmfnmBLQyw7rk37KyRE2z0v5iH8mXJlObudvT2FbyI=;
+ b=MKAM3Sz2uXgjCYE+PAboPO8HUJ7rX4ZiNHei5aqrluI03NdUAkCFSlijBnxGhUzNP6KNH5Iyb/RuUZmlEKzprNjNFeGjBHoHXVLSVrpd0Ry8tfW1ZE71FV8nFJ+D1HcCcvnYECRVZCYhS8rX0AILntevdwx2P7PWWQMQdSXvrA1dLxYTBhyQHWF+3Gix4/ZEZ1kS5gfVj2w6tHjnFszvRThr5BH6HEer+q6/MsQwyvc9/0S95JjiVP7ZWTRnY8pFXUqKlwOnzMHBhZbN6HujKb9vG9CgG4GiciLhsF6D8REnSlH6j1MEGy1MPaRVqJT95NIgzaPusrZtqmYw0j9VOw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from DS7PR11MB7859.namprd11.prod.outlook.com (2603:10b6:8:da::22) by
+ SJ1PR11MB6276.namprd11.prod.outlook.com (2603:10b6:a03:455::8) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6277.38; Thu, 13 Apr 2023 15:52:14 +0000
+Received: from DS7PR11MB7859.namprd11.prod.outlook.com
+ ([fe80::1c61:b69d:4ca:10d0]) by DS7PR11MB7859.namprd11.prod.outlook.com
+ ([fe80::1c61:b69d:4ca:10d0%8]) with mapi id 15.20.6298.030; Thu, 13 Apr 2023
+ 15:52:14 +0000
+Date: Thu, 13 Apr 2023 08:52:10 -0700
+From: Matt Roper <matthew.d.roper@intel.com>
+To: Andi Shyti <andi.shyti@linux.intel.com>
+Subject: Re: [Intel-gfx] [PATCH v2] drm/i915: Make IRQ reset and postinstall
+ multi-gt aware
+Message-ID: <20230413155210.GH4085390@mdroper-desk1.amr.corp.intel.com>
+References: <20230413092006.931861-1-andi.shyti@linux.intel.com>
+ <dc0042e0-8a4e-5c3d-922f-bd65402a154a@linux.intel.com>
+ <ZDgKBUIV9nGcfQqF@ashyti-mobl2.lan>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <ZDgKBUIV9nGcfQqF@ashyti-mobl2.lan>
+X-ClientProxiedBy: BYAPR07CA0017.namprd07.prod.outlook.com
+ (2603:10b6:a02:bc::30) To DS7PR11MB7859.namprd11.prod.outlook.com
+ (2603:10b6:8:da::22)
 MIME-Version: 1.0
-References: <20230411225725.2032862-1-robdclark@gmail.com>
- <20230411225725.2032862-7-robdclark@gmail.com>
- <29a8d9aa-c6ea-873f-ce0b-fb8199b13068@linux.intel.com>
- <CAF6AEGsZsMx+Vy+4UQSx3X7w_QNvvjLqWxx=PnCLAOC9f-X2CQ@mail.gmail.com>
- <ZDb1phnddSne79iN@phenom.ffwll.local>
- <CAF6AEGvBeDVM12ac0j_PKSdcY83hNDhyrQs9-=h=dx_7AoMXLw@mail.gmail.com>
- <ZDcEGoSPGr/oRLas@phenom.ffwll.local>
- <c82fd8fa-9f4b-f62f-83be-25853f9ecf5e@linux.intel.com>
-In-Reply-To: <c82fd8fa-9f4b-f62f-83be-25853f9ecf5e@linux.intel.com>
-From: Rob Clark <robdclark@gmail.com>
-Date: Thu, 13 Apr 2023 08:47:22 -0700
-Message-ID: <CAF6AEGueanYczwmTW32j9pcG07aHVAUMEn1BEJn8dq6rXqqk7g@mail.gmail.com>
-Subject: Re: [PATCH v3 6/7] drm: Add fdinfo memory stats
-To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS7PR11MB7859:EE_|SJ1PR11MB6276:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2dc0823e-160b-4ac0-f720-08db3c370c80
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: vZDjAVRMrbsjQ+EzEIBNyYFobRqtYeK7prnKoiE5DbpAZYvYZWyDgyTffrcbx6sRP0unV/XVkpJJcVzljfCRIkPLxGQnCzYIuErgePopusu4mQ1tyKLoQubfqcCU7w/Eeuo3ReBkk/DuRhKOcUxmKVgjElSrRxUJDJRbBLRrXIm8mWNrc1wr2l8B8lPGL5f3JYlM5BujzJBvw4Aqn4rKBRQHxwhBE+d8FuhAOqAm3lObdJDTrF9z+fmfyPAB49wibkW4ujpN0iS6TeNZPH/Mr4TraPCM0XLbwzNfMOrMaHkY7oeGZPAStnPxiN0Bz+clmAwG1dYpyfR/Zn9Frto+Rkuc4c3+sCjZv36dkMFFypnrUxN+HUbP6YvUxcOnad22ZlDKFxbC4wpHQapsAPQt6ip2ugpbqG+rk/RFsmSOatnuJ1Nd4YZxh2JTsYRqiObWQhasiSTBV/JM5bzf2X4pX6O2w2pwmDGBpg6D/Vvp6q8UKq7pD9f2n7vi2/ZB8YKKnVYVX7UoDQSTqUXiIzpSafPlXz+ekUh/G3SkEajzyKcv47c+TSGEFTp4HJmI7U5/
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DS7PR11MB7859.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230028)(346002)(376002)(366004)(396003)(39860400002)(136003)(451199021)(8936002)(38100700002)(2906002)(33656002)(4326008)(5660300002)(86362001)(82960400001)(66556008)(66946007)(6916009)(8676002)(66476007)(6486002)(83380400001)(54906003)(1076003)(6512007)(6506007)(53546011)(26005)(316002)(478600001)(186003)(41300700001)(6666004);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?TCvF4CrAHqU6PNBSDa7pAS7LfCQ+djqJ8qTLGZBEVQ3q+bs+7cNdEWR3NvE1?=
+ =?us-ascii?Q?jeJ6/oZ9tCHtIFe5tk4fVfKB1grDanzxTBjM4QjOF7sRI6Yfauf6U9xeHj9Q?=
+ =?us-ascii?Q?7fBZh1iOsjAc1H1KUq8Sr10AkhkaCm08RSYCikLd6OKAEjeOjtV2EmYTc1Oh?=
+ =?us-ascii?Q?UxsyGSqBTp0e4RQm8zYHwO4r5namyQgo8K8QeqN81+V6DdoydHOYH5Rd0y4W?=
+ =?us-ascii?Q?dZn3EKGJtIOvSx2LuYLnQbO/i/v26gHNMeSny3rNOWh0mynDU7kOq6ck8mnt?=
+ =?us-ascii?Q?gtLLl8kZ91c5ryjXa0ItDyQ1C/q3j6E93Flymog/3r9nJ/PAPiYd9YOLqxBY?=
+ =?us-ascii?Q?oNOMabwJV1ICDoUJlHKLl/wyYWPas1MBgn2rtewxlSLj7WW2NW6z/PUsWHzD?=
+ =?us-ascii?Q?F3PaGruTlmAQSMDRvKK1aOwkURRFKAdosZkMIfwuXAwgDMftgmRk+lVOCzNO?=
+ =?us-ascii?Q?va1bl5pCUeCEr40JNlutAZaacOJmem3wJcRkcnakw5VMf0XvpEjgIpeVX0nc?=
+ =?us-ascii?Q?c5VtLXiuaQc15TGWRoVu0WDN5UkYc1SKwpXHaPaTuxWpvsbru0tqMJtH8Vh5?=
+ =?us-ascii?Q?19TaNhjRjTDdp0kt9H7YNcLe/YhcBF8q1MEAgpKlYy/6IPBOs12D5CdxUAsm?=
+ =?us-ascii?Q?lLb6vS68QIKR+n3tRH6wU8QFW3vrrkjL4L6msR7kXzqozSYqVrqcBVfplOhb?=
+ =?us-ascii?Q?0xal1G9yYQeQn/o0a7tnY3JwdBnpEDPF+ii013Vu2G3hN7h+LtZhp97+fePa?=
+ =?us-ascii?Q?2TDQIzxiR2xGjmQ57vEcAEPBxLqDt88Qq6ZncJVrqDA49Ghnfiz7KeKySaSo?=
+ =?us-ascii?Q?lczbhVl24QGJ+0QatZcFP/IkP5sN3EFLPaXwsSqEoh8L0842ey3G/GIZKjvP?=
+ =?us-ascii?Q?5Ltgosk7L/doV5B9iBQXKxO0D8G4DtyplDsvLcG1UVDfu25HgNccsCrl5dfm?=
+ =?us-ascii?Q?nkQg0PDCaRfrFcAj9JfTzY4rS4q/EjNou/DssUXDwMxpB3eDZyoqlwjN9DFq?=
+ =?us-ascii?Q?InEtwiGciwIEjMxf9WVVXDCJjuiAsSbnJJ3A5/3JtdCFGwX8Kylhryh/6VRB?=
+ =?us-ascii?Q?m4Sc1QYgSkOUl3j3306HN9EWYBg0spT5neYHsa5wsIcSANsXFIiUhaJaGL6D?=
+ =?us-ascii?Q?awrBA+rDLoCMM0Gb6W8g48CRa2ZWBzJOZ51Eis05BaYDO5KJ9odpSTZ2dLj1?=
+ =?us-ascii?Q?6zcZw8UC5mgCJbN7LdL1dp16/0DttskatSzi44P9DoEIqnPja+GcoMn2ipvw?=
+ =?us-ascii?Q?n+qBj2/rjg6+UGuUIbyycG3jwuhXyP3B/yvEIkw5OdUA2/uGa5pIwmlVH6Ra?=
+ =?us-ascii?Q?k7L35Uo7LnSjwBcDW2tbSkEjoyrl++6xwgd+7ubd6q1/wRt+PpA3c2tKUegm?=
+ =?us-ascii?Q?G/CkJcS7/DmzMu83ie3GoYInCmjBJJYi9u/q0cI/QII4EDJcnHbk5+TsNNz8?=
+ =?us-ascii?Q?/qZmTjraorhV3ggKFL9mwC43N81z+vd4ZWwJLUbL8XzMUHVY9B9RRv8Oqugg?=
+ =?us-ascii?Q?+boHTk5x2P94kHdO9bcaQD5xPEWqRjCalO1KWtUQ6tV5a6eZB704GP9/rLtA?=
+ =?us-ascii?Q?Ugl1rMlqWSYMv3X6ql6UnSmpMRu9kCMwFwb/hrQldzA8YvrwIYDmskc+p6rO?=
+ =?us-ascii?Q?9A=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2dc0823e-160b-4ac0-f720-08db3c370c80
+X-MS-Exchange-CrossTenant-AuthSource: DS7PR11MB7859.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Apr 2023 15:52:13.7314 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: jMR0q7/tBMujR+iZGyZOxWObWfG2sWyzE74S5i3ssdL+ks9Hx2xbNkgDC7qRZVWK0ujBNPETcdKOE2Wg9tobKx/lPrQUMEKn8awQudS01Y4=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ1PR11MB6276
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,440 +149,84 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, Jonathan Corbet <corbet@lwn.net>,
- linux-arm-msm@vger.kernel.org,
- "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
- Emil Velikov <emil.l.velikov@gmail.com>,
- Christopher Healy <healych@amazon.com>, dri-devel@lists.freedesktop.org,
- open list <linux-kernel@vger.kernel.org>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, freedreno@lists.freedesktop.org
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, Paulo
+ Zanoni <paulo.r.zanoni@intel.com>, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, Andi Shyti <andi.shyti@kernel.org>,
+ Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
+ Nirmoy Das <nirmoy.das@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Apr 13, 2023 at 5:58=E2=80=AFAM Tvrtko Ursulin
-<tvrtko.ursulin@linux.intel.com> wrote:
->
->
-> On 12/04/2023 20:18, Daniel Vetter wrote:
-> > On Wed, Apr 12, 2023 at 11:42:07AM -0700, Rob Clark wrote:
-> >> On Wed, Apr 12, 2023 at 11:17=E2=80=AFAM Daniel Vetter <daniel@ffwll.c=
-h> wrote:
-> >>>
-> >>> On Wed, Apr 12, 2023 at 10:59:54AM -0700, Rob Clark wrote:
-> >>>> On Wed, Apr 12, 2023 at 7:42=E2=80=AFAM Tvrtko Ursulin
-> >>>> <tvrtko.ursulin@linux.intel.com> wrote:
-> >>>>>
-> >>>>>
-> >>>>> On 11/04/2023 23:56, Rob Clark wrote:
-> >>>>>> From: Rob Clark <robdclark@chromium.org>
-> >>>>>>
-> >>>>>> Add support to dump GEM stats to fdinfo.
-> >>>>>>
-> >>>>>> v2: Fix typos, change size units to match docs, use div_u64
-> >>>>>> v3: Do it in core
-> >>>>>>
-> >>>>>> Signed-off-by: Rob Clark <robdclark@chromium.org>
-> >>>>>> Reviewed-by: Emil Velikov <emil.l.velikov@gmail.com>
-> >>>>>> ---
-> >>>>>>    Documentation/gpu/drm-usage-stats.rst | 21 ++++++++
-> >>>>>>    drivers/gpu/drm/drm_file.c            | 76 ++++++++++++++++++++=
-+++++++
-> >>>>>>    include/drm/drm_file.h                |  1 +
-> >>>>>>    include/drm/drm_gem.h                 | 19 +++++++
-> >>>>>>    4 files changed, 117 insertions(+)
-> >>>>>>
-> >>>>>> diff --git a/Documentation/gpu/drm-usage-stats.rst b/Documentation=
-/gpu/drm-usage-stats.rst
-> >>>>>> index b46327356e80..b5e7802532ed 100644
-> >>>>>> --- a/Documentation/gpu/drm-usage-stats.rst
-> >>>>>> +++ b/Documentation/gpu/drm-usage-stats.rst
-> >>>>>> @@ -105,6 +105,27 @@ object belong to this client, in the respecti=
-ve memory region.
-> >>>>>>    Default unit shall be bytes with optional unit specifiers of 'K=
-iB' or 'MiB'
-> >>>>>>    indicating kibi- or mebi-bytes.
-> >>>>>>
-> >>>>>> +- drm-shared-memory: <uint> [KiB|MiB]
-> >>>>>> +
-> >>>>>> +The total size of buffers that are shared with another file (ie. =
-have more
-> >>>>>> +than a single handle).
-> >>>>>> +
-> >>>>>> +- drm-private-memory: <uint> [KiB|MiB]
-> >>>>>> +
-> >>>>>> +The total size of buffers that are not shared with another file.
-> >>>>>> +
-> >>>>>> +- drm-resident-memory: <uint> [KiB|MiB]
-> >>>>>> +
-> >>>>>> +The total size of buffers that are resident in system memory.
-> >>>>>
-> >>>>> I think this naming maybe does not work best with the existing
-> >>>>> drm-memory-<region> keys.
-> >>>>
-> >>>> Actually, it was very deliberate not to conflict with the existing
-> >>>> drm-memory-<region> keys ;-)
-> >>>>
-> >>>> I wouldn't have preferred drm-memory-{active,resident,...} but it
-> >>>> could be mis-parsed by existing userspace so my hands were a bit tie=
-d.
-> >>>>
-> >>>>> How about introduce the concept of a memory region from the start a=
-nd
-> >>>>> use naming similar like we do for engines?
-> >>>>>
-> >>>>> drm-memory-$CATEGORY-$REGION: ...
-> >>>>>
-> >>>>> Then we document a bunch of categories and their semantics, for ins=
-tance:
-> >>>>>
-> >>>>> 'size' - All reachable objects
-> >>>>> 'shared' - Subset of 'size' with handle_count > 1
-> >>>>> 'resident' - Objects with backing store
-> >>>>> 'active' - Objects in use, subset of resident
-> >>>>> 'purgeable' - Or inactive? Subset of resident.
-> >>>>>
-> >>>>> We keep the same semantics as with process memory accounting (if I =
-got
-> >>>>> it right) which could be desirable for a simplified mental model.
-> >>>>>
-> >>>>> (AMD needs to remind me of their 'drm-memory-...' keys semantics. I=
-f we
-> >>>>> correctly captured this in the first round it should be equivalent =
-to
-> >>>>> 'resident' above. In any case we can document no category is equal =
-to
-> >>>>> which category, and at most one of the two must be output.)
-> >>>>>
-> >>>>> Region names we at most partially standardize. Like we could say
-> >>>>> 'system' is to be used where backing store is system RAM and others=
- are
-> >>>>> driver defined.
-> >>>>>
-> >>>>> Then discrete GPUs could emit N sets of key-values, one for each me=
-mory
-> >>>>> region they support.
-> >>>>>
-> >>>>> I think this all also works for objects which can be migrated betwe=
-en
-> >>>>> memory regions. 'Size' accounts them against all regions while for
-> >>>>> 'resident' they only appear in the region of their current placemen=
-t, etc.
-> >>>>
-> >>>> I'm not too sure how to rectify different memory regions with this,
-> >>>> since drm core doesn't really know about the driver's memory regions=
-.
-> >>>> Perhaps we can go back to this being a helper and drivers with vram
-> >>>> just don't use the helper?  Or??
-> >>>
-> >>> I think if you flip it around to drm-$CATEGORY-memory{-$REGION}: then=
- it
-> >>> all works out reasonably consistently?
-> >>
-> >> That is basically what we have now.  I could append -system to each to
-> >> make things easier to add vram/etc (from a uabi standpoint)..
-> >
-> > What you have isn't really -system, but everything. So doesn't really m=
-ake
-> > sense to me to mark this -system, it's only really true for integrated =
-(if
-> > they don't have stolen or something like that).
-> >
-> > Also my comment was more in reply to Tvrtko's suggestion.
->
-> Right so my proposal was drm-memory-$CATEGORY-$REGION which I think
-> aligns with the current drm-memory-$REGION by extending, rather than
-> creating confusion with different order of key name components.
->
-> AMD currently has (among others) drm-memory-vram, which we could define
-> in the spec maps to category X, if category component is not present.
->
-> Some examples:
->
-> drm-memory-resident-system:
-> drm-memory-size-lmem0:
-> drm-memory-active-vram:
->
-> Etc.. I think it creates a consistent story.
+On Thu, Apr 13, 2023 at 03:56:21PM +0200, Andi Shyti wrote:
+> Hi Tvrtko,
+> 
+> (I forgot to CC Daniele)
+> 
+> On Thu, Apr 13, 2023 at 11:41:28AM +0100, Tvrtko Ursulin wrote:
+> > 
+> > On 13/04/2023 10:20, Andi Shyti wrote:
+> > > From: Paulo Zanoni <paulo.r.zanoni@intel.com>
+> > > 
+> > > In multitile systems IRQ need to be reset and enabled per GT.
+> > > 
+> > > Although in MTL the GUnit misc interrupts register set are
+> > > available only in GT-0, we need to loop through all the GT's
+> > > in order to initialize the media engine which lies on a different
+> > > GT.
+> > > 
+> > > Signed-off-by: Paulo Zanoni <paulo.r.zanoni@intel.com>
+> > > Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+> > > Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
+> > > ---
+> > > Hi,
+> > > 
+> > > proposing again this patch, apparently GuC needs this patch to
+> > > initialize the media GT.
+> > 
+> > What is the resolution for Matt's concern that this is wrong for MTL?
+> 
+> There are two explanations, one easy and one less easy.
+> 
+> The easy one: without this patch i915 doesn't boot on MTL!(*)
+> 
+> The second explanation is that in MTL the media engine has it's
+> own set of misc irq's registers and those are on a different GT
+> (Daniele pointed this out).
 
-It does read more naturally.. but there is a problem here (and the
-reason I didn't take this route),
+Assuming you're talking about MTL_GUC_MGUC_INTR_MASK, that's not true;
+it's just a single sgunit register (0x1900e8) that has different
+bitfields for the primary GuC and the media GuC.  So I still think we
+should avoid looping over GTs; it's actually much simpler to handle
+things in a single pass since we can just determine the single register
+value once (all fields) and write it directly, instead of doing two
+separate RMW updates to the same register to try to avoid clobbering
+the other GuC's settings.
 
-```
-- drm-memory-<str>: <uint> [KiB|MiB]
+For pre-MTL platforms, it's the same register, except that the bitfield
+now devoted to the media GuC was previously used for something else
+(scatter/gather).
 
-Each possible memory type which can be used to store buffer objects by the
-GPU in question shall be given a stable and unique name to be returned as t=
-he
-string here.
-```
 
-so, drm-memory-resident-system gets parsed as the "resident-system"
-memory type by existing userspace :-(
+Matt
 
-This is why we are forced to use drm-$CATEGORY-memory...
+> 
+> I sent this patch not to bypass any review, but to restart the
+> discussion as this patch was just dropped.
+> 
+> Thanks,
+> Andi
+> 
+> 
+> (*)
+> [drm] *ERROR* GT1: GUC: CT: No response for request 0x550a (fence 7)
+> [drm] *ERROR* GT1: GUC: CT: Sending action 0x550a failed (-ETIMEDOUT) status=0X0
+> [drm] *ERROR* GT1: GUC: Failed to enable usage stats: -ETIMEDOUT
+> [drm] *ERROR* GT1: GuC initialization failed -ETIMEDOUT
+> [drm] *ERROR* GT1: Enabling uc failed (-5)
+> [drm] *ERROR* GT1: Failed to initialize GPU, declaring it wedged!
 
-BR,
--R
-
-> Other than this, my two I think significant opens which haven't been
-> addressed yet are:
->
-> 1)
->
-> Why do we want totals (not per region) when userspace can trivially
-> aggregate if they want. What is the use case?
->
-> 2)
->
-> Current proposal limits the value to whole objects and fixates that by
-> having it in the common code. If/when some driver is able to support
-> sub-BO granularity they will need to opt out of the common printer at
-> which point it may be less churn to start with a helper rather than
-> mid-layer. Or maybe some drivers already support this, I don't know.
-> Given how important VM BIND is I wouldn't be surprised.
->
-> Regards,
->
-> Tvrtko
->
-> >>> And ttm could/should perhaps provide a helper to dump the region spec=
-ific
-> >>> version of this. Or we lift the concept of regions out of ttm a bit
-> >>> higher, that's kinda needed for cgroups eventually anyway I think.
-> >>> -Daniel
-> >>>
-> >>>>
-> >>>> BR,
-> >>>> -R
-> >>>>
-> >>>>> Userspace can aggregate if it wishes to do so but kernel side shoul=
-d not.
-> >>>>>
-> >>>>>> +
-> >>>>>> +- drm-purgeable-memory: <uint> [KiB|MiB]
-> >>>>>> +
-> >>>>>> +The total size of buffers that are purgeable.
-> >>>>>> +
-> >>>>>> +- drm-active-memory: <uint> [KiB|MiB]
-> >>>>>> +
-> >>>>>> +The total size of buffers that are active on one or more rings.
-> >>>>>> +
-> >>>>>>    - drm-cycles-<str> <uint>
-> >>>>>>
-> >>>>>>    Engine identifier string must be the same as the one specified =
-in the
-> >>>>>> diff --git a/drivers/gpu/drm/drm_file.c b/drivers/gpu/drm/drm_file=
-.c
-> >>>>>> index 37dfaa6be560..46fdd843bb3a 100644
-> >>>>>> --- a/drivers/gpu/drm/drm_file.c
-> >>>>>> +++ b/drivers/gpu/drm/drm_file.c
-> >>>>>> @@ -42,6 +42,7 @@
-> >>>>>>    #include <drm/drm_client.h>
-> >>>>>>    #include <drm/drm_drv.h>
-> >>>>>>    #include <drm/drm_file.h>
-> >>>>>> +#include <drm/drm_gem.h>
-> >>>>>>    #include <drm/drm_print.h>
-> >>>>>>
-> >>>>>>    #include "drm_crtc_internal.h"
-> >>>>>> @@ -871,6 +872,79 @@ void drm_send_event(struct drm_device *dev, s=
-truct drm_pending_event *e)
-> >>>>>>    }
-> >>>>>>    EXPORT_SYMBOL(drm_send_event);
-> >>>>>>
-> >>>>>> +static void print_size(struct drm_printer *p, const char *stat, s=
-ize_t sz)
-> >>>>>> +{
-> >>>>>> +     const char *units[] =3D {"", " KiB", " MiB"};
-> >>>>>> +     unsigned u;
-> >>>>>> +
-> >>>>>> +     for (u =3D 0; u < ARRAY_SIZE(units) - 1; u++) {
-> >>>>>> +             if (sz < SZ_1K)
-> >>>>>> +                     break;
-> >>>>>> +             sz =3D div_u64(sz, SZ_1K);
-> >>>>>> +     }
-> >>>>>> +
-> >>>>>> +     drm_printf(p, "%s:\t%zu%s\n", stat, sz, units[u]);
-> >>>>>> +}
-> >>>>>> +
-> >>>>>> +static void print_memory_stats(struct drm_printer *p, struct drm_=
-file *file)
-> >>>>>> +{
-> >>>>>> +     struct drm_gem_object *obj;
-> >>>>>> +     struct {
-> >>>>>> +             size_t shared;
-> >>>>>> +             size_t private;
-> >>>>>> +             size_t resident;
-> >>>>>> +             size_t purgeable;
-> >>>>>> +             size_t active;
-> >>>>>> +     } size =3D {0};
-> >>>>>> +     bool has_status =3D false;
-> >>>>>> +     int id;
-> >>>>>> +
-> >>>>>> +     spin_lock(&file->table_lock);
-> >>>>>> +     idr_for_each_entry (&file->object_idr, obj, id) {
-> >>>>>> +             enum drm_gem_object_status s =3D 0;
-> >>>>>> +
-> >>>>>> +             if (obj->funcs && obj->funcs->status) {
-> >>>>>> +                     s =3D obj->funcs->status(obj);
-> >>>>>> +                     has_status =3D true;
-> >>>>>> +             }
-> >>>>>> +
-> >>>>>> +             if (obj->handle_count > 1) {
-> >>>>>> +                     size.shared +=3D obj->size;
-> >>>>>> +             } else {
-> >>>>>> +                     size.private +=3D obj->size;
-> >>>>>> +             }
-> >>>>>> +
-> >>>>>> +             if (s & DRM_GEM_OBJECT_RESIDENT) {
-> >>>>>> +                     size.resident +=3D obj->size;
-> >>>>>> +             } else {
-> >>>>>> +                     /* If already purged or not yet backed by pa=
-ges, don't
-> >>>>>> +                      * count it as purgeable:
-> >>>>>> +                      */
-> >>>>>> +                     s &=3D ~DRM_GEM_OBJECT_PURGEABLE;
-> >>>>>
-> >>>>> Side question - why couldn't resident buffers be purgeable? Did you=
- mean
-> >>>>> for the if branch check to be active here? But then it wouldn't mak=
-e
-> >>>>> sense for a driver to report active _and_ purgeable..
-> >>>>>
-> >>>>>> +             }
-> >>>>>> +
-> >>>>>> +             if (!dma_resv_test_signaled(obj->resv, dma_resv_usag=
-e_rw(true))) {
-> >>>>>> +                     size.active +=3D obj->size;
-> >>>>>> +
-> >>>>>> +                     /* If still active, don't count as purgeable=
-: */
-> >>>>>> +                     s &=3D ~DRM_GEM_OBJECT_PURGEABLE;
-> >>>>>
-> >>>>> Another side question - I guess this tidies a race in reporting? If=
- so
-> >>>>> not sure it matters given the stats are all rather approximate.
-> >>>>>
-> >>>>>> +             }
-> >>>>>> +
-> >>>>>> +             if (s & DRM_GEM_OBJECT_PURGEABLE)
-> >>>>>> +                     size.purgeable +=3D obj->size;
-> >>>>>> +     }
-> >>>>>
-> >>>>> One concern I have here is that it is all based on obj->size. That =
-is,
-> >>>>> there is no provision for drivers to implement page level granulari=
-ty.
-> >>>>> So correct reporting in use cases such as VM BIND in the future wou=
-ldn't
-> >>>>> work unless it was a driver hook to get almost all of the info abov=
-e. At
-> >>>>> which point common code is just a loop. TBF I don't know if any dri=
-vers
-> >>>>> do sub obj->size backing store granularity today, but I think it is
-> >>>>> sometimes to be sure of before proceeding.
-> >>>>>
-> >>>>> Second concern is what I touched upon in the first reply block - if=
- the
-> >>>>> common code blindly loops over all objects then on discrete GPUs it
-> >>>>> seems we get an 'aggregate' value here which is not what I think we
-> >>>>> want. We rather want to have the ability for drivers to list stats =
-per
-> >>>>> individual memory region.
-> >>>>>
-> >>>>>> +     spin_unlock(&file->table_lock);
-> >>>>>> +
-> >>>>>> +     print_size(p, "drm-shared-memory", size.shared);
-> >>>>>> +     print_size(p, "drm-private-memory", size.private);
-> >>>>>> +     print_size(p, "drm-active-memory", size.active);
-> >>>>>> +
-> >>>>>> +     if (has_status) {
-> >>>>>> +             print_size(p, "drm-resident-memory", size.resident);
-> >>>>>> +             print_size(p, "drm-purgeable-memory", size.purgeable=
-);
-> >>>>>> +     }
-> >>>>>> +}
-> >>>>>> +
-> >>>>>>    /**
-> >>>>>>     * drm_fop_show_fdinfo - helper for drm file fops
-> >>>>>>     * @seq_file: output stream
-> >>>>>> @@ -904,6 +978,8 @@ void drm_fop_show_fdinfo(struct seq_file *m, s=
-truct file *f)
-> >>>>>>
-> >>>>>>        if (dev->driver->show_fdinfo)
-> >>>>>>                dev->driver->show_fdinfo(&p, file);
-> >>>>>> +
-> >>>>>> +     print_memory_stats(&p, file);
-> >>>>>>    }
-> >>>>>>    EXPORT_SYMBOL(drm_fop_show_fdinfo);
-> >>>>>>
-> >>>>>> diff --git a/include/drm/drm_file.h b/include/drm/drm_file.h
-> >>>>>> index dfa995b787e1..e5b40084538f 100644
-> >>>>>> --- a/include/drm/drm_file.h
-> >>>>>> +++ b/include/drm/drm_file.h
-> >>>>>> @@ -41,6 +41,7 @@
-> >>>>>>    struct dma_fence;
-> >>>>>>    struct drm_file;
-> >>>>>>    struct drm_device;
-> >>>>>> +struct drm_printer;
-> >>>>>>    struct device;
-> >>>>>>    struct file;
-> >>>>>>
-> >>>>>> diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
-> >>>>>> index 189fd618ca65..213917bb6b11 100644
-> >>>>>> --- a/include/drm/drm_gem.h
-> >>>>>> +++ b/include/drm/drm_gem.h
-> >>>>>> @@ -42,6 +42,14 @@
-> >>>>>>    struct iosys_map;
-> >>>>>>    struct drm_gem_object;
-> >>>>>>
-> >>>>>> +/**
-> >>>>>> + * enum drm_gem_object_status - bitmask of object state for fdinf=
-o reporting
-> >>>>>> + */
-> >>>>>> +enum drm_gem_object_status {
-> >>>>>> +     DRM_GEM_OBJECT_RESIDENT  =3D BIT(0),
-> >>>>>> +     DRM_GEM_OBJECT_PURGEABLE =3D BIT(1),
-> >>>>>> +};
-> >>>>>> +
-> >>>>>>    /**
-> >>>>>>     * struct drm_gem_object_funcs - GEM object functions
-> >>>>>>     */
-> >>>>>> @@ -174,6 +182,17 @@ struct drm_gem_object_funcs {
-> >>>>>>         */
-> >>>>>>        int (*evict)(struct drm_gem_object *obj);
-> >>>>>>
-> >>>>>> +     /**
-> >>>>>> +      * @status:
-> >>>>>> +      *
-> >>>>>> +      * The optional status callback can return additional object=
- state
-> >>>>>> +      * which determines which stats the object is counted agains=
-t.  The
-> >>>>>> +      * callback is called under table_lock.  Racing against obje=
-ct status
-> >>>>>> +      * change is "harmless", and the callback can expect to not =
-race
-> >>>>>> +      * against object destruction.
-> >>>>>> +      */
-> >>>>>> +     enum drm_gem_object_status (*status)(struct drm_gem_object *=
-obj);
-> >>>>>
-> >>>>> Does this needs to be in object funcs and couldn't be consolidated =
-to
-> >>>>> driver level?
-> >>>>>
-> >>>>> Regards,
-> >>>>>
-> >>>>> Tvrtko
-> >>>>>
-> >>>>>> +
-> >>>>>>        /**
-> >>>>>>         * @vm_ops:
-> >>>>>>         *
-> >>>
-> >>> --
-> >>> Daniel Vetter
-> >>> Software Engineer, Intel Corporation
-> >>> http://blog.ffwll.ch
-> >
+-- 
+Matt Roper
+Graphics Software Engineer
+Linux GPU Platform Enablement
+Intel Corporation
