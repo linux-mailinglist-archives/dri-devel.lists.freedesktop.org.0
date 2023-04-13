@@ -2,61 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14B8B6E0B14
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Apr 2023 12:10:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EED166E0B17
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Apr 2023 12:10:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E1DF510EAA9;
-	Thu, 13 Apr 2023 10:10:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 38BAB10EAAE;
+	Thu, 13 Apr 2023 10:10:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x232.google.com (mail-lj1-x232.google.com
- [IPv6:2a00:1450:4864:20::232])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DC26410EAA9
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Apr 2023 10:09:51 +0000 (UTC)
-Received: by mail-lj1-x232.google.com with SMTP id q15so11238423ljp.5
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Apr 2023 03:09:51 -0700 (PDT)
+Received: from mail-lj1-x22f.google.com (mail-lj1-x22f.google.com
+ [IPv6:2a00:1450:4864:20::22f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B217F10EAB3
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Apr 2023 10:09:52 +0000 (UTC)
+Received: by mail-lj1-x22f.google.com with SMTP id j11so2408598ljq.10
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Apr 2023 03:09:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1681380589; x=1683972589;
+ d=linaro.org; s=google; t=1681380591; x=1683972591;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=bSIW3m6ouiUh4MBy/iPcO3038yiahaw6SCZrZmXoL8c=;
- b=s2aepwa18IqdU0SyKMtM8jAoCQnaWRTpqSkvN7201r1i0T84x5U2A//m+sbAcDUY/h
- bIiDy6rekYmG6rNaS1GUtUrLIjmERQ/aWcasLBXJrb3f5xP8+Cy2JScNMxy6od9iC/MB
- 7i/0wMUpzGXDxnO7SaEBTv90z1Cm00CrZurSL82Rv1xj8WW/tvrrzwI6fX0vsYxaSdNe
- eIDmzsQiVKeVrX9UKxSMxtZNcln6avoeEn11sokQ6rOTBf1YjXPvJbKZzmmmCBIAOk2F
- oLv2O4sjH9mOq8ymbTMucigojP13caE7qM32yysFQDphq2hC8KNebM8DwDCcJu1oF3tH
- Nkaw==
+ :reply-to; bh=8VxPnjG7Ga3tmIOUhMs54Sv+8hbNOJAgCnpbXzAxobQ=;
+ b=gkNHMjZtMFbejwqHO8md1YUCsEy0fYS+RJS3bjUxHlw0snRh4wvU8AUxIGsEsMLnKa
+ 10et6J2RG6qAOAU1ZLvwzNAADG1ZVdTRZ8LuFsMrwPPvRhVqJ+A16dHEQwnOliK8l2jS
+ QNF+uoFhI+XWvwmi4Dme6LksLIZ1uRlnXMqIxmjTQ8ucJMdJqmJRf+EonV7c1izxks0d
+ 8uzCwK+i2pGFbSngVB/Pu0oelXFgd5MyuGt8hk+MM22/okasA9WDelKwqvFbOWbfk8yl
+ nex5srBTm3qTyHgNJiqlIFbJQ4SXUhW508wun5OiUN7TyZs16fx6YiC87mRDUmiCfiMj
+ XzVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681380589; x=1683972589;
+ d=1e100.net; s=20221208; t=1681380591; x=1683972591;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=bSIW3m6ouiUh4MBy/iPcO3038yiahaw6SCZrZmXoL8c=;
- b=Fro/e4+7aC82r+9FtUVxbsEM3K1RAAuCbUtJnx70giDk6gmuURpkHC4xJLRP8HCaBh
- M8OVZ+o0NwXW3zBnO2g6+N6xfMhoOJYWkATgTER41oIEFsHVmhTy3CdVYxxP/TRYOWb9
- fky+fOJQu9wr1cMjBMQI5XptBpG6ySqTxt/V9ySaV+MbvdYEgA+ZVD18QBPrj2WRDuVk
- r1xLFPr9kwo7nNdbAsW4XUKXFZBygVtRYbeQPTQVE50TsmbCK5u7Fdj9nlqegArg0Q8t
- 3KbPvHyCgQwjDmUfYyqJzPy3EeyslHEaBCO+DFVoN0bMeiM2bjCdP8QpzYRLAbUAQ7XS
- Li5Q==
-X-Gm-Message-State: AAQBX9fZ0OqZ/nJlfI3kJ+t7ch1axZKRewW92TAZ0U7aaBd04fYTVtNy
- ajZNVJhQ35tA4yQ9CyHahUsBOg==
-X-Google-Smtp-Source: AKy350akt3tf+m5dnagc6WlGIUG8b2dlWdEiOD0/YEcV1QE/n9GCXFU+ey43oGfBADr3OnNThMPwMQ==
-X-Received: by 2002:a2e:2418:0:b0:2a6:8a:d0f5 with SMTP id
- k24-20020a2e2418000000b002a6008ad0f5mr578207ljk.23.1681380589691; 
- Thu, 13 Apr 2023 03:09:49 -0700 (PDT)
+ bh=8VxPnjG7Ga3tmIOUhMs54Sv+8hbNOJAgCnpbXzAxobQ=;
+ b=fooVMJLi1Y3bXKJR8X2xk/ZYNJ96jED0pcknt/K1XiM9xrTcPF772ksd86QdhyBTxs
+ EGmdoAAALj8QJbnFz4y6Ihrox+Xy3LJLwiJ1Deksgd3195laZl4QPNAwB7hMbC80h5US
+ cbjGtsOl9XgUCiMCVgggn0alUKZwjlLShjfZFcVATY5l1qt+yJ0kO8yUnjIfKIlggjeP
+ dlEbZCAFu9i016nb6w01xcOGYaIxdCDu4zz6ZD29IdyAuys1ZL4hfu85Kzy1OuvJBojN
+ l0kWVxhTHBlJfK2PSwWNmJgQjcvspkGa0AkQSImYl9EGfd+C4/FJY6YLXSic1z4czFLc
+ 3zBQ==
+X-Gm-Message-State: AAQBX9cd2g3L90fXtqBs2JFWzMMKhlgyhCmtBZHrz2sQiYZ3U/E8qHpk
+ PvqPK1vtGy6aN34S5nDNitdtWA==
+X-Google-Smtp-Source: AKy350az83SRGEXISdkGaf4esD2bKF7/wkQ6o6zZO+wzeNhiP2LfMNi57V3An2zNWdJRkLqJSjz4xQ==
+X-Received: by 2002:a2e:7303:0:b0:2a3:3b80:509b with SMTP id
+ o3-20020a2e7303000000b002a33b80509bmr786082ljc.19.1681380590987; 
+ Thu, 13 Apr 2023 03:09:50 -0700 (PDT)
 Received: from [192.168.1.101] (abyl123.neoplus.adsl.tpnet.pl. [83.9.31.123])
  by smtp.gmail.com with ESMTPSA id
- t20-20020a2e9d14000000b002a2e931fc48sm200482lji.140.2023.04.13.03.09.48
+ t20-20020a2e9d14000000b002a2e931fc48sm200482lji.140.2023.04.13.03.09.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 13 Apr 2023 03:09:49 -0700 (PDT)
+ Thu, 13 Apr 2023 03:09:50 -0700 (PDT)
 From: Konrad Dybcio <konrad.dybcio@linaro.org>
-Date: Thu, 13 Apr 2023 12:09:36 +0200
-Subject: [PATCH v2 2/5] dt-bindings: display: panel: nt36523: Add Lenovo
- J606F panel
+Date: Thu, 13 Apr 2023 12:09:37 +0200
+Subject: [PATCH v2 3/5] drm/panel: nt36523: Add DCS backlight support
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230412-topic-lenovopanel-v2-2-055c3649788e@linaro.org>
+Message-Id: <20230412-topic-lenovopanel-v2-3-055c3649788e@linaro.org>
 References: <20230412-topic-lenovopanel-v2-0-055c3649788e@linaro.org>
 In-Reply-To: <20230412-topic-lenovopanel-v2-0-055c3649788e@linaro.org>
 To: Jianhua Lu <lujianhua000@gmail.com>, 
@@ -65,11 +64,11 @@ To: Jianhua Lu <lujianhua000@gmail.com>,
  Rob Herring <robh+dt@kernel.org>, 
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
 X-Mailer: b4 0.12.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1681380585; l=1472;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1681380585; l=3553;
  i=konrad.dybcio@linaro.org; s=20230215; h=from:subject:message-id;
- bh=n3Ug6o2RQm9MRwfNsS0ku9LYCJEX/SEVYNXH8b0uEzs=;
- b=7k3RzLmzF5mXo80xwIEgbS38OpViZfugrSV/p8xZjzFY6LLzX8bSGoCa5fzFIkaUzU3qAqdZhOrL
- xZd5o7mhAfUxWxAQTY7QYr+XMn+hZJmlPjzk32hAPTHJlIpKfczq
+ bh=dc/Dvzhn8dlfyxlg6IxeHxMIzNiaOkMG9FE6LJmww9g=;
+ b=/V/o7X0Ghnkvl0ZAqJzTcC2sDHw0LtDECLQxC6YaVBgZ1QbjHDaQryqxaoyjqtl7NFzPGPAzzXSJ
+ BXCzY5/qBRM/zoLHtArYov4YGep8+aN5xLG+Q+CtClnBrSautTux
 X-Developer-Key: i=konrad.dybcio@linaro.org; a=ed25519;
  pk=iclgkYvtl2w05SSXO5EjjSYlhFKsJ+5OSZBjOkQuEms=
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -90,50 +89,119 @@ Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Some Lenovo J606F tablets come with a 2K (2000x1200) 60Hz 11" 5:3
-video mode display. Document it and allow rotation while at it (Lenovo
-mounted it upside down!).
+This chip supports controlling the backlight via DCS commands, on at
+least some panels. Add support for doing so.
+
+Note this may only concern the NT36523*W* variant. Nobody knows, really,
+there's no docs.
 
 Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+Reviewed-by: Jianhua Lu <lujianhua000@gmail.com>
 Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
 ---
- .../bindings/display/panel/novatek,nt36523.yaml          | 16 +++++++++++-----
- 1 file changed, 11 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/panel/panel-novatek-nt36523.c | 68 +++++++++++++++++++++++++--
+ 1 file changed, 65 insertions(+), 3 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/display/panel/novatek,nt36523.yaml b/Documentation/devicetree/bindings/display/panel/novatek,nt36523.yaml
-index 38f4f986aef1..fda74d5bd89e 100644
---- a/Documentation/devicetree/bindings/display/panel/novatek,nt36523.yaml
-+++ b/Documentation/devicetree/bindings/display/panel/novatek,nt36523.yaml
-@@ -19,11 +19,16 @@ allOf:
+diff --git a/drivers/gpu/drm/panel/panel-novatek-nt36523.c b/drivers/gpu/drm/panel/panel-novatek-nt36523.c
+index d30dbbfb67b1..b0466abae812 100644
+--- a/drivers/gpu/drm/panel/panel-novatek-nt36523.c
++++ b/drivers/gpu/drm/panel/panel-novatek-nt36523.c
+@@ -5,6 +5,7 @@
+  * Copyright (c) 2022, 2023 Jianhua Lu <lujianhua000@gmail.com>
+  */
  
- properties:
-   compatible:
--    items:
--      - enum:
--          - xiaomi,elish-boe-nt36523
--          - xiaomi,elish-csot-nt36523
--      - const: novatek,nt36523
-+    oneOf:
-+      - items:
-+          - enum:
-+              - xiaomi,elish-boe-nt36523
-+              - xiaomi,elish-csot-nt36523
-+          - const: novatek,nt36523
-+      - items:
-+          - enum:
-+              - lenovo,j606f-boe-nt36523w
-+          - const: novatek,nt36523w
++#include <linux/backlight.h>
+ #include <linux/delay.h>
+ #include <linux/gpio/consumer.h>
+ #include <linux/module.h>
+@@ -53,6 +54,7 @@ struct panel_desc {
+ 	int (*init_sequence)(struct panel_info *pinfo);
  
-   reset-gpios:
-     maxItems: 1
-@@ -33,6 +38,7 @@ properties:
-     description: regulator that supplies the I/O voltage
+ 	bool is_dual_dsi;
++	bool has_dcs_backlight;
+ };
  
-   reg: true
-+  rotation: true
-   backlight: true
+ static inline struct panel_info *to_panel_info(struct drm_panel *panel)
+@@ -679,6 +681,59 @@ static const struct drm_panel_funcs nt36523_panel_funcs = {
+ 	.get_modes = nt36523_get_modes,
+ };
  
- oneOf:
++static int nt36523_bl_update_status(struct backlight_device *bl)
++{
++	struct mipi_dsi_device *dsi = bl_get_data(bl);
++	u16 brightness = backlight_get_brightness(bl);
++	int ret;
++
++	dsi->mode_flags &= ~MIPI_DSI_MODE_LPM;
++
++	ret = mipi_dsi_dcs_set_display_brightness_large(dsi, brightness);
++	if (ret < 0)
++		return ret;
++
++	dsi->mode_flags |= MIPI_DSI_MODE_LPM;
++
++	return 0;
++}
++
++static int nt36523_bl_get_brightness(struct backlight_device *bl)
++{
++	struct mipi_dsi_device *dsi = bl_get_data(bl);
++	u16 brightness;
++	int ret;
++
++	dsi->mode_flags &= ~MIPI_DSI_MODE_LPM;
++
++	ret = mipi_dsi_dcs_get_display_brightness_large(dsi, &brightness);
++	if (ret < 0)
++		return ret;
++
++	dsi->mode_flags |= MIPI_DSI_MODE_LPM;
++
++	return brightness;
++}
++
++static const struct backlight_ops nt36523_bl_ops = {
++	.update_status = nt36523_bl_update_status,
++	.get_brightness = nt36523_bl_get_brightness,
++};
++
++static struct backlight_device *nt36523_create_backlight(struct mipi_dsi_device *dsi)
++{
++	struct device *dev = &dsi->dev;
++	const struct backlight_properties props = {
++		.type = BACKLIGHT_RAW,
++		.brightness = 512,
++		.max_brightness = 4095,
++		.scale = BACKLIGHT_SCALE_NON_LINEAR,
++	};
++
++	return devm_backlight_device_register(dev, dev_name(dev), dev, dsi,
++					      &nt36523_bl_ops, &props);
++}
++
+ static int nt36523_probe(struct mipi_dsi_device *dsi)
+ {
+ 	struct device *dev = &dsi->dev;
+@@ -730,9 +785,16 @@ static int nt36523_probe(struct mipi_dsi_device *dsi)
+ 	mipi_dsi_set_drvdata(dsi, pinfo);
+ 	drm_panel_init(&pinfo->panel, dev, &nt36523_panel_funcs, DRM_MODE_CONNECTOR_DSI);
+ 
+-	ret = drm_panel_of_backlight(&pinfo->panel);
+-	if (ret)
+-		return dev_err_probe(dev, ret, "failed to get backlight\n");
++	if (pinfo->desc->has_dcs_backlight) {
++		pinfo->panel.backlight = nt36523_create_backlight(dsi);
++		if (IS_ERR(pinfo->panel.backlight))
++			return dev_err_probe(dev, PTR_ERR(pinfo->panel.backlight),
++					     "Failed to create backlight\n");
++	} else {
++		ret = drm_panel_of_backlight(&pinfo->panel);
++		if (ret)
++			return dev_err_probe(dev, ret, "Failed to get backlight\n");
++	}
+ 
+ 	drm_panel_add(&pinfo->panel);
+ 
 
 -- 
 2.40.0
