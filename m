@@ -2,71 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F5696E0959
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Apr 2023 10:52:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B2B36E0968
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Apr 2023 10:54:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4242E10EA80;
-	Thu, 13 Apr 2023 08:52:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0CCB010EA88;
+	Thu, 13 Apr 2023 08:54:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com
- [IPv6:2a00:1450:4864:20::329])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8ED4010EA80
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Apr 2023 08:52:36 +0000 (UTC)
-Received: by mail-wm1-x329.google.com with SMTP id
- he11-20020a05600c540b00b003ef6d684102so5890934wmb.3
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Apr 2023 01:52:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1681375955; x=1683967955;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=qbpMYUm2CE6fjv2A+zaOllAKnd6lk3Qd3AHGhhmkm+E=;
- b=HnpySm5xmwPhooXdE/eWdYCyuS800PJRr0sF9uWCs073RxT9dO6p7iMXu6ILDLZ7zP
- 4d4E221WENcpoKtiiIM9zeUYH0DMw1AXa9WdXmx1n6w0fMixp23F1HBhkcDvvReyYbU/
- QqfE2is2eHEHTcj0GysdXh7IaVfzLC4YVq8MjWSK0kg+tpCW3udF4NcPpz8NT9EazIsS
- cD/Our85/CIKOO0lTgVqfVuRLzMAh8dkjo27ia6/HLhm0yIOPdIMtNp2Lubo+x9xQ2gX
- eHO8Nz2s2R9eiM5qT2XBr+/lEdFPn3cCbKNE1i6m2dQtOb/wNmorAts0OIgKoKQqBuTu
- qR8Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681375955; x=1683967955;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=qbpMYUm2CE6fjv2A+zaOllAKnd6lk3Qd3AHGhhmkm+E=;
- b=B4cAGhNIf3UOI4nORbvK55RqXGmuqmn3ozpU4jtIZuaLSoDNGpiSBLqMOSuizqSTQE
- o8iDIn7RIHXEOdrHo0moJDHdr39dgbjPlzrlNTT9lptx2/we8xRhtvBZ+CVST5OTcwDa
- fMhUVJ+mQaSvRM9yhufOPzoa3msreTta2wxuthNe+9iHZINDENEi/cj1zouGsCoasekW
- 1/GyY9JqNmhwiFogV+d5hzip3C3hVCOeyp9sH6UHuA91/gkJC3vs1VxP24Q94Ri1S2sz
- alrZVmklbchy4VzIj1WVEd0+rEx8rizidLNbfwK0XAdHjdBB+orQYm44Pnl8uqHrtg7j
- 1REg==
-X-Gm-Message-State: AAQBX9d+hxf+wsG8jUBQ9D7RrbFhqXrksG4EM3op++daWMIDqyliJSuB
- +r8XyHAYZh+BZy01lon/cY8=
-X-Google-Smtp-Source: AKy350bo2b5a9kvtAxKtfQWiGoPW5i8VySTNTjPFcwiTp3qfQEaU8P/r5OLKZVyAxMZ2gR/rW3SeaA==
-X-Received: by 2002:a1c:7701:0:b0:3ee:3d2d:841a with SMTP id
- t1-20020a1c7701000000b003ee3d2d841amr929838wmi.24.1681375954444; 
- Thu, 13 Apr 2023 01:52:34 -0700 (PDT)
-Received: from [192.168.0.32] ([37.222.243.26])
- by smtp.gmail.com with ESMTPSA id
- l7-20020a05600c1d0700b003ee443bf0c7sm4870877wms.16.2023.04.13.01.52.31
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 13 Apr 2023 01:52:32 -0700 (PDT)
-Message-ID: <5c0bc1f2-5917-ab84-8b0b-f2adc48f8be7@gmail.com>
-Date: Thu, 13 Apr 2023 10:52:28 +0200
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B972910EA87;
+ Thu, 13 Apr 2023 08:54:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1681376063; x=1712912063;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=tfAoIKfWayM4xmxfJpBuzkgkVCUcE32N1uH+iLjpzFk=;
+ b=kfn7wsMPObZvkUr6cfLDZ24gT+RVl95eYuNcGAZGwgp4hsX1QIX4ytuc
+ Coton9yF1ttCXZcUarJRePjw16lCJIjLUEpE6wHP5B9HYuOJj6CUfEno+
+ 1DzGWrcvDnRoxq73RR0OnS2zyzDmsTkFHEIe+HTgQ4tRYkAbHDrQZ+i71
+ kOfaMXAxM7x1Yz8K+xRDuEW2wvWpBsiV0gw/0B9AloVvjFynh02Ar1mcA
+ dBUvurEy8IyfN4z0yeKy5N3nrqDJ2ye8PvkZZqEr7Tvq4o5+kMY7xLKAF
+ tmrNfovKJD9jWgaA8O66w5WGMJcmL9hocPbcwOhUIV2qD3FXE5IzVC0RV g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10678"; a="342874521"
+X-IronPort-AV: E=Sophos;i="5.98,341,1673942400"; d="scan'208";a="342874521"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Apr 2023 01:54:22 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10678"; a="758617012"
+X-IronPort-AV: E=Sophos;i="5.98,341,1673942400"; d="scan'208";a="758617012"
+Received: from zbiro-mobl.ger.corp.intel.com (HELO intel.com)
+ ([10.251.212.144])
+ by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Apr 2023 01:54:19 -0700
+Date: Thu, 13 Apr 2023 10:53:51 +0200
+From: Andi Shyti <andi.shyti@linux.intel.com>
+To: Andrzej Hajda <andrzej.hajda@intel.com>
+Subject: Re: [PATCH v5 2/5] drm/i915: Create the locked version of the
+ request create
+Message-ID: <ZDfDHwrNEsaiCQ7T@ashyti-mobl2.lan>
+References: <20230412113308.812468-1-andi.shyti@linux.intel.com>
+ <20230412113308.812468-3-andi.shyti@linux.intel.com>
+ <04f9e2ac-0967-1e26-fbfc-da7ff54c9a62@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [PATCH 01/27] dt-bindings: pwm: Add compatible for MediaTek MT6795
-Content-Language: en-US
-To: Rob Herring <robh@kernel.org>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-References: <20230412112739.160376-1-angelogioacchino.delregno@collabora.com>
- <20230412112739.160376-2-angelogioacchino.delregno@collabora.com>
- <168133318912.3190428.16120880490622098945.robh@kernel.org>
-From: Matthias Brugger <matthias.bgg@gmail.com>
-In-Reply-To: <168133318912.3190428.16120880490622098945.robh@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <04f9e2ac-0967-1e26-fbfc-da7ff54c9a62@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,89 +61,92 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: chunkuang.hu@kernel.org, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, thierry.reding@gmail.com,
- krzysztof.kozlowski+dt@linaro.org, linux-phy@lists.infradead.org,
- phone-devel@vger.kernel.org, xinlei.lee@mediatek.com, kishon@kernel.org,
- kernel@collabora.com, jassisinghbrar@gmail.com, u.kleine-koenig@pengutronix.de,
- linux-pwm@vger.kernel.org, jitao.shi@mediatek.com, houlong.wei@mediatek.com,
- chunfeng.yun@mediatek.com, robh+dt@kernel.org,
- linux-mediatek@lists.infradead.org, ~postmarketos/upstreaming@lists.sr.ht,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- vkoul@kernel.org
+Cc: Maciej Patelczyk <maciej.patelczyk@intel.com>,
+ intel-gfx@lists.freedesktop.org, stable@vger.kernel.org,
+ Andi Shyti <andi.shyti@kernel.org>, dri-devel@lists.freedesktop.org,
+ Andi Shyti <andi.shyti@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Nirmoy Das <nirmoy.das@intel.com>,
+ Chris Wilson <chris.p.wilson@linux.intel.com>,
+ Matthew Auld <matthew.auld@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Andrzej,
 
+> > Make version of the request creation that doesn't hold any
+> > lock.
+> > 
+> > Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
+> > Cc: stable@vger.kernel.org
+> > Reviewed-by: Nirmoy Das <nirmoy.das@intel.com>
+> > ---
+> >   drivers/gpu/drm/i915/i915_request.c | 38 +++++++++++++++++++++--------
+> >   drivers/gpu/drm/i915/i915_request.h |  2 ++
+> >   2 files changed, 30 insertions(+), 10 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/i915/i915_request.c b/drivers/gpu/drm/i915/i915_request.c
+> > index 630a732aaecca..58662360ac34e 100644
+> > --- a/drivers/gpu/drm/i915/i915_request.c
+> > +++ b/drivers/gpu/drm/i915/i915_request.c
+> > @@ -1028,15 +1028,11 @@ __i915_request_create(struct intel_context *ce, gfp_t gfp)
+> >   	return ERR_PTR(ret);
+> >   }
+> > -struct i915_request *
+> > -i915_request_create(struct intel_context *ce)
+> > +static struct i915_request *
+> > +__i915_request_create_locked(struct intel_context *ce)
+> >   {
+> > +	struct intel_timeline *tl = ce->timeline;
+> >   	struct i915_request *rq;
+> > -	struct intel_timeline *tl;
+> > -
+> > -	tl = intel_context_timeline_lock(ce);
+> > -	if (IS_ERR(tl))
+> > -		return ERR_CAST(tl);
+> >   	/* Move our oldest request to the slab-cache (if not in use!) */
+> >   	rq = list_first_entry(&tl->requests, typeof(*rq), link);
+> > @@ -1046,16 +1042,38 @@ i915_request_create(struct intel_context *ce)
+> >   	intel_context_enter(ce);
+> >   	rq = __i915_request_create(ce, GFP_KERNEL);
+> >   	intel_context_exit(ce); /* active reference transferred to request */
+> > +
+> >   	if (IS_ERR(rq))
+> > -		goto err_unlock;
+> > +		return rq;
+> >   	/* Check that we do not interrupt ourselves with a new request */
+> >   	rq->cookie = lockdep_pin_lock(&tl->mutex);
+> >   	return rq;
+> > +}
+> > +
+> > +struct i915_request *
+> > +i915_request_create_locked(struct intel_context *ce)
+> > +{
+> > +	intel_context_assert_timeline_is_locked(ce->timeline);
+> > +
+> > +	return __i915_request_create_locked(ce);
+> > +}
+> 
+> I wonder if we really need to have such granularity? Leaving only
+> i915_request_create_locked and removing __i915_request_create_locked would
+> simplify little bit the code,
+> I guess the cost of calling intel_context_assert_timeline_is_locked twice
+> sometimes is not big, or maybe it can be re-arranged, up to you.
 
-On 12/04/2023 23:03, Rob Herring wrote:
-> 
-> On Wed, 12 Apr 2023 13:27:13 +0200, AngeloGioacchino Del Regno wrote:
->> Add a compatible string for MediaTek Helio X10 MT6795's display PWM
->> block: this is the same as MT8173.
->>
->> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
->> ---
->>   Documentation/devicetree/bindings/pwm/mediatek,pwm-disp.yaml | 4 +++-
->>   1 file changed, 3 insertions(+), 1 deletion(-)
->>
-> 
-> Running 'make dtbs_check' with the schema in this patch gives the
-> following warnings. Consider if they are expected or the schema is
-> incorrect. These may not be new warnings.
-> 
+There is some usage of such granularity in patch 4. I am adding
+here the throttle on the timeline. I am adding it in the
+"_locked" version to avoid potential deadlocks coming from
+selftests (and from realworld?).
 
-These are not new warnings. I think we should address them in a different patch. 
-In my opinion it shouldn't block this patch. In the end it only add as 
-compatible here.
+Here I'd love to have some comments from Chris and Matt.
 
-Regards,
-Matthias
+I might still add this in the commit message:
 
-> Note that it is not yet a requirement to have 0 warnings for dtbs_check.
-> This will change in the future.
-> 
-> Full log is available here: https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20230412112739.160376-2-angelogioacchino.delregno@collabora.com
-> 
-> 
-> pwm@1100e000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
-> 	arch/arm64/boot/dts/mediatek/mt8183-evb.dtb
-> 	arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-burnet.dtb
-> 	arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-cozmo.dtb
-> 	arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-damu.dtb
-> 	arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel14.dtb
-> 	arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel14-sku2.dtb
-> 	arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku1.dtb
-> 	arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku6.dtb
-> 	arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku7.dtb
-> 	arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-juniper-sku16.dtb
-> 	arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-kappa.dtb
-> 	arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-kenzo.dtb
-> 	arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-willow-sku0.dtb
-> 	arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-willow-sku1.dtb
-> 	arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu.dtb
-> 	arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-sku22.dtb
-> 	arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku16.dtb
-> 	arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku272.dtb
-> 	arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku288.dtb
-> 	arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku32.dtb
-> 	arch/arm64/boot/dts/mediatek/mt8183-kukui-krane-sku0.dtb
-> 	arch/arm64/boot/dts/mediatek/mt8183-kukui-krane-sku176.dtb
-> 	arch/arm64/boot/dts/mediatek/mt8183-pumpkin.dtb
-> 
-> pwm@1400a000: compatible: 'oneOf' conditional failed, one must be fixed:
-> 	arch/arm/boot/dts/mt7623n-bananapi-bpi-r2.dtb
-> 	arch/arm/boot/dts/mt7623n-rfb-emmc.dtb
-> 
-> pwm@1401e000: compatible: 'oneOf' conditional failed, one must be fixed:
-> 	arch/arm64/boot/dts/mediatek/mt8173-elm.dtb
-> 	arch/arm64/boot/dts/mediatek/mt8173-elm-hana.dtb
-> 	arch/arm64/boot/dts/mediatek/mt8173-elm-hana-rev7.dtb
-> 	arch/arm64/boot/dts/mediatek/mt8173-evb.dtb
-> 
-> pwm@1401f000: compatible: 'oneOf' conditional failed, one must be fixed:
-> 	arch/arm64/boot/dts/mediatek/mt8173-elm.dtb
-> 	arch/arm64/boot/dts/mediatek/mt8173-elm-hana.dtb
-> 	arch/arm64/boot/dts/mediatek/mt8173-elm-hana-rev7.dtb
-> 	arch/arm64/boot/dts/mediatek/mt8173-evb.dtb
-> 
+"i915_request_create_locked() is now empty but will be used in
+later commits where a throttle on the ringspace will be executed
+to ensure exclusive ownership of the timeline."
+
+> Reviewed-by: Andrzej Hajda <andrzej.hajda@intel.com>
+
+Thanks!
+
+Andi
