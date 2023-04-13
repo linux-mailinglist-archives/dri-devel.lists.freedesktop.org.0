@@ -2,52 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1824E6E113F
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Apr 2023 17:36:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 412596E1151
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Apr 2023 17:40:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9989910E0D9;
-	Thu, 13 Apr 2023 15:35:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8A3AD10E157;
+	Thu, 13 Apr 2023 15:40:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from 189.cn (ptr.189.cn [183.61.185.103])
- by gabe.freedesktop.org (Postfix) with ESMTP id C92C610E0D9
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Apr 2023 15:35:52 +0000 (UTC)
-HMM_SOURCE_IP: 10.64.8.41:35920.1664329760
-HMM_ATTACHE_NUM: 0000
-HMM_SOURCE_TYPE: SMTP
-Received: from clientip-114.242.206.180 (unknown [10.64.8.41])
- by 189.cn (HERMES) with SMTP id 743391001F8;
- Thu, 13 Apr 2023 23:35:47 +0800 (CST)
-Received: from  ([114.242.206.180])
- by gateway-151646-dep-7b48884fd-ljp89 with ESMTP id
- c60c17fcdba449cbbf3d4b5a67ee373c for 15330273260@189.cn; 
- Thu, 13 Apr 2023 23:35:49 CST
-X-Transaction-ID: c60c17fcdba449cbbf3d4b5a67ee373c
-X-Real-From: 15330273260@189.cn
-X-Receive-IP: 114.242.206.180
-X-MEDUSA-Status: 0
-Message-ID: <dbac96b2-0fea-591b-517d-2a23cc36b8de@189.cn>
-Date: Thu, 13 Apr 2023 23:35:46 +0800
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BF63A10E157
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Apr 2023 15:39:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1681400399; x=1712936399;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=AoLGypafLX9NAuBfVTUVj9m67WG5JbctYwofsqzrUwY=;
+ b=Z3Ve3D88fE84issYqBRFUENU1yCypQLbbBRaQAnQxboiiQEdFvphB8Zi
+ R/1aQIrZrsQ304aOEIth5zypWe+1EVahAoZJdmcBcw6v8YrG2d13s33SK
+ nf6faiiwlMnwGyh0p83kN1IO+MSrmkeEqS+lcloKXlioRmr4ENiKRT1am
+ 11fB+SJAWyc1ZdIVGxygQnx5+Tl8k60DFiHYSMPxzxjvDDNbUWMgFjtsC
+ mombuKVRJOtJbPbqWRE2u1bEayaPYQNb1lqNtEpk0I7wKrcb892vd0d5K
+ PmrP/EylbOrmVLwA8VvvNyXLz2tMuyhl5hYDzLrH2G8g4pHTQ/DyVpqIa w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10679"; a="341711365"
+X-IronPort-AV: E=Sophos;i="5.99,194,1677571200"; d="scan'208";a="341711365"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Apr 2023 08:39:57 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10679"; a="692005071"
+X-IronPort-AV: E=Sophos;i="5.99,194,1677571200"; d="scan'208";a="692005071"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+ by fmsmga007.fm.intel.com with ESMTP; 13 Apr 2023 08:39:54 -0700
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1pmz3B-000YmL-02;
+ Thu, 13 Apr 2023 15:39:53 +0000
+Date: Thu, 13 Apr 2023 23:39:10 +0800
+From: kernel test robot <lkp@intel.com>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ mcanal@igalia.com, stanislaw.gruszka@linux.intel.com,
+ ogabbay@kernel.org, quic_jhugo@quicinc.com, daniel@ffwll.ch,
+ jani.nikula@linux.intel.com, mwen@igalia.com, maxime@cerno.tech,
+ wambui.karugax@gmail.com, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH 2/5] drm/debugfs: rework debugfs directory creation v3
+Message-ID: <202304132344.9oz5dfJI-lkp@intel.com>
+References: <20230412145206.2483-3-christian.koenig@amd.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH] drm/fbdev-generic: fix potential out-of-bounds access
-To: Sui Jingfeng <15330273260@189.cn>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Li Yi <liyi@loongson.cn>,
- Helge Deller <deller@gmx.de>, Lucas De Marchi <lucas.demarchi@intel.com>,
- linux-kernel@vger.kernel.org, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org, loongson-kernel@lists.loongnix.cn
-References: <20230409132110.494630-1-15330273260@189.cn>
- <ZDV0Te65tSh4Q/vc@phenom.ffwll.local>
- <42f16d0d-4e1a-a016-f4cc-af24efa75f1c@189.cn>
- <ZDbuCWKfFlWyiOGp@phenom.ffwll.local>
-Content-Language: en-US
-From: Sui Jingfeng <15330273260@189.cn>
-In-Reply-To: <ZDbuCWKfFlWyiOGp@phenom.ffwll.local>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230412145206.2483-3-christian.koenig@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,237 +63,140 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Hi Christian,
 
-On 2023/4/13 01:44, Daniel Vetter wrote:
-> On Thu, Apr 13, 2023 at 01:13:37AM +0800, Sui Jingfeng wrote:
->> Hi,
->>
->> On 2023/4/11 22:53, Daniel Vetter wrote:
->>> On Sun, Apr 09, 2023 at 09:21:10PM +0800, Sui Jingfeng wrote:
->>>> From: Sui Jingfeng <suijingfeng@loongson.cn>
->>>>
->>>> We should setting the screen buffer size according to the screen's actual
->>>> size, rather than the size of the GEM object backing the front framebuffer.
->>>> The size of GEM buffer is page size aligned, while the size of active area
->>>> of a specific screen is *NOT* necessarily page size aliged. For example,
->>>> 1680x1050, 1600x900, 1440x900, 800x6000 etc. In those case, the damage rect
->>>> computed by drm_fb_helper_memory_range_to_clip() goes out of bottom bounds
->>>> of the display.
->>>>
->>>> Run fbdev test of IGT on a x86+ast2400 platform with 1680x1050 resolution
->>>> will cause the system hang with the following call trace:
->>>>
->>>>     Oops: 0000 [#1] PREEMPT SMP PTI
->>>>     [IGT] fbdev: starting subtest eof
->>>>     Workqueue: events drm_fb_helper_damage_work [drm_kms_helper]
->>>>     [IGT] fbdev: starting subtest nullptr
->>>>
->>>>     RIP: 0010:memcpy_erms+0xa/0x20
->>>>     RSP: 0018:ffffa17d40167d98 EFLAGS: 00010246
->>>>     RAX: ffffa17d4eb7fa80 RBX: ffffa17d40e0aa80 RCX: 00000000000014c0
->>>>     RDX: 0000000000001a40 RSI: ffffa17d40e0b000 RDI: ffffa17d4eb80000
->>>>     RBP: ffffa17d40167e20 R08: 0000000000000000 R09: ffff89522ecff8c0
->>>>     R10: ffffa17d4e4c5000 R11: 0000000000000000 R12: ffffa17d4eb7fa80
->>>>     R13: 0000000000001a40 R14: 000000000000041a R15: ffffa17d40167e30
->>>>     FS:  0000000000000000(0000) GS:ffff895257380000(0000) knlGS:0000000000000000
->>>>     CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
->>>>     CR2: ffffa17d40e0b000 CR3: 00000001eaeca006 CR4: 00000000001706e0
->>>>     Call Trace:
->>>>      <TASK>
->>>>      ? drm_fbdev_generic_helper_fb_dirty+0x207/0x330 [drm_kms_helper]
->>>>      drm_fb_helper_damage_work+0x8f/0x170 [drm_kms_helper]
->>>>      process_one_work+0x21f/0x430
->>>>      worker_thread+0x4e/0x3c0
->>>>      ? __pfx_worker_thread+0x10/0x10
->>>>      kthread+0xf4/0x120
->>>>      ? __pfx_kthread+0x10/0x10
->>>>      ret_from_fork+0x2c/0x50
->>>>      </TASK>
->>>>     CR2: ffffa17d40e0b000
->>>>     ---[ end trace 0000000000000000 ]---
->>>>
->>>> We also add trival code in this patch to restrict the damage rect beyond
->>>> the last line of the framebuffer.
->>> Nice catch!
->>   :)
->>>> Signed-off-by: Sui Jingfeng <suijingfeng@loongson.cn>
->>>> ---
->>>>    drivers/gpu/drm/drm_fb_helper.c     | 2 +-
->>>>    drivers/gpu/drm/drm_fbdev_generic.c | 2 ++
->>>>    2 files changed, 3 insertions(+), 1 deletion(-)
->>>>
->>>> diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
->>>> index 64458982be40..a2b749372759 100644
->>>> --- a/drivers/gpu/drm/drm_fb_helper.c
->>>> +++ b/drivers/gpu/drm/drm_fb_helper.c
->>>> @@ -645,7 +645,7 @@ static void drm_fb_helper_memory_range_to_clip(struct fb_info *info, off_t off,
->>>>    	u32 x1 = 0;
->>>>    	u32 y1 = off / info->fix.line_length;
->>>>    	u32 x2 = info->var.xres;
->>>> -	u32 y2 = DIV_ROUND_UP(end, info->fix.line_length);
->>>> +	u32 y2 = min_t(u32, DIV_ROUND_UP(end, info->fix.line_length), info->var.yres);
->>> So for additional robustness I think it'd be good if we change the entire
->>> computation here to use drm_framebuffer data and not fb_info data, because
->>> fundamentally that's what the drm kms code consumes. It should all match
->>> anyway, but I think it makes the code more obviously correct.
->>>
->>> So in the entire function instead of looking at fb_info->fix we should
->>> probably look at
->>>
->>> 	struct drm_fb_helper *helper = info->par;
->>>
->>> And then helper->fb->pitches[0] and helper->fb->height.
->>>
->>> If you agree would be great if you can please respin with that (and the
->>> commit message augmented to explain why we do the change)?
->> Yes, I'm agree.
->>
->> Thank you for guidance, I will refine this patch with `helper = info->par`.
->>
->> I will send a v2 when I finished.
->>
->>>>    	if ((y2 - y1) == 1) {
->>>>    		/*
->>>> diff --git a/drivers/gpu/drm/drm_fbdev_generic.c b/drivers/gpu/drm/drm_fbdev_generic.c
->>>> index 8e5148bf40bb..a6daecb5f640 100644
->>>> --- a/drivers/gpu/drm/drm_fbdev_generic.c
->>>> +++ b/drivers/gpu/drm/drm_fbdev_generic.c
->>>> @@ -95,6 +95,8 @@ static int drm_fbdev_generic_helper_fb_probe(struct drm_fb_helper *fb_helper,
->>>>    	fb_helper->fb = buffer->fb;
->>>>    	screen_size = buffer->gem->size;
->>> I guess you forgot to remove this line here?
->> Yes, this line should be removed in this patch. I overlooked this, sorry.
->>
->>> Also I'm not understanding
->>> why this matters, I think you're fix only needs the above chunk, not this
->>> one? If I got this right then please drop this part, there's drivers which
->>> only use drm_fb_helper.c but not drm_fbdev_generic.c, and from what I can
->>> tell they all still set the gem buffer size here.
->>>
->>> If otoh we need this too, then there's a few more places that need to be
->>> fixed.
->> I think we need this line, otherwise wrapped around will be happen.
->>
->> Because I found that the value of variable`y1` will be larger in number than
->> the variable `y2` by 1,
->>
->> which are computed  in drm_fb_helper_memory_range_to_clip().
->>
->>
->> This phenomenon will emerged on platforms with large page size or
->>
->> non page size divisiable display resolution case. Take the LoongArch and
->> Mips as an example,
->>
->> the default page size is 16KB(to avoid cache alias).  Even with the most
->> frequently used
->>
->> 1920x1080 screen, the screen_size can not be divided exactly.
->>
->> The total size of the shadow buffer is 1920x1080x4 bytes, 1920x1080x4 /
->> 16384 = 506.25
->>
->> TTM manage the vram in the term of pages, so TTM will allocate 507 pages for
->> us.
->>
->> 507x16384 = 8306688 bytes.
->>
->>
->> drm_fb_helper_memory_range_to_clip() will be called when running fbdev eof
->> test in the IGT.
->>
->> with 8306688 as its second parameter. while 8306688 / (1920x4) = 1081, this
->> cause y1 out of bound.
->>
->> Simply restrict y2 with a min_t() function yeild 1080 in this case, but y2 -
->> y1 cause *wrap around* here.
->>
->> because they are both unsigned number.
->>
->>
->> drm_rect_init() function cast this unsigned int type to int type in end of
->> drm_fb_helper_memory_range_to_clip(),
->>
->> but the last argument of drm_fb_helper_damage() function is a u32 type,
->>
->> it cast the return value of  drm_rect_height(&damage_area) back to unsigned
->> type.
->>
->> Yet, another wrapped around with truncation happened in
->> drm_fb_helper_add_damage_clip()
->>
->> called by subsequent drm_fb_helper_damage() function.
->>
->> I finally got reject by drm_fbdev_generic_helper_fb_dirty() with follow
->> code:
->>
->> ```
->>
->>      /* Call damage handlers only if necessary */
->>      if (!(clip->x1 < clip->x2 && clip->y1 < clip->y2))
->>          return 0;
->>
->> ```
->>
->> On x86-64 platform, because 1920x1080x4 dumb buffer is lucky, it be divided
->> exactly by 4KB(page size).
->>
->> But other resolution will not as luck as this one. Right, fbdev test will be
->> pasted, but wrap around
->>
->> happens many time.
->>
->> Therefore, as long as a larger buffer is allowed to exposed to the
->> user-space.
->>
->> A chance is given to the user-space,  to go beyond of the bottom bound of
->> the actual active display area.
->>
->> I not sure if this is intended, I feel it should not be allowable by
->> intuition.
-> Ah yes, thanks for the in-depth explanation. But I think we need a
-> different fix, by also limiting y1. Otherwise for really big page sizes
-> (64k on arm64 iirc) and really small screens (there's i2c panels with just
-> a few lines) we might still run into the issue of y1 being too large.
->
-> So we need to limit both y1 and y2. I think it's ok to let y1 == y2 slip
-> through, since as you point out that's filtered later on.
->
-> The userspace api is that we should expose the full fbdev buffer and allow
-> writes into the entire thing. It's just that for the explicit upload with
-> damage rects we need to make sure we're staying within the real buffer.
-> -Daniel
->
-Limiting y1 is easy, and this is necessary, because it is the crazy 
-fbdev test of IGT writing after EOF intentionally.
+kernel test robot noticed the following build errors:
 
-But there some difficulties for me to avoid using info->fix and info->var ,
+[auto build test ERROR on drm-misc/drm-misc-next]
+[also build test ERROR on drm-intel/for-linux-next drm-intel/for-linux-next-fixes tegra/for-next linus/master v6.3-rc6 next-20230412]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-I found all other functions are surrounding the info->fix and info-var.
+url:    https://github.com/intel-lab-lkp/linux/commits/Christian-K-nig/drm-debugfs-rework-debugfs-directory-creation-v3/20230412-235231
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20230412145206.2483-3-christian.koenig%40amd.com
+patch subject: [PATCH 2/5] drm/debugfs: rework debugfs directory creation v3
+config: hexagon-randconfig-r002-20230409 (https://download.01.org/0day-ci/archive/20230413/202304132344.9oz5dfJI-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 9638da200e00bd069e6dd63604e14cbafede9324)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/92a7a4f0fd59d427c5827c323692b76095f90efc
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Christian-K-nig/drm-debugfs-rework-debugfs-directory-creation-v3/20230412-235231
+        git checkout 92a7a4f0fd59d427c5827c323692b76095f90efc
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash drivers/gpu/drm/
 
-There seems no good variable to replace info->var related data structure.
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202304132344.9oz5dfJI-lkp@intel.com/
 
-Partially replacement may introduce confusion, this somewhat beyond my 
-ability.
+All errors (new ones prefixed by >>):
 
-I'm afraid of introducing out-of-bound in horizontal direction for 
-multi-screen case.
+   In file included from drivers/gpu/drm/drm_drv.c:38:
+   In file included from include/drm/drm_accel.h:11:
+   In file included from include/drm/drm_file.h:39:
+   In file included from include/drm/drm_prime.h:37:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __raw_readb(PCI_IOBASE + addr);
+                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+   #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+                                                     ^
+   In file included from drivers/gpu/drm/drm_drv.c:38:
+   In file included from include/drm/drm_accel.h:11:
+   In file included from include/drm/drm_file.h:39:
+   In file included from include/drm/drm_prime.h:37:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+   #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+                                                     ^
+   In file included from drivers/gpu/drm/drm_drv.c:38:
+   In file included from include/drm/drm_accel.h:11:
+   In file included from include/drm/drm_file.h:39:
+   In file included from include/drm/drm_prime.h:37:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writeb(value, PCI_IOBASE + addr);
+                               ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+>> drivers/gpu/drm/drm_drv.c:1011:2: error: call to undeclared function 'drm_debugfs_dev_fini'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+           drm_debugfs_dev_fini(dev);
+           ^
+   drivers/gpu/drm/drm_drv.c:1011:2: note: did you mean 'drm_debugfs_dev_init'?
+   include/drm/drm_drv.h:596:13: note: 'drm_debugfs_dev_init' declared here
+   static void drm_debugfs_dev_init(struct drm_device *dev, struct dentry *root)
+               ^
+   6 warnings and 1 error generated.
 
-Using fb_info->fix is still more safe.
 
-Can I  respin my patch by still using fb_info->fix here?
+vim +/drm_debugfs_dev_fini +1011 drivers/gpu/drm/drm_drv.c
 
->>>> +	screen_size = sizes->surface_height * buffer->fb->pitches[0];
->>>> +
->>>>    	screen_buffer = vzalloc(screen_size);
->>>>    	if (!screen_buffer) {
->>>>    		ret = -ENOMEM;
->>> Cheers, Daniel
->>>
->>>> -- 
->>>> 2.25.1
->>>>
+   974	
+   975	/**
+   976	 * drm_dev_unregister - Unregister DRM device
+   977	 * @dev: Device to unregister
+   978	 *
+   979	 * Unregister the DRM device from the system. This does the reverse of
+   980	 * drm_dev_register() but does not deallocate the device. The caller must call
+   981	 * drm_dev_put() to drop their final reference.
+   982	 *
+   983	 * A special form of unregistering for hotpluggable devices is drm_dev_unplug(),
+   984	 * which can be called while there are still open users of @dev.
+   985	 *
+   986	 * This should be called first in the device teardown code to make sure
+   987	 * userspace can't access the device instance any more.
+   988	 */
+   989	void drm_dev_unregister(struct drm_device *dev)
+   990	{
+   991		if (drm_core_check_feature(dev, DRIVER_LEGACY))
+   992			drm_lastclose(dev);
+   993	
+   994		dev->registered = false;
+   995	
+   996		drm_client_dev_unregister(dev);
+   997	
+   998		if (drm_core_check_feature(dev, DRIVER_MODESET))
+   999			drm_modeset_unregister_all(dev);
+  1000	
+  1001		if (dev->driver->unload)
+  1002			dev->driver->unload(dev);
+  1003	
+  1004		drm_legacy_pci_agp_destroy(dev);
+  1005		drm_legacy_rmmaps(dev);
+  1006	
+  1007		remove_compat_control_link(dev);
+  1008		drm_minor_unregister(dev, DRM_MINOR_ACCEL);
+  1009		drm_minor_unregister(dev, DRM_MINOR_PRIMARY);
+  1010		drm_minor_unregister(dev, DRM_MINOR_RENDER);
+> 1011		drm_debugfs_dev_fini(dev);
+  1012	}
+  1013	EXPORT_SYMBOL(drm_dev_unregister);
+  1014	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
