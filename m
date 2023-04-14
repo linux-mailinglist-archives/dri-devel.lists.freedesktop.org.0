@@ -2,49 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 133606E2845
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Apr 2023 18:26:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 804156E2898
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Apr 2023 18:44:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 21A1810EDB1;
-	Fri, 14 Apr 2023 16:26:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7749610E1C2;
+	Fri, 14 Apr 2023 16:44:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C39DC10EE16;
- Fri, 14 Apr 2023 16:26:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1681489578; x=1713025578;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=OUq9ymCfV3fZgwbPaXefBZdmcX5UxooRepJ9IT24pJ4=;
- b=hWXnv0jSrEY6BLlA338WGq+3oNiyflEfAG8YeOWNQCR/Pvfnp9w4V3hX
- TawLLkqN51U5LzislOuAt3ZZ0skgz1JM8RtpfBa3ACGUfThH0Yd8A6mmX
- D04HdTz2Pt5WFZM1HuiHMP+4iU8sXSOSILZi8IIwqVffF+/OP/dGarayJ
- HOjnmPlg0MHRn9RbLKaKJshylEzUGh5DMEXr6rIZC/KnUy8fstuad/LoQ
- T0ERDAgwmynBfkJ6orl8kxEUSI6GN3rU8ZIb6Oylg4BLGMd0TQPLyFK50
- qTeb74Xiq+aGU8bk+40yXn4hdYvW1tZIBc6yRC0LD7QzcOGtU4ggIefdw Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10680"; a="333278879"
-X-IronPort-AV: E=Sophos;i="5.99,197,1677571200"; d="scan'208";a="333278879"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Apr 2023 09:26:17 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10680"; a="640148565"
-X-IronPort-AV: E=Sophos;i="5.99,197,1677571200"; d="scan'208";a="640148565"
-Received: from hubehann-mobl.ger.corp.intel.com (HELO intel.com)
- ([10.251.212.141])
- by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Apr 2023 09:26:14 -0700
-From: Andi Shyti <andi.shyti@linux.intel.com>
-To: intel-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/i915/gt: Mask media GuC interrupts
-Date: Fri, 14 Apr 2023 18:25:40 +0200
-Message-Id: <20230414162540.1042889-1-andi.shyti@linux.intel.com>
-X-Mailer: git-send-email 2.39.2
+Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com
+ [IPv6:2a00:1450:4864:20::431])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 45A6E10E1C2
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Apr 2023 16:44:36 +0000 (UTC)
+Received: by mail-wr1-x431.google.com with SMTP id v27so8939849wra.13
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Apr 2023 09:44:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1681490673; x=1684082673;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=/ExngqUZl/pg1Kd6E34uU7m6iwz6q/2qwB8gBrD6lrQ=;
+ b=GhkswUhAKDkCiKoc9t/eyiaF53+6JyxpB18rycr+qlp/lNeetlGLuu6GC3ZG8hfb3p
+ fqfpoGQ1pqAOcdlI8Y+sJ72mfNnaJ4FPwqnqMuQ+izLObeSwa41gXQt8sJodv5jGa/0T
+ DCHyxVmFTXoiZAJKFeYg2l3HyO7R7QqyznuMMRwhr31tpWeC+kKGYa4XZgae5wk9hU5v
+ VC7eE6Gxz4FTNBR5+PHuTW33T3KogEu+IssYXh1wsleN/owJgoVClrGYWJ1UOi2BxTfn
+ OAH2m6K62WkIgosirUt4RSz7l1iPN9jNIyueDp5i7cjxMfGJCzjb0B8HHgaz47wDrAyd
+ iNkA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1681490673; x=1684082673;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=/ExngqUZl/pg1Kd6E34uU7m6iwz6q/2qwB8gBrD6lrQ=;
+ b=HYimgGq04CLxXl76XNPHS/Y3i1UFWuiZqunyDQLvR9NkIsgijIPgPUMXGWnKbkgo20
+ ktSXFRkJ0T+lzDzST+b8CQ0TSDt8n1XxKOgHr/DLbTqprX+bRasIvtnuxiM230jBOOdt
+ ktBrXULPYg/rjjQ/pd0VDcI3EuQdddROlgsrJBMWiPF1icrIeFl3DWClItXra0wc+JgW
+ wtxwnYyCkU+VyOZZQYmPoP6oHlMByW5bJhscceZ7P0Kda63dfq3qTQRwqiNavG1mstuX
+ NlIL3pJKaYo4AThBXYJQZmMZ9zqlUItO9D5YHWuAZXR6bUK5hpTjKm/6YmIswG2KzheQ
+ Lt0A==
+X-Gm-Message-State: AAQBX9cB/aabCfQazRJnLyoHhJjndXJQ1JVxCV+LNt6Q13dQ2qOm7Ce9
+ KebwS8dFeGaq47xCrtLaGys=
+X-Google-Smtp-Source: AKy350bpkl/XH9EejX97SLMedFqNtcocLz0dofiURStn1ZlIYfmxrsXsRPyGC/UDwV0n9ZyuKK9coQ==
+X-Received: by 2002:adf:ed45:0:b0:2f7:faa0:3f19 with SMTP id
+ u5-20020adfed45000000b002f7faa03f19mr349951wro.28.1681490673410; 
+ Fri, 14 Apr 2023 09:44:33 -0700 (PDT)
+Received: from [192.168.2.177] ([207.188.167.132])
+ by smtp.gmail.com with ESMTPSA id
+ r16-20020a056000015000b002f21a96c161sm3936139wrx.70.2023.04.14.09.44.31
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 14 Apr 2023 09:44:32 -0700 (PDT)
+Message-ID: <8e40e46a-edf4-96c5-7248-21f39a93a410@gmail.com>
+Date: Fri, 14 Apr 2023 18:44:30 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [PATCH v2 1/2] phy: mediatek: hdmi: mt8195: fix uninitialized
+ variable usage in pll_calc
+Content-Language: en-US
+To: Guillaume Ranquet <granquet@baylibre.com>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>,
+ Chunfeng Yun <chunfeng.yun@mediatek.com>, Vinod Koul <vkoul@kernel.org>,
+ Kishon Vijay Abraham I <kishon@kernel.org>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+References: <20230413-fixes-for-mt8195-hdmi-phy-v2-0-bbad62e64321@baylibre.com>
+ <20230413-fixes-for-mt8195-hdmi-phy-v2-1-bbad62e64321@baylibre.com>
+From: Matthias Brugger <matthias.bgg@gmail.com>
+In-Reply-To: <20230413-fixes-for-mt8195-hdmi-phy-v2-1-bbad62e64321@baylibre.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,81 +82,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
- Matt Roper <matthew.d.roper@intel.com>, Andi Shyti <andi.shyti@kernel.org>,
- Andi Shyti <andi.shyti@linux.intel.com>, Nirmoy Das <nirmoy.das@intel.com>
+Cc: kernel test robot <lkp@intel.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
+ linux-phy@lists.infradead.org, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-MTL features a dedicated media engine that operates on its
-independent GT, requiring activation of its specific interrupt
-set.
 
-Enable the necessary interrupts in a single action when the media
-engine is present, bypassing the need to iterate through all the
-GTs.
 
-Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
----
-Hi,
+On 14/04/2023 18:07, Guillaume Ranquet wrote:
+> The ret variable in mtk_hdmi_pll_calc() was used unitialized as reported
+> by the kernel test robot.
+> 
+> Fix the issue by removing the variable altogether and testing out the
+> return value of mtk_hdmi_pll_set_hw()
+> 
+> Fixes: 45810d486bb44 ("phy: mediatek: add support for phy-mtk-hdmi-mt8195")
+> Reported-by: kernel test robot <lkp@intel.com>
+> Signed-off-by: Guillaume Ranquet <granquet@baylibre.com>
 
-I'm starting with v0 as this patch is very different from the
-ones proposed recently.
+Looks good, but got unfortunately already fixed 4 hours ago with
+20230414122253.3171524-1-trix@redhat.com
 
-After all the discussions on this patch, I took Matt's suggestion
-since it seemed the most immediate.
+:)
 
-However, in the long run, I agree that we should have a
-specific mtl_ function for enabling interrupts.
+Regards,
+Matthias
 
-Thank you Matt and Daniele for your input.
-
-If this patch hasn't missed anything, is it too optimistic to
-expect MTL to boot? :-)
-
-Andi
-
- drivers/gpu/drm/i915/gt/intel_gt_irq.c | 14 ++++++++------
- 1 file changed, 8 insertions(+), 6 deletions(-)
-
-diff --git a/drivers/gpu/drm/i915/gt/intel_gt_irq.c b/drivers/gpu/drm/i915/gt/intel_gt_irq.c
-index 1b25a60391522..162a27b4c4095 100644
---- a/drivers/gpu/drm/i915/gt/intel_gt_irq.c
-+++ b/drivers/gpu/drm/i915/gt/intel_gt_irq.c
-@@ -254,7 +254,6 @@ void gen11_gt_irq_postinstall(struct intel_gt *gt)
- {
- 	struct intel_uncore *uncore = gt->uncore;
- 	u32 irqs = GT_RENDER_USER_INTERRUPT;
--	u32 guc_mask = intel_uc_wants_guc(&gt->uc) ? GUC_INTR_GUC2HOST : 0;
- 	u32 gsc_mask = 0;
- 	u32 dmask;
- 	u32 smask;
-@@ -309,17 +308,20 @@ void gen11_gt_irq_postinstall(struct intel_gt *gt)
- 	if (gsc_mask)
- 		intel_uncore_write(uncore, GEN11_GUNIT_CSME_INTR_MASK, ~gsc_mask);
- 
--	if (guc_mask) {
-+	if (intel_uc_wants_guc(&gt->uc)) {
-+		u32 guc_mask = GUC_INTR_GUC2HOST;
- 		/* the enable bit is common for both GTs but the masks are separate */
--		u32 mask = gt->type == GT_MEDIA ?
--			REG_FIELD_PREP(ENGINE0_MASK, guc_mask) :
--			REG_FIELD_PREP(ENGINE1_MASK, guc_mask);
-+		u32 mask = REG_FIELD_PREP(ENGINE1_MASK, guc_mask);
-+
-+		/* Mask the GuC interrupts of media engine if present */
-+		if (MEDIA_VER(gt->i915) >= 13)
-+			mask |= REG_FIELD_PREP(ENGINE0_MASK, guc_mask);
- 
- 		intel_uncore_write(uncore, GEN11_GUC_SG_INTR_ENABLE,
- 				   REG_FIELD_PREP(ENGINE1_MASK, guc_mask));
- 
- 		/* we might not be the first GT to write this reg */
--		intel_uncore_rmw(uncore, MTL_GUC_MGUC_INTR_MASK, mask, 0);
-+		intel_uncore_write(uncore, MTL_GUC_MGUC_INTR_MASK, mask);
- 	}
- 
- 	/*
--- 
-2.39.2
-
+> ---
+>   drivers/phy/mediatek/phy-mtk-hdmi-mt8195.c | 8 ++------
+>   1 file changed, 2 insertions(+), 6 deletions(-)
+> 
+> diff --git a/drivers/phy/mediatek/phy-mtk-hdmi-mt8195.c b/drivers/phy/mediatek/phy-mtk-hdmi-mt8195.c
+> index abfc077fb0a8..054b73cb31ee 100644
+> --- a/drivers/phy/mediatek/phy-mtk-hdmi-mt8195.c
+> +++ b/drivers/phy/mediatek/phy-mtk-hdmi-mt8195.c
+> @@ -213,7 +213,7 @@ static int mtk_hdmi_pll_calc(struct mtk_hdmi_phy *hdmi_phy, struct clk_hw *hw,
+>   	u64 tmds_clk, pixel_clk, da_hdmitx21_ref_ck, ns_hdmipll_ck, pcw;
+>   	u8 txpredivs[4] = { 2, 4, 6, 12 };
+>   	u32 fbkdiv_low;
+> -	int i, ret;
+> +	int i;
+>   
+>   	pixel_clk = rate;
+>   	tmds_clk = pixel_clk;
+> @@ -292,13 +292,9 @@ static int mtk_hdmi_pll_calc(struct mtk_hdmi_phy *hdmi_phy, struct clk_hw *hw,
+>   	if (!(digital_div <= 32 && digital_div >= 1))
+>   		return -EINVAL;
+>   
+> -	mtk_hdmi_pll_set_hw(hw, PLL_PREDIV, fbkdiv_high, fbkdiv_low,
+> +	return mtk_hdmi_pll_set_hw(hw, PLL_PREDIV, fbkdiv_high, fbkdiv_low,
+>   			    PLL_FBKDIV_HS3, posdiv1, posdiv2, txprediv,
+>   			    txposdiv, digital_div);
+> -	if (ret)
+> -		return -EINVAL;
+> -
+> -	return 0;
+>   }
+>   
+>   static int mtk_hdmi_pll_drv_setting(struct clk_hw *hw)
+> 
