@@ -2,128 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C3BE6E1B1F
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Apr 2023 06:40:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 669996E1BCE
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Apr 2023 07:36:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E6FD810E198;
-	Fri, 14 Apr 2023 04:40:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6413310E153;
+	Fri, 14 Apr 2023 05:36:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam11on2082.outbound.protection.outlook.com [40.107.223.82])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 28FEB10E198
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Apr 2023 04:40:09 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=fI4XhWgsJvSggpjpLfVRUsQQPtz8s4+aflLDHMLq+erfoVF8+kO8V82lAQxVIr6B+JhexfxOwQDww2s4g/IDECg1k1L7IHIR0gl2RiWUJmHFDs4tDCifZ+GjrjtK7W0blmczYfAPgIjB3B7V24BZHhqXrPbuIv1FK8igAN9zgyGMAMv2QbVde/bCf/z4g4n2vWz5ESHmFtXNa/9kSj5cKnlejaYGbbPP11DFn/Y5ue0GXGVPzRCXtRhs7anqJef/Unyr2zySOiAY4epQtj0S2sqytc8USSIA4zjKAUYmKx4w0Y5w+1PEsgiKEGOzpWFDr8UKj4wduaC1OysftUpDQA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=HsrCh960FXiKzoXaewQO4rgjHCqIGU5/t723Mq0xH5I=;
- b=TfMEoPBe+bZsNYgXqx0UABOcZthjPICHvFVd/zJX94W/+xoWxdoHgK1Ri+BtlHEp6vJ0auFBG+9N/SkkNnYzHyqXJ486+/Zz4li9OTRcyf5XITpbj7u1I8eJJB4O7yzGm/GKTjerQytSDn8X8Z82pr/ysckrJCpzPjIjcTai+ASOsgsoCUdMVWABP+ZOZzN04Ru8hDyhHDvkcWl8J2fX3c6vQ42poy03+WWQcMoy57lJhNNdgdbwImjlaHoVVb70CaM6Ovo/mVuKmnkq99HUpY9LiVGPWRFpcz3YxQ8HMRmU1I0LcfQ9n7/JDCCMqBx36Nx1QKnUiOAiBES2SjDqNg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=HsrCh960FXiKzoXaewQO4rgjHCqIGU5/t723Mq0xH5I=;
- b=4kA5WrN3svcvsLyF+ln3uBvvSBw0nKGCT+y6hAvc4rCSXvKxcHV4yIovZniSNF+q6VgrnKkt8vJSBT8nFx4Tihu75VTVjpFDrLO5ebxzHWyEfhzyj+5BHnZplS0NxafjKqWc3hasMYGsr1uUr+jfF9FQM6ywnHsfkdJ36h4yo3I=
-Received: from CO6PR12MB5489.namprd12.prod.outlook.com (2603:10b6:303:139::18)
- by SJ0PR12MB6989.namprd12.prod.outlook.com (2603:10b6:a03:448::16)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6298.30; Fri, 14 Apr
- 2023 04:40:06 +0000
-Received: from CO6PR12MB5489.namprd12.prod.outlook.com
- ([fe80::2dba:b4a2:1765:9eb7]) by CO6PR12MB5489.namprd12.prod.outlook.com
- ([fe80::2dba:b4a2:1765:9eb7%6]) with mapi id 15.20.6298.030; Fri, 14 Apr 2023
- 04:40:05 +0000
-From: "Lin, Wayne" <Wayne.Lin@amd.com>
-To: Alex Deucher <alexdeucher@gmail.com>, Jani Nikula
- <jani.nikula@linux.intel.com>
-Subject: RE: [PATCH] drm: make drm_dp_add_payload_part2 gracefully handle NULL
- state pointer
-Thread-Topic: [PATCH] drm: make drm_dp_add_payload_part2 gracefully handle
- NULL state pointer
-Thread-Index: AQHZbgevOkIvuDaCukWSs5CyyZSFR68qOfSg
-Date: Fri, 14 Apr 2023 04:40:05 +0000
-Message-ID: <CO6PR12MB5489044012B2A96639470F38FC999@CO6PR12MB5489.namprd12.prod.outlook.com>
-References: <20230413111254.22458-1-jlayton@kernel.org>
- <87edooarpq.fsf@intel.com>
- <CADnq5_PVnYMSiKO77+cfg_V-tDKYkVJYN3qGNb1vhQO3QtXskA@mail.gmail.com>
-In-Reply-To: <CADnq5_PVnYMSiKO77+cfg_V-tDKYkVJYN3qGNb1vhQO3QtXskA@mail.gmail.com>
-Accept-Language: en-US, zh-TW
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_Enabled=true;
- MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_SetDate=2023-04-14T04:39:26Z; 
- MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_Method=Privileged;
- MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_Name=Public-AIP 2.0;
- MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_SiteId=3dd8961f-e488-4e60-8e11-a82d994e183d;
- MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_ActionId=a7c91c52-7b4c-42b5-87d1-a3c5cacb981c;
- MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_ContentBits=1
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: CO6PR12MB5489:EE_|SJ0PR12MB6989:EE_
-x-ms-office365-filtering-correlation-id: 3bfc59bc-5cd2-46ff-2b11-08db3ca251cf
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 6aGZTWd/Rphv7+ITaudmQTbvlPwjHMM//0XCZPNElAruXZhO8S98eRQC441vvFonp9L0D8AyC7cEa8H0wEpRZ+mNVjUNgSeNutxapg+XvGJemgmPfFClIRSHOuIfwIuJVCsyYf8FqZjxVSDhoxiLDFuQP35sO+aU6+01teJlhc5oQ+e5YnfVI9ak/DiQimPODWulBTGuQawWzKeZAGBazvN7oOyEn+15S1mvoEq7gUv27MI+5xThl/Hf7AsxuyP23edVFJmfRVXBhWNFPcDlprd7gvv1aUHQOQ04iLZBOTU9/ZBwJpkdbD5/fjygKx6d4lisLHedDBtwMHpqLAT4EwwoXf6gL9Njmd2tvS0YF/vFeOH1yAHRg10u4XRgyaXCZ86aX8uS08XuoL6sE7fNQpyUg6BU21IwuU1R1lJXQY6QyLJYPaMtwTSYEXj3dB9jvUGgH/25fIXrLeE75f75+iImSslIryK3MOasEbcIceQldmKO5Uj++4uaJGTwlMgdQ/f75A2TvkTQu+G8qibt/D56pzowxGb/H7vcYNKNKWzF2n0Rm1EhfNIJ0akIlGa9bpf1hX6seqte6M5KVdGLF8iQIEuOlFbw5igFu1ntMq0=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CO6PR12MB5489.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230028)(4636009)(39860400002)(136003)(376002)(366004)(346002)(396003)(451199021)(33656002)(83380400001)(26005)(6506007)(186003)(53546011)(9686003)(5660300002)(55236004)(86362001)(966005)(7696005)(71200400001)(110136005)(316002)(478600001)(54906003)(4326008)(76116006)(66556008)(64756008)(66476007)(66946007)(66446008)(122000001)(41300700001)(8936002)(8676002)(52536014)(38070700005)(38100700002)(55016003)(2906002);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?QnA5YlExOWU2WmR2cjNrcXlzbHdKWFFkbHYyenh3eFJ3YlZxaEdVRHdTbmZO?=
- =?utf-8?B?aHhIaEJKNlIyaXdvVWR3N1hocitzbHdBdVN6OEpmc0xkejBzV1FhUmFFRnZY?=
- =?utf-8?B?VzNFZVU5ZlU4Q0xmVHh5SnZsbUtLVHBNTVdGU2FGWmZLdVN0Q00wRXVBMGNF?=
- =?utf-8?B?OW1JbHQwLzdVQ1ZPUDJZTk8zekZKY0hkdFVNdGM0enVHa0ptMzFlYTRqVW1n?=
- =?utf-8?B?QWZ1TkZtSjFDMEM3SDVoQjhocmpKYTRUd2NZSTczd0s4aURuZEhIOVRtWURo?=
- =?utf-8?B?SWdXQUovTFQ3bUJYWnhZcm9sZnVmcmNTWmlDMUFnYmFHYVJ1aDZzRjhzbzNl?=
- =?utf-8?B?ajNzYVFKclBnR1lIOFhtYWo2bjE3cUxEcUgrYWxkaGNSbVduSy9QUTRXd0ZD?=
- =?utf-8?B?ZGhOSTFkOUhSSTVjMXdHZTJBblQxTVBZNkZuNW13S09yL2ZNNmUrRHdqQ3VH?=
- =?utf-8?B?UWV4R0xIREpWSmQ1bHhYam51WmszSXM4STROTmowUXhRd2R3TnFYUUFUQTVV?=
- =?utf-8?B?ZWhCN2xhWnZkKzVsSTdidTl6U2h3QUlPZkVWNHJ2NzF1Rlhvek1SRTJBdDlV?=
- =?utf-8?B?Y01iQXhJcEFqTzhoMEJQdURlN29PT3F5cFZtSXRrZ201cnhSSjg1M0JwZEpv?=
- =?utf-8?B?N2MxSmNJdzZ0aWNvQVB2WFYwWXlVTlJXY3NxME0wWTZSdkcvbmpVdk40Zndq?=
- =?utf-8?B?WEYybFE0Qlg5TUlSYnhPaFo0NkJXdVpKangzVW1zSFlnQ1hzS2M0M2RPd05z?=
- =?utf-8?B?YkoxcG03KzcxWXNyMUliM1krUHh2emRmZ0N6Q3V0K01KVGRGeldKY2ZmcVpt?=
- =?utf-8?B?ODV6Wjl2WCtydUdZdkx5eFp0eFR3SzBvZ3p1Q0MzYkw3enFiQzJka3lRMUl4?=
- =?utf-8?B?VHBJZW92WDVQQllENnUzZEhJZis2dzdvV05kOHJxTStFZysvUmt6Z3dNSGoy?=
- =?utf-8?B?VGYwb2FZbXFJdHNjYXMzSVdpL2xaVDFxTmhLeXJhMXdTWVQ1T3JRRkYyOCt3?=
- =?utf-8?B?ZTRKM0J4SE9NZGZZaHlKLzB2UHJxUmdNQWtVL2dpeEY4T3ZsMGRYc2NhRFA5?=
- =?utf-8?B?Yjl4WDVidmhxK1hYS0pUUS9taFhqMnNDMEZleG5NSGdSVGtKSTl6ak0rVHVv?=
- =?utf-8?B?UUNsZ0RqVWNtb0VsM3RheGpHV2U3ZXMvM2d3UUo1YlJ6WWplK3lRd2dlUXRt?=
- =?utf-8?B?NDl5Q3FNN2FFUDIweDdQTDBFaUxDUm01OUkzQjJPbkFhRldQYXhDYVVodTgz?=
- =?utf-8?B?Z0NZUjhzZ0tNbDlEc0JVQkI3cTFVRmZENzRqMGdIUFhiRG9wbmR2dG1BeVBx?=
- =?utf-8?B?RXRuZ09uWU9kaENlN214L2ZWVXM1K2MrRy9iS2NBSHVDZ1Y4YnNlMlZXTElG?=
- =?utf-8?B?U0V1cGdHOEpVSUgxcTJzN1NoNkQzSU1QeGpCZHJlVjRqYTFUTWpCNThnMDZi?=
- =?utf-8?B?aGdXSlp1ZmJYVFJMaWE2Y2VyaHRqdDlTWHJ5MktMQit0MCsvcU1aU0lLa2JP?=
- =?utf-8?B?Qi9KMnNkWTYrZXJPcWpuUk0zQTdxVThabXJrQkNsdi9kVzlibkJQcUk1OHRo?=
- =?utf-8?B?MkpWdVRZSHRvbkcxS2VjRm5zSGVyUnlTZ0NBWWNqczkwNy9Cc3hUbmw4UHhs?=
- =?utf-8?B?MVJaNjd1SW8yQktNZDYyRVQ2T3pDMzhNVmZya0NQaUxKVVBzTWc4eEVabW1F?=
- =?utf-8?B?Rld6WEJTckg2OUVSNkJVVTBnZnJHQ0F0a0k0ZEFublU2MkprdFcvTzlONXZJ?=
- =?utf-8?B?Ujh0dEUwM3lJOEpQc1dGL1BnYk9CUmkyQkY1RlhzaEpScXZScVBCWjBESk5u?=
- =?utf-8?B?aTgyc25LTldpblg5UFFTYVVqK2pDMlpUWjFBTmlVZHpLa3Y0MnZOZGNua3d1?=
- =?utf-8?B?Z0hxeHZIVGZHRG4wbm9nbzFzYU4vVlBhN20xSGhycnV0L1RWRGgra1NrbVMr?=
- =?utf-8?B?ZFE5eWxrWnBUcmV3TEtXaDF4TG4vK08wTk9LczJFMzN6T2lROWI2VHBva1l2?=
- =?utf-8?B?a0pvRmJFdEljZktrU0dKamNLL1NNSjdGWW9XUTRMN0tHNC9Gd1EvcHorZlJJ?=
- =?utf-8?B?cUZOMXpqdTFtdWNBR3BKaFJpRVRjUytYZ0FOdVVSQmh6NTVhQjhERzhVWnFB?=
- =?utf-8?Q?HvyY=3D?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Received: from mail-oa1-x29.google.com (mail-oa1-x29.google.com
+ [IPv6:2001:4860:4864:20::29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8BD9F10E153
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Apr 2023 05:36:48 +0000 (UTC)
+Received: by mail-oa1-x29.google.com with SMTP id
+ 586e51a60fabf-1842cddca49so20962958fac.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Apr 2023 22:36:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ffwll.ch; s=google; t=1681450606; x=1684042606;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=o53Ppz6NZcU37xVTZUVRtByt/0ke8sUTMMek2QrzwKE=;
+ b=FSjVM05I0ApxhJqbteEjBl2Bp36eX21Cb4WifR2YmXPCSuquAnHovbEB9VtcBvpdZF
+ GkOVyBWgZpDR1WxBTe5/2S0JLT5Ig5gu29qy/MmYWU3PI29CA77L7t5hLx86fmWg1SoX
+ vIMBveRKf+8nryi23v82xdsIHTW8bF1XYZwpA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1681450606; x=1684042606;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=o53Ppz6NZcU37xVTZUVRtByt/0ke8sUTMMek2QrzwKE=;
+ b=QdRQU5KDKf2WaYN70UkGYrcskw0UcdSeRHAStxpqMEIKua9JqEXN2wdlRojyOKmWnH
+ /yN0M3llpw3gdKVJsuz19KC0ULg3Ep3umdBkvNKQoCFjaqb4uAev2l6zH9/HGz8hi61m
+ WejovG5K93lw0wHtd5kF3qRSGqXEGfxbwlJI1hBvJ8g91PlwD0dWq4d3DiJTNBZQ9siX
+ EJJYt6odQx4tGC6IBQNDOR7Ogp/n4p0403AEV30X0eOdxyZ3dXclirDu0tOiBfOa+gNW
+ jB0vjtkemhg+07sJUjGzPDfHiUJKkLD6Fxe91wO3DCHf0AU38x7/5I0feZclZo9XiE8X
+ g+zQ==
+X-Gm-Message-State: AAQBX9eUfZQfo5LGxLedXCIf/k1MrgonU4SJn1yP4ab8S7DVzfrYgEFy
+ Nm6dDO6+rtLNviEI22/8yZ+eErncir5VpNxaNgLMFw==
+X-Google-Smtp-Source: AKy350ZZ15f1qHCswOjx4ytld5O7vtI4SR8Rr/cCYug8550zr1o0RVzjbIhhBzFSX89ILgqQ9x1jWYgASjXEfpgGVlo=
+X-Received: by 2002:a05:6870:40c1:b0:184:7e3c:e33e with SMTP id
+ l1-20020a05687040c100b001847e3ce33emr2078381oal.8.1681450606092; Thu, 13 Apr
+ 2023 22:36:46 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: CO6PR12MB5489.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3bfc59bc-5cd2-46ff-2b11-08db3ca251cf
-X-MS-Exchange-CrossTenant-originalarrivaltime: 14 Apr 2023 04:40:05.7576 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 7JXr4b43Z51Vw2K5Milcmf8Hg3mt06aaT1cT1E0jAP/fQjFb8v95oPaCNOXKG105d73fwzFGZjR9euA7cezgtw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR12MB6989
+References: <20230409132110.494630-1-15330273260@189.cn>
+ <ZDV0Te65tSh4Q/vc@phenom.ffwll.local>
+ <42f16d0d-4e1a-a016-f4cc-af24efa75f1c@189.cn>
+ <ZDbuCWKfFlWyiOGp@phenom.ffwll.local>
+ <dbac96b2-0fea-591b-517d-2a23cc36b8de@189.cn>
+ <CAKMK7uG_h7htCDARudZpHOOMG4iOOLZmz0_WskvWGf+DKGwU1w@mail.gmail.com>
+ <531f0bdf-2ae8-0361-183b-57b40df6345f@189.cn>
+ <ZDhQW6El6ztyHK4M@phenom.ffwll.local>
+ <1bbc7228-c2fe-0af0-c15c-b378bc4d111c@suse.de>
+ <ZDhfkq92hbGc630z@phenom.ffwll.local>
+ <1b44a3b5-5053-f121-ee62-de83d505759e@189.cn>
+In-Reply-To: <1b44a3b5-5053-f121-ee62-de83d505759e@189.cn>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Fri, 14 Apr 2023 07:36:34 +0200
+Message-ID: <CAKMK7uHRWy=7m3=eEQz324kKOh9AM8J3Rma=KgBic0pRmW1NBQ@mail.gmail.com>
+Subject: Re: [PATCH] drm/fbdev-generic: fix potential out-of-bounds access
+To: Sui Jingfeng <15330273260@189.cn>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -136,62 +73,166 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jeff Layton <jlayton@kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, "Deucher,
- Alexander" <Alexander.Deucher@amd.com>
+Cc: Lucas De Marchi <lucas.demarchi@intel.com>, linux-fbdev@vger.kernel.org,
+ Li Yi <liyi@loongson.cn>, Helge Deller <deller@gmx.de>,
+ linux-kernel@vger.kernel.org, loongson-kernel@lists.loongnix.cn,
+ dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-W1B1YmxpY10NCg0KSGkgSmVmZiwNCg0KVGhhbmtzLiBJIG1pZ2h0IG5lZWQgbW9yZSBpbmZvcm1h
-dGlvbiB0byB1bmRlcnN0YW5kIHdoeSB3ZSBjYW4ndCByZXRyaWV2ZQ0KdGhlIGRybSBhdG9taWMg
-c3RhdGUuIEFsc28gLCAiRmFpbGVkIHRvIGNyZWF0ZSBNU1QgcGF5bG9hZCBmb3IgcG9ydCIgaW5k
-aWNhdGVzDQplcnJvciB3aGlsZSBjb25maWd1cmluZyBEUENEIHBheWxvYWQgSUQgdGFibGUuIENv
-dWxkIHlvdSBoZWxwIHRvIHByb3ZpZGUgbG9nDQp3aXRoIEtNUyArIEFUT01JQyArIERQIGRlYnVn
-IG9uIHBsZWFzZT8gVGhhbmtzIGluIGFkdmFuY2UhDQoNClJlZ2FyZHMsDQpXYXluZQ0KDQo+IC0t
-LS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+IEZyb206IEFsZXggRGV1Y2hlciA8YWxleGRldWNo
-ZXJAZ21haWwuY29tPg0KPiBTZW50OiBUaHVyc2RheSwgQXByaWwgMTMsIDIwMjMgODo1OSBQTQ0K
-PiBUbzogSmFuaSBOaWt1bGEgPGphbmkubmlrdWxhQGxpbnV4LmludGVsLmNvbT47IExpbiwgV2F5
-bmUNCj4gPFdheW5lLkxpbkBhbWQuY29tPg0KPiBDYzogSmVmZiBMYXl0b24gPGpsYXl0b25Aa2Vy
-bmVsLm9yZz47IERhdmlkIEFpcmxpZSA8YWlybGllZEBnbWFpbC5jb20+Ow0KPiBEYW5pZWwgVmV0
-dGVyIDxkYW5pZWxAZmZ3bGwuY2g+OyBEZXVjaGVyLCBBbGV4YW5kZXINCj4gPEFsZXhhbmRlci5E
-ZXVjaGVyQGFtZC5jb20+OyBsaW51eC1rZXJuZWxAdmdlci5rZXJuZWwub3JnOyBkcmktDQo+IGRl
-dmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZw0KPiBTdWJqZWN0OiBSZTogW1BBVENIXSBkcm06IG1h
-a2UgZHJtX2RwX2FkZF9wYXlsb2FkX3BhcnQyIGdyYWNlZnVsbHkNCj4gaGFuZGxlIE5VTEwgc3Rh
-dGUgcG9pbnRlcg0KPiANCj4gKyBXYXluZQ0KPiANCj4gT24gVGh1LCBBcHIgMTMsIDIwMjMgYXQg
-ODozMeKAr0FNIEphbmkgTmlrdWxhIDxqYW5pLm5pa3VsYUBsaW51eC5pbnRlbC5jb20+DQo+IHdy
-b3RlOg0KPiA+DQo+ID4gT24gVGh1LCAxMyBBcHIgMjAyMywgSmVmZiBMYXl0b24gPGpsYXl0b25A
-a2VybmVsLm9yZz4gd3JvdGU6DQo+ID4gPiBJJ3ZlIGJlZW4gZXhwZXJpZW5jaW5nIHNvbWUgaW50
-ZXJtaXR0ZW50IGNyYXNoZXMgZG93biBpbiB0aGUgZGlzcGxheQ0KPiA+ID4gZHJpdmVyIGNvZGUu
-IFRoZSBzeW1wdG9tcyBhcmUgdXN1c2FsbHkgYSBsaW5lIGxpa2UgdGhpcyBpbiBkbWVzZzoNCj4g
-PiA+DQo+ID4gPiAgICAgYW1kZ3B1IDAwMDA6MzA6MDAuMDogW2RybV0gRmFpbGVkIHRvIGNyZWF0
-ZSBNU1QgcGF5bG9hZCBmb3IgcG9ydA0KPiA+ID4gMDAwMDAwMDA2ZDNhMzg4NTogLTUNCj4gPiA+
-DQo+ID4gPiAuLi5mb2xsb3dlZCBieSBhbiBPb3BzIGR1ZSB0byBhIE5VTEwgcG9pbnRlciBkZXJl
-ZmVyZW5jZS4NCj4gPiA+DQo+ID4gPiBUaGUgcmVhbCBidWcgaXMgcHJvYmFibHkgaW4gdGhlIGNh
-bGxlciBvZiB0aGlzIGZ1bmN0aW9uLCB3aGljaCBpcw0KPiA+ID4gcGFzc2luZyBpdCBhIE5VTEwg
-c3RhdGUgcG9pbnRlciwgYnV0IHRoaXMgcGF0Y2ggYXQgbGVhc3Qga2VlcHMgbXkNCj4gPiA+IG1h
-Y2hpbmUgZnJvbSBvb3BzaW5nIHdoZW4gdGhpcyBvY2N1cnMuDQo+ID4NCj4gPiBNeSBmZWFyIGlz
-IHRoYXQgcGFwZXJpbmcgb3ZlciB0aGlzIG1ha2VzIHRoZSByb290IGNhdXNlIGhhcmRlciB0byBm
-aW5kLg0KPiA+DQo+ID4gQ2M6IEhhcnJ5LCBBbGV4DQo+ID4NCj4gPg0KPiA+IEJSLA0KPiA+IEph
-bmkuDQo+ID4NCj4gPg0KPiA+ID4NCj4gPiA+IExpbms6IGh0dHBzOi8vYnVnemlsbGEucmVkaGF0
-LmNvbS9zaG93X2J1Zy5jZ2k/aWQ9MjE4NDg1NQ0KPiA+ID4gU2lnbmVkLW9mZi1ieTogSmVmZiBM
-YXl0b24gPGpsYXl0b25Aa2VybmVsLm9yZz4NCj4gPiA+IC0tLQ0KPiA+ID4gIGRyaXZlcnMvZ3B1
-L2RybS9kaXNwbGF5L2RybV9kcF9tc3RfdG9wb2xvZ3kuYyB8IDMgKystDQo+ID4gPiAgMSBmaWxl
-IGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygrKSwgMSBkZWxldGlvbigtKQ0KPiA+ID4NCj4gPiA+IGRp
-ZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vZGlzcGxheS9kcm1fZHBfbXN0X3RvcG9sb2d5LmMN
-Cj4gPiA+IGIvZHJpdmVycy9ncHUvZHJtL2Rpc3BsYXkvZHJtX2RwX21zdF90b3BvbG9neS5jDQo+
-ID4gPiBpbmRleCAzOGRhYjc2YWU2OWUuLjg3YWQ0MDZjNTBmOSAxMDA2NDQNCj4gPiA+IC0tLSBh
-L2RyaXZlcnMvZ3B1L2RybS9kaXNwbGF5L2RybV9kcF9tc3RfdG9wb2xvZ3kuYw0KPiA+ID4gKysr
-IGIvZHJpdmVycy9ncHUvZHJtL2Rpc3BsYXkvZHJtX2RwX21zdF90b3BvbG9neS5jDQo+ID4gPiBA
-QCAtMzQwNCw3ICszNDA0LDggQEAgaW50IGRybV9kcF9hZGRfcGF5bG9hZF9wYXJ0MihzdHJ1Y3QN
-Cj4gPiA+IGRybV9kcF9tc3RfdG9wb2xvZ3lfbWdyICptZ3IsDQo+ID4gPg0KPiA+ID4gICAgICAg
-LyogU2tpcCBmYWlsZWQgcGF5bG9hZHMgKi8NCj4gPiA+ICAgICAgIGlmIChwYXlsb2FkLT52Y19z
-dGFydF9zbG90ID09IC0xKSB7DQo+ID4gPiAtICAgICAgICAgICAgIGRybV9kYmdfa21zKHN0YXRl
-LT5kZXYsICJQYXJ0IDEgb2YgcGF5bG9hZCBjcmVhdGlvbiBmb3IgJXMNCj4gZmFpbGVkLCBza2lw
-cGluZyBwYXJ0IDJcbiIsDQo+ID4gPiArICAgICAgICAgICAgIGRybV9kYmdfa21zKHN0YXRlID8g
-c3RhdGUtPmRldiA6IE5VTEwsDQo+ID4gPiArICAgICAgICAgICAgICAgICAgICAgICAgICJQYXJ0
-IDEgb2YgcGF5bG9hZCBjcmVhdGlvbiBmb3IgJXMgZmFpbGVkLA0KPiA+ID4gKyBza2lwcGluZyBw
-YXJ0IDJcbiIsDQo+ID4gPiAgICAgICAgICAgICAgICAgICAgICAgICAgIHBheWxvYWQtPnBvcnQt
-PmNvbm5lY3Rvci0+bmFtZSk7DQo+ID4gPiAgICAgICAgICAgICAgIHJldHVybiAtRUlPOw0KPiA+
-ID4gICAgICAgfQ0KPiA+DQo+ID4gLS0NCj4gPiBKYW5pIE5pa3VsYSwgSW50ZWwgT3BlbiBTb3Vy
-Y2UgR3JhcGhpY3MgQ2VudGVyDQo=
+On Fri, 14 Apr 2023 at 06:24, Sui Jingfeng <15330273260@189.cn> wrote:
+>
+> Hi,
+>
+> On 2023/4/14 04:01, Daniel Vetter wrote:
+> > On Thu, Apr 13, 2023 at 09:20:23PM +0200, Thomas Zimmermann wrote:
+> >> Hi
+> >>
+> >> Am 13.04.23 um 20:56 schrieb Daniel Vetter:
+> >> [...]
+> >>> This should switch the existing code over to using drm_framebuffer instead
+> >>> of fbdev:
+> >>>
+> >>>
+> >>> diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
+> >>> index ef4eb8b12766..99ca69dd432f 100644
+> >>> --- a/drivers/gpu/drm/drm_fb_helper.c
+> >>> +++ b/drivers/gpu/drm/drm_fb_helper.c
+> >>> @@ -647,22 +647,26 @@ static void drm_fb_helper_damage(struct drm_fb_helper *helper, u32 x, u32 y,
+> >>>    static void drm_fb_helper_memory_range_to_clip(struct fb_info *info, off_t off, size_t len,
+> >>>                                            struct drm_rect *clip)
+> >>>    {
+> >>> +   struct drm_fb_helper *helper = info->par;
+> >>> +
+> >>>     off_t end = off + len;
+> >>>     u32 x1 = 0;
+> >>>     u32 y1 = off / info->fix.line_length;
+> >>> -   u32 x2 = info->var.xres;
+> >>> -   u32 y2 = DIV_ROUND_UP(end, info->fix.line_length);
+> >>> +   u32 x2 = helper->fb->height;
+> >>> +   unsigned stride = helper->fb->pitches[0];
+> >>> +   u32 y2 = DIV_ROUND_UP(end, stride);
+> >>> +   int bpp = drm_format_info_bpp(helper->fb->format, 0);
+> >> Please DONT do that. The code here is fbdev code and shouldn't bother about
+> >> DRM data structures. Actually, it shouldn't be here: a number of fbdev
+> >> drivers with deferred I/O contain similar code and the fbdev module should
+> >> provide us with a helper. (I think I even had some patches somewhere.)
+> > Well my thinking is that it's a drm driver,
+>
+> Yes, I actually agree with this, and the code looks quite good. And I
+> really want to adopt it.
+>
+> Because here is DRM, we should emulate the fbdev in the DRM's way.
+>
+> The DRM is really the big brother on the behind of emulated fbdev,
+>
+> who provide the real displayable backing memory and scant out engine to
+> display such a buffer.
+>
+>
+> But currently, the fact is,  drm_fb_helper.c still initializes lots of
+> data structure come from fbdev world.
+>
+> For example, the drm_fb_helper_fill_fix() and drm_fb_helper_fill_var()
+> in drm_fb_helper_fill_info() function.
+>
+> This saying implicitly that the fbdev-generic is a glue layer which copy
+> damage frame buffer data
+>
+> from the front end(fbdev layer) to its drm backend.  It's not a 100%
+> replacement its fbdev front end,
+>
+> rather, it relay on it.
+>
+>
+> > so if we have issue with limit
+> > checks blowing up it makes more sense to check them against drm limits.
+> > Plus a lot more people understand those than fbdev. They should all match
+> > anyway, or if they dont, we have a bug.
+>
+> Yes, this is really what I'm worry about.
+>
+> I see that  members of struct fb_var_screeninfo can be changed by
+> user-space. For example, xoffset and yoffset.
+>
+> There is no change about 'info->var.xres' and 'info->var.yres' from the
+> userspace,
+>
+> therefore, they should all match in practice.
+>
+>
+> User-space can choose a use a smaller dispaly area than 'var.xres x
+> var.yres',
+>
+> but that is implemented with 'var.xoffset' and 'var.xoffset'.
+>
+> But consider that the name 'var', which may stand for 'variation' or
+> 'vary'. This is terrifying.
+>
+> I imagine, with a shadow buffer, the front end can do any modeset on the
+> runtime freely,
+>
+> including change the format of frame buffer on the runtime.  Just do not
+> out-of-bound.
+>
+> The middle do the conversion on the fly.
+>
+>
+> We might also create double shadow buffer size to allow the front end to
+> pan?
+
+Yeah so the front should be able to pan. And the front-end can
+actually make xres/yres smalle than drm_fb->height/width, so we _have_
+to use the fb side of things. Otherwise it's a bug I just realized.
+
+The xres_virtual/yres_virtual should always match drm_fb sizes (but
+we've had bugs in the past for that, only recently fixed all in
+linux-next), because that's supposed to be the max size. And since we
+never reallocate the fbdev emulation fb (at least with the current
+code) this should never change.
+
+But fundamentally you're bringing up a very good point, we've had
+piles of bugs in the past with not properly validating the fbdev side
+information in info->var, and a bunch of resulting bugs. So validating
+against the drm side of things should be a bit more robust.
+
+It's kinda the same we do for legacy kms ioctls: We translate that to
+atomic kms as fast as possible, and then do the entire subsequent
+validation with atomic kms data structures.
+-Daniel
+
+> > The thing is, if you change this
+> > further to just pass the drm_framebuffer, then this 100% becomes a drm
+> > function, which could be used by anything in drm really.
+>
+> I agree with you.
+>
+> If I use fb_width/fb_height directly and bypassing 'info->var.xres" and
+> "info->var.yres",
+>
+> the code style diverged then. As far as I am understanding,  the clip
+> happen on the front end,
+>
+> the actual damage update happen at back end.
+>
+> Using the data structure come with the front end is more reasonable for
+> current implement.
+>
+> > But also *shrug*.
+>
+> I can convert this single function to 100% drm with another patch.
+>
+> But, maybe there also have other functions are not 100% drm
+>
+> I would like do something to help achieve this in the future,
+>
+> let me help to fix this bug first?
+>
+> > -Daniel
+
+
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
