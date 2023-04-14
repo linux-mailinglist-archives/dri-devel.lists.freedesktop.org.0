@@ -1,71 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9ADB66E1E10
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Apr 2023 10:23:58 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B388F6E1E13
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Apr 2023 10:24:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E46B810E180;
-	Fri, 14 Apr 2023 08:23:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F0E8610E1AB;
+	Fri, 14 Apr 2023 08:24:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com
  [IPv6:2a00:1450:4864:20::635])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7C1F910E180
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Apr 2023 08:23:55 +0000 (UTC)
-Received: by mail-ej1-x635.google.com with SMTP id si1so13544609ejb.10
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Apr 2023 01:23:55 -0700 (PDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D3E4310E1AB
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Apr 2023 08:24:07 +0000 (UTC)
+Received: by mail-ej1-x635.google.com with SMTP id fy21so754253ejb.9
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Apr 2023 01:24:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1681460634; x=1684052634;
+ d=linaro.org; s=google; t=1681460646; x=1684052646;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=HlmjkGlmEwPeG1vyNfy2LB3FLh3g3BVhfM8XvqJ5230=;
- b=QVQr2FnlD4RjAAT+O04gy+/OhztUE5CI1IOw03DdQeNErGKtZQ0QNmWPYJRhXAi/qZ
- rmEwmQflx7w+RXnfLh61kVd7/iWTKr/P8th0I6NycDg6WsYSLsUmohzDXBFB5MSvH58e
- SkWMdUoHcH8tnFI1NEIXNVAkvhlfoDup1i7u5U/dbf5Fdiq4R2tSFqATAfYIqHRLcoYy
- QE5SQsRQB4q33v+Xwz7TTh0OG6vu/o6ux78k8Dj5EkI97XpQZ8ecHx17F8rOcRu73+Bl
- +FQENJm7GHhO7PzDvr7n/Pzdv+AnsGK10INAN/iBbYfrgUCOHDmhx3Q4QQrfcMFrDFgr
- 9Img==
+ bh=B5WD2gH3v1xh1o9givBu2e0w5swNPvhe4afXVRz+MMM=;
+ b=oL2AVZdFWoDex9JkWRqff2ZD9V1chGSVX2PbXu8xygcwfNgaAECi+J/jq4IvngaZ7y
+ PXGFg2oWbN+6Ti1aDMNflhZMr4aeTCV3Fn7wAS84QyfBZGasr5mGwO0KpsOsSl3yllKq
+ a5Kgb8EnYyMQ2TK5voW/kOf2a52ATwrGmt455naheGH5rx3rVv/nu3hCSVmeLvah5YN3
+ 09EKjCFWOrlStNsycYRXmax28GtewTPwjDFXqtd4ViyFL3W44QWTbc3Qp7XrRfwjFI55
+ 1F7nc9TR5jfSu3SLXYSajVg9nGUKOBP1By4Ju0iluU9P8Lg0Gd8VGmCVHAI4Mg3ZEjdm
+ vUlQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681460634; x=1684052634;
+ d=1e100.net; s=20221208; t=1681460646; x=1684052646;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=HlmjkGlmEwPeG1vyNfy2LB3FLh3g3BVhfM8XvqJ5230=;
- b=bv8D/Q1ylxkaFNpXT/N08+fUoeFNRvBltm1pSgBLY3psMcPk9Iqqmg4mWsSyyVbKpL
- 2GKFlFSmo4raoNEb3Yqx75XSMQZ4KNUKIYWVFHKikhfOFkpCWes9ih/S7vO2PquXYQ/x
- xaYoxFWqqIwJufK50lrbE/A5chcy/qFuEcAwt6iiRdXEZH1T5E3K56hJST1vwc7NDAKQ
- VTjD/f6XoSC7ZulmhLHuLGqMPXUCP0mslD02pi7TzLj0vOGtZLi1wlT0tbAa/OpHvwPG
- 1Jyr8bFtIBmefqm4M0VhNF88sWodQRl9qsFTA2+7VWKT/wddyzed3ZySHP+zr/9Y5tLL
- 9BUQ==
-X-Gm-Message-State: AAQBX9d+mmG/4AWzXZPCGswKb68JcuewEa3Coy+zKg20/bcdCCb6DGnM
- /RKxuydWFsnHyXWczi0SkL0+PA==
-X-Google-Smtp-Source: AKy350YDDfm28Hr4Wu9pej6rnmmCl1oHhpNzr5ms7AHGJkI6pneNOhN5mTSgVEdO2HuvAbf8V5rPPA==
-X-Received: by 2002:a17:907:3a03:b0:94c:784f:7569 with SMTP id
- fb3-20020a1709073a0300b0094c784f7569mr5193398ejc.30.1681460633867; 
- Fri, 14 Apr 2023 01:23:53 -0700 (PDT)
+ bh=B5WD2gH3v1xh1o9givBu2e0w5swNPvhe4afXVRz+MMM=;
+ b=VnFTDXIudG5AK1p94KDFpFenOnPEgv3EIUPFsPpTMHs7B6M4xWl+pK0+Sh0uzvpuTn
+ nxgGVZpAjNcr0Kfxq1neQBpp6A1w3uEq8nVKAurez084T5K+EwhOZkMD5QWZ7uhUmKis
+ gy0lUAO6srSH1sqVGjHwrP89BB3UCH+nzW24ytdmwp9LNBy6vMs8oDEN8qbUgY7ACoZ3
+ WX/PSSuEZx4Sa+4EEWOQa4+1TistAssdpQ6VKhkUDIzxvmGPZ6Lva1xiDkbnY/ma5eps
+ vBfIYBTQdISqQ8rsGQ668NQLLavgGp6viTq2NXnckWgrpa+1GQv750N6MnuCY/+mT+Ob
+ sutw==
+X-Gm-Message-State: AAQBX9fdNdouzsIPzHaHaC/uoz9WsQZmVdLji3kVTKLJgBDHt8EpbZj/
+ OqAS5Hu7lps1zcuSGsvCAW9juQ==
+X-Google-Smtp-Source: AKy350Yyst89FsoZKHfvDoqzSjH2OZKJJ8WXXeFSuUX3l3Dk4pEzIM0gMQIP9wV/17aCQ0jwNMC+hg==
+X-Received: by 2002:a17:907:1191:b0:94a:4875:262d with SMTP id
+ uz17-20020a170907119100b0094a4875262dmr5997882ejb.67.1681460646226; 
+ Fri, 14 Apr 2023 01:24:06 -0700 (PDT)
 Received: from ?IPV6:2a02:810d:15c0:828:8a60:6b0f:105a:eefb?
  ([2a02:810d:15c0:828:8a60:6b0f:105a:eefb])
  by smtp.gmail.com with ESMTPSA id
- l12-20020a056402344c00b00504803f4071sm1843079edc.44.2023.04.14.01.23.52
+ p8-20020a17090664c800b0094b360a281dsm2094426ejn.123.2023.04.14.01.24.04
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 14 Apr 2023 01:23:53 -0700 (PDT)
-Message-ID: <18a7f165-592c-8443-c661-6b0345a6cd00@linaro.org>
-Date: Fri, 14 Apr 2023 10:23:51 +0200
+ Fri, 14 Apr 2023 01:24:05 -0700 (PDT)
+Message-ID: <1ef0beda-9608-d73c-bab6-a07a971f939e@linaro.org>
+Date: Fri, 14 Apr 2023 10:24:04 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.9.1
-Subject: Re: [PATCH 03/27] dt-bindings: display: mediatek: dpi: Add compatible
+Subject: Re: [PATCH 04/27] dt-bindings: display: mediatek: aal: Add compatible
  for MediaTek MT6795
 Content-Language: en-US
-To: Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ matthias.bgg@gmail.com
 References: <20230412112739.160376-1-angelogioacchino.delregno@collabora.com>
- <20230412112739.160376-4-angelogioacchino.delregno@collabora.com>
- <0416a00e-b567-1ae4-c49c-ec21e024ab0f@gmail.com>
+ <20230412112739.160376-5-angelogioacchino.delregno@collabora.com>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <0416a00e-b567-1ae4-c49c-ec21e024ab0f@gmail.com>
+In-Reply-To: <20230412112739.160376-5-angelogioacchino.delregno@collabora.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -93,54 +92,15 @@ Cc: devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 12/04/2023 14:35, Matthias Brugger wrote:
+On 12/04/2023 13:27, AngeloGioacchino Del Regno wrote:
+> Add a compatible string for MediaTek Helio X10 MT6795: similarly to
+> MT8173, this SoC has the gamma LUT registers in DISP_AAL.
 > 
-> 
-> On 12/04/2023 13:27, AngeloGioacchino Del Regno wrote:
->> Add a compatible string for the MediaTek Helio X10 MT6795 SoC, using
->> the same parameters as MT8183.
->>
->> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
->> ---
->>   .../display/mediatek/mediatek,dpi.yaml        | 23 +++++++++++--------
->>   1 file changed, 14 insertions(+), 9 deletions(-)
->>
->> diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.yaml
->> index d976380801e3..803c00f26206 100644
->> --- a/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.yaml
->> +++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.yaml
->> @@ -17,15 +17,20 @@ description: |
->>   
->>   properties:
->>     compatible:
->> -    enum:
->> -      - mediatek,mt2701-dpi
->> -      - mediatek,mt7623-dpi
->> -      - mediatek,mt8173-dpi
->> -      - mediatek,mt8183-dpi
->> -      - mediatek,mt8186-dpi
->> -      - mediatek,mt8188-dp-intf
->> -      - mediatek,mt8192-dpi
->> -      - mediatek,mt8195-dp-intf
->> +    oneOf:
->> +      - enum:
->> +          - mediatek,mt2701-dpi
->> +          - mediatek,mt7623-dpi
->> +          - mediatek,mt8173-dpi
->> +          - mediatek,mt8183-dpi
->> +          - mediatek,mt8186-dpi
->> +          - mediatek,mt8188-dp-intf
->> +          - mediatek,mt8192-dpi
->> +          - mediatek,mt8195-dp-intf
->> +      - items:
->> +          - enum:
->> +              - mediatek,mt6795-dpi
->> +          - const: mediatek,mt8183-dpi
-> 
-> Shouldn't we declare both const: ?
+> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+> ---
 
-I assume it is likely the enum will grow. If this is reasonably
-anticipated, keep enum.
+
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
 Best regards,
 Krzysztof
