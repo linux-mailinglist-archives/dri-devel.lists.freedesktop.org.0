@@ -1,49 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 170806E40B0
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Apr 2023 09:22:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 133606E2845
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Apr 2023 18:26:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D23D910E398;
-	Mon, 17 Apr 2023 07:22:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 21A1810EDB1;
+	Fri, 14 Apr 2023 16:26:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1DF0A10E070
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Apr 2023 16:11:28 +0000 (UTC)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <jzi@pengutronix.de>)
- id 1pnM1A-00049P-QL; Fri, 14 Apr 2023 18:11:21 +0200
-Received: from [2a0a:edc0:0:1101:1d::39] (helo=dude03.red.stw.pengutronix.de)
- by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
- (envelope-from <jzi@pengutronix.de>)
- id 1pnM19-00BEra-Ci; Fri, 14 Apr 2023 18:11:19 +0200
-Received: from jzi by dude03.red.stw.pengutronix.de with local (Exim 4.94.2)
- (envelope-from <jzi@pengutronix.de>)
- id 1pnM18-00FQvp-Id; Fri, 14 Apr 2023 18:11:18 +0200
-From: Johannes Zink <j.zink@pengutronix.de>
-To: thierry.reding@gmail.com, sam@ravnborg.org, airlied@gmail.com,
- daniel@ffwll.ch, robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, kernel@pengutronix.de
-Subject: [PATCH 2/2] drm/panel-simple: allow LVDS format override
-Date: Fri, 14 Apr 2023 18:11:16 +0200
-Message-Id: <20230414161116.3673911-3-j.zink@pengutronix.de>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C39DC10EE16;
+ Fri, 14 Apr 2023 16:26:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1681489578; x=1713025578;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=OUq9ymCfV3fZgwbPaXefBZdmcX5UxooRepJ9IT24pJ4=;
+ b=hWXnv0jSrEY6BLlA338WGq+3oNiyflEfAG8YeOWNQCR/Pvfnp9w4V3hX
+ TawLLkqN51U5LzislOuAt3ZZ0skgz1JM8RtpfBa3ACGUfThH0Yd8A6mmX
+ D04HdTz2Pt5WFZM1HuiHMP+4iU8sXSOSILZi8IIwqVffF+/OP/dGarayJ
+ HOjnmPlg0MHRn9RbLKaKJshylEzUGh5DMEXr6rIZC/KnUy8fstuad/LoQ
+ T0ERDAgwmynBfkJ6orl8kxEUSI6GN3rU8ZIb6Oylg4BLGMd0TQPLyFK50
+ qTeb74Xiq+aGU8bk+40yXn4hdYvW1tZIBc6yRC0LD7QzcOGtU4ggIefdw Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10680"; a="333278879"
+X-IronPort-AV: E=Sophos;i="5.99,197,1677571200"; d="scan'208";a="333278879"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Apr 2023 09:26:17 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10680"; a="640148565"
+X-IronPort-AV: E=Sophos;i="5.99,197,1677571200"; d="scan'208";a="640148565"
+Received: from hubehann-mobl.ger.corp.intel.com (HELO intel.com)
+ ([10.251.212.141])
+ by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Apr 2023 09:26:14 -0700
+From: Andi Shyti <andi.shyti@linux.intel.com>
+To: intel-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/i915/gt: Mask media GuC interrupts
+Date: Fri, 14 Apr 2023 18:25:40 +0200
+Message-Id: <20230414162540.1042889-1-andi.shyti@linux.intel.com>
 X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230414161116.3673911-1-j.zink@pengutronix.de>
-References: <20230414161116.3673911-1-j.zink@pengutronix.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: jzi@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
-X-Mailman-Approved-At: Mon, 17 Apr 2023 07:21:51 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,84 +57,81 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Johannes Zink <j.zink@pengutronix.de>
+Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
+ Matt Roper <matthew.d.roper@intel.com>, Andi Shyti <andi.shyti@kernel.org>,
+ Andi Shyti <andi.shyti@linux.intel.com>, Nirmoy Das <nirmoy.das@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Some panels support multiple LVDS data mapping formats, which can be
-used e.g. run displays on jeida-18 format when only 3 LVDS lanes are
-available.
+MTL features a dedicated media engine that operates on its
+independent GT, requiring activation of its specific interrupt
+set.
 
-Add parsing of an optional data-mapping devicetree property, which also
-touches up the bits per color to match the bus format.
+Enable the necessary interrupts in a single action when the media
+engine is present, bypassing the need to iterate through all the
+GTs.
 
-Signed-off-by: Johannes Zink <j.zink@pengutronix.de>
+Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
 ---
- drivers/gpu/drm/panel/panel-simple.c | 37 +++++++++++++++++++++++++++-
- 1 file changed, 36 insertions(+), 1 deletion(-)
+Hi,
 
-diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
-index 065f378bba9d..7366ad13b3f1 100644
---- a/drivers/gpu/drm/panel/panel-simple.c
-+++ b/drivers/gpu/drm/panel/panel-simple.c
-@@ -40,6 +40,7 @@
- #include <drm/drm_edid.h>
- #include <drm/drm_mipi_dsi.h>
- #include <drm/drm_panel.h>
-+#include <drm/drm_of.h>
+I'm starting with v0 as this patch is very different from the
+ones proposed recently.
+
+After all the discussions on this patch, I took Matt's suggestion
+since it seemed the most immediate.
+
+However, in the long run, I agree that we should have a
+specific mtl_ function for enabling interrupts.
+
+Thank you Matt and Daniele for your input.
+
+If this patch hasn't missed anything, is it too optimistic to
+expect MTL to boot? :-)
+
+Andi
+
+ drivers/gpu/drm/i915/gt/intel_gt_irq.c | 14 ++++++++------
+ 1 file changed, 8 insertions(+), 6 deletions(-)
+
+diff --git a/drivers/gpu/drm/i915/gt/intel_gt_irq.c b/drivers/gpu/drm/i915/gt/intel_gt_irq.c
+index 1b25a60391522..162a27b4c4095 100644
+--- a/drivers/gpu/drm/i915/gt/intel_gt_irq.c
++++ b/drivers/gpu/drm/i915/gt/intel_gt_irq.c
+@@ -254,7 +254,6 @@ void gen11_gt_irq_postinstall(struct intel_gt *gt)
+ {
+ 	struct intel_uncore *uncore = gt->uncore;
+ 	u32 irqs = GT_RENDER_USER_INTERRUPT;
+-	u32 guc_mask = intel_uc_wants_guc(&gt->uc) ? GUC_INTR_GUC2HOST : 0;
+ 	u32 gsc_mask = 0;
+ 	u32 dmask;
+ 	u32 smask;
+@@ -309,17 +308,20 @@ void gen11_gt_irq_postinstall(struct intel_gt *gt)
+ 	if (gsc_mask)
+ 		intel_uncore_write(uncore, GEN11_GUNIT_CSME_INTR_MASK, ~gsc_mask);
  
- /**
-  * struct panel_desc - Describes a simple panel.
-@@ -559,7 +560,7 @@ static int panel_simple_probe(struct device *dev, const struct panel_desc *desc)
- 	struct device_node *ddc;
- 	int connector_type;
- 	u32 bus_flags;
--	int err;
-+	int err, ret;
+-	if (guc_mask) {
++	if (intel_uc_wants_guc(&gt->uc)) {
++		u32 guc_mask = GUC_INTR_GUC2HOST;
+ 		/* the enable bit is common for both GTs but the masks are separate */
+-		u32 mask = gt->type == GT_MEDIA ?
+-			REG_FIELD_PREP(ENGINE0_MASK, guc_mask) :
+-			REG_FIELD_PREP(ENGINE1_MASK, guc_mask);
++		u32 mask = REG_FIELD_PREP(ENGINE1_MASK, guc_mask);
++
++		/* Mask the GuC interrupts of media engine if present */
++		if (MEDIA_VER(gt->i915) >= 13)
++			mask |= REG_FIELD_PREP(ENGINE0_MASK, guc_mask);
  
- 	panel = devm_kzalloc(dev, sizeof(*panel), GFP_KERNEL);
- 	if (!panel)
-@@ -605,6 +606,40 @@ static int panel_simple_probe(struct device *dev, const struct panel_desc *desc)
- 			panel_simple_parse_panel_timing_node(dev, panel, &dt);
+ 		intel_uncore_write(uncore, GEN11_GUC_SG_INTR_ENABLE,
+ 				   REG_FIELD_PREP(ENGINE1_MASK, guc_mask));
+ 
+ 		/* we might not be the first GT to write this reg */
+-		intel_uncore_rmw(uncore, MTL_GUC_MGUC_INTR_MASK, mask, 0);
++		intel_uncore_write(uncore, MTL_GUC_MGUC_INTR_MASK, mask);
  	}
  
-+
-+	/* optional data-mapping property for overriding bus format */
-+	ret = drm_of_lvds_get_data_mapping(dev->of_node);
-+	if (ret == -EINVAL) {
-+		dev_warn(dev, "Ignore invalid data-mapping property");
-+	} else if (ret != -ENODEV) {
-+		int bpc;
-+
-+		switch (ret) {
-+		default:
-+			WARN_ON(1);
-+			fallthrough;
-+		case MEDIA_BUS_FMT_RGB888_1X7X4_SPWG:
-+			fallthrough;
-+		case MEDIA_BUS_FMT_RGB888_1X7X4_JEIDA:
-+			bpc = 8;
-+			break;
-+		case MEDIA_BUS_FMT_RGB666_1X7X3_SPWG:
-+			bpc = 6;
-+		}
-+
-+		if (desc->bpc != bpc || desc->bus_format != ret) {
-+			struct panel_desc *override_desc;
-+
-+			override_desc = devm_kmemdup(dev, desc, sizeof(*desc), GFP_KERNEL);
-+			if (!override_desc)
-+				return -ENOMEM;
-+
-+			override_desc->bus_format = ret;
-+			override_desc->bpc = bpc;
-+			panel->desc = override_desc;
-+		}
-+	}
-+
- 	connector_type = desc->connector_type;
- 	/* Catch common mistakes for panels. */
- 	switch (connector_type) {
+ 	/*
 -- 
 2.39.2
 
