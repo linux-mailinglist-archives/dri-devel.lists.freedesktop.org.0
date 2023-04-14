@@ -1,50 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20CEE6E2086
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Apr 2023 12:16:01 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 125926E20B0
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Apr 2023 12:26:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B344110ECC7;
-	Fri, 14 Apr 2023 10:15:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 641E410E115;
+	Fri, 14 Apr 2023 10:26:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1DC0710ECB8
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Apr 2023 10:15:54 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 19A2A62E90;
- Fri, 14 Apr 2023 10:15:53 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7A3AAC433EF;
- Fri, 14 Apr 2023 10:15:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1681467352;
- bh=n1MF/+Zl1HcpJDYupreCKHbSzMG3zCXIVmAO73u8PBE=;
- h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
- b=XBgq51UWrVJndkhIDlgYKxQdYdLrv7WdtbQ2ZBJBidTew6j4DMefRmyg/YKdQaNHW
- rPpGheotimyJg+/5qmzEuG/vUltX982a2VfjmArmM+Iu60uLG9lgmEjTU3juWqsHQA
- Y6sJeH5W7XgaUhLSQhD4IwkvEua1Hc9632Y0pALqmUaByFplhIEMN7k5rfe5La2Qbd
- 0J3z1iSjH4WJdMO39aX+KpCQ1q/eAbsMvr3x1SNDRBMy92rG0oUfzazH8mhAaKHoDv
- qqQyI60Y267+TmADrlxipIA1njI7c8QLy3bgozOIGyWdg4m/if7MM/Wij8aRQJTDo7
- VEUxjpEn43Vbg==
-Message-ID: <4d8479f20ef30866fcf73f3602f1237376110764.camel@kernel.org>
-Subject: Re: [PATCH] drm: make drm_dp_add_payload_part2 gracefully handle
- NULL state pointer
-From: Jeff Layton <jlayton@kernel.org>
-To: "Lin, Wayne" <Wayne.Lin@amd.com>, Alex Deucher <alexdeucher@gmail.com>, 
- Jani Nikula <jani.nikula@linux.intel.com>
-Date: Fri, 14 Apr 2023 06:15:50 -0400
-In-Reply-To: <CO6PR12MB5489044012B2A96639470F38FC999@CO6PR12MB5489.namprd12.prod.outlook.com>
-References: <20230413111254.22458-1-jlayton@kernel.org>
- <87edooarpq.fsf@intel.com>
- <CADnq5_PVnYMSiKO77+cfg_V-tDKYkVJYN3qGNb1vhQO3QtXskA@mail.gmail.com>
- <CO6PR12MB5489044012B2A96639470F38FC999@CO6PR12MB5489.namprd12.prod.outlook.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.4 (3.46.4-1.fc37) 
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 587DE10E10D
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Apr 2023 10:26:06 +0000 (UTC)
+Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
+ [2.237.20.237])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits))
+ (No client certificate requested) (Authenticated sender: kholk11)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 227E5660321F;
+ Fri, 14 Apr 2023 11:26:00 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1681467961;
+ bh=mNoM/ta8cg4ngqxg7oipt2WWk68MhPf2irdlQ2bTH6c=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=HWaowAFI7MZZLy46RcM67hcrKHR7EFPgMqFHgvDEIAiWxpvjNQicUt31wS4wYDL1S
+ 1KaDj/aqxFkJEeq8RwQxDv4iWZzhP5+BuJxaGDFTauwzHvJBay7+0AlEpI4hi2S2WT
+ 8rB98KbBmtvP6fj7GoWG/FROcIKx2n+XiN5KBI7sj2xzE5hpGwMgpWbRB83wQ9s6Zu
+ RNpJkWLksBfef+SsnXarFVl1bPEzxQJWSpshnHOEDjJ1/tkYDqZe9CGGGXBfwgHl8k
+ cUvig8zyWy3zW5Dg58B8CVzegX5HKHhQRhIgzyDe+cANCSJ4z+VhzYfo/Vc0yR6bUB
+ +8AotLP+x+XDA==
+Message-ID: <13fe3e54-caa5-098c-0a86-3d2f8475c23f@collabora.com>
+Date: Fri, 14 Apr 2023 12:25:57 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.1
+Subject: Re: [PATCH 01/27] dt-bindings: pwm: Add compatible for MediaTek MT6795
+Content-Language: en-US
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>
+References: <20230412112739.160376-1-angelogioacchino.delregno@collabora.com>
+ <20230412112739.160376-2-angelogioacchino.delregno@collabora.com>
+ <aaeeb18d-f8e8-d6c1-1272-e5b797554b9e@linaro.org>
+ <20230414083019.cpomx37tax4ibe5u@pengutronix.de>
+ <f8a4fd52-52b6-dded-c8b7-864be549e2ad@linaro.org>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <f8a4fd52-52b6-dded-c8b7-864be549e2ad@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,114 +60,85 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Deucher, Alexander" <Alexander.Deucher@amd.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Cc: devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ thierry.reding@gmail.com, krzysztof.kozlowski+dt@linaro.org,
+ linux-phy@lists.infradead.org, kernel@collabora.com, xinlei.lee@mediatek.com,
+ kishon@kernel.org, phone-devel@vger.kernel.org, jassisinghbrar@gmail.com,
+ linux-pwm@vger.kernel.org, chunkuang.hu@kernel.org, jitao.shi@mediatek.com,
+ houlong.wei@mediatek.com, chunfeng.yun@mediatek.com, robh+dt@kernel.org,
+ linux-mediatek@lists.infradead.org, ~postmarketos/upstreaming@lists.sr.ht,
+ matthias.bgg@gmail.com, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, vkoul@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 2023-04-14 at 04:40 +0000, Lin, Wayne wrote:
-> [Public]
->=20
-> Hi Jeff,
->=20
-> Thanks. I might need more information to understand why we can't retrieve
-> the drm atomic state. Also , "Failed to create MST payload for port" indi=
-cates
-> error while configuring DPCD payload ID table. Could you help to provide =
-log
-> with KMS + ATOMIC + DP debug on please? Thanks in advance!
->=20
-> Regards,
-> Wayne
->=20
+Il 14/04/23 10:34, Krzysztof Kozlowski ha scritto:
+> On 14/04/2023 10:30, Uwe Kleine-König wrote:
+>> On Fri, Apr 14, 2023 at 10:21:05AM +0200, Krzysztof Kozlowski wrote:
+>>> On 12/04/2023 13:27, AngeloGioacchino Del Regno wrote:
+>>>> Add a compatible string for MediaTek Helio X10 MT6795's display PWM
+>>>> block: this is the same as MT8173.
+>>>>
+>>>> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+>>>> ---
+>>>>   Documentation/devicetree/bindings/pwm/mediatek,pwm-disp.yaml | 4 +++-
+>>>>   1 file changed, 3 insertions(+), 1 deletion(-)
+>>>>
+>>>> diff --git a/Documentation/devicetree/bindings/pwm/mediatek,pwm-disp.yaml b/Documentation/devicetree/bindings/pwm/mediatek,pwm-disp.yaml
+>>>> index 0088bc8e7c54..153e146df7d4 100644
+>>>> --- a/Documentation/devicetree/bindings/pwm/mediatek,pwm-disp.yaml
+>>>> +++ b/Documentation/devicetree/bindings/pwm/mediatek,pwm-disp.yaml
+>>>> @@ -22,7 +22,9 @@ properties:
+>>>>             - mediatek,mt8173-disp-pwm
+>>>>             - mediatek,mt8183-disp-pwm
+>>>>         - items:
+>>>> -          - const: mediatek,mt8167-disp-pwm
+>>>> +          - enum:
+>>>> +              - mediatek,mt6795-disp-pwm
+>>>> +              - mediatek,mt8167-disp-pwm
+>>>
+>>> This does not look correct. You do not add compatible, you replace
+>>> breaking all mt8167-disp-pwm. At least it looks like this from context.
+>>
+>> I thought the old semantic to be:
+>>
+>> 	"mediatek,mt8167-disp-pwm"
+>>
+>> and the new
+>>
+>> 	"mediatek,mt6795-disp-pwm" or "mediatek,mt8167-disp-pwm"
+>>
+>> . What am I missing?
+> 
+> The new is ok for mt6795 but it is not valid for mt8167.
+> 
 
-Possibly. I'm not that familiar with display driver debugging. Can you
-send me some directions on how to crank up that sort of debug logging?
+Sorry, why is it not valid for MT8167?
 
-Note that this problem is _very_ intermittent too: I went about 2 weeks
-between crashes, and then I got 3 in one day. I'd rather not run with a
-lot of debug logging for a long time if that's what this is going to
-require, as this is my main workstation.
+This is changing the doc from:
 
-The last time I got this log message, my proposed patch did prevent the
-box from oopsing, so I'd really like to see it go in unless it's just
-categorically wrong for the caller to pass down a NULL state pointer to
-drm_dp_add_payload_part2.
+OLD:
+       - items:
+           - const: mediatek,mt8167-disp-pwm
+           - const: mediatek,mt8173-disp-pwm
+NEW:
 
-> > -----Original Message-----
-> > From: Alex Deucher <alexdeucher@gmail.com>
-> > Sent: Thursday, April 13, 2023 8:59 PM
-> > To: Jani Nikula <jani.nikula@linux.intel.com>; Lin, Wayne
-> > <Wayne.Lin@amd.com>
-> > Cc: Jeff Layton <jlayton@kernel.org>; David Airlie <airlied@gmail.com>;
-> > Daniel Vetter <daniel@ffwll.ch>; Deucher, Alexander
-> > <Alexander.Deucher@amd.com>; linux-kernel@vger.kernel.org; dri-
-> > devel@lists.freedesktop.org
-> > Subject: Re: [PATCH] drm: make drm_dp_add_payload_part2 gracefully
-> > handle NULL state pointer
-> >=20
-> > + Wayne
-> >=20
-> > On Thu, Apr 13, 2023 at 8:31=E2=80=AFAM Jani Nikula <jani.nikula@linux.=
-intel.com>
-> > wrote:
-> > >=20
-> > > On Thu, 13 Apr 2023, Jeff Layton <jlayton@kernel.org> wrote:
-> > > > I've been experiencing some intermittent crashes down in the displa=
-y
-> > > > driver code. The symptoms are ususally a line like this in dmesg:
-> > > >=20
-> > > >     amdgpu 0000:30:00.0: [drm] Failed to create MST payload for por=
-t
-> > > > 000000006d3a3885: -5
-> > > >=20
-> > > > ...followed by an Oops due to a NULL pointer dereference.
-> > > >=20
-> > > > The real bug is probably in the caller of this function, which is
-> > > > passing it a NULL state pointer, but this patch at least keeps my
-> > > > machine from oopsing when this occurs.
-> > >=20
-> > > My fear is that papering over this makes the root cause harder to fin=
-d.
-> > >=20
-> > > Cc: Harry, Alex
-> > >=20
-> > >=20
-> > > BR,
-> > > Jani.
-> > >=20
-> > >=20
-> > > >=20
-> > > > Link: https://bugzilla.redhat.com/show_bug.cgi?id=3D2184855
-> > > > Signed-off-by: Jeff Layton <jlayton@kernel.org>
-> > > > ---
-> > > >  drivers/gpu/drm/display/drm_dp_mst_topology.c | 3 ++-
-> > > >  1 file changed, 2 insertions(+), 1 deletion(-)
-> > > >=20
-> > > > diff --git a/drivers/gpu/drm/display/drm_dp_mst_topology.c
-> > > > b/drivers/gpu/drm/display/drm_dp_mst_topology.c
-> > > > index 38dab76ae69e..87ad406c50f9 100644
-> > > > --- a/drivers/gpu/drm/display/drm_dp_mst_topology.c
-> > > > +++ b/drivers/gpu/drm/display/drm_dp_mst_topology.c
-> > > > @@ -3404,7 +3404,8 @@ int drm_dp_add_payload_part2(struct
-> > > > drm_dp_mst_topology_mgr *mgr,
-> > > >=20
-> > > >       /* Skip failed payloads */
-> > > >       if (payload->vc_start_slot =3D=3D -1) {
-> > > > -             drm_dbg_kms(state->dev, "Part 1 of payload creation f=
-or %s
-> > failed, skipping part 2\n",
-> > > > +             drm_dbg_kms(state ? state->dev : NULL,
-> > > > +                         "Part 1 of payload creation for %s failed=
-,
-> > > > + skipping part 2\n",
-> > > >                           payload->port->connector->name);
-> > > >               return -EIO;
-> > > >       }
-> > >=20
-> > > --
-> > > Jani Nikula, Intel Open Source Graphics Center
+       - items:
+           - enum:
+               - mediatek,mt6795-disp-pwm
+               - mediatek,mt8167-disp-pwm
+           - const: mediatek,mt8173-disp-pwm
 
---=20
-Jeff Layton <jlayton@kernel.org>
+For me, that's totally valid, as the old semantic was:
+
+compatible = "mediatek,mt8167-disp-pwm", "mediatek,mt8173-disp-pwm";
+
+...and the new semantic is .. the same; this commit only *adds* the
+possibility to get a
+
+compatible = "mediatek,mt6795-disp-pwm", "mediatek,mt8173-disp-pwm";
+
+without breaking anything.
+
+Regards,
+Angelo
