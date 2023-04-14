@@ -2,47 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBDF26E25E3
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Apr 2023 16:38:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F1E56E25E6
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Apr 2023 16:38:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E435C10ED73;
-	Fri, 14 Apr 2023 14:38:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0E16B10ED9D;
+	Fri, 14 Apr 2023 14:38:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D063910ED73
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Apr 2023 14:37:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=gzRYdAeE44cWwrG4RedHRuBD5w/DiOsh9XfzL7RYmmk=; b=oH+AqsywjwF7XgdvjNezWbEW1h
- BsxnzgfbF8h1E3+xoT639y7KJh+TiwMBTGsWkC0pUVeZiBat/4VFqCl4q6aSIfaAtiEe3AIl2nK3s
- 61Ar+U5g+WghpKHqet5DoTnSf5fagT8+jq2UBzdUUlsNLNOH2XPrY+s6cWHEcNmUMuYayD+OKWJza
- Pfgeo5PZo0NPhxzi16bImC0zjR9pvLwQXlFae0BW5Z4/uD7fUe6O2gSJVjqClTfdkOlfs/UuMwE0T
- WG1DGsfJpBbncxXYAeJGbhPwiPgkH7/t5ELAhmKZu/tqPX6zIxGzhpA4JAUas4pagYr5lOQefTOfb
- hFd1VBhg==;
-Received: from gwsc.sc.usp.br ([143.107.225.16] helo=[172.20.34.196])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1pnKYe-0016r6-Bu; Fri, 14 Apr 2023 16:37:48 +0200
-Message-ID: <38df4fc1-b6ad-ae3d-daab-de09fde30ffc@igalia.com>
-Date: Fri, 14 Apr 2023 11:37:17 -0300
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A0A8510ED75
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Apr 2023 14:38:15 +0000 (UTC)
+Received: from dude02.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::28])
+ by metis.ext.pengutronix.de with esmtp (Exim 4.92)
+ (envelope-from <l.stach@pengutronix.de>)
+ id 1pnKZ1-0008Tq-2r; Fri, 14 Apr 2023 16:38:11 +0200
+From: Lucas Stach <l.stach@pengutronix.de>
+To: etnaviv@lists.freedesktop.org
+Subject: [PATCH] drm/etnaviv: fix dumping of active MMU context
+Date: Fri, 14 Apr 2023 16:38:10 +0200
+Message-Id: <20230414143810.572237-1-l.stach@pengutronix.de>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH v2 6/7] drm/vkms: add reflect-y property
-Content-Language: en-US
-To: =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
-References: <20230414135151.75975-1-mcanal@igalia.com>
- <20230414135151.75975-7-mcanal@igalia.com> <ZDliI+iEgQlDMZWJ@intel.com>
-From: =?UTF-8?Q?Ma=c3=adra_Canal?= <mcanal@igalia.com>
-In-Reply-To: <ZDliI+iEgQlDMZWJ@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:1101:1d::28
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,76 +42,69 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Haneen Mohammed <hamohammed.sa@gmail.com>,
- Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- dri-devel@lists.freedesktop.org, Melissa Wen <mwen@igalia.com>,
- Arthur Grillo <arthurgrillo@riseup.net>,
- Igor Matheus Andrade Torrente <igormtorrente@gmail.com>
+Cc: patchwork-lst@pengutronix.de, kernel@pengutronix.de,
+ dri-devel@lists.freedesktop.org, Russell King <linux+etnaviv@armlinux.org.uk>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 4/14/23 11:24, Ville Syrjälä wrote:
-> On Fri, Apr 14, 2023 at 10:51:50AM -0300, Maíra Canal wrote:
->> Currently, vkms only support the reflect-x property. Therefore, add the
->> reflect-y property to vkms through a software implementation of the
->> operation. This is possible by reverse reading the y axis during the
->> blending.
->>
->> Now, vkms support all possible rotation values.
->>
->> Tested with igt@kms_rotation_crc@primary-reflect-y and
->> igt@kms_rotation_crc@sprite-reflect-y [1].
->>
->> [1] https://patchwork.freedesktop.org/series/116025/
->>
->> Signed-off-by: Maíra Canal <mcanal@igalia.com>
->> ---
->>   drivers/gpu/drm/vkms/vkms_composer.c |  7 ++++++-
->>   drivers/gpu/drm/vkms/vkms_plane.c    | 16 ++++------------
->>   2 files changed, 10 insertions(+), 13 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/vkms/vkms_composer.c b/drivers/gpu/drm/vkms/vkms_composer.c
->> index b05bd008aeab..19d1078e9d34 100644
->> --- a/drivers/gpu/drm/vkms/vkms_composer.c
->> +++ b/drivers/gpu/drm/vkms/vkms_composer.c
->> @@ -92,8 +92,13 @@ static int get_y_pos(struct vkms_frame_info *frame_info, int y)
->>   			return -1;
->>   		return y + frame_info->dst.x1;
->>   	default:
->> -		return y;
->> +		break;
->>   	}
->> +
->> +	if (frame_info->rotation & DRM_MODE_REFLECT_Y)
->> +		return drm_rect_height(&frame_info->dst) - y - 1;
->> +
->> +	return y;
->>   }
->>   
->>   static bool check_limit(struct vkms_frame_info *frame_info, int pos)
->> diff --git a/drivers/gpu/drm/vkms/vkms_plane.c b/drivers/gpu/drm/vkms/vkms_plane.c
->> index 11662afa9fe4..d08bda869a24 100644
->> --- a/drivers/gpu/drm/vkms/vkms_plane.c
->> +++ b/drivers/gpu/drm/vkms/vkms_plane.c
->> @@ -121,12 +121,8 @@ static void vkms_plane_atomic_update(struct drm_plane *plane,
->>   	frame_info->fb = fb;
->>   	memcpy(&frame_info->map, &shadow_plane_state->data, sizeof(frame_info->map));
->>   	drm_framebuffer_get(frame_info->fb);
->> -	frame_info->rotation = drm_rotation_simplify(new_state->rotation,
->> -						     DRM_MODE_ROTATE_0 |
->> -						     DRM_MODE_ROTATE_90 |
->> -						     DRM_MODE_ROTATE_180 |
->> -						     DRM_MODE_ROTATE_270 |
->> -						     DRM_MODE_REFLECT_X);
->> +	frame_info->rotation = drm_rotation_simplify(new_state->rotation, DRM_MODE_ROTATE_MASK |
->> +						     DRM_MODE_REFLECT_MASK);
-> 
-> What are you trying to achieve with that?
+gpu->mmu_context is the MMU context of the last job in the HW queue, which
+isn't necessarily the same as the context from the bad job. Dump the MMU
+context from the scheduler determined bad submit to make it work as intended.
 
-Yeah, seeing it right now I can see that this is not achieving anything. 
-I will remove it in the next version.
+Fixes: 17e4660ae3d7 ("drm/etnaviv: implement per-process address spaces on MMUv2")
+Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
+---
+ drivers/gpu/drm/etnaviv/etnaviv_dump.c | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
-Best Regards,
-- Maíra Canal
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_dump.c b/drivers/gpu/drm/etnaviv/etnaviv_dump.c
+index 44b5f3c35aab..898f84a0fc30 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_dump.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_dump.c
+@@ -130,9 +130,9 @@ void etnaviv_core_dump(struct etnaviv_gem_submit *submit)
+ 		return;
+ 	etnaviv_dump_core = false;
+ 
+-	mutex_lock(&gpu->mmu_context->lock);
++	mutex_lock(&submit->mmu_context->lock);
+ 
+-	mmu_size = etnaviv_iommu_dump_size(gpu->mmu_context);
++	mmu_size = etnaviv_iommu_dump_size(submit->mmu_context);
+ 
+ 	/* We always dump registers, mmu, ring, hanging cmdbuf and end marker */
+ 	n_obj = 5;
+@@ -162,7 +162,7 @@ void etnaviv_core_dump(struct etnaviv_gem_submit *submit)
+ 	iter.start = __vmalloc(file_size, GFP_KERNEL | __GFP_NOWARN |
+ 			__GFP_NORETRY);
+ 	if (!iter.start) {
+-		mutex_unlock(&gpu->mmu_context->lock);
++		mutex_unlock(&submit->mmu_context->lock);
+ 		dev_warn(gpu->dev, "failed to allocate devcoredump file\n");
+ 		return;
+ 	}
+@@ -174,18 +174,18 @@ void etnaviv_core_dump(struct etnaviv_gem_submit *submit)
+ 	memset(iter.hdr, 0, iter.data - iter.start);
+ 
+ 	etnaviv_core_dump_registers(&iter, gpu);
+-	etnaviv_core_dump_mmu(&iter, gpu->mmu_context, mmu_size);
++	etnaviv_core_dump_mmu(&iter, submit->mmu_context, mmu_size);
+ 	etnaviv_core_dump_mem(&iter, ETDUMP_BUF_RING, gpu->buffer.vaddr,
+ 			      gpu->buffer.size,
+ 			      etnaviv_cmdbuf_get_va(&gpu->buffer,
+-					&gpu->mmu_context->cmdbuf_mapping));
++					&submit->mmu_context->cmdbuf_mapping));
+ 
+ 	etnaviv_core_dump_mem(&iter, ETDUMP_BUF_CMD,
+ 			      submit->cmdbuf.vaddr, submit->cmdbuf.size,
+ 			      etnaviv_cmdbuf_get_va(&submit->cmdbuf,
+-					&gpu->mmu_context->cmdbuf_mapping));
++					&submit->mmu_context->cmdbuf_mapping));
+ 
+-	mutex_unlock(&gpu->mmu_context->lock);
++	mutex_unlock(&submit->mmu_context->lock);
+ 
+ 	/* Reserve space for the bomap */
+ 	if (n_bomap_pages) {
+-- 
+2.39.2
 
-> 
