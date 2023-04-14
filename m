@@ -1,46 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A375D6E25D1
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Apr 2023 16:33:55 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 85C296E2593
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Apr 2023 16:24:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1744C10E1B8;
-	Fri, 14 Apr 2023 14:33:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C3D4310ED6A;
+	Fri, 14 Apr 2023 14:24:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AC1F410E1B8
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Apr 2023 14:33:49 +0000 (UTC)
-Received: from relay8-d.mail.gandi.net (unknown [IPv6:2001:4b98:dc4:8::228])
- by mslow1.mail.gandi.net (Postfix) with ESMTP id 1C9EBC5458
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Apr 2023 14:20:20 +0000 (UTC)
-Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
- by mail.gandi.net (Postfix) with ESMTPSA id 180301BF20E;
- Fri, 14 Apr 2023 14:20:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1681482012;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Endbai5Wtr/9vuFfP6fUW/UnSHOPzkJ5+aimTNOZOxw=;
- b=hMTPPdbfZaB9+acnifekGW0jRfzKK7bjGLTlElyEb9SY+hHftJquSHeaZPIxjR290reCla
- MXyp2dgblj7PTn9ncfgJ9ruHbGKwgSM383sCCkxU3c0xuk0ltkS/m6UQNQB7cvxM+pXr/F
- eDZDt2fqVhf97tn3C9gkgGXVBit8iOiKOmAG0Dn0wy7xgXIFPBztJ5BtcDbo1mpwsvkbx/
- rkflB5Z/wFeE26zAqdW4rVXz24B8uDHAFkcBleb3CiodLmOeJxPAA2EyHN2MjRqy3mRkw8
- aWs7eeZrjk6l4prMfbWBAkpqqd2Z0CoN7raluPrIfRMTDOEx0h7eij++FlGoXQ==
-Date: Fri, 14 Apr 2023 16:20:10 +0200
-From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-To: Chris Morgan <macroalpha82@gmail.com>
-Subject: Re: [PATCH] drm/rockchip: vop2: fix suspend/resume
-Message-ID: <ZDlhGv0seSoxFlJ5@aptenodytes>
-References: <20230413144347.3506023-1-s.hauer@pengutronix.de>
- <64381f5b.050a0220.1533e.41e2@mx.google.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A99AC10ED53
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Apr 2023 14:24:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1681482280; x=1713018280;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=AN7hXafwScawA+VdJz+BVgrtL6FImS4CxW8iempLOmE=;
+ b=ZSGqrCqXdSLIAxcQiWtT0YcKwM2lBdVGlHYJX3t652Nzmrk+sf+8+PAb
+ 4JVvYGSo250+BWRSsQ6i7bF6WN6AIboFtSqQXJAlmxLfZScw7vE3Fwxkc
+ oCe7a32xSqDDyCHKFsFx9AprWJeD5v8xBZeLqdMAbXTPCMS+ScsWAlcGL
+ fOjLmip1r6KeolkoWLxF2/bH2tggmthkAZ1Xs3kTzM0fEuBQvW6FDsrIb
+ TZOTXxeaZLJWA4qvtPpi8WGlDdYgbPxKiYK6hLJ+RluB7WxM7JfJrpoXn
+ LwqNQUUvdEOfCiGZTfhQlgZgMHJbPqg+TnQezW9/wxLmuG/5QMzQimrN7 w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10680"; a="341972493"
+X-IronPort-AV: E=Sophos;i="5.99,197,1677571200"; d="scan'208";a="341972493"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Apr 2023 07:24:40 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10680"; a="720304675"
+X-IronPort-AV: E=Sophos;i="5.99,197,1677571200"; d="scan'208";a="720304675"
+Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.70])
+ by orsmga008.jf.intel.com with SMTP; 14 Apr 2023 07:24:36 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Fri, 14 Apr 2023 17:24:35 +0300
+Date: Fri, 14 Apr 2023 17:24:35 +0300
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: =?iso-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>
+Subject: Re: [PATCH v2 6/7] drm/vkms: add reflect-y property
+Message-ID: <ZDliI+iEgQlDMZWJ@intel.com>
+References: <20230414135151.75975-1-mcanal@igalia.com>
+ <20230414135151.75975-7-mcanal@igalia.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="F/Caj+68jhUiV1a5"
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <64381f5b.050a0220.1533e.41e2@mx.google.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230414135151.75975-7-mcanal@igalia.com>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,116 +61,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?utf-8?B?S8O2cnk=?= Maincent <kory.maincent@bootlin.com>,
- Sascha Hauer <s.hauer@pengutronix.de>, Sandy Huang <hjc@rock-chips.com>,
- dri-devel@lists.freedesktop.org, linux-rockchip@lists.infradead.org,
- Michael Riesch <michael.riesch@wolfvision.net>, kernel@pengutronix.de,
- stable@vger.kernel.org
+Cc: Haneen Mohammed <hamohammed.sa@gmail.com>,
+ Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ dri-devel@lists.freedesktop.org, Melissa Wen <mwen@igalia.com>,
+ Arthur Grillo <arthurgrillo@riseup.net>,
+ Igor Matheus Andrade Torrente <igormtorrente@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Fri, Apr 14, 2023 at 10:51:50AM -0300, Maíra Canal wrote:
+> Currently, vkms only support the reflect-x property. Therefore, add the
+> reflect-y property to vkms through a software implementation of the
+> operation. This is possible by reverse reading the y axis during the
+> blending.
+> 
+> Now, vkms support all possible rotation values.
+> 
+> Tested with igt@kms_rotation_crc@primary-reflect-y and
+> igt@kms_rotation_crc@sprite-reflect-y [1].
+> 
+> [1] https://patchwork.freedesktop.org/series/116025/
+> 
+> Signed-off-by: Maíra Canal <mcanal@igalia.com>
+> ---
+>  drivers/gpu/drm/vkms/vkms_composer.c |  7 ++++++-
+>  drivers/gpu/drm/vkms/vkms_plane.c    | 16 ++++------------
+>  2 files changed, 10 insertions(+), 13 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/vkms/vkms_composer.c b/drivers/gpu/drm/vkms/vkms_composer.c
+> index b05bd008aeab..19d1078e9d34 100644
+> --- a/drivers/gpu/drm/vkms/vkms_composer.c
+> +++ b/drivers/gpu/drm/vkms/vkms_composer.c
+> @@ -92,8 +92,13 @@ static int get_y_pos(struct vkms_frame_info *frame_info, int y)
+>  			return -1;
+>  		return y + frame_info->dst.x1;
+>  	default:
+> -		return y;
+> +		break;
+>  	}
+> +
+> +	if (frame_info->rotation & DRM_MODE_REFLECT_Y)
+> +		return drm_rect_height(&frame_info->dst) - y - 1;
+> +
+> +	return y;
+>  }
+>  
+>  static bool check_limit(struct vkms_frame_info *frame_info, int pos)
+> diff --git a/drivers/gpu/drm/vkms/vkms_plane.c b/drivers/gpu/drm/vkms/vkms_plane.c
+> index 11662afa9fe4..d08bda869a24 100644
+> --- a/drivers/gpu/drm/vkms/vkms_plane.c
+> +++ b/drivers/gpu/drm/vkms/vkms_plane.c
+> @@ -121,12 +121,8 @@ static void vkms_plane_atomic_update(struct drm_plane *plane,
+>  	frame_info->fb = fb;
+>  	memcpy(&frame_info->map, &shadow_plane_state->data, sizeof(frame_info->map));
+>  	drm_framebuffer_get(frame_info->fb);
+> -	frame_info->rotation = drm_rotation_simplify(new_state->rotation,
+> -						     DRM_MODE_ROTATE_0 |
+> -						     DRM_MODE_ROTATE_90 |
+> -						     DRM_MODE_ROTATE_180 |
+> -						     DRM_MODE_ROTATE_270 |
+> -						     DRM_MODE_REFLECT_X);
+> +	frame_info->rotation = drm_rotation_simplify(new_state->rotation, DRM_MODE_ROTATE_MASK |
+> +						     DRM_MODE_REFLECT_MASK);
 
---F/Caj+68jhUiV1a5
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+What are you trying to achieve with that?
 
-Hi,
-
-On Thu 13 Apr 23, 10:27, Chris Morgan wrote:
-> On Thu, Apr 13, 2023 at 04:43:47PM +0200, Sascha Hauer wrote:
-> > During a suspend/resume cycle the VO power domain will be disabled and
-> > the VOP2 registers will reset to their default values. After that the
-> > cached register values will be out of sync and the read/modify/write
-> > operations we do on the window registers will result in bogus values
-> > written. Fix this by re-initializing the register cache each time we
-> > enable the VOP2. With this the VOP2 will show a picture after a
-> > suspend/resume cycle whereas without this the screen stays dark.
-
-I was actually tracking the very same bug this week!
-
-Thanks a lot for fixing this, it would certainly have taken me a while to
-think about regmap cache maintenance. Good thinking :)
-
-Your patch fixes the issue on my side but I have a suggestion below:
-
-> > Fixes: 604be85547ce4 ("drm/rockchip: Add VOP2 driver")
-> > Cc: stable@vger.kernel.org
-> > Signed-off-by: Sascha Hauer <s.hauer@pengutronix.de>
-> > ---
-> >  drivers/gpu/drm/rockchip/rockchip_drm_vop2.c | 8 ++++++++
-> >  1 file changed, 8 insertions(+)
-> >=20
-> > diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c b/drivers/gpu=
-/drm/rockchip/rockchip_drm_vop2.c
-> > index ba3b817895091..d9daa686b014d 100644
-> > --- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-> > +++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-> > @@ -215,6 +215,8 @@ struct vop2 {
-> >  	struct vop2_win win[];
-> >  };
-> > =20
-> > +static const struct regmap_config vop2_regmap_config;
-> > +
-> >  static struct vop2_video_port *to_vop2_video_port(struct drm_crtc *crt=
-c)
-> >  {
-> >  	return container_of(crtc, struct vop2_video_port, crtc);
-> > @@ -839,6 +841,12 @@ static void vop2_enable(struct vop2 *vop2)
-> >  		return;
-> >  	}
-> > =20
-> > +	ret =3D regmap_reinit_cache(vop2->map, &vop2_regmap_config);
-> > +	if (ret) {
-> > +		drm_err(vop2->drm, "failed to reinit cache: %d\n", ret);
-> > +		return;
-> > +	}
-
-It seems that regmap has regcache_mark_dirty() for this purpose, which is
-perhaps more adapted than reinitializing cache (unless I'm missing somethin=
-g).
-Note that I haven't tested it at this point.
-
-Cheers,
-
-Paul
-
-> >  	if (vop2->data->soc_id =3D=3D 3566)
-> >  		vop2_writel(vop2, RK3568_OTP_WIN_EN, 1);
-> > =20
-> > --=20
-> > 2.39.2
-> >=20
->=20
-> I confirmed this works on my Anbernic RG353P which uses the rk3566 SOC.
-> Before applying the patch I displayed a color pattern with modetest
-> before suspend and it appeared correctly. Then I suspended and resumed
-> the device, attempted to display the same color pattern, and only got
-> a single pixel on an otherwise blank display. After applying the patch
-> I performed the same test and the color pattern appeared correctly
-> both before and after suspend (and the display was no longer blank
-> after resume from suspend).
->=20
-> Tested-by: Chris Morgan <macromorgan@hotmail.com>
-
---=20
-Paul Kocialkowski, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
-
---F/Caj+68jhUiV1a5
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmQ5YRoACgkQ3cLmz3+f
-v9HdZQgAmtDCuSSWB0Bgv4bn8Ph09JaLozvmj9xSRJJG9H0RozDSKbfDm8UT+FtP
-c8MIfxRr+Y9UH1/VoNuII0l0cdVEQ370/Fu3uAUGkw04+rthZIdB9YK+EeJfBzsX
-Xp7JhOzmHjA0tmgAxQ2/d4fe3uMowS+R8dfssURA4eWjjSezPIeF8Obv/Qofm/93
-1+iq6KzPSTUHVlrseEN1ULWU7m3ZVul6B1CKhuKdEJZ+0vgZC32ieEOciwH/V9G0
-+d6RwA0MqbuPtduj1vXyCk2jQ9xeOPgRiNMUaT4YE0CXc5+L0OjFK1SBIVjB0bsw
-jr/LZxrwHNIxuq9BCtAemQBDgbpimg==
-=iJZJ
------END PGP SIGNATURE-----
-
---F/Caj+68jhUiV1a5--
+-- 
+Ville Syrjälä
+Intel
