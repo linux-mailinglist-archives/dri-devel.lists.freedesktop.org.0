@@ -2,35 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3A756E2956
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Apr 2023 19:28:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ECE156E2985
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Apr 2023 19:34:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C86A610E1DC;
-	Fri, 14 Apr 2023 17:28:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A554210EE36;
+	Fri, 14 Apr 2023 17:34:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay06.th.seeweb.it (relay06.th.seeweb.it [5.144.164.167])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EB13A10E1C6;
- Fri, 14 Apr 2023 17:28:10 +0000 (UTC)
+Received: from relay08.th.seeweb.it (relay08.th.seeweb.it
+ [IPv6:2001:4b7a:2000:18::169])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4391410EE36
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Apr 2023 17:34:34 +0000 (UTC)
 Received: from SoMainline.org (94-211-6-86.cable.dynamic.v4.ziggo.nl
  [94.211.6.86])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
  SHA256) (No client certificate requested)
- by m-r2.th.seeweb.it (Postfix) with ESMTPSA id 74EF23FA00;
- Fri, 14 Apr 2023 19:28:06 +0200 (CEST)
-Date: Fri, 14 Apr 2023 19:28:04 +0200
+ by m-r2.th.seeweb.it (Postfix) with ESMTPSA id 9C8AC3FA14;
+ Fri, 14 Apr 2023 19:34:29 +0200 (CEST)
+Date: Fri, 14 Apr 2023 19:34:28 +0200
 From: Marijn Suijten <marijn.suijten@somainline.org>
 To: Abhinav Kumar <quic_abhinavk@quicinc.com>
-Subject: Re: [PATCH v2] drm/msm/dpu: always program dsc active bits
-Message-ID: <3oaangxh7gmie3cdd6rmujm7dd3hagsrnwiq3bascdtamvfn3a@bn6ou5hbsgxv>
-References: <1681401401-15099-1-git-send-email-quic_khsieh@quicinc.com>
- <tgfbdk6q3uool365jqddibnbgq66clsmsm6tldxpm5toqghxpq@m2ic3oonv2s5>
- <aac210da-dec1-aab8-3f48-c33d9e7687d6@quicinc.com>
+Subject: Re: [PATCH] drm/msm/dpu: always program dsc active bits
+Message-ID: <6s42sutrd2c6tme46t6tchd6y6wonmpwokseqqz2frkrfext7v@vnv44tzwyva4>
+References: <1681247095-1201-1-git-send-email-quic_khsieh@quicinc.com>
+ <z7wj2lcgcdxsqh7ylhec3ig6o4p6q37zqvpzoxp4bd4vid2z2n@ubsgt3ebqrwr>
+ <83f9a438-52c5-83f3-1767-92d16518d8f0@quicinc.com>
+ <feedv4isliterjtwyicqfarwuvzhtov3jkmvjcwqvt7itkyh7y@e2jq5t6r3lxc>
+ <e78e576a-2a04-e7ca-f6c4-701d508541ad@quicinc.com>
+ <mfzi535qsjtcznwdvgb7qyzk25rcsrkwozah6ji4thqsj73n3m@asybxllomisg>
+ <049697ba-d997-62c0-6e21-ffb287ac3100@quicinc.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <aac210da-dec1-aab8-3f48-c33d9e7687d6@quicinc.com>
+In-Reply-To: <049697ba-d997-62c0-6e21-ffb287ac3100@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,84 +57,39 @@ Cc: freedreno@lists.freedesktop.org, quic_sbillaka@quicinc.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2023-04-14 08:41:37, Abhinav Kumar wrote:
+On 2023-04-14 08:48:43, Abhinav Kumar wrote:
 > 
-> On 4/14/2023 12:48 AM, Marijn Suijten wrote:
-> > Capitalize DSC in the title, as discussed in v1.
+> On 4/14/2023 12:35 AM, Marijn Suijten wrote:
+> > On 2023-04-12 10:33:15, Abhinav Kumar wrote:
+> > [..]
+> >>> What happens if a device boots without DSC panel connected?  Will
+> >>> CTL_DSC_FLUSH be zero and not (unnecessarily, I assume) flush any of the
+> >>> DSC blocks?  Or could this flush uninitialized state to the block?
+> >>>
+> >>
+> >> If we bootup without DSC panel connected, the kernel's cfg->dsc will be
+> >> 0 and default register value of CTL_DSC_FLUSH will be 0 so it wont flush
+> >> any DSC blocks.
 > > 
-> > On 2023-04-13 08:56:41, Kuogee Hsieh wrote:
-> >> In current code, the DSC active bits are written only if cfg->dsc is set.
-> >> However, for displays which are hot-pluggable, there can be a use-case
-> >> of disconnecting a DSC supported sink and connecting a non-DSC sink.
-> >>
-> >> For those cases we need to clear DSC active bits during tear down.
-> >>
-> >> Changes in V2:
-> >> 1) correct commit text as suggested
-> >> 2) correct Fixes commit id
-> >> 3) add FIXME comment
-> >>
-> >> Fixes: 77f6da90487c ("drm/msm/disp/dpu1: Add DSC support in hw_ctl")
-> >> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
-> >> Reviewed-by: Marijn Suijten <marijn.suijten@somainline.org>
-> > 
-> > By default git send-email should pick this up in the CC line...  but I
-> > had to download this patch from lore once again.
+> > Ack, that makes sense.  However, if I connect a DSC panel, then
+> > disconnect it (now the register should be non-zero, but cfg->dsc will be
+> > zero), and then replug a non-DSC panel multiple times, it'll get flushed
+> > every time because we never clear CTL_DSC_FLUSH after that?
 > > 
 > 
-> Yes, I think what happened here is, he didnt git am the prev rev and 
-> make changes on top of that so git send-email didnt pick up. We should 
-> fix that process.
+> If we remove it after kernel starts, that issue is there even today 
+> without that change because DSI is not a hot-pluggable display so a 
+> teardown wont happen when you plug out the panel. How will cfg->dsc be 0 
+> then? In that case, its not a valid test as there was no indication to 
+> DRM that display was disconnected so we cannot tear it down.
 
-The mail was sent so it must have gone through git send-email, unless a
-different mail client was used to send the .patch file.  I think you are
-confusing this with git am (which doesn't need to be used if editing a
-commit on a local branch) and subsequently git format-patch, which takes
-a commit from a git repository and turns it into a .patch file: neither
-of these "converts" r-b's (and other tags) to cc, that's happening in
-git send-email (see `--suppress-cc` documentation in `man
-git-send-email`).
+The patch description itself describes hot-pluggable displays, which I
+believe is the upcoming DSC support for DP?  You ask how cfg->dsc can
+become zero, but this is **exactly** what the patch description
+describes, and what this patch is removing the `if` for.  If we are not
+allowed to discuss that scenario because it is not currently supported,
+neither should we allow to apply this patch.
 
-I can recommend b4: it has lots of useful features including
-automatically picking up reviews and processing revisions.  It even
-requires a changelog to be edited ;).  However, finding the right flags
-and trusting it'll "do as ordered" is a bit daunting at first.
-
-> >> ---
-> >>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c | 8 ++++----
-> >>   1 file changed, 4 insertions(+), 4 deletions(-)
-> >>
-> >> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
-> >> index bbdc95c..1651cd7 100644
-> >> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
-> >> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
-> >> @@ -541,10 +541,10 @@ static void dpu_hw_ctl_intf_cfg_v1(struct dpu_hw_ctl *ctx,
-> >>   	if (cfg->merge_3d)
-> >>   		DPU_REG_WRITE(c, CTL_MERGE_3D_ACTIVE,
-> >>   			      BIT(cfg->merge_3d - MERGE_3D_0));
-> >> -	if (cfg->dsc) {
-> >> -		DPU_REG_WRITE(&ctx->hw, CTL_FLUSH, DSC_IDX);
-> >> -		DPU_REG_WRITE(c, CTL_DSC_ACTIVE, cfg->dsc);
-> >> -	}
-> >> +
-> >> +	/* FIXME: fix reset_intf_cfg to handle teardown of dsc */
-> > 
-> > There's more wrong than just moving (not "fix"ing) this bit of code into
-> > reset_intf_cfg.  And this will have to be re-wrapped in `if (cfg->dsc)`
-> > again by reverting this patch.  Perhaps that can be explained, or link
-> > to Abhinav's explanation to make it clear to readers what this FIXME
-> > actually means?  Let's wait for Abhinav and Dmitry to confirm the
-> > desired communication here.
-> > 
-> > https://lore.kernel.org/linux-arm-msm/ec045d6b-4ffd-0f8c-4011-8db45edc6978@quicinc.com/
-> > 
-> 
-> Yes, I am fine with linking this explanation in the commit text and 
-> mentioning that till thats fixed, we need to go with this solution. The 
-> FIXME itself is fine, I will work on it and I remember this context well.
-
-Looks like it was removed entirely in v3, in favour of only describing
-it in the patch body.  The wording seems a bit off but that's fine by me
-if you're picking this up soon anyway.
+With that in mind, can you re-answer the question?
 
 - Marijn
