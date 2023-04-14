@@ -1,159 +1,77 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CA4F6E26AF
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Apr 2023 17:18:11 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E68506E272A
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Apr 2023 17:41:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D2CEE10E1AF;
-	Fri, 14 Apr 2023 15:18:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3507F10E1BA;
+	Fri, 14 Apr 2023 15:41:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C22A610E1A9;
- Fri, 14 Apr 2023 15:18:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1681485482; x=1713021482;
- h=from:to:cc:subject:date:message-id:references:
- in-reply-to:content-id:content-transfer-encoding: mime-version;
- bh=YGi2epQ87dGzb7+TwEfXzXPObm7euALRUwX1m4VErVg=;
- b=OalYnN3/asLoRimnWRDecVTqhvkk2by2ns0dq3VXAgC5yC/fk5gJa2L3
- jUky+AX5ytNtPBvQ6I/626/NIuzfjNP1k7uRK0afMxAUPsDG8/6EDjEhC
- pZG0O0fNLz8f5lHaovNLUc8gktDn9ydCo19zC6wDG3uowWwTPVPJu8rdQ
- tR4+wR1h1Ay/3qt9r5FE7fqdaCjqXHk14pyRwcXbX9sWP9gMqEJb6dCTO
- aGr49xON9SBMHgQ92GnIP4dzPjql0We9MzDI487eh30Wiq2R/GIZSZ3iN
- D1pOxU2Q7y9D+YLLI3NB+DTeECuvzx7EzDMBvVcVOA5WnzSJsoTmTO0K6 g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10680"; a="333261755"
-X-IronPort-AV: E=Sophos;i="5.99,197,1677571200"; d="scan'208";a="333261755"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Apr 2023 08:18:01 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10680"; a="720318845"
-X-IronPort-AV: E=Sophos;i="5.99,197,1677571200"; d="scan'208";a="720318845"
-Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
- by orsmga008.jf.intel.com with ESMTP; 14 Apr 2023 08:18:01 -0700
-Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
- ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.23; Fri, 14 Apr 2023 08:18:01 -0700
-Received: from orsmsx603.amr.corp.intel.com (10.22.229.16) by
- ORSMSX611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.23; Fri, 14 Apr 2023 08:18:01 -0700
-Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
- orsmsx603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.23 via Frontend Transport; Fri, 14 Apr 2023 08:18:01 -0700
-Received: from NAM04-MW2-obe.outbound.protection.outlook.com (104.47.73.176)
- by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.23; Fri, 14 Apr 2023 08:18:00 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=fzfQSRN4ptL4Uheozgv8+YwaJhUUnBzvC54DQ0xH6YQub31kiZgIMdcG6+STaJ2yT/s/+bKbNAZdueSj9iZuwl+rfWwZDwNfWEAJLn0XNA/KPVacoF3U45z/5oWV+ZMMduk1N4w6wB6HhPJpF4xEmcnyPuqv6Qz9xORscQGY9WQL71giDMIExv0HOrsmQFkw9xXUWhYnpHI92/L7/J8DT9/v5vBTC3DIGoPvrvOeL/Rw7Slw4OqccKF2D+NISc8ng+4laP0a9D34bcqD3jYoapXaNawkbZmkdrioV9Jwt4iX+tJ3IH6RgFl6Xro/SgJtXOMbUO9nz2sbpIriKyEOzw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=YGi2epQ87dGzb7+TwEfXzXPObm7euALRUwX1m4VErVg=;
- b=EUyG9NPUZ2w22xViRqVZTiK0a2UDuwjRYh2pzSO71T8X4FLTbBIuTnT2mR557i57h+lG9DPGsmnyVLwtZzfosbm5H92NBO87QQOPT+mCONLvhicaukrOStbuoqzkI1WXQ1GA7coE9iCnGbN0gSYMslSH2qYkn6W6u96/wJGcmbOWVznGxcDocnkNeQ7aYP5BSjYjN6XcEFmhvO6DEzNskqzklELQ79WizT+mWk3/q8eVW64gPvb09zNVtPfVI8twMFy2JK3py+z9gZy7He165MNntz2j8IeRUZrzci9ZsG7NiGfP8QGJ5djpKToE1U9O54jwJm3WEtqHBpuNKsXwPg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from DM8PR11MB5751.namprd11.prod.outlook.com (2603:10b6:8:12::16) by
- DM4PR11MB6095.namprd11.prod.outlook.com (2603:10b6:8:aa::14) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6277.38; Fri, 14 Apr 2023 15:17:59 +0000
-Received: from DM8PR11MB5751.namprd11.prod.outlook.com
- ([fe80::34a1:94e9:ec9b:dfe3]) by DM8PR11MB5751.namprd11.prod.outlook.com
- ([fe80::34a1:94e9:ec9b:dfe3%6]) with mapi id 15.20.6298.030; Fri, 14 Apr 2023
- 15:17:59 +0000
-From: "Teres Alexis, Alan Previn" <alan.previn.teres.alexis@intel.com>
-To: "Ceraolo Spurio, Daniele" <daniele.ceraolospurio@intel.com>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- "Landwerlin, Lionel G" <lionel.g.landwerlin@intel.com>
-Subject: Re: [PATCH v7 6/8] drm/i915/uapi/pxp: Fix UAPI spec comments and add
- GET_PARAM for PXP
-Thread-Topic: [PATCH v7 6/8] drm/i915/uapi/pxp: Fix UAPI spec comments and add
- GET_PARAM for PXP
-Thread-Index: AQHZaK9ya+davEyaqkWPdww46zK+Z68k0KeAgAYmj4A=
-Date: Fri, 14 Apr 2023 15:17:59 +0000
-Message-ID: <ae72a0dfb157a9944434b773a93d82d40c7cb4e7.camel@intel.com>
-References: <20230406174419.471256-1-alan.previn.teres.alexis@intel.com>
- <20230406174419.471256-7-alan.previn.teres.alexis@intel.com>
- <35d5f2da-115e-5873-1e3e-ba4db16537eb@intel.com>
-In-Reply-To: <35d5f2da-115e-5873-1e3e-ba4db16537eb@intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Evolution 3.46.1-0ubuntu1 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DM8PR11MB5751:EE_|DM4PR11MB6095:EE_
-x-ms-office365-filtering-correlation-id: 5c6bed52-ed06-41a5-efe4-08db3cfb6ea4
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: Y+E0Kzx1hutWWvRGZRzrGLD7/1T29JXetZOEEszroX5lmDVpk57gSI3d9bLdf9Z3L9zz+Hi9yitlP81Iwq4AFqQsMvsCVHhhYoFUhKIsNj4hCIQ4+A5FTO1vYhZDMc/7vGNqmIuonEGWA+PiXrsy9Tl9yw8wvQdmGwuF4bvE70d3qZcY68MqU47AEhJmU6y2aJPMs+MH//nPBuQRtw/bVCXYcXglNUodO6teczogpQ68JDFbTKymjretFfkk2VXfKjqDGF34H7JxgyBspnXQgF9y69ii6ehLzhhQQwbxeEOvGBpgFH9QKgs+iZwBq40TUApheMYAYiaP6OYgLxDT1IAnRzqdECyJyK0pblEQww/MTHjEoK7ZehDOx9cEi8/X4wJWBp5svuyBLocAKGQpgRbKDjVOdDXI9war45J0pXKopsc5EVDQkgyxpH6MxBSHEDYkXMswU+QCYZj9sE7MT5ej9mqvWOAYwCP6QugecIKEGKRngN8/aiNzpBkZtJrUs9aw5Wh6L0JZPDf5i31h9HCHUF+g8ahzJ/c/CtW9kmc1WSuk6CxoqbDOqKaYbJxx8t6LvpTzv7gaOmppXS/CCebxOHcbOf+SuR/68Qn+HUDXRJxyDp5Evq2Jpo7W2ZIs
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM8PR11MB5751.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230028)(376002)(136003)(346002)(366004)(396003)(39860400002)(451199021)(66556008)(4326008)(64756008)(66446008)(66946007)(66476007)(76116006)(316002)(107886003)(2906002)(36756003)(8676002)(41300700001)(186003)(8936002)(5660300002)(54906003)(6636002)(478600001)(110136005)(91956017)(86362001)(71200400001)(38070700005)(122000001)(38100700002)(6512007)(26005)(53546011)(6506007)(82960400001)(83380400001)(6486002)(2616005);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?R2kwOWhLNHRHMTJGK3U5VzQxNVovaUk4dFQxOEpLSlVLMlFMV3BKN0lzZ1dQ?=
- =?utf-8?B?aDF6MFFkdEZnTWI3WXg1NGdrbkk4Um5CMjl4UW85ditNSjhRa1VOZzk1OENR?=
- =?utf-8?B?cC9YVGxGTm52L25rWFkzYWZJQUFiamxDb1hraVo0a2hUNHlCVWpsbnByOGxJ?=
- =?utf-8?B?RnN6bUpicUV0bjZXL3NXQWZmSnV0MC96eTNrTXhDU0R5WWk0S01WbUJteHBv?=
- =?utf-8?B?R21HY3ZYYXVkVU9RdmduVnV5Y0pqV2FidUt2T1dHMVVHZWhORmZTV29Xb2Zk?=
- =?utf-8?B?RVFkNVhpVSt3UzVVOHJiWTlzbEZBdUlpaEhLSy9uZUptd2h6ek1nWUU0cUFB?=
- =?utf-8?B?T29ocWhDK1JjTHVTWitqNWI2MEhoaXlocHV5WlFZMTlVL0d2cldGUWlHdTlT?=
- =?utf-8?B?b256RjFuMGdsQ3NxdUtzRHNwRW1vT2VKeUkxZFpCY1dxekdiMHB5emwweTBP?=
- =?utf-8?B?ZFAzYXdDRmdoWWRzTDBub2xOWnVkTlB5d3FVaU43NTJTM1JiNVVXMUpjTjhI?=
- =?utf-8?B?U2dOZ2hsa3BDc1NGaElrZWZKQm53MWt3WXFYcHZaOVZHdGVOenhsWGFNL20v?=
- =?utf-8?B?TlEzcjl2dUNodDZCWXd3TXIzcHJJLzVNN1VJSmtwM1d3UVZ3dEpWb3F3Wk1r?=
- =?utf-8?B?S1MvUEI0aU1QbVU2V0VBaHk3bEVoWE9QSUgyelNJQ3ZmM0RQeTRPYkRCMHhr?=
- =?utf-8?B?dklOZ05FaThMRHdPSk9JM2NPS0tjUkpORFNETTZtelNXZUZTMzJTRStqSVRz?=
- =?utf-8?B?OEN5MzF4VzBKZWVnQk9PWHRtbHZkczZCSC9MUXJCSnloUk4zNFMwdnJKT0RP?=
- =?utf-8?B?SG8rdUVXeDlMMkQzVjBRQkpFZjNvWVNFTzB4VGJTeEZla2R2TkdoSkk4alJR?=
- =?utf-8?B?RThMRVR1SUJSd3dQNjlMZW1ZWEl3Q2FyZG8yaDZiVHhZbVRZRTNCU0xId2pM?=
- =?utf-8?B?TUZFWlNPN0VVeXJZVnBzNkVYNElWdUdqdzg1V0hwQW9CK3ZlYlBsSnFtWk90?=
- =?utf-8?B?ak05M0xPT0l5anlXN0JZcnRsQUwzVmNQOFZEYk9DZ2RMTS8xMTgxWlk2OFdu?=
- =?utf-8?B?MFhubXVEUS8xakVGZTIxK0NMMTBDNHNvSWRoSEUwV2JJTlpNUmdqL1E0MVVw?=
- =?utf-8?B?L2pCbmczaGVwRk43UEZ1dktSTWZmaWtPSkJWVlpHWGZHOFhqU1VXVGJiTWtQ?=
- =?utf-8?B?Zmp5ZlFKeDVqOStTMjF1bTRyUGU5MEk5SHRyUzFzek9tNlo0bVo1OXlieGxS?=
- =?utf-8?B?WXhvczBodzBKYVdDaExGcmRDeStsNDVKaWJueW1acUZBcDZBbHJWZ2R1ZWRF?=
- =?utf-8?B?T0lmQkpMNXpJektTZzA3b3g5TzMxTy9DdjMyNVljRDlFS09YVlRNUGpJWTEz?=
- =?utf-8?B?eGlubzU2eWhhV1hEOEw0SlJUZlJ0NkNmeEw1QVdEc2dOVEhEekVmNmYxUDZJ?=
- =?utf-8?B?SGJXVm1Qdi9WL0tZNyt6ZXhiT0dIL3dmMDdCRXFDa0JCMmw2ZytoWkZCQmw2?=
- =?utf-8?B?OXNYSVVzMWRuVzk2a3NLNGNicnh6RHl5SnlLSDdXVmtkWFlhc2YraVpWRWtR?=
- =?utf-8?B?K29ySC9HSFd5WXAyK3ZGa2llOW90L0p6Ti9zRUs4QWlNWVNJeEZCUUlxYVln?=
- =?utf-8?B?NzR1cEM2Rm5wUEgzN20rTUFQS21zOXlPQ1FIVTNiTkh0RXpXWXFSRm9FM2pt?=
- =?utf-8?B?bFk1d2M5R2lBWXQxVHNXZ1lCamp3SnRHU29uankzRXpMMFgyZEIwMFBRcE85?=
- =?utf-8?B?WWpjZnRWSEM5bkVMU0RtUWdrc3lMbVNsRWl3Q1hOUzJQTDUrdk9YTFllcEM2?=
- =?utf-8?B?TVk5VkcyUnR5U1RlL0VlTWFLOTdlWDFlVHg4TGo0MnJjSmU5V3kzSGpsMzJw?=
- =?utf-8?B?ZXVhTTNzYmo4THdxcEVVamtYeGJhK25LZndvQU5pRVlaYzBNMTBHNFpQRU4v?=
- =?utf-8?B?S3pleUFNWmc5YUhRTzhETjJCUk1QMnpHdnd4SnYwcFJWNUI5bFQ5RDMzNjFs?=
- =?utf-8?B?MTQ3YnZLblBVNnI0UFpDN3Rsc2VBWDdoZjZESWl1UE5Xa1FId3MwWGkrcmk2?=
- =?utf-8?B?ZnNyazlxdWNUZWxCWldFd2RxOXFXb01LUTAycG1lZU04Y1Zpb3dUcFl2QlZH?=
- =?utf-8?B?T0k1Q0hmMGo2d25VMkdacHdSZUwxOWtmWGV5elFpWmo4K3FsdVgrdUJybEM1?=
- =?utf-8?Q?K6h7Axbi7PvUgyjwI4DgDJI=3D?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <8B0DC4951BA0C5499D5BDD5EC2DB7BD9@namprd11.prod.outlook.com>
-Content-Transfer-Encoding: base64
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 710FD10E1BA;
+ Fri, 14 Apr 2023 15:41:48 +0000 (UTC)
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 33EFffeY006347; Fri, 14 Apr 2023 15:41:41 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=NK/P0Cz1MxmLV1BoZL/v3IENNRORMkZFXgt0sEvVQyI=;
+ b=F3pL9Ovv8k0AqFx4bpYsFYuwNHy5C+J+T4PRGq/a/pEnU4gCxbDSvL20LtGMd44zLdbg
+ j43V2GgxMR6pwgJgxBR8EtQ78O7syYaKMoD3lrOXwlIVG4jaFTfIHtlZuyZZXgNfuUDy
+ 5PYl4TaG1hpD4ypwRDWKeNOzydhT1fffNis4r0Lpm9Fl4g9wFogGYXPYZBSlGDuDc1+v
+ Bi7D6d65lzX+YFuZKREgEtHmndhrcRvsjPc6uYwh04OsCkjedZzBo7wF2vBaF1KmC/GE
+ L31JVvVz3ADRyIpamRB20HyviUMSGNvdOAqYbyjlkJXPcaWO0FGV47tzi8kTqxdn70BD lQ== 
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3py20e11ru-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 14 Apr 2023 15:41:40 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 33EFfdsZ006120
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 14 Apr 2023 15:41:39 GMT
+Received: from [10.110.73.215] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Fri, 14 Apr
+ 2023 08:41:38 -0700
+Message-ID: <aac210da-dec1-aab8-3f48-c33d9e7687d6@quicinc.com>
+Date: Fri, 14 Apr 2023 08:41:37 -0700
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM8PR11MB5751.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5c6bed52-ed06-41a5-efe4-08db3cfb6ea4
-X-MS-Exchange-CrossTenant-originalarrivaltime: 14 Apr 2023 15:17:59.3747 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: uxJzyKS8UZ2aOc0JqBvpmhNV6QNoMlpZAWxP8s2HRPSH87hye2RGE2iowzxMeMlxKPBBe+i8h7PvDZXFBeNxJCCGpMNu6AfdigCysyKzx9uUDlTwRFMLQolmqIzDW8le
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR11MB6095
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.2
+Subject: Re: [PATCH v2] drm/msm/dpu: always program dsc active bits
+Content-Language: en-US
+To: Marijn Suijten <marijn.suijten@somainline.org>, Kuogee Hsieh
+ <quic_khsieh@quicinc.com>
+References: <1681401401-15099-1-git-send-email-quic_khsieh@quicinc.com>
+ <tgfbdk6q3uool365jqddibnbgq66clsmsm6tldxpm5toqghxpq@m2ic3oonv2s5>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <tgfbdk6q3uool365jqddibnbgq66clsmsm6tldxpm5toqghxpq@m2ic3oonv2s5>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: xnbsfrOMy6PlHWXsXlNi3qaZM2ZHUpO0
+X-Proofpoint-ORIG-GUID: xnbsfrOMy6PlHWXsXlNi3qaZM2ZHUpO0
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-04-14_08,2023-04-14_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 lowpriorityscore=0
+ phishscore=0 adultscore=0 impostorscore=0 spamscore=0 mlxlogscore=663
+ priorityscore=1501 clxscore=1015 malwarescore=0 bulkscore=0 suspectscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2303200000
+ definitions=main-2304140138
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -166,34 +84,84 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "justonli@chromium.org" <justonli@chromium.org>, "Vivi,
- Rodrigo" <rodrigo.vivi@intel.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, "Ursulin,
- Tvrtko" <tvrtko.ursulin@intel.com>
+Cc: freedreno@lists.freedesktop.org, quic_sbillaka@quicinc.com,
+ andersson@kernel.org, dri-devel@lists.freedesktop.org, dianders@chromium.org,
+ vkoul@kernel.org, agross@kernel.org, linux-arm-msm@vger.kernel.org,
+ dmitry.baryshkov@linaro.org, swboyd@chromium.org, sean@poorly.run,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgTGlvbmVsLCBkb2VzIHRoaXMgcGF0Y2ggd29yayBmb3IgeW91Pw0KDQpPbiBNb24sIDIwMjMt
-MDQtMTAgYXQgMTA6MjIgLTA3MDAsIENlcmFvbG8gU3B1cmlvLCBEYW5pZWxlIHdyb3RlOg0KPiBP
-biA0LzYvMjAyMyAxMDo0NCBBTSwgQWxhbiBQcmV2aW4gd3JvdGU6DQphbGFuOnNuaXANCg0KPiA+
-ICsvKg0KPiA+ICsgKiBRdWVyeSB0aGUgc3RhdHVzIG9mIFBYUCBzdXBwb3J0IGluIGk5MTUuDQo+
-ID4gKyAqDQo+ID4gKyAqIFRoZSBxdWVyeSBjYW4gZmFpbCBpbiB0aGUgZm9sbG93aW5nIHNjZW5h
-cmlvcyB3aXRoIHRoZSBsaXN0ZWQgZXJyb3IgY29kZXM6DQo+ID4gKyAqICAtRU5PREVWID0gUFhQ
-IHN1cHBvcnQgaXMgbm90IGF2YWlsYWJsZSBvbiB0aGUgR1BVIGRldmljZSBvciBpbiB0aGUga2Vy
-bmVsDQo+ID4gKyAqICAgICAgICAgICAgZHVlIHRvIG1pc3NpbmcgY29tcG9uZW50IGRyaXZlcnMg
-b3Iga2VybmVsIGNvbmZpZ3MuDQo+ID4gKyAqIElmIHRoZSBJT0NUTCBpcyBzdWNjZXNzZnVsLCB0
-aGUgcmV0dXJuZWQgcGFyYW1ldGVyIHdpbGwgYmUgc2V0IHRvIG9uZSBvZiB0aGUNCj4gPiArICog
-Zm9sbG93aW5nIHZhbHVlczoNCj4gPiArICogICAwID0gUFhQIHN1cHBvcnQgbWF5YmUgYXZhaWxh
-YmxlIGJ1dCB1bmRlcmx5aW5nIFNPQyBmdXNpbmcsIEJJT1Mgb3IgZmlybXdhcmUNCj4gPiArICog
-ICAgICAgY29uZmlndXJhdGlvbiBpcyB1bmtub3duIGFuZCBhIFBYUC1jb250ZXh0LWNyZWF0aW9u
-IHdvdWxkIGJlIHJlcXVpcmVkDQo+ID4gKyAqICAgICAgIGZvciBmaW5hbCB2ZXJpZmljYXRpb24g
-b2YgZmVhdHVyZSBhdmFpbGliaWxpdHkuDQo+IA0KPiBXb3VsZCBpdCBiZSB1c2VmdWwgdG8gYWRk
-Og0KPiANCj4gMSA9IFBYUCBzdXBwb3J0IGlzIGF2YWlsYWJsZQ0KPiANCj4gQW5kIHN0YXJ0IHJl
-dHVybmluZyB0aGF0IGFmdGVyIHdlJ3ZlIHN1Y2Nlc3NmdWxseSBjcmVhdGVkIG91ciBmaXJzdCAN
-Cj4gc2Vzc2lvbj8gTm90IHN1cmUgaWYgdXNlcnNwYWNlIHdvdWxkIHVzZSB0aGlzIHRob3VnaCwg
-c2luY2UgdGhleSBzdGlsbCANCj4gbmVlZCB0byBoYW5kbGUgdGhlIDAgY2FzZSBhbnl3YXkuDQo+
-IEknbSBhbHNvIG9rIHdpdGggdGhpcyBwYXRjaCBhcy1pcywgYXMgbG9uZyBhcyB5b3UgZ2V0IGFu
-IGFjayBmcm9tIHRoZSANCj4gdXNlcnNwYWNlIGRyaXZlcnMgZm9yIHRoaXMgaW50ZXJmYWNlIGJl
-aGF2aW9yOg0KPiANCj4gUmV2aWV3ZWQtYnk6IERhbmllbGUgQ2VyYW9sbyBTcHVyaW8gPGRhbmll
-bGUuY2VyYW9sb3NwdXJpb0BpbnRlbC5jb20+DQo+IA0KPiBEYW5pZWxlDQoNCmFsYW46c25pcA0K
-DQo=
+
+
+On 4/14/2023 12:48 AM, Marijn Suijten wrote:
+> Capitalize DSC in the title, as discussed in v1.
+> 
+> On 2023-04-13 08:56:41, Kuogee Hsieh wrote:
+>> In current code, the DSC active bits are written only if cfg->dsc is set.
+>> However, for displays which are hot-pluggable, there can be a use-case
+>> of disconnecting a DSC supported sink and connecting a non-DSC sink.
+>>
+>> For those cases we need to clear DSC active bits during tear down.
+>>
+>> Changes in V2:
+>> 1) correct commit text as suggested
+>> 2) correct Fixes commit id
+>> 3) add FIXME comment
+>>
+>> Fixes: 77f6da90487c ("drm/msm/disp/dpu1: Add DSC support in hw_ctl")
+>> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
+>> Reviewed-by: Marijn Suijten <marijn.suijten@somainline.org>
+> 
+> By default git send-email should pick this up in the CC line...  but I
+> had to download this patch from lore once again.
+> 
+
+Yes, I think what happened here is, he didnt git am the prev rev and 
+make changes on top of that so git send-email didnt pick up. We should 
+fix that process.
+
+>> ---
+>>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c | 8 ++++----
+>>   1 file changed, 4 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
+>> index bbdc95c..1651cd7 100644
+>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
+>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
+>> @@ -541,10 +541,10 @@ static void dpu_hw_ctl_intf_cfg_v1(struct dpu_hw_ctl *ctx,
+>>   	if (cfg->merge_3d)
+>>   		DPU_REG_WRITE(c, CTL_MERGE_3D_ACTIVE,
+>>   			      BIT(cfg->merge_3d - MERGE_3D_0));
+>> -	if (cfg->dsc) {
+>> -		DPU_REG_WRITE(&ctx->hw, CTL_FLUSH, DSC_IDX);
+>> -		DPU_REG_WRITE(c, CTL_DSC_ACTIVE, cfg->dsc);
+>> -	}
+>> +
+>> +	/* FIXME: fix reset_intf_cfg to handle teardown of dsc */
+> 
+> There's more wrong than just moving (not "fix"ing) this bit of code into
+> reset_intf_cfg.  And this will have to be re-wrapped in `if (cfg->dsc)`
+> again by reverting this patch.  Perhaps that can be explained, or link
+> to Abhinav's explanation to make it clear to readers what this FIXME
+> actually means?  Let's wait for Abhinav and Dmitry to confirm the
+> desired communication here.
+> 
+> https://lore.kernel.org/linux-arm-msm/ec045d6b-4ffd-0f8c-4011-8db45edc6978@quicinc.com/
+> 
+
+Yes, I am fine with linking this explanation in the commit text and 
+mentioning that till thats fixed, we need to go with this solution. The 
+FIXME itself is fine, I will work on it and I remember this context well.
+
+> - Marijn
+> 
+>> +	DPU_REG_WRITE(&ctx->hw, CTL_FLUSH, DSC_IDX);
+>> +	DPU_REG_WRITE(c, CTL_DSC_ACTIVE, cfg->dsc);
+>>   }
+>>   
+>>   static void dpu_hw_ctl_intf_cfg(struct dpu_hw_ctl *ctx,
+>> -- 
+>> The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
+>> a Linux Foundation Collaborative Project
+>>
