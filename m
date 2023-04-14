@@ -2,72 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44C986E1E5E
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Apr 2023 10:33:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 247956E1E5F
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Apr 2023 10:34:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DBF4D10EC87;
-	Fri, 14 Apr 2023 08:33:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2A40310EC8D;
+	Fri, 14 Apr 2023 08:34:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com
- [IPv6:2a00:1450:4864:20::632])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8094A10EC87
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Apr 2023 08:33:16 +0000 (UTC)
-Received: by mail-ej1-x632.google.com with SMTP id si1so13597383ejb.10
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Apr 2023 01:33:16 -0700 (PDT)
+Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com
+ [IPv6:2a00:1450:4864:20::62e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 097E810EC8D
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Apr 2023 08:33:57 +0000 (UTC)
+Received: by mail-ej1-x62e.google.com with SMTP id
+ a640c23a62f3a-94a34c2bc67so331021766b.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Apr 2023 01:33:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1681461194; x=1684053194;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=w3FtZ9dci4dGhDGGxbjVvfgq7DYDIdQzDNghYvxCfzQ=;
- b=Q4TrIEiCLY582s9gOCKEmeVshUj4v3e4OzKFnjBIpz46uznJFoZM/KOVOGMHBr+h4m
- pMI8bdn52SkDCClu6SkV/WqhFk5ye+O5Skv7mHS2Xfs+UqAkB+LwjCbk+Yw1JdF8X7ML
- JJuGfzxOJ2k9mqG52C/xSUeMedxNuQSTYlRPMOJY7oOY6KjE+iuH26TwWC3HHnK2wHvt
- F20lCvk5ik7XzWW9hKvLNq8yRETMuN4NsRgqQqoHwb23l/tvCoykT8wSyqFtaH1sDKHw
- Yg0em/tbCVBAPMp+7sh/C2zGbxnE7s1WIPTBYWr++39IdfJz7+bbCHQTcoiXsL5CXbl2
- uVqg==
+ d=linaro.org; s=google; t=1681461236; x=1684053236;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=NpwShvISTcTE3K551Ap7usqhXOxNcMryVkJfhLZoUUQ=;
+ b=gsiPpWBp2wpRZMjngR/LlRcMXgtQhIJMpe1zxLflCmmCEgZt1OKJwCaaOuy1DRfeG4
+ 8Btrq6P7SzcRIEwS+LzlJZ7Xy8WKZllnDewpxsObInwk1yG9iMGXgLwLfVQrVvsmQ3l8
+ GRnVASeSZv/aJAIJZcH2Tq5EIEKvmGeMwVpgmsKj2nG6SkyJk6BLzVeqL1fq/ClPJpAL
+ D2HXXK5q+Sm/lZ+t6o/2LhFPgSoeb9zXxR7qfaDZKOqyccvzAfDms7EFm1rUOy0oT0pa
+ S8ZqPM1ighYnFYjjvIwJuXJL4VsoiUOYj9wFcvl7d5v+aT2h15sOyAHO8r3o7TYGV/L8
+ GreA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681461194; x=1684053194;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=w3FtZ9dci4dGhDGGxbjVvfgq7DYDIdQzDNghYvxCfzQ=;
- b=JplQI2ivKTZ7G7UzFmVSGYqojKM8xjpS2yIcSq/+1Nu85ZrhB7NJ8UtYsK4OcKHsWc
- YAYP563khN9spcX6it9PEnL28bVzxb6/cK0JHDWLW7sKbkfvnFCiOWNhYWL53NBSlq+f
- suU4YixNhK29xzuUq9r2NvyOkCZ68MXtHuLwboklH+ouNNniE2ccCfDgbX+cjnmCdzNF
- lpW0+VCzBg300/aZhbowz338blg5eC7fvTobXTstUR/8aeIdxRDmPrOmJHab1Q6ZoeaE
- cyW6oGJVtnMABLyBggSvLQr1+9XBErpbwLj3Rtuw4dHyHrwt0PMs++w9+whj9pQSvooj
- txKQ==
-X-Gm-Message-State: AAQBX9ctrpqsGzjqUggxMY5lJXIKLYU6Rq/NlEiwJYtdF6cIUUMDMppO
- URiDoEBPLctGhv+A5MrF20Z9SA==
-X-Google-Smtp-Source: AKy350aGQRs1vh6Pg/6HTptOMcYpNBCL9gg3bQMV+WAErgKSe7bXg5dCXM2lmhbw/J6OvxeA82mGbw==
-X-Received: by 2002:a17:906:4f91:b0:932:83fa:d2fe with SMTP id
- o17-20020a1709064f9100b0093283fad2femr6035425eju.12.1681461194314; 
- Fri, 14 Apr 2023 01:33:14 -0700 (PDT)
-Received: from krzk-bin.. ([2a02:810d:15c0:828:8a60:6b0f:105a:eefb])
+ d=1e100.net; s=20221208; t=1681461236; x=1684053236;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=NpwShvISTcTE3K551Ap7usqhXOxNcMryVkJfhLZoUUQ=;
+ b=JAE9dqYyMwP5As5n0+ZDrRkbwxB+4cye5lRjF6vtEwKY2JmUKMuk2sx1o4ezQsNeu9
+ 5uXqQtOrKcFb6P/Ne2Yf9KqDaad2XwXwY++QRB6ZNG0XP5X7SUyO6XK1ek38pCgbS+le
+ NKOjpqUxg53tkhT/UItLGwvusSa7ZbyuzpxoSAdJXP20TObqR922BsCAzbKytb7llGe5
+ zz5bwjBHoiY4kBStfoyg4OtIX8EzhS93lugymfcBVnqdIo9BrXx4a88cRHfp6216VYiH
+ YnejNIvZOWwvBsszYPmQroh23YKZk4oxEb3n4HdkScozpA58u80nkbycAYGF9EU7QXRx
+ nBsw==
+X-Gm-Message-State: AAQBX9c0Iu7cv3n8u3UO6tn+5AmSrVy+OpfY9bL772H7bGlBLAEfBxOj
+ cY6vLy5scNwSXOVfsCxxZjevBA==
+X-Google-Smtp-Source: AKy350ak3cqtwXDorNJtScCLcUQuNv92fnfl8eFxO84dV/0O6W4+Gjg7xHm2TDj2lqckrpNVg9kccw==
+X-Received: by 2002:aa7:c7d4:0:b0:506:8470:c323 with SMTP id
+ o20-20020aa7c7d4000000b005068470c323mr823188eds.24.1681461236235; 
+ Fri, 14 Apr 2023 01:33:56 -0700 (PDT)
+Received: from ?IPV6:2a02:810d:15c0:828:8a60:6b0f:105a:eefb?
+ ([2a02:810d:15c0:828:8a60:6b0f:105a:eefb])
  by smtp.gmail.com with ESMTPSA id
- pg16-20020a170907205000b0094a85f6074bsm2121148ejb.33.2023.04.14.01.33.13
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 14 Apr 2023 01:33:13 -0700 (PDT)
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-To: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Philipp Zabel <p.zabel@pengutronix.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-stm32@st-md-mailman.stormreply.com,
- linux-arm-kernel@lists.infradead.org
-Subject: [PATCH] dt-bindings: display: mediatek: simplify compatibles syntax
-Date: Fri, 14 Apr 2023 10:33:11 +0200
-Message-Id: <20230414083311.12197-1-krzysztof.kozlowski@linaro.org>
-X-Mailer: git-send-email 2.34.1
+ 15-20020a170906208f00b0094a511b9e6csm2117677ejq.139.2023.04.14.01.33.54
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 14 Apr 2023 01:33:55 -0700 (PDT)
+Message-ID: <b573ddb8-3909-998d-f051-6a3c4af1c629@linaro.org>
+Date: Fri, 14 Apr 2023 10:33:54 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.1
+Subject: Re: [PATCH 11/27] dt-bindings: display: mediatek: merge: Add
+ compatible for MediaTek MT6795
+Content-Language: en-US
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ matthias.bgg@gmail.com
+References: <20230412112739.160376-1-angelogioacchino.delregno@collabora.com>
+ <20230412112739.160376-12-angelogioacchino.delregno@collabora.com>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20230412112739.160376-12-angelogioacchino.delregno@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,286 +80,27 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ thierry.reding@gmail.com, krzysztof.kozlowski+dt@linaro.org,
+ linux-phy@lists.infradead.org, kernel@collabora.com, xinlei.lee@mediatek.com,
+ kishon@kernel.org, phone-devel@vger.kernel.org, jassisinghbrar@gmail.com,
+ linux-pwm@vger.kernel.org, u.kleine-koenig@pengutronix.de,
+ chunkuang.hu@kernel.org, jitao.shi@mediatek.com, houlong.wei@mediatek.com,
+ chunfeng.yun@mediatek.com, robh+dt@kernel.org,
+ linux-mediatek@lists.infradead.org, ~postmarketos/upstreaming@lists.sr.ht,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ vkoul@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Lists (items) with one item should be just enum because it is shorter,
-simpler and does not confuse, if one wants to add new entry with a
-fallback.  Convert all of them to enums.  OTOH, leave unused "oneOf"
-entries in anticipation of further growth of the entire binding.
+On 12/04/2023 13:27, AngeloGioacchino Del Regno wrote:
+> Add a compatible string for MediaTek Helio X10 MT6795's MERGE block: this
+> is the same as MT8173.
+> 
 
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
----
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-Cc: angelogioacchino.delregno@collabora.com
----
- .../bindings/display/mediatek/mediatek,ccorr.yaml   |  7 +++----
- .../bindings/display/mediatek/mediatek,color.yaml   | 10 ++++------
- .../bindings/display/mediatek/mediatek,dither.yaml  |  4 ++--
- .../bindings/display/mediatek/mediatek,dsc.yaml     |  4 ++--
- .../bindings/display/mediatek/mediatek,gamma.yaml   |  7 +++----
- .../bindings/display/mediatek/mediatek,merge.yaml   |  7 +++----
- .../bindings/display/mediatek/mediatek,od.yaml      |  7 +++----
- .../bindings/display/mediatek/mediatek,ovl-2l.yaml  |  7 +++----
- .../bindings/display/mediatek/mediatek,ovl.yaml     | 13 +++++--------
- .../display/mediatek/mediatek,postmask.yaml         |  4 ++--
- .../bindings/display/mediatek/mediatek,rdma.yaml    | 13 +++++--------
- .../bindings/display/mediatek/mediatek,split.yaml   |  4 ++--
- .../bindings/display/mediatek/mediatek,ufoe.yaml    |  4 ++--
- .../bindings/display/mediatek/mediatek,wdma.yaml    |  4 ++--
- 14 files changed, 41 insertions(+), 54 deletions(-)
-
-diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,ccorr.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,ccorr.yaml
-index b04820c95b22..dc22bd522523 100644
---- a/Documentation/devicetree/bindings/display/mediatek/mediatek,ccorr.yaml
-+++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,ccorr.yaml
-@@ -21,10 +21,9 @@ description: |
- properties:
-   compatible:
-     oneOf:
--      - items:
--          - const: mediatek,mt8183-disp-ccorr
--      - items:
--          - const: mediatek,mt8192-disp-ccorr
-+      - enum:
-+          - mediatek,mt8183-disp-ccorr
-+          - mediatek,mt8192-disp-ccorr
-       - items:
-           - enum:
-               - mediatek,mt8188-disp-ccorr
-diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,color.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,color.yaml
-index 62306c88f485..d0ea77fc4b06 100644
---- a/Documentation/devicetree/bindings/display/mediatek/mediatek,color.yaml
-+++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,color.yaml
-@@ -22,12 +22,10 @@ description: |
- properties:
-   compatible:
-     oneOf:
--      - items:
--          - const: mediatek,mt2701-disp-color
--      - items:
--          - const: mediatek,mt8167-disp-color
--      - items:
--          - const: mediatek,mt8173-disp-color
-+      - enum:
-+          - mediatek,mt2701-disp-color
-+          - mediatek,mt8167-disp-color
-+          - mediatek,mt8173-disp-color
-       - items:
-           - enum:
-               - mediatek,mt7623-disp-color
-diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,dither.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,dither.yaml
-index 5c7445c174e5..1588b3f7cec7 100644
---- a/Documentation/devicetree/bindings/display/mediatek/mediatek,dither.yaml
-+++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,dither.yaml
-@@ -22,8 +22,8 @@ description: |
- properties:
-   compatible:
-     oneOf:
--      - items:
--          - const: mediatek,mt8183-disp-dither
-+      - enum:
-+          - mediatek,mt8183-disp-dither
-       - items:
-           - enum:
-               - mediatek,mt8186-disp-dither
-diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,dsc.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,dsc.yaml
-index 49248864514b..2cbdd9ee449d 100644
---- a/Documentation/devicetree/bindings/display/mediatek/mediatek,dsc.yaml
-+++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,dsc.yaml
-@@ -20,8 +20,8 @@ description: |
- properties:
-   compatible:
-     oneOf:
--      - items:
--          - const: mediatek,mt8195-disp-dsc
-+      - enum:
-+          - mediatek,mt8195-disp-dsc
- 
-   reg:
-     maxItems: 1
-diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,gamma.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,gamma.yaml
-index a5c6a91fac71..6c2be9d6840b 100644
---- a/Documentation/devicetree/bindings/display/mediatek/mediatek,gamma.yaml
-+++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,gamma.yaml
-@@ -21,10 +21,9 @@ description: |
- properties:
-   compatible:
-     oneOf:
--      - items:
--          - const: mediatek,mt8173-disp-gamma
--      - items:
--          - const: mediatek,mt8183-disp-gamma
-+      - enum:
-+          - mediatek,mt8173-disp-gamma
-+          - mediatek,mt8183-disp-gamma
-       - items:
-           - enum:
-               - mediatek,mt8186-disp-gamma
-diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,merge.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,merge.yaml
-index 69ba75777dac..2f8e2f4dc3b8 100644
---- a/Documentation/devicetree/bindings/display/mediatek/mediatek,merge.yaml
-+++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,merge.yaml
-@@ -21,10 +21,9 @@ description: |
- properties:
-   compatible:
-     oneOf:
--      - items:
--          - const: mediatek,mt8173-disp-merge
--      - items:
--          - const: mediatek,mt8195-disp-merge
-+      - enum:
-+          - mediatek,mt8173-disp-merge
-+          - mediatek,mt8195-disp-merge
- 
-   reg:
-     maxItems: 1
-diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,od.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,od.yaml
-index 853fcb9db2be..29f9fa8f8219 100644
---- a/Documentation/devicetree/bindings/display/mediatek/mediatek,od.yaml
-+++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,od.yaml
-@@ -21,10 +21,9 @@ description: |
- properties:
-   compatible:
-     oneOf:
--      - items:
--          - const: mediatek,mt2712-disp-od
--      - items:
--          - const: mediatek,mt8173-disp-od
-+      - enum:
-+          - mediatek,mt2712-disp-od
-+          - mediatek,mt8173-disp-od
- 
-   reg:
-     maxItems: 1
-diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,ovl-2l.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,ovl-2l.yaml
-index 4e94f4e947ad..c7dd0ef02dcf 100644
---- a/Documentation/devicetree/bindings/display/mediatek/mediatek,ovl-2l.yaml
-+++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,ovl-2l.yaml
-@@ -21,10 +21,9 @@ description: |
- properties:
-   compatible:
-     oneOf:
--      - items:
--          - const: mediatek,mt8183-disp-ovl-2l
--      - items:
--          - const: mediatek,mt8192-disp-ovl-2l
-+      - enum:
-+          - mediatek,mt8183-disp-ovl-2l
-+          - mediatek,mt8192-disp-ovl-2l
-       - items:
-           - enum:
-               - mediatek,mt8186-disp-ovl-2l
-diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,ovl.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,ovl.yaml
-index 065e526f950e..92e320d54ba2 100644
---- a/Documentation/devicetree/bindings/display/mediatek/mediatek,ovl.yaml
-+++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,ovl.yaml
-@@ -21,14 +21,11 @@ description: |
- properties:
-   compatible:
-     oneOf:
--      - items:
--          - const: mediatek,mt2701-disp-ovl
--      - items:
--          - const: mediatek,mt8173-disp-ovl
--      - items:
--          - const: mediatek,mt8183-disp-ovl
--      - items:
--          - const: mediatek,mt8192-disp-ovl
-+      - enum:
-+          - mediatek,mt2701-disp-ovl
-+          - mediatek,mt8173-disp-ovl
-+          - mediatek,mt8183-disp-ovl
-+          - mediatek,mt8192-disp-ovl
-       - items:
-           - enum:
-               - mediatek,mt7623-disp-ovl
-diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,postmask.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,postmask.yaml
-index 27de64495401..11fe32e50a59 100644
---- a/Documentation/devicetree/bindings/display/mediatek/mediatek,postmask.yaml
-+++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,postmask.yaml
-@@ -21,8 +21,8 @@ description: |
- properties:
-   compatible:
-     oneOf:
--      - items:
--          - const: mediatek,mt8192-disp-postmask
-+      - enum:
-+          - mediatek,mt8192-disp-postmask
-       - items:
-           - enum:
-               - mediatek,mt8186-disp-postmask
-diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,rdma.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,rdma.yaml
-index 3ade2ece3fed..42059efad45d 100644
---- a/Documentation/devicetree/bindings/display/mediatek/mediatek,rdma.yaml
-+++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,rdma.yaml
-@@ -23,14 +23,11 @@ description: |
- properties:
-   compatible:
-     oneOf:
--      - items:
--          - const: mediatek,mt2701-disp-rdma
--      - items:
--          - const: mediatek,mt8173-disp-rdma
--      - items:
--          - const: mediatek,mt8183-disp-rdma
--      - items:
--          - const: mediatek,mt8195-disp-rdma
-+      - enum:
-+          - mediatek,mt2701-disp-rdma
-+          - mediatek,mt8173-disp-rdma
-+          - mediatek,mt8183-disp-rdma
-+          - mediatek,mt8195-disp-rdma
-       - items:
-           - enum:
-               - mediatek,mt8188-disp-rdma
-diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,split.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,split.yaml
-index 35ace1f322e8..21a4e96ecd93 100644
---- a/Documentation/devicetree/bindings/display/mediatek/mediatek,split.yaml
-+++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,split.yaml
-@@ -21,8 +21,8 @@ description: |
- properties:
-   compatible:
-     oneOf:
--      - items:
--          - const: mediatek,mt8173-disp-split
-+      - enum:
-+          - mediatek,mt8173-disp-split
- 
-   reg:
-     maxItems: 1
-diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,ufoe.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,ufoe.yaml
-index b8bb135fe96b..62fad23a26f5 100644
---- a/Documentation/devicetree/bindings/display/mediatek/mediatek,ufoe.yaml
-+++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,ufoe.yaml
-@@ -22,8 +22,8 @@ description: |
- properties:
-   compatible:
-     oneOf:
--      - items:
--          - const: mediatek,mt8173-disp-ufoe
-+      - enum:
-+          - mediatek,mt8173-disp-ufoe
- 
-   reg:
-     maxItems: 1
-diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,wdma.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,wdma.yaml
-index 7d7cc1ab526b..991183165d29 100644
---- a/Documentation/devicetree/bindings/display/mediatek/mediatek,wdma.yaml
-+++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,wdma.yaml
-@@ -21,8 +21,8 @@ description: |
- properties:
-   compatible:
-     oneOf:
--      - items:
--          - const: mediatek,mt8173-disp-wdma
-+      - enum:
-+          - mediatek,mt8173-disp-wdma
- 
-   reg:
-     maxItems: 1
--- 
-2.34.1
+Best regards,
+Krzysztof
 
