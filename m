@@ -1,75 +1,73 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 804156E2898
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Apr 2023 18:44:40 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BD566E28A3
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Apr 2023 18:46:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7749610E1C2;
-	Fri, 14 Apr 2023 16:44:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4FC4310EE16;
+	Fri, 14 Apr 2023 16:46:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com
- [IPv6:2a00:1450:4864:20::431])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 45A6E10E1C2
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Apr 2023 16:44:36 +0000 (UTC)
-Received: by mail-wr1-x431.google.com with SMTP id v27so8939849wra.13
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Apr 2023 09:44:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1681490673; x=1684082673;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=/ExngqUZl/pg1Kd6E34uU7m6iwz6q/2qwB8gBrD6lrQ=;
- b=GhkswUhAKDkCiKoc9t/eyiaF53+6JyxpB18rycr+qlp/lNeetlGLuu6GC3ZG8hfb3p
- fqfpoGQ1pqAOcdlI8Y+sJ72mfNnaJ4FPwqnqMuQ+izLObeSwa41gXQt8sJodv5jGa/0T
- DCHyxVmFTXoiZAJKFeYg2l3HyO7R7QqyznuMMRwhr31tpWeC+kKGYa4XZgae5wk9hU5v
- VC7eE6Gxz4FTNBR5+PHuTW33T3KogEu+IssYXh1wsleN/owJgoVClrGYWJ1UOi2BxTfn
- OAH2m6K62WkIgosirUt4RSz7l1iPN9jNIyueDp5i7cjxMfGJCzjb0B8HHgaz47wDrAyd
- iNkA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681490673; x=1684082673;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=/ExngqUZl/pg1Kd6E34uU7m6iwz6q/2qwB8gBrD6lrQ=;
- b=HYimgGq04CLxXl76XNPHS/Y3i1UFWuiZqunyDQLvR9NkIsgijIPgPUMXGWnKbkgo20
- ktSXFRkJ0T+lzDzST+b8CQ0TSDt8n1XxKOgHr/DLbTqprX+bRasIvtnuxiM230jBOOdt
- ktBrXULPYg/rjjQ/pd0VDcI3EuQdddROlgsrJBMWiPF1icrIeFl3DWClItXra0wc+JgW
- wtxwnYyCkU+VyOZZQYmPoP6oHlMByW5bJhscceZ7P0Kda63dfq3qTQRwqiNavG1mstuX
- NlIL3pJKaYo4AThBXYJQZmMZ9zqlUItO9D5YHWuAZXR6bUK5hpTjKm/6YmIswG2KzheQ
- Lt0A==
-X-Gm-Message-State: AAQBX9cB/aabCfQazRJnLyoHhJjndXJQ1JVxCV+LNt6Q13dQ2qOm7Ce9
- KebwS8dFeGaq47xCrtLaGys=
-X-Google-Smtp-Source: AKy350bpkl/XH9EejX97SLMedFqNtcocLz0dofiURStn1ZlIYfmxrsXsRPyGC/UDwV0n9ZyuKK9coQ==
-X-Received: by 2002:adf:ed45:0:b0:2f7:faa0:3f19 with SMTP id
- u5-20020adfed45000000b002f7faa03f19mr349951wro.28.1681490673410; 
- Fri, 14 Apr 2023 09:44:33 -0700 (PDT)
-Received: from [192.168.2.177] ([207.188.167.132])
- by smtp.gmail.com with ESMTPSA id
- r16-20020a056000015000b002f21a96c161sm3936139wrx.70.2023.04.14.09.44.31
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 14 Apr 2023 09:44:32 -0700 (PDT)
-Message-ID: <8e40e46a-edf4-96c5-7248-21f39a93a410@gmail.com>
-Date: Fri, 14 Apr 2023 18:44:30 +0200
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B1E0010E1F8;
+ Fri, 14 Apr 2023 16:46:35 +0000 (UTC)
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 33EEd8QG028575; Fri, 14 Apr 2023 16:46:29 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=from : to : cc :
+ subject : date : message-id : mime-version : content-type; s=qcppdkim1;
+ bh=7+TsOP++DooVFLAxfVY9IG1YmgdG7JzRlvZbp1DatVk=;
+ b=Id6vPLOWdRnZuFZ9/A+Q/2znRUkp8Cluz0RMGSP3zA4PregV+wbCeljV15aXHYs/Iw57
+ HwRW4fRQGJqEDVw4SPFw9p+nvPH9XpNUQNW8AZktO9GSn3p+a8pNdXIjtfDwOIdzo8Hv
+ WKU5/5IqVm2LcaZbzS6xmIMsLxhjsUOFUKu36YCmCrARcfj0s8LlDPYDrr348uSXYBPy
+ RdEUUiHJVX2InNx4LXHyI4OWYeJPQylY1HgY6Hg/R46waJ9UuNnPu+MdhyLOa05s1nKX
+ LC8gQ2u6yCYRGfTa/zbqx5prgMIiJzSpbdYxWRWXEzUowAUjFKcWYM5quTx+7g+/KwrP Gg== 
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3py20e1743-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 14 Apr 2023 16:46:29 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 33EGkSAf023941
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 14 Apr 2023 16:46:28 GMT
+Received: from khsieh-linux1.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.42; Fri, 14 Apr 2023 09:46:27 -0700
+From: Kuogee Hsieh <quic_khsieh@quicinc.com>
+To: <robdclark@gmail.com>, <sean@poorly.run>, <swboyd@chromium.org>,
+ <dianders@chromium.org>, <vkoul@kernel.org>, <daniel@ffwll.ch>,
+ <airlied@gmail.com>, <agross@kernel.org>,
+ <dmitry.baryshkov@linaro.org>, <andersson@kernel.org>,
+ <marijn.suijten@somainline.org>
+Subject: [PATCH v3] drm/msm/dpu: always program DSC active bits
+Date: Fri, 14 Apr 2023 09:46:17 -0700
+Message-ID: <1681490777-15351-1-git-send-email-quic_khsieh@quicinc.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [PATCH v2 1/2] phy: mediatek: hdmi: mt8195: fix uninitialized
- variable usage in pll_calc
-Content-Language: en-US
-To: Guillaume Ranquet <granquet@baylibre.com>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- Chunfeng Yun <chunfeng.yun@mediatek.com>, Vinod Koul <vkoul@kernel.org>,
- Kishon Vijay Abraham I <kishon@kernel.org>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-References: <20230413-fixes-for-mt8195-hdmi-phy-v2-0-bbad62e64321@baylibre.com>
- <20230413-fixes-for-mt8195-hdmi-phy-v2-1-bbad62e64321@baylibre.com>
-From: Matthias Brugger <matthias.bgg@gmail.com>
-In-Reply-To: <20230413-fixes-for-mt8195-hdmi-phy-v2-1-bbad62e64321@baylibre.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: lJwAbsVO9EpPYOAslYzyC-i809aXykHk
+X-Proofpoint-ORIG-GUID: lJwAbsVO9EpPYOAslYzyC-i809aXykHk
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-04-14_09,2023-04-14_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 lowpriorityscore=0
+ phishscore=0 adultscore=0 impostorscore=0 spamscore=0 mlxlogscore=674
+ priorityscore=1501 clxscore=1011 malwarescore=0 bulkscore=0 suspectscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2303200000
+ definitions=main-2304140148
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,63 +80,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel test robot <lkp@intel.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
- linux-phy@lists.infradead.org, linux-arm-kernel@lists.infradead.org
+Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
+ quic_abhinavk@quicinc.com, dri-devel@lists.freedesktop.org,
+ quic_khsieh@quicinc.com, freedreno@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+In current code, the dsc active bits are set only if the cfg->dsc is set.
+However, for displays which are hot-pluggable, there can be a use-case
+of disconnecting a DSC supported sink and connecting a non-DSC sink.
 
+For those cases we need to clear DSC active bits during teardown.
 
-On 14/04/2023 18:07, Guillaume Ranquet wrote:
-> The ret variable in mtk_hdmi_pll_calc() was used unitialized as reported
-> by the kernel test robot.
-> 
-> Fix the issue by removing the variable altogether and testing out the
-> return value of mtk_hdmi_pll_set_hw()
-> 
-> Fixes: 45810d486bb44 ("phy: mediatek: add support for phy-mtk-hdmi-mt8195")
-> Reported-by: kernel test robot <lkp@intel.com>
-> Signed-off-by: Guillaume Ranquet <granquet@baylibre.com>
+As discuss at [1], clear DSC active bit will handled at reset_intf_cfg()
 
-Looks good, but got unfortunately already fixed 4 hours ago with
-20230414122253.3171524-1-trix@redhat.com
+Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
+Fixes: 77f6da90487c ("drm/msm/disp/dpu1: Add DSC support in hw_ctl")
+Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Reviewed-by: Marijn Suijten <marijn.suijten@somainline.org>
 
-:)
+[1] https://lore.kernel.org/linux-arm-msm/ec045d6b-4ffd-0f8c-4011-8db45edc6978@quicinc.com/
+---
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
-Regards,
-Matthias
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
+index bbdc95c..88e4efe 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
+@@ -541,10 +541,9 @@ static void dpu_hw_ctl_intf_cfg_v1(struct dpu_hw_ctl *ctx,
+ 	if (cfg->merge_3d)
+ 		DPU_REG_WRITE(c, CTL_MERGE_3D_ACTIVE,
+ 			      BIT(cfg->merge_3d - MERGE_3D_0));
+-	if (cfg->dsc) {
+-		DPU_REG_WRITE(&ctx->hw, CTL_FLUSH, DSC_IDX);
+-		DPU_REG_WRITE(c, CTL_DSC_ACTIVE, cfg->dsc);
+-	}
++
++	DPU_REG_WRITE(&ctx->hw, CTL_FLUSH, DSC_IDX);
++	DPU_REG_WRITE(c, CTL_DSC_ACTIVE, cfg->dsc);
+ }
+ 
+ static void dpu_hw_ctl_intf_cfg(struct dpu_hw_ctl *ctx,
+-- 
+The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
+a Linux Foundation Collaborative Project
 
-> ---
->   drivers/phy/mediatek/phy-mtk-hdmi-mt8195.c | 8 ++------
->   1 file changed, 2 insertions(+), 6 deletions(-)
-> 
-> diff --git a/drivers/phy/mediatek/phy-mtk-hdmi-mt8195.c b/drivers/phy/mediatek/phy-mtk-hdmi-mt8195.c
-> index abfc077fb0a8..054b73cb31ee 100644
-> --- a/drivers/phy/mediatek/phy-mtk-hdmi-mt8195.c
-> +++ b/drivers/phy/mediatek/phy-mtk-hdmi-mt8195.c
-> @@ -213,7 +213,7 @@ static int mtk_hdmi_pll_calc(struct mtk_hdmi_phy *hdmi_phy, struct clk_hw *hw,
->   	u64 tmds_clk, pixel_clk, da_hdmitx21_ref_ck, ns_hdmipll_ck, pcw;
->   	u8 txpredivs[4] = { 2, 4, 6, 12 };
->   	u32 fbkdiv_low;
-> -	int i, ret;
-> +	int i;
->   
->   	pixel_clk = rate;
->   	tmds_clk = pixel_clk;
-> @@ -292,13 +292,9 @@ static int mtk_hdmi_pll_calc(struct mtk_hdmi_phy *hdmi_phy, struct clk_hw *hw,
->   	if (!(digital_div <= 32 && digital_div >= 1))
->   		return -EINVAL;
->   
-> -	mtk_hdmi_pll_set_hw(hw, PLL_PREDIV, fbkdiv_high, fbkdiv_low,
-> +	return mtk_hdmi_pll_set_hw(hw, PLL_PREDIV, fbkdiv_high, fbkdiv_low,
->   			    PLL_FBKDIV_HS3, posdiv1, posdiv2, txprediv,
->   			    txposdiv, digital_div);
-> -	if (ret)
-> -		return -EINVAL;
-> -
-> -	return 0;
->   }
->   
->   static int mtk_hdmi_pll_drv_setting(struct clk_hw *hw)
-> 
