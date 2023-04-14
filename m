@@ -2,77 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13DCE6E2A4E
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Apr 2023 20:55:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A32B56E2A66
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Apr 2023 21:02:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8719510EE68;
-	Fri, 14 Apr 2023 18:55:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 29EBB10EE58;
+	Fri, 14 Apr 2023 19:02:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DE02E10EE6E;
- Fri, 14 Apr 2023 18:55:50 +0000 (UTC)
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 33EEdRXn014288; Fri, 14 Apr 2023 18:55:44 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=k1mDopPu96vuFakrxaHVOtUPpYYw/6m0RlgeL7uMJdw=;
- b=NvdG/MNEZlFotwkfJjYFYSgozyyXWZBbE880jf0jy5IQ+CZMC9Rlm8k4E75hdWaO7+mT
- truni2B7rSP+2ishWsSg8NodfagIxCwXyfSdmRcOUmrhRxHNTlDcECqpxVwNfXHW0Zj/
- DaSBnUyXb9r6FEkkH10WSNlNKHgQxkargn3AgxV5eZQTJcQbJbw0l0DIF9xiSGyXrGa7
- XqpRxLj22uHaET4iqMB8kbaadoJiYikk32F/0hYovm3c6w8XSiYic53jaIp9mBToVaCA
- uuwiTVipbcQpRSTo/w1H+SAMXoXhLN0a8Z0OsmN7GavysoDj1xtzdP5HssQLcYYSnGY2 Dw== 
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3py4ghs30v-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 14 Apr 2023 18:55:44 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 33EIthED018582
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 14 Apr 2023 18:55:43 GMT
-Received: from [10.110.73.215] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Fri, 14 Apr
- 2023 11:55:41 -0700
-Message-ID: <c09725ff-771c-35d1-adc9-4bb1b7c1c334@quicinc.com>
-Date: Fri, 14 Apr 2023 11:55:41 -0700
+Received: from mx0.riseup.net (mx0.riseup.net [198.252.153.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 36B4F10EE63
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Apr 2023 19:02:27 +0000 (UTC)
+Received: from fews02-sea.riseup.net (unknown [10.0.1.112])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
+ client-signature RSA-PSS (2048 bits) client-digest SHA256)
+ (Client CN "mail.riseup.net", Issuer "R3" (not verified))
+ by mx0.riseup.net (Postfix) with ESMTPS id 4Pym696qvmz9sQf;
+ Fri, 14 Apr 2023 19:02:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
+ t=1681498946; bh=TA065MFktVBmlqVq1HUREbhIHPGJNRZfQs0EiUdJ5EU=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=kOR9peJS/Decc+etNRutpO9jF1r/VqRgMO7eoZx7+xVDIH133flhxFGb75DIit+iA
+ /u7GLK+64PVFNtB5H2jXu1AEWK5EOg3a+D2HB4g+vU1NqmYZYoNGoJ+79O2J4PRp92
+ CWLXXukojelSbShjAfcDKq5zfdbWGqyp4DT9neLw=
+X-Riseup-User-ID: 18F507B90A6B57D7FDE563E5BD0D44D5AABCB135652F533B045AABE06DB20D82
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ by fews02-sea.riseup.net (Postfix) with ESMTPSA id 4Pym6659F2zFsPf;
+ Fri, 14 Apr 2023 19:02:22 +0000 (UTC)
+Message-ID: <1b04bc84-7c5d-6b8f-fa77-3407896d1dc7@riseup.net>
+Date: Fri, 14 Apr 2023 16:02:19 -0300
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.2
-Subject: Re: [PATCH v2] drm/msm/dpu: always program dsc active bits
+Subject: Re: [PATCH v2 1/7] drm/vkms: isolate pixel conversion functionality
+To: =?UTF-8?Q?Ma=c3=adra_Canal?= <mcanal@igalia.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ Melissa Wen <mwen@igalia.com>, Haneen Mohammed <hamohammed.sa@gmail.com>,
+ Igor Matheus Andrade Torrente <igormtorrente@gmail.com>
+References: <20230414135151.75975-1-mcanal@igalia.com>
+ <20230414135151.75975-2-mcanal@igalia.com>
 Content-Language: en-US
-To: Marijn Suijten <marijn.suijten@somainline.org>
-References: <1681401401-15099-1-git-send-email-quic_khsieh@quicinc.com>
- <tgfbdk6q3uool365jqddibnbgq66clsmsm6tldxpm5toqghxpq@m2ic3oonv2s5>
- <aac210da-dec1-aab8-3f48-c33d9e7687d6@quicinc.com>
- <3oaangxh7gmie3cdd6rmujm7dd3hagsrnwiq3bascdtamvfn3a@bn6ou5hbsgxv>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <3oaangxh7gmie3cdd6rmujm7dd3hagsrnwiq3bascdtamvfn3a@bn6ou5hbsgxv>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: MHSKCgAF3JSAtIDmmX169TJNCYDV4Kul
-X-Proofpoint-ORIG-GUID: MHSKCgAF3JSAtIDmmX169TJNCYDV4Kul
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-04-14_11,2023-04-14_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0
- mlxlogscore=863 malwarescore=0 bulkscore=0 phishscore=0 suspectscore=0
- adultscore=0 mlxscore=0 clxscore=1015 lowpriorityscore=0
- priorityscore=1501 spamscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2303200000 definitions=main-2304140168
+From: Arthur Grillo Queiroz Cabral <arthurgrillo@riseup.net>
+In-Reply-To: <20230414135151.75975-2-mcanal@igalia.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,107 +57,281 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, quic_sbillaka@quicinc.com,
- dianders@chromium.org, andersson@kernel.org, dri-devel@lists.freedesktop.org,
- swboyd@chromium.org, vkoul@kernel.org, agross@kernel.org,
- linux-arm-msm@vger.kernel.org, dmitry.baryshkov@linaro.org,
- Kuogee Hsieh <quic_khsieh@quicinc.com>, sean@poorly.run,
- linux-kernel@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 
-On 4/14/2023 10:28 AM, Marijn Suijten wrote:
-> On 2023-04-14 08:41:37, Abhinav Kumar wrote:
->>
->> On 4/14/2023 12:48 AM, Marijn Suijten wrote:
->>> Capitalize DSC in the title, as discussed in v1.
->>>
->>> On 2023-04-13 08:56:41, Kuogee Hsieh wrote:
->>>> In current code, the DSC active bits are written only if cfg->dsc is set.
->>>> However, for displays which are hot-pluggable, there can be a use-case
->>>> of disconnecting a DSC supported sink and connecting a non-DSC sink.
->>>>
->>>> For those cases we need to clear DSC active bits during tear down.
->>>>
->>>> Changes in V2:
->>>> 1) correct commit text as suggested
->>>> 2) correct Fixes commit id
->>>> 3) add FIXME comment
->>>>
->>>> Fixes: 77f6da90487c ("drm/msm/disp/dpu1: Add DSC support in hw_ctl")
->>>> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
->>>> Reviewed-by: Marijn Suijten <marijn.suijten@somainline.org>
->>>
->>> By default git send-email should pick this up in the CC line...  but I
->>> had to download this patch from lore once again.
->>>
->>
->> Yes, I think what happened here is, he didnt git am the prev rev and
->> make changes on top of that so git send-email didnt pick up. We should
->> fix that process.
+On 14/04/23 10:51, Maíra Canal wrote:
+> Currently, the pixel conversion functions repeat the same loop to
+> iterate the rows. Instead of repeating the same code for each pixel
+> format, create a function to wrap the loop and isolate the pixel
+> conversion functionality.
 > 
-> The mail was sent so it must have gone through git send-email, unless a
-> different mail client was used to send the .patch file.  I think you are
-> confusing this with git am (which doesn't need to be used if editing a
-> commit on a local branch) and subsequently git format-patch, which takes
-> a commit from a git repository and turns it into a .patch file: neither
-> of these "converts" r-b's (and other tags) to cc, that's happening in
-> git send-email (see `--suppress-cc` documentation in `man
-> git-send-email`).
+> Suggested-by: Arthur Grillo <arthurgrillo@riseup.net>
+> Signed-off-by: Maíra Canal <mcanal@igalia.com>
+> ---
+>  drivers/gpu/drm/vkms/vkms_composer.c |   4 +-
+>  drivers/gpu/drm/vkms/vkms_drv.h      |   4 +-
+>  drivers/gpu/drm/vkms/vkms_formats.c  | 136 ++++++++++++---------------
+>  drivers/gpu/drm/vkms/vkms_formats.h  |   2 +-
+>  drivers/gpu/drm/vkms/vkms_plane.c    |   2 +-
+>  5 files changed, 65 insertions(+), 83 deletions(-)
 > 
+> diff --git a/drivers/gpu/drm/vkms/vkms_composer.c b/drivers/gpu/drm/vkms/vkms_composer.c
+> index 8e53fa80742b..80164e79af00 100644
+> --- a/drivers/gpu/drm/vkms/vkms_composer.c
+> +++ b/drivers/gpu/drm/vkms/vkms_composer.c
+> @@ -99,7 +99,7 @@ static void blend(struct vkms_writeback_job *wb,
+>  			if (!check_y_limit(plane[i]->frame_info, y))
+>  				continue;
+>  
+> -			plane[i]->plane_read(stage_buffer, plane[i]->frame_info, y);
+> +			vkms_compose_row(stage_buffer, plane[i], y);
+>  			pre_mul_alpha_blend(plane[i]->frame_info, stage_buffer,
+>  					    output_buffer);
+>  		}
+> @@ -118,7 +118,7 @@ static int check_format_funcs(struct vkms_crtc_state *crtc_state,
+>  	u32 n_active_planes = crtc_state->num_active_planes;
+>  
+>  	for (size_t i = 0; i < n_active_planes; i++)
+> -		if (!planes[i]->plane_read)
+> +		if (!planes[i]->pixel_read)
+>  			return -1;
+>  
+>  	if (active_wb && !active_wb->wb_write)
+> diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/vkms_drv.h
+> index 4a248567efb2..d7ad813d7ae7 100644
+> --- a/drivers/gpu/drm/vkms/vkms_drv.h
+> +++ b/drivers/gpu/drm/vkms/vkms_drv.h
+> @@ -56,8 +56,7 @@ struct vkms_writeback_job { struct vkms_plane_state { struct drm_shadow_plane_state base;
+>  	struct vkms_frame_info *frame_info;
+> -	void (*plane_read)(struct line_buffer *buffer,
+> -			   const struct vkms_frame_info *frame_info, int y);
+> +	void (*pixel_read)(u16 *src_buffer, struct pixel_argb_u16 *out_pixels, int x);
+>  };
+>  
+>  struct vkms_plane {
+> @@ -155,6 +154,7 @@ int vkms_verify_crc_source(struct drm_crtc *crtc, const char *source_name,
+>  /* Composer Support */
+>  void vkms_composer_worker(struct work_struct *work);
+>  void vkms_set_composer(struct vkms_output *out, bool enabled);
+> +void vkms_compose_row(struct line_buffer *stage_buffer, struct vkms_plane_state *plane, int y);
+>  
+>  /* Writeback */
+>  int vkms_enable_writeback_connector(struct vkms_device *vkmsdev);
+> diff --git a/drivers/gpu/drm/vkms/vkms_formats.c b/drivers/gpu/drm/vkms/vkms_formats.c
+> index d4950688b3f1..02b0fc5a0839 100644
+> --- a/drivers/gpu/drm/vkms/vkms_formats.c
+> +++ b/drivers/gpu/drm/vkms/vkms_formats.c
+> @@ -42,100 +42,82 @@ static void *get_packed_src_addr(const struct vkms_frame_info *frame_info, int y
+>  	return packed_pixels_addr(frame_info, x_src, y_src);
+>  }
+>  
+> -static void ARGB8888_to_argb_u16(struct line_buffer *stage_buffer,
+> -				 const struct vkms_frame_info *frame_info, int y)
+> +static void ARGB8888_to_argb_u16(u16 *src_pixels, struct pixel_argb_u16 *out_pixels, int x)
 
-Yes, ofcourse git send-email was used to send the patch, not any other 
-mail client.
+Do you need to pass the x coordinate? You don't change it on those
+functions. By not passing it, the conversion function would be even more
+isolated.
 
-Yes i am also aware that send-email converts rb to CC.
+>  {
+> -	struct pixel_argb_u16 *out_pixels = stage_buffer->pixels;
+> -	u8 *src_pixels = get_packed_src_addr(frame_info, y);
+> -	int x_limit = min_t(size_t, drm_rect_width(&frame_info->dst),
+> -			    stage_buffer->n_pixels);
+> -
+> -	for (size_t x = 0; x < x_limit; x++, src_pixels += 4) {
+> -		/*
+> -		 * The 257 is the "conversion ratio". This number is obtained by the
+> -		 * (2^16 - 1) / (2^8 - 1) division. Which, in this case, tries to get
+> -		 * the best color value in a pixel format with more possibilities.
+> -		 * A similar idea applies to others RGB color conversions.
+> -		 */
+> -		out_pixels[x].a = (u16)src_pixels[3] * 257;
+> -		out_pixels[x].r = (u16)src_pixels[2] * 257;
+> -		out_pixels[x].g = (u16)src_pixels[1] * 257;
+> -		out_pixels[x].b = (u16)src_pixels[0] * 257;
+> -	}
+> +	u8 *pixels = (u8 *)src_pixels;
+> +
+> +	/*
+> +	 * The 257 is the "conversion ratio". This number is obtained by the
+> +	 * (2^16 - 1) / (2^8 - 1) division. Which, in this case, tries to get
+> +	 * the best color value in a pixel format with more possibilities.
+> +	 * A similar idea applies to others RGB color conversions.
+> +	 */
+> +	out_pixels[x].a = (u16)pixels[3] * 257;
+> +	out_pixels[x].r = (u16)pixels[2] * 257;
+> +	out_pixels[x].g = (u16)pixels[1] * 257;
+> +	out_pixels[x].b = (u16)pixels[0] * 257;
+>  }
+>  
+> -static void XRGB8888_to_argb_u16(struct line_buffer *stage_buffer,
+> -				 const struct vkms_frame_info *frame_info, int y)
+> +static void XRGB8888_to_argb_u16(u16 *src_pixels, struct pixel_argb_u16 *out_pixels, int x)
+>  {
+> -	struct pixel_argb_u16 *out_pixels = stage_buffer->pixels;
+> -	u8 *src_pixels = get_packed_src_addr(frame_info, y);
+> -	int x_limit = min_t(size_t, drm_rect_width(&frame_info->dst),
+> -			    stage_buffer->n_pixels);
+> +	u8 *pixels = (u8 *)src_pixels;
+>  
+> -	for (size_t x = 0; x < x_limit; x++, src_pixels += 4) {
+> -		out_pixels[x].a = (u16)0xffff;
+> -		out_pixels[x].r = (u16)src_pixels[2] * 257;
+> -		out_pixels[x].g = (u16)src_pixels[1] * 257;
+> -		out_pixels[x].b = (u16)src_pixels[0] * 257;
+> -	}
+> +	out_pixels[x].a = (u16)0xffff;
+> +	out_pixels[x].r = (u16)pixels[2] * 257;
+> +	out_pixels[x].g = (u16)pixels[1] * 257;
+> +	out_pixels[x].b = (u16)pixels[0] * 257;
+>  }
+>  
+> -static void ARGB16161616_to_argb_u16(struct line_buffer *stage_buffer,
+> -				     const struct vkms_frame_info *frame_info,
+> -				     int y)
+> +static void ARGB16161616_to_argb_u16(u16 *src_pixels, struct pixel_argb_u16 *out_pixels, int x)
+>  {
+> -	struct pixel_argb_u16 *out_pixels = stage_buffer->pixels;
+> -	u16 *src_pixels = get_packed_src_addr(frame_info, y);
+> -	int x_limit = min_t(size_t, drm_rect_width(&frame_info->dst),
+> -			    stage_buffer->n_pixels);
+> -
+> -	for (size_t x = 0; x < x_limit; x++, src_pixels += 4) {
+> -		out_pixels[x].a = le16_to_cpu(src_pixels[3]);
+> -		out_pixels[x].r = le16_to_cpu(src_pixels[2]);
+> -		out_pixels[x].g = le16_to_cpu(src_pixels[1]);
+> -		out_pixels[x].b = le16_to_cpu(src_pixels[0]);
+> -	}
+> +	out_pixels[x].a = le16_to_cpu(src_pixels[3]);
+> +	out_pixels[x].r = le16_to_cpu(src_pixels[2]);
+> +	out_pixels[x].g = le16_to_cpu(src_pixels[1]);
+> +	out_pixels[x].b = le16_to_cpu(src_pixels[0]);
+>  }
+>  
+> -static void XRGB16161616_to_argb_u16(struct line_buffer *stage_buffer,
+> -				     const struct vkms_frame_info *frame_info,
+> -				     int y)
+> +static void XRGB16161616_to_argb_u16(u16 *src_pixels, struct pixel_argb_u16 *out_pixels, int x)
+>  {
+> -	struct pixel_argb_u16 *out_pixels = stage_buffer->pixels;
+> -	u16 *src_pixels = get_packed_src_addr(frame_info, y);
+> -	int x_limit = min_t(size_t, drm_rect_width(&frame_info->dst),
+> -			    stage_buffer->n_pixels);
+> -
+> -	for (size_t x = 0; x < x_limit; x++, src_pixels += 4) {
+> -		out_pixels[x].a = (u16)0xffff;
+> -		out_pixels[x].r = le16_to_cpu(src_pixels[2]);
+> -		out_pixels[x].g = le16_to_cpu(src_pixels[1]);
+> -		out_pixels[x].b = le16_to_cpu(src_pixels[0]);
+> -	}
+> +	out_pixels[x].a = (u16)0xffff;
+> +	out_pixels[x].r = le16_to_cpu(src_pixels[2]);
+> +	out_pixels[x].g = le16_to_cpu(src_pixels[1]);
+> +	out_pixels[x].b = le16_to_cpu(src_pixels[0]);
+>  }
+>  
+> -static void RGB565_to_argb_u16(struct line_buffer *stage_buffer,
+> -			       const struct vkms_frame_info *frame_info, int y)
+> +static void RGB565_to_argb_u16(u16 *src_pixels, struct pixel_argb_u16 *out_pixels, int x)
+>  {
+> -	struct pixel_argb_u16 *out_pixels = stage_buffer->pixels;
+> -	u16 *src_pixels = get_packed_src_addr(frame_info, y);
+> -	int x_limit = min_t(size_t, drm_rect_width(&frame_info->dst),
+> -			       stage_buffer->n_pixels);
+> -
+>  	s64 fp_rb_ratio = drm_fixp_div(drm_int2fixp(65535), drm_int2fixp(31));
+>  	s64 fp_g_ratio = drm_fixp_div(drm_int2fixp(65535), drm_int2fixp(63));
+>  
+> -	for (size_t x = 0; x < x_limit; x++, src_pixels++) {
+> -		u16 rgb_565 = le16_to_cpu(*src_pixels);
+> -		s64 fp_r = drm_int2fixp((rgb_565 >> 11) & 0x1f);
+> -		s64 fp_g = drm_int2fixp((rgb_565 >> 5) & 0x3f);
+> -		s64 fp_b = drm_int2fixp(rgb_565 & 0x1f);
+> +	u16 rgb_565 = le16_to_cpu(*src_pixels);
+> +	s64 fp_r = drm_int2fixp((rgb_565 >> 11) & 0x1f);
+> +	s64 fp_g = drm_int2fixp((rgb_565 >> 5) & 0x3f);
+> +	s64 fp_b = drm_int2fixp(rgb_565 & 0x1f);
+>  
+> -		out_pixels[x].a = (u16)0xffff;
+> -		out_pixels[x].r = drm_fixp2int(drm_fixp_mul(fp_r, fp_rb_ratio));
+> -		out_pixels[x].g = drm_fixp2int(drm_fixp_mul(fp_g, fp_g_ratio));
+> -		out_pixels[x].b = drm_fixp2int(drm_fixp_mul(fp_b, fp_rb_ratio));
+> -	}
+> +	out_pixels[x].a = (u16)0xffff;
+> +	out_pixels[x].r = drm_fixp2int(drm_fixp_mul(fp_r, fp_rb_ratio));
+> +	out_pixels[x].g = drm_fixp2int(drm_fixp_mul(fp_g, fp_g_ratio));
+> +	out_pixels[x].b = drm_fixp2int(drm_fixp_mul(fp_b, fp_rb_ratio));
+> +}
+> +
+> +void vkms_compose_row(struct line_buffer *stage_buffer, struct vkms_plane_state *plane, int y)
+> +{
+> +	struct pixel_argb_u16 *out_pixels = stage_buffer->pixels;
+> +	u16 *src_pixels = get_packed_src_addr(plane->frame_info, y);
+> +	int limit = min_t(size_t, drm_rect_width(&plane->frame_info->dst),
+> +			  stage_buffer->n_pixels);
+> +	int format = plane->frame_info->fb->format->format;
+> +	int pixel_size;
+> +
+> +	if (format == DRM_FORMAT_RGB565)
+> +		pixel_size = 1;
+> +	else if (format == DRM_FORMAT_ARGB8888 || format == DRM_FORMAT_XRGB8888)
+> +		pixel_size = 2;
+> +	else
+> +		pixel_size = 4;
 
-But if you keep working on the local branch, then you would have to 
-manually add the r-bs. If you use am of the prev version and develop on 
-that, it will automatically add the r-bs.
+Instead of hardcoding the pixel_size, I think it would be better to use
+drm_format_info_bpp() and DIV_ROUND_UP to get it.
 
+> +
+> +	for (size_t x = 0; x < limit; x++, src_pixels += pixel_size)
+> +		plane->pixel_read(src_pixels, out_pixels, x);
+>  }
+>  
+>  /*
+> @@ -249,7 +231,7 @@ static void argb_u16_to_RGB565(struct vkms_frame_info *frame_info,
+>  	}
+>  }
+>  
 
-> I can recommend b4: it has lots of useful features including
-> automatically picking up reviews and processing revisions.  It even
-> requires a changelog to be edited ;).  However, finding the right flags
-> and trusting it'll "do as ordered" is a bit daunting at first.
-> 
->>>> ---
->>>>    drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c | 8 ++++----
->>>>    1 file changed, 4 insertions(+), 4 deletions(-)
->>>>
->>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
->>>> index bbdc95c..1651cd7 100644
->>>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
->>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
->>>> @@ -541,10 +541,10 @@ static void dpu_hw_ctl_intf_cfg_v1(struct dpu_hw_ctl *ctx,
->>>>    	if (cfg->merge_3d)
->>>>    		DPU_REG_WRITE(c, CTL_MERGE_3D_ACTIVE,
->>>>    			      BIT(cfg->merge_3d - MERGE_3D_0));
->>>> -	if (cfg->dsc) {
->>>> -		DPU_REG_WRITE(&ctx->hw, CTL_FLUSH, DSC_IDX);
->>>> -		DPU_REG_WRITE(c, CTL_DSC_ACTIVE, cfg->dsc);
->>>> -	}
->>>> +
->>>> +	/* FIXME: fix reset_intf_cfg to handle teardown of dsc */
->>>
->>> There's more wrong than just moving (not "fix"ing) this bit of code into
->>> reset_intf_cfg.  And this will have to be re-wrapped in `if (cfg->dsc)`
->>> again by reverting this patch.  Perhaps that can be explained, or link
->>> to Abhinav's explanation to make it clear to readers what this FIXME
->>> actually means?  Let's wait for Abhinav and Dmitry to confirm the
->>> desired communication here.
->>>
->>> https://lore.kernel.org/linux-arm-msm/ec045d6b-4ffd-0f8c-4011-8db45edc6978@quicinc.com/
->>>
->>
->> Yes, I am fine with linking this explanation in the commit text and
->> mentioning that till thats fixed, we need to go with this solution. The
->> FIXME itself is fine, I will work on it and I remember this context well.
-> 
-> Looks like it was removed entirely in v3, in favour of only describing
-> it in the patch body.  The wording seems a bit off but that's fine by me
-> if you're picking this up soon anyway.
-> 
-> - Marijn
+Maybe it would be good to make the same modifications on the conversions
+from ARGB16161616. The writeback side would benefit from it.
+
+Best Regards.
+~Arthur Grillo
+
+> -void *get_frame_to_line_function(u32 format)
+> +void *get_pixel_conversion_function(u32 format)
+>  {
+>  	switch (format) {
+>  	case DRM_FORMAT_ARGB8888:
+> diff --git a/drivers/gpu/drm/vkms/vkms_formats.h b/drivers/gpu/drm/vkms/vkms_formats.h
+> index 43b7c1979018..c5b113495d0c 100644
+> --- a/drivers/gpu/drm/vkms/vkms_formats.h
+> +++ b/drivers/gpu/drm/vkms/vkms_formats.h
+> @@ -5,7 +5,7 @@
+>  
+>  #include "vkms_drv.h"
+>  
+> -void *get_frame_to_line_function(u32 format);
+> +void *get_pixel_conversion_function(u32 format);
+>  
+>  void *get_line_to_frame_function(u32 format);
+>  
+> diff --git a/drivers/gpu/drm/vkms/vkms_plane.c b/drivers/gpu/drm/vkms/vkms_plane.c
+> index c41cec7dcb70..0a23875900ec 100644
+> --- a/drivers/gpu/drm/vkms/vkms_plane.c
+> +++ b/drivers/gpu/drm/vkms/vkms_plane.c
+> @@ -123,7 +123,7 @@ static void vkms_plane_atomic_update(struct drm_plane *plane,
+>  	frame_info->offset = fb->offsets[0];
+>  	frame_info->pitch = fb->pitches[0];
+>  	frame_info->cpp = fb->format->cpp[0];
+> -	vkms_plane_state->plane_read = get_frame_to_line_function(fmt);
+> +	vkms_plane_state->pixel_read = get_pixel_conversion_function(fmt);
+>  }
+>  
+>  static int vkms_plane_atomic_check(struct drm_plane *plane,
