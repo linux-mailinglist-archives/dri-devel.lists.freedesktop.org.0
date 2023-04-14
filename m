@@ -1,62 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 091496E256E
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Apr 2023 16:18:06 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A375D6E25D1
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Apr 2023 16:33:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D101C10E078;
-	Fri, 14 Apr 2023 14:18:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1744C10E1B8;
+	Fri, 14 Apr 2023 14:33:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F0D6110E078
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Apr 2023 14:17:58 +0000 (UTC)
-Received: from fllv0034.itg.ti.com ([10.64.40.246])
- by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 33EEHlxi092711;
- Fri, 14 Apr 2023 09:17:47 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1681481867;
- bh=0xJWWmhVT0Y8R8sE6W9HoThWfwH6miZcXks0nWWEUaU=;
- h=Date:Subject:To:CC:References:From:In-Reply-To;
- b=XqDrpcKR6XXiYMge3vlQFJyuwjiPY9ghwi0NfLIE3IX6eMzbNENz3q8/b+Lqf5M2J
- Tf/NDSHkKHWs3g12D1ggysaZBiE/CP9eXviT1Chm6hm0Ckms6O2N0ieXjiE/FUOdsk
- Qw9oZyMsqrVmUMSJ/wmUI3w8lOY57eGBzP/HmDGc=
-Received: from DFLE103.ent.ti.com (dfle103.ent.ti.com [10.64.6.24])
- by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 33EEHl7J100935
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Fri, 14 Apr 2023 09:17:47 -0500
-Received: from DFLE103.ent.ti.com (10.64.6.24) by DFLE103.ent.ti.com
- (10.64.6.24) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.16; Fri, 14
- Apr 2023 09:17:46 -0500
-Received: from fllv0040.itg.ti.com (10.64.41.20) by DFLE103.ent.ti.com
- (10.64.6.24) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.16 via
- Frontend Transport; Fri, 14 Apr 2023 09:17:46 -0500
-Received: from [10.250.32.8] (ileaxei01-snat.itg.ti.com [10.180.69.5])
- by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 33EEHk1T029808;
- Fri, 14 Apr 2023 09:17:46 -0500
-Message-ID: <5be1c313-9e1e-3bac-46f3-ee172d1afb45@ti.com>
-Date: Fri, 14 Apr 2023 09:17:46 -0500
+Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AC1F410E1B8
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Apr 2023 14:33:49 +0000 (UTC)
+Received: from relay8-d.mail.gandi.net (unknown [IPv6:2001:4b98:dc4:8::228])
+ by mslow1.mail.gandi.net (Postfix) with ESMTP id 1C9EBC5458
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Apr 2023 14:20:20 +0000 (UTC)
+Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
+ by mail.gandi.net (Postfix) with ESMTPSA id 180301BF20E;
+ Fri, 14 Apr 2023 14:20:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+ t=1681482012;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=Endbai5Wtr/9vuFfP6fUW/UnSHOPzkJ5+aimTNOZOxw=;
+ b=hMTPPdbfZaB9+acnifekGW0jRfzKK7bjGLTlElyEb9SY+hHftJquSHeaZPIxjR290reCla
+ MXyp2dgblj7PTn9ncfgJ9ruHbGKwgSM383sCCkxU3c0xuk0ltkS/m6UQNQB7cvxM+pXr/F
+ eDZDt2fqVhf97tn3C9gkgGXVBit8iOiKOmAG0Dn0wy7xgXIFPBztJ5BtcDbo1mpwsvkbx/
+ rkflB5Z/wFeE26zAqdW4rVXz24B8uDHAFkcBleb3CiodLmOeJxPAA2EyHN2MjRqy3mRkw8
+ aWs7eeZrjk6l4prMfbWBAkpqqd2Z0CoN7raluPrIfRMTDOEx0h7eij++FlGoXQ==
+Date: Fri, 14 Apr 2023 16:20:10 +0200
+From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+To: Chris Morgan <macroalpha82@gmail.com>
+Subject: Re: [PATCH] drm/rockchip: vop2: fix suspend/resume
+Message-ID: <ZDlhGv0seSoxFlJ5@aptenodytes>
+References: <20230413144347.3506023-1-s.hauer@pengutronix.de>
+ <64381f5b.050a0220.1533e.41e2@mx.google.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH] misc: sram: Add dma-heap-export reserved SRAM area type
-To: Christian Gmeiner <christian.gmeiner@gmail.com>
-References: <20200424222740.16259-1-afd@ti.com>
- <CAL_Jsq+4mf6QHX27knoHTXA4vnsC3swuvAH7zK1DpyaV-p_qbw@mail.gmail.com>
- <f46c097a-b2a6-6368-a8a4-e30995a54d17@ti.com>
- <CAH9NwWeZnDEkundm98=KL6xB9bVO3nOkk48xMF-eQnztP4DD4g@mail.gmail.com>
- <99f1da4f-810e-986d-388a-af136ade745e@ti.com>
- <CAH9NwWcafkmcZd=5WN_hoJmfkwUJJrewaPnSmCK-izrC3hwKnA@mail.gmail.com>
- <CAH9NwWfkWTXMVOY-7USgYJnBtUOYd8=TFVcPxiTgVd9AJAQH=Q@mail.gmail.com>
-Content-Language: en-US
-From: Andrew Davis <afd@ti.com>
-In-Reply-To: <CAH9NwWfkWTXMVOY-7USgYJnBtUOYd8=TFVcPxiTgVd9AJAQH=Q@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="F/Caj+68jhUiV1a5"
+Content-Disposition: inline
+In-Reply-To: <64381f5b.050a0220.1533e.41e2@mx.google.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,54 +53,116 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Arnd Bergmann <arnd@arndb.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, linaro-mm-sig@lists.linaro.org,
- Rob Herring <robh+dt@kernel.org>
+Cc: =?utf-8?B?S8O2cnk=?= Maincent <kory.maincent@bootlin.com>,
+ Sascha Hauer <s.hauer@pengutronix.de>, Sandy Huang <hjc@rock-chips.com>,
+ dri-devel@lists.freedesktop.org, linux-rockchip@lists.infradead.org,
+ Michael Riesch <michael.riesch@wolfvision.net>, kernel@pengutronix.de,
+ stable@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 4/14/23 12:44 AM, Christian Gmeiner wrote:
-> Hi Andrew
-> 
-> Am Di., 4. Apr. 2023 um 17:02 Uhr schrieb Christian Gmeiner
-> <christian.gmeiner@gmail.com>:
->>
->>>> Hi Andrew
->>>>
->>>>>
->>>>>
->>>>> Okay, will split for v2.
->>>>>
->>>>>
->>>>
->>>> Was there a follow-up v2 of this patchset? AFAICT this series did not
->>>> make it into the mainline kernel.
->>>> Do you have any plans to work on it? If not I would like to help out
->>>> as we have a use case where we want to
->>>> use a dma-buf sram exporter.
->>>>
->>>>
->>>
->>> Sure, I've been keeping it alive in our evil vendor tree, but if
->>> there is interest upstream now I'll post a v2 and CC you.
->>
->> That would be great!
->>
-> 
-> Did you find time to prepare a v2? If not, can you point me to the
-> evil vendor tree?
-> 
-> 
 
-I did find some time and CC'd you on v2, the patch's subject was slightly
-renamed, so maybe your emailer missed it?
+--F/Caj+68jhUiV1a5
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-https://patchwork.kernel.org/project/linux-media/patch/20230403192433.26648-1-afd@ti.com/
+Hi,
 
-Our evil vendor trees are here either way:
+On Thu 13 Apr 23, 10:27, Chris Morgan wrote:
+> On Thu, Apr 13, 2023 at 04:43:47PM +0200, Sascha Hauer wrote:
+> > During a suspend/resume cycle the VO power domain will be disabled and
+> > the VOP2 registers will reset to their default values. After that the
+> > cached register values will be out of sync and the read/modify/write
+> > operations we do on the window registers will result in bogus values
+> > written. Fix this by re-initializing the register cache each time we
+> > enable the VOP2. With this the VOP2 will show a picture after a
+> > suspend/resume cycle whereas without this the screen stays dark.
 
-https://git.ti.com/cgit/ti-linux-kernel/ti-linux-kernel/
+I was actually tracking the very same bug this week!
 
-Andrew
+Thanks a lot for fixing this, it would certainly have taken me a while to
+think about regmap cache maintenance. Good thinking :)
+
+Your patch fixes the issue on my side but I have a suggestion below:
+
+> > Fixes: 604be85547ce4 ("drm/rockchip: Add VOP2 driver")
+> > Cc: stable@vger.kernel.org
+> > Signed-off-by: Sascha Hauer <s.hauer@pengutronix.de>
+> > ---
+> >  drivers/gpu/drm/rockchip/rockchip_drm_vop2.c | 8 ++++++++
+> >  1 file changed, 8 insertions(+)
+> >=20
+> > diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c b/drivers/gpu=
+/drm/rockchip/rockchip_drm_vop2.c
+> > index ba3b817895091..d9daa686b014d 100644
+> > --- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
+> > +++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
+> > @@ -215,6 +215,8 @@ struct vop2 {
+> >  	struct vop2_win win[];
+> >  };
+> > =20
+> > +static const struct regmap_config vop2_regmap_config;
+> > +
+> >  static struct vop2_video_port *to_vop2_video_port(struct drm_crtc *crt=
+c)
+> >  {
+> >  	return container_of(crtc, struct vop2_video_port, crtc);
+> > @@ -839,6 +841,12 @@ static void vop2_enable(struct vop2 *vop2)
+> >  		return;
+> >  	}
+> > =20
+> > +	ret =3D regmap_reinit_cache(vop2->map, &vop2_regmap_config);
+> > +	if (ret) {
+> > +		drm_err(vop2->drm, "failed to reinit cache: %d\n", ret);
+> > +		return;
+> > +	}
+
+It seems that regmap has regcache_mark_dirty() for this purpose, which is
+perhaps more adapted than reinitializing cache (unless I'm missing somethin=
+g).
+Note that I haven't tested it at this point.
+
+Cheers,
+
+Paul
+
+> >  	if (vop2->data->soc_id =3D=3D 3566)
+> >  		vop2_writel(vop2, RK3568_OTP_WIN_EN, 1);
+> > =20
+> > --=20
+> > 2.39.2
+> >=20
+>=20
+> I confirmed this works on my Anbernic RG353P which uses the rk3566 SOC.
+> Before applying the patch I displayed a color pattern with modetest
+> before suspend and it appeared correctly. Then I suspended and resumed
+> the device, attempted to display the same color pattern, and only got
+> a single pixel on an otherwise blank display. After applying the patch
+> I performed the same test and the color pattern appeared correctly
+> both before and after suspend (and the display was no longer blank
+> after resume from suspend).
+>=20
+> Tested-by: Chris Morgan <macromorgan@hotmail.com>
+
+--=20
+Paul Kocialkowski, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
+
+--F/Caj+68jhUiV1a5
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmQ5YRoACgkQ3cLmz3+f
+v9HdZQgAmtDCuSSWB0Bgv4bn8Ph09JaLozvmj9xSRJJG9H0RozDSKbfDm8UT+FtP
+c8MIfxRr+Y9UH1/VoNuII0l0cdVEQ370/Fu3uAUGkw04+rthZIdB9YK+EeJfBzsX
+Xp7JhOzmHjA0tmgAxQ2/d4fe3uMowS+R8dfssURA4eWjjSezPIeF8Obv/Qofm/93
+1+iq6KzPSTUHVlrseEN1ULWU7m3ZVul6B1CKhuKdEJZ+0vgZC32ieEOciwH/V9G0
++d6RwA0MqbuPtduj1vXyCk2jQ9xeOPgRiNMUaT4YE0CXc5+L0OjFK1SBIVjB0bsw
+jr/LZxrwHNIxuq9BCtAemQBDgbpimg==
+=iJZJ
+-----END PGP SIGNATURE-----
+
+--F/Caj+68jhUiV1a5--
