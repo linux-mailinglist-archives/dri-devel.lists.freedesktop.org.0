@@ -1,58 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 334086E2073
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Apr 2023 12:13:10 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 20CEE6E2086
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Apr 2023 12:16:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 678AB10ECB7;
-	Fri, 14 Apr 2023 10:13:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B344110ECC7;
+	Fri, 14 Apr 2023 10:15:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1E8C610ECB7;
- Fri, 14 Apr 2023 10:13:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1681467187; x=1713003187;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version:content-transfer-encoding;
- bh=4JBsiH7awDA5kkWPQO2QU8JRGS4XqO4oFVMkl40mKcQ=;
- b=FyyKkXpnicFLIr6lKGhZ3rF5/RGpCjY2yNgqGNdEg1P/gWufBfMOn61B
- L75RgBh0A/seUXrpObyEkJzZdNNCCU4m1LAX9QJqpCFtxcItbsF1WFDHq
- xhksPJ6oQvJvSzrKSWwl91cuki4dsUPpnicaZF5OusVr4hutQ+/NNWZ4V
- b9F73XV5n1KwDDx7oB4+dUKTnwdBoMWG2pnGPvX8ssPtEEfCSH6TjxZ1d
- aaCvxEzzUmJBMLGtri1U8N5B7lNOx4PuWie7AIDod3K+L+zhn8GC+lixZ
- NWW2piD6yS7P+nXjwUF+GggcRhlGuaZmpawAhvjsuDgUEFCOEOyDWwJbx Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10679"; a="346263747"
-X-IronPort-AV: E=Sophos;i="5.99,195,1677571200"; d="scan'208";a="346263747"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Apr 2023 03:13:06 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10679"; a="754405071"
-X-IronPort-AV: E=Sophos;i="5.99,195,1677571200"; d="scan'208";a="754405071"
-Received: from bauinger-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.252.55.117])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Apr 2023 03:13:03 -0700
-From: Jani Nikula <jani.nikula@intel.com>
-To: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>, Luca Coelho
- <luca@coelho.fi>, Tvrtko Ursulin <tvrtko.ursulin@intel.com>, Ville
- =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
-Subject: Re: [Intel-gfx] [PATCH v2] drm/i915: avoid flush_scheduled_work()
- usage
-In-Reply-To: <9ee23b3f-e2e1-6a78-4a28-2ed8790636e5@I-love.SAKURA.ne.jp>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <d8b73f88-d4aa-ed7e-09ea-5ad5ee803893@I-love.SAKURA.ne.jp>
- <5bbe7093-791e-5653-850b-aea343db3f3f@I-love.SAKURA.ne.jp>
- <b10d5ada60ab823a09b64f3bfd79db2dd601d5fd.camel@coelho.fi>
- <9ee23b3f-e2e1-6a78-4a28-2ed8790636e5@I-love.SAKURA.ne.jp>
-Date: Fri, 14 Apr 2023 13:13:01 +0300
-Message-ID: <87edomg4b6.fsf@intel.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1DC0710ECB8
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Apr 2023 10:15:54 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 19A2A62E90;
+ Fri, 14 Apr 2023 10:15:53 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7A3AAC433EF;
+ Fri, 14 Apr 2023 10:15:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1681467352;
+ bh=n1MF/+Zl1HcpJDYupreCKHbSzMG3zCXIVmAO73u8PBE=;
+ h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+ b=XBgq51UWrVJndkhIDlgYKxQdYdLrv7WdtbQ2ZBJBidTew6j4DMefRmyg/YKdQaNHW
+ rPpGheotimyJg+/5qmzEuG/vUltX982a2VfjmArmM+Iu60uLG9lgmEjTU3juWqsHQA
+ Y6sJeH5W7XgaUhLSQhD4IwkvEua1Hc9632Y0pALqmUaByFplhIEMN7k5rfe5La2Qbd
+ 0J3z1iSjH4WJdMO39aX+KpCQ1q/eAbsMvr3x1SNDRBMy92rG0oUfzazH8mhAaKHoDv
+ qqQyI60Y267+TmADrlxipIA1njI7c8QLy3bgozOIGyWdg4m/if7MM/Wij8aRQJTDo7
+ VEUxjpEn43Vbg==
+Message-ID: <4d8479f20ef30866fcf73f3602f1237376110764.camel@kernel.org>
+Subject: Re: [PATCH] drm: make drm_dp_add_payload_part2 gracefully handle
+ NULL state pointer
+From: Jeff Layton <jlayton@kernel.org>
+To: "Lin, Wayne" <Wayne.Lin@amd.com>, Alex Deucher <alexdeucher@gmail.com>, 
+ Jani Nikula <jani.nikula@linux.intel.com>
+Date: Fri, 14 Apr 2023 06:15:50 -0400
+In-Reply-To: <CO6PR12MB5489044012B2A96639470F38FC999@CO6PR12MB5489.namprd12.prod.outlook.com>
+References: <20230413111254.22458-1-jlayton@kernel.org>
+ <87edooarpq.fsf@intel.com>
+ <CADnq5_PVnYMSiKO77+cfg_V-tDKYkVJYN3qGNb1vhQO3QtXskA@mail.gmail.com>
+ <CO6PR12MB5489044012B2A96639470F38FC999@CO6PR12MB5489.namprd12.prod.outlook.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4 (3.46.4-1.fc37) 
+MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,49 +57,114 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- DRI <dri-devel@lists.freedesktop.org>
+Cc: "Deucher, Alexander" <Alexander.Deucher@amd.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 14 Apr 2023, Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp> wrot=
-e:
-> On 2023/03/15 19:47, Luca Coelho wrote:
->> On Tue, 2023-03-14 at 20:21 +0900, Tetsuo Handa wrote:
->>> Like commit c4f135d643823a86 ("workqueue: Wrap flush_workqueue() using a
->>> macro") says, flush_scheduled_work() is dangerous and will be forbidden.
->>>
->>> Now that i915 is the last flush_scheduled_work() user, for now let's
->>> start with blind conversion inside the whole drivers/gpu/drm/i915/
->>> directory. Jani Nikula wants to use two workqueues in order to avoid
->>> adding new module globals, but I'm not familiar enough to audit and
->>> split into two workqueues.
->>>
->>> Link: https://lkml.kernel.org/r/87sfeita1p.fsf@intel.com
->>> Signed-off-by: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
->>> Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
->>> Cc: Jani Nikula <jani.nikula@intel.com>
->>> Cc: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
->>> ---
->>> Changes in v2:
->>>   Add missing alloc_workqueue() failure check.
->>=20
->> Hi,
->>=20
->> Thanks for your patch! But it seems that you only fixed that failure
->> check, without making the other change Jani proposed, namely, move the
->> work to the i915 struct instead of making it a global.
->>=20
->> I'm working on that now.
->
-> What is estimated time of arrival on this?
-> Can we expect your work in Linux 6.4 ?
+On Fri, 2023-04-14 at 04:40 +0000, Lin, Wayne wrote:
+> [Public]
+>=20
+> Hi Jeff,
+>=20
+> Thanks. I might need more information to understand why we can't retrieve
+> the drm atomic state. Also , "Failed to create MST payload for port" indi=
+cates
+> error while configuring DPCD payload ID table. Could you help to provide =
+log
+> with KMS + ATOMIC + DP debug on please? Thanks in advance!
+>=20
+> Regards,
+> Wayne
+>=20
 
-I'm afraid that ship has sailed. Sorry. :(
+Possibly. I'm not that familiar with display driver debugging. Can you
+send me some directions on how to crank up that sort of debug logging?
 
-BR,
-Jani.
+Note that this problem is _very_ intermittent too: I went about 2 weeks
+between crashes, and then I got 3 in one day. I'd rather not run with a
+lot of debug logging for a long time if that's what this is going to
+require, as this is my main workstation.
 
+The last time I got this log message, my proposed patch did prevent the
+box from oopsing, so I'd really like to see it go in unless it's just
+categorically wrong for the caller to pass down a NULL state pointer to
+drm_dp_add_payload_part2.
+
+> > -----Original Message-----
+> > From: Alex Deucher <alexdeucher@gmail.com>
+> > Sent: Thursday, April 13, 2023 8:59 PM
+> > To: Jani Nikula <jani.nikula@linux.intel.com>; Lin, Wayne
+> > <Wayne.Lin@amd.com>
+> > Cc: Jeff Layton <jlayton@kernel.org>; David Airlie <airlied@gmail.com>;
+> > Daniel Vetter <daniel@ffwll.ch>; Deucher, Alexander
+> > <Alexander.Deucher@amd.com>; linux-kernel@vger.kernel.org; dri-
+> > devel@lists.freedesktop.org
+> > Subject: Re: [PATCH] drm: make drm_dp_add_payload_part2 gracefully
+> > handle NULL state pointer
+> >=20
+> > + Wayne
+> >=20
+> > On Thu, Apr 13, 2023 at 8:31=E2=80=AFAM Jani Nikula <jani.nikula@linux.=
+intel.com>
+> > wrote:
+> > >=20
+> > > On Thu, 13 Apr 2023, Jeff Layton <jlayton@kernel.org> wrote:
+> > > > I've been experiencing some intermittent crashes down in the displa=
+y
+> > > > driver code. The symptoms are ususally a line like this in dmesg:
+> > > >=20
+> > > >     amdgpu 0000:30:00.0: [drm] Failed to create MST payload for por=
+t
+> > > > 000000006d3a3885: -5
+> > > >=20
+> > > > ...followed by an Oops due to a NULL pointer dereference.
+> > > >=20
+> > > > The real bug is probably in the caller of this function, which is
+> > > > passing it a NULL state pointer, but this patch at least keeps my
+> > > > machine from oopsing when this occurs.
+> > >=20
+> > > My fear is that papering over this makes the root cause harder to fin=
+d.
+> > >=20
+> > > Cc: Harry, Alex
+> > >=20
+> > >=20
+> > > BR,
+> > > Jani.
+> > >=20
+> > >=20
+> > > >=20
+> > > > Link: https://bugzilla.redhat.com/show_bug.cgi?id=3D2184855
+> > > > Signed-off-by: Jeff Layton <jlayton@kernel.org>
+> > > > ---
+> > > >  drivers/gpu/drm/display/drm_dp_mst_topology.c | 3 ++-
+> > > >  1 file changed, 2 insertions(+), 1 deletion(-)
+> > > >=20
+> > > > diff --git a/drivers/gpu/drm/display/drm_dp_mst_topology.c
+> > > > b/drivers/gpu/drm/display/drm_dp_mst_topology.c
+> > > > index 38dab76ae69e..87ad406c50f9 100644
+> > > > --- a/drivers/gpu/drm/display/drm_dp_mst_topology.c
+> > > > +++ b/drivers/gpu/drm/display/drm_dp_mst_topology.c
+> > > > @@ -3404,7 +3404,8 @@ int drm_dp_add_payload_part2(struct
+> > > > drm_dp_mst_topology_mgr *mgr,
+> > > >=20
+> > > >       /* Skip failed payloads */
+> > > >       if (payload->vc_start_slot =3D=3D -1) {
+> > > > -             drm_dbg_kms(state->dev, "Part 1 of payload creation f=
+or %s
+> > failed, skipping part 2\n",
+> > > > +             drm_dbg_kms(state ? state->dev : NULL,
+> > > > +                         "Part 1 of payload creation for %s failed=
+,
+> > > > + skipping part 2\n",
+> > > >                           payload->port->connector->name);
+> > > >               return -EIO;
+> > > >       }
+> > >=20
+> > > --
+> > > Jani Nikula, Intel Open Source Graphics Center
 
 --=20
-Jani Nikula, Intel Open Source Graphics Center
+Jeff Layton <jlayton@kernel.org>
