@@ -1,39 +1,34 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62E5C6E1D62
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Apr 2023 09:42:25 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C3C956E1D77
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Apr 2023 09:48:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 59B9010E069;
-	Fri, 14 Apr 2023 07:42:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8F86510E0BA;
+	Fri, 14 Apr 2023 07:48:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com
- [211.20.114.71])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0971C10E069
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Apr 2023 07:42:20 +0000 (UTC)
-Received: from mail.aspeedtech.com ([192.168.0.24])
- by twspam01.aspeedtech.com with ESMTP id 33E7Q6Kw033714;
- Fri, 14 Apr 2023 15:26:06 +0800 (GMT-8)
- (envelope-from jammy_huang@aspeedtech.com)
-Received: from JammyHuang-PC.aspeed.com (192.168.2.115) by TWMBX02.aspeed.com
- (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
- Fri, 14 Apr 2023 15:42:07 +0800
-From: Jammy Huang <jammy_huang@aspeedtech.com>
-To: <airlied@redhat.com>, <tzimmermann@suse.de>
-Subject: [PATCH v2] drm/ast: Fix long time waiting on s3/s4 resume
-Date: Fri, 14 Apr 2023 15:42:04 +0800
-Message-ID: <20230414074204.5787-1-jammy_huang@aspeedtech.com>
-X-Mailer: git-send-email 2.25.1
+Received: from relay04.th.seeweb.it (relay04.th.seeweb.it [5.144.164.165])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5DCA610E0BA
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Apr 2023 07:48:15 +0000 (UTC)
+Received: from SoMainline.org (94-211-6-86.cable.dynamic.v4.ziggo.nl
+ [94.211.6.86])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
+ SHA256) (No client certificate requested)
+ by m-r1.th.seeweb.it (Postfix) with ESMTPSA id 995B5204A2;
+ Fri, 14 Apr 2023 09:48:12 +0200 (CEST)
+Date: Fri, 14 Apr 2023 09:48:11 +0200
+From: Marijn Suijten <marijn.suijten@somainline.org>
+To: Kuogee Hsieh <quic_khsieh@quicinc.com>
+Subject: Re: [PATCH v2] drm/msm/dpu: always program dsc active bits
+Message-ID: <tgfbdk6q3uool365jqddibnbgq66clsmsm6tldxpm5toqghxpq@m2ic3oonv2s5>
+References: <1681401401-15099-1-git-send-email-quic_khsieh@quicinc.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [192.168.2.115]
-X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
- (192.168.0.24)
-X-DNSRBL: 
-X-MAIL: twspam01.aspeedtech.com 33E7Q6Kw033714
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1681401401-15099-1-git-send-email-quic_khsieh@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,160 +41,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: freedreno@lists.freedesktop.org, quic_sbillaka@quicinc.com,
+ quic_abhinavk@quicinc.com, andersson@kernel.org,
+ dri-devel@lists.freedesktop.org, dianders@chromium.org, vkoul@kernel.org,
+ agross@kernel.org, linux-arm-msm@vger.kernel.org, dmitry.baryshkov@linaro.org,
+ swboyd@chromium.org, sean@poorly.run, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In resume, DP's launch function, ast_dp_launch, could wait at most 30
-seconds before timeout to check if DP is enabled.
+Capitalize DSC in the title, as discussed in v1.
 
-To avoid this problem, we only check if DP enable or not at driver probe.
+On 2023-04-13 08:56:41, Kuogee Hsieh wrote:
+> In current code, the DSC active bits are written only if cfg->dsc is set.
+> However, for displays which are hot-pluggable, there can be a use-case
+> of disconnecting a DSC supported sink and connecting a non-DSC sink.
+> 
+> For those cases we need to clear DSC active bits during tear down.
+> 
+> Changes in V2:
+> 1) correct commit text as suggested
+> 2) correct Fixes commit id
+> 3) add FIXME comment
+> 
+> Fixes: 77f6da90487c ("drm/msm/disp/dpu1: Add DSC support in hw_ctl")
+> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
+> Reviewed-by: Marijn Suijten <marijn.suijten@somainline.org>
 
-Link: https://bugzilla.kernel.org/show_bug.cgi?id=217278
-Signed-off-by: Jammy Huang <jammy_huang@aspeedtech.com>
----
- v2 changes:
-  - Fix build error.
----
- drivers/gpu/drm/ast/ast_dp.c   | 55 +++++++++++-----------------------
- drivers/gpu/drm/ast/ast_drv.h  |  2 +-
- drivers/gpu/drm/ast/ast_main.c | 11 +++++--
- drivers/gpu/drm/ast/ast_post.c |  3 +-
- 4 files changed, 29 insertions(+), 42 deletions(-)
+By default git send-email should pick this up in the CC line...  but I
+had to download this patch from lore once again.
 
-diff --git a/drivers/gpu/drm/ast/ast_dp.c b/drivers/gpu/drm/ast/ast_dp.c
-index 56483860306b..eee2f264c880 100644
---- a/drivers/gpu/drm/ast/ast_dp.c
-+++ b/drivers/gpu/drm/ast/ast_dp.c
-@@ -119,53 +119,32 @@ int ast_astdp_read_edid(struct drm_device *dev, u8 *ediddata)
- /*
-  * Launch Aspeed DP
-  */
--void ast_dp_launch(struct drm_device *dev, u8 bPower)
-+void ast_dp_launch(struct drm_device *dev)
- {
--	u32 i = 0, j = 0, WaitCount = 1;
--	u8 bDPTX = 0;
-+	u32 i = 0;
- 	u8 bDPExecute = 1;
--
- 	struct ast_private *ast = to_ast_private(dev);
--	// S3 come back, need more time to wait BMC ready.
--	if (bPower)
--		WaitCount = 300;
--
--
--	// Wait total count by different condition.
--	for (j = 0; j < WaitCount; j++) {
--		bDPTX = ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xD1, TX_TYPE_MASK);
--
--		if (bDPTX)
--			break;
- 
-+	// Wait one second then timeout.
-+	while (ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xD1, COPROCESSOR_LAUNCH) !=
-+		COPROCESSOR_LAUNCH) {
-+		i++;
-+		// wait 100 ms
- 		msleep(100);
--	}
- 
--	// 0xE : ASTDP with DPMCU FW handling
--	if (bDPTX == ASTDP_DPMCU_TX) {
--		// Wait one second then timeout.
--		i = 0;
--
--		while (ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xD1, COPROCESSOR_LAUNCH) !=
--			COPROCESSOR_LAUNCH) {
--			i++;
--			// wait 100 ms
--			msleep(100);
--
--			if (i >= 10) {
--				// DP would not be ready.
--				bDPExecute = 0;
--				break;
--			}
-+		if (i >= 10) {
-+			// DP would not be ready.
-+			bDPExecute = 0;
-+			break;
- 		}
-+	}
- 
--		if (bDPExecute)
--			ast->tx_chip_types |= BIT(AST_TX_ASTDP);
-+	if (!bDPExecute)
-+		drm_err(dev, "Wait DPMCU executing timeout\n");
- 
--		ast_set_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xE5,
--							(u8) ~ASTDP_HOST_EDID_READ_DONE_MASK,
--							ASTDP_HOST_EDID_READ_DONE);
--	}
-+	ast_set_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xE5,
-+			       (u8) ~ASTDP_HOST_EDID_READ_DONE_MASK,
-+			       ASTDP_HOST_EDID_READ_DONE);
- }
- 
- 
-diff --git a/drivers/gpu/drm/ast/ast_drv.h b/drivers/gpu/drm/ast/ast_drv.h
-index d51b81fea9c8..15e86394be4f 100644
---- a/drivers/gpu/drm/ast/ast_drv.h
-+++ b/drivers/gpu/drm/ast/ast_drv.h
-@@ -498,7 +498,7 @@ struct ast_i2c_chan *ast_i2c_create(struct drm_device *dev);
- 
- /* aspeed DP */
- int ast_astdp_read_edid(struct drm_device *dev, u8 *ediddata);
--void ast_dp_launch(struct drm_device *dev, u8 bPower);
-+void ast_dp_launch(struct drm_device *dev);
- void ast_dp_power_on_off(struct drm_device *dev, bool no);
- void ast_dp_set_on_off(struct drm_device *dev, bool no);
- void ast_dp_set_mode(struct drm_crtc *crtc, struct ast_vbios_mode_info *vbios_mode);
-diff --git a/drivers/gpu/drm/ast/ast_main.c b/drivers/gpu/drm/ast/ast_main.c
-index f83ce77127cb..8ecddf20113f 100644
---- a/drivers/gpu/drm/ast/ast_main.c
-+++ b/drivers/gpu/drm/ast/ast_main.c
-@@ -254,8 +254,13 @@ static int ast_detect_chip(struct drm_device *dev, bool *need_post)
- 		case 0x0c:
- 			ast->tx_chip_types = AST_TX_DP501_BIT;
- 		}
--	} else if (ast->chip == AST2600)
--		ast_dp_launch(&ast->base, 0);
-+	} else if (ast->chip == AST2600) {
-+		if (ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xD1, TX_TYPE_MASK) ==
-+		    ASTDP_DPMCU_TX) {
-+			ast->tx_chip_types = AST_TX_ASTDP_BIT;
-+			ast_dp_launch(&ast->base);
-+		}
-+	}
- 
- 	/* Print stuff for diagnostic purposes */
- 	if (ast->tx_chip_types & AST_TX_NONE_BIT)
-@@ -264,6 +269,8 @@ static int ast_detect_chip(struct drm_device *dev, bool *need_post)
- 		drm_info(dev, "Using Sil164 TMDS transmitter\n");
- 	if (ast->tx_chip_types & AST_TX_DP501_BIT)
- 		drm_info(dev, "Using DP501 DisplayPort transmitter\n");
-+	if (ast->tx_chip_types & AST_TX_ASTDP_BIT)
-+		drm_info(dev, "Using ASPEED DisplayPort transmitter\n");
- 
- 	return 0;
- }
-diff --git a/drivers/gpu/drm/ast/ast_post.c b/drivers/gpu/drm/ast/ast_post.c
-index 82fd3c8adee1..90e40f59aff7 100644
---- a/drivers/gpu/drm/ast/ast_post.c
-+++ b/drivers/gpu/drm/ast/ast_post.c
-@@ -380,7 +380,8 @@ void ast_post_gpu(struct drm_device *dev)
- 	ast_set_def_ext_reg(dev);
- 
- 	if (ast->chip == AST2600) {
--		ast_dp_launch(dev, 1);
-+		if (ast->tx_chip_types & AST_TX_ASTDP_BIT)
-+			ast_dp_launch(dev);
- 	} else if (ast->config_mode == ast_use_p2a) {
- 		if (ast->chip == AST2500)
- 			ast_post_chip_2500(dev);
+> ---
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
+> index bbdc95c..1651cd7 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
+> @@ -541,10 +541,10 @@ static void dpu_hw_ctl_intf_cfg_v1(struct dpu_hw_ctl *ctx,
+>  	if (cfg->merge_3d)
+>  		DPU_REG_WRITE(c, CTL_MERGE_3D_ACTIVE,
+>  			      BIT(cfg->merge_3d - MERGE_3D_0));
+> -	if (cfg->dsc) {
+> -		DPU_REG_WRITE(&ctx->hw, CTL_FLUSH, DSC_IDX);
+> -		DPU_REG_WRITE(c, CTL_DSC_ACTIVE, cfg->dsc);
+> -	}
+> +
+> +	/* FIXME: fix reset_intf_cfg to handle teardown of dsc */
 
-base-commit: e62252bc55b6d4eddc6c2bdbf95a448180d6a08d
--- 
-2.25.1
+There's more wrong than just moving (not "fix"ing) this bit of code into
+reset_intf_cfg.  And this will have to be re-wrapped in `if (cfg->dsc)`
+again by reverting this patch.  Perhaps that can be explained, or link
+to Abhinav's explanation to make it clear to readers what this FIXME
+actually means?  Let's wait for Abhinav and Dmitry to confirm the
+desired communication here.
 
+https://lore.kernel.org/linux-arm-msm/ec045d6b-4ffd-0f8c-4011-8db45edc6978@quicinc.com/
+
+- Marijn
+
+> +	DPU_REG_WRITE(&ctx->hw, CTL_FLUSH, DSC_IDX);
+> +	DPU_REG_WRITE(c, CTL_DSC_ACTIVE, cfg->dsc);
+>  }
+>  
+>  static void dpu_hw_ctl_intf_cfg(struct dpu_hw_ctl *ctx,
+> -- 
+> The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
+> a Linux Foundation Collaborative Project
+> 
