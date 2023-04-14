@@ -2,40 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECE156E2985
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Apr 2023 19:34:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE8C36E29B8
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Apr 2023 19:54:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A554210EE36;
-	Fri, 14 Apr 2023 17:34:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C382610EE32;
+	Fri, 14 Apr 2023 17:54:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay08.th.seeweb.it (relay08.th.seeweb.it
- [IPv6:2001:4b7a:2000:18::169])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4391410EE36
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Apr 2023 17:34:34 +0000 (UTC)
-Received: from SoMainline.org (94-211-6-86.cable.dynamic.v4.ziggo.nl
- [94.211.6.86])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
- SHA256) (No client certificate requested)
- by m-r2.th.seeweb.it (Postfix) with ESMTPSA id 9C8AC3FA14;
- Fri, 14 Apr 2023 19:34:29 +0200 (CEST)
-Date: Fri, 14 Apr 2023 19:34:28 +0200
-From: Marijn Suijten <marijn.suijten@somainline.org>
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>
-Subject: Re: [PATCH] drm/msm/dpu: always program dsc active bits
-Message-ID: <6s42sutrd2c6tme46t6tchd6y6wonmpwokseqqz2frkrfext7v@vnv44tzwyva4>
-References: <1681247095-1201-1-git-send-email-quic_khsieh@quicinc.com>
- <z7wj2lcgcdxsqh7ylhec3ig6o4p6q37zqvpzoxp4bd4vid2z2n@ubsgt3ebqrwr>
- <83f9a438-52c5-83f3-1767-92d16518d8f0@quicinc.com>
- <feedv4isliterjtwyicqfarwuvzhtov3jkmvjcwqvt7itkyh7y@e2jq5t6r3lxc>
- <e78e576a-2a04-e7ca-f6c4-701d508541ad@quicinc.com>
- <mfzi535qsjtcznwdvgb7qyzk25rcsrkwozah6ji4thqsj73n3m@asybxllomisg>
- <049697ba-d997-62c0-6e21-ffb287ac3100@quicinc.com>
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 701A610E1D4
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Apr 2023 17:54:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=Smp6oU47DEE3G8uRWTgxTRgUaV9J1Who2o9os2NQENY=; b=nMw+Q8jlR7w6Ak7NUVLn1F5Duo
+ f4t/N6SyZMPgtwOgq68jaQXJ1/gV5JGEFrWlUFfid6AEvCRISe3KfuEP9phwdc3snn4ksS/LIPktO
+ UNcOHK4yYdOn6clVw226L10y56K640U8AqzTV22LIC/EHjHFTQEZ4iexxR6uldmScMpW1E+4+Q5nB
+ hihlMWyio5W05SZLVmoWB8U0FpScuxM9MMFZJeBA7lMPYremB8yzFoEpO2RmMZKQV9NOY2H2kre1O
+ Xa5zIC8ucTSMyvw56AO32rVgfx2tSVUVhA3TpQTngwdSYb6t/pTA/ZMXJiWSjs4JA+wbKBkfTNJQ/
+ 6wR68pIQ==;
+Received: from [177.34.168.16] (helo=[192.168.0.4])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1pnNcY-001D0O-Ka; Fri, 14 Apr 2023 19:54:02 +0200
+Message-ID: <79f5c3bf-ac4d-18f5-4b09-2b9a2422202c@igalia.com>
+Date: Fri, 14 Apr 2023 14:53:55 -0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <049697ba-d997-62c0-6e21-ffb287ac3100@quicinc.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.1
+Subject: Re: [PATCH v2 6/7] drm/vkms: add reflect-y property
+To: =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
+References: <20230414135151.75975-1-mcanal@igalia.com>
+ <20230414135151.75975-7-mcanal@igalia.com> <ZDliI+iEgQlDMZWJ@intel.com>
+ <38df4fc1-b6ad-ae3d-daab-de09fde30ffc@igalia.com>
+ <ZDlnTHCUqktMjGef@intel.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Ma=c3=adra_Canal?= <mcanal@igalia.com>
+In-Reply-To: <ZDlnTHCUqktMjGef@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,48 +57,103 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, quic_sbillaka@quicinc.com,
- dianders@chromium.org, andersson@kernel.org, dri-devel@lists.freedesktop.org,
- swboyd@chromium.org, vkoul@kernel.org, agross@kernel.org,
- linux-arm-msm@vger.kernel.org, dmitry.baryshkov@linaro.org,
- Kuogee Hsieh <quic_khsieh@quicinc.com>, sean@poorly.run,
- linux-kernel@vger.kernel.org
+Cc: Haneen Mohammed <hamohammed.sa@gmail.com>,
+ Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ dri-devel@lists.freedesktop.org, Melissa Wen <mwen@igalia.com>,
+ Arthur Grillo <arthurgrillo@riseup.net>,
+ Igor Matheus Andrade Torrente <igormtorrente@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2023-04-14 08:48:43, Abhinav Kumar wrote:
+On 4/14/23 11:46, Ville Syrjälä wrote:
+> On Fri, Apr 14, 2023 at 11:37:17AM -0300, Maíra Canal wrote:
+>> On 4/14/23 11:24, Ville Syrjälä wrote:
+>>> On Fri, Apr 14, 2023 at 10:51:50AM -0300, Maíra Canal wrote:
+>>>> Currently, vkms only support the reflect-x property. Therefore, add the
+>>>> reflect-y property to vkms through a software implementation of the
+>>>> operation. This is possible by reverse reading the y axis during the
+>>>> blending.
+>>>>
+>>>> Now, vkms support all possible rotation values.
+>>>>
+>>>> Tested with igt@kms_rotation_crc@primary-reflect-y and
+>>>> igt@kms_rotation_crc@sprite-reflect-y [1].
+>>>>
+>>>> [1] https://patchwork.freedesktop.org/series/116025/
+>>>>
+>>>> Signed-off-by: Maíra Canal <mcanal@igalia.com>
+>>>> ---
+>>>>    drivers/gpu/drm/vkms/vkms_composer.c |  7 ++++++-
+>>>>    drivers/gpu/drm/vkms/vkms_plane.c    | 16 ++++------------
+>>>>    2 files changed, 10 insertions(+), 13 deletions(-)
+>>>>
+>>>> diff --git a/drivers/gpu/drm/vkms/vkms_composer.c b/drivers/gpu/drm/vkms/vkms_composer.c
+>>>> index b05bd008aeab..19d1078e9d34 100644
+>>>> --- a/drivers/gpu/drm/vkms/vkms_composer.c
+>>>> +++ b/drivers/gpu/drm/vkms/vkms_composer.c
+>>>> @@ -92,8 +92,13 @@ static int get_y_pos(struct vkms_frame_info *frame_info, int y)
+>>>>    			return -1;
+>>>>    		return y + frame_info->dst.x1;
+>>>>    	default:
+>>>> -		return y;
+>>>> +		break;
+>>>>    	}
+>>>> +
+>>>> +	if (frame_info->rotation & DRM_MODE_REFLECT_Y)
+>>>> +		return drm_rect_height(&frame_info->dst) - y - 1;
+>>>> +
+>>>> +	return y;
+>>>>    }
+>>>>    
+>>>>    static bool check_limit(struct vkms_frame_info *frame_info, int pos)
+>>>> diff --git a/drivers/gpu/drm/vkms/vkms_plane.c b/drivers/gpu/drm/vkms/vkms_plane.c
+>>>> index 11662afa9fe4..d08bda869a24 100644
+>>>> --- a/drivers/gpu/drm/vkms/vkms_plane.c
+>>>> +++ b/drivers/gpu/drm/vkms/vkms_plane.c
+>>>> @@ -121,12 +121,8 @@ static void vkms_plane_atomic_update(struct drm_plane *plane,
+>>>>    	frame_info->fb = fb;
+>>>>    	memcpy(&frame_info->map, &shadow_plane_state->data, sizeof(frame_info->map));
+>>>>    	drm_framebuffer_get(frame_info->fb);
+>>>> -	frame_info->rotation = drm_rotation_simplify(new_state->rotation,
+>>>> -						     DRM_MODE_ROTATE_0 |
+>>>> -						     DRM_MODE_ROTATE_90 |
+>>>> -						     DRM_MODE_ROTATE_180 |
+>>>> -						     DRM_MODE_ROTATE_270 |
+>>>> -						     DRM_MODE_REFLECT_X);
+>>>> +	frame_info->rotation = drm_rotation_simplify(new_state->rotation, DRM_MODE_ROTATE_MASK |
+>>>> +						     DRM_MODE_REFLECT_MASK);
+>>>
+>>> What are you trying to achieve with that?
+>>
+>> Yeah, seeing it right now I can see that this is not achieving anything.
+>> I will remove it in the next version.
 > 
-> On 4/14/2023 12:35 AM, Marijn Suijten wrote:
-> > On 2023-04-12 10:33:15, Abhinav Kumar wrote:
-> > [..]
-> >>> What happens if a device boots without DSC panel connected?  Will
-> >>> CTL_DSC_FLUSH be zero and not (unnecessarily, I assume) flush any of the
-> >>> DSC blocks?  Or could this flush uninitialized state to the block?
-> >>>
-> >>
-> >> If we bootup without DSC panel connected, the kernel's cfg->dsc will be
-> >> 0 and default register value of CTL_DSC_FLUSH will be 0 so it wont flush
-> >> any DSC blocks.
-> > 
-> > Ack, that makes sense.  However, if I connect a DSC panel, then
-> > disconnect it (now the register should be non-zero, but cfg->dsc will be
-> > zero), and then replug a non-DSC panel multiple times, it'll get flushed
-> > every time because we never clear CTL_DSC_FLUSH after that?
-> > 
+> I think using it might still make sense to eg. remove the 180/270
+> cases from your actual rendering code.
+
+I will remove it on the next version.
+
 > 
-> If we remove it after kernel starts, that issue is there even today 
-> without that change because DSI is not a hot-pluggable display so a 
-> teardown wont happen when you plug out the panel. How will cfg->dsc be 0 
-> then? In that case, its not a valid test as there was no indication to 
-> DRM that display was disconnected so we cannot tear it down.
+> I'm also a bit uneasy about all that hand rolled coordinate calculation
+> stuff. Ideally drm_rect_rotate*() should handle all that for you, and
+> make sure the rotate vs. reflect actually get applied in the correct
+> order.
+> 
 
-The patch description itself describes hot-pluggable displays, which I
-believe is the upcoming DSC support for DP?  You ask how cfg->dsc can
-become zero, but this is **exactly** what the patch description
-describes, and what this patch is removing the `if` for.  If we are not
-allowed to discuss that scenario because it is not currently supported,
-neither should we allow to apply this patch.
+At first, I had a similar idea that drm_rect_rotate() would handle all the
+rotation. But, this turn out to be untrue. From what I can see, although
+the drm_rect_rotate() helps by performing the coordinates rotation, we also
+need to change the way the blending occurs. Although the coordinates have
+changed, the vmap stays the same and we will still start reading the vmap
+by the first line (y = 0). That's why we need to change the iteration
+boundaries in the blending loops.
 
-With that in mind, can you re-answer the question?
+So, drm_rect_rotate() is a part of the solution, but it is not able to handle
+it completely.
 
-- Marijn
+If you have any suggestions on how to perform the rotation without changing
+the way the blending occurs, I would be glad to hear. Unfortunately, just
+performing drm_rect_rotate() doesn't seem to be a solution.
+
+Best Regards,
+- Maíra Canal
