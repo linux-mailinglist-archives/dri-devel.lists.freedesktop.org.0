@@ -1,77 +1,69 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 489356E2319
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Apr 2023 14:23:06 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CF4F6E23A7
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Apr 2023 14:53:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D9EE410E1B2;
-	Fri, 14 Apr 2023 12:23:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D18E910ED16;
+	Fri, 14 Apr 2023 12:53:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CFF4910E1B2
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Apr 2023 12:22:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1681474978;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=yPCGffG6qbUGI7F6FTErQ0LH3cHGPkEEbnsErQvfFxw=;
- b=d6PnMEWxIEnlFOxVIYUoL7RiGW/uvbjKlhFdb3Em7Q3Xt+gutyuSo4HPBIks1hJccS8m7W
- /GDM9ZugroNXxmJkQKO8W45un1ES2HPeXefFLCZoGiYKcaWJ/jPxB24AhSGXEBr6fR+uWc
- AC9un9vaSto7WmjzCwQKKqiu8I74kLg=
-Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
- [209.85.160.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-457-wEMRg7LqM2SJwo3J-gBLVQ-1; Fri, 14 Apr 2023 08:22:57 -0400
-X-MC-Unique: wEMRg7LqM2SJwo3J-gBLVQ-1
-Received: by mail-qt1-f199.google.com with SMTP id
- v13-20020a05622a144d00b003e22c6de617so13061955qtx.13
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Apr 2023 05:22:57 -0700 (PDT)
+Received: from mail-qv1-xf2e.google.com (mail-qv1-xf2e.google.com
+ [IPv6:2607:f8b0:4864:20::f2e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C2F8710ED2A
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Apr 2023 12:52:58 +0000 (UTC)
+Received: by mail-qv1-xf2e.google.com with SMTP id dd8so5144266qvb.13
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Apr 2023 05:52:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=baylibre-com.20221208.gappssmtp.com; s=20221208; t=1681476777; x=1684068777; 
+ h=cc:to:subject:message-id:date:mime-version:in-reply-to:references
+ :user-agent:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=c1mRBvmkKWpgvM1gONebrVKM3TA+ePdq5Jwjyb83ndI=;
+ b=hfxcYBA6wKz0ja41R5GILX3KMG8FLrGhi8JWeM0W+y08tHIeAr1vzeBz6MD4JxzdBF
+ QIhHkA3pbw59fZMAbr6b0i7r250bHgCCQTtKAKttdlfD8JhZyvUmQNuAj/uhdZtlKR7B
+ KH05LZDkOItVIJbkhdHUcPbhGF37Iuzi2x+KKmUQGbaXez7ZikZDtNYtH6a64wNFe3lT
+ DhyEQk8l44mdyq2Y4kI730hkh110qFH4d7oMA7EiD2VeMU9FLouu/qguZi9jRdHRRWaw
+ +3u1tDfvw2LIjhSEsl0CC8jA7Lp6j743ttLMCvJJ42APWUvnVVahAUfe6mF3GO9ThAtK
+ ehnw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681474977; x=1684066977;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=yPCGffG6qbUGI7F6FTErQ0LH3cHGPkEEbnsErQvfFxw=;
- b=RGyuvAm2563eg9MxNr2/6/LhOQWtB/tArX9+Oq4G7b5orhfMAOqNeEjwr8pAH1tRLX
- NFUh6CCz7G8DSDJWE9tSBAI0nqAzjFZrDZmq7vHIQxA/kWOWCYhc6AqRzL5Td5hBmx+o
- tk6pR3/gJCpaT+p4Lf5GP6AqbHNLFWQnRxNxdL61KFlVCMWNVsBwqgAPB0tZaDQqSkjw
- hfdSPH7ka/vZzQSsgBZqD8Qkn17+PV4Lf6Fm0gc6Y6XAdPkwwOVL2tnAmyGCxlmb53S2
- xlD1gzcX8vyKj8VLP7VEFJsqMA7zgV/A7NkgDeXPfTYjRpeu7pnUpyqkTIEmyQ9MJS+L
- 6oew==
-X-Gm-Message-State: AAQBX9ePKVVY2En7lbUZru7n9JF/n1SBdZLGo2Ov+ONeA58Zvyy3jcNR
- q1stX1K2jpbWJuIfuf8gl5Qd5TFnaAs/dVSCYmZ6idf0Z7TW2OXzFhiKeg+edOEmVPYwZtXXkmO
- P5t7z2gYMPbtY8NYqX46+W11vOZU3
-X-Received: by 2002:ac8:5945:0:b0:3e4:e2fa:66b0 with SMTP id
- 5-20020ac85945000000b003e4e2fa66b0mr7771653qtz.29.1681474977146; 
- Fri, 14 Apr 2023 05:22:57 -0700 (PDT)
-X-Google-Smtp-Source: AKy350ZrFNjLa1K+ogArho3OQ0SXUeh36MSY9HRSMAimwdY9UWoY7qElQIx2CPz+MS7Z6iLrkNomrA==
-X-Received: by 2002:ac8:5945:0:b0:3e4:e2fa:66b0 with SMTP id
- 5-20020ac85945000000b003e4e2fa66b0mr7771633qtz.29.1681474976909; 
- Fri, 14 Apr 2023 05:22:56 -0700 (PDT)
-Received: from dell-per740-01.7a2m.lab.eng.bos.redhat.com
- (nat-pool-bos-t.redhat.com. [66.187.233.206])
- by smtp.gmail.com with ESMTPSA id
- r4-20020ac85e84000000b003e302c1f498sm1193420qtx.37.2023.04.14.05.22.55
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 14 Apr 2023 05:22:56 -0700 (PDT)
-From: Tom Rix <trix@redhat.com>
-To: chunkuang.hu@kernel.org, p.zabel@pengutronix.de, chunfeng.yun@mediatek.com,
- vkoul@kernel.org, kishon@kernel.org, matthias.bgg@gmail.com,
- angelogioacchino.delregno@collabora.com, nathan@kernel.org,
- ndesaulniers@google.com, granquet@baylibre.com
-Subject: [PATCH] phy: mediatek: fix returning garbage
-Date: Fri, 14 Apr 2023 08:22:53 -0400
-Message-Id: <20230414122253.3171524-1-trix@redhat.com>
-X-Mailer: git-send-email 2.27.0
+ d=1e100.net; s=20221208; t=1681476777; x=1684068777;
+ h=cc:to:subject:message-id:date:mime-version:in-reply-to:references
+ :user-agent:from:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=c1mRBvmkKWpgvM1gONebrVKM3TA+ePdq5Jwjyb83ndI=;
+ b=gXq1tpc2yDGmgysTP7iQsNPAp+khSVJFbe4+EHijJV27XLO8iYceoLwkGaDznJP+mz
+ I0nzXWuS34CzeRynTQpWbXckvtPvFqXB0lg+V7VYmGJ8AzEr7PXq+MG9Sci3fuh5vqmU
+ wOFF+RVSjzOl/8KeL+HFzHjweQI9Si+fKEc8iuyo61TXLNcC1AB8J4r/3zqMkp16mSo4
+ d46hGRKZY4ktrJW1QWRmCT1dmZljYavOCtxv8kvzfoVByPSpEzw5+luJXF1RAGeeiyzA
+ FMawsY2Gf0jB7HEjDpN/qpCTLPFBflheSVmbvv2GyPykg9C696ytTjpYFi/szTAzNdur
+ vVNw==
+X-Gm-Message-State: AAQBX9fAlWgxWsjHYkC+ceOx+ZXbxBHVeQMYiUB2EE9JBnaFA9lEpcxa
+ tuILcaZxCk1bsOfs6xCCuoZE7n3ISvQ0XVL5B//sAQ==
+X-Google-Smtp-Source: AKy350bwrlQ1k6Id6taPs74WKZ2MYVEoCM7n+Fk3n2G+lg7Txm3HQS1LILK4QlW1vfVH9uPVwc8hFNllM10fhh8EPyk=
+X-Received: by 2002:a05:6214:2504:b0:56f:728:19d4 with SMTP id
+ gf4-20020a056214250400b0056f072819d4mr3900460qvb.26.1681476777521; Fri, 14
+ Apr 2023 05:52:57 -0700 (PDT)
+Received: from 753933720722 named unknown by gmailapi.google.com with
+ HTTPREST; Fri, 14 Apr 2023 05:52:57 -0700
+From: Guillaume Ranquet <granquet@baylibre.com>
+User-Agent: meli 0.7.2
+References: <20230413-fixes-for-mt8195-hdmi-phy-v1-0-b8482458df0d@baylibre.com>
+ <20230413-fixes-for-mt8195-hdmi-phy-v1-1-b8482458df0d@baylibre.com>
+ <ada769e0-0141-634f-3753-eb3a50f0eee3@collabora.com>
+In-Reply-To: <ada769e0-0141-634f-3753-eb3a50f0eee3@collabora.com>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"; x-default=true
+Date: Fri, 14 Apr 2023 05:52:57 -0700
+Message-ID: <CABnWg9v+DXatKqUkwDZBRxivtg869SocPGtHibtFNr7tnyVggg@mail.gmail.com>
+Subject: Re: [PATCH 1/2] phy: mediatek: hdmi: mt8195: fix uninitialized
+ variable usage in pll_calc
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
+ Philipp Zabel <p.zabel@pengutronix.de>,
+ Chunfeng Yun <chunfeng.yun@mediatek.com>, 
+ Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,43 +76,82 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tom Rix <trix@redhat.com>, llvm@lists.linux.dev,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-mediatek@lists.infradead.org, linux-phy@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org
+Cc: kernel test robot <lkp@intel.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
+ linux-phy@lists.infradead.org, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-clang reports
-drivers/phy/mediatek/phy-mtk-hdmi-mt8195.c:298:6: error: variable
-  'ret' is uninitialized when used here [-Werror,-Wuninitialized]
-        if (ret)
-            ^~~
-ret should have been set by the preceding call to mtk_hdmi_pll_set_hw.
+On Fri, 14 Apr 2023 12:31, AngeloGioacchino Del Regno
+<angelogioacchino.delregno@collabora.com> wrote:
+>Il 13/04/23 14:46, Guillaume Ranquet ha scritto:
+>> The ret variable in mtk_hdmi_pll_calc() was used unitialized as reported
+>> by the kernel test robot.
+>>
+>> Fix the issue by removing the variable altogether and testing out the
+>> return value of mtk_hdmi_pll_set_hw()
+>>
+>> Fixes: 45810d486bb44 ("phy: mediatek: add support for phy-mtk-hdmi-mt8195")
+>> Reported-by: kernel test robot <lkp@intel.com>
+>> Signed-off-by: Guillaume Ranquet <granquet@baylibre.com>
+>> ---
+>>   drivers/phy/mediatek/phy-mtk-hdmi-mt8195.c | 7 +++----
+>>   1 file changed, 3 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/drivers/phy/mediatek/phy-mtk-hdmi-mt8195.c b/drivers/phy/mediatek/phy-mtk-hdmi-mt8195.c
+>> index abfc077fb0a8..e10da6c4147e 100644
+>> --- a/drivers/phy/mediatek/phy-mtk-hdmi-mt8195.c
+>> +++ b/drivers/phy/mediatek/phy-mtk-hdmi-mt8195.c
+>> @@ -213,7 +213,7 @@ static int mtk_hdmi_pll_calc(struct mtk_hdmi_phy *hdmi_phy, struct clk_hw *hw,
+>>   	u64 tmds_clk, pixel_clk, da_hdmitx21_ref_ck, ns_hdmipll_ck, pcw;
+>>   	u8 txpredivs[4] = { 2, 4, 6, 12 };
+>>   	u32 fbkdiv_low;
+>> -	int i, ret;
+>> +	int i;
+>>
+>>   	pixel_clk = rate;
+>>   	tmds_clk = pixel_clk;
+>> @@ -292,10 +292,9 @@ static int mtk_hdmi_pll_calc(struct mtk_hdmi_phy *hdmi_phy, struct clk_hw *hw,
+>>   	if (!(digital_div <= 32 && digital_div >= 1))
+>>   		return -EINVAL;
+>>
+>> -	mtk_hdmi_pll_set_hw(hw, PLL_PREDIV, fbkdiv_high, fbkdiv_low,
+>> +	if (mtk_hdmi_pll_set_hw(hw, PLL_PREDIV, fbkdiv_high, fbkdiv_low,
+>>   			    PLL_FBKDIV_HS3, posdiv1, posdiv2, txprediv,
+>> -			    txposdiv, digital_div);
+>> -	if (ret)
+>> +			    txposdiv, digital_div))
+>>   		return -EINVAL;
+>>
+>
+>I don't get why we're returning -EINVAL unconditionally in the first place, here.
+>
+>Function mtk_hdmi_pll_set_hw() should return zero or a negative error number: in
+>that case, the previous *intention* was fine, so this should be
+>
 
-Fixes: 45810d486bb4 ("phy: mediatek: add support for phy-mtk-hdmi-mt8195")
-Signed-off-by: Tom Rix <trix@redhat.com>
----
- drivers/phy/mediatek/phy-mtk-hdmi-mt8195.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+Hi Angelo,
+I was maybe a bit too quick on fixing this that way.
+Anyway it doesn't change a thing as mtk_hdmi_pll_set_hw() eitheir
+returns 0 or -EINVAL.
+But I agree that the logic is dubious and propagating the return value
+is the right thing
+to do.
 
-diff --git a/drivers/phy/mediatek/phy-mtk-hdmi-mt8195.c b/drivers/phy/mediatek/phy-mtk-hdmi-mt8195.c
-index abfc077fb0a8..c63294e451d6 100644
---- a/drivers/phy/mediatek/phy-mtk-hdmi-mt8195.c
-+++ b/drivers/phy/mediatek/phy-mtk-hdmi-mt8195.c
-@@ -292,9 +292,9 @@ static int mtk_hdmi_pll_calc(struct mtk_hdmi_phy *hdmi_phy, struct clk_hw *hw,
- 	if (!(digital_div <= 32 && digital_div >= 1))
- 		return -EINVAL;
- 
--	mtk_hdmi_pll_set_hw(hw, PLL_PREDIV, fbkdiv_high, fbkdiv_low,
--			    PLL_FBKDIV_HS3, posdiv1, posdiv2, txprediv,
--			    txposdiv, digital_div);
-+	ret = mtk_hdmi_pll_set_hw(hw, PLL_PREDIV, fbkdiv_high, fbkdiv_low,
-+				  PLL_FBKDIV_HS3, posdiv1, posdiv2, txprediv,
-+				  txposdiv, digital_div);
- 	if (ret)
- 		return -EINVAL;
- 
--- 
-2.27.0
+I see that Arnd and Tom posted versions that you might prefer:
 
+https://lore.kernel.org/linux-phy/20230414075842.4006164-1-arnd@kernel.org/
+https://lore.kernel.org/linux-phy/20230414122253.3171524-1-trix@redhat.com/
+
+Thx,
+Guillaume.
+
+>	ret = mtk_hdmi_pll_set_hw(....)
+>	if (ret)
+>		return ret;
+>
+>	return 0;
+>
+>
+>Regards,
+>Angelo
