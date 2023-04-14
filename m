@@ -2,80 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C4776E1DB1
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Apr 2023 09:59:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54B546E1DFB
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Apr 2023 10:21:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5B4FE10E169;
-	Fri, 14 Apr 2023 07:59:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D051B10E144;
+	Fri, 14 Apr 2023 08:21:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9A5FA10E169
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Apr 2023 07:59:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1681459168;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=DeOVQm3gb9iSfcxRrVTwjqf6Xvgk6j2LtF2N86WQqYk=;
- b=iyvmJC4gtk0TMDa1zykUZfUuxzhutQ2o/u9foQcJRu3bEeVqsCmbWCJi3hogoieGM5c0ec
- E/3uLTst6AhXA7UKIem1lGRvi4U422VF5CKGMNqq1ry5DGzY0yKnf9Irvdse2ldqJjamEB
- ex7wYXlS0o+zwKGpnGeyiZmr+gk1tII=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-610-Dq37D5wqOvqRN09Ura62OA-1; Fri, 14 Apr 2023 03:59:27 -0400
-X-MC-Unique: Dq37D5wqOvqRN09Ura62OA-1
-Received: by mail-wm1-f70.google.com with SMTP id
- f14-20020a05600c154e00b003f0a04fd5b6so3368049wmg.9
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Apr 2023 00:59:26 -0700 (PDT)
+Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com
+ [IPv6:2a00:1450:4864:20::52c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 50D4D10E144
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Apr 2023 08:21:09 +0000 (UTC)
+Received: by mail-ed1-x52c.google.com with SMTP id
+ 4fb4d7f45d1cf-5058181d58dso1850596a12.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Apr 2023 01:21:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1681460467; x=1684052467;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=k9w56sg0vFWPotW3ggjC58S0oDYkCPh83S4/DlaSQRs=;
+ b=SvGZ5RwkfcAUFCPQAmlZ/0mT4BbyNtXUcqqzCOlcXeWRuG/zqOy94hFrJ2crZPKtYV
+ l6i4oj3HMIiidbLCDbt0v7fNR35xocG/yWmtXQ4S5Hfgcj14WnVn7Gi0iBcg8HBKkzOv
+ USmzu2OE0JBCOsWNQhcRBn13RShBPk/bpJaFefiwdqISsnn7sc8LRl9BfW5nsVy8GFZi
+ /11ouHGEycuicUZ3xRN63ibLOITUEP0R0+iCjJ+xM/rSn4zu7UPJ1lsg8UyMqa0ySirR
+ 2n2LRYigvIctX0hKLww8sdNAHiFV35aIQDWQdsw1S37Z1ZeP+JAzLB0NoKAdTxWBZUnP
+ E0cg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681459166; x=1684051166;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:to:subject:user-agent:mime-version:date:message-id
+ d=1e100.net; s=20221208; t=1681460467; x=1684052467;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=DeOVQm3gb9iSfcxRrVTwjqf6Xvgk6j2LtF2N86WQqYk=;
- b=e04ugrIT0DE5i/ReGptHm9GnPoKii0/6aPvJJkG2g3zt8YyQcgHMygXLZ9SYWRcLd5
- VFGDfrnhC1cfKye4HfcwJ8Isuy9gQOblkez/iSWFY8oPBlZaooWHM91/yo9pDaQPwDJt
- An+x/9ZkKFcP0t4e2Mt6Wxp+GR5SiPx58kBWinLiAKqzpsUK8QZX8r0UMnUxYfxQkopy
- LNEIBfhO8mwVxjMlOeJ1+YRA5FJqSLLDqLjzz7PWIoWGYsTTDKu9Ni815PILH/BPSq0S
- f3YvpYrzdgQ9t6WNKFF63fFMT9B9NutGNbeuZSlFC4EE0ew0A1PRXc1B6jnO9BNmDIiA
- JheQ==
-X-Gm-Message-State: AAQBX9fPpDLfdKCH2yODVgjprLM3Az5TOCMr6x01Pc7hICTeSlYcMB4U
- jhRK5EkJ6IsyzhR4L09qbJApYF7e+wkdvAEPGHA7Sqt43iLbksI6SKs9b7bq1D6SLwtIZJMyysh
- AtdrL9WYv8qJrzqZIEo3d7BQu8lsU
-X-Received: by 2002:adf:e34d:0:b0:2cf:e422:e28c with SMTP id
- n13-20020adfe34d000000b002cfe422e28cmr3048971wrj.42.1681459166002; 
- Fri, 14 Apr 2023 00:59:26 -0700 (PDT)
-X-Google-Smtp-Source: AKy350YDtF9mP1uo1VdvO6G3SM2Cpw+y2vqzFrDaE76qDYDI3TGLJezpewWN3IOf1k3bs+MYoqj6HQ==
-X-Received: by 2002:adf:e34d:0:b0:2cf:e422:e28c with SMTP id
- n13-20020adfe34d000000b002cfe422e28cmr3048953wrj.42.1681459165706; 
- Fri, 14 Apr 2023 00:59:25 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:c:37e0:ced3:55bd:f454:e722?
- ([2a01:e0a:c:37e0:ced3:55bd:f454:e722])
+ bh=k9w56sg0vFWPotW3ggjC58S0oDYkCPh83S4/DlaSQRs=;
+ b=RJX4WWXDeWJUgOhOcgIkY30bq7k3MqNXS+eXwsl/nAvoTOGUVwgEihlzOOdR1KzjX+
+ /WN9E2U4aIGEo7EZLUdE209G1k4rVfQ9mZyX3cqDwIe/ZcLbD4DTKuCrs/+fFfIJ55En
+ jz/pvmYMVUb8AaDoHwUKcfBXFs6NXnw+Us7gQNh6X/eS98yzHzlDhkGbqI6oe8DysJal
+ 0bha59jKAuvDcal478aIDAX7Zb/gJ5f6DFE709Y3iQgVKNTF0IXdSrfYoZpEC/vRMcL1
+ +nFyHGYOnb2dyTmHe5sdweQR3yNXV6f8F6pwVGAo58aoAlOPS9m5jmR2iymu8Dbr7Fo8
+ EX8g==
+X-Gm-Message-State: AAQBX9fmgGfT893myXh5VFtW1U0K0vA1UTVRefWxg6mBnHjTnIQf/JNd
+ aU8Fy3iyx+UFlZmq9apqMTGUYQ==
+X-Google-Smtp-Source: AKy350YM+MOz33eDaFgkCqQllKhNWwkLLpRA7eDwp2QztSKXE3waumiu5Xmot0TK+gNOB5bBXpOv7g==
+X-Received: by 2002:a05:6402:511:b0:504:b606:32e0 with SMTP id
+ m17-20020a056402051100b00504b60632e0mr5042292edv.34.1681460467297; 
+ Fri, 14 Apr 2023 01:21:07 -0700 (PDT)
+Received: from ?IPV6:2a02:810d:15c0:828:8a60:6b0f:105a:eefb?
+ ([2a02:810d:15c0:828:8a60:6b0f:105a:eefb])
  by smtp.gmail.com with ESMTPSA id
- n21-20020a7bcbd5000000b003ede3e54ed7sm3700197wmi.6.2023.04.14.00.59.24
+ vf13-20020a170907238d00b009475bf82935sm2096367ejb.31.2023.04.14.01.21.05
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 14 Apr 2023 00:59:25 -0700 (PDT)
-Message-ID: <c808889e-43e9-3e41-134d-5ce673492047@redhat.com>
-Date: Fri, 14 Apr 2023 09:59:24 +0200
+ Fri, 14 Apr 2023 01:21:06 -0700 (PDT)
+Message-ID: <aaeeb18d-f8e8-d6c1-1272-e5b797554b9e@linaro.org>
+Date: Fri, 14 Apr 2023 10:21:05 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.9.1
-Subject: Re: [RFC PATCH 0/2] drm/mgag200: Use 24bit format in VRAM
-To: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org, 
- airlied@redhat.com, javierm@redhat.com, lyude@redhat.com
-References: <20230412133912.610294-1-jfalempe@redhat.com>
- <3f060f42-3b8e-2296-eeb9-0f774b5ae3b6@suse.de>
-From: Jocelyn Falempe <jfalempe@redhat.com>
-In-Reply-To: <3f060f42-3b8e-2296-eeb9-0f774b5ae3b6@suse.de>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+Subject: Re: [PATCH 01/27] dt-bindings: pwm: Add compatible for MediaTek MT6795
 Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ matthias.bgg@gmail.com
+References: <20230412112739.160376-1-angelogioacchino.delregno@collabora.com>
+ <20230412112739.160376-2-angelogioacchino.delregno@collabora.com>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20230412112739.160376-2-angelogioacchino.delregno@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,74 +79,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ thierry.reding@gmail.com, krzysztof.kozlowski+dt@linaro.org,
+ linux-phy@lists.infradead.org, kernel@collabora.com, xinlei.lee@mediatek.com,
+ kishon@kernel.org, phone-devel@vger.kernel.org, jassisinghbrar@gmail.com,
+ linux-pwm@vger.kernel.org, u.kleine-koenig@pengutronix.de,
+ chunkuang.hu@kernel.org, jitao.shi@mediatek.com, houlong.wei@mediatek.com,
+ chunfeng.yun@mediatek.com, robh+dt@kernel.org,
+ linux-mediatek@lists.infradead.org, ~postmarketos/upstreaming@lists.sr.ht,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ vkoul@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 13/04/2023 21:29, Thomas Zimmermann wrote:
-> Hi
+On 12/04/2023 13:27, AngeloGioacchino Del Regno wrote:
+> Add a compatible string for MediaTek Helio X10 MT6795's display PWM
+> block: this is the same as MT8173.
 > 
-> Am 12.04.23 um 15:39 schrieb Jocelyn Falempe:
->> The bandwidth between system memory and VRAM is very limited
->> on G200.
->> So when using a 32bit framebuffer on system memory, convert it to 24bit
->> when copying the frame to the VRAM, this allows to go 33% faster.
->> Converting the format on the fly is negligible, even on low end CPU.
+> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+> ---
+>  Documentation/devicetree/bindings/pwm/mediatek,pwm-disp.yaml | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
 > 
-> I'm skeptical about this idea. We emulated a number of formats in 
-> simpledrm and got a lot of flames and pushback. The argument was that we 
-> should export the formats that hardware supports and not pretend to 
-> support anything else. The only exception allowed was emulating 
-> XRGB8888, because it's the common ground hat everything in userspace 
-> supports.
-> 
-> I see that this is a bit different from your patches, but not so much. 
-> When userspace wants 32-bit XRGB, it should get it if possible.
+> diff --git a/Documentation/devicetree/bindings/pwm/mediatek,pwm-disp.yaml b/Documentation/devicetree/bindings/pwm/mediatek,pwm-disp.yaml
+> index 0088bc8e7c54..153e146df7d4 100644
+> --- a/Documentation/devicetree/bindings/pwm/mediatek,pwm-disp.yaml
+> +++ b/Documentation/devicetree/bindings/pwm/mediatek,pwm-disp.yaml
+> @@ -22,7 +22,9 @@ properties:
+>            - mediatek,mt8173-disp-pwm
+>            - mediatek,mt8183-disp-pwm
+>        - items:
+> -          - const: mediatek,mt8167-disp-pwm
+> +          - enum:
+> +              - mediatek,mt6795-disp-pwm
+> +              - mediatek,mt8167-disp-pwm
 
-The hardware will drop the 8bit alpha anyway, there is no image quality 
-loss. So I find it better to drop it before sending it to the hardware 
-to save bandwidth. As the mgag200 doesn't expose any other 
-functionality, the userspace can't even read the VRAM back, so it's 
-unlikely to cause issue.
-
-> 
-> I'd rather suggest to set the console to 16 bit and also resort the 
-> formats array. It is supposed to be sorted by preference. RGB565 should 
-> maybe be the top most entry, followed by RGB888. Then you'd have to 
-> teach userspace to respect these settings. I'm not sure if all 
-> compositors do.
-> 
-
-I don't think userspace cares much about very old hardware like this 
-one. I would rather make it work as good as possible with current userspace.
-For example Gnome/Wayland won't work in 16bit or 24bit pixel depth, and 
-it would be much harder to add support in the compositor than this ~36 
-lines patch. Other compositors are probably expecting 32bit hardware too.
-mgag200 is also likely the last hardware from this era that's still 
-alive, so we can't expect userspace to add specific support for it.
-
-
-We can still change the format array order, but I would put 24bit first, 
-as 16 bit is a bit ugly nowadays.
-
-> Best regards
-> Thomas
-> 
->>
->> [PATCH 1/2] drm/mgag200: simplify offset and scale computation.
->> [PATCH 2/2] drm/mgag200: Use 24bit format in VRAM
->>
->> drivers/gpu/drm/mgag200/mgag200_mode.c | 87 
->> ++++++++++++++++++++++++++++++++++++---------------------------------------------------
->>   1 file changed, 36 insertions(+), 51 deletions(-)
->>
->>
->>
-> 
-
+This does not look correct. You do not add compatible, you replace
+breaking all mt8167-disp-pwm. At least it looks like this from context.
 
 Best regards,
-
--- 
-
-Jocelyn
+Krzysztof
 
