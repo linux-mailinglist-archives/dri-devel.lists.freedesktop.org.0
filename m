@@ -1,128 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCFD26E2058
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Apr 2023 12:11:45 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 427DB6E2070
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Apr 2023 12:12:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6C6E910ECAB;
-	Fri, 14 Apr 2023 10:11:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 772FA10ECAF;
+	Fri, 14 Apr 2023 10:12:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM02-DM3-obe.outbound.protection.outlook.com
- (mail-dm3nam02on2087.outbound.protection.outlook.com [40.107.95.87])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 637FC10ECAB;
- Fri, 14 Apr 2023 10:11:41 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Fs+y+HTWW9VX5hAVYkPnp2F0cnredLNL6dI3SbmWy59VU0eaZdKa1zFmRlCm6va3AK0do/GtNzVDxongdtKvGqdH6+nOz6f9MnDJYy4JCOzP1Wx/gEdlH+iNUIFCcYLuyL1mj6n2hpCxO0iE/SjzY+lJuTo8jPBMQJMSNh3NNt/M7AYer2hC5ukE4A/d9LFink1mI4KCDMTri8CZrvPKOWmX/j8ccRtLNlBZgPz7ZySsOsiJWnRtMahwutOLH1oLPS34qXZ5HYQQsKRnWymifrT1rO7RZzR8nzPp8ikaLezsNgZmj/I9FxgO/L+OghZHLcxbTbYoFluIQB9wesx6JA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Wkif7BA7QDG6TWAdI4D/nGaYLJctU71KNiSdyLbs4Qg=;
- b=Gj5aP69juTIbdIINt0uOfmaREbcQIfhj97ZOlSwLCG5jxYJrnV21sP56Cw9+5xY2971Y8I7s+u3hxe6ESLWXhMNpHqcL7v0A5RoLOJa0zVGkaOGm8P+eN9t5WAUkRYolNAbvfhlL+PWNhgc170kVZb0aYcuDxXpfJpmVPMfbCadPE+zL3eTyEiUY20cIOEPbV7PeHdZsDm/sNmb270vVP0MppdXFp6B0LRWnGrbNXhrj6VgoaC1Cqe4gpQWzDJo2HTAcdeKTArsRgh0K32Lk57Hwb30S/OT9nNGzFl5isYY0nZyOd0qYzENZTB1/98bkKUa0MGVLNtmrW/yTn565vA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Wkif7BA7QDG6TWAdI4D/nGaYLJctU71KNiSdyLbs4Qg=;
- b=kpmKxoBB+KAaVtH8nHG8Cm5OGmkN5IrCriZEDVR+PyORn32W8CH190cvNP/j0x+WRkmfqkRWmzXAwHvZhO578bsoXUTL+J/2e3uLXg+qMEWPWD67jPaZdGmkK9U3AEnrt9BzLzuq3tlBMAXd78lmMzf7AhImAhtTluLi0gPc0lI=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
- by MN2PR12MB4109.namprd12.prod.outlook.com (2603:10b6:208:1d9::13)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6298.30; Fri, 14 Apr
- 2023 10:11:39 +0000
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::4624:dc39:943e:6ae]) by BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::4624:dc39:943e:6ae%5]) with mapi id 15.20.6298.030; Fri, 14 Apr 2023
- 10:11:39 +0000
-Message-ID: <8af45b2b-6c53-83e8-6f14-1e3091658e3e@amd.com>
-Date: Fri, 14 Apr 2023 12:11:33 +0200
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 51D6510ECAF;
+ Fri, 14 Apr 2023 10:12:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1681467166; x=1713003166;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=cjLLIMHR+d6qP/BhWUSCR4eoe5tVu5Gp1jVzvOoek7o=;
+ b=mUiLjCuj66cJrCSgIKOtKAze1ydxefIKNTbldvzZ5D5N/9HxpFoPevzo
+ IAvT2g4sSpuk2lSGVqPhPxLYuuiej3GlrJsaWX0CD9jRbCRBlETLmaQnW
+ VgySP4KBFemddJt0wn2kyeP9Uunmgu6OVIJ2iXy7nWTNx5fdpL9nGrodw
+ Q2rGZ8e/RqGLzhHDJhWYxLPza0FqESdkn+nRmzy5rmna8UEahztRRUzEW
+ Bbw6Q+cL2fxOaRHWuljILOMLwioqsJ05lw/o/tedQfWsFTGb+UpeMTBHI
+ TF4dEVpzYPQEWsjxLUCMe5ez1OG+tCYeMdfdF055qb/PbFYF27VX9ubCz A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10679"; a="333202136"
+X-IronPort-AV: E=Sophos;i="5.99,195,1677571200"; d="scan'208";a="333202136"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Apr 2023 03:12:44 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10679"; a="667148528"
+X-IronPort-AV: E=Sophos;i="5.99,195,1677571200"; d="scan'208";a="667148528"
+Received: from sokeeffe-mobl.ger.corp.intel.com (HELO [10.213.222.60])
+ ([10.213.222.60])
+ by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Apr 2023 03:12:40 -0700
+Message-ID: <5278c52a-b69a-ef7b-bbf2-b65bba2bac64@linux.intel.com>
+Date: Fri, 14 Apr 2023 11:12:38 +0100
+MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.9.0
-Subject: Re: [PATCH RESEND v3 2/3] drm/ttm: Reduce the number of used
- allocation orders for TTM pages
+Subject: Re: [PATCH v3 6/7] drm: Add fdinfo memory stats
 Content-Language: en-US
 To: Daniel Vetter <daniel@ffwll.ch>
-References: <20230404200650.11043-1-thomas.hellstrom@linux.intel.com>
- <20230404200650.11043-3-thomas.hellstrom@linux.intel.com>
- <ZDUtqsNtXcU4W3O6@phenom.ffwll.local>
- <33b145f1-fce5-95f1-357d-dda128e3548d@amd.com>
- <ZDVkhtx1/uToLM5R@phenom.ffwll.local>
- <CAKMK7uEZdWjs9snGdNpzBthOWz0YSCZh-rNKOGywLWozzpFwbA@mail.gmail.com>
- <ae672182-f7a4-7107-1071-1561c49bc122@amd.com>
- <CAKMK7uFVWh16ng_tyuTu-0k4k7Wq5LjpwvJgYuidy-YVPEEQ=A@mail.gmail.com>
- <178a7ee4-1406-ff0f-4529-034f600785a9@amd.com>
- <CAKMK7uHgUuqWJuqmZKrxi2mNiqExhmMif-naYnzUSj-puW-x+A@mail.gmail.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-In-Reply-To: <CAKMK7uHgUuqWJuqmZKrxi2mNiqExhmMif-naYnzUSj-puW-x+A@mail.gmail.com>
+References: <20230411225725.2032862-1-robdclark@gmail.com>
+ <20230411225725.2032862-7-robdclark@gmail.com>
+ <29a8d9aa-c6ea-873f-ce0b-fb8199b13068@linux.intel.com>
+ <CAF6AEGsZsMx+Vy+4UQSx3X7w_QNvvjLqWxx=PnCLAOC9f-X2CQ@mail.gmail.com>
+ <ZDb1phnddSne79iN@phenom.ffwll.local>
+ <CAF6AEGvBeDVM12ac0j_PKSdcY83hNDhyrQs9-=h=dx_7AoMXLw@mail.gmail.com>
+ <ZDcEGoSPGr/oRLas@phenom.ffwll.local>
+ <c82fd8fa-9f4b-f62f-83be-25853f9ecf5e@linux.intel.com>
+ <ZDgDQ1PqtXwu8zqA@phenom.ffwll.local>
+ <ad8f2793-c1b3-a505-e93f-6cc52fded86d@linux.intel.com>
+ <ZDhgcqiOtJi6//TS@phenom.ffwll.local>
+ <8893ad56-8807-eb69-2185-b338725f0b18@linux.intel.com>
+ <CAKMK7uE+wxFFezLjZESvO+CyZjc9suptq9V2kC=ra3oB0wtDtA@mail.gmail.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <CAKMK7uE+wxFFezLjZESvO+CyZjc9suptq9V2kC=ra3oB0wtDtA@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR0P281CA0163.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:b3::17) To BN8PR12MB3587.namprd12.prod.outlook.com
- (2603:10b6:408:43::13)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|MN2PR12MB4109:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3e0d000a-21bd-49e8-a000-08db3cd0a2f6
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: LmSPf3a+OkTCqA8XjUqPfCdWuQbgn5p511n0MNfeLMPV+6aPEXF2Bupa1THa5sY14Y8RhBhEf8QN1eZD7j6AflB/RqWjVfwY2L2zZ85yiKxuhgYfavXcu6QOmAl+FT5KdP1Pz+Fk1iTw1CZ97fjx2eSqyuHgYwrf/LJBEQgICrV2YHvva/j3xB17NseLrZzQLa714Bs9Y79yctUmJIsO9MNwbVY734p+bw26ArftiA3iI+If5iXAocKCPJNqmwn93u8gayyP1skDUpeusT4gfx9oYkyohLmKKx/E8Yx5DA8Ho8lvzFxgdpgpIN/yDFMlbR5vSUBBe+zwR5AGGFdSKTICZBkGLpZYfn1leZZ9u5vGai4nmf8BDwhbvGwVeFj8FFCvvcPs5JyGcPm4Om4n9VCM6mV6sRYPLBfCdGuHOmoa7UF8lzpFBe3zN7rPnNXamebMe35J2+AwEsEMMGlR4EJBWgr7aI+DID+vQNnp73ChMHx2sKzEUXvLGdpnPXS4evThtuLnTytrky7kS3dgRoalBdq0w0GE4csZuDkjVNXLXv+Dfyyt49XEZHFBv5+nt6/pl2I4HZAUcbz03eMwevonTxkb7Q4QruBxkrbIUzWI+luGgWV0q126kIb2rfYYqxWSUP/7Wef0pH0CzqPb3g==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230028)(4636009)(396003)(346002)(366004)(376002)(136003)(39860400002)(451199021)(2906002)(31686004)(8676002)(8936002)(5660300002)(478600001)(41300700001)(316002)(66946007)(66476007)(83380400001)(36756003)(66556008)(54906003)(4326008)(6916009)(186003)(966005)(38100700002)(86362001)(6486002)(6506007)(6666004)(6512007)(2616005)(31696002)(66574015)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ZzZLWUkvVWI2c3p1TG9wYmhua012QWNJVzZuUkV0elY4czlpVGdQaTJZNVRQ?=
- =?utf-8?B?bzA5Nnh6Q3R5cW9lN2t4U01KU0VEWm9hU1JXbkV3Y0w1cklkb291UGFqL1Ur?=
- =?utf-8?B?aXlCWFpZOE1oUnpHdldqYVY1MDc4MC9RUWR2RHlySWg1Vmx0b2NJN2dPQTBu?=
- =?utf-8?B?ZHZBNksrdXJVQlZheUJwdlR1QWc2aTRGU2VtQXBWVjFEMFV2UCsvN0V3cWc4?=
- =?utf-8?B?aW56ZjBiTXhCcGtxUzVNd1FzL3RxSWtpcTJjNjd3WFVJU0dEWVJJM1ZpN2du?=
- =?utf-8?B?QmxmcG91OVQ3SnlHZXExeVZpbkVNMURQSjdsZVVUKzNjTUNPajQyNjNGcnpE?=
- =?utf-8?B?TEdhNWNBemlmVXcxMm9oMlFSelZ6VFNVcWEwL1hEd2VvTzduc1R2aDBtNU9W?=
- =?utf-8?B?U0d1Ny9oWUdxSk4xbEtHSEhzK2FlVml1MjIvZW0wOVFML2JZMGpjNXJta1o4?=
- =?utf-8?B?eGlJeWQrQnl4TGczdmJmNE9lckkxWGJsT2Z4dVlaL0tlV05kTks4dTBCR1or?=
- =?utf-8?B?MWVqbTVZVThTSDBSa2hmbGlxWWZ3dDkwa0Rvc2xWWnlZU1drZ09HN084TWhF?=
- =?utf-8?B?TlBQQ2x3a0Nyd2hFSDA4NFNHdGxJWFhXU0MyYUV1ZXV6QXNIeEdmcDBwN3Ja?=
- =?utf-8?B?M0IwYlJzNUFIMkoxeGI5b1hwSHdRQ3FYL2pVM0NpZWFYSFpVM0VzVUpvK0hu?=
- =?utf-8?B?aDlLcjFlV08xZEhNUE1vbnZuVnNMditpMFBqb1FCVFFnVUVoMjNWK2RmZ1JZ?=
- =?utf-8?B?eFp2elVYQWlvcDBHT0VTWmpsZmczREVKYTYwb0g3SFdpZE5LYWUyUFJtQzdO?=
- =?utf-8?B?TFd1cE03RFBDeUVESkRhTHF4VHFRQVU0dDZiYTlxUkhieXlhRDZZZUdnMGtj?=
- =?utf-8?B?bm1Fdld2aUc4UDM4YjB3dmNyZkVtTHhteUF3ZnlBUTFBYVBHVlZJTGtiNU4y?=
- =?utf-8?B?c0p4VDM0aFVBbHh1R1FoeXBxUzJKd3NTWFlQamNHbzMvdXYwWklRazFIVmZn?=
- =?utf-8?B?S0U3Qkp0TVVMamh2Vkg4QU1LaVZ1aGhyU1BzMldEODNTMmM2Qk1CT25HMTlH?=
- =?utf-8?B?VlJmUFVNalhuNGhIN3pvZ29VRTIxbE92YysvVHFhKzREaDhFLzEyeGdaMTJR?=
- =?utf-8?B?N0JNNXFRVWl1VTNLcG1ETEhLY2xJS1NVVXBZbzFUZExzbnExU3pwSlNmZFhv?=
- =?utf-8?B?UERxME93cEpIYkFVdyswVlBaUGwxUTNqdUx6ZTMvaElHaXlqcVhTdGRxKytZ?=
- =?utf-8?B?WGt1eGVJOFd6T2JJeURqSmdHSDhlNlZRQi9wQnZ2VGtQektCZEJ5c3g0Tlpn?=
- =?utf-8?B?bGFKd1c4eGhNd3J5ZEw1Tmk4cGh0UzVOc3ZHL2JXaFhqeTBhNDFwcS92WFNY?=
- =?utf-8?B?L2NPOGVTSlVRMzBjOXUxV3VXbEV2UUNiYU1sNWZBbkFuTC9IU1YzbTRNTlJl?=
- =?utf-8?B?aHI1c0FQRkFLUEx3RG1tQUp1WUg2azE5S3c3MTUwMDNnOXRFQmNlb2xiOXc4?=
- =?utf-8?B?MUF3bmNQNnpubmZ1eWRIbzRxOTBNVTJoQ0FnNXdtOVV6elcvTmcvTURacTdu?=
- =?utf-8?B?MFlybTRMbWJtcXUxWm9PTm1CNjdQQ3lWT1AvTk1LUkRhUHgvNllqeFh2eGFE?=
- =?utf-8?B?Vk9UYjJTc0xiZTFsaTlSams3RmJWbVVHNGs5YkV1VDdTaVRKcTdOZ0JzbTFj?=
- =?utf-8?B?M24xYWlvWGxBb01jZGpyUFZUcTBVRGE1dHFxQ0tWcnk3TkNZdUpxVFIyVjdL?=
- =?utf-8?B?aGMzVVFNY211ZVl0RFJzeWJQZDlnVjlOM2FvbzZwZUY2Q1ZwaWVsblZ3bEdK?=
- =?utf-8?B?cndjQ3RPd3Zyb3BmT1JDaERWQmxmdFd5M2NIUG1UcE1wRlpmRkZ6MG5xcitT?=
- =?utf-8?B?OXZua0F4MzUxNWIvZ0dQRUtBeGFWUFFlUHBNNS9YaW5sWEJiUW9qRnpoOFBx?=
- =?utf-8?B?RUZwaUhyc0N6NjNDa1dNRUR3NHVMc0ZBR1NUa1ZtL25kbkdCZHBWRTBPVHd0?=
- =?utf-8?B?ZGJ0U1VLWFBmSjQ4S3JadkQ3YjJyeDFkY0NDYjdmS3BYbXpaOVllK3FvL0dq?=
- =?utf-8?B?NEtGMFFWMnN2OXNSMUl2K0NBQjl4TW5qUks3WDZmS2lXcmZtMzdKV1ZsRVdt?=
- =?utf-8?B?SGF1cFJ6SjVHdmV3YkY3TFRicUhCZzg4dGhaeWFiWWNHL1R0cUE4UnNndzRH?=
- =?utf-8?Q?8GmuX0on2hjiphLgupLpXCmIo23mRznqYlmqmYulr4qz?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3e0d000a-21bd-49e8-a000-08db3cd0a2f6
-X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Apr 2023 10:11:39.0067 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 1FuiyV9wm8fJFYudt9drr9VhZqEvmzaWlGiArPAu2YKhmDBSxjJ0PGZJZxOYITsy
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4109
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -135,184 +74,311 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
- intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Matthew Auld <matthew.auld@intel.com>
+Cc: Rob Clark <robdclark@chromium.org>, Jonathan Corbet <corbet@lwn.net>,
+ linux-arm-msm@vger.kernel.org,
+ "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+ Emil Velikov <emil.l.velikov@gmail.com>,
+ Christopher Healy <healych@amazon.com>, dri-devel@lists.freedesktop.org,
+ open list <linux-kernel@vger.kernel.org>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 13.04.23 um 15:13 schrieb Daniel Vetter:
-> On Thu, 13 Apr 2023 at 11:46, Christian König <christian.koenig@amd.com> wrote:
->> Am 13.04.23 um 10:48 schrieb Daniel Vetter:
->>> On Wed, 12 Apr 2023 at 16:18, Christian König <christian.koenig@amd.com> wrote:
->>>> Am 12.04.23 um 11:08 schrieb Daniel Vetter:
->>>>> On Tue, 11 Apr 2023 at 15:45, Daniel Vetter <daniel@ffwll.ch> wrote:
->>>>>> On Tue, Apr 11, 2023 at 02:11:18PM +0200, Christian König wrote:
->>>>>>> Am 11.04.23 um 11:51 schrieb Daniel Vetter:
->>>>>>>> On Tue, Apr 04, 2023 at 10:06:49PM +0200, Thomas Hellström wrote:
->>>>>>>>> When swapping out, we will split multi-order pages both in order to
->>>>>>>>> move them to the swap-cache and to be able to return memory to the
->>>>>>>>> swap cache as soon as possible on a page-by-page basis.
->>>>>>>>> Reduce the page max order to the system PMD size, as we can then be nicer
->>>>>>>>> to the system and avoid splitting gigantic pages.
->>>>>>>>>
->>>>>>>>> Looking forward to when we might be able to swap out PMD size folios
->>>>>>>>> without splitting, this will also be a benefit.
->>>>>>>>>
->>>>>>>>> v2:
->>>>>>>>> - Include all orders up to the PMD size (Christian König)
->>>>>>>>> v3:
->>>>>>>>> - Avoid compilation errors for architectures with special PFN_SHIFTs
->>>>>>>>>
->>>>>>>>> Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
->>>>>>>>> Reviewed-by: Christian König <christian.koenig@amd.com>
->>>>>>>> Apparently this fails on ppc build testing. Please supply build fix asap
->>>>>>>> (or I guess we need to revert). I'm kinda not clear why this only showed
->>>>>>>> up when I merged the drm-misc-next pr into drm-next ...
->>>>>>> I'm really wondering this as well. It looks like PMD_SHIFT isn't a constant
->>>>>>> on this particular platform.
->>>>>>>
->>>>>>> But from what I can find in the upstream 6.2 kernel PMD_SHIFT always seems
->>>>>>> to be a constant.
->>>>>>>
->>>>>>> So how exactly can that here break?
->>>>>> There's some in-flight patches to rework MAX_ORDER and other things in
->>>>>> linux-next, maybe it's recent? If you check out linux-next then you need
->>>>>> to reapply the patch (since sfr reverted it).
->>>>> So I looked and on ppc64 PMD_SHIFT is defined in terms of
->>>>> PTE_INDEX_SIZE, which is defined (for book3s) in terms of the variable
->>>>> __pte_index_size. This is in 6.3 already and seems pretty old.
->>>> Ah! I missed that one, thanks.
+
+On 14/04/2023 10:07, Daniel Vetter wrote:
+> On Fri, 14 Apr 2023 at 10:57, Tvrtko Ursulin
+> <tvrtko.ursulin@linux.intel.com> wrote:
+>> On 13/04/2023 21:05, Daniel Vetter wrote:
+>>> On Thu, Apr 13, 2023 at 05:40:21PM +0100, Tvrtko Ursulin wrote:
 >>>>
->>>>> So revert? Or fixup patch to make this work on ppc?
->>>> I think for now just revert or change it so that we check if PMD_SHIFT
->>>> is a constant.
+>>>> On 13/04/2023 14:27, Daniel Vetter wrote:
+>>>>> On Thu, Apr 13, 2023 at 01:58:34PM +0100, Tvrtko Ursulin wrote:
+>>>>>>
+>>>>>> On 12/04/2023 20:18, Daniel Vetter wrote:
+>>>>>>> On Wed, Apr 12, 2023 at 11:42:07AM -0700, Rob Clark wrote:
+>>>>>>>> On Wed, Apr 12, 2023 at 11:17 AM Daniel Vetter <daniel@ffwll.ch> wrote:
+>>>>>>>>>
+>>>>>>>>> On Wed, Apr 12, 2023 at 10:59:54AM -0700, Rob Clark wrote:
+>>>>>>>>>> On Wed, Apr 12, 2023 at 7:42 AM Tvrtko Ursulin
+>>>>>>>>>> <tvrtko.ursulin@linux.intel.com> wrote:
+>>>>>>>>>>>
+>>>>>>>>>>>
+>>>>>>>>>>> On 11/04/2023 23:56, Rob Clark wrote:
+>>>>>>>>>>>> From: Rob Clark <robdclark@chromium.org>
+>>>>>>>>>>>>
+>>>>>>>>>>>> Add support to dump GEM stats to fdinfo.
+>>>>>>>>>>>>
+>>>>>>>>>>>> v2: Fix typos, change size units to match docs, use div_u64
+>>>>>>>>>>>> v3: Do it in core
+>>>>>>>>>>>>
+>>>>>>>>>>>> Signed-off-by: Rob Clark <robdclark@chromium.org>
+>>>>>>>>>>>> Reviewed-by: Emil Velikov <emil.l.velikov@gmail.com>
+>>>>>>>>>>>> ---
+>>>>>>>>>>>>       Documentation/gpu/drm-usage-stats.rst | 21 ++++++++
+>>>>>>>>>>>>       drivers/gpu/drm/drm_file.c            | 76 +++++++++++++++++++++++++++
+>>>>>>>>>>>>       include/drm/drm_file.h                |  1 +
+>>>>>>>>>>>>       include/drm/drm_gem.h                 | 19 +++++++
+>>>>>>>>>>>>       4 files changed, 117 insertions(+)
+>>>>>>>>>>>>
+>>>>>>>>>>>> diff --git a/Documentation/gpu/drm-usage-stats.rst b/Documentation/gpu/drm-usage-stats.rst
+>>>>>>>>>>>> index b46327356e80..b5e7802532ed 100644
+>>>>>>>>>>>> --- a/Documentation/gpu/drm-usage-stats.rst
+>>>>>>>>>>>> +++ b/Documentation/gpu/drm-usage-stats.rst
+>>>>>>>>>>>> @@ -105,6 +105,27 @@ object belong to this client, in the respective memory region.
+>>>>>>>>>>>>       Default unit shall be bytes with optional unit specifiers of 'KiB' or 'MiB'
+>>>>>>>>>>>>       indicating kibi- or mebi-bytes.
+>>>>>>>>>>>>
+>>>>>>>>>>>> +- drm-shared-memory: <uint> [KiB|MiB]
+>>>>>>>>>>>> +
+>>>>>>>>>>>> +The total size of buffers that are shared with another file (ie. have more
+>>>>>>>>>>>> +than a single handle).
+>>>>>>>>>>>> +
+>>>>>>>>>>>> +- drm-private-memory: <uint> [KiB|MiB]
+>>>>>>>>>>>> +
+>>>>>>>>>>>> +The total size of buffers that are not shared with another file.
+>>>>>>>>>>>> +
+>>>>>>>>>>>> +- drm-resident-memory: <uint> [KiB|MiB]
+>>>>>>>>>>>> +
+>>>>>>>>>>>> +The total size of buffers that are resident in system memory.
+>>>>>>>>>>>
+>>>>>>>>>>> I think this naming maybe does not work best with the existing
+>>>>>>>>>>> drm-memory-<region> keys.
+>>>>>>>>>>
+>>>>>>>>>> Actually, it was very deliberate not to conflict with the existing
+>>>>>>>>>> drm-memory-<region> keys ;-)
+>>>>>>>>>>
+>>>>>>>>>> I wouldn't have preferred drm-memory-{active,resident,...} but it
+>>>>>>>>>> could be mis-parsed by existing userspace so my hands were a bit tied.
+>>>>>>>>>>
+>>>>>>>>>>> How about introduce the concept of a memory region from the start and
+>>>>>>>>>>> use naming similar like we do for engines?
+>>>>>>>>>>>
+>>>>>>>>>>> drm-memory-$CATEGORY-$REGION: ...
+>>>>>>>>>>>
+>>>>>>>>>>> Then we document a bunch of categories and their semantics, for instance:
+>>>>>>>>>>>
+>>>>>>>>>>> 'size' - All reachable objects
+>>>>>>>>>>> 'shared' - Subset of 'size' with handle_count > 1
+>>>>>>>>>>> 'resident' - Objects with backing store
+>>>>>>>>>>> 'active' - Objects in use, subset of resident
+>>>>>>>>>>> 'purgeable' - Or inactive? Subset of resident.
+>>>>>>>>>>>
+>>>>>>>>>>> We keep the same semantics as with process memory accounting (if I got
+>>>>>>>>>>> it right) which could be desirable for a simplified mental model.
+>>>>>>>>>>>
+>>>>>>>>>>> (AMD needs to remind me of their 'drm-memory-...' keys semantics. If we
+>>>>>>>>>>> correctly captured this in the first round it should be equivalent to
+>>>>>>>>>>> 'resident' above. In any case we can document no category is equal to
+>>>>>>>>>>> which category, and at most one of the two must be output.)
+>>>>>>>>>>>
+>>>>>>>>>>> Region names we at most partially standardize. Like we could say
+>>>>>>>>>>> 'system' is to be used where backing store is system RAM and others are
+>>>>>>>>>>> driver defined.
+>>>>>>>>>>>
+>>>>>>>>>>> Then discrete GPUs could emit N sets of key-values, one for each memory
+>>>>>>>>>>> region they support.
+>>>>>>>>>>>
+>>>>>>>>>>> I think this all also works for objects which can be migrated between
+>>>>>>>>>>> memory regions. 'Size' accounts them against all regions while for
+>>>>>>>>>>> 'resident' they only appear in the region of their current placement, etc.
+>>>>>>>>>>
+>>>>>>>>>> I'm not too sure how to rectify different memory regions with this,
+>>>>>>>>>> since drm core doesn't really know about the driver's memory regions.
+>>>>>>>>>> Perhaps we can go back to this being a helper and drivers with vram
+>>>>>>>>>> just don't use the helper?  Or??
+>>>>>>>>>
+>>>>>>>>> I think if you flip it around to drm-$CATEGORY-memory{-$REGION}: then it
+>>>>>>>>> all works out reasonably consistently?
+>>>>>>>>
+>>>>>>>> That is basically what we have now.  I could append -system to each to
+>>>>>>>> make things easier to add vram/etc (from a uabi standpoint)..
+>>>>>>>
+>>>>>>> What you have isn't really -system, but everything. So doesn't really make
+>>>>>>> sense to me to mark this -system, it's only really true for integrated (if
+>>>>>>> they don't have stolen or something like that).
+>>>>>>>
+>>>>>>> Also my comment was more in reply to Tvrtko's suggestion.
+>>>>>>
+>>>>>> Right so my proposal was drm-memory-$CATEGORY-$REGION which I think aligns
+>>>>>> with the current drm-memory-$REGION by extending, rather than creating
+>>>>>> confusion with different order of key name components.
+>>>>>
+>>>>> Oh my comment was pretty much just bikeshed, in case someone creates a
+>>>>> $REGION that other drivers use for $CATEGORY. Kinda Rob's parsing point.
+>>>>> So $CATEGORY before the -memory.
+>>>>>
+>>>>> Otoh I don't think that'll happen, so I guess we can go with whatever more
+>>>>> folks like :-) I don't really care much personally.
 >>>>
->>>> Thomas do you have any quick solution?
->>> I guess Thomas is on vacations. Can you pls do the revert and push it
->>> to drm-misc-next-fixes so this won't get lost?
->> The offending patch hasn't showed up in drm-misc-next-fixes nor
->> drm-misc-fixes yet. Looks like the branches are lacking behind.
+>>>> Okay I missed the parsing problem.
+>>>>
+>>>>>> AMD currently has (among others) drm-memory-vram, which we could define in
+>>>>>> the spec maps to category X, if category component is not present.
+>>>>>>
+>>>>>> Some examples:
+>>>>>>
+>>>>>> drm-memory-resident-system:
+>>>>>> drm-memory-size-lmem0:
+>>>>>> drm-memory-active-vram:
+>>>>>>
+>>>>>> Etc.. I think it creates a consistent story.
+>>>>>>
+>>>>>> Other than this, my two I think significant opens which haven't been
+>>>>>> addressed yet are:
+>>>>>>
+>>>>>> 1)
+>>>>>>
+>>>>>> Why do we want totals (not per region) when userspace can trivially
+>>>>>> aggregate if they want. What is the use case?
+>>>>>>
+>>>>>> 2)
+>>>>>>
+>>>>>> Current proposal limits the value to whole objects and fixates that by
+>>>>>> having it in the common code. If/when some driver is able to support sub-BO
+>>>>>> granularity they will need to opt out of the common printer at which point
+>>>>>> it may be less churn to start with a helper rather than mid-layer. Or maybe
+>>>>>> some drivers already support this, I don't know. Given how important VM BIND
+>>>>>> is I wouldn't be surprised.
+>>>>>
+>>>>> I feel like for drivers using ttm we want a ttm helper which takes care of
+>>>>> the region printing in hopefully a standard way. And that could then also
+>>>>> take care of all kinds of of partial binding and funny rules (like maybe
+>>>>> we want a standard vram region that addds up all the lmem regions on
+>>>>> intel, so that all dgpu have a common vram bucket that generic tools
+>>>>> understand?).
+>>>>
+>>>> First part yes, but for the second I would think we want to avoid any
+>>>> aggregation in the kernel which can be done in userspace just as well. Such
+>>>> total vram bucket would be pretty useless on Intel even since userspace
+>>>> needs to be region aware to make use of all resources. It could even be
+>>>> counter productive I think - "why am I getting out of memory when half of my
+>>>> vram is unused!?".
+>>>
+>>> This is not for intel-aware userspace. This is for fairly generic "gputop"
+>>> style userspace, which might simply have no clue or interest in what lmemX
+>>> means, but would understand vram.
+>>>
+>>> Aggregating makes sense.
 >>
->> I can revert it on drm-misc-next, but I', not 100% sure that will then
->> get picked up in time.
-> It's there now, Maarten forwarded drm-misc-next-fixes this morning.
-> That's why I pinged here again, trees are ready to land the revert :-)
+>> Lmem vs vram is now an argument not about aggregation but about
+>> standardizing regions names.
+>>
+>> One detail also is a change in philosophy compared to engine stats where
+>> engine names are not centrally prescribed and it was expected userspace
+>> will have to handle things generically and with some vendor specific
+>> knowledge.
+>>
+>> Like in my gputop patches. It doesn't need to understand what is what,
+>> it just finds what's there and presents it to the user.
+>>
+>> Come some accel driver with local memory it wouldn't be vram any more.
+>> Or even a headless data center GPU. So I really don't think it is good
+>> to hardcode 'vram' in the spec, or midlayer, or helpers.
+>>
+>> And for aggregation.. again, userspace can do it just as well. If we do
+>> it in kernel then immediately we have multiple sets of keys to output
+>> for any driver which wants to show the region view. IMO it is just
+>> pointless work in the kernel and more code in the kernel, when userspace
+>> can do it.
+>>
+>> Proposal A (one a discrete gpu, one category only):
+>>
+>> drm-resident-memory: x KiB
+>> drm-resident-memory-system: x KiB
+>> drm-resident-memory-vram: x KiB
+>>
+>> Two loops in the kernel, more parsing in userspace.
+>>
+>> Proposal B:
+>>
+>> drm-resident-memory-system: x KiB
+>> drm-resident-memory-vram: x KiB
+>>
+>> Can be one loop, one helper, less text for userspace to parse and it can
+>> still trivially show the total if so desired.
+>>
+>> For instance a helper (or two) with a common struct containing region
+>> names and totals, where a callback into the driver tallies under each
+>> region, as the drm helper is walking objects.
+> 
+> The difference is that Rob's patches exist, and consistently roll this
+> out across all drm drivers.
+> > You're patches don't exist, and encourage further fragmentation. And
+> my take here is that "the good enough, and real" wins above "perfect,
+> but maybe in a few years and inconsitently across drivers".
 
-Just pushed it.
+There is fragmentation in this series already since two categories 
+depend on drivers implementing them. Resident is even IMO one of the 
+more interesting ones.
 
-Christian.
+> No one is stopping you from writing a ton of patches to get towards
+> the perfect state, and we still want to get there. But I don't see the
+> point in rejecting the good enough for now for that.
 
+I argued a few times already on what I see as problems and discussed 
+pros and cons, but I can write patches too.
+
+Regards,
+
+Tvrtko
+
+> It's kinda the same idea with scheduler stats, but the other way
+> round: Sure it'd have been great if we could have this consistently
+> across all drivers, but right now the scheduler situation just isn't
+> there to support that. I'm pushing a bit, but it's definitely years
+> away. So the pragmatic option there was to just roll things out
+> driver-by-driver, to get things going. It's not perfect at all, and it
+> would have been easy to nuke that entire fdinfo effort on those
+> grounds.
+> 
+> If you want maybe a todo.rst entry to cover this discussion and make
+> sure we do record the rough consensus of where we eventually want to
+> end up at?
+> 
+>>>>> It does mean we walk the bo list twice, but *shrug*. People have been
+>>>>> complaining about procutils for decades, they're still horrible, I think
+>>>>> walking bo lists twice internally in the ttm case is going to be ok. If
+>>>>> not, it's internals, we can change them again.
+>>>>>
+>>>>> Also I'd lean a lot more towards making ttm a helper and not putting that
+>>>>> into core, exactly because it's pretty clear we'll need more flexibility
+>>>>> when it comes to accurate stats for multi-region drivers.
+>>>>
+>>>> Exactly.
+>>>>
+>>>>> But for a first "how much gpu space does this app use" across everything I
+>>>>> think this is a good enough starting point.
+>>>>
+>>>> Okay so we agree this would be better as a helper and not in the core.
+>>>
+>>> Nope, if you mean with this = Rob's patch. I was talking about a
+>>> hypothetical region-aware extension for ttm-using drivers.
+>>>
+>>>> On the point are keys/semantics good enough as a starting point I am still
+>>>> not convinced kernel should aggregate and that instead we should start from
+>>>> day one by appending -system (or something) to Rob's proposed keys.
+>>>
+>>> It should imo. Inflicting driver knowledge on generic userspace makes not
+>>> much sense, we should start with the more generally useful stuff imo.
+>>> That's why there's the drm fdinfo spec and all that so it's not a
+>>> free-for-all.
+>>>
+>>> Also Rob's stuff is _not_ system. Check on a i915 dgpu if you want :-)
+>>
+>> I am well aware it adds up everything, that is beside the point.
+>>
+>> Drm-usage-stats.rst text needs to be more precise across all keys at least:
+>>
+>> +- drm-resident-memory: <uint> [KiB|MiB]
+>> +
+>> +The total size of buffers that are resident in system memory.
+>>
+>> But as said, I don't see the point in providing aggregated values.
+> 
+> The choice isn't between aggregated values and split values.
+> 
+> The choice is between no values (for most drivers) and split values on
+> some drivers, vs aggregated values for everyone (and still split
+> values for some).
 > -Daniel
->
->> Christian.
->>
->>> Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
->>>
->>> preemptively for that. Normally I think we could wait a bit more but
->>> it's really close to merge window PR and I don't like handing too many
->>> open things to Dave when he's back :-)
->>> -Daniel
->>>
->>>> Christian.
->>>>
->>>>>>>>> ---
->>>>>>>>>      drivers/gpu/drm/ttm/ttm_pool.c | 30 +++++++++++++++++++-----------
->>>>>>>>>      1 file changed, 19 insertions(+), 11 deletions(-)
->>>>>>>>>
->>>>>>>>> diff --git a/drivers/gpu/drm/ttm/ttm_pool.c b/drivers/gpu/drm/ttm/ttm_pool.c
->>>>>>>>> index dfce896c4bae..18c342a919a2 100644
->>>>>>>>> --- a/drivers/gpu/drm/ttm/ttm_pool.c
->>>>>>>>> +++ b/drivers/gpu/drm/ttm/ttm_pool.c
->>>>>>>>> @@ -47,6 +47,11 @@
->>>>>>>>>      #include "ttm_module.h"
->>>>>>>>> +#define TTM_MAX_ORDER (PMD_SHIFT - PAGE_SHIFT)
->>>>>>>>> +#define __TTM_DIM_ORDER (TTM_MAX_ORDER + 1)
->>>>>>>>> +/* Some architectures have a weird PMD_SHIFT */
->>>>>>>>> +#define TTM_DIM_ORDER (__TTM_DIM_ORDER <= MAX_ORDER ? __TTM_DIM_ORDER : MAX_ORDER)
->>>>>>>>> +
->>>>>>>>>      /**
->>>>>>>>>       * struct ttm_pool_dma - Helper object for coherent DMA mappings
->>>>>>>>>       *
->>>>>>>>> @@ -65,11 +70,11 @@ module_param(page_pool_size, ulong, 0644);
->>>>>>>>>      static atomic_long_t allocated_pages;
->>>>>>>>> -static struct ttm_pool_type global_write_combined[MAX_ORDER];
->>>>>>>>> -static struct ttm_pool_type global_uncached[MAX_ORDER];
->>>>>>>>> +static struct ttm_pool_type global_write_combined[TTM_DIM_ORDER];
->>>>>>>>> +static struct ttm_pool_type global_uncached[TTM_DIM_ORDER];
->>>>>>>>> -static struct ttm_pool_type global_dma32_write_combined[MAX_ORDER];
->>>>>>>>> -static struct ttm_pool_type global_dma32_uncached[MAX_ORDER];
->>>>>>>>> +static struct ttm_pool_type global_dma32_write_combined[TTM_DIM_ORDER];
->>>>>>>>> +static struct ttm_pool_type global_dma32_uncached[TTM_DIM_ORDER];
->>>>>>>>>      static spinlock_t shrinker_lock;
->>>>>>>>>      static struct list_head shrinker_list;
->>>>>>>>> @@ -444,7 +449,7 @@ int ttm_pool_alloc(struct ttm_pool *pool, struct ttm_tt *tt,
->>>>>>>>>              else
->>>>>>>>>                      gfp_flags |= GFP_HIGHUSER;
->>>>>>>>> - for (order = min_t(unsigned int, MAX_ORDER - 1, __fls(num_pages));
->>>>>>>>> + for (order = min_t(unsigned int, TTM_MAX_ORDER, __fls(num_pages));
->>>>>>>>>                   num_pages;
->>>>>>>>>                   order = min_t(unsigned int, order, __fls(num_pages))) {
->>>>>>>>>                      struct ttm_pool_type *pt;
->>>>>>>>> @@ -563,7 +568,7 @@ void ttm_pool_init(struct ttm_pool *pool, struct device *dev,
->>>>>>>>>              if (use_dma_alloc) {
->>>>>>>>>                      for (i = 0; i < TTM_NUM_CACHING_TYPES; ++i)
->>>>>>>>> -                 for (j = 0; j < MAX_ORDER; ++j)
->>>>>>>>> +                 for (j = 0; j < TTM_DIM_ORDER; ++j)
->>>>>>>>>                                      ttm_pool_type_init(&pool->caching[i].orders[j],
->>>>>>>>>                                                         pool, i, j);
->>>>>>>>>              }
->>>>>>>>> @@ -583,7 +588,7 @@ void ttm_pool_fini(struct ttm_pool *pool)
->>>>>>>>>              if (pool->use_dma_alloc) {
->>>>>>>>>                      for (i = 0; i < TTM_NUM_CACHING_TYPES; ++i)
->>>>>>>>> -                 for (j = 0; j < MAX_ORDER; ++j)
->>>>>>>>> +                 for (j = 0; j < TTM_DIM_ORDER; ++j)
->>>>>>>>>                                      ttm_pool_type_fini(&pool->caching[i].orders[j]);
->>>>>>>>>              }
->>>>>>>>> @@ -637,7 +642,7 @@ static void ttm_pool_debugfs_header(struct seq_file *m)
->>>>>>>>>              unsigned int i;
->>>>>>>>>              seq_puts(m, "\t ");
->>>>>>>>> - for (i = 0; i < MAX_ORDER; ++i)
->>>>>>>>> + for (i = 0; i < TTM_DIM_ORDER; ++i)
->>>>>>>>>                      seq_printf(m, " ---%2u---", i);
->>>>>>>>>              seq_puts(m, "\n");
->>>>>>>>>      }
->>>>>>>>> @@ -648,7 +653,7 @@ static void ttm_pool_debugfs_orders(struct ttm_pool_type *pt,
->>>>>>>>>      {
->>>>>>>>>              unsigned int i;
->>>>>>>>> - for (i = 0; i < MAX_ORDER; ++i)
->>>>>>>>> + for (i = 0; i < TTM_DIM_ORDER; ++i)
->>>>>>>>>                      seq_printf(m, " %8u", ttm_pool_type_count(&pt[i]));
->>>>>>>>>              seq_puts(m, "\n");
->>>>>>>>>      }
->>>>>>>>> @@ -751,13 +756,16 @@ int ttm_pool_mgr_init(unsigned long num_pages)
->>>>>>>>>      {
->>>>>>>>>              unsigned int i;
->>>>>>>>> + BUILD_BUG_ON(TTM_DIM_ORDER > MAX_ORDER);
->>>>>>>>> + BUILD_BUG_ON(TTM_DIM_ORDER < 1);
->>>>>>>>> +
->>>>>>>>>              if (!page_pool_size)
->>>>>>>>>                      page_pool_size = num_pages;
->>>>>>>>>              spin_lock_init(&shrinker_lock);
->>>>>>>>>              INIT_LIST_HEAD(&shrinker_list);
->>>>>>>>> - for (i = 0; i < MAX_ORDER; ++i) {
->>>>>>>>> + for (i = 0; i < TTM_DIM_ORDER; ++i) {
->>>>>>>>>                      ttm_pool_type_init(&global_write_combined[i], NULL,
->>>>>>>>>                                         ttm_write_combined, i);
->>>>>>>>>                      ttm_pool_type_init(&global_uncached[i], NULL, ttm_uncached, i);
->>>>>>>>> @@ -790,7 +798,7 @@ void ttm_pool_mgr_fini(void)
->>>>>>>>>      {
->>>>>>>>>              unsigned int i;
->>>>>>>>> - for (i = 0; i < MAX_ORDER; ++i) {
->>>>>>>>> + for (i = 0; i < TTM_DIM_ORDER; ++i) {
->>>>>>>>>                      ttm_pool_type_fini(&global_write_combined[i]);
->>>>>>>>>                      ttm_pool_type_fini(&global_uncached[i]);
->>>>>>>>> --
->>>>>>>>> 2.39.2
->>>>>>>>>
->>>>>> --
->>>>>> Daniel Vetter
->>>>>> Software Engineer, Intel Corporation
->>>>>> http://blog.ffwll.ch
->
-
