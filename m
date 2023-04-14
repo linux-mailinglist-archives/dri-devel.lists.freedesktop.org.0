@@ -1,73 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B8066E2AD5
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Apr 2023 21:58:05 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B7B876E2B08
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Apr 2023 22:19:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5170610E1F9;
-	Fri, 14 Apr 2023 19:58:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 173F010E07D;
+	Fri, 14 Apr 2023 20:19:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 41A0210E1F9
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Apr 2023 19:57:57 +0000 (UTC)
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 33EJdXuc021989; Fri, 14 Apr 2023 19:57:54 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding : content-type; s=qcppdkim1;
- bh=Vrcfvt9x8T5MFxz8wXlheMih/OgiUoUTTitEpMWhXKY=;
- b=biWphi4/JTjtILopmOLuqkwCIG6H1f2K/OJ5rO5KGpCKlB544xenh3LTBNObCHqlEO7h
- YhuIijSmU3KrIL+I2nMy84x01ZZfhCmJEbN+37J5ioox/gGttyeDcQGAoU+OTvb2Thet
- xmKwL+cyFENHejXL+vFxq9GsV8k6z7wE+oQC32NLSPpbxlHYcLH6IEM5Pu9ObxNPWnOH
- TdT4V2g4Mlwwb8kAGSiW4sbsLZEsv6vPRdCv3mDitGzJWN3MnMVGwxB4MzRVtc7kuDsh
- XcbNx4gV0/EA0CT6OrCT03AEzgUMAoGOuXhESiWT7ny4ZZNsVUzYmYF5hS9+aVhZj08G qg== 
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3py1wphkwe-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 14 Apr 2023 19:57:54 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 33EJvrxT018035
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 14 Apr 2023 19:57:53 GMT
-Received: from jhugo-lnx.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.42; Fri, 14 Apr 2023 12:57:52 -0700
-From: Jeffrey Hugo <quic_jhugo@quicinc.com>
-To: <mani@kernel.org>
-Subject: [PATCH 2/2] accel/qaic: Add MHI_QUIRK_SOC_HW_VERSION_UNRELIABLE
-Date: Fri, 14 Apr 2023 13:57:19 -0600
-Message-ID: <1681502239-3781-3-git-send-email-quic_jhugo@quicinc.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1681502239-3781-1-git-send-email-quic_jhugo@quicinc.com>
-References: <1681502239-3781-1-git-send-email-quic_jhugo@quicinc.com>
+Received: from lelv0143.ext.ti.com (lelv0143.ext.ti.com [198.47.23.248])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F2B8F10E07D
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Apr 2023 20:19:03 +0000 (UTC)
+Received: from lelv0266.itg.ti.com ([10.180.67.225])
+ by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 33EKIkUR043962;
+ Fri, 14 Apr 2023 15:18:46 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1681503526;
+ bh=Vbae2Nv7iwcRu96DHdOxbgWWOqcB731BT5ByRxue5tE=;
+ h=Date:Subject:To:CC:References:From:In-Reply-To;
+ b=YVhyY5R2EQwpV8RY3SmiI3ntB/zDD0Ig3Rd+PPV8eVF1Vam0OPj6wrTEQKL4Th3ok
+ 7vBUu4Gm/H5fSjfNDDGOmu6vMuN2UXf48du29QDMdcg+GUS5/cDu4YFhLdOmct5dyr
+ pS/fB3vGQcpa2F714buUSyr94lV7fALVPff5/r0A=
+Received: from DFLE104.ent.ti.com (dfle104.ent.ti.com [10.64.6.25])
+ by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 33EKIk6s011112
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Fri, 14 Apr 2023 15:18:46 -0500
+Received: from DFLE110.ent.ti.com (10.64.6.31) by DFLE104.ent.ti.com
+ (10.64.6.25) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.16; Fri, 14
+ Apr 2023 15:18:45 -0500
+Received: from lelv0326.itg.ti.com (10.180.67.84) by DFLE110.ent.ti.com
+ (10.64.6.31) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.16 via
+ Frontend Transport; Fri, 14 Apr 2023 15:18:45 -0500
+Received: from [10.249.133.231] (ileaxei01-snat.itg.ti.com [10.180.69.5])
+ by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 33EKIfwG029055;
+ Fri, 14 Apr 2023 15:18:42 -0500
+Message-ID: <bb301737-ce04-aaac-5603-4ac890f27873@ti.com>
+Date: Sat, 15 Apr 2023 01:48:41 +0530
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.1
+Subject: Re: [PATCH v4 5/7] drm/tidss: Set bus_format correctly from
+ bridge/connector
+Content-Language: en-US
+To: Francesco Dolcini <francesco@dolcini.it>
+References: <20201201121830.29704-1-nikhil.nd@ti.com>
+ <20201201121830.29704-6-nikhil.nd@ti.com>
+ <20201204115030.04509092@collabora.com>
+ <ZCXENFdTY6g2rb0i@francesco-nb.int.toradex.com>
+ <655cfc4b-a414-47e1-f676-b11e410da32f@ti.com>
+ <ZDkPHo83drEOHsAN@francesco-nb.int.toradex.com>
+From: Aradhya Bhatia <a-bhatia1@ti.com>
+In-Reply-To: <ZDkPHo83drEOHsAN@francesco-nb.int.toradex.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: DWiybZF9ExOTxQE6FjklzwxBfywXBoXB
-X-Proofpoint-ORIG-GUID: DWiybZF9ExOTxQE6FjklzwxBfywXBoXB
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-04-14_12,2023-04-14_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 suspectscore=0
- adultscore=0 priorityscore=1501 mlxscore=0 phishscore=0 impostorscore=0
- mlxlogscore=999 malwarescore=0 lowpriorityscore=0 clxscore=1015
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2303200000 definitions=main-2304140177
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,37 +69,74 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jeffrey Hugo <quic_jhugo@quicinc.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, mhi@lists.linux.dev
+Cc: Nishanth Menon <nm@ti.com>, Jayesh Choudhary <j-choudhary@ti.com>,
+ Vignesh Raghavendra <vigneshr@ti.com>, Yuti Amonkar <yamonkar@cadence.com>,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, Sekhar Nori <nsekhar@ti.com>,
+ dri-devel@lists.freedesktop.org,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Swapnil Jakhade <sjakhade@cadence.com>, Devarsh Thakkar <devarsht@ti.com>,
+ Rahul T R <r-ravikumar@ti.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-AIC100 does not initialize the SOC_HW_VERSION MHI register as expected.
-Some instances of AIC100 are observed to have 0xFFFFFFFF in this register
-which makes the controller think that the link is down and return an error
-up to MHI. This results in a failed initialization.
+Hi Francesco,
 
-Allow these cards to initialize by advertisting
-MHI_QUIRK_SOC_HW_VERSION_UNRELIABLE in the MHI controller.
+On 14-Apr-23 14:00, Francesco Dolcini wrote:
+> Hello Aradhya,
+> 
+> On Fri, Apr 14, 2023 at 01:19:38PM +0530, Aradhya Bhatia wrote:
+>> On 30-Mar-23 22:47, Francesco Dolcini wrote:
+>>> Hello,
+>>> chiming in in this *old* email thread.
+>>>
+>>> Adding in copy a few more *@ti.com people recently involved in other tidss
+>>> changes [1]
+>>>
+>>>
+>>> [1] https://lore.kernel.org/all/20230125113529.13952-1-a-bhatia1@ti.com/
+>>>
+>>>
+>>> On Fri, Dec 04, 2020 at 11:50:30AM +0100, Boris Brezillon wrote:
+>>>> On Tue, 1 Dec 2020 17:48:28 +0530
+>>>> Nikhil Devshatwar <nikhil.nd@ti.com> wrote:
+>>>>
+>>>>> Remove the old code to iterate over the bridge chain, as this is
+>>>>> already done by the framework.
+>>>>> The bridge state should have the negotiated bus format and flags.
+>>>>> Use these from the bridge's state.
+>>>>> If the bridge does not support format negotiation, error out
+>>>>> and fail.
+>>>>
+>>>> That'd be even better if you implement the bridge interface instead of
+>>>> the encoder one so we can get rid of the encoder_{helper}_funcs and use
+>>>> drm_simple_encoder_init().
+>>>
+>>> Did anything happened on this old discussion? I was working on a very
+>>> similar change and after a while I realized about this thread.
+>>>
+>> Nikhil has moved on from TI.
+>>
+>> I will be taking up this patch series and implement the changes
+>> requested.
+> Great!
+> 
+> What I was working on is really about having the media bus format taken
+> from the closest bridge, this is really required for proper functionality
+> when the display is connected through a bridge.
 
-Signed-off-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
-Reviewed-by: Carl Vanderlip <quic_carlv@quicinc.com>
----
- drivers/accel/qaic/mhi_controller.c | 1 +
- 1 file changed, 1 insertion(+)
+I agree with you there. The current code will not work well when the
+media bus format required by the final sink is not same as the one tidss
+needs to output.
 
-diff --git a/drivers/accel/qaic/mhi_controller.c b/drivers/accel/qaic/mhi_controller.c
-index 5036e58..2c85063 100644
---- a/drivers/accel/qaic/mhi_controller.c
-+++ b/drivers/accel/qaic/mhi_controller.c
-@@ -400,6 +400,7 @@ static struct mhi_controller_config aic100_config = {
- 	.event_cfg = aic100_events,
- 	.use_bounce_buf = false,
- 	.m2_no_db = false,
-+	.quirks = MHI_QUIRK_SOC_HW_VERSION_UNRELIABLE,
- };
- 
- static int mhi_read_reg(struct mhi_controller *mhi_cntrl, void __iomem *addr, u32 *out)
--- 
-2.7.4
+> 
+> This [1] is what I was working on before realizing about this specific
+> patch here, in case you want to have a look.
+> 
+> Please keep me in CC, I can test/review patches.
 
+Thank you! Will do. =)
+
+
+Regards
+Aradhya
