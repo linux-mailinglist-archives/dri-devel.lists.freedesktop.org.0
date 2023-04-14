@@ -1,58 +1,74 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 698DB6E2102
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Apr 2023 12:36:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B9446E2128
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Apr 2023 12:42:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 685FB10ECCD;
-	Fri, 14 Apr 2023 10:36:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B24A410E13B;
+	Fri, 14 Apr 2023 10:42:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D915D10ECC8
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Apr 2023 10:36:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1681468574; x=1713004574;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version:content-transfer-encoding;
- bh=s5uleElrBg/AucDBk9yGHTMW0O1Om4mwNTJtQQVVrt8=;
- b=Z9KAwVCBv82P9Hd6BGZlTcS5091MFyWk+1LZ69jG00/738xh3rPQqYXt
- E/Ou7SXeDKBv1BgLcahTnHE+S6qcIq3cYDHjn+d2Kx+GRmc2vMbnEVLpy
- UCp/Hor0FQ4KO4Xbr35LEWsz1L8tyScLSXUqFeBB8upUelkaY/37Txd4A
- JOv/F79D1fvPL1tfV9zW9wJb3FN7o6UhxmWTNk8SG8/+YHSAxo6ONNzFe
- 6ndmBvKuBvRKShv1rPvUlVF1b5wLFH+BDdqqQR/xQ6hUoQ/JEVqgrwvTu
- agfrzozlcDw3fv29VJs5NmEo7VH/SpjaWzeK6lMzQDaIiDM+NlRX2W3YT A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10679"; a="324785873"
-X-IronPort-AV: E=Sophos;i="5.99,195,1677571200"; d="scan'208";a="324785873"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Apr 2023 03:35:56 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10679"; a="667152708"
-X-IronPort-AV: E=Sophos;i="5.99,195,1677571200"; d="scan'208";a="667152708"
-Received: from bauinger-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.252.55.117])
- by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Apr 2023 03:35:53 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Jeff Layton <jlayton@kernel.org>, "Lin, Wayne" <Wayne.Lin@amd.com>, Alex
- Deucher <alexdeucher@gmail.com>
-Subject: Re: [PATCH] drm: make drm_dp_add_payload_part2 gracefully handle
- NULL state pointer
-In-Reply-To: <4d8479f20ef30866fcf73f3602f1237376110764.camel@kernel.org>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20230413111254.22458-1-jlayton@kernel.org>
- <87edooarpq.fsf@intel.com>
- <CADnq5_PVnYMSiKO77+cfg_V-tDKYkVJYN3qGNb1vhQO3QtXskA@mail.gmail.com>
- <CO6PR12MB5489044012B2A96639470F38FC999@CO6PR12MB5489.namprd12.prod.outlook.com>
- <4d8479f20ef30866fcf73f3602f1237376110764.camel@kernel.org>
-Date: Fri, 14 Apr 2023 13:35:51 +0300
-Message-ID: <878reug394.fsf@intel.com>
+Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com
+ [IPv6:2a00:1450:4864:20::533])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0AF2510E13B
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Apr 2023 10:42:35 +0000 (UTC)
+Received: by mail-ed1-x533.google.com with SMTP id
+ 4fb4d7f45d1cf-50672fbf83eso5736838a12.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Apr 2023 03:42:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1681468954; x=1684060954;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=QlR+xSiTjnc2SLlMey8CvdA1HO2rDpDlXaNoW69NFc0=;
+ b=zmUd3JoFz7Tv3Vx3luqjYIZjlQtlyaeuFd+OzfpBA9c7rp/ziS2FdfeDuPsrYQtq1z
+ kq7caNrwLhd08UehIxFjfRrljBj/baEVLCQ+rGlTPY6NVq/av0qfmCMvwmfVjG/Y534t
+ yHl6IlLtsqJstYTzc+fFCm9T1g1/UUQF9HVIXIISfAmYYW1GZl8TcwC1YRMWetZypgkI
+ qlztK+3VOTDeTrrV2/XpUuHrxhkgt7nC95w6p1w/0dn2OOrPBo8UBkjeW0y5ZgH0b37L
+ P+8GAmEl/DSEHevlWAY3lMSLpPVIZEDp0MUMCpaS+XK6JdORsDpYQWrMLuUkTEFnCe/T
+ dr5g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1681468954; x=1684060954;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=QlR+xSiTjnc2SLlMey8CvdA1HO2rDpDlXaNoW69NFc0=;
+ b=drcjKAiWCGRlX+s1d4Xgc53332mmqlyAcECymzwR2aGGs1l24qtGJnzEIX5qK/LGza
+ IOcmWIFNCGHWmFOYXujuQuP6QT1is0tIz/lwza/kQlTSJyVmwnWWFEI6Kxeq3Ufy3P8z
+ 7MHQHRgL5KsULGcAzWEZd0LDFFeQrlVeeKGTwLDM5BkrjotlTQ5Fccx80GngeLfHuj2Y
+ 6chH6LuJhoAVLQ+C4MJ/mNg5JfQ/rS15KT+GnwN5exw1aOTwNdVFS+ioTDtWNy+oXsn6
+ l+tgnGI9H07DtCir6cOSfDIrSq/Bj38kV6FULbu5sfYhPGhL9UIewen2KI5yRYry6GGZ
+ 0x1w==
+X-Gm-Message-State: AAQBX9fnn4UqRstaPoI9XT/T3z+/LiFuhL1o2hMaGG+NQwjJpJbnZ33z
+ 7itER+TQZwYGuSABDpsDQKFV1w==
+X-Google-Smtp-Source: AKy350a8p/Dm34e6FTIrwnmd/FYPe6DCZ5aMSRnZbXAhFybe2SHbqsToCcm2MWHCebPZJuVwNc96pw==
+X-Received: by 2002:a05:6402:114e:b0:504:9e79:e86f with SMTP id
+ g14-20020a056402114e00b005049e79e86fmr5349108edw.18.1681468953929; 
+ Fri, 14 Apr 2023 03:42:33 -0700 (PDT)
+Received: from krzk-bin.. ([2a02:810d:15c0:828:40b9:8c57:b112:651d])
+ by smtp.gmail.com with ESMTPSA id
+ m24-20020aa7d358000000b00504706aa54esm1966447edr.57.2023.04.14.03.42.32
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 14 Apr 2023 03:42:33 -0700 (PDT)
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+To: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Sam Ravnborg <sam@ravnborg.org>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Xin Ji <xji@analogixsemi.com>, Thierry Reding <treding@nvidia.com>,
+ Maxime Ripard <mripard@kernel.org>, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] dt-bindings: display: simplify compatibles syntax
+Date: Fri, 14 Apr 2023 12:42:30 +0200
+Message-Id: <20230414104230.23165-1-krzysztof.kozlowski@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,133 +81,89 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, "Deucher,
- Alexander" <Alexander.Deucher@amd.com>
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 14 Apr 2023, Jeff Layton <jlayton@kernel.org> wrote:
-> On Fri, 2023-04-14 at 04:40 +0000, Lin, Wayne wrote:
->> [Public]
->>=20
->> Hi Jeff,
->>=20
->> Thanks. I might need more information to understand why we can't retrieve
->> the drm atomic state. Also , "Failed to create MST payload for port" ind=
-icates
->> error while configuring DPCD payload ID table. Could you help to provide=
- log
->> with KMS + ATOMIC + DP debug on please? Thanks in advance!
->>=20
->> Regards,
->> Wayne
->>=20
->
-> Possibly. I'm not that familiar with display driver debugging. Can you
-> send me some directions on how to crank up that sort of debug logging?
->
-> Note that this problem is _very_ intermittent too: I went about 2 weeks
-> between crashes, and then I got 3 in one day. I'd rather not run with a
-> lot of debug logging for a long time if that's what this is going to
-> require, as this is my main workstation.
->
-> The last time I got this log message, my proposed patch did prevent the
-> box from oopsing, so I'd really like to see it go in unless it's just
-> categorically wrong for the caller to pass down a NULL state pointer to
-> drm_dp_add_payload_part2.
+Lists (items) with one item should be just const or enum because it is
+shorter and simpler.
 
-Cc: Lyude.
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-Looks like the state parameter was added in commit 4d07b0bc4034
-("drm/display/dp_mst: Move all payload info into the atomic state") and
-its only use is to get at state->dev for debug logging.
+---
 
-What's the plan for the parameter? Surely something more than that! :)
+Rebased on next-20230406. I hope it applies cleanly...
+---
+ .../display/bridge/analogix,anx7625.yaml      |  3 +--
+ .../display/panel/sharp,lq101r1sx01.yaml      |  4 ++--
+ .../bindings/display/solomon,ssd1307fb.yaml   | 24 +++++++++----------
+ 3 files changed, 14 insertions(+), 17 deletions(-)
 
-Instead of "state ? state->dev : NULL" I guess we could use mgr->dev
-like the other logging calls do. It's papering over the NULL parameter
-too, but perhaps in a slightly cleaner way...
+diff --git a/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml b/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml
+index 7960745a8dbe..a1ed1004651b 100644
+--- a/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml
++++ b/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml
+@@ -16,8 +16,7 @@ description: |
+ 
+ properties:
+   compatible:
+-    items:
+-      - const: analogix,anx7625
++    const: analogix,anx7625
+ 
+   reg:
+     maxItems: 1
+diff --git a/Documentation/devicetree/bindings/display/panel/sharp,lq101r1sx01.yaml b/Documentation/devicetree/bindings/display/panel/sharp,lq101r1sx01.yaml
+index 9ec0e8aae4c6..57b44a0e763d 100644
+--- a/Documentation/devicetree/bindings/display/panel/sharp,lq101r1sx01.yaml
++++ b/Documentation/devicetree/bindings/display/panel/sharp,lq101r1sx01.yaml
+@@ -34,8 +34,8 @@ properties:
+       - items:
+           - const: sharp,lq101r1sx03
+           - const: sharp,lq101r1sx01
+-      - items:
+-          - const: sharp,lq101r1sx01
++      - enum:
++          - sharp,lq101r1sx01
+ 
+   reg: true
+   power-supply: true
+diff --git a/Documentation/devicetree/bindings/display/solomon,ssd1307fb.yaml b/Documentation/devicetree/bindings/display/solomon,ssd1307fb.yaml
+index 8bd58913804a..94bb5ef567c6 100644
+--- a/Documentation/devicetree/bindings/display/solomon,ssd1307fb.yaml
++++ b/Documentation/devicetree/bindings/display/solomon,ssd1307fb.yaml
+@@ -14,20 +14,18 @@ properties:
+   compatible:
+     oneOf:
+       # Deprecated compatible strings
+-      - items:
+-          - enum:
+-              - solomon,ssd1305fb-i2c
+-              - solomon,ssd1306fb-i2c
+-              - solomon,ssd1307fb-i2c
+-              - solomon,ssd1309fb-i2c
++      - enum:
++          - solomon,ssd1305fb-i2c
++          - solomon,ssd1306fb-i2c
++          - solomon,ssd1307fb-i2c
++          - solomon,ssd1309fb-i2c
+         deprecated: true
+-      - items:
+-          - enum:
+-              - sinowealth,sh1106
+-              - solomon,ssd1305
+-              - solomon,ssd1306
+-              - solomon,ssd1307
+-              - solomon,ssd1309
++      - enum:
++          - sinowealth,sh1106
++          - solomon,ssd1305
++          - solomon,ssd1306
++          - solomon,ssd1307
++          - solomon,ssd1309
+ 
+   reg:
+     maxItems: 1
+-- 
+2.34.1
 
-
-BR,
-Jani.
-
-
->
->> > -----Original Message-----
->> > From: Alex Deucher <alexdeucher@gmail.com>
->> > Sent: Thursday, April 13, 2023 8:59 PM
->> > To: Jani Nikula <jani.nikula@linux.intel.com>; Lin, Wayne
->> > <Wayne.Lin@amd.com>
->> > Cc: Jeff Layton <jlayton@kernel.org>; David Airlie <airlied@gmail.com>;
->> > Daniel Vetter <daniel@ffwll.ch>; Deucher, Alexander
->> > <Alexander.Deucher@amd.com>; linux-kernel@vger.kernel.org; dri-
->> > devel@lists.freedesktop.org
->> > Subject: Re: [PATCH] drm: make drm_dp_add_payload_part2 gracefully
->> > handle NULL state pointer
->> >=20
->> > + Wayne
->> >=20
->> > On Thu, Apr 13, 2023 at 8:31=E2=80=AFAM Jani Nikula <jani.nikula@linux=
-.intel.com>
->> > wrote:
->> > >=20
->> > > On Thu, 13 Apr 2023, Jeff Layton <jlayton@kernel.org> wrote:
->> > > > I've been experiencing some intermittent crashes down in the displ=
-ay
->> > > > driver code. The symptoms are ususally a line like this in dmesg:
->> > > >=20
->> > > >     amdgpu 0000:30:00.0: [drm] Failed to create MST payload for po=
-rt
->> > > > 000000006d3a3885: -5
->> > > >=20
->> > > > ...followed by an Oops due to a NULL pointer dereference.
->> > > >=20
->> > > > The real bug is probably in the caller of this function, which is
->> > > > passing it a NULL state pointer, but this patch at least keeps my
->> > > > machine from oopsing when this occurs.
->> > >=20
->> > > My fear is that papering over this makes the root cause harder to fi=
-nd.
->> > >=20
->> > > Cc: Harry, Alex
->> > >=20
->> > >=20
->> > > BR,
->> > > Jani.
->> > >=20
->> > >=20
->> > > >=20
->> > > > Link: https://bugzilla.redhat.com/show_bug.cgi?id=3D2184855
->> > > > Signed-off-by: Jeff Layton <jlayton@kernel.org>
->> > > > ---
->> > > >  drivers/gpu/drm/display/drm_dp_mst_topology.c | 3 ++-
->> > > >  1 file changed, 2 insertions(+), 1 deletion(-)
->> > > >=20
->> > > > diff --git a/drivers/gpu/drm/display/drm_dp_mst_topology.c
->> > > > b/drivers/gpu/drm/display/drm_dp_mst_topology.c
->> > > > index 38dab76ae69e..87ad406c50f9 100644
->> > > > --- a/drivers/gpu/drm/display/drm_dp_mst_topology.c
->> > > > +++ b/drivers/gpu/drm/display/drm_dp_mst_topology.c
->> > > > @@ -3404,7 +3404,8 @@ int drm_dp_add_payload_part2(struct
->> > > > drm_dp_mst_topology_mgr *mgr,
->> > > >=20
->> > > >       /* Skip failed payloads */
->> > > >       if (payload->vc_start_slot =3D=3D -1) {
->> > > > -             drm_dbg_kms(state->dev, "Part 1 of payload creation =
-for %s
->> > failed, skipping part 2\n",
->> > > > +             drm_dbg_kms(state ? state->dev : NULL,
->> > > > +                         "Part 1 of payload creation for %s faile=
-d,
->> > > > + skipping part 2\n",
->> > > >                           payload->port->connector->name);
->> > > >               return -EIO;
->> > > >       }
->> > >=20
->> > > --
->> > > Jani Nikula, Intel Open Source Graphics Center
-
---=20
-Jani Nikula, Intel Open Source Graphics Center
