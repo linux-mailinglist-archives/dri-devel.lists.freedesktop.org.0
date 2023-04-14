@@ -2,44 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 821836E2BDF
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Apr 2023 23:50:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A5496E2C75
+	for <lists+dri-devel@lfdr.de>; Sat, 15 Apr 2023 00:31:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7D4AB10EEAD;
-	Fri, 14 Apr 2023 21:50:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 961ED10E244;
+	Fri, 14 Apr 2023 22:31:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 29FE410EEAD;
- Fri, 14 Apr 2023 21:50:40 +0000 (UTC)
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B71F710E218;
+ Fri, 14 Apr 2023 22:31:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1681509039; x=1713045039;
+ t=1681511489; x=1713047489;
  h=from:to:subject:date:message-id:mime-version:
  content-transfer-encoding;
- bh=7dkcFL9zzSKuxebkGsM/yUgOOoxZDwXQnVAfsUeA3c0=;
- b=Eo+6zaLrlZQAlPAbV0LZbyICTbV75xVspFLoUbXAdysfD+IfEgspb7V6
- iOFA/Vubsuifln7Dqdl9AujszuBUx1geXop29Iz0eD+sZKHf4mB4XL3ZB
- xElSsB2BkrpVJVUbxcqjPDac6SScCLpZ6vcziuuvROjmj7VZgZ3SCezgu
- h/rXixjQsOWrexwksdXoXbTLsoUY+hHlr14kNCP7KvCl8btXculD8QLWz
- UqVSVAJ720zb8QmMiu64e/e37j2Vn5QIMc8puJhDPmLxfhaWZmRXtq/ON
- +9P7rr22yl2wAoVCP148s/j8XIpxE4c1bMgNJUA0ntw/+EGDTmzP27pCO Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10680"; a="343334082"
-X-IronPort-AV: E=Sophos;i="5.99,198,1677571200"; d="scan'208";a="343334082"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Apr 2023 14:50:38 -0700
+ bh=IFmmuuY3cc3MdrloIAvpy+2y01ZA2k0IGERLwPB2HP4=;
+ b=B0nW+r16hG3PaP25JrlMi7gJ02seA86bmQFSftM++mPYscuNJy9T7dRU
+ 98M9eq/wnRUcqGK7GkdiMkH0BKOikHYXmJq7ru/Dt7KCW1bKb9cAfSJbO
+ hbkMoe1FemOYItsV7e6HV4sI6ZRK1KKwPlewsqYulgYU4htXSAzzVFt6Q
+ 4YmsmQsvSqNn47S2DT8/yYPTul5eFVBGxcDVePAZ/7uWdQCWvb54PUiFo
+ EDll1i/5AeCkEHNeBOVSRJsd3Tn7/p2Fd6XB9tMt4DT7JYRmnJV0aALhi
+ io5hWRhWPVCPkwl13forn0Ajd8X1efA3P5960LxT+agJjEtcdeJxOV/kM Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10680"; a="324934047"
+X-IronPort-AV: E=Sophos;i="5.99,198,1677571200"; d="scan'208";a="324934047"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Apr 2023 15:31:28 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10680"; a="936155804"
-X-IronPort-AV: E=Sophos;i="5.99,198,1677571200"; d="scan'208";a="936155804"
+X-IronPort-AV: E=McAfee;i="6600,9927,10680"; a="683483607"
+X-IronPort-AV: E=Sophos;i="5.99,198,1677571200"; d="scan'208";a="683483607"
 Received: from vbelgaum-ubuntu.fm.intel.com ([10.1.27.27])
- by fmsmga006.fm.intel.com with ESMTP; 14 Apr 2023 14:50:39 -0700
+ by orsmga007.jf.intel.com with ESMTP; 14 Apr 2023 15:31:28 -0700
 From: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
 To: intel-gfx@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
-Subject: [PATCH v2] drm/i915/guc/slpc: Provide sysfs for efficient freq
-Date: Fri, 14 Apr 2023 14:53:25 -0700
-Message-Id: <20230414215325.2629491-1-vinay.belgaumkar@intel.com>
+Subject: [PATCH v3] drm/i915/guc/slpc: Provide sysfs for efficient freq
+Date: Fri, 14 Apr 2023 15:34:15 -0700
+Message-Id: <20230414223415.3077055-1-vinay.belgaumkar@intel.com>
 X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -70,14 +70,17 @@ v2: Keep just one interface to toggle sysfs. With this, user will
 be completely responsible for toggling efficient frequency if need
 be. There will be no implicit disabling when user sets min < RP1 (Ashutosh)
 
-Signed-off-by: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
+v3: Fix compile error
+
 Fixes: 95ccf312a1e4 ("drm/i915/guc/slpc: Allow SLPC to use efficient frequency")
+Signed-off-by: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
+Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
 ---
  drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c   | 35 +++++++++++++++
- drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c   | 44 ++++++++++++++-----
+ drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c   | 43 ++++++++++++++-----
  drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.h   |  1 +
  .../gpu/drm/i915/gt/uc/intel_guc_slpc_types.h |  1 +
- 4 files changed, 70 insertions(+), 11 deletions(-)
+ 4 files changed, 69 insertions(+), 11 deletions(-)
 
 diff --git a/drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c b/drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c
 index 28f27091cd3b..7496de5be580 100644
@@ -140,7 +143,7 @@ index 28f27091cd3b..7496de5be580 100644
  		ret = sysfs_create_files(kobj, throttle_reason_attrs);
  		if (ret)
 diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
-index 026d73855f36..f214a9d533f7 100644
+index 026d73855f36..5668f00f02e6 100644
 --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
 +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
 @@ -277,6 +277,7 @@ int intel_guc_slpc_init(struct intel_guc_slpc *slpc)
@@ -203,7 +206,7 @@ index 026d73855f36..f214a9d533f7 100644
  	ret = slpc_set_param(slpc,
  			     SLPC_PARAM_GLOBAL_MIN_GT_UNSLICE_FREQ_MHZ,
  			     val);
-@@ -499,10 +518,10 @@ int intel_guc_slpc_set_min_freq(struct intel_guc_slpc *slpc, u32 val)
+@@ -499,7 +518,6 @@ int intel_guc_slpc_set_min_freq(struct intel_guc_slpc *slpc, u32 val)
  	if (!ret)
  		slpc->min_freq_softlimit = val;
  
@@ -211,11 +214,7 @@ index 026d73855f36..f214a9d533f7 100644
  	intel_runtime_pm_put(&i915->runtime_pm, wakeref);
  	mutex_unlock(&slpc->lock);
  
-+out:
- 	/* Return standardized err code for sysfs calls */
- 	if (ret)
- 		ret = -EIO;
-@@ -752,6 +771,9 @@ int intel_guc_slpc_enable(struct intel_guc_slpc *slpc)
+@@ -752,6 +770,9 @@ int intel_guc_slpc_enable(struct intel_guc_slpc *slpc)
  	/* Set cached media freq ratio mode */
  	intel_guc_slpc_set_media_ratio_mode(slpc, slpc->media_ratio_mode);
  
