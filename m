@@ -1,80 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FD4B6E2B71
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Apr 2023 23:03:38 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D8AA6E2BCE
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Apr 2023 23:42:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E15EC10EEA3;
-	Fri, 14 Apr 2023 21:03:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5B3D410EEAE;
+	Fri, 14 Apr 2023 21:42:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E666F10E21A;
- Fri, 14 Apr 2023 21:03:33 +0000 (UTC)
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 33EL01ma019798; Fri, 14 Apr 2023 21:03:26 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=AwhCx3wuq7L0uIveBgsKwkcFhjqZsrOJUc2OeOS0mos=;
- b=pUDlIIfoeCgUgIxVl1/5VAbI/upfdtew66GlRx1t7mXsQaH2GqK2N4Jv86hu3HZFCTY+
- qgKmVIgTcS5nBy03HR5lQg74eCr9GrrT6VP4ZvrmVeMXrb5XyVMnHEobQB8bI5pCuEYH
- N0gocLeUvwU8dcoa5WldImRW9LHHdosEA/oXXDBx80xMlbn5iz6ZhdM7ouT+IOdJq3Nl
- PlGpExpgzn5Nlu40mDB0Spduv9JxFAoOF2NBbbx42zeLcCIuAZEYJXGg/M75Xr3RkMX4
- f9mu0xQhgIeDsczNKhpCHfrTiNiE1eForndVlBdLEtVRM3kiVTw5FFyTCT+hq8/3DpOc yQ== 
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3py4ghsaay-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 14 Apr 2023 21:03:26 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 33EL3PlL003829
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 14 Apr 2023 21:03:25 GMT
-Received: from [10.110.73.215] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Fri, 14 Apr
- 2023 14:03:24 -0700
-Message-ID: <eb8ea024-1152-418c-a048-f86253867c9e@quicinc.com>
-Date: Fri, 14 Apr 2023 14:03:23 -0700
+Received: from mail-oa1-x32.google.com (mail-oa1-x32.google.com
+ [IPv6:2001:4860:4864:20::32])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4E9CF10EEAE;
+ Fri, 14 Apr 2023 21:42:04 +0000 (UTC)
+Received: by mail-oa1-x32.google.com with SMTP id
+ 586e51a60fabf-187bee46f9dso1932467fac.11; 
+ Fri, 14 Apr 2023 14:42:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1681508523; x=1684100523;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=b4dOlaJTaykyeAIOyyfVLZGC5xuxW3rGsW7rppv/Wag=;
+ b=ZDq3zZcfXjDTSo07fp7wicclRBZHzadQz9vs5jq4IAyiLTI1NVhqesyUWovSAox5UZ
+ iQmLxuF+VF9uU7PZE4HsPPsbAB5iTFH3FzhTjhEdCEN1Gt11srDM3kwIR8rJJSs0Y0zw
+ 3nGMPcZ0W1KgYG3rFi7G/RG6YaZeOJX1UbrUT1YZSCDa+VXSf4JEX+7lHEgic/WWm0Hd
+ X415fTY6j+w17SPMzjnESbV6fEZ9GphSXoeJNSNMN1oI7kJZTX8MalEZdw45V8H6Oans
+ oGRF8nA5EkNKZlH9TtpVN97jxrNsKHJdx/gbfusGR9eQZ8tFpY2V6H7NEDFmroDKbrYE
+ n6wA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1681508523; x=1684100523;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=b4dOlaJTaykyeAIOyyfVLZGC5xuxW3rGsW7rppv/Wag=;
+ b=e58+STetm9QNlJ2I2hPRbGumavGKDrj9tVGKe0PrjnKxlGkeGb4z9T+W2448/HEkMt
+ w5M2LPImLa9vJXYFvTx3PGgBsDNExaw3Gc95Ml/Ne2DB4QcWtQZ98cgwRFZwxP4t8YGl
+ jZUpSWSiCUK8ofKJQY+x/VYlw6ZU2Oqaice02jsBl7Zy/KAuEb/7FiPWsXVwyW3JHxKp
+ mB0vmPhnsy7cnrfo8dfPW9vg0CFMWkjIWakNVmIahN10N99qimFq87rbmgfdCXueTt2R
+ MqMzmvbth++Vv3NpbwsBI2ZuvaJI8f3P4z3BMmUdfruBERRW00gh9Tny7uhWG2qiBYs1
+ mxtQ==
+X-Gm-Message-State: AAQBX9fuHfb9YReBhmjig2SoP3H8jDzjhzGqCWnHYM12sAFhteAx35nG
+ mLa58jqwcvndGtGqZKV0DuBxlx2DxkGTKeYNXk0=
+X-Google-Smtp-Source: AKy350YetlReLD9YTsp7PoVpQ6ksQbwjAZG4Ya8Udcsx7KSPjxoP1YS+BEeO3W9f7u/w/4FndfFREsvGyGEyF+03as8=
+X-Received: by 2002:a05:6870:390d:b0:184:2e38:c7af with SMTP id
+ b13-20020a056870390d00b001842e38c7afmr3724017oap.3.1681508523173; Fri, 14 Apr
+ 2023 14:42:03 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.2
-Subject: Re: [PATCH v2] drm/msm/dpu: always program dsc active bits
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-References: <1681401401-15099-1-git-send-email-quic_khsieh@quicinc.com>
- <tgfbdk6q3uool365jqddibnbgq66clsmsm6tldxpm5toqghxpq@m2ic3oonv2s5>
- <aac210da-dec1-aab8-3f48-c33d9e7687d6@quicinc.com>
- <3oaangxh7gmie3cdd6rmujm7dd3hagsrnwiq3bascdtamvfn3a@bn6ou5hbsgxv>
- <c09725ff-771c-35d1-adc9-4bb1b7c1c334@quicinc.com>
- <CAA8EJppKXSGcOcYEc6UKz9Eh8JizSpdDNe+cdvfmFbuBJ9zPKw@mail.gmail.com>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <CAA8EJppKXSGcOcYEc6UKz9Eh8JizSpdDNe+cdvfmFbuBJ9zPKw@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: ijCGfHwj2m5L48MTwn8EOaYIoNz5OoPM
-X-Proofpoint-ORIG-GUID: ijCGfHwj2m5L48MTwn8EOaYIoNz5OoPM
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-04-14_13,2023-04-14_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0
- mlxlogscore=861 malwarescore=0 bulkscore=0 phishscore=0 suspectscore=0
- adultscore=0 mlxscore=0 clxscore=1015 lowpriorityscore=0
- priorityscore=1501 spamscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2303200000 definitions=main-2304140185
+References: <20230414120344.3170942-1-trix@redhat.com>
+In-Reply-To: <20230414120344.3170942-1-trix@redhat.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Fri, 14 Apr 2023 17:41:51 -0400
+Message-ID: <CADnq5_N2j-ASAUS4Y9rmAnPyKzJ47bS4PD6y93041-dCttt8NA@mail.gmail.com>
+Subject: Re: [PATCH] drm/amd/pm: change pmfw_decoded_link_width, speed
+ variables to globals
+To: Tom Rix <trix@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,139 +69,79 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: vkoul@kernel.org, quic_sbillaka@quicinc.com, andersson@kernel.org,
- freedreno@lists.freedesktop.org, dianders@chromium.org,
- dri-devel@lists.freedesktop.org, swboyd@chromium.org, agross@kernel.org,
- linux-arm-msm@vger.kernel.org, Marijn Suijten <marijn.suijten@somainline.org>,
- Kuogee Hsieh <quic_khsieh@quicinc.com>, sean@poorly.run,
- linux-kernel@vger.kernel.org
+Cc: tim.huang@amd.com, lijo.lazar@amd.com, amd-gfx@lists.freedesktop.org,
+ kenneth.feng@amd.com, Xinhui.Pan@amd.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, mario.limonciello@amd.com,
+ alexander.deucher@amd.com, evan.quan@amd.com, christian.koenig@amd.com,
+ Hawking.Zhang@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Applied.  Thanks!
 
+Alex
 
-On 4/14/2023 1:58 PM, Dmitry Baryshkov wrote:
-> On Fri, 14 Apr 2023 at 21:55, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
->>
->>
->>
->> On 4/14/2023 10:28 AM, Marijn Suijten wrote:
->>> On 2023-04-14 08:41:37, Abhinav Kumar wrote:
->>>>
->>>> On 4/14/2023 12:48 AM, Marijn Suijten wrote:
->>>>> Capitalize DSC in the title, as discussed in v1.
->>>>>
->>>>> On 2023-04-13 08:56:41, Kuogee Hsieh wrote:
->>>>>> In current code, the DSC active bits are written only if cfg->dsc is set.
->>>>>> However, for displays which are hot-pluggable, there can be a use-case
->>>>>> of disconnecting a DSC supported sink and connecting a non-DSC sink.
->>>>>>
->>>>>> For those cases we need to clear DSC active bits during tear down.
->>>>>>
->>>>>> Changes in V2:
->>>>>> 1) correct commit text as suggested
->>>>>> 2) correct Fixes commit id
->>>>>> 3) add FIXME comment
->>>>>>
->>>>>> Fixes: 77f6da90487c ("drm/msm/disp/dpu1: Add DSC support in hw_ctl")
->>>>>> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
->>>>>> Reviewed-by: Marijn Suijten <marijn.suijten@somainline.org>
->>>>>
->>>>> By default git send-email should pick this up in the CC line...  but I
->>>>> had to download this patch from lore once again.
->>>>>
->>>>
->>>> Yes, I think what happened here is, he didnt git am the prev rev and
->>>> make changes on top of that so git send-email didnt pick up. We should
->>>> fix that process.
->>>
->>> The mail was sent so it must have gone through git send-email, unless a
->>> different mail client was used to send the .patch file.  I think you are
->>> confusing this with git am (which doesn't need to be used if editing a
->>> commit on a local branch) and subsequently git format-patch, which takes
->>> a commit from a git repository and turns it into a .patch file: neither
->>> of these "converts" r-b's (and other tags) to cc, that's happening in
->>> git send-email (see `--suppress-cc` documentation in `man
->>> git-send-email`).
->>>
->>
->> Yes, ofcourse git send-email was used to send the patch, not any other
->> mail client.
->>
->> Yes i am also aware that send-email converts rb to CC.
->>
->> But if you keep working on the local branch, then you would have to
->> manually add the r-bs. If you use am of the prev version and develop on
->> that, it will automatically add the r-bs.
-> 
-> It looks like there is some misunderstanding here. I think Marijn
-> doesn't question his R-B (which was present), but tries to point out
-> that Kuogee might want to adjust his git-send-email invocation. By
-> default (and that's a good practice, which we should follow),
-> git-send-email will CC people mentioned in such tags. Marijn didn't
-> get this email. So, it seems, for some reason this Cc: _mail_ header
-> was suppressed. Probably git-send-email invocation should be changed
-> to prevent suppression of adding mentioned people to CC lists.
-> 
-
-Yeah I understood that part. There were two issues here:
-
-1) My r-b got dropped and that was because am wasn't used to 
-automatically retain tags from prev version.
-
-If you dont add the r-bs either manually or by am, then folks wont be 
-part of CC either
-
-2) I synced with kuogee. his git version seems to be quite old which is 
-not adding the folks from r-b to cc. So there was nothing wrong with 
-invocation, just versioning.
-
-
->>
->>
->>> I can recommend b4: it has lots of useful features including
->>> automatically picking up reviews and processing revisions.  It even
->>> requires a changelog to be edited ;).  However, finding the right flags
->>> and trusting it'll "do as ordered" is a bit daunting at first.
->>>
->>>>>> ---
->>>>>>     drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c | 8 ++++----
->>>>>>     1 file changed, 4 insertions(+), 4 deletions(-)
->>>>>>
->>>>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
->>>>>> index bbdc95c..1651cd7 100644
->>>>>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
->>>>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
->>>>>> @@ -541,10 +541,10 @@ static void dpu_hw_ctl_intf_cfg_v1(struct dpu_hw_ctl *ctx,
->>>>>>             if (cfg->merge_3d)
->>>>>>                     DPU_REG_WRITE(c, CTL_MERGE_3D_ACTIVE,
->>>>>>                                   BIT(cfg->merge_3d - MERGE_3D_0));
->>>>>> -  if (cfg->dsc) {
->>>>>> -          DPU_REG_WRITE(&ctx->hw, CTL_FLUSH, DSC_IDX);
->>>>>> -          DPU_REG_WRITE(c, CTL_DSC_ACTIVE, cfg->dsc);
->>>>>> -  }
->>>>>> +
->>>>>> +  /* FIXME: fix reset_intf_cfg to handle teardown of dsc */
->>>>>
->>>>> There's more wrong than just moving (not "fix"ing) this bit of code into
->>>>> reset_intf_cfg.  And this will have to be re-wrapped in `if (cfg->dsc)`
->>>>> again by reverting this patch.  Perhaps that can be explained, or link
->>>>> to Abhinav's explanation to make it clear to readers what this FIXME
->>>>> actually means?  Let's wait for Abhinav and Dmitry to confirm the
->>>>> desired communication here.
->>>>>
->>>>> https://lore.kernel.org/linux-arm-msm/ec045d6b-4ffd-0f8c-4011-8db45edc6978@quicinc.com/
->>>>>
->>>>
->>>> Yes, I am fine with linking this explanation in the commit text and
->>>> mentioning that till thats fixed, we need to go with this solution. The
->>>> FIXME itself is fine, I will work on it and I remember this context well.
->>>
->>> Looks like it was removed entirely in v3, in favour of only describing
->>> it in the patch body.  The wording seems a bit off but that's fine by me
->>> if you're picking this up soon anyway.
->>>
->>> - Marijn
-> 
-> 
-> 
+On Fri, Apr 14, 2023 at 8:04=E2=80=AFAM Tom Rix <trix@redhat.com> wrote:
+>
+> gcc with W=3D1 reports
+> In file included from drivers/gpu/drm/amd/amdgpu/../pm/swsmu/smu13/smu_v1=
+3_0.c:36:
+> ./drivers/gpu/drm/amd/amdgpu/../pm/swsmu/inc/smu_v13_0.h:66:18: error:
+>   =E2=80=98pmfw_decoded_link_width=E2=80=99 defined but not used [-Werror=
+=3Dunused-const-variable=3D]
+>    66 | static const int pmfw_decoded_link_width[7] =3D {0, 1, 2, 4, 8, 1=
+2, 16};
+>       |                  ^~~~~~~~~~~~~~~~~~~~~~~
+> ./drivers/gpu/drm/amd/amdgpu/../pm/swsmu/inc/smu_v13_0.h:65:18: error:
+>   =E2=80=98pmfw_decoded_link_speed=E2=80=99 defined but not used [-Werror=
+=3Dunused-const-variable=3D]
+>    65 | static const int pmfw_decoded_link_speed[5] =3D {1, 2, 3, 4, 5};
+>       |                  ^~~~~~~~~~~~~~~~~~~~~~~
+>
+> These variables are defined and used in smu_v13_0_7_ppt.c and smu_v13_0_0=
+_ppt.c.
+> There should be only one definition.  So define the variables as globals
+> in smu_v13_0.c
+>
+> Signed-off-by: Tom Rix <trix@redhat.com>
+> ---
+>  drivers/gpu/drm/amd/pm/swsmu/inc/smu_v13_0.h   | 4 ++--
+>  drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0.c | 3 +++
+>  2 files changed, 5 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/amd/pm/swsmu/inc/smu_v13_0.h b/drivers/gpu/d=
+rm/amd/pm/swsmu/inc/smu_v13_0.h
+> index 7944ce80e5c3..df3baaab0037 100644
+> --- a/drivers/gpu/drm/amd/pm/swsmu/inc/smu_v13_0.h
+> +++ b/drivers/gpu/drm/amd/pm/swsmu/inc/smu_v13_0.h
+> @@ -62,8 +62,8 @@
+>  #define CTF_OFFSET_HOTSPOT             5
+>  #define CTF_OFFSET_MEM                 5
+>
+> -static const int pmfw_decoded_link_speed[5] =3D {1, 2, 3, 4, 5};
+> -static const int pmfw_decoded_link_width[7] =3D {0, 1, 2, 4, 8, 12, 16};
+> +extern const int pmfw_decoded_link_speed[5];
+> +extern const int pmfw_decoded_link_width[7];
+>
+>  #define DECODE_GEN_SPEED(gen_speed_idx)                (pmfw_decoded_lin=
+k_speed[gen_speed_idx])
+>  #define DECODE_LANE_WIDTH(lane_width_idx)      (pmfw_decoded_link_width[=
+lane_width_idx])
+> diff --git a/drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0.c b/drivers/gpu=
+/drm/amd/pm/swsmu/smu13/smu_v13_0.c
+> index 73175c993da9..393c6a7b9609 100644
+> --- a/drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0.c
+> +++ b/drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0.c
+> @@ -85,6 +85,9 @@ MODULE_FIRMWARE("amdgpu/smu_13_0_10.bin");
+>  static const int link_width[] =3D {0, 1, 2, 4, 8, 12, 16};
+>  static const int link_speed[] =3D {25, 50, 80, 160};
+>
+> +const int pmfw_decoded_link_speed[5] =3D {1, 2, 3, 4, 5};
+> +const int pmfw_decoded_link_width[7] =3D {0, 1, 2, 4, 8, 12, 16};
+> +
+>  int smu_v13_0_init_microcode(struct smu_context *smu)
+>  {
+>         struct amdgpu_device *adev =3D smu->adev;
+> --
+> 2.27.0
+>
