@@ -1,79 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91B6F6E3212
-	for <lists+dri-devel@lfdr.de>; Sat, 15 Apr 2023 17:17:44 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 29D256E324E
+	for <lists+dri-devel@lfdr.de>; Sat, 15 Apr 2023 18:13:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 797B010E085;
-	Sat, 15 Apr 2023 15:17:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5B55D10E0AE;
+	Sat, 15 Apr 2023 16:13:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AF41B10E085
- for <dri-devel@lists.freedesktop.org>; Sat, 15 Apr 2023 15:17:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1681571855;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=Q5M14rzEqBNgFK8HU9Akt9HYXKL8QNDYAZuFGTil5ww=;
- b=IeWwTi3qnBgJXkFpFIr192b2+IEzBIkDoPQ3VFKfcy4meR7rJF4kICz8ffiQwex8EORk7r
- XPgf/ZSozctHpZ0uiA+giYxDNfOEzAeglrx6ynWQfR6SD7LPDvqrfbitbNDrnYp6vGCpL2
- hk/XMrDJOGkM6qGA5sN8GEa1+iWhr9I=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-567-7xJhIY7AO0eteAOHjs6fWg-1; Sat, 15 Apr 2023 11:17:32 -0400
-X-MC-Unique: 7xJhIY7AO0eteAOHjs6fWg-1
-Received: by mail-wr1-f72.google.com with SMTP id
- ffacd0b85a97d-2f8c2258b48so77047f8f.1
- for <dri-devel@lists.freedesktop.org>; Sat, 15 Apr 2023 08:17:32 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681571851; x=1684163851;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=Q5M14rzEqBNgFK8HU9Akt9HYXKL8QNDYAZuFGTil5ww=;
- b=OnhMslLbfJtzexOONP/gmGujj+OD7SPl+Ixl8mAjLWMqkYHA6rTdWX3ASCcL9AwOF7
- MKUSRij8K8+IDokMhb5fOlfMrMDDg79HqkeSpK1sBLE+OVJI5LJ7uhVGiUmWhH/q6MAn
- exhRshvdbwQEjEOtix89OkxF+eqmey8lMRxzdQA9KbJo4H5DT/5WY6vL/h6DJwMvbuqY
- R0700CL5hgcrA1uJ9jTLt/+ZOFlNfCa9mBbi8AFGM16AG3brFjRRCRG1re+BycTWz/+o
- 0t0/MTL9a8+xYc7DkfA018+OwewVf4TAm+hT2smzowiX39E1Hh1WUfbSzOkWpsr/PqKs
- Te1g==
-X-Gm-Message-State: AAQBX9eS3MDKvOQf6NFb/yOyzMgAiBJSv//Vnu+UXADTxMJE998VtKNM
- vXynSfPTxbhsN82dUXtRj7m/T4Md9s5zYeJ7DUbL0IOauHrsetGywTUwZxVrlbzijK+9Vlq0iUR
- YM8yAjnSY2nBS2oQAGNLfHcaYtHLT
-X-Received: by 2002:a5d:5248:0:b0:2f9:a75:b854 with SMTP id
- k8-20020a5d5248000000b002f90a75b854mr479303wrc.59.1681571851273; 
- Sat, 15 Apr 2023 08:17:31 -0700 (PDT)
-X-Google-Smtp-Source: AKy350ZiVk0AFMX3CN+Ea1tpGa+ZETudf89c2CORBo70Q1fyjzBSsB+LBm6h3/+QEZQTcBxaKCvJSg==
-X-Received: by 2002:a5d:5248:0:b0:2f9:a75:b854 with SMTP id
- k8-20020a5d5248000000b002f90a75b854mr479290wrc.59.1681571850835; 
- Sat, 15 Apr 2023 08:17:30 -0700 (PDT)
-Received: from dell-per740-01.7a2m.lab.eng.bos.redhat.com
- (nat-pool-bos-t.redhat.com. [66.187.233.206])
- by smtp.gmail.com with ESMTPSA id
- m13-20020adffe4d000000b002efb139ce72sm5953488wrs.36.2023.04.15.08.17.28
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 15 Apr 2023 08:17:30 -0700 (PDT)
-From: Tom Rix <trix@redhat.com>
-To: harry.wentland@amd.com, sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com,
- alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
- airlied@gmail.com, daniel@ffwll.ch, nicholas.kazlauskas@amd.com,
- Syed.Hassan@amd.com, jdhillon@amd.com, alex.hung@amd.com,
- michael.strauss@amd.com, aurabindo.pillai@amd.com
-Subject: [PATCH] drm/amd/display: set variable dccg314_init
- storage-class-specifier to static
-Date: Sat, 15 Apr 2023 11:17:22 -0400
-Message-Id: <20230415151722.3188010-1-trix@redhat.com>
-X-Mailer: git-send-email 2.27.0
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 86BDA10E0AE
+ for <dri-devel@lists.freedesktop.org>; Sat, 15 Apr 2023 16:13:27 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id BD43461366;
+ Sat, 15 Apr 2023 16:13:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AAB88C433EF;
+ Sat, 15 Apr 2023 16:13:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1681575205;
+ bh=5j6f6I4mbEo7KGdtYrweQ2fm7COf+DDOnyGSkcdLOkc=;
+ h=Subject:To:Cc:From:Date:From;
+ b=HHFg2DXNw/F10cbgdvh4gmCDuz0fR53WoR7yWXS+uLdXsYKuiCa6qzfXblCmXAHpC
+ yP1tV8K++C4K6+28qQLZFuXGox6nwf3saYNNnuuJ8xw6Iz1U5yYBmIZmHbrS8iNDef
+ WWbez8zmNtc8NDoGqQ8x91NIyTA/AbzB+l7sye4I=
+Subject: Patch "fbmem: Reject FB_ACTIVATE_KD_TEXT from userspace" has been
+ added to the 6.2-stable tree
+To: airlied@linux.ie, alexander.deucher@amd.com, b.zolnierkie@samsung.com,
+ daniel.vetter@ffwll.ch, daniel.vetter@intel.com, daniel@ffwll.ch,
+ deller@gmx.de, dri-devel@lists.freedesktop.org, geert+renesas@glider.be,
+ geert@linux-m68k.org, gregkh@linuxfoundation.org, hqjagain@gmail.com,
+ javierm@redhat.com, maarten.lankhorst@linux.intel.com, michel@daenzer.net,
+ mripard@kernel.org, natechancellor@gmail.com, noralf@tronnes.org,
+ peda@axentia.se, penguin-kernel@I-love.SAKURA.ne.jp, sam@ravnborg.org,
+ samuel.thibault@ens-lyon.org, shlomo@fastmail.com, syoshida@redhat.com,
+ tzimmermann@suse.de
+From: <gregkh@linuxfoundation.org>
+Date: Sat, 15 Apr 2023 18:12:46 +0200
+Message-ID: <2023041546-unpack-wildland-1e57@gregkh>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"; x-default=true
+X-stable: commit
+X-Patchwork-Hint: ignore 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,35 +57,97 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tom Rix <trix@redhat.com>, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: stable-commits@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-smatch reports
-drivers/gpu/drm/amd/amdgpu/../display/dc/dcn314/dcn314_dccg.c:277:6: warning: symbol
-  'dccg314_init' was not declared. Should it be static?
 
-This variable is only used in one file so should be static.
+This is a note to let you know that I've just added the patch titled
 
-Signed-off-by: Tom Rix <trix@redhat.com>
+    fbmem: Reject FB_ACTIVATE_KD_TEXT from userspace
+
+to the 6.2-stable tree which can be found at:
+    http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
+
+The filename of the patch is:
+     fbmem-reject-fb_activate_kd_text-from-userspace.patch
+and it can be found in the queue-6.2 subdirectory.
+
+If you, or anyone else, feels it should not be added to the stable tree,
+please let <stable@vger.kernel.org> know about it.
+
+
+From 6fd33a3333c7916689b8f051a185defe4dd515b0 Mon Sep 17 00:00:00 2001
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+Date: Tue, 4 Apr 2023 21:39:34 +0200
+Subject: fbmem: Reject FB_ACTIVATE_KD_TEXT from userspace
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+
+commit 6fd33a3333c7916689b8f051a185defe4dd515b0 upstream.
+
+This is an oversight from dc5bdb68b5b3 ("drm/fb-helper: Fix vt
+restore") - I failed to realize that nasty userspace could set this.
+
+It's not pretty to mix up kernel-internal and userspace uapi flags
+like this, but since the entire fb_var_screeninfo structure is uapi
+we'd need to either add a new parameter to the ->fb_set_par callback
+and fb_set_par() function, which has a _lot_ of users. Or some other
+fairly ugly side-channel int fb_info. Neither is a pretty prospect.
+
+Instead just correct the issue at hand by filtering out this
+kernel-internal flag in the ioctl handling code.
+
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+Acked-by: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+Fixes: dc5bdb68b5b3 ("drm/fb-helper: Fix vt restore")
+Cc: Alex Deucher <alexander.deucher@amd.com>
+Cc: shlomo@fastmail.com
+Cc: Michel Dänzer <michel@daenzer.net>
+Cc: Noralf Trønnes <noralf@tronnes.org>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Daniel Vetter <daniel.vetter@intel.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: Maxime Ripard <mripard@kernel.org>
+Cc: David Airlie <airlied@linux.ie>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org
+Cc: <stable@vger.kernel.org> # v5.7+
+Cc: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
+Cc: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Nathan Chancellor <natechancellor@gmail.com>
+Cc: Qiujun Huang <hqjagain@gmail.com>
+Cc: Peter Rosin <peda@axentia.se>
+Cc: linux-fbdev@vger.kernel.org
+Cc: Helge Deller <deller@gmx.de>
+Cc: Sam Ravnborg <sam@ravnborg.org>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: Samuel Thibault <samuel.thibault@ens-lyon.org>
+Cc: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+Cc: Shigeru Yoshida <syoshida@redhat.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/20230404193934.472457-1-daniel.vetter@ffwll.ch
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 ---
- drivers/gpu/drm/amd/display/dc/dcn314/dcn314_dccg.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/video/fbdev/core/fbmem.c |    2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/dcn314/dcn314_dccg.c b/drivers/gpu/drm/amd/display/dc/dcn314/dcn314_dccg.c
-index 6f879265ad9c..de7bfba2c179 100644
---- a/drivers/gpu/drm/amd/display/dc/dcn314/dcn314_dccg.c
-+++ b/drivers/gpu/drm/amd/display/dc/dcn314/dcn314_dccg.c
-@@ -274,7 +274,7 @@ static void dccg314_set_dpstreamclk(
- 	}
- }
- 
--void dccg314_init(struct dccg *dccg)
-+static void dccg314_init(struct dccg *dccg)
- {
- 	int otg_inst;
- 
--- 
-2.27.0
+--- a/drivers/video/fbdev/core/fbmem.c
++++ b/drivers/video/fbdev/core/fbmem.c
+@@ -1117,6 +1117,8 @@ static long do_fb_ioctl(struct fb_info *
+ 	case FBIOPUT_VSCREENINFO:
+ 		if (copy_from_user(&var, argp, sizeof(var)))
+ 			return -EFAULT;
++		/* only for kernel-internal use */
++		var.activate &= ~FB_ACTIVATE_KD_TEXT;
+ 		console_lock();
+ 		lock_fb_info(info);
+ 		ret = fbcon_modechange_possible(info, &var);
 
+
+Patches currently in stable-queue which might be from daniel.vetter@ffwll.ch are
+
+queue-6.2/fbmem-reject-fb_activate_kd_text-from-userspace.patch
