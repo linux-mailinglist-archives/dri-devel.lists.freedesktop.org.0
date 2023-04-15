@@ -2,63 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CA4F6E30B0
-	for <lists+dri-devel@lfdr.de>; Sat, 15 Apr 2023 12:41:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CBDFC6E30D0
+	for <lists+dri-devel@lfdr.de>; Sat, 15 Apr 2023 12:47:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5DF3B10E20B;
-	Sat, 15 Apr 2023 10:41:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4839F10E0AA;
+	Sat, 15 Apr 2023 10:47:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd2f.google.com (mail-io1-xd2f.google.com
- [IPv6:2607:f8b0:4864:20::d2f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1F26710E0CF
- for <dri-devel@lists.freedesktop.org>; Sat, 15 Apr 2023 10:41:28 +0000 (UTC)
-Received: by mail-io1-xd2f.google.com with SMTP id
- ca18e2360f4ac-7606d948295so43155239f.3
- for <dri-devel@lists.freedesktop.org>; Sat, 15 Apr 2023 03:41:28 -0700 (PDT)
+Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com
+ [IPv6:2a00:1450:4864:20::629])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1A9D810E0AA
+ for <dri-devel@lists.freedesktop.org>; Sat, 15 Apr 2023 10:47:05 +0000 (UTC)
+Received: by mail-ej1-x629.google.com with SMTP id jg21so51519658ejc.2
+ for <dri-devel@lists.freedesktop.org>; Sat, 15 Apr 2023 03:47:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1681555286; x=1684147286;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=hcAU830LZXIq4Od+MpqJpps0tJki2Rs3z9GrCN5O5F8=;
- b=YLeiKPXwGyo5iZJpXn3Tkc+hE+FtHtfsYG2mlXimXOohTZ555+VueT+KOzYLdwkjPb
- hupPmnNpskhX3EbEKJdLw+EJQXvrdx2dN7LLpa9ivtY0TkryvmppUQZUec4PbnQJy28K
- 0O+yJ1tjUEJRbhSYrIUYsEEAh9t3XytXuTb/PwTZ0ciHMnW2gdplq44vdr9DQNJvRPOp
- q1u9xylNN4wa4hLLY10jsUEH0dqFYMCqBV/7DQfRkYxuzbrbivtd4IZfOfzcckH0/yxT
- YckoQhfJLpxkI12awnBW7LUXw/CSxBI6q9XfW4b9GH83iVqnDbSxo6zVLYSq/l3kjoa+
- wEig==
+ d=gmail.com; s=20221208; t=1681555623; x=1684147623;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=ICwYyWWnryvHm9RgRWeq29kRBlsUBNW7tslN8BXiwmU=;
+ b=BQaKk6QpiVmZPeB/smhkVOuNZTbb+v8ly+PlkeCAAUt25cyNgPCVm9EHDY1zU5H9ZJ
+ GVarHQ5Bc6ZcGPe6Bwfk8vERzbJADby9E/E4YAXf9GrGff/klt/bFP/Lm3NC4VKujCGF
+ vHOa1yCSPHf70VHMBwULihW2kIzTwHzKKADr3KbFPA53nKl5Xb6wT9FbFoZv8LTZ/mH5
+ hTjRz4qA8W12+1+3cOV2vzKvjJMUW0G5cSRcoXl0bdyEgPAPNH3nS2aL9/6bZcLTxOI3
+ hPzl/BZxx9dUBa0lM+AOa+Ts1Dh7s6E2VR25Q7p8TuWCo5L7ZgLE4cxSLqulgNyQgrIz
+ MzVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681555286; x=1684147286;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=hcAU830LZXIq4Od+MpqJpps0tJki2Rs3z9GrCN5O5F8=;
- b=bbHo/mvdFcyRyZkuv8rOIBECP4gdSZAvRJpK0KoGW9a2dMtnO8084xPJznpa4GzN1T
- QqC2Nqu8xGJP6Jt3cqrYXmvTjoGdwHCZdfORPSXyxNUdqSIPnY/txxTVRMidtlwOBoG/
- fYQvuo4hl/WKOZ8aemTMkN3RY0gom1oZSEnWfis9rhDzrH08JpRElXZFEeUw7ktpI1B7
- CA3dktf+9Y0tTNwvVYA5331APM6b7Gc2dr46vQ1uNEpmw8khOvgORVt+rHitxtS8mJKe
- 6spXNdFextmll3dYKPz0vK134g/KsRjL0B5WYC53O7ICRMpiiSuUg0EIqf+m5rZIYENT
- R/pg==
-X-Gm-Message-State: AAQBX9cGbGMiQL5EA8812aAQ5YkxyyP2ecVKQiGzbCPSCbKmdgcdj2Gg
- oYJwN0m8hOE36tvCybY2MXiCAAzSOEMicQ==
-X-Google-Smtp-Source: AKy350bXSqH+Lm4v7QjEFHrCI2v6hwyhefeLvef54xJqodbtS/xvZNtS3Dm8GpKP3yhe126JMMVIYA==
-X-Received: by 2002:a92:c04c:0:b0:32a:abbe:e6b5 with SMTP id
- o12-20020a92c04c000000b0032aabbee6b5mr2790610ilf.11.1681555286038; 
- Sat, 15 Apr 2023 03:41:26 -0700 (PDT)
-Received: from aford-B741.lan ([2601:447:d001:897f:40bb:6fe6:ddbc:cc9a])
- by smtp.gmail.com with ESMTPSA id
- bp11-20020a056638440b00b0040b38102b79sm246536jab.82.2023.04.15.03.41.24
+ d=1e100.net; s=20221208; t=1681555623; x=1684147623;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=ICwYyWWnryvHm9RgRWeq29kRBlsUBNW7tslN8BXiwmU=;
+ b=JkmIOyrR3mWB+flDzAfMfqWbq5a/kGoBxNccTv5LGWGFpFJxzgsVdt3a/EDUZ0R6SM
+ u9ihW7S9B2SbujO5ySYg2bRi8p4lSXLNS9mk4OrEH83PTga8MfPiEa4Y1bbEmL6CtIPU
+ G7wCz5SngaKX/KWRyV35JNynLqD0qI8a456+hI9mjdjnHqik64qKImFYe/GStmE42/Cg
+ UdON2HnjKcte40qcmkY/bGwVsUsEO+Swq2FgIdstUvDAEimOanmQ7VdEOLozTSpld8ZF
+ o0NtiglaWL6ArOzsuk8l0LDvfZSl62UAEqGemKmTKHfPuZi9jRDbltfv7mPQ/IuZY4hY
+ IITA==
+X-Gm-Message-State: AAQBX9djMd6UhmrY/5UyICYZ5YtelJeSZJ0eQJatPC9WBQFKd730KUUo
+ 8N4BQFcjGjy4UAWpXC/dHGM=
+X-Google-Smtp-Source: AKy350ZlZmmQo025rfm2e2tAa9xyZl6HKwCyENZ72HZZ0DvAjQTuASLgS7n6KD8a24YZf10jRtRI2A==
+X-Received: by 2002:a17:907:2087:b0:94e:fe0f:b2be with SMTP id
+ pv7-20020a170907208700b0094efe0fb2bemr1577373ejb.14.1681555622742; 
+ Sat, 15 Apr 2023 03:47:02 -0700 (PDT)
+Received: from localhost.localdomain (82-149-1-233.dynamic.telemach.net.
+ [82.149.1.233]) by smtp.gmail.com with ESMTPSA id
+ m15-20020a170906720f00b00947ab65d932sm3607034ejk.83.2023.04.15.03.47.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 15 Apr 2023 03:41:25 -0700 (PDT)
-From: Adam Ford <aford173@gmail.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 6/6] arm64: dts: imx8mn: Fix video clock parents
-Date: Sat, 15 Apr 2023 05:41:03 -0500
-Message-Id: <20230415104104.5537-6-aford173@gmail.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230415104104.5537-1-aford173@gmail.com>
-References: <20230415104104.5537-1-aford173@gmail.com>
+ Sat, 15 Apr 2023 03:47:02 -0700 (PDT)
+From: Jernej Skrabec <jernej.skrabec@gmail.com>
+To: andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org,
+ robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, wens@csie.org,
+ samuel@sholland.org
+Subject: [PATCH 0/3] drm/bridge: dw_hdmi: allow to disable CEC from DT
+Date: Sat, 15 Apr 2023 12:46:10 +0200
+Message-Id: <20230415104613.61224-1-jernej.skrabec@gmail.com>
+X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -73,90 +71,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- aford@beaconembedded.com, Frieder Schrempf <frieder.schrempf@kontron.de>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, m.szyprowski@samsung.com,
- marex@denx.de, Robert Foss <rfoss@kernel.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Jagan Teki <jagan@amarulasolutions.com>, NXP Linux Team <linux-imx@nxp.com>,
- devicetree@vger.kernel.org, Jonas Karlman <jonas@kwiboo.se>,
- Sascha Hauer <s.hauer@pengutronix.de>, Rob Herring <robh+dt@kernel.org>,
- Adam Ford <aford173@gmail.com>, linux-arm-kernel@lists.infradead.org,
- Neil Armstrong <neil.armstrong@linaro.org>, linux-kernel@vger.kernel.org,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Shawn Guo <shawnguo@kernel.org>
+Cc: devicetree@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ jonas@kwiboo.se, linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Laurent.pinchart@ideasonboard.com, hverkuil-cisco@xs4all.nl,
+ linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-There are a few clocks whose parents are set in mipi_dsi
-and mxsfb nodes, but these clocks are used by the disp_blk_ctrl
-power domain which may cause an issue when re-parenting, resuling
-in a disp_pixel clock having the wrong parent and wrong rate.
+Boards can have perfectly working DW HDMI CEC implementation but they
+may prefer to use bit banged implementation instead. This is the
+situation on Beelink X2.
 
-Fix this by moving the assigned-clock-parents as associate clock
-assignments to the power-domain node to setup these clocks before
-they are enabled.
+Add DW HDMI DT property for disabling CEC. This prevents confusion on
+userspace side by not exposing unused CEC interface.
 
-Fixes: d825fb6455d5 ("arm64: dts: imx8mn: Add display pipeline components")
-Signed-off-by: Adam Ford <aford173@gmail.com>
----
- arch/arm64/boot/dts/freescale/imx8mn.dtsi | 28 ++++++++++++-----------
- 1 file changed, 15 insertions(+), 13 deletions(-)
+Best regards,
+Jernej
 
-diff --git a/arch/arm64/boot/dts/freescale/imx8mn.dtsi b/arch/arm64/boot/dts/freescale/imx8mn.dtsi
-index bd84db550053..8be8f090e8b8 100644
---- a/arch/arm64/boot/dts/freescale/imx8mn.dtsi
-+++ b/arch/arm64/boot/dts/freescale/imx8mn.dtsi
-@@ -1069,13 +1069,6 @@ lcdif: lcdif@32e00000 {
- 					 <&clk IMX8MN_CLK_DISP_APB_ROOT>,
- 					 <&clk IMX8MN_CLK_DISP_AXI_ROOT>;
- 				clock-names = "pix", "axi", "disp_axi";
--				assigned-clocks = <&clk IMX8MN_CLK_DISP_PIXEL_ROOT>,
--						  <&clk IMX8MN_CLK_DISP_AXI>,
--						  <&clk IMX8MN_CLK_DISP_APB>;
--				assigned-clock-parents = <&clk IMX8MN_CLK_DISP_PIXEL>,
--							 <&clk IMX8MN_SYS_PLL2_1000M>,
--							 <&clk IMX8MN_SYS_PLL1_800M>;
--				assigned-clock-rates = <594000000>, <500000000>, <200000000>;
- 				interrupts = <GIC_SPI 5 IRQ_TYPE_LEVEL_HIGH>;
- 				power-domains = <&disp_blk_ctrl IMX8MN_DISPBLK_PD_LCDIF>;
- 				status = "disabled";
-@@ -1093,12 +1086,6 @@ mipi_dsi: dsi@32e10000 {
- 				clocks = <&clk IMX8MN_CLK_DSI_CORE>,
- 					 <&clk IMX8MN_CLK_DSI_PHY_REF>;
- 				clock-names = "bus_clk", "sclk_mipi";
--				assigned-clocks = <&clk IMX8MN_CLK_DSI_CORE>,
--						  <&clk IMX8MN_CLK_DSI_PHY_REF>;
--				assigned-clock-parents = <&clk IMX8MN_SYS_PLL1_266M>,
--							 <&clk IMX8MN_CLK_24M>;
--				assigned-clock-rates = <266000000>, <24000000>;
--				samsung,pll-clock-frequency = <24000000>;
- 				interrupts = <GIC_SPI 18 IRQ_TYPE_LEVEL_HIGH>;
- 				power-domains = <&disp_blk_ctrl IMX8MN_DISPBLK_PD_MIPI_DSI>;
- 				status = "disabled";
-@@ -1142,6 +1129,21 @@ disp_blk_ctrl: blk-ctrl@32e28000 {
- 					      "lcdif-axi", "lcdif-apb", "lcdif-pix",
- 					      "dsi-pclk", "dsi-ref",
- 					      "csi-aclk", "csi-pclk";
-+				assigned-clocks = <&clk IMX8MN_CLK_DSI_CORE>,
-+						  <&clk IMX8MN_CLK_DSI_PHY_REF>,
-+						  <&clk IMX8MN_CLK_DISP_PIXEL>,
-+						  <&clk IMX8MN_CLK_DISP_AXI>,
-+						  <&clk IMX8MN_CLK_DISP_APB>;
-+				assigned-clock-parents = <&clk IMX8MN_SYS_PLL1_266M>,
-+							 <&clk IMX8MN_CLK_24M>,
-+							 <&clk IMX8MN_VIDEO_PLL1_OUT>,
-+							 <&clk IMX8MN_SYS_PLL2_1000M>,
-+							 <&clk IMX8MN_SYS_PLL1_800M>;
-+				assigned-clock-rates = <266000000>,
-+						       <24000000>,
-+						       <594000000>,
-+						       <500000000>,
-+						       <200000000>;
- 				#power-domain-cells = <1>;
- 			};
- 
+Jernej Skrabec (3):
+  dt-bindings: display: synopsys,dw-hdmi: Add property for disabling CEC
+  drm/bridge: dw_hdmi: Handle snps,disable-cec property
+  ARM: dts: sun8i: h3: beelink-x2: Disable DW-HDMI CEC
+
+ .../devicetree/bindings/display/bridge/synopsys,dw-hdmi.yaml | 5 +++++
+ arch/arm/boot/dts/sun8i-h3-beelink-x2.dts                    | 1 +
+ drivers/gpu/drm/bridge/synopsys/dw-hdmi.c                    | 4 +++-
+ 3 files changed, 9 insertions(+), 1 deletion(-)
+
 -- 
-2.39.2
+2.40.0
 
