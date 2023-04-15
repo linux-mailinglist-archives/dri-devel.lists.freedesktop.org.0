@@ -2,50 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FE006E3252
-	for <lists+dri-devel@lfdr.de>; Sat, 15 Apr 2023 18:15:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E79D6E32DD
+	for <lists+dri-devel@lfdr.de>; Sat, 15 Apr 2023 19:19:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 98B6810E0F2;
-	Sat, 15 Apr 2023 16:15:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 067D210E0EA;
+	Sat, 15 Apr 2023 17:19:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DD95410E0F2
- for <dri-devel@lists.freedesktop.org>; Sat, 15 Apr 2023 16:15:12 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 487776132F;
- Sat, 15 Apr 2023 16:15:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 35BF4C433D2;
- Sat, 15 Apr 2023 16:15:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1681575311;
- bh=aYYymzptmzLxOTvpeCvetUEXStLUmwxMD+DzE1JweWc=;
- h=Subject:To:Cc:From:Date:From;
- b=0R/sEptREhUFG60epamdXPwRqyFVvm9c/ApTXzTGx83U4tZIjtico/C675XwPTYak
- JNK349+7flqW1lSKgZcAghiQpOGa4XxO4ubQAZyUeHYEH61Tt0YD3ZY4zKsdcSINsK
- ErBTkJPhPZPdtGfQzs5sgj1XZLVMRQ9TG8yLRfhA=
-Subject: Patch "fbmem: Reject FB_ACTIVATE_KD_TEXT from userspace" has been
- added to the 5.15-stable tree
-To: airlied@linux.ie, alexander.deucher@amd.com, b.zolnierkie@samsung.com,
- daniel.vetter@ffwll.ch, daniel.vetter@intel.com, daniel@ffwll.ch,
- deller@gmx.de, dri-devel@lists.freedesktop.org, geert+renesas@glider.be,
- geert@linux-m68k.org, gregkh@linuxfoundation.org, hqjagain@gmail.com,
- javierm@redhat.com, maarten.lankhorst@linux.intel.com, michel@daenzer.net,
- mripard@kernel.org, natechancellor@gmail.com, noralf@tronnes.org,
- peda@axentia.se, penguin-kernel@I-love.SAKURA.ne.jp, sam@ravnborg.org,
- samuel.thibault@ens-lyon.org, shlomo@fastmail.com, syoshida@redhat.com,
- tzimmermann@suse.de
-From: <gregkh@linuxfoundation.org>
-Date: Sat, 15 Apr 2023 18:14:19 +0200
-Message-ID: <2023041519-reword-olympics-5760@gregkh>
+Received: from mail-lj1-x22c.google.com (mail-lj1-x22c.google.com
+ [IPv6:2a00:1450:4864:20::22c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 52D7010E09F
+ for <dri-devel@lists.freedesktop.org>; Sat, 15 Apr 2023 17:19:29 +0000 (UTC)
+Received: by mail-lj1-x22c.google.com with SMTP id
+ 38308e7fff4ca-2a8b8aea230so3911451fa.0
+ for <dri-devel@lists.freedesktop.org>; Sat, 15 Apr 2023 10:19:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1681579167; x=1684171167;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=m4nST20IPKOcYwIOfUgXQCsK+huSDja+HNRFSncxwf0=;
+ b=LgKEaTXc6OQ5SGY4uM0igrni/yv0F72lQYofAl2Jcwh6IQk4EoQIBACu1lv6nrg0oY
+ 0Vj6Q1gZ21Us7Yc7Mo2cU6MGBMIqILgC+3MVPYw0ztSlfrQirLp5A+Qb6OXqBDRopNEv
+ gaeRI3au41K4XeucsIpCmnmPCkPX0X0K9eyNwL0mKyWc3E4gYQnfLshInMAI9zqadQA8
+ YBKMK37nlD+9uFH/WFHETV4tMKtZ7AKMu950fXiVt8bXo4P54Yp0xCQuSqwqpxXtmdN3
+ UylZFec81EPEBAiZ9LN/f7yLcuPtVK5FF81VW1W1JpbZ3nOuQFyGLapHBhETHbQ4oFUK
+ fJ9A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1681579167; x=1684171167;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=m4nST20IPKOcYwIOfUgXQCsK+huSDja+HNRFSncxwf0=;
+ b=FkWxLFSik1Nd7jZp+BY8SeJKR8blUdZY/YP0afraprSe7oxf6KsQOYsW1VxRMlrfbB
+ rN5jTh0Voq78RdEuBJElEyajs+o2AtybvRYT04y/BeBG3t4btqrwQ6ST7H/3iwYz7qVG
+ xweQPCjO/rqMW7iVSewuIyLYJcwnuB3PO1OiZuayhbGorLsUm2wzQuCpShBIklnM/snW
+ ITE1iCc0Kk2aAEkUx9DrkNTXLavOV/M8zpanyz+n/A9GT7v+qq/eS7fBhFhoyOkb85wo
+ Vo3eynVOf01YkyZpodrlJ9Hl5QPAj0+zcnKo1BdZKVNgr5thV9HH0z4woTtmkJrc5b9a
+ HOgQ==
+X-Gm-Message-State: AAQBX9foGRlQaOTT6WU8YLQbzVw/ZUtmaOpRCcJBUXc4ZuKk+tnNUnkM
+ oM9h4Do8N/f6xHJ2M578FyE8Lg==
+X-Google-Smtp-Source: AKy350YXm6X841XzMI02HB2vU2HU4LiEUQIdFGYoiHVC1a+x3tyGIIwXZM3o79RTKkgXnv6Rafv5OQ==
+X-Received: by 2002:ac2:5390:0:b0:4e8:3d24:de6f with SMTP id
+ g16-20020ac25390000000b004e83d24de6fmr677665lfh.14.1681579167425; 
+ Sat, 15 Apr 2023 10:19:27 -0700 (PDT)
+Received: from umbar.unikie.fi ([192.130.178.91])
+ by smtp.gmail.com with ESMTPSA id
+ v4-20020a056512096400b004ebae99cc1dsm1355834lft.159.2023.04.15.10.19.26
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 15 Apr 2023 10:19:26 -0700 (PDT)
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>
+Subject: [PATCH 0/2] drm/msm/dpu: enable INTF_HDMI support
+Date: Sat, 15 Apr 2023 20:19:24 +0300
+Message-Id: <20230415171926.85774-1-dmitry.baryshkov@linaro.org>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-stable: commit
-X-Patchwork-Hint: ignore 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,97 +71,32 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: stable-commits@vger.kernel.org
+Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Since msm8998 and older platforms (wip) support INTF_HDMI, extend DPU
+driver to support HDMI output. First patch was submitted about a year
+ago, but received some pushback ([1], [2]). However it becomes
+absolutely required to properly support INTF_HDMI as both HDMI and DP
+should use DRM_MODE_ENCODER_TMDS for encoder_type. Thus dpu_encoder can
+not make a difference between HDMI and DP outputs (however they require
+different handling).
 
-This is a note to let you know that I've just added the patch titled
+[1] https://patchwork.freedesktop.org/patch/473871/
+[2] https://patchwork.freedesktop.org/patch/474271/
 
-    fbmem: Reject FB_ACTIVATE_KD_TEXT from userspace
+Dmitry Baryshkov (2):
+  drm/msm/dpu: simplify intf allocation code
+  drm/msm/dpu: add HDMI output support
 
-to the 5.15-stable tree which can be found at:
-    http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 39 ++++++----------
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h |  4 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c     | 51 +++++++++++++++++++--
+ 3 files changed, 63 insertions(+), 31 deletions(-)
 
-The filename of the patch is:
-     fbmem-reject-fb_activate_kd_text-from-userspace.patch
-and it can be found in the queue-5.15 subdirectory.
+-- 
+2.30.2
 
-If you, or anyone else, feels it should not be added to the stable tree,
-please let <stable@vger.kernel.org> know about it.
-
-
-From 6fd33a3333c7916689b8f051a185defe4dd515b0 Mon Sep 17 00:00:00 2001
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
-Date: Tue, 4 Apr 2023 21:39:34 +0200
-Subject: fbmem: Reject FB_ACTIVATE_KD_TEXT from userspace
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
-
-commit 6fd33a3333c7916689b8f051a185defe4dd515b0 upstream.
-
-This is an oversight from dc5bdb68b5b3 ("drm/fb-helper: Fix vt
-restore") - I failed to realize that nasty userspace could set this.
-
-It's not pretty to mix up kernel-internal and userspace uapi flags
-like this, but since the entire fb_var_screeninfo structure is uapi
-we'd need to either add a new parameter to the ->fb_set_par callback
-and fb_set_par() function, which has a _lot_ of users. Or some other
-fairly ugly side-channel int fb_info. Neither is a pretty prospect.
-
-Instead just correct the issue at hand by filtering out this
-kernel-internal flag in the ioctl handling code.
-
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
-Acked-by: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-Fixes: dc5bdb68b5b3 ("drm/fb-helper: Fix vt restore")
-Cc: Alex Deucher <alexander.deucher@amd.com>
-Cc: shlomo@fastmail.com
-Cc: Michel Dänzer <michel@daenzer.net>
-Cc: Noralf Trønnes <noralf@tronnes.org>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Daniel Vetter <daniel.vetter@intel.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: Maxime Ripard <mripard@kernel.org>
-Cc: David Airlie <airlied@linux.ie>
-Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org
-Cc: <stable@vger.kernel.org> # v5.7+
-Cc: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
-Cc: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Nathan Chancellor <natechancellor@gmail.com>
-Cc: Qiujun Huang <hqjagain@gmail.com>
-Cc: Peter Rosin <peda@axentia.se>
-Cc: linux-fbdev@vger.kernel.org
-Cc: Helge Deller <deller@gmx.de>
-Cc: Sam Ravnborg <sam@ravnborg.org>
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: Samuel Thibault <samuel.thibault@ens-lyon.org>
-Cc: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
-Cc: Shigeru Yoshida <syoshida@redhat.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20230404193934.472457-1-daniel.vetter@ffwll.ch
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
----
- drivers/video/fbdev/core/fbmem.c |    2 ++
- 1 file changed, 2 insertions(+)
-
---- a/drivers/video/fbdev/core/fbmem.c
-+++ b/drivers/video/fbdev/core/fbmem.c
-@@ -1119,6 +1119,8 @@ static long do_fb_ioctl(struct fb_info *
- 	case FBIOPUT_VSCREENINFO:
- 		if (copy_from_user(&var, argp, sizeof(var)))
- 			return -EFAULT;
-+		/* only for kernel-internal use */
-+		var.activate &= ~FB_ACTIVATE_KD_TEXT;
- 		console_lock();
- 		lock_fb_info(info);
- 		ret = fbcon_modechange_possible(info, &var);
-
-
-Patches currently in stable-queue which might be from daniel.vetter@ffwll.ch are
-
-queue-5.15/fbmem-reject-fb_activate_kd_text-from-userspace.patch
