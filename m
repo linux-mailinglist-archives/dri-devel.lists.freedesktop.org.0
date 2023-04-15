@@ -2,68 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 259896E40B7
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Apr 2023 09:22:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20DD96E30A7
+	for <lists+dri-devel@lfdr.de>; Sat, 15 Apr 2023 12:41:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5801110E3A0;
-	Mon, 17 Apr 2023 07:22:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1690310E062;
+	Sat, 15 Apr 2023 10:41:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com
- [IPv6:2a00:1450:4864:20::436])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 31BE810E077;
- Sat, 15 Apr 2023 09:07:25 +0000 (UTC)
-Received: by mail-wr1-x436.google.com with SMTP id
- ffacd0b85a97d-2f62b1385e3so165368f8f.2; 
- Sat, 15 Apr 2023 02:07:25 -0700 (PDT)
+Received: from mail-il1-x12d.google.com (mail-il1-x12d.google.com
+ [IPv6:2607:f8b0:4864:20::12d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1A87D10E062
+ for <dri-devel@lists.freedesktop.org>; Sat, 15 Apr 2023 10:41:17 +0000 (UTC)
+Received: by mail-il1-x12d.google.com with SMTP id
+ e9e14a558f8ab-329627dabfbso13855275ab.0
+ for <dri-devel@lists.freedesktop.org>; Sat, 15 Apr 2023 03:41:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1681549641; x=1684141641;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=7bl5SFQ2vJygxB6ULQ7owEqW0w5QgVbsAK3PYNhUFh4=;
- b=Jkb/RwuyQAbnlJlQn7Ok9K6ysDcucnhfzgw7G5w8aSSVNjDR+WBPABDauc9LFLFBJo
- zPGBJmaRq2et6/2hkuaVgdxHUT0/BJh4kgXgG33RNm0+V01GgqIiAQPxnnQqkRm7+U91
- bqupoltukCsAJWxubjliYzRLKMFcneSZVHXpiqukgjB1AZ8HNc7/DDbrCX2h3m+VebEh
- 0VOtNMcN/tqU9WccT6t3PBFNxDtN3tUp4Urwsl6gYKm9p9Sioi1jr9hOVNcWlWsd1nIJ
- Tfvcsd2vY2G0chLsgUjMxS3X4BDFKfEP/lO7IIXE/1sUPFhokQozktJLbZf74pr4l6ge
- +csA==
+ d=gmail.com; s=20221208; t=1681555275; x=1684147275;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=NxV/r2dg6tmyFGrf7XbFu39RjdGZZ9Qw/qpOckRtFcs=;
+ b=nkxVRMgX1GxubqUedgn9gXUJHy+brhU+3BcUFfjVgyCkoGudE9vSWr3Y8suNnwiEv+
+ W8yGBeGfODXBLYCs6nVn2KX4m+oD6yWq/F1eRJp3Z+aFjU608yiclFytafmdERH3CJJR
+ HtMwgvVu1OTXrkiIiNzRBci8NMvJdEMUm8Oj5Vm31359sF/pA4PDYmJMIsd9Q8h1Y8Xk
+ q+HUt00HV7vkK9y9UukZsBljW5DjBzm9uSDN7sChkNbjExgM9QLRAx2Hytcq1BZp8C/o
+ iw2zx3nm8q2SPJVubnoX8TCVQCtB4H2vnS4TKmGvyjsAoFY9mfB+fRsHBMnwUpLQeHr3
+ baZg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681549641; x=1684141641;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=7bl5SFQ2vJygxB6ULQ7owEqW0w5QgVbsAK3PYNhUFh4=;
- b=judVzDdpK3HmLaBMA2SLWTQDk/stVhWF00QVrOc/Cqq7JS7W05quCY7zQF/eYFuZUP
- BtZo7PaDXUtYNXVhcqEf/QtxJVgy1ZeZI3zUC+lCnc3C5zjZWoTAbxijg6VSg272eQVa
- LucZv6bA+PJICMlcEZXKdp2l3mLbevZw7noUSOJ58msmCFw/NXpGBq+2lUPL+8aJy8N1
- mMLf1jQLMvcmmwTGcukYaixb/yRq8mL8IaPeSXzasiZhqM5geg+odSTwRexWjou0Je7G
- yYDjLb0MhD431E7iacEvlc4piicB++qs5/HV+PFvEXz3tOCJEjOG0s4NSVLlhYCFe8oH
- koiw==
-X-Gm-Message-State: AAQBX9cFOLLojZMd36GTbRBEDHfqUtMHCrjNl/PSM2K5tY8jT5g2KNAy
- z6SYzyd7weA2MIV29gx3su0=
-X-Google-Smtp-Source: AKy350bDsIOq+QVjyFcYtYVEwre4OPfcaLXNH7NtBAuDI7FhBws+yyvSTWBB4OPxXclOClKuPL/nAQ==
-X-Received: by 2002:a05:6000:189:b0:2f6:b273:ee26 with SMTP id
- p9-20020a056000018900b002f6b273ee26mr1034441wrx.14.1681549641195; 
- Sat, 15 Apr 2023 02:07:21 -0700 (PDT)
-Received: from lucifer.home ([2a00:23c5:dc8c:8701:1663:9a35:5a7b:1d76])
- by smtp.googlemail.com with ESMTPSA id
- u8-20020a5d6ac8000000b002eaac3a9beesm5359059wrw.8.2023.04.15.02.07.19
+ d=1e100.net; s=20221208; t=1681555275; x=1684147275;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=NxV/r2dg6tmyFGrf7XbFu39RjdGZZ9Qw/qpOckRtFcs=;
+ b=C9UPTGSxYdL9c+sxCZpKSzuATxeyNOSHASnvE6QqQyjXxLY79ZXLk+76BZ3SX2lcQx
+ /wnHBF/Xe2CXY1YaghjgpQRE7NzTJzwJDMv3Q75HZPOY7Dgq0rDJK+fZJjGTJliOcyUk
+ omeAdbMl2HanCnC8YXODWiJQpzI8gEiyblsGj5a5SWP5DyvTQFVQ9jt3bdzkcNVbTY/9
+ YaBHBZyAgsh1x7zETA0qn5N4f1D+D/PK8ANGwZpa9CtL4ow13Uo2u2g9N6beYH8H+BsG
+ MiYslE+S5/X68uAFU3j6M+evOr0TH9DgFzUqvrM5FFfQ7Ib1LslfJ5BqvhE6szffrQLx
+ Vj1w==
+X-Gm-Message-State: AAQBX9e3rAKdu19Ui1jBmAzxPTmkcGme2Jtd3TumME+eA7CKXZxJzxdc
+ 268zyNOb6m0+6Z7HEiMkl3L77hggLx4=
+X-Google-Smtp-Source: AKy350be9XGQbEpTAMxfp/yDs4zbKCqaElyWQiPWqA6tPdcVQdgTQGeHdLNOwe+rg1tq3rDX2lHvrA==
+X-Received: by 2002:a05:6e02:526:b0:328:edf8:be71 with SMTP id
+ h6-20020a056e02052600b00328edf8be71mr5849677ils.0.1681555275334; 
+ Sat, 15 Apr 2023 03:41:15 -0700 (PDT)
+Received: from aford-B741.lan ([2601:447:d001:897f:40bb:6fe6:ddbc:cc9a])
+ by smtp.gmail.com with ESMTPSA id
+ bp11-20020a056638440b00b0040b38102b79sm246536jab.82.2023.04.15.03.41.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 15 Apr 2023 02:07:20 -0700 (PDT)
-From: Lorenzo Stoakes <lstoakes@gmail.com>
-To: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- Andrew Morton <akpm@linux-foundation.org>
-Subject: [PATCH v2 1/7] mm/gup: remove unused vmas parameter from
- get_user_pages()
-Date: Sat, 15 Apr 2023 10:07:09 +0100
-Message-Id: <56b3f7360ac4ba3af3f75903a873f1e48df652e0.1681547405.git.lstoakes@gmail.com>
-X-Mailer: git-send-email 2.40.0
-In-Reply-To: <cover.1681547405.git.lstoakes@gmail.com>
-References: <cover.1681547405.git.lstoakes@gmail.com>
+ Sat, 15 Apr 2023 03:41:14 -0700 (PDT)
+From: Adam Ford <aford173@gmail.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH 1/6] drm: bridge: samsung-dsim: Support multi-lane calculations
+Date: Sat, 15 Apr 2023 05:40:58 -0500
+Message-Id: <20230415104104.5537-1-aford173@gmail.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Mon, 17 Apr 2023 07:21:51 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,171 +70,90 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Lorenzo Stoakes <lstoakes@gmail.com>,
- Dimitri Sivanich <dimitri.sivanich@hpe.com>,
- Matthew Wilcox <willy@infradead.org>, Arnd Bergmann <arnd@arndb.de>,
- kvm@vger.kernel.org, David Hildenbrand <david@redhat.com>,
- Xinhui Pan <Xinhui.Pan@amd.com>, x86@kernel.org,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- dri-devel@lists.freedesktop.org, Jarkko Sakkinen <jarkko@kernel.org>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- amd-gfx@lists.freedesktop.org, "H . Peter Anvin" <hpa@zytor.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Thomas Gleixner <tglx@linutronix.de>,
- linux-sgx@vger.kernel.org
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ aford@beaconembedded.com, Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, m.szyprowski@samsung.com,
+ marex@denx.de, Robert Foss <rfoss@kernel.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Jagan Teki <jagan@amarulasolutions.com>, NXP Linux Team <linux-imx@nxp.com>,
+ devicetree@vger.kernel.org, Jonas Karlman <jonas@kwiboo.se>,
+ Sascha Hauer <s.hauer@pengutronix.de>, Rob Herring <robh+dt@kernel.org>,
+ Adam Ford <aford173@gmail.com>, linux-arm-kernel@lists.infradead.org,
+ Neil Armstrong <neil.armstrong@linaro.org>, linux-kernel@vger.kernel.org,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Shawn Guo <shawnguo@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-No invocation of get_user_pages() uses the vmas parameter, so remove
-it.
+If there is more than one lane, the HFP, HBP, and HSA is calculated in
+bytes/pixel, then they are divided amongst the different lanes with some
+additional overhead. This is necessary to achieve higher resolutions while
+keeping the pixel clocks lower as the number of lanes increase.
 
-The GUP API is confusing and caveated. Recent changes have done much to
-improve that, however there is more we can do. Exporting vmas is a prime
-target as the caller has to be extremely careful to preclude their use
-after the mmap_lock has expired or otherwise be left with dangling
-pointers.
-
-Removing the vmas parameter focuses the GUP functions upon their primary
-purpose - pinning (and outputting) pages as well as performing the actions
-implied by the input flags.
-
-This is part of a patch series aiming to remove the vmas parameter
-altogether.
-
-Signed-off-by: Lorenzo Stoakes <lstoakes@gmail.com>
-Suggested-by: Matthew Wilcox (Oracle) <willy@infradead.org>
-Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Signed-off-by: Adam Ford <aford173@gmail.com>
 ---
- arch/x86/kernel/cpu/sgx/ioctl.c     | 2 +-
- drivers/gpu/drm/radeon/radeon_ttm.c | 2 +-
- drivers/misc/sgi-gru/grufault.c     | 2 +-
- include/linux/mm.h                  | 3 +--
- mm/gup.c                            | 9 +++------
- mm/gup_test.c                       | 5 ++---
- virt/kvm/kvm_main.c                 | 2 +-
- 7 files changed, 10 insertions(+), 15 deletions(-)
+ drivers/gpu/drm/bridge/samsung-dsim.c | 40 +++++++++++++++++++++++----
+ 1 file changed, 34 insertions(+), 6 deletions(-)
 
-diff --git a/arch/x86/kernel/cpu/sgx/ioctl.c b/arch/x86/kernel/cpu/sgx/ioctl.c
-index 21ca0a831b70..5d390df21440 100644
---- a/arch/x86/kernel/cpu/sgx/ioctl.c
-+++ b/arch/x86/kernel/cpu/sgx/ioctl.c
-@@ -214,7 +214,7 @@ static int __sgx_encl_add_page(struct sgx_encl *encl,
- 	if (!(vma->vm_flags & VM_MAYEXEC))
- 		return -EACCES;
+diff --git a/drivers/gpu/drm/bridge/samsung-dsim.c b/drivers/gpu/drm/bridge/samsung-dsim.c
+index e0a402a85787..1ccbad4ea577 100644
+--- a/drivers/gpu/drm/bridge/samsung-dsim.c
++++ b/drivers/gpu/drm/bridge/samsung-dsim.c
+@@ -215,6 +215,7 @@
+ #define DSI_RX_FIFO_SIZE		256
+ #define DSI_XFER_TIMEOUT_MS		100
+ #define DSI_RX_FIFO_EMPTY		0x30800002
++#define DSI_HSYNC_PKT_OVERHEAD	6
  
--	ret = get_user_pages(src, 1, 0, &src_page, NULL);
-+	ret = get_user_pages(src, 1, 0, &src_page);
- 	if (ret < 1)
- 		return -EFAULT;
+ #define OLD_SCLK_MIPI_CLK_NAME		"pll_clk"
  
-diff --git a/drivers/gpu/drm/radeon/radeon_ttm.c b/drivers/gpu/drm/radeon/radeon_ttm.c
-index 1e8e287e113c..0597540f0dde 100644
---- a/drivers/gpu/drm/radeon/radeon_ttm.c
-+++ b/drivers/gpu/drm/radeon/radeon_ttm.c
-@@ -362,7 +362,7 @@ static int radeon_ttm_tt_pin_userptr(struct ttm_device *bdev, struct ttm_tt *ttm
- 		struct page **pages = ttm->pages + pinned;
+@@ -879,13 +880,40 @@ static void samsung_dsim_set_display_mode(struct samsung_dsim *dsi)
+ 			| DSIM_MAIN_VBP(m->vtotal - m->vsync_end);
+ 		samsung_dsim_write(dsi, DSIM_MVPORCH_REG, reg);
  
- 		r = get_user_pages(userptr, num_pages, write ? FOLL_WRITE : 0,
--				   pages, NULL);
-+				   pages);
- 		if (r < 0)
- 			goto release_pages;
+-		reg = DSIM_MAIN_HFP(m->hsync_start - m->hdisplay)
+-			| DSIM_MAIN_HBP(m->htotal - m->hsync_end);
+-		samsung_dsim_write(dsi, DSIM_MHPORCH_REG, reg);
++		/*
++		 * If there is more than one lane, the HFP, HBP, and HSA
++		 * is calculated in bytes/pixel, then they are divided
++		 * amongst the different lanes with some additional
++		 * overhead correction
++		 */
++		if (dsi->lanes > 1) {
++			u32 hfp, hbp, hsa;
++			int bpp = mipi_dsi_pixel_format_to_bpp(dsi->format) / 8;
++
++			hfp = ((m->hsync_start - m->hdisplay) * bpp) / dsi->lanes;
++			hfp -= (hfp > DSI_HSYNC_PKT_OVERHEAD) ? DSI_HSYNC_PKT_OVERHEAD : 0;
++
++			hbp = ((m->htotal - m->hsync_end) * bpp) / dsi->lanes;
++			hbp -= (hbp > DSI_HSYNC_PKT_OVERHEAD) ? DSI_HSYNC_PKT_OVERHEAD : 0;
  
-diff --git a/drivers/misc/sgi-gru/grufault.c b/drivers/misc/sgi-gru/grufault.c
-index b836936e9747..378cf02a2aa1 100644
---- a/drivers/misc/sgi-gru/grufault.c
-+++ b/drivers/misc/sgi-gru/grufault.c
-@@ -185,7 +185,7 @@ static int non_atomic_pte_lookup(struct vm_area_struct *vma,
- #else
- 	*pageshift = PAGE_SHIFT;
- #endif
--	if (get_user_pages(vaddr, 1, write ? FOLL_WRITE : 0, &page, NULL) <= 0)
-+	if (get_user_pages(vaddr, 1, write ? FOLL_WRITE : 0, &page) <= 0)
- 		return -EFAULT;
- 	*paddr = page_to_phys(page);
- 	put_page(page);
-diff --git a/include/linux/mm.h b/include/linux/mm.h
-index 37554b08bb28..b14cc4972d0b 100644
---- a/include/linux/mm.h
-+++ b/include/linux/mm.h
-@@ -2380,8 +2380,7 @@ long pin_user_pages_remote(struct mm_struct *mm,
- 			   unsigned int gup_flags, struct page **pages,
- 			   struct vm_area_struct **vmas, int *locked);
- long get_user_pages(unsigned long start, unsigned long nr_pages,
--			    unsigned int gup_flags, struct page **pages,
--			    struct vm_area_struct **vmas);
-+		    unsigned int gup_flags, struct page **pages);
- long pin_user_pages(unsigned long start, unsigned long nr_pages,
- 		    unsigned int gup_flags, struct page **pages,
- 		    struct vm_area_struct **vmas);
-diff --git a/mm/gup.c b/mm/gup.c
-index 1f72a717232b..7e454d6b157e 100644
---- a/mm/gup.c
-+++ b/mm/gup.c
-@@ -2251,8 +2251,6 @@ long get_user_pages_remote(struct mm_struct *mm,
-  * @pages:      array that receives pointers to the pages pinned.
-  *              Should be at least nr_pages long. Or NULL, if caller
-  *              only intends to ensure the pages are faulted in.
-- * @vmas:       array of pointers to vmas corresponding to each page.
-- *              Or NULL if the caller does not require them.
-  *
-  * This is the same as get_user_pages_remote(), just with a less-flexible
-  * calling convention where we assume that the mm being operated on belongs to
-@@ -2260,16 +2258,15 @@ long get_user_pages_remote(struct mm_struct *mm,
-  * obviously don't pass FOLL_REMOTE in here.
-  */
- long get_user_pages(unsigned long start, unsigned long nr_pages,
--		unsigned int gup_flags, struct page **pages,
--		struct vm_area_struct **vmas)
-+		    unsigned int gup_flags, struct page **pages)
- {
- 	int locked = 1;
- 
--	if (!is_valid_gup_args(pages, vmas, NULL, &gup_flags, FOLL_TOUCH))
-+	if (!is_valid_gup_args(pages, NULL, NULL, &gup_flags, FOLL_TOUCH))
- 		return -EINVAL;
- 
- 	return __get_user_pages_locked(current->mm, start, nr_pages, pages,
--				       vmas, &locked, gup_flags);
-+				       NULL, &locked, gup_flags);
- }
- EXPORT_SYMBOL(get_user_pages);
- 
-diff --git a/mm/gup_test.c b/mm/gup_test.c
-index 8ae7307a1bb6..9ba8ea23f84e 100644
---- a/mm/gup_test.c
-+++ b/mm/gup_test.c
-@@ -139,8 +139,7 @@ static int __gup_test_ioctl(unsigned int cmd,
- 						 pages + i);
- 			break;
- 		case GUP_BASIC_TEST:
--			nr = get_user_pages(addr, nr, gup->gup_flags, pages + i,
--					    NULL);
-+			nr = get_user_pages(addr, nr, gup->gup_flags, pages + i);
- 			break;
- 		case PIN_FAST_BENCHMARK:
- 			nr = pin_user_pages_fast(addr, nr, gup->gup_flags,
-@@ -161,7 +160,7 @@ static int __gup_test_ioctl(unsigned int cmd,
- 						    pages + i, NULL);
- 			else
- 				nr = get_user_pages(addr, nr, gup->gup_flags,
--						    pages + i, NULL);
-+						    pages + i);
- 			break;
- 		default:
- 			ret = -EINVAL;
-diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
-index d255964ec331..7f31e0a4adb5 100644
---- a/virt/kvm/kvm_main.c
-+++ b/virt/kvm/kvm_main.c
-@@ -2474,7 +2474,7 @@ static inline int check_user_page_hwpoison(unsigned long addr)
- {
- 	int rc, flags = FOLL_HWPOISON | FOLL_WRITE;
- 
--	rc = get_user_pages(addr, 1, flags, NULL, NULL);
-+	rc = get_user_pages(addr, 1, flags, NULL);
- 	return rc == -EHWPOISON;
- }
- 
+-		reg = DSIM_MAIN_VSA(m->vsync_end - m->vsync_start)
+-			| DSIM_MAIN_HSA(m->hsync_end - m->hsync_start);
+-		samsung_dsim_write(dsi, DSIM_MSYNC_REG, reg);
++			hsa = ((m->hsync_end - m->hsync_start) * bpp) / dsi->lanes;
++			hsa -= (hsa > DSI_HSYNC_PKT_OVERHEAD) ? DSI_HSYNC_PKT_OVERHEAD : 0;
++
++			reg = DSIM_MAIN_HFP(hfp) | DSIM_MAIN_HBP(hbp);
++			samsung_dsim_write(dsi, DSIM_MHPORCH_REG, reg);
++
++			reg = DSIM_MAIN_VSA(m->vsync_end - m->vsync_start)
++				| DSIM_MAIN_HSA(hsa);
++			samsung_dsim_write(dsi, DSIM_MSYNC_REG, reg);
++		} else {
++			reg = DSIM_MAIN_HFP(m->hsync_start - m->hdisplay)
++				| DSIM_MAIN_HBP(m->htotal - m->hsync_end);
++			samsung_dsim_write(dsi, DSIM_MHPORCH_REG, reg);
++
++			reg = DSIM_MAIN_VSA(m->vsync_end - m->vsync_start)
++				| DSIM_MAIN_HSA(m->hsync_end - m->hsync_start);
++			samsung_dsim_write(dsi, DSIM_MSYNC_REG, reg);
++		}
+ 	}
+ 	reg =  DSIM_MAIN_HRESOL(m->hdisplay, num_bits_resol) |
+ 		DSIM_MAIN_VRESOL(m->vdisplay, num_bits_resol);
 -- 
-2.40.0
+2.39.2
 
