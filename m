@@ -2,46 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09DD46E2E73
-	for <lists+dri-devel@lfdr.de>; Sat, 15 Apr 2023 04:04:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45C8D6E2F27
+	for <lists+dri-devel@lfdr.de>; Sat, 15 Apr 2023 07:27:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 307D610E00F;
-	Sat, 15 Apr 2023 02:04:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D9B8810E06B;
+	Sat, 15 Apr 2023 05:27:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from galois.linutronix.de (Galois.linutronix.de
- [IPv6:2a0a:51c0:0:12e:550::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 12DD710E00F;
- Sat, 15 Apr 2023 02:04:46 +0000 (UTC)
-From: John Ogness <john.ogness@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020; t=1681524285;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=QvcA5HnArT0juQcF/pl/UzocaIDN3s8qO05ZD9AHBzE=;
- b=WAdGjtojvZtiEi0uFTGSkIhurdv40v6CO9/2ElIZENNMe/XpJb6QqRTo7lK+AVvZ/QSaGu
- SPGx0ndC+0A0mVsTL5HcIh77lBq3+ojEHj/h2i1mdbQwHu5g5UQonlvrLc3bzGwj/iF8Hw
- LZAU4Yl5o+nGNAQHinyQRG/Xo7Arffk53TSjXUxrl95YRoifE4rCEgk9k6PbW/RCxbK3lg
- liSjFPsFw/KfoepDZKW8S4GVazp/pNLxibZntNctNFHBpdRExSRd8LLAIr6uNSys3ETss5
- bfw+YjOoIq+xe3QCyRsDSlzi5w7Nn3SJS2plz21OPFI94G/6w4U2OgU/zVbZdQ==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020e; t=1681524285;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=QvcA5HnArT0juQcF/pl/UzocaIDN3s8qO05ZD9AHBzE=;
- b=CwlW0QiZiaCRp7T+kaLraqtWcuxFmF7F3Nw4r2zMdjo8BTw+gg7+DNlx4B/zx+6AeXqakD
- jLgy4BY6abTjgwBQ==
-To: =?utf-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Subject: [PATCH v3] drm/nouveau: fix incorrect conversion to
- dma_resv_wait_timeout()
-In-Reply-To: <20230415012137.615305-1-john.ogness@linutronix.de>
-References: <20230415012137.615305-1-john.ogness@linutronix.de>
-Date: Sat, 15 Apr 2023 04:08:50 +0206
-Message-ID: <87edolaomt.fsf@jogness.linutronix.de>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7AE2710E06B;
+ Sat, 15 Apr 2023 05:27:40 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 46480601E3;
+ Sat, 15 Apr 2023 05:27:38 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1F3E2C433D2;
+ Sat, 15 Apr 2023 05:27:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1681536457;
+ bh=kZR8ns5F4Bcc2fBZdAJkdaZdvVij/HL8fonVpVxmF5o=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=tgzqhriUxI6WynT+M/ainvFueDAIE9XMhjUOpMUhaLqWyQ20KH4aBkrNQuS7emj8c
+ Fsou7e2+b2D1W4taJQ8/uY1y/D6oLiBtxcOmIMBypROx5BrQgUyq+ZzEZM/YooxQXg
+ rEEG9EQqNAPRQU/N7UGXUF+we+3k6HkxqotYRyuE=
+Date: Sat, 15 Apr 2023 07:27:34 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Lorenzo Stoakes <lstoakes@gmail.com>
+Subject: Re: [PATCH 1/7] mm/gup: remove unused vmas parameter from
+ get_user_pages()
+Message-ID: <ZDo1xtPG-7R8Zdr0@kroah.com>
+References: <cover.1681508038.git.lstoakes@gmail.com>
+ <d40cb239d0ca01e51f7fc2a276398e8f4dedf9ff.1681508038.git.lstoakes@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <d40cb239d0ca01e51f7fc2a276398e8f4dedf9ff.1681508038.git.lstoakes@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,81 +51,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Karol Herbst <kherbst@redhat.com>, nouveau@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Tanmay Bhushan <007047221b@gmail.com>, Ben Skeggs <bskeggs@redhat.com>
+Cc: Dimitri Sivanich <dimitri.sivanich@hpe.com>,
+ Xinhui Pan <Xinhui.Pan@amd.com>, Arnd Bergmann <arnd@arndb.de>,
+ kvm@vger.kernel.org, David Hildenbrand <david@redhat.com>,
+ dri-devel@lists.freedesktop.org, x86@kernel.org, linux-kernel@vger.kernel.org,
+ Matthew Wilcox <willy@infradead.org>, linux-mm@kvack.org,
+ Jarkko Sakkinen <jarkko@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+ Borislav Petkov <bp@alien8.de>, amd-gfx@lists.freedesktop.org,
+ "H . Peter Anvin" <hpa@zytor.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Thomas Gleixner <tglx@linutronix.de>, linux-sgx@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Commit 41d351f29528 ("drm/nouveau: stop using ttm_bo_wait")
-converted from ttm_bo_wait_ctx() to dma_resv_wait_timeout().
-However, dma_resv_wait_timeout() returns greater than zero on
-success as opposed to ttm_bo_wait_ctx(). As a result, relocs
-will fail and log errors even when it was a success.
+On Sat, Apr 15, 2023 at 12:27:13AM +0100, Lorenzo Stoakes wrote:
+> No invocation of get_user_pages() uses the vmas parameter, so remove
+> it.
+> 
+> The GUP API is confusing and caveated. Recent changes have done much to
+> improve that, however there is more we can do. Exporting vmas is a prime
+> target as the caller has to be extremely careful to preclude their use
+> after the mmap_lock has expired or otherwise be left with dangling
+> pointers.
+> 
+> Removing the vmas parameter focuses the GUP functions upon their primary
+> purpose - pinning (and outputting) pages as well as performing the actions
+> implied by the input flags.
+> 
+> This is part of a patch series aiming to remove the vmas parameter
+> altogether.
+> 
+> Signed-off-by: Lorenzo Stoakes <lstoakes@gmail.com>
+> Suggested-by: Matthew Wilcox (Oracle) <willy@infradead.org>
 
-Change the return code handling to match that of
-nouveau_gem_ioctl_cpu_prep(), which was already using
-dma_resv_wait_timeout() correctly.
-
-Fixes: 41d351f29528 ("drm/nouveau: stop using ttm_bo_wait")
-Reported-by: Tanmay Bhushan <007047221b@gmail.com>
-Link: https://lore.kernel.org/lkml/20230119225351.71657-1-007047221b@gmail.com
-Signed-off-by: John Ogness <john.ogness@linutronix.de>
----
- I just realized that the nouveau driver style prefers to scope
- variables used only in loops.
-
- v3: Define @lret within the for-loop.
-
- drivers/gpu/drm/nouveau/nouveau_gem.c | 18 ++++++++++++------
- 1 file changed, 12 insertions(+), 6 deletions(-)
-
-diff --git a/drivers/gpu/drm/nouveau/nouveau_gem.c b/drivers/gpu/drm/nouveau/nouveau_gem.c
-index f77e44958037..ab9062e50977 100644
---- a/drivers/gpu/drm/nouveau/nouveau_gem.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_gem.c
-@@ -645,7 +645,7 @@ nouveau_gem_pushbuf_reloc_apply(struct nouveau_cli *cli,
- 				struct drm_nouveau_gem_pushbuf_reloc *reloc,
- 				struct drm_nouveau_gem_pushbuf_bo *bo)
- {
--	long ret = 0;
-+	int ret = 0;
- 	unsigned i;
- 
- 	for (i = 0; i < req->nr_relocs; i++) {
-@@ -653,6 +653,7 @@ nouveau_gem_pushbuf_reloc_apply(struct nouveau_cli *cli,
- 		struct drm_nouveau_gem_pushbuf_bo *b;
- 		struct nouveau_bo *nvbo;
- 		uint32_t data;
-+		long lret;
- 
- 		if (unlikely(r->bo_index >= req->nr_buffers)) {
- 			NV_PRINTK(err, cli, "reloc bo index invalid\n");
-@@ -703,13 +704,18 @@ nouveau_gem_pushbuf_reloc_apply(struct nouveau_cli *cli,
- 				data |= r->vor;
- 		}
- 
--		ret = dma_resv_wait_timeout(nvbo->bo.base.resv,
--					    DMA_RESV_USAGE_BOOKKEEP,
--					    false, 15 * HZ);
--		if (ret == 0)
-+		lret = dma_resv_wait_timeout(nvbo->bo.base.resv,
-+					     DMA_RESV_USAGE_BOOKKEEP,
-+					     false, 15 * HZ);
-+		if (!lret)
- 			ret = -EBUSY;
-+		else if (lret > 0)
-+			ret = 0;
-+		else
-+			ret = lret;
-+
- 		if (ret) {
--			NV_PRINTK(err, cli, "reloc wait_idle failed: %ld\n",
-+			NV_PRINTK(err, cli, "reloc wait_idle failed: %d\n",
- 				  ret);
- 			break;
- 		}
-
-base-commit: 09a9639e56c01c7a00d6c0ca63f4c7c41abe075d
--- 
-2.30.2
+Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
