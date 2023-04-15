@@ -1,62 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7945F6E30D1
-	for <lists+dri-devel@lfdr.de>; Sat, 15 Apr 2023 12:47:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D8F96E30D2
+	for <lists+dri-devel@lfdr.de>; Sat, 15 Apr 2023 12:47:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B7A0410E23F;
+	by gabe.freedesktop.org (Postfix) with ESMTP id A9B5210E0CF;
 	Sat, 15 Apr 2023 10:47:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com
- [IPv6:2a00:1450:4864:20::635])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B26F610E0CF
- for <dri-devel@lists.freedesktop.org>; Sat, 15 Apr 2023 10:47:07 +0000 (UTC)
-Received: by mail-ej1-x635.google.com with SMTP id rp27so14846835ejb.12
- for <dri-devel@lists.freedesktop.org>; Sat, 15 Apr 2023 03:47:07 -0700 (PDT)
+Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com
+ [IPv6:2a00:1450:4864:20::62e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4E6FA10E0CF
+ for <dri-devel@lists.freedesktop.org>; Sat, 15 Apr 2023 10:47:09 +0000 (UTC)
+Received: by mail-ej1-x62e.google.com with SMTP id gc14so6756543ejc.5
+ for <dri-devel@lists.freedesktop.org>; Sat, 15 Apr 2023 03:47:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1681555625; x=1684147625;
+ d=gmail.com; s=20221208; t=1681555627; x=1684147627;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=O04Ye2MzXp7QKEfSemVWElXkh5JGH4p8WqqP9d/MZSE=;
- b=QZ2NGevF4bpWez9gHLYQPb3kG98YPHW3Dxiczr4FnG7PJcfpWiPdmDcQOHTbP37dbF
- groLwOQ9YguDs/v1WdalPZoJz2XFoeEgSuj19V1VKwKqZE5EhYXEWh/zfw1v+9GRAPdj
- k+AevlVI1t361tdpOE77dqxw2u85ij0tefIDjWbrQimHCWj+Gavslz+V+A+2ZrO2X8Wt
- G1lY0wYGd8RYOIrCNRim9Ed4DFIVQ0u700KG/MF3AWBQjHH4nhE3GunEcp6emqfckeTy
- V8aRYSincLppnfKgTfGsBca13Kc07lCZR8nAI/dCyx/zlHxtGjd9iB3X7Foj2yi0sQru
- kxmw==
+ bh=dISlVJnWoSaQPOrIVy9KR50yRndMlP9B9wtDi4lm21g=;
+ b=SCjs3vMvK2vVbIo4PEH9d6VWabMBvQohKJbY+fgeqC2sQFvisjZ0GgspZWffRy8dZk
+ y6KeaK7MPnpTR4p3cA/zb5IZvkRki0fwPrItKuI39DExUfQP+Eo6qx7mgNs/2FEkigiQ
+ j565yQ+cmOkG8X7Zts82eUD6V5SoTeVooL9sBYn1KlKioXjtggB3zFRdkewj9WJlvryy
+ 0GUlkG4BcmAyatKWEVvcsIcLHMIomzkba4xtVOiqTgWqI4AzbA9mWG1hk0mSGJrbvd1B
+ ghkuN13whkF8Wf6Z0FDvWBOofX5TIOv6hWP2k1UpuJbPYjl5OsdvaoMlFNnxs+Vhc7eL
+ 70qw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681555625; x=1684147625;
+ d=1e100.net; s=20221208; t=1681555627; x=1684147627;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=O04Ye2MzXp7QKEfSemVWElXkh5JGH4p8WqqP9d/MZSE=;
- b=FT0JJeRgv4ymvOJozrh9dI/ht6jRQzU1oq8AdNGK89DMfQOFelAc6ybelmYmIfbf5O
- 8J9FjxWgPk8ivi9Kaw4DBSxTNJWAYZ1XXMqVk9049Pc2icZUSWZTAl4b98TyXRmdBuWX
- uvKlOcjb3o0uTYx8ACGXsYtIOv1whilWjJm8khlTvN170CkltDHY/+sWbSb05ZmPof1o
- XU+DR/jpWTELtyKEHRCebKRliLB0WYV6aImFkWimBZjT5XO4OO0yIulLVfKBanNvmt7G
- of4/elgCiNgroi6mLnqt9mJ8xVEGbjCtwhnqoqf/ikFmAAeiACHNd7pH9KmFBn3Cz3LD
- OTaQ==
-X-Gm-Message-State: AAQBX9cX0ztbbLTyDW+MCA31KrMg3cY4r3BVZ1nMbrCVGfAAPwkzRbiA
- 5NQKiC7CEhGy1mmsimwfFhE=
-X-Google-Smtp-Source: AKy350bwZkPIK+M4puxUx9p8YTSxs9X8ypJVNYd5v62q6WmJKob3N+gncOYlcJY70GiMJz9RM8YuZw==
-X-Received: by 2002:a17:906:ad87:b0:94a:4b7a:9886 with SMTP id
- la7-20020a170906ad8700b0094a4b7a9886mr1727708ejb.12.1681555625592; 
- Sat, 15 Apr 2023 03:47:05 -0700 (PDT)
+ bh=dISlVJnWoSaQPOrIVy9KR50yRndMlP9B9wtDi4lm21g=;
+ b=Y5aVhmqrfP3Ig4bzbSI7vtjssKEAPBGjnchRQKx/HQ2nzb74fV6Iw9778PiPEmUvM1
+ XCoN4nfckuQGqlR5RRj9dEqOywMOExRivDXfSHKThfQm3W61WmTLfGiYxkWIwvHnp6Kq
+ LAR3O1CnVPOiU4ygoORcP3i+da4IvHScrwAhivesS/SDrjkoZj7qh3vNJ9Jo0vWFNoYt
+ e5d2qSmVJdZApiuQvBeMMoRm6DXAnxP6rC/vZDLK8c7HPEqbT4ifdLXyozRda5//Q4Jp
+ NHhShwpfRNpyYa1716LkG+LOKZ+muYBoiaJcIFx3kwQw5JFNXXjEBr5CKzrzn7Cln0Ak
+ rW9w==
+X-Gm-Message-State: AAQBX9foAmUdUijRLBtS5hGRnFShFK3bIkJQMahYuJb6DEo28dIJlNFd
+ /0nAjWHuP7gib5I8iB/fk2k=
+X-Google-Smtp-Source: AKy350Y5afmiBhKRprtC5SNEdZYPWt8T99YvHJGrJGHbqb6r+TSAdL+giiW/xUXtzn4KHSMx6NBvAg==
+X-Received: by 2002:a17:907:2149:b0:94a:4d06:3de3 with SMTP id
+ rk9-20020a170907214900b0094a4d063de3mr1493742ejb.72.1681555627031; 
+ Sat, 15 Apr 2023 03:47:07 -0700 (PDT)
 Received: from localhost.localdomain (82-149-1-233.dynamic.telemach.net.
  [82.149.1.233]) by smtp.gmail.com with ESMTPSA id
- m15-20020a170906720f00b00947ab65d932sm3607034ejk.83.2023.04.15.03.47.04
+ m15-20020a170906720f00b00947ab65d932sm3607034ejk.83.2023.04.15.03.47.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 15 Apr 2023 03:47:05 -0700 (PDT)
+ Sat, 15 Apr 2023 03:47:06 -0700 (PDT)
 From: Jernej Skrabec <jernej.skrabec@gmail.com>
 To: andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org,
  robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, wens@csie.org,
  samuel@sholland.org
-Subject: [PATCH 2/3] drm/bridge: dw_hdmi: Handle snps,disable-cec property
-Date: Sat, 15 Apr 2023 12:46:12 +0200
-Message-Id: <20230415104613.61224-3-jernej.skrabec@gmail.com>
+Subject: [PATCH 3/3] ARM: dts: sun8i: h3: beelink-x2: Disable DW-HDMI CEC
+Date: Sat, 15 Apr 2023 12:46:13 +0200
+Message-Id: <20230415104613.61224-4-jernej.skrabec@gmail.com>
 X-Mailer: git-send-email 2.40.0
 In-Reply-To: <20230415104613.61224-1-jernej.skrabec@gmail.com>
 References: <20230415104613.61224-1-jernej.skrabec@gmail.com>
@@ -82,28 +82,28 @@ Cc: devicetree@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-New DT property allows to skip CEC initialization.
+Beelink X2 uses software implementation of CEC even though DW-HDMI has
+working hardware implementation.
+
+Disable unused DW-HDMI CEC.
 
 Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 ---
- drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ arch/arm/boot/dts/sun8i-h3-beelink-x2.dts | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-index 603bb3c51027..e7e8199d2fb1 100644
---- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-+++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-@@ -3615,7 +3615,9 @@ struct dw_hdmi *dw_hdmi_probe(struct platform_device *pdev,
- 		hdmi->audio = platform_device_register_full(&pdevinfo);
- 	}
+diff --git a/arch/arm/boot/dts/sun8i-h3-beelink-x2.dts b/arch/arm/boot/dts/sun8i-h3-beelink-x2.dts
+index a6d38ecee141..38f40d69e5c5 100644
+--- a/arch/arm/boot/dts/sun8i-h3-beelink-x2.dts
++++ b/arch/arm/boot/dts/sun8i-h3-beelink-x2.dts
+@@ -150,6 +150,7 @@ &emac {
+ };
  
--	if (!plat_data->disable_cec && (config0 & HDMI_CONFIG0_CEC)) {
-+	if (!plat_data->disable_cec &&
-+	    !of_property_read_bool(np, "snps,disable-cec") &&
-+	    (config0 & HDMI_CONFIG0_CEC)) {
- 		cec.hdmi = hdmi;
- 		cec.ops = &dw_hdmi_cec_ops;
- 		cec.irq = irq;
+ &hdmi {
++	snps,disable-cec;
+ 	status = "okay";
+ };
+ 
 -- 
 2.40.0
 
