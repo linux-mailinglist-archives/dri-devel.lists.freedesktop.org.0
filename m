@@ -1,33 +1,33 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29D256E324E
-	for <lists+dri-devel@lfdr.de>; Sat, 15 Apr 2023 18:13:33 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E34D16E3250
+	for <lists+dri-devel@lfdr.de>; Sat, 15 Apr 2023 18:14:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5B55D10E0AE;
-	Sat, 15 Apr 2023 16:13:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0E46910E0C4;
+	Sat, 15 Apr 2023 16:14:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 86BDA10E0AE
- for <dri-devel@lists.freedesktop.org>; Sat, 15 Apr 2023 16:13:27 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8D94610E0C4
+ for <dri-devel@lists.freedesktop.org>; Sat, 15 Apr 2023 16:14:15 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id BD43461366;
- Sat, 15 Apr 2023 16:13:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AAB88C433EF;
- Sat, 15 Apr 2023 16:13:24 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id D3D5D616E2;
+ Sat, 15 Apr 2023 16:14:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B573CC433EF;
+ Sat, 15 Apr 2023 16:14:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1681575205;
- bh=5j6f6I4mbEo7KGdtYrweQ2fm7COf+DDOnyGSkcdLOkc=;
+ s=korg; t=1681575254;
+ bh=S7t8Djs+luJriTIn5zbEOo3pssX11iFK+2oHdZY2xzo=;
  h=Subject:To:Cc:From:Date:From;
- b=HHFg2DXNw/F10cbgdvh4gmCDuz0fR53WoR7yWXS+uLdXsYKuiCa6qzfXblCmXAHpC
- yP1tV8K++C4K6+28qQLZFuXGox6nwf3saYNNnuuJ8xw6Iz1U5yYBmIZmHbrS8iNDef
- WWbez8zmNtc8NDoGqQ8x91NIyTA/AbzB+l7sye4I=
+ b=uhsKaV7DDf1war3JczYhfP+ZnYeX584Z5wQyrt4XtID9uAuZw1r+zhVDbLahguczK
+ xwUL6NGEH+M/V7jt/XJpzx9PB7DG/g2h/eFKMxkJ3OQZ5/FKdk4eY/epFHwNOzmFHx
+ jpfT567cJkflvefd+g4W3RjlnX+0l+rEejn1Xi1A=
 Subject: Patch "fbmem: Reject FB_ACTIVATE_KD_TEXT from userspace" has been
- added to the 6.2-stable tree
+ added to the 6.1-stable tree
 To: airlied@linux.ie, alexander.deucher@amd.com, b.zolnierkie@samsung.com,
  daniel.vetter@ffwll.ch, daniel.vetter@intel.com, daniel@ffwll.ch,
  deller@gmx.de, dri-devel@lists.freedesktop.org, geert+renesas@glider.be,
@@ -38,8 +38,8 @@ To: airlied@linux.ie, alexander.deucher@amd.com, b.zolnierkie@samsung.com,
  samuel.thibault@ens-lyon.org, shlomo@fastmail.com, syoshida@redhat.com,
  tzimmermann@suse.de
 From: <gregkh@linuxfoundation.org>
-Date: Sat, 15 Apr 2023 18:12:46 +0200
-Message-ID: <2023041546-unpack-wildland-1e57@gregkh>
+Date: Sat, 15 Apr 2023 18:13:03 +0200
+Message-ID: <2023041502-universal-crepe-d5cb@gregkh>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -66,12 +66,12 @@ This is a note to let you know that I've just added the patch titled
 
     fbmem: Reject FB_ACTIVATE_KD_TEXT from userspace
 
-to the 6.2-stable tree which can be found at:
+to the 6.1-stable tree which can be found at:
     http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
 
 The filename of the patch is:
      fbmem-reject-fb_activate_kd_text-from-userspace.patch
-and it can be found in the queue-6.2 subdirectory.
+and it can be found in the queue-6.1 subdirectory.
 
 If you, or anyone else, feels it should not be added to the stable tree,
 please let <stable@vger.kernel.org> know about it.
@@ -137,7 +137,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 --- a/drivers/video/fbdev/core/fbmem.c
 +++ b/drivers/video/fbdev/core/fbmem.c
-@@ -1117,6 +1117,8 @@ static long do_fb_ioctl(struct fb_info *
+@@ -1116,6 +1116,8 @@ static long do_fb_ioctl(struct fb_info *
  	case FBIOPUT_VSCREENINFO:
  		if (copy_from_user(&var, argp, sizeof(var)))
  			return -EFAULT;
@@ -150,4 +150,4 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 Patches currently in stable-queue which might be from daniel.vetter@ffwll.ch are
 
-queue-6.2/fbmem-reject-fb_activate_kd_text-from-userspace.patch
+queue-6.1/fbmem-reject-fb_activate_kd_text-from-userspace.patch
