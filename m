@@ -2,44 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE3C26E2E09
-	for <lists+dri-devel@lfdr.de>; Sat, 15 Apr 2023 02:57:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 317076E2E0E
+	for <lists+dri-devel@lfdr.de>; Sat, 15 Apr 2023 02:57:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 856D110EEE3;
-	Sat, 15 Apr 2023 00:57:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7F42310EEEE;
+	Sat, 15 Apr 2023 00:57:25 +0000 (UTC)
 X-Original-To: DRI-Devel@lists.freedesktop.org
 Delivered-To: DRI-Devel@lists.freedesktop.org
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 00AB910EEE1;
- Sat, 15 Apr 2023 00:57:20 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 57CF810EEE3;
+ Sat, 15 Apr 2023 00:57:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1681520241; x=1713056241;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=4r1Rb6Hv5SpRFQ4zjuLX2Ge/nx7ANzRSIjEf8KVInPQ=;
- b=CKd7+hh1tUBel+gapKXy5DytKXe80n0tzbBItkJx46hcOuCqIF6z9xFT
- H2y1ZDgnLgNmBKf9FFDBLwoMeXjw9REktH9aZXqXWpdr+4d1JrvxQXl1j
- amfsJnExqg7kZB8hObpoRGW6kvycjYoSd1hCgfFBaCEIrMWN7wZzbFE7r
- qgsNK4UWUX62iW37breqZ9KKlzr+JhR++88fN9Un7HYPXJdEl0uTq7OTn
- Wk9Izc31a2MdA3qVR72ilj6ogfpCjeXITYH2/Xxp+mLYNCC19LzNbRiok
- bmhoE0ni7FgH0RsWznLqoMLxGnssfhQfOA5ZMU2FxPwZupKWdjbPcI1QZ g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10680"; a="372471779"
-X-IronPort-AV: E=Sophos;i="5.99,198,1677571200"; d="scan'208";a="372471779"
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=qEVykQuCU4qYs8pwv812hV238FG8h1DKyF8MbGmwpGA=;
+ b=dXqiVJ4XPCXnU6qh+WkY4tJBDZ2P3bruwHIr1DGsh5DwavfxstMh1ezl
+ 1J0uA1gA0sa0Q3rUJevpiwuJ85jn7B72k7ow/IghMyOH/IFZM1sG8SeHK
+ 0B8BZesMk6rEXN9nm64H+Q5gTiIJnjrYXsLpAu8t8AHzg2/PY7bRZC4Ar
+ Z3i1PkgcC7+6kukVPd3indf3T+SBgKmdEgKnJjiHQ2ZpmXL3X/rr5Eeh7
+ iC/psKn2PaXqaJYeFg/3CpEUvcRC/IDQzY/C/yeYPdZnIl7ehpgUo4FXu
+ Szotd+eRKIZ1tm3V/WwSVb8hkjUURH2cZK69t0f+MHenr2MWjUN+UQffe Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10680"; a="372471780"
+X-IronPort-AV: E=Sophos;i="5.99,198,1677571200"; d="scan'208";a="372471780"
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  14 Apr 2023 17:57:19 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10680"; a="722643198"
-X-IronPort-AV: E=Sophos;i="5.99,198,1677571200"; d="scan'208";a="722643198"
+X-IronPort-AV: E=McAfee;i="6600,9927,10680"; a="722643201"
+X-IronPort-AV: E=Sophos;i="5.99,198,1677571200"; d="scan'208";a="722643201"
 Received: from relo-linux-5.jf.intel.com ([10.165.21.152])
  by orsmga001.jf.intel.com with ESMTP; 14 Apr 2023 17:57:19 -0700
 From: John.C.Harrison@Intel.com
 To: Intel-GFX@Lists.FreeDesktop.Org
-Subject: [PATCH 0/5] Improvements to uc firmare management
-Date: Fri, 14 Apr 2023 17:57:01 -0700
-Message-Id: <20230415005706.4135485-1-John.C.Harrison@Intel.com>
+Subject: [PATCH 1/5] drm/i915/guc: Decode another GuC load failure case
+Date: Fri, 14 Apr 2023 17:57:02 -0700
+Message-Id: <20230415005706.4135485-2-John.C.Harrison@Intel.com>
 X-Mailer: git-send-email 2.39.1
+In-Reply-To: <20230415005706.4135485-1-John.C.Harrison@Intel.com>
+References: <20230415005706.4135485-1-John.C.Harrison@Intel.com>
 MIME-Version: 1.0
 Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
  Swindon SN3 1RJ
@@ -62,30 +64,51 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: John Harrison <John.C.Harrison@Intel.com>
 
-Enhance the firmware table verification code to catch more potential
-errors and to generally improve the code itself.
-
-Track patch level version even on reduced version files to allow user
-notification of missing bug fixes.
-
-Detect another immediate failure case when loading GuC firmware.
+Explain another potential firmware failure mode and early exit the
+long wait if hit.
 
 Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
+---
+ drivers/gpu/drm/i915/gt/uc/abi/guc_errors_abi.h | 1 +
+ drivers/gpu/drm/i915/gt/uc/intel_guc_fw.c       | 6 ++++++
+ 2 files changed, 7 insertions(+)
 
-
-John Harrison (5):
-  drm/i915/guc: Decode another GuC load failure case
-  drm/i915/guc: Print status register when waiting for GuC to load
-  drm/i915/uc: Track patch level versions on reduced version firmware
-    files
-  drm/i915/uc: Split firmware table validation to a separate function
-  drm/i915/uc: Reject doplicate entries in firmware table
-
- .../gpu/drm/i915/gt/uc/abi/guc_errors_abi.h   |   1 +
- drivers/gpu/drm/i915/gt/uc/intel_guc_fw.c     |  12 +-
- drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c      | 222 ++++++++++++------
- 3 files changed, 159 insertions(+), 76 deletions(-)
-
+diff --git a/drivers/gpu/drm/i915/gt/uc/abi/guc_errors_abi.h b/drivers/gpu/drm/i915/gt/uc/abi/guc_errors_abi.h
+index bcb1129b36102..dabeaf4f245f3 100644
+--- a/drivers/gpu/drm/i915/gt/uc/abi/guc_errors_abi.h
++++ b/drivers/gpu/drm/i915/gt/uc/abi/guc_errors_abi.h
+@@ -44,6 +44,7 @@ enum intel_guc_load_status {
+ enum intel_bootrom_load_status {
+ 	INTEL_BOOTROM_STATUS_NO_KEY_FOUND                 = 0x13,
+ 	INTEL_BOOTROM_STATUS_AES_PROD_KEY_FOUND           = 0x1A,
++	INTEL_BOOTROM_STATUS_PROD_KEY_CHECK_FAILURE       = 0x2B,
+ 	INTEL_BOOTROM_STATUS_RSA_FAILED                   = 0x50,
+ 	INTEL_BOOTROM_STATUS_PAVPC_FAILED                 = 0x73,
+ 	INTEL_BOOTROM_STATUS_WOPCM_FAILED                 = 0x74,
+diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_fw.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_fw.c
+index 6fda3aec5c66a..0ff088a5e51a8 100644
+--- a/drivers/gpu/drm/i915/gt/uc/intel_guc_fw.c
++++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_fw.c
+@@ -129,6 +129,7 @@ static inline bool guc_load_done(struct intel_uncore *uncore, u32 *status, bool
+ 	case INTEL_BOOTROM_STATUS_RC6CTXCONFIG_FAILED:
+ 	case INTEL_BOOTROM_STATUS_MPUMAP_INCORRECT:
+ 	case INTEL_BOOTROM_STATUS_EXCEPTION:
++	case INTEL_BOOTROM_STATUS_PROD_KEY_CHECK_FAILURE:
+ 		*success = false;
+ 		return true;
+ 	}
+@@ -219,6 +220,11 @@ static int guc_wait_ucode(struct intel_guc *guc)
+ 			guc_info(guc, "firmware signature verification failed\n");
+ 			ret = -ENOEXEC;
+ 			break;
++
++		case INTEL_BOOTROM_STATUS_PROD_KEY_CHECK_FAILURE:
++			guc_info(guc, "firmware production part check failure\n");
++			ret = -ENOEXEC;
++			break;
+ 		}
+ 
+ 		switch (ukernel) {
 -- 
 2.39.1
 
