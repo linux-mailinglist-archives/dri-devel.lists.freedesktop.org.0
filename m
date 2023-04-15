@@ -1,62 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBDFC6E30D0
-	for <lists+dri-devel@lfdr.de>; Sat, 15 Apr 2023 12:47:13 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B72CA6E30D3
+	for <lists+dri-devel@lfdr.de>; Sat, 15 Apr 2023 12:47:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4839F10E0AA;
-	Sat, 15 Apr 2023 10:47:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AEC8710E253;
+	Sat, 15 Apr 2023 10:47:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com
- [IPv6:2a00:1450:4864:20::629])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1A9D810E0AA
- for <dri-devel@lists.freedesktop.org>; Sat, 15 Apr 2023 10:47:05 +0000 (UTC)
-Received: by mail-ej1-x629.google.com with SMTP id jg21so51519658ejc.2
- for <dri-devel@lists.freedesktop.org>; Sat, 15 Apr 2023 03:47:04 -0700 (PDT)
+Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com
+ [IPv6:2a00:1450:4864:20::630])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 414C210E0AA
+ for <dri-devel@lists.freedesktop.org>; Sat, 15 Apr 2023 10:47:06 +0000 (UTC)
+Received: by mail-ej1-x630.google.com with SMTP id q23so42383591ejz.3
+ for <dri-devel@lists.freedesktop.org>; Sat, 15 Apr 2023 03:47:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1681555623; x=1684147623;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=ICwYyWWnryvHm9RgRWeq29kRBlsUBNW7tslN8BXiwmU=;
- b=BQaKk6QpiVmZPeB/smhkVOuNZTbb+v8ly+PlkeCAAUt25cyNgPCVm9EHDY1zU5H9ZJ
- GVarHQ5Bc6ZcGPe6Bwfk8vERzbJADby9E/E4YAXf9GrGff/klt/bFP/Lm3NC4VKujCGF
- vHOa1yCSPHf70VHMBwULihW2kIzTwHzKKADr3KbFPA53nKl5Xb6wT9FbFoZv8LTZ/mH5
- hTjRz4qA8W12+1+3cOV2vzKvjJMUW0G5cSRcoXl0bdyEgPAPNH3nS2aL9/6bZcLTxOI3
- hPzl/BZxx9dUBa0lM+AOa+Ts1Dh7s6E2VR25Q7p8TuWCo5L7ZgLE4cxSLqulgNyQgrIz
- MzVQ==
+ d=gmail.com; s=20221208; t=1681555624; x=1684147624;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=9pUd8DFQ/mMGaJuS7CXpgBKGgZF1BMCPB7h8W33HCwg=;
+ b=n5tydzgrJ8BvqSB5++nyIu0SF8/YOb1MSjRmH8/IFtW5mQWsPuRdyIOra6V10T6FZV
+ hGgTYwMF+lx8KLw1plktt251TOYSkKZ9vv5zpyJ8NQF1MJjbBbQA4mpO6bcHTyRnBRMm
+ nS9OooZA+VKqtHhBWUP8wUwCmNH8wJhM/7icFMUGeecgrDfxtMBRJ58l5wAPAU3I3F4v
+ T1xy306yEAhHINS82+ZJAiM9qUo2CN03M4jNl7fH2SsfQN8YfnvNJR4nx2PLNSpX4TUK
+ g1Aeo04jMyInkcrxEsesYnIRVLdVKQOoC8/C5jvr1FocICGeaq03k4eS7wodptjJP17R
+ NSEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681555623; x=1684147623;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=ICwYyWWnryvHm9RgRWeq29kRBlsUBNW7tslN8BXiwmU=;
- b=JkmIOyrR3mWB+flDzAfMfqWbq5a/kGoBxNccTv5LGWGFpFJxzgsVdt3a/EDUZ0R6SM
- u9ihW7S9B2SbujO5ySYg2bRi8p4lSXLNS9mk4OrEH83PTga8MfPiEa4Y1bbEmL6CtIPU
- G7wCz5SngaKX/KWRyV35JNynLqD0qI8a456+hI9mjdjnHqik64qKImFYe/GStmE42/Cg
- UdON2HnjKcte40qcmkY/bGwVsUsEO+Swq2FgIdstUvDAEimOanmQ7VdEOLozTSpld8ZF
- o0NtiglaWL6ArOzsuk8l0LDvfZSl62UAEqGemKmTKHfPuZi9jRDbltfv7mPQ/IuZY4hY
- IITA==
-X-Gm-Message-State: AAQBX9djMd6UhmrY/5UyICYZ5YtelJeSZJ0eQJatPC9WBQFKd730KUUo
- 8N4BQFcjGjy4UAWpXC/dHGM=
-X-Google-Smtp-Source: AKy350ZlZmmQo025rfm2e2tAa9xyZl6HKwCyENZ72HZZ0DvAjQTuASLgS7n6KD8a24YZf10jRtRI2A==
-X-Received: by 2002:a17:907:2087:b0:94e:fe0f:b2be with SMTP id
- pv7-20020a170907208700b0094efe0fb2bemr1577373ejb.14.1681555622742; 
- Sat, 15 Apr 2023 03:47:02 -0700 (PDT)
+ d=1e100.net; s=20221208; t=1681555624; x=1684147624;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=9pUd8DFQ/mMGaJuS7CXpgBKGgZF1BMCPB7h8W33HCwg=;
+ b=B5icL2K2vhQBXE1NzFrSGVTNPgQJpo/c7nFo0PbLEagkUe5zVSYbuohu/9sS1acqZh
+ Rj8I/39xtifMoFlyW4LT37TyayqyhZ5mBgA7wHi2lbgMao/kp+2RhvbQHpaG9BG9PD8N
+ i2yNeW15dhEsWfA7naB8i2BA9cvQk58JXGwR153mcuaiFBjiTXpr0zqRskaoU68CdSgL
+ XgpCDtoY34J3e2cXCM442sGjtWl2dqUo2hB8LI3ai3uitRGGJ0BCKpRi3WN/t1VtiHq+
+ W53CMj3j6/sY+ldshuQZe/CtgXdx010YtHKT9UcWLh9F26uKyINK39+h+J1biQ/EHGX2
+ cwoQ==
+X-Gm-Message-State: AAQBX9dsIrwhTdaXItHPCM4y6LkfF2UoQevxaxEiMQTUH31m0r3ZFtzl
+ vJtAeGq95J9szuumu2C1rTw=
+X-Google-Smtp-Source: AKy350aJNghSC5CfNyPgKkWXs0FMN8fkENsNCl8unVGCaGJStsvyvk7XtDGK5pCnk/0RAbSApiKWog==
+X-Received: by 2002:a17:906:2a45:b0:94f:1a23:2f1b with SMTP id
+ k5-20020a1709062a4500b0094f1a232f1bmr1247720eje.24.1681555624222; 
+ Sat, 15 Apr 2023 03:47:04 -0700 (PDT)
 Received: from localhost.localdomain (82-149-1-233.dynamic.telemach.net.
  [82.149.1.233]) by smtp.gmail.com with ESMTPSA id
- m15-20020a170906720f00b00947ab65d932sm3607034ejk.83.2023.04.15.03.47.01
+ m15-20020a170906720f00b00947ab65d932sm3607034ejk.83.2023.04.15.03.47.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 15 Apr 2023 03:47:02 -0700 (PDT)
+ Sat, 15 Apr 2023 03:47:03 -0700 (PDT)
 From: Jernej Skrabec <jernej.skrabec@gmail.com>
 To: andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org,
  robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, wens@csie.org,
  samuel@sholland.org
-Subject: [PATCH 0/3] drm/bridge: dw_hdmi: allow to disable CEC from DT
-Date: Sat, 15 Apr 2023 12:46:10 +0200
-Message-Id: <20230415104613.61224-1-jernej.skrabec@gmail.com>
+Subject: [PATCH 1/3] dt-bindings: display: synopsys,
+ dw-hdmi: Add property for disabling CEC
+Date: Sat, 15 Apr 2023 12:46:11 +0200
+Message-Id: <20230415104613.61224-2-jernej.skrabec@gmail.com>
 X-Mailer: git-send-email 2.40.0
+In-Reply-To: <20230415104613.61224-1-jernej.skrabec@gmail.com>
+References: <20230415104613.61224-1-jernej.skrabec@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -79,26 +83,34 @@ Cc: devicetree@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Boards can have perfectly working DW HDMI CEC implementation but they
-may prefer to use bit banged implementation instead. This is the
-situation on Beelink X2.
+Even though some DW-HDMI controllers have perfectly usable HDMI-CEC
+implementation, some boards might prefer not to use it or even use
+software implementation instead.
 
-Add DW HDMI DT property for disabling CEC. This prevents confusion on
-userspace side by not exposing unused CEC interface.
+Add property for disabling CEC so driver doesn't expose unused CEC
+interface, if CEC pin isn't connected anywhere.
 
-Best regards,
-Jernej
-
-Jernej Skrabec (3):
-  dt-bindings: display: synopsys,dw-hdmi: Add property for disabling CEC
-  drm/bridge: dw_hdmi: Handle snps,disable-cec property
-  ARM: dts: sun8i: h3: beelink-x2: Disable DW-HDMI CEC
-
+Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+---
  .../devicetree/bindings/display/bridge/synopsys,dw-hdmi.yaml | 5 +++++
- arch/arm/boot/dts/sun8i-h3-beelink-x2.dts                    | 1 +
- drivers/gpu/drm/bridge/synopsys/dw-hdmi.c                    | 4 +++-
- 3 files changed, 9 insertions(+), 1 deletion(-)
+ 1 file changed, 5 insertions(+)
 
+diff --git a/Documentation/devicetree/bindings/display/bridge/synopsys,dw-hdmi.yaml b/Documentation/devicetree/bindings/display/bridge/synopsys,dw-hdmi.yaml
+index 4b7e54a8f037..624d32c024f6 100644
+--- a/Documentation/devicetree/bindings/display/bridge/synopsys,dw-hdmi.yaml
++++ b/Documentation/devicetree/bindings/display/bridge/synopsys,dw-hdmi.yaml
+@@ -48,6 +48,11 @@ properties:
+   interrupts:
+     maxItems: 1
+ 
++  snps,disable-cec:
++    $ref: /schemas/types.yaml#/definitions/flag
++    description:
++      Disable HDMI-CEC.
++
+ additionalProperties: true
+ 
+ ...
 -- 
 2.40.0
 
