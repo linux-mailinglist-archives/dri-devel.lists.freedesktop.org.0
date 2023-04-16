@@ -1,42 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 549646E399D
-	for <lists+dri-devel@lfdr.de>; Sun, 16 Apr 2023 17:10:33 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 170036E39B6
+	for <lists+dri-devel@lfdr.de>; Sun, 16 Apr 2023 17:15:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5B22910E1E6;
-	Sun, 16 Apr 2023 15:10:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 049E410E20C;
+	Sun, 16 Apr 2023 15:15:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D839010E1E6
- for <dri-devel@lists.freedesktop.org>; Sun, 16 Apr 2023 15:10:25 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C723E10E100
+ for <dri-devel@lists.freedesktop.org>; Sun, 16 Apr 2023 15:15:31 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 3935760C01;
- Sun, 16 Apr 2023 15:10:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 23133C433D2;
- Sun, 16 Apr 2023 15:10:21 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 4746F61B20;
+ Sun, 16 Apr 2023 15:15:27 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 29733C433EF;
+ Sun, 16 Apr 2023 15:15:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1681657824;
- bh=I0sotEmV3kawNyJtlPP3kmpIyzaPhPsF87PCQWk+tlY=;
+ s=k20201202; t=1681658126;
+ bh=vg7a+9DCnudCadywsW+LfZkYC34HIPkJONEpTnE3IgA=;
  h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=sPXbC0sAJIEoZdtARQ8ujGEOupvOV46NmhADpKDepBQtzwPcO0oko3cFP0kUwSjFW
- 9bWkPtWo1p0jYWXPNV+7F4Vz/nzPvZpvkJgSeS6+AkbGqaz2DVx3OwXsD9mxZdMCGJ
- F+ntAIeeoUDxtOWV6Kr5I1kYHIlTAmK1TkQxvkUlULhs/wwZCU9kvksDQn6+qhrn9G
- Z6bvxASy0KCgriRs42PpEUlOtY9zzHJDDM0Pk1c36EDo7f+BlnU6lXdQProQSL+nQz
- Mw8SMUN/9Xaz0avDg+4zabNkNYgg93URXiM5j7tMUwDaTR02tsQ+inoiBL1DnD2zIw
- qWeKX7qeNQblQ==
-Date: Sun, 16 Apr 2023 16:10:24 +0100
+ b=YdbRFGq8XX9t0ik/azOkzc9EKI0CmzqXbczuMupYZnuOWGoKjaTyzlIhAw/DyfaiQ
+ P//0oUjd/Me3pFl5u/6zxLgHHr+SFlpVunFRA9K86f7bHCLf5NLdu/QyxFp7SpHlhn
+ PgVXQm/s2Uuc39C8V9GcaWQxWjw2Gpl3RmlasxbB9RQ3KQRAGPKUSLFOt6HMyxVi3L
+ ltiIKU3FP0Hz3geJtpvvKV3Lh+b0ljO8P/dURRzfzP+Zq7z3aVaIOAqoO6ZG1B/+7B
+ prJppVDKgixqKXJGBV33f7rZsWOYcM1N7LJpGtEbzygqC3WfXs7zXixTo/GFKdu4U7
+ bm485htkgzjiQ==
+Date: Sun, 16 Apr 2023 16:15:27 +0100
 From: Jonathan Cameron <jic23@kernel.org>
 To: Paul Cercueil <paul@crapouillou.net>
-Subject: Re: [PATCH v3 09/11] iio: buffer-dma: Enable support for DMABUFs
-Message-ID: <20230416161024.68c761b2@jic23-huawei>
-In-Reply-To: <20230403154800.215924-10-paul@crapouillou.net>
+Subject: Re: [PATCH v3 10/11] iio: buffer-dmaengine: Support new DMABUF
+ based userspace API
+Message-ID: <20230416161527.6e7021f1@jic23-huawei>
+In-Reply-To: <20230403154955.216148-1-paul@crapouillou.net>
 References: <20230403154800.215924-1-paul@crapouillou.net>
- <20230403154800.215924-10-paul@crapouillou.net>
+ <20230403154955.216148-1-paul@crapouillou.net>
 X-Mailer: Claws Mail 4.1.1 (GTK 3.24.37; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -63,119 +65,148 @@ Cc: Michael Hennerich <Michael.Hennerich@analog.com>, linux-iio@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon,  3 Apr 2023 17:47:58 +0200
+On Mon,  3 Apr 2023 17:49:54 +0200
 Paul Cercueil <paul@crapouillou.net> wrote:
 
-> Implement iio_dma_buffer_attach_dmabuf(), iio_dma_buffer_detach_dmabuf()
-> and iio_dma_buffer_transfer_dmabuf(), which can then be used by the IIO
-> DMA buffer implementations.
+> Use the functions provided by the buffer-dma core to implement the
+> DMABUF userspace API in the buffer-dmaengine IIO buffer implementation.
+> 
+> Since we want to be able to transfer an arbitrary number of bytes and
+> not necesarily the full DMABUF, the associated scatterlist is converted
+> to an array of DMA addresses + lengths, which is then passed to
+> dmaengine_prep_slave_dma_array().
 > 
 > Signed-off-by: Paul Cercueil <paul@crapouillou.net>
-Hi Paul,
+A few things inline.
 
-A few superficially comments.
+Thanks,
 
 Jonathan
 
 > 
 > ---
-> v3: Update code to provide the functions that will be used as callbacks
-> for the new IOCTLs.
+> v3: Use the new dmaengine_prep_slave_dma_array(), and adapt the code to
+>     work with the new functions introduced in industrialio-buffer-dma.c.
 > ---
->  drivers/iio/buffer/industrialio-buffer-dma.c | 157 +++++++++++++++++--
->  include/linux/iio/buffer-dma.h               |  24 +++
->  2 files changed, 168 insertions(+), 13 deletions(-)
+>  .../buffer/industrialio-buffer-dmaengine.c    | 69 ++++++++++++++++---
+>  include/linux/iio/buffer-dma.h                |  2 +
+>  2 files changed, 60 insertions(+), 11 deletions(-)
 > 
-> diff --git a/drivers/iio/buffer/industrialio-buffer-dma.c b/drivers/iio/buffer/industrialio-buffer-dma.c
-> index e14814e0d4c8..422bd784fd1e 100644
-> --- a/drivers/iio/buffer/industrialio-buffer-dma.c
-> +++ b/drivers/iio/buffer/industrialio-buffer-dma.c
-...
-
-> @@ -412,8 +448,12 @@ static void iio_dma_buffer_submit_block(struct iio_dma_buffer_queue *queue,
+> diff --git a/drivers/iio/buffer/industrialio-buffer-dmaengine.c b/drivers/iio/buffer/industrialio-buffer-dmaengine.c
+> index 866c8b84bb24..faed9c2b089c 100644
+> --- a/drivers/iio/buffer/industrialio-buffer-dmaengine.c
+> +++ b/drivers/iio/buffer/industrialio-buffer-dmaengine.c
+> @@ -65,25 +65,68 @@ static int iio_dmaengine_buffer_submit_block(struct iio_dma_buffer_queue *queue,
+>  		iio_buffer_to_dmaengine_buffer(&queue->buffer);
+>  	struct dma_async_tx_descriptor *desc;
+>  	enum dma_transfer_direction dma_dir;
+> +	unsigned int i, nents, *lenghts;
+> +	struct scatterlist *sgl;
+> +	unsigned long flags;
+> +	dma_addr_t *addrs;
+>  	size_t max_size;
+>  	dma_cookie_t cookie;
+> +	size_t len_total;
 >  
->  	block->state = IIO_BLOCK_STATE_ACTIVE;
->  	iio_buffer_block_get(block);
+> -	max_size = min(block->size, dmaengine_buffer->max_size);
+> -	max_size = round_down(max_size, dmaengine_buffer->align);
+> +	if (!block->bytes_used)
+> +		return -EINVAL;
+>  
+> -	if (queue->buffer.direction == IIO_BUFFER_DIRECTION_IN) {
+> -		block->bytes_used = max_size;
+> +	if (queue->buffer.direction == IIO_BUFFER_DIRECTION_IN)
+>  		dma_dir = DMA_DEV_TO_MEM;
+> -	} else {
+> +	else
+>  		dma_dir = DMA_MEM_TO_DEV;
+> -	}
+>  
+> -	if (!block->bytes_used || block->bytes_used > max_size)
+> -		return -EINVAL;
+
+Ah this is dropping the code I moaned about earlier.  I'll probably
+forget though so maybe add a note to that patch saying it goes
+away later anyway so I don't keep moaning about it in future versions.
+
+> +	if (block->sg_table) {
+> +		sgl = block->sg_table->sgl;
+> +		nents = sg_nents_for_len(sgl, block->bytes_used);
 > +
-
-Trivial, but I'd rather not see unrelated white space changes in a patch
-doing anything else.
-
->  	ret = queue->ops->submit(queue, block);
->  	if (ret) {
-> +		if (!block->fileio)
-> +			iio_buffer_signal_dmabuf_done(block->attach, ret);
+> +		addrs = kmalloc_array(nents, sizeof(*addrs), GFP_KERNEL);
+> +		if (!addrs)
+> +			return -ENOMEM;
 > +
->  		/*
->  		 * This is a bit of a problem and there is not much we can do
->  		 * other then wait for the buffer to be disabled and re-enabled
-> @@ -645,6 +685,97 @@ size_t iio_dma_buffer_data_available(struct iio_buffer *buf)
->  }
->  EXPORT_SYMBOL_GPL(iio_dma_buffer_data_available);
+> +		lenghts = kmalloc_array(nents, sizeof(*lenghts), GFP_KERNEL);
 
-...
+lengths?
 
-> +int iio_dma_buffer_enqueue_dmabuf(struct iio_buffer *buffer,
-> +				  struct iio_dma_buffer_block *block,
-> +				  struct sg_table *sgt,
-> +				  size_t size, bool cyclic)
-> +{
-> +	struct iio_dma_buffer_queue *queue = iio_buffer_to_queue(buffer);
-> +	int ret = 0;
-
-No need to init.
-
+> +		if (!lenghts) {
+> +			kfree(addrs);
+> +			return -ENOMEM;
+> +		}
 > +
-> +	mutex_lock(&queue->lock);
-> +	ret = iio_dma_can_enqueue_block(block);
-> +	if (ret < 0)
-> +		goto out_mutex_unlock;
+> +		len_total = block->bytes_used;
+>  
+> -	desc = dmaengine_prep_slave_single(dmaengine_buffer->chan,
+> -		block->phys_addr, block->bytes_used, dma_dir,
+> -		DMA_PREP_INTERRUPT);
+> +		for (i = 0; i < nents; i++) {
+> +			addrs[i] = sg_dma_address(sgl);
+> +			lenghts[i] = min(sg_dma_len(sgl), len_total);
+> +			len_total -= lenghts[i];
 > +
-> +	block->bytes_used = size;
-> +	block->cyclic = cyclic;
-> +	block->sg_table = sgt;
+> +			sgl = sg_next(sgl);
+> +		}
 > +
-> +	iio_dma_buffer_enqueue(queue, block);
+> +		flags = block->cyclic ? DMA_PREP_REPEAT : DMA_PREP_INTERRUPT;
 > +
-> +out_mutex_unlock:
-> +	mutex_unlock(&queue->lock);
-> +	return ret;
-> +}
-> +EXPORT_SYMBOL_GPL(iio_dma_buffer_enqueue_dmabuf);
+> +		desc = dmaengine_prep_slave_dma_array(dmaengine_buffer->chan,
+> +						      addrs, lenghts, nents,
+> +						      dma_dir, flags);
+> +		kfree(addrs);
+> +		kfree(lenghts);
+> +	} else {
+> +		max_size = min(block->size, dmaengine_buffer->max_size);
+> +		max_size = round_down(max_size, dmaengine_buffer->align);
+> +
+> +		if (queue->buffer.direction == IIO_BUFFER_DIRECTION_IN)
+> +			block->bytes_used = max_size;
+> +
+> +		if (block->bytes_used > max_size)
+> +			return -EINVAL;
+> +
+> +		desc = dmaengine_prep_slave_single(dmaengine_buffer->chan,
+> +						   block->phys_addr,
+> +						   block->bytes_used, dma_dir,
+> +						   DMA_PREP_INTERRUPT);
+> +	}
 
-Obviously an unrelated activity but good to namespace these
-in a future patch set.
 
-> +
->  /**
->   * iio_dma_buffer_set_bytes_per_datum() - DMA buffer set_bytes_per_datum callback
->   * @buffer: Buffer to set the bytes-per-datum for
 > diff --git a/include/linux/iio/buffer-dma.h b/include/linux/iio/buffer-dma.h
-> index 490b93f76fa8..e5e5817e99db 100644
+> index e5e5817e99db..48f7ffaf0867 100644
 > --- a/include/linux/iio/buffer-dma.h
 > +++ b/include/linux/iio/buffer-dma.h
-
->  /**
->   * enum iio_block_state - State of a struct iio_dma_buffer_block
-> @@ -41,6 +43,7 @@ enum iio_block_state {
+> @@ -43,6 +43,7 @@ enum iio_block_state {
 >   * @queue: Parent DMA buffer queue
 >   * @kref: kref used to manage the lifetime of block
 >   * @state: Current state of the block
-> + * @fileio: True if this buffer is used for fileio mode
+> + * @cyclic: True if this is a cyclic buffer
+>   * @fileio: True if this buffer is used for fileio mode
 
-Docs need update for the other two new elements.
+I might have commented on it earlier (I've lost track) but
+attach should be documented as well.   Worth sanity checking
+by either building with W=1 or running kernel-doc over
+the files and fixing the warnings.
 
 >   */
 >  struct iio_dma_buffer_block {
->  	/* May only be accessed by the owner of the block */
-> @@ -63,6 +66,11 @@ struct iio_dma_buffer_block {
->  	 * queue->list_lock if the block is not owned by the core.
+> @@ -67,6 +68,7 @@ struct iio_dma_buffer_block {
 >  	 */
 >  	enum iio_block_state state;
-> +
-> +	bool fileio;
-> +
-> +	struct dma_buf_attachment *attach;
-> +	struct sg_table *sg_table;
->  };
+>  
+> +	bool cyclic;
+>  	bool fileio;
+>  
+>  	struct dma_buf_attachment *attach;
 
