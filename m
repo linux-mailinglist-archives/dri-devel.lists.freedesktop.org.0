@@ -2,70 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 820D96E379D
-	for <lists+dri-devel@lfdr.de>; Sun, 16 Apr 2023 13:02:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2D3A6E37BA
+	for <lists+dri-devel@lfdr.de>; Sun, 16 Apr 2023 13:31:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5B55D10E0A2;
-	Sun, 16 Apr 2023 11:02:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3756110E03E;
+	Sun, 16 Apr 2023 11:31:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com
- [IPv6:2a00:1450:4864:20::631])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CA7BB10E0A2
- for <dri-devel@lists.freedesktop.org>; Sun, 16 Apr 2023 11:02:41 +0000 (UTC)
-Received: by mail-ej1-x631.google.com with SMTP id xd13so23028591ejb.4
- for <dri-devel@lists.freedesktop.org>; Sun, 16 Apr 2023 04:02:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1681642960; x=1684234960;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=F+s/B4eOWujes2P8w0FQ9OyTkSIgsXvTMJtbi4pA4Ms=;
- b=LoJwkKaHZuLQSpe5mfubX2q90+8KP8SJSIbv7eWqc8stVGUcbxKNHGsdxIwqVVTBOr
- wK32WqOXG12XXQ3ASKOSRixBJemSYGKBwZiaFabVcI3T/RVZapqspnvqp8+fVVxh4sf1
- mFqvhaY6XXj3q8+ku3B0es/COgLcTxplSqHsvN0JXOuHsRYhMsz11yU99fejURyty62H
- 8E+2X/exTrtzWBnnF+9eKHEK+ENL+Rt8gH5r8d0OzNq3RSgJY1DXayP7e/Ha+3Zs1+5S
- VfJM/jiMhOrnV4W1wdXDRLzLkjj38ElYY6xzpcE/Qa9pNmhCkiftvA2O0Zp1TZt6yl3K
- d1yA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681642960; x=1684234960;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=F+s/B4eOWujes2P8w0FQ9OyTkSIgsXvTMJtbi4pA4Ms=;
- b=OjBgAq6epICrg7mvS5E16BeXQtrFTY40IzkMXWjjg3eTnYQU21m+/Av91JVjWN9cB1
- 8k9JUPtWh6jV+/PJR7wS3JdqaYhaOYWrdf+6s0PagfvRrh74ywzmToss+Mc//dPHkDUP
- 0qzwlKTi7mki/OmFcCixcy9z6utnT2deiWX4rdrnJInvFNADqJqNEt+Vrk0Q9c1FNnJa
- l3xy+HJkz/piHycNHQBjnILcnQmGhr+tBfYgF385Oqvp/BFmBgDLg1yBhZJrdkBg4Pmv
- N3tsSdIlEdof8YQpDzEjTN9cwJ+gufa/cEq62OF++k6y6nPEtUMZ7nkqJArs4BHnNUy4
- BzHA==
-X-Gm-Message-State: AAQBX9csXhq5zwXYYDjucK636DLxdSEnx21rsQ4qK6WtyHLAwG9GzdHV
- yOJi21fh5EcX66RgZZoMc8VjnQ==
-X-Google-Smtp-Source: AKy350YdAKWNPsFVv4cdGqySJKoT8asIrHUdwyGPD1r62LVITFLHykWctNjuzDA9OAUXGziE0T3tng==
-X-Received: by 2002:a17:907:6d24:b0:94f:3980:bf87 with SMTP id
- sa36-20020a1709076d2400b0094f3980bf87mr2622794ejc.43.1681642960178; 
- Sun, 16 Apr 2023 04:02:40 -0700 (PDT)
-Received: from ?IPV6:2a02:810d:15c0:828:29dd:ded4:3ccc:83db?
- ([2a02:810d:15c0:828:29dd:ded4:3ccc:83db])
- by smtp.gmail.com with ESMTPSA id
- ry13-20020a1709068d8d00b0094ee3e4c934sm3395556ejc.221.2023.04.16.04.02.39
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 16 Apr 2023 04:02:39 -0700 (PDT)
-Message-ID: <34c6632f-8fe0-f8d7-8900-3a9089faa14d@linaro.org>
-Date: Sun, 16 Apr 2023 13:02:38 +0200
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2FDE510E03E
+ for <dri-devel@lists.freedesktop.org>; Sun, 16 Apr 2023 11:31:01 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 149DE60D3C;
+ Sun, 16 Apr 2023 11:31:00 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8DD5EC433D2;
+ Sun, 16 Apr 2023 11:30:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1681644659;
+ bh=3qMOz86nPcW6QzmV/fIg6KctzX9/L0ZI+140QE21B+4=;
+ h=From:To:Cc:Subject:Date:From;
+ b=RI/iaHNXu5iyVDxSARxeHzQaR2K1GTvjsO6A52AvMIpoba4T9IPeRih6fsHeBuIMO
+ TY/NtI55gODERLLuJD4M1AUcg3H2hblJRfVpiUxC1jCxfr9nCrh8tNHoxbxunT/S0f
+ FZtTwJFqOKEmBBzpVIaBfimxioFy+VgExeDoesHAAXCaMcLuxAQ4Hplg6cj/GjRxhy
+ RlzvfoL2rIeq4PMAQcOFDdQfuVVO0Skbt9RNnTdQzaILJ2G/yRHJw43Lsih2satmc1
+ +32YdfQFQ02D5F+El3BIoWXo/vKLfZ6t5wFJnnGjiSzAwwZxGVYm9g3TRQg9mG16zX
+ jGu7Akt/V2B8w==
+From: Oded Gabbay <ogabbay@kernel.org>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH 1/4] accel/habanalabs: ignore false positive razwi
+Date: Sun, 16 Apr 2023 14:30:47 +0300
+Message-Id: <20230416113050.2815620-1-ogabbay@kernel.org>
+X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH 3/3] MAINTAINERS: Add myself as Samsung S6D7AA0 panel
- driver maintainer
-Content-Language: en-US
-To: Artur Weber <aweber.kernel@gmail.com>, thierry.reding@gmail.com
-References: <20230416100139.13741-1-aweber.kernel@gmail.com>
- <20230416100139.13741-4-aweber.kernel@gmail.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230416100139.13741-4-aweber.kernel@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,17 +49,109 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, sam@ravnborg.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, robh+dt@kernel.org,
- ~postmarketos/upstreaming@lists.sr.ht, krzysztof.kozlowski+dt@linaro.org
+Cc: Tal Cohen <talcohen@habana.ai>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 16/04/2023 12:01, Artur Weber wrote:
-> Signed-off-by: Artur Weber <aweber.kernel@gmail.com>
+From: Tal Cohen <talcohen@habana.ai>
 
-Missing commit msg.
+In Gaudi2 asic, PSOC RAZWI may cause in HBW or LBW. The address that
+caused the error is read from HW register and printed by the Driver.
+There are cases where the Driver receives an indication on PSOC
+RAZWI error but the address value is zero. In that case, the indication
+is a false positive.
+The Driver should not "count" a PSOC RAZWI event error when the
+caused the address is zeroed.
 
-Best regards,
-Krzysztof
+Signed-off-by: Tal Cohen <talcohen@habana.ai>
+Reviewed-by: Oded Gabbay <ogabbay@kernel.org>
+Signed-off-by: Oded Gabbay <ogabbay@kernel.org>
+---
+ drivers/accel/habanalabs/gaudi2/gaudi2.c | 43 +++++++++++++++---------
+ 1 file changed, 27 insertions(+), 16 deletions(-)
+
+diff --git a/drivers/accel/habanalabs/gaudi2/gaudi2.c b/drivers/accel/habanalabs/gaudi2/gaudi2.c
+index b778cf764a68..6f05aa230376 100644
+--- a/drivers/accel/habanalabs/gaudi2/gaudi2.c
++++ b/drivers/accel/habanalabs/gaudi2/gaudi2.c
+@@ -8251,6 +8251,7 @@ static bool gaudi2_handle_psoc_razwi_happened(struct hl_device *hdev, u32 razwi_
+ 	u16 num_of_eng, eng_id[PSOC_RAZWI_MAX_ENG_PER_RTR];
+ 	char eng_name_str[PSOC_RAZWI_ENG_STR_SIZE];
+ 	bool razwi_happened = false;
++	u64 addr;
+ 	int i;
+ 
+ 	num_of_eng = gaudi2_psoc_razwi_get_engines(common_razwi_info, ARRAY_SIZE(common_razwi_info),
+@@ -8269,43 +8270,53 @@ static bool gaudi2_handle_psoc_razwi_happened(struct hl_device *hdev, u32 razwi_
+ 		if (RREG32(base[i] + DEC_RAZWI_HBW_AW_SET)) {
+ 			addr_hi = RREG32(base[i] + DEC_RAZWI_HBW_AW_ADDR_HI);
+ 			addr_lo = RREG32(base[i] + DEC_RAZWI_HBW_AW_ADDR_LO);
+-			dev_err(hdev->dev,
++			addr = ((u64)addr_hi << 32) + addr_lo;
++			if (addr) {
++				dev_err(hdev->dev,
+ 					"PSOC HBW AW RAZWI: %s, address (aligned to 128 byte): 0x%llX\n",
+-					eng_name_str, ((u64)addr_hi << 32) + addr_lo);
+-			hl_handle_razwi(hdev, ((u64)addr_hi << 32) + addr_lo, &eng_id[0],
++					eng_name_str, addr);
++				hl_handle_razwi(hdev, addr, &eng_id[0],
+ 					num_of_eng, HL_RAZWI_HBW | HL_RAZWI_WRITE, event_mask);
+-			razwi_happened = true;
++				razwi_happened = true;
++			}
+ 		}
+ 
+ 		if (RREG32(base[i] + DEC_RAZWI_HBW_AR_SET)) {
+ 			addr_hi = RREG32(base[i] + DEC_RAZWI_HBW_AR_ADDR_HI);
+ 			addr_lo = RREG32(base[i] + DEC_RAZWI_HBW_AR_ADDR_LO);
+-			dev_err(hdev->dev,
++			addr = ((u64)addr_hi << 32) + addr_lo;
++			if (addr) {
++				dev_err(hdev->dev,
+ 					"PSOC HBW AR RAZWI: %s, address (aligned to 128 byte): 0x%llX\n",
+-					eng_name_str, ((u64)addr_hi << 32) + addr_lo);
+-			hl_handle_razwi(hdev, ((u64)addr_hi << 32) + addr_lo, &eng_id[0],
++					eng_name_str, addr);
++				hl_handle_razwi(hdev, addr, &eng_id[0],
+ 					num_of_eng, HL_RAZWI_HBW | HL_RAZWI_READ, event_mask);
+-			razwi_happened = true;
++				razwi_happened = true;
++			}
+ 		}
+ 
+ 		if (RREG32(base[i] + DEC_RAZWI_LBW_AW_SET)) {
+ 			addr_lo = RREG32(base[i] + DEC_RAZWI_LBW_AW_ADDR);
+-			dev_err(hdev->dev,
++			if (addr_lo) {
++				dev_err(hdev->dev,
+ 					"PSOC LBW AW RAZWI: %s, address (aligned to 128 byte): 0x%X\n",
+ 					eng_name_str, addr_lo);
+-			hl_handle_razwi(hdev, addr_lo, &eng_id[0],
++				hl_handle_razwi(hdev, addr_lo, &eng_id[0],
+ 					num_of_eng, HL_RAZWI_LBW | HL_RAZWI_WRITE, event_mask);
+-			razwi_happened = true;
++				razwi_happened = true;
++			}
+ 		}
+ 
+ 		if (RREG32(base[i] + DEC_RAZWI_LBW_AR_SET)) {
+ 			addr_lo = RREG32(base[i] + DEC_RAZWI_LBW_AR_ADDR);
+-			dev_err(hdev->dev,
+-					"PSOC LBW AR RAZWI: %s, address (aligned to 128 byte): 0x%X\n",
+-					eng_name_str, addr_lo);
+-			hl_handle_razwi(hdev, addr_lo, &eng_id[0],
++			if (addr_lo) {
++				dev_err(hdev->dev,
++						"PSOC LBW AR RAZWI: %s, address (aligned to 128 byte): 0x%X\n",
++						eng_name_str, addr_lo);
++				hl_handle_razwi(hdev, addr_lo, &eng_id[0],
+ 					num_of_eng, HL_RAZWI_LBW | HL_RAZWI_READ, event_mask);
+-			razwi_happened = true;
++				razwi_happened = true;
++			}
+ 		}
+ 		/* In common case the loop will break, when there is only one engine id, or
+ 		 * several engines with the same router. The exceptional case is with psoc razwi
+-- 
+2.40.0
 
