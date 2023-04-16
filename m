@@ -1,40 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 397A36E37BB
-	for <lists+dri-devel@lfdr.de>; Sun, 16 Apr 2023 13:31:14 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 331246E37BD
+	for <lists+dri-devel@lfdr.de>; Sun, 16 Apr 2023 13:31:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DCBE310E066;
-	Sun, 16 Apr 2023 11:31:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A6F7F10E0B0;
+	Sun, 16 Apr 2023 11:31:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org
  [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1A5F710E080
- for <dri-devel@lists.freedesktop.org>; Sun, 16 Apr 2023 11:31:04 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0AF7B10E066
+ for <dri-devel@lists.freedesktop.org>; Sun, 16 Apr 2023 11:31:05 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 14C4160C75;
- Sun, 16 Apr 2023 11:31:03 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8DBE5C433D2;
- Sun, 16 Apr 2023 11:31:01 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 8EE2D60DD9;
+ Sun, 16 Apr 2023 11:31:04 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1360EC433EF;
+ Sun, 16 Apr 2023 11:31:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1681644662;
- bh=Lh94ImZa2Ssnh+mrqjmOa9ElurEzho+BxXGqs63rpQ0=;
+ s=k20201202; t=1681644664;
+ bh=DSeFNBgQySY7ySyAZKExFOQqvgJKxBYCHCUDJ/Tf+cA=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=olH4eUS0EMYdfD4Cv8aXf8hfY6qVS1+0jMoMpcJHfZ8IWiwxpUSlGRRMHDYvChWFx
- D9BSQiUUW1Wd+/5Jz6xQ/kA4mwuh2hTlxLBrwsz4hmzS8ixsq/FwjyTga1sQjBKRdd
- ge4pnw0/BZakrftJ/1Dlb9RSnt9LzTqE1WB2ve3E7zDYbL1Wfr5W0A4xLa2iRIAcpL
- VDLoBMrLIadTqsWLy7i9iZ5heOjjqvb+Tio0wASuCa4CjYtqIari/yfEBxqSS/hqVk
- gJAP7lCYWL3XV95Qpu3sukD32gbjIlFLsTDAJMSKS/ED8eF4nxLUJGhU5CjR0lGLVG
- 2VohZU7JZ5L0g==
+ b=GM6Pm6FtJyHFSIazrSrQ3+a+HMkhF1gUpfq1h762Ca/yJYbn4lYRP9L/OgsSfqPWb
+ kUD5Cdpp4nlXHVHqnZ/YU+XzJoYkuzFfghl8VdyjRPb1UcDHbeUlhlV/ntvUJMV2zG
+ rYnvM3gcMIIs3GgM0iFlrjJefk4BztztJiiim9Wi22VD5xR1NZ7P3kWj2Aifz6yxvw
+ nkx6TlA24ihSW3/bcbFhZ67wMNfAW+iWIqUYJsw4SsNOa4r2bHh+oe/al2GX16JhD5
+ SOjH8nrXoQswqJSu+3CPYHE+uRtcW9GQYoYFSSXFhsNS3SwVmUbvWTEett/U7OMWiA
+ NekM1Cpn9JJsQ==
 From: Oded Gabbay <ogabbay@kernel.org>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 3/4] accel/habanalabs: remove commented code that won't be used
-Date: Sun, 16 Apr 2023 14:30:49 +0300
-Message-Id: <20230416113050.2815620-3-ogabbay@kernel.org>
+Subject: [PATCH 4/4] accel/habanalabs: fix bug in free scratchpad memory
+Date: Sun, 16 Apr 2023 14:30:50 +0300
+Message-Id: <20230416113050.2815620-4-ogabbay@kernel.org>
 X-Mailer: git-send-email 2.40.0
 In-Reply-To: <20230416113050.2815620-1-ogabbay@kernel.org>
 References: <20230416113050.2815620-1-ogabbay@kernel.org>
@@ -52,42 +52,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Koby Elbaz <kelbaz@habana.ai>
+Cc: Moti Haimovski <mhaimovski@habana.ai>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Koby Elbaz <kelbaz@habana.ai>
+From: Moti Haimovski <mhaimovski@habana.ai>
 
-Once it was decided that these security settings are to be done by FW
-rather than by the driver, there's no reason to keep them in the code.
+This commit fixes a bug in Gaudi2 when freeing the scratchpad memory
+in case software init fails.
 
-Signed-off-by: Koby Elbaz <kelbaz@habana.ai>
+Signed-off-by: Moti Haimovski <mhaimovski@habana.ai>
 Reviewed-by: Oded Gabbay <ogabbay@kernel.org>
 Signed-off-by: Oded Gabbay <ogabbay@kernel.org>
 ---
- drivers/accel/habanalabs/gaudi2/gaudi2_security.c | 9 ---------
- 1 file changed, 9 deletions(-)
+ drivers/accel/habanalabs/gaudi2/gaudi2.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/accel/habanalabs/gaudi2/gaudi2_security.c b/drivers/accel/habanalabs/gaudi2/gaudi2_security.c
-index acd33130e7f9..52a12c2bb58e 100644
---- a/drivers/accel/habanalabs/gaudi2/gaudi2_security.c
-+++ b/drivers/accel/habanalabs/gaudi2/gaudi2_security.c
-@@ -3443,15 +3443,6 @@ static int gaudi2_init_protection_bits(struct hl_device *hdev)
- 				ARRAY_SIZE(gaudi2_pb_thermal_sensor0), NULL, HL_PB_NA);
- 	}
- 
--	/* HBM */
--	/* Temporarily skip until SW-63348 is solved
--	 * instance_offset = mmHBM1_MC0_BASE - mmHBM0_MC0_BASE;
--	 * rc |= hl_init_pb_with_mask(hdev, HL_PB_SHARED, HL_PB_NA, GAUDI2_HBM_NUM,
--	 *		instance_offset, gaudi2_pb_hbm,
--	 *		ARRAY_SIZE(gaudi2_pb_hbm), NULL, HL_PB_NA,
--	 *		prop->dram_enabled_mask);
--	 */
--
- 	/* Scheduler ARCs */
- 	instance_offset = mmARC_FARM_ARC1_AUX_BASE - mmARC_FARM_ARC0_AUX_BASE;
- 	rc |= hl_init_pb_ranges(hdev, HL_PB_SHARED, HL_PB_NA,
+diff --git a/drivers/accel/habanalabs/gaudi2/gaudi2.c b/drivers/accel/habanalabs/gaudi2/gaudi2.c
+index 6f05aa230376..acc304ebca82 100644
+--- a/drivers/accel/habanalabs/gaudi2/gaudi2.c
++++ b/drivers/accel/habanalabs/gaudi2/gaudi2.c
+@@ -3630,8 +3630,8 @@ static int gaudi2_sw_init(struct hl_device *hdev)
+ special_blocks_free:
+ 	gaudi2_special_blocks_iterator_free(hdev);
+ free_scratchpad_mem:
+-	hl_asic_dma_pool_free(hdev, gaudi2->scratchpad_kernel_address,
+-				gaudi2->scratchpad_bus_address);
++	hl_asic_dma_free_coherent(hdev, PAGE_SIZE, gaudi2->scratchpad_kernel_address,
++				  gaudi2->scratchpad_bus_address);
+ free_virt_msix_db_mem:
+ 	hl_cpu_accessible_dma_pool_free(hdev, prop->pmmu.page_size, gaudi2->virt_msix_db_cpu_addr);
+ free_cpu_accessible_dma_pool:
 -- 
 2.40.0
 
