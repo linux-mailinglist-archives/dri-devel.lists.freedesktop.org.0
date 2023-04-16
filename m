@@ -1,69 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E7256E36A4
-	for <lists+dri-devel@lfdr.de>; Sun, 16 Apr 2023 11:36:30 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id F38EE6E36A8
+	for <lists+dri-devel@lfdr.de>; Sun, 16 Apr 2023 11:38:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5224E10E0F8;
-	Sun, 16 Apr 2023 09:36:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EC77C10E0FA;
+	Sun, 16 Apr 2023 09:38:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.web.de (mout.web.de [212.227.15.3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5210210E0F8
- for <dri-devel@lists.freedesktop.org>; Sun, 16 Apr 2023 09:36:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de; s=s29768273;
- t=1681637778; i=markus.elfring@web.de;
- bh=VbiCcvFD+Qi96Uu3AYsuuKIDaQ41gEUacwhrpgjbDtQ=;
- h=X-UI-Sender-Class:Date:Subject:From:To:Cc:References:In-Reply-To;
- b=bvRVPl4Ia3xvqrEI3P3GXwhY8OMAq1uk4d3kGw3Z/UgPtnsxa3zXyzBzyAmg9Xyh7
- bb7AVKFDsABp9fevq51mXfAvo/WFHxs3LHvcLyBt8rKj21TeE8G1/eMhKkDiiMO7Kw
- z5f1u08cCNZ/NvrJDrj36fRTHUu2kpRv5CFAbWNd+msb/nlpD2jTyg7rX6Cnsd9CBL
- pd5MKh//ksGqNZdNry9t9gJobWkjNs874uEwMy5raDdwiHhMQyDMz9UX2nHMr/htcV
- woQvJAbmFexADhQOV+EM0uf2411KwDBi3mcCNRKW4oEQYA17YZkDT+C4FZhlmTZcpo
- OtqUsluEc8eVA==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.21] ([94.31.85.83]) by smtp.web.de (mrweb006
- [213.165.67.108]) with ESMTPSA (Nemesis) id 1MA4fW-1pcTYe2hli-00C1jS; Sun, 16
- Apr 2023 11:36:18 +0200
-Message-ID: <5b7b99f7-1692-74e5-4b1e-cfa14dad7c57@web.de>
-Date: Sun, 16 Apr 2023 11:36:18 +0200
+Received: from 189.cn (ptr.189.cn [183.61.185.104])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 7447910E0FA
+ for <dri-devel@lists.freedesktop.org>; Sun, 16 Apr 2023 09:38:11 +0000 (UTC)
+HMM_SOURCE_IP: 10.64.8.41:47894.353085718
+HMM_ATTACHE_NUM: 0000
+HMM_SOURCE_TYPE: SMTP
+Received: from clientip-114.242.206.180 (unknown [10.64.8.41])
+ by 189.cn (HERMES) with SMTP id F3817100248;
+ Sun, 16 Apr 2023 17:38:04 +0800 (CST)
+Received: from  ([114.242.206.180])
+ by gateway-151646-dep-7b48884fd-ljp89 with ESMTP id
+ c890ea7692304bfab0ddaf902e6dec90 for tzimmermann@suse.de; 
+ Sun, 16 Apr 2023 17:38:06 CST
+X-Transaction-ID: c890ea7692304bfab0ddaf902e6dec90
+X-Real-From: 15330273260@189.cn
+X-Receive-IP: 114.242.206.180
+X-MEDUSA-Status: 0
+Message-ID: <3bbaf3a3-d7dc-d6ad-f2bb-f58899793f98@189.cn>
+Date: Sun, 16 Apr 2023 17:38:01 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.10.0
-Subject: [PATCH 2/9] drm/nouveau/debugfs: Move a variable assignment behind a
- null pointer check in nouveau_debugfs_pstate_get()
-Content-Language: en-GB
-From: Markus Elfring <Markus.Elfring@web.de>
-To: kernel-janitors@vger.kernel.org, nouveau@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Ben Skeggs <bskeggs@redhat.com>,
- Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
- Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>
-References: <40c60719-4bfe-b1a4-ead7-724b84637f55@web.de>
- <1a11455f-ab57-dce0-1677-6beb8492a257@web.de>
- <2a746461-844a-2ad6-7b52-03f13fe1b9bf@web.de>
-In-Reply-To: <2a746461-844a-2ad6-7b52-03f13fe1b9bf@web.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:AJ9D9+EKDgZDPgbcMafxaHj4mOgWlvC+BvY25gB1NZGB6gNVx+O
- xhlki1nbLNhebMQqVZC12o1VYHnC/hTtQPF1DAizUyk2o7v3fn2fPTUi/m+RNs0cM8+MNFf
- ohoDmlpNTR62CxT6BFNOCtonYB30A9B+2zGYwJaAbi6U2WStWeJhow8NUeolN5fEtVgp6P3
- RRdDPeBeF+6FzYAzg1i2w==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:QjjVPRb86F8=;fu40QwhhZ7krKM5qzzhEljFcUJK
- XerCFtOp0fprmtouuw68y0HUJO9Jegsz2JrA4BHlR5GU756/y/E6zWAC9H29uMm7FtP5fKoZI
- 7pKW0IHcJCXhiBPdhiEH2ajrSpKrl9WBotycGDRW3S8zXOQ1uINwnJeagFf+mXX0OfujxBfzv
- qb6whXfUiLq4l7Nbr1IwQAd0mdeXZvScB1xim1dbi/eLaa6GSvqksHXxZ5KQYB8wF3Kl+rUQW
- J8l++5TQpRpwkkyW6Bfx5AvV53P9H364AmzfRvY/6OgkPfyeSiv8R5TEE3u2LPeCOO7aabTHf
- zUk9adxyNn1RZKg3qOv7MwiRnullLjK3wlPoQfGKjpzYbXp1AnX7EsyLrt7I9YJUHoNOG02XG
- w8q40jBhVw0iiYDJDNDvxLbBiTtYj6buaHy+ueOVV6CO7qQ5UxCmNq4kS1epywh6q0rDeHMf2
- uzGY1Ru8eIwdcNc+0fvyv2n63+KPgSy/1fO5kXFndfZWWdkH0IKZ3fQnYRxf4PvZH8VKtozfw
- L71nAqtuTWY8vd75ZrEgo7Iz6O1IDOz15aBqRvGe6nSkdhFeOkzg4+a6P4Aa2Qp6jEjDW5f+L
- //xfF1lQnP1otd9jFZE3dA5jCGRu6gVS9bXnftKSrYJ+sO/HXcvRugBVTqJM5Xp3XRR+pw81N
- ateYnAQHL9R2JpRVlq+tRqA2HdqiYOi8FaEUedqFagm6Y5gEdyfYIE3cf+ZZiv/6ASfegVRnh
- ZP21M/lIkKA1lp75LnXDgb//doYV6cbI8B5OME5YezLQnM2gVK5lS+ekurWURA4yfeoot1Bqg
- UFoxXK1RNMljJ6aBuqD14SXtO84OKNsst3VrARHG0dif0qc3yE5R0qO4imYi1vZLyi7V22665
- +wCVUfGaBt7nL9y7yLmurSZTrjOReeG7OgPz2BPe5+hrXKppTHOZdQape
+Subject: Re: [PATCH v2] drm/fbdev-generic: prohibit potential out-of-bounds
+ access
+To: Thomas Zimmermann <tzimmermann@suse.de>,
+ Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
+ Sui Jingfeng <suijingfeng@loongson.cn>, Li Yi <liyi@loongson.cn>,
+ Javier Martinez Canillas <javierm@redhat.com>, Helge Deller <deller@gmx.de>,
+ Lucas De Marchi <lucas.demarchi@intel.com>, linux-kernel@vger.kernel.org,
+ linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ loongson-kernel@lists.loongnix.cn
+References: <20230413180622.1014016-1-15330273260@189.cn>
+ <fccc494f-0e52-5fdf-0e40-acc29177c73c@suse.de>
+ <32a1510e-d38a-ffb6-8e8d-026f8b3aa17a@189.cn>
+ <ZDuqYp0RW9SngQ2H@phenom.ffwll.local>
+Content-Language: en-US
+From: Sui Jingfeng <15330273260@189.cn>
+In-Reply-To: <ZDuqYp0RW9SngQ2H@phenom.ffwll.local>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,50 +61,237 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: LKML <linux-kernel@vger.kernel.org>, cocci@inria.fr
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Date: Sat, 15 Apr 2023 21:24:43 +0200
+Hi,
 
-The address of a data structure member was determined before
-a corresponding null pointer check in the implementation of
-the function =E2=80=9Cnouveau_debugfs_pstate_get=E2=80=9D.
+On 2023/4/16 15:57, Daniel Vetter wrote:
+> On Fri, Apr 14, 2023 at 06:58:53PM +0800, Sui Jingfeng wrote:
+>> Hi,
+>>
+>> On 2023/4/14 03:16, Thomas Zimmermann wrote:
+>>> Hi,
+>>>
+>>> thanks for the patch. This is effectively a revert of commit
+>>> 8fbc9af55de0 ("drm/fbdev-generic: Set screen size to size of GEM
+>>> buffer"). Please add a Fixes tag.
+>>>
+>>> Am 13.04.23 um 20:06 schrieb Sui Jingfeng:
+>>>> From: Sui Jingfeng <suijingfeng@loongson.cn>
+>>>>
+>>>> The crazy fbdev test of IGT may write after EOF, which lead to
+>>>> out-of-bound
+>>> Please drop 'crazy'. :)
+>> This is OK.
+>>
+>> By using the world 'crazy',
+>>
+>> I meant that the test is very good and maybe it is written by professional
+>> peoples
+>>
+>> with the guidance by  experienced  engineer. So that even the corner get
+>> tested.
+> 'thoroughly' would be better word to describe that I think.
+>
+> I think for the other discussions I've covered it all already in the other
+> thread.
+> -Daniel
+>
+Yes, 'thoroughly' is a definitely better word than 'crazy'.
 
-Thus avoid the risk for undefined behaviour by moving the assignment
-for the variable =E2=80=9Cctrl=E2=80=9D behind the null pointer check.
 
-This issue was detected by using the Coccinelle software.
+I see your reviews in v1 the thread of this patch,  I will resend this 
+patch with updates.
 
-Fixes: 6e9fc177399f08446293fec7607913fdbc95e191 ("drm/nouveau/debugfs: add=
- copy of sysfs pstate interface ported to debugfs")
-Signed-off-by: Markus Elfring <elfring@users.sourceforge.net>
-=2D--
- drivers/gpu/drm/nouveau/nouveau_debugfs.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+But I thinks we should wait Thomas Z. for a while.
 
-diff --git a/drivers/gpu/drm/nouveau/nouveau_debugfs.c b/drivers/gpu/drm/n=
-ouveau/nouveau_debugfs.c
-index 44e26b6e74c7..a859a086f308 100644
-=2D-- a/drivers/gpu/drm/nouveau/nouveau_debugfs.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_debugfs.c
-@@ -73,13 +73,14 @@ nouveau_debugfs_pstate_get(struct seq_file *m, void *d=
-ata)
- {
- 	struct drm_device *drm =3D m->private;
- 	struct nouveau_debugfs *debugfs =3D nouveau_debugfs(drm);
--	struct nvif_object *ctrl =3D &debugfs->ctrl;
-+	struct nvif_object *ctrl;
- 	struct nvif_control_pstate_info_v0 info =3D {};
- 	int ret, i;
+I'm wondering whether he still have some strong feelings toward this, I 
+guess not.
 
- 	if (!debugfs)
- 		return -ENODEV;
+thanks, :-)
 
-+	ctrl =3D &debugfs->ctrl;
- 	ret =3D nvif_mthd(ctrl, NVIF_CONTROL_PSTATE_INFO, &info, sizeof(info));
- 	if (ret)
- 		return ret;
-=2D-
-2.40.0
-
+>>
+>>>> access for the drm drivers using fbdev-generic. For example, run
+>>>> fbdev test
+>>>> on a x86-64+ast2400 platform with 1680x1050 resolution will cause
+>>>> the linux
+>>>> kernel hang with following call trace:
+>>>>
+>>>>     Oops: 0000 [#1] PREEMPT SMP PTI
+>>>>     [IGT] fbdev: starting subtest eof
+>>>>     Workqueue: events drm_fb_helper_damage_work [drm_kms_helper]
+>>>>     [IGT] fbdev: starting subtest nullptr
+>>>>
+>>>>     RIP: 0010:memcpy_erms+0xa/0x20
+>>>>     RSP: 0018:ffffa17d40167d98 EFLAGS: 00010246
+>>>>     RAX: ffffa17d4eb7fa80 RBX: ffffa17d40e0aa80 RCX: 00000000000014c0
+>>>>     RDX: 0000000000001a40 RSI: ffffa17d40e0b000 RDI: ffffa17d4eb80000
+>>>>     RBP: ffffa17d40167e20 R08: 0000000000000000 R09: ffff89522ecff8c0
+>>>>     R10: ffffa17d4e4c5000 R11: 0000000000000000 R12: ffffa17d4eb7fa80
+>>>>     R13: 0000000000001a40 R14: 000000000000041a R15: ffffa17d40167e30
+>>>>     FS:  0000000000000000(0000) GS:ffff895257380000(0000)
+>>>> knlGS:0000000000000000
+>>>>     CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+>>>>     CR2: ffffa17d40e0b000 CR3: 00000001eaeca006 CR4: 00000000001706e0
+>>>>     Call Trace:
+>>>>      <TASK>
+>>>>      ? drm_fbdev_generic_helper_fb_dirty+0x207/0x330 [drm_kms_helper]
+>>>>      drm_fb_helper_damage_work+0x8f/0x170 [drm_kms_helper]
+>>>>      process_one_work+0x21f/0x430
+>>>>      worker_thread+0x4e/0x3c0
+>>>>      ? __pfx_worker_thread+0x10/0x10
+>>>>      kthread+0xf4/0x120
+>>>>      ? __pfx_kthread+0x10/0x10
+>>>>      ret_from_fork+0x2c/0x50
+>>>>      </TASK>
+>>>>     CR2: ffffa17d40e0b000
+>>>>     ---[ end trace 0000000000000000 ]---
+>>>>
+>>>> The indirect reason is drm_fb_helper_memory_range_to_clip() generate
+>>>> damage
+>>>> rectangles which partially or completely go out of the active
+>>>> display area.
+>>>> The second of argument 'off' is passing from the user-space, this
+>>>> will lead
+>>>> to the out-of-bound if it is large than (fb_height + 1) *
+>>>> fb_pitches; while
+>>>> DIV_ROUND_UP() may also controbute to error by 1.
+>>>>
+>>>> This patch will add code to restrict the damage rect computed go
+>>>> beyond of
+>>>> the last line of the framebuffer.
+>>>>
+>>>> Signed-off-by: Sui Jingfeng <suijingfeng@loongson.cn>
+>>>> ---
+>>>>    drivers/gpu/drm/drm_fb_helper.c     | 16 ++++++++++++----
+>>>>    drivers/gpu/drm/drm_fbdev_generic.c |  2 +-
+>>>>    2 files changed, 13 insertions(+), 5 deletions(-)
+>>>>
+>>>> diff --git a/drivers/gpu/drm/drm_fb_helper.c
+>>>> b/drivers/gpu/drm/drm_fb_helper.c
+>>>> index 64458982be40..6bb1b8b27d7a 100644
+>>>> --- a/drivers/gpu/drm/drm_fb_helper.c
+>>>> +++ b/drivers/gpu/drm/drm_fb_helper.c
+>>>> @@ -641,19 +641,27 @@ static void drm_fb_helper_damage(struct
+>>>> drm_fb_helper *helper, u32 x, u32 y,
+>>>>    static void drm_fb_helper_memory_range_to_clip(struct fb_info
+>>>> *info, off_t off, size_t len,
+>>>>                               struct drm_rect *clip)
+>>>>    {
+>>>> +    u32 line_length = info->fix.line_length;
+>>>> +    u32 fb_height = info->var.yres;
+>>>>        off_t end = off + len;
+>>>>        u32 x1 = 0;
+>>>> -    u32 y1 = off / info->fix.line_length;
+>>>> +    u32 y1 = off / line_length;
+>>>>        u32 x2 = info->var.xres;
+>>>> -    u32 y2 = DIV_ROUND_UP(end, info->fix.line_length);
+>>>> +    u32 y2 = DIV_ROUND_UP(end, line_length);
+>>>> +
+>>>> +    /* Don't allow any of them beyond the bottom bound of display
+>>>> area */
+>>>> +    if (y1 > fb_height)
+>>>> +        y1 = fb_height;
+>>>> +    if (y2 > fb_height)
+>>>> +        y2 = fb_height;
+>>>>          if ((y2 - y1) == 1) {
+>>>>            /*
+>>>>             * We've only written to a single scanline. Try to reduce
+>>>>             * the number of horizontal pixels that need an update.
+>>>>             */
+>>>> -        off_t bit_off = (off % info->fix.line_length) * 8;
+>>>> -        off_t bit_end = (end % info->fix.line_length) * 8;
+>>>> +        off_t bit_off = (off % line_length) * 8;
+>>>> +        off_t bit_end = (end % line_length) * 8;
+>>> Please scratch all these changes. The current code should work as
+>>> intended. Only the generic fbdev emulation uses this code and it should
+>>> really be moved there at some point.
+>>
+>> Are you meant  that we should remove all these changes in
+>> drivers/gpu/drm/drm_fb_helper.c ?
+>>
+>>
+>> But this changes are helps to prevent the damage box computed go out of
+>> bound,
+>>
+>> the bound of the displayable shadow buffer on multiple display case.
+>>
+>> It is the minimum width x height which could be fit in for all
+>> display/minotor.
+>>
+>>
+>> For example, one is 1920x1080 monitor, another is 1280x800 monitor.
+>>
+>> connected to the motherboard simultaneously.
+>>
+>>
+>> Then, 1920x1080x4 (suppose we are using the XRGB) scanout buffer will be
+>>
+>> allocate by the  GEM backend. But the the actual display area is 1280x800.
+>>
+>> This is true at least for my driver on my platform, In this case,
+>>
+>> ```
+>>
+>>     info->var.xres ==1280;
+>>
+>>     info->var.yres == 800;
+>>
+>> ```
+>>
+>> If don't restrict this, the damage box computed out of the bound of  (0, 0)
+>> ~ (1280, 800) rectangle.
+>>
+>> a 1920x1080 damage box will came out.
+>>
+>>
+>> When running fbdev test of IGT, the smaller screen display will be OK.
+>>
+>> but the larger screen, the area outsize of 1280x800 will also be written.
+>>
+>> The background color became completely white from completely black before
+>> carry out the test,
+>>
+>> luckily, linux kernel do not hung, this time.
+>>
+>>
+>> On multi-screen case, we still need to restrict the damage box computed,
+>>
+>> Do not go out of 1280x800,  right?
+>>
+>>
+>>>>              x1 = bit_off / info->var.bits_per_pixel;
+>>>>            x2 = DIV_ROUND_UP(bit_end, info->var.bits_per_pixel);
+>>>> diff --git a/drivers/gpu/drm/drm_fbdev_generic.c
+>>>> b/drivers/gpu/drm/drm_fbdev_generic.c
+>>>> index 8e5148bf40bb..b057cfbba938 100644
+>>>> --- a/drivers/gpu/drm/drm_fbdev_generic.c
+>>>> +++ b/drivers/gpu/drm/drm_fbdev_generic.c
+>>>> @@ -94,7 +94,7 @@ static int
+>>>> drm_fbdev_generic_helper_fb_probe(struct drm_fb_helper *fb_helper,
+>>>>        fb_helper->buffer = buffer;
+>>>>        fb_helper->fb = buffer->fb;
+>>>>    -    screen_size = buffer->gem->size;
+>>>> +    screen_size = sizes->surface_height * buffer->fb->pitches[0];
+>>> I guess we simply go back to this line. I'd R-b a patch that does
+>>> exactly this.
+>>>
+>>> But some explanation is in order. Maybe you can add this as a comment to
+>>> the computation, as it's not obvious:
+>>>
+>>> The value of screen_size should actually be the size of the gem buffer.
+>>> In a physical framebuffer (i.e., video memory), the size would be a
+>>> multiple of the page size, but not necessarily a multiple of the screen
+>>> resolution. There are also pan fbdev's operations, and we could possibly
+>>> use DRM buffers that are not multiples of the screen width. But the
+>>> update code requires the use of drm_framebuffer_funcs.dirty, which takes
+>>> a clipping rectangle and therefore doesn't work well with these odd
+>>> values for screen_size.
+>>>
+>>> Best regards
+>>> Thomas
+>>>
+>>>>        screen_buffer = vzalloc(screen_size);
+>>>>        if (!screen_buffer) {
+>>>>            ret = -ENOMEM;
