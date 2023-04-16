@@ -1,54 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0D276E39EE
-	for <lists+dri-devel@lfdr.de>; Sun, 16 Apr 2023 17:45:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D54AD6E39F7
+	for <lists+dri-devel@lfdr.de>; Sun, 16 Apr 2023 17:47:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E5B6110E123;
-	Sun, 16 Apr 2023 15:45:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 22FB310E262;
+	Sun, 16 Apr 2023 15:47:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B19AF10E123;
- Sun, 16 Apr 2023 15:45:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1681659915; x=1713195915;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=6dy8I9a6ntUdwJMxrUGfQ51fPaweaMDYo1hIWubTuck=;
- b=kQfrDmaDVvGeY3xJtKfsf8EKVtGzgjoFf4ztlpsfAdffz/3lSTRcSxDW
- 0bCyJO8F+Y7zWgKE3KkFSeLq7D9AUNbclGaacxofFpXRp/ilt+3N0qrWf
- o5FYR8PeokufOfVPctGk+6dGErdX1Dt93GY/Jv5oAQPiYXbUL+uoJEZWP
- tcqAZivT/rJzLHEO1i9Gpi/gqOfSZ86z4gCM43xsGNvTubqc1KRYvjSIA
- Ntg7YZfMx+ZAJnCaRDjt0VoCo8JbhWJ43+nBx1tjDnLyoxmtguQ05ynT7
- p/jzTrPR/zkgOv7kpK5Zku2nJhoLYvMRVT17QL+JXHTywaAsV/ZGJHXcT A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10682"; a="372619016"
-X-IronPort-AV: E=Sophos;i="5.99,202,1677571200"; d="scan'208";a="372619016"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Apr 2023 08:45:14 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10682"; a="801812804"
-X-IronPort-AV: E=Sophos;i="5.99,202,1677571200"; d="scan'208";a="801812804"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
- by fmsmga002.fm.intel.com with ESMTP; 16 Apr 2023 08:45:11 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1po4Yw-000bjv-1J;
- Sun, 16 Apr 2023 15:45:10 +0000
-Date: Sun, 16 Apr 2023 23:44:37 +0800
-From: kernel test robot <lkp@intel.com>
-To: Mark Yacoub <markyacoub@chromium.org>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [PATCH v9 04/10] drm/hdcp: Expand HDCP helper library for
- enable/disable/check
-Message-ID: <202304162307.7PcvuWlB-lkp@intel.com>
-References: <20230411192134.508113-5-markyacoub@google.com>
+Received: from mout.web.de (mout.web.de [212.227.17.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BC40410E262
+ for <dri-devel@lists.freedesktop.org>; Sun, 16 Apr 2023 15:47:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de; s=s29768273;
+ t=1681660034; i=markus.elfring@web.de;
+ bh=5Z9cALek5Gs82hSIltPE1ilZYcDKTbzXs/wu0sOROGE=;
+ h=X-UI-Sender-Class:Date:Subject:From:To:References:Cc:In-Reply-To;
+ b=e9Dfr1fdNFGehRZtBg7quw2w6GhAYMvFzOneypDJVPwSM4LMz9d8hhQx946/V0F39
+ CIXvpghm/IzBK5/4pZ7A3wn0p6oNQV7e5Ry45ONh3QaQT9VLRsb6lio2c0mxQ/o7Bi
+ Cyed94n+Ncpa2OOPB9a+UsdFl6+5wCkqWG3tkz6DGjBjczuhPqn9/VBZ+NY4ncsVUB
+ /KepabJy7HGl5nSBPHgF2HxYB564qLmU2PXZbpZL5Eb/gCcTj0+N/meUee0FZ9ysQ9
+ Q1uTOIPATf3zofcgenlPWu4fbRUPuH8SgnXTS1qKReN4DQOsQjhR1hZXmoVwlI2AiA
+ QfdTD3kuztUtw==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.21] ([94.31.85.83]) by smtp.web.de (mrweb105
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 1MaHWx-1prjvD2hBl-00VwXW; Sun, 16
+ Apr 2023 17:47:14 +0200
+Message-ID: <14636275-4d26-d639-5f6e-293fc6d1c4c6@web.de>
+Date: Sun, 16 Apr 2023 17:47:11 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230411192134.508113-5-markyacoub@google.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: [PATCH] drm/bridge: it6505: Move a variable assignment behind a null
+ pointer check in receive_timing_debugfs_show()
+Content-Language: en-GB
+From: Markus Elfring <Markus.Elfring@web.de>
+To: kernel-janitors@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Allen Chen <allen.chen@ite.com.tw>, Andrzej Hajda <andrzej.hajda@intel.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
+ Hermes Wu <hermes.wu@ite.com.tw>, Hsin-yi Wang <hsinyi@chromium.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>
+References: <40c60719-4bfe-b1a4-ead7-724b84637f55@web.de>
+ <1a11455f-ab57-dce0-1677-6beb8492a257@web.de>
+In-Reply-To: <1a11455f-ab57-dce0-1677-6beb8492a257@web.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:FjZbKKdiIEkoylWiH6qqBLFMBXZpoFS+8+LEERFSWqYFyaQY270
+ G6zj166vxXibPIXDcjdrUo50KBBs6Gyzhrmliyl2MQuXv17jTz7ErGoCrGl0GuyeRq+nrSb
+ ArzXFLpYq2MxYxeMzOkm8bCIx4M16CBRJZPS0K49jRY+xrkImhBrLBj05Xbvo3wZLxrjg7b
+ VCAz54ELXkW9Yp5uoqjvQ==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:5Ncvf+t3ZD0=;BF3aGfad5gSuVft8UJbpRBFPpjY
+ xBm2kpeWas/PlUmZpOutGcn9ATpkhV39iKUORhMegvAckbEhNZqKlPBIFYMO8hJB1NijPqBUM
+ oDnChf8rF+J0zmW8kwOtciC4R2WjcNk+JRCHF/ZZ+IPEYDA3mobwmh6EnnTKK8+WM6ulUw62+
+ DYmj+elo1XxcAHrCeUjFf0EpfC2ohJVsIhHEtdldXyihl4+srfjoLdGSJEi5VtX7X0eKQVVTy
+ cf8/IGWe1uwV1WU2syvINI5gjYWbhrIIL9hJ4vlzeMl94I+SA6k9Hh5BqO5CGSxrqrey8WF6d
+ PpS5vhJy02lNbvbRAro/p2LeBLe39RTRaATtbabRM9u9O5QGFxbwXdt5JY9yPdgf3J5T3NC1t
+ 2Rqc42IodIIyEvtJ1SRYMRQmR6czeNhzIbi4v+4w/IgEsRHURkl2p8qCHOIY7b+s8jsCQ2gbX
+ 78hCtekG6NAiGAdrAJ1XLSjj5XjJdYlG8cPokNe8/ulpHJ6t26OBQ8OzRghOe8QUolvtusyYK
+ 92EKes1/ddmm/DO9R3rRfjthbVNO6AXoH38cKqMideGgzHXfwCbHo0NQyi6BScN0ZUdaXHYFw
+ 1r5TfIFtgLliSbUowWcVBbO5QWhTUAVLIyo7D4PEWHPKEjQNi/4lhiDbwL1XU6IoYQKEOgye3
+ MhXa4WtSzuZqagxw9k62pUJyKW8CC3t9XYDEXWjQLOHUiqlp3fgIW2/ABAngvnPqzZGs3SWKv
+ rveYhT6fhnh3YCIh6ei47paX4NEZ8XSnL6nYpM1MMP/WX5CsLxK7K8Lwktyq9OHJi5rTkPcbf
+ 0kmtQFd3s1N0UcPimD6a8pZUh30BcqqiUr2k42sbvkO31RrfZyAa13N3RtIR4I/r74sClMCv+
+ y2P8uD27Phid2vhrs17V4nrZpz9PX9NT7KaI0HVNwQ9yu+1c3sxV5cw1b
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,51 +79,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: suraj.kandpal@intel.com, Jani Nikula <jani.nikula@intel.com>,
- Mark Yacoub <markyacoub@chromium.org>, intel-gfx@lists.freedesktop.org,
- dianders@chromium.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, seanpaul@chromium.org,
- oe-kbuild-all@lists.linux.dev, dmitry.baryshkov@linaro.org,
- freedreno@lists.freedesktop.org
+Cc: LKML <linux-kernel@vger.kernel.org>, cocci@inria.fr
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Mark,
+Date: Sun, 16 Apr 2023 17:30:46 +0200
 
-kernel test robot noticed the following build warnings:
+The address of a data structure member was determined before
+a corresponding null pointer check in the implementation of
+the function =E2=80=9Creceive_timing_debugfs_show=E2=80=9D.
 
-[auto build test WARNING on drm-intel/for-linux-next-fixes]
-[also build test WARNING on drm/drm-next linus/master v6.3-rc6]
-[cannot apply to drm-tip/drm-tip drm-misc/drm-misc-next drm-intel/for-linux-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Thus avoid the risk for undefined behaviour by moving the assignment
+for the variable =E2=80=9Cvid=E2=80=9D behind the null pointer check.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Mark-Yacoub/drm-hdcp-Add-drm_hdcp_atomic_check/20230412-032412
-base:   git://anongit.freedesktop.org/drm-intel for-linux-next-fixes
-patch link:    https://lore.kernel.org/r/20230411192134.508113-5-markyacoub%40google.com
-patch subject: [PATCH v9 04/10] drm/hdcp: Expand HDCP helper library for enable/disable/check
-config: i386-randconfig-s001 (https://download.01.org/0day-ci/archive/20230416/202304162307.7PcvuWlB-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
-reproduce:
-        # apt-get install sparse
-        # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://github.com/intel-lab-lkp/linux/commit/972a98f65fb56b3be4370593c2b81f1283750db7
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Mark-Yacoub/drm-hdcp-Add-drm_hdcp_atomic_check/20230412-032412
-        git checkout 972a98f65fb56b3be4370593c2b81f1283750db7
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=i386 olddefconfig
-        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=i386 SHELL=/bin/bash drivers/gpu/drm/display/
+This issue was detected by using the Coccinelle software.
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304162307.7PcvuWlB-lkp@intel.com/
+Fixes: b5c84a9edcd418cd055becad6a22439e7c5e3bf8 ("drm/bridge: add it6505 d=
+river")
+Signed-off-by: Markus Elfring <elfring@users.sourceforge.net>
+=2D--
+ drivers/gpu/drm/bridge/ite-it6505.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/display/drm_hdcp_helper.c:675:5: sparse: sparse: symbol 'drm_hdcp_helper_hdcp1_capable_dp' was not declared. Should it be static?
+diff --git a/drivers/gpu/drm/bridge/ite-it6505.c b/drivers/gpu/drm/bridge/=
+ite-it6505.c
+index abaf6e23775e..45f579c365e7 100644
+=2D-- a/drivers/gpu/drm/bridge/ite-it6505.c
++++ b/drivers/gpu/drm/bridge/ite-it6505.c
+@@ -3207,7 +3207,7 @@ static ssize_t receive_timing_debugfs_show(struct fi=
+le *file, char __user *buf,
+ 					   size_t len, loff_t *ppos)
+ {
+ 	struct it6505 *it6505 =3D file->private_data;
+-	struct drm_display_mode *vid =3D &it6505->video_info;
++	struct drm_display_mode *vid;
+ 	u8 read_buf[READ_BUFFER_SIZE];
+ 	u8 *str =3D read_buf, *end =3D read_buf + READ_BUFFER_SIZE;
+ 	ssize_t ret, count;
+@@ -3216,6 +3216,7 @@ static ssize_t receive_timing_debugfs_show(struct fi=
+le *file, char __user *buf,
+ 		return -ENODEV;
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+ 	it6505_calc_video_info(it6505);
++	vid =3D &it6505->video_info;
+ 	str +=3D scnprintf(str, end - str, "---video timing---\n");
+ 	str +=3D scnprintf(str, end - str, "PCLK:%d.%03dMHz\n",
+ 			 vid->clock / 1000, vid->clock % 1000);
+=2D-
+2.40.0
+
