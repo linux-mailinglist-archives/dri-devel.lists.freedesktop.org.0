@@ -1,66 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 378456E40B3
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Apr 2023 09:22:33 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BF6F6E40AA
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Apr 2023 09:22:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B44FB10E39C;
-	Mon, 17 Apr 2023 07:22:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9695910E379;
+	Mon, 17 Apr 2023 07:21:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com
- [IPv6:2a00:1450:4864:20::333])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E4B5B10E105;
- Sun, 16 Apr 2023 17:39:50 +0000 (UTC)
-Received: by mail-wm1-x333.google.com with SMTP id
- o9-20020a05600c510900b003f17012276fso1045407wms.4; 
- Sun, 16 Apr 2023 10:39:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1681666788; x=1684258788;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=vj/vqJ5bGXyvz254ZvxSYqoDaKPY0yBJ/BPaiX+7f40=;
- b=GbZ9qiyBQiC3ZZsAZwmZuMooMXC98jAjM1w5wB0VdPvf4Av6DHWd74zf4tSA1A10Us
- 47dMt74Xi0tWrq0wZOBcoOyTGktzKBUzP/Nw38f2QTbY3fL22uqTDCkuE7yLtp/mEWpK
- M2+xB0M77byJB40/68yhEdIK/+OlSWyNof2HGBhKlvj5OsUlnd066BJwIfNr2tVMNBgG
- ilNt18gjeWShGrj/nW9QjYOSCy79DIVKXZfqRsTDbC6FFV1Nq89WYLO1S7d1ks9YhRHV
- pIYWWEkCEXCv60Hl25tTsvZjyDiZvfGV5GEoIIdzPpvP8vbTEI/7NIn0rSluk8erIJ2+
- As8g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681666788; x=1684258788;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=vj/vqJ5bGXyvz254ZvxSYqoDaKPY0yBJ/BPaiX+7f40=;
- b=TDt4TinowsLY98yrIYUWPR8IO8ASXooicnPl6kOgiRegLDLnGR48L2rYtuICbw+OGy
- KfVTsHn8+6AWMwPxvujyYt9QmgJbprZ2NYwfVxWFOrKe8+7hqQiebD1eVCo2uiREOkx7
- 8C9wrVc8N1itlt5e2sJ+ykEPS734MTbUeGlCmXyE0sUOvVsHFkKcgUPN5bipe+FDRdEJ
- BWLn1w7SG2eh4jGEIsCYd1KTIPPXy+NWgh5GGiFdRS8FH6cMCI33zJTeHbHBJc989EDe
- fLvzb5/X35vnkZUcMaS2fgwc5PnVUETc/iwhFocl5k4/CR64+JkCmecXGzCz7AR437OY
- 5Tsg==
-X-Gm-Message-State: AAQBX9deWL6XS7jqHjxMkpnNhKU8rV0GzbnnZg4yG6vURMf8giyB/yAy
- W+GgpQc80Wbq/RN1IoKqpSAVDzBUjLEKdw==
-X-Google-Smtp-Source: AKy350Y3fPwLrncRZ6gFnnV7HPqMl22uXBtXMCQlzgWmqs+WZ7y/f+Rn5c6rFTgk3saJv+pVdBlMbg==
-X-Received: by 2002:a05:600c:348e:b0:3ee:93d2:c915 with SMTP id
- a14-20020a05600c348e00b003ee93d2c915mr8408694wmq.6.1681666788361; 
- Sun, 16 Apr 2023 10:39:48 -0700 (PDT)
-Received: from speedcore (freebox.vlq16.iliad.fr. [213.36.7.13])
- by smtp.gmail.com with ESMTPSA id
- v9-20020a5d6b09000000b002d97529b3bbsm8486767wrw.96.2023.04.16.10.39.47
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 16 Apr 2023 10:39:47 -0700 (PDT)
-Date: Sun, 16 Apr 2023 19:39:46 +0200
-From: Arnaud Vrac <rawoul@gmail.com>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: Re: [Freedreno] [PATCH 2/2] drm/msm/dpu: add HDMI output support
-Message-ID: <ZDwy4n12G8unCgM0@speedcore>
-References: <20230415171926.85774-1-dmitry.baryshkov@linaro.org>
- <20230415171926.85774-3-dmitry.baryshkov@linaro.org>
+X-Greylist: delayed 379 seconds by postgrey-1.36 at gabe;
+ Sun, 16 Apr 2023 20:35:49 UTC
+Received: from st43p00im-ztfb10061701.me.com (st43p00im-ztfb10061701.me.com
+ [17.58.63.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1990310E0E1
+ for <dri-devel@lists.freedesktop.org>; Sun, 16 Apr 2023 20:35:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=me.com; s=1a1hai;
+ t=1681676969; bh=QOcoWbCcjc4S5ZBNccicx/PEXIx3g1kNuRyf36MJ7dQ=;
+ h=From:To:Subject:Date:Message-Id:MIME-Version;
+ b=jmZwo9Qkr9SI/MA8gviFhsfb8kCAYV2NQx2LsTm3FzvbenVDtYoKOlWaHwfiamcwz
+ 9DgJGVqPg3w6Sc3gmRcRxDtKTNrQPYrqrxXxZmm9xPmZPP8OssmOsMam/Mu4rhcvvh
+ tpRdMctppZ9zmqO83vJFDjySg00nQyX1BBiCp5rVOX15ixrywTEJUdSz3swCJMzboe
+ clUuldfLwvptns5vEZQ1WOpgFYY6WnhTLEmUXm4Z2mHXTKJLaQBW7p1NPzWXLQUtNi
+ Cb1Hh1ckTosMiemwj7j4W8aRMB49wa7w4B2HmChjjAB6TyRP2sYsRwAaLpFnwjwvkC
+ wQ1tHu9A0qnsQ==
+Received: from localhost (st43p00im-dlb-asmtp-mailmevip.me.com [17.42.251.41])
+ by st43p00im-ztfb10061701.me.com (Postfix) with ESMTPSA id
+ 067712E0FD1; Sun, 16 Apr 2023 20:29:28 +0000 (UTC)
+From: Alain Volmat <avolmat@me.com>
+To: philippe.cornu@foss.st.com,
+	arnd@arnd.de
+Subject: [PATCH] MAINTAINERS: Update Alain Volmat's email address for drm/sti
+Date: Sun, 16 Apr 2023 22:27:47 +0200
+Message-Id: <20230416202747.62479-1-avolmat@me.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Disposition: inline
-In-Reply-To: <20230415171926.85774-3-dmitry.baryshkov@linaro.org>
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-GUID: 1xLIxmdQxK7MZgk1QyxRp-bDz1-kadNu
+X-Proofpoint-ORIG-GUID: 1xLIxmdQxK7MZgk1QyxRp-bDz1-kadNu
+X-Proofpoint-Virus-Version: =?UTF-8?Q?vendor=3Dfsecure_engine=3D1.1.170-22c6f66c430a71ce266a39bfe25bc?=
+ =?UTF-8?Q?2903e8d5c8f:6.0.138,18.0.883,17.0.605.474.0000000_definitions?=
+ =?UTF-8?Q?=3D2022-06-21=5F08:2020-02-14=5F02,2022-06-21=5F08,2020-01-23?=
+ =?UTF-8?Q?=5F02_signatures=3D0?=
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0
+ mlxlogscore=687
+ suspectscore=0 clxscore=1011 mlxscore=0 spamscore=0 adultscore=0
+ malwarescore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2304160194
 X-Mailman-Approved-At: Mon, 17 Apr 2023 07:21:51 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -74,99 +60,31 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sean Paul <sean@poorly.run>, Bjorn Andersson <andersson@kernel.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org
+Cc: linux-kernel@vger.kernel.org, patrice.chotard@foss.st.com,
+ dri-devel@lists.freedesktop.org, Alain Volmat <avolmat@me.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Apr 15 20:19, Dmitry Baryshkov <dmitry.baryshkov@linaro.org> wrote:
+Update my email address for maintainer of the STi DRM driver.
 
->MSM8998 and the older Qualcomm platforms support HDMI outputs. Now as
->DPU encoder is ready, add support for using INTF_HDMI.
->
->Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
->---
-> drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c | 45 +++++++++++++++++++++++++
-> 1 file changed, 45 insertions(+)
->
->diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
->index e85e3721d2c7..65cce59163a4 100644
->--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
->+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
->@@ -617,6 +617,45 @@ static int _dpu_kms_initialize_displayport(struct drm_device *dev,
-> 	return 0;
-> }
->
->+static int _dpu_kms_initialize_hdmi(struct drm_device *dev,
->+				    struct msm_drm_private *priv,
->+				    struct dpu_kms *dpu_kms)
->+{
->+	struct drm_encoder *encoder = NULL;
->+	struct msm_display_info info;
->+	int rc;
->+	int i;
->+
->+	if (!priv->hdmi)
->+		return 0;
->+
->+	encoder = dpu_encoder_init(dev, DRM_MODE_ENCODER_TMDS);
->+	if (IS_ERR(encoder)) {
->+		DPU_ERROR("encoder init failed for HDMI display\n");
->+		return PTR_ERR(encoder);
->+	}
->+
->+	memset(&info, 0, sizeof(info));
+Signed-off-by: Alain Volmat <avolmat@me.com>
+---
+ MAINTAINERS | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Move this where fields are initialized ?
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 0e64787aace8..3cec7ad72389 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -6952,7 +6952,7 @@ F:	Documentation/devicetree/bindings/display/rockchip/
+ F:	drivers/gpu/drm/rockchip/
+ 
+ DRM DRIVERS FOR STI
+-M:	Alain Volmat <alain.volmat@foss.st.com>
++M:	Alain Volmat <avolmat@me.com>
+ L:	dri-devel@lists.freedesktop.org
+ S:	Maintained
+ T:	git git://anongit.freedesktop.org/drm/drm-misc
+-- 
+2.34.1
 
->+	rc = msm_hdmi_modeset_init(priv->hdmi, dev, encoder);
->+	if (rc) {
->+		DPU_ERROR("modeset_init failed for DP, rc = %d\n", rc);
->+		drm_encoder_cleanup(encoder);
->+		return rc;
->+	}
->+
->+	info.num_of_h_tiles = 1;
->+	info.h_tile_instance[0] = i;
-
-i is uninitialized here, the line can be removed.
-
-With the above changes:
-
-Reviewed-by: Arnaud Vrac <rawoul@gmail.com>
-Tested-by: Arnaud Vrac <rawoul@gmail.com> # on msm8998
-
--Arnaud
-
->+	info.intf_type = INTF_HDMI;
->+	rc = dpu_encoder_setup(dev, encoder, &info);
->+	if (rc) {
->+		DPU_ERROR("failed to setup DPU encoder %d: rc:%d\n",
->+			  encoder->base.id, rc);
->+		return rc;
->+	}
->+
->+	return 0;
->+}
->+
-> static int _dpu_kms_initialize_writeback(struct drm_device *dev,
-> 		struct msm_drm_private *priv, struct dpu_kms *dpu_kms,
-> 		const u32 *wb_formats, int n_formats)
->@@ -683,6 +722,12 @@ static int _dpu_kms_setup_displays(struct drm_device *dev,
-> 		return rc;
-> 	}
->
->+	rc = _dpu_kms_initialize_hdmi(dev, priv, dpu_kms);
->+	if (rc) {
->+		DPU_ERROR("initialize HDMI failed, rc = %d\n", rc);
->+		return rc;
->+	}
->+
-> 	/* Since WB isn't a driver check the catalog before initializing */
-> 	if (dpu_kms->catalog->wb_count) {
-> 		for (i = 0; i < dpu_kms->catalog->wb_count; i++) {
->-- 
->2.30.2
->
