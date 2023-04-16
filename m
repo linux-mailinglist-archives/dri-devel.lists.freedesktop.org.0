@@ -1,69 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A6D66E36D8
-	for <lists+dri-devel@lfdr.de>; Sun, 16 Apr 2023 11:57:08 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E40F6E40B2
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Apr 2023 09:22:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4C84410E319;
-	Sun, 16 Apr 2023 09:57:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 76AD510E39A;
+	Mon, 17 Apr 2023 07:22:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.web.de (mout.web.de [212.227.17.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A632910E30C;
- Sun, 16 Apr 2023 09:56:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de; s=s29768273;
- t=1681639012; i=markus.elfring@web.de;
- bh=r0+PJdQ4hGk1HJh+uo+JIif8tJrueAMEY3mwlSLHrmU=;
- h=X-UI-Sender-Class:Date:Subject:From:To:Cc:References:In-Reply-To;
- b=mtES6whmgR9otWu9W9TcthNGrHLhJk3lpf5NK2lV9mOEj3y7NkGGTp8acRyaNKk6M
- AzXiQlAFSW9aXFpsPk2zFGevx6XgSBSiJZkB/a0vOIyluXHKWD4qdqVbZ617QyoXMi
- fFRl5TsjaotS3LeigZoiUV+zLnbt63l7ivKoTxAHlsTIj62+VCCnq7sIIYtLOAe6LB
- XEqsiDqMiYVixG2da1FhLtuyFGixV7R+ubjeX5X3S6AwkdgQGodGtIxEBsxJYJiBAj
- TyUAWRaBdhbRtiOeflL3K6cXT/PvCFx9YjNimYlqTx/Dlr99tOi7EY8wyW0c+MnIE+
- uSuZHpN9T2cvA==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.21] ([94.31.85.83]) by smtp.web.de (mrweb105
- [213.165.67.124]) with ESMTPSA (Nemesis) id 1MS17h-1ptjSx1Gwd-00TChB; Sun, 16
- Apr 2023 11:56:52 +0200
-Message-ID: <3d0215dc-74d4-2c42-2eee-7a5fcf62b9f1@web.de>
-Date: Sun, 16 Apr 2023 11:56:51 +0200
+Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com
+ [IPv6:2a00:1450:4864:20::62c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2056910E31B
+ for <dri-devel@lists.freedesktop.org>; Sun, 16 Apr 2023 10:01:45 +0000 (UTC)
+Received: by mail-ej1-x62c.google.com with SMTP id vc20so1816029ejc.10
+ for <dri-devel@lists.freedesktop.org>; Sun, 16 Apr 2023 03:01:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1681639303; x=1684231303;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=pJigTOMieV88JCMUkFyYL25oiCUdnIAzYt3+b/d9iJU=;
+ b=CK+FzezMiv2xY54n49RI1Hh4a3V/IpVGr9cPTGzt18vBdOWGwcYOMrDdyg+B7Npa83
+ AHRLzfW0xHpgvt2GiDppjcWV/MIV6ZF+06gB5DBwIBUOflB9GzUyo1K8RjQjuyExyoY7
+ qDVg4cBav/ryzXyQJAbh5OcUsmK/LtnWjewIgpnelQElavMAf/GdXyZChHVph3AhHaTH
+ JQuJiXwljacmVOBtaPHxcvsKiOuYRII4BCh0Ex72Pvv/v1s6k2ASIb+oyZi6RlQL2m9N
+ xM0CBaIH6jeYkXDIXuJcIMLxUC96ifyF/iWnO+eZTy30iJr1VB4ul3Jj5MHehbzSUcNE
+ us/w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1681639303; x=1684231303;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=pJigTOMieV88JCMUkFyYL25oiCUdnIAzYt3+b/d9iJU=;
+ b=WjV/8Nn7NbBggyThiM0quhGxaVWyexXsN9+jJtEG3ORExnVzsgqCY83UVsRGIIJiOC
+ T+fiIJe45j5q7Y9u/Z8o6FZnoOsxahVUlYCyCu/gYGrl0D2v4ehPGVOVejEWAOQBE9to
+ bPLL1PM0jTFi7Z7HvBnSUeLmuAaEasWrJsPpcTeoXil71X0Rd+huIT3mCk0zeKVqlIqJ
+ 6Lwl06gAmVOhqTlCQt4K/1jgadLT/5PiQf9JorDLXTyjPkxu4ncEkDHlTQ9N1L+OxTJ1
+ YFsebHuq9nYRFb7vrKdQ3YBKMI9cK2XUoc99g2Z/r33EQQ2Vo5U8+lkdyUlRxJv2Z2GU
+ FFIQ==
+X-Gm-Message-State: AAQBX9fAP7QTllXMjSLPziC4nUKOpO+GJkCpydHe4kLOH5S1O4qOhCJY
+ DoCxzK1l+lpF3/U100GwoCG09MqyTPs=
+X-Google-Smtp-Source: AKy350blmIQqNb6VOqWPaRs8N1vcRDsMO1c+ca9Bz5vL8d20BlI7qVirihpC9PAbKpIxDgnp2nSTsQ==
+X-Received: by 2002:a17:906:7013:b0:94e:d3e8:ec3e with SMTP id
+ n19-20020a170906701300b0094ed3e8ec3emr3770036ejj.46.1681639303270; 
+ Sun, 16 Apr 2023 03:01:43 -0700 (PDT)
+Received: from localhost.my.domain (83.8.121.70.ipv4.supernova.orange.pl.
+ [83.8.121.70]) by smtp.gmail.com with ESMTPSA id
+ lh22-20020a170906f8d600b0094f6bf5ac9asm145232ejb.22.2023.04.16.03.01.41
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 16 Apr 2023 03:01:42 -0700 (PDT)
+From: Artur Weber <aweber.kernel@gmail.com>
+To: thierry.reding@gmail.com
+Subject: [PATCH 0/3] Add Samsung S6D7AA0 panel controller driver
+Date: Sun, 16 Apr 2023 12:01:36 +0200
+Message-Id: <20230416100139.13741-1-aweber.kernel@gmail.com>
+X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: [PATCH 9/9] drm/nouveau/therm: Move an assignment statement behind a
- null pointer check in two functions
-Content-Language: en-GB
-From: Markus Elfring <Markus.Elfring@web.de>
-To: kernel-janitors@vger.kernel.org, nouveau@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Ben Skeggs <bskeggs@redhat.com>,
- Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
- Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>
-References: <40c60719-4bfe-b1a4-ead7-724b84637f55@web.de>
- <1a11455f-ab57-dce0-1677-6beb8492a257@web.de>
- <2a746461-844a-2ad6-7b52-03f13fe1b9bf@web.de>
-In-Reply-To: <2a746461-844a-2ad6-7b52-03f13fe1b9bf@web.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:WvnSLZ8JcCgMT40fqtD67Yim4ZvJgIl6oJCIwq+1/gPHEiaAl8q
- FhtXDlNawnxkcNTWtv875NFd9FxT1kFrqwfVPOWehFvliE95E2oftLK3nleN6PpZQmBrTIR
- dqcN7ls1xmnpH6Lx0jRAmSFNub8Av8hEqARkT3eoWHkCVnp48ebOrpqbliPFnNTNZ8/+tDp
- KOep4bZGKEzYHnxFvlB0g==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:ZddhYlKIvjo=;RArXRPo10vQmCQ1pWSpjmtcplWF
- boRDeb0W74h79NEj3z/879cMkWGPWlpqSiTIIrqpZ8WHqgD9vR06i8tuM4o1RDeo0+zuAPdas
- g7kKZ9I3wJVXtFi8RYIi/xeq0t6xHOTSAkw23lq8+9PsHVBYI0e16xFZjRMHNBi8pDZtunlbs
- OL0qOEDn9Vs7r6DbVdgmGHxQ3Ru7S5FzfCloOBbCcwnT8ScjI0LkcIfXwS8C9HAfojtXNKmgp
- DjrjMDEL5zOSKjJMMJHr/MS+ylJbq6YpT/CrBBn15iPdIxw1ChtyqyDcvjD1I5R+xUClCz60P
- rYdJ6oWQr8zQaKfxKdD7OOX8Kdet9cWA2T7Avwt2JAWnh7/n3d9/Aa8ikFI+z87SLrjuX4YNM
- 1aNiqJMEGz93sk+iA5X5sPeZFJgQWxL7iy8JFRcKl/UJV5uZ3m/ZyyMxmKZTF1E9vul/8vEzI
- BdEoQklhJ5VWr7SuN2yT7xwz4xi3/TQglDWseqjWRr+ZrO6YUarqg6kPycCNXlU6C8pv5HMZ8
- VPdIZvFVTesPT1Rb8PQi9KWGajs6ZxIY7vnQNqdKjccvlCNq90s60aeR6SFmHhcKjfKMWvG24
- Q/xwQUHdWAEEOhFqcANrR/gVh2g5zfQTx/lDeNry9iqpm8ZcTbfqvMTc2BoeNnmoxaOV96aaC
- KS5JYFbu5xfu1nqjkPOJZSuwWlc5lplhWkd/O+X4l2qPwSVyKuVaEcFMGLwRx/5a7y88w3tsU
- aP43GwBHdnzfgm8o8r3AQXUvBNHinu4trUCY18oMRgTpsDYO7CN1QU9Cr9Zah7tsdYuye1DNT
- vgXPhbLFQyMD3jYma131HsHkJOIYR2V4AmhSjwH/BZDaMeiRepcC88cGNmrqtKrpl+yvtiIZV
- NFDT15KJgPVW8w5i2G+GeFxsZ+2WPkXJ2U3+SrFZ0ewx3B/He2SNXpIkm
+Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Mon, 17 Apr 2023 07:21:51 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,67 +70,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: LKML <linux-kernel@vger.kernel.org>, cocci@inria.fr
+Cc: devicetree@vger.kernel.org, sam@ravnborg.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, robh+dt@kernel.org,
+ ~postmarketos/upstreaming@lists.sr.ht, krzysztof.kozlowski+dt@linaro.org,
+ Artur Weber <aweber.kernel@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Date: Sun, 16 Apr 2023 10:50:12 +0200
+This patchset adds initial support for Samsung S6D7AA0-based panels.
+Currently, only the S6D7AA0-LSL080AL02 panel used in the Samsung
+Galaxy Tab 3 8.0 family of tablets is supported; other panels can be
+added in the future.
 
-The address of a data structure member was determined before
-a corresponding null pointer check in the implementation of
-the functions =E2=80=9Cnvkm_fanpwm_create=E2=80=9D and =E2=80=9Cnvkm_fanto=
-g_create=E2=80=9D.
+Signed-off-by: Artur Weber <aweber.kernel@gmail.com>
 
-Thus avoid the risk for undefined behaviour by moving the assignment
-for the data structure member =E2=80=9Cfan=E2=80=9D behind two null pointe=
-r checks.
+Artur Weber (3):
+  dt-bindings: panel: Add Samsung S6D7AA0 LCD controller bindings
+  drm/panel: Add Samsung S6D7AA0 panel controller driver
+  MAINTAINERS: Add myself as Samsung S6D7AA0 panel driver maintainer
 
-This issue was detected by using the Coccinelle software.
+ .../display/panel/samsung,s6d7aa0.yaml        |  51 +++
+ MAINTAINERS                                   |   6 +
+ drivers/gpu/drm/panel/Kconfig                 |   7 +
+ drivers/gpu/drm/panel/Makefile                |   1 +
+ drivers/gpu/drm/panel/panel-samsung-s6d7aa0.c | 397 ++++++++++++++++++
+ 5 files changed, 462 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/panel/samsung,s6d7aa0.yaml
+ create mode 100644 drivers/gpu/drm/panel/panel-samsung-s6d7aa0.c
 
-Fixes: da06b46b720687117178d3ee85a601762f1c36b5 ("drm/nouveau/therm: cosme=
-tic changes")
-Signed-off-by: Markus Elfring <elfring@users.sourceforge.net>
-=2D--
- drivers/gpu/drm/nouveau/nvkm/subdev/therm/fanpwm.c | 2 +-
- drivers/gpu/drm/nouveau/nvkm/subdev/therm/fantog.c | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/therm/fanpwm.c b/drivers/=
-gpu/drm/nouveau/nvkm/subdev/therm/fanpwm.c
-index 340f37a299dc..b13ba9b2f6be 100644
-=2D-- a/drivers/gpu/drm/nouveau/nvkm/subdev/therm/fanpwm.c
-+++ b/drivers/gpu/drm/nouveau/nvkm/subdev/therm/fanpwm.c
-@@ -98,10 +98,10 @@ nvkm_fanpwm_create(struct nvkm_therm *therm, struct dc=
-b_gpio_func *func)
- 		return -ENODEV;
-
- 	fan =3D kzalloc(sizeof(*fan), GFP_KERNEL);
--	therm->fan =3D &fan->base;
- 	if (!fan)
- 		return -ENOMEM;
-
-+	therm->fan =3D &fan->base;
- 	fan->base.type =3D "PWM";
- 	fan->base.get =3D nvkm_fanpwm_get;
- 	fan->base.set =3D nvkm_fanpwm_set;
-diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/therm/fantog.c b/drivers/=
-gpu/drm/nouveau/nvkm/subdev/therm/fantog.c
-index ff9fbe7950e5..bfdf4ca5625c 100644
-=2D-- a/drivers/gpu/drm/nouveau/nvkm/subdev/therm/fantog.c
-+++ b/drivers/gpu/drm/nouveau/nvkm/subdev/therm/fantog.c
-@@ -100,10 +100,10 @@ nvkm_fantog_create(struct nvkm_therm *therm, struct =
-dcb_gpio_func *func)
- 	}
-
- 	fan =3D kzalloc(sizeof(*fan), GFP_KERNEL);
--	therm->fan =3D &fan->base;
- 	if (!fan)
- 		return -ENOMEM;
-
-+	therm->fan =3D &fan->base;
- 	fan->base.type =3D "toggle";
- 	fan->base.get =3D nvkm_fantog_get;
- 	fan->base.set =3D nvkm_fantog_set;
-=2D-
+-- 
 2.40.0
 
