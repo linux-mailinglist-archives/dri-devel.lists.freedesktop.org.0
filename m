@@ -1,40 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2D3A6E37BA
-	for <lists+dri-devel@lfdr.de>; Sun, 16 Apr 2023 13:31:08 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3369A6E37BC
+	for <lists+dri-devel@lfdr.de>; Sun, 16 Apr 2023 13:31:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3756110E03E;
-	Sun, 16 Apr 2023 11:31:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 051B310E080;
+	Sun, 16 Apr 2023 11:31:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2FDE510E03E
- for <dri-devel@lists.freedesktop.org>; Sun, 16 Apr 2023 11:31:01 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 178E410E066
+ for <dri-devel@lists.freedesktop.org>; Sun, 16 Apr 2023 11:31:04 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 149DE60D3C;
- Sun, 16 Apr 2023 11:31:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8DD5EC433D2;
- Sun, 16 Apr 2023 11:30:58 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 9166760DD9;
+ Sun, 16 Apr 2023 11:31:01 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 14816C4339B;
+ Sun, 16 Apr 2023 11:30:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1681644659;
- bh=3qMOz86nPcW6QzmV/fIg6KctzX9/L0ZI+140QE21B+4=;
- h=From:To:Cc:Subject:Date:From;
- b=RI/iaHNXu5iyVDxSARxeHzQaR2K1GTvjsO6A52AvMIpoba4T9IPeRih6fsHeBuIMO
- TY/NtI55gODERLLuJD4M1AUcg3H2hblJRfVpiUxC1jCxfr9nCrh8tNHoxbxunT/S0f
- FZtTwJFqOKEmBBzpVIaBfimxioFy+VgExeDoesHAAXCaMcLuxAQ4Hplg6cj/GjRxhy
- RlzvfoL2rIeq4PMAQcOFDdQfuVVO0Skbt9RNnTdQzaILJ2G/yRHJw43Lsih2satmc1
- +32YdfQFQ02D5F+El3BIoWXo/vKLfZ6t5wFJnnGjiSzAwwZxGVYm9g3TRQg9mG16zX
- jGu7Akt/V2B8w==
+ s=k20201202; t=1681644661;
+ bh=lbqT9OyQEVGyOzv9v3EvenM9r2FQaumTb2z/cst3XjU=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=OrmcCsAx4wCrmmAwcAcw3M4WkFQk8bM8ybxqtkLnTMlgFxt/dO1h8lcSLEVRm4Cf3
+ cBm6nfPWoQ76lrjm0TUtE0ADA2C9woVf3uTpTApjUwVSpPy2TADZXMFboWSp9UfcFh
+ DRVfDUO83BFuJdvPo5KO86unpW5760viL6O2MujB+V8PL9j1cZqh/JoD8tD4G0s3a1
+ nR+hi+ZNVXvI8K466ZkgCn8Mch7Ay7+t2ImTajDJkBSMF9LkJp3O0LFx+WOwuLIo7b
+ 2X5CsG3d76+LFZ2t0cE+ts7kdeHqrpj5H6nUbJOtPmNl9x6N3dv+drffyakMWMJ2MZ
+ bnbZuuVFfJtag==
 From: Oded Gabbay <ogabbay@kernel.org>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 1/4] accel/habanalabs: ignore false positive razwi
-Date: Sun, 16 Apr 2023 14:30:47 +0300
-Message-Id: <20230416113050.2815620-1-ogabbay@kernel.org>
+Subject: [PATCH 2/4] accel/habanalabs: allow user to modify EDMA RL register
+Date: Sun, 16 Apr 2023 14:30:48 +0300
+Message-Id: <20230416113050.2815620-2-ogabbay@kernel.org>
 X-Mailer: git-send-email 2.40.0
+In-Reply-To: <20230416113050.2815620-1-ogabbay@kernel.org>
+References: <20230416113050.2815620-1-ogabbay@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -49,109 +52,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tal Cohen <talcohen@habana.ai>
+Cc: Rakesh Ughreja <rughreja@habana.ai>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Tal Cohen <talcohen@habana.ai>
+From: Rakesh Ughreja <rughreja@habana.ai>
 
-In Gaudi2 asic, PSOC RAZWI may cause in HBW or LBW. The address that
-caused the error is read from HW register and printed by the Driver.
-There are cases where the Driver receives an indication on PSOC
-RAZWI error but the address value is zero. In that case, the indication
-is a false positive.
-The Driver should not "count" a PSOC RAZWI event error when the
-caused the address is zeroed.
+EDMA transpose workload requires to signal for every activation.
+User FW sends all the dummy signals to RD_LBW_RATE_LIM_CFG, to save
+lbw bandwidth. We need the user to be able to access that register to
+configure it.
 
-Signed-off-by: Tal Cohen <talcohen@habana.ai>
+Signed-off-by: Rakesh Ughreja <rughreja@habana.ai>
 Reviewed-by: Oded Gabbay <ogabbay@kernel.org>
 Signed-off-by: Oded Gabbay <ogabbay@kernel.org>
 ---
- drivers/accel/habanalabs/gaudi2/gaudi2.c | 43 +++++++++++++++---------
- 1 file changed, 27 insertions(+), 16 deletions(-)
+ drivers/accel/habanalabs/gaudi2/gaudi2_security.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/accel/habanalabs/gaudi2/gaudi2.c b/drivers/accel/habanalabs/gaudi2/gaudi2.c
-index b778cf764a68..6f05aa230376 100644
---- a/drivers/accel/habanalabs/gaudi2/gaudi2.c
-+++ b/drivers/accel/habanalabs/gaudi2/gaudi2.c
-@@ -8251,6 +8251,7 @@ static bool gaudi2_handle_psoc_razwi_happened(struct hl_device *hdev, u32 razwi_
- 	u16 num_of_eng, eng_id[PSOC_RAZWI_MAX_ENG_PER_RTR];
- 	char eng_name_str[PSOC_RAZWI_ENG_STR_SIZE];
- 	bool razwi_happened = false;
-+	u64 addr;
- 	int i;
- 
- 	num_of_eng = gaudi2_psoc_razwi_get_engines(common_razwi_info, ARRAY_SIZE(common_razwi_info),
-@@ -8269,43 +8270,53 @@ static bool gaudi2_handle_psoc_razwi_happened(struct hl_device *hdev, u32 razwi_
- 		if (RREG32(base[i] + DEC_RAZWI_HBW_AW_SET)) {
- 			addr_hi = RREG32(base[i] + DEC_RAZWI_HBW_AW_ADDR_HI);
- 			addr_lo = RREG32(base[i] + DEC_RAZWI_HBW_AW_ADDR_LO);
--			dev_err(hdev->dev,
-+			addr = ((u64)addr_hi << 32) + addr_lo;
-+			if (addr) {
-+				dev_err(hdev->dev,
- 					"PSOC HBW AW RAZWI: %s, address (aligned to 128 byte): 0x%llX\n",
--					eng_name_str, ((u64)addr_hi << 32) + addr_lo);
--			hl_handle_razwi(hdev, ((u64)addr_hi << 32) + addr_lo, &eng_id[0],
-+					eng_name_str, addr);
-+				hl_handle_razwi(hdev, addr, &eng_id[0],
- 					num_of_eng, HL_RAZWI_HBW | HL_RAZWI_WRITE, event_mask);
--			razwi_happened = true;
-+				razwi_happened = true;
-+			}
- 		}
- 
- 		if (RREG32(base[i] + DEC_RAZWI_HBW_AR_SET)) {
- 			addr_hi = RREG32(base[i] + DEC_RAZWI_HBW_AR_ADDR_HI);
- 			addr_lo = RREG32(base[i] + DEC_RAZWI_HBW_AR_ADDR_LO);
--			dev_err(hdev->dev,
-+			addr = ((u64)addr_hi << 32) + addr_lo;
-+			if (addr) {
-+				dev_err(hdev->dev,
- 					"PSOC HBW AR RAZWI: %s, address (aligned to 128 byte): 0x%llX\n",
--					eng_name_str, ((u64)addr_hi << 32) + addr_lo);
--			hl_handle_razwi(hdev, ((u64)addr_hi << 32) + addr_lo, &eng_id[0],
-+					eng_name_str, addr);
-+				hl_handle_razwi(hdev, addr, &eng_id[0],
- 					num_of_eng, HL_RAZWI_HBW | HL_RAZWI_READ, event_mask);
--			razwi_happened = true;
-+				razwi_happened = true;
-+			}
- 		}
- 
- 		if (RREG32(base[i] + DEC_RAZWI_LBW_AW_SET)) {
- 			addr_lo = RREG32(base[i] + DEC_RAZWI_LBW_AW_ADDR);
--			dev_err(hdev->dev,
-+			if (addr_lo) {
-+				dev_err(hdev->dev,
- 					"PSOC LBW AW RAZWI: %s, address (aligned to 128 byte): 0x%X\n",
- 					eng_name_str, addr_lo);
--			hl_handle_razwi(hdev, addr_lo, &eng_id[0],
-+				hl_handle_razwi(hdev, addr_lo, &eng_id[0],
- 					num_of_eng, HL_RAZWI_LBW | HL_RAZWI_WRITE, event_mask);
--			razwi_happened = true;
-+				razwi_happened = true;
-+			}
- 		}
- 
- 		if (RREG32(base[i] + DEC_RAZWI_LBW_AR_SET)) {
- 			addr_lo = RREG32(base[i] + DEC_RAZWI_LBW_AR_ADDR);
--			dev_err(hdev->dev,
--					"PSOC LBW AR RAZWI: %s, address (aligned to 128 byte): 0x%X\n",
--					eng_name_str, addr_lo);
--			hl_handle_razwi(hdev, addr_lo, &eng_id[0],
-+			if (addr_lo) {
-+				dev_err(hdev->dev,
-+						"PSOC LBW AR RAZWI: %s, address (aligned to 128 byte): 0x%X\n",
-+						eng_name_str, addr_lo);
-+				hl_handle_razwi(hdev, addr_lo, &eng_id[0],
- 					num_of_eng, HL_RAZWI_LBW | HL_RAZWI_READ, event_mask);
--			razwi_happened = true;
-+				razwi_happened = true;
-+			}
- 		}
- 		/* In common case the loop will break, when there is only one engine id, or
- 		 * several engines with the same router. The exceptional case is with psoc razwi
+diff --git a/drivers/accel/habanalabs/gaudi2/gaudi2_security.c b/drivers/accel/habanalabs/gaudi2/gaudi2_security.c
+index 694735f9e6e6..acd33130e7f9 100644
+--- a/drivers/accel/habanalabs/gaudi2/gaudi2_security.c
++++ b/drivers/accel/habanalabs/gaudi2/gaudi2_security.c
+@@ -479,6 +479,7 @@ static const u32 gaudi2_pb_dcr0_edma0_unsecured_regs[] = {
+ 	mmDCORE0_EDMA0_CORE_CTX_TE_NUMROWS,
+ 	mmDCORE0_EDMA0_CORE_CTX_IDX,
+ 	mmDCORE0_EDMA0_CORE_CTX_IDX_INC,
++	mmDCORE0_EDMA0_CORE_RD_LBW_RATE_LIM_CFG,
+ 	mmDCORE0_EDMA0_QM_CQ_CFG0_0,
+ 	mmDCORE0_EDMA0_QM_CQ_CFG0_1,
+ 	mmDCORE0_EDMA0_QM_CQ_CFG0_2,
 -- 
 2.40.0
 
