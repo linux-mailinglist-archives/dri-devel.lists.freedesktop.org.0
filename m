@@ -2,67 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC1486E40A3
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Apr 2023 09:21:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC1E56E40B1
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Apr 2023 09:22:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 971FC10E368;
-	Mon, 17 Apr 2023 07:21:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6ABC510E399;
+	Mon, 17 Apr 2023 07:22:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com
- [IPv6:2a00:1450:4864:20::632])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 43AB010E0F3
- for <dri-devel@lists.freedesktop.org>; Sun, 16 Apr 2023 13:08:10 +0000 (UTC)
-Received: by mail-ej1-x632.google.com with SMTP id
- a640c23a62f3a-94a342f7c4cso529654966b.0
- for <dri-devel@lists.freedesktop.org>; Sun, 16 Apr 2023 06:08:10 -0700 (PDT)
+Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com
+ [IPv6:2a00:1450:4864:20::62c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2B85810E0F3
+ for <dri-devel@lists.freedesktop.org>; Sun, 16 Apr 2023 13:09:42 +0000 (UTC)
+Received: by mail-ej1-x62c.google.com with SMTP id
+ a640c23a62f3a-94e102534d6so398222466b.2
+ for <dri-devel@lists.freedesktop.org>; Sun, 16 Apr 2023 06:09:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1681650488; x=1684242488;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=6CtBhR8YOpDqMIofOmWwuAA+9qpS9Sa8zpuzMOiM4dE=;
- b=rCDxLuBs4qW14s7jBjqt1SI/X2rWlsRnsEziv+Ob2RmEBzazeM/AEmaupxLE13hHSh
- 1YBkOx5JAjb58cpFCk5ynqK4rx+rEiqT/iITAA/zuCKie09kmRIpLHbU8AedFhFGlZ1y
- 5hTpHMFqX73OzZq2XeFyUsfcuHo4kaGBB9W6s8PqFl255+mS20E7vx8rTdTyD6y9XnyY
- ZUaWHuBR4EwLHvxpDHOh8qlKyKTDq2P2d9B8yaw4d7EIJyw13qWOdek1L6eemcu/mLcE
- MMpHmH5ZHqQNg8UE8HJCMRoABBjSi17oe8P5wKRmo3uKmQ4NLQVkS7gGykGG+frApBrW
- QuQg==
+ d=gmail.com; s=20221208; t=1681650580; x=1684242580;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=sNQcR72lxA1AVVNfsXZ77YrtExBj+UGMBGyQjKiT4qs=;
+ b=q04H6dBFxTDy3zNnMEYBfZKyTEBySfBSi+bwBrHuR0KQw3QUyqz9Jp/AZ/3w1SemPD
+ V06Y00LCI2RRKOueZct0TIpYcH/AQjIdyjP8TuvP6wAd4Z2WBZOYHpBqiecYjX3GlHkO
+ Q13pqT/ej3fpLW16eAueTCYVJBKfrlVAOg6xCCIwvtWh3O991AlXT79TCYS8HCinfKDf
+ CuYx/Wy4r24oDC/w/NIMUVlt6eHy3BMp6+vxteK0+XiDSrggpT63GTmS5ibeVBeerYy2
+ s+8wmyw/oYU/0bmBBFJDs026wOs6RcbefKq1Bhtubm1IAilpttvv4QvHwMoyYD7ZQ1uc
+ KqOg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681650488; x=1684242488;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=6CtBhR8YOpDqMIofOmWwuAA+9qpS9Sa8zpuzMOiM4dE=;
- b=IgcJhqAkDebbX/ehyg4Skd9n8oBQ6kOWW1RzJxbtmAixWZ5Zm4BGkhLV3Oa7NgaHMW
- zGbZwM+yEvZDksSqqjTQ31X6ESXYcqJM7uy5fC3tyDyZfFTcLzXiTavQVrykwJNswPrX
- G+3WHTjE/Zozz+lajByTuWandvdVnLmKbTPv2sYCBQCfUgR3NNfLjVYjn+SdShM6a0zS
- 35eMJfHFkRkOJrLXouDioRDcjmvIuVruzsnbAW4Mi3s84zP78x1iYoL0+CdWM5S16pHQ
- 1bW+uSBlOg5llF+QcqgSYuu9mZG6GvLspHYyQ7Fgk811eYvg7wvpCR+Yuv4TivO3NkEt
- q6Pg==
-X-Gm-Message-State: AAQBX9cLBJjKkaAJK2lvXIs0BE5M6F1W4ab2dl8NPkMJhZnsqgnv0KLm
- PHURmPhOlHv4rPTJ8xtY2vo=
-X-Google-Smtp-Source: AKy350aJzZAl31uqCqNRi9GrSrLwH3pnFr31orBUjbJJrDt7xf24JXIQWWiuHvlBD8gAnHReDdf0Pw==
-X-Received: by 2002:a05:6402:2d0:b0:502:7767:3c73 with SMTP id
- b16-20020a05640202d000b0050277673c73mr10268337edx.22.1681650488479; 
- Sun, 16 Apr 2023 06:08:08 -0700 (PDT)
-Received: from localhost.my.domain (83.8.121.70.ipv4.supernova.orange.pl.
+ d=1e100.net; s=20221208; t=1681650580; x=1684242580;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=sNQcR72lxA1AVVNfsXZ77YrtExBj+UGMBGyQjKiT4qs=;
+ b=RsQ7BM28E74KW9lBA/Gb0MNw1c5qkyb8DWqOwg5R2wbQVuzzgg9II8D1lkAYGRIagM
+ swvDeEB472QkAwGx8rRjh7kDDkpma0rYii1Ow9T4QgqEwtA7pWNKNvrL1/ev2qDscq7y
+ gmSOqCydZwZhfhDGmwFCmlksOdqVeBK+dyRNnh5ffCXWqAJzFBN39jBesGgrhGOR26+g
+ 4C64HKW5VZJMSIsNIO2L4+pctsuu3HsPSPq61Bj2n0AEfOb6wbCgtCP0pzx95p//n55j
+ mdNpggqsJOU85xZ5G3c3oLQ3ghX3ouJcjGHpLdncuPuB1e7abWIQvgvBv/ZRPqM2LHXR
+ 8dEg==
+X-Gm-Message-State: AAQBX9eXUZU9b7S5FFHvMpLY18kvHYbWtQVT6Ff4v9xqo44k4DkzFelY
+ 2XQBueXZ/fh74gZ/XVkQvdM=
+X-Google-Smtp-Source: AKy350YIaQnWdnA8o0bmnjpipOetmc+37VvK2Sz1+cpIazmoOZme0G2J2ujFouu4WO/7L6+K3Xxt4w==
+X-Received: by 2002:aa7:d38e:0:b0:506:70a2:cb9c with SMTP id
+ x14-20020aa7d38e000000b0050670a2cb9cmr9952800edq.12.1681650580319; 
+ Sun, 16 Apr 2023 06:09:40 -0700 (PDT)
+Received: from [192.168.50.244] (83.8.121.70.ipv4.supernova.orange.pl.
  [83.8.121.70]) by smtp.gmail.com with ESMTPSA id
- l12-20020a056402344c00b00504803f4071sm4511609edc.44.2023.04.16.06.08.07
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 16 Apr 2023 06:08:08 -0700 (PDT)
-From: Artur Weber <aweber.kernel@gmail.com>
-To: thierry.reding@gmail.com
-Subject: [PATCH v2 3/3] MAINTAINERS: Add entry for Samsung S6D7AA0 LCD panel
- controller driver
-Date: Sun, 16 Apr 2023 15:07:35 +0200
-Message-Id: <20230416130735.30965-4-aweber.kernel@gmail.com>
-X-Mailer: git-send-email 2.40.0
-In-Reply-To: <20230416130735.30965-1-aweber.kernel@gmail.com>
-References: <20230416130735.30965-1-aweber.kernel@gmail.com>
+ w17-20020aa7cb51000000b004aeeb476c5bsm4437961edt.24.2023.04.16.06.09.39
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 16 Apr 2023 06:09:39 -0700 (PDT)
+Message-ID: <8b9438b9-6628-78f8-6de3-aa1f418044ed@gmail.com>
+Date: Sun, 16 Apr 2023 15:09:38 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.1
+Subject: Re: [PATCH v2 1/3] dt-bindings: display: panel: Add Samsung S6D7AA0
+ LCD panel controller
+Content-Language: en-US
+To: thierry.reding@gmail.com
+References: <20230416130735.30965-1-aweber.kernel@gmail.com>
+ <20230416130735.30965-2-aweber.kernel@gmail.com>
+From: Artur Weber <aweber.kernel@gmail.com>
+In-Reply-To: <20230416130735.30965-2-aweber.kernel@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-Mailman-Approved-At: Mon, 17 Apr 2023 07:21:51 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -78,35 +81,81 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: devicetree@vger.kernel.org, sam@ravnborg.org, linux-kernel@vger.kernel.org,
  dri-devel@lists.freedesktop.org, robh+dt@kernel.org,
- ~postmarketos/upstreaming@lists.sr.ht, krzysztof.kozlowski+dt@linaro.org,
- Artur Weber <aweber.kernel@gmail.com>
+ ~postmarketos/upstreaming@lists.sr.ht, krzysztof.kozlowski+dt@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add myself as maintainer of the Samsung S6D7AA0 panel driver.
+On 16/04/2023 15:07, Artur Weber wrote:
+> Add bindings for the S6D7AA0 LCD panel controller, including the
+> S6D7AA0-LSL080AL02 panel used in the Samsung Galaxy Tab 3 8.0 family
+> of tablets.
+> 
+> Signed-off-by: Artur Weber <aweber.kernel@gmail.com>
+> ---
+> Changed in v2:
+>    - Updated commit message
+>    - Applied suggestions from Krzysztof Kozlowski
+> ---
+>   .../display/panel/samsung,s6d7aa0.yaml        | 51 +++++++++++++++++++
+>   1 file changed, 51 insertions(+)
+>   create mode 100644 Documentation/devicetree/bindings/display/panel/samsung,s6d7aa0.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/display/panel/samsung,s6d7aa0.yaml b/Documentation/devicetree/bindings/display/panel/samsung,s6d7aa0.yaml
+> new file mode 100644
+> index 000000000000..969cef7738b8
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/panel/samsung,s6d7aa0.yaml
+> @@ -0,0 +1,51 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/display/panel/samsung,s6d7aa0.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Samsung S6D7AA0 MIPI-DSI LCD panel controller
+> +
+> +maintainers:
+> +  - Artur Weber <aweber.kernel@gmail.com>
+> +
+> +allOf:
+> +  - $ref: panel-common.yaml#
+> +
+> +properties:
+> +  compatible:
+> +    const: samsung,s6d7aa0-lsl080al02
+> +
+> +  reg: true
+> +  reset-gpios: true
+> +  backlight: true
+> +
+> +  enable-supply:
+> +    description: Enable supply
+> +
+> +required:
+> +  - compatible
+> +  - reset-gpios
+> +  - enable-supply
+> +  - backlight
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/gpio/gpio.h>
+> +
+> +    dsi {
+> +        #address-cells = <1>;
+> +        #size-cells = <0>;
+> +
+> +        panel@0 {
+> +            compatible = "samsung,s6d7aa0-lsl080al02";
+> +            reg = <0>;
+> +            enable-supply = <&lcd_enable_supply>;
+> +            reset-gpios = <&gpf0 4 GPIO_ACTIVE_LOW>;
+> +            backlight = <&backlight>;
+> +        };
+> +    };
+> +
+> +...
 
-Signed-off-by: Artur Weber <aweber.kernel@gmail.com>
----
- MAINTAINERS | 6 ++++++
- 1 file changed, 6 insertions(+)
-
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 90abe83c02f3..6a55e6e3ac59 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -6623,6 +6623,12 @@ S:	Maintained
- F:	Documentation/devicetree/bindings/display/panel/samsung,s6d27a1.yaml
- F:	drivers/gpu/drm/panel/panel-samsung-s6d27a1.c
- 
-+DRM DRIVER FOR SAMSUNG S6D7AA0 PANELS
-+M:	Artur Weber <aweber.kernel@gmail.com>
-+S:	Maintained
-+F:	Documentation/devicetree/bindings/display/panel/samsung,s6d7aa0.yaml
-+F:	drivers/gpu/drm/panel/panel-samsung-s6d7aa0.c
-+
- DRM DRIVER FOR SITRONIX ST7703 PANELS
- M:	Guido Günther <agx@sigxcpu.org>
- R:	Purism Kernel Team <kernel@puri.sm>
--- 
-2.40.0
-
+Wrong patch file, please ignore. Will re-send in a second.
