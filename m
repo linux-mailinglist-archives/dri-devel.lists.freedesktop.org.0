@@ -2,52 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDF0A6E4155
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Apr 2023 09:39:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD23B6E4158
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Apr 2023 09:40:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1B3AE10E311;
-	Mon, 17 Apr 2023 07:39:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 09B6310E3AB;
+	Mon, 17 Apr 2023 07:40:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 202F210E311
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Apr 2023 07:39:44 +0000 (UTC)
-Received: from [IPV6:2001:b07:2ed:14ed:c5f8:7372:f042:90a2] (unknown
- [IPv6:2001:b07:2ed:14ed:c5f8:7372:f042:90a2])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits))
- (No client certificate requested) (Authenticated sender: kholk11)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 993FE66031ED;
- Mon, 17 Apr 2023 08:39:39 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1681717180;
- bh=nfJnFA6ozqy7nT17maYMPunxHTfwoBhKeGFcQ+Uj5Q8=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=hMw+lqC/7vzygX0PTxg7wyItot6slBOu2uapMTb+eM0UHDDYpPos8JXblPp/5h5/k
- e/UqNBwwTtwEjJ6WAn0eeZwyrZxU9W8MB3eE0FX3YuFGgR9jnABdruC5Kt6GOz+RRU
- OnlgAgoc3s/bZhFgZr1RNQjuvtu0d0Bn62Ri0KcHt6M+VW9JwdCamopr4nEenzVHIy
- oCqM+o/urOtwfi2+vm/Ug4rsKbiQCCFWjyWwJ6SrvurHUivaldOgrpIot8eDgUv1m/
- 63MdXdOAYjqWU/c+SNMil2yN4GsFzX3/eXglHtKbJS30TRHUEfv0Rb3UTxXrJAdTR/
- 0SivOK3w9NM8Q==
-Message-ID: <488b6455-098e-ac7b-8996-53d782b5488f@collabora.com>
-Date: Mon, 17 Apr 2023 09:39:36 +0200
+Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com
+ [IPv6:2a00:1450:4864:20::32d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 99D7A10E3AB
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Apr 2023 07:40:22 +0000 (UTC)
+Received: by mail-wm1-x32d.google.com with SMTP id
+ o9-20020a05600c510900b003f17012276fso1727553wms.4
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Apr 2023 00:40:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1681717220; x=1684309220;
+ h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ :content-language:subject:reply-to:from:user-agent:mime-version:date
+ :message-id:from:to:cc:subject:date:message-id:reply-to;
+ bh=3y8aPQgOvoJwSTlB16np8gZ7mEu48SprWU1OLM7t2EY=;
+ b=Q0kUWkbBARCqihzYfC7ynvUsdGTkhMsyh5fm7/hrg/kyLi3UR04bgDIUB4ijsOVsof
+ n4+aUNm6adB+iF9ilW/GhfMexNEp8a6+yj+45qlIP0UQOaC4h14EgODg+Mcs1vIZmiOq
+ 4dvC4rT2aC0Fy8WAlHsfX5bhRvN5iPkAiNgKRZI/h2Q+ttwC7rOfSXXAZOPkx2lnXbHQ
+ uRnyTChkbe2DvC9PM9DWYIsDFd0KvSj1L9DAVyjgbeeyw+wgLM8Te5vqk9cF4qE7kiPs
+ znPe2LOvB1Gr6+UrxctYlyUDU80t4YcwCJSjCwGT13vzrmTKQL4I07XxekurnFx+WMG3
+ Xt3A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1681717220; x=1684309220;
+ h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ :content-language:subject:reply-to:from:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=3y8aPQgOvoJwSTlB16np8gZ7mEu48SprWU1OLM7t2EY=;
+ b=ekP0NjuqsY2nfEfh1Mfms3E4TJVW4GoufrspVpgPnqsxEnZE5NmI0KnQ6TDGLQDONl
+ E3qk9phidPDNPdu9DA/JH6yMBs/mkMUWKOfQhbpsyrfo7+MrDO7+m+jJLkTrB6Ydqr/q
+ lC3Y1sLKam/2czXjYO12frkqP7scKp0o8uLFCh8NoPwg0yaUr5asT42GInwOvY+k8gCC
+ CBxWHr3tQmKRMn7wRgVAHvS4YAW0pUCbC2c8S7C7Xdwt3GTsFbI6Nbbcgq1eFYGUHTas
+ dmP8Z9cE3Qb5c6Sl7R3Yy0uryQ8KCv9WVDwQd9wkICc1ZXIL7KHZ3wlv/DQXvTXtVGxG
+ /j1Q==
+X-Gm-Message-State: AAQBX9euWJKs2bXSPohJY2HrxK+HY4urSyEUW09/6hAvS2En0+YiCM5Z
+ KoAgqwMMQlLHQX28jYADlXA8wlxQ5fFYFfeTOv1Ptw==
+X-Google-Smtp-Source: AKy350bC5HsSl1Rn6Xmxt8XlYpLz2a7Ubqu4/u6z89XV16jAKStdTlpNZTICilRh9Bz+VJLGEzgGLw==
+X-Received: by 2002:a05:600c:22c7:b0:3eb:3945:d405 with SMTP id
+ 7-20020a05600c22c700b003eb3945d405mr10243498wmg.38.1681717220686; 
+ Mon, 17 Apr 2023 00:40:20 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:982:cbb0:a1e1:81a8:1acc:2b91?
+ ([2a01:e0a:982:cbb0:a1e1:81a8:1acc:2b91])
+ by smtp.gmail.com with ESMTPSA id
+ g2-20020a05600c000200b003f0aa490336sm10481002wmc.26.2023.04.17.00.40.19
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 17 Apr 2023 00:40:20 -0700 (PDT)
+Message-ID: <661a2ac6-adfe-dec9-5b7b-b006f2f31a90@linaro.org>
+Date: Mon, 17 Apr 2023 09:40:19 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.1
-Subject: Re: [PATCH v2 1/2] phy: mediatek: hdmi: mt8195: fix uninitialized
- variable usage in pll_calc
+ Thunderbird/102.10.0
+From: Neil Armstrong <neil.armstrong@linaro.org>
+Subject: Re: [RESEND PATCH] drm/panel: otm8009a: Set backlight parent to panel
+ device
 Content-Language: en-US
-To: Guillaume Ranquet <granquet@baylibre.com>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- Chunfeng Yun <chunfeng.yun@mediatek.com>, Vinod Koul <vkoul@kernel.org>,
- Kishon Vijay Abraham I <kishon@kernel.org>,
- Matthias Brugger <matthias.bgg@gmail.com>
-References: <20230413-fixes-for-mt8195-hdmi-phy-v2-0-bbad62e64321@baylibre.com>
- <20230413-fixes-for-mt8195-hdmi-phy-v2-1-bbad62e64321@baylibre.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20230413-fixes-for-mt8195-hdmi-phy-v2-1-bbad62e64321@baylibre.com>
+To: James Cowgill <james.cowgill@blaize.com>, Sam Ravnborg
+ <sam@ravnborg.org>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Philippe CORNU <philippe.cornu@st.com>,
+ Thierry Reding <treding@nvidia.com>
+References: <20230412173450.199592-1-james.cowgill@blaize.com>
+Organization: Linaro Developer Services
+In-Reply-To: <20230412173450.199592-1-james.cowgill@blaize.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -62,23 +83,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel test robot <lkp@intel.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
- linux-phy@lists.infradead.org, linux-arm-kernel@lists.infradead.org
+Reply-To: neil.armstrong@linaro.org
+Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "stable@vger.kernel.org" <stable@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Il 14/04/23 18:07, Guillaume Ranquet ha scritto:
-> The ret variable in mtk_hdmi_pll_calc() was used unitialized as reported
-> by the kernel test robot.
+On 12/04/2023 19:35, James Cowgill wrote:
+> This is the logical place to put the backlight device, and it also
+> fixes a kernel crash if the MIPI host is removed. Previously the
+> backlight device would be unregistered twice when this happened - once
+> as a child of the MIPI host through `mipi_dsi_host_unregister`, and
+> once when the panel device is destroyed.
 > 
-> Fix the issue by removing the variable altogether and testing out the
-> return value of mtk_hdmi_pll_set_hw()
+> Fixes: 12a6cbd4f3f1 ("drm/panel: otm8009a: Use new backlight API")
+> Signed-off-by: James Cowgill <james.cowgill@blaize.com>
+> Cc: stable@vger.kernel.org
+> ---
+>   drivers/gpu/drm/panel/panel-orisetech-otm8009a.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> Fixes: 45810d486bb44 ("phy: mediatek: add support for phy-mtk-hdmi-mt8195")
-> Reported-by: kernel test robot <lkp@intel.com>
-> Signed-off-by: Guillaume Ranquet <granquet@baylibre.com>
+> diff --git a/drivers/gpu/drm/panel/panel-orisetech-otm8009a.c b/drivers/gpu/drm/panel/panel-orisetech-otm8009a.c
+> index b4729a94c34a8..898b892f11439 100644
+> --- a/drivers/gpu/drm/panel/panel-orisetech-otm8009a.c
+> +++ b/drivers/gpu/drm/panel/panel-orisetech-otm8009a.c
+> @@ -471,7 +471,7 @@ static int otm8009a_probe(struct mipi_dsi_device *dsi)
+>   		       DRM_MODE_CONNECTOR_DSI);
+>   
+>   	ctx->bl_dev = devm_backlight_device_register(dev, dev_name(dev),
+> -						     dsi->host->dev, ctx,
+> +						     dev, ctx,
+>   						     &otm8009a_backlight_ops,
+>   						     NULL);
+>   	if (IS_ERR(ctx->bl_dev)) {
 
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-
-
+Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
