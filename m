@@ -1,47 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F03C6E51BC
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Apr 2023 22:22:19 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E950D6E5208
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Apr 2023 22:45:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D627B10E5F2;
-	Mon, 17 Apr 2023 20:22:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D7EE010E0FB;
+	Mon, 17 Apr 2023 20:45:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay06.th.seeweb.it (relay06.th.seeweb.it
- [IPv6:2001:4b7a:2000:18::167])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C820D10E5EA
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Apr 2023 20:22:00 +0000 (UTC)
-Received: from Marijn-Arch-PC.localdomain
- (94-211-6-86.cable.dynamic.v4.ziggo.nl [94.211.6.86])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by m-r2.th.seeweb.it (Postfix) with ESMTPSA id 9D27D3F9E0;
- Mon, 17 Apr 2023 22:21:58 +0200 (CEST)
-From: Marijn Suijten <marijn.suijten@somainline.org>
-Date: Mon, 17 Apr 2023 22:21:56 +0200
-Subject: [PATCH v2 17/17] drm/msm/dpu: Remove intr_rdptr from DPU >= 5.0.0
- pingpong config
+Received: from mail-oa1-x33.google.com (mail-oa1-x33.google.com
+ [IPv6:2001:4860:4864:20::33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A48C010E0FB;
+ Mon, 17 Apr 2023 20:45:22 +0000 (UTC)
+Received: by mail-oa1-x33.google.com with SMTP id
+ 586e51a60fabf-187916b6543so16334491fac.7; 
+ Mon, 17 Apr 2023 13:45:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1681764319; x=1684356319;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=6fpw6Zw0s5R3Qp1iH0xXMY6crGqEVCslknpiblwPum4=;
+ b=PbL9RlrcEvNtSBq5aFF1K+XHDmkI1FDrcYfuJUZi/GpvIqLh3TS1ne611uq7ZetEs7
+ wTsy6p5MIs1/M1NQGID3U8sN6mdCiFAqtLNe+1MlksdnJ4Q2BoVi9N4G4Wi32A2mcoIS
+ CRtbvVrcsxf8IStYHnSXI2//mFbzdQQNb976ojo0B/ZPO7rHgUXtzBClLCH3CrBP7Ivp
+ BB6UxkCNPc31gU5iVLET6tA2Dfznsf4FlRy49CqleR2cFoqqvVg7fFCUXHw/KFQi9MmZ
+ cchHkgfPOma52nHjRoG4lvsUSnl5tcgdf5u9T6N1pdIsMfaUHlJeeblnSdNkg7WW4wGY
+ vojg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1681764319; x=1684356319;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=6fpw6Zw0s5R3Qp1iH0xXMY6crGqEVCslknpiblwPum4=;
+ b=eflbo+SeFd3iI3AU6P9G9wCqKKyRyCooKOCwkb/qwHZZDoaRBTskWPT41nIRnbs2Gd
+ svdh/cl+DaGkr/P5LhAlrJfd/UZIhCD1RWLcpxyunWX5/L5kgsGQ6exs0XF/cdrU7mDQ
+ JUevnWy4haBJD3aF5Btuo37pTeQ0locCL3EXxHa3f4mEc7FxcqSWPCr1w9C0CRHW4pG8
+ sarkW/5uBtEVmQZtUzzXuW/zRl7AhK/CHpdLGKCkwkYElj4wPQqCJSovyiaMohhACmIF
+ gxMilQm/oe505soorMBG4b1NQmmJf8ToD3Xu1KeSxRyHkjdd8WT4FKxzC2FJJV+FmjO1
+ fJ2g==
+X-Gm-Message-State: AAQBX9dmJeRtFI7pIDdEjWgduRQ+C+MJeZveoR+p6uhGiNsu3ixSu+jc
+ 3NWA4bY2M8RUiVHtQNu2K8t6NeJw/Jpvk3crQgXmJ+VY
+X-Google-Smtp-Source: AKy350YGawNtt/qIBtEhaGmjXWvU97vjeDYCYWAWwSsngIuB8jSH/zqF+G8k9jUHx6+c7HnX9gmC/4usZ8HmOXt9ftk=
+X-Received: by 2002:a05:6870:34b:b0:187:8ee8:5f5b with SMTP id
+ n11-20020a056870034b00b001878ee85f5bmr7174102oaf.5.1681764319699; Mon, 17 Apr
+ 2023 13:45:19 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20230411-dpu-intf-te-v2-17-ef76c877eb97@somainline.org>
-References: <20230411-dpu-intf-te-v2-0-ef76c877eb97@somainline.org>
-In-Reply-To: <20230411-dpu-intf-te-v2-0-ef76c877eb97@somainline.org>
-To: Rob Clark <robdclark@gmail.com>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
- Adam Skladowski <a39.skl@gmail.com>, Loic Poulain <loic.poulain@linaro.org>, 
- Bjorn Andersson <andersson@kernel.org>, 
- Kuogee Hsieh <quic_khsieh@quicinc.com>, Robert Foss <rfoss@kernel.org>, 
- Vinod Koul <vkoul@kernel.org>, Rajesh Yadav <ryadav@codeaurora.org>, 
- Jeykumar Sankaran <jsanka@codeaurora.org>, 
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Chandan Uddaraju <chandanu@codeaurora.org>
-X-Mailer: b4 0.12.2
+References: <20230417201215.448099-1-robdclark@gmail.com>
+In-Reply-To: <20230417201215.448099-1-robdclark@gmail.com>
+From: Rob Clark <robdclark@gmail.com>
+Date: Mon, 17 Apr 2023 13:45:08 -0700
+Message-ID: <CAF6AEGumgsJJQXojapPAJOjmFo=MZ31DNmp9T+SErQ2GBKBLFg@mail.gmail.com>
+Subject: Re: [RFC 0/3] drm: Add comm/cmdline fdinfo fields
+To: dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,192 +68,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Archit Taneja <architt@codeaurora.org>,
- Jami Kettunen <jami.kettunen@somainline.org>, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Jordan Crouse <jordan@cosmicpenguin.net>,
- Konrad Dybcio <konrad.dybcio@linaro.org>,
- Martin Botka <martin.botka@somainline.org>,
- ~postmarketos/upstreaming@lists.sr.ht,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- freedreno@lists.freedesktop.org,
- Sravanthi Kollukuduru <skolluku@codeaurora.org>
+Cc: Rob Clark <robdclark@chromium.org>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+ Akhil P Oommen <quic_akhilpo@quicinc.com>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
+ open list <linux-kernel@vger.kernel.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>, Sean Paul <sean@poorly.run>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <freedreno@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Now that newer DPU platforms use a readpointer-done interrupt on the
-INTF block, stop providing the unused interrupt on the PINGPONG block.
+On Mon, Apr 17, 2023 at 1:12=E2=80=AFPM Rob Clark <robdclark@gmail.com> wro=
+te:
+>
+> From: Rob Clark <robdclark@chromium.org>
+>
+> When many of the things using the GPU are processes in a VM guest, the
+> actual client process is just a proxy.  The msm driver has a way to let
+> the proxy tell the kernel the actual VM client process's executable name
+> and command-line, which has until now been used simply for GPU crash
+> devcore dumps.  Lets also expose this via fdinfo so that tools can
+> expose who the actual user of the GPU is.
 
-Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_0_sm8150.h  |  8 ++++----
- drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h |  8 ++++----
- drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_0_sm8250.h  |  8 ++++----
- drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_3_sm6115.h  |  2 +-
- drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_5_qcm2290.h |  2 +-
- drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h  |  8 ++++----
- drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h  | 10 +++++-----
- 7 files changed, 23 insertions(+), 23 deletions(-)
+I should have also mentioned, in the VM/proxy scenario we have a
+single process with separate drm_file's for each guest VM process.  So
+it isn't an option to just change the proxy process's name to match
+the client.
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_0_sm8150.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_0_sm8150.h
-index e8d25a45d6b3..a6dbc4c8acb8 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_0_sm8150.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_0_sm8150.h
-@@ -130,16 +130,16 @@ static const struct dpu_dspp_cfg sm8150_dspp[] = {
- static const struct dpu_pingpong_cfg sm8150_pp[] = {
- 	PP_BLK("pingpong_0", PINGPONG_0, 0x70000, PINGPONG_SM8150_TE2_MASK, MERGE_3D_0, sdm845_pp_sblk_te,
- 			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 8),
--			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 12)),
-+			-1),
- 	PP_BLK("pingpong_1", PINGPONG_1, 0x70800, PINGPONG_SM8150_TE2_MASK, MERGE_3D_0, sdm845_pp_sblk_te,
- 			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 9),
--			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 13)),
-+			-1),
- 	PP_BLK("pingpong_2", PINGPONG_2, 0x71000, PINGPONG_SM8150_MASK, MERGE_3D_1, sdm845_pp_sblk,
- 			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 10),
--			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 14)),
-+			-1),
- 	PP_BLK("pingpong_3", PINGPONG_3, 0x71800, PINGPONG_SM8150_MASK, MERGE_3D_1, sdm845_pp_sblk,
- 			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 11),
--			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 15)),
-+			-1),
- 	PP_BLK("pingpong_4", PINGPONG_4, 0x72000, PINGPONG_SM8150_MASK, MERGE_3D_2, sdm845_pp_sblk,
- 			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR2, 30),
- 			-1),
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h
-index 62857288ad91..14d5ead8d40c 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h
-@@ -118,16 +118,16 @@ static const struct dpu_lm_cfg sc8180x_lm[] = {
- static const struct dpu_pingpong_cfg sc8180x_pp[] = {
- 	PP_BLK("pingpong_0", PINGPONG_0, 0x70000, PINGPONG_SM8150_TE2_MASK, MERGE_3D_0, sdm845_pp_sblk_te,
- 			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 8),
--			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 12)),
-+			-1),
- 	PP_BLK("pingpong_1", PINGPONG_1, 0x70800, PINGPONG_SM8150_TE2_MASK, MERGE_3D_0, sdm845_pp_sblk_te,
- 			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 9),
--			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 13)),
-+			-1),
- 	PP_BLK("pingpong_2", PINGPONG_2, 0x71000, PINGPONG_SM8150_MASK, MERGE_3D_1, sdm845_pp_sblk,
- 			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 10),
--			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 14)),
-+			-1),
- 	PP_BLK("pingpong_3", PINGPONG_3, 0x71800, PINGPONG_SM8150_MASK, MERGE_3D_1, sdm845_pp_sblk,
- 			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 11),
--			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 15)),
-+			-1),
- 	PP_BLK("pingpong_4", PINGPONG_4, 0x72000, PINGPONG_SM8150_MASK, MERGE_3D_2, sdm845_pp_sblk,
- 			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR2, 30),
- 			-1),
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_0_sm8250.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_0_sm8250.h
-index f77329ab397d..f98ca0f1e4a9 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_0_sm8250.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_0_sm8250.h
-@@ -131,16 +131,16 @@ static const struct dpu_dspp_cfg sm8250_dspp[] = {
- static const struct dpu_pingpong_cfg sm8250_pp[] = {
- 	PP_BLK("pingpong_0", PINGPONG_0, 0x70000, PINGPONG_SM8150_TE2_MASK, MERGE_3D_0, sdm845_pp_sblk_te,
- 			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 8),
--			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 12)),
-+			-1),
- 	PP_BLK("pingpong_1", PINGPONG_1, 0x70800, PINGPONG_SM8150_TE2_MASK, MERGE_3D_0, sdm845_pp_sblk_te,
- 			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 9),
--			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 13)),
-+			-1),
- 	PP_BLK("pingpong_2", PINGPONG_2, 0x71000, PINGPONG_SM8150_MASK, MERGE_3D_1, sdm845_pp_sblk,
- 			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 10),
--			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 14)),
-+			-1),
- 	PP_BLK("pingpong_3", PINGPONG_3, 0x71800, PINGPONG_SM8150_MASK, MERGE_3D_1, sdm845_pp_sblk,
- 			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 11),
--			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 15)),
-+			-1),
- 	PP_BLK("pingpong_4", PINGPONG_4, 0x72000, PINGPONG_SM8150_MASK, MERGE_3D_2, sdm845_pp_sblk,
- 			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR2, 30),
- 			-1),
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_3_sm6115.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_3_sm6115.h
-index 5509ceb5d55b..ba9de008519b 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_3_sm6115.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_3_sm6115.h
-@@ -62,7 +62,7 @@ static const struct dpu_dspp_cfg sm6115_dspp[] = {
- static const struct dpu_pingpong_cfg sm6115_pp[] = {
- 	PP_BLK("pingpong_0", PINGPONG_0, 0x70000, PINGPONG_SM8150_MASK, 0, sdm845_pp_sblk,
- 		DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 8),
--		DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 12)),
-+		-1),
- };
- 
- static const struct dpu_intf_cfg sm6115_intf[] = {
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_5_qcm2290.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_5_qcm2290.h
-index 22b8a173d214..92ac348eea6b 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_5_qcm2290.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_5_qcm2290.h
-@@ -59,7 +59,7 @@ static const struct dpu_dspp_cfg qcm2290_dspp[] = {
- static const struct dpu_pingpong_cfg qcm2290_pp[] = {
- 	PP_BLK("pingpong_0", PINGPONG_0, 0x70000, PINGPONG_SM8150_MASK, 0, sdm845_pp_sblk,
- 		DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 8),
--		DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 12)),
-+		-1),
- };
- 
- static const struct dpu_intf_cfg qcm2290_intf[] = {
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h
-index 220ba7bdeb20..7cec702c2429 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h
-@@ -129,16 +129,16 @@ static const struct dpu_dspp_cfg sm8350_dspp[] = {
- static const struct dpu_pingpong_cfg sm8350_pp[] = {
- 	PP_BLK("pingpong_0", PINGPONG_0, 0x69000, PINGPONG_SM8150_MASK, MERGE_3D_0, sdm845_pp_sblk,
- 			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 8),
--			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 12)),
-+			-1),
- 	PP_BLK("pingpong_1", PINGPONG_1, 0x6a000, PINGPONG_SM8150_MASK, MERGE_3D_0, sdm845_pp_sblk,
- 			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 9),
--			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 13)),
-+			-1),
- 	PP_BLK("pingpong_2", PINGPONG_2, 0x6b000, PINGPONG_SM8150_MASK, MERGE_3D_1, sdm845_pp_sblk,
- 			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 10),
--			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 14)),
-+			-1),
- 	PP_BLK("pingpong_3", PINGPONG_3, 0x6c000, PINGPONG_SM8150_MASK, MERGE_3D_1, sdm845_pp_sblk,
- 			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 11),
--			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 15)),
-+			-1),
- 	PP_BLK("pingpong_4", PINGPONG_4, 0x6d000, PINGPONG_SM8150_MASK, MERGE_3D_2, sdm845_pp_sblk,
- 			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR2, 30),
- 			-1),
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h
-index 5d8f381e1708..5f2ab9bcd04d 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h
-@@ -126,20 +126,20 @@ static const struct dpu_dspp_cfg sm8450_dspp[] = {
- 	DSPP_BLK("dspp_3", DSPP_3, 0x5a000, DSPP_SC7180_MASK,
- 		 &sm8150_dspp_sblk),
- };
--/* FIXME: interrupts */
-+
- static const struct dpu_pingpong_cfg sm8450_pp[] = {
- 	PP_BLK("pingpong_0", PINGPONG_0, 0x69000, PINGPONG_SM8150_MASK, MERGE_3D_0, sdm845_pp_sblk,
- 			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 8),
--			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 12)),
-+			-1),
- 	PP_BLK("pingpong_1", PINGPONG_1, 0x6a000, PINGPONG_SM8150_MASK, MERGE_3D_0, sdm845_pp_sblk,
- 			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 9),
--			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 13)),
-+			-1),
- 	PP_BLK("pingpong_2", PINGPONG_2, 0x6b000, PINGPONG_SM8150_MASK, MERGE_3D_1, sdm845_pp_sblk,
- 			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 10),
--			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 14)),
-+			-1),
- 	PP_BLK("pingpong_3", PINGPONG_3, 0x6c000, PINGPONG_SM8150_MASK, MERGE_3D_1, sdm845_pp_sblk,
- 			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 11),
--			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 15)),
-+			-1),
- 	PP_BLK("pingpong_4", PINGPONG_4, 0x6d000, PINGPONG_SM8150_MASK, MERGE_3D_2, sdm845_pp_sblk,
- 			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR2, 30),
- 			-1),
-
--- 
-2.40.0
-
+> Rob Clark (3):
+>   drm/doc: Relax fdinfo string constraints
+>   drm/msm: Rework get_comm_cmdline() helper
+>   drm/msm: Add comm/cmdline fields
+>
+>  Documentation/gpu/drm-usage-stats.rst   | 37 +++++++++++++++----------
+>  drivers/gpu/drm/msm/adreno/adreno_gpu.c |  4 +--
+>  drivers/gpu/drm/msm/msm_drv.c           |  2 ++
+>  drivers/gpu/drm/msm/msm_gpu.c           | 27 +++++++++++++-----
+>  drivers/gpu/drm/msm/msm_gpu.h           | 12 ++++++--
+>  drivers/gpu/drm/msm/msm_submitqueue.c   |  1 +
+>  6 files changed, 58 insertions(+), 25 deletions(-)
+>
+> --
+> 2.39.2
+>
