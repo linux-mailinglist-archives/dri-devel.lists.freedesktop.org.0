@@ -2,98 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 391BA6E5150
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Apr 2023 21:59:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 144446E5151
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Apr 2023 21:59:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8110810E0BF;
-	Mon, 17 Apr 2023 19:59:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CC44310E045;
+	Mon, 17 Apr 2023 19:59:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 01EFB10E045;
- Mon, 17 Apr 2023 19:59:41 +0000 (UTC)
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 33HJfloL017631; Mon, 17 Apr 2023 19:59:35 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=f0yR2o/2rv6QyvNtJVUHg97aiYmgNcqRPOSUH7dGGmU=;
- b=EqFsb75zaz8dBAigRqnhvz5wkDQjRGTiX5Omc7OaTRioVDp9pukFWYPFp9sRniVr/N2u
- Ndq1jyd26TA6LoiOAQ1z8EmcvtCnFEj28oNv6tg3PXXeSLJ0VY1jpklPAuV6zprqXmgv
- eg1d607y5QetKwTaUTNXYNaNWbenMpTVtBwJ/ZTk5efHmGDcZYbfrK5ILUYsCKRyhWpj
- 3hZ9rat1bBKdN5a7/tdDrXOAepIe7QjECsCiIEkZXnsKlImzyCqsbb0DdUGSIu6WI6u0
- NLUiRiAMYuMrkRLpc5uuKbmyDcP147epNkud95wrVu43NAEjYPU1mSOvIRcmpCMlrM1o Vg== 
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3q17yhrtcb-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 17 Apr 2023 19:59:34 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 33HJxXG3018573
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 17 Apr 2023 19:59:33 GMT
-Received: from [10.110.98.241] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Mon, 17 Apr
- 2023 12:59:31 -0700
-Message-ID: <9da3676e-d2fb-d25a-f9b9-4c1e6ac8d03c@quicinc.com>
-Date: Mon, 17 Apr 2023 12:59:31 -0700
+Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com
+ [IPv6:2607:f8b0:4864:20::102b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 72CCC10E5B0
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Apr 2023 19:59:50 +0000 (UTC)
+Received: by mail-pj1-x102b.google.com with SMTP id g6so10079190pjx.4
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Apr 2023 12:59:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ziepe.ca; s=google; t=1681761589; x=1684353589;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=phtw730Z1oAu+dFt847+KyYIBXIePeo4uDtmDchStzE=;
+ b=TLAsAz+hMtLXec8QY1C2WsIM8VDQFspPSCbSJMVu2rVYwOiLU0KvEWfDP4CBBRw0gr
+ bRNo3KJJUZXtUeIGlqCJV9TzBl7pYcte95+yWVoc6nsxtbJ5WsSUAsm38oyb/FeU8AgF
+ GHTYs3NDb0JhHvKai/TwBNa8k6eM1TqUOUif+ey0ZcIVh5FuyHrjG3Ahilh8ydsBvXOd
+ 76jmncwIUT93XLkUZQiwDBd/srfa6iivy309KkBSxa/5Cu0g077Fa5JEzajp5BBomjSp
+ 7LCqynGuLGlQydI7UVc9Zz+TwuFTQsxmN7MI5y28/6i1OumMtCeXp8nrtFR+0UlK2HgH
+ Rbtw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1681761589; x=1684353589;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=phtw730Z1oAu+dFt847+KyYIBXIePeo4uDtmDchStzE=;
+ b=AwB8kGK5Y+Z7QD5Ta+iCm/ycHS8TlZdrgUvU9No79sbWNhg7PY3jXL/UlEcGr55Itx
+ dveLQyj9HLA76ruSPZS0voEfPMKsbFvWpzQrX/B1hkzI2s6VCWdLMEYEyUba7TTkqBC8
+ Qts7rIjY9uCarbJtPUCuoVENTfFN6YdVZNgt2Aumd/qa0DBkodqXROMzj6Ju/jaNn2J4
+ jjUrZIBqmX8+lEnlxnUF86fTt8lz9UHx1/7cem1D8pPe75QLE3IrG/cbtXKS1d5a4sZI
+ lC8JvQOkCZLXRi318ayPipMd3fd9yUj67cG7AZK4yBVOACTpOsKLqlrDia5FVEbd5crA
+ RBKg==
+X-Gm-Message-State: AAQBX9e1x4aUt52LMi67jF3BHJCc1M2AxEM1Rbqa4o+B3EV9EmM3/ZUv
+ qO9wKrcSLXqDbP+RJqux6aL+ug==
+X-Google-Smtp-Source: AKy350ZOIVs0PXqCX3v2o9m6GdrpUCcVieJDD3O0SmT6MDiPWIyFGHmWHgQbBGKGTvc5v1eLblXv7w==
+X-Received: by 2002:a17:902:ce10:b0:1a6:cb66:681f with SMTP id
+ k16-20020a170902ce1000b001a6cb66681fmr74865plg.46.1681761589427; 
+ Mon, 17 Apr 2023 12:59:49 -0700 (PDT)
+Received: from ziepe.ca
+ (hlfxns017vw-142-68-25-194.dhcp-dynamic.fibreop.ns.bellaliant.net.
+ [142.68.25.194]) by smtp.gmail.com with ESMTPSA id
+ q24-20020a170902b11800b0019e8915b1b5sm8037811plr.105.2023.04.17.12.59.47
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 17 Apr 2023 12:59:48 -0700 (PDT)
+Received: from jgg by wakko with local (Exim 4.95)
+ (envelope-from <jgg@ziepe.ca>) id 1poV0s-00BlVY-9h;
+ Mon, 17 Apr 2023 16:59:46 -0300
+Date: Mon, 17 Apr 2023 16:59:46 -0300
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: linux-mm@kvack.org
+Subject: Re: [LSF/MM/BPF proposal]: Physr discussion
+Message-ID: <ZD2lMvprVxu23BXZ@ziepe.ca>
+References: <Y8v+qVZ8OmodOCQ9@nvidia.com>
+ <CABdmKX3kJZKsOQSi=4+RE8D3AF=-823B9WV11sC4WH67hjzqSQ@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.2
-Subject: Re: [RFC PATCH 5/7] drm/msm/dpu: Document and enable TEAR interrupts
- on DSI interfaces
-Content-Language: en-US
-To: Marijn Suijten <marijn.suijten@somainline.org>, Dmitry Baryshkov
- <dmitry.baryshkov@linaro.org>, Jessica Zhang <quic_jesszhan@quicinc.com>,
- <phone-devel@vger.kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>,
- <~postmarketos/upstreaming@lists.sr.ht>, AngeloGioacchino Del Regno
- <angelogioacchino.delregno@somainline.org>, Konrad Dybcio
- <konrad.dybcio@linaro.org>, Martin Botka <martin.botka@somainline.org>,
- "Jami Kettunen" <jami.kettunen@somainline.org>,
- Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Stephen Boyd <swboyd@chromium.org>, Vinod Koul <vkoul@kernel.org>,
- Bjorn Andersson <andersson@kernel.org>, Kuogee Hsieh
- <quic_khsieh@quicinc.com>, Konrad Dybcio <konrad.dybcio@somainline.org>,
- "Loic Poulain" <loic.poulain@linaro.org>, Vinod Polimera
- <quic_vpolimer@quicinc.com>,
- Adam Skladowski <a39.skl@gmail.com>, <linux-arm-msm@vger.kernel.org>,
- <dri-devel@lists.freedesktop.org>, <freedreno@lists.freedesktop.org>,
- <linux-kernel@vger.kernel.org>
-References: <20221231215006.211860-1-marijn.suijten@somainline.org>
- <20221231215006.211860-6-marijn.suijten@somainline.org>
- <773cd72b-a766-1764-e25f-0af1174f0e51@quicinc.com>
- <1051d6bd-eb3c-6293-0bd2-3f4ea28fa3f8@linaro.org>
- <df059f88-6ff6-5906-58f1-4f6c752c4214@quicinc.com>
- <20230214130636.ldckqgcq6ajph372@SoMainline.org>
- <d514591a-2891-8c2d-2cd4-5af8283748f5@quicinc.com>
- <5tjwn4p3nkpjuczudipkrvhy63kfzos6x7o7aufwdei7auujcz@oba37opujh5r>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <5tjwn4p3nkpjuczudipkrvhy63kfzos6x7o7aufwdei7auujcz@oba37opujh5r>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: 7DfvtvYyoPWqKuXJqap4fVNdK2TMiDyu
-X-Proofpoint-GUID: 7DfvtvYyoPWqKuXJqap4fVNdK2TMiDyu
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-04-17_13,2023-04-17_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- spamscore=0 impostorscore=0 adultscore=0 suspectscore=0 mlxlogscore=999
- clxscore=1011 malwarescore=0 phishscore=0 bulkscore=0 lowpriorityscore=0
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2303200000 definitions=main-2304170175
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CABdmKX3kJZKsOQSi=4+RE8D3AF=-823B9WV11sC4WH67hjzqSQ@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -106,90 +76,167 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: nvdimm@lists.linux.dev, Chaitanya Kulkarni <chaitanyak@nvidia.com>,
+ Bart Van Assche <bvanassche@acm.org>, lsf-pc@lists.linuxfoundation.org,
+ linux-rdma@vger.kernel.org, John Hubbard <jhubbard@nvidia.com>,
+ Zhu Yanjun <yanjun.zhu@linux.dev>, Dan Williams <dan.j.williams@intel.com>,
+ Matthew Wilcox <willy@infradead.org>, Ming Lei <ming.lei@redhat.com>,
+ linux-block@vger.kernel.org, linux-mm@kvack.org, iommu@lists.linux.dev,
+ dri-devel@lists.freedesktop.org, Mike Rapoport <rppt@kernel.org>,
+ netdev@vger.kernel.org, Joao Martins <joao.m.martins@oracle.com>,
+ Logan Gunthorpe <logang@deltatee.com>, Christoph Hellwig <hch@lst.de>,
+ "T.J. Mercier" <tjmercier@google.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Tue, Feb 28, 2023 at 12:59:41PM -0800, T.J. Mercier wrote:
+> On Sat, Jan 21, 2023 at 7:03 AM Jason Gunthorpe <jgg@nvidia.com> wrote:
+> >
+> > I would like to have a session at LSF to talk about Matthew's
+> > physr discussion starter:
+> >
+> >  https://lore.kernel.org/linux-mm/YdyKWeU0HTv8m7wD@casper.infradead.org/
+> >
+> > I have become interested in this with some immediacy because of
+> > IOMMUFD and this other discussion with Christoph:
+> >
+> >  https://lore.kernel.org/kvm/4-v2-472615b3877e+28f7-vfio_dma_buf_jgg@nvidia.com/
+> >
+> > Which results in, more or less, we have no way to do P2P DMA
+> > operations without struct page - and from the RDMA side solving this
+> > well at the DMA API means advancing at least some part of the physr
+> > idea.
 
+[..]
 
-On 4/17/2023 12:41 PM, Marijn Suijten wrote:
-> On 2023-02-14 09:54:57, Abhinav Kumar wrote:
-> [..]
->>>>>> Just wondering, how were the lengths calculated for the INTF blocks?
->>>>>> The values in general seem a little off to me.
->>>
->>> These (for MSM8998) have been taken from downstream specifically; my
->>> series starts using INTF_STATUS at 0x26C which conveniently is the
->>> register right after 0x268, matching the fact that INTF TE and these
->>> registers weren't supported/available yet on MSM8998.
->>>
->>>>>> For example, I'm looking downstream and it seems to me that the length
->>>>>> for the INTF_0 on MSM8998 should be 0x280. Similarly for SC7280, I'm
->>>>>> seeing that length for INTF + tearcheck should be 0x2c4.
->>>
->>> There are many different downstream sources and tags with seemingly
->>> conflicting/confusing information.  For v2 [2] I've picked the highest
->>> register used by the driver which is INTF_TEAR_AUTOREFRESH_CONFIG at
->>> 0x2B4 (but there might always be more registers that don't need to be
->>> poked at by the driver, but contain magic debug information and the
->>> like... those would be useful to capture in the dump going forward).
->>>
->>> [2]: https://github.com/SoMainline/linux/commit/2bbc609dd28aa0bd0a2dede20163e521912d0072
->>>
->>
->> Not entirely correct.TEAR_AUTOREFRESH_STATUS is at 0x2c0 for sm8350 and
->> sm8450 as well so 0x2b4 is a bit short. DPU code uses autorefresh status
->> today.Esp after your changes it will use the autorefresh status from
->> intf te which is at offset 0x2c0
-> 
-> Revisiting this, I don't see current DPU code nor downstream 5.4 / 5.10
-> SDE techpack on some of my checkouts use this register, only
-> INTF_TEAR_AUTOREFRESH_CONFIG at 0x2b4..0x2b7.  Am I missing something
-> critical here?
-> 
+I got fairly far along this and had to put it aside for some other
+tasks, but here is what I came up with so far:
 
-Wow, I lost context since its been months since your last response.
+https://github.com/jgunthorpe/linux/commits/rlist
 
-But, I refreshed some of it. You are right, we use the status bits 
-present in the INTF_TEAR_AUTOREFRESH_CONFIG and INTF_TEAR_ 
-AUTOREFRESH_STATUS is unused.
+      PCI/P2PDMA: Do not store bus_off in the pci_p2pdma_map_state
+      PCI/P2PDMA: Split out the information about the providing device from pgmap
+      PCI/P2PDMA: Move the DMA API helpers to p2pdma_provider
+      lib/rlist: Introduce range list
+      lib/rlist: Introduce rlist cpu range iterator
+      PCI/P2PDMA: Store the p2pdma_provider structs in an xarray
+      lib/rlist: Introduce rlist_dma
+      dma: Add DMA direct support for rlist mapping
+      dma: Generic rlist dma_map_ops
+      dma: Add DMA API support for mapping a rlist_cpu to a rlist_dma
+      iommu/dma: Implement native rlist dma_map_ops
+      dma: Use generic_dma.*_rlist in simple dma_map_ops implementations
+      dma: Use generic_dma.*_rlist when map_sg just does map_page for n=1
+      dma: Use generic_dma.*_rlist when iommu_area_alloc() is used
+      dma/dummy: Add rlist
+      s390/dma: Use generic_dma.*_rlist
+      mm/gup: Create a wrapper for pin_user_pages to return a rlist
+      dmabuf: WIP DMABUF exports the backing memory through rcpu
+      RDMA/mlx5: Use rdma_umem_for_each_dma_block()
+      RMDA/mlx: Use rdma_umem_for_each_dma_block() instead of sg_dma_address
+      RDMA/mlx5: Use the length of the MR not the umem
+      RDMA/umem: Add ib_umem_length() instead of open coding
+      RDMA: Add IB DMA API wrappers for rlist
+      RDMA: Switch ib_umem to rlist
+      cover-letter: RFC Create an alternative to scatterlist in the DMA API
 
-I got confused between the status bit present in the two registers as 
-both relate to autorefresh.
+It is huge and scary. It is not quite nice enough to post but should
+be an interesting starting point for LSF/MM. At least it broadly shows
+all the touching required and why this is such a nasty problem.
 
-But, the offset of of INTF_TEAR_ AUTOREFRESH_STATUS is still at 0x2c0 as 
-i wrote before so 0x2c4 is the accurate length of this block.
+The draft cover letter explaining what the series does:
 
-And yes, all the blk lengths should be accurate now in the hw catalog 
-after the rework and reviews of that rework.
-
->>>>> We have discussed INTF lengths in [1]. The current understanding of the
->>>>> block lengths can be found at [2]. Please comment there if any of the
->>>>> fixed lengths sounds incorrect to you.
->>>>>
->>>>> [1] https://patchwork.freedesktop.org/patch/522187/
->>>>> [2] https://patchwork.freedesktop.org/patch/522227/
->>>>>
->>>>> [skipped the rest]
->>>>>
->>>>
->>>> Please correct my understanding here, it was agreed to fix intf blocks
->>>> to 0x2c4 here https://patchwork.freedesktop.org/patch/522227/ but I dont
->>>> see this was merged?
->>>>
->>>> It was agreed to first land INTF_TE and then add the higher addresses
->>>
->>> Seems like it, at least if I interpret [3] correctly.  My series adds a
->>> new define that will hardcode _len to 0x2B8 for now, and Dmitry/Konrad
->>> can later extend it to whatever is stated by the correct downstream
->>> source.
->>>
->>
->> Like mentioned above it should be 0x2c0 for intf block.
->>
->> If you face any conflicting information in downstream code, you can
->> always check with me on IRC.
-> 
-> Ack, it looks like others landed these changes for me now via the
-> catalog rework, so I have just rebased and kept the lengths in.
-> 
-> - Marijn
+    cover-letter: RFC Create an alternative to scatterlist in the DMA API
+    
+    This was kicked off by Matthew with his phyr idea from this thread:
+    
+    https://lore.kernel.org/linux-mm/YdyKWeU0HTv8m7wD@casper.infradead.org/
+    
+    Hwoevr, I have become interested in this with some immediacy because of
+    IOMMUFD and this other discussion with Christoph:
+    
+    https://lore.kernel.org/kvm/4-v2-472615b3877e+28f7-vfio_dma_buf_jgg@nvidia.com/
+    
+    Which results in, more or less, we have no way to do P2P DMA operations
+    without struct page. This becomes complicated when we touch RDMA which
+    highly relies on scatterlist for its internal implementations, so being
+    unable to use scatterlist to store only dma_addr_t's means RDMA needs a
+    complete scatterlist replacement that can.
+    
+    So - my objective is to enable to DMA API to "DMA map" something that is
+    not a scatterlist, may or may not contain struct pages, but can still
+    contain P2P DMA physical addresses. With this tool, transform the RDMA
+    subystem to use the new DMA API and then go into DMABUF and stop creating
+    scatterlists without any CPU pages. From that point we could implement
+    DMABUF in VFIO (as above) and use the DMABUF to feed the MMIO pages into
+    IOMMUFD to restore the PCI P2P support in VMs withotu creating the
+    follow_pte security problem that VFIO has.
+    
+    After going through the thread again, and making some sketches, I've come
+    up with this suggestion as a path forward, explored very roughly in this
+    RFC:
+    
+    1) Create something I've called a 'range list CPU iterator'. This is an
+       API that abstractly iterates over CPU physical memory ranges. It
+       has useful helpers to iterate over things in 'struct page/folio *',
+       physical ranges, copy to/from, and so on
+    
+       It has the necessary extra bits beyond the physr sketch to support P2P
+       in the DMA API based on what was done for the pgmap based stuff. ie we
+       need to know the provider of the non-struct page memory to get the
+       struct device to compute the p2p distance and compute the pci_offset.
+    
+       The immediate idea is this is an iterator, not a data structure. So it
+       can iterate over different kinds of storage. This frees us from having
+       to immediatly consolidate all the different storage schemes in the
+       kernel and lets that work happen over time.
+    
+       I imagine we would want to have this work with struct page * (for GUP)
+       and bio_vec (for storage/net) and something else for the "kitchen sink"
+       with DMABUF/etc. We may also want to allow it to wrapper scatterlist to
+       provide for a more gradual code migration.
+    
+       Things are organized so sometime in the future this could collapse down
+       into something that is not a multi-storage iterator, but perhaps just
+       a single storage type that everyone is happy with.
+    
+       In the mean time we can use the API to progress all the other related
+       infrastructure.
+    
+       Fundamentally this tries to avoid the scatterlist mistake of leaking
+       too much of the storage implementation detail to the user.
+    
+    2) Create a general storage called the "range list". This is intended to
+       be a general catch-all like scatterlist is, and it is optimized
+       towards page list users, so it is quite good for what RDMA wants.
+    
+    3) Create a "range list DMA iterator" which is the dma_addr_t version of
+       #1. This needs to have all the goodies to break up the ranges into
+       things HW would like, such as page lists, or restricted scatter/gather
+       records.
+    
+       I've been able to draft several optimizations in the DMA mapping path
+       that should help offset some of the CPU cost of the more abstracted
+       iterators:
+    
+           - DMA direct can directly re-use the CPU list with no iteration or
+             memory allocation.
+    
+           - The IOMMU path can do only one iteration by pre-recording if the
+             CPU list was all page aligned when it was created
+    
+    The following patches go deeper into my thinking, present fairly complete
+    drafts of what things could look like, and more broadly explores the whole
+    idea.
+    
+    At the end of the series we have
+     - rlist, rlist_cpu, rlist_dma implementations
+     - An rlist implementation for every dma_map_ops
+     - Good rlist implementations for DMA direct and dma-iommu.c
+     - A pin_user_pages() wrapper
+     - RDMA umem converted and compiling with some RDMA drivers
+     - Compile tested only :)
+    
+    It is a huge amount of work, I'd like to get a sense of what people think
+    before going more deepely into a more final tested implementation. I know
+    this is not quite what Matthew and Christoph have talked about.
