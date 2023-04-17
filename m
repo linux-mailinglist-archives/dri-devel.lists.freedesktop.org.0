@@ -2,51 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 230656E5164
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Apr 2023 22:08:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 89C8D6E516E
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Apr 2023 22:12:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 407D310E357;
-	Mon, 17 Apr 2023 20:08:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 43ECB10E5C0;
+	Mon, 17 Apr 2023 20:12:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from phobos.denx.de (phobos.denx.de
- [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9F89710E357
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Apr 2023 20:08:03 +0000 (UTC)
-Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
- (No client certificate requested)
- (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id F0E8685EA1;
- Mon, 17 Apr 2023 22:07:56 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1681762079;
- bh=XPP/G+qQIG5sSIyEjLZmdN2TPpVm52+eBjT1AvxiWxQ=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=ugfZ3KIJ+KaeTax2ZVm6VcUGnx/XmsCQNR9m1m11D15ktTdAorJBuZyU05wGA9oMx
- RlldaNA58RLUIXAEwcdDnatL7YFxkUJAwMKGGhUSuLY4alntaoIxQmV1tRs8dJK0nL
- YMGf275S3W/KJ3CDm0SZf0l4/GSa4SRWm+r93ccZi3Tq4+kpmAirWDjNNp3ificymF
- CRwcsgDWCKs+p1pSLfEBScSma2AOXQhferBU5spwvB+DfCKIc46LUMImYJ+aUxRNmx
- 748L+r0eXYExBJphenJMetA02XGNHZxefwlbGOdaT3s4miBhdDZDyNiK7SS8opvt4m
- K4o51Ca4P4wog==
-Message-ID: <88e53197-2819-c068-eba6-a218a19d8d15@denx.de>
-Date: Mon, 17 Apr 2023 22:07:56 +0200
+Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com
+ [IPv6:2607:f8b0:4864:20::1032])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 08AF310E5B5;
+ Mon, 17 Apr 2023 20:12:19 +0000 (UTC)
+Received: by mail-pj1-x1032.google.com with SMTP id
+ z11-20020a17090abd8b00b0024721c47ceaso13866883pjr.3; 
+ Mon, 17 Apr 2023 13:12:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1681762339; x=1684354339;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=c9ZcH/UsIU/GcQvCDP1QRyb831wl6lpWFQtu8V+MLrA=;
+ b=JLFDGszkk3bWSS4oOn0Z5jXx5pu5tQyCXMtYa7M5wXTMF4vf86At8265QTzScrAoj8
+ +O8gZyxn1daqdjD1dpgIeMzX2XDqD94nLo6iKJN2Knuglbukt5stAF1HMUg79eAdk9qr
+ t1tg3XFRM5FxUHB2R2vbZn+EM1piSSFQWJ3WjLHiDvX4klcR8VdUFmbCHiaO2C8vYQgc
+ jEylp4v/NvZjQCtmeY58poEjl7g2SUbTBjDZSVPmMP7uFif42uNOY8MDBXaqjaWwT2w0
+ uqbKqOH2TXothSMwU5CD0xtVKHrATYvPRWZAP8+in3UhMba9lNuTXbq74R34YlfHbvHL
+ 27BA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1681762339; x=1684354339;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=c9ZcH/UsIU/GcQvCDP1QRyb831wl6lpWFQtu8V+MLrA=;
+ b=ADUdn/BtjyDnu5U1sxa7ycvRohw8lF2K5d0iFqk0uZ46KylTVirNMvDuUMv/YgtVWM
+ Zlp5cdyntUIx1fZsH7Mk7Oj2vBIgubPkYg5ChjRddP944PQ4JGgh2EHUKqp2eSkKD8zv
+ agpxQWtC5bmrze+Vzx2Fkm0IlymdYao2Z+kghzM+D+BEp/Ukn4R4qce08UXHM9Ld6xnp
+ Z0a7hUbEzvWU2FE+uAKZ5mD6UTOrVzauBQqZ339NchrpawyYZtvP9PqvrpbcUQRC0Dc+
+ 1vJSEyQ6B8Hp42vIV0uzVA5JOS9huioMSNjj7I0bqHx2obOTtvzWrsnrC8iX015zdd/H
+ J3Aw==
+X-Gm-Message-State: AAQBX9dzy6U0gcsqPfCx/zEcO95GBNi/MoXNOvsSYzNYQuLmdKda/rEn
+ Kkphn5HkeW8flvOeIwGPYuvg32oYpao=
+X-Google-Smtp-Source: AKy350YD7UMGXIJ56E5NzWJ0ernvcLLeIW8Ry6wjCWgcRxvgxJ0fIYk2uFG9KJbQD74pEtwQSbpohQ==
+X-Received: by 2002:a17:902:854b:b0:1a2:9dd8:d646 with SMTP id
+ d11-20020a170902854b00b001a29dd8d646mr75485plo.54.1681762338766; 
+ Mon, 17 Apr 2023 13:12:18 -0700 (PDT)
+Received: from localhost ([2a00:79e1:abd:4a00:61b:48ed:72ab:435b])
+ by smtp.gmail.com with ESMTPSA id
+ 13-20020a170902c14d00b001a69dfd918dsm6166625plj.187.2023.04.17.13.12.18
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 17 Apr 2023 13:12:18 -0700 (PDT)
+From: Rob Clark <robdclark@gmail.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [RFC 0/3] drm: Add comm/cmdline fdinfo fields
+Date: Mon, 17 Apr 2023 13:12:09 -0700
+Message-Id: <20230417201215.448099-1-robdclark@gmail.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH 5/6] drm: bridge: samsung-dsim: Support non-burst mode
-Content-Language: en-US
-To: Adam Ford <aford173@gmail.com>
-References: <20230415104104.5537-1-aford173@gmail.com>
- <20230415104104.5537-5-aford173@gmail.com>
- <807aa6c6-bbea-abcc-172d-17e22d1a3988@denx.de>
- <CAHCN7x+NUnMtLbj_7A_uqxPsi5NXRXsPFwDnn=sf1bgm-Q-BsQ@mail.gmail.com>
-From: Marek Vasut <marex@denx.de>
-In-Reply-To: <CAHCN7x+NUnMtLbj_7A_uqxPsi5NXRXsPFwDnn=sf1bgm-Q-BsQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
-X-Virus-Status: Clean
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,47 +70,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- aford@beaconembedded.com, dri-devel@lists.freedesktop.org,
- Frieder Schrempf <frieder.schrempf@kontron.de>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, m.szyprowski@samsung.com,
- Robert Foss <rfoss@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Jagan Teki <jagan@amarulasolutions.com>, NXP Linux Team <linux-imx@nxp.com>,
- devicetree@vger.kernel.org, Jonas Karlman <jonas@kwiboo.se>,
- Sascha Hauer <s.hauer@pengutronix.de>, Rob Herring <robh+dt@kernel.org>,
- linux-arm-kernel@lists.infradead.org,
- Neil Armstrong <neil.armstrong@linaro.org>, linux-kernel@vger.kernel.org,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Shawn Guo <shawnguo@kernel.org>
+Cc: Rob Clark <robdclark@chromium.org>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+ Akhil P Oommen <quic_akhilpo@quicinc.com>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
+ open list <linux-kernel@vger.kernel.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>, Sean Paul <sean@poorly.run>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <freedreno@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 4/17/23 13:57, Adam Ford wrote:
-> On Sun, Apr 16, 2023 at 5:13 PM Marek Vasut <marex@denx.de> wrote:
->>
->> On 4/15/23 12:41, Adam Ford wrote:
->>> The high-speed clock is hard-coded to the burst-clock
->>> frequency specified in the device tree.  However, when
->>> using devices like certain bridge chips without burst mode
->>> and varying resolutions and refresh rates, it may be
->>> necessary to set the high-speed clock dynamically based
->>> on the desired pixel clock for the connected device.
->>
->> The link rate negotiation should happen internally between the nearest
->> bridge and DSIM, so please add that to DRM core instead of hacking
->> around it by tweaking the HS clock again.
-> 
-> I thought you tried to add something like this before and had some resistance.
+From: Rob Clark <robdclark@chromium.org>
 
-Yes, all my attempts were rejected by a single reviewer. I suspended my 
-efforts in that area for now.
+When many of the things using the GPU are processes in a VM guest, the
+actual client process is just a proxy.  The msm driver has a way to let
+the proxy tell the kernel the actual VM client process's executable name
+and command-line, which has until now been used simply for GPU crash
+devcore dumps.  Lets also expose this via fdinfo so that tools can
+expose who the actual user of the GPU is.
 
-> The Pixel clock is set by the bridge already without any new code
-> added to the DRM core..  I am just reading that value that's there,
-> and setting the clock accordingly.  I don't see how this is a hack.
+Rob Clark (3):
+  drm/doc: Relax fdinfo string constraints
+  drm/msm: Rework get_comm_cmdline() helper
+  drm/msm: Add comm/cmdline fields
 
-Assume you have a DSI-to-HDMI bridge attached to your DSIM bridge, it 
-operates in non-burst mode, like ADV7533 . How would you configure the 
-HS clock rate for such a bridge in DT ? (hint: you cannot, because the 
-required clock comes from the EDID, which may not be available just yet)
+ Documentation/gpu/drm-usage-stats.rst   | 37 +++++++++++++++----------
+ drivers/gpu/drm/msm/adreno/adreno_gpu.c |  4 +--
+ drivers/gpu/drm/msm/msm_drv.c           |  2 ++
+ drivers/gpu/drm/msm/msm_gpu.c           | 27 +++++++++++++-----
+ drivers/gpu/drm/msm/msm_gpu.h           | 12 ++++++--
+ drivers/gpu/drm/msm/msm_submitqueue.c   |  1 +
+ 6 files changed, 58 insertions(+), 25 deletions(-)
+
+-- 
+2.39.2
+
