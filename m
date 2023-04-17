@@ -2,56 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D2196E45F2
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Apr 2023 13:02:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 480C26E4611
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Apr 2023 13:10:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7824110E407;
-	Mon, 17 Apr 2023 11:02:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 77AA610E415;
+	Mon, 17 Apr 2023 11:10:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 668DE10E407
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Apr 2023 11:02:45 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id BF93262274;
- Mon, 17 Apr 2023 11:02:44 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 50123C433D2;
- Mon, 17 Apr 2023 11:02:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1681729364;
- bh=dVSmXgHc7Wtq5f3KTG1Nv3Jo2iMZ9ubzY2vutXfxDvU=;
- h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
- b=s7eTyOVtBebCEcitRRwiCrhz5ZYaAis5MtzW5zCo7lEaCl418rXJb3cLfzdAMtKxa
- i1B5/x2H0NA3QcS9YymojTsXU9rZKhmC8orr683S/wEDRRzlMuVJAG1bTRWXAvkgwL
- qHNfE5OduLyKch7U8X2PBBxVID1zeG05yDokzeFhCfbisdQO1C5uwL/BIsNVF4yz1N
- UI+5LFtlqy6CAQeW7BfR2ZtzI8p2tD5344rSZ9Qxpk5LaodUuLdBrTgVqlZuuDGnDw
- meNTzw/SoNRG2F0GABCFHkm3qBSBmoVoUcgUVmsfc0JQmAO4HYZOxB7k181OSFqivW
- k1n4MKwt4R3HQ==
-Message-ID: <73d0178c3b9608fae207c9f135aa1f807cb56e47.camel@kernel.org>
-Subject: Re: [PATCH] drm: make drm_dp_add_payload_part2 gracefully handle
- NULL state pointer
-From: Jeff Layton <jlayton@kernel.org>
-To: Jani Nikula <jani.nikula@linux.intel.com>, Lyude Paul
- <lyude@redhat.com>,  "Lin, Wayne" <Wayne.Lin@amd.com>, Alex Deucher
- <alexdeucher@gmail.com>
-Date: Mon, 17 Apr 2023 07:02:41 -0400
-In-Reply-To: <87leiqer8g.fsf@intel.com>
-References: <20230413111254.22458-1-jlayton@kernel.org>
- <87edooarpq.fsf@intel.com>
- <CADnq5_PVnYMSiKO77+cfg_V-tDKYkVJYN3qGNb1vhQO3QtXskA@mail.gmail.com>
- <CO6PR12MB5489044012B2A96639470F38FC999@CO6PR12MB5489.namprd12.prod.outlook.com>
- <4d8479f20ef30866fcf73f3602f1237376110764.camel@kernel.org>
- <878reug394.fsf@intel.com>
- <7a1b00f02b125bd65824b18ea09509efe3cf777d.camel@redhat.com>
- <874jpegao0.fsf@intel.com>
- <b99732f7c0dd968c0702ae7629695e8fb9cb573f.camel@kernel.org>
- <87leiqer8g.fsf@intel.com>
-Content-Type: text/plain; charset="ISO-8859-15"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.4 (3.46.4-1.fc37) 
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5991110E0C2;
+ Mon, 17 Apr 2023 11:10:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1681729815; x=1713265815;
+ h=message-id:date:mime-version:subject:to:references:from:
+ in-reply-to:content-transfer-encoding;
+ bh=iRmXXXS91Y7uC4yhoOdURFhhO7AKPLHUqfPEQ2lSuxA=;
+ b=anwAAvIV7Ggsi0c+L08iACJOi3La12mIemiMQgvq30zCTIOKFYiSZTFe
+ b8J/dBTbu5VNocrlXr2erYRCxrK1INRqpAiuzTgpbQStz0LdAuSQMmgIA
+ tmpxcHKGjPqVU91Cqw3TqpWsDtojvk6kY2sOovzsKRBBtpQXGOBzt6fwu
+ 2GDNyW5h9VuNW5NVonzubbolEGzDOEwzDvbUvaIebxf025P3li3KyYQNL
+ Cc6yV0rl33sOrnbNSIu4t00R22dUQbBVHIAqlaPrW0ruezKEAVDAsAWjc
+ hfXUJOjq7+U6HHD9g1bmnl+GrohZHrymexE4UthW9ScTWLNkCMNn/AZCS g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10682"; a="333658993"
+X-IronPort-AV: E=Sophos;i="5.99,204,1677571200"; d="scan'208";a="333658993"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Apr 2023 04:10:14 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10682"; a="864965154"
+X-IronPort-AV: E=Sophos;i="5.99,204,1677571200"; d="scan'208";a="864965154"
+Received: from gtohallo-mobl.ger.corp.intel.com (HELO [10.213.232.210])
+ ([10.213.232.210])
+ by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Apr 2023 04:10:11 -0700
+Message-ID: <09c8d794-bb64-f7ba-f854-f14ac30600a6@linux.intel.com>
+Date: Mon, 17 Apr 2023 12:10:09 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH v3 6/7] drm: Add fdinfo memory stats
+Content-Language: en-US
+To: Rob Clark <robdclark@gmail.com>, Rob Clark <robdclark@chromium.org>,
+ Jonathan Corbet <corbet@lwn.net>, linux-arm-msm@vger.kernel.org,
+ "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+ Emil Velikov <emil.l.velikov@gmail.com>,
+ Christopher Healy <healych@amazon.com>, dri-devel@lists.freedesktop.org,
+ open list <linux-kernel@vger.kernel.org>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, freedreno@lists.freedesktop.org
+References: <CAF6AEGsZsMx+Vy+4UQSx3X7w_QNvvjLqWxx=PnCLAOC9f-X2CQ@mail.gmail.com>
+ <ZDb1phnddSne79iN@phenom.ffwll.local>
+ <CAF6AEGvBeDVM12ac0j_PKSdcY83hNDhyrQs9-=h=dx_7AoMXLw@mail.gmail.com>
+ <ZDcEGoSPGr/oRLas@phenom.ffwll.local>
+ <c82fd8fa-9f4b-f62f-83be-25853f9ecf5e@linux.intel.com>
+ <ZDgDQ1PqtXwu8zqA@phenom.ffwll.local>
+ <ad8f2793-c1b3-a505-e93f-6cc52fded86d@linux.intel.com>
+ <ZDhgcqiOtJi6//TS@phenom.ffwll.local>
+ <8893ad56-8807-eb69-2185-b338725f0b18@linux.intel.com>
+ <CAF6AEGtaiKMWsGxTSUHM7_s_Wqiw3=ta+g=arUxknJ0dxbYvFQ@mail.gmail.com>
+ <ZDuoWC7TlvNa1OOm@phenom.ffwll.local>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <ZDuoWC7TlvNa1OOm@phenom.ffwll.local>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,96 +79,251 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Deucher, Alexander" <Alexander.Deucher@amd.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 2023-04-17 at 13:29 +0300, Jani Nikula wrote:
-> On Mon, 17 Apr 2023, Jeff Layton <jlayton@kernel.org> wrote:
-> > On Mon, 2023-04-17 at 11:44 +0300, Jani Nikula wrote:
-> > > On Fri, 14 Apr 2023, Lyude Paul <lyude@redhat.com> wrote:
-> > > > On Fri, 2023-04-14 at 13:35 +0300, Jani Nikula wrote:
-> > > > > On Fri, 14 Apr 2023, Jeff Layton <jlayton@kernel.org> wrote:
-> > > > > > On Fri, 2023-04-14 at 04:40 +0000, Lin, Wayne wrote:
-> > > > > > > [Public]
-> > > > > > >=20
-> > > > > > > Hi Jeff,
-> > > > > > >=20
-> > > > > > > Thanks. I might need more information to understand why we ca=
-n't retrieve
-> > > > > > > the drm atomic state. Also , "Failed to create MST payload fo=
-r port" indicates
-> > > > > > > error while configuring DPCD payload ID table. Could you help=
- to provide log
-> > > > > > > with KMS + ATOMIC + DP debug on please? Thanks in advance!
-> > > > > > >=20
-> > > > > > > Regards,
-> > > > > > > Wayne
-> > > > > > >=20
-> > > > > >=20
-> > > > > > Possibly. I'm not that familiar with display driver debugging. =
-Can you
-> > > > > > send me some directions on how to crank up that sort of debug l=
-ogging?
-> > > > > >=20
-> > > > > > Note that this problem is _very_ intermittent too: I went about=
- 2 weeks
-> > > > > > between crashes, and then I got 3 in one day. I'd rather not ru=
-n with a
-> > > > > > lot of debug logging for a long time if that's what this is goi=
-ng to
-> > > > > > require, as this is my main workstation.
-> > > > > >=20
-> > > > > > The last time I got this log message, my proposed patch did pre=
-vent the
-> > > > > > box from oopsing, so I'd really like to see it go in unless it'=
-s just
-> > > > > > categorically wrong for the caller to pass down a NULL state po=
-inter to
-> > > > > > drm_dp_add_payload_part2.
-> > > > >=20
-> > > > > Cc: Lyude.
-> > > > >=20
-> > > > > Looks like the state parameter was added in commit 4d07b0bc4034
-> > > > > ("drm/display/dp_mst: Move all payload info into the atomic state=
-") and
-> > > > > its only use is to get at state->dev for debug logging.
-> > > > >=20
-> > > > > What's the plan for the parameter? Surely something more than tha=
-t! :)
-> > > >=20
-> > > > I don't think there was any plan for that, or at least I certainly =
-don't even
-> > > > remember adding that D:. It must totally have been by mistake and s=
-nuck by
-> > > > review, if that's the only thing that we're using it for I'd say it=
-'s
-> > > > definitely fine to just drop it entirely
-> > >=20
-> > > I guess we could use two patches then, first replace state->dev with
-> > > mgr->dev as something that can be backported as needed, and second dr=
-op
-> > > the state parameter altogether.
-> > >=20
-> > > Jeff, up for it? At least the first one?
-> > >=20
-> > >=20
-> > > BR,
-> > > Jani.
-> > >=20
-> >=20
-> > Sure. I'm happy to test patches if you send them along.
->=20
-> I was hoping to lure you into sending patches. ;)
->=20
-> Anyway, I'm not working on this.
->=20
->=20
 
-Ok. I misunderstood, I'll change the patch I've been using to use mgr-
->dev instead and will send along a v2 here in a few days (after some
-testing).
---=20
-Jeff Layton <jlayton@kernel.org>
+On 16/04/2023 08:48, Daniel Vetter wrote:
+> On Fri, Apr 14, 2023 at 06:40:27AM -0700, Rob Clark wrote:
+>> On Fri, Apr 14, 2023 at 1:57 AM Tvrtko Ursulin
+>> <tvrtko.ursulin@linux.intel.com> wrote:
+>>>
+>>>
+>>> On 13/04/2023 21:05, Daniel Vetter wrote:
+>>>> On Thu, Apr 13, 2023 at 05:40:21PM +0100, Tvrtko Ursulin wrote:
+>>>>>
+>>>>> On 13/04/2023 14:27, Daniel Vetter wrote:
+>>>>>> On Thu, Apr 13, 2023 at 01:58:34PM +0100, Tvrtko Ursulin wrote:
+>>>>>>>
+>>>>>>> On 12/04/2023 20:18, Daniel Vetter wrote:
+>>>>>>>> On Wed, Apr 12, 2023 at 11:42:07AM -0700, Rob Clark wrote:
+>>>>>>>>> On Wed, Apr 12, 2023 at 11:17 AM Daniel Vetter <daniel@ffwll.ch> wrote:
+>>>>>>>>>>
+>>>>>>>>>> On Wed, Apr 12, 2023 at 10:59:54AM -0700, Rob Clark wrote:
+>>>>>>>>>>> On Wed, Apr 12, 2023 at 7:42 AM Tvrtko Ursulin
+>>>>>>>>>>> <tvrtko.ursulin@linux.intel.com> wrote:
+>>>>>>>>>>>>
+>>>>>>>>>>>>
+>>>>>>>>>>>> On 11/04/2023 23:56, Rob Clark wrote:
+>>>>>>>>>>>>> From: Rob Clark <robdclark@chromium.org>
+>>>>>>>>>>>>>
+>>>>>>>>>>>>> Add support to dump GEM stats to fdinfo.
+>>>>>>>>>>>>>
+>>>>>>>>>>>>> v2: Fix typos, change size units to match docs, use div_u64
+>>>>>>>>>>>>> v3: Do it in core
+>>>>>>>>>>>>>
+>>>>>>>>>>>>> Signed-off-by: Rob Clark <robdclark@chromium.org>
+>>>>>>>>>>>>> Reviewed-by: Emil Velikov <emil.l.velikov@gmail.com>
+>>>>>>>>>>>>> ---
+>>>>>>>>>>>>>       Documentation/gpu/drm-usage-stats.rst | 21 ++++++++
+>>>>>>>>>>>>>       drivers/gpu/drm/drm_file.c            | 76 +++++++++++++++++++++++++++
+>>>>>>>>>>>>>       include/drm/drm_file.h                |  1 +
+>>>>>>>>>>>>>       include/drm/drm_gem.h                 | 19 +++++++
+>>>>>>>>>>>>>       4 files changed, 117 insertions(+)
+>>>>>>>>>>>>>
+>>>>>>>>>>>>> diff --git a/Documentation/gpu/drm-usage-stats.rst b/Documentation/gpu/drm-usage-stats.rst
+>>>>>>>>>>>>> index b46327356e80..b5e7802532ed 100644
+>>>>>>>>>>>>> --- a/Documentation/gpu/drm-usage-stats.rst
+>>>>>>>>>>>>> +++ b/Documentation/gpu/drm-usage-stats.rst
+>>>>>>>>>>>>> @@ -105,6 +105,27 @@ object belong to this client, in the respective memory region.
+>>>>>>>>>>>>>       Default unit shall be bytes with optional unit specifiers of 'KiB' or 'MiB'
+>>>>>>>>>>>>>       indicating kibi- or mebi-bytes.
+>>>>>>>>>>>>>
+>>>>>>>>>>>>> +- drm-shared-memory: <uint> [KiB|MiB]
+>>>>>>>>>>>>> +
+>>>>>>>>>>>>> +The total size of buffers that are shared with another file (ie. have more
+>>>>>>>>>>>>> +than a single handle).
+>>>>>>>>>>>>> +
+>>>>>>>>>>>>> +- drm-private-memory: <uint> [KiB|MiB]
+>>>>>>>>>>>>> +
+>>>>>>>>>>>>> +The total size of buffers that are not shared with another file.
+>>>>>>>>>>>>> +
+>>>>>>>>>>>>> +- drm-resident-memory: <uint> [KiB|MiB]
+>>>>>>>>>>>>> +
+>>>>>>>>>>>>> +The total size of buffers that are resident in system memory.
+>>>>>>>>>>>>
+>>>>>>>>>>>> I think this naming maybe does not work best with the existing
+>>>>>>>>>>>> drm-memory-<region> keys.
+>>>>>>>>>>>
+>>>>>>>>>>> Actually, it was very deliberate not to conflict with the existing
+>>>>>>>>>>> drm-memory-<region> keys ;-)
+>>>>>>>>>>>
+>>>>>>>>>>> I wouldn't have preferred drm-memory-{active,resident,...} but it
+>>>>>>>>>>> could be mis-parsed by existing userspace so my hands were a bit tied.
+>>>>>>>>>>>
+>>>>>>>>>>>> How about introduce the concept of a memory region from the start and
+>>>>>>>>>>>> use naming similar like we do for engines?
+>>>>>>>>>>>>
+>>>>>>>>>>>> drm-memory-$CATEGORY-$REGION: ...
+>>>>>>>>>>>>
+>>>>>>>>>>>> Then we document a bunch of categories and their semantics, for instance:
+>>>>>>>>>>>>
+>>>>>>>>>>>> 'size' - All reachable objects
+>>>>>>>>>>>> 'shared' - Subset of 'size' with handle_count > 1
+>>>>>>>>>>>> 'resident' - Objects with backing store
+>>>>>>>>>>>> 'active' - Objects in use, subset of resident
+>>>>>>>>>>>> 'purgeable' - Or inactive? Subset of resident.
+>>>>>>>>>>>>
+>>>>>>>>>>>> We keep the same semantics as with process memory accounting (if I got
+>>>>>>>>>>>> it right) which could be desirable for a simplified mental model.
+>>>>>>>>>>>>
+>>>>>>>>>>>> (AMD needs to remind me of their 'drm-memory-...' keys semantics. If we
+>>>>>>>>>>>> correctly captured this in the first round it should be equivalent to
+>>>>>>>>>>>> 'resident' above. In any case we can document no category is equal to
+>>>>>>>>>>>> which category, and at most one of the two must be output.)
+>>>>>>>>>>>>
+>>>>>>>>>>>> Region names we at most partially standardize. Like we could say
+>>>>>>>>>>>> 'system' is to be used where backing store is system RAM and others are
+>>>>>>>>>>>> driver defined.
+>>>>>>>>>>>>
+>>>>>>>>>>>> Then discrete GPUs could emit N sets of key-values, one for each memory
+>>>>>>>>>>>> region they support.
+>>>>>>>>>>>>
+>>>>>>>>>>>> I think this all also works for objects which can be migrated between
+>>>>>>>>>>>> memory regions. 'Size' accounts them against all regions while for
+>>>>>>>>>>>> 'resident' they only appear in the region of their current placement, etc.
+>>>>>>>>>>>
+>>>>>>>>>>> I'm not too sure how to rectify different memory regions with this,
+>>>>>>>>>>> since drm core doesn't really know about the driver's memory regions.
+>>>>>>>>>>> Perhaps we can go back to this being a helper and drivers with vram
+>>>>>>>>>>> just don't use the helper?  Or??
+>>>>>>>>>>
+>>>>>>>>>> I think if you flip it around to drm-$CATEGORY-memory{-$REGION}: then it
+>>>>>>>>>> all works out reasonably consistently?
+>>>>>>>>>
+>>>>>>>>> That is basically what we have now.  I could append -system to each to
+>>>>>>>>> make things easier to add vram/etc (from a uabi standpoint)..
+>>>>>>>>
+>>>>>>>> What you have isn't really -system, but everything. So doesn't really make
+>>>>>>>> sense to me to mark this -system, it's only really true for integrated (if
+>>>>>>>> they don't have stolen or something like that).
+>>>>>>>>
+>>>>>>>> Also my comment was more in reply to Tvrtko's suggestion.
+>>>>>>>
+>>>>>>> Right so my proposal was drm-memory-$CATEGORY-$REGION which I think aligns
+>>>>>>> with the current drm-memory-$REGION by extending, rather than creating
+>>>>>>> confusion with different order of key name components.
+>>>>>>
+>>>>>> Oh my comment was pretty much just bikeshed, in case someone creates a
+>>>>>> $REGION that other drivers use for $CATEGORY. Kinda Rob's parsing point.
+>>>>>> So $CATEGORY before the -memory.
+>>>>>>
+>>>>>> Otoh I don't think that'll happen, so I guess we can go with whatever more
+>>>>>> folks like :-) I don't really care much personally.
+>>>>>
+>>>>> Okay I missed the parsing problem.
+>>>>>
+>>>>>>> AMD currently has (among others) drm-memory-vram, which we could define in
+>>>>>>> the spec maps to category X, if category component is not present.
+>>>>>>>
+>>>>>>> Some examples:
+>>>>>>>
+>>>>>>> drm-memory-resident-system:
+>>>>>>> drm-memory-size-lmem0:
+>>>>>>> drm-memory-active-vram:
+>>>>>>>
+>>>>>>> Etc.. I think it creates a consistent story.
+>>>>>>>
+>>>>>>> Other than this, my two I think significant opens which haven't been
+>>>>>>> addressed yet are:
+>>>>>>>
+>>>>>>> 1)
+>>>>>>>
+>>>>>>> Why do we want totals (not per region) when userspace can trivially
+>>>>>>> aggregate if they want. What is the use case?
+>>>>>>>
+>>>>>>> 2)
+>>>>>>>
+>>>>>>> Current proposal limits the value to whole objects and fixates that by
+>>>>>>> having it in the common code. If/when some driver is able to support sub-BO
+>>>>>>> granularity they will need to opt out of the common printer at which point
+>>>>>>> it may be less churn to start with a helper rather than mid-layer. Or maybe
+>>>>>>> some drivers already support this, I don't know. Given how important VM BIND
+>>>>>>> is I wouldn't be surprised.
+>>>>>>
+>>>>>> I feel like for drivers using ttm we want a ttm helper which takes care of
+>>>>>> the region printing in hopefully a standard way. And that could then also
+>>>>>> take care of all kinds of of partial binding and funny rules (like maybe
+>>>>>> we want a standard vram region that addds up all the lmem regions on
+>>>>>> intel, so that all dgpu have a common vram bucket that generic tools
+>>>>>> understand?).
+>>>>>
+>>>>> First part yes, but for the second I would think we want to avoid any
+>>>>> aggregation in the kernel which can be done in userspace just as well. Such
+>>>>> total vram bucket would be pretty useless on Intel even since userspace
+>>>>> needs to be region aware to make use of all resources. It could even be
+>>>>> counter productive I think - "why am I getting out of memory when half of my
+>>>>> vram is unused!?".
+>>>>
+>>>> This is not for intel-aware userspace. This is for fairly generic "gputop"
+>>>> style userspace, which might simply have no clue or interest in what lmemX
+>>>> means, but would understand vram.
+>>>>
+>>>> Aggregating makes sense.
+>>>
+>>> Lmem vs vram is now an argument not about aggregation but about
+>>> standardizing regions names.
+>>>
+>>> One detail also is a change in philosophy compared to engine stats where
+>>> engine names are not centrally prescribed and it was expected userspace
+>>> will have to handle things generically and with some vendor specific
+>>> knowledge.
+>>>
+>>> Like in my gputop patches. It doesn't need to understand what is what,
+>>> it just finds what's there and presents it to the user.
+>>>
+>>> Come some accel driver with local memory it wouldn't be vram any more.
+>>> Or even a headless data center GPU. So I really don't think it is good
+>>> to hardcode 'vram' in the spec, or midlayer, or helpers.
+>>>
+>>> And for aggregation.. again, userspace can do it just as well. If we do
+>>> it in kernel then immediately we have multiple sets of keys to output
+>>> for any driver which wants to show the region view. IMO it is just
+>>> pointless work in the kernel and more code in the kernel, when userspace
+>>> can do it.
+>>>
+>>> Proposal A (one a discrete gpu, one category only):
+>>>
+>>> drm-resident-memory: x KiB
+>>> drm-resident-memory-system: x KiB
+>>> drm-resident-memory-vram: x KiB
+>>>
+>>> Two loops in the kernel, more parsing in userspace.
+>>
+>> why would it be more than one loop, ie.
+>>
+>>      mem.resident += size;
+>>      mem.category[cat].resident += size;
+>>
+>> At the end of the day, there is limited real-estate to show a million
+>> different columns of information.  Even the gputop patches I posted
+>> don't show everything of what is currently there.  And nvtop only
+>> shows toplevel resident stat.  So I think the "everything" stat is
+>> going to be what most tools use.
+> 
+> Yeah with enough finesse the double-loop isn't needed, it's just the
+> simplest possible approach.
+> 
+> Also this is fdinfo, I _really_ want perf data showing that it's a
+> real-world problem when we conjecture about algorithmic complexity.
+> procutils have been algorithmically garbage since decades after all :-)
+
+Just run it. :)
+
+Algorithmic complexity is quite obvious and not a conjecture - to find 
+DRM clients you have to walk _all_ pids and _all_ fds under them. So 
+amount of work can scale very quickly and even _not_ with the number of 
+DRM clients.
+
+It's not too bad on my desktop setup but it is significantly more CPU 
+intensive than top(1).
+
+It would be possible to optimise the current code some more by not 
+parsing full fdinfo (may become more important as number of keys grow), 
+but that's only relevant when number of drm fds is large. It doesn't 
+solve the basic pids * open fds search for which we'd need a way to walk 
+the list of pids with drm fds directly.
+
+Regards,
+
+Tvrtko
