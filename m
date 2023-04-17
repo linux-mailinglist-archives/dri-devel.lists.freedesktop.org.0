@@ -1,42 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9339D6E538D
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Apr 2023 23:03:40 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E053C6E5390
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Apr 2023 23:04:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C5C3510E5EB;
-	Mon, 17 Apr 2023 21:03:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8BCEA10E5E2;
+	Mon, 17 Apr 2023 21:04:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org
  [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5D43710E5EB;
- Mon, 17 Apr 2023 21:03:36 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3BA6A10E5E2
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Apr 2023 21:04:30 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id B746B62A2E;
- Mon, 17 Apr 2023 21:03:35 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8945AC433D2;
- Mon, 17 Apr 2023 21:03:32 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id BF1C3623E8;
+ Mon, 17 Apr 2023 21:04:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 73BCAC433EF;
+ Mon, 17 Apr 2023 21:04:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1681765415;
- bh=gogdJk9IwdJmU/4O0CfzvIr5faBCNTXnnyqgTDbDnEQ=;
+ s=k20201202; t=1681765469;
+ bh=GZ9K1KS6S92HXEymJH/1OOdscHLQ4pFpaD9szsRvRwI=;
  h=From:To:Cc:Subject:Date:From;
- b=L9k78zW6bp/+0gKaf+zI2V7sM8f5vbcCdNMSIaG/vw1yKpclaAd+swwvkijbpGXii
- kMWNDQpqC2yeyoNdzrhwiNufp/TJf27oWWk/GJCqC877ocah9+oPqRS2bHY4ePf4UC
- r/dNyfPcNreSohJYevJwIGjl6VqyMsKF9GeGriPZ7tHrguHk9WXRM0WPhchY6LYEPK
- a3gf2KBQ+Qhn9t3hjNNF2+im/rx0X4IfXIXzn+Ze1Sw6/NUxPU2Wo7WXLooCujjjJ6
- 1uoGRqF+Cai/AxwIvgULiCfJiCPFt4EcEzFjgGXvvJWHG07l3KZCORSYKAmnO7CCie
- 7SLuaedzsZ5Lg==
+ b=Mo1vyXUiSWYSoZmgfkUj9AByJ2RIWzLiJshkbOtVSzgczN3FkyWi0ow/UkYpN8MfD
+ ZiCQxkeJa0y15kBA8mjl318g3vRRDB5SvhJ4dhwQvNQ/5kVpRIL9oRhW9e762nUjWI
+ I5o7tirQ8G+gTV15nzmXSHdyZ9G2tXRvXs8Zd/gydjhNyy+4NEQ3OQhFoBvCRnCmUH
+ rQMhc+GRkilTlRw/VgYeJnK68ZTA0FLm6dd2VtZgaEplx9yPHodylQ6l4uNb0smUwz
+ qghw1dnuk2hS0QYykR/7+Weut4B0UKLBHSZntnARstERAmo1WLedOgWCAYoiPzFV3t
+ xrJJ6qJ/b1o6g==
 From: Arnd Bergmann <arnd@kernel.org>
-To: Ben Skeggs <bskeggs@redhat.com>, Karol Herbst <kherbst@redhat.com>,
- Lyude Paul <lyude@redhat.com>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH] drm/nouveau: dispnv50: fix missing-prototypes warning
-Date: Mon, 17 Apr 2023 23:03:23 +0200
-Message-Id: <20230417210329.2469722-1-arnd@kernel.org>
+To: Inki Dae <inki.dae@samsung.com>, Seung-Woo Kim <sw0312.kim@samsung.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+Subject: [PATCH] drm/exynos: fix g2d_open/close helper function definitions
+Date: Mon, 17 Apr 2023 23:04:11 +0200
+Message-Id: <20230417210423.2517593-1-arnd@kernel.org>
 X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -52,52 +52,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Arnd Bergmann <arnd@arndb.de>, Jani Nikula <jani.nikula@intel.com>,
- nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
- Dave Airlie <airlied@redhat.com>
+Cc: linux-samsung-soc@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Alim Akhtar <alim.akhtar@samsung.com>, linux-arm-kernel@lists.infradead.org,
+ Marek Szyprowski <m.szyprowski@samsung.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Arnd Bergmann <arnd@arndb.de>
 
-nv50_display_create() is declared in another header, along with
-a couple of declarations that are now outdated:
+The empty stub functions are defined as global functions, which
+causes a warning because of missing prototypes:
 
-drivers/gpu/drm/nouveau/dispnv50/disp.c:2517:1: error: no previous prototype for 'nv50_display_create'
+drivers/gpu/drm/exynos/exynos_drm_g2d.h:37:5: error: no previous prototype for 'g2d_open'
+drivers/gpu/drm/exynos/exynos_drm_g2d.h:42:5: error: no previous prototype for 'g2d_close'
 
-Fixes: ba801ef068c1 ("drm/nouveau/kms: display destroy/init/fini hooks can be static")
+Mark them as 'static inline' to avoid the warning and to make
+them behave as intended.
+
+Fixes: eb4d9796fa34 ("drm/exynos: g2d: Convert to driver component API")
 Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 ---
- drivers/gpu/drm/nouveau/dispnv50/disp.c | 1 +
- drivers/gpu/drm/nouveau/nv50_display.h  | 4 +---
- 2 files changed, 2 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/exynos/exynos_drm_g2d.h | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/nouveau/dispnv50/disp.c b/drivers/gpu/drm/nouveau/dispnv50/disp.c
-index 5bb777ff1313..9b6824f6b9e4 100644
---- a/drivers/gpu/drm/nouveau/dispnv50/disp.c
-+++ b/drivers/gpu/drm/nouveau/dispnv50/disp.c
-@@ -64,6 +64,7 @@
- #include "nouveau_connector.h"
- #include "nouveau_encoder.h"
- #include "nouveau_fence.h"
-+#include "nv50_display.h"
+diff --git a/drivers/gpu/drm/exynos/exynos_drm_g2d.h b/drivers/gpu/drm/exynos/exynos_drm_g2d.h
+index 74ea3c26dead..1a5ae781b56c 100644
+--- a/drivers/gpu/drm/exynos/exynos_drm_g2d.h
++++ b/drivers/gpu/drm/exynos/exynos_drm_g2d.h
+@@ -34,11 +34,11 @@ static inline int exynos_g2d_exec_ioctl(struct drm_device *dev, void *data,
+ 	return -ENODEV;
+ }
  
- #include <subdev/bios/dp.h>
+-int g2d_open(struct drm_device *drm_dev, struct drm_file *file)
++static inline int g2d_open(struct drm_device *drm_dev, struct drm_file *file)
+ {
+ 	return 0;
+ }
  
-diff --git a/drivers/gpu/drm/nouveau/nv50_display.h b/drivers/gpu/drm/nouveau/nv50_display.h
-index fbd3b15583bc..60f77766766e 100644
---- a/drivers/gpu/drm/nouveau/nv50_display.h
-+++ b/drivers/gpu/drm/nouveau/nv50_display.h
-@@ -31,7 +31,5 @@
- #include "nouveau_reg.h"
- 
- int  nv50_display_create(struct drm_device *);
--void nv50_display_destroy(struct drm_device *);
--int  nv50_display_init(struct drm_device *);
--void nv50_display_fini(struct drm_device *);
-+
- #endif /* __NV50_DISPLAY_H__ */
+-void g2d_close(struct drm_device *drm_dev, struct drm_file *file)
++static inline void g2d_close(struct drm_device *drm_dev, struct drm_file *file)
+ { }
+ #endif
 -- 
 2.39.2
 
