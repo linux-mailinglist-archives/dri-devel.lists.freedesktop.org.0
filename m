@@ -1,48 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FFA36E4DC4
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Apr 2023 17:56:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D05616E4DC6
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Apr 2023 17:56:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A740B10E1B1;
-	Mon, 17 Apr 2023 15:56:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4BE0610E417;
+	Mon, 17 Apr 2023 15:56:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8C82910E1B1;
- Mon, 17 Apr 2023 15:56:37 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4663910E1B1;
+ Mon, 17 Apr 2023 15:56:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1681746997; x=1713282997;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=NkuxtsbO+mHTdhaOMm2pYNCWI+R28ZzS3Y10doUVbdw=;
- b=foeQtA+qBp/bs/9O5AJAA+isnSAIMGEBVee23Pt+/YcaKpXhIRad8gT/
- 7KZxcAfZL68S+v8B/Plvk3yIF2uR8gtfhh0+EUyVR7TVWZuDrTh4LH+ft
- NfzjAWdgrnRhXL9M/mdbmzy095LiKJFqeD3M3QtD1q2tJzf7fCjkyeAzl
- 26zVDut7XwVq4MnBKrnyFZiGKNRUQLU3jp49Z3ywuMpOYqWUNSzbg26t3
- 6Y8QIPehAn+7dXpzOCOw2UV12GuTZmA/mN3/1+NIyNzH+W9dr8pQkfkU9
- WgaQpnWZT7VVCwNSdOzLFUwRf8msNkuSdU60/5xi8hoOahzGXjcm3z7dt w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10683"; a="372804610"
-X-IronPort-AV: E=Sophos;i="5.99,204,1677571200"; d="scan'208";a="372804610"
+ t=1681746998; x=1713282998;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=atDvmZyUtCQfHIE+ErRNt7jlzXViu3axN8KeAcTKy6o=;
+ b=AhNs0O6kfZig3bJBiD1sPuSx+CQnH62g/2o37r0xOzkaD17eHKLZHr3V
+ JORfzY0mpchRWuXIAOZmb1IGh1qlvUbLPSKFmivFaopyCr2TqWy2P6mYv
+ BDp4JpcMO9C4F1x2BjqqyPLmelFuq8P95pBcjQ+HbbbnYfT9BHMTAVFFn
+ MGXMHv/eMK+sRLEw29gZLOWNdHgBdukFZKYNToSNMAChL0S5K2cpb6FB+
+ aRo3AgcDPhBp1CVqtBc7NyvoL3Sgz6xP6/4CapuMpBLnXjNuuGd77mvyv
+ s6zhGR4CVLfkPyx31tUtFxGmYgrChsLkC4KQ7ZPDC4E7FVm+s7ecZyuuw w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10683"; a="372804617"
+X-IronPort-AV: E=Sophos;i="5.99,204,1677571200"; d="scan'208";a="372804617"
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Apr 2023 08:56:25 -0700
+ 17 Apr 2023 08:56:27 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10683"; a="690718267"
-X-IronPort-AV: E=Sophos;i="5.99,204,1677571200"; d="scan'208";a="690718267"
+X-IronPort-AV: E=McAfee;i="6600,9927,10683"; a="690718268"
+X-IronPort-AV: E=Sophos;i="5.99,204,1677571200"; d="scan'208";a="690718268"
 Received: from gtohallo-mobl.ger.corp.intel.com (HELO localhost.localdomain)
  ([10.213.232.210])
  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Apr 2023 08:56:22 -0700
+ 17 Apr 2023 08:56:25 -0700
 From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
 To: Intel-gfx@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
-Subject: [RFC 0/6] fdinfo alternative memory stats proposal
-Date: Mon, 17 Apr 2023 16:56:07 +0100
-Message-Id: <20230417155613.4143258-1-tvrtko.ursulin@linux.intel.com>
+Subject: [RFC 1/6] drm: Add common fdinfo helper
+Date: Mon, 17 Apr 2023 16:56:08 +0100
+Message-Id: <20230417155613.4143258-2-tvrtko.ursulin@linux.intel.com>
 X-Mailer: git-send-email 2.37.2
+In-Reply-To: <20230417155613.4143258-1-tvrtko.ursulin@linux.intel.com>
+References: <20230417155613.4143258-1-tvrtko.ursulin@linux.intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -57,75 +59,149 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
+Cc: Rob Clark <robdclark@chromium.org>, Daniel Vetter <daniel.vetter@ffwll.ch>,
  Emil Velikov <emil.l.velikov@gmail.com>,
  =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+From: Rob Clark <robdclark@chromium.org>
 
-As discussed in the Rob's thread here is a slightly alternative idea on what to
-expose and how.
+Handle a bit of the boiler-plate in a single case, and make it easier to
+add some core tracked stats.
 
-DRM core is still defining a list of common memory categories but it is now up
-to drivers to fill in the data and opt into the feature.
+v2: Update drm-usage-stats.rst, 64b client-id, rename drm_show_fdinfo
 
-There is also no aggregated category and memory regions are always specified in
-key names.
+Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+Signed-off-by: Rob Clark <robdclark@chromium.org>
+---
+ Documentation/gpu/drm-usage-stats.rst | 10 +++++++-
+ drivers/gpu/drm/drm_file.c            | 35 +++++++++++++++++++++++++++
+ include/drm/drm_drv.h                 |  7 ++++++
+ include/drm/drm_file.h                |  4 +++
+ 4 files changed, 55 insertions(+), 1 deletion(-)
 
-Two driver vfuncs are added where DRM core queries the number and names of
-memory regions supported by the driver instance, and second where the driver
-fills in the usage statistics for centrally defined memory categories.
-
-I think this is a more future proof option since by moving the stat filling to
-drivers they are able to show not only the GEM handles but all used memory. For
-instance in case of i915 we have contexts, ring buffers, status pages and page
-tables all backed by GEM objects too.
-
-It also opens up a route for reporting sub-object size backing store granularity
-and allows for not traversing under the file_table lock for drivers which are
-able to do it in a more light-weight manner. For the former one example could be
-simply adding TTM region helpers.
-
-Not having aggregated counters means we do not need to add a second set of keys
-as soon as the first driver wants to provide a more detailed view. And userspace
-can trivially aggregate itself anyway.
-
-At the same time two trivial helpers are provided who want to show just the
-basic stats.
-
-I have also tried to preserve the drm-memory-$region naming by reserving a
-special character ('^') as a suffix ie. drm-memory-$region^$category. Unless I
-am missing something this should be compatible with any existing parsers which
-would just see more memory regions with more specific names. And they can be
-updated to support the format extension.
-
-Series is a bit rough so for discussion only.
-
-Rob Clark (1):
-  drm: Add common fdinfo helper
-
-Tvrtko Ursulin (5):
-  drm/i915: Use the fdinfo helper
-  drm: Add fdinfo memory stats
-  drm: Add simple fdinfo memory helpers
-  drm/msm: Add basic memory stats
-  drm/i915: Implement fdinfo memory stats printing
-
- Documentation/gpu/drm-usage-stats.rst  |  22 +++-
- drivers/gpu/drm/drm_file.c             | 132 +++++++++++++++++++
- drivers/gpu/drm/i915/i915_driver.c     |  11 +-
- drivers/gpu/drm/i915/i915_drm_client.c | 167 +++++++++++++++++--------
- drivers/gpu/drm/i915/i915_drm_client.h |  30 ++---
- drivers/gpu/drm/i915/i915_drv.h        |   4 +-
- drivers/gpu/drm/i915/i915_gem.c        |   6 +-
- drivers/gpu/drm/msm/msm_drv.c          |   4 +
- include/drm/drm_drv.h                  |  14 +++
- include/drm/drm_file.h                 |  18 +++
- 10 files changed, 324 insertions(+), 84 deletions(-)
-
+diff --git a/Documentation/gpu/drm-usage-stats.rst b/Documentation/gpu/drm-usage-stats.rst
+index b46327356e80..2ab32c40e93c 100644
+--- a/Documentation/gpu/drm-usage-stats.rst
++++ b/Documentation/gpu/drm-usage-stats.rst
+@@ -126,7 +126,15 @@ percentage utilization of the engine, whereas drm-engine-<str> only reflects
+ time active without considering what frequency the engine is operating as a
+ percentage of it's maximum frequency.
+ 
++Implementation Details
++======================
++
++Drivers should use drm_show_fdinfo() in their `struct file_operations`, and
++implement &drm_driver.show_fdinfo if they wish to provide any stats which
++are not provided by drm_show_fdinfo().  But even driver specific stats should
++be documented above and where possible, aligned with other drivers.
++
+ Driver specific implementations
+-===============================
++-------------------------------
+ 
+ :ref:`i915-usage-stats`
+diff --git a/drivers/gpu/drm/drm_file.c b/drivers/gpu/drm/drm_file.c
+index c1018c470047..37b4f76a5191 100644
+--- a/drivers/gpu/drm/drm_file.c
++++ b/drivers/gpu/drm/drm_file.c
+@@ -148,6 +148,7 @@ bool drm_dev_needs_global_mutex(struct drm_device *dev)
+  */
+ struct drm_file *drm_file_alloc(struct drm_minor *minor)
+ {
++	static atomic64_t ident = ATOMIC_INIT(0);
+ 	struct drm_device *dev = minor->dev;
+ 	struct drm_file *file;
+ 	int ret;
+@@ -156,6 +157,8 @@ struct drm_file *drm_file_alloc(struct drm_minor *minor)
+ 	if (!file)
+ 		return ERR_PTR(-ENOMEM);
+ 
++	/* Get a unique identifier for fdinfo: */
++	file->client_id = atomic64_inc_return(&ident);
+ 	file->pid = get_pid(task_tgid(current));
+ 	file->minor = minor;
+ 
+@@ -868,6 +871,38 @@ void drm_send_event(struct drm_device *dev, struct drm_pending_event *e)
+ }
+ EXPORT_SYMBOL(drm_send_event);
+ 
++/**
++ * drm_show_fdinfo - helper for drm file fops
++ * @seq_file: output stream
++ * @f: the device file instance
++ *
++ * Helper to implement fdinfo, for userspace to query usage stats, etc, of a
++ * process using the GPU.  See also &drm_driver.show_fdinfo.
++ *
++ * For text output format description please see Documentation/gpu/drm-usage-stats.rst
++ */
++void drm_show_fdinfo(struct seq_file *m, struct file *f)
++{
++	struct drm_file *file = f->private_data;
++	struct drm_device *dev = file->minor->dev;
++	struct drm_printer p = drm_seq_file_printer(m);
++
++	drm_printf(&p, "drm-driver:\t%s\n", dev->driver->name);
++	drm_printf(&p, "drm-client-id:\t%llu\n", file->client_id);
++
++	if (dev_is_pci(dev->dev)) {
++		struct pci_dev *pdev = to_pci_dev(dev->dev);
++
++		drm_printf(&p, "drm-pdev:\t%04x:%02x:%02x.%d\n",
++			   pci_domain_nr(pdev->bus), pdev->bus->number,
++			   PCI_SLOT(pdev->devfn), PCI_FUNC(pdev->devfn));
++	}
++
++	if (dev->driver->show_fdinfo)
++		dev->driver->show_fdinfo(&p, file);
++}
++EXPORT_SYMBOL(drm_show_fdinfo);
++
+ /**
+  * mock_drm_getfile - Create a new struct file for the drm device
+  * @minor: drm minor to wrap (e.g. #drm_device.primary)
+diff --git a/include/drm/drm_drv.h b/include/drm/drm_drv.h
+index b419c59c4bef..89e2706cac56 100644
+--- a/include/drm/drm_drv.h
++++ b/include/drm/drm_drv.h
+@@ -401,6 +401,13 @@ struct drm_driver {
+ 			       struct drm_device *dev, uint32_t handle,
+ 			       uint64_t *offset);
+ 
++	/**
++	 * @show_fdinfo:
++	 *
++	 * Print device specific fdinfo.  See Documentation/gpu/drm-usage-stats.rst.
++	 */
++	void (*show_fdinfo)(struct drm_printer *p, struct drm_file *f);
++
+ 	/** @major: driver major number */
+ 	int major;
+ 	/** @minor: driver minor number */
+diff --git a/include/drm/drm_file.h b/include/drm/drm_file.h
+index ecffe24e2b1b..7d9b3c65cbc1 100644
+--- a/include/drm/drm_file.h
++++ b/include/drm/drm_file.h
+@@ -258,6 +258,9 @@ struct drm_file {
+ 	/** @pid: Process that opened this file. */
+ 	struct pid *pid;
+ 
++	/** @client_id: A unique id for fdinfo */
++	u64 client_id;
++
+ 	/** @magic: Authentication magic, see @authenticated. */
+ 	drm_magic_t magic;
+ 
+@@ -438,6 +441,7 @@ void drm_send_event(struct drm_device *dev, struct drm_pending_event *e);
+ void drm_send_event_timestamp_locked(struct drm_device *dev,
+ 				     struct drm_pending_event *e,
+ 				     ktime_t timestamp);
++void drm_show_fdinfo(struct seq_file *m, struct file *f);
+ 
+ struct file *mock_drm_getfile(struct drm_minor *minor, unsigned int flags);
+ 
 -- 
 2.37.2
 
