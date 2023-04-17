@@ -2,66 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16AFE6E4AC2
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Apr 2023 16:06:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C5CC6E4AF5
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Apr 2023 16:10:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4D08F10E526;
-	Mon, 17 Apr 2023 14:06:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E49CE10E2E5;
+	Mon, 17 Apr 2023 14:10:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CDD6210E526
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Apr 2023 14:06:03 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 662D521A28;
- Mon, 17 Apr 2023 14:06:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1681740361; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=5mUuxKymXhjOKakNWGIOxAW/7IlZKVWPSwdxH/XYD7c=;
- b=bFUAWa4exGrR+N0addrueDBSgLX0ve+bCGYg/IKFn5+7SrbnI6c5aa9Rn5XF0eHFU2ZrJG
- LYzXpojKnoGJ37gzsenvW0afCThgZHsIdaT2GFS7i40Y01lZHs3H/uS8hgVQT//VPbESF+
- A66u7bWR2mGI3kAbb5uRvleBhgDVeMk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1681740361;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=5mUuxKymXhjOKakNWGIOxAW/7IlZKVWPSwdxH/XYD7c=;
- b=n2ZcJ+P3x0YzYgvk4eZMTuLaYuGGr06Hvxf/42v+GDGMp6HNh2QXqkUcOpCKbVHSM1mFg7
- CS4gVq+XSTtN/PBQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id DFD0E13319;
- Mon, 17 Apr 2023 14:06:00 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id SSNHNUhSPWRGBgAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Mon, 17 Apr 2023 14:06:00 +0000
-Message-ID: <132f1185-d61f-b8c7-8d6e-4e4280a1a4ad@suse.de>
-Date: Mon, 17 Apr 2023 16:06:00 +0200
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 44EBC10E07C;
+ Mon, 17 Apr 2023 14:10:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1681740634; x=1713276634;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=YXao0Y1mlgkXgxIiX0P3t1OzKW+v0FkIvOH0kfXVX2Y=;
+ b=ML23VdU3MtAeovqUoRhWjVRDkYYpFOQriqfs896DcgVqmbhpz7yfy5di
+ /F92BHeSOvo9C0+qhkqwwSyBFGq+HI9J93DrAfqmMMet+JiFVIeyBauuK
+ QZf8SZkpdaBDi3KwCZJ6leHmM3CrKvORMsnJCofY54emxsGD85qQPAMgI
+ mJS1GE0Rs8xygsBOvoOKxKKqElDmYkRNQop4+z8rao47XGPZAMDySfnGB
+ jawI3QBEzQiAqLdAtMBEyn7ahAjcWKL65aQA6KAuF4KuvqVkQeJZzCDh0
+ PDDtDInSOt62kblPKavOQxF4W24ErKezOzEyyTYzUtEUQcldkqH0wweOt w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10683"; a="344898570"
+X-IronPort-AV: E=Sophos;i="5.99,204,1677571200"; d="scan'208";a="344898570"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Apr 2023 07:06:56 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10683"; a="640965833"
+X-IronPort-AV: E=Sophos;i="5.99,204,1677571200"; d="scan'208";a="640965833"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+ by orsmga003.jf.intel.com with ESMTP; 17 Apr 2023 07:06:52 -0700
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1poPVG-000cQH-2A;
+ Mon, 17 Apr 2023 14:06:46 +0000
+Date: Mon, 17 Apr 2023 22:06:21 +0800
+From: kernel test robot <lkp@intel.com>
+To: Mark Yacoub <markyacoub@chromium.org>, Rob Clark <robdclark@gmail.com>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Sean Paul <sean@poorly.run>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [Intel-gfx] [PATCH v9 10/10] drm/msm: Implement HDCP 1.x using
+ the new drm HDCP helpers
+Message-ID: <202304172130.pXI8PgGX-lkp@intel.com>
+References: <20230411192134.508113-11-markyacoub@google.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH v3 16/19] arch/sh: Implement <asm/fb.h> with generic
- helpers
-Content-Language: en-US
-To: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>, arnd@arndb.de,
- daniel.vetter@ffwll.ch, deller@gmx.de, javierm@redhat.com,
- gregkh@linuxfoundation.org
-References: <20230417125651.25126-1-tzimmermann@suse.de>
- <20230417125651.25126-17-tzimmermann@suse.de>
- <3c188e948506dc97112dcc070cf16e36209c6cc5.camel@physik.fu-berlin.de>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <3c188e948506dc97112dcc070cf16e36209c6cc5.camel@physik.fu-berlin.de>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------GRLvBPfqMPOps21m0NeYuHxf"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230411192134.508113-11-markyacoub@google.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,104 +64,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arch@vger.kernel.org, linux-fbdev@vger.kernel.org,
- Rich Felker <dalias@libc.org>, linux-ia64@vger.kernel.org,
- Yoshinori Sato <ysato@users.sourceforge.jp>, linux-parisc@vger.kernel.org,
- linux-sh@vger.kernel.org, x86@kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-mips@vger.kernel.org,
- linux-m68k@lists.linux-m68k.org, loongarch@lists.linux.dev,
- sparclinux@vger.kernel.org, linux-snps-arc@lists.infradead.org,
- linuxppc-dev@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org
+Cc: linux-kernel@vger.kernel.org, Mark Yacoub <markyacoub@chromium.org>,
+ intel-gfx@lists.freedesktop.org, dianders@chromium.org,
+ dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
+ seanpaul@chromium.org, oe-kbuild-all@lists.linux.dev,
+ freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------GRLvBPfqMPOps21m0NeYuHxf
-Content-Type: multipart/mixed; boundary="------------jOsx0SUaezXHVt7ObFmVoIUH";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>, arnd@arndb.de,
- daniel.vetter@ffwll.ch, deller@gmx.de, javierm@redhat.com,
- gregkh@linuxfoundation.org
-Cc: linux-arch@vger.kernel.org, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-snps-arc@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-ia64@vger.kernel.org, loongarch@lists.linux.dev,
- linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
- linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
- linux-sh@vger.kernel.org, sparclinux@vger.kernel.org, x86@kernel.org,
- Yoshinori Sato <ysato@users.sourceforge.jp>, Rich Felker <dalias@libc.org>
-Message-ID: <132f1185-d61f-b8c7-8d6e-4e4280a1a4ad@suse.de>
-Subject: Re: [PATCH v3 16/19] arch/sh: Implement <asm/fb.h> with generic
- helpers
-References: <20230417125651.25126-1-tzimmermann@suse.de>
- <20230417125651.25126-17-tzimmermann@suse.de>
- <3c188e948506dc97112dcc070cf16e36209c6cc5.camel@physik.fu-berlin.de>
-In-Reply-To: <3c188e948506dc97112dcc070cf16e36209c6cc5.camel@physik.fu-berlin.de>
+Hi Mark,
 
---------------jOsx0SUaezXHVt7ObFmVoIUH
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+kernel test robot noticed the following build errors:
 
-SGkNCg0KQW0gMTcuMDQuMjMgdW0gMTU6MDIgc2NocmllYiBKb2huIFBhdWwgQWRyaWFuIEds
-YXViaXR6Og0KPiBIaSBUaG9tYXMhDQo+IA0KPiBPbiBNb24sIDIwMjMtMDQtMTcgYXQgMTQ6
-NTYgKzAyMDAsIFRob21hcyBaaW1tZXJtYW5uIHdyb3RlOg0KPj4gUmVwbGFjZSB0aGUgYXJj
-aGl0ZWN0dXJlJ3MgZmJkZXYgaGVscGVycyB3aXRoIHRoZSBnZW5lcmljDQo+PiBvbmVzIGZy
-b20gPGFzbS1nZW5lcmljL2ZiLmg+LiBObyBmdW5jdGlvbmFsIGNoYW5nZXMuDQo+Pg0KPj4g
-djI6DQo+PiAJKiB1c2UgZGVmYXVsdCBpbXBsZW1lbnRhdGlvbiBmb3IgZmJfcGdwcm90ZWN0
-KCkgKEFybmQpDQo+Pg0KPj4gU2lnbmVkLW9mZi1ieTogVGhvbWFzIFppbW1lcm1hbm4gPHR6
-aW1tZXJtYW5uQHN1c2UuZGU+DQo+PiBDYzogWW9zaGlub3JpIFNhdG8gPHlzYXRvQHVzZXJz
-LnNvdXJjZWZvcmdlLmpwPg0KPj4gQ2M6IFJpY2ggRmVsa2VyIDxkYWxpYXNAbGliYy5vcmc+
-DQo+PiBDYzogSm9obiBQYXVsIEFkcmlhbiBHbGF1Yml0eiA8Z2xhdWJpdHpAcGh5c2lrLmZ1
-LWJlcmxpbi5kZT4NCj4+IC0tLQ0KPj4gICBhcmNoL3NoL2luY2x1ZGUvYXNtL2ZiLmggfCAx
-NSArLS0tLS0tLS0tLS0tLS0NCj4+ICAgMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCsp
-LCAxNCBkZWxldGlvbnMoLSkNCj4+DQo+PiBkaWZmIC0tZ2l0IGEvYXJjaC9zaC9pbmNsdWRl
-L2FzbS9mYi5oIGIvYXJjaC9zaC9pbmNsdWRlL2FzbS9mYi5oDQo+PiBpbmRleCA5YTBiY2Ey
-Njg2ZmQuLjE5ZGYxM2VlOWNhNyAxMDA2NDQNCj4+IC0tLSBhL2FyY2gvc2gvaW5jbHVkZS9h
-c20vZmIuaA0KPj4gKysrIGIvYXJjaC9zaC9pbmNsdWRlL2FzbS9mYi5oDQo+PiBAQCAtMiwx
-OSArMiw2IEBADQo+PiAgICNpZm5kZWYgX0FTTV9GQl9IXw0KPj4gICAjZGVmaW5lIF9BU01f
-RkJfSF8NCj4+ICAgDQo+PiAtI2luY2x1ZGUgPGxpbnV4L2ZiLmg+DQo+PiAtI2luY2x1ZGUg
-PGxpbnV4L2ZzLmg+DQo+PiAtI2luY2x1ZGUgPGFzbS9wYWdlLmg+DQo+PiAtDQo+PiAtc3Rh
-dGljIGlubGluZSB2b2lkIGZiX3BncHJvdGVjdChzdHJ1Y3QgZmlsZSAqZmlsZSwgc3RydWN0
-IHZtX2FyZWFfc3RydWN0ICp2bWEsDQo+PiAtCQkJCXVuc2lnbmVkIGxvbmcgb2ZmKQ0KPj4g
-LXsNCj4+IC0Jdm1hLT52bV9wYWdlX3Byb3QgPSBwZ3Byb3Rfd3JpdGVjb21iaW5lKHZtYS0+
-dm1fcGFnZV9wcm90KTsNCj4+IC19DQo+IA0KPiBMb29raW5nIGF0IHRoZSBtYWNybyBpbiBh
-c20tZ2VuZXJpYy9mYi5oLCBmYl9wZ3Byb3RlY3QoKSBpcyBiZWluZyByZXBsYWNlZCB3aXRo
-DQo+IGEgbm8tb3AgZnVuY3Rpb24uIElzIHRoYXQgaW50ZW50aW9uYWw/IENhbiB5b3UgYnJp
-ZWZseSBleHBsYWluIHRoZSBiYWNrZ3JvdW5kDQo+IGZvciB0aGlzIGNoYW5nZT8NCg0KUGF0
-Y2ggMDEgb2YgdGhpcyBwYXRjaHNldCBjaGFuZ2VzIHRoZSBnZW5lcmljIGZiX3BncHJvdGVj
-dCgpIHRvIHNldCANCnBncHJvdF93cml0ZWNvbWJpbmUoKS4gU28gb24gU0gsIHRoZXJlIHNo
-b3VsZCBiZSBubyBjaGFuZ2UgYXQgYWxsLg0KDQpCZXN0IHJlZ2FyZHMNClRob21hcw0KDQo+
-IA0KPj4gLXN0YXRpYyBpbmxpbmUgaW50IGZiX2lzX3ByaW1hcnlfZGV2aWNlKHN0cnVjdCBm
-Yl9pbmZvICppbmZvKQ0KPj4gLXsNCj4+IC0JcmV0dXJuIDA7DQo+PiAtfQ0KPj4gKyNpbmNs
-dWRlIDxhc20tZ2VuZXJpYy9mYi5oPg0KPj4gICANCj4+ICAgI2VuZGlmIC8qIF9BU01fRkJf
-SF8gKi8NCj4gDQo+IFRoYW5rcywNCj4gQWRyaWFuDQo+IA0KDQotLSANClRob21hcyBaaW1t
-ZXJtYW5uDQpHcmFwaGljcyBEcml2ZXIgRGV2ZWxvcGVyDQpTVVNFIFNvZnR3YXJlIFNvbHV0
-aW9ucyBHZXJtYW55IEdtYkgNCk1heGZlbGRzdHIuIDUsIDkwNDA5IE7DvHJuYmVyZywgR2Vy
-bWFueQ0KKEhSQiAzNjgwOSwgQUcgTsO8cm5iZXJnKQ0KR2VzY2jDpGZ0c2bDvGhyZXI6IEl2
-byBUb3Rldg0K
+[auto build test ERROR on drm-intel/for-linux-next-fixes]
+[also build test ERROR on linus/master v6.3-rc7]
+[cannot apply to drm-tip/drm-tip drm-misc/drm-misc-next drm-intel/for-linux-next drm/drm-next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
---------------jOsx0SUaezXHVt7ObFmVoIUH--
+url:    https://github.com/intel-lab-lkp/linux/commits/Mark-Yacoub/drm-hdcp-Add-drm_hdcp_atomic_check/20230412-032412
+base:   git://anongit.freedesktop.org/drm-intel for-linux-next-fixes
+patch link:    https://lore.kernel.org/r/20230411192134.508113-11-markyacoub%40google.com
+patch subject: [Intel-gfx] [PATCH v9 10/10] drm/msm: Implement HDCP 1.x using the new drm HDCP helpers
+config: loongarch-randconfig-r015-20230417 (https://download.01.org/0day-ci/archive/20230417/202304172130.pXI8PgGX-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/93651da28f1a578d2edab2d2b47d9935145d675f
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Mark-Yacoub/drm-hdcp-Add-drm_hdcp_atomic_check/20230412-032412
+        git checkout 93651da28f1a578d2edab2d2b47d9935145d675f
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=loongarch olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=loongarch SHELL=/bin/bash drivers/gpu/drm/msm/
 
---------------GRLvBPfqMPOps21m0NeYuHxf
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202304172130.pXI8PgGX-lkp@intel.com/
 
------BEGIN PGP SIGNATURE-----
+All errors (new ones prefixed by >>):
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmQ9UkgFAwAAAAAACgkQlh/E3EQov+CT
-dxAAlaeZyea9oxbjHET7y9S9z07PiGslCvB1B9EMC4ni/lgz7L6gx7STXzzpd5ONJWiY7auM2WAN
-t3hqR7Dzuw6zSaOSaI8cC2ea0BqmRqB9Kp5PsHVHfeDd+ttE3hfeeLb+UDY0tbe0RZQfOL0elv34
-caKqb0i3LzJ+6khaquE0KFN8zvATCMTtsKourTtuC6g7r+ZmSLRM3j1NT5kAahgAelYHHuFXPakP
-k1cXqj1GgFzFh61UACffWRXCEhxGkN837BkWsB2JDolMRXCnU6v1+hjopS+Q+feiYpFKdI7/92qy
-mwkMLfHZx6vruJaZYOPyGP7eqA+kXZ62Qrs5quhoG1/gtJhjCnMYdlgcH/oCUpWL3SloQQHlq3BG
-bzaOYloNOGEEGrFroFyE0aMYMIKipcKiYCCdHK0mDn3om+hBaGQnCbcl2Ee+RtfjM7IsJjz8R82F
-xkdAvmr99dYQdvJq6BvElO6D2k4M6XPucghD8jW9+kiZKdTz4p8q5Y7iY/b5eXbozEhrcAj8zsM2
-2Cfv8zmqbUCfOiasUAXCtsHeZ0rC49nLHlF4UdJF9N6KIVCxwwLhKeojr0Y8fd/tSL26bxFH209G
-hUHBENKZ4zwpXWSHyhLDzs5fIWo4wAAM13/2OVhgT8W1anIX0riForyhNb4EO+FVbdBZIIMyj+8u
-sMs=
-=sWM8
------END PGP SIGNATURE-----
+>> drivers/gpu/drm/msm/msm_atomic.c:12:10: fatal error: dp_drm.h: No such file or directory
+      12 | #include "dp_drm.h"
+         |          ^~~~~~~~~~
+   compilation terminated.
 
---------------GRLvBPfqMPOps21m0NeYuHxf--
+
+vim +12 drivers/gpu/drm/msm/msm_atomic.c
+
+    11	
+  > 12	#include "dp_drm.h"
+    13	#include "msm_atomic_trace.h"
+    14	#include "msm_drv.h"
+    15	#include "msm_gem.h"
+    16	#include "msm_kms.h"
+    17	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
