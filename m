@@ -2,66 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 086F76E46DE
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Apr 2023 13:54:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C655B6E46E4
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Apr 2023 13:55:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 31E1F10E463;
-	Mon, 17 Apr 2023 11:54:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CCD0810E466;
+	Mon, 17 Apr 2023 11:55:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 78E0A10E463
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Apr 2023 11:54:14 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id C548C21A4A;
- Mon, 17 Apr 2023 11:54:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1681732452; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=seBtqa2MvCsisDOd9YNWm0x+EnP+1UCUGTeC9Mmglgg=;
- b=QIYE6cimxpfTa/cKx33ptlCRtu9C9r0pPHGIlpGsz/kSRyRmN/nIjTtSIhiRD/pL2AJJ1a
- x+s1K1RT0STJJI9sAnscXb/4wh1gViP2zfLTr1fAAvXT+62TfYlHvPqwTI5BVsgpiTtPHL
- ePeFTt8bzPRbEaIMx3l8cSSZ6Sas8TI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1681732452;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=seBtqa2MvCsisDOd9YNWm0x+EnP+1UCUGTeC9Mmglgg=;
- b=ZEWbTTVF8cC4Af9+C9wdoJA39zBfyrWKPnh6QY/hMbUf07+tTJ22e5INxO5dkXt+P+JRhh
- T8bI5ueQnu8KeTCg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 8819A13319;
- Mon, 17 Apr 2023 11:54:12 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id CwBVIGQzPWTONwAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Mon, 17 Apr 2023 11:54:12 +0000
-Message-ID: <1a46142f-b7bc-d11f-1ad2-7433aafd0976@suse.de>
-Date: Mon, 17 Apr 2023 13:54:12 +0200
+Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com
+ [IPv6:2607:f8b0:4864:20::1032])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0223010E466
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Apr 2023 11:55:42 +0000 (UTC)
+Received: by mail-pj1-x1032.google.com with SMTP id
+ l9-20020a17090a3f0900b0023d32684e7fso13952494pjc.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Apr 2023 04:55:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1681732542; x=1684324542;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=8rqDdbdrZCzvlXd4a22A9799gLzxZLsBm6lXLdNfBVE=;
+ b=a14fK1OGxrvNNDA/XUSfo1+sVGVXYCltmoxv1yGssHviautywCV9WIy8qTBrTOtwn7
+ Bn2b+w2y8sJF+MbAiVBakeGlHzDTRSyUhq1Lez6MAwiV5uDMYqtz1O8CRMa1/g8pxTVw
+ 7E+Eg26pEm6b/uyldi4np+5N0pR5ZwEJlObtzDE/YTuu3lidY1n3bykdyA0D9C33DmIF
+ ljVsKTyojP9PXRGmGZOl1DoqAH7giwirLU/FGBeayEe39/7tTZbpYbG5TRXaN0m1lIWu
+ 2YUn3CjNG9F5lvjLZ3Hw/rocILl37UFJDLF21qXtJlNia8WjQqkLmeiMkF1Hg4c7l0eU
+ Qtog==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1681732542; x=1684324542;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=8rqDdbdrZCzvlXd4a22A9799gLzxZLsBm6lXLdNfBVE=;
+ b=AtPUtpumcUW19ayzAkWb8JrwJwud38IwYtr6eHIeXhoR6Gg6xlpHyj89cRFhphcbxr
+ sXORnvfRV9OK/uFRHNBMAzZ2QeUcC+EzayJxkxYpm0OzgjM9saOvmFyW6AC0I5ThgU5h
+ VhBgIaZBR1gMOVDW/zL5Vuxh4fjFy6AajrJuf5sJgwY2eXuu3U1oEGDmjJ6uKrhd3JYb
+ ad8PvZn5AtCUDs/9D9KHMhRnswS2XjYSQhYNqBdxU2sSPnl15vfuyvVgQbvZeuVUgNH9
+ ldXS1Q1Hpzql42xtZiZ6XXBm7CG8e12cjzpxbYKBECEtXYUU3b043iXqoXjBx4cgoLIi
+ Nycw==
+X-Gm-Message-State: AAQBX9dpOukz+ZnydPN1u79Z098pYi8+NZlUtlABhuObVkvcZ7uNXG18
+ Lwd4HAsI/f+fCVGBbFrdSzqSW2TETEmjqrNPpJA=
+X-Google-Smtp-Source: AKy350baawu9bmwbhWT2eXLVvgeX/QhHTudbit/tukXKk/4Q7k7cnZy8r0cfM5NMDYYtOv0q48q2L9MYdT2Pere3xho=
+X-Received: by 2002:a17:902:7793:b0:1a6:54c6:9428 with SMTP id
+ o19-20020a170902779300b001a654c69428mr3352631pll.3.1681732541765; Mon, 17 Apr
+ 2023 04:55:41 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH v3] drm/fbdev-generic: prohibit potential out-of-bounds
- access
-Content-Language: en-US
-To: Sui Jingfeng <suijingfeng@loongson.cn>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Li Yi <liyi@loongson.cn>,
- Helge Deller <deller@gmx.de>, Lucas De Marchi <lucas.demarchi@intel.com>
-References: <20230417113219.1354078-1-suijingfeng@loongson.cn>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <20230417113219.1354078-1-suijingfeng@loongson.cn>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------APO00WSf8RVAKDBuCNqXIP9l"
+References: <20230415104104.5537-1-aford173@gmail.com>
+ <3e47f0d1017fe4c9f71a5de65f32c6ba1662efe2.camel@pengutronix.de>
+In-Reply-To: <3e47f0d1017fe4c9f71a5de65f32c6ba1662efe2.camel@pengutronix.de>
+From: Adam Ford <aford173@gmail.com>
+Date: Mon, 17 Apr 2023 06:55:30 -0500
+Message-ID: <CAHCN7xL4+9NogrnXA1PEWorwY7JpSGBozDtHT83JvzjfinmS+A@mail.gmail.com>
+Subject: Re: [PATCH 1/6] drm: bridge: samsung-dsim: Support multi-lane
+ calculations
+To: Lucas Stach <l.stach@pengutronix.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,123 +70,132 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: loongson-kernel@lists.loongnix.cn, linux-fbdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>, aford@beaconembedded.com,
+ dri-devel@lists.freedesktop.org,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ m.szyprowski@samsung.com, marex@denx.de, Robert Foss <rfoss@kernel.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Jagan Teki <jagan@amarulasolutions.com>, NXP Linux Team <linux-imx@nxp.com>,
+ devicetree@vger.kernel.org, Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Jonas Karlman <jonas@kwiboo.se>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Rob Herring <robh+dt@kernel.org>, linux-arm-kernel@lists.infradead.org,
+ Neil Armstrong <neil.armstrong@linaro.org>, linux-kernel@vger.kernel.org,
+ Shawn Guo <shawnguo@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------APO00WSf8RVAKDBuCNqXIP9l
-Content-Type: multipart/mixed; boundary="------------w289ehKlxbP1df468BandQ6F";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Sui Jingfeng <suijingfeng@loongson.cn>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Li Yi <liyi@loongson.cn>,
- Helge Deller <deller@gmx.de>, Lucas De Marchi <lucas.demarchi@intel.com>
-Cc: loongson-kernel@lists.loongnix.cn, linux-fbdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
-Message-ID: <1a46142f-b7bc-d11f-1ad2-7433aafd0976@suse.de>
-Subject: Re: [PATCH v3] drm/fbdev-generic: prohibit potential out-of-bounds
- access
-References: <20230417113219.1354078-1-suijingfeng@loongson.cn>
-In-Reply-To: <20230417113219.1354078-1-suijingfeng@loongson.cn>
+On Mon, Apr 17, 2023 at 3:43=E2=80=AFAM Lucas Stach <l.stach@pengutronix.de=
+> wrote:
+>
+> Hi Adam,
+>
+> Am Samstag, dem 15.04.2023 um 05:40 -0500 schrieb Adam Ford:
+> > If there is more than one lane, the HFP, HBP, and HSA is calculated in
+> > bytes/pixel, then they are divided amongst the different lanes with som=
+e
+> > additional overhead. This is necessary to achieve higher resolutions wh=
+ile
+> > keeping the pixel clocks lower as the number of lanes increase.
+> >
+>
+> In the testing I did to come up with my patch "drm: bridge: samsung-
+> dsim: fix blanking packet size calculation" the number of lanes didn't
+> make any difference. My testing might be flawed, as I could only
+> measure the blanking after translation from MIPI DSI to DPI, so I'm
+> interested to know what others did here. How did you validate the
+> blanking with your patch? Would you have a chance to test my patch and
+> see if it works or breaks in your setup?
 
---------------w289ehKlxbP1df468BandQ6F
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+Mine was purely by trial and error.  I don't have a scope, nor do I
+have a copy of the MIPI DSI spec, so if the image sync'd with my
+monitor, I treated it as successful.
 
-SGkNCg0KQW0gMTcuMDQuMjMgdW0gMTM6MzIgc2NocmllYiBTdWkgSmluZ2Zlbmc6DQo+IFRo
-ZSBmYmRldiB0ZXN0IG9mIElHVCBtYXkgd3JpdGUgYWZ0ZXIgRU9GLCB3aGljaCBsZWFkIHRv
-IG91dC1vZi1ib3VuZA0KPiBhY2Nlc3MgZm9yIHRoZSBkcm0gZHJpdmVycyB1c2luZyBmYmRl
-di1nZW5lcmljLiBGb3IgZXhhbXBsZSwgb24gYSB4ODYNCj4gKyBhc3BlZWQgYm1jIGNhcmQg
-cGxhdGZvcm0sIHdpdGggYSAxNjgweDEwNTAgcmVzb2x1dGlvbiBkaXNwbGF5LCBydW5uaW5n
-DQo+IGZiZGV2IHRlc3QgaWYgSUdUIHdpbGwgY2F1c2UgdGhlIGxpbnV4IGtlcm5lbCBoYW5n
-IHdpdGggdGhlIGZvbGxvd2luZw0KPiBjYWxsIHRyYWNlOg0KPiANCj4gICAgT29wczogMDAw
-MCBbIzFdIFBSRUVNUFQgU01QIFBUSQ0KPiAgICBbSUdUXSBmYmRldjogc3RhcnRpbmcgc3Vi
-dGVzdCBlb2YNCj4gICAgV29ya3F1ZXVlOiBldmVudHMgZHJtX2ZiX2hlbHBlcl9kYW1hZ2Vf
-d29yayBbZHJtX2ttc19oZWxwZXJdDQo+ICAgIFtJR1RdIGZiZGV2OiBzdGFydGluZyBzdWJ0
-ZXN0IG51bGxwdHINCj4gDQo+ICAgIFJJUDogMDAxMDptZW1jcHlfZXJtcysweGEvMHgyMA0K
-PiAgICBSU1A6IDAwMTg6ZmZmZmExN2Q0MDE2N2Q5OCBFRkxBR1M6IDAwMDEwMjQ2DQo+ICAg
-IFJBWDogZmZmZmExN2Q0ZWI3ZmE4MCBSQlg6IGZmZmZhMTdkNDBlMGFhODAgUkNYOiAwMDAw
-MDAwMDAwMDAxNGMwDQo+ICAgIFJEWDogMDAwMDAwMDAwMDAwMWE0MCBSU0k6IGZmZmZhMTdk
-NDBlMGIwMDAgUkRJOiBmZmZmYTE3ZDRlYjgwMDAwDQo+ICAgIFJCUDogZmZmZmExN2Q0MDE2
-N2UyMCBSMDg6IDAwMDAwMDAwMDAwMDAwMDAgUjA5OiBmZmZmODk1MjJlY2ZmOGMwDQo+ICAg
-IFIxMDogZmZmZmExN2Q0ZTRjNTAwMCBSMTE6IDAwMDAwMDAwMDAwMDAwMDAgUjEyOiBmZmZm
-YTE3ZDRlYjdmYTgwDQo+ICAgIFIxMzogMDAwMDAwMDAwMDAwMWE0MCBSMTQ6IDAwMDAwMDAw
-MDAwMDA0MWEgUjE1OiBmZmZmYTE3ZDQwMTY3ZTMwDQo+ICAgIEZTOiAgMDAwMDAwMDAwMDAw
-MDAwMCgwMDAwKSBHUzpmZmZmODk1MjU3MzgwMDAwKDAwMDApIGtubEdTOjAwMDAwMDAwMDAw
-MDAwMDANCj4gICAgQ1M6ICAwMDEwIERTOiAwMDAwIEVTOiAwMDAwIENSMDogMDAwMDAwMDA4
-MDA1MDAzMw0KPiAgICBDUjI6IGZmZmZhMTdkNDBlMGIwMDAgQ1IzOiAwMDAwMDAwMWVhZWNh
-MDA2IENSNDogMDAwMDAwMDAwMDE3MDZlMA0KPiAgICBDYWxsIFRyYWNlOg0KPiAgICAgPFRB
-U0s+DQo+ICAgICA/IGRybV9mYmRldl9nZW5lcmljX2hlbHBlcl9mYl9kaXJ0eSsweDIwNy8w
-eDMzMCBbZHJtX2ttc19oZWxwZXJdDQo+ICAgICBkcm1fZmJfaGVscGVyX2RhbWFnZV93b3Jr
-KzB4OGYvMHgxNzAgW2RybV9rbXNfaGVscGVyXQ0KPiAgICAgcHJvY2Vzc19vbmVfd29yaysw
-eDIxZi8weDQzMA0KPiAgICAgd29ya2VyX3RocmVhZCsweDRlLzB4M2MwDQo+ICAgICA/IF9f
-cGZ4X3dvcmtlcl90aHJlYWQrMHgxMC8weDEwDQo+ICAgICBrdGhyZWFkKzB4ZjQvMHgxMjAN
-Cj4gICAgID8gX19wZnhfa3RocmVhZCsweDEwLzB4MTANCj4gICAgIHJldF9mcm9tX2Zvcmsr
-MHgyYy8weDUwDQo+ICAgICA8L1RBU0s+DQo+ICAgIENSMjogZmZmZmExN2Q0MGUwYjAwMA0K
-PiAgICAtLS1bIGVuZCB0cmFjZSAwMDAwMDAwMDAwMDAwMDAwIF0tLS0NCj4gDQo+IFRoZSBk
-aXJlY3QgcmVhc29uIGlzIHRoYXQgZGFtYWdlIHJlY3RhbmdlIGNvbXB1dGVkIGJ5DQo+IGRy
-bV9mYl9oZWxwZXJfbWVtb3J5X3JhbmdlX3RvX2NsaXAoKSBkb2VzIG5vdCBndWFyYW50ZWVk
-IHRvIGJlIGluLWJvdW5kLg0KPiBJdCBpcyBhbHJlYWR5IHJlc3VsdHMgaW4gd29ya2Fyb3Vu
-ZCBjb2RlIHBvcHVsYXRlIHRvIGVsc2V3aGVyZS4gQW5vdGhlcg0KPiByZWFzb24gaXMgdGhh
-dCBleHBvc2luZyBhIGxhcmdlciBidWZmZXIgc2l6ZSB0aGFuIHRoZSBhY3R1YWwgbmVlZGVk
-IGhlbHANCj4gdG8gdHJpZ2dlciB0aGlzIGJ1ZyBpbnRyaW5zaWMgaW4gZHJtX2ZiX2hlbHBl
-cl9tZW1vcnlfcmFuZ2VfdG9fY2xpcCgpLg0KPiANCj4gT3RoZXJzIGZiZGV2IGVtdWxhdGlv
-biBzb2x1dGlvbnMgd3JpdGUgdG8gdGhlIEdFTSBidWZmZXIgZGlyZWN0bHksIHRoZXkNCj4g
-d29uJ3QgcmVwcm9kdWNlIHRoaXMgYnVnIGJlY2F1c2UgdGhlIC5mYl9kaXJ0eSBmdW5jdGlv
-biBjYWxsYmFjayBkbyBub3QNCj4gYmVpbmcgaG9va2VkLCBzbyBubyBjaGFuY2UgaXMgZ2l2
-ZW4gdG8gZHJtX2ZiX2hlbHBlcl9tZW1vcnlfcmFuZ2VfdG9fY2xpcCgpDQo+IHRvIGdlbmVy
-YXRlIGEgb3V0LW9mLWJvdW5kIHdoZW4gZHJtX2ZiX2hlbHBlcl9zeXNfd3JpdGUoKSBpcyBj
-YWxsZWQuDQo+IA0KPiBUaGlzIHBhdGNoIGJyZWFrIHRoZSB0cmlnZ2VyIGNvbmRpdGlvbiBv
-ZiB0aGlzIGJ1ZyBieSBzaHJpbmtpbmcgdGhlIHNoYWRvdw0KPiBidWZmZXIgc2l6ZSB0byBz
-aXplcy0+c3VyZmFjZV9oZWlnaHQgKiBidWZmZXItPmZiLT5waXRjaGVzWzBdLg0KPiANCj4g
-Rml4ZXM6ICc4ZmJjOWFmNTVkZTAgKCJkcm0vZmJkZXYtZ2VuZXJpYzogU2V0IHNjcmVlbiBz
-aXplIHRvIHNpemUgb2YgR0VNDQo+IGJ1ZmZlciIpJw0KPiANCj4gU2lnbmVkLW9mZi1ieTog
-U3VpIEppbmdmZW5nIDxzdWlqaW5nZmVuZ0Bsb29uZ3Nvbi5jbj4NCj4gLS0tDQo+ICAgZHJp
-dmVycy9ncHUvZHJtL2RybV9mYmRldl9nZW5lcmljLmMgfCAyICstDQo+ICAgMSBmaWxlIGNo
-YW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pDQo+IA0KPiBkaWZmIC0tZ2l0
-IGEvZHJpdmVycy9ncHUvZHJtL2RybV9mYmRldl9nZW5lcmljLmMgYi9kcml2ZXJzL2dwdS9k
-cm0vZHJtX2ZiZGV2X2dlbmVyaWMuYw0KPiBpbmRleCA4ZTUxNDhiZjQwYmIuLmIwNTdjZmJi
-YTkzOCAxMDA2NDQNCj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2RybV9mYmRldl9nZW5lcmlj
-LmMNCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2RybV9mYmRldl9nZW5lcmljLmMNCj4gQEAg
-LTk0LDcgKzk0LDcgQEAgc3RhdGljIGludCBkcm1fZmJkZXZfZ2VuZXJpY19oZWxwZXJfZmJf
-cHJvYmUoc3RydWN0IGRybV9mYl9oZWxwZXIgKmZiX2hlbHBlciwNCj4gICAJZmJfaGVscGVy
-LT5idWZmZXIgPSBidWZmZXI7DQo+ICAgCWZiX2hlbHBlci0+ZmIgPSBidWZmZXItPmZiOw0K
-PiAgIA0KPiAtCXNjcmVlbl9zaXplID0gYnVmZmVyLT5nZW0tPnNpemU7DQo+ICsJc2NyZWVu
-X3NpemUgPSBzaXplcy0+c3VyZmFjZV9oZWlnaHQgKiBidWZmZXItPmZiLT5waXRjaGVzWzBd
-Ow0KUmV2aWV3ZWQtYnk6IFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRl
-Pg0KDQpUaGFua3MgYSBsb3QgZm9yIHRoZSBidWdmaXguDQoNCkJlc3QgcmVnYXJkcw0KVGhv
-bWFzDQoNCj4gICAJc2NyZWVuX2J1ZmZlciA9IHZ6YWxsb2Moc2NyZWVuX3NpemUpOw0KPiAg
-IAlpZiAoIXNjcmVlbl9idWZmZXIpIHsNCj4gICAJCXJldCA9IC1FTk9NRU07DQoNCi0tIA0K
-VGhvbWFzIFppbW1lcm1hbm4NCkdyYXBoaWNzIERyaXZlciBEZXZlbG9wZXINClNVU0UgU29m
-dHdhcmUgU29sdXRpb25zIEdlcm1hbnkgR21iSA0KTWF4ZmVsZHN0ci4gNSwgOTA0MDkgTsO8
-cm5iZXJnLCBHZXJtYW55DQooSFJCIDM2ODA5LCBBRyBOw7xybmJlcmcpDQpHZXNjaMOkZnRz
-ZsO8aHJlcjogSXZvIFRvdGV2DQo=
+I can give yours a try, but it might be a few days since I've only
+been working on this stuff a bit in my spare time.
 
---------------w289ehKlxbP1df468BandQ6F--
+adam
 
---------------APO00WSf8RVAKDBuCNqXIP9l
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmQ9M2QFAwAAAAAACgkQlh/E3EQov+Ba
-ug/+J3K85UkSdAkcKHawzQNvwpgdAsMi3SeFWz6+Wr7CVt9Vd3HwhO9cYIBKOPzvbMtcEA2LS1cB
-u0KnxAbytpjQ8g7UhnN/AtfdKkagj8f8UxgtXQ40YYhjASsrbyXsMWoULio+zD8scx/jztIB6R7q
-aJtwYKTpjc5mYI8fJmTt1Cj8w6L9UM8ZEiFajDH84RuwSaEQKfhgZcuxko3tM67rd2Ota4KT1wP2
-z1VoERvX5CPvi/kF0X+pEGGR9TNbkcNAb2aNgSbVecj5qngxD66vVmcKqlKYxZCRz7l3R1R39wAP
-lecK9xpNPOlmhn52/NnpRbeQG65we68/ndijBAABfChP+wzkCNO2WPvJYwMubwhZjIAP/G/ZlXE8
-Y83kQ1teQLKfxZGZYp5ll80pDrg4TrUVnxKadVCqgZItxx0fRRC4qQbMq5e4wwbZ+Y/CoZfrOaNW
-eCPtyeJM+G982mONSpnXRBV3GbP4qNVr0fzIEGsGzKZTmDoZfWhEGXRcrzRTXaFINntpbswhibau
-HfGkIyQqNmWS4YlsREVflK+68fUUDoG809lr/OzR9AVtegmtFC8VPnNejLscFO1S+smSq8fy3QzL
-DibvMhLcaLYDrhIAWz613tR7Hk2sa0U6hficLFj4YzotVhlSVUrhcRNSa/qgmBR1coLkJZEaTsJu
-j60=
-=rMEV
------END PGP SIGNATURE-----
-
---------------APO00WSf8RVAKDBuCNqXIP9l--
+>
+> Regards,
+> Lucas
+>
+> > Signed-off-by: Adam Ford <aford173@gmail.com>
+> > ---
+> >  drivers/gpu/drm/bridge/samsung-dsim.c | 40 +++++++++++++++++++++++----
+> >  1 file changed, 34 insertions(+), 6 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/bridge/samsung-dsim.c b/drivers/gpu/drm/br=
+idge/samsung-dsim.c
+> > index e0a402a85787..1ccbad4ea577 100644
+> > --- a/drivers/gpu/drm/bridge/samsung-dsim.c
+> > +++ b/drivers/gpu/drm/bridge/samsung-dsim.c
+> > @@ -215,6 +215,7 @@
+> >  #define DSI_RX_FIFO_SIZE             256
+> >  #define DSI_XFER_TIMEOUT_MS          100
+> >  #define DSI_RX_FIFO_EMPTY            0x30800002
+> > +#define DSI_HSYNC_PKT_OVERHEAD       6
+> >
+> >  #define OLD_SCLK_MIPI_CLK_NAME               "pll_clk"
+> >
+> > @@ -879,13 +880,40 @@ static void samsung_dsim_set_display_mode(struct =
+samsung_dsim *dsi)
+> >                       | DSIM_MAIN_VBP(m->vtotal - m->vsync_end);
+> >               samsung_dsim_write(dsi, DSIM_MVPORCH_REG, reg);
+> >
+> > -             reg =3D DSIM_MAIN_HFP(m->hsync_start - m->hdisplay)
+> > -                     | DSIM_MAIN_HBP(m->htotal - m->hsync_end);
+> > -             samsung_dsim_write(dsi, DSIM_MHPORCH_REG, reg);
+> > +             /*
+> > +              * If there is more than one lane, the HFP, HBP, and HSA
+> > +              * is calculated in bytes/pixel, then they are divided
+> > +              * amongst the different lanes with some additional
+> > +              * overhead correction
+> > +              */
+> > +             if (dsi->lanes > 1) {
+> > +                     u32 hfp, hbp, hsa;
+> > +                     int bpp =3D mipi_dsi_pixel_format_to_bpp(dsi->for=
+mat) / 8;
+> > +
+> > +                     hfp =3D ((m->hsync_start - m->hdisplay) * bpp) / =
+dsi->lanes;
+> > +                     hfp -=3D (hfp > DSI_HSYNC_PKT_OVERHEAD) ? DSI_HSY=
+NC_PKT_OVERHEAD : 0;
+> > +
+> > +                     hbp =3D ((m->htotal - m->hsync_end) * bpp) / dsi-=
+>lanes;
+> > +                     hbp -=3D (hbp > DSI_HSYNC_PKT_OVERHEAD) ? DSI_HSY=
+NC_PKT_OVERHEAD : 0;
+> >
+> > -             reg =3D DSIM_MAIN_VSA(m->vsync_end - m->vsync_start)
+> > -                     | DSIM_MAIN_HSA(m->hsync_end - m->hsync_start);
+> > -             samsung_dsim_write(dsi, DSIM_MSYNC_REG, reg);
+> > +                     hsa =3D ((m->hsync_end - m->hsync_start) * bpp) /=
+ dsi->lanes;
+> > +                     hsa -=3D (hsa > DSI_HSYNC_PKT_OVERHEAD) ? DSI_HSY=
+NC_PKT_OVERHEAD : 0;
+> > +
+> > +                     reg =3D DSIM_MAIN_HFP(hfp) | DSIM_MAIN_HBP(hbp);
+> > +                     samsung_dsim_write(dsi, DSIM_MHPORCH_REG, reg);
+> > +
+> > +                     reg =3D DSIM_MAIN_VSA(m->vsync_end - m->vsync_sta=
+rt)
+> > +                             | DSIM_MAIN_HSA(hsa);
+> > +                     samsung_dsim_write(dsi, DSIM_MSYNC_REG, reg);
+> > +             } else {
+> > +                     reg =3D DSIM_MAIN_HFP(m->hsync_start - m->hdispla=
+y)
+> > +                             | DSIM_MAIN_HBP(m->htotal - m->hsync_end)=
+;
+> > +                     samsung_dsim_write(dsi, DSIM_MHPORCH_REG, reg);
+> > +
+> > +                     reg =3D DSIM_MAIN_VSA(m->vsync_end - m->vsync_sta=
+rt)
+> > +                             | DSIM_MAIN_HSA(m->hsync_end - m->hsync_s=
+tart);
+> > +                     samsung_dsim_write(dsi, DSIM_MSYNC_REG, reg);
+> > +             }
+> >       }
+> >       reg =3D  DSIM_MAIN_HRESOL(m->hdisplay, num_bits_resol) |
+> >               DSIM_MAIN_VRESOL(m->vdisplay, num_bits_resol);
+>
