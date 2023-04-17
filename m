@@ -2,47 +2,103 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B9EC6E443B
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Apr 2023 11:45:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2ADE6E44C8
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Apr 2023 12:06:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2AA4010E3CD;
-	Mon, 17 Apr 2023 09:45:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1724C10E3D3;
+	Mon, 17 Apr 2023 10:06:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D034F10E3CD
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Apr 2023 09:45:19 +0000 (UTC)
-Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <sha@pengutronix.de>)
- id 1poLQC-0005sy-RR; Mon, 17 Apr 2023 11:45:16 +0200
-Received: from sha by ptx.hi.pengutronix.de with local (Exim 4.92)
- (envelope-from <sha@pengutronix.de>)
- id 1poLQC-00080t-D4; Mon, 17 Apr 2023 11:45:16 +0200
-Date: Mon, 17 Apr 2023 11:45:16 +0200
-From: Sascha Hauer <s.hauer@pengutronix.de>
-To: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Subject: Re: [PATCH] drm/rockchip: vop2: fix suspend/resume
-Message-ID: <20230417094516.GM15436@pengutronix.de>
-References: <20230413144347.3506023-1-s.hauer@pengutronix.de>
- <64381f5b.050a0220.1533e.41e2@mx.google.com>
- <ZDlhGv0seSoxFlJ5@aptenodytes>
+Received: from mailout4.samsung.com (mailout4.samsung.com [203.254.224.34])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0A89410E3D3
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Apr 2023 10:06:29 +0000 (UTC)
+Received: from epcas1p3.samsung.com (unknown [182.195.41.47])
+ by mailout4.samsung.com (KnoxPortal) with ESMTP id
+ 20230417100627epoutp04ff0c5132824d9139ee216d2c3e8776c1~WsOAAvWbd1907119071epoutp04m
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Apr 2023 10:06:26 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com
+ 20230417100627epoutp04ff0c5132824d9139ee216d2c3e8776c1~WsOAAvWbd1907119071epoutp04m
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1681725987;
+ bh=N4bRYS978WWbvi4Td8kqC5I4IZs8S6hpZPe0OT27u+0=;
+ h=From:To:Cc:Subject:Date:References:From;
+ b=oJMJOplxahL1cnTGyUk4qLrhfktE9TotMNB+v+rhDkva6SXQuYhYy3DcMVLtJ1b+b
+ VwNIIUc7kDC34DPOwY+w2MSw9zBvXpSSX2D4U2vBcNHq7mvTNCn+YYwjAyli8/ldF2
+ 0rn7DxIOxiUE2Hu66SAelMGCccpkN6ZyCb/3ElOc=
+Received: from epsnrtp2.localdomain (unknown [182.195.42.163]) by
+ epcas1p4.samsung.com (KnoxPortal) with ESMTP id
+ 20230417100626epcas1p4e1da91fdfdff6990b7c7b43717765a1c~WsN-lGpk80682806828epcas1p4W;
+ Mon, 17 Apr 2023 10:06:26 +0000 (GMT)
+Received: from epsmges1p2.samsung.com (unknown [182.195.36.132]) by
+ epsnrtp2.localdomain (Postfix) with ESMTP id 4Q0N4K1N7mz4x9Py; Mon, 17 Apr
+ 2023 10:06:25 +0000 (GMT)
+Received: from epcas1p2.samsung.com ( [182.195.41.46]) by
+ epsmges1p2.samsung.com (Symantec Messaging Gateway) with SMTP id
+ F8.95.09668.12A1D346; Mon, 17 Apr 2023 19:06:25 +0900 (KST)
+Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
+ epcas1p3.samsung.com (KnoxPortal) with ESMTPA id
+ 20230417100624epcas1p3d39ab3b88da18da0b365d67ad1062086~WsN_EEzZ31051010510epcas1p3b;
+ Mon, 17 Apr 2023 10:06:24 +0000 (GMT)
+Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
+ epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
+ 20230417100624epsmtrp28ad4a60101cc3657a563b183df403a94~WsN_DVVjo1396513965epsmtrp2d;
+ Mon, 17 Apr 2023 10:06:24 +0000 (GMT)
+X-AuditID: b6c32a36-8cbff700000025c4-6a-643d1a21c493
+Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
+ epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+ A8.E5.08279.02A1D346; Mon, 17 Apr 2023 19:06:24 +0900 (KST)
+Received: from localhost.localdomain (unknown [10.113.221.211]) by
+ epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
+ 20230417100624epsmtip204cb14f9eac1089e33da00535a2e9041~WsN96j7Ep1489214892epsmtip2e;
+ Mon, 17 Apr 2023 10:06:24 +0000 (GMT)
+From: Inki Dae <inki.dae@samsung.com>
+To: airlied@linux.ie, daniel@ffwll.ch
+Subject: [GIT PULL v2] exynos-drm-next
+Date: Mon, 17 Apr 2023 19:06:24 +0900
+Message-Id: <20230417100624.35229-1-inki.dae@samsung.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZDlhGv0seSoxFlJ5@aptenodytes>
-X-Sent-From: Pengutronix Hildesheim
-X-URL: http://www.pengutronix.de/
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
-X-SA-Exim-Mail-From: sha@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+Content-Transfer-Encoding: 8bit
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrHKsWRmVeSWpSXmKPExsWy7bCmnq6ilG2KwelzHBa9504yWfzfNpHZ
+ 4srX92wWM87vY3Jg8dj7bQGLx/ZvD1g97ncfZ/L4vEkugCUq2yYjNTEltUghNS85PyUzL91W
+ yTs43jne1MzAUNfQ0sJcSSEvMTfVVsnFJ0DXLTMHaKWSQlliTilQKCCxuFhJ386mKL+0JFUh
+ I7+4xFYptSAlp8C0QK84Mbe4NC9dLy+1xMrQwMDIFKgwITvjwMIG9oIZfBWn3naxNzB+4O5i
+ 5OSQEDCR+Lh6H3sXIxeHkMAORokVTT+hnE+MEj3bW5ggnG+MEpt23GKEaTm7+gNU1V5GiT2n
+ 70M5Xxgl+mZNZgapYhNQlZi44j4biC0CZL+d9BgszizgJvFn6VkWEFtYQE1i06X7TCA2C1DN
+ 33ONYHFeAUuJyfveM0Fsk5eYeek7O0RcUOLkzCcsEHPkJZq3zmYGWSwhsIldorvlF9R5LhIL
+ z+yDsoUlXh3fwg5hS0l8freXDaJhMqPEnesrWCCcGYwSh39eh+owlti/dDLQag6gFZoS63fp
+ Q4QVJXb+nssIsZlP4t3XHlaQEgkBXomONiGIEiWJYxdvQE2RkLiwZCIbhO0hseNVK9gzQgKx
+ EsvWfWGfwCg/C8k/s5D8Mwth8QJG5lWMYqkFxbnpqcWGBUbweE3Oz93ECE54WmY7GCe9/aB3
+ iJGJg/EQowQHs5II7xlXqxQh3pTEyqrUovz4otKc1OJDjKbAEJ7ILCWanA9MuXkl8YYmlgYm
+ ZkbGJhaGZoZK4rxfnmqnCAmkJ5akZqemFqQWwfQxcXBKNTC1/zH/JjInuLh3Rpru6ja2HXM+
+ mMboN4QWnj2zssrU3eDwHYnS3ey7ol5dKvEQ3/dnMu+vCSKPd/gs9issMV5zMXvFyUlCizY+
+ m56yZ9fxoKbHywqvrrZyKl1x4q1BVcUx4ytNfus937Z8uJ+hcGOZ6kp3+Vy/rZ93CnffZN9i
+ cMYpcMW/V18uX1keML2iy3fhPE1dGelbh/iu2N7L141M+OLq59tb8OLBb43E+6bW/hxcN8y9
+ M2XNDyqeYHio/f2HzoGMmsM9N+8mWcj/jUyKmzNX+Z9jd9yx61kflwc5H5l+VvWk4eKnIke0
+ wsz431WLsplGHvvzv53FoW0FB3v9KdXvi5XzWg57dU2dv0JEiaU4I9FQi7moOBEAyy+8rgEE
+ AAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprJLMWRmVeSWpSXmKPExsWy7bCSvK6ClG2Kwf1dJha9504yWfzfNpHZ
+ 4srX92wWM87vY3Jg8dj7bQGLx/ZvD1g97ncfZ/L4vEkugCWKyyYlNSezLLVI3y6BK+PAwgb2
+ ghl8FafedrE3MH7g7mLk5JAQMJE4u/oDexcjF4eQwG5GiQV9/YxdjBxACQmJLVs5IExhicOH
+ iyFKPjFK/Pm8ngWkl01AVWLiivtsILaIgLrEg8sLGUFsZgEPifd7VrOD2MICahKbLt1nArFZ
+ gOr/nmsE6+UVsJSYvO89E8QN8hIzL31nh4gLSpyc+YQFYo68RPPW2cwTGPlmIUnNQpJawMi0
+ ilEytaA4Nz232LDAMC+1XK84Mbe4NC9dLzk/dxMjOPS0NHcwbl/1Qe8QIxMH4yFGCQ5mJRHe
+ M65WKUK8KYmVValF+fFFpTmpxYcYpTlYlMR5L3SdjBcSSE8sSc1OTS1ILYLJMnFwSjUwTd2o
+ M8dXTeyKlv7uu4+2MJba+yYZPPtwXK3b+thptZfznthstP9Vm/JyQVuc4d3CtU5pfNXG06at
+ LDAr2iDscSAvKYA9uDiuaCW/8+l1/xqzN56o+bXA7YzT+uDwVenmwizvS9okztR8Tot9d+Kt
+ ZVb3h/Bbh+MNts+JjFW8ZPrXgK1DI0F4ieq+G30cGswbJsqV7J2+fGLsLfErsy78eez9+PBV
+ 5aN2geLbJD0bmHo//jW8VHKvuXUvm/p1iz1qBt/c1+9P8zMLnHb1fvWvU8GnNzPOmfdluui5
+ /NP7LF7KWkYsfTzD9retMgtH1s+L+qxKyg/rb8do32CU4zm9+OuRoosVM6uldBfG+2z+ocRS
+ nJFoqMVcVJwIAMJ3j0GsAgAA
+X-CMS-MailID: 20230417100624epcas1p3d39ab3b88da18da0b365d67ad1062086
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-Sendblock-Type: SVC_REQ_APPROVE
+CMS-TYPE: 101P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20230417100624epcas1p3d39ab3b88da18da0b365d67ad1062086
+References: <CGME20230417100624epcas1p3d39ab3b88da18da0b365d67ad1062086@epcas1p3.samsung.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,76 +111,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?iso-8859-15?Q?K=F6ry?= Maincent <kory.maincent@bootlin.com>,
- Sandy Huang <hjc@rock-chips.com>, dri-devel@lists.freedesktop.org,
- Chris Morgan <macroalpha82@gmail.com>, linux-rockchip@lists.infradead.org,
- Michael Riesch <michael.riesch@wolfvision.net>, kernel@pengutronix.de,
- stable@vger.kernel.org
+Cc: linux-samsung-soc@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Apr 14, 2023 at 04:20:10PM +0200, Paul Kocialkowski wrote:
-> Hi,
-> 
-> On Thu 13 Apr 23, 10:27, Chris Morgan wrote:
-> > On Thu, Apr 13, 2023 at 04:43:47PM +0200, Sascha Hauer wrote:
-> > > During a suspend/resume cycle the VO power domain will be disabled and
-> > > the VOP2 registers will reset to their default values. After that the
-> > > cached register values will be out of sync and the read/modify/write
-> > > operations we do on the window registers will result in bogus values
-> > > written. Fix this by re-initializing the register cache each time we
-> > > enable the VOP2. With this the VOP2 will show a picture after a
-> > > suspend/resume cycle whereas without this the screen stays dark.
-> 
-> I was actually tracking the very same bug this week!
-> 
-> Thanks a lot for fixing this, it would certainly have taken me a while to
-> think about regmap cache maintenance. Good thinking :)
-> 
-> Your patch fixes the issue on my side but I have a suggestion below:
-> 
-> > > Fixes: 604be85547ce4 ("drm/rockchip: Add VOP2 driver")
-> > > Cc: stable@vger.kernel.org
-> > > Signed-off-by: Sascha Hauer <s.hauer@pengutronix.de>
-> > > ---
-> > >  drivers/gpu/drm/rockchip/rockchip_drm_vop2.c | 8 ++++++++
-> > >  1 file changed, 8 insertions(+)
-> > > 
-> > > diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-> > > index ba3b817895091..d9daa686b014d 100644
-> > > --- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-> > > +++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-> > > @@ -215,6 +215,8 @@ struct vop2 {
-> > >  	struct vop2_win win[];
-> > >  };
-> > >  
-> > > +static const struct regmap_config vop2_regmap_config;
-> > > +
-> > >  static struct vop2_video_port *to_vop2_video_port(struct drm_crtc *crtc)
-> > >  {
-> > >  	return container_of(crtc, struct vop2_video_port, crtc);
-> > > @@ -839,6 +841,12 @@ static void vop2_enable(struct vop2 *vop2)
-> > >  		return;
-> > >  	}
-> > >  
-> > > +	ret = regmap_reinit_cache(vop2->map, &vop2_regmap_config);
-> > > +	if (ret) {
-> > > +		drm_err(vop2->drm, "failed to reinit cache: %d\n", ret);
-> > > +		return;
-> > > +	}
-> 
-> It seems that regmap has regcache_mark_dirty() for this purpose, which is
-> perhaps more adapted than reinitializing cache (unless I'm missing something).
-> Note that I haven't tested it at this point.
+Hi Dave and Daniel,
 
-I wasn't aware of this function. regcache_mark_dirty() alone is not
-enough, we need regcache_sync() as well. This looks better, I just sent
-a v2.
+   Sorry for late. Just one patch series which converts Exynos's fbdev code
+   to struct drm_client.
 
-Sascha
+Please let me know if there is any problem.
 
--- 
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+Thanks,
+Inki Dae
+
+The following changes since commit e82c98f2ca439356d5595ba8c9cd782f993f6f8c:
+
+  Merge tag 'amd-drm-next-6.4-2023-04-14' of https://gitlab.freedesktop.org/agd5f/linux into drm-next (2023-04-17 10:54:59 +1000)
+
+are available in the Git repository at:
+
+  git://git.kernel.org/pub/scm/linux/kernel/git/daeinki/drm-exynos tags/exynos-drm-next-for-v6.4-2
+
+for you to fetch changes up to 49953b70e7d38dd714f4cf22224e8a7ce14f3c48:
+
+  drm/exynos: Implement fbdev emulation as in-kernel client (2023-04-17 16:47:55 +0900)
+
+----------------------------------------------------------------
+A patch series for implementing fbdev emulation as in-kernel client.
+
+- This patch series refactors fbdev callbacks to DRM client functions and
+  simplifies fbdev emulation initialization including some code cleanups.
+  The changes make fbdev emulation behave like a regular DRM client.
+
+----------------------------------------------------------------
+Thomas Zimmermann (5):
+      drm/exynos: Remove exynos_gem from struct exynos_drm_fbdev
+      drm/exynos: Remove struct exynos_drm_fbdev
+      drm/exynos: Remove fb_helper from struct exynos_drm_private
+      drm/exynos: Initialize fbdev DRM client
+      drm/exynos: Implement fbdev emulation as in-kernel client
+
+ drivers/gpu/drm/exynos/exynos_drm_drv.c   |  13 +--
+ drivers/gpu/drm/exynos/exynos_drm_drv.h   |   2 -
+ drivers/gpu/drm/exynos/exynos_drm_fb.c    |   2 -
+ drivers/gpu/drm/exynos/exynos_drm_fbdev.c | 174 +++++++++++++++---------------
+ drivers/gpu/drm/exynos/exynos_drm_fbdev.h |  20 +---
+ 5 files changed, 94 insertions(+), 117 deletions(-)
