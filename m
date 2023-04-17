@@ -2,58 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D0DF6E4F74
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Apr 2023 19:42:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 195666E4F75
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Apr 2023 19:42:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1BCB110E588;
-	Mon, 17 Apr 2023 17:42:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 39EAE10E0D4;
+	Mon, 17 Apr 2023 17:42:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x2a.google.com (mail-oa1-x2a.google.com
- [IPv6:2001:4860:4864:20::2a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9D39510E0D4;
- Mon, 17 Apr 2023 17:42:28 +0000 (UTC)
-Received: by mail-oa1-x2a.google.com with SMTP id
- 586e51a60fabf-18782426c4bso18237563fac.9; 
- Mon, 17 Apr 2023 10:42:28 -0700 (PDT)
+Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com
+ [IPv6:2a00:1450:4864:20::32e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F16AE10E58D;
+ Mon, 17 Apr 2023 17:42:42 +0000 (UTC)
+Received: by mail-wm1-x32e.google.com with SMTP id
+ 5b1f17b1804b1-3f1738d0d4cso6328315e9.1; 
+ Mon, 17 Apr 2023 10:42:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1681753347; x=1684345347;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=4eNqP05voiY4cJzFVp4818baomQSBjqVrvQ3HutXj9Q=;
- b=I7RqE60/FDZvnlUc/Hc2zHsYwbfRunLUyH7Y5y9+f0ZuBug8YQxH6dI1R1KyXHAK20
- JHQS90XlbNAop7uekRzpuBxJx7IPTYyFORiJjn6eyUp2HqpYSi1/bKZ8/L1WrGBQzRlH
- eLPTGh8vyAflCCykXCLs+JW9MtnCkIJRw2jHB2uhMxlBmEeEn8Yl6nArIgbjM7+vDjiP
- en5GPd2ymIaq3cAMXxbFy3Xw9P06SIvyvyaDl8H0lb8qWs60WRnFmIh27gfS4evLcNCt
- 4bkFuKC/rZNY2hA80iMXpev2sjZDknHayl7h3V0v9JO2mR1bOZUSyBs0eqtWWnWSIX/K
- J7og==
+ d=gmail.com; s=20221208; t=1681753359; x=1684345359;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=oIDH6QLW9GMl0SUIgFXpcL60wep3vko9cwbetNFih7Q=;
+ b=hnZdPQ4bSnn7IM8OzetvjfY2BXRKa7KvAD32v0r1j4vHr6zQ/fo3vz25ufxSghM4FK
+ TGiF9r8hUN3SJJxjj1v+CEteYAcnl5jtnABWOmagTdog0heWPB6OpJHpH5OOwFSj48+1
+ IvLFwyylUzEuV/qqJGUF/i0plTiLfnFiw7ZppVPYaBqkUPJiEvd7M2wq05v3e8L+uOyf
+ qN16CUGNuettXdrR5t0SHdfyZGuIV4Yizs/zfk1brEtR2cO+DNnQJyjVlUXikNvRQHGO
+ LmVz54SWxenhz0ItD8BndOOMKVMN2ZGpM7xpQTuSRTs8yUoHTRHM1CrJ8mPR1E8f1Vsp
+ OfTg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681753347; x=1684345347;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ d=1e100.net; s=20221208; t=1681753359; x=1684345359;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=4eNqP05voiY4cJzFVp4818baomQSBjqVrvQ3HutXj9Q=;
- b=GenLT6PjGVoCX7PAyhe3/2ijx2wcQJb7hKZaBIcbs/0V2xSVV20npbTke+5JqcQboR
- kkFrTgpJwfFIZhxZEZHNcppgY1hMuVfvsE4uAmaF68qdLRh6qRzReEkodcS6PDr+P5DA
- 8Pi30n9ioxiINlKC3x1/4504bTaWN1wbUy8ov6vAin4LSKrnKZyyl9ATRwM0dREOEdWs
- 3a15B1STZdrCUsMwS/HeYfA2aSXZcPjxafcR9H0onGbMnaqVgZYSAl1ZUjK7LcE/CUSp
- d79ZT+HnkHE1TBZyjJx9QD7VeolfhEVfVkH5Pg5Lhg0O74PsmFqT4OoIrd247lk/5qcb
- 2QgQ==
-X-Gm-Message-State: AAQBX9flfh4SdvuF/EmGcqEAFbzf0qsluz6eulSQiV5beM33XPZonAKR
- LGG4GJKZ2AzkT9LpRbtmbqNNb+xzwBnrsbslsTJGPYHppp0=
-X-Google-Smtp-Source: AKy350YVVelr4MCDdF7/v07bFw6Y27tnHKCUjnzrNDgPiUPCHpOrE4KBzNFb2d3SbulgaaeBEDAAYxi4pvwCx8Dm/w4=
-X-Received: by 2002:a05:6870:40d3:b0:187:88f8:e9b5 with SMTP id
- l19-20020a05687040d300b0018788f8e9b5mr7094627oal.6.1681753347093; Mon, 17 Apr
- 2023 10:42:27 -0700 (PDT)
+ bh=oIDH6QLW9GMl0SUIgFXpcL60wep3vko9cwbetNFih7Q=;
+ b=OuicAMzOuiX28sjFB5aGZryedWz9br58PUYY0iISSjfxHh8mYfaJU8sPZYvyof7lCL
+ 5GauLLCU40g7f48iqPhm1hobLdhEtj2/jvgwrqDiACisAcPJ5Xd8z9gdrjDN48TRTLBv
+ eJR2y12+kMPEzdHcKpVZZq1jibp4ItWcXoijKfbdAh0qYFz3pGCOaYyo4w784n4vu9P6
+ J5TyzkuikMAyf60fC9lqiGhvPZpGvMbpInYLeUc7Mq8YpcRQTNrHPtdBbT98q9ozbopy
+ Py+W8xbs/8PnAgvsPg7pcoq8d7nWwkVaCcmKRpKg/Q8bWPbvEKVBT10bYoq+MIBVgd/j
+ nH7g==
+X-Gm-Message-State: AAQBX9cN8f7dWsdUaDMEHyOR1ep5neepBXLdjeUx02yCbqUKPgJUmxMp
+ v1eI4kR27Wfqaw60i+7F1/U=
+X-Google-Smtp-Source: AKy350aIJeioHbqYsZwsjs2wu7mqk/RIk0YjL7wRrWriUPu2VJKeMsMLs0JBPaKIE17WoXikYfOlwA==
+X-Received: by 2002:adf:f5c3:0:b0:2fb:be8b:133b with SMTP id
+ k3-20020adff5c3000000b002fbbe8b133bmr912525wrp.25.1681753359042; 
+ Mon, 17 Apr 2023 10:42:39 -0700 (PDT)
+Received: from localhost (cpc154979-craw9-2-0-cust193.16-3.cable.virginm.net.
+ [80.193.200.194]) by smtp.gmail.com with ESMTPSA id
+ x17-20020a5d4911000000b002e55cc69169sm11024585wrq.38.2023.04.17.10.42.38
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 17 Apr 2023 10:42:38 -0700 (PDT)
+From: Colin Ian King <colin.i.king@gmail.com>
+To: Evan Quan <evan.quan@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Xinhui.Pan@amd.com, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Subject: [PATCH][next] drm/amd/pm: Fix spelling mistake "aquire" -> "acquire"
+Date: Mon, 17 Apr 2023 18:42:37 +0100
+Message-Id: <20230417174237.52638-1-colin.i.king@gmail.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-References: <20230414143810.572237-1-l.stach@pengutronix.de>
-In-Reply-To: <20230414143810.572237-1-l.stach@pengutronix.de>
-From: Christian Gmeiner <christian.gmeiner@gmail.com>
-Date: Mon, 17 Apr 2023 19:42:15 +0200
-Message-ID: <CAH9NwWfAuyLenoQHHdSZb2O87HHxu53JziL6Ro05F6yHdnZ+8A@mail.gmail.com>
-Subject: Re: [PATCH] drm/etnaviv: fix dumping of active MMU context
-To: Lucas Stach <l.stach@pengutronix.de>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,87 +75,30 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel@pengutronix.de, patchwork-lst@pengutronix.de,
- etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Russell King <linux+etnaviv@armlinux.org.uk>
+Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Lucas
+There is a spelling mistake in the smu_i2c_bus_access prototype. Fix it.
 
->
-> gpu->mmu_context is the MMU context of the last job in the HW queue, which
-> isn't necessarily the same as the context from the bad job. Dump the MMU
-> context from the scheduler determined bad submit to make it work as intended.
->
+Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
+---
+ drivers/gpu/drm/amd/pm/powerplay/inc/hwmgr.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Good catch!
-
-> Fixes: 17e4660ae3d7 ("drm/etnaviv: implement per-process address spaces on MMUv2")
-> Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
-
-Reviewed-by: Christian Gmeiner <christian.gmeiner@gmail.com>
-
-> ---
->  drivers/gpu/drm/etnaviv/etnaviv_dump.c | 14 +++++++-------
->  1 file changed, 7 insertions(+), 7 deletions(-)
->
-> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_dump.c b/drivers/gpu/drm/etnaviv/etnaviv_dump.c
-> index 44b5f3c35aab..898f84a0fc30 100644
-> --- a/drivers/gpu/drm/etnaviv/etnaviv_dump.c
-> +++ b/drivers/gpu/drm/etnaviv/etnaviv_dump.c
-> @@ -130,9 +130,9 @@ void etnaviv_core_dump(struct etnaviv_gem_submit *submit)
->                 return;
->         etnaviv_dump_core = false;
->
-> -       mutex_lock(&gpu->mmu_context->lock);
-> +       mutex_lock(&submit->mmu_context->lock);
->
-> -       mmu_size = etnaviv_iommu_dump_size(gpu->mmu_context);
-> +       mmu_size = etnaviv_iommu_dump_size(submit->mmu_context);
->
->         /* We always dump registers, mmu, ring, hanging cmdbuf and end marker */
->         n_obj = 5;
-> @@ -162,7 +162,7 @@ void etnaviv_core_dump(struct etnaviv_gem_submit *submit)
->         iter.start = __vmalloc(file_size, GFP_KERNEL | __GFP_NOWARN |
->                         __GFP_NORETRY);
->         if (!iter.start) {
-> -               mutex_unlock(&gpu->mmu_context->lock);
-> +               mutex_unlock(&submit->mmu_context->lock);
->                 dev_warn(gpu->dev, "failed to allocate devcoredump file\n");
->                 return;
->         }
-> @@ -174,18 +174,18 @@ void etnaviv_core_dump(struct etnaviv_gem_submit *submit)
->         memset(iter.hdr, 0, iter.data - iter.start);
->
->         etnaviv_core_dump_registers(&iter, gpu);
-> -       etnaviv_core_dump_mmu(&iter, gpu->mmu_context, mmu_size);
-> +       etnaviv_core_dump_mmu(&iter, submit->mmu_context, mmu_size);
->         etnaviv_core_dump_mem(&iter, ETDUMP_BUF_RING, gpu->buffer.vaddr,
->                               gpu->buffer.size,
->                               etnaviv_cmdbuf_get_va(&gpu->buffer,
-> -                                       &gpu->mmu_context->cmdbuf_mapping));
-> +                                       &submit->mmu_context->cmdbuf_mapping));
->
->         etnaviv_core_dump_mem(&iter, ETDUMP_BUF_CMD,
->                               submit->cmdbuf.vaddr, submit->cmdbuf.size,
->                               etnaviv_cmdbuf_get_va(&submit->cmdbuf,
-> -                                       &gpu->mmu_context->cmdbuf_mapping));
-> +                                       &submit->mmu_context->cmdbuf_mapping));
->
-> -       mutex_unlock(&gpu->mmu_context->lock);
-> +       mutex_unlock(&submit->mmu_context->lock);
->
->         /* Reserve space for the bomap */
->         if (n_bomap_pages) {
-> --
-> 2.39.2
->
-
-
+diff --git a/drivers/gpu/drm/amd/pm/powerplay/inc/hwmgr.h b/drivers/gpu/drm/amd/pm/powerplay/inc/hwmgr.h
+index 5ce433e2c16a..f1580a26a850 100644
+--- a/drivers/gpu/drm/amd/pm/powerplay/inc/hwmgr.h
++++ b/drivers/gpu/drm/amd/pm/powerplay/inc/hwmgr.h
+@@ -359,7 +359,7 @@ struct pp_hwmgr_func {
+ 	int (*set_ppfeature_status)(struct pp_hwmgr *hwmgr, uint64_t ppfeature_masks);
+ 	int (*set_mp1_state)(struct pp_hwmgr *hwmgr, enum pp_mp1_state mp1_state);
+ 	int (*asic_reset)(struct pp_hwmgr *hwmgr, enum SMU_ASIC_RESET_MODE mode);
+-	int (*smu_i2c_bus_access)(struct pp_hwmgr *hwmgr, bool aquire);
++	int (*smu_i2c_bus_access)(struct pp_hwmgr *hwmgr, bool acquire);
+ 	int (*set_df_cstate)(struct pp_hwmgr *hwmgr, enum pp_df_cstate state);
+ 	int (*set_xgmi_pstate)(struct pp_hwmgr *hwmgr, uint32_t pstate);
+ 	int (*disable_power_features_for_compute_performance)(struct pp_hwmgr *hwmgr,
 -- 
-greets
---
-Christian Gmeiner, MSc
+2.30.2
 
-https://christian-gmeiner.info/privacypolicy
