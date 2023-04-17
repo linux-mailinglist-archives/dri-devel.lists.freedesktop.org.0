@@ -1,59 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 025126E4622
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Apr 2023 13:13:55 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6DCB76E4655
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Apr 2023 13:24:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B70CB10E071;
-	Mon, 17 Apr 2023 11:13:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BEF3310E41A;
+	Mon, 17 Apr 2023 11:24:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1998310E1FB
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Apr 2023 11:13:49 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 37F7661A5C;
- Mon, 17 Apr 2023 11:13:47 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BA362C433EF;
- Mon, 17 Apr 2023 11:13:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1681730026;
- bh=hL3HemzQu0W+VoN6r7QGvyo5bFw22rSL5CO9yDPgTQI=;
- h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
- b=FEU5PakWUXFe+jipb6I7mWm+415nA23wFN31d2OVyokyCIewMuA76TMpnHs4xEvEJ
- pxOR9E2OIZAK0cTcHOZ/QzhEOkrXBvjRHS6o6tBRuIiE1xdK1NFZR7kRvA9n+LPkzP
- ATumsY5Cadgh8XKFRLRpivlMvhO2kO7ElciBOO1C8UX3l/GcJc94MSh/WovAq/WKY3
- 8bxH17OfJ/Y2ZqNu22CnYv1dss9wolyfR0OQvWoNuJe3ETijKY3yQgwfnM3+39guaW
- qfRCd7dw5sp0tKPwIdzELsvkN5WDKZb6jlWr/AarvA5pmcBMrTVyf2rLOkxco252NG
- StPR0dvOujjLw==
-Message-ID: <308cc38532a8cc3f3ce45d26ee71570df26b3288.camel@kernel.org>
-Subject: Re: [PATCH] drm: make drm_dp_add_payload_part2 gracefully handle
- NULL state pointer
-From: Jeff Layton <jlayton@kernel.org>
-To: "Lin, Wayne" <Wayne.Lin@amd.com>, Jani Nikula
- <jani.nikula@linux.intel.com>,  Lyude Paul <lyude@redhat.com>, Alex Deucher
- <alexdeucher@gmail.com>
-Date: Mon, 17 Apr 2023 07:13:44 -0400
-In-Reply-To: <CO6PR12MB548998DE5E97B8EA9EB92AA6FC9C9@CO6PR12MB5489.namprd12.prod.outlook.com>
-References: <20230413111254.22458-1-jlayton@kernel.org>
- <87edooarpq.fsf@intel.com>
- <CADnq5_PVnYMSiKO77+cfg_V-tDKYkVJYN3qGNb1vhQO3QtXskA@mail.gmail.com>
- <CO6PR12MB5489044012B2A96639470F38FC999@CO6PR12MB5489.namprd12.prod.outlook.com>
- <4d8479f20ef30866fcf73f3602f1237376110764.camel@kernel.org>
- <878reug394.fsf@intel.com>
- <7a1b00f02b125bd65824b18ea09509efe3cf777d.camel@redhat.com>
- <874jpegao0.fsf@intel.com>
- <b99732f7c0dd968c0702ae7629695e8fb9cb573f.camel@kernel.org>
- <87leiqer8g.fsf@intel.com>
- <CO6PR12MB548998DE5E97B8EA9EB92AA6FC9C9@CO6PR12MB5489.namprd12.prod.outlook.com>
-Content-Type: text/plain; charset="ISO-8859-15"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.4 (3.46.4-1.fc37) 
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7013310E41A;
+ Mon, 17 Apr 2023 11:24:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1681730693; x=1713266693;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=dQdP2C0y13QjGPGlu8h5gpexTCLBs2TEofj4iMkHvbs=;
+ b=IuOusUPIqI0eCAhX3xcC993jz4FYVodiE0twOCfIMFKZI7YurSUk7wsU
+ ERW9SR+NvitmZ80Lj3CnYHu8zZxESLYBFQ0J12BbKIFvhMllTs5awbOAG
+ v9oQMJOJZCnjamy0mraok9zQN80oplJ1SvF6fktYFJFcsFj6+CSsLjSAG
+ PDKhnk9c0CkH2pRv1i0K1+7fztrN4NSMovFO6pvFhBWWhzPPauFMWKgO9
+ y9wKAoMX58Mu+e8Fzom2k0t2Jj3rQYRuaRrr3iVYiA7+nKVbALwCgZ3Bo
+ OV1CwLwWxSXqUXiAmW7czt5Z3VqlI+TnxXokMYWjYNHvV34CWJLNnpIfz w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10682"; a="325210114"
+X-IronPort-AV: E=Sophos;i="5.99,204,1677571200"; d="scan'208";a="325210114"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Apr 2023 04:24:51 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10682"; a="721081935"
+X-IronPort-AV: E=Sophos;i="5.99,204,1677571200"; d="scan'208";a="721081935"
+Received: from gtohallo-mobl.ger.corp.intel.com (HELO [10.213.232.210])
+ ([10.213.232.210])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Apr 2023 04:24:47 -0700
+Message-ID: <048d4dba-153f-5d32-75fc-d7e7144d1e9c@linux.intel.com>
+Date: Mon, 17 Apr 2023 12:24:45 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH v2 9/9] drm/i915: Use kmap_local_page() in
+ gem/i915_gem_execbuffer.c
+Content-Language: en-US
+To: Zhao Liu <zhao1.liu@linux.intel.com>
+References: <20230329073220.3982460-1-zhao1.liu@linux.intel.com>
+ <64265ef8725fe_375f7e294a@iweiny-mobl.notmuch>
+ <fdc8a470-1e6b-815d-e367-a9df1b0b14dd@linux.intel.com>
+ <2177327.1BCLMh4Saa@suse>
+ <1b341218-f0e2-a613-2ac6-107064a813ca@linux.intel.com>
+ <ZDku5SJhl2Ve51UC@liuzhao-OptiPlex-7080>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <ZDku5SJhl2Ve51UC@liuzhao-OptiPlex-7080>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,119 +68,84 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Deucher, Alexander" <Alexander.Deucher@amd.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Cc: dri-devel@lists.freedesktop.org,
+ =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
+ Zhenyu Wang <zhenyu.z.wang@intel.com>, intel-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Chris Wilson <chris@chris-wilson.co.uk>,
+ Matthew Auld <matthew.auld@intel.com>,
+ "Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Ira Weiny <ira.weiny@intel.com>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ Zhao Liu <zhao1.liu@intel.com>, Nirmoy Das <nirmoy.das@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 2023-04-17 at 10:58 +0000, Lin, Wayne wrote:
-> [AMD Official Use Only - General]
->=20
->=20
->=20
-> > -----Original Message-----
-> > From: Jani Nikula <jani.nikula@linux.intel.com>
-> > Sent: Monday, April 17, 2023 6:30 PM
-> > To: Jeff Layton <jlayton@kernel.org>; Lyude Paul <lyude@redhat.com>; Li=
-n,
-> > Wayne <Wayne.Lin@amd.com>; Alex Deucher <alexdeucher@gmail.com>
-> > Cc: David Airlie <airlied@gmail.com>; Daniel Vetter <daniel@ffwll.ch>;
-> > Deucher, Alexander <Alexander.Deucher@amd.com>; linux-
-> > kernel@vger.kernel.org; dri-devel@lists.freedesktop.org
-> > Subject: Re: [PATCH] drm: make drm_dp_add_payload_part2 gracefully
-> > handle NULL state pointer
-> >=20
-> > On Mon, 17 Apr 2023, Jeff Layton <jlayton@kernel.org> wrote:
-> > > On Mon, 2023-04-17 at 11:44 +0300, Jani Nikula wrote:
-> > > > On Fri, 14 Apr 2023, Lyude Paul <lyude@redhat.com> wrote:
-> > > > > On Fri, 2023-04-14 at 13:35 +0300, Jani Nikula wrote:
-> > > > > > On Fri, 14 Apr 2023, Jeff Layton <jlayton@kernel.org> wrote:
-> > > > > > > On Fri, 2023-04-14 at 04:40 +0000, Lin, Wayne wrote:
-> > > > > > > > [Public]
-> > > > > > > >=20
-> > > > > > > > Hi Jeff,
-> > > > > > > >=20
-> > > > > > > > Thanks. I might need more information to understand why we
-> > > > > > > > can't retrieve the drm atomic state. Also , "Failed to crea=
-te
-> > > > > > > > MST payload for port" indicates error while configuring DPC=
-D
-> > > > > > > > payload ID table. Could you help to provide log with KMS +
-> > ATOMIC + DP debug on please? Thanks in advance!
-> > > > > > > >=20
-> > > > > > > > Regards,
-> > > > > > > > Wayne
-> > > > > > > >=20
-> > > > > > >=20
-> > > > > > > Possibly. I'm not that familiar with display driver debugging=
-.
-> > > > > > > Can you send me some directions on how to crank up that sort =
-of
-> > debug logging?
-> > > > > > >=20
-> > > > > > > Note that this problem is _very_ intermittent too: I went abo=
-ut
-> > > > > > > 2 weeks between crashes, and then I got 3 in one day. I'd
-> > > > > > > rather not run with a lot of debug logging for a long time if
-> > > > > > > that's what this is going to require, as this is my main work=
-station.
-> > > > > > >=20
-> > > > > > > The last time I got this log message, my proposed patch did
-> > > > > > > prevent the box from oopsing, so I'd really like to see it go
-> > > > > > > in unless it's just categorically wrong for the caller to pas=
-s
-> > > > > > > down a NULL state pointer to drm_dp_add_payload_part2.
-> > > > > >=20
-> > > > > > Cc: Lyude.
-> > > > > >=20
-> > > > > > Looks like the state parameter was added in commit 4d07b0bc4034
-> > > > > > ("drm/display/dp_mst: Move all payload info into the atomic
-> > > > > > state") and its only use is to get at state->dev for debug logg=
-ing.
-> > > > > >=20
-> > > > > > What's the plan for the parameter? Surely something more than
-> > > > > > that! :)
-> > > > >=20
-> > > > > I don't think there was any plan for that, or at least I certainl=
-y
-> > > > > don't even remember adding that D:. It must totally have been by
-> > > > > mistake and snuck by review, if that's the only thing that we're
-> > > > > using it for I'd say it's definitely fine to just drop it entirel=
-y
-> > > >=20
-> > > > I guess we could use two patches then, first replace state->dev wit=
-h
-> > > > mgr->dev as something that can be backported as needed, and second
-> > > > mgr->drop
-> > > > the state parameter altogether.
-> > > >=20
-> > > > Jeff, up for it? At least the first one?
-> > > >=20
-> > > >=20
-> > > > BR,
-> > > > Jani.
-> > > >=20
-> > >=20
-> > > Sure. I'm happy to test patches if you send them along.
-> >=20
-> > I was hoping to lure you into sending patches. ;)
-> >=20
-> > Anyway, I'm not working on this.
-> >=20
-> >=20
-> Hi Jeff,
->=20
-> I probably know the root cause.=20
-> But it doesn't need to use the state in the end, I will just rely on the =
-patch=20
-> that Jani suggested to fix it. I can help to provide the patch later : )
->=20
->=20
 
-Sounds good. If you want to send me a patch to solve the root cause,
-I'll put it in the kernel with the other one I'm testing.
+On 14/04/2023 11:45, Zhao Liu wrote:
+> Hi Tvrtko,
+> 
+> On Wed, Apr 12, 2023 at 04:45:13PM +0100, Tvrtko Ursulin wrote:
+> 
+> [snip]
+> 
+>>>
+>>> [snip]
+>>>> However I am unsure if disabling pagefaulting is needed or not. Thomas,
+>>>> Matt, being the last to touch this area, perhaps you could have a look?
+>>>> Because I notice we have a fallback iomap path which still uses
+>>>> io_mapping_map_atomic_wc. So if kmap_atomic to kmap_local conversion is
+>>>> safe, does the iomap side also needs converting to
+>>>> io_mapping_map_local_wc? Or they have separate requirements?
+>>>
+>>> AFAIK, the requirements for io_mapping_map_local_wc() are the same as for
+>>> kmap_local_page(): the kernel virtual address is _only_ valid in the caller
+>>> context, and map/unmap nesting must be done in stack-based ordering (LIFO).
+>>>
+>>> I think a follow up patch could safely switch to io_mapping_map_local_wc() /
+>>> io_mapping_unmap_local_wc since the address is local to context.
+>>>
+>>> However, not being an expert, reading your note now I suspect that I'm missing
+>>> something. Can I ask why you think that page-faults disabling might be
+>>> necessary?
+>>
+>> I am not saying it is, was just unsure and wanted some people who worked on this code most recently to take a look and confirm.
+>>
+>> I guess it will work since the copying is done like this anyway:
+>>
+>> 		/*
+>> 		 * This is the fast path and we cannot handle a pagefault
+>> 		 * whilst holding the struct mutex lest the user pass in the
+>> 		 * relocations contained within a mmaped bo. For in such a case
+>> 		 * we, the page fault handler would call i915_gem_fault() and
+>> 		 * we would try to acquire the struct mutex again. Obviously
+>> 		 * this is bad and so lockdep complains vehemently.
+>> 		 */
+>> 		pagefault_disable();
+>> 		copied = __copy_from_user_inatomic(r, urelocs, count * sizeof(r[0]));
+>> 		pagefault_enable();
+>> 		if (unlikely(copied)) {
+>> 			remain = -EFAULT;
+>> 			goto out;
+>> 		}
+>>
+>> Comment is a bit outdated since we don't use that global "struct mutex" any longer, but in any case, if there is a page fault on the mapping where we need to recurse into i915 again to satisfy if, we seem to have code already to handle it. So kmap_local conversion I *think* can't regress anything.
+> 
+> Thanks for your explanation!
+> 
+>>
+>> Patch to convert the io_mapping_map_atomic_wc can indeed come later.
+> 
+> Okay, I will also look at this.
+> 
+>>
+>> In terms of logistics - if we landed this series to out branch it would be queued only for 6.5. Would that work for you?
+> 
+> Yeah, it's ok for me. But could I ask, did I miss the 6.4 merge time?
 
-Thanks,
---=20
-Jeff Layton <jlayton@kernel.org>
+Yes, but just because we failed to review and merge in time, not because 
+you did not provide patches in time.
+
+Regards,
+
+Tvrtko
+
