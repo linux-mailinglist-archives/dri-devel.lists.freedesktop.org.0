@@ -2,59 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DF2E6E5172
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Apr 2023 22:12:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E3AC46E5173
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Apr 2023 22:12:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3352E10E5C4;
-	Mon, 17 Apr 2023 20:12:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E5B5710E5B5;
+	Mon, 17 Apr 2023 20:12:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com
- [IPv6:2607:f8b0:4864:20::634])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BE8B810E5C0
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Apr 2023 20:12:21 +0000 (UTC)
-Received: by mail-pl1-x634.google.com with SMTP id o2so27131716plg.4
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Apr 2023 13:12:21 -0700 (PDT)
+Received: from mail-pl1-x62e.google.com (mail-pl1-x62e.google.com
+ [IPv6:2607:f8b0:4864:20::62e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BED7310E5C1;
+ Mon, 17 Apr 2023 20:12:24 +0000 (UTC)
+Received: by mail-pl1-x62e.google.com with SMTP id lh8so14162389plb.1;
+ Mon, 17 Apr 2023 13:12:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1681762341; x=1684354341;
+ d=gmail.com; s=20221208; t=1681762343; x=1684354343;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=ej3z4D3WVobAccpvmhuv3Nh2/6punBMVoSfBEUJKgo4=;
- b=bv/4/9J1xBpCyQrQ3rE0vcbUgiVloe5KwAdb9fX8xj9b2UVnnmHuReFmst53NVHhkY
- GPiVAcbTUPSmiXEOrbfgooMSoJscCMpE4h2McxWLJ5HiiSOL/4W9lQ4QdiQ0Vh9+soB6
- 6yDIKnSHBVf0Uc6QoKP8ODL4TGVnZoAe9ntP+hoVzeWEmRNe6LHQu6VkssWuC4B74Ucz
- nqN2K0BBqzEJ2h+rJfOyfhIo6H1DEM1crQRahjwDlkviymD91RAv+PK+m0XKLFEpCMtd
- +yk7FKcSuKWvYclnuZ96Ljwjz4Ya3kdSndDGQwLQYtK9Cr6FiGUgaXqoTf+wMsq0UGwH
- mw4g==
+ bh=tG6YslYBKkuazr2dWr4ftni9ZweXIehBqMaA0S88C5g=;
+ b=ranf+f0tP4Pb5Lh3n2WP/yUu2QmlnNs1+iNecDfUR5KzPGDF2bZRgZqk1mWXpHnHt5
+ LvjFfEz45tozCyPEEtQjKkO8d/GjRWICY4Hv4JwW6qTQHxWO9CZfLaHGX8p2r4CW9gPn
+ jMzksiwIj2fJfm/8vwU20S8sWgres5UTA5RA7TWq47jF1gyXHpo9quj4zTNbN3BzCa/u
+ opUoVSqp96ZbME/+aQRIHHBrCgoRQ4uAp9Giig/8md+Q4eWVzwdTzUdpfQWjKL0hFWnn
+ Vc3VUfTXzlPtTiL1SdnAxgrtE/Cl2UhuPJaDPjJVqT9V/wnujeoXWsWJHFu7pNrDbT3C
+ VwNw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681762341; x=1684354341;
+ d=1e100.net; s=20221208; t=1681762343; x=1684354343;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=ej3z4D3WVobAccpvmhuv3Nh2/6punBMVoSfBEUJKgo4=;
- b=DDoiZk/pO33t7CIJZFD9p7J8dlYLjx0dVvgvnmG3qPc0ZXiS4BOZewvznX5lNcjtVO
- NsZDSSN2/ahDYWPlQ5FDxhi6cQCQUtuGbc9JTQAr3FKEfYP0qI4oiujAbITQIG8WWAXC
- n4TCs0i1Xtb0ixlWLG93UAUPH35VmP4y23wdIgCzm/VJgWaFfRhA1cD1pkaqv5i2RBvu
- i1mxUvUk+XpQA1wvhn37S1CrUDzP7j3hc9I4rnDqAvAqqxqCIMcd8PFaH/rQhyKdQC/r
- RzRaVC9uL9GCW5QfHsWgMKXQojkQS+jCPN0iGTvUyojIzxceA5Cd2YVtg+ePQ9AjO1da
- jOhw==
-X-Gm-Message-State: AAQBX9c7XjMwrIzW7RmHFRsAxBJzOSTydWnxiGFkiL9kx92lvX3FUkkB
- 4PXjCsFNIs9tqJzTSZ43sqYMN97Er3g=
-X-Google-Smtp-Source: AKy350YrO9PkzbeVJN0Q7mkqoCr0Z37rCfFTBog9tkB0ua8p9S/C4LH91r5Vlo7znkRcSR1UUlLUbw==
-X-Received: by 2002:a05:6a20:7347:b0:ee:818a:3497 with SMTP id
- v7-20020a056a20734700b000ee818a3497mr14519687pzc.35.1681762340637; 
- Mon, 17 Apr 2023 13:12:20 -0700 (PDT)
+ bh=tG6YslYBKkuazr2dWr4ftni9ZweXIehBqMaA0S88C5g=;
+ b=k6Nd4Mn/FCn+ogVWQhOpQb8kSJ8f8u08AViAsDKVdPYWV2QDPaJsiQNHzhxxGgc2KQ
+ qpXH+E6tkMxelkmojv2ACkK+ppUGIIgY6DR6KemO3X5ehsd0htQSOf0RSFqzKjuwag+Q
+ mFc6PqQPVXqF4TSJcFyAbOj+hB6g88rZuIQFbXIV7DP+W7qe5mlQ8+zF4ozmSsDWmvoN
+ 4Ba82VIMaNBhtOo6tItWVtp7Dfmz3zf/Sx3QHYsmJd6jDyN+uZ6XtTRLzXDsAAIFXIiY
+ hlJNLlxt5Wttv/EaMbc723ubF+If6Vq+LvLaoqu+jTXcw3vREyvjcDzBXbvpu4uPbCkv
+ OB3g==
+X-Gm-Message-State: AAQBX9dXGXgrgXgZrz7ZorA1GnoA98B+rrCZQfsWVxTKJKuO2H84SRC0
+ Q8ZF3s/1ZhqvNBVo7FlNeZpsS+wtbbs=
+X-Google-Smtp-Source: AKy350Z897P0ebUOEGMZ5BJSTsfQqtu+SrNiRCFFaWIYGgI+O1qDjfMdnTtEGHt9vqVAg5JBSzDliQ==
+X-Received: by 2002:a17:902:82c5:b0:1a1:b11d:6af5 with SMTP id
+ u5-20020a17090282c500b001a1b11d6af5mr76812plz.52.1681762343629; 
+ Mon, 17 Apr 2023 13:12:23 -0700 (PDT)
 Received: from localhost ([2a00:79e1:abd:4a00:61b:48ed:72ab:435b])
  by smtp.gmail.com with ESMTPSA id
- r5-20020a635145000000b005186e562db0sm7337820pgl.82.2023.04.17.13.12.19
+ u19-20020a170902a61300b001a20b31a23fsm8094636plq.293.2023.04.17.13.12.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 Apr 2023 13:12:20 -0700 (PDT)
+ Mon, 17 Apr 2023 13:12:23 -0700 (PDT)
 From: Rob Clark <robdclark@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [RFC 1/3] drm/doc: Relax fdinfo string constraints
-Date: Mon, 17 Apr 2023 13:12:10 -0700
-Message-Id: <20230417201215.448099-2-robdclark@gmail.com>
+Subject: [RFC 2/3] drm/msm: Rework get_comm_cmdline() helper
+Date: Mon, 17 Apr 2023 13:12:11 -0700
+Message-Id: <20230417201215.448099-3-robdclark@gmail.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230417201215.448099-1-robdclark@gmail.com>
 References: <20230417201215.448099-1-robdclark@gmail.com>
@@ -74,116 +74,154 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Rob Clark <robdclark@chromium.org>,
  Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Jonathan Corbet <corbet@lwn.net>,
- "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+ Akhil P Oommen <quic_akhilpo@quicinc.com>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
  open list <linux-kernel@vger.kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <freedreno@lists.freedesktop.org>,
+ Sean Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Rob Clark <robdclark@chromium.org>
 
-The restriction about no whitespace, etc, really only applies to the
-usage of strings in keys.  Values can contain anything (other than
-newline).
+Make it work in terms of ctx so that it can be re-used for fdinfo.
 
 Signed-off-by: Rob Clark <robdclark@chromium.org>
 ---
- Documentation/gpu/drm-usage-stats.rst | 29 ++++++++++++++-------------
- 1 file changed, 15 insertions(+), 14 deletions(-)
+ drivers/gpu/drm/msm/adreno/adreno_gpu.c |  4 ++--
+ drivers/gpu/drm/msm/msm_drv.c           |  2 ++
+ drivers/gpu/drm/msm/msm_gpu.c           | 13 ++++++-------
+ drivers/gpu/drm/msm/msm_gpu.h           | 12 ++++++++++--
+ drivers/gpu/drm/msm/msm_submitqueue.c   |  1 +
+ 5 files changed, 21 insertions(+), 11 deletions(-)
 
-diff --git a/Documentation/gpu/drm-usage-stats.rst b/Documentation/gpu/drm-usage-stats.rst
-index 258bdcc8fb86..8e00d53231e0 100644
---- a/Documentation/gpu/drm-usage-stats.rst
-+++ b/Documentation/gpu/drm-usage-stats.rst
-@@ -24,7 +24,7 @@ File format specification
- - All keys shall be prefixed with `drm-`.
- - Whitespace between the delimiter and first non-whitespace character shall be
-   ignored when parsing.
--- Neither keys or values are allowed to contain whitespace characters.
-+- Keys are not allowed to contain whitespace characters.
- - Numerical key value pairs can end with optional unit string.
- - Data type of the value is fixed as defined in the specification.
+diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.c b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
+index bb38e728864d..43c4e1fea83f 100644
+--- a/drivers/gpu/drm/msm/adreno/adreno_gpu.c
++++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
+@@ -412,7 +412,7 @@ int adreno_set_param(struct msm_gpu *gpu, struct msm_file_private *ctx,
+ 		/* Ensure string is null terminated: */
+ 		str[len] = '\0';
  
-@@ -39,12 +39,13 @@ Data types
- ----------
+-		mutex_lock(&gpu->lock);
++		mutex_lock(&ctx->lock);
  
- - <uint> - Unsigned integer without defining the maximum value.
--- <str> - String excluding any above defined reserved characters or whitespace.
-+- <keystr> - String excluding any above defined reserved characters or whitespace.
-+- <valstr> - String.
+ 		if (param == MSM_PARAM_COMM) {
+ 			paramp = &ctx->comm;
+@@ -423,7 +423,7 @@ int adreno_set_param(struct msm_gpu *gpu, struct msm_file_private *ctx,
+ 		kfree(*paramp);
+ 		*paramp = str;
  
- Mandatory fully standardised keys
- ---------------------------------
+-		mutex_unlock(&gpu->lock);
++		mutex_unlock(&ctx->lock);
  
--- drm-driver: <str>
-+- drm-driver: <valstr>
+ 		return 0;
+ 	}
+diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
+index 3d73b98d6a9c..ca0e89e46e13 100644
+--- a/drivers/gpu/drm/msm/msm_drv.c
++++ b/drivers/gpu/drm/msm/msm_drv.c
+@@ -581,6 +581,8 @@ static int context_init(struct drm_device *dev, struct drm_file *file)
+ 	rwlock_init(&ctx->queuelock);
  
- String shall contain the name this driver registered as via the respective
- `struct drm_driver` data structure.
-@@ -69,10 +70,10 @@ scope of each device, in which case `drm-pdev` shall be present as well.
- Userspace should make sure to not double account any usage statistics by using
- the above described criteria in order to associate data to individual clients.
+ 	kref_init(&ctx->ref);
++	ctx->pid = get_pid(task_pid(current));
++	mutex_init(&ctx->lock);
+ 	msm_submitqueue_init(dev, ctx);
  
--- drm-engine-<str>: <uint> ns
-+- drm-engine-<keystr>: <uint> ns
+ 	ctx->aspace = msm_gpu_create_private_address_space(priv->gpu, current);
+diff --git a/drivers/gpu/drm/msm/msm_gpu.c b/drivers/gpu/drm/msm/msm_gpu.c
+index c403912d13ab..f0f4f845c32d 100644
+--- a/drivers/gpu/drm/msm/msm_gpu.c
++++ b/drivers/gpu/drm/msm/msm_gpu.c
+@@ -327,18 +327,17 @@ find_submit(struct msm_ringbuffer *ring, uint32_t fence)
  
- GPUs usually contain multiple execution engines. Each shall be given a stable
--and unique name (str), with possible values documented in the driver specific
-+and unique name (keystr), with possible values documented in the driver specific
- documentation.
+ static void retire_submits(struct msm_gpu *gpu);
  
- Value shall be in specified time units which the respective GPU engine spent
-@@ -84,16 +85,16 @@ larger value within a reasonable period. Upon observing a value lower than what
- was previously read, userspace is expected to stay with that larger previous
- value until a monotonic update is seen.
+-static void get_comm_cmdline(struct msm_gem_submit *submit, char **comm, char **cmd)
++static void get_comm_cmdline(struct msm_file_private *ctx, char **comm, char **cmd)
+ {
+-	struct msm_file_private *ctx = submit->queue->ctx;
+ 	struct task_struct *task;
  
--- drm-engine-capacity-<str>: <uint>
-+- drm-engine-capacity-<keystr>: <uint>
+-	WARN_ON(!mutex_is_locked(&submit->gpu->lock));
+-
+ 	/* Note that kstrdup will return NULL if argument is NULL: */
++	mutex_lock(&ctx->lock);
+ 	*comm = kstrdup(ctx->comm, GFP_KERNEL);
+ 	*cmd  = kstrdup(ctx->cmdline, GFP_KERNEL);
++	mutex_unlock(&ctx->lock);
  
- Engine identifier string must be the same as the one specified in the
--drm-engine-<str> tag and shall contain a greater than zero number in case the
-+drm-engine-<keystr> tag and shall contain a greater than zero number in case the
- exported engine corresponds to a group of identical hardware engines.
+-	task = get_pid_task(submit->pid, PIDTYPE_PID);
++	task = get_pid_task(ctx->pid, PIDTYPE_PID);
+ 	if (!task)
+ 		return;
  
- In the absence of this tag parser shall assume capacity of one. Zero capacity
- is not allowed.
+@@ -372,7 +371,7 @@ static void recover_worker(struct kthread_work *work)
+ 		if (submit->aspace)
+ 			submit->aspace->faults++;
  
--- drm-memory-<str>: <uint> [KiB|MiB]
-+- drm-memory-<keystr>: <uint> [KiB|MiB]
+-		get_comm_cmdline(submit, &comm, &cmd);
++		get_comm_cmdline(submit->queue->ctx, &comm, &cmd);
  
- Each possible memory type which can be used to store buffer objects by the
- GPU in question shall be given a stable and unique name to be returned as the
-@@ -126,10 +127,10 @@ The total size of buffers that are purgeable.
+ 		if (comm && cmd) {
+ 			DRM_DEV_ERROR(dev->dev, "%s: offending task: %s (%s)\n",
+@@ -460,7 +459,7 @@ static void fault_worker(struct kthread_work *work)
+ 		goto resume_smmu;
  
- The total size of buffers that are active on one or more rings.
+ 	if (submit) {
+-		get_comm_cmdline(submit, &comm, &cmd);
++		get_comm_cmdline(submit->queue->ctx, &comm, &cmd);
  
--- drm-cycles-<str>: <uint>
-+- drm-cycles-<keystr>: <uint>
+ 		/*
+ 		 * When we get GPU iova faults, we can get 1000s of them,
+diff --git a/drivers/gpu/drm/msm/msm_gpu.h b/drivers/gpu/drm/msm/msm_gpu.h
+index 7a4fa1b8655b..b2023a42116b 100644
+--- a/drivers/gpu/drm/msm/msm_gpu.h
++++ b/drivers/gpu/drm/msm/msm_gpu.h
+@@ -377,17 +377,25 @@ struct msm_file_private {
+ 	 */
+ 	int sysprof;
  
- Engine identifier string must be the same as the one specified in the
--drm-engine-<str> tag and shall contain the number of busy cycles for the given
-+drm-engine-<keystr> tag and shall contain the number of busy cycles for the given
- engine.
++	/** @pid: Process that opened this file. */
++	struct pid *pid;
++
++	/**
++	 * lock: Protects comm and cmdline
++	 */
++	struct mutex lock;
++
+ 	/**
+ 	 * comm: Overridden task comm, see MSM_PARAM_COMM
+ 	 *
+-	 * Accessed under msm_gpu::lock
++	 * Accessed under msm_file_private::lock
+ 	 */
+ 	char *comm;
  
- Values are not required to be constantly monotonic if it makes the driver
-@@ -138,12 +139,12 @@ larger value within a reasonable period. Upon observing a value lower than what
- was previously read, userspace is expected to stay with that larger previous
- value until a monotonic update is seen.
+ 	/**
+ 	 * cmdline: Overridden task cmdline, see MSM_PARAM_CMDLINE
+ 	 *
+-	 * Accessed under msm_gpu::lock
++	 * Accessed under msm_file_private::lock
+ 	 */
+ 	char *cmdline;
  
--- drm-maxfreq-<str>: <uint> [Hz|MHz|KHz]
-+- drm-maxfreq-<keystr>: <uint> [Hz|MHz|KHz]
+diff --git a/drivers/gpu/drm/msm/msm_submitqueue.c b/drivers/gpu/drm/msm/msm_submitqueue.c
+index 0e803125a325..0444ba04fa06 100644
+--- a/drivers/gpu/drm/msm/msm_submitqueue.c
++++ b/drivers/gpu/drm/msm/msm_submitqueue.c
+@@ -61,6 +61,7 @@ void __msm_file_private_destroy(struct kref *kref)
+ 	}
  
- Engine identifier string must be the same as the one specified in the
--drm-engine-<str> tag and shall contain the maximum frequency for the given
--engine.  Taken together with drm-cycles-<str>, this can be used to calculate
--percentage utilization of the engine, whereas drm-engine-<str> only reflects
-+drm-engine-<keystr> tag and shall contain the maximum frequency for the given
-+engine.  Taken together with drm-cycles-<keystr>, this can be used to calculate
-+percentage utilization of the engine, whereas drm-engine-<keystr> only reflects
- time active without considering what frequency the engine is operating as a
- percentage of it's maximum frequency.
- 
+ 	msm_gem_address_space_put(ctx->aspace);
++	put_pid(ctx->pid);
+ 	kfree(ctx->comm);
+ 	kfree(ctx->cmdline);
+ 	kfree(ctx);
 -- 
 2.39.2
 
