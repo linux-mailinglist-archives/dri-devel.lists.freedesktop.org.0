@@ -2,41 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E053C6E5390
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Apr 2023 23:04:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08AF46E5395
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Apr 2023 23:05:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8BCEA10E5E2;
-	Mon, 17 Apr 2023 21:04:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 10D9710E5FB;
+	Mon, 17 Apr 2023 21:05:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org
  [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3BA6A10E5E2
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Apr 2023 21:04:30 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F3A4D10E5FA;
+ Mon, 17 Apr 2023 21:05:29 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id BF1C3623E8;
- Mon, 17 Apr 2023 21:04:29 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 73BCAC433EF;
- Mon, 17 Apr 2023 21:04:26 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 4726A62203;
+ Mon, 17 Apr 2023 21:05:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 83730C433D2;
+ Mon, 17 Apr 2023 21:05:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1681765469;
- bh=GZ9K1KS6S92HXEymJH/1OOdscHLQ4pFpaD9szsRvRwI=;
+ s=k20201202; t=1681765528;
+ bh=52CmbMWSGGlcsW0V31cEnaaOdCM0vYFCDeDCtkUevl0=;
  h=From:To:Cc:Subject:Date:From;
- b=Mo1vyXUiSWYSoZmgfkUj9AByJ2RIWzLiJshkbOtVSzgczN3FkyWi0ow/UkYpN8MfD
- ZiCQxkeJa0y15kBA8mjl318g3vRRDB5SvhJ4dhwQvNQ/5kVpRIL9oRhW9e762nUjWI
- I5o7tirQ8G+gTV15nzmXSHdyZ9G2tXRvXs8Zd/gydjhNyy+4NEQ3OQhFoBvCRnCmUH
- rQMhc+GRkilTlRw/VgYeJnK68ZTA0FLm6dd2VtZgaEplx9yPHodylQ6l4uNb0smUwz
- qghw1dnuk2hS0QYykR/7+Weut4B0UKLBHSZntnARstERAmo1WLedOgWCAYoiPzFV3t
- xrJJ6qJ/b1o6g==
+ b=GwWfpxW4bU6LZiq+Q8pr5OqGmmUa/5KdN85Ai8A0eDaznC0OnH4A/r02FYwzR9bbP
+ UhmPxtE3k7+tEpJy4Zd3/k5hO0VYaF7pEK2HQMSvhmozzsh0Z8XZvHI5A4aWBRuTTm
+ YT3IhkxDLQ6tIEpCyfj6XN+AeyKunLeafgyNZNFatfXlZFw5PKgT7wYDzKaX1JsHqK
+ PgBc/4rOyZB1wrw3vEBeMDIIoZz0iEu7DNdQbe/H/VyYreGS6MHoYvIDMSpsWhJB81
+ vhor1cAGc+wKO53K7B0DQhVKVozvCy51HCNxi2hub53JvXOeVD2fXSUJTuevUKcW4N
+ ufmoTAICrFe1w==
 From: Arnd Bergmann <arnd@kernel.org>
-To: Inki Dae <inki.dae@samsung.com>, Seung-Woo Kim <sw0312.kim@samsung.com>,
- Kyungmin Park <kyungmin.park@samsung.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH] drm/exynos: fix g2d_open/close helper function definitions
-Date: Mon, 17 Apr 2023 23:04:11 +0200
-Message-Id: <20230417210423.2517593-1-arnd@kernel.org>
+To: Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ "Pan, Xinhui" <Xinhui.Pan@amd.com>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>
+Subject: [PATCH] drm/radeon: move prototypes to header
+Date: Mon, 17 Apr 2023 23:04:50 +0200
+Message-Id: <20230417210523.2553531-1-arnd@kernel.org>
 X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -52,49 +53,153 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-samsung-soc@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Alim Akhtar <alim.akhtar@samsung.com>, linux-arm-kernel@lists.infradead.org,
- Marek Szyprowski <m.szyprowski@samsung.com>
+Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, Arnd Bergmann <arnd@arndb.de>,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Arnd Bergmann <arnd@arndb.de>
 
-The empty stub functions are defined as global functions, which
-causes a warning because of missing prototypes:
+Global functions in radeon_atpx_handler.c are not declared in a header
+but instead in each file using them. This risks the types getting out
+of sync and causes warnings:
 
-drivers/gpu/drm/exynos/exynos_drm_g2d.h:37:5: error: no previous prototype for 'g2d_open'
-drivers/gpu/drm/exynos/exynos_drm_g2d.h:42:5: error: no previous prototype for 'g2d_close'
+drivers/gpu/drm/radeon/radeon_atpx_handler.c:64:6: error: no previous prototype for 'radeon_has_atpx' [-Werror=missing-prototypes]
+drivers/gpu/drm/radeon/radeon_atpx_handler.c:68:6: error: no previous prototype for 'radeon_has_atpx_dgpu_power_cntl' [-Werror=missing-prototypes]
+drivers/gpu/drm/radeon/radeon_atpx_handler.c:72:6: error: no previous prototype for 'radeon_is_atpx_hybrid' [-Werror=missing-prototypes]
+drivers/gpu/drm/radeon/radeon_atpx_handler.c:76:6: error: no previous prototype for 'radeon_atpx_dgpu_req_power_for_displays' [-Werror=missing-prototypes]
+drivers/gpu/drm/radeon/radeon_atpx_handler.c:594:6: error: no previous prototype for 'radeon_register_atpx_handler' [-Werror=missing-prototypes]
+drivers/gpu/drm/radeon/radeon_atpx_handler.c:612:6: error: no previous prototype for 'radeon_unregister_atpx_handler' [-Werror=missing-prototypes]
 
-Mark them as 'static inline' to avoid the warning and to make
-them behave as intended.
-
-Fixes: eb4d9796fa34 ("drm/exynos: g2d: Convert to driver component API")
 Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 ---
- drivers/gpu/drm/exynos/exynos_drm_g2d.h | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/radeon/radeon.h              | 18 ++++++++++++++++++
+ drivers/gpu/drm/radeon/radeon_acpi.c         |  6 ------
+ drivers/gpu/drm/radeon/radeon_atpx_handler.c |  1 +
+ drivers/gpu/drm/radeon/radeon_device.c       |  8 --------
+ drivers/gpu/drm/radeon/radeon_drv.c          | 13 -------------
+ drivers/gpu/drm/radeon/radeon_kms.c          |  6 ------
+ 6 files changed, 19 insertions(+), 33 deletions(-)
 
-diff --git a/drivers/gpu/drm/exynos/exynos_drm_g2d.h b/drivers/gpu/drm/exynos/exynos_drm_g2d.h
-index 74ea3c26dead..1a5ae781b56c 100644
---- a/drivers/gpu/drm/exynos/exynos_drm_g2d.h
-+++ b/drivers/gpu/drm/exynos/exynos_drm_g2d.h
-@@ -34,11 +34,11 @@ static inline int exynos_g2d_exec_ioctl(struct drm_device *dev, void *data,
- 	return -ENODEV;
- }
+diff --git a/drivers/gpu/drm/radeon/radeon.h b/drivers/gpu/drm/radeon/radeon.h
+index 8afb03bbce29..74fb4dfc3e5e 100644
+--- a/drivers/gpu/drm/radeon/radeon.h
++++ b/drivers/gpu/drm/radeon/radeon.h
+@@ -2964,6 +2964,24 @@ void radeon_irq_kms_set_irq_n_enabled(struct radeon_device *rdev,
+ void radeon_audio_component_init(struct radeon_device *rdev);
+ void radeon_audio_component_fini(struct radeon_device *rdev);
  
--int g2d_open(struct drm_device *drm_dev, struct drm_file *file)
-+static inline int g2d_open(struct drm_device *drm_dev, struct drm_file *file)
- {
- 	return 0;
- }
++/* atpx handler */
++#if defined(CONFIG_VGA_SWITCHEROO)
++bool radeon_has_atpx(void);
++void radeon_register_atpx_handler(void);
++void radeon_unregister_atpx_handler(void);
++bool radeon_has_atpx_dgpu_power_cntl(void);
++bool radeon_is_atpx_hybrid(void);
++bool radeon_atpx_dgpu_req_power_for_displays(void);
++#else
++static inline bool radeon_has_atpx(void) { return false; }
++static inline void radeon_register_atpx_handler(void) {}
++static inline void radeon_unregister_atpx_handler(void) {}
++static inline bool radeon_has_atpx_dgpu_power_cntl(void) { return false; }
++static inline bool radeon_is_atpx_hybrid(void) { return false; }
++static inline bool radeon_atpx_dgpu_req_power_for_displays(void) { return false; }
++#endif
++
++
+ #include "radeon_object.h"
  
--void g2d_close(struct drm_device *drm_dev, struct drm_file *file)
-+static inline void g2d_close(struct drm_device *drm_dev, struct drm_file *file)
- { }
  #endif
+diff --git a/drivers/gpu/drm/radeon/radeon_acpi.c b/drivers/gpu/drm/radeon/radeon_acpi.c
+index 5771d1fcb073..695c673eb9f6 100644
+--- a/drivers/gpu/drm/radeon/radeon_acpi.c
++++ b/drivers/gpu/drm/radeon/radeon_acpi.c
+@@ -38,12 +38,6 @@
+ #include "radeon_acpi.h"
+ #include "radeon_pm.h"
+ 
+-#if defined(CONFIG_VGA_SWITCHEROO)
+-bool radeon_atpx_dgpu_req_power_for_displays(void);
+-#else
+-static inline bool radeon_atpx_dgpu_req_power_for_displays(void) { return false; }
+-#endif
+-
+ #define ACPI_AC_CLASS           "ac_adapter"
+ 
+ struct atif_verify_interface {
+diff --git a/drivers/gpu/drm/radeon/radeon_atpx_handler.c b/drivers/gpu/drm/radeon/radeon_atpx_handler.c
+index 6f93f54bf651..dfd30558f8e8 100644
+--- a/drivers/gpu/drm/radeon/radeon_atpx_handler.c
++++ b/drivers/gpu/drm/radeon/radeon_atpx_handler.c
+@@ -12,6 +12,7 @@
+ #include <linux/delay.h>
+ 
+ #include "radeon_acpi.h"
++#include "radeon.h"
+ 
+ struct radeon_atpx_functions {
+ 	bool px_params;
+diff --git a/drivers/gpu/drm/radeon/radeon_device.c b/drivers/gpu/drm/radeon/radeon_device.c
+index afbb3a80c0c6..180f8aa971b4 100644
+--- a/drivers/gpu/drm/radeon/radeon_device.c
++++ b/drivers/gpu/drm/radeon/radeon_device.c
+@@ -113,14 +113,6 @@ static const char radeon_family_name[][16] = {
+ 	"LAST",
+ };
+ 
+-#if defined(CONFIG_VGA_SWITCHEROO)
+-bool radeon_has_atpx_dgpu_power_cntl(void);
+-bool radeon_is_atpx_hybrid(void);
+-#else
+-static inline bool radeon_has_atpx_dgpu_power_cntl(void) { return false; }
+-static inline bool radeon_is_atpx_hybrid(void) { return false; }
+-#endif
+-
+ #define RADEON_PX_QUIRK_DISABLE_PX  (1 << 0)
+ 
+ struct radeon_px_quirk {
+diff --git a/drivers/gpu/drm/radeon/radeon_drv.c b/drivers/gpu/drm/radeon/radeon_drv.c
+index e4374814f0ef..d8d75b347678 100644
+--- a/drivers/gpu/drm/radeon/radeon_drv.c
++++ b/drivers/gpu/drm/radeon/radeon_drv.c
+@@ -128,19 +128,6 @@ int radeon_mode_dumb_create(struct drm_file *file_priv,
+ 			    struct drm_device *dev,
+ 			    struct drm_mode_create_dumb *args);
+ 
+-/* atpx handler */
+-#if defined(CONFIG_VGA_SWITCHEROO)
+-void radeon_register_atpx_handler(void);
+-void radeon_unregister_atpx_handler(void);
+-bool radeon_has_atpx_dgpu_power_cntl(void);
+-bool radeon_is_atpx_hybrid(void);
+-#else
+-static inline void radeon_register_atpx_handler(void) {}
+-static inline void radeon_unregister_atpx_handler(void) {}
+-static inline bool radeon_has_atpx_dgpu_power_cntl(void) { return false; }
+-static inline bool radeon_is_atpx_hybrid(void) { return false; }
+-#endif
+-
+ int radeon_no_wb;
+ int radeon_modeset = -1;
+ int radeon_dynclks = -1;
+diff --git a/drivers/gpu/drm/radeon/radeon_kms.c b/drivers/gpu/drm/radeon/radeon_kms.c
+index e0214cf1b43b..2a491381fb26 100644
+--- a/drivers/gpu/drm/radeon/radeon_kms.c
++++ b/drivers/gpu/drm/radeon/radeon_kms.c
+@@ -41,12 +41,6 @@
+ #include "radeon_drv.h"
+ #include "radeon_kms.h"
+ 
+-#if defined(CONFIG_VGA_SWITCHEROO)
+-bool radeon_has_atpx(void);
+-#else
+-static inline bool radeon_has_atpx(void) { return false; }
+-#endif
+-
+ /**
+  * radeon_driver_unload_kms - Main unload function for KMS.
+  *
 -- 
 2.39.2
 
