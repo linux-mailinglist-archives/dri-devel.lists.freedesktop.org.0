@@ -2,70 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1C1D6E4D31
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Apr 2023 17:29:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66BBF6E4D33
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Apr 2023 17:30:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A5AEB10E3F5;
-	Mon, 17 Apr 2023 15:29:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5A3C510E412;
+	Mon, 17 Apr 2023 15:30:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com
- [IPv6:2a00:1450:4864:20::335])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CA48E10E3F5
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Apr 2023 15:29:21 +0000 (UTC)
-Received: by mail-wm1-x335.google.com with SMTP id
- ay3-20020a05600c1e0300b003f17289710aso1931744wmb.5
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Apr 2023 08:29:21 -0700 (PDT)
+Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com
+ [IPv6:2a00:1450:4864:20::130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B7DC510E412
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Apr 2023 15:30:25 +0000 (UTC)
+Received: by mail-lf1-x130.google.com with SMTP id
+ 2adb3069b0e04-4ec81245ae1so1563385e87.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Apr 2023 08:30:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1681745359; x=1684337359;
- h=content-transfer-encoding:mime-version:date:message-id:subject
- :references:in-reply-to:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=RzwpePrDPa7xmr54v7b5JEOp+2Pd1xHJ2snEcb8e6Q0=;
- b=xXaSXGfkqHywUqrIdSTuJGAOS2HgJQOlGEp1vPBfWt4kLdPXwVzEKmVTiN95xLc4kP
- jt6uY5G34VADtXHyi41pUyd1eX/fc6ehmYIp8G78BwotiHlWZR+7CWP6uVcNWNIYpCnI
- TBOa0nvTTmubsOSWm1ztLzYuTRM1WEE07NSI+9pUT3575MnQJ6j5UIi66rZ9uuglOaqs
- AKTTIjohJAQLbVBhCleyYRR5n5kPNDtHpyK42IV0yJWNxdrY4psQR8lOZ72VvQKFr0OS
- VrmMhFF3n8sMibZpkqcTERyK6rD5GLa87TJxyqJbjLN92pHZ8fjEaBuvPGGCoPrNgij3
- rOAQ==
+ d=linaro.org; s=google; t=1681745423; x=1684337423;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=I8LbL8wHVmoQuMN2A2YYCMJWPp7z1pqeUMnyON+WyIo=;
+ b=JG47fwq7zSttpAYNQSPKRmIoJOpFSCZ/9p2plC/Hd4GdYjYnqgqWeHfPSVDM9ZOW6c
+ LX4TJoq5Ex0QOV1KwJqAPqz1k0YQGBPWc8Zq/6eshxaTDwWwas1ixYYlINfyvAqlIJ0n
+ xgFRRqbY0AMMXz5c6ehyUL6JW1oBYt8qzczIbA3ZEMPufqQWAIhocrpz0Zyal6TOAT6B
+ Q6MHC3grv0YCnZKOt4m+YrbUqMgry/s4nvjaAxm2DrGcOlD5Pgxqbpn8t7RYvZbE+XeX
+ sXre8yDsxicibT9I91QJfVIWeNzDiUthd+QlFIez2SLtZ7VBLKPW5y3PYbz0cG3lbLKl
+ l74Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681745359; x=1684337359;
- h=content-transfer-encoding:mime-version:date:message-id:subject
- :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=RzwpePrDPa7xmr54v7b5JEOp+2Pd1xHJ2snEcb8e6Q0=;
- b=HanUA2hJXD1n1YRSe5Zx2R39NMHebLyRFzjTXG+bzIjb0aL7sJ5b6pA+Qj1TV9S0KM
- oxlwTfvo2infSpe4dN9Bp0FTTijYE8iKB0QEOjUZoQK2A2e9whv4WHmByoAnswFtFaeJ
- etiStVEvn9TuYADH0vj3eUSnEcI3vf2mw2wMrG7D0BogN6gQWxl7NyzFQiyE2UmZ76+y
- 906ovZwuAMqYEUoA9ub97ZZWkqiP0EgDF653QHrHmKc7VT8yrNKGOicogMH/cdsE+8GZ
- zoTk+TSyqaEZwnQeNGcWskltXM+OsTI9Awei+cnQeMrwCjFarxw+Nr/ExWl4kvPBzzOy
- vtoA==
-X-Gm-Message-State: AAQBX9dG9U8pZhAk46YrbhSj/nrAOEvjPZKShfS2M3fck4nwZQrkybOS
- uzE6dFb38WdpT20oFh2v9LrnDQ==
-X-Google-Smtp-Source: AKy350a8R3cCjE1wWQ446FxciFe8xGnzx9tik/JyEKMV1aebQPlDVAQwTU0a+LXIf1Hlno0IQpE1/Q==
-X-Received: by 2002:a7b:ce14:0:b0:3f1:65de:764 with SMTP id
- m20-20020a7bce14000000b003f165de0764mr6377900wmc.32.1681745359638; 
- Mon, 17 Apr 2023 08:29:19 -0700 (PDT)
-Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:8261:5fff:fe11:bdda])
+ d=1e100.net; s=20221208; t=1681745423; x=1684337423;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=I8LbL8wHVmoQuMN2A2YYCMJWPp7z1pqeUMnyON+WyIo=;
+ b=AWYZLZHRnJ6Vy3V0+S0cSsexn2mry8Ma9+BH9gO5oqsJXFMKgXvNZUXgA0/hqaeXwd
+ FNSRhLKQYsn55eTWOIxCrEOcVEU4Apqkk3uEA1svLbj5Pwgv9suL41PJxTK4F6ZNfE6o
+ Naf+DONXfNhOhjjDpdOalXF7Ntrzc5XkP39UuL69H+AjP/5Oo3p98ohBrq6VO61hYiI3
+ Q/uc988EJ0LE+NFOKc/wQp1psLkrj+XYb3bba3rYChapYTXFn0g3+M5R+5y8VZ6QJBvg
+ 5Nen/6AyV5QzfzH8600QyXxIrUxkueZZoH1nGukBO+UqVEC+2cWWJk+PAXuN3dObbZA9
+ 56UQ==
+X-Gm-Message-State: AAQBX9cXhg9hw4eIgpD0isAZDO3DE195fvbPQIbdfvP8ATfriehZqhdC
+ 1xu2M1mXSjLDh4BUX3txhJX8RmR0adzS8SKpigM=
+X-Google-Smtp-Source: AKy350a3Tw9fQfVihN2uzdE6CB5pgQeyBmA1eEZ4/bZBjcHnznsgDl7RIQAdJKDtBKzBRCzyfH0wTQ==
+X-Received: by 2002:a19:5501:0:b0:4ed:be06:9e9a with SMTP id
+ n1-20020a195501000000b004edbe069e9amr2186365lfe.26.1681745423567; 
+ Mon, 17 Apr 2023 08:30:23 -0700 (PDT)
+Received: from [192.168.1.101] (abyk99.neoplus.adsl.tpnet.pl. [83.9.30.99])
  by smtp.gmail.com with ESMTPSA id
- jb17-20020a05600c54f100b003f17316ab46sm4097554wmb.13.2023.04.17.08.29.18
+ b16-20020ac25e90000000b004ec8a3d4200sm2053439lfq.293.2023.04.17.08.30.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 Apr 2023 08:29:19 -0700 (PDT)
-From: Neil Armstrong <neil.armstrong@linaro.org>
-To: Jianhua Lu <lujianhua000@gmail.com>, Sam Ravnborg <sam@ravnborg.org>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
- Rob Herring <robh+dt@kernel.org>, 
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
- Konrad Dybcio <konrad.dybcio@linaro.org>
-In-Reply-To: <20230412-topic-lenovopanel-v3-0-bcf9ba4de46f@linaro.org>
-References: <20230412-topic-lenovopanel-v3-0-bcf9ba4de46f@linaro.org>
-Subject: Re: [PATCH v3 0/4] Lenovo Tab P11 panel
-Message-Id: <168174535878.1042404.157210995107973966.b4-ty@linaro.org>
-Date: Mon, 17 Apr 2023 17:29:18 +0200
+ Mon, 17 Apr 2023 08:30:23 -0700 (PDT)
+From: Konrad Dybcio <konrad.dybcio@linaro.org>
+Subject: [PATCH 0/5] MDSS reg bus interconnect
+Date: Mon, 17 Apr 2023 17:30:14 +0200
+Message-Id: <20230417-topic-dpu_regbus-v1-0-06fbdc1643c0@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.12.1
+X-B4-Tracking: v=1; b=H4sIAAZmPWQC/x2N0QrCMAwAf2Xk2UBXJ2X+ioikXdwCoyvNKsLYv
+ xt8vIPjDlCuwgr37oDKH1HZskF/6SAtlGdGmYzBO391Qx9w34oknEp7VZ5jU6SYxoFCcOPNg2W
+ RlDFWymmxMLd1NVkqv+X7/zye5/kDpOQGPncAAAA=
+To: Rob Clark <robdclark@gmail.com>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ Rob Herring <robh+dt@kernel.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+ Krishna Manikandan <quic_mkrishn@quicinc.com>
+X-Mailer: b4 0.12.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1681745422; l=1380;
+ i=konrad.dybcio@linaro.org; s=20230215; h=from:subject:message-id;
+ bh=mhnjPjgyrCcQ+i64OauymCa5KF6SxBBllHrPHpBzDLw=;
+ b=rVoFconVuc2rDcbx8eq5loFRaR3/QTMtcZJG3qdonQSsYSSfI9Zm2BlCKuTX3bLj+F0sVdSRTQrI
+ DiBtMEIeCTeakogOWO44Fj4ndiSLXqFqMmI9zCOgWfQXym7j7e7n
+X-Developer-Key: i=konrad.dybcio@linaro.org; a=ed25519;
+ pk=iclgkYvtl2w05SSXO5EjjSYlhFKsJ+5OSZBjOkQuEms=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,40 +87,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Marijn Suijten <marijn.suijten@somainline.org>
+Cc: devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Apart from the already handled data bus (MAS_MDP_Pn<->DDR), there's
+another path that needs to be handled to ensure MDSS functions properly,
+namely the "reg bus", a.k.a the CPU-MDSS interconnect.
 
-On Mon, 17 Apr 2023 16:39:02 +0200, Konrad Dybcio wrote:
-> v2 -> v3:
-> - Drop patch 1 (the one allowing port AND ports)
-> - Pick up tags
-> 
-> v2: https://lore.kernel.org/r/20230412-topic-lenovopanel-v2-0-055c3649788e@linaro.org
-> 
-> v1 -> v2:
-> - Remove dsi_info (unused for single DSI) [5/5]
-> - Add backlight.scale [3/5]
-> - pick up tags
-> 
-> [...]
+Gating that path may have a variety of effects.. from none to otherwise
+inexplicable DSI timeouts..
 
-Thanks, Applied to https://anongit.freedesktop.org/git/drm/drm-misc.git (drm-misc-next-fixes)
+This series tries to address the lack of that.
 
-[1/4] dt-bindings: display: panel: nt36523: Add Lenovo J606F panel
-      https://cgit.freedesktop.org/drm/drm-misc/commit/?id=b4b26ab24f8f9ad3aa9fbdfd211e51b051ddb91e
-[2/4] drm/panel: nt36523: Add DCS backlight support
-      https://cgit.freedesktop.org/drm/drm-misc/commit/?id=aecb583cb997935fb4f4a667a8013469528a8d53
-[3/4] drm/panel: nt36523: Get orientation from OF
-      https://cgit.freedesktop.org/drm/drm-misc/commit/?id=1eae88fa7b56b3b02d0e003a737fc31d71f3f486
-[4/4] drm/panel: nt36523: Add Lenovo J606F panel
-      https://cgit.freedesktop.org/drm/drm-misc/commit/?id=4f048de28b90abefff2044f450e882576eb746e9
+Example path:
 
+interconnects = <&bimc MASTER_AMPSS_M0 0 &config_noc SLAVE_DISPLAY_CFG 0>;
+
+Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+---
+Konrad Dybcio (5):
+      dt-bindings: display/msm: Add reg bus interconnect
+      drm/msm/dpu1: Rename path references to mdp_path
+      drm/msm/mdss: Rename path references to mdp_path
+      drm/msm/mdss: Handle the reg bus ICC path
+      drm/msm/dpu1: Handle the reg bus ICC path
+
+ .../bindings/display/msm/mdss-common.yaml          |  1 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c      | 10 +++----
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c            | 34 ++++++++++++++++-----
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h            |  5 ++--
+ drivers/gpu/drm/msm/msm_mdss.c                     | 35 ++++++++++++++--------
+ 5 files changed, 57 insertions(+), 28 deletions(-)
+---
+base-commit: d3f2cd24819158bb70701c3549e586f9df9cee67
+change-id: 20230417-topic-dpu_regbus-abc94a770952
+
+Best regards,
 -- 
-Neil
+Konrad Dybcio <konrad.dybcio@linaro.org>
 
