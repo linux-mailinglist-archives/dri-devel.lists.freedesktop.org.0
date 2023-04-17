@@ -2,47 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8AAA6E49A1
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Apr 2023 15:15:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 285A56E49F4
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Apr 2023 15:33:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8461F10E4D2;
-	Mon, 17 Apr 2023 13:15:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3A10D10E4F1;
+	Mon, 17 Apr 2023 13:33:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 460 seconds by postgrey-1.36 at gabe;
- Mon, 17 Apr 2023 13:15:11 UTC
-Received: from outpost1.zedat.fu-berlin.de (outpost1.zedat.fu-berlin.de
- [130.133.4.66])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6526A10E4D7
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Apr 2023 13:15:11 +0000 (UTC)
-Received: from inpost2.zedat.fu-berlin.de ([130.133.4.69])
- by outpost.zedat.fu-berlin.de (Exim 4.95) with esmtps (TLS1.3)
- tls TLS_AES_256_GCM_SHA384
- (envelope-from <glaubitz@zedat.fu-berlin.de>)
- id 1poOUm-001XyT-HU; Mon, 17 Apr 2023 15:02:12 +0200
-Received: from p5b13a017.dip0.t-ipconnect.de ([91.19.160.23]
- helo=[192.168.178.81]) by inpost2.zedat.fu-berlin.de (Exim 4.95)
- with esmtpsa (TLS1.3) tls TLS_AES_256_GCM_SHA384
- (envelope-from <glaubitz@physik.fu-berlin.de>)
- id 1poOUm-003hGd-9V; Mon, 17 Apr 2023 15:02:12 +0200
-Message-ID: <3c188e948506dc97112dcc070cf16e36209c6cc5.camel@physik.fu-berlin.de>
-Subject: Re: [PATCH v3 16/19] arch/sh: Implement <asm/fb.h> with generic
- helpers
-From: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
-To: Thomas Zimmermann <tzimmermann@suse.de>, arnd@arndb.de, 
- daniel.vetter@ffwll.ch, deller@gmx.de, javierm@redhat.com, 
- gregkh@linuxfoundation.org
-Date: Mon, 17 Apr 2023 15:02:11 +0200
-In-Reply-To: <20230417125651.25126-17-tzimmermann@suse.de>
-References: <20230417125651.25126-1-tzimmermann@suse.de>
- <20230417125651.25126-17-tzimmermann@suse.de>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 608DF10E4F1
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Apr 2023 13:33:00 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 795ED624C2
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Apr 2023 13:32:59 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DB6AAC433A7
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Apr 2023 13:32:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1681738378;
+ bh=YnO373PW8kFPYYEga0WKpnzfKPRu65AqgaMNSJcVERc=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=K+tF1m4CWen8Pb45l6Ofuvy5jJZrWa5OkbOtta7j9xSL9G6y1gPoqts4Q7UuO4GIY
+ vhukENSBwvZtBPGFtgwEl245KEawE/4qE3mlVHVJgDb5sUOUiYCAcJVEk/c6neLYTl
+ gWZ+D5r+BhCMIH3FySxEc1RlW1VGUGCUhFO1J3cCv6Ok5U5Dk2R4prsB113sohqUqt
+ nqBChqzzQf2rpWp0MJuiPL2aaKMhVj/aTsoWw5SNZn052dMEKL77RG5Ft0cQV0OkaG
+ n8EkRY3W4SuI9QX8da2TQcMPdtePDgCAt7XK27g20SCvea4ea8RyHM4+SgxBlXm0Eq
+ map3H+TcMyv/Q==
+Received: by mail-pl1-f182.google.com with SMTP id p8so25695929plk.9
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Apr 2023 06:32:58 -0700 (PDT)
+X-Gm-Message-State: AAQBX9fW3ISBxqPikXebsup5NNLa+T38zosvAbVF80Xe3X0j5FG+ZX4H
+ 0Umx++5EtOSP6/0WUzooY6BLAFY10KzrDddqz0rklg==
+X-Google-Smtp-Source: AKy350Y5U4Z/dfv+AvSqZXRHfVhVpKBzwMX3b9aXK5doLIcEmW2NRnzfpKko53ahGbE+qIVjBzucEnKmTK75Bh9acDc=
+X-Received: by 2002:a17:90a:2944:b0:247:2c8e:9911 with SMTP id
+ x4-20020a17090a294400b002472c8e9911mr3535372pjf.5.1681738378299; Mon, 17 Apr
+ 2023 06:32:58 -0700 (PDT)
+MIME-Version: 1.0
+References: <20230415104613.61224-1-jernej.skrabec@gmail.com>
+ <20230415104613.61224-3-jernej.skrabec@gmail.com>
+In-Reply-To: <20230415104613.61224-3-jernej.skrabec@gmail.com>
+From: Robert Foss <rfoss@kernel.org>
+Date: Mon, 17 Apr 2023 15:32:47 +0200
+X-Gmail-Original-Message-ID: <CAN6tsi72CP+DO-MG0=7Ajmqnd-q7r4bw_rxnvya-e4wUVEeujg@mail.gmail.com>
+Message-ID: <CAN6tsi72CP+DO-MG0=7Ajmqnd-q7r4bw_rxnvya-e4wUVEeujg@mail.gmail.com>
+Subject: Re: [PATCH 2/3] drm/bridge: dw_hdmi: Handle snps, disable-cec property
+To: Jernej Skrabec <jernej.skrabec@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.0 
-MIME-Version: 1.0
-X-Original-Sender: glaubitz@physik.fu-berlin.de
-X-Originating-IP: 91.19.160.23
-X-ZEDAT-Hint: PO
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,72 +61,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arch@vger.kernel.org, linux-fbdev@vger.kernel.org,
- Rich Felker <dalias@libc.org>, linux-ia64@vger.kernel.org,
- Yoshinori Sato <ysato@users.sourceforge.jp>, linux-parisc@vger.kernel.org,
- linux-sh@vger.kernel.org, x86@kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-mips@vger.kernel.org,
- linux-m68k@lists.linux-m68k.org, loongarch@lists.linux.dev,
- sparclinux@vger.kernel.org, linux-snps-arc@lists.infradead.org,
- linuxppc-dev@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org
+Cc: linux-arm-kernel@lists.infradead.org, neil.armstrong@linaro.org,
+ andrzej.hajda@intel.com, samuel@sholland.org, jonas@kwiboo.se,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, wens@csie.org,
+ robh+dt@kernel.org, Laurent.pinchart@ideasonboard.com,
+ krzysztof.kozlowski+dt@linaro.org, hverkuil-cisco@xs4all.nl,
+ linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Thomas!
-
-On Mon, 2023-04-17 at 14:56 +0200, Thomas Zimmermann wrote:
-> Replace the architecture's fbdev helpers with the generic
-> ones from <asm-generic/fb.h>. No functional changes.
->=20
-> v2:
-> 	* use default implementation for fb_pgprotect() (Arnd)
->=20
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: Yoshinori Sato <ysato@users.sourceforge.jp>
-> Cc: Rich Felker <dalias@libc.org>
-> Cc: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+On Sat, Apr 15, 2023 at 12:47=E2=80=AFPM Jernej Skrabec
+<jernej.skrabec@gmail.com> wrote:
+>
+> New DT property allows to skip CEC initialization.
+>
+> Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 > ---
->  arch/sh/include/asm/fb.h | 15 +--------------
->  1 file changed, 1 insertion(+), 14 deletions(-)
->=20
-> diff --git a/arch/sh/include/asm/fb.h b/arch/sh/include/asm/fb.h
-> index 9a0bca2686fd..19df13ee9ca7 100644
-> --- a/arch/sh/include/asm/fb.h
-> +++ b/arch/sh/include/asm/fb.h
-> @@ -2,19 +2,6 @@
->  #ifndef _ASM_FB_H_
->  #define _ASM_FB_H_
-> =20
-> -#include <linux/fb.h>
-> -#include <linux/fs.h>
-> -#include <asm/page.h>
-> -
-> -static inline void fb_pgprotect(struct file *file, struct vm_area_struct=
- *vma,
-> -				unsigned long off)
-> -{
-> -	vma->vm_page_prot =3D pgprot_writecombine(vma->vm_page_prot);
-> -}
+>  drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/=
+bridge/synopsys/dw-hdmi.c
+> index 603bb3c51027..e7e8199d2fb1 100644
+> --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+> +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+> @@ -3615,7 +3615,9 @@ struct dw_hdmi *dw_hdmi_probe(struct platform_devic=
+e *pdev,
+>                 hdmi->audio =3D platform_device_register_full(&pdevinfo);
+>         }
+>
+> -       if (!plat_data->disable_cec && (config0 & HDMI_CONFIG0_CEC)) {
+> +       if (!plat_data->disable_cec &&
+> +           !of_property_read_bool(np, "snps,disable-cec") &&
+> +           (config0 & HDMI_CONFIG0_CEC)) {
+>                 cec.hdmi =3D hdmi;
+>                 cec.ops =3D &dw_hdmi_cec_ops;
+>                 cec.irq =3D irq;
+> --
+> 2.40.0
+>
 
-Looking at the macro in asm-generic/fb.h, fb_pgprotect() is being replaced =
-with
-a no-op function. Is that intentional? Can you briefly explain the backgrou=
-nd
-for this change?
 
-> -static inline int fb_is_primary_device(struct fb_info *info)
-> -{
-> -	return 0;
-> -}
-> +#include <asm-generic/fb.h>
-> =20
->  #endif /* _ASM_FB_H_ */
-
-Thanks,
-Adrian
-
---=20
- .''`.  John Paul Adrian Glaubitz
-: :' :  Debian Developer
-`. `'   Physicist
-  `-    GPG: 62FF 8A75 84E0 2956 9546  0006 7426 3B37 F5B5 F913
+Reviewed-by: Robert Foss <rfoss@kernel.org>
