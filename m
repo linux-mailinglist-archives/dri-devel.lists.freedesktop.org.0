@@ -2,38 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA3096E47F1
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Apr 2023 14:38:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 293656E47F5
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Apr 2023 14:38:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3711010E2A0;
-	Mon, 17 Apr 2023 12:38:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1F55C10E306;
+	Mon, 17 Apr 2023 12:38:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
  [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C016510E2A0
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Apr 2023 12:38:21 +0000 (UTC)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 701B810E309
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Apr 2023 12:38:50 +0000 (UTC)
+Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
  by metis.ext.pengutronix.de with esmtps
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <sha@pengutronix.de>)
- id 1poO7b-0006Br-ME; Mon, 17 Apr 2023 14:38:15 +0200
-Received: from [2a0a:edc0:0:1101:1d::28] (helo=dude02.red.stw.pengutronix.de)
- by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+ id 1poO88-0006IW-KR; Mon, 17 Apr 2023 14:38:48 +0200
+Received: from sha by ptx.hi.pengutronix.de with local (Exim 4.92)
  (envelope-from <sha@pengutronix.de>)
- id 1poO7T-00BseC-Rd; Mon, 17 Apr 2023 14:38:07 +0200
-Received: from sha by dude02.red.stw.pengutronix.de with local (Exim 4.94.2)
- (envelope-from <sha@pengutronix.de>)
- id 1poO7T-00993Y-4i; Mon, 17 Apr 2023 14:38:07 +0200
+ id 1poO88-0001gy-2e; Mon, 17 Apr 2023 14:38:48 +0200
+Date: Mon, 17 Apr 2023 14:38:48 +0200
 From: Sascha Hauer <s.hauer@pengutronix.de>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/rockchip: vop2: Use regcache_sync() to fix suspend/resume
-Date: Mon, 17 Apr 2023 14:37:47 +0200
-Message-Id: <20230417123747.2179695-1-s.hauer@pengutronix.de>
-X-Mailer: git-send-email 2.39.2
+To: Heiko =?iso-8859-15?Q?St=FCbner?= <heiko@sntech.de>
+Subject: Re: [PATCH] drm/rockchip: vop2: fix suspend/resume
+Message-ID: <20230417123848.GN15436@pengutronix.de>
+References: <20230417094215.2049231-1-s.hauer@pengutronix.de>
+ <7404631.18pcnM708K@diego>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-15
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+In-Reply-To: <7404631.18pcnM708K@diego>
+X-Sent-From: Pengutronix Hildesheim
+X-URL: http://www.pengutronix.de/
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
 X-SA-Exim-Mail-From: sha@pengutronix.de
 X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
  SAEximRunCond expanded to false
@@ -50,64 +55,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?q?K=C3=B6ry=20Maincent?= <kory.maincent@bootlin.com>,
- Sascha Hauer <s.hauer@pengutronix.de>, Sandy Huang <hjc@rock-chips.com>,
- stable@vger.kernel.org, Chris Morgan <macroalpha82@gmail.com>,
+Cc: =?iso-8859-15?Q?K=F6ry?= Maincent <kory.maincent@bootlin.com>,
+ Sandy Huang <hjc@rock-chips.com>, dri-devel@lists.freedesktop.org,
+ Chris Morgan <macroalpha82@gmail.com>,
  Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
  linux-rockchip@lists.infradead.org,
- Michael Riesch <michael.riesch@wolfvision.net>, kernel@pengutronix.de
+ Michael Riesch <michael.riesch@wolfvision.net>, kernel@pengutronix.de,
+ stable@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-afa965a45e01 ("drm/rockchip: vop2: fix suspend/resume") uses
-regmap_reinit_cache() to fix the suspend/resume issue with the VOP2
-driver. During discussion it came up that we should rather use
-regcache_sync() instead. As the original patch is already applied
-fix this up in this follow-up patch.
+On Mon, Apr 17, 2023 at 12:46:05PM +0200, Heiko Stübner wrote:
+> Hi Sascha,
+> 
+> Am Montag, 17. April 2023, 11:42:15 CEST schrieb Sascha Hauer:
+> > During a suspend/resume cycle the VO power domain will be disabled and
+> > the VOP2 registers will reset to their default values. After that the
+> > cached register values will be out of sync and the read/modify/write
+> > operations we do on the window registers will result in bogus values
+> > written. Fix this by marking the regcache as dirty each time we disable
+> > the VOP2 and call regcache_sync() each time we enable it again. With
+> > this the VOP2 will show a picture after a suspend/resume cycle whereas
+> > without this the screen stays dark.
+> > 
+> > Fixes: 604be85547ce4 ("drm/rockchip: Add VOP2 driver")
+> > Cc: stable@vger.kernel.org
+> > Signed-off-by: Sascha Hauer <s.hauer@pengutronix.de>
+> 
+> somehow we overlapped with this v2 and me applying the original one [0]
+> to drm-misc. With drm-misc being a shared tree there is also no way back.
+> 
+> So if this v2 is better suited, could do a follow-up patch instead - on
+> top of your original one?
 
-Fixes: afa965a45e01 ("drm/rockchip: vop2: fix suspend/resume")
-Cc: stable@vger.kernel.org
-Link: https://lore.kernel.org/r/20230417094215.2049231-1-s.hauer@pengutronix.de
-Signed-off-by: Sascha Hauer <s.hauer@pengutronix.de>
----
- drivers/gpu/drm/rockchip/rockchip_drm_vop2.c | 10 +++-------
- 1 file changed, 3 insertions(+), 7 deletions(-)
+Alright, just did that. You should find it in your inbox.
 
-diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-index d9daa686b014d..293c228a83f90 100644
---- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-+++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-@@ -215,8 +215,6 @@ struct vop2 {
- 	struct vop2_win win[];
- };
- 
--static const struct regmap_config vop2_regmap_config;
--
- static struct vop2_video_port *to_vop2_video_port(struct drm_crtc *crtc)
- {
- 	return container_of(crtc, struct vop2_video_port, crtc);
-@@ -841,11 +839,7 @@ static void vop2_enable(struct vop2 *vop2)
- 		return;
- 	}
- 
--	ret = regmap_reinit_cache(vop2->map, &vop2_regmap_config);
--	if (ret) {
--		drm_err(vop2->drm, "failed to reinit cache: %d\n", ret);
--		return;
--	}
-+	regcache_sync(vop2->map);
- 
- 	if (vop2->data->soc_id == 3566)
- 		vop2_writel(vop2, RK3568_OTP_WIN_EN, 1);
-@@ -875,6 +869,8 @@ static void vop2_disable(struct vop2 *vop2)
- 
- 	pm_runtime_put_sync(vop2->dev);
- 
-+	regcache_mark_dirty(vop2->map);
-+
- 	clk_disable_unprepare(vop2->aclk);
- 	clk_disable_unprepare(vop2->hclk);
- }
+Sascha
+
 -- 
-2.39.2
-
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
