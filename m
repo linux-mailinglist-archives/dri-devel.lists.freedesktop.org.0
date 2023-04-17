@@ -2,51 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 285A56E49F4
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Apr 2023 15:33:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03D426E4A00
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Apr 2023 15:34:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3A10D10E4F1;
-	Mon, 17 Apr 2023 13:33:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2164410E4E7;
+	Mon, 17 Apr 2023 13:34:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 608DF10E4F1
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Apr 2023 13:33:00 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 795ED624C2
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Apr 2023 13:32:59 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DB6AAC433A7
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Apr 2023 13:32:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1681738378;
- bh=YnO373PW8kFPYYEga0WKpnzfKPRu65AqgaMNSJcVERc=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=K+tF1m4CWen8Pb45l6Ofuvy5jJZrWa5OkbOtta7j9xSL9G6y1gPoqts4Q7UuO4GIY
- vhukENSBwvZtBPGFtgwEl245KEawE/4qE3mlVHVJgDb5sUOUiYCAcJVEk/c6neLYTl
- gWZ+D5r+BhCMIH3FySxEc1RlW1VGUGCUhFO1J3cCv6Ok5U5Dk2R4prsB113sohqUqt
- nqBChqzzQf2rpWp0MJuiPL2aaKMhVj/aTsoWw5SNZn052dMEKL77RG5Ft0cQV0OkaG
- n8EkRY3W4SuI9QX8da2TQcMPdtePDgCAt7XK27g20SCvea4ea8RyHM4+SgxBlXm0Eq
- map3H+TcMyv/Q==
-Received: by mail-pl1-f182.google.com with SMTP id p8so25695929plk.9
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Apr 2023 06:32:58 -0700 (PDT)
-X-Gm-Message-State: AAQBX9fW3ISBxqPikXebsup5NNLa+T38zosvAbVF80Xe3X0j5FG+ZX4H
- 0Umx++5EtOSP6/0WUzooY6BLAFY10KzrDddqz0rklg==
-X-Google-Smtp-Source: AKy350Y5U4Z/dfv+AvSqZXRHfVhVpKBzwMX3b9aXK5doLIcEmW2NRnzfpKko53ahGbE+qIVjBzucEnKmTK75Bh9acDc=
-X-Received: by 2002:a17:90a:2944:b0:247:2c8e:9911 with SMTP id
- x4-20020a17090a294400b002472c8e9911mr3535372pjf.5.1681738378299; Mon, 17 Apr
- 2023 06:32:58 -0700 (PDT)
+Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com
+ [209.85.128.176])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7FE0110E4E7
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Apr 2023 13:34:28 +0000 (UTC)
+Received: by mail-yw1-f176.google.com with SMTP id
+ 00721157ae682-54fb615ac3dso204255257b3.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Apr 2023 06:34:28 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1681738466; x=1684330466;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=vuYclpeiJRPrLHWKW+XqsKHh8mT/S+D96VMBdCK00iE=;
+ b=XzyhhFVQI93xvJJy6Kh13LD1gaTczIdrSMoihobhK0uJ5SpvbI3H0Yb84fGKRhliwQ
+ OScTDN/K+lKDU5KYZNVIqtoEdxSFS2JUu076CP4d4CLBteP12AI6Eza+97XTOhhaUeix
+ wxH7LsNhqxu277V95hJVMGDXwNWeO35okml7AdJlNHiti08oZoqFkGH8qx/CI1SbPUiY
+ hbdZGv7yK9qBjQ2QSn7SY+mny1YqselgFE+HcqPDXCgy5S481kgH55jl2usup65LA2Ja
+ vRObo1Cbd6SVIli2RA4ZS95yqwWDFZfOLYvDo/75T1hGAby/xn+mNLAk9lphDtCg76xK
+ etlg==
+X-Gm-Message-State: AAQBX9c1dV1alinh4dBJi0MqHkuZ+d/VzpEKd3rPAkrymFFSLlLlg8x3
+ B4Te9WUQWLNBzlmpR1k2EeUgNt4GpzYKuw==
+X-Google-Smtp-Source: AKy350aXXSa7kd2JRoBKLarm3M3DVr0Lzs5jGM56bWmogQ1RAQbDIM4/09+EMZR/crQNyTYXbPF+Og==
+X-Received: by 2002:a81:2589:0:b0:54f:6aa3:f167 with SMTP id
+ l131-20020a812589000000b0054f6aa3f167mr19202502ywl.12.1681738466334; 
+ Mon, 17 Apr 2023 06:34:26 -0700 (PDT)
+Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com.
+ [209.85.128.177]) by smtp.gmail.com with ESMTPSA id
+ 68-20020a810a47000000b00545a081847fsm3134244ywk.15.2023.04.17.06.34.24
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 17 Apr 2023 06:34:25 -0700 (PDT)
+Received: by mail-yw1-f177.google.com with SMTP id
+ 00721157ae682-54fb615ac3dso204253847b3.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Apr 2023 06:34:24 -0700 (PDT)
+X-Received: by 2002:a81:b71c:0:b0:54f:b931:adf7 with SMTP id
+ v28-20020a81b71c000000b0054fb931adf7mr9946168ywh.4.1681738464551; Mon, 17 Apr
+ 2023 06:34:24 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230415104613.61224-1-jernej.skrabec@gmail.com>
- <20230415104613.61224-3-jernej.skrabec@gmail.com>
-In-Reply-To: <20230415104613.61224-3-jernej.skrabec@gmail.com>
-From: Robert Foss <rfoss@kernel.org>
-Date: Mon, 17 Apr 2023 15:32:47 +0200
-X-Gmail-Original-Message-ID: <CAN6tsi72CP+DO-MG0=7Ajmqnd-q7r4bw_rxnvya-e4wUVEeujg@mail.gmail.com>
-Message-ID: <CAN6tsi72CP+DO-MG0=7Ajmqnd-q7r4bw_rxnvya-e4wUVEeujg@mail.gmail.com>
-Subject: Re: [PATCH 2/3] drm/bridge: dw_hdmi: Handle snps, disable-cec property
-To: Jernej Skrabec <jernej.skrabec@gmail.com>
+References: <20230417113219.1354078-1-suijingfeng@loongson.cn>
+In-Reply-To: <20230417113219.1354078-1-suijingfeng@loongson.cn>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 17 Apr 2023 15:34:13 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdV0pcPhpYJ8GtjeCSNkRgjGOTbtjWORKZEveB1WjhoVnA@mail.gmail.com>
+Message-ID: <CAMuHMdV0pcPhpYJ8GtjeCSNkRgjGOTbtjWORKZEveB1WjhoVnA@mail.gmail.com>
+Subject: Re: [PATCH v3] drm/fbdev-generic: prohibit potential out-of-bounds
+ access
+To: Sui Jingfeng <suijingfeng@loongson.cn>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -61,46 +70,86 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-kernel@lists.infradead.org, neil.armstrong@linaro.org,
- andrzej.hajda@intel.com, samuel@sholland.org, jonas@kwiboo.se,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, wens@csie.org,
- robh+dt@kernel.org, Laurent.pinchart@ideasonboard.com,
- krzysztof.kozlowski+dt@linaro.org, hverkuil-cisco@xs4all.nl,
- linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org,
- linux-media@vger.kernel.org
+Cc: Lucas De Marchi <lucas.demarchi@intel.com>,
+ Linux-Renesas <linux-renesas-soc@vger.kernel.org>, linux-fbdev@vger.kernel.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, Li Yi <liyi@loongson.cn>,
+ Helge Deller <deller@gmx.de>, linux-kernel@vger.kernel.org,
+ loongson-kernel@lists.loongnix.cn, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Apr 15, 2023 at 12:47=E2=80=AFPM Jernej Skrabec
-<jernej.skrabec@gmail.com> wrote:
+On Mon, Apr 17, 2023 at 1:45=E2=80=AFPM Sui Jingfeng <suijingfeng@loongson.=
+cn> wrote:
+> The fbdev test of IGT may write after EOF, which lead to out-of-bound
+> access for the drm drivers using fbdev-generic. For example, on a x86
+> + aspeed bmc card platform, with a 1680x1050 resolution display, running
+> fbdev test if IGT will cause the linux kernel hang with the following
+> call trace:
 >
-> New DT property allows to skip CEC initialization.
+>   Oops: 0000 [#1] PREEMPT SMP PTI
+>   [IGT] fbdev: starting subtest eof
+>   Workqueue: events drm_fb_helper_damage_work [drm_kms_helper]
+>   [IGT] fbdev: starting subtest nullptr
 >
-> Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-> ---
->  drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
+>   RIP: 0010:memcpy_erms+0xa/0x20
+>   RSP: 0018:ffffa17d40167d98 EFLAGS: 00010246
+>   RAX: ffffa17d4eb7fa80 RBX: ffffa17d40e0aa80 RCX: 00000000000014c0
+>   RDX: 0000000000001a40 RSI: ffffa17d40e0b000 RDI: ffffa17d4eb80000
+>   RBP: ffffa17d40167e20 R08: 0000000000000000 R09: ffff89522ecff8c0
+>   R10: ffffa17d4e4c5000 R11: 0000000000000000 R12: ffffa17d4eb7fa80
+>   R13: 0000000000001a40 R14: 000000000000041a R15: ffffa17d40167e30
+>   FS:  0000000000000000(0000) GS:ffff895257380000(0000) knlGS:00000000000=
+00000
+>   CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+>   CR2: ffffa17d40e0b000 CR3: 00000001eaeca006 CR4: 00000000001706e0
+>   Call Trace:
+>    <TASK>
+>    ? drm_fbdev_generic_helper_fb_dirty+0x207/0x330 [drm_kms_helper]
+>    drm_fb_helper_damage_work+0x8f/0x170 [drm_kms_helper]
+>    process_one_work+0x21f/0x430
+>    worker_thread+0x4e/0x3c0
+>    ? __pfx_worker_thread+0x10/0x10
+>    kthread+0xf4/0x120
+>    ? __pfx_kthread+0x10/0x10
+>    ret_from_fork+0x2c/0x50
+>    </TASK>
+>   CR2: ffffa17d40e0b000
+>   ---[ end trace 0000000000000000 ]---
 >
-> diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/=
-bridge/synopsys/dw-hdmi.c
-> index 603bb3c51027..e7e8199d2fb1 100644
-> --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-> +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-> @@ -3615,7 +3615,9 @@ struct dw_hdmi *dw_hdmi_probe(struct platform_devic=
-e *pdev,
->                 hdmi->audio =3D platform_device_register_full(&pdevinfo);
->         }
+> The direct reason is that damage rectange computed by
+> drm_fb_helper_memory_range_to_clip() does not guaranteed to be in-bound.
+> It is already results in workaround code populate to elsewhere. Another
+> reason is that exposing a larger buffer size than the actual needed help
+> to trigger this bug intrinsic in drm_fb_helper_memory_range_to_clip().
 >
-> -       if (!plat_data->disable_cec && (config0 & HDMI_CONFIG0_CEC)) {
-> +       if (!plat_data->disable_cec &&
-> +           !of_property_read_bool(np, "snps,disable-cec") &&
-> +           (config0 & HDMI_CONFIG0_CEC)) {
->                 cec.hdmi =3D hdmi;
->                 cec.ops =3D &dw_hdmi_cec_ops;
->                 cec.irq =3D irq;
-> --
-> 2.40.0
+> Others fbdev emulation solutions write to the GEM buffer directly, they
+> won't reproduce this bug because the .fb_dirty function callback do not
+> being hooked, so no chance is given to drm_fb_helper_memory_range_to_clip=
+()
+> to generate a out-of-bound when drm_fb_helper_sys_write() is called.
 >
+> This patch break the trigger condition of this bug by shrinking the shado=
+w
+> buffer size to sizes->surface_height * buffer->fb->pitches[0].
+>
+> Fixes: '8fbc9af55de0 ("drm/fbdev-generic: Set screen size to size of GEM
+> buffer")'
+>
+> Signed-off-by: Sui Jingfeng <suijingfeng@loongson.cn>
 
+Thanks, this fixes the crashes when running fbtest on shmob-drm.
+Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-Reviewed-by: Robert Foss <rfoss@kernel.org>
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
