@@ -1,66 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F1336E5177
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Apr 2023 22:12:36 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 46B016E5197
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Apr 2023 22:21:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4DBA610E5CD;
-	Mon, 17 Apr 2023 20:12:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 99DBF10E5D1;
+	Mon, 17 Apr 2023 20:21:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com
- [IPv6:2607:f8b0:4864:20::1030])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6E48410E5CC;
- Mon, 17 Apr 2023 20:12:26 +0000 (UTC)
-Received: by mail-pj1-x1030.google.com with SMTP id
- cm18-20020a17090afa1200b0024713adf69dso15176867pjb.3; 
- Mon, 17 Apr 2023 13:12:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1681762345; x=1684354345;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=uGGeQ34qFmH3qFSmAUdD5AsG5Jqn1gFFjidxM1csPmQ=;
- b=WP1cGmhDXEaM2XoZQjksyWZjyjJ8/dPdSZFCLLz/R19MHv4d8SYoajJ3n7KJGGRP2d
- QfL8ZCHeiRUBptfALCwXRF34t1z07YYlkovBk2/hsT8PJckcxJI+ZsBCXsg2pi9LvC1d
- rggmvYF4ju/BUSXm2VA+2JY6fVH8vgjnf0fz97JefdsnlbPsqu6gE2y7kSOZ9r2ZtnIy
- ygjwVBziEtNITmZ5gllCzuvyKpWojJLQwxnRhV3/072eKrNSg/4TfPqqi8S3Wpt3IGlm
- aGZiitnwhALRhD1nKBOWbwppjuXsprBAvS5mBlN4oYjef76qBN+AMd4pN7SrTzRzxWlF
- oqyg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681762345; x=1684354345;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=uGGeQ34qFmH3qFSmAUdD5AsG5Jqn1gFFjidxM1csPmQ=;
- b=FQ/Q+QysJ3FOVOjvhTccIBovTNxerOvRdvkKcyx1W7oAzZ+iFlXgMkxdtAYypXbAJM
- EV5sBbPRTAUhub/aUNMB1pBm44/SCdbqaDDZ0GFc3dpp+WzxCjL2buQtgEKlhWIOv/A5
- hdDAxOjhLufaQi9nuHvbSuY079F5dKs7Z+BDzFP2WcNVNcsvj0J8FZDllwiEzw1cd9NC
- X+ik9lW8LcO2Dftb/bF8jef2W8MMUtrRTTCCK5fSo6JigenYFjPl6gm+V4jWOn6FTPZG
- T36cDsLKsimCNLu/9lDKmwIz1VymJFJyVNUwJWwDi4SNY5CnA++o+f7dghrfVmqjpFLI
- 1KCw==
-X-Gm-Message-State: AAQBX9cMxDqDv4/37CBvns67bCdYFJ+m0BO4NjgmWEGUaZff1hBRgrgp
- /G6Cu93dSpPbV74vNrajAK0GjpUOMcE=
-X-Google-Smtp-Source: AKy350apR+UW6/r809TtL7zmvsClieP2I6EjDtF1IFJX/9UC+3g2jKbrC6+C4/pk1uCM3wzNBU0ZUQ==
-X-Received: by 2002:a17:902:bc4b:b0:1a6:6a7c:9fde with SMTP id
- t11-20020a170902bc4b00b001a66a7c9fdemr140605plz.14.1681762345291; 
- Mon, 17 Apr 2023 13:12:25 -0700 (PDT)
-Received: from localhost ([2a00:79e1:abd:4a00:61b:48ed:72ab:435b])
- by smtp.gmail.com with ESMTPSA id
- w24-20020a17090aaf9800b0023d0c2f39f2sm9118078pjq.19.2023.04.17.13.12.24
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 Apr 2023 13:12:24 -0700 (PDT)
-From: Rob Clark <robdclark@gmail.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [RFC 3/3] drm/msm: Add comm/cmdline fields
-Date: Mon, 17 Apr 2023 13:12:12 -0700
-Message-Id: <20230417201215.448099-4-robdclark@gmail.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230417201215.448099-1-robdclark@gmail.com>
-References: <20230417201215.448099-1-robdclark@gmail.com>
+Received: from relay06.th.seeweb.it (relay06.th.seeweb.it [5.144.164.167])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0B23D10E5D0
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Apr 2023 20:21:44 +0000 (UTC)
+Received: from Marijn-Arch-PC.localdomain
+ (94-211-6-86.cable.dynamic.v4.ziggo.nl [94.211.6.86])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by m-r2.th.seeweb.it (Postfix) with ESMTPSA id D1C4B3F84A;
+ Mon, 17 Apr 2023 22:21:41 +0200 (CEST)
+From: Marijn Suijten <marijn.suijten@somainline.org>
+Subject: [PATCH v2 00/17] drm/msm/dpu: Implement tearcheck support on INTF
+ block
+Date: Mon, 17 Apr 2023 22:21:39 +0200
+Message-Id: <20230411-dpu-intf-te-v2-0-ef76c877eb97@somainline.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAFOqPWQC/x3MQQqDMBCF4avIrBvJTKxIV71HcRHqqCM1kSRKi
+ 3j3Rpf/g/ftEDkIR3gUOwTeJIp3OehWwHu0bmAlXW4gTUZXiKpbViUu9SqxYls3VY+GdWMgP5b
+ AvXwv7dXmHiUmH34XvuG5ng4hGSS8a12XhNjUWqGabZDJlXGVKbF7Rj9bcR9xXPowQHscxx92c
+ Z5EqwAAAA==
+To: Rob Clark <robdclark@gmail.com>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ Adam Skladowski <a39.skl@gmail.com>, Loic Poulain <loic.poulain@linaro.org>, 
+ Bjorn Andersson <andersson@kernel.org>, 
+ Kuogee Hsieh <quic_khsieh@quicinc.com>, Robert Foss <rfoss@kernel.org>, 
+ Vinod Koul <vkoul@kernel.org>, Rajesh Yadav <ryadav@codeaurora.org>, 
+ Jeykumar Sankaran <jsanka@codeaurora.org>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Chandan Uddaraju <chandanu@codeaurora.org>
+X-Mailer: b4 0.12.2
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,87 +55,129 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Jonathan Corbet <corbet@lwn.net>,
- Sean Paul <sean@poorly.run>,
- "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- open list <linux-kernel@vger.kernel.org>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <freedreno@lists.freedesktop.org>
+Cc: Archit Taneja <architt@codeaurora.org>,
+ Jami Kettunen <jami.kettunen@somainline.org>, linux-arm-msm@vger.kernel.org,
+ Konrad Dybcio <konrad.dybcio@somainline.org>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Jordan Crouse <jordan@cosmicpenguin.net>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Martin Botka <martin.botka@somainline.org>,
+ ~postmarketos/upstreaming@lists.sr.ht,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ freedreno@lists.freedesktop.org,
+ Sravanthi Kollukuduru <skolluku@codeaurora.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Rob Clark <robdclark@chromium.org>
+Since DPU 5.0.0 the TEARCHECK registers and interrupts moved out of the
+PINGPONG block and into the INTF.  Implement the necessary callbacks in
+the INTF block, and use these callbacks together with the INTF_TEAR
+interrupts.  Additionally, disable previous register writes and remove
+unused interrupts in the PINGPONG and MDP_TOP blocks for these newer
+platforms.
 
-Normally this would be the same information that can be obtained in
-other ways.  But in some cases the process opening the drm fd is merely
-a sort of proxy for the actual process using the GPU.  This is the case
-for guest VM processes using the GPU via virglrenderer, in which case
-the msm native-context renderer in virglrenderer overrides the comm/
-cmdline to be the guest process's values.
+With these patches the devices on DPU >= 5.0.0 listed below now update
+their panels at 60fps without tearing (nor sluggishness), and without
+repeated timeouts in dmesg.
 
-Exposing this via fdinfo allows tools like gputop to show something more
-meaningful than just a bunch of "pcivirtio-gpu" users.
+Tested on the following devices with command-mode panels and TE pins:
 
-Signed-off-by: Rob Clark <robdclark@chromium.org>
+- Sony Xperia XZ3 (sdm845, DPU 4.0.0, cmdmode panel): no regressions on
+  PINGPONG TE;
+- Sony Xperia 5 (sm8150, DPU 5.0.0);
+- Sony Xperia 10 II (sm6125, DPU 5.0.4).
+
 ---
- Documentation/gpu/drm-usage-stats.rst |  8 ++++++++
- drivers/gpu/drm/msm/msm_gpu.c         | 14 ++++++++++++++
- 2 files changed, 22 insertions(+)
+Changes in v2:
+- Rebase on -next with all the new SC8280XP and SM8[345]50 support;
+  - Remove duplicate PP_BLK_TE macro now that .features is an argument;
+  - Fix PP_BLK_DIPHER -> DITHER typo that was added recently;
+  - Add INTF_TEAR interrupt blocks for DPU 7.0.0 (moved to different
+    register range);
+  - Describe INTF_TEAR support for the newly added SM8350, SM8450,
+    SM8550 and SC8280XP SoCs;
+  - Remove TE2 subblocks from 8[34]50 and sc8280xp (new patch);
+- Rebase on -next with DPU catalog rework;
+  - Remove dpu_hw_intf_v1_get_status which was inlined in the original
+    dpu_hw_intf_get_status function in e3969eadc8ee ("drm/msm/disp/dpu:
+    get timing engine status from intf status register");
+  - Many changes to move all catalog edits to separate files;
+- Add documentation for DPU_MDP_VSYNC_SEL;
+- Fix sdm8150_mdp typo, should be sm8150_mdp;
+- Move unrelated INTF_INTR offsets out of hwio header (new patch);
+- Remove _reg argument from INTF_BLK, since we now have a third
+  interrupt with a different base register.  To prevent confusion all
+  three interrupts should provide the final value from DPU_IRQ_IDX
+  directly.
+- Only request the new tear_rd_ptr in a new INTF_BLK_DSI_TE macro;
+- Drop stray INTF_MISR_SIGNATURE register definition;
+- Clean up registers in dpu_hw_intf.c (many new patches);
+- merged setup_tearcheck() and enable_tearcheck() callbacks;
+- replaced enable_tearcheck(false) with new disable_tearcheck()
+  callback;
+- Moved dpu_encoder_phys_cmd_enable_te intestines (just autorefresh
+  disablement) to INTF and PP block, replacing 3 callbacks in both
+  blocks with just a single disable_autorefresh() callback.
 
-diff --git a/Documentation/gpu/drm-usage-stats.rst b/Documentation/gpu/drm-usage-stats.rst
-index 8e00d53231e0..bc90bed455e3 100644
---- a/Documentation/gpu/drm-usage-stats.rst
-+++ b/Documentation/gpu/drm-usage-stats.rst
-@@ -148,6 +148,14 @@ percentage utilization of the engine, whereas drm-engine-<keystr> only reflects
- time active without considering what frequency the engine is operating as a
- percentage of it's maximum frequency.
- 
-+- drm-comm: <valstr>
-+
-+Returns the clients executable path.
-+
-+- drm-cmdline: <valstr>
-+
-+Returns the clients cmdline.
-+
- Implementation Details
- ======================
- 
-diff --git a/drivers/gpu/drm/msm/msm_gpu.c b/drivers/gpu/drm/msm/msm_gpu.c
-index f0f4f845c32d..1150dcbf28aa 100644
---- a/drivers/gpu/drm/msm/msm_gpu.c
-+++ b/drivers/gpu/drm/msm/msm_gpu.c
-@@ -148,12 +148,26 @@ int msm_gpu_pm_suspend(struct msm_gpu *gpu)
- 	return 0;
- }
- 
-+static void get_comm_cmdline(struct msm_file_private *ctx, char **comm, char **cmd);
-+
- void msm_gpu_show_fdinfo(struct msm_gpu *gpu, struct msm_file_private *ctx,
- 			 struct drm_printer *p)
- {
-+	char *comm, *cmdline;
-+
-+	get_comm_cmdline(ctx, &comm, &cmdline);
-+
- 	drm_printf(p, "drm-engine-gpu:\t%llu ns\n", ctx->elapsed_ns);
- 	drm_printf(p, "drm-cycles-gpu:\t%llu\n", ctx->cycles);
- 	drm_printf(p, "drm-maxfreq-gpu:\t%u Hz\n", gpu->fast_rate);
-+
-+	if (comm)
-+		drm_printf(p, "drm-comm:\t%s\n", comm);
-+	if (cmdline)
-+		drm_printf(p, "drm-cmdline:\t%s\n", cmdline);
-+
-+	kfree(comm);
-+	kfree(cmdline);
- }
- 
- int msm_gpu_hw_init(struct msm_gpu *gpu)
+v1: https://lore.kernel.org/r/20221231215006.211860-1-marijn.suijten@somainline.org
+
+---
+Konrad Dybcio (1):
+      drm/msm/dpu: Move dpu_hw_{tear_check,pp_vsync_info} to dpu_hw_mdss.h
+
+Marijn Suijten (16):
+      drm/msm/dpu: Remove unused INTF0 interrupt mask from SM6115/QCM2290
+      drm/msm/dpu: Remove TE2 block and feature from DPU >= 7.0.0 hardware
+      drm/msm/dpu: Move non-MDP_TOP INTF_INTR offsets out of hwio header
+      drm/msm/dpu: Fix PP_BLK_DIPHER -> DITHER typo
+      drm/msm/dpu: Remove duplicate register defines from INTF
+      drm/msm/dpu: Remove extraneous register define indentation
+      drm/msm/dpu: Sort INTF registers numerically
+      drm/msm/dpu: Drop unused poll_timeout_wr_ptr PINGPONG callback
+      drm/msm/dpu: Move autorefresh disable from CMD encoder to pingpong
+      drm/msm/dpu: Disable pingpong TE on DPU 5.0.0 and above
+      drm/msm/dpu: Disable MDP vsync source selection on DPU 5.0.0 and above
+      drm/msm/dpu: Factor out shared interrupt register in INTF_BLK macro
+      drm/msm/dpu: Document and enable TEAR interrupts on DSI interfaces
+      drm/msm/dpu: Merge setup_- and enable_tearcheck pingpong callbacks
+      drm/msm/dpu: Implement tearcheck support on INTF block
+      drm/msm/dpu: Remove intr_rdptr from DPU >= 5.0.0 pingpong config
+
+ .../drm/msm/disp/dpu1/catalog/dpu_3_0_msm8998.h    |  26 +-
+ .../gpu/drm/msm/disp/dpu1/catalog/dpu_4_0_sdm845.h |  26 +-
+ .../gpu/drm/msm/disp/dpu1/catalog/dpu_5_0_sm8150.h |  40 +--
+ .../drm/msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h    |  48 ++--
+ .../gpu/drm/msm/disp/dpu1/catalog/dpu_6_0_sm8250.h |  40 +--
+ .../gpu/drm/msm/disp/dpu1/catalog/dpu_6_2_sc7180.h |  16 +-
+ .../gpu/drm/msm/disp/dpu1/catalog/dpu_6_3_sm6115.h |  15 +-
+ .../drm/msm/disp/dpu1/catalog/dpu_6_5_qcm2290.h    |  15 +-
+ .../gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h |  40 +--
+ .../gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h |  22 +-
+ .../drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h   |  64 +++--
+ .../gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h |  46 ++--
+ .../gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h |  36 ++-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c        |  11 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h   |  10 +-
+ .../gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c   | 210 ++++++++--------
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c     |  48 ++--
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h     |   9 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c  |  32 ++-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.h  |   4 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c        | 268 ++++++++++++++++++---
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h        |  25 ++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h        |  48 ++++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.c    |  83 ++++---
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.h    |  64 +----
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.c         |  52 ++--
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hwio.h           |   3 -
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h            |   4 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_trace.h          |  14 ++
+ 29 files changed, 909 insertions(+), 410 deletions(-)
+---
+base-commit: 4aa1da8d99724f6c0b762b58a71cee7c5e2e109b
+change-id: 20230411-dpu-intf-te-ea684f13e083
+
+Best regards,
 -- 
-2.39.2
+Marijn Suijten <marijn.suijten@somainline.org>
 
