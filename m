@@ -1,74 +1,81 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A3CA6E40C8
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Apr 2023 09:25:49 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F2346E40CA
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Apr 2023 09:26:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C00D710E03C;
-	Mon, 17 Apr 2023 07:25:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2257B10E122;
+	Mon, 17 Apr 2023 07:26:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com
- [IPv6:2a00:1450:4864:20::336])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5AC7210E03C
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Apr 2023 07:25:45 +0000 (UTC)
-Received: by mail-wm1-x336.google.com with SMTP id
- o9-20020a05600c510900b003f17012276fso1708757wms.4
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Apr 2023 00:25:45 -0700 (PDT)
+Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com
+ [IPv6:2a00:1450:4864:20::332])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8B98E10E1BD
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Apr 2023 07:26:14 +0000 (UTC)
+Received: by mail-wm1-x332.google.com with SMTP id
+ n43-20020a05600c502b00b003f17466a9c1so640631wmr.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Apr 2023 00:26:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1681716343; x=1684308343;
- h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ d=linaro.org; s=google; t=1681716372; x=1684308372;
+ h=content-transfer-encoding:in-reply-to:organization:references:to
  :content-language:subject:reply-to:from:user-agent:mime-version:date
  :message-id:from:to:cc:subject:date:message-id:reply-to;
- bh=n0rYTVHyfzk+AA90RB4PaE12jLu1c91LlkhqdOS7gNE=;
- b=Kp/WSvkWKkwRp+/+SYbAsGFQuhyJPQc3J386vLUGGqbwLRTDFaDd25Dnte13hGoJmF
- CUlrlbuy/kKMaRjEIlhVd7aCO3OzVd33KvSjOuI7gsJLvCayCRIq1FcHgHlHwRqpiZ6u
- /KI1myVLSWo4DsPGPEkFxToNi8vg+/pjmkwQgDY5awRepMFwO3r4w7qN2brAhEhF/p7o
- lIosi4UaAbbxzWMsbnzVkUr2Y1nInKPNNANjahgIxyJn5zZWwAIqJPB1xzw7NFHpt8Mx
- +St0bVgNPpyymuU+TeF0ixlp0iNXEvOq4oicav9+5FDrX6oLUzRAiPXSqR+MIkYes5Dx
- dmVQ==
+ bh=ljLgaaf57A126KMMOllSF/kT0Vj9S+Mosp/GL21iGtQ=;
+ b=qI3Wq776VwZ2nPk9GQWZBx9TGiAT78sh8fzSiMUeSKKIpsmgbl8fe7HI7tdaZLget1
+ xaSGiv0/HvATfZUWp2LY4l7T6deS9FFPP+X+0DQjqUontVDYSgqCdyJ1VCe4klUPQDEu
+ BVb+FPQxloA12zau4dBE6uEVdqC7epvq+DpSRr12lMOVu6cghkeJqyhkYm903pvBEzkW
+ lQHpu/hZ9naLkUdg2RLgQqbr6ubQ01t3kCAR39GPKXRY3Dik5sJ4CDt0q/rO0QBhpBnK
+ +A8PxDu7i1EZW9QENM/oBHD1BhuAdzuFcxWZm7jsY2MPiiN65C7fXCGAcxlvFalXGi2H
+ j+Yg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681716343; x=1684308343;
- h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ d=1e100.net; s=20221208; t=1681716372; x=1684308372;
+ h=content-transfer-encoding:in-reply-to:organization:references:to
  :content-language:subject:reply-to:from:user-agent:mime-version:date
  :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=n0rYTVHyfzk+AA90RB4PaE12jLu1c91LlkhqdOS7gNE=;
- b=WGEvadrPZM32jfDHtpW1uiDBtMBdMfBa6ptzeHlENQE6WdIe2NbTLCCZbD/x4URKmz
- fALTU+h9fUQtRm0HFEU3WISfvSgcud4Vgi3t6O6HCxyc17mUH+4P3HwNa6pB7oR5XwNU
- ZbgiH6Bj/YUZ0xeRoCWyoKSxN7EhXvq6HJaJ2OPJeVPYiel6xhDVrrn5uolFvwPSG+sv
- l7rYmR9vgr7YMI28cK8vibsgwN0vdXMP8TXIgIHTmHYYgUur/1H2O5NZs2q2NK/ogJMJ
- gX+pzpdhd9IfhjkhT0NyH9nMGbdh8xLn90ts1L9i4wb7vfJBi5agEBcetl/nIte7acF1
- ApTA==
-X-Gm-Message-State: AAQBX9fNGYUtH/PVxjIX0BPdD6cyNa4w2WK89yAw5GqcLsXBxZspQvnN
- 8IKKRvYRHqSwoTX7lNVBfpxHhA==
-X-Google-Smtp-Source: AKy350YCTkjsvhIS77+h9VbIlJpno1ZUgjI0eD3gJS4kb3pm0Yr4qV5xUKScfdJ4ESLvXfQxOOlMlw==
-X-Received: by 2002:a05:600c:2904:b0:3ee:3df6:e411 with SMTP id
- i4-20020a05600c290400b003ee3df6e411mr9570199wmd.28.1681716343086; 
- Mon, 17 Apr 2023 00:25:43 -0700 (PDT)
+ bh=ljLgaaf57A126KMMOllSF/kT0Vj9S+Mosp/GL21iGtQ=;
+ b=GDAceWwU5BpiUN7XunjnlRBQLLdPsWKRhK8zP4FWHp2qLPb+sWViuDMTJasEyODlVW
+ AqfgGM7jajfp44quLKhwCKTMWRETzK4NN2X228nUxo+t6xpR+lcncP2o/gQwFlVuSkwE
+ Bwaf++IjezYZNMTCaeyRuIsJb6alDGthhC1IGIovYYpUzz6u6PGDNp3iGzsZzbm+miNp
+ kpZwBi04TZYxhPm4/Uo/WpWM/id0vC9e/EFIF0I54eKeMa2uxZabgW4fBEQ2wY5T21pG
+ ga0CEIMdo2u7n7eecMefd+0rZbL+6wiUJ/M2q7zjZH19iP0SwoX+xSGRd0WBMf1QjuTb
+ UH+g==
+X-Gm-Message-State: AAQBX9eibPok4vZ7UbAzLFbyxpJbvwkkSoRY8acrxR3GPuvfIXxqFmWC
+ TWe2ll5tYRedCq5MjLOljXIAWg==
+X-Google-Smtp-Source: AKy350aXTDBhJlSS7l+PbovD5yC3f5gUBwVC4AAsGrRjVNtF3fljLlitOHnHziKqn4q7vNPxM16IWg==
+X-Received: by 2002:a1c:6a10:0:b0:3f1:7316:6f4 with SMTP id
+ f16-20020a1c6a10000000b003f1731606f4mr2138005wmc.20.1681716372523; 
+ Mon, 17 Apr 2023 00:26:12 -0700 (PDT)
 Received: from ?IPV6:2a01:e0a:982:cbb0:a1e1:81a8:1acc:2b91?
  ([2a01:e0a:982:cbb0:a1e1:81a8:1acc:2b91])
  by smtp.gmail.com with ESMTPSA id
- c8-20020a7bc848000000b003f173419e7asm2778180wml.43.2023.04.17.00.25.42
+ y25-20020a05600c365900b003f0aeac475esm9089599wmq.44.2023.04.17.00.26.11
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 17 Apr 2023 00:25:42 -0700 (PDT)
-Message-ID: <ea9f27a2-ce75-01a9-3758-0fe0bfcd1e5e@linaro.org>
-Date: Mon, 17 Apr 2023 09:25:43 +0200
+ Mon, 17 Apr 2023 00:26:12 -0700 (PDT)
+Message-ID: <e35d5610-6189-8421-2ebf-77d46c42d264@linaro.org>
+Date: Mon, 17 Apr 2023 09:26:11 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.10.0
 From: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH] drm/panel: novatek-nt35950: Improve error handling
+Subject: Re: [PATCH] dt-bindings: display: simplify compatibles syntax
 Content-Language: en-US
-To: Konrad Dybcio <konrad.dybcio@linaro.org>, Sam Ravnborg
- <sam@ravnborg.org>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-References: <20230415-konrad-longbois-next-v1-1-ce695dc9df84@linaro.org>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Sam Ravnborg <sam@ravnborg.org>,
+ Javier Martinez Canillas <javierm@redhat.com>, Xin Ji
+ <xji@analogixsemi.com>, Thierry Reding <treding@nvidia.com>,
+ Maxime Ripard <mripard@kernel.org>, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20230414104230.23165-1-krzysztof.kozlowski@linaro.org>
 Organization: Linaro Developer Services
-In-Reply-To: <20230415-konrad-longbois-next-v1-1-ce695dc9df84@linaro.org>
+In-Reply-To: <20230414104230.23165-1-krzysztof.kozlowski@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -84,58 +91,24 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Reply-To: neil.armstrong@linaro.org
-Cc: Marijn Suijten <marijn.suijten@somainline.org>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 15/04/2023 13:00, Konrad Dybcio wrote:
-> In a very peculiar case when probing and registering with the secondary
-> DSI host succeeds, but the OF backlight or DSI attachment fails, the
-> primary DSI device is automatically cleaned up, but the secondary one
-> is not, leading to -EEXIST when the driver core tries to handle
-> -EPROBE_DEFER.
+On 14/04/2023 12:42, Krzysztof Kozlowski wrote:
+> Lists (items) with one item should be just const or enum because it is
+> shorter and simpler.
 > 
-> Unregister the DSI1 device manually on failure to prevent that.
-> 
-> Fixes: 623a3531e9cf ("drm/panel: Add driver for Novatek NT35950 DSI DriverIC panels")
-> Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
-> ---
->   drivers/gpu/drm/panel/panel-novatek-nt35950.c | 8 +++++++-
->   1 file changed, 7 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/panel/panel-novatek-nt35950.c b/drivers/gpu/drm/panel/panel-novatek-nt35950.c
-> index abf752b36a52..7498fc6258bb 100644
-> --- a/drivers/gpu/drm/panel/panel-novatek-nt35950.c
-> +++ b/drivers/gpu/drm/panel/panel-novatek-nt35950.c
-> @@ -585,8 +585,11 @@ static int nt35950_probe(struct mipi_dsi_device *dsi)
->   		       DRM_MODE_CONNECTOR_DSI);
->   
->   	ret = drm_panel_of_backlight(&nt->panel);
-> -	if (ret)
-> +	if (ret) {
-> +		mipi_dsi_device_unregister(nt->dsi[1]);
-> +
->   		return dev_err_probe(dev, ret, "Failed to get backlight\n");
-> +	}
->   
->   	drm_panel_add(&nt->panel);
->   
-> @@ -602,6 +605,9 @@ static int nt35950_probe(struct mipi_dsi_device *dsi)
->   
->   		ret = mipi_dsi_attach(nt->dsi[i]);
->   		if (ret < 0) {
-> +			/* If we fail to attach to either host, we're done */
-> +			mipi_dsi_device_unregister(nt->dsi[1]);
-> +
->   			return dev_err_probe(dev, ret,
->   					     "Cannot attach to DSI%d host.\n", i);
->   		}
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 > 
 > ---
-> base-commit: 035ba5f9cf511b9299fd9c9d0688ef930d33c886
-> change-id: 20230415-konrad-longbois-next-847d57abb4d2
 > 
-> Best regards,
+> Rebased on next-20230406. I hope it applies cleanly...
+> ---
+>   .../display/bridge/analogix,anx7625.yaml      |  3 +--
+>   .../display/panel/sharp,lq101r1sx01.yaml      |  4 ++--
+>   .../bindings/display/solomon,ssd1307fb.yaml   | 24 +++++++++----------
+>   3 files changed, 14 insertions(+), 17 deletions(-)
+> 
 
 Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
+
