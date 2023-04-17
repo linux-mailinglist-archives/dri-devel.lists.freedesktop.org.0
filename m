@@ -1,65 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BD976E54AE
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Apr 2023 00:24:51 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7104C6E54B3
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Apr 2023 00:35:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A01DC10E039;
-	Mon, 17 Apr 2023 22:24:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 19FD410E42F;
+	Mon, 17 Apr 2023 22:35:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x532.google.com (mail-pg1-x532.google.com
- [IPv6:2607:f8b0:4864:20::532])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7944510E039
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Apr 2023 22:24:45 +0000 (UTC)
-Received: by mail-pg1-x532.google.com with SMTP id
- 41be03b00d2f7-5191796a483so1584071a12.0
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Apr 2023 15:24:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1681770284; x=1684362284;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=3rwGvdlgofaq/OnMesfSQWB2dx8nX+b4YsY9vlTE0GY=;
- b=aYLxs4270fY8KaUuTyY4q+hyjrtluEj+7zROEfIPr7TlKhMnU8Xt06VC3Nz24Z93rT
- YlOQ0PDYKpIBPZd8+LnKB7N5e9XcZrHsBE9m2QEYFKEfJjuuhm0r39ZGPdox/Lf88bms
- CmrWVWKon7oX8VrThBQFczUmrqwqIiPDfjj6mtHHUocp5jEvRPJvsrraygatrfQmkPVK
- Rd4PqZZCKgVdto5bDDqe97JgbEmiJT0uOtkBSccACJvmspEHLKcfgWpOsyQe/JWwg0GZ
- kzTGUUI6cJnzYLvXQkusEyB6XOl62Kb5bmDFeHYMCNfzXSRpCNpa1FxEYYyV4Zi8dj5B
- z0ng==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681770284; x=1684362284;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=3rwGvdlgofaq/OnMesfSQWB2dx8nX+b4YsY9vlTE0GY=;
- b=XOb1txIzEKBRf58UtJp8vCxFtOYiJnM0unkbhneIkuumKv6oNniEXb1Cc9+x5Y0Giv
- XY5Ys5w8ySXwIFn8gxnIv0xEgXN5x+aMItMSfqbdcHQ/PetNYBYqHM8Cs4lXFQH97pu8
- 5X3bRcJyjN/GFNrzvsi1CKFQl5IhUYcKIxYpPmJABMLCJIceOGiXehdkl4zm57PAHqff
- JsrUb5o0WDsLOg39eieWQQ7v5brygdptfu2e9N4Vu080sl4GmijLUxSh+r/bLi3XMCWf
- DcsRLJ2QNKMaa4vq6t4LTiMJFV6SZ05eczVDTpjCQUNs39r2/F/wzrAaMNT7JochN5ug
- guFg==
-X-Gm-Message-State: AAQBX9fsNTCPwDZdm2VHinO6dYEQrf/ZI8WhibGf0KKMzLlwumcjM7tQ
- w0SrnQLWSlz7NPUTCmETR/UiawbH7WqCA7Dfta0=
-X-Google-Smtp-Source: AKy350ZAhVd3Lfj2zKF3GaKXZM7iufK+bBwmHjWGjJPf35olU0n+dshsZL36NZteW0f9jL1yboC6CI+f8btMah2HDF4=
-X-Received: by 2002:a63:df09:0:b0:51b:415a:6db5 with SMTP id
- u9-20020a63df09000000b0051b415a6db5mr19362pgg.7.1681770284420; Mon, 17 Apr
- 2023 15:24:44 -0700 (PDT)
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 47F4F10E42F;
+ Mon, 17 Apr 2023 22:35:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1681770938; x=1713306938;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=3Qr0AiyF6y0NlYmNZ0wTO0qOwYCj7/Dl1l3+P9lPd1s=;
+ b=Gg3ttURg+cS1TVOIdyvfKRTHP7Fr/dLeQnLQXRixv+j/kYHACd6vkbRd
+ 7nKXo07PKR5x2uijl5X9t7QCwHOA0s4dlS8J1+KAZfd9sLuFMJoM5ezL/
+ qCSJcp9sw5WDjThdst0ztlOusZbywfCpYe7S78BP0jiTgmycpdrKP9GTe
+ kQXAcjgtMoaVjjiaqD8jlEScRGScrOTBDlWM5KcASZ1hMED/iDItmK0rI
+ /biXLyouoPUxUvNVUkNWvkQDWw15JvIdugiAVjJuzJgmxp9JzDI2tK2pr
+ ldENpK7aydQq1oAtpdXIPCnZCFNJ/FFqkJFn8OBScArPnbFEx9NAeJfiN Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10683"; a="347770614"
+X-IronPort-AV: E=Sophos;i="5.99,205,1677571200"; d="scan'208";a="347770614"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Apr 2023 15:35:37 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10683"; a="721292607"
+X-IronPort-AV: E=Sophos;i="5.99,205,1677571200"; d="scan'208";a="721292607"
+Received: from sslose-mobl1.ger.corp.intel.com (HELO intel.com)
+ ([10.252.56.168])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Apr 2023 15:35:33 -0700
+From: Andi Shyti <andi.shyti@linux.intel.com>
+To: intel-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Subject: [PATCH v4] drm/i915: Make IRQ reset and postinstall multi-gt aware
+Date: Tue, 18 Apr 2023 00:34:43 +0200
+Message-Id: <20230417223443.1284617-1-andi.shyti@linux.intel.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-References: <20230415104104.5537-1-aford173@gmail.com>
- <20230415104104.5537-5-aford173@gmail.com>
- <807aa6c6-bbea-abcc-172d-17e22d1a3988@denx.de>
- <CAHCN7x+NUnMtLbj_7A_uqxPsi5NXRXsPFwDnn=sf1bgm-Q-BsQ@mail.gmail.com>
- <88e53197-2819-c068-eba6-a218a19d8d15@denx.de>
-In-Reply-To: <88e53197-2819-c068-eba6-a218a19d8d15@denx.de>
-From: Adam Ford <aford173@gmail.com>
-Date: Mon, 17 Apr 2023 17:24:31 -0500
-Message-ID: <CAHCN7xLbbyTaN43pJe3NMdupoGb5vC3yXc_vBn6+CRChWCt92A@mail.gmail.com>
-Subject: Re: [PATCH 5/6] drm: bridge: samsung-dsim: Support non-burst mode
-To: Marek Vasut <marex@denx.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,67 +57,80 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- aford@beaconembedded.com, dri-devel@lists.freedesktop.org,
- Frieder Schrempf <frieder.schrempf@kontron.de>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, m.szyprowski@samsung.com,
- Robert Foss <rfoss@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Jagan Teki <jagan@amarulasolutions.com>, NXP Linux Team <linux-imx@nxp.com>,
- devicetree@vger.kernel.org, Jonas Karlman <jonas@kwiboo.se>,
- Sascha Hauer <s.hauer@pengutronix.de>, Rob Herring <robh+dt@kernel.org>,
- linux-arm-kernel@lists.infradead.org,
- Neil Armstrong <neil.armstrong@linaro.org>, linux-kernel@vger.kernel.org,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Shawn Guo <shawnguo@kernel.org>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Andi Shyti <andi.shyti@kernel.org>,
+ Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
+ Andi Shyti <andi.shyti@linux.intel.com>,
+ Matt Roper <matthew.d.roper@intel.com>, Nirmoy Das <nirmoy.das@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Apr 17, 2023 at 3:08=E2=80=AFPM Marek Vasut <marex@denx.de> wrote:
->
-> On 4/17/23 13:57, Adam Ford wrote:
-> > On Sun, Apr 16, 2023 at 5:13=E2=80=AFPM Marek Vasut <marex@denx.de> wro=
-te:
-> >>
-> >> On 4/15/23 12:41, Adam Ford wrote:
-> >>> The high-speed clock is hard-coded to the burst-clock
-> >>> frequency specified in the device tree.  However, when
-> >>> using devices like certain bridge chips without burst mode
-> >>> and varying resolutions and refresh rates, it may be
-> >>> necessary to set the high-speed clock dynamically based
-> >>> on the desired pixel clock for the connected device.
-> >>
-> >> The link rate negotiation should happen internally between the nearest
-> >> bridge and DSIM, so please add that to DRM core instead of hacking
-> >> around it by tweaking the HS clock again.
-> >
-> > I thought you tried to add something like this before and had some resi=
-stance.
->
-> Yes, all my attempts were rejected by a single reviewer. I suspended my
-> efforts in that area for now.
->
-> > The Pixel clock is set by the bridge already without any new code
-> > added to the DRM core..  I am just reading that value that's there,
-> > and setting the clock accordingly.  I don't see how this is a hack.
->
-> Assume you have a DSI-to-HDMI bridge attached to your DSIM bridge, it
-> operates in non-burst mode, like ADV7533 . How would you configure the
+In multi-gt systems IRQs need to be reset and enabled per GT.
 
-I have an ADV7535
+This might add some redundancy when handling interrupts for
+engines that might not exist in every tile, but helps to keep the
+code cleaner and more understandable.
 
-> HS clock rate for such a bridge in DT ? (hint: you cannot, because the
-> required clock comes from the EDID, which may not be available just yet)
+Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+---
+Hi,
 
-The whole idea is that you wouldn't want to or need to configure the
-clock speed in the device tree because it comes from the
-EDID->bridge->DSI.
+The rsults of this patch are more than promising as we are able
+to have MTL booting and executing basic tests.(*)
 
-I've tested this configuration on imx8mm, imx8mn, and imx8mp and I can
-change the resolution and refresh rate on the fly and the DSI will
-automatically readjust accordingly.   If you fixed the clock in the
-device tree, you wouldn't be able to do that, and that was the point
-of this patch.
+Thank you Daniele and Matt for the valuable exchange of opinions.
 
+Amdo
 
-adam
+(*) https://intel-gfx-ci.01.org/tree/drm-tip/Patchwork_115465v5/index.html?
+
+Changelog
+=========
+v3 -> v4
+ - do not change the initial gt and uncore initialization in
+   order to gain a better understanding at a glance of the
+   purpose of all the local variables.
+v2 -> v3
+ - keep GUnit irq initialization out of the for_each_gt() loop as
+   the media GT doesn't have a GUnit.
+v1 -> v2
+ - improve description in the commit log.
+
+ drivers/gpu/drm/i915/i915_irq.c | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/gpu/drm/i915/i915_irq.c b/drivers/gpu/drm/i915/i915_irq.c
+index dea1a117f3fa1..c027fd5189b85 100644
+--- a/drivers/gpu/drm/i915/i915_irq.c
++++ b/drivers/gpu/drm/i915/i915_irq.c
+@@ -2858,10 +2858,13 @@ static void dg1_irq_reset(struct drm_i915_private *dev_priv)
+ {
+ 	struct intel_gt *gt = to_gt(dev_priv);
+ 	struct intel_uncore *uncore = gt->uncore;
++	unsigned int i;
+ 
+ 	dg1_master_intr_disable(dev_priv->uncore.regs);
+ 
+-	gen11_gt_irq_reset(gt);
++	for_each_gt(gt, dev_priv, i)
++		gen11_gt_irq_reset(gt);
++
+ 	gen11_display_irq_reset(dev_priv);
+ 
+ 	GEN3_IRQ_RESET(uncore, GEN11_GU_MISC_);
+@@ -3646,8 +3649,10 @@ static void dg1_irq_postinstall(struct drm_i915_private *dev_priv)
+ 	struct intel_gt *gt = to_gt(dev_priv);
+ 	struct intel_uncore *uncore = gt->uncore;
+ 	u32 gu_misc_masked = GEN11_GU_MISC_GSE;
++	unsigned int i;
+ 
+-	gen11_gt_irq_postinstall(gt);
++	for_each_gt(gt, dev_priv, i)
++		gen11_gt_irq_postinstall(gt);
+ 
+ 	GEN3_IRQ_INIT(uncore, GEN11_GU_MISC_, ~gu_misc_masked, gu_misc_masked);
+ 
+-- 
+2.39.2
+
