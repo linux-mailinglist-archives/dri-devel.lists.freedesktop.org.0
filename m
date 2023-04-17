@@ -1,27 +1,27 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 214E56E4A43
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Apr 2023 15:45:12 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 314416E4A40
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Apr 2023 15:45:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5562A10E4FF;
-	Mon, 17 Apr 2023 13:45:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AC41510E4F6;
+	Mon, 17 Apr 2023 13:44:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from xavier.telenet-ops.be (xavier.telenet-ops.be
- [IPv6:2a02:1800:120:4::f00:14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 983A110E4FF
+Received: from andre.telenet-ops.be (andre.telenet-ops.be
+ [IPv6:2a02:1800:120:4::f00:15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8EBE910E4FB
  for <dri-devel@lists.freedesktop.org>; Mon, 17 Apr 2023 13:44:52 +0000 (UTC)
 Received: from ramsan.of.borg ([84.195.187.55])
- by xavier.telenet-ops.be with bizsmtp
- id lpko2900u1C8whw01pkomm; Mon, 17 Apr 2023 15:44:49 +0200
+ by andre.telenet-ops.be with bizsmtp
+ id lpko2900Q1C8whw01pkoLF; Mon, 17 Apr 2023 15:44:49 +0200
 Received: from rox.of.borg ([192.168.97.57])
  by ramsan.of.borg with esmtp (Exim 4.95)
- (envelope-from <geert@linux-m68k.org>) id 1poP4u-00H0Vz-0L;
+ (envelope-from <geert@linux-m68k.org>) id 1poP4u-00H0W2-0v;
  Mon, 17 Apr 2023 15:40:27 +0200
 Received: from geert by rox.of.borg with local (Exim 4.95)
- (envelope-from <geert@linux-m68k.org>) id 1poP5n-007zAM-LL;
+ (envelope-from <geert@linux-m68k.org>) id 1poP5n-007zAR-MN;
  Mon, 17 Apr 2023 15:40:27 +0200
 From: Geert Uytterhoeven <geert+renesas@glider.be>
 To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
@@ -30,9 +30,9 @@ To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>, Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH v2 2/5] drm: shmobile: Add support for DRM_FORMAT_XRGB8888
-Date: Mon, 17 Apr 2023 15:40:22 +0200
-Message-Id: <9107cdda83234cf09fc8a93609a66ace1a55aba3.1681734821.git.geert+renesas@glider.be>
+Subject: [PATCH v2 3/5] drm: shmobile: Switch to drm_crtc_init_with_planes()
+Date: Mon, 17 Apr 2023 15:40:23 +0200
+Message-Id: <dd2e06b6556bac9443b2f23c950f747342cc1032.1681734821.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1681734821.git.geert+renesas@glider.be>
 References: <cover.1681734821.git.geert+renesas@glider.be>
@@ -55,11 +55,12 @@ Cc: linux-renesas-soc@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-DRM_FORMAT_XRGB8888 aka XR24 is the modus francus of DRM, and should be
-supported by all drivers.
+The SH-Mobile DRM driver uses the legacy drm_crtc_init(), which
+advertizes only the formats in safe_modeset_formats[] (XR24 and AR24) as
+being supported.
 
-The handling for DRM_FORMAT_XRGB8888 is similar to DRM_FORMAT_ARGB8888,
-just ignore the alpha channel.
+Switch to drm_crtc_init_with_planes(), and advertize all supported
+(A)RGB modes, so we can use RGB565 as the default mode for the console.
 
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
@@ -68,69 +69,65 @@ Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 v2:
   - Add Reviewed-by.
 ---
- drivers/gpu/drm/shmobile/shmob_drm_crtc.c  | 1 +
- drivers/gpu/drm/shmobile/shmob_drm_kms.c   | 5 +++++
- drivers/gpu/drm/shmobile/shmob_drm_plane.c | 5 +++++
- 3 files changed, 11 insertions(+)
+ drivers/gpu/drm/shmobile/shmob_drm_crtc.c | 30 +++++++++++++++++++++--
+ 1 file changed, 28 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/gpu/drm/shmobile/shmob_drm_crtc.c b/drivers/gpu/drm/shmobile/shmob_drm_crtc.c
-index 713a7612244c647a..08dc1428aa16caf0 100644
+index 08dc1428aa16caf0..11dd2bc803e7cb62 100644
 --- a/drivers/gpu/drm/shmobile/shmob_drm_crtc.c
 +++ b/drivers/gpu/drm/shmobile/shmob_drm_crtc.c
-@@ -232,6 +232,7 @@ static void shmob_drm_crtc_start(struct shmob_drm_crtc *scrtc)
- 		value = LDDDSR_LS | LDDDSR_WS | LDDDSR_BS;
- 		break;
- 	case DRM_FORMAT_ARGB8888:
-+	case DRM_FORMAT_XRGB8888:
- 	default:
- 		value = LDDDSR_LS;
- 		break;
-diff --git a/drivers/gpu/drm/shmobile/shmob_drm_kms.c b/drivers/gpu/drm/shmobile/shmob_drm_kms.c
-index 3c5fe3bc183c7c13..99381cc0abf3ae1f 100644
---- a/drivers/gpu/drm/shmobile/shmob_drm_kms.c
-+++ b/drivers/gpu/drm/shmobile/shmob_drm_kms.c
-@@ -39,6 +39,11 @@ static const struct shmob_drm_format_info shmob_drm_format_infos[] = {
- 		.bpp = 32,
- 		.yuv = false,
- 		.lddfr = LDDFR_PKF_ARGB32,
-+	}, {
-+		.fourcc = DRM_FORMAT_XRGB8888,
-+		.bpp = 32,
-+		.yuv = false,
-+		.lddfr = LDDFR_PKF_ARGB32,
- 	}, {
- 		.fourcc = DRM_FORMAT_NV12,
- 		.bpp = 12,
-diff --git a/drivers/gpu/drm/shmobile/shmob_drm_plane.c b/drivers/gpu/drm/shmobile/shmob_drm_plane.c
-index 604ae23825daaafd..850986cee848226a 100644
---- a/drivers/gpu/drm/shmobile/shmob_drm_plane.c
-+++ b/drivers/gpu/drm/shmobile/shmob_drm_plane.c
-@@ -80,6 +80,7 @@ static void __shmob_drm_plane_setup(struct shmob_drm_plane *splane,
- 		format |= LDBBSIFR_SWPL | LDBBSIFR_SWPW | LDBBSIFR_SWPB;
- 		break;
- 	case DRM_FORMAT_ARGB8888:
-+	case DRM_FORMAT_XRGB8888:
- 	default:
- 		format |= LDBBSIFR_SWPL;
- 		break;
-@@ -95,6 +96,9 @@ static void __shmob_drm_plane_setup(struct shmob_drm_plane *splane,
- 	case DRM_FORMAT_ARGB8888:
- 		format |= LDBBSIFR_AL_PK | LDBBSIFR_RY | LDDFR_PKF_ARGB32;
- 		break;
-+	case DRM_FORMAT_XRGB8888:
-+		format |= LDBBSIFR_AL_1 | LDBBSIFR_RY | LDDFR_PKF_ARGB32;
-+		break;
- 	case DRM_FORMAT_NV12:
- 	case DRM_FORMAT_NV21:
- 		format |= LDBBSIFR_AL_1 | LDBBSIFR_CHRR_420;
-@@ -231,6 +235,7 @@ static const uint32_t formats[] = {
- 	DRM_FORMAT_RGB565,
- 	DRM_FORMAT_RGB888,
- 	DRM_FORMAT_ARGB8888,
+@@ -18,6 +18,7 @@
+ #include <drm/drm_gem_dma_helper.h>
+ #include <drm/drm_modeset_helper.h>
+ #include <drm/drm_modeset_helper_vtables.h>
++#include <drm/drm_plane_helper.h>
+ #include <drm/drm_probe_helper.h>
+ #include <drm/drm_simple_kms_helper.h>
+ #include <drm/drm_vblank.h>
+@@ -478,16 +479,41 @@ static const struct drm_crtc_funcs crtc_funcs = {
+ 	.disable_vblank = shmob_drm_disable_vblank,
+ };
+ 
++static const uint32_t modeset_formats[] = {
++	DRM_FORMAT_RGB565,
++	DRM_FORMAT_RGB888,
++	DRM_FORMAT_ARGB8888,
 +	DRM_FORMAT_XRGB8888,
- 	DRM_FORMAT_NV12,
- 	DRM_FORMAT_NV21,
- 	DRM_FORMAT_NV16,
++};
++
++static const struct drm_plane_funcs primary_plane_funcs = {
++	DRM_PLANE_NON_ATOMIC_FUNCS,
++};
++
+ int shmob_drm_crtc_create(struct shmob_drm_device *sdev)
+ {
+ 	struct drm_crtc *crtc = &sdev->crtc.crtc;
++	struct drm_plane *primary;
+ 	int ret;
+ 
+ 	sdev->crtc.dpms = DRM_MODE_DPMS_OFF;
+ 
+-	ret = drm_crtc_init(sdev->ddev, crtc, &crtc_funcs);
+-	if (ret < 0)
++	primary = __drm_universal_plane_alloc(sdev->ddev, sizeof(*primary), 0,
++					      0, &primary_plane_funcs,
++					      modeset_formats,
++					      ARRAY_SIZE(modeset_formats),
++					      NULL, DRM_PLANE_TYPE_PRIMARY,
++					      NULL);
++	if (IS_ERR(primary))
++		return PTR_ERR(primary);
++
++	ret = drm_crtc_init_with_planes(sdev->ddev, crtc, primary, NULL,
++					&crtc_funcs, NULL);
++	if (ret < 0) {
++		drm_plane_cleanup(primary);
++		kfree(primary);
+ 		return ret;
++	}
+ 
+ 	drm_crtc_helper_add(crtc, &crtc_helper_funcs);
+ 
 -- 
 2.34.1
 
