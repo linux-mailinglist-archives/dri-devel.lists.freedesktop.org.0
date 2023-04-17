@@ -1,83 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29AC16E5493
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Apr 2023 00:10:29 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BD976E54AE
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Apr 2023 00:24:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5874710E62D;
-	Mon, 17 Apr 2023 22:10:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A01DC10E039;
+	Mon, 17 Apr 2023 22:24:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wout3-smtp.messagingengine.com (wout3-smtp.messagingengine.com
- [64.147.123.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E3F2D10E62D;
- Mon, 17 Apr 2023 22:10:25 +0000 (UTC)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
- by mailout.west.internal (Postfix) with ESMTP id 29DBA32001AB;
- Mon, 17 Apr 2023 18:10:23 -0400 (EDT)
-Received: from imap51 ([10.202.2.101])
- by compute6.internal (MEProxy); Mon, 17 Apr 2023 18:10:25 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
- :cc:content-type:content-type:date:date:from:from:in-reply-to
- :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm2; t=1681769422; x=1681855822; bh=eq
- Lfw997/9uHiXeORALSDo9Bcbz/MyoV3LSW0WqDJyQ=; b=kGUJCIxHwelNpg7uP7
- JJO4NwfT71UVZ/RY6DERs85Rm923NOW0jDx3fN7RdcWVo4f9toqDiqJv6k48K4JN
- Gd4HlfQLdFr2anQv0v871UJET97qJjh3AZYXzEjxQUJ+3qsLXWLgc7+qdYSyknMO
- 2vx1Sd6fDjQs1lW/DZjsaEJxl52jTcejvG/v4qsnr/YdRSLMy74NJP05KjOPOVpb
- 7fS7zhjlf76IR6pWKpzZdQ0qv7vtGJyGg1x66N1bIKzwsiQ73RkGn/PrUVM3FiA8
- XFjkTJEvd5gMUA9qqQiR5H77/XFnxkNNdvog7s6tPD5TG/DAicWxSpdTR30a7TJo
- 7VZg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:content-type:date:date
- :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm3; t=1681769422; x=1681855822; bh=eqLfw997/9uHi
- XeORALSDo9Bcbz/MyoV3LSW0WqDJyQ=; b=htI8ZGNJECLgXiDn0nKCyW7dJ0u9C
- 7fqZmeppCjGRqZxfP21wrpT/nhwXzXNWsnRDMFUqMa+ZS5i+KQ7A3WwwSKJuWnzx
- 6pxCP3lHfBw+JfwXpRjQj/WW4P/DP3n5cfhqzzsBFdSLd++38+nERQJTRlqw0bNb
- M38knALXARqmwRwKjSedtrsBTgkt7Tlosrs3KcIOzkjWCYYgCqhQn+iE6zutTSqV
- Eup/63ejtVIZNoaym1qLfj9zDLVastgzXqrd0ziM4r5iyiuTrMzJ1dUawranKcq3
- 7Adp245tCcuQ8ILAH1ukNTyOnTO0/wpt1C7IfjuS8qaHsK+sUDv0zoNug==
-X-ME-Sender: <xms:zsM9ZMOQjh5U7GKLct8AVf27AOsCDsZw_DGZw5DCyytLtSn0MTHXvg>
- <xme:zsM9ZC_xfO6yHsKa7TLlaccv-A8VBghGfKLkmEn24ATcaR9bJnGxFIDYChbyI16ez
- i_dc8q5L2ubbEeWoNA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvdeljedgtdejucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehr
- nhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrth
- htvghrnhepffehueegteeihfegtefhjefgtdeugfegjeelheejueethfefgeeghfektdek
- teffnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprg
- hrnhgusegrrhhnuggsrdguvg
-X-ME-Proxy: <xmx:zsM9ZDRDl9zHPW9Xd6LETEfQAP30Ds3QE_JRQtqjlHB4A06FsBkD2w>
- <xmx:zsM9ZEvBmyMidQVUZt0h17rVZUWF7wkNF40A2jaOAL1dABa-HqF8yA>
- <xmx:zsM9ZEdzYpAsM2RrUjbTbZzDdPEzSxdVHVABqHhfOnZDAv8FgY2ipg>
- <xmx:zsM9ZLnIZGtvw4BmqB_p5imnnm2q9NGqMNoZDtkc2snitQ6sbtqbWA>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id 88203B60086; Mon, 17 Apr 2023 18:10:22 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.9.0-alpha0-372-g43825cb665-fm-20230411.003-g43825cb6
-Mime-Version: 1.0
-Message-Id: <00468187-1b28-4cc6-a319-1af1acb0048f@app.fastmail.com>
-In-Reply-To: <558fee93-282a-34b1-7225-3bcce63f6b1b@amd.com>
-References: <20230417210602.2614198-1-arnd@kernel.org>
- <20230417210602.2614198-2-arnd@kernel.org>
- <558fee93-282a-34b1-7225-3bcce63f6b1b@amd.com>
-Date: Tue, 18 Apr 2023 00:10:02 +0200
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Hamza Mahfooz" <hamza.mahfooz@amd.com>,
- "Arnd Bergmann" <arnd@kernel.org>, "Harry Wentland" <harry.wentland@amd.com>, 
- "Leo Li" <sunpeng.li@amd.com>, "Rodrigo Siqueira" <Rodrigo.Siqueira@amd.com>, 
- "Alex Deucher" <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- "Pan, Xinhui" <Xinhui.Pan@amd.com>, "Dave Airlie" <airlied@gmail.com>,
- "Daniel Vetter" <daniel@ffwll.ch>
-Subject: Re: [PATCH 2/2] drm/amd/display: fix missing=prototypes warnings
-Content-Type: text/plain
+Received: from mail-pg1-x532.google.com (mail-pg1-x532.google.com
+ [IPv6:2607:f8b0:4864:20::532])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7944510E039
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Apr 2023 22:24:45 +0000 (UTC)
+Received: by mail-pg1-x532.google.com with SMTP id
+ 41be03b00d2f7-5191796a483so1584071a12.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Apr 2023 15:24:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1681770284; x=1684362284;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=3rwGvdlgofaq/OnMesfSQWB2dx8nX+b4YsY9vlTE0GY=;
+ b=aYLxs4270fY8KaUuTyY4q+hyjrtluEj+7zROEfIPr7TlKhMnU8Xt06VC3Nz24Z93rT
+ YlOQ0PDYKpIBPZd8+LnKB7N5e9XcZrHsBE9m2QEYFKEfJjuuhm0r39ZGPdox/Lf88bms
+ CmrWVWKon7oX8VrThBQFczUmrqwqIiPDfjj6mtHHUocp5jEvRPJvsrraygatrfQmkPVK
+ Rd4PqZZCKgVdto5bDDqe97JgbEmiJT0uOtkBSccACJvmspEHLKcfgWpOsyQe/JWwg0GZ
+ kzTGUUI6cJnzYLvXQkusEyB6XOl62Kb5bmDFeHYMCNfzXSRpCNpa1FxEYYyV4Zi8dj5B
+ z0ng==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1681770284; x=1684362284;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=3rwGvdlgofaq/OnMesfSQWB2dx8nX+b4YsY9vlTE0GY=;
+ b=XOb1txIzEKBRf58UtJp8vCxFtOYiJnM0unkbhneIkuumKv6oNniEXb1Cc9+x5Y0Giv
+ XY5Ys5w8ySXwIFn8gxnIv0xEgXN5x+aMItMSfqbdcHQ/PetNYBYqHM8Cs4lXFQH97pu8
+ 5X3bRcJyjN/GFNrzvsi1CKFQl5IhUYcKIxYpPmJABMLCJIceOGiXehdkl4zm57PAHqff
+ JsrUb5o0WDsLOg39eieWQQ7v5brygdptfu2e9N4Vu080sl4GmijLUxSh+r/bLi3XMCWf
+ DcsRLJ2QNKMaa4vq6t4LTiMJFV6SZ05eczVDTpjCQUNs39r2/F/wzrAaMNT7JochN5ug
+ guFg==
+X-Gm-Message-State: AAQBX9fsNTCPwDZdm2VHinO6dYEQrf/ZI8WhibGf0KKMzLlwumcjM7tQ
+ w0SrnQLWSlz7NPUTCmETR/UiawbH7WqCA7Dfta0=
+X-Google-Smtp-Source: AKy350ZAhVd3Lfj2zKF3GaKXZM7iufK+bBwmHjWGjJPf35olU0n+dshsZL36NZteW0f9jL1yboC6CI+f8btMah2HDF4=
+X-Received: by 2002:a63:df09:0:b0:51b:415a:6db5 with SMTP id
+ u9-20020a63df09000000b0051b415a6db5mr19362pgg.7.1681770284420; Mon, 17 Apr
+ 2023 15:24:44 -0700 (PDT)
+MIME-Version: 1.0
+References: <20230415104104.5537-1-aford173@gmail.com>
+ <20230415104104.5537-5-aford173@gmail.com>
+ <807aa6c6-bbea-abcc-172d-17e22d1a3988@denx.de>
+ <CAHCN7x+NUnMtLbj_7A_uqxPsi5NXRXsPFwDnn=sf1bgm-Q-BsQ@mail.gmail.com>
+ <88e53197-2819-c068-eba6-a218a19d8d15@denx.de>
+In-Reply-To: <88e53197-2819-c068-eba6-a218a19d8d15@denx.de>
+From: Adam Ford <aford173@gmail.com>
+Date: Mon, 17 Apr 2023 17:24:31 -0500
+Message-ID: <CAHCN7xLbbyTaN43pJe3NMdupoGb5vC3yXc_vBn6+CRChWCt92A@mail.gmail.com>
+Subject: Re: [PATCH 5/6] drm: bridge: samsung-dsim: Support non-burst mode
+To: Marek Vasut <marex@denx.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,41 +72,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alan Liu <HaoPing.Liu@amd.com>, dri-devel@lists.freedesktop.org,
- Wesley Chalmers <Wesley.Chalmers@amd.com>, Alex Hung <alex.hung@amd.com>,
- Qingqing Zhuo <qingqing.zhuo@amd.com>, Jasdeep Dhillon <jdhillon@amd.com>,
- Wenjing Liu <wenjing.liu@amd.com>, Roman Li <roman.li@amd.com>,
- amd-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Fangzhi Zuo <Jerry.Zuo@amd.com>, Aurabindo Pillai <Aurabindo.Pillai@amd.com>,
- hersen wu <hersenxs.wu@amd.com>, Alvin Lee <Alvin.Lee2@amd.com>,
- Wayne Lin <Wayne.Lin@amd.com>, Jun Lei <Jun.Lei@amd.com>
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ aford@beaconembedded.com, dri-devel@lists.freedesktop.org,
+ Frieder Schrempf <frieder.schrempf@kontron.de>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, m.szyprowski@samsung.com,
+ Robert Foss <rfoss@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Jagan Teki <jagan@amarulasolutions.com>, NXP Linux Team <linux-imx@nxp.com>,
+ devicetree@vger.kernel.org, Jonas Karlman <jonas@kwiboo.se>,
+ Sascha Hauer <s.hauer@pengutronix.de>, Rob Herring <robh+dt@kernel.org>,
+ linux-arm-kernel@lists.infradead.org,
+ Neil Armstrong <neil.armstrong@linaro.org>, linux-kernel@vger.kernel.org,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Shawn Guo <shawnguo@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Apr 17, 2023, at 23:17, Hamza Mahfooz wrote:
-> On 4/17/23 17:05, Arnd Bergmann wrote:
->> From: Arnd Bergmann <arnd@arndb.de>
->> 
->> Three functions in the amdgpu display driver cause -Wmissing-prototype
->> warnings:
->> 
->> drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_resource.c:1858:6: error: no previous prototype for 'is_timing_changed' [-Werror=missing-prototypes]
->> drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_mst_types.c:210:6: error: no previous prototype for 'is_synaptics_cascaded_panamera' [-Werror=missing-prototypes]
->> drivers/gpu/drm/amd/amdgpu/../display/dc/dcn30/dcn30_optc.c:294:6: error: no previous prototype for 'optc3_wait_drr_doublebuffer_pending_clear' [-Werror=missing-prototypes]
->> 
->> is_timing_changed() is actually meant to be a global symbol, but needs
->> a proper name and prototype, while the other two can just be made static.
->> 
->> Fixes: 54c7b715b5ef ("drm/amd/display: Add DSC Support for Synaptics Cascaded MST Hub")
->> Fixes: 17ce8a6907f7 ("drm/amd/display: Add dsc pre-validation in atomic check")
->> Fixes: 8f0d304d21b3 ("drm/amd/display: Do not commit pipe when updating DRR")
->> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+On Mon, Apr 17, 2023 at 3:08=E2=80=AFPM Marek Vasut <marex@denx.de> wrote:
 >
-> It seems like, only the changes for is_timing_changed() are in this patch.
+> On 4/17/23 13:57, Adam Ford wrote:
+> > On Sun, Apr 16, 2023 at 5:13=E2=80=AFPM Marek Vasut <marex@denx.de> wro=
+te:
+> >>
+> >> On 4/15/23 12:41, Adam Ford wrote:
+> >>> The high-speed clock is hard-coded to the burst-clock
+> >>> frequency specified in the device tree.  However, when
+> >>> using devices like certain bridge chips without burst mode
+> >>> and varying resolutions and refresh rates, it may be
+> >>> necessary to set the high-speed clock dynamically based
+> >>> on the desired pixel clock for the connected device.
+> >>
+> >> The link rate negotiation should happen internally between the nearest
+> >> bridge and DSIM, so please add that to DRM core instead of hacking
+> >> around it by tweaking the HS clock again.
+> >
+> > I thought you tried to add something like this before and had some resi=
+stance.
+>
+> Yes, all my attempts were rejected by a single reviewer. I suspended my
+> efforts in that area for now.
+>
+> > The Pixel clock is set by the bridge already without any new code
+> > added to the DRM core..  I am just reading that value that's there,
+> > and setting the clock accordingly.  I don't see how this is a hack.
+>
+> Assume you have a DSI-to-HDMI bridge attached to your DSIM bridge, it
+> operates in non-burst mode, like ADV7533 . How would you configure the
 
-Indeed. I made this patch a few weeks ago, and it looks like the other
-two were fixed in the same way that I had in the meantime, so the other
-changes got silently dropped during a rebase. I've updated the changelog
-text and sent a v2 now.
+I have an ADV7535
 
-      Arnd
+> HS clock rate for such a bridge in DT ? (hint: you cannot, because the
+> required clock comes from the EDID, which may not be available just yet)
+
+The whole idea is that you wouldn't want to or need to configure the
+clock speed in the device tree because it comes from the
+EDID->bridge->DSI.
+
+I've tested this configuration on imx8mm, imx8mn, and imx8mp and I can
+change the resolution and refresh rate on the fly and the DSI will
+automatically readjust accordingly.   If you fixed the clock in the
+device tree, you wouldn't be able to do that, and that was the point
+of this patch.
+
+
+adam
