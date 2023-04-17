@@ -1,50 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7104C6E54B3
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Apr 2023 00:35:47 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B34776E54CC
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Apr 2023 00:52:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 19FD410E42F;
-	Mon, 17 Apr 2023 22:35:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B1A6F10E0E6;
+	Mon, 17 Apr 2023 22:52:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 47F4F10E42F;
- Mon, 17 Apr 2023 22:35:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1681770938; x=1713306938;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=3Qr0AiyF6y0NlYmNZ0wTO0qOwYCj7/Dl1l3+P9lPd1s=;
- b=Gg3ttURg+cS1TVOIdyvfKRTHP7Fr/dLeQnLQXRixv+j/kYHACd6vkbRd
- 7nKXo07PKR5x2uijl5X9t7QCwHOA0s4dlS8J1+KAZfd9sLuFMJoM5ezL/
- qCSJcp9sw5WDjThdst0ztlOusZbywfCpYe7S78BP0jiTgmycpdrKP9GTe
- kQXAcjgtMoaVjjiaqD8jlEScRGScrOTBDlWM5KcASZ1hMED/iDItmK0rI
- /biXLyouoPUxUvNVUkNWvkQDWw15JvIdugiAVjJuzJgmxp9JzDI2tK2pr
- ldENpK7aydQq1oAtpdXIPCnZCFNJ/FFqkJFn8OBScArPnbFEx9NAeJfiN Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10683"; a="347770614"
-X-IronPort-AV: E=Sophos;i="5.99,205,1677571200"; d="scan'208";a="347770614"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Apr 2023 15:35:37 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10683"; a="721292607"
-X-IronPort-AV: E=Sophos;i="5.99,205,1677571200"; d="scan'208";a="721292607"
-Received: from sslose-mobl1.ger.corp.intel.com (HELO intel.com)
- ([10.252.56.168])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Apr 2023 15:35:33 -0700
-From: Andi Shyti <andi.shyti@linux.intel.com>
-To: intel-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org
-Subject: [PATCH v4] drm/i915: Make IRQ reset and postinstall multi-gt aware
-Date: Tue, 18 Apr 2023 00:34:43 +0200
-Message-Id: <20230417223443.1284617-1-andi.shyti@linux.intel.com>
-X-Mailer: git-send-email 2.39.2
+Received: from mail-pg1-x535.google.com (mail-pg1-x535.google.com
+ [IPv6:2607:f8b0:4864:20::535])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 727F910E0E6
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Apr 2023 22:52:18 +0000 (UTC)
+Received: by mail-pg1-x535.google.com with SMTP id
+ 41be03b00d2f7-517baf1bc87so1919841a12.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Apr 2023 15:52:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=google.com; s=20221208; t=1681771937; x=1684363937;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=9zo+QcbgswHVNKq1x8Eye8R2F5dWqFdny9W9Iv3jq8Q=;
+ b=xfe80fkH53J5CUQ7FjYITdmYzmnPobKB5CbnFVwIER32p+5u+phsbqFtt6ERbaC6i7
+ 0TjYjI0EsDC4Pciz56LE2TzEHd20JgQF1Xi3NtPYRrVsO8pjJ6qIqc83SZdEx6Zy/06Z
+ bqxzHi+97brr1D8M7hwjJOIyzVeCLZPX19g8iUdTMcrsiifQbdg71iyJWGAAxxojtXWs
+ 70gOiSGpT1S5JQlQqfXkvMpH6bS8HDyLNdw4GUz/5HNxHmlszC81F9GgvySqSR0j2h33
+ aYUrnIqH9Bgae58iZl4NFBa0eWQKe6Aogmlt95RSm+mOxyQluwMk5WunSGqI51E+PFTw
+ YDOA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1681771937; x=1684363937;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=9zo+QcbgswHVNKq1x8Eye8R2F5dWqFdny9W9Iv3jq8Q=;
+ b=FsL3232Y5f+P+dRXJSxaIZjtZmjHvrZt6T06S+AUQ5tGbdVOJ4i9F1W4QeGuadU0zF
+ K03mYeJOB3WCO/Ws7p7DesGy46mWRubIKMhsAxkIZ2d21Id2mMhucU+/qaUiIJ2ehygS
+ v1NTH5zfKU+YYJIS2FV2kmu4g3ge0jh4HRgZnSuxm0e0VVC0ucS/G/QTQX1XUvCrsKCH
+ cmNUcz3x0vf/f6HKzAMP05SFBKGJ/zF+pzUh7YOhZyPl6npAlMRQETfgY20Xw7LAaFHa
+ joHBDnBTeNrekzh68gshsHzgUP2+YfOsRu51mCGQkbXSt12Xgu4kF3RGKy90DG6SU0dI
+ JMZA==
+X-Gm-Message-State: AAQBX9el51qHYWTrF42pXrI+Z6mA1Z0fDVhUwl55DKLD88lqvPcxAfxN
+ Sd+lFC31KgIdlteab4uUtUOIffgsxJkSshtn71c4PQ==
+X-Google-Smtp-Source: AKy350ZuiYuzhfhEJzAQR9g56AE63lpfBVdvcKCBUP9rE5siupUQJBnvU+9LxQ7dxFv7TslQUKfbJK/JFxB3Kr3MaPE=
+X-Received: by 2002:a63:e310:0:b0:503:25f0:9cc5 with SMTP id
+ f16-20020a63e310000000b0050325f09cc5mr45727pgh.2.1681771937242; Mon, 17 Apr
+ 2023 15:52:17 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20230329014455.1990104-1-wonchung@google.com>
+In-Reply-To: <20230329014455.1990104-1-wonchung@google.com>
+From: Manasi Navare <navaremanasi@google.com>
+Date: Mon, 17 Apr 2023 15:52:06 -0700
+Message-ID: <CAMNLLoRpWBONxqVG=5ksddZeD-O3LcuTtwDj6CpcvpWsCMcs8w@mail.gmail.com>
+Subject: Re: [PATCH] drm/sysfs: Expose DRM connector id in each connector sysfs
+To: Won Chung <wonchung@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,80 +68,95 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Andi Shyti <andi.shyti@kernel.org>,
- Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
- Andi Shyti <andi.shyti@linux.intel.com>,
- Matt Roper <matthew.d.roper@intel.com>, Nirmoy Das <nirmoy.das@intel.com>
+Cc: dri-devel@lists.freedesktop.org, heikki.krogerus@linux.intel.com,
+ gildekel@chromium.org, linux-kernel@vger.kernel.org, pmalani@chromium.org,
+ tzimmermann@suse.de, seanpaul@chromium.org, bleung@google.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In multi-gt systems IRQs need to be reset and enabled per GT.
+On Tue, Mar 28, 2023 at 6:45=E2=80=AFPM Won Chung <wonchung@google.com> wro=
+te:
+>
+> Expose DRM connector id in device sysfs so that we can map the connector
+> id to the connector syspath. Currently, even if we can derive the
+> connector id from modeset, we do not have a way to find the
+> corresponding connector's syspath.
+>
+> This is helpful when determining the root connector of MST tree. When a
+> tree of multiple MST hub is connected to the system, modeset describes
+> the tree in the PATH blob. For example, consider the following scenario.
+>
+> +-------------+
+> | Source      |    +-------------+
+> | (Device)    |    | BranchX     |
+> |             |    | (MST)       |
+> |       [conn6]--->|       [port1]--->DisplayA
+> +-------------+    |             |
+>                    |             |    +-------------+
+>                    |             |    | BranchY     |
+>                    |             |    | (MST)       |
+>                    |       [port2]--->|       [port1]----->DisplayB
+>                    +-------------+    |             |
+>                                       |       [port2]----->DisplayC
+>                                       +-------------+
+>
+> DPMST connector of DisplayA would have "mst:6-1" PATH.
+> DPMST connector of DisplayB would have "mst:6-2-1" PATH.
+> DPMST connector of DisplayC would have "mst:6-2-2" PATH.
+>
+> Given that connector id of 6 is the root of the MST connector tree, we
+> can utilize this patch to parse through DRM connectors sysfs and find
+> which connector syspath corresponds to the root connector (id =3D=3D 6).
+>
+> ChromeOS intend to use this information for metrics collection. For
+> example, we want to tell which port is deriving which displays even with
+> a MST hub. Chromium patch for parsing DRM connector id from the kernel
+> is at http://crrev.com/c/4317207.
+>
+> Signed-off-by: Won Chung <wonchung@google.com>
 
-This might add some redundancy when handling interrupts for
-engines that might not exist in every tile, but helps to keep the
-code cleaner and more understandable.
+Exposing connector id in device sysfs looks good to me.
 
-Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
----
-Hi,
+Reviewed-by: Manasi Navare <navaremanasi@chromium.org>
 
-The rsults of this patch are more than promising as we are able
-to have MTL booting and executing basic tests.(*)
+Manasi
 
-Thank you Daniele and Matt for the valuable exchange of opinions.
-
-Amdo
-
-(*) https://intel-gfx-ci.01.org/tree/drm-tip/Patchwork_115465v5/index.html?
-
-Changelog
-=========
-v3 -> v4
- - do not change the initial gt and uncore initialization in
-   order to gain a better understanding at a glance of the
-   purpose of all the local variables.
-v2 -> v3
- - keep GUnit irq initialization out of the for_each_gt() loop as
-   the media GT doesn't have a GUnit.
-v1 -> v2
- - improve description in the commit log.
-
- drivers/gpu/drm/i915/i915_irq.c | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/gpu/drm/i915/i915_irq.c b/drivers/gpu/drm/i915/i915_irq.c
-index dea1a117f3fa1..c027fd5189b85 100644
---- a/drivers/gpu/drm/i915/i915_irq.c
-+++ b/drivers/gpu/drm/i915/i915_irq.c
-@@ -2858,10 +2858,13 @@ static void dg1_irq_reset(struct drm_i915_private *dev_priv)
- {
- 	struct intel_gt *gt = to_gt(dev_priv);
- 	struct intel_uncore *uncore = gt->uncore;
-+	unsigned int i;
- 
- 	dg1_master_intr_disable(dev_priv->uncore.regs);
- 
--	gen11_gt_irq_reset(gt);
-+	for_each_gt(gt, dev_priv, i)
-+		gen11_gt_irq_reset(gt);
-+
- 	gen11_display_irq_reset(dev_priv);
- 
- 	GEN3_IRQ_RESET(uncore, GEN11_GU_MISC_);
-@@ -3646,8 +3649,10 @@ static void dg1_irq_postinstall(struct drm_i915_private *dev_priv)
- 	struct intel_gt *gt = to_gt(dev_priv);
- 	struct intel_uncore *uncore = gt->uncore;
- 	u32 gu_misc_masked = GEN11_GU_MISC_GSE;
-+	unsigned int i;
- 
--	gen11_gt_irq_postinstall(gt);
-+	for_each_gt(gt, dev_priv, i)
-+		gen11_gt_irq_postinstall(gt);
- 
- 	GEN3_IRQ_INIT(uncore, GEN11_GU_MISC_, ~gu_misc_masked, gu_misc_masked);
- 
--- 
-2.39.2
-
+> ---
+>  drivers/gpu/drm/drm_sysfs.c | 11 +++++++++++
+>  1 file changed, 11 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/drm_sysfs.c b/drivers/gpu/drm/drm_sysfs.c
+> index 183130355997..11f98c5d6103 100644
+> --- a/drivers/gpu/drm/drm_sysfs.c
+> +++ b/drivers/gpu/drm/drm_sysfs.c
+> @@ -282,16 +282,27 @@ static ssize_t modes_show(struct device *device,
+>         return written;
+>  }
+>
+> +static ssize_t connector_id_show(struct device *device,
+> +                                struct device_attribute *attr,
+> +                                char *buf)
+> +{
+> +       struct drm_connector *connector =3D to_drm_connector(device);
+> +
+> +       return sysfs_emit(buf, "%d\n", connector->base.id);
+> +}
+> +
+>  static DEVICE_ATTR_RW(status);
+>  static DEVICE_ATTR_RO(enabled);
+>  static DEVICE_ATTR_RO(dpms);
+>  static DEVICE_ATTR_RO(modes);
+> +static DEVICE_ATTR_RO(connector_id);
+>
+>  static struct attribute *connector_dev_attrs[] =3D {
+>         &dev_attr_status.attr,
+>         &dev_attr_enabled.attr,
+>         &dev_attr_dpms.attr,
+>         &dev_attr_modes.attr,
+> +       &dev_attr_connector_id.attr,
+>         NULL
+>  };
+>
+> --
+> 2.40.0.348.gf938b09366-goog
+>
