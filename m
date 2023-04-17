@@ -2,33 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 158226E473B
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Apr 2023 14:11:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 582E36E473A
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Apr 2023 14:11:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CC10610E483;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 13ACB10E47F;
 	Mon, 17 Apr 2023 12:11:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0EE1410E47F
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B77ED10E47B
  for <dri-devel@lists.freedesktop.org>; Mon, 17 Apr 2023 12:11:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
- h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-Id:
- Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:Content-Description:
- Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
- In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:
+ In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=emNw6nP80lNB3bN0fyLRxtRo3Ra4rXoUhsyCfeSJ+DM=; b=gd1Kv3WPlWIsuZOiE2LTTTUQ/U
- H9sMioNch0o0cSB2syrJc2UzrWwHnWOKAvCDQWZ5O4zQ0r/8lHvJvQd3aS4o/NsDw2lK2UPVtbxej
- 9Ao3KXhuSH8hNWKeLw4/J8eXkAkvMfTAqlU49intinHXToVwLPaLbgxpEubogH4Jk+uL3FmoafEsn
- aHzQMe4b0tl2U5XOoezLRIfhXD0gxRCpNEeKOZPmvgxBSLvBhprwfyiHWcgtfWMofFQ9kq1ckiKtG
- v6HUOsMLOYYg2TZvCWTvAqGl8hAaczdyxYYfT82nxijFPT0uOdpbVHXtQZ7fcghVY9zOZt66ZtHTO
- ZlkC16Gw==;
+ bh=E/Zq4w4P4yuCbRG8FNDh9YYCwU31IuWjCc+M7K+kdKs=; b=qjGjy+FIGHk94VrjdqO4beIj1C
+ HsRebnNoxjzZr2XSyFsp3bTWe5qDg7Fx4LpDUTyZOAgmU89aRNaKDOB0k997wZyFrvaPXH4qZaNiE
+ KUbZOJzQzA8noIj+LaWI3XTniznCxgo8u3VrrVaLFBsWhhr/KZYYZ3GLL952B4yhUhJx4ndqaLh6c
+ DQDBzWZAchismIQ7BAsAkgLb7M5H2B/5+/iWuJdyebgc6EHWOj2EmjXpHdXlBxZ91ke1TKwQ9dlq3
+ M4ZNrXFLaFfV5PIIwVdRWcXUJwVVJ2HngCDwGJt+Oe7nckgQdAXj3BlwuiGtm4VsOUp457STyz67O
+ BWi3pSXg==;
 Received: from [177.34.168.16] (helo=bowie..)
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1poNhX-003OAC-Nk; Mon, 17 Apr 2023 14:11:20 +0200
+ id 1poNhc-003OAC-7o; Mon, 17 Apr 2023 14:11:24 +0200
 From: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>
 To: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
  Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
@@ -36,10 +36,12 @@ To: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
  Igor Matheus Andrade Torrente <igormtorrente@gmail.com>,
  Arthur Grillo <arthurgrillo@riseup.net>,
  =?UTF-8?q?Ville=20Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>
-Subject: [PATCH v3 0/6] drm/vkms: introduce plane rotation property
-Date: Mon, 17 Apr 2023 09:10:50 -0300
-Message-Id: <20230417121056.63917-1-mcanal@igalia.com>
+Subject: [PATCH v3 1/6] drm/vkms: isolate pixel conversion functionality
+Date: Mon, 17 Apr 2023 09:10:51 -0300
+Message-Id: <20230417121056.63917-2-mcanal@igalia.com>
 X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20230417121056.63917-1-mcanal@igalia.com>
+References: <20230417121056.63917-1-mcanal@igalia.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -60,102 +62,254 @@ Cc: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patchset implements all possible rotation value in vkms. All operations
-were implemented by software by changing the way the pixels are read. The way
-the blending is performed can be depicted as:
+Currently, the pixel conversion functions repeat the same loop to
+iterate the rows. Instead of repeating the same code for each pixel
+format, create a function to wrap the loop and isolate the pixel
+conversion functionality.
 
-- rotate-0:
-    (x) ---->
-    ----------------------
-(y) |                    |
-  | |                    |
-  | |                    |
-  ˇ |                    |
-    ----------------------
-
-- rotate-90:
-    <---- (y)
-    ----------------------
-(x) |                    |
-  | |                    |
-  | |                    |
-  ˇ |                    |
-    ----------------------
-
-- rotate-180:
-    <---- (x)
-    ----------------------
-(y) |                    |
-  ^ |                    |
-  | |                    |
-  | |                    |
-    ----------------------
-
-- rotate-270:
-    (y) ---->
-    ----------------------
-(x) |                    |
-  ^ |                    |
-  | |                    |
-  | |                    |
-    ----------------------
-
-- reflect-x:
-    <---- (x)
-    ----------------------
-(y) |                    |
-  | |                    |
-  | |                    |
-  ˇ |                    |
-    ----------------------
-
-- reflect-y:
-    (x) ---->
-    ----------------------
-(y) |                    |
-  ^ |                    |
-  | |                    |
-  | |                    |
-    ----------------------
-
-The patchset was tested with IGT's kms_rotation_crc tests and also with some
-additional tests [1] for the reflection operations.
-
-In order to avoid code duplication, I introduced a patch that isolates the
-pixel format convertion and wraps it in a single loop.
-
-v1 -> v2: https://lore.kernel.org/dri-devel/20230406130138.70752-1-mcanal@igalia.com/T/
-
-* Add patch to isolate pixel format conversion (Arthur Grillo).
-
-v2 -> v3: https://lore.kernel.org/dri-devel/20230414135151.75975-1-mcanal@igalia.com/T/
-
-* Use cpp to calculate pixel size instead of hard-coding (Arthur Grillo).
-* Don't use the x coordinate in the pixel_read functions (Arthur Grillo).
-* Use drm_rotate_simplify() to avoid hard-coding rotate-180 (Ville Syrjälä).
-* Use u8* to input the src_pixels instead of using u16*.
-
-[1] https://patchwork.freedesktop.org/series/116025/
-
-Best Regards,
-- Maíra Canal
-
-Maíra Canal (6):
-  drm/vkms: isolate pixel conversion functionality
-  drm/vkms: add rotate-0 and reflect-x property
-  drm/vkms: add reflect-y and rotate-180 property
-  drm/vkms: add rotate-90 property
-  drm/vkms: add rotate-270 property
-  drm/vkms: drop "Rotation" TODO
-
- Documentation/gpu/vkms.rst           |   2 +-
- drivers/gpu/drm/vkms/vkms_composer.c |  71 +++++++++++---
- drivers/gpu/drm/vkms/vkms_drv.h      |   5 +-
- drivers/gpu/drm/vkms/vkms_formats.c  | 142 +++++++++++++--------------
+Suggested-by: Arthur Grillo <arthurgrillo@riseup.net>
+Signed-off-by: Maíra Canal <mcanal@igalia.com>
+---
+ drivers/gpu/drm/vkms/vkms_composer.c |   4 +-
+ drivers/gpu/drm/vkms/vkms_drv.h      |   4 +-
+ drivers/gpu/drm/vkms/vkms_formats.c  | 125 +++++++++++----------------
  drivers/gpu/drm/vkms/vkms_formats.h  |   2 +-
- drivers/gpu/drm/vkms/vkms_plane.c    |  15 ++-
- 6 files changed, 148 insertions(+), 89 deletions(-)
+ drivers/gpu/drm/vkms/vkms_plane.c    |   2 +-
+ 5 files changed, 56 insertions(+), 81 deletions(-)
 
+diff --git a/drivers/gpu/drm/vkms/vkms_composer.c b/drivers/gpu/drm/vkms/vkms_composer.c
+index 8e53fa80742b..80164e79af00 100644
+--- a/drivers/gpu/drm/vkms/vkms_composer.c
++++ b/drivers/gpu/drm/vkms/vkms_composer.c
+@@ -99,7 +99,7 @@ static void blend(struct vkms_writeback_job *wb,
+ 			if (!check_y_limit(plane[i]->frame_info, y))
+ 				continue;
+ 
+-			plane[i]->plane_read(stage_buffer, plane[i]->frame_info, y);
++			vkms_compose_row(stage_buffer, plane[i], y);
+ 			pre_mul_alpha_blend(plane[i]->frame_info, stage_buffer,
+ 					    output_buffer);
+ 		}
+@@ -118,7 +118,7 @@ static int check_format_funcs(struct vkms_crtc_state *crtc_state,
+ 	u32 n_active_planes = crtc_state->num_active_planes;
+ 
+ 	for (size_t i = 0; i < n_active_planes; i++)
+-		if (!planes[i]->plane_read)
++		if (!planes[i]->pixel_read)
+ 			return -1;
+ 
+ 	if (active_wb && !active_wb->wb_write)
+diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/vkms_drv.h
+index 4a248567efb2..f152d54baf76 100644
+--- a/drivers/gpu/drm/vkms/vkms_drv.h
++++ b/drivers/gpu/drm/vkms/vkms_drv.h
+@@ -56,8 +56,7 @@ struct vkms_writeback_job {
+ struct vkms_plane_state {
+ 	struct drm_shadow_plane_state base;
+ 	struct vkms_frame_info *frame_info;
+-	void (*plane_read)(struct line_buffer *buffer,
+-			   const struct vkms_frame_info *frame_info, int y);
++	void (*pixel_read)(u8 *src_buffer, struct pixel_argb_u16 *out_pixel);
+ };
+ 
+ struct vkms_plane {
+@@ -155,6 +154,7 @@ int vkms_verify_crc_source(struct drm_crtc *crtc, const char *source_name,
+ /* Composer Support */
+ void vkms_composer_worker(struct work_struct *work);
+ void vkms_set_composer(struct vkms_output *out, bool enabled);
++void vkms_compose_row(struct line_buffer *stage_buffer, struct vkms_plane_state *plane, int y);
+ 
+ /* Writeback */
+ int vkms_enable_writeback_connector(struct vkms_device *vkmsdev);
+diff --git a/drivers/gpu/drm/vkms/vkms_formats.c b/drivers/gpu/drm/vkms/vkms_formats.c
+index d4950688b3f1..bd542fd00698 100644
+--- a/drivers/gpu/drm/vkms/vkms_formats.c
++++ b/drivers/gpu/drm/vkms/vkms_formats.c
+@@ -42,100 +42,75 @@ static void *get_packed_src_addr(const struct vkms_frame_info *frame_info, int y
+ 	return packed_pixels_addr(frame_info, x_src, y_src);
+ }
+ 
+-static void ARGB8888_to_argb_u16(struct line_buffer *stage_buffer,
+-				 const struct vkms_frame_info *frame_info, int y)
++static void ARGB8888_to_argb_u16(u8 *src_pixels, struct pixel_argb_u16 *out_pixel)
+ {
+-	struct pixel_argb_u16 *out_pixels = stage_buffer->pixels;
+-	u8 *src_pixels = get_packed_src_addr(frame_info, y);
+-	int x_limit = min_t(size_t, drm_rect_width(&frame_info->dst),
+-			    stage_buffer->n_pixels);
+-
+-	for (size_t x = 0; x < x_limit; x++, src_pixels += 4) {
+-		/*
+-		 * The 257 is the "conversion ratio". This number is obtained by the
+-		 * (2^16 - 1) / (2^8 - 1) division. Which, in this case, tries to get
+-		 * the best color value in a pixel format with more possibilities.
+-		 * A similar idea applies to others RGB color conversions.
+-		 */
+-		out_pixels[x].a = (u16)src_pixels[3] * 257;
+-		out_pixels[x].r = (u16)src_pixels[2] * 257;
+-		out_pixels[x].g = (u16)src_pixels[1] * 257;
+-		out_pixels[x].b = (u16)src_pixels[0] * 257;
+-	}
++	/*
++	 * The 257 is the "conversion ratio". This number is obtained by the
++	 * (2^16 - 1) / (2^8 - 1) division. Which, in this case, tries to get
++	 * the best color value in a pixel format with more possibilities.
++	 * A similar idea applies to others RGB color conversions.
++	 */
++	out_pixel->a = (u16)src_pixels[3] * 257;
++	out_pixel->r = (u16)src_pixels[2] * 257;
++	out_pixel->g = (u16)src_pixels[1] * 257;
++	out_pixel->b = (u16)src_pixels[0] * 257;
+ }
+ 
+-static void XRGB8888_to_argb_u16(struct line_buffer *stage_buffer,
+-				 const struct vkms_frame_info *frame_info, int y)
++static void XRGB8888_to_argb_u16(u8 *src_pixels, struct pixel_argb_u16 *out_pixel)
+ {
+-	struct pixel_argb_u16 *out_pixels = stage_buffer->pixels;
+-	u8 *src_pixels = get_packed_src_addr(frame_info, y);
+-	int x_limit = min_t(size_t, drm_rect_width(&frame_info->dst),
+-			    stage_buffer->n_pixels);
+-
+-	for (size_t x = 0; x < x_limit; x++, src_pixels += 4) {
+-		out_pixels[x].a = (u16)0xffff;
+-		out_pixels[x].r = (u16)src_pixels[2] * 257;
+-		out_pixels[x].g = (u16)src_pixels[1] * 257;
+-		out_pixels[x].b = (u16)src_pixels[0] * 257;
+-	}
++	out_pixel->a = (u16)0xffff;
++	out_pixel->r = (u16)src_pixels[2] * 257;
++	out_pixel->g = (u16)src_pixels[1] * 257;
++	out_pixel->b = (u16)src_pixels[0] * 257;
+ }
+ 
+-static void ARGB16161616_to_argb_u16(struct line_buffer *stage_buffer,
+-				     const struct vkms_frame_info *frame_info,
+-				     int y)
++static void ARGB16161616_to_argb_u16(u8 *src_pixels, struct pixel_argb_u16 *out_pixel)
+ {
+-	struct pixel_argb_u16 *out_pixels = stage_buffer->pixels;
+-	u16 *src_pixels = get_packed_src_addr(frame_info, y);
+-	int x_limit = min_t(size_t, drm_rect_width(&frame_info->dst),
+-			    stage_buffer->n_pixels);
++	u16 *pixels = (u16 *)src_pixels;
+ 
+-	for (size_t x = 0; x < x_limit; x++, src_pixels += 4) {
+-		out_pixels[x].a = le16_to_cpu(src_pixels[3]);
+-		out_pixels[x].r = le16_to_cpu(src_pixels[2]);
+-		out_pixels[x].g = le16_to_cpu(src_pixels[1]);
+-		out_pixels[x].b = le16_to_cpu(src_pixels[0]);
+-	}
++	out_pixel->a = le16_to_cpu(pixels[3]);
++	out_pixel->r = le16_to_cpu(pixels[2]);
++	out_pixel->g = le16_to_cpu(pixels[1]);
++	out_pixel->b = le16_to_cpu(pixels[0]);
+ }
+ 
+-static void XRGB16161616_to_argb_u16(struct line_buffer *stage_buffer,
+-				     const struct vkms_frame_info *frame_info,
+-				     int y)
++static void XRGB16161616_to_argb_u16(u8 *src_pixels, struct pixel_argb_u16 *out_pixel)
+ {
+-	struct pixel_argb_u16 *out_pixels = stage_buffer->pixels;
+-	u16 *src_pixels = get_packed_src_addr(frame_info, y);
+-	int x_limit = min_t(size_t, drm_rect_width(&frame_info->dst),
+-			    stage_buffer->n_pixels);
++	u16 *pixels = (u16 *)src_pixels;
+ 
+-	for (size_t x = 0; x < x_limit; x++, src_pixels += 4) {
+-		out_pixels[x].a = (u16)0xffff;
+-		out_pixels[x].r = le16_to_cpu(src_pixels[2]);
+-		out_pixels[x].g = le16_to_cpu(src_pixels[1]);
+-		out_pixels[x].b = le16_to_cpu(src_pixels[0]);
+-	}
++	out_pixel->a = (u16)0xffff;
++	out_pixel->r = le16_to_cpu(pixels[2]);
++	out_pixel->g = le16_to_cpu(pixels[1]);
++	out_pixel->b = le16_to_cpu(pixels[0]);
+ }
+ 
+-static void RGB565_to_argb_u16(struct line_buffer *stage_buffer,
+-			       const struct vkms_frame_info *frame_info, int y)
++static void RGB565_to_argb_u16(u8 *src_pixels, struct pixel_argb_u16 *out_pixel)
+ {
+-	struct pixel_argb_u16 *out_pixels = stage_buffer->pixels;
+-	u16 *src_pixels = get_packed_src_addr(frame_info, y);
+-	int x_limit = min_t(size_t, drm_rect_width(&frame_info->dst),
+-			       stage_buffer->n_pixels);
++	u16 *pixels = (u16 *)src_pixels;
+ 
+ 	s64 fp_rb_ratio = drm_fixp_div(drm_int2fixp(65535), drm_int2fixp(31));
+ 	s64 fp_g_ratio = drm_fixp_div(drm_int2fixp(65535), drm_int2fixp(63));
+ 
+-	for (size_t x = 0; x < x_limit; x++, src_pixels++) {
+-		u16 rgb_565 = le16_to_cpu(*src_pixels);
+-		s64 fp_r = drm_int2fixp((rgb_565 >> 11) & 0x1f);
+-		s64 fp_g = drm_int2fixp((rgb_565 >> 5) & 0x3f);
+-		s64 fp_b = drm_int2fixp(rgb_565 & 0x1f);
++	u16 rgb_565 = le16_to_cpu(*pixels);
++	s64 fp_r = drm_int2fixp((rgb_565 >> 11) & 0x1f);
++	s64 fp_g = drm_int2fixp((rgb_565 >> 5) & 0x3f);
++	s64 fp_b = drm_int2fixp(rgb_565 & 0x1f);
+ 
+-		out_pixels[x].a = (u16)0xffff;
+-		out_pixels[x].r = drm_fixp2int(drm_fixp_mul(fp_r, fp_rb_ratio));
+-		out_pixels[x].g = drm_fixp2int(drm_fixp_mul(fp_g, fp_g_ratio));
+-		out_pixels[x].b = drm_fixp2int(drm_fixp_mul(fp_b, fp_rb_ratio));
+-	}
++	out_pixel->a = (u16)0xffff;
++	out_pixel->r = drm_fixp2int(drm_fixp_mul(fp_r, fp_rb_ratio));
++	out_pixel->g = drm_fixp2int(drm_fixp_mul(fp_g, fp_g_ratio));
++	out_pixel->b = drm_fixp2int(drm_fixp_mul(fp_b, fp_rb_ratio));
++}
++
++void vkms_compose_row(struct line_buffer *stage_buffer, struct vkms_plane_state *plane, int y)
++{
++	struct pixel_argb_u16 *out_pixels = stage_buffer->pixels;
++	u8 *src_pixels = get_packed_src_addr(plane->frame_info, y);
++	int limit = min_t(size_t, drm_rect_width(&plane->frame_info->dst),
++			  stage_buffer->n_pixels);
++
++	for (size_t x = 0; x < limit; x++, src_pixels += plane->frame_info->cpp)
++		plane->pixel_read(src_pixels, &out_pixels[x]);
+ }
+ 
+ /*
+@@ -249,7 +224,7 @@ static void argb_u16_to_RGB565(struct vkms_frame_info *frame_info,
+ 	}
+ }
+ 
+-void *get_frame_to_line_function(u32 format)
++void *get_pixel_conversion_function(u32 format)
+ {
+ 	switch (format) {
+ 	case DRM_FORMAT_ARGB8888:
+diff --git a/drivers/gpu/drm/vkms/vkms_formats.h b/drivers/gpu/drm/vkms/vkms_formats.h
+index 43b7c1979018..c5b113495d0c 100644
+--- a/drivers/gpu/drm/vkms/vkms_formats.h
++++ b/drivers/gpu/drm/vkms/vkms_formats.h
+@@ -5,7 +5,7 @@
+ 
+ #include "vkms_drv.h"
+ 
+-void *get_frame_to_line_function(u32 format);
++void *get_pixel_conversion_function(u32 format);
+ 
+ void *get_line_to_frame_function(u32 format);
+ 
+diff --git a/drivers/gpu/drm/vkms/vkms_plane.c b/drivers/gpu/drm/vkms/vkms_plane.c
+index c41cec7dcb70..0a23875900ec 100644
+--- a/drivers/gpu/drm/vkms/vkms_plane.c
++++ b/drivers/gpu/drm/vkms/vkms_plane.c
+@@ -123,7 +123,7 @@ static void vkms_plane_atomic_update(struct drm_plane *plane,
+ 	frame_info->offset = fb->offsets[0];
+ 	frame_info->pitch = fb->pitches[0];
+ 	frame_info->cpp = fb->format->cpp[0];
+-	vkms_plane_state->plane_read = get_frame_to_line_function(fmt);
++	vkms_plane_state->pixel_read = get_pixel_conversion_function(fmt);
+ }
+ 
+ static int vkms_plane_atomic_check(struct drm_plane *plane,
 -- 
 2.39.2
 
