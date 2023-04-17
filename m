@@ -2,39 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3882C6E5389
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Apr 2023 23:02:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BDED56E538C
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Apr 2023 23:03:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CDA4810E5CA;
-	Mon, 17 Apr 2023 21:02:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CC1C710E36B;
+	Mon, 17 Apr 2023 21:03:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org
  [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A51FB10E5CA
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Apr 2023 21:02:23 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8A55010E36B;
+ Mon, 17 Apr 2023 21:03:16 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 4CDDA62A8F;
- Mon, 17 Apr 2023 21:02:20 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4189DC4339B;
- Mon, 17 Apr 2023 21:02:18 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 0A8CF62517;
+ Mon, 17 Apr 2023 21:03:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 39E1AC433EF;
+ Mon, 17 Apr 2023 21:03:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1681765339;
- bh=M+0Wkonx6xgqnpncRO7OGIWleTNT95JSdoH0jUPeOZ4=;
+ s=k20201202; t=1681765395;
+ bh=6v5l4vPJTur+E1/6K1HeqdG2RoCvkceddg82nGQhHzo=;
  h=From:To:Cc:Subject:Date:From;
- b=MpAkNO0krwEsoJPAt7dNl0COD7+wh03WF2d3c1EKXmjLKM6OZnBMcSPbqYKub1jR7
- hLsZp9CBdvceZrM2gfDGyMn9PkVoXBAL79G6J7/YShxy9ffLlPz804Z+P1rbTnR6ON
- lVAuh9boHMbLX0yd7BASNMdQ/UoeAigySsBqyZpCcHYQXBP4ght0vdteUdZk65f2Yn
- nAzuq70pEK34nvCo/eIP5nTE2nuy0HdxCLQfbNdZ2JZBgLX6A9YuSWdR3RhBEHQPhF
- 7wSvaXvV+60Ho5gRttq68P2dag6QhODix4Fwf3XeCFMSCO2y5qiXGWRa8RGDfaO7fU
- Bees4prCuY2WQ==
+ b=uYSogoOgT3vkHqwAHouEmEcZ1WY9ayQbD/3q4D41z4V5W2bvOcpjGr+v+6RcS/ToR
+ ksjBYY8BTb2gZZnZ0G17NgHokSTPCyuics1K/YIDbFQFwiCNJswJzMe8i7FW+6DPt9
+ 52zM9KfWyr7b5MYhgF9JxykVPv/YC3pT2XZXAJje/5IFUzIT1evA79NODj8MbJHPOy
+ Amxip8uDsZS2YSK4nY3QAUDOEEtTN/mY+2GR7t4gnHNpv3MuD+OktfnJchWFgFJ+zn
+ uLpUN1SU8EpmkuHjdaPSKbZtvNshNng42Z2WkAmiA4ZETtmOX+uK9ncFHVzxrHIzq6
+ DHQ31NPo574MQ==
 From: Arnd Bergmann <arnd@kernel.org>
-To: Lee Jones <lee@kernel.org>
-Subject: [PATCH] backlight: corgi_lcd: fix missing prototype
-Date: Mon, 17 Apr 2023 23:02:13 +0200
-Message-Id: <20230417210213.2385912-1-arnd@kernel.org>
+To: Ben Skeggs <bskeggs@redhat.com>, Karol Herbst <kherbst@redhat.com>,
+ Lyude Paul <lyude@redhat.com>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>
+Subject: [PATCH] drm/nouveau: remove unused tu102_gr_load() function
+Date: Mon, 17 Apr 2023 23:03:04 +0200
+Message-Id: <20230417210310.2443152-1-arnd@kernel.org>
 X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -50,63 +52,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jingoo Han <jingoohan1@gmail.com>,
- Daniel Thompson <daniel.thompson@linaro.org>, Arnd Bergmann <arnd@arndb.de>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Arnd Bergmann <arnd@arndb.de>,
+ Gourav Samaiya <gsamaiya@nvidia.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Arnd Bergmann <arnd@arndb.de>
 
-The corgi_lcd_limit_intensity() function is called from platform
-and defined in a driver, but the driver does not see the declaration:
+tu102_gr_load() is completely unused and can be removed to address
+this warning:
 
-drivers/video/backlight/corgi_lcd.c:434:6: error: no previous prototype for 'corgi_lcd_limit_intensity' [-Werror=missing-prototypes]
-  434 | void corgi_lcd_limit_intensity(int limit)
+drivers/gpu/drm/nouveau/dispnv50/disp.c:2517:1: error: no previous prototype for 'nv50_display_create'
 
-Move the prototype into a header that can be included from both
-sides to shut up the warning.
-
+Fixes: 1cd97b5490c8 ("drm/nouveau/gr/tu102-: use sw_veid_bundle_init from firmware")
 Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 ---
- arch/arm/mach-pxa/sharpsl_pm.h | 1 -
- arch/arm/mach-pxa/spitz_pm.c   | 1 +
- include/linux/spi/corgi_lcd.h  | 2 ++
- 3 files changed, 3 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/nouveau/nvkm/engine/gr/tu102.c | 13 -------------
+ 1 file changed, 13 deletions(-)
 
-diff --git a/arch/arm/mach-pxa/sharpsl_pm.h b/arch/arm/mach-pxa/sharpsl_pm.h
-index 9429900db0bb..eff9a74e787f 100644
---- a/arch/arm/mach-pxa/sharpsl_pm.h
-+++ b/arch/arm/mach-pxa/sharpsl_pm.h
-@@ -105,5 +105,4 @@ void sharpsl_pm_led(int val);
- #define MAX1111_ACIN_VOLT   6u
- int sharpsl_pm_pxa_read_max1111(int channel);
+diff --git a/drivers/gpu/drm/nouveau/nvkm/engine/gr/tu102.c b/drivers/gpu/drm/nouveau/nvkm/engine/gr/tu102.c
+index 3b6c8100a242..a7775aa18541 100644
+--- a/drivers/gpu/drm/nouveau/nvkm/engine/gr/tu102.c
++++ b/drivers/gpu/drm/nouveau/nvkm/engine/gr/tu102.c
+@@ -206,19 +206,6 @@ tu102_gr_av_to_init_veid(struct nvkm_blob *blob, struct gf100_gr_pack **ppack)
+ 	return gk20a_gr_av_to_init_(blob, 64, 0x00100000, ppack);
+ }
  
--void corgi_lcd_limit_intensity(int limit);
- #endif
-diff --git a/arch/arm/mach-pxa/spitz_pm.c b/arch/arm/mach-pxa/spitz_pm.c
-index c783696e13b9..9571f2b5b118 100644
---- a/arch/arm/mach-pxa/spitz_pm.c
-+++ b/arch/arm/mach-pxa/spitz_pm.c
-@@ -15,6 +15,7 @@
- #include <linux/interrupt.h>
- #include <linux/platform_device.h>
- #include <linux/apm-emulation.h>
-+#include <linux/spi/corgi_lcd.h>
- 
- #include <asm/irq.h>
- #include <asm/mach-types.h>
-diff --git a/include/linux/spi/corgi_lcd.h b/include/linux/spi/corgi_lcd.h
-index 0b857616919c..fc6c1515dc54 100644
---- a/include/linux/spi/corgi_lcd.h
-+++ b/include/linux/spi/corgi_lcd.h
-@@ -15,4 +15,6 @@ struct corgi_lcd_platform_data {
- 	void (*kick_battery)(void);
- };
- 
-+void corgi_lcd_limit_intensity(int limit);
-+
- #endif /* __LINUX_SPI_CORGI_LCD_H */
+-int
+-tu102_gr_load(struct gf100_gr *gr, int ver, const struct gf100_gr_fwif *fwif)
+-{
+-	int ret;
+-
+-	ret = gm200_gr_load(gr, ver, fwif);
+-	if (ret)
+-		return ret;
+-
+-	return gk20a_gr_load_net(gr, "gr/", "sw_veid_bundle_init", ver, tu102_gr_av_to_init_veid,
+-				 &gr->bundle_veid);
+-}
+-
+ static const struct gf100_gr_fwif
+ tu102_gr_fwif[] = {
+ 	{  0, gm200_gr_load, &tu102_gr, &gp108_gr_fecs_acr, &gp108_gr_gpccs_acr },
 -- 
 2.39.2
 
