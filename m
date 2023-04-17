@@ -2,72 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 314556E4826
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Apr 2023 14:47:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E3AAE6E4828
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Apr 2023 14:47:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EEEC310E497;
-	Mon, 17 Apr 2023 12:46:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E9E3310E4A5;
+	Mon, 17 Apr 2023 12:47:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DF43810E497
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Apr 2023 12:46:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1681735615;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=hi++eveNlkrj9xbWlpgBiAgo9b9NAN27QrWvfVpf3Hw=;
- b=H8DSD84gEvtcgMbPCyGfzmjEA68q1eBTaHSy93kFKjoc9KqvvVLzkH7UUk9wF9xxU2zJWV
- jNB7s5w5hXFLQqFAFIOoAtXHH4KsWgyA6TdnHv/KLfjfD8sixn5KcnGTcRLxM7zwvJricH
- D6Mw6qNsRn4qciZqZhPRbqdDS0FUk3c=
-Received: from mail-lf1-f71.google.com (mail-lf1-f71.google.com
- [209.85.167.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-659-7FH_ws1POiipiKyiMVRhbg-1; Mon, 17 Apr 2023 08:46:54 -0400
-X-MC-Unique: 7FH_ws1POiipiKyiMVRhbg-1
-Received: by mail-lf1-f71.google.com with SMTP id
- 2adb3069b0e04-4ec8143e34aso506968e87.0
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Apr 2023 05:46:54 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681735613; x=1684327613;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=hi++eveNlkrj9xbWlpgBiAgo9b9NAN27QrWvfVpf3Hw=;
- b=LdX1cSgsvpw9rUBP5UUMaBGeMs3UNNtdOlVey6/far850cw2BD7bgtd3qhUkDLCQzC
- YY4uSqm/DXN2pdiwyMGldNtxQo3zlvu1HMnqSQ/71QQbALWu0YNcJf/O6mL6/pGUjCZO
- iuMsEWGVgO/0+IjDyCukmMQLKkjGCj9e0yZ+kYrLdd+lx0z+FUnuIr56VFB2thnsvfZ5
- PtFDu1DYR7afFC98A5Z5xU6DE4XhkeTVO043Pw5kbVESA+hDzR+sdzM7HTgjhkHkOt3b
- pgApsUlsB/kqqx+mc5Xj1CBuoMmPeH/LLXf7WRscOL67I1AVQzT3lvQJ3CUU3sjN1bSy
- 0VYw==
-X-Gm-Message-State: AAQBX9eqOURWkUCvs17HypZhCXFlcEwCQxUbeDzpYEdAluicdanjmmrE
- IyoCbGy46u9d/kzXQ0zyAB9JVgef1dMZK6+HHdfpX7kd4tnBcORewNEg0Awml3+dU6mXAdJjQui
- CWegCsNbdDiYG2JafuBcPbzp+XPTMTPrvUDgIrL5SBrA0
-X-Received: by 2002:ac2:5dea:0:b0:4ec:e32f:3d1f with SMTP id
- z10-20020ac25dea000000b004ece32f3d1fmr2079780lfq.11.1681735612861; 
- Mon, 17 Apr 2023 05:46:52 -0700 (PDT)
-X-Google-Smtp-Source: AKy350Z7S18KuRxvZ5c/MFkn9CZgVP4JCWx+2zRnkVfsFNFdFSobcj64LGiM2uWx/5LJwcD36vpVs2SkVyqd5KSxyIk=
-X-Received: by 2002:ac2:5dea:0:b0:4ec:e32f:3d1f with SMTP id
- z10-20020ac25dea000000b004ece32f3d1fmr2079772lfq.11.1681735612531; Mon, 17
- Apr 2023 05:46:52 -0700 (PDT)
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E096310E4A5
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Apr 2023 12:47:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1681735626; x=1713271626;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=FzP2vtu7DLOoRfUFGPx5Sd+wMWc7nV0hL5FksagcAvk=;
+ b=gEFk6EbCCrZTCfKd766QTF6Nf3/+1MCNOsKrvqPJ/hWRgRlX4OUIHRZ0
+ /U4k/JbZR0yVT9UnOTGADI5JtjqwbOH2rO/NQJrZwUsm9Ks+oN0ctwm3+
+ uHsakfpyc9AIYYB4RkuvB11dhmZHJRAMtpw37FLgYP174oAgIfHMAnfVm
+ LqUWQgJb+m8lRyYorP6gJOdDI2a33FwxExSN2G7F63v19eT6sRgDRUgoO
+ Zxp+zZCp3CjbrZ+2ytlMK5T4G+9R7XA8TpUA3TGOKfiqkl6ilSJZsBW1H
+ QJvPmV/L+KDtBZ1BSaZHxK3VnOU1vHdWdntBFmA6aeK5LdZOoiLm/dghF g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10682"; a="329050437"
+X-IronPort-AV: E=Sophos;i="5.99,204,1677571200"; d="scan'208";a="329050437"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Apr 2023 05:47:06 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10682"; a="668111069"
+X-IronPort-AV: E=Sophos;i="5.99,204,1677571200"; d="scan'208";a="668111069"
+Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.70])
+ by orsmga006.jf.intel.com with SMTP; 17 Apr 2023 05:47:02 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Mon, 17 Apr 2023 15:47:01 +0300
+Date: Mon, 17 Apr 2023 15:47:01 +0300
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: =?iso-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>
+Subject: Re: [PATCH v2 6/7] drm/vkms: add reflect-y property
+Message-ID: <ZD0/xcx2E7cdFqme@intel.com>
+References: <20230414135151.75975-1-mcanal@igalia.com>
+ <20230414135151.75975-7-mcanal@igalia.com>
+ <ZDliI+iEgQlDMZWJ@intel.com>
+ <38df4fc1-b6ad-ae3d-daab-de09fde30ffc@igalia.com>
+ <ZDlnTHCUqktMjGef@intel.com>
+ <79f5c3bf-ac4d-18f5-4b09-2b9a2422202c@igalia.com>
 MIME-Version: 1.0
-References: <20230415012137.615305-1-john.ogness@linutronix.de>
- <87edolaomt.fsf@jogness.linutronix.de>
- <7b17a825-0f76-3e0f-5e56-0e689b7d7866@amd.com>
-In-Reply-To: <7b17a825-0f76-3e0f-5e56-0e689b7d7866@amd.com>
-From: Karol Herbst <kherbst@redhat.com>
-Date: Mon, 17 Apr 2023 14:46:40 +0200
-Message-ID: <CACO55tsvgOPgpc5Ssm-md_q4-0U6ON-kHzuu+F-RsnZ79ACYrA@mail.gmail.com>
-Subject: Re: [PATCH v3] drm/nouveau: fix incorrect conversion to
- dma_resv_wait_timeout()
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <79f5c3bf-ac4d-18f5-4b09-2b9a2422202c@igalia.com>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,101 +65,128 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: John Ogness <john.ogness@linutronix.de>, nouveau@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Tanmay Bhushan <007047221b@gmail.com>, Ben Skeggs <bskeggs@redhat.com>
+Cc: Haneen Mohammed <hamohammed.sa@gmail.com>,
+ Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ dri-devel@lists.freedesktop.org, Melissa Wen <mwen@igalia.com>,
+ Arthur Grillo <arthurgrillo@riseup.net>,
+ Igor Matheus Andrade Torrente <igormtorrente@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Apr 17, 2023 at 7:55=E2=80=AFAM Christian K=C3=B6nig
-<christian.koenig@amd.com> wrote:
->
-> Am 15.04.23 um 04:02 schrieb John Ogness:
-> > Commit 41d351f29528 ("drm/nouveau: stop using ttm_bo_wait")
-> > converted from ttm_bo_wait_ctx() to dma_resv_wait_timeout().
-> > However, dma_resv_wait_timeout() returns greater than zero on
-> > success as opposed to ttm_bo_wait_ctx(). As a result, relocs
-> > will fail and log errors even when it was a success.
-> >
-> > Change the return code handling to match that of
-> > nouveau_gem_ioctl_cpu_prep(), which was already using
-> > dma_resv_wait_timeout() correctly.
-> >
-> > Fixes: 41d351f29528 ("drm/nouveau: stop using ttm_bo_wait")
-> > Reported-by: Tanmay Bhushan <007047221b@gmail.com>
-> > Link: https://lore.kernel.org/lkml/20230119225351.71657-1-007047221b@gm=
-ail.com
-> > Signed-off-by: John Ogness <john.ogness@linutronix.de>
->
-> Reviewed-by: Christian K=C3=B6nig <christian.koenig@amd.com>
->
+On Fri, Apr 14, 2023 at 02:53:55PM -0300, Maíra Canal wrote:
+> On 4/14/23 11:46, Ville Syrjälä wrote:
+> > On Fri, Apr 14, 2023 at 11:37:17AM -0300, Maíra Canal wrote:
+> >> On 4/14/23 11:24, Ville Syrjälä wrote:
+> >>> On Fri, Apr 14, 2023 at 10:51:50AM -0300, Maíra Canal wrote:
+> >>>> Currently, vkms only support the reflect-x property. Therefore, add the
+> >>>> reflect-y property to vkms through a software implementation of the
+> >>>> operation. This is possible by reverse reading the y axis during the
+> >>>> blending.
+> >>>>
+> >>>> Now, vkms support all possible rotation values.
+> >>>>
+> >>>> Tested with igt@kms_rotation_crc@primary-reflect-y and
+> >>>> igt@kms_rotation_crc@sprite-reflect-y [1].
+> >>>>
+> >>>> [1] https://patchwork.freedesktop.org/series/116025/
+> >>>>
+> >>>> Signed-off-by: Maíra Canal <mcanal@igalia.com>
+> >>>> ---
+> >>>>    drivers/gpu/drm/vkms/vkms_composer.c |  7 ++++++-
+> >>>>    drivers/gpu/drm/vkms/vkms_plane.c    | 16 ++++------------
+> >>>>    2 files changed, 10 insertions(+), 13 deletions(-)
+> >>>>
+> >>>> diff --git a/drivers/gpu/drm/vkms/vkms_composer.c b/drivers/gpu/drm/vkms/vkms_composer.c
+> >>>> index b05bd008aeab..19d1078e9d34 100644
+> >>>> --- a/drivers/gpu/drm/vkms/vkms_composer.c
+> >>>> +++ b/drivers/gpu/drm/vkms/vkms_composer.c
+> >>>> @@ -92,8 +92,13 @@ static int get_y_pos(struct vkms_frame_info *frame_info, int y)
+> >>>>    			return -1;
+> >>>>    		return y + frame_info->dst.x1;
+> >>>>    	default:
+> >>>> -		return y;
+> >>>> +		break;
+> >>>>    	}
+> >>>> +
+> >>>> +	if (frame_info->rotation & DRM_MODE_REFLECT_Y)
+> >>>> +		return drm_rect_height(&frame_info->dst) - y - 1;
+> >>>> +
+> >>>> +	return y;
+> >>>>    }
+> >>>>    
+> >>>>    static bool check_limit(struct vkms_frame_info *frame_info, int pos)
+> >>>> diff --git a/drivers/gpu/drm/vkms/vkms_plane.c b/drivers/gpu/drm/vkms/vkms_plane.c
+> >>>> index 11662afa9fe4..d08bda869a24 100644
+> >>>> --- a/drivers/gpu/drm/vkms/vkms_plane.c
+> >>>> +++ b/drivers/gpu/drm/vkms/vkms_plane.c
+> >>>> @@ -121,12 +121,8 @@ static void vkms_plane_atomic_update(struct drm_plane *plane,
+> >>>>    	frame_info->fb = fb;
+> >>>>    	memcpy(&frame_info->map, &shadow_plane_state->data, sizeof(frame_info->map));
+> >>>>    	drm_framebuffer_get(frame_info->fb);
+> >>>> -	frame_info->rotation = drm_rotation_simplify(new_state->rotation,
+> >>>> -						     DRM_MODE_ROTATE_0 |
+> >>>> -						     DRM_MODE_ROTATE_90 |
+> >>>> -						     DRM_MODE_ROTATE_180 |
+> >>>> -						     DRM_MODE_ROTATE_270 |
+> >>>> -						     DRM_MODE_REFLECT_X);
+> >>>> +	frame_info->rotation = drm_rotation_simplify(new_state->rotation, DRM_MODE_ROTATE_MASK |
+> >>>> +						     DRM_MODE_REFLECT_MASK);
+> >>>
+> >>> What are you trying to achieve with that?
+> >>
+> >> Yeah, seeing it right now I can see that this is not achieving anything.
+> >> I will remove it in the next version.
+> > 
+> > I think using it might still make sense to eg. remove the 180/270
+> > cases from your actual rendering code.
+> 
+> I will remove it on the next version.
+> 
+> > 
+> > I'm also a bit uneasy about all that hand rolled coordinate calculation
+> > stuff. Ideally drm_rect_rotate*() should handle all that for you, and
+> > make sure the rotate vs. reflect actually get applied in the correct
+> > order.
+> > 
+> 
+> At first, I had a similar idea that drm_rect_rotate() would handle all the
+> rotation. But, this turn out to be untrue. From what I can see, although
+> the drm_rect_rotate() helps by performing the coordinates rotation, we also
+> need to change the way the blending occurs. Although the coordinates have
+> changed, the vmap stays the same and we will still start reading the vmap
+> by the first line (y = 0). That's why we need to change the iteration
+> boundaries in the blending loops.
+> 
+> So, drm_rect_rotate() is a part of the solution, but it is not able to handle
+> it completely.
+> 
+> If you have any suggestions on how to perform the rotation without changing
+> the way the blending occurs, I would be glad to hear. Unfortunately, just
+> performing drm_rect_rotate() doesn't seem to be a solution.
 
-Reviewed-by: Karol Herbst <kherbst@redhat.com>
+Dunno how vkms does this currently, but the most straightforward
+solution I can think of would be something like this:
 
-will push shortly to drm-misc-fixes
+struct drm_rect src;
 
-> > ---
-> >   I just realized that the nouveau driver style prefers to scope
-> >   variables used only in loops.
-> >
-> >   v3: Define @lret within the for-loop.
-> >
-> >   drivers/gpu/drm/nouveau/nouveau_gem.c | 18 ++++++++++++------
-> >   1 file changed, 12 insertions(+), 6 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/nouveau/nouveau_gem.c b/drivers/gpu/drm/no=
-uveau/nouveau_gem.c
-> > index f77e44958037..ab9062e50977 100644
-> > --- a/drivers/gpu/drm/nouveau/nouveau_gem.c
-> > +++ b/drivers/gpu/drm/nouveau/nouveau_gem.c
-> > @@ -645,7 +645,7 @@ nouveau_gem_pushbuf_reloc_apply(struct nouveau_cli =
-*cli,
-> >                               struct drm_nouveau_gem_pushbuf_reloc *rel=
-oc,
-> >                               struct drm_nouveau_gem_pushbuf_bo *bo)
-> >   {
-> > -     long ret =3D 0;
-> > +     int ret =3D 0;
-> >       unsigned i;
-> >
-> >       for (i =3D 0; i < req->nr_relocs; i++) {
-> > @@ -653,6 +653,7 @@ nouveau_gem_pushbuf_reloc_apply(struct nouveau_cli =
-*cli,
-> >               struct drm_nouveau_gem_pushbuf_bo *b;
-> >               struct nouveau_bo *nvbo;
-> >               uint32_t data;
-> > +             long lret;
-> >
-> >               if (unlikely(r->bo_index >=3D req->nr_buffers)) {
-> >                       NV_PRINTK(err, cli, "reloc bo index invalid\n");
-> > @@ -703,13 +704,18 @@ nouveau_gem_pushbuf_reloc_apply(struct nouveau_cl=
-i *cli,
-> >                               data |=3D r->vor;
-> >               }
-> >
-> > -             ret =3D dma_resv_wait_timeout(nvbo->bo.base.resv,
-> > -                                         DMA_RESV_USAGE_BOOKKEEP,
-> > -                                         false, 15 * HZ);
-> > -             if (ret =3D=3D 0)
-> > +             lret =3D dma_resv_wait_timeout(nvbo->bo.base.resv,
-> > +                                          DMA_RESV_USAGE_BOOKKEEP,
-> > +                                          false, 15 * HZ);
-> > +             if (!lret)
-> >                       ret =3D -EBUSY;
-> > +             else if (lret > 0)
-> > +                     ret =3D 0;
-> > +             else
-> > +                     ret =3D lret;
-> > +
-> >               if (ret) {
-> > -                     NV_PRINTK(err, cli, "reloc wait_idle failed: %ld\=
-n",
-> > +                     NV_PRINTK(err, cli, "reloc wait_idle failed: %d\n=
-",
-> >                                 ret);
-> >                       break;
-> >               }
-> >
-> > base-commit: 09a9639e56c01c7a00d6c0ca63f4c7c41abe075d
->
+drm_rect_fp_to_int(&src, plane_state->src);
 
+drm_rect_rotate(&src, fb->width, fb->height, rotation);
+
+for (dy = dst->y1; dy < dst->y2; dy++) {
+	for (dx = dst->x1; dx < dst->x2; dx++) {
+		int _sx = dx - dst->x1 + src.x1;
+		int _sy = dy - dst->y1 + src.y1;
+		struct drm_rect s;
+
+		drm_rect_init(&s, _sx, _sy, 1, 1);
+
+		drm_rect_rotate_inv(&s, fb->width, fb->height, rotation);
+
+		output_pixel(dx, dy, s.x1, s.y1);
+	}
+}
+
+-- 
+Ville Syrjälä
+Intel
