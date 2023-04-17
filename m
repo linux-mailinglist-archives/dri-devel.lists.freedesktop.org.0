@@ -1,27 +1,27 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 393EB6E4A3D
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Apr 2023 15:44:57 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 214E56E4A43
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Apr 2023 15:45:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B4A9D10E4F9;
-	Mon, 17 Apr 2023 13:44:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5562A10E4FF;
+	Mon, 17 Apr 2023 13:45:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from baptiste.telenet-ops.be (baptiste.telenet-ops.be
- [IPv6:2a02:1800:120:4::f00:13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8BAED10E4F6
+Received: from xavier.telenet-ops.be (xavier.telenet-ops.be
+ [IPv6:2a02:1800:120:4::f00:14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 983A110E4FF
  for <dri-devel@lists.freedesktop.org>; Mon, 17 Apr 2023 13:44:52 +0000 (UTC)
 Received: from ramsan.of.borg ([84.195.187.55])
- by baptiste.telenet-ops.be with bizsmtp
- id lpko2900R1C8whw01pkoNM; Mon, 17 Apr 2023 15:44:49 +0200
+ by xavier.telenet-ops.be with bizsmtp
+ id lpko2900u1C8whw01pkomm; Mon, 17 Apr 2023 15:44:49 +0200
 Received: from rox.of.borg ([192.168.97.57])
  by ramsan.of.borg with esmtp (Exim 4.95)
- (envelope-from <geert@linux-m68k.org>) id 1poP4t-00H0Vy-WE;
+ (envelope-from <geert@linux-m68k.org>) id 1poP4u-00H0Vz-0L;
  Mon, 17 Apr 2023 15:40:27 +0200
 Received: from geert by rox.of.borg with local (Exim 4.95)
- (envelope-from <geert@linux-m68k.org>) id 1poP5n-007zAJ-Kb;
+ (envelope-from <geert@linux-m68k.org>) id 1poP5n-007zAM-LL;
  Mon, 17 Apr 2023 15:40:27 +0200
 From: Geert Uytterhoeven <geert+renesas@glider.be>
 To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
@@ -30,9 +30,9 @@ To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>, Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH v2 1/5] drm: shmobile: Use %p4cc to print fourcc codes
-Date: Mon, 17 Apr 2023 15:40:21 +0200
-Message-Id: <71cbb983e0d6b153f5c4e0664b795421b34b10fb.1681734821.git.geert+renesas@glider.be>
+Subject: [PATCH v2 2/5] drm: shmobile: Add support for DRM_FORMAT_XRGB8888
+Date: Mon, 17 Apr 2023 15:40:22 +0200
+Message-Id: <9107cdda83234cf09fc8a93609a66ace1a55aba3.1681734821.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1681734821.git.geert+renesas@glider.be>
 References: <cover.1681734821.git.geert+renesas@glider.be>
@@ -55,49 +55,82 @@ Cc: linux-renesas-soc@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Replace the printing of hexadecimal fourcc format codes by
-pretty-printed format names, using the "%p4cc" format specifier.
+DRM_FORMAT_XRGB8888 aka XR24 is the modus francus of DRM, and should be
+supported by all drivers.
+
+The handling for DRM_FORMAT_XRGB8888 is similar to DRM_FORMAT_ARGB8888,
+just ignore the alpha channel.
 
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
 v2:
   - Add Reviewed-by.
 ---
- drivers/gpu/drm/shmobile/shmob_drm_crtc.c | 4 ++--
- drivers/gpu/drm/shmobile/shmob_drm_kms.c  | 4 ++--
- 2 files changed, 4 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/shmobile/shmob_drm_crtc.c  | 1 +
+ drivers/gpu/drm/shmobile/shmob_drm_kms.c   | 5 +++++
+ drivers/gpu/drm/shmobile/shmob_drm_plane.c | 5 +++++
+ 3 files changed, 11 insertions(+)
 
 diff --git a/drivers/gpu/drm/shmobile/shmob_drm_crtc.c b/drivers/gpu/drm/shmobile/shmob_drm_crtc.c
-index d354ab3077cecf94..713a7612244c647a 100644
+index 713a7612244c647a..08dc1428aa16caf0 100644
 --- a/drivers/gpu/drm/shmobile/shmob_drm_crtc.c
 +++ b/drivers/gpu/drm/shmobile/shmob_drm_crtc.c
-@@ -355,8 +355,8 @@ static int shmob_drm_crtc_mode_set(struct drm_crtc *crtc,
- 
- 	format = shmob_drm_format_info(crtc->primary->fb->format->format);
- 	if (format == NULL) {
--		dev_dbg(sdev->dev, "mode_set: unsupported format %08x\n",
--			crtc->primary->fb->format->format);
-+		dev_dbg(sdev->dev, "mode_set: unsupported format %p4cc\n",
-+			&crtc->primary->fb->format->format);
- 		return -EINVAL;
- 	}
- 
+@@ -232,6 +232,7 @@ static void shmob_drm_crtc_start(struct shmob_drm_crtc *scrtc)
+ 		value = LDDDSR_LS | LDDDSR_WS | LDDDSR_BS;
+ 		break;
+ 	case DRM_FORMAT_ARGB8888:
++	case DRM_FORMAT_XRGB8888:
+ 	default:
+ 		value = LDDDSR_LS;
+ 		break;
 diff --git a/drivers/gpu/drm/shmobile/shmob_drm_kms.c b/drivers/gpu/drm/shmobile/shmob_drm_kms.c
-index 60a2c8d8a0d947d2..3c5fe3bc183c7c13 100644
+index 3c5fe3bc183c7c13..99381cc0abf3ae1f 100644
 --- a/drivers/gpu/drm/shmobile/shmob_drm_kms.c
 +++ b/drivers/gpu/drm/shmobile/shmob_drm_kms.c
-@@ -96,8 +96,8 @@ shmob_drm_fb_create(struct drm_device *dev, struct drm_file *file_priv,
- 
- 	format = shmob_drm_format_info(mode_cmd->pixel_format);
- 	if (format == NULL) {
--		dev_dbg(dev->dev, "unsupported pixel format %08x\n",
--			mode_cmd->pixel_format);
-+		dev_dbg(dev->dev, "unsupported pixel format %p4cc\n",
-+			&mode_cmd->pixel_format);
- 		return ERR_PTR(-EINVAL);
- 	}
- 
+@@ -39,6 +39,11 @@ static const struct shmob_drm_format_info shmob_drm_format_infos[] = {
+ 		.bpp = 32,
+ 		.yuv = false,
+ 		.lddfr = LDDFR_PKF_ARGB32,
++	}, {
++		.fourcc = DRM_FORMAT_XRGB8888,
++		.bpp = 32,
++		.yuv = false,
++		.lddfr = LDDFR_PKF_ARGB32,
+ 	}, {
+ 		.fourcc = DRM_FORMAT_NV12,
+ 		.bpp = 12,
+diff --git a/drivers/gpu/drm/shmobile/shmob_drm_plane.c b/drivers/gpu/drm/shmobile/shmob_drm_plane.c
+index 604ae23825daaafd..850986cee848226a 100644
+--- a/drivers/gpu/drm/shmobile/shmob_drm_plane.c
++++ b/drivers/gpu/drm/shmobile/shmob_drm_plane.c
+@@ -80,6 +80,7 @@ static void __shmob_drm_plane_setup(struct shmob_drm_plane *splane,
+ 		format |= LDBBSIFR_SWPL | LDBBSIFR_SWPW | LDBBSIFR_SWPB;
+ 		break;
+ 	case DRM_FORMAT_ARGB8888:
++	case DRM_FORMAT_XRGB8888:
+ 	default:
+ 		format |= LDBBSIFR_SWPL;
+ 		break;
+@@ -95,6 +96,9 @@ static void __shmob_drm_plane_setup(struct shmob_drm_plane *splane,
+ 	case DRM_FORMAT_ARGB8888:
+ 		format |= LDBBSIFR_AL_PK | LDBBSIFR_RY | LDDFR_PKF_ARGB32;
+ 		break;
++	case DRM_FORMAT_XRGB8888:
++		format |= LDBBSIFR_AL_1 | LDBBSIFR_RY | LDDFR_PKF_ARGB32;
++		break;
+ 	case DRM_FORMAT_NV12:
+ 	case DRM_FORMAT_NV21:
+ 		format |= LDBBSIFR_AL_1 | LDBBSIFR_CHRR_420;
+@@ -231,6 +235,7 @@ static const uint32_t formats[] = {
+ 	DRM_FORMAT_RGB565,
+ 	DRM_FORMAT_RGB888,
+ 	DRM_FORMAT_ARGB8888,
++	DRM_FORMAT_XRGB8888,
+ 	DRM_FORMAT_NV12,
+ 	DRM_FORMAT_NV21,
+ 	DRM_FORMAT_NV16,
 -- 
 2.34.1
 
