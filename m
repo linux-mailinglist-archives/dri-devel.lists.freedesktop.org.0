@@ -1,51 +1,77 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E3956E6CBA
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Apr 2023 21:13:15 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E83ED6E6CDF
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Apr 2023 21:21:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 53D7910E31A;
-	Tue, 18 Apr 2023 19:13:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5E79310E85F;
+	Tue, 18 Apr 2023 19:20:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from phobos.denx.de (phobos.denx.de
- [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 356A510E31A
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Apr 2023 19:13:06 +0000 (UTC)
-Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
- (No client certificate requested)
- (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id ACCE885F71;
- Tue, 18 Apr 2023 21:13:01 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1681845182;
- bh=GtQ5dPeQJ86K58quO2g9ivgJdihrxvFqEqqS7acyLfY=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=iMgS2dzbBoicIO81zWtxevlFxvnyiMPhrJIIjKjrSdUeo45E+tI+T99Oiyw0DtCsi
- 0psty/kBggnTDVZStH/Q3QMqkLgYiYh++wtKSeqHRtlrEkA3e42OqcFXRwngNEbTMI
- NZpMZl+TPGLzQbdLJK6/SvLy1zkw1+Nkp7pRokJd5iC31c+0gUTgEH+LoX7sDAO6Gd
- uiFhnkYIIxC0calbetiTvoh0+12xt6V7bQKvCfAruc7EQsTcFog2C/m22/AIAuLpcI
- ZmVYTVVasd5jxMLOA1FRMDvTq3s8Q+tQQ5+XwYkftJGvTs3SDorbydKeeyHM70zKpv
- DLNoMWjdaZZVg==
-Message-ID: <3cce6dc0-bb37-9118-9fee-c2f202826963@denx.de>
-Date: Tue, 18 Apr 2023 21:13:01 +0200
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A363810E85F
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Apr 2023 19:20:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1681845655;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=aai1WHo4fg1sxKcLX3kD4BGAw1PP+pR+m3nWfdfcZTU=;
+ b=SEJPcsAflSfXP88Lt9fb57YukdDbEswjw1lGuKpACS5WyAxg0NBNTljoFiGj/vv/dAGvG9
+ bC4WzVzxisL3tnNpi4w99QF8zVWcU3cXmA8L4JJOdkuZfZS5BExFrt+ii52s2XcBnfGW5O
+ xTgRB9uwuE+7NeVoeakDW11IHC3YHAI=
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
+ [209.85.160.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-659-7lqq48ClNzG9PSdpF4edDQ-1; Tue, 18 Apr 2023 15:20:54 -0400
+X-MC-Unique: 7lqq48ClNzG9PSdpF4edDQ-1
+Received: by mail-qt1-f198.google.com with SMTP id
+ l20-20020a05622a051400b003e6d92a606bso16315224qtx.14
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Apr 2023 12:20:54 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1681845654; x=1684437654;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=aai1WHo4fg1sxKcLX3kD4BGAw1PP+pR+m3nWfdfcZTU=;
+ b=fx/GZBbJRIAyVamfSss8JkrMHALk9GBnCepG5ceUcI5eRkpIBtxCWw0JMFrjFFUS2u
+ 7tmDXyDL3P9QxdEgWr67YWqFAdxcZ9X9o81uJvxvvwdWPqiHjbZnJH8UnlpAIQdyH7o6
+ YU4IPOs6dqz+YhZzMWuMRwHcxKrODMKu7VTvAKZz64s/cBg1M91rIB74YVYX0F+ORG1G
+ R7lRkQdZN2/Swr5Ti7RF0D/87rgpSYXPVqL8QlMOizS5FZF84MfQEEJYtZM617nck7Sn
+ CgoNBDMU0LIrwhhAOq3H7rFojDu/tjVHDVTF8NaLuwToz6caSM9OFbITopX8IUrsyNBT
+ tYgQ==
+X-Gm-Message-State: AAQBX9fWDzWlYaLIvSm11aPZpHR5JtLwEdoDtBfIoIc995mjtGtI80yP
+ nyNRGuIjibNJ/B+/IyVqo1oHzX3gr2lnplJMhHMVh9z+fEDy1CJaW2Himt9OuowV+8lw/7iz8rN
+ u3aayx0wPS+QUXcROyuXh7jGT2WZ+
+X-Received: by 2002:a05:6214:410:b0:56c:13cc:d21f with SMTP id
+ z16-20020a056214041000b0056c13ccd21fmr25855300qvx.50.1681845654141; 
+ Tue, 18 Apr 2023 12:20:54 -0700 (PDT)
+X-Google-Smtp-Source: AKy350ZFUZ7JQR9xbohdXv2IbnkoRfbUviweblbnyFfC0N6wmvnsGUN3xBE3c2IZkXBZ0ZSdmAywfQ==
+X-Received: by 2002:a05:6214:410:b0:56c:13cc:d21f with SMTP id
+ z16-20020a056214041000b0056c13ccd21fmr25855272qvx.50.1681845653894; 
+ Tue, 18 Apr 2023 12:20:53 -0700 (PDT)
+Received: from dell-per740-01.7a2m.lab.eng.bos.redhat.com
+ (nat-pool-bos-t.redhat.com. [66.187.233.206])
+ by smtp.gmail.com with ESMTPSA id
+ 7-20020a370c07000000b0074df3f7e14esm1709609qkm.67.2023.04.18.12.20.53
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 18 Apr 2023 12:20:53 -0700 (PDT)
+From: Tom Rix <trix@redhat.com>
+To: quic_jhugo@quicinc.com, ogabbay@kernel.org, nathan@kernel.org,
+ ndesaulniers@google.com, jacek.lawrynowicz@linux.intel.com,
+ quic_carlv@quicinc.com, stanislaw.gruszka@linux.intel.com,
+ quic_pkanojiy@quicinc.com
+Subject: [PATCH] accel/qaic: initialize ret variable to 0
+Date: Tue, 18 Apr 2023 15:20:46 -0400
+Message-Id: <20230418192046.3235870-1-trix@redhat.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH 1/3] drm: bridge: icn6211: Only warn on invalid chip IDs
-To: Jagan Teki <jagan@amarulasolutions.com>,
- Brandon Cheo Fusi <fusibrandon13@gmail.com>
-References: <20230418122205.16632-1-fusibrandon13@gmail.com>
- <CAMty3ZDNv3u+Ye_V6m+zLNnNQM5_2=CfFOuOzmO9bHti8VCuJA@mail.gmail.com>
-Content-Language: en-US
-From: Marek Vasut <marex@denx.de>
-In-Reply-To: <CAMty3ZDNv3u+Ye_V6m+zLNnNQM5_2=CfFOuOzmO9bHti8VCuJA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
-X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
-X-Virus-Status: Clean
+Content-Type: text/plain; charset="US-ASCII"; x-default=true
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,41 +84,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: tzimmermann@suse.de, sam@ravnborg.org, robert.foss@linaro.org,
- dri-devel@lists.freedesktop.org
+Cc: linux-arm-msm@vger.kernel.org, llvm@lists.linux.dev,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Tom Rix <trix@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 4/18/23 15:42, Jagan Teki wrote:
-> On Tue, Apr 18, 2023 at 5:52 PM Brandon Cheo Fusi
-> <fusibrandon13@gmail.com> wrote:
->>
->> Avoid aborting chip configuration after reading invalid IDs and
->> instead issue a warning. I have a bunch of these chips and they all
->> report "Vendor=0x00 Device=0x00:0x00 Version=0x00" but are successfully
->> configured and go on to work just fine.
->>
->> Signed-off-by: Brandon Cheo Fusi <fusibrandon13@gmail.com>
->> ---
->>   drivers/gpu/drm/bridge/chipone-icn6211.c | 3 +--
->>   1 file changed, 1 insertion(+), 2 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/bridge/chipone-icn6211.c b/drivers/gpu/drm/bridge/chipone-icn6211.c
->> index 0e37840cd..39de9a7c7 100644
->> --- a/drivers/gpu/drm/bridge/chipone-icn6211.c
->> +++ b/drivers/gpu/drm/bridge/chipone-icn6211.c
->> @@ -361,8 +361,7 @@ static void chipone_atomic_enable(struct drm_bridge *bridge,
->>                  id[0], id[1], id[2], id[3]);
->>
->>          if (id[0] != 0xc1 || id[1] != 0x62 || id[2] != 0x11) {
->> -               dev_dbg(icn->dev, "Invalid Chip IDs, aborting configuration\n");
->> -               return;
->> +               dev_warn(icn->dev, "Invalid Chip IDs, configuration may fail\n");
-> 
-> Did you test I2C-Configured ICN6211 or non-I2C-Configured? if it's
-> later then better to fix a valid ID for it or if it doesn't support ID
-> then a handle via quirk would be a proper solution.
+clang static analysis reports
+drivers/accel/qaic/qaic_data.c:610:2: warning: Undefined or garbage
+  value returned to caller [core.uninitialized.UndefReturn]
+        return ret;
+        ^~~~~~~~~~
 
-The ICN6211 should always be accessible via either option. If the ID 
-readout does not work, the bug is likely in broken DSI command mode on 
-whatever DSI host is used, or, the ICN6211 clock are misconfigured.
+The ret variable is only set some of the time but is always returned.
+So initialize ret to 0.
+
+Fixes: ff13be830333 ("accel/qaic: Add datapath")
+Signed-off-by: Tom Rix <trix@redhat.com>
+---
+ drivers/accel/qaic/qaic_data.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/accel/qaic/qaic_data.c b/drivers/accel/qaic/qaic_data.c
+index c0a574cd1b35..b46a16fb3080 100644
+--- a/drivers/accel/qaic/qaic_data.c
++++ b/drivers/accel/qaic/qaic_data.c
+@@ -591,7 +591,7 @@ static int qaic_gem_object_mmap(struct drm_gem_object *obj, struct vm_area_struc
+ 	struct qaic_bo *bo = to_qaic_bo(obj);
+ 	unsigned long offset = 0;
+ 	struct scatterlist *sg;
+-	int ret;
++	int ret = 0;
+ 
+ 	if (obj->import_attach)
+ 		return -EINVAL;
+-- 
+2.27.0
+
