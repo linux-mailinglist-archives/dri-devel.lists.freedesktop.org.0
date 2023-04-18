@@ -1,81 +1,126 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E30E06E65A8
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Apr 2023 15:16:34 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F14F6E65AC
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Apr 2023 15:17:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E698110E745;
-	Tue, 18 Apr 2023 13:16:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8140110E7AD;
+	Tue, 18 Apr 2023 13:17:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com
- [IPv6:2a00:1450:4864:20::12c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A06E210E67A
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Apr 2023 13:16:29 +0000 (UTC)
-Received: by mail-lf1-x12c.google.com with SMTP id
- 2adb3069b0e04-4ec81779f49so2124125e87.3
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Apr 2023 06:16:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1681823787; x=1684415787;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=sgggcNwZXxbZHeP3Mj+Q6o2cKdV7dl9LMQfDCRj8a40=;
- b=VuLA4kwBkWJxCPoWIk3ZYahaoHb/XNVxbHtSUHsxlrCzRPcjeLV+ZUFn0oWz9vocdm
- KgXzzc3g5g/z12gD2TCLJ+uCMB6+smxnNk89Tz0GvhqagcYDdT5Jo2EGf1fEozhlW5ws
- 5aJelw7B0itzLO9cu2jl7iTMgsfCbgAP6wCn3jiX7+mViPZYQwQ8wL+b+VxANJCf6h9G
- KNDj+zWNX46x4Ze9GF5L5AlitGkMmlOmxQ3KbLp2EHZOB8XfV68/xvV/OM5t3NHHF4nG
- ayHjfX1Vwny36jTU9QX/VsotGr7ZJmW8Tk9iYT/FUNeIxOLsqDTktHvv9N1PRQFINdOZ
- wpkg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681823787; x=1684415787;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=sgggcNwZXxbZHeP3Mj+Q6o2cKdV7dl9LMQfDCRj8a40=;
- b=k9eqg89rXpEBfRwp+RyeQPerHaygZ/tAlhTE6p5Ivtm6RSqAACaZ9R0/Vhjpr0HFEW
- 004SqPatEIzl0nDqlmsGjJeZgZL2LVbjf3KEWADGvjtt4MNyz6ZNqVtBn1RdAgyMSt5r
- E1XaEK5l20u4hRMZNgSD/h42vRD6z9oH2IsqrAcLlIMhDSGMQ7dpF+QwRNV/uo8rDgST
- jvIb2rw5u52t8yiS9vXhMXGW9MKmQaTZBcHNXasfjpH6YBuRmokze6LNYf7hPD/nh7xr
- AGUQUV3TKdP14pg4N6rlwezj7I36KsuCN6w1135AGkPBX5KumLbPbvVPfWxDjCZaVMO0
- 0ZmA==
-X-Gm-Message-State: AAQBX9eTWQ9Qseh5dLDqCQ8W38t1V0tmXUIFnL2nGJKujuWVs+jkFwC6
- zRu8UwUb91sBpg3IS+YS+ONO/g==
-X-Google-Smtp-Source: AKy350YjQozNSVtD7xe9gVWsEYAU8euckO/IZUoPxURb5KB+0cjRoKY3fF5uX/VO2rbFgZSy4kBAjA==
-X-Received: by 2002:a19:520a:0:b0:4eb:4523:d2e6 with SMTP id
- m10-20020a19520a000000b004eb4523d2e6mr2915448lfb.24.1681823787229; 
- Tue, 18 Apr 2023 06:16:27 -0700 (PDT)
-Received: from [192.168.1.101] (abyj144.neoplus.adsl.tpnet.pl. [83.9.29.144])
- by smtp.gmail.com with ESMTPSA id
- b1-20020a056512024100b004edc9e9eec5sm373340lfo.138.2023.04.18.06.16.25
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 18 Apr 2023 06:16:26 -0700 (PDT)
-Message-ID: <f0ceef33-47be-6c4c-175b-7202791f0890@linaro.org>
-Date: Tue, 18 Apr 2023 15:16:24 +0200
-MIME-Version: 1.0
+Received: from EUR05-DB8-obe.outbound.protection.outlook.com
+ (mail-db8eur05on2117.outbound.protection.outlook.com [40.107.20.117])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6BE0910E7AD
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Apr 2023 13:17:01 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=OEm3LruTNFex/C0g5wCM7Qz3rpav8DhvFeWr35d0zdXPMIJBf5zD3fmUzjTEe2C9btY8zvcRSlbbwiowxWr7clmEV+EBGFSaemcP7KJuHCb+0mxRNUnx2iBYR+co7WpL6MZzqxcZhzB+eFJmMHFiCBk04WauIowlae3ZQ7bi3LTjzPtCJWjCT5la7LjZw2lRLiLmhsbvDaWiB0rVfiUIb4VVNQaSa0lhw4bctF+BfM3TpK0X9hsXlFg4N6v06aQU9sppt3r8WEzc81UH3RHtlyx44Y9shwN94DLSuO+w6MrG8HzRSXbplQLOkwqba5+4BEqrV55geh7KJSQ9C4ZIrQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=WY8WJqNKGSW4kML86ZJerx8H6J5lUuiAj5m36V2lcSU=;
+ b=Q7jqlaVijTACCQYXAKKlav3dAu31exIt/EwDydZw1rqL8nKAkY6C2bP87i7O3bgq9Q8iYQYwqU4GSC3RHcTVLQJmGIxvKvapJmSSH7b8xbc4ql3Nq5cRqplf1cCLj9Eq1TQScRi2txpuTf8yFIWlxhte+JACRmIfFzm1utZ/JFIzj/Zh+14PRgKClRIlXlLSISBbNAVM+erqr3Aqo7WVNkhC63ROjfyrfoW4S+XqaEH0/J1mernA35k01b/Gzc3LD54sW2qakjjWtbicLTRaVnCOrV0+PafhOMJYQZXjauM6WK5i122CkM5di5GPfdZ4dVfc6VIFVZtVyUzWlXxi0w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=kontron.de; dmarc=pass action=none header.from=kontron.de;
+ dkim=pass header.d=kontron.de; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mysnt.onmicrosoft.com; 
+ s=selector2-mysnt-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=WY8WJqNKGSW4kML86ZJerx8H6J5lUuiAj5m36V2lcSU=;
+ b=ANENs6n/3UULgyorh/IpLCKXWsGCA6MH+q6RXxPN3Rs9NApVlUf0LSYW1TAlAC4A5AMgtkQ7jrmBMwLcIqg+WbI1SFvZ8HLTn43tCJVR24yeFjc1wNqBtuiGGPBku1O+oGzAylYv+HvVfLDaPqmMU1L5dz6Wvbmue8HVxj+nyxM=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=kontron.de;
+Received: from PA4PR10MB5681.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:102:263::10)
+ by PAXPR10MB5613.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:102:243::14)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6319.17; Tue, 18 Apr
+ 2023 13:16:58 +0000
+Received: from PA4PR10MB5681.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::7ec3:9d2c:15ac:e1af]) by PA4PR10MB5681.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::7ec3:9d2c:15ac:e1af%3]) with mapi id 15.20.6319.019; Tue, 18 Apr 2023
+ 13:16:57 +0000
+Message-ID: <cdd90ba1-e9bd-e622-d7f3-de5d762cc2c6@kontron.de>
+Date: Tue, 18 Apr 2023 15:16:53 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.1
-Subject: Re: [PATCH v2 17/17] drm/msm/dpu: Remove intr_rdptr from DPU >= 5.0.0
- pingpong config
-Content-Language: en-US
-To: Marijn Suijten <marijn.suijten@somainline.org>,
- Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Adam Skladowski <a39.skl@gmail.com>, Loic Poulain <loic.poulain@linaro.org>,
- Bjorn Andersson <andersson@kernel.org>,
- Kuogee Hsieh <quic_khsieh@quicinc.com>, Robert Foss <rfoss@kernel.org>,
- Vinod Koul <vkoul@kernel.org>, Rajesh Yadav <ryadav@codeaurora.org>,
- Jeykumar Sankaran <jsanka@codeaurora.org>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Chandan Uddaraju <chandanu@codeaurora.org>
-References: <20230411-dpu-intf-te-v2-0-ef76c877eb97@somainline.org>
- <20230411-dpu-intf-te-v2-17-ef76c877eb97@somainline.org>
-From: Konrad Dybcio <konrad.dybcio@linaro.org>
-In-Reply-To: <20230411-dpu-intf-te-v2-17-ef76c877eb97@somainline.org>
+ Thunderbird/102.10.0
+Subject: Re: [RFC PATCH 3/3] drm: bridge: samsung-dsim: Remove init quirk for
+ Exynos
+Content-Language: en-US, de-DE
+To: Marek Szyprowski <m.szyprowski@samsung.com>,
+ Frieder Schrempf <frieder@fris.de>, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
+ dri-devel@lists.freedesktop.org, Inki Dae <inki.dae@samsung.com>,
+ Jagan Teki <jagan@amarulasolutions.com>, linux-kernel@vger.kernel.org,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>
+References: <CGME20230418104305eucas1p145a8fa1560520ebe430590abdeabb66e@eucas1p1.samsung.com>
+ <20230418104256.878017-1-frieder@fris.de>
+ <0c4f2703-8810-fe0f-76aa-cc6250aea74a@samsung.com>
+From: Frieder Schrempf <frieder.schrempf@kontron.de>
+In-Reply-To: <0c4f2703-8810-fe0f-76aa-cc6250aea74a@samsung.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: BE1P281CA0097.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:b10:79::18) To PA4PR10MB5681.EURPRD10.PROD.OUTLOOK.COM
+ (2603:10a6:102:263::10)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PA4PR10MB5681:EE_|PAXPR10MB5613:EE_
+X-MS-Office365-Filtering-Correlation-Id: af4ed314-4b93-49c7-b031-08db400f2fa6
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: br39/exmtdZ1mVtDHdsDku8oOrj0HgDrX+KREzoyP86GIpc6rEC6JrFoUOgwJURy6UP5hDIXmnWwHhnWUxnaQX1C1HAvK/tgsikrLoIrJv009D0V3EhHkI0Qc3U+QyEsl+6w8eJGWWEw0r7e8aTcZqyqFLdYHsE6O7C2zH7NPm3po54QHt+lwswYFZnrdcniTEUlUB2+7W5Al/qok9VTapBJDMJCzDs1v2CEkxP82OstBOiOswgb4AyGm9oL0wPgAaKLEOO1IEWVTm10r08hLaQyFPYurVCCwRkkBJ8f6aLCX0eGMnWu8TgaOA5/wtZCm8czJRHyoRkTqD0k1taisLB/0fYuIpzardjwQD8IiPvBUqAuYaEyc0rerSVVGpmE8WirNNBPH44b6HGUyBDSjjygY9cEbCHS//QIuj5jEsXkn2psVJhpfyvH55ylqDVn5D/WzfBIcxqJbQAtFWrKZboyqPEBLmvDrMYZf1HAoRPC0BrFhDojuEn2DKJIe/T/J3dn2UtWlPExh8w7W4LBXR7W9M8y96BbpXilkUE1MmS+2QpNee10dsqZKvAw968JuoZaa3wmTEYdNZ1PWEcdlISQwVmGPcgyYZyZ/Ly8kvv8gB4zTFC/3jlAmvcG7JITvO2g1FnIcrmza92YLmRKLcZTysVdkV1HS3e6p69GIKE=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PA4PR10MB5681.EURPRD10.PROD.OUTLOOK.COM; PTR:; CAT:NONE;
+ SFS:(13230028)(4636009)(376002)(396003)(39860400002)(346002)(136003)(366004)(451199021)(66946007)(66556008)(66476007)(4326008)(478600001)(316002)(8936002)(44832011)(110136005)(8676002)(5660300002)(54906003)(7416002)(921005)(41300700001)(38100700002)(186003)(53546011)(2616005)(6486002)(6666004)(45080400002)(6506007)(6512007)(26005)(966005)(31696002)(2906002)(36756003)(86362001)(31686004)(45980500001)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?dzd0THJEbEpxRHl2TU5TSlhUU3N4N2VLNHc0ZEc0SGFNdU1VKzNCRmZXWFpt?=
+ =?utf-8?B?Y2Z2anpxM2dYZlROMGhQNW1CU20xZUdFWndaa1dPSlZjTFdBai8vK0hyQ0tE?=
+ =?utf-8?B?ZzZuY1VONEw2Rkg4blFtUTBieXFWQ1pLSktodmY0RjFyTFkrQkZFd3licG9p?=
+ =?utf-8?B?dkI2WTRTcW04bkJaSnNsK3lLanRpWUNBR3UyMVRhL1NRRUQxdzB1UWI4OUxs?=
+ =?utf-8?B?SEtINEl3VmZpNGtQbHEyVERhd3d0V2E4emo4cHdJUmN0ZHQvQnJBYTFFck5t?=
+ =?utf-8?B?ajMwTjQyaGlwZ3B0U0gyRE9rMTE1dlJ3aE9xQWo1bDg4bGNPQS9tNEtQaUFx?=
+ =?utf-8?B?eGpnYjJuOHI4TU1kRktHRUUydHQrcjlEdEs4b0RCU05TY2dCQ0pMYzJVTXRn?=
+ =?utf-8?B?Y2JBNXlhQTJDRGcreG5CeFNPYUFQK2Q2Vlp0MjFRc0J1Rm1wZ3hnRnp2OFBO?=
+ =?utf-8?B?TFBQR2dycUZtc1NKQXhFc0d4MkYvejI5Si9QZ1pyNnEwdlkzTElzT1cwQUxN?=
+ =?utf-8?B?ZlFsWWVkZVE1QWNSN2pYMTAzVFdibnhtZ21CRVlKYjRiME5iL0QrNkliYUtL?=
+ =?utf-8?B?QnpRUldkbXhQZjhNdXhIelNiVjI2bUJNTStKQkZwWVRuSnhKeDdSOE90Q3Nn?=
+ =?utf-8?B?Q0tuYnptUkF1SVMwcU1jVUpHZFJBeGU2ZjZwSlR1U1VZbjBtcGsxK0h0akxt?=
+ =?utf-8?B?TGZhTlRoN0JlcEczVk5BMVk1aitoSVRGOXhnVUhUdGIvTCs3djZaWXFERWJJ?=
+ =?utf-8?B?SjJKczlxcEVuUXBKNDF2bWtIVjVGa2diSXBna0hLalYycXVsZXh2akMxRUVX?=
+ =?utf-8?B?bG84d2dvZ1U3djB5c0hObm50MG1sV1dmZ3NJZHd5aHhudTJ0L0JJYVE4NkQ2?=
+ =?utf-8?B?empuTmpwZEk0RzdXUVozTDdCMEx3blZuUGoyVGRhZGdBSzQrQmJMNm9ENXJC?=
+ =?utf-8?B?YnpMUE00cUZUZnFTVFhKMnRWMzRzdGdVNWJoRURaMjZ0VnVra0hjTGxCVGdt?=
+ =?utf-8?B?eHJxd282bjBFcHlRaXg1NkI1LzBEYThTVWZxSE16V0lUd1plQUJjSWVyeTcx?=
+ =?utf-8?B?ODAraW1yRHRGU05mOWcxcGdROE4zR0ZxUlVWdHdlT3dZNkIxN2pYd0ZPZXk0?=
+ =?utf-8?B?NzVaK0hZVVcrWS8xWklVRy9MejRScjVGdjlrMDVFelhOMGpNMFpNZ0pQNklJ?=
+ =?utf-8?B?b2Nucy9WeFNkdjRqZUVFQlBFY1cwM3NwWUM0alZ6bkE0a1BpUExZNU1CUmE4?=
+ =?utf-8?B?b2dHRW5qS2FxclBUckwvV0h0YjdaTDNTRTgrTktHcHpPVDRpYys4eVBYT0pE?=
+ =?utf-8?B?cTJVbnEzd3YxL1FibFB1N3ZDK3lMRGFXSFdJNkN5UHJ0QlNzNkVmd0pqTmE0?=
+ =?utf-8?B?YjE2UURqeVdLMTBIT05sTkk4U1R3OTN1amtkbDRTOFdYS2F4emNoc2hpeDZ2?=
+ =?utf-8?B?Z0tIZHZsNG9BbEdXTFROV2NNOFdTM2VYS3pIVDVzNVRSQTNaYVNyS3hSWDdD?=
+ =?utf-8?B?ZndYcFpmRFJocU43SGpLODlpU2pDeHIyNWxUY0FFYjVrTzJvZUNRWVRrR2li?=
+ =?utf-8?B?SFl1SmhHakJNMHh1bWFWWW5GRE1GVDE1RFBqZ0tpSXdoVWsyWkZEc2x3VjlC?=
+ =?utf-8?B?L3d0eUwydFBQNEpDOUNBbk9XRjMraUtWV0NPWFlVNHAyWUw0eGdodzFuTkw5?=
+ =?utf-8?B?bTk5NTBqSFlPK1poR3BTNEVUU0I5VjlyekNWRDJMNHQ2NE0yN3JDZ0J1Umgx?=
+ =?utf-8?B?OTJldU9wd2w5TVhxRUJWM21XRFhkVVkyenhVUVo3OUc5eDFka05ZY3NOaFBV?=
+ =?utf-8?B?RDFGeXQ3NDgvNDFpN1hCREV1YnAzM2JpOFd1K0lWZ2NsQVN3M0IwZStBMmp1?=
+ =?utf-8?B?M2p1RW1HejhmRDdjRG5VS2VTMXFQTTRpM252dmdzVkllSGpnenF4aHdZT1JF?=
+ =?utf-8?B?cVhzL25NZmYvMi95Zlp0L2h6WlBHOXVoT2t0Rzh4MlRoanRnVzlKU080SFBQ?=
+ =?utf-8?B?cWtBRVpyY0tQdTRzL0hhMUE4UkM2d1BlZmlaQVBKWWJLOEFUSUV0QTJGQUps?=
+ =?utf-8?B?NGhycThmWFAvdzExalJ4enRUN0swcmE0d3F1VldXSlFIREpuQk1UU2pwTzZJ?=
+ =?utf-8?B?SGRwUTFMNC9VQkZNVWI5QVNhOHVZVTRQUG41M2lua0YrckpwTmlpOWV5WWsw?=
+ =?utf-8?B?V1E9PQ==?=
+X-OriginatorOrg: kontron.de
+X-MS-Exchange-CrossTenant-Network-Message-Id: af4ed314-4b93-49c7-b031-08db400f2fa6
+X-MS-Exchange-CrossTenant-AuthSource: PA4PR10MB5681.EURPRD10.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Apr 2023 13:16:57.3021 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8c9d3c97-3fd9-41c8-a2b1-646f3942daf1
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: EZ9LrpXXZU4ntfIuKUDjVmxteCDEu2m0o9+YMP+yftXFaybllzI/Yk8so6WATXjlX0XMuL+ctPjvpNa4SB+NgiyeOxme1gpfeVFNZav990Y=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR10MB5613
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,193 +133,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Archit Taneja <architt@codeaurora.org>,
- Jami Kettunen <jami.kettunen@somainline.org>, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Jordan Crouse <jordan@cosmicpenguin.net>,
- Martin Botka <martin.botka@somainline.org>,
- ~postmarketos/upstreaming@lists.sr.ht,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
- freedreno@lists.freedesktop.org,
- Sravanthi Kollukuduru <skolluku@codeaurora.org>
+Cc: Marek Vasut <marex@denx.de>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 17.04.2023 22:21, Marijn Suijten wrote:
-> Now that newer DPU platforms use a readpointer-done interrupt on the
-> INTF block, stop providing the unused interrupt on the PINGPONG block.
+On 18.04.23 15:12, Marek Szyprowski wrote:
+> On 18.04.2023 12:42, Frieder Schrempf wrote:
+>> From: Frieder Schrempf <frieder.schrempf@kontron.de>
+>>
+>> Assuming that with the init flow fixed to meet the documentation at
+>> [1] and the pre_enable_prev_first flag set in downstream bridge/panel
+>> drivers which require it, we can use the default flow for Exynos as
+>> already done for i.MX8M.
+>>
+>> [1] https://docs.kernel.org/gpu/drm-kms-helpers.html#mipi-dsi-bridge-operation
+>>
+>> Signed-off-by: Frieder Schrempf <frieder.schrempf@kontron.de>
+>> ---
+>> I have no idea if my assumptions are correct and if this works at all.
+>> There's a very good chance it doesn't...
 > 
-> Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
-> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> ---
-Reviewed-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+> Unfortunately this change breaks all Exynos boards with DSI panels. I've 
+> check all 4 panels that are in mainline and none worked.
 
-Konrad
->  drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_0_sm8150.h  |  8 ++++----
->  drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h |  8 ++++----
->  drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_0_sm8250.h  |  8 ++++----
->  drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_3_sm6115.h  |  2 +-
->  drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_5_qcm2290.h |  2 +-
->  drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h  |  8 ++++----
->  drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h  | 10 +++++-----
->  7 files changed, 23 insertions(+), 23 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_0_sm8150.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_0_sm8150.h
-> index e8d25a45d6b3..a6dbc4c8acb8 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_0_sm8150.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_0_sm8150.h
-> @@ -130,16 +130,16 @@ static const struct dpu_dspp_cfg sm8150_dspp[] = {
->  static const struct dpu_pingpong_cfg sm8150_pp[] = {
->  	PP_BLK("pingpong_0", PINGPONG_0, 0x70000, PINGPONG_SM8150_TE2_MASK, MERGE_3D_0, sdm845_pp_sblk_te,
->  			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 8),
-> -			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 12)),
-> +			-1),
->  	PP_BLK("pingpong_1", PINGPONG_1, 0x70800, PINGPONG_SM8150_TE2_MASK, MERGE_3D_0, sdm845_pp_sblk_te,
->  			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 9),
-> -			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 13)),
-> +			-1),
->  	PP_BLK("pingpong_2", PINGPONG_2, 0x71000, PINGPONG_SM8150_MASK, MERGE_3D_1, sdm845_pp_sblk,
->  			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 10),
-> -			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 14)),
-> +			-1),
->  	PP_BLK("pingpong_3", PINGPONG_3, 0x71800, PINGPONG_SM8150_MASK, MERGE_3D_1, sdm845_pp_sblk,
->  			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 11),
-> -			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 15)),
-> +			-1),
->  	PP_BLK("pingpong_4", PINGPONG_4, 0x72000, PINGPONG_SM8150_MASK, MERGE_3D_2, sdm845_pp_sblk,
->  			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR2, 30),
->  			-1),
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h
-> index 62857288ad91..14d5ead8d40c 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h
-> @@ -118,16 +118,16 @@ static const struct dpu_lm_cfg sc8180x_lm[] = {
->  static const struct dpu_pingpong_cfg sc8180x_pp[] = {
->  	PP_BLK("pingpong_0", PINGPONG_0, 0x70000, PINGPONG_SM8150_TE2_MASK, MERGE_3D_0, sdm845_pp_sblk_te,
->  			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 8),
-> -			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 12)),
-> +			-1),
->  	PP_BLK("pingpong_1", PINGPONG_1, 0x70800, PINGPONG_SM8150_TE2_MASK, MERGE_3D_0, sdm845_pp_sblk_te,
->  			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 9),
-> -			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 13)),
-> +			-1),
->  	PP_BLK("pingpong_2", PINGPONG_2, 0x71000, PINGPONG_SM8150_MASK, MERGE_3D_1, sdm845_pp_sblk,
->  			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 10),
-> -			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 14)),
-> +			-1),
->  	PP_BLK("pingpong_3", PINGPONG_3, 0x71800, PINGPONG_SM8150_MASK, MERGE_3D_1, sdm845_pp_sblk,
->  			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 11),
-> -			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 15)),
-> +			-1),
->  	PP_BLK("pingpong_4", PINGPONG_4, 0x72000, PINGPONG_SM8150_MASK, MERGE_3D_2, sdm845_pp_sblk,
->  			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR2, 30),
->  			-1),
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_0_sm8250.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_0_sm8250.h
-> index f77329ab397d..f98ca0f1e4a9 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_0_sm8250.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_0_sm8250.h
-> @@ -131,16 +131,16 @@ static const struct dpu_dspp_cfg sm8250_dspp[] = {
->  static const struct dpu_pingpong_cfg sm8250_pp[] = {
->  	PP_BLK("pingpong_0", PINGPONG_0, 0x70000, PINGPONG_SM8150_TE2_MASK, MERGE_3D_0, sdm845_pp_sblk_te,
->  			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 8),
-> -			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 12)),
-> +			-1),
->  	PP_BLK("pingpong_1", PINGPONG_1, 0x70800, PINGPONG_SM8150_TE2_MASK, MERGE_3D_0, sdm845_pp_sblk_te,
->  			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 9),
-> -			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 13)),
-> +			-1),
->  	PP_BLK("pingpong_2", PINGPONG_2, 0x71000, PINGPONG_SM8150_MASK, MERGE_3D_1, sdm845_pp_sblk,
->  			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 10),
-> -			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 14)),
-> +			-1),
->  	PP_BLK("pingpong_3", PINGPONG_3, 0x71800, PINGPONG_SM8150_MASK, MERGE_3D_1, sdm845_pp_sblk,
->  			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 11),
-> -			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 15)),
-> +			-1),
->  	PP_BLK("pingpong_4", PINGPONG_4, 0x72000, PINGPONG_SM8150_MASK, MERGE_3D_2, sdm845_pp_sblk,
->  			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR2, 30),
->  			-1),
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_3_sm6115.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_3_sm6115.h
-> index 5509ceb5d55b..ba9de008519b 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_3_sm6115.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_3_sm6115.h
-> @@ -62,7 +62,7 @@ static const struct dpu_dspp_cfg sm6115_dspp[] = {
->  static const struct dpu_pingpong_cfg sm6115_pp[] = {
->  	PP_BLK("pingpong_0", PINGPONG_0, 0x70000, PINGPONG_SM8150_MASK, 0, sdm845_pp_sblk,
->  		DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 8),
-> -		DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 12)),
-> +		-1),
->  };
->  
->  static const struct dpu_intf_cfg sm6115_intf[] = {
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_5_qcm2290.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_5_qcm2290.h
-> index 22b8a173d214..92ac348eea6b 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_5_qcm2290.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_5_qcm2290.h
-> @@ -59,7 +59,7 @@ static const struct dpu_dspp_cfg qcm2290_dspp[] = {
->  static const struct dpu_pingpong_cfg qcm2290_pp[] = {
->  	PP_BLK("pingpong_0", PINGPONG_0, 0x70000, PINGPONG_SM8150_MASK, 0, sdm845_pp_sblk,
->  		DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 8),
-> -		DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 12)),
-> +		-1),
->  };
->  
->  static const struct dpu_intf_cfg qcm2290_intf[] = {
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h
-> index 220ba7bdeb20..7cec702c2429 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h
-> @@ -129,16 +129,16 @@ static const struct dpu_dspp_cfg sm8350_dspp[] = {
->  static const struct dpu_pingpong_cfg sm8350_pp[] = {
->  	PP_BLK("pingpong_0", PINGPONG_0, 0x69000, PINGPONG_SM8150_MASK, MERGE_3D_0, sdm845_pp_sblk,
->  			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 8),
-> -			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 12)),
-> +			-1),
->  	PP_BLK("pingpong_1", PINGPONG_1, 0x6a000, PINGPONG_SM8150_MASK, MERGE_3D_0, sdm845_pp_sblk,
->  			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 9),
-> -			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 13)),
-> +			-1),
->  	PP_BLK("pingpong_2", PINGPONG_2, 0x6b000, PINGPONG_SM8150_MASK, MERGE_3D_1, sdm845_pp_sblk,
->  			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 10),
-> -			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 14)),
-> +			-1),
->  	PP_BLK("pingpong_3", PINGPONG_3, 0x6c000, PINGPONG_SM8150_MASK, MERGE_3D_1, sdm845_pp_sblk,
->  			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 11),
-> -			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 15)),
-> +			-1),
->  	PP_BLK("pingpong_4", PINGPONG_4, 0x6d000, PINGPONG_SM8150_MASK, MERGE_3D_2, sdm845_pp_sblk,
->  			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR2, 30),
->  			-1),
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h
-> index 5d8f381e1708..5f2ab9bcd04d 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h
-> @@ -126,20 +126,20 @@ static const struct dpu_dspp_cfg sm8450_dspp[] = {
->  	DSPP_BLK("dspp_3", DSPP_3, 0x5a000, DSPP_SC7180_MASK,
->  		 &sm8150_dspp_sblk),
->  };
-> -/* FIXME: interrupts */
-> +
->  static const struct dpu_pingpong_cfg sm8450_pp[] = {
->  	PP_BLK("pingpong_0", PINGPONG_0, 0x69000, PINGPONG_SM8150_MASK, MERGE_3D_0, sdm845_pp_sblk,
->  			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 8),
-> -			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 12)),
-> +			-1),
->  	PP_BLK("pingpong_1", PINGPONG_1, 0x6a000, PINGPONG_SM8150_MASK, MERGE_3D_0, sdm845_pp_sblk,
->  			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 9),
-> -			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 13)),
-> +			-1),
->  	PP_BLK("pingpong_2", PINGPONG_2, 0x6b000, PINGPONG_SM8150_MASK, MERGE_3D_1, sdm845_pp_sblk,
->  			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 10),
-> -			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 14)),
-> +			-1),
->  	PP_BLK("pingpong_3", PINGPONG_3, 0x6c000, PINGPONG_SM8150_MASK, MERGE_3D_1, sdm845_pp_sblk,
->  			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 11),
-> -			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 15)),
-> +			-1),
->  	PP_BLK("pingpong_4", PINGPONG_4, 0x6d000, PINGPONG_SM8150_MASK, MERGE_3D_2, sdm845_pp_sblk,
->  			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR2, 30),
->  			-1),
-> 
+Ok, thanks for testing anyway!
+
+As already mentioned this was rather a shot in the dark, as I didn't
+even bother trying to fully understand what's going on on the Exynos side.
+
+For now I will just remove this patch from the series in the next iteration.
