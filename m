@@ -1,68 +1,143 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5407B6E6917
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Apr 2023 18:13:45 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BD736E69B5
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Apr 2023 18:39:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6BDA210E330;
-	Tue, 18 Apr 2023 16:13:39 +0000 (UTC)
-X-Original-To: dri-devel@lists.freedesktop.org
-Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-xc2b.google.com (mail-oo1-xc2b.google.com
- [IPv6:2607:f8b0:4864:20::c2b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DE8F710E330;
- Tue, 18 Apr 2023 16:13:36 +0000 (UTC)
-Received: by mail-oo1-xc2b.google.com with SMTP id
- 006d021491bc7-541eee15ef5so523524eaf.1; 
- Tue, 18 Apr 2023 09:13:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1681834416; x=1684426416;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=n5N9vLchBu9jeKOb/JMvfvoNBFKRQJpH1E6oy7yWn2E=;
- b=Xu4PQiDGkRwzQMBDgmcwrl1mAyquoS8YFBDlsQnE12H6MScRPtUJ+yUB6h13iDXNG1
- Y5aQfJ9y6UHwiqJ5I6MXcKYxVgPIU6JpYjaJgzNnabP2AV2CWsm7Q4HwOtTy1mbsuFgy
- j3v8pCgvEAYpWWW6spDHD2+2tUWeEPtwiyU5Ttr/296Ho3trfwV11pq7icMFAltY2WJw
- XfzKtLt0ZDcc1c4G6ggEtFl/Tlmn4zbYBtGsTAs2gcRw8F3WH5zErqzv0Evr7x7bpZop
- QNPXKn0wCxIawvqtgM0qx9NbOHrTDAadqyFJXFH4FxmlVyR57h11GqduKxrRWhUeNkYo
- l9mg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681834416; x=1684426416;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=n5N9vLchBu9jeKOb/JMvfvoNBFKRQJpH1E6oy7yWn2E=;
- b=DtPt/pQ2d2zUV/Ril5a643mUsIYZnn3PxCdoXeQz9HdcObsf10Xu4GJ6f6GlDLX8Lv
- +tTDTv+TXlLUlN3LBDRc3rX/0zTPtiHNv3hLTAD7m7vBfAuy3RUJfW+8N6ZyuU4/O1CX
- aMAnScLOVhn4klGXKrGAvpXqQnmPZWmnXBUFiM75HgtpyXi5QXyvgbvRdZNsgr/4r8As
- 889VBjpIjTHzfuRRpJgfRT74rQK7ixVVxzZS1ydYhf3Lf7vjzzn+mSJDoLBbu8J0o+8B
- ahAc49xsWvUP37rlIrceWad7uhuFvR3ZbAfliMx1PNnpMvG8FUuPIg/nL2T5SZIt6Cgp
- G2NA==
-X-Gm-Message-State: AAQBX9eDrqu7yWyQ49oZSArfE2hPb0M+jqhulee2OkBJOpR7xE2PfOLa
- rE+O8KHQRG0gfq37+GxLGJiRx41l7pxbg3XCjmV8rqIP
-X-Google-Smtp-Source: AKy350bR+j/4PpQEXbOsIr3wXG4Z/e5gxESTE2FhxdzzJRxC5j2gqxh0S5ff1wSWho4+9QlHD3qdUWBVFH0xAsuMu9s=
-X-Received: by 2002:aca:e0c6:0:b0:38b:d8a9:9d95 with SMTP id
- x189-20020acae0c6000000b0038bd8a99d95mr780275oig.5.1681834415590; Tue, 18 Apr
- 2023 09:13:35 -0700 (PDT)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1F4DC10E338;
+	Tue, 18 Apr 2023 16:39:01 +0000 (UTC)
+X-Original-To: DRI-Devel@lists.freedesktop.org
+Delivered-To: DRI-Devel@lists.freedesktop.org
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AA39410E048;
+ Tue, 18 Apr 2023 16:38:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1681835937; x=1713371937;
+ h=date:from:to:cc:subject:message-id:references:
+ in-reply-to:mime-version;
+ bh=nANAdNIZ+HeLYeefw43jNAczsK13EoILJSOMzy92Ql8=;
+ b=bjwTdMjBOp/9qiNYw6rkZ1Sn2a+Srn2Mtnkvk5XSRjgw3T6Nix1NSbL1
+ kWZuTeJFx3bgfwMXVNEx/VzfGxjiDAdgjWUcORRzLV1DguIhFH2diSVpA
+ Wisq4KuyNG4hJHihhXhTTcSVBjze+Qip9P+pk0vP9cNXe7O9lCkvjXii1
+ AKBXAQmG82IxE6FiAbt4z8Er6w9rJIKVwS7FfzYsMa+gHBp9mtWBTbHlf
+ BIPt0RqEWLROH1d3Bpm0R8XF+LQEkXLh/Zr3gwkOWz4NkWHGWD2IuhhrM
+ SPmooUIxhRXxDTsQXkmpdk7IQ2swwPUpBa4Lw/V7sWzTCfHLjIw920LzQ w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10684"; a="345221477"
+X-IronPort-AV: E=Sophos;i="5.99,207,1677571200"; d="scan'208";a="345221477"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Apr 2023 09:38:56 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10684"; a="815270908"
+X-IronPort-AV: E=Sophos;i="5.99,207,1677571200"; d="scan'208";a="815270908"
+Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
+ by orsmga004.jf.intel.com with ESMTP; 18 Apr 2023 09:38:56 -0700
+Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
+ fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.23; Tue, 18 Apr 2023 09:38:55 -0700
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.23; Tue, 18 Apr 2023 09:38:55 -0700
+Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.23 via Frontend Transport; Tue, 18 Apr 2023 09:38:55 -0700
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com (104.47.55.168)
+ by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.23; Tue, 18 Apr 2023 09:38:54 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=lLV8R303F9Qte3EaLGC1JmeNlQP/6QUYTfVvzCuLTvjWEDj35AHbU8NA4/IZMXr8SAWDI8baqD9UhT4utoCUi+/pIqz2/FamXtZU90b5LkeZDycAXay2cEUOMrrgMOUl+ofv3RQCKB8GLedCTH5q6InVzjoY7hMtjFVSlMno21Rrp9WSTptjPg4mI4Tjn3bQcLu7nwSkAKTQxHVWVecp/ltDZIpAlRl2PCWNWUQxJ00VSh9du3GInNX+kggyP9/Gj5YhaH2i5YdmwF0/YH4WljcPx8EtF6etIYsO2Z7KW2vz7AjZ+xSUH3W4LezVvkb9JYs0bk/JK0ug/7pQ8VqLhw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=M9ynZkJzRju6ePeoyNJet13U8zlYLylHWOyx9R29D6s=;
+ b=N7+d1zYeI4ovutPnNqzV4Z3D4dj5fcMV9QE5DVtYtIjdp6KikDL65EE4RIcWQUtrfVfup5eiKy0ecGrJyu6fSLbQjhVxbYHodOtKsRGntJ7dolzayT0rT+oniAPNJLkrKz7PiFCdYvA4PXUPuVN3+YNKvrSYmBnjjAf17iGCo2yzZnZpIOMI1r8Jw9YFrfPEya6VGFnI3jOj9hr9QcMaOJqDJjVpMyd9Ue9KW0u2B50TIoMJZPzGb0XhSucWuTr3DfyAZ9cA0gmsWVaQchZEJ/ne1dbnSnDX2ZOryMvWSYubZ34gsBiGnZnQDBqaPJV+/t3znEXrxC+UZ+fyZlJk0w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from MN0PR11MB6059.namprd11.prod.outlook.com (2603:10b6:208:377::9)
+ by DM4PR11MB6528.namprd11.prod.outlook.com (2603:10b6:8:8f::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6298.45; Tue, 18 Apr
+ 2023 16:38:51 +0000
+Received: from MN0PR11MB6059.namprd11.prod.outlook.com
+ ([fe80::f7ec:aae9:1e7b:e004]) by MN0PR11MB6059.namprd11.prod.outlook.com
+ ([fe80::f7ec:aae9:1e7b:e004%5]) with mapi id 15.20.6298.030; Tue, 18 Apr 2023
+ 16:38:51 +0000
+Date: Tue, 18 Apr 2023 12:38:47 -0400
+From: Rodrigo Vivi <rodrigo.vivi@intel.com>
+To: Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [Intel-gfx] [PATCH 0/2] Add support for dumping error captures
+ via kernel logging
+Message-ID: <ZD7Hl3ubfmZD1H9J@intel.com>
+References: <20230410192523.2020049-1-John.C.Harrison@Intel.com>
+ <ZDVxocPZR1Ad2QLa@intel.com>
+ <f4c5dfbf-6dc2-52cb-c31d-c6e78646bcac@intel.com>
+ <ZDWP7TRexJRphUNQ@phenom.ffwll.local>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <ZDWP7TRexJRphUNQ@phenom.ffwll.local>
+X-ClientProxiedBy: BY5PR20CA0027.namprd20.prod.outlook.com
+ (2603:10b6:a03:1f4::40) To MN0PR11MB6059.namprd11.prod.outlook.com
+ (2603:10b6:208:377::9)
 MIME-Version: 1.0
-References: <20230417155613.4143258-1-tvrtko.ursulin@linux.intel.com>
- <20230417155613.4143258-4-tvrtko.ursulin@linux.intel.com>
- <CAF6AEGu3oagVYqBcgqKFO6-gbLbVdFn51fKeV7CfWTJXJjTNYA@mail.gmail.com>
- <fca966cf-df17-a937-8330-b2353f1a352c@linux.intel.com>
- <CAF6AEGswZZZxwRTOXbCVKmhUYwz8BSu-GDVCJ=FfyJ-w=e4dLQ@mail.gmail.com>
- <0faa3b0f-342c-87e0-9587-f8c11131689e@linux.intel.com>
- <CAF6AEGu+AbQnPV-1goqJi_RJR7TB8Ta5FXTKn-j6Aq4fiuPN2w@mail.gmail.com>
- <8a16f714-d20a-7608-a08f-88b20dc05d86@linux.intel.com>
-In-Reply-To: <8a16f714-d20a-7608-a08f-88b20dc05d86@linux.intel.com>
-From: Rob Clark <robdclark@gmail.com>
-Date: Tue, 18 Apr 2023 09:13:24 -0700
-Message-ID: <CAF6AEGuhYNY6z0rHBufVJvXmXrpb9yQRqGrdJkzBK_kFcE0Vtg@mail.gmail.com>
-Subject: Re: [RFC 3/6] drm: Add fdinfo memory stats
-To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MN0PR11MB6059:EE_|DM4PR11MB6528:EE_
+X-MS-Office365-Filtering-Correlation-Id: 398e3f33-3d79-4d3c-8ac0-08db402b641c
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: j8OCeE1pmeMPxM+gJi6jylH4BsvnIbvjB5ESPoDftLqxHZCJyOpAEjv5CYsYNVIXAWT5tfvoZay9wfLQU0baew9RjpbSLVoRJ/RHdSG5VV2KWgPsVIqSEFyq7GtfCc+oVyFRmPaJI1siID3jh4j8Idn3z2d/+xfq3QAiHk074ZUQUWsNOlJPi4ZuVVLsxTlYGuJ1PQUVQKmBe1q3fa65X2n/eiT6deFquB8/UWpA2+BikdDWxzIWuSzdLf/PdkSy5dbtpMPd1Gzr4GzanBajrx7LPKvpvwNQWWAgNFg3qVPw6oUHA2d7BtEXre+iXR9MdxXQrfu7DtVn4Fjjf8zRjXTneaWCfU/wQT4nZrmsqL8bHzBgSVTv02evNcfxIFu2AFI4QFqdGge6L2eqb+dh5wxtvh7QRlXXt3XAregNZruqq+xEWrlfxZXnv8sdOUayCQHzpyftvi6J+6wjQW7I9wxQRA5ZNnKL0HkanuINDC7dCk9jz30ySkrKLbSM6aAE6/asV+8Pf+1X2TqQmg5tcs6UEkCcXOPrnuznh5kz+aQ=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN0PR11MB6059.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230028)(366004)(39860400002)(136003)(346002)(376002)(396003)(451199021)(83380400001)(38100700002)(2616005)(6512007)(6506007)(26005)(53546011)(478600001)(966005)(6486002)(6666004)(66946007)(6916009)(4326008)(66476007)(66556008)(316002)(44832011)(86362001)(186003)(36756003)(41300700001)(8936002)(5660300002)(8676002)(2906002)(82960400001);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?DxeMaAhqi+nOtk3df4ruu2/Pwkr+ePAEN2l1PamkX+C3y5cTISy7klfNyYl+?=
+ =?us-ascii?Q?fLA27MF3ycdl6GIpRJDCf4XDdIY+OQxBUPm2x9WHJ6xSyoPgCdZIfK9nR6Yg?=
+ =?us-ascii?Q?7j4Sjre1azWYJGS+Pz89bnBz7ReH8dRPRKm+Exqs4cliVvDokKpVxkM4jNxB?=
+ =?us-ascii?Q?+WkNEbB9UDk8+nKo9/ut+NbsKw9IO1nZdg/Gq7sHUr2VcaH1WFWG2GB0us+V?=
+ =?us-ascii?Q?9qzAZFQD7ewr46tFM/gZ1ywJkGIDRUtaasMkon5rv0TGu7/3vfBcUjZor5ZU?=
+ =?us-ascii?Q?agMIG4Ne43pXGTy0zIAHDK22LOGQ7iuU4dIG/XX3V17sCl6jkh61mdkNpAmQ?=
+ =?us-ascii?Q?+OK+1VzWbaIBROFDYfMGeWcg9PEmr/AQ71gisb4GqPAmrNqAFY4QdHfFVYCw?=
+ =?us-ascii?Q?Vm6lg3GaVoCKXCdCi5kLQKOfhGfskn1hqAekK3nAtG/H9hMLvDxoH5IM9wir?=
+ =?us-ascii?Q?TMFqEvre1mJYftrC24VtaACOHJT3XFrT69B6lVXCwDS78jC6A9CT0R/Blayk?=
+ =?us-ascii?Q?/LdRVgEQxT+gRCVVD378tKGUeuhFl0TTD1kniPr1ldSzGiNwfO7ImWVZXDR8?=
+ =?us-ascii?Q?yjd3TEP4LUmahdq0+6vkUNxlsHdOLynmniZOlvGnxTl8O9ahfPyxpARLRaU9?=
+ =?us-ascii?Q?MXokWf3uJ3XTB+hXwXc9e+PqQUWQaAu1FxG9JausoZjVL29fyzaOVx89xsbI?=
+ =?us-ascii?Q?ejKZ0i8MNmIaF7vFSjQsQkY8F/yNR7Y3n3SYyj8kXPPlBFzVnF/RVV4kKDQ7?=
+ =?us-ascii?Q?GmFhEY45KusIzaReY6QaHRlVRhkqBmQJQElu52DLmDpVZ1JpGw8Sd1Zn3w00?=
+ =?us-ascii?Q?I2uVc0fekvsqJTA90Z9xLbtmaeDchnB0yXYkyezIW7w9s2JX8S4KLeCIil2A?=
+ =?us-ascii?Q?vQn9zY/vLaPUaLQ1FRd0R++60WevGAbgM6B/9xVWDgpxuQgMUqbqBttJ/3d7?=
+ =?us-ascii?Q?5zxrDesWHHRUluYIP68VOcj44ciEZqXAgVil5oA4tjoyhpB5blG75hTzlqsQ?=
+ =?us-ascii?Q?vJZqa5O/XAUmdYl7YpppElNuSYTWKIhdz9DLojQseBoTGxT/3WiE+l9bJcL5?=
+ =?us-ascii?Q?hqSPAm5IxhEFMWpNR3ieLAmgivABOP+cBxnKIFGb5xDb1lYniBm7up4w90RD?=
+ =?us-ascii?Q?VNU+Dp4iLwPxevMp0zda3KZtgMLdgDzwooFpedcz1A4Wi5TtzuJ8vZrVq2M2?=
+ =?us-ascii?Q?Q3FuIECcqRGYNqrnA5NqemhT0KbyqnBxOdgvvh6NyWNzzDJ6ugLSNoh0+Kxw?=
+ =?us-ascii?Q?rjY8ZPdoCyTXF0woml4DbrVULUF6PIO4PTwDzefH3zLT8HmFMbFvHjXWpJTH?=
+ =?us-ascii?Q?MK+BG39J0Cw917oJgPAueAI1UXfEqoxdqU89D2CYKgQxJjdiw7xd3DZ5iPA3?=
+ =?us-ascii?Q?EKe3x22Yv5Zz6YpSPo0ZFQVQOypwJlaggOJVeerV47zFBXmzTLVyGdMMBK3f?=
+ =?us-ascii?Q?NPdtx0boT/NR9zz4sVpRGzPYqJltYZJkE7gD5cAbD/ZbKTC1y4B6Qied8e5X?=
+ =?us-ascii?Q?xmybkRVq2YFp3Qjax/PIBNlQFn2m+8YDT1RbHATgvwUz4Gb9G8hbmO9+p+d6?=
+ =?us-ascii?Q?XW7lGsa4xPHu3b1g/PdojK90QCtbG4it4ZrWfh6ejYtW2MIR4Zl0DU4O+DBF?=
+ =?us-ascii?Q?8g=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 398e3f33-3d79-4d3c-8ac0-08db402b641c
+X-MS-Exchange-CrossTenant-AuthSource: MN0PR11MB6059.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Apr 2023 16:38:51.7341 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: qJ0X9bBbtAgE3/LtPZ9U6FTB68L5xD7ZZ9YCtk3wpWRiXIqpNjO0BQWmUTmn5BcqoJ3Wqbczq+3Gy+ar+vUH/g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR11MB6528
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,347 +150,97 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, Intel-gfx@lists.freedesktop.org,
- Emil Velikov <emil.l.velikov@gmail.com>, dri-devel@lists.freedesktop.org,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: Intel-GFX@lists.freedesktop.org, DRI-Devel@lists.freedesktop.org,
+ John Harrison <john.c.harrison@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Apr 18, 2023 at 7:46=E2=80=AFAM Tvrtko Ursulin
-<tvrtko.ursulin@linux.intel.com> wrote:
->
->
-> On 18/04/2023 15:36, Rob Clark wrote:
-> > On Tue, Apr 18, 2023 at 7:19=E2=80=AFAM Tvrtko Ursulin
-> > <tvrtko.ursulin@linux.intel.com> wrote:
-> >>
-> >>
-> >> On 18/04/2023 14:49, Rob Clark wrote:
-> >>> On Tue, Apr 18, 2023 at 2:00=E2=80=AFAM Tvrtko Ursulin
-> >>> <tvrtko.ursulin@linux.intel.com> wrote:
-> >>>>
-> >>>>
-> >>>> On 17/04/2023 20:39, Rob Clark wrote:
-> >>>>> On Mon, Apr 17, 2023 at 8:56=E2=80=AFAM Tvrtko Ursulin
-> >>>>> <tvrtko.ursulin@linux.intel.com> wrote:
-> >>>>>>
-> >>>>>> From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-> >>>>>>
-> >>>>>> Add support to dump GEM stats to fdinfo.
-> >>>>>>
-> >>>>>> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-> >>>>>> ---
-> >>>>>>     Documentation/gpu/drm-usage-stats.rst | 12 +++++++
-> >>>>>>     drivers/gpu/drm/drm_file.c            | 52 +++++++++++++++++++=
-++++++++
-> >>>>>>     include/drm/drm_drv.h                 |  7 ++++
-> >>>>>>     include/drm/drm_file.h                |  8 +++++
-> >>>>>>     4 files changed, 79 insertions(+)
-> >>>>>>
-> >>>>>> diff --git a/Documentation/gpu/drm-usage-stats.rst b/Documentation=
-/gpu/drm-usage-stats.rst
-> >>>>>> index 2ab32c40e93c..8273a41b2fb0 100644
-> >>>>>> --- a/Documentation/gpu/drm-usage-stats.rst
-> >>>>>> +++ b/Documentation/gpu/drm-usage-stats.rst
-> >>>>>> @@ -21,6 +21,7 @@ File format specification
-> >>>>>>
-> >>>>>>     - File shall contain one key value pair per one line of text.
-> >>>>>>     - Colon character (`:`) must be used to delimit keys and value=
-s.
-> >>>>>> +- Caret (`^`) is also a reserved character.
-> >>>>>
-> >>>>> this doesn't solve the problem that led me to drm-$CATEGORY-memory.=
-.. ;-)
-> >>>>
-> >>>> Could you explain or remind me with a link to a previous explanation=
-?
-> >>>
-> >>> How is userspace supposed to know that "drm-memory-foo" is a memory
-> >>> type "foo" but drm-memory-foo^size is not memory type "foo^size"?
-> >>
-> >> Are you referring to nvtop?
-> >
-> > I'm not referring to any particular app.  It could even be some app
-> > that isn't even written yet but started with an already existing
-> > kernel without this change.  It is just a general point about forwards
-> > compatibility of old userspace with new kernel.  And it doesn't really
-> > matter what special character you use.  You can't retroactively define
-> > some newly special characters.
->
-> What you see does not work if we output both legacy and new key with
-> extra category? Userspace which hardcode the name keep working, and
-> userspace which parses region names as opaque strings also keeps working
-> just shows more entries.
+On Tue, Apr 11, 2023 at 06:50:53PM +0200, Daniel Vetter wrote:
+> On Tue, Apr 11, 2023 at 09:41:04AM -0700, John Harrison wrote:
+> > On 4/11/2023 07:41, Rodrigo Vivi wrote:
+> > > On Mon, Apr 10, 2023 at 12:25:21PM -0700, John.C.Harrison@Intel.com wrote:
+> > > > From: John Harrison <John.C.Harrison@Intel.com>
+> > > > 
+> > > > Sometimes, the only effective way to debug an issue is to dump all the
+> > > > interesting information at the point of failure. So add support for
+> > > > doing that.
+> > > No! Please no!
+> > > We have some of this on Xe and I'm hating it. I'm going to try to remove
+> > > from there soon. It is horrible when you lost the hability to use dmesg
+> > > directly because it goes over the number of lines it saves... or even
+> > > with dmesg -w it goes over the number of lines of your terminal...
+> > > or the ssh and serial slowness when printing a bunch of information.
+> > > 
+> > > We probably want to be able to capture multiple error states and be
+> > > able to cross them with a kernel timeline, but definitely not overflood
+> > > our log terminals.
+> > I think you are missing the point.
+> > 
+> > This is the emergency backup plan for when nothing else works. It is not on
+> > by default. It should never happen on an end user system unless we
+> > specifically request them to run with a patched kernel to enable a dump at a
+> > specific point.
+> > 
+> > But there are (many) times when nothing else works. In those instances, it
+> > is extremely useful to be able to dump the system state in this manner.
+> > 
+> > It is code we have been using internally for some time and it has helped
+> > resolve a number of different difficult to debug bugs. As our Xe generation
+> > platforms are now out in the wild and no longer just internal, it is also
+> > proving important to have this facility available in upstream trees as well.
+> > And having it merged rather than floating around as random patches passed
+> > from person to person is far easier to manage and would also help reduce the
+> > internal tree burden.
 
-well, it shows nonsense entries.. I'd not call that "working"
+Okay then. As long as it depends on some DEBUG config which depends on EXPERT
+I believe we have a good reason.
 
-But honestly we are wasting too many words on this.. we just can't
-re-use the "drm-memory-<anything>" namespace, it is already burnt.
-Full stop.
+I see the second patch is indeed protected by CONFIG_DRM_I915_DEBUG_GUC.
+It would be good to do something similar on the patch 1?
 
-If you don't like the "drm-$CATEGORY-$REGION" workaround then we can
-shorten to "drm-mem-$REGION-$CATEGORY" since that won't accidentally
-match the existing "drm-memory-" pattern.
+> 
+> Note that Xe needs to move over to devcoredump infrastructure, so if you
+> need dumping straight to dmesg that would be a patch for that subsystem in
+> the future.
 
-BR,
--R
+devcoredump is a nice thing and it does deserves a bit of improvements
+to be able to catch snapshots and all, but for this case here I believe
+that the current devcoredump infrastructure would already be enough.
 
-> Regards,
->
-> Tvrtko
->
-> >
-> > BR,
-> > -R
-> >
-> >> Indeed that one hardcodes:
-> >>
-> >>     static const char drm_amdgpu_vram[] =3D "drm-memory-vram";
-> >>
-> >> And does brute strcmp on it:
-> >>
-> >>     } else if (!strcmp(key, drm_amdgpu_vram_old) || !strcmp(key, drm_a=
-mdgpu_vram)) {
-> >>
-> >> So okay for that one, if we need to keep it working I just change this=
- in my RFC:
-> >>
-> >> """
-> >> Resident category is identical to the drm-memory-<str> key and two sho=
-uld be
-> >> mutually exclusive.
-> >> """
-> >>
-> >> Into this:
-> >>
-> >> """
-> >> Resident category is identical to the drm-memory-<str> key and where t=
-he categorized one is present the legacy one must be too in order to preser=
-ve backward compatibility.
-> >> """
-> >>
-> >> Addition to my RFC:
-> >>
-> >> ...
-> >>          for (i =3D 0; i < num; i++) {
-> >>                  if (!regions[i]) /* Allow sparse name arrays. */
-> >>                          continue;
-> >>
-> >>                  print_stat(p, "size", regions[i], stats[i].size);
-> >>                  print_stat(p, "shared", regions[i], stats[i].shared);
-> >> +               print_stat(p, "", regions[i], stats[i].resident);
-> >>                  print_stat(p, "resident", regions[i], stats[i].reside=
-nt);
-> >>                  print_stat(p, "purgeable", regions[i], stats[i].purge=
-able);
-> >>                  print_stat(p, "active", regions[i], stats[i].active);
-> >>          }
-> >> ...
-> >>
-> >> Results in output like this (in theory, if/when amdgpu takes on the ex=
-tended format):
-> >>
-> >> drm-memory-vram-size: ... KiB
-> >> drm-memory-vram: $same KiB
-> >> drm-memory-vram-resident: $same KiB
-> >> drm-memory-vram-...:
-> >>
-> >> Regards,
-> >>
-> >> Tvrtko
-> >>
-> >> P.S. Would a slash instead of a caret be prettier?
-> >>
-> >>>> What tool barfs on it and how? Spirit of drm-usage-stats.pl is that =
-for
-> >>>> both drm-engine-<str>: and drm-memory-<str>: generic userspace is
-> >>>> supposed to take the whole <std> as opaque and just enumerate all it=
- finds.
-> >>>>
-> >>>> Gputop manages to do that with engines names it knows _nothing_ abou=
-t.
-> >>>> If it worked with memory regions it would just show the list of new
-> >>>> regions as for example "system^resident", "system^active". Then tool=
-s
-> >>>> can be extended to understand it better and provide a sub-breakdown =
-if
-> >>>> wanted.
-> >>>>
-> >>>> Ugly not, we can change from caret to something nicer, unless I am
-> >>>> missing something it works, no?
-> >>>>
-> >>>> Regards,
-> >>>>
-> >>>> Tvrtko
-> >>>>
-> >>>>>
-> >>>>> (also, it is IMHO rather ugly)
-> >>>>>
-> >>>>> BR,
-> >>>>> -R
-> >>>>>
-> >>>>>>     - All keys shall be prefixed with `drm-`.
-> >>>>>>     - Whitespace between the delimiter and first non-whitespace ch=
-aracter shall be
-> >>>>>>       ignored when parsing.
-> >>>>>> @@ -105,6 +106,17 @@ object belong to this client, in the respecti=
-ve memory region.
-> >>>>>>     Default unit shall be bytes with optional unit specifiers of '=
-KiB' or 'MiB'
-> >>>>>>     indicating kibi- or mebi-bytes.
-> >>>>>>
-> >>>>>> +- drm-memory-<str>^size:      <uint> [KiB|MiB]
-> >>>>>> +- drm-memory-<str>^shared:    <uint> [KiB|MiB]
-> >>>>>> +- drm-memory-<str>^resident:  <uint> [KiB|MiB]
-> >>>>>> +- drm-memory-<str>^purgeable: <uint> [KiB|MiB]
-> >>>>>> +- drm-memory-<str>^active:    <uint> [KiB|MiB]
-> >>>>>> +
-> >>>>>> +Resident category is identical to the drm-memory-<str> key and tw=
-o should be
-> >>>>>> +mutually exclusive.
-> >>>>>> +
-> >>>>>> +TODO more description text...
-> >>>>>> +
-> >>>>>>     - drm-cycles-<str> <uint>
-> >>>>>>
-> >>>>>>     Engine identifier string must be the same as the one specified=
- in the
-> >>>>>> diff --git a/drivers/gpu/drm/drm_file.c b/drivers/gpu/drm/drm_file=
-.c
-> >>>>>> index 37b4f76a5191..e202f79e816d 100644
-> >>>>>> --- a/drivers/gpu/drm/drm_file.c
-> >>>>>> +++ b/drivers/gpu/drm/drm_file.c
-> >>>>>> @@ -42,6 +42,7 @@
-> >>>>>>     #include <drm/drm_client.h>
-> >>>>>>     #include <drm/drm_drv.h>
-> >>>>>>     #include <drm/drm_file.h>
-> >>>>>> +#include <drm/drm_gem.h>
-> >>>>>>     #include <drm/drm_print.h>
-> >>>>>>
-> >>>>>>     #include "drm_crtc_internal.h"
-> >>>>>> @@ -871,6 +872,54 @@ void drm_send_event(struct drm_device *dev, s=
-truct drm_pending_event *e)
-> >>>>>>     }
-> >>>>>>     EXPORT_SYMBOL(drm_send_event);
-> >>>>>>
-> >>>>>> +static void
-> >>>>>> +print_stat(struct drm_printer *p, const char *stat, const char *r=
-egion, u64 sz)
-> >>>>>> +{
-> >>>>>> +       const char *units[] =3D {"", " KiB", " MiB"};
-> >>>>>> +       unsigned int u;
-> >>>>>> +
-> >>>>>> +       if (sz =3D=3D ~0ull) /* Not supported by the driver. */
-> >>>>>> +               return;
-> >>>>>> +
-> >>>>>> +       for (u =3D 0; u < ARRAY_SIZE(units) - 1; u++) {
-> >>>>>> +               if (sz < SZ_1K)
-> >>>>>> +                       break;
-> >>>>>> +               sz =3D div_u64(sz, SZ_1K);
-> >>>>>> +       }
-> >>>>>> +
-> >>>>>> +       drm_printf(p, "drm-memory-%s^%s:\t%llu%s\n",
-> >>>>>> +                  region, stat, sz, units[u]);
-> >>>>>> +}
-> >>>>>> +
-> >>>>>> +static void print_memory_stats(struct drm_printer *p, struct drm_=
-file *file)
-> >>>>>> +{
-> >>>>>> +       struct drm_device *dev =3D file->minor->dev;
-> >>>>>> +       struct drm_fdinfo_memory_stat *stats;
-> >>>>>> +       unsigned int num, i;
-> >>>>>> +       char **regions;
-> >>>>>> +
-> >>>>>> +       regions =3D dev->driver->query_fdinfo_memory_regions(dev, =
-&num);
-> >>>>>> +
-> >>>>>> +       stats =3D kcalloc(num, sizeof(*stats), GFP_KERNEL);
-> >>>>>> +       if (!stats)
-> >>>>>> +               return;
-> >>>>>> +
-> >>>>>> +       dev->driver->query_fdinfo_memory_stats(file, stats);
-> >>>>>> +
-> >>>>>> +       for (i =3D 0; i < num; i++) {
-> >>>>>> +               if (!regions[i]) /* Allow sparse name arrays. */
-> >>>>>> +                       continue;
-> >>>>>> +
-> >>>>>> +               print_stat(p, "size", regions[i], stats[i].size);
-> >>>>>> +               print_stat(p, "shared", regions[i], stats[i].share=
-d);
-> >>>>>> +               print_stat(p, "resident", regions[i], stats[i].res=
-ident);
-> >>>>>> +               print_stat(p, "purgeable", regions[i], stats[i].pu=
-rgeable);
-> >>>>>> +               print_stat(p, "active", regions[i], stats[i].activ=
-e);
-> >>>>>> +       }
-> >>>>>> +
-> >>>>>> +       kfree(stats);
-> >>>>>> +}
-> >>>>>> +
-> >>>>>>     /**
-> >>>>>>      * drm_show_fdinfo - helper for drm file fops
-> >>>>>>      * @seq_file: output stream
-> >>>>>> @@ -900,6 +949,9 @@ void drm_show_fdinfo(struct seq_file *m, struc=
-t file *f)
-> >>>>>>
-> >>>>>>            if (dev->driver->show_fdinfo)
-> >>>>>>                    dev->driver->show_fdinfo(&p, file);
-> >>>>>> +
-> >>>>>> +       if (dev->driver->query_fdinfo_memory_regions)
-> >>>>>> +               print_memory_stats(&p, file);
-> >>>>>>     }
-> >>>>>>     EXPORT_SYMBOL(drm_show_fdinfo);
-> >>>>>>
-> >>>>>> diff --git a/include/drm/drm_drv.h b/include/drm/drm_drv.h
-> >>>>>> index 89e2706cac56..ccc1cd98d2aa 100644
-> >>>>>> --- a/include/drm/drm_drv.h
-> >>>>>> +++ b/include/drm/drm_drv.h
-> >>>>>> @@ -35,6 +35,7 @@
-> >>>>>>     #include <drm/drm_device.h>
-> >>>>>>
-> >>>>>>     struct drm_file;
-> >>>>>> +struct drm_fdinfo_memory_stat;
-> >>>>>>     struct drm_gem_object;
-> >>>>>>     struct drm_master;
-> >>>>>>     struct drm_minor;
-> >>>>>> @@ -408,6 +409,12 @@ struct drm_driver {
-> >>>>>>             */
-> >>>>>>            void (*show_fdinfo)(struct drm_printer *p, struct drm_f=
-ile *f);
-> >>>>>>
-> >>>>>> +       char ** (*query_fdinfo_memory_regions)(struct drm_device *=
-dev,
-> >>>>>> +                                              unsigned int *num);
-> >>>>>> +
-> >>>>>> +       void (*query_fdinfo_memory_stats)(struct drm_file *f,
-> >>>>>> +                                         struct drm_fdinfo_memory=
-_stat *stat);
-> >>>>>> +
-> >>>>>>            /** @major: driver major number */
-> >>>>>>            int major;
-> >>>>>>            /** @minor: driver minor number */
-> >>>>>> diff --git a/include/drm/drm_file.h b/include/drm/drm_file.h
-> >>>>>> index 7d9b3c65cbc1..00d48beeac5c 100644
-> >>>>>> --- a/include/drm/drm_file.h
-> >>>>>> +++ b/include/drm/drm_file.h
-> >>>>>> @@ -375,6 +375,14 @@ struct drm_file {
-> >>>>>>     #endif
-> >>>>>>     };
-> >>>>>>
-> >>>>>> +struct drm_fdinfo_memory_stat {
-> >>>>>> +       u64 size;
-> >>>>>> +       u64 shared;
-> >>>>>> +       u64 resident;
-> >>>>>> +       u64 purgeable;
-> >>>>>> +       u64 active;
-> >>>>>> +};
-> >>>>>> +
-> >>>>>>     /**
-> >>>>>>      * drm_is_primary_client - is this an open file of the primary=
- node
-> >>>>>>      * @file_priv: DRM file
-> >>>>>> --
-> >>>>>> 2.37.2
-> >>>>>>
+It would be only a matter of doing an immediate print to the dmesg at
+the moment that devcoredump is created and this is inside the driver.
+
+But yeap, that would need to be protected by debug/expert kconfig.
+
+> 
+> Not sure how much you want to add fun here in the i915-gem deadend, I'll
+> leave that up to i915 maintainers.
+> 
+> Just figured this is a good place to drop this aside :-)
+> -Daniel
+> 
+> > 
+> > John.
+> > 
+> > > > Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
+> > > > 
+> > > > 
+> > > > John Harrison (2):
+> > > >    drm/i915: Dump error capture to kernel log
+> > > >    drm/i915/guc: Dump error capture to dmesg on CTB error
+> > > > 
+> > > >   drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c |  53 +++++++++
+> > > >   drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h |   6 +
+> > > >   drivers/gpu/drm/i915/i915_gpu_error.c     | 130 ++++++++++++++++++++++
+> > > >   drivers/gpu/drm/i915/i915_gpu_error.h     |   8 ++
+> > > >   4 files changed, 197 insertions(+)
+> > > > 
+> > > > -- 
+> > > > 2.39.1
+> > > > 
+> > 
+> 
+> -- 
+> Daniel Vetter
+> Software Engineer, Intel Corporation
+> http://blog.ffwll.ch
