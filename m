@@ -2,91 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA1176E5920
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Apr 2023 08:09:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A89906E598C
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Apr 2023 08:43:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0D77010E0CC;
-	Tue, 18 Apr 2023 06:09:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3C3EA10E67D;
+	Tue, 18 Apr 2023 06:43:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam12on20623.outbound.protection.outlook.com
- [IPv6:2a01:111:f400:fe5a::623])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1552410E0CC;
- Tue, 18 Apr 2023 06:09:35 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=HaNof7xxhLZZbDywPGEluetHaptzDuggM+aP2fmzurFYUWagcI2FomtNADT8ozmvuUW4uhE/GtxraTo8haaNuOzZlQ89CNYkslsD1SDWXHSVtxIz721WXuT1Nbq/QchcxLZS4fUF58K9PefrcSapADgJPExoyixx/o6dLzcSqY8TsqrE+FIxV4Jeq9W9Oi07RpH4ARfN+7PjBfc3/fEGge1uyj5pgCzB3NPJBXGg8GvoDspEYSA8skm3Uxi0mbfZjS65YePgc8VzXHnKEuudzOjZGIhzuBaAt46d1Kb3+1HVmNWX1C2jI8T4mU71L4FB7hio3JTo2m1INGZT+2QdkA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=2DxxzEqJJeg6OhCgPivSQApLe6bdKKtl/Edk/R9xvnM=;
- b=GejWL7HMC8EXHNidvcMXwiU/2MdA/mJkyggoYDbFkmhXW1bXSCdfLdseaZnuIHjm9EB0kRPoLGv/lRCunlcLtFvhDQqwiLpy/FX7mahc/VECpntIFPUQSOQnVx7vYiR+HsdAXduJvq+u2C2nzu0ewNOXVHeQOsgd27bH1SS7H/ETIpRxP96/2wTKeY0rO8lAJkuLNVBfrVAP92cqsj1u2aIyS7gYFK4kIKs3hpEPlPH28cWs1tK5lkw67lCZJVpvhdm8nkwkIef5UtP9kq7KRBIotBEYhZeaUBRRph6DuqxWB5C0mnYJJOXDOvCHHwHx/VIPeA9qPMvd4+vTRJMdNQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=2DxxzEqJJeg6OhCgPivSQApLe6bdKKtl/Edk/R9xvnM=;
- b=2GDSuMjVyfrTIgYTaWqBIEwQrrntL8x3vclBI9RhgevdtBDk4B/FrG0WE+Jgg4xqIXA0tnuHB/EXVlfvWZcrlP7M/XXoLLh8Mv9gIlvMXpwWQ0jqfw8LuvRcesB80YAdHMhNlnnpsv5rlhY+gGMr8FvLKVtp8bNyecIhXznkob0=
-Received: from DS7PR03CA0041.namprd03.prod.outlook.com (2603:10b6:5:3b5::16)
- by IA0PR12MB7529.namprd12.prod.outlook.com (2603:10b6:208:441::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6298.45; Tue, 18 Apr
- 2023 06:09:31 +0000
-Received: from DM6NAM11FT102.eop-nam11.prod.protection.outlook.com
- (2603:10b6:5:3b5:cafe::af) by DS7PR03CA0041.outlook.office365.com
- (2603:10b6:5:3b5::16) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6298.47 via Frontend
- Transport; Tue, 18 Apr 2023 06:09:31 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB03.amd.com; pr=C
-Received: from SATLEXMB03.amd.com (165.204.84.17) by
- DM6NAM11FT102.mail.protection.outlook.com (10.13.173.172) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.6319.20 via Frontend Transport; Tue, 18 Apr 2023 06:09:30 +0000
-Received: from SATLEXMB03.amd.com (10.181.40.144) by SATLEXMB03.amd.com
- (10.181.40.144) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Tue, 18 Apr
- 2023 01:09:25 -0500
-Received: from wayne-dev-lnx.amd.com (10.180.168.240) by SATLEXMB03.amd.com
- (10.181.40.144) with Microsoft SMTP Server id 15.1.2375.34 via Frontend
- Transport; Tue, 18 Apr 2023 01:09:22 -0500
-From: Wayne Lin <Wayne.Lin@amd.com>
-To: <dri-devel@lists.freedesktop.org>, <amd-gfx@lists.freedesktop.org>
-Subject: [PATCH] drm/dp_mst: Clear MSG_RDY flag before sending new message
-Date: Tue, 18 Apr 2023 14:09:05 +0800
-Message-ID: <20230418060905.4078976-1-Wayne.Lin@amd.com>
-X-Mailer: git-send-email 2.37.3
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1598910E67D;
+ Tue, 18 Apr 2023 06:43:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1681800193; x=1713336193;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=OV99Aaw4PAuMFFTVPFSyVFAq2bS/27X0vVBClMwmqC0=;
+ b=M3wf9X6ZzG2DDHMsqG+rILRnRFIlHv2+TPtPbWHbBRNxM3kYvVFAG47X
+ dyGT/SKqZVbmMGd5IY5ysYJ/EKUGUsjX3LhUCZDMUeykqLqQ/gvEPqsvU
+ gDwMdiJ36MP9KXAgCBfsLETZ0xdwdOujErjRcdr3pQZOydH1/qyF95Zd8
+ e0M7D9vf5XyrpVDf2KIieLfuNpQplRLYDh5PnvvGEkEcY93Gcx5dpNJnE
+ q9+WMrbko+omEpGmUZ3ogNCL+t/QX4KHFbmJNaPEIsaMXDKrkSf9BJj95
+ VA7QfLLIHieWBmDhWrl7eRez6tsFYBM/qcaQ28U3CYYkhsK6eAvvPK7ck A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10683"; a="347840432"
+X-IronPort-AV: E=Sophos;i="5.99,206,1677571200"; d="scan'208";a="347840432"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Apr 2023 23:43:11 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10683"; a="755602511"
+X-IronPort-AV: E=Sophos;i="5.99,206,1677571200"; d="scan'208";a="755602511"
+Received: from rmenchon-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.252.56.143])
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Apr 2023 23:43:07 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: "Kandpal, Suraj" <suraj.kandpal@intel.com>, Mark Yacoub
+ <markyacoub@chromium.org>, David Airlie <airlied@gmail.com>, Daniel Vetter
+ <daniel@ffwll.ch>, Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ "Vivi, Rodrigo" <rodrigo.vivi@intel.com>, Tvrtko Ursulin
+ <tvrtko.ursulin@linux.intel.com>
+Subject: RE: [PATCH v9 01/10] drm/hdcp: Add drm_hdcp_atomic_check()
+In-Reply-To: <SN7PR11MB6750FAC866C29F298B1690F6E39D9@SN7PR11MB6750.namprd11.prod.outlook.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20230411192134.508113-1-markyacoub@google.com>
+ <20230411192134.508113-2-markyacoub@google.com>
+ <SN7PR11MB6750FAC866C29F298B1690F6E39D9@SN7PR11MB6750.namprd11.prod.outlook.com>
+Date: Tue, 18 Apr 2023 09:43:05 +0300
+Message-ID: <875y9telmu.fsf@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM6NAM11FT102:EE_|IA0PR12MB7529:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2ba0c8c0-16aa-4f3d-9432-08db3fd37968
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: CyuAw7UX5yXL0oMmxfg9r0uF5Rg8lPfV2Mcb+btcyGbdTBko9SLQh71aosMyEu+bk4N3i/lj7C4mCBc+md4oEKzvx4pmyH1s4JdOPtCsxWM2GBZLuPsTN1EaVj0IQxZQM90SAdGQOgW5PoGkJvIkskrfyN59pM8tmN5flG8T61bTP0MhJuoFcoFoi1mnRP4yfEtkoLJXqhi+FF1jW03vtkJRmMMtLmkOKI7hf2L4ccl+ywD50x0fyrkl1ij3BG+PDtYwxM9idijRD9UhiTJ+UBBOiKxt7zl+Sw9J9c/t2VUMOFD5dKbmegYB8VRCS6y8xfwD61jhkjKil7kNBdBGAmV2sO8LxLt+FLVjvaSRh9iXvCy6lAxt1quuZmJwyKD9VlXZ2O0efbEMFYxJvcuY785MfMl6oNUHUKEm4NhtRfwq0TB3M5k9Y2CEdltdO9BuZaa+5zz99JMcbCSdgJz9o2qGdmu+j4z4fqyUxTuugc5u/cbEg9I2Bv1lja5K2hg7jjxHmEjYGr53hUqAODQkoCpvoc2THAU0InAAcGWAdKgybHga4vMySktFDwXCfVTWuVzk3J9sZZt6olfhYrq8k58nmUf+9slAjjuqyi5DzTHTiAfg4xwOeXGXteirjdKGalx+90ZgoV7ty4ou5t9NcUG99hgmF07fW331rfSXqfZI7DmmXGEKFtvkPCLGf4Vw+TnrSE3HLYhY9T65wwfQAi7QQSsTXIV6vmms8GfAd+Q=
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB03.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230028)(4636009)(346002)(136003)(376002)(39860400002)(396003)(451199021)(36840700001)(40470700004)(46966006)(36756003)(8936002)(8676002)(40460700003)(5660300002)(2906002)(15650500001)(82310400005)(86362001)(40480700001)(478600001)(7696005)(6666004)(54906003)(110136005)(186003)(2616005)(36860700001)(1076003)(70586007)(70206006)(26005)(41300700001)(356005)(82740400003)(316002)(83380400001)(81166007)(4326008)(47076005)(426003)(336012)(36900700001);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Apr 2023 06:09:30.9822 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2ba0c8c0-16aa-4f3d-9432-08db3fd37968
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB03.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT102.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR12MB7529
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,120 +64,291 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jani.nikula@intel.com, stable@vger.kernel.org, jerry.zuo@amd.com,
- Wayne Lin <Wayne.Lin@amd.com>
+Cc: "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "dianders@chromium.org" <dianders@chromium.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "seanpaul@chromium.org" <seanpaul@chromium.org>,
+ "dmitry.baryshkov@linaro.org" <dmitry.baryshkov@linaro.org>,
+ "freedreno@lists.freedesktop.org" <freedreno@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-[Why & How]
-The sequence for collecting down_reply/up_request from source
-perspective should be:
+On Tue, 18 Apr 2023, "Kandpal, Suraj" <suraj.kandpal@intel.com> wrote:
+> Yacoub
+>> <markyacoub@chromium.org>; linux-kernel@vger.kernel.org
+>> Subject: [PATCH v9 01/10] drm/hdcp: Add drm_hdcp_atomic_check()
+>>
+>> From: Sean Paul <seanpaul@chromium.org>
+>>
+>> Move the hdcp atomic check from i915 to drm_hdcp so other drivers can use
+>> it. No functional changes, just cleaned up some of the code when moving it
+>> over.
+>>
+>> Acked-by: Jani Nikula <jani.nikula@intel.com>
+>> Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
+>> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+>> Signed-off-by: Sean Paul <seanpaul@chromium.org>
+>> Signed-off-by: Mark Yacoub <markyacoub@chromium.org>
+>>
+>> ---
+>> Changes in v2:
+>> -None
+>> Changes in v3:
+>> -None
+>> Changes in v4:
+>> -None
+>> Changes in v5:
+>> -None
+>> Changes in v6:
+>> -Rebase: move helper from drm_hdcp.c to drm_hdcp_helper.c Changes in
+>> v7:
+>> -Removed links to patch from commit msg (Dmitry Baryshkov)
+>>
+>>  drivers/gpu/drm/display/drm_hdcp_helper.c   | 64
+>> +++++++++++++++++++++
+>>  drivers/gpu/drm/i915/display/intel_atomic.c |  4 +-
+>>  drivers/gpu/drm/i915/display/intel_hdcp.c   | 47 ---------------
+>>  drivers/gpu/drm/i915/display/intel_hdcp.h   |  3 -
+>>  include/drm/display/drm_hdcp_helper.h       |  3 +
+>>  5 files changed, 69 insertions(+), 52 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/display/drm_hdcp_helper.c
+>> b/drivers/gpu/drm/display/drm_hdcp_helper.c
+>> index e78999c72bd77..7ca390b3ea106 100644
+>> --- a/drivers/gpu/drm/display/drm_hdcp_helper.c
+>> +++ b/drivers/gpu/drm/display/drm_hdcp_helper.c
+>> @@ -20,6 +20,7 @@
+>>  #include <drm/drm_property.h>
+>>  #include <drm/drm_mode_object.h>
+>>  #include <drm/drm_connector.h>
+>> +#include <drm/drm_atomic.h>
+>>
+>>  static inline void drm_hdcp_print_ksv(const u8 *ksv)  { @@ -419,3 +420,66
+>> @@ void drm_hdcp_update_content_protection(struct drm_connector
+>> *connector,
+>>                                dev-
+>> >mode_config.content_protection_property);
+>>  }
+>>  EXPORT_SYMBOL(drm_hdcp_update_content_protection);
+>> +
+>> +/**
+>> + * drm_hdcp_atomic_check - Helper for drivers to call during
+>> +connector->atomic_check
+>> + *
+>> + * @state: pointer to the atomic state being checked
+>> + * @connector: drm_connector on which content protection state needs an
+>> +update
+>> + *
+>> + * This function can be used by display drivers to perform an atomic
+>> +check on the
+>> + * hdcp state elements. If hdcp state has changed, this function will
+>> +set
+>> + * mode_changed on the crtc driving the connector so it can update its
+>> +hardware
+>> + * to match the hdcp state.
+>> + */
+>> +void drm_hdcp_atomic_check(struct drm_connector *connector,
+>> +                        struct drm_atomic_state *state)
+>> +{
+>> +     struct drm_connector_state *new_conn_state, *old_conn_state;
+>> +     struct drm_crtc_state *new_crtc_state;
+>> +     u64 old_hdcp, new_hdcp;
+>> +
+>> +     old_conn_state = drm_atomic_get_old_connector_state(state,
+>> connector);
+>> +     old_hdcp = old_conn_state->content_protection;
+>> +
+>> +     new_conn_state = drm_atomic_get_new_connector_state(state,
+>> connector);
+>> +     new_hdcp = new_conn_state->content_protection;
+>> +
+>
+> Nit: Why not assign these as right when they are declared we would end up using less lines
 
-Request_n->repeat (get partial reply of Request_n->clear message ready
-flag to ack DPRX that the message is received) till all partial
-replies for Request_n are received->new Request_n+1.
+The rule of thumb is to only initialize trivial stuff at declaration.
 
-While assembling partial reply packets, reading out DPCD DOWN_REP
-Sideband MSG buffer + clearing DOWN_REP_MSG_RDY flag should be
-wrapped up as a complete operation for reading out a reply packet.
-Kicking off a new request before clearing DOWN_REP_MSG_RDY flag might
-be risky. e.g. If the reply of the new request has overwritten the
-DPRX DOWN_REP Sideband MSG buffer before source writing ack to clear
-DOWN_REP_MSG_RDY flag, source then unintentionally flushes the reply
-for the new request. Should handle the up request in the same way.
+BR,
+Jani.
 
-In drm_dp_mst_hpd_irq(), we don't clear MSG_RDY flag before caliing
-drm_dp_mst_kick_tx(). Fix that.
+>
+>> +     if (!new_conn_state->crtc) {
+>> +             /*
+>> +              * If the connector is being disabled with CP enabled, mark it
+>> +              * desired so it's re-enabled when the connector is brought
+>> back
+>> +              */
+>> +             if (old_hdcp ==
+>> DRM_MODE_CONTENT_PROTECTION_ENABLED)
+>> +                     new_conn_state->content_protection =
+>> +
+>>       DRM_MODE_CONTENT_PROTECTION_DESIRED;
+>> +             return;
+>> +     }
+>> +
+>> +     new_crtc_state =
+>> +             drm_atomic_get_new_crtc_state(state, new_conn_state-
+>> >crtc);
+>> +     if (drm_atomic_crtc_needs_modeset(new_crtc_state) &&
+>> +         (old_hdcp == DRM_MODE_CONTENT_PROTECTION_ENABLED &&
+>> +          new_hdcp != DRM_MODE_CONTENT_PROTECTION_UNDESIRED))
+>> +             new_conn_state->content_protection =
+>> +                     DRM_MODE_CONTENT_PROTECTION_DESIRED;
+>> +
+>> +     /*
+>> +      * Nothing to do if content type is unchanged and one of:
+>> +      *  - state didn't change
+>> +      *  - HDCP was activated since the last commit
+>> +      *  - attempting to set to desired while already enabled
+>> +      */
+>> +     if (old_hdcp == new_hdcp ||
+>> +         (old_hdcp == DRM_MODE_CONTENT_PROTECTION_DESIRED &&
+>> +          new_hdcp == DRM_MODE_CONTENT_PROTECTION_ENABLED) ||
+>> +         (old_hdcp == DRM_MODE_CONTENT_PROTECTION_ENABLED &&
+>> +          new_hdcp == DRM_MODE_CONTENT_PROTECTION_DESIRED)) {
+>> +             if (old_conn_state->hdcp_content_type ==
+>> +                 new_conn_state->hdcp_content_type)
+>> +                     return;
+>> +     }
+>> +
+>> +     new_crtc_state->mode_changed = true;
+>> +}
+>> +EXPORT_SYMBOL(drm_hdcp_atomic_check);
+>> diff --git a/drivers/gpu/drm/i915/display/intel_atomic.c
+>> b/drivers/gpu/drm/i915/display/intel_atomic.c
+>> index a9a3f3715279d..e9d00b6a63d39 100644
+>> --- a/drivers/gpu/drm/i915/display/intel_atomic.c
+>> +++ b/drivers/gpu/drm/i915/display/intel_atomic.c
+>> @@ -32,6 +32,7 @@
+>>  #include <drm/drm_atomic.h>
+>>  #include <drm/drm_atomic_helper.h>
+>>  #include <drm/drm_fourcc.h>
+>> +#include <drm/display/drm_hdcp_helper.h>
+>>
+>>  #include "i915_drv.h"
+>>  #include "i915_reg.h"
+>> @@ -39,7 +40,6 @@
+>>  #include "intel_cdclk.h"
+>>  #include "intel_display_types.h"
+>>  #include "intel_global_state.h"
+>> -#include "intel_hdcp.h"
+>>  #include "intel_psr.h"
+>>  #include "intel_fb.h"
+>>  #include "skl_universal_plane.h"
+>> @@ -124,7 +124,7 @@ int intel_digital_connector_atomic_check(struct
+>> drm_connector *conn,
+>>               to_intel_digital_connector_state(old_state);
+>>       struct drm_crtc_state *crtc_state;
+>>
+>> -     intel_hdcp_atomic_check(conn, old_state, new_state);
+>> +     drm_hdcp_atomic_check(conn, state);
+>>
+>>       if (!new_state->crtc)
+>>               return 0;
+>> diff --git a/drivers/gpu/drm/i915/display/intel_hdcp.c
+>> b/drivers/gpu/drm/i915/display/intel_hdcp.c
+>> index 6406fd487ee52..396d2cef000aa 100644
+>> --- a/drivers/gpu/drm/i915/display/intel_hdcp.c
+>> +++ b/drivers/gpu/drm/i915/display/intel_hdcp.c
+>> @@ -2524,53 +2524,6 @@ void intel_hdcp_cleanup(struct intel_connector
+>> *connector)
+>>       mutex_unlock(&hdcp->mutex);
+>>  }
+>>
+>> -void intel_hdcp_atomic_check(struct drm_connector *connector,
+>> -                          struct drm_connector_state *old_state,
+>> -                          struct drm_connector_state *new_state)
+>> -{
+>> -     u64 old_cp = old_state->content_protection;
+>> -     u64 new_cp = new_state->content_protection;
+>> -     struct drm_crtc_state *crtc_state;
+>> -
+>> -     if (!new_state->crtc) {
+>> -             /*
+>> -              * If the connector is being disabled with CP enabled, mark it
+>> -              * desired so it's re-enabled when the connector is brought
+>> back
+>> -              */
+>> -             if (old_cp ==
+>> DRM_MODE_CONTENT_PROTECTION_ENABLED)
+>> -                     new_state->content_protection =
+>> -
+>>       DRM_MODE_CONTENT_PROTECTION_DESIRED;
+>> -             return;
+>> -     }
+>> -
+>> -     crtc_state = drm_atomic_get_new_crtc_state(new_state->state,
+>> -                                                new_state->crtc);
+>> -     /*
+>> -      * Fix the HDCP uapi content protection state in case of modeset.
+>> -      * FIXME: As per HDCP content protection property uapi doc, an
+>> uevent()
+>> -      * need to be sent if there is transition from ENABLED->DESIRED.
+>> -      */
+>> -     if (drm_atomic_crtc_needs_modeset(crtc_state) &&
+>> -         (old_cp == DRM_MODE_CONTENT_PROTECTION_ENABLED &&
+>> -         new_cp != DRM_MODE_CONTENT_PROTECTION_UNDESIRED))
+>> -             new_state->content_protection =
+>> -                     DRM_MODE_CONTENT_PROTECTION_DESIRED;
+>> -
+>> -     /*
+>> -      * Nothing to do if the state didn't change, or HDCP was activated
+>> since
+>> -      * the last commit. And also no change in hdcp content type.
+>> -      */
+>> -     if (old_cp == new_cp ||
+>> -         (old_cp == DRM_MODE_CONTENT_PROTECTION_DESIRED &&
+>> -          new_cp == DRM_MODE_CONTENT_PROTECTION_ENABLED)) {
+>> -             if (old_state->hdcp_content_type ==
+>> -                             new_state->hdcp_content_type)
+>> -                     return;
+>> -     }
+>> -
+>> -     crtc_state->mode_changed = true;
+>> -}
+>> -
+>>  /* Handles the CP_IRQ raised from the DP HDCP sink */  void
+>> intel_hdcp_handle_cp_irq(struct intel_connector *connector)  { diff --git
+>> a/drivers/gpu/drm/i915/display/intel_hdcp.h
+>> b/drivers/gpu/drm/i915/display/intel_hdcp.h
+>> index 8f53b0c7fe5cf..7c5fd84a7b65a 100644
+>> --- a/drivers/gpu/drm/i915/display/intel_hdcp.h
+>> +++ b/drivers/gpu/drm/i915/display/intel_hdcp.h
+>> @@ -22,9 +22,6 @@ struct intel_digital_port;  enum port;  enum transcoder;
+>>
+>> -void intel_hdcp_atomic_check(struct drm_connector *connector,
+>> -                          struct drm_connector_state *old_state,
+>> -                          struct drm_connector_state *new_state);
+>>  int intel_hdcp_init(struct intel_connector *connector,
+>>                   struct intel_digital_port *dig_port,
+>>                   const struct intel_hdcp_shim *hdcp_shim); diff --git
+>> a/include/drm/display/drm_hdcp_helper.h
+>> b/include/drm/display/drm_hdcp_helper.h
+>> index 8aaf87bf27351..dd02b2e72a502 100644
+>> --- a/include/drm/display/drm_hdcp_helper.h
+>> +++ b/include/drm/display/drm_hdcp_helper.h
+>> @@ -11,6 +11,7 @@
+>>
+>>  #include <drm/display/drm_hdcp.h>
+>>
+>> +struct drm_atomic_state;
+>>  struct drm_device;
+>>  struct drm_connector;
+>>
+>> @@ -18,5 +19,7 @@ int drm_hdcp_check_ksvs_revoked(struct drm_device
+>> *dev, u8 *ksvs, u32 ksv_count)  int
+>> drm_connector_attach_content_protection_property(struct drm_connector
+>> *connector,
+>>                                                    bool hdcp_content_type);
+>>  void drm_hdcp_update_content_protection(struct drm_connector
+>> *connector, u64 val);
+>> +void drm_hdcp_atomic_check(struct drm_connector *connector,
+>> +                        struct drm_atomic_state *state);
+>>
+>>  #endif
+>> --
+>> 2.40.0.577.gac1e443424-goog
+>
 
-Signed-off-by: Wayne Lin <Wayne.Lin@amd.com>
-Cc: stable@vger.kernel.org
----
- .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |  2 ++
- drivers/gpu/drm/display/drm_dp_mst_topology.c | 22 +++++++++++++++++++
- drivers/gpu/drm/i915/display/intel_dp.c       |  3 +++
- drivers/gpu/drm/nouveau/dispnv50/disp.c       |  2 ++
- 4 files changed, 29 insertions(+)
-
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index 77277d90b6e2..5313a5656598 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -3166,6 +3166,8 @@ static void dm_handle_mst_sideband_msg(struct amdgpu_dm_connector *aconnector)
- 			for (retry = 0; retry < 3; retry++) {
- 				uint8_t wret;
- 
-+				/* MSG_RDY ack is done in drm*/
-+				esi[1] &= ~(DP_DOWN_REP_MSG_RDY | DP_UP_REQ_MSG_RDY);
- 				wret = drm_dp_dpcd_write(
- 					&aconnector->dm_dp_aux.aux,
- 					dpcd_addr + 1,
-diff --git a/drivers/gpu/drm/display/drm_dp_mst_topology.c b/drivers/gpu/drm/display/drm_dp_mst_topology.c
-index 51a46689cda7..02aad713c67c 100644
---- a/drivers/gpu/drm/display/drm_dp_mst_topology.c
-+++ b/drivers/gpu/drm/display/drm_dp_mst_topology.c
-@@ -4054,6 +4054,9 @@ int drm_dp_mst_hpd_irq(struct drm_dp_mst_topology_mgr *mgr, u8 *esi, bool *handl
- {
- 	int ret = 0;
- 	int sc;
-+	const int tosend = 1;
-+	int retries = 0;
-+	u8 buf = 0;
- 	*handled = false;
- 	sc = DP_GET_SINK_COUNT(esi[0]);
- 
-@@ -4072,6 +4075,25 @@ int drm_dp_mst_hpd_irq(struct drm_dp_mst_topology_mgr *mgr, u8 *esi, bool *handl
- 		*handled = true;
- 	}
- 
-+	if (*handled) {
-+		buf = esi[1] & (DP_DOWN_REP_MSG_RDY | DP_UP_REQ_MSG_RDY);
-+		do {
-+			ret = drm_dp_dpcd_write(mgr->aux,
-+						DP_DEVICE_SERVICE_IRQ_VECTOR_ESI0,
-+						&buf,
-+						tosend);
-+
-+			if (ret == tosend)
-+				break;
-+
-+			retries++;
-+		} while (retries < 5);
-+
-+		if (ret != tosend)
-+			drm_dbg_kms(mgr->dev, "failed to write dpcd 0x%x\n",
-+				    DP_DEVICE_SERVICE_IRQ_VECTOR_ESI0);
-+	}
-+
- 	drm_dp_mst_kick_tx(mgr);
- 	return ret;
- }
-diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
-index bf80f296a8fd..abec3de38b66 100644
---- a/drivers/gpu/drm/i915/display/intel_dp.c
-+++ b/drivers/gpu/drm/i915/display/intel_dp.c
-@@ -3939,6 +3939,9 @@ intel_dp_check_mst_status(struct intel_dp *intel_dp)
- 		if (!memchr_inv(ack, 0, sizeof(ack)))
- 			break;
- 
-+		/* MSG_RDY ack is done in drm*/
-+		ack[1] &= ~(DP_DOWN_REP_MSG_RDY | DP_UP_REQ_MSG_RDY);
-+
- 		if (!intel_dp_ack_sink_irq_esi(intel_dp, ack))
- 			drm_dbg_kms(&i915->drm, "Failed to ack ESI\n");
- 	}
-diff --git a/drivers/gpu/drm/nouveau/dispnv50/disp.c b/drivers/gpu/drm/nouveau/dispnv50/disp.c
-index edcb2529b402..e905987104ed 100644
---- a/drivers/gpu/drm/nouveau/dispnv50/disp.c
-+++ b/drivers/gpu/drm/nouveau/dispnv50/disp.c
-@@ -1336,6 +1336,8 @@ nv50_mstm_service(struct nouveau_drm *drm,
- 		if (!handled)
- 			break;
- 
-+		/* MSG_RDY ack is done in drm*/
-+		esi[1] &= ~(DP_DOWN_REP_MSG_RDY | DP_UP_REQ_MSG_RDY);
- 		rc = drm_dp_dpcd_write(aux, DP_SINK_COUNT_ESI + 1, &esi[1],
- 				       3);
- 		if (rc != 3) {
 -- 
-2.37.3
-
+Jani Nikula, Intel Open Source Graphics Center
