@@ -1,41 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50FB16E5D9F
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Apr 2023 11:39:42 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A2006E5DA0
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Apr 2023 11:39:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5861710E725;
+	by gabe.freedesktop.org (Postfix) with ESMTP id B92CD10E726;
 	Tue, 18 Apr 2023 09:39:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C6D3E10E12A
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Apr 2023 09:39:23 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5402610E716
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Apr 2023 09:39:25 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 56C03625C0;
+ by dfw.source.kernel.org (Postfix) with ESMTPS id B847C623D5;
+ Tue, 18 Apr 2023 09:39:24 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4B4FCC433EF;
  Tue, 18 Apr 2023 09:39:23 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D6AAEC4339B;
- Tue, 18 Apr 2023 09:39:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1681810762;
- bh=BNb0jfAL1kXRfJrhkG9aaKJBzAVfZ2wABHHYL7NV1RU=;
+ s=k20201202; t=1681810764;
+ bh=iUFZfYhcdmFcqRCRra3sJ5S/JKaZ3csvf3NYNsgjISg=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=F9AzIMTFdVcm7s4YS9nKqDpuXptzv/eBrB7BaTChQlpNe3d+i0HwUg2aqOfWd3LXQ
- 9rGe4h9q87UdksFcaOAGCbYjIhEit/LVqN9eakpX3HjOKlabM8Fn9Ke8f9IDedirlL
- eYRbNZcLDLjxp1aHVe5+zf+aqzNWcwEu11PpqwAPqYyA6K0XgHggWqdxM14MN/nybL
- GNyspjqC1swhxSDrYzqN92+j5XJc4qSBou9AcXST1jiQwa8sFPqC3zGqCAZ0EBwdTg
- rsAgPSxNfpcRXtMEmlQ0vFauk5TvF77pPNxAGK5QzghcECdA+mXG3FTB1e7e8nMAfM
- b8fxuZ4D+4jtA==
+ b=lMTPQvqke0kL1MOgKEp2189+nX83e9A3z7QW4bQ3kBX489mcWfyJ2U39uYr7fEjoF
+ UoznGTEHOu4yf8+jwMxtNKywOUJQcQcgR26qB+mcbQxTLB3ukvAzscNU2nmb7lXgyV
+ KJ+iItV6dLdMInv0KIVwatbOua0z2vrG8lmRGiuppsSnCOHfvYceufjQ1yAnLSf6Ac
+ GdjF1tA1n9YUrqUCZ+1efsQbOty2XkNmgLRa/bdYWAVO/2ZqimDMsj8mYyJSb0k9XG
+ OjHcVJuEyyCXEIz+ufmw3O5W8My8tUJdyN4CdIb3tZv7B9XKDtMgeIAw5jpIj2uXXl
+ 5PoQT6ygfz75Q==
 From: Oded Gabbay <ogabbay@kernel.org>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 02/10] accel/habanalabs: rename fw_{major/minor}_version to
- fw_inner_{major/minor}_ver
-Date: Tue, 18 Apr 2023 12:39:08 +0300
-Message-Id: <20230418093916.2979728-2-ogabbay@kernel.org>
+Subject: [PATCH 03/10] accel/habanalabs: extract and save the FW's SW
+ major/minor/sub-minor
+Date: Tue, 18 Apr 2023 12:39:09 +0300
+Message-Id: <20230418093916.2979728-3-ogabbay@kernel.org>
 X-Mailer: git-send-email 2.40.0
 In-Reply-To: <20230418093916.2979728-1-ogabbay@kernel.org>
 References: <20230418093916.2979728-1-ogabbay@kernel.org>
@@ -59,86 +58,154 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Dafna Hirschfeld <dhirschfeld@habana.ai>
 
-We later want to add fields for Firmware SW version. The current
-extracted FW version is the inner FW versioning so the new name
-is better and also better differentiate from the FW's SW version.
+It is not always possible to know the FW's SW version from the inner FW
+version. Therefore we should extract the general SW version in addition
+to the FW version and use it in functions like
+'hl_is_fw_ver_below_1_9' etc.
 
 Signed-off-by: Dafna Hirschfeld <dhirschfeld@habana.ai>
 Reviewed-by: Oded Gabbay <ogabbay@kernel.org>
 Signed-off-by: Oded Gabbay <ogabbay@kernel.org>
 ---
- drivers/accel/habanalabs/common/firmware_if.c |  8 ++++----
- drivers/accel/habanalabs/common/habanalabs.h  | 10 +++++-----
- 2 files changed, 9 insertions(+), 9 deletions(-)
+ drivers/accel/habanalabs/common/firmware_if.c | 78 +++++++++++++++++--
+ drivers/accel/habanalabs/common/habanalabs.h  |  6 ++
+ 2 files changed, 78 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/accel/habanalabs/common/firmware_if.c b/drivers/accel/habanalabs/common/firmware_if.c
-index 1400a4430045..6150ab6ba810 100644
+index 6150ab6ba810..62052cfe694f 100644
 --- a/drivers/accel/habanalabs/common/firmware_if.c
 +++ b/drivers/accel/habanalabs/common/firmware_if.c
-@@ -105,7 +105,7 @@ static char *extract_u32_until_given_char(char *str, u32 *ver_num, char given_ch
-  */
- static int hl_get_preboot_major_minor(struct hl_device *hdev, char *preboot_ver)
- {
--	preboot_ver = extract_u32_until_given_char(preboot_ver, &hdev->fw_major_version, '.');
-+	preboot_ver = extract_u32_until_given_char(preboot_ver, &hdev->fw_inner_major_ver, '.');
- 	if (!preboot_ver) {
- 		dev_err(hdev->dev, "Error parsing preboot major version\n");
- 		goto err_zero_ver;
-@@ -113,7 +113,7 @@ static int hl_get_preboot_major_minor(struct hl_device *hdev, char *preboot_ver)
- 
- 	preboot_ver++;
- 
--	preboot_ver = extract_u32_until_given_char(preboot_ver, &hdev->fw_minor_version, '.');
-+	preboot_ver = extract_u32_until_given_char(preboot_ver, &hdev->fw_inner_minor_ver, '.');
- 	if (!preboot_ver) {
- 		dev_err(hdev->dev, "Error parsing preboot minor version\n");
- 		goto err_zero_ver;
-@@ -121,8 +121,8 @@ static int hl_get_preboot_major_minor(struct hl_device *hdev, char *preboot_ver)
- 	return 0;
- 
- err_zero_ver:
--	hdev->fw_major_version = 0;
--	hdev->fw_minor_version = 0;
-+	hdev->fw_inner_major_ver = 0;
-+	hdev->fw_inner_minor_ver = 0;
- 	return -EINVAL;
+@@ -93,6 +93,71 @@ static char *extract_u32_until_given_char(char *str, u32 *ver_num, char given_ch
+ 	return ch;
  }
  
++/**
++ * hl_get_sw_major_minor_subminor() - extract the FW's SW version major, minor, sub-minor
++ *				      from the version string
++ * @hdev: pointer to the hl_device
++ * @fw_str: the FW's version string
++ *
++ * The extracted version is set in the hdev fields: fw_sw_{major/minor/sub_minor}_ver.
++ *
++ * fw_str is expected to have one of two possible formats, examples:
++ * 1) 'Preboot version hl-gaudi2-1.9.0-fw-42.0.1-sec-3'
++ * 2) 'Preboot version hl-gaudi2-1.9.0-rc-fw-42.0.1-sec-3'
++ * In those examples, the SW major,minor,subminor are correspondingly: 1,9,0.
++ *
++ * Return: 0 for success or a negative error code for failure.
++ */
++static int hl_get_sw_major_minor_subminor(struct hl_device *hdev, const char *fw_str)
++{
++	char *end, *start;
++
++	end = strnstr(fw_str, "-rc-", VERSION_MAX_LEN);
++	if (end == fw_str)
++		return -EINVAL;
++
++	if (!end)
++		end = strnstr(fw_str, "-fw-", VERSION_MAX_LEN);
++
++	if (end == fw_str)
++		return -EINVAL;
++
++	if (!end)
++		return -EINVAL;
++
++	for (start = end - 1; start != fw_str; start--) {
++		if (*start == '-')
++			break;
++	}
++
++	if (start == fw_str)
++		return -EINVAL;
++
++	/* start/end point each to the starting and ending hyphen of the sw version e.g. -1.9.0- */
++	start++;
++	start = extract_u32_until_given_char(start, &hdev->fw_sw_major_ver, '.');
++	if (!start)
++		goto err_zero_ver;
++
++	start++;
++	start = extract_u32_until_given_char(start, &hdev->fw_sw_minor_ver, '.');
++	if (!start)
++		goto err_zero_ver;
++
++	start++;
++	start = extract_u32_until_given_char(start, &hdev->fw_sw_sub_minor_ver, '-');
++	if (!start)
++		goto err_zero_ver;
++
++	return 0;
++
++err_zero_ver:
++	hdev->fw_sw_major_ver = 0;
++	hdev->fw_sw_minor_ver = 0;
++	hdev->fw_sw_sub_minor_ver = 0;
++	return -EINVAL;
++}
++
+ /**
+  * hl_get_preboot_major_minor() - extract the FW's version major, minor from the version string.
+  * @hdev: pointer to the hl_device
+@@ -2172,6 +2237,7 @@ static int hl_fw_dynamic_read_device_fw_version(struct hl_device *hdev,
+ 	struct asic_fixed_properties *prop = &hdev->asic_prop;
+ 	char *preboot_ver, *boot_ver;
+ 	char btl_ver[32];
++	int rc;
+ 
+ 	switch (fwc) {
+ 	case FW_COMP_BOOT_FIT:
+@@ -2185,20 +2251,20 @@ static int hl_fw_dynamic_read_device_fw_version(struct hl_device *hdev,
+ 		break;
+ 	case FW_COMP_PREBOOT:
+ 		strscpy(prop->preboot_ver, fw_version, VERSION_MAX_LEN);
+-		preboot_ver = strnstr(prop->preboot_ver, "Preboot",
+-						VERSION_MAX_LEN);
++		preboot_ver = strnstr(prop->preboot_ver, "Preboot", VERSION_MAX_LEN);
++		dev_info(hdev->dev, "preboot full version: '%s'\n", preboot_ver);
++
+ 		if (preboot_ver && preboot_ver != prop->preboot_ver) {
+ 			strscpy(btl_ver, prop->preboot_ver,
+ 				min((int) (preboot_ver - prop->preboot_ver), 31));
+ 			dev_info(hdev->dev, "%s\n", btl_ver);
+ 		}
+ 
++		rc = hl_get_sw_major_minor_subminor(hdev, preboot_ver);
++		if (rc)
++			return rc;
+ 		preboot_ver = extract_fw_ver_from_str(prop->preboot_ver);
+ 		if (preboot_ver) {
+-			int rc;
+-
+-			dev_info(hdev->dev, "preboot version %s\n", preboot_ver);
+-
+ 			rc = hl_get_preboot_major_minor(hdev, preboot_ver);
+ 			kfree(preboot_ver);
+ 			if (rc)
 diff --git a/drivers/accel/habanalabs/common/habanalabs.h b/drivers/accel/habanalabs/common/habanalabs.h
-index eaae69a9f817..57661cb51621 100644
+index 57661cb51621..d6f454b1cde4 100644
 --- a/drivers/accel/habanalabs/common/habanalabs.h
 +++ b/drivers/accel/habanalabs/common/habanalabs.h
-@@ -3225,8 +3225,8 @@ struct hl_reset_info {
-  * @captured_err_info: holds information about errors.
-  * @reset_info: holds current device reset information.
+@@ -3227,6 +3227,9 @@ struct hl_reset_info {
   * @stream_master_qid_arr: pointer to array with QIDs of master streams.
-- * @fw_major_version: major version of current loaded preboot.
-- * @fw_minor_version: minor version of current loaded preboot.
-+ * @fw_inner_major_ver: the major of current loaded preboot inner version.
-+ * @fw_inner_minor_ver: the minor of current loaded preboot inner version.
+  * @fw_inner_major_ver: the major of current loaded preboot inner version.
+  * @fw_inner_minor_ver: the minor of current loaded preboot inner version.
++ * @fw_sw_major_ver: the major of current loaded preboot SW version.
++ * @fw_sw_minor_ver: the minor of current loaded preboot SW version.
++ * @fw_sw_sub_minor_ver: the sub-minor of current loaded preboot SW version.
   * @dram_used_mem: current DRAM memory consumption.
   * @memory_scrub_val: the value to which the dram will be scrubbed to using cb scrub_device_dram
   * @timeout_jiffies: device CS timeout value.
-@@ -3412,8 +3412,8 @@ struct hl_device {
- 	struct hl_reset_info		reset_info;
- 
+@@ -3414,6 +3417,9 @@ struct hl_device {
  	u32				*stream_master_qid_arr;
--	u32				fw_major_version;
--	u32				fw_minor_version;
-+	u32				fw_inner_major_ver;
-+	u32				fw_inner_minor_ver;
+ 	u32				fw_inner_major_ver;
+ 	u32				fw_inner_minor_ver;
++	u32				fw_sw_major_ver;
++	u32				fw_sw_minor_ver;
++	u32				fw_sw_sub_minor_ver;
  	atomic64_t			dram_used_mem;
  	u64				memory_scrub_val;
  	u64				timeout_jiffies;
-@@ -3549,7 +3549,7 @@ struct hl_ioctl_desc {
- 
- static inline bool hl_is_fw_ver_below_1_9(struct hl_device *hdev)
- {
--	return (hdev->fw_major_version < 42);
-+	return (hdev->fw_inner_major_ver < 42);
- }
- 
- /*
 -- 
 2.40.0
 
