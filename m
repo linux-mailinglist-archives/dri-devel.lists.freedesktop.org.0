@@ -1,51 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DCA66E5C8E
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Apr 2023 10:53:03 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D03296E5C96
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Apr 2023 10:53:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4B33210E713;
-	Tue, 18 Apr 2023 08:52:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D7BDF10E714;
+	Tue, 18 Apr 2023 08:53:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 942F910E713;
- Tue, 18 Apr 2023 08:52:55 +0000 (UTC)
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BBF8510E716;
+ Tue, 18 Apr 2023 08:53:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1681807975; x=1713343975;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=+r5HNnhbzxitDBNyCdAhtAQgLrE9Ump8tBCjEV3p1JI=;
- b=SYRIJbToH/jWbuqv82QFTrSwE7qGkdFyLHQGujHFzPUs5uCVjjeenbQ0
- /gzFjOryl93FOucr8Yn/TKhO2QLDFo0FmJFWc84OjhYqFzjG9Jcdprf8Q
- 89yzv41Y3gTaAgJ+K9xT+c+wKVxpMUJbbbQAlV4kWEjnIIlutgtXsLz4P
- RRshWIPHKss/sc3pBhC193asqCyFlnEKEbFL9ZTW/Yvxrj4iF6wZvhXLW
- chC2nKlMC55727O5G/DGZbo7E9Q2lwOK0CWTuRB1rEEIELuBMno5fOKMf
- ftPFtN/AmbdWfk4QOq1zLo/J9k6wxuSX2ghAb9k7vhYPuqIWxX4DeSQAV w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10683"; a="346961866"
-X-IronPort-AV: E=Sophos;i="5.99,206,1677571200"; d="scan'208";a="346961866"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Apr 2023 01:52:55 -0700
+ t=1681808027; x=1713344027;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=XMup0HZRzCdTHOXeUENM9MHnRGKqUmtb7/GwvbX/QgY=;
+ b=KVXuAf6WRnXsE5Js7o8eJVSaBABv5zikWpvF1bGvDUdfP+lfgsqtzJUF
+ AC1hWscCxPF1V+k0DU0Qncnk7PV9X5naKP4bwoGKJ8t2eeEdts1/qZiLg
+ G8aYzVBF1q9wemLsQ7+PXxeMfLaolUgDjOZdrOoL8rmpLWLBFbkxcXBpi
+ +fGlOfwMyI2Ozkylw2nQAYVQUJjkLzbj4zv6EuQ4ZHEdBJum6zJr9RL3R
+ wFlcjnUdFu22fx2+xmX4OC0UcZQJKwIymWsEglUrq1qTbeuOgBrE1et4n
+ xA+uy/SDCsvV4qJBkDMVInE3ejh9whozfojucSHvT7v2lEjehLGQZExcy g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10683"; a="343868967"
+X-IronPort-AV: E=Sophos;i="5.99,206,1677571200"; d="scan'208";a="343868967"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Apr 2023 01:53:41 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10683"; a="668436390"
-X-IronPort-AV: E=Sophos;i="5.99,206,1677571200"; d="scan'208";a="668436390"
-Received: from unknown (HELO localhost) ([10.237.66.160])
- by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Apr 2023 01:52:51 -0700
-From: Jani Nikula <jani.nikula@intel.com>
-To: Wayne Lin <Wayne.Lin@amd.com>, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org
-Subject: Re: [PATCH] drm/dp_mst: Clear MSG_RDY flag before sending new message
-In-Reply-To: <20230418060905.4078976-1-Wayne.Lin@amd.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20230418060905.4078976-1-Wayne.Lin@amd.com>
-Date: Tue, 18 Apr 2023 11:52:48 +0300
-Message-ID: <87mt351sin.fsf@intel.com>
+X-IronPort-AV: E=McAfee;i="6600,9927,10683"; a="834792991"
+X-IronPort-AV: E=Sophos;i="5.99,206,1677571200"; d="scan'208";a="834792991"
+Received: from dilipban-mobl.ger.corp.intel.com (HELO [10.213.234.43])
+ ([10.213.234.43])
+ by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Apr 2023 01:53:37 -0700
+Message-ID: <20655be0-65e3-0000-4acd-310ec9cc1d3a@linux.intel.com>
+Date: Tue, 18 Apr 2023 09:53:36 +0100
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [RFC 3/3] drm/msm: Add comm/cmdline fields
+Content-Language: en-US
+To: Rob Clark <robdclark@gmail.com>, dri-devel@lists.freedesktop.org
+References: <20230417201215.448099-1-robdclark@gmail.com>
+ <20230417201215.448099-4-robdclark@gmail.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <20230417201215.448099-4-robdclark@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,162 +63,128 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: stable@vger.kernel.org, jerry.zuo@amd.com, Wayne Lin <Wayne.Lin@amd.com>
+Cc: Rob Clark <robdclark@chromium.org>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU"
+ <freedreno@lists.freedesktop.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Jonathan Corbet <corbet@lwn.net>, Sean Paul <sean@poorly.run>,
+ "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ open list <linux-kernel@vger.kernel.org>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 18 Apr 2023, Wayne Lin <Wayne.Lin@amd.com> wrote:
-> [Why & How]
-> The sequence for collecting down_reply/up_request from source
-> perspective should be:
->
-> Request_n->repeat (get partial reply of Request_n->clear message ready
-> flag to ack DPRX that the message is received) till all partial
-> replies for Request_n are received->new Request_n+1.
->
-> While assembling partial reply packets, reading out DPCD DOWN_REP
-> Sideband MSG buffer + clearing DOWN_REP_MSG_RDY flag should be
-> wrapped up as a complete operation for reading out a reply packet.
-> Kicking off a new request before clearing DOWN_REP_MSG_RDY flag might
-> be risky. e.g. If the reply of the new request has overwritten the
-> DPRX DOWN_REP Sideband MSG buffer before source writing ack to clear
-> DOWN_REP_MSG_RDY flag, source then unintentionally flushes the reply
-> for the new request. Should handle the up request in the same way.
->
-> In drm_dp_mst_hpd_irq(), we don't clear MSG_RDY flag before caliing
-> drm_dp_mst_kick_tx(). Fix that.
->
-> Signed-off-by: Wayne Lin <Wayne.Lin@amd.com>
-> Cc: stable@vger.kernel.org
+
+On 17/04/2023 21:12, Rob Clark wrote:
+> From: Rob Clark <robdclark@chromium.org>
+> 
+> Normally this would be the same information that can be obtained in
+> other ways.  But in some cases the process opening the drm fd is merely
+> a sort of proxy for the actual process using the GPU.  This is the case
+> for guest VM processes using the GPU via virglrenderer, in which case
+> the msm native-context renderer in virglrenderer overrides the comm/
+> cmdline to be the guest process's values.
+> 
+> Exposing this via fdinfo allows tools like gputop to show something more
+> meaningful than just a bunch of "pcivirtio-gpu" users.
+
+You also later expanded with:
+
+"""
+I should have also mentioned, in the VM/proxy scenario we have a
+single process with separate drm_file's for each guest VM process.  So
+it isn't an option to just change the proxy process's name to match
+the client.
+"""
+
+So how does that work - this single process temporarily changes it's 
+name for each drm fd it opens and creates a context or it is actually in 
+the native context protocol?
+
+> 
+> Signed-off-by: Rob Clark <robdclark@chromium.org>
 > ---
->  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |  2 ++
->  drivers/gpu/drm/display/drm_dp_mst_topology.c | 22 +++++++++++++++++++
->  drivers/gpu/drm/i915/display/intel_dp.c       |  3 +++
->  drivers/gpu/drm/nouveau/dispnv50/disp.c       |  2 ++
->  4 files changed, 29 insertions(+)
->
-> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> index 77277d90b6e2..5313a5656598 100644
-> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> @@ -3166,6 +3166,8 @@ static void dm_handle_mst_sideband_msg(struct amdgpu_dm_connector *aconnector)
->  			for (retry = 0; retry < 3; retry++) {
->  				uint8_t wret;
->  
-> +				/* MSG_RDY ack is done in drm*/
-> +				esi[1] &= ~(DP_DOWN_REP_MSG_RDY | DP_UP_REQ_MSG_RDY);
+>   Documentation/gpu/drm-usage-stats.rst |  8 ++++++++
+>   drivers/gpu/drm/msm/msm_gpu.c         | 14 ++++++++++++++
+>   2 files changed, 22 insertions(+)
+> 
+> diff --git a/Documentation/gpu/drm-usage-stats.rst b/Documentation/gpu/drm-usage-stats.rst
+> index 8e00d53231e0..bc90bed455e3 100644
+> --- a/Documentation/gpu/drm-usage-stats.rst
+> +++ b/Documentation/gpu/drm-usage-stats.rst
+> @@ -148,6 +148,14 @@ percentage utilization of the engine, whereas drm-engine-<keystr> only reflects
+>   time active without considering what frequency the engine is operating as a
+>   percentage of it's maximum frequency.
+>   
+> +- drm-comm: <valstr>
+> +
+> +Returns the clients executable path.
 
-Why do the masking within the retry loop?
+Full path and not just current->comm? In this case probably give it a 
+more descriptive name here.
 
->  				wret = drm_dp_dpcd_write(
->  					&aconnector->dm_dp_aux.aux,
->  					dpcd_addr + 1,
-> diff --git a/drivers/gpu/drm/display/drm_dp_mst_topology.c b/drivers/gpu/drm/display/drm_dp_mst_topology.c
-> index 51a46689cda7..02aad713c67c 100644
-> --- a/drivers/gpu/drm/display/drm_dp_mst_topology.c
-> +++ b/drivers/gpu/drm/display/drm_dp_mst_topology.c
-> @@ -4054,6 +4054,9 @@ int drm_dp_mst_hpd_irq(struct drm_dp_mst_topology_mgr *mgr, u8 *esi, bool *handl
->  {
->  	int ret = 0;
->  	int sc;
-> +	const int tosend = 1;
-> +	int retries = 0;
-> +	u8 buf = 0;
+drm-client-executable
+drm-client-command-line
 
-All of these should be in tighter scope.
+So we stay in the drm-client- namespace?
 
->  	*handled = false;
->  	sc = DP_GET_SINK_COUNT(esi[0]);
->  
-> @@ -4072,6 +4075,25 @@ int drm_dp_mst_hpd_irq(struct drm_dp_mst_topology_mgr *mgr, u8 *esi, bool *handl
->  		*handled = true;
->  	}
->  
-> +	if (*handled) {
+Or if the former is absolute path could one key be enough for both?
 
-That should check for DP_DOWN_REP_MSG_RDY and DP_UP_REQ_MSG_RDY only,
-right? If those are not set, we didn't do anything with them, and should
-not ack.
-
-> +		buf = esi[1] & (DP_DOWN_REP_MSG_RDY | DP_UP_REQ_MSG_RDY);
-> +		do {
-> +			ret = drm_dp_dpcd_write(mgr->aux,
-> +						DP_DEVICE_SERVICE_IRQ_VECTOR_ESI0,
-> +						&buf,
-> +						tosend);
-
-We should probably have a helper function to do the acking, similar to
-intel_dp_ack_sink_irq_esi(), which could be used both by this function
-and the drivers.
+drm-client-command-line: /path/to/executable --arguments
 
 > +
-> +			if (ret == tosend)
-> +				break;
+> +- drm-cmdline: <valstr>
 > +
-> +			retries++;
-> +		} while (retries < 5);
+> +Returns the clients cmdline.
 
-Please don't use a do-while when a for loop is sufficient.
+I think drm-usage-stats.rst text should provide some more text with 
+these two. To precisely define their content and outline the use case 
+under which driver authors may want to add them, and fdinfo consumer 
+therefore expect to see them. Just so everything is completely clear and 
+people do not start adding them for drivers which do not support native 
+context (or like).
 
-	for (tries = 0; tries < 5; tries++)
+But on the overall it sounds reasonable to me - it would be really cool 
+to not just see pcivirtio-gpu as you say. Even if the standard virtiogpu 
+use case (not native context) could show real users.
 
-and it's obvious at a glance how many times at most this runs. Not so
-with a do-while where you count *re-tries*. Again, would be nice to
-abstract this away in a helper function.
+Regards,
 
-> +
-> +		if (ret != tosend)
-> +			drm_dbg_kms(mgr->dev, "failed to write dpcd 0x%x\n",
-> +				    DP_DEVICE_SERVICE_IRQ_VECTOR_ESI0);
-> +	}
-> +
->  	drm_dp_mst_kick_tx(mgr);
->  	return ret;
->  }
-> diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
-> index bf80f296a8fd..abec3de38b66 100644
-> --- a/drivers/gpu/drm/i915/display/intel_dp.c
-> +++ b/drivers/gpu/drm/i915/display/intel_dp.c
-> @@ -3939,6 +3939,9 @@ intel_dp_check_mst_status(struct intel_dp *intel_dp)
->  		if (!memchr_inv(ack, 0, sizeof(ack)))
->  			break;
->  
-> +		/* MSG_RDY ack is done in drm*/
-> +		ack[1] &= ~(DP_DOWN_REP_MSG_RDY | DP_UP_REQ_MSG_RDY);
-
-Above we check if there's anything to ack and bail out, and now this
-clears the bits but writes them anyway.
-
-I think the handled parameter was problematic before, but now it's even
-more convoluted. What does it indicate? It used to mean you need to ack
-if it's set, but now it's something different. This function is getting
-very difficult to use correctly.
-
-BR,
-Jani.
-
-
+Tvrtko
 
 > +
->  		if (!intel_dp_ack_sink_irq_esi(intel_dp, ack))
->  			drm_dbg_kms(&i915->drm, "Failed to ack ESI\n");
->  	}
-> diff --git a/drivers/gpu/drm/nouveau/dispnv50/disp.c b/drivers/gpu/drm/nouveau/dispnv50/disp.c
-> index edcb2529b402..e905987104ed 100644
-> --- a/drivers/gpu/drm/nouveau/dispnv50/disp.c
-> +++ b/drivers/gpu/drm/nouveau/dispnv50/disp.c
-> @@ -1336,6 +1336,8 @@ nv50_mstm_service(struct nouveau_drm *drm,
->  		if (!handled)
->  			break;
->  
-> +		/* MSG_RDY ack is done in drm*/
-> +		esi[1] &= ~(DP_DOWN_REP_MSG_RDY | DP_UP_REQ_MSG_RDY);
->  		rc = drm_dp_dpcd_write(aux, DP_SINK_COUNT_ESI + 1, &esi[1],
->  				       3);
-
-Same here, this acks even if it's already been acked.
-
->  		if (rc != 3) {
-
--- 
-Jani Nikula, Intel Open Source Graphics Center
+>   Implementation Details
+>   ======================
+>   
+> diff --git a/drivers/gpu/drm/msm/msm_gpu.c b/drivers/gpu/drm/msm/msm_gpu.c
+> index f0f4f845c32d..1150dcbf28aa 100644
+> --- a/drivers/gpu/drm/msm/msm_gpu.c
+> +++ b/drivers/gpu/drm/msm/msm_gpu.c
+> @@ -148,12 +148,26 @@ int msm_gpu_pm_suspend(struct msm_gpu *gpu)
+>   	return 0;
+>   }
+>   
+> +static void get_comm_cmdline(struct msm_file_private *ctx, char **comm, char **cmd);
+> +
+>   void msm_gpu_show_fdinfo(struct msm_gpu *gpu, struct msm_file_private *ctx,
+>   			 struct drm_printer *p)
+>   {
+> +	char *comm, *cmdline;
+> +
+> +	get_comm_cmdline(ctx, &comm, &cmdline);
+> +
+>   	drm_printf(p, "drm-engine-gpu:\t%llu ns\n", ctx->elapsed_ns);
+>   	drm_printf(p, "drm-cycles-gpu:\t%llu\n", ctx->cycles);
+>   	drm_printf(p, "drm-maxfreq-gpu:\t%u Hz\n", gpu->fast_rate);
+> +
+> +	if (comm)
+> +		drm_printf(p, "drm-comm:\t%s\n", comm);
+> +	if (cmdline)
+> +		drm_printf(p, "drm-cmdline:\t%s\n", cmdline);
+> +
+> +	kfree(comm);
+> +	kfree(cmdline);
+>   }
+>   
+>   int msm_gpu_hw_init(struct msm_gpu *gpu)
