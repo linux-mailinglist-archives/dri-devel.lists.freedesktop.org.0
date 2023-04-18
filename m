@@ -2,72 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4ED56E5C10
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Apr 2023 10:32:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D49B6E5C20
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Apr 2023 10:35:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C7FDD10E6F8;
-	Tue, 18 Apr 2023 08:32:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BB35A10E6F1;
+	Tue, 18 Apr 2023 08:34:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com
- [IPv6:2a00:1450:4864:20::329])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4BCAA10E6F8
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Apr 2023 08:32:08 +0000 (UTC)
-Received: by mail-wm1-x329.google.com with SMTP id
- 5b1f17b1804b1-3f16f792384so5112805e9.0
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Apr 2023 01:32:08 -0700 (PDT)
+Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com
+ [IPv6:2a00:1450:4864:20::330])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 82FB510E6F1
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Apr 2023 08:34:56 +0000 (UTC)
+Received: by mail-wm1-x330.google.com with SMTP id
+ 5b1f17b1804b1-3f16f792384so5118295e9.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Apr 2023 01:34:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1681806726; x=1684398726;
+ d=ffwll.ch; s=google; t=1681806894; x=1684398894;
  h=in-reply-to:content-disposition:mime-version:references
  :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
  :subject:date:message-id:reply-to;
- bh=3WLSH8gwfIPleEeUUt5WgJYFcEuj6q3wMvZ3h+Vy7zo=;
- b=DTErbNOZ6G5TtRTr1+Lqoa3G5VNpvbkPZ5Y2ydixzoTjpc+cB5ykDY4fhGum1tkO7W
- vUdDjH4tSMqLMG4ES4s5sI5zyELRrWLUfYP/iJvG4KnD22STeHJl1MgahB2bnOSLoByV
- xW5mxiKTI9dwC4XWOmpDDTJBqpi/nnKIaxl7o=
+ bh=fK3y0BUQpGH7irvo8NU0fynJnPut9qQ7xlfoCq4CYng=;
+ b=gu1Jw5Z+VkRdweBK6KngJhdDB6l0cbDx53nX/TFfWMHLBAxDzS4iiwlhVoYR2WfLG8
+ BO8ZxxDSiYGuOUbSxOY9eBe0m1WZw7Ady93EXQop79Ezst8xg2i36ulaVH6lVGELc/A6
+ tbWqGXG4mPfSxgfd/BXLIBwym6jER/1MprzWc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681806726; x=1684398726;
+ d=1e100.net; s=20221208; t=1681806894; x=1684398894;
  h=in-reply-to:content-disposition:mime-version:references
  :mail-followup-to:message-id:subject:cc:to:from:date
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=3WLSH8gwfIPleEeUUt5WgJYFcEuj6q3wMvZ3h+Vy7zo=;
- b=RVnNK4QREzkELrxDgdxal4hB7SXnfvEXUYOztZxE8+KHNYMRJw7obB86B4XOZfNxTk
- B2uaioo8CkG1Wo3VmOHmhePEcx1KKSAt/OcnmfMM/TjgpZFE/FeVaE1DCQEF0nzB8MVe
- 3wzkEj/5ES4UsMI5xQfCKXJCcOo/9zySygq5Tes1FZKkqBflaC2T1mft1wPXPrta7rjt
- fdN+vHmp3MKcZExCr6WtRN3pMDU0ZvUZja6vuzzDtXMLHZ+Tp4OyzbNokHOrmA1jWdNG
- 7vQ2zkkUqai1JRz0kWvQlX4VMCFELOW3uosVMlT6qnMlsnLh+AS3c8btjDi99tU8eKlt
- 7gPg==
-X-Gm-Message-State: AAQBX9fgulPVfj0O6dvT0gwgyUTi3qe518Pk20wfznEFtp2hXR2JGloV
- eBz8gCn1AOu+IRQTsXV1qgpmeQ==
-X-Google-Smtp-Source: AKy350Zb3S0UjaCxbuQFx+pYjJEjeuZKam0MNlGMGdZ51RvByjcZnxHf0dc3aGErX2sxXyBWXrQ6Vw==
-X-Received: by 2002:a05:600c:1e12:b0:3f1:727f:1967 with SMTP id
- ay18-20020a05600c1e1200b003f1727f1967mr5443586wmb.4.1681806726244; 
- Tue, 18 Apr 2023 01:32:06 -0700 (PDT)
+ bh=fK3y0BUQpGH7irvo8NU0fynJnPut9qQ7xlfoCq4CYng=;
+ b=lWW0nY+TAN/pY7cxyYT3U4JTm7YGmufDCnRfgds+8pJQpZuLFetIlqZMtC2Ce3jw3H
+ EJ+2pvna9256JXBLQdC8f5WtWFH/EcB7IyxBxyU7bzahje3USx3UOifzu+j5WsRhayTr
+ Sr/gFcuJVDQ/JeQmJdFtpqS/lA/62HgMSWGJ4YEToK1HBt+IG8Cw4+h0cH0B8Q72rDbD
+ 8MS4aeQyCeN0yBzlluvcx22+zCJ6VOHxGJ9yY7VqDgG8GaBUUI5fQzTg14m4EBibEcTM
+ 4CU1SHGTd+UKgMWkQFTeVgwELdvqHkFhherKuAOj+DVkJFX9sO3ePhogy+RuQDHoRAac
+ xcwg==
+X-Gm-Message-State: AAQBX9fmDFru6Ekd3Fr0OcGXFPm8fEUw/arkNqEDG9y9/1CCAUiD4ML2
+ A07DJy3wAlpYHlUGw3mwOPge1Z2TfWmJsSOGuR0=
+X-Google-Smtp-Source: AKy350Zb/Pmk6fjTuOI1X1TU5gGYDQL8J50cM0uidBzPbaCHSu3IUJ7zuzjH7UgjDGJDOY0mLfD57w==
+X-Received: by 2002:a05:600c:6025:b0:3f1:75a5:a369 with SMTP id
+ az37-20020a05600c602500b003f175a5a369mr3356980wmb.3.1681806894329; 
+ Tue, 18 Apr 2023 01:34:54 -0700 (PDT)
 Received: from phenom.ffwll.local (212-51-149-33.fiber7.init7.net.
  [212.51.149.33]) by smtp.gmail.com with ESMTPSA id
- 26-20020a05600c021a00b003f17848673fsm1806427wmi.27.2023.04.18.01.32.05
+ s16-20020a05600c319000b003f17122587bsm7222453wmp.36.2023.04.18.01.34.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 18 Apr 2023 01:32:05 -0700 (PDT)
-Date: Tue, 18 Apr 2023 10:32:03 +0200
+ Tue, 18 Apr 2023 01:34:53 -0700 (PDT)
+Date: Tue, 18 Apr 2023 10:34:52 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Sui Jingfeng <suijingfeng@loongson.cn>
-Subject: Re: [PATCH v3] drm/fbdev-generic: prohibit potential out-of-bounds
- access
-Message-ID: <ZD5Vgx9Txaiz7Bun@phenom.ffwll.local>
-Mail-Followup-To: Sui Jingfeng <suijingfeng@loongson.cn>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Li Yi <liyi@loongson.cn>,
- Helge Deller <deller@gmx.de>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- linux-kernel@vger.kernel.org, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org, loongson-kernel@lists.loongnix.cn
-References: <20230417113219.1354078-1-suijingfeng@loongson.cn>
+To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Subject: Re: [RFC 2/3] drm/msm: Rework get_comm_cmdline() helper
+Message-ID: <ZD5WLMRNibbRkGQO@phenom.ffwll.local>
+Mail-Followup-To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Rob Clark <robdclark@gmail.com>, dri-devel@lists.freedesktop.org,
+ Rob Clark <robdclark@chromium.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Sean Paul <sean@poorly.run>, David Airlie <airlied@gmail.com>,
+ Akhil P Oommen <quic_akhilpo@quicinc.com>,
+ Chia-I Wu <olvaffe@gmail.com>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <freedreno@lists.freedesktop.org>,
+ open list <linux-kernel@vger.kernel.org>
+References: <20230417201215.448099-1-robdclark@gmail.com>
+ <20230417201215.448099-3-robdclark@gmail.com>
+ <58977051-197b-f1f0-c795-9037e70d7a91@linux.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230417113219.1354078-1-suijingfeng@loongson.cn>
+In-Reply-To: <58977051-197b-f1f0-c795-9037e70d7a91@linux.intel.com>
 X-Operating-System: Linux phenom 6.1.0-7-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -81,121 +85,159 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Lucas De Marchi <lucas.demarchi@intel.com>, linux-fbdev@vger.kernel.org,
- Thomas Zimmermann <tzimmermann@suse.de>, Li Yi <liyi@loongson.cn>,
- Helge Deller <deller@gmx.de>, linux-kernel@vger.kernel.org,
- loongson-kernel@lists.loongnix.cn, dri-devel@lists.freedesktop.org
+Cc: Rob Clark <robdclark@chromium.org>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU"
+ <freedreno@lists.freedesktop.org>, Akhil P Oommen <quic_akhilpo@quicinc.com>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
+ open list <linux-kernel@vger.kernel.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Apr 17, 2023 at 07:32:19PM +0800, Sui Jingfeng wrote:
-> The fbdev test of IGT may write after EOF, which lead to out-of-bound
-> access for the drm drivers using fbdev-generic. For example, on a x86
-> + aspeed bmc card platform, with a 1680x1050 resolution display, running
-> fbdev test if IGT will cause the linux kernel hang with the following
-> call trace:
+On Tue, Apr 18, 2023 at 09:27:49AM +0100, Tvrtko Ursulin wrote:
 > 
->   Oops: 0000 [#1] PREEMPT SMP PTI
->   [IGT] fbdev: starting subtest eof
->   Workqueue: events drm_fb_helper_damage_work [drm_kms_helper]
->   [IGT] fbdev: starting subtest nullptr
+> On 17/04/2023 21:12, Rob Clark wrote:
+> > From: Rob Clark <robdclark@chromium.org>
+> > 
+> > Make it work in terms of ctx so that it can be re-used for fdinfo.
+> > 
+> > Signed-off-by: Rob Clark <robdclark@chromium.org>
+> > ---
+> >   drivers/gpu/drm/msm/adreno/adreno_gpu.c |  4 ++--
+> >   drivers/gpu/drm/msm/msm_drv.c           |  2 ++
+> >   drivers/gpu/drm/msm/msm_gpu.c           | 13 ++++++-------
+> >   drivers/gpu/drm/msm/msm_gpu.h           | 12 ++++++++++--
+> >   drivers/gpu/drm/msm/msm_submitqueue.c   |  1 +
+> >   5 files changed, 21 insertions(+), 11 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.c b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
+> > index bb38e728864d..43c4e1fea83f 100644
+> > --- a/drivers/gpu/drm/msm/adreno/adreno_gpu.c
+> > +++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
+> > @@ -412,7 +412,7 @@ int adreno_set_param(struct msm_gpu *gpu, struct msm_file_private *ctx,
+> >   		/* Ensure string is null terminated: */
+> >   		str[len] = '\0';
+> > -		mutex_lock(&gpu->lock);
+> > +		mutex_lock(&ctx->lock);
+> >   		if (param == MSM_PARAM_COMM) {
+> >   			paramp = &ctx->comm;
+> > @@ -423,7 +423,7 @@ int adreno_set_param(struct msm_gpu *gpu, struct msm_file_private *ctx,
+> >   		kfree(*paramp);
+> >   		*paramp = str;
+> > -		mutex_unlock(&gpu->lock);
+> > +		mutex_unlock(&ctx->lock);
+> >   		return 0;
+> >   	}
+> > diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
+> > index 3d73b98d6a9c..ca0e89e46e13 100644
+> > --- a/drivers/gpu/drm/msm/msm_drv.c
+> > +++ b/drivers/gpu/drm/msm/msm_drv.c
+> > @@ -581,6 +581,8 @@ static int context_init(struct drm_device *dev, struct drm_file *file)
+> >   	rwlock_init(&ctx->queuelock);
+> >   	kref_init(&ctx->ref);
+> > +	ctx->pid = get_pid(task_pid(current));
 > 
->   RIP: 0010:memcpy_erms+0xa/0x20
->   RSP: 0018:ffffa17d40167d98 EFLAGS: 00010246
->   RAX: ffffa17d4eb7fa80 RBX: ffffa17d40e0aa80 RCX: 00000000000014c0
->   RDX: 0000000000001a40 RSI: ffffa17d40e0b000 RDI: ffffa17d4eb80000
->   RBP: ffffa17d40167e20 R08: 0000000000000000 R09: ffff89522ecff8c0
->   R10: ffffa17d4e4c5000 R11: 0000000000000000 R12: ffffa17d4eb7fa80
->   R13: 0000000000001a40 R14: 000000000000041a R15: ffffa17d40167e30
->   FS:  0000000000000000(0000) GS:ffff895257380000(0000) knlGS:0000000000000000
->   CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
->   CR2: ffffa17d40e0b000 CR3: 00000001eaeca006 CR4: 00000000001706e0
->   Call Trace:
->    <TASK>
->    ? drm_fbdev_generic_helper_fb_dirty+0x207/0x330 [drm_kms_helper]
->    drm_fb_helper_damage_work+0x8f/0x170 [drm_kms_helper]
->    process_one_work+0x21f/0x430
->    worker_thread+0x4e/0x3c0
->    ? __pfx_worker_thread+0x10/0x10
->    kthread+0xf4/0x120
->    ? __pfx_kthread+0x10/0x10
->    ret_from_fork+0x2c/0x50
->    </TASK>
->   CR2: ffffa17d40e0b000
->   ---[ end trace 0000000000000000 ]---
-> 
-> The direct reason is that damage rectange computed by
-> drm_fb_helper_memory_range_to_clip() does not guaranteed to be in-bound.
-> It is already results in workaround code populate to elsewhere. Another
-> reason is that exposing a larger buffer size than the actual needed help
-> to trigger this bug intrinsic in drm_fb_helper_memory_range_to_clip().
-> 
-> Others fbdev emulation solutions write to the GEM buffer directly, they
-> won't reproduce this bug because the .fb_dirty function callback do not
-> being hooked, so no chance is given to drm_fb_helper_memory_range_to_clip()
-> to generate a out-of-bound when drm_fb_helper_sys_write() is called.
-> 
-> This patch break the trigger condition of this bug by shrinking the shadow
-> buffer size to sizes->surface_height * buffer->fb->pitches[0].
-> 
-> Fixes: '8fbc9af55de0 ("drm/fbdev-generic: Set screen size to size of GEM
-> buffer")'
-> 
-> Signed-off-by: Sui Jingfeng <suijingfeng@loongson.cn>
-> ---
->  drivers/gpu/drm/drm_fbdev_generic.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/drm_fbdev_generic.c b/drivers/gpu/drm/drm_fbdev_generic.c
-> index 8e5148bf40bb..b057cfbba938 100644
-> --- a/drivers/gpu/drm/drm_fbdev_generic.c
-> +++ b/drivers/gpu/drm/drm_fbdev_generic.c
-> @@ -94,7 +94,7 @@ static int drm_fbdev_generic_helper_fb_probe(struct drm_fb_helper *fb_helper,
->  	fb_helper->buffer = buffer;
->  	fb_helper->fb = buffer->fb;
->  
-> -	screen_size = buffer->gem->size;
-> +	screen_size = sizes->surface_height * buffer->fb->pitches[0];
+> Would it simplify things for msm if DRM core had an up to date file->pid as
+> proposed in
+> https://patchwork.freedesktop.org/patch/526752/?series=109902&rev=4 ? It
+> gets updated if ioctl issuer is different than fd opener and this being
+> context_init here reminded me of it. Maybe you wouldn't have to track the
+> pid in msm?
 
-So I read core some more and stumbled over drm_fb_helper_deferred_io().
-Which has all the code and comments about this, including limiting.
+Can we go one step further and let the drm fdinfo stuff print these new
+additions? Consistency across drivers and all that.
 
-I think it would be clearer if we fix the issue there, instead of passing
-limits around in obscure places that then again get broken? The thing is,
-Thomas both authored the limit checks in drm_fb_helper_deferred_io() and
-the patch which broken them again, so clearly this isn't very obvious. I'm
-thinking of something like this:
-
-
-diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
-index ef4eb8b12766..726dab67c359 100644
---- a/drivers/gpu/drm/drm_fb_helper.c
-+++ b/drivers/gpu/drm/drm_fb_helper.c
-@@ -697,10 +697,7 @@ void drm_fb_helper_deferred_io(struct fb_info *info, struct list_head *pagerefli
- 	 * of the screen and account for non-existing scanlines. Hence,
- 	 * keep the covered memory area within the screen buffer.
- 	 */
--	if (info->screen_size)
--		total_size = info->screen_size;
--	else
--		total_size = info->fix.smem_len;
-+	total_size = helper->fb->height * helper->fb->pitches[0];
- 	max_off = min(max_off, total_size);
- 
- 	if (min_off < max_off) {
-
-
-I think that would make it utmost clear on what we're doing and why.
-Otherwise we're just going to re-create the same bug again, like we've
-done already :-)
+Also for a generic trigger I think any driver ioctl is good enough (we
+only really need to avoid the auth dance when you're not on a render
+node).
 -Daniel
 
->  	screen_buffer = vzalloc(screen_size);
->  	if (!screen_buffer) {
->  		ret = -ENOMEM;
-> -- 
-> 2.25.1
 > 
+> Regards,
+> 
+> Tvrtko
+> 
+> > +	mutex_init(&ctx->lock);
+> >   	msm_submitqueue_init(dev, ctx);
+> >   	ctx->aspace = msm_gpu_create_private_address_space(priv->gpu, current);
+> > diff --git a/drivers/gpu/drm/msm/msm_gpu.c b/drivers/gpu/drm/msm/msm_gpu.c
+> > index c403912d13ab..f0f4f845c32d 100644
+> > --- a/drivers/gpu/drm/msm/msm_gpu.c
+> > +++ b/drivers/gpu/drm/msm/msm_gpu.c
+> > @@ -327,18 +327,17 @@ find_submit(struct msm_ringbuffer *ring, uint32_t fence)
+> >   static void retire_submits(struct msm_gpu *gpu);
+> > -static void get_comm_cmdline(struct msm_gem_submit *submit, char **comm, char **cmd)
+> > +static void get_comm_cmdline(struct msm_file_private *ctx, char **comm, char **cmd)
+> >   {
+> > -	struct msm_file_private *ctx = submit->queue->ctx;
+> >   	struct task_struct *task;
+> > -	WARN_ON(!mutex_is_locked(&submit->gpu->lock));
+> > -
+> >   	/* Note that kstrdup will return NULL if argument is NULL: */
+> > +	mutex_lock(&ctx->lock);
+> >   	*comm = kstrdup(ctx->comm, GFP_KERNEL);
+> >   	*cmd  = kstrdup(ctx->cmdline, GFP_KERNEL);
+> > +	mutex_unlock(&ctx->lock);
+> > -	task = get_pid_task(submit->pid, PIDTYPE_PID);
+> > +	task = get_pid_task(ctx->pid, PIDTYPE_PID);
+> >   	if (!task)
+> >   		return;
+> > @@ -372,7 +371,7 @@ static void recover_worker(struct kthread_work *work)
+> >   		if (submit->aspace)
+> >   			submit->aspace->faults++;
+> > -		get_comm_cmdline(submit, &comm, &cmd);
+> > +		get_comm_cmdline(submit->queue->ctx, &comm, &cmd);
+> >   		if (comm && cmd) {
+> >   			DRM_DEV_ERROR(dev->dev, "%s: offending task: %s (%s)\n",
+> > @@ -460,7 +459,7 @@ static void fault_worker(struct kthread_work *work)
+> >   		goto resume_smmu;
+> >   	if (submit) {
+> > -		get_comm_cmdline(submit, &comm, &cmd);
+> > +		get_comm_cmdline(submit->queue->ctx, &comm, &cmd);
+> >   		/*
+> >   		 * When we get GPU iova faults, we can get 1000s of them,
+> > diff --git a/drivers/gpu/drm/msm/msm_gpu.h b/drivers/gpu/drm/msm/msm_gpu.h
+> > index 7a4fa1b8655b..b2023a42116b 100644
+> > --- a/drivers/gpu/drm/msm/msm_gpu.h
+> > +++ b/drivers/gpu/drm/msm/msm_gpu.h
+> > @@ -377,17 +377,25 @@ struct msm_file_private {
+> >   	 */
+> >   	int sysprof;
+> > +	/** @pid: Process that opened this file. */
+> > +	struct pid *pid;
+> > +
+> > +	/**
+> > +	 * lock: Protects comm and cmdline
+> > +	 */
+> > +	struct mutex lock;
+> > +
+> >   	/**
+> >   	 * comm: Overridden task comm, see MSM_PARAM_COMM
+> >   	 *
+> > -	 * Accessed under msm_gpu::lock
+> > +	 * Accessed under msm_file_private::lock
+> >   	 */
+> >   	char *comm;
+> >   	/**
+> >   	 * cmdline: Overridden task cmdline, see MSM_PARAM_CMDLINE
+> >   	 *
+> > -	 * Accessed under msm_gpu::lock
+> > +	 * Accessed under msm_file_private::lock
+> >   	 */
+> >   	char *cmdline;
+> > diff --git a/drivers/gpu/drm/msm/msm_submitqueue.c b/drivers/gpu/drm/msm/msm_submitqueue.c
+> > index 0e803125a325..0444ba04fa06 100644
+> > --- a/drivers/gpu/drm/msm/msm_submitqueue.c
+> > +++ b/drivers/gpu/drm/msm/msm_submitqueue.c
+> > @@ -61,6 +61,7 @@ void __msm_file_private_destroy(struct kref *kref)
+> >   	}
+> >   	msm_gem_address_space_put(ctx->aspace);
+> > +	put_pid(ctx->pid);
+> >   	kfree(ctx->comm);
+> >   	kfree(ctx->cmdline);
+> >   	kfree(ctx);
 
 -- 
 Daniel Vetter
