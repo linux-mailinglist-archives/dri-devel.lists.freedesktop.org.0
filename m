@@ -2,55 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CAD5B6E6DE4
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Apr 2023 23:12:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40BA56E6DE8
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Apr 2023 23:14:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0FD9F10E060;
-	Tue, 18 Apr 2023 21:11:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8AD6610E165;
+	Tue, 18 Apr 2023 21:14:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-f43.google.com (mail-oo1-f43.google.com
- [209.85.161.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C395210E060
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Apr 2023 21:11:54 +0000 (UTC)
-Received: by mail-oo1-f43.google.com with SMTP id
- 006d021491bc7-541b654ab7eso488302eaf.3
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Apr 2023 14:11:54 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681852313; x=1684444313;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Wq4XES0A3vZMGZurOPdlsGHZykLyFbZWmGpJXYBbCNw=;
- b=RfNrOd1MfF83+9s96ZZf+XaraN93VSdrbqMj9bwjSCzDfWr9kjUJJVhrQDPnv2HcBX
- oL3RiMZTcE7pLCr4nzzdTz3dHYlp29cz+oemJtNwjWS5YlGBc3y+h/McWjSAZYsg09Qs
- zUKxZH8ESJdVzNCLMkUai6TH4XnwwvBogDaTBxGcKXVewQgk/aJ8zi346YobCWP/LL7n
- +cVC5ItIrnysz15vvyIWiZ0et8Oh/h0cCDAC4kaLNWQCFJpRazuNadbzW4ILufni16SQ
- ba9foipx5y1AuXWPDOQPlnivnDZp2Rbvm1kdrTJNvZNXpniZiIAodkcSFlkdVGG8NSON
- wQfA==
-X-Gm-Message-State: AAQBX9erSxBYK8FxpaxObPzLTCtS5ANJrsjUaRQWwAvz5oq7/7BSIPGk
- wnqe21u4Dci/IaM5pZAkcw==
-X-Google-Smtp-Source: AKy350asGV+/EQnR8K/k603pg3P1vk2PcyjMx5ZRioEAbPquyMv9OeqaOF+GvaSzzXOg6OCwjSe3hw==
-X-Received: by 2002:a05:6871:729:b0:187:a6fd:f1c7 with SMTP id
- f41-20020a056871072900b00187a6fdf1c7mr2115232oap.5.1681852313474; 
- Tue, 18 Apr 2023 14:11:53 -0700 (PDT)
-Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net.
- [66.90.144.107]) by smtp.gmail.com with ESMTPSA id
- dy16-20020a056870c79000b0017197629658sm6077372oab.56.2023.04.18.14.11.52
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 18 Apr 2023 14:11:52 -0700 (PDT)
-Received: (nullmailer pid 2345963 invoked by uid 1000);
- Tue, 18 Apr 2023 21:11:51 -0000
-Date: Tue, 18 Apr 2023 16:11:51 -0500
-From: Rob Herring <robh@kernel.org>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: Re: [PATCH] dt-bindings: display: simplify compatibles syntax
-Message-ID: <168185230077.2345727.991435195687309100.robh@kernel.org>
-References: <20230414104230.23165-1-krzysztof.kozlowski@linaro.org>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5FAAC10E0F5
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Apr 2023 21:14:06 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 8743563904;
+ Tue, 18 Apr 2023 21:14:05 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BC45BC433D2;
+ Tue, 18 Apr 2023 21:14:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1681852445;
+ bh=JBNOFe/Q4uIY9BiQEuafN7tvTwnDWbyxZ0gk7Y620+E=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:From;
+ b=fby3qz/OFcuKHyHBQn+0w4kcO7mwke+dsb6RnUgR+c5iZjjqMTZ9jwYowkD+2ujmz
+ lLj3WQEavcRi/aq2Y/X4NVRxFuXlu3Av4iCp8dUmsgjUH1H2BA4aJF9wJAt+fEdSzC
+ S8K4FCciilRXX1Cso+nwhIYTmKCKn9ClVMRr9EJY13ffQathK3Z6tJXX2uVipeJrft
+ S8j3J9YVGWuWbORQsjYZ0v60ALdW3NHuiRC6duNt3RjaaX739yCY4jYFjsnEqH14kf
+ Ve3Jln9z/RDVvJ+Y70qj/3WVn9mVNF5ybqIVe+pisZxfU76ZriBjaI9DboxKJqqWvi
+ BurvZCIAMgJ/A==
+Date: Tue, 18 Apr 2023 16:14:03 -0500
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: Patrick McLean <chutzpah@gentoo.org>
+Subject: Re: [PATCH 1/2] gpu: Move ASPEED vendor ID definition to pci_ids.h
+Message-ID: <20230418211403.GA160979@bhelgaas>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230414104230.23165-1-krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20230418011720.3900090-2-chutzpah@gentoo.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,34 +51,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Robert Foss <rfoss@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Jonas Karlman <jonas@kwiboo.se>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Javier Martinez Canillas <javierm@redhat.com>,
- devicetree@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Thierry Reding <treding@nvidia.com>,
- Sam Ravnborg <sam@ravnborg.org>, Xin Ji <xji@analogixsemi.com>
+Cc: linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-ide@vger.kernel.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, Bjorn Helgaas <bhelgaas@google.com>,
+ Dave Airlie <airlied@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Most subject lines for pci_ids.h look like this:
 
-On Fri, 14 Apr 2023 12:42:30 +0200, Krzysztof Kozlowski wrote:
-> Lists (items) with one item should be just const or enum because it is
-> shorter and simpler.
+  PCI: Add ASPEED vendor ID
+
+On Mon, Apr 17, 2023 at 06:17:19PM -0700, Patrick McLean wrote:
+> Currently the ASPEED PCI vendor ID is defined in drivers/gpu/drm/ast/ast_drv.c,
+> move that to include/linux/pci_ids.h with all the rest of the PCI vendor ID
+> definitions. Rename the definition to follow the format that the other
+> definitions follow.
 > 
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> 
+> Signed-off-by: Patrick McLean <chutzpah@gentoo.org>
+
+Given the subject line and file placement (below) updates,
+
+Acked-by: Bjorn Helgaas <bhelgaas@google.com>
+
 > ---
+>  drivers/gpu/drm/ast/ast_drv.c | 4 +---
+>  include/linux/pci_ids.h       | 2 ++
+>  2 files changed, 3 insertions(+), 3 deletions(-)
 > 
-> Rebased on next-20230406. I hope it applies cleanly...
-> ---
->  .../display/bridge/analogix,anx7625.yaml      |  3 +--
->  .../display/panel/sharp,lq101r1sx01.yaml      |  4 ++--
->  .../bindings/display/solomon,ssd1307fb.yaml   | 24 +++++++++----------
->  3 files changed, 14 insertions(+), 17 deletions(-)
+> diff --git a/drivers/gpu/drm/ast/ast_drv.c b/drivers/gpu/drm/ast/ast_drv.c
+> index d78852c7cf5b..232e797793b6 100644
+> --- a/drivers/gpu/drm/ast/ast_drv.c
+> +++ b/drivers/gpu/drm/ast/ast_drv.c
+> @@ -70,12 +70,10 @@ static const struct drm_driver ast_driver = {
+>   * PCI driver
+>   */
+>  
+> -#define PCI_VENDOR_ASPEED 0x1a03
+> -
+>  #define AST_VGA_DEVICE(id, info) {		\
+>  	.class = PCI_BASE_CLASS_DISPLAY << 16,	\
+>  	.class_mask = 0xff0000,			\
+> -	.vendor = PCI_VENDOR_ASPEED,			\
+> +	.vendor = PCI_VENDOR_ID_ASPEED,			\
+>  	.device = id,				\
+>  	.subvendor = PCI_ANY_ID,		\
+>  	.subdevice = PCI_ANY_ID,		\
+> diff --git a/include/linux/pci_ids.h b/include/linux/pci_ids.h
+> index 45c3d62e616d..6634741aea80 100644
+> --- a/include/linux/pci_ids.h
+> +++ b/include/linux/pci_ids.h
+> @@ -815,6 +815,8 @@
+>  #define PCI_VENDOR_ID_ASUSTEK		0x1043
+>  #define PCI_DEVICE_ID_ASUSTEK_0675	0x0675
+>  
+> +#define PCI_VENDOR_ID_ASPEED		0x1a03
+
+This looks like a random placement.  Please keep sorted by numeric
+vendor ID.  I'll make the comment at the top a little more specific.
+
+>  #define PCI_VENDOR_ID_DPT		0x1044
+>  #define PCI_DEVICE_ID_DPT		0xa400
+>  
+> -- 
+> 2.40.0
 > 
-
-Applied, thanks!
-
