@@ -2,49 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8AD826E5664
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Apr 2023 03:26:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27A796E5688
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Apr 2023 03:40:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EA4B410E664;
-	Tue, 18 Apr 2023 01:26:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3732D10E668;
+	Tue, 18 Apr 2023 01:40:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.riseup.net (mx1.riseup.net [198.252.153.129])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1717B10E664
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Apr 2023 01:26:42 +0000 (UTC)
-Received: from fews02-sea.riseup.net (unknown [10.0.1.112])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by mx1.riseup.net (Postfix) with ESMTPS id 4Q0mV96sR0zDqBT;
- Tue, 18 Apr 2023 01:26:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
- t=1681781202; bh=/k3uHMSMc37Z5D4FrrF3sSlkIrsxaIyPtQ07VVzkDCI=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=sxjmY2Ly85KJkgx20C9B1hqgBOICadkzHdhzat0wY+PEyK2QNmma6C26bxYLNsyp6
- ZqED//eB/pTszLknvJkuSOq2eVbJBvucH/yfsRpcwNv43AnarNxHeMu0MhQPW6zHGc
- ITcNvb/un+F7kOPK7ELibnorbhHpivSAx9mw8VeI=
-X-Riseup-User-ID: AFD48CF6BBE22807ADF7E141946395064539529E3777EE6AD905AD7C23BECF04
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- by fews02-sea.riseup.net (Postfix) with ESMTPSA id 4Q0mV56Y4mzFpmm;
- Tue, 18 Apr 2023 01:26:37 +0000 (UTC)
-Message-ID: <e988b4e1-978d-286c-77f7-9affc1cf7a3d@riseup.net>
-Date: Mon, 17 Apr 2023 22:26:34 -0300
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B6D0610E667;
+ Tue, 18 Apr 2023 01:40:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1681782020; x=1713318020;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=OskGLZarC97afV+YZCPgIYWfaMrOVQDkgNhECV3vFHY=;
+ b=M0sRnfmyB5bFGxaPUs/aIs0JUAQqmXXxKx8Vxmzf/2p6VukCdDe3HYtA
+ GLm47YCrETt+194Q74FoCMkXWCzTRZH6456o22Nf8z54jlcF+i5eo9s40
+ JOcz+DMYCSDPAWXG/5J7nWjrxofOJnxMRUFkszETrs/DmCPrdEEY2c4zW
+ XZkUGAp44ZVwRAUjOQPUtOx+1I9BmxhOouUhpIScUo36sdOx8COOrANIw
+ yC+fkFlkxZezjTChVJiDONNxKCfJ6+meh0pKmxuV6/LTruijfBI+ihUSq
+ ePBg5ElCtYsIXryH9HEU0+5qq3Dv8PZ5g8wlAKjc8+3vmCM9WetPylp46 w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10683"; a="345046096"
+X-IronPort-AV: E=Sophos;i="5.99,205,1677571200"; d="scan'208";a="345046096"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Apr 2023 18:40:19 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10683"; a="1020618509"
+X-IronPort-AV: E=Sophos;i="5.99,205,1677571200"; d="scan'208";a="1020618509"
+Received: from sslose-mobl1.ger.corp.intel.com (HELO intel.com)
+ ([10.252.56.168])
+ by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Apr 2023 18:40:17 -0700
+Date: Tue, 18 Apr 2023 03:39:54 +0200
+From: Andi Shyti <andi.shyti@linux.intel.com>
+To: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
+Subject: Re: [Intel-gfx] [PATCH] drm/i915/guc/slpc: Provide sysfs for
+ efficient freq
+Message-ID: <ZD306iP1tDnekIn0@ashyti-mobl2.lan>
+References: <20230418000915.3489494-1-vinay.belgaumkar@intel.com>
 MIME-Version: 1.0
-Subject: Re: [PATCH v3 1/6] drm/vkms: isolate pixel conversion functionality
-Content-Language: en-US
-To: =?UTF-8?Q?Ma=c3=adra_Canal?= <mcanal@igalia.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- Melissa Wen <mwen@igalia.com>, Haneen Mohammed <hamohammed.sa@gmail.com>,
- Igor Matheus Andrade Torrente <igormtorrente@gmail.com>,
- =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
-References: <20230417121056.63917-1-mcanal@igalia.com>
- <20230417121056.63917-2-mcanal@igalia.com>
-From: Arthur Grillo Queiroz Cabral <arthurgrillo@riseup.net>
-In-Reply-To: <20230417121056.63917-2-mcanal@igalia.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230418000915.3489494-1-vinay.belgaumkar@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,266 +59,95 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Vinay,
 
+Looks good, just few minor comments below,
 
-On 17/04/23 09:10, Maíra Canal wrote:
-> Currently, the pixel conversion functions repeat the same loop to
-> iterate the rows. Instead of repeating the same code for each pixel
-> format, create a function to wrap the loop and isolate the pixel
-> conversion functionality.
-> 
-> Suggested-by: Arthur Grillo <arthurgrillo@riseup.net>
-> Signed-off-by: Maíra Canal <mcanal@igalia.com>
+[...]
 
-I really liked how simple the conversion function turned out :-).
-
-Reviewed-by: Arthur Grillo <arthurgrillo@riseup.net>
-
-Regards,
-~Arthur Grillo
-
-> ---
->  drivers/gpu/drm/vkms/vkms_composer.c |   4 +-
->  drivers/gpu/drm/vkms/vkms_drv.h      |   4 +-
->  drivers/gpu/drm/vkms/vkms_formats.c  | 125 +++++++++++----------------
->  drivers/gpu/drm/vkms/vkms_formats.h  |   2 +-
->  drivers/gpu/drm/vkms/vkms_plane.c    |   2 +-
->  5 files changed, 56 insertions(+), 81 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/vkms/vkms_composer.c b/drivers/gpu/drm/vkms/vkms_composer.c
-> index 8e53fa80742b..80164e79af00 100644
-> --- a/drivers/gpu/drm/vkms/vkms_composer.c
-> +++ b/drivers/gpu/drm/vkms/vkms_composer.c
-> @@ -99,7 +99,7 @@ static void blend(struct vkms_writeback_job *wb,
->  			if (!check_y_limit(plane[i]->frame_info, y))
->  				continue;
->  
-> -			plane[i]->plane_read(stage_buffer, plane[i]->frame_info, y);
-> +			vkms_compose_row(stage_buffer, plane[i], y);
->  			pre_mul_alpha_blend(plane[i]->frame_info, stage_buffer,
->  					    output_buffer);
->  		}
-> @@ -118,7 +118,7 @@ static int check_format_funcs(struct vkms_crtc_state *crtc_state,
->  	u32 n_active_planes = crtc_state->num_active_planes;
->  
->  	for (size_t i = 0; i < n_active_planes; i++)
-> -		if (!planes[i]->plane_read)
-> +		if (!planes[i]->pixel_read)
->  			return -1;
->  
->  	if (active_wb && !active_wb->wb_write)
-> diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/vkms_drv.h
-> index 4a248567efb2..f152d54baf76 100644
-> --- a/drivers/gpu/drm/vkms/vkms_drv.h
-> +++ b/drivers/gpu/drm/vkms/vkms_drv.h
-> @@ -56,8 +56,7 @@ struct vkms_writeback_job {
->  struct vkms_plane_state {
->  	struct drm_shadow_plane_state base;
->  	struct vkms_frame_info *frame_info;
-> -	void (*plane_read)(struct line_buffer *buffer,
-> -			   const struct vkms_frame_info *frame_info, int y);
-> +	void (*pixel_read)(u8 *src_buffer, struct pixel_argb_u16 *out_pixel);
->  };
->  
->  struct vkms_plane {
-> @@ -155,6 +154,7 @@ int vkms_verify_crc_source(struct drm_crtc *crtc, const char *source_name,
->  /* Composer Support */
->  void vkms_composer_worker(struct work_struct *work);
->  void vkms_set_composer(struct vkms_output *out, bool enabled);
-> +void vkms_compose_row(struct line_buffer *stage_buffer, struct vkms_plane_state *plane, int y);
->  
->  /* Writeback */
->  int vkms_enable_writeback_connector(struct vkms_device *vkmsdev);
-> diff --git a/drivers/gpu/drm/vkms/vkms_formats.c b/drivers/gpu/drm/vkms/vkms_formats.c
-> index d4950688b3f1..bd542fd00698 100644
-> --- a/drivers/gpu/drm/vkms/vkms_formats.c
-> +++ b/drivers/gpu/drm/vkms/vkms_formats.c
-> @@ -42,100 +42,75 @@ static void *get_packed_src_addr(const struct vkms_frame_info *frame_info, int y
->  	return packed_pixels_addr(frame_info, x_src, y_src);
->  }
->  
-> -static void ARGB8888_to_argb_u16(struct line_buffer *stage_buffer,
-> -				 const struct vkms_frame_info *frame_info, int y)
-> +static void ARGB8888_to_argb_u16(u8 *src_pixels, struct pixel_argb_u16 *out_pixel)
->  {
-> -	struct pixel_argb_u16 *out_pixels = stage_buffer->pixels;
-> -	u8 *src_pixels = get_packed_src_addr(frame_info, y);
-> -	int x_limit = min_t(size_t, drm_rect_width(&frame_info->dst),
-> -			    stage_buffer->n_pixels);
-> -
-> -	for (size_t x = 0; x < x_limit; x++, src_pixels += 4) {
-> -		/*
-> -		 * The 257 is the "conversion ratio". This number is obtained by the
-> -		 * (2^16 - 1) / (2^8 - 1) division. Which, in this case, tries to get
-> -		 * the best color value in a pixel format with more possibilities.
-> -		 * A similar idea applies to others RGB color conversions.
-> -		 */
-> -		out_pixels[x].a = (u16)src_pixels[3] * 257;
-> -		out_pixels[x].r = (u16)src_pixels[2] * 257;
-> -		out_pixels[x].g = (u16)src_pixels[1] * 257;
-> -		out_pixels[x].b = (u16)src_pixels[0] * 257;
-> -	}
-> +	/*
-> +	 * The 257 is the "conversion ratio". This number is obtained by the
-> +	 * (2^16 - 1) / (2^8 - 1) division. Which, in this case, tries to get
-> +	 * the best color value in a pixel format with more possibilities.
-> +	 * A similar idea applies to others RGB color conversions.
-> +	 */
-> +	out_pixel->a = (u16)src_pixels[3] * 257;
-> +	out_pixel->r = (u16)src_pixels[2] * 257;
-> +	out_pixel->g = (u16)src_pixels[1] * 257;
-> +	out_pixel->b = (u16)src_pixels[0] * 257;
->  }
->  
-> -static void XRGB8888_to_argb_u16(struct line_buffer *stage_buffer,
-> -				 const struct vkms_frame_info *frame_info, int y)
-> +static void XRGB8888_to_argb_u16(u8 *src_pixels, struct pixel_argb_u16 *out_pixel)
->  {
-> -	struct pixel_argb_u16 *out_pixels = stage_buffer->pixels;
-> -	u8 *src_pixels = get_packed_src_addr(frame_info, y);
-> -	int x_limit = min_t(size_t, drm_rect_width(&frame_info->dst),
-> -			    stage_buffer->n_pixels);
-> -
-> -	for (size_t x = 0; x < x_limit; x++, src_pixels += 4) {
-> -		out_pixels[x].a = (u16)0xffff;
-> -		out_pixels[x].r = (u16)src_pixels[2] * 257;
-> -		out_pixels[x].g = (u16)src_pixels[1] * 257;
-> -		out_pixels[x].b = (u16)src_pixels[0] * 257;
-> -	}
-> +	out_pixel->a = (u16)0xffff;
-> +	out_pixel->r = (u16)src_pixels[2] * 257;
-> +	out_pixel->g = (u16)src_pixels[1] * 257;
-> +	out_pixel->b = (u16)src_pixels[0] * 257;
->  }
->  
-> -static void ARGB16161616_to_argb_u16(struct line_buffer *stage_buffer,
-> -				     const struct vkms_frame_info *frame_info,
-> -				     int y)
-> +static void ARGB16161616_to_argb_u16(u8 *src_pixels, struct pixel_argb_u16 *out_pixel)
->  {
-> -	struct pixel_argb_u16 *out_pixels = stage_buffer->pixels;
-> -	u16 *src_pixels = get_packed_src_addr(frame_info, y);
-> -	int x_limit = min_t(size_t, drm_rect_width(&frame_info->dst),
-> -			    stage_buffer->n_pixels);
-> +	u16 *pixels = (u16 *)src_pixels;
->  
-> -	for (size_t x = 0; x < x_limit; x++, src_pixels += 4) {
-> -		out_pixels[x].a = le16_to_cpu(src_pixels[3]);
-> -		out_pixels[x].r = le16_to_cpu(src_pixels[2]);
-> -		out_pixels[x].g = le16_to_cpu(src_pixels[1]);
-> -		out_pixels[x].b = le16_to_cpu(src_pixels[0]);
-> -	}
-> +	out_pixel->a = le16_to_cpu(pixels[3]);
-> +	out_pixel->r = le16_to_cpu(pixels[2]);
-> +	out_pixel->g = le16_to_cpu(pixels[1]);
-> +	out_pixel->b = le16_to_cpu(pixels[0]);
->  }
->  
-> -static void XRGB16161616_to_argb_u16(struct line_buffer *stage_buffer,
-> -				     const struct vkms_frame_info *frame_info,
-> -				     int y)
-> +static void XRGB16161616_to_argb_u16(u8 *src_pixels, struct pixel_argb_u16 *out_pixel)
->  {
-> -	struct pixel_argb_u16 *out_pixels = stage_buffer->pixels;
-> -	u16 *src_pixels = get_packed_src_addr(frame_info, y);
-> -	int x_limit = min_t(size_t, drm_rect_width(&frame_info->dst),
-> -			    stage_buffer->n_pixels);
-> +	u16 *pixels = (u16 *)src_pixels;
->  
-> -	for (size_t x = 0; x < x_limit; x++, src_pixels += 4) {
-> -		out_pixels[x].a = (u16)0xffff;
-> -		out_pixels[x].r = le16_to_cpu(src_pixels[2]);
-> -		out_pixels[x].g = le16_to_cpu(src_pixels[1]);
-> -		out_pixels[x].b = le16_to_cpu(src_pixels[0]);
-> -	}
-> +	out_pixel->a = (u16)0xffff;
-> +	out_pixel->r = le16_to_cpu(pixels[2]);
-> +	out_pixel->g = le16_to_cpu(pixels[1]);
-> +	out_pixel->b = le16_to_cpu(pixels[0]);
->  }
->  
-> -static void RGB565_to_argb_u16(struct line_buffer *stage_buffer,
-> -			       const struct vkms_frame_info *frame_info, int y)
-> +static void RGB565_to_argb_u16(u8 *src_pixels, struct pixel_argb_u16 *out_pixel)
->  {
-> -	struct pixel_argb_u16 *out_pixels = stage_buffer->pixels;
-> -	u16 *src_pixels = get_packed_src_addr(frame_info, y);
-> -	int x_limit = min_t(size_t, drm_rect_width(&frame_info->dst),
-> -			       stage_buffer->n_pixels);
-> +	u16 *pixels = (u16 *)src_pixels;
->  
->  	s64 fp_rb_ratio = drm_fixp_div(drm_int2fixp(65535), drm_int2fixp(31));
->  	s64 fp_g_ratio = drm_fixp_div(drm_int2fixp(65535), drm_int2fixp(63));
->  
-> -	for (size_t x = 0; x < x_limit; x++, src_pixels++) {
-> -		u16 rgb_565 = le16_to_cpu(*src_pixels);
-> -		s64 fp_r = drm_int2fixp((rgb_565 >> 11) & 0x1f);
-> -		s64 fp_g = drm_int2fixp((rgb_565 >> 5) & 0x3f);
-> -		s64 fp_b = drm_int2fixp(rgb_565 & 0x1f);
-> +	u16 rgb_565 = le16_to_cpu(*pixels);
-> +	s64 fp_r = drm_int2fixp((rgb_565 >> 11) & 0x1f);
-> +	s64 fp_g = drm_int2fixp((rgb_565 >> 5) & 0x3f);
-> +	s64 fp_b = drm_int2fixp(rgb_565 & 0x1f);
->  
-> -		out_pixels[x].a = (u16)0xffff;
-> -		out_pixels[x].r = drm_fixp2int(drm_fixp_mul(fp_r, fp_rb_ratio));
-> -		out_pixels[x].g = drm_fixp2int(drm_fixp_mul(fp_g, fp_g_ratio));
-> -		out_pixels[x].b = drm_fixp2int(drm_fixp_mul(fp_b, fp_rb_ratio));
-> -	}
-> +	out_pixel->a = (u16)0xffff;
-> +	out_pixel->r = drm_fixp2int(drm_fixp_mul(fp_r, fp_rb_ratio));
-> +	out_pixel->g = drm_fixp2int(drm_fixp_mul(fp_g, fp_g_ratio));
-> +	out_pixel->b = drm_fixp2int(drm_fixp_mul(fp_b, fp_rb_ratio));
-> +}
-> +
-> +void vkms_compose_row(struct line_buffer *stage_buffer, struct vkms_plane_state *plane, int y)
-> +{
-> +	struct pixel_argb_u16 *out_pixels = stage_buffer->pixels;
-> +	u8 *src_pixels = get_packed_src_addr(plane->frame_info, y);
-> +	int limit = min_t(size_t, drm_rect_width(&plane->frame_info->dst),
-> +			  stage_buffer->n_pixels);
-> +
-> +	for (size_t x = 0; x < limit; x++, src_pixels += plane->frame_info->cpp)
-> +		plane->pixel_read(src_pixels, &out_pixels[x]);
->  }
->  
->  /*
-> @@ -249,7 +224,7 @@ static void argb_u16_to_RGB565(struct vkms_frame_info *frame_info,
+> @@ -267,13 +267,11 @@ static int run_test(struct intel_gt *gt, int test_type)
 >  	}
+>  
+>  	/*
+> -	 * Set min frequency to RPn so that we can test the whole
+> -	 * range of RPn-RP0. This also turns off efficient freq
+> -	 * usage and makes results more predictable.
+> +	 * Turn off efficient freq so RPn/RP0 ranges are obeyed
+>  	 */
+> -	err = slpc_set_min_freq(slpc, slpc->min_freq);
+> +	err = intel_guc_slpc_set_ignore_eff_freq(slpc, true);
+>  	if (err) {
+> -		pr_err("Unable to update min freq!");
+> +		pr_err("Unable to turn off efficient freq!");
+
+drm_err()? or gt_err()? As we are here we can use a proper
+printing.
+
+How is this change related to the scope of this patch?
+
+>  		return err;
+>  	}
+>  
+> @@ -358,9 +356,10 @@ static int run_test(struct intel_gt *gt, int test_type)
+>  			break;
+>  	}
+>  
+> -	/* Restore min/max frequencies */
+> -	slpc_set_max_freq(slpc, slpc_max_freq);
+> +	/* Restore min/max frequencies and efficient flag */
+>  	slpc_set_min_freq(slpc, slpc_min_freq);
+> +	slpc_set_max_freq(slpc, slpc_max_freq);
+> +	intel_guc_slpc_set_ignore_eff_freq(slpc, false);
+
+mmhhh... do we care here about the return value?
+
+>  
+>  	if (igt_flush_test(gt->i915))
+>  		err = -EIO;
+> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
+> index 026d73855f36..b1b70ee3001b 100644
+> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
+> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
+> @@ -277,6 +277,7 @@ int intel_guc_slpc_init(struct intel_guc_slpc *slpc)
+>  
+>  	slpc->max_freq_softlimit = 0;
+>  	slpc->min_freq_softlimit = 0;
+> +	slpc->ignore_eff_freq = false;
+>  	slpc->min_is_rpmax = false;
+>  
+>  	slpc->boost_freq = 0;
+> @@ -457,6 +458,31 @@ int intel_guc_slpc_get_max_freq(struct intel_guc_slpc *slpc, u32 *val)
+>  	return ret;
 >  }
 >  
-> -void *get_frame_to_line_function(u32 format)
-> +void *get_pixel_conversion_function(u32 format)
->  {
->  	switch (format) {
->  	case DRM_FORMAT_ARGB8888:
-> diff --git a/drivers/gpu/drm/vkms/vkms_formats.h b/drivers/gpu/drm/vkms/vkms_formats.h
-> index 43b7c1979018..c5b113495d0c 100644
-> --- a/drivers/gpu/drm/vkms/vkms_formats.h
-> +++ b/drivers/gpu/drm/vkms/vkms_formats.h
-> @@ -5,7 +5,7 @@
->  
->  #include "vkms_drv.h"
->  
-> -void *get_frame_to_line_function(u32 format);
-> +void *get_pixel_conversion_function(u32 format);
->  
->  void *get_line_to_frame_function(u32 format);
->  
-> diff --git a/drivers/gpu/drm/vkms/vkms_plane.c b/drivers/gpu/drm/vkms/vkms_plane.c
-> index c41cec7dcb70..0a23875900ec 100644
-> --- a/drivers/gpu/drm/vkms/vkms_plane.c
-> +++ b/drivers/gpu/drm/vkms/vkms_plane.c
-> @@ -123,7 +123,7 @@ static void vkms_plane_atomic_update(struct drm_plane *plane,
->  	frame_info->offset = fb->offsets[0];
->  	frame_info->pitch = fb->pitches[0];
->  	frame_info->cpp = fb->format->cpp[0];
-> -	vkms_plane_state->plane_read = get_frame_to_line_function(fmt);
-> +	vkms_plane_state->pixel_read = get_pixel_conversion_function(fmt);
->  }
->  
->  static int vkms_plane_atomic_check(struct drm_plane *plane,
+> +int intel_guc_slpc_set_ignore_eff_freq(struct intel_guc_slpc *slpc, bool val)
+> +{
+> +	struct drm_i915_private *i915 = slpc_to_i915(slpc);
+> +	intel_wakeref_t wakeref;
+> +	int ret = 0;
+
+no need to initialize ret here.
+
+> +
+> +	mutex_lock(&slpc->lock);
+> +	wakeref = intel_runtime_pm_get(&i915->runtime_pm);
+> +
+> +	ret = slpc_set_param(slpc,
+> +			     SLPC_PARAM_IGNORE_EFFICIENT_FREQUENCY,
+> +			     val);
+> +	if (ret) {
+> +		guc_probe_error(slpc_to_guc(slpc), "Failed to set efficient freq(%d): %pe\n",
+> +				val, ERR_PTR(ret));
+> +		goto out;
+> +	}
+> +
+> +	slpc->ignore_eff_freq = val;
+
+nit that you can ignore: if you put this under else and save
+brackets and a goto.
+
+Andi
