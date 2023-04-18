@@ -1,39 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 000416E8B01
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Apr 2023 09:13:10 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AB0916E6BE4
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Apr 2023 20:16:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EC51D10EB84;
-	Thu, 20 Apr 2023 07:12:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C48B810E830;
+	Tue, 18 Apr 2023 18:16:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-out.aladdin-rd.ru (mail-out.aladdin-rd.ru [91.199.251.16])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D22D810E813;
- Tue, 18 Apr 2023 18:13:06 +0000 (UTC)
-From: Daniil Dulov <D.Dulov@aladdin.ru>
-To: Andi Shyti <andi.shyti@linux.intel.com>
-Subject: Re: [PATCH] drm/amdkfd: Fix potential deallocation of previously
- deallocated memory.
-Thread-Topic: [PATCH] drm/amdkfd: Fix potential deallocation of previously
- deallocated memory.
-Thread-Index: AQHZccLCArZBbSPlkkChgaoDf69fTK8wjvMAgAAWVoCAAHM/AIAADGSAgAA6UR8=
-Date: Tue, 18 Apr 2023 18:12:48 +0000
-Message-ID: <PR3P193MB052467DAA1F33E3C7A128F6EF19D9@PR3P193MB0524.EURP193.PROD.OUTLOOK.COM>
-References: <20230418065521.453001-1-d.dulov@aladdin.ru>
- <ZD5ZFoEk92MNQpqD@ashyti-mobl2.lan>
- <d41669a1-9e18-defb-d0cc-d43d7be7d23e@kernel.org>
- <ZD7MgL619KVYKeTV@ashyti-mobl2.lan>,<ZD7W5aaslOXLg707@ashyti-mobl2.lan>
-In-Reply-To: <ZD7W5aaslOXLg707@ashyti-mobl2.lan>
-Accept-Language: ru-RU, en-US
-Content-Language: ru-RU
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Received: from 189.cn (ptr.189.cn [183.61.185.102])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 4091410E830
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Apr 2023 18:16:51 +0000 (UTC)
+HMM_SOURCE_IP: 10.64.8.43:36206.1084606344
+HMM_ATTACHE_NUM: 0000
+HMM_SOURCE_TYPE: SMTP
+Received: from clientip-114.242.206.180 (unknown [10.64.8.43])
+ by 189.cn (HERMES) with SMTP id A4080100567;
+ Wed, 19 Apr 2023 02:16:45 +0800 (CST)
+Received: from  ([114.242.206.180])
+ by gateway-151646-dep-7b48884fd-tj646 with ESMTP id
+ ce235540f5fb4e348657788457610f7a for maarten.lankhorst@linux.intel.com; 
+ Wed, 19 Apr 2023 02:16:48 CST
+X-Transaction-ID: ce235540f5fb4e348657788457610f7a
+X-Real-From: 15330273260@189.cn
+X-Receive-IP: 114.242.206.180
+X-MEDUSA-Status: 0
+Message-ID: <86a8b262-cbf2-b75f-9972-491f557edf74@189.cn>
+Date: Wed, 19 Apr 2023 02:16:45 +0800
 MIME-Version: 1.0
-X-Mailman-Approved-At: Thu, 20 Apr 2023 07:12:56 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH v3] drm/fbdev-generic: prohibit potential out-of-bounds
+ access
+From: Sui Jingfeng <15330273260@189.cn>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Li Yi <liyi@loongson.cn>,
+ Helge Deller <deller@gmx.de>, Lucas De Marchi <lucas.demarchi@intel.com>,
+ linux-kernel@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, loongson-kernel@lists.loongnix.cn
+References: <20230417113219.1354078-1-suijingfeng@loongson.cn>
+ <ZD5Vgx9Txaiz7Bun@phenom.ffwll.local>
+ <139c9398-488d-df19-9ae2-2b4b47ef64f4@189.cn>
+Content-Language: en-US
+In-Reply-To: <139c9398-488d-df19-9ae2-2b4b47ef64f4@189.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,37 +59,176 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "lvc-project@linuxtesting.org" <lvc-project@linuxtesting.org>,
- David Airlie <airlied@linux.ie>, Felix Kuehling <Felix.Kuehling@amd.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
- Oak Zeng <oak.zeng@intel.com>, Krzysztof Kozlowski <krzk@kernel.org>, Alex
- Deucher <alexander.deucher@amd.com>,
- =?utf-8?B?Q2hyaXN0aWFuIEvDtm5pZw==?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-VGhhbmsgeW91IGZvciB5b3VyIGZlZWRiYWNrISBJIHdpbGwgZG8gaXQgYXMgc29vbiBhcyBwb3Nz
-aWJsZS4NCg0KRGFuaWlsDQoNCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fDQrQntGC
-OiBBbmRpIFNoeXRpIDxhbmRpLnNoeXRpQGxpbnV4LmludGVsLmNvbT4NCtCe0YLQv9GA0LDQstC7
-0LXQvdC+OiDQstGC0L7RgNC90LjQuiwgMTgg0LDQv9GA0LXQu9GPIDIwMjMg0LMuLCAyMDo0NA0K
-0JrQvtC80YM6IEFuZGkgU2h5dGkgPGFuZGkuc2h5dGlAbGludXguaW50ZWwuY29tPg0K0JrQvtC/
-0LjRjzogS3J6eXN6dG9mIEtvemxvd3NraSA8a3J6a0BrZXJuZWwub3JnPjsgRGFuaWlsIER1bG92
-IDxELkR1bG92QGFsYWRkaW4ucnU+OyBGZWxpeCBLdWVobGluZyA8RmVsaXguS3VlaGxpbmdAYW1k
-LmNvbT47IGx2Yy1wcm9qZWN0QGxpbnV4dGVzdGluZy5vcmcgPGx2Yy1wcm9qZWN0QGxpbnV4dGVz
-dGluZy5vcmc+OyBEYXZpZCBBaXJsaWUgPGFpcmxpZWRAbGludXguaWU+OyBsaW51eC1rZXJuZWxA
-dmdlci5rZXJuZWwub3JnIDxsaW51eC1rZXJuZWxAdmdlci5rZXJuZWwub3JnPjsgYW1kLWdmeEBs
-aXN0cy5mcmVlZGVza3RvcC5vcmcgPGFtZC1nZnhAbGlzdHMuZnJlZWRlc2t0b3Aub3JnPjsgZHJp
-LWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZyA8ZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9w
-Lm9yZz47IEFsZXggRGV1Y2hlciA8YWxleGFuZGVyLmRldWNoZXJAYW1kLmNvbT47IE9hayBaZW5n
-IDxvYWsuemVuZ0BpbnRlbC5jb20+OyBDaHJpc3RpYW4gS8O2bmlnIDxjaHJpc3RpYW4ua29lbmln
-QGFtZC5jb20+DQrQotC10LzQsDogUmU6IFtQQVRDSF0gZHJtL2FtZGtmZDogRml4IHBvdGVudGlh
-bCBkZWFsbG9jYXRpb24gb2YgcHJldmlvdXNseSBkZWFsbG9jYXRlZCBtZW1vcnkuDQoNCj4gRGFu
-aWlsIHdpbGwgeW91IGxvb2sgaW50byB0aGlzPw0KDQphbmQsIGJlY2F1c2UgdGhpcyBpcyBhIGJ1
-ZyBmaXgsIGlmIHlvdSBkbyB3YW50IHRvIHNlbmQgYSByZWFsDQpmaXgsIHBsYXNlIGFkZCB0byB0
-aGUgY29tbWl0IG1lc3NhZ2U6DQoNCkZpeGVzOiBkMWY4ZjBkMTdkNDAgKCJkcm0vYW1ka2ZkOiBN
-b3ZlIG5vbi1zZG1hIG1xZCBhbGxvY2F0aW9uIG91dCBvZiBpbml0X21xZCIpDQpDYzogT2FrIFpl
-bmcgPG9hay56ZW5nQGludGVsLmNvbT4NCkNjOiA8c3RhYmxlQHZnZXIua2VybmVsLm9yZz4gIyB2
-NS4zKw0KDQpBbmRpDQoNClBTOiBwbGVhc2Ugbm90ZSB0aGF0IE9haydzIGUtbWFpbCBoYXMgY2hh
-bmdlZC4NCg0K
+Hi,
+
+On 2023/4/19 01:52, Sui Jingfeng wrote:
+> Hi,
+>
+> On 2023/4/18 16:32, Daniel Vetter wrote:
+>> On Mon, Apr 17, 2023 at 07:32:19PM +0800, Sui Jingfeng wrote:
+>>> The fbdev test of IGT may write after EOF, which lead to out-of-bound
+>>> access for the drm drivers using fbdev-generic. For example, on a x86
+>>> + aspeed bmc card platform, with a 1680x1050 resolution display, 
+>>> running
+>>> fbdev test if IGT will cause the linux kernel hang with the following
+>>> call trace:
+>>>
+>>>    Oops: 0000 [#1] PREEMPT SMP PTI
+>>>    [IGT] fbdev: starting subtest eof
+>>>    Workqueue: events drm_fb_helper_damage_work [drm_kms_helper]
+>>>    [IGT] fbdev: starting subtest nullptr
+>>>
+>>>    RIP: 0010:memcpy_erms+0xa/0x20
+>>>    RSP: 0018:ffffa17d40167d98 EFLAGS: 00010246
+>>>    RAX: ffffa17d4eb7fa80 RBX: ffffa17d40e0aa80 RCX: 00000000000014c0
+>>>    RDX: 0000000000001a40 RSI: ffffa17d40e0b000 RDI: ffffa17d4eb80000
+>>>    RBP: ffffa17d40167e20 R08: 0000000000000000 R09: ffff89522ecff8c0
+>>>    R10: ffffa17d4e4c5000 R11: 0000000000000000 R12: ffffa17d4eb7fa80
+>>>    R13: 0000000000001a40 R14: 000000000000041a R15: ffffa17d40167e30
+>>>    FS:  0000000000000000(0000) GS:ffff895257380000(0000) 
+>>> knlGS:0000000000000000
+>>>    CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+>>>    CR2: ffffa17d40e0b000 CR3: 00000001eaeca006 CR4: 00000000001706e0
+>>>    Call Trace:
+>>>     <TASK>
+>>>     ? drm_fbdev_generic_helper_fb_dirty+0x207/0x330 [drm_kms_helper]
+>>>     drm_fb_helper_damage_work+0x8f/0x170 [drm_kms_helper]
+>>>     process_one_work+0x21f/0x430
+>>>     worker_thread+0x4e/0x3c0
+>>>     ? __pfx_worker_thread+0x10/0x10
+>>>     kthread+0xf4/0x120
+>>>     ? __pfx_kthread+0x10/0x10
+>>>     ret_from_fork+0x2c/0x50
+>>>     </TASK>
+>>>    CR2: ffffa17d40e0b000
+>>>    ---[ end trace 0000000000000000 ]---
+>>>
+>>> The direct reason is that damage rectange computed by
+>>> drm_fb_helper_memory_range_to_clip() does not guaranteed to be 
+>>> in-bound.
+>>> It is already results in workaround code populate to elsewhere. Another
+>>> reason is that exposing a larger buffer size than the actual needed 
+>>> help
+>>> to trigger this bug intrinsic in drm_fb_helper_memory_range_to_clip().
+>>>
+>>> Others fbdev emulation solutions write to the GEM buffer directly, they
+>>> won't reproduce this bug because the .fb_dirty function callback do not
+>>> being hooked, so no chance is given to 
+>>> drm_fb_helper_memory_range_to_clip()
+>>> to generate a out-of-bound when drm_fb_helper_sys_write() is called.
+>>>
+>>> This patch break the trigger condition of this bug by shrinking the 
+>>> shadow
+>>> buffer size to sizes->surface_height * buffer->fb->pitches[0].
+>>>
+>>> Fixes: '8fbc9af55de0 ("drm/fbdev-generic: Set screen size to size of 
+>>> GEM
+>>> buffer")'
+>>>
+>>> Signed-off-by: Sui Jingfeng <suijingfeng@loongson.cn>
+>>> ---
+>>>   drivers/gpu/drm/drm_fbdev_generic.c | 2 +-
+>>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/drm_fbdev_generic.c 
+>>> b/drivers/gpu/drm/drm_fbdev_generic.c
+>>> index 8e5148bf40bb..b057cfbba938 100644
+>>> --- a/drivers/gpu/drm/drm_fbdev_generic.c
+>>> +++ b/drivers/gpu/drm/drm_fbdev_generic.c
+>>> @@ -94,7 +94,7 @@ static int 
+>>> drm_fbdev_generic_helper_fb_probe(struct drm_fb_helper *fb_helper,
+>>>       fb_helper->buffer = buffer;
+>>>       fb_helper->fb = buffer->fb;
+>>>   -    screen_size = buffer->gem->size;
+>>> +    screen_size = sizes->surface_height * buffer->fb->pitches[0];
+>> So I read core some more and stumbled over drm_fb_helper_deferred_io().
+>> Which has all the code and comments about this, including limiting.
+>>
+>> I think it would be clearer if we fix the issue there, instead of 
+>> passing
+>> limits around in obscure places that then again get broken?
+>
+> No, it is more obscure doing that way...
+>
+>
+> As the size of the shadow screen buffer will be exposed to userspace.
+>
+> The size 'helper->fb->height * helper->fb->pitches[0]' is a 
+> exactly(best) fit,
+>
+> You are guaranteed to waste at lease one byte by increasing one byte,
+>
+> and can not store all pixels by decreasing one byte (In the case where 
+> `helper->fb->pitches[0] = helper->fb->width * 4`).
+>
+> It implicitly tell the userspace do not go beyond that boundary.
+>
+> although userspace program can still choose to write  after EOF,
+>
+> But it is for test purpose, to test the kernel if it can return a 
+> -EFBIG or not.
+>
+>> The thing is,
+>> Thomas both authored the limit checks in drm_fb_helper_deferred_io() and
+>> the patch which broken them again, so clearly this isn't very 
+>> obvious. I'm
+>> thinking of something like this:
+>>
+>>
+>> diff --git a/drivers/gpu/drm/drm_fb_helper.c 
+>> b/drivers/gpu/drm/drm_fb_helper.c
+>> index ef4eb8b12766..726dab67c359 100644
+>> --- a/drivers/gpu/drm/drm_fb_helper.c
+>> +++ b/drivers/gpu/drm/drm_fb_helper.c
+>> @@ -697,10 +697,7 @@ void drm_fb_helper_deferred_io(struct fb_info 
+>> *info, struct list_head *pagerefli
+>>        * of the screen and account for non-existing scanlines. Hence,
+>>        * keep the covered memory area within the screen buffer.
+>>        */
+>> -    if (info->screen_size)
+>> -        total_size = info->screen_size;
+>> -    else
+>> -        total_size = info->fix.smem_len;
+>> +    total_size = helper->fb->height * helper->fb->pitches[0];
+>
+> This is just to mitigate the mistakes already has been made,
+>
+> because it  do not do a good splitting between the *clip* part and the 
+> *damage update* part.
+>
+> An ideal clipping do not obscure its updating backend with a 
+> out-of-bound damage rectangle.
+>
+> Why did the drm_fb_helper_memory_range_to_clip() can not do a good job 
+> in all case
+>
+> to pass its backend a always meaningful damage rect ?
+>
+>>       max_off = min(max_off, total_size);
+>>         if (min_off < max_off) {
+>>
+>>
+>> I think that would make it utmost clear on what we're doing and why.
+>> Otherwise we're just going to re-create the same bug again, like we've
+>> done already :-)
+>
+> No, we create no bugs, we fix one.
+>
+> Thanks.
+>
+But honestly I do not have strong feel toward this, I just type what I'm 
+understand without seeing you resend a V3.
+
+It's OK in overall,  I will help to test this tomorrow.  :-)
+
+>> -Daniel
+>>
+>>>       screen_buffer = vzalloc(screen_size);
+>>>       if (!screen_buffer) {
+>>>           ret = -ENOMEM;
+>>> -- 
+>>> 2.25.1
+>>>
