@@ -2,57 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37A286E6DFA
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Apr 2023 23:21:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D17846E6E76
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Apr 2023 23:41:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A64CA10E1CE;
-	Tue, 18 Apr 2023 21:21:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DF94810E0AC;
+	Tue, 18 Apr 2023 21:41:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-f175.google.com (mail-oi1-f175.google.com
- [209.85.167.175])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5EE7610E1CE
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Apr 2023 21:21:01 +0000 (UTC)
-Received: by mail-oi1-f175.google.com with SMTP id
- 5614622812f47-38e04d1b2b4so552050b6e.3
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Apr 2023 14:21:01 -0700 (PDT)
+Received: from mail-ot1-f53.google.com (mail-ot1-f53.google.com
+ [209.85.210.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E54E910E0AC
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Apr 2023 21:41:17 +0000 (UTC)
+Received: by mail-ot1-f53.google.com with SMTP id
+ 46e09a7af769-6a437526b7cso745461a34.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Apr 2023 14:41:17 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681852860; x=1684444860;
+ d=1e100.net; s=20221208; t=1681854077; x=1684446077;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=WgwKd7P9qrzMTpu2fy50tBPL0/0q3LqzdG1B04wyE0o=;
- b=DGxN2rIN6OZExxGYIPdLhzv4A3jnmcRjaWGJ6wOrJGKhM6r2fS3ra93m+aix97aQrA
- g0moyH0XBMbFEwqJauBk/qh8WIaGhp1q4GsKkYYFyDtoILCxDGmmKx+qp47nud3nBd8s
- Q4GHB9C0NC+w9CSHRQQA/naXHIXJ2/GMody74hPWKssuZKzOWUFcT8T88KXuJmw4H4IS
- MFn6PiK8CGPA4mDe2w3POUbwY/kjrxUnVuKxtJ8uzAFltkIPhljycLF3iFuLgh/9JVX4
- Gq6+S/Gy3Zg4yoZT6rCelzK3w/4vrKvMcpWDjhvZYdlJ7u4ctPfYGR9WxBavdizZf6P5
- Im5Q==
-X-Gm-Message-State: AAQBX9f0IXXGpgELldhYvMStr0ruR9o3Eq89TJq6TpuuT66AMnKcgm97
- 1HY7B6kvzoqGeg5ofBAzCQ==
-X-Google-Smtp-Source: AKy350a7SEgsQ2r6iAUhm0CDPasiv1xJKKONwc7jtSSrwcfYr146T+Oa94O7gZPoSAEMLOgZsuQczQ==
-X-Received: by 2002:a05:6808:302c:b0:38c:570f:8c83 with SMTP id
- ay44-20020a056808302c00b0038c570f8c83mr1710779oib.15.1681852859983; 
- Tue, 18 Apr 2023 14:20:59 -0700 (PDT)
+ bh=ElC7aqM0OYKhp7zqQxQuTXx1H9IDxJGXKnxZVOIROXA=;
+ b=dpgi0ZV8yELzawG8g3wFMlutQgv/fWtCH8HFyJpjys5CGX+zchnieShf6Gj4dvce90
+ a7glc/WGZA0FN3XEKVsQSC8NAFstGAkmWqwja8mfJnOyH8sz92Rd40VsLaOFwFU+IdZr
+ ZRVQuq/2Ik7GiodmryWBOPMwDkETl5gXXL/eGm7rwHmm6qTAs7+sn67fUSf7RBzwLC3E
+ kbA5HYIsb3TQyn6N5k7Xv3vGJrLRT7T2ft1YCpfwPbGVzrioNYb85TYPs9fzi4H9EIIM
+ 842r5O1cPfHQdVjq1uBQYH5tVoRdJluFXccAIkbo3F9CqwQcqM5qmugPUo8gv5UDBHYH
+ 7x7A==
+X-Gm-Message-State: AAQBX9dPx0pO6/CBx3KdRFpjegHhMzjZBZq7KIg4DA0ngZOPAeJ2EYn7
+ jvmWFDW1tdi5tbVpY37x1w==
+X-Google-Smtp-Source: AKy350Y/zUwTPUY+bloMxG86x5GIO5/WgZZJ0w2lgVcgHZEOKfFzsX6+0hRjmFOdov3MNztPcibQZw==
+X-Received: by 2002:a05:6870:1702:b0:187:8f01:7107 with SMTP id
+ h2-20020a056870170200b001878f017107mr2215193oae.44.1681854076847; 
+ Tue, 18 Apr 2023 14:41:16 -0700 (PDT)
 Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net.
  [66.90.144.107]) by smtp.gmail.com with ESMTPSA id
- k206-20020acabad7000000b0038934c5b400sm6279161oif.25.2023.04.18.14.20.59
+ o19-20020a9d5c13000000b006a3f8f7b686sm6075534otk.28.2023.04.18.14.41.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 18 Apr 2023 14:20:59 -0700 (PDT)
-Received: (nullmailer pid 2356240 invoked by uid 1000);
- Tue, 18 Apr 2023 21:20:58 -0000
-Date: Tue, 18 Apr 2023 16:20:58 -0500
+ Tue, 18 Apr 2023 14:41:16 -0700 (PDT)
+Received: (nullmailer pid 2378744 invoked by uid 1000);
+ Tue, 18 Apr 2023 21:41:15 -0000
+Date: Tue, 18 Apr 2023 16:41:15 -0500
 From: Rob Herring <robh@kernel.org>
-To: Johannes Zink <j.zink@pengutronix.de>
-Subject: Re: [PATCH 1/2] dt-bindings: display: simple: support non-default
- data-mapping
-Message-ID: <20230418212058.GA2351633-robh@kernel.org>
-References: <20230414161116.3673911-1-j.zink@pengutronix.de>
- <20230414161116.3673911-2-j.zink@pengutronix.de>
+To: Jernej Skrabec <jernej.skrabec@gmail.com>
+Subject: Re: [PATCH 1/3] dt-bindings: display: synopsys, dw-hdmi: Add property
+ for disabling CEC
+Message-ID: <20230418214115.GA2376963-robh@kernel.org>
+References: <20230415104613.61224-1-jernej.skrabec@gmail.com>
+ <20230415104613.61224-2-jernej.skrabec@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230414161116.3673911-2-j.zink@pengutronix.de>
+In-Reply-To: <20230415104613.61224-2-jernej.skrabec@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,87 +65,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, sam@ravnborg.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, thierry.reding@gmail.com,
- krzysztof.kozlowski+dt@linaro.org, kernel@pengutronix.de
+Cc: linux-arm-kernel@lists.infradead.org, neil.armstrong@linaro.org,
+ rfoss@kernel.org, andrzej.hajda@intel.com, samuel@sholland.org,
+ jonas@kwiboo.se, linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ wens@csie.org, Laurent.pinchart@ideasonboard.com,
+ krzysztof.kozlowski+dt@linaro.org, hverkuil-cisco@xs4all.nl,
+ linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Apr 14, 2023 at 06:11:15PM +0200, Johannes Zink wrote:
-> Some Displays support more than just a single default lvds data mapping,
-> which can be used to run displays on only 3 LVDS lanes in the jeida-18
-> data-mapping mode.
+On Sat, Apr 15, 2023 at 12:46:11PM +0200, Jernej Skrabec wrote:
+> Even though some DW-HDMI controllers have perfectly usable HDMI-CEC
+> implementation, some boards might prefer not to use it or even use
+> software implementation instead.
 > 
-> Add an optional data-mapping property, analogously to panel-lvds, to
-> allow overriding the default data mapping.
+> Add property for disabling CEC so driver doesn't expose unused CEC
+> interface, if CEC pin isn't connected anywhere.
+
+Isn't this all true for any bridge supporting CEC? Make this common.
+
 > 
-> Signed-off-by: Johannes Zink <j.zink@pengutronix.de>
+> Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 > ---
->  .../bindings/display/panel/panel-simple.yaml  | 51 +++++++++++++++++++
->  1 file changed, 51 insertions(+)
+>  .../devicetree/bindings/display/bridge/synopsys,dw-hdmi.yaml | 5 +++++
+>  1 file changed, 5 insertions(+)
 > 
-> diff --git a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
-> index 18241f4051d2..6e219f67dd67 100644
-> --- a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
-> +++ b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
-> @@ -349,6 +349,57 @@ properties:
->    power-supply: true
->    no-hpd: true
->    hpd-gpios: true
-> +  data-mapping:
-> +    enum:
-> +      - jeida-18
-> +      - jeida-24
-> +      - vesa-24
-> +    description: |
-> +      The color signals mapping order.
+> diff --git a/Documentation/devicetree/bindings/display/bridge/synopsys,dw-hdmi.yaml b/Documentation/devicetree/bindings/display/bridge/synopsys,dw-hdmi.yaml
+> index 4b7e54a8f037..624d32c024f6 100644
+> --- a/Documentation/devicetree/bindings/display/bridge/synopsys,dw-hdmi.yaml
+> +++ b/Documentation/devicetree/bindings/display/bridge/synopsys,dw-hdmi.yaml
+> @@ -48,6 +48,11 @@ properties:
+>    interrupts:
+>      maxItems: 1
+>  
+> +  snps,disable-cec:
+> +    $ref: /schemas/types.yaml#/definitions/flag
+> +    description:
+> +      Disable HDMI-CEC.
 > +
-> +      LVDS data mappings are defined as follows.
-> +
-> +      - "jeida-18" - 18-bit data mapping compatible with the [JEIDA], [LDI] and
-> +        [VESA] specifications. Data are transferred as follows on 3 LVDS lanes.
-> +
-> +      Slot          0       1       2       3       4       5       6
-> +                ________________                         _________________
-> +      Clock                     \_______________________/
-> +                  ______  ______  ______  ______  ______  ______  ______
-> +      DATA0     ><__G0__><__R5__><__R4__><__R3__><__R2__><__R1__><__R0__><
-> +      DATA1     ><__B1__><__B0__><__G5__><__G4__><__G3__><__G2__><__G1__><
-> +      DATA2     ><_CTL2_><_CTL1_><_CTL0_><__B5__><__B4__><__B3__><__B2__><
-> +
-> +      - "jeida-24" - 24-bit data mapping compatible with the [DSIM] and [LDI]
-> +        specifications. Data are transferred as follows on 4 LVDS lanes.
-> +
-> +      Slot          0       1       2       3       4       5       6
-> +                ________________                         _________________
-> +      Clock                     \_______________________/
-> +                  ______  ______  ______  ______  ______  ______  ______
-> +      DATA0     ><__G2__><__R7__><__R6__><__R5__><__R4__><__R3__><__R2__><
-> +      DATA1     ><__B3__><__B2__><__G7__><__G6__><__G5__><__G4__><__G3__><
-> +      DATA2     ><_CTL2_><_CTL1_><_CTL0_><__B7__><__B6__><__B5__><__B4__><
-> +      DATA3     ><_CTL3_><__B1__><__B0__><__G1__><__G0__><__R1__><__R0__><
-> +
-> +      - "vesa-24" - 24-bit data mapping compatible with the [VESA] specification.
-> +        Data are transferred as follows on 4 LVDS lanes.
-> +
-> +      Slot          0       1       2       3       4       5       6
-> +                ________________                         _________________
-> +      Clock                     \_______________________/
-> +                  ______  ______  ______  ______  ______  ______  ______
-> +      DATA0     ><__G0__><__R5__><__R4__><__R3__><__R2__><__R1__><__R0__><
-> +      DATA1     ><__B1__><__B0__><__G5__><__G4__><__G3__><__G2__><__G1__><
-> +      DATA2     ><_CTL2_><_CTL1_><_CTL0_><__B5__><__B4__><__B3__><__B2__><
-> +      DATA3     ><_CTL3_><__B7__><__B6__><__G7__><__G6__><__R7__><__R6__><
-> +
-> +      Control signals are mapped as follows.
-> +
-> +      CTL0: HSync
-> +      CTL1: VSync
-> +      CTL2: Data Enable
-> +      CTL3: 0
-
-Why do you duplicate what's in display/lvds.yaml?
-
-This also just made 'data-mapping' valid on non-LVDS panels.
-
-Rob
+>  additionalProperties: true
+>  
+>  ...
+> -- 
+> 2.40.0
+> 
