@@ -1,48 +1,79 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F1E16E56BD
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Apr 2023 03:42:47 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 556CA6E572D
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Apr 2023 03:54:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6BEF110E667;
-	Tue, 18 Apr 2023 01:42:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0343A10E0A6;
+	Tue, 18 Apr 2023 01:54:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.riseup.net (mx1.riseup.net [198.252.153.129])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 087B110E667
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Apr 2023 01:42:39 +0000 (UTC)
-Received: from fews01-sea.riseup.net (unknown [10.0.1.109])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by mx1.riseup.net (Postfix) with ESMTPS id 4Q0mrM6DSBzDqBT;
- Tue, 18 Apr 2023 01:42:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
- t=1681782159; bh=2NRvdxv54ASeqKR/KS8QsT3STghybVwVijzqGLeyxX0=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=hyY3Vdcqov9QaV9+F90WUejQcnVUOPA3uq5iWU292MR8+8HFVMZSjQf/PwQJIsmr8
- 4lcBY/nQFX6/nlZaf7w4qn0cVlX474LY+anRWGBGJSzd+3NhfhacYEj1mAkjoVTsBQ
- L9u2AZrayxuuPDm0lm0Bbf9bGiN9mdzri8dYkoZI=
-X-Riseup-User-ID: 8F12492A9E8D016AF4B4C5E42204EDFA513D7C45075174F450FF3A3CEA0B7EAB
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- by fews01-sea.riseup.net (Postfix) with ESMTPSA id 4Q0mrG3c4fzJqVp;
- Tue, 18 Apr 2023 01:42:22 +0000 (UTC)
-Message-ID: <a46b79c0-d134-6123-280e-c75a5f108e39@riseup.net>
-Date: Mon, 17 Apr 2023 22:42:19 -0300
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8615E10E058;
+ Tue, 18 Apr 2023 01:54:25 +0000 (UTC)
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 33I0IZIw018180; Tue, 18 Apr 2023 01:54:21 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=ZT6T8JazTUrOY0mEHFTu/RGzheZfZZgUG7SP163oiWw=;
+ b=oIS8AdQ5k552DF8T2GFIx6H+oM74i8BJw7hoxxtudrpXrsy4fT3lzThcgfo6R6IbIgqa
+ Eqw03+iJ22DTGHKhhjV4hB9FI0VrZOxyqQsdp+sObQvZnhxRPg2Klf/5UTBIPEqEseBE
+ TrQ0HbMk5eauno9ukAIvG8b6WX5waqYbUzLqgIiRBRWA0p/ly0y4tK4gyc/DEKkoWVyF
+ l98pRq3B0Fkq921nxFDS4//CfPEY/Qu45Q9peu5vRdexbUZK4s4LEcg4sE8IGek1Sneb
+ 9sIpi7NjQK4lOXyP7sP7HECJWxE2G6q3Glj0LpNePSAayYcAbuj4BaamONMZqHvtpMiI QQ== 
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3q1bvkrksq-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 18 Apr 2023 01:54:21 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 33I1sK5F014814
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 18 Apr 2023 01:54:20 GMT
+Received: from [10.110.98.241] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Mon, 17 Apr
+ 2023 18:54:18 -0700
+Message-ID: <bb229562-b0af-88f4-1207-ac23a6076dff@quicinc.com>
+Date: Mon, 17 Apr 2023 18:54:18 -0700
 MIME-Version: 1.0
-Subject: Re: [PATCH v4 3/5] drm/tests: Add test cases for
- drm_rect_calc_vscale()
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.2
+Subject: Re: [PATCH 1/3] drm/msm/dpu: Drop unused members from HW structs
 Content-Language: en-US
-To: =?UTF-8?Q?Ma=c3=adra_Canal?= <mcanal@igalia.com>,
- dri-devel@lists.freedesktop.org
-References: <20230406115338.36228-1-arthurgrillo@riseup.net>
- <20230406115338.36228-4-arthurgrillo@riseup.net>
- <42f92ab1-742a-373c-3076-94ebbbfbc700@igalia.com>
-From: Arthur Grillo Queiroz Cabral <arthurgrillo@riseup.net>
-In-Reply-To: <42f92ab1-742a-373c-3076-94ebbbfbc700@igalia.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+To: Marijn Suijten <marijn.suijten@somainline.org>, Rob Clark
+ <robdclark@gmail.com>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean
+ Paul <sean@poorly.run>, David Airlie <airlied@gmail.com>, Daniel Vetter
+ <daniel@ffwll.ch>
+References: <20230418-dpu-drop-useless-for-lookup-v1-0-b9897ceb6f3e@somainline.org>
+ <20230418-dpu-drop-useless-for-lookup-v1-1-b9897ceb6f3e@somainline.org>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <20230418-dpu-drop-useless-for-lookup-v1-1-b9897ceb6f3e@somainline.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: ws0QCnfY6to6MboIchWekFAke3Jesusg
+X-Proofpoint-ORIG-GUID: ws0QCnfY6to6MboIchWekFAke3Jesusg
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-04-17_14,2023-04-17_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ phishscore=0 mlxlogscore=623 impostorscore=0 malwarescore=0 adultscore=0
+ lowpriorityscore=0 bulkscore=0 suspectscore=0 clxscore=1015 mlxscore=0
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2303200000 definitions=main-2304180015
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,113 +86,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: carlos.craveiro@usp.br, tales.aparecida@gmail.com, dlatypov@google.com,
- javierm@redhat.com, maxime@cerno.tech, andrealmeid@riseup.net,
- matheus.vieira.g@usp.br
+Cc: Jami Kettunen <jami.kettunen@somainline.org>, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Jordan Crouse <jordan@cosmicpenguin.net>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Martin Botka <martin.botka@somainline.org>,
+ ~postmarketos/upstreaming@lists.sr.ht,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 
-On 17/04/23 13:19, Maíra Canal wrote:
-> On 4/6/23 08:53, Arthur Grillo wrote:
->> Insert parameterized test for the drm_rect_calc_vscale() to ensure
->> correctness and prevent future regressions. Besides the test for the
->> usual case, tests the exceptions.
->>
->> It uses the same struct from drm_rect_calc_hscale().
->>
->> Signed-off-by: Arthur Grillo <arthurgrillo@riseup.net>
->> ---
->>   drivers/gpu/drm/tests/drm_rect_test.c | 59 +++++++++++++++++++++++++++
->>   1 file changed, 59 insertions(+)
->>
->> diff --git a/drivers/gpu/drm/tests/drm_rect_test.c b/drivers/gpu/drm/tests/drm_rect_test.c
->> index 44150545c1bc..a1fd9b2c5128 100644
->> --- a/drivers/gpu/drm/tests/drm_rect_test.c
->> +++ b/drivers/gpu/drm/tests/drm_rect_test.c
->> @@ -414,6 +414,64 @@ static void drm_test_rect_calc_hscale(struct kunit *test)
->>       KUNIT_EXPECT_EQ(test, scaling_factor, params->expected_scaling_factor);
->>   }
->>   +static const struct drm_rect_scale_case drm_rect_vscale_cases[] = {
->> +    {
->> +        .name = "normal use",
->> +        .src = DRM_RECT_INIT(0, 0, 0, 2 << 16),
->> +        .dst = DRM_RECT_INIT(0, 0, 0, 1 << 16),
->> +        .min_range = 0, .max_range = INT_MAX,
->> +        .expected_scaling_factor = 2,
->> +    },
->> +    {
->> +        .name = "out of max range",
->> +        .src = DRM_RECT_INIT(0, 0, 0, 10 << 16),
->> +        .dst = DRM_RECT_INIT(0, 0, 0, 1 << 16),
->> +        .min_range = 3, .max_range = 5,
->> +        .expected_scaling_factor = -ERANGE,
->> +    },
->> +    {
->> +        .name = "out of min range",
->> +        .src = DRM_RECT_INIT(0, 0, 0, 2 << 16),
->> +        .dst = DRM_RECT_INIT(0, 0, 0, 1 << 16),
->> +        .min_range = 3, .max_range = 5,
->> +        .expected_scaling_factor = -ERANGE,
->> +    },
->> +    {
->> +        .name = "zero dst height",
->> +        .src = DRM_RECT_INIT(0, 0, 0, 2 << 16),
->> +        .dst = DRM_RECT_INIT(0, 0, 0, 0 << 16),
->> +        .min_range = 0, .max_range = INT_MAX,
->> +        .expected_scaling_factor = 0,
->> +    },
->> +    {
->> +        .name = "negative src height",
->> +        .src = DRM_RECT_INIT(0, 0, 0, -(1 << 16)),
->> +        .dst = DRM_RECT_INIT(0, 0, 0, 1 << 16),
->> +        .min_range = 0, .max_range = INT_MAX,
->> +        .expected_scaling_factor = -EINVAL,
->> +    },
->> +    {
->> +        .name = "negative dst height",
->> +        .src = DRM_RECT_INIT(0, 0, 0, 1 << 16),
->> +        .dst = DRM_RECT_INIT(0, 0, 0, -(1 << 16)),
->> +        .min_range = 0, .max_range = INT_MAX,
->> +        .expected_scaling_factor = -EINVAL,
->> +    },
->> +};
->> +
+On 4/17/2023 4:14 PM, Marijn Suijten wrote:
+> Some of these members were initialized while never read, while others
+> were not even assigned any value at all.  Drop them to save some space,
+> and above all confusion when looking at these members.
 > 
-> Would it possible to use the same parameter array for vscale and hscale?
-> 
-> Best Regards,
-> - Maíra Canal
-> 
+> Fixes: 25fdd5933e4c ("drm/msm: Add SDM845 DPU support")
+> Fixes: 84a33d0fd921 ("drm/msm/dpu: add dpu_hw_wb abstraction for writeback blocks")
+> Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
+> ---
 
-Instead of having drm_rect directly, I could create an src and dst
-length. Or maybe have drm_rects that increase on both sizes.
+It seems like WB UBWC formats are not supported today. Because otherwise 
+ctx->mdp would be used for writeback. I guess we can add a ubwc member 
+similar to hw_sspp, when we do add the support for this. Hence this is,
 
-Regards,
-~Arthur Grillo
 
->> +KUNIT_ARRAY_PARAM(drm_rect_vscale, drm_rect_vscale_cases, drm_rect_scale_case_desc);
->> +
->> +static void drm_test_rect_calc_vscale(struct kunit *test)
->> +{
->> +    const struct drm_rect_scale_case *params = test->param_value;
->> +    int scaling_factor;
->> +
->> +    scaling_factor = drm_rect_calc_vscale(&params->src, &params->dst,
->> +                          params->min_range, params->max_range);
->> +
->> +    KUNIT_EXPECT_EQ(test, scaling_factor, params->expected_scaling_factor);
->> +}
->> +
->>   static struct kunit_case drm_rect_tests[] = {
->>       KUNIT_CASE(drm_test_rect_clip_scaled_div_by_zero),
->>       KUNIT_CASE(drm_test_rect_clip_scaled_not_clipped),
->> @@ -421,6 +479,7 @@ static struct kunit_case drm_rect_tests[] = {
->>       KUNIT_CASE(drm_test_rect_clip_scaled_signed_vs_unsigned),
->>       KUNIT_CASE_PARAM(drm_test_rect_intersect, drm_rect_intersect_gen_params),
->>       KUNIT_CASE_PARAM(drm_test_rect_calc_hscale, drm_rect_hscale_gen_params),
->> +    KUNIT_CASE_PARAM(drm_test_rect_calc_vscale, drm_rect_vscale_gen_params),
->>       { }
->>   };
->>   
+Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+
+
