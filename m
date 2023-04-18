@@ -1,44 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 439AD6E6451
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Apr 2023 14:48:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0872C6E8B0D
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Apr 2023 09:13:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D634D10E266;
-	Tue, 18 Apr 2023 12:48:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7F8B510EBA1;
+	Thu, 20 Apr 2023 07:12:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6682110E266
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Apr 2023 12:48:14 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id C4F84633D4;
- Tue, 18 Apr 2023 12:48:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AF790C4339B;
- Tue, 18 Apr 2023 12:48:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1681822093;
- bh=h7FEIe8ca7zvfq0mrRQUgHsit2vQHJj7yXRHnFW3K+8=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=FRvu5hM4c+E6o9PoWHxvZkPuXCw3znbhSd2Yw+VN7iZARyPCLjDQuqJ12qIDpTpWp
- B/u3BCWVK2E+4YyvieOMc7Leb5e4ajQErP8c+3wTIoV+qKxPSzEtkDMBITTzCZGA0a
- QV+FVO6nGFFD3eXqPveuVA4u94V5hq0MVswXPv7M=
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: stable@vger.kernel.org
-Subject: [PATCH 6.2 020/139] fbmem: Reject FB_ACTIVATE_KD_TEXT from userspace
-Date: Tue, 18 Apr 2023 14:21:25 +0200
-Message-Id: <20230418120314.413344564@linuxfoundation.org>
-X-Mailer: git-send-email 2.40.0
-In-Reply-To: <20230418120313.725598495@linuxfoundation.org>
-References: <20230418120313.725598495@linuxfoundation.org>
-User-Agent: quilt/0.67
+Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com
+ [IPv6:2a00:1450:4864:20::62c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0B4F510E785
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Apr 2023 12:22:38 +0000 (UTC)
+Received: by mail-ej1-x62c.google.com with SMTP id dx24so28639985ejb.11
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Apr 2023 05:22:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1681820556; x=1684412556;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=2yquulr973fRel1eU8dSJwKYT/PoTU0TB+X3j3sNB9Y=;
+ b=W0hNp96l4frmtftLzTZh9VnrtYZaHDsS34GK3qM7WCNRaJGDez8ajYj7Ol86o+LP1G
+ pL/Zp5o9gdvqvXvlEcneVHqTHg2PCfVJW8NH7KzH9fiRsu5JqBeNF//+FxO2BsYeaBVq
+ 7Jd26dJu74wHuBAeAgNoNwa4q18pDSOZJ2vFRCMHVlvE14JHLppIW1kzOQ5uM83Z65m9
+ Fi7wN5xG2izZJXNO56zWWTTJ91uxAV2UHL6wxRFS6QQQ63+FMr+rt3hf0qFrEtkwq2OI
+ OHGuvP0MU7oFKPa6fCaW+c9KWeKtatwiPgvP5XyenxUioNFWM+xQgmtniwYvLX493Vj7
+ DMSA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1681820556; x=1684412556;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=2yquulr973fRel1eU8dSJwKYT/PoTU0TB+X3j3sNB9Y=;
+ b=fZWQo1nOJgmVLIrBWq9vBD6/PiIpXH5QO3UNDGuYa5E5Y0MyiD7uMIMaaxDSbsdSni
+ R2eazhvKUFujs58parh3qwFByJN5uNY1/zQW2I4couMPJiRSck96F5A9JgnAy/DyzqsS
+ 5I6nItAlNRVdGDsDhToPYX3j9j/hwmUtyys+IMbpHYOhW2bPLru/UYM/6DgMiYFWHC5R
+ PI8rOf9Q5UcDmLxKakqZTmfgkznlyWAu8M3dY9W1KLzaeTflOdHogXNZSCd388TRGtdV
+ /Bk2/2OdKxid2FtVk5OrTncM5szkxvoYOsP9LW9otSHXqZ50zzl1t5TFWr4XGuhnnK0i
+ YHlg==
+X-Gm-Message-State: AAQBX9eFVj2L249W3AZtkg5ewCRDfIiwnPU0k1BBjPmRnN3Ng8m4cTW3
+ cNLgp7sdE/10yYZe/Y61oZEXaAHBYa8ufA==
+X-Google-Smtp-Source: AKy350Yi7h2XkDFO6tHiPFQSHtE0iBXU+OI6oUeFXqAikMcTwRafGjOamnd2pfpAGtTnxCY/vueTBA==
+X-Received: by 2002:a17:906:cc53:b0:94e:c6ad:1119 with SMTP id
+ mm19-20020a170906cc5300b0094ec6ad1119mr9768278ejb.13.1681820556516; 
+ Tue, 18 Apr 2023 05:22:36 -0700 (PDT)
+Received: from localhost.localdomain ([154.72.160.133])
+ by smtp.gmail.com with ESMTPSA id
+ p15-20020a50cd8f000000b00506addaaab0sm2221252edi.32.2023.04.18.05.22.31
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 18 Apr 2023 05:22:35 -0700 (PDT)
+From: Brandon Cheo Fusi <fusibrandon13@gmail.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH 1/3] drm: bridge: icn6211: Only warn on invalid chip IDs
+Date: Tue, 18 Apr 2023 13:22:03 +0100
+Message-Id: <20230418122205.16632-1-fusibrandon13@gmail.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Thu, 20 Apr 2023 07:12:56 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,85 +70,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Shigeru Yoshida <syoshida@redhat.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>, David Airlie <airlied@linux.ie>,
- dri-devel@lists.freedesktop.org, Daniel Vetter <daniel.vetter@intel.com>,
- Sam Ravnborg <sam@ravnborg.org>, Helge Deller <deller@gmx.de>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
- Geert Uytterhoeven <geert@linux-m68k.org>,
- Samuel Thibault <samuel.thibault@ens-lyon.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- =?UTF-8?q?Michel=20D=C3=A4nzer?= <michel@daenzer.net>, shlomo@fastmail.com,
- Nathan Chancellor <natechancellor@gmail.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, patches@lists.linux.dev,
- =?UTF-8?q?Noralf=20Tr=C3=B8nnes?= <noralf@tronnes.org>,
- Alex Deucher <alexander.deucher@amd.com>, Peter Rosin <peda@axentia.se>,
- Qiujun Huang <hqjagain@gmail.com>
+Cc: marex@denx.de, Brandon Cheo Fusi <fusibrandon13@gmail.com>,
+ robert.foss@linaro.org, jagan@amarulasolutions.com, tzimmermann@suse.de,
+ sam@ravnborg.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
+Avoid aborting chip configuration after reading invalid IDs and
+instead issue a warning. I have a bunch of these chips and they all
+report "Vendor=0x00 Device=0x00:0x00 Version=0x00" but are successfully
+configured and go on to work just fine.
 
-commit 6fd33a3333c7916689b8f051a185defe4dd515b0 upstream.
-
-This is an oversight from dc5bdb68b5b3 ("drm/fb-helper: Fix vt
-restore") - I failed to realize that nasty userspace could set this.
-
-It's not pretty to mix up kernel-internal and userspace uapi flags
-like this, but since the entire fb_var_screeninfo structure is uapi
-we'd need to either add a new parameter to the ->fb_set_par callback
-and fb_set_par() function, which has a _lot_ of users. Or some other
-fairly ugly side-channel int fb_info. Neither is a pretty prospect.
-
-Instead just correct the issue at hand by filtering out this
-kernel-internal flag in the ioctl handling code.
-
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
-Acked-by: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-Fixes: dc5bdb68b5b3 ("drm/fb-helper: Fix vt restore")
-Cc: Alex Deucher <alexander.deucher@amd.com>
-Cc: shlomo@fastmail.com
-Cc: Michel Dänzer <michel@daenzer.net>
-Cc: Noralf Trønnes <noralf@tronnes.org>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Daniel Vetter <daniel.vetter@intel.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: Maxime Ripard <mripard@kernel.org>
-Cc: David Airlie <airlied@linux.ie>
-Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org
-Cc: <stable@vger.kernel.org> # v5.7+
-Cc: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
-Cc: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Nathan Chancellor <natechancellor@gmail.com>
-Cc: Qiujun Huang <hqjagain@gmail.com>
-Cc: Peter Rosin <peda@axentia.se>
-Cc: linux-fbdev@vger.kernel.org
-Cc: Helge Deller <deller@gmx.de>
-Cc: Sam Ravnborg <sam@ravnborg.org>
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: Samuel Thibault <samuel.thibault@ens-lyon.org>
-Cc: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
-Cc: Shigeru Yoshida <syoshida@redhat.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20230404193934.472457-1-daniel.vetter@ffwll.ch
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Signed-off-by: Brandon Cheo Fusi <fusibrandon13@gmail.com>
 ---
- drivers/video/fbdev/core/fbmem.c |    2 ++
- 1 file changed, 2 insertions(+)
+ drivers/gpu/drm/bridge/chipone-icn6211.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
---- a/drivers/video/fbdev/core/fbmem.c
-+++ b/drivers/video/fbdev/core/fbmem.c
-@@ -1117,6 +1117,8 @@ static long do_fb_ioctl(struct fb_info *
- 	case FBIOPUT_VSCREENINFO:
- 		if (copy_from_user(&var, argp, sizeof(var)))
- 			return -EFAULT;
-+		/* only for kernel-internal use */
-+		var.activate &= ~FB_ACTIVATE_KD_TEXT;
- 		console_lock();
- 		lock_fb_info(info);
- 		ret = fbcon_modechange_possible(info, &var);
-
+diff --git a/drivers/gpu/drm/bridge/chipone-icn6211.c b/drivers/gpu/drm/bridge/chipone-icn6211.c
+index 0e37840cd..39de9a7c7 100644
+--- a/drivers/gpu/drm/bridge/chipone-icn6211.c
++++ b/drivers/gpu/drm/bridge/chipone-icn6211.c
+@@ -361,8 +361,7 @@ static void chipone_atomic_enable(struct drm_bridge *bridge,
+ 		id[0], id[1], id[2], id[3]);
+ 
+ 	if (id[0] != 0xc1 || id[1] != 0x62 || id[2] != 0x11) {
+-		dev_dbg(icn->dev, "Invalid Chip IDs, aborting configuration\n");
+-		return;
++		dev_warn(icn->dev, "Invalid Chip IDs, configuration may fail\n");
+ 	}
+ 
+ 	/* Get the DPI flags from the bridge state. */
+-- 
+2.30.2
 
