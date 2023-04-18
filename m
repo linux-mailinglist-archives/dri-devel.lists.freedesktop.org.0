@@ -1,40 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6794B6E6C64
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Apr 2023 20:47:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B5596E6C67
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Apr 2023 20:48:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 889AE10E834;
-	Tue, 18 Apr 2023 18:47:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7227010E85A;
+	Tue, 18 Apr 2023 18:48:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from laurent.telenet-ops.be (laurent.telenet-ops.be
- [IPv6:2a02:1800:110:4::f00:19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CED5610E834
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Apr 2023 18:47:19 +0000 (UTC)
-Received: from ramsan.of.borg ([84.195.187.55])
- by laurent.telenet-ops.be with bizsmtp
- id mJnE290011C8whw01JnE6D; Tue, 18 Apr 2023 20:47:15 +0200
-Received: from rox.of.borg ([192.168.97.57])
- by ramsan.of.borg with esmtp (Exim 4.95)
- (envelope-from <geert@linux-m68k.org>) id 1poqH5-00H8P4-E9;
- Tue, 18 Apr 2023 20:42:51 +0200
-Received: from geert by rox.of.borg with local (Exim 4.95)
- (envelope-from <geert@linux-m68k.org>) id 1poqHz-00EGQt-IY;
- Tue, 18 Apr 2023 20:42:51 +0200
-From: Geert Uytterhoeven <geert+renesas@glider.be>
-To: Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Javier Martinez Canillas <javierm@redhat.com>
-Subject: [PATCH] drm/fb-helper: Fix height, width, and accel_flags in fb_var
-Date: Tue, 18 Apr 2023 20:42:46 +0200
-Message-Id: <2b6073d9c2d869c6a4eac6edebd616e0568dec91.1681843245.git.geert+renesas@glider.be>
-X-Mailer: git-send-email 2.34.1
+Received: from mail-oi1-f181.google.com (mail-oi1-f181.google.com
+ [209.85.167.181])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4A23C10E85A
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Apr 2023 18:48:06 +0000 (UTC)
+Received: by mail-oi1-f181.google.com with SMTP id
+ 5614622812f47-38be107e467so394316b6e.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Apr 2023 11:48:06 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1681843684; x=1684435684;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=LlWfKESFE5Jk+2KzqRJVpsSQyFn8vQwUgqr78N8g9ds=;
+ b=KrWOR1GGA0UVfoLDh3EOz4WwbX/ILPbfl3Yxn+CV9q0DTPLIz5skmq1TW3ofJPShEj
+ I7pUNZ4Ht/7xbyEwJ0nkVrPrIOQM6OlPiGoCx2h7dbHk2nGbHfN1U0kNWUwYlwUCQMDj
+ ZhT8Bv1+Uy/fz0oYU7hxcByzdh/2iwRk2Ek8jhhKYgCHkgzLZeHjt1cIG8gum87Vhtzw
+ WoT0/6U373Yd06tNyGf1dfgyDMUDhBV5ZS3Yh+K0L7vlvO29P17Y4Xgh217d2LKxp4j7
+ 1cnsqR1OMFc6IO2GHJmovUMuS2TjLEnFgTldEe4MYVru0THZn5F7CdrwNS9c532uUDI2
+ ST+Q==
+X-Gm-Message-State: AAQBX9eBgyBjmJ2LRbgGPXZ2hUbjJy9LvUv5pVAKrn4vZEmOiultZ0Cz
+ 8uGTy/B7eEDpAhLJet4HCw==
+X-Google-Smtp-Source: AKy350YAJi0Y2+ntAHVq86cev8s34h8Ch8vdGUqQJGWeGSgusRldbKrsc1B4GjvyhXGmu/oMCmTgKw==
+X-Received: by 2002:a05:6808:1cb:b0:384:167d:736b with SMTP id
+ x11-20020a05680801cb00b00384167d736bmr1569368oic.15.1681843684397; 
+ Tue, 18 Apr 2023 11:48:04 -0700 (PDT)
+Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net.
+ [66.90.144.107]) by smtp.gmail.com with ESMTPSA id
+ o203-20020acaf0d4000000b0038c5c0d8a83sm2847613oih.33.2023.04.18.11.48.03
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 18 Apr 2023 11:48:04 -0700 (PDT)
+Received: (nullmailer pid 2110941 invoked by uid 1000);
+ Tue, 18 Apr 2023 18:48:03 -0000
+Date: Tue, 18 Apr 2023 13:48:03 -0500
+From: Rob Herring <robh@kernel.org>
+To: Fabio Estevam <festevam@gmail.com>
+Subject: Re: [PATCH] dt-bindings: drm/bridge: ti-sn65dsi86: Fix the
+ video-interfaces.yaml references
+Message-ID: <168184368037.2110846.14889471836578329348.robh@kernel.org>
+References: <20230412175800.2537812-1-festevam@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230412175800.2537812-1-festevam@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,84 +64,31 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-renesas-soc@vger.kernel.org, linux-fbdev@vger.kernel.org,
- Geert Uytterhoeven <geert+renesas@glider.be>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: devicetree@vger.kernel.org, Fabio Estevam <festevam@denx.de>,
+ neil.armstrong@linaro.org, dianders@chromium.org,
+ dri-devel@lists.freedesktop.org, robh+dt@kernel.org,
+ krzysztof.kozlowski+dt@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fbtest contains some very simple validation of the fbdev userspace API
-contract.  When used with shmob-drm, it reports the following warnings
-and errors:
 
-    height changed from 68 to 0
-    height was rounded down
-    width changed from 111 to 0
-    width was rounded down
-    accel_flags changed from 0 to 1
+On Wed, 12 Apr 2023 14:58:00 -0300, Fabio Estevam wrote:
+> From: Fabio Estevam <festevam@denx.de>
+> 
+> video-interface.txt does not exist anymore, as it has been converted
+> to video-interfaces.yaml.
+> 
+> Instead of referencing video-interfaces.yaml multiple times,
+> pass it as a $ref to the schema.
+> 
+> Signed-off-by: Fabio Estevam <festevam@denx.de>
+> ---
+> Changes since v1:
+> - Pass  video-interfaces.yaml as a $ref to the schema. (Rob)
+> 
+>  .../devicetree/bindings/display/bridge/ti,sn65dsi86.yaml    | 6 +-----
+>  1 file changed, 1 insertion(+), 5 deletions(-)
+> 
 
-The first part happens because __fill_var() resets the physical
-dimensions of the first connector, as filled in by drm_setup_crtcs_fb().
-Fix this by retaining the original values.
-
-The last part happens because __fill_var() forces the FB_ACCELF_TEXT
-flag on, while fbtest disables all acceleration on purpose, so it can
-draw safely to the frame buffer.  Fix this by setting accel_flags to
-zero, as DRM does not implement any text console acceleration.
-Note that this issue can also be seen in the output of fbset, which
-reports "accel true".
-
-Fixes: ee4cce0a8f03a333 ("drm/fb-helper: fix input validation gaps in check_var")
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
- drivers/gpu/drm/drm_fb_helper.c | 12 +++++++-----
- 1 file changed, 7 insertions(+), 5 deletions(-)
-
-diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
-index 64458982be40c468..ed6ad787915f0b8f 100644
---- a/drivers/gpu/drm/drm_fb_helper.c
-+++ b/drivers/gpu/drm/drm_fb_helper.c
-@@ -1537,17 +1537,19 @@ static void drm_fb_helper_fill_pixel_fmt(struct fb_var_screeninfo *var,
- 	}
- }
- 
--static void __fill_var(struct fb_var_screeninfo *var,
-+static void __fill_var(struct fb_var_screeninfo *var, struct fb_info *info,
- 		       struct drm_framebuffer *fb)
- {
- 	int i;
- 
- 	var->xres_virtual = fb->width;
- 	var->yres_virtual = fb->height;
--	var->accel_flags = FB_ACCELF_TEXT;
-+	var->accel_flags = 0;
- 	var->bits_per_pixel = drm_format_info_bpp(fb->format, 0);
- 
--	var->height = var->width = 0;
-+	var->height = info->var.height;
-+	var->width = info->var.width;
-+
- 	var->left_margin = var->right_margin = 0;
- 	var->upper_margin = var->lower_margin = 0;
- 	var->hsync_len = var->vsync_len = 0;
-@@ -1610,7 +1612,7 @@ int drm_fb_helper_check_var(struct fb_var_screeninfo *var,
- 		return -EINVAL;
- 	}
- 
--	__fill_var(var, fb);
-+	__fill_var(var, info, fb);
- 
- 	/*
- 	 * fb_pan_display() validates this, but fb_set_par() doesn't and just
-@@ -2066,7 +2068,7 @@ static void drm_fb_helper_fill_var(struct fb_info *info,
- 	info->pseudo_palette = fb_helper->pseudo_palette;
- 	info->var.xoffset = 0;
- 	info->var.yoffset = 0;
--	__fill_var(&info->var, fb);
-+	__fill_var(&info->var, info, fb);
- 	info->var.activate = FB_ACTIVATE_NOW;
- 
- 	drm_fb_helper_fill_pixel_fmt(&info->var, format);
--- 
-2.34.1
+Applied, thanks!
 
