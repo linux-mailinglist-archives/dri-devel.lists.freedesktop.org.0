@@ -2,39 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A27216E5B42
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Apr 2023 10:01:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4ACEB6E5B47
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Apr 2023 10:02:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 96A8C10E6DF;
-	Tue, 18 Apr 2023 08:01:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3262610E6E2;
+	Tue, 18 Apr 2023 08:02:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from relay10.mail.gandi.net (relay10.mail.gandi.net
  [IPv6:2001:4b98:dc4:8::230])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B1D8810E6DF
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Apr 2023 08:01:51 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EB95310E6DF
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Apr 2023 08:01:54 +0000 (UTC)
 Received: from booty.fritz.box (unknown [77.244.183.192])
  (Authenticated sender: luca.ceresoli@bootlin.com)
- by mail.gandi.net (Postfix) with ESMTPA id DC826240013;
- Tue, 18 Apr 2023 08:01:45 +0000 (UTC)
+ by mail.gandi.net (Postfix) with ESMTPA id 120AB24001A;
+ Tue, 18 Apr 2023 08:01:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1681804908;
+ t=1681804912;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ki5tVtpHfbVLHN3PhSIPzP3TaFUuCpit4Uxj/8j+9cM=;
- b=CmmlNmHFtX3RqV/i4yyhtIUHK1lKD2+rlXqbumI+ouuVC9DYpNASeIv8ZytosDVYQdmT4b
- uEonwvaobsiCUEEP45NdZlRaHsJ98lmuVDGveAuVuib8RpyfzoK4QdO80u6DQqvxJKNjom
- 6Fsi7QT3mVCBUBTsLrvFRkw4TFO5gIwaOwALVK0ChIMpoSh/qgGsVSGzgMi9qDZ1qUeIN9
- 8obDgttG04fxHbiIQG21lYbkUdMMjlqbMAxxP4Y5i0gOFVAtVNZz/92eKuIkepaPhJpz0Z
- DhBv04ZwchpKVZGfYD4m8eRbi0C7q9SMDt2ULoesIotMMdkOpmbP/OcrfnZAVg==
+ bh=WiE3J/ZOXI1J5wUqjC9+bkIXh5jNrN6O4z7mUkMhHyw=;
+ b=i5d1jmjfVRl7A7wPSmJJsjHqYz6LwegI32FzADO4J45upyQzkYZj6YmWP0o2TOuZYDg2cm
+ SjxNvdadRt1WocfK0qxLxvjFTTotO6boulfSPfQR689oX5uHrPeOfvSbt9SUh2g442i7rf
+ ISsL0+hjuDb1tl15AeZMvmscZzTfTrlD+p3BGe7krJNfDZtumzaor7kdzPwYP8DG7WNZop
+ oJldGlV87YpdxAbNjJAP7kR3P4wUvYQCPNix6qvdPF67EiIvqPHqvKBA6Jp82f4D6S+pgO
+ j+pWCC2wfvlrSnoRIVcsr3MqLDCMO6mnB6wTvn9zK4FQxi1Yrm37NkqwnRQu7w==
 From: Luca Ceresoli <luca.ceresoli@bootlin.com>
 To: linux-tegra@vger.kernel.org
-Subject: [PATCH v6 12/20] staging: media: tegra-video: move
- tegra_channel_fmt_align to a per-soc op
-Date: Tue, 18 Apr 2023 10:00:46 +0200
-Message-Id: <20230418080054.452955-13-luca.ceresoli@bootlin.com>
+Subject: [PATCH v6 13/20] staging: media: tegra-video: move default format to
+ soc-specific data
+Date: Tue, 18 Apr 2023 10:00:47 +0200
+Message-Id: <20230418080054.452955-14-luca.ceresoli@bootlin.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230418080054.452955-1-luca.ceresoli@bootlin.com>
 References: <20230418080054.452955-1-luca.ceresoli@bootlin.com>
@@ -69,16 +69,15 @@ Cc: devicetree@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-tegra_channel_fmt_align() takes care of the size constraints, alignment and
-rounding requirements of the Tegra210 VI peripheral. Tegra20 has different
-constraints.
+The tegra_default_format in vi.c is specific to Tegra210 CSI.
 
-In preparation for adding Tegra20 support, move this function to a new op
-in the soc-specific `struct tegra_vi_ops` .
+In preparation for adding Tegra20 VIP support, move the default format to a
+new field in the soc-specific `struct tegra_vi_soc`. Instead of an entire
+format struct, only store a pointer to an item in the existing format
+array.
 
-Also move to tegra210.c the T210-specific defines used in the moved code.
-
-No functional changes.
+No functional changes. The format pointed to is the same that used to be in
+vi.c.
 
 Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 Reviewed-by: Dmitry Osipenko <digetx@gmail.com>
@@ -86,7 +85,10 @@ Reviewed-by: Dmitry Osipenko <digetx@gmail.com>
 ---
 
 No changes in v6
-No changes in v5
+
+Changed in v5:
+ - Minor update after removal of "staging: media: tegra-video: fix
+   .vidioc_enum_fmt_vid_cap to return all formats" patch
 
 Changed in v4:
  - Added review tags
@@ -94,197 +96,84 @@ Changed in v4:
 No changes in v3
 No changes in v2
 ---
- drivers/staging/media/tegra-video/tegra210.c | 36 ++++++++++++++++++
- drivers/staging/media/tegra-video/vi.c       | 40 +++-----------------
- drivers/staging/media/tegra-video/vi.h       |  9 ++---
- 3 files changed, 44 insertions(+), 41 deletions(-)
+ drivers/staging/media/tegra-video/tegra210.c |  2 ++
+ drivers/staging/media/tegra-video/vi.c       | 13 ++-----------
+ drivers/staging/media/tegra-video/vi.h       |  2 ++
+ 3 files changed, 6 insertions(+), 11 deletions(-)
 
 diff --git a/drivers/staging/media/tegra-video/tegra210.c b/drivers/staging/media/tegra-video/tegra210.c
-index d58370a84737..d19ff6b49ae8 100644
+index d19ff6b49ae8..b4fcd4e93b8c 100644
 --- a/drivers/staging/media/tegra-video/tegra210.c
 +++ b/drivers/staging/media/tegra-video/tegra210.c
-@@ -17,6 +17,13 @@
- #include "csi.h"
- #include "vi.h"
- 
-+#define TEGRA210_MIN_WIDTH	32U
-+#define TEGRA210_MAX_WIDTH	32768U
-+#define TEGRA210_MIN_HEIGHT	32U
-+#define TEGRA210_MAX_HEIGHT	32768U
-+
-+#define SURFACE_ALIGN_BYTES	64
-+
- #define TEGRA_VI_SYNCPT_WAIT_TIMEOUT			msecs_to_jiffies(200)
- 
- /* Tegra210 VI registers */
-@@ -172,6 +179,34 @@ static u32 vi_csi_read(struct tegra_vi_channel *chan, u8 portno,
- /*
-  * Tegra210 VI channel capture operations
-  */
-+static void tegra210_fmt_align(struct v4l2_pix_format *pix, unsigned int bpp)
-+{
-+	unsigned int min_bpl;
-+	unsigned int max_bpl;
-+	unsigned int bpl;
-+
-+	/*
-+	 * The transfer alignment requirements are expressed in bytes.
-+	 * Clamp the requested width and height to the limits.
-+	 */
-+	pix->width = clamp(pix->width, TEGRA210_MIN_WIDTH, TEGRA210_MAX_WIDTH);
-+	pix->height = clamp(pix->height, TEGRA210_MIN_HEIGHT, TEGRA210_MAX_HEIGHT);
-+
-+	/* Clamp the requested bytes per line value. If the maximum bytes per
-+	 * line value is zero, the module doesn't support user configurable
-+	 * line sizes. Override the requested value with the minimum in that
-+	 * case.
-+	 */
-+	min_bpl = pix->width * bpp;
-+	max_bpl = rounddown(TEGRA210_MAX_WIDTH, SURFACE_ALIGN_BYTES);
-+	bpl = roundup(pix->bytesperline, SURFACE_ALIGN_BYTES);
-+
-+	pix->bytesperline = clamp(bpl, min_bpl, max_bpl);
-+	pix->sizeimage = pix->bytesperline * pix->height;
-+	if (pix->pixelformat == V4L2_PIX_FMT_NV16)
-+		pix->sizeimage *= 2;
-+}
-+
- static int tegra_channel_capture_setup(struct tegra_vi_channel *chan,
- 				       u8 portno)
- {
-@@ -718,6 +753,7 @@ static const struct tegra_video_format tegra210_video_formats[] = {
- 
- /* Tegra210 VI operations */
- static const struct tegra_vi_ops tegra210_vi_ops = {
-+	.vi_fmt_align = tegra210_fmt_align,
- 	.vi_start_streaming = tegra210_vi_start_streaming,
- 	.vi_stop_streaming = tegra210_vi_stop_streaming,
+@@ -766,8 +766,10 @@ const struct tegra_vi_soc tegra210_vi_soc = {
+ 	.hw_revision = 3,
+ 	.vi_max_channels = 6,
+ #if IS_ENABLED(CONFIG_VIDEO_TEGRA_TPG)
++	.default_video_format = &tegra210_video_formats[0],
+ 	.vi_max_clk_hz = 499200000,
+ #else
++	.default_video_format = &tegra210_video_formats[4],
+ 	.vi_max_clk_hz = 998400000,
+ #endif
  };
 diff --git a/drivers/staging/media/tegra-video/vi.c b/drivers/staging/media/tegra-video/vi.c
-index db98d06351b4..35d7cda1373f 100644
+index 35d7cda1373f..b88532d8d2c9 100644
 --- a/drivers/staging/media/tegra-video/vi.c
 +++ b/drivers/staging/media/tegra-video/vi.c
-@@ -473,36 +473,6 @@ static int tegra_channel_get_format(struct file *file, void *fh,
- 	return 0;
- }
+@@ -45,15 +45,6 @@ struct tegra_vi_graph_entity {
+ 	struct v4l2_subdev *subdev;
+ };
  
--static void tegra_channel_fmt_align(struct tegra_vi_channel *chan,
--				    struct v4l2_pix_format *pix,
--				    unsigned int bpp)
--{
--	unsigned int min_bpl;
--	unsigned int max_bpl;
--	unsigned int bpl;
+-static const struct tegra_video_format tegra_default_format = {
+-	.img_dt = TEGRA_IMAGE_DT_RAW10,
+-	.bit_width = 10,
+-	.code = MEDIA_BUS_FMT_SRGGB10_1X10,
+-	.bpp = 2,
+-	.img_fmt = TEGRA_IMAGE_FORMAT_DEF,
+-	.fourcc = V4L2_PIX_FMT_SRGGB10,
+-};
 -
--	/*
--	 * The transfer alignment requirements are expressed in bytes.
--	 * Clamp the requested width and height to the limits.
--	 */
--	pix->width = clamp(pix->width, TEGRA_MIN_WIDTH, TEGRA_MAX_WIDTH);
--	pix->height = clamp(pix->height, TEGRA_MIN_HEIGHT, TEGRA_MAX_HEIGHT);
--
--	/* Clamp the requested bytes per line value. If the maximum bytes per
--	 * line value is zero, the module doesn't support user configurable
--	 * line sizes. Override the requested value with the minimum in that
--	 * case.
--	 */
--	min_bpl = pix->width * bpp;
--	max_bpl = rounddown(TEGRA_MAX_WIDTH, SURFACE_ALIGN_BYTES);
--	bpl = roundup(pix->bytesperline, SURFACE_ALIGN_BYTES);
--
--	pix->bytesperline = clamp(bpl, min_bpl, max_bpl);
--	pix->sizeimage = pix->bytesperline * pix->height;
--	if (pix->pixelformat == V4L2_PIX_FMT_NV16)
--		pix->sizeimage *= 2;
--}
--
- static int __tegra_channel_try_format(struct tegra_vi_channel *chan,
- 				      struct v4l2_pix_format *pix)
+ static inline struct tegra_vi *
+ host1x_client_to_vi(struct host1x_client *client)
  {
-@@ -578,7 +548,7 @@ static int __tegra_channel_try_format(struct tegra_vi_channel *chan,
- 		return ret;
+@@ -1103,7 +1094,7 @@ static int vi_fmts_bitmap_init(struct tegra_vi_channel *chan)
+ 	 * there are no matched formats.
+ 	 */
+ 	if (!match_code) {
+-		match_code = tegra_default_format.code;
++		match_code = chan->vi->soc->default_video_format->code;
+ 		index = tegra_get_format_idx_by_code(chan->vi, match_code, 0);
+ 		if (WARN_ON(index < 0))
+ 			return -EINVAL;
+@@ -1200,7 +1191,7 @@ static int tegra_channel_init(struct tegra_vi_channel *chan)
+ 	init_waitqueue_head(&chan->done_wait);
  
- 	v4l2_fill_pix_format(pix, &fmt.format);
--	tegra_channel_fmt_align(chan, pix, fmtinfo->bpp);
-+	chan->vi->ops->vi_fmt_align(pix, fmtinfo->bpp);
- 
- 	__v4l2_subdev_state_free(sd_state);
- 
-@@ -630,7 +600,7 @@ static int tegra_channel_set_format(struct file *file, void *fh,
- 		return ret;
- 
- 	v4l2_fill_pix_format(pix, &fmt.format);
--	tegra_channel_fmt_align(chan, pix, fmtinfo->bpp);
-+	chan->vi->ops->vi_fmt_align(pix, fmtinfo->bpp);
- 
- 	chan->format = *pix;
- 	chan->fmtinfo = fmtinfo;
-@@ -666,7 +636,7 @@ static int tegra_channel_set_subdev_active_fmt(struct tegra_vi_channel *chan)
- 	chan->format.bytesperline = chan->format.width * chan->fmtinfo->bpp;
- 	chan->format.sizeimage = chan->format.bytesperline *
- 				 chan->format.height;
--	tegra_channel_fmt_align(chan, &chan->format, chan->fmtinfo->bpp);
-+	chan->vi->ops->vi_fmt_align(&chan->format, chan->fmtinfo->bpp);
- 	tegra_channel_update_gangports(chan);
- 
- 	return 0;
-@@ -835,7 +805,7 @@ static int tegra_channel_s_dv_timings(struct file *file, void *fh,
- 	chan->format.height = bt->height;
- 	chan->format.bytesperline = bt->width * chan->fmtinfo->bpp;
- 	chan->format.sizeimage = chan->format.bytesperline * bt->height;
--	tegra_channel_fmt_align(chan, &chan->format, chan->fmtinfo->bpp);
-+	chan->vi->ops->vi_fmt_align(&chan->format, chan->fmtinfo->bpp);
- 	tegra_channel_update_gangports(chan);
- 
- 	return 0;
-@@ -1238,7 +1208,7 @@ static int tegra_channel_init(struct tegra_vi_channel *chan)
- 	chan->format.height = TEGRA_DEF_HEIGHT;
- 	chan->format.bytesperline = TEGRA_DEF_WIDTH * chan->fmtinfo->bpp;
- 	chan->format.sizeimage = chan->format.bytesperline * TEGRA_DEF_HEIGHT;
--	tegra_channel_fmt_align(chan, &chan->format, chan->fmtinfo->bpp);
-+	vi->ops->vi_fmt_align(&chan->format, chan->fmtinfo->bpp);
- 
- 	ret = tegra_channel_host1x_syncpt_init(chan);
- 	if (ret)
+ 	/* initialize the video format */
+-	chan->fmtinfo = &tegra_default_format;
++	chan->fmtinfo = chan->vi->soc->default_video_format;
+ 	chan->format.pixelformat = chan->fmtinfo->fourcc;
+ 	chan->format.colorspace = V4L2_COLORSPACE_SRGB;
+ 	chan->format.field = V4L2_FIELD_NONE;
 diff --git a/drivers/staging/media/tegra-video/vi.h b/drivers/staging/media/tegra-video/vi.h
-index 9959cbe02ca0..213955c7545d 100644
+index 213955c7545d..b424c967c6f2 100644
 --- a/drivers/staging/media/tegra-video/vi.h
 +++ b/drivers/staging/media/tegra-video/vi.h
-@@ -25,17 +25,11 @@
- 
- #define V4L2_CID_TEGRA_SYNCPT_TIMEOUT_RETRY	(V4L2_CTRL_CLASS_CAMERA | 0x1001)
- 
--#define TEGRA_MIN_WIDTH		32U
--#define TEGRA_MAX_WIDTH		32768U
--#define TEGRA_MIN_HEIGHT	32U
--#define TEGRA_MAX_HEIGHT	32768U
--
- #define TEGRA_DEF_WIDTH		1920
- #define TEGRA_DEF_HEIGHT	1080
- #define TEGRA_IMAGE_FORMAT_DEF	32
- 
- #define MAX_FORMAT_NUM		64
--#define SURFACE_ALIGN_BYTES	64
- 
- enum tegra_vi_pg_mode {
- 	TEGRA_VI_PG_DISABLED = 0,
-@@ -45,6 +39,8 @@ enum tegra_vi_pg_mode {
- 
- /**
-  * struct tegra_vi_ops - Tegra VI operations
-+ * @vi_fmt_align: modify `pix` to fit the hardware alignment
-+ *		requirements and fill image geometry
-  * @vi_start_streaming: starts media pipeline, subdevice streaming, sets up
-  *		VI for capture and runs capture start and capture finish
-  *		kthreads for capturing frames to buffer and returns them back.
-@@ -52,6 +48,7 @@ enum tegra_vi_pg_mode {
-  *		back any queued buffers.
-  */
- struct tegra_vi_ops {
-+	void (*vi_fmt_align)(struct v4l2_pix_format *pix, unsigned int bpp);
- 	int (*vi_start_streaming)(struct vb2_queue *vq, u32 count);
- 	void (*vi_stop_streaming)(struct vb2_queue *vq);
- };
+@@ -58,6 +58,7 @@ struct tegra_vi_ops {
+  *
+  * @video_formats: supported video formats
+  * @nformats: total video formats
++ * @default_video_format: default video format (pointer to a @video_formats item)
+  * @ops: vi operations
+  * @hw_revision: VI hw_revision
+  * @vi_max_channels: supported max streaming channels
+@@ -66,6 +67,7 @@ struct tegra_vi_ops {
+ struct tegra_vi_soc {
+ 	const struct tegra_video_format *video_formats;
+ 	const unsigned int nformats;
++	const struct tegra_video_format *default_video_format;
+ 	const struct tegra_vi_ops *ops;
+ 	u32 hw_revision;
+ 	unsigned int vi_max_channels;
 -- 
 2.34.1
 
