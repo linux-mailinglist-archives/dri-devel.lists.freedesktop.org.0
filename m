@@ -2,60 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C43B86E68FE
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Apr 2023 18:08:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5407B6E6917
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Apr 2023 18:13:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 211D610E320;
-	Tue, 18 Apr 2023 16:08:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6BDA210E330;
+	Tue, 18 Apr 2023 16:13:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x2c.google.com (mail-oa1-x2c.google.com
- [IPv6:2001:4860:4864:20::2c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3ED2A10E0D9;
- Tue, 18 Apr 2023 16:08:14 +0000 (UTC)
-Received: by mail-oa1-x2c.google.com with SMTP id
- 586e51a60fabf-18665c1776dso550662fac.2; 
- Tue, 18 Apr 2023 09:08:14 -0700 (PDT)
+Received: from mail-oo1-xc2b.google.com (mail-oo1-xc2b.google.com
+ [IPv6:2607:f8b0:4864:20::c2b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DE8F710E330;
+ Tue, 18 Apr 2023 16:13:36 +0000 (UTC)
+Received: by mail-oo1-xc2b.google.com with SMTP id
+ 006d021491bc7-541eee15ef5so523524eaf.1; 
+ Tue, 18 Apr 2023 09:13:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1681834093; x=1684426093;
+ d=gmail.com; s=20221208; t=1681834416; x=1684426416;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=BZlXuJgfMvWxbRTvPgwT+9HBRLSyEp47+MKrNYxNxXY=;
- b=nVYvBPBrwTdcokK2o564KuRKQV22ICmE2E4JhU0T1RYaMYzjQzKrMzqAOesxaa9rHf
- NkOY93OEHszCzNwPCvf8JBIYUbmizbRJDUEQQOgRkTnX8WOm2KyICFPhJmqmnsMlartG
- ygoutLvfq87afdIN51nI8Dts8DX/Ac9uhTEk2RdSF75zR1piE2rt0xgOYe6ueKQx2N4W
- SWXd3NdBtSC1omfw+mnHazlT5XucDiCmYgGyKR/5uGrR3Wh0mCb7KpuwxkVWDqp4eb9b
- xuYu6JEt6oZ7w7B4BWgR/2J2M6lFIjpk7Phe1wlCG9Sq4WMWK/yVqQM7gYAVXyuvKWws
- h2lQ==
+ bh=n5N9vLchBu9jeKOb/JMvfvoNBFKRQJpH1E6oy7yWn2E=;
+ b=Xu4PQiDGkRwzQMBDgmcwrl1mAyquoS8YFBDlsQnE12H6MScRPtUJ+yUB6h13iDXNG1
+ Y5aQfJ9y6UHwiqJ5I6MXcKYxVgPIU6JpYjaJgzNnabP2AV2CWsm7Q4HwOtTy1mbsuFgy
+ j3v8pCgvEAYpWWW6spDHD2+2tUWeEPtwiyU5Ttr/296Ho3trfwV11pq7icMFAltY2WJw
+ XfzKtLt0ZDcc1c4G6ggEtFl/Tlmn4zbYBtGsTAs2gcRw8F3WH5zErqzv0Evr7x7bpZop
+ QNPXKn0wCxIawvqtgM0qx9NbOHrTDAadqyFJXFH4FxmlVyR57h11GqduKxrRWhUeNkYo
+ l9mg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681834093; x=1684426093;
+ d=1e100.net; s=20221208; t=1681834416; x=1684426416;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=BZlXuJgfMvWxbRTvPgwT+9HBRLSyEp47+MKrNYxNxXY=;
- b=KyyrmB326ML6p80a4MN0bhVCGxMpeS1+wMJmzDwSWfCB9GirMq0NsVvm1lG7uwcRRd
- 7DImu1GZmXlAY6gGpegmMXIsuVFA5GxXH/lddMASvIzj4CN+orB/Ax5tm1wG2fA75LPO
- DiczccMTCuXqnqq1BaEyMrCO5vxZiOfJNddN9tL5N8fUoocXa1nrJQc6ZjWCNHoqbLAo
- HFFInAiu8z84XZ9TmLU/itvBqcyjFUCu+GSyJE5WHdMbpeKarZCbjEwcv774pTTMsLtg
- tvDVNSEKg4JMcJqqjzB97Zim+0/c+/JMn4+3FRabG8Krx3Ln1fEFnG97tDp0IO+5oAoC
- HlGw==
-X-Gm-Message-State: AAQBX9d9sT/yZNegONW4N/0NbM0zfy0LmBQSu7lMSYM6/DmvEXy8kT8H
- EfkGA4wID2Wnnc5veLibhMKcLu8J2dji0Y3ur2g=
-X-Google-Smtp-Source: AKy350bPoOo1q+lay0obghzCQbT3Gog2UJW3eGT3ZVeu+jQpxEQDMs0XRYQNzW+8tvLC32572XLUkijaJjANW9pXELM=
-X-Received: by 2002:a05:6870:a450:b0:180:1f9f:923e with SMTP id
- n16-20020a056870a45000b001801f9f923emr1391333oal.5.1681834093205; Tue, 18 Apr
- 2023 09:08:13 -0700 (PDT)
+ bh=n5N9vLchBu9jeKOb/JMvfvoNBFKRQJpH1E6oy7yWn2E=;
+ b=DtPt/pQ2d2zUV/Ril5a643mUsIYZnn3PxCdoXeQz9HdcObsf10Xu4GJ6f6GlDLX8Lv
+ +tTDTv+TXlLUlN3LBDRc3rX/0zTPtiHNv3hLTAD7m7vBfAuy3RUJfW+8N6ZyuU4/O1CX
+ aMAnScLOVhn4klGXKrGAvpXqQnmPZWmnXBUFiM75HgtpyXi5QXyvgbvRdZNsgr/4r8As
+ 889VBjpIjTHzfuRRpJgfRT74rQK7ixVVxzZS1ydYhf3Lf7vjzzn+mSJDoLBbu8J0o+8B
+ ahAc49xsWvUP37rlIrceWad7uhuFvR3ZbAfliMx1PNnpMvG8FUuPIg/nL2T5SZIt6Cgp
+ G2NA==
+X-Gm-Message-State: AAQBX9eDrqu7yWyQ49oZSArfE2hPb0M+jqhulee2OkBJOpR7xE2PfOLa
+ rE+O8KHQRG0gfq37+GxLGJiRx41l7pxbg3XCjmV8rqIP
+X-Google-Smtp-Source: AKy350bR+j/4PpQEXbOsIr3wXG4Z/e5gxESTE2FhxdzzJRxC5j2gqxh0S5ff1wSWho4+9QlHD3qdUWBVFH0xAsuMu9s=
+X-Received: by 2002:aca:e0c6:0:b0:38b:d8a9:9d95 with SMTP id
+ x189-20020acae0c6000000b0038bd8a99d95mr780275oig.5.1681834415590; Tue, 18 Apr
+ 2023 09:13:35 -0700 (PDT)
 MIME-Version: 1.0
 References: <20230417155613.4143258-1-tvrtko.ursulin@linux.intel.com>
- <20230417155613.4143258-7-tvrtko.ursulin@linux.intel.com>
- <CAF6AEGuKovR_VL2UwyRddZ_d-AmZK3usC2zJ3Lb=sq-kN6EmAQ@mail.gmail.com>
- <a83f4f2c-f745-cb50-e05a-86862ab0ea96@linux.intel.com>
-In-Reply-To: <a83f4f2c-f745-cb50-e05a-86862ab0ea96@linux.intel.com>
+ <20230417155613.4143258-4-tvrtko.ursulin@linux.intel.com>
+ <CAF6AEGu3oagVYqBcgqKFO6-gbLbVdFn51fKeV7CfWTJXJjTNYA@mail.gmail.com>
+ <fca966cf-df17-a937-8330-b2353f1a352c@linux.intel.com>
+ <CAF6AEGswZZZxwRTOXbCVKmhUYwz8BSu-GDVCJ=FfyJ-w=e4dLQ@mail.gmail.com>
+ <0faa3b0f-342c-87e0-9587-f8c11131689e@linux.intel.com>
+ <CAF6AEGu+AbQnPV-1goqJi_RJR7TB8Ta5FXTKn-j6Aq4fiuPN2w@mail.gmail.com>
+ <8a16f714-d20a-7608-a08f-88b20dc05d86@linux.intel.com>
+In-Reply-To: <8a16f714-d20a-7608-a08f-88b20dc05d86@linux.intel.com>
 From: Rob Clark <robdclark@gmail.com>
-Date: Tue, 18 Apr 2023 09:08:01 -0700
-Message-ID: <CAF6AEGudH15abZqM04Vb92-LCNt4=x7PNBbbP8LHu+SH83LURQ@mail.gmail.com>
-Subject: Re: [RFC 6/6] drm/i915: Implement fdinfo memory stats printing
+Date: Tue, 18 Apr 2023 09:13:24 -0700
+Message-ID: <CAF6AEGuhYNY6z0rHBufVJvXmXrpb9yQRqGrdJkzBK_kFcE0Vtg@mail.gmail.com>
+Subject: Re: [RFC 3/6] drm: Add fdinfo memory stats
 To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -78,142 +82,81 @@ Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Apr 18, 2023 at 7:58=E2=80=AFAM Tvrtko Ursulin
+On Tue, Apr 18, 2023 at 7:46=E2=80=AFAM Tvrtko Ursulin
 <tvrtko.ursulin@linux.intel.com> wrote:
 >
 >
-> On 18/04/2023 15:39, Rob Clark wrote:
-> > On Mon, Apr 17, 2023 at 8:56=E2=80=AFAM Tvrtko Ursulin
+> On 18/04/2023 15:36, Rob Clark wrote:
+> > On Tue, Apr 18, 2023 at 7:19=E2=80=AFAM Tvrtko Ursulin
 > > <tvrtko.ursulin@linux.intel.com> wrote:
 > >>
-> >> From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 > >>
-> >> Show how more driver specific set of memory stats could be shown,
-> >> more specifically where object can reside in multiple regions, showing=
- all
-> >> the supported stats, and where there is more to show than just user vi=
-sible
-> >> objects.
+> >> On 18/04/2023 14:49, Rob Clark wrote:
+> >>> On Tue, Apr 18, 2023 at 2:00=E2=80=AFAM Tvrtko Ursulin
+> >>> <tvrtko.ursulin@linux.intel.com> wrote:
+> >>>>
+> >>>>
+> >>>> On 17/04/2023 20:39, Rob Clark wrote:
+> >>>>> On Mon, Apr 17, 2023 at 8:56=E2=80=AFAM Tvrtko Ursulin
+> >>>>> <tvrtko.ursulin@linux.intel.com> wrote:
+> >>>>>>
+> >>>>>> From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+> >>>>>>
+> >>>>>> Add support to dump GEM stats to fdinfo.
+> >>>>>>
+> >>>>>> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+> >>>>>> ---
+> >>>>>>     Documentation/gpu/drm-usage-stats.rst | 12 +++++++
+> >>>>>>     drivers/gpu/drm/drm_file.c            | 52 +++++++++++++++++++=
+++++++++
+> >>>>>>     include/drm/drm_drv.h                 |  7 ++++
+> >>>>>>     include/drm/drm_file.h                |  8 +++++
+> >>>>>>     4 files changed, 79 insertions(+)
+> >>>>>>
+> >>>>>> diff --git a/Documentation/gpu/drm-usage-stats.rst b/Documentation=
+/gpu/drm-usage-stats.rst
+> >>>>>> index 2ab32c40e93c..8273a41b2fb0 100644
+> >>>>>> --- a/Documentation/gpu/drm-usage-stats.rst
+> >>>>>> +++ b/Documentation/gpu/drm-usage-stats.rst
+> >>>>>> @@ -21,6 +21,7 @@ File format specification
+> >>>>>>
+> >>>>>>     - File shall contain one key value pair per one line of text.
+> >>>>>>     - Colon character (`:`) must be used to delimit keys and value=
+s.
+> >>>>>> +- Caret (`^`) is also a reserved character.
+> >>>>>
+> >>>>> this doesn't solve the problem that led me to drm-$CATEGORY-memory.=
+.. ;-)
+> >>>>
+> >>>> Could you explain or remind me with a link to a previous explanation=
+?
+> >>>
+> >>> How is userspace supposed to know that "drm-memory-foo" is a memory
+> >>> type "foo" but drm-memory-foo^size is not memory type "foo^size"?
 > >>
-> >> WIP...
-> >>
-> >> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-> >> ---
-> >>   drivers/gpu/drm/i915/i915_driver.c     |   5 ++
-> >>   drivers/gpu/drm/i915/i915_drm_client.c | 102 +++++++++++++++++++++++=
-++
-> >>   drivers/gpu/drm/i915/i915_drm_client.h |   8 ++
-> >>   drivers/gpu/drm/i915/i915_drv.h        |   2 +
-> >>   4 files changed, 117 insertions(+)
-> >>
-> >> diff --git a/drivers/gpu/drm/i915/i915_driver.c b/drivers/gpu/drm/i915=
-/i915_driver.c
-> >> index 6493548c69bf..4c70206cbc27 100644
-> >> --- a/drivers/gpu/drm/i915/i915_driver.c
-> >> +++ b/drivers/gpu/drm/i915/i915_driver.c
-> >> @@ -1806,6 +1806,11 @@ static const struct drm_driver i915_drm_driver =
-=3D {
-> >>          .dumb_create =3D i915_gem_dumb_create,
-> >>          .dumb_map_offset =3D i915_gem_dumb_mmap_offset,
-> >>
-> >> +#ifdef CONFIG_PROC_FS
-> >> +       .query_fdinfo_memory_regions =3D i915_query_fdinfo_memory_regi=
-ons,
-> >> +       .query_fdinfo_memory_stats =3D i915_query_fdinfo_memory_stats,
-> >> +#endif
-> >> +
-> >>          .ioctls =3D i915_ioctls,
-> >>          .num_ioctls =3D ARRAY_SIZE(i915_ioctls),
-> >>          .fops =3D &i915_driver_fops,
-> >> diff --git a/drivers/gpu/drm/i915/i915_drm_client.c b/drivers/gpu/drm/=
-i915/i915_drm_client.c
-> >> index c654984189f7..65857c68bdb3 100644
-> >> --- a/drivers/gpu/drm/i915/i915_drm_client.c
-> >> +++ b/drivers/gpu/drm/i915/i915_drm_client.c
-> >> @@ -12,6 +12,7 @@
-> >>   #include <drm/drm_print.h>
-> >>
-> >>   #include "gem/i915_gem_context.h"
-> >> +#include "intel_memory_region.h"
-> >>   #include "i915_drm_client.h"
-> >>   #include "i915_file_private.h"
-> >>   #include "i915_gem.h"
-> >> @@ -112,4 +113,105 @@ void i915_drm_client_fdinfo(struct drm_printer *=
-p, struct drm_file *file)
-> >>          for (i =3D 0; i < ARRAY_SIZE(uabi_class_names); i++)
-> >>                  show_client_class(p, i915, file_priv->client, i);
-> >>   }
-> >> +
-> >> +char **
-> >> +i915_query_fdinfo_memory_regions(struct drm_device *dev, unsigned int=
- *num)
-> >> +{
-> >> +       struct drm_i915_private *i915 =3D to_i915(dev);
-> >> +       struct intel_memory_region *mr;
-> >> +       enum intel_region_id id;
-> >> +
-> >> +       /* FIXME move to init */
-> >> +       for_each_memory_region(mr, i915, id) {
-> >> +               if (!i915->mm.region_names[id])
-> >> +                       i915->mm.region_names[id] =3D mr->name;
-> >> +       }
-> >> +
-> >> +       *num =3D id;
-> >> +
-> >> +       return i915->mm.region_names;
-> >> +}
-> >> +
-> >> +static void
-> >> +add_obj(struct drm_i915_gem_object *obj, struct drm_fdinfo_memory_sta=
-t *stats)
-> >> +{
-> >> +        struct intel_memory_region *mr;
-> >> +       u64 sz =3D obj->base.size;
-> >> +        enum intel_region_id id;
-> >> +       unsigned int i;
-> >> +
-> >> +       if (!obj)
-> >> +               return;
-> >> +
-> >> +       /* Attribute size and shared to all possible memory regions. *=
-/
-> >> +       for (i =3D 0; i < obj->mm.n_placements; i++) {
-> >> +               mr =3D obj->mm.placements[i];
-> >> +               id =3D mr->id;
-> >> +
-> >> +               stats[id].size +=3D sz;
+> >> Are you referring to nvtop?
 > >
-> > This implies that summing up all of the categories is not the same as
-> > the toplevel stats that I was proposing
-
-Sorry, I mis-spoke, I meant "summing up all of the regions is not..."
-
-> Correct, my categories are a bit different. You had private and shared as=
- two mutually exclusive buckets, and then resident as subset of either/both=
-. I have size as analogue to VmSize and resident as a subset of that, analo=
-gue to VmRss.
+> > I'm not referring to any particular app.  It could even be some app
+> > that isn't even written yet but started with an already existing
+> > kernel without this change.  It is just a general point about forwards
+> > compatibility of old userspace with new kernel.  And it doesn't really
+> > matter what special character you use.  You can't retroactively define
+> > some newly special characters.
 >
+> What you see does not work if we output both legacy and new key with
+> extra category? Userspace which hardcode the name keep working, and
+> userspace which parses region names as opaque strings also keeps working
+> just shows more entries.
 
-I split shared because by definition shared buffers can be counted
-against multiple drm_file's, whereas private is only counted against
-the single drm_file.  Driver or app changes are unlikely to change the
-shared size, whereas private footprint is a thing you can optimize to
-some degree.
+well, it shows nonsense entries.. I'd not call that "working"
 
-> Shared is a bit wishy-washy, not sure about that one in either proposals.=
- It can be either imported or exported buffers, but in essence I think it f=
-its better as a subset of total size.
+But honestly we are wasting too many words on this.. we just can't
+re-use the "drm-memory-<anything>" namespace, it is already burnt.
+Full stop.
 
-Imported vs exported doesn't really matter.. it is just an
-implementation detail of the winsys.  But I think it is useful to know
-how much of an app's footprint is shared vs private.  You could
-express it different ways, but my proposal had private and shared,
-from which you can calculate total:
-
-   total =3D private + shared
-
-but you could flip the path around and advertise just total and
-shared, and calculate private from that.
+If you don't like the "drm-$CATEGORY-$REGION" workaround then we can
+shorten to "drm-mem-$REGION-$CATEGORY" since that won't accidentally
+match the existing "drm-memory-" pattern.
 
 BR,
 -R
@@ -222,121 +165,257 @@ BR,
 >
 > Tvrtko
 >
-> >> +               if (obj->base.handle_count > 1)
-> >> +                       stats[id].shared +=3D sz;
-> >> +       }
-> >> +
-> >> +       /* Attribute other categories to only the current region. */
-> >> +       mr =3D obj->mm.region;
-> >> +       if (mr)
-> >> +               id =3D mr->id;
-> >> +       else
-> >> +               id =3D INTEL_REGION_SMEM;
-> >> +
-> >> +       if (!i915_gem_object_has_pages(obj))
-> >> +               return;
-> >> +
-> >> +       stats[id].resident +=3D sz;
-> >> +
-> >> +       if (!dma_resv_test_signaled(obj->base.resv, dma_resv_usage_rw(=
-true)))
-> >> +               stats[id].active +=3D sz;
-> >> +       else if (i915_gem_object_is_shrinkable(obj) &&
-> >> +               obj->mm.madv =3D=3D I915_MADV_DONTNEED)
-> >> +               stats[id].purgeable +=3D sz;
-> >> +}
-> >> +
-> >> +void
-> >> +i915_query_fdinfo_memory_stats(struct drm_file *file,
-> >> +                              struct drm_fdinfo_memory_stat *stats)
-> >> +{
-> >> +       struct drm_i915_file_private *file_priv =3D file->driver_priv;
-> >> +       struct i915_drm_client *client =3D file_priv->client;
-> >> +       struct drm_gem_object *drm_obj;
-> >> +       struct i915_gem_context *ctx;
-> >> +       int id;
-> >> +
-> >> +       /*
-> >> +        * FIXME - we can do this better and in fewer passes if we are=
- to start
-> >> +        * exporting proper memory stats.
-> >> +        */
-> >> +
-> >> +       /* User created objects */
-> >> +       spin_lock(&file->table_lock);
-> >> +       idr_for_each_entry(&file->object_idr, drm_obj, id)
-> >> +               add_obj(to_intel_bo(drm_obj), stats);
-> >> +       spin_unlock(&file->table_lock);
-> >> +
-> >> +       /* Contexts, rings, timelines, page tables, ... */
-> >> +       rcu_read_lock();
-> >> +       list_for_each_entry_rcu(ctx, &client->ctx_list, client_link) {
-> >> +               struct i915_gem_engines_iter it;
-> >> +               struct intel_context *ce;
-> >> +
-> >> +               for_each_gem_engine(ce, rcu_dereference(ctx->engines),=
- it) {
-> >> +                       /* FIXME races?! */
-> >> +                       if (ce->state)
-> >> +                               add_obj(ce->state->obj, stats);
-> >> +                       if (ce->timeline && ce->timeline->hwsp_ggtt)
-> >> +                               add_obj(ce->timeline->hwsp_ggtt->obj, =
-stats);
-> >> +                       if (ce->ring && ce->ring->vma)
-> >> +                               add_obj(ce->ring->vma->obj, stats);
-> >> +               }
-> >> +
-> >> +               /* TODO  vtx->vm page table backing objects */
-> >> +       }
-> >> +       rcu_read_unlock();
-> >> +}
-> >> +
-> >>   #endif
-> >> diff --git a/drivers/gpu/drm/i915/i915_drm_client.h b/drivers/gpu/drm/=
-i915/i915_drm_client.h
-> >> index 4c18b99e10a4..622936c51903 100644
-> >> --- a/drivers/gpu/drm/i915/i915_drm_client.h
-> >> +++ b/drivers/gpu/drm/i915/i915_drm_client.h
-> >> @@ -14,7 +14,10 @@
+> >
+> > BR,
+> > -R
+> >
+> >> Indeed that one hardcodes:
 > >>
-> >>   #define I915_LAST_UABI_ENGINE_CLASS I915_ENGINE_CLASS_COMPUTE
+> >>     static const char drm_amdgpu_vram[] =3D "drm-memory-vram";
 > >>
-> >> +struct drm_device;
-> >>   struct drm_file;
-> >> +struct drm_fdinfo_memory_stat;
-> >> +struct drm_gem_object;
-> >>   struct drm_printer;
+> >> And does brute strcmp on it:
 > >>
-> >>   struct i915_drm_client {
-> >> @@ -49,6 +52,11 @@ struct i915_drm_client *i915_drm_client_alloc(void)=
-;
+> >>     } else if (!strcmp(key, drm_amdgpu_vram_old) || !strcmp(key, drm_a=
+mdgpu_vram)) {
 > >>
-> >>   #ifdef CONFIG_PROC_FS
-> >>   void i915_drm_client_fdinfo(struct drm_printer *p, struct drm_file *=
-file);
-> >> +
-> >> +char **i915_query_fdinfo_memory_regions(struct drm_device *dev,
-> >> +                                       unsigned int *num);
-> >> +void i915_query_fdinfo_memory_stats(struct drm_file *file,
-> >> +                                   struct drm_fdinfo_memory_stat *sta=
-ts);
-> >>   #endif
+> >> So okay for that one, if we need to keep it working I just change this=
+ in my RFC:
 > >>
-> >>   #endif /* !__I915_DRM_CLIENT_H__ */
-> >> diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i9=
-15_drv.h
-> >> index eb739fb9cdbb..b84d2f0ed2cb 100644
-> >> --- a/drivers/gpu/drm/i915/i915_drv.h
-> >> +++ b/drivers/gpu/drm/i915/i915_drv.h
-> >> @@ -161,6 +161,8 @@ struct i915_gem_mm {
+> >> """
+> >> Resident category is identical to the drm-memory-<str> key and two sho=
+uld be
+> >> mutually exclusive.
+> >> """
 > >>
-> >>          struct intel_memory_region *regions[INTEL_REGION_UNKNOWN];
+> >> Into this:
 > >>
-> >> +       char *region_names[INTEL_REGION_UNKNOWN];
-> >> +
-> >>          struct notifier_block oom_notifier;
-> >>          struct notifier_block vmap_notifier;
-> >>          struct shrinker shrinker;
-> >> --
-> >> 2.37.2
+> >> """
+> >> Resident category is identical to the drm-memory-<str> key and where t=
+he categorized one is present the legacy one must be too in order to preser=
+ve backward compatibility.
+> >> """
 > >>
+> >> Addition to my RFC:
+> >>
+> >> ...
+> >>          for (i =3D 0; i < num; i++) {
+> >>                  if (!regions[i]) /* Allow sparse name arrays. */
+> >>                          continue;
+> >>
+> >>                  print_stat(p, "size", regions[i], stats[i].size);
+> >>                  print_stat(p, "shared", regions[i], stats[i].shared);
+> >> +               print_stat(p, "", regions[i], stats[i].resident);
+> >>                  print_stat(p, "resident", regions[i], stats[i].reside=
+nt);
+> >>                  print_stat(p, "purgeable", regions[i], stats[i].purge=
+able);
+> >>                  print_stat(p, "active", regions[i], stats[i].active);
+> >>          }
+> >> ...
+> >>
+> >> Results in output like this (in theory, if/when amdgpu takes on the ex=
+tended format):
+> >>
+> >> drm-memory-vram-size: ... KiB
+> >> drm-memory-vram: $same KiB
+> >> drm-memory-vram-resident: $same KiB
+> >> drm-memory-vram-...:
+> >>
+> >> Regards,
+> >>
+> >> Tvrtko
+> >>
+> >> P.S. Would a slash instead of a caret be prettier?
+> >>
+> >>>> What tool barfs on it and how? Spirit of drm-usage-stats.pl is that =
+for
+> >>>> both drm-engine-<str>: and drm-memory-<str>: generic userspace is
+> >>>> supposed to take the whole <std> as opaque and just enumerate all it=
+ finds.
+> >>>>
+> >>>> Gputop manages to do that with engines names it knows _nothing_ abou=
+t.
+> >>>> If it worked with memory regions it would just show the list of new
+> >>>> regions as for example "system^resident", "system^active". Then tool=
+s
+> >>>> can be extended to understand it better and provide a sub-breakdown =
+if
+> >>>> wanted.
+> >>>>
+> >>>> Ugly not, we can change from caret to something nicer, unless I am
+> >>>> missing something it works, no?
+> >>>>
+> >>>> Regards,
+> >>>>
+> >>>> Tvrtko
+> >>>>
+> >>>>>
+> >>>>> (also, it is IMHO rather ugly)
+> >>>>>
+> >>>>> BR,
+> >>>>> -R
+> >>>>>
+> >>>>>>     - All keys shall be prefixed with `drm-`.
+> >>>>>>     - Whitespace between the delimiter and first non-whitespace ch=
+aracter shall be
+> >>>>>>       ignored when parsing.
+> >>>>>> @@ -105,6 +106,17 @@ object belong to this client, in the respecti=
+ve memory region.
+> >>>>>>     Default unit shall be bytes with optional unit specifiers of '=
+KiB' or 'MiB'
+> >>>>>>     indicating kibi- or mebi-bytes.
+> >>>>>>
+> >>>>>> +- drm-memory-<str>^size:      <uint> [KiB|MiB]
+> >>>>>> +- drm-memory-<str>^shared:    <uint> [KiB|MiB]
+> >>>>>> +- drm-memory-<str>^resident:  <uint> [KiB|MiB]
+> >>>>>> +- drm-memory-<str>^purgeable: <uint> [KiB|MiB]
+> >>>>>> +- drm-memory-<str>^active:    <uint> [KiB|MiB]
+> >>>>>> +
+> >>>>>> +Resident category is identical to the drm-memory-<str> key and tw=
+o should be
+> >>>>>> +mutually exclusive.
+> >>>>>> +
+> >>>>>> +TODO more description text...
+> >>>>>> +
+> >>>>>>     - drm-cycles-<str> <uint>
+> >>>>>>
+> >>>>>>     Engine identifier string must be the same as the one specified=
+ in the
+> >>>>>> diff --git a/drivers/gpu/drm/drm_file.c b/drivers/gpu/drm/drm_file=
+.c
+> >>>>>> index 37b4f76a5191..e202f79e816d 100644
+> >>>>>> --- a/drivers/gpu/drm/drm_file.c
+> >>>>>> +++ b/drivers/gpu/drm/drm_file.c
+> >>>>>> @@ -42,6 +42,7 @@
+> >>>>>>     #include <drm/drm_client.h>
+> >>>>>>     #include <drm/drm_drv.h>
+> >>>>>>     #include <drm/drm_file.h>
+> >>>>>> +#include <drm/drm_gem.h>
+> >>>>>>     #include <drm/drm_print.h>
+> >>>>>>
+> >>>>>>     #include "drm_crtc_internal.h"
+> >>>>>> @@ -871,6 +872,54 @@ void drm_send_event(struct drm_device *dev, s=
+truct drm_pending_event *e)
+> >>>>>>     }
+> >>>>>>     EXPORT_SYMBOL(drm_send_event);
+> >>>>>>
+> >>>>>> +static void
+> >>>>>> +print_stat(struct drm_printer *p, const char *stat, const char *r=
+egion, u64 sz)
+> >>>>>> +{
+> >>>>>> +       const char *units[] =3D {"", " KiB", " MiB"};
+> >>>>>> +       unsigned int u;
+> >>>>>> +
+> >>>>>> +       if (sz =3D=3D ~0ull) /* Not supported by the driver. */
+> >>>>>> +               return;
+> >>>>>> +
+> >>>>>> +       for (u =3D 0; u < ARRAY_SIZE(units) - 1; u++) {
+> >>>>>> +               if (sz < SZ_1K)
+> >>>>>> +                       break;
+> >>>>>> +               sz =3D div_u64(sz, SZ_1K);
+> >>>>>> +       }
+> >>>>>> +
+> >>>>>> +       drm_printf(p, "drm-memory-%s^%s:\t%llu%s\n",
+> >>>>>> +                  region, stat, sz, units[u]);
+> >>>>>> +}
+> >>>>>> +
+> >>>>>> +static void print_memory_stats(struct drm_printer *p, struct drm_=
+file *file)
+> >>>>>> +{
+> >>>>>> +       struct drm_device *dev =3D file->minor->dev;
+> >>>>>> +       struct drm_fdinfo_memory_stat *stats;
+> >>>>>> +       unsigned int num, i;
+> >>>>>> +       char **regions;
+> >>>>>> +
+> >>>>>> +       regions =3D dev->driver->query_fdinfo_memory_regions(dev, =
+&num);
+> >>>>>> +
+> >>>>>> +       stats =3D kcalloc(num, sizeof(*stats), GFP_KERNEL);
+> >>>>>> +       if (!stats)
+> >>>>>> +               return;
+> >>>>>> +
+> >>>>>> +       dev->driver->query_fdinfo_memory_stats(file, stats);
+> >>>>>> +
+> >>>>>> +       for (i =3D 0; i < num; i++) {
+> >>>>>> +               if (!regions[i]) /* Allow sparse name arrays. */
+> >>>>>> +                       continue;
+> >>>>>> +
+> >>>>>> +               print_stat(p, "size", regions[i], stats[i].size);
+> >>>>>> +               print_stat(p, "shared", regions[i], stats[i].share=
+d);
+> >>>>>> +               print_stat(p, "resident", regions[i], stats[i].res=
+ident);
+> >>>>>> +               print_stat(p, "purgeable", regions[i], stats[i].pu=
+rgeable);
+> >>>>>> +               print_stat(p, "active", regions[i], stats[i].activ=
+e);
+> >>>>>> +       }
+> >>>>>> +
+> >>>>>> +       kfree(stats);
+> >>>>>> +}
+> >>>>>> +
+> >>>>>>     /**
+> >>>>>>      * drm_show_fdinfo - helper for drm file fops
+> >>>>>>      * @seq_file: output stream
+> >>>>>> @@ -900,6 +949,9 @@ void drm_show_fdinfo(struct seq_file *m, struc=
+t file *f)
+> >>>>>>
+> >>>>>>            if (dev->driver->show_fdinfo)
+> >>>>>>                    dev->driver->show_fdinfo(&p, file);
+> >>>>>> +
+> >>>>>> +       if (dev->driver->query_fdinfo_memory_regions)
+> >>>>>> +               print_memory_stats(&p, file);
+> >>>>>>     }
+> >>>>>>     EXPORT_SYMBOL(drm_show_fdinfo);
+> >>>>>>
+> >>>>>> diff --git a/include/drm/drm_drv.h b/include/drm/drm_drv.h
+> >>>>>> index 89e2706cac56..ccc1cd98d2aa 100644
+> >>>>>> --- a/include/drm/drm_drv.h
+> >>>>>> +++ b/include/drm/drm_drv.h
+> >>>>>> @@ -35,6 +35,7 @@
+> >>>>>>     #include <drm/drm_device.h>
+> >>>>>>
+> >>>>>>     struct drm_file;
+> >>>>>> +struct drm_fdinfo_memory_stat;
+> >>>>>>     struct drm_gem_object;
+> >>>>>>     struct drm_master;
+> >>>>>>     struct drm_minor;
+> >>>>>> @@ -408,6 +409,12 @@ struct drm_driver {
+> >>>>>>             */
+> >>>>>>            void (*show_fdinfo)(struct drm_printer *p, struct drm_f=
+ile *f);
+> >>>>>>
+> >>>>>> +       char ** (*query_fdinfo_memory_regions)(struct drm_device *=
+dev,
+> >>>>>> +                                              unsigned int *num);
+> >>>>>> +
+> >>>>>> +       void (*query_fdinfo_memory_stats)(struct drm_file *f,
+> >>>>>> +                                         struct drm_fdinfo_memory=
+_stat *stat);
+> >>>>>> +
+> >>>>>>            /** @major: driver major number */
+> >>>>>>            int major;
+> >>>>>>            /** @minor: driver minor number */
+> >>>>>> diff --git a/include/drm/drm_file.h b/include/drm/drm_file.h
+> >>>>>> index 7d9b3c65cbc1..00d48beeac5c 100644
+> >>>>>> --- a/include/drm/drm_file.h
+> >>>>>> +++ b/include/drm/drm_file.h
+> >>>>>> @@ -375,6 +375,14 @@ struct drm_file {
+> >>>>>>     #endif
+> >>>>>>     };
+> >>>>>>
+> >>>>>> +struct drm_fdinfo_memory_stat {
+> >>>>>> +       u64 size;
+> >>>>>> +       u64 shared;
+> >>>>>> +       u64 resident;
+> >>>>>> +       u64 purgeable;
+> >>>>>> +       u64 active;
+> >>>>>> +};
+> >>>>>> +
+> >>>>>>     /**
+> >>>>>>      * drm_is_primary_client - is this an open file of the primary=
+ node
+> >>>>>>      * @file_priv: DRM file
+> >>>>>> --
+> >>>>>> 2.37.2
+> >>>>>>
