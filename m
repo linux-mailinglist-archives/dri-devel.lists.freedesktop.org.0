@@ -1,42 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB7646E5BA4
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Apr 2023 10:09:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B1AF66E5BAA
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Apr 2023 10:09:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 121C110E6CD;
-	Tue, 18 Apr 2023 08:09:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B19E810E6EE;
+	Tue, 18 Apr 2023 08:09:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 60D6910E6CD
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Apr 2023 08:09:17 +0000 (UTC)
-Received: from pendragon.ideasonboard.com
- (133-32-181-51.west.xps.vectant.ne.jp [133.32.181.51])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 967E6802;
- Tue, 18 Apr 2023 10:09:09 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1681805350;
- bh=NuC002o01Die+SqNlcXkQatYTWFiikr0m8g660PcWhM=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=fp6/1bosVgjbWXfJW+Rn8RnCehyQAXPszKmTtpnuCHdzOdhbEZatqNfhtgofoSCzu
- oGQWLf7+VpSRdNuL68fkrhFjaloPbB+WVjXxFCr2vhqHXRpegITiDIfLiJuJ2p5BQ0
- l+fOvytPYrXpmZ4GwSxjQCQx+NFj0wTKTvkWIQEo=
-Date: Tue, 18 Apr 2023 11:09:28 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Subject: Re: [PATCH v2 0/5] drm: shmobile: Fixes and enhancements
-Message-ID: <20230418080928.GA30837@pendragon.ideasonboard.com>
-References: <cover.1681734821.git.geert+renesas@glider.be>
- <20230418075000.GF4703@pendragon.ideasonboard.com>
- <CAMuHMdUqKCokNc-phYFoGKa0vFwCMDdy7RZ-kn6F8yqkvtfkfA@mail.gmail.com>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AA2E710E6EE
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Apr 2023 08:09:39 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 391E5627CA;
+ Tue, 18 Apr 2023 08:09:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D6F15C433EF;
+ Tue, 18 Apr 2023 08:09:34 +0000 (UTC)
+Message-ID: <5c649a34-90cb-d02b-2737-7c9a858c3faa@xs4all.nl>
+Date: Tue, 18 Apr 2023 10:09:33 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAMuHMdUqKCokNc-phYFoGKa0vFwCMDdy7RZ-kn6F8yqkvtfkfA@mail.gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH v5 14/20] staging: media: tegra-video: move MIPI
+ calibration calls from VI to CSI
+Content-Language: en-US
+To: Luca Ceresoli <luca.ceresoli@bootlin.com>
+References: <20230407133852.2850145-1-luca.ceresoli@bootlin.com>
+ <20230407133852.2850145-15-luca.ceresoli@bootlin.com>
+ <04e89fcc-87db-8677-daf9-48aa3cb61b8c@xs4all.nl>
+ <20230418100756.329305ca@booty>
+From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <20230418100756.329305ca@booty>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,47 +49,139 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, linux-renesas-soc@vger.kernel.org,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- dri-devel@lists.freedesktop.org
+Cc: devicetree@vger.kernel.org,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Richard Leitner <richard.leitner@skidata.com>,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+ Jonathan Hunter <jonathanh@nvidia.com>,
+ Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Sowjanya Komatineni <skomatineni@nvidia.com>, dri-devel@lists.freedesktop.org,
+ linux-tegra@vger.kernel.org, Dmitry Osipenko <digetx@gmail.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Geert,
-
-On Tue, Apr 18, 2023 at 10:00:35AM +0200, Geert Uytterhoeven wrote:
-> On Tue, Apr 18, 2023 at 9:49 AM Laurent Pinchart wrote:
-> > On Mon, Apr 17, 2023 at 03:40:20PM +0200, Geert Uytterhoeven wrote:
-> > > Currently, there are two drivers for the LCD controller on Renesas
-> > > SuperH-based and ARM-based SH-Mobile and R-Mobile SoCs:
-> > >   1. sh_mobile_lcdcfb, using the fbdev framework,
-> > >   2. shmob_drm, using the DRM framework.
-> > > However, only the former driver can be used, as all platform support
-> > > integrates the former.  None of these drivers support DT-based systems.
-> > >
-> > > This patch series is a first step to enable the SH-Mobile DRM driver for
-> > > Renesas ARM-based SH-Mobile and R-Mobile SoCs.  The next step planned is
-> > > to add DT support.
-> > >
-> > > Changes compared to v1:
-> > >   - Add Reviewed-by,
-> > >   - Drop dependency on ARM.
-> > >
-> > > This has been tested on the R-Mobile A1-based Atmark Techno
-> > > Armadillo-800-EVA development board, using a temporary
-> > > platform-enablement patch[1].
-> > >
-> > > Thanks for applying to drm-misc!
-> >
-> > Would you like to request drm-misc committer rights ? :-)
+On 18/04/2023 10:07, Luca Ceresoli wrote:
+> Hi Hans,
 > 
-> Don't the listed maintainers for drivers/gpu/drm/shmobile/ don't
-> have such access already?
+> On Fri, 14 Apr 2023 17:51:34 +0200
+> Hans Verkuil <hverkuil-cisco@xs4all.nl> wrote:
+> 
+>> Hi Luca,
+>>
+>> I just encountered an error in this patch, so I have rejected the PR I made.
+>>
+>> See below for the details:
+>>
+>> On 07/04/2023 15:38, Luca Ceresoli wrote:
+>>> The CSI module does not handle all the MIPI lane calibration procedure,
+>>> leaving a small part of it to the VI module. In doing this,
+>>> tegra_channel_enable_stream() (vi.c) manipulates the private data of the
+>>> upstream subdev casting it to struct 'tegra_csi_channel', which will be
+>>> wrong after introducing a VIP (parallel video input) channel.
+>>>
+>>> This prevents adding support for the VIP module.  It also breaks the
+>>> logical isolation between modules.
+>>>
+>>> Since the lane calibration requirement does not exist in the parallel input
+>>> module, moving the calibration function to a per-module op is not
+>>> optimal. Instead move the calibration procedure in the CSI module, together
+>>> with the rest of the calibration procedures. After this change,
+>>> tegra_channel_enable_stream() just calls v4l2_subdev_call() to ask for a
+>>> stream start/stop to the CSI module, which in turn knows all the
+>>> CSI-specific details to implement it.
+>>>
+>>> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+>>> Reviewed-by: Dmitry Osipenko <digetx@gmail.com>
+>>>
+>>> ---
+>>>
+>>> No changes in v5
+>>>
+>>> Changed in v4:
+>>>  - Added review tags
+>>>
+>>> No changes in v3
+>>> No changes in v2
+>>> ---
+>>>  drivers/staging/media/tegra-video/csi.c | 44 ++++++++++++++++++++
+>>>  drivers/staging/media/tegra-video/vi.c  | 54 ++-----------------------
+>>>  2 files changed, 48 insertions(+), 50 deletions(-)
+>>>
+>>> diff --git a/drivers/staging/media/tegra-video/csi.c b/drivers/staging/media/tegra-video/csi.c
+>>> index 9a03d5ccdf3c..b93fc879ef3a 100644
+>>> --- a/drivers/staging/media/tegra-video/csi.c
+>>> +++ b/drivers/staging/media/tegra-video/csi.c
+>>> @@ -328,12 +328,42 @@ static int tegra_csi_enable_stream(struct v4l2_subdev *subdev)
+>>>  	}
+>>>  
+>>>  	csi_chan->pg_mode = chan->pg_mode;
+>>> +
+>>> +	/*
+>>> +	 * Tegra CSI receiver can detect the first LP to HS transition.
+>>> +	 * So, start the CSI stream-on prior to sensor stream-on and
+>>> +	 * vice-versa for stream-off.
+>>> +	 */
+>>>  	ret = csi->ops->csi_start_streaming(csi_chan);
+>>>  	if (ret < 0)
+>>>  		goto finish_calibration;
+>>>  
+>>> +	if (csi_chan->mipi) {
+>>> +		struct v4l2_subdev *src_subdev;
+>>> +		/*
+>>> +		 * TRM has incorrectly documented to wait for done status from
+>>> +		 * calibration logic after CSI interface power on.
+>>> +		 * As per the design, calibration results are latched and applied
+>>> +		 * to the pads only when the link is in LP11 state which will happen
+>>> +		 * during the sensor stream-on.
+>>> +		 * CSI subdev stream-on triggers start of MIPI pads calibration.
+>>> +		 * Wait for calibration to finish here after sensor subdev stream-on.
+>>> +		 */
+>>> +		src_subdev = tegra_channel_get_remote_source_subdev(chan);
+>>> +		ret = v4l2_subdev_call(src_subdev, video, s_stream, true);
+>>> +		err = tegra_mipi_finish_calibration(csi_chan->mipi);
+>>> +
+>>> +		if (ret < 0 && ret != -ENOIOCTLCMD)
+>>> +			goto disable_csi_stream;  
+>>
+>> If there was an error from s_stream, then tegra_mipi_finish_calibration is called
+>> and it goes to disable_csi_stream...
+>>
+>>> +
+>>> +		if (err < 0)
+>>> +			dev_warn(csi->dev, "MIPI calibration failed: %d\n", err);
+>>> +	}
+>>> +
+>>>  	return 0;
+>>>  
+>>> +disable_csi_stream:
+>>> +	csi->ops->csi_stop_streaming(csi_chan);
+>>>  finish_calibration:
+>>>  	if (csi_chan->mipi)
+>>>  		tegra_mipi_finish_calibration(csi_chan->mipi);  
+>>
+>> ...but here tegra_mipi_finish_calibration() is called again, leading to an unlock
+>> imbalance.
+> 
+> Many thanks for your testing! Unfortunately I have no Tegra210 hardware
+> so this never happened here, but with your report the problem got
+> obvious and, luckily, the fix appeared to be just a oneliner.
+> 
+> v6 just sent! I'm wondering whether there is still hope to get this
+> 6.4...
 
-Actually, as you're taking over maintenance for this driver, would you
-send a patch to update MAINTAINERS ?
+Sorry, it's too late for 6.4 now. Only fixes can go in for 6.4.
 
--- 
 Regards,
 
-Laurent Pinchart
+	Hans
+
+> 
+> Best regards,
+> Luca
+> 
+
