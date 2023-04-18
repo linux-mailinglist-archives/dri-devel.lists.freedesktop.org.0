@@ -1,87 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 700866E8B28
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Apr 2023 09:15:14 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 000416E8B01
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Apr 2023 09:13:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BE28610EBD1;
-	Thu, 20 Apr 2023 07:15:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EC51D10EB84;
+	Thu, 20 Apr 2023 07:12:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com
- [IPv6:2a00:1450:4864:20::330])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 65EAD10E83D
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Apr 2023 18:11:20 +0000 (UTC)
-Received: by mail-wm1-x330.google.com with SMTP id
- a8-20020a05600c348800b003f17ddb04e3so236388wmq.2
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Apr 2023 11:11:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=freebox-fr.20221208.gappssmtp.com; s=20221208; t=1681841479; x=1684433479;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=GNLIbIkfDv+9349rG8wTY2HZ2mEpz3z6lx+72T5OpbY=;
- b=SUTeE+ozxQY5RhTCnjTwf3vRx8fch7xurY/TcHvAu3mvNTADJdpe04DhRsrbBXQUqe
- IW5NMdyiwDKQg6xbyZnXi2/jI6AfE450oll3yfEuSqowh3vgLAu8N2rbIrh8ETBv71Lr
- ZX1wXDk1J2+JxCKeDZayNPH7+ROzgquwXBi7tCBwk8CdnXs06GeZaj01b/PN1+nzXREH
- XMoE4qd9GbrjLG2Pkw7zE4V6W4/TUEcG/ThdniegBfyPwhqd/WyWs2NyhMr4kY1tvdTq
- /UUcAo9G65h+3NKUBY/VpgUiEsPNph5iPaivWo9/Kx6O5XgA2Oq94hCaOd/fW+eSVX4l
- Muzg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681841479; x=1684433479;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=GNLIbIkfDv+9349rG8wTY2HZ2mEpz3z6lx+72T5OpbY=;
- b=Wxa5ObPtWzo52Tkjez5JR3YW9VVJRO/Lc3mA0Oc2vs9E65jUI+R1Z4pefyM7aE92VJ
- 4+frNMlTi7PE3yzvvfothSnRPOvskyvbc6BO1YXfBdPMQrTWRPc5W4NOhJqbeMXpG+tS
- DsV/5Y5QKjxc6UvXqbRm03cBXbBG02neQLlgarUdMS4tpoImqoe+iodunbgfXNLQDvwT
- D3vdeO4FGP6UWsBIRXXL0GBUq94fajS1pE+uub6nenH90KmH8Mib1GOUu/C/Ue/Ehx5t
- dikB09Mq87LjWZGyltDx8hG+io1gIryzI8f+IgB2joUEzSRe4vsZ7xYmbMi08tCGGI+N
- hJxw==
-X-Gm-Message-State: AAQBX9cppomVYLY+Ak/hgPagbBTcLTBVsZ4MNsPa75c+XHKSS8oeGyH0
- +1DdgpUe2cbV5k9ZxbgD5ba+
-X-Google-Smtp-Source: AKy350Y5K0w4P5Hu/xmAlBYeiNvJQgzuQzVozBZ6pzBvgykN4f1OfOXSepZHQfDqZzGBeqIzYvE8iQ==
-X-Received: by 2002:a05:600c:378b:b0:3f1:7aff:e14a with SMTP id
- o11-20020a05600c378b00b003f17affe14amr1848693wmr.39.1681841478783; 
- Tue, 18 Apr 2023 11:11:18 -0700 (PDT)
-Received: from [127.0.1.1] (freebox.vlq16.iliad.fr. [213.36.7.13])
- by smtp.gmail.com with ESMTPSA id
- r17-20020a5d4e51000000b002f01e181c4asm13727898wrt.5.2023.04.18.11.11.18
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 18 Apr 2023 11:11:18 -0700 (PDT)
-From: Arnaud Vrac <avrac@freebox.fr>
-Date: Tue, 18 Apr 2023 20:10:46 +0200
-Subject: [PATCH 4/4] arm64: dts: qcom: msm8998: add hdmi cec pinctrl nodes
-MIME-Version: 1.0
+Received: from mail-out.aladdin-rd.ru (mail-out.aladdin-rd.ru [91.199.251.16])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D22D810E813;
+ Tue, 18 Apr 2023 18:13:06 +0000 (UTC)
+From: Daniil Dulov <D.Dulov@aladdin.ru>
+To: Andi Shyti <andi.shyti@linux.intel.com>
+Subject: Re: [PATCH] drm/amdkfd: Fix potential deallocation of previously
+ deallocated memory.
+Thread-Topic: [PATCH] drm/amdkfd: Fix potential deallocation of previously
+ deallocated memory.
+Thread-Index: AQHZccLCArZBbSPlkkChgaoDf69fTK8wjvMAgAAWVoCAAHM/AIAADGSAgAA6UR8=
+Date: Tue, 18 Apr 2023 18:12:48 +0000
+Message-ID: <PR3P193MB052467DAA1F33E3C7A128F6EF19D9@PR3P193MB0524.EURP193.PROD.OUTLOOK.COM>
+References: <20230418065521.453001-1-d.dulov@aladdin.ru>
+ <ZD5ZFoEk92MNQpqD@ashyti-mobl2.lan>
+ <d41669a1-9e18-defb-d0cc-d43d7be7d23e@kernel.org>
+ <ZD7MgL619KVYKeTV@ashyti-mobl2.lan>,<ZD7W5aaslOXLg707@ashyti-mobl2.lan>
+In-Reply-To: <ZD7W5aaslOXLg707@ashyti-mobl2.lan>
+Accept-Language: ru-RU, en-US
+Content-Language: ru-RU
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20230418-msm8998-hdmi-cec-v1-4-176479fb2fce@freebox.fr>
-References: <20230418-msm8998-hdmi-cec-v1-0-176479fb2fce@freebox.fr>
-In-Reply-To: <20230418-msm8998-hdmi-cec-v1-0-176479fb2fce@freebox.fr>
-To: Rob Clark <robdclark@gmail.com>, Hans Verkuil <hverkuil-cisco@xs4all.nl>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, 
- Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
- Konrad Dybcio <konrad.dybcio@linaro.org>, Rob Herring <robh+dt@kernel.org>, 
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-X-Mailer: b4 0.12.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=951; i=avrac@freebox.fr;
- h=from:subject:message-id; bh=fhrPgtytI/VRf0IiIxFCjsL95vuhTLfx4rQMFZjeLTM=;
- b=owEBbQKS/ZANAwAIAXED/9m7NDSrAcsmYgBkPt1CWxkNDZ9xyVgrYUSeHM9gk5iCCYafwuF5k
- Ek74p4mhkuJAjMEAAEIAB0WIQSUwb/ndwkXHdZ/QQZxA//ZuzQ0qwUCZD7dQgAKCRBxA//ZuzQ0
- qxTREACDQikHrhslKZwbsvjGDHuH/n8bR1jRpYMGyyM42c2rXK72uLu+mE2oinXZKGo4ge4GyFs
- Vs10d4qYZ+ai2tO0sPWS3VqfH+aV3EUa/45uSnINhdHDCix1v55ns/ct7OIrhqze65zXnFWjBn4
- rIpTwZZD8ptnfu3PD75W/4ednMa5qv4Cq5A+6iTWTDb4SoXJozQhASgIg6s8rw01fkBNnn8Tj3J
- ZTxhXe425Um/gVIvv9kIY22q+WbFunBHcVCgaNn2KxKENqjrr85J+lTHp1/Q7f5GxEE9zAQdmlR
- OO8OQoaWgPrTFdbm0Nif9zIBKJSwhcqUWEkYnwqGQozK+XTvpBH1lAOzw0jmP0yoq2/O1gtPQGK
- 8O3MgBGaAjW5WmijllyFMueqo/jxNdQY6CKTwECS0qAt5mhQR+DJHeUNjxQnP/Zco32SE1l+iV9
- gFP2eJe54nL1JTRpGIFwaQtggunIoXcQ6gHIq7+J+G8wDLYQWXgDPEHFrWLRKhgxRJAKYmjefZj
- +zA8frDDKGIihpD46oo0E2Rl5E/CXKB0c8RBPup1sCCjUYsbzucmyn80FAX+c+O5L1QRAKkeM4P
- /6hS1LEt3R4s5hLh04mmfmoNM9eoA+6hSHyyotiVLyOlGnbSji/sVGQiAx80aQvNaMaNqS1Sh3h
- QBWinVFanysKJWw==
-X-Developer-Key: i=avrac@freebox.fr; a=openpgp;
- fpr=6225092072BB58E3CEEC091E75392A176D952DB4
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
 X-Mailman-Approved-At: Thu, 20 Apr 2023 07:12:56 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -95,46 +46,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Arnaud Vrac <avrac@freebox.fr>,
- freedreno@lists.freedesktop.org, linux-media@vger.kernel.org
+Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "lvc-project@linuxtesting.org" <lvc-project@linuxtesting.org>,
+ David Airlie <airlied@linux.ie>, Felix Kuehling <Felix.Kuehling@amd.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
+ Oak Zeng <oak.zeng@intel.com>, Krzysztof Kozlowski <krzk@kernel.org>, Alex
+ Deucher <alexander.deucher@amd.com>,
+ =?utf-8?B?Q2hyaXN0aWFuIEvDtm5pZw==?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-HDMI is not enabled yet on msm8998 so the pinctrl nodes are not
-used.
-
-Signed-off-by: Arnaud Vrac <avrac@freebox.fr>
----
- arch/arm64/boot/dts/qcom/msm8998.dtsi | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
-
-diff --git a/arch/arm64/boot/dts/qcom/msm8998.dtsi b/arch/arm64/boot/dts/qcom/msm8998.dtsi
-index b150437a83558..fb4aa376ef117 100644
---- a/arch/arm64/boot/dts/qcom/msm8998.dtsi
-+++ b/arch/arm64/boot/dts/qcom/msm8998.dtsi
-@@ -1312,6 +1312,20 @@ blsp2_i2c6_sleep: blsp2-i2c6-sleep-state {
- 				drive-strength = <2>;
- 				bias-pull-up;
- 			};
-+
-+			hdmi_cec_default: hdmi-cec-default-state {
-+				pins = "gpio31";
-+				function = "hdmi_cec";
-+				drive-strength = <2>;
-+				bias-pull-up;
-+			};
-+
-+			hdmi_cec_sleep: hdmi-cec-sleep-state {
-+				pins = "gpio31";
-+				function = "hdmi_cec";
-+				drive-strength = <2>;
-+				bias-pull-up;
-+			};
- 		};
- 
- 		remoteproc_mss: remoteproc@4080000 {
-
--- 
-2.40.0
-
+VGhhbmsgeW91IGZvciB5b3VyIGZlZWRiYWNrISBJIHdpbGwgZG8gaXQgYXMgc29vbiBhcyBwb3Nz
+aWJsZS4NCg0KRGFuaWlsDQoNCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fDQrQntGC
+OiBBbmRpIFNoeXRpIDxhbmRpLnNoeXRpQGxpbnV4LmludGVsLmNvbT4NCtCe0YLQv9GA0LDQstC7
+0LXQvdC+OiDQstGC0L7RgNC90LjQuiwgMTgg0LDQv9GA0LXQu9GPIDIwMjMg0LMuLCAyMDo0NA0K
+0JrQvtC80YM6IEFuZGkgU2h5dGkgPGFuZGkuc2h5dGlAbGludXguaW50ZWwuY29tPg0K0JrQvtC/
+0LjRjzogS3J6eXN6dG9mIEtvemxvd3NraSA8a3J6a0BrZXJuZWwub3JnPjsgRGFuaWlsIER1bG92
+IDxELkR1bG92QGFsYWRkaW4ucnU+OyBGZWxpeCBLdWVobGluZyA8RmVsaXguS3VlaGxpbmdAYW1k
+LmNvbT47IGx2Yy1wcm9qZWN0QGxpbnV4dGVzdGluZy5vcmcgPGx2Yy1wcm9qZWN0QGxpbnV4dGVz
+dGluZy5vcmc+OyBEYXZpZCBBaXJsaWUgPGFpcmxpZWRAbGludXguaWU+OyBsaW51eC1rZXJuZWxA
+dmdlci5rZXJuZWwub3JnIDxsaW51eC1rZXJuZWxAdmdlci5rZXJuZWwub3JnPjsgYW1kLWdmeEBs
+aXN0cy5mcmVlZGVza3RvcC5vcmcgPGFtZC1nZnhAbGlzdHMuZnJlZWRlc2t0b3Aub3JnPjsgZHJp
+LWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZyA8ZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9w
+Lm9yZz47IEFsZXggRGV1Y2hlciA8YWxleGFuZGVyLmRldWNoZXJAYW1kLmNvbT47IE9hayBaZW5n
+IDxvYWsuemVuZ0BpbnRlbC5jb20+OyBDaHJpc3RpYW4gS8O2bmlnIDxjaHJpc3RpYW4ua29lbmln
+QGFtZC5jb20+DQrQotC10LzQsDogUmU6IFtQQVRDSF0gZHJtL2FtZGtmZDogRml4IHBvdGVudGlh
+bCBkZWFsbG9jYXRpb24gb2YgcHJldmlvdXNseSBkZWFsbG9jYXRlZCBtZW1vcnkuDQoNCj4gRGFu
+aWlsIHdpbGwgeW91IGxvb2sgaW50byB0aGlzPw0KDQphbmQsIGJlY2F1c2UgdGhpcyBpcyBhIGJ1
+ZyBmaXgsIGlmIHlvdSBkbyB3YW50IHRvIHNlbmQgYSByZWFsDQpmaXgsIHBsYXNlIGFkZCB0byB0
+aGUgY29tbWl0IG1lc3NhZ2U6DQoNCkZpeGVzOiBkMWY4ZjBkMTdkNDAgKCJkcm0vYW1ka2ZkOiBN
+b3ZlIG5vbi1zZG1hIG1xZCBhbGxvY2F0aW9uIG91dCBvZiBpbml0X21xZCIpDQpDYzogT2FrIFpl
+bmcgPG9hay56ZW5nQGludGVsLmNvbT4NCkNjOiA8c3RhYmxlQHZnZXIua2VybmVsLm9yZz4gIyB2
+NS4zKw0KDQpBbmRpDQoNClBTOiBwbGVhc2Ugbm90ZSB0aGF0IE9haydzIGUtbWFpbCBoYXMgY2hh
+bmdlZC4NCg0K
