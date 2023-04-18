@@ -1,65 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CC486E5AA6
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Apr 2023 09:45:06 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 03B986E5AB4
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Apr 2023 09:46:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8F77510E6AA;
-	Tue, 18 Apr 2023 07:45:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2555410E6BA;
+	Tue, 18 Apr 2023 07:45:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B679110E6AA
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Apr 2023 07:45:01 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 1CEA11F8D5;
- Tue, 18 Apr 2023 07:45:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1681803900; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=k4kCGiDu7eZCY2kHWyBi9arEU5jU+OwaWl9LlmgBgTo=;
- b=01AbIdbC2ZN0fhxv/iYxLgj8ciDX6tD9uCd3cIhELGAw4YSRK9w6/GGAiuAaLtZg7KlYip
- UPvsdBcpWNtNJ71zbqUvLKTD1lA83nSqPPrphOIt3mJsfodK1zfwzqX4BEKAaXkUnOToit
- aPED/mfiOl6WMMIYqzVnNBr0VoJ5y+A=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1681803900;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=k4kCGiDu7eZCY2kHWyBi9arEU5jU+OwaWl9LlmgBgTo=;
- b=Rmm87b7uMzS061Xyb6C7LuYQh7WlZOBtlpx0lMkwJOlh/1UTUlnJfZxcIJZTcTRQYKl8ZJ
- E719xeledovycCBA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id B324C139CC;
- Tue, 18 Apr 2023 07:44:59 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id lXeyKntKPmTxagAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Tue, 18 Apr 2023 07:44:59 +0000
-Message-ID: <5fa98536-a4b0-7b71-7342-9ba05158062f@suse.de>
-Date: Tue, 18 Apr 2023 09:44:59 +0200
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E3BC910E6BA
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Apr 2023 07:45:56 +0000 (UTC)
+Received: from pendragon.ideasonboard.com
+ (133-32-181-51.west.xps.vectant.ne.jp [133.32.181.51])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id AC6D7802;
+ Tue, 18 Apr 2023 09:45:47 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1681803948;
+ bh=WXMqNLcsMzBdrCjOVU5w+1j2mj02wBkgJYuHzWk/1D4=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=fzNEKPtbSmPORakCx1oG+/uQWTelnSYg29fmE1KU+0dGA+AXDDnieD3kn+f3xLFJf
+ MSoilFG1a3qC6p9dvTB2bvYoCmSh1Bx1g+4FlC0ArX7nvJyUfb4yPy62IYl4q7of7L
+ rMljMSO+dEJBgDY6Joa3aPlOiY9/6rQyoAqRqUzM=
+Date: Tue, 18 Apr 2023 10:46:05 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: Re: [PATCH v2 1/5] drm: shmobile: Use %p4cc to print fourcc codes
+Message-ID: <20230418074605.GE4703@pendragon.ideasonboard.com>
+References: <cover.1681734821.git.geert+renesas@glider.be>
+ <71cbb983e0d6b153f5c4e0664b795421b34b10fb.1681734821.git.geert+renesas@glider.be>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH v3 00/19] arch: Consolidate <asm/fb.h>
-Content-Language: en-US
-To: Arnd Bergmann <arnd@arndb.de>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Helge Deller <deller@gmx.de>, Javier Martinez Canillas <javierm@redhat.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-References: <20230417125651.25126-1-tzimmermann@suse.de>
- <1641007d-7953-426a-a3de-ca9c90f6c5a9@app.fastmail.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <1641007d-7953-426a-a3de-ca9c90f6c5a9@app.fastmail.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------rFRj0NtGM3Zijx0xyHfeKvB1"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <71cbb983e0d6b153f5c4e0664b795421b34b10fb.1681734821.git.geert+renesas@glider.be>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,86 +47,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux-Arch <linux-arch@vger.kernel.org>, linux-fbdev@vger.kernel.org,
- linux-ia64@vger.kernel.org, linux-parisc@vger.kernel.org,
- linux-sh@vger.kernel.org, x86@kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-mips@vger.kernel.org,
- linux-m68k@lists.linux-m68k.org, loongarch@lists.linux.dev,
- sparclinux@vger.kernel.org, linux-snps-arc@lists.infradead.org,
- linuxppc-dev@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, linux-renesas-soc@vger.kernel.org,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------rFRj0NtGM3Zijx0xyHfeKvB1
-Content-Type: multipart/mixed; boundary="------------18o4xqtdrHnA7yRGq0Gjgi9D";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Arnd Bergmann <arnd@arndb.de>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Helge Deller <deller@gmx.de>, Javier Martinez Canillas <javierm@redhat.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Linux-Arch <linux-arch@vger.kernel.org>, linux-fbdev@vger.kernel.org,
- linux-ia64@vger.kernel.org, linux-parisc@vger.kernel.org,
- linux-sh@vger.kernel.org, x86@kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-mips@vger.kernel.org,
- linux-m68k@lists.linux-m68k.org, loongarch@lists.linux.dev,
- sparclinux@vger.kernel.org, linux-snps-arc@lists.infradead.org,
- linuxppc-dev@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org
-Message-ID: <5fa98536-a4b0-7b71-7342-9ba05158062f@suse.de>
-Subject: Re: [PATCH v3 00/19] arch: Consolidate <asm/fb.h>
-References: <20230417125651.25126-1-tzimmermann@suse.de>
- <1641007d-7953-426a-a3de-ca9c90f6c5a9@app.fastmail.com>
-In-Reply-To: <1641007d-7953-426a-a3de-ca9c90f6c5a9@app.fastmail.com>
+Hi Geert,
 
---------------18o4xqtdrHnA7yRGq0Gjgi9D
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+Thank you for the patch.
 
-SGkNCg0KQW0gMTcuMDQuMjMgdW0gMTY6MTIgc2NocmllYiBBcm5kIEJlcmdtYW5uOg0KPiBP
-biBNb24sIEFwciAxNywgMjAyMywgYXQgMTQ6NTYsIFRob21hcyBaaW1tZXJtYW5uIHdyb3Rl
-Og0KPj4gVmFyaW91cyBhcmNoaXRlY3R1cmVzIHByb3ZpZGUgPGFzbS9mYi5oPiB3aXRoIGhl
-bHBlcnMgZm9yIGZiZGV2DQo+PiBmcmFtZWJ1ZmZlciBkZXZpY2VzLiBTaGFyZSB0aGUgY29u
-dGFpbmVkIGNvZGUgd2hlcmUgcG9zc2libGUuIFRoZXJlDQo+PiBpcyBhbHJlYWR5IDxhc20t
-Z2VuZXJpYy9mYi5oPiwgd2hpY2ggaW1wbGVtZW50cyBnZW5lcmljIChhcyBpbg0KPj4gJ2Vt
-cHR5JykgZnVuY3Rpb25zIG9mIHRoZSBmYmRldiBoZWxwZXJzLiBUaGUgaGVhZGVyIHdhcyBh
-ZGRlZCBpbg0KPj4gY29tbWl0IGFhZmU0ZGJlZDBiZiAoImFzbS1nZW5lcmljOiBhZGQgZ2Vu
-ZXJpYyB2ZXJzaW9ucyBvZiBjb21tb24NCj4+IGhlYWRlcnMiKSwgYnV0IG5ldmVyIHVzZWQu
-DQo+Pg0KPj4gRWFjaCBwZXItYXJjaGl0ZWN0dXJlIGhlYWRlciBmaWxlIGRlY2xhcmVzIGFu
-ZC9vciBpbXBsZW1lbnRzIGZiZGV2DQo+PiBoZWxwZXJzIGFuZCBkZWZpbmVzIGEgcHJlcHJv
-Y2Vzc29yIHRva2VuIGZvciBlYWNoLiBUaGUgZ2VuZXJpYw0KPj4gaGVhZGVyIHRoZW4gcHJv
-dmlkZXMgdGhlIHJlbWFpbmluZyBoZWxwZXJzLiBJdCB3b3JrcyBsaWtlIHRoZSBJL08NCj4+
-IGhlbHBlcnMgaW4gPGFzbS9pby5oPi4NCj4gDQo+IExvb2tzIGFsbCBnb29kIHRvIG1lLA0K
-PiANCj4gQWNrZWQtYnk6IEFybmQgQmVyZ21hbm4gPGFybmRAYXJuZGIuZGU+DQoNClRoYW5r
-cyBhIGxvdC4gSSBrbm93IHRoYXQgSGVsZ2Ugd2FudHMgdG8gdGVzdCB0aGUgUEFSSVNDIGNo
-YW5nZXMsIHNvIA0KSSdsbCBrZWVwIHRoaXMgc2VyaWVzIHBlbmRpbmcgZm9yIGEgYml0IGxv
-bmdlci4gSSdkIGxpa2UgdG8gbWVyZ2UgdGhlIA0KcGF0Y2hlcyB0aHJvdWdoIHRoZSBEUk0g
-dHJlZSwgaWYgbm8gb25lIG9iamVjdHMuDQoNCkJlc3QgcmVnYXJkcw0KVGhvbWFzDQoNCj4g
-DQo+ICAgICAgIEFybmQNCg0KLS0gDQpUaG9tYXMgWmltbWVybWFubg0KR3JhcGhpY3MgRHJp
-dmVyIERldmVsb3Blcg0KU1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFueSBHbWJIDQpN
-YXhmZWxkc3RyLiA1LCA5MDQwOSBOw7xybmJlcmcsIEdlcm1hbnkNCihIUkIgMzY4MDksIEFH
-IE7DvHJuYmVyZykNCkdlc2Now6RmdHNmw7xocmVyOiBJdm8gVG90ZXYNCg==
+On Mon, Apr 17, 2023 at 03:40:21PM +0200, Geert Uytterhoeven wrote:
+> Replace the printing of hexadecimal fourcc format codes by
+> pretty-printed format names, using the "%p4cc" format specifier.
+> 
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
 
---------------18o4xqtdrHnA7yRGq0Gjgi9D--
+Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 
---------------rFRj0NtGM3Zijx0xyHfeKvB1
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+> ---
+> v2:
+>   - Add Reviewed-by.
+> ---
+>  drivers/gpu/drm/shmobile/shmob_drm_crtc.c | 4 ++--
+>  drivers/gpu/drm/shmobile/shmob_drm_kms.c  | 4 ++--
+>  2 files changed, 4 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/shmobile/shmob_drm_crtc.c b/drivers/gpu/drm/shmobile/shmob_drm_crtc.c
+> index d354ab3077cecf94..713a7612244c647a 100644
+> --- a/drivers/gpu/drm/shmobile/shmob_drm_crtc.c
+> +++ b/drivers/gpu/drm/shmobile/shmob_drm_crtc.c
+> @@ -355,8 +355,8 @@ static int shmob_drm_crtc_mode_set(struct drm_crtc *crtc,
+>  
+>  	format = shmob_drm_format_info(crtc->primary->fb->format->format);
+>  	if (format == NULL) {
+> -		dev_dbg(sdev->dev, "mode_set: unsupported format %08x\n",
+> -			crtc->primary->fb->format->format);
+> +		dev_dbg(sdev->dev, "mode_set: unsupported format %p4cc\n",
+> +			&crtc->primary->fb->format->format);
+>  		return -EINVAL;
+>  	}
+>  
+> diff --git a/drivers/gpu/drm/shmobile/shmob_drm_kms.c b/drivers/gpu/drm/shmobile/shmob_drm_kms.c
+> index 60a2c8d8a0d947d2..3c5fe3bc183c7c13 100644
+> --- a/drivers/gpu/drm/shmobile/shmob_drm_kms.c
+> +++ b/drivers/gpu/drm/shmobile/shmob_drm_kms.c
+> @@ -96,8 +96,8 @@ shmob_drm_fb_create(struct drm_device *dev, struct drm_file *file_priv,
+>  
+>  	format = shmob_drm_format_info(mode_cmd->pixel_format);
+>  	if (format == NULL) {
+> -		dev_dbg(dev->dev, "unsupported pixel format %08x\n",
+> -			mode_cmd->pixel_format);
+> +		dev_dbg(dev->dev, "unsupported pixel format %p4cc\n",
+> +			&mode_cmd->pixel_format);
+>  		return ERR_PTR(-EINVAL);
+>  	}
+>  
 
------BEGIN PGP SIGNATURE-----
+-- 
+Regards,
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmQ+SnsFAwAAAAAACgkQlh/E3EQov+Dd
-XQ//Zqe+Ke6gkghrBiUGQ20ACZc8VRAA3V1KtkJbElUAoQFaUum7w/yrlS81UEEJjoRMuX1FFcG+
-Rgbn5SQ/UepB6HwWPDfLlwvC4oUfNthoc8c95PMqnBG4qC6ln8pmzQf0Kh3KqcP7JSLUCZQ5hk0S
-UQ5o4XBTJvdwLDkcwaKIk8l4Up8BSKjx4CtpCLiplMu6raS6B2gHyKJ4Z5JRPPQBfR8XmfJKoBGA
-cJaPYTFMY4Nds0+lkFOgVFZeXpMuhIEt+jScoLwoDxb/2Ee+uaacWl7kCE2BQ8Hdhtm5Z18SDIUv
-oI7I2ASXRLCQbUMl+7R2paUr8KyYfV3f3FOq9KIfU0GiZP07CCLHEkojxcdp001KJV4Y8/u91nqe
-XPAjD+qEVK/Dqfe8J1nSZESRHsy3f30yr4kUhVBpZpeqdt205SA3Aa3z8Wa+bbk8vJ+7hqoc1pXp
-OAwdl1qf48I5AvxZiDdJ9d3lAJBhzEzStBvilwdb+hloJ1vlt/N7eG9d10qCSvEfHdMOma7ym+da
-0cHlXkncuXTzhVUj4UWbF/qWakRRElf7lGym4/Ns7gdxWb5/sHGmamxH8cT7lu16UXcGO6JyKi8J
-GT7X/bWqUKOYRFUujmWoafHadee1TGvLnPd3nI9GHLZ9WIH6fz8EopcK3bOx3WIBF3E/KBhrZYHH
-Nvk=
-=wq7p
------END PGP SIGNATURE-----
-
---------------rFRj0NtGM3Zijx0xyHfeKvB1--
+Laurent Pinchart
