@@ -1,60 +1,142 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 888146E5A57
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Apr 2023 09:24:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 81BA96E5887
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Apr 2023 07:27:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DB82510E692;
-	Tue, 18 Apr 2023 07:24:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0607310E689;
+	Tue, 18 Apr 2023 05:27:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com
- [IPv6:2a00:1450:4864:20::634])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 44E3710E058;
- Tue, 18 Apr 2023 03:55:20 +0000 (UTC)
-Received: by mail-ej1-x634.google.com with SMTP id xi5so69697872ejb.13;
- Mon, 17 Apr 2023 20:55:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1681790118; x=1684382118;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=36T7Hp056QeEJH2lh+GMwkGDCS5d5l14mFZqfH+91Zg=;
- b=hZZM0Z2C9de0nqIvxvT5Tz1Lmps2rWVwBsAYOaXya5i9GNyvQvx/PXMPCqP2A4TTnX
- DjVaEnFGU1UNawa83Vq7Jd+6CJ+dLB6+UEuR8MTjG7gljJtiABYIif0Fsu+dn/LaFi+U
- H/yFFbIQna8QZEuLwVDWizMYqUELm411kF9e39WAR+HsucxsprOclcjp8AwDyiPjyDRy
- IU4YVpRncILA69tQu+HQqDuxMBFbdECAiX9FX0HZC9uGmsbxHuxsSnF4+DTgZAqIa+8h
- FDmELuICHetx9yoO13o8jI4TSCHcDq6nbag7yCcX+kI6eDkGlsURvep2wE9f/4tKyhLp
- VeEQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681790118; x=1684382118;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=36T7Hp056QeEJH2lh+GMwkGDCS5d5l14mFZqfH+91Zg=;
- b=XKn8/BUW7mdRJuyZdzcOcnFjBlwuwd3QL8mciCB+NXre3SqlcgFafsVYWxW77vx43O
- JIR89rt85FUwVopu5TKlaLXUtcF394iKhMbATD6xtJZcU9QzbnpF4gDz6kIgV9TpOT0p
- rUx/2IO8BDNcCLJSsTEU5PdbUgGuxDZOg+ZDJsF/f1anE5QwaKkiXk4A/a/wNXJnSezy
- RC0HOkC1h3fU4zLFqULppH3J1/DufhO2YWFumEyWFwTIY1KBooFYYa05oJ7EBNARG/Rp
- osOF59jhx/VqKdjz+72/693qSgD/gDQtvdnSbiU0VBAIIBpglshIL61mOIaPNhpzIXxg
- JTfA==
-X-Gm-Message-State: AAQBX9dWy04ndpKFaLWKjkYgX3akhTXyNmJXPHXhi/tJ8pvweFzb7ULQ
- ixbFVk4TQFUYG1JYYMmNW3GBSnRqevYi2WPAVOo=
-X-Google-Smtp-Source: AKy350bQjvT3UoFvfePnJXM3eIotKyoWsx4SEPcBqBebKnx698HDh70Z5fhOok8dlXyQ+HN6zwcjy2vlCsL9vQUZAM8=
-X-Received: by 2002:a17:907:2129:b0:92b:6f92:7705 with SMTP id
- qo9-20020a170907212900b0092b6f927705mr11308197ejb.40.1681790118056; Mon, 17
- Apr 2023 20:55:18 -0700 (PDT)
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 30FB910E041;
+ Tue, 18 Apr 2023 05:27:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1681795645; x=1713331645;
+ h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=IZ0AzuvjhhdPgyp7i/0MNZchb8pOkhalz84gccsf1GY=;
+ b=PRlfxeccDoIDwVOHFUAazsQe7VLPNCGrvInRWt0KTWxJ8SkmlQqY7ExZ
+ 3PFTWJPq7QFlUmkNKdpICoSeQz0DsBE/QEtqZfaFcWquQUws1uDBSrtjn
+ krFlfJ4g3zhvCViXvF2ALUyNSKTjj9UppXdRAb59Ho6DIEEQOj1ZTixoA
+ W3wv6KxPFnzElu9YBdqo9DgEf0SBzrvGWB52tMso1s4DHil4fms2IiOPZ
+ t/rIIIppjDluXV4xt9yZZnVXn6ZRqr4zaK8KrSnAnX/s2uBW36eb8ADTv
+ cXQZTr0Ez0tzrvRaeZ+IdfQfoEGrIYEQ71ghq2TyPyyzgmcXTlU67fZka Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10683"; a="343831887"
+X-IronPort-AV: E=Sophos;i="5.99,206,1677571200"; d="scan'208";a="343831887"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Apr 2023 22:27:23 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10683"; a="723507772"
+X-IronPort-AV: E=Sophos;i="5.99,206,1677571200"; d="scan'208";a="723507772"
+Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
+ by orsmga001.jf.intel.com with ESMTP; 17 Apr 2023 22:27:23 -0700
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.23; Mon, 17 Apr 2023 22:27:23 -0700
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.23 via Frontend Transport; Mon, 17 Apr 2023 22:27:23 -0700
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.176)
+ by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.23; Mon, 17 Apr 2023 22:27:23 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Rz4P7/cZbQJMtkeZNEriFfCBYvUGOPWu8jp47KFPs6JXcQEok+/k6jT05WGHcz+vlaRDEXe+kEZSSy/RFhjeQx3gqzxOc2tNE34WUjG2Ym8RxJ4C72waQiNNU0YOVeZnJl734/uAftKqJSsOrcfD3xeg6z9X2qUaZ1pgJZAbpExJjbrTXxOkBs2p+c4MjYB5TYIzNDnQv8XP8pEXX5Pj15k9pRbvFuvwC9BqZUzyOpRdrXJ4soc+QxtI9j7279sJApEzzApHIprmv1n43II+ItkquQpK1fbvZyAYntVhRTmCp1jbjGvHiKljk4Hm24L6DMHJblDQVJebYnQ5mkOUKw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=J7Tkv3uuB5d6fH4k4dwQ6IP67oA7RMJoVXXzIT6C7Mo=;
+ b=AEAvW8iZT/O2W1gpffn3LTq3+1KGwdwYwKpt+afVjnCeWEKgk/oYi9GZQS+9hMk4X73h1v1A7a8wlWyXxaL+mDDTkxPTRyQX21DV39w/ZbTq8I7Tq8RTDQRu5c96hIufXGSb2w6PbjbzoOD+F1WyTIslJPsSDBD6UrT1PV+WNxoIsuBL5vZWvEX1h8mvkHA12PUPVyDmtDSQCXqoQcLlduySYuhXpeHFNuybLn738t2BswW6vLfGeJ9urgOg/DpXi9EhtAs80m8M2ZqOynMJ1uusQAZ5FH9/7CwG8ZWnRe4tJOhSDNntFPXB2ZghkJDA4AN3InQ53VhwO3mu/VlrSg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from SN7PR11MB6750.namprd11.prod.outlook.com (2603:10b6:806:266::21)
+ by MN2PR11MB4677.namprd11.prod.outlook.com (2603:10b6:208:24e::23)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6298.45; Tue, 18 Apr
+ 2023 05:27:18 +0000
+Received: from SN7PR11MB6750.namprd11.prod.outlook.com
+ ([fe80::3541:e31b:6f64:d993]) by SN7PR11MB6750.namprd11.prod.outlook.com
+ ([fe80::3541:e31b:6f64:d993%9]) with mapi id 15.20.6298.045; Tue, 18 Apr 2023
+ 05:27:18 +0000
+From: "Kandpal, Suraj" <suraj.kandpal@intel.com>
+To: Mark Yacoub <markyacoub@chromium.org>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, "Vivi, Rodrigo"
+ <rodrigo.vivi@intel.com>, Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Subject: RE: [PATCH v9 01/10] drm/hdcp: Add drm_hdcp_atomic_check()
+Thread-Topic: [PATCH v9 01/10] drm/hdcp: Add drm_hdcp_atomic_check()
+Thread-Index: AQHZbKrjPZ9kALUbhUy+kaVxTME/d68wkN2g
+Date: Tue, 18 Apr 2023 05:27:17 +0000
+Message-ID: <SN7PR11MB6750FAC866C29F298B1690F6E39D9@SN7PR11MB6750.namprd11.prod.outlook.com>
+References: <20230411192134.508113-1-markyacoub@google.com>
+ <20230411192134.508113-2-markyacoub@google.com>
+In-Reply-To: <20230411192134.508113-2-markyacoub@google.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SN7PR11MB6750:EE_|MN2PR11MB4677:EE_
+x-ms-office365-filtering-correlation-id: e8a6eedf-e01b-4871-ec01-08db3fcd938e
+x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: LnlfmJMoDoXkma3Vbiw5sxcmeRWi9MZaUgbnSURGqmDgZ5KdnuZcC86Cl55/yhLnFGYG9758NubodKW/wTw3f26zVtU2rXnPNs4XCdhQM3vX/16JLkUyzDuMuXKooEerhuGegewb6BxZYWv8kbIZMEk76u+RoAHci52FySZU6R9GJWeJh0vkPP0SYeVJ58xWoFPCPT/9rC3xlmKyYSKsCuhCwEAwAiO179YJLNfW7W9bavvX0rRGAr86vste6BT0DCUL0vTs4Kgt7OL+qcShVci3N9z6Y9s2NaPhEhRgAxvxYL14bjNaOQ45wDPV0v0j6ZmTNkRRj6am3VXTrLZljmUPFrrwATA8LV4I6xUbjwP32EZ5lMoqwJSPOFW7O6IplaJcLZe1kLqs/ohVoPL6B635MqJZ08qrMdnyv0rbTIJebK+BLcn1Qiqlc/lR1EguqgtlE7SJ1jwLYH55m2pSPqNGuAyPZLwSIksCkBy3kPN2rBz55xJwIvLAK8RtEKc39+n2XA/pE4wQChAnklWOLcSwZeCg5bgF75wbmhUCbYtHFy276+679JDhfLssRUHGs2qdCpDS+46BhsPEatxf1p9vp+d/OVNAX0j6QbwupS+aIKkpEiJhINaZTT0shU/z
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SN7PR11MB6750.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230028)(366004)(396003)(376002)(39860400002)(136003)(346002)(451199021)(54906003)(110136005)(55016003)(7696005)(71200400001)(478600001)(83380400001)(82960400001)(316002)(41300700001)(64756008)(4326008)(66556008)(186003)(66446008)(9686003)(6506007)(26005)(76116006)(66476007)(66946007)(5660300002)(7416002)(2906002)(8936002)(38100700002)(8676002)(38070700005)(122000001)(33656002)(86362001)(52536014);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?KgFgG54gMOHFx/v/pybB7eRDGnjlGq+5ThMnJkCKlmJKZMAP8KBio6wSfMkr?=
+ =?us-ascii?Q?PXNBsB66XYcW95llx07eFf3fC26nwNnRhD0qY1HnjQzBT7aB1yKYzXt41aNd?=
+ =?us-ascii?Q?WDD6OuO1lVElXLi/vgfw/D2n6AukaLSv7g3SGkOPYzUZsLlj0fYxtaSyzfCh?=
+ =?us-ascii?Q?9tWt/rGqJBzV+wslwTHMDXKwDfOrCCvmGNik/nr7hVJFc8fGXs4Bg6uA45iT?=
+ =?us-ascii?Q?v8TZqGjOD189Vns9DN29c5iQS1m47lXCyBW4LNgRltSccOIIcO3j1twoHgQ4?=
+ =?us-ascii?Q?QutKIsREcTOlMRLSo2X+y6Ma97hcgigFsc1O9eLUTT/n6wRdfQrHDdcXlTWA?=
+ =?us-ascii?Q?ujSui4NxPH6fWc7xb8cJAi6x1+zc7xBKG5VeF0gngNEfU80zVnqwLBRQGd0W?=
+ =?us-ascii?Q?Jld65ZZcAKlifnPHUyDmPhhXvQdZdgk+Rofek2NKaQCTtPSYu+38GYiDL0Ly?=
+ =?us-ascii?Q?6yiIauK+/9zUOwyN0bXahy4sATJCgb0n98fVhy2Sc0waUrYLaQJ5zfa8qA5Y?=
+ =?us-ascii?Q?2ot+HVJUfNuAYDI6QAn+8yBndc2N2qDl9az+qMYw7uACySzwpQyiyuERVOOZ?=
+ =?us-ascii?Q?l4Injl22lXX4QoZhtKkqFpRH9r39BKo2Nzbmh/KqgycrUqhFPf85IUDM2+vv?=
+ =?us-ascii?Q?hJ89cx1bs2wsq6lr0G4Y8PjXCawELZV6RZgX6ZmuQ7Xd7Pc8VovXvn+yzf6e?=
+ =?us-ascii?Q?/AEbIgwTj82IKg1wzFEJVDjN1/avZWS5/YL2y9n43Pf+ZuKsl6f1IA6dpXON?=
+ =?us-ascii?Q?Jx/NS8q6BwSY+MawTdQHovM8IvkcRHNukx///mPohVFrUozMPw9HVkFmmOe7?=
+ =?us-ascii?Q?dFNoPgx4LoME2P1Lz5LdAuBWmpiMsFPd8yjOGZKe6vq9Xxkag3zmnMPOnWRh?=
+ =?us-ascii?Q?8ACFQRBNMEWbLymtQZYR1tMSnBvPqd8K7JX5nJWfamBFLVbyU20He0jJdLuk?=
+ =?us-ascii?Q?cGYRgtnGKW4Phq4EC/hBdDyqqZgesbRd98hGa/TmMnc9d2cXXIkZWu3fWqdC?=
+ =?us-ascii?Q?7W9cMJlBc9or7VtpmPB+FfCDrAVoLAzhsJQ/k0a90odmKtqv6ZUbs4v+SEG3?=
+ =?us-ascii?Q?4Wxn6vB19elJ5ZS5a0PXcyDxEw/A7g1JXSJ4CCLetmOE3e4nybWHHRntY3Z7?=
+ =?us-ascii?Q?CLQrdlUgjDWGnBibT4ybOnutkUx+daCbwVSzSLr2nW9WeNxnfjBrQpDVi5G0?=
+ =?us-ascii?Q?ehFKzs0ZjJgKSLZl2Bd6K6QjJlTbv0VbwR67ue9QpiKNLt92OMSv/OKxlgCB?=
+ =?us-ascii?Q?w7B5/fQN104VRcl3qVs2QkwDjnyEbrU+nM25ZdbpYDZAlJxljXPLIwXMYx4e?=
+ =?us-ascii?Q?zu8WTNlv4zTAEfgkQBU+KPlFjVNjW9vWitEmH0QROevwzr8U8P28cAaMK4ha?=
+ =?us-ascii?Q?oOwgspo38gkjGlRAV19j4wAsiVYAkvgqUAW+bE/3mkYPKVfdI46s0MXTqQZN?=
+ =?us-ascii?Q?No8OLvSh4VQoeLowV47nFX/lBdmGuUTyd2oG3ANljaMusaao1udnVzfA5lrY?=
+ =?us-ascii?Q?M3KwYVbJADnXW8XLoC0NK7uBFQYOlhuLOs9BtHdemXc4z8TUOuRxg7yjpQ+s?=
+ =?us-ascii?Q?8/TYI+FeqMIg8bMjf04aIherewXOb92km2PThbLl?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-References: <CAF6NKdYeQKzCami4jVaSxqC04OJNJC_ySrJkaqsmE5r=puCEdQ@mail.gmail.com>
-In-Reply-To: <CAF6NKdYeQKzCami4jVaSxqC04OJNJC_ySrJkaqsmE5r=puCEdQ@mail.gmail.com>
-From: whitehat002 whitehat002 <hackyzh002@gmail.com>
-Date: Tue, 18 Apr 2023 11:55:05 +0800
-Message-ID: <CAF6NKdaFkH6WYMUPLPh2na47AqW1G-7m+3O3H4T7uCsSspx6MA@mail.gmail.com>
-Subject: Re: Integer overflow leads to uninitialization vulnerability in
- amdgpu_cs_parser_init
-To: Security Officers <security@kernel.org>
-Content-Type: multipart/alternative; boundary="00000000000092d49305f994462d"
-X-Mailman-Approved-At: Tue, 18 Apr 2023 07:24:20 +0000
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SN7PR11MB6750.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e8a6eedf-e01b-4871-ec01-08db3fcd938e
+X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Apr 2023 05:27:17.9118 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: JkgjKL3LrAPeQ/KpXwH+Zgfzx/Cr/+xssDGE2DSztT1987VS4u2FkfkKNTkDikJ+K+LWigEIidXcYJanuoB7Fw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR11MB4677
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,296 +149,286 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Xinhui.Pan@amd.com, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, sumit.semwal@linaro.org,
- linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
- "alexander.deucher@amd.com" <alexander.deucher@amd.com>,
- "christian.koenig@amd.com" <christian.koenig@amd.com>,
- linux-media@vger.kernel.org
+Cc: "Nikula, Jani" <jani.nikula@intel.com>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "dianders@chromium.org" <dianders@chromium.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "seanpaul@chromium.org" <seanpaul@chromium.org>,
+ "dmitry.baryshkov@linaro.org" <dmitry.baryshkov@linaro.org>,
+ "freedreno@lists.freedesktop.org" <freedreno@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---00000000000092d49305f994462d
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-Sorry, I found that the latest code function has become amdgpu_cs_pass1,
-and radeon_cs_parser_init has the same problem.And i will send the patch.
-
-whitehat002 whitehat002 <hackyzh002@gmail.com> =E4=BA=8E2023=E5=B9=B44=E6=
-=9C=8818=E6=97=A5=E5=91=A8=E4=BA=8C 11:39=E5=86=99=E9=81=93=EF=BC=9A
-
-> Hello,
->
-> I am going to file a security bug.
->
-> VULNERABILITY DETAILS
->
-> ioctl$AMDGPU_CS will call amdgpu_cs_ioctl which will call
-> amdgpu_cs_parser_init. The type of size is unsigned(4 bytes)[1]. And size
-> is assigned from p->chunks[i].length_dw[2] which is assigned from
-> user_chunk.length_dw[3], which type is __u32[4](4 bytes, under user
-> control). If size is 0x40000000, there will be an integer overflow, size
-> will be zero after size =3D sizeof(uint32_t)[5]. Although there is an
-> overflow check in kvmalloc_array[6], but it will just check size_t
-> overflow(8 bytes), so it will not notice this one. copy_from_user will no=
+Yacoub
+> <markyacoub@chromium.org>; linux-kernel@vger.kernel.org
+> Subject: [PATCH v9 01/10] drm/hdcp: Add drm_hdcp_atomic_check()
+>=20
+> From: Sean Paul <seanpaul@chromium.org>
+>=20
+> Move the hdcp atomic check from i915 to drm_hdcp so other drivers can use
+> it. No functional changes, just cleaned up some of the code when moving i=
 t
-> copy anything, if size is zero. So p->chunks[i].kdata will be filled with
-> the last time used data, because kvmalloc_array[6] is called without
-> __GFP_ZERO flag. Finally it will access the uninitialized data[7].
->
-> ```
-> struct drm_amdgpu_cs_chunk {
-> __u32 chunk_id;
-> __u32 length_dw; // [4]
-> __u64 chunk_data;
-> };
->
->
-> static int amdgpu_cs_parser_init(struct amdgpu_cs_parser *p, union
-> drm_amdgpu_cs *cs)
-> {
-> struct amdgpu_fpriv *fpriv =3D p->filp->driver_priv;
-> struct amdgpu_vm *vm =3D &fpriv->vm;
-> uint64_t *chunk_array_user;
-> uint64_t *chunk_array;
-> unsigned size, num_ibs =3D 0; // [1]
-> uint32_t uf_offset =3D 0;
-> int i;
-> int ret;
->
-> if (cs->in.num_chunks =3D=3D 0)
-> return -EINVAL;
->
-> chunk_array =3D kvmalloc_array(cs->in.num_chunks, sizeof(uint64_t),
-> GFP_KERNEL);
-> if (!chunk_array)
-> return -ENOMEM;
->
-> p->ctx =3D amdgpu_ctx_get(fpriv, cs->in.ctx_id);
-> if (!p->ctx) {
-> ret =3D -EINVAL;
-> goto free_chunk;
-> }
->
-> /* skip guilty context job */
-> if (atomic_read(&p->ctx->guilty) =3D=3D 1) {
-> ret =3D -ECANCELED;
-> goto free_chunk;
-> }
->
-> /* get chunks */
-> chunk_array_user =3D u64_to_user_ptr(cs->in.chunks);
-> if (copy_from_user(chunk_array, chunk_array_user,
->   sizeof(uint64_t)*cs->in.num_chunks)) {
-> ret =3D -EFAULT;
-> goto free_chunk;
-> }
->
-> p->nchunks =3D cs->in.num_chunks;
-> p->chunks =3D kvmalloc_array(p->nchunks, sizeof(struct amdgpu_cs_chunk),
->    GFP_KERNEL);
-> if (!p->chunks) {
-> ret =3D -ENOMEM;
-> goto free_chunk;
-> }
->
-> for (i =3D 0; i < p->nchunks; i++) {
-> struct drm_amdgpu_cs_chunk __user **chunk_ptr =3D NULL;
-> struct drm_amdgpu_cs_chunk user_chunk;
-> uint32_t __user *cdata;
->
-> chunk_ptr =3D u64_to_user_ptr(chunk_array[i]);
-> if (copy_from_user(&user_chunk, chunk_ptr,
->       sizeof(struct drm_amdgpu_cs_chunk))) {
-> ret =3D -EFAULT;
-> i--;
-> goto free_partial_kdata;
-> }
-> p->chunks[i].chunk_id =3D user_chunk.chunk_id;
-> p->chunks[i].length_dw =3D user_chunk.length_dw; // [3]
->
-> size =3D p->chunks[i].length_dw; // [2]
-> cdata =3D u64_to_user_ptr(user_chunk.chunk_data);
->
-> p->chunks[i].kdata =3D kvmalloc_array(size, sizeof(uint32_t), GFP_KERNEL)=
+> over.
+>=20
+> Acked-by: Jani Nikula <jani.nikula@intel.com>
+> Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
+> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> Signed-off-by: Sean Paul <seanpaul@chromium.org>
+> Signed-off-by: Mark Yacoub <markyacoub@chromium.org>
+>=20
+> ---
+> Changes in v2:
+> -None
+> Changes in v3:
+> -None
+> Changes in v4:
+> -None
+> Changes in v5:
+> -None
+> Changes in v6:
+> -Rebase: move helper from drm_hdcp.c to drm_hdcp_helper.c Changes in
+> v7:
+> -Removed links to patch from commit msg (Dmitry Baryshkov)
+>=20
+>  drivers/gpu/drm/display/drm_hdcp_helper.c   | 64
+> +++++++++++++++++++++
+>  drivers/gpu/drm/i915/display/intel_atomic.c |  4 +-
+>  drivers/gpu/drm/i915/display/intel_hdcp.c   | 47 ---------------
+>  drivers/gpu/drm/i915/display/intel_hdcp.h   |  3 -
+>  include/drm/display/drm_hdcp_helper.h       |  3 +
+>  5 files changed, 69 insertions(+), 52 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/display/drm_hdcp_helper.c
+> b/drivers/gpu/drm/display/drm_hdcp_helper.c
+> index e78999c72bd77..7ca390b3ea106 100644
+> --- a/drivers/gpu/drm/display/drm_hdcp_helper.c
+> +++ b/drivers/gpu/drm/display/drm_hdcp_helper.c
+> @@ -20,6 +20,7 @@
+>  #include <drm/drm_property.h>
+>  #include <drm/drm_mode_object.h>
+>  #include <drm/drm_connector.h>
+> +#include <drm/drm_atomic.h>
+>=20
+>  static inline void drm_hdcp_print_ksv(const u8 *ksv)  { @@ -419,3 +420,6=
+6
+> @@ void drm_hdcp_update_content_protection(struct drm_connector
+> *connector,
+>  				 dev-
+> >mode_config.content_protection_property);
+>  }
+>  EXPORT_SYMBOL(drm_hdcp_update_content_protection);
+> +
+> +/**
+> + * drm_hdcp_atomic_check - Helper for drivers to call during
+> +connector->atomic_check
+> + *
+> + * @state: pointer to the atomic state being checked
+> + * @connector: drm_connector on which content protection state needs an
+> +update
+> + *
+> + * This function can be used by display drivers to perform an atomic
+> +check on the
+> + * hdcp state elements. If hdcp state has changed, this function will
+> +set
+> + * mode_changed on the crtc driving the connector so it can update its
+> +hardware
+> + * to match the hdcp state.
+> + */
+> +void drm_hdcp_atomic_check(struct drm_connector *connector,
+> +			   struct drm_atomic_state *state)
+> +{
+> +	struct drm_connector_state *new_conn_state, *old_conn_state;
+> +	struct drm_crtc_state *new_crtc_state;
+> +	u64 old_hdcp, new_hdcp;
+> +
+> +	old_conn_state =3D drm_atomic_get_old_connector_state(state,
+> connector);
+> +	old_hdcp =3D old_conn_state->content_protection;
+> +
+> +	new_conn_state =3D drm_atomic_get_new_connector_state(state,
+> connector);
+> +	new_hdcp =3D new_conn_state->content_protection;
+> +
+
+Nit: Why not assign these as right when they are declared we would end up u=
+sing less lines
+
+> +	if (!new_conn_state->crtc) {
+> +		/*
+> +		 * If the connector is being disabled with CP enabled, mark it
+> +		 * desired so it's re-enabled when the connector is brought
+> back
+> +		 */
+> +		if (old_hdcp =3D=3D
+> DRM_MODE_CONTENT_PROTECTION_ENABLED)
+> +			new_conn_state->content_protection =3D
+> +
+> 	DRM_MODE_CONTENT_PROTECTION_DESIRED;
+> +		return;
+> +	}
+> +
+> +	new_crtc_state =3D
+> +		drm_atomic_get_new_crtc_state(state, new_conn_state-
+> >crtc);
+> +	if (drm_atomic_crtc_needs_modeset(new_crtc_state) &&
+> +	    (old_hdcp =3D=3D DRM_MODE_CONTENT_PROTECTION_ENABLED &&
+> +	     new_hdcp !=3D DRM_MODE_CONTENT_PROTECTION_UNDESIRED))
+> +		new_conn_state->content_protection =3D
+> +			DRM_MODE_CONTENT_PROTECTION_DESIRED;
+> +
+> +	/*
+> +	 * Nothing to do if content type is unchanged and one of:
+> +	 *  - state didn't change
+> +	 *  - HDCP was activated since the last commit
+> +	 *  - attempting to set to desired while already enabled
+> +	 */
+> +	if (old_hdcp =3D=3D new_hdcp ||
+> +	    (old_hdcp =3D=3D DRM_MODE_CONTENT_PROTECTION_DESIRED &&
+> +	     new_hdcp =3D=3D DRM_MODE_CONTENT_PROTECTION_ENABLED) ||
+> +	    (old_hdcp =3D=3D DRM_MODE_CONTENT_PROTECTION_ENABLED &&
+> +	     new_hdcp =3D=3D DRM_MODE_CONTENT_PROTECTION_DESIRED)) {
+> +		if (old_conn_state->hdcp_content_type =3D=3D
+> +		    new_conn_state->hdcp_content_type)
+> +			return;
+> +	}
+> +
+> +	new_crtc_state->mode_changed =3D true;
+> +}
+> +EXPORT_SYMBOL(drm_hdcp_atomic_check);
+> diff --git a/drivers/gpu/drm/i915/display/intel_atomic.c
+> b/drivers/gpu/drm/i915/display/intel_atomic.c
+> index a9a3f3715279d..e9d00b6a63d39 100644
+> --- a/drivers/gpu/drm/i915/display/intel_atomic.c
+> +++ b/drivers/gpu/drm/i915/display/intel_atomic.c
+> @@ -32,6 +32,7 @@
+>  #include <drm/drm_atomic.h>
+>  #include <drm/drm_atomic_helper.h>
+>  #include <drm/drm_fourcc.h>
+> +#include <drm/display/drm_hdcp_helper.h>
+>=20
+>  #include "i915_drv.h"
+>  #include "i915_reg.h"
+> @@ -39,7 +40,6 @@
+>  #include "intel_cdclk.h"
+>  #include "intel_display_types.h"
+>  #include "intel_global_state.h"
+> -#include "intel_hdcp.h"
+>  #include "intel_psr.h"
+>  #include "intel_fb.h"
+>  #include "skl_universal_plane.h"
+> @@ -124,7 +124,7 @@ int intel_digital_connector_atomic_check(struct
+> drm_connector *conn,
+>  		to_intel_digital_connector_state(old_state);
+>  	struct drm_crtc_state *crtc_state;
+>=20
+> -	intel_hdcp_atomic_check(conn, old_state, new_state);
+> +	drm_hdcp_atomic_check(conn, state);
+>=20
+>  	if (!new_state->crtc)
+>  		return 0;
+> diff --git a/drivers/gpu/drm/i915/display/intel_hdcp.c
+> b/drivers/gpu/drm/i915/display/intel_hdcp.c
+> index 6406fd487ee52..396d2cef000aa 100644
+> --- a/drivers/gpu/drm/i915/display/intel_hdcp.c
+> +++ b/drivers/gpu/drm/i915/display/intel_hdcp.c
+> @@ -2524,53 +2524,6 @@ void intel_hdcp_cleanup(struct intel_connector
+> *connector)
+>  	mutex_unlock(&hdcp->mutex);
+>  }
+>=20
+> -void intel_hdcp_atomic_check(struct drm_connector *connector,
+> -			     struct drm_connector_state *old_state,
+> -			     struct drm_connector_state *new_state)
+> -{
+> -	u64 old_cp =3D old_state->content_protection;
+> -	u64 new_cp =3D new_state->content_protection;
+> -	struct drm_crtc_state *crtc_state;
+> -
+> -	if (!new_state->crtc) {
+> -		/*
+> -		 * If the connector is being disabled with CP enabled, mark it
+> -		 * desired so it's re-enabled when the connector is brought
+> back
+> -		 */
+> -		if (old_cp =3D=3D
+> DRM_MODE_CONTENT_PROTECTION_ENABLED)
+> -			new_state->content_protection =3D
+> -
+> 	DRM_MODE_CONTENT_PROTECTION_DESIRED;
+> -		return;
+> -	}
+> -
+> -	crtc_state =3D drm_atomic_get_new_crtc_state(new_state->state,
+> -						   new_state->crtc);
+> -	/*
+> -	 * Fix the HDCP uapi content protection state in case of modeset.
+> -	 * FIXME: As per HDCP content protection property uapi doc, an
+> uevent()
+> -	 * need to be sent if there is transition from ENABLED->DESIRED.
+> -	 */
+> -	if (drm_atomic_crtc_needs_modeset(crtc_state) &&
+> -	    (old_cp =3D=3D DRM_MODE_CONTENT_PROTECTION_ENABLED &&
+> -	    new_cp !=3D DRM_MODE_CONTENT_PROTECTION_UNDESIRED))
+> -		new_state->content_protection =3D
+> -			DRM_MODE_CONTENT_PROTECTION_DESIRED;
+> -
+> -	/*
+> -	 * Nothing to do if the state didn't change, or HDCP was activated
+> since
+> -	 * the last commit. And also no change in hdcp content type.
+> -	 */
+> -	if (old_cp =3D=3D new_cp ||
+> -	    (old_cp =3D=3D DRM_MODE_CONTENT_PROTECTION_DESIRED &&
+> -	     new_cp =3D=3D DRM_MODE_CONTENT_PROTECTION_ENABLED)) {
+> -		if (old_state->hdcp_content_type =3D=3D
+> -				new_state->hdcp_content_type)
+> -			return;
+> -	}
+> -
+> -	crtc_state->mode_changed =3D true;
+> -}
+> -
+>  /* Handles the CP_IRQ raised from the DP HDCP sink */  void
+> intel_hdcp_handle_cp_irq(struct intel_connector *connector)  { diff --git
+> a/drivers/gpu/drm/i915/display/intel_hdcp.h
+> b/drivers/gpu/drm/i915/display/intel_hdcp.h
+> index 8f53b0c7fe5cf..7c5fd84a7b65a 100644
+> --- a/drivers/gpu/drm/i915/display/intel_hdcp.h
+> +++ b/drivers/gpu/drm/i915/display/intel_hdcp.h
+> @@ -22,9 +22,6 @@ struct intel_digital_port;  enum port;  enum transcoder=
 ;
-> // [6]
-> if (p->chunks[i].kdata =3D=3D NULL) {
-> ret =3D -ENOMEM;
-> i--;
-> goto free_partial_kdata;
-> }
-> size *=3D sizeof(uint32_t); // [5]
-> if (copy_from_user(p->chunks[i].kdata, cdata, size)) {
-> ret =3D -EFAULT;
-> goto free_partial_kdata;
-> }
->
-> switch (p->chunks[i].chunk_id) {
-> case AMDGPU_CHUNK_ID_IB:
-> ++num_ibs;
-> break;
->
-> case AMDGPU_CHUNK_ID_FENCE:
-> size =3D sizeof(struct drm_amdgpu_cs_chunk_fence);
-> if (p->chunks[i].length_dw * sizeof(uint32_t) < size) {
-> ret =3D -EINVAL;
-> goto free_partial_kdata;
-> }
->
-> ret =3D amdgpu_cs_user_fence_chunk(p, p->chunks[i].kdata, //[7]
-> &uf_offset);
-> if (ret)
-> goto free_partial_kdata;
->
-> break;
->
-> case AMDGPU_CHUNK_ID_BO_HANDLES:
-> size =3D sizeof(struct drm_amdgpu_bo_list_in);
-> if (p->chunks[i].length_dw * sizeof(uint32_t) < size) {
-> ret =3D -EINVAL;
-> goto free_partial_kdata;
-> }
->
-> ret =3D amdgpu_cs_bo_handles_chunk(p, p->chunks[i].kdata);
-> if (ret)
-> goto free_partial_kdata;
->
-> break;
->
-> case AMDGPU_CHUNK_ID_DEPENDENCIES:
-> case AMDGPU_CHUNK_ID_SYNCOBJ_IN:
-> case AMDGPU_CHUNK_ID_SYNCOBJ_OUT:
-> case AMDGPU_CHUNK_ID_SCHEDULED_DEPENDENCIES:
-> case AMDGPU_CHUNK_ID_SYNCOBJ_TIMELINE_WAIT:
-> case AMDGPU_CHUNK_ID_SYNCOBJ_TIMELINE_SIGNAL:
-> break;
->
-> default:
-> ret =3D -EINVAL;
-> goto free_partial_kdata;
-> }
-> }
->
-> ret =3D amdgpu_job_alloc(p->adev, num_ibs, &p->job, vm);
-> if (ret)
-> goto free_all_kdata;
->
-> if (p->ctx->vram_lost_counter !=3D p->job->vram_lost_counter) {
-> ret =3D -ECANCELED;
-> goto free_all_kdata;
-> }
->
-> if (p->uf_entry.tv.bo)
-> p->job->uf_addr =3D uf_offset;
-> kvfree(chunk_array);
->
-> /* Use this opportunity to fill in task info for the vm */
-> amdgpu_vm_set_task_info(vm);
->
-> return 0;
->
-> free_all_kdata:
-> i =3D p->nchunks - 1;
-> free_partial_kdata:
-> for (; i >=3D 0; i--)
-> kvfree(p->chunks[i].kdata);
-> kvfree(p->chunks);
-> p->chunks =3D NULL;
-> p->nchunks =3D 0;
-> free_chunk:
-> kvfree(chunk_array);
->
-> return ret;
-> }
->
+>=20
+> -void intel_hdcp_atomic_check(struct drm_connector *connector,
+> -			     struct drm_connector_state *old_state,
+> -			     struct drm_connector_state *new_state);
+>  int intel_hdcp_init(struct intel_connector *connector,
+>  		    struct intel_digital_port *dig_port,
+>  		    const struct intel_hdcp_shim *hdcp_shim); diff --git
+> a/include/drm/display/drm_hdcp_helper.h
+> b/include/drm/display/drm_hdcp_helper.h
+> index 8aaf87bf27351..dd02b2e72a502 100644
+> --- a/include/drm/display/drm_hdcp_helper.h
+> +++ b/include/drm/display/drm_hdcp_helper.h
+> @@ -11,6 +11,7 @@
+>=20
+>  #include <drm/display/drm_hdcp.h>
+>=20
+> +struct drm_atomic_state;
+>  struct drm_device;
+>  struct drm_connector;
+>=20
+> @@ -18,5 +19,7 @@ int drm_hdcp_check_ksvs_revoked(struct drm_device
+> *dev, u8 *ksvs, u32 ksv_count)  int
+> drm_connector_attach_content_protection_property(struct drm_connector
+> *connector,
+>  						     bool hdcp_content_type);
+>  void drm_hdcp_update_content_protection(struct drm_connector
+> *connector, u64 val);
+> +void drm_hdcp_atomic_check(struct drm_connector *connector,
+> +			   struct drm_atomic_state *state);
+>=20
+>  #endif
+> --
+> 2.40.0.577.gac1e443424-goog
 
---00000000000092d49305f994462d
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Sorry, I found that the latest code function has become am=
-dgpu_cs_pass1, and radeon_cs_parser_init has the same problem.And=C2=A0i wi=
-ll send the patch.</div><br><div class=3D"gmail_quote"><div dir=3D"ltr" cla=
-ss=3D"gmail_attr">whitehat002 whitehat002 &lt;<a href=3D"mailto:hackyzh002@=
-gmail.com">hackyzh002@gmail.com</a>&gt; =E4=BA=8E2023=E5=B9=B44=E6=9C=8818=
-=E6=97=A5=E5=91=A8=E4=BA=8C 11:39=E5=86=99=E9=81=93=EF=BC=9A<br></div><bloc=
-kquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:=
-1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr"><div>Hello,=
-=C2=A0</div><div><br></div><div>I am going to file a security bug.<br></div=
-><div><br></div>VULNERABILITY DETAILS<br><br>ioctl$AMDGPU_CS will call amdg=
-pu_cs_ioctl which will call amdgpu_cs_parser_init. The type of size is unsi=
-gned(4 bytes)[1]. And size is assigned from p-&gt;chunks[i].length_dw[2] wh=
-ich is assigned from user_chunk.length_dw[3], which type is __u32[4](4 byte=
-s, under user control). If size is 0x40000000, there will be an integer ove=
-rflow, size will be zero after size =3D sizeof(uint32_t)[5]. Although there=
- is an overflow check in kvmalloc_array[6], but it will just check size_t o=
-verflow(8 bytes), so it will not notice this one. copy_from_user will not c=
-opy anything, if size is zero. So p-&gt;chunks[i].kdata will be filled with=
- the last time used data, because kvmalloc_array[6] is called without __GFP=
-_ZERO flag. Finally it will access the uninitialized data[7].<br><br>```<br=
->struct drm_amdgpu_cs_chunk {<br>	__u32		chunk_id;<br>	__u32		length_dw;			=
-					// [4]<br>	__u64		chunk_data;<br>};<br><br><br>static int amdgpu_cs_pa=
-rser_init(struct amdgpu_cs_parser *p, union drm_amdgpu_cs *cs)<br>{<br>	str=
-uct amdgpu_fpriv *fpriv =3D p-&gt;filp-&gt;driver_priv;<br>	struct amdgpu_v=
-m *vm =3D &amp;fpriv-&gt;vm;<br>	uint64_t *chunk_array_user;<br>	uint64_t *=
-chunk_array;<br>	unsigned size, num_ibs =3D 0;							// [1]<br>	uint32_t uf=
-_offset =3D 0;<br>	int i;<br>	int ret;<br><br>	if (cs-&gt;in.num_chunks =3D=
-=3D 0)<br>		return -EINVAL;<br><br>	chunk_array =3D kvmalloc_array(cs-&gt;i=
-n.num_chunks, sizeof(uint64_t), GFP_KERNEL);<br>	if (!chunk_array)<br>		ret=
-urn -ENOMEM;<br><br>	p-&gt;ctx =3D amdgpu_ctx_get(fpriv, cs-&gt;in.ctx_id);=
-<br>	if (!p-&gt;ctx) {<br>		ret =3D -EINVAL;<br>		goto free_chunk;<br>	}<br=
-><br>	/* skip guilty context job */<br>	if (atomic_read(&amp;p-&gt;ctx-&gt;=
-guilty) =3D=3D 1) {<br>		ret =3D -ECANCELED;<br>		goto free_chunk;<br>	}<br=
-><br>	/* get chunks */<br>	chunk_array_user =3D u64_to_user_ptr(cs-&gt;in.c=
-hunks);<br>	if (copy_from_user(chunk_array, chunk_array_user,<br>			 =C2=A0=
- sizeof(uint64_t)*cs-&gt;in.num_chunks)) {<br>		ret =3D -EFAULT;<br>		goto =
-free_chunk;<br>	}<br><br>	p-&gt;nchunks =3D cs-&gt;in.num_chunks;<br>	p-&gt=
-;chunks =3D kvmalloc_array(p-&gt;nchunks, sizeof(struct amdgpu_cs_chunk),<b=
-r>			 =C2=A0 =C2=A0GFP_KERNEL);<br>	if (!p-&gt;chunks) {<br>		ret =3D -ENOM=
-EM;<br>		goto free_chunk;<br>	}<br><br>	for (i =3D 0; i &lt; p-&gt;nchunks;=
- i++) {<br>		struct drm_amdgpu_cs_chunk __user **chunk_ptr =3D NULL;<br>		s=
-truct drm_amdgpu_cs_chunk user_chunk;<br>		uint32_t __user *cdata;<br><br>	=
-	chunk_ptr =3D u64_to_user_ptr(chunk_array[i]);<br>		if (copy_from_user(&am=
-p;user_chunk, chunk_ptr,<br>				 =C2=A0 =C2=A0 =C2=A0 sizeof(struct drm_amd=
-gpu_cs_chunk))) {<br>			ret =3D -EFAULT;<br>			i--;<br>			goto free_partial=
-_kdata;<br>		}<br>		p-&gt;chunks[i].chunk_id =3D user_chunk.chunk_id;<br>		=
-p-&gt;chunks[i].length_dw =3D user_chunk.length_dw;			// [3]<br><br>		size =
-=3D p-&gt;chunks[i].length_dw;							// [2]<br>		cdata =3D u64_to_user_ptr(=
-user_chunk.chunk_data);<br><br>		p-&gt;chunks[i].kdata =3D kvmalloc_array(s=
-ize, sizeof(uint32_t), GFP_KERNEL);		// [6]<br>		if (p-&gt;chunks[i].kdata =
-=3D=3D NULL) {<br>			ret =3D -ENOMEM;<br>			i--;<br>			goto free_partial_kd=
-ata;<br>		}<br>		size *=3D sizeof(uint32_t);								// [5]<br>		if (copy_fr=
-om_user(p-&gt;chunks[i].kdata, cdata, size)) {<br>			ret =3D -EFAULT;<br>		=
-	goto free_partial_kdata;<br>		}<br><br>		switch (p-&gt;chunks[i].chunk_id)=
- {<br>		case AMDGPU_CHUNK_ID_IB:<br>			++num_ibs;<br>			break;<br><br>		cas=
-e AMDGPU_CHUNK_ID_FENCE:<br>			size =3D sizeof(struct drm_amdgpu_cs_chunk_f=
-ence);<br>			if (p-&gt;chunks[i].length_dw * sizeof(uint32_t) &lt; size) {<=
-br>				ret =3D -EINVAL;<br>				goto free_partial_kdata;<br>			}<br><br>			r=
-et =3D amdgpu_cs_user_fence_chunk(p, p-&gt;chunks[i].kdata,		//[7]<br>					=
-		 &amp;uf_offset);<br>			if (ret)<br>				goto free_partial_kdata;<br><br>	=
-		break;<br><br>		case AMDGPU_CHUNK_ID_BO_HANDLES:<br>			size =3D sizeof(st=
-ruct drm_amdgpu_bo_list_in);<br>			if (p-&gt;chunks[i].length_dw * sizeof(u=
-int32_t) &lt; size) {<br>				ret =3D -EINVAL;<br>				goto free_partial_kdat=
-a;<br>			}<br><br>			ret =3D amdgpu_cs_bo_handles_chunk(p, p-&gt;chunks[i].=
-kdata);<br>			if (ret)<br>				goto free_partial_kdata;<br><br>			break;<br>=
-<br>		case AMDGPU_CHUNK_ID_DEPENDENCIES:<br>		case AMDGPU_CHUNK_ID_SYNCOBJ_=
-IN:<br>		case AMDGPU_CHUNK_ID_SYNCOBJ_OUT:<br>		case AMDGPU_CHUNK_ID_SCHEDU=
-LED_DEPENDENCIES:<br>		case AMDGPU_CHUNK_ID_SYNCOBJ_TIMELINE_WAIT:<br>		cas=
-e AMDGPU_CHUNK_ID_SYNCOBJ_TIMELINE_SIGNAL:<br>			break;<br><br>		default:<b=
-r>			ret =3D -EINVAL;<br>			goto free_partial_kdata;<br>		}<br>	}<br><br>	r=
-et =3D amdgpu_job_alloc(p-&gt;adev, num_ibs, &amp;p-&gt;job, vm);<br>	if (r=
-et)<br>		goto free_all_kdata;<br><br>	if (p-&gt;ctx-&gt;vram_lost_counter !=
-=3D p-&gt;job-&gt;vram_lost_counter) {<br>		ret =3D -ECANCELED;<br>		goto f=
-ree_all_kdata;<br>	}<br><br>	if (p-&gt;<a href=3D"http://uf_entry.tv.bo" ta=
-rget=3D"_blank">uf_entry.tv.bo</a>)<br>		p-&gt;job-&gt;uf_addr =3D uf_offse=
-t;<br>	kvfree(chunk_array);<br><br>	/* Use this opportunity to fill in task=
- info for the vm */<br>	amdgpu_vm_set_task_info(vm);<br><br>	return 0;<br><=
-br>free_all_kdata:<br>	i =3D p-&gt;nchunks - 1;<br>free_partial_kdata:<br>	=
-for (; i &gt;=3D 0; i--)<br>		kvfree(p-&gt;chunks[i].kdata);<br>	kvfree(p-&=
-gt;chunks);<br>	p-&gt;chunks =3D NULL;<br>	p-&gt;nchunks =3D 0;<br>free_chu=
-nk:<br>	kvfree(chunk_array);<br><br>	return ret;<br>}<br></div>
-</blockquote></div>
-
---00000000000092d49305f994462d--
