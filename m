@@ -2,50 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB0916E6BE4
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Apr 2023 20:16:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9907C6E6BEB
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Apr 2023 20:17:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C48B810E830;
-	Tue, 18 Apr 2023 18:16:53 +0000 (UTC)
-X-Original-To: dri-devel@lists.freedesktop.org
-Delivered-To: dri-devel@lists.freedesktop.org
-Received: from 189.cn (ptr.189.cn [183.61.185.102])
- by gabe.freedesktop.org (Postfix) with ESMTP id 4091410E830
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Apr 2023 18:16:51 +0000 (UTC)
-HMM_SOURCE_IP: 10.64.8.43:36206.1084606344
-HMM_ATTACHE_NUM: 0000
-HMM_SOURCE_TYPE: SMTP
-Received: from clientip-114.242.206.180 (unknown [10.64.8.43])
- by 189.cn (HERMES) with SMTP id A4080100567;
- Wed, 19 Apr 2023 02:16:45 +0800 (CST)
-Received: from  ([114.242.206.180])
- by gateway-151646-dep-7b48884fd-tj646 with ESMTP id
- ce235540f5fb4e348657788457610f7a for maarten.lankhorst@linux.intel.com; 
- Wed, 19 Apr 2023 02:16:48 CST
-X-Transaction-ID: ce235540f5fb4e348657788457610f7a
-X-Real-From: 15330273260@189.cn
-X-Receive-IP: 114.242.206.180
-X-MEDUSA-Status: 0
-Message-ID: <86a8b262-cbf2-b75f-9972-491f557edf74@189.cn>
-Date: Wed, 19 Apr 2023 02:16:45 +0800
+	by gabe.freedesktop.org (Postfix) with ESMTP id C77DA10E83D;
+	Tue, 18 Apr 2023 18:17:55 +0000 (UTC)
+X-Original-To: DRI-Devel@lists.freedesktop.org
+Delivered-To: DRI-Devel@lists.freedesktop.org
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 62ABE10E834;
+ Tue, 18 Apr 2023 18:17:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1681841873; x=1713377873;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=a5Z7gln85pX4C02Pfg5AI+fVLMW0c92ckdYG0XBEHAo=;
+ b=NPcUZXtfCZamPOfcMvpqICJDVQ8nJCJ5jSSoJJhuxsm3+ZDs0Sl3e6AX
+ sJ2UAU/vfA3vKtxVEFQnE/+hTvo+kOLX0a4TjCj5IiOShFwXTfMDJv0TQ
+ vnYhIzR1yC4zO4Azr+znb6pbFji580iufgQfegyn6jKBqU+Kx5S8jW4Yo
+ 9DXfUpw+CagpR+wB+uKYUG+vGBrtTLrroZ8edD83wonx93qY6Po/NQLg7
+ 6xG2ia4nj/XNxe2C2woAoZ4aNOqw5eUYAeRA8SRBQ1eHcTt8EnK3Up38P
+ KOkbPOAqwTjzH75gwowD00CcEF8zkISLhH7hGvvJyM/fx95qOCk3OXA8q w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10684"; a="348008876"
+X-IronPort-AV: E=Sophos;i="5.99,207,1677571200"; d="scan'208";a="348008876"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Apr 2023 11:17:52 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10684"; a="815307848"
+X-IronPort-AV: E=Sophos;i="5.99,207,1677571200"; d="scan'208";a="815307848"
+Received: from relo-linux-5.jf.intel.com ([10.165.21.152])
+ by orsmga004.jf.intel.com with ESMTP; 18 Apr 2023 11:17:52 -0700
+From: John.C.Harrison@Intel.com
+To: Intel-GFX@Lists.FreeDesktop.Org
+Subject: [PATCH v2 0/2] Add support for dumping error captures via kernel
+ logging
+Date: Tue, 18 Apr 2023 11:17:42 -0700
+Message-Id: <20230418181744.3251240-1-John.C.Harrison@Intel.com>
+X-Mailer: git-send-email 2.39.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH v3] drm/fbdev-generic: prohibit potential out-of-bounds
- access
-From: Sui Jingfeng <15330273260@189.cn>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Li Yi <liyi@loongson.cn>,
- Helge Deller <deller@gmx.de>, Lucas De Marchi <lucas.demarchi@intel.com>,
- linux-kernel@vger.kernel.org, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org, loongson-kernel@lists.loongnix.cn
-References: <20230417113219.1354078-1-suijingfeng@loongson.cn>
- <ZD5Vgx9Txaiz7Bun@phenom.ffwll.local>
- <139c9398-488d-df19-9ae2-2b4b47ef64f4@189.cn>
-Content-Language: en-US
-In-Reply-To: <139c9398-488d-df19-9ae2-2b4b47ef64f4@189.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
+ Swindon SN3 1RJ
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -59,176 +57,31 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: John Harrison <John.C.Harrison@Intel.com>, DRI-Devel@Lists.FreeDesktop.Org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+From: John Harrison <John.C.Harrison@Intel.com>
 
-On 2023/4/19 01:52, Sui Jingfeng wrote:
-> Hi,
->
-> On 2023/4/18 16:32, Daniel Vetter wrote:
->> On Mon, Apr 17, 2023 at 07:32:19PM +0800, Sui Jingfeng wrote:
->>> The fbdev test of IGT may write after EOF, which lead to out-of-bound
->>> access for the drm drivers using fbdev-generic. For example, on a x86
->>> + aspeed bmc card platform, with a 1680x1050 resolution display, 
->>> running
->>> fbdev test if IGT will cause the linux kernel hang with the following
->>> call trace:
->>>
->>>    Oops: 0000 [#1] PREEMPT SMP PTI
->>>    [IGT] fbdev: starting subtest eof
->>>    Workqueue: events drm_fb_helper_damage_work [drm_kms_helper]
->>>    [IGT] fbdev: starting subtest nullptr
->>>
->>>    RIP: 0010:memcpy_erms+0xa/0x20
->>>    RSP: 0018:ffffa17d40167d98 EFLAGS: 00010246
->>>    RAX: ffffa17d4eb7fa80 RBX: ffffa17d40e0aa80 RCX: 00000000000014c0
->>>    RDX: 0000000000001a40 RSI: ffffa17d40e0b000 RDI: ffffa17d4eb80000
->>>    RBP: ffffa17d40167e20 R08: 0000000000000000 R09: ffff89522ecff8c0
->>>    R10: ffffa17d4e4c5000 R11: 0000000000000000 R12: ffffa17d4eb7fa80
->>>    R13: 0000000000001a40 R14: 000000000000041a R15: ffffa17d40167e30
->>>    FS:  0000000000000000(0000) GS:ffff895257380000(0000) 
->>> knlGS:0000000000000000
->>>    CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
->>>    CR2: ffffa17d40e0b000 CR3: 00000001eaeca006 CR4: 00000000001706e0
->>>    Call Trace:
->>>     <TASK>
->>>     ? drm_fbdev_generic_helper_fb_dirty+0x207/0x330 [drm_kms_helper]
->>>     drm_fb_helper_damage_work+0x8f/0x170 [drm_kms_helper]
->>>     process_one_work+0x21f/0x430
->>>     worker_thread+0x4e/0x3c0
->>>     ? __pfx_worker_thread+0x10/0x10
->>>     kthread+0xf4/0x120
->>>     ? __pfx_kthread+0x10/0x10
->>>     ret_from_fork+0x2c/0x50
->>>     </TASK>
->>>    CR2: ffffa17d40e0b000
->>>    ---[ end trace 0000000000000000 ]---
->>>
->>> The direct reason is that damage rectange computed by
->>> drm_fb_helper_memory_range_to_clip() does not guaranteed to be 
->>> in-bound.
->>> It is already results in workaround code populate to elsewhere. Another
->>> reason is that exposing a larger buffer size than the actual needed 
->>> help
->>> to trigger this bug intrinsic in drm_fb_helper_memory_range_to_clip().
->>>
->>> Others fbdev emulation solutions write to the GEM buffer directly, they
->>> won't reproduce this bug because the .fb_dirty function callback do not
->>> being hooked, so no chance is given to 
->>> drm_fb_helper_memory_range_to_clip()
->>> to generate a out-of-bound when drm_fb_helper_sys_write() is called.
->>>
->>> This patch break the trigger condition of this bug by shrinking the 
->>> shadow
->>> buffer size to sizes->surface_height * buffer->fb->pitches[0].
->>>
->>> Fixes: '8fbc9af55de0 ("drm/fbdev-generic: Set screen size to size of 
->>> GEM
->>> buffer")'
->>>
->>> Signed-off-by: Sui Jingfeng <suijingfeng@loongson.cn>
->>> ---
->>>   drivers/gpu/drm/drm_fbdev_generic.c | 2 +-
->>>   1 file changed, 1 insertion(+), 1 deletion(-)
->>>
->>> diff --git a/drivers/gpu/drm/drm_fbdev_generic.c 
->>> b/drivers/gpu/drm/drm_fbdev_generic.c
->>> index 8e5148bf40bb..b057cfbba938 100644
->>> --- a/drivers/gpu/drm/drm_fbdev_generic.c
->>> +++ b/drivers/gpu/drm/drm_fbdev_generic.c
->>> @@ -94,7 +94,7 @@ static int 
->>> drm_fbdev_generic_helper_fb_probe(struct drm_fb_helper *fb_helper,
->>>       fb_helper->buffer = buffer;
->>>       fb_helper->fb = buffer->fb;
->>>   -    screen_size = buffer->gem->size;
->>> +    screen_size = sizes->surface_height * buffer->fb->pitches[0];
->> So I read core some more and stumbled over drm_fb_helper_deferred_io().
->> Which has all the code and comments about this, including limiting.
->>
->> I think it would be clearer if we fix the issue there, instead of 
->> passing
->> limits around in obscure places that then again get broken?
->
-> No, it is more obscure doing that way...
->
->
-> As the size of the shadow screen buffer will be exposed to userspace.
->
-> The size 'helper->fb->height * helper->fb->pitches[0]' is a 
-> exactly(best) fit,
->
-> You are guaranteed to waste at lease one byte by increasing one byte,
->
-> and can not store all pixels by decreasing one byte (In the case where 
-> `helper->fb->pitches[0] = helper->fb->width * 4`).
->
-> It implicitly tell the userspace do not go beyond that boundary.
->
-> although userspace program can still choose to write  after EOF,
->
-> But it is for test purpose, to test the kernel if it can return a 
-> -EFBIG or not.
->
->> The thing is,
->> Thomas both authored the limit checks in drm_fb_helper_deferred_io() and
->> the patch which broken them again, so clearly this isn't very 
->> obvious. I'm
->> thinking of something like this:
->>
->>
->> diff --git a/drivers/gpu/drm/drm_fb_helper.c 
->> b/drivers/gpu/drm/drm_fb_helper.c
->> index ef4eb8b12766..726dab67c359 100644
->> --- a/drivers/gpu/drm/drm_fb_helper.c
->> +++ b/drivers/gpu/drm/drm_fb_helper.c
->> @@ -697,10 +697,7 @@ void drm_fb_helper_deferred_io(struct fb_info 
->> *info, struct list_head *pagerefli
->>        * of the screen and account for non-existing scanlines. Hence,
->>        * keep the covered memory area within the screen buffer.
->>        */
->> -    if (info->screen_size)
->> -        total_size = info->screen_size;
->> -    else
->> -        total_size = info->fix.smem_len;
->> +    total_size = helper->fb->height * helper->fb->pitches[0];
->
-> This is just to mitigate the mistakes already has been made,
->
-> because it  do not do a good splitting between the *clip* part and the 
-> *damage update* part.
->
-> An ideal clipping do not obscure its updating backend with a 
-> out-of-bound damage rectangle.
->
-> Why did the drm_fb_helper_memory_range_to_clip() can not do a good job 
-> in all case
->
-> to pass its backend a always meaningful damage rect ?
->
->>       max_off = min(max_off, total_size);
->>         if (min_off < max_off) {
->>
->>
->> I think that would make it utmost clear on what we're doing and why.
->> Otherwise we're just going to re-create the same bug again, like we've
->> done already :-)
->
-> No, we create no bugs, we fix one.
->
-> Thanks.
->
-But honestly I do not have strong feel toward this, I just type what I'm 
-understand without seeing you resend a V3.
+Sometimes, the only effective way to debug an issue is to dump all the
+interesting information at the point of failure. So add support for
+doing that.
 
-It's OK in overall,  I will help to test this tomorrow.  :-)
+v2: Extra CONFIG wrapping (review feedback from Rodrigo)
 
->> -Daniel
->>
->>>       screen_buffer = vzalloc(screen_size);
->>>       if (!screen_buffer) {
->>>           ret = -ENOMEM;
->>> -- 
->>> 2.25.1
->>>
+Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
+
+
+John Harrison (2):
+  drm/i915: Dump error capture to kernel log
+  drm/i915/guc: Dump error capture to dmesg on CTB error
+
+ drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c |  53 +++++++++
+ drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h |   6 +
+ drivers/gpu/drm/i915/i915_gpu_error.c     | 132 ++++++++++++++++++++++
+ drivers/gpu/drm/i915/i915_gpu_error.h     |  10 ++
+ 4 files changed, 201 insertions(+)
+
+-- 
+2.39.1
+
