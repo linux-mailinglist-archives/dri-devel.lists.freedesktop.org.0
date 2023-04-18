@@ -1,52 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27A796E5688
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Apr 2023 03:40:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F1E16E56BD
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Apr 2023 03:42:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3732D10E668;
-	Tue, 18 Apr 2023 01:40:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6BEF110E667;
+	Tue, 18 Apr 2023 01:42:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B6D0610E667;
- Tue, 18 Apr 2023 01:40:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1681782020; x=1713318020;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=OskGLZarC97afV+YZCPgIYWfaMrOVQDkgNhECV3vFHY=;
- b=M0sRnfmyB5bFGxaPUs/aIs0JUAQqmXXxKx8Vxmzf/2p6VukCdDe3HYtA
- GLm47YCrETt+194Q74FoCMkXWCzTRZH6456o22Nf8z54jlcF+i5eo9s40
- JOcz+DMYCSDPAWXG/5J7nWjrxofOJnxMRUFkszETrs/DmCPrdEEY2c4zW
- XZkUGAp44ZVwRAUjOQPUtOx+1I9BmxhOouUhpIScUo36sdOx8COOrANIw
- yC+fkFlkxZezjTChVJiDONNxKCfJ6+meh0pKmxuV6/LTruijfBI+ihUSq
- ePBg5ElCtYsIXryH9HEU0+5qq3Dv8PZ5g8wlAKjc8+3vmCM9WetPylp46 w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10683"; a="345046096"
-X-IronPort-AV: E=Sophos;i="5.99,205,1677571200"; d="scan'208";a="345046096"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Apr 2023 18:40:19 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10683"; a="1020618509"
-X-IronPort-AV: E=Sophos;i="5.99,205,1677571200"; d="scan'208";a="1020618509"
-Received: from sslose-mobl1.ger.corp.intel.com (HELO intel.com)
- ([10.252.56.168])
- by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Apr 2023 18:40:17 -0700
-Date: Tue, 18 Apr 2023 03:39:54 +0200
-From: Andi Shyti <andi.shyti@linux.intel.com>
-To: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
-Subject: Re: [Intel-gfx] [PATCH] drm/i915/guc/slpc: Provide sysfs for
- efficient freq
-Message-ID: <ZD306iP1tDnekIn0@ashyti-mobl2.lan>
-References: <20230418000915.3489494-1-vinay.belgaumkar@intel.com>
+Received: from mx1.riseup.net (mx1.riseup.net [198.252.153.129])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 087B110E667
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Apr 2023 01:42:39 +0000 (UTC)
+Received: from fews01-sea.riseup.net (unknown [10.0.1.109])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mx1.riseup.net (Postfix) with ESMTPS id 4Q0mrM6DSBzDqBT;
+ Tue, 18 Apr 2023 01:42:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
+ t=1681782159; bh=2NRvdxv54ASeqKR/KS8QsT3STghybVwVijzqGLeyxX0=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=hyY3Vdcqov9QaV9+F90WUejQcnVUOPA3uq5iWU292MR8+8HFVMZSjQf/PwQJIsmr8
+ 4lcBY/nQFX6/nlZaf7w4qn0cVlX474LY+anRWGBGJSzd+3NhfhacYEj1mAkjoVTsBQ
+ L9u2AZrayxuuPDm0lm0Bbf9bGiN9mdzri8dYkoZI=
+X-Riseup-User-ID: 8F12492A9E8D016AF4B4C5E42204EDFA513D7C45075174F450FF3A3CEA0B7EAB
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ by fews01-sea.riseup.net (Postfix) with ESMTPSA id 4Q0mrG3c4fzJqVp;
+ Tue, 18 Apr 2023 01:42:22 +0000 (UTC)
+Message-ID: <a46b79c0-d134-6123-280e-c75a5f108e39@riseup.net>
+Date: Mon, 17 Apr 2023 22:42:19 -0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230418000915.3489494-1-vinay.belgaumkar@intel.com>
+Subject: Re: [PATCH v4 3/5] drm/tests: Add test cases for
+ drm_rect_calc_vscale()
+Content-Language: en-US
+To: =?UTF-8?Q?Ma=c3=adra_Canal?= <mcanal@igalia.com>,
+ dri-devel@lists.freedesktop.org
+References: <20230406115338.36228-1-arthurgrillo@riseup.net>
+ <20230406115338.36228-4-arthurgrillo@riseup.net>
+ <42f92ab1-742a-373c-3076-94ebbbfbc700@igalia.com>
+From: Arthur Grillo Queiroz Cabral <arthurgrillo@riseup.net>
+In-Reply-To: <42f92ab1-742a-373c-3076-94ebbbfbc700@igalia.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,95 +55,113 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: carlos.craveiro@usp.br, tales.aparecida@gmail.com, dlatypov@google.com,
+ javierm@redhat.com, maxime@cerno.tech, andrealmeid@riseup.net,
+ matheus.vieira.g@usp.br
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Vinay,
 
-Looks good, just few minor comments below,
 
-[...]
+On 17/04/23 13:19, Maíra Canal wrote:
+> On 4/6/23 08:53, Arthur Grillo wrote:
+>> Insert parameterized test for the drm_rect_calc_vscale() to ensure
+>> correctness and prevent future regressions. Besides the test for the
+>> usual case, tests the exceptions.
+>>
+>> It uses the same struct from drm_rect_calc_hscale().
+>>
+>> Signed-off-by: Arthur Grillo <arthurgrillo@riseup.net>
+>> ---
+>>   drivers/gpu/drm/tests/drm_rect_test.c | 59 +++++++++++++++++++++++++++
+>>   1 file changed, 59 insertions(+)
+>>
+>> diff --git a/drivers/gpu/drm/tests/drm_rect_test.c b/drivers/gpu/drm/tests/drm_rect_test.c
+>> index 44150545c1bc..a1fd9b2c5128 100644
+>> --- a/drivers/gpu/drm/tests/drm_rect_test.c
+>> +++ b/drivers/gpu/drm/tests/drm_rect_test.c
+>> @@ -414,6 +414,64 @@ static void drm_test_rect_calc_hscale(struct kunit *test)
+>>       KUNIT_EXPECT_EQ(test, scaling_factor, params->expected_scaling_factor);
+>>   }
+>>   +static const struct drm_rect_scale_case drm_rect_vscale_cases[] = {
+>> +    {
+>> +        .name = "normal use",
+>> +        .src = DRM_RECT_INIT(0, 0, 0, 2 << 16),
+>> +        .dst = DRM_RECT_INIT(0, 0, 0, 1 << 16),
+>> +        .min_range = 0, .max_range = INT_MAX,
+>> +        .expected_scaling_factor = 2,
+>> +    },
+>> +    {
+>> +        .name = "out of max range",
+>> +        .src = DRM_RECT_INIT(0, 0, 0, 10 << 16),
+>> +        .dst = DRM_RECT_INIT(0, 0, 0, 1 << 16),
+>> +        .min_range = 3, .max_range = 5,
+>> +        .expected_scaling_factor = -ERANGE,
+>> +    },
+>> +    {
+>> +        .name = "out of min range",
+>> +        .src = DRM_RECT_INIT(0, 0, 0, 2 << 16),
+>> +        .dst = DRM_RECT_INIT(0, 0, 0, 1 << 16),
+>> +        .min_range = 3, .max_range = 5,
+>> +        .expected_scaling_factor = -ERANGE,
+>> +    },
+>> +    {
+>> +        .name = "zero dst height",
+>> +        .src = DRM_RECT_INIT(0, 0, 0, 2 << 16),
+>> +        .dst = DRM_RECT_INIT(0, 0, 0, 0 << 16),
+>> +        .min_range = 0, .max_range = INT_MAX,
+>> +        .expected_scaling_factor = 0,
+>> +    },
+>> +    {
+>> +        .name = "negative src height",
+>> +        .src = DRM_RECT_INIT(0, 0, 0, -(1 << 16)),
+>> +        .dst = DRM_RECT_INIT(0, 0, 0, 1 << 16),
+>> +        .min_range = 0, .max_range = INT_MAX,
+>> +        .expected_scaling_factor = -EINVAL,
+>> +    },
+>> +    {
+>> +        .name = "negative dst height",
+>> +        .src = DRM_RECT_INIT(0, 0, 0, 1 << 16),
+>> +        .dst = DRM_RECT_INIT(0, 0, 0, -(1 << 16)),
+>> +        .min_range = 0, .max_range = INT_MAX,
+>> +        .expected_scaling_factor = -EINVAL,
+>> +    },
+>> +};
+>> +
+> 
+> Would it possible to use the same parameter array for vscale and hscale?
+> 
+> Best Regards,
+> - Maíra Canal
+> 
 
-> @@ -267,13 +267,11 @@ static int run_test(struct intel_gt *gt, int test_type)
->  	}
->  
->  	/*
-> -	 * Set min frequency to RPn so that we can test the whole
-> -	 * range of RPn-RP0. This also turns off efficient freq
-> -	 * usage and makes results more predictable.
-> +	 * Turn off efficient freq so RPn/RP0 ranges are obeyed
->  	 */
-> -	err = slpc_set_min_freq(slpc, slpc->min_freq);
-> +	err = intel_guc_slpc_set_ignore_eff_freq(slpc, true);
->  	if (err) {
-> -		pr_err("Unable to update min freq!");
-> +		pr_err("Unable to turn off efficient freq!");
+Instead of having drm_rect directly, I could create an src and dst
+length. Or maybe have drm_rects that increase on both sizes.
 
-drm_err()? or gt_err()? As we are here we can use a proper
-printing.
+Regards,
+~Arthur Grillo
 
-How is this change related to the scope of this patch?
-
->  		return err;
->  	}
->  
-> @@ -358,9 +356,10 @@ static int run_test(struct intel_gt *gt, int test_type)
->  			break;
->  	}
->  
-> -	/* Restore min/max frequencies */
-> -	slpc_set_max_freq(slpc, slpc_max_freq);
-> +	/* Restore min/max frequencies and efficient flag */
->  	slpc_set_min_freq(slpc, slpc_min_freq);
-> +	slpc_set_max_freq(slpc, slpc_max_freq);
-> +	intel_guc_slpc_set_ignore_eff_freq(slpc, false);
-
-mmhhh... do we care here about the return value?
-
->  
->  	if (igt_flush_test(gt->i915))
->  		err = -EIO;
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
-> index 026d73855f36..b1b70ee3001b 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
-> @@ -277,6 +277,7 @@ int intel_guc_slpc_init(struct intel_guc_slpc *slpc)
->  
->  	slpc->max_freq_softlimit = 0;
->  	slpc->min_freq_softlimit = 0;
-> +	slpc->ignore_eff_freq = false;
->  	slpc->min_is_rpmax = false;
->  
->  	slpc->boost_freq = 0;
-> @@ -457,6 +458,31 @@ int intel_guc_slpc_get_max_freq(struct intel_guc_slpc *slpc, u32 *val)
->  	return ret;
->  }
->  
-> +int intel_guc_slpc_set_ignore_eff_freq(struct intel_guc_slpc *slpc, bool val)
-> +{
-> +	struct drm_i915_private *i915 = slpc_to_i915(slpc);
-> +	intel_wakeref_t wakeref;
-> +	int ret = 0;
-
-no need to initialize ret here.
-
-> +
-> +	mutex_lock(&slpc->lock);
-> +	wakeref = intel_runtime_pm_get(&i915->runtime_pm);
-> +
-> +	ret = slpc_set_param(slpc,
-> +			     SLPC_PARAM_IGNORE_EFFICIENT_FREQUENCY,
-> +			     val);
-> +	if (ret) {
-> +		guc_probe_error(slpc_to_guc(slpc), "Failed to set efficient freq(%d): %pe\n",
-> +				val, ERR_PTR(ret));
-> +		goto out;
-> +	}
-> +
-> +	slpc->ignore_eff_freq = val;
-
-nit that you can ignore: if you put this under else and save
-brackets and a goto.
-
-Andi
+>> +KUNIT_ARRAY_PARAM(drm_rect_vscale, drm_rect_vscale_cases, drm_rect_scale_case_desc);
+>> +
+>> +static void drm_test_rect_calc_vscale(struct kunit *test)
+>> +{
+>> +    const struct drm_rect_scale_case *params = test->param_value;
+>> +    int scaling_factor;
+>> +
+>> +    scaling_factor = drm_rect_calc_vscale(&params->src, &params->dst,
+>> +                          params->min_range, params->max_range);
+>> +
+>> +    KUNIT_EXPECT_EQ(test, scaling_factor, params->expected_scaling_factor);
+>> +}
+>> +
+>>   static struct kunit_case drm_rect_tests[] = {
+>>       KUNIT_CASE(drm_test_rect_clip_scaled_div_by_zero),
+>>       KUNIT_CASE(drm_test_rect_clip_scaled_not_clipped),
+>> @@ -421,6 +479,7 @@ static struct kunit_case drm_rect_tests[] = {
+>>       KUNIT_CASE(drm_test_rect_clip_scaled_signed_vs_unsigned),
+>>       KUNIT_CASE_PARAM(drm_test_rect_intersect, drm_rect_intersect_gen_params),
+>>       KUNIT_CASE_PARAM(drm_test_rect_calc_hscale, drm_rect_hscale_gen_params),
+>> +    KUNIT_CASE_PARAM(drm_test_rect_calc_vscale, drm_rect_vscale_gen_params),
+>>       { }
+>>   };
+>>   
