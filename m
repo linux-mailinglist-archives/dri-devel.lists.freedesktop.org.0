@@ -1,61 +1,78 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BBFD6E6D48
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Apr 2023 22:09:58 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A25936E6DA4
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Apr 2023 22:47:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 02C6510E889;
-	Tue, 18 Apr 2023 20:09:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EB37510E88F;
+	Tue, 18 Apr 2023 20:46:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com
- [IPv6:2607:f8b0:4864:20::1034])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 386AE10E889
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Apr 2023 20:09:52 +0000 (UTC)
-Received: by mail-pj1-x1034.google.com with SMTP id
- 98e67ed59e1d1-24756a12ba0so1137247a91.1
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Apr 2023 13:09:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20221208; t=1681848591; x=1684440591;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=rJjRijV5blbjzZLZll3N1JO9eikZc6Mlip365pggL9w=;
- b=RxI8ccMnJU34C26Ht6af/Th3w247gQIO0uQnzRfH2qt11y5bG/KVu1JIv98zlpx4D1
- 6+T+7fm9LFj2LYaDIo2LT8T1Xo9ePq7ThXSPvAlSvNHct8dmTKu+ixGW2MxKCmKPEic5
- 0NMP5HW32YUXzNX6ZAvMzUZ+r7/o+fZqhWAmOZNWEtuGQr2uKAwqdsnDPOcnCQXkusAL
- lEJpFgOxxgNb/wSBQGjXS2rZ5x92nLQ4+hV53yJlZyN8pSO9LtwYDE3KxhzcV0myrIXX
- ZNsRtuRyCHtRAnfOYgVIMLVSDSYy3KfNTnfDpnhlSRuUbePgyG4vh2nQsd84Uc0WGgIG
- AqbQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681848591; x=1684440591;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=rJjRijV5blbjzZLZll3N1JO9eikZc6Mlip365pggL9w=;
- b=eN0eQ1Q/MzazJM952ZG7prIuIzE4kZuQCJ0Oc81kIJLddvydTTGZKXr/Ekhh/a+ee5
- 6cKGo1EdTmIv0eTN5FQZUUNo7sfV8KTMAkbitTxU4gJ3Y7WR19HXWosbNGqAyrY/9BYw
- 7CC7l4A0sBQm9X6hvFgmDGk5yasN0tVh/n82uiKeAL1xq4O0NnwKig/lKJCISZqzBU9w
- E+0PTbybeUIVr2PYalebtkAlfvxATz0RuuTh+hYQuPyF9yE80gceHd8ehLXbipKag8Vj
- BrcvTqwxBhexRFo9yw0Si11+OTFwHZqpx42TFbt9Qapl/xiX9y9fxru5LEmmls6jO/VP
- 8QZQ==
-X-Gm-Message-State: AAQBX9cc7oxltw58TLZcDO0ku4OU2/9xerDxVNtG7CtaTZN0Yg65Q42/
- w8BpbLazlhUpg+3/c7mmsbNdpldy+iBJSqu2mPG1sg==
-X-Google-Smtp-Source: AKy350baeGq9wa+UpgsWuLoH1elNcvdt1oOkfqqmaCQpAHbi6Eath+2E2j22ABbywJdPOlHgLe3u3xkeQP5kmoW7nv0=
-X-Received: by 2002:a17:90a:fe8c:b0:246:f73c:3aba with SMTP id
- co12-20020a17090afe8c00b00246f73c3abamr618143pjb.39.1681848590753; Tue, 18
- Apr 2023 13:09:50 -0700 (PDT)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5367810E88F
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Apr 2023 20:46:55 +0000 (UTC)
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 33IKWkL1028338; Tue, 18 Apr 2023 20:46:47 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=bbr5o2YauD0eZRxyBUJRPAqMIVy90p0HuWJfE651qAQ=;
+ b=G/O3Xv+KEndIiY/aX4x8KfGyotOGP9MVp/JavUN8cicPFT2a3Diy7J+TftffGMGFsRK7
+ 7IpUquy1LNNhD6t6cIeyHAN5cppgs4EapYz6C/Myla2D4/qeRfUDhFbSfuOgs9SUX4zt
+ BGfshfnU10mb0RfULLUxhDdsYc+e5EWUQp0I7y/CsUbirEhpB4tswmM6Zsore8zN52sC
+ Zimwcc1JgZmj1pjjbQVnHd1q2wBruhCrN5p2pjiF+Ph25/mvC4DBXq/lsy6sW//SO1hO
+ 42n4q32f9Nub6xg5mdkBPM0o4GcwRtb2cbB6LuJ61ahhWY7Uu/KAxsbtbHkVLTIerN7C UQ== 
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3q171gm6q8-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 18 Apr 2023 20:46:46 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 33IKkZiU004556
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 18 Apr 2023 20:46:35 GMT
+Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Tue, 18 Apr
+ 2023 13:46:34 -0700
+Message-ID: <fe7da2c1-904e-ee4f-9a6c-443049c214b7@quicinc.com>
+Date: Tue, 18 Apr 2023 14:46:33 -0600
 MIME-Version: 1.0
-References: <20230408165023.2706235-1-trix@redhat.com>
-In-Reply-To: <20230408165023.2706235-1-trix@redhat.com>
-From: Nick Desaulniers <ndesaulniers@google.com>
-Date: Tue, 18 Apr 2023 13:09:39 -0700
-Message-ID: <CAKwvOdmFtc0shP45t7S9aoh1+UGXyaX_aodvJd97d-nH5J0HQg@mail.gmail.com>
-Subject: Re: [PATCH] drm/qxl: remove variable count
-To: Tom Rix <trix@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
+Subject: Re: [PATCH] accel/qaic: initialize ret variable to 0
+Content-Language: en-US
+To: Tom Rix <trix@redhat.com>, <ogabbay@kernel.org>, <nathan@kernel.org>,
+ <ndesaulniers@google.com>, <jacek.lawrynowicz@linux.intel.com>,
+ <quic_carlv@quicinc.com>, <stanislaw.gruszka@linux.intel.com>,
+ <quic_pkanojiy@quicinc.com>
+References: <20230418192046.3235870-1-trix@redhat.com>
+From: Jeffrey Hugo <quic_jhugo@quicinc.com>
+In-Reply-To: <20230418192046.3235870-1-trix@redhat.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: sfX04aJJ9qbOGEBW6zkYrRF9Un9_uJcn
+X-Proofpoint-ORIG-GUID: sfX04aJJ9qbOGEBW6zkYrRF9Un9_uJcn
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-04-18_15,2023-04-18_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 mlxscore=0
+ mlxlogscore=999 suspectscore=0 impostorscore=0 bulkscore=0 spamscore=0
+ clxscore=1011 phishscore=0 lowpriorityscore=0 malwarescore=0 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2303200000
+ definitions=main-2304180172
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,59 +85,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: llvm@lists.linux.dev, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
- nathan@kernel.org, kraxel@redhat.com, spice-devel@lists.freedesktop.org,
- airlied@redhat.com
+Cc: linux-arm-msm@vger.kernel.org, llvm@lists.linux.dev,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Apr 8, 2023 at 9:50=E2=80=AFAM Tom Rix <trix@redhat.com> wrote:
->
-> clang with W=3D1 reports
-> drivers/gpu/drm/qxl/qxl_cmd.c:424:6: error: variable
->   'count' set but not used [-Werror,-Wunused-but-set-variable]
->         int count =3D 0;
->             ^
-> This variable is not used so remove it.
+On 4/18/2023 1:20 PM, Tom Rix wrote:
+> clang static analysis reports
+> drivers/accel/qaic/qaic_data.c:610:2: warning: Undefined or garbage
+>    value returned to caller [core.uninitialized.UndefReturn]
+>          return ret;
+>          ^~~~~~~~~~
+> 
+> The ret variable is only set some of the time but is always returned.
+> So initialize ret to 0.
 
-Thanks for the patch!
+This does not appear to be entirely accurate to me.
 
-Fixes: 64122c1f6ad ("drm: add new QXL driver. (v1.4)")
-Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
+Do you know what analysis Clang is doing?  Is it limited to the function 
+itself?
 
->
+remap_pfn_range, which initializes ret, will always run at-least once.
+
+Feels more accurate to say that Clang cannot detect that ret will be 
+initialized, and we want to quiet the warning from the false positive.
+
+> Fixes: ff13be830333 ("accel/qaic: Add datapath")
 > Signed-off-by: Tom Rix <trix@redhat.com>
 > ---
->  drivers/gpu/drm/qxl/qxl_cmd.c | 2 --
->  1 file changed, 2 deletions(-)
->
-> diff --git a/drivers/gpu/drm/qxl/qxl_cmd.c b/drivers/gpu/drm/qxl/qxl_cmd.=
-c
-> index 281edab518cd..d6ea01f3797b 100644
-> --- a/drivers/gpu/drm/qxl/qxl_cmd.c
-> +++ b/drivers/gpu/drm/qxl/qxl_cmd.c
-> @@ -421,7 +421,6 @@ int qxl_surface_id_alloc(struct qxl_device *qdev,
->  {
->         uint32_t handle;
->         int idr_ret;
-> -       int count =3D 0;
->  again:
->         idr_preload(GFP_ATOMIC);
->         spin_lock(&qdev->surf_id_idr_lock);
-> @@ -433,7 +432,6 @@ int qxl_surface_id_alloc(struct qxl_device *qdev,
->         handle =3D idr_ret;
->
->         if (handle >=3D qdev->rom->n_surfaces) {
-> -               count++;
->                 spin_lock(&qdev->surf_id_idr_lock);
->                 idr_remove(&qdev->surf_id_idr, handle);
->                 spin_unlock(&qdev->surf_id_idr_lock);
-> --
-> 2.27.0
->
+>   drivers/accel/qaic/qaic_data.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/accel/qaic/qaic_data.c b/drivers/accel/qaic/qaic_data.c
+> index c0a574cd1b35..b46a16fb3080 100644
+> --- a/drivers/accel/qaic/qaic_data.c
+> +++ b/drivers/accel/qaic/qaic_data.c
+> @@ -591,7 +591,7 @@ static int qaic_gem_object_mmap(struct drm_gem_object *obj, struct vm_area_struc
+>   	struct qaic_bo *bo = to_qaic_bo(obj);
+>   	unsigned long offset = 0;
+>   	struct scatterlist *sg;
+> -	int ret;
+> +	int ret = 0;
+>   
+>   	if (obj->import_attach)
+>   		return -EINVAL;
 
-
---=20
-Thanks,
-~Nick Desaulniers
