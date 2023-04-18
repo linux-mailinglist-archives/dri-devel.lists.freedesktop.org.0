@@ -1,70 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 525676E5C71
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Apr 2023 10:48:35 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DCA66E5C8E
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Apr 2023 10:53:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5772B10E709;
-	Tue, 18 Apr 2023 08:48:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4B33210E713;
+	Tue, 18 Apr 2023 08:52:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com
- [IPv6:2a00:1450:4864:20::12e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D2FA410E709
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Apr 2023 08:48:17 +0000 (UTC)
-Received: by mail-lf1-x12e.google.com with SMTP id
- 2adb3069b0e04-4ec8c2907c9so1992990e87.3
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Apr 2023 01:48:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1681807695; x=1684399695;
- h=content-transfer-encoding:content-language:in-reply-to:mime-version
- :user-agent:date:message-id:from:references:cc:to:subject:from:to:cc
- :subject:date:message-id:reply-to;
- bh=DQTL6gqoekyUKEKfWJahiNXjj1p7JeMbW1pMbRbnCsI=;
- b=Wgny9GWkovXUcuzra15R9Ya8NrBk2HhG1yreAWsLLelZmC6KQTmWQGLFa19EQgHlAI
- y+5p7gteUZus9rYbZAkL3VwapJxpryZupHpMBpWkcGnnc0HjPukMpaX0Z8VGCRGTFY4m
- qNOKE2y4qeJVdHcoezQU2oo/1582oCCLm45uTxa0v4xSs/36V1OLt/oCoIKA/no/8oha
- FriZ837lR607GSF8NAxCXHKd5Z9RIhjuN9aYxi+VEyUVbZ7jlVFh6bZWnj8xQo5oiRq4
- IDC+ZzKC3Tf9KK/M0UcnGJV8LDPZu6jybiTKa50tsKDQzWLPIGN9qxptUduao2CxTGIl
- FdEg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681807695; x=1684399695;
- h=content-transfer-encoding:content-language:in-reply-to:mime-version
- :user-agent:date:message-id:from:references:cc:to:subject
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=DQTL6gqoekyUKEKfWJahiNXjj1p7JeMbW1pMbRbnCsI=;
- b=hwqH4oMsGM5Pz2RUAKYjSTZaRBsMY992UH24lr5aeLqqKPfkqR1JWwLdsJm+ThQPL1
- PcokmLhUtax1uUHtQlscCIl1gz7Dic2gW76PSBa01b1Cme3canZ8xnd1g/P8DauICmnD
- hqoCqgq/cN0ZZosnTgIUg2uEynp49kk9LQFJ8JTRwACc8EZCjZyi3dY+nNbPKMpu4vMC
- /Js/Ywyrqy4T9e6mmJUG6qOCtXCSK300ePsYFeTzGMGtfPTufbM4Ss1lvxk1Z0BdtJsc
- X/VP/L3caJxi3S6gq61zMT3P046doYWcRvdZutI2mWgLvlShBwRQiC7JGC4XchjOFQFQ
- XFNg==
-X-Gm-Message-State: AAQBX9dHwmqVw3vfvUrAnayF1d58nn4ZuMR/wt+nNcs9amqaTiI0r83g
- sZe5okbIF9m61SQ7OoiSgszRxRGxbHI=
-X-Google-Smtp-Source: AKy350a+YRhVtMEX2gDL2vy9uqCNxvNfQwxlBOxVZzqQkPi4tiThAj8JZwG9aqOHHyWcZCu3XTUdXw==
-X-Received: by 2002:a19:f80a:0:b0:4ea:fa26:2378 with SMTP id
- a10-20020a19f80a000000b004eafa262378mr2670569lff.23.1681807695312; 
- Tue, 18 Apr 2023 01:48:15 -0700 (PDT)
-Received: from [192.168.1.103] ([31.173.80.61])
- by smtp.gmail.com with ESMTPSA id
- v20-20020ac25594000000b004eacd90e0c7sm2313021lfg.81.2023.04.18.01.48.14
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 18 Apr 2023 01:48:14 -0700 (PDT)
-Subject: Re: [PATCH 1/2] gpu: Move ASPEED vendor ID definition to pci_ids.h
-To: Patrick McLean <chutzpah@gentoo.org>, linux-kernel@vger.kernel.org
-References: <20230418011720.3900090-1-chutzpah@gentoo.org>
- <20230418011720.3900090-2-chutzpah@gentoo.org>
-From: Sergei Shtylyov <sergei.shtylyov@gmail.com>
-Message-ID: <c33ce80f-611e-2841-d4bb-dbddd1b34053@gmail.com>
-Date: Tue, 18 Apr 2023 11:48:13 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 942F910E713;
+ Tue, 18 Apr 2023 08:52:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1681807975; x=1713343975;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=+r5HNnhbzxitDBNyCdAhtAQgLrE9Ump8tBCjEV3p1JI=;
+ b=SYRIJbToH/jWbuqv82QFTrSwE7qGkdFyLHQGujHFzPUs5uCVjjeenbQ0
+ /gzFjOryl93FOucr8Yn/TKhO2QLDFo0FmJFWc84OjhYqFzjG9Jcdprf8Q
+ 89yzv41Y3gTaAgJ+K9xT+c+wKVxpMUJbbbQAlV4kWEjnIIlutgtXsLz4P
+ RRshWIPHKss/sc3pBhC193asqCyFlnEKEbFL9ZTW/Yvxrj4iF6wZvhXLW
+ chC2nKlMC55727O5G/DGZbo7E9Q2lwOK0CWTuRB1rEEIELuBMno5fOKMf
+ ftPFtN/AmbdWfk4QOq1zLo/J9k6wxuSX2ghAb9k7vhYPuqIWxX4DeSQAV w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10683"; a="346961866"
+X-IronPort-AV: E=Sophos;i="5.99,206,1677571200"; d="scan'208";a="346961866"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Apr 2023 01:52:55 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10683"; a="668436390"
+X-IronPort-AV: E=Sophos;i="5.99,206,1677571200"; d="scan'208";a="668436390"
+Received: from unknown (HELO localhost) ([10.237.66.160])
+ by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Apr 2023 01:52:51 -0700
+From: Jani Nikula <jani.nikula@intel.com>
+To: Wayne Lin <Wayne.Lin@amd.com>, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org
+Subject: Re: [PATCH] drm/dp_mst: Clear MSG_RDY flag before sending new message
+In-Reply-To: <20230418060905.4078976-1-Wayne.Lin@amd.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20230418060905.4078976-1-Wayne.Lin@amd.com>
+Date: Tue, 18 Apr 2023 11:52:48 +0300
+Message-ID: <87mt351sin.fsf@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <20230418011720.3900090-2-chutzpah@gentoo.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,36 +58,162 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-pci@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-ide@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
- Bjorn Helgaas <bhelgaas@google.com>, Dave Airlie <airlied@redhat.com>
+Cc: stable@vger.kernel.org, jerry.zuo@amd.com, Wayne Lin <Wayne.Lin@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 4/18/23 4:17 AM, Patrick McLean wrote:
-
-> Currently the ASPEED PCI vendor ID is defined in drivers/gpu/drm/ast/ast_drv.c,
-> move that to include/linux/pci_ids.h with all the rest of the PCI vendor ID
-> definitions. Rename the definition to follow the format that the other
-> definitions follow.
-> 
-> Signed-off-by: Patrick McLean <chutzpah@gentoo.org>
-[...]
-> diff --git a/include/linux/pci_ids.h b/include/linux/pci_ids.h
-> index 45c3d62e616d..6634741aea80 100644
-> --- a/include/linux/pci_ids.h
-> +++ b/include/linux/pci_ids.h
-> @@ -815,6 +815,8 @@
->  #define PCI_VENDOR_ID_ASUSTEK		0x1043
->  #define PCI_DEVICE_ID_ASUSTEK_0675	0x0675
+On Tue, 18 Apr 2023, Wayne Lin <Wayne.Lin@amd.com> wrote:
+> [Why & How]
+> The sequence for collecting down_reply/up_request from source
+> perspective should be:
+>
+> Request_n->repeat (get partial reply of Request_n->clear message ready
+> flag to ack DPRX that the message is received) till all partial
+> replies for Request_n are received->new Request_n+1.
+>
+> While assembling partial reply packets, reading out DPCD DOWN_REP
+> Sideband MSG buffer + clearing DOWN_REP_MSG_RDY flag should be
+> wrapped up as a complete operation for reading out a reply packet.
+> Kicking off a new request before clearing DOWN_REP_MSG_RDY flag might
+> be risky. e.g. If the reply of the new request has overwritten the
+> DPRX DOWN_REP Sideband MSG buffer before source writing ack to clear
+> DOWN_REP_MSG_RDY flag, source then unintentionally flushes the reply
+> for the new request. Should handle the up request in the same way.
+>
+> In drm_dp_mst_hpd_irq(), we don't clear MSG_RDY flag before caliing
+> drm_dp_mst_kick_tx(). Fix that.
+>
+> Signed-off-by: Wayne Lin <Wayne.Lin@amd.com>
+> Cc: stable@vger.kernel.org
+> ---
+>  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |  2 ++
+>  drivers/gpu/drm/display/drm_dp_mst_topology.c | 22 +++++++++++++++++++
+>  drivers/gpu/drm/i915/display/intel_dp.c       |  3 +++
+>  drivers/gpu/drm/nouveau/dispnv50/disp.c       |  2 ++
+>  4 files changed, 29 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> index 77277d90b6e2..5313a5656598 100644
+> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> @@ -3166,6 +3166,8 @@ static void dm_handle_mst_sideband_msg(struct amdgpu_dm_connector *aconnector)
+>  			for (retry = 0; retry < 3; retry++) {
+>  				uint8_t wret;
 >  
-> +#define PCI_VENDOR_ID_ASPEED		0x1a03
+> +				/* MSG_RDY ack is done in drm*/
+> +				esi[1] &= ~(DP_DOWN_REP_MSG_RDY | DP_UP_REQ_MSG_RDY);
+
+Why do the masking within the retry loop?
+
+>  				wret = drm_dp_dpcd_write(
+>  					&aconnector->dm_dp_aux.aux,
+>  					dpcd_addr + 1,
+> diff --git a/drivers/gpu/drm/display/drm_dp_mst_topology.c b/drivers/gpu/drm/display/drm_dp_mst_topology.c
+> index 51a46689cda7..02aad713c67c 100644
+> --- a/drivers/gpu/drm/display/drm_dp_mst_topology.c
+> +++ b/drivers/gpu/drm/display/drm_dp_mst_topology.c
+> @@ -4054,6 +4054,9 @@ int drm_dp_mst_hpd_irq(struct drm_dp_mst_topology_mgr *mgr, u8 *esi, bool *handl
+>  {
+>  	int ret = 0;
+>  	int sc;
+> +	const int tosend = 1;
+> +	int retries = 0;
+> +	u8 buf = 0;
+
+All of these should be in tighter scope.
+
+>  	*handled = false;
+>  	sc = DP_GET_SINK_COUNT(esi[0]);
+>  
+> @@ -4072,6 +4075,25 @@ int drm_dp_mst_hpd_irq(struct drm_dp_mst_topology_mgr *mgr, u8 *esi, bool *handl
+>  		*handled = true;
+>  	}
+>  
+> +	if (*handled) {
+
+That should check for DP_DOWN_REP_MSG_RDY and DP_UP_REQ_MSG_RDY only,
+right? If those are not set, we didn't do anything with them, and should
+not ack.
+
+> +		buf = esi[1] & (DP_DOWN_REP_MSG_RDY | DP_UP_REQ_MSG_RDY);
+> +		do {
+> +			ret = drm_dp_dpcd_write(mgr->aux,
+> +						DP_DEVICE_SERVICE_IRQ_VECTOR_ESI0,
+> +						&buf,
+> +						tosend);
+
+We should probably have a helper function to do the acking, similar to
+intel_dp_ack_sink_irq_esi(), which could be used both by this function
+and the drivers.
+
 > +
->  #define PCI_VENDOR_ID_DPT		0x1044
->  #define PCI_DEVICE_ID_DPT		0xa400
+> +			if (ret == tosend)
+> +				break;
+> +
+> +			retries++;
+> +		} while (retries < 5);
+
+Please don't use a do-while when a for loop is sufficient.
+
+	for (tries = 0; tries < 5; tries++)
+
+and it's obvious at a glance how many times at most this runs. Not so
+with a do-while where you count *re-tries*. Again, would be nice to
+abstract this away in a helper function.
+
+> +
+> +		if (ret != tosend)
+> +			drm_dbg_kms(mgr->dev, "failed to write dpcd 0x%x\n",
+> +				    DP_DEVICE_SERVICE_IRQ_VECTOR_ESI0);
+> +	}
+> +
+>  	drm_dp_mst_kick_tx(mgr);
+>  	return ret;
+>  }
+> diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
+> index bf80f296a8fd..abec3de38b66 100644
+> --- a/drivers/gpu/drm/i915/display/intel_dp.c
+> +++ b/drivers/gpu/drm/i915/display/intel_dp.c
+> @@ -3939,6 +3939,9 @@ intel_dp_check_mst_status(struct intel_dp *intel_dp)
+>  		if (!memchr_inv(ack, 0, sizeof(ack)))
+>  			break;
 >  
+> +		/* MSG_RDY ack is done in drm*/
+> +		ack[1] &= ~(DP_DOWN_REP_MSG_RDY | DP_UP_REQ_MSG_RDY);
 
-   The vendor IDs in this file are sorted numerically, not
-alphabetically...
+Above we check if there's anything to ack and bail out, and now this
+clears the bits but writes them anyway.
 
-MBR, Sergey
+I think the handled parameter was problematic before, but now it's even
+more convoluted. What does it indicate? It used to mean you need to ack
+if it's set, but now it's something different. This function is getting
+very difficult to use correctly.
+
+BR,
+Jani.
+
+
+
+> +
+>  		if (!intel_dp_ack_sink_irq_esi(intel_dp, ack))
+>  			drm_dbg_kms(&i915->drm, "Failed to ack ESI\n");
+>  	}
+> diff --git a/drivers/gpu/drm/nouveau/dispnv50/disp.c b/drivers/gpu/drm/nouveau/dispnv50/disp.c
+> index edcb2529b402..e905987104ed 100644
+> --- a/drivers/gpu/drm/nouveau/dispnv50/disp.c
+> +++ b/drivers/gpu/drm/nouveau/dispnv50/disp.c
+> @@ -1336,6 +1336,8 @@ nv50_mstm_service(struct nouveau_drm *drm,
+>  		if (!handled)
+>  			break;
+>  
+> +		/* MSG_RDY ack is done in drm*/
+> +		esi[1] &= ~(DP_DOWN_REP_MSG_RDY | DP_UP_REQ_MSG_RDY);
+>  		rc = drm_dp_dpcd_write(aux, DP_SINK_COUNT_ESI + 1, &esi[1],
+>  				       3);
+
+Same here, this acks even if it's already been acked.
+
+>  		if (rc != 3) {
+
+-- 
+Jani Nikula, Intel Open Source Graphics Center
