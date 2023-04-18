@@ -2,53 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A9906E6A5C
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Apr 2023 19:00:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29D786E6A9B
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Apr 2023 19:10:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9CE2A10E0EF;
-	Tue, 18 Apr 2023 17:00:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E93FA10E172;
+	Tue, 18 Apr 2023 17:10:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B3BF210E0DA;
- Tue, 18 Apr 2023 17:00:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1681837213; x=1713373213;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=paTJcddG06iVBTPSVFSP/1hFmO7UqKIvTpuCikzeWxs=;
- b=YYZlTqqUVyhU+3ltDEDWPySxJvA29AHtVdLZyEBHtEm286oFTuUhYtG4
- XJLxbSO+xX3BNMYvtcnYfsnmesYZZGPxFbkBs1xsevDvHY+s6moI8IWZa
- GdBkwoynqpnXBYaDLGz/hlTVLZtNJvfHY+5syj1aQFUWXBMOWJ/Q/V99p
- 1wFthT3M7ZP5SGK4Z+LYK58O3F9NGJlA6HLCPA+2xWRZp43RRIPE8nwcw
- RD++14wYs7eYbdjlROYZV8piicVwy1U8wKv2+289fZw7wyKcd2yDBqc5v
- owpxel8WDE/U4bcGahyXjTaZcERTsaSExA76yV5hcUe9oh53WXSrmVpIX Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10684"; a="342716685"
-X-IronPort-AV: E=Sophos;i="5.99,207,1677571200"; d="scan'208";a="342716685"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Apr 2023 10:00:12 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10684"; a="802602758"
-X-IronPort-AV: E=Sophos;i="5.99,207,1677571200"; d="scan'208";a="802602758"
-Received: from ashfaqur-mobl1.ger.corp.intel.com (HELO intel.com)
- ([10.251.213.178])
- by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Apr 2023 10:00:07 -0700
-Date: Tue, 18 Apr 2023 18:59:44 +0200
-From: Andi Shyti <andi.shyti@linux.intel.com>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Subject: Re: [PATCH] drm/amdkfd: Fix potential deallocation of previously
- deallocated memory.
-Message-ID: <ZD7MgL619KVYKeTV@ashyti-mobl2.lan>
-References: <20230418065521.453001-1-d.dulov@aladdin.ru>
- <ZD5ZFoEk92MNQpqD@ashyti-mobl2.lan>
- <d41669a1-9e18-defb-d0cc-d43d7be7d23e@kernel.org>
+Received: from mail-ot1-x336.google.com (mail-ot1-x336.google.com
+ [IPv6:2607:f8b0:4864:20::336])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 156C910E0DA;
+ Tue, 18 Apr 2023 17:10:21 +0000 (UTC)
+Received: by mail-ot1-x336.google.com with SMTP id
+ 46e09a7af769-6a5f7341850so687638a34.2; 
+ Tue, 18 Apr 2023 10:10:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1681837820; x=1684429820;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=OqU64dyNyVLph1P/qhZx/WkaDVjQQSDBNOAh/YSWiWY=;
+ b=o28TKI5HN7PX9OwD+OvcSKCoMpLqS0tQsJ9AnHj+JNxmFq5YbFLM9ABw7YTnEg1E3f
+ IMCFObk7uQK7G/PniHux0t/aCah7rAWPVUPw4OyYnd99YnVYUb4FdRRpgfswiTQKwdAQ
+ B9CKE+fA4rK+mzKcfAfM6kXDCWAEjqzLkF1htaZW07e/F0qzKkhsLawi/aRtEcm1XgFM
+ YTGJJZAw6f5vX1ZeV031ReYz6RgfgdeWMdCpmYsLv4DR7Ew7rsgx00WPT0sb5DiN1uir
+ 7NHc5EGMQaLvamSQWgMAEj26E4fbwPWmsgiRk85j6QdU2EHmIBIapAe0uk/OBM1jeES6
+ CbWA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1681837820; x=1684429820;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=OqU64dyNyVLph1P/qhZx/WkaDVjQQSDBNOAh/YSWiWY=;
+ b=i5j5F8oeFozdLwTKVc8LvLXaOa2P7eFziOUrf30Kw4zLwGZMKkC4QjgQsGeGQt0Kdf
+ JT6f8/TqhrkEdQrA/Mw2zJQQQwrYwnTUcYkLtEplNv9lnNqJyuMhAudrp+CP7FuhZO7b
+ RUGskG59IhglEfQyM19s9oURkuk9aX12uR6siRJa/XrtfaB9jgKr2ndQFBve3xY9M0Uc
+ sdjozLesn5RhtbDgGkvfGwvStsprAY27pXbXMRoS+f/qb38VtsQqTjx1tuR87/a6vMP9
+ BPSdV5f/4yB9sQqVd3z3ghoDc6uAWXSkpfBOgCLD9rnswFRklJOByen4ONw12O/TIPP8
+ HGhQ==
+X-Gm-Message-State: AAQBX9d//YXQcF/xYxmeeMpp3STsc9F+EZGq9AH4z1nDyH58NQRaWBqR
+ zGsauUdA9iC9d73mT4uhNPpT0Sblvqnp+X6gdEI=
+X-Google-Smtp-Source: AKy350YC0VW+TMXuCCTkHujC3cG7rneXim8MUyV9WJC+o0/7FKXmfOCzZMG/oDLnt9Jz2SAZtp2DmC2BD0jfVUpQgig=
+X-Received: by 2002:a9d:7ccc:0:b0:6a5:dcaf:e152 with SMTP id
+ r12-20020a9d7ccc000000b006a5dcafe152mr917545otn.7.1681837820660; Tue, 18 Apr
+ 2023 10:10:20 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <d41669a1-9e18-defb-d0cc-d43d7be7d23e@kernel.org>
+References: <20230417155613.4143258-1-tvrtko.ursulin@linux.intel.com>
+ <20230417155613.4143258-4-tvrtko.ursulin@linux.intel.com>
+ <CAF6AEGu3oagVYqBcgqKFO6-gbLbVdFn51fKeV7CfWTJXJjTNYA@mail.gmail.com>
+ <fca966cf-df17-a937-8330-b2353f1a352c@linux.intel.com>
+ <CAF6AEGswZZZxwRTOXbCVKmhUYwz8BSu-GDVCJ=FfyJ-w=e4dLQ@mail.gmail.com>
+ <0faa3b0f-342c-87e0-9587-f8c11131689e@linux.intel.com>
+ <CAF6AEGu+AbQnPV-1goqJi_RJR7TB8Ta5FXTKn-j6Aq4fiuPN2w@mail.gmail.com>
+ <8a16f714-d20a-7608-a08f-88b20dc05d86@linux.intel.com>
+ <CAF6AEGuhYNY6z0rHBufVJvXmXrpb9yQRqGrdJkzBK_kFcE0Vtg@mail.gmail.com>
+ <b2241375-ba94-750d-7b4e-2e008e11d421@linux.intel.com>
+In-Reply-To: <b2241375-ba94-750d-7b4e-2e008e11d421@linux.intel.com>
+From: Rob Clark <robdclark@gmail.com>
+Date: Tue, 18 Apr 2023 10:10:09 -0700
+Message-ID: <CAF6AEGs9wuE2Av36cZ1BvvV35vRVALBba_PVDijUyYUjwVCJiQ@mail.gmail.com>
+Subject: Re: [RFC 3/6] drm: Add fdinfo memory stats
+To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,111 +77,113 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: lvc-project@linuxtesting.org, David Airlie <airlied@linux.ie>,
- Daniil Dulov <d.dulov@aladdin.ru>, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org,
- Christian =?iso-8859-15?Q?K=F6nig?= <christian.koenig@amd.com>,
- dri-devel@lists.freedesktop.org, Andi Shyti <andi.shyti@linux.intel.com>,
- Alex Deucher <alexander.deucher@amd.com>, Oak Zeng <ozeng@amd.com>,
- Felix Kuehling <Felix.Kuehling@amd.com>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, Intel-gfx@lists.freedesktop.org,
+ Emil Velikov <emil.l.velikov@gmail.com>, dri-devel@lists.freedesktop.org,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Apr 18, 2023 at 12:07:15PM +0200, Krzysztof Kozlowski wrote:
-> On 18/04/2023 10:47, Andi Shyti wrote:
-> > Hi Daniil,
-> > 
-> > On Mon, Apr 17, 2023 at 11:55:21PM -0700, Daniil Dulov wrote:
-> >> Pointer mqd_mem_obj can be deallocated in kfd_gtt_sa_allocate().
-> >> The function then returns non-zero value, which causes the second deallocation.
+On Tue, Apr 18, 2023 at 9:44=E2=80=AFAM Tvrtko Ursulin
+<tvrtko.ursulin@linux.intel.com> wrote:
+>
+>
+> On 18/04/2023 17:13, Rob Clark wrote:
+> > On Tue, Apr 18, 2023 at 7:46=E2=80=AFAM Tvrtko Ursulin
+> > <tvrtko.ursulin@linux.intel.com> wrote:
+> >> On 18/04/2023 15:36, Rob Clark wrote:
+> >>> On Tue, Apr 18, 2023 at 7:19=E2=80=AFAM Tvrtko Ursulin
+> >>> <tvrtko.ursulin@linux.intel.com> wrote:
+> >>>>
+> >>>>
+> >>>> On 18/04/2023 14:49, Rob Clark wrote:
+> >>>>> On Tue, Apr 18, 2023 at 2:00=E2=80=AFAM Tvrtko Ursulin
+> >>>>> <tvrtko.ursulin@linux.intel.com> wrote:
+> >>>>>>
+> >>>>>>
+> >>>>>> On 17/04/2023 20:39, Rob Clark wrote:
+> >>>>>>> On Mon, Apr 17, 2023 at 8:56=E2=80=AFAM Tvrtko Ursulin
+> >>>>>>> <tvrtko.ursulin@linux.intel.com> wrote:
+> >>>>>>>>
+> >>>>>>>> From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+> >>>>>>>>
+> >>>>>>>> Add support to dump GEM stats to fdinfo.
+> >>>>>>>>
+> >>>>>>>> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+> >>>>>>>> ---
+> >>>>>>>>      Documentation/gpu/drm-usage-stats.rst | 12 +++++++
+> >>>>>>>>      drivers/gpu/drm/drm_file.c            | 52 ++++++++++++++++=
++++++++++++
+> >>>>>>>>      include/drm/drm_drv.h                 |  7 ++++
+> >>>>>>>>      include/drm/drm_file.h                |  8 +++++
+> >>>>>>>>      4 files changed, 79 insertions(+)
+> >>>>>>>>
+> >>>>>>>> diff --git a/Documentation/gpu/drm-usage-stats.rst b/Documentati=
+on/gpu/drm-usage-stats.rst
+> >>>>>>>> index 2ab32c40e93c..8273a41b2fb0 100644
+> >>>>>>>> --- a/Documentation/gpu/drm-usage-stats.rst
+> >>>>>>>> +++ b/Documentation/gpu/drm-usage-stats.rst
+> >>>>>>>> @@ -21,6 +21,7 @@ File format specification
+> >>>>>>>>
+> >>>>>>>>      - File shall contain one key value pair per one line of tex=
+t.
+> >>>>>>>>      - Colon character (`:`) must be used to delimit keys and va=
+lues.
+> >>>>>>>> +- Caret (`^`) is also a reserved character.
+> >>>>>>>
+> >>>>>>> this doesn't solve the problem that led me to drm-$CATEGORY-memor=
+y... ;-)
+> >>>>>>
+> >>>>>> Could you explain or remind me with a link to a previous explanati=
+on?
+> >>>>>
+> >>>>> How is userspace supposed to know that "drm-memory-foo" is a memory
+> >>>>> type "foo" but drm-memory-foo^size is not memory type "foo^size"?
+> >>>>
+> >>>> Are you referring to nvtop?
+> >>>
+> >>> I'm not referring to any particular app.  It could even be some app
+> >>> that isn't even written yet but started with an already existing
+> >>> kernel without this change.  It is just a general point about forward=
+s
+> >>> compatibility of old userspace with new kernel.  And it doesn't reall=
+y
+> >>> matter what special character you use.  You can't retroactively defin=
+e
+> >>> some newly special characters.
 > >>
-> >> Found by Linux Verification Center (linuxtesting.org) with SVACE.
-> >>
-> >> Fixes: d1f8f0d17d40 ("drm/amdkfd: Move non-sdma mqd allocation out of init_mqd")
-> >> Signed-off-by: Daniil Dulov <d.dulov@aladdin.ru>
-> >> ---
-> >>  drivers/gpu/drm/amd/amdkfd/kfd_mqd_manager_v9.c | 3 ++-
-> >>  1 file changed, 2 insertions(+), 1 deletion(-)
-> >>
-> >> diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_mqd_manager_v9.c b/drivers/gpu/drm/amd/amdkfd/kfd_mqd_manager_v9.c
-> >> index 3b6f5963180d..bce11c5b07d6 100644
-> >> --- a/drivers/gpu/drm/amd/amdkfd/kfd_mqd_manager_v9.c
-> >> +++ b/drivers/gpu/drm/amd/amdkfd/kfd_mqd_manager_v9.c
-> >> @@ -119,7 +119,8 @@ static struct kfd_mem_obj *allocate_mqd(struct kfd_dev *kfd,
-> >>  	}
-> >>  
-> >>  	if (retval) {
-> >> -		kfree(mqd_mem_obj);
-> >> +		if (mqd_mem_obj)
-> >> +			kfree(mqd_mem_obj);
-> > 
-> > I think this is not needed. kfree() returns immediately if
-> > mqd_mem_obj is NULL.
-> > 
-> 
-> Yep, the tool has to be fixed because such patch is just misleading.
-> However different point - the commit description actually describes
-> entirely different case: double free. Maybe the issue is true, just the
-> fix is wrong?
+> >> What you see does not work if we output both legacy and new key with
+> >> extra category? Userspace which hardcode the name keep working, and
+> >> userspace which parses region names as opaque strings also keeps worki=
+ng
+> >> just shows more entries.
+> >
+> > well, it shows nonsense entries.. I'd not call that "working"
+> >
+> > But honestly we are wasting too many words on this.. we just can't
+> > re-use the "drm-memory-<anything>" namespace, it is already burnt.
+> > Full stop.
+> >
+> > If you don't like the "drm-$CATEGORY-$REGION" workaround then we can
+> > shorten to "drm-mem-$REGION-$CATEGORY" since that won't accidentally
+> > match the existing "drm-memory-" pattern.
+>
+> I can live with that token reversal, it was not the primary motivation
+> for my RFC as we have discussed that side of things already before I
+> sketched my version up.
+>
+> But I also still don't get what doesn't work with what I described and
+> you did not really address my specific questions with more than a
+> "doesn't work" with not much details.
+>
+> Unless for you it starts and ends with "nonsense entries". If so then it
+> seems there is no option than to disagree and move on. Again, I can
+> accept the drm-$category-memory-$region.
 
-Yes, indeed, the fix is wrong, but the bug exists. I'm pasting
-the original function:
+Yeah, it's about "nonsense entries".. and I am perhaps being a bit
+pedantic about compatibility with old userspace (not like there are
+100's of apps parsing drm fdinfo), but it is the principle of the
+matter ;-)
 
-	if (kfd->cwsr_enabled && (q->type == KFD_QUEUE_TYPE_COMPUTE)) {
-		mqd_mem_obj = kzalloc(sizeof(struct kfd_mem_obj), GFP_KERNEL);
-		if (!mqd_mem_obj)
-			return NULL;
-		...
-	} else {
-		retval = kfd_gtt_sa_allocate(kfd, sizeof(struct v9_mqd),
-				&mqd_mem_obj);
-	}
-
-	if (retval) {
-		kfree(mqd_mem_obj);
-		return NULL;
-	}
-
-The "kfd_gtt_sa_allocate()" function allocates mqd_mem_obj and if
-an error occurs internally frees it, without setting it to NULL;
-retval is true and we kfree a memory that has already been freed.
-
-The real fix is to move the "if (retval)" inside the if. It would
-basically be:
-
-diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_mqd_manager_v9.c b/drivers/gpu/drm/amd/amdkfd/kfd_mqd_manager_v9.c
-index fdbfd725841ff..31d47d687bd62 100644
---- a/drivers/gpu/drm/amd/amdkfd/kfd_mqd_manager_v9.c
-+++ b/drivers/gpu/drm/amd/amdkfd/kfd_mqd_manager_v9.c
-@@ -115,18 +115,20 @@ static struct kfd_mem_obj *allocate_mqd(struct kfd_dev *kfd,
-                        &(mqd_mem_obj->gtt_mem),
-                        &(mqd_mem_obj->gpu_addr),
-                        (void *)&(mqd_mem_obj->cpu_ptr), true);
-+
-+               if (retval) {
-+                       kfree(mqd_mem_obj);
-+                       return NULL;
-+               }
-+
-        } else {
-                retval = kfd_gtt_sa_allocate(kfd, sizeof(struct v9_mqd),
-                                &mqd_mem_obj);
--       }
--
--       if (retval) {
--               kfree(mqd_mem_obj);
--               return NULL;
-+               if (retval)
-+                       return NULL;
-        }
- 
-        return mqd_mem_obj;
--
- }
-
-Maybe with some clever refactoring we could reduce some code
-duplication.
-
-Daniil will you look into this?
-
-Andi
+BR,
+-R
