@@ -2,38 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E62C26E6FC4
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Apr 2023 01:02:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E5D56E6FC5
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Apr 2023 01:02:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E13A510E249;
-	Tue, 18 Apr 2023 23:02:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8A08B10E26C;
+	Tue, 18 Apr 2023 23:02:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx0.riseup.net (mx0.riseup.net [198.252.153.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0D73A10E268
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Apr 2023 23:02:14 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6398C10E26C
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Apr 2023 23:02:21 +0000 (UTC)
 Received: from fews02-sea.riseup.net (unknown [10.0.1.112])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
  client-signature RSA-PSS (2048 bits) client-digest SHA256)
  (Client CN "mail.riseup.net", Issuer "R3" (not verified))
- by mx0.riseup.net (Postfix) with ESMTPS id 4Q1KF13VmXz9tGn;
- Tue, 18 Apr 2023 23:02:13 +0000 (UTC)
+ by mx0.riseup.net (Postfix) with ESMTPS id 4Q1KF85mnxz9tFY;
+ Tue, 18 Apr 2023 23:02:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
- t=1681858933; bh=xZ9FoOkpQ+++WFk/0dotupXmsDHmgblZa6xFJ5brMDc=;
+ t=1681858941; bh=CiOEWRg2hz4fmnonROn9BZxEq9VXDywlxx0uJtFCvrA=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=cMBGShE1i4riuQialxfxtJQb2SQ6D1F9WdczueU2wx698hegtrR5JWcW+AZt8ObMj
- yuFduVdrjcujQFHcJwzDDm53O2ImS4KLcTNzGy/aXPanPmAFj9S3jbdm2GYZXmjqbQ
- NSBvkqZlEgW7YvjbDSKssdBcbGSEwavEgT1RxHBk=
-X-Riseup-User-ID: 991A34D174F13C8B5383E46F08F0E3E667C8CD9B0B70B8C7FAFFD6894CDC977F
+ b=eW/kxrFOZaU+RX/b1nSMxZJGCbdUkeY6Sj8+Z9nQUccUJAc6xmBzfDcwO6LAg6voG
+ JT+IT9wQ41FN9Z9MZjtHpkdJyQivQEv5FGjYDXb+gi9vRWd6rGMUKWDUXOyLESu6v9
+ Korcy8QKyJcPge+qLYBEH9BtbVo4PX0OcFwA1kos=
+X-Riseup-User-ID: 7426031481943B017E0EEDB41811B5511F1914B0FB6D1ED013A423BC76DD8D7D
 Received: from [127.0.0.1] (localhost [127.0.0.1])
- by fews02-sea.riseup.net (Postfix) with ESMTPSA id 4Q1KDv4Qt2zFq7h;
- Tue, 18 Apr 2023 23:02:06 +0000 (UTC)
+ by fews02-sea.riseup.net (Postfix) with ESMTPSA id 4Q1KF21ZXDzFq7h;
+ Tue, 18 Apr 2023 23:02:13 +0000 (UTC)
 From: Arthur Grillo <arthurgrillo@riseup.net>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v5 2/5] drm/tests: Add test cases for drm_rect_calc_hscale()
-Date: Tue, 18 Apr 2023 20:01:43 -0300
-Message-Id: <20230418230146.461129-3-arthurgrillo@riseup.net>
+Subject: [PATCH v5 3/5] drm/tests: Add test cases for drm_rect_calc_vscale()
+Date: Tue, 18 Apr 2023 20:01:44 -0300
+Message-Id: <20230418230146.461129-4-arthurgrillo@riseup.net>
 In-Reply-To: <20230418230146.461129-1-arthurgrillo@riseup.net>
 References: <20230418230146.461129-1-arthurgrillo@riseup.net>
 MIME-Version: 1.0
@@ -57,96 +57,31 @@ Cc: carlos.craveiro@usp.br, tales.aparecida@gmail.com, dlatypov@google.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Insert parameterized test for the drm_rect_calc_hscale() to ensure
+Insert parameterized test for the drm_rect_calc_vscale() to ensure
 correctness and prevent future regressions. Besides the test for the
 usual case, tests the exceptions.
 
+It uses the same struct from drm_rect_calc_hscale().
+
 Signed-off-by: Arthur Grillo <arthurgrillo@riseup.net>
 ---
- drivers/gpu/drm/tests/drm_rect_test.c | 72 +++++++++++++++++++++++++++
- 1 file changed, 72 insertions(+)
+ drivers/gpu/drm/tests/drm_rect_test.c | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
 diff --git a/drivers/gpu/drm/tests/drm_rect_test.c b/drivers/gpu/drm/tests/drm_rect_test.c
-index 33584f63be37..aae682ad9ee1 100644
+index aae682ad9ee1..fd89e62ad2cb 100644
 --- a/drivers/gpu/drm/tests/drm_rect_test.c
 +++ b/drivers/gpu/drm/tests/drm_rect_test.c
-@@ -10,6 +10,7 @@
- #include <drm/drm_rect.h>
- 
- #include <linux/string_helpers.h>
-+#include <linux/errno.h>
- 
- static void drm_rect_compare(struct kunit *test, const struct drm_rect *r,
- 			     const struct drm_rect *expected)
-@@ -343,12 +344,83 @@ static void drm_test_rect_intersect(struct kunit *test)
- 	drm_rect_compare(test, &r1_aux, &params->expected_intersection);
+@@ -414,6 +414,17 @@ static void drm_test_rect_calc_hscale(struct kunit *test)
+ 	KUNIT_EXPECT_EQ(test, scaling_factor, params->expected_scaling_factor);
  }
  
-+struct drm_rect_scale_case {
-+	const char *name;
-+	struct drm_rect src, dst;
-+	int min_range, max_range;
-+	int expected_scaling_factor;
-+};
-+
-+static const struct drm_rect_scale_case drm_rect_scale_cases[] = {
-+	{
-+		.name = "normal use",
-+		.src = DRM_RECT_INIT(0, 0, 2 << 16, 2 << 16),
-+		.dst = DRM_RECT_INIT(0, 0, 1 << 16, 1 << 16),
-+		.min_range = 0, .max_range = INT_MAX,
-+		.expected_scaling_factor = 2,
-+	},
-+	{
-+		.name = "out of max range",
-+		.src = DRM_RECT_INIT(0, 0, 10 << 16, 10 << 16),
-+		.dst = DRM_RECT_INIT(0, 0, 1 << 16, 1 << 16),
-+		.min_range = 3, .max_range = 5,
-+		.expected_scaling_factor = -ERANGE,
-+	},
-+	{
-+		.name = "out of min range",
-+		.src = DRM_RECT_INIT(0, 0, 2 << 16, 2 << 16),
-+		.dst = DRM_RECT_INIT(0, 0, 1 << 16, 1 << 16),
-+		.min_range = 3, .max_range = 5,
-+		.expected_scaling_factor = -ERANGE,
-+	},
-+	{
-+		.name = "zero dst",
-+		.src = DRM_RECT_INIT(0, 0, 2 << 16, 2 << 16),
-+		.dst = DRM_RECT_INIT(0, 0, 0 << 16, 0 << 16),
-+		.min_range = 0, .max_range = INT_MAX,
-+		.expected_scaling_factor = 0,
-+	},
-+	{
-+		.name = "negative src",
-+		.src = DRM_RECT_INIT(0, 0, -(1 << 16), -(1 << 16)),
-+		.dst = DRM_RECT_INIT(0, 0, 1 << 16, 1 << 16),
-+		.min_range = 0, .max_range = INT_MAX,
-+		.expected_scaling_factor = -EINVAL,
-+	},
-+	{
-+		.name = "negative dst",
-+		.src = DRM_RECT_INIT(0, 0, 1 << 16, 1 << 16),
-+		.dst = DRM_RECT_INIT(0, 0, -(1 << 16), -(1 << 16)),
-+		.min_range = 0, .max_range = INT_MAX,
-+		.expected_scaling_factor = -EINVAL,
-+	},
-+};
-+
-+static void drm_rect_scale_case_desc(const struct drm_rect_scale_case *t, char *desc)
-+{
-+	strscpy(desc, t->name, KUNIT_PARAM_DESC_SIZE);
-+}
-+
-+KUNIT_ARRAY_PARAM(drm_rect_scale, drm_rect_scale_cases, drm_rect_scale_case_desc);
-+
-+static void drm_test_rect_calc_hscale(struct kunit *test)
++static void drm_test_rect_calc_vscale(struct kunit *test)
 +{
 +	const struct drm_rect_scale_case *params = test->param_value;
 +	int scaling_factor;
 +
-+	scaling_factor = drm_rect_calc_hscale(&params->src, &params->dst,
++	scaling_factor = drm_rect_calc_vscale(&params->src, &params->dst,
 +					      params->min_range, params->max_range);
 +
 +	KUNIT_EXPECT_EQ(test, scaling_factor, params->expected_scaling_factor);
@@ -155,10 +90,11 @@ index 33584f63be37..aae682ad9ee1 100644
  static struct kunit_case drm_rect_tests[] = {
  	KUNIT_CASE(drm_test_rect_clip_scaled_div_by_zero),
  	KUNIT_CASE(drm_test_rect_clip_scaled_not_clipped),
- 	KUNIT_CASE(drm_test_rect_clip_scaled_clipped),
+@@ -421,6 +432,7 @@ static struct kunit_case drm_rect_tests[] = {
  	KUNIT_CASE(drm_test_rect_clip_scaled_signed_vs_unsigned),
  	KUNIT_CASE_PARAM(drm_test_rect_intersect, drm_rect_intersect_gen_params),
-+	KUNIT_CASE_PARAM(drm_test_rect_calc_hscale, drm_rect_scale_gen_params),
+ 	KUNIT_CASE_PARAM(drm_test_rect_calc_hscale, drm_rect_scale_gen_params),
++	KUNIT_CASE_PARAM(drm_test_rect_calc_vscale, drm_rect_scale_gen_params),
  	{ }
  };
  
