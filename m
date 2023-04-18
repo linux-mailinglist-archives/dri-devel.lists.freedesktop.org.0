@@ -1,40 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A2006E5DA0
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Apr 2023 11:39:44 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CF4056E5D9B
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Apr 2023 11:39:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B92CD10E726;
-	Tue, 18 Apr 2023 09:39:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7F6A610E716;
+	Tue, 18 Apr 2023 09:39:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5402610E716
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Apr 2023 09:39:25 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A270510E716
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Apr 2023 09:39:26 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id B847C623D5;
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 33472625F0;
+ Tue, 18 Apr 2023 09:39:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B3CE9C4339B;
  Tue, 18 Apr 2023 09:39:24 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4B4FCC433EF;
- Tue, 18 Apr 2023 09:39:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1681810764;
- bh=iUFZfYhcdmFcqRCRra3sJ5S/JKaZ3csvf3NYNsgjISg=;
+ s=k20201202; t=1681810765;
+ bh=hwfh9cx73kb1mUh5/2zCXg2tIqhGQnxf5/EQ/bzd8sc=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=lMTPQvqke0kL1MOgKEp2189+nX83e9A3z7QW4bQ3kBX489mcWfyJ2U39uYr7fEjoF
- UoznGTEHOu4yf8+jwMxtNKywOUJQcQcgR26qB+mcbQxTLB3ukvAzscNU2nmb7lXgyV
- KJ+iItV6dLdMInv0KIVwatbOua0z2vrG8lmRGiuppsSnCOHfvYceufjQ1yAnLSf6Ac
- GdjF1tA1n9YUrqUCZ+1efsQbOty2XkNmgLRa/bdYWAVO/2ZqimDMsj8mYyJSb0k9XG
- OjHcVJuEyyCXEIz+ufmw3O5W8My8tUJdyN4CdIb3tZv7B9XKDtMgeIAw5jpIj2uXXl
- 5PoQT6ygfz75Q==
+ b=VG/Uyrdu9qcnK2WqYt2+zs4bVi00qDAunXTcokG1WGbZQZ5d5tuuDrWsOdJ/7Br/N
+ E2Bjo9zFRUh8fnQzoUZpnCTGMdkAT5f6hue+D8HbuO0PLnshaKejZs4RpO9TBsgTe4
+ /Z/8RvkPm+3Ymz5G18OgS53n8nI5Z4I2DmbfrLanKerRtEeuK5oCnuAO5Ap/m232IB
+ hyDhvEQ81y8ScvgIO9v1ArQpXZBrYp0xi8xX4mpy067M/h/Ag7tIwBcMXQkGeCXhaq
+ zvcmlp1P1bZhMVv31rKmQTWQwss1Tf46sCgErvvwB6vdl7ueiNmLc8VUSrQ+IhnNkx
+ zNKyAyBWGtR4w==
 From: Oded Gabbay <ogabbay@kernel.org>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 03/10] accel/habanalabs: extract and save the FW's SW
- major/minor/sub-minor
-Date: Tue, 18 Apr 2023 12:39:09 +0300
-Message-Id: <20230418093916.2979728-3-ogabbay@kernel.org>
+Subject: [PATCH 04/10] accel/habanalabs: check fw version using sw version
+Date: Tue, 18 Apr 2023 12:39:10 +0300
+Message-Id: <20230418093916.2979728-4-ogabbay@kernel.org>
 X-Mailer: git-send-email 2.40.0
 In-Reply-To: <20230418093916.2979728-1-ogabbay@kernel.org>
 References: <20230418093916.2979728-1-ogabbay@kernel.org>
@@ -58,154 +58,52 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Dafna Hirschfeld <dhirschfeld@habana.ai>
 
-It is not always possible to know the FW's SW version from the inner FW
-version. Therefore we should extract the general SW version in addition
-to the FW version and use it in functions like
-'hl_is_fw_ver_below_1_9' etc.
+The fw inner version is less trustable, instead use the fw general
+sw release version.
 
 Signed-off-by: Dafna Hirschfeld <dhirschfeld@habana.ai>
 Reviewed-by: Oded Gabbay <ogabbay@kernel.org>
 Signed-off-by: Oded Gabbay <ogabbay@kernel.org>
 ---
- drivers/accel/habanalabs/common/firmware_if.c | 78 +++++++++++++++++--
- drivers/accel/habanalabs/common/habanalabs.h  |  6 ++
- 2 files changed, 78 insertions(+), 6 deletions(-)
+ drivers/accel/habanalabs/common/habanalabs.h | 10 ++++++++--
+ drivers/accel/habanalabs/gaudi2/gaudi2.c     |  2 +-
+ 2 files changed, 9 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/accel/habanalabs/common/firmware_if.c b/drivers/accel/habanalabs/common/firmware_if.c
-index 6150ab6ba810..62052cfe694f 100644
---- a/drivers/accel/habanalabs/common/firmware_if.c
-+++ b/drivers/accel/habanalabs/common/firmware_if.c
-@@ -93,6 +93,71 @@ static char *extract_u32_until_given_char(char *str, u32 *ver_num, char given_ch
- 	return ch;
- }
- 
-+/**
-+ * hl_get_sw_major_minor_subminor() - extract the FW's SW version major, minor, sub-minor
-+ *				      from the version string
-+ * @hdev: pointer to the hl_device
-+ * @fw_str: the FW's version string
-+ *
-+ * The extracted version is set in the hdev fields: fw_sw_{major/minor/sub_minor}_ver.
-+ *
-+ * fw_str is expected to have one of two possible formats, examples:
-+ * 1) 'Preboot version hl-gaudi2-1.9.0-fw-42.0.1-sec-3'
-+ * 2) 'Preboot version hl-gaudi2-1.9.0-rc-fw-42.0.1-sec-3'
-+ * In those examples, the SW major,minor,subminor are correspondingly: 1,9,0.
-+ *
-+ * Return: 0 for success or a negative error code for failure.
-+ */
-+static int hl_get_sw_major_minor_subminor(struct hl_device *hdev, const char *fw_str)
-+{
-+	char *end, *start;
-+
-+	end = strnstr(fw_str, "-rc-", VERSION_MAX_LEN);
-+	if (end == fw_str)
-+		return -EINVAL;
-+
-+	if (!end)
-+		end = strnstr(fw_str, "-fw-", VERSION_MAX_LEN);
-+
-+	if (end == fw_str)
-+		return -EINVAL;
-+
-+	if (!end)
-+		return -EINVAL;
-+
-+	for (start = end - 1; start != fw_str; start--) {
-+		if (*start == '-')
-+			break;
-+	}
-+
-+	if (start == fw_str)
-+		return -EINVAL;
-+
-+	/* start/end point each to the starting and ending hyphen of the sw version e.g. -1.9.0- */
-+	start++;
-+	start = extract_u32_until_given_char(start, &hdev->fw_sw_major_ver, '.');
-+	if (!start)
-+		goto err_zero_ver;
-+
-+	start++;
-+	start = extract_u32_until_given_char(start, &hdev->fw_sw_minor_ver, '.');
-+	if (!start)
-+		goto err_zero_ver;
-+
-+	start++;
-+	start = extract_u32_until_given_char(start, &hdev->fw_sw_sub_minor_ver, '-');
-+	if (!start)
-+		goto err_zero_ver;
-+
-+	return 0;
-+
-+err_zero_ver:
-+	hdev->fw_sw_major_ver = 0;
-+	hdev->fw_sw_minor_ver = 0;
-+	hdev->fw_sw_sub_minor_ver = 0;
-+	return -EINVAL;
-+}
-+
- /**
-  * hl_get_preboot_major_minor() - extract the FW's version major, minor from the version string.
-  * @hdev: pointer to the hl_device
-@@ -2172,6 +2237,7 @@ static int hl_fw_dynamic_read_device_fw_version(struct hl_device *hdev,
- 	struct asic_fixed_properties *prop = &hdev->asic_prop;
- 	char *preboot_ver, *boot_ver;
- 	char btl_ver[32];
-+	int rc;
- 
- 	switch (fwc) {
- 	case FW_COMP_BOOT_FIT:
-@@ -2185,20 +2251,20 @@ static int hl_fw_dynamic_read_device_fw_version(struct hl_device *hdev,
- 		break;
- 	case FW_COMP_PREBOOT:
- 		strscpy(prop->preboot_ver, fw_version, VERSION_MAX_LEN);
--		preboot_ver = strnstr(prop->preboot_ver, "Preboot",
--						VERSION_MAX_LEN);
-+		preboot_ver = strnstr(prop->preboot_ver, "Preboot", VERSION_MAX_LEN);
-+		dev_info(hdev->dev, "preboot full version: '%s'\n", preboot_ver);
-+
- 		if (preboot_ver && preboot_ver != prop->preboot_ver) {
- 			strscpy(btl_ver, prop->preboot_ver,
- 				min((int) (preboot_ver - prop->preboot_ver), 31));
- 			dev_info(hdev->dev, "%s\n", btl_ver);
- 		}
- 
-+		rc = hl_get_sw_major_minor_subminor(hdev, preboot_ver);
-+		if (rc)
-+			return rc;
- 		preboot_ver = extract_fw_ver_from_str(prop->preboot_ver);
- 		if (preboot_ver) {
--			int rc;
--
--			dev_info(hdev->dev, "preboot version %s\n", preboot_ver);
--
- 			rc = hl_get_preboot_major_minor(hdev, preboot_ver);
- 			kfree(preboot_ver);
- 			if (rc)
 diff --git a/drivers/accel/habanalabs/common/habanalabs.h b/drivers/accel/habanalabs/common/habanalabs.h
-index 57661cb51621..d6f454b1cde4 100644
+index d6f454b1cde4..02620654ccdf 100644
 --- a/drivers/accel/habanalabs/common/habanalabs.h
 +++ b/drivers/accel/habanalabs/common/habanalabs.h
-@@ -3227,6 +3227,9 @@ struct hl_reset_info {
-  * @stream_master_qid_arr: pointer to array with QIDs of master streams.
-  * @fw_inner_major_ver: the major of current loaded preboot inner version.
-  * @fw_inner_minor_ver: the minor of current loaded preboot inner version.
-+ * @fw_sw_major_ver: the major of current loaded preboot SW version.
-+ * @fw_sw_minor_ver: the minor of current loaded preboot SW version.
-+ * @fw_sw_sub_minor_ver: the sub-minor of current loaded preboot SW version.
-  * @dram_used_mem: current DRAM memory consumption.
-  * @memory_scrub_val: the value to which the dram will be scrubbed to using cb scrub_device_dram
-  * @timeout_jiffies: device CS timeout value.
-@@ -3414,6 +3417,9 @@ struct hl_device {
- 	u32				*stream_master_qid_arr;
- 	u32				fw_inner_major_ver;
- 	u32				fw_inner_minor_ver;
-+	u32				fw_sw_major_ver;
-+	u32				fw_sw_minor_ver;
-+	u32				fw_sw_sub_minor_ver;
- 	atomic64_t			dram_used_mem;
- 	u64				memory_scrub_val;
- 	u64				timeout_jiffies;
+@@ -3553,9 +3553,15 @@ struct hl_ioctl_desc {
+ 	hl_ioctl_t *func;
+ };
+ 
+-static inline bool hl_is_fw_ver_below_1_9(struct hl_device *hdev)
++static inline bool hl_is_fw_sw_ver_below(struct hl_device *hdev, u32 fw_sw_major, u32 fw_sw_minor)
+ {
+-	return (hdev->fw_inner_major_ver < 42);
++	if (hdev->fw_sw_major_ver < fw_sw_major)
++		return true;
++	if (hdev->fw_sw_major_ver > fw_sw_major)
++		return false;
++	if (hdev->fw_sw_minor_ver < fw_sw_minor)
++		return true;
++	return false;
+ }
+ 
+ /*
+diff --git a/drivers/accel/habanalabs/gaudi2/gaudi2.c b/drivers/accel/habanalabs/gaudi2/gaudi2.c
+index acc304ebca82..6e3aa89b19c2 100644
+--- a/drivers/accel/habanalabs/gaudi2/gaudi2.c
++++ b/drivers/accel/habanalabs/gaudi2/gaudi2.c
+@@ -8043,7 +8043,7 @@ static void gaudi2_ack_module_razwi_event_handler(struct hl_device *hdev,
+ 	case RAZWI_TPC:
+ 		hbw_rtr_id = gaudi2_tpc_initiator_hbw_rtr_id[module_idx];
+ 
+-		if (hl_is_fw_ver_below_1_9(hdev) &&
++		if (hl_is_fw_sw_ver_below(hdev, 1, 9) &&
+ 				!hdev->asic_prop.fw_security_enabled &&
+ 				((module_idx == 0) || (module_idx == 1)))
+ 			lbw_rtr_id = DCORE0_RTR0;
 -- 
 2.40.0
 
