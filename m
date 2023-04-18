@@ -2,76 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E83ED6E6CDF
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Apr 2023 21:21:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BBFD6E6D48
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Apr 2023 22:09:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5E79310E85F;
-	Tue, 18 Apr 2023 19:20:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 02C6510E889;
+	Tue, 18 Apr 2023 20:09:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A363810E85F
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Apr 2023 19:20:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1681845655;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=aai1WHo4fg1sxKcLX3kD4BGAw1PP+pR+m3nWfdfcZTU=;
- b=SEJPcsAflSfXP88Lt9fb57YukdDbEswjw1lGuKpACS5WyAxg0NBNTljoFiGj/vv/dAGvG9
- bC4WzVzxisL3tnNpi4w99QF8zVWcU3cXmA8L4JJOdkuZfZS5BExFrt+ii52s2XcBnfGW5O
- xTgRB9uwuE+7NeVoeakDW11IHC3YHAI=
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
- [209.85.160.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-659-7lqq48ClNzG9PSdpF4edDQ-1; Tue, 18 Apr 2023 15:20:54 -0400
-X-MC-Unique: 7lqq48ClNzG9PSdpF4edDQ-1
-Received: by mail-qt1-f198.google.com with SMTP id
- l20-20020a05622a051400b003e6d92a606bso16315224qtx.14
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Apr 2023 12:20:54 -0700 (PDT)
+Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com
+ [IPv6:2607:f8b0:4864:20::1034])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 386AE10E889
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Apr 2023 20:09:52 +0000 (UTC)
+Received: by mail-pj1-x1034.google.com with SMTP id
+ 98e67ed59e1d1-24756a12ba0so1137247a91.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Apr 2023 13:09:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=google.com; s=20221208; t=1681848591; x=1684440591;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=rJjRijV5blbjzZLZll3N1JO9eikZc6Mlip365pggL9w=;
+ b=RxI8ccMnJU34C26Ht6af/Th3w247gQIO0uQnzRfH2qt11y5bG/KVu1JIv98zlpx4D1
+ 6+T+7fm9LFj2LYaDIo2LT8T1Xo9ePq7ThXSPvAlSvNHct8dmTKu+ixGW2MxKCmKPEic5
+ 0NMP5HW32YUXzNX6ZAvMzUZ+r7/o+fZqhWAmOZNWEtuGQr2uKAwqdsnDPOcnCQXkusAL
+ lEJpFgOxxgNb/wSBQGjXS2rZ5x92nLQ4+hV53yJlZyN8pSO9LtwYDE3KxhzcV0myrIXX
+ ZNsRtuRyCHtRAnfOYgVIMLVSDSYy3KfNTnfDpnhlSRuUbePgyG4vh2nQsd84Uc0WGgIG
+ AqbQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681845654; x=1684437654;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=aai1WHo4fg1sxKcLX3kD4BGAw1PP+pR+m3nWfdfcZTU=;
- b=fx/GZBbJRIAyVamfSss8JkrMHALk9GBnCepG5ceUcI5eRkpIBtxCWw0JMFrjFFUS2u
- 7tmDXyDL3P9QxdEgWr67YWqFAdxcZ9X9o81uJvxvvwdWPqiHjbZnJH8UnlpAIQdyH7o6
- YU4IPOs6dqz+YhZzMWuMRwHcxKrODMKu7VTvAKZz64s/cBg1M91rIB74YVYX0F+ORG1G
- R7lRkQdZN2/Swr5Ti7RF0D/87rgpSYXPVqL8QlMOizS5FZF84MfQEEJYtZM617nck7Sn
- CgoNBDMU0LIrwhhAOq3H7rFojDu/tjVHDVTF8NaLuwToz6caSM9OFbITopX8IUrsyNBT
- tYgQ==
-X-Gm-Message-State: AAQBX9fWDzWlYaLIvSm11aPZpHR5JtLwEdoDtBfIoIc995mjtGtI80yP
- nyNRGuIjibNJ/B+/IyVqo1oHzX3gr2lnplJMhHMVh9z+fEDy1CJaW2Himt9OuowV+8lw/7iz8rN
- u3aayx0wPS+QUXcROyuXh7jGT2WZ+
-X-Received: by 2002:a05:6214:410:b0:56c:13cc:d21f with SMTP id
- z16-20020a056214041000b0056c13ccd21fmr25855300qvx.50.1681845654141; 
- Tue, 18 Apr 2023 12:20:54 -0700 (PDT)
-X-Google-Smtp-Source: AKy350ZFUZ7JQR9xbohdXv2IbnkoRfbUviweblbnyFfC0N6wmvnsGUN3xBE3c2IZkXBZ0ZSdmAywfQ==
-X-Received: by 2002:a05:6214:410:b0:56c:13cc:d21f with SMTP id
- z16-20020a056214041000b0056c13ccd21fmr25855272qvx.50.1681845653894; 
- Tue, 18 Apr 2023 12:20:53 -0700 (PDT)
-Received: from dell-per740-01.7a2m.lab.eng.bos.redhat.com
- (nat-pool-bos-t.redhat.com. [66.187.233.206])
- by smtp.gmail.com with ESMTPSA id
- 7-20020a370c07000000b0074df3f7e14esm1709609qkm.67.2023.04.18.12.20.53
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 18 Apr 2023 12:20:53 -0700 (PDT)
-From: Tom Rix <trix@redhat.com>
-To: quic_jhugo@quicinc.com, ogabbay@kernel.org, nathan@kernel.org,
- ndesaulniers@google.com, jacek.lawrynowicz@linux.intel.com,
- quic_carlv@quicinc.com, stanislaw.gruszka@linux.intel.com,
- quic_pkanojiy@quicinc.com
-Subject: [PATCH] accel/qaic: initialize ret variable to 0
-Date: Tue, 18 Apr 2023 15:20:46 -0400
-Message-Id: <20230418192046.3235870-1-trix@redhat.com>
-X-Mailer: git-send-email 2.27.0
+ d=1e100.net; s=20221208; t=1681848591; x=1684440591;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=rJjRijV5blbjzZLZll3N1JO9eikZc6Mlip365pggL9w=;
+ b=eN0eQ1Q/MzazJM952ZG7prIuIzE4kZuQCJ0Oc81kIJLddvydTTGZKXr/Ekhh/a+ee5
+ 6cKGo1EdTmIv0eTN5FQZUUNo7sfV8KTMAkbitTxU4gJ3Y7WR19HXWosbNGqAyrY/9BYw
+ 7CC7l4A0sBQm9X6hvFgmDGk5yasN0tVh/n82uiKeAL1xq4O0NnwKig/lKJCISZqzBU9w
+ E+0PTbybeUIVr2PYalebtkAlfvxATz0RuuTh+hYQuPyF9yE80gceHd8ehLXbipKag8Vj
+ BrcvTqwxBhexRFo9yw0Si11+OTFwHZqpx42TFbt9Qapl/xiX9y9fxru5LEmmls6jO/VP
+ 8QZQ==
+X-Gm-Message-State: AAQBX9cc7oxltw58TLZcDO0ku4OU2/9xerDxVNtG7CtaTZN0Yg65Q42/
+ w8BpbLazlhUpg+3/c7mmsbNdpldy+iBJSqu2mPG1sg==
+X-Google-Smtp-Source: AKy350baeGq9wa+UpgsWuLoH1elNcvdt1oOkfqqmaCQpAHbi6Eath+2E2j22ABbywJdPOlHgLe3u3xkeQP5kmoW7nv0=
+X-Received: by 2002:a17:90a:fe8c:b0:246:f73c:3aba with SMTP id
+ co12-20020a17090afe8c00b00246f73c3abamr618143pjb.39.1681848590753; Tue, 18
+ Apr 2023 13:09:50 -0700 (PDT)
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"; x-default=true
+References: <20230408165023.2706235-1-trix@redhat.com>
+In-Reply-To: <20230408165023.2706235-1-trix@redhat.com>
+From: Nick Desaulniers <ndesaulniers@google.com>
+Date: Tue, 18 Apr 2023 13:09:39 -0700
+Message-ID: <CAKwvOdmFtc0shP45t7S9aoh1+UGXyaX_aodvJd97d-nH5J0HQg@mail.gmail.com>
+Subject: Re: [PATCH] drm/qxl: remove variable count
+To: Tom Rix <trix@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,40 +68,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, llvm@lists.linux.dev,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Tom Rix <trix@redhat.com>
+Cc: llvm@lists.linux.dev, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
+ nathan@kernel.org, kraxel@redhat.com, spice-devel@lists.freedesktop.org,
+ airlied@redhat.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-clang static analysis reports
-drivers/accel/qaic/qaic_data.c:610:2: warning: Undefined or garbage
-  value returned to caller [core.uninitialized.UndefReturn]
-        return ret;
-        ^~~~~~~~~~
+On Sat, Apr 8, 2023 at 9:50=E2=80=AFAM Tom Rix <trix@redhat.com> wrote:
+>
+> clang with W=3D1 reports
+> drivers/gpu/drm/qxl/qxl_cmd.c:424:6: error: variable
+>   'count' set but not used [-Werror,-Wunused-but-set-variable]
+>         int count =3D 0;
+>             ^
+> This variable is not used so remove it.
 
-The ret variable is only set some of the time but is always returned.
-So initialize ret to 0.
+Thanks for the patch!
 
-Fixes: ff13be830333 ("accel/qaic: Add datapath")
-Signed-off-by: Tom Rix <trix@redhat.com>
----
- drivers/accel/qaic/qaic_data.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Fixes: 64122c1f6ad ("drm: add new QXL driver. (v1.4)")
+Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
 
-diff --git a/drivers/accel/qaic/qaic_data.c b/drivers/accel/qaic/qaic_data.c
-index c0a574cd1b35..b46a16fb3080 100644
---- a/drivers/accel/qaic/qaic_data.c
-+++ b/drivers/accel/qaic/qaic_data.c
-@@ -591,7 +591,7 @@ static int qaic_gem_object_mmap(struct drm_gem_object *obj, struct vm_area_struc
- 	struct qaic_bo *bo = to_qaic_bo(obj);
- 	unsigned long offset = 0;
- 	struct scatterlist *sg;
--	int ret;
-+	int ret = 0;
- 
- 	if (obj->import_attach)
- 		return -EINVAL;
--- 
-2.27.0
+>
+> Signed-off-by: Tom Rix <trix@redhat.com>
+> ---
+>  drivers/gpu/drm/qxl/qxl_cmd.c | 2 --
+>  1 file changed, 2 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/qxl/qxl_cmd.c b/drivers/gpu/drm/qxl/qxl_cmd.=
+c
+> index 281edab518cd..d6ea01f3797b 100644
+> --- a/drivers/gpu/drm/qxl/qxl_cmd.c
+> +++ b/drivers/gpu/drm/qxl/qxl_cmd.c
+> @@ -421,7 +421,6 @@ int qxl_surface_id_alloc(struct qxl_device *qdev,
+>  {
+>         uint32_t handle;
+>         int idr_ret;
+> -       int count =3D 0;
+>  again:
+>         idr_preload(GFP_ATOMIC);
+>         spin_lock(&qdev->surf_id_idr_lock);
+> @@ -433,7 +432,6 @@ int qxl_surface_id_alloc(struct qxl_device *qdev,
+>         handle =3D idr_ret;
+>
+>         if (handle >=3D qdev->rom->n_surfaces) {
+> -               count++;
+>                 spin_lock(&qdev->surf_id_idr_lock);
+>                 idr_remove(&qdev->surf_id_idr, handle);
+>                 spin_unlock(&qdev->surf_id_idr_lock);
+> --
+> 2.27.0
+>
 
+
+--=20
+Thanks,
+~Nick Desaulniers
