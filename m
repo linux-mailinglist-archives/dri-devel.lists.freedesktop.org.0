@@ -1,64 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA8BB6E6655
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Apr 2023 15:49:39 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 196336E6686
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Apr 2023 16:01:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7442610E7B6;
-	Tue, 18 Apr 2023 13:49:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8257410E7BB;
+	Tue, 18 Apr 2023 14:01:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-xc2c.google.com (mail-oo1-xc2c.google.com
- [IPv6:2607:f8b0:4864:20::c2c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BE60D10E341;
- Tue, 18 Apr 2023 13:49:33 +0000 (UTC)
-Received: by mail-oo1-xc2c.google.com with SMTP id
- k13-20020a4ad98d000000b00542416816b1so1927510oou.7; 
- Tue, 18 Apr 2023 06:49:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1681825772; x=1684417772;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=hd36n+jQH5c5I2DyX/yhPuiWCfBseqSQIandCTyCQ84=;
- b=etCSQZyuM+8nr1/0tPEywqCeuLGR0niJ5jFgmWR1pgFLlTgF82WkQVObKdxkC+x8Ij
- 6/8+0vCT7JWtxkdN/k7HDfhi271GpiiIaH011VaOVpMO6thzSHa/bd6a1C1N42tfX4EM
- 07NJ4+I921PPfKuBw5NhehqhKrlL8BmCkzyYwNwSpZRLGPoFrOBgPim0lrW5ejNQ7Ubb
- 8EGiJbqMVQVqhzITbHAlGuWDw1Kiu81Di+PQnZZdJZNpWk9MNO55CWRtzAapZCjSCPge
- /KjxAbDjD1a6w5kFTJ5Gzv9vkVzfe6mt61MvE2t5tUB5uhk7qL07VRqP2w8rQSMk3tkv
- sXVQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681825772; x=1684417772;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=hd36n+jQH5c5I2DyX/yhPuiWCfBseqSQIandCTyCQ84=;
- b=In/zTpg3MwK+IXdOdI/45hVe+rOuK48eeVTzFVVoREwgN1+HsWu/72gPJdYCKvmG48
- Pf1Nxc5vFY1L22FRgByeNEhxLXAe6JcWCLhXMrBmy7+PxmWd39HDtrfG6z+XThwypMuK
- 5sxeQ0TFRkbbA1xtzHbo8mCLeRzfoDEQ5Y5X/qbYaKMXSZF7K37kLjCyyp2OBNGnzFiL
- sovyAlvoZ00JxGRAuSFJU59278CZ5N0KRUt3e741Gv3jYQs80Tq8Igaz89EE0z/1ODWv
- z0tbypoa7OlnVWqfNFMPQhHBxcoErCWHUEXqChaiNazVE32ISqJjxyr4AmyaTrU8ey/y
- JgKQ==
-X-Gm-Message-State: AAQBX9cExFCOTZaYY7ZgLjLd/tbP9dg9U9a3/Xuyab5f0XpnlCHs2jdS
- xVR599CAV6gC8O9Ah5f27B5ppAzpRTXeJm/pUic=
-X-Google-Smtp-Source: AKy350ZcENNlnCLgJl8nnh0TKfeDlyxJn7JA3MYQF0E0iJYD5NlQvDMep0wtukby5EaZK2PJDCECVrVjymyzHVtT5Tg=
-X-Received: by 2002:a05:6820:1aa0:b0:546:e85c:8bba with SMTP id
- bt32-20020a0568201aa000b00546e85c8bbamr1850063oob.1.1681825772423; Tue, 18
- Apr 2023 06:49:32 -0700 (PDT)
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EDDCF10E7BB;
+ Tue, 18 Apr 2023 14:01:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1681826488; x=1713362488;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=vjURlTqd//wThjsMTZnycpn3U2wKR1KrkFMZjbzMmf8=;
+ b=jf2VOtYE0C6UitYrsXNgp73lmuWx7cLhs2U5GixPcL4c4E4RUF7jMNgj
+ 3NEJnoJdZxsF360KH0b1y3y/wdUntJpJr3+y49Ifahp2k5d0oFbzpv2qe
+ Q6mfLfaiOtlVVCFT1culZHC/ioBzt1p0vHl0+/NT4Gl8C+2lCDt8DUg0E
+ VUzB2dxsW+v/n/VdtMkR2190BHAgp307SBiyRlqzUY92vZS3LRup1TSVf
+ ctN83NHSz2+ujfpF/9DmrYTsen62dSWsPG9KcDghpOaVrN3PMKlQ1Hfrc
+ lLt055UJFd4EiW+ySIabhJHJiq2J4KAGm6c0BUrsf48sJymvjsvtQlizT Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10684"; a="410397484"
+X-IronPort-AV: E=Sophos;i="5.99,207,1677571200"; d="scan'208";a="410397484"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Apr 2023 07:01:26 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10684"; a="834888392"
+X-IronPort-AV: E=Sophos;i="5.99,207,1677571200"; d="scan'208";a="834888392"
+Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.70])
+ by fmsmga001.fm.intel.com with SMTP; 18 Apr 2023 07:01:22 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Tue, 18 Apr 2023 17:01:22 +0300
+Date: Tue, 18 Apr 2023 17:01:22 +0300
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Wayne Lin <Wayne.Lin@amd.com>
+Subject: Re: [PATCH] drm/dp_mst: Clear MSG_RDY flag before sending new message
+Message-ID: <ZD6isq36T+RQ7uNK@intel.com>
+References: <20230418060905.4078976-1-Wayne.Lin@amd.com>
 MIME-Version: 1.0
-References: <20230417155613.4143258-1-tvrtko.ursulin@linux.intel.com>
- <20230417155613.4143258-4-tvrtko.ursulin@linux.intel.com>
- <CAF6AEGu3oagVYqBcgqKFO6-gbLbVdFn51fKeV7CfWTJXJjTNYA@mail.gmail.com>
- <fca966cf-df17-a937-8330-b2353f1a352c@linux.intel.com>
-In-Reply-To: <fca966cf-df17-a937-8330-b2353f1a352c@linux.intel.com>
-From: Rob Clark <robdclark@gmail.com>
-Date: Tue, 18 Apr 2023 06:49:21 -0700
-Message-ID: <CAF6AEGswZZZxwRTOXbCVKmhUYwz8BSu-GDVCJ=FfyJ-w=e4dLQ@mail.gmail.com>
-Subject: Re: [RFC 3/6] drm: Add fdinfo memory stats
-To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230418060905.4078976-1-Wayne.Lin@amd.com>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,236 +60,145 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, Intel-gfx@lists.freedesktop.org,
- Emil Velikov <emil.l.velikov@gmail.com>, dri-devel@lists.freedesktop.org,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: jani.nikula@intel.com, amd-gfx@lists.freedesktop.org, jerry.zuo@amd.com,
+ dri-devel@lists.freedesktop.org, stable@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Apr 18, 2023 at 2:00=E2=80=AFAM Tvrtko Ursulin
-<tvrtko.ursulin@linux.intel.com> wrote:
->
->
-> On 17/04/2023 20:39, Rob Clark wrote:
-> > On Mon, Apr 17, 2023 at 8:56=E2=80=AFAM Tvrtko Ursulin
-> > <tvrtko.ursulin@linux.intel.com> wrote:
-> >>
-> >> From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-> >>
-> >> Add support to dump GEM stats to fdinfo.
-> >>
-> >> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-> >> ---
-> >>   Documentation/gpu/drm-usage-stats.rst | 12 +++++++
-> >>   drivers/gpu/drm/drm_file.c            | 52 +++++++++++++++++++++++++=
-++
-> >>   include/drm/drm_drv.h                 |  7 ++++
-> >>   include/drm/drm_file.h                |  8 +++++
-> >>   4 files changed, 79 insertions(+)
-> >>
-> >> diff --git a/Documentation/gpu/drm-usage-stats.rst b/Documentation/gpu=
-/drm-usage-stats.rst
-> >> index 2ab32c40e93c..8273a41b2fb0 100644
-> >> --- a/Documentation/gpu/drm-usage-stats.rst
-> >> +++ b/Documentation/gpu/drm-usage-stats.rst
-> >> @@ -21,6 +21,7 @@ File format specification
-> >>
-> >>   - File shall contain one key value pair per one line of text.
-> >>   - Colon character (`:`) must be used to delimit keys and values.
-> >> +- Caret (`^`) is also a reserved character.
-> >
-> > this doesn't solve the problem that led me to drm-$CATEGORY-memory... ;=
--)
->
-> Could you explain or remind me with a link to a previous explanation?
+On Tue, Apr 18, 2023 at 02:09:05PM +0800, Wayne Lin wrote:
+> [Why & How]
+> The sequence for collecting down_reply/up_request from source
+> perspective should be:
+> 
+> Request_n->repeat (get partial reply of Request_n->clear message ready
+> flag to ack DPRX that the message is received) till all partial
+> replies for Request_n are received->new Request_n+1.
+> 
+> While assembling partial reply packets, reading out DPCD DOWN_REP
+> Sideband MSG buffer + clearing DOWN_REP_MSG_RDY flag should be
+> wrapped up as a complete operation for reading out a reply packet.
+> Kicking off a new request before clearing DOWN_REP_MSG_RDY flag might
+> be risky. e.g. If the reply of the new request has overwritten the
+> DPRX DOWN_REP Sideband MSG buffer before source writing ack to clear
+> DOWN_REP_MSG_RDY flag, source then unintentionally flushes the reply
+> for the new request. Should handle the up request in the same way.
+> 
+> In drm_dp_mst_hpd_irq(), we don't clear MSG_RDY flag before caliing
+> drm_dp_mst_kick_tx(). Fix that.
+> 
+> Signed-off-by: Wayne Lin <Wayne.Lin@amd.com>
+> Cc: stable@vger.kernel.org
+> ---
+>  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |  2 ++
+>  drivers/gpu/drm/display/drm_dp_mst_topology.c | 22 +++++++++++++++++++
+>  drivers/gpu/drm/i915/display/intel_dp.c       |  3 +++
+>  drivers/gpu/drm/nouveau/dispnv50/disp.c       |  2 ++
+>  4 files changed, 29 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> index 77277d90b6e2..5313a5656598 100644
+> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> @@ -3166,6 +3166,8 @@ static void dm_handle_mst_sideband_msg(struct amdgpu_dm_connector *aconnector)
+>  			for (retry = 0; retry < 3; retry++) {
+>  				uint8_t wret;
+>  
+> +				/* MSG_RDY ack is done in drm*/
+> +				esi[1] &= ~(DP_DOWN_REP_MSG_RDY | DP_UP_REQ_MSG_RDY);
+>  				wret = drm_dp_dpcd_write(
+>  					&aconnector->dm_dp_aux.aux,
+>  					dpcd_addr + 1,
+> diff --git a/drivers/gpu/drm/display/drm_dp_mst_topology.c b/drivers/gpu/drm/display/drm_dp_mst_topology.c
+> index 51a46689cda7..02aad713c67c 100644
+> --- a/drivers/gpu/drm/display/drm_dp_mst_topology.c
+> +++ b/drivers/gpu/drm/display/drm_dp_mst_topology.c
+> @@ -4054,6 +4054,9 @@ int drm_dp_mst_hpd_irq(struct drm_dp_mst_topology_mgr *mgr, u8 *esi, bool *handl
+>  {
+>  	int ret = 0;
+>  	int sc;
+> +	const int tosend = 1;
+> +	int retries = 0;
+> +	u8 buf = 0;
+>  	*handled = false;
+>  	sc = DP_GET_SINK_COUNT(esi[0]);
+>  
+> @@ -4072,6 +4075,25 @@ int drm_dp_mst_hpd_irq(struct drm_dp_mst_topology_mgr *mgr, u8 *esi, bool *handl
+>  		*handled = true;
+>  	}
+>  
+> +	if (*handled) {
+> +		buf = esi[1] & (DP_DOWN_REP_MSG_RDY | DP_UP_REQ_MSG_RDY);
+> +		do {
+> +			ret = drm_dp_dpcd_write(mgr->aux,
+> +						DP_DEVICE_SERVICE_IRQ_VECTOR_ESI0,
+> +						&buf,
+> +						tosend);
+> +
+> +			if (ret == tosend)
+> +				break;
+> +
+> +			retries++;
+> +		} while (retries < 5);
 
-How is userspace supposed to know that "drm-memory-foo" is a memory
-type "foo" but drm-memory-foo^size is not memory type "foo^size"?
+What's with this magic retry loop?
 
-BR,
--R
+Not sure I like the whole thing though. Splitting the irq ack
+semi-randomly between driver vs. multiple helpers doesn't feel
+great to me.
 
-> What tool barfs on it and how? Spirit of drm-usage-stats.pl is that for
-> both drm-engine-<str>: and drm-memory-<str>: generic userspace is
-> supposed to take the whole <std> as opaque and just enumerate all it find=
-s.
->
-> Gputop manages to do that with engines names it knows _nothing_ about.
-> If it worked with memory regions it would just show the list of new
-> regions as for example "system^resident", "system^active". Then tools
-> can be extended to understand it better and provide a sub-breakdown if
-> wanted.
->
-> Ugly not, we can change from caret to something nicer, unless I am
-> missing something it works, no?
->
-> Regards,
->
-> Tvrtko
->
-> >
-> > (also, it is IMHO rather ugly)
-> >
-> > BR,
-> > -R
-> >
-> >>   - All keys shall be prefixed with `drm-`.
-> >>   - Whitespace between the delimiter and first non-whitespace characte=
-r shall be
-> >>     ignored when parsing.
-> >> @@ -105,6 +106,17 @@ object belong to this client, in the respective m=
-emory region.
-> >>   Default unit shall be bytes with optional unit specifiers of 'KiB' o=
-r 'MiB'
-> >>   indicating kibi- or mebi-bytes.
-> >>
-> >> +- drm-memory-<str>^size:      <uint> [KiB|MiB]
-> >> +- drm-memory-<str>^shared:    <uint> [KiB|MiB]
-> >> +- drm-memory-<str>^resident:  <uint> [KiB|MiB]
-> >> +- drm-memory-<str>^purgeable: <uint> [KiB|MiB]
-> >> +- drm-memory-<str>^active:    <uint> [KiB|MiB]
-> >> +
-> >> +Resident category is identical to the drm-memory-<str> key and two sh=
-ould be
-> >> +mutually exclusive.
-> >> +
-> >> +TODO more description text...
-> >> +
-> >>   - drm-cycles-<str> <uint>
-> >>
-> >>   Engine identifier string must be the same as the one specified in th=
-e
-> >> diff --git a/drivers/gpu/drm/drm_file.c b/drivers/gpu/drm/drm_file.c
-> >> index 37b4f76a5191..e202f79e816d 100644
-> >> --- a/drivers/gpu/drm/drm_file.c
-> >> +++ b/drivers/gpu/drm/drm_file.c
-> >> @@ -42,6 +42,7 @@
-> >>   #include <drm/drm_client.h>
-> >>   #include <drm/drm_drv.h>
-> >>   #include <drm/drm_file.h>
-> >> +#include <drm/drm_gem.h>
-> >>   #include <drm/drm_print.h>
-> >>
-> >>   #include "drm_crtc_internal.h"
-> >> @@ -871,6 +872,54 @@ void drm_send_event(struct drm_device *dev, struc=
-t drm_pending_event *e)
-> >>   }
-> >>   EXPORT_SYMBOL(drm_send_event);
-> >>
-> >> +static void
-> >> +print_stat(struct drm_printer *p, const char *stat, const char *regio=
-n, u64 sz)
-> >> +{
-> >> +       const char *units[] =3D {"", " KiB", " MiB"};
-> >> +       unsigned int u;
-> >> +
-> >> +       if (sz =3D=3D ~0ull) /* Not supported by the driver. */
-> >> +               return;
-> >> +
-> >> +       for (u =3D 0; u < ARRAY_SIZE(units) - 1; u++) {
-> >> +               if (sz < SZ_1K)
-> >> +                       break;
-> >> +               sz =3D div_u64(sz, SZ_1K);
-> >> +       }
-> >> +
-> >> +       drm_printf(p, "drm-memory-%s^%s:\t%llu%s\n",
-> >> +                  region, stat, sz, units[u]);
-> >> +}
-> >> +
-> >> +static void print_memory_stats(struct drm_printer *p, struct drm_file=
- *file)
-> >> +{
-> >> +       struct drm_device *dev =3D file->minor->dev;
-> >> +       struct drm_fdinfo_memory_stat *stats;
-> >> +       unsigned int num, i;
-> >> +       char **regions;
-> >> +
-> >> +       regions =3D dev->driver->query_fdinfo_memory_regions(dev, &num=
-);
-> >> +
-> >> +       stats =3D kcalloc(num, sizeof(*stats), GFP_KERNEL);
-> >> +       if (!stats)
-> >> +               return;
-> >> +
-> >> +       dev->driver->query_fdinfo_memory_stats(file, stats);
-> >> +
-> >> +       for (i =3D 0; i < num; i++) {
-> >> +               if (!regions[i]) /* Allow sparse name arrays. */
-> >> +                       continue;
-> >> +
-> >> +               print_stat(p, "size", regions[i], stats[i].size);
-> >> +               print_stat(p, "shared", regions[i], stats[i].shared);
-> >> +               print_stat(p, "resident", regions[i], stats[i].residen=
-t);
-> >> +               print_stat(p, "purgeable", regions[i], stats[i].purgea=
-ble);
-> >> +               print_stat(p, "active", regions[i], stats[i].active);
-> >> +       }
-> >> +
-> >> +       kfree(stats);
-> >> +}
-> >> +
-> >>   /**
-> >>    * drm_show_fdinfo - helper for drm file fops
-> >>    * @seq_file: output stream
-> >> @@ -900,6 +949,9 @@ void drm_show_fdinfo(struct seq_file *m, struct fi=
-le *f)
-> >>
-> >>          if (dev->driver->show_fdinfo)
-> >>                  dev->driver->show_fdinfo(&p, file);
-> >> +
-> >> +       if (dev->driver->query_fdinfo_memory_regions)
-> >> +               print_memory_stats(&p, file);
-> >>   }
-> >>   EXPORT_SYMBOL(drm_show_fdinfo);
-> >>
-> >> diff --git a/include/drm/drm_drv.h b/include/drm/drm_drv.h
-> >> index 89e2706cac56..ccc1cd98d2aa 100644
-> >> --- a/include/drm/drm_drv.h
-> >> +++ b/include/drm/drm_drv.h
-> >> @@ -35,6 +35,7 @@
-> >>   #include <drm/drm_device.h>
-> >>
-> >>   struct drm_file;
-> >> +struct drm_fdinfo_memory_stat;
-> >>   struct drm_gem_object;
-> >>   struct drm_master;
-> >>   struct drm_minor;
-> >> @@ -408,6 +409,12 @@ struct drm_driver {
-> >>           */
-> >>          void (*show_fdinfo)(struct drm_printer *p, struct drm_file *f=
-);
-> >>
-> >> +       char ** (*query_fdinfo_memory_regions)(struct drm_device *dev,
-> >> +                                              unsigned int *num);
-> >> +
-> >> +       void (*query_fdinfo_memory_stats)(struct drm_file *f,
-> >> +                                         struct drm_fdinfo_memory_sta=
-t *stat);
-> >> +
-> >>          /** @major: driver major number */
-> >>          int major;
-> >>          /** @minor: driver minor number */
-> >> diff --git a/include/drm/drm_file.h b/include/drm/drm_file.h
-> >> index 7d9b3c65cbc1..00d48beeac5c 100644
-> >> --- a/include/drm/drm_file.h
-> >> +++ b/include/drm/drm_file.h
-> >> @@ -375,6 +375,14 @@ struct drm_file {
-> >>   #endif
-> >>   };
-> >>
-> >> +struct drm_fdinfo_memory_stat {
-> >> +       u64 size;
-> >> +       u64 shared;
-> >> +       u64 resident;
-> >> +       u64 purgeable;
-> >> +       u64 active;
-> >> +};
-> >> +
-> >>   /**
-> >>    * drm_is_primary_client - is this an open file of the primary node
-> >>    * @file_priv: DRM file
-> >> --
-> >> 2.37.2
-> >>
+As a whole the HPD_IRQ handling is a total mess atm. At some point
+I was trying to sketch something a bit better for it. The approach
+I was thinking was something along the lines of:
+
+ u8 vector[...];
+ drm_dp_read_irq_vector(vector);
+ ... handle all irqs/etc., calling suitable helpers as needed
+ drm_dp_clear_irq_vector(vector);
+
+And I was also thinking that this drm_dp_*_irq_vector() stuff
+would always use the ESI layout, converting as needed from/to
+the old layout for pre-1.2 (or whatever the cutoff was) devices.
+That way drivers would just need the one codepath.
+
+> +
+> +		if (ret != tosend)
+> +			drm_dbg_kms(mgr->dev, "failed to write dpcd 0x%x\n",
+> +				    DP_DEVICE_SERVICE_IRQ_VECTOR_ESI0);
+> +	}
+> +
+>  	drm_dp_mst_kick_tx(mgr);
+>  	return ret;
+>  }
+> diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
+> index bf80f296a8fd..abec3de38b66 100644
+> --- a/drivers/gpu/drm/i915/display/intel_dp.c
+> +++ b/drivers/gpu/drm/i915/display/intel_dp.c
+> @@ -3939,6 +3939,9 @@ intel_dp_check_mst_status(struct intel_dp *intel_dp)
+>  		if (!memchr_inv(ack, 0, sizeof(ack)))
+>  			break;
+>  
+> +		/* MSG_RDY ack is done in drm*/
+> +		ack[1] &= ~(DP_DOWN_REP_MSG_RDY | DP_UP_REQ_MSG_RDY);
+> +
+>  		if (!intel_dp_ack_sink_irq_esi(intel_dp, ack))
+>  			drm_dbg_kms(&i915->drm, "Failed to ack ESI\n");
+>  	}
+> diff --git a/drivers/gpu/drm/nouveau/dispnv50/disp.c b/drivers/gpu/drm/nouveau/dispnv50/disp.c
+> index edcb2529b402..e905987104ed 100644
+> --- a/drivers/gpu/drm/nouveau/dispnv50/disp.c
+> +++ b/drivers/gpu/drm/nouveau/dispnv50/disp.c
+> @@ -1336,6 +1336,8 @@ nv50_mstm_service(struct nouveau_drm *drm,
+>  		if (!handled)
+>  			break;
+>  
+> +		/* MSG_RDY ack is done in drm*/
+> +		esi[1] &= ~(DP_DOWN_REP_MSG_RDY | DP_UP_REQ_MSG_RDY);
+>  		rc = drm_dp_dpcd_write(aux, DP_SINK_COUNT_ESI + 1, &esi[1],
+>  				       3);
+>  		if (rc != 3) {
+> -- 
+> 2.37.3
+
+-- 
+Ville Syrjälä
+Intel
