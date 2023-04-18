@@ -2,39 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE6736E5B2D
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Apr 2023 10:01:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 697216E5B38
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Apr 2023 10:01:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 12DA310E6D6;
-	Tue, 18 Apr 2023 08:01:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 380F610E6D8;
+	Tue, 18 Apr 2023 08:01:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from relay10.mail.gandi.net (relay10.mail.gandi.net
  [IPv6:2001:4b98:dc4:8::230])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7E5DE10E6D4
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Apr 2023 08:01:20 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 079E310E6DA
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Apr 2023 08:01:23 +0000 (UTC)
 Received: from booty.fritz.box (unknown [77.244.183.192])
  (Authenticated sender: luca.ceresoli@bootlin.com)
- by mail.gandi.net (Postfix) with ESMTPA id 748B8240013;
- Tue, 18 Apr 2023 08:01:15 +0000 (UTC)
+ by mail.gandi.net (Postfix) with ESMTPA id 45847240002;
+ Tue, 18 Apr 2023 08:01:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1681804879;
+ t=1681804882;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=zEr0+swVK3WMZ0u3R6JdAyAw0vxa2R9V1YYMnBRXmiM=;
- b=VlArBWYO0GHWM0tVuD++le8G/QfyLoXa+QN+akk3JTrNqZq233IkarBTNAViSky0sFnME3
- hGuSU4HbeSinWCRXm7PQf2WY4sm8ye7luOu5SPOIaHsW8b93f9CtHau7sT/O6cj/5Et5Kg
- ukuUsXLQ0omoSQGMbBdKESNZXDfk1yOvNNiwtbLFs07rY5Vkqs3hkBk5HCVMZnSPfcfopx
- R7TEFkPp7LRZOXlDCIqtKUp97boWOKxTrAEoq5lhP0jKZ1TCjd5wP+0BoxzphuWwacnPOa
- /lnYXXmFE0gi5ZB/eq6sCuuYW3rX2iv7jT3t9efHUQIDUSmH+Z+dpEY9ZFtQpg==
+ bh=uFW43TGlDfYKqzfsHCpEy0ODtZ8ric12BDIS5XN/hY8=;
+ b=lHz7u5KQQxMSJUhODl0shSb0rIRdo/007+0iqp0T9zxmwvFIfNDQNaWgTCGS7Nw0Zh9zLv
+ bN0YRK9braSY3jokQchVqjV9lZhYY01I7ag8g2uuGozRICEZ09YoxVyvwMGJXRhwRPTFya
+ ghyrnA7/Rga4N1rV+PNICiNB7Wi8CmqkFSTel9eQ5WQX91lfR9VVU5l2D7NZD6YKW/Ldzz
+ YFdsqfswTAt/bCVWQiEK6jqv9F+tIIhJ65LRKPCeo+Gr5jrkw4S3Fr4o28S8JQM8Eblzv9
+ Uwdj2XfUOuPKUpPxSIFeV6T2gh0DUtqFJB5voCkct59VUFbIPMDeWhtQOwrZXQ==
 From: Luca Ceresoli <luca.ceresoli@bootlin.com>
 To: linux-tegra@vger.kernel.org
-Subject: [PATCH v6 04/20] staging: media: tegra-video: document
- tegra_channel_get_remote_source_subdev
-Date: Tue, 18 Apr 2023 10:00:38 +0200
-Message-Id: <20230418080054.452955-5-luca.ceresoli@bootlin.com>
+Subject: [PATCH v6 05/20] staging: media: tegra-video: fix typos in comment
+Date: Tue, 18 Apr 2023 10:00:39 +0200
+Message-Id: <20230418080054.452955-6-luca.ceresoli@bootlin.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230418080054.452955-1-luca.ceresoli@bootlin.com>
 References: <20230418080054.452955-1-luca.ceresoli@bootlin.com>
@@ -69,7 +68,10 @@ Cc: devicetree@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Clarify what this function does.
+Add "skip" in "so we can *skip* the current channel" or it doesn't make
+sense.
+
+Also add articles where appropriate to fix English grammar.
 
 Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 Reviewed-by: Dmitry Osipenko <digetx@gmail.com>
@@ -85,23 +87,27 @@ Changed in v4:
 No changes in v3
 No changes in v2
 ---
- drivers/staging/media/tegra-video/vi.c | 3 +++
- 1 file changed, 3 insertions(+)
+ drivers/staging/media/tegra-video/vi.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/staging/media/tegra-video/vi.c b/drivers/staging/media/tegra-video/vi.c
-index 11dd142c98c5..44c56dc85980 100644
+index 44c56dc85980..79dd02a1e29b 100644
 --- a/drivers/staging/media/tegra-video/vi.c
 +++ b/drivers/staging/media/tegra-video/vi.c
-@@ -164,6 +164,9 @@ tegra_channel_get_remote_csi_subdev(struct tegra_vi_channel *chan)
- 	return media_entity_to_v4l2_subdev(pad->entity);
- }
- 
-+/*
-+ * Walk up the chain until the initial source (e.g. image sensor)
-+ */
- struct v4l2_subdev *
- tegra_channel_get_remote_source_subdev(struct tegra_vi_channel *chan)
- {
+@@ -1859,10 +1859,10 @@ static int tegra_vi_graph_init(struct tegra_vi *vi)
+ 	 * Walk the links to parse the full graph. Each channel will have
+ 	 * one endpoint of the composite node. Start by parsing the
+ 	 * composite node and parse the remote entities in turn.
+-	 * Each channel will register v4l2 async notifier to make the graph
+-	 * independent between the channels so we can the current channel
++	 * Each channel will register a v4l2 async notifier to make the graph
++	 * independent between the channels so we can skip the current channel
+ 	 * in case of something wrong during graph parsing and continue with
+-	 * next channels.
++	 * the next channels.
+ 	 */
+ 	list_for_each_entry(chan, &vi->vi_chans, list) {
+ 		struct fwnode_handle *ep, *remote;
 -- 
 2.34.1
 
