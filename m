@@ -2,50 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F1E16E6B78
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Apr 2023 19:53:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CA866E6BB1
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Apr 2023 20:06:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 025C510E749;
-	Tue, 18 Apr 2023 17:53:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D69BA10E008;
+	Tue, 18 Apr 2023 18:06:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from 189.cn (ptr.189.cn [183.61.185.103])
- by gabe.freedesktop.org (Postfix) with ESMTP id E70D210E749
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Apr 2023 17:53:00 +0000 (UTC)
-HMM_SOURCE_IP: 10.64.8.41:60578.14262665
-HMM_ATTACHE_NUM: 0000
-HMM_SOURCE_TYPE: SMTP
-Received: from clientip-114.242.206.180 (unknown [10.64.8.41])
- by 189.cn (HERMES) with SMTP id 26EED10029E;
- Wed, 19 Apr 2023 01:52:54 +0800 (CST)
-Received: from  ([114.242.206.180])
- by gateway-151646-dep-7b48884fd-bkw2h with ESMTP id
- 935c87ab8f034503ae1f63aa208276ed for maarten.lankhorst@linux.intel.com; 
- Wed, 19 Apr 2023 01:52:57 CST
-X-Transaction-ID: 935c87ab8f034503ae1f63aa208276ed
-X-Real-From: 15330273260@189.cn
-X-Receive-IP: 114.242.206.180
-X-MEDUSA-Status: 0
-Message-ID: <139c9398-488d-df19-9ae2-2b4b47ef64f4@189.cn>
-Date: Wed, 19 Apr 2023 01:52:53 +0800
+Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com
+ [IPv6:2a00:1450:4864:20::333])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 051FB10E19A
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Apr 2023 18:06:29 +0000 (UTC)
+Received: by mail-wm1-x333.google.com with SMTP id
+ v20-20020a05600c471400b003ed8826253aso1328622wmo.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Apr 2023 11:06:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1681841187; x=1684433187;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=M30du5mqmgKvrK4t9HuuHfHAn0tr6/r+1Nuzg/l+qDw=;
+ b=aCFj1du12kahKPc813jpwjYOXhr5FL7OFbCUYDvNavWqd0SK6oPxKM2dMsxip95R6a
+ 4/03EZc+qS79tO4AruGAqF5tD8wrk3HvYkbuTFMlMKrtCPMvCRs/aNl1bpoJtldQ9HCN
+ uOpyl6p8LXdvzbDD4gRNPiQqWyiIA3PDpjIc4XHRaTO4UmWif9MAa21W/tEpYWQFNa9C
+ /fbzoBhh+Go6lC97jomf/vHXaJZ40IA+jKnTOkzJ19J1aZ9+dL29RbP7CZVrvTblP8U5
+ MQ2yQsE5upoSJ6/BkX3VSoEOQZ3TVAUDzsy63IsUV9Hn1Klx99gVdfbeVcn+mvLuwFZx
+ Z8Ag==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1681841187; x=1684433187;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=M30du5mqmgKvrK4t9HuuHfHAn0tr6/r+1Nuzg/l+qDw=;
+ b=WzHLRGabQ8RQnJYboVMgdsgmHK6rCZ++CnwoAdw2ubktTU5/9pOvH1/AANwihP9aWB
+ Yx98HTrIOclvp9z/IZwNtJbixv1aMR1DQT31hxQ+TwhHzn4P4J43ox7zAkVQ0bkes7cU
+ DvP+LixAecqgTaFK3Kdq+0KtQGwEVDMFV9Bf+/xe0WsIsMLM3UxkVuhLGRHnPjWKrdhN
+ 0AC+Hm6OxhdH6kmPuKtfP3VssT9+Y+aUGdYDRc9dHbY3/opTpvNpsUnRwxL3sYwh3HCZ
+ kVq/mrA4veOvgpopUV/+UVna+pvPwZv+owCveG1CkpHX/En+VCX2W9jguP2o9CQEG9dm
+ Prlg==
+X-Gm-Message-State: AAQBX9ctksqRpmcd4N2YrB4XiCGcFnN7l+SMsfBypYvbbsHCqyebWxni
+ Uz9fl1eCddbukJbnSFRRswo=
+X-Google-Smtp-Source: AKy350affcKRPRnr6w7/Il+mJ10enRJnyp2KpkDOKh2W7Jw2M7JNi/J3H08mo2ox0CzAMVjiUCBrdg==
+X-Received: by 2002:a05:600c:218c:b0:3f1:6980:2cff with SMTP id
+ e12-20020a05600c218c00b003f169802cffmr8162883wme.14.1681841186582; 
+ Tue, 18 Apr 2023 11:06:26 -0700 (PDT)
+Received: from [192.168.1.135] ([207.188.167.132])
+ by smtp.gmail.com with ESMTPSA id
+ l11-20020a5d480b000000b002f2783ba25asm13649277wrq.65.2023.04.18.11.06.24
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 18 Apr 2023 11:06:25 -0700 (PDT)
+Message-ID: <d05f3ba8-5e89-82f2-73e0-175250e3e8fd@gmail.com>
+Date: Tue, 18 Apr 2023 20:06:24 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH v3] drm/fbdev-generic: prohibit potential out-of-bounds
- access
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Li Yi <liyi@loongson.cn>,
- Helge Deller <deller@gmx.de>, Lucas De Marchi <lucas.demarchi@intel.com>,
- linux-kernel@vger.kernel.org, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org, loongson-kernel@lists.loongnix.cn
-References: <20230417113219.1354078-1-suijingfeng@loongson.cn>
- <ZD5Vgx9Txaiz7Bun@phenom.ffwll.local>
+ Thunderbird/102.6.1
+Subject: Re: [PATCH] phy: mediatek/mt8195: fx mtk_hdmi_pll_calc() return code
 Content-Language: en-US
-From: Sui Jingfeng <15330273260@189.cn>
-In-Reply-To: <ZD5Vgx9Txaiz7Bun@phenom.ffwll.local>
+To: Arnd Bergmann <arnd@kernel.org>, Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
+ Philipp Zabel <p.zabel@pengutronix.de>,
+ Chunfeng Yun <chunfeng.yun@mediatek.com>, Vinod Koul <vkoul@kernel.org>,
+ Kishon Vijay Abraham I <kishon@kernel.org>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Guillaume Ranquet <granquet@baylibre.com>
+References: <20230414075842.4006164-1-arnd@kernel.org>
+From: Matthias Brugger <matthias.bgg@gmail.com>
+In-Reply-To: <20230414075842.4006164-1-arnd@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,157 +81,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Arnd Bergmann <arnd@arndb.de>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
+ linux-phy@lists.infradead.org, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Hi Arnd,
 
-On 2023/4/18 16:32, Daniel Vetter wrote:
-> On Mon, Apr 17, 2023 at 07:32:19PM +0800, Sui Jingfeng wrote:
->> The fbdev test of IGT may write after EOF, which lead to out-of-bound
->> access for the drm drivers using fbdev-generic. For example, on a x86
->> + aspeed bmc card platform, with a 1680x1050 resolution display, running
->> fbdev test if IGT will cause the linux kernel hang with the following
->> call trace:
->>
->>    Oops: 0000 [#1] PREEMPT SMP PTI
->>    [IGT] fbdev: starting subtest eof
->>    Workqueue: events drm_fb_helper_damage_work [drm_kms_helper]
->>    [IGT] fbdev: starting subtest nullptr
->>
->>    RIP: 0010:memcpy_erms+0xa/0x20
->>    RSP: 0018:ffffa17d40167d98 EFLAGS: 00010246
->>    RAX: ffffa17d4eb7fa80 RBX: ffffa17d40e0aa80 RCX: 00000000000014c0
->>    RDX: 0000000000001a40 RSI: ffffa17d40e0b000 RDI: ffffa17d4eb80000
->>    RBP: ffffa17d40167e20 R08: 0000000000000000 R09: ffff89522ecff8c0
->>    R10: ffffa17d4e4c5000 R11: 0000000000000000 R12: ffffa17d4eb7fa80
->>    R13: 0000000000001a40 R14: 000000000000041a R15: ffffa17d40167e30
->>    FS:  0000000000000000(0000) GS:ffff895257380000(0000) knlGS:0000000000000000
->>    CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
->>    CR2: ffffa17d40e0b000 CR3: 00000001eaeca006 CR4: 00000000001706e0
->>    Call Trace:
->>     <TASK>
->>     ? drm_fbdev_generic_helper_fb_dirty+0x207/0x330 [drm_kms_helper]
->>     drm_fb_helper_damage_work+0x8f/0x170 [drm_kms_helper]
->>     process_one_work+0x21f/0x430
->>     worker_thread+0x4e/0x3c0
->>     ? __pfx_worker_thread+0x10/0x10
->>     kthread+0xf4/0x120
->>     ? __pfx_kthread+0x10/0x10
->>     ret_from_fork+0x2c/0x50
->>     </TASK>
->>    CR2: ffffa17d40e0b000
->>    ---[ end trace 0000000000000000 ]---
->>
->> The direct reason is that damage rectange computed by
->> drm_fb_helper_memory_range_to_clip() does not guaranteed to be in-bound.
->> It is already results in workaround code populate to elsewhere. Another
->> reason is that exposing a larger buffer size than the actual needed help
->> to trigger this bug intrinsic in drm_fb_helper_memory_range_to_clip().
->>
->> Others fbdev emulation solutions write to the GEM buffer directly, they
->> won't reproduce this bug because the .fb_dirty function callback do not
->> being hooked, so no chance is given to drm_fb_helper_memory_range_to_clip()
->> to generate a out-of-bound when drm_fb_helper_sys_write() is called.
->>
->> This patch break the trigger condition of this bug by shrinking the shadow
->> buffer size to sizes->surface_height * buffer->fb->pitches[0].
->>
->> Fixes: '8fbc9af55de0 ("drm/fbdev-generic: Set screen size to size of GEM
->> buffer")'
->>
->> Signed-off-by: Sui Jingfeng <suijingfeng@loongson.cn>
->> ---
->>   drivers/gpu/drm/drm_fbdev_generic.c | 2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/drivers/gpu/drm/drm_fbdev_generic.c b/drivers/gpu/drm/drm_fbdev_generic.c
->> index 8e5148bf40bb..b057cfbba938 100644
->> --- a/drivers/gpu/drm/drm_fbdev_generic.c
->> +++ b/drivers/gpu/drm/drm_fbdev_generic.c
->> @@ -94,7 +94,7 @@ static int drm_fbdev_generic_helper_fb_probe(struct drm_fb_helper *fb_helper,
->>   	fb_helper->buffer = buffer;
->>   	fb_helper->fb = buffer->fb;
->>   
->> -	screen_size = buffer->gem->size;
->> +	screen_size = sizes->surface_height * buffer->fb->pitches[0];
-> So I read core some more and stumbled over drm_fb_helper_deferred_io().
-> Which has all the code and comments about this, including limiting.
->
-> I think it would be clearer if we fix the issue there, instead of passing
-> limits around in obscure places that then again get broken?
-
-No, it is more obscure doing that way...
-
-
-As the size of the shadow screen buffer will be exposed to userspace.
-
-The size 'helper->fb->height * helper->fb->pitches[0]' is a 
-exactly(best) fit,
-
-You are guaranteed to waste at lease one byte by increasing one byte,
-
-and can not store all pixels by decreasing one byte (In the case where 
-`helper->fb->pitches[0] = helper->fb->width * 4`).
-
-It implicitly tell the userspace do not go beyond that boundary.
-
-although userspace program can still choose to write  after EOF,
-
-But it is for test purpose, to test the kernel if it can return a -EFBIG 
-or not.
-
-> The thing is,
-> Thomas both authored the limit checks in drm_fb_helper_deferred_io() and
-> the patch which broken them again, so clearly this isn't very obvious. I'm
-> thinking of something like this:
->
->
-> diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
-> index ef4eb8b12766..726dab67c359 100644
-> --- a/drivers/gpu/drm/drm_fb_helper.c
-> +++ b/drivers/gpu/drm/drm_fb_helper.c
-> @@ -697,10 +697,7 @@ void drm_fb_helper_deferred_io(struct fb_info *info, struct list_head *pagerefli
->   	 * of the screen and account for non-existing scanlines. Hence,
->   	 * keep the covered memory area within the screen buffer.
->   	 */
-> -	if (info->screen_size)
-> -		total_size = info->screen_size;
-> -	else
-> -		total_size = info->fix.smem_len;
-> +	total_size = helper->fb->height * helper->fb->pitches[0];
-
-This is just to mitigate the mistakes already has been made,
-
-because it  do not do a good splitting between the *clip* part and the 
-*damage update* part.
-
-An ideal clipping do not obscure its updating backend with a 
-out-of-bound damage rectangle.
-
-Why did the drm_fb_helper_memory_range_to_clip() can not do a good job 
-in all case
-
-to pass its backend a always meaningful damage rect ?
-
->   	max_off = min(max_off, total_size);
+On 14/04/2023 09:58, Arnd Bergmann wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
+> 
+> The newly added function returns an uninitialized variable:
+> 
+> drivers/phy/mediatek/phy-mtk-hdmi-mt8195.c:298:6: error: variable 'ret' is uninitialized when used here [-Werror,-Wuninitialized]
+> 
+> Wire it up to the return code of the function called just before,
+> assuming that this was the intention originally.
+> 
+> Fixes: 45810d486bb4 ("phy: mediatek: add support for phy-mtk-hdmi-mt8195")
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> ---
+>   drivers/phy/mediatek/phy-mtk-hdmi-mt8195.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/phy/mediatek/phy-mtk-hdmi-mt8195.c b/drivers/phy/mediatek/phy-mtk-hdmi-mt8195.c
+> index abfc077fb0a8..c8e540665fcb 100644
+> --- a/drivers/phy/mediatek/phy-mtk-hdmi-mt8195.c
+> +++ b/drivers/phy/mediatek/phy-mtk-hdmi-mt8195.c
+> @@ -292,7 +292,7 @@ static int mtk_hdmi_pll_calc(struct mtk_hdmi_phy *hdmi_phy, struct clk_hw *hw,
+>   	if (!(digital_div <= 32 && digital_div >= 1))
+>   		return -EINVAL;
 >   
->   	if (min_off < max_off) {
->
->
-> I think that would make it utmost clear on what we're doing and why.
-> Otherwise we're just going to re-create the same bug again, like we've
-> done already :-)
+> -	mtk_hdmi_pll_set_hw(hw, PLL_PREDIV, fbkdiv_high, fbkdiv_low,
+> +	ret = mtk_hdmi_pll_set_hw(hw, PLL_PREDIV, fbkdiv_high, fbkdiv_low,
+>   			    PLL_FBKDIV_HS3, posdiv1, posdiv2, txprediv,
+>   			    txposdiv, digital_div);
+>   	if (ret)
 
-No, we create no bugs, we fix one.
+I think this is the third patch that fixes this :) Your solution look quite 
+similar to this one:
+20230413-fixes-for-mt8195-hdmi-phy-v2-1-bbad62e64321@baylibre.com
 
-Thanks.
-
-> -Daniel
->
->>   	screen_buffer = vzalloc(screen_size);
->>   	if (!screen_buffer) {
->>   		ret = -ENOMEM;
->> -- 
->> 2.25.1
->>
+Regards,
+Mmatthias
