@@ -1,40 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13E9C6E6344
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Apr 2023 14:39:14 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 78FF76E62D8
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Apr 2023 14:35:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EE88510E11E;
-	Tue, 18 Apr 2023 12:39:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9BA1510E278;
+	Tue, 18 Apr 2023 12:35:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4737910E11E
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Apr 2023 12:39:09 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3A08810E278
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Apr 2023 12:35:48 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 5502A632DE;
- Tue, 18 Apr 2023 12:39:07 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 455AAC433EF;
- Tue, 18 Apr 2023 12:39:06 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 9DF946327D;
+ Tue, 18 Apr 2023 12:35:46 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 883EEC433EF;
+ Tue, 18 Apr 2023 12:35:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1681821546;
- bh=2f+Am8ClJm0HmIKTaCxmCtNekRMLmg1AX1y+BDsZZXc=;
+ s=korg; t=1681821346;
+ bh=h7FEIe8ca7zvfq0mrRQUgHsit2vQHJj7yXRHnFW3K+8=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=LevL8V9KBkSUaB1hOVW58W0wvMCj5h71ebdB9dHj3wH6XqZB3KWBc4AM88ceZGPOW
- FgIVwIbGrQ6WrIREjEEYOQshFykJIbXby0sNwdX/5KVYN+RwkV/JB+93fwnclPLhd3
- STnDURDx3B10apcbLt6i87sl4Jnpueoi3rSxMQiY=
+ b=uLTNZVj6LfvEzuM32WH5Ybdio4XXNO52JO4/0FuGU94DC3Eqda5+ES3VPGiyJ4iOD
+ E2tgN10/htk7rd3GL26xhLns+yev5hZlgyEdZXjBzkRqz14Qiq9rIz3RUtAF68g7Cz
+ vMV7qs6Fnu3sO/T304qu77shnzUsxgZn2dxpYcFw=
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: stable@vger.kernel.org
-Subject: [PATCH 5.15 12/91] fbmem: Reject FB_ACTIVATE_KD_TEXT from userspace
-Date: Tue, 18 Apr 2023 14:21:16 +0200
-Message-Id: <20230418120305.975477545@linuxfoundation.org>
+Subject: [PATCH 5.10 063/124] fbmem: Reject FB_ACTIVATE_KD_TEXT from userspace
+Date: Tue, 18 Apr 2023 14:21:22 +0200
+Message-Id: <20230418120312.152461472@linuxfoundation.org>
 X-Mailer: git-send-email 2.40.0
-In-Reply-To: <20230418120305.520719816@linuxfoundation.org>
-References: <20230418120305.520719816@linuxfoundation.org>
+In-Reply-To: <20230418120309.539243408@linuxfoundation.org>
+References: <20230418120309.539243408@linuxfoundation.org>
 User-Agent: quilt/0.67
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -122,7 +121,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 --- a/drivers/video/fbdev/core/fbmem.c
 +++ b/drivers/video/fbdev/core/fbmem.c
-@@ -1119,6 +1119,8 @@ static long do_fb_ioctl(struct fb_info *
+@@ -1117,6 +1117,8 @@ static long do_fb_ioctl(struct fb_info *
  	case FBIOPUT_VSCREENINFO:
  		if (copy_from_user(&var, argp, sizeof(var)))
  			return -EFAULT;
