@@ -2,46 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B9766E8B03
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Apr 2023 09:13:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CC486E5AA6
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Apr 2023 09:45:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 360C910EB8A;
-	Thu, 20 Apr 2023 07:12:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8F77510E6AA;
+	Tue, 18 Apr 2023 07:45:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net
- [217.70.183.199])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 895A510E6B6
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Apr 2023 07:41:12 +0000 (UTC)
-Received: (Authenticated sender: me@crly.cz)
- by mail.gandi.net (Postfix) with ESMTPSA id 5CF37FF818;
- Tue, 18 Apr 2023 07:41:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crly.cz; s=gm1;
- t=1681803671;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B679110E6AA
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Apr 2023 07:45:01 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 1CEA11F8D5;
+ Tue, 18 Apr 2023 07:45:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1681803900; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=RXbaBNxkiTTV4hInjji5NkCrdDSarnLLhwu9cO3OfTc=;
- b=GGo8ZSJuCFf8PhmINCprVl3K0jroP984sMuxT1hhoVj7KXeXwt5lwaC1xXSQSse5e7Z+GX
- iyk+LFcxnTdfDqW4I8lFY9cKpqr+Rqz7yvhi65RVghDQzTPb2NR9uxc59vLxsbNdWcpcx8
- mB4ksq+3XoPnpGctNNIrIiRFjNH3miTpSwFtEzhbOr+pOW1Ny4NuPFXobAPdA4PxpJm88T
- eTUxZiSsIP5Wd7oeLV5lZ1E/IfYPnaQZcv7Dtfd48/+iaPLhUI8/TDSOW4SiR/r3I+SNxk
- 4DnOAslp97cT8Df/zkoGbLEGBa/Ghx8YH8/hC7+nO9CRJzBFXhgdGezTL0ajMQ==
-From: Roman Beranek <me@crly.cz>
-To: Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>
-Subject: [PATCH v2 7/7] drm: sun4i: calculate proper DCLK rate for DSI
-Date: Tue, 18 Apr 2023 09:40:08 +0200
-Message-Id: <20230418074008.69752-8-me@crly.cz>
-X-Mailer: git-send-email 2.32.0 (Apple Git-132)
-In-Reply-To: <20230418074008.69752-1-me@crly.cz>
-References: <20230418074008.69752-1-me@crly.cz>
+ bh=k4kCGiDu7eZCY2kHWyBi9arEU5jU+OwaWl9LlmgBgTo=;
+ b=01AbIdbC2ZN0fhxv/iYxLgj8ciDX6tD9uCd3cIhELGAw4YSRK9w6/GGAiuAaLtZg7KlYip
+ UPvsdBcpWNtNJ71zbqUvLKTD1lA83nSqPPrphOIt3mJsfodK1zfwzqX4BEKAaXkUnOToit
+ aPED/mfiOl6WMMIYqzVnNBr0VoJ5y+A=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1681803900;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=k4kCGiDu7eZCY2kHWyBi9arEU5jU+OwaWl9LlmgBgTo=;
+ b=Rmm87b7uMzS061Xyb6C7LuYQh7WlZOBtlpx0lMkwJOlh/1UTUlnJfZxcIJZTcTRQYKl8ZJ
+ E719xeledovycCBA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id B324C139CC;
+ Tue, 18 Apr 2023 07:44:59 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id lXeyKntKPmTxagAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Tue, 18 Apr 2023 07:44:59 +0000
+Message-ID: <5fa98536-a4b0-7b71-7342-9ba05158062f@suse.de>
+Date: Tue, 18 Apr 2023 09:44:59 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Thu, 20 Apr 2023 07:12:56 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH v3 00/19] arch: Consolidate <asm/fb.h>
+Content-Language: en-US
+To: Arnd Bergmann <arnd@arndb.de>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Helge Deller <deller@gmx.de>, Javier Martinez Canillas <javierm@redhat.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+References: <20230417125651.25126-1-tzimmermann@suse.de>
+ <1641007d-7953-426a-a3de-ca9c90f6c5a9@app.fastmail.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <1641007d-7953-426a-a3de-ca9c90f6c5a9@app.fastmail.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------rFRj0NtGM3Zijx0xyHfeKvB1"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,92 +72,86 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, Frank Oltmanns <frank@oltmanns.dev>,
- dri-devel@lists.freedesktop.org, Roman Beranek <me@crly.cz>,
- Ondrej Jirman <megi@xff.cz>, Icenowy Zheng <icenowy@aosp.io>,
- linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org
+Cc: Linux-Arch <linux-arch@vger.kernel.org>, linux-fbdev@vger.kernel.org,
+ linux-ia64@vger.kernel.org, linux-parisc@vger.kernel.org,
+ linux-sh@vger.kernel.org, x86@kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-mips@vger.kernel.org,
+ linux-m68k@lists.linux-m68k.org, loongarch@lists.linux.dev,
+ sparclinux@vger.kernel.org, linux-snps-arc@lists.infradead.org,
+ linuxppc-dev@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In DSI mode, TCON0's data clock is required to run at 1/4 the per-lane
-bit rate.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------rFRj0NtGM3Zijx0xyHfeKvB1
+Content-Type: multipart/mixed; boundary="------------18o4xqtdrHnA7yRGq0Gjgi9D";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Arnd Bergmann <arnd@arndb.de>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Helge Deller <deller@gmx.de>, Javier Martinez Canillas <javierm@redhat.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Linux-Arch <linux-arch@vger.kernel.org>, linux-fbdev@vger.kernel.org,
+ linux-ia64@vger.kernel.org, linux-parisc@vger.kernel.org,
+ linux-sh@vger.kernel.org, x86@kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-mips@vger.kernel.org,
+ linux-m68k@lists.linux-m68k.org, loongarch@lists.linux.dev,
+ sparclinux@vger.kernel.org, linux-snps-arc@lists.infradead.org,
+ linuxppc-dev@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org
+Message-ID: <5fa98536-a4b0-7b71-7342-9ba05158062f@suse.de>
+Subject: Re: [PATCH v3 00/19] arch: Consolidate <asm/fb.h>
+References: <20230417125651.25126-1-tzimmermann@suse.de>
+ <1641007d-7953-426a-a3de-ca9c90f6c5a9@app.fastmail.com>
+In-Reply-To: <1641007d-7953-426a-a3de-ca9c90f6c5a9@app.fastmail.com>
 
-Signed-off-by: Roman Beranek <me@crly.cz>
----
- drivers/gpu/drm/sun4i/sun4i_tcon.c | 36 +++++++++++++++++-------------
- 1 file changed, 21 insertions(+), 15 deletions(-)
+--------------18o4xqtdrHnA7yRGq0Gjgi9D
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-diff --git a/drivers/gpu/drm/sun4i/sun4i_tcon.c b/drivers/gpu/drm/sun4i/sun4i_tcon.c
-index eec26b1faa4b..b263de7a8237 100644
---- a/drivers/gpu/drm/sun4i/sun4i_tcon.c
-+++ b/drivers/gpu/drm/sun4i/sun4i_tcon.c
-@@ -291,18 +291,6 @@ static int sun4i_tcon_get_clk_delay(const struct drm_display_mode *mode,
- 	return delay;
- }
- 
--static void sun4i_tcon0_mode_set_common(struct sun4i_tcon *tcon,
--					const struct drm_display_mode *mode)
--{
--	/* Configure the dot clock */
--	clk_set_rate(tcon->dclk, mode->crtc_clock * 1000);
--
--	/* Set the resolution */
--	regmap_write(tcon->regs, SUN4I_TCON0_BASIC0_REG,
--		     SUN4I_TCON0_BASIC0_X(mode->crtc_hdisplay) |
--		     SUN4I_TCON0_BASIC0_Y(mode->crtc_vdisplay));
--}
--
- static void sun4i_tcon0_mode_set_dithering(struct sun4i_tcon *tcon,
- 					   const struct drm_connector *connector)
- {
-@@ -367,10 +355,18 @@ static void sun4i_tcon0_mode_set_cpu(struct sun4i_tcon *tcon,
- 	u32 block_space, start_delay;
- 	u32 tcon_div;
- 
-+	/*
-+	 * dclk is required to run at 1/4 the DSI per-lane bit rate.
-+	 */
- 	tcon->dclk_min_div = SUN6I_DSI_TCON_DIV;
- 	tcon->dclk_max_div = SUN6I_DSI_TCON_DIV;
-+	clk_set_rate(tcon->dclk, mode->crtc_clock * 1000 * (bpp / lanes)
-+						  / SUN6I_DSI_TCON_DIV);
- 
--	sun4i_tcon0_mode_set_common(tcon, mode);
-+	/* Set the resolution */
-+	regmap_write(tcon->regs, SUN4I_TCON0_BASIC0_REG,
-+		     SUN4I_TCON0_BASIC0_X(mode->crtc_hdisplay) |
-+		     SUN4I_TCON0_BASIC0_Y(mode->crtc_vdisplay));
- 
- 	/* Set dithering if needed */
- 	sun4i_tcon0_mode_set_dithering(tcon, sun4i_tcon_get_connector(encoder));
-@@ -438,7 +434,12 @@ static void sun4i_tcon0_mode_set_lvds(struct sun4i_tcon *tcon,
- 
- 	tcon->dclk_min_div = 7;
- 	tcon->dclk_max_div = 7;
--	sun4i_tcon0_mode_set_common(tcon, mode);
-+	clk_set_rate(tcon->dclk, mode->crtc_clock * 1000);
-+
-+	/* Set the resolution */
-+	regmap_write(tcon->regs, SUN4I_TCON0_BASIC0_REG,
-+		     SUN4I_TCON0_BASIC0_X(mode->crtc_hdisplay) |
-+		     SUN4I_TCON0_BASIC0_Y(mode->crtc_vdisplay));
- 
- 	/* Set dithering if needed */
- 	sun4i_tcon0_mode_set_dithering(tcon, sun4i_tcon_get_connector(encoder));
-@@ -515,7 +516,12 @@ static void sun4i_tcon0_mode_set_rgb(struct sun4i_tcon *tcon,
- 
- 	tcon->dclk_min_div = tcon->quirks->dclk_min_div;
- 	tcon->dclk_max_div = 127;
--	sun4i_tcon0_mode_set_common(tcon, mode);
-+	clk_set_rate(tcon->dclk, mode->crtc_clock * 1000);
-+
-+	/* Set the resolution */
-+	regmap_write(tcon->regs, SUN4I_TCON0_BASIC0_REG,
-+		     SUN4I_TCON0_BASIC0_X(mode->crtc_hdisplay) |
-+		     SUN4I_TCON0_BASIC0_Y(mode->crtc_vdisplay));
- 
- 	/* Set dithering if needed */
- 	sun4i_tcon0_mode_set_dithering(tcon, connector);
--- 
-2.34.1
+SGkNCg0KQW0gMTcuMDQuMjMgdW0gMTY6MTIgc2NocmllYiBBcm5kIEJlcmdtYW5uOg0KPiBP
+biBNb24sIEFwciAxNywgMjAyMywgYXQgMTQ6NTYsIFRob21hcyBaaW1tZXJtYW5uIHdyb3Rl
+Og0KPj4gVmFyaW91cyBhcmNoaXRlY3R1cmVzIHByb3ZpZGUgPGFzbS9mYi5oPiB3aXRoIGhl
+bHBlcnMgZm9yIGZiZGV2DQo+PiBmcmFtZWJ1ZmZlciBkZXZpY2VzLiBTaGFyZSB0aGUgY29u
+dGFpbmVkIGNvZGUgd2hlcmUgcG9zc2libGUuIFRoZXJlDQo+PiBpcyBhbHJlYWR5IDxhc20t
+Z2VuZXJpYy9mYi5oPiwgd2hpY2ggaW1wbGVtZW50cyBnZW5lcmljIChhcyBpbg0KPj4gJ2Vt
+cHR5JykgZnVuY3Rpb25zIG9mIHRoZSBmYmRldiBoZWxwZXJzLiBUaGUgaGVhZGVyIHdhcyBh
+ZGRlZCBpbg0KPj4gY29tbWl0IGFhZmU0ZGJlZDBiZiAoImFzbS1nZW5lcmljOiBhZGQgZ2Vu
+ZXJpYyB2ZXJzaW9ucyBvZiBjb21tb24NCj4+IGhlYWRlcnMiKSwgYnV0IG5ldmVyIHVzZWQu
+DQo+Pg0KPj4gRWFjaCBwZXItYXJjaGl0ZWN0dXJlIGhlYWRlciBmaWxlIGRlY2xhcmVzIGFu
+ZC9vciBpbXBsZW1lbnRzIGZiZGV2DQo+PiBoZWxwZXJzIGFuZCBkZWZpbmVzIGEgcHJlcHJv
+Y2Vzc29yIHRva2VuIGZvciBlYWNoLiBUaGUgZ2VuZXJpYw0KPj4gaGVhZGVyIHRoZW4gcHJv
+dmlkZXMgdGhlIHJlbWFpbmluZyBoZWxwZXJzLiBJdCB3b3JrcyBsaWtlIHRoZSBJL08NCj4+
+IGhlbHBlcnMgaW4gPGFzbS9pby5oPi4NCj4gDQo+IExvb2tzIGFsbCBnb29kIHRvIG1lLA0K
+PiANCj4gQWNrZWQtYnk6IEFybmQgQmVyZ21hbm4gPGFybmRAYXJuZGIuZGU+DQoNClRoYW5r
+cyBhIGxvdC4gSSBrbm93IHRoYXQgSGVsZ2Ugd2FudHMgdG8gdGVzdCB0aGUgUEFSSVNDIGNo
+YW5nZXMsIHNvIA0KSSdsbCBrZWVwIHRoaXMgc2VyaWVzIHBlbmRpbmcgZm9yIGEgYml0IGxv
+bmdlci4gSSdkIGxpa2UgdG8gbWVyZ2UgdGhlIA0KcGF0Y2hlcyB0aHJvdWdoIHRoZSBEUk0g
+dHJlZSwgaWYgbm8gb25lIG9iamVjdHMuDQoNCkJlc3QgcmVnYXJkcw0KVGhvbWFzDQoNCj4g
+DQo+ICAgICAgIEFybmQNCg0KLS0gDQpUaG9tYXMgWmltbWVybWFubg0KR3JhcGhpY3MgRHJp
+dmVyIERldmVsb3Blcg0KU1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFueSBHbWJIDQpN
+YXhmZWxkc3RyLiA1LCA5MDQwOSBOw7xybmJlcmcsIEdlcm1hbnkNCihIUkIgMzY4MDksIEFH
+IE7DvHJuYmVyZykNCkdlc2Now6RmdHNmw7xocmVyOiBJdm8gVG90ZXYNCg==
 
+--------------18o4xqtdrHnA7yRGq0Gjgi9D--
+
+--------------rFRj0NtGM3Zijx0xyHfeKvB1
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmQ+SnsFAwAAAAAACgkQlh/E3EQov+Dd
+XQ//Zqe+Ke6gkghrBiUGQ20ACZc8VRAA3V1KtkJbElUAoQFaUum7w/yrlS81UEEJjoRMuX1FFcG+
+Rgbn5SQ/UepB6HwWPDfLlwvC4oUfNthoc8c95PMqnBG4qC6ln8pmzQf0Kh3KqcP7JSLUCZQ5hk0S
+UQ5o4XBTJvdwLDkcwaKIk8l4Up8BSKjx4CtpCLiplMu6raS6B2gHyKJ4Z5JRPPQBfR8XmfJKoBGA
+cJaPYTFMY4Nds0+lkFOgVFZeXpMuhIEt+jScoLwoDxb/2Ee+uaacWl7kCE2BQ8Hdhtm5Z18SDIUv
+oI7I2ASXRLCQbUMl+7R2paUr8KyYfV3f3FOq9KIfU0GiZP07CCLHEkojxcdp001KJV4Y8/u91nqe
+XPAjD+qEVK/Dqfe8J1nSZESRHsy3f30yr4kUhVBpZpeqdt205SA3Aa3z8Wa+bbk8vJ+7hqoc1pXp
+OAwdl1qf48I5AvxZiDdJ9d3lAJBhzEzStBvilwdb+hloJ1vlt/N7eG9d10qCSvEfHdMOma7ym+da
+0cHlXkncuXTzhVUj4UWbF/qWakRRElf7lGym4/Ns7gdxWb5/sHGmamxH8cT7lu16UXcGO6JyKi8J
+GT7X/bWqUKOYRFUujmWoafHadee1TGvLnPd3nI9GHLZ9WIH6fz8EopcK3bOx3WIBF3E/KBhrZYHH
+Nvk=
+=wq7p
+-----END PGP SIGNATURE-----
+
+--------------rFRj0NtGM3Zijx0xyHfeKvB1--
