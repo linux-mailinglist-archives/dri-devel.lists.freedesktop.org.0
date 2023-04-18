@@ -1,61 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34DAD6E6AC9
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Apr 2023 19:18:47 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 733B26E6AD4
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Apr 2023 19:24:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CF87910E15E;
-	Tue, 18 Apr 2023 17:18:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 59F6510E80B;
+	Tue, 18 Apr 2023 17:24:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x230.google.com (mail-oi1-x230.google.com
- [IPv6:2607:f8b0:4864:20::230])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A966810E15E;
- Tue, 18 Apr 2023 17:18:40 +0000 (UTC)
-Received: by mail-oi1-x230.google.com with SMTP id
- 5614622812f47-38e12d973bfso426524b6e.0; 
- Tue, 18 Apr 2023 10:18:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1681838319; x=1684430319;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=ue2iHRPcDF/ysAHWZn+Uzs9V6+se5cTuzHkq8jUYOro=;
- b=oA2oNpYHM92LdnuKDr3Xxg+ZAlH1XSEIZN3DkP3xGXTJ6T54M3aRkfX5tBihA+HZ48
- UEjYuRCZxJ18vsGUxvvjQL1pKQaJGpuTPBOJ4u2Juy1aj+osBiGPnbGcs4eoe+HfDyuk
- N3G3TjYt/MvOUS66Vlj6mMPlYv/LoX2A9KySlNVlSnciAxWP93ylegG4V5rVVCLvoAKi
- TihPrVXfmlMsTAET36Sp1Opp6+1ZqlRuxOs3WEznGlSugviurHthLoAMEUqhh6bwM9/P
- Th3PyIyw1eaF8JSatA0GLrI0pJpEY/wTnmivnm4qSuc+fh9K0Bj69Rmpi8b3HGZu8G/h
- gMtw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681838319; x=1684430319;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=ue2iHRPcDF/ysAHWZn+Uzs9V6+se5cTuzHkq8jUYOro=;
- b=Vkbk77G1EbFjoz5EmH0981GM7MSnovoxGIcSRGuDpBrO0FC+c3YKgZJcP1m0a1qHAJ
- PpLcEW0vud8et5I53cnXSRUygqBabPCsbk9ZroXlESPr594LV/FHa7/UoOxi6KjBDJ+a
- Cv66rKR7MTWZClVRb+NAabka6SLpvDYMPvum8TlilN5h5nFH794BIPvgEfYetFYIad4K
- 8hGEqOPw9kJjkLrTl44D4E6DV01oj1kR62K1/OqXSUtz/yAUod/NSKNhpS/xvYXAMMvc
- 7C7AJcudWWB8dni46sNQn5u4m3K8pK38tOQ+vtLKY9dG6wBruvJT9uHWWMMOp8C0fzSb
- s4QQ==
-X-Gm-Message-State: AAQBX9dn0iylACyTiLslFjvleUrhElBjHQ1y+SEQjuwryHw0/0nkJAKq
- FdCiRfq065+nqP91O2KhN8yXYHKGHjPY0kcP1X8=
-X-Google-Smtp-Source: AKy350aUXuowZHdSG+le2TE+OScOFH/nNQ3Cuqcw4KVChsc6z4+U32TxYsRHn6fStZLCcdfEyiG2Jd9T67D4kPpSVJ4=
-X-Received: by 2002:aca:c002:0:b0:384:1cf9:912e with SMTP id
- q2-20020acac002000000b003841cf9912emr867467oif.5.1681838319362; Tue, 18 Apr
- 2023 10:18:39 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230417155613.4143258-1-tvrtko.ursulin@linux.intel.com>
- <20230417155613.4143258-5-tvrtko.ursulin@linux.intel.com>
-In-Reply-To: <20230417155613.4143258-5-tvrtko.ursulin@linux.intel.com>
-From: Rob Clark <robdclark@gmail.com>
-Date: Tue, 18 Apr 2023 10:18:28 -0700
-Message-ID: <CAF6AEGuobv8+fU-WU9D9vffNJC5zCqrHDtkppf__ieMJDHsWnw@mail.gmail.com>
-Subject: Re: [RFC 4/6] drm: Add simple fdinfo memory helpers
-To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2E38E10E804;
+ Tue, 18 Apr 2023 17:23:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1681838639; x=1713374639;
+ h=date:message-id:from:to:cc:subject:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=7ZghkeDux2Nux2H5dLKhUsvpf0g4Xdyzaxzal2do5KU=;
+ b=l3NFonMwtXHzCv8VjY8VUJMP9XyVWi8+MAsrNt5l6/iTnweX6tqo6hJo
+ 7cy0qe1DxHeTyyDvvQMYxmB50no83GtlHpQVhJe+JrWOhQBBeM28ZBJGp
+ lXGzoCtxGryjXWpz9wQVFKCw6LNhGbCSSJQe4Z1XgfMLvWMNtdVgLp96V
+ W9Y16Y1wvGPOb06TKmJjugbSZDYMcIq4sHNCSQ2fiYf5DMWi+SzhIEJ5b
+ ae4PamvhpVqmu9LGBJk/4Dg4oNj0sj96d5KKIOE/TbSjcCYCkKGkIGOZ0
+ l7ny2eU/KflnZEb2qPM2m90k8uYPvpoFR3yh4g9kqDqW9PumOhYYfzPJq Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10684"; a="347087441"
+X-IronPort-AV: E=Sophos;i="5.99,207,1677571200"; d="scan'208";a="347087441"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Apr 2023 10:23:57 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10684"; a="937327032"
+X-IronPort-AV: E=Sophos;i="5.99,207,1677571200"; d="scan'208";a="937327032"
+Received: from adixit-mobl.amr.corp.intel.com (HELO adixit-arch.intel.com)
+ ([10.212.150.217])
+ by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Apr 2023 10:23:57 -0700
+Date: Tue, 18 Apr 2023 10:23:50 -0700
+Message-ID: <874jpdje8p.wl-ashutosh.dixit@intel.com>
+From: "Dixit, Ashutosh" <ashutosh.dixit@intel.com>
+To: Rodrigo Vivi <rodrigo.vivi@intel.com>
+Subject: Re: [PATCH 3/3] drm/i915/hwmon: Block waiting for GuC reset to
+ complete
+In-Reply-To: <ZD4sPiMDhhr1wO8+@intel.com>
+References: <20230410223509.3593109-1-ashutosh.dixit@intel.com>	<20230410223509.3593109-4-ashutosh.dixit@intel.com>	<ZD4sPiMDhhr1wO8+@intel.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?ISO-8859-4?Q?Goj=F2?=) APEL-LB/10.8 EasyPG/1.0.0
+ Emacs/28.2 (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -69,115 +62,161 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, Intel-gfx@lists.freedesktop.org,
- Emil Velikov <emil.l.velikov@gmail.com>, dri-devel@lists.freedesktop.org,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Apr 17, 2023 at 8:56=E2=80=AFAM Tvrtko Ursulin
-<tvrtko.ursulin@linux.intel.com> wrote:
+On Mon, 17 Apr 2023 22:35:58 -0700, Rodrigo Vivi wrote:
 >
-> From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
->
-> For drivers who only wish to show one memory region called 'system,
-> and only account the GEM buffer object handles under it.
->
-> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-> ---
->  drivers/gpu/drm/drm_file.c | 45 ++++++++++++++++++++++++++++++++++++++
->  include/drm/drm_file.h     |  6 +++++
->  2 files changed, 51 insertions(+)
->
-> diff --git a/drivers/gpu/drm/drm_file.c b/drivers/gpu/drm/drm_file.c
-> index e202f79e816d..1e70669dddf7 100644
-> --- a/drivers/gpu/drm/drm_file.c
-> +++ b/drivers/gpu/drm/drm_file.c
-> @@ -872,6 +872,51 @@ void drm_send_event(struct drm_device *dev, struct d=
-rm_pending_event *e)
->  }
->  EXPORT_SYMBOL(drm_send_event);
->
-> +static void
-> +add_obj(struct drm_gem_object *obj, struct drm_fdinfo_memory_stat *stats=
-)
-> +{
-> +       u64 sz =3D obj->size;
-> +
-> +       stats[0].size +=3D sz;
-> +
-> +       if (obj->handle_count > 1)
-> +               stats[0].shared +=3D sz;
-> +
-> +       if (!dma_resv_test_signaled(obj->resv, dma_resv_usage_rw(true)))
-> +               stats[0].active +=3D sz;
-> +
-> +       /* Not supported. */
-> +       stats[0].resident =3D ~0ull;
-> +       stats[0].purgeable =3D ~0ull;
 
-Hmm, this kinda makes the simple helper not very useful.  In my
-version, you get something that is useful for all UMA drivers (which
-all, IIRC, have some form of madv ioctl).  I was kinda imagining that
-for ttm drivers, my print_memory_stats() would just become a helper
-and that TTM (or "multi-region") drivers would have their own thing.
+Hi Rodrigo,
 
-BR,
--R
+> On Mon, Apr 10, 2023 at 03:35:09PM -0700, Ashutosh Dixit wrote:
+> > Instead of erroring out when GuC reset is in progress, block waiting for
+> > GuC reset to complete which is a more reasonable uapi behavior.
+> >
+> > v2: Avoid race between wake_up_all and waiting for wakeup (Rodrigo)
+> >
+> > Signed-off-by: Ashutosh Dixit <ashutosh.dixit@intel.com>
+> > ---
+> >  drivers/gpu/drm/i915/i915_hwmon.c | 38 +++++++++++++++++++++++++++----
+> >  1 file changed, 33 insertions(+), 5 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/i915/i915_hwmon.c b/drivers/gpu/drm/i915/i=
+915_hwmon.c
+> > index 9ab8971679fe3..8471a667dfc71 100644
+> > --- a/drivers/gpu/drm/i915/i915_hwmon.c
+> > +++ b/drivers/gpu/drm/i915/i915_hwmon.c
+> > @@ -51,6 +51,7 @@ struct hwm_drvdata {
+> >	char name[12];
+> >	int gt_n;
+> >	bool reset_in_progress;
+> > +	wait_queue_head_t waitq;
+> >  };
+> >
+> >  struct i915_hwmon {
+> > @@ -395,16 +396,41 @@ hwm_power_max_read(struct hwm_drvdata *ddat, long=
+ *val)
+> >  static int
+> >  hwm_power_max_write(struct hwm_drvdata *ddat, long val)
+> >  {
+> > +#define GUC_RESET_TIMEOUT msecs_to_jiffies(2000)
+> > +
+> > +	int ret =3D 0, timeout =3D GUC_RESET_TIMEOUT;
+> >	struct i915_hwmon *hwmon =3D ddat->hwmon;
+> >	intel_wakeref_t wakeref;
+> > -	int ret =3D 0;
+> > +	DEFINE_WAIT(wait);
+> >	u32 nval;
+> >
+> > -	mutex_lock(&hwmon->hwmon_lock);
+> > -	if (hwmon->ddat.reset_in_progress) {
+> > -		ret =3D -EAGAIN;
+> > -		goto unlock;
+> > +	/* Block waiting for GuC reset to complete when needed */
+> > +	for (;;) {
+> > +		mutex_lock(&hwmon->hwmon_lock);
+>
+> I'm really afraid of how this mutex is handled with the wait queue.
+> some initial thought it looks like it is trying to reimplement ww_mutex?
 
-> +}
-> +
-> +char **
-> +drm_query_fdinfo_system_region(struct drm_device *dev, unsigned int *num=
-)
-> +{
-> +       static char *region[] =3D {
-> +               "system",
-> +       };
-> +
-> +       *num =3D 1;
-> +
-> +       return region;
-> +}
-> +EXPORT_SYMBOL(drm_query_fdinfo_system_region);
-> +
-> +void
-> +drm_query_fdinfo_system_memory(struct drm_file *file,
-> +                              struct drm_fdinfo_memory_stat *stats)
-> +{
-> +       struct drm_gem_object *obj;
-> +       int id;
-> +
-> +       spin_lock(&file->table_lock);
-> +       idr_for_each_entry(&file->object_idr, obj, id)
-> +               add_obj(obj, stats);
-> +       spin_unlock(&file->table_lock);
-> +}
-> +EXPORT_SYMBOL(drm_query_fdinfo_system_memory);
-> +
->  static void
->  print_stat(struct drm_printer *p, const char *stat, const char *region, =
-u64 sz)
->  {
-> diff --git a/include/drm/drm_file.h b/include/drm/drm_file.h
-> index 00d48beeac5c..dd7c6fb2c975 100644
-> --- a/include/drm/drm_file.h
-> +++ b/include/drm/drm_file.h
-> @@ -383,6 +383,12 @@ struct drm_fdinfo_memory_stat {
->         u64 active;
->  };
+Sorry, but I am missing the relation with ww_mutex. No such relation is
+intended.
+
+> all other examples of the wait_queue usages like this or didn't use
+> locks or had it in a total different flow that I could not correlate.
+
+Actually there are several examples of prepare_to_wait/finish_wait
+sequences with both spinlock and mutex in the kernel. See
+e.g. rpm_suspend(), wait_for_rtrs_disconnection(), softsynthx_read().
+
+Also, as I mentioned, except for the lock, the sequence here is identical
+to intel_guc_wait_for_pending_msg().
+
 >
-> +char **drm_query_fdinfo_system_region(struct drm_device *dev,
-> +                                     unsigned int *num);
-> +void drm_query_fdinfo_system_memory(struct drm_file *file,
-> +                                   struct drm_fdinfo_memory_stat *stats)=
-;
-> +
-> +
->  /**
->   * drm_is_primary_client - is this an open file of the primary node
->   * @file_priv: DRM file
-> --
-> 2.37.2
+> > +
+> > +		prepare_to_wait(&ddat->waitq, &wait, TASK_INTERRUPTIBLE);
+> > +
+> > +		if (!hwmon->ddat.reset_in_progress)
+> > +			break;
 >
+> If this breaks we never unlock it?
+
+Correct, this is the original case in Patch 2 where the mutex is acquired
+in the beginning of the function and released just before the final exit
+from the function (so the mutex is held for the entire duration of the
+function).
+
+>
+> > +
+> > +		if (signal_pending(current)) {
+> > +			ret =3D -EINTR;
+> > +			break;
+> > +		}
+> > +
+> > +		if (!timeout) {
+> > +			ret =3D -ETIME;
+> > +			break;
+> > +		}
+> > +
+> > +		mutex_unlock(&hwmon->hwmon_lock);
+>
+> do we need to lock the signal pending and timeout as well?
+> or only wrapping it around the hwmon->ddat access would be
+> enough?
+
+Strictly, the mutex is only needed for the hwmon->ddat.reset_in_progress
+flag. But because this is not a performance path, implementing it as done
+in the patch simplifies the code flow (since there are several if/else,
+goto's, mutex lock/unlock and prepare_to_wait/finish_wait to consider).
+
+So if possible I *really* want to not try to over-optimize here (I did try
+a few other things when writing the patch but it was getting ugly). The
+only real requirement is to drop the lock before calling schedule_timeout()
+below (and we are reacquiring the lock as soon as we are scheduled back in,
+as you can see in the loop above).
+
+>
+> > +
+> > +		timeout =3D schedule_timeout(timeout);
+> >	}
+> > +	finish_wait(&ddat->waitq, &wait);
+> > +	if (ret)
+> > +		goto unlock;
+> > +
+> >	wakeref =3D intel_runtime_pm_get(ddat->uncore->rpm);
+> >
+> >	/* Disable PL1 limit and verify, because the limit cannot be disabled o=
+n all platforms */
+> > @@ -508,6 +534,7 @@ void i915_hwmon_power_max_restore(struct drm_i915_p=
+rivate *i915, bool old)
+> >	intel_uncore_rmw(hwmon->ddat.uncore, hwmon->rg.pkg_rapl_limit,
+> >			 PKG_PWR_LIM_1_EN, old ? PKG_PWR_LIM_1_EN : 0);
+> >	hwmon->ddat.reset_in_progress =3D false;
+> > +	wake_up_all(&hwmon->ddat.waitq);
+> >
+> >	mutex_unlock(&hwmon->hwmon_lock);
+> >  }
+> > @@ -784,6 +811,7 @@ void i915_hwmon_register(struct drm_i915_private *i=
+915)
+> >	ddat->uncore =3D &i915->uncore;
+> >	snprintf(ddat->name, sizeof(ddat->name), "i915");
+> >	ddat->gt_n =3D -1;
+> > +	init_waitqueue_head(&ddat->waitq);
+> >
+> >	for_each_gt(gt, i915, i) {
+> >		ddat_gt =3D hwmon->ddat_gt + i;
+> > --
+> > 2.38.0
+> >
+
+=46rom what I understand is the locking above is fine and is not the
+point. The real race is between schedule_timeout() (which suspends the
+thread) and wake_up_all() (which schedules it back in). But this
+prepare_to_wait/finish_wait pattern is so widespread that the kernel
+guarantees that this works correctly as long as you do things in the
+correct order (otherwise we'd see a lot more kernel hangs/deadlocks).
+
+Thanks,
+Ashutosh
