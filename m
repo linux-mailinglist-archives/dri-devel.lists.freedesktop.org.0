@@ -1,50 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 840266E5E36
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Apr 2023 12:07:28 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A56A76E5F04
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Apr 2023 12:38:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0156A10E73C;
-	Tue, 18 Apr 2023 10:07:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6FB4D10E135;
+	Tue, 18 Apr 2023 10:38:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BE7FA10E73C;
- Tue, 18 Apr 2023 10:07:21 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 391EF625AC;
- Tue, 18 Apr 2023 10:07:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 40DFCC433EF;
- Tue, 18 Apr 2023 10:07:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1681812440;
- bh=R/KFdzXCgnetVU5Nex15rrtlAf5YzHR9xzJSb9o4Y2Y=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=LXRNfcbnzbR/JRb37sh45HIKT358NsFj41T9b15kR2krRa+JbvD70anAojbmzyq90
- C5BOw6QjNuWpdUoBSu4grqRa+C5kfVGd0oVbD9r/5cC7fB/47IOm2Jt3SKbU0MwEzJ
- AWRoFZKbphe2b3sOoFwrXei9lmV9atifBODRhrQ0yWa/3JGvymVIJ1g8o+zyIj+3v7
- 3CHRCfc//HX5Uw4HgbwL0kM2Ul8fUhEJYOUZ/+6p2aWIWyEcw5Ur1+9oDM8K5AKtO0
- gMeuGXFeRHKsOtO9i7m1OmEej4oLZQLykAH6XkY2oKpIJLBrJsjD2K5W3tV/OGquxT
- KRoxLu9xKqceA==
-Message-ID: <d41669a1-9e18-defb-d0cc-d43d7be7d23e@kernel.org>
-Date: Tue, 18 Apr 2023 12:07:15 +0200
+X-Greylist: delayed 460 seconds by postgrey-1.36 at gabe;
+ Tue, 18 Apr 2023 10:38:50 UTC
+Received: from mail.fris.de (mail.fris.de [116.203.77.234])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D950C10E135
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Apr 2023 10:38:50 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
+ with ESMTPSA id 5DF00C02F8; Tue, 18 Apr 2023 12:30:51 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fris.de; s=dkim;
+ t=1681813861; h=from:subject:date:message-id:to:cc:mime-version:
+ content-transfer-encoding; bh=7rqfhs3lrBiS0Wr56mg5vWQczZCmYWMaWRtwjvTDXLU=;
+ b=Rzqu+xZRmSjK7mxneuXkIcsQIqc7QMlQJAJLtz5ao9e890mi95HohRfDILQ0z/pX5uI7bB
+ +lCg28lC3wlBp1nVfNeAhQ1133mpofYtVchwe76+/NAGQLRIJHdhl8ScQNxSpUBthBmC5d
+ hrV8+ddNvFbPKqgrl5O7v5WPGK9gkQ3qz+N/bGCHFbWkohUaJ4GOUsP/lADOCI1XUcERD9
+ jWt7ffo+dK+W0us0Bu1NcSwmg0lp5D6xXXLKy2xgSS/anxxtehZSCnrjrBztwRU9LPxWWd
+ hee6AA4/SXEc8ps/ayR/rVDi+MK+f9z0zozmVzmb0EQCcIvlLY/5zl6m3VyZmw==
+From: Frieder Schrempf <frieder@fris.de>
+To: Andrzej Hajda <andrzej.hajda@intel.com>, Daniel Vetter <daniel@ffwll.ch>,
+ David Airlie <airlied@gmail.com>, dri-devel@lists.freedesktop.org,
+ Inki Dae <inki.dae@samsung.com>, Jagan Teki <jagan@amarulasolutions.com>,
+ linux-kernel@vger.kernel.org, Marek Szyprowski <m.szyprowski@samsung.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>
+Subject: [RFC PATCH 0/3] Init flow fixes for Samsung DSIM and TI SN65DSI84
+Date: Tue, 18 Apr 2023 12:29:36 +0200
+Message-Id: <20230418102947.876621-1-frieder@fris.de>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH] drm/amdkfd: Fix potential deallocation of previously
- deallocated memory.
-Content-Language: en-US
-To: Andi Shyti <andi.shyti@linux.intel.com>, Daniil Dulov <d.dulov@aladdin.ru>
-References: <20230418065521.453001-1-d.dulov@aladdin.ru>
- <ZD5ZFoEk92MNQpqD@ashyti-mobl2.lan>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-In-Reply-To: <ZD5ZFoEk92MNQpqD@ashyti-mobl2.lan>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Last-TLS-Session-Version: TLSv1.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,50 +48,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: lvc-project@linuxtesting.org, David Airlie <airlied@linux.ie>,
- Felix Kuehling <Felix.Kuehling@amd.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- Alex Deucher <alexander.deucher@amd.com>, Oak Zeng <ozeng@amd.com>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Cc: Marek Vasut <marex@denx.de>, Jonas Karlman <jonas@kwiboo.se>,
+ Alexander Stein <alexander.stein@ew.tq-group.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Frieder Schrempf <frieder.schrempf@kontron.de>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+ Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 18/04/2023 10:47, Andi Shyti wrote:
-> Hi Daniil,
-> 
-> On Mon, Apr 17, 2023 at 11:55:21PM -0700, Daniil Dulov wrote:
->> Pointer mqd_mem_obj can be deallocated in kfd_gtt_sa_allocate().
->> The function then returns non-zero value, which causes the second deallocation.
->>
->> Found by Linux Verification Center (linuxtesting.org) with SVACE.
->>
->> Fixes: d1f8f0d17d40 ("drm/amdkfd: Move non-sdma mqd allocation out of init_mqd")
->> Signed-off-by: Daniil Dulov <d.dulov@aladdin.ru>
->> ---
->>  drivers/gpu/drm/amd/amdkfd/kfd_mqd_manager_v9.c | 3 ++-
->>  1 file changed, 2 insertions(+), 1 deletion(-)
->>
->> diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_mqd_manager_v9.c b/drivers/gpu/drm/amd/amdkfd/kfd_mqd_manager_v9.c
->> index 3b6f5963180d..bce11c5b07d6 100644
->> --- a/drivers/gpu/drm/amd/amdkfd/kfd_mqd_manager_v9.c
->> +++ b/drivers/gpu/drm/amd/amdkfd/kfd_mqd_manager_v9.c
->> @@ -119,7 +119,8 @@ static struct kfd_mem_obj *allocate_mqd(struct kfd_dev *kfd,
->>  	}
->>  
->>  	if (retval) {
->> -		kfree(mqd_mem_obj);
->> +		if (mqd_mem_obj)
->> +			kfree(mqd_mem_obj);
-> 
-> I think this is not needed. kfree() returns immediately if
-> mqd_mem_obj is NULL.
-> 
+From: Frieder Schrempf <frieder.schrempf@kontron.de>
 
-Yep, the tool has to be fixed because such patch is just misleading.
-However different point - the commit description actually describes
-entirely different case: double free. Maybe the issue is true, just the
-fix is wrong?
+This patchset contains a proposal to fix the initialization flow for
+the display pipeline used on our i.MX8MM Kontron boards:
 
-Best regards,
-Krzysztof
+  i.MX8MM LCDIF -> i.MX8MM DSIM -> TI SN65DSI84 -> 7" LVDS Panel
+
+Without these changes the display works most of the time, but fails
+to come up occassionally when booting or doing on/off cycling tests
+with:
+
+  echo 0 > /sys/devices/platform/soc@0/32c00000.bus/32e00000.lcdif/graphics/fb0/blank
+  echo 1 > /sys/devices/platform/soc@0/32c00000.bus/32e00000.lcdif/graphics/fb0/blank
+
+I also added a bit of a speculative patch 3/3 for cleaning up the
+Exynos init flow, which is the main reason this is sent as RFC as
+I have no idea if this is correct/working at all.
+
+Frieder Schrempf (3):
+  drm: bridge: samsung-dsim: Fix i.MX8M enable flow to meet spec
+  drm/bridge: ti-sn65dsi83: Fix enable/disable flow to meet spec
+  drm: bridge: samsung-dsim: Remove init quirk for Exynos
+
+ drivers/gpu/drm/bridge/samsung-dsim.c | 34 +++++++++++++++------------
+ drivers/gpu/drm/bridge/ti-sn65dsi83.c | 19 ++++++++++++---
+ 2 files changed, 35 insertions(+), 18 deletions(-)
+
+-- 
+2.40.0
 
