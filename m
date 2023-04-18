@@ -2,38 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BE846E5AF3
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Apr 2023 09:50:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3A5D6E5B01
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Apr 2023 09:54:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1017710E6BC;
-	Tue, 18 Apr 2023 07:49:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 18E2F10E6C0;
+	Tue, 18 Apr 2023 07:54:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0934010E6BB
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Apr 2023 07:49:50 +0000 (UTC)
-Received: from pendragon.ideasonboard.com
- (133-32-181-51.west.xps.vectant.ne.jp [133.32.181.51])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 098A1802;
- Tue, 18 Apr 2023 09:49:42 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1681804184;
- bh=v2u4LNXCU7lB0ofRNe6LSiK35oTUg0RsosfcxK/5lZA=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=s27+3FyVt6okWcHG/xM/OMWJe8oT32gul+Z3jl7/1ehLniHbdXQ2b+BM8spJK5HtQ
- Aa2ezaJTkGIZQSsu/uLaw/WalqmYW3l74uuZrZOgfsxsNvbFKVHdB5Aidg/AB14AiI
- abVSr4DmpBzArXjQ3nl3u/6QmyraRyu9dI95h21I=
-Date: Tue, 18 Apr 2023 10:50:00 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: Re: [PATCH v2 0/5] drm: shmobile: Fixes and enhancements
-Message-ID: <20230418075000.GF4703@pendragon.ideasonboard.com>
-References: <cover.1681734821.git.geert+renesas@glider.be>
+Received: from relay02.th.seeweb.it (relay02.th.seeweb.it
+ [IPv6:2001:4b7a:2000:18::163])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AD44210E6BE
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Apr 2023 07:54:36 +0000 (UTC)
+Received: from SoMainline.org (94-211-6-86.cable.dynamic.v4.ziggo.nl
+ [94.211.6.86])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
+ SHA256) (No client certificate requested)
+ by m-r1.th.seeweb.it (Postfix) with ESMTPSA id 7B19A2008D;
+ Tue, 18 Apr 2023 09:54:32 +0200 (CEST)
+Date: Tue, 18 Apr 2023 09:54:30 +0200
+From: Marijn Suijten <marijn.suijten@somainline.org>
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Subject: Re: [PATCH 1/3] drm/msm/dpu: Drop unused members from HW structs
+Message-ID: <tqftgyqd72u5cze7phfkntl7t3zyarvf5ekeoh4zwcn33vimdl@qe3tntyvjyzf>
+References: <20230418-dpu-drop-useless-for-lookup-v1-0-b9897ceb6f3e@somainline.org>
+ <20230418-dpu-drop-useless-for-lookup-v1-1-b9897ceb6f3e@somainline.org>
+ <bb229562-b0af-88f4-1207-ac23a6076dff@quicinc.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <cover.1681734821.git.geert+renesas@glider.be>
+In-Reply-To: <bb229562-b0af-88f4-1207-ac23a6076dff@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,58 +44,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, linux-renesas-soc@vger.kernel.org,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- dri-devel@lists.freedesktop.org
+Cc: freedreno@lists.freedesktop.org,
+ Jami Kettunen <jami.kettunen@somainline.org>, Sean Paul <sean@poorly.run>,
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Jordan Crouse <jordan@cosmicpenguin.net>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Martin Botka <martin.botka@somainline.org>,
+ ~postmarketos/upstreaming@lists.sr.ht,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Geert,
+On 2023-04-17 18:54:18, Abhinav Kumar wrote:
+> 
+> On 4/17/2023 4:14 PM, Marijn Suijten wrote:
+> > Some of these members were initialized while never read, while others
+> > were not even assigned any value at all.  Drop them to save some space,
+> > and above all confusion when looking at these members.
+> > 
+> > Fixes: 25fdd5933e4c ("drm/msm: Add SDM845 DPU support")
+> > Fixes: 84a33d0fd921 ("drm/msm/dpu: add dpu_hw_wb abstraction for writeback blocks")
+> > Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
+> > ---
+> 
+> It seems like WB UBWC formats are not supported today. Because otherwise 
+> ctx->mdp would be used for writeback. I guess we can add a ubwc member 
+> similar to hw_sspp, when we do add the support for this. Hence this is,
 
-On Mon, Apr 17, 2023 at 03:40:20PM +0200, Geert Uytterhoeven wrote:
-> 	Hi all,
-> 
-> Currently, there are two drivers for the LCD controller on Renesas
-> SuperH-based and ARM-based SH-Mobile and R-Mobile SoCs:
->   1. sh_mobile_lcdcfb, using the fbdev framework,
->   2. shmob_drm, using the DRM framework.
-> However, only the former driver can be used, as all platform support
-> integrates the former.  None of these drivers support DT-based systems.
-> 
-> This patch series is a first step to enable the SH-Mobile DRM driver for
-> Renesas ARM-based SH-Mobile and R-Mobile SoCs.  The next step planned is
-> to add DT support.
-> 
-> Changes compared to v1:
->   - Add Reviewed-by,
->   - Drop dependency on ARM.
-> 
-> This has been tested on the R-Mobile A1-based Atmark Techno
-> Armadillo-800-EVA development board, using a temporary
-> platform-enablement patch[1].
-> 
-> Thanks for applying to drm-misc!
+That seems preferable to me.  SSPP does the same in patch 3/3, and I
+have been thinking to replace the dpu_mdss_cfg *catalog parameter in
+dpu_hw_sspp_init with just the ubwc cfg pointer.  Likewise
+dpu_hw_ctl_init also takes the full dpu_mdss_cfg only to take out the
+mixers.
 
-Would you like to request drm-misc committer rights ? :-)
+- Marijn
 
-> [1] https://lore.kernel.org/r/c03d4edbd650836bf6a96504df82338ec6d800ff.1680272980.git.geert+renesas@glider.be
-> 
-> 
-> Geert Uytterhoeven (5):
->   drm: shmobile: Use %p4cc to print fourcc codes
->   drm: shmobile: Add support for DRM_FORMAT_XRGB8888
->   drm: shmobile: Switch to drm_crtc_init_with_planes()
->   drm: shmobile: Add missing call to drm_fbdev_generic_setup()
->   drm: shmobile: Make DRM_SHMOBILE visible on Renesas SoC platforms
-> 
->  drivers/gpu/drm/shmobile/Kconfig           |  4 +--
->  drivers/gpu/drm/shmobile/shmob_drm_crtc.c  | 35 +++++++++++++++++++---
->  drivers/gpu/drm/shmobile/shmob_drm_drv.c   |  3 ++
->  drivers/gpu/drm/shmobile/shmob_drm_kms.c   |  9 ++++--
->  drivers/gpu/drm/shmobile/shmob_drm_plane.c |  5 ++++
->  5 files changed, 48 insertions(+), 8 deletions(-)
-
--- 
-Regards,
-
-Laurent Pinchart
+> Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
