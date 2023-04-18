@@ -1,126 +1,121 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F14F6E65AC
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Apr 2023 15:17:05 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E28E6E65C1
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Apr 2023 15:23:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8140110E7AD;
-	Tue, 18 Apr 2023 13:17:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 88E7610E34A;
+	Tue, 18 Apr 2023 13:23:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from EUR05-DB8-obe.outbound.protection.outlook.com
- (mail-db8eur05on2117.outbound.protection.outlook.com [40.107.20.117])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6BE0910E7AD
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Apr 2023 13:17:01 +0000 (UTC)
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com
+ (mail-bn7nam10on2084.outbound.protection.outlook.com [40.107.92.84])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 294B210E365;
+ Tue, 18 Apr 2023 13:23:44 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=OEm3LruTNFex/C0g5wCM7Qz3rpav8DhvFeWr35d0zdXPMIJBf5zD3fmUzjTEe2C9btY8zvcRSlbbwiowxWr7clmEV+EBGFSaemcP7KJuHCb+0mxRNUnx2iBYR+co7WpL6MZzqxcZhzB+eFJmMHFiCBk04WauIowlae3ZQ7bi3LTjzPtCJWjCT5la7LjZw2lRLiLmhsbvDaWiB0rVfiUIb4VVNQaSa0lhw4bctF+BfM3TpK0X9hsXlFg4N6v06aQU9sppt3r8WEzc81UH3RHtlyx44Y9shwN94DLSuO+w6MrG8HzRSXbplQLOkwqba5+4BEqrV55geh7KJSQ9C4ZIrQ==
+ b=NA7GNOuCyft/U5Cqpv10J0TWYRp+coblBw1InNnmm3KmpE5D9BxP73aRO6S4G8UFfhduzJlIEl3S9kh5cqht04lm/7bjjODMkbmsNZYfq76S1QyMBk4XHVcLfPY/MUiAljVNfbyZsm7kDeLv6rHw21UUW/n2Ppb2qi1/5amMpdx0DG7qR5+TOu0i6ldFR+kgHYs6YP0vdCq9ifXsQ4fg39tBBu16eWOSjd7VjBmNfPNQuThNIrkb3FsFD2TG7duMR4Cn75zMQTxgbBO9wpLbu/k1vrd27OLmOzSgpCaDa+/lCbEmv4pOFG8k5HDmBefQyEpHDyn07cjWhzC8/jkUyQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=WY8WJqNKGSW4kML86ZJerx8H6J5lUuiAj5m36V2lcSU=;
- b=Q7jqlaVijTACCQYXAKKlav3dAu31exIt/EwDydZw1rqL8nKAkY6C2bP87i7O3bgq9Q8iYQYwqU4GSC3RHcTVLQJmGIxvKvapJmSSH7b8xbc4ql3Nq5cRqplf1cCLj9Eq1TQScRi2txpuTf8yFIWlxhte+JACRmIfFzm1utZ/JFIzj/Zh+14PRgKClRIlXlLSISBbNAVM+erqr3Aqo7WVNkhC63ROjfyrfoW4S+XqaEH0/J1mernA35k01b/Gzc3LD54sW2qakjjWtbicLTRaVnCOrV0+PafhOMJYQZXjauM6WK5i122CkM5di5GPfdZ4dVfc6VIFVZtVyUzWlXxi0w==
+ bh=5LB4u0ZFMlCuRry/qIo2Ekyu/ocs9kFL2LdgkAPPzOw=;
+ b=V/kCz5IWSMy7XJ7xd/tamkoKh6FR4PSsqHg18r7P6zHcm3THtg4oMts1IW7xQG24J6W1hpDXoMyxzoFKCYf0Wdtq/xK9GJvN5rc/3nr0iz5YX7UvGnjaBiwxEa22RUGg3M5H6bwPUY5pkSB0oazZ82OkMjFE+VtDT/MZ/EGXRpJ1E5XYT0+ViHmIt2yXv+bf+nTuc7qp8dd5Xd68BBysXbjZJUglYHbw9oAJvN6o8Y3Jn27Pf9ezssEdA84uRgyl47QJGWsR1XM59lXH+DoJ3N6Gw3U3X/yg1ymrXYaUZu3XTbbtc+B5kX+d0gdcV+2M3PHMniFk/26LOgs9pYzDQQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=kontron.de; dmarc=pass action=none header.from=kontron.de;
- dkim=pass header.d=kontron.de; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mysnt.onmicrosoft.com; 
- s=selector2-mysnt-onmicrosoft-com;
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=WY8WJqNKGSW4kML86ZJerx8H6J5lUuiAj5m36V2lcSU=;
- b=ANENs6n/3UULgyorh/IpLCKXWsGCA6MH+q6RXxPN3Rs9NApVlUf0LSYW1TAlAC4A5AMgtkQ7jrmBMwLcIqg+WbI1SFvZ8HLTn43tCJVR24yeFjc1wNqBtuiGGPBku1O+oGzAylYv+HvVfLDaPqmMU1L5dz6Wvbmue8HVxj+nyxM=
+ bh=5LB4u0ZFMlCuRry/qIo2Ekyu/ocs9kFL2LdgkAPPzOw=;
+ b=2eN1kV60epYPF+Q3N9Unxr6qPwDKtafq30GI3tIHCkf9PRVbgounc36ehPStf8ZypWPs7QJG8gmmbrpxusBjTBP0nS3edFTvfwi0a0K0NYGZTk/3vXQy7Ssage2lUCUK+RZkD8jXA3qdq8HyrMhrPKnmrAS0BFUMVBZNgKurJEk=
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=kontron.de;
-Received: from PA4PR10MB5681.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:102:263::10)
- by PAXPR10MB5613.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:102:243::14)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from CH0PR12MB5284.namprd12.prod.outlook.com (2603:10b6:610:d7::13)
+ by MN0PR12MB5739.namprd12.prod.outlook.com (2603:10b6:208:372::18)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6319.17; Tue, 18 Apr
- 2023 13:16:58 +0000
-Received: from PA4PR10MB5681.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::7ec3:9d2c:15ac:e1af]) by PA4PR10MB5681.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::7ec3:9d2c:15ac:e1af%3]) with mapi id 15.20.6319.019; Tue, 18 Apr 2023
- 13:16:57 +0000
-Message-ID: <cdd90ba1-e9bd-e622-d7f3-de5d762cc2c6@kontron.de>
-Date: Tue, 18 Apr 2023 15:16:53 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [RFC PATCH 3/3] drm: bridge: samsung-dsim: Remove init quirk for
- Exynos
-Content-Language: en-US, de-DE
-To: Marek Szyprowski <m.szyprowski@samsung.com>,
- Frieder Schrempf <frieder@fris.de>, Andrzej Hajda <andrzej.hajda@intel.com>,
- Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
- dri-devel@lists.freedesktop.org, Inki Dae <inki.dae@samsung.com>,
- Jagan Teki <jagan@amarulasolutions.com>, linux-kernel@vger.kernel.org,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>
-References: <CGME20230418104305eucas1p145a8fa1560520ebe430590abdeabb66e@eucas1p1.samsung.com>
- <20230418104256.878017-1-frieder@fris.de>
- <0c4f2703-8810-fe0f-76aa-cc6250aea74a@samsung.com>
-From: Frieder Schrempf <frieder.schrempf@kontron.de>
-In-Reply-To: <0c4f2703-8810-fe0f-76aa-cc6250aea74a@samsung.com>
-Content-Type: text/plain; charset=UTF-8
-X-ClientProxiedBy: BE1P281CA0097.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:b10:79::18) To PA4PR10MB5681.EURPRD10.PROD.OUTLOOK.COM
- (2603:10a6:102:263::10)
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6298.45; Tue, 18 Apr
+ 2023 13:23:41 +0000
+Received: from CH0PR12MB5284.namprd12.prod.outlook.com
+ ([fe80::3e54:627b:ceee:ed2b]) by CH0PR12MB5284.namprd12.prod.outlook.com
+ ([fe80::3e54:627b:ceee:ed2b%4]) with mapi id 15.20.6298.045; Tue, 18 Apr 2023
+ 13:23:41 +0000
+Subject: Re: [PATCH] [v2] drm/amd/display: fix is_timing_changed() prototype
+To: Arnd Bergmann <arnd@kernel.org>, Harry Wentland <harry.wentland@amd.com>, 
+ Leo Li <sunpeng.li@amd.com>, Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, 
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ "Pan, Xinhui" <Xinhui.Pan@amd.com>
+References: <20230417220827.3481168-1-arnd@kernel.org>
+From: Aurabindo Pillai <aurabindo.pillai@amd.com>
+Message-ID: <3f4c2aae-40bf-3fc4-1af7-430809fab12e@amd.com>
+Date: Tue, 18 Apr 2023 09:23:36 -0400
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
+In-Reply-To: <20230417220827.3481168-1-arnd@kernel.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: YT1P288CA0029.CANP288.PROD.OUTLOOK.COM (2603:10b6:b01::42)
+ To CH0PR12MB5284.namprd12.prod.outlook.com
+ (2603:10b6:610:d7::13)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PA4PR10MB5681:EE_|PAXPR10MB5613:EE_
-X-MS-Office365-Filtering-Correlation-Id: af4ed314-4b93-49c7-b031-08db400f2fa6
+X-MS-TrafficTypeDiagnostic: CH0PR12MB5284:EE_|MN0PR12MB5739:EE_
+X-MS-Office365-Filtering-Correlation-Id: b6d25318-3111-4691-35b2-08db4010201a
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: br39/exmtdZ1mVtDHdsDku8oOrj0HgDrX+KREzoyP86GIpc6rEC6JrFoUOgwJURy6UP5hDIXmnWwHhnWUxnaQX1C1HAvK/tgsikrLoIrJv009D0V3EhHkI0Qc3U+QyEsl+6w8eJGWWEw0r7e8aTcZqyqFLdYHsE6O7C2zH7NPm3po54QHt+lwswYFZnrdcniTEUlUB2+7W5Al/qok9VTapBJDMJCzDs1v2CEkxP82OstBOiOswgb4AyGm9oL0wPgAaKLEOO1IEWVTm10r08hLaQyFPYurVCCwRkkBJ8f6aLCX0eGMnWu8TgaOA5/wtZCm8czJRHyoRkTqD0k1taisLB/0fYuIpzardjwQD8IiPvBUqAuYaEyc0rerSVVGpmE8WirNNBPH44b6HGUyBDSjjygY9cEbCHS//QIuj5jEsXkn2psVJhpfyvH55ylqDVn5D/WzfBIcxqJbQAtFWrKZboyqPEBLmvDrMYZf1HAoRPC0BrFhDojuEn2DKJIe/T/J3dn2UtWlPExh8w7W4LBXR7W9M8y96BbpXilkUE1MmS+2QpNee10dsqZKvAw968JuoZaa3wmTEYdNZ1PWEcdlISQwVmGPcgyYZyZ/Ly8kvv8gB4zTFC/3jlAmvcG7JITvO2g1FnIcrmza92YLmRKLcZTysVdkV1HS3e6p69GIKE=
+X-Microsoft-Antispam-Message-Info: 8VwIo/4GsT8ZSC0i9N6gaao8ZTV8FSml3VdtyrhfZxAE3jBp8rZ90cZ0RxMz82iZQFfs5pbBRDhN3v/5BEY0YG2TaBzHK15sqUVQV9WXUxA39M/uMP1xiLvEXJCyxK5Op+N+Pdznz32UAgJ17JkDvnoJvMsZHpHoXZvV5x2h5894EbYKzVa3sAzzDERAriABQwaBAm3ktqd4PuJL0POMuyOkxAbc7H4lEhk4H2UGNsmPOxzeFuG7y1Xv4i49wvlq7smaZDMhoSzsPx3haKPJBGpcMsK8o9cirNSErbbEsAOigfzw5ZydI6w5vw4/3Q6s/CmhE5Al2MZLUaDZCYn3l0SmMcs0gMaJAIONHcs96yTil/KDUjOo/hWfn1hF5A1a/Hby/w7djyzvzzDrHXvSFNfizXNmKWzgS7n7DuFoFD4Ged7HlhooypoUtyTMr6JiP/8pUxH98xcReoHhqum+qmDh7MGB3A4wPeVGm7KYuiOmVxvvJQKIr2FCRcbVnr5CN6rQ4A0pcuL5yyXhkn/11XQuOkQ/l9Qm03eX+F/Ozc0XnapDn5zOmFb+rZfXTUXKwufJ1Y2hLInycf+uDYwR1bFarg89QLDCyMjGit4FuerEvK3UUFsJB4LPrAZJf4qxpBWWWv1SAMLBX0NleL6dbA==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PA4PR10MB5681.EURPRD10.PROD.OUTLOOK.COM; PTR:; CAT:NONE;
- SFS:(13230028)(4636009)(376002)(396003)(39860400002)(346002)(136003)(366004)(451199021)(66946007)(66556008)(66476007)(4326008)(478600001)(316002)(8936002)(44832011)(110136005)(8676002)(5660300002)(54906003)(7416002)(921005)(41300700001)(38100700002)(186003)(53546011)(2616005)(6486002)(6666004)(45080400002)(6506007)(6512007)(26005)(966005)(31696002)(2906002)(36756003)(86362001)(31686004)(45980500001)(43740500002);
- DIR:OUT; SFP:1102; 
+ IPV:NLI; SFV:NSPM; H:CH0PR12MB5284.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230028)(4636009)(136003)(39860400002)(366004)(376002)(346002)(396003)(451199021)(6666004)(6486002)(86362001)(478600001)(31696002)(110136005)(36756003)(2616005)(83380400001)(26005)(6506007)(6512007)(186003)(53546011)(38100700002)(316002)(4326008)(66556008)(66476007)(66946007)(2906002)(8676002)(5660300002)(8936002)(44832011)(31686004)(41300700001)(54906003)(6636002)(45980500001)(43740500002);
+ DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?dzd0THJEbEpxRHl2TU5TSlhUU3N4N2VLNHc0ZEc0SGFNdU1VKzNCRmZXWFpt?=
- =?utf-8?B?Y2Z2anpxM2dYZlROMGhQNW1CU20xZUdFWndaa1dPSlZjTFdBai8vK0hyQ0tE?=
- =?utf-8?B?ZzZuY1VONEw2Rkg4blFtUTBieXFWQ1pLSktodmY0RjFyTFkrQkZFd3licG9p?=
- =?utf-8?B?dkI2WTRTcW04bkJaSnNsK3lLanRpWUNBR3UyMVRhL1NRRUQxdzB1UWI4OUxs?=
- =?utf-8?B?SEtINEl3VmZpNGtQbHEyVERhd3d0V2E4emo4cHdJUmN0ZHQvQnJBYTFFck5t?=
- =?utf-8?B?ajMwTjQyaGlwZ3B0U0gyRE9rMTE1dlJ3aE9xQWo1bDg4bGNPQS9tNEtQaUFx?=
- =?utf-8?B?eGpnYjJuOHI4TU1kRktHRUUydHQrcjlEdEs4b0RCU05TY2dCQ0pMYzJVTXRn?=
- =?utf-8?B?Y2JBNXlhQTJDRGcreG5CeFNPYUFQK2Q2Vlp0MjFRc0J1Rm1wZ3hnRnp2OFBO?=
- =?utf-8?B?TFBQR2dycUZtc1NKQXhFc0d4MkYvejI5Si9QZ1pyNnEwdlkzTElzT1cwQUxN?=
- =?utf-8?B?ZlFsWWVkZVE1QWNSN2pYMTAzVFdibnhtZ21CRVlKYjRiME5iL0QrNkliYUtL?=
- =?utf-8?B?QnpRUldkbXhQZjhNdXhIelNiVjI2bUJNTStKQkZwWVRuSnhKeDdSOE90Q3Nn?=
- =?utf-8?B?Q0tuYnptUkF1SVMwcU1jVUpHZFJBeGU2ZjZwSlR1U1VZbjBtcGsxK0h0akxt?=
- =?utf-8?B?TGZhTlRoN0JlcEczVk5BMVk1aitoSVRGOXhnVUhUdGIvTCs3djZaWXFERWJJ?=
- =?utf-8?B?SjJKczlxcEVuUXBKNDF2bWtIVjVGa2diSXBna0hLalYycXVsZXh2akMxRUVX?=
- =?utf-8?B?bG84d2dvZ1U3djB5c0hObm50MG1sV1dmZ3NJZHd5aHhudTJ0L0JJYVE4NkQ2?=
- =?utf-8?B?empuTmpwZEk0RzdXUVozTDdCMEx3blZuUGoyVGRhZGdBSzQrQmJMNm9ENXJC?=
- =?utf-8?B?YnpMUE00cUZUZnFTVFhKMnRWMzRzdGdVNWJoRURaMjZ0VnVra0hjTGxCVGdt?=
- =?utf-8?B?eHJxd282bjBFcHlRaXg1NkI1LzBEYThTVWZxSE16V0lUd1plQUJjSWVyeTcx?=
- =?utf-8?B?ODAraW1yRHRGU05mOWcxcGdROE4zR0ZxUlVWdHdlT3dZNkIxN2pYd0ZPZXk0?=
- =?utf-8?B?NzVaK0hZVVcrWS8xWklVRy9MejRScjVGdjlrMDVFelhOMGpNMFpNZ0pQNklJ?=
- =?utf-8?B?b2Nucy9WeFNkdjRqZUVFQlBFY1cwM3NwWUM0alZ6bkE0a1BpUExZNU1CUmE4?=
- =?utf-8?B?b2dHRW5qS2FxclBUckwvV0h0YjdaTDNTRTgrTktHcHpPVDRpYys4eVBYT0pE?=
- =?utf-8?B?cTJVbnEzd3YxL1FibFB1N3ZDK3lMRGFXSFdJNkN5UHJ0QlNzNkVmd0pqTmE0?=
- =?utf-8?B?YjE2UURqeVdLMTBIT05sTkk4U1R3OTN1amtkbDRTOFdYS2F4emNoc2hpeDZ2?=
- =?utf-8?B?Z0tIZHZsNG9BbEdXTFROV2NNOFdTM2VYS3pIVDVzNVRSQTNaYVNyS3hSWDdD?=
- =?utf-8?B?ZndYcFpmRFJocU43SGpLODlpU2pDeHIyNWxUY0FFYjVrTzJvZUNRWVRrR2li?=
- =?utf-8?B?SFl1SmhHakJNMHh1bWFWWW5GRE1GVDE1RFBqZ0tpSXdoVWsyWkZEc2x3VjlC?=
- =?utf-8?B?L3d0eUwydFBQNEpDOUNBbk9XRjMraUtWV0NPWFlVNHAyWUw0eGdodzFuTkw5?=
- =?utf-8?B?bTk5NTBqSFlPK1poR3BTNEVUU0I5VjlyekNWRDJMNHQ2NE0yN3JDZ0J1Umgx?=
- =?utf-8?B?OTJldU9wd2w5TVhxRUJWM21XRFhkVVkyenhVUVo3OUc5eDFka05ZY3NOaFBV?=
- =?utf-8?B?RDFGeXQ3NDgvNDFpN1hCREV1YnAzM2JpOFd1K0lWZ2NsQVN3M0IwZStBMmp1?=
- =?utf-8?B?M2p1RW1HejhmRDdjRG5VS2VTMXFQTTRpM252dmdzVkllSGpnenF4aHdZT1JF?=
- =?utf-8?B?cVhzL25NZmYvMi95Zlp0L2h6WlBHOXVoT2t0Rzh4MlRoanRnVzlKU080SFBQ?=
- =?utf-8?B?cWtBRVpyY0tQdTRzL0hhMUE4UkM2d1BlZmlaQVBKWWJLOEFUSUV0QTJGQUps?=
- =?utf-8?B?NGhycThmWFAvdzExalJ4enRUN0swcmE0d3F1VldXSlFIREpuQk1UU2pwTzZJ?=
- =?utf-8?B?SGRwUTFMNC9VQkZNVWI5QVNhOHVZVTRQUG41M2lua0YrckpwTmlpOWV5WWsw?=
- =?utf-8?B?V1E9PQ==?=
-X-OriginatorOrg: kontron.de
-X-MS-Exchange-CrossTenant-Network-Message-Id: af4ed314-4b93-49c7-b031-08db400f2fa6
-X-MS-Exchange-CrossTenant-AuthSource: PA4PR10MB5681.EURPRD10.PROD.OUTLOOK.COM
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?OS9tVW54UWkyUzNaZGpKZXFlai9vcUJmcGVLdVNrZFNTVXpjSXQxdVFCZVVu?=
+ =?utf-8?B?MTk1U2FKVXF6K1NIdmgzRS9vd3lubDRxWUJtWllSMkJQUEtPR1pKV0RQbkt0?=
+ =?utf-8?B?NjdTbHBEU2d2ZmRvSnl5U1EzYkxONFpWK2ZHdndMUDZSSDN4eGMxRTFqdW5a?=
+ =?utf-8?B?RnR4bjdvZFgxT21BRGx5ZlB4UUZ3RmlWUjFlSGkwSnJMd2VqN0RWLzVnd01P?=
+ =?utf-8?B?aG5ncUliZThJS0R3UDJFYmMvL1huTXFzM2thZHgxOFlJalE5UitsaDdaVURU?=
+ =?utf-8?B?WmtwMmZNOHN3cXJHdVkwYnhGSjVaWWsvNDBzQVN2U0dvbUdmVFR3c3ZYbU1j?=
+ =?utf-8?B?Nk5xWk1IODZGQ1VhanFZbzhwVEFkYUpvWVh5UVVEQ21TWHFPWU5obEc4dEVX?=
+ =?utf-8?B?NWZITUdkOU9hQ3pBOUtiUDB0RWJxVU5zc3JuVlpESnZnY1F1TlFtL2IwNnN4?=
+ =?utf-8?B?ZUs0d3puK2VSTFF2TFJNd0ErR05ISkJsYVRLMFhPdC83dkNMcU02aHc3enZs?=
+ =?utf-8?B?S1J6ME5FWHo0UG9mZkxQQzhuOEdESTlwTW1mOXNUV1pqT2k2dWVwc0RydmxE?=
+ =?utf-8?B?cU1HUzBFcXR3QVNiRHp6R01xYVhIei9jRnlxTzJCWVdqY1lTZWdUbG5pVm5V?=
+ =?utf-8?B?VjlxLzhtNkRYcWVjYU1iMnRNWVJlbFQ3SkNhc1JZQkVWQUdzVjVNZnM2M3h1?=
+ =?utf-8?B?eFlpQnZ1dmhXNGZhTVczMXZiZmErUDJBbUZMQVlGeU1qUHNQYWhHREZXSk1t?=
+ =?utf-8?B?dTdBQWwva1BqUXNkSWRzZXJkeHgveTV3VCtuSm5MVVVYcWRtYWM0VmFBcmor?=
+ =?utf-8?B?cmh0VFpkdG1IL1BsQ2ZtaU9EQnNjbUNYRTVMRnZLMTB5cFpJTE9hT2R0a1dP?=
+ =?utf-8?B?SDdMYmJPZUQvT0Vibms4b3VlSHRUN3ROQTdQOXN1TkRxeG96NXQ0YXdYT0RM?=
+ =?utf-8?B?WlhXazdsSHNCK2xhK084OEUxdlVQMzlSdHdqRXBtUEVuSGNaalhmdHJoUThP?=
+ =?utf-8?B?allSY2JrTmhTTytxU2RFY2VUV0MrQnpRS1ErWjFBanhDVGZxcTk2U0ZRWkY2?=
+ =?utf-8?B?UVR5cmJvS09ySFhpakU1dkRUbFBvbGp5VEtGNlBRcFNiWllXczJ3TDZDR1RC?=
+ =?utf-8?B?RmZNWHhFYVc4cU5rTjZuY2psSnJka3B2emMvMFNtUCsrOTdrMHM0aEhIVnFX?=
+ =?utf-8?B?WjJKZUNoUXUwVE9SV21qN091QlNBMW9tYjNUdS9aN090VWlJY2R3anhZZmJi?=
+ =?utf-8?B?SHRvL01uYkh4cHl1NHRNbHo5QVVrcHI4TnRKd3I3ZXo4bjJ1Mm9GMFRubE44?=
+ =?utf-8?B?UWNWQzJITVpFVVJmamYzU2pwejhLZHQwSVFHU2t4aWtaalFwekM0Z09kd2Ry?=
+ =?utf-8?B?aDlzRFdQSnpzTkdINHFvQXBoNFE0MmZJUkJZQUhwaTNCMEFsZXhIS2VQdHYv?=
+ =?utf-8?B?em02bDdpV2dEbno0dlJpNXpkb0tqNDVZSmcvWXFjODJKTzVGcGpadG1RYWhJ?=
+ =?utf-8?B?bm1KT2pLSFlwY0U2VjZ2V2k5cmdIRTd4N1U3dXJHZE9wWWdjMnU2SERpK2tB?=
+ =?utf-8?B?S2R0YmJ3NExGWHArVm15S2RNZklvREx0R25USkFmN2ZjeTVQTjBidE90K040?=
+ =?utf-8?B?aFVhWXkwQlJ0elEwQmZQZHUwZDlyOW9BajJCODdISGlDWEpWQzYxdWFTazNz?=
+ =?utf-8?B?QWRJdGM4SWxtSG9hUXBobHlnSGVVeDZ2RnVpRFlXNUMyajFXckNwd0JFL2p1?=
+ =?utf-8?B?ZlpKTW5uTHVhd0Nuand2bGdkZXYwajNOMU9NUzJxMEhiYjljMXl1czlnVllT?=
+ =?utf-8?B?NFlXVnB0R2xiOU81NzJGNCtPNkVHV2xEbTAyQ3hSUkxHUE5UTG5kNlZ1eHo2?=
+ =?utf-8?B?WDVHd1FDdjg2eWRzNERSalRoaEdZcVU5VWZLcXRucUt4V1VSbG1xcHJNUWNH?=
+ =?utf-8?B?Z2gxZWJVRDhkcjhTOE9yZklUdHdueXVtZ0JLVDVMQXZSZEMvcnYrVTJWNFFx?=
+ =?utf-8?B?UktIQXNaQlBTT0xGd1RkSENNdWNycGN3YjJBQkFWVXNRRks5NnFJT0V2NW4r?=
+ =?utf-8?B?SWluWlhXa1FaQ3NUdm4vb2VlT0RsYXQvV3JsV3FKT1hkYjhsdkY0SXVmVCsw?=
+ =?utf-8?Q?jMteYsi0eHcQMCg4dMwhL/vWX?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b6d25318-3111-4691-35b2-08db4010201a
+X-MS-Exchange-CrossTenant-AuthSource: CH0PR12MB5284.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Apr 2023 13:16:57.3021 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Apr 2023 13:23:40.8817 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8c9d3c97-3fd9-41c8-a2b1-646f3942daf1
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: EZ9LrpXXZU4ntfIuKUDjVmxteCDEu2m0o9+YMP+yftXFaybllzI/Yk8so6WATXjlX0XMuL+ctPjvpNa4SB+NgiyeOxme1gpfeVFNZav990Y=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR10MB5613
+X-MS-Exchange-CrossTenant-UserPrincipalName: l3/+9KrCSe3D3NQu1Au8R7v+AfgxVd9vjxrjvkzVJadBSQ5xGuI8jwjn8FXwyP/sqrIyRMKpBmiX5XD+6S1kvQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR12MB5739
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -133,34 +128,105 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>
+Cc: Alan Liu <HaoPing.Liu@amd.com>, dri-devel@lists.freedesktop.org,
+ Arnd Bergmann <arnd@arndb.de>, Alex Hung <alex.hung@amd.com>,
+ linux-kernel@vger.kernel.org, Qingqing Zhuo <qingqing.zhuo@amd.com>,
+ Jasdeep Dhillon <jdhillon@amd.com>, Wenjing Liu <wenjing.liu@amd.com>,
+ amd-gfx@lists.freedesktop.org, Roman Li <roman.li@amd.com>,
+ Fangzhi Zuo <Jerry.Zuo@amd.com>, hersen wu <hersenxs.wu@amd.com>,
+ Hamza Mahfooz <hamza.mahfooz@amd.com>, Wayne Lin <Wayne.Lin@amd.com>,
+ Jun Lei <Jun.Lei@amd.com>, Alvin Lee <Alvin.Lee2@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 18.04.23 15:12, Marek Szyprowski wrote:
-> On 18.04.2023 12:42, Frieder Schrempf wrote:
->> From: Frieder Schrempf <frieder.schrempf@kontron.de>
->>
->> Assuming that with the init flow fixed to meet the documentation at
->> [1] and the pre_enable_prev_first flag set in downstream bridge/panel
->> drivers which require it, we can use the default flow for Exynos as
->> already done for i.MX8M.
->>
->> [1] https://docs.kernel.org/gpu/drm-kms-helpers.html#mipi-dsi-bridge-operation
->>
->> Signed-off-by: Frieder Schrempf <frieder.schrempf@kontron.de>
->> ---
->> I have no idea if my assumptions are correct and if this works at all.
->> There's a very good chance it doesn't...
+
+
+On 4/17/2023 6:07 PM, Arnd Bergmann wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
 > 
-> Unfortunately this change breaks all Exynos boards with DSI panels. I've 
-> check all 4 panels that are in mainline and none worked.
+> Three functions in the amdgpu display driver cause -Wmissing-prototype
+> warnings:
+> 
+> drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_resource.c:1858:6: error: no previous prototype for 'is_timing_changed' [-Werror=missing-prototypes]
+> 
+> is_timing_changed() is actually meant to be a global symbol, but needs
+> a proper name and prototype.
+> 
+> Fixes: 17ce8a6907f7 ("drm/amd/display: Add dsc pre-validation in atomic check")
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> ---
+>   drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c | 5 ++---
+>   drivers/gpu/drm/amd/display/dc/core/dc_resource.c           | 6 +++---
+>   drivers/gpu/drm/amd/display/dc/dc.h                         | 3 +++
+>   3 files changed, 8 insertions(+), 6 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
+> index 994ba426ca66..442511061178 100644
+> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
+> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
+> @@ -45,8 +45,7 @@
+>   #endif
+>   
+>   #include "dc/dcn20/dcn20_resource.h"
+> -bool is_timing_changed(struct dc_stream_state *cur_stream,
+> -		       struct dc_stream_state *new_stream);
+> +
+>   #define PEAK_FACTOR_X1000 1006
+>   
+>   static ssize_t dm_dp_aux_transfer(struct drm_dp_aux *aux,
+> @@ -1417,7 +1416,7 @@ int pre_validate_dsc(struct drm_atomic_state *state,
+>   		struct dc_stream_state *stream = dm_state->context->streams[i];
+>   
+>   		if (local_dc_state->streams[i] &&
+> -		    is_timing_changed(stream, local_dc_state->streams[i])) {
+> +		    dc_is_timing_changed(stream, local_dc_state->streams[i])) {
+>   			DRM_INFO_ONCE("crtc[%d] needs mode_changed\n", i);
+>   		} else {
+>   			int ind = find_crtc_index_in_state_by_stream(state, stream);
+> diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_resource.c b/drivers/gpu/drm/amd/display/dc/core/dc_resource.c
+> index 85d54bfb595c..344533623cb9 100644
+> --- a/drivers/gpu/drm/amd/display/dc/core/dc_resource.c
+> +++ b/drivers/gpu/drm/amd/display/dc/core/dc_resource.c
+> @@ -1855,7 +1855,7 @@ bool dc_add_all_planes_for_stream(
+>   	return add_all_planes_for_stream(dc, stream, &set, 1, context);
+>   }
+>   
+> -bool is_timing_changed(struct dc_stream_state *cur_stream,
+> +bool dc_is_timing_changed(struct dc_stream_state *cur_stream,
+>   		       struct dc_stream_state *new_stream)
+>   {
+>   	if (cur_stream == NULL)
+> @@ -1880,7 +1880,7 @@ static bool are_stream_backends_same(
+>   	if (stream_a == NULL || stream_b == NULL)
+>   		return false;
+>   
+> -	if (is_timing_changed(stream_a, stream_b))
+> +	if (dc_is_timing_changed(stream_a, stream_b))
+>   		return false;
+>   
+>   	if (stream_a->signal != stream_b->signal)
+> @@ -3505,7 +3505,7 @@ bool pipe_need_reprogram(
+>   	if (pipe_ctx_old->stream_res.stream_enc != pipe_ctx->stream_res.stream_enc)
+>   		return true;
+>   
+> -	if (is_timing_changed(pipe_ctx_old->stream, pipe_ctx->stream))
+> +	if (dc_is_timing_changed(pipe_ctx_old->stream, pipe_ctx->stream))
+>   		return true;
+>   
+>   	if (pipe_ctx_old->stream->dpms_off != pipe_ctx->stream->dpms_off)
+> diff --git a/drivers/gpu/drm/amd/display/dc/dc.h b/drivers/gpu/drm/amd/display/dc/dc.h
+> index 23ee63b98dcd..e7ab6cb3769b 100644
+> --- a/drivers/gpu/drm/amd/display/dc/dc.h
+> +++ b/drivers/gpu/drm/amd/display/dc/dc.h
+> @@ -2225,4 +2225,7 @@ void dc_process_dmub_dpia_hpd_int_enable(const struct dc *dc,
+>   /* Disable acc mode Interfaces */
+>   void dc_disable_accelerated_mode(struct dc *dc);
+>   
+> +bool dc_is_timing_changed(struct dc_stream_state *cur_stream,
+> +		       struct dc_stream_state *new_stream);
+> +
+>   #endif /* DC_INTERFACE_H_ */
+> 
 
-Ok, thanks for testing anyway!
 
-As already mentioned this was rather a shot in the dark, as I didn't
-even bother trying to fully understand what's going on on the Exynos side.
-
-For now I will just remove this patch from the series in the next iteration.
+Reviewed-by: Aurabindo Pillai <aurabindo.pillai@amd.com>
