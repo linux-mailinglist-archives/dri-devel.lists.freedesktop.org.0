@@ -2,57 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 149BA6E5F1F
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Apr 2023 12:47:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 211976E6074
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Apr 2023 13:54:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D6C1610E74C;
-	Tue, 18 Apr 2023 10:47:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 58BC510E770;
+	Tue, 18 Apr 2023 11:54:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 25F6F10E749;
- Tue, 18 Apr 2023 10:47:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1681814840; x=1713350840;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=XrIVnSqbjfBT695aw5q9yftkIGRf5BwQKpP5FJnzK7s=;
- b=BLZ/vFQ0EemaslZHbFtZnIw6dbiDgNzgy6/KAYyr+Bn9hjupq6evUgye
- kOSbPhLbIuECO/zK5liE/VLmOslNt78N4PbR7EHezCU6BoDZ1MX8euo4N
- 2gm5if08WE8fvpeoxfXBUHnF0XAyZTLZV9FIXrq4DD1Oxb+Yg/7msunDX
- mC/bui+1Kq6BKRNuVH8fi+wFxCWRdWeuXvDbBmlHo6UYDjGVz3lKgyw0l
- 8wazfQ/dfsv0rFHxbYlxb5k9yILYnzhsZsmBqhli2nEm3CtdmVx1jcQ5r
- Yjbelx5Y7KweWo0bjGFf2jcQYdynP7p8bK7jSuIFr2LuGWoOTuMuuIbT+ g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10683"; a="410355522"
-X-IronPort-AV: E=Sophos;i="5.99,207,1677571200"; d="scan'208";a="410355522"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Apr 2023 03:47:18 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10683"; a="802499730"
-X-IronPort-AV: E=Sophos;i="5.99,207,1677571200"; d="scan'208";a="802499730"
-Received: from dilipban-mobl.ger.corp.intel.com (HELO [10.213.234.43])
- ([10.213.234.43])
- by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Apr 2023 03:47:16 -0700
-Message-ID: <54b21ae8-33ce-0f5c-4e0b-1118d25b12bf@linux.intel.com>
-Date: Tue, 18 Apr 2023 11:47:14 +0100
+Received: from mail-pf1-x429.google.com (mail-pf1-x429.google.com
+ [IPv6:2607:f8b0:4864:20::429])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1C42410E770
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Apr 2023 11:54:03 +0000 (UTC)
+Received: by mail-pf1-x429.google.com with SMTP id
+ d2e1a72fcca58-63d2ba63dddso686290b3a.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Apr 2023 04:54:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1681818843; x=1684410843;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=/ybM2LueDVR0cBkIIQ1FL39u+s5FbROx8QFlROWcH4g=;
+ b=V/euTDcOCNRcR8gEUbPoOAY3S22aC8zXFOH46BClwrZw26PXR+8P8uoM6J/+h9C6Mj
+ i41QNHvn7lCT9kv/+ujFRq2ozOLoRYGljfQUCOgSapKHW3weumUM70IU9eAJ8oS7Yh/o
+ iwWkb9SxlVm39XoFhN7DAxLSJPlVd2tdt6PqjeNwoliw5s9MJKcaO9F/GzSOGZs3zRLh
+ ncP7xyDA5DfFu2uTMR0VX609KIr3TS1I+cAevO1nmtMvI+xAbBbT1LxqHwX/qJ9HfQhs
+ M8VKw5rxokVPICTf0s3skrfQF6FtP/sxsQSIIYLSa5WXahWOWjVqw+FRTVtfrx39Xjvc
+ xzDw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1681818843; x=1684410843;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=/ybM2LueDVR0cBkIIQ1FL39u+s5FbROx8QFlROWcH4g=;
+ b=lIy3Zn1tt/OyusKbAwxRj5y4So1M6z0z8ptqc08hdd5wphwsI8Y+uBr5G7UlTzqMzp
+ 2zRtPmlDbuXkbdhEuoMP2NKqK8E8xsZkh2vp3qLeFO62Hh/wywtSC7E0VRZKxEeJSh9e
+ cIElcfQS11AM8sFmN7luO/ScxRtsNFU5Ygwq51Ppc/NznHhVHi6XtvkjqMIGQgrjrt2g
+ R3Jjgl8JgN+W/LdbDf3cDAwsKvCb82R/e2MLWVNuSWgI2VVHW+qJSuikk8+i4xdKvB6A
+ gny8XnduhvdDhc9vDdJeXTWfmQihCVwX0Q2MDgBqYHgIKmmSyH2fO+Tn6CbU4oL3hghR
+ A1yQ==
+X-Gm-Message-State: AAQBX9fCFA0W3nkQJ7tkZ3w+T4eVVgqsc9srPA6boC3ZTW+g4dSnLx13
+ 8he9Raq4hBQB3MWP2ss/4AxE/FZRi1q8xXnrdQ4=
+X-Google-Smtp-Source: AKy350bF5ygQ2Drr2fXy89upLPlo2PHAWydehkh62freMFI+uRkOUg8otiAAZp8fkiyX8dnIL8QSyvNnGyroSpIGJ3M=
+X-Received: by 2002:a05:6a00:2d17:b0:63b:7af9:72b8 with SMTP id
+ fa23-20020a056a002d1700b0063b7af972b8mr5429939pfb.2.1681818842806; Tue, 18
+ Apr 2023 04:54:02 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [RFC 3/6] drm: Add fdinfo memory stats
-Content-Language: en-US
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- Intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-References: <20230417155613.4143258-1-tvrtko.ursulin@linux.intel.com>
- <20230417155613.4143258-4-tvrtko.ursulin@linux.intel.com>
- <f708dbc2-cf55-6cf6-eef0-b69d00c3eee9@amd.com>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-In-Reply-To: <f708dbc2-cf55-6cf6-eef0-b69d00c3eee9@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20230415104104.5537-1-aford173@gmail.com>
+ <414febc4-aab1-95ec-ac2e-e82a3f881d01@denx.de>
+ <CAHCN7xKsvT-TL4xdP=CKDzTJoFq1PGqmFmTohdRF9JaWaxWemw@mail.gmail.com>
+ <5667233.DvuYhMxLoT@steina-w>
+In-Reply-To: <5667233.DvuYhMxLoT@steina-w>
+From: Adam Ford <aford173@gmail.com>
+Date: Tue, 18 Apr 2023 06:53:51 -0500
+Message-ID: <CAHCN7xK0Dban7ueB_ASrTOjqWK0++ujOoQ_RZpz=FR2Fktzy0g@mail.gmail.com>
+Subject: Re: [PATCH 2/6] drm: bridge: samsung-dsim: Fix PMS Calculator on
+ imx8m[mnp]
+To: Alexander Stein <alexander.stein@ew.tq-group.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,209 +72,115 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Emil Velikov <emil.l.velikov@gmail.com>,
- Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+Cc: Marek Vasut <marex@denx.de>, Jagan Teki <jagan@amarulasolutions.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Robert Foss <rfoss@kernel.org>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, devicetree@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Jonas Karlman <jonas@kwiboo.se>,
+ aford@beaconembedded.com, Frieder Schrempf <frieder.schrempf@kontron.de>,
+ linux-kernel@vger.kernel.org, Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Rob Herring <robh+dt@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>, NXP Linux Team <linux-imx@nxp.com>,
+ Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
+ linux-arm-kernel@lists.infradead.org, m.szyprowski@samsung.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Mon, Apr 17, 2023 at 2:00=E2=80=AFAM Alexander Stein
+<alexander.stein@ew.tq-group.com> wrote:
+>
+> Hi,
+>
+> Am Montag, 17. April 2023, 00:31:24 CEST schrieb Adam Ford:
+> > On Sun, Apr 16, 2023 at 5:07=E2=80=AFPM Marek Vasut <marex@denx.de> wro=
+te:
+> > > On 4/15/23 12:40, Adam Ford wrote:
+> > > > According to Table 13-45 of the i.MX8M Mini Reference Manual, the m=
+in
+> > > > and max values for M and  the frequency range for the VCO_out
+> > > > calculator were incorrect.  This also appears to be the case for th=
+e
+> > > > imx8mn and imx8mp.
+> > > >
+> > > > To fix this, make new variables to hold the min and max values of m
+> > > > and the minimum value of VCO_out, and update the PMS calculator to
+> > > > use these new variables instead of using hard-coded values to keep
+> > > > the backwards compatibility with other parts using this driver.
+> > >
+> > > [...]
+> > >
+> > > >   static const struct samsung_dsim_driver_data imx8mm_dsi_driver_da=
+ta =3D
+> > > >   {
+> > > >
+> > > > @@ -470,6 +485,9 @@ static const struct samsung_dsim_driver_data
+> > > > imx8mm_dsi_driver_data =3D {> >
+> > > >        */
+> > > >
+> > > >       .pll_p_offset =3D 14,
+> > > >       .reg_values =3D imx8mm_dsim_reg_values,
+> > > >
+> > > > +     .m_min =3D 64,
+> > > > +     .m_max =3D 1023,
+> > > > +     .vco_min =3D 1050,
+> > >
+> > > You might want to call this 'min_freq' since there is a 'max_freq' wh=
+ich
+> > > seems to indicate what VCO max frequency is.
+> > >
+> > > Note that the same datasheet contains the following information:
+> > > "
+> > > MIPI_DPHY_M_PLLPMS field descriptions
+> > >
+> > > 12=E2=80=934 PMS_M
+> > > Specifies the PLL PMS value for the M divider
+> > > NOTE: The programmable divider range should be within 25 to 125 to
+> > > ensure PLL stability.
+> >
+> > I was confused by this because this statement is not consistent with
+> > the link they reference jumps me to the table where it reads M is
+> > between 64 and 1023.
+> >
+> > > NOTE: The M and P divider values should be considered together to ens=
+ure
+> > > VCO ouput frequency
+> > > (VCO_out) range is between 350 MHz to 750 MHz.
+> > > Please refer to the topic DPHY PLL for more information.
+> >
+> > I was confused by this too, because the NXP documentation reads the
+> > 350 - 750MHz that you state, but  "Table 13-45: DPHY PLL Parameters"
+> > which immediately follows that sentence  on page 4158 shows VCO_out is
+> > between 1050-2100 MHz.
+> >
+> > I compared the PMS values for a variety of frequencies to those that
+> > were set in the downstream NXP code, and the PMS values matched.
+> > Maybe someone from NXP can explain the discrepancy.
+>
+> Also note that, according to Table 13-28 in RM (Rev 2 07/2022) for i.MX8M
+> Nano, VCO_out and Fout has a maximum of 1500MHz only. Although the note a=
+bove
+> mentions a range  of 1050-2100MHz...
 
-On 17/04/2023 17:20, Christian König wrote:
-> Am 17.04.23 um 17:56 schrieb Tvrtko Ursulin:
->> From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
->>
->> Add support to dump GEM stats to fdinfo.
->>
->> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
->> ---
->>   Documentation/gpu/drm-usage-stats.rst | 12 +++++++
->>   drivers/gpu/drm/drm_file.c            | 52 +++++++++++++++++++++++++++
->>   include/drm/drm_drv.h                 |  7 ++++
->>   include/drm/drm_file.h                |  8 +++++
->>   4 files changed, 79 insertions(+)
->>
->> diff --git a/Documentation/gpu/drm-usage-stats.rst 
->> b/Documentation/gpu/drm-usage-stats.rst
->> index 2ab32c40e93c..8273a41b2fb0 100644
->> --- a/Documentation/gpu/drm-usage-stats.rst
->> +++ b/Documentation/gpu/drm-usage-stats.rst
->> @@ -21,6 +21,7 @@ File format specification
->>   - File shall contain one key value pair per one line of text.
->>   - Colon character (`:`) must be used to delimit keys and values.
->> +- Caret (`^`) is also a reserved character.
->>   - All keys shall be prefixed with `drm-`.
->>   - Whitespace between the delimiter and first non-whitespace 
->> character shall be
->>     ignored when parsing.
->> @@ -105,6 +106,17 @@ object belong to this client, in the respective 
->> memory region.
->>   Default unit shall be bytes with optional unit specifiers of 'KiB' 
->> or 'MiB'
->>   indicating kibi- or mebi-bytes.
->> +- drm-memory-<str>^size:      <uint> [KiB|MiB]
->> +- drm-memory-<str>^shared:    <uint> [KiB|MiB]
->> +- drm-memory-<str>^resident:  <uint> [KiB|MiB]
->> +- drm-memory-<str>^purgeable: <uint> [KiB|MiB]
->> +- drm-memory-<str>^active:    <uint> [KiB|MiB]
-> 
-> What exactly does size/shared/active mean here?
-> 
-> If it means what I think it does I don't see how TTM based drivers 
-> should track that in the first place.
+I looked up the limits in NXP's downstream kernel [1] , and I believe
+these values match the table in the reference manual instead of the
+conflicting sentence.  I am guessing this is why the PMS values I get
+match those of the NXP downstream kernel.
 
-Size is an analogue to process VM size - maximum reachable/allocated 
-memory belonging to a client.
+adam
 
-Shared could be IMO viewed as a bit dodgy and either could be dropped or 
-needs to be better defined. For now I simply followed the implementation 
-from Rob's RFC which is:
+[1] - https://github.com/nxp-imx/linux-imx/blob/lf-6.1.y/drivers/gpu/drm/im=
+x/sec_mipi_pll_1432x.h#L38
 
-	if (obj->handle_count > 1)
-		stats[0].shared += sz;
-
-I can see some usefulness to it but haven't thought much about semantics 
-yet.
-
-Similar story with active which I think is not very useful. 
-Implementation is like this:
-
-	if (!dma_resv_test_signaled(obj->resv, dma_resv_usage_rw(true)))
-		stats[0].active += sz;
-
-For me it is too transient to bring much value over the resident 
-category. I supposed only advantage is that resident (as does purgeable) 
-needs driver cooperation while active can be done like about from DRM 
-core. Although I am not a big fan of counting these stats from the core 
-to begin with..
-
-Regards,
-
-Tvrtko
-
->> +Resident category is identical to the drm-memory-<str> key and two 
->> should be
->> +mutually exclusive.
->> +
->> +TODO more description text...
->> +
->>   - drm-cycles-<str> <uint>
->>   Engine identifier string must be the same as the one specified in the
->> diff --git a/drivers/gpu/drm/drm_file.c b/drivers/gpu/drm/drm_file.c
->> index 37b4f76a5191..e202f79e816d 100644
->> --- a/drivers/gpu/drm/drm_file.c
->> +++ b/drivers/gpu/drm/drm_file.c
->> @@ -42,6 +42,7 @@
->>   #include <drm/drm_client.h>
->>   #include <drm/drm_drv.h>
->>   #include <drm/drm_file.h>
->> +#include <drm/drm_gem.h>
->>   #include <drm/drm_print.h>
->>   #include "drm_crtc_internal.h"
->> @@ -871,6 +872,54 @@ void drm_send_event(struct drm_device *dev, 
->> struct drm_pending_event *e)
->>   }
->>   EXPORT_SYMBOL(drm_send_event);
->> +static void
->> +print_stat(struct drm_printer *p, const char *stat, const char 
->> *region, u64 sz)
->> +{
->> +    const char *units[] = {"", " KiB", " MiB"};
->> +    unsigned int u;
->> +
->> +    if (sz == ~0ull) /* Not supported by the driver. */
->> +        return;
->> +
->> +    for (u = 0; u < ARRAY_SIZE(units) - 1; u++) {
->> +        if (sz < SZ_1K)
->> +            break;
->> +        sz = div_u64(sz, SZ_1K);
->> +    }
->> +
->> +    drm_printf(p, "drm-memory-%s^%s:\t%llu%s\n",
->> +           region, stat, sz, units[u]);
->> +}
->> +
->> +static void print_memory_stats(struct drm_printer *p, struct drm_file 
->> *file)
->> +{
->> +    struct drm_device *dev = file->minor->dev;
->> +    struct drm_fdinfo_memory_stat *stats;
->> +    unsigned int num, i;
->> +    char **regions;
->> +
->> +    regions = dev->driver->query_fdinfo_memory_regions(dev, &num);
->> +
->> +    stats = kcalloc(num, sizeof(*stats), GFP_KERNEL);
->> +    if (!stats)
->> +        return;
->> +
->> +    dev->driver->query_fdinfo_memory_stats(file, stats);
->> +
->> +    for (i = 0; i < num; i++) {
->> +        if (!regions[i]) /* Allow sparse name arrays. */
->> +            continue;
->> +
->> +        print_stat(p, "size", regions[i], stats[i].size);
->> +        print_stat(p, "shared", regions[i], stats[i].shared);
->> +        print_stat(p, "resident", regions[i], stats[i].resident);
->> +        print_stat(p, "purgeable", regions[i], stats[i].purgeable);
->> +        print_stat(p, "active", regions[i], stats[i].active);
->> +    }
->> +
->> +    kfree(stats);
->> +}
->> +
->>   /**
->>    * drm_show_fdinfo - helper for drm file fops
->>    * @seq_file: output stream
->> @@ -900,6 +949,9 @@ void drm_show_fdinfo(struct seq_file *m, struct 
->> file *f)
->>       if (dev->driver->show_fdinfo)
->>           dev->driver->show_fdinfo(&p, file);
->> +
->> +    if (dev->driver->query_fdinfo_memory_regions)
->> +        print_memory_stats(&p, file);
->>   }
->>   EXPORT_SYMBOL(drm_show_fdinfo);
->> diff --git a/include/drm/drm_drv.h b/include/drm/drm_drv.h
->> index 89e2706cac56..ccc1cd98d2aa 100644
->> --- a/include/drm/drm_drv.h
->> +++ b/include/drm/drm_drv.h
->> @@ -35,6 +35,7 @@
->>   #include <drm/drm_device.h>
->>   struct drm_file;
->> +struct drm_fdinfo_memory_stat;
->>   struct drm_gem_object;
->>   struct drm_master;
->>   struct drm_minor;
->> @@ -408,6 +409,12 @@ struct drm_driver {
->>        */
->>       void (*show_fdinfo)(struct drm_printer *p, struct drm_file *f);
->> +    char ** (*query_fdinfo_memory_regions)(struct drm_device *dev,
->> +                           unsigned int *num);
->> +
->> +    void (*query_fdinfo_memory_stats)(struct drm_file *f,
->> +                      struct drm_fdinfo_memory_stat *stat);
->> +
->>       /** @major: driver major number */
->>       int major;
->>       /** @minor: driver minor number */
->> diff --git a/include/drm/drm_file.h b/include/drm/drm_file.h
->> index 7d9b3c65cbc1..00d48beeac5c 100644
->> --- a/include/drm/drm_file.h
->> +++ b/include/drm/drm_file.h
->> @@ -375,6 +375,14 @@ struct drm_file {
->>   #endif
->>   };
->> +struct drm_fdinfo_memory_stat {
->> +    u64 size;
->> +    u64 shared;
->> +    u64 resident;
->> +    u64 purgeable;
->> +    u64 active;
->> +};
->> +
->>   /**
->>    * drm_is_primary_client - is this an open file of the primary node
->>    * @file_priv: DRM file
-> 
+>
+> Best regards,
+> Alexander
+> --
+> TQ-Systems GmbH | M=C3=BChlstra=C3=9Fe 2, Gut Delling | 82229 Seefeld, Ge=
+rmany
+> Amtsgericht M=C3=BCnchen, HRB 105018
+> Gesch=C3=A4ftsf=C3=BChrer: Detlef Schneider, R=C3=BCdiger Stahl, Stefan S=
+chneider
+> http://www.tq-group.com/
+>
+>
