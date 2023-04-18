@@ -1,36 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C46B6E5F16
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Apr 2023 12:42:53 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DDFB76E5F18
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Apr 2023 12:43:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1BCE910E755;
-	Tue, 18 Apr 2023 10:42:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CD9A810E74A;
+	Tue, 18 Apr 2023 10:43:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.fris.de (mail.fris.de [116.203.77.234])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AE73910E752
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Apr 2023 10:42:48 +0000 (UTC)
+X-Greylist: delayed 714 seconds by postgrey-1.36 at gabe;
+ Tue, 18 Apr 2023 10:43:02 UTC
+Received: from mail.fris.de (mail.fris.de [IPv6:2a01:4f8:c2c:390b::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BB47310E749
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Apr 2023 10:43:02 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id D1D01C0180; Tue, 18 Apr 2023 12:42:44 +0200 (CEST)
+ with ESMTPSA id 17E35BFAFF; Tue, 18 Apr 2023 12:42:57 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fris.de; s=dkim;
- t=1681814566; h=from:subject:date:message-id:to:cc:mime-version:
- content-transfer-encoding; bh=Odmdh/D2/jLFTdQG8vQtirvm1VnzvlvInuwT5gmEdRY=;
- b=QklAl10hOynG8ATSKLUjQoH38eJL2NeA/JFmVwMNpxS9b8hKSiiYOGmblVDZ3QfXAUksR5
- oWeSEuvJ4T9HouZYmDlp588J2HtRR0yKGZsqqUL1qDSJRg7nSSYjl3CnE8OfDELutw/dsg
- 7SS92pjiM2brzm6wN++WikcZ2Ke3WHn2GHsWPbjHZLffFqM0tNBy2zzddfrgACK099Y0up
- fit+5PU+zotQwRYcPWXBFl51DUy7RwT+hPfnYao8C/xM49Wmwop+6zOx7HnZ+iAUiMg2dH
- W43jt+jXZC2e5cJMp6aAqG0+6i0rl+W6kld390s42QhhCbO0/2kJuE9DP3vxjw==
+ t=1681814579; h=from:subject:date:message-id:to:cc:mime-version:
+ content-transfer-encoding; bh=BXhi8YyumEodLsDXRdhu1OgBuW6ZXGeQiJDpibPmXDU=;
+ b=dMUU+FUnWU/hM5OFAJgGDXTUlJNbbYiardwzNkcNqgAYX3JDOd10wFYRoBjTpVxkeGaOW2
+ 3QIhGM+0m3mCl9RYkBrQuWB8jAoXhVFN+Q1S9PjpjFT49r7pm/Q4ZDwF5JorZYNY52bJzq
+ 1BRUkffzw1pIJkel+rIlzfl9bP3nZn20TBsl0JJSMoFoeq4wR0/v8ea3BcIHcRXdX03FbK
+ RzJWyXbr0vLnAjkgRGeP5KMs4/5XZwLSJmq5JMAsNyUm0s3RbF405SL8q3FZ+l3OsSBZzg
+ IEFT1z+KESmwT/rjyiFa8+fdZx+kS8TziWPlpd0tLgdhSVBoeWdeBxxQFFOPlw==
 From: Frieder Schrempf <frieder@fris.de>
 To: Andrzej Hajda <andrzej.hajda@intel.com>, Daniel Vetter <daniel@ffwll.ch>,
  David Airlie <airlied@gmail.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Neil Armstrong <neil.armstrong@linaro.org>,
- Robert Foss <rfoss@kernel.org>
-Subject: [RFC PATCH 2/3] drm/bridge: ti-sn65dsi83: Fix enable/disable flow to
- meet spec
-Date: Tue, 18 Apr 2023 12:42:41 +0200
-Message-Id: <20230418104242.877897-1-frieder@fris.de>
+ Inki Dae <inki.dae@samsung.com>, Jagan Teki <jagan@amarulasolutions.com>,
+ linux-kernel@vger.kernel.org, Marek Szyprowski <m.szyprowski@samsung.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>
+Subject: [RFC PATCH 3/3] drm: bridge: samsung-dsim: Remove init quirk for
+ Exynos
+Date: Tue, 18 Apr 2023 12:42:53 +0200
+Message-Id: <20230418104256.878017-1-frieder@fris.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Last-TLS-Session-Version: TLSv1.3
@@ -46,97 +49,103 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, Jonas Karlman <jonas@kwiboo.se>,
- Alexander Stein <alexander.stein@ew.tq-group.com>,
+Cc: Marek Vasut <marex@denx.de>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
  Jernej Skrabec <jernej.skrabec@gmail.com>,
  Frieder Schrempf <frieder.schrempf@kontron.de>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
- Sam Ravnborg <sam@ravnborg.org>
+ Jonas Karlman <jonas@kwiboo.se>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Frieder Schrempf <frieder.schrempf@kontron.de>
 
-The datasheet describes the following initialization flow including
-minimum delay times between each step:
+Assuming that with the init flow fixed to meet the documentation at
+[1] and the pre_enable_prev_first flag set in downstream bridge/panel
+drivers which require it, we can use the default flow for Exynos as
+already done for i.MX8M.
 
-1. DSI data lanes need to be in LP-11 and the clock lane in HS mode
-2. toggle EN signal
-3. initialize registers
-4. enable PLL
-5. soft reset
-6. enable DSI stream
-7. check error status register
-
-To meet this requirement we need to make sure the host bridge's
-pre_enable() is called first by using the pre_enable_prev_first
-flag.
-
-Furthermore we need to split enable() into pre_enable() which covers
-steps 2-5 from above and enable() which covers step 7 and is called
-after the host bridge's enable().
+[1] https://docs.kernel.org/gpu/drm-kms-helpers.html#mipi-dsi-bridge-operation
 
 Signed-off-by: Frieder Schrempf <frieder.schrempf@kontron.de>
 ---
- drivers/gpu/drm/bridge/ti-sn65dsi83.c | 19 ++++++++++++++++---
- 1 file changed, 16 insertions(+), 3 deletions(-)
+I have no idea if my assumptions are correct and if this works at all.
+There's a very good chance it doesn't...
+---
+ drivers/gpu/drm/bridge/samsung-dsim.c | 39 ++++++++-------------------
+ 1 file changed, 11 insertions(+), 28 deletions(-)
 
-diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi83.c b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
-index 75286c9afbb9..a82f10b8109f 100644
---- a/drivers/gpu/drm/bridge/ti-sn65dsi83.c
-+++ b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
-@@ -321,8 +321,8 @@ static u8 sn65dsi83_get_dsi_div(struct sn65dsi83 *ctx)
- 	return dsi_div - 1;
+diff --git a/drivers/gpu/drm/bridge/samsung-dsim.c b/drivers/gpu/drm/bridge/samsung-dsim.c
+index 9775779721d9..8c68b767ae50 100644
+--- a/drivers/gpu/drm/bridge/samsung-dsim.c
++++ b/drivers/gpu/drm/bridge/samsung-dsim.c
+@@ -1336,18 +1336,12 @@ static void samsung_dsim_atomic_pre_enable(struct drm_bridge *bridge,
+ 
+ 	dsi->state |= DSIM_STATE_ENABLED;
+ 
+-	/*
+-	 * For Exynos-DSIM the downstream bridge, or panel are expecting
+-	 * the host initialization during DSI transfer.
+-	 */
+-	if (!samsung_dsim_hw_is_exynos(dsi->plat_data->hw_type)) {
+-		ret = samsung_dsim_init(dsi);
+-		if (ret)
+-			return;
++	ret = samsung_dsim_init(dsi);
++	if (ret)
++		return;
+ 
+-		samsung_dsim_set_display_mode(dsi);
+-		samsung_dsim_set_display_enable(dsi, true);
+-	}
++	samsung_dsim_set_display_mode(dsi);
++	samsung_dsim_set_display_enable(dsi, true);
  }
  
--static void sn65dsi83_atomic_enable(struct drm_bridge *bridge,
--				    struct drm_bridge_state *old_bridge_state)
-+static void sn65dsi83_atomic_pre_enable(struct drm_bridge *bridge,
-+					struct drm_bridge_state *old_bridge_state)
- {
- 	struct sn65dsi83 *ctx = bridge_to_sn65dsi83(bridge);
- 	struct drm_atomic_state *state = old_bridge_state->base.state;
-@@ -484,11 +484,22 @@ static void sn65dsi83_atomic_enable(struct drm_bridge *bridge,
- 	/* Trigger reset after CSR register update. */
- 	regmap_write(ctx->regmap, REG_RC_RESET, REG_RC_RESET_SOFT_RESET);
+ static void samsung_dsim_atomic_enable(struct drm_bridge *bridge,
+@@ -1356,14 +1350,9 @@ static void samsung_dsim_atomic_enable(struct drm_bridge *bridge,
+ 	struct samsung_dsim *dsi = bridge_to_dsi(bridge);
+ 	u32 reg;
  
-+	/* Wait for 10ms after soft reset as specified in datasheet */
-+	usleep_range(10000, 12000);
-+}
-+
-+static void sn65dsi83_atomic_enable(struct drm_bridge *bridge,
-+				    struct drm_bridge_state *old_bridge_state)
-+{
-+	struct sn65dsi83 *ctx = bridge_to_sn65dsi83(bridge);
-+	unsigned int pval;
-+
- 	/* Clear all errors that got asserted during initialization. */
- 	regmap_read(ctx->regmap, REG_IRQ_STAT, &pval);
- 	regmap_write(ctx->regmap, REG_IRQ_STAT, pval);
+-	if (samsung_dsim_hw_is_exynos(dsi->plat_data->hw_type)) {
+-		samsung_dsim_set_display_mode(dsi);
+-		samsung_dsim_set_display_enable(dsi, true);
+-	} else {
+-		reg = samsung_dsim_read(dsi, DSIM_ESCMODE_REG);
+-		reg &= ~DSIM_FORCE_STOP_STATE;
+-		samsung_dsim_write(dsi, DSIM_ESCMODE_REG, reg);
+-	}
++	reg = samsung_dsim_read(dsi, DSIM_ESCMODE_REG);
++	reg &= ~DSIM_FORCE_STOP_STATE;
++	samsung_dsim_write(dsi, DSIM_ESCMODE_REG, reg);
  
--	usleep_range(10000, 12000);
-+	/* Wait for 1ms and check for errors in status register */
-+	usleep_range(1000, 1100);
- 	regmap_read(ctx->regmap, REG_IRQ_STAT, &pval);
- 	if (pval)
- 		dev_err(ctx->dev, "Unexpected link status 0x%02x\n", pval);
-@@ -555,6 +566,7 @@ static const struct drm_bridge_funcs sn65dsi83_funcs = {
- 	.attach			= sn65dsi83_attach,
- 	.detach			= sn65dsi83_detach,
- 	.atomic_enable		= sn65dsi83_atomic_enable,
-+	.atomic_pre_enable	= sn65dsi83_atomic_pre_enable,
- 	.atomic_disable		= sn65dsi83_atomic_disable,
- 	.mode_valid		= sn65dsi83_mode_valid,
+ 	dsi->state |= DSIM_STATE_VIDOUT_AVAILABLE;
+ }
+@@ -1377,11 +1366,9 @@ static void samsung_dsim_atomic_disable(struct drm_bridge *bridge,
+ 	if (!(dsi->state & DSIM_STATE_ENABLED))
+ 		return;
  
-@@ -697,6 +709,7 @@ static int sn65dsi83_probe(struct i2c_client *client)
+-	if (!samsung_dsim_hw_is_exynos(dsi->plat_data->hw_type)) {
+-		reg = samsung_dsim_read(dsi, DSIM_ESCMODE_REG);
+-		reg |= DSIM_FORCE_STOP_STATE;
+-		samsung_dsim_write(dsi, DSIM_ESCMODE_REG, reg);
+-	}
++	reg = samsung_dsim_read(dsi, DSIM_ESCMODE_REG);
++	reg |= DSIM_FORCE_STOP_STATE;
++	samsung_dsim_write(dsi, DSIM_ESCMODE_REG, reg);
  
- 	ctx->bridge.funcs = &sn65dsi83_funcs;
- 	ctx->bridge.of_node = dev->of_node;
-+	ctx->bridge.pre_enable_prev_first = true;
- 	drm_bridge_add(&ctx->bridge);
+ 	dsi->state &= ~DSIM_STATE_VIDOUT_AVAILABLE;
+ }
+@@ -1680,10 +1667,6 @@ static ssize_t samsung_dsim_host_transfer(struct mipi_dsi_host *host,
+ 	if (!(dsi->state & DSIM_STATE_ENABLED))
+ 		return -EINVAL;
  
- 	ret = sn65dsi83_host_attach(ctx);
+-	ret = samsung_dsim_init(dsi);
+-	if (ret)
+-		return ret;
+-
+ 	ret = mipi_dsi_create_packet(&xfer.packet, msg);
+ 	if (ret < 0)
+ 		return ret;
 -- 
 2.40.0
 
