@@ -1,57 +1,85 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 459E96E825E
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Apr 2023 22:08:05 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AA1F6E8B19
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Apr 2023 09:14:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2737D10EA95;
-	Wed, 19 Apr 2023 20:08:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 66B7C10EBAB;
+	Thu, 20 Apr 2023 07:14:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from loongson.cn (mail.loongson.cn [114.242.206.163])
- by gabe.freedesktop.org (Postfix) with ESMTP id 686C410EA95
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Apr 2023 20:07:57 +0000 (UTC)
-Received: from loongson.cn (unknown [10.20.42.43])
- by gateway (Coremail) with SMTP id _____8CxidkaSkBkKxcfAA--.37059S3;
- Thu, 20 Apr 2023 04:07:54 +0800 (CST)
-Received: from openarena.loongson.cn (unknown [10.20.42.43])
- by localhost.localdomain (Coremail) with SMTP id
- AQAAf8Cxfb4XSkBkM88vAA--.17264S2; 
- Thu, 20 Apr 2023 04:07:51 +0800 (CST)
-From: Sui Jingfeng <suijingfeng@loongson.cn>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Sui Jingfeng <suijingfeng@loongson.cn>, Li Yi <liyi@loongson.cn>,
- Helge Deller <deller@gmx.de>, Lucas De Marchi <lucas.demarchi@intel.com>
-Subject: [PATCH v4] drm/fbdev-generic: prohibit potential out-of-bounds access
-Date: Thu, 20 Apr 2023 04:07:42 +0800
-Message-Id: <20230419200742.1571818-1-suijingfeng@loongson.cn>
-X-Mailer: git-send-email 2.25.1
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 64B7610EACE;
+ Wed, 19 Apr 2023 20:11:51 +0000 (UTC)
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 33JIxtmO018870; Wed, 19 Apr 2023 20:11:46 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=4lRYuddyzyOZ7T7y8ZQegTBdQ60Z0hvBn21Sa+GzYxQ=;
+ b=HvRchAgw02Ch8X+g29yHnN9vf5u/PuEGXhDu3jNbwFNO1KnGHGWzqFDlFNrQzsLQ5fGg
+ QJ6noOXZa1j0gQxbICLW9KK8XTyMfJ0K7pYuXdTABeJ+wRj3ZzKxVTvmMoRda0wQ0U5f
+ t4Em5ru1v5xW8DVsEnuPMpzltCDUnj5WjB6zlhgCqCC1PQTY4njXrc80FsRmNvAkB18Z
+ YI4AHEWD+Rl7IzANQzuveqt2Pm7DSzYY7MtJ7sIYOL84ykMKMhiNZjEHOvOqwyVde2nK
+ MRsYQ/xNFnjJX2RQoDrfajVUwH8Kn6mz8bxDpxAI5IQ6PlZ8HN54yh12G3VwCMCQPWgH Jg== 
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3q2nn807cf-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 19 Apr 2023 20:11:46 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 33JKBjHY024484
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 19 Apr 2023 20:11:46 GMT
+Received: from [10.134.71.70] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Wed, 19 Apr
+ 2023 13:11:44 -0700
+Message-ID: <77bb1b3c-09cb-310a-be34-166e573a13a7@quicinc.com>
+Date: Wed, 19 Apr 2023 13:11:43 -0700
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [Freedreno] [PATCH 5/5] drm/msm/dpu1: Handle the reg bus ICC path
+Content-Language: en-US
+To: Konrad Dybcio <konrad.dybcio@linaro.org>, Rob Clark <robdclark@gmail.com>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Dmitry Baryshkov
+ <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, David Airlie
+ <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Rob Herring
+ <robh+dt@kernel.org>, Krzysztof Kozlowski
+ <krzysztof.kozlowski+dt@linaro.org>, Krishna Manikandan
+ <quic_mkrishn@quicinc.com>
+References: <20230417-topic-dpu_regbus-v1-0-06fbdc1643c0@linaro.org>
+ <20230417-topic-dpu_regbus-v1-5-06fbdc1643c0@linaro.org>
+ <11c72462-b256-d0db-a666-9615da4420f6@quicinc.com>
+ <e15ec005-ef52-c14c-bdeb-faaca207d39b@linaro.org>
+From: Jeykumar Sankaran <quic_jeykumar@quicinc.com>
+In-Reply-To: <e15ec005-ef52-c14c-bdeb-faaca207d39b@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8Cxfb4XSkBkM88vAA--.17264S2
-X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
-X-Coremail-Antispam: 1Uk129KBjvJXoWxCF1rXFWUCw1DtrWrZF13Jwb_yoWrAr4fpF
- W7GayDKr4kJFn8WrWxA3WUAw15Zan7ZFWIqrZ7G348ZF45A3ZF9F1UGF4UWry5Jr1xZr13
- twn0yw1jkr1qkaDanT9S1TB71UUUUj7qnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
- qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
- bfxYFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s
- 1l1IIY67AEw4v_Jrv_JF1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xv
- wVC0I7IYx2IY67AKxVWUCVW8JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwA2z4
- x0Y4vEx4A2jsIE14v26r4j6F4UM28EF7xvwVC2z280aVCY1x0267AKxVW8JVW8Jr1ln4kS
- 14v26r126r1DM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E6xACxx
- 1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r126r1DMcIj6I8E87Iv
- 67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41lc7CjxVAaw2
- AFwI0_JF0_Jw1l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1l4IxYO2xF
- xVAFwI0_JF0_Jw1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWw
- C2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_JFI_
- Gr1lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJV
- WUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r1j6r4UYxBI
- daVFxhVjvjDU0xZFpf9x07j5o7tUUUUU=
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: QGMhDy7ReST1ODUAfKQWCbU9L5K7e2AZ
+X-Proofpoint-GUID: QGMhDy7ReST1ODUAfKQWCbU9L5K7e2AZ
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-04-19_14,2023-04-18_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 malwarescore=0
+ spamscore=0 impostorscore=0 clxscore=1015 phishscore=0 mlxlogscore=999
+ bulkscore=0 priorityscore=1501 adultscore=0 suspectscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2303200000 definitions=main-2304190174
+X-Mailman-Approved-At: Thu, 20 Apr 2023 07:12:56 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,108 +92,117 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: loongson-kernel@lists.loongnix.cn, linux-fbdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, Marijn
+ Suijten <marijn.suijten@somainline.org>, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The fbdev test of IGT may write after EOF, which lead to out-of-bound
-access for the drm drivers hire fbdev-generic. However, run fbdev test
-on x86 +ast2400 platform, with 1680x1050 resolution, will cause the
-linux kernel hang with the following call trace:
 
-  Oops: 0000 [#1] PREEMPT SMP PTI
-  [IGT] fbdev: starting subtest eof
-  Workqueue: events drm_fb_helper_damage_work [drm_kms_helper]
-  [IGT] fbdev: starting subtest nullptr
 
-  RIP: 0010:memcpy_erms+0xa/0x20
-  RSP: 0018:ffffa17d40167d98 EFLAGS: 00010246
-  RAX: ffffa17d4eb7fa80 RBX: ffffa17d40e0aa80 RCX: 00000000000014c0
-  RDX: 0000000000001a40 RSI: ffffa17d40e0b000 RDI: ffffa17d4eb80000
-  RBP: ffffa17d40167e20 R08: 0000000000000000 R09: ffff89522ecff8c0
-  R10: ffffa17d4e4c5000 R11: 0000000000000000 R12: ffffa17d4eb7fa80
-  R13: 0000000000001a40 R14: 000000000000041a R15: ffffa17d40167e30
-  FS:  0000000000000000(0000) GS:ffff895257380000(0000) knlGS:0000000000000000
-  CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-  CR2: ffffa17d40e0b000 CR3: 00000001eaeca006 CR4: 00000000001706e0
-  Call Trace:
-   <TASK>
-   ? drm_fbdev_generic_helper_fb_dirty+0x207/0x330 [drm_kms_helper]
-   drm_fb_helper_damage_work+0x8f/0x170 [drm_kms_helper]
-   process_one_work+0x21f/0x430
-   worker_thread+0x4e/0x3c0
-   ? __pfx_worker_thread+0x10/0x10
-   kthread+0xf4/0x120
-   ? __pfx_kthread+0x10/0x10
-   ret_from_fork+0x2c/0x50
-   </TASK>
-  CR2: ffffa17d40e0b000
-  ---[ end trace 0000000000000000 ]---
+On 4/19/2023 12:48 PM, Konrad Dybcio wrote:
+> 
+> 
+> On 19.04.2023 21:06, Jeykumar Sankaran wrote:
+>>
+>>
+>> On 4/17/2023 8:30 AM, Konrad Dybcio wrote:
+>>> Apart from the already handled data bus (MAS_MDP_Pn<->DDR), there's
+>>> another path that needs to be handled to ensure MDSS functions properly,
+>>> namely the "reg bus", a.k.a the CPU-MDSS interconnect.
+>>>
+>>> Gating that path may have a variety of effects.. from none to otherwise
+>>> inexplicable DSI timeouts..
+>>>
+>>> On the DPU side, we need to keep the bus alive. The vendor driver
+>>> kickstarts it to max (300Mbps) throughput on first commit, but in
+>>> exchange for some battery life in rare DPU-enabled-panel-disabled
+>>> usecases, we can request it at DPU init and gate it at suspend.
+>>>
+>>> Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+>>> ---
+>>>    drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c | 22 ++++++++++++++++++++--
+>>>    drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h |  1 +
+>>>    2 files changed, 21 insertions(+), 2 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+>>> index dd6c1c40ab9e..d1f77faebbc0 100644
+>>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+>>> @@ -384,15 +384,17 @@ static int dpu_kms_global_obj_init(struct dpu_kms *dpu_kms)
+>>>        return 0;
+>>>    }
+>>>    -static int dpu_kms_parse_data_bus_icc_path(struct dpu_kms *dpu_kms)
+>>> +static int dpu_kms_parse_icc_paths(struct dpu_kms *dpu_kms)
+>>>    {
+>>>        struct icc_path *path0;
+>>>        struct icc_path *path1;
+>>> +    struct icc_path *reg_bus_path;
+>>>        struct drm_device *dev = dpu_kms->dev;
+>>>        struct device *dpu_dev = dev->dev;
+>>>          path0 = msm_icc_get(dpu_dev, "mdp0-mem");
+>>>        path1 = msm_icc_get(dpu_dev, "mdp1-mem");
+>>> +    reg_bus_path = msm_icc_get(dpu_dev, "cpu-cfg");
+>>>          if (IS_ERR_OR_NULL(path0))
+>>>            return PTR_ERR_OR_ZERO(path0);
+>>> @@ -404,6 +406,10 @@ static int dpu_kms_parse_data_bus_icc_path(struct dpu_kms *dpu_kms)
+>>>            dpu_kms->mdp_path[1] = path1;
+>>>            dpu_kms->num_mdp_paths++;
+>>>        }
+>>> +
+>>> +    if (!IS_ERR_OR_NULL(reg_bus_path))
+>>> +        dpu_kms->reg_bus_path = reg_bus_path;
+>>> +
+>>>        return 0;
+>>>    }
+>>>    @@ -1039,7 +1045,7 @@ static int dpu_kms_hw_init(struct msm_kms *kms)
+>>>            DPU_DEBUG("REG_DMA is not defined");
+>>>        }
+>>>    -    dpu_kms_parse_data_bus_icc_path(dpu_kms);
+>>> +    dpu_kms_parse_icc_paths(dpu_kms);
+>>>          rc = pm_runtime_resume_and_get(&dpu_kms->pdev->dev);
+>>>        if (rc < 0)
+>>> @@ -1241,6 +1247,9 @@ static int __maybe_unused dpu_runtime_suspend(struct device *dev)
+>>>        for (i = 0; i < dpu_kms->num_mdp_paths; i++)
+>>>            icc_set_bw(dpu_kms->mdp_path[i], 0, 0);
+>>>    +    if (dpu_kms->reg_bus_path)
+>>> +        icc_set_bw(dpu_kms->reg_bus_path, 0, 0);
+>>> +
+>>>        return 0;
+>>>    }
+>>>    @@ -1261,6 +1270,15 @@ static int __maybe_unused dpu_runtime_resume(struct device *dev)
+>>>            return rc;
+>>>        }
+>>>    +    /*
+>>> +     * The vendor driver supports setting 76.8 / 150 / 300 Mbps on this
+>> How do you arrive at these distint BW values? Are they provided by the ICC fwk for the given path?
+> They're hardcoded in the SDE driver.
+> 
+> Konrad
+These bandwidths are derived from the scaling frequencies of all the 
+buses participating in the icc-path. So they cannot be constants. 
+Ideally they should be read from the hw catalog data of the respective 
+platform.
 
-The is because damage rectangle rectange computed by
-drm_fb_helper_memory_range_to_clip() does not guaranteed to be bound in the
-screen's active display area. In details, we typically allocate buffers in
-the granularity of the page-size for mmap system call support.
-
-Exporting bit larger buffer in size than the size of active display to user
-space do allow the userspace write below the bottom of the display, it is
-not a big issue because there still have memory resolve the access.
-
-Yet, draft too far from the boundary is dangerious. Because such a access
-put the system in the situation of out-of-bound access. The root cause is
-that we do not do the validation, also DIV_ROUND_UP() may also introduce
-off-by-one error.
-
-This patch add logic to restrict the damage rectangle dract out of the
-visiable boundary.
-
-Fixes: aa15c677cc34 ("drm/fb-helper: Fix vertical damage clipping")
-
-Signed-off-by: Sui Jingfeng <suijingfeng@loongson.cn>
-Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
-Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Link: https://lore.kernel.org/dri-devel/ad44df29-3241-0d9e-e708-b0338bf3c623@189.cn/
----
- drivers/gpu/drm/drm_fb_helper.c | 16 ++++++++++++----
- 1 file changed, 12 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
-index 64458982be40..6bb1b8b27d7a 100644
---- a/drivers/gpu/drm/drm_fb_helper.c
-+++ b/drivers/gpu/drm/drm_fb_helper.c
-@@ -641,19 +641,27 @@ static void drm_fb_helper_damage(struct drm_fb_helper *helper, u32 x, u32 y,
- static void drm_fb_helper_memory_range_to_clip(struct fb_info *info, off_t off, size_t len,
- 					       struct drm_rect *clip)
- {
-+	u32 line_length = info->fix.line_length;
-+	u32 fb_height = info->var.yres;
- 	off_t end = off + len;
- 	u32 x1 = 0;
--	u32 y1 = off / info->fix.line_length;
-+	u32 y1 = off / line_length;
- 	u32 x2 = info->var.xres;
--	u32 y2 = DIV_ROUND_UP(end, info->fix.line_length);
-+	u32 y2 = DIV_ROUND_UP(end, line_length);
-+
-+	/* Don't allow any of them beyond the bottom bound of display area */
-+	if (y1 > fb_height)
-+		y1 = fb_height;
-+	if (y2 > fb_height)
-+		y2 = fb_height;
- 
- 	if ((y2 - y1) == 1) {
- 		/*
- 		 * We've only written to a single scanline. Try to reduce
- 		 * the number of horizontal pixels that need an update.
- 		 */
--		off_t bit_off = (off % info->fix.line_length) * 8;
--		off_t bit_end = (end % info->fix.line_length) * 8;
-+		off_t bit_off = (off % line_length) * 8;
-+		off_t bit_end = (end % line_length) * 8;
- 
- 		x1 = bit_off / info->var.bits_per_pixel;
- 		x2 = DIV_ROUND_UP(bit_end, info->var.bits_per_pixel);
--- 
-2.25.1
-
+Jeykumar S.
+>>> +     * path, but it seems to go for the highest level when display output
+>>> +     * is enabled and zero otherwise. For simplicity, we can assume that
+>>> +     * DPU being enabled and running implies that.
+>>> +     */
+>>> +    if (dpu_kms->reg_bus_path)
+>>> +        icc_set_bw(dpu_kms->reg_bus_path, 0, MBps_to_icc(300));
+>>> +
+>>>        dpu_vbif_init_memtypes(dpu_kms);
+>>>          drm_for_each_encoder(encoder, ddev)
+>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
+>>> index d5d9bec90705..c332381d58c4 100644
+>>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
+>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
+>>> @@ -111,6 +111,7 @@ struct dpu_kms {
+>>>        atomic_t bandwidth_ref;
+>>>        struct icc_path *mdp_path[2];
+>>>        u32 num_mdp_paths;
+>>> +    struct icc_path *reg_bus_path;
+>>>    };
+>>>      struct vsync_info {
+>>>
