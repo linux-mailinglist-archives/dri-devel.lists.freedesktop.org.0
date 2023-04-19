@@ -2,49 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3A576E729F
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Apr 2023 07:28:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ACB496E72F8
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Apr 2023 08:16:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 47A2210E07B;
-	Wed, 19 Apr 2023 05:28:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 08F9410E10B;
+	Wed, 19 Apr 2023 06:16:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp.smtpout.orange.fr (smtp-26.smtpout.orange.fr
- [80.12.242.26])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2F51810E07B
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Apr 2023 05:28:11 +0000 (UTC)
-Received: from [192.168.1.18] ([86.243.2.178]) by smtp.orange.fr with ESMTPA
- id p0MRpZaTeV6zQp0MSpuMmN; Wed, 19 Apr 2023 07:28:09 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=orange.fr;
- s=t20230301; t=1681882089;
- bh=jC61ievN8K0lZul4ppyD2rNmFatQL2HAWgkWwqbudT8=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To;
- b=TNshuw7F7d0G7Paxh6aHXOd6LSAqwbWrBaZePemtxzGdjyuWE40w23q+dyxZWNAFT
- IMgiYRkp30RpW2ME6YXV9mno+wtjdYC/TD0vOZgAv/x5PsvWYvguzVWccLP+EJL4V+
- wfS5fnGA1rwmLzmpR77uJU4JzByxFGmRZKNG5P0Z2rtigu+iZv7U9onUWUTVzTXgZY
- /ab7ij2IhImZVKq1p5pRPHkIGZUUOTsqWvKng8djZrWwO8NUVmdrMFZRL6uMwRvpP9
- XOn/IaJYqsc4FITkpSAPFThgEpUzdaRfy+KQh/kBWefttthUH+mTYXZTh3XyFynBoW
- EYDLKZjulzleA==
-X-ME-Helo: [192.168.1.18]
-X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
-X-ME-Date: Wed, 19 Apr 2023 07:28:09 +0200
-X-ME-IP: 86.243.2.178
-Message-ID: <5f749397-d701-a83c-757b-cad38f74735f@wanadoo.fr>
-Date: Wed, 19 Apr 2023 07:28:07 +0200
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AD32610E10B
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Apr 2023 06:16:34 +0000 (UTC)
+Received: from [IPV6:2001:b07:2ed:14ed:c5f8:7372:f042:90a2] (unknown
+ [IPv6:2001:b07:2ed:14ed:c5f8:7372:f042:90a2])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: kholk11)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id F0547660318E;
+ Wed, 19 Apr 2023 07:16:30 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1681884991;
+ bh=bWxInygmnDUySp/Z/CBRWlkSud/aUMTg/zbRKc98Frc=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=MY2upY96vakUBLWHLlC00twx9VhBCWVBU+yzuFoHgsVG8oKB6WduOFyn1T9y/Bmm2
+ kmQ1XB0oL3pBxImyRBgLzdz57OzoMk5D2M+6IRsR5tG4RySWMHxrDINFIMJUWsKNgJ
+ OzTwhvn9RggX3Xb3LLOkQuIjdsExNjSI6xniH7R8DO0XhK+/3J29E9EvwG1bSRSTfv
+ 4SzeeKKg/tSz3GUkopxHUWIa6dOC/NhdV7PlwZapCgMYx4MCO/fjEc5d405aElQyKv
+ TyRFNlQwoUS02Vv3/1YCr0Xtw+WJ8oTA9tPyz1SSwKkqd2h4D+JOuDfe3AvVQWnQAt
+ u0+Uxigp3npFg==
+Message-ID: <fcb6638b-0298-74b7-c375-f563a8115596@collabora.com>
+Date: Wed, 19 Apr 2023 08:16:28 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH] video: fbdev: mmp: Fix deferred clk handling in
- mmphw_probe()
-To: Dan Carpenter <error27@gmail.com>
-References: <685f452cacc74f4983aaff2bc28a02a95e8aa8b7.1681414375.git.christophe.jaillet@wanadoo.fr>
- <67353089-4966-424c-99c2-8524818f0e37@kili.mountain>
- <a7c75eb0-857c-4755-aa23-0a4a96a6d2ca@kili.mountain>
-Content-Language: fr, en-US
-From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-In-Reply-To: <a7c75eb0-857c-4755-aa23-0a4a96a6d2ca@kili.mountain>
+ Thunderbird/102.9.1
+Subject: Re: [PATCH] drm/mediatek: Clarify/finish documentation for some
+ driver structures
+Content-Language: en-US
+To: chunkuang.hu@kernel.org
+References: <20230321111448.270110-1-angelogioacchino.delregno@collabora.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20230321111448.270110-1-angelogioacchino.delregno@collabora.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,60 +55,172 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Helge Deller <deller@gmx.de>,
- kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Cai Huoqing <cai.huoqing@linux.dev>
+Cc: lee@kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
+ matthias.bgg@gmail.com, kernel@collabora.com,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Le 19/04/2023 à 06:59, Dan Carpenter a écrit :
-> On Sat, Apr 15, 2023 at 04:09:03PM +0300, Dan Carpenter wrote:
->> On Thu, Apr 13, 2023 at 09:33:17PM +0200, Christophe JAILLET wrote:
->>> When dev_err_probe() is called, 'ret' holds the value of the previous
->>> successful devm_request_irq() call.
->>> 'ret' should be assigned with a meaningful value before being used in
->>> dev_err_probe().
->>>
->>> While at it, use and return "PTR_ERR(ctrl->clk)" instead of a hard-coded
->>> "-ENOENT" so that -EPROBE_DEFER is handled and propagated correctly.
->>>
->>> Fixes: 81b63420564d ("video: fbdev: mmp: Make use of the helper function dev_err_probe()")
->>> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
->>> ---
->>
->> Presumably you already wrote a Coccinelle script for this but I've added
->> it to Smatch as well.
-
-No I haven't.
-I've spotted it while looking at some devm_clk_get_optional() candidate 
-with grep.
-
-	git grep -A5 devm_clk_get | grep -B5 ENOENT
-
-Not perfect, but sometimes this kind of approach can find interesting 
-things coccinelle would miss.
-
-As an example, the bitmap_alloc patch on sh4 was found this way, with grep.
-
-
-
-So nice to have it in smatch, ;-)
-
-CJ
-
+Il 21/03/23 12:14, AngeloGioacchino Del Regno ha scritto:
+> The documentation for some of the driver structures in mediatek-drm
+> was set to be kerneldoc but some code additions didn't actually update
+> the comments accordingly and this caused triggering some warnings.
 > 
-> Here is this warning:
-> drivers/video/fbdev/mmp/hw/mmp_ctrl.c:518 mmphw_probe() warn: passing zero to 'dev_err_probe'
+> Add comments for the remaining undocumented entries; while at it, also
+> clarify some acronyms for various display HW blocks and fix some comment
+> blocks to actually get parsed as kerneldoc.
 > 
-> Other warnings.  All five are interesting.
-> drivers/power/supply/rt9467-charger.c:1026 rt9467_request_interrupt() warn: passing zero to 'dev_err_probe'
-> drivers/pci/controller/dwc/pcie-bt1.c:601 bt1_pcie_add_port() warn: passing zero to 'dev_err_probe'
-> drivers/spi/spi-sprd-adi.c:570 sprd_adi_probe() warn: passing zero to 'dev_err_probe'
-> drivers/soc/qcom/icc-bwmon.c:776 bwmon_probe() warn: passing zero to 'dev_err_probe'
-> drivers/soc/qcom/icc-bwmon.c:781 bwmon_probe() warn: passing zero to 'dev_err_probe'
+> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+
+Hello CK,
+I just noticed that this patch is getting stale and forgotten.
+
+Please take a look at it, as this solves kerneldoc warnings during kernel build.
+
+Regards,
+Angelo
+
+> --- >   drivers/gpu/drm/mediatek/mtk_disp_aal.c   |  8 +++++---
+>   drivers/gpu/drm/mediatek/mtk_disp_ccorr.c |  8 +++++---
+>   drivers/gpu/drm/mediatek/mtk_disp_color.c | 11 +++++++----
+>   drivers/gpu/drm/mediatek/mtk_disp_gamma.c |  8 ++++++--
+>   drivers/gpu/drm/mediatek/mtk_disp_ovl.c   | 13 +++++++++----
+>   drivers/gpu/drm/mediatek/mtk_disp_rdma.c  | 12 +++++++++---
+>   6 files changed, 41 insertions(+), 19 deletions(-)
 > 
-> regards,
-> dan carpenter
-> 
-> 
+> diff --git a/drivers/gpu/drm/mediatek/mtk_disp_aal.c b/drivers/gpu/drm/mediatek/mtk_disp_aal.c
+> index 434e8a9ce8ab..12d1800c1d34 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_disp_aal.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_disp_aal.c
+> @@ -27,9 +27,11 @@ struct mtk_disp_aal_data {
+>   };
+>   
+>   /**
+> - * struct mtk_disp_aal - DISP_AAL driver structure
+> - * @ddp_comp - structure containing type enum and hardware resources
+> - * @crtc - associated crtc to report irq events to
+> + * struct mtk_disp_aal - Display Adaptive Ambient Light driver structure
+> + * @clk:      clock for DISP_AAL controller
+> + * @regs:     MMIO registers base
+> + * @cmdq_reg: CMDQ Client register
+> + * @data:     platform specific data for DISP_AAL
+>    */
+>   struct mtk_disp_aal {
+>   	struct clk *clk;
+> diff --git a/drivers/gpu/drm/mediatek/mtk_disp_ccorr.c b/drivers/gpu/drm/mediatek/mtk_disp_ccorr.c
+> index 1773379b2439..b173aa058573 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_disp_ccorr.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_disp_ccorr.c
+> @@ -35,9 +35,11 @@ struct mtk_disp_ccorr_data {
+>   };
+>   
+>   /**
+> - * struct mtk_disp_ccorr - DISP_CCORR driver structure
+> - * @ddp_comp - structure containing type enum and hardware resources
+> - * @crtc - associated crtc to report irq events to
+> + * struct mtk_disp_ccorr - Display Color Correction driver structure
+> + * @clk:      clock for DISP_CCORR block
+> + * @regs:     MMIO registers base
+> + * @cmdq_reg: CMDQ Client register
+> + * @data:     platform specific data for DISP_CCORR
+>    */
+>   struct mtk_disp_ccorr {
+>   	struct clk *clk;
+> diff --git a/drivers/gpu/drm/mediatek/mtk_disp_color.c b/drivers/gpu/drm/mediatek/mtk_disp_color.c
+> index cac9206079e7..7884f4736b7c 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_disp_color.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_disp_color.c
+> @@ -31,10 +31,13 @@ struct mtk_disp_color_data {
+>   	unsigned int color_offset;
+>   };
+>   
+> -/*
+> - * struct mtk_disp_color - DISP_COLOR driver structure
+> - * @crtc: associated crtc to report irq events to
+> - * @data: platform colour driver data
+> +/**
+> + * struct mtk_disp_color - DISP_COLOR (Display Color) driver structure
+> + * @crtc:     associated crtc to report irq events to
+> + * @clk:      clock for DISP_COLOR block
+> + * @regs:     MMIO registers base
+> + * @cmdq_reg: CMDQ Client register
+> + * @data:     platform specific data for DISP_COLOR
+>    */
+>   struct mtk_disp_color {
+>   	struct drm_crtc				*crtc;
+> diff --git a/drivers/gpu/drm/mediatek/mtk_disp_gamma.c b/drivers/gpu/drm/mediatek/mtk_disp_gamma.c
+> index c844942603f7..7e748613fccb 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_disp_gamma.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_disp_gamma.c
+> @@ -31,8 +31,12 @@ struct mtk_disp_gamma_data {
+>   	bool lut_diff;
+>   };
+>   
+> -/*
+> - * struct mtk_disp_gamma - DISP_GAMMA driver structure
+> +/**
+> + * struct mtk_disp_gamma - Display Gamma driver structure
+> + * @clk:      clock for DISP_GAMMA block
+> + * @regs:     MMIO registers base
+> + * @cmdq_reg: CMDQ Client register
+> + * @data:     platform data for DISP_GAMMA
+>    */
+>   struct mtk_disp_gamma {
+>   	struct clk *clk;
+> diff --git a/drivers/gpu/drm/mediatek/mtk_disp_ovl.c b/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
+> index 9d8c986700ee..00f2871fd1a4 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
+> @@ -76,10 +76,15 @@ struct mtk_disp_ovl_data {
+>   	bool supports_afbc;
+>   };
+>   
+> -/*
+> - * struct mtk_disp_ovl - DISP_OVL driver structure
+> - * @crtc: associated crtc to report vblank events to
+> - * @data: platform data
+> +/**
+> + * struct mtk_disp_ovl - Display Overlay driver structure
+> + * @crtc:           associated crtc to report vblank events to
+> + * @clk:            clock for DISP_OVL block
+> + * @regs:           MMIO registers base
+> + * @cmdq_reg:       CMDQ Client register
+> + * @data:           platform data
+> + * @vblank_cb:      vblank callback function
+> + * @vblank_cb_data: pointer to data that will be passed to vblank_cb()
+>    */
+>   struct mtk_disp_ovl {
+>   	struct drm_crtc			*crtc;
+> diff --git a/drivers/gpu/drm/mediatek/mtk_disp_rdma.c b/drivers/gpu/drm/mediatek/mtk_disp_rdma.c
+> index e8e337903b0d..74f4a0bce5cc 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_disp_rdma.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_disp_rdma.c
+> @@ -59,9 +59,15 @@ struct mtk_disp_rdma_data {
+>   	unsigned int fifo_size;
+>   };
+>   
+> -/*
+> - * struct mtk_disp_rdma - DISP_RDMA driver structure
+> - * @data: local driver data
+> +/**
+> + * struct mtk_disp_rdma - Display Read DMA driver structure
+> + * @clk:            clock for DISP_RDMA block
+> + * @regs:           MMIO registers base
+> + * @cmdq_reg:       CMDQ Client register
+> + * @data:           platform data
+> + * @vblank_cb:      vblank callback function
+> + * @vblank_cb_data: pointer to data that will be passed to vblank_cb()
+> + * @fifo_size:      size of DISP_RDMA block's FIFO
+>    */
+>   struct mtk_disp_rdma {
+>   	struct clk			*clk;
+
+-- 
+AngeloGioacchino Del Regno
+Software Engineer
+
+Collabora Ltd.
+Platinum Building, St John's Innovation Park, Cambridge CB4 0DS, UK
+Registered in England & Wales, no. 5513718
 
