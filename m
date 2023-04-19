@@ -1,57 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 013856E7A72
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Apr 2023 15:16:58 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0EFA46E7A80
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Apr 2023 15:21:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B248110E99C;
-	Wed, 19 Apr 2023 13:16:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2BA5910E170;
+	Wed, 19 Apr 2023 13:21:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A140610E993;
- Wed, 19 Apr 2023 13:16:53 +0000 (UTC)
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2D6BA10E170
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Apr 2023 13:21:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1681910213; x=1713446213;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=T9OmnESgxGs0kgus3QTCQwr6uKWNiPr1NzZZ13a0veQ=;
- b=YQiaP0yJpeY7IayE7JivZyTVpmQdIizZOhfLFcGBf4L/Myzbw2uDSMfR
- DdMaj5NLPiy/bjtuqnuNizXm5tNOzJNbiVc93Y0VzjMU7yr1ygtoPqJQn
- nEFFjQIjGVYFoFqH/7f7mkL442f1fPSRuvzW6qg3FQgR9fkbV+pHihNWN
- aleQiNBuW8Txhn2bmsgU/YIToZrzUEpO7X3HgVjZpH4l1O238jkyWJi4Y
- C8yM9LJ1bbn4b1obsLsACcZ/WQgr9sdjsAQv5anjgfaGXTHbUBWXE0e6R
- bTa7wYubQCIpOxObmxONU2iYlzvwZBzFPxkvFs+O+j6f5oC6AjiZfvgzu w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10685"; a="325058282"
-X-IronPort-AV: E=Sophos;i="5.99,208,1677571200"; d="scan'208";a="325058282"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Apr 2023 06:16:52 -0700
+ t=1681910469; x=1713446469;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=sQu+EGztomOf0wJcq47X3hsD6fAQUa1otr26HmJHEN4=;
+ b=n+smekcv8yr1JmgjQYklvRpxlXn2sVDhdYvvw8u4stxXAlYqrEYIPyH2
+ utHMFBGXCSJvuTqMuW6yVXyWbC1ijesm/41ka9aKgW5/xoPxCw22YlYaU
+ RupGTVPdHBgMAasee+igWtvECPxPjWIDsXrvNh+v5OBPSV7jDdBrm4qCe
+ dlIEk80Mu6LBQgORv+VA4OPPgu/WIXArSIIKgA8pNTzpYh1sOKYAda2sl
+ qKQuFArjfy/yN9tLg4cq2wig44nZlNbIC4Ms5mahCEh9/yqa/6Rd3EnT6
+ b1CRQP1xEeZN76akO6ywe+63aqrk6LRUksoRoJP5/QBK6e/hTFwKxkbpz g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10685"; a="345445532"
+X-IronPort-AV: E=Sophos;i="5.99,208,1677571200"; d="scan'208";a="345445532"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Apr 2023 06:21:07 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10685"; a="780850170"
-X-IronPort-AV: E=Sophos;i="5.99,208,1677571200"; d="scan'208";a="780850170"
-Received: from halahusx-mobl.ger.corp.intel.com (HELO [10.213.223.36])
- ([10.213.223.36])
- by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Apr 2023 06:16:50 -0700
-Message-ID: <3c9d4aed-5c26-6a20-071c-8a3d24f3c9ce@linux.intel.com>
-Date: Wed, 19 Apr 2023 14:16:48 +0100
+X-IronPort-AV: E=McAfee;i="6600,9927,10685"; a="802916028"
+X-IronPort-AV: E=Sophos;i="5.99,208,1677571200"; d="scan'208";a="802916028"
+Received: from yedidyal-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.252.47.37])
+ by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Apr 2023 06:21:04 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Jeff Layton <jlayton@kernel.org>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [PATCH v2] drm: use mgr->dev in drm_dbg_kms in
+ drm_dp_add_payload_part2
+In-Reply-To: <20230419112447.18471-1-jlayton@kernel.org>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20230419112447.18471-1-jlayton@kernel.org>
+Date: Wed, 19 Apr 2023 16:21:03 +0300
+Message-ID: <87o7nkypmo.fsf@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [RFC 4/6] drm: Add simple fdinfo memory helpers
-Content-Language: en-US
-To: Rob Clark <robdclark@gmail.com>
-References: <20230417155613.4143258-1-tvrtko.ursulin@linux.intel.com>
- <20230417155613.4143258-5-tvrtko.ursulin@linux.intel.com>
- <CAF6AEGuobv8+fU-WU9D9vffNJC5zCqrHDtkppf__ieMJDHsWnw@mail.gmail.com>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-In-Reply-To: <CAF6AEGuobv8+fU-WU9D9vffNJC5zCqrHDtkppf__ieMJDHsWnw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,133 +60,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, Intel-gfx@lists.freedesktop.org,
- Emil Velikov <emil.l.velikov@gmail.com>, dri-devel@lists.freedesktop.org,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Wayne.Lin@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Wed, 19 Apr 2023, Jeff Layton <jlayton@kernel.org> wrote:
+> I've been experiencing some intermittent crashes down in the display
+> driver code. The symptoms are ususally a line like this in dmesg:
+>
+>     amdgpu 0000:30:00.0: [drm] Failed to create MST payload for port 000000006d3a3885: -5
+>
+> ...followed by an Oops due to a NULL pointer dereference.
+>
+> Switch to using mgr->dev instead of state->dev since "state" can be
+> NULL in some cases.
+>
+> Link: https://bugzilla.redhat.com/show_bug.cgi?id=2184855
+> Suggested-by: Jani Nikula <jani.nikula@linux.intel.com>
+> Signed-off-by: Jeff Layton <jlayton@kernel.org>
 
-On 18/04/2023 18:18, Rob Clark wrote:
-> On Mon, Apr 17, 2023 at 8:56 AM Tvrtko Ursulin
-> <tvrtko.ursulin@linux.intel.com> wrote:
->>
->> From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
->>
->> For drivers who only wish to show one memory region called 'system,
->> and only account the GEM buffer object handles under it.
->>
->> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
->> ---
->>   drivers/gpu/drm/drm_file.c | 45 ++++++++++++++++++++++++++++++++++++++
->>   include/drm/drm_file.h     |  6 +++++
->>   2 files changed, 51 insertions(+)
->>
->> diff --git a/drivers/gpu/drm/drm_file.c b/drivers/gpu/drm/drm_file.c
->> index e202f79e816d..1e70669dddf7 100644
->> --- a/drivers/gpu/drm/drm_file.c
->> +++ b/drivers/gpu/drm/drm_file.c
->> @@ -872,6 +872,51 @@ void drm_send_event(struct drm_device *dev, struct drm_pending_event *e)
->>   }
->>   EXPORT_SYMBOL(drm_send_event);
->>
->> +static void
->> +add_obj(struct drm_gem_object *obj, struct drm_fdinfo_memory_stat *stats)
->> +{
->> +       u64 sz = obj->size;
->> +
->> +       stats[0].size += sz;
->> +
->> +       if (obj->handle_count > 1)
->> +               stats[0].shared += sz;
->> +
->> +       if (!dma_resv_test_signaled(obj->resv, dma_resv_usage_rw(true)))
->> +               stats[0].active += sz;
->> +
->> +       /* Not supported. */
->> +       stats[0].resident = ~0ull;
->> +       stats[0].purgeable = ~0ull;
-> 
-> Hmm, this kinda makes the simple helper not very useful.  In my
-> version, you get something that is useful for all UMA drivers (which
-> all, IIRC, have some form of madv ioctl).  I was kinda imagining that
-> for ttm drivers, my print_memory_stats() would just become a helper
-> and that TTM (or "multi-region") drivers would have their own thing.
+Thanks,
 
-Hm how? Your version also needed a driver specific vfunc:
+Reviewed-by: Jani Nikula <jani.nikula@intel.com>
 
-+static enum drm_gem_object_status msm_gem_status(struct drm_gem_object *obj)
-+{
-+	struct msm_gem_object *msm_obj = to_msm_bo(obj);
-+	enum drm_gem_object_status status = 0;
-+
-+	if (msm_obj->pages)
-+		status |= DRM_GEM_OBJECT_RESIDENT;
-+
-+	if (msm_obj->madv == MSM_MADV_DONTNEED)
-+		status |= DRM_GEM_OBJECT_PURGEABLE;
-+
-+	return status;
-+}
 
-Regards,
+> ---
+>  drivers/gpu/drm/display/drm_dp_mst_topology.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> I've been running this patch for a couple of days, but the problem
+> hasn't occurred again as of yet. It seems sane though as long as we can
+> assume that mgr->dev will be valid even when "state" is a NULL pointer.
+>
+> diff --git a/drivers/gpu/drm/display/drm_dp_mst_topology.c b/drivers/gpu/drm/display/drm_dp_mst_topology.c
+> index 38dab76ae69e..e2e21ce79510 100644
+> --- a/drivers/gpu/drm/display/drm_dp_mst_topology.c
+> +++ b/drivers/gpu/drm/display/drm_dp_mst_topology.c
+> @@ -3404,7 +3404,7 @@ int drm_dp_add_payload_part2(struct drm_dp_mst_topology_mgr *mgr,
+>  
+>  	/* Skip failed payloads */
+>  	if (payload->vc_start_slot == -1) {
+> -		drm_dbg_kms(state->dev, "Part 1 of payload creation for %s failed, skipping part 2\n",
+> +		drm_dbg_kms(mgr->dev, "Part 1 of payload creation for %s failed, skipping part 2\n",
+>  			    payload->port->connector->name);
+>  		return -EIO;
+>  	}
 
-Tvrtko
-
-> 
-> BR,
-> -R
-> 
->> +}
->> +
->> +char **
->> +drm_query_fdinfo_system_region(struct drm_device *dev, unsigned int *num)
->> +{
->> +       static char *region[] = {
->> +               "system",
->> +       };
->> +
->> +       *num = 1;
->> +
->> +       return region;
->> +}
->> +EXPORT_SYMBOL(drm_query_fdinfo_system_region);
->> +
->> +void
->> +drm_query_fdinfo_system_memory(struct drm_file *file,
->> +                              struct drm_fdinfo_memory_stat *stats)
->> +{
->> +       struct drm_gem_object *obj;
->> +       int id;
->> +
->> +       spin_lock(&file->table_lock);
->> +       idr_for_each_entry(&file->object_idr, obj, id)
->> +               add_obj(obj, stats);
->> +       spin_unlock(&file->table_lock);
->> +}
->> +EXPORT_SYMBOL(drm_query_fdinfo_system_memory);
->> +
->>   static void
->>   print_stat(struct drm_printer *p, const char *stat, const char *region, u64 sz)
->>   {
->> diff --git a/include/drm/drm_file.h b/include/drm/drm_file.h
->> index 00d48beeac5c..dd7c6fb2c975 100644
->> --- a/include/drm/drm_file.h
->> +++ b/include/drm/drm_file.h
->> @@ -383,6 +383,12 @@ struct drm_fdinfo_memory_stat {
->>          u64 active;
->>   };
->>
->> +char **drm_query_fdinfo_system_region(struct drm_device *dev,
->> +                                     unsigned int *num);
->> +void drm_query_fdinfo_system_memory(struct drm_file *file,
->> +                                   struct drm_fdinfo_memory_stat *stats);
->> +
->> +
->>   /**
->>    * drm_is_primary_client - is this an open file of the primary node
->>    * @file_priv: DRM file
->> --
->> 2.37.2
->>
+-- 
+Jani Nikula, Intel Open Source Graphics Center
