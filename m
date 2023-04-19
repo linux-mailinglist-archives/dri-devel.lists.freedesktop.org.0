@@ -2,34 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A9966E7268
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Apr 2023 06:49:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B4A96E8B29
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Apr 2023 09:15:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4342610E074;
-	Wed, 19 Apr 2023 04:48:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3C70E10EBC2;
+	Thu, 20 Apr 2023 07:15:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailbackend.panix.com (mailbackend.panix.com [166.84.1.89])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D847A10E074
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Apr 2023 04:48:57 +0000 (UTC)
-Received: from localhost.localdomain
- (dynamic-acs-24-144-188-133.zoominternet.net [24.144.188.133])
- by mailbackend.panix.com (Postfix) with ESMTPSA id 4Q1Sx32wmTz4QRl;
- Wed, 19 Apr 2023 00:48:55 -0400 (EDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=panix.com; s=panix;
- t=1681879736; bh=Gmfd0VH07ebAbJo5N2MdbESb+FaZWQBUQcf1HmlmM8M=;
- h=From:To:Cc:Subject:Date;
- b=uzaf9emRxRU2ahzTOh4zJ0M8P5ra1LWvPArt+QGcZCyvVU/S8V6D8uJClq9pVdZPx
- y5yOeO7+JU5b1pdeihTS9TgzF0F6cPcUsYJ2bODEDAslOBAABAij1Ap6orpYlNIYMY
- sVYZhHRdx/uAzMEn5kWLIQ4pb21iebkDx0XmAhvU=
-From: Pierre Asselin <pa@panix.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2] firmware/sysfb: Fix VESA format selection
-Date: Wed, 19 Apr 2023 00:48:34 -0400
-Message-Id: <20230419044834.10816-1-pa@panix.com>
-X-Mailer: git-send-email 2.39.2
+Received: from mail-pl1-x631.google.com (mail-pl1-x631.google.com
+ [IPv6:2607:f8b0:4864:20::631])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 47B0210E08A;
+ Wed, 19 Apr 2023 04:52:17 +0000 (UTC)
+Received: by mail-pl1-x631.google.com with SMTP id
+ d9443c01a7336-1a682eee3baso17167585ad.0; 
+ Tue, 18 Apr 2023 21:52:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1681879936; x=1684471936;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=Ek00L1cc21EOyKRafT/BGo0L28SeYIDeaJNfXSoDXCk=;
+ b=d+4BWM18QNx9T8dgCdsk3UsYNuvnf21SDCQFyquG/W2sADMBujm+iIWajisCKuKoxG
+ R1VSJCKr1sX5EaaIxiWJ9XO0RVuA33BMi4vOnetn4QAV09WkxRK8PCOkuIi6ItRXhGKh
+ q8A6NjgJujvmHHhkGqmnks1KiR23uvckaBpED9UuP27afZdSTNWqqCnJyt02KL3MDhJ7
+ v909j7ReBDq8PNdCrjoqk7IwZdirR07mN/VwA4lJsdBY6K6u3pjpZIdiKGC0536W6i7q
+ pzXBMTKpacWNp/o5Nj4/aCBbCz6k8k/EhmtDUpnzDe3V4oiVzNUPB2OYLhCtphGf28uy
+ 9AGA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1681879936; x=1684471936;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=Ek00L1cc21EOyKRafT/BGo0L28SeYIDeaJNfXSoDXCk=;
+ b=jNroC2ETeu1eNDlogqwXe9cavjOQ/VnZU0TRXAZ2wsVM8gSsK3Gb/L/GpnXYHCxA98
+ 9zBZrDnkLJIEUt/dJQbAi76enpT4nNVrOZKqy6Fy+yw2c9NYLVqVtReyjRlXHy4AJ331
+ c9jM/u+7YQCnYGu7N9PObuYDCvQxC8Ul4Dm6owD22e6DIBFKfLuhN/394OviHBe4WSTv
+ 752dAUh4GxnPo2MvFz3Z6W104UIMsU2OnuGLAQ3zQVOkcIH5sk9AnGWUfOMI+gpspCXJ
+ J0qb3bAUArKlH3azMZkXf0jRRuI5u/2VsccUsakwOR6EAL3Q4G90YUycriKIKENdr5RQ
+ Zz8w==
+X-Gm-Message-State: AAQBX9fZh4yfM0ko9VyA83C3mBHgey4i5cx1SLSMymMOGRY/0Z7bseSI
+ jKFRlLyjzWYP6dEa56qL6J/2T1wjkD2e5FQjh+o=
+X-Google-Smtp-Source: AKy350aYkXkO5nxw+E17pu3EKWjttrdTBgY/iJvBuAu1+xFva4iSl0hDCqJM6NsevZ9568vkBqdsJg==
+X-Received: by 2002:a17:902:8503:b0:19e:500b:517a with SMTP id
+ bj3-20020a170902850300b0019e500b517amr3719378plb.69.1681879936118; 
+ Tue, 18 Apr 2023 21:52:16 -0700 (PDT)
+Received: from hackyzh-virtual-machine.localdomain ([58.34.53.146])
+ by smtp.gmail.com with ESMTPSA id
+ ix9-20020a170902f80900b001a64dbfc5d7sm10433184plb.145.2023.04.18.21.52.12
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 18 Apr 2023 21:52:15 -0700 (PDT)
+From: hackyzh002 <hackyzh002@gmail.com>
+To: alexander.deucher@amd.com
+Subject: [PATCH 2/2] drm/amdgpu: Fix integer overflow in amdgpu_cs_pass1
+Date: Wed, 19 Apr 2023 12:51:57 +0800
+Message-Id: <20230419045157.69829-1-hackyzh002@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Thu, 20 Apr 2023 07:12:56 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -42,55 +71,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Pierre Asselin <pa@panix.com>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Javier Martinez Canillas <javierm@redhat.com>, linux-kernel@vger.kernel.org,
- Hans de Goede <hdegoede@redhat.com>, Thomas Zimmermann <tzimmermann@suse.de>,
- Ard Biesheuvel <ardb@kernel.org>
+Cc: Xinhui.Pan@amd.com, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, sumit.semwal@linaro.org,
+ linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
+ hackyzh002 <hackyzh002@gmail.com>, christian.koenig@amd.com,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Some legacy BIOSes report no reserved bits in their 32-bit rgb mode,
-breaking the calculation of bits_per_pixel in commit f35cd3fa7729
-[firmware/sysfb: Fix EFI/VESA format selection].  However they report
-lfb_depth correctly for those modes.  Keep the computation but
-set bits_per_pixel to lfb_depth if the latter is larger.
+The type of size is unsigned int, if size is 0x40000000, there will
+be an integer overflow, size will be zero after size *= sizeof(uint32_t),
+will cause uninitialized memory to be referenced later.
 
-v2 fixes the warnings from a max3() macro with arguments of different
-types;  split the bits_per_pixel assignment to avoid uglyfing the code
-with too many typecasts.
-
-Link: https://lore.kernel.org/r/4Psm6B6Lqkz1QXM@panix3.panix.com
-Link: https://lore.kernel.org/r/20230412150225.3757223-1-javierm@redhat.com
-Fixes: f35cd3fa7729 [firmware/sysfb: Fix EFI/VESA format selection]
-Signed-off-by: Pierre Asselin <pa@panix.com>
+Signed-off-by: hackyzh002 <hackyzh002@gmail.com>
 ---
- drivers/firmware/sysfb_simplefb.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/firmware/sysfb_simplefb.c b/drivers/firmware/sysfb_simplefb.c
-index 82c64cb9f531..358b792a8845 100644
---- a/drivers/firmware/sysfb_simplefb.c
-+++ b/drivers/firmware/sysfb_simplefb.c
-@@ -51,7 +51,8 @@ __init bool sysfb_parse_mode(const struct screen_info *si,
- 	 *
- 	 * It's not easily possible to fix this in struct screen_info,
- 	 * as this could break UAPI. The best solution is to compute
--	 * bits_per_pixel here and ignore lfb_depth. In the loop below,
-+	 * bits_per_pixel from the color bits, reserved bits and
-+	 * reported lfb_depth, whichever is highest.  In the loop below,
- 	 * ignore simplefb formats with alpha bits, as EFI and VESA
- 	 * don't specify alpha channels.
- 	 */
-@@ -60,6 +61,7 @@ __init bool sysfb_parse_mode(const struct screen_info *si,
- 					  si->green_size + si->green_pos,
- 					  si->blue_size + si->blue_pos),
- 				     si->rsvd_size + si->rsvd_pos);
-+		bits_per_pixel= max(bits_per_pixel, (u32)si->lfb_depth);
- 	} else {
- 		bits_per_pixel = si->lfb_depth;
- 	}
-
-base-commit: 6a8f57ae2eb07ab39a6f0ccad60c760743051026
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
+index 08eced097..c17b3af85 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
+@@ -192,7 +192,7 @@ static int amdgpu_cs_pass1(struct amdgpu_cs_parser *p,
+ 	uint64_t *chunk_array_user;
+ 	uint64_t *chunk_array;
+ 	uint32_t uf_offset = 0;
+-	unsigned int size;
++	uint64_t int size;
+ 	int ret;
+ 	int i;
+ 
+@@ -235,7 +235,7 @@ static int amdgpu_cs_pass1(struct amdgpu_cs_parser *p,
+ 		size = p->chunks[i].length_dw;
+ 		cdata = u64_to_user_ptr(user_chunk.chunk_data);
+ 
+-		p->chunks[i].kdata = kvmalloc_array(size, sizeof(uint32_t),
++		p->chunks[i].kdata = kvcalloc(size, sizeof(uint32_t),
+ 						    GFP_KERNEL);
+ 		if (p->chunks[i].kdata == NULL) {
+ 			ret = -ENOMEM;
 -- 
-2.39.2
+2.34.1
 
