@@ -2,66 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDFBD6E7794
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Apr 2023 12:42:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC2256E77A3
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Apr 2023 12:45:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3105110E92C;
-	Wed, 19 Apr 2023 10:42:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 73C0410E115;
+	Wed, 19 Apr 2023 10:44:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x42a.google.com (mail-pf1-x42a.google.com
- [IPv6:2607:f8b0:4864:20::42a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B37CE10E92D
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Apr 2023 10:42:02 +0000 (UTC)
-Received: by mail-pf1-x42a.google.com with SMTP id
- d2e1a72fcca58-63b4960b015so2614133b3a.3
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Apr 2023 03:42:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1681900922; x=1684492922;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=5MdNpSS+OOI19jq0uYTZJnCcJQUPASUIXiKZhUZv1Dk=;
- b=qPRkEGyJsDCSaZp4ogPYKDiohjMXJ0vzEVw3ywT3uU/GKNXrfLhJZ6WO/RujYYRmnF
- PIWdYM8XUTae0Uwqo7K/BsM/m71gYS2qAaYZAovPC1ozzLxvbFBxNBj2itCjIfsdCZJz
- oYXRbDEc4jvuxTsiYF9N+36SWDKzN6YFkfpmByLMKoupMARS4SESLcF10sB+s5JNHtH+
- eU6mOiWuF6DAzFXziTij97EURj0NDOKUoNwtwn7c6F8otf7HQY66n+v+ABnb1PuUo9vp
- 1st/sxXJ8d2dMZe0h1UZDcj5KiM9BY58WSMtHv03DVWR0PY6UdrnmgJzZ4HyJLaQfrvf
- 4SnQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681900922; x=1684492922;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=5MdNpSS+OOI19jq0uYTZJnCcJQUPASUIXiKZhUZv1Dk=;
- b=RkfO+UbmI/YOQ3ALAixpSGgE7HjqsCU2P9UgHHuUcLbYfYyiBz+BwI83Ex68MED/Lr
- BB7clVjLy+nv1tk9YRJfbBLJx3WEMGqyXWe0JFCGEZhCW1a8fWBD6L8m5N5QOdMwnY73
- ZNGZTvLRB2BE69stFwDGlVlh/moFEXw+m4hIGPQOR++KOWIeT/T5CdSxD/Hz67ScYZJl
- JlbS/HirSFJhTh661Qn3Cz88sKbshcKuXGs9pmvD++Mn0PkRDy2EJPUiJnJs+qYQRgqj
- S8A+P1ro1zEjDBy9EufxRUvLvlW3Wm0MCiDERD3gebrukPO29QxQwjNWkIM7hMUULu6X
- 7z5g==
-X-Gm-Message-State: AAQBX9fBEiGRUF4D0vdMnhzyuLDZnR3YSKy0Yh4Meg6ry2pGuwFUM6XY
- q4dyCwMMYt7WqQokkCIZdS1U6wpXl4IcW9X5K3o=
-X-Google-Smtp-Source: AKy350YK8qcAcZopioCgqzrCcc04oP+3g3LHqjy7As6Hr0znMSBB+LYIyMZez9fjGSi2RP7eMP/QK1WXZ/RF5wuQ8GQ=
-X-Received: by 2002:a17:90a:9802:b0:247:160d:3a8e with SMTP id
- z2-20020a17090a980200b00247160d3a8emr2278200pjo.22.1681900921522; Wed, 19 Apr
- 2023 03:42:01 -0700 (PDT)
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6BA0010E94F;
+ Wed, 19 Apr 2023 10:44:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1681901094; x=1713437094;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=XnfoaCcH3MWyJZkIKskW2BAZXpZylboTWI3thPO1+Yo=;
+ b=me3MM2yR1vA4gKDmHwaKjqX7Jky01LpNS2m/PfScoHBFQ8y78vl2BN4m
+ 5QIjZNB/fLUQF5ek+qdUGkN8DqiQsbedhDlJnIHHZ34R/dPJH6ZzSDlfL
+ ODUO5IPg67mASRDzZUFWVHESCQudreHPke4PcCbECbYBRhyDavnuhUv/i
+ 1AFIEhUpbNAZfkXR0bNB75aHWU8kqee6xsfQTnuh5DyN80OrHhTBFvaFt
+ dNar/lT7nGuEV+PZPbHTW9fq3UxcQJOTk+1bDiSp8Hl65FD/fcgJC0te0
+ UmnWwMzZ20HY7++KoQM1gzY8UH8NEQWpz4oS1BuKVC4s3LxyVezhvM5FE w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10684"; a="325748503"
+X-IronPort-AV: E=Sophos;i="5.99,208,1677571200"; d="scan'208";a="325748503"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Apr 2023 03:44:52 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10684"; a="691462456"
+X-IronPort-AV: E=Sophos;i="5.99,208,1677571200"; d="scan'208";a="691462456"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+ by orsmga002.jf.intel.com with ESMTP; 19 Apr 2023 03:44:48 -0700
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1pp5It-000ep9-16;
+ Wed, 19 Apr 2023 10:44:47 +0000
+Date: Wed, 19 Apr 2023 18:44:37 +0800
+From: kernel test robot <lkp@intel.com>
+To: hackyzh002 <hackyzh002@gmail.com>, alexander.deucher@amd.com
+Subject: Re: [PATCH 2/2] drm/amdgpu: Fix integer overflow in amdgpu_cs_pass1
+Message-ID: <202304191814.1O8ppodq-lkp@intel.com>
+References: <20230419045157.69829-1-hackyzh002@gmail.com>
 MIME-Version: 1.0
-References: <20230415104104.5537-1-aford173@gmail.com>
- <20230415104104.5537-3-aford173@gmail.com>
- <7eed74e8-9f67-a410-3cec-f61a6db85238@denx.de>
- <CAHCN7xKw26TQ=t75TEDbEkA0mb9rnEwNW=7ei1=WFBZjiJMf=g@mail.gmail.com>
- <56085a0f-02f7-6f45-f351-1f9ee612b748@denx.de>
- <426e901f14254cfcff87ba1747534f9b856ef738.camel@pengutronix.de>
-In-Reply-To: <426e901f14254cfcff87ba1747534f9b856ef738.camel@pengutronix.de>
-From: Adam Ford <aford173@gmail.com>
-Date: Wed, 19 Apr 2023 05:41:49 -0500
-Message-ID: <CAHCN7xLL+VBYfL_si07zhdLgV431H7XSxf6U_50mtAH-BZL=SA@mail.gmail.com>
-Subject: Re: [PATCH 3/6] drm: bridge: samsung-dsim: Fetch pll-clock-frequency
- automatically
-To: Lucas Stach <l.stach@pengutronix.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230419045157.69829-1-hackyzh002@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,86 +59,211 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, Jagan Teki <jagan@amarulasolutions.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Robert Foss <rfoss@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- devicetree@vger.kernel.org, Sascha Hauer <s.hauer@pengutronix.de>,
- Jonas Karlman <jonas@kwiboo.se>, aford@beaconembedded.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Rob Herring <robh+dt@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, NXP Linux Team <linux-imx@nxp.com>,
- Shawn Guo <shawnguo@kernel.org>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- linux-arm-kernel@lists.infradead.org, m.szyprowski@samsung.com
+Cc: llvm@lists.linux.dev, Xinhui.Pan@amd.com, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, sumit.semwal@linaro.org,
+ linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
+ oe-kbuild-all@lists.linux.dev, hackyzh002 <hackyzh002@gmail.com>,
+ christian.koenig@amd.com, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Apr 18, 2023 at 3:47=E2=80=AFAM Lucas Stach <l.stach@pengutronix.de=
-> wrote:
->
-> Am Dienstag, dem 18.04.2023 um 10:30 +0200 schrieb Marek Vasut:
-> > On 4/18/23 04:29, Adam Ford wrote:
-> > > On Sun, Apr 16, 2023 at 5:08=E2=80=AFPM Marek Vasut <marex@denx.de> w=
-rote:
-> > > >
-> > > > On 4/15/23 12:41, Adam Ford wrote:
-> > > > > Fetch the clock rate of "sclk_mipi" (or "pll_clk") instead of
-> > > > > having an entry in the device tree for samsung,pll-clock-frequenc=
-y.
-> > > > >
-> > > > > Signed-off-by: Adam Ford <aford173@gmail.com>
-> > > > > ---
-> > > > >    drivers/gpu/drm/bridge/samsung-dsim.c | 12 ++++++------
-> > > > >    1 file changed, 6 insertions(+), 6 deletions(-)
-> > > > >
-> > > > > diff --git a/drivers/gpu/drm/bridge/samsung-dsim.c b/drivers/gpu/=
-drm/bridge/samsung-dsim.c
-> > > > > index 9fec32b44e05..73f0c3fbbdf5 100644
-> > > > > --- a/drivers/gpu/drm/bridge/samsung-dsim.c
-> > > > > +++ b/drivers/gpu/drm/bridge/samsung-dsim.c
-> > > > > @@ -1744,11 +1744,6 @@ static int samsung_dsim_parse_dt(struct sa=
-msung_dsim *dsi)
-> > > > >        struct device_node *node =3D dev->of_node;
-> > > > >        int ret;
-> > > > >
-> > > > > -     ret =3D samsung_dsim_of_read_u32(node, "samsung,pll-clock-f=
-requency",
-> > > > > -                                    &dsi->pll_clk_rate);
-> > > > > -     if (ret < 0)
-> > > > > -             return ret;
-> > > > > -
-> > > > >        ret =3D samsung_dsim_of_read_u32(node, "samsung,burst-cloc=
-k-frequency",
-> > > > >                                       &dsi->burst_clk_rate);
-> > > > >        if (ret < 0)
-> > > >
-> > > > Does this break compatibility with old samsung DTs ?
-> > >
-> > > My goal here was to declutter the device tree stuff and fetch data
-> > > automatically if possible. What if I changed this to make them
-> > > optional?  If they exist, we can use them, if they don't exist, we
-> > > could read the clock rate.  Would that be acceptable?
-> >
-> > If you do not see any potential problem with ignoring the DT property
-> > altogether, that would be better of course, but I think you cannot do
-> > that with old DTs, so you should retain backward compatibility fallback=
-,
-> > yes. What do you think ?
->
-> I'm very much in favor of this patch, but I also think we shouldn't
-> risk breaking Samsung devices, where we don't now 100% that the input
-> clock rate provided by the clock driver is correct.
->
-> So I think the right approach is to use "samsung,pll-clock-frequency"
-> when present in DT and get it from the clock provider otherwise. Then
-> just remove the property from the DTs where we can validate that the
-> input clock rate is correct, i.e. all i.MX8M*.
+Hi hackyzh002,
 
-I'll update this accordingly when I do a V2 of this series.
+kernel test robot noticed the following build errors:
 
-adam
->
-> Regards,
-> Lucas
+[auto build test ERROR on drm-misc/drm-misc-next]
+[also build test ERROR on linus/master v6.3-rc7 next-20230418]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/hackyzh002/drm-amdgpu-Fix-integer-overflow-in-amdgpu_cs_pass1/20230419-125344
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20230419045157.69829-1-hackyzh002%40gmail.com
+patch subject: [PATCH 2/2] drm/amdgpu: Fix integer overflow in amdgpu_cs_pass1
+config: arm64-buildonly-randconfig-r004-20230416 (https://download.01.org/0day-ci/archive/20230419/202304191814.1O8ppodq-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 437b7602e4a998220871de78afcb020b9c14a661)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install arm64 cross compiling tool for clang build
+        # apt-get install binutils-aarch64-linux-gnu
+        # https://github.com/intel-lab-lkp/linux/commit/c4a89869bcb6b68ad0e1eed0dd4f18c8cc7fbfc5
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review hackyzh002/drm-amdgpu-Fix-integer-overflow-in-amdgpu_cs_pass1/20230419-125344
+        git checkout c4a89869bcb6b68ad0e1eed0dd4f18c8cc7fbfc5
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash drivers/gpu/drm/amd/amdgpu/
+
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202304191814.1O8ppodq-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c:195:11: error: cannot combine with previous 'type-name' declaration specifier
+           uint64_t int size;
+                    ^
+   1 error generated.
+
+
+vim +195 drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
+
+   184	
+   185	/* Copy the data from userspace and go over it the first time */
+   186	static int amdgpu_cs_pass1(struct amdgpu_cs_parser *p,
+   187				   union drm_amdgpu_cs *cs)
+   188	{
+   189		struct amdgpu_fpriv *fpriv = p->filp->driver_priv;
+   190		unsigned int num_ibs[AMDGPU_CS_GANG_SIZE] = { };
+   191		struct amdgpu_vm *vm = &fpriv->vm;
+   192		uint64_t *chunk_array_user;
+   193		uint64_t *chunk_array;
+   194		uint32_t uf_offset = 0;
+ > 195		uint64_t int size;
+   196		int ret;
+   197		int i;
+   198	
+   199		chunk_array = kvmalloc_array(cs->in.num_chunks, sizeof(uint64_t),
+   200					     GFP_KERNEL);
+   201		if (!chunk_array)
+   202			return -ENOMEM;
+   203	
+   204		/* get chunks */
+   205		chunk_array_user = u64_to_user_ptr(cs->in.chunks);
+   206		if (copy_from_user(chunk_array, chunk_array_user,
+   207				   sizeof(uint64_t)*cs->in.num_chunks)) {
+   208			ret = -EFAULT;
+   209			goto free_chunk;
+   210		}
+   211	
+   212		p->nchunks = cs->in.num_chunks;
+   213		p->chunks = kvmalloc_array(p->nchunks, sizeof(struct amdgpu_cs_chunk),
+   214				    GFP_KERNEL);
+   215		if (!p->chunks) {
+   216			ret = -ENOMEM;
+   217			goto free_chunk;
+   218		}
+   219	
+   220		for (i = 0; i < p->nchunks; i++) {
+   221			struct drm_amdgpu_cs_chunk __user **chunk_ptr = NULL;
+   222			struct drm_amdgpu_cs_chunk user_chunk;
+   223			uint32_t __user *cdata;
+   224	
+   225			chunk_ptr = u64_to_user_ptr(chunk_array[i]);
+   226			if (copy_from_user(&user_chunk, chunk_ptr,
+   227					       sizeof(struct drm_amdgpu_cs_chunk))) {
+   228				ret = -EFAULT;
+   229				i--;
+   230				goto free_partial_kdata;
+   231			}
+   232			p->chunks[i].chunk_id = user_chunk.chunk_id;
+   233			p->chunks[i].length_dw = user_chunk.length_dw;
+   234	
+   235			size = p->chunks[i].length_dw;
+   236			cdata = u64_to_user_ptr(user_chunk.chunk_data);
+   237	
+   238			p->chunks[i].kdata = kvcalloc(size, sizeof(uint32_t),
+   239							    GFP_KERNEL);
+   240			if (p->chunks[i].kdata == NULL) {
+   241				ret = -ENOMEM;
+   242				i--;
+   243				goto free_partial_kdata;
+   244			}
+   245			size *= sizeof(uint32_t);
+   246			if (copy_from_user(p->chunks[i].kdata, cdata, size)) {
+   247				ret = -EFAULT;
+   248				goto free_partial_kdata;
+   249			}
+   250	
+   251			/* Assume the worst on the following checks */
+   252			ret = -EINVAL;
+   253			switch (p->chunks[i].chunk_id) {
+   254			case AMDGPU_CHUNK_ID_IB:
+   255				if (size < sizeof(struct drm_amdgpu_cs_chunk_ib))
+   256					goto free_partial_kdata;
+   257	
+   258				ret = amdgpu_cs_p1_ib(p, p->chunks[i].kdata, num_ibs);
+   259				if (ret)
+   260					goto free_partial_kdata;
+   261				break;
+   262	
+   263			case AMDGPU_CHUNK_ID_FENCE:
+   264				if (size < sizeof(struct drm_amdgpu_cs_chunk_fence))
+   265					goto free_partial_kdata;
+   266	
+   267				ret = amdgpu_cs_p1_user_fence(p, p->chunks[i].kdata,
+   268							      &uf_offset);
+   269				if (ret)
+   270					goto free_partial_kdata;
+   271				break;
+   272	
+   273			case AMDGPU_CHUNK_ID_BO_HANDLES:
+   274				if (size < sizeof(struct drm_amdgpu_bo_list_in))
+   275					goto free_partial_kdata;
+   276	
+   277				ret = amdgpu_cs_p1_bo_handles(p, p->chunks[i].kdata);
+   278				if (ret)
+   279					goto free_partial_kdata;
+   280				break;
+   281	
+   282			case AMDGPU_CHUNK_ID_DEPENDENCIES:
+   283			case AMDGPU_CHUNK_ID_SYNCOBJ_IN:
+   284			case AMDGPU_CHUNK_ID_SYNCOBJ_OUT:
+   285			case AMDGPU_CHUNK_ID_SCHEDULED_DEPENDENCIES:
+   286			case AMDGPU_CHUNK_ID_SYNCOBJ_TIMELINE_WAIT:
+   287			case AMDGPU_CHUNK_ID_SYNCOBJ_TIMELINE_SIGNAL:
+   288				break;
+   289	
+   290			default:
+   291				goto free_partial_kdata;
+   292			}
+   293		}
+   294	
+   295		if (!p->gang_size) {
+   296			ret = -EINVAL;
+   297			goto free_partial_kdata;
+   298		}
+   299	
+   300		for (i = 0; i < p->gang_size; ++i) {
+   301			ret = amdgpu_job_alloc(p->adev, vm, p->entities[i], vm,
+   302					       num_ibs[i], &p->jobs[i]);
+   303			if (ret)
+   304				goto free_all_kdata;
+   305		}
+   306		p->gang_leader = p->jobs[p->gang_leader_idx];
+   307	
+   308		if (p->ctx->vram_lost_counter != p->gang_leader->vram_lost_counter) {
+   309			ret = -ECANCELED;
+   310			goto free_all_kdata;
+   311		}
+   312	
+   313		if (p->uf_entry.tv.bo)
+   314			p->gang_leader->uf_addr = uf_offset;
+   315		kvfree(chunk_array);
+   316	
+   317		/* Use this opportunity to fill in task info for the vm */
+   318		amdgpu_vm_set_task_info(vm);
+   319	
+   320		return 0;
+   321	
+   322	free_all_kdata:
+   323		i = p->nchunks - 1;
+   324	free_partial_kdata:
+   325		for (; i >= 0; i--)
+   326			kvfree(p->chunks[i].kdata);
+   327		kvfree(p->chunks);
+   328		p->chunks = NULL;
+   329		p->nchunks = 0;
+   330	free_chunk:
+   331		kvfree(chunk_array);
+   332	
+   333		return ret;
+   334	}
+   335	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
