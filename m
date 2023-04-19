@@ -1,50 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74A3A6E7619
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Apr 2023 11:19:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DA8916E763C
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Apr 2023 11:28:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C7B8F10E8FA;
-	Wed, 19 Apr 2023 09:19:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2881410E1B0;
+	Wed, 19 Apr 2023 09:28:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 51F3710E1B0;
- Wed, 19 Apr 2023 09:19:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1681895957; x=1713431957;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=HOJZZG1Iglv22CswOXulGZF8xoZaAqLdsBH7LNxXSdY=;
- b=Z6yJRJL3IxDm5XiHpa4ktyUfHKV9oEJZOxkuQ8PiYvPQeq3PWWtRXAPL
- +DEecqAzg5DCP/FUoQQawiZXdtW5tRClSEm41bEmByPivdRvhFSzyBgIA
- r9s1l2ETWDKyLCJzUNipudlbveVsnp/8LRnREqIEYPti4Ps1E1Jxg49Pl
- sxjSEKNoSX8O96mQD9yKZAdjiOrWN2/KRW2yeNkU0o1wURL3wu5EynpAv
- qVhz151ehgDjN9h7tM+HOz/QqoEaq9QJefAxYI8nL5047FnJnUXUeYCkS
- onjAvThAUzOl0j58ohR4LjIncnZoHrUTHMufQ5NY59bdZf1pCiGVz1Z13 A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10684"; a="347254108"
-X-IronPort-AV: E=Sophos;i="5.99,208,1677571200"; d="scan'208";a="347254108"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Apr 2023 02:19:16 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10684"; a="937597867"
-X-IronPort-AV: E=Sophos;i="5.99,208,1677571200"; d="scan'208";a="937597867"
-Received: from yedidyal-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.252.47.37])
- by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Apr 2023 02:19:11 -0700
-From: Jani Nikula <jani.nikula@intel.com>
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: [PULL] drm-intel-fixes
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-Date: Wed, 19 Apr 2023 12:19:09 +0300
-Message-ID: <87354w1b76.fsf@intel.com>
+Received: from relay04.th.seeweb.it (relay04.th.seeweb.it
+ [IPv6:2001:4b7a:2000:18::165])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C7F9F10E1B0
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Apr 2023 09:28:23 +0000 (UTC)
+Received: from SoMainline.org (94-211-6-86.cable.dynamic.v4.ziggo.nl
+ [94.211.6.86])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
+ SHA256) (No client certificate requested)
+ by m-r1.th.seeweb.it (Postfix) with ESMTPSA id EC70D203CD;
+ Wed, 19 Apr 2023 11:28:18 +0200 (CEST)
+Date: Wed, 19 Apr 2023 11:28:16 +0200
+From: Marijn Suijten <marijn.suijten@somainline.org>
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Subject: Re: [PATCH 2/3] drm/msm/dpu: Assign missing writeback log_mask
+Message-ID: <p5b6zwgbrxbhs7hgo4sh2btwmbjgoyxp5mxdutt4fkh2hjv7dz@6dq5ug5l2ohu>
+References: <20230418-dpu-drop-useless-for-lookup-v1-0-b9897ceb6f3e@somainline.org>
+ <20230418-dpu-drop-useless-for-lookup-v1-2-b9897ceb6f3e@somainline.org>
+ <60bb4a4a-f414-e926-df53-d6d1a01fc221@quicinc.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <60bb4a4a-f414-e926-df53-d6d1a01fc221@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,46 +44,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- intel-gfx@lists.freedesktop.org
+Cc: freedreno@lists.freedesktop.org,
+ Jami Kettunen <jami.kettunen@somainline.org>, Sean Paul <sean@poorly.run>,
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Jordan Crouse <jordan@cosmicpenguin.net>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Martin Botka <martin.botka@somainline.org>,
+ ~postmarketos/upstreaming@lists.sr.ht,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 2023-04-18 09:06:34, Abhinav Kumar wrote:
+> 
+> On 4/17/2023 4:14 PM, Marijn Suijten wrote:
+> > The WB debug log mask ended up never being assigned, leading to writes
+> > to this block to never be logged even if the mask is enabled in
+> > dpu_hw_util_log_mask via sysfs.
+> 
+> This should be debugfs not sysfs.
 
-Hi Dave & Daniel -
+Good catch!  I've queued this up for v2 if it comes to it, otherwise it
+can perhaps be fixed up while applying for msm-fixes?
 
-drm-intel-fixes-2023-04-19:
-drm/i915 fixes for v6.3 final:
-- Fix fast wake AUX sync len
+> > Fixes: 84a33d0fd921 ("drm/msm/dpu: add dpu_hw_wb abstraction for writeback blocks")
+> > Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
+> > ---
+> 
+> With that fixed,
+> 
+> Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
 
-BR,
-Jani.
+Thanks!
 
-The following changes since commit 6a8f57ae2eb07ab39a6f0ccad60c760743051026:
-
-  Linux 6.3-rc7 (2023-04-16 15:23:53 -0700)
-
-are available in the Git repository at:
-
-  git://anongit.freedesktop.org/drm/drm-intel tags/drm-intel-fixes-2023-04-=
-19
-
-for you to fetch changes up to e1c71f8f918047ce822dc19b42ab1261ed259fd1:
-
-  drm/i915: Fix fast wake AUX sync len (2023-04-17 10:23:21 +0300)
-
-----------------------------------------------------------------
-drm/i915 fixes for v6.3 final:
-- Fix fast wake AUX sync len
-
-----------------------------------------------------------------
-Ville Syrj=C3=A4l=C3=A4 (1):
-      drm/i915: Fix fast wake AUX sync len
-
- drivers/gpu/drm/i915/display/intel_dp_aux.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
---=20
-Jani Nikula, Intel Open Source Graphics Center
+- Marijn
