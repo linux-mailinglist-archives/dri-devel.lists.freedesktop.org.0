@@ -1,64 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B4A96E8B29
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Apr 2023 09:15:15 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FE836E727A
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Apr 2023 06:59:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3C70E10EBC2;
-	Thu, 20 Apr 2023 07:15:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6215410E0D2;
+	Wed, 19 Apr 2023 04:59:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x631.google.com (mail-pl1-x631.google.com
- [IPv6:2607:f8b0:4864:20::631])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 47B0210E08A;
- Wed, 19 Apr 2023 04:52:17 +0000 (UTC)
-Received: by mail-pl1-x631.google.com with SMTP id
- d9443c01a7336-1a682eee3baso17167585ad.0; 
- Tue, 18 Apr 2023 21:52:17 -0700 (PDT)
+Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com
+ [IPv6:2a00:1450:4864:20::32f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CBB8D10E10B
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Apr 2023 04:59:31 +0000 (UTC)
+Received: by mail-wm1-x32f.google.com with SMTP id
+ 5b1f17b1804b1-3f18123d9f6so584275e9.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Apr 2023 21:59:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1681879936; x=1684471936;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=Ek00L1cc21EOyKRafT/BGo0L28SeYIDeaJNfXSoDXCk=;
- b=d+4BWM18QNx9T8dgCdsk3UsYNuvnf21SDCQFyquG/W2sADMBujm+iIWajisCKuKoxG
- R1VSJCKr1sX5EaaIxiWJ9XO0RVuA33BMi4vOnetn4QAV09WkxRK8PCOkuIi6ItRXhGKh
- q8A6NjgJujvmHHhkGqmnks1KiR23uvckaBpED9UuP27afZdSTNWqqCnJyt02KL3MDhJ7
- v909j7ReBDq8PNdCrjoqk7IwZdirR07mN/VwA4lJsdBY6K6u3pjpZIdiKGC0536W6i7q
- pzXBMTKpacWNp/o5Nj4/aCBbCz6k8k/EhmtDUpnzDe3V4oiVzNUPB2OYLhCtphGf28uy
- 9AGA==
+ d=gmail.com; s=20221208; t=1681880369; x=1684472369;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=x4h9mgi4PzKesSJC7XIsTMZkcYL8dBVXESTqkBCdQKM=;
+ b=m82flReCGw1X6m+CoV2VKD+wwl0j8lhmJJMb1tzlpP7xDwbIRKqHgdxpEyWmt/mY4c
+ XTijt6KK4i7rlCf0Bnj157U2I6rx/K8al9Ebeg7iTvyf4oiJEfF60ppFAsaF5FjDVEeA
+ zB1HnTygglUtV62FVkt9TLP/s+qGZZ6saHHf9USTP8BR5TUYQHvSugtytraVJzt0LFcB
+ cGFIDy9zaPi/LVaLiTLtbxuqs/itW/h8gqKWGs95B1OkGL6j+zzs7EGYRt1iHO2ErVZ2
+ V4Q97TWS3RGDSmi08ihhwflvQ09RLq8kjZ37HMbANMMr16yhhlrrhYdDEX1neMaNBNeo
+ kLeQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681879936; x=1684471936;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=Ek00L1cc21EOyKRafT/BGo0L28SeYIDeaJNfXSoDXCk=;
- b=jNroC2ETeu1eNDlogqwXe9cavjOQ/VnZU0TRXAZ2wsVM8gSsK3Gb/L/GpnXYHCxA98
- 9zBZrDnkLJIEUt/dJQbAi76enpT4nNVrOZKqy6Fy+yw2c9NYLVqVtReyjRlXHy4AJ331
- c9jM/u+7YQCnYGu7N9PObuYDCvQxC8Ul4Dm6owD22e6DIBFKfLuhN/394OviHBe4WSTv
- 752dAUh4GxnPo2MvFz3Z6W104UIMsU2OnuGLAQ3zQVOkcIH5sk9AnGWUfOMI+gpspCXJ
- J0qb3bAUArKlH3azMZkXf0jRRuI5u/2VsccUsakwOR6EAL3Q4G90YUycriKIKENdr5RQ
- Zz8w==
-X-Gm-Message-State: AAQBX9fZh4yfM0ko9VyA83C3mBHgey4i5cx1SLSMymMOGRY/0Z7bseSI
- jKFRlLyjzWYP6dEa56qL6J/2T1wjkD2e5FQjh+o=
-X-Google-Smtp-Source: AKy350aYkXkO5nxw+E17pu3EKWjttrdTBgY/iJvBuAu1+xFva4iSl0hDCqJM6NsevZ9568vkBqdsJg==
-X-Received: by 2002:a17:902:8503:b0:19e:500b:517a with SMTP id
- bj3-20020a170902850300b0019e500b517amr3719378plb.69.1681879936118; 
- Tue, 18 Apr 2023 21:52:16 -0700 (PDT)
-Received: from hackyzh-virtual-machine.localdomain ([58.34.53.146])
- by smtp.gmail.com with ESMTPSA id
- ix9-20020a170902f80900b001a64dbfc5d7sm10433184plb.145.2023.04.18.21.52.12
+ d=1e100.net; s=20221208; t=1681880369; x=1684472369;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=x4h9mgi4PzKesSJC7XIsTMZkcYL8dBVXESTqkBCdQKM=;
+ b=bT8FE+9eWTHlO3liO5XUShVEkpsLljTwFmPlzisu3f78evmQG/eUq1h4eHjzpYe5E3
+ 3RjO6veNseik0W74Hh72Z8dZKE7nbbP7w8luXPbYWun9dzxk5CDkQReH9LmcWWQHlTKr
+ 9AvsYxe8J186YEfUeOL5bzzu17W/k6Btb3VDxSGABAdwfdSNEl2SRFItWKBPWp4YLyoc
+ dzXRs9/jAiNmPJHxecCJLIhQDqZE4tFxRR5fesCT4zCmD+C5ycdeNmUDu0eG5wlUJDD/
+ RsCtwVkKF91X8R11FgvAFNldGinOoXI00LBc2BXL9Vd56m5IyNh6A0hmxSMXqNJZS3WN
+ 0ZxA==
+X-Gm-Message-State: AAQBX9cPtA5kkHfwg3634JWCtu+tiGyzbtqGoZx4HpHExu9CP3Uqep8y
+ qsA6y69HSWy73swf86vP514=
+X-Google-Smtp-Source: AKy350bukf4oJKo+btPlV5rCqL74IzCRSna9IqwXsdE6vXBZNGYK2s177m//3AXWr3mxuIcjhn5NNw==
+X-Received: by 2002:adf:cd05:0:b0:2f0:df59:1ea7 with SMTP id
+ w5-20020adfcd05000000b002f0df591ea7mr3621918wrm.31.1681880369662; 
+ Tue, 18 Apr 2023 21:59:29 -0700 (PDT)
+Received: from localhost ([102.36.222.112]) by smtp.gmail.com with ESMTPSA id
+ i15-20020a5d630f000000b002f27dd92643sm14487616wru.99.2023.04.18.21.59.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 18 Apr 2023 21:52:15 -0700 (PDT)
-From: hackyzh002 <hackyzh002@gmail.com>
-To: alexander.deucher@amd.com
-Subject: [PATCH 2/2] drm/amdgpu: Fix integer overflow in amdgpu_cs_pass1
-Date: Wed, 19 Apr 2023 12:51:57 +0800
-Message-Id: <20230419045157.69829-1-hackyzh002@gmail.com>
-X-Mailer: git-send-email 2.34.1
+ Tue, 18 Apr 2023 21:59:29 -0700 (PDT)
+Date: Wed, 19 Apr 2023 07:59:25 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Subject: Re: [PATCH] video: fbdev: mmp: Fix deferred clk handling in
+ mmphw_probe()
+Message-ID: <a7c75eb0-857c-4755-aa23-0a4a96a6d2ca@kili.mountain>
+References: <685f452cacc74f4983aaff2bc28a02a95e8aa8b7.1681414375.git.christophe.jaillet@wanadoo.fr>
+ <67353089-4966-424c-99c2-8524818f0e37@kili.mountain>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Thu, 20 Apr 2023 07:12:56 +0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <67353089-4966-424c-99c2-8524818f0e37@kili.mountain>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,45 +73,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Xinhui.Pan@amd.com, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, sumit.semwal@linaro.org,
- linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
- hackyzh002 <hackyzh002@gmail.com>, christian.koenig@amd.com,
- linux-media@vger.kernel.org
+Cc: linux-fbdev@vger.kernel.org, Helge Deller <deller@gmx.de>,
+ kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Cai Huoqing <cai.huoqing@linux.dev>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The type of size is unsigned int, if size is 0x40000000, there will
-be an integer overflow, size will be zero after size *= sizeof(uint32_t),
-will cause uninitialized memory to be referenced later.
+On Sat, Apr 15, 2023 at 04:09:03PM +0300, Dan Carpenter wrote:
+> On Thu, Apr 13, 2023 at 09:33:17PM +0200, Christophe JAILLET wrote:
+> > When dev_err_probe() is called, 'ret' holds the value of the previous
+> > successful devm_request_irq() call.
+> > 'ret' should be assigned with a meaningful value before being used in
+> > dev_err_probe().
+> > 
+> > While at it, use and return "PTR_ERR(ctrl->clk)" instead of a hard-coded
+> > "-ENOENT" so that -EPROBE_DEFER is handled and propagated correctly.
+> > 
+> > Fixes: 81b63420564d ("video: fbdev: mmp: Make use of the helper function dev_err_probe()")
+> > Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+> > ---
+> 
+> Presumably you already wrote a Coccinelle script for this but I've added
+> it to Smatch as well.
 
-Signed-off-by: hackyzh002 <hackyzh002@gmail.com>
----
- drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Here is this warning:
+drivers/video/fbdev/mmp/hw/mmp_ctrl.c:518 mmphw_probe() warn: passing zero to 'dev_err_probe'
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
-index 08eced097..c17b3af85 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
-@@ -192,7 +192,7 @@ static int amdgpu_cs_pass1(struct amdgpu_cs_parser *p,
- 	uint64_t *chunk_array_user;
- 	uint64_t *chunk_array;
- 	uint32_t uf_offset = 0;
--	unsigned int size;
-+	uint64_t int size;
- 	int ret;
- 	int i;
- 
-@@ -235,7 +235,7 @@ static int amdgpu_cs_pass1(struct amdgpu_cs_parser *p,
- 		size = p->chunks[i].length_dw;
- 		cdata = u64_to_user_ptr(user_chunk.chunk_data);
- 
--		p->chunks[i].kdata = kvmalloc_array(size, sizeof(uint32_t),
-+		p->chunks[i].kdata = kvcalloc(size, sizeof(uint32_t),
- 						    GFP_KERNEL);
- 		if (p->chunks[i].kdata == NULL) {
- 			ret = -ENOMEM;
--- 
-2.34.1
+Other warnings.  All five are interesting.
+drivers/power/supply/rt9467-charger.c:1026 rt9467_request_interrupt() warn: passing zero to 'dev_err_probe'
+drivers/pci/controller/dwc/pcie-bt1.c:601 bt1_pcie_add_port() warn: passing zero to 'dev_err_probe'
+drivers/spi/spi-sprd-adi.c:570 sprd_adi_probe() warn: passing zero to 'dev_err_probe'
+drivers/soc/qcom/icc-bwmon.c:776 bwmon_probe() warn: passing zero to 'dev_err_probe'
+drivers/soc/qcom/icc-bwmon.c:781 bwmon_probe() warn: passing zero to 'dev_err_probe'
+
+regards,
+dan carpenter
 
