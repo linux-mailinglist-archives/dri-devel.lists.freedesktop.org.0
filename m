@@ -2,72 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 344756E7A66
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Apr 2023 15:15:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 013856E7A72
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Apr 2023 15:16:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1CC1510E992;
-	Wed, 19 Apr 2023 13:15:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B248110E99C;
+	Wed, 19 Apr 2023 13:16:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com
- [IPv6:2a00:1450:4864:20::42e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0D48C10E98C;
- Wed, 19 Apr 2023 13:15:16 +0000 (UTC)
-Received: by mail-wr1-x42e.google.com with SMTP id
- ffacd0b85a97d-2fbb99cb297so1621443f8f.1; 
- Wed, 19 Apr 2023 06:15:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1681910115; x=1684502115;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=gAXLfpBdEAZ7L9LyE2Dg6CDtrTU5pXyCTIUvkFoTHg8=;
- b=ZS/dsr8o5NpgoYkkfd/3H7xxe/kLwMYGVOQy8b4vjCn8zoRO9L5pS/krQwN1MS6WX3
- WjePneq03bl0lTuCybclj+9X3iXjEH+z849HJl/IRV8unddHgiCz6p1gAeIxqlOwTNXH
- TqnxA5AfMf77kUjGYm1Zk6HeSuw8Ox0YyeSXX8pBev6nGKGuszSJugwP6Yo32+rxBKGb
- DJ1+/iLWVq0s2c6r+UzzrgqzAy85zcGnueQxtr8Bfx5qe7m5IAZSjtE/ZFfVxnLJzW+z
- KrjeyQ3Ya2jqQ2JPVZ19oH5QOd9XjX5/9BiDKVQ5qbyggSM7kGwjXKhW0cZPsol1Y+BA
- 3ACA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681910115; x=1684502115;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=gAXLfpBdEAZ7L9LyE2Dg6CDtrTU5pXyCTIUvkFoTHg8=;
- b=h0ZVtY8s4mQc+9Cyz4pv2nu2ZPKH0elGLxcsT03TiZixQ3t19xjW6NC86wEmyt5nE+
- ORat/DYVMkuQyL+XKyZ6TDwDjPs8UQN+DlZb16vNTcod1G5Tv/SuD7DSuj3YVJ+i3eYq
- mHuMeZ0TZk2IGi+XHF3yxdY1H/Arohs+LBoUwb5leirjIjPh4kSNTzx2HahnfxjsCkGI
- VFkVNrzPClIYZ5oGo4pJh4u5HKjiaFSV8ycVpBH5G+lNJwQ82B2hDvqWU75bzEYL155y
- fxSxtOar7TXsImm7YmoRH4J5HgRykt4AL96ifhXPzvZ/3hjtKfKm8O6TI71afKbWGHy0
- vW/A==
-X-Gm-Message-State: AAQBX9fnG1o5zh29jfKAkAKeO+nrmiS2p83iYPcMQVqs4F6E2p/wF2a2
- S2zV6hm2Mc13rIX6nFDX7iA=
-X-Google-Smtp-Source: AKy350aPlsjK13S7C71KRWT/oio7uG4H/s8dmBtZ5+MH8hC6XWxHMi8d+uyiP3QrliiFBV539Q/y1Q==
-X-Received: by 2002:a5d:4242:0:b0:2ef:b7cc:289a with SMTP id
- s2-20020a5d4242000000b002efb7cc289amr4229298wrr.7.1681910114853; 
- Wed, 19 Apr 2023 06:15:14 -0700 (PDT)
-Received: from ?IPV6:2a02:908:1256:79a0:6273:6c76:9697:9b4c?
- ([2a02:908:1256:79a0:6273:6c76:9697:9b4c])
- by smtp.gmail.com with ESMTPSA id
- m4-20020a5d6a04000000b002f0442a2d3asm15804492wru.48.2023.04.19.06.15.13
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 19 Apr 2023 06:15:14 -0700 (PDT)
-Message-ID: <d96519fb-9e12-5a81-a60b-384dcb286f28@gmail.com>
-Date: Wed, 19 Apr 2023 15:15:13 +0200
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A140610E993;
+ Wed, 19 Apr 2023 13:16:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1681910213; x=1713446213;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=T9OmnESgxGs0kgus3QTCQwr6uKWNiPr1NzZZ13a0veQ=;
+ b=YQiaP0yJpeY7IayE7JivZyTVpmQdIizZOhfLFcGBf4L/Myzbw2uDSMfR
+ DdMaj5NLPiy/bjtuqnuNizXm5tNOzJNbiVc93Y0VzjMU7yr1ygtoPqJQn
+ nEFFjQIjGVYFoFqH/7f7mkL442f1fPSRuvzW6qg3FQgR9fkbV+pHihNWN
+ aleQiNBuW8Txhn2bmsgU/YIToZrzUEpO7X3HgVjZpH4l1O238jkyWJi4Y
+ C8yM9LJ1bbn4b1obsLsACcZ/WQgr9sdjsAQv5anjgfaGXTHbUBWXE0e6R
+ bTa7wYubQCIpOxObmxONU2iYlzvwZBzFPxkvFs+O+j6f5oC6AjiZfvgzu w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10685"; a="325058282"
+X-IronPort-AV: E=Sophos;i="5.99,208,1677571200"; d="scan'208";a="325058282"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Apr 2023 06:16:52 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10685"; a="780850170"
+X-IronPort-AV: E=Sophos;i="5.99,208,1677571200"; d="scan'208";a="780850170"
+Received: from halahusx-mobl.ger.corp.intel.com (HELO [10.213.223.36])
+ ([10.213.223.36])
+ by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Apr 2023 06:16:50 -0700
+Message-ID: <3c9d4aed-5c26-6a20-071c-8a3d24f3c9ce@linux.intel.com>
+Date: Wed, 19 Apr 2023 14:16:48 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: BUG: KASAN: null-ptr-deref in drm_sched_job_cleanup+0x96/0x290
- [gpu_sched]
+ Thunderbird/102.9.0
+Subject: Re: [RFC 4/6] drm: Add simple fdinfo memory helpers
 Content-Language: en-US
-To: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
-References: <CABXGCsPZxgpFzAVN=eFXu0WV+Jk0vB4rv4p+Jt31C841LcqV=A@mail.gmail.com>
- <CABXGCsO0sST8+MvQs=T1JP49ogRsaHPT9gMQZGJ3dY7v3m0H8g@mail.gmail.com>
- <CABXGCsOTEpJG_0NWdGXRvcXQ4iTav6AUJm-U4SQb-vVzjoL6rA@mail.gmail.com>
- <10b2570f-a297-d236-fa7b-2e001a4dff12@gmail.com>
- <CABXGCsPcPY8dqZm0aF4c1p0ZvMYHy+NksMrZi9xK0=WdE5_osA@mail.gmail.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-In-Reply-To: <CABXGCsPcPY8dqZm0aF4c1p0ZvMYHy+NksMrZi9xK0=WdE5_osA@mail.gmail.com>
+To: Rob Clark <robdclark@gmail.com>
+References: <20230417155613.4143258-1-tvrtko.ursulin@linux.intel.com>
+ <20230417155613.4143258-5-tvrtko.ursulin@linux.intel.com>
+ <CAF6AEGuobv8+fU-WU9D9vffNJC5zCqrHDtkppf__ieMJDHsWnw@mail.gmail.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <CAF6AEGuobv8+fU-WU9D9vffNJC5zCqrHDtkppf__ieMJDHsWnw@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -82,33 +64,133 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <Christian.Koenig@amd.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Linux List Kernel Mailing <linux-kernel@vger.kernel.org>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, Intel-gfx@lists.freedesktop.org,
+ Emil Velikov <emil.l.velikov@gmail.com>, dri-devel@lists.freedesktop.org,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 19.04.23 um 15:13 schrieb Mikhail Gavrilov:
-> On Wed, Apr 19, 2023 at 1:12 PM Christian König
-> <ckoenig.leichtzumerken@gmail.com> wrote:
->> I'm already looking into this, but can't figure out why we run into
->> problems here.
+
+On 18/04/2023 18:18, Rob Clark wrote:
+> On Mon, Apr 17, 2023 at 8:56 AM Tvrtko Ursulin
+> <tvrtko.ursulin@linux.intel.com> wrote:
 >>
->> What happens is that a CS is aborted without sending the job to the
->> scheduler and in this case the cleanup function doesn't seem to work.
+>> From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 >>
->> Christian.
-> I can easily reproduce it on any AMD GPU hardware.
+>> For drivers who only wish to show one memory region called 'system,
+>> and only account the GEM buffer object handles under it.
+>>
+>> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+>> ---
+>>   drivers/gpu/drm/drm_file.c | 45 ++++++++++++++++++++++++++++++++++++++
+>>   include/drm/drm_file.h     |  6 +++++
+>>   2 files changed, 51 insertions(+)
+>>
+>> diff --git a/drivers/gpu/drm/drm_file.c b/drivers/gpu/drm/drm_file.c
+>> index e202f79e816d..1e70669dddf7 100644
+>> --- a/drivers/gpu/drm/drm_file.c
+>> +++ b/drivers/gpu/drm/drm_file.c
+>> @@ -872,6 +872,51 @@ void drm_send_event(struct drm_device *dev, struct drm_pending_event *e)
+>>   }
+>>   EXPORT_SYMBOL(drm_send_event);
+>>
+>> +static void
+>> +add_obj(struct drm_gem_object *obj, struct drm_fdinfo_memory_stat *stats)
+>> +{
+>> +       u64 sz = obj->size;
+>> +
+>> +       stats[0].size += sz;
+>> +
+>> +       if (obj->handle_count > 1)
+>> +               stats[0].shared += sz;
+>> +
+>> +       if (!dma_resv_test_signaled(obj->resv, dma_resv_usage_rw(true)))
+>> +               stats[0].active += sz;
+>> +
+>> +       /* Not supported. */
+>> +       stats[0].resident = ~0ull;
+>> +       stats[0].purgeable = ~0ull;
+> 
+> Hmm, this kinda makes the simple helper not very useful.  In my
+> version, you get something that is useful for all UMA drivers (which
+> all, IIRC, have some form of madv ioctl).  I was kinda imagining that
+> for ttm drivers, my print_memory_stats() would just become a helper
+> and that TTM (or "multi-region") drivers would have their own thing.
 
-Well exactly that's the problem, I can't reproduce it.
+Hm how? Your version also needed a driver specific vfunc:
 
-Have you applied any local change or config which could explain that?
++static enum drm_gem_object_status msm_gem_status(struct drm_gem_object *obj)
++{
++	struct msm_gem_object *msm_obj = to_msm_bo(obj);
++	enum drm_gem_object_status status = 0;
++
++	if (msm_obj->pages)
++		status |= DRM_GEM_OBJECT_RESIDENT;
++
++	if (msm_obj->madv == MSM_MADV_DONTNEED)
++		status |= DRM_GEM_OBJECT_PURGEABLE;
++
++	return status;
++}
 
-Christian.
+Regards,
 
-> You can add more logs to debug and I return with new logs which explains this.
-> Thanks.
->
+Tvrtko
 
+> 
+> BR,
+> -R
+> 
+>> +}
+>> +
+>> +char **
+>> +drm_query_fdinfo_system_region(struct drm_device *dev, unsigned int *num)
+>> +{
+>> +       static char *region[] = {
+>> +               "system",
+>> +       };
+>> +
+>> +       *num = 1;
+>> +
+>> +       return region;
+>> +}
+>> +EXPORT_SYMBOL(drm_query_fdinfo_system_region);
+>> +
+>> +void
+>> +drm_query_fdinfo_system_memory(struct drm_file *file,
+>> +                              struct drm_fdinfo_memory_stat *stats)
+>> +{
+>> +       struct drm_gem_object *obj;
+>> +       int id;
+>> +
+>> +       spin_lock(&file->table_lock);
+>> +       idr_for_each_entry(&file->object_idr, obj, id)
+>> +               add_obj(obj, stats);
+>> +       spin_unlock(&file->table_lock);
+>> +}
+>> +EXPORT_SYMBOL(drm_query_fdinfo_system_memory);
+>> +
+>>   static void
+>>   print_stat(struct drm_printer *p, const char *stat, const char *region, u64 sz)
+>>   {
+>> diff --git a/include/drm/drm_file.h b/include/drm/drm_file.h
+>> index 00d48beeac5c..dd7c6fb2c975 100644
+>> --- a/include/drm/drm_file.h
+>> +++ b/include/drm/drm_file.h
+>> @@ -383,6 +383,12 @@ struct drm_fdinfo_memory_stat {
+>>          u64 active;
+>>   };
+>>
+>> +char **drm_query_fdinfo_system_region(struct drm_device *dev,
+>> +                                     unsigned int *num);
+>> +void drm_query_fdinfo_system_memory(struct drm_file *file,
+>> +                                   struct drm_fdinfo_memory_stat *stats);
+>> +
+>> +
+>>   /**
+>>    * drm_is_primary_client - is this an open file of the primary node
+>>    * @file_priv: DRM file
+>> --
+>> 2.37.2
+>>
