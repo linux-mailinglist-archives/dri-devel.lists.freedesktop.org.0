@@ -1,53 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A66716E83ED
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Apr 2023 23:48:56 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 61FDC6E8402
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Apr 2023 23:57:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9B23E10E21A;
-	Wed, 19 Apr 2023 21:48:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A1F6610EB14;
+	Wed, 19 Apr 2023 21:57:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6412E10E21A;
- Wed, 19 Apr 2023 21:48:48 +0000 (UTC)
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6A12710E1F4;
+ Wed, 19 Apr 2023 21:57:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1681940928; x=1713476928;
+ t=1681941423; x=1713477423;
  h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=LetWuQU0oxXmLXjCnte7GwXL87kkIPTNDLZCcscfLqw=;
- b=gNMkGestJYRoUEOHzEDfKQlL0LYQjhd000oI1oe0trnJklG0Het/VJTq
- dDqK0Mow0dIwXB6/ObBpUvY8S3sj/KMqDQbpUX8t5YTPW6xHaaRb0sjNw
- pzvsXWYkW6urmJ4WOB8Luui43ZJ8PNCruZnw/P6pQ1YRlPQGX/y2EobB4
- 1hnmNFN1KEJtiZqyJX/trdpM7HHKe/T9XMfXWG7nzuQuWHtqwqnjxIlX5
- mPL3Jm7K4bIpPpp73Tobytm5wrI9H2eR9DR3vJLfcMzEojw7C6ZdfeL8c
- Hei3fdXn/PunH3DtIS8YfSIh7kJ5g11hhgcjuit/xqgK/GmUmvsijHN+i g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10685"; a="431845211"
-X-IronPort-AV: E=Sophos;i="5.99,210,1677571200"; d="scan'208";a="431845211"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Apr 2023 14:48:34 -0700
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=aXxIdgiOyXZJ9okendt+y5TzUg/k31o/n+nAtkb8YEA=;
+ b=Gxx9Wnq/dOBkZ5nW27mroUql3kTxU+PvXRzZ/sMBGlP4VWNVSb+OWTvf
+ GAniH5SF9u1pTtcl38cHVXAX+XDONz8ecMLZh7Bp5+LbBlg6ixrHAc974
+ unI0J5y/1sigj0BYbKksOPUmDcDfeAYdBNn/FfpXjyzbopMRJJuwzNx4B
+ lQ6boMtOHMwSJHM70OtUrM4CTKSWdN/tWB7e2bkSBWgRGpY8yg2EUGtgy
+ k64lUdB2yk63aYTi0WC4SR+wBZM9XX8c46tLMnxy2aDlOsUDuK8YqkT3W
+ qqZHBjS/B93jylmOTMCJcjmuDulOsFgI/zsQbPFB5K6B1DycxtgltkvvT w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10685"; a="325180492"
+X-IronPort-AV: E=Sophos;i="5.99,210,1677571200"; d="scan'208";a="325180492"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Apr 2023 14:57:01 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10685"; a="865993425"
-X-IronPort-AV: E=Sophos;i="5.99,210,1677571200"; d="scan'208";a="865993425"
+X-IronPort-AV: E=McAfee;i="6600,9927,10685"; a="835467646"
+X-IronPort-AV: E=Sophos;i="5.99,210,1677571200"; d="scan'208";a="835467646"
 Received: from mmzakhar-mobl2.ccr.corp.intel.com (HELO intel.com)
  ([10.251.213.234])
- by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Apr 2023 14:48:27 -0700
-Date: Wed, 19 Apr 2023 23:48:24 +0200
+ by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Apr 2023 14:57:00 -0700
+Date: Wed, 19 Apr 2023 23:56:57 +0200
 From: Andi Shyti <andi.shyti@linux.intel.com>
 To: fei.yang@intel.com
-Subject: Re: [Intel-gfx] [PATCH 2/8] drm/i915/mtl: Define MOCS and PAT tables
- for MTL
-Message-ID: <ZEBhqBGTrNRfz0NK@ashyti-mobl2.lan>
+Subject: Re: [Intel-gfx] [PATCH 1/8] drm/i915/mtl: Set has_llc=0
+Message-ID: <ZEBjqa0W9PflR9RX@ashyti-mobl2.lan>
 References: <20230419211219.2574008-1-fei.yang@intel.com>
- <20230419211219.2574008-3-fei.yang@intel.com>
+ <20230419211219.2574008-2-fei.yang@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-15
 Content-Disposition: inline
-In-Reply-To: <20230419211219.2574008-3-fei.yang@intel.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230419211219.2574008-2-fei.yang@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,45 +60,26 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Matt Roper <matthew.d.roper@intel.com>, intel-gfx@lists.freedesktop.org,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- Madhumitha Tolakanahalli Pradeep <madhumitha.tolakanahalli.pradeep@intel.com>,
- dri-devel@lists.freedesktop.org
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi Fei,
 
-> +#define MTL_PPGTT_PTE_PAT3	BIT_ULL(62)
->  #define GEN12_PPGTT_PTE_LM	BIT_ULL(11)
-> +#define GEN12_PPGTT_PTE_PAT2	BIT_ULL(7)
-> +#define GEN12_PPGTT_PTE_NC	BIT_ULL(5)
-> +#define GEN12_PPGTT_PTE_PAT1	BIT_ULL(4)
-> +#define GEN12_PPGTT_PTE_PAT0	BIT_ULL(3)
->  
-> -#define GEN12_GGTT_PTE_LM	BIT_ULL(1)
-> +#define GEN12_GGTT_PTE_LM		BIT_ULL(1)
-> +#define MTL_GGTT_PTE_PAT0		BIT_ULL(52)
-> +#define MTL_GGTT_PTE_PAT1		BIT_ULL(53)
-> +#define GEN12_GGTT_PTE_ADDR_MASK	GENMASK_ULL(45, 12)
-> +#define MTL_GGTT_PTE_PAT_MASK		GENMASK_ULL(53, 52)
->  
->  #define GEN12_PDE_64K BIT(6)
->  #define GEN12_PTE_PS64 BIT(8)
-> @@ -147,6 +156,15 @@ typedef u64 gen8_pte_t;
->  #define GEN8_PDE_IPS_64K BIT(11)
->  #define GEN8_PDE_PS_2M   BIT(7)
->  
-> +#define MTL_PPAT_L4_CACHE_POLICY_MASK	REG_GENMASK(3, 2)
-> +#define MTL_PAT_INDEX_COH_MODE_MASK	REG_GENMASK(1, 0)
-> +#define MTL_PPAT_L4_3_UC	REG_FIELD_PREP(MTL_PPAT_L4_CACHE_POLICY_MASK, 3)
-> +#define MTL_PPAT_L4_1_WT	REG_FIELD_PREP(MTL_PPAT_L4_CACHE_POLICY_MASK, 1)
-> +#define MTL_PPAT_L4_0_WB	REG_FIELD_PREP(MTL_PPAT_L4_CACHE_POLICY_MASK, 0)
-> +#define MTL_3_COH_2W	REG_FIELD_PREP(MTL_PAT_INDEX_COH_MODE_MASK, 3)
-> +#define MTL_2_COH_1W	REG_FIELD_PREP(MTL_PAT_INDEX_COH_MODE_MASK, 2)
-> +#define MTL_0_COH_NON	REG_FIELD_PREP(MTL_PAT_INDEX_COH_MODE_MASK, 0)
+On Wed, Apr 19, 2023 at 02:12:12PM -0700, fei.yang@intel.com wrote:
+> From: Fei Yang <fei.yang@intel.com>
+> 
+> On MTL, LLC is not shared between GT and CPU, set has_llc=0.
+> 
+> Signed-off-by: Fei Yang <fei.yang@intel.com>
 
-BTW, are all these defines needed? Not all of them look to be
-used.
+just an unanswered questino from Nirmoy:
+
+This statement is bit unclear to me.  I would say "On MTL, LLC
+is not shared between GT and CPU"
+
+Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com>
+Reviewed-by: Andrzej Hajda <andrzej.hajda@intel.com>
+Reviewed-by: Nirmoy Das <nirmoy.das@intel.com>
 
 Andi
