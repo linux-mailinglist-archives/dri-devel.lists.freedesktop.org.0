@@ -2,48 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 667516E80F3
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Apr 2023 20:09:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 502EC6E8144
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Apr 2023 20:30:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 83C7910EA7F;
-	Wed, 19 Apr 2023 18:08:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3BDF310EA6A;
+	Wed, 19 Apr 2023 18:30:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 39A4610E9C5;
- Wed, 19 Apr 2023 18:08:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1681927712; x=1713463712;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=Kk6MG7LpDQT4eujaYDoj8WyIt45VlxyjzUIO8vk1/aY=;
- b=YXWl/K9y8i8dJGWyhBSzaP6XcQ74zJbSy3I7amvLyUYRhz1VsY2MVu+7
- 3V37mM75O7LAadaQjRDZQDZ+vPk5N5m0hDY2HoW1X2DPU91PjrpXy4nE0
- B1debwbaQKFL4b1JYI6Az0yxCJy903rWeXnkusFkk5KtHLZ+qogsFX5ct
- 1DSIy+OE8+LXJ2dSw8pqeUwm1WB/mdNptNP34yIA+Ng2XrGW8o2TFfr84
- EezL+K1GOQMZt+vLRNBu4LV82OaFQmqi4QyIlvhgYmH8Pn2ZQcw6OVlUz
- iBJbkYuRuQnyyIk4OOoWXrqy5v32p0+4r7gXRs/DI6C2oWJAb1bvgJDK9 A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10685"; a="329695029"
-X-IronPort-AV: E=Sophos;i="5.99,208,1677571200"; d="scan'208";a="329695029"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Apr 2023 11:08:30 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10685"; a="724139446"
-X-IronPort-AV: E=Sophos;i="5.99,208,1677571200"; d="scan'208";a="724139446"
-Received: from fyang16-desk.jf.intel.com ([10.24.96.243])
- by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Apr 2023 11:08:30 -0700
-From: fei.yang@intel.com
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH 8/8] drm/i915: Allow user to set cache at BO creation
-Date: Wed, 19 Apr 2023 11:09:42 -0700
-Message-Id: <20230419180942.2494156-9-fei.yang@intel.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230419180942.2494156-1-fei.yang@intel.com>
-References: <20230419180942.2494156-1-fei.yang@intel.com>
+Received: from 189.cn (ptr.189.cn [183.61.185.104])
+ by gabe.freedesktop.org (Postfix) with ESMTP id D295210EA6A
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Apr 2023 18:30:24 +0000 (UTC)
+HMM_SOURCE_IP: 10.64.8.43:38904.1890619074
+HMM_ATTACHE_NUM: 0000
+HMM_SOURCE_TYPE: SMTP
+Received: from clientip-114.242.206.180 (unknown [10.64.8.43])
+ by 189.cn (HERMES) with SMTP id E6CE6102AED;
+ Thu, 20 Apr 2023 02:30:18 +0800 (CST)
+Received: from  ([114.242.206.180])
+ by gateway-151646-dep-7b48884fd-tj646 with ESMTP id
+ 009c50c0d4b44fce9c934c2466f12ece for tzimmermann@suse.de; 
+ Thu, 20 Apr 2023 02:30:21 CST
+X-Transaction-ID: 009c50c0d4b44fce9c934c2466f12ece
+X-Real-From: 15330273260@189.cn
+X-Receive-IP: 114.242.206.180
+X-MEDUSA-Status: 0
+Message-ID: <867ab1ec-4ef9-3d91-2bfb-528cf304513a@189.cn>
+Date: Thu, 20 Apr 2023 02:30:17 +0800
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH v3] drm/fbdev-generic: prohibit potential out-of-bounds
+ access
+Content-Language: en-US
+To: Thomas Zimmermann <tzimmermann@suse.de>, Daniel Vetter <daniel@ffwll.ch>
+References: <20230417113219.1354078-1-suijingfeng@loongson.cn>
+ <ZD5Vgx9Txaiz7Bun@phenom.ffwll.local>
+ <139c9398-488d-df19-9ae2-2b4b47ef64f4@189.cn>
+ <86a8b262-cbf2-b75f-9972-491f557edf74@189.cn>
+ <CAKMK7uE-azFT02Sp2FDfMGTc57eYJEn8iM8Wk1mt5ucPs1qM-w@mail.gmail.com>
+ <59dff860-9d1f-ec66-cd87-28693aa1fad2@suse.de>
+From: Sui Jingfeng <15330273260@189.cn>
+In-Reply-To: <59dff860-9d1f-ec66-cd87-28693aa1fad2@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -57,240 +57,237 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Matt Roper <matthew.d.roper@intel.com>,
- Chris Wilson <chris.p.wilson@linux.intel.com>, Fei Yang <fei.yang@intel.com>,
- dri-devel@lists.freedesktop.org, Andi Shyti <andi.shyti@linux.intel.com>
+Cc: linux-fbdev@vger.kernel.org, Helge Deller <deller@gmx.de>,
+ Lucas De Marchi <lucas.demarchi@intel.com>, linux-kernel@vger.kernel.org,
+ loongson-kernel@lists.loongnix.cn, dri-devel@lists.freedesktop.org,
+ Li Yi <liyi@loongson.cn>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Fei Yang <fei.yang@intel.com>
+Hi,
 
-To comply with the design that buffer objects shall have immutable
-cache setting through out its life cycle, {set, get}_caching ioctl's
-are no longer supported from MTL onward. With that change caching
-policy can only be set at object creation time. The current code
-applies a default (platform dependent) cache setting for all objects.
-However this is not optimal for performance tuning. The patch extends
-the existing gem_create uAPI to let user set PAT index for the object
-at creation time.
-The new extension is platform independent, so UMD's can switch to using
-this extension for older platforms as well, while {set, get}_caching are
-still supported on these legacy paltforms for compatibility reason.
+On 2023/4/19 23:46, Thomas Zimmermann wrote:
+> Hi
+>
+> Am 19.04.23 um 17:09 schrieb Daniel Vetter:
+>> On Tue, 18 Apr 2023 at 20:16, Sui Jingfeng <15330273260@189.cn> wrote:
+>>>
+>>> Hi,
+>>>
+>>> On 2023/4/19 01:52, Sui Jingfeng wrote:
+>>>> Hi,
+>>>>
+>>>> On 2023/4/18 16:32, Daniel Vetter wrote:
+>>>>> On Mon, Apr 17, 2023 at 07:32:19PM +0800, Sui Jingfeng wrote:
+>>>>>> The fbdev test of IGT may write after EOF, which lead to 
+>>>>>> out-of-bound
+>>>>>> access for the drm drivers using fbdev-generic. For example, on a 
+>>>>>> x86
+>>>>>> + aspeed bmc card platform, with a 1680x1050 resolution display,
+>>>>>> running
+>>>>>> fbdev test if IGT will cause the linux kernel hang with the 
+>>>>>> following
+>>>>>> call trace:
+>>>>>>
+>>>>>>     Oops: 0000 [#1] PREEMPT SMP PTI
+>>>>>>     [IGT] fbdev: starting subtest eof
+>>>>>>     Workqueue: events drm_fb_helper_damage_work [drm_kms_helper]
+>>>>>>     [IGT] fbdev: starting subtest nullptr
+>>>>>>
+>>>>>>     RIP: 0010:memcpy_erms+0xa/0x20
+>>>>>>     RSP: 0018:ffffa17d40167d98 EFLAGS: 00010246
+>>>>>>     RAX: ffffa17d4eb7fa80 RBX: ffffa17d40e0aa80 RCX: 
+>>>>>> 00000000000014c0
+>>>>>>     RDX: 0000000000001a40 RSI: ffffa17d40e0b000 RDI: 
+>>>>>> ffffa17d4eb80000
+>>>>>>     RBP: ffffa17d40167e20 R08: 0000000000000000 R09: 
+>>>>>> ffff89522ecff8c0
+>>>>>>     R10: ffffa17d4e4c5000 R11: 0000000000000000 R12: 
+>>>>>> ffffa17d4eb7fa80
+>>>>>>     R13: 0000000000001a40 R14: 000000000000041a R15: 
+>>>>>> ffffa17d40167e30
+>>>>>>     FS:  0000000000000000(0000) GS:ffff895257380000(0000)
+>>>>>> knlGS:0000000000000000
+>>>>>>     CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+>>>>>>     CR2: ffffa17d40e0b000 CR3: 00000001eaeca006 CR4: 
+>>>>>> 00000000001706e0
+>>>>>>     Call Trace:
+>>>>>>      <TASK>
+>>>>>>      ? drm_fbdev_generic_helper_fb_dirty+0x207/0x330 
+>>>>>> [drm_kms_helper]
+>>>>>>      drm_fb_helper_damage_work+0x8f/0x170 [drm_kms_helper]
+>>>>>>      process_one_work+0x21f/0x430
+>>>>>>      worker_thread+0x4e/0x3c0
+>>>>>>      ? __pfx_worker_thread+0x10/0x10
+>>>>>>      kthread+0xf4/0x120
+>>>>>>      ? __pfx_kthread+0x10/0x10
+>>>>>>      ret_from_fork+0x2c/0x50
+>>>>>>      </TASK>
+>>>>>>     CR2: ffffa17d40e0b000
+>>>>>>     ---[ end trace 0000000000000000 ]---
+>>>>>>
+>>>>>> The direct reason is that damage rectange computed by
+>>>>>> drm_fb_helper_memory_range_to_clip() does not guaranteed to be
+>>>>>> in-bound.
+>>>>>> It is already results in workaround code populate to elsewhere. 
+>>>>>> Another
+>>>>>> reason is that exposing a larger buffer size than the actual needed
+>>>>>> help
+>>>>>> to trigger this bug intrinsic in 
+>>>>>> drm_fb_helper_memory_range_to_clip().
+>>>>>>
+>>>>>> Others fbdev emulation solutions write to the GEM buffer 
+>>>>>> directly, they
+>>>>>> won't reproduce this bug because the .fb_dirty function callback 
+>>>>>> do not
+>>>>>> being hooked, so no chance is given to
+>>>>>> drm_fb_helper_memory_range_to_clip()
+>>>>>> to generate a out-of-bound when drm_fb_helper_sys_write() is called.
+>>>>>>
+>>>>>> This patch break the trigger condition of this bug by shrinking the
+>>>>>> shadow
+>>>>>> buffer size to sizes->surface_height * buffer->fb->pitches[0].
+>>>>>>
+>>>>>> Fixes: '8fbc9af55de0 ("drm/fbdev-generic: Set screen size to size of
+>>>>>> GEM
+>>>>>> buffer")'
+>>>>>>
+>>>>>> Signed-off-by: Sui Jingfeng <suijingfeng@loongson.cn>
+>>>>>> ---
+>>>>>>    drivers/gpu/drm/drm_fbdev_generic.c | 2 +-
+>>>>>>    1 file changed, 1 insertion(+), 1 deletion(-)
+>>>>>>
+>>>>>> diff --git a/drivers/gpu/drm/drm_fbdev_generic.c
+>>>>>> b/drivers/gpu/drm/drm_fbdev_generic.c
+>>>>>> index 8e5148bf40bb..b057cfbba938 100644
+>>>>>> --- a/drivers/gpu/drm/drm_fbdev_generic.c
+>>>>>> +++ b/drivers/gpu/drm/drm_fbdev_generic.c
+>>>>>> @@ -94,7 +94,7 @@ static int
+>>>>>> drm_fbdev_generic_helper_fb_probe(struct drm_fb_helper *fb_helper,
+>>>>>>        fb_helper->buffer = buffer;
+>>>>>>        fb_helper->fb = buffer->fb;
+>>>>>>    -    screen_size = buffer->gem->size;
+>>>>>> +    screen_size = sizes->surface_height * buffer->fb->pitches[0];
+>>>>> So I read core some more and stumbled over 
+>>>>> drm_fb_helper_deferred_io().
+>>>>> Which has all the code and comments about this, including limiting.
+>>>>>
+>>>>> I think it would be clearer if we fix the issue there, instead of
+>>>>> passing
+>>>>> limits around in obscure places that then again get broken?
+>>>>
+>>>> No, it is more obscure doing that way...
+>>>>
+>>>>
+>>>> As the size of the shadow screen buffer will be exposed to userspace.
+>>>>
+>>>> The size 'helper->fb->height * helper->fb->pitches[0]' is a
+>>>> exactly(best) fit,
+>>>>
+>>>> You are guaranteed to waste at lease one byte by increasing one byte,
+>>>>
+>>>> and can not store all pixels by decreasing one byte (In the case where
+>>>> `helper->fb->pitches[0] = helper->fb->width * 4`).
+>>>>
+>>>> It implicitly tell the userspace do not go beyond that boundary.
+>>>>
+>>>> although userspace program can still choose to write  after EOF,
+>>>>
+>>>> But it is for test purpose, to test the kernel if it can return a
+>>>> -EFBIG or not.
+>>>>
+>>>>> The thing is,
+>>>>> Thomas both authored the limit checks in 
+>>>>> drm_fb_helper_deferred_io() and
+>>>>> the patch which broken them again, so clearly this isn't very
+>>>>> obvious. I'm
+>>>>> thinking of something like this:
+>>>>>
+>>>>>
+>>>>> diff --git a/drivers/gpu/drm/drm_fb_helper.c
+>>>>> b/drivers/gpu/drm/drm_fb_helper.c
+>>>>> index ef4eb8b12766..726dab67c359 100644
+>>>>> --- a/drivers/gpu/drm/drm_fb_helper.c
+>>>>> +++ b/drivers/gpu/drm/drm_fb_helper.c
+>>>>> @@ -697,10 +697,7 @@ void drm_fb_helper_deferred_io(struct fb_info
+>>>>> *info, struct list_head *pagerefli
+>>>>>         * of the screen and account for non-existing scanlines. 
+>>>>> Hence,
+>>>>>         * keep the covered memory area within the screen buffer.
+>>>>>         */
+>>>>> -    if (info->screen_size)
+>>>>> -        total_size = info->screen_size;
+>>>>> -    else
+>>>>> -        total_size = info->fix.smem_len;
+>>>>> +    total_size = helper->fb->height * helper->fb->pitches[0];
+>>>>
+>>>> This is just to mitigate the mistakes already has been made,
+>>>>
+>>>> because it  do not do a good splitting between the *clip* part and the
+>>>> *damage update* part.
+>>>>
+>>>> An ideal clipping do not obscure its updating backend with a
+>>>> out-of-bound damage rectangle.
+>>>>
+>>>> Why did the drm_fb_helper_memory_range_to_clip() can not do a good job
+>>>> in all case
+>>>>
+>>>> to pass its backend a always meaningful damage rect ?
+>>>>
+>>>>>        max_off = min(max_off, total_size);
+>>>>>          if (min_off < max_off) {
+>>>>>
+>>>>>
+>>>>> I think that would make it utmost clear on what we're doing and why.
+>>>>> Otherwise we're just going to re-create the same bug again, like 
+>>>>> we've
+>>>>> done already :-)
+>>>>
+>>>> No, we create no bugs, we fix one.
+>>>>
+>>>> Thanks.
+>>>>
+>>> But honestly I do not have strong feel toward this, I just type what 
+>>> I'm
+>>> understand without seeing you resend a V3.
+>>>
+>>> It's OK in overall,  I will help to test this tomorrow.  :-)
+>>
+>> Apologies for making you jump around all the time and doing different
+>> versions of the same bugfix :-/
+>>
+>> I think this one here is ok to merge, I just thought when looking at
+>> the history that we revert the exact patch without any other changes
+>> or comments, and usually that means someone will come up with the same
+>> cleanup idea again, and then we'll have a bug again. So maybe a
+>> comment or a WARN_ON or something else would be good.
+>>
+>> I guess we could also do your patch, but put a WARN_ON that the
+>> computed total_size is never bigger than the drm_fb size into
+>> drm_fb_helper_deferred_io()? That would also make sure that this bug
+>> doesn't get resurrected again.
+>
+> We'd have to put this test into drm_fbdev_generic.c. Otherwise we'll 
+> break i915, which also uses deferred I/O, but without shadow 
+> buffering.. Maybe test in drm_fbdev_generic_helper_fb_dirty() if the 
+> clip rectangle extends the framebuffer size.
+>
+Yeah, i915 carve out part of system ram as video memory,  it is also 
+called stolen memory.
 
-Cc: Chris Wilson <chris.p.wilson@linux.intel.com>
-Cc: Matt Roper <matthew.d.roper@intel.com>
-Cc: Andi Shyti <andi.shyti@linux.intel.com>
-Signed-off-by: Fei Yang <fei.yang@intel.com>
----
- drivers/gpu/drm/i915/gem/i915_gem_create.c | 36 ++++++++++++++++++++++
- drivers/gpu/drm/i915/gem/i915_gem_object.c |  6 ++++
- include/uapi/drm/i915_drm.h                | 36 ++++++++++++++++++++++
- tools/include/uapi/drm/i915_drm.h          | 36 ++++++++++++++++++++++
- 4 files changed, 114 insertions(+)
+I just learned it recently from i915 related document.
 
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_create.c b/drivers/gpu/drm/i915/gem/i915_gem_create.c
-index bfe1dbda4cb7..723c3ddd6c74 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_create.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_create.c
-@@ -245,6 +245,7 @@ struct create_ext {
- 	unsigned int n_placements;
- 	unsigned int placement_mask;
- 	unsigned long flags;
-+	unsigned int pat_index;
- };
- 
- static void repr_placements(char *buf, size_t size,
-@@ -394,11 +395,39 @@ static int ext_set_protected(struct i915_user_extension __user *base, void *data
- 	return 0;
- }
- 
-+static int ext_set_pat(struct i915_user_extension __user *base, void *data)
-+{
-+	struct create_ext *ext_data = data;
-+	struct drm_i915_private *i915 = ext_data->i915;
-+	struct drm_i915_gem_create_ext_set_pat ext;
-+	unsigned int max_pat_index;
-+
-+	BUILD_BUG_ON(sizeof(struct drm_i915_gem_create_ext_set_pat) !=
-+		     offsetofend(struct drm_i915_gem_create_ext_set_pat, rsvd));
-+
-+	if (copy_from_user(&ext, base, sizeof(ext)))
-+		return -EFAULT;
-+
-+	max_pat_index = INTEL_INFO(i915)->max_pat_index;
-+
-+	if (ext.pat_index > max_pat_index) {
-+		drm_dbg(&i915->drm, "PAT index is invalid: %u\n",
-+			ext.pat_index);
-+		return -EINVAL;
-+	}
-+
-+	ext_data->pat_index = ext.pat_index;
-+
-+	return 0;
-+}
-+
- static const i915_user_extension_fn create_extensions[] = {
- 	[I915_GEM_CREATE_EXT_MEMORY_REGIONS] = ext_set_placements,
- 	[I915_GEM_CREATE_EXT_PROTECTED_CONTENT] = ext_set_protected,
-+	[I915_GEM_CREATE_EXT_SET_PAT] = ext_set_pat,
- };
- 
-+#define PAT_INDEX_NOT_SET	0xffff
- /**
-  * i915_gem_create_ext_ioctl - Creates a new mm object and returns a handle to it.
-  * @dev: drm device pointer
-@@ -418,6 +447,7 @@ i915_gem_create_ext_ioctl(struct drm_device *dev, void *data,
- 	if (args->flags & ~I915_GEM_CREATE_EXT_FLAG_NEEDS_CPU_ACCESS)
- 		return -EINVAL;
- 
-+	ext_data.pat_index = PAT_INDEX_NOT_SET;
- 	ret = i915_user_extensions(u64_to_user_ptr(args->extensions),
- 				   create_extensions,
- 				   ARRAY_SIZE(create_extensions),
-@@ -454,5 +484,11 @@ i915_gem_create_ext_ioctl(struct drm_device *dev, void *data,
- 	if (IS_ERR(obj))
- 		return PTR_ERR(obj);
- 
-+	if (ext_data.pat_index != PAT_INDEX_NOT_SET) {
-+		i915_gem_object_set_pat_index(obj, ext_data.pat_index);
-+		/* Mark pat_index is set by UMD */
-+		obj->cache_level = I915_CACHE_INVAL;
-+	}
-+
- 	return i915_gem_publish(obj, file, &args->size, &args->handle);
- }
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.c b/drivers/gpu/drm/i915/gem/i915_gem_object.c
-index 27c948350b5b..61651f7e5806 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_object.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_object.c
-@@ -209,6 +209,12 @@ bool i915_gem_object_can_bypass_llc(struct drm_i915_gem_object *obj)
- 	if (!(obj->flags & I915_BO_ALLOC_USER))
- 		return false;
- 
-+	/*
-+	 * Always flush cache for UMD objects at creation time.
-+	 */
-+	if (obj->cache_level == I915_CACHE_INVAL)
-+		return true;
-+
- 	/*
- 	 * EHL and JSL add the 'Bypass LLC' MOCS entry, which should make it
- 	 * possible for userspace to bypass the GTT caching bits set by the
-diff --git a/include/uapi/drm/i915_drm.h b/include/uapi/drm/i915_drm.h
-index dba7c5a5b25e..03c5c314846e 100644
---- a/include/uapi/drm/i915_drm.h
-+++ b/include/uapi/drm/i915_drm.h
-@@ -3630,9 +3630,13 @@ struct drm_i915_gem_create_ext {
- 	 *
- 	 * For I915_GEM_CREATE_EXT_PROTECTED_CONTENT usage see
- 	 * struct drm_i915_gem_create_ext_protected_content.
-+	 *
-+	 * For I915_GEM_CREATE_EXT_SET_PAT usage see
-+	 * struct drm_i915_gem_create_ext_set_pat.
- 	 */
- #define I915_GEM_CREATE_EXT_MEMORY_REGIONS 0
- #define I915_GEM_CREATE_EXT_PROTECTED_CONTENT 1
-+#define I915_GEM_CREATE_EXT_SET_PAT 2
- 	__u64 extensions;
- };
- 
-@@ -3747,6 +3751,38 @@ struct drm_i915_gem_create_ext_protected_content {
- 	__u32 flags;
- };
- 
-+/**
-+ * struct drm_i915_gem_create_ext_set_pat - The
-+ * I915_GEM_CREATE_EXT_SET_PAT extension.
-+ *
-+ * If this extension is provided, the specified caching policy (PAT index) is
-+ * applied to the buffer object.
-+ *
-+ * Below is an example on how to create an object with specific caching policy:
-+ *
-+ * .. code-block:: C
-+ *
-+ *      struct drm_i915_gem_create_ext_set_pat set_pat_ext = {
-+ *              .base = { .name = I915_GEM_CREATE_EXT_SET_PAT },
-+ *              .pat_index = 0,
-+ *      };
-+ *      struct drm_i915_gem_create_ext create_ext = {
-+ *              .size = PAGE_SIZE,
-+ *              .extensions = (uintptr_t)&set_pat_ext,
-+ *      };
-+ *
-+ *      int err = ioctl(fd, DRM_IOCTL_I915_GEM_CREATE_EXT, &create_ext);
-+ *      if (err) ...
-+ */
-+struct drm_i915_gem_create_ext_set_pat {
-+	/** @base: Extension link. See struct i915_user_extension. */
-+	struct i915_user_extension base;
-+	/** @pat_index: PAT index to be set */
-+	__u32 pat_index;
-+	/** @rsvd: reserved for future use */
-+	__u32 rsvd;
-+};
-+
- /* ID of the protected content session managed by i915 when PXP is active */
- #define I915_PROTECTED_CONTENT_DEFAULT_SESSION 0xf
- 
-diff --git a/tools/include/uapi/drm/i915_drm.h b/tools/include/uapi/drm/i915_drm.h
-index 8df261c5ab9b..8cdcdb5fac26 100644
---- a/tools/include/uapi/drm/i915_drm.h
-+++ b/tools/include/uapi/drm/i915_drm.h
-@@ -3607,9 +3607,13 @@ struct drm_i915_gem_create_ext {
- 	 *
- 	 * For I915_GEM_CREATE_EXT_PROTECTED_CONTENT usage see
- 	 * struct drm_i915_gem_create_ext_protected_content.
-+	 *
-+	 * For I915_GEM_CREATE_EXT_SET_PAT usage see
-+	 * struct drm_i915_gem_create_ext_set_pat.
- 	 */
- #define I915_GEM_CREATE_EXT_MEMORY_REGIONS 0
- #define I915_GEM_CREATE_EXT_PROTECTED_CONTENT 1
-+#define I915_GEM_CREATE_EXT_SET_PAT 2
- 	__u64 extensions;
- };
- 
-@@ -3724,6 +3728,38 @@ struct drm_i915_gem_create_ext_protected_content {
- 	__u32 flags;
- };
- 
-+/**
-+ * struct drm_i915_gem_create_ext_set_pat - The
-+ * I915_GEM_CREATE_EXT_SET_PAT extension.
-+ *
-+ * If this extension is provided, the specified caching policy (PAT index) is
-+ * applied to the buffer object.
-+ *
-+ * Below is an example on how to create an object with specific caching policy:
-+ *
-+ * .. code-block:: C
-+ *
-+ *      struct drm_i915_gem_create_ext_set_pat set_pat_ext = {
-+ *              .base = { .name = I915_GEM_CREATE_EXT_SET_PAT },
-+ *              .pat_index = 0,
-+ *      };
-+ *      struct drm_i915_gem_create_ext create_ext = {
-+ *              .size = PAGE_SIZE,
-+ *              .extensions = (uintptr_t)&set_pat_ext,
-+ *      };
-+ *
-+ *      int err = ioctl(fd, DRM_IOCTL_I915_GEM_CREATE_EXT, &create_ext);
-+ *      if (err) ...
-+ */
-+struct drm_i915_gem_create_ext_set_pat {
-+	/** @base: Extension link. See struct i915_user_extension. */
-+	struct i915_user_extension base;
-+	/** @pat_index: PAT index to be set */
-+	__u32 pat_index;
-+	/** @rsvd: reserved for future use */
-+	__u32 rsvd;
-+};
-+
- /* ID of the protected content session managed by i915 when PXP is active */
- #define I915_PROTECTED_CONTENT_DEFAULT_SESSION 0xf
- 
--- 
-2.25.1
 
+But from what I'm understanding, It's still RAM in its nature, just 
+reserved by firmware.
+
+Its bandwidth is extremely high, why not write to the GEM buffer directly?
+
+why deferred I/O pay off?
+
+
+> Best regards
+> Thomas
+>
+>> -Daniel
+>
