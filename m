@@ -1,53 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53AA86E797D
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Apr 2023 14:17:03 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 72CE76E7984
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Apr 2023 14:20:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5816610E199;
-	Wed, 19 Apr 2023 12:16:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DF37F10E949;
+	Wed, 19 Apr 2023 12:20:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E8F1A10E199;
- Wed, 19 Apr 2023 12:16:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1681906616; x=1713442616;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=pl0Fj8njTvTodei45z7BipIYoSlOoHUirquGX/RaoQc=;
- b=B+xVfSX7nxQUe3Yuox5jqFMP1ic0oVtIHFs6KY4G7JerDKjG2HuxihOD
- J+wXnPaGSTwQy8NBWGyCob4PgbsOWpRBSJFSVradHTbiTfNcA6WkxsQQr
- se8B+VjIxK3TSSYgKYVrpxn74qkA2erNZ0CefyT3d0iendW/Eeq6BN+Ti
- txuDAOrGA7UddIzEJc7rFeXOM3ASbm4YFlTXLzTa10En5mRYTgVqISBez
- w3X07lqp5OBtYs8Ut048rf5xYx6ieqdrw2kfxrEVK/QsXZAkcaAO8kBVt
- AC5IriKXQvNN2A37uCV9Ji3v+y264QR2eceGDnchrFsXyOE/a5zKGRmyX Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10684"; a="329607434"
-X-IronPort-AV: E=Sophos;i="5.99,208,1677571200"; d="scan'208";a="329607434"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Apr 2023 05:16:56 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10684"; a="1021188995"
-X-IronPort-AV: E=Sophos;i="5.99,208,1677571200"; d="scan'208";a="1021188995"
-Received: from crijnder-mobl.ger.corp.intel.com (HELO intel.com)
- ([10.249.35.137])
- by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Apr 2023 05:16:53 -0700
-Date: Wed, 19 Apr 2023 14:16:49 +0200
-From: Andi Shyti <andi.shyti@linux.intel.com>
-To: fei.yang@intel.com
-Subject: Re: [Intel-gfx] [PATCH 7/8] drm/i915: use pat_index instead of
- cache_level
-Message-ID: <ZD/bscB+OUWF+Ln/@ashyti-mobl2.lan>
-References: <20230417062503.1884465-1-fei.yang@intel.com>
- <20230417062503.1884465-8-fei.yang@intel.com>
+Received: from mail-oa1-f54.google.com (mail-oa1-f54.google.com
+ [209.85.160.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5B76C10E949
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Apr 2023 12:20:25 +0000 (UTC)
+Received: by mail-oa1-f54.google.com with SMTP id
+ 586e51a60fabf-18785c2f39fso866425fac.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Apr 2023 05:20:25 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1681906824; x=1684498824;
+ h=date:subject:message-id:references:in-reply-to:cc:to:from
+ :mime-version:content-transfer-encoding:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=vDWn7LWX55rdAgK8lkZTjI/cl/gmcQIjVsQZmuaFPok=;
+ b=dqhAIYvQW3jM8eeTea3V1IeLzma09XSf7aZ8oIbFVPb3vwbgcSEXGyjcmrAYGhYFRS
+ gbvRkDZO/JaaSmk5bbH3XM4FjvilVjDfHQCPLITID+s73EjVt39y7tuisllHMFPQwMpM
+ 55kOfj6S4vGlsyCnZvWdce/r6NkJdHANNp1QAvz1XQBOgwQxwVUNpBbXg6QwqtuoAjk0
+ pfUls2/UXaXYqJL7ySHcDC1y2bIvpwAO9DkA4FtEdjcNF2QrR3hzO90EfYXJpQYdSMxk
+ v3wV3V+TgUWKPRIMzG9VkK5G8kvqrJ78Ujvgx3/pcluvnzuGeggYUVkbyAhfusvBq9Ba
+ NswA==
+X-Gm-Message-State: AAQBX9dwb6weUsicLGTkhPHrSJk4dpqxYZz6Y4AEqQLnGCpzXv7DvHxV
+ AZ+Z56vJpfsakf52fBQteA==
+X-Google-Smtp-Source: AKy350achMGLsukLbt5lzLwN1OM7sY4Y18eDzdY5EhXFZgcfFGxbh3Xvp0buod3QAyAniCdmJL8Ycg==
+X-Received: by 2002:a05:6870:f295:b0:17f:e768:60fb with SMTP id
+ u21-20020a056870f29500b0017fe76860fbmr3024069oap.54.1681906823992; 
+ Wed, 19 Apr 2023 05:20:23 -0700 (PDT)
+Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net.
+ [66.90.144.107]) by smtp.gmail.com with ESMTPSA id
+ 64-20020a4a0143000000b00529cc3986c8sm6920510oor.40.2023.04.19.05.20.22
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 19 Apr 2023 05:20:23 -0700 (PDT)
+Received: (nullmailer pid 3779626 invoked by uid 1000);
+ Wed, 19 Apr 2023 12:20:22 -0000
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230417062503.1884465-8-fei.yang@intel.com>
+From: Rob Herring <robh@kernel.org>
+To: Justin Chen <justinpopo6@gmail.com>
+In-Reply-To: <1681863018-28006-2-git-send-email-justinpopo6@gmail.com>
+References: <1681863018-28006-1-git-send-email-justinpopo6@gmail.com>
+ <1681863018-28006-2-git-send-email-justinpopo6@gmail.com>
+Message-Id: <168190678873.3778743.3635324500677416742.robh@kernel.org>
+Subject: Re: [PATCH net-next 1/6] dt-bindings: net: Brcm ASP 2.0 Ethernet
+ controller
+Date: Wed, 19 Apr 2023 07:20:22 -0500
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,49 +65,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Chris Wilson <chris.p.wilson@linux.intel.com>,
- intel-gfx@lists.freedesktop.org, Matt Roper <matthew.d.roper@intel.com>,
- dri-devel@lists.freedesktop.org
+Cc: andrew@lunn.ch, dri-devel@lists.freedesktop.org, justin.chen@broadcom.com,
+ edumazet@google.com, krzysztof.kozlowski+dt@linaro.org,
+ sumit.semwal@linaro.org, f.fainelli@gmail.com, linux@armlinux.org.uk,
+ bcm-kernel-feedback-list@broadcom.com, opendmb@gmail.com, pabeni@redhat.com,
+ linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+ richardcochran@gmail.com, linaro-mm-sig@lists.linaro.org, robh+dt@kernel.org,
+ kuba@kernel.org, netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ davem@davemloft.net, christian.koenig@amd.com, hkallweit1@gmail.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Fei,
 
-On Sun, Apr 16, 2023 at 11:25:02PM -0700, fei.yang@intel.com wrote:
-> From: Fei Yang <fei.yang@intel.com>
+On Tue, 18 Apr 2023 17:10:13 -0700, Justin Chen wrote:
+> From: Florian Fainelli <f.fainelli@gmail.com>
 > 
-> Currently the KMD is using enum i915_cache_level to set caching policy for
-> buffer objects. This is flaky because the PAT index which really controls
-> the caching behavior in PTE has far more levels than what's defined in the
-> enum. In addition, the PAT index is platform dependent, having to translate
-> between i915_cache_level and PAT index is not reliable, and makes the code
-> more complicated.
+> Add a binding document for the Broadcom ASP 2.0 Ethernet
+> controller.
 > 
-> >From UMD's perspective there is also a necessity to set caching policy for
-
-you have an extra '>' here.
-
-> performance fine tuning. It's much easier for the UMD to directly use PAT
-> index because the behavior of each PAT index is clearly defined in Bspec.
-> Haivng the abstracted i915_cache_level sitting in between would only cause
-
-/Haivng/Having/
-
-> more ambiguity.
+> Signed-off-by: Florian Fainelli <f.fainelli@gmail.com>
+> Signed-off-by: Justin Chen <justinpopo6@gmail.com>
+> ---
+>  .../devicetree/bindings/net/brcm,asp-v2.0.yaml     | 146 +++++++++++++++++++++
+>  1 file changed, 146 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/net/brcm,asp-v2.0.yaml
 > 
-> For these reasons this patch replaces i915_cache_level with PAT index. Also
-> note, the cache_level is not completely removed yet, because the KMD still
-> has the need of creating buffer objects with simple cache settings such as
-> cached, uncached, or writethrough. For these simple cases, using cache_level
-> would help simplify the code.
-> 
-> Cc: Chris Wilson <chris.p.wilson@linux.intel.com>
-> Cc: Matt Roper <matthew.d.roper@intel.com>
-> Signed-off-by: Fei Yang <fei.yang@intel.com>
 
-fiuuuuu... quite a run this patch! But I did review it once,
-anyway I checked it again, it looks all correct.
+My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+on your patch (DT_CHECKER_FLAGS is new in v5.13):
 
-Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com> 
+yamllint warnings/errors:
 
-Andi
+dtschema/dtc warnings/errors:
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/net/brcm,asp-v2.0.example.dtb: asp@9c00000: mdio@c614:compatible:0: 'brcm,asp-v2.0-mdio' is not one of ['brcm,genet-mdio-v1', 'brcm,genet-mdio-v2', 'brcm,genet-mdio-v3', 'brcm,genet-mdio-v4', 'brcm,genet-mdio-v5', 'brcm,unimac-mdio']
+	From schema: /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/net/brcm,asp-v2.0.yaml
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/net/brcm,asp-v2.0.example.dtb: asp@9c00000: mdio@c614: Unevaluated properties are not allowed ('compatible' was unexpected)
+	From schema: /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/net/brcm,asp-v2.0.yaml
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/net/brcm,asp-v2.0.example.dtb: asp@9c00000: mdio@ce14:compatible:0: 'brcm,asp-v2.0-mdio' is not one of ['brcm,genet-mdio-v1', 'brcm,genet-mdio-v2', 'brcm,genet-mdio-v3', 'brcm,genet-mdio-v4', 'brcm,genet-mdio-v5', 'brcm,unimac-mdio']
+	From schema: /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/net/brcm,asp-v2.0.yaml
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/net/brcm,asp-v2.0.example.dtb: asp@9c00000: mdio@ce14: Unevaluated properties are not allowed ('compatible' was unexpected)
+	From schema: /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/net/brcm,asp-v2.0.yaml
+Documentation/devicetree/bindings/net/brcm,asp-v2.0.example.dtb: /example-0/asp@9c00000/mdio@c614: failed to match any schema with compatible: ['brcm,asp-v2.0-mdio']
+Documentation/devicetree/bindings/net/brcm,asp-v2.0.example.dtb: /example-0/asp@9c00000/mdio@ce14: failed to match any schema with compatible: ['brcm,asp-v2.0-mdio']
+
+doc reference errors (make refcheckdocs):
+
+See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/1681863018-28006-2-git-send-email-justinpopo6@gmail.com
+
+The base for the series is generally the latest rc1. A different dependency
+should be noted in *this* patch.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit after running the above command yourself. Note
+that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+your schema. However, it must be unset to test all examples with your schema.
+
