@@ -2,49 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 502EC6E8144
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Apr 2023 20:30:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D1BE56E8152
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Apr 2023 20:37:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3BDF310EA6A;
-	Wed, 19 Apr 2023 18:30:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0013E10EA83;
+	Wed, 19 Apr 2023 18:37:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from 189.cn (ptr.189.cn [183.61.185.104])
- by gabe.freedesktop.org (Postfix) with ESMTP id D295210EA6A
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Apr 2023 18:30:24 +0000 (UTC)
-HMM_SOURCE_IP: 10.64.8.43:38904.1890619074
-HMM_ATTACHE_NUM: 0000
-HMM_SOURCE_TYPE: SMTP
-Received: from clientip-114.242.206.180 (unknown [10.64.8.43])
- by 189.cn (HERMES) with SMTP id E6CE6102AED;
- Thu, 20 Apr 2023 02:30:18 +0800 (CST)
-Received: from  ([114.242.206.180])
- by gateway-151646-dep-7b48884fd-tj646 with ESMTP id
- 009c50c0d4b44fce9c934c2466f12ece for tzimmermann@suse.de; 
- Thu, 20 Apr 2023 02:30:21 CST
-X-Transaction-ID: 009c50c0d4b44fce9c934c2466f12ece
-X-Real-From: 15330273260@189.cn
-X-Receive-IP: 114.242.206.180
-X-MEDUSA-Status: 0
-Message-ID: <867ab1ec-4ef9-3d91-2bfb-528cf304513a@189.cn>
-Date: Thu, 20 Apr 2023 02:30:17 +0800
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3F9CC10EA7E
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Apr 2023 18:37:09 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 3DA7261558;
+ Wed, 19 Apr 2023 18:37:07 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 773D3C433D2;
+ Wed, 19 Apr 2023 18:37:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1681929426;
+ bh=WvcAdd5nlPqNohhCXFOiHzOhi+SADKfXYzqWqMwWQd8=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:From;
+ b=JXb4yB4h47ZW7wioaGqGMN/Ao/YndkMiYDh+rtEnrAkp1JNAk1ONzho3pRYp2fG87
+ 2Vc77F/r17AMejNcnnqJ1o0LaJXoc8QmZPwUsqVW96l5MmW1Lp/WG2ZQtm+1R7Wd1k
+ nHZN5v7V74AUhzW2MROTboAjQYEUaX/pmAAI1TlHvLXgsvH29ZWv8SiIxlWAtLKrWH
+ ewNnXzO8yA3z60e4zUlTJZy+Exdzg5EGwKDVhz01//gWVhLvfvwt79eBpXHq2YQVny
+ md+hoNq98GvLGN244rd0vwb3t76uO0Io2JpsbnYCvYFplrTmkuWUS0uAgQsLGcFNCB
+ j8vux79kQVkmg==
+Date: Wed, 19 Apr 2023 13:37:04 -0500
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH] PCI: Add ASPEED vendor ID
+Message-ID: <20230419183704.GA216848@bhelgaas>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH v3] drm/fbdev-generic: prohibit potential out-of-bounds
- access
-Content-Language: en-US
-To: Thomas Zimmermann <tzimmermann@suse.de>, Daniel Vetter <daniel@ffwll.ch>
-References: <20230417113219.1354078-1-suijingfeng@loongson.cn>
- <ZD5Vgx9Txaiz7Bun@phenom.ffwll.local>
- <139c9398-488d-df19-9ae2-2b4b47ef64f4@189.cn>
- <86a8b262-cbf2-b75f-9972-491f557edf74@189.cn>
- <CAKMK7uE-azFT02Sp2FDfMGTc57eYJEn8iM8Wk1mt5ucPs1qM-w@mail.gmail.com>
- <59dff860-9d1f-ec66-cd87-28693aa1fad2@suse.de>
-From: Sui Jingfeng <15330273260@189.cn>
-In-Reply-To: <59dff860-9d1f-ec66-cd87-28693aa1fad2@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <d1f776e1-8489-010f-a500-ba68b45ad3a3@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,237 +52,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Helge Deller <deller@gmx.de>,
- Lucas De Marchi <lucas.demarchi@intel.com>, linux-kernel@vger.kernel.org,
- loongson-kernel@lists.loongnix.cn, dri-devel@lists.freedesktop.org,
- Li Yi <liyi@loongson.cn>
+Cc: "open list:PCI SUBSYSTEM" <linux-pci@vger.kernel.org>,
+ open list <linux-kernel@vger.kernel.org>,
+ "open list:DRM DRIVER FOR AST SERVER GRAPHICS CHIPS"
+ <dri-devel@lists.freedesktop.org>, Bjorn Helgaas <bhelgaas@google.com>,
+ Dave Airlie <airlied@redhat.com>, Patrick McLean <chutzpah@gentoo.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On Wed, Apr 19, 2023 at 09:00:15AM +0200, Thomas Zimmermann wrote:
+> Am 19.04.23 um 00:57 schrieb Patrick McLean:
+> > Currently the ASPEED PCI vendor ID is defined in
+> > drivers/gpu/drm/ast/ast_drv.c, move that to include/linux/pci_ids.h
+> > with all the rest of the PCI vendor ID definitions. Rename the definition
+> > to follow the format that the other definitions follow.
+> 
+> Thanks a lot. Can you please also move and rename the PCI device ids? [1]
 
-On 2023/4/19 23:46, Thomas Zimmermann wrote:
-> Hi
->
-> Am 19.04.23 um 17:09 schrieb Daniel Vetter:
->> On Tue, 18 Apr 2023 at 20:16, Sui Jingfeng <15330273260@189.cn> wrote:
->>>
->>> Hi,
->>>
->>> On 2023/4/19 01:52, Sui Jingfeng wrote:
->>>> Hi,
->>>>
->>>> On 2023/4/18 16:32, Daniel Vetter wrote:
->>>>> On Mon, Apr 17, 2023 at 07:32:19PM +0800, Sui Jingfeng wrote:
->>>>>> The fbdev test of IGT may write after EOF, which lead to 
->>>>>> out-of-bound
->>>>>> access for the drm drivers using fbdev-generic. For example, on a 
->>>>>> x86
->>>>>> + aspeed bmc card platform, with a 1680x1050 resolution display,
->>>>>> running
->>>>>> fbdev test if IGT will cause the linux kernel hang with the 
->>>>>> following
->>>>>> call trace:
->>>>>>
->>>>>>     Oops: 0000 [#1] PREEMPT SMP PTI
->>>>>>     [IGT] fbdev: starting subtest eof
->>>>>>     Workqueue: events drm_fb_helper_damage_work [drm_kms_helper]
->>>>>>     [IGT] fbdev: starting subtest nullptr
->>>>>>
->>>>>>     RIP: 0010:memcpy_erms+0xa/0x20
->>>>>>     RSP: 0018:ffffa17d40167d98 EFLAGS: 00010246
->>>>>>     RAX: ffffa17d4eb7fa80 RBX: ffffa17d40e0aa80 RCX: 
->>>>>> 00000000000014c0
->>>>>>     RDX: 0000000000001a40 RSI: ffffa17d40e0b000 RDI: 
->>>>>> ffffa17d4eb80000
->>>>>>     RBP: ffffa17d40167e20 R08: 0000000000000000 R09: 
->>>>>> ffff89522ecff8c0
->>>>>>     R10: ffffa17d4e4c5000 R11: 0000000000000000 R12: 
->>>>>> ffffa17d4eb7fa80
->>>>>>     R13: 0000000000001a40 R14: 000000000000041a R15: 
->>>>>> ffffa17d40167e30
->>>>>>     FS:  0000000000000000(0000) GS:ffff895257380000(0000)
->>>>>> knlGS:0000000000000000
->>>>>>     CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
->>>>>>     CR2: ffffa17d40e0b000 CR3: 00000001eaeca006 CR4: 
->>>>>> 00000000001706e0
->>>>>>     Call Trace:
->>>>>>      <TASK>
->>>>>>      ? drm_fbdev_generic_helper_fb_dirty+0x207/0x330 
->>>>>> [drm_kms_helper]
->>>>>>      drm_fb_helper_damage_work+0x8f/0x170 [drm_kms_helper]
->>>>>>      process_one_work+0x21f/0x430
->>>>>>      worker_thread+0x4e/0x3c0
->>>>>>      ? __pfx_worker_thread+0x10/0x10
->>>>>>      kthread+0xf4/0x120
->>>>>>      ? __pfx_kthread+0x10/0x10
->>>>>>      ret_from_fork+0x2c/0x50
->>>>>>      </TASK>
->>>>>>     CR2: ffffa17d40e0b000
->>>>>>     ---[ end trace 0000000000000000 ]---
->>>>>>
->>>>>> The direct reason is that damage rectange computed by
->>>>>> drm_fb_helper_memory_range_to_clip() does not guaranteed to be
->>>>>> in-bound.
->>>>>> It is already results in workaround code populate to elsewhere. 
->>>>>> Another
->>>>>> reason is that exposing a larger buffer size than the actual needed
->>>>>> help
->>>>>> to trigger this bug intrinsic in 
->>>>>> drm_fb_helper_memory_range_to_clip().
->>>>>>
->>>>>> Others fbdev emulation solutions write to the GEM buffer 
->>>>>> directly, they
->>>>>> won't reproduce this bug because the .fb_dirty function callback 
->>>>>> do not
->>>>>> being hooked, so no chance is given to
->>>>>> drm_fb_helper_memory_range_to_clip()
->>>>>> to generate a out-of-bound when drm_fb_helper_sys_write() is called.
->>>>>>
->>>>>> This patch break the trigger condition of this bug by shrinking the
->>>>>> shadow
->>>>>> buffer size to sizes->surface_height * buffer->fb->pitches[0].
->>>>>>
->>>>>> Fixes: '8fbc9af55de0 ("drm/fbdev-generic: Set screen size to size of
->>>>>> GEM
->>>>>> buffer")'
->>>>>>
->>>>>> Signed-off-by: Sui Jingfeng <suijingfeng@loongson.cn>
->>>>>> ---
->>>>>>    drivers/gpu/drm/drm_fbdev_generic.c | 2 +-
->>>>>>    1 file changed, 1 insertion(+), 1 deletion(-)
->>>>>>
->>>>>> diff --git a/drivers/gpu/drm/drm_fbdev_generic.c
->>>>>> b/drivers/gpu/drm/drm_fbdev_generic.c
->>>>>> index 8e5148bf40bb..b057cfbba938 100644
->>>>>> --- a/drivers/gpu/drm/drm_fbdev_generic.c
->>>>>> +++ b/drivers/gpu/drm/drm_fbdev_generic.c
->>>>>> @@ -94,7 +94,7 @@ static int
->>>>>> drm_fbdev_generic_helper_fb_probe(struct drm_fb_helper *fb_helper,
->>>>>>        fb_helper->buffer = buffer;
->>>>>>        fb_helper->fb = buffer->fb;
->>>>>>    -    screen_size = buffer->gem->size;
->>>>>> +    screen_size = sizes->surface_height * buffer->fb->pitches[0];
->>>>> So I read core some more and stumbled over 
->>>>> drm_fb_helper_deferred_io().
->>>>> Which has all the code and comments about this, including limiting.
->>>>>
->>>>> I think it would be clearer if we fix the issue there, instead of
->>>>> passing
->>>>> limits around in obscure places that then again get broken?
->>>>
->>>> No, it is more obscure doing that way...
->>>>
->>>>
->>>> As the size of the shadow screen buffer will be exposed to userspace.
->>>>
->>>> The size 'helper->fb->height * helper->fb->pitches[0]' is a
->>>> exactly(best) fit,
->>>>
->>>> You are guaranteed to waste at lease one byte by increasing one byte,
->>>>
->>>> and can not store all pixels by decreasing one byte (In the case where
->>>> `helper->fb->pitches[0] = helper->fb->width * 4`).
->>>>
->>>> It implicitly tell the userspace do not go beyond that boundary.
->>>>
->>>> although userspace program can still choose to write  after EOF,
->>>>
->>>> But it is for test purpose, to test the kernel if it can return a
->>>> -EFBIG or not.
->>>>
->>>>> The thing is,
->>>>> Thomas both authored the limit checks in 
->>>>> drm_fb_helper_deferred_io() and
->>>>> the patch which broken them again, so clearly this isn't very
->>>>> obvious. I'm
->>>>> thinking of something like this:
->>>>>
->>>>>
->>>>> diff --git a/drivers/gpu/drm/drm_fb_helper.c
->>>>> b/drivers/gpu/drm/drm_fb_helper.c
->>>>> index ef4eb8b12766..726dab67c359 100644
->>>>> --- a/drivers/gpu/drm/drm_fb_helper.c
->>>>> +++ b/drivers/gpu/drm/drm_fb_helper.c
->>>>> @@ -697,10 +697,7 @@ void drm_fb_helper_deferred_io(struct fb_info
->>>>> *info, struct list_head *pagerefli
->>>>>         * of the screen and account for non-existing scanlines. 
->>>>> Hence,
->>>>>         * keep the covered memory area within the screen buffer.
->>>>>         */
->>>>> -    if (info->screen_size)
->>>>> -        total_size = info->screen_size;
->>>>> -    else
->>>>> -        total_size = info->fix.smem_len;
->>>>> +    total_size = helper->fb->height * helper->fb->pitches[0];
->>>>
->>>> This is just to mitigate the mistakes already has been made,
->>>>
->>>> because it  do not do a good splitting between the *clip* part and the
->>>> *damage update* part.
->>>>
->>>> An ideal clipping do not obscure its updating backend with a
->>>> out-of-bound damage rectangle.
->>>>
->>>> Why did the drm_fb_helper_memory_range_to_clip() can not do a good job
->>>> in all case
->>>>
->>>> to pass its backend a always meaningful damage rect ?
->>>>
->>>>>        max_off = min(max_off, total_size);
->>>>>          if (min_off < max_off) {
->>>>>
->>>>>
->>>>> I think that would make it utmost clear on what we're doing and why.
->>>>> Otherwise we're just going to re-create the same bug again, like 
->>>>> we've
->>>>> done already :-)
->>>>
->>>> No, we create no bugs, we fix one.
->>>>
->>>> Thanks.
->>>>
->>> But honestly I do not have strong feel toward this, I just type what 
->>> I'm
->>> understand without seeing you resend a V3.
->>>
->>> It's OK in overall,  I will help to test this tomorrow.  :-)
->>
->> Apologies for making you jump around all the time and doing different
->> versions of the same bugfix :-/
->>
->> I think this one here is ok to merge, I just thought when looking at
->> the history that we revert the exact patch without any other changes
->> or comments, and usually that means someone will come up with the same
->> cleanup idea again, and then we'll have a bug again. So maybe a
->> comment or a WARN_ON or something else would be good.
->>
->> I guess we could also do your patch, but put a WARN_ON that the
->> computed total_size is never bigger than the drm_fb size into
->> drm_fb_helper_deferred_io()? That would also make sure that this bug
->> doesn't get resurrected again.
->
-> We'd have to put this test into drm_fbdev_generic.c. Otherwise we'll 
-> break i915, which also uses deferred I/O, but without shadow 
-> buffering.. Maybe test in drm_fbdev_generic_helper_fb_dirty() if the 
-> clip rectangle extends the framebuffer size.
->
-Yeah, i915 carve out part of system ram as video memory,  it is also 
-called stolen memory.
+Generally we move things to pci_ids.h only when they are shared
+between multiple drivers.  This is mostly to make backports easier.
 
-I just learned it recently from i915 related document.
+PCI_VENDOR_ID_ASPEED is (or will be) used in both ast_drv.c and
+libata-core.c, so it qualifies.
+
+It doesn't look like PCI_CHIP_AST2000 and PCI_CHIP_AST2100 would
+qualify since they're only used in ast_drv.c and ast_main.c, which are
+part of the same driver.
+
+> [1] https://elixir.bootlin.com/linux/v6.2/source/drivers/gpu/drm/ast/ast_drv.h#L52
+> 
+> > 
+> > Signed-off-by: Patrick McLean <chutzpah@gentoo.org>
+> > ---
+> >   drivers/gpu/drm/ast/ast_drv.c | 4 +---
+> >   include/linux/pci_ids.h       | 2 ++
+> >   2 files changed, 3 insertions(+), 3 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/ast/ast_drv.c b/drivers/gpu/drm/ast/ast_drv.c
+> > index d78852c7cf5b..232e797793b6 100644
+> > --- a/drivers/gpu/drm/ast/ast_drv.c
+> > +++ b/drivers/gpu/drm/ast/ast_drv.c
+> > @@ -70,12 +70,10 @@ static const struct drm_driver ast_driver = {
+> >    * PCI driver
+> >    */
+> > -#define PCI_VENDOR_ASPEED 0x1a03
+> > -
+> >   #define AST_VGA_DEVICE(id, info) {		\
+> >   	.class = PCI_BASE_CLASS_DISPLAY << 16,	\
+> >   	.class_mask = 0xff0000,			\
+> > -	.vendor = PCI_VENDOR_ASPEED,			\
+> > +	.vendor = PCI_VENDOR_ID_ASPEED,			\
+> >   	.device = id,				\
+> >   	.subvendor = PCI_ANY_ID,		\
+> >   	.subdevice = PCI_ANY_ID,		\
+> > diff --git a/include/linux/pci_ids.h b/include/linux/pci_ids.h
+> > index 45c3d62e616d..40e04e88ca5a 100644
+> > --- a/include/linux/pci_ids.h
+> > +++ b/include/linux/pci_ids.h
+> > @@ -2553,6 +2553,8 @@
+> >   #define PCI_DEVICE_ID_NETRONOME_NFP3800_VF	0x3803
+> >   #define PCI_DEVICE_ID_NETRONOME_NFP6000_VF	0x6003
+> > +#define PCI_VENDOR_ID_ASPEED		0x1a03
+> > +
+> >   #define PCI_VENDOR_ID_QMI		0x1a32
+> >   #define PCI_VENDOR_ID_AZWAVE		0x1a3b
+> 
+> -- 
+> Thomas Zimmermann
+> Graphics Driver Developer
+> SUSE Software Solutions Germany GmbH
+> Maxfeldstr. 5, 90409 N�rnberg, Germany
+> (HRB 36809, AG N�rnberg)
+> Gesch�ftsf�hrer: Ivo Totev
 
 
-But from what I'm understanding, It's still RAM in its nature, just 
-reserved by firmware.
 
-Its bandwidth is extremely high, why not write to the GEM buffer directly?
-
-why deferred I/O pay off?
-
-
-> Best regards
-> Thomas
->
->> -Daniel
->
