@@ -2,51 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 449EE6E82CE
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Apr 2023 22:37:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FB6F6E82E5
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Apr 2023 22:54:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 92B5010EB0D;
-	Wed, 19 Apr 2023 20:37:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C6F2D10E07D;
+	Wed, 19 Apr 2023 20:54:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9CC0810EAFF;
- Wed, 19 Apr 2023 20:37:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1681936658; x=1713472658;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=MJNtlJbwqR8+qo05ouosF5HNTfa/H4h2E4Mb58fcB+g=;
- b=hP4Qg8G64LPhpc422bGhq1lyPo8mLajFJPt8QurH8QQIpgmkzaZ1WfmN
- TEyR9N0709gRaHdzcxwacUjSNd4GmDm+9t2qhHzj2s8QvXsAsQVwWd1NR
- s4k8AN2FIYVEnxw/n86Jyd/e/+WF+9sZP/HAXSD55phEiyeH4Zv4CTQHt
- sc5uQygUU5FALEYV9iP3h9BX+40ZzXkashCxN7USwZyS+ScG/MIqdTqNn
- xWmT8Z6TN2SwqOqlR1ec9h0v3zDazcOXHXZaqBY0p/wPRhLe1t7D9AYhI
- CbaZib1fZx6vizXQXl3dbofsSBKj5BPzdt9XM690TnMuN1laduS+cybld Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10685"; a="325888863"
-X-IronPort-AV: E=Sophos;i="5.99,210,1677571200"; d="scan'208";a="325888863"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Apr 2023 13:37:37 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10685"; a="694213881"
-X-IronPort-AV: E=Sophos;i="5.99,210,1677571200"; d="scan'208";a="694213881"
-Received: from crijnder-mobl.ger.corp.intel.com (HELO intel.com)
- ([10.249.35.137])
- by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Apr 2023 13:37:35 -0700
-Date: Wed, 19 Apr 2023 22:37:32 +0200
-From: Andi Shyti <andi.shyti@linux.intel.com>
-To: fei.yang@intel.com
-Subject: Re: [Intel-gfx] [PATCH 0/8] drm/i915/mtl: Define MOCS and PAT tables
- for MTL
-Message-ID: <ZEBRDLC4RidF6Xga@ashyti-mobl2.lan>
-References: <20230419180942.2494156-1-fei.yang@intel.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E0E8A10E07D
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Apr 2023 20:54:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1681937673;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Wvra6V6vuYIrEPb+Aoj8S3fq1oRWM8hoEJREDLbq85Y=;
+ b=gYVLPOM4kNDulrtR4YEq5JLEafYkDC2qxUxTrmJpLGyFt8HlcBQxKI7etvpwsTLTcYNHsl
+ M4EqgosAy1r6f4V4FFN44wJ5MKzMa0+1Zc+mfKH4d1ooWEL6JW4v2+0xDGAL0CtA0O0REm
+ D3QY3op3ur+x8cyku1UvkTLs7ydezPI=
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
+ [209.85.222.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-621-fSnCq5KEPbCQdzxTMLq9pw-1; Wed, 19 Apr 2023 16:54:33 -0400
+X-MC-Unique: fSnCq5KEPbCQdzxTMLq9pw-1
+Received: by mail-qk1-f198.google.com with SMTP id
+ z188-20020a3765c5000000b0074cdcea5d20so631167qkb.10
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Apr 2023 13:54:32 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1681937672; x=1684529672;
+ h=mime-version:user-agent:content-transfer-encoding:organization
+ :references:in-reply-to:date:cc:to:from:subject:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=NwC/+o9d6wvrtiLeiNvOscHp+/u8nRn/PrEmgvt3fZ8=;
+ b=Nee1vPpV1xdCidrETg1zQvqBOX5gMDJAm9BQaB07+QEFjanaLGu2WnyUoh9mSN7GoS
+ QfIOmJYji8a3CtqVCD+JIGtN8hQppKjLNW8XHwoK4xJ0QMCrOabZDG8ecHVv86zWbGOL
+ SE+sGVbBgV/wQ7HFVBk5hxrIfldCNUKsrYeu3z2k8DZTAIdQ71fird5rQKHaQgUq10we
+ JMR2lHK5B4lL3h38jTACeTrw6K4G8L7hjYiwUjT+3Z1T4qoLpHtSXhtcdiLq6PD2Zh3s
+ XW9sQkNrg/ZEtjrHxZbbRn1gVeE8PBn6DV/DtaGu4afRBphhTtoJg1X8mtx5mmH7FrBb
+ KsEA==
+X-Gm-Message-State: AAQBX9dp2XEBKWDGk8AgGZ4O2xp8llOZHA8B9XtbRbkX3ypZcaWnJ77y
+ CfICG8CyNM0EmHslMVp1cmCeoTPrIRC485jEtf0TGpDCUyxVHpak1yxpVsQ2W9UVyKpSWdunAm4
+ +f4lNzvU+P3H+RHxLX+gfK3H9cDDm
+X-Received: by 2002:ac8:5910:0:b0:3ee:c749:ef6a with SMTP id
+ 16-20020ac85910000000b003eec749ef6amr8266981qty.7.1681937672554; 
+ Wed, 19 Apr 2023 13:54:32 -0700 (PDT)
+X-Google-Smtp-Source: AKy350b3829jv2r254VCx6kpqm7ULHjkMhhvujywKwLYY5dhb3sKHN4WPrlOjqpEmuMgq3oHObuJiA==
+X-Received: by 2002:ac8:5910:0:b0:3ee:c749:ef6a with SMTP id
+ 16-20020ac85910000000b003eec749ef6amr8266967qty.7.1681937672329; 
+ Wed, 19 Apr 2023 13:54:32 -0700 (PDT)
+Received: from ?IPv6:2600:4040:5c62:8200::feb? ([2600:4040:5c62:8200::feb])
+ by smtp.gmail.com with ESMTPSA id
+ b34-20020a05620a272200b007435a646354sm4932800qkp.0.2023.04.19.13.54.31
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 19 Apr 2023 13:54:31 -0700 (PDT)
+Message-ID: <d0b9654c756069a6f0edcca6f4d410f7af592784.camel@redhat.com>
+Subject: Re: [PATCH v2] drm: use mgr->dev in drm_dbg_kms in
+ drm_dp_add_payload_part2
+From: Lyude Paul <lyude@redhat.com>
+To: Jeff Layton <jlayton@kernel.org>, David Airlie <airlied@gmail.com>, 
+ Daniel Vetter <daniel@ffwll.ch>
+Date: Wed, 19 Apr 2023 16:54:31 -0400
+In-Reply-To: <20230419112447.18471-1-jlayton@kernel.org>
+References: <20230419112447.18471-1-jlayton@kernel.org>
+Organization: Red Hat Inc.
+User-Agent: Evolution 3.44.4 (3.44.4-2.fc36)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230419180942.2494156-1-fei.yang@intel.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,45 +86,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Wayne.Lin@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Fei,
+Reviewed-by: Lyude Paul <lyude@redhat.com>
 
-On Wed, Apr 19, 2023 at 11:09:34AM -0700, fei.yang@intel.com wrote:
-> From: Fei Yang <fei.yang@intel.com>
-> 
-> The series includes patches needed to enable MTL.
-> Also add new extension for GEM_CREATE uAPI to let
-> user space set cache policy for buffer objects.
-> 
-> v2: addressing review comments and checkpatch warnings
-> 
-> Fei Yang (7):
->   drm/i915/mtl: Set has_llc=0
->   drm/i915/mtl: Add PTE encode function
->   drm/i915/mtl: workaround coherency issue for Media
->   drm/i915/mtl: end support for set caching ioctl
->   drm/i915: preparation for using PAT index
->   drm/i915: use pat_index instead of cache_level
->   drm/i915: Allow user to set cache at BO creation
-> 
-> Madhumitha Tolakanahalli Pradeep (1):
->   drm/i915/mtl: Define MOCS and PAT tables for MTL
+Thanks!
 
-next time could you please add all the r-b's you got, as it's
-hard to track them down?
+On Wed, 2023-04-19 at 07:24 -0400, Jeff Layton wrote:
+> I've been experiencing some intermittent crashes down in the display
+> driver code. The symptoms are ususally a line like this in dmesg:
+>=20
+>     amdgpu 0000:30:00.0: [drm] Failed to create MST payload for port 0000=
+00006d3a3885: -5
+>=20
+> ...followed by an Oops due to a NULL pointer dereference.
+>=20
+> Switch to using mgr->dev instead of state->dev since "state" can be
+> NULL in some cases.
+>=20
+> Link: https://bugzilla.redhat.com/show_bug.cgi?id=3D2184855
+> Suggested-by: Jani Nikula <jani.nikula@linux.intel.com>
+> Signed-off-by: Jeff Layton <jlayton@kernel.org>
+> ---
+>  drivers/gpu/drm/display/drm_dp_mst_topology.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> I've been running this patch for a couple of days, but the problem
+> hasn't occurred again as of yet. It seems sane though as long as we can
+> assume that mgr->dev will be valid even when "state" is a NULL pointer.
+>=20
+> diff --git a/drivers/gpu/drm/display/drm_dp_mst_topology.c b/drivers/gpu/=
+drm/display/drm_dp_mst_topology.c
+> index 38dab76ae69e..e2e21ce79510 100644
+> --- a/drivers/gpu/drm/display/drm_dp_mst_topology.c
+> +++ b/drivers/gpu/drm/display/drm_dp_mst_topology.c
+> @@ -3404,7 +3404,7 @@ int drm_dp_add_payload_part2(struct drm_dp_mst_topo=
+logy_mgr *mgr,
+> =20
+>  =09/* Skip failed payloads */
+>  =09if (payload->vc_start_slot =3D=3D -1) {
+> -=09=09drm_dbg_kms(state->dev, "Part 1 of payload creation for %s failed,=
+ skipping part 2\n",
+> +=09=09drm_dbg_kms(mgr->dev, "Part 1 of payload creation for %s failed, s=
+kipping part 2\n",
+>  =09=09=09    payload->port->connector->name);
+>  =09=09return -EIO;
+>  =09}
 
-And, could you please version your patches with format patch:
+--=20
+Cheers,
+ Lyude Paul (she/her)
+ Software Engineer at Red Hat
 
-   git format-patch -v X
-
-and also add a changelog. The changelog might be a bit annoying
-but it's very useful to understand what has changed.
-
-As a reviewer, in order to check the different versions I had to
-check the date sent.
-
-Thanks,
-Andi
