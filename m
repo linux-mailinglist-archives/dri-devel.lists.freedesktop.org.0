@@ -2,51 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1059C6E7DF4
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Apr 2023 17:16:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F1C86E7E82
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Apr 2023 17:40:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7858510E9E1;
-	Wed, 19 Apr 2023 15:16:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1407610E9FE;
+	Wed, 19 Apr 2023 15:40:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B1F5810E078;
- Wed, 19 Apr 2023 15:16:03 +0000 (UTC)
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5EB0210EA01;
+ Wed, 19 Apr 2023 15:40:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1681917363; x=1713453363;
+ t=1681918854; x=1713454854;
  h=message-id:date:mime-version:subject:to:cc:references:
  from:in-reply-to:content-transfer-encoding;
- bh=Ke0IkHefRXSpgn9rnn83NxWhsHBT9VGyhzckBC2KGhQ=;
- b=kYoSIsp8mmYed+SXsgG9aQLw6C2hgY6GAAUCvT6ETI4hZbs4XLYbKXvX
- GEDfUYbYgUajBZ3/xhEo6Utt6taQ8FNUyE9HXqnUvwMpybB9cVakILyUU
- Zkrl3acourPnjcyGHVutNIYJaCp0/UPNnp7qaHW7cA4ZmolgNw8bwC9Gx
- U6+QXkljq9FInH7dELqrXy6V9LP1AShnfwnL9o8VE8IDNlwLLX3jLSg1i
- /w6M5Ny2tojWXvv2lcK9nuPeUBBUJQIl4oYpzkBE07O6tk8SR8mJdtRHP
- Z9Jou+t3+ZG0n1AMAG6CdRiM18UIZv4c2GKrOk4guRAAmMrOlu76LgcB5 w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10685"; a="345478500"
-X-IronPort-AV: E=Sophos;i="5.99,208,1677571200"; d="scan'208";a="345478500"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Apr 2023 08:14:38 -0700
+ bh=k9i9FeIcwInBgX/OalPS7sUvYsZo/iIlfgZJEAzUGzA=;
+ b=UG4raHJPzugl4E0u5L42HqS5K8HEpWzSSs8aYoO4RnHZlp6qlOoRRyX0
+ Y+YsDL9/rFdf1FTUZBW+1ia5HPd3Dx+wzo9TlOvSSlVeRUyHNYQxdYbMi
+ sBmtQWpFcKJRRDxF6aS7wXFsoshe1DnnSWuYAIJs0bXkyIgVo64NDIO9P
+ ecGmovbzm+/L2ihNxFNHekNS+3NiVgOguclCpWJmnWlfFVR+L4iTze0Ej
+ Lg/wtoZ11q6qfiDQB7sVkdHepdnu6/02+y5Ep4GdvWstDZzhxbqFVmXAa
+ GVUX8W+tZjRkdkRDEwNRuMhmf/zBHSirqHk5pS46kz39jsx+BJPYtptjh g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10685"; a="325815846"
+X-IronPort-AV: E=Sophos;i="5.99,208,1677571200"; d="scan'208";a="325815846"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Apr 2023 08:40:53 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10685"; a="1021245954"
-X-IronPort-AV: E=Sophos;i="5.99,208,1677571200"; d="scan'208";a="1021245954"
-Received: from nirmoyda-mobl.ger.corp.intel.com (HELO [10.252.32.240])
- ([10.252.32.240])
- by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Apr 2023 08:14:37 -0700
-Message-ID: <80aa2409-e1b4-706b-91a3-0867a926fca2@linux.intel.com>
-Date: Wed, 19 Apr 2023 17:14:35 +0200
+X-IronPort-AV: E=McAfee;i="6600,9927,10685"; a="694092260"
+X-IronPort-AV: E=Sophos;i="5.99,208,1677571200"; d="scan'208";a="694092260"
+Received: from ahajda-mobl.ger.corp.intel.com (HELO [10.213.18.145])
+ ([10.213.18.145])
+ by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Apr 2023 08:40:52 -0700
+Message-ID: <e654fc52-b1ce-13f6-adfe-3e108f98e6ce@intel.com>
+Date: Wed, 19 Apr 2023 17:40:49 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH 4/8] drm/i915/mtl: workaround coherency issue for Media
+ Firefox/102.0 Thunderbird/102.10.0
+Subject: Re: [Intel-gfx] [PATCH 4/8] drm/i915/mtl: workaround coherency issue
+ for Media
 Content-Language: en-US
 To: fei.yang@intel.com, intel-gfx@lists.freedesktop.org
 References: <20230417062503.1884465-1-fei.yang@intel.com>
  <20230417062503.1884465-5-fei.yang@intel.com>
-From: "Das, Nirmoy" <nirmoy.das@linux.intel.com>
+From: Andrzej Hajda <andrzej.hajda@intel.com>
+Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
+ Gdansk - KRS 101882 - NIP 957-07-52-316
 In-Reply-To: <20230417062503.1884465-5-fei.yang@intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
@@ -66,12 +69,11 @@ Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On 4/17/2023 8:24 AM, fei.yang@intel.com wrote:
+On 17.04.2023 08:24, fei.yang@intel.com wrote:
 > From: Fei Yang <fei.yang@intel.com>
->
+> 
 > This patch implements Wa_22016122933.
->
+> 
 > In MTL, memory writes initiated by Media tile update the whole
 > cache line even for partial writes. This creates a coherency
 > problem for cacheable memory if both CPU and GPU are writing data
@@ -84,30 +86,24 @@ On 4/17/2023 8:24 AM, fei.yang@intel.com wrote:
 > CTB which is being updated by both CPU and GuC, mfence instruction
 > is added to make sure the CPU writes are visible to GPU right away
 > (flush the write combining buffer).
->
+> 
 > While fixing the CTB issue, we noticed some random GSC firmware
 > loading failure because the share buffers are cacheable (WB) on CPU
 > side but uncached on GPU side. To fix these issues we need to map
 > such shared buffers as WC on CPU side. Since such allocations are
 > not all done through GuC allocator, to avoid too many code changes,
 > the i915_coherent_map_type() is now hard coded to return WC for MTL.
->
+> 
 > BSpec: 45101
->
+> 
 > Signed-off-by: Fei Yang <fei.yang@intel.com>
-
-
-This was a great find :)
-
-Acked-by: Nirmoy Das <nirmoy.das@intel.com>
-
 > ---
 >   drivers/gpu/drm/i915/gem/i915_gem_pages.c |  5 ++++-
 >   drivers/gpu/drm/i915/gt/uc/intel_gsc_fw.c | 13 +++++++++++++
 >   drivers/gpu/drm/i915/gt/uc/intel_guc.c    |  7 +++++++
 >   drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c | 18 ++++++++++++------
 >   4 files changed, 36 insertions(+), 7 deletions(-)
->
+> 
 > diff --git a/drivers/gpu/drm/i915/gem/i915_gem_pages.c b/drivers/gpu/drm/i915/gem/i915_gem_pages.c
 > index ecd86130b74f..89fc8ea6bcfc 100644
 > --- a/drivers/gpu/drm/i915/gem/i915_gem_pages.c
@@ -199,6 +195,21 @@ Acked-by: Nirmoy Das <nirmoy.das@intel.com>
 > +	 * submission) are visible before updating the descriptor tail
 > +	 */
 > +	intel_guc_write_barrier(ct_to_guc(ct));
+
+The comment above needs update, if this is correct change. The question 
+is why it is correct? If yes, it implies that old barrier is incorrect, 
+maybe it should be then separate fix?
+I am not an expert, but previous location of the barrier seems sane to 
+me - assure GuC will see proper buffer, before updating buffer's tail.
+
+And according to commit message this new barrier should flush WC buffer,
+so for me it seems to be different thing.
+Am I missing something?
+
+
+Regards
+Andrzej
+
 > +
 >   	return 0;
 >   
@@ -216,3 +227,4 @@ Acked-by: Nirmoy Das <nirmoy.das@intel.com>
 >   	return available - len;
 >   
 >   corrupted:
+
