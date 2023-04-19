@@ -1,79 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FB6F6E82E5
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Apr 2023 22:54:40 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 323F36E831A
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Apr 2023 23:11:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C6F2D10E07D;
-	Wed, 19 Apr 2023 20:54:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5C81710EAEA;
+	Wed, 19 Apr 2023 21:11:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E0E8A10E07D
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Apr 2023 20:54:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1681937673;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Wvra6V6vuYIrEPb+Aoj8S3fq1oRWM8hoEJREDLbq85Y=;
- b=gYVLPOM4kNDulrtR4YEq5JLEafYkDC2qxUxTrmJpLGyFt8HlcBQxKI7etvpwsTLTcYNHsl
- M4EqgosAy1r6f4V4FFN44wJ5MKzMa0+1Zc+mfKH4d1ooWEL6JW4v2+0xDGAL0CtA0O0REm
- D3QY3op3ur+x8cyku1UvkTLs7ydezPI=
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
- [209.85.222.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-621-fSnCq5KEPbCQdzxTMLq9pw-1; Wed, 19 Apr 2023 16:54:33 -0400
-X-MC-Unique: fSnCq5KEPbCQdzxTMLq9pw-1
-Received: by mail-qk1-f198.google.com with SMTP id
- z188-20020a3765c5000000b0074cdcea5d20so631167qkb.10
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Apr 2023 13:54:32 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681937672; x=1684529672;
- h=mime-version:user-agent:content-transfer-encoding:organization
- :references:in-reply-to:date:cc:to:from:subject:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=NwC/+o9d6wvrtiLeiNvOscHp+/u8nRn/PrEmgvt3fZ8=;
- b=Nee1vPpV1xdCidrETg1zQvqBOX5gMDJAm9BQaB07+QEFjanaLGu2WnyUoh9mSN7GoS
- QfIOmJYji8a3CtqVCD+JIGtN8hQppKjLNW8XHwoK4xJ0QMCrOabZDG8ecHVv86zWbGOL
- SE+sGVbBgV/wQ7HFVBk5hxrIfldCNUKsrYeu3z2k8DZTAIdQ71fird5rQKHaQgUq10we
- JMR2lHK5B4lL3h38jTACeTrw6K4G8L7hjYiwUjT+3Z1T4qoLpHtSXhtcdiLq6PD2Zh3s
- XW9sQkNrg/ZEtjrHxZbbRn1gVeE8PBn6DV/DtaGu4afRBphhTtoJg1X8mtx5mmH7FrBb
- KsEA==
-X-Gm-Message-State: AAQBX9dp2XEBKWDGk8AgGZ4O2xp8llOZHA8B9XtbRbkX3ypZcaWnJ77y
- CfICG8CyNM0EmHslMVp1cmCeoTPrIRC485jEtf0TGpDCUyxVHpak1yxpVsQ2W9UVyKpSWdunAm4
- +f4lNzvU+P3H+RHxLX+gfK3H9cDDm
-X-Received: by 2002:ac8:5910:0:b0:3ee:c749:ef6a with SMTP id
- 16-20020ac85910000000b003eec749ef6amr8266981qty.7.1681937672554; 
- Wed, 19 Apr 2023 13:54:32 -0700 (PDT)
-X-Google-Smtp-Source: AKy350b3829jv2r254VCx6kpqm7ULHjkMhhvujywKwLYY5dhb3sKHN4WPrlOjqpEmuMgq3oHObuJiA==
-X-Received: by 2002:ac8:5910:0:b0:3ee:c749:ef6a with SMTP id
- 16-20020ac85910000000b003eec749ef6amr8266967qty.7.1681937672329; 
- Wed, 19 Apr 2023 13:54:32 -0700 (PDT)
-Received: from ?IPv6:2600:4040:5c62:8200::feb? ([2600:4040:5c62:8200::feb])
- by smtp.gmail.com with ESMTPSA id
- b34-20020a05620a272200b007435a646354sm4932800qkp.0.2023.04.19.13.54.31
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 19 Apr 2023 13:54:31 -0700 (PDT)
-Message-ID: <d0b9654c756069a6f0edcca6f4d410f7af592784.camel@redhat.com>
-Subject: Re: [PATCH v2] drm: use mgr->dev in drm_dbg_kms in
- drm_dp_add_payload_part2
-From: Lyude Paul <lyude@redhat.com>
-To: Jeff Layton <jlayton@kernel.org>, David Airlie <airlied@gmail.com>, 
- Daniel Vetter <daniel@ffwll.ch>
-Date: Wed, 19 Apr 2023 16:54:31 -0400
-In-Reply-To: <20230419112447.18471-1-jlayton@kernel.org>
-References: <20230419112447.18471-1-jlayton@kernel.org>
-Organization: Red Hat Inc.
-User-Agent: Evolution 3.44.4 (3.44.4-2.fc36)
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9CA9C10E20D;
+ Wed, 19 Apr 2023 21:11:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1681938668; x=1713474668;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=Z3f6He2fvOdVhaMng7tBiHDllBeQCB4z6Z03KnFE43Y=;
+ b=GSXWzyyyN+VUdaE3XS1d4CNa6YB69Oh4bjt+dGwYMPzjaCE+CEFimx6i
+ g1SVwuK6W6B0oMKcINM/2iPoy9xHpGIMfx6l6jIb+YPL296R+5ptojuWV
+ i1ZBurIwNE6+Wp7J8N0B/DVNppAxxI6GuXFemZQ1OiZOAC4mO0YY91hRf
+ z/TW6D11EuAtVUDWTXQGo087qDhud8oT3Yt/ZAViaBztmomO+iSglvYoO
+ FW9lHNFtyvAARuvcPohzvCrG6yX4FuZnSrRv7ULdtNyyLtEjcWawATLhg
+ LOdKMDzSlzz367uPVfrQDTMNM0MTtmjW888SQsLf/4UoUG+a1zz33eisa g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10685"; a="343042854"
+X-IronPort-AV: E=Sophos;i="5.99,210,1677571200"; d="scan'208";a="343042854"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Apr 2023 14:11:07 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10685"; a="685098934"
+X-IronPort-AV: E=Sophos;i="5.99,210,1677571200"; d="scan'208";a="685098934"
+Received: from fyang16-desk.jf.intel.com ([10.24.96.243])
+ by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Apr 2023 14:11:07 -0700
+From: fei.yang@intel.com
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH 0/8] drm/i915/mtl: Define MOCS and PAT tables for MTL
+Date: Wed, 19 Apr 2023 14:12:11 -0700
+Message-Id: <20230419211219.2574008-1-fei.yang@intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,58 +55,85 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Wayne.Lin@amd.com
+Cc: Fei Yang <fei.yang@intel.com>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Reviewed-by: Lyude Paul <lyude@redhat.com>
+From: Fei Yang <fei.yang@intel.com>
 
-Thanks!
+The series includes patches needed to enable MTL.
+Also add new extension for GEM_CREATE uAPI to let
+user space set cache policy for buffer objects.
 
-On Wed, 2023-04-19 at 07:24 -0400, Jeff Layton wrote:
-> I've been experiencing some intermittent crashes down in the display
-> driver code. The symptoms are ususally a line like this in dmesg:
->=20
->     amdgpu 0000:30:00.0: [drm] Failed to create MST payload for port 0000=
-00006d3a3885: -5
->=20
-> ...followed by an Oops due to a NULL pointer dereference.
->=20
-> Switch to using mgr->dev instead of state->dev since "state" can be
-> NULL in some cases.
->=20
-> Link: https://bugzilla.redhat.com/show_bug.cgi?id=3D2184855
-> Suggested-by: Jani Nikula <jani.nikula@linux.intel.com>
-> Signed-off-by: Jeff Layton <jlayton@kernel.org>
-> ---
->  drivers/gpu/drm/display/drm_dp_mst_topology.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> I've been running this patch for a couple of days, but the problem
-> hasn't occurred again as of yet. It seems sane though as long as we can
-> assume that mgr->dev will be valid even when "state" is a NULL pointer.
->=20
-> diff --git a/drivers/gpu/drm/display/drm_dp_mst_topology.c b/drivers/gpu/=
-drm/display/drm_dp_mst_topology.c
-> index 38dab76ae69e..e2e21ce79510 100644
-> --- a/drivers/gpu/drm/display/drm_dp_mst_topology.c
-> +++ b/drivers/gpu/drm/display/drm_dp_mst_topology.c
-> @@ -3404,7 +3404,7 @@ int drm_dp_add_payload_part2(struct drm_dp_mst_topo=
-logy_mgr *mgr,
-> =20
->  =09/* Skip failed payloads */
->  =09if (payload->vc_start_slot =3D=3D -1) {
-> -=09=09drm_dbg_kms(state->dev, "Part 1 of payload creation for %s failed,=
- skipping part 2\n",
-> +=09=09drm_dbg_kms(mgr->dev, "Part 1 of payload creation for %s failed, s=
-kipping part 2\n",
->  =09=09=09    payload->port->connector->name);
->  =09=09return -EIO;
->  =09}
+v2: addressing review comments and checkpatch warnings
+v3: make mtl_ggtt_pte_encode static
 
---=20
-Cheers,
- Lyude Paul (she/her)
- Software Engineer at Red Hat
+Fei Yang (7):
+  drm/i915/mtl: Set has_llc=0
+  drm/i915/mtl: Add PTE encode function
+  drm/i915/mtl: workaround coherency issue for Media
+  drm/i915/mtl: end support for set caching ioctl
+  drm/i915: preparation for using PAT index
+  drm/i915: use pat_index instead of cache_level
+  drm/i915: Allow user to set cache at BO creation
+
+Madhumitha Tolakanahalli Pradeep (1):
+  drm/i915/mtl: Define MOCS and PAT tables for MTL
+
+ drivers/gpu/drm/i915/display/intel_dpt.c      | 14 ++--
+ drivers/gpu/drm/i915/gem/i915_gem_create.c    | 36 ++++++++
+ drivers/gpu/drm/i915/gem/i915_gem_domain.c    | 30 +++----
+ .../gpu/drm/i915/gem/i915_gem_execbuffer.c    | 10 ++-
+ drivers/gpu/drm/i915/gem/i915_gem_mman.c      |  3 +-
+ drivers/gpu/drm/i915/gem/i915_gem_object.c    | 67 ++++++++++++++-
+ drivers/gpu/drm/i915/gem/i915_gem_object.h    |  8 ++
+ .../gpu/drm/i915/gem/i915_gem_object_types.h  | 26 +++++-
+ drivers/gpu/drm/i915/gem/i915_gem_pages.c     |  5 +-
+ drivers/gpu/drm/i915/gem/i915_gem_shmem.c     |  9 +-
+ drivers/gpu/drm/i915/gem/i915_gem_shrinker.c  |  2 -
+ drivers/gpu/drm/i915/gem/i915_gem_stolen.c    |  4 +-
+ drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c  | 16 ++--
+ .../gpu/drm/i915/gem/selftests/huge_pages.c   |  2 +-
+ .../drm/i915/gem/selftests/i915_gem_migrate.c |  2 +-
+ .../drm/i915/gem/selftests/i915_gem_mman.c    |  2 +-
+ drivers/gpu/drm/i915/gt/gen6_ppgtt.c          | 10 ++-
+ drivers/gpu/drm/i915/gt/gen8_ppgtt.c          | 76 ++++++++++++-----
+ drivers/gpu/drm/i915/gt/gen8_ppgtt.h          |  3 +-
+ drivers/gpu/drm/i915/gt/intel_ggtt.c          | 84 +++++++++++++------
+ drivers/gpu/drm/i915/gt/intel_gt_regs.h       |  6 +-
+ drivers/gpu/drm/i915/gt/intel_gtt.c           | 47 ++++++++++-
+ drivers/gpu/drm/i915/gt/intel_gtt.h           | 38 ++++++---
+ drivers/gpu/drm/i915/gt/intel_migrate.c       | 47 ++++++-----
+ drivers/gpu/drm/i915/gt/intel_migrate.h       | 13 ++-
+ drivers/gpu/drm/i915/gt/intel_mocs.c          | 76 ++++++++++++++++-
+ drivers/gpu/drm/i915/gt/intel_ppgtt.c         |  6 +-
+ drivers/gpu/drm/i915/gt/selftest_migrate.c    | 47 ++++++-----
+ drivers/gpu/drm/i915/gt/selftest_mocs.c       |  2 +-
+ drivers/gpu/drm/i915/gt/selftest_reset.c      |  8 +-
+ drivers/gpu/drm/i915/gt/selftest_timeline.c   |  2 +-
+ drivers/gpu/drm/i915/gt/selftest_tlb.c        |  4 +-
+ drivers/gpu/drm/i915/gt/uc/intel_gsc_fw.c     | 13 +++
+ drivers/gpu/drm/i915/gt/uc/intel_guc.c        |  7 ++
+ drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c     |  6 ++
+ drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c      | 10 ++-
+ drivers/gpu/drm/i915/i915_debugfs.c           | 55 +++++++++---
+ drivers/gpu/drm/i915/i915_gem.c               | 16 +++-
+ drivers/gpu/drm/i915/i915_gpu_error.c         |  8 +-
+ drivers/gpu/drm/i915/i915_pci.c               | 76 +++++++++++++++--
+ drivers/gpu/drm/i915/i915_vma.c               | 16 ++--
+ drivers/gpu/drm/i915/i915_vma.h               |  2 +-
+ drivers/gpu/drm/i915/i915_vma_types.h         |  2 -
+ drivers/gpu/drm/i915/intel_device_info.h      |  5 ++
+ drivers/gpu/drm/i915/selftests/i915_gem.c     |  5 +-
+ .../gpu/drm/i915/selftests/i915_gem_evict.c   |  4 +-
+ drivers/gpu/drm/i915/selftests/i915_gem_gtt.c | 15 ++--
+ .../drm/i915/selftests/intel_memory_region.c  |  4 +-
+ .../gpu/drm/i915/selftests/mock_gem_device.c  |  9 ++
+ drivers/gpu/drm/i915/selftests/mock_gtt.c     |  8 +-
+ include/uapi/drm/i915_drm.h                   | 36 ++++++++
+ tools/include/uapi/drm/i915_drm.h             | 36 ++++++++
+ 52 files changed, 812 insertions(+), 226 deletions(-)
+
+-- 
+2.25.1
 
