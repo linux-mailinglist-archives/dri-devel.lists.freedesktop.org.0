@@ -1,52 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC2256E77A3
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Apr 2023 12:45:00 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9124C6E77B4
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Apr 2023 12:47:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 73C0410E115;
-	Wed, 19 Apr 2023 10:44:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1786D10E92D;
+	Wed, 19 Apr 2023 10:47:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6BA0010E94F;
- Wed, 19 Apr 2023 10:44:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1681901094; x=1713437094;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=XnfoaCcH3MWyJZkIKskW2BAZXpZylboTWI3thPO1+Yo=;
- b=me3MM2yR1vA4gKDmHwaKjqX7Jky01LpNS2m/PfScoHBFQ8y78vl2BN4m
- 5QIjZNB/fLUQF5ek+qdUGkN8DqiQsbedhDlJnIHHZ34R/dPJH6ZzSDlfL
- ODUO5IPg67mASRDzZUFWVHESCQudreHPke4PcCbECbYBRhyDavnuhUv/i
- 1AFIEhUpbNAZfkXR0bNB75aHWU8kqee6xsfQTnuh5DyN80OrHhTBFvaFt
- dNar/lT7nGuEV+PZPbHTW9fq3UxcQJOTk+1bDiSp8Hl65FD/fcgJC0te0
- UmnWwMzZ20HY7++KoQM1gzY8UH8NEQWpz4oS1BuKVC4s3LxyVezhvM5FE w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10684"; a="325748503"
-X-IronPort-AV: E=Sophos;i="5.99,208,1677571200"; d="scan'208";a="325748503"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Apr 2023 03:44:52 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10684"; a="691462456"
-X-IronPort-AV: E=Sophos;i="5.99,208,1677571200"; d="scan'208";a="691462456"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
- by orsmga002.jf.intel.com with ESMTP; 19 Apr 2023 03:44:48 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1pp5It-000ep9-16;
- Wed, 19 Apr 2023 10:44:47 +0000
-Date: Wed, 19 Apr 2023 18:44:37 +0800
-From: kernel test robot <lkp@intel.com>
-To: hackyzh002 <hackyzh002@gmail.com>, alexander.deucher@amd.com
-Subject: Re: [PATCH 2/2] drm/amdgpu: Fix integer overflow in amdgpu_cs_pass1
-Message-ID: <202304191814.1O8ppodq-lkp@intel.com>
-References: <20230419045157.69829-1-hackyzh002@gmail.com>
+Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com
+ [IPv6:2607:f8b0:4864:20::634])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9E98F10E935
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Apr 2023 10:47:18 +0000 (UTC)
+Received: by mail-pl1-x634.google.com with SMTP id
+ d9443c01a7336-1a645fd0c6dso23882755ad.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Apr 2023 03:47:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1681901238; x=1684493238;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=ef5jinu68hChsQPL90lIFDCf/6lC4PbhW9wu+rG7+o0=;
+ b=Gt7govrcwA6PFE6GqKzvccIYmexBSH1eg54UQoXqmm+G6yIfqc7dhRciA+N80wC8I4
+ /Nfs0TnHx2XlvKAlRBlO3EpJ1YrIYPgMu5XQJttcAEVMrD6i2gCuAFV8dlYBPOPDKU9y
+ lYSlaeFsedD2qQEm4+rlOAnrRBWZtO13+Cgq1U3wyYMH9c8Lq4Z3Iszpa+Ff0BX7dp5W
+ Q4DyqgiCT2SAawiR4a2FcBCjAZ7HSNwHrYyFB6V7EgZ12b4P+Ja6gFfYCzs6LbQBUsQq
+ jTn9PK9uRd1UcgUT0+YEEGOV0OAtMpkOjm3pKZW7zDuJMzTKHXoi/es/zCK5fWA/PwjZ
+ j7zA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1681901238; x=1684493238;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=ef5jinu68hChsQPL90lIFDCf/6lC4PbhW9wu+rG7+o0=;
+ b=DKbcCaOH/0iIuGMzNwvYNv27Mk+9NgNuw/C5mDO3SCmCeWuaaLKLk3ZTEdRFBCULe3
+ kNCbJqPFFHVSifrkcGzv6YycwKKm04Z2uB19ZEORvY2R5f7s8Xn2QkBuzvvoMPcAmMR1
+ FrbQKJ6DSVWxvdip7KW678q3cPjd4P4BgCYn9oT3bNux8arzfJH/sdPBcMUixAlOllBy
+ 2eGx5LnHKdbkcOb3PjSvgL0zsSBIS59r6JR/hVkJe7q0EhmxaAR8pdxWJkPkzSn+9AQU
+ xtt9NwKgR1ynn1keuJ3h/64woG7IrjeLEwtGLg2/zn1BOv+325EOmMkJVbSLlM8OuJI6
+ PiFw==
+X-Gm-Message-State: AAQBX9c6mbfTwR6Kg1WkMxM29hvgMQ7BKAy14040va4BKrHEQL1Ay2ym
+ KzF6D9Cn8B5Ao75xhlDaq3alTqq9OHNwiRt1Gcw=
+X-Google-Smtp-Source: AKy350aHmthhp0IFZ0TnKbCamhN7olX7ZFASuauGWbeHtx1TZh+J0gjvGhLHwKEsUYp7tk86iFQW4196TmK7coLmgQo=
+X-Received: by 2002:a17:902:da84:b0:1a6:c4fd:d42 with SMTP id
+ j4-20020a170902da8400b001a6c4fd0d42mr5164953plx.67.1681901237872; Wed, 19 Apr
+ 2023 03:47:17 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230419045157.69829-1-hackyzh002@gmail.com>
+References: <20230415104104.5537-1-aford173@gmail.com>
+ <3e47f0d1017fe4c9f71a5de65f32c6ba1662efe2.camel@pengutronix.de>
+ <CAHCN7xL4+9NogrnXA1PEWorwY7JpSGBozDtHT83JvzjfinmS+A@mail.gmail.com>
+In-Reply-To: <CAHCN7xL4+9NogrnXA1PEWorwY7JpSGBozDtHT83JvzjfinmS+A@mail.gmail.com>
+From: Adam Ford <aford173@gmail.com>
+Date: Wed, 19 Apr 2023 05:47:06 -0500
+Message-ID: <CAHCN7xK8K+DsNAFTVAezwJQzZ7RCDb2CjCBZ8dNb=S8d1BmtMA@mail.gmail.com>
+Subject: Re: [PATCH 1/6] drm: bridge: samsung-dsim: Support multi-lane
+ calculations
+To: Lucas Stach <l.stach@pengutronix.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,211 +71,155 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: llvm@lists.linux.dev, Xinhui.Pan@amd.com, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, sumit.semwal@linaro.org,
- linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
- oe-kbuild-all@lists.linux.dev, hackyzh002 <hackyzh002@gmail.com>,
- christian.koenig@amd.com, linux-media@vger.kernel.org
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>, aford@beaconembedded.com,
+ dri-devel@lists.freedesktop.org,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ m.szyprowski@samsung.com, marex@denx.de, Robert Foss <rfoss@kernel.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Jagan Teki <jagan@amarulasolutions.com>, NXP Linux Team <linux-imx@nxp.com>,
+ devicetree@vger.kernel.org, Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Jonas Karlman <jonas@kwiboo.se>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Rob Herring <robh+dt@kernel.org>, linux-arm-kernel@lists.infradead.org,
+ Neil Armstrong <neil.armstrong@linaro.org>, linux-kernel@vger.kernel.org,
+ Shawn Guo <shawnguo@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi hackyzh002,
+On Mon, Apr 17, 2023 at 6:55=E2=80=AFAM Adam Ford <aford173@gmail.com> wrot=
+e:
+>
+> On Mon, Apr 17, 2023 at 3:43=E2=80=AFAM Lucas Stach <l.stach@pengutronix.=
+de> wrote:
+> >
+> > Hi Adam,
+> >
+> > Am Samstag, dem 15.04.2023 um 05:40 -0500 schrieb Adam Ford:
+> > > If there is more than one lane, the HFP, HBP, and HSA is calculated i=
+n
+> > > bytes/pixel, then they are divided amongst the different lanes with s=
+ome
+> > > additional overhead. This is necessary to achieve higher resolutions =
+while
+> > > keeping the pixel clocks lower as the number of lanes increase.
+> > >
+> >
+> > In the testing I did to come up with my patch "drm: bridge: samsung-
+> > dsim: fix blanking packet size calculation" the number of lanes didn't
+> > make any difference. My testing might be flawed, as I could only
+> > measure the blanking after translation from MIPI DSI to DPI, so I'm
+> > interested to know what others did here. How did you validate the
+> > blanking with your patch? Would you have a chance to test my patch and
+> > see if it works or breaks in your setup?
 
-kernel test robot noticed the following build errors:
+Lucas,
 
-[auto build test ERROR on drm-misc/drm-misc-next]
-[also build test ERROR on linus/master v6.3-rc7 next-20230418]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+I tried your patch instead of mine.  Yours is dependent on the
+hs_clock being always set to the burst clock which is configured by
+the device tree.  I unrolled a bit of my stuff and replaced it with
+yours.  It worked at 1080p, but when I tried a few other resolutions,
+they did not work.  I assume it's because the DSI clock is fixed and
+not changing based on the pixel clock.  In the version I did, I only
+did that math when the lanes were > 1. In your patch, you divide by 8,
+and in mine, I fetch the bits-per-pixel (which is 8) and I divide by
+that just in case the bpp ever changes from 8.  Overall,  I think our
+patches basically do the same thing.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/hackyzh002/drm-amdgpu-Fix-integer-overflow-in-amdgpu_cs_pass1/20230419-125344
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20230419045157.69829-1-hackyzh002%40gmail.com
-patch subject: [PATCH 2/2] drm/amdgpu: Fix integer overflow in amdgpu_cs_pass1
-config: arm64-buildonly-randconfig-r004-20230416 (https://download.01.org/0day-ci/archive/20230419/202304191814.1O8ppodq-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 437b7602e4a998220871de78afcb020b9c14a661)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install arm64 cross compiling tool for clang build
-        # apt-get install binutils-aarch64-linux-gnu
-        # https://github.com/intel-lab-lkp/linux/commit/c4a89869bcb6b68ad0e1eed0dd4f18c8cc7fbfc5
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review hackyzh002/drm-amdgpu-Fix-integer-overflow-in-amdgpu_cs_pass1/20230419-125344
-        git checkout c4a89869bcb6b68ad0e1eed0dd4f18c8cc7fbfc5
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash drivers/gpu/drm/amd/amdgpu/
+adam
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304191814.1O8ppodq-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
->> drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c:195:11: error: cannot combine with previous 'type-name' declaration specifier
-           uint64_t int size;
-                    ^
-   1 error generated.
-
-
-vim +195 drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
-
-   184	
-   185	/* Copy the data from userspace and go over it the first time */
-   186	static int amdgpu_cs_pass1(struct amdgpu_cs_parser *p,
-   187				   union drm_amdgpu_cs *cs)
-   188	{
-   189		struct amdgpu_fpriv *fpriv = p->filp->driver_priv;
-   190		unsigned int num_ibs[AMDGPU_CS_GANG_SIZE] = { };
-   191		struct amdgpu_vm *vm = &fpriv->vm;
-   192		uint64_t *chunk_array_user;
-   193		uint64_t *chunk_array;
-   194		uint32_t uf_offset = 0;
- > 195		uint64_t int size;
-   196		int ret;
-   197		int i;
-   198	
-   199		chunk_array = kvmalloc_array(cs->in.num_chunks, sizeof(uint64_t),
-   200					     GFP_KERNEL);
-   201		if (!chunk_array)
-   202			return -ENOMEM;
-   203	
-   204		/* get chunks */
-   205		chunk_array_user = u64_to_user_ptr(cs->in.chunks);
-   206		if (copy_from_user(chunk_array, chunk_array_user,
-   207				   sizeof(uint64_t)*cs->in.num_chunks)) {
-   208			ret = -EFAULT;
-   209			goto free_chunk;
-   210		}
-   211	
-   212		p->nchunks = cs->in.num_chunks;
-   213		p->chunks = kvmalloc_array(p->nchunks, sizeof(struct amdgpu_cs_chunk),
-   214				    GFP_KERNEL);
-   215		if (!p->chunks) {
-   216			ret = -ENOMEM;
-   217			goto free_chunk;
-   218		}
-   219	
-   220		for (i = 0; i < p->nchunks; i++) {
-   221			struct drm_amdgpu_cs_chunk __user **chunk_ptr = NULL;
-   222			struct drm_amdgpu_cs_chunk user_chunk;
-   223			uint32_t __user *cdata;
-   224	
-   225			chunk_ptr = u64_to_user_ptr(chunk_array[i]);
-   226			if (copy_from_user(&user_chunk, chunk_ptr,
-   227					       sizeof(struct drm_amdgpu_cs_chunk))) {
-   228				ret = -EFAULT;
-   229				i--;
-   230				goto free_partial_kdata;
-   231			}
-   232			p->chunks[i].chunk_id = user_chunk.chunk_id;
-   233			p->chunks[i].length_dw = user_chunk.length_dw;
-   234	
-   235			size = p->chunks[i].length_dw;
-   236			cdata = u64_to_user_ptr(user_chunk.chunk_data);
-   237	
-   238			p->chunks[i].kdata = kvcalloc(size, sizeof(uint32_t),
-   239							    GFP_KERNEL);
-   240			if (p->chunks[i].kdata == NULL) {
-   241				ret = -ENOMEM;
-   242				i--;
-   243				goto free_partial_kdata;
-   244			}
-   245			size *= sizeof(uint32_t);
-   246			if (copy_from_user(p->chunks[i].kdata, cdata, size)) {
-   247				ret = -EFAULT;
-   248				goto free_partial_kdata;
-   249			}
-   250	
-   251			/* Assume the worst on the following checks */
-   252			ret = -EINVAL;
-   253			switch (p->chunks[i].chunk_id) {
-   254			case AMDGPU_CHUNK_ID_IB:
-   255				if (size < sizeof(struct drm_amdgpu_cs_chunk_ib))
-   256					goto free_partial_kdata;
-   257	
-   258				ret = amdgpu_cs_p1_ib(p, p->chunks[i].kdata, num_ibs);
-   259				if (ret)
-   260					goto free_partial_kdata;
-   261				break;
-   262	
-   263			case AMDGPU_CHUNK_ID_FENCE:
-   264				if (size < sizeof(struct drm_amdgpu_cs_chunk_fence))
-   265					goto free_partial_kdata;
-   266	
-   267				ret = amdgpu_cs_p1_user_fence(p, p->chunks[i].kdata,
-   268							      &uf_offset);
-   269				if (ret)
-   270					goto free_partial_kdata;
-   271				break;
-   272	
-   273			case AMDGPU_CHUNK_ID_BO_HANDLES:
-   274				if (size < sizeof(struct drm_amdgpu_bo_list_in))
-   275					goto free_partial_kdata;
-   276	
-   277				ret = amdgpu_cs_p1_bo_handles(p, p->chunks[i].kdata);
-   278				if (ret)
-   279					goto free_partial_kdata;
-   280				break;
-   281	
-   282			case AMDGPU_CHUNK_ID_DEPENDENCIES:
-   283			case AMDGPU_CHUNK_ID_SYNCOBJ_IN:
-   284			case AMDGPU_CHUNK_ID_SYNCOBJ_OUT:
-   285			case AMDGPU_CHUNK_ID_SCHEDULED_DEPENDENCIES:
-   286			case AMDGPU_CHUNK_ID_SYNCOBJ_TIMELINE_WAIT:
-   287			case AMDGPU_CHUNK_ID_SYNCOBJ_TIMELINE_SIGNAL:
-   288				break;
-   289	
-   290			default:
-   291				goto free_partial_kdata;
-   292			}
-   293		}
-   294	
-   295		if (!p->gang_size) {
-   296			ret = -EINVAL;
-   297			goto free_partial_kdata;
-   298		}
-   299	
-   300		for (i = 0; i < p->gang_size; ++i) {
-   301			ret = amdgpu_job_alloc(p->adev, vm, p->entities[i], vm,
-   302					       num_ibs[i], &p->jobs[i]);
-   303			if (ret)
-   304				goto free_all_kdata;
-   305		}
-   306		p->gang_leader = p->jobs[p->gang_leader_idx];
-   307	
-   308		if (p->ctx->vram_lost_counter != p->gang_leader->vram_lost_counter) {
-   309			ret = -ECANCELED;
-   310			goto free_all_kdata;
-   311		}
-   312	
-   313		if (p->uf_entry.tv.bo)
-   314			p->gang_leader->uf_addr = uf_offset;
-   315		kvfree(chunk_array);
-   316	
-   317		/* Use this opportunity to fill in task info for the vm */
-   318		amdgpu_vm_set_task_info(vm);
-   319	
-   320		return 0;
-   321	
-   322	free_all_kdata:
-   323		i = p->nchunks - 1;
-   324	free_partial_kdata:
-   325		for (; i >= 0; i--)
-   326			kvfree(p->chunks[i].kdata);
-   327		kvfree(p->chunks);
-   328		p->chunks = NULL;
-   329		p->nchunks = 0;
-   330	free_chunk:
-   331		kvfree(chunk_array);
-   332	
-   333		return ret;
-   334	}
-   335	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+>
+> Mine was purely by trial and error.  I don't have a scope, nor do I
+> have a copy of the MIPI DSI spec, so if the image sync'd with my
+> monitor, I treated it as successful.
+>
+> I can give yours a try, but it might be a few days since I've only
+> been working on this stuff a bit in my spare time.
+>
+> adam
+>
+> >
+> > Regards,
+> > Lucas
+> >
+> > > Signed-off-by: Adam Ford <aford173@gmail.com>
+> > > ---
+> > >  drivers/gpu/drm/bridge/samsung-dsim.c | 40 +++++++++++++++++++++++--=
+--
+> > >  1 file changed, 34 insertions(+), 6 deletions(-)
+> > >
+> > > diff --git a/drivers/gpu/drm/bridge/samsung-dsim.c b/drivers/gpu/drm/=
+bridge/samsung-dsim.c
+> > > index e0a402a85787..1ccbad4ea577 100644
+> > > --- a/drivers/gpu/drm/bridge/samsung-dsim.c
+> > > +++ b/drivers/gpu/drm/bridge/samsung-dsim.c
+> > > @@ -215,6 +215,7 @@
+> > >  #define DSI_RX_FIFO_SIZE             256
+> > >  #define DSI_XFER_TIMEOUT_MS          100
+> > >  #define DSI_RX_FIFO_EMPTY            0x30800002
+> > > +#define DSI_HSYNC_PKT_OVERHEAD       6
+> > >
+> > >  #define OLD_SCLK_MIPI_CLK_NAME               "pll_clk"
+> > >
+> > > @@ -879,13 +880,40 @@ static void samsung_dsim_set_display_mode(struc=
+t samsung_dsim *dsi)
+> > >                       | DSIM_MAIN_VBP(m->vtotal - m->vsync_end);
+> > >               samsung_dsim_write(dsi, DSIM_MVPORCH_REG, reg);
+> > >
+> > > -             reg =3D DSIM_MAIN_HFP(m->hsync_start - m->hdisplay)
+> > > -                     | DSIM_MAIN_HBP(m->htotal - m->hsync_end);
+> > > -             samsung_dsim_write(dsi, DSIM_MHPORCH_REG, reg);
+> > > +             /*
+> > > +              * If there is more than one lane, the HFP, HBP, and HS=
+A
+> > > +              * is calculated in bytes/pixel, then they are divided
+> > > +              * amongst the different lanes with some additional
+> > > +              * overhead correction
+> > > +              */
+> > > +             if (dsi->lanes > 1) {
+> > > +                     u32 hfp, hbp, hsa;
+> > > +                     int bpp =3D mipi_dsi_pixel_format_to_bpp(dsi->f=
+ormat) / 8;
+> > > +
+> > > +                     hfp =3D ((m->hsync_start - m->hdisplay) * bpp) =
+/ dsi->lanes;
+> > > +                     hfp -=3D (hfp > DSI_HSYNC_PKT_OVERHEAD) ? DSI_H=
+SYNC_PKT_OVERHEAD : 0;
+> > > +
+> > > +                     hbp =3D ((m->htotal - m->hsync_end) * bpp) / ds=
+i->lanes;
+> > > +                     hbp -=3D (hbp > DSI_HSYNC_PKT_OVERHEAD) ? DSI_H=
+SYNC_PKT_OVERHEAD : 0;
+> > >
+> > > -             reg =3D DSIM_MAIN_VSA(m->vsync_end - m->vsync_start)
+> > > -                     | DSIM_MAIN_HSA(m->hsync_end - m->hsync_start);
+> > > -             samsung_dsim_write(dsi, DSIM_MSYNC_REG, reg);
+> > > +                     hsa =3D ((m->hsync_end - m->hsync_start) * bpp)=
+ / dsi->lanes;
+> > > +                     hsa -=3D (hsa > DSI_HSYNC_PKT_OVERHEAD) ? DSI_H=
+SYNC_PKT_OVERHEAD : 0;
+> > > +
+> > > +                     reg =3D DSIM_MAIN_HFP(hfp) | DSIM_MAIN_HBP(hbp)=
+;
+> > > +                     samsung_dsim_write(dsi, DSIM_MHPORCH_REG, reg);
+> > > +
+> > > +                     reg =3D DSIM_MAIN_VSA(m->vsync_end - m->vsync_s=
+tart)
+> > > +                             | DSIM_MAIN_HSA(hsa);
+> > > +                     samsung_dsim_write(dsi, DSIM_MSYNC_REG, reg);
+> > > +             } else {
+> > > +                     reg =3D DSIM_MAIN_HFP(m->hsync_start - m->hdisp=
+lay)
+> > > +                             | DSIM_MAIN_HBP(m->htotal - m->hsync_en=
+d);
+> > > +                     samsung_dsim_write(dsi, DSIM_MHPORCH_REG, reg);
+> > > +
+> > > +                     reg =3D DSIM_MAIN_VSA(m->vsync_end - m->vsync_s=
+tart)
+> > > +                             | DSIM_MAIN_HSA(m->hsync_end - m->hsync=
+_start);
+> > > +                     samsung_dsim_write(dsi, DSIM_MSYNC_REG, reg);
+> > > +             }
+> > >       }
+> > >       reg =3D  DSIM_MAIN_HRESOL(m->hdisplay, num_bits_resol) |
+> > >               DSIM_MAIN_VRESOL(m->vdisplay, num_bits_resol);
+> >
