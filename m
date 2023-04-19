@@ -1,52 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DF776E785A
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Apr 2023 13:17:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C11636E788D
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Apr 2023 13:24:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4705110E92F;
-	Wed, 19 Apr 2023 11:17:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A755510E029;
+	Wed, 19 Apr 2023 11:24:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7A49710E16D;
- Wed, 19 Apr 2023 11:17:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1681903052; x=1713439052;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=QZereRYUiZz4yyZ+kkizgJFB9KX/efKkLTB1Bz9yjn8=;
- b=dy9cNO33wJod/P77KK/VJfxosdCiRrmGvbIReiFlD42otNyZtd05zXzR
- xgPEmZCrt96MsrJlpThwG+p5qwTsCQVNXPE5vavtXuKktm/WQKqeD9L0D
- Fat1xOtbLA31nIgTGu8RYpboDeYylOeoKLZwhx4dO/HimEemFw2GAJdd1
- dvULjU62D17vMDvDlNNhb7d4mC3vVD69BMwnRnZcbyLq5P8lesI9J61O0
- oi4nSghGvVVMXE+TwLPwN01jMqhmTLmfQNTXV6Z0Fv4HK2G0pMMSRNewQ
- gcxcfpHuej3kqotUVCeQLplI30eLfdmFN7kRjb0r6FwXRA+yhmBzHwsvo Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10684"; a="334225558"
-X-IronPort-AV: E=Sophos;i="5.99,208,1677571200"; d="scan'208";a="334225558"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Apr 2023 04:17:30 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10684"; a="756069901"
-X-IronPort-AV: E=Sophos;i="5.99,208,1677571200"; d="scan'208";a="756069901"
-Received: from crijnder-mobl.ger.corp.intel.com (HELO intel.com)
- ([10.249.35.137])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Apr 2023 04:17:27 -0700
-Date: Wed, 19 Apr 2023 13:17:23 +0200
-From: Andi Shyti <andi.shyti@linux.intel.com>
-To: fei.yang@intel.com
-Subject: Re: [PATCH 6/8] drm/i915: preparation for using PAT index
-Message-ID: <ZD/Nw3lb5G7nvqps@ashyti-mobl2.lan>
-References: <20230417062503.1884465-1-fei.yang@intel.com>
- <20230417062503.1884465-7-fei.yang@intel.com>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BE0C210E029
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Apr 2023 11:24:51 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 01FFE614D9;
+ Wed, 19 Apr 2023 11:24:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9FC3AC433EF;
+ Wed, 19 Apr 2023 11:24:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1681903489;
+ bh=PanmDTu5lRIgSn8GKJ9uoLf6Evo6osxCZ4efcHlSt3U=;
+ h=From:To:Cc:Subject:Date:From;
+ b=iWQ76DyFPVUXh4v11hmPber04xI849i4omW2/7EpTyHlfQDeFGzMNdfmt/ptO7kEL
+ Uj9fIK7xlz6KlyMtCZstTGAlwRevPS5u8I2hHOsbzqk6F1kIhcKYdcTlGY5bGwF6T/
+ udu4HtrAfP/zvSChXI+Y4wOJ+6HPJDr0L32KI+1AfW2mspcd+mqXM0cQgyIaWEVCcF
+ JODgl1mC7L1n3tsOOOG9mTMwukBNITvN7ANRt3v8hI9dhTFeidy2nYOOKjYBevJzHH
+ WPoFWj41GmJQdCTm5w+jN8IBCbM7NFwqL51yEahYRBtJSm4zE5NvL4+XDU9YtanTWI
+ FlKc3OmIggNRw==
+From: Jeff Layton <jlayton@kernel.org>
+To: David Airlie <airlied@gmail.com>,
+	Daniel Vetter <daniel@ffwll.ch>
+Subject: [PATCH v2] drm: use mgr->dev in drm_dbg_kms in
+ drm_dp_add_payload_part2
+Date: Wed, 19 Apr 2023 07:24:46 -0400
+Message-Id: <20230419112447.18471-1-jlayton@kernel.org>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230417062503.1884465-7-fei.yang@intel.com>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,37 +51,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Matt Roper <matthew.d.roper@intel.com>, intel-gfx@lists.freedesktop.org,
- Chris Wilson <chris.p.wilson@linux.intel.com>,
- Andi Shyti <andi.shyti@linux.intel.com>, dri-devel@lists.freedesktop.org
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Wayne.Lin@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Fei,
+I've been experiencing some intermittent crashes down in the display
+driver code. The symptoms are ususally a line like this in dmesg:
 
-[...]
+    amdgpu 0000:30:00.0: [drm] Failed to create MST payload for port 000000006d3a3885: -5
 
-> @@ -180,6 +182,14 @@ struct drm_i915_private *mock_gem_device(void)
->  		I915_GTT_PAGE_SIZE_2M;
->  
->  	RUNTIME_INFO(i915)->memory_regions = REGION_SMEM;
-> +
-> +
+...followed by an Oops due to a NULL pointer dereference.
 
-double space here, otherwise:
+Switch to using mgr->dev instead of state->dev since "state" can be
+NULL in some cases.
 
-Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com> 
+Link: https://bugzilla.redhat.com/show_bug.cgi?id=2184855
+Suggested-by: Jani Nikula <jani.nikula@linux.intel.com>
+Signed-off-by: Jeff Layton <jlayton@kernel.org>
+---
+ drivers/gpu/drm/display/drm_dp_mst_topology.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Andi
+I've been running this patch for a couple of days, but the problem
+hasn't occurred again as of yet. It seems sane though as long as we can
+assume that mgr->dev will be valid even when "state" is a NULL pointer.
 
-> +	/* simply use legacy cache level for mock device */
-> +	i915_info = (struct intel_device_info *)INTEL_INFO(i915);
-> +	i915_info->max_pat_index = 3;
-> +	for (i = 0; i < I915_MAX_CACHE_LEVEL; i++)
-> +		i915_info->cachelevel_to_pat[i] = i;
-> +
->  	intel_memory_regions_hw_probe(i915);
->  
->  	spin_lock_init(&i915->gpu_error.lock);
-> -- 
-> 2.25.1
+diff --git a/drivers/gpu/drm/display/drm_dp_mst_topology.c b/drivers/gpu/drm/display/drm_dp_mst_topology.c
+index 38dab76ae69e..e2e21ce79510 100644
+--- a/drivers/gpu/drm/display/drm_dp_mst_topology.c
++++ b/drivers/gpu/drm/display/drm_dp_mst_topology.c
+@@ -3404,7 +3404,7 @@ int drm_dp_add_payload_part2(struct drm_dp_mst_topology_mgr *mgr,
+ 
+ 	/* Skip failed payloads */
+ 	if (payload->vc_start_slot == -1) {
+-		drm_dbg_kms(state->dev, "Part 1 of payload creation for %s failed, skipping part 2\n",
++		drm_dbg_kms(mgr->dev, "Part 1 of payload creation for %s failed, skipping part 2\n",
+ 			    payload->port->connector->name);
+ 		return -EIO;
+ 	}
+-- 
+2.39.2
+
