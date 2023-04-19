@@ -1,118 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98AF96E7571
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Apr 2023 10:38:38 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7339B6E757C
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Apr 2023 10:40:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5335010E883;
-	Wed, 19 Apr 2023 08:38:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9AE0310E8D8;
+	Wed, 19 Apr 2023 08:40:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam10on2057.outbound.protection.outlook.com [40.107.93.57])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 791B910E883;
- Wed, 19 Apr 2023 08:38:33 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=oCoKr9jOf2ECfAX+ml041kNXeEB0v6niu64CB1g9/61ZJ06sSJNH5VSV8UYFXN2r9o/XfBKIU8Jimv8diuhaGi4EtgCam64myDuB7HwUN8QmKPXIYDM7JJnB3mWiNpJUJEOk3VObWECdoEf/27nbq48qW26Wjz/NvU6WjW7VPQquITRVIZKy5Z8yhDiFxL9kbxGjr8q3PE4gO0NHJV6kkyFvZU9VysRKiJVtkYU/58aHjhHfA94WMd001t+fD+cNFGjhwUHVeJ9sjZjbotjS9cdX+GgGmNzgW9Mu4K1qaAFs89KIdd/Ec/ZS9kSXRS8uXNYezPBCLVVq7C/9sKs9mg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=kMQSielGWYbG6fEUE9RFMlXGsHRTixRMPU/s7olHq3c=;
- b=Zx+Xzsb2hqBBS/Uba0HHgJMQZ4W7QmWGy2E0GhswLH9OQ9UI4ECrhhw71MJoVfploLXbYfgBa0Ox77Z6EVtOp3rZHGU/RdMtdZNBuQgZ3eTG1JSAFub+x22BdcqlwVpRTaBGOJ34CVnzy2a0L+BExwvcwnTBVh9uxWfxBWyg5UsKlCcoKhKYZ9IqJ3T/dgIhb1oH348tvXOkOw7aFxiv1PGosdJSlsF8Qxdh3OPPJeztXwUByb7Di6+Ms1F/EFImEG6QtN3OroWKqZrBrByoU9fzfXz0MXT4pDMsLv+sw+WcTd2g/8RZ0JCkqB1GgLo+qv4xYNaIrYbXZA6ZCkBelg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=kMQSielGWYbG6fEUE9RFMlXGsHRTixRMPU/s7olHq3c=;
- b=aFdfC1pjUKmuYNeBRFgIwj7VGfVtC5ozVnc0uktOtcSSAJ1D9s2XZ9mQktI8ZMjexLJX6AVVPih1Xw9uFycRGEI6kCG3bb87kZX/rtGAWmzBchYwvnIJh/dwV81VlSN2Q11ROH4sMfs9bRl4kTOTKvov7bsf24AVuZA4uVnp7CM=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
- by MW3PR12MB4427.namprd12.prod.outlook.com (2603:10b6:303:52::10)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6277.49; Wed, 19 Apr
- 2023 08:38:31 +0000
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::d2f8:7388:39c1:bbed]) by BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::d2f8:7388:39c1:bbed%3]) with mapi id 15.20.6319.020; Wed, 19 Apr 2023
- 08:38:30 +0000
-Message-ID: <5eae1b0d-a917-fc28-16ba-29bff612caac@amd.com>
-Date: Wed, 19 Apr 2023 10:38:25 +0200
+Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com
+ [IPv6:2a00:1450:4864:20::630])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 115BA10E8D3;
+ Wed, 19 Apr 2023 08:40:15 +0000 (UTC)
+Received: by mail-ej1-x630.google.com with SMTP id dm2so79718280ejc.8;
+ Wed, 19 Apr 2023 01:40:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1681893614; x=1684485614;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=11sl8AqwZce1ertKq6Ztt8iuR+fB42Oex6pJ+U7xw2I=;
+ b=DxJtLunx5h16pRRZ84LYqFPi6EJHNEhDJ/4M06dgxM2ur0kqsRc/6YtsMxfHQkzoDi
+ ylakpROJRFG1jWkLkiLWH6m6zs8oZIVmbqf6QE9Rh/UhnpnDwyUZLPXmRvssJpYoZDq4
+ dA3oUTNV0tBOII15372NBzNp9bOvYkzlTfEGJZxIKEZikoq9gVKGcJkNHYO6vsl30gna
+ Gw8nQ26WHKu+rcmyKVnUkkkfKQfl1+bOO1WVUamcinpol0p8Vo9pbY75wEeWdU0DqoDB
+ dgYTurZ1swwpQk3ZMlRno2Rs8y2I93xbBQuelN2GGxgHUd1i/SzDDEWa3kQT/R19xDwt
+ vpiQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1681893614; x=1684485614;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=11sl8AqwZce1ertKq6Ztt8iuR+fB42Oex6pJ+U7xw2I=;
+ b=N9c98o6d0M7oHluSBScEO9SduYVysJCmuzjJFf+dbij9RTsO73smQGx6WQTnaI6USl
+ ItXeEBUMxQ8+AXkRQ1g4inz/VHyW5fCCEM48WJEd1dKwj2dHMojAwc1Ggw7Bfb+thXpD
+ bORB71SvbGcuwY9Nu7fa9EBhXU05r0OYhm/0gO8wLx7FKsAmgzrEafQ7HfXQbjgzcmOz
+ 4QzedrOjeokXY8PV/XlpDWmYNn4Yxr+FnrNWXDJGhmROlvY4U1qX3E6n+VF+f1dLZK3D
+ Hd5lHlGejq/WQjwn1CflBdGThZVH8grOUKMXbYpUlArDMRppYKK+gML65rjbwixVysc0
+ M7aw==
+X-Gm-Message-State: AAQBX9eRzhIh4kW3SCxsvPEJ7GPQfTMUXOrkJaj/HNocbHgd6EKotEsF
+ oILEVnHo+TeZiIMcqGyXJoc=
+X-Google-Smtp-Source: AKy350aFo85fWHrw1usKNUqmGwHdN9xEddgt1lB/ijvfifKCIrYYuxvdWJI7HS4UtLXKs9qddbPlAw==
+X-Received: by 2002:a17:906:9153:b0:94e:6504:d134 with SMTP id
+ y19-20020a170906915300b0094e6504d134mr13768717ejw.42.1681893613729; 
+ Wed, 19 Apr 2023 01:40:13 -0700 (PDT)
+Received: from ?IPV6:2a02:908:1256:79a0:6273:6c76:9697:9b4c?
+ ([2a02:908:1256:79a0:6273:6c76:9697:9b4c])
+ by smtp.gmail.com with ESMTPSA id
+ qm5-20020a170907674500b0094e3ddcf153sm8949825ejc.115.2023.04.19.01.40.12
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 19 Apr 2023 01:40:13 -0700 (PDT)
+Message-ID: <6703b9b2-539f-9a1b-82b8-244328472640@gmail.com>
+Date: Wed, 19 Apr 2023 10:40:12 +0200
+MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.10.0
-Subject: Re: [PATCH V2 2/2] drm/amdgpu: Fix integer overflow in amdgpu_cs_pass1
+Subject: Re: [PATCH v4 1/6] mm/gup: remove unused vmas parameter from
+ get_user_pages()
 Content-Language: en-US
-To: hackyzh002 <hackyzh002@gmail.com>, alexander.deucher@amd.com
-References: <20230419082705.4110-1-hackyzh002@gmail.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20230419082705.4110-1-hackyzh002@gmail.com>
+To: Lorenzo Stoakes <lstoakes@gmail.com>, linux-mm@kvack.org,
+ linux-kernel@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>
+References: <cover.1681831798.git.lstoakes@gmail.com>
+ <cd05b41d6d15ee9ff94273bc116ed3db3f5125bf.1681831798.git.lstoakes@gmail.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+In-Reply-To: <cd05b41d6d15ee9ff94273bc116ed3db3f5125bf.1681831798.git.lstoakes@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR3P281CA0011.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:1d::17) To BN8PR12MB3587.namprd12.prod.outlook.com
- (2603:10b6:408:43::13)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|MW3PR12MB4427:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4af3334f-7afd-47e8-aba2-08db40b1743d
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: obqFg6GI3vahOYG62PfdDlTJ98PFXu2LgNdaxXpr+gghZ8ie8iXYEAQDX1jZOl7l5znmEx8vUZe63Z5Le8tmV/uJHwkGJx2G6cSZkVuqr199Vz6f///hfXlbNGFGpFJiSKoikV25gqeJG8Wcx5C/vB8tmO0bawGBqmO4oyfCapcpEWLTXeVYwG+9iDwpxYnI6ftzu43F6M9EDMPcQ65XLnjpqZoo0KMZSLwIZEHrPQSr4m0zhdA3KjjzxamOG8xBu9e0UdnxnUhVA0FG0dn9A2c6ti06hnGtUcex4PXnOp8yZZbs56Sa7Gn0G22I1YdYSt0ZHx0WjD8f/HCGpOS8gBRSlm+wsxdFuiltAtUzHwGx0LOX+rhVFMWG5sRhUQf7ra24YafqT0X2aMs10NZqWLMuVP9+TAeTWAAK8oCRP1+/8K5aACItvMOWwRIkGZyqVfjgv9p6F7DtrO/m0cu39YtNc72f0rUKXnpsy2P1i1EepeeMrURWHIJWVSgeSBP/rq98pwGHDRjmffLyYWKPqOC8fc6AzmhHqzp7/A7qzGX38pN57fe9Yp662zgzsp7AIxXz/P65jaxw4O3TH75ehu+PNdnIuU9U7PYii3l06HM66MSu+DP9KWm7h4lgunWFvewvRnQGXR+DPNXx2NjJ6Q==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230028)(4636009)(39860400002)(346002)(366004)(136003)(396003)(376002)(451199021)(31686004)(36756003)(5660300002)(38100700002)(2906002)(8936002)(86362001)(31696002)(66556008)(4326008)(66946007)(66476007)(41300700001)(8676002)(6486002)(83380400001)(6506007)(478600001)(316002)(6512007)(6666004)(186003)(6636002)(2616005)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?YXFXN1Z3VXZYZHIwN2c2RlpIVGtuNnVDeHNMMGdZZkJJQWpuM2pWN0NJeVRM?=
- =?utf-8?B?cWFFNENJTFpkTkhBZG9zMWVkQ2R5RFc1dnlLSTBjTkVWQ0NxZkFsN3E4UDB1?=
- =?utf-8?B?Tmx6WlZkYW0rU1RKbzkzYTBhVmdLSGdZSnJ4TTRybzcrRThhdzZSMnovNWRu?=
- =?utf-8?B?SFhSUkl6QzZUc3hsaTdCOWFhenZhZ3NuNE1CbmVodXVFajYzUDhNQzVKNWxL?=
- =?utf-8?B?bVh4d1lQTnAyNDJqSjQ5SzdtMXRESXJaTU1ZZW5nSzhWbEF0cHdEc0lzNit5?=
- =?utf-8?B?ZU5IWUdxQStUNHJoeWxvQzJNZ1dobUFFUG01Y2NVZFRvbzB6VWJuYkIycTQ2?=
- =?utf-8?B?YVh3MTJVNXhLOVo1TWpoTi9LTGV6dkl3a3FvVmN6aUpsRjlUNWY3V3c2aUQw?=
- =?utf-8?B?V0hVUFVxMDFNWkhmcFhGVlJ1UXc3SWEzMmVlblNXNW10amRoai9GWCt0Q1Zn?=
- =?utf-8?B?ZDF1cjh0QUsveEVoYXBlMDlxZEU5dFZzWnh4aTBVeWVjbXJnekh1OEw5dHhD?=
- =?utf-8?B?T2toZG0xZWh4dGhLWE5nV2hPOXkrLzVhRHYxNnV5d0FhRTNkSlNPQWk0bVJ3?=
- =?utf-8?B?WmJtQzY0VzU0c2M3QTUwejFvOCtrOVRJVTA5aWYycXFrenFqWkFCVHVzNG9v?=
- =?utf-8?B?b0YrVHVxdnBXN0FtMi83dVVrSmJRVDhuY0YvVlU0VmdhZ2VnMmxnZUxsc0dX?=
- =?utf-8?B?NEFIKy84UzBnQUcwa3VhMzNqR2hhN0VEOVcxcmxrR1lkMTRXa3RFM29pRFhl?=
- =?utf-8?B?bzRnMURxU0tHQ1R2VktZc3IzcS9rMFNPMzY2SnJYWkIyTmVpOUhzMUZEODhP?=
- =?utf-8?B?SXNjVUZpT0tSUWg2UTc1RjdGQ1pVaS9jMDZXcUMzamJrY0orYmtWZDlNUjRr?=
- =?utf-8?B?M3Y3c2JZeVltc2E3eFZGMHpENENFUzJWaHlpQkpWVGNWNklFSHpwUjdIbkN5?=
- =?utf-8?B?eGdDVWVjNFVoVStqVGxqU3pqKzVMcW0xV0tCMjZKd3V0RnVzbVQ3SWZDOXRq?=
- =?utf-8?B?c0VvNnJnY2V2Y3VYQ2RjZFZxUjhzY0NGTGdEbXVlcDVGS2lHK2w5SlcrbEtw?=
- =?utf-8?B?T2NPdEkzTDJMd04yYm05amZWbHpUOEpxeEZwSk13QVFYNzAzR2U4Z21kMlJP?=
- =?utf-8?B?TDc2dUFEbXAyT0N5Qlk2NEhJckxpRTVzZDg1MDhEdlBodEl3TUgzMTNOTzYy?=
- =?utf-8?B?OUhKTnd1SWFnMHpGQ25OY3hyNWVNSjhzK08vMWFjcmJvS1Z2OGdpM29LREhS?=
- =?utf-8?B?Z0xFUzROc29zRDRPKzRwZ0w5dmc5VDg1TWxHNkYreVB6Vlc4dEFzUHBFMm1V?=
- =?utf-8?B?d3BjYjN0VVdXazFNNlFaWkZxaEQ5SGNUUUd0ZDd6clZlUmE4ejZtRjVuU0pL?=
- =?utf-8?B?N200WWpBcDJ5aEl0UU1nNzlvWHg2OERKWDh5ZHA0V2hJSkdVcjR4LytpQWxS?=
- =?utf-8?B?cVViVmlRZGhIKzNpeFIrZWU0M0xGRFFVano0UU4yVVBhZGVZeUtadUU2R3lX?=
- =?utf-8?B?aGpobVlzeTg3MkFibTM5MjhycmpOLzR4MFZqckoyaUhZMERwQ2dLV1lKUlVl?=
- =?utf-8?B?aGtQa2tFSVFuNDcvYkNKWjA3b1I0eVpYNmVjMVhvL1BHYUtsQzRaOEwxT3l1?=
- =?utf-8?B?Z0p5bVFKcnlUVXllSVBUWm44VnNweGJWSGxoa2w5THVZUFNJYjI5NHNIcmNl?=
- =?utf-8?B?UVhrbEgyTzhlakk4UFVkdU5BQ2R4U3U0bnBOV0xkWWhkOFZZY2NVSFNkR05a?=
- =?utf-8?B?WmlwS0crMlpweEp3cjdHNWdPVHdyZldTV0xZdzdhS2FrQWtIQ1lmTWtwa3Jr?=
- =?utf-8?B?UmRpU0MvN1FoWGIvMjNvL0hLT0hLd0U3RDVyaUk4R1RPcW1wbFVueHlTZlhv?=
- =?utf-8?B?dWsyRHhnQmo4a1E2K0tCdHlXT1A4b253ZHF0OXUvL29ZRjlkWnJRNEtLdSsx?=
- =?utf-8?B?WXNrVEhFTDEra29WS2owVitob1dOaXRRcGpqWmVNRU9lRDZiaGlKUnVtM0ZH?=
- =?utf-8?B?V25PaWtUWmZvUFg2eGpzMzBwSG1nYWx2QkVMcTVBMFVTeHhOUmRaN1gxMXZk?=
- =?utf-8?B?WkZYbXNITUovZTdGd0d4azQ3ZnNuS3FSaUFlTmp2NUNaU2Jpd2kyUm1nWGxK?=
- =?utf-8?B?eUNYd2pqSE5JVC9MakloYVZyaUhhV3o0cXJ4ZG5WSVBoejlDQTZTTzd1RkNQ?=
- =?utf-8?Q?Ca3sU4G2FPQ3Yc5rR7d2Hw52AyjLAy7bQEVXm3+DWMg6?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4af3334f-7afd-47e8-aba2-08db40b1743d
-X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Apr 2023 08:38:30.9065 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Rv6Lmk51nwVmaJIyYwkPWICKKnAhCzdP9YiilO299FrRqfXamc9BLxJeI7Msdst6
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW3PR12MB4427
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -125,49 +79,181 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Xinhui.Pan@amd.com, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- dri-devel@lists.freedesktop.org, sumit.semwal@linaro.org,
- linux-media@vger.kernel.org
+Cc: Dimitri Sivanich <dimitri.sivanich@hpe.com>, x86@kernel.org,
+ kvm@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
+ David Hildenbrand <david@redhat.com>, amd-gfx@lists.freedesktop.org,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Xinhui Pan <Xinhui.Pan@amd.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Matthew Wilcox <willy@infradead.org>, Jarkko Sakkinen <jarkko@kernel.org>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ dri-devel@lists.freedesktop.org, Jason Gunthorpe <jgg@nvidia.com>,
+ "H . Peter Anvin" <hpa@zytor.com>, Thomas Gleixner <tglx@linutronix.de>,
+ linux-sgx@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 19.04.23 um 10:27 schrieb hackyzh002:
-> The type of size is unsigned int, if size is 0x40000000, there will
-> be an integer overflow, size will be zero after size *= sizeof(uint32_t),
-> will cause uninitialized memory to be referenced later.
+Am 18.04.23 um 17:49 schrieb Lorenzo Stoakes:
+> No invocation of get_user_pages() uses the vmas parameter, so remove
+> it.
 >
-> Signed-off-by: hackyzh002 <hackyzh002@gmail.com>
-> ---
->   drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
+> The GUP API is confusing and caveated. Recent changes have done much to
+> improve that, however there is more we can do. Exporting vmas is a prime
+> target as the caller has to be extremely careful to preclude their use
+> after the mmap_lock has expired or otherwise be left with dangling
+> pointers.
 >
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
-> index 08eced097..c17b3af85 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
-> @@ -192,7 +192,7 @@ static int amdgpu_cs_pass1(struct amdgpu_cs_parser *p,
->   	uint64_t *chunk_array_user;
->   	uint64_t *chunk_array;
->   	uint32_t uf_offset = 0;
-> -	unsigned int size;
-> +	size_t size;
->   	int ret;
->   	int i;
->   
-> @@ -235,7 +235,7 @@ static int amdgpu_cs_pass1(struct amdgpu_cs_parser *p,
->   		size = p->chunks[i].length_dw;
->   		cdata = u64_to_user_ptr(user_chunk.chunk_data);
->   
-> -		p->chunks[i].kdata = kvmalloc_array(size, sizeof(uint32_t),
-> +		p->chunks[i].kdata = kvcalloc(size, sizeof(uint32_t),
+> Removing the vmas parameter focuses the GUP functions upon their primary
+> purpose - pinning (and outputting) pages as well as performing the actions
+> implied by the input flags.
+>
+> This is part of a patch series aiming to remove the vmas parameter
+> altogether.
 
-Again, please drop that part of the patch. This is superfluous.
+Astonishing that there are so few users of the original get_user_pages() 
+API left.
+
+>
+> Suggested-by: Matthew Wilcox (Oracle) <willy@infradead.org>
+> Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Acked-by: David Hildenbrand <david@redhat.com>
+> Reviewed-by: Jason Gunthorpe <jgg@nvidia.com>
+> Signed-off-by: Lorenzo Stoakes <lstoakes@gmail.com>
+
+Acked-by: Christian König <christian.koenig@amd.com> for the radeon parts.
 
 Regards,
 Christian.
 
->   						    GFP_KERNEL);
->   		if (p->chunks[i].kdata == NULL) {
->   			ret = -ENOMEM;
+> ---
+>   arch/x86/kernel/cpu/sgx/ioctl.c     | 2 +-
+>   drivers/gpu/drm/radeon/radeon_ttm.c | 2 +-
+>   drivers/misc/sgi-gru/grufault.c     | 2 +-
+>   include/linux/mm.h                  | 3 +--
+>   mm/gup.c                            | 9 +++------
+>   mm/gup_test.c                       | 5 ++---
+>   virt/kvm/kvm_main.c                 | 2 +-
+>   7 files changed, 10 insertions(+), 15 deletions(-)
+>
+> diff --git a/arch/x86/kernel/cpu/sgx/ioctl.c b/arch/x86/kernel/cpu/sgx/ioctl.c
+> index 21ca0a831b70..5d390df21440 100644
+> --- a/arch/x86/kernel/cpu/sgx/ioctl.c
+> +++ b/arch/x86/kernel/cpu/sgx/ioctl.c
+> @@ -214,7 +214,7 @@ static int __sgx_encl_add_page(struct sgx_encl *encl,
+>   	if (!(vma->vm_flags & VM_MAYEXEC))
+>   		return -EACCES;
+>   
+> -	ret = get_user_pages(src, 1, 0, &src_page, NULL);
+> +	ret = get_user_pages(src, 1, 0, &src_page);
+>   	if (ret < 1)
+>   		return -EFAULT;
+>   
+> diff --git a/drivers/gpu/drm/radeon/radeon_ttm.c b/drivers/gpu/drm/radeon/radeon_ttm.c
+> index 1e8e287e113c..0597540f0dde 100644
+> --- a/drivers/gpu/drm/radeon/radeon_ttm.c
+> +++ b/drivers/gpu/drm/radeon/radeon_ttm.c
+> @@ -362,7 +362,7 @@ static int radeon_ttm_tt_pin_userptr(struct ttm_device *bdev, struct ttm_tt *ttm
+>   		struct page **pages = ttm->pages + pinned;
+>   
+>   		r = get_user_pages(userptr, num_pages, write ? FOLL_WRITE : 0,
+> -				   pages, NULL);
+> +				   pages);
+>   		if (r < 0)
+>   			goto release_pages;
+>   
+> diff --git a/drivers/misc/sgi-gru/grufault.c b/drivers/misc/sgi-gru/grufault.c
+> index b836936e9747..378cf02a2aa1 100644
+> --- a/drivers/misc/sgi-gru/grufault.c
+> +++ b/drivers/misc/sgi-gru/grufault.c
+> @@ -185,7 +185,7 @@ static int non_atomic_pte_lookup(struct vm_area_struct *vma,
+>   #else
+>   	*pageshift = PAGE_SHIFT;
+>   #endif
+> -	if (get_user_pages(vaddr, 1, write ? FOLL_WRITE : 0, &page, NULL) <= 0)
+> +	if (get_user_pages(vaddr, 1, write ? FOLL_WRITE : 0, &page) <= 0)
+>   		return -EFAULT;
+>   	*paddr = page_to_phys(page);
+>   	put_page(page);
+> diff --git a/include/linux/mm.h b/include/linux/mm.h
+> index 37554b08bb28..b14cc4972d0b 100644
+> --- a/include/linux/mm.h
+> +++ b/include/linux/mm.h
+> @@ -2380,8 +2380,7 @@ long pin_user_pages_remote(struct mm_struct *mm,
+>   			   unsigned int gup_flags, struct page **pages,
+>   			   struct vm_area_struct **vmas, int *locked);
+>   long get_user_pages(unsigned long start, unsigned long nr_pages,
+> -			    unsigned int gup_flags, struct page **pages,
+> -			    struct vm_area_struct **vmas);
+> +		    unsigned int gup_flags, struct page **pages);
+>   long pin_user_pages(unsigned long start, unsigned long nr_pages,
+>   		    unsigned int gup_flags, struct page **pages,
+>   		    struct vm_area_struct **vmas);
+> diff --git a/mm/gup.c b/mm/gup.c
+> index 1f72a717232b..7e454d6b157e 100644
+> --- a/mm/gup.c
+> +++ b/mm/gup.c
+> @@ -2251,8 +2251,6 @@ long get_user_pages_remote(struct mm_struct *mm,
+>    * @pages:      array that receives pointers to the pages pinned.
+>    *              Should be at least nr_pages long. Or NULL, if caller
+>    *              only intends to ensure the pages are faulted in.
+> - * @vmas:       array of pointers to vmas corresponding to each page.
+> - *              Or NULL if the caller does not require them.
+>    *
+>    * This is the same as get_user_pages_remote(), just with a less-flexible
+>    * calling convention where we assume that the mm being operated on belongs to
+> @@ -2260,16 +2258,15 @@ long get_user_pages_remote(struct mm_struct *mm,
+>    * obviously don't pass FOLL_REMOTE in here.
+>    */
+>   long get_user_pages(unsigned long start, unsigned long nr_pages,
+> -		unsigned int gup_flags, struct page **pages,
+> -		struct vm_area_struct **vmas)
+> +		    unsigned int gup_flags, struct page **pages)
+>   {
+>   	int locked = 1;
+>   
+> -	if (!is_valid_gup_args(pages, vmas, NULL, &gup_flags, FOLL_TOUCH))
+> +	if (!is_valid_gup_args(pages, NULL, NULL, &gup_flags, FOLL_TOUCH))
+>   		return -EINVAL;
+>   
+>   	return __get_user_pages_locked(current->mm, start, nr_pages, pages,
+> -				       vmas, &locked, gup_flags);
+> +				       NULL, &locked, gup_flags);
+>   }
+>   EXPORT_SYMBOL(get_user_pages);
+>   
+> diff --git a/mm/gup_test.c b/mm/gup_test.c
+> index 8ae7307a1bb6..9ba8ea23f84e 100644
+> --- a/mm/gup_test.c
+> +++ b/mm/gup_test.c
+> @@ -139,8 +139,7 @@ static int __gup_test_ioctl(unsigned int cmd,
+>   						 pages + i);
+>   			break;
+>   		case GUP_BASIC_TEST:
+> -			nr = get_user_pages(addr, nr, gup->gup_flags, pages + i,
+> -					    NULL);
+> +			nr = get_user_pages(addr, nr, gup->gup_flags, pages + i);
+>   			break;
+>   		case PIN_FAST_BENCHMARK:
+>   			nr = pin_user_pages_fast(addr, nr, gup->gup_flags,
+> @@ -161,7 +160,7 @@ static int __gup_test_ioctl(unsigned int cmd,
+>   						    pages + i, NULL);
+>   			else
+>   				nr = get_user_pages(addr, nr, gup->gup_flags,
+> -						    pages + i, NULL);
+> +						    pages + i);
+>   			break;
+>   		default:
+>   			ret = -EINVAL;
+> diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
+> index d255964ec331..7f31e0a4adb5 100644
+> --- a/virt/kvm/kvm_main.c
+> +++ b/virt/kvm/kvm_main.c
+> @@ -2474,7 +2474,7 @@ static inline int check_user_page_hwpoison(unsigned long addr)
+>   {
+>   	int rc, flags = FOLL_HWPOISON | FOLL_WRITE;
+>   
+> -	rc = get_user_pages(addr, 1, flags, NULL, NULL);
+> +	rc = get_user_pages(addr, 1, flags, NULL);
+>   	return rc == -EHWPOISON;
+>   }
+>   
 
