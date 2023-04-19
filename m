@@ -2,23 +2,23 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4899D6E772A
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Apr 2023 12:06:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 803B96E772D
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Apr 2023 12:07:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 76E2110E914;
-	Wed, 19 Apr 2023 10:06:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 931BA10E91F;
+	Wed, 19 Apr 2023 10:07:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from frasgout13.his.huawei.com (frasgout13.his.huawei.com
- [14.137.139.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 64F0610E914
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Apr 2023 10:06:53 +0000 (UTC)
+Received: from frasgout12.his.huawei.com (frasgout12.his.huawei.com
+ [14.137.139.154])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B120010E91F
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Apr 2023 10:07:11 +0000 (UTC)
 Received: from mail02.huawei.com (unknown [172.18.147.227])
- by frasgout13.his.huawei.com (SkyGuard) with ESMTP id 4Q1bmw4J2Fz9xFHM
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Apr 2023 17:57:20 +0800 (CST)
+ by frasgout12.his.huawei.com (SkyGuard) with ESMTP id 4Q1bm875kkz9xFnC
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Apr 2023 17:56:40 +0800 (CST)
 Received: from A2101119013HW2.china.huawei.com (unknown [10.45.152.239])
- by APP1 (Coremail) with SMTP id LxC2BwAXi_aYvD9k7TY6Ag--.1944S8;
- Wed, 19 Apr 2023 11:06:23 +0100 (CET)
+ by APP1 (Coremail) with SMTP id LxC2BwAXi_aYvD9k7TY6Ag--.1944S9;
+ Wed, 19 Apr 2023 11:06:42 +0100 (CET)
 From: Petr Tesarik <petrtesarik@huaweicloud.com>
 To: Jonathan Corbet <corbet@lwn.net>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -48,22 +48,23 @@ To: Jonathan Corbet <corbet@lwn.net>,
  linux-kernel@vger.kernel.org (open list),
  dri-devel@lists.freedesktop.org (open list:DRM DRIVERS),
  iommu@lists.linux.dev (open list:DMA MAPPING HELPERS)
-Subject: [PATCH v2 6/7] drm: Use DMA_ATTR_MAY_SLEEP from process context
-Date: Wed, 19 Apr 2023 12:03:58 +0200
-Message-Id: <e75e5c0d95d7d7f47049118f031c7d03cc464e7a.1681898595.git.petr.tesarik.ext@huawei.com>
+Subject: [PATCH v2 7/7] swiotlb: per-device flag if there are dynamically
+ allocated buffers
+Date: Wed, 19 Apr 2023 12:03:59 +0200
+Message-Id: <08ec2c2baa9a24d2eae5d5107868fd6df0f7dd1c.1681898595.git.petr.tesarik.ext@huawei.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1681898595.git.petr.tesarik.ext@huawei.com>
 References: <cover.1681898595.git.petr.tesarik.ext@huawei.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: LxC2BwAXi_aYvD9k7TY6Ag--.1944S8
-X-Coremail-Antispam: 1UD129KBjvJXoW7ZF4kXFWDJF1Duw1rGFWrGrg_yoW8XFWkpF
- 4xAFyqvr40qFZYv39rZ3WkZasxua12qFWxua4UJws5u3WYyF9F9ryYyFW2vrWDAr97Xr4f
- tr9FyryUAry2kFJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+X-CM-TRANSID: LxC2BwAXi_aYvD9k7TY6Ag--.1944S9
+X-Coremail-Antispam: 1UD129KBjvJXoWxWr1UWr47Jw1kZw4UKF48Zwb_yoW5uFW3pF
+ y8uF98KF4qqFykZ3sF9w47uF47uw4q93y3CrWFgr1Fkry5X34rWF4kCry2y34rJr409F4x
+ XryjvrWrAF17Ww7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
  9KBjDU0xBIdaVrnRJUUUmEb4IE77IF4wAFF20E14v26rWj6s0DM7CY07I20VC2zVCF04k2
  6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28IrcIa0xkI8VA2jI8067AKxVWUAV
  Cq3wA2048vs2IY020Ec7CjxVAFwI0_Xr0E3s1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0
- rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVWUCVW8JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267
+ rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVW8JVW5JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267
  AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv6xkF7I0E
  14v26r4UJVWxJr1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrV
  C2j2WlYx0E2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE
@@ -95,42 +96,84 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Petr Tesarik <petr.tesarik.ext@huawei.com>
 
-These mappings are never done from atomic context. If a dynamically
-allocated bounce buffer is used for the mapping, this change allows
-to allocate from CMA.
+Do not walk the list of dynamically allocated bounce buffers if the
+list is empty. This avoids taking dma_io_tlb_dyn_lock for devices
+which do not use any dynamically allocated bounce buffers.
+
+When unmapping the last dynamically allocated bounce buffer, the
+flag is set to false as soon as possible to allow skipping the
+spinlock even before the list itself is updated.
 
 Signed-off-by: Petr Tesarik <petr.tesarik.ext@huawei.com>
 ---
- drivers/gpu/drm/drm_gem_shmem_helper.c | 2 +-
- drivers/gpu/drm/drm_prime.c            | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ include/linux/device.h  | 4 ++++
+ include/linux/swiotlb.h | 6 +++++-
+ kernel/dma/swiotlb.c    | 6 ++++++
+ 3 files changed, 15 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
-index 2b2163c8138e..b5bb4f9c130a 100644
---- a/drivers/gpu/drm/drm_gem_shmem_helper.c
-+++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
-@@ -702,7 +702,7 @@ static struct sg_table *drm_gem_shmem_get_pages_sgt_locked(struct drm_gem_shmem_
- 		goto err_put_pages;
- 	}
- 	/* Map the pages for use by the h/w. */
--	ret = dma_map_sgtable(obj->dev->dev, sgt, DMA_BIDIRECTIONAL, 0);
-+	ret = dma_map_sgtable(obj->dev->dev, sgt, DMA_BIDIRECTIONAL, DMA_ATTR_MAY_SLEEP);
- 	if (ret)
- 		goto err_free_sgt;
+diff --git a/include/linux/device.h b/include/linux/device.h
+index e12d6092bb9c..131b6db7fb3f 100644
+--- a/include/linux/device.h
++++ b/include/linux/device.h
+@@ -511,6 +511,9 @@ struct device_physical_location {
+  * @dma_io_tlb_dyn_slots:
+  *		Dynamically allocated bounce buffers for this device.
+  *		Not for driver use.
++ * @dma_io_tlb_have_dyn:
++ *		Does this device have any dynamically allocated bounce
++ *		buffers? Not for driver use.
+  * @archdata:	For arch-specific additions.
+  * @of_node:	Associated device tree node.
+  * @fwnode:	Associated device node supplied by platform firmware.
+@@ -618,6 +621,7 @@ struct device {
+ 	struct io_tlb_mem *dma_io_tlb_mem;
+ 	spinlock_t dma_io_tlb_dyn_lock;
+ 	struct list_head dma_io_tlb_dyn_slots;
++	bool dma_io_tlb_have_dyn;
+ #endif
+ 	/* arch specific additions */
+ 	struct dev_archdata	archdata;
+diff --git a/include/linux/swiotlb.h b/include/linux/swiotlb.h
+index e614aa0f4f64..9ca4812b5977 100644
+--- a/include/linux/swiotlb.h
++++ b/include/linux/swiotlb.h
+@@ -143,7 +143,11 @@ static inline bool is_swiotlb_buffer(struct device *dev, phys_addr_t paddr)
  
-diff --git a/drivers/gpu/drm/drm_prime.c b/drivers/gpu/drm/drm_prime.c
-index f924b8b4ab6b..f32e12445570 100644
---- a/drivers/gpu/drm/drm_prime.c
-+++ b/drivers/gpu/drm/drm_prime.c
-@@ -635,7 +635,7 @@ struct sg_table *drm_gem_map_dma_buf(struct dma_buf_attachment *attach,
- 		return sgt;
+ 	return mem &&
+ 		(is_swiotlb_fixed(mem, paddr) ||
+-		 (mem->allow_dyn && is_swiotlb_dyn(dev, paddr)));
++		 /* Pairs with smp_store_release() in swiotlb_dyn_map()
++		  * and swiotlb_dyn_unmap().
++		  */
++		 (smp_load_acquire(&dev->dma_io_tlb_have_dyn) &&
++		  is_swiotlb_dyn(dev, paddr)));
+ }
  
- 	ret = dma_map_sgtable(attach->dev, sgt, dir,
--			      DMA_ATTR_SKIP_CPU_SYNC);
-+			      DMA_ATTR_SKIP_CPU_SYNC | DMA_ATTR_MAY_SLEEP);
- 	if (ret) {
- 		sg_free_table(sgt);
- 		kfree(sgt);
+ static inline bool is_swiotlb_force_bounce(struct device *dev)
+diff --git a/kernel/dma/swiotlb.c b/kernel/dma/swiotlb.c
+index 4899fb0e4331..9b4faed7ef8f 100644
+--- a/kernel/dma/swiotlb.c
++++ b/kernel/dma/swiotlb.c
+@@ -685,6 +685,9 @@ static phys_addr_t swiotlb_dyn_map(struct device *dev, phys_addr_t orig_addr,
+ 
+ 	spin_lock_irqsave(&dev->dma_io_tlb_dyn_lock, flags);
+ 	list_add(&slot->node, &dev->dma_io_tlb_dyn_slots);
++	if (!dev->dma_io_tlb_have_dyn)
++		/* Pairs with smp_load_acquire() in is_swiotlb_buffer() */
++		smp_store_release(&dev->dma_io_tlb_have_dyn, true);
+ 	spin_unlock_irqrestore(&dev->dma_io_tlb_dyn_lock, flags);
+ 
+ 	return page_to_phys(slot->page);
+@@ -711,6 +714,9 @@ static void swiotlb_dyn_unmap(struct device *dev, phys_addr_t tlb_addr,
+ 	unsigned long flags;
+ 
+ 	spin_lock_irqsave(&dev->dma_io_tlb_dyn_lock, flags);
++	if (list_is_singular(&dev->dma_io_tlb_dyn_slots))
++		/* Pairs with smp_load_acquire() in is_swiotlb_buffer() */
++		smp_store_release(&dev->dma_io_tlb_have_dyn, false);
+ 	slot = lookup_dyn_slot_locked(dev, tlb_addr);
+ 	list_del(&slot->node);
+ 	spin_unlock_irqrestore(&dev->dma_io_tlb_dyn_lock, flags);
 -- 
 2.25.1
 
