@@ -2,77 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70A046E7FAF
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Apr 2023 18:32:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 458C56E7FB4
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Apr 2023 18:34:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6EC1110E9F7;
-	Wed, 19 Apr 2023 16:32:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 13B6C895CA;
+	Wed, 19 Apr 2023 16:34:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com
- [IPv6:2a00:1450:4864:20::629])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 56D7910E1C1
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Apr 2023 16:32:24 +0000 (UTC)
-Received: by mail-ej1-x629.google.com with SMTP id
- a640c23a62f3a-94ea38c90ccso93216366b.1
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Apr 2023 09:32:24 -0700 (PDT)
+Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com
+ [IPv6:2607:f8b0:4864:20::636])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0DB9B895CA
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Apr 2023 16:33:59 +0000 (UTC)
+Received: by mail-pl1-x636.google.com with SMTP id
+ d9443c01a7336-1a6ebc66ca4so1354995ad.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Apr 2023 09:33:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1681921942; x=1684513942;
- h=in-reply-to:content-disposition:mime-version:references
- :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
- :subject:date:message-id:reply-to;
- bh=vjXbDQrMTlMveGgpzjaxOqJ4MX3Zc3PuAQFculrIp90=;
- b=Bzjp+BeQnrAKzIJWTEfUAa+W3pdspTEwqQF0Pa3tbP0lt3pW+mEMdyjsxr7XKzQxxM
- mIrFsanjX96nzba8usxtgUNN+uUHN5AaScdGV3qyXuEIojvImSDkRl/zXstTSqiLG9qS
- 2jZ2SMzLHM11Ly9g09B0B0ONvetjkk3kMyy5Y=
+ d=gmail.com; s=20221208; t=1681922039; x=1684514039;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=Hejd87Jll0E8NOGuMljt4taTMik1yKpFSOJV8ogm+QU=;
+ b=otvUaF7ejsijSly4r1bE5p0DcDAEY+dCK+KVYM+TKOnGIRDPkokhlWhv1Y4lwB+ZkJ
+ J+rF08EQd1xv3uuCAYfuKfepDM3Eusu6Uzl+SkCDbVx4j8Kn6sz+XuG7ALq2caYTgvj8
+ 08wPhYvwIHTxLDZdYdxa2Xd5iDpIHEpZDQQLzd8+mvwCpOCz+WsrdOTTJ2/6cA9LYgzN
+ 7NDAmo86b0SDi1sLACOkw9YxuxQHprwevC+PiLw6AfCihrx2IR9ovUWUsBFPeUWvsix0
+ FhdUPHDgv7r1UhOtdh8KkQQQN/cNQEWYyJrQZ1/9O7ON5XBMjvxAcMuAzNGWcDRBFKOz
+ QhGA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681921942; x=1684513942;
- h=in-reply-to:content-disposition:mime-version:references
- :mail-followup-to:message-id:subject:cc:to:from:date
+ d=1e100.net; s=20221208; t=1681922039; x=1684514039;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=vjXbDQrMTlMveGgpzjaxOqJ4MX3Zc3PuAQFculrIp90=;
- b=MzbeVJQhzKCEi+xqe54uBGSHDtlm8gByHOEB8725Zmbra7pHEzlUOsOmz4iMdsjqUJ
- B9qg6pOHTsTSm2oer53NyjJx6zMpQePksTbfCNDTA3jcJmHUS3e2dWBkrUdgYDk0E+ob
- QpbqhfAiOVVv+jAJBliRGH0OqISFydTwRNxo/oVk4mBjfWf7nXYD+NFm2TFqkNeEW8h5
- dNY+Umj3ox6ufurf6MoMiCvvBbCkfOMzVac5eKcCQgl84UZ1MC4oFrYLd3RjtoxtopiV
- Ic92O2JrLMFEg2m1vFnArapzowz5+MfT8BB0X0kLfYKaJKecJkKPJsn78Bqkux1mlLFj
- 6RLQ==
-X-Gm-Message-State: AAQBX9cDXMySao585Zmmel0g3wJg/KhutJ/2UJKK0zCRakmIk/dEB8El
- 56lrSTWD0iUD9mGukCN/Whlq9A==
-X-Google-Smtp-Source: AKy350aENGpODhst1P2SnjiQJvzhoC9GSkVgTOh9e3yM/mzLGea3xasoYck5TN1My/5JEkEvmKDOSQ==
-X-Received: by 2002:a17:906:5d:b0:94e:d688:fc92 with SMTP id
- 29-20020a170906005d00b0094ed688fc92mr16825594ejg.0.1681921942431; 
- Wed, 19 Apr 2023 09:32:22 -0700 (PDT)
-Received: from phenom.ffwll.local (212-51-149-33.fiber7.init7.net.
- [212.51.149.33]) by smtp.gmail.com with ESMTPSA id
- t16-20020a170906269000b00932ba722482sm9754722ejc.149.2023.04.19.09.32.21
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 19 Apr 2023 09:32:22 -0700 (PDT)
-Date: Wed, 19 Apr 2023 18:32:20 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Nathan Chancellor <nathan@kernel.org>
-Subject: Re: linux-next: manual merge of the drm-misc tree with the mm-stable
- tree
-Message-ID: <ZEAXlEeYrqvVejJj@phenom.ffwll.local>
-Mail-Followup-To: Nathan Chancellor <nathan@kernel.org>,
- Mark Brown <broonie@kernel.org>, Dave Airlie <airlied@gmail.com>,
- Intel Graphics <intel-gfx@lists.freedesktop.org>,
- DRI <dri-devel@lists.freedesktop.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linux Next Mailing List <linux-next@vger.kernel.org>
-References: <20230414125913.851920-1-broonie@kernel.org>
- <ZDuqut+8BKjMXblJ@phenom.ffwll.local>
- <8c90b4db-3075-4275-bea8-01f501b00885@sirena.org.uk>
- <ZEAVxeIEOny81EGY@phenom.ffwll.local>
- <20230419163011.GA1865368@dev-arch.thelio-3990X>
+ bh=Hejd87Jll0E8NOGuMljt4taTMik1yKpFSOJV8ogm+QU=;
+ b=CW8BTMKMDNeGVaCZQ+DVFTKg1G8UUBaixcUVyrkjstmNPh1hMbiQ3Ad7T5CoCQOt7z
+ cu3VmySeDJdKf+7dtuX+xwaeLhYO2/+zrD4Mb5qPA/saEtsxng42WMVpgQvbhWq6Ih59
+ JwANuLDP/eNAVVVdw9PKZzQJSqYD+wIM3hSO8fXqbWJvOx3QeIBOy8R/n/PHwSYpJI+v
+ GNEqY8HiuQiYc3uDKoyRUpRDwmrFrB9g8g0rqoY2OnL7g6EEmWaAaaDiw4XwuvHQyORo
+ BR3clPhL3gbR3gx+IUvfHu6BLY4/fZNc7ia9sToTNMv2emYC7v1a0fwDmuxvCLXq7TVR
+ g5Ew==
+X-Gm-Message-State: AAQBX9dQh/q1f8SRLla8DJGpayFp9vhAvAlRqpvCfgM2omLmLMtz4FQZ
+ DNBot7XUxMcoQ+RFtm4aZHs=
+X-Google-Smtp-Source: AKy350Yh+6NbKPw4KD+UsFvenBCaCDaUcheuDcqPn53EST9vXg5qyuw0UcOKYiNkqaXz2dPOz64XMQ==
+X-Received: by 2002:a17:902:f689:b0:1a6:f5d5:b80a with SMTP id
+ l9-20020a170902f68900b001a6f5d5b80amr7744678plg.38.1681922038707; 
+ Wed, 19 Apr 2023 09:33:58 -0700 (PDT)
+Received: from [10.67.48.245] ([192.19.223.252])
+ by smtp.googlemail.com with ESMTPSA id
+ p10-20020a1709026b8a00b0019a6cce2060sm11631338plk.57.2023.04.19.09.33.52
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 19 Apr 2023 09:33:58 -0700 (PDT)
+Message-ID: <932bb2c6-71ce-525f-fbb2-a0a742ee8e12@gmail.com>
+Date: Wed, 19 Apr 2023 09:33:50 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230419163011.GA1865368@dev-arch.thelio-3990X>
-X-Operating-System: Linux phenom 6.1.0-7-amd64 
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH net-next 3/6] net: bcmasp: Add support for ASP2.0 Ethernet
+ controller
+Content-Language: en-US
+To: Heiner Kallweit <hkallweit1@gmail.com>,
+ Justin Chen <justinpopo6@gmail.com>, netdev@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, bcm-kernel-feedback-list@broadcom.com
+References: <1681863018-28006-1-git-send-email-justinpopo6@gmail.com>
+ <1681863018-28006-4-git-send-email-justinpopo6@gmail.com>
+ <03dadae3-3a89-cdb0-7cd1-591d62735836@gmail.com>
+From: Florian Fainelli <f.fainelli@gmail.com>
+In-Reply-To: <03dadae3-3a89-cdb0-7cd1-591d62735836@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,50 +83,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Intel Graphics <intel-gfx@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- DRI <dri-devel@lists.freedesktop.org>, Mark Brown <broonie@kernel.org>,
- Linux Next Mailing List <linux-next@vger.kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
+Cc: andrew@lunn.ch, f.fainelli@gmail.com, opendmb@gmail.com,
+ christian.koenig@amd.com, richardcochran@gmail.com, linux@armlinux.org.uk,
+ justin.chen@broadcom.com, edumazet@google.com, robh+dt@kernel.org,
+ krzysztof.kozlowski+dt@linaro.org, kuba@kernel.org, pabeni@redhat.com,
+ sumit.semwal@linaro.org, davem@davemloft.net
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Apr 19, 2023 at 09:30:11AM -0700, Nathan Chancellor wrote:
-> On Wed, Apr 19, 2023 at 06:24:37PM +0200, Daniel Vetter wrote:
-> > On Tue, Apr 18, 2023 at 07:34:44PM +0100, Mark Brown wrote:
-> > > On Sun, Apr 16, 2023 at 09:58:50AM +0200, Daniel Vetter wrote:
-> > > 
-> > > > Note there was a ppc compile fail, which is why we pushed the ttm revert.
-> > > > That /should/ be fixed now, but would be good if you can confirm?
-> > > 
-> > > According to Nathan (CCed) there's still issues with the interaction
-> > > with the PowerPC tree.
-> > 
-> > So this revert was supposed to fix this: 56e51681246e ("drm/ttm: revert
-> > "Reduce the number of used allocation orders for TTM pages"")
-> > 
-> > If there's anything left then I need to chase that asap since the merge
-> > window will open soon.
+On 4/18/23 23:35, Heiner Kallweit wrote:
+> On 19.04.2023 02:10, Justin Chen wrote:
+>> Add support for the Broadcom ASP 2.0 Ethernet controller which is first
+>> introduced with 72165. This controller features two distinct Ethernet
+>> ports that can be independently operated.
+>>
+>> This patch supports:
+[snip]
+>> +	intf->tx_spb_index = spb_index;
+>> +	intf->tx_spb_dma_valid = valid;
+>> +	bcmasp_intf_tx_write(intf, intf->tx_spb_dma_valid);
+>> +
+>> +	if (tx_spb_ring_full(intf, MAX_SKB_FRAGS + 1))
+>> +		netif_stop_queue(dev);
+>> +
 > 
-> I think we are talking about two different issues here. My issue is not
-> a compilation failure, it is an incorrect merge resolution that is
-> happening in -next because of two independent changes in the drm and
-> powerpc tree, the thread below should have more information.
-> 
-> https://lore.kernel.org/20230413184725.GA3183133@dev-arch.thelio-3990X/
-> 
-> I do not think this is something that either tree can solve
-> independently of each other, -next has to resolve the conflict correctly
-> (which is what I point out in the message above) and a note of it should
-> be passed along to Linus so it can be resolved correctly in mainline
-> when the time comes.
+> Here it may be better to use the new macros from include/net/netdev_queues.h.
+> It seems your code (together with the related part in tx_poll) doesn't consider
+> the queue restart case.
+> In addition you should check whether using READ_ONCE()/WRITE_ONCE() is needed,
+> e.g. in ring_full().
 
-Ah yes that's a different one. I think we have a note about this one
-already, but I'll double-check with Dave Airlie.
--Daniel
+Thanks Heiner. Can you trim the parts you are not quoting otherwise one 
+has to scroll all the way down to where you responded. Thanks!
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Florian
+
