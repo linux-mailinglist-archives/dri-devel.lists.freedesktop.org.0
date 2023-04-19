@@ -1,71 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E159B6E75CA
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Apr 2023 10:57:09 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CBF256E8B1C
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Apr 2023 09:14:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9A5D110E0BA;
-	Wed, 19 Apr 2023 08:57:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 65AF010EBB7;
+	Thu, 20 Apr 2023 07:14:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com
- [IPv6:2a00:1450:4864:20::635])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C021610E0BA
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Apr 2023 08:57:01 +0000 (UTC)
-Received: by mail-ej1-x635.google.com with SMTP id dm2so79810612ejc.8
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Apr 2023 01:57:01 -0700 (PDT)
+Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com
+ [IPv6:2607:f8b0:4864:20::102b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 797F210E1AB;
+ Wed, 19 Apr 2023 08:58:07 +0000 (UTC)
+Received: by mail-pj1-x102b.google.com with SMTP id
+ s23-20020a17090aba1700b00247a8f0dd50so440785pjr.1; 
+ Wed, 19 Apr 2023 01:58:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1681894617; x=1684486617;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=mFuzy4TuvFqYZVB9yIonpVvfyyHxImCxfwDErPMQgRg=;
- b=H/iMr/DovWLHt2YCjeW6aLfRxx2KGDYSy/hsKKdRIiNQKmpU9pgW72ZIATuskwh2gK
- GPWY+4ijiNsyeM+X4Dbf7/YsVp23JLhKLRC6kcInZXIlj+ZHf+E6rLY8R3slKcoER14e
- oolLGqzzPaJX8IkBrpJpwcP7ZQMMnl5zUgQca6wpzbKSkAPDcyqEDwds585KkzrMAQoO
- Dod9TgyryqBl6bb8iOWLH6zWlaYfhOcMN/q5of2nXEtHI1u52DMhLtJA5CSrFGAcLNy1
- A+DJhj/85CcQFOg9iz3jbKKDywW0wP/I3HBB/u9J3zdFiuzvjTcqRuuxIG1RGNMdwrUJ
- SHRg==
+ d=gmail.com; s=20221208; t=1681894686; x=1684486686;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=3zpvMjDc8PUDIFIffBUt+CiFgxX1fPBud4Kt6HqJXz8=;
+ b=UtlW7QeLG94NWEB+dlWHbmjRnFYxbJOyvIGIfJLxjiZJWo8SZyBMKGSu71KsdnwYkM
+ 5Embc4NaJ3SRopVgqDxHW19iPNF3jiDTDgNow4AnPZhfVsPAXcYRUDzE1Vg8kwHbGJUD
+ Jul3ZOIWXSqS2g+Yx3G3JGBEeRD5s3faZmYLtYfgoeuGOtaIwe0inEdi+yDJ2XrC4o8H
+ C6Fmym88uYZ4psi3ZY8pPDaFiFCq2RZWCtlWPWIPlglDjw9gTAEpgU/1MgyiFw6Rw5Y2
+ F0XB+yzdy9HPo3WvfTOqm4b5GZvfeXDVeSU9m4fgJCGIpN5Emu8pXWkG/fnCjF7VARx6
+ /heA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681894617; x=1684486617;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=mFuzy4TuvFqYZVB9yIonpVvfyyHxImCxfwDErPMQgRg=;
- b=LEy+/ggorkIVlsM4XAYGlMebD/TieqchIjoargHk+zvbMIk91DCEstfb/6cUx2DO3e
- os8dVEnvX6tI9VeeysNgMCoPJuPlsZBo3R0XqPSp7oLP8tF8LRTSYDRlb07CuJGbwSji
- Hy6zUD22w3xjVwacbyOnmWWXa93FhIhhytg88MulpJwwIZiEZ0UHI+YOci8XQRjtBYTs
- teKBU9+Bj0mtv/cMVfhN1LrLooHN7zmhix1aBMxCKb/5vTeHkE1gXps957S3c6I2TPDr
- aOA/BJODDbOyjD0XQ90eTURhiaTd9xY00k0JrEriyUdC7afbuHuAi7Fb9MH78kv0xLXQ
- 4mlg==
-X-Gm-Message-State: AAQBX9fBQHSwHd4FcHzgRXZcyDqNYFQqDBYaVqjNwKFSfzOR94V8HF67
- 4aTrT+WCbfvbXz3N1MKu552fEQ==
-X-Google-Smtp-Source: AKy350ZHhQqP60s84sOXg5hEoFCicZMMdVpYkZ1g5erVI/+cot6zkgX/52ioHeJ+kkdg+Elklcr+nw==
-X-Received: by 2002:a17:907:9805:b0:94f:3cf5:6d7f with SMTP id
- ji5-20020a170907980500b0094f3cf56d7fmr13114320ejc.46.1681894617176; 
- Wed, 19 Apr 2023 01:56:57 -0700 (PDT)
-Received: from ?IPV6:2a02:810d:15c0:828:62f5:eb43:f726:5fee?
- ([2a02:810d:15c0:828:62f5:eb43:f726:5fee])
+ d=1e100.net; s=20221208; t=1681894686; x=1684486686;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=3zpvMjDc8PUDIFIffBUt+CiFgxX1fPBud4Kt6HqJXz8=;
+ b=Cg1aTyvUTixTtLuV9LOhbBsv1hkKDiMuq1KfTzGHBCQTjmZbnkXwoPNIoWAwjFw6hx
+ MwxskmOA/OWybyzOEIc1FuKiBQd2lSDk12gIXjU4mLjQe1IFTcBamq2sZYUp+W7Nz0os
+ wUwyldW/NxrTm/Se6emUk8IO/UIMVQzsU2us8qgaFU/DhGuw69rUOesP+J9IxCLEftXd
+ GITbIyfdKN43bVD+zUjciqZTmbLnJpGatZEgr9YwzmmfpghAeNyDpwexX5lFua6wpkod
+ mLPZbs/BdaUq9sdvybkYu4EKfN4LW61/D2PMRlMP0kzPhhFGD3Jj54Nb7pIsvfGRT3A6
+ 2esw==
+X-Gm-Message-State: AAQBX9fbIlKBXYKEUQzLhHLTeOphf07pe7ISucPGIfj2XuN/fXzQkoR+
+ a11tZWu71jzpzGyJqX75QZQ=
+X-Google-Smtp-Source: AKy350ZsGA0KS7CsW/PhUED2oIMNWfU0ei4iNIRQe4Ug65OBD1ljL1KiruI2NorA2j6a8NNhWpDYRA==
+X-Received: by 2002:a05:6a20:5493:b0:ef:ecaf:ff6d with SMTP id
+ i19-20020a056a20549300b000efecafff6dmr2062989pzk.12.1681894686508; 
+ Wed, 19 Apr 2023 01:58:06 -0700 (PDT)
+Received: from hackyzh-virtual-machine.localdomain ([58.34.53.146])
  by smtp.gmail.com with ESMTPSA id
- be5-20020a1709070a4500b0094f282fc29asm5844742ejc.207.2023.04.19.01.56.56
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 19 Apr 2023 01:56:56 -0700 (PDT)
-Message-ID: <77d94fe0-75d2-8f64-19c6-fc19438ba71a@linaro.org>
-Date: Wed, 19 Apr 2023 10:56:55 +0200
+ r10-20020a63d90a000000b0051b72ef978fsm8144902pgg.20.2023.04.19.01.58.02
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 19 Apr 2023 01:58:05 -0700 (PDT)
+From: hackyzh002 <hackyzh002@gmail.com>
+To: alexander.deucher@amd.com
+Subject: [PATCH v2 1/2] drm/radeon: Fix integer overflow in
+ radeon_cs_parser_init
+Date: Wed, 19 Apr 2023 16:57:47 +0800
+Message-Id: <20230419085747.4720-1-hackyzh002@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH] dt-bindings: display: panel: add common definition of
- ports
-Content-Language: en-US
-To: Rob Herring <robh@kernel.org>
-References: <20230416153929.356330-1-krzysztof.kozlowski@linaro.org>
- <20230418222613.GA2408838-robh@kernel.org>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230418222613.GA2408838-robh@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Thu, 20 Apr 2023 07:12:56 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,69 +72,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- devicetree@vger.kernel.org, Sam Ravnborg <sam@ravnborg.org>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Konrad Dybcio <konrad.dybcio@linaro.org>,
- Thierry Reding <thierry.reding@gmail.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Cc: Xinhui.Pan@amd.com, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, sumit.semwal@linaro.org,
+ linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
+ hackyzh002 <hackyzh002@gmail.com>, christian.koenig@amd.com,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 19/04/2023 00:26, Rob Herring wrote:
-> On Sun, Apr 16, 2023 at 05:39:29PM +0200, Krzysztof Kozlowski wrote:
->> Few panel bindings for dual-link connections just type "ports: true",
->> which does not enforce any type.  Add common definition of ports, so the
->> type will be fixed.
->>
->> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
->>
->> ---
->>
->> Cc: Konrad Dybcio <konrad.dybcio@linaro.org>
->> ---
->>  .../bindings/display/panel/panel-common.yaml     | 16 ++++++++++++++++
->>  1 file changed, 16 insertions(+)
->>
->> diff --git a/Documentation/devicetree/bindings/display/panel/panel-common.yaml b/Documentation/devicetree/bindings/display/panel/panel-common.yaml
->> index 5b38dc89cb21..ad62d34e6fa3 100644
->> --- a/Documentation/devicetree/bindings/display/panel/panel-common.yaml
->> +++ b/Documentation/devicetree/bindings/display/panel/panel-common.yaml
->> @@ -70,6 +70,16 @@ properties:
->>    port:
->>      $ref: /schemas/graph.yaml#/properties/port
->>  
->> +  # For dual-link connections
->> +  ports:
->> +    $ref: /schemas/graph.yaml#/properties/ports
->> +    patternProperties:
->> +      "^port@[0-9a-f]+$":
->> +        $ref: /schemas/graph.yaml#/$defs/port-base
-> 
-> This allows any undocumented property.
+The type of size is unsigned, if size is 0x40000000, there will be an
+integer overflow, size will be zero after size *= sizeof(uint32_t),
+will cause uninitialized memory to be referenced later
 
-Yes, which I hope the device schema (using this panel-common) will
-narrow with additionalProperties: false.
+Signed-off-by: hackyzh002 <hackyzh002@gmail.com>
+---
+ drivers/gpu/drm/radeon/radeon_cs.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-I can make it explicit: additionalProperties: true.
-
-Otherwise, how do I allow custom properties like:
-Documentation/devicetree/bindings/display/panel/advantech,idk-2121wr.yaml
-
-> 
->> +
->> +    required:
->> +      - port@0
->> +
-> 
-> I don't think this should be added here because users must define what 
-> each port is. With it here, we're going to validate the nodes twice as 
-> well. Same can be said for 'port' though. It can't be extended though.
-
-So you propose to drop entire "ports" here and expect every panel schema
-to define it instead?
-
-Best regards,
-Krzysztof
+diff --git a/drivers/gpu/drm/radeon/radeon_cs.c b/drivers/gpu/drm/radeon/radeon_cs.c
+index 46a27ebf4..8e12b406e 100644
+--- a/drivers/gpu/drm/radeon/radeon_cs.c
++++ b/drivers/gpu/drm/radeon/radeon_cs.c
+@@ -270,7 +270,7 @@ int radeon_cs_parser_init(struct radeon_cs_parser *p, void *data)
+ {
+ 	struct drm_radeon_cs *cs = data;
+ 	uint64_t *chunk_array_ptr;
+-	unsigned size, i;
++	u64 size, i;
+ 	u32 ring = RADEON_CS_RING_GFX;
+ 	s32 priority = 0;
+ 
+-- 
+2.34.1
 
