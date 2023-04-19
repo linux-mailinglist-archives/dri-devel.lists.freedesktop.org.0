@@ -2,48 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B3066E7057
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Apr 2023 02:12:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B961E6E705E
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Apr 2023 02:20:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 553ED10E7FD;
-	Wed, 19 Apr 2023 00:12:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2971210E82E;
+	Wed, 19 Apr 2023 00:19:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D806B10E82E
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Apr 2023 00:12:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=CtqCxoOhdcwU74rYSARCDRRowSo1VscfmTdzHAucP9Q=; b=OopsWu8/6iCBYKzEPeWcUQwO9W
- Vnyb7qjEW3hMw38VMWCQSq+/+CaQwXUgzmgYD7FhSCzqEAij9u+PJAEqRwKE4gVAGs8g5Qq/Nm8Yo
- uY/UrAnDrDeSeSe8Q69FFLaIIspenMlMR3l2xtHqpODllFygTLft8tu1bCGJlnA8SQII7DrxodTs3
- L0IHWXT0PeY41B/LHc9oEgX5DVOCH/w1P2sM9DeZvhSylDYLELYkwDj+wQIL1ceZ52qnAPNuDmnD1
- gwuOACz1leQDAEFg8K299JKdrugYpnF0a8PO4OrE/nO32Zjon2PKJ8jz8aYv2j9dZdw88xBwxPIZC
- ZwYvzszQ==;
-Received: from [177.34.168.16] (helo=[192.168.0.4])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1povRI-004UYA-5v; Wed, 19 Apr 2023 02:12:48 +0200
-Message-ID: <a95cd74b-ce50-03c5-5f69-d8b78e1414c4@igalia.com>
-Date: Tue, 18 Apr 2023 21:12:43 -0300
+Received: from mail-yw1-x112f.google.com (mail-yw1-x112f.google.com
+ [IPv6:2607:f8b0:4864:20::112f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F225A10E82E
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Apr 2023 00:19:57 +0000 (UTC)
+Received: by mail-yw1-x112f.google.com with SMTP id
+ 00721157ae682-555bc7f6746so35882747b3.6
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Apr 2023 17:19:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1681863597; x=1684455597;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=vLuO0FT5ni9AWAkx5yPjYHqfEIyb0XFRqoQb1KsSeWo=;
+ b=S8BVArrwZ18B3H56hONoNjBqSY2GxUdofcqWqzJDOYmkUDgGj9IW9Fss+xIx24ZCkH
+ rWKWKRmOLpsNysUka+G3yQGMXlun/SmG15M859txABUKhY436kINzZCjVnYWXCndLvM4
+ 8KHJOYNMZqXDxbtjVZZM4j1GHgZRjuLWqaGnqf9DY6jWHCfIOcFQ0TWDGxJ4w2OBlCG9
+ +JSdnkA9SIGgRIB5iqkgxNZ8A6iA/rheFVlWl6EFk9RcFCmKMMxW30OA4WDvr6Rym5YX
+ IJCZboifMX1RPOAQv9vwqjSmJmFipGblaFwRTXNZ/3pg3QqIN44HhZanluq4/gRMiX6b
+ fR7Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1681863597; x=1684455597;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=vLuO0FT5ni9AWAkx5yPjYHqfEIyb0XFRqoQb1KsSeWo=;
+ b=XBkPC+mHfrnpRhxO50aueoeKhc6sMyNOz7GJCqa6hVJY3HR2rkDRpzDvRtdMonEhJ0
+ adS5Meivm3W6TYDoSfVK1ZOGwmGf7+PW4n1nyxEbhE/nysPPW5W473OIlRkPJLw/bmzA
+ hd4+FqZ1TdDN82PxGKdJ/nVlYY9cjAt3JAe7HHuhPHNd+N8G+e/jhT3VO4FNF6KF1AhG
+ kyrjXRzPYxWLAfvsmJhEbonR3kL/B9vzc5l+pqwS+kCrvCL4hVCpnOwsgj6hMiJ5Uxyq
+ F6iiRJ1AOSNL3bx+KZZkIiFEXK0nzchHAOQm/Ldpv9RXY68KUokeXsTWDfHkOYtt4D9n
+ 9QtA==
+X-Gm-Message-State: AAQBX9cW5b/F3dIiF5PfySQ09jNsw//b+LH84bmI2myXBe1Tn1h3p/bb
+ twEsCCFixJUI2420ItkEiWm7LHsL1hXGt5re7AU=
+X-Google-Smtp-Source: AKy350acuABH35eqRI4cUGE5NLDSP0MyKmWLUWy3oJ4G7KYUoSorueyUHRaoZPEgopF3hbuWqZbe4hQVaXr24b3Qtd0=
+X-Received: by 2002:a81:17d0:0:b0:552:ae41:50a2 with SMTP id
+ 199-20020a8117d0000000b00552ae4150a2mr693540ywx.21.1681863596964; Tue, 18 Apr
+ 2023 17:19:56 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH v5 3/5] drm/tests: Add test cases for
- drm_rect_calc_vscale()
-Content-Language: en-US
-To: Arthur Grillo <arthurgrillo@riseup.net>, dri-devel@lists.freedesktop.org
-References: <20230418230146.461129-1-arthurgrillo@riseup.net>
- <20230418230146.461129-4-arthurgrillo@riseup.net>
-From: =?UTF-8?Q?Ma=c3=adra_Canal?= <mcanal@igalia.com>
-In-Reply-To: <20230418230146.461129-4-arthurgrillo@riseup.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <1681863018-28006-1-git-send-email-justinpopo6@gmail.com>
+In-Reply-To: <1681863018-28006-1-git-send-email-justinpopo6@gmail.com>
+From: Justin Chen <justinpopo6@gmail.com>
+Date: Tue, 18 Apr 2023 17:19:46 -0700
+Message-ID: <CAJx26kUvry0pTKmuqmt4ZK+wFg9-bWpi871jsUJWmVBRw1wuEA@mail.gmail.com>
+Subject: Re: [PATCH net-next 0/6] Brcm ASP 2.0 Ethernet controller
+To: netdev@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
+ bcm-kernel-feedback-list@broadcom.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,59 +71,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: carlos.craveiro@usp.br, tales.aparecida@gmail.com, dlatypov@google.com,
- javierm@redhat.com, maxime@cerno.tech, andrealmeid@riseup.net,
- matheus.vieira.g@usp.br
+Cc: andrew@lunn.ch, f.fainelli@gmail.com, opendmb@gmail.com,
+ christian.koenig@amd.com, richardcochran@gmail.com, linux@armlinux.org.uk,
+ justin.chen@broadcom.com, edumazet@google.com, robh+dt@kernel.org,
+ krzysztof.kozlowski+dt@linaro.org, kuba@kernel.org, pabeni@redhat.com,
+ sumit.semwal@linaro.org, davem@davemloft.net, hkallweit1@gmail.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 4/18/23 20:01, Arthur Grillo wrote:
-> Insert parameterized test for the drm_rect_calc_vscale() to ensure
-> correctness and prevent future regressions. Besides the test for the
-> usual case, tests the exceptions.
-> 
-> It uses the same struct from drm_rect_calc_hscale().
-> 
-> Signed-off-by: Arthur Grillo <arthurgrillo@riseup.net>
+On Tue, Apr 18, 2023 at 5:10=E2=80=AFPM Justin Chen <justinpopo6@gmail.com>=
+ wrote:
+>
+> From: Justin Chen <justin.chen@broadcom.com>
+Woops, looks like I screwed up on some of my email addresses in the
+patch set. Will fix in v2 after first round of reviews.
 
-Thanks for the quick fix!
-
-Reviewed-by: Maíra Canal <mcanal@igalia.com>
-
-Best Regards,
-- Maíra Canal
-
-> ---
->   drivers/gpu/drm/tests/drm_rect_test.c | 12 ++++++++++++
->   1 file changed, 12 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/tests/drm_rect_test.c b/drivers/gpu/drm/tests/drm_rect_test.c
-> index aae682ad9ee1..fd89e62ad2cb 100644
-> --- a/drivers/gpu/drm/tests/drm_rect_test.c
-> +++ b/drivers/gpu/drm/tests/drm_rect_test.c
-> @@ -414,6 +414,17 @@ static void drm_test_rect_calc_hscale(struct kunit *test)
->   	KUNIT_EXPECT_EQ(test, scaling_factor, params->expected_scaling_factor);
->   }
->   
-> +static void drm_test_rect_calc_vscale(struct kunit *test)
-> +{
-> +	const struct drm_rect_scale_case *params = test->param_value;
-> +	int scaling_factor;
-> +
-> +	scaling_factor = drm_rect_calc_vscale(&params->src, &params->dst,
-> +					      params->min_range, params->max_range);
-> +
-> +	KUNIT_EXPECT_EQ(test, scaling_factor, params->expected_scaling_factor);
-> +}
-> +
->   static struct kunit_case drm_rect_tests[] = {
->   	KUNIT_CASE(drm_test_rect_clip_scaled_div_by_zero),
->   	KUNIT_CASE(drm_test_rect_clip_scaled_not_clipped),
-> @@ -421,6 +432,7 @@ static struct kunit_case drm_rect_tests[] = {
->   	KUNIT_CASE(drm_test_rect_clip_scaled_signed_vs_unsigned),
->   	KUNIT_CASE_PARAM(drm_test_rect_intersect, drm_rect_intersect_gen_params),
->   	KUNIT_CASE_PARAM(drm_test_rect_calc_hscale, drm_rect_scale_gen_params),
-> +	KUNIT_CASE_PARAM(drm_test_rect_calc_vscale, drm_rect_scale_gen_params),
->   	{ }
->   };
->   
+Justin
+>
+> Add support for the Broadcom ASP 2.0 Ethernet controller which is first
+> introduced with 72165.
+>
+> Add support for 74165 10/100 integrated Ethernet PHY which also uses
+> the ASP 2.0 Ethernet controller.
+>
+> Florian Fainelli (2):
+>   dt-bindings: net: Brcm ASP 2.0 Ethernet controller
+>   net: phy: bcm7xxx: Add EPHY entry for 74165
+>
+> Justin Chen (4):
+>   dt-bindings: net: brcm,unimac-mdio: Add asp-v2.0
+>   net: bcmasp: Add support for ASP2.0 Ethernet controller
+>   net: phy: mdio-bcm-unimac: Add asp v2.0 support
+>   MAINTAINERS: ASP 2.0 Ethernet driver maintainers
+>
+>  .../devicetree/bindings/net/brcm,asp-v2.0.yaml     |  146 ++
+>  .../devicetree/bindings/net/brcm,unimac-mdio.yaml  |    2 +
+>  MAINTAINERS                                        |    9 +
+>  drivers/net/ethernet/broadcom/Kconfig              |   11 +
+>  drivers/net/ethernet/broadcom/Makefile             |    1 +
+>  drivers/net/ethernet/broadcom/asp2/Makefile        |    2 +
+>  drivers/net/ethernet/broadcom/asp2/bcmasp.c        | 1527 ++++++++++++++=
+++++++
+>  drivers/net/ethernet/broadcom/asp2/bcmasp.h        |  636 ++++++++
+>  .../net/ethernet/broadcom/asp2/bcmasp_ethtool.c    |  620 ++++++++
+>  drivers/net/ethernet/broadcom/asp2/bcmasp_intf.c   | 1425 ++++++++++++++=
+++++
+>  .../net/ethernet/broadcom/asp2/bcmasp_intf_defs.h  |  238 +++
+>  drivers/net/mdio/mdio-bcm-unimac.c                 |    2 +
+>  drivers/net/phy/bcm7xxx.c                          |    1 +
+>  include/linux/brcmphy.h                            |    1 +
+>  14 files changed, 4621 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/net/brcm,asp-v2.0.y=
+aml
+>  create mode 100644 drivers/net/ethernet/broadcom/asp2/Makefile
+>  create mode 100644 drivers/net/ethernet/broadcom/asp2/bcmasp.c
+>  create mode 100644 drivers/net/ethernet/broadcom/asp2/bcmasp.h
+>  create mode 100644 drivers/net/ethernet/broadcom/asp2/bcmasp_ethtool.c
+>  create mode 100644 drivers/net/ethernet/broadcom/asp2/bcmasp_intf.c
+>  create mode 100644 drivers/net/ethernet/broadcom/asp2/bcmasp_intf_defs.h
+>
+> --
+> 2.7.4
+>
