@@ -1,58 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 948066E7B68
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Apr 2023 15:59:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 05D136E7B83
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Apr 2023 16:06:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 30CED10E9AD;
-	Wed, 19 Apr 2023 13:59:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6E39510E1A8;
+	Wed, 19 Apr 2023 14:06:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4DD0110E1A8;
- Wed, 19 Apr 2023 13:59:18 +0000 (UTC)
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DB32610E1A8;
+ Wed, 19 Apr 2023 14:06:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1681912757; x=1713448757;
+ t=1681913196; x=1713449196;
  h=message-id:date:mime-version:subject:to:cc:references:
  from:in-reply-to:content-transfer-encoding;
- bh=cWC5dIrRCPFP26RuwW664qMcN35Yw3pQP2swRuZqdPY=;
- b=i0iB7gIlqjIo5XihT6Bfv1oejJPYB0bCMnEa1wyodOS+CkbFKp6Tby30
- HgwL6ogdvuwQklpAdgd2wIB/4KKATMcwHVBZUgOrNFjokPlamNjyXxCQ7
- vdxWFXUceGiNtcrht4NeYLYm5ROStJciUKZOhXiv+PIxMfFDlfkD9nHD4
- Jpql3nugTya61d9yrQ0+R+1grjXjfs/QtJUEAraHksn2HOQMcSRJuoqYS
- lxpkhtD1QQXDjA7WicRS7oA56oslfLvU4smbCdiAJuxa0PizapvK7h4UU
- IrACmkvL1YcRuB9IjXmb4VIfw5XRWyV1ek5Dg5YtMVwfO43WRPWwTvpjm g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10685"; a="431729273"
-X-IronPort-AV: E=Sophos;i="5.99,208,1677571200"; d="scan'208";a="431729273"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Apr 2023 06:59:15 -0700
+ bh=zygMLAtbXDmnY/ceGv5NNzBaSf/3MmT3pfChl+j536o=;
+ b=L3w3lBV37gtR0d7kawrPvgJokSWPTFRRkpd0Ndl48iAqGXYZ/yC2L9N5
+ BlQ/hDWErY+yjvChGt9oQsnL7bEN9zMpKwl0INOB5bIagH/hvbnwMhszh
+ GRMj47hBfcaG7dsqm6IUSSWeJUCwYjAy6mDlup3a+UMpHYH8ekLuMeGmI
+ IWGgnGrqEPit1USu0xk6A2Q3GS6De7rLcUEuW7wavHbxfvnqy7kjXmFyS
+ ZnYCq+LNV7Ku65ZvcU8pda6jCzy+njfcXDYYtotGqUYqnITv71THMMcBK
+ Wqc4u2hREsM/Sck6xtuP+0Xf4RcQVXN+1N/OwZtXWU8RcWtmsMdTbC9Ot A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10685"; a="408364639"
+X-IronPort-AV: E=Sophos;i="5.99,208,1677571200"; d="scan'208";a="408364639"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Apr 2023 07:06:35 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10685"; a="641766132"
-X-IronPort-AV: E=Sophos;i="5.99,208,1677571200"; d="scan'208";a="641766132"
-Received: from ahajda-mobl.ger.corp.intel.com (HELO [10.213.18.145])
- ([10.213.18.145])
- by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Apr 2023 06:59:14 -0700
-Message-ID: <95df8360-99ef-2184-401b-f10873de0fe5@intel.com>
-Date: Wed, 19 Apr 2023 15:59:12 +0200
+X-IronPort-AV: E=McAfee;i="6600,9927,10685"; a="802930070"
+X-IronPort-AV: E=Sophos;i="5.99,208,1677571200"; d="scan'208";a="802930070"
+Received: from halahusx-mobl.ger.corp.intel.com (HELO [10.213.223.36])
+ ([10.213.223.36])
+ by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Apr 2023 07:06:33 -0700
+Message-ID: <b7dfb4a6-6636-42d0-ef6f-b8458c856c6a@linux.intel.com>
+Date: Wed, 19 Apr 2023 15:06:31 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Firefox/102.0 Thunderbird/102.10.0
-Subject: Re: [Intel-gfx] [PATCH 2/8] drm/i915/mtl: Define MOCS and PAT tables
- for MTL
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [RFC 6/6] drm/i915: Implement fdinfo memory stats printing
 Content-Language: en-US
-To: fei.yang@intel.com, intel-gfx@lists.freedesktop.org
-References: <20230417062503.1884465-1-fei.yang@intel.com>
- <20230417062503.1884465-3-fei.yang@intel.com>
-From: Andrzej Hajda <andrzej.hajda@intel.com>
-Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
- Gdansk - KRS 101882 - NIP 957-07-52-316
-In-Reply-To: <20230417062503.1884465-3-fei.yang@intel.com>
+To: Rob Clark <robdclark@gmail.com>
+References: <20230417155613.4143258-1-tvrtko.ursulin@linux.intel.com>
+ <20230417155613.4143258-7-tvrtko.ursulin@linux.intel.com>
+ <CAF6AEGuKovR_VL2UwyRddZ_d-AmZK3usC2zJ3Lb=sq-kN6EmAQ@mail.gmail.com>
+ <a83f4f2c-f745-cb50-e05a-86862ab0ea96@linux.intel.com>
+ <CAF6AEGudH15abZqM04Vb92-LCNt4=x7PNBbbP8LHu+SH83LURQ@mail.gmail.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <CAF6AEGudH15abZqM04Vb92-LCNt4=x7PNBbbP8LHu+SH83LURQ@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,329 +66,167 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Matt Roper <matthew.d.roper@intel.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- Madhumitha Tolakanahalli Pradeep <madhumitha.tolakanahalli.pradeep@intel.com>,
- dri-devel@lists.freedesktop.org
+Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, Intel-gfx@lists.freedesktop.org,
+ Emil Velikov <emil.l.velikov@gmail.com>, dri-devel@lists.freedesktop.org,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 17.04.2023 08:24, fei.yang@intel.com wrote:
-> From: Madhumitha Tolakanahalli Pradeep <madhumitha.tolakanahalli.pradeep@intel.com>
+
+On 18/04/2023 17:08, Rob Clark wrote:
+> On Tue, Apr 18, 2023 at 7:58 AM Tvrtko Ursulin
+> <tvrtko.ursulin@linux.intel.com> wrote:
+>> On 18/04/2023 15:39, Rob Clark wrote:
+>>> On Mon, Apr 17, 2023 at 8:56 AM Tvrtko Ursulin
+>>> <tvrtko.ursulin@linux.intel.com> wrote:
+>>>>
+>>>> From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+>>>>
+>>>> Show how more driver specific set of memory stats could be shown,
+>>>> more specifically where object can reside in multiple regions, showing all
+>>>> the supported stats, and where there is more to show than just user visible
+>>>> objects.
+>>>>
+>>>> WIP...
+>>>>
+>>>> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+>>>> ---
+>>>>    drivers/gpu/drm/i915/i915_driver.c     |   5 ++
+>>>>    drivers/gpu/drm/i915/i915_drm_client.c | 102 +++++++++++++++++++++++++
+>>>>    drivers/gpu/drm/i915/i915_drm_client.h |   8 ++
+>>>>    drivers/gpu/drm/i915/i915_drv.h        |   2 +
+>>>>    4 files changed, 117 insertions(+)
+>>>>
+>>>> diff --git a/drivers/gpu/drm/i915/i915_driver.c b/drivers/gpu/drm/i915/i915_driver.c
+>>>> index 6493548c69bf..4c70206cbc27 100644
+>>>> --- a/drivers/gpu/drm/i915/i915_driver.c
+>>>> +++ b/drivers/gpu/drm/i915/i915_driver.c
+>>>> @@ -1806,6 +1806,11 @@ static const struct drm_driver i915_drm_driver = {
+>>>>           .dumb_create = i915_gem_dumb_create,
+>>>>           .dumb_map_offset = i915_gem_dumb_mmap_offset,
+>>>>
+>>>> +#ifdef CONFIG_PROC_FS
+>>>> +       .query_fdinfo_memory_regions = i915_query_fdinfo_memory_regions,
+>>>> +       .query_fdinfo_memory_stats = i915_query_fdinfo_memory_stats,
+>>>> +#endif
+>>>> +
+>>>>           .ioctls = i915_ioctls,
+>>>>           .num_ioctls = ARRAY_SIZE(i915_ioctls),
+>>>>           .fops = &i915_driver_fops,
+>>>> diff --git a/drivers/gpu/drm/i915/i915_drm_client.c b/drivers/gpu/drm/i915/i915_drm_client.c
+>>>> index c654984189f7..65857c68bdb3 100644
+>>>> --- a/drivers/gpu/drm/i915/i915_drm_client.c
+>>>> +++ b/drivers/gpu/drm/i915/i915_drm_client.c
+>>>> @@ -12,6 +12,7 @@
+>>>>    #include <drm/drm_print.h>
+>>>>
+>>>>    #include "gem/i915_gem_context.h"
+>>>> +#include "intel_memory_region.h"
+>>>>    #include "i915_drm_client.h"
+>>>>    #include "i915_file_private.h"
+>>>>    #include "i915_gem.h"
+>>>> @@ -112,4 +113,105 @@ void i915_drm_client_fdinfo(struct drm_printer *p, struct drm_file *file)
+>>>>           for (i = 0; i < ARRAY_SIZE(uabi_class_names); i++)
+>>>>                   show_client_class(p, i915, file_priv->client, i);
+>>>>    }
+>>>> +
+>>>> +char **
+>>>> +i915_query_fdinfo_memory_regions(struct drm_device *dev, unsigned int *num)
+>>>> +{
+>>>> +       struct drm_i915_private *i915 = to_i915(dev);
+>>>> +       struct intel_memory_region *mr;
+>>>> +       enum intel_region_id id;
+>>>> +
+>>>> +       /* FIXME move to init */
+>>>> +       for_each_memory_region(mr, i915, id) {
+>>>> +               if (!i915->mm.region_names[id])
+>>>> +                       i915->mm.region_names[id] = mr->name;
+>>>> +       }
+>>>> +
+>>>> +       *num = id;
+>>>> +
+>>>> +       return i915->mm.region_names;
+>>>> +}
+>>>> +
+>>>> +static void
+>>>> +add_obj(struct drm_i915_gem_object *obj, struct drm_fdinfo_memory_stat *stats)
+>>>> +{
+>>>> +        struct intel_memory_region *mr;
+>>>> +       u64 sz = obj->base.size;
+>>>> +        enum intel_region_id id;
+>>>> +       unsigned int i;
+>>>> +
+>>>> +       if (!obj)
+>>>> +               return;
+>>>> +
+>>>> +       /* Attribute size and shared to all possible memory regions. */
+>>>> +       for (i = 0; i < obj->mm.n_placements; i++) {
+>>>> +               mr = obj->mm.placements[i];
+>>>> +               id = mr->id;
+>>>> +
+>>>> +               stats[id].size += sz;
+>>>
+>>> This implies that summing up all of the categories is not the same as
+>>> the toplevel stats that I was proposing
 > 
-> On MTL, GT can no longer allocate on LLC - only the CPU can.
-> This, along with addition of support for L4 cache calls a
-> MOCS/PAT table update.
-> Alos the PAT index registers are multicasted for primary GT,
-> and there is an address jump from index 7 to 8. This patch
-> makes sure these registers are programmed in the proper way.
+> Sorry, I mis-spoke, I meant "summing up all of the regions is not..."
+
+Ah okay. It could be made like that yes.
+
+I wasn't sure what would be more useful for drivers which support memory 
+regions. To see how much memory file could be using worst case, or 
+strictly how much it is currently using. So for buffer objects where 
+userspace allows kernel to choose the region from a supplied list, I 
+thought it would be useful to show that in total size against all 
+possible regions.
+
+In a way you see this driver /could/ be using 1G in vram and 1G in 
+system, but currently it only has resident 1G in vram. Or you see 
+another file which has 1G vram size and 1G resident size and you can 
+infer some things.
+
+Perhaps that can be confusing and it would be better to let total size 
+migrate between regions at runtime as does resident and other 
+categories. But then the total size per region would change at runtime 
+influenced by other app activity (as driver is transparently migrating 
+buffers between regions). Which can also be very confusing, it would 
+appear as if the app is creating/freeing objects when it isn't.
+>> Correct, my categories are a bit different. You had private and shared as two mutually exclusive buckets, and then resident as subset of either/both. I have size as analogue to VmSize and resident as a subset of that, analogue to VmRss.
+>>
 > 
-> BSpec: 44509, 45101, 44235
+> I split shared because by definition shared buffers can be counted
+> against multiple drm_file's, whereas private is only counted against
+> the single drm_file.  Driver or app changes are unlikely to change the
+> shared size, whereas private footprint is a thing you can optimize to
+> some degree.
+ >
+>> Shared is a bit wishy-washy, not sure about that one in either proposals. It can be either imported or exported buffers, but in essence I think it fits better as a subset of total size.
 > 
-> Cc: Matt Roper <matthew.d.roper@intel.com>
-> Cc: Lucas De Marchi <lucas.demarchi@intel.com>
-> Signed-off-by: Madhumitha Tolakanahalli Pradeep <madhumitha.tolakanahalli.pradeep@intel.com>
-> Signed-off-by: Aravind Iddamsetty <aravind.iddamsetty@intel.com>
-> Signed-off-by: Nirmoy Das <nirmoy.das@intel.com>
-> Signed-off-by: Fei Yang <fei.yang@intel.com>
-> ---
->   drivers/gpu/drm/i915/gt/intel_gt_regs.h |  6 +-
->   drivers/gpu/drm/i915/gt/intel_gtt.c     | 62 ++++++++++++++++----
->   drivers/gpu/drm/i915/gt/intel_gtt.h     | 20 ++++++-
->   drivers/gpu/drm/i915/gt/intel_mocs.c    | 76 +++++++++++++++++++++++--
->   drivers/gpu/drm/i915/gt/selftest_mocs.c |  2 +-
->   5 files changed, 149 insertions(+), 17 deletions(-)
+> Imported vs exported doesn't really matter.. it is just an
+> implementation detail of the winsys.  But I think it is useful to know
+> how much of an app's footprint is shared vs private.  You could
+> express it different ways, but my proposal had private and shared,
+> from which you can calculate total:
 > 
-> diff --git a/drivers/gpu/drm/i915/gt/intel_gt_regs.h b/drivers/gpu/drm/i915/gt/intel_gt_regs.h
-> index fd1f9cd35e9d..e8c3b762a92a 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_gt_regs.h
-> +++ b/drivers/gpu/drm/i915/gt/intel_gt_regs.h
-> @@ -356,7 +356,11 @@
->   #define GEN7_TLB_RD_ADDR			_MMIO(0x4700)
->   
->   #define GEN12_PAT_INDEX(index)			_MMIO(0x4800 + (index) * 4)
-> -#define XEHP_PAT_INDEX(index)			MCR_REG(0x4800 + (index) * 4)
-> +#define _PAT_INDEX(index)			_PICK_EVEN_2RANGES(index, 8, \
-> +								   0x4800, 0x4804, \
-> +								   0x4848, 0x484c)
-> +#define XEHP_PAT_INDEX(index)			MCR_REG(_PAT_INDEX(index))
-> +#define XELPMP_PAT_INDEX(index)			_MMIO(_PAT_INDEX(index))
->   
->   #define XEHP_TILE0_ADDR_RANGE			MCR_REG(0x4900)
->   #define   XEHP_TILE_LMEM_RANGE_SHIFT		8
-> diff --git a/drivers/gpu/drm/i915/gt/intel_gtt.c b/drivers/gpu/drm/i915/gt/intel_gtt.c
-> index 4f436ba7a3c8..429f3971020d 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_gtt.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_gtt.c
-> @@ -468,6 +468,42 @@ void gtt_write_workarounds(struct intel_gt *gt)
->   	}
->   }
->   
-> +static void xelpmp_setup_private_ppat(struct intel_uncore *uncore)
-> +{
-> +	intel_uncore_write(uncore, XELPMP_PAT_INDEX(0), MTL_PPAT_L4_0_WB);
-> +	intel_uncore_write(uncore, XELPMP_PAT_INDEX(1), MTL_PPAT_L4_1_WT);
-> +	intel_uncore_write(uncore, XELPMP_PAT_INDEX(2), MTL_PPAT_L4_3_UC);
-> +	intel_uncore_write(uncore, XELPMP_PAT_INDEX(3),
-> +			   MTL_PPAT_L4_0_WB | MTL_2_COH_1W);
-> +	intel_uncore_write(uncore, XELPMP_PAT_INDEX(4),
-> +			   MTL_PPAT_L4_0_WB | MTL_3_COH_2W);
-> +
-> +	/*
-> +	 * Remaining PAT entries are left at the hardware-default
-> +	 * fully-cached setting
-> +	 */
-> +
-> +}
-> +
-> +static void xelpg_setup_private_ppat(struct intel_gt *gt)
-> +{
-> +	intel_gt_mcr_multicast_write(gt, XEHP_PAT_INDEX(0),
-> +				     MTL_PPAT_L4_0_WB);
-> +	intel_gt_mcr_multicast_write(gt, XEHP_PAT_INDEX(1),
-> +				     MTL_PPAT_L4_1_WT);
-> +	intel_gt_mcr_multicast_write(gt, XEHP_PAT_INDEX(2),
-> +				     MTL_PPAT_L4_3_UC);
-> +	intel_gt_mcr_multicast_write(gt, XEHP_PAT_INDEX(3),
-> +				     MTL_PPAT_L4_0_WB | MTL_2_COH_1W);
-> +	intel_gt_mcr_multicast_write(gt, XEHP_PAT_INDEX(4),
-> +				     MTL_PPAT_L4_0_WB | MTL_3_COH_2W);
-> +
-> +	/*
-> +	 * Remaining PAT entries are left at the hardware-default
-> +	 * fully-cached setting
-> +	 */
-> +}
-> +
->   static void tgl_setup_private_ppat(struct intel_uncore *uncore)
->   {
->   	/* TGL doesn't support LLC or AGE settings */
-> @@ -603,16 +639,22 @@ void setup_private_pat(struct intel_gt *gt)
->   
->   	GEM_BUG_ON(GRAPHICS_VER(i915) < 8);
->   
-> -	if (GRAPHICS_VER_FULL(i915) >= IP_VER(12, 50))
-> -		xehp_setup_private_ppat(gt);
-> -	else if (GRAPHICS_VER(i915) >= 12)
-> -		tgl_setup_private_ppat(uncore);
-> -	else if (GRAPHICS_VER(i915) >= 11)
-> -		icl_setup_private_ppat(uncore);
-> -	else if (IS_CHERRYVIEW(i915) || IS_GEN9_LP(i915))
-> -		chv_setup_private_ppat(uncore);
-> -	else
-> -		bdw_setup_private_ppat(uncore);
-> +	if (gt->type == GT_MEDIA) {
-> +		xelpmp_setup_private_ppat(gt->uncore);
-> +	} else {
-> +		if (GRAPHICS_VER_FULL(i915) >= IP_VER(12, 70))
+>     total = private + shared
+> 
+> but you could flip the path around and advertise just total and
+> shared, and calculate private from that.
 
-You could just use "else if" here to avoid indendation, for now it would 
-work, up to you.
+Yeah I am not sure. My gut feeling was that stable "top level" size is 
+the best option. Aka "this is how much this file could be using worst case".
 
+If shared for file A can drop once file B closes the object it 
+previously imported from A, I think that could be confusing. Because A 
+did nothing - it is not suddenly using more private memory (hasn't 
+allocated anything) nor has closed any shared memory objects.
 
-> +			xelpg_setup_private_ppat(gt);
-> +		else if (GRAPHICS_VER_FULL(i915) >= IP_VER(12, 50))
-> +			xehp_setup_private_ppat(gt);
-> +		else if (GRAPHICS_VER(i915) >= 12)
-> +			tgl_setup_private_ppat(uncore);
-> +		else if (GRAPHICS_VER(i915) >= 11)
-> +			icl_setup_private_ppat(uncore);
-> +		else if (IS_CHERRYVIEW(i915) || IS_GEN9_LP(i915))
-> +			chv_setup_private_ppat(uncore);
-> +		else
-> +			bdw_setup_private_ppat(uncore);
-> +	}
->   }
->   
->   struct i915_vma *
-> diff --git a/drivers/gpu/drm/i915/gt/intel_gtt.h b/drivers/gpu/drm/i915/gt/intel_gtt.h
-> index 69ce55f517f5..854ec09fd588 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_gtt.h
-> +++ b/drivers/gpu/drm/i915/gt/intel_gtt.h
-> @@ -88,9 +88,18 @@ typedef u64 gen8_pte_t;
->   #define BYT_PTE_SNOOPED_BY_CPU_CACHES	REG_BIT(2)
->   #define BYT_PTE_WRITEABLE		REG_BIT(1)
->   
-> +#define MTL_PPGTT_PTE_PAT3	BIT_ULL(62)
->   #define GEN12_PPGTT_PTE_LM	BIT_ULL(11)
-> +#define GEN12_PPGTT_PTE_PAT2	BIT_ULL(7)
-> +#define GEN12_PPGTT_PTE_NC	BIT_ULL(5)
-> +#define GEN12_PPGTT_PTE_PAT1	BIT_ULL(4)
-> +#define GEN12_PPGTT_PTE_PAT0	BIT_ULL(3)
->   
-> -#define GEN12_GGTT_PTE_LM	BIT_ULL(1)
-> +#define GEN12_GGTT_PTE_LM		BIT_ULL(1)
-> +#define MTL_GGTT_PTE_PAT0		BIT_ULL(52)
-> +#define MTL_GGTT_PTE_PAT1		BIT_ULL(53)
-> +#define GEN12_GGTT_PTE_ADDR_MASK	GENMASK_ULL(45, 12)
-> +#define MTL_GGTT_PTE_PAT_MASK		GENMASK_ULL(53, 52)
->   
->   #define GEN12_PDE_64K BIT(6)
->   #define GEN12_PTE_PS64 BIT(8)
-> @@ -147,6 +156,15 @@ typedef u64 gen8_pte_t;
->   #define GEN8_PDE_IPS_64K BIT(11)
->   #define GEN8_PDE_PS_2M   BIT(7)
->   
-> +#define MTL_PPAT_L4_CACHE_POLICY_MASK	REG_GENMASK(3, 2)
-> +#define MTL_PAT_INDEX_COH_MODE_MASK	REG_GENMASK(1, 0)
-> +#define MTL_PPAT_L4_3_UC	REG_FIELD_PREP(MTL_PPAT_L4_CACHE_POLICY_MASK, 3)
-> +#define MTL_PPAT_L4_1_WT	REG_FIELD_PREP(MTL_PPAT_L4_CACHE_POLICY_MASK, 1)
-> +#define MTL_PPAT_L4_0_WB	REG_FIELD_PREP(MTL_PPAT_L4_CACHE_POLICY_MASK, 0)
-> +#define MTL_3_COH_2W	REG_FIELD_PREP(MTL_PAT_INDEX_COH_MODE_MASK, 3)
-> +#define MTL_2_COH_1W	REG_FIELD_PREP(MTL_PAT_INDEX_COH_MODE_MASK, 2)
-> +#define MTL_0_COH_NON	REG_FIELD_PREP(MTL_PAT_INDEX_COH_MODE_MASK, 0)
-> +
->   enum i915_cache_level;
->   
->   struct drm_i915_gem_object;
-> diff --git a/drivers/gpu/drm/i915/gt/intel_mocs.c b/drivers/gpu/drm/i915/gt/intel_mocs.c
-> index 69b489e8dfed..89570f137b2c 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_mocs.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_mocs.c
-> @@ -40,6 +40,10 @@ struct drm_i915_mocs_table {
->   #define LE_COS(value)		((value) << 15)
->   #define LE_SSE(value)		((value) << 17)
->   
-> +/* Defines for the tables (GLOB_MOCS_0 - GLOB_MOCS_16) */
-> +#define _L4_CACHEABILITY(value)	((value) << 2)
-> +#define IG_PAT(value)		((value) << 8)
-> +
->   /* Defines for the tables (LNCFMOCS0 - LNCFMOCS31) - two entries per word */
->   #define L3_ESC(value)		((value) << 0)
->   #define L3_SCC(value)		((value) << 1)
-> @@ -50,6 +54,7 @@ struct drm_i915_mocs_table {
->   /* Helper defines */
->   #define GEN9_NUM_MOCS_ENTRIES	64  /* 63-64 are reserved, but configured. */
->   #define PVC_NUM_MOCS_ENTRIES	3
-> +#define MTL_NUM_MOCS_ENTRIES	16
->   
->   /* (e)LLC caching options */
->   /*
-> @@ -73,6 +78,12 @@ struct drm_i915_mocs_table {
->   #define L3_2_RESERVED		_L3_CACHEABILITY(2)
->   #define L3_3_WB			_L3_CACHEABILITY(3)
->   
-> +/* L4 caching options */
-> +#define L4_0_WB			_L4_CACHEABILITY(0)
-> +#define L4_1_WT			_L4_CACHEABILITY(1)
-> +#define L4_2_RESERVED		_L4_CACHEABILITY(2)
-> +#define L4_3_UC			_L4_CACHEABILITY(3)
-> +
->   #define MOCS_ENTRY(__idx, __control_value, __l3cc_value) \
->   	[__idx] = { \
->   		.control_value = __control_value, \
-> @@ -416,6 +427,57 @@ static const struct drm_i915_mocs_entry pvc_mocs_table[] = {
->   	MOCS_ENTRY(2, 0, L3_3_WB),
->   };
->   
-> +static const struct drm_i915_mocs_entry mtl_mocs_table[] = {
-> +	/* Error - Reserved for Non-Use */
-> +	MOCS_ENTRY(0,
-> +		   IG_PAT(0),
-> +		   L3_LKUP(1) | L3_3_WB),
-> +	/* Cached - L3 + L4 */
-> +	MOCS_ENTRY(1,
-> +		   IG_PAT(1),
-> +		   L3_LKUP(1) | L3_3_WB),
-> +	/* L4 - GO:L3 */
-> +	MOCS_ENTRY(2,
-> +		   IG_PAT(1),
-> +		   L3_LKUP(1) | L3_1_UC),
-> +	/* Uncached - GO:L3 */
-> +	MOCS_ENTRY(3,
-> +		   IG_PAT(1) | L4_3_UC,
-> +		   L3_LKUP(1) | L3_1_UC),
-> +	/* L4 - GO:Mem */
-> +	MOCS_ENTRY(4,
-> +		   IG_PAT(1),
-> +		   L3_LKUP(1) | L3_GLBGO(1) | L3_1_UC),
-> +	/* Uncached - GO:Mem */
-> +	MOCS_ENTRY(5,
-> +		   IG_PAT(1) | L4_3_UC,
-> +		   L3_LKUP(1) | L3_GLBGO(1) | L3_1_UC),
-> +	/* L4 - L3:NoLKUP; GO:L3 */
-> +	MOCS_ENTRY(6,
-> +		   IG_PAT(1),
-> +		   L3_1_UC),
-> +	/* Uncached - L3:NoLKUP; GO:L3 */
-> +	MOCS_ENTRY(7,
-> +		   IG_PAT(1) | L4_3_UC,
-> +		   L3_1_UC),
-> +	/* L4 - L3:NoLKUP; GO:Mem */
-> +	MOCS_ENTRY(8,
-> +		   IG_PAT(1),
-> +		   L3_GLBGO(1) | L3_1_UC),
-> +	/* Uncached - L3:NoLKUP; GO:Mem */
-> +	MOCS_ENTRY(9,
-> +		   IG_PAT(1) | L4_3_UC,
-> +		   L3_GLBGO(1) | L3_1_UC),
-> +	/* Display - L3; L4:WT */
-> +	MOCS_ENTRY(14,
-> +		   IG_PAT(1) | L4_1_WT,
-> +		   L3_LKUP(1) | L3_3_WB),
-> +	/* CCS - Non-Displayable */
-> +	MOCS_ENTRY(15,
-> +		   IG_PAT(1),
-> +		   L3_GLBGO(1) | L3_1_UC),
-> +};
-> +
->   enum {
->   	HAS_GLOBAL_MOCS = BIT(0),
->   	HAS_ENGINE_MOCS = BIT(1),
-> @@ -445,7 +507,13 @@ static unsigned int get_mocs_settings(const struct drm_i915_private *i915,
->   	memset(table, 0, sizeof(struct drm_i915_mocs_table));
->   
->   	table->unused_entries_index = I915_MOCS_PTE;
-> -	if (IS_PONTEVECCHIO(i915)) {
-> +	if (IS_METEORLAKE(i915)) {
-> +		table->size = ARRAY_SIZE(mtl_mocs_table);
-> +		table->table = mtl_mocs_table;
-> +		table->n_entries = MTL_NUM_MOCS_ENTRIES;
-> +		table->uc_index = 9;
-> +		table->unused_entries_index = 1;
-> +	} else if (IS_PONTEVECCHIO(i915)) {
->   		table->size = ARRAY_SIZE(pvc_mocs_table);
->   		table->table = pvc_mocs_table;
->   		table->n_entries = PVC_NUM_MOCS_ENTRIES;
-> @@ -646,9 +714,9 @@ void intel_mocs_init_engine(struct intel_engine_cs *engine)
->   		init_l3cc_table(engine->gt, &table);
->   }
->   
-> -static u32 global_mocs_offset(void)
-> +static u32 global_mocs_offset(struct intel_gt *gt)
->   {
-> -	return i915_mmio_reg_offset(GEN12_GLOBAL_MOCS(0));
-> +	return i915_mmio_reg_offset(GEN12_GLOBAL_MOCS(0)) + gt->uncore->gsi_offset;
->   }
->   
->   void intel_set_mocs_index(struct intel_gt *gt)
-> @@ -671,7 +739,7 @@ void intel_mocs_init(struct intel_gt *gt)
->   	 */
->   	flags = get_mocs_settings(gt->i915, &table);
->   	if (flags & HAS_GLOBAL_MOCS)
-> -		__init_mocs_table(gt->uncore, &table, global_mocs_offset());
-> +		__init_mocs_table(gt->uncore, &table, global_mocs_offset(gt));
->   
->   	/*
->   	 * Initialize the L3CC table as part of mocs initalization to make
-> diff --git a/drivers/gpu/drm/i915/gt/selftest_mocs.c b/drivers/gpu/drm/i915/gt/selftest_mocs.c
-> index ca009a6a13bd..730796346514 100644
-> --- a/drivers/gpu/drm/i915/gt/selftest_mocs.c
-> +++ b/drivers/gpu/drm/i915/gt/selftest_mocs.c
-> @@ -137,7 +137,7 @@ static int read_mocs_table(struct i915_request *rq,
->   		return 0;
->   
->   	if (HAS_GLOBAL_MOCS_REGISTERS(rq->engine->i915))
-> -		addr = global_mocs_offset();
-> +		addr = global_mocs_offset(rq->engine->gt);
->   	else
->   		addr = mocs_offset(rq->engine);
+And on a tangent, but what about shared vs private stats when we have 
+userptr object created from shared memory? Core cannot really untangle 
+those. Or the memory allocated for other than buffer objects as I argue 
+in the cover letter.
 
+Regards,
 
-Reviewed-by: Andrzej Hajda <andrzej.hajda@intel.com>
-
-Regards
-Andrzej
-
->   
-
+Tvrtko
