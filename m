@@ -2,63 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 245BC6E8B04
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Apr 2023 09:13:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BBCB6E7261
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Apr 2023 06:44:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8E93510EB90;
-	Thu, 20 Apr 2023 07:12:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CA39E10E05F;
+	Wed, 19 Apr 2023 04:44:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com
- [IPv6:2607:f8b0:4864:20::1032])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 34CBD10E074;
- Wed, 19 Apr 2023 04:24:37 +0000 (UTC)
-Received: by mail-pj1-x1032.google.com with SMTP id
- 98e67ed59e1d1-2472a3bfd23so1642106a91.3; 
- Tue, 18 Apr 2023 21:24:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1681878276; x=1684470276;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=ZRDCjTOkWMGElxrmUMljuv7R6aYKvTg/GiQ2WWUQLjA=;
- b=P5QTikUGscbdQb7TFjUgKjgzxn/e9+eeyH2qxNQSgYuuAoEj9snd9v+RzKmYKdaFYB
- Z/F/DpJQo7e8vEFO5QQAdNK5pRF0eVSc2Z3LToHwQitYaPnV9WaYhsT+3QPwbYhyhWOo
- LLd698154Ty28I+Z3s6QzAars6oTGXtMF7Mwz23ALjlPE+FLwQNJQD57d2bRIjRKQo5K
- /eSJRxR5Num3TxuE6t60Tjk67JJ/vq5KGCBAlfuitq8wGNFR2BDk07PJ23mAZyYwBO0C
- /IzcPoTQ+SQ5jhA4iU8jpMFsg82p0U9KavFJC2lv3+aIkursUeNhKZ+71h5Piq67P6Qi
- 338g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681878276; x=1684470276;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=ZRDCjTOkWMGElxrmUMljuv7R6aYKvTg/GiQ2WWUQLjA=;
- b=N4DjlJAKPjx8dxjrFctCUGI3/v8eaoV6mJBe3liJB/Jt1BKjdqM1ksxtuMbJnJLDS6
- HZRLQglOV+duusqIlm3zR7dja7G8MFvSbBEZUTUle0AdmiEKy/cYu/lY0CQJsmqzABPB
- KU5b9EW0KlpYdXJIXhUUfjRirgAa9cwa8u55epjETXHEJODtwmgE4g0wXiAETo9jA/b5
- pDoRl7E4IdD/ao29hM3YDBXCyhfvqwA9pElJFunjvnZEWGrWPB+2J1IAMe4jhQ10l33c
- 28AM8q7v7AWQzDo2Ign1txXNeQXDpv0JN9kFHjpbDkYAOusg0AiKdCC2+O5HFZnPA8Ow
- LZeQ==
-X-Gm-Message-State: AAQBX9fV130v4Z6Ku9FtXddA/UwVFBZRVE3Keh0DHpbzoToiy5V1h3ow
- eAkQJVieX8GKA1HVELJ05JU2vd3VZ2MvQAJ4DBs=
-X-Google-Smtp-Source: AKy350afI02Fa3Acq0DNx6nJUWrX6aI7RY4q/vg2eOyv/5uPkMM5pF1SRDx4yrymqaBjzv9oWxjrTg==
-X-Received: by 2002:a17:90a:fe8c:b0:246:f73c:3aba with SMTP id
- co12-20020a17090afe8c00b00246f73c3abamr1522019pjb.39.1681878276254; 
- Tue, 18 Apr 2023 21:24:36 -0700 (PDT)
-Received: from hackyzh-virtual-machine.localdomain ([58.34.53.146])
- by smtp.gmail.com with ESMTPSA id
- v8-20020a17090a088800b0024779068491sm380205pjc.26.2023.04.18.21.24.33
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 18 Apr 2023 21:24:35 -0700 (PDT)
-From: hackyzh002 <hackyzh002@gmail.com>
-To: alexander.deucher@amd.com
-Subject: [PATCH 1/2] drm/radeon: Fix integer overflow in radeon_cs_parser_init
-Date: Wed, 19 Apr 2023 12:24:07 +0800
-Message-Id: <20230419042407.69001-1-hackyzh002@gmail.com>
-X-Mailer: git-send-email 2.34.1
+X-Greylist: delayed 355 seconds by postgrey-1.36 at gabe;
+ Wed, 19 Apr 2023 04:44:12 UTC
+Received: from us-smtp-delivery-44.mimecast.com (unknown [207.211.30.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3B5CE10E05F
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Apr 2023 04:44:12 +0000 (UTC)
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-368-yyLvVTcoMf2-qj5HLDZvig-1; Wed, 19 Apr 2023 00:36:57 -0400
+X-MC-Unique: yyLvVTcoMf2-qj5HLDZvig-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9807B8996E0;
+ Wed, 19 Apr 2023 04:36:57 +0000 (UTC)
+Received: from dreadlord.bne.redhat.com (fdacunha.bne.redhat.com [10.64.0.157])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2F2A1C15BAD;
+ Wed, 19 Apr 2023 04:36:55 +0000 (UTC)
+From: Dave Airlie <airlied@gmail.com>
+To: linux-modules@vger.kernel.org
+Subject: [PATCH] modules/firmware: add a new option to denote a firmware group
+ to choose one.
+Date: Wed, 19 Apr 2023 14:36:52 +1000
+Message-Id: <20230419043652.1773413-1-airlied@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Thu, 20 Apr 2023 07:12:56 +0000
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: gmail.com
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=WINDOWS-1252; x-default=true
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,45 +52,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Xinhui.Pan@amd.com, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, sumit.semwal@linaro.org,
- linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
- hackyzh002 <hackyzh002@gmail.com>, christian.koenig@amd.com,
- linux-media@vger.kernel.org
+Cc: Dave Airlie <airlied@redhat.com>, Luis Chamberlain <mcgrof@kernel.org>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The type of size is unsigned, if size is 0x40000000, there will be an
-integer overflow, size will be zero after size *= sizeof(uint32_t),
-will cause uninitialized memory to be referenced later
+From: Dave Airlie <airlied@redhat.com>
 
-Signed-off-by: hackyzh002 <hackyzh002@gmail.com>
+This adds a tag that will go into the module info, only one firmware from
+the group given needs to be available for this driver to work. This allows
+dracut to avoid adding in firmware that aren't needed.
+
+This just brackets a module list in the modinfo, the modules in the list
+will get entries in reversed order so the last module in the list is the
+preferred one.
+
+The corresponding dracut code it at:
+https://github.com/dracutdevs/dracut/pull/2309
+
+Cc: Luis Chamberlain <mcgrof@kernel.org>
+Cc: linux-modules@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org
+Signed-off-by: Dave Airlie <airlied@redhat.com>
 ---
- drivers/gpu/drm/radeon/radeon_cs.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ include/linux/module.h | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/gpu/drm/radeon/radeon_cs.c b/drivers/gpu/drm/radeon/radeon_cs.c
-index 46a27ebf4..472c29050 100644
---- a/drivers/gpu/drm/radeon/radeon_cs.c
-+++ b/drivers/gpu/drm/radeon/radeon_cs.c
-@@ -270,7 +270,7 @@ int radeon_cs_parser_init(struct radeon_cs_parser *p, void *data)
- {
- 	struct drm_radeon_cs *cs = data;
- 	uint64_t *chunk_array_ptr;
--	unsigned size, i;
-+	u64 size, i;
- 	u32 ring = RADEON_CS_RING_GFX;
- 	s32 priority = 0;
- 
-@@ -347,7 +347,7 @@ int radeon_cs_parser_init(struct radeon_cs_parser *p, void *data)
- 				continue;
- 		}
- 
--		p->chunks[i].kdata = kvmalloc_array(size, sizeof(uint32_t), GFP_KERNEL);
-+		p->chunks[i].kdata = kvcalloc(size, sizeof(uint32_t), GFP_KERNEL);
- 		size *= sizeof(uint32_t);
- 		if (p->chunks[i].kdata == NULL) {
- 			return -ENOMEM;
--- 
-2.34.1
+diff --git a/include/linux/module.h b/include/linux/module.h
+index 4435ad9439ab..f02448ed5e2b 100644
+--- a/include/linux/module.h
++++ b/include/linux/module.h
+@@ -289,6 +289,8 @@ extern typeof(name) __mod_##type##__##name##_device_tab=
+le=09=09\
+  * files require multiple MODULE_FIRMWARE() specifiers */
+ #define MODULE_FIRMWARE(_firmware) MODULE_INFO(firmware, _firmware)
+=20
++#define MODULE_FIRMWARE_GROUP_ONLY_ONE(_grpname) MODULE_INFO(firmware_grou=
+p_only_one, _grpname)
++
+ #define MODULE_IMPORT_NS(ns)=09MODULE_INFO(import_ns, __stringify(ns))
+=20
+ struct notifier_block;
+--=20
+2.39.2
 
