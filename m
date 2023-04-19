@@ -1,56 +1,158 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3FD46E80B5
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Apr 2023 19:57:36 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E4F4B6E80BA
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Apr 2023 19:59:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2D55610E1D2;
-	Wed, 19 Apr 2023 17:57:28 +0000 (UTC)
-X-Original-To: dri-devel@lists.freedesktop.org
-Delivered-To: dri-devel@lists.freedesktop.org
-Received: from 189.cn (ptr.189.cn [183.61.185.102])
- by gabe.freedesktop.org (Postfix) with ESMTP id E3EF310E1D2
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Apr 2023 17:57:24 +0000 (UTC)
-HMM_SOURCE_IP: 10.64.8.43:38310.561340762
-HMM_ATTACHE_NUM: 0000
-HMM_SOURCE_TYPE: SMTP
-Received: from clientip-114.242.206.180 (unknown [10.64.8.43])
- by 189.cn (HERMES) with SMTP id 158D81002B3;
- Thu, 20 Apr 2023 01:57:10 +0800 (CST)
-Received: from  ([114.242.206.180])
- by gateway-151646-dep-7b48884fd-tj646 with ESMTP id
- 19960dcd9ab4431f9716e26ed0475c2c for maarten.lankhorst@linux.intel.com; 
- Thu, 20 Apr 2023 01:57:21 CST
-X-Transaction-ID: 19960dcd9ab4431f9716e26ed0475c2c
-X-Real-From: 15330273260@189.cn
-X-Receive-IP: 114.242.206.180
-X-MEDUSA-Status: 0
-Message-ID: <b8f8b909-e0bb-e070-4542-7c4a06444f46@189.cn>
-Date: Thu, 20 Apr 2023 01:57:06 +0800
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH v3] drm/fbdev-generic: prohibit potential out-of-bounds
- access
-Content-Language: en-US
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Li Yi <liyi@loongson.cn>,
- Helge Deller <deller@gmx.de>, Lucas De Marchi <lucas.demarchi@intel.com>,
- linux-kernel@vger.kernel.org, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org, loongson-kernel@lists.loongnix.cn
-References: <20230417113219.1354078-1-suijingfeng@loongson.cn>
- <ZD5Vgx9Txaiz7Bun@phenom.ffwll.local>
- <139c9398-488d-df19-9ae2-2b4b47ef64f4@189.cn>
- <86a8b262-cbf2-b75f-9972-491f557edf74@189.cn>
- <CAKMK7uE-azFT02Sp2FDfMGTc57eYJEn8iM8Wk1mt5ucPs1qM-w@mail.gmail.com>
- <ad44df29-3241-0d9e-e708-b0338bf3c623@189.cn>
- <ZEAXSM/a0IuFnhwn@phenom.ffwll.local>
-From: Sui Jingfeng <15330273260@189.cn>
-In-Reply-To: <ZEAXSM/a0IuFnhwn@phenom.ffwll.local>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+	by gabe.freedesktop.org (Postfix) with ESMTP id D68D010EA37;
+	Wed, 19 Apr 2023 17:59:42 +0000 (UTC)
+X-Original-To: DRI-Devel@lists.freedesktop.org
+Delivered-To: DRI-Devel@lists.freedesktop.org
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 722B410EA39;
+ Wed, 19 Apr 2023 17:59:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1681927180; x=1713463180;
+ h=message-id:date:subject:to:cc:references:from:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=X9yks9IkeilYjoxcySGBkgBHlw7AuHUtw7u/vYKq6Qc=;
+ b=UfPqNiFh0/BAFMJ8LgiwdUKUxdDGmTVoFZVCU/NnoHe6RRDk4Q6cSV8q
+ T3yT41iC2JK1duLwiEjbX9ehUwxveyA3PcP5cwgxm1xLVL2tmpfcYbDPg
+ +N502YGX+l8s7dsyBZqQaKOWlp/+C9BppcNtNoFumjlip5cHugxn9ofSS
+ d7pVsHJGYXdRfylfE7kl+aLvZcDkcPfcj9WJahwG5f7ee4/gJjHnMr93d
+ lDBYPWkUQyHKW6TyQvmWzSy7UgxwHaQCdMImZG1X+KCYM3mQ+L0U0L+wY
+ S9cZymrTMex4QASXbsNjc1DkD26teAnhWgpmx1Kab7IpvU9VPCbzfm12A g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10685"; a="348271951"
+X-IronPort-AV: E=Sophos;i="5.99,208,1677571200"; d="scan'208";a="348271951"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Apr 2023 10:59:39 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10685"; a="669058800"
+X-IronPort-AV: E=Sophos;i="5.99,208,1677571200"; d="scan'208";a="669058800"
+Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
+ by orsmga006.jf.intel.com with ESMTP; 19 Apr 2023 10:59:39 -0700
+Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
+ fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.23; Wed, 19 Apr 2023 10:59:39 -0700
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.23; Wed, 19 Apr 2023 10:59:38 -0700
+Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.23 via Frontend Transport; Wed, 19 Apr 2023 10:59:38 -0700
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (104.47.55.107)
+ by edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.23; Wed, 19 Apr 2023 10:59:38 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=nfGuxH3nEgt0qyc2K6gbek4rLuu619lf3pxavzNgMKXT5krlsr3wqScjwpDJ0kHsZ5o7ulNpUMWfkCD9/0R1kqYjVG3nbCOIltZBqsAz2/+Q6kJ8MSBsTQlcIln22JLrSIpwXMK2C0s1lVnjFvBsKdeHEOUGP0ORpcqZWkJI1AHLSshPXcn08O4GninYUwnX59tvMc6nbojLSd6rOWSQPO0DNUMWoLjiSZ9pKf/6jlrHVlbNOHDq9aU3I8MaN7Tr0nYQ0Hh3poDN9AG+R1WGh4I4YfyK1AQ7313B4ZPRwoLDNPPBWKzP+vJJ5XIirardt+SRGnqU/7QLgtVTug5vWw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=N8T9Bq+543KF+E8JGuO/oa30/FIrifcSXfh2ZPHuU08=;
+ b=bsTF0gyrYvtvXKUHQ7sxGe9NYwApzFvdqJv0ZiNvyBwgGfMykPS7Am3YfxrkVw9w8LurWZKa5KvaMkno5YmaUThz8gnnLvqJ78WEvxgJtr1TRsgouHBB1H1FYcps6XKcf6rHsq2KGZmt8tAiN1402hYahCc8Ql9c1rexPELcnsK/JPGuriHGt+Q/LFEh352BuIuJk624Oii27zMAP594v2LS9i0QaKMGa+5KfeSPTgZLSRKc4V1PyTzNDcveKzIABLeqPM/yA/rSfpq9NhUTT4dy6YybuAAKCOnrPBXUrszdEu0HzkOGDefg/4d067tZZK6xYlzgTCGfHScnHeOTcw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from BN6PR11MB3908.namprd11.prod.outlook.com (2603:10b6:405:7d::13)
+ by DM4PR11MB6310.namprd11.prod.outlook.com (2603:10b6:8:a7::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6319.22; Wed, 19 Apr
+ 2023 17:59:36 +0000
+Received: from BN6PR11MB3908.namprd11.prod.outlook.com
+ ([fe80::7b09:91d7:6e26:5833]) by BN6PR11MB3908.namprd11.prod.outlook.com
+ ([fe80::7b09:91d7:6e26:5833%2]) with mapi id 15.20.6298.045; Wed, 19 Apr 2023
+ 17:59:36 +0000
+Message-ID: <688259d2-d29e-439f-44e7-7dca1a3f7037@intel.com>
+Date: Wed, 19 Apr 2023 10:59:33 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Firefox/102.0 Thunderbird/102.10.0
+Subject: Re: [Intel-gfx] [PATCH 5/5] drm/i915/uc: Reject doplicate entries in
+ firmware table
+Content-Language: en-GB
+To: "Ceraolo Spurio, Daniele" <daniele.ceraolospurio@intel.com>,
+ <Intel-GFX@Lists.FreeDesktop.Org>
+References: <20230415005706.4135485-1-John.C.Harrison@Intel.com>
+ <20230415005706.4135485-6-John.C.Harrison@Intel.com>
+ <ff39e6ca-4ee6-149e-e0ba-13490306c577@intel.com>
+ <c3632e2e-c064-d3f6-a68e-c77a662b1d2c@intel.com>
+ <2cd1381b-10c6-f5ce-e868-39615d24280c@intel.com>
+ <f102d291-6284-52aa-a92e-7b911e9470b1@intel.com>
+From: John Harrison <john.c.harrison@intel.com>
+In-Reply-To: <f102d291-6284-52aa-a92e-7b911e9470b1@intel.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: BYAPR03CA0010.namprd03.prod.outlook.com
+ (2603:10b6:a02:a8::23) To BN6PR11MB3908.namprd11.prod.outlook.com
+ (2603:10b6:405:7d::13)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN6PR11MB3908:EE_|DM4PR11MB6310:EE_
+X-MS-Office365-Filtering-Correlation-Id: 87ada0dc-111f-4f72-4d04-08db40ffd695
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: LL/5FAd4OKxi5p6IzWY3RhS8EjKhgrVXg7B3ZW1UVy+V+k79iXRXur7zs2OnXofdFz+WdXiVjo5Dlw8s4IS+xol9OyTvIpw+B99FAc4it7N1PXxyjiBjhSWzFmd3ZQccRN8TrFMlXlYzfOpMUsD5I0+kJ7E4vNgIzj8/5QfnsarayNxSdvC/pQxG0kQbAIfYIESf46QWrRuJ5emwwLoRXTWnA8sW42gdL6atRA3qatQuoFFnT4Cv7ew0sZIWBgaL9dERzbiRVuml5OyQtU8WZuBuK1LzaGl/IbS0Z9g9HdexbK9tI/SktqZmpi0zhGwHcPkDKHwzlACL/wpYJszBKxVVoc1Qk0/fwB60sfK2cbey9saVKeGZvPb+kf7h7+nLh2NmlWGdiYlMTlitTb54cHyBuyATrc4o0lRdYdOe11FR2EpK+upB76+oWkBZFWg3RwOdU66eTiTHj+bLBcYKs+XpplVPBCGBhQWs12BGCw6Mu3npRk5pWFqj/5J8gv7YB+Igq58V2xHc9e9AESOTt0cu8kClIAdGSQQL+2IA3HFgPM9yeu3w/LGVHiEZ/myiYAX78+QdOC4+ohK9zL6VHIbVk8chpNveU+kLmUr23uZvGO4pYE1dETRusu3pamyjG/1G/oyZYOJBSeygqWN1/Q==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BN6PR11MB3908.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230028)(346002)(376002)(136003)(366004)(396003)(39860400002)(451199021)(2906002)(8936002)(38100700002)(8676002)(5660300002)(36756003)(86362001)(31696002)(6486002)(6666004)(6512007)(6506007)(26005)(478600001)(2616005)(31686004)(83380400001)(53546011)(186003)(316002)(4326008)(82960400001)(66556008)(66476007)(450100002)(66946007)(41300700001)(43740500002)(45980500001);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?enBHMzRjekdubXdtemI4c0xxcG9EZ21BbUdqWXNNbXNuaCs1NXBvUkhMY2di?=
+ =?utf-8?B?L29CbGhuZGx2WUlNaUlid1NMOG5iL2VKWnpzL3k1TjFSK1hqSDRGSVJhTWZi?=
+ =?utf-8?B?NGkxYWRNbmJTUUxmRmhFVnRWYUpPdnYrUUNMWHNtQXFsTGlsTU9NVnhxVnlw?=
+ =?utf-8?B?N1ZLazFEbm9MQndoU0FNeWwxOFFYRDBjVnBwQzFYUUJ2Zm1mdHdGb0xvMHFH?=
+ =?utf-8?B?YmtzUThaZGpmY1FCMEl4dURrTFJvOGloSW5nRDlqTEU4N2hvbXVVTkRsZ2M4?=
+ =?utf-8?B?VDBTb0VaTnFZSkFFODF5cmlGZG92Ull2NDJQemNUNnFnUElZTTlaR1kydVNV?=
+ =?utf-8?B?NFZTakU2SHlNaVM1clF3aU82dVZ0WDQwNElPWlN2MDdCSUxyY2VxT045bGgw?=
+ =?utf-8?B?U0dta1h5V0lMV2ovdWdEV3UvV0paZjV5ZllQRjZIb0Q0MVZWMjVzNkhoZjlM?=
+ =?utf-8?B?cm1QaGtCd3Myc293QzliNE0zRDVETWdOMVB2SlZVbnc3SXZ3Vm83NU9kbUxu?=
+ =?utf-8?B?SmlVWmZVeFExVWNSemN2ODAwR2tRWktPdlpTWTU1RFVHZWRtWC9nVkFOY3M0?=
+ =?utf-8?B?ZFZGMmMxbUVXZkVHeFJtMFE1bXlmN0ZjeU1CY2NwMXlOMnpVbW1wekZjVFZo?=
+ =?utf-8?B?VStoM1BkZjRvSkgzUXFxWXlyMmJuYmh4U1p4QW5aMTFqSzFwRXkwQkR6bk9O?=
+ =?utf-8?B?WFk1bGpRL0hhNFBDV2xVWmY4aU5kODludXZLelFUTWRWRHVjc3JaZE9YN2or?=
+ =?utf-8?B?RHBaamZSM3FFSDRDVFZZSlExT2ZhR0FHZ1VFTEp1TGRUd1QrMWkzMVJ2M3RM?=
+ =?utf-8?B?WDZiOEFDWXhhdHZ3WHFtNUl2d2N0ak9KZGhFU094Vk1sMGhpQVVLd1pWQ0lp?=
+ =?utf-8?B?TGszOFg0QWNMdEViRHFvcWdyNVZjME0za2V0RFVCd2hxejg0RmxXcFRXdDBK?=
+ =?utf-8?B?V1NibkdYNm5nUnQ1SzhVV21yZnYyWmozbkdyUlFwOEdKU0t1YWNscUIraXYx?=
+ =?utf-8?B?aG9TbUlFTWRUZEtXTzRMVDdySncvdkRYMHVFdUVwcEVNSW9qTG45ZU16eVRp?=
+ =?utf-8?B?YmVrSnBFcC9TK2RSNWg5UGNucmJRTWVrWW9MNktXNkFZTFYwT25xN1J4ZmEw?=
+ =?utf-8?B?ZnpkSlFER1Nxc2diZThDYVJKQUxudG9GakJXaVhDUGJjcXoxY3NWVlQ0TFpZ?=
+ =?utf-8?B?c3pxOFpMWUNtYW1hSVFYUG5tTGdIN0xVU0ZYNVRZR0gzbG8yTUtWak9OUUF2?=
+ =?utf-8?B?UVh0QmZxU0IzcXI1a0lLVHJLclVpamJ0OWcxR0FFMGFCUkFBU3hxcnQvU3Ur?=
+ =?utf-8?B?MFgwVHI2UGNpQWtwaHd6aFgzVjJ3SFp5ZlpWb0w3LytUaFZEYTJpbGllblYr?=
+ =?utf-8?B?cmRlTzN2S0daVW1rM1JSbk9oZ1UxYmZQR1ppcTlRcmZLbXZxWU1HYUJrM0I4?=
+ =?utf-8?B?WnU2Q0xKNDJsUWppYW5MUU1VSEgwZmpKTHZ6RjFuMzR3TW5STUdySE9sZGNp?=
+ =?utf-8?B?QStxbEp3bmRZbnhMRFB6aWlmWHlUUHduSDZrN2JpU3hUdmJHNUNiOUhQYXNr?=
+ =?utf-8?B?eFdrUHlJYjlWbWxOa0ltV28xdUdkeVhvUGcyQTI2TklXTjlGZ0NneDlNZkdI?=
+ =?utf-8?B?WTRybzl2VHU0Q3FLRm05N1hsd0p6THNNS2cyYnY5clp0cFlGV3llb1Mxamgw?=
+ =?utf-8?B?bGN2cE05Q0xzYjE0TEhXZzhCMWZITTZnY1hWMzU3NG9nTmlMZGd4blR1Mktq?=
+ =?utf-8?B?RytYaS9IRUE0di9pZitHd2JqbmFObU9YaUpjdTkvbVBPd0o4YnJweis4K0tL?=
+ =?utf-8?B?Q1dQTS9pZjc1SVkxZFVLOXd4OHJ2UDE2dmUrQUxBTzE0ZnRxTStOVjZpa1hl?=
+ =?utf-8?B?ajc1ZnhzL2dkOVJHU0NBVzhVMDk0QXRpTjBvSEVmNUNWb2JubVNWdkJBZlgx?=
+ =?utf-8?B?VnVTY1U5VS9ZbGJnT0NXaFZSeElUYWFRazkwa0FFNFVFZGxLV0M1ZTAwTThX?=
+ =?utf-8?B?bndRRWlmOGZsSXdmYVFVOGV3MDBpdVZoTFhucW93Si82TGV0aENBMjd6Ryta?=
+ =?utf-8?B?Z2sydlI0ZzJUcmtOV3RjRGYwLzBzcHZhUjlMR2tteVROSUZXc0RNdVU1cFJJ?=
+ =?utf-8?B?MmVFb2dpOVJQUldXK1dxSTcvOWtMangvUmNQSXlqOHRucFlSWUdIWEhmWDhD?=
+ =?utf-8?B?cmc9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 87ada0dc-111f-4f72-4d04-08db40ffd695
+X-MS-Exchange-CrossTenant-AuthSource: BN6PR11MB3908.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Apr 2023 17:59:36.6242 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ffO/CtNgC9MnQefaVPZpID04PKKtQAAsulwootCammdvpC65pY+qsdL9I36D8Uj0KnCjFsA81/8ENrchs6CTugRnGmvrUULNbBXYJnnYmlg=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR11MB6310
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,354 +165,156 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: DRI-Devel@Lists.FreeDesktop.Org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
-On 2023/4/20 00:31, Daniel Vetter wrote:
-> On Thu, Apr 20, 2023 at 12:00:41AM +0800, Sui Jingfeng wrote:
->> Hi,
->>
->> Sorry about reply to you so late,
->>
->> our  downstream (product kernel side) userspace GPU/DC driver
->>
->> has been tested out a few bugs, I'm asking to fulfill my duty to that part
->> all days.
->>
->> I may slow to reply, but I really love to reply.
->>
->>
->> On 2023/4/19 23:09, Daniel Vetter wrote:
->>> On Tue, 18 Apr 2023 at 20:16, Sui Jingfeng <15330273260@189.cn> wrote:
->>>> Hi,
+On 4/19/2023 10:33, Ceraolo Spurio, Daniele wrote:
+> On 4/19/2023 10:12 AM, John Harrison wrote:
+>> On 4/19/2023 10:02, John Harrison wrote:
+>>> On 4/18/2023 16:24, Ceraolo Spurio, Daniele wrote:
+>>>> Typo doplicate in patch title
 >>>>
->>>> On 2023/4/19 01:52, Sui Jingfeng wrote:
->>>>> Hi,
+>>>> On 4/14/2023 5:57 PM, John.C.Harrison@Intel.com wrote:
+>>>>> From: John Harrison <John.C.Harrison@Intel.com>
 >>>>>
->>>>> On 2023/4/18 16:32, Daniel Vetter wrote:
->>>>>> On Mon, Apr 17, 2023 at 07:32:19PM +0800, Sui Jingfeng wrote:
->>>>>>> The fbdev test of IGT may write after EOF, which lead to out-of-bound
->>>>>>> access for the drm drivers using fbdev-generic. For example, on a x86
->>>>>>> + aspeed bmc card platform, with a 1680x1050 resolution display,
->>>>>>> running
->>>>>>> fbdev test if IGT will cause the linux kernel hang with the following
->>>>>>> call trace:
->>>>>>>
->>>>>>>      Oops: 0000 [#1] PREEMPT SMP PTI
->>>>>>>      [IGT] fbdev: starting subtest eof
->>>>>>>      Workqueue: events drm_fb_helper_damage_work [drm_kms_helper]
->>>>>>>      [IGT] fbdev: starting subtest nullptr
->>>>>>>
->>>>>>>      RIP: 0010:memcpy_erms+0xa/0x20
->>>>>>>      RSP: 0018:ffffa17d40167d98 EFLAGS: 00010246
->>>>>>>      RAX: ffffa17d4eb7fa80 RBX: ffffa17d40e0aa80 RCX: 00000000000014c0
->>>>>>>      RDX: 0000000000001a40 RSI: ffffa17d40e0b000 RDI: ffffa17d4eb80000
->>>>>>>      RBP: ffffa17d40167e20 R08: 0000000000000000 R09: ffff89522ecff8c0
->>>>>>>      R10: ffffa17d4e4c5000 R11: 0000000000000000 R12: ffffa17d4eb7fa80
->>>>>>>      R13: 0000000000001a40 R14: 000000000000041a R15: ffffa17d40167e30
->>>>>>>      FS:  0000000000000000(0000) GS:ffff895257380000(0000)
->>>>>>> knlGS:0000000000000000
->>>>>>>      CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
->>>>>>>      CR2: ffffa17d40e0b000 CR3: 00000001eaeca006 CR4: 00000000001706e0
->>>>>>>      Call Trace:
->>>>>>>       <TASK>
->>>>>>>       ? drm_fbdev_generic_helper_fb_dirty+0x207/0x330 [drm_kms_helper]
->>>>>>>       drm_fb_helper_damage_work+0x8f/0x170 [drm_kms_helper]
->>>>>>>       process_one_work+0x21f/0x430
->>>>>>>       worker_thread+0x4e/0x3c0
->>>>>>>       ? __pfx_worker_thread+0x10/0x10
->>>>>>>       kthread+0xf4/0x120
->>>>>>>       ? __pfx_kthread+0x10/0x10
->>>>>>>       ret_from_fork+0x2c/0x50
->>>>>>>       </TASK>
->>>>>>>      CR2: ffffa17d40e0b000
->>>>>>>      ---[ end trace 0000000000000000 ]---
->>>>>>>
->>>>>>> The direct reason is that damage rectange computed by
->>>>>>> drm_fb_helper_memory_range_to_clip() does not guaranteed to be
->>>>>>> in-bound.
->>>>>>> It is already results in workaround code populate to elsewhere. Another
->>>>>>> reason is that exposing a larger buffer size than the actual needed
->>>>>>> help
->>>>>>> to trigger this bug intrinsic in drm_fb_helper_memory_range_to_clip().
->>>>>>>
->>>>>>> Others fbdev emulation solutions write to the GEM buffer directly, they
->>>>>>> won't reproduce this bug because the .fb_dirty function callback do not
->>>>>>> being hooked, so no chance is given to
->>>>>>> drm_fb_helper_memory_range_to_clip()
->>>>>>> to generate a out-of-bound when drm_fb_helper_sys_write() is called.
->>>>>>>
->>>>>>> This patch break the trigger condition of this bug by shrinking the
->>>>>>> shadow
->>>>>>> buffer size to sizes->surface_height * buffer->fb->pitches[0].
->>>>>>>
->>>>>>> Fixes: '8fbc9af55de0 ("drm/fbdev-generic: Set screen size to size of
->>>>>>> GEM
->>>>>>> buffer")'
->>>>>>>
->>>>>>> Signed-off-by: Sui Jingfeng <suijingfeng@loongson.cn>
->>>>>>> ---
->>>>>>>     drivers/gpu/drm/drm_fbdev_generic.c | 2 +-
->>>>>>>     1 file changed, 1 insertion(+), 1 deletion(-)
->>>>>>>
->>>>>>> diff --git a/drivers/gpu/drm/drm_fbdev_generic.c
->>>>>>> b/drivers/gpu/drm/drm_fbdev_generic.c
->>>>>>> index 8e5148bf40bb..b057cfbba938 100644
->>>>>>> --- a/drivers/gpu/drm/drm_fbdev_generic.c
->>>>>>> +++ b/drivers/gpu/drm/drm_fbdev_generic.c
->>>>>>> @@ -94,7 +94,7 @@ static int
->>>>>>> drm_fbdev_generic_helper_fb_probe(struct drm_fb_helper *fb_helper,
->>>>>>>         fb_helper->buffer = buffer;
->>>>>>>         fb_helper->fb = buffer->fb;
->>>>>>>     -    screen_size = buffer->gem->size;
->>>>>>> +    screen_size = sizes->surface_height * buffer->fb->pitches[0];
->>>>>> So I read core some more and stumbled over drm_fb_helper_deferred_io().
->>>>>> Which has all the code and comments about this, including limiting.
->>>>>>
->>>>>> I think it would be clearer if we fix the issue there, instead of
->>>>>> passing
->>>>>> limits around in obscure places that then again get broken?
->>>>> No, it is more obscure doing that way...
->>>>>
->>>>>
->>>>> As the size of the shadow screen buffer will be exposed to userspace.
->>>>>
->>>>> The size 'helper->fb->height * helper->fb->pitches[0]' is a
->>>>> exactly(best) fit,
->>>>>
->>>>> You are guaranteed to waste at lease one byte by increasing one byte,
->>>>>
->>>>> and can not store all pixels by decreasing one byte (In the case where
->>>>> `helper->fb->pitches[0] = helper->fb->width * 4`).
->>>>>
->>>>> It implicitly tell the userspace do not go beyond that boundary.
->>>>>
->>>>> although userspace program can still choose to write  after EOF,
->>>>>
->>>>> But it is for test purpose, to test the kernel if it can return a
->>>>> -EFBIG or not.
->>>>>
->>>>>> The thing is,
->>>>>> Thomas both authored the limit checks in drm_fb_helper_deferred_io() and
->>>>>> the patch which broken them again, so clearly this isn't very
->>>>>> obvious. I'm
->>>>>> thinking of something like this:
->>>>>>
->>>>>>
->>>>>> diff --git a/drivers/gpu/drm/drm_fb_helper.c
->>>>>> b/drivers/gpu/drm/drm_fb_helper.c
->>>>>> index ef4eb8b12766..726dab67c359 100644
->>>>>> --- a/drivers/gpu/drm/drm_fb_helper.c
->>>>>> +++ b/drivers/gpu/drm/drm_fb_helper.c
->>>>>> @@ -697,10 +697,7 @@ void drm_fb_helper_deferred_io(struct fb_info
->>>>>> *info, struct list_head *pagerefli
->>>>>>          * of the screen and account for non-existing scanlines. Hence,
->>>>>>          * keep the covered memory area within the screen buffer.
->>>>>>          */
->>>>>> -    if (info->screen_size)
->>>>>> -        total_size = info->screen_size;
->>>>>> -    else
->>>>>> -        total_size = info->fix.smem_len;
->>>>>> +    total_size = helper->fb->height * helper->fb->pitches[0];
->>>>> This is just to mitigate the mistakes already has been made,
->>>>>
->>>>> because it  do not do a good splitting between the *clip* part and the
->>>>> *damage update* part.
->>>>>
->>>>> An ideal clipping do not obscure its updating backend with a
->>>>> out-of-bound damage rectangle.
->>>>>
->>>>> Why did the drm_fb_helper_memory_range_to_clip() can not do a good job
->>>>> in all case
->>>>>
->>>>> to pass its backend a always meaningful damage rect ?
->>>>>
->>>>>>         max_off = min(max_off, total_size);
->>>>>>           if (min_off < max_off) {
->>>>>>
->>>>>>
->>>>>> I think that would make it utmost clear on what we're doing and why.
->>>>>> Otherwise we're just going to re-create the same bug again, like we've
->>>>>> done already :-)
->>>>> No, we create no bugs, we fix one.
->>>>>
->>>>> Thanks.
->>>>>
->>>> But honestly I do not have strong feel toward this, I just type what I'm
->>>> understand without seeing you resend a V3.
+>>>>> It was noticed that duplicte entries in the firmware table could 
+>>>>> cause
 >>>>
->>>> It's OK in overall,  I will help to test this tomorrow.  :-)
->>> Apologies for making you jump around all the time and doing different
->>> versions of the same bugfix :-/
->> No,  I do not mind.  I'm wondering if you are testing me.
-> Nah I'm really not any clearer on this than you :-/
+>>>> typo duplicte
+>>>>
+>>>>> an infinite loop in the firmware loading code if that entry failed to
+>>>>> load. Duplicate entries are a bug anyway and so should never happen.
+>>>>> Ensure they don't by tweaking the table validation code to reject
+>>>>> duplicates.
+>>>>
+>>>> Here you're not really rejecting anything though, just printing an 
+>>>> error (and even that only if the SELFTEST kconfig is selected). 
+>>>> This would allow our CI to catch issues with patches sent to our 
+>>>> ML, but IIRC the reported bug was on a kernel fork. We could 
+>>>> disable the FW loading is the table for that particular blob type 
+>>>> is in an invalid state, as it wouldn't be safe to attempt a load in 
+>>>> that case anyway.
+>>> The validation code is rejecting duplicates. Whether the driver 
+>>> loads or not after a failed validation is another matter.
+>>>
+>>> I was basically assuming that CI will fail on the error message and 
+>>> thus prevent such code ever being merged. But yeah, I guess we don't 
+>>> run CI on backports to stable kernels and such. Although, I would 
+>>> hope that anyone pushing patches to a stable kernel would run some 
+>>> testing on it first!
+>>>
+>>> Any thoughts on a good way to fail the load? We don't want to just 
+>>> pretend that firmware is not wanted/required on the platform and 
+>>> just load the i915 module without the firmware. Also, what about the 
+>>> longer plan of moving the validation to a selftest. You can't fail 
+>>> the load at all then.
+>> Actually, forgot we already have a INTEL_UC_FIRMWARE_ERROR status. 
+>> That works fine for aborting the load. So just go with that and drop 
+>> the plan to move to a selftest?
+>>
+>> John.
 >
->>> I think this one here is ok to merge,
->> NO,  to be honest,  this version is not ok.
->>
->> I have just tested it on LoongArch . It does not prevent out-of-bound on
->> LoongArch.
->>
->> bellow is the call trace when running the fbdev test of IGT.
->>
->>
->> [  369.628841] Console: switching to colour dummy device 80x25
->> [  369.634440] [IGT] fbdev: executing
->> [  369.654684] [IGT] fbdev: starting subtest info
->> [  369.659173] [IGT] fbdev: starting subtest pan
->> [  369.722093] [IGT] fbdev: starting subtest read
->> [  369.737795] [IGT] fbdev: starting subtest unaligned-read
->> [  369.745695] [IGT] fbdev: starting subtest write
->> [  369.753154] CPU 3 Unable to handle kernel paging request at virtual address ffff800034bd0000, era == 9000000000223d5c, ra == ffff8000020d75a8
->> [  369.774570] [IGT] fbdev: starting subtest unaligned-write
->> [  369.779960] Oops[#1]:
->> [  369.782215] CPU: 3 PID: 504 Comm: kworker/3:3 Not tainted 6.3.0-rc5+ #377
->> [  369.782219] Hardware name: Loongson Loongson-3A5000-HV-7A2000-1w-V0.1-EVB/Loongson-LS3A5000-7A2000-1w-EVB-V1.21, BIOS Loongson-UDK2018-V4.0.05383-beta10 1
->> [  369.782223] Workqueue: events drm_fb_helper_damage_work [drm_kms_helper]
->> [  369.802706] $ 0   : 0000000000000000 ffff8000020d75a8 90000001367fc000 90000001367ffcf0
->> [  369.809368] $ 4   : ffff80003a3ec000 ffff800034bcee00 0000000000001e00 9000000001160000
->> [  369.825275] $ 8   : ffff80003a3ebfff 0000000000000040 0000000000000000 ffff80000214f20c
->> [  369.825280] $12   : ffff80003a3ecc00 ffff800034bd0000 0000000000000000 0000000000001e00
->> [  369.841188] $16   : 9000000107490800 9000000001a24000 9000000001a28000 00000e00207ec000
->> [  369.849152] $20   : fffffffffe000000 900000010684cec0 0000000000000439 90000001367ffd90
->> [  369.849165] $24   : 9000000106bc5200 ffff8000020de000 ffff800034bcee00 0000000000001e00
->> [  369.865072] $28   : 90000001076d4400 0000000000000001 900000010553c000 ffff80003a3eae00
->> [  369.865078] era   : 9000000000223d5c __memcpy_toio+0x4c/0x90
->> [  369.878651] ra    : ffff8000020d75a8 drm_fbdev_generic_helper_fb_dirty+0x1cc/0x300 [drm_kms_helper]
->> [  369.878762] [IGT] fbdev: starting subtest eof
->> [  369.887679] CSR crmd: 000000b0
->> [  369.887680] CSR prmd: 00000004
->> [  369.887682] CSR euen: 00000000
->> [  369.887683] CSR ecfg: 00071c1c
->> [  369.901340] CSR estat: 00010000
->> [  369.901342] ExcCode : 1 (SubCode 0)
->> [  369.901344] BadVA : ffff800034bd0000
->> [  369.914659] PrId  : 0014c011 (Loongson-64bit)
->> [  369.914660] Modules linked in: uas usb_storage snd_seq_dummy snd_seq snd_seq_device ip_set rfkill nf_tables nfnetlink vfat fat loongson ttm acpi_ipmi drm_kms_helper syscopyarea sysfillrect ipmi_si ipmi_devintf sysimgblt ipmi_msghandler fuse efivarfs
->> [  369.919013] Process kworker/3:3 (pid: 504, threadinfo=00000000a1234af0, task=000000004e2cde6f)
->> [  369.949519] Stack : 9000000106bc5318 900000010684cec0 9000000107afd470 ffff800039c00000
->> [  369.949535] [IGT] fbdev: starting subtest nullptr
->> [  369.957476]         0000000000000001 0000000000000000 0000000000000000 76e0ff420f8eaeab
->> [  369.957481]         9000000001712000 fffffffffffffffb 9000000100161080 0000000000000003
->> [  369.970105]         900000000980ba05 900000000980ba00 9000000106bc5200 9000000106bc52d4
->> [  369.978062]         ffff8000020de000 9000000106bc52d8 9000000110664b40 ffff8000020d78e4
->> [  369.986018]         043a078000000000 76e0ff420f8eaeab 900000000980be00 9000000009807400
->> [  370.001926]         0000000000000000 9000000110664b40 9000000106bc52d8 9000000000256dbc
->> [  370.001931]         900000000170e000 9000000107afce00 0000000000000001 900000000170e000
->> [  370.009888]         9000000009807428 9000000110664b70 9000000009807400 900000000025737c
->> [  370.025797]         9000000100161080 9000000001148080 9000000107afce00 0000000000000003
->> [  370.026543] [IGT] fbdev: exiting, ret=0
->> [  370.033753]         ...
->> [  370.033756] Call Trace:
->> [  370.033757] [<9000000000223d5c>] __memcpy_toio+0x4c/0x90
->> [  370.047681] [<ffff8000020d75a8>] drm_fbdev_generic_helper_fb_dirty+0x1cc/0x300 [drm_kms_helper]
->> [  370.056354] [<ffff8000020d78e4>] drm_fb_helper_damage_work+0xa4/0x1d0 [drm_kms_helper]
->> [  370.056381] [<9000000000256dbc>] process_one_work+0x1ec/0x35c
->> [  370.056385] [<900000000025737c>] worker_thread+0x88/0x428
->> [  370.056387] [<900000000025f4bc>] kthread+0x114/0x120
->> [  370.056392] [<90000000002215a8>] ret_from_kernel_thread+0xc/0xa4
->> [  370.056395]
->> [  370.056396] Code: 00410def  0010bc8c  001500ad <260001ae> 02c02084  02c021ad  29ffe08e  5ffff184  03401cc6
->> [  370.056406]
->> [  370.056421] fbcon_init: detected unhandled fb_set_par error, error code -16
->> [  370.056482] ---[ end trace 0000000000000000 ]---
->> [  370.066620] Console: switching to colour frame buffer device 240x67
->>
->>
->>> I just thought when looking at
->>> the history that we revert the exact patch without any other changes
->>> or comments,
->> Other part of that patch(except this line) may still useful, at least for
->> cleanup purpose.
->>> and usually that means someone will come up with the same
->>> cleanup idea again, and then we'll have a bug again. So maybe a
->>> comment or a WARN_ON or something else would be good.
->> A  WARN_ON is acceptable.
->>
->>> I guess we could also do your patch, but put a WARN_ON that the
->>> computed total_size is never bigger than the drm_fb size into
->>> drm_fb_helper_deferred_io()? That would also make sure that this bug
->>> doesn't get resurrected again.
->> Best to merge V2 [1] of this series, that is what I am really fixed.
->>
->> Maybe somebody can help to refine it, to add a better description about this
->> question and so on.
->>
->> [1] https://patchwork.freedesktop.org/patch/532143/?series=116454&rev=1
-> Ok, I guess this really is the safest one. For that patch, do we need the
-> change to screen_size in drm_fbdev_generic_helper_fb_probe()?
+> I do actually like the idea of moving this code to a mock selftest. 
+> Maybe just add a comment above the tables making clear that duplicated 
+> entries are not allowed and will break the loading flow?
+The point is about accidental breakages. The 'issue' was not an actual 
+failure but that a failure could potentially occur if, for example, a 
+patch got applied twice due to some backport error/confusion. Adding a 
+comment doesn't help with that.
 
-With that patch, we can expose a larger screen_size to userspace,
+Given that it is trivial to return FIRMWARE_ERROR on a validation 
+failure, I'm inclined to go with that for now. The validation is still 
+only being done once (and moving it to _early time means we don't 
+actually need the static bool at all) and the driver is guaranteed to 
+not try to process a broken table and get confused. It is also instantly 
+evident if a backport is broken for any reason without worrying about 
+what kind of explicit testing may or may not be run.
 
-change screen_size to `helper->fb->height * helper->fb->pitches[0]` is *NOT* necessary.
+John.
 
 
-But I though it maybe better to keep it line with the counter part in 
-drm_fbdev_dma_helper_fb_probe().
-
-make it double security.
-
-
->   I'm still
-> not entirely clear.
-
-Because  drm_fb_helper_memory_range_to_clip() function will also be 
-called by
-
-drm_fb_helper_sys_write() function(in drm_fb_helper.c) when running 
-fbdev test.
-
-
-Put restriction in drm_fb_helper_deferred_io() function solely is not 
-enough,  because
-
-drm_fb_helper_deferred_io() is for mmap code path to writing the shadow 
-buffer.
-
-It relative fast, because it does not need another copy from user.
-
-
-However , drm_fb_helper_sys_write() is another code path to write to the 
-shadow screen buffer.
-
-it need copy from user to the kernel first, then copy to the shadow 
-screen buffer,
-
-and finally copy from the shadow to the real gem buffer.   Every time 
-you want to write
-
-the screen buffer, you have to issue a system call.
-
-
-But for the mmap code path, I only need map it to userspace address 
-space once.
-
-Yeah, only once, with write-combine page table caching property for 
-video ram.
-
-but for the shadow buffer in system ram, using cached is more fast and 
-reliable
-
-because of cache coherent  related concerns...
-
-So, we have two ways to writing the shadow(screen) buffer in the system ram.
-
-
-> If it works without that change I think that's clearer
-> for a minimal bugfix, if so can you send that out as v4 please?
-
-OK. But I still want to fix the two by one shot.
-
-It makes me feel comfortable.
-
-> Also please Cc: Geert on whatever you're resubmitting, so he can test too
-> and we can make sure it's still fixing the shmob issue he's seeing.
 >
-> And finally please include a link to this discussion here with a note that
-> just reverting the screen_size changes is not enough:
+> Daniele
 >
-> https://lore.kernel.org/dri-devel/ad44df29-3241-0d9e-e708-b0338bf3c623@189.cn/
-> Thanks a lot!
-> -Daniel
+>>
+>>
+>>>
+>>> John.
+>>>
+>>>>
+>>>>>
+>>>>> For full m/m/p files, that can be done by simply tweaking the patch
+>>>>> level check to reject matching values. For reduced version entries,
+>>>>> the filename itself must be compared.
+>>>>>
+>>>>> Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
+>>>>> ---
+>>>>>   drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c | 27 
+>>>>> +++++++++++++++++++++---
+>>>>>   1 file changed, 24 insertions(+), 3 deletions(-)
+>>>>>
+>>>>> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c 
+>>>>> b/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
+>>>>> index c589782467265..44829247ef6bc 100644
+>>>>> --- a/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
+>>>>> +++ b/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
+>>>>> @@ -319,7 +319,7 @@ static void validate_fw_table_type(struct 
+>>>>> drm_i915_private *i915, enum intel_uc_
+>>>>>   {
+>>>>>       const struct uc_fw_platform_requirement *fw_blobs;
+>>>>>       u32 fw_count;
+>>>>> -    int i;
+>>>>> +    int i, j;
+>>>>>         if (type >= ARRAY_SIZE(blobs_all)) {
+>>>>>           drm_err(&i915->drm, "No blob array for %s\n", 
+>>>>> intel_uc_fw_type_repr(type));
+>>>>> @@ -334,6 +334,27 @@ static void validate_fw_table_type(struct 
+>>>>> drm_i915_private *i915, enum intel_uc_
+>>>>>         /* make sure the list is ordered as expected */
+>>>>>       for (i = 1; i < fw_count; i++) {
+>>>>> +        /* Versionless file names must be unique per platform: */
+>>>>> +        for (j = i + 1; j < fw_count; j++) {
+>>>>> +            /* Same platform? */
+>>>>> +            if (fw_blobs[i].p != fw_blobs[j].p)
+>>>>> +                continue;
+>>>>> +
+>>>>> +            if (fw_blobs[i].blob.path != fw_blobs[j].blob.path)
+>>>>> +                continue;
+>>>>> +
+>>>>> +            drm_err(&i915->drm, "Diplicaate %s blobs: %s r%u 
+>>>>> %s%d.%d.%d [%s] matches %s r%u %s%d.%d.%d [%s]\n",
+>>>>
+>>>> Typo Diplicaate
+>>>>
+>>>> Daniele
+>>>>
+>>>>> + intel_uc_fw_type_repr(type),
+>>>>> +                intel_platform_name(fw_blobs[j].p), fw_blobs[j].rev,
+>>>>> +                fw_blobs[j].blob.legacy ? "L" : "v",
+>>>>> +                fw_blobs[j].blob.major, fw_blobs[j].blob.minor,
+>>>>> +                fw_blobs[j].blob.patch, fw_blobs[j].blob.path,
+>>>>> +                intel_platform_name(fw_blobs[i].p), fw_blobs[i].rev,
+>>>>> +                fw_blobs[i].blob.legacy ? "L" : "v",
+>>>>> +                fw_blobs[i].blob.major, fw_blobs[i].blob.minor,
+>>>>> +                fw_blobs[i].blob.patch, fw_blobs[i].blob.path);
+>>>>> +        }
+>>>>> +
+>>>>>           /* Next platform is good: */
+>>>>>           if (fw_blobs[i].p < fw_blobs[i - 1].p)
+>>>>>               continue;
+>>>>> @@ -377,8 +398,8 @@ static void validate_fw_table_type(struct 
+>>>>> drm_i915_private *i915, enum intel_uc_
+>>>>>           if (fw_blobs[i].blob.minor != fw_blobs[i - 1].blob.minor)
+>>>>>               goto bad;
+>>>>>   -        /* Patch versions must be in order: */
+>>>>> -        if (fw_blobs[i].blob.patch <= fw_blobs[i - 1].blob.patch)
+>>>>> +        /* Patch versions must be in order and unique: */
+>>>>> +        if (fw_blobs[i].blob.patch < fw_blobs[i - 1].blob.patch)
+>>>>>               continue;
+>>>>>     bad:
+>>>>
+>>>
+>>
+>
+
