@@ -1,58 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F1C86E7E82
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Apr 2023 17:40:59 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 711126E7E96
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Apr 2023 17:43:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1407610E9FE;
-	Wed, 19 Apr 2023 15:40:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8F5CC10E9FF;
+	Wed, 19 Apr 2023 15:43:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5EB0210EA01;
- Wed, 19 Apr 2023 15:40:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1681918854; x=1713454854;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=k9i9FeIcwInBgX/OalPS7sUvYsZo/iIlfgZJEAzUGzA=;
- b=UG4raHJPzugl4E0u5L42HqS5K8HEpWzSSs8aYoO4RnHZlp6qlOoRRyX0
- Y+YsDL9/rFdf1FTUZBW+1ia5HPd3Dx+wzo9TlOvSSlVeRUyHNYQxdYbMi
- sBmtQWpFcKJRRDxF6aS7wXFsoshe1DnnSWuYAIJs0bXkyIgVo64NDIO9P
- ecGmovbzm+/L2ihNxFNHekNS+3NiVgOguclCpWJmnWlfFVR+L4iTze0Ej
- Lg/wtoZ11q6qfiDQB7sVkdHepdnu6/02+y5Ep4GdvWstDZzhxbqFVmXAa
- GVUX8W+tZjRkdkRDEwNRuMhmf/zBHSirqHk5pS46kz39jsx+BJPYtptjh g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10685"; a="325815846"
-X-IronPort-AV: E=Sophos;i="5.99,208,1677571200"; d="scan'208";a="325815846"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Apr 2023 08:40:53 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10685"; a="694092260"
-X-IronPort-AV: E=Sophos;i="5.99,208,1677571200"; d="scan'208";a="694092260"
-Received: from ahajda-mobl.ger.corp.intel.com (HELO [10.213.18.145])
- ([10.213.18.145])
- by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Apr 2023 08:40:52 -0700
-Message-ID: <e654fc52-b1ce-13f6-adfe-3e108f98e6ce@intel.com>
-Date: Wed, 19 Apr 2023 17:40:49 +0200
+Received: from mail-yw1-x112e.google.com (mail-yw1-x112e.google.com
+ [IPv6:2607:f8b0:4864:20::112e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CB0A610EA02
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Apr 2023 15:43:26 +0000 (UTC)
+Received: by mail-yw1-x112e.google.com with SMTP id
+ 00721157ae682-552ae3e2cbeso3695587b3.13
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Apr 2023 08:43:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1681919005; x=1684511005;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=WYP/FiV4NZRa6cuRzACHXEBSXpiH2T5moAJ/fvYk8fQ=;
+ b=Bg3ej8Mx817Cb/4huu7B23u41PzGHpDtW0vXlB7s/sx0aAPo9GEozdq7daMoHJm9Nw
+ dJcTqIgpwSLn8EGoB0W0O0w4kQ03MKeluC/p2EUWmkeLjBMGHWJdijnfLaBZz3uTp7Ns
+ rVcku7g6+tmnt9iK+3Op1LYMOUGuqT54bNvz4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1681919005; x=1684511005;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=WYP/FiV4NZRa6cuRzACHXEBSXpiH2T5moAJ/fvYk8fQ=;
+ b=X2UwsHjff1muNAu9el0ShA4geWAXN6AURdCK/1SaByHJfXaD4fkBirqu1xdMgcGPHS
+ Banev1syAxPQIy35DsyPEsVQLfKaENEnjQM9jOA9lBGi250vA1TGIUGbKkxubNVvaF2b
+ miqYoJY+1KYqDiz9fRFwvujO6M5HAXAO0vcjg4rgmSgorHkfVPLnYlen0uPLW6UqocOA
+ iarD+Vt+taBljsLUdtFcYSll62E20DiHyvR8em8QAg4X0GOg0FRQn0Yu45/VDwPMLIF7
+ 0Qpa5pzWJyrTyMYuliC0meQNBDEH6TBs+UZP2HRuvC1lmTzwOxbclyydbSNWaomSOM/Q
+ G0iQ==
+X-Gm-Message-State: AAQBX9eIo2LCUki9J4D0b3m9Dr6Abe/lHDgBKovuRgW0AM3ytIPdEKt7
+ m9K2H55e28Onj86s8Lrk8zZ6aQ==
+X-Google-Smtp-Source: AKy350YUz4CgwWDe2UhIdSf3hlN0krIz+k7Rr1p3S6Lmy8YFNkmDRPImpAnYFzPWA5Byud316pAxYQ==
+X-Received: by 2002:a0d:d487:0:b0:54f:9b01:b353 with SMTP id
+ w129-20020a0dd487000000b0054f9b01b353mr3644144ywd.9.1681919005407; 
+ Wed, 19 Apr 2023 08:43:25 -0700 (PDT)
+Received: from localhost ([2620:0:1035:15:55c6:7cf1:a68:79b0])
+ by smtp.gmail.com with UTF8SMTPSA id
+ bf21-20020a05690c029500b0054f8a3624dbsm4477345ywb.145.2023.04.19.08.43.24
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 19 Apr 2023 08:43:25 -0700 (PDT)
+From: Mark Yacoub <markyacoub@chromium.org>
+X-Google-Original-From: Mark Yacoub <markyacoub@google.com>
+To: 
+Subject: [PATCH v10 00/10] drm/hdcp: Pull HDCP auth/exchange/check into helpers
+Date: Wed, 19 Apr 2023 11:43:10 -0400
+Message-ID: <20230419154321.1993419-1-markyacoub@google.com>
+X-Mailer: git-send-email 2.40.0.634.g4ca3ef3211-goog
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Firefox/102.0 Thunderbird/102.10.0
-Subject: Re: [Intel-gfx] [PATCH 4/8] drm/i915/mtl: workaround coherency issue
- for Media
-Content-Language: en-US
-To: fei.yang@intel.com, intel-gfx@lists.freedesktop.org
-References: <20230417062503.1884465-1-fei.yang@intel.com>
- <20230417062503.1884465-5-fei.yang@intel.com>
-From: Andrzej Hajda <andrzej.hajda@intel.com>
-Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
- Gdansk - KRS 101882 - NIP 957-07-52-316
-In-Reply-To: <20230417062503.1884465-5-fei.yang@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,166 +68,76 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: suraj.kandpal@intel.com, intel-gfx@lists.freedesktop.org,
+ dianders@chromium.org, dri-devel@lists.freedesktop.org, seanpaul@chromium.org,
+ dmitry.baryshkov@linaro.org, freedreno@lists.freedesktop.org,
+ Mark Yacoub <markyacoub@google.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 17.04.2023 08:24, fei.yang@intel.com wrote:
-> From: Fei Yang <fei.yang@intel.com>
-> 
-> This patch implements Wa_22016122933.
-> 
-> In MTL, memory writes initiated by Media tile update the whole
-> cache line even for partial writes. This creates a coherency
-> problem for cacheable memory if both CPU and GPU are writing data
-> to different locations within a single cache line. CTB communication
-> is impacted by this issue because the head and tail pointers are
-> adjacent words within a cache line (see struct guc_ct_buffer_desc),
-> where one is written by GuC and the other by the host.
-> This patch circumvents the issue by making CPU/GPU shared memory
-> uncacheable (WC on CPU side, and PAT index 2 for GPU). Also for
-> CTB which is being updated by both CPU and GuC, mfence instruction
-> is added to make sure the CPU writes are visible to GPU right away
-> (flush the write combining buffer).
-> 
-> While fixing the CTB issue, we noticed some random GSC firmware
-> loading failure because the share buffers are cacheable (WB) on CPU
-> side but uncached on GPU side. To fix these issues we need to map
-> such shared buffers as WC on CPU side. Since such allocations are
-> not all done through GuC allocator, to avoid too many code changes,
-> the i915_coherent_map_type() is now hard coded to return WC for MTL.
-> 
-> BSpec: 45101
-> 
-> Signed-off-by: Fei Yang <fei.yang@intel.com>
-> ---
->   drivers/gpu/drm/i915/gem/i915_gem_pages.c |  5 ++++-
->   drivers/gpu/drm/i915/gt/uc/intel_gsc_fw.c | 13 +++++++++++++
->   drivers/gpu/drm/i915/gt/uc/intel_guc.c    |  7 +++++++
->   drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c | 18 ++++++++++++------
->   4 files changed, 36 insertions(+), 7 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_pages.c b/drivers/gpu/drm/i915/gem/i915_gem_pages.c
-> index ecd86130b74f..89fc8ea6bcfc 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_pages.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_pages.c
-> @@ -469,7 +469,10 @@ enum i915_map_type i915_coherent_map_type(struct drm_i915_private *i915,
->   					  struct drm_i915_gem_object *obj,
->   					  bool always_coherent)
->   {
-> -	if (i915_gem_object_is_lmem(obj))
-> +	/*
-> +	 * Wa_22016122933: always return I915_MAP_WC for MTL
-> +	 */
-> +	if (i915_gem_object_is_lmem(obj) || IS_METEORLAKE(i915))
->   		return I915_MAP_WC;
->   	if (HAS_LLC(i915) || always_coherent)
->   		return I915_MAP_WB;
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_gsc_fw.c b/drivers/gpu/drm/i915/gt/uc/intel_gsc_fw.c
-> index 1d9fdfb11268..236673c02f9a 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_gsc_fw.c
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_gsc_fw.c
-> @@ -110,6 +110,13 @@ static int gsc_fw_load_prepare(struct intel_gsc_uc *gsc)
->   	if (obj->base.size < gsc->fw.size)
->   		return -ENOSPC;
->   
-> +	/*
-> +	 * Wa_22016122933: For MTL the shared memory needs to be mapped
-> +	 * as WC on CPU side and UC (PAT index 2) on GPU side
-> +	 */
-> +	if (IS_METEORLAKE(i915))
-> +		i915_gem_object_set_cache_coherency(obj, I915_CACHE_NONE);
-> +
->   	dst = i915_gem_object_pin_map_unlocked(obj,
->   					       i915_coherent_map_type(i915, obj, true));
->   	if (IS_ERR(dst))
-> @@ -125,6 +132,12 @@ static int gsc_fw_load_prepare(struct intel_gsc_uc *gsc)
->   	memset(dst, 0, obj->base.size);
->   	memcpy(dst, src, gsc->fw.size);
->   
-> +	/*
-> +	 * Wa_22016122933: Making sure the data in dst is
-> +	 * visible to GSC right away
-> +	 */
-> +	intel_guc_write_barrier(&gt->uc.guc);
-> +
->   	i915_gem_object_unpin_map(gsc->fw.obj);
->   	i915_gem_object_unpin_map(obj);
->   
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc.c b/drivers/gpu/drm/i915/gt/uc/intel_guc.c
-> index d76508fa3af7..f9bddaa876d9 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc.c
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc.c
-> @@ -743,6 +743,13 @@ struct i915_vma *intel_guc_allocate_vma(struct intel_guc *guc, u32 size)
->   	if (IS_ERR(obj))
->   		return ERR_CAST(obj);
->   
-> +	/*
-> +	 * Wa_22016122933: For MTL the shared memory needs to be mapped
-> +	 * as WC on CPU side and UC (PAT index 2) on GPU side
-> +	 */
-> +	if (IS_METEORLAKE(gt->i915))
-> +		i915_gem_object_set_cache_coherency(obj, I915_CACHE_NONE);
-> +
->   	vma = i915_vma_instance(obj, &gt->ggtt->vm, NULL);
->   	if (IS_ERR(vma))
->   		goto err;
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
-> index 1803a633ed64..98e682b7df07 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
-> @@ -415,12 +415,6 @@ static int ct_write(struct intel_guc_ct *ct,
->   	}
->   	GEM_BUG_ON(tail > size);
->   
-> -	/*
-> -	 * make sure H2G buffer update and LRC tail update (if this triggering a
-> -	 * submission) are visible before updating the descriptor tail
-> -	 */
-> -	intel_guc_write_barrier(ct_to_guc(ct));
-> -
->   	/* update local copies */
->   	ctb->tail = tail;
->   	GEM_BUG_ON(atomic_read(&ctb->space) < len + GUC_CTB_HDR_LEN);
-> @@ -429,6 +423,12 @@ static int ct_write(struct intel_guc_ct *ct,
->   	/* now update descriptor */
->   	WRITE_ONCE(desc->tail, tail);
->   
-> +	/*
-> +	 * make sure H2G buffer update and LRC tail update (if this triggering a
-> +	 * submission) are visible before updating the descriptor tail
-> +	 */
-> +	intel_guc_write_barrier(ct_to_guc(ct));
+Hi all,
+This is v10 of the HDCP patches. The patches are authored by Sean Paul. 
+I rebased and addressed the review comments in v6-v10.
 
-The comment above needs update, if this is correct change. The question 
-is why it is correct? If yes, it implies that old barrier is incorrect, 
-maybe it should be then separate fix?
-I am not an expert, but previous location of the barrier seems sane to 
-me - assure GuC will see proper buffer, before updating buffer's tail.
+Main change in v10 is handling the kernel test bot warnings.
 
-And according to commit message this new barrier should flush WC buffer,
-so for me it seems to be different thing.
-Am I missing something?
+Patches 1-4 focus on moving the common HDCP helpers to common DRM. 
+This introduces a slight change in the original intel flow
+as it splits the unique driver protocol from the generic implementation.
 
+Patches 5-7 split the HDCP flow on the i915 driver to make use of the common DRM helpers.
 
-Regards
-Andrzej
+Patches 8-10 implement HDCP on MSM driver.
 
-> +
->   	return 0;
->   
->   corrupted:
-> @@ -902,6 +902,12 @@ static int ct_read(struct intel_guc_ct *ct, struct ct_incoming_msg **msg)
->   	/* now update descriptor */
->   	WRITE_ONCE(desc->head, head);
->   
-> +	/*
-> +	 * Wa_22016122933: Making sure the head update is
-> +	 * visible to GuC right away
-> +	 */
-> +	intel_guc_write_barrier(ct_to_guc(ct));
-> +
->   	return available - len;
->   
->   corrupted:
+Thanks,
+-Mark Yacoub
+
+Sean Paul (10):
+  drm/hdcp: Add drm_hdcp_atomic_check()
+  drm/hdcp: Avoid changing crtc state in hdcp atomic check
+  drm/hdcp: Update property value on content type and user changes
+  drm/hdcp: Expand HDCP helper library for enable/disable/check
+  drm/i915/hdcp: Consolidate HDCP setup/state cache
+  drm/i915/hdcp: Retain hdcp_capable return codes
+  drm/i915/hdcp: Use HDCP helpers for i915
+  dt-bindings: msm/dp: Add bindings for HDCP registers
+  arm64: dts: qcom: sc7180: Add support for HDCP in dp-controller
+  drm/msm: Implement HDCP 1.x using the new drm HDCP helpers
+
+ .../bindings/display/msm/dp-controller.yaml   |    7 +-
+ arch/arm64/boot/dts/qcom/sc7180-trogdor.dtsi  |    8 +
+ drivers/gpu/drm/display/drm_hdcp_helper.c     | 1224 +++++++++++++++++
+ drivers/gpu/drm/i915/display/intel_atomic.c   |    8 +-
+ drivers/gpu/drm/i915/display/intel_ddi.c      |   32 +-
+ .../drm/i915/display/intel_display_debugfs.c  |   12 +-
+ .../drm/i915/display/intel_display_types.h    |   51 +-
+ drivers/gpu/drm/i915/display/intel_dp_hdcp.c  |  352 ++---
+ drivers/gpu/drm/i915/display/intel_dp_mst.c   |   16 +-
+ drivers/gpu/drm/i915/display/intel_hdcp.c     | 1060 +++-----------
+ drivers/gpu/drm/i915/display/intel_hdcp.h     |   48 +-
+ drivers/gpu/drm/i915/display/intel_hdmi.c     |  267 ++--
+ drivers/gpu/drm/msm/Kconfig                   |    1 +
+ drivers/gpu/drm/msm/Makefile                  |    1 +
+ drivers/gpu/drm/msm/dp/dp_catalog.c           |  156 +++
+ drivers/gpu/drm/msm/dp/dp_catalog.h           |   18 +
+ drivers/gpu/drm/msm/dp/dp_debug.c             |   46 +-
+ drivers/gpu/drm/msm/dp/dp_debug.h             |   11 +-
+ drivers/gpu/drm/msm/dp/dp_display.c           |   39 +-
+ drivers/gpu/drm/msm/dp/dp_display.h           |    5 +
+ drivers/gpu/drm/msm/dp/dp_drm.c               |   39 +-
+ drivers/gpu/drm/msm/dp/dp_drm.h               |    7 +
+ drivers/gpu/drm/msm/dp/dp_hdcp.c              |  389 ++++++
+ drivers/gpu/drm/msm/dp/dp_hdcp.h              |   33 +
+ drivers/gpu/drm/msm/dp/dp_parser.c            |   14 +
+ drivers/gpu/drm/msm/dp/dp_parser.h            |    4 +
+ drivers/gpu/drm/msm/dp/dp_reg.h               |   30 +-
+ drivers/gpu/drm/msm/msm_atomic.c              |   19 +
+ include/drm/display/drm_hdcp.h                |  296 ++++
+ include/drm/display/drm_hdcp_helper.h         |   23 +
+ 30 files changed, 2867 insertions(+), 1349 deletions(-)
+ create mode 100644 drivers/gpu/drm/msm/dp/dp_hdcp.c
+ create mode 100644 drivers/gpu/drm/msm/dp/dp_hdcp.h
+
+-- 
+2.40.0.634.g4ca3ef3211-goog
 
