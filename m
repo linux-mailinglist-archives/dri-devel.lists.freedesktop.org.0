@@ -2,150 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4521B6E7ED1
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Apr 2023 17:47:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 630E06E7ED2
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Apr 2023 17:47:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B389510EA06;
-	Wed, 19 Apr 2023 15:47:06 +0000 (UTC)
-X-Original-To: DRI-Devel@lists.freedesktop.org
-Delivered-To: DRI-Devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BA0D610E9F9;
- Wed, 19 Apr 2023 15:47:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1681919223; x=1713455223;
- h=message-id:date:subject:to:cc:references:from:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=V56w/Zfh/z8yClS5VwjFf/hbAJL620OlZI6bnBEpSiQ=;
- b=XLLUufRQIwpAz34OHbHpv6A+f4Zd+d97IkNbiuIWuXFrRXgTqqkz66om
- m2xssh66gSi8ua58fhmWEMOXYL4wndwHeJHQLuv6R+C36rxP5W2+u4RNz
- xFyyRgXEucZFrIii5sHiIKSNWlyFCFE/h3jKqvCGHzCZXNlidScLoSGiR
- B4/Ox6D+5vCv38/YQZyvy6iKavHrHOlg/MsSxylQxvtPvKDVrK9hD9RpO
- Fr1I2QP7oUquwVBm2mvTLuqnmRaE/3mAzf13K+wwbUT1PVrPuCottfNn6
- Urx43AgSqTMWX4yPaicXtZUqMTisN2W1ApH3wXs0Iynl4UwRntG9IumBJ Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10685"; a="342965420"
-X-IronPort-AV: E=Sophos;i="5.99,208,1677571200"; d="scan'208";a="342965420"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Apr 2023 08:45:12 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10685"; a="780891743"
-X-IronPort-AV: E=Sophos;i="5.99,208,1677571200"; d="scan'208";a="780891743"
-Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
- by FMSMGA003.fm.intel.com with ESMTP; 19 Apr 2023 08:45:11 -0700
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.23; Wed, 19 Apr 2023 08:45:11 -0700
-Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.23 via Frontend Transport; Wed, 19 Apr 2023 08:45:11 -0700
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com (104.47.56.170)
- by edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.23; Wed, 19 Apr 2023 08:45:11 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=IrUf6faDwlnA/j8WWH0pTZVz9DBkD7iD+YQtSY4qQOTWCLCzgETshEJJrJar5v+3D5DFMNCLHMEPeA7M/TiXQJv0UgDGyYktK1dJP0Fyr8KWOVXyBrT0wn2G3jFvRm9m9vbgHp1bizZTIen0p8blDLBYmkS1CNeEyMTRv+8l5lW7vd2876MfEQh+/B1hcYsVj6pQdyfRYFQjDXsUcdMuMAD/WlLL6ZJTM3xdTi+mSEEFGtqwJHMjsRLezkYPlYNluzwhe8Prg8KFWO5ON0wTEr0hXC0qss85LX5F9RtT0i9F0nsZkGBoeOXM9vhCZY7nsbB8mYs792AVBxkK0YnrBg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=pW62YY1orQ+VdyzqgLedUH6tBCWWgG5uDO5b3Lh4U8A=;
- b=N2n+eKOwOCyJcvdt0KoUJXDWQyqNUyd4FKVcAGt2xl8JqOI/VJBQV7vO4HtJbnZ2kHI1twtydbBsLJPl8wuAs7hIkMvC8qbH+FZKNz/Pv8cbgTWd/mbJPWOjbQUsjOdz3mdgJZpyx6458Tht77n9N0u//ob6OFPpim2SKdZXVp56ylPTMMQSrSE9bo+KDTi1FRrI8Zc4YGzrbEGzq5NFjUC0pRVI/tEHTGjZ3cYAyVkxLBZA1Z5Bw5LDfGeGqZ/y1eVycrudX5gXfCh6/W8fFSl0pLrydzJIWMnwzwuWVPCL2AqDrrTHKcgoQ+3YAzeixkzK79W8B7eGGAvebKQfqQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from BN6PR11MB3908.namprd11.prod.outlook.com (2603:10b6:405:7d::13)
- by SJ0PR11MB6671.namprd11.prod.outlook.com (2603:10b6:a03:44b::19)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6319.20; Wed, 19 Apr
- 2023 15:45:04 +0000
-Received: from BN6PR11MB3908.namprd11.prod.outlook.com
- ([fe80::7b09:91d7:6e26:5833]) by BN6PR11MB3908.namprd11.prod.outlook.com
- ([fe80::7b09:91d7:6e26:5833%2]) with mapi id 15.20.6298.045; Wed, 19 Apr 2023
- 15:45:04 +0000
-Message-ID: <f79a8618-6905-a9f4-5b85-59fe3f705f09@intel.com>
-Date: Wed, 19 Apr 2023 08:45:00 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Firefox/102.0 Thunderbird/102.10.0
-Subject: Re: [PATCH 4/5] drm/i915/uc: Split firmware table validation to a
- separate function
-Content-Language: en-GB
-To: "Ceraolo Spurio, Daniele" <daniele.ceraolospurio@intel.com>,
- <Intel-GFX@Lists.FreeDesktop.Org>
-References: <20230415005706.4135485-1-John.C.Harrison@Intel.com>
- <20230415005706.4135485-5-John.C.Harrison@Intel.com>
- <3bcf3848-8e58-00d2-b170-0800668c724e@intel.com>
-From: John Harrison <john.c.harrison@intel.com>
-In-Reply-To: <3bcf3848-8e58-00d2-b170-0800668c724e@intel.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: BYAPR08CA0051.namprd08.prod.outlook.com
- (2603:10b6:a03:117::28) To BN6PR11MB3908.namprd11.prod.outlook.com
- (2603:10b6:405:7d::13)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 30E1010EA08;
+	Wed, 19 Apr 2023 15:47:07 +0000 (UTC)
+X-Original-To: dri-devel@lists.freedesktop.org
+Delivered-To: dri-devel@lists.freedesktop.org
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DB13710E9F9
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Apr 2023 15:47:04 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 90C79219A7;
+ Wed, 19 Apr 2023 15:46:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1681919219; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=dzg0yyEK/G+AHP6c27ETXi5WurpAVzxvxrhky/Hvm6Y=;
+ b=pjiogoJSl1wJlxjqn+EnOwbhAEMumAbx+Q5mfAgc0sMD7Ad8eUs6xufNy1iZfei3bggmM5
+ pv2THX9AmeYDJbO2uPiB9otkQBCzkyyHNmDocD/L0xXEkmaCKeR/mMXOOJlfIYpJlnKrzA
+ kmV872//Ckc2mWaGHnlSVDirmk6IUgs=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1681919219;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=dzg0yyEK/G+AHP6c27ETXi5WurpAVzxvxrhky/Hvm6Y=;
+ b=/RXcW+rhFPsbT0VT+hakdNG16nxX6DgUH/bTloVMNEOCCuCV+U0p4jojGH1giORKLdGdBf
+ wGNldvvkSSvzDUAw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 510F41390E;
+ Wed, 19 Apr 2023 15:46:59 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id z72tEvMMQGQSHwAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Wed, 19 Apr 2023 15:46:59 +0000
+Message-ID: <59dff860-9d1f-ec66-cd87-28693aa1fad2@suse.de>
+Date: Wed, 19 Apr 2023 17:46:58 +0200
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN6PR11MB3908:EE_|SJ0PR11MB6671:EE_
-X-MS-Office365-Filtering-Correlation-Id: d5e0b78c-76f9-4cf0-c31d-08db40ed0a53
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 7TuJ6VeP2nRs1LTXPIyBF29HM7HtJpXCnIz3yi+lkwMGFbNkSRdzAhQq1ueYucpAKwxfgcBRq2oQ9Ffniz5ZkCaFXoqkl0d7/2lvPbgwW3BJjwdtPj239yxpbQJAAh8ujCsn7MPe/7pxnfpxWzSgFA8Cgto3jUxO75tIG/TDfP86Z5+W6OHCW3uR5wR2BiVrLguLV5syRqYq4hCygbiCU6hd5YA5kdYLTus9LNomQmpGOWJiyAIIpHC/abXO18tHneHS6LuUh5b1GY8S3fXT7eqZ29prdAh/H++Wi3y4ouOtYpQenenmzboIPzfJ5mELDZmvp6jQzJ9sA9D8qcvAIkMG8XGtUwIBgmtELY6c5ugSl9IT678bLQZj6SJPZj0KlpxEHr00IypTsIah8Y+szAKfidrH0p13eLmTMZN5jzxBZ/GRJKvdCjaqg9YgBoytC/68JLkpOiStWoS2bLbRU2j3YOTL6f1NSca6iOSmTnPHveNX0jaqvTx3N66/TFJ0OT7wwur9w/+mYrAB6LATs8beE/kVIrda6F8x3SaJgUQdKUXY95603BLMPBLRRtnv4BI+xRrhmgqMVe+AvBKFrdXA2tgQqHFMy6fVPFGVJDCF89eur2+b9MxrWx+mlLpt6J21xdF5CYaUEsSZTHnG/Q==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN6PR11MB3908.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230028)(396003)(376002)(366004)(39860400002)(346002)(136003)(451199021)(2906002)(2616005)(478600001)(6666004)(86362001)(31696002)(26005)(53546011)(6512007)(6506007)(6486002)(36756003)(186003)(82960400001)(41300700001)(38100700002)(8676002)(8936002)(31686004)(4326008)(66556008)(66476007)(450100002)(83380400001)(66946007)(316002)(5660300002)(43740500002)(45980500001);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?S0xzcnZPSlZSQk9VaGVDZEpJcXQyOTRMUElFNlJMZzNRSXBSdEtvNjZURHJv?=
- =?utf-8?B?cEcwQ1FpM2hnTldtYkFxYkVBTDFvRFZ3eDNzekNGTTFCNk5rdVZYRjc1M2Rt?=
- =?utf-8?B?UGdRZFFGaE1wR3YxY24xa1ZiNW1haGxBRnUyUmcvcUFWbjhySVRQTmJsT05R?=
- =?utf-8?B?WVhVVnJEV0FuRXJLWVNmZk5pWjBxU08ycWUwanhVcENjOEg2SExwZC9NcFhy?=
- =?utf-8?B?aWJMTnNlQ3IwNEM0Sk5CR2pYVmZJeTI4US93Z0NNOFJzbzJ2T1MvdXlOYmhz?=
- =?utf-8?B?NDZkUmxwM3Y0QkcvMkE5bVArcFBHd001MWpWSVZwdWpDRVRHY1Q0ZUJVSytJ?=
- =?utf-8?B?ZWt4cXJzOUZZMEJSWUY4bkpmTjBhdWpBdW9XMUFjaTJEekh4UHo5Y2lmbkgz?=
- =?utf-8?B?azB6T0xRaU5CSU5NeXd4enVyd29Yc2oyQVhiSGdxTlNwb3VvK1NPQ2l3ZWpq?=
- =?utf-8?B?L2d0aFNsdHNsM1hRMjJOWkY5WDBVOWMrdEdxSUxCVUxFakxKbWpUejc4bTM2?=
- =?utf-8?B?aVBDS0VTcjJlNmJQbjVRTlFMaUlTSUpvZWorcm4vY05YZW1vSzJscTRYemdF?=
- =?utf-8?B?dURGLzhLcVdwRDI0RXRyVGIvRjM0YWVPUVhSNmJ3UkVPVVBBOExmU1BmcUx3?=
- =?utf-8?B?ZVZBNVdmNEpvRDhzd3R6ZWRmQ2o3VUZCWmtweDFKZXBNckhsdjRaZEYvV3I5?=
- =?utf-8?B?RDVxT245dU9OWHdSckZQZkFjdVEvQW8wSmttK3MwQlQzeVFmUGxac05tVHNQ?=
- =?utf-8?B?RkNCek1rZWZ4Q25LNE1PeEY0aS9OOEJBaDVDSTNnWFIzd2Z6a1NKbU1jL3Fh?=
- =?utf-8?B?SkV4MlhrMzJ2dWJaczVUeWVEcTI3N1F0NFZtK3lDZUxrMmVNeFZ1blVZRTVB?=
- =?utf-8?B?Q2hYUzhEQ3VtQU9KUitlZHJPYUNBenZQZUlYOUtIa1kxNm9CWWYydEcxRzJw?=
- =?utf-8?B?dlhUNFkvR25zWVJ0dXRhTDNKNTFhOU5QVi8zRGE3MHoxcUxkeGN6V3RhNGht?=
- =?utf-8?B?STl5VHZPc3NPd2h6b3VQRi9CZDVYZjlSci9Kd2lzVzZML2w5dDBJMHNwNUlU?=
- =?utf-8?B?TTlZelZDM3ZUNHl0ZForN3hmODlNWlZIWmp0eEdpM1l3TGk0YTFIek5nSG1q?=
- =?utf-8?B?RFlLWVhpTGxjYnZySWFuRkZzNGZ3WWlTRE54YXc3emMrZ0hqM0ZLa0ZVZ0FP?=
- =?utf-8?B?VzEyZ1hLVExmUlVTbW95d0pSdm5XOE9uVlBUbXdyekJoSUJyWEsyWG9EdTky?=
- =?utf-8?B?TlZjb213cmtCeTVuU21UUlA3c2JpT3JQQytWZHZ4U29OVVZWT3RKVG43TnV1?=
- =?utf-8?B?ODBscXRUWFBnQk1uT2hmSThXVXVEcEJMY3E3YUlXeDVpRGN6YTR1ZXhEZXUz?=
- =?utf-8?B?NlZWSnhnQ3dYenF3eVFTVEw0SnlxUVhuZmgxMlJFbG9ybjh5QVk3azA3ZjRF?=
- =?utf-8?B?QVQ5TTlQQkdhdjAxT0JUY3dEWUJBekx6dmRySHNPbSthcUFlMGRJWnQza29M?=
- =?utf-8?B?RTg2NHcrVThieHFaMXhWNEZrNmpZUVNkc0VkNjJUMkQ1WUw3bXVqSVFNbGtu?=
- =?utf-8?B?ekpaelMxMW1oMWZMR3gvckpyTlNOMmJKTEx4TUM3NkxVK2lLRzBsUUh0WUNT?=
- =?utf-8?B?UWExOHRYTjZHWUtmTHAvZmZJbXY0M3R3dm5LRjdSWGREV2U1Smg2NjJHc29M?=
- =?utf-8?B?UmlzTkVNUVZiS2ZJMTFDVGpJT2R1bU5oQ3Q3b1dZbFcvSy9vd2E4ODVJMTcr?=
- =?utf-8?B?SXRtSnYrZWNzQzN4OVFtamQ3a3lELzBva3FIQWNDWmtXY1EzVmlJODY4TzVJ?=
- =?utf-8?B?M1Bpb0ZRNGtMYkJPb3o0Qi85aTNYYk10U3ZER3dGWlpaQ2E1TUI0N0J0VWk2?=
- =?utf-8?B?RkhtV0ZOU1k2c2trbVNRcHVJU0lEQTZtQ2tVUkEyMThXbzArWHFYMUJoUTNH?=
- =?utf-8?B?KzJPSnYxdm15OXhjQ045V0hKK3lZR0F4MEo0NzBzdXN0MmlPZEw2NWZ6R1p1?=
- =?utf-8?B?YjZKbU1POHdkWEZtVXU2NllGNEhieVRUNGZmY0V1REFUN3c2b1YyaThzZ2xJ?=
- =?utf-8?B?TllmRGFjM05DSUJJTEJuZHYyWC9OL0E1Q3gybVoyd1ZQUkJqR1Q1eFMrTklO?=
- =?utf-8?B?SmN6eEMrTitaS3JraW5xQ0NaUGsyYjgwdzEybkJBZEtMZHppaHhvRTM5aFpX?=
- =?utf-8?B?T1E9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: d5e0b78c-76f9-4cf0-c31d-08db40ed0a53
-X-MS-Exchange-CrossTenant-AuthSource: BN6PR11MB3908.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Apr 2023 15:45:02.9949 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: OE9ZfoTwAE42lvl4FfQTr5XCXlHkpjBhcHIxNbCtDg9byjlrRSjEEnEGS23vaekJuBHjKe3rlE9L7aSWThkhSS30uQodUGqy+tXazQKWMds=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR11MB6671
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH v3] drm/fbdev-generic: prohibit potential out-of-bounds
+ access
+Content-Language: en-US
+To: Daniel Vetter <daniel@ffwll.ch>, Sui Jingfeng <15330273260@189.cn>
+References: <20230417113219.1354078-1-suijingfeng@loongson.cn>
+ <ZD5Vgx9Txaiz7Bun@phenom.ffwll.local>
+ <139c9398-488d-df19-9ae2-2b4b47ef64f4@189.cn>
+ <86a8b262-cbf2-b75f-9972-491f557edf74@189.cn>
+ <CAKMK7uE-azFT02Sp2FDfMGTc57eYJEn8iM8Wk1mt5ucPs1qM-w@mail.gmail.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <CAKMK7uE-azFT02Sp2FDfMGTc57eYJEn8iM8Wk1mt5ucPs1qM-w@mail.gmail.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------aUupdK3iiU9kA09uMon7zmMw"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -158,276 +74,210 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: DRI-Devel@Lists.FreeDesktop.Org
+Cc: linux-fbdev@vger.kernel.org, Helge Deller <deller@gmx.de>,
+ Lucas De Marchi <lucas.demarchi@intel.com>, linux-kernel@vger.kernel.org,
+ loongson-kernel@lists.loongnix.cn, dri-devel@lists.freedesktop.org,
+ Li Yi <liyi@loongson.cn>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 4/18/2023 16:14, Ceraolo Spurio, Daniele wrote:
-> On 4/14/2023 5:57 PM, John.C.Harrison@Intel.com wrote:
->> From: John Harrison <John.C.Harrison@Intel.com>
->>
->> The validation of the firmware table was being done inside the code
->> for scanning the table for the next available firmware blob. Which is
->> unnecessary. Potentially, it should be a selftest. But either way, the
->> first step is pulling it out into a separate function that can be
->> called just once rather than once per blob attempt per blob type.
->>
->> Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
->> ---
->>   drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c | 164 ++++++++++++++---------
->>   1 file changed, 99 insertions(+), 65 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c 
->> b/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
->> index 6bb45d6b8da5f..c589782467265 100644
->> --- a/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
->> +++ b/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
->> @@ -233,20 +233,22 @@ struct fw_blobs_by_type {
->>       u32 count;
->>   };
->>   +static const struct uc_fw_platform_requirement blobs_guc[] = {
->> +    INTEL_GUC_FIRMWARE_DEFS(MAKE_FW_LIST, GUC_FW_BLOB, GUC_FW_BLOB_MMP)
->> +};
->> +
->> +static const struct uc_fw_platform_requirement blobs_huc[] = {
->> +    INTEL_HUC_FIRMWARE_DEFS(MAKE_FW_LIST, HUC_FW_BLOB, 
->> HUC_FW_BLOB_MMP, HUC_FW_BLOB_GSC)
->> +};
->> +
->> +static const struct fw_blobs_by_type 
->> blobs_all[INTEL_UC_FW_NUM_TYPES] = {
->> +    [INTEL_UC_FW_TYPE_GUC] = { blobs_guc, ARRAY_SIZE(blobs_guc) },
->> +    [INTEL_UC_FW_TYPE_HUC] = { blobs_huc, ARRAY_SIZE(blobs_huc) },
->> +};
->> +
->>   static void
->>   __uc_fw_auto_select(struct drm_i915_private *i915, struct 
->> intel_uc_fw *uc_fw)
->>   {
->> -    static const struct uc_fw_platform_requirement blobs_guc[] = {
->> -        INTEL_GUC_FIRMWARE_DEFS(MAKE_FW_LIST, GUC_FW_BLOB, 
->> GUC_FW_BLOB_MMP)
->> -    };
->> -    static const struct uc_fw_platform_requirement blobs_huc[] = {
->> -        INTEL_HUC_FIRMWARE_DEFS(MAKE_FW_LIST, HUC_FW_BLOB, 
->> HUC_FW_BLOB_MMP, HUC_FW_BLOB_GSC)
->> -    };
->> -    static const struct fw_blobs_by_type 
->> blobs_all[INTEL_UC_FW_NUM_TYPES] = {
->> -        [INTEL_UC_FW_TYPE_GUC] = { blobs_guc, ARRAY_SIZE(blobs_guc) },
->> -        [INTEL_UC_FW_TYPE_HUC] = { blobs_huc, ARRAY_SIZE(blobs_huc) },
->> -    };
->> -    static bool verified[INTEL_UC_FW_NUM_TYPES];
->>       const struct uc_fw_platform_requirement *fw_blobs;
->>       enum intel_platform p = INTEL_INFO(i915)->platform;
->>       u32 fw_count;
->> @@ -286,6 +288,11 @@ __uc_fw_auto_select(struct drm_i915_private 
->> *i915, struct intel_uc_fw *uc_fw)
->>               continue;
->>             if (uc_fw->file_selected.path) {
->> +            /*
->> +             * Continuing an earlier search after a found blob 
->> failed to load.
->> +             * Once the previously chosen path has been found, clear 
->> it out
->> +             * and let the search continue from there.
->> +             */
->>               if (uc_fw->file_selected.path == blob->path)
->>                   uc_fw->file_selected.path = NULL;
->>   @@ -306,78 +313,103 @@ __uc_fw_auto_select(struct drm_i915_private 
->> *i915, struct intel_uc_fw *uc_fw)
->>           /* Failed to find a match for the last attempt?! */
->>           uc_fw->file_selected.path = NULL;
->>       }
->> +}
->>   -    /* make sure the list is ordered as expected */
->> -    if (IS_ENABLED(CONFIG_DRM_I915_SELFTEST) && 
->> !verified[uc_fw->type]) {
->> -        verified[uc_fw->type] = true;
->> +static void validate_fw_table_type(struct drm_i915_private *i915, 
->> enum intel_uc_fw_type type)
->> +{
->> +    const struct uc_fw_platform_requirement *fw_blobs;
->> +    u32 fw_count;
->> +    int i;
->>   -        for (i = 1; i < fw_count; i++) {
->> -            /* Next platform is good: */
->> -            if (fw_blobs[i].p < fw_blobs[i - 1].p)
->> -                continue;
->> +    if (type >= ARRAY_SIZE(blobs_all)) {
->> +        drm_err(&i915->drm, "No blob array for %s\n", 
->> intel_uc_fw_type_repr(type));
->> +        return;
->> +    }
->>   -            /* Next platform revision is good: */
->> -            if (fw_blobs[i].p == fw_blobs[i - 1].p &&
->> -                fw_blobs[i].rev < fw_blobs[i - 1].rev)
->> -                continue;
->> +    fw_blobs = blobs_all[type].blobs;
->> +    fw_count = blobs_all[type].count;
->>   -            /* Platform/revision must be in order: */
->> -            if (fw_blobs[i].p != fw_blobs[i - 1].p ||
->> -                fw_blobs[i].rev != fw_blobs[i - 1].rev)
->> -                goto bad;
->> +    if (!fw_count)
->> +        return;
->>   -            /* Next major version is good: */
->> -            if (fw_blobs[i].blob.major < fw_blobs[i - 1].blob.major)
->> -                continue;
->> +    /* make sure the list is ordered as expected */
->> +    for (i = 1; i < fw_count; i++) {
->> +        /* Next platform is good: */
->> +        if (fw_blobs[i].p < fw_blobs[i - 1].p)
->> +            continue;
->>   -            /* New must be before legacy: */
->> -            if (!fw_blobs[i].blob.legacy && fw_blobs[i - 
->> 1].blob.legacy)
->> -                goto bad;
->> +        /* Next platform revision is good: */
->> +        if (fw_blobs[i].p == fw_blobs[i - 1].p &&
->> +            fw_blobs[i].rev < fw_blobs[i - 1].rev)
->> +            continue;
->>   -            /* New to legacy also means 0.0 to X.Y (HuC), or X.0 
->> to X.Y (GuC) */
->> -            if (fw_blobs[i].blob.legacy && !fw_blobs[i - 
->> 1].blob.legacy) {
->> -                if (!fw_blobs[i - 1].blob.major)
->> -                    continue;
->> +        /* Platform/revision must be in order: */
->> +        if (fw_blobs[i].p != fw_blobs[i - 1].p ||
->> +            fw_blobs[i].rev != fw_blobs[i - 1].rev)
->> +            goto bad;
->>   -                if (fw_blobs[i].blob.major == fw_blobs[i - 
->> 1].blob.major)
->> -                    continue;
->> -            }
->> +        /* Next major version is good: */
->> +        if (fw_blobs[i].blob.major < fw_blobs[i - 1].blob.major)
->> +            continue;
->>   -            /* Major versions must be in order: */
->> -            if (fw_blobs[i].blob.major != fw_blobs[i - 1].blob.major)
->> -                goto bad;
->> +        /* New must be before legacy: */
->> +        if (!fw_blobs[i].blob.legacy && fw_blobs[i - 1].blob.legacy)
->> +            goto bad;
->>   -            /* Next minor version is good: */
->> -            if (fw_blobs[i].blob.minor < fw_blobs[i - 1].blob.minor)
->> +        /* New to legacy also means 0.0 to X.Y (HuC), or X.0 to X.Y 
->> (GuC) */
->> +        if (fw_blobs[i].blob.legacy && !fw_blobs[i - 1].blob.legacy) {
->> +            if (!fw_blobs[i - 1].blob.major)
->>                   continue;
->>   -            /* Minor versions must be in order: */
->> -            if (fw_blobs[i].blob.minor != fw_blobs[i - 1].blob.minor)
->> -                goto bad;
->> -
->> -            /* Patch versions must be in order: */
->> -            if (fw_blobs[i].blob.patch <= fw_blobs[i - 1].blob.patch)
->> +            if (fw_blobs[i].blob.major == fw_blobs[i - 1].blob.major)
->>                   continue;
->> +        }
->> +
->> +        /* Major versions must be in order: */
->> +        if (fw_blobs[i].blob.major != fw_blobs[i - 1].blob.major)
->> +            goto bad;
->> +
->> +        /* Next minor version is good: */
->> +        if (fw_blobs[i].blob.minor < fw_blobs[i - 1].blob.minor)
->> +            continue;
->> +
->> +        /* Minor versions must be in order: */
->> +        if (fw_blobs[i].blob.minor != fw_blobs[i - 1].blob.minor)
->> +            goto bad;
->> +
->> +        /* Patch versions must be in order: */
->> +        if (fw_blobs[i].blob.patch <= fw_blobs[i - 1].blob.patch)
->> +            continue;
->>     bad:
->> -            drm_err(&i915->drm, "Invalid %s blob order: %s r%u 
->> %s%d.%d.%d comes before %s r%u %s%d.%d.%d\n",
->> -                intel_uc_fw_type_repr(uc_fw->type),
->> -                intel_platform_name(fw_blobs[i - 1].p), fw_blobs[i - 
->> 1].rev,
->> -                fw_blobs[i - 1].blob.legacy ? "L" : "v",
->> -                fw_blobs[i - 1].blob.major,
->> -                fw_blobs[i - 1].blob.minor,
->> -                fw_blobs[i - 1].blob.patch,
->> -                intel_platform_name(fw_blobs[i].p), fw_blobs[i].rev,
->> -                fw_blobs[i].blob.legacy ? "L" : "v",
->> -                fw_blobs[i].blob.major,
->> -                fw_blobs[i].blob.minor,
->> -                fw_blobs[i].blob.patch);
->> -
->> -            uc_fw->file_selected.path = NULL;
->> -        }
->> +        drm_err(&i915->drm, "Invalid %s blob order: %s r%u 
->> %s%d.%d.%d comes before %s r%u %s%d.%d.%d\n",
->> +            intel_uc_fw_type_repr(type),
->> +            intel_platform_name(fw_blobs[i - 1].p), fw_blobs[i - 
->> 1].rev,
->> +            fw_blobs[i - 1].blob.legacy ? "L" : "v",
->> +            fw_blobs[i - 1].blob.major,
->> +            fw_blobs[i - 1].blob.minor,
->> +            fw_blobs[i - 1].blob.patch,
->> +            intel_platform_name(fw_blobs[i].p), fw_blobs[i].rev,
->> +            fw_blobs[i].blob.legacy ? "L" : "v",
->> +            fw_blobs[i].blob.major,
->> +            fw_blobs[i].blob.minor,
->> +            fw_blobs[i].blob.patch);
->
-> Confirming that this big diff was just an indent change was painful :/
-Yeah, not a lot one can do about that. If you pull the patches to a 
-local tree then you can run 'git show -b'. Can't really post that to 
-patchwork though.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------aUupdK3iiU9kA09uMon7zmMw
+Content-Type: multipart/mixed; boundary="------------vsDmT30ohTb5iq0hp9vs5VPf";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Daniel Vetter <daniel@ffwll.ch>, Sui Jingfeng <15330273260@189.cn>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
+ Li Yi <liyi@loongson.cn>, Helge Deller <deller@gmx.de>,
+ Lucas De Marchi <lucas.demarchi@intel.com>, linux-kernel@vger.kernel.org,
+ linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ loongson-kernel@lists.loongnix.cn
+Message-ID: <59dff860-9d1f-ec66-cd87-28693aa1fad2@suse.de>
+Subject: Re: [PATCH v3] drm/fbdev-generic: prohibit potential out-of-bounds
+ access
+References: <20230417113219.1354078-1-suijingfeng@loongson.cn>
+ <ZD5Vgx9Txaiz7Bun@phenom.ffwll.local>
+ <139c9398-488d-df19-9ae2-2b4b47ef64f4@189.cn>
+ <86a8b262-cbf2-b75f-9972-491f557edf74@189.cn>
+ <CAKMK7uE-azFT02Sp2FDfMGTc57eYJEn8iM8Wk1mt5ucPs1qM-w@mail.gmail.com>
+In-Reply-To: <CAKMK7uE-azFT02Sp2FDfMGTc57eYJEn8iM8Wk1mt5ucPs1qM-w@mail.gmail.com>
 
->
->>       }
->>   }
->>   +static void validate_fw_table(struct drm_i915_private *i915)
->> +{
->> +    enum intel_uc_fw_type type;
->> +    static bool done;
->> +
->> +    if (!IS_ENABLED(CONFIG_DRM_I915_SELFTEST) || done)
->> +        return;
->> +    done = true;
->> +
->> +    for (type = 0; type < INTEL_UC_FW_NUM_TYPES; type++)
->> +        validate_fw_table_type(i915, type);
->> +}
->> +
->>   static const char *__override_guc_firmware_path(struct 
->> drm_i915_private *i915)
->>   {
->>       if (i915->params.enable_guc & ENABLE_GUC_MASK)
->> @@ -432,6 +464,8 @@ void intel_uc_fw_init_early(struct intel_uc_fw 
->> *uc_fw,
->>   {
->>       struct drm_i915_private *i915 = ____uc_fw_to_gt(uc_fw, 
->> type)->i915;
->>   +    validate_fw_table(i915);
->
-> Personal preference: IMO since we're calling intel_uc_fw_init_early 
-> per FW type it would've been cleaner to restrict validate_fw_table() 
-> to a single blob type. This would have the negative side effect of 
-> having to track the "done" status per FW type, so I can see it's not a 
-> clean improvement. Not a blocker.
-That's step 2 - move the validate call out of the per blob type init 
-sequence completely. Either just pushing it further up the call stack or 
-moving it sideways to a selftest. First step was just to separate the 
-code itself out as cleanly as possible.
+--------------vsDmT30ohTb5iq0hp9vs5VPf
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-John.
+SGkNCg0KQW0gMTkuMDQuMjMgdW0gMTc6MDkgc2NocmllYiBEYW5pZWwgVmV0dGVyOg0KPiBP
+biBUdWUsIDE4IEFwciAyMDIzIGF0IDIwOjE2LCBTdWkgSmluZ2ZlbmcgPDE1MzMwMjczMjYw
+QDE4OS5jbj4gd3JvdGU6DQo+Pg0KPj4gSGksDQo+Pg0KPj4gT24gMjAyMy80LzE5IDAxOjUy
+LCBTdWkgSmluZ2Zlbmcgd3JvdGU6DQo+Pj4gSGksDQo+Pj4NCj4+PiBPbiAyMDIzLzQvMTgg
+MTY6MzIsIERhbmllbCBWZXR0ZXIgd3JvdGU6DQo+Pj4+IE9uIE1vbiwgQXByIDE3LCAyMDIz
+IGF0IDA3OjMyOjE5UE0gKzA4MDAsIFN1aSBKaW5nZmVuZyB3cm90ZToNCj4+Pj4+IFRoZSBm
+YmRldiB0ZXN0IG9mIElHVCBtYXkgd3JpdGUgYWZ0ZXIgRU9GLCB3aGljaCBsZWFkIHRvIG91
+dC1vZi1ib3VuZA0KPj4+Pj4gYWNjZXNzIGZvciB0aGUgZHJtIGRyaXZlcnMgdXNpbmcgZmJk
+ZXYtZ2VuZXJpYy4gRm9yIGV4YW1wbGUsIG9uIGEgeDg2DQo+Pj4+PiArIGFzcGVlZCBibWMg
+Y2FyZCBwbGF0Zm9ybSwgd2l0aCBhIDE2ODB4MTA1MCByZXNvbHV0aW9uIGRpc3BsYXksDQo+
+Pj4+PiBydW5uaW5nDQo+Pj4+PiBmYmRldiB0ZXN0IGlmIElHVCB3aWxsIGNhdXNlIHRoZSBs
+aW51eCBrZXJuZWwgaGFuZyB3aXRoIHRoZSBmb2xsb3dpbmcNCj4+Pj4+IGNhbGwgdHJhY2U6
+DQo+Pj4+Pg0KPj4+Pj4gICAgIE9vcHM6IDAwMDAgWyMxXSBQUkVFTVBUIFNNUCBQVEkNCj4+
+Pj4+ICAgICBbSUdUXSBmYmRldjogc3RhcnRpbmcgc3VidGVzdCBlb2YNCj4+Pj4+ICAgICBX
+b3JrcXVldWU6IGV2ZW50cyBkcm1fZmJfaGVscGVyX2RhbWFnZV93b3JrIFtkcm1fa21zX2hl
+bHBlcl0NCj4+Pj4+ICAgICBbSUdUXSBmYmRldjogc3RhcnRpbmcgc3VidGVzdCBudWxscHRy
+DQo+Pj4+Pg0KPj4+Pj4gICAgIFJJUDogMDAxMDptZW1jcHlfZXJtcysweGEvMHgyMA0KPj4+
+Pj4gICAgIFJTUDogMDAxODpmZmZmYTE3ZDQwMTY3ZDk4IEVGTEFHUzogMDAwMTAyNDYNCj4+
+Pj4+ICAgICBSQVg6IGZmZmZhMTdkNGViN2ZhODAgUkJYOiBmZmZmYTE3ZDQwZTBhYTgwIFJD
+WDogMDAwMDAwMDAwMDAwMTRjMA0KPj4+Pj4gICAgIFJEWDogMDAwMDAwMDAwMDAwMWE0MCBS
+U0k6IGZmZmZhMTdkNDBlMGIwMDAgUkRJOiBmZmZmYTE3ZDRlYjgwMDAwDQo+Pj4+PiAgICAg
+UkJQOiBmZmZmYTE3ZDQwMTY3ZTIwIFIwODogMDAwMDAwMDAwMDAwMDAwMCBSMDk6IGZmZmY4
+OTUyMmVjZmY4YzANCj4+Pj4+ICAgICBSMTA6IGZmZmZhMTdkNGU0YzUwMDAgUjExOiAwMDAw
+MDAwMDAwMDAwMDAwIFIxMjogZmZmZmExN2Q0ZWI3ZmE4MA0KPj4+Pj4gICAgIFIxMzogMDAw
+MDAwMDAwMDAwMWE0MCBSMTQ6IDAwMDAwMDAwMDAwMDA0MWEgUjE1OiBmZmZmYTE3ZDQwMTY3
+ZTMwDQo+Pj4+PiAgICAgRlM6ICAwMDAwMDAwMDAwMDAwMDAwKDAwMDApIEdTOmZmZmY4OTUy
+NTczODAwMDAoMDAwMCkNCj4+Pj4+IGtubEdTOjAwMDAwMDAwMDAwMDAwMDANCj4+Pj4+ICAg
+ICBDUzogIDAwMTAgRFM6IDAwMDAgRVM6IDAwMDAgQ1IwOiAwMDAwMDAwMDgwMDUwMDMzDQo+
+Pj4+PiAgICAgQ1IyOiBmZmZmYTE3ZDQwZTBiMDAwIENSMzogMDAwMDAwMDFlYWVjYTAwNiBD
+UjQ6IDAwMDAwMDAwMDAxNzA2ZTANCj4+Pj4+ICAgICBDYWxsIFRyYWNlOg0KPj4+Pj4gICAg
+ICA8VEFTSz4NCj4+Pj4+ICAgICAgPyBkcm1fZmJkZXZfZ2VuZXJpY19oZWxwZXJfZmJfZGly
+dHkrMHgyMDcvMHgzMzAgW2RybV9rbXNfaGVscGVyXQ0KPj4+Pj4gICAgICBkcm1fZmJfaGVs
+cGVyX2RhbWFnZV93b3JrKzB4OGYvMHgxNzAgW2RybV9rbXNfaGVscGVyXQ0KPj4+Pj4gICAg
+ICBwcm9jZXNzX29uZV93b3JrKzB4MjFmLzB4NDMwDQo+Pj4+PiAgICAgIHdvcmtlcl90aHJl
+YWQrMHg0ZS8weDNjMA0KPj4+Pj4gICAgICA/IF9fcGZ4X3dvcmtlcl90aHJlYWQrMHgxMC8w
+eDEwDQo+Pj4+PiAgICAgIGt0aHJlYWQrMHhmNC8weDEyMA0KPj4+Pj4gICAgICA/IF9fcGZ4
+X2t0aHJlYWQrMHgxMC8weDEwDQo+Pj4+PiAgICAgIHJldF9mcm9tX2ZvcmsrMHgyYy8weDUw
+DQo+Pj4+PiAgICAgIDwvVEFTSz4NCj4+Pj4+ICAgICBDUjI6IGZmZmZhMTdkNDBlMGIwMDAN
+Cj4+Pj4+ICAgICAtLS1bIGVuZCB0cmFjZSAwMDAwMDAwMDAwMDAwMDAwIF0tLS0NCj4+Pj4+
+DQo+Pj4+PiBUaGUgZGlyZWN0IHJlYXNvbiBpcyB0aGF0IGRhbWFnZSByZWN0YW5nZSBjb21w
+dXRlZCBieQ0KPj4+Pj4gZHJtX2ZiX2hlbHBlcl9tZW1vcnlfcmFuZ2VfdG9fY2xpcCgpIGRv
+ZXMgbm90IGd1YXJhbnRlZWQgdG8gYmUNCj4+Pj4+IGluLWJvdW5kLg0KPj4+Pj4gSXQgaXMg
+YWxyZWFkeSByZXN1bHRzIGluIHdvcmthcm91bmQgY29kZSBwb3B1bGF0ZSB0byBlbHNld2hl
+cmUuIEFub3RoZXINCj4+Pj4+IHJlYXNvbiBpcyB0aGF0IGV4cG9zaW5nIGEgbGFyZ2VyIGJ1
+ZmZlciBzaXplIHRoYW4gdGhlIGFjdHVhbCBuZWVkZWQNCj4+Pj4+IGhlbHANCj4+Pj4+IHRv
+IHRyaWdnZXIgdGhpcyBidWcgaW50cmluc2ljIGluIGRybV9mYl9oZWxwZXJfbWVtb3J5X3Jh
+bmdlX3RvX2NsaXAoKS4NCj4+Pj4+DQo+Pj4+PiBPdGhlcnMgZmJkZXYgZW11bGF0aW9uIHNv
+bHV0aW9ucyB3cml0ZSB0byB0aGUgR0VNIGJ1ZmZlciBkaXJlY3RseSwgdGhleQ0KPj4+Pj4g
+d29uJ3QgcmVwcm9kdWNlIHRoaXMgYnVnIGJlY2F1c2UgdGhlIC5mYl9kaXJ0eSBmdW5jdGlv
+biBjYWxsYmFjayBkbyBub3QNCj4+Pj4+IGJlaW5nIGhvb2tlZCwgc28gbm8gY2hhbmNlIGlz
+IGdpdmVuIHRvDQo+Pj4+PiBkcm1fZmJfaGVscGVyX21lbW9yeV9yYW5nZV90b19jbGlwKCkN
+Cj4+Pj4+IHRvIGdlbmVyYXRlIGEgb3V0LW9mLWJvdW5kIHdoZW4gZHJtX2ZiX2hlbHBlcl9z
+eXNfd3JpdGUoKSBpcyBjYWxsZWQuDQo+Pj4+Pg0KPj4+Pj4gVGhpcyBwYXRjaCBicmVhayB0
+aGUgdHJpZ2dlciBjb25kaXRpb24gb2YgdGhpcyBidWcgYnkgc2hyaW5raW5nIHRoZQ0KPj4+
+Pj4gc2hhZG93DQo+Pj4+PiBidWZmZXIgc2l6ZSB0byBzaXplcy0+c3VyZmFjZV9oZWlnaHQg
+KiBidWZmZXItPmZiLT5waXRjaGVzWzBdLg0KPj4+Pj4NCj4+Pj4+IEZpeGVzOiAnOGZiYzlh
+ZjU1ZGUwICgiZHJtL2ZiZGV2LWdlbmVyaWM6IFNldCBzY3JlZW4gc2l6ZSB0byBzaXplIG9m
+DQo+Pj4+PiBHRU0NCj4+Pj4+IGJ1ZmZlciIpJw0KPj4+Pj4NCj4+Pj4+IFNpZ25lZC1vZmYt
+Ynk6IFN1aSBKaW5nZmVuZyA8c3VpamluZ2ZlbmdAbG9vbmdzb24uY24+DQo+Pj4+PiAtLS0N
+Cj4+Pj4+ICAgIGRyaXZlcnMvZ3B1L2RybS9kcm1fZmJkZXZfZ2VuZXJpYy5jIHwgMiArLQ0K
+Pj4+Pj4gICAgMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0p
+DQo+Pj4+Pg0KPj4+Pj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fZmJkZXZf
+Z2VuZXJpYy5jDQo+Pj4+PiBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fZmJkZXZfZ2VuZXJpYy5j
+DQo+Pj4+PiBpbmRleCA4ZTUxNDhiZjQwYmIuLmIwNTdjZmJiYTkzOCAxMDA2NDQNCj4+Pj4+
+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fZmJkZXZfZ2VuZXJpYy5jDQo+Pj4+PiArKysg
+Yi9kcml2ZXJzL2dwdS9kcm0vZHJtX2ZiZGV2X2dlbmVyaWMuYw0KPj4+Pj4gQEAgLTk0LDcg
+Kzk0LDcgQEAgc3RhdGljIGludA0KPj4+Pj4gZHJtX2ZiZGV2X2dlbmVyaWNfaGVscGVyX2Zi
+X3Byb2JlKHN0cnVjdCBkcm1fZmJfaGVscGVyICpmYl9oZWxwZXIsDQo+Pj4+PiAgICAgICAg
+ZmJfaGVscGVyLT5idWZmZXIgPSBidWZmZXI7DQo+Pj4+PiAgICAgICAgZmJfaGVscGVyLT5m
+YiA9IGJ1ZmZlci0+ZmI7DQo+Pj4+PiAgICAtICAgIHNjcmVlbl9zaXplID0gYnVmZmVyLT5n
+ZW0tPnNpemU7DQo+Pj4+PiArICAgIHNjcmVlbl9zaXplID0gc2l6ZXMtPnN1cmZhY2VfaGVp
+Z2h0ICogYnVmZmVyLT5mYi0+cGl0Y2hlc1swXTsNCj4+Pj4gU28gSSByZWFkIGNvcmUgc29t
+ZSBtb3JlIGFuZCBzdHVtYmxlZCBvdmVyIGRybV9mYl9oZWxwZXJfZGVmZXJyZWRfaW8oKS4N
+Cj4+Pj4gV2hpY2ggaGFzIGFsbCB0aGUgY29kZSBhbmQgY29tbWVudHMgYWJvdXQgdGhpcywg
+aW5jbHVkaW5nIGxpbWl0aW5nLg0KPj4+Pg0KPj4+PiBJIHRoaW5rIGl0IHdvdWxkIGJlIGNs
+ZWFyZXIgaWYgd2UgZml4IHRoZSBpc3N1ZSB0aGVyZSwgaW5zdGVhZCBvZg0KPj4+PiBwYXNz
+aW5nDQo+Pj4+IGxpbWl0cyBhcm91bmQgaW4gb2JzY3VyZSBwbGFjZXMgdGhhdCB0aGVuIGFn
+YWluIGdldCBicm9rZW4/DQo+Pj4NCj4+PiBObywgaXQgaXMgbW9yZSBvYnNjdXJlIGRvaW5n
+IHRoYXQgd2F5Li4uDQo+Pj4NCj4+Pg0KPj4+IEFzIHRoZSBzaXplIG9mIHRoZSBzaGFkb3cg
+c2NyZWVuIGJ1ZmZlciB3aWxsIGJlIGV4cG9zZWQgdG8gdXNlcnNwYWNlLg0KPj4+DQo+Pj4g
+VGhlIHNpemUgJ2hlbHBlci0+ZmItPmhlaWdodCAqIGhlbHBlci0+ZmItPnBpdGNoZXNbMF0n
+IGlzIGENCj4+PiBleGFjdGx5KGJlc3QpIGZpdCwNCj4+Pg0KPj4+IFlvdSBhcmUgZ3VhcmFu
+dGVlZCB0byB3YXN0ZSBhdCBsZWFzZSBvbmUgYnl0ZSBieSBpbmNyZWFzaW5nIG9uZSBieXRl
+LA0KPj4+DQo+Pj4gYW5kIGNhbiBub3Qgc3RvcmUgYWxsIHBpeGVscyBieSBkZWNyZWFzaW5n
+IG9uZSBieXRlIChJbiB0aGUgY2FzZSB3aGVyZQ0KPj4+IGBoZWxwZXItPmZiLT5waXRjaGVz
+WzBdID0gaGVscGVyLT5mYi0+d2lkdGggKiA0YCkuDQo+Pj4NCj4+PiBJdCBpbXBsaWNpdGx5
+IHRlbGwgdGhlIHVzZXJzcGFjZSBkbyBub3QgZ28gYmV5b25kIHRoYXQgYm91bmRhcnkuDQo+
+Pj4NCj4+PiBhbHRob3VnaCB1c2Vyc3BhY2UgcHJvZ3JhbSBjYW4gc3RpbGwgY2hvb3NlIHRv
+IHdyaXRlICBhZnRlciBFT0YsDQo+Pj4NCj4+PiBCdXQgaXQgaXMgZm9yIHRlc3QgcHVycG9z
+ZSwgdG8gdGVzdCB0aGUga2VybmVsIGlmIGl0IGNhbiByZXR1cm4gYQ0KPj4+IC1FRkJJRyBv
+ciBub3QuDQo+Pj4NCj4+Pj4gVGhlIHRoaW5nIGlzLA0KPj4+PiBUaG9tYXMgYm90aCBhdXRo
+b3JlZCB0aGUgbGltaXQgY2hlY2tzIGluIGRybV9mYl9oZWxwZXJfZGVmZXJyZWRfaW8oKSBh
+bmQNCj4+Pj4gdGhlIHBhdGNoIHdoaWNoIGJyb2tlbiB0aGVtIGFnYWluLCBzbyBjbGVhcmx5
+IHRoaXMgaXNuJ3QgdmVyeQ0KPj4+PiBvYnZpb3VzLiBJJ20NCj4+Pj4gdGhpbmtpbmcgb2Yg
+c29tZXRoaW5nIGxpa2UgdGhpczoNCj4+Pj4NCj4+Pj4NCj4+Pj4gZGlmZiAtLWdpdCBhL2Ry
+aXZlcnMvZ3B1L2RybS9kcm1fZmJfaGVscGVyLmMNCj4+Pj4gYi9kcml2ZXJzL2dwdS9kcm0v
+ZHJtX2ZiX2hlbHBlci5jDQo+Pj4+IGluZGV4IGVmNGViOGIxMjc2Ni4uNzI2ZGFiNjdjMzU5
+IDEwMDY0NA0KPj4+PiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vZHJtX2ZiX2hlbHBlci5jDQo+
+Pj4+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fZmJfaGVscGVyLmMNCj4+Pj4gQEAgLTY5
+NywxMCArNjk3LDcgQEAgdm9pZCBkcm1fZmJfaGVscGVyX2RlZmVycmVkX2lvKHN0cnVjdCBm
+Yl9pbmZvDQo+Pj4+ICppbmZvLCBzdHJ1Y3QgbGlzdF9oZWFkICpwYWdlcmVmbGkNCj4+Pj4g
+ICAgICAgICAqIG9mIHRoZSBzY3JlZW4gYW5kIGFjY291bnQgZm9yIG5vbi1leGlzdGluZyBz
+Y2FubGluZXMuIEhlbmNlLA0KPj4+PiAgICAgICAgICoga2VlcCB0aGUgY292ZXJlZCBtZW1v
+cnkgYXJlYSB3aXRoaW4gdGhlIHNjcmVlbiBidWZmZXIuDQo+Pj4+ICAgICAgICAgKi8NCj4+
+Pj4gLSAgICBpZiAoaW5mby0+c2NyZWVuX3NpemUpDQo+Pj4+IC0gICAgICAgIHRvdGFsX3Np
+emUgPSBpbmZvLT5zY3JlZW5fc2l6ZTsNCj4+Pj4gLSAgICBlbHNlDQo+Pj4+IC0gICAgICAg
+IHRvdGFsX3NpemUgPSBpbmZvLT5maXguc21lbV9sZW47DQo+Pj4+ICsgICAgdG90YWxfc2l6
+ZSA9IGhlbHBlci0+ZmItPmhlaWdodCAqIGhlbHBlci0+ZmItPnBpdGNoZXNbMF07DQo+Pj4N
+Cj4+PiBUaGlzIGlzIGp1c3QgdG8gbWl0aWdhdGUgdGhlIG1pc3Rha2VzIGFscmVhZHkgaGFz
+IGJlZW4gbWFkZSwNCj4+Pg0KPj4+IGJlY2F1c2UgaXQgIGRvIG5vdCBkbyBhIGdvb2Qgc3Bs
+aXR0aW5nIGJldHdlZW4gdGhlICpjbGlwKiBwYXJ0IGFuZCB0aGUNCj4+PiAqZGFtYWdlIHVw
+ZGF0ZSogcGFydC4NCj4+Pg0KPj4+IEFuIGlkZWFsIGNsaXBwaW5nIGRvIG5vdCBvYnNjdXJl
+IGl0cyB1cGRhdGluZyBiYWNrZW5kIHdpdGggYQ0KPj4+IG91dC1vZi1ib3VuZCBkYW1hZ2Ug
+cmVjdGFuZ2xlLg0KPj4+DQo+Pj4gV2h5IGRpZCB0aGUgZHJtX2ZiX2hlbHBlcl9tZW1vcnlf
+cmFuZ2VfdG9fY2xpcCgpIGNhbiBub3QgZG8gYSBnb29kIGpvYg0KPj4+IGluIGFsbCBjYXNl
+DQo+Pj4NCj4+PiB0byBwYXNzIGl0cyBiYWNrZW5kIGEgYWx3YXlzIG1lYW5pbmdmdWwgZGFt
+YWdlIHJlY3QgPw0KPj4+DQo+Pj4+ICAgICAgICBtYXhfb2ZmID0gbWluKG1heF9vZmYsIHRv
+dGFsX3NpemUpOw0KPj4+PiAgICAgICAgICBpZiAobWluX29mZiA8IG1heF9vZmYpIHsNCj4+
+Pj4NCj4+Pj4NCj4+Pj4gSSB0aGluayB0aGF0IHdvdWxkIG1ha2UgaXQgdXRtb3N0IGNsZWFy
+IG9uIHdoYXQgd2UncmUgZG9pbmcgYW5kIHdoeS4NCj4+Pj4gT3RoZXJ3aXNlIHdlJ3JlIGp1
+c3QgZ29pbmcgdG8gcmUtY3JlYXRlIHRoZSBzYW1lIGJ1ZyBhZ2FpbiwgbGlrZSB3ZSd2ZQ0K
+Pj4+PiBkb25lIGFscmVhZHkgOi0pDQo+Pj4NCj4+PiBObywgd2UgY3JlYXRlIG5vIGJ1Z3Ms
+IHdlIGZpeCBvbmUuDQo+Pj4NCj4+PiBUaGFua3MuDQo+Pj4NCj4+IEJ1dCBob25lc3RseSBJ
+IGRvIG5vdCBoYXZlIHN0cm9uZyBmZWVsIHRvd2FyZCB0aGlzLCBJIGp1c3QgdHlwZSB3aGF0
+IEknbQ0KPj4gdW5kZXJzdGFuZCB3aXRob3V0IHNlZWluZyB5b3UgcmVzZW5kIGEgVjMuDQo+
+Pg0KPj4gSXQncyBPSyBpbiBvdmVyYWxsLCAgSSB3aWxsIGhlbHAgdG8gdGVzdCB0aGlzIHRv
+bW9ycm93LiAgOi0pDQo+IA0KPiBBcG9sb2dpZXMgZm9yIG1ha2luZyB5b3UganVtcCBhcm91
+bmQgYWxsIHRoZSB0aW1lIGFuZCBkb2luZyBkaWZmZXJlbnQNCj4gdmVyc2lvbnMgb2YgdGhl
+IHNhbWUgYnVnZml4IDotLw0KPiANCj4gSSB0aGluayB0aGlzIG9uZSBoZXJlIGlzIG9rIHRv
+IG1lcmdlLCBJIGp1c3QgdGhvdWdodCB3aGVuIGxvb2tpbmcgYXQNCj4gdGhlIGhpc3Rvcnkg
+dGhhdCB3ZSByZXZlcnQgdGhlIGV4YWN0IHBhdGNoIHdpdGhvdXQgYW55IG90aGVyIGNoYW5n
+ZXMNCj4gb3IgY29tbWVudHMsIGFuZCB1c3VhbGx5IHRoYXQgbWVhbnMgc29tZW9uZSB3aWxs
+IGNvbWUgdXAgd2l0aCB0aGUgc2FtZQ0KPiBjbGVhbnVwIGlkZWEgYWdhaW4sIGFuZCB0aGVu
+IHdlJ2xsIGhhdmUgYSBidWcgYWdhaW4uIFNvIG1heWJlIGENCj4gY29tbWVudCBvciBhIFdB
+Uk5fT04gb3Igc29tZXRoaW5nIGVsc2Ugd291bGQgYmUgZ29vZC4NCj4gDQo+IEkgZ3Vlc3Mg
+d2UgY291bGQgYWxzbyBkbyB5b3VyIHBhdGNoLCBidXQgcHV0IGEgV0FSTl9PTiB0aGF0IHRo
+ZQ0KPiBjb21wdXRlZCB0b3RhbF9zaXplIGlzIG5ldmVyIGJpZ2dlciB0aGFuIHRoZSBkcm1f
+ZmIgc2l6ZSBpbnRvDQo+IGRybV9mYl9oZWxwZXJfZGVmZXJyZWRfaW8oKT8gVGhhdCB3b3Vs
+ZCBhbHNvIG1ha2Ugc3VyZSB0aGF0IHRoaXMgYnVnDQo+IGRvZXNuJ3QgZ2V0IHJlc3VycmVj
+dGVkIGFnYWluLg0KDQpXZSdkIGhhdmUgdG8gcHV0IHRoaXMgdGVzdCBpbnRvIGRybV9mYmRl
+dl9nZW5lcmljLmMuIE90aGVyd2lzZSB3ZSdsbCANCmJyZWFrIGk5MTUsIHdoaWNoIGFsc28g
+dXNlcyBkZWZlcnJlZCBJL08sIGJ1dCB3aXRob3V0IHNoYWRvdyBidWZmZXJpbmcuLiANCk1h
+eWJlIHRlc3QgaW4gZHJtX2ZiZGV2X2dlbmVyaWNfaGVscGVyX2ZiX2RpcnR5KCkgaWYgdGhl
+IGNsaXAgcmVjdGFuZ2xlIA0KZXh0ZW5kcyB0aGUgZnJhbWVidWZmZXIgc2l6ZS4NCg0KQmVz
+dCByZWdhcmRzDQpUaG9tYXMNCg0KPiAtRGFuaWVsDQoNCi0tIA0KVGhvbWFzIFppbW1lcm1h
+bm4NCkdyYXBoaWNzIERyaXZlciBEZXZlbG9wZXINClNVU0UgU29mdHdhcmUgU29sdXRpb25z
+IEdlcm1hbnkgR21iSA0KRnJhbmtlbnN0cmFzc2UgMTQ2LCA5MDQ2MSBOdWVybmJlcmcsIEdl
+cm1hbnkNCkdGOiBJdm8gVG90ZXYsIEFuZHJldyBNeWVycywgQW5kcmV3IE1jRG9uYWxkLCBC
+b3VkaWVuIE1vZXJtYW4NCkhSQiAzNjgwOSAoQUcgTnVlcm5iZXJnKQ0K
 
->
-> Reviewed-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
->
-> Daniele
->
->> +
->>       /*
->>        * we use FIRMWARE_UNINITIALIZED to detect checks against 
->> uc_fw->status
->>        * before we're looked at the HW caps to see if we have uc support
->
+--------------vsDmT30ohTb5iq0hp9vs5VPf--
 
+--------------aUupdK3iiU9kA09uMon7zmMw
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmRADPIFAwAAAAAACgkQlh/E3EQov+BX
+FA//RF5y/sKwWkuZ/6VuWhXxXl4zPjXjjHi7Gnef3Bj3b35r/cpo8cYZkG2rbq/i34gQ8kAtFCmu
+rBzteOh913WXkkuXcH4YxjjYMcG1TU5pn+7yne+4eL+P74ZFqsgWqLLpw1q5sMjhdYuWMEtulZFo
+QRrVe8jZTbsUPXnIhgooZVN+oG8F4Y2CzdfhHqePKmC2Pzij9kaNp2CIL9GDWcNPAZQVzGis/Wx7
+IVN6JYHx3yxS5xmBSOyPB8V/lCFGRKgWLg10VOgAmoLPDOPpKrgcELhzdZaZmr6ycnn83viFY8/E
+IRBwihWIxPkr8jOwBkT2EA42MnMgNvrHlKPHjIkIUAkTXu5yrR7xMXuUkwSIt3RUCjMS8CxS6c6I
+QMjntAqVmVwGq8LRXot4gLK1ddgN0pgVOqggxppshvB0V4MPMFReKFcs7e8EEJKytiXmnui/TsOu
+DoSBJOar1+p7xqeuSAkhW5sI5p1SbjirSCJkc99b7azXxLXh36dcKzuTzpvJdbJ1amiArt9BHpMk
+0E2cVUyzLccDS2HGzKWC4Y7wzqN9MIU4THXTwianPBVENvgQPF/q+FdDFwucvw3jpUmIXu0sYHal
+M5xiU8EGfGp/AMizqfQfHqwcwrB+A/TmqaFC36eVYr5ckoshqm1F8eVlQzjVziHsKNKUFvtZEJHx
+o3I=
+=wAhQ
+-----END PGP SIGNATURE-----
+
+--------------aUupdK3iiU9kA09uMon7zmMw--
