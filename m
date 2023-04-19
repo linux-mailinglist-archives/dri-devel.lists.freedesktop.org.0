@@ -2,63 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4BF46E7D8B
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Apr 2023 17:00:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E62496E7DA5
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Apr 2023 17:09:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AAEF310E9D7;
-	Wed, 19 Apr 2023 15:00:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2EACA10E9DD;
+	Wed, 19 Apr 2023 15:09:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-xf30.google.com (mail-qv1-xf30.google.com
- [IPv6:2607:f8b0:4864:20::f30])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BB1DE10E9D6;
- Wed, 19 Apr 2023 15:00:40 +0000 (UTC)
-Received: by mail-qv1-xf30.google.com with SMTP id oj8so4403122qvb.11;
- Wed, 19 Apr 2023 08:00:40 -0700 (PDT)
+Received: from mail-oi1-x22d.google.com (mail-oi1-x22d.google.com
+ [IPv6:2607:f8b0:4864:20::22d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 164B510E9C2
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Apr 2023 15:09:38 +0000 (UTC)
+Received: by mail-oi1-x22d.google.com with SMTP id
+ 5614622812f47-38bc978ac3eso755787b6e.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Apr 2023 08:09:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1681916439; x=1684508439;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=X+yIEO9tM41Om4Q5uaCccd0BnUH6gwgppvqHFPpI6yw=;
- b=QOwVTX+QNSFCXCs/MJan8WYyINf0tWZcH53Rr2Bu9T5EpKteEBzuFFOQMc5z8HXgPB
- h8hGsp8mMYLmAqpGcsdGzIA/UkFhVIpu9bu+8RzzhymzPgXIXC33IPRRaxckDVh6oYJt
- XXXdyExlRmgx7yJExVEIz5e127w7O5sUTu97Cct2+M3VYa222tEbYJR9/ArcXPNa3Aq4
- J7Iy2EK6QnDmadhAbGnqnCycuIlh81fyCaJk7lYHBaTvVbdQxSOrpLZuyBp//pbB9MJa
- WMSTltAgNXTbZN4nHwJOc8KHP2r2B38AnayEd1irwV76jBNUC9L/+2Fcd19Auq0ENZ7H
- 0MvA==
+ d=ffwll.ch; s=google; t=1681916978; x=1684508978;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=vxz4WpDlv6wH199UsEqYfGj6F7utE5kHnU1NSqrYkEI=;
+ b=a3Xj8a4LitxGLjzfNfiSrOOIuEUFh4CTav04xvB0rDBxTRMVcIg6pyUQJp/xAlLnQe
+ 0Ur3qYeBmDt51R0iqSb2KTCKZsmfGorpAbGVYGJlNS6YiCIx6y+TLeTMXEUQRTHSpwWa
+ /WT4J20/Q8d4ghyuY3j04x56N9IvmiEUFMNLE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681916439; x=1684508439;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=X+yIEO9tM41Om4Q5uaCccd0BnUH6gwgppvqHFPpI6yw=;
- b=Lg4UHc1YPCgpw5SgQP+AtRUik/nXcQ1A7Y30bikyYTTv4VBgK8UTlqsWzetv4WYyII
- IbbF3PtWZ0PGerhXPU/fwhi17xagTouXpK7Tz6M05p9OwL8RPD6bZ/5TC4xpI0omtwqT
- smHURQg1GwkCd0dn0JqvBPSOn64rFrL/ZcOhRL6LIX2Q4QQ/bYItWXfhtWKP0ZxuRcTW
- qzjO06ThtymDwvgOsWpZx5pFjiQrH5eXtQHBFHlibEU7+EfDlTZ4QyW0k6Cl0AVG3ckl
- Ah3SHzmovWOl8pomnNWzIVWL0WpkCFbSqYxV7rVqIpeTYXFdb6dboWIisoJE7gxD2BlR
- uqdg==
-X-Gm-Message-State: AAQBX9e8mNmycsn0cky4EwtGNVSsp7++yljtcIkhzuRJv7YSoUmcAfuo
- 2+HUeoFiyRZq3/q2ENyD70ETdm2ypmM+/BLC6FjDwhO0
-X-Google-Smtp-Source: AKy350Y0Y/hbLWnpKH21R7X0WmgSsn4q71y5hJ1BaeJMOA8s4dxSu/iV5N/lTPb/+6LtE08yN5Ns2UMq18fFwR86hPA=
-X-Received: by 2002:a05:6214:29ca:b0:56e:a96a:2bdc with SMTP id
- gh10-20020a05621429ca00b0056ea96a2bdcmr22630028qvb.40.1681916439030; Wed, 19
- Apr 2023 08:00:39 -0700 (PDT)
+ d=1e100.net; s=20221208; t=1681916978; x=1684508978;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=vxz4WpDlv6wH199UsEqYfGj6F7utE5kHnU1NSqrYkEI=;
+ b=iWQXlDsPzMKuX6EyRVnDIAseH5M/1xqbEWTavcWeb37M4hz2t+2GlP0JxDTVam5dBD
+ KdiE8YFMzEbXQzXOQq0Lah8gzhDk+A3sJx0a6BH9liqdXXkhJNHITeVd9ip2U958gOai
+ gQC+HvxcT0CYfsC4TzluLikRt7eejMG+nzJNRk54+KTK3HVrW0fiKmf5qY2Kr8Ebxnus
+ uzlgL9X0WWis1KQU3y4NgFnkCrF/lGcW5MbVHaow6enntA5zMCUVCaY2RhTVm9eGmhJR
+ cOcnEoPRcMzMIzf3Iutr4mJMKb4VErtaiKh9CvP+0A+vQsLZpo5jn7/EoMtA8BGluAD2
+ KfDg==
+X-Gm-Message-State: AAQBX9ecn3/BylBAhJCkpWzxH/8IsNxqXR0lVq0dyOvQR5VHiDrivkMG
+ rWwgaggQ1WjX3W9tGDoVgKYG9rkl913D5aW2Y5aimg==
+X-Google-Smtp-Source: AKy350bO9mOX8qtAPRjIaVy1M/QFCCzMf9lzbVAJueqp3G07UxxxQ4LvHgK5p6EwWLFFS4PJtu4S7Cfr5JrU1gQThIw=
+X-Received: by 2002:aca:df87:0:b0:384:2019:c201 with SMTP id
+ w129-20020acadf87000000b003842019c201mr1706947oig.8.1681916977741; Wed, 19
+ Apr 2023 08:09:37 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230417201215.448099-1-robdclark@gmail.com>
- <20230417201215.448099-4-robdclark@gmail.com>
- <20655be0-65e3-0000-4acd-310ec9cc1d3a@linux.intel.com>
- <CAF6AEGsiNeHc7PuBnBkmwZ22S9dkmGqx70AEPmK8Fdp5J0YVaw@mail.gmail.com>
- <dfabcc1b-52d3-c5ef-3cd3-aad0aa51f960@linux.intel.com>
-In-Reply-To: <dfabcc1b-52d3-c5ef-3cd3-aad0aa51f960@linux.intel.com>
-From: Rob Clark <robdclark@gmail.com>
-Date: Wed, 19 Apr 2023 08:00:27 -0700
-Message-ID: <CAF6AEGuxKwAVBijMwPThORsZ5hQ6Mzhfe66UTNFqNQNUfQfimQ@mail.gmail.com>
-Subject: Re: [RFC 3/3] drm/msm: Add comm/cmdline fields
-To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+References: <20230417113219.1354078-1-suijingfeng@loongson.cn>
+ <ZD5Vgx9Txaiz7Bun@phenom.ffwll.local>
+ <139c9398-488d-df19-9ae2-2b4b47ef64f4@189.cn>
+ <86a8b262-cbf2-b75f-9972-491f557edf74@189.cn>
+In-Reply-To: <86a8b262-cbf2-b75f-9972-491f557edf74@189.cn>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Wed, 19 Apr 2023 17:09:26 +0200
+Message-ID: <CAKMK7uE-azFT02Sp2FDfMGTc57eYJEn8iM8Wk1mt5ucPs1qM-w@mail.gmail.com>
+Subject: Re: [PATCH v3] drm/fbdev-generic: prohibit potential out-of-bounds
+ access
+To: Sui Jingfeng <15330273260@189.cn>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,256 +67,192 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU"
- <freedreno@lists.freedesktop.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Jonathan Corbet <corbet@lwn.net>, Sean Paul <sean@poorly.run>,
- "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
- open list <linux-kernel@vger.kernel.org>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Lucas De Marchi <lucas.demarchi@intel.com>, linux-fbdev@vger.kernel.org,
+ Li Yi <liyi@loongson.cn>, Helge Deller <deller@gmx.de>,
+ linux-kernel@vger.kernel.org, loongson-kernel@lists.loongnix.cn,
+ dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Apr 19, 2023 at 6:36=E2=80=AFAM Tvrtko Ursulin
-<tvrtko.ursulin@linux.intel.com> wrote:
+On Tue, 18 Apr 2023 at 20:16, Sui Jingfeng <15330273260@189.cn> wrote:
 >
+> Hi,
 >
-> On 18/04/2023 15:56, Rob Clark wrote:
-> > On Tue, Apr 18, 2023 at 1:53=E2=80=AFAM Tvrtko Ursulin
-> > <tvrtko.ursulin@linux.intel.com> wrote:
-> >>
-> >>
-> >> On 17/04/2023 21:12, Rob Clark wrote:
-> >>> From: Rob Clark <robdclark@chromium.org>
+> On 2023/4/19 01:52, Sui Jingfeng wrote:
+> > Hi,
+> >
+> > On 2023/4/18 16:32, Daniel Vetter wrote:
+> >> On Mon, Apr 17, 2023 at 07:32:19PM +0800, Sui Jingfeng wrote:
+> >>> The fbdev test of IGT may write after EOF, which lead to out-of-bound
+> >>> access for the drm drivers using fbdev-generic. For example, on a x86
+> >>> + aspeed bmc card platform, with a 1680x1050 resolution display,
+> >>> running
+> >>> fbdev test if IGT will cause the linux kernel hang with the following
+> >>> call trace:
 > >>>
-> >>> Normally this would be the same information that can be obtained in
-> >>> other ways.  But in some cases the process opening the drm fd is mere=
-ly
-> >>> a sort of proxy for the actual process using the GPU.  This is the ca=
-se
-> >>> for guest VM processes using the GPU via virglrenderer, in which case
-> >>> the msm native-context renderer in virglrenderer overrides the comm/
-> >>> cmdline to be the guest process's values.
+> >>>    Oops: 0000 [#1] PREEMPT SMP PTI
+> >>>    [IGT] fbdev: starting subtest eof
+> >>>    Workqueue: events drm_fb_helper_damage_work [drm_kms_helper]
+> >>>    [IGT] fbdev: starting subtest nullptr
 > >>>
-> >>> Exposing this via fdinfo allows tools like gputop to show something m=
-ore
-> >>> meaningful than just a bunch of "pcivirtio-gpu" users.
-> >>
-> >> You also later expanded with:
-> >>
-> >> """
-> >> I should have also mentioned, in the VM/proxy scenario we have a
-> >> single process with separate drm_file's for each guest VM process.  So
-> >> it isn't an option to just change the proxy process's name to match
-> >> the client.
-> >> """
-> >>
-> >> So how does that work - this single process temporarily changes it's
-> >> name for each drm fd it opens and creates a context or it is actually =
-in
-> >> the native context protocol?
-> >
-> > It is part of the protocol, the mesa driver in the VM sends[1] this
-> > info to the native-context "shim" in host userspace which uses the
-> > SET_PARAM ioctl to pass this to the kernel.  In the host userspace
-> > there is just a single process (you see the host PID below) but it
-> > does a separate open() of the drm dev for each guest process (so that
-> > they each have their own GPU address space for isolation):
-> >
-> > DRM minor 128
-> >      PID    MEM ACTIV              NAME                    gpu
-> >      5297  200M   82M com.mojang.minecr |=E2=96=88=E2=96=88=E2=96=88=E2=
-=96=88=E2=96=88=E2=96=88=E2=96=88=E2=96=88=E2=96=88=E2=96=88=E2=96=88=E2=96=
-=88=E2=96=88=E2=96=88=E2=96=8F                        |
-> >      1859  199M    0B            chrome |=E2=96=88=E2=96=89            =
-                         |
-> >      5297   64M    9M    surfaceflinger |                              =
-         |
-> >      5297   12M    0B org.chromium.arc. |                              =
-         |
-> >      5297   12M    0B com.android.syste |                              =
-         |
-> >      5297   12M    0B org.chromium.arc. |                              =
-         |
-> >      5297   26M    0B com.google.androi |                              =
-         |
-> >      5297   65M    0B     system_server |                              =
-         |
-> >
-> >
-> > [1] https://gitlab.freedesktop.org/virgl/virglrenderer/-/blob/master/sr=
-c/drm/msm/msm_proto.h#L326
-> > [2] https://gitlab.freedesktop.org/virgl/virglrenderer/-/blob/master/sr=
-c/drm/msm/msm_renderer.c#L1050
-> >
+> >>>    RIP: 0010:memcpy_erms+0xa/0x20
+> >>>    RSP: 0018:ffffa17d40167d98 EFLAGS: 00010246
+> >>>    RAX: ffffa17d4eb7fa80 RBX: ffffa17d40e0aa80 RCX: 00000000000014c0
+> >>>    RDX: 0000000000001a40 RSI: ffffa17d40e0b000 RDI: ffffa17d4eb80000
+> >>>    RBP: ffffa17d40167e20 R08: 0000000000000000 R09: ffff89522ecff8c0
+> >>>    R10: ffffa17d4e4c5000 R11: 0000000000000000 R12: ffffa17d4eb7fa80
+> >>>    R13: 0000000000001a40 R14: 000000000000041a R15: ffffa17d40167e30
+> >>>    FS:  0000000000000000(0000) GS:ffff895257380000(0000)
+> >>> knlGS:0000000000000000
+> >>>    CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> >>>    CR2: ffffa17d40e0b000 CR3: 00000001eaeca006 CR4: 00000000001706e0
+> >>>    Call Trace:
+> >>>     <TASK>
+> >>>     ? drm_fbdev_generic_helper_fb_dirty+0x207/0x330 [drm_kms_helper]
+> >>>     drm_fb_helper_damage_work+0x8f/0x170 [drm_kms_helper]
+> >>>     process_one_work+0x21f/0x430
+> >>>     worker_thread+0x4e/0x3c0
+> >>>     ? __pfx_worker_thread+0x10/0x10
+> >>>     kthread+0xf4/0x120
+> >>>     ? __pfx_kthread+0x10/0x10
+> >>>     ret_from_fork+0x2c/0x50
+> >>>     </TASK>
+> >>>    CR2: ffffa17d40e0b000
+> >>>    ---[ end trace 0000000000000000 ]---
 > >>>
-> >>> Signed-off-by: Rob Clark <robdclark@chromium.org>
+> >>> The direct reason is that damage rectange computed by
+> >>> drm_fb_helper_memory_range_to_clip() does not guaranteed to be
+> >>> in-bound.
+> >>> It is already results in workaround code populate to elsewhere. Another
+> >>> reason is that exposing a larger buffer size than the actual needed
+> >>> help
+> >>> to trigger this bug intrinsic in drm_fb_helper_memory_range_to_clip().
+> >>>
+> >>> Others fbdev emulation solutions write to the GEM buffer directly, they
+> >>> won't reproduce this bug because the .fb_dirty function callback do not
+> >>> being hooked, so no chance is given to
+> >>> drm_fb_helper_memory_range_to_clip()
+> >>> to generate a out-of-bound when drm_fb_helper_sys_write() is called.
+> >>>
+> >>> This patch break the trigger condition of this bug by shrinking the
+> >>> shadow
+> >>> buffer size to sizes->surface_height * buffer->fb->pitches[0].
+> >>>
+> >>> Fixes: '8fbc9af55de0 ("drm/fbdev-generic: Set screen size to size of
+> >>> GEM
+> >>> buffer")'
+> >>>
+> >>> Signed-off-by: Sui Jingfeng <suijingfeng@loongson.cn>
 > >>> ---
-> >>>    Documentation/gpu/drm-usage-stats.rst |  8 ++++++++
-> >>>    drivers/gpu/drm/msm/msm_gpu.c         | 14 ++++++++++++++
-> >>>    2 files changed, 22 insertions(+)
+> >>>   drivers/gpu/drm/drm_fbdev_generic.c | 2 +-
+> >>>   1 file changed, 1 insertion(+), 1 deletion(-)
 > >>>
-> >>> diff --git a/Documentation/gpu/drm-usage-stats.rst b/Documentation/gp=
-u/drm-usage-stats.rst
-> >>> index 8e00d53231e0..bc90bed455e3 100644
-> >>> --- a/Documentation/gpu/drm-usage-stats.rst
-> >>> +++ b/Documentation/gpu/drm-usage-stats.rst
-> >>> @@ -148,6 +148,14 @@ percentage utilization of the engine, whereas dr=
-m-engine-<keystr> only reflects
-> >>>    time active without considering what frequency the engine is opera=
-ting as a
-> >>>    percentage of it's maximum frequency.
-> >>>
-> >>> +- drm-comm: <valstr>
-> >>> +
-> >>> +Returns the clients executable path.
+> >>> diff --git a/drivers/gpu/drm/drm_fbdev_generic.c
+> >>> b/drivers/gpu/drm/drm_fbdev_generic.c
+> >>> index 8e5148bf40bb..b057cfbba938 100644
+> >>> --- a/drivers/gpu/drm/drm_fbdev_generic.c
+> >>> +++ b/drivers/gpu/drm/drm_fbdev_generic.c
+> >>> @@ -94,7 +94,7 @@ static int
+> >>> drm_fbdev_generic_helper_fb_probe(struct drm_fb_helper *fb_helper,
+> >>>       fb_helper->buffer = buffer;
+> >>>       fb_helper->fb = buffer->fb;
+> >>>   -    screen_size = buffer->gem->size;
+> >>> +    screen_size = sizes->surface_height * buffer->fb->pitches[0];
+> >> So I read core some more and stumbled over drm_fb_helper_deferred_io().
+> >> Which has all the code and comments about this, including limiting.
 > >>
-> >> Full path and not just current->comm? In this case probably give it a
-> >> more descriptive name here.
-> >>
-> >> drm-client-executable
-> >> drm-client-command-line
-> >>
-> >> So we stay in the drm-client- namespace?
-> >>
-> >> Or if the former is absolute path could one key be enough for both?
-> >>
-> >> drm-client-command-line: /path/to/executable --arguments
+> >> I think it would be clearer if we fix the issue there, instead of
+> >> passing
+> >> limits around in obscure places that then again get broken?
 > >
-> > comm and cmdline can be different. Android seems to change the comm to
-> > the apk name, for example (and w/ the zygote stuff cmdline isn't
-> > really a thing)
+> > No, it is more obscure doing that way...
 > >
-> > I guess it could be drm-client-comm and drm-client-cmdline?  Although
-> > comm/cmdline aren't the best names, they are just following what the
-> > kernel calls them elsewhere.
->
-> I wasn't sure what do you plan to do given mention of a path under the
-> drm-comm description. If it is a path then comm would be misleading,
-> since comm as defined in procfs is not a path, I don't think so at
-> least. Which is why I was suggesting executable. But if you remove the
-> mention of a path from rst and rather refer to processes' comm value I
-> think that is then okay.
-
-Oh, whoops the mention of "path" for comm was a mistake.  task->comm
-is described as executable name without path, and that is what the
-fdinfo field was intending to follow.
-
-> >>> +
-> >>> +- drm-cmdline: <valstr>
-> >>> +
-> >>> +Returns the clients cmdline.
+> >
+> > As the size of the shadow screen buffer will be exposed to userspace.
+> >
+> > The size 'helper->fb->height * helper->fb->pitches[0]' is a
+> > exactly(best) fit,
+> >
+> > You are guaranteed to waste at lease one byte by increasing one byte,
+> >
+> > and can not store all pixels by decreasing one byte (In the case where
+> > `helper->fb->pitches[0] = helper->fb->width * 4`).
+> >
+> > It implicitly tell the userspace do not go beyond that boundary.
+> >
+> > although userspace program can still choose to write  after EOF,
+> >
+> > But it is for test purpose, to test the kernel if it can return a
+> > -EFBIG or not.
+> >
+> >> The thing is,
+> >> Thomas both authored the limit checks in drm_fb_helper_deferred_io() and
+> >> the patch which broken them again, so clearly this isn't very
+> >> obvious. I'm
+> >> thinking of something like this:
 > >>
-> >> I think drm-usage-stats.rst text should provide some more text with
-> >> these two. To precisely define their content and outline the use case
-> >> under which driver authors may want to add them, and fdinfo consumer
-> >> therefore expect to see them. Just so everything is completely clear a=
-nd
-> >> people do not start adding them for drivers which do not support nativ=
-e
-> >> context (or like).
-> >
-> > I really was just piggy-backing on existing comm/cmdline.. but I'll
-> > try to write up something better.
-> >
-> > I think it maybe should not be limited just to native context.. for
-> > ex. if the browser did somehow manage to create different displays
-> > associated with different drm_file instances (I guess it would have to
-> > use gbm to do this?) it would be nice to see browser tab names.
->
-> Would be cool yes.
->
-> My thinking behind why we maybe do not want to blanket add them is
-> because for common case is it the same information which can be obtained
-> from procfs. Like in igt_drm_clients.c I get the pid and comm from
-> /proc/$pid/stat. So I was thinking it is only interesting to add to
-> fdinfo for drivers where it could differ by the explicit override like
-> you have with native context.
-
-Yeah, I suppose I could define them as drm-client-comm-override and
-drm-client-cmdline-override
-
-> It can be added once there is a GL/whatever extension which would allow
-> it? (I am not familiar with how browsers manage rendering contexts so
-> maybe I am missing something.)
->
-> >> But on the overall it sounds reasonable to me - it would be really coo=
-l
-> >> to not just see pcivirtio-gpu as you say. Even if the standard virtiog=
-pu
-> >> use case (not native context) could show real users.
-> >
-> > For vrend/virgl, we'd first need to solve the issue that there is just
-> > a single drm_file for all guest processes.  But really, just don't use
-> > virgl.  (I mean, like seriously, would you put a gl driver in the
-> > kernel?  Vrend has access to all guest memory, so this is essentially
-> > what you have with virgl.  This is just not a sane thing to do.) The
-> > only "valid" reason for not doing native-context is if you don't have
-> > the src code for your UMD to be able to modify it to talk
-> > native-context to virtgpu in the guest. ;-)
->
-> I am just observing the current state of things on an Intel based
-> Chromebook. :) Presumably the custom name for a context would be
-> passable via the virtio-gpu protocol or something?
-
-It is part of the context-type specific protocol.  Ie. some parts of
-the protocol are "core" and dealt with in virtgpu guest kernel driver.
-But on top of that there are various context-types with their own
-protocol (ie. virgl, venus, cross-domain, msm native ctx, and some WIP
-native ctx types floating around)
-
-BR,
--R
-
-> Regards,
->
-> Tvrtko
->
-> >
-> > BR,
-> > -R
-> >
-> >> Regards,
 > >>
-> >> Tvrtko
+> >> diff --git a/drivers/gpu/drm/drm_fb_helper.c
+> >> b/drivers/gpu/drm/drm_fb_helper.c
+> >> index ef4eb8b12766..726dab67c359 100644
+> >> --- a/drivers/gpu/drm/drm_fb_helper.c
+> >> +++ b/drivers/gpu/drm/drm_fb_helper.c
+> >> @@ -697,10 +697,7 @@ void drm_fb_helper_deferred_io(struct fb_info
+> >> *info, struct list_head *pagerefli
+> >>        * of the screen and account for non-existing scanlines. Hence,
+> >>        * keep the covered memory area within the screen buffer.
+> >>        */
+> >> -    if (info->screen_size)
+> >> -        total_size = info->screen_size;
+> >> -    else
+> >> -        total_size = info->fix.smem_len;
+> >> +    total_size = helper->fb->height * helper->fb->pitches[0];
+> >
+> > This is just to mitigate the mistakes already has been made,
+> >
+> > because it  do not do a good splitting between the *clip* part and the
+> > *damage update* part.
+> >
+> > An ideal clipping do not obscure its updating backend with a
+> > out-of-bound damage rectangle.
+> >
+> > Why did the drm_fb_helper_memory_range_to_clip() can not do a good job
+> > in all case
+> >
+> > to pass its backend a always meaningful damage rect ?
+> >
+> >>       max_off = min(max_off, total_size);
+> >>         if (min_off < max_off) {
 > >>
-> >>> +
-> >>>    Implementation Details
-> >>>    =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> >>>
-> >>> diff --git a/drivers/gpu/drm/msm/msm_gpu.c b/drivers/gpu/drm/msm/msm_=
-gpu.c
-> >>> index f0f4f845c32d..1150dcbf28aa 100644
-> >>> --- a/drivers/gpu/drm/msm/msm_gpu.c
-> >>> +++ b/drivers/gpu/drm/msm/msm_gpu.c
-> >>> @@ -148,12 +148,26 @@ int msm_gpu_pm_suspend(struct msm_gpu *gpu)
-> >>>        return 0;
-> >>>    }
-> >>>
-> >>> +static void get_comm_cmdline(struct msm_file_private *ctx, char **co=
-mm, char **cmd);
-> >>> +
-> >>>    void msm_gpu_show_fdinfo(struct msm_gpu *gpu, struct msm_file_priv=
-ate *ctx,
-> >>>                         struct drm_printer *p)
-> >>>    {
-> >>> +     char *comm, *cmdline;
-> >>> +
-> >>> +     get_comm_cmdline(ctx, &comm, &cmdline);
-> >>> +
-> >>>        drm_printf(p, "drm-engine-gpu:\t%llu ns\n", ctx->elapsed_ns);
-> >>>        drm_printf(p, "drm-cycles-gpu:\t%llu\n", ctx->cycles);
-> >>>        drm_printf(p, "drm-maxfreq-gpu:\t%u Hz\n", gpu->fast_rate);
-> >>> +
-> >>> +     if (comm)
-> >>> +             drm_printf(p, "drm-comm:\t%s\n", comm);
-> >>> +     if (cmdline)
-> >>> +             drm_printf(p, "drm-cmdline:\t%s\n", cmdline);
-> >>> +
-> >>> +     kfree(comm);
-> >>> +     kfree(cmdline);
-> >>>    }
-> >>>
-> >>>    int msm_gpu_hw_init(struct msm_gpu *gpu)
+> >>
+> >> I think that would make it utmost clear on what we're doing and why.
+> >> Otherwise we're just going to re-create the same bug again, like we've
+> >> done already :-)
+> >
+> > No, we create no bugs, we fix one.
+> >
+> > Thanks.
+> >
+> But honestly I do not have strong feel toward this, I just type what I'm
+> understand without seeing you resend a V3.
+>
+> It's OK in overall,  I will help to test this tomorrow.  :-)
+
+Apologies for making you jump around all the time and doing different
+versions of the same bugfix :-/
+
+I think this one here is ok to merge, I just thought when looking at
+the history that we revert the exact patch without any other changes
+or comments, and usually that means someone will come up with the same
+cleanup idea again, and then we'll have a bug again. So maybe a
+comment or a WARN_ON or something else would be good.
+
+I guess we could also do your patch, but put a WARN_ON that the
+computed total_size is never bigger than the drm_fb size into
+drm_fb_helper_deferred_io()? That would also make sure that this bug
+doesn't get resurrected again.
+-Daniel
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
