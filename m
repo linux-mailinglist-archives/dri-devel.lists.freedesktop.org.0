@@ -2,38 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 390816E8C49
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Apr 2023 10:10:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 740FA6E8C5F
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Apr 2023 10:12:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5E3A110E254;
-	Thu, 20 Apr 2023 08:10:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F19E510EBD6;
+	Thu, 20 Apr 2023 08:12:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com
- [211.20.114.71])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D4F0C10E254
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Apr 2023 08:10:06 +0000 (UTC)
-Received: from mail.aspeedtech.com ([192.168.0.24])
- by twspam01.aspeedtech.com with ESMTP id 33K7rRRH055548;
- Thu, 20 Apr 2023 15:53:27 +0800 (GMT-8)
- (envelope-from jammy_huang@aspeedtech.com)
-Received: from JammyHuang-PC.aspeed.com (192.168.2.115) by TWMBX02.aspeed.com
- (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
- Thu, 20 Apr 2023 16:09:49 +0800
-From: Jammy Huang <jammy_huang@aspeedtech.com>
-To: <airlied@redhat.com>, <tzimmermann@suse.de>
-Subject: [PATCH v2] drm/ast: Fix ARM compatibility
-Date: Thu, 20 Apr 2023 16:09:47 +0800
-Message-ID: <20230420080947.27226-1-jammy_huang@aspeedtech.com>
-X-Mailer: git-send-email 2.25.1
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AA7B910EBD8;
+ Thu, 20 Apr 2023 08:12:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1681978364; x=1713514364;
+ h=date:from:to:cc:subject:message-id:mime-version:
+ content-transfer-encoding;
+ bh=/ecep8f5OfKmzJrbDvKywx/YKgPmComjlAdnqMVrZuM=;
+ b=m9fStrwuo8+FWVtFSFOqxFj5vuylglSu0o9rSdGOWsOymg2vn9+JXyhI
+ W2vxZt0jzvi+oRQqt1HfSpGLXUtFqcY3ZrFNFDaFOBzcJGeoABnG406Mq
+ iY38IurbRaWGDufmOghY84LY2N1kYTnW2p1f4r3sFRIxeQFb2NlqLBFZc
+ jvQSD8RzWppFms5KTeKw3XZNAttJ23vOljF3A/EKruqcXNxh9Pelhc3jO
+ zkpF63LnYPvm5YR+J/xqQ/bKl5jhKiuG6wq802H4ukinQeiOWVBnP/LI+
+ p5yx4bD0LDR66RhGEXpOoOl5z0UFg0e53O0ynx05pSkYOjh44BuPTGGqe A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10685"; a="431947312"
+X-IronPort-AV: E=Sophos;i="5.99,212,1677571200"; d="scan'208";a="431947312"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Apr 2023 01:12:42 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10685"; a="691810211"
+X-IronPort-AV: E=Sophos;i="5.99,212,1677571200"; d="scan'208";a="691810211"
+Received: from mmoran1-mobl2.ger.corp.intel.com (HELO localhost)
+ ([10.252.30.212])
+ by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Apr 2023 01:12:39 -0700
+Date: Thu, 20 Apr 2023 11:12:37 +0300
+From: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: [PULL] drm-intel-next-fixes
+Message-ID: <ZEDz9ZedyZVyFXxU@jlahtine-mobl.ger.corp.intel.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [192.168.2.115]
-X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
- (192.168.0.24)
-X-DNSRBL: 
-X-MAIL: twspam01.aspeedtech.com 33K7rRRH055548
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,44 +57,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ intel-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-ARM architecture only has 'memory', so all devices are accessed by
-MMIO if possible.
+Hi Dave & Daniel,
 
-Signed-off-by: Jammy Huang <jammy_huang@aspeedtech.com>
----
- v2 changes:
-  - Use MMIO after AST2500 which enable MMIO by default.
----
- drivers/gpu/drm/ast/ast_main.c | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+Here's another drm-intel-next-fixes pull request.
 
-diff --git a/drivers/gpu/drm/ast/ast_main.c b/drivers/gpu/drm/ast/ast_main.c
-index f83ce77127cb..d384e810fa4d 100644
---- a/drivers/gpu/drm/ast/ast_main.c
-+++ b/drivers/gpu/drm/ast/ast_main.c
-@@ -425,11 +425,12 @@ struct ast_private *ast_device_create(const struct drm_driver *drv,
- 		return ERR_PTR(-EIO);
- 
- 	/*
--	 * If we don't have IO space at all, use MMIO now and
--	 * assume the chip has MMIO enabled by default (rev 0x20
--	 * and higher).
-+	 * After AST2500, MMIO is enabled by default, and it should be adapted
-+	 * to be compatible with Arm.
- 	 */
--	if (!(pci_resource_flags(pdev, 2) & IORESOURCE_IO)) {
-+	if (pdev->revision >= 0x40) {
-+		ast->ioregs = ast->regs + AST_IO_MM_OFFSET;
-+	} else if (!(pci_resource_flags(pdev, 2) & IORESOURCE_IO)) {
- 		drm_info(dev, "platform has no IO space, trying MMIO\n");
- 		ast->ioregs = ast->regs + AST_IO_MM_OFFSET;
- 	}
+One Cc stable CSC plane index fix, then MST PLL fix and smaller
+null/oob/leak fixes.
 
-base-commit: e62252bc55b6d4eddc6c2bdbf95a448180d6a08d
--- 
-2.25.1
+Regards, Joonas
 
+***
+
+drm-intel-next-fixes-2023-04-20-1:
+
+Active port PLL MST fix for second stream, CSC plane index fix,
+null and oob array deref fixes and selftest memory leak fix.
+
+The following changes since commit 81900e3a37750d8c6ad705045310e002f6dd0356:
+
+  drm/i915: disable sampler indirect state in bindless heap (2023-04-12 11:36:09 +0300)
+
+are available in the Git repository at:
+
+  git://anongit.freedesktop.org/drm/drm-intel tags/drm-intel-next-fixes-2023-04-20-1
+
+for you to fetch changes up to 2c69679626d5daa680d71c77ad58af0088db537f:
+
+  drm/i915/dp_mst: Fix active port PLL selection for secondary MST streams (2023-04-19 17:25:29 +0300)
+
+----------------------------------------------------------------
+Active port PLL MST fix for second stream, CSC plane index fix,
+null and oob array deref fixes and selftest memory leak fix.
+
+----------------------------------------------------------------
+Chaitanya Kumar Borah (1):
+      drm/i915/color: Fix typo for Plane CSC indexes
+
+Cong Liu (1):
+      drm/i915: Fix memory leaks in i915 selftests
+
+Imre Deak (1):
+      drm/i915/dp_mst: Fix active port PLL selection for secondary MST streams
+
+Lucas De Marchi (1):
+      drm/i915/gt: Avoid out-of-bounds access when loading HuC
+
+Ville Syrjälä (1):
+      drm/i915: Make intel_get_crtc_new_encoder() less oopsy
+
+ drivers/gpu/drm/i915/display/intel_ddi.c      | 27 ++++++++++++++++++++-------
+ drivers/gpu/drm/i915/display/intel_ddi.h      |  3 +++
+ drivers/gpu/drm/i915/display/intel_display.c  |  2 +-
+ drivers/gpu/drm/i915/display/intel_dp_mst.c   |  7 +++++++
+ drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c      | 21 +++++++++++++++++----
+ drivers/gpu/drm/i915/i915_reg.h               |  4 ++--
+ drivers/gpu/drm/i915/selftests/i915_gem_gtt.c |  4 +++-
+ 7 files changed, 53 insertions(+), 15 deletions(-)
