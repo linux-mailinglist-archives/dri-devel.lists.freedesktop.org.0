@@ -2,67 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF0D76E96EA
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Apr 2023 16:21:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8203E6E9713
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Apr 2023 16:29:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3A6C810EC5B;
-	Thu, 20 Apr 2023 14:21:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D686910EC67;
+	Thu, 20 Apr 2023 14:29:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com
- [209.85.208.178])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9EB7E10EC5B
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Apr 2023 14:21:52 +0000 (UTC)
-Received: by mail-lj1-f178.google.com with SMTP id c3so2977169ljf.7
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Apr 2023 07:21:52 -0700 (PDT)
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 44EC910EC67
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Apr 2023 14:29:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1682000970;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=6BdrM5PAXOTQN54lsRvoJTmZEachvXpdp/asoBdEKLk=;
+ b=aT8EZ86DUPAHN92fEAy6StOJsD1rcXTLvQr91jFB+EAptiLU6l5S08U0ftPfADA2emX4q3
+ ovi9BtjmlLtpwc9ldxM6IxzFWc1sadE7bVJX3CvyzhOWyXRqbFzEmNwGpowV/9Crpqj7+a
+ FodbhqWR2JlhuzYJ+zAp2R/JYbvkLrw=
+Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
+ [209.85.219.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-592-FEDNh06PON6VcvWuA_Wlcg-1; Thu, 20 Apr 2023 10:29:29 -0400
+X-MC-Unique: FEDNh06PON6VcvWuA_Wlcg-1
+Received: by mail-qv1-f70.google.com with SMTP id
+ 6a1803df08f44-5ef4bfeacc4so10681656d6.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Apr 2023 07:29:29 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682000509; x=1684592509;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=v+ntSNli+3961rRN83tx2G/slCSVpZgHaGQlcoQLCYo=;
- b=Uqv07ao+xZr6LdHd5l6C8NQb11Uc23AO1zPWtFdTw2tTS7WBn8HTVk5tZykSvAl5xk
- g/9web9O4pVjtmsUvRgYYNczCN0n+QhDV8gxMCXOBfik3SgsrUf7of0GM4hhD8imqmPi
- 9uhBdqO5+vwMRgV9D82vUisq+n2ZFJauzK9T8BcqcZ9QqkvEt/ZDIreiG0Umc0tRZHT3
- Yg+9eAz0lWBGnrYnHchqib4g8HIw/IsbZmNRNNU0TtgF1sCnF4kSZZPGA+gVp+hF4Qwr
- DMg1dnefJrZ73or9mMNvmfq/MkUrzrIzN3/aAZ5OMpNt4ks3ZQsCLKjTsFtuem0+oT5c
- UbHg==
-X-Gm-Message-State: AAQBX9eXuLJaKS5jmWKheYfiORlVldGRz5nBbaXx2Uv6cS++pgBaH/FQ
- huVS/8MUYNdORhm5rT7eKjxmoaezvz9s4TR+
-X-Google-Smtp-Source: AKy350bZvN85UZMkcCuDwB0+4iKMsGkdLbBRalRULot8K2NsA4tKV0vWIomwY0rHEDPQhUzsoGX79w==
-X-Received: by 2002:a2e:3e0c:0:b0:2a8:c3c7:b551 with SMTP id
- l12-20020a2e3e0c000000b002a8c3c7b551mr564321lja.17.1682000509504; 
- Thu, 20 Apr 2023 07:21:49 -0700 (PDT)
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com.
- [209.85.167.49]) by smtp.gmail.com with ESMTPSA id
- e7-20020a2e9e07000000b00295b842c2dbsm255607ljk.133.2023.04.20.07.21.47
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 20 Apr 2023 07:21:48 -0700 (PDT)
-Received: by mail-lf1-f49.google.com with SMTP id
- 2adb3069b0e04-4eed6ddcae1so2800580e87.0
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Apr 2023 07:21:47 -0700 (PDT)
-X-Received: by 2002:ac2:5339:0:b0:4ed:d542:6f65 with SMTP id
- f25-20020ac25339000000b004edd5426f65mr515553lfh.5.1682000507607; Thu, 20 Apr
- 2023 07:21:47 -0700 (PDT)
+ d=1e100.net; s=20221208; t=1682000969; x=1684592969;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=6BdrM5PAXOTQN54lsRvoJTmZEachvXpdp/asoBdEKLk=;
+ b=L8mFlRCA4R3fqP07H6vrYaYfYp22z/JWajSV5cxrr7LXp0sAoJC8KPNaqTOQ/3Akdt
+ 6zK2FWhju9WKWqmoK7zv5G8yHnE1K2YfPfpHpNJcf+FQ7qBBHjEchS4oZXiaEUXvsedU
+ UouYs4dAqSzNgOno5e3naK+NFUYLD2zQI1aEZkgRylhpZteUJprBYGn1QNkul7Wez/he
+ 4wW0CPbyBPsFxHDsZXy/kwP60PKoH8KomElR+7tQiHAYsHHsulZxdqxAJN5GYxvgIW2f
+ NRb2Q/efX5JQY104cejGiBqnO3bku8BauUu7peZ7gEEX/HAdciB0W4UOh+dbb31Fkk4o
+ JVuQ==
+X-Gm-Message-State: AAQBX9epVf/G0a0TdS9bDNrOvnxgZoRN7yWGXu0PrzG/oKdynP5ymAZ+
+ Fyq3mwj5WFu38wPEOF5CL9krD+dnXuGV7vgNj52jhvQVw72pgo0TI8cmE+gZtoptlfy6GotOWH0
+ wrzOxygp8JwHtzhwD+RBTou/SQWVr
+X-Received: by 2002:a05:6214:301e:b0:56e:b557:2d4e with SMTP id
+ ke30-20020a056214301e00b0056eb5572d4emr2242316qvb.6.1682000968832; 
+ Thu, 20 Apr 2023 07:29:28 -0700 (PDT)
+X-Google-Smtp-Source: AKy350bh4jP9BRcxAXAQBGpztEZgR2c1DlH5MA0cabHVDBgEfStN28QcPkDWcM8pWXDcVwsX39FA5w==
+X-Received: by 2002:a05:6214:301e:b0:56e:b557:2d4e with SMTP id
+ ke30-20020a056214301e00b0056eb5572d4emr2242276qvb.6.1682000968521; 
+ Thu, 20 Apr 2023 07:29:28 -0700 (PDT)
+Received: from dell-per740-01.7a2m.lab.eng.bos.redhat.com
+ (nat-pool-bos-t.redhat.com. [66.187.233.206])
+ by smtp.gmail.com with ESMTPSA id
+ b27-20020a0cb3db000000b005e750d07153sm420904qvf.135.2023.04.20.07.29.27
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 20 Apr 2023 07:29:28 -0700 (PDT)
+From: Tom Rix <trix@redhat.com>
+To: alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
+ airlied@gmail.com, daniel@ffwll.ch, Hawking.Zhang@amd.com, le.ma@amd.com,
+ Jack.Xiao@amd.com, YiPeng.Chai@amd.com, Lang.Yu@amd.com, Likun.Gao@amd.com,
+ Arunpravin.PaneerSelvam@amd.com, andrealmeid@igalia.com
+Subject: [PATCH] drm/amdgpu: remove unused variable j
+Date: Thu, 20 Apr 2023 10:29:25 -0400
+Message-Id: <20230420142925.3890505-1-trix@redhat.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-References: <20230420030500.1578756-1-suijingfeng@loongson.cn>
- <8ec3734b-4bc2-ad8f-fc17-3002f22d1fc9@suse.de>
- <12c8efaa-7266-5436-dc53-009a0d23b53f@suse.de>
- <4a0fdbe0-cd4f-9c87-f73a-6d27f5c497bb@189.cn>
- <f541018f-bb7f-ac58-bbb8-797069e49c3f@suse.de>
- <CAMuHMdVGtvgcQuTR9bfMh1cM86TYXSByxJzW5eJtF9A0ZLRF3w@mail.gmail.com>
- <3d455074-bd51-51a0-7692-a0b4ca961355@suse.de>
-In-Reply-To: <3d455074-bd51-51a0-7692-a0b4ca961355@suse.de>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 20 Apr 2023 16:21:33 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdXHMeiaew7wbj-aNL0oZ=X3gfoSBkMYAbbdyfe6bVZcfQ@mail.gmail.com>
-Message-ID: <CAMuHMdXHMeiaew7wbj-aNL0oZ=X3gfoSBkMYAbbdyfe6bVZcfQ@mail.gmail.com>
-Subject: Re: [PATCH v5] drm/fbdev-generic: prohibit potential out-of-bounds
- access
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,66 +84,101 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Li Yi <liyi@loongson.cn>,
- Helge Deller <deller@gmx.de>, Lucas De Marchi <lucas.demarchi@intel.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Sui Jingfeng <15330273260@189.cn>, loongson-kernel@lists.loongnix.cn
+Cc: Tom Rix <trix@redhat.com>, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Thomas,
+gcc with W=1 reports
+drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c: In function
+  ‘amdgpu_gfx_mqd_sw_fini’:
+drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:451:16: error: variable
+  ‘j’ set but not used [-Werror=unused-but-set-variable]
+  451 |         int i, j;
+      |                ^
+drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c: In function
+  ‘amdgpu_gfx_disable_kcq’:
+drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:486:13: error: variable
+  ‘j’ set but not used [-Werror=unused-but-set-variable]
+  486 |         int j;
+      |             ^
+drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c: In function
+  ‘amdgpu_gfx_enable_kcq’:
+drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:529:19: error: variable
+  ‘j’ set but not used [-Werror=unused-but-set-variable]
+  529 |         int r, i, j;
+      |                   ^
 
-On Thu, Apr 20, 2023 at 2:59=E2=80=AFPM Thomas Zimmermann <tzimmermann@suse=
-.de> wrote:
-> Am 20.04.23 um 14:25 schrieb Geert Uytterhoeven:
-> > On Thu, Apr 20, 2023 at 1:10=E2=80=AFPM Thomas Zimmermann <tzimmermann@=
-suse.de> wrote:
-> >> Am 20.04.23 um 12:04 schrieb Sui Jingfeng:
-> >>> What will happen if the 'screen_size' is not page_size aligned and mm=
-ap
-> >>> will mapping in the granularity of pages ?
-> >>
-> >> You need to map at page granularity. If screen_size is not page-size
-> >> aligned, there's this trailing buffer that is accessible, but cannot b=
-e
-> >> displayed. But userspace has no direct way of knowing that, so let's
-> >> ignore that problem for now.
-> >
-> > Userspace can know, if fb_fix_screeninfo.smem_{start,len} match
-> > the actual offset and size.
->
-> Can you elaborate? How can userspace detect/compute the actually usable
-> space?
+These variables are not used, so remove them.
 
-By looking at fb_fix_screeninfo.smem_{start,len}, which are the (physical)
-address and length of the frame buffer.
+Signed-off-by: Tom Rix <trix@redhat.com>
+---
+ drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c | 14 ++++----------
+ 1 file changed, 4 insertions(+), 10 deletions(-)
 
->  From grep'ing fbdev drivers, smem_len appears to be a multiple of the
-> pagesize. (?) screen_size is not exported and line_length in the fixed
->
-> portion. Or can line_length change between modes? In that case it should
-> be (yres_virtual * line_length), right?
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c
+index 7f5c60381103..ac6fd8620279 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c
+@@ -448,7 +448,7 @@ int amdgpu_gfx_mqd_sw_init(struct amdgpu_device *adev,
+ void amdgpu_gfx_mqd_sw_fini(struct amdgpu_device *adev, int xcc_id)
+ {
+ 	struct amdgpu_ring *ring = NULL;
+-	int i, j;
++	int i;
+ 	struct amdgpu_kiq *kiq = &adev->gfx.kiq[xcc_id];
+ 
+ 	if (adev->asic_type >= CHIP_NAVI10 && amdgpu_async_gfx_ring) {
+@@ -462,7 +462,6 @@ void amdgpu_gfx_mqd_sw_fini(struct amdgpu_device *adev, int xcc_id)
+ 	}
+ 
+ 	for (i = 0; i < adev->gfx.num_compute_rings; i++) {
+-		j = i + xcc_id * adev->gfx.num_compute_rings;
+ 		ring = &adev->gfx.compute_ring[i];
+ 		kfree(adev->gfx.mec.mqd_backup[i]);
+ 		amdgpu_bo_free_kernel(&ring->mqd_obj,
+@@ -483,7 +482,6 @@ int amdgpu_gfx_disable_kcq(struct amdgpu_device *adev, int xcc_id)
+ 	struct amdgpu_kiq *kiq = &adev->gfx.kiq[xcc_id];
+ 	struct amdgpu_ring *kiq_ring = &kiq->ring;
+ 	int i, r = 0;
+-	int j;
+ 
+ 	if (!kiq->pmf || !kiq->pmf->kiq_unmap_queues)
+ 		return -EINVAL;
+@@ -495,11 +493,9 @@ int amdgpu_gfx_disable_kcq(struct amdgpu_device *adev, int xcc_id)
+ 		return -ENOMEM;
+ 	}
+ 
+-	for (i = 0; i < adev->gfx.num_compute_rings; i++) {
+-		j = i + xcc_id * adev->gfx.num_compute_rings;
++	for (i = 0; i < adev->gfx.num_compute_rings; i++)
+ 		kiq->pmf->kiq_unmap_queues(kiq_ring, &adev->gfx.compute_ring[i],
+ 					   RESET_QUEUES, 0, 0);
+-	}
+ 
+ 	if (adev->gfx.kiq[0].ring.sched.ready && !adev->job_hang)
+ 		r = amdgpu_ring_test_helper(kiq_ring);
+@@ -526,7 +522,7 @@ int amdgpu_gfx_enable_kcq(struct amdgpu_device *adev, int xcc_id)
+ 	struct amdgpu_kiq *kiq = &adev->gfx.kiq[xcc_id];
+ 	struct amdgpu_ring *kiq_ring = &kiq->ring;
+ 	uint64_t queue_mask = 0;
+-	int r, i, j;
++	int r, i;
+ 
+ 	if (!kiq->pmf || !kiq->pmf->kiq_map_queues || !kiq->pmf->kiq_set_resources)
+ 		return -EINVAL;
+@@ -562,10 +558,8 @@ int amdgpu_gfx_enable_kcq(struct amdgpu_device *adev, int xcc_id)
+ 		queue_mask = ~0ULL;
+ 
+ 	kiq->pmf->kiq_set_resources(kiq_ring, queue_mask);
+-	for (i = 0; i < adev->gfx.num_compute_rings; i++) {
+-		j = i + xcc_id * adev->gfx.num_compute_rings;
++	for (i = 0; i < adev->gfx.num_compute_rings; i++)
+ 		kiq->pmf->kiq_map_queues(kiq_ring, &adev->gfx.compute_ring[i]);
+-	}
+ 
+ 	r = amdgpu_ring_test_helper(kiq_ring);
+ 	spin_unlock(&kiq->ring_lock);
+-- 
+2.27.0
 
-smem_{start,len} are not guaranteed to be page-aligned.
-Fbtest[1] and Xorg should handle that fine.
-
-line_length can change between modes.  It's part of fb_fix_screeninfo,
-because it's fixed in the sense that it depends on the video mode, and
-the user cannot specify its value.
-
-[1] https://git.kernel.org/pub/scm/linux/kernel/git/geert/fbtest.git/tree/f=
-b.c#n199
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
