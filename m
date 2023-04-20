@@ -2,44 +2,91 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5860B6E9610
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Apr 2023 15:43:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D379B6E9615
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Apr 2023 15:43:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2969D10E0C3;
-	Thu, 20 Apr 2023 13:43:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ED2D710EC52;
+	Thu, 20 Apr 2023 13:43:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 92AB210EC54
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Apr 2023 13:43:03 +0000 (UTC)
-Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77]
- helo=[IPv6:::1]) by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <l.stach@pengutronix.de>)
- id 1ppUYu-0001Bj-Uu; Thu, 20 Apr 2023 15:43:01 +0200
-Message-ID: <19d2c40180d0b9176e17aa6e91c1e7f36f77f626.camel@pengutronix.de>
-Subject: Re: [PATCH 1/6] drm: bridge: samsung-dsim: Support multi-lane
- calculations
-From: Lucas Stach <l.stach@pengutronix.de>
-To: Adam Ford <aford173@gmail.com>
-Date: Thu, 20 Apr 2023 15:42:57 +0200
-In-Reply-To: <CAHCN7x+bZHZHxYk=qC3QFS07kLO85w_rj1tOuX1Y3fJXekmvMQ@mail.gmail.com>
-References: <20230415104104.5537-1-aford173@gmail.com>
- <3e47f0d1017fe4c9f71a5de65f32c6ba1662efe2.camel@pengutronix.de>
- <CAHCN7xL4+9NogrnXA1PEWorwY7JpSGBozDtHT83JvzjfinmS+A@mail.gmail.com>
- <CAHCN7xK8K+DsNAFTVAezwJQzZ7RCDb2CjCBZ8dNb=S8d1BmtMA@mail.gmail.com>
- <f42a2a11c1a2df4d773b61a449e8f4d5a9a010d1.camel@pengutronix.de>
- <CAHCN7x+bZHZHxYk=qC3QFS07kLO85w_rj1tOuX1Y3fJXekmvMQ@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.4 (3.46.4-1.fc37) 
+Received: from NAM02-SN1-obe.outbound.protection.outlook.com
+ (mail-sn1nam02on2061b.outbound.protection.outlook.com
+ [IPv6:2a01:111:f400:7ea9::61b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7522E10EC52;
+ Thu, 20 Apr 2023 13:43:17 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Sn++s+aNv51tdBYHQM9ZpIg5xvVvbaNyN5XFK6Qe6WjA1RNdiKA8m8vKb+cZ4F1ER76FMco1sHVgD4CljBGA76zZxU/iB2Rktw3Fo4xoKNbEj9sJ4i+EDtmrvGvzVNwRTHAl1v7LcCaSpMKFKyvC3cedK7ome7WEHd2K1wN/QWjFp3m9+AHkL4fzHn1Pe3IISdjtNY83A8bXRbY6jF0n+uCUCQU3bQC0CtShHOTyPh/ZWct9k8tvvsf+eao7u58R4TSYJ0djgA/EHZvWiZWEHmN+ym5hdcLVPf7qOkpbKgqO8ZEJKRs8Gxwv1HuRe/NZuzmDQaEliwSFioZB4rNLmQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=6FqJeypf4C1RWIrqYpWO+/PkdBV9QwjnGTIQ6dN2J+E=;
+ b=aLJ469m4u02QuqflS5Y0H58zGL/hbzI9Eun9r5bq9qsw92SDUq4FO/UDLBBg4YO3Vd//w3EVh/IWH/AD5rcO18AC9YMq3e8RAkFGNL6XldkPJwbVXb6aduwyGOyAu6Ao8LmEY2lMRIE52AC8ZYyAanECYZ6AmEhoxZZiakzW0xVzjAjATQazhJC9HrVY2kmy8RrgBuqyWvRKITIaDT4YyryQ34tgZykkMRWcgAszsc5/+Uvm2mEGw6BBh8LYMdIKd87gEhP9Y6dqzMkzL9cvj4haLfHEHjZaT0gZU4M3PGZn1ndBp3/QgDlEoYgWXlueF4RvylecPMoL8YW1PiazQw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=6FqJeypf4C1RWIrqYpWO+/PkdBV9QwjnGTIQ6dN2J+E=;
+ b=4aDJWMbf1lO5NHQa1VaJXKO1VGmLaQpxu4e+ffDKIhibDzNL1AYdpGyhlQXe638ViysFsvSXjKUkTr8kz3ABillsn922LqAKbZvNLYEVBA1y3Fh+nLzfQTg+Bjz04EBlBXr97FTW3Nb1ZwW8jOGVRBVzhPuGeEpKQRfFZKPjL1w=
+Received: from MW4P221CA0016.NAMP221.PROD.OUTLOOK.COM (2603:10b6:303:8b::21)
+ by MN6PR12MB8470.namprd12.prod.outlook.com (2603:10b6:208:46d::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6319.22; Thu, 20 Apr
+ 2023 13:43:13 +0000
+Received: from CO1NAM11FT108.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:303:8b:cafe::e4) by MW4P221CA0016.outlook.office365.com
+ (2603:10b6:303:8b::21) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6319.25 via Frontend
+ Transport; Thu, 20 Apr 2023 13:43:13 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ CO1NAM11FT108.mail.protection.outlook.com (10.13.175.226) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.6319.24 via Frontend Transport; Thu, 20 Apr 2023 13:43:12 +0000
+Received: from hamza-pc.localhost (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Thu, 20 Apr
+ 2023 08:43:10 -0500
+From: Hamza Mahfooz <hamza.mahfooz@amd.com>
+To: <amd-gfx@lists.freedesktop.org>
+Subject: [PATCH v3] drm/amd/display: fix flickering caused by S/G mode
+Date: Thu, 20 Apr 2023 09:44:13 -0400
+Message-ID: <20230420134414.44538-1-hamza.mahfooz@amd.com>
+X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
-X-SA-Exim-Mail-From: l.stach@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CO1NAM11FT108:EE_|MN6PR12MB8470:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9a53f3d8-33d8-401d-4354-08db41a52fd4
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: QXRhuegdxGptzatHx09abORt1qtjL4jIWhIePKY62XpWHVtPFPEHPgcGkJVopK45m4AXMgvOX372D9Y38Kb8kf+ROvHeCICRgZKI3cUJTOIj1jtIxJi7w4aOnyO3GzY0XqotdhdgRDv67S5xfYF7jtzrk6H+2Fhs4LqxI2+hbmqtOsUIxDiA/xoAsPJxENCdL84AgScCG95vGsZ8lTyE4esT+XRiYit0AFEIJZaY2oOqJ4hHEvxYg0R1jtKc/mKssXpaSdH3cy+jpfMjqUa28jCppopfA0OcfkZZsjA7lVxufNuboQOmaMpuGlFnOSLcBRTMQiOGXCc93zUQ0cSlab3BO+s7pdWKyPxLvQ3I94zK65aweAOrIWrSfCg0dPiWAEQIcPR62ofnD9SmPNmdZuMzmavzz5zEPka4KQ9Q7cD/ef5t85qQL1VDcfbLVKAaz93WB5OnzsAOF7zN6xr4HvoLl7OE68tC2i7fH9k3grxnSw1ywEOV/4IuCzwoDs/Z+k9g7L7lACLU//m/y8izzI0fgto4BegQ2wQsHf39r5YJq4LXqPbf98HFV7fx7OD1XJtUP+TNNCKGOCgBXTwNvZlYyJYT4pIqY32Vj/BTfr7qBDHtNj8PVZMuOlHA7srCnZPzMDU4XnQ+O8ZyQNKxhiIjJMx0rR+Ko4+gMfk98iy6Gr8ngpn1GauxE1JGfIUscX62tmsvvyIrzwDcKHUoAg==
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230028)(4636009)(39860400002)(396003)(346002)(136003)(376002)(451199021)(40470700004)(36840700001)(46966006)(8676002)(41300700001)(8936002)(47076005)(40480700001)(2906002)(966005)(44832011)(5660300002)(83380400001)(40460700003)(356005)(54906003)(86362001)(36756003)(478600001)(82310400005)(2616005)(1076003)(26005)(81166007)(336012)(426003)(16526019)(186003)(82740400003)(316002)(4326008)(6916009)(36860700001)(70586007)(70206006)(36900700001)(16060500005);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Apr 2023 13:43:12.9344 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9a53f3d8-33d8-401d-4354-08db41a52fd4
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT108.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN6PR12MB8470
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,144 +99,82 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>, aford@beaconembedded.com,
- dri-devel@lists.freedesktop.org,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- m.szyprowski@samsung.com, marex@denx.de, Robert Foss <rfoss@kernel.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Jagan Teki <jagan@amarulasolutions.com>, NXP Linux Team <linux-imx@nxp.com>,
- devicetree@vger.kernel.org, Pengutronix Kernel Team <kernel@pengutronix.de>,
- Jonas Karlman <jonas@kwiboo.se>, Sascha Hauer <s.hauer@pengutronix.de>,
- Rob Herring <robh+dt@kernel.org>, linux-arm-kernel@lists.infradead.org,
- Neil Armstrong <neil.armstrong@linaro.org>, linux-kernel@vger.kernel.org,
- Shawn Guo <shawnguo@kernel.org>
+Cc: Stylon Wang <stylon.wang@amd.com>, Luben Tuikov <luben.tuikov@amd.com>,
+ dri-devel@lists.freedesktop.org, Leo Li <sunpeng.li@amd.com>,
+ Qingqing Zhuo <qingqing.zhuo@amd.com>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, linux-kernel@vger.kernel.org,
+ stable@vger.kernel.org, Hans
+ de Goede <hdegoede@redhat.com>, Aurabindo Pillai <aurabindo.pillai@amd.com>,
+ hersen wu <hersenxs.wu@amd.com>, Hamza Mahfooz <hamza.mahfooz@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am Donnerstag, dem 20.04.2023 um 08:24 -0500 schrieb Adam Ford:
-> On Thu, Apr 20, 2023 at 8:06=E2=80=AFAM Lucas Stach <l.stach@pengutronix.=
-de> wrote:
-> >=20
-> > Hi Adam,
-> >=20
-> > Am Mittwoch, dem 19.04.2023 um 05:47 -0500 schrieb Adam Ford:
-> > > On Mon, Apr 17, 2023 at 6:55=E2=80=AFAM Adam Ford <aford173@gmail.com=
-> wrote:
-> > > >=20
-> > > > On Mon, Apr 17, 2023 at 3:43=E2=80=AFAM Lucas Stach <l.stach@pengut=
-ronix.de> wrote:
-> > > > >=20
-> > > > > Hi Adam,
-> > > > >=20
-> > > > > Am Samstag, dem 15.04.2023 um 05:40 -0500 schrieb Adam Ford:
-> > > > > > If there is more than one lane, the HFP, HBP, and HSA is calcul=
-ated in
-> > > > > > bytes/pixel, then they are divided amongst the different lanes =
-with some
-> > > > > > additional overhead. This is necessary to achieve higher resolu=
-tions while
-> > > > > > keeping the pixel clocks lower as the number of lanes increase.
-> > > > > >=20
-> > > > >=20
-> > > > > In the testing I did to come up with my patch "drm: bridge: samsu=
-ng-
-> > > > > dsim: fix blanking packet size calculation" the number of lanes d=
-idn't
-> > > > > make any difference. My testing might be flawed, as I could only
-> > > > > measure the blanking after translation from MIPI DSI to DPI, so I=
-'m
-> > > > > interested to know what others did here. How did you validate the
-> > > > > blanking with your patch? Would you have a chance to test my patc=
-h and
-> > > > > see if it works or breaks in your setup?
-> > >=20
-> > > Lucas,
-> > >=20
-> > > I tried your patch instead of mine.  Yours is dependent on the
-> > > hs_clock being always set to the burst clock which is configured by
-> > > the device tree.  I unrolled a bit of my stuff and replaced it with
-> > > yours.  It worked at 1080p, but when I tried a few other resolutions,
-> > > they did not work.  I assume it's because the DSI clock is fixed and
-> > > not changing based on the pixel clock.  In the version I did, I only
-> > > did that math when the lanes were > 1. In your patch, you divide by 8=
-,
-> > > and in mine, I fetch the bits-per-pixel (which is 8) and I divide by
-> > > that just in case the bpp ever changes from 8.  Overall,  I think our
-> > > patches basically do the same thing.
-> >=20
-> > The calculations in your and my patch are quite different. I'm not
-> > taking into account the number of lanes or the MIPI format. I'm basing
->=20
-> I was looking more at the division by 8 and the overhead correction of 6.
-> This number 6 also appears in the NXP downstream kernel [1].  I know
-> Marek V had some concerns about that.
->=20
-Yea, I don't fully remember the details about the overhead. Need to
-page that back in. The division by 8 in my patch is just to get from
-the bit to a byte clock, nothing to do with the MIPI format bits per
-channel or something like that.
+Currently, on a handful of ASICs. We allow the framebuffer for a given
+plane to exist in either VRAM or GTT. However, if the plane's new
+framebuffer is in a different memory domain than it's previous
+framebuffer, flipping between them can cause the screen to flicker. So,
+to fix this, don't perform an immediate flip in the aforementioned case.
 
-> > the blanking size purely on the ratio between MIPI DSI byte clock and
-> > the DPI interface clock. It's quite counter-intuitive that the host
-> > would scale the blanking to the number of lanes automatically, but
-> > still require the MIPI packet offset removed, but that's what my
-> > measurements showed to produce the correct blanking after translation
-> > to DPI by the TC358767 bridge chip.
->=20
-> How many lanes is your DSI interface using?
->=20
-When I did the measurements to come up with the patch, I varied the
-number of lanes between 1 and 4. Different number of lanes didn't make
-a difference. In fact trying to compensate for the number of lanes when
-calculating the blanking size to program into the controller lead to
-wildly wrong blanking on the DPI side of the external bridge.
+Cc: stable@vger.kernel.org
+Link: https://gitlab.freedesktop.org/drm/amd/-/issues/2354
+Fixes: 81d0bcf99009 ("drm/amdgpu: make display pinning more flexible (v2)")
+Signed-off-by: Hamza Mahfooz <hamza.mahfooz@amd.com>
+---
+v2: make a number of clarifications to the commit message and drop
+    locking.
+v3: use a stronger check
+---
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c    | 16 ++++++++++++++--
+ 1 file changed, 14 insertions(+), 2 deletions(-)
 
-> >=20
-> > If you dynamically scale the HS clock, then you would need to input the
-> > real used HS clock to the calculation in my patch, instead of the fixed
-> > burst mode rate.
->=20
-> I think what you're saying makes sense.
->=20
-> The code I originally modeled this from was from the NXP downstream
-> kernel where they define the calculation as being in words [2]. I am
-> not saying the NXP code is perfect, but the NXP code works.  With this
-> series, my monitors are able to sync a bunch of different resolutions
-> from 1080p down to 640x480 and a bunch in between with various refresh
-> rates too. That was the goal of this series.
->=20
-> Instead of just using your patch as-is, I will adapt yours to use the
-> scaled clock to see how it behaves and get back to you.
->=20
-
-Thanks, that would be very much appreciated.
-
-I also don't assert that my calculation is perfect, as I also don't
-have any more information and needed to resort to observing the
-blanking after translation by the external bridge, so I hope we could
-get some better understanding of how things really work by checking
-what works for both our systems.
-
->   I have
-> finished reworking the dynamic DPHY settings, and I've fixed up making
-> the PLL device tree optional. If your patch works, I'll drop my
-> calculation and just build off what you have to use the scaled HS
-> clock when I submit the V2 and I'll make sure I CC you.
->=20
-Thanks, I'm open to re-do my measurements with your new patches.
-
-Regards,
-Lucas
-
-> adam
->=20
-> [1] - https://github.com/nxp-imx/linux-imx/blob/lf-6.1.y/drivers/gpu/drm/=
-bridge/sec-dsim.c#L270
-> [2] - https://github.com/nxp-imx/linux-imx/blob/lf-6.1.y/drivers/gpu/drm/=
-bridge/sec-dsim.c#L914
->=20
-> >=20
-> > Regards,
-> > Lucas
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+index dfcb9815b5a8..875111340203 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+@@ -7900,6 +7900,13 @@ static void amdgpu_dm_commit_cursors(struct drm_atomic_state *state)
+ 			amdgpu_dm_plane_handle_cursor_update(plane, old_plane_state);
+ }
+ 
++static inline uint32_t get_mem_type(struct drm_framebuffer *fb)
++{
++	struct amdgpu_bo *abo = gem_to_amdgpu_bo(fb->obj[0]);
++
++	return abo->tbo.resource ? abo->tbo.resource->mem_type : 0;
++}
++
+ static void amdgpu_dm_commit_planes(struct drm_atomic_state *state,
+ 				    struct dc_state *dc_state,
+ 				    struct drm_device *dev,
+@@ -7919,6 +7926,7 @@ static void amdgpu_dm_commit_planes(struct drm_atomic_state *state,
+ 			to_dm_crtc_state(drm_atomic_get_old_crtc_state(state, pcrtc));
+ 	int planes_count = 0, vpos, hpos;
+ 	unsigned long flags;
++	uint32_t mem_type;
+ 	u32 target_vblank, last_flip_vblank;
+ 	bool vrr_active = amdgpu_dm_crtc_vrr_active(acrtc_state);
+ 	bool cursor_update = false;
+@@ -8040,13 +8048,17 @@ static void amdgpu_dm_commit_planes(struct drm_atomic_state *state,
+ 			}
+ 		}
+ 
++		mem_type = get_mem_type(old_plane_state->fb);
++
+ 		/*
+ 		 * Only allow immediate flips for fast updates that don't
+-		 * change FB pitch, DCC state, rotation or mirroing.
++		 * change memory domain, FB pitch, DCC state, rotation or
++		 * mirroring.
+ 		 */
+ 		bundle->flip_addrs[planes_count].flip_immediate =
+ 			crtc->state->async_flip &&
+-			acrtc_state->update_type == UPDATE_TYPE_FAST;
++			acrtc_state->update_type == UPDATE_TYPE_FAST &&
++			mem_type && get_mem_type(fb) == mem_type;
+ 
+ 		timestamp_ns = ktime_get_ns();
+ 		bundle->flip_addrs[planes_count].flip_timestamp_in_us = div_u64(timestamp_ns, 1000);
+-- 
+2.40.0
 
