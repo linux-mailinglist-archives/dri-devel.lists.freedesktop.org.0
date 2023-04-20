@@ -1,67 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0368C6E9EC3
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Apr 2023 00:26:14 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 82D816E9EC4
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Apr 2023 00:26:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6929810ED05;
-	Thu, 20 Apr 2023 22:26:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7E3B910ED18;
+	Thu, 20 Apr 2023 22:26:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com
- [IPv6:2a00:1450:4864:20::12c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 379C610ED05
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Apr 2023 22:26:02 +0000 (UTC)
-Received: by mail-lf1-x12c.google.com with SMTP id
- 2adb3069b0e04-4ec816d64afso4440375e87.1
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Apr 2023 15:26:02 -0700 (PDT)
+Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com
+ [IPv6:2a00:1450:4864:20::130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DC5C510ED07
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Apr 2023 22:26:08 +0000 (UTC)
+Received: by mail-lf1-x130.google.com with SMTP id
+ 2adb3069b0e04-4ec81773cf7so930382e87.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Apr 2023 15:26:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1682029560; x=1684621560;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=wmeEqXDJ0HCLnbeMBAf8mJfMQ+R0J7QCar9Y3vGXcnk=;
- b=XzKAbThSax/1PS/5f+XCUduDq+SZlj7j0nwjJVaClas4tdIlGGMCS6rKWxski7mPVh
- u0kYwIp4lxyEi0IbXigirSR6wOF+Rc0Ce0Owu5yCfHnSi7gOyzDQC/xz/V/PBd3WblAz
- VzYN4CfUKEW1MxQIq4jPZ17MnA9qPpLGHCMEZXusHXQDmWAXGNzDaNO9TVN0s95y0ZGU
- p1PPFLMzz0fliUdHjs1bzohs3ia9TGuMuswCsLO9pm/aP4J5zShntAN+cApF/5qo1Rdp
- 0uDSkLAu1hUF1oW7OnzAnF4PEU1uxc3Ng/7rI5eycDAQXtYWGHJnCznqbzbvlAowzzbP
- DfyQ==
+ d=linaro.org; s=google; t=1682029566; x=1684621566;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=PPqVKaovQ89J2wk31cIN2/tylDeQQmfgtIk12zM+ji0=;
+ b=yh9CupN8hdlmIj4rWnexyyi2vGJAfkwcZd4C1nPMFeTK1HDr7TuM6wzdGuO8YbK7Ez
+ X8awDaBGSNUaF0hxivkx+83EPJ84Q0D+ENVqNzKSZGJo7VlcJ8eeHCF5B6gXyU4qrNYj
+ d/vrfiJb8H+3s6pr4YrDVR7YBAeful2LgRVo0rAcDKdiguOK4GorI2jFLWj8WxCRtHEX
+ t4uBnK5/CJPHJJBord1iISTiy6Llk3EICBphkDeh6UpNm+yJ3U/vutbHTI2upS93Tu9D
+ OHCJq7e93WhoalK/zvXhtIqSMvxSOxvr/5qbKjc6zpXwY5e6GLTIvo+TN3HC62Raxyru
+ ErKw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682029560; x=1684621560;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=wmeEqXDJ0HCLnbeMBAf8mJfMQ+R0J7QCar9Y3vGXcnk=;
- b=RI4xMUAK9XtoyCWy7Gj87dboGE4VxlVyc8lU/qHUhvnrYjLG3Vwbd2uSYB5un/6sr7
- 4iEByP8eJqsUf9Z700sKR5wgVPvbPrlbnOOHQffM0tDsyQxOF2atfgqFr4CLb4GFXKxK
- GR8H/FyS+YAYG4ESIaRNhUZbi1r2WCDA4/IS14HG+4Nk+qAYXgcCOKzTrJJdNfcCTLa8
- vWf2Kuqx+tXNVn8RKpq+citxgM7/GtplA+0klY3vTUxcKNNH3nkISjhPmcK242UjBbJA
- WPMoMNXkqG0PDkELcQcsCycFTU5a+98ZxaFF0mtVaLxXA1oFRouQCzWol2GQmnm8Cs6c
- kE1Q==
-X-Gm-Message-State: AAQBX9f762GoODQW4GK0c0HZwLZ3v5lshgj03ma1/r5qAXCrlYjK9J86
- ieCp1ayBZCas97xRL4W7S9oNuQ==
-X-Google-Smtp-Source: AKy350YUpZeoldKMvU7Qw62wA/HsDl19x+J8g4WzW7LgRiLzP1Dm5vy0sXMWMqa4txjCnZ71BlwOHA==
-X-Received: by 2002:a05:6512:1319:b0:4dd:9eb6:5b4c with SMTP id
- x25-20020a056512131900b004dd9eb65b4cmr1951449lfu.0.1682029560095; 
- Thu, 20 Apr 2023 15:26:00 -0700 (PDT)
-Received: from eriador.lan (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi.
- [2001:14ba:a085:4d00::8a5]) by smtp.gmail.com with ESMTPSA id
- f21-20020ac251b5000000b004cb45148027sm347567lfk.203.2023.04.20.15.25.59
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 20 Apr 2023 15:25:59 -0700 (PDT)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>
-Subject: [PATCH v2 2/2] drm/msm/dpu: stop mapping the regdma region
-Date: Fri, 21 Apr 2023 01:25:58 +0300
-Message-Id: <20230420222558.1208887-2-dmitry.baryshkov@linaro.org>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230420222558.1208887-1-dmitry.baryshkov@linaro.org>
-References: <20230420222558.1208887-1-dmitry.baryshkov@linaro.org>
+ d=1e100.net; s=20221208; t=1682029566; x=1684621566;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=PPqVKaovQ89J2wk31cIN2/tylDeQQmfgtIk12zM+ji0=;
+ b=XEBRxoaBMLis5qqvbCvKrGu+0W0ChDvHVrQEjFF2q2kihe2dN81rd1BboI5s/R+gMD
+ 1ZmZ4zr9eRsUtR8TRCt/clUGhk4ta3qb2ssvW1hjY/PVXzqx60NsyvNyjbf8IPhF9Y+d
+ LZdqLuwEtsJDZfsHDtJX4v4wEz0YI42Jg8cNONhsAI7dLItlY/f8YHGkDmKaTVmu3TEm
+ b8/wduITsZWI5fyziLARC44eAU78MhPyEDHzsJ279Md1QRfDaKXH41ykNnHG2VueBt+r
+ wsL1jfmLBO8eOYdfkvrhabaMB5Y4tXDLElKYg6goI+9yngOuBX/N+C1yO9AWUYVC5hMY
+ k2VQ==
+X-Gm-Message-State: AAQBX9evbmJRUZCL2yw1dXguldVe2z+0fCvjnSHQbdXnFCa/YkCAnsaw
+ Kq29YRcFvClqyQ5jZDHZeYdP/Q==
+X-Google-Smtp-Source: AKy350Zc0bJvEx2tHcZqEKPIJk2YM7iGFVIGEmNkxpF8A6/h5GdDi8sbXlSJ6cn4qPSr0teO8pJlgA==
+X-Received: by 2002:ac2:5a1b:0:b0:4eb:b28:373e with SMTP id
+ q27-20020ac25a1b000000b004eb0b28373emr753527lfn.61.1682029565920; 
+ Thu, 20 Apr 2023 15:26:05 -0700 (PDT)
+Received: from ?IPV6:2001:14ba:a085:4d00::8a5?
+ (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a085:4d00::8a5])
+ by smtp.gmail.com with ESMTPSA id
+ v6-20020a056512048600b004ec866430absm350289lfq.141.2023.04.20.15.26.05
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 20 Apr 2023 15:26:05 -0700 (PDT)
+Message-ID: <80c076ca-2d95-c25e-6d46-6be25d79085f@linaro.org>
+Date: Fri, 21 Apr 2023 01:26:04 +0300
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH] drm/msm/dpu: drop the regdma configuration
+Content-Language: en-GB
+To: Marijn Suijten <marijn.suijten@somainline.org>
+References: <20230420200742.1200531-1-dmitry.baryshkov@linaro.org>
+ <75d7qx65ksvzgwb7xdkn26krqyih3ipi4hjyvw5mvgfsafvjnu@zauwifqiirk4>
+ <5p4ospar4woaefr76x5rv6f5mgj76mzkuqihjdrngmntulaiwi@pe5sa75avguz>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <5p4ospar4woaefr76x5rv6f5mgj76mzkuqihjdrngmntulaiwi@pe5sa75avguz>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,50 +79,70 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>
+Cc: freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>, linux-arm-msm@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Stop mapping the regdma region. The driver does not support regdma.
+On 21/04/2023 01:01, Marijn Suijten wrote:
+> Whoops, looks like I wrongly lost all the cc's when importing b4-am's
+> mbx file which is just a patch with a few but not all email headers.
+> Cc'ing everyone on this occasion with my review.
+> 
+> On 2023-04-20 23:33:07, Marijn Suijten wrote:
+>> On 2023-04-20 23:07:42, Dmitry Baryshkov wrote:
+>>> The regdma is currently not used by the current driver. We have no way
+>>
+>> Nit: 2x current
+>>
+>>> to practically verify that the regdma is described correctly. Drop it
+>>> now.
+>>>
+>>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+>>
+>> Do we need to keep the `regdma` range that is `ioremap`ed in
+>> `dpu_kms.c`?  Only msm8998-dpu allows it in the bindings anyway.
 
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c | 6 ------
- drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h | 2 +-
- 2 files changed, 1 insertion(+), 7 deletions(-)
+Sure, why not.
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-index 0e7a68714e9e..28d74d4d2c1d 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-@@ -1033,12 +1033,6 @@ static int dpu_kms_hw_init(struct msm_kms *kms)
- 		DPU_DEBUG("VBIF NRT is not defined");
- 	}
- 
--	dpu_kms->reg_dma = msm_ioremap_quiet(dpu_kms->pdev, "regdma");
--	if (IS_ERR(dpu_kms->reg_dma)) {
--		dpu_kms->reg_dma = NULL;
--		DPU_DEBUG("REG_DMA is not defined");
--	}
--
- 	dpu_kms_parse_data_bus_icc_path(dpu_kms);
- 
- 	rc = pm_runtime_resume_and_get(&dpu_kms->pdev->dev);
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
-index aca39a4689f4..15111e433f21 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
-@@ -71,7 +71,7 @@ struct dpu_kms {
- 	const struct dpu_mdss_cfg *catalog;
- 
- 	/* io/register spaces: */
--	void __iomem *mmio, *vbif[VBIF_MAX], *reg_dma;
-+	void __iomem *mmio, *vbif[VBIF_MAX];
- 
- 	struct regulator *vdd;
- 	struct regulator *mmagic;
+>>
+>>> ---
+>>>   .../msm/disp/dpu1/catalog/dpu_3_0_msm8998.h   |  2 -
+>>>   .../msm/disp/dpu1/catalog/dpu_4_0_sdm845.h    |  2 -
+>>>   .../msm/disp/dpu1/catalog/dpu_5_0_sm8150.h    |  2 -
+>>>   .../msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h   |  2 -
+>>>   .../msm/disp/dpu1/catalog/dpu_6_0_sm8250.h    |  2 -
+>>>   .../msm/disp/dpu1/catalog/dpu_6_2_sc7180.h    |  2 -
+>>>   .../msm/disp/dpu1/catalog/dpu_7_0_sm8350.h    |  2 -
+>>>   .../msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h  |  2 -
+>>>   .../msm/disp/dpu1/catalog/dpu_8_1_sm8450.h    |  2 -
+>>>   .../msm/disp/dpu1/catalog/dpu_9_0_sm8550.h    |  2 -
+>>>   .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c    | 40 -------------------
+>>>   .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h    | 18 ---------
+>>>   12 files changed, 78 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_3_0_msm8998.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_3_0_msm8998.h
+>>> index 2b3ae84057df..aa923fb2ebcb 100644
+>>> --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_3_0_msm8998.h
+>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_3_0_msm8998.h
+>>> @@ -195,8 +195,6 @@ const struct dpu_mdss_cfg dpu_msm8998_cfg = {
+>>>   	.intf = msm8998_intf,
+>>>   	.vbif_count = ARRAY_SIZE(msm8998_vbif),
+>>>   	.vbif = msm8998_vbif,
+>>> -	.reg_dma_count = 0,
+>>> -	.perf = &msm8998_perf_data,
+>>
+>> Don't think you intended to remove the perf data?  There's no dma_cfg
+>> member because the count is zero.
+
+Ack, thanks for the note.
+
+> 
+> - Marijn
+
 -- 
-2.39.2
+With best wishes
+Dmitry
 
