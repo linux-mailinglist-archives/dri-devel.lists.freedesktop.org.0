@@ -2,77 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61A916E9672
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Apr 2023 15:59:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A51F06E967D
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Apr 2023 16:00:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0367810E2D5;
-	Thu, 20 Apr 2023 13:59:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0F3A910E301;
+	Thu, 20 Apr 2023 14:00:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7E29610E0A7
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Apr 2023 13:59:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1681999148;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=m4/JuEsZscBS1QEjsB4TfQCsUwFo0JrhZtOzYqZKIzY=;
- b=J5o9eHlexCND6vN5qOvZO5XlHx2swq6kD1chVNAwKntMU/l8eDVhlEHov59RkR06Q0DN3x
- fuPFrgQ0sAHjmi+3qXRGdEHSqhKOTx0pPfu1/DJ0iOLqn84ly8cSN6Mrjd/TPJSkU0CGZD
- FEy/cpLDWul+rhn/+vkejpmoBcLtkpU=
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
- [209.85.222.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-355-ZLXppWhLOjqCRJY4cfILSA-1; Thu, 20 Apr 2023 09:59:05 -0400
-X-MC-Unique: ZLXppWhLOjqCRJY4cfILSA-1
-Received: by mail-qk1-f200.google.com with SMTP id
- af79cd13be357-74e0c32a75eso58131685a.2
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Apr 2023 06:59:05 -0700 (PDT)
+Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com
+ [IPv6:2a00:1450:4864:20::136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5C7A410E0A7
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Apr 2023 14:00:47 +0000 (UTC)
+Received: by mail-lf1-x136.google.com with SMTP id
+ 2adb3069b0e04-4eed6ddcae1so2733150e87.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Apr 2023 07:00:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1681999245; x=1684591245;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=Y1aD8yQeVZIHs8X5n3y1xoP0pKOQ0cX0sJ2U9iOb/YY=;
+ b=mweWLE8mGevQKG3eonSrFfNjPVMtr9CqnUhAh3XDI/JMVjCtoCCXMR0EXQuc2d6yC0
+ 6b/FNEZLChWS9F4pMA2tY1u2/Vei9NkXmmiwEI8xIx9WRrCe3X8WcSYEbl16jnL9KnH3
+ Edvsm/34C8W4HnXF5DSI6YVwUEdK+td/cXEahE3wMIuXGWKpOpLe7A04Fcn1QTfL3+R4
+ La66Q8ngkyADp03bu9pZxT0hT1eqIEjCXjZhDXh+712cURb5XNh+cjRm8kuXHu1IQLZX
+ KJsnic0kQla/JoIq7r+ur5ySBo+p1GSW6TmPX8cK/WJ+QBIi8u3M5NUY2CohHTd5Kr/I
+ YZJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681999145; x=1684591145;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=m4/JuEsZscBS1QEjsB4TfQCsUwFo0JrhZtOzYqZKIzY=;
- b=BvkZQGoueiIcwn3NPjFB05UB34gYsIvCqeYmbzJ3KcvR7gdfOcDFNISqQv7ZlDLkB3
- SF8CMxCEbLm/I7gEU4tsFeZSi9OuZifFY2wt87b+EzsF3wbw8k2iQRrB3VS9mUQ/A6fN
- idAeJ674MSvBtGmpJKAhHMR+f7lU2+M6kutv90lXVHr65QIVxS+YTBRzVIOaHXTaMhUh
- j4VqY+37XW+GR1+uVYw+Il6poP/wPwL/Wi1E14NsDrwtStDmxslauS2QkSivD50kMT1B
- CjMFzZUXCCANDPD1GwYKxYkFKhFvOILkEuMtnCWsWXfEBiiTn6UREuJQ1ilmQ48LyQP5
- I1yQ==
-X-Gm-Message-State: AAQBX9eN4Lsu8qkky85RkKxRVShkq7dY47emixNTlwDbP4V5B7fPW/iM
- XJUG9QJoMGFIBcswfe3PJpZKbPWkwyt7DT5mxgEwmxblNKQOjbmikzklJIAc5vQMezUhshZ3hb5
- EOfcqYIYUQC4AIRET1K0gQFVQNRpI
-X-Received: by 2002:a05:622a:18a9:b0:3e6:35ec:8a9f with SMTP id
- v41-20020a05622a18a900b003e635ec8a9fmr2276776qtc.59.1681999145137; 
- Thu, 20 Apr 2023 06:59:05 -0700 (PDT)
-X-Google-Smtp-Source: AKy350ZWmwkSKjotOboNJvMVMnZ/90aKxEW+jnR3KliISrG82OxoHSKFPujRz0mheXYNaiH8sWDnrA==
-X-Received: by 2002:a05:622a:18a9:b0:3e6:35ec:8a9f with SMTP id
- v41-20020a05622a18a900b003e635ec8a9fmr2276737qtc.59.1681999144890; 
- Thu, 20 Apr 2023 06:59:04 -0700 (PDT)
-Received: from dell-per740-01.7a2m.lab.eng.bos.redhat.com
- (nat-pool-bos-t.redhat.com. [66.187.233.206])
+ d=1e100.net; s=20221208; t=1681999245; x=1684591245;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=Y1aD8yQeVZIHs8X5n3y1xoP0pKOQ0cX0sJ2U9iOb/YY=;
+ b=i1swVt/CMrx9T8y3wIZ9LM4QLXHwnA75y8UyJDSh1+iRHo0n4hyoupd9ab/lh9V2iX
+ w6rn4uV49NwbPLe1hhCtSg0vbIhZQw3lEF7kZQPPRge8yF2daXyyVDZunFw3EHOobe3N
+ GbXqY5tJknYU2IxjI6XrTpKSP4Uf+/cVIr4jeds64oUdr5fTUtLzRL6toXkVOwuK+7Cv
+ FJ6XgFw39yfImxPYeuJ4uRAWhpvDNwm8A/Z4wOL7qPqNysR7P5wqznJBUY/OQTNI7ujI
+ Uk/qcvl7F4ZxxJ5vhcUpBMizrdA8SVYRPRBxXN+SO33g1BF/qil0lB1ANv/D4fIXBokw
+ xLvQ==
+X-Gm-Message-State: AAQBX9fJFe+h6YInMl6GQb7/ZAMMGaYhd4ywSrZQxf8Op4HUCdzI5tG5
+ DWej5YNOcnr0cTgzRPTd4FQEpw==
+X-Google-Smtp-Source: AKy350ZPmF4ZLO4m/OWGZMLwwoUErjLDsugYjBHHz9Q3fIzRhrn+TYbRCmTKwCu0qVUzhwRAo9J4dw==
+X-Received: by 2002:a05:6512:38c6:b0:4ed:d5ce:7dea with SMTP id
+ p6-20020a05651238c600b004edd5ce7deamr526856lft.27.1681999245245; 
+ Thu, 20 Apr 2023 07:00:45 -0700 (PDT)
+Received: from ?IPV6:2001:14ba:a085:4d00::8a5?
+ (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a085:4d00::8a5])
  by smtp.gmail.com with ESMTPSA id
- z42-20020a05620a262a00b00745f3200f54sm430905qko.112.2023.04.20.06.59.03
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 20 Apr 2023 06:59:04 -0700 (PDT)
-From: Tom Rix <trix@redhat.com>
-To: harry.wentland@amd.com, sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com,
- alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
- airlied@gmail.com, daniel@ffwll.ch, Alvin.Lee2@amd.com, Jun.Lei@amd.com,
- qingqing.zhuo@amd.com, Max.Tseng@amd.com, Josip.Pavic@amd.com,
- Eric.Yang2@amd.com, aurabindo.pillai@amd.com
-Subject: [PATCH] drm/amd/display: return status of dmub_srv_get_fw_boot_status
-Date: Thu, 20 Apr 2023 09:59:01 -0400
-Message-Id: <20230420135901.3889747-1-trix@redhat.com>
-X-Mailer: git-send-email 2.27.0
+ w8-20020ac24428000000b004db44babad7sm224318lfl.260.2023.04.20.07.00.44
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 20 Apr 2023 07:00:44 -0700 (PDT)
+Message-ID: <551496a1-caf6-cebf-65b3-64b41a31e28d@linaro.org>
+Date: Thu, 20 Apr 2023 17:00:44 +0300
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH v4 2/6] drm/msm: Switch to fdinfo helper
+Content-Language: en-GB
+To: Rob Clark <robdclark@gmail.com>, dri-devel@lists.freedesktop.org
+References: <20230412224311.23511-1-robdclark@gmail.com>
+ <20230412224311.23511-3-robdclark@gmail.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <20230412224311.23511-3-robdclark@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,58 +78,30 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tom Rix <trix@redhat.com>, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: Rob Clark <robdclark@chromium.org>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, linux-arm-msm@vger.kernel.org,
+ Emil Velikov <emil.l.velikov@gmail.com>,
+ Christopher Healy <healych@amazon.com>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ freedreno@lists.freedesktop.org,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ open list <linux-kernel@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-gcc with W=1 reports
-drivers/gpu/drm/amd/amdgpu/../display/dc/dc_dmub_srv.c:
-  In function ‘dc_dmub_srv_optimized_init_done’:
-drivers/gpu/drm/amd/amdgpu/../display/dc/dc_dmub_srv.c:184:26:
-  error: variable ‘dmub’ set but not used [-Werror=unused-but-set-variable]
-  184 |         struct dmub_srv *dmub;
-      |                          ^~~~
+On 13/04/2023 01:42, Rob Clark wrote:
+> From: Rob Clark <robdclark@chromium.org>
+> 
+> Signed-off-by: Rob Clark <robdclark@chromium.org>
+> ---
+>   drivers/gpu/drm/msm/msm_drv.c | 11 +++++------
+>   drivers/gpu/drm/msm/msm_gpu.c |  2 --
+>   2 files changed, 5 insertions(+), 8 deletions(-)
 
-The return status is never set.
-It looks like a call to dmub_srv_get_fw_boot_status is missing.
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-Fixes: 499e4b1c722e ("drm/amd/display: add mechanism to skip DCN init")
-Signed-off-by: Tom Rix <trix@redhat.com>
----
- drivers/gpu/drm/amd/display/dc/dc_dmub_srv.c | 13 +++++++++++--
- 1 file changed, 11 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/gpu/drm/amd/display/dc/dc_dmub_srv.c b/drivers/gpu/drm/amd/display/dc/dc_dmub_srv.c
-index d15ec32243e2..36d936ab4300 100644
---- a/drivers/gpu/drm/amd/display/dc/dc_dmub_srv.c
-+++ b/drivers/gpu/drm/amd/display/dc/dc_dmub_srv.c
-@@ -182,14 +182,23 @@ bool dc_dmub_srv_cmd_run_list(struct dc_dmub_srv *dc_dmub_srv, unsigned int coun
- bool dc_dmub_srv_optimized_init_done(struct dc_dmub_srv *dc_dmub_srv)
- {
- 	struct dmub_srv *dmub;
--	union dmub_fw_boot_status status;
-+	struct dc_context *dc_ctx;
-+	union dmub_fw_boot_status boot_status;
-+	enum dmub_status status;
- 
- 	if (!dc_dmub_srv || !dc_dmub_srv->dmub)
- 		return false;
- 
- 	dmub = dc_dmub_srv->dmub;
-+	dc_ctx = dc_dmub_srv->ctx;
-+
-+	status = dmub_srv_get_fw_boot_status(dmub, &boot_status);
-+	if (status != DMUB_STATUS_OK) {
-+		DC_ERROR("Error querying DMUB boot status: error=%d\n", status);
-+		return false;
-+	}
- 
--	return status.bits.optimized_init_done;
-+	return boot_status.bits.optimized_init_done;
- }
- 
- bool dc_dmub_srv_notify_stream_mask(struct dc_dmub_srv *dc_dmub_srv,
 -- 
-2.27.0
+With best wishes
+Dmitry
 
