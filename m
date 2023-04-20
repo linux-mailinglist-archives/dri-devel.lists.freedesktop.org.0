@@ -1,46 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7AF6D6E8E1B
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Apr 2023 11:32:04 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CAF96E8E44
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Apr 2023 11:37:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 89D6610E04C;
-	Thu, 20 Apr 2023 09:31:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 159A210E27F;
+	Thu, 20 Apr 2023 09:37:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from 189.cn (ptr.189.cn [183.61.185.103])
- by gabe.freedesktop.org (Postfix) with ESMTP id AD30A10E04C
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Apr 2023 09:31:56 +0000 (UTC)
-HMM_SOURCE_IP: 10.64.8.43:56974.1250087080
-HMM_ATTACHE_NUM: 0000
-HMM_SOURCE_TYPE: SMTP
-Received: from clientip-114.242.206.180 (unknown [10.64.8.43])
- by 189.cn (HERMES) with SMTP id 4E51C1002B4;
- Thu, 20 Apr 2023 17:31:51 +0800 (CST)
-Received: from  ([114.242.206.180])
- by gateway-151646-dep-7b48884fd-tj646 with ESMTP id
- db2361bde83742feb3b08477f980b596 for geert@linux-m68k.org; 
- Thu, 20 Apr 2023 17:31:54 CST
-X-Transaction-ID: db2361bde83742feb3b08477f980b596
-X-Real-From: 15330273260@189.cn
-X-Receive-IP: 114.242.206.180
-X-MEDUSA-Status: 0
-Message-ID: <3e80d3b3-6c9a-33e6-a768-645be1c68404@189.cn>
-Date: Thu, 20 Apr 2023 17:31:51 +0800
+Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com
+ [211.20.114.71])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9963D10E27F
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Apr 2023 09:37:14 +0000 (UTC)
+Received: from mail.aspeedtech.com ([192.168.0.24])
+ by twspam01.aspeedtech.com with ESMTP id 33K9Kcq1063608;
+ Thu, 20 Apr 2023 17:20:38 +0800 (GMT-8)
+ (envelope-from jammy_huang@aspeedtech.com)
+Received: from [192.168.2.115] (192.168.2.115) by TWMBX02.aspeed.com
+ (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Thu, 20 Apr
+ 2023 17:37:00 +0800
+Message-ID: <325512ba-b468-bca0-d3ef-a1c9cf464d62@aspeedtech.com>
+Date: Thu, 20 Apr 2023 17:37:01 +0800
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
  Thunderbird/102.10.0
-Subject: Re: [PATCH v5] drm/fbdev-generic: prohibit potential out-of-bounds
- access
+Subject: Re: [PATCH v2] drm/ast: Fix ARM compatibility
 Content-Language: en-US
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-References: <20230420030500.1578756-1-suijingfeng@loongson.cn>
- <CAMuHMdUZoBZEM73fo8-PitSae8wgv-m6sez3nA8J3RFMAtOyOQ@mail.gmail.com>
-From: Sui Jingfeng <15330273260@189.cn>
-In-Reply-To: <CAMuHMdUZoBZEM73fo8-PitSae8wgv-m6sez3nA8J3RFMAtOyOQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To: Thomas Zimmermann <tzimmermann@suse.de>, <airlied@redhat.com>
+References: <20230420080947.27226-1-jammy_huang@aspeedtech.com>
+ <61edb9d3-11f5-42de-633d-6e6253ce021f@suse.de>
+From: Jammy Huang <jammy_huang@aspeedtech.com>
+In-Reply-To: <61edb9d3-11f5-42de-633d-6e6253ce021f@suse.de>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
+X-Originating-IP: [192.168.2.115]
+X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
+ (192.168.0.24)
+X-DNSRBL: 
+X-MAIL: twspam01.aspeedtech.com 33K9Kcq1063608
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,114 +51,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Lucas De Marchi <lucas.demarchi@intel.com>, linux-fbdev@vger.kernel.org,
- Thomas Zimmermann <tzimmermann@suse.de>, Li Yi <liyi@loongson.cn>,
- Helge Deller <deller@gmx.de>, linux-kernel@vger.kernel.org,
- loongson-kernel@lists.loongnix.cn, dri-devel@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Hi Thomas,
 
-On 2023/4/20 17:04, Geert Uytterhoeven wrote:
-> Hi Sui,
+Thanks for help. I will update a new patch per your comments
+
+On 2023/4/20 下午 04:57, Thomas Zimmermann wrote:
+> Hi
 >
-> On Thu, Apr 20, 2023 at 5:09 AM Sui Jingfeng <suijingfeng@loongson.cn> wrote:
->> The fbdev test of IGT may write after EOF, which lead to out-of-bound
->> access for drm drivers hire fbdev-generic. For example, run fbdev test
->> on a x86+ast2400 platform, with 1680x1050 resolution, will cause the
->> linux kernel hang with the following call trace:
+> Am 20.04.23 um 10:09 schrieb Jammy Huang:
+>> ARM architecture only has 'memory', so all devices are accessed by
+>> MMIO if possible.
 >>
->>    Oops: 0000 [#1] PREEMPT SMP PTI
->>    [IGT] fbdev: starting subtest eof
->>    Workqueue: events drm_fb_helper_damage_work [drm_kms_helper]
->>    [IGT] fbdev: starting subtest nullptr
+>> Signed-off-by: Jammy Huang <jammy_huang@aspeedtech.com>
+>> ---
+>>   v2 changes:
+>>    - Use MMIO after AST2500 which enable MMIO by default.
+>> ---
+>>   drivers/gpu/drm/ast/ast_main.c | 9 +++++----
+>>   1 file changed, 5 insertions(+), 4 deletions(-)
 >>
->>    RIP: 0010:memcpy_erms+0xa/0x20
->>    RSP: 0018:ffffa17d40167d98 EFLAGS: 00010246
->>    RAX: ffffa17d4eb7fa80 RBX: ffffa17d40e0aa80 RCX: 00000000000014c0
->>    RDX: 0000000000001a40 RSI: ffffa17d40e0b000 RDI: ffffa17d4eb80000
->>    RBP: ffffa17d40167e20 R08: 0000000000000000 R09: ffff89522ecff8c0
->>    R10: ffffa17d4e4c5000 R11: 0000000000000000 R12: ffffa17d4eb7fa80
->>    R13: 0000000000001a40 R14: 000000000000041a R15: ffffa17d40167e30
->>    FS:  0000000000000000(0000) GS:ffff895257380000(0000) knlGS:0000000000000000
->>    CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
->>    CR2: ffffa17d40e0b000 CR3: 00000001eaeca006 CR4: 00000000001706e0
->>    Call Trace:
->>     <TASK>
->>     ? drm_fbdev_generic_helper_fb_dirty+0x207/0x330 [drm_kms_helper]
->>     drm_fb_helper_damage_work+0x8f/0x170 [drm_kms_helper]
->>     process_one_work+0x21f/0x430
->>     worker_thread+0x4e/0x3c0
->>     ? __pfx_worker_thread+0x10/0x10
->>     kthread+0xf4/0x120
->>     ? __pfx_kthread+0x10/0x10
->>     ret_from_fork+0x2c/0x50
->>     </TASK>
->>    CR2: ffffa17d40e0b000
->>    ---[ end trace 0000000000000000 ]---
->>
->> The is because damage rectangles computed by
->> drm_fb_helper_memory_range_to_clip() function does not guaranteed to be
->> bound in the screen's active display area. Possible reasons are:
->>
->> 1) Buffers are allocated in the granularity of page size, for mmap system
->>     call support. The shadow screen buffer consumed by fbdev emulation may
->>     also choosed be page size aligned.
->>
->> 2) The DIV_ROUND_UP() used in drm_fb_helper_memory_range_to_clip()
->>     will introduce off-by-one error.
->>
->> For example, on a 16KB page size system, in order to store a 1920x1080
->> XRGB framebuffer, we need allocate 507 pages. Unfortunately, the size
->> 1920*1080*4 can not be divided exactly by 16KB.
->>
->>   1920 * 1080 * 4 = 8294400 bytes
->>   506 * 16 * 1024 = 8290304 bytes
->>   507 * 16 * 1024 = 8306688 bytes
->>
->>   line_length = 1920*4 = 7680 bytes
->>
->>   507 * 16 * 1024 / 7680 = 1081.6
->>
->>   off / line_length = 507 * 16 * 1024 / 7680 = 1081
->>   DIV_ROUND_UP(507 * 16 * 1024, 7680) will yeild 1082
->>
->> memcpy_toio() typically issue the copy line by line, when copy the last
->> line, out-of-bound access will be happen. Because:
->>
->>   1082 * line_length = 1082 * 7680 = 8309760, and 8309760 > 8306688
->>
->> Note that userspace may stil write to the invisiable area if a larger
->> buffer than width x stride is exposed. But it is not a big issue as
->> long as there still have memory resolve the access if not drafting so
->> far.
->>
->>   - Also limit the y1 (Daniel)
->>   - keep fix patch it to minimal (Daniel)
->>   - screen_size is page size aligned because of it need mmap (Thomas)
->>   - Adding fixes tag (Thomas)
->>
->> Fixes: aa15c677cc34 ("drm/fb-helper: Fix vertical damage clipping")
->>
->> Signed-off-by: Sui Jingfeng <suijingfeng@loongson.cn>
->> Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
->> Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> Thanks for the update!  This v5 is completely different from the v3
-> I tested before, so keeping my Tested-by is not really appropriate...
-Indeed, I will be carefully next time.
-> I have retested fbtest with shmob-drm on Armadillo-800-EVA
-> (800x480@RG16, i.e. 187.5 pages), and fortunately this version still
-> works fine, so
-> Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Thanks a lot.
-> Gr{oetje,eeting}s,
+>> diff --git a/drivers/gpu/drm/ast/ast_main.c 
+>> b/drivers/gpu/drm/ast/ast_main.c
+>> index f83ce77127cb..d384e810fa4d 100644
+>> --- a/drivers/gpu/drm/ast/ast_main.c
+>> +++ b/drivers/gpu/drm/ast/ast_main.c
+>> @@ -425,11 +425,12 @@ struct ast_private *ast_device_create(const 
+>> struct drm_driver *drv,
+>>           return ERR_PTR(-EIO);
+>>         /*
+>> -     * If we don't have IO space at all, use MMIO now and
+>> -     * assume the chip has MMIO enabled by default (rev 0x20
+>> -     * and higher).
+>> +     * After AST2500, MMIO is enabled by default, and it should be 
+>> adapted
 >
->                          Geert
+> By 'adapted', you mean 'adopted'?
 >
-> --
-> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+> Apart from that:
 >
-> In personal conversations with technical people, I call myself a hacker. But
-> when I'm talking to journalists I just say "programmer" or something like that.
->                                  -- Linus Torvalds
+> Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
+>
+> I also ran this patch on an AST2100, which still works as before.
+>
+> Best regards
+> Thomas
+>
+>> +     * to be compatible with Arm.
+>>        */
+>> -    if (!(pci_resource_flags(pdev, 2) & IORESOURCE_IO)) {
+>> +    if (pdev->revision >= 0x40) {
+>> +        ast->ioregs = ast->regs + AST_IO_MM_OFFSET;
+>> +    } else if (!(pci_resource_flags(pdev, 2) & IORESOURCE_IO)) {
+>>           drm_info(dev, "platform has no IO space, trying MMIO\n");
+>>           ast->ioregs = ast->regs + AST_IO_MM_OFFSET;
+>>       }
+>>
+>> base-commit: e62252bc55b6d4eddc6c2bdbf95a448180d6a08d
+>
+-- 
+Best Regards
+Jammy
+
