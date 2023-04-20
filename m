@@ -1,76 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A5B06E9FA0
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Apr 2023 01:06:47 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 327C66E9FC7
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Apr 2023 01:23:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3E15D10ED34;
-	Thu, 20 Apr 2023 23:06:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C755910ED35;
+	Thu, 20 Apr 2023 23:22:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x236.google.com (mail-lj1-x236.google.com
- [IPv6:2a00:1450:4864:20::236])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CF45510ED35
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Apr 2023 23:06:43 +0000 (UTC)
-Received: by mail-lj1-x236.google.com with SMTP id
- 38308e7fff4ca-2a8bca69e8bso9402901fa.3
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Apr 2023 16:06:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1682032002; x=1684624002;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=VRh02ehzyoEGyY6i274n9E5kMLeidpEP/WyJpL8/txg=;
- b=o7pJh+V3DXABmhqqjUT2GIRj4YzEXjjsNIhqO9PWJtLbJ6OqCTNODz2Zj3Y5XnVi0M
- c23bz9hig8SpV9Dafj/O1iy3aT/dTX0xTgRr8LMX4C3bz6AxdW9NoweNgLtbL1SSTJXA
- s6kS2pvkmI2ffyW3fZOFb/6Ubz7n6Gzugu/1FYoADCIURseNUg/RTtabJ8s6iI7i7v65
- pyQQbXZ/5jZOT/dC5X1hdLCfTN4rX5p7QBSgNamnm3/jd7CUfZY5ke2vMnTrov34Nktw
- avlT9N0A2ghIcyPO/IAu2f85+7wUJuvoCCR3iTOMHCl2EfpFjqXtOQfvkFKtXJrEiTaK
- zj2w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682032002; x=1684624002;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=VRh02ehzyoEGyY6i274n9E5kMLeidpEP/WyJpL8/txg=;
- b=AceZnbIp3aN3xZvgUFOzTxodKwPWIUUn1XwN2+WG1Xv1TGMVdkcXEbNoBS7KLy4QIX
- BOKWpGKINf+cGPgLfMot6jjFXIYUnRts7+TefmJcq4aBR6fIw6Kz7aS2VkZ1bTUVDyBQ
- BdnxHtl0SK3yliDuKEx01rZMlTkkoKM91NH1DZG+S5soZnp7SutSWGIViUP00c3XIC8O
- zum02auAWTUeNJH5rdVK15xKEmIfLTD5+VMZvLYRHFeXfFmrNWJIYh/zsiD6HyfFa/5Z
- E7md2cECdJzw10DEMau3tOWjBozfMExW4czVaAMD7yTX8w4rpIlZlk00VuYUguPsBDTo
- w0Lw==
-X-Gm-Message-State: AAQBX9dWmLRCWGfWN0MmMAKfho115+DIkIhraLOk07FH2MD/TvfCGQj8
- lWUlCYAPWqNK8/E1V5LQ/S+V2w==
-X-Google-Smtp-Source: AKy350Zq1ZNhlNj99Jgmj7Jd7rtWn0FVrNeuvn9rsoQRNxoUsAMADZcAou5pslRf8Kz+PdunXzJxqg==
-X-Received: by 2002:a2e:8508:0:b0:2a8:a916:6b1c with SMTP id
- j8-20020a2e8508000000b002a8a9166b1cmr114673lji.4.1682032001972; 
- Thu, 20 Apr 2023 16:06:41 -0700 (PDT)
-Received: from [192.168.1.101] (abyj144.neoplus.adsl.tpnet.pl. [83.9.29.144])
- by smtp.gmail.com with ESMTPSA id
- y24-20020ac255b8000000b004cb41b43c25sm350956lfg.197.2023.04.20.16.06.40
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 20 Apr 2023 16:06:41 -0700 (PDT)
-Message-ID: <f71427ee-afca-549b-37c4-a09dcbedf979@linaro.org>
-Date: Fri, 21 Apr 2023 01:06:39 +0200
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2C00810ED35
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Apr 2023 23:22:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-Id:
+ Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:Content-Description:
+ Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+ In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=9ZWApVR1wRaTxTw3euafeaRvhHsTBXl2hlnwp9Ptl5U=; b=XJ4osXQCPN2yRgI054SyVdfSsY
+ K5ZAr4fxcc8NbcC1yCCYpkwNb8/+gsx543VyA3SpTe+vMbgzDdTzqjo26b6wevxB0Mj/04UinVn9m
+ wwww7+sWsvLSMGu3xz+Z45+Dl/6YMyfg2HJTG7uxWIjSm/eMYOd1HfjRWx0yX1vTz+MZ347YGknjp
+ pDBbBNjmiabzlxP1p/jWMCvUfz9Ax0XH8UWN7t5GHP3zjzzysgzk1ewh2AFIcXpH89mCqxsm8V4kz
+ DT5W6K32Iotex2fYMsJYkirq4xJvs7wTAecEeOjzVmk61HcsrU7a5xuKbm7JW4ftUHwv3FL8fCOLd
+ 6J9HfoFw==;
+Received: from [177.34.168.16] (helo=bowie..)
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1ppdbw-007Qqg-Hz; Fri, 21 Apr 2023 01:22:45 +0200
+From: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>
+To: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ Melissa Wen <mwen@igalia.com>, Haneen Mohammed <hamohammed.sa@gmail.com>,
+ Arthur Grillo <arthurgrillo@riseup.net>
+Subject: [PATCH v2 1/2] drm/vkms: allow full alpha blending on all planes
+Date: Thu, 20 Apr 2023 20:22:27 -0300
+Message-Id: <20230420232228.273340-1-mcanal@igalia.com>
+X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.1
-Subject: Re: [PATCH v2 10/13] drm/msm: mdss: Add SM6375 support
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Sean Paul <sean@poorly.run>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Krishna Manikandan <quic_mkrishn@quicinc.com>, Will Deacon
- <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
- Joerg Roedel <joro@8bytes.org>
-References: <20230411-topic-straitlagoon_mdss-v2-0-5def73f50980@linaro.org>
- <20230411-topic-straitlagoon_mdss-v2-10-5def73f50980@linaro.org>
- <26832d5c-f55c-1dd0-947a-0278bcbf08de@linaro.org>
-From: Konrad Dybcio <konrad.dybcio@linaro.org>
-In-Reply-To: <26832d5c-f55c-1dd0-947a-0278bcbf08de@linaro.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -85,56 +53,100 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- iommu@lists.linux.dev, Marijn Suijten <marijn.suijten@somainline.org>,
- freedreno@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org
+Cc: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Before commit bc0d7fdefec6 ("drm: vkms: Supports to the case where
+primary plane doesn't match the CRTC"), the composition was executed on
+top of the primary plane. Therefore, the primary plane was not able to
+support the alpha channel. After commit bc0d7fdefec6, this is possible,
+as the composition is now executed on top of the CRTC.
 
+So, allow all planes to support the alpha channel, making full alpha
+blending possible in vkms.
 
-On 21.04.2023 00:50, Dmitry Baryshkov wrote:
-> On 21/04/2023 01:31, Konrad Dybcio wrote:
->> Add support for MDSS on SM6375.
->>
->> Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
->> ---
->>   drivers/gpu/drm/msm/msm_mdss.c | 10 ++++++++++
->>   1 file changed, 10 insertions(+)
->>
->> diff --git a/drivers/gpu/drm/msm/msm_mdss.c b/drivers/gpu/drm/msm/msm_mdss.c
->> index 4e3a5f0c303c..f2470ce699f7 100644
->> --- a/drivers/gpu/drm/msm/msm_mdss.c
->> +++ b/drivers/gpu/drm/msm/msm_mdss.c
->> @@ -546,6 +546,15 @@ static const struct msm_mdss_data sm6350_data = {
->>       .highest_bank_bit = 1,
->>   };
->>   +static const struct msm_mdss_data sm6375_data = {
->> +    .ubwc_version = UBWC_2_0,
->> +    .ubwc_dec_version = UBWC_2_0,
->> +    .ubwc_swizzle = 6,
->> +    .ubwc_static = 0x1e,
->> +    /* Possibly 0 for LPDDR3 */
->> +    .highest_bank_bit = 1,
->> +};
-> 
-> Nit: we can use sm6350 data here, can't we?
-Nice catch!
+Signed-off-by: Maíra Canal <mcanal@igalia.com>
+Reviewed-by: Melissa Wen <mwen@igalia.com>
+---
 
-Konrad
-> 
->> +
->>   static const struct msm_mdss_data sm8150_data = {
->>       .ubwc_version = UBWC_3_0,
->>       .ubwc_dec_version = UBWC_3_0,
->> @@ -580,6 +589,7 @@ static const struct of_device_id mdss_dt_match[] = {
->>       { .compatible = "qcom,sc8280xp-mdss", .data = &sc8280xp_data },
->>       { .compatible = "qcom,sm6115-mdss", .data = &sm6115_data },
->>       { .compatible = "qcom,sm6350-mdss", .data = &sm6350_data },
->> +    { .compatible = "qcom,sm6375-mdss", .data = &sm6375_data },
->>       { .compatible = "qcom,sm8150-mdss", .data = &sm8150_data },
->>       { .compatible = "qcom,sm8250-mdss", .data = &sm8250_data },
->>       { .compatible = "qcom,sm8350-mdss", .data = &sm8250_data },
->>
-> 
+v1 -> v2: https://lore.kernel.org/dri-devel/20230414190913.106633-1-mcanal@igalia.com/T/
+
+* s/vkms_primary_helper_funcs/vkms_plane_helper_funcs (Melissa Wen)
+* Add Melissa's Reviewed-by
+
+---
+ drivers/gpu/drm/vkms/vkms_plane.c | 34 +++----------------------------
+ 1 file changed, 3 insertions(+), 31 deletions(-)
+
+diff --git a/drivers/gpu/drm/vkms/vkms_plane.c b/drivers/gpu/drm/vkms/vkms_plane.c
+index c41cec7dcb70..c2888e5266bc 100644
+--- a/drivers/gpu/drm/vkms/vkms_plane.c
++++ b/drivers/gpu/drm/vkms/vkms_plane.c
+@@ -12,12 +12,6 @@
+ #include "vkms_formats.h"
+ 
+ static const u32 vkms_formats[] = {
+-	DRM_FORMAT_XRGB8888,
+-	DRM_FORMAT_XRGB16161616,
+-	DRM_FORMAT_RGB565
+-};
+-
+-static const u32 vkms_plane_formats[] = {
+ 	DRM_FORMAT_ARGB8888,
+ 	DRM_FORMAT_XRGB8888,
+ 	DRM_FORMAT_XRGB16161616,
+@@ -185,7 +179,7 @@ static void vkms_cleanup_fb(struct drm_plane *plane,
+ 	drm_gem_fb_vunmap(fb, shadow_plane_state->map);
+ }
+ 
+-static const struct drm_plane_helper_funcs vkms_primary_helper_funcs = {
++static const struct drm_plane_helper_funcs vkms_plane_helper_funcs = {
+ 	.atomic_update		= vkms_plane_atomic_update,
+ 	.atomic_check		= vkms_plane_atomic_check,
+ 	.prepare_fb		= vkms_prepare_fb,
+@@ -196,38 +190,16 @@ struct vkms_plane *vkms_plane_init(struct vkms_device *vkmsdev,
+ 				   enum drm_plane_type type, int index)
+ {
+ 	struct drm_device *dev = &vkmsdev->drm;
+-	const struct drm_plane_helper_funcs *funcs;
+ 	struct vkms_plane *plane;
+-	const u32 *formats;
+-	int nformats;
+-
+-	switch (type) {
+-	case DRM_PLANE_TYPE_PRIMARY:
+-		formats = vkms_formats;
+-		nformats = ARRAY_SIZE(vkms_formats);
+-		funcs = &vkms_primary_helper_funcs;
+-		break;
+-	case DRM_PLANE_TYPE_CURSOR:
+-	case DRM_PLANE_TYPE_OVERLAY:
+-		formats = vkms_plane_formats;
+-		nformats = ARRAY_SIZE(vkms_plane_formats);
+-		funcs = &vkms_primary_helper_funcs;
+-		break;
+-	default:
+-		formats = vkms_formats;
+-		nformats = ARRAY_SIZE(vkms_formats);
+-		funcs = &vkms_primary_helper_funcs;
+-		break;
+-	}
+ 
+ 	plane = drmm_universal_plane_alloc(dev, struct vkms_plane, base, 1 << index,
+ 					   &vkms_plane_funcs,
+-					   formats, nformats,
++					   vkms_formats, ARRAY_SIZE(vkms_formats),
+ 					   NULL, type, NULL);
+ 	if (IS_ERR(plane))
+ 		return plane;
+ 
+-	drm_plane_helper_add(&plane->base, funcs);
++	drm_plane_helper_add(&plane->base, &vkms_plane_helper_funcs);
+ 
+ 	return plane;
+ }
+-- 
+2.40.0
+
