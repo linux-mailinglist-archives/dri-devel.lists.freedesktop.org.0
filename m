@@ -2,75 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DECAC6E9ECE
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Apr 2023 00:28:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24DA96E9ED6
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Apr 2023 00:31:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 900FA10ED07;
-	Thu, 20 Apr 2023 22:28:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7A8EA10E194;
+	Thu, 20 Apr 2023 22:31:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com
- [IPv6:2a00:1450:4864:20::132])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6021F10ED07
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Apr 2023 22:28:14 +0000 (UTC)
-Received: by mail-lf1-x132.google.com with SMTP id
- 2adb3069b0e04-4ec86aeeb5cso947091e87.3
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Apr 2023 15:28:14 -0700 (PDT)
+Received: from mail-lj1-x236.google.com (mail-lj1-x236.google.com
+ [IPv6:2a00:1450:4864:20::236])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6837810E194
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Apr 2023 22:31:23 +0000 (UTC)
+Received: by mail-lj1-x236.google.com with SMTP id
+ 38308e7fff4ca-2a7af0cb2e6so9305821fa.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Apr 2023 15:31:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1682029692; x=1684621692;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=wJsMjTzILrouzKr+eknMhhMXReN576hgLHcFIjcVkig=;
- b=tZ+pHzAz7K05Ml7vyAyOeFzXW7GNQ86dqUHMye2xs5c4soQgdpYTCy3P1Wyx19H4bJ
- vVqqoFFPSinMQYoFil/xU3ezXH9nUAoH3brdvs1fDql1z5kJ6kMeQuRUnj0ubrrT/GWQ
- e9fNhB9L/MhESjQ0JqLwsteMM1UrOyPbr0BjX1LQ+jyCVT9pAk1IcerIizFiBGE7d094
- rrAxXHTrmcXERk0P3o3qOrP+ZXpTIsCCo5Fu9vsg1fZBsGGkq/rwY/9AhuSzNmB8MXHU
- IwVPMKMkTzG/5PRLa9jWH9bLeEWAvaXEHSANho71reFoWIXwYYDjQnsS1aSW0jjOI0B4
- dZfw==
+ d=linaro.org; s=google; t=1682029881; x=1684621881;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=iMnuWFGrM/PJwZOBdpXu7uMemkHRjRrJAO+mKqn+Jmk=;
+ b=aQsMXg/NOus9+GeChd10f8ubKVxsiA78PImgqubhQEHY5WoCIbJu4YybU8rMVoSuld
+ uy6BpwEjlBXe/EP6hWAOmUFcLsbq5W1icBVy9URUpeXff8kscJrMtnZiKt+Ajf5IdIFJ
+ vrRDdKhokID2wOPcpfWBkWd/LRpOW1f/ToPU/5A/isgSkUyUdhl152A2D1aI3KMyv1cj
+ DrsjbhjpflFGNoH+DKn1HqtZIgr/Kj7oV68qQA18810aCMr5F5gvXlVUuIrQvIw9NUCT
+ Tvglrbhi/EtIJ5qDidlI2tZhQIFozwjBpjB4S/c7FBx3iPRjGbBCVs4WtnHoi44/sKU/
+ rtGA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682029692; x=1684621692;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=wJsMjTzILrouzKr+eknMhhMXReN576hgLHcFIjcVkig=;
- b=R+4oXJLki5mHi8ufICOxf5M+IhocYeR9R47Ua2YRLD6xjlTTgjSYXx4U3EutqDBUwf
- xPSBvLvpThSONavQVI/NmsFBNBRXd37BMObys4gc9lgCRq4QGRdXyKH72n5//chG/LDC
- 4Vb8jhevefUKo1YuJCVCm6kzrpM6Ji1I2ubM1na/CW3RO85wvixX3cHobHT0JXQSm2yj
- ztyb3Vq2XZvrrCDoCUc2/y0g9CtIU4FLm6blpeaxKaif4kXAy8V7+6smNLS0j5epqv5T
- kqz5GurgXZ8Yd3RS5Dl8vM3B6KrbKxL5Tb34PPtYy6IcZqYgaF2JE2nV42OVF3rOPpWV
- dPMw==
-X-Gm-Message-State: AAQBX9eVdxRJjIjWsQxrLwaYhcYY8bEfeC0rRcrDNDWQTXUw8v44YPn3
- FDiZCz45Pu5QWMVvHPRyhvU1aw==
-X-Google-Smtp-Source: AKy350bchLFLfQc9vyKcrJ9j9ObTS15sUpUmjEQY/7NEyIQ/xTevNiOWcbViiYTQ0mFWYlYb2H/R1g==
-X-Received: by 2002:ac2:4c8e:0:b0:4ea:f526:5bef with SMTP id
- d14-20020ac24c8e000000b004eaf5265befmr701516lfl.28.1682029692099; 
- Thu, 20 Apr 2023 15:28:12 -0700 (PDT)
-Received: from ?IPV6:2001:14ba:a085:4d00::8a5?
- (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a085:4d00::8a5])
+ d=1e100.net; s=20221208; t=1682029881; x=1684621881;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=iMnuWFGrM/PJwZOBdpXu7uMemkHRjRrJAO+mKqn+Jmk=;
+ b=dUCYKVVM5OQ674GoRoyg5TeqLtmW6ORGvLY3GpNT8Z/UoG3P5E3gNSZxV5wF3U2so8
+ y1Pff2faRXl0jnYDil4T2rZWACjP9G/txIhqZFXUEzraso3x/JcsxS3pLk7khwImOPDO
+ rSIkipuwslef4bTiTEVTwJQFX76NHsNDhKrBdK1RoAF+GHjcROtV+EJEbLrbDxpgZElU
+ ayis+bnXtqqQkMUv/WAYpk+L5dRvjCQ9T7alBoug49j3LJTdWqNnUcBzp8LmRj60F6C0
+ dqBQr9rqcx6QR/kEGDaEhWYjy56NieGjqkolVqbYs+ZCh4pj+vKnj1Z1K8DjlXG8tmOk
+ snAg==
+X-Gm-Message-State: AAQBX9frtjpTSY3vn9fi4rRNPaK9r08P+zpx3XWA1dJmmrdZE1Um1Dv8
+ nSPX/5nZLxIz/7yJl5lsrpufFoClQUeSERs/wM8=
+X-Google-Smtp-Source: AKy350ZchB20U9dl/pPfuLW+KcxMRjqr9dfU+8ds5x9ciZBLjLgvH9CvctlFQjn361GPRBpjNUyrnw==
+X-Received: by 2002:ac2:46f9:0:b0:4eb:40d4:e0d2 with SMTP id
+ q25-20020ac246f9000000b004eb40d4e0d2mr917031lfo.38.1682029881593; 
+ Thu, 20 Apr 2023 15:31:21 -0700 (PDT)
+Received: from [192.168.1.101] (abyj144.neoplus.adsl.tpnet.pl. [83.9.29.144])
  by smtp.gmail.com with ESMTPSA id
- n3-20020a2e8783000000b002a8e4678da4sm397332lji.139.2023.04.20.15.28.11
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 20 Apr 2023 15:28:11 -0700 (PDT)
-Message-ID: <6335ae3a-0370-92ed-9bc8-d8448db50627@linaro.org>
-Date: Fri, 21 Apr 2023 01:28:11 +0300
+ w8-20020ac25d48000000b004eedb66983csm324256lfd.273.2023.04.20.15.31.19
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 20 Apr 2023 15:31:21 -0700 (PDT)
+From: Konrad Dybcio <konrad.dybcio@linaro.org>
+Subject: [PATCH v2 00/13] SM63(50|75) DPU support
+Date: Fri, 21 Apr 2023 00:31:09 +0200
+Message-Id: <20230411-topic-straitlagoon_mdss-v2-0-5def73f50980@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH v2 11/17] drm/msm/dpu: Disable MDP vsync source selection
- on DPU 5.0.0 and above
-Content-Language: en-GB
-To: Marijn Suijten <marijn.suijten@somainline.org>
-References: <20230411-dpu-intf-te-v2-0-ef76c877eb97@somainline.org>
- <20230411-dpu-intf-te-v2-11-ef76c877eb97@somainline.org>
- <20fab838-e05b-163d-aa72-bd8235df9f2c@linaro.org>
- <38030486-f08a-33e6-f8d1-3f4de379a75b@linaro.org>
- <3d1b08f0-adf9-8815-46f7-c31b54a7140c@linaro.org>
- <fxph57xh3waxv7fpjnmgai4krpgrdxf3bmp2b3vbpgqbmkcy6u@ib3ds6idhgwz>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <fxph57xh3waxv7fpjnmgai4krpgrdxf3bmp2b3vbpgqbmkcy6u@ib3ds6idhgwz>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAC69QWQC/4WNWwqDMBAAryL5boquD0q/eo8iJcZVF9JEdtPQI
+ t69qRfo5wwMsylBJhR1LTbFmEgo+AxwKpRdjJ9R05hZQQl12VSVjmElqyWyoejMHIJ/PEcRfZn
+ qxho7tgidyvVgBPXAxtsl9/7lXJYr40TvY3fvMy8kMfDnuCf42f+jBLrUdTfZKu86gPbmyBsO5
+ 8Cz6vd9/wKUXfip1AAAAA==
+To: Rob Clark <robdclark@gmail.com>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ Rob Herring <robh+dt@kernel.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+ Krishna Manikandan <quic_mkrishn@quicinc.com>, 
+ Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>, 
+ Joerg Roedel <joro@8bytes.org>
+X-Mailer: b4 0.12.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1682029879; l=2429;
+ i=konrad.dybcio@linaro.org; s=20230215; h=from:subject:message-id;
+ bh=adALUm2UDCuq+jHiF5r/gGrJmlODjVUWz+k4+ab309g=;
+ b=/nzsoNRh05ssUpKUu6os3JNQO8PfbruXwKRIX2V2kNWnyhJDQ0rvJRZ62p8t4kMlbM/yaNOLOWjg
+ xCPJJiuWAxaRmTiAW3QO8qBjR0fRzd5jjjsP6RDamuXawInqU///
+X-Developer-Key: i=konrad.dybcio@linaro.org; a=ed25519;
+ pk=iclgkYvtl2w05SSXO5EjjSYlhFKsJ+5OSZBjOkQuEms=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,59 +90,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, Jordan Crouse <jordan@cosmicpenguin.net>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
- Chandan Uddaraju <chandanu@codeaurora.org>,
- Archit Taneja <architt@codeaurora.org>, Robert Foss <rfoss@kernel.org>,
- Kuogee Hsieh <quic_khsieh@quicinc.com>, Rajesh Yadav <ryadav@codeaurora.org>,
- linux-arm-msm@vger.kernel.org, Adam Skladowski <a39.skl@gmail.com>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Martin Botka <martin.botka@somainline.org>,
- ~postmarketos/upstreaming@lists.sr.ht,
- Jeykumar Sankaran <jsanka@codeaurora.org>, Sean Paul <sean@poorly.run>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Loic Poulain <loic.poulain@linaro.org>,
- Jami Kettunen <jami.kettunen@somainline.org>,
- Bjorn Andersson <andersson@kernel.org>, linux-kernel@vger.kernel.org,
- Konrad Dybcio <konrad.dybcio@linaro.org>, Vinod Koul <vkoul@kernel.org>,
- freedreno@lists.freedesktop.org,
- Sravanthi Kollukuduru <skolluku@codeaurora.org>
+Cc: devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ Konrad Dybcio <konrad.dybcio@somainline.org>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Konrad Dybcio <konrad.dybcio@linaro.org>,
+ iommu@lists.linux.dev, Marijn Suijten <marijn.suijten@somainline.org>,
+ freedreno@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 21/04/2023 00:51, Marijn Suijten wrote:
-> On 2023-04-20 04:03:31, Dmitry Baryshkov wrote:
-> [..]
->>>>>     -static void dpu_hw_setup_vsync_source(struct dpu_hw_mdp *mdp,
->>>>> +static void dpu_hw_setup_vsync_source_v1(struct dpu_hw_mdp *mdp,
->>>>>             struct dpu_vsync_source_cfg *cfg)
->>>>
->>>> In my opinion _v1 is not really descriptive here. Could you please rename it to dpu_hw_setup_vsync_source_no_vsync_sel() ?
->>> v1 refers to the CTL rev 100 a.k.a 1.0.0 a.k.a 1, but that's not
->>> yet very well formulated upstream.. if we even need it..
-> 
-> I think v1 just refers to "the first next variant of this function",
-> similar to how for example Microsoft COM APIs start without a suffix,
-> then get 1, 2, 3 etc appended as new variants "of the same" trickle in.
-> 
->> Yeah, but this mdp_top, not the ctl. And for CTL I'd probably rename _v1
->> to _active to follow actual feature name.
-> 
-> Correct, I just got lazily inspired by downstream here.  There it
-> switches on SDE_MDP_VSYNC_SEL which is based on DPU >= 5.0.0 as
-> explained in the patch.
-> 
->>>> Or maybe rename dpu_hw_setup_vsync_source() to dpu_hw_setup_vsync_source_vsync_sel() and drop _v1 from this function.
-> 
-> Maybe add _and_ in there?
+v1 -> v2:
+- Rebase on the DPU catalog rework and INTF_TE
+- Fix QSEED(3L/4) discrepancies
+- Fixed DMA/cursor discrepancies for 6350
+- No deduplication, that's gonna be handled in catalogrework 2:
+  "the return of the catalogrework"
+- Split MDSS & DPU binding additions
+- Drop "Allow variable SSPP/INTF_BLK size", that got in w/ the rework
+- Split MDSS and DPU additions
+- Pick up Rob's acks
 
-Either way will work.
+Depends on (and based on): https://lore.kernel.org/linux-arm-msm/20230411-dpu-intf-te-v2-0-ef76c877eb97@somainline.org/T/#t
 
->>>> Up to you.
-> 
-> - Marijn
+v1: https://lore.kernel.org/linux-arm-msm/20230211122656.1479141-1-konrad.dybcio@linaro.org/
 
+Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+---
+Konrad Dybcio (13):
+      dt-bindings: display/msm: dsi-controller-main: Add SM6350
+      dt-bindings: display/msm: dsi-controller-main: Add SM6375
+      dt-bindings: display/msm: Add SM6350 DPU
+      dt-bindings: display/msm: Add SM6350 MDSS
+      dt-bindings: display/msm: Add SM6375 DPU
+      dt-bindings: display/msm: Add SM6375 MDSS
+      drm/msm/dpu: Add SM6350 support
+      drm/msm: mdss: Add SM6350 support
+      drm/msm/dpu: Add SM6375 support
+      drm/msm: mdss: Add SM6375 support
+      iommu/arm-smmu-qcom: Add SM6375 DPU compatible
+      iommu/arm-smmu-qcom: Add SM6350 DPU compatible
+      iommu/arm-smmu-qcom: Sort the compatible list alphabetically
+
+ .../bindings/display/msm/dsi-controller-main.yaml  |   4 +
+ .../bindings/display/msm/qcom,sm6350-dpu.yaml      |  94 +++++++++
+ .../bindings/display/msm/qcom,sm6350-mdss.yaml     | 214 ++++++++++++++++++++
+ .../bindings/display/msm/qcom,sm6375-dpu.yaml      | 106 ++++++++++
+ .../bindings/display/msm/qcom,sm6375-mdss.yaml     | 216 +++++++++++++++++++++
+ .../gpu/drm/msm/disp/dpu1/catalog/dpu_6_4_sm6350.h | 186 ++++++++++++++++++
+ .../gpu/drm/msm/disp/dpu1/catalog/dpu_6_9_sm6375.h | 152 +++++++++++++++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c     |  15 ++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h     |   4 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c            |   2 +
+ drivers/gpu/drm/msm/msm_mdss.c                     |  19 ++
+ drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c         |   6 +-
+ 12 files changed, 1016 insertions(+), 2 deletions(-)
+---
+base-commit: eaf6956f6dfdbba2c53a668248f8213b9e01bc51
+change-id: 20230411-topic-straitlagoon_mdss-8f34cacd5e26
+
+Best regards,
 -- 
-With best wishes
-Dmitry
+Konrad Dybcio <konrad.dybcio@linaro.org>
 
