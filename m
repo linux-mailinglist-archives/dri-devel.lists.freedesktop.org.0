@@ -1,57 +1,75 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A0F26E930E
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Apr 2023 13:39:51 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A4F86E934E
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Apr 2023 13:47:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3A39810E257;
-	Thu, 20 Apr 2023 11:39:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 32BB710E23F;
+	Thu, 20 Apr 2023 11:47:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 64E5B10E20B;
- Thu, 20 Apr 2023 11:39:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1681990785; x=1713526785;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=yVyrMJN1Iigkd+tJFiSwN+cWLKzO4jFI/hFaT3f7kbA=;
- b=KFBGlUHX6wwKJyq2JbrQNwyEGYRZDt4rxotmigqk48+yz6Dk7+oLh/Om
- b/Xfn2xnbdcSsQbMEzpeL+Lnah63j6yaV35yrFgI6M69ZA4jvrPANYNII
- fZw2URWs67bbhO24BvI8DjwieUxHUqc+R/fPsJZbrTFgfM8kx+PKnDjVq
- yfS+yikpNyiEQ/2o4NXjfev+01sMNPqmCoooIig5sdv+XrRJ7Hnm/hduz
- sIk/q6yCInpruQLdxqV3Xsk/soTumqS2eFOzIRrEXoVs5UcvrPJsu2yu8
- q50Yh3DLwsZ2rcGLa0sCmxEqiEm5uWOBVGatWBs1puZIxI7lAIn2IPn69 A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10685"; a="347572004"
-X-IronPort-AV: E=Sophos;i="5.99,212,1677571200"; d="scan'208";a="347572004"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Apr 2023 04:39:44 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10685"; a="815986146"
-X-IronPort-AV: E=Sophos;i="5.99,212,1677571200"; d="scan'208";a="815986146"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
- by orsmga004.jf.intel.com with ESMTP; 20 Apr 2023 04:39:40 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1ppSdX-000fnQ-1P;
- Thu, 20 Apr 2023 11:39:39 +0000
-Date: Thu, 20 Apr 2023 19:39:17 +0800
-From: kernel test robot <lkp@intel.com>
-To: Mark Yacoub <markyacoub@chromium.org>, Rob Clark <robdclark@gmail.com>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com
+ [IPv6:2a00:1450:4864:20::12b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7407010E20B
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Apr 2023 11:47:24 +0000 (UTC)
+Received: by mail-lf1-x12b.google.com with SMTP id
+ 2adb3069b0e04-4edc114c716so501451e87.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Apr 2023 04:47:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1681991241; x=1684583241;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=utfMEwjRtQb+equBbrKCD4/CcQSjoaSGMcoZ72gCVUA=;
+ b=Z95rycXDwUNq2/dzSTQKDDcUK4tqkWc+YMELEldeqvDixA2V+Z+xNp330XqyOOBrmk
+ v/wW41zMrD+3p1GrFUD/y6BSpPX7F33bjHFF9DDNEY6I6UfxTuB8Id8FRZ8lVCRepr0q
+ h3+qxLEQskhrORnHK96uzUwSp9JUDljd3yidp7xqu2Z9DUjr9vHCPg+BxNbc6QDjl3q4
+ eHwSd9ZRs5828Cm0iQF02/L4ayxfHlQSNuzpU9C0XG0vWQk0SekdxyOLw7r7leKxXYfC
+ I+PdjXUuijJBxwx7+nm/1hIZZttX8IA91cVufFVvPa3xoUiTv31/YKCscw8oaUPXrNuJ
+ 5s/g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1681991241; x=1684583241;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=utfMEwjRtQb+equBbrKCD4/CcQSjoaSGMcoZ72gCVUA=;
+ b=H07fSyuiQjYqVaVXotFB+XDjX2nTidr/5aevuPrYjBApAcmxIw/xWevmQNvmx/c+yt
+ 5n5k6ZH9mRceoOL2yuybkpLVk1p+z4LWj25OIOoHGMSzlboJh21+obUn6gDWCcYLhayS
+ iUvn/yeUCY4t9yN0YoCcuxoxwMqs93SUZlwoE9z72JF3t/Am3EYR/oTFauOY10XcVAdz
+ setaxUHfny+G7pbXb/QWyY19V9YmeYAtCE4nvtBzvPJevIgW9FWSgw5hVwadcFdfwSzI
+ 4mmY+MBicZRRAUJDteITEIEtmUmCQNzic4FqWwVvxDK0MHmOq9W+zqGpq8isbc8izVXp
+ vtvg==
+X-Gm-Message-State: AAQBX9f8+xD0v+b6EOxH1uN19QrNrwb8LLsxFyOls05eaF4dWveOaoNl
+ cKyaHsQSzUr05AwIqFDAmbIsjA==
+X-Google-Smtp-Source: AKy350YpTdCf86eHSVO6lbjuxm9lf1D6AX1RTL02jKTJiTegbNyrqK4LLlNSpQqowFLuQZw9kxbxbA==
+X-Received: by 2002:a05:6512:145:b0:4d7:44c9:9f4c with SMTP id
+ m5-20020a056512014500b004d744c99f4cmr415139lfo.4.1681991240676; 
+ Thu, 20 Apr 2023 04:47:20 -0700 (PDT)
+Received: from ?IPV6:2001:14ba:a085:4d00::8a5?
+ (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a085:4d00::8a5])
+ by smtp.gmail.com with ESMTPSA id
+ m16-20020a195210000000b004eed6175e3fsm191457lfb.143.2023.04.20.04.47.19
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 20 Apr 2023 04:47:20 -0700 (PDT)
+Message-ID: <786cda44-cd82-4353-d195-35a987a80b3d@linaro.org>
+Date: Thu, 20 Apr 2023 14:47:19 +0300
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH 1/2] drm/msm/dpu1: Rename sm8150_dspp_blk to
+ sdm845_dspp_blk
+Content-Language: en-GB
+To: Konrad Dybcio <konrad.dybcio@linaro.org>, Rob Clark
+ <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
  Sean Paul <sean@poorly.run>, David Airlie <airlied@gmail.com>,
  Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [PATCH v10 10/10] drm/msm: Implement HDCP 1.x using the new drm
- HDCP helpers
-Message-ID: <202304201909.D57x63J5-lkp@intel.com>
-References: <20230419154321.1993419-11-markyacoub@google.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230419154321.1993419-11-markyacoub@google.com>
+References: <20230420-topic-dpu_gc-v1-0-d9d1a5e40917@linaro.org>
+ <20230420-topic-dpu_gc-v1-1-d9d1a5e40917@linaro.org>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <20230420-topic-dpu_gc-v1-1-d9d1a5e40917@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,58 +82,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: suraj.kandpal@intel.com, linux-kernel@vger.kernel.org,
- Mark Yacoub <markyacoub@chromium.org>, intel-gfx@lists.freedesktop.org,
- dianders@chromium.org, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>, seanpaul@chromium.org,
- oe-kbuild-all@lists.linux.dev, freedreno@lists.freedesktop.org,
- linux-arm-msm@vger.kernel.org
+Cc: Marijn Suijten <marijn.suijten@somainline.org>,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Mark,
+On 20/04/2023 04:14, Konrad Dybcio wrote:
+> SDM845 was the first SoC to include both PCC v4 and GC v1.8.
+> We don't currently support any other blocks but the common config
+> for these two can be reused for a large amount of SoCs.
+> 
+> Rename it to indicate the origin of that combo.
+> 
+> Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+> ---
+>   drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_0_sm8150.h   | 8 ++++----
+>   drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_0_sm8250.h   | 8 ++++----
+>   drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_3_sm6115.h   | 2 +-
+>   drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_5_qcm2290.h  | 2 +-
+>   drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h   | 8 ++++----
+>   drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h | 8 ++++----
+>   drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h   | 8 ++++----
+>   drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h   | 8 ++++----
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c           | 2 +-
+>   9 files changed, 27 insertions(+), 27 deletions(-)
 
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on drm-intel/for-linux-next-fixes]
-[also build test ERROR on linus/master v6.3-rc7]
-[cannot apply to drm-misc/drm-misc-next drm-intel/for-linux-next drm/drm-next next-20230419]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Mark-Yacoub/drm-hdcp-Add-drm_hdcp_atomic_check/20230419-234833
-base:   git://anongit.freedesktop.org/drm-intel for-linux-next-fixes
-patch link:    https://lore.kernel.org/r/20230419154321.1993419-11-markyacoub%40google.com
-patch subject: [PATCH v10 10/10] drm/msm: Implement HDCP 1.x using the new drm HDCP helpers
-config: ia64-randconfig-r011-20230416 (https://download.01.org/0day-ci/archive/20230420/202304201909.D57x63J5-lkp@intel.com/config)
-compiler: ia64-linux-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/6fb5b032262769c786a7a8c9ed522d936dcf14c2
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Mark-Yacoub/drm-hdcp-Add-drm_hdcp_atomic_check/20230419-234833
-        git checkout 6fb5b032262769c786a7a8c9ed522d936dcf14c2
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 SHELL=/bin/bash
-
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304201909.D57x63J5-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   ia64-linux-ld: ia64-linux-ld: DWARF error: could not find abbrev number 1548101
-   drivers/gpu/drm/msm/msm_atomic.o: in function `msm_atomic_commit_tail':
->> msm_atomic.c:(.text+0xe02): undefined reference to `dp_drm_is_bridge_msm_dp'
->> ia64-linux-ld: msm_atomic.c:(.text+0xe22): undefined reference to `dp_drm_atomic_commit'
-   ia64-linux-ld: ia64-linux-ld: DWARF error: could not find abbrev number 872
-   drivers/gpu/drm/msm/dp/dp_debug.o: in function `dp_hdcp_key_write':
->> dp_debug.c:(.text+0xa2): undefined reference to `dp_hdcp_ingest_key'
+Please follow this by enabling DSPP on sdm845. Otherwise it is strange 
+to have sdm845_dspp_sblk, but not to have it enabled on sdm845 itself. 
+If necessary, I can test it on RB3.
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+With best wishes
+Dmitry
+
