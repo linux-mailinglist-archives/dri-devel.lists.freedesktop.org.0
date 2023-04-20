@@ -1,62 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5A986E8DA7
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Apr 2023 11:11:05 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E1926E8DC1
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Apr 2023 11:15:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B142210EA91;
-	Thu, 20 Apr 2023 09:11:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 18D168916D;
+	Thu, 20 Apr 2023 09:15:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd32.google.com (mail-io1-xd32.google.com
- [IPv6:2607:f8b0:4864:20::d32])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2018310E06C
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Apr 2023 09:10:58 +0000 (UTC)
-Received: by mail-io1-xd32.google.com with SMTP id
- ca18e2360f4ac-76375982b6aso76674939f.1
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Apr 2023 02:10:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1681981857; x=1684573857;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=jApLsIPicCWYWY8ghJs6Wqkso3cOUL2m8oysLKQNPCs=;
- b=Ur9jtx0E94T0GI9XNaXArOQcj0se42481pOZjFlLPL+HB5Lj3VQ0Skl82gG5KPW/re
- V0XDWaTSQ6C8cKi+Hx/1+6fYNfQIAmbBMmPo9Tx61XMp6Lk4cMhypk7IL0R+08PSOOT6
- fulCTs04wVatbGLIdZn0FIjfOxwjNWV2iKIEk=
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com
+ [209.85.167.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7A4FB8916D
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Apr 2023 09:15:41 +0000 (UTC)
+Received: by mail-lf1-f42.google.com with SMTP id
+ 2adb3069b0e04-4eed764a10cso431564e87.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Apr 2023 02:15:41 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681981857; x=1684573857;
+ d=1e100.net; s=20221208; t=1681982139; x=1684574139;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=jApLsIPicCWYWY8ghJs6Wqkso3cOUL2m8oysLKQNPCs=;
- b=gNI39JbVF9Jc5iaDiKPA+4rlHMu7tsImsSPwu/eUbdP207TuZf793IAR+80WyPeMle
- gqU4Uj0d0wWpokkjjBqRpD+S0e/SKX/r7h27BpHDN7C2NerRI2RVdV76YQXadqVNKCwY
- GxWSeGF5eA/ahfiU5/TDHPOUSkWNEWE6nqeUf++0V94JB9LGhvid2XOfFdXmBwvWbbW6
- mJpHh9vVzuWJvHIDutCtmwp5oG9WLsJzXvEwmBjkZJgqFniaS/wlIuv+cP3OeGXn+tvk
- AoJ+gU5kwaAoB16ySOe+tn/ppRMyEKo7s/LSky8kvptdhXN5IFdo5745K4dr8iT0CQy3
- tzqw==
-X-Gm-Message-State: AAQBX9cXKrV9IGkK9zIqhrcf0A0Na2L02iphkDyaEVtU2o1J8XVBj3oi
- 0eYSFE+6oBL5jJkM4SyrYY9aIrYyid/adX/bjS12tw==
-X-Google-Smtp-Source: AKy350Y4t++JqRfXaFXQUgB02uSAJYZVXkFSdgGLBxELTeSwXAZpeLFbnln9lKU9ujIzGQATjnMs8vmkMD8DbLkGgsY=
-X-Received: by 2002:a02:b019:0:b0:40f:910c:92d6 with SMTP id
- p25-20020a02b019000000b0040f910c92d6mr253400jah.6.1681981856946; Thu, 20 Apr
- 2023 02:10:56 -0700 (PDT)
+ bh=s2/e9Dnl7P2o+B8qqamMNBV5IQwfpE3QNjICNgU+vyo=;
+ b=iHBEXNXy/GRwNRyb4z9GGkJL8vOo6iQdd9LCad3h7V8Evc+qyZ2sSv2hMFGt3t1SCT
+ /PDCP6QA50krS4Td88Xh4AujC6yXRpIbD9yem1cbhZz0/7tSNk5PtsTcLrCKdw5spyuE
+ OVX+TcpxvD1o0HWpxv3LStcPs0w7bp2hMitV9q7Oi80boOy+N9uuGcpt8cb/NqvoyV3Z
+ U2mZ0+xi2GEpbs6XfFvjiDvnRvDJ86yd2xfz06+D5Z2Uqzj9w8MZyDpls9srXoWG/uMv
+ uJ6P8Y2QZuO8r+pGxBZXpNW+SOrZ3yt9IGmHoWk/u94OqmiDfyAHL27r+4mAyRgJe2nV
+ KLhw==
+X-Gm-Message-State: AAQBX9c1bsSZ+9458yWOgmO2xfrEu0GTDIEQc6DZ2O+iji/Y22IhYccF
+ Rjym1h7wAJPDk+fCWy4F1wOwryLB1SGVF+Tu
+X-Google-Smtp-Source: AKy350ZLYsl13gwLxCKxtyryiKV+xTYhQ0caM4qbyRjXZ+YJ2inmVfTrCMCV/4qRupRG0szwPVFc1w==
+X-Received: by 2002:ac2:52aa:0:b0:4cb:2aa:9e58 with SMTP id
+ r10-20020ac252aa000000b004cb02aa9e58mr240146lfm.13.1681982138580; 
+ Thu, 20 Apr 2023 02:15:38 -0700 (PDT)
+Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com.
+ [209.85.208.169]) by smtp.gmail.com with ESMTPSA id
+ h25-20020ac250d9000000b004eb09820adbsm153484lfm.105.2023.04.20.02.15.38
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 20 Apr 2023 02:15:38 -0700 (PDT)
+Received: by mail-lj1-f169.google.com with SMTP id c3so2001953ljf.7
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Apr 2023 02:15:38 -0700 (PDT)
+X-Received: by 2002:a2e:a17b:0:b0:2a8:baf7:4e60 with SMTP id
+ u27-20020a2ea17b000000b002a8baf74e60mr157071ljl.9.1681982137873; Thu, 20 Apr
+ 2023 02:15:37 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230331091145.737305-1-treapking@chromium.org>
- <20230331091145.737305-5-treapking@chromium.org>
- <CAE-0n51E5foFWQAsA73662_5e6XP426wuUCVVmcS5UWwiYpDmw@mail.gmail.com>
- <CAEXTbpdcbB_z4ZGCGzc-cM74ECKyxekbroKCWFnhH8eR=4HmvA@mail.gmail.com>
- <CAE-0n50atfmr-bFh5XtTCm4WpSijJGSe0B5JP8ni7CCYk7Bs5A@mail.gmail.com>
- <CAE-0n51Qy-KDGHOCr4Smpebq1fCURqvJ2RJz6KAtVpv5e+DSGA@mail.gmail.com>
-In-Reply-To: <CAE-0n51Qy-KDGHOCr4Smpebq1fCURqvJ2RJz6KAtVpv5e+DSGA@mail.gmail.com>
-From: Pin-yen Lin <treapking@chromium.org>
-Date: Thu, 20 Apr 2023 17:10:46 +0800
-Message-ID: <CAEXTbpeKe1dVHp9cauMN-9nQb35oJ-ZhdFV-8BiWzjjhWAy0Zg@mail.gmail.com>
-Subject: Re: [PATCH v15 04/10] dt-bindings: display: bridge: anx7625: Add
- mode-switch support
-To: Stephen Boyd <swboyd@chromium.org>
+References: <2b6073d9c2d869c6a4eac6edebd616e0568dec91.1681843245.git.geert+renesas@glider.be>
+ <ZEAY5Sf/V10ipDZk@phenom.ffwll.local>
+In-Reply-To: <ZEAY5Sf/V10ipDZk@phenom.ffwll.local>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Thu, 20 Apr 2023 11:15:24 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWbsFHP7Amoz16o5ge5a=wv5u2x0B+yP7e-0bRJufqrQQ@mail.gmail.com>
+Message-ID: <CAMuHMdWbsFHP7Amoz16o5ge5a=wv5u2x0B+yP7e-0bRJufqrQQ@mail.gmail.com>
+Subject: Re: [PATCH] drm/fb-helper: Fix height, width,
+ and accel_flags in fb_var
+To: Daniel Vetter <daniel@ffwll.ch>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -71,114 +70,85 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- "Rafael J . Wysocki" <rafael@kernel.org>, dri-devel@lists.freedesktop.org,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Guenter Roeck <groeck@chromium.org>,
- Marek Vasut <marex@denx.de>, chrome-platform@lists.linux.dev,
- Robert Foss <rfoss@kernel.org>, Javier Martinez Canillas <javierm@redhat.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, linux-acpi@vger.kernel.org,
- Chen-Yu Tsai <wenst@chromium.org>, devicetree@vger.kernel.org,
- =?UTF-8?B?TsOtY29sYXMgRiAuIFIgLiBBIC4gUHJhZG8=?= <nfraprado@collabora.com>,
- Jonas Karlman <jonas@kwiboo.se>, Rob Herring <robh+dt@kernel.org>,
- Hsin-Yi Wang <hsinyi@chromium.org>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Xin Ji <xji@analogixsemi.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
- Daniel Scally <djrscally@gmail.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Prashant Malani <pmalani@chromium.org>,
- Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: linux-fbdev@vger.kernel.org, Javier Martinez Canillas <javierm@redhat.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Apr 20, 2023 at 2:10=E2=80=AFPM Stephen Boyd <swboyd@chromium.org> =
-wrote:
->
-> Quoting Stephen Boyd (2023-04-13 17:22:46)
-> > Quoting Pin-yen Lin (2023-04-13 02:50:44)
-> > >
-> > > Actually the `mode-switch` property here is mainly because
-> > > `fwnode_typec_mux_get`[1] and `typec_mux_match`[2] only return matche=
-s
-> > > when the property is present. I am not sure what side effects would b=
-e
-> > > if I remove the ID-matching condition in `typec_mux_match`, so I adde=
-d
-> > > the property here.
-> > >
-> > > Is it feasible to remove the `mode-switch` property here given the
-> > > existing implementation of the Type-C framework?
+Hi Daniel,
+
+On Wed, Apr 19, 2023 at 6:38=E2=80=AFPM Daniel Vetter <daniel@ffwll.ch> wro=
+te:
+> On Tue, Apr 18, 2023 at 08:42:46PM +0200, Geert Uytterhoeven wrote:
+> > Fbtest contains some very simple validation of the fbdev userspace API
+> > contract.  When used with shmob-drm, it reports the following warnings
+> > and errors:
 > >
-> > Omitting the mode-switch property would require changes to the type-c
-> > framework.
+> >     height changed from 68 to 0
+> >     height was rounded down
+> >     width changed from 111 to 0
+> >     width was rounded down
+> >     accel_flags changed from 0 to 1
 > >
-> > I'm wondering if we can have this anx driver register mode switches for
-> > however many endpoints exist in the output port all the time when the
-> > aux-bus node doesn't exist. Then the type-c framework can walk from the
-> > usb-c-connector to each connected node looking for a device that is bot=
-h
-> > a drm_bridge and a mode-switch. When it finds that combination, it know=
-s
-> > that the mode-switch has been found. This hinges on the idea that a
-> > device that would have the mode-switch property is a drm_bridge and
-> > would register a mode-switch with the type-c framework.
+> > The first part happens because __fill_var() resets the physical
+> > dimensions of the first connector, as filled in by drm_setup_crtcs_fb()=
+.
+> > Fix this by retaining the original values.
 > >
-> > It may be a little complicated though, because we would only register
-> > one drm_bridge for the input to this anx device. The type-c walking cod=
-e
-> > would need to look at the graph endpoint, and find the parent device to
-> > see if it is a drm_bridge.
+> > The last part happens because __fill_var() forces the FB_ACCELF_TEXT
+> > flag on, while fbtest disables all acceleration on purpose, so it can
+> > draw safely to the frame buffer.  Fix this by setting accel_flags to
+> > zero, as DRM does not implement any text console acceleration.
+> > Note that this issue can also be seen in the output of fbset, which
+> > reports "accel true".
+> >
+> > Fixes: ee4cce0a8f03a333 ("drm/fb-helper: fix input validation gaps in c=
+heck_var")
+> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+
+> > --- a/drivers/gpu/drm/drm_fb_helper.c
+> > +++ b/drivers/gpu/drm/drm_fb_helper.c
+> > @@ -2066,7 +2068,7 @@ static void drm_fb_helper_fill_var(struct fb_info=
+ *info,
+> >       info->pseudo_palette =3D fb_helper->pseudo_palette;
+> >       info->var.xoffset =3D 0;
+> >       info->var.yoffset =3D 0;
+> > -     __fill_var(&info->var, fb);
+> > +     __fill_var(&info->var, info, fb);
 >
-> I've been thinking more about this. I think we should only have the
-> 'mode-switch' property possible when the USB input pins (port@2) are
-> connected and the DPI input pins are connected (port@0). Probably you
-> don't have that case though?
+> Bit a bikeshed since it zeroed-allocated anyway, but I'd pass NULL here
+> for info and catch that in __fill_var and then keep the explicit =3D 0;
 
-No we don't have the use case that uses the USB input pins on anx7625.
->
-> In your case, this device should register either one or two drm_bridges
-> that connect to whatever downstream is actually muxing the 2 DP lanes
-> with the USB SS lanes onto the usb-c-connector.
+Yeah, it's a bit unfortunate this is done in two places, and
+info->var.{height,width} are initialized by drm_setup_crtcs_fb()
+only later.
 
-What do you mean by "muxing the 2 DP lanes with the USB SS lanes''? In
-our use case, the USB data lanes from both ports are connected to a
-USB hub, but the DP lanes are muxed by the crosspoint switch on
-anx7625. HPD and AUX for the external display are muxed by the EC. You
-can find the diagram at
-https://lore.kernel.org/linux-usb/YxGzk6DNAt0aCvIY@chromium.org/
+Most of the var contents cannot change as mode changes are not
+supported, so drm_fb_helper_check_var() should just do
 
-> If that is the EC for
-> ChromeOS, then the EC should have a binding that accepts some number of
-> input ports for DP. The EC would act as a drm_bridge, or in this case
-> probably two bridges, and also as two type-c switches for each
-> drm_bridge corresponding to the usb-c-connector nodes. When DP is on the
-> cable, the type-c switch/mux would signal to the drm_bridge that the
-> display is 'connected' via DRM_BRIDGE_OP_DETECT and struct
-> drm_bridge_funcs::detect(). Then the drm_bridge in this anx part would
-> implement struct drm_bridge_funcs::atomic_enable() and configure the
-> crosspoint switch the right way depending on the reg property of the
-> output node in port@1.
+    if (var->foo > info->var.foo)
+            return -EINVAL;
+    var->foo =3D info->var.foo;
 
-So there will be two drm bridges that act as the downstreams for
-anx7625, and we find the downstream with connector_status_connected to
-configure the crosspoint switch? How do we support that kind of
-topology given that the drm bridge chain is currently a list? Are you
-suggesting making the bridge topology to a tree, or maintaining the
-two downstreams inside the anx7625 driver and not attaching them to
-the bridge chain?
+For the parts that can change, based on earlier discussions I saw pass
+by, I believe there should be a call into atomic try-modesetting at
+the end of drm_fb_helper_check_var()?
 
-Also, if we still register mode switches on the two downstream
-bridges, why do you prefer that over the original approach that
-register switches in the anx7625 driver?
+> Either way Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 
->
-> Because you don't have the part that implements the orientation-switch,
-> you don't need to implement the code for it. I think simply adding
-> support in the binding for mode-switch and orientation-switch if this is
-> directly wired to a usb-c-connector should be sufficient. Those
-> properties would be at the top-level and not part of the graph binding.
+Thanks!
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
