@@ -1,63 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 402B76E870C
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Apr 2023 02:56:03 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 790DF6E8712
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Apr 2023 03:00:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 06FFE10E207;
-	Thu, 20 Apr 2023 00:55:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E3C5110E224;
+	Thu, 20 Apr 2023 01:00:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22c.google.com (mail-lj1-x22c.google.com
- [IPv6:2a00:1450:4864:20::22c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9E35310E1CF
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Apr 2023 00:55:55 +0000 (UTC)
-Received: by mail-lj1-x22c.google.com with SMTP id k15so1006930ljq.4
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Apr 2023 17:55:55 -0700 (PDT)
+Received: from mail-lj1-x22b.google.com (mail-lj1-x22b.google.com
+ [IPv6:2a00:1450:4864:20::22b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 81CC810E224
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Apr 2023 01:00:33 +0000 (UTC)
+Received: by mail-lj1-x22b.google.com with SMTP id
+ 38308e7fff4ca-2a8bae45579so1863321fa.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Apr 2023 18:00:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1681952154; x=1684544154;
+ d=linaro.org; s=google; t=1681952431; x=1684544431;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=Mj/IZ8/q3LWYaJuZh+m8gKrrpGLIcx9rD0SuhtK3tA0=;
- b=wKv2MHhswPxaQN1cvJymcq+PHFU2en0Au7w8Jlszz54MzG8ur11HQ1j14KwjUWi0WR
- sXqW8pubQhjY7cNDvhgNa/JeBQAHY/7Bctniz5vtabJGRW06+Vem9xbxOOY8yX5c7mdX
- sDaP+2BtiDlNzGe7uyFEYyXw97yB8igo4TggW0NikQWyehzbuqaG/llskyNC0VodlkW8
- kn7z26NUfdRo6h7E9o14ZBbT9fb816KEbifHA1LBJSz+vt3W7dmxCS2QpSxE0+Yx7idY
- B0Q2skq9z1kOdMTExgJUJA82nKI+mhWVaYd0SKHjHXC6TzvJ1GcWRiiZnGtP5q88trSP
- r0tg==
+ bh=/OeivZTRl0F7t3B4vPMjbBXzRETl8x5grsHiQussIAg=;
+ b=JUii+L7FKaCcEy4eHxgoWASomZLJuFVM1Q8xze87/zvFQmSgkYm3vHvZhW4qpNGAv2
+ Mpurq12jswrBBDldw1Xb6nm4p9TKTe7wTM7UFd8H3yYmzCp6/1gzPASRYwFrCw9VD3id
+ L04LWTAFOJcaTmo2Ms4hku7bXejfCoAeZQHsjwFfebZsZO4F4WpZ+P/D3YfbCajDGy3Q
+ Q9Wh0c33T/GhUu0OhRSkH6Pb6p/lDScFeybpevTxqPgkEOORITfAfb3pKLR9ZpVBox41
+ 0rEMeRZh5i/p8skZt4treJkF9yONkeFGjezV8U0XE0/W8a+6AE0teWI/itCQ1advOet+
+ IClA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681952154; x=1684544154;
+ d=1e100.net; s=20221208; t=1681952431; x=1684544431;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Mj/IZ8/q3LWYaJuZh+m8gKrrpGLIcx9rD0SuhtK3tA0=;
- b=JsdqUIlzTnnu5yqXNn1VeULOzT1oqaCQU6lYjwAbZ2RTricIsaIKGXntjQz9xxgxXs
- dejPuYoXhkstpdJNyRI4OOqoWn3HMBgrxSMs9GSqo6dttRMgbk7RcyhOpYHI4nV4NNIy
- JzOV67JL3JSGdUxUpm7LCj8ALQIOn6sRKxKr8QBlJwUwLonkKPOh3hknkI6WvD6Yds7F
- xUj6zRgzhulUAZA3HYZM/+Mt9dLKZI94472wfihAlJasEXJGciH7qb8JpLpAhNQL1Avv
- Bzs5ltbhCUPGodaF5fSSYJwx66tUJwFCpBH/trwufh/UrD3Nxzx0lNFg8pJal9P3VmnV
- UwDA==
-X-Gm-Message-State: AAQBX9eHgcwztvH/Muj100K6B5/r7MJJvFL6NnlmqQ2RuOgiUL5eOkrV
- aoO5R7RH/kGHsQkAYwHzgndRCg==
-X-Google-Smtp-Source: AKy350aBjbBI2fnSI78CYPlvQ6MQ6S6ZIkXziORI8Lxrfejc+O5akyG1vq476JVPJqKUPfd4c0EzpQ==
-X-Received: by 2002:a2e:8217:0:b0:2a8:b7e6:b622 with SMTP id
- w23-20020a2e8217000000b002a8b7e6b622mr2067402ljg.46.1681952153810; 
- Wed, 19 Apr 2023 17:55:53 -0700 (PDT)
+ bh=/OeivZTRl0F7t3B4vPMjbBXzRETl8x5grsHiQussIAg=;
+ b=DMmNMDFu9gjuiqiAMjlV7kkHpuQRskhWcLYYcEeQc0AYzGhxzcZ40+BvpO0AHXcGPG
+ 305WyORfEyCBA7YAigfHaLiAaWj5+8qYS1cGGBeuOjIJgq522+fek/dgpCMKVAecYmeo
+ 5PniIJp1f539ef552ZnPmYHwOr2PNZa3W8lRl0R9SFJTfXatYLW5kj2lLIgzwFsB7wIe
+ zmbUIH6POGWrTAKmPpSYg0zfPte5pQRNjM/2YASeO9DWlNixFvCtaLoumCsHqviJUAlI
+ UEtUBq6syifiSE3YrGLCnNC6+eodTRmE1n4gyvc2QWPqlPHLxXE3lbYyVu2mfBHi4Fsr
+ jugg==
+X-Gm-Message-State: AAQBX9evZ14mTPqnj1BgjhSTVHJAcfwPtXoc3ymMSggZ2pDyrNn8psdM
+ ieey9Au9biJEBYUOJjfChHa7Gg==
+X-Google-Smtp-Source: AKy350ad8mCRMEi+zaM3mC7+hnNllUeSoRFrbcJwJu1WXeHwyCmYBRyr1hhJCfIBW0GkLyEyuTt05A==
+X-Received: by 2002:ac2:4859:0:b0:4ea:e296:fe9e with SMTP id
+ 25-20020ac24859000000b004eae296fe9emr4563364lfy.9.1681952431635; 
+ Wed, 19 Apr 2023 18:00:31 -0700 (PDT)
 Received: from ?IPV6:2001:14ba:a085:4d00::8a5?
  (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a085:4d00::8a5])
  by smtp.gmail.com with ESMTPSA id
- t18-20020a2e7812000000b002a77e01c3a0sm21056ljc.23.2023.04.19.17.55.52
+ c15-20020a19760f000000b004d57a760e4dsm58489lff.37.2023.04.19.18.00.30
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 19 Apr 2023 17:55:53 -0700 (PDT)
-Message-ID: <4bba553e-8fd0-6727-695b-452fbd69ea61@linaro.org>
-Date: Thu, 20 Apr 2023 03:55:52 +0300
+ Wed, 19 Apr 2023 18:00:31 -0700 (PDT)
+Message-ID: <20fab838-e05b-163d-aa72-bd8235df9f2c@linaro.org>
+Date: Thu, 20 Apr 2023 04:00:30 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.9.0
-Subject: Re: [PATCH v2 10/17] drm/msm/dpu: Disable pingpong TE on DPU 5.0.0
- and above
+Subject: Re: [PATCH v2 11/17] drm/msm/dpu: Disable MDP vsync source selection
+ on DPU 5.0.0 and above
 Content-Language: en-GB
 To: Marijn Suijten <marijn.suijten@somainline.org>,
  Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
@@ -71,9 +72,9 @@ To: Marijn Suijten <marijn.suijten@somainline.org>,
  Neil Armstrong <neil.armstrong@linaro.org>,
  Chandan Uddaraju <chandanu@codeaurora.org>
 References: <20230411-dpu-intf-te-v2-0-ef76c877eb97@somainline.org>
- <20230411-dpu-intf-te-v2-10-ef76c877eb97@somainline.org>
+ <20230411-dpu-intf-te-v2-11-ef76c877eb97@somainline.org>
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <20230411-dpu-intf-te-v2-10-ef76c877eb97@somainline.org>
+In-Reply-To: <20230411-dpu-intf-te-v2-11-ef76c877eb97@somainline.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -103,39 +104,166 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 17/04/2023 23:21, Marijn Suijten wrote:
 > Since hardware revision 5.0.0 the TE configuration moved out of the
-> PINGPONG block into the INTF block.  Writing these registers has no
-> effect, and is omitted downstream via the DPU/SDE_PINGPONG_TE feature
-> flag.  This flag is only added to PINGPONG blocks used by hardware prior
-> to 5.0.0.
-> 
-> The existing PP_BLK_TE macro has been removed in favour of directly
-> passing this feature flag, which has thus far been the only difference
-> with PP_BLK.  PP_BLK_DITHER has been left in place as its embedded
-> feature flag already excludes this DPU_PINGPONG_TE bit and differs by
-> setting the block length to zero, as it only contains a DITHER subblock.
+> PINGPONG block into the INTF block, including vsync source selection
+> that was previously part of MDP top.  Writing to the MDP_VSYNC_SEL
+> register has no effect anymore and is omitted downstream via the
+> DPU/SDE_MDP_VSYNC_SEL feature flag.  This flag is only added to INTF
+> blocks used by hardware prior to 5.0.0.
 > 
 > The code that writes to these registers in the INTF block will follow in
 > subsequent patches.
 > 
 > Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
+> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 > ---
->   .../drm/msm/disp/dpu1/catalog/dpu_3_0_msm8998.h    |  8 +++----
->   .../gpu/drm/msm/disp/dpu1/catalog/dpu_4_0_sdm845.h |  8 +++----
->   .../gpu/drm/msm/disp/dpu1/catalog/dpu_5_0_sm8150.h | 12 +++++------
->   .../drm/msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h    | 12 +++++------
->   .../gpu/drm/msm/disp/dpu1/catalog/dpu_6_0_sm8250.h | 12 +++++------
->   .../gpu/drm/msm/disp/dpu1/catalog/dpu_6_2_sc7180.h |  4 ++--
->   .../gpu/drm/msm/disp/dpu1/catalog/dpu_6_3_sm6115.h |  2 +-
->   .../drm/msm/disp/dpu1/catalog/dpu_6_5_qcm2290.h    |  2 +-
->   .../gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h | 12 +++++------
->   .../gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h |  8 +++----
->   .../drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h   | 24 ++++++++++-----------
->   .../gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h | 16 +++++++-------
->   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c     | 25 ++++++++++------------
->   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.c    | 12 ++++++-----
->   14 files changed, 78 insertions(+), 79 deletions(-)
+>   .../drm/msm/disp/dpu1/catalog/dpu_3_0_msm8998.h    |  2 +-
+>   .../gpu/drm/msm/disp/dpu1/catalog/dpu_4_0_sdm845.h |  2 +-
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h     |  3 ++
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.c         | 52 +++++++++++++++-------
+>   4 files changed, 41 insertions(+), 18 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_3_0_msm8998.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_3_0_msm8998.h
+> index b7845591c384..6906f8046b9e 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_3_0_msm8998.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_3_0_msm8998.h
+> @@ -30,7 +30,7 @@ static const struct dpu_mdp_cfg msm8998_mdp[] = {
+>   	{
+>   	.name = "top_0", .id = MDP_TOP,
+>   	.base = 0x0, .len = 0x458,
+> -	.features = 0,
+> +	.features = BIT(DPU_MDP_VSYNC_SEL),
+>   	.clk_ctrls[DPU_CLK_CTRL_VIG0] = { .reg_off = 0x2ac, .bit_off = 0 },
+>   	.clk_ctrls[DPU_CLK_CTRL_VIG1] = { .reg_off = 0x2b4, .bit_off = 0 },
+>   	.clk_ctrls[DPU_CLK_CTRL_VIG2] = { .reg_off = 0x2bc, .bit_off = 0 },
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_4_0_sdm845.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_4_0_sdm845.h
+> index 5b9b3b99f1b5..14ce397800d5 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_4_0_sdm845.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_4_0_sdm845.h
+> @@ -30,7 +30,7 @@ static const struct dpu_mdp_cfg sdm845_mdp[] = {
+>   	{
+>   	.name = "top_0", .id = MDP_TOP,
+>   	.base = 0x0, .len = 0x45c,
+> -	.features = BIT(DPU_MDP_AUDIO_SELECT),
+> +	.features = BIT(DPU_MDP_AUDIO_SELECT) | BIT(DPU_MDP_VSYNC_SEL),
+>   	.clk_ctrls[DPU_CLK_CTRL_VIG0] = { .reg_off = 0x2ac, .bit_off = 0 },
+>   	.clk_ctrls[DPU_CLK_CTRL_VIG1] = { .reg_off = 0x2b4, .bit_off = 0 },
+>   	.clk_ctrls[DPU_CLK_CTRL_VIG2] = { .reg_off = 0x2bc, .bit_off = 0 },
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+> index 71584cd56fd7..599e177b89dd 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+> @@ -48,6 +48,8 @@ enum {
+>    * @DPU_MDP_UBWC_1_5,      Universal Bandwidth compression version 1.5
+>    * @DPU_MDP_PERIPH_0_REMOVED Indicates that access to periph top0 block results
+>    *			   in a failure
+> + * @DPU_MDP_VSYNC_SEL      Enables vsync source selection via MDP_VSYNC_SEL register
+> + *                         (moved into INTF block since DPU 5.0.0)
+>    * @DPU_MDP_MAX            Maximum value
+>   
+>    */
+> @@ -59,6 +61,7 @@ enum {
+>   	DPU_MDP_UBWC_1_5,
+>   	DPU_MDP_AUDIO_SELECT,
+>   	DPU_MDP_PERIPH_0_REMOVED,
+> +	DPU_MDP_VSYNC_SEL,
+>   	DPU_MDP_MAX
+>   };
+>   
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.c
+> index 2bb02e17ee52..9ea15a647a66 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.c
+> @@ -126,28 +126,16 @@ static void dpu_hw_get_danger_status(struct dpu_hw_mdp *mdp,
+>   	status->sspp[SSPP_CURSOR1] = (value >> 26) & 0x3;
+>   }
+>   
+> -static void dpu_hw_setup_vsync_source(struct dpu_hw_mdp *mdp,
+> +static void dpu_hw_setup_vsync_source_v1(struct dpu_hw_mdp *mdp,
+>   		struct dpu_vsync_source_cfg *cfg)
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In my opinion _v1 is not really descriptive here. Could you please 
+rename it to dpu_hw_setup_vsync_source_no_vsync_sel() ?
+
+Or maybe rename dpu_hw_setup_vsync_source() to 
+dpu_hw_setup_vsync_source_vsync_sel() and drop _v1 from this function.
+
+Up to you.
+
+
+>   {
+>   	struct dpu_hw_blk_reg_map *c;
+> -	u32 reg, wd_load_value, wd_ctl, wd_ctl2, i;
+> -	static const u32 pp_offset[PINGPONG_MAX] = {0xC, 0x8, 0x4, 0x13, 0x18};
+> +	u32 reg, wd_load_value, wd_ctl, wd_ctl2;
+>   
+> -	if (!mdp || !cfg || (cfg->pp_count > ARRAY_SIZE(cfg->ppnumber)))
+> +	if (!mdp || !cfg)
+>   		return;
+>   
+>   	c = &mdp->hw;
+> -	reg = DPU_REG_READ(c, MDP_VSYNC_SEL);
+> -	for (i = 0; i < cfg->pp_count; i++) {
+> -		int pp_idx = cfg->ppnumber[i] - PINGPONG_0;
+> -
+> -		if (pp_idx >= ARRAY_SIZE(pp_offset))
+> -			continue;
+> -
+> -		reg &= ~(0xf << pp_offset[pp_idx]);
+> -		reg |= (cfg->vsync_source & 0xf) << pp_offset[pp_idx];
+> -	}
+> -	DPU_REG_WRITE(c, MDP_VSYNC_SEL, reg);
+>   
+>   	if (cfg->vsync_source >= DPU_VSYNC_SOURCE_WD_TIMER_4 &&
+>   			cfg->vsync_source <= DPU_VSYNC_SOURCE_WD_TIMER_0) {
+> @@ -194,6 +182,33 @@ static void dpu_hw_setup_vsync_source(struct dpu_hw_mdp *mdp,
+>   	}
+>   }
+>   
+> +static void dpu_hw_setup_vsync_source(struct dpu_hw_mdp *mdp,
+> +		struct dpu_vsync_source_cfg *cfg)
+> +{
+> +	struct dpu_hw_blk_reg_map *c;
+> +	u32 reg, i;
+> +	static const u32 pp_offset[PINGPONG_MAX] = {0xC, 0x8, 0x4, 0x13, 0x18};
+> +
+> +	if (!mdp || !cfg || (cfg->pp_count > ARRAY_SIZE(cfg->ppnumber)))
+> +		return;
+> +
+> +	c = &mdp->hw;
+> +
+> +	reg = DPU_REG_READ(c, MDP_VSYNC_SEL);
+> +	for (i = 0; i < cfg->pp_count; i++) {
+> +		int pp_idx = cfg->ppnumber[i] - PINGPONG_0;
+> +
+> +		if (pp_idx >= ARRAY_SIZE(pp_offset))
+> +			continue;
+> +
+> +		reg &= ~(0xf << pp_offset[pp_idx]);
+> +		reg |= (cfg->vsync_source & 0xf) << pp_offset[pp_idx];
+> +	}
+> +	DPU_REG_WRITE(c, MDP_VSYNC_SEL, reg);
+> +
+> +	dpu_hw_setup_vsync_source_v1(mdp, cfg);
+> +}
+> +
+>   static void dpu_hw_get_safe_status(struct dpu_hw_mdp *mdp,
+>   		struct dpu_danger_safe_status *status)
+>   {
+> @@ -241,7 +256,12 @@ static void _setup_mdp_ops(struct dpu_hw_mdp_ops *ops,
+>   	ops->setup_split_pipe = dpu_hw_setup_split_pipe;
+>   	ops->setup_clk_force_ctrl = dpu_hw_setup_clk_force_ctrl;
+>   	ops->get_danger_status = dpu_hw_get_danger_status;
+> -	ops->setup_vsync_source = dpu_hw_setup_vsync_source;
+> +
+> +	if (cap & BIT(DPU_MDP_VSYNC_SEL))
+> +		ops->setup_vsync_source = dpu_hw_setup_vsync_source;
+> +	else
+> +		ops->setup_vsync_source = dpu_hw_setup_vsync_source_v1;
+> +
+>   	ops->get_safe_status = dpu_hw_get_safe_status;
+>   
+>   	if (cap & BIT(DPU_MDP_AUDIO_SELECT))
+> 
 
 -- 
 With best wishes
