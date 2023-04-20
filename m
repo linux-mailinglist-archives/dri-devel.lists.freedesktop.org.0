@@ -2,60 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F96A6E8D75
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Apr 2023 11:04:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5A986E8DA7
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Apr 2023 11:11:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 624FC10E013;
-	Thu, 20 Apr 2023 09:04:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B142210EA91;
+	Thu, 20 Apr 2023 09:11:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com
- [209.85.128.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 64C3C10E013
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Apr 2023 09:04:25 +0000 (UTC)
-Received: by mail-yw1-f172.google.com with SMTP id
- 00721157ae682-552ae3e2cbeso30691007b3.13
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Apr 2023 02:04:25 -0700 (PDT)
+Received: from mail-io1-xd32.google.com (mail-io1-xd32.google.com
+ [IPv6:2607:f8b0:4864:20::d32])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2018310E06C
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Apr 2023 09:10:58 +0000 (UTC)
+Received: by mail-io1-xd32.google.com with SMTP id
+ ca18e2360f4ac-76375982b6aso76674939f.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Apr 2023 02:10:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1681981857; x=1684573857;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=jApLsIPicCWYWY8ghJs6Wqkso3cOUL2m8oysLKQNPCs=;
+ b=Ur9jtx0E94T0GI9XNaXArOQcj0se42481pOZjFlLPL+HB5Lj3VQ0Skl82gG5KPW/re
+ V0XDWaTSQ6C8cKi+Hx/1+6fYNfQIAmbBMmPo9Tx61XMp6Lk4cMhypk7IL0R+08PSOOT6
+ fulCTs04wVatbGLIdZn0FIjfOxwjNWV2iKIEk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681981464; x=1684573464;
+ d=1e100.net; s=20221208; t=1681981857; x=1684573857;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=wKtBzMUV9hqGJdb9Z5c6Q0amkNjCy+P79xURFwU+I0A=;
- b=dw4eyP3VNNMbt4cpBGe9caefQivY9IcuKG0pOnzLCRlD8fZdJY/KIdI80s5BnbM3RG
- UzfjXaKGWVKB7yvPNGx7gtsNquxMUTQPTmJqEPQVXtoDMDIyWojIK4XIPbOvq76fVbVm
- eeVX5SjV83rkCukx+r5a4bsWSc8M1yxqEWMkDtiZ3k70y9j0Pwbq9ao+QAL/smVZkWL0
- 0QWt01ZkV5XJK8JQdqvjuWfIKfRG5LsP3x/p+/Hx/NRejL0xCLgvgWXZ1RHdD7bKqyeE
- swBMqzqE1AgmPCRUtK0KfKbx0O781l4n3PSQkIWu8YxXdIDAcKURfPJJdKEGBnPV4XYN
- Ewgg==
-X-Gm-Message-State: AAQBX9cvs0WqGSPEa6Apy2lORBUPaWhDoBWU8Ikin0sP5E08AcJGFdTo
- HX/mvcKuAF0ktNJrbMsXtGjzuD6fHODzQw==
-X-Google-Smtp-Source: AKy350ZEm+qFHHsZEgE5TUkhbjUXIwkRib0QrbXLytfTRN2yi2z7VP/nHD7BhmpuIvYLS9SLBQthuQ==
-X-Received: by 2002:a81:92d4:0:b0:546:2787:4b93 with SMTP id
- j203-20020a8192d4000000b0054627874b93mr254780ywg.35.1681981463956; 
- Thu, 20 Apr 2023 02:04:23 -0700 (PDT)
-Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com.
- [209.85.128.170]) by smtp.gmail.com with ESMTPSA id
- i143-20020a0ddf95000000b0054c02f97d8dsm224569ywe.91.2023.04.20.02.04.22
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 20 Apr 2023 02:04:22 -0700 (PDT)
-Received: by mail-yw1-f170.google.com with SMTP id
- 00721157ae682-54fbb713301so31017307b3.11
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Apr 2023 02:04:22 -0700 (PDT)
-X-Received: by 2002:a81:a1d5:0:b0:54f:c1c1:199a with SMTP id
- y204-20020a81a1d5000000b0054fc1c1199amr290622ywg.18.1681981461935; Thu, 20
- Apr 2023 02:04:21 -0700 (PDT)
+ bh=jApLsIPicCWYWY8ghJs6Wqkso3cOUL2m8oysLKQNPCs=;
+ b=gNI39JbVF9Jc5iaDiKPA+4rlHMu7tsImsSPwu/eUbdP207TuZf793IAR+80WyPeMle
+ gqU4Uj0d0wWpokkjjBqRpD+S0e/SKX/r7h27BpHDN7C2NerRI2RVdV76YQXadqVNKCwY
+ GxWSeGF5eA/ahfiU5/TDHPOUSkWNEWE6nqeUf++0V94JB9LGhvid2XOfFdXmBwvWbbW6
+ mJpHh9vVzuWJvHIDutCtmwp5oG9WLsJzXvEwmBjkZJgqFniaS/wlIuv+cP3OeGXn+tvk
+ AoJ+gU5kwaAoB16ySOe+tn/ppRMyEKo7s/LSky8kvptdhXN5IFdo5745K4dr8iT0CQy3
+ tzqw==
+X-Gm-Message-State: AAQBX9cXKrV9IGkK9zIqhrcf0A0Na2L02iphkDyaEVtU2o1J8XVBj3oi
+ 0eYSFE+6oBL5jJkM4SyrYY9aIrYyid/adX/bjS12tw==
+X-Google-Smtp-Source: AKy350Y4t++JqRfXaFXQUgB02uSAJYZVXkFSdgGLBxELTeSwXAZpeLFbnln9lKU9ujIzGQATjnMs8vmkMD8DbLkGgsY=
+X-Received: by 2002:a02:b019:0:b0:40f:910c:92d6 with SMTP id
+ p25-20020a02b019000000b0040f910c92d6mr253400jah.6.1681981856946; Thu, 20 Apr
+ 2023 02:10:56 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230420030500.1578756-1-suijingfeng@loongson.cn>
-In-Reply-To: <20230420030500.1578756-1-suijingfeng@loongson.cn>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 20 Apr 2023 11:04:10 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUZoBZEM73fo8-PitSae8wgv-m6sez3nA8J3RFMAtOyOQ@mail.gmail.com>
-Message-ID: <CAMuHMdUZoBZEM73fo8-PitSae8wgv-m6sez3nA8J3RFMAtOyOQ@mail.gmail.com>
-Subject: Re: [PATCH v5] drm/fbdev-generic: prohibit potential out-of-bounds
- access
-To: Sui Jingfeng <suijingfeng@loongson.cn>
+References: <20230331091145.737305-1-treapking@chromium.org>
+ <20230331091145.737305-5-treapking@chromium.org>
+ <CAE-0n51E5foFWQAsA73662_5e6XP426wuUCVVmcS5UWwiYpDmw@mail.gmail.com>
+ <CAEXTbpdcbB_z4ZGCGzc-cM74ECKyxekbroKCWFnhH8eR=4HmvA@mail.gmail.com>
+ <CAE-0n50atfmr-bFh5XtTCm4WpSijJGSe0B5JP8ni7CCYk7Bs5A@mail.gmail.com>
+ <CAE-0n51Qy-KDGHOCr4Smpebq1fCURqvJ2RJz6KAtVpv5e+DSGA@mail.gmail.com>
+In-Reply-To: <CAE-0n51Qy-KDGHOCr4Smpebq1fCURqvJ2RJz6KAtVpv5e+DSGA@mail.gmail.com>
+From: Pin-yen Lin <treapking@chromium.org>
+Date: Thu, 20 Apr 2023 17:10:46 +0800
+Message-ID: <CAEXTbpeKe1dVHp9cauMN-9nQb35oJ-ZhdFV-8BiWzjjhWAy0Zg@mail.gmail.com>
+Subject: Re: [PATCH v15 04/10] dt-bindings: display: bridge: anx7625: Add
+ mode-switch support
+To: Stephen Boyd <swboyd@chromium.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -70,117 +71,114 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Lucas De Marchi <lucas.demarchi@intel.com>, linux-fbdev@vger.kernel.org,
- Thomas Zimmermann <tzimmermann@suse.de>, Li Yi <liyi@loongson.cn>,
- Helge Deller <deller@gmx.de>, linux-kernel@vger.kernel.org,
- loongson-kernel@lists.loongnix.cn, dri-devel@lists.freedesktop.org
+Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ "Rafael J . Wysocki" <rafael@kernel.org>, dri-devel@lists.freedesktop.org,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Guenter Roeck <groeck@chromium.org>,
+ Marek Vasut <marex@denx.de>, chrome-platform@lists.linux.dev,
+ Robert Foss <rfoss@kernel.org>, Javier Martinez Canillas <javierm@redhat.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, linux-acpi@vger.kernel.org,
+ Chen-Yu Tsai <wenst@chromium.org>, devicetree@vger.kernel.org,
+ =?UTF-8?B?TsOtY29sYXMgRiAuIFIgLiBBIC4gUHJhZG8=?= <nfraprado@collabora.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Rob Herring <robh+dt@kernel.org>,
+ Hsin-Yi Wang <hsinyi@chromium.org>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Xin Ji <xji@analogixsemi.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
+ Daniel Scally <djrscally@gmail.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Prashant Malani <pmalani@chromium.org>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Sui,
+On Thu, Apr 20, 2023 at 2:10=E2=80=AFPM Stephen Boyd <swboyd@chromium.org> =
+wrote:
+>
+> Quoting Stephen Boyd (2023-04-13 17:22:46)
+> > Quoting Pin-yen Lin (2023-04-13 02:50:44)
+> > >
+> > > Actually the `mode-switch` property here is mainly because
+> > > `fwnode_typec_mux_get`[1] and `typec_mux_match`[2] only return matche=
+s
+> > > when the property is present. I am not sure what side effects would b=
+e
+> > > if I remove the ID-matching condition in `typec_mux_match`, so I adde=
+d
+> > > the property here.
+> > >
+> > > Is it feasible to remove the `mode-switch` property here given the
+> > > existing implementation of the Type-C framework?
+> >
+> > Omitting the mode-switch property would require changes to the type-c
+> > framework.
+> >
+> > I'm wondering if we can have this anx driver register mode switches for
+> > however many endpoints exist in the output port all the time when the
+> > aux-bus node doesn't exist. Then the type-c framework can walk from the
+> > usb-c-connector to each connected node looking for a device that is bot=
+h
+> > a drm_bridge and a mode-switch. When it finds that combination, it know=
+s
+> > that the mode-switch has been found. This hinges on the idea that a
+> > device that would have the mode-switch property is a drm_bridge and
+> > would register a mode-switch with the type-c framework.
+> >
+> > It may be a little complicated though, because we would only register
+> > one drm_bridge for the input to this anx device. The type-c walking cod=
+e
+> > would need to look at the graph endpoint, and find the parent device to
+> > see if it is a drm_bridge.
+>
+> I've been thinking more about this. I think we should only have the
+> 'mode-switch' property possible when the USB input pins (port@2) are
+> connected and the DPI input pins are connected (port@0). Probably you
+> don't have that case though?
 
-On Thu, Apr 20, 2023 at 5:09=E2=80=AFAM Sui Jingfeng <suijingfeng@loongson.=
-cn> wrote:
-> The fbdev test of IGT may write after EOF, which lead to out-of-bound
-> access for drm drivers hire fbdev-generic. For example, run fbdev test
-> on a x86+ast2400 platform, with 1680x1050 resolution, will cause the
-> linux kernel hang with the following call trace:
+No we don't have the use case that uses the USB input pins on anx7625.
 >
->   Oops: 0000 [#1] PREEMPT SMP PTI
->   [IGT] fbdev: starting subtest eof
->   Workqueue: events drm_fb_helper_damage_work [drm_kms_helper]
->   [IGT] fbdev: starting subtest nullptr
->
->   RIP: 0010:memcpy_erms+0xa/0x20
->   RSP: 0018:ffffa17d40167d98 EFLAGS: 00010246
->   RAX: ffffa17d4eb7fa80 RBX: ffffa17d40e0aa80 RCX: 00000000000014c0
->   RDX: 0000000000001a40 RSI: ffffa17d40e0b000 RDI: ffffa17d4eb80000
->   RBP: ffffa17d40167e20 R08: 0000000000000000 R09: ffff89522ecff8c0
->   R10: ffffa17d4e4c5000 R11: 0000000000000000 R12: ffffa17d4eb7fa80
->   R13: 0000000000001a40 R14: 000000000000041a R15: ffffa17d40167e30
->   FS:  0000000000000000(0000) GS:ffff895257380000(0000) knlGS:00000000000=
-00000
->   CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
->   CR2: ffffa17d40e0b000 CR3: 00000001eaeca006 CR4: 00000000001706e0
->   Call Trace:
->    <TASK>
->    ? drm_fbdev_generic_helper_fb_dirty+0x207/0x330 [drm_kms_helper]
->    drm_fb_helper_damage_work+0x8f/0x170 [drm_kms_helper]
->    process_one_work+0x21f/0x430
->    worker_thread+0x4e/0x3c0
->    ? __pfx_worker_thread+0x10/0x10
->    kthread+0xf4/0x120
->    ? __pfx_kthread+0x10/0x10
->    ret_from_fork+0x2c/0x50
->    </TASK>
->   CR2: ffffa17d40e0b000
->   ---[ end trace 0000000000000000 ]---
->
-> The is because damage rectangles computed by
-> drm_fb_helper_memory_range_to_clip() function does not guaranteed to be
-> bound in the screen's active display area. Possible reasons are:
->
-> 1) Buffers are allocated in the granularity of page size, for mmap system
->    call support. The shadow screen buffer consumed by fbdev emulation may
->    also choosed be page size aligned.
->
-> 2) The DIV_ROUND_UP() used in drm_fb_helper_memory_range_to_clip()
->    will introduce off-by-one error.
->
-> For example, on a 16KB page size system, in order to store a 1920x1080
-> XRGB framebuffer, we need allocate 507 pages. Unfortunately, the size
-> 1920*1080*4 can not be divided exactly by 16KB.
->
->  1920 * 1080 * 4 =3D 8294400 bytes
->  506 * 16 * 1024 =3D 8290304 bytes
->  507 * 16 * 1024 =3D 8306688 bytes
->
->  line_length =3D 1920*4 =3D 7680 bytes
->
->  507 * 16 * 1024 / 7680 =3D 1081.6
->
->  off / line_length =3D 507 * 16 * 1024 / 7680 =3D 1081
->  DIV_ROUND_UP(507 * 16 * 1024, 7680) will yeild 1082
->
-> memcpy_toio() typically issue the copy line by line, when copy the last
-> line, out-of-bound access will be happen. Because:
->
->  1082 * line_length =3D 1082 * 7680 =3D 8309760, and 8309760 > 8306688
->
-> Note that userspace may stil write to the invisiable area if a larger
-> buffer than width x stride is exposed. But it is not a big issue as
-> long as there still have memory resolve the access if not drafting so
-> far.
->
->  - Also limit the y1 (Daniel)
->  - keep fix patch it to minimal (Daniel)
->  - screen_size is page size aligned because of it need mmap (Thomas)
->  - Adding fixes tag (Thomas)
->
-> Fixes: aa15c677cc34 ("drm/fb-helper: Fix vertical damage clipping")
->
-> Signed-off-by: Sui Jingfeng <suijingfeng@loongson.cn>
-> Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> In your case, this device should register either one or two drm_bridges
+> that connect to whatever downstream is actually muxing the 2 DP lanes
+> with the USB SS lanes onto the usb-c-connector.
 
-Thanks for the update!  This v5 is completely different from the v3
-I tested before, so keeping my Tested-by is not really appropriate...
+What do you mean by "muxing the 2 DP lanes with the USB SS lanes''? In
+our use case, the USB data lanes from both ports are connected to a
+USB hub, but the DP lanes are muxed by the crosspoint switch on
+anx7625. HPD and AUX for the external display are muxed by the EC. You
+can find the diagram at
+https://lore.kernel.org/linux-usb/YxGzk6DNAt0aCvIY@chromium.org/
 
-I have retested fbtest with shmob-drm on Armadillo-800-EVA
-(800x480@RG16, i.e. 187.5 pages), and fortunately this version still
-works fine, so
-Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> If that is the EC for
+> ChromeOS, then the EC should have a binding that accepts some number of
+> input ports for DP. The EC would act as a drm_bridge, or in this case
+> probably two bridges, and also as two type-c switches for each
+> drm_bridge corresponding to the usb-c-connector nodes. When DP is on the
+> cable, the type-c switch/mux would signal to the drm_bridge that the
+> display is 'connected' via DRM_BRIDGE_OP_DETECT and struct
+> drm_bridge_funcs::detect(). Then the drm_bridge in this anx part would
+> implement struct drm_bridge_funcs::atomic_enable() and configure the
+> crosspoint switch the right way depending on the reg property of the
+> output node in port@1.
 
-Gr{oetje,eeting}s,
+So there will be two drm bridges that act as the downstreams for
+anx7625, and we find the downstream with connector_status_connected to
+configure the crosspoint switch? How do we support that kind of
+topology given that the drm bridge chain is currently a list? Are you
+suggesting making the bridge topology to a tree, or maintaining the
+two downstreams inside the anx7625 driver and not attaching them to
+the bridge chain?
 
-                        Geert
+Also, if we still register mode switches on the two downstream
+bridges, why do you prefer that over the original approach that
+register switches in the anx7625 driver?
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+>
+> Because you don't have the part that implements the orientation-switch,
+> you don't need to implement the code for it. I think simply adding
+> support in the binding for mode-switch and orientation-switch if this is
+> directly wired to a usb-c-connector should be sufficient. Those
+> properties would be at the top-level and not part of the graph binding.
