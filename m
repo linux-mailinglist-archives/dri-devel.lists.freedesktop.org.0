@@ -1,57 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B51DF6E90FE
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Apr 2023 12:51:32 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CBDF6E9107
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Apr 2023 12:53:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EEB7210E2A6;
-	Thu, 20 Apr 2023 10:51:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8302F10EC02;
+	Thu, 20 Apr 2023 10:53:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1EB3010E2A6
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Apr 2023 10:51:26 +0000 (UTC)
-X-UUID: 47750d62df6911edb6b9f13eb10bd0fe-20230420
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From;
- bh=HRqBpQlE3SEtleY2HNlMwleNJ7KOCqqrXuqNhzkdE4c=; 
- b=lArS8IsVqfpuASQWV3UylxA7sSdwc+bPrce29Y1B59PYJ3bEuDYUtfm2XcInsy2ETvrA29odFX6cA1AwgsEaHv71Z6y0PpLrb8xHWxQ1cihCNZvZIa3KPk5A+rBdd4pHKJtLApay6pAWwscV9Q4TdZh+lpkRkEPDuhZkzGZvzKo=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.22, REQID:d2920aac-fcfc-49b3-be49-6d5c374ff0cd, IP:0,
- U
- RL:0,TC:0,Content:-5,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
- :release,TS:-5
-X-CID-META: VersionHash:120426c, CLOUDID:ee1cfaa1-8fcb-430b-954a-ba3f00fa94a5,
- B
- ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
- RL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0
-X-CID-BVR: 0,NGT
-X-CID-BAS: 0,NGT,0,_
-X-UUID: 47750d62df6911edb6b9f13eb10bd0fe-20230420
-Received: from mtkmbs13n2.mediatek.inc [(172.21.101.108)] by
- mailgw02.mediatek.com (envelope-from <nancy.lin@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 1470003907; Thu, 20 Apr 2023 18:51:18 +0800
-Received: from mtkmbs13n2.mediatek.inc (172.21.101.108) by
- mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.25; Thu, 20 Apr 2023 18:51:16 +0800
-Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
- mtkmbs13n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.1118.25 via Frontend Transport; Thu, 20 Apr 2023 18:51:16 +0800
-From: Nancy.Lin <nancy.lin@mediatek.com>
-To: Chun-Kuang Hu <chunkuang.hu@kernel.org>, Philipp Zabel
- <p.zabel@pengutronix.de>, Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Subject: [PATCH] drm/mediatek: fix uninitialized symbol
-Date: Thu, 20 Apr 2023 18:51:15 +0800
-Message-ID: <20230420105115.26838-1-nancy.lin@mediatek.com>
-X-Mailer: git-send-email 2.18.0
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CBE0110EC02
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Apr 2023 10:53:02 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id A509B61788;
+ Thu, 20 Apr 2023 10:53:01 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 657A1C433EF;
+ Thu, 20 Apr 2023 10:52:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1681987981;
+ bh=V4lco/y75rcMDuis7+i08wHWjGkkTzhwSeSpdM8bEtE=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=IEnvquVue6KQzUvYOcJOt8QHI7H/BcaDsfqYl04fjnygvZmk3LD6EZ4n8olDdgvWd
+ CdX6XD2VXTBprs0C7ZGJAlKBNL3lMBB2Lo3OK+O/bx6Z88D/c7Qtrc/I8I4z/p8E8V
+ JHXms1HYk+ZqJ2WM/gK+6XcmwYr1MBK2cc+JwRHtcuexEujV/ioJqM13wkThNF1MTv
+ p4eTtde7QYCZZjsdIoTt0viJmlrZwUFWyfvdy1EGB84iBSL+5bNA2q7ioKU0xxaZgA
+ MBc0bCQDl1hnSnCGKYUiRH8Brm2sRmKmGWxen4ZoM2QjYD1OswTpiN7+0H75KhnOnk
+ MXtUm+OGqwj0w==
+Message-ID: <cc24ede2-cc43-a923-419a-d07d33623643@kernel.org>
+Date: Thu, 20 Apr 2023 12:52:56 +0200
 MIME-Version: 1.0
-Content-Type: text/plain
-X-MTK: N
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH 3/3] dt-bindings: display: bridge: icn6211: Add video-mode
+ property
+To: Brandon Cheo Fusi <fusibrandon13@gmail.com>,
+ dri-devel@lists.freedesktop.org
+References: <20230418122205.16632-1-fusibrandon13@gmail.com>
+ <20230418122205.16632-3-fusibrandon13@gmail.com>
+Content-Language: en-US
+From: Krzysztof Kozlowski <krzk@kernel.org>
+In-Reply-To: <20230418122205.16632-3-fusibrandon13@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,45 +57,84 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: singo.chang@mediatek.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- clang-built-linux@googlegroups.com, "Nancy.Lin" <nancy.lin@mediatek.com>,
- linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org
+Cc: marex@denx.de, tzimmermann@suse.de, sam@ravnborg.org,
+ jagan@amarulasolutions.com, robert.foss@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-fix Smatch static checker warning
-  - uninitialized symbol comp_pdev in mtk_ddp_comp_init.
+On 18/04/2023 14:22, Brandon Cheo Fusi wrote:
+> Document the 'video-mode' property for specifying the DSI video mode and update
+> the example.
+> 
+> Signed-off-by: Brandon Cheo Fusi <fusibrandon13@gmail.com>
 
-Signed-off-by: Nancy.Lin <nancy.lin@mediatek.com>
----
- drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+Please use scripts/get_maintainers.pl to get a list of necessary people
+and lists to CC.  It might happen, that command when run on an older
+kernel, gives you outdated entries.  Therefore please be sure you base
+your patches on recent Linux kernel.
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
-index f114da4d36a9..e987ac4481bc 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
-@@ -546,7 +546,7 @@ unsigned int mtk_drm_find_possible_crtc_by_comp(struct drm_device *drm,
- int mtk_ddp_comp_init(struct device_node *node, struct mtk_ddp_comp *comp,
- 		      unsigned int comp_id)
- {
--	struct platform_device *comp_pdev;
-+	struct platform_device *comp_pdev = NULL;
- 	enum mtk_ddp_comp_type type;
- 	struct mtk_ddp_comp_dev *priv;
- #if IS_REACHABLE(CONFIG_MTK_CMDQ)
-@@ -588,6 +588,9 @@ int mtk_ddp_comp_init(struct device_node *node, struct mtk_ddp_comp *comp,
- 	    type == MTK_DSI)
- 		return 0;
- 
-+	if (!comp_pdev)
-+		return -EPROBE_DEFER;
-+
- 	priv = devm_kzalloc(comp->dev, sizeof(*priv), GFP_KERNEL);
- 	if (!priv)
- 		return -ENOMEM;
--- 
-2.18.0
+No tests will be run here as you ignored DT list (and other entries).
+
+Please resend.
+
+> ---
+>  .../bindings/display/bridge/chipone,icn6211.yaml   | 14 +++++++++++++-
+>  1 file changed, 13 insertions(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/display/bridge/chipone,icn6211.yaml b/Documentation/devicetree/bindings/display/bridge/chipone,icn6211.yaml
+> index 5fb54375a..1f9335496 100644
+> --- a/Documentation/devicetree/bindings/display/bridge/chipone,icn6211.yaml
+> +++ b/Documentation/devicetree/bindings/display/bridge/chipone,icn6211.yaml
+> @@ -36,6 +36,16 @@ properties:
+>    enable-gpios:
+>      description: Bridge EN pin, chip is reset when EN is low.
+>  
+> +  video-mode:
+
+Is it a common property? Lack of vendor prefix suggests it, so where
+does it come from?
+
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    enum: [ 0, 1, 2 ]
+> +    description:
+> +      DSI video mode.
+> +      0 - burst mode
+> +      1 - non-burst mode with sync pulse
+> +      2 - non-burst mode with sync event.
+
+Why not string?
+
+> +      Defaults to 2.
+
+default:
+Don't repeat constraints in free form text.
+
+> +
+>    vdd1-supply:
+>      description: A 1.8V/2.5V/3.3V supply that power the MIPI RX.
+>  
+> @@ -97,7 +107,8 @@ examples:
+>        bridge@0 {
+>          compatible = "chipone,icn6211";
+>          reg = <0>;
+> -        enable-gpios = <&r_pio 0 5 GPIO_ACTIVE_HIGH>; /* LCD-RST: PL5 */
+> +        enable-gpios = <&r_pio 0 5 GPIO_ACTIVE_HIGH>;
+
+Drop unrelated changes.
+
+> +        video-mode = <0>;
+>  
+>          ports {
+>            #address-cells = <1>;
+> @@ -107,6 +118,7 @@ examples:
+>              reg = <0>;
+>  
+>              bridge_in_dsi: endpoint {
+> +              data-lanes = <1 2 3 4>;
+>                remote-endpoint = <&dsi_out_bridge>;
+>              };
+>            };
+
+Best regards,
+Krzysztof
 
