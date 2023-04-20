@@ -1,63 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E1926E8DC1
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Apr 2023 11:15:47 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7AF6D6E8E1B
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Apr 2023 11:32:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 18D168916D;
-	Thu, 20 Apr 2023 09:15:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 89D6610E04C;
+	Thu, 20 Apr 2023 09:31:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com
- [209.85.167.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7A4FB8916D
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Apr 2023 09:15:41 +0000 (UTC)
-Received: by mail-lf1-f42.google.com with SMTP id
- 2adb3069b0e04-4eed764a10cso431564e87.0
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Apr 2023 02:15:41 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681982139; x=1684574139;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=s2/e9Dnl7P2o+B8qqamMNBV5IQwfpE3QNjICNgU+vyo=;
- b=iHBEXNXy/GRwNRyb4z9GGkJL8vOo6iQdd9LCad3h7V8Evc+qyZ2sSv2hMFGt3t1SCT
- /PDCP6QA50krS4Td88Xh4AujC6yXRpIbD9yem1cbhZz0/7tSNk5PtsTcLrCKdw5spyuE
- OVX+TcpxvD1o0HWpxv3LStcPs0w7bp2hMitV9q7Oi80boOy+N9uuGcpt8cb/NqvoyV3Z
- U2mZ0+xi2GEpbs6XfFvjiDvnRvDJ86yd2xfz06+D5Z2Uqzj9w8MZyDpls9srXoWG/uMv
- uJ6P8Y2QZuO8r+pGxBZXpNW+SOrZ3yt9IGmHoWk/u94OqmiDfyAHL27r+4mAyRgJe2nV
- KLhw==
-X-Gm-Message-State: AAQBX9c1bsSZ+9458yWOgmO2xfrEu0GTDIEQc6DZ2O+iji/Y22IhYccF
- Rjym1h7wAJPDk+fCWy4F1wOwryLB1SGVF+Tu
-X-Google-Smtp-Source: AKy350ZLYsl13gwLxCKxtyryiKV+xTYhQ0caM4qbyRjXZ+YJ2inmVfTrCMCV/4qRupRG0szwPVFc1w==
-X-Received: by 2002:ac2:52aa:0:b0:4cb:2aa:9e58 with SMTP id
- r10-20020ac252aa000000b004cb02aa9e58mr240146lfm.13.1681982138580; 
- Thu, 20 Apr 2023 02:15:38 -0700 (PDT)
-Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com.
- [209.85.208.169]) by smtp.gmail.com with ESMTPSA id
- h25-20020ac250d9000000b004eb09820adbsm153484lfm.105.2023.04.20.02.15.38
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 20 Apr 2023 02:15:38 -0700 (PDT)
-Received: by mail-lj1-f169.google.com with SMTP id c3so2001953ljf.7
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Apr 2023 02:15:38 -0700 (PDT)
-X-Received: by 2002:a2e:a17b:0:b0:2a8:baf7:4e60 with SMTP id
- u27-20020a2ea17b000000b002a8baf74e60mr157071ljl.9.1681982137873; Thu, 20 Apr
- 2023 02:15:37 -0700 (PDT)
+Received: from 189.cn (ptr.189.cn [183.61.185.103])
+ by gabe.freedesktop.org (Postfix) with ESMTP id AD30A10E04C
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Apr 2023 09:31:56 +0000 (UTC)
+HMM_SOURCE_IP: 10.64.8.43:56974.1250087080
+HMM_ATTACHE_NUM: 0000
+HMM_SOURCE_TYPE: SMTP
+Received: from clientip-114.242.206.180 (unknown [10.64.8.43])
+ by 189.cn (HERMES) with SMTP id 4E51C1002B4;
+ Thu, 20 Apr 2023 17:31:51 +0800 (CST)
+Received: from  ([114.242.206.180])
+ by gateway-151646-dep-7b48884fd-tj646 with ESMTP id
+ db2361bde83742feb3b08477f980b596 for geert@linux-m68k.org; 
+ Thu, 20 Apr 2023 17:31:54 CST
+X-Transaction-ID: db2361bde83742feb3b08477f980b596
+X-Real-From: 15330273260@189.cn
+X-Receive-IP: 114.242.206.180
+X-MEDUSA-Status: 0
+Message-ID: <3e80d3b3-6c9a-33e6-a768-645be1c68404@189.cn>
+Date: Thu, 20 Apr 2023 17:31:51 +0800
 MIME-Version: 1.0
-References: <2b6073d9c2d869c6a4eac6edebd616e0568dec91.1681843245.git.geert+renesas@glider.be>
- <ZEAY5Sf/V10ipDZk@phenom.ffwll.local>
-In-Reply-To: <ZEAY5Sf/V10ipDZk@phenom.ffwll.local>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 20 Apr 2023 11:15:24 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWbsFHP7Amoz16o5ge5a=wv5u2x0B+yP7e-0bRJufqrQQ@mail.gmail.com>
-Message-ID: <CAMuHMdWbsFHP7Amoz16o5ge5a=wv5u2x0B+yP7e-0bRJufqrQQ@mail.gmail.com>
-Subject: Re: [PATCH] drm/fb-helper: Fix height, width,
- and accel_flags in fb_var
-To: Daniel Vetter <daniel@ffwll.ch>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH v5] drm/fbdev-generic: prohibit potential out-of-bounds
+ access
+Content-Language: en-US
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+References: <20230420030500.1578756-1-suijingfeng@loongson.cn>
+ <CAMuHMdUZoBZEM73fo8-PitSae8wgv-m6sez3nA8J3RFMAtOyOQ@mail.gmail.com>
+From: Sui Jingfeng <15330273260@189.cn>
+In-Reply-To: <CAMuHMdUZoBZEM73fo8-PitSae8wgv-m6sez3nA8J3RFMAtOyOQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,85 +53,114 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Javier Martinez Canillas <javierm@redhat.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Lucas De Marchi <lucas.demarchi@intel.com>, linux-fbdev@vger.kernel.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, Li Yi <liyi@loongson.cn>,
+ Helge Deller <deller@gmx.de>, linux-kernel@vger.kernel.org,
+ loongson-kernel@lists.loongnix.cn, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Daniel,
+Hi,
 
-On Wed, Apr 19, 2023 at 6:38=E2=80=AFPM Daniel Vetter <daniel@ffwll.ch> wro=
-te:
-> On Tue, Apr 18, 2023 at 08:42:46PM +0200, Geert Uytterhoeven wrote:
-> > Fbtest contains some very simple validation of the fbdev userspace API
-> > contract.  When used with shmob-drm, it reports the following warnings
-> > and errors:
-> >
-> >     height changed from 68 to 0
-> >     height was rounded down
-> >     width changed from 111 to 0
-> >     width was rounded down
-> >     accel_flags changed from 0 to 1
-> >
-> > The first part happens because __fill_var() resets the physical
-> > dimensions of the first connector, as filled in by drm_setup_crtcs_fb()=
-.
-> > Fix this by retaining the original values.
-> >
-> > The last part happens because __fill_var() forces the FB_ACCELF_TEXT
-> > flag on, while fbtest disables all acceleration on purpose, so it can
-> > draw safely to the frame buffer.  Fix this by setting accel_flags to
-> > zero, as DRM does not implement any text console acceleration.
-> > Note that this issue can also be seen in the output of fbset, which
-> > reports "accel true".
-> >
-> > Fixes: ee4cce0a8f03a333 ("drm/fb-helper: fix input validation gaps in c=
-heck_var")
-> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-
-> > --- a/drivers/gpu/drm/drm_fb_helper.c
-> > +++ b/drivers/gpu/drm/drm_fb_helper.c
-> > @@ -2066,7 +2068,7 @@ static void drm_fb_helper_fill_var(struct fb_info=
- *info,
-> >       info->pseudo_palette =3D fb_helper->pseudo_palette;
-> >       info->var.xoffset =3D 0;
-> >       info->var.yoffset =3D 0;
-> > -     __fill_var(&info->var, fb);
-> > +     __fill_var(&info->var, info, fb);
+On 2023/4/20 17:04, Geert Uytterhoeven wrote:
+> Hi Sui,
 >
-> Bit a bikeshed since it zeroed-allocated anyway, but I'd pass NULL here
-> for info and catch that in __fill_var and then keep the explicit =3D 0;
-
-Yeah, it's a bit unfortunate this is done in two places, and
-info->var.{height,width} are initialized by drm_setup_crtcs_fb()
-only later.
-
-Most of the var contents cannot change as mode changes are not
-supported, so drm_fb_helper_check_var() should just do
-
-    if (var->foo > info->var.foo)
-            return -EINVAL;
-    var->foo =3D info->var.foo;
-
-For the parts that can change, based on earlier discussions I saw pass
-by, I believe there should be a call into atomic try-modesetting at
-the end of drm_fb_helper_check_var()?
-
-> Either way Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-
-Thanks!
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+> On Thu, Apr 20, 2023 at 5:09 AM Sui Jingfeng <suijingfeng@loongson.cn> wrote:
+>> The fbdev test of IGT may write after EOF, which lead to out-of-bound
+>> access for drm drivers hire fbdev-generic. For example, run fbdev test
+>> on a x86+ast2400 platform, with 1680x1050 resolution, will cause the
+>> linux kernel hang with the following call trace:
+>>
+>>    Oops: 0000 [#1] PREEMPT SMP PTI
+>>    [IGT] fbdev: starting subtest eof
+>>    Workqueue: events drm_fb_helper_damage_work [drm_kms_helper]
+>>    [IGT] fbdev: starting subtest nullptr
+>>
+>>    RIP: 0010:memcpy_erms+0xa/0x20
+>>    RSP: 0018:ffffa17d40167d98 EFLAGS: 00010246
+>>    RAX: ffffa17d4eb7fa80 RBX: ffffa17d40e0aa80 RCX: 00000000000014c0
+>>    RDX: 0000000000001a40 RSI: ffffa17d40e0b000 RDI: ffffa17d4eb80000
+>>    RBP: ffffa17d40167e20 R08: 0000000000000000 R09: ffff89522ecff8c0
+>>    R10: ffffa17d4e4c5000 R11: 0000000000000000 R12: ffffa17d4eb7fa80
+>>    R13: 0000000000001a40 R14: 000000000000041a R15: ffffa17d40167e30
+>>    FS:  0000000000000000(0000) GS:ffff895257380000(0000) knlGS:0000000000000000
+>>    CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+>>    CR2: ffffa17d40e0b000 CR3: 00000001eaeca006 CR4: 00000000001706e0
+>>    Call Trace:
+>>     <TASK>
+>>     ? drm_fbdev_generic_helper_fb_dirty+0x207/0x330 [drm_kms_helper]
+>>     drm_fb_helper_damage_work+0x8f/0x170 [drm_kms_helper]
+>>     process_one_work+0x21f/0x430
+>>     worker_thread+0x4e/0x3c0
+>>     ? __pfx_worker_thread+0x10/0x10
+>>     kthread+0xf4/0x120
+>>     ? __pfx_kthread+0x10/0x10
+>>     ret_from_fork+0x2c/0x50
+>>     </TASK>
+>>    CR2: ffffa17d40e0b000
+>>    ---[ end trace 0000000000000000 ]---
+>>
+>> The is because damage rectangles computed by
+>> drm_fb_helper_memory_range_to_clip() function does not guaranteed to be
+>> bound in the screen's active display area. Possible reasons are:
+>>
+>> 1) Buffers are allocated in the granularity of page size, for mmap system
+>>     call support. The shadow screen buffer consumed by fbdev emulation may
+>>     also choosed be page size aligned.
+>>
+>> 2) The DIV_ROUND_UP() used in drm_fb_helper_memory_range_to_clip()
+>>     will introduce off-by-one error.
+>>
+>> For example, on a 16KB page size system, in order to store a 1920x1080
+>> XRGB framebuffer, we need allocate 507 pages. Unfortunately, the size
+>> 1920*1080*4 can not be divided exactly by 16KB.
+>>
+>>   1920 * 1080 * 4 = 8294400 bytes
+>>   506 * 16 * 1024 = 8290304 bytes
+>>   507 * 16 * 1024 = 8306688 bytes
+>>
+>>   line_length = 1920*4 = 7680 bytes
+>>
+>>   507 * 16 * 1024 / 7680 = 1081.6
+>>
+>>   off / line_length = 507 * 16 * 1024 / 7680 = 1081
+>>   DIV_ROUND_UP(507 * 16 * 1024, 7680) will yeild 1082
+>>
+>> memcpy_toio() typically issue the copy line by line, when copy the last
+>> line, out-of-bound access will be happen. Because:
+>>
+>>   1082 * line_length = 1082 * 7680 = 8309760, and 8309760 > 8306688
+>>
+>> Note that userspace may stil write to the invisiable area if a larger
+>> buffer than width x stride is exposed. But it is not a big issue as
+>> long as there still have memory resolve the access if not drafting so
+>> far.
+>>
+>>   - Also limit the y1 (Daniel)
+>>   - keep fix patch it to minimal (Daniel)
+>>   - screen_size is page size aligned because of it need mmap (Thomas)
+>>   - Adding fixes tag (Thomas)
+>>
+>> Fixes: aa15c677cc34 ("drm/fb-helper: Fix vertical damage clipping")
+>>
+>> Signed-off-by: Sui Jingfeng <suijingfeng@loongson.cn>
+>> Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
+>> Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Thanks for the update!  This v5 is completely different from the v3
+> I tested before, so keeping my Tested-by is not really appropriate...
+Indeed, I will be carefully next time.
+> I have retested fbtest with shmob-drm on Armadillo-800-EVA
+> (800x480@RG16, i.e. 187.5 pages), and fortunately this version still
+> works fine, so
+> Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Thanks a lot.
+> Gr{oetje,eeting}s,
+>
+>                          Geert
+>
+> --
+> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+>
+> In personal conversations with technical people, I call myself a hacker. But
+> when I'm talking to journalists I just say "programmer" or something like that.
+>                                  -- Linus Torvalds
