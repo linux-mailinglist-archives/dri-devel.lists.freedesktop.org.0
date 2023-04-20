@@ -2,66 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D05AD6E87F0
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Apr 2023 04:24:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25D946E885A
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Apr 2023 05:05:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 80DF410E00F;
-	Thu, 20 Apr 2023 02:24:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1675A10EB5F;
+	Thu, 20 Apr 2023 03:05:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com
- [IPv6:2607:f8b0:4864:20::1032])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0718510E00F
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Apr 2023 02:24:15 +0000 (UTC)
-Received: by mail-pj1-x1032.google.com with SMTP id
- 98e67ed59e1d1-2478485fd76so298141a91.2
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Apr 2023 19:24:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1681957454; x=1684549454;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=5hCnIiv0UZoUyqA3j7om4LR5r+3eUZFma/siIy2qvxI=;
- b=aHY0KqzYmBUMNi2SicP8NE4mewVj4KbcqsIdBEOZnX3xv6AbcZVdLJaMN/46ZG2byr
- rBxvGegBdnF3Blj7IULlxmIG7Vc3WSEf6BxpnZwgTSwm5BKMmNTladesWKF27zZEbwa1
- 2/069yWBd3mg4yjNl+d9e9NWhFp+40oZgCrJat2dufA7loHBzTGP7MZEEccaSghk9UNB
- QdRJWyYbYJMp0DMsz6nPSJSA6qCJqVd/sd/tHuSTY6mh0fdNp7D77VyWAz3HdyDGpgw/
- MVZJFN+jnIfr2ZMz23p3AofUQ3GIbgveA3oSWQVTDDG8Ucl0RVwh3QnYcf1cgW4/5zAf
- pf4g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681957454; x=1684549454;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=5hCnIiv0UZoUyqA3j7om4LR5r+3eUZFma/siIy2qvxI=;
- b=edNihcg15qgZYa4f37a7gljcQ56dHc6S0zYFFTW586sfdQUTq9HQCziB+hZwIGZEIM
- UAd+wtA0wGb2hNEtyFp1JzwhyKOTeYvRf/vt4r8kYDakgdlVwtpZakzrYLnnkQTsy0qL
- nWT4HCqksjU6SIR6cjPa+/NsHEpOKyzIayk1vzME89FmwnZOnQe6gIamnsVY+0cArlkQ
- 9DvH78I8FjBleFkTDRub8rdpnCvKchn2SoMgAkJwkfwKHaBxS6+ys1ahzU5KUYIzUojD
- G0XC0FWML0d1gRb/owF1XBpEN+DNEyNUdlWuKpjd8XYgKVV7I9QhxrS8w+1gNZEfzM/d
- 8aZw==
-X-Gm-Message-State: AAQBX9f99eyfHcj+Cw5yRV2lqkgvnB4V+uWetH+fPV4tNN09VNsMubEm
- bPrL2TYzapV4uRy3GX32NQpMr117QJK6P7ckt8Y=
-X-Google-Smtp-Source: AKy350ZadxRbNfm3xfOR9s+wQOjZ3vM83wayISANsNazFfeiI4PtzsEAeWCrcjhACnyQu547bwbY7U3jZ3QonfXSGK4=
-X-Received: by 2002:a17:90a:ad90:b0:247:bd63:c3af with SMTP id
- s16-20020a17090aad9000b00247bd63c3afmr181414pjq.8.1681957453496; Wed, 19 Apr
- 2023 19:24:13 -0700 (PDT)
+Received: from loongson.cn (mail.loongson.cn [114.242.206.163])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 9674510EB5F
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Apr 2023 03:05:07 +0000 (UTC)
+Received: from loongson.cn (unknown [10.20.42.43])
+ by gateway (Coremail) with SMTP id _____8BxIk7gq0BkdEMfAA--.48519S3;
+ Thu, 20 Apr 2023 11:05:04 +0800 (CST)
+Received: from openarena.loongson.cn (unknown [10.20.42.43])
+ by localhost.localdomain (Coremail) with SMTP id AQAAf8CxKLLeq0Bkc3AwAA--.68S2;
+ Thu, 20 Apr 2023 11:05:02 +0800 (CST)
+From: Sui Jingfeng <suijingfeng@loongson.cn>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Sui Jingfeng <suijingfeng@loongson.cn>, Li Yi <liyi@loongson.cn>,
+ Helge Deller <deller@gmx.de>, Lucas De Marchi <lucas.demarchi@intel.com>
+Subject: [PATCH v5] drm/fbdev-generic: prohibit potential out-of-bounds access
+Date: Thu, 20 Apr 2023 11:05:00 +0800
+Message-Id: <20230420030500.1578756-1-suijingfeng@loongson.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20230415104104.5537-1-aford173@gmail.com>
- <20230415104104.5537-5-aford173@gmail.com>
- <807aa6c6-bbea-abcc-172d-17e22d1a3988@denx.de>
- <CAHCN7x+NUnMtLbj_7A_uqxPsi5NXRXsPFwDnn=sf1bgm-Q-BsQ@mail.gmail.com>
- <88e53197-2819-c068-eba6-a218a19d8d15@denx.de>
- <CAHCN7xLbbyTaN43pJe3NMdupoGb5vC3yXc_vBn6+CRChWCt92A@mail.gmail.com>
- <ac7ce475-23dd-4d9d-afd1-ad139496a510@denx.de>
-In-Reply-To: <ac7ce475-23dd-4d9d-afd1-ad139496a510@denx.de>
-From: Adam Ford <aford173@gmail.com>
-Date: Wed, 19 Apr 2023 21:24:02 -0500
-Message-ID: <CAHCN7xKZnHGkErwpT-zXR6P-nMxBbg4OVNSr1An2vBaTpOsuqA@mail.gmail.com>
-Subject: Re: [PATCH 5/6] drm: bridge: samsung-dsim: Support non-burst mode
-To: Marek Vasut <marex@denx.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: AQAAf8CxKLLeq0Bkc3AwAA--.68S2
+X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
+X-Coremail-Antispam: 1Uk129KBjvJXoWxCF15Kr1fuF1kKw43Aw1UJrb_yoWrKF4fpa
+ y7Ga1UKrsYqF1DWrW7A3WrAw15Wan7AFyIgr97G342vF43A3Z29FyUKF4jgFy5Jr1fZr1a
+ qws09w1I9r12kaUanT9S1TB71UUUUj7qnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
+ qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
+ bSkYFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s
+ 1l1IIY67AEw4v_Jrv_JF1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xv
+ wVC0I7IYx2IY67AKxVWDJVCq3wA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8Jr0_Cr1UM2
+ 8EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Cr1j6rxd
+ M2kKe7AKxVWUAVWUtwAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07AIYIkI8VC2zV
+ CFFI0UMc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUAVWUtwAv7VC2
+ z280aVAFwI0_Gr0_Cr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI48JMxkF7I
+ 0En4kS14v26r126r1DMxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMxCI
+ bckI1I0E14v26r126r1DMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_Jr
+ I_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v2
+ 6r1I6r4UMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj4
+ 0_Jr0_JF4lIxAIcVC2z280aVAFwI0_Gr0_Cr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8
+ JrUvcSsGvfC2KfnxnUUI43ZEXa7IU8uc_3UUUUU==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,79 +63,132 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- aford@beaconembedded.com, dri-devel@lists.freedesktop.org,
- Frieder Schrempf <frieder.schrempf@kontron.de>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, m.szyprowski@samsung.com,
- Robert Foss <rfoss@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Jagan Teki <jagan@amarulasolutions.com>, NXP Linux Team <linux-imx@nxp.com>,
- devicetree@vger.kernel.org, Jonas Karlman <jonas@kwiboo.se>,
- Sascha Hauer <s.hauer@pengutronix.de>, Rob Herring <robh+dt@kernel.org>,
- linux-arm-kernel@lists.infradead.org,
- Neil Armstrong <neil.armstrong@linaro.org>, linux-kernel@vger.kernel.org,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Shawn Guo <shawnguo@kernel.org>
+Cc: loongson-kernel@lists.loongnix.cn, linux-fbdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Apr 17, 2023 at 6:23=E2=80=AFPM Marek Vasut <marex@denx.de> wrote:
->
-> On 4/18/23 00:24, Adam Ford wrote:
-> > On Mon, Apr 17, 2023 at 3:08=E2=80=AFPM Marek Vasut <marex@denx.de> wro=
-te:
-> >>
-> >> On 4/17/23 13:57, Adam Ford wrote:
-> >>> On Sun, Apr 16, 2023 at 5:13=E2=80=AFPM Marek Vasut <marex@denx.de> w=
-rote:
-> >>>>
-> >>>> On 4/15/23 12:41, Adam Ford wrote:
-> >>>>> The high-speed clock is hard-coded to the burst-clock
-> >>>>> frequency specified in the device tree.  However, when
-> >>>>> using devices like certain bridge chips without burst mode
-> >>>>> and varying resolutions and refresh rates, it may be
-> >>>>> necessary to set the high-speed clock dynamically based
-> >>>>> on the desired pixel clock for the connected device.
-> >>>>
-> >>>> The link rate negotiation should happen internally between the neare=
-st
-> >>>> bridge and DSIM, so please add that to DRM core instead of hacking
-> >>>> around it by tweaking the HS clock again.
-> >>>
-> >>> I thought you tried to add something like this before and had some re=
-sistance.
-> >>
-> >> Yes, all my attempts were rejected by a single reviewer. I suspended m=
-y
-> >> efforts in that area for now.
-> >>
-> >>> The Pixel clock is set by the bridge already without any new code
-> >>> added to the DRM core..  I am just reading that value that's there,
-> >>> and setting the clock accordingly.  I don't see how this is a hack.
-> >>
-> >> Assume you have a DSI-to-HDMI bridge attached to your DSIM bridge, it
-> >> operates in non-burst mode, like ADV7533 . How would you configure the
-> >
-> > I have an ADV7535
-> >
-> >> HS clock rate for such a bridge in DT ? (hint: you cannot, because the
-> >> required clock comes from the EDID, which may not be available just ye=
-t)
-> >
-> > The whole idea is that you wouldn't want to or need to configure the
-> > clock speed in the device tree because it comes from the
-> > EDID->bridge->DSI.
-> >
-> > I've tested this configuration on imx8mm, imx8mn, and imx8mp and I can
-> > change the resolution and refresh rate on the fly and the DSI will
-> > automatically readjust accordingly.   If you fixed the clock in the
-> > device tree, you wouldn't be able to do that, and that was the point
-> > of this patch.
->
-> Uh, I retract my comment, I was clearly confused here and we're talking
-> about the same thing.
+The fbdev test of IGT may write after EOF, which lead to out-of-bound
+access for drm drivers hire fbdev-generic. For example, run fbdev test
+on a x86+ast2400 platform, with 1680x1050 resolution, will cause the
+linux kernel hang with the following call trace:
 
-I'm working on a V2 for this series.  Are you OK with this if I update
-the commit message a bit to make it more clear?
+  Oops: 0000 [#1] PREEMPT SMP PTI
+  [IGT] fbdev: starting subtest eof
+  Workqueue: events drm_fb_helper_damage_work [drm_kms_helper]
+  [IGT] fbdev: starting subtest nullptr
 
-adam
+  RIP: 0010:memcpy_erms+0xa/0x20
+  RSP: 0018:ffffa17d40167d98 EFLAGS: 00010246
+  RAX: ffffa17d4eb7fa80 RBX: ffffa17d40e0aa80 RCX: 00000000000014c0
+  RDX: 0000000000001a40 RSI: ffffa17d40e0b000 RDI: ffffa17d4eb80000
+  RBP: ffffa17d40167e20 R08: 0000000000000000 R09: ffff89522ecff8c0
+  R10: ffffa17d4e4c5000 R11: 0000000000000000 R12: ffffa17d4eb7fa80
+  R13: 0000000000001a40 R14: 000000000000041a R15: ffffa17d40167e30
+  FS:  0000000000000000(0000) GS:ffff895257380000(0000) knlGS:0000000000000000
+  CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+  CR2: ffffa17d40e0b000 CR3: 00000001eaeca006 CR4: 00000000001706e0
+  Call Trace:
+   <TASK>
+   ? drm_fbdev_generic_helper_fb_dirty+0x207/0x330 [drm_kms_helper]
+   drm_fb_helper_damage_work+0x8f/0x170 [drm_kms_helper]
+   process_one_work+0x21f/0x430
+   worker_thread+0x4e/0x3c0
+   ? __pfx_worker_thread+0x10/0x10
+   kthread+0xf4/0x120
+   ? __pfx_kthread+0x10/0x10
+   ret_from_fork+0x2c/0x50
+   </TASK>
+  CR2: ffffa17d40e0b000
+  ---[ end trace 0000000000000000 ]---
+
+The is because damage rectangles computed by
+drm_fb_helper_memory_range_to_clip() function does not guaranteed to be
+bound in the screen's active display area. Possible reasons are:
+
+1) Buffers are allocated in the granularity of page size, for mmap system
+   call support. The shadow screen buffer consumed by fbdev emulation may
+   also choosed be page size aligned.
+
+2) The DIV_ROUND_UP() used in drm_fb_helper_memory_range_to_clip()
+   will introduce off-by-one error.
+
+For example, on a 16KB page size system, in order to store a 1920x1080
+XRGB framebuffer, we need allocate 507 pages. Unfortunately, the size
+1920*1080*4 can not be divided exactly by 16KB.
+
+ 1920 * 1080 * 4 = 8294400 bytes
+ 506 * 16 * 1024 = 8290304 bytes
+ 507 * 16 * 1024 = 8306688 bytes
+
+ line_length = 1920*4 = 7680 bytes
+
+ 507 * 16 * 1024 / 7680 = 1081.6
+
+ off / line_length = 507 * 16 * 1024 / 7680 = 1081
+ DIV_ROUND_UP(507 * 16 * 1024, 7680) will yeild 1082
+
+memcpy_toio() typically issue the copy line by line, when copy the last
+line, out-of-bound access will be happen. Because:
+
+ 1082 * line_length = 1082 * 7680 = 8309760, and 8309760 > 8306688
+
+Note that userspace may stil write to the invisiable area if a larger
+buffer than width x stride is exposed. But it is not a big issue as
+long as there still have memory resolve the access if not drafting so
+far.
+
+ - Also limit the y1 (Daniel)
+ - keep fix patch it to minimal (Daniel)
+ - screen_size is page size aligned because of it need mmap (Thomas)
+ - Adding fixes tag (Thomas)
+
+Fixes: aa15c677cc34 ("drm/fb-helper: Fix vertical damage clipping")
+
+Signed-off-by: Sui Jingfeng <suijingfeng@loongson.cn>
+Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
+Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Link: https://lore.kernel.org/dri-devel/ad44df29-3241-0d9e-e708-b0338bf3c623@189.cn/
+---
+ drivers/gpu/drm/drm_fb_helper.c | 16 ++++++++++++----
+ 1 file changed, 12 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
+index 64458982be40..6bb1b8b27d7a 100644
+--- a/drivers/gpu/drm/drm_fb_helper.c
++++ b/drivers/gpu/drm/drm_fb_helper.c
+@@ -641,19 +641,27 @@ static void drm_fb_helper_damage(struct drm_fb_helper *helper, u32 x, u32 y,
+ static void drm_fb_helper_memory_range_to_clip(struct fb_info *info, off_t off, size_t len,
+ 					       struct drm_rect *clip)
+ {
++	u32 line_length = info->fix.line_length;
++	u32 fb_height = info->var.yres;
+ 	off_t end = off + len;
+ 	u32 x1 = 0;
+-	u32 y1 = off / info->fix.line_length;
++	u32 y1 = off / line_length;
+ 	u32 x2 = info->var.xres;
+-	u32 y2 = DIV_ROUND_UP(end, info->fix.line_length);
++	u32 y2 = DIV_ROUND_UP(end, line_length);
++
++	/* Don't allow any of them beyond the bottom bound of display area */
++	if (y1 > fb_height)
++		y1 = fb_height;
++	if (y2 > fb_height)
++		y2 = fb_height;
+ 
+ 	if ((y2 - y1) == 1) {
+ 		/*
+ 		 * We've only written to a single scanline. Try to reduce
+ 		 * the number of horizontal pixels that need an update.
+ 		 */
+-		off_t bit_off = (off % info->fix.line_length) * 8;
+-		off_t bit_end = (end % info->fix.line_length) * 8;
++		off_t bit_off = (off % line_length) * 8;
++		off_t bit_end = (end % line_length) * 8;
+ 
+ 		x1 = bit_off / info->var.bits_per_pixel;
+ 		x2 = DIV_ROUND_UP(bit_end, info->var.bits_per_pixel);
+-- 
+2.25.1
+
