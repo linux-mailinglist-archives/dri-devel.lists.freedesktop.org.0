@@ -1,151 +1,75 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C66236EA01E
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Apr 2023 01:44:37 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 14C8C6EA054
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Apr 2023 01:55:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 24F7E10ED3B;
-	Thu, 20 Apr 2023 23:44:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D208D10ED5A;
+	Thu, 20 Apr 2023 23:54:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F176B10ED3B;
- Thu, 20 Apr 2023 23:44:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1682034273; x=1713570273;
- h=message-id:date:subject:from:to:cc:references:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=pH8gMb7IAFZc0sJZ5wiJTY0iA1cDE/xmAFbsgbiMUT4=;
- b=N9Ex66tZJF91vVfxOi2Dv64rltiSURSrWyWpyDhYhlMLtjCeBpt85Glm
- 5VP343jSnyFuOluR2w0rr3bstso/fyOid6eAXr1eneID9SqpTleN/GSla
- eiuK3Mz31JDBi6B5Ujoi9Xi5gJiORIqjAh83c5wgG3LgGEIxCWTUxA+B+
- MAEtm3aulohTv77sDkq2cdlRWWnSvSudAA/twiyWAkxBnrR6yc6F/0UAY
- jjJWBgfIC0SApWj7LmRVUOHI7RrNM8tZLEPaRcR9xl2qUefA/jvn80j2H
- ELKSTumeHj7cVh22fwdVTkwun8NiX/UnpOZrKBx5+DzRBGUkyS9BeN8iF g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10686"; a="411139175"
-X-IronPort-AV: E=Sophos;i="5.99,214,1677571200"; d="scan'208";a="411139175"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Apr 2023 16:44:16 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10686"; a="724598720"
-X-IronPort-AV: E=Sophos;i="5.99,214,1677571200"; d="scan'208";a="724598720"
-Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
- by orsmga001.jf.intel.com with ESMTP; 20 Apr 2023 16:44:16 -0700
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.23; Thu, 20 Apr 2023 16:44:15 -0700
-Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.23 via Frontend Transport; Thu, 20 Apr 2023 16:44:15 -0700
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.175)
- by edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.23; Thu, 20 Apr 2023 16:44:15 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=gqGZ2460dwq3Z8ZLJREKdB2oSmlbXVfQfdxiXdgMFPIo18bZ9PgovIFoBDkNK6nbnwErjhhbNTS9f8gyVAj8jJ4z3EZoaw+AkZALt3dHs/jLiwHKM7EGIrDk3dmUJwW+7DH/R179dJ8OnpInXg5VowmuKfrezUznPr4/SaRFYsvvzPdbZ6a69qJrgaf/2sE9O32r0ISgeoBDIukk94MizgP20DxC6+AMIuk1/jSuSFLFaK1/AsRrshsy6p/AWbX9JQfE+FvAx/9bZqvJuNuXR8SUrmJCKzDVW4sc266PVGQoRaJBohq7NycgLlXptGI9Glhz/MKyGTQGzZJfFKsncA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=IbavR+Soe1Zi7OgZb1UcsPwl+avL0R9jjxUzKWe4S14=;
- b=JU43jtGsR2ZlhP7uXlR/eHXXspfxpxuAEfWJK4ObtztJgNINtYf1lEsYl8QAx1bxByaU0hRu6TrjErLz/h9vrr155bnr2nbJAIFtZnLzLdGLozI5iwmHh+L84NARiIt3Dvsk4y+SOf/i0XzsTX6UvABE0EZDktW6vyEwoh0H/CLPm7eITPCOAXp2AHC0LDtQ7G+3lI7zHoLAB0dMqf3mEnlwZY4VKfYCJnzyeDGWKIpDSj+ekEB1hF7l3vG/Bny4331yTBwFjVNvL7YFwrTdEyZkUmMTb3AbgStg9uv/vygl3Nb5UAJlgx+4nS4QBi1LRpo+1mpPwlpeUq2spDuCwg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from DM4PR11MB5488.namprd11.prod.outlook.com (2603:10b6:5:39d::5) by
- PH0PR11MB5176.namprd11.prod.outlook.com (2603:10b6:510:3f::5) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6298.45; Thu, 20 Apr 2023 23:44:14 +0000
-Received: from DM4PR11MB5488.namprd11.prod.outlook.com
- ([fe80::4ae6:750e:a237:4eb0]) by DM4PR11MB5488.namprd11.prod.outlook.com
- ([fe80::4ae6:750e:a237:4eb0%7]) with mapi id 15.20.6319.022; Thu, 20 Apr 2023
- 23:44:14 +0000
-Message-ID: <1cd7f54f-1e57-669d-1786-8149c29f6b6b@intel.com>
-Date: Thu, 20 Apr 2023 16:44:11 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH 2/4] mei: gsc_proxy: add gsc proxy driver
-Content-Language: en-US
-From: "Ceraolo Spurio, Daniele" <daniele.ceraolospurio@intel.com>
-To: "Teres Alexis, Alan Previn" <alan.previn.teres.alexis@intel.com>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>
-References: <20230329165658.2686549-1-daniele.ceraolospurio@intel.com>
- <20230329165658.2686549-3-daniele.ceraolospurio@intel.com>
- <612b04c9c35f1f67083ce5cb889f909fb89bb066.camel@intel.com>
- <553a192a-f52a-a3fb-4f20-ed79bf75f0c6@intel.com>
-In-Reply-To: <553a192a-f52a-a3fb-4f20-ed79bf75f0c6@intel.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SJ0PR03CA0292.namprd03.prod.outlook.com
- (2603:10b6:a03:39e::27) To DM4PR11MB5488.namprd11.prod.outlook.com
- (2603:10b6:5:39d::5)
+Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com
+ [IPv6:2a00:1450:4864:20::12f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 341EC10ED5C
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Apr 2023 23:54:58 +0000 (UTC)
+Received: by mail-lf1-x12f.google.com with SMTP id
+ 2adb3069b0e04-4ec816c9d03so1034971e87.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Apr 2023 16:54:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1682034896; x=1684626896;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=TNLznv1SWR+0m28rKCIM5ne1ihIYHKGj73ZNdLeFx28=;
+ b=zOuOKvWg7F9arqrFMwa/eI5GvhVmcVK2EeXNI4lT1TudYYVofnkM7nwNT2hTGK0leU
+ Bb0IILSyJNBTcZIwpqPApO9DALlzzZFm7MdkbalJMBE+fAmivwM0+zf2T+IAbepQMt2A
+ 3M2AngYSi8zsD9tamX3ExYVoB+zXH+jhoi82efQ7ji/M9seO/5lvlx6sYvBNaOHKj2CG
+ Ns/a0nA3epec/OEivm7+2mTQ89Hl+9K6Fi3jL/wfg91ben9UowJ1BwpgwIVDmBO9sJOr
+ WmLPspoibbQropmg72h/fYgpg8uTfifdWuB307Ys/mlUX8LaXyYZbz1eFqJruY5aaLWI
+ N5RQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1682034896; x=1684626896;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=TNLznv1SWR+0m28rKCIM5ne1ihIYHKGj73ZNdLeFx28=;
+ b=aHly6OtzqeF7Hsp02HRbECm+GZ9hNML04ZyKKFax7Q0YUYKQk3MZt/BLbwWDcWLaNJ
+ xz6dt/bg0rx9GDEda0sIwqIgD5x7QTnlDzEbK0E6XYJzDEX8FtmJsBK9jaHSO/pN6pzp
+ M//Xo+uzhpaB4FU04Xs2Ah5mgtAddpXE0XWCkZlkr9p7Gept4I4RFl4+P2tPvFKdmuSg
+ A8/kF3kiVd1au2OtOiV0VIlUxUjFV/QSHsvefaszkCjLzJniaU5KHMs1uHRO9XHCWugL
+ Vmvt1zhhY/snGK0XvSTh4SKeaCKWMDGOm52B7NKiZvcVPODTq05H9114cGShaoISfTyR
+ ry+Q==
+X-Gm-Message-State: AAQBX9cAtxZNGnCBQsl/t5XjiWoNk4fBN/BXLdh/SIrk+A09B3S0kvaX
+ YVzERvsoAhUwpSr5JtiQudd5qw==
+X-Google-Smtp-Source: AKy350YFUqFvFjkgjIBYnjA4L18VBQSw+LCshqVid+IuKob6UMf2Yncpr99uZ1rj3GIBZ+O0vxz2Tw==
+X-Received: by 2002:a05:6512:63:b0:4e9:d53b:337e with SMTP id
+ i3-20020a056512006300b004e9d53b337emr743796lfo.45.1682034896081; 
+ Thu, 20 Apr 2023 16:54:56 -0700 (PDT)
+Received: from ?IPV6:2001:14ba:a085:4d00::8a5?
+ (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a085:4d00::8a5])
+ by smtp.gmail.com with ESMTPSA id
+ o14-20020ac2494e000000b004efae490c51sm22947lfi.240.2023.04.20.16.54.55
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 20 Apr 2023 16:54:55 -0700 (PDT)
+Message-ID: <5a9ae243-47ce-9238-8e2d-4942054e8a13@linaro.org>
+Date: Fri, 21 Apr 2023 02:54:55 +0300
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR11MB5488:EE_|PH0PR11MB5176:EE_
-X-MS-Office365-Filtering-Correlation-Id: bfc3af25-518c-4621-6fac-08db41f92594
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: OkR6aza03y+reWD8j0k4GGK7q5plJ90Dg08up30Os2mEw2BYYGfl7wlg78EILQZGYohzY4L5stvCUKE27gOJ5/TopTw68IlDUxtZBNoFiZ40j8ZDgg2ndwnK9TcoPDQFK4leqFYLLMQEP9qzuuU/G8JLkFdIMLRKWlbbZhcSIJ3KSA4p/xNH2D0JaXYFzKcxzcC5HvyKke5CS6JF/gYfj/IOzId0GTXBv3oHtes+Te7voRxd0Q7vobsp2j7kMeA0QT/c5q/kop0hVmblABqvhvlm/Xgtuw5WDnPhAPcVEtEbVJeF/01FPpZQzqT7fFFDS3y3wp7Kb1RXC9tI+tAV4qrCRFn0sXc8ufQrksmgSPz0OvDkTnmzKOBHilNVZj4irJ00lrdN/73xBI8DWe4+dQxNwG+ET/JWnrGWQOOrnXQptXCQfsAod/VJjkMP6doppXCKGL4CaNFaSB6LoYEoQGKSuCe/nJOgl5jR0cvNvEscoWDynX3iaTa4dcf7y/ryMZudLf9+SVfxZ1MwofJ5q5KJ63+4vfh/OD9aUSs14OxhrEUmrkgtF2eZDY9fc6Mcq6RfeZrQTSOKflRhRJS4PsvwasB8tgT+2bUFDmbe3+LDbyHQB6fX2QzltQx5NsZNnOfhILjs535PifiZg2RVmQ==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM4PR11MB5488.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230028)(366004)(376002)(396003)(346002)(39860400002)(136003)(451199021)(31686004)(4326008)(8936002)(110136005)(54906003)(66556008)(66476007)(66946007)(316002)(186003)(53546011)(38100700002)(26005)(6506007)(107886003)(2616005)(6512007)(5660300002)(8676002)(6666004)(41300700001)(478600001)(6486002)(31696002)(86362001)(36756003)(2906002)(82960400001)(4744005)(43740500002)(45980500001);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?YWRsUGpOWUVYc0s3Qnd5OUI2ZHVCbThHTzdPaWpFeE5PM3dtL3preTdsd2JX?=
- =?utf-8?B?S01sa3BUY0JMSHd0NFZySkN6VXBOK3dHOGFxR3dJeUljNWV2OUxlWTAzUlRn?=
- =?utf-8?B?eGR4U3hheDFMMkFpR3FsbGl6RUhsUy8ycERyVGRKbW5DMzh0UGJRQmVWNVN6?=
- =?utf-8?B?Lzh1T0J4RzNCRzJYM2hxM2lXcjcvalQ1Q3pzbHZRaTNlaDMvRG5aWnN4MU1M?=
- =?utf-8?B?TkJ0VGlOS09jQllsQW5FU041aTEvb3FxbS9nWDdoTWk1VHIrakZHR1lxdnB1?=
- =?utf-8?B?ODdDUFlaTnhmZnlVUlRDcmYvNkZFTFU2K000TWVIQ3dEeFBpbDYxWjNHWkJo?=
- =?utf-8?B?UWRPbVdjNEczNVZPVDZySmJMeVJhZzdSRXhBZW5XY3JBS2wwbWtDMzlaTkRS?=
- =?utf-8?B?SXRhazZCOEVCc1JZSjVRTEgvYU5MUHlPcStrV2lwU1Ewa2lYaVRTWFduRU11?=
- =?utf-8?B?MjlkTjIyY04xdHdLWEdwL1R3ZEpPbkZSVGhZaVBuVVpNVzA3U1NsMGg2b0Vl?=
- =?utf-8?B?bzc2U1JxZTZGbWpVQXplNmVveklpMEZsTGUvZzZoRURKc0EyZTZSRlI3NTVi?=
- =?utf-8?B?eE5sRVhNUkpaejhTOEh5NjlvVm90QkQ0RzhWN3p6VUJmaUpwVWVVNWluMU15?=
- =?utf-8?B?Tk9ROEpYZmJYblR6Y2haNWlZVnI5U05CWCtHZEwyaW5BNy9HdGNGTkRwMm40?=
- =?utf-8?B?MTBVMFdaVzk2cklYNjJudUpwdldmRHYyTjQrWDZtbkJNeFpWOVJwT0ZUNGY3?=
- =?utf-8?B?ZWZ3cURZOEkvR3dyMEJNT2w5Z2lzbTk4VUZDWHZSenR4NXRNVTBWMW1WVW9R?=
- =?utf-8?B?c2V6ZGhPbXBTUmJNcmNxOXh3Y2x0Qk01V24zSGg2eHpPdHhQZk9wVmlDYzAz?=
- =?utf-8?B?Z3N2NmVPTGtmVy9TM2FaR0F0ZnlOS3R4WktxR0swWmxLM0R1aWh0K1R5ZlNr?=
- =?utf-8?B?SW9reDJjclRvTWVzQzRzVGhnWmxHelE1UkhaN1BDcXlxWk4zMUVySEJVaU4w?=
- =?utf-8?B?L2FueXMrcC91ZEo4YzBpU0psNGNlVHRicms4MzQyZXZxOHY2WC9OcmtqWXMr?=
- =?utf-8?B?ZUwwbnV5OWR4OWNwUDJncTZIOFZ0bnZoWWpkbmZ5R25FZTdpazM3NGprWFhi?=
- =?utf-8?B?VnpIOVpmM3NydHk3bnBBRDRuWDdWNmpMS0tWcWIxbUFsR2cwbktYbUFnTVgw?=
- =?utf-8?B?anFqb0lwTGdHWjRPdjhVQk85MXoxUDFkYmM2WDY3ZjQ4THVwRUtNQmJWYU1h?=
- =?utf-8?B?MnhYZzBTR2xYdGdFeVp4eVlqOXpZb1ZwM21heWtQZ1IwejRYaDFCYk5lQ3JS?=
- =?utf-8?B?bXZ3ZCtIWk45cEs5bmtZcXBvN2JOazJQcG53elAzSzVCdDFjYWpkMGFGNTIx?=
- =?utf-8?B?QVNFc3VZL2ljNUlxU2g2eTB1eFJ5OWU4TE9vV2t1RFRTbnUwWHRqcGozazhv?=
- =?utf-8?B?eUZIbkUvUWcvdytWQ3VsbFJ6TmdlaVRsTEo3eDcxbHZHQ1lxdlRaR1RBemlM?=
- =?utf-8?B?WjJCdm5oazhDR3A3bXVqdGQybzNmMFE2U0VacUF0c1huRFA4UTJDR3hXZU1l?=
- =?utf-8?B?Y0ROQ3hnRm1mZjhjR1p5M3FzUjBaZFJDOE9TSFJaOEhKSityMEVOVG1FLy93?=
- =?utf-8?B?VVRaQklUUEdDNlZrTGozcWdWcFIxT2JLckZ2M3lSNkQrbHlXODZpc0tjbi9w?=
- =?utf-8?B?YUNOaStrUEpURE4yR2hraHpJTjVxOHA5WnQreHJkY2k4SkZTdmVabHJSNDhh?=
- =?utf-8?B?emRsaUsxSXVMVktsMjZFWG1HbGdLL1B5K0Roc1czVXo3OVJWN2dtODRjOUxX?=
- =?utf-8?B?VXBUZC8rNmYvUWFDV1EvL3pIakR5R3NNUHo1U2NvSlJJMmx5SUhQSlF6cE9w?=
- =?utf-8?B?cDBMNHJ0Z3lzTnNtUlVmWGxUOFJZODliQWIwTE1PeW1heFZqTUxnTlhMVjZZ?=
- =?utf-8?B?U2JVRXJVeHZqVGY1SVlBa2d6ek9DQ3R4OGtXeDUxNFluN1dwTW9aUTBMU0c4?=
- =?utf-8?B?dU52TmlRNW5XeWNrQTNKMXY5U0swK0lFZTVrcCs2ZjJRS1RDbG5xbVVDYW1z?=
- =?utf-8?B?bVhtN0xIaWFtbXdWYmlzTm1QYjdMV0dNN0EyOFZCM1FzU2VPY1dFaVZ6bVZr?=
- =?utf-8?B?M1A1aGlKUzVsRmJ4WHd1dG1HbXM4MnM2NGNFQTR0ekg0Y0tqS0k5UW1tRXVL?=
- =?utf-8?Q?j8KnUHTkNFSe++VNT2/7Y7c=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: bfc3af25-518c-4621-6fac-08db41f92594
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5488.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Apr 2023 23:44:13.8643 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: oM6ZBR03NSGs6pv1ZI/Q+pP/34vRZAUleQB6FS28emT1FT6MDPc0VOsxkgR2KSWdLNPUcIKNyZSNTZLE1ru6IdG21WMGRESucT5V6ziylhQ=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR11MB5176
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH v1 1/5] drm/msm/dpu: add support for DSC encoder v1.2
+ engine
+Content-Language: en-GB
+To: Kuogee Hsieh <quic_khsieh@quicinc.com>, dri-devel@lists.freedesktop.org,
+ robdclark@gmail.com, sean@poorly.run, swboyd@chromium.org,
+ dianders@chromium.org, vkoul@kernel.org, daniel@ffwll.ch, airlied@gmail.com,
+ agross@kernel.org, andersson@kernel.org
+References: <1682033114-28483-1-git-send-email-quic_khsieh@quicinc.com>
+ <1682033114-28483-2-git-send-email-quic_khsieh@quicinc.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <1682033114-28483-2-git-send-email-quic_khsieh@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -158,33 +82,418 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>, "Kandpal,
- Suraj" <suraj.kandpal@intel.com>, "Usyskin,
- Alexander" <alexander.usyskin@intel.com>, "Winkler,
- Tomas" <tomas.winkler@intel.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
+ quic_abhinavk@quicinc.com, linux-kernel@vger.kernel.org,
+ marijn.suijten@somainline.org, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 21/04/2023 02:25, Kuogee Hsieh wrote:
+> Add support for DSC 1.2 by providing the necessary hooks to program
+> the DPU DSC 1.2 encoder.
+> 
+> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
+> ---
+>   drivers/gpu/drm/msm/Makefile                   |   1 +
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h |  38 ++-
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.h     |  17 +-
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc_1_2.c | 388 +++++++++++++++++++++++++
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c         |   7 +-
+>   5 files changed, 444 insertions(+), 7 deletions(-)
+>   create mode 100644 drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc_1_2.c
+> 
+> diff --git a/drivers/gpu/drm/msm/Makefile b/drivers/gpu/drm/msm/Makefile
+> index b814fc8..b9af5e4 100644
+> --- a/drivers/gpu/drm/msm/Makefile
+> +++ b/drivers/gpu/drm/msm/Makefile
+> @@ -65,6 +65,7 @@ msm-$(CONFIG_DRM_MSM_DPU) += \
+>   	disp/dpu1/dpu_hw_catalog.o \
+>   	disp/dpu1/dpu_hw_ctl.o \
+>   	disp/dpu1/dpu_hw_dsc.o \
+> +	disp/dpu1/dpu_hw_dsc_1_2.o \
+>   	disp/dpu1/dpu_hw_interrupts.o \
+>   	disp/dpu1/dpu_hw_intf.o \
+>   	disp/dpu1/dpu_hw_lm.o \
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+> index 71584cd..22421b9 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+> @@ -1,6 +1,6 @@
+>   /* SPDX-License-Identifier: GPL-2.0-only */
+>   /*
+> - * Copyright (c) 2022. Qualcomm Innovation Center, Inc. All rights reserved.
+> + * Copyright (c) 2022-2023, Qualcomm Innovation Center, Inc. All rights reserved.
+>    * Copyright (c) 2015-2018, 2020 The Linux Foundation. All rights reserved.
+>    */
+>   
+> @@ -241,12 +241,20 @@ enum {
+>   };
+>   
+>   /**
+> - * DSC features
+> - * @DPU_DSC_OUTPUT_CTRL       Configure which PINGPONG block gets
+> - *                            the pixel output from this DSC.
+> + * DSC sub-blocks/features
+> + * @DPU_DSC_OUTPUT_CTRL         Configure which PINGPONG block gets
+> + *                              the pixel output from this DSC.
 
+Any reason to change the alignment
 
-On 4/20/2023 3:04 PM, Ceraolo Spurio, Daniele wrote:
+> + * @DPU_DSC_HW_REV_1_1          DSC block supports dsc 1.1 only
+> + * @DPU_DSC_HW_REV_1_2          DSC block supports dsc 1.1 and 1.2
+> + * @DPU_DSC_NATIVE_422_EN       Supports native422 and native420 encoding
+> + * @DPU_DSC_MAX
+>    */
+>   enum {
+>   	DPU_DSC_OUTPUT_CTRL = 0x1,
+> +	DPU_DSC_HW_REV_1_1,
+> +	DPU_DSC_HW_REV_1_2,
+> +	DPU_DSC_NATIVE_422_EN,
+> +	DPU_DSC_MAX
+>   };
+>   
+>   /**
+> @@ -311,6 +319,14 @@ struct dpu_pp_blk {
+>   };
+>   
+>   /**
+> + * struct dpu_dsc_blk - DSC Encoder sub-blk information
+> + * @info:   HW register and features supported by this sub-blk
+> + */
+> +struct dpu_dsc_blk {
+> +	DPU_HW_SUBBLK_INFO;
+> +};
+> +
+> +/**
+>    * enum dpu_qos_lut_usage - define QoS LUT use cases
+>    */
+>   enum dpu_qos_lut_usage {
+> @@ -459,6 +475,17 @@ struct dpu_pingpong_sub_blks {
+>   };
+>   
+>   /**
+> + * struct dpu_dsc_sub_blks - DSC sub-blks
+> + * @enc: DSC encoder sub block
+> + * @ctl: DSC controller sub block
+> + *
+> + */
+> +struct dpu_dsc_sub_blks {
+> +	struct dpu_dsc_blk enc;
+> +	struct dpu_dsc_blk ctl;
+> +};
+> +
+> +/**
+>    * dpu_clk_ctrl_type - Defines top level clock control signals
+>    */
+>   enum dpu_clk_ctrl_type {
+> @@ -612,10 +639,13 @@ struct dpu_merge_3d_cfg  {
+>    * struct dpu_dsc_cfg - information of DSC blocks
+>    * @id                 enum identifying this block
+>    * @base               register offset of this block
+> + * @len:               length of hardware block
+>    * @features           bit mask identifying sub-blocks/features
+> + * @sblk               sub-blocks information
+>    */
+>   struct dpu_dsc_cfg {
+>   	DPU_HW_BLK_INFO;
+> +	const struct dpu_dsc_sub_blks *sblk;
+>   };
+>   
+>   /**
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.h
+> index ae9b5db..d0f8b8b 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.h
+> @@ -1,5 +1,8 @@
+>   /* SPDX-License-Identifier: GPL-2.0-only */
+> -/* Copyright (c) 2020-2022, Linaro Limited */
+> +/*
+> + * Copyright (c) 2020-2022, Linaro Limited
+> + * Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved
+> + */
+>   
+>   #ifndef _DPU_HW_DSC_H
+>   #define _DPU_HW_DSC_H
+> @@ -61,7 +64,7 @@ struct dpu_hw_dsc {
+>   };
+>   
+>   /**
+> - * dpu_hw_dsc_init - initializes the dsc block for the passed dsc idx.
+> + * dpu_hw_dsc_init - initializes the v1.1 dsc block for the passed dsc idx.
+>    * @idx:  DSC index for which driver object is required
+>    * @addr: Mapped register io address of MDP
+>    * @m:    Pointer to mdss catalog data
+> @@ -71,6 +74,16 @@ struct dpu_hw_dsc *dpu_hw_dsc_init(enum dpu_dsc idx, void __iomem *addr,
+>   				   const struct dpu_mdss_cfg *m);
+>   
+>   /**
+> + * dpu_hw_dsc_init_1_2 - initializes the v1.2 dsc block for the passed dsc idx.
+> + * @idx:  DSC index for which driver object is required
+> + * @addr: Mapped register io address of MDP
+> + * @m:    Pointer to mdss catalog data
+> + * Returns: Error code or allocated dpu_hw_dsc context
+> + */
+> +struct dpu_hw_dsc *dpu_hw_dsc_init_1_2(enum dpu_dsc idx, void __iomem *addr,
+> +				   const struct dpu_mdss_cfg *m);
+> +
+> +/**
+>    * dpu_hw_dsc_destroy - destroys dsc driver context
+>    * @dsc:   Pointer to dsc driver context returned by dpu_hw_dsc_init
+>    */
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc_1_2.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc_1_2.c
+> new file mode 100644
+> index 00000000..455d7f2
+> --- /dev/null
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc_1_2.c
+> @@ -0,0 +1,388 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * Copyright (c) 2020-2021, The Linux Foundation. All rights reserved.
+> + * Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved
+> + */
+> +
+> +#include <drm/display/drm_dsc_helper.h>
+> +
+> +#include "dpu_kms.h"
+> +#include "dpu_hw_catalog.h"
+> +#include "dpu_hwio.h"
+> +#include "dpu_hw_mdss.h"
+> +#include "dpu_hw_dsc.h"
+> +
+> +
+> +#define DSC_CMN_MAIN_CNF           0x00
+> +
+> +/* DPU_DSC_ENC register offsets */
+> +#define ENC_DF_CTRL                0x00
+> +#define ENC_GENERAL_STATUS         0x04
+> +#define ENC_HSLICE_STATUS          0x08
+> +#define ENC_OUT_STATUS             0x0C
+> +#define ENC_INT_STAT               0x10
+> +#define ENC_INT_CLR                0x14
+> +#define ENC_INT_MASK               0x18
+> +#define DSC_MAIN_CONF              0x30
+> +#define DSC_PICTURE_SIZE           0x34
+> +#define DSC_SLICE_SIZE             0x38
+> +#define DSC_MISC_SIZE              0x3C
+> +#define DSC_HRD_DELAYS             0x40
+> +#define DSC_RC_SCALE               0x44
+> +#define DSC_RC_SCALE_INC_DEC       0x48
+> +#define DSC_RC_OFFSETS_1           0x4C
+> +#define DSC_RC_OFFSETS_2           0x50
+> +#define DSC_RC_OFFSETS_3           0x54
+> +#define DSC_RC_OFFSETS_4           0x58
+> +#define DSC_FLATNESS_QP            0x5C
+> +#define DSC_RC_MODEL_SIZE          0x60
+> +#define DSC_RC_CONFIG              0x64
+> +#define DSC_RC_BUF_THRESH_0        0x68
+> +#define DSC_RC_BUF_THRESH_1        0x6C
+> +#define DSC_RC_BUF_THRESH_2        0x70
+> +#define DSC_RC_BUF_THRESH_3        0x74
+> +#define DSC_RC_MIN_QP_0            0x78
+> +#define DSC_RC_MIN_QP_1            0x7C
+> +#define DSC_RC_MIN_QP_2            0x80
+> +#define DSC_RC_MAX_QP_0            0x84
+> +#define DSC_RC_MAX_QP_1            0x88
+> +#define DSC_RC_MAX_QP_2             0x8C
+
+As you are adding new definitions, could please make them aligned from 
+the beginning?
+
+> +#define DSC_RC_RANGE_BPG_OFFSETS_0  0x90
+> +#define DSC_RC_RANGE_BPG_OFFSETS_1  0x94
+> +#define DSC_RC_RANGE_BPG_OFFSETS_2  0x98
+> +
+> +/* DPU_DSC_CTL register offsets */
+> +#define DSC_CTL                    0x00
+> +#define DSC_CFG                    0x04
+> +#define DSC_DATA_IN_SWAP           0x08
+> +#define DSC_CLK_CTRL               0x0C
+> +
+> +/*
+> + * @DPU_DSC_ENC                 DSC encoder sub block
+> + * @DPU_DSC_CTL                 DSC controller sub block
+> + */
+> +enum {
+> +	DPU_DSC_ENC,
+> +	DPU_DSC_CTL,
+> +};
+> +
+> +static int _dsc_calc_ob_max_addr(struct dpu_hw_dsc *hw_dsc, int num_ss)
+
+If this is used from a single place, please inline this function.
+
+> +{
+> +	int max_addr = 2400 / num_ss;
+> +
+> +	if (hw_dsc->caps->features & BIT(DPU_DSC_NATIVE_422_EN))
+> +		max_addr /= 2;
+
+Is this really guarded by the hw block feature or by native_422 being 
+enabled?
+
+> +
+> +	return max_addr - 1;
+> +};
+> +
 >
->
-> On 4/18/2023 11:57 PM, Teres Alexis, Alan Previn wrote:
->> On Wed, 2023-03-29 at 09:56 -0700, Ceraolo Spurio, Daniele wrote:
->>> From: Alexander Usyskin <alexander.usyskin@intel.com>
->>>
->>> Add GSC proxy driver. It to allows messaging between GSC component
->>> on Intel on board graphics card and CSE device.
->> alan:nit: isn't "Intel integrated GPU" clearer than "Intel on-board 
->> graphics card"?
->> Same thing for the Kconfig description later (or am i missing 
->> something else here).
->
-> Will change
 
-Thinking again, GSC proxy will be applicable to non-integrated GPUs as 
-well, so I'm just going to change this to "Intel graphics card".
+[skipped]
 
-Daniele
+> +static void dpu_hw_dsc_config_thresh_1_2(struct dpu_hw_dsc *hw_dsc,
+> +					struct drm_dsc_config *dsc)
+> +{
+> +	struct dpu_hw_blk_reg_map *hw;
+> +	u32 offset, off;
+> +	int i, j = 0;
+> +	struct drm_dsc_rc_range_parameters *rc;
+> +	u32 data = 0, min_qp = 0, max_qp = 0, bpg_off = 0;
+> +
+> +	if (!hw_dsc || !dsc)
+> +		return;
+> +
+> +	_dsc_subblk_offset(hw_dsc, DPU_DSC_ENC, &offset);
+> +
+> +	hw = &hw_dsc->hw;
+> +
+> +	rc = dsc->rc_range_params;
+> +
+> +	off = 0;
+> +	for (i = 0; i < DSC_NUM_BUF_RANGES - 1; i++) {
+> +		data |= dsc->rc_buf_thresh[i] << (8 * j);
+> +		j++;
+> +		if ((j == 4) || (i == DSC_NUM_BUF_RANGES - 2)) {
+> +			DPU_REG_WRITE(hw, offset + DSC_RC_BUF_THRESH_0 + off,
+> +					data);
+> +			off += 4;
+> +			j = 0;
+> +			data = 0;
+> +		}
+> +	}
+> +
+> +	off = 0;
+> +	for (i = 0; i < DSC_NUM_BUF_RANGES; i++) {
+> +		min_qp |= rc[i].range_min_qp << (5 * j);
+> +		max_qp |= rc[i].range_max_qp << (5 * j);
+> +		bpg_off |= rc[i].range_bpg_offset << (6 * j);
+> +		j++;
+> +		if (j == 5) {
+> +			DPU_REG_WRITE(hw, offset + DSC_RC_MIN_QP_0 + off,
+> +					min_qp);
+> +			DPU_REG_WRITE(hw, offset + DSC_RC_MAX_QP_0 + off,
+> +					max_qp);
+> +			DPU_REG_WRITE(hw,
+> +					offset + DSC_RC_RANGE_BPG_OFFSETS_0 + off,
+> +					bpg_off);
+> +			off += 4;
+> +			j = 0;
+> +			min_qp = 0;
+> +			max_qp = 0;
+> +			bpg_off = 0;
+> +		}
+> +	}
+
+Unrolling these loops would make it easier to understand them.
+
+> +}
+> +
+> +static void dpu_hw_dsc_bind_pingpong_blk_1_2(
+> +		struct dpu_hw_dsc *hw_dsc,
+> +		bool enable,
+> +		const enum dpu_pingpong pp)
+> +{
+> +	struct dpu_hw_blk_reg_map *hw;
+> +	int offset;
+> +	int mux_cfg = 0xf; /* Disabled */
+> +
+> +	_dsc_subblk_offset(hw_dsc, DPU_DSC_CTL, &offset);
+> +
+> +	hw = &hw_dsc->hw;
+> +	if (enable)
+> +		mux_cfg = (pp - PINGPONG_0) & 0x7;
+> +
+> +	DPU_REG_WRITE(hw, offset + DSC_CTL, mux_cfg);
+> +}
+> +
+> +static const struct dpu_dsc_cfg *_dsc_offset(enum dpu_dsc dsc,
+> +				       const struct dpu_mdss_cfg *m,
+> +				       void __iomem *addr,
+> +				       struct dpu_hw_blk_reg_map *b)
+> +{
+> +	int i;
+> +
+> +	for (i = 0; i < m->dsc_count; i++) {
+> +		if (dsc == m->dsc[i].id) {
+> +			b->blk_addr = addr + m->dsc[i].base;
+> +			b->log_mask = DPU_DBG_MASK_DSC;
+> +			return &m->dsc[i];
+> +		}
+> +	}
+> +
+> +	return NULL;
+> +}
+> +
+> +static void _setup_dcs_ops_1_2(struct dpu_hw_dsc_ops *ops,
+> +		const unsigned long features)
+> +{
+> +	ops->dsc_disable = dpu_hw_dsc_disable_1_2;
+> +	ops->dsc_config = dpu_hw_dsc_config_1_2;
+> +	ops->dsc_config_thresh = dpu_hw_dsc_config_thresh_1_2;
+> +	ops->dsc_bind_pingpong_blk = dpu_hw_dsc_bind_pingpong_blk_1_2;
+> +}
+> +
+> +struct dpu_hw_dsc *dpu_hw_dsc_init_1_2(enum dpu_dsc idx, void __iomem *addr,
+> +				   const struct dpu_mdss_cfg *m)
+> +{
+
+Please rebase on top of https://patchwork.freedesktop.org/series/116615/
+
+> +	struct dpu_hw_dsc *c;
+> +	const struct dpu_dsc_cfg *cfg;
+> +
+> +	c = kzalloc(sizeof(*c), GFP_KERNEL);
+> +	if (!c)
+> +		return ERR_PTR(-ENOMEM);
+> +
+> +	cfg = _dsc_offset(idx, m, addr, &c->hw);
+> +	if (IS_ERR_OR_NULL(cfg)) {
+> +		kfree(c);
+> +		return ERR_PTR(-EINVAL);
+> +	}
+> +
+> +	c->idx = idx;
+> +	c->caps = cfg;
+> +
+> +	_setup_dcs_ops_1_2(&c->ops, c->caps->features);
+> +
+> +	return c;
+> +}
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
+> index f4dda88..f7014f5 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
+> @@ -1,6 +1,7 @@
+>   // SPDX-License-Identifier: GPL-2.0-only
+>   /*
+>    * Copyright (c) 2016-2018, The Linux Foundation. All rights reserved.
+> + * Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved.
+>    */
+>   
+>   #define pr_fmt(fmt)	"[drm:%s] " fmt, __func__
+> @@ -250,7 +251,11 @@ int dpu_rm_init(struct dpu_rm *rm,
+>   		struct dpu_hw_dsc *hw;
+>   		const struct dpu_dsc_cfg *dsc = &cat->dsc[i];
+>   
+> -		hw = dpu_hw_dsc_init(dsc->id, mmio, cat);
+> +		if (test_bit(DPU_DSC_HW_REV_1_2, &dsc->features))
+> +			hw = dpu_hw_dsc_init_1_2(dsc->id, mmio, cat);
+> +		else
+> +			hw = dpu_hw_dsc_init(dsc->id, mmio, cat);
+> +
+>   		if (IS_ERR_OR_NULL(hw)) {
+>   			rc = PTR_ERR(hw);
+>   			DPU_ERROR("failed dsc object creation: err %d\n", rc);
+
+-- 
+With best wishes
+Dmitry
+
