@@ -1,56 +1,92 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25D946E885A
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Apr 2023 05:05:17 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 981CA6E8887
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Apr 2023 05:17:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1675A10EB5F;
-	Thu, 20 Apr 2023 03:05:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0A53810EB60;
+	Thu, 20 Apr 2023 03:17:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from loongson.cn (mail.loongson.cn [114.242.206.163])
- by gabe.freedesktop.org (Postfix) with ESMTP id 9674510EB5F
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Apr 2023 03:05:07 +0000 (UTC)
-Received: from loongson.cn (unknown [10.20.42.43])
- by gateway (Coremail) with SMTP id _____8BxIk7gq0BkdEMfAA--.48519S3;
- Thu, 20 Apr 2023 11:05:04 +0800 (CST)
-Received: from openarena.loongson.cn (unknown [10.20.42.43])
- by localhost.localdomain (Coremail) with SMTP id AQAAf8CxKLLeq0Bkc3AwAA--.68S2;
- Thu, 20 Apr 2023 11:05:02 +0800 (CST)
-From: Sui Jingfeng <suijingfeng@loongson.cn>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Sui Jingfeng <suijingfeng@loongson.cn>, Li Yi <liyi@loongson.cn>,
- Helge Deller <deller@gmx.de>, Lucas De Marchi <lucas.demarchi@intel.com>
-Subject: [PATCH v5] drm/fbdev-generic: prohibit potential out-of-bounds access
-Date: Thu, 20 Apr 2023 11:05:00 +0800
-Message-Id: <20230420030500.1578756-1-suijingfeng@loongson.cn>
-X-Mailer: git-send-email 2.25.1
+Received: from NAM04-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam04on2068.outbound.protection.outlook.com [40.107.101.68])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0595510EB60;
+ Thu, 20 Apr 2023 03:17:39 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=dn+960zDwnr6YMT654N8comV/smH7bEHRTekPE6IVDeEDBq2n4FY+Y3dDXgnCZbA1S812PKjhlBM/CY9Urcm5OTxzX/pqqkC5EqDwaXQlXkufqtwF4KgJaDRbM2HJ9AhMnWm8s35hKGaZasXneIcCPpgBYWeQxnJ07htdfwZY2c1dSvarUkI59QSKt2lqgcZ86rgfC1TxZAEnZwF/Ovdr+oWXxF11Qw1UOvReqvk0x9cNeHxqRIfnB43PJa8BPMD9ofsoba6ogGtHrz/3ONuJ+/A9FZa8RQyxl49oESxprt1qoh7PDOOGCnE/L3rKy+m5pjAxdHAjmIQ88gI5BLR7g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=GLd9RjPvk2LujQ3TdBQYgy6L8/Yu/4SYWfzUtE59IPo=;
+ b=nIE9mBo7Ngn4Mq6FKOjrhcvyYfKCoPx0PmtcMLhZKP6onrcjN3PzTs49mtLHxH6HgnZheUl5u1cwHBhDqT7ATmmp57ao8L2GXFlY9ApDuAA8GVqPMvOAZeujg/Pg5I/rGxg1GmDH52SHnG0seCvaXTWIbQmeKW2ZSgGZe9pZDRireUG7lyvkQVqPO24fLc371Jc7tFjfF02SIy0i94prhwDqP/kiiiX3byBcYUDtYrtNJym7IdA4m2tnqh3ujYqmceVN3wUIdOpr3Su8QPrQ4COtA3QBK+gkDdcEH0SJqeYJsW4Tkceqv2R0hcqZs4cOHSqkLigAoF8LJ2AoConANw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=GLd9RjPvk2LujQ3TdBQYgy6L8/Yu/4SYWfzUtE59IPo=;
+ b=SGkxYB0m01Bm8B5ZDxz+YJd6+ZD4aODKZa/uFkptja58cRYQKGabPb5OCtSE34POiBAoNilJ2KQ6MvCcnHiPs9SUkSeH+pzquN7y3OVTi2LpGpCWGqOW8JZNwLu/K/IdLrhH5avVBm+cimjxglMNbmfeg6O5bQVgrhrKGRcmquc=
+Received: from MW4PR04CA0051.namprd04.prod.outlook.com (2603:10b6:303:6a::26)
+ by SN7PR12MB7021.namprd12.prod.outlook.com (2603:10b6:806:262::16)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6298.45; Thu, 20 Apr
+ 2023 03:17:37 +0000
+Received: from CO1NAM11FT029.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:303:6a:cafe::14) by MW4PR04CA0051.outlook.office365.com
+ (2603:10b6:303:6a::26) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6319.22 via Frontend
+ Transport; Thu, 20 Apr 2023 03:17:37 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ CO1NAM11FT029.mail.protection.outlook.com (10.13.174.214) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.6298.30 via Frontend Transport; Thu, 20 Apr 2023 03:17:37 +0000
+Received: from tr4.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Wed, 19 Apr
+ 2023 22:17:36 -0500
+From: Alex Deucher <alexander.deucher@amd.com>
+To: <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
+ <airlied@gmail.com>, <daniel.vetter@ffwll.ch>
+Subject: [pull] amdgpu drm-fixes-6.3
+Date: Wed, 19 Apr 2023 23:17:17 -0400
+Message-ID: <20230420031717.7790-1-alexander.deucher@amd.com>
+X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8CxKLLeq0Bkc3AwAA--.68S2
-X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
-X-Coremail-Antispam: 1Uk129KBjvJXoWxCF15Kr1fuF1kKw43Aw1UJrb_yoWrKF4fpa
- y7Ga1UKrsYqF1DWrW7A3WrAw15Wan7AFyIgr97G342vF43A3Z29FyUKF4jgFy5Jr1fZr1a
- qws09w1I9r12kaUanT9S1TB71UUUUj7qnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
- qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
- bSkYFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s
- 1l1IIY67AEw4v_Jrv_JF1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xv
- wVC0I7IYx2IY67AKxVWDJVCq3wA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8Jr0_Cr1UM2
- 8EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Cr1j6rxd
- M2kKe7AKxVWUAVWUtwAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07AIYIkI8VC2zV
- CFFI0UMc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUAVWUtwAv7VC2
- z280aVAFwI0_Gr0_Cr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI48JMxkF7I
- 0En4kS14v26r126r1DMxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMxCI
- bckI1I0E14v26r126r1DMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_Jr
- I_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v2
- 6r1I6r4UMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj4
- 0_Jr0_JF4lIxAIcVC2z280aVAFwI0_Gr0_Cr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8
- JrUvcSsGvfC2KfnxnUUI43ZEXa7IU8uc_3UUUUU==
+Content-Type: text/plain
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CO1NAM11FT029:EE_|SN7PR12MB7021:EE_
+X-MS-Office365-Filtering-Correlation-Id: d956d118-8c5b-46b4-f42b-08db414dcaf3
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: KK2ZCA3o6bNbVQpZFlLYwKnl5anTZVVHrFRrPvGyvvtIzgSGvEQCEcvLeXd7/eVBRpyoXwTPbXfty9JIJb1RHVSwzMMy5W/FS/0iJfiMEbrd5P7xU0DulHYvFBFroToL/ERHl3l3km4OwQZDfCsTP5eZSMbEciUYUrwoSw4f+/xb2stX8TCQhzRW0gQAjqrIroS8AgjxuhTVLiqs6kEfWQQzcwdAbqyOuvRDpFEJejzvdmrViE0QKyxYLyS07bqS5DeUcyHH4E1pyxnWPx7O8c1P1N2yFzcbyRRoJIjdqZ/E50JSK+uCJ8pdFoIlt+OjIDxalcWW5T+C6VKXIg7eiB6uIA9yQRheskIVDiM6nl/cPbifksKG+jaM7hH2U7aRVlkTd1jMn+bfJ9xYlJNPfLe731fpTnVUBdib/8zPALLHX8UQAKSqz6BNS4dFJgSnnY4u/TsqWBCyRu9h0ZqYl8uzCtTa9xOKim2qFPPPukOijHfbxVmy/sFA+tPMMSRDJeScGATR2+H7nVy2OwOPbDZY4mNbL2wyfZCJNOet/GwZ/v7MNRC73FBWHExst+zjm7nEa/ss4CSA9cJOwf7peSd5+t84A3rYH1nNLYAyp6aDd4gg/T8zCSL6YbCMgwgl3JqWsJ7qeoT6frxTlg9jbd40MfNYkj4Omauv8zmj/Xtu52dI0jDHMMzR7fejMVeQ
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230028)(4636009)(39860400002)(346002)(376002)(396003)(136003)(451199021)(36840700001)(46966006)(40470700004)(316002)(110136005)(966005)(70206006)(4326008)(36756003)(70586007)(186003)(40460700003)(26005)(1076003)(16526019)(47076005)(36860700001)(81166007)(336012)(2616005)(426003)(83380400001)(40480700001)(5660300002)(41300700001)(8676002)(6666004)(82310400005)(8936002)(478600001)(7696005)(86362001)(356005)(2906002)(82740400003)(36900700001);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Apr 2023 03:17:37.4611 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: d956d118-8c5b-46b4-f42b-08db414dcaf3
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT029.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB7021
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,132 +99,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: loongson-kernel@lists.loongnix.cn, linux-fbdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: Alex Deucher <alexander.deucher@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The fbdev test of IGT may write after EOF, which lead to out-of-bound
-access for drm drivers hire fbdev-generic. For example, run fbdev test
-on a x86+ast2400 platform, with 1680x1050 resolution, will cause the
-linux kernel hang with the following call trace:
+Hi Dave, Daniel,
 
-  Oops: 0000 [#1] PREEMPT SMP PTI
-  [IGT] fbdev: starting subtest eof
-  Workqueue: events drm_fb_helper_damage_work [drm_kms_helper]
-  [IGT] fbdev: starting subtest nullptr
+Fixes for 6.3.
 
-  RIP: 0010:memcpy_erms+0xa/0x20
-  RSP: 0018:ffffa17d40167d98 EFLAGS: 00010246
-  RAX: ffffa17d4eb7fa80 RBX: ffffa17d40e0aa80 RCX: 00000000000014c0
-  RDX: 0000000000001a40 RSI: ffffa17d40e0b000 RDI: ffffa17d4eb80000
-  RBP: ffffa17d40167e20 R08: 0000000000000000 R09: ffff89522ecff8c0
-  R10: ffffa17d4e4c5000 R11: 0000000000000000 R12: ffffa17d4eb7fa80
-  R13: 0000000000001a40 R14: 000000000000041a R15: ffffa17d40167e30
-  FS:  0000000000000000(0000) GS:ffff895257380000(0000) knlGS:0000000000000000
-  CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-  CR2: ffffa17d40e0b000 CR3: 00000001eaeca006 CR4: 00000000001706e0
-  Call Trace:
-   <TASK>
-   ? drm_fbdev_generic_helper_fb_dirty+0x207/0x330 [drm_kms_helper]
-   drm_fb_helper_damage_work+0x8f/0x170 [drm_kms_helper]
-   process_one_work+0x21f/0x430
-   worker_thread+0x4e/0x3c0
-   ? __pfx_worker_thread+0x10/0x10
-   kthread+0xf4/0x120
-   ? __pfx_kthread+0x10/0x10
-   ret_from_fork+0x2c/0x50
-   </TASK>
-  CR2: ffffa17d40e0b000
-  ---[ end trace 0000000000000000 ]---
+The following changes since commit 6a8f57ae2eb07ab39a6f0ccad60c760743051026:
 
-The is because damage rectangles computed by
-drm_fb_helper_memory_range_to_clip() function does not guaranteed to be
-bound in the screen's active display area. Possible reasons are:
+  Linux 6.3-rc7 (2023-04-16 15:23:53 -0700)
 
-1) Buffers are allocated in the granularity of page size, for mmap system
-   call support. The shadow screen buffer consumed by fbdev emulation may
-   also choosed be page size aligned.
+are available in the Git repository at:
 
-2) The DIV_ROUND_UP() used in drm_fb_helper_memory_range_to_clip()
-   will introduce off-by-one error.
+  https://gitlab.freedesktop.org/agd5f/linux.git tags/amd-drm-fixes-6.3-2023-04-19
 
-For example, on a 16KB page size system, in order to store a 1920x1080
-XRGB framebuffer, we need allocate 507 pages. Unfortunately, the size
-1920*1080*4 can not be divided exactly by 16KB.
+for you to fetch changes up to 0b5dfe12755f87ec014bb4cc1930485026167430:
 
- 1920 * 1080 * 4 = 8294400 bytes
- 506 * 16 * 1024 = 8290304 bytes
- 507 * 16 * 1024 = 8306688 bytes
+  drm/amd/display: fix a divided-by-zero error (2023-04-18 17:20:00 -0400)
 
- line_length = 1920*4 = 7680 bytes
+----------------------------------------------------------------
+amd-drm-fixes-6.3-2023-04-19:
 
- 507 * 16 * 1024 / 7680 = 1081.6
+amdgpu:
+- GPU reset fix
+- DCN 3.1.5 line buffer fix
+- Display fix for single channel memory configs
+- Fix a possible divide by 0
 
- off / line_length = 507 * 16 * 1024 / 7680 = 1081
- DIV_ROUND_UP(507 * 16 * 1024, 7680) will yeild 1082
+----------------------------------------------------------------
+Alan Liu (1):
+      drm/amdgpu: Fix desktop freezed after gpu-reset
 
-memcpy_toio() typically issue the copy line by line, when copy the last
-line, out-of-bound access will be happen. Because:
+Alex Hung (1):
+      drm/amd/display: fix a divided-by-zero error
 
- 1082 * line_length = 1082 * 7680 = 8309760, and 8309760 > 8306688
+Daniel Miess (1):
+      drm/amd/display: limit timing for single dimm memory
 
-Note that userspace may stil write to the invisiable area if a larger
-buffer than width x stride is exposed. But it is not a big issue as
-long as there still have memory resolve the access if not drafting so
-far.
+Dmytro Laktyushkin (1):
+      drm/amd/display: set dcn315 lb bpp to 48
 
- - Also limit the y1 (Daniel)
- - keep fix patch it to minimal (Daniel)
- - screen_size is page size aligned because of it need mmap (Thomas)
- - Adding fixes tag (Thomas)
-
-Fixes: aa15c677cc34 ("drm/fb-helper: Fix vertical damage clipping")
-
-Signed-off-by: Sui Jingfeng <suijingfeng@loongson.cn>
-Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
-Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Link: https://lore.kernel.org/dri-devel/ad44df29-3241-0d9e-e708-b0338bf3c623@189.cn/
----
- drivers/gpu/drm/drm_fb_helper.c | 16 ++++++++++++----
- 1 file changed, 12 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
-index 64458982be40..6bb1b8b27d7a 100644
---- a/drivers/gpu/drm/drm_fb_helper.c
-+++ b/drivers/gpu/drm/drm_fb_helper.c
-@@ -641,19 +641,27 @@ static void drm_fb_helper_damage(struct drm_fb_helper *helper, u32 x, u32 y,
- static void drm_fb_helper_memory_range_to_clip(struct fb_info *info, off_t off, size_t len,
- 					       struct drm_rect *clip)
- {
-+	u32 line_length = info->fix.line_length;
-+	u32 fb_height = info->var.yres;
- 	off_t end = off + len;
- 	u32 x1 = 0;
--	u32 y1 = off / info->fix.line_length;
-+	u32 y1 = off / line_length;
- 	u32 x2 = info->var.xres;
--	u32 y2 = DIV_ROUND_UP(end, info->fix.line_length);
-+	u32 y2 = DIV_ROUND_UP(end, line_length);
-+
-+	/* Don't allow any of them beyond the bottom bound of display area */
-+	if (y1 > fb_height)
-+		y1 = fb_height;
-+	if (y2 > fb_height)
-+		y2 = fb_height;
- 
- 	if ((y2 - y1) == 1) {
- 		/*
- 		 * We've only written to a single scanline. Try to reduce
- 		 * the number of horizontal pixels that need an update.
- 		 */
--		off_t bit_off = (off % info->fix.line_length) * 8;
--		off_t bit_end = (end % info->fix.line_length) * 8;
-+		off_t bit_off = (off % line_length) * 8;
-+		off_t bit_end = (end % line_length) * 8;
- 
- 		x1 = bit_off / info->var.bits_per_pixel;
- 		x2 = DIV_ROUND_UP(bit_end, info->var.bits_per_pixel);
--- 
-2.25.1
-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_irq.c              |  3 +++
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c   | 17 ++++++++++++++---
+ .../gpu/drm/amd/display/dc/dcn314/dcn314_resource.c  | 20 ++++++++++++++++++++
+ drivers/gpu/drm/amd/display/dc/dml/dcn31/dcn31_fpu.c |  2 +-
+ .../drm/amd/display/modules/power/power_helpers.c    |  4 ++++
+ 5 files changed, 42 insertions(+), 4 deletions(-)
