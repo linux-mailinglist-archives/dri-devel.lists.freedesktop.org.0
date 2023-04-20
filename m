@@ -2,59 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F66C6E97E6
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Apr 2023 17:02:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A32CD6E97F9
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Apr 2023 17:05:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C087910E2D2;
-	Thu, 20 Apr 2023 15:02:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 623B810EC81;
+	Thu, 20 Apr 2023 15:05:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com
- [209.85.128.182])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 033F410E2D2
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Apr 2023 15:02:44 +0000 (UTC)
-Received: by mail-yw1-f182.google.com with SMTP id
- 00721157ae682-552ae3e2cbeso44658937b3.13
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Apr 2023 08:02:44 -0700 (PDT)
+Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com
+ [209.85.208.174])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B889D10EC81
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Apr 2023 15:05:24 +0000 (UTC)
+Received: by mail-lj1-f174.google.com with SMTP id z38so3094117ljq.12
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Apr 2023 08:05:24 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682002964; x=1684594964;
+ d=1e100.net; s=20221208; t=1682003122; x=1684595122;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=AxUhM/jxNN72AyF4iUkssSBmkhq9B+Vz0NtwH/Pd3xU=;
- b=jLuzd/Twb+BecFDqpavNRfyKyLScwfmg732odOXO3n1gLJDSAOCxJtwAPCBTkoA+ab
- Umm/SqC1Q+fuc7sCCR0WT/dawSvCjv7FDD3PEST4884X+vkol6tbzZPxfopzHqkEKd0l
- ZeCdME52H1ue5Ql+iCsHEBvod1Lbd3S2T+0YHPZVEiGKeXBMhWl/awsw7faWUVDy//No
- 1eRStVM4clKl1/gbagRzNDEJXiqDjOu5BNs42EHTxwRmOPucBBmrL0m4lvUK9hF9J5p4
- 4MSlQQtBPYb+KnIZitEsKJGnspYJU13EoHY6s6QofSViwco68Bp07IYQXk8CwAwmVLEV
- lvqg==
-X-Gm-Message-State: AAQBX9dTWOr7w6nwQp8Fwg2U1wNfwwsXwuou8NpJ75ibS1Ao/R5fPks5
- 0rO6F2kyMKzW0ulrPbYQdxOpyv3p+dJuJ1Xi
-X-Google-Smtp-Source: AKy350apMhlOp3E9KOaU1bbd3GDLRvi526SKENiAZnNbM7lI5IGL+24Pj1t3lHHtDpqM06QNaLyy3w==
-X-Received: by 2002:a0d:d905:0:b0:541:5a5d:8fba with SMTP id
- b5-20020a0dd905000000b005415a5d8fbamr1331456ywe.13.1682002963624; 
- Thu, 20 Apr 2023 08:02:43 -0700 (PDT)
-Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com.
- [209.85.128.174]) by smtp.gmail.com with ESMTPSA id
- r124-20020a0de882000000b0054ee8426468sm381704ywe.21.2023.04.20.08.02.42
+ bh=ZjATNR9xN0TX4Afa/FkjvELVtb7InkL6+l1hWMyUq0g=;
+ b=jLSVg6bylRpkrl/qFqxz59skUqr4UOEp6SVDpqOak2gD3HtsCGHVS/wmYRKiakL9Ub
+ Cwi9meyjY1aB0Ot7FrpIW3b0/0sidb7zkeh+R1Bm74SPaYjADn6OA3EeqmnqRI+77zLM
+ +pYQCSjWl2ZY8bGWc6wSqeoUpsEoyh1NsjJn5P6lmBhOzZrikN5p2HnaSewCbOkZByC0
+ /ej6bfmBSLC+fkDvAkCyzSvinDRTxQLM13CHcl1+lyaIRcwkkf/1BjxZDnF/oI8+zhMu
+ Rh08CFDSfbnMv5QWC97xcmuo45ioARZGn+aNv4zL+/PEwNEqDNENfbrx7WkKdKKh80Hc
+ 9F7A==
+X-Gm-Message-State: AAQBX9cMHUXZjHzdeNQk/m4tygyXRvrgO8hpLmTJ/ka/zSW36ZmtChjJ
+ fIO40LOVv3s8gSIk47SezyJCCryD7A0mkJHV
+X-Google-Smtp-Source: AKy350YXgF8SQ+/+DABvhWeShZqsr47dfK/JQ9DsI+I0O6G0Nq9ZXwdAk3MBfa2xTG+5YRq38QpIcQ==
+X-Received: by 2002:a2e:a724:0:b0:2a8:bbb8:dd61 with SMTP id
+ s36-20020a2ea724000000b002a8bbb8dd61mr1783626lje.5.1682003121687; 
+ Thu, 20 Apr 2023 08:05:21 -0700 (PDT)
+Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com.
+ [209.85.208.170]) by smtp.gmail.com with ESMTPSA id
+ z4-20020a2e3504000000b002a77792f2dbsm267682ljz.36.2023.04.20.08.05.14
  for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 20 Apr 2023 08:02:42 -0700 (PDT)
-Received: by mail-yw1-f174.google.com with SMTP id
- 00721157ae682-552ae3e2cbeso44657087b3.13
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Apr 2023 08:02:42 -0700 (PDT)
-X-Received: by 2002:a81:d93:0:b0:552:b601:c814 with SMTP id
- 141-20020a810d93000000b00552b601c814mr6145766ywn.24.1682002962377; Thu, 20
- Apr 2023 08:02:42 -0700 (PDT)
+ Thu, 20 Apr 2023 08:05:14 -0700 (PDT)
+Received: by mail-lj1-f170.google.com with SMTP id
+ 38308e7fff4ca-2a8dc00ade2so5830121fa.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Apr 2023 08:05:14 -0700 (PDT)
+X-Received: by 2002:a19:700a:0:b0:4e9:d8ba:169 with SMTP id
+ h10-20020a19700a000000b004e9d8ba0169mr496300lfc.1.1682003114061; Thu, 20 Apr
+ 2023 08:05:14 -0700 (PDT)
 MIME-Version: 1.0
 References: <20230411120810.368437-1-biju.das.jz@bp.renesas.com>
- <20230411120810.368437-6-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20230411120810.368437-6-biju.das.jz@bp.renesas.com>
+ <20230411120810.368437-7-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20230411120810.368437-7-biju.das.jz@bp.renesas.com>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 20 Apr 2023 17:02:30 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdXAp=makAvusxDC_JRtPtjkr__a-vd9mEc6FjDkP76Vbw@mail.gmail.com>
-Message-ID: <CAMuHMdXAp=makAvusxDC_JRtPtjkr__a-vd9mEc6FjDkP76Vbw@mail.gmail.com>
-Subject: Re: [PATCH v7 5/8] arm64: dts: renesas: r9a07g044: Add DU node
+Date: Thu, 20 Apr 2023 17:04:59 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdVuC9T35G=Dn2jCyBkJm4Eopgv9KQ-SpyVx+KiX1fe=NA@mail.gmail.com>
+Message-ID: <CAMuHMdVuC9T35G=Dn2jCyBkJm4Eopgv9KQ-SpyVx+KiX1fe=NA@mail.gmail.com>
+Subject: Re: [PATCH v7 6/8] arm64: dts: renesas: r9a07g054: Add DU node
 To: Biju Das <biju.das.jz@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -80,9 +79,11 @@ Cc: devicetree@vger.kernel.org, Chris Paterson <Chris.Paterson2@renesas.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Apr 11, 2023 at 2:08=E2=80=AFPM Biju Das <biju.das.jz@bp.renesas.co=
+Hi Biju,
+
+On Tue, Apr 11, 2023 at 2:12=E2=80=AFPM Biju Das <biju.das.jz@bp.renesas.co=
 m> wrote:
-> Add DU node to RZ/G2L SoC DTSI.
+> Add DU node to RZ/V2L SoC DTSI.
 >
 > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 > ---
@@ -90,6 +91,34 @@ m> wrote:
 >  * New patch.
 
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+
+> --- a/arch/arm64/boot/dts/renesas/r9a07g054.dtsi
+> +++ b/arch/arm64/boot/dts/renesas/r9a07g054.dtsi
+> @@ -677,6 +677,20 @@ fcpvd: fcp@10880000 {
+>                         resets =3D <&cpg R9A07G054_LCDC_RESET_N>;
+>                 };
+>
+> +               du: display@10890000 {
+> +                       compatible =3D "renesas,r9a07g054-du";
+
+I think you have to make your mind up about using a fallback compatible
+value or not. As the VSP has one, I think the DU should have one, too.
+
+> +                       reg =3D <0 0x10890000 0 0x10000>;
+> +                       interrupts =3D <GIC_SPI 152 IRQ_TYPE_LEVEL_HIGH>;
+> +                       clocks =3D <&cpg CPG_MOD R9A07G054_LCDC_CLK_A>,
+> +                                <&cpg CPG_MOD R9A07G054_LCDC_CLK_P>,
+> +                                <&cpg CPG_MOD R9A07G054_LCDC_CLK_D>;
+> +                       clock-names =3D "aclk", "pclk", "vclk";
+> +                       power-domains =3D <&cpg>;
+> +                       resets =3D <&cpg R9A07G054_LCDC_RESET_N>;
+> +                       renesas,vsps =3D <&vspd 0>;
+> +                       status =3D "disabled";
+> +               };
+> +
+>                 cpg: clock-controller@11010000 {
+>                         compatible =3D "renesas,r9a07g054-cpg";
+>                         reg =3D <0 0x11010000 0 0x10000>;
 
 Gr{oetje,eeting}s,
 
