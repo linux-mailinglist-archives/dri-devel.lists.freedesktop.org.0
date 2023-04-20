@@ -2,57 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1FA06E9558
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Apr 2023 15:06:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FBD06E955A
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Apr 2023 15:07:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A73DD10E2C0;
-	Thu, 20 Apr 2023 13:06:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B6EE610EC2D;
+	Thu, 20 Apr 2023 13:07:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1A73710E2DA;
- Thu, 20 Apr 2023 13:06:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1681995984; x=1713531984;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=dx+hSc4y4Po59ySqejFBUBgm0lp+shols/fjl2VKt14=;
- b=jDpwgLvLqcr7FBYXDTPgC1afCyVJJT4cXS/cJJodW7VlX+qzy9R9jwzH
- msC6ZzeIN9RMTS1yDUAohfWAXXWXkPGiUWcNieCU2y/2R839SreBWKsG4
- 68E7nYPHE6mdPfHKVYdEAKs4S0bwGP3HOnBjlvrklyn9msyTojUHdmsgx
- ynOPesAJtq6UeaeQD70+2B3PaC5mEd64uN3Wag4Adi/wKdM0y48ci3Fuv
- 342nyctXt17SOh664C5b4DIduavUeHAlm1dcYZlJX0WHntQn4V/cA9QoU
- yydxKiTo+bdgHtIsnXT+yXGFi3UJSId508itnu/pnmCEBIQKEgwBajVaG A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10686"; a="408640830"
-X-IronPort-AV: E=Sophos;i="5.99,212,1677571200"; d="scan'208";a="408640830"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Apr 2023 06:06:07 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10686"; a="691913992"
-X-IronPort-AV: E=Sophos;i="5.99,212,1677571200"; d="scan'208";a="691913992"
-Received: from gbyrne6x-mobl1.ger.corp.intel.com (HELO [10.213.221.188])
- ([10.213.221.188])
- by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Apr 2023 06:06:05 -0700
-Message-ID: <471addf7-1670-32cd-9d2e-3f94d6825eab@linux.intel.com>
-Date: Thu, 20 Apr 2023 14:06:03 +0100
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8FBAD10EC28
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Apr 2023 13:06:58 +0000 (UTC)
+Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77]
+ helo=[IPv6:::1]) by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <l.stach@pengutronix.de>)
+ id 1ppTzu-0005Ar-MN; Thu, 20 Apr 2023 15:06:50 +0200
+Message-ID: <f42a2a11c1a2df4d773b61a449e8f4d5a9a010d1.camel@pengutronix.de>
+Subject: Re: [PATCH 1/6] drm: bridge: samsung-dsim: Support multi-lane
+ calculations
+From: Lucas Stach <l.stach@pengutronix.de>
+To: Adam Ford <aford173@gmail.com>
+Date: Thu, 20 Apr 2023 15:06:45 +0200
+In-Reply-To: <CAHCN7xK8K+DsNAFTVAezwJQzZ7RCDb2CjCBZ8dNb=S8d1BmtMA@mail.gmail.com>
+References: <20230415104104.5537-1-aford173@gmail.com>
+ <3e47f0d1017fe4c9f71a5de65f32c6ba1662efe2.camel@pengutronix.de>
+ <CAHCN7xL4+9NogrnXA1PEWorwY7JpSGBozDtHT83JvzjfinmS+A@mail.gmail.com>
+ <CAHCN7xK8K+DsNAFTVAezwJQzZ7RCDb2CjCBZ8dNb=S8d1BmtMA@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4 (3.46.4-1.fc37) 
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [Intel-gfx] [PATCH 8/8] drm/i915: Allow user to set cache at BO
- creation
-Content-Language: en-US
-To: Andi Shyti <andi.shyti@linux.intel.com>, fei.yang@intel.com
-References: <20230419230058.2659455-1-fei.yang@intel.com>
- <20230419230058.2659455-9-fei.yang@intel.com>
- <ZEEkV3XOdmtYWnMv@ashyti-mobl2.lan>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-In-Reply-To: <ZEEkV3XOdmtYWnMv@ashyti-mobl2.lan>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,53 +50,77 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Matt Roper <matthew.d.roper@intel.com>, intel-gfx@lists.freedesktop.org,
- Chris Wilson <chris.p.wilson@linux.intel.com>, dri-devel@lists.freedesktop.org,
- Nirmoy Das <nirmoy.das@intel.com>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>, aford@beaconembedded.com,
+ dri-devel@lists.freedesktop.org,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ m.szyprowski@samsung.com, marex@denx.de, Robert Foss <rfoss@kernel.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Jagan Teki <jagan@amarulasolutions.com>, NXP Linux Team <linux-imx@nxp.com>,
+ devicetree@vger.kernel.org, Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Jonas Karlman <jonas@kwiboo.se>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Rob Herring <robh+dt@kernel.org>, linux-arm-kernel@lists.infradead.org,
+ Neil Armstrong <neil.armstrong@linaro.org>, linux-kernel@vger.kernel.org,
+ Shawn Guo <shawnguo@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Adam,
 
-On 20/04/2023 12:39, Andi Shyti wrote:
-> Hi Fei,
-> 
->> To comply with the design that buffer objects shall have immutable
->> cache setting through out their life cycle, {set, get}_caching ioctl's
->> are no longer supported from MTL onward. With that change caching
->> policy can only be set at object creation time. The current code
->> applies a default (platform dependent) cache setting for all objects.
->> However this is not optimal for performance tuning. The patch extends
->> the existing gem_create uAPI to let user set PAT index for the object
->> at creation time.
->> The new extension is platform independent, so UMD's can switch to using
->> this extension for older platforms as well, while {set, get}_caching are
->> still supported on these legacy paltforms for compatibility reason.
->>
->> Cc: Chris Wilson <chris.p.wilson@linux.intel.com>
->> Cc: Matt Roper <matthew.d.roper@intel.com>
->> Cc: Andi Shyti <andi.shyti@linux.intel.com>
->> Signed-off-by: Fei Yang <fei.yang@intel.com>
->> Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com>
-> 
-> because this is an API change, we need some more information
-> here.
-> 
-> First of all you need to CC the userspace guys that have been
-> working on top of your series and get their ack's.
+Am Mittwoch, dem 19.04.2023 um 05:47 -0500 schrieb Adam Ford:
+> On Mon, Apr 17, 2023 at 6:55=E2=80=AFAM Adam Ford <aford173@gmail.com> wr=
+ote:
+> >=20
+> > On Mon, Apr 17, 2023 at 3:43=E2=80=AFAM Lucas Stach <l.stach@pengutroni=
+x.de> wrote:
+> > >=20
+> > > Hi Adam,
+> > >=20
+> > > Am Samstag, dem 15.04.2023 um 05:40 -0500 schrieb Adam Ford:
+> > > > If there is more than one lane, the HFP, HBP, and HSA is calculated=
+ in
+> > > > bytes/pixel, then they are divided amongst the different lanes with=
+ some
+> > > > additional overhead. This is necessary to achieve higher resolution=
+s while
+> > > > keeping the pixel clocks lower as the number of lanes increase.
+> > > >=20
+> > >=20
+> > > In the testing I did to come up with my patch "drm: bridge: samsung-
+> > > dsim: fix blanking packet size calculation" the number of lanes didn'=
+t
+> > > make any difference. My testing might be flawed, as I could only
+> > > measure the blanking after translation from MIPI DSI to DPI, so I'm
+> > > interested to know what others did here. How did you validate the
+> > > blanking with your patch? Would you have a chance to test my patch an=
+d
+> > > see if it works or breaks in your setup?
+>=20
+> Lucas,
+>=20
+> I tried your patch instead of mine.  Yours is dependent on the
+> hs_clock being always set to the burst clock which is configured by
+> the device tree.  I unrolled a bit of my stuff and replaced it with
+> yours.  It worked at 1080p, but when I tried a few other resolutions,
+> they did not work.  I assume it's because the DSI clock is fixed and
+> not changing based on the pixel clock.  In the version I did, I only
+> did that math when the lanes were > 1. In your patch, you divide by 8,
+> and in mine, I fetch the bits-per-pixel (which is 8) and I divide by
+> that just in case the bpp ever changes from 8.  Overall,  I think our
+> patches basically do the same thing.
 
-Yes, and a link to a Mesa merge request which uses the uapi should be 
-included.
+The calculations in your and my patch are quite different. I'm not
+taking into account the number of lanes or the MIPI format. I'm basing
+the blanking size purely on the ratio between MIPI DSI byte clock and
+the DPI interface clock. It's quite counter-intuitive that the host
+would scale the blanking to the number of lanes automatically, but
+still require the MIPI packet offset removed, but that's what my
+measurements showed to produce the correct blanking after translation
+to DPI by the TC358767 bridge chip.
 
-IGTs should be ready to before we can merge. I glanced over igt-dev but 
-did not spot anything.
+If you dynamically scale the HS clock, then you would need to input the
+real used HS clock to the calculation in my patch, instead of the fixed
+burst mode rate.
 
 Regards,
-
-Tvrtko
-
-> 
-> I also believe that this series has also been tested on a
-> separate repository, would you link it in the commit message?
-> 
-> Thanks,
-> Andi
+Lucas
