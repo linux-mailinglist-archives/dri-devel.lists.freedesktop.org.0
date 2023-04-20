@@ -2,63 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A8326E8B34
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Apr 2023 09:15:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 455D86E8AE3
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Apr 2023 09:07:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1CDC410EBBE;
-	Thu, 20 Apr 2023 07:15:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 06BE710EB7B;
+	Thu, 20 Apr 2023 07:07:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com
- [IPv6:2a00:1450:4864:20::633])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2E9C910EB6C
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Apr 2023 07:06:58 +0000 (UTC)
-Received: by mail-ej1-x633.google.com with SMTP id u3so3989064ejj.12
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Apr 2023 00:06:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=freebox-fr.20221208.gappssmtp.com; s=20221208; t=1681974415; x=1684566415;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Yb+yljt2qIh9YQj49hF4nCFbxARaf3XxP/2JpjBX4jk=;
- b=cZv/lPvpV7dzsklh5rJGSX/ctisD8YiKx4V2vuazNVRvycMDy2qY+JLXTxg9c8+GJB
- +p3GNccB/ffnSbUDxbMBcHRlsz/75SteAFuszpd9IGhEgV22AXdgPE0Q2Dk6z7RcVo94
- a618EgQpnQwii3jZshBVWOWOdDri9NiCMe3aT7AVQd4oIk5d3uLJnsTAXROcwEnsObAM
- Aa9SEKipB4kAaMvB/Ae7RXViYuxL1FbX7ern7o+EEXqL3bwwifuqPKpUSRsRU50abWw3
- xR0p39vKIcQL+tvpB3gRGx5iEUI1g/0/HFHJu62xP+PFTv/S0cPe02LokMdtufHwr+1Y
- extw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681974415; x=1684566415;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=Yb+yljt2qIh9YQj49hF4nCFbxARaf3XxP/2JpjBX4jk=;
- b=KBwHBq5YaWCcpPKlT60dp5r+pwVr7CGssbxRcu0c1inMlr7n32F9XtMQN/MQ5229hi
- APldUtkkU/fM8TRf6nHy8H+OEpeR2FlkKbFgqiMwCBXvvlQe8iYt7iprHmjqgHXdFWtG
- ZsV50FSm1lMqiewuN3wYuMpG6xr7A7ejSCK5LJPMR1F/bjEXY1fAu05i67MVgC3XyaXN
- nkTRrxwnV56rqKEBVVsu3oYin6he/FQURMbvMU+QW4+9RKEAo+W8ldSkYSrFO9A672Hd
- A5eyFdwIaVeOkli2BoSnSAdMqZQu0WXZKf86/wlHNcEnhRmfNvrawe3qhPrOWptYvisl
- qBBw==
-X-Gm-Message-State: AAQBX9faNzdl8GSNmy0Wj1kNrCZKe7jSdjSgcUk5KeKI7QmITLl6gimA
- KoSTQDPyF5wPF2Ram5MSZ8v83tKFWJcsnOBSGTc8
-X-Google-Smtp-Source: AKy350a5nbAxpFRAe8GKYzKKw51dSoWmIC63OMzKer/o/NVstK/cdXnM4cTddEa7E1kqrQjHI9VhKy2gMGrrbDH4EuI=
-X-Received: by 2002:a17:907:980a:b0:94f:c1f:6d09 with SMTP id
- ji10-20020a170907980a00b0094f0c1f6d09mr212498ejc.7.1681974414824; Thu, 20 Apr
- 2023 00:06:54 -0700 (PDT)
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BAD2610EB7B
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Apr 2023 07:07:06 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id DAF62219F5;
+ Thu, 20 Apr 2023 07:07:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1681974424; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=0LYF0gq++4hjDDulV/LEMyeEM9H8FznYYtcqgmuPuuE=;
+ b=bd2azx7sjLd95PiPtbq/sgQDxJuwtVFx3im5SCHb1j0IJMU1QGmAGVxinUfHz5YoS7Tu8k
+ UYAD5ACRLsSX7ot0Gg5YX9QithHmDgdm+amNZJItUldM7sSfwX3nvLWw4xv2FhH6MYMjlp
+ VqW15z4qR2p+SceOyUwJtsihY+9P4Z4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1681974424;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=0LYF0gq++4hjDDulV/LEMyeEM9H8FznYYtcqgmuPuuE=;
+ b=cv6YaYaSXJfo267cxz3kp52Pq9KEXnMxrAC2Cf1nMzjIEAKHZVn/mFNxmBqpvOo4tuGnWI
+ TWaIZ3xCex7kdXBg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 98FEC13584;
+ Thu, 20 Apr 2023 07:07:04 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id CQqEJJjkQGRkPwAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Thu, 20 Apr 2023 07:07:04 +0000
+Message-ID: <12c8efaa-7266-5436-dc53-009a0d23b53f@suse.de>
+Date: Thu, 20 Apr 2023 09:07:04 +0200
 MIME-Version: 1.0
-References: <20230419-dpu-tweaks-v1-0-d1bac46db075@freebox.fr>
- <20230419-dpu-tweaks-v1-7-d1bac46db075@freebox.fr>
- <405ff057-e4da-3f2f-b860-ce2eeacaab94@linaro.org>
-In-Reply-To: <405ff057-e4da-3f2f-b860-ce2eeacaab94@linaro.org>
-From: Arnaud Vrac <avrac@freebox.fr>
-Date: Thu, 20 Apr 2023 09:06:44 +0200
-Message-ID: <CAG9NU68aLLZ0KGNmsirzm5RtGw6CC_i=+kTwyfhy+bjSkRTO4Q@mail.gmail.com>
-Subject: Re: [PATCH 07/11] drm/msm/dpu: add sspp cursor blocks to msm8998 hw
- catalog
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Mailman-Approved-At: Thu, 20 Apr 2023 07:12:56 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH v5] drm/fbdev-generic: prohibit potential out-of-bounds
+ access
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Sui Jingfeng <suijingfeng@loongson.cn>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Geert Uytterhoeven
+ <geert+renesas@glider.be>, Li Yi <liyi@loongson.cn>,
+ Helge Deller <deller@gmx.de>, Lucas De Marchi <lucas.demarchi@intel.com>
+References: <20230420030500.1578756-1-suijingfeng@loongson.cn>
+ <8ec3734b-4bc2-ad8f-fc17-3002f22d1fc9@suse.de>
+In-Reply-To: <8ec3734b-4bc2-ad8f-fc17-3002f22d1fc9@suse.de>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------qZc0sIYZ4xZV7VgM2KS0nnnL"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,138 +76,179 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org
+Cc: loongson-kernel@lists.loongnix.cn, linux-fbdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Le jeu. 20 avr. 2023 =C3=A0 01:10, Dmitry Baryshkov
-<dmitry.baryshkov@linaro.org> a =C3=A9crit :
->
-> On 19/04/2023 17:41, Arnaud Vrac wrote:
-> > Now that cursor sspp blocks can be used for cursor planes, enable them
-> > on msm8998. The dma sspp blocks that were assigned to cursor planes can
-> > now be used for overlay planes instead.
->
-> While the change is correct, there is more about it. Composers, using
-> universal planes, will see this plane too. They have no obligations to
-> use it only for the cursor. At the minimum could you please extend the
-> plane_atomic_check to check for the plane dimensions for the CURSOR pipes=
-?
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------qZc0sIYZ4xZV7VgM2KS0nnnL
+Content-Type: multipart/mixed; boundary="------------u8fQV0OpEjrwcmKHfH8PZkDH";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Sui Jingfeng <suijingfeng@loongson.cn>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Geert Uytterhoeven
+ <geert+renesas@glider.be>, Li Yi <liyi@loongson.cn>,
+ Helge Deller <deller@gmx.de>, Lucas De Marchi <lucas.demarchi@intel.com>
+Cc: loongson-kernel@lists.loongnix.cn, linux-fbdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Message-ID: <12c8efaa-7266-5436-dc53-009a0d23b53f@suse.de>
+Subject: Re: [PATCH v5] drm/fbdev-generic: prohibit potential out-of-bounds
+ access
+References: <20230420030500.1578756-1-suijingfeng@loongson.cn>
+ <8ec3734b-4bc2-ad8f-fc17-3002f22d1fc9@suse.de>
+In-Reply-To: <8ec3734b-4bc2-ad8f-fc17-3002f22d1fc9@suse.de>
 
-Hum, I had assumed the generic atomic checks would already do this,
-but it's not the case. I'll add the check when the pipe is of type
-SSPP_CURSOR in another patch coming before, thanks.
+--------------u8fQV0OpEjrwcmKHfH8PZkDH
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
->
-> For this change:
->
-> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
->
-> >
-> > Signed-off-by: Arnaud Vrac <avrac@freebox.fr>
-> > ---
-> >   .../drm/msm/disp/dpu1/catalog/dpu_3_0_msm8998.h    |  8 +++--
-> >   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c     | 34 +++++++++++++=
-+++++++++
-> >   2 files changed, 40 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_3_0_msm8998.h b/=
-drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_3_0_msm8998.h
-> > index b07e8a9941f79..7de393b0f91d7 100644
-> > --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_3_0_msm8998.h
-> > +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_3_0_msm8998.h
-> > @@ -90,10 +90,14 @@ static const struct dpu_sspp_cfg msm8998_sspp[] =3D=
- {
-> >               sdm845_dma_sblk_0, 1, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA0),
-> >       SSPP_BLK("sspp_9", SSPP_DMA1, 0x26000, 0x1ac, DMA_MSM8998_MASK,
-> >               sdm845_dma_sblk_1, 5, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA1),
-> > -     SSPP_BLK("sspp_10", SSPP_DMA2, 0x28000, 0x1ac, DMA_CURSOR_MSM8998=
-_MASK,
-> > +     SSPP_BLK("sspp_10", SSPP_DMA2, 0x28000, 0x1ac, DMA_MSM8998_MASK,
-> >               sdm845_dma_sblk_2, 9, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA2),
-> > -     SSPP_BLK("sspp_11", SSPP_DMA3, 0x2a000, 0x1ac, DMA_CURSOR_MSM8998=
-_MASK,
-> > +     SSPP_BLK("sspp_11", SSPP_DMA3, 0x2a000, 0x1ac, DMA_MSM8998_MASK,
-> >               sdm845_dma_sblk_3, 13, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA3),
-> > +     SSPP_BLK("sspp_12", SSPP_CURSOR0, 0x34000, 0x1ac, DMA_CURSOR_MSM8=
-998_MASK,
-> > +             msm8998_cursor_sblk_0, 2, SSPP_TYPE_CURSOR, DPU_CLK_CTRL_=
-CURSOR0),
-> > +     SSPP_BLK("sspp_13", SSPP_CURSOR1, 0x36000, 0x1ac, DMA_CURSOR_MSM8=
-998_MASK,
-> > +             msm8998_cursor_sblk_1, 10, SSPP_TYPE_CURSOR, DPU_CLK_CTRL=
-_CURSOR1),
-> >   };
-> >
-> >   static const struct dpu_lm_cfg msm8998_lm[] =3D {
-> > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/g=
-pu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-> > index 8d5d782a43398..f34fa704936bc 100644
-> > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-> > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-> > @@ -242,6 +242,22 @@ static const uint32_t wb2_formats[] =3D {
-> >       DRM_FORMAT_XBGR4444,
-> >   };
-> >
-> > +static const uint32_t cursor_formats[] =3D {
-> > +     DRM_FORMAT_ARGB8888,
-> > +     DRM_FORMAT_ABGR8888,
-> > +     DRM_FORMAT_RGBA8888,
-> > +     DRM_FORMAT_BGRA8888,
-> > +     DRM_FORMAT_XRGB8888,
-> > +     DRM_FORMAT_ARGB1555,
-> > +     DRM_FORMAT_ABGR1555,
-> > +     DRM_FORMAT_RGBA5551,
-> > +     DRM_FORMAT_BGRA5551,
-> > +     DRM_FORMAT_ARGB4444,
-> > +     DRM_FORMAT_ABGR4444,
-> > +     DRM_FORMAT_RGBA4444,
-> > +     DRM_FORMAT_BGRA4444,
-> > +};
-> > +
-> >   /*************************************************************
-> >    * SSPP sub blocks config
-> >    *************************************************************/
-> > @@ -300,6 +316,19 @@ static const uint32_t wb2_formats[] =3D {
-> >       .virt_num_formats =3D ARRAY_SIZE(plane_formats), \
-> >       }
-> >
-> > +#define _CURSOR_SBLK(num) \
-> > +     { \
-> > +     .maxdwnscale =3D SSPP_UNITY_SCALE, \
-> > +     .maxupscale =3D SSPP_UNITY_SCALE, \
-> > +     .smart_dma_priority =3D 0, \
-> > +     .src_blk =3D {.name =3D STRCAT("sspp_src_", num), \
-> > +             .id =3D DPU_SSPP_SRC, .base =3D 0x00, .len =3D 0x150,}, \
-> > +     .format_list =3D cursor_formats, \
-> > +     .num_formats =3D ARRAY_SIZE(cursor_formats), \
-> > +     .virt_format_list =3D cursor_formats, \
-> > +     .virt_num_formats =3D ARRAY_SIZE(cursor_formats), \
-> > +     }
-> > +
-> >   static const struct dpu_sspp_sub_blks msm8998_vig_sblk_0 =3D
-> >                               _VIG_SBLK("0", 0, DPU_SSPP_SCALER_QSEED3)=
-;
-> >   static const struct dpu_sspp_sub_blks msm8998_vig_sblk_1 =3D
-> > @@ -309,6 +338,11 @@ static const struct dpu_sspp_sub_blks msm8998_vig_=
-sblk_2 =3D
-> >   static const struct dpu_sspp_sub_blks msm8998_vig_sblk_3 =3D
-> >                               _VIG_SBLK("3", 0, DPU_SSPP_SCALER_QSEED3)=
-;
-> >
-> > +static const struct dpu_sspp_sub_blks msm8998_cursor_sblk_0 =3D
-> > +                             _CURSOR_SBLK("12");
-> > +static const struct dpu_sspp_sub_blks msm8998_cursor_sblk_1 =3D
-> > +                             _CURSOR_SBLK("13");
-> > +
-> >   static const struct dpu_rotation_cfg dpu_rot_sc7280_cfg_v2 =3D {
-> >       .rot_maxheight =3D 1088,
-> >       .rot_num_formats =3D ARRAY_SIZE(rotation_v2_formats),
-> >
->
-> --
-> With best wishes
-> Dmitry
->
+SGkNCg0KQW0gMjAuMDQuMjMgdW0gMDk6MDQgc2NocmllYiBUaG9tYXMgWmltbWVybWFubjoN
+Cj4gSGksDQo+IA0KPiB0aGlzIHBhdGNoIGxvb2tzIHRvIG1lIGdvb2QgYW5kIEknZCBsaWtl
+IHRvIG1lcmdlIGl0LCBpZiBubyBvbmUgb2JqZWN0cy4NCg0KUmVyZWFkaW5nIGl0LCBJIG1p
+Z2h0IGhhdmUgYmVlbiB0b28gZWFnZXIuIFdoYXQgaGFwcGVuZWQgdG8gdGhlIHNldHRpbmcg
+DQpvZiBzY3JlZW5fc2l6ZSA9IGJ1ZmZlci0+Z2VtLT5zaXplID8gIEl0IGlzIG5vdCByZWxl
+dmFudD8NCg0KQmVzdCByZWdhcmRzDQpUaG9tYXMNCg0KPiANCj4gSW4gdGhlIG5lYXIgZnV0
+dXJlLCBhZnRlciBpOTE1IGhhcyBzd2l0Y2hlZCB0byBzdHJ1Y3QgZHJtX2NsaWVudCwgSSAN
+Cj4gaW50ZW5kIHRvIG1vdmUgRFJNJ3MgZGVmZXJyZWQtSS9PIGhlbHBlcnMgaW50byBmYmRl
+di1nZW5lcmljIGFuZCBpOTE1LiANCj4gVGhvc2UgYXJlIHRoZSB0d28gdXNlcnMsIGJ1dCB0
+aGV5IGFyZSBmYWlybHkgZGlmZmVyZW50LiBUaGV5IGNhbiB0aGVuIA0KPiBib3RoIGhhdmUg
+c29tZXRoaW5nIHRhaWxvcmVkIHRvd2FyZHMgdGhlaXIgbmVlZHMuDQo+IA0KPiBCZXN0IHJl
+Z2FyZHMNCj4gVGhvbWFzDQo+IA0KPiBBbSAyMC4wNC4yMyB1bSAwNTowNSBzY2hyaWViIFN1
+aSBKaW5nZmVuZzoNCj4+IFRoZSBmYmRldiB0ZXN0IG9mIElHVCBtYXkgd3JpdGUgYWZ0ZXIg
+RU9GLCB3aGljaCBsZWFkIHRvIG91dC1vZi1ib3VuZA0KPj4gYWNjZXNzIGZvciBkcm0gZHJp
+dmVycyBoaXJlIGZiZGV2LWdlbmVyaWMuIEZvciBleGFtcGxlLCBydW4gZmJkZXYgdGVzdA0K
+Pj4gb24gYSB4ODYrYXN0MjQwMCBwbGF0Zm9ybSwgd2l0aCAxNjgweDEwNTAgcmVzb2x1dGlv
+biwgd2lsbCBjYXVzZSB0aGUNCj4+IGxpbnV4IGtlcm5lbCBoYW5nIHdpdGggdGhlIGZvbGxv
+d2luZyBjYWxsIHRyYWNlOg0KPj4NCj4+IMKgwqAgT29wczogMDAwMCBbIzFdIFBSRUVNUFQg
+U01QIFBUSQ0KPj4gwqDCoCBbSUdUXSBmYmRldjogc3RhcnRpbmcgc3VidGVzdCBlb2YNCj4+
+IMKgwqAgV29ya3F1ZXVlOiBldmVudHMgZHJtX2ZiX2hlbHBlcl9kYW1hZ2Vfd29yayBbZHJt
+X2ttc19oZWxwZXJdDQo+PiDCoMKgIFtJR1RdIGZiZGV2OiBzdGFydGluZyBzdWJ0ZXN0IG51
+bGxwdHINCj4+DQo+PiDCoMKgIFJJUDogMDAxMDptZW1jcHlfZXJtcysweGEvMHgyMA0KPj4g
+wqDCoCBSU1A6IDAwMTg6ZmZmZmExN2Q0MDE2N2Q5OCBFRkxBR1M6IDAwMDEwMjQ2DQo+PiDC
+oMKgIFJBWDogZmZmZmExN2Q0ZWI3ZmE4MCBSQlg6IGZmZmZhMTdkNDBlMGFhODAgUkNYOiAw
+MDAwMDAwMDAwMDAxNGMwDQo+PiDCoMKgIFJEWDogMDAwMDAwMDAwMDAwMWE0MCBSU0k6IGZm
+ZmZhMTdkNDBlMGIwMDAgUkRJOiBmZmZmYTE3ZDRlYjgwMDAwDQo+PiDCoMKgIFJCUDogZmZm
+ZmExN2Q0MDE2N2UyMCBSMDg6IDAwMDAwMDAwMDAwMDAwMDAgUjA5OiBmZmZmODk1MjJlY2Zm
+OGMwDQo+PiDCoMKgIFIxMDogZmZmZmExN2Q0ZTRjNTAwMCBSMTE6IDAwMDAwMDAwMDAwMDAw
+MDAgUjEyOiBmZmZmYTE3ZDRlYjdmYTgwDQo+PiDCoMKgIFIxMzogMDAwMDAwMDAwMDAwMWE0
+MCBSMTQ6IDAwMDAwMDAwMDAwMDA0MWEgUjE1OiBmZmZmYTE3ZDQwMTY3ZTMwDQo+PiDCoMKg
+IEZTOsKgIDAwMDAwMDAwMDAwMDAwMDAoMDAwMCkgR1M6ZmZmZjg5NTI1NzM4MDAwMCgwMDAw
+KSANCj4+IGtubEdTOjAwMDAwMDAwMDAwMDAwMDANCj4+IMKgwqAgQ1M6wqAgMDAxMCBEUzog
+MDAwMCBFUzogMDAwMCBDUjA6IDAwMDAwMDAwODAwNTAwMzMNCj4+IMKgwqAgQ1IyOiBmZmZm
+YTE3ZDQwZTBiMDAwIENSMzogMDAwMDAwMDFlYWVjYTAwNiBDUjQ6IDAwMDAwMDAwMDAxNzA2
+ZTANCj4+IMKgwqAgQ2FsbCBUcmFjZToNCj4+IMKgwqDCoCA8VEFTSz4NCj4+IMKgwqDCoCA/
+IGRybV9mYmRldl9nZW5lcmljX2hlbHBlcl9mYl9kaXJ0eSsweDIwNy8weDMzMCBbZHJtX2tt
+c19oZWxwZXJdDQo+PiDCoMKgwqAgZHJtX2ZiX2hlbHBlcl9kYW1hZ2Vfd29yaysweDhmLzB4
+MTcwIFtkcm1fa21zX2hlbHBlcl0NCj4+IMKgwqDCoCBwcm9jZXNzX29uZV93b3JrKzB4MjFm
+LzB4NDMwDQo+PiDCoMKgwqAgd29ya2VyX3RocmVhZCsweDRlLzB4M2MwDQo+PiDCoMKgwqAg
+PyBfX3BmeF93b3JrZXJfdGhyZWFkKzB4MTAvMHgxMA0KPj4gwqDCoMKgIGt0aHJlYWQrMHhm
+NC8weDEyMA0KPj4gwqDCoMKgID8gX19wZnhfa3RocmVhZCsweDEwLzB4MTANCj4+IMKgwqDC
+oCByZXRfZnJvbV9mb3JrKzB4MmMvMHg1MA0KPj4gwqDCoMKgIDwvVEFTSz4NCj4+IMKgwqAg
+Q1IyOiBmZmZmYTE3ZDQwZTBiMDAwDQo+PiDCoMKgIC0tLVsgZW5kIHRyYWNlIDAwMDAwMDAw
+MDAwMDAwMDAgXS0tLQ0KPj4NCj4+IFRoZSBpcyBiZWNhdXNlIGRhbWFnZSByZWN0YW5nbGVz
+IGNvbXB1dGVkIGJ5DQo+PiBkcm1fZmJfaGVscGVyX21lbW9yeV9yYW5nZV90b19jbGlwKCkg
+ZnVuY3Rpb24gZG9lcyBub3QgZ3VhcmFudGVlZCB0byBiZQ0KPj4gYm91bmQgaW4gdGhlIHNj
+cmVlbidzIGFjdGl2ZSBkaXNwbGF5IGFyZWEuIFBvc3NpYmxlIHJlYXNvbnMgYXJlOg0KPj4N
+Cj4+IDEpIEJ1ZmZlcnMgYXJlIGFsbG9jYXRlZCBpbiB0aGUgZ3JhbnVsYXJpdHkgb2YgcGFn
+ZSBzaXplLCBmb3IgbW1hcCBzeXN0ZW0NCj4+IMKgwqDCoCBjYWxsIHN1cHBvcnQuIFRoZSBz
+aGFkb3cgc2NyZWVuIGJ1ZmZlciBjb25zdW1lZCBieSBmYmRldiBlbXVsYXRpb24gDQo+PiBt
+YXkNCj4+IMKgwqDCoCBhbHNvIGNob29zZWQgYmUgcGFnZSBzaXplIGFsaWduZWQuDQo+Pg0K
+Pj4gMikgVGhlIERJVl9ST1VORF9VUCgpIHVzZWQgaW4gZHJtX2ZiX2hlbHBlcl9tZW1vcnlf
+cmFuZ2VfdG9fY2xpcCgpDQo+PiDCoMKgwqAgd2lsbCBpbnRyb2R1Y2Ugb2ZmLWJ5LW9uZSBl
+cnJvci4NCj4+DQo+PiBGb3IgZXhhbXBsZSwgb24gYSAxNktCIHBhZ2Ugc2l6ZSBzeXN0ZW0s
+IGluIG9yZGVyIHRvIHN0b3JlIGEgMTkyMHgxMDgwDQo+PiBYUkdCIGZyYW1lYnVmZmVyLCB3
+ZSBuZWVkIGFsbG9jYXRlIDUwNyBwYWdlcy4gVW5mb3J0dW5hdGVseSwgdGhlIHNpemUNCj4+
+IDE5MjAqMTA4MCo0IGNhbiBub3QgYmUgZGl2aWRlZCBleGFjdGx5IGJ5IDE2S0IuDQo+Pg0K
+Pj4gwqAgMTkyMCAqIDEwODAgKiA0ID0gODI5NDQwMCBieXRlcw0KPj4gwqAgNTA2ICogMTYg
+KiAxMDI0ID0gODI5MDMwNCBieXRlcw0KPj4gwqAgNTA3ICogMTYgKiAxMDI0ID0gODMwNjY4
+OCBieXRlcw0KPj4NCj4+IMKgIGxpbmVfbGVuZ3RoID0gMTkyMCo0ID0gNzY4MCBieXRlcw0K
+Pj4NCj4+IMKgIDUwNyAqIDE2ICogMTAyNCAvIDc2ODAgPSAxMDgxLjYNCj4+DQo+PiDCoCBv
+ZmYgLyBsaW5lX2xlbmd0aCA9IDUwNyAqIDE2ICogMTAyNCAvIDc2ODAgPSAxMDgxDQo+PiDC
+oCBESVZfUk9VTkRfVVAoNTA3ICogMTYgKiAxMDI0LCA3NjgwKSB3aWxsIHllaWxkIDEwODIN
+Cj4+DQo+PiBtZW1jcHlfdG9pbygpIHR5cGljYWxseSBpc3N1ZSB0aGUgY29weSBsaW5lIGJ5
+IGxpbmUsIHdoZW4gY29weSB0aGUgbGFzdA0KPj4gbGluZSwgb3V0LW9mLWJvdW5kIGFjY2Vz
+cyB3aWxsIGJlIGhhcHBlbi4gQmVjYXVzZToNCj4+DQo+PiDCoCAxMDgyICogbGluZV9sZW5n
+dGggPSAxMDgyICogNzY4MCA9IDgzMDk3NjAsIGFuZCA4MzA5NzYwID4gODMwNjY4OA0KPj4N
+Cj4+IE5vdGUgdGhhdCB1c2Vyc3BhY2UgbWF5IHN0aWwgd3JpdGUgdG8gdGhlIGludmlzaWFi
+bGUgYXJlYSBpZiBhIGxhcmdlcg0KPj4gYnVmZmVyIHRoYW4gd2lkdGggeCBzdHJpZGUgaXMg
+ZXhwb3NlZC4gQnV0IGl0IGlzIG5vdCBhIGJpZyBpc3N1ZSBhcw0KPj4gbG9uZyBhcyB0aGVy
+ZSBzdGlsbCBoYXZlIG1lbW9yeSByZXNvbHZlIHRoZSBhY2Nlc3MgaWYgbm90IGRyYWZ0aW5n
+IHNvDQo+PiBmYXIuDQo+Pg0KPj4gwqAgLSBBbHNvIGxpbWl0IHRoZSB5MSAoRGFuaWVsKQ0K
+Pj4gwqAgLSBrZWVwIGZpeCBwYXRjaCBpdCB0byBtaW5pbWFsIChEYW5pZWwpDQo+PiDCoCAt
+IHNjcmVlbl9zaXplIGlzIHBhZ2Ugc2l6ZSBhbGlnbmVkIGJlY2F1c2Ugb2YgaXQgbmVlZCBt
+bWFwIChUaG9tYXMpDQo+PiDCoCAtIEFkZGluZyBmaXhlcyB0YWcgKFRob21hcykNCj4+DQo+
+PiBGaXhlczogYWExNWM2NzdjYzM0ICgiZHJtL2ZiLWhlbHBlcjogRml4IHZlcnRpY2FsIGRh
+bWFnZSBjbGlwcGluZyIpDQo+Pg0KPj4gU2lnbmVkLW9mZi1ieTogU3VpIEppbmdmZW5nIDxz
+dWlqaW5nZmVuZ0Bsb29uZ3Nvbi5jbj4NCj4+IFJldmlld2VkLWJ5OiBUaG9tYXMgWmltbWVy
+bWFubiA8dHppbW1lcm1hbm5Ac3VzZS5kZT4NCj4+IFRlc3RlZC1ieTogR2VlcnQgVXl0dGVy
+aG9ldmVuIDxnZWVydCtyZW5lc2FzQGdsaWRlci5iZT4NCj4+IExpbms6IA0KPj4gaHR0cHM6
+Ly9sb3JlLmtlcm5lbC5vcmcvZHJpLWRldmVsL2FkNDRkZjI5LTMyNDEtMGQ5ZS1lNzA4LWIw
+MzM4YmYzYzYyM0AxODkuY24vDQo+PiAtLS0NCj4+IMKgIGRyaXZlcnMvZ3B1L2RybS9kcm1f
+ZmJfaGVscGVyLmMgfCAxNiArKysrKysrKysrKystLS0tDQo+PiDCoCAxIGZpbGUgY2hhbmdl
+ZCwgMTIgaW5zZXJ0aW9ucygrKSwgNCBkZWxldGlvbnMoLSkNCj4+DQo+PiBkaWZmIC0tZ2l0
+IGEvZHJpdmVycy9ncHUvZHJtL2RybV9mYl9oZWxwZXIuYyANCj4+IGIvZHJpdmVycy9ncHUv
+ZHJtL2RybV9mYl9oZWxwZXIuYw0KPj4gaW5kZXggNjQ0NTg5ODJiZTQwLi42YmIxYjhiMjdk
+N2EgMTAwNjQ0DQo+PiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vZHJtX2ZiX2hlbHBlci5jDQo+
+PiArKysgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX2ZiX2hlbHBlci5jDQo+PiBAQCAtNjQxLDE5
+ICs2NDEsMjcgQEAgc3RhdGljIHZvaWQgZHJtX2ZiX2hlbHBlcl9kYW1hZ2Uoc3RydWN0IA0K
+Pj4gZHJtX2ZiX2hlbHBlciAqaGVscGVyLCB1MzIgeCwgdTMyIHksDQo+PiDCoCBzdGF0aWMg
+dm9pZCBkcm1fZmJfaGVscGVyX21lbW9yeV9yYW5nZV90b19jbGlwKHN0cnVjdCBmYl9pbmZv
+ICppbmZvLCANCj4+IG9mZl90IG9mZiwgc2l6ZV90IGxlbiwNCj4+IMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHN0cnVjdCBkcm1f
+cmVjdCAqY2xpcCkNCj4+IMKgIHsNCj4+ICvCoMKgwqAgdTMyIGxpbmVfbGVuZ3RoID0gaW5m
+by0+Zml4LmxpbmVfbGVuZ3RoOw0KPj4gK8KgwqDCoCB1MzIgZmJfaGVpZ2h0ID0gaW5mby0+
+dmFyLnlyZXM7DQo+PiDCoMKgwqDCoMKgIG9mZl90IGVuZCA9IG9mZiArIGxlbjsNCj4+IMKg
+wqDCoMKgwqAgdTMyIHgxID0gMDsNCj4+IC3CoMKgwqAgdTMyIHkxID0gb2ZmIC8gaW5mby0+
+Zml4LmxpbmVfbGVuZ3RoOw0KPj4gK8KgwqDCoCB1MzIgeTEgPSBvZmYgLyBsaW5lX2xlbmd0
+aDsNCj4+IMKgwqDCoMKgwqAgdTMyIHgyID0gaW5mby0+dmFyLnhyZXM7DQo+PiAtwqDCoMKg
+IHUzMiB5MiA9IERJVl9ST1VORF9VUChlbmQsIGluZm8tPmZpeC5saW5lX2xlbmd0aCk7DQo+
+PiArwqDCoMKgIHUzMiB5MiA9IERJVl9ST1VORF9VUChlbmQsIGxpbmVfbGVuZ3RoKTsNCj4+
+ICsNCj4+ICvCoMKgwqAgLyogRG9uJ3QgYWxsb3cgYW55IG9mIHRoZW0gYmV5b25kIHRoZSBi
+b3R0b20gYm91bmQgb2YgZGlzcGxheSANCj4+IGFyZWEgKi8NCj4+ICvCoMKgwqAgaWYgKHkx
+ID4gZmJfaGVpZ2h0KQ0KPj4gK8KgwqDCoMKgwqDCoMKgIHkxID0gZmJfaGVpZ2h0Ow0KPj4g
+K8KgwqDCoCBpZiAoeTIgPiBmYl9oZWlnaHQpDQo+PiArwqDCoMKgwqDCoMKgwqAgeTIgPSBm
+Yl9oZWlnaHQ7DQo+PiDCoMKgwqDCoMKgIGlmICgoeTIgLSB5MSkgPT0gMSkgew0KPj4gwqDC
+oMKgwqDCoMKgwqDCoMKgIC8qDQo+PiDCoMKgwqDCoMKgwqDCoMKgwqDCoCAqIFdlJ3ZlIG9u
+bHkgd3JpdHRlbiB0byBhIHNpbmdsZSBzY2FubGluZS4gVHJ5IHRvIHJlZHVjZQ0KPj4gwqDC
+oMKgwqDCoMKgwqDCoMKgwqAgKiB0aGUgbnVtYmVyIG9mIGhvcml6b250YWwgcGl4ZWxzIHRo
+YXQgbmVlZCBhbiB1cGRhdGUuDQo+PiDCoMKgwqDCoMKgwqDCoMKgwqDCoCAqLw0KPj4gLcKg
+wqDCoMKgwqDCoMKgIG9mZl90IGJpdF9vZmYgPSAob2ZmICUgaW5mby0+Zml4LmxpbmVfbGVu
+Z3RoKSAqIDg7DQo+PiAtwqDCoMKgwqDCoMKgwqAgb2ZmX3QgYml0X2VuZCA9IChlbmQgJSBp
+bmZvLT5maXgubGluZV9sZW5ndGgpICogODsNCj4+ICvCoMKgwqDCoMKgwqDCoCBvZmZfdCBi
+aXRfb2ZmID0gKG9mZiAlIGxpbmVfbGVuZ3RoKSAqIDg7DQo+PiArwqDCoMKgwqDCoMKgwqAg
+b2ZmX3QgYml0X2VuZCA9IChlbmQgJSBsaW5lX2xlbmd0aCkgKiA4Ow0KPj4gwqDCoMKgwqDC
+oMKgwqDCoMKgIHgxID0gYml0X29mZiAvIGluZm8tPnZhci5iaXRzX3Blcl9waXhlbDsNCj4+
+IMKgwqDCoMKgwqDCoMKgwqDCoCB4MiA9IERJVl9ST1VORF9VUChiaXRfZW5kLCBpbmZvLT52
+YXIuYml0c19wZXJfcGl4ZWwpOw0KPiANCg0KLS0gDQpUaG9tYXMgWmltbWVybWFubg0KR3Jh
+cGhpY3MgRHJpdmVyIERldmVsb3Blcg0KU1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFu
+eSBHbWJIDQpGcmFua2Vuc3RyYXNzZSAxNDYsIDkwNDYxIE51ZXJuYmVyZywgR2VybWFueQ0K
+R0Y6IEl2byBUb3RldiwgQW5kcmV3IE15ZXJzLCBBbmRyZXcgTWNEb25hbGQsIEJvdWRpZW4g
+TW9lcm1hbg0KSFJCIDM2ODA5IChBRyBOdWVybmJlcmcpDQo=
+
+--------------u8fQV0OpEjrwcmKHfH8PZkDH--
+
+--------------qZc0sIYZ4xZV7VgM2KS0nnnL
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmRA5JgFAwAAAAAACgkQlh/E3EQov+A7
+vg/9FE/rsmvLBtysot3w1M+Z/g2p+lsUPQMf0iSEvdhhx/xfar/3+NiGExVaxYpCZVUqvWcfvoMv
+/tM2/hAlolmlkYSsb8FsqwHzMbO7F/MtFxZgVu5aFS2XC/mduHo5KpN/TpNaFUtEUWAC/NuPaPMp
+SxZNk1VzjP6fHxTsWNCv0ECMPbQ+SgDvZKqkQAmPl5GYel/ufOK3euTUdpuU/bkWGCKJFZwn1JFV
+P5DRUSyi2LP4Ln5dy8ZaRdVb7tXfXBgSNcCpcJZ6kEJXUDGEoCXTb0hEtPEah/PoL1bbFJ5x+VLR
+isxvev76iOUOtlWkn5pKEhVvrCcCjnMCZrny2ZVbQADhkuLKY+MrWyc5N0BkHhli7SKuoARprLVQ
+Ka1PnTyw49PobxxwJGFzKBKdxFE/wZw3raNrC9qRRdBefzeTu/J/0dahnBjs4RR8qBvR2V7tE9+s
+TJNo4wXX3s6BCzedQqYX+6PjGLoqst1k51gWPOODLE1YsvNzlUzNIyHejV5kPP/YJgTXtuSkebY1
+nzmFY4n3R9jpaLc8Ctr5V0vWIsibnQS49mUB307jQGvgEu5R5vhoUAwizs+2YXNIhA/qD9wpJsnu
+6uIyJe+jAAYkhLevxQ3FbI8KC26OeHgEiVgsNL2lBJrEUVrRZ0veM68au2Kyd/giv2F4ocH3yw0G
+71A=
+=7B5i
+-----END PGP SIGNATURE-----
+
+--------------qZc0sIYZ4xZV7VgM2KS0nnnL--
