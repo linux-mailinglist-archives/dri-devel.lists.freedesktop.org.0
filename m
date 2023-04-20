@@ -1,51 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38EE06E9394
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Apr 2023 14:02:08 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 78F6D6E9436
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Apr 2023 14:25:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2321210EC19;
-	Thu, 20 Apr 2023 12:02:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4E28910E283;
+	Thu, 20 Apr 2023 12:25:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4D3B610EC19
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Apr 2023 12:02:03 +0000 (UTC)
-Received: from [IPV6:2001:b07:2ed:14ed:c5f8:7372:f042:90a2] (unknown
- [IPv6:2001:b07:2ed:14ed:c5f8:7372:f042:90a2])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: kholk11)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 3537E66030CC;
- Thu, 20 Apr 2023 13:01:59 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1681992120;
- bh=LcRVmUKZzFzapPfbEEWSGRzomqHZShG7TMdpFQ+vpIc=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=GORNTUxT1VHh3euff+j8a13k52+aTqkVMsuz1x1LzNAFAahj0yoL8uOpiQSeqRNXj
- 1szidLMLsTiCUsmzl4bSFzO9shZA0zd7dxfHrrtfyj7yQrTZNrIBQZI/CEiDkYCLf+
- 6m1W1fgMroNvvcqMYs77NxhI78iIsBKWP6gK3XeO2qNIlcMr2YKIBDS4GDzTzkDUXk
- Y5qf5kpZ/sauS6jc+9L3j6wkyU2CX0Vqd+E+OxgNKlrTeCUfW2vLD8avtzPp917EJ0
- jZTGmIKLgdnMo4xy4+8GUKuVIBl/1q3XQGN0vGS+ECeZqrwxqNlDkpmOAiC97jElhS
- y6yxn4DufQnOg==
-Message-ID: <e1619d7a-2ac3-55bf-bcf1-cad3f07d20fe@collabora.com>
-Date: Thu, 20 Apr 2023 14:01:55 +0200
+Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com
+ [209.85.128.169])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4033E10E283
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Apr 2023 12:25:30 +0000 (UTC)
+Received: by mail-yw1-f169.google.com with SMTP id
+ 00721157ae682-552ae3e2cbeso37110707b3.13
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Apr 2023 05:25:30 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1681993529; x=1684585529;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=gXInmwaqBbfh6VGdRfeo5HdvJy20M73WF7/BcwOEW+c=;
+ b=G2CDHYseSMbPTSkCqxOX2Cgo08+Aa2IYlWdR67pWsTDhf91IqVua5g/Fu5+uUFIbNc
+ bnunt7jwaE5ufmz14F+EtvgTJXmk0i5aDoZTlJ6PLpSLP9y07MB17EMH3U2GNhTVXkN5
+ iNtbKfh+oXD/L2Jak0ESCLsdxuktlm52YL9is2cCIv8JwQdpJUyLP0ClKr/btk9KcXlW
+ tQq6AvFpA3lXz8xbTo/dc6GL8jZytko2Eajt6b9NxnYFEWgVrvxIbXETKwidRs7EikQI
+ XZaf6f+BO9Y0hbdpVDwYNSrvGK94U7Bm1cnawjc+oUCDcFSGh66NUneKKWN4qjZLU8sQ
+ BFUQ==
+X-Gm-Message-State: AAQBX9dYcbHYfLrYt4A4+ZwDB4M7J7X2f8Gi5K5cjRnVMbOjANcFSuQ4
+ b5YnakZBGlJVY0DsANJ24/biLsTPyoyGW0qh
+X-Google-Smtp-Source: AKy350ZE8Y9MwIlBnU0vqGmeES9e+ZKNdQ6zGYT7P9dDrfjXbTr7LqNQVLSsrFOwPEtFBHBQHjj5Qw==
+X-Received: by 2002:a0d:d7d7:0:b0:54e:ed46:6b39 with SMTP id
+ z206-20020a0dd7d7000000b0054eed466b39mr655335ywd.31.1681993529015; 
+ Thu, 20 Apr 2023 05:25:29 -0700 (PDT)
+Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com.
+ [209.85.128.170]) by smtp.gmail.com with ESMTPSA id
+ k187-20020a816fc4000000b00545a08184b9sm308137ywc.73.2023.04.20.05.25.27
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 20 Apr 2023 05:25:28 -0700 (PDT)
+Received: by mail-yw1-f170.google.com with SMTP id
+ 00721157ae682-54c12009c30so37800277b3.9
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Apr 2023 05:25:27 -0700 (PDT)
+X-Received: by 2002:a0d:eb41:0:b0:555:d531:fdf3 with SMTP id
+ u62-20020a0deb41000000b00555d531fdf3mr634121ywe.32.1681993527822; Thu, 20 Apr
+ 2023 05:25:27 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.1
-Subject: Re: [PATCH] drm/mediatek: fix uninitialized symbol
-Content-Language: en-US
-To: "Nancy.Lin" <nancy.lin@mediatek.com>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- Matthias Brugger <matthias.bgg@gmail.com>
-References: <20230420105115.26838-1-nancy.lin@mediatek.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20230420105115.26838-1-nancy.lin@mediatek.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20230420030500.1578756-1-suijingfeng@loongson.cn>
+ <8ec3734b-4bc2-ad8f-fc17-3002f22d1fc9@suse.de>
+ <12c8efaa-7266-5436-dc53-009a0d23b53f@suse.de>
+ <4a0fdbe0-cd4f-9c87-f73a-6d27f5c497bb@189.cn>
+ <f541018f-bb7f-ac58-bbb8-797069e49c3f@suse.de>
+In-Reply-To: <f541018f-bb7f-ac58-bbb8-797069e49c3f@suse.de>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Thu, 20 Apr 2023 14:25:15 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdVGtvgcQuTR9bfMh1cM86TYXSByxJzW5eJtF9A0ZLRF3w@mail.gmail.com>
+Message-ID: <CAMuHMdVGtvgcQuTR9bfMh1cM86TYXSByxJzW5eJtF9A0ZLRF3w@mail.gmail.com>
+Subject: Re: [PATCH v5] drm/fbdev-generic: prohibit potential out-of-bounds
+ access
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,21 +74,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: singo.chang@mediatek.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- clang-built-linux@googlegroups.com, linux-mediatek@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org
+Cc: Lucas De Marchi <lucas.demarchi@intel.com>, linux-fbdev@vger.kernel.org,
+ Li Yi <liyi@loongson.cn>, Helge Deller <deller@gmx.de>,
+ linux-kernel@vger.kernel.org, Sui Jingfeng <15330273260@189.cn>,
+ loongson-kernel@lists.loongnix.cn, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Il 20/04/23 12:51, Nancy.Lin ha scritto:
-> fix Smatch static checker warning
->    - uninitialized symbol comp_pdev in mtk_ddp_comp_init.
-> 
-> Signed-off-by: Nancy.Lin <nancy.lin@mediatek.com>
+Hi Thomas,
 
-I agree with this commit, but please add a Fixes tag.
+On Thu, Apr 20, 2023 at 1:10=E2=80=AFPM Thomas Zimmermann <tzimmermann@suse=
+.de> wrote:
+> Am 20.04.23 um 12:04 schrieb Sui Jingfeng:
+> > What will happen if the 'screen_size' is not page_size aligned and mmap
+> > will mapping in the granularity of pages ?
+>
+> You need to map at page granularity. If screen_size is not page-size
+> aligned, there's this trailing buffer that is accessible, but cannot be
+> displayed. But userspace has no direct way of knowing that, so let's
+> ignore that problem for now.
 
-Thanks,
-Angelo
+Userspace can know, if fb_fix_screeninfo.smem_{start,len} match
+the actual offset and size.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
