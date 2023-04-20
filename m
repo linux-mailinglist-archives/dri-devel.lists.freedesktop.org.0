@@ -2,52 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DDA26E9FDE
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Apr 2023 01:25:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 259626E9FE4
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Apr 2023 01:25:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F1F8210ED3E;
-	Thu, 20 Apr 2023 23:25:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A883C10ED43;
+	Thu, 20 Apr 2023 23:25:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1954D10ED3C;
- Thu, 20 Apr 2023 23:25:35 +0000 (UTC)
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 839E510ED3F;
+ Thu, 20 Apr 2023 23:25:38 +0000 (UTC)
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
  by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 33KMxB5a004299; Thu, 20 Apr 2023 23:25:31 GMT
+ 33KMDVt9002561; Thu, 20 Apr 2023 23:25:32 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references : mime-version :
  content-type; s=qcppdkim1;
- bh=sudEh8tleZLchS6jIsZcpBzxRc4MNgegxBoy95l2x5c=;
- b=p4AqCbYvv38/bIqrrIrBM9fFYJxfH+LypbDZ42SGmueQIK/3RVy/JVEid/xOCapMFG15
- uubhIPvMxxlZH85IrAuP30u9K9eXPkMgdicYVhLOiFxxnmne1wqcTp2+xoGzfaOYYNk+
- ZfaNrcxevjX1LMxdBD+gvri4iDNi9tR27+TLQa4Mi7QVXA2lZGCZ7PL60+KLLjlfbHK7
- VwwPVZ8HF4lx7pbtIioUo9dJORuKJ+G5023hFD4JTTKOOB82jd+7qwxh0t9El10gEsPB
- NyR5RIw8MPNtwO1YRfUWkjmVVdqpDK9U2b4tX7AnLSfig5da1jplZwbdjXkbXXvL8XEm wg== 
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
+ bh=uAQRL3ffR0u7Yz8CO+AlZ8N+I71x2dcOjfkbG2Uljns=;
+ b=bU3oDIUbDwXtk6tuqrjB9noFLFM6PLm9c5FbyRp6k8xuZV5zgcy4yGM0viDihdiPKN59
+ /CDhahli9BydgiHGG6/Bu/BoGqVNultkTvGcyq+/xyPpwoDP1egNTn6Yc9ehqvLLjtlT
+ uiLQySCMzhL3mv9RUIyYBVsqWLxqmnFFv2KWoHl3k1jX78GpMXdFa4lflbkVMilWsemp
+ aL54bF1I9qnztaRqIRiIutfCzR5V4yPvJm5USAL0L6SkY8Iw08ViDUffTab2lVcEAIi4
+ Vg1PFpo3OOedQ8jPGyWGmhEYMXIYIoiZ1byK0gD1w/v2KIDQ+w46Xyh0dfCiBqsPsOMi JQ== 
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
  [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3q3ap70fs8-1
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3q2uh3jt8c-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 20 Apr 2023 23:25:30 +0000
+ Thu, 20 Apr 2023 23:25:32 +0000
 Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
  [10.47.209.196])
- by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 33KNPTOf016035
+ by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 33KNPVOp031839
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 20 Apr 2023 23:25:29 GMT
+ Thu, 20 Apr 2023 23:25:31 GMT
 Received: from khsieh-linux1.qualcomm.com (10.80.80.8) by
  nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.42; Thu, 20 Apr 2023 16:25:29 -0700
+ 15.2.986.42; Thu, 20 Apr 2023 16:25:30 -0700
 From: Kuogee Hsieh <quic_khsieh@quicinc.com>
 To: <dri-devel@lists.freedesktop.org>, <robdclark@gmail.com>,
  <sean@poorly.run>, <swboyd@chromium.org>, <dianders@chromium.org>,
  <vkoul@kernel.org>, <daniel@ffwll.ch>, <airlied@gmail.com>,
  <agross@kernel.org>, <dmitry.baryshkov@linaro.org>, <andersson@kernel.org>
-Subject: [PATCH v1 2/5] drm/msm/dpu: separate DSC flush update out of interface
-Date: Thu, 20 Apr 2023 16:25:11 -0700
-Message-ID: <1682033114-28483-3-git-send-email-quic_khsieh@quicinc.com>
+Subject: [PATCH v1 3/5] drm/msm/dpu: save dpu topology configuration
+Date: Thu, 20 Apr 2023 16:25:12 -0700
+Message-ID: <1682033114-28483-4-git-send-email-quic_khsieh@quicinc.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1682033114-28483-1-git-send-email-quic_khsieh@quicinc.com>
 References: <1682033114-28483-1-git-send-email-quic_khsieh@quicinc.com>
@@ -59,17 +59,17 @@ X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
  signatures=585085
-X-Proofpoint-ORIG-GUID: pO6CHcsq2--PK3KqVeRRmKJuWbmBCRtW
-X-Proofpoint-GUID: pO6CHcsq2--PK3KqVeRRmKJuWbmBCRtW
+X-Proofpoint-ORIG-GUID: oJ0T7-LdXN7m2Bk3s0ccD45PyzfcHOzn
+X-Proofpoint-GUID: oJ0T7-LdXN7m2Bk3s0ccD45PyzfcHOzn
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
  definitions=2023-04-20_15,2023-04-20_01,2023-02-09_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 clxscore=1015
- lowpriorityscore=0 phishscore=0 mlxlogscore=875 impostorscore=0
- suspectscore=0 priorityscore=1501 mlxscore=0 adultscore=0 bulkscore=0
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2303200000 definitions=main-2304200199
+ suspectscore=0 phishscore=0
+ bulkscore=0 spamscore=0 mlxscore=0 malwarescore=0 clxscore=1015
+ impostorscore=0 lowpriorityscore=0 adultscore=0 mlxlogscore=999
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2303200000 definitions=main-2304200200
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,153 +89,103 @@ Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Current DSC flush update is piggyback inside dpu_hw_ctl_intf_cfg_v1().
-This patch separate DSC flush away from dpu_hw_ctl_intf_cfg_v1() by
-adding dpu_hw_ctl_update_pending_flush_dsc_v1() to handle both per
-DSC engine and DSC flush bits at same time to make it consistent with
-the location of flush programming of other dpu sub blocks.
+At current implementation, topology configuration is thrown away after
+dpu_rm_reserve(). This patch save the topology so that it can be used
+for DSC related calculation later.
 
 Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
 ---
- drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 14 ++++++++++++--
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c  | 22 ++++++++++++++++------
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h  | 10 ++++++++++
- 3 files changed, 38 insertions(+), 8 deletions(-)
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 32 ++++++++++++++---------------
+ 1 file changed, 16 insertions(+), 16 deletions(-)
 
 diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-index 1dc5dbe..ecb87bc 100644
+index ecb87bc..2fdacf1 100644
 --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
 +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-@@ -1823,12 +1823,18 @@ dpu_encoder_dsc_initial_line_calc(struct drm_dsc_config *dsc,
- 	return DIV_ROUND_UP(total_pixels, dsc->slice_width);
+@@ -542,13 +542,13 @@ bool dpu_encoder_use_dsc_merge(struct drm_encoder *drm_enc)
+ 	return (num_dsc > 0) && (num_dsc > intf_count);
  }
  
--static void dpu_encoder_dsc_pipe_cfg(struct dpu_hw_dsc *hw_dsc,
-+static void dpu_encoder_dsc_pipe_cfg(struct dpu_encoder_virt *dpu_enc,
-+				     struct dpu_hw_dsc *hw_dsc,
- 				     struct dpu_hw_pingpong *hw_pp,
- 				     struct drm_dsc_config *dsc,
- 				     u32 common_mode,
- 				     u32 initial_lines)
+-static struct msm_display_topology dpu_encoder_get_topology(
++static void dpu_encoder_get_topology(
+ 			struct dpu_encoder_virt *dpu_enc,
+ 			struct dpu_kms *dpu_kms,
+ 			struct drm_display_mode *mode,
+-			struct drm_crtc_state *crtc_state)
++			struct drm_crtc_state *crtc_state,
++			struct msm_display_topology *topology)
  {
-+	struct dpu_encoder_phys *cur_master = dpu_enc->cur_master;
-+	struct dpu_hw_ctl *ctl;
-+
-+	ctl = cur_master->hw_ctl;
-+
- 	if (hw_dsc->ops.dsc_config)
- 		hw_dsc->ops.dsc_config(hw_dsc, dsc, common_mode, initial_lines);
+-	struct msm_display_topology topology = {0};
+ 	int i, intf_count = 0;
  
-@@ -1843,6 +1849,9 @@ static void dpu_encoder_dsc_pipe_cfg(struct dpu_hw_dsc *hw_dsc,
- 
- 	if (hw_pp->ops.enable_dsc)
- 		hw_pp->ops.enable_dsc(hw_pp);
-+
-+	if (ctl->ops.update_pending_flush_dsc)
-+		ctl->ops.update_pending_flush_dsc(ctl, hw_dsc->idx);
- }
- 
- static void dpu_encoder_prep_dsc(struct dpu_encoder_virt *dpu_enc,
-@@ -1887,7 +1896,8 @@ static void dpu_encoder_prep_dsc(struct dpu_encoder_virt *dpu_enc,
- 	initial_lines = dpu_encoder_dsc_initial_line_calc(dsc, enc_ip_w);
- 
- 	for (i = 0; i < MAX_CHANNELS_PER_ENC; i++)
--		dpu_encoder_dsc_pipe_cfg(hw_dsc[i], hw_pp[i], dsc, dsc_common_mode, initial_lines);
-+		dpu_encoder_dsc_pipe_cfg(dpu_enc, hw_dsc[i], hw_pp[i], dsc,
-+					dsc_common_mode, initial_lines);
- }
- 
- void dpu_encoder_prepare_for_kickoff(struct drm_encoder *drm_enc)
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
-index bbdc95c..d2a1608 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
-@@ -156,6 +156,11 @@ static inline void dpu_hw_ctl_trigger_flush_v1(struct dpu_hw_ctl *ctx)
- 				CTL_DSPP_n_FLUSH(dspp - DSPP_0),
- 				ctx->pending_dspp_flush_mask[dspp - DSPP_0]);
- 		}
-+
-+	if (ctx->pending_flush_mask & BIT(DSC_IDX))
-+		DPU_REG_WRITE(&ctx->hw, CTL_DSC_FLUSH,
-+				ctx->pending_dsc_flush_mask);
-+
- 	DPU_REG_WRITE(&ctx->hw, CTL_FLUSH, ctx->pending_flush_mask);
- }
- 
-@@ -302,6 +307,13 @@ static void dpu_hw_ctl_update_pending_flush_merge_3d_v1(struct dpu_hw_ctl *ctx,
- 	ctx->pending_flush_mask |= BIT(MERGE_3D_IDX);
- }
- 
-+static void dpu_hw_ctl_update_pending_flush_dsc_v1(struct dpu_hw_ctl *ctx,
-+		enum dpu_dsc dsc_num)
-+{
-+	ctx->pending_dsc_flush_mask |= BIT(dsc_num - DSC_0);
-+	ctx->pending_flush_mask |= BIT(DSC_IDX);
-+}
-+
- static void dpu_hw_ctl_update_pending_flush_dspp(struct dpu_hw_ctl *ctx,
- 	enum dpu_dspp dspp, u32 dspp_sub_blk)
- {
-@@ -519,9 +531,6 @@ static void dpu_hw_ctl_intf_cfg_v1(struct dpu_hw_ctl *ctx,
- 	if ((test_bit(DPU_CTL_VM_CFG, &ctx->caps->features)))
- 		mode_sel = CTL_DEFAULT_GROUP_ID  << 28;
- 
--	if (cfg->dsc)
--		DPU_REG_WRITE(&ctx->hw, CTL_DSC_FLUSH, cfg->dsc);
--
- 	if (cfg->intf_mode_sel == DPU_CTL_MODE_SEL_CMD)
- 		mode_sel |= BIT(17);
- 
-@@ -541,10 +550,8 @@ static void dpu_hw_ctl_intf_cfg_v1(struct dpu_hw_ctl *ctx,
- 	if (cfg->merge_3d)
- 		DPU_REG_WRITE(c, CTL_MERGE_3D_ACTIVE,
- 			      BIT(cfg->merge_3d - MERGE_3D_0));
--	if (cfg->dsc) {
--		DPU_REG_WRITE(&ctx->hw, CTL_FLUSH, DSC_IDX);
-+	if (cfg->dsc)
- 		DPU_REG_WRITE(c, CTL_DSC_ACTIVE, cfg->dsc);
--	}
- }
- 
- static void dpu_hw_ctl_intf_cfg(struct dpu_hw_ctl *ctx,
-@@ -647,6 +654,9 @@ static void _setup_ctl_ops(struct dpu_hw_ctl_ops *ops,
- 		ops->update_pending_flush_merge_3d =
- 			dpu_hw_ctl_update_pending_flush_merge_3d_v1;
- 		ops->update_pending_flush_wb = dpu_hw_ctl_update_pending_flush_wb_v1;
-+
-+		ops->update_pending_flush_dsc =
-+			dpu_hw_ctl_update_pending_flush_dsc_v1;
- 	} else {
- 		ops->trigger_flush = dpu_hw_ctl_trigger_flush;
- 		ops->setup_intf_cfg = dpu_hw_ctl_intf_cfg;
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h
-index 78611a8..8330550 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h
-@@ -158,6 +158,15 @@ struct dpu_hw_ctl_ops {
- 		enum dpu_dspp blk, u32 dspp_sub_blk);
- 
- 	/**
-+	 * OR in the given flushbits to the cached pending_(dsc_)flush_mask
-+	 * No effect on hardware
-+	 * @ctx       : ctl path ctx pointer
-+	 * @blk       : interface block index
-+	 */
-+	void (*update_pending_flush_dsc)(struct dpu_hw_ctl *ctx,
-+		enum dpu_dsc blk);
-+
-+	/**
- 	 * Write the value of the pending_flush_mask to hardware
- 	 * @ctx       : ctl path ctx pointer
+ 	for (i = 0; i < MAX_PHYS_ENCODERS_PER_VIRTUAL; i++)
+@@ -567,16 +567,16 @@ static struct msm_display_topology dpu_encoder_get_topology(
+ 	 * Add dspps to the reservation requirements if ctm is requested
  	 */
-@@ -245,6 +254,7 @@ struct dpu_hw_ctl {
- 	u32 pending_wb_flush_mask;
- 	u32 pending_merge_3d_flush_mask;
- 	u32 pending_dspp_flush_mask[DSPP_MAX - DSPP_0];
-+	u32 pending_dsc_flush_mask;
+ 	if (intf_count == 2)
+-		topology.num_lm = 2;
++		topology->num_lm = 2;
+ 	else if (!dpu_kms->catalog->caps->has_3d_merge)
+-		topology.num_lm = 1;
++		topology->num_lm = 1;
+ 	else
+-		topology.num_lm = (mode->hdisplay > MAX_HDISPLAY_SPLIT) ? 2 : 1;
++		topology->num_lm = (mode->hdisplay > MAX_HDISPLAY_SPLIT) ? 2 : 1;
  
- 	/* ops */
- 	struct dpu_hw_ctl_ops ops;
+ 	if (crtc_state->ctm)
+-		topology.num_dspp = topology.num_lm;
++		topology->num_dspp = topology->num_lm;
+ 
+-	topology.num_intf = intf_count;
++	topology->num_intf = intf_count;
+ 
+ 	if (dpu_enc->dsc) {
+ 		/*
+@@ -585,12 +585,10 @@ static struct msm_display_topology dpu_encoder_get_topology(
+ 		 * this is power optimal and can drive up to (including) 4k
+ 		 * screens
+ 		 */
+-		topology.num_dsc = 2;
+-		topology.num_lm = 2;
+-		topology.num_intf = 1;
++		topology->num_dsc = 2;
++		topology->num_lm = 2;
++		topology->num_intf = 1;
+ 	}
+-
+-	return topology;
+ }
+ 
+ static int dpu_encoder_virt_atomic_check(
+@@ -602,7 +600,7 @@ static int dpu_encoder_virt_atomic_check(
+ 	struct msm_drm_private *priv;
+ 	struct dpu_kms *dpu_kms;
+ 	struct drm_display_mode *adj_mode;
+-	struct msm_display_topology topology;
++	struct msm_display_topology *topology;
+ 	struct dpu_global_state *global_state;
+ 	int i = 0;
+ 	int ret = 0;
+@@ -639,7 +637,9 @@ static int dpu_encoder_virt_atomic_check(
+ 		}
+ 	}
+ 
+-	topology = dpu_encoder_get_topology(dpu_enc, dpu_kms, adj_mode, crtc_state);
++	topology = &dpu_enc->topology;
++	memset(topology, 0, sizeof (*topology));
++	dpu_encoder_get_topology(dpu_enc, dpu_kms, adj_mode, crtc_state, topology);
+ 
+ 	/*
+ 	 * Release and Allocate resources on every modeset
+@@ -650,7 +650,7 @@ static int dpu_encoder_virt_atomic_check(
+ 
+ 		if (!crtc_state->active_changed || crtc_state->enable)
+ 			ret = dpu_rm_reserve(&dpu_kms->rm, global_state,
+-					drm_enc, crtc_state, topology);
++					drm_enc, crtc_state, *topology);
+ 	}
+ 
+ 	trace_dpu_enc_atomic_check_flags(DRMID(drm_enc), adj_mode->flags);
 -- 
 The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
 a Linux Foundation Collaborative Project
