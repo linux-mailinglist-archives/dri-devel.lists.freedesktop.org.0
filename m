@@ -1,56 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81B186E88A3
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Apr 2023 05:25:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D35EC6E8A2C
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Apr 2023 08:11:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5E4BE10EB5C;
-	Thu, 20 Apr 2023 03:25:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D5FF710EB69;
+	Thu, 20 Apr 2023 06:10:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from 189.cn (ptr.189.cn [183.61.185.104])
- by gabe.freedesktop.org (Postfix) with ESMTP id 8580F10EB5C
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Apr 2023 03:25:18 +0000 (UTC)
-HMM_SOURCE_IP: 10.64.8.41:35424.1634873044
-HMM_ATTACHE_NUM: 0000
-HMM_SOURCE_TYPE: SMTP
-Received: from clientip-114.242.206.180 (unknown [10.64.8.41])
- by 189.cn (HERMES) with SMTP id 5E107102AD4;
- Thu, 20 Apr 2023 11:25:09 +0800 (CST)
-Received: from  ([114.242.206.180])
- by gateway-151646-dep-7b48884fd-bkw2h with ESMTP id
- 4a28eca767354236931f26c6cf72760c for maarten.lankhorst@linux.intel.com; 
- Thu, 20 Apr 2023 11:25:14 CST
-X-Transaction-ID: 4a28eca767354236931f26c6cf72760c
-X-Real-From: 15330273260@189.cn
-X-Receive-IP: 114.242.206.180
-X-MEDUSA-Status: 0
-Message-ID: <e77eb051-8c25-53a2-bd2e-bd416b8fce00@189.cn>
-Date: Thu, 20 Apr 2023 11:25:08 +0800
+Received: from mail-lj1-x236.google.com (mail-lj1-x236.google.com
+ [IPv6:2a00:1450:4864:20::236])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B021310EB69
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Apr 2023 06:10:53 +0000 (UTC)
+Received: by mail-lj1-x236.google.com with SMTP id q21so1644563ljp.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Apr 2023 23:10:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1681971051; x=1684563051;
+ h=cc:to:subject:message-id:date:user-agent:from:references
+ :in-reply-to:mime-version:from:to:cc:subject:date:message-id
+ :reply-to; bh=cNPBzX6Y4DzEXkxrIsPy5WXkjPdEdrZU6Sa+8uyinhQ=;
+ b=T6LFJAc7v8GrrcO2kqA4STxSTFczF6e9f/FFkoTN386zEbafQ9OeBNDHhzAj0y4B5y
+ mjd4LqgBkN/Apo4JcK8bye9Edyo0Gu+PlOi/enVL4YyxQh4xdjTYDNPZJFb3GYxQ8Bf8
+ CVvxKkEvnNo9DJ02bKZUUmN9AY23CoqMNkrT8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1681971051; x=1684563051;
+ h=cc:to:subject:message-id:date:user-agent:from:references
+ :in-reply-to:mime-version:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=cNPBzX6Y4DzEXkxrIsPy5WXkjPdEdrZU6Sa+8uyinhQ=;
+ b=Rphmtwxzj4ux9hi3tgXlTiFsaq1bnAHm6C7uqIKtJt7UcsuNuGYpg3XXxDFAo8jj38
+ lMLHCSQ+v6/AYkrN60Gf+Q7huUPlQ45xrpz1QY5sxTyDZxEzt24fYaJeRzPai3+WmF9m
+ bVJtGTpea0OIWRNNQa8L5tBzEexyXGqwZ5g2THSd1xcwZjQ5GhZKmPUz7bzd9PXptYRN
+ wfRjhqFJmRTI4sjstaF02iAi9qdJogHNaO7xlmv8PjjJoI+teARti6kpfpc6oqRiVCrW
+ TGcCXcvZ5GezJw8xJqe48HUKKYE+E8MqV6hv/rzpvoD8t+Votc+M1/AnWktvKV9A1gVJ
+ 5LvA==
+X-Gm-Message-State: AAQBX9c0Rh66Nwgx+Ij+H1ZBBl10xPoBpQ2Sd/07JqHvtayRWE5LW7UG
+ KG2JLZA/c9bRdUQ5z7AglXbylC6qeroFRdJr2ik0Yg==
+X-Google-Smtp-Source: AKy350Ydm+ji1Zz5gF+5t9+VddXM85teKkwpvpc0TGbgwOoQH/RjUhZIpMjhSmt4c7794yXFCLb7VjgGzoZF/T4iQuA=
+X-Received: by 2002:a2e:9051:0:b0:2a8:e4d3:11de with SMTP id
+ n17-20020a2e9051000000b002a8e4d311demr105767ljg.20.1681971051475; Wed, 19 Apr
+ 2023 23:10:51 -0700 (PDT)
+Received: from 753933720722 named unknown by gmailapi.google.com with
+ HTTPREST; Wed, 19 Apr 2023 23:10:50 -0700
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH v3] drm/fbdev-generic: prohibit potential out-of-bounds
- access
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Li Yi <liyi@loongson.cn>,
- Helge Deller <deller@gmx.de>, Lucas De Marchi <lucas.demarchi@intel.com>,
- linux-kernel@vger.kernel.org, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org, loongson-kernel@lists.loongnix.cn
-References: <20230417113219.1354078-1-suijingfeng@loongson.cn>
- <ZD5Vgx9Txaiz7Bun@phenom.ffwll.local>
- <139c9398-488d-df19-9ae2-2b4b47ef64f4@189.cn>
- <86a8b262-cbf2-b75f-9972-491f557edf74@189.cn>
- <CAKMK7uE-azFT02Sp2FDfMGTc57eYJEn8iM8Wk1mt5ucPs1qM-w@mail.gmail.com>
- <ad44df29-3241-0d9e-e708-b0338bf3c623@189.cn>
- <ZEAXSM/a0IuFnhwn@phenom.ffwll.local>
-Content-Language: en-US
-From: Sui Jingfeng <15330273260@189.cn>
-In-Reply-To: <ZEAXSM/a0IuFnhwn@phenom.ffwll.local>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAE-0n50atfmr-bFh5XtTCm4WpSijJGSe0B5JP8ni7CCYk7Bs5A@mail.gmail.com>
+References: <20230331091145.737305-1-treapking@chromium.org>
+ <20230331091145.737305-5-treapking@chromium.org>
+ <CAE-0n51E5foFWQAsA73662_5e6XP426wuUCVVmcS5UWwiYpDmw@mail.gmail.com>
+ <CAEXTbpdcbB_z4ZGCGzc-cM74ECKyxekbroKCWFnhH8eR=4HmvA@mail.gmail.com>
+ <CAE-0n50atfmr-bFh5XtTCm4WpSijJGSe0B5JP8ni7CCYk7Bs5A@mail.gmail.com>
+From: Stephen Boyd <swboyd@chromium.org>
+User-Agent: alot/0.10
+Date: Wed, 19 Apr 2023 23:10:50 -0700
+Message-ID: <CAE-0n51Qy-KDGHOCr4Smpebq1fCURqvJ2RJz6KAtVpv5e+DSGA@mail.gmail.com>
+Subject: Re: [PATCH v15 04/10] dt-bindings: display: bridge: anx7625: Add
+ mode-switch support
+To: Pin-yen Lin <treapking@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,304 +70,81 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ "Rafael J . Wysocki" <rafael@kernel.org>, dri-devel@lists.freedesktop.org,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Guenter Roeck <groeck@chromium.org>,
+ Marek Vasut <marex@denx.de>, chrome-platform@lists.linux.dev,
+ Robert Foss <rfoss@kernel.org>, Javier Martinez Canillas <javierm@redhat.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, linux-acpi@vger.kernel.org,
+ Chen-Yu Tsai <wenst@chromium.org>, devicetree@vger.kernel.org,
+ =?UTF-8?B?TsOtY29sYXMgRiAuIFIgLiBBIC4gUHJhZG8=?= <nfraprado@collabora.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Rob Herring <robh+dt@kernel.org>,
+ Hsin-Yi Wang <hsinyi@chromium.org>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Xin Ji <xji@analogixsemi.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
+ Daniel Scally <djrscally@gmail.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Prashant Malani <pmalani@chromium.org>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
-On 2023/4/20 00:31, Daniel Vetter wrote:
-> On Thu, Apr 20, 2023 at 12:00:41AM +0800, Sui Jingfeng wrote:
->> Hi,
->>
->> Sorry about reply to you so late,
->>
->> our  downstream (product kernel side) userspace GPU/DC driver
->>
->> has been tested out a few bugs, I'm asking to fulfill my duty to that part
->> all days.
->>
->> I may slow to reply, but I really love to reply.
->>
->>
->> On 2023/4/19 23:09, Daniel Vetter wrote:
->>> On Tue, 18 Apr 2023 at 20:16, Sui Jingfeng <15330273260@189.cn> wrote:
->>>> Hi,
->>>>
->>>> On 2023/4/19 01:52, Sui Jingfeng wrote:
->>>>> Hi,
->>>>>
->>>>> On 2023/4/18 16:32, Daniel Vetter wrote:
->>>>>> On Mon, Apr 17, 2023 at 07:32:19PM +0800, Sui Jingfeng wrote:
->>>>>>> The fbdev test of IGT may write after EOF, which lead to out-of-bound
->>>>>>> access for the drm drivers using fbdev-generic. For example, on a x86
->>>>>>> + aspeed bmc card platform, with a 1680x1050 resolution display,
->>>>>>> running
->>>>>>> fbdev test if IGT will cause the linux kernel hang with the following
->>>>>>> call trace:
->>>>>>>
->>>>>>>      Oops: 0000 [#1] PREEMPT SMP PTI
->>>>>>>      [IGT] fbdev: starting subtest eof
->>>>>>>      Workqueue: events drm_fb_helper_damage_work [drm_kms_helper]
->>>>>>>      [IGT] fbdev: starting subtest nullptr
->>>>>>>
->>>>>>>      RIP: 0010:memcpy_erms+0xa/0x20
->>>>>>>      RSP: 0018:ffffa17d40167d98 EFLAGS: 00010246
->>>>>>>      RAX: ffffa17d4eb7fa80 RBX: ffffa17d40e0aa80 RCX: 00000000000014c0
->>>>>>>      RDX: 0000000000001a40 RSI: ffffa17d40e0b000 RDI: ffffa17d4eb80000
->>>>>>>      RBP: ffffa17d40167e20 R08: 0000000000000000 R09: ffff89522ecff8c0
->>>>>>>      R10: ffffa17d4e4c5000 R11: 0000000000000000 R12: ffffa17d4eb7fa80
->>>>>>>      R13: 0000000000001a40 R14: 000000000000041a R15: ffffa17d40167e30
->>>>>>>      FS:  0000000000000000(0000) GS:ffff895257380000(0000)
->>>>>>> knlGS:0000000000000000
->>>>>>>      CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
->>>>>>>      CR2: ffffa17d40e0b000 CR3: 00000001eaeca006 CR4: 00000000001706e0
->>>>>>>      Call Trace:
->>>>>>>       <TASK>
->>>>>>>       ? drm_fbdev_generic_helper_fb_dirty+0x207/0x330 [drm_kms_helper]
->>>>>>>       drm_fb_helper_damage_work+0x8f/0x170 [drm_kms_helper]
->>>>>>>       process_one_work+0x21f/0x430
->>>>>>>       worker_thread+0x4e/0x3c0
->>>>>>>       ? __pfx_worker_thread+0x10/0x10
->>>>>>>       kthread+0xf4/0x120
->>>>>>>       ? __pfx_kthread+0x10/0x10
->>>>>>>       ret_from_fork+0x2c/0x50
->>>>>>>       </TASK>
->>>>>>>      CR2: ffffa17d40e0b000
->>>>>>>      ---[ end trace 0000000000000000 ]---
->>>>>>>
->>>>>>> The direct reason is that damage rectange computed by
->>>>>>> drm_fb_helper_memory_range_to_clip() does not guaranteed to be
->>>>>>> in-bound.
->>>>>>> It is already results in workaround code populate to elsewhere. Another
->>>>>>> reason is that exposing a larger buffer size than the actual needed
->>>>>>> help
->>>>>>> to trigger this bug intrinsic in drm_fb_helper_memory_range_to_clip().
->>>>>>>
->>>>>>> Others fbdev emulation solutions write to the GEM buffer directly, they
->>>>>>> won't reproduce this bug because the .fb_dirty function callback do not
->>>>>>> being hooked, so no chance is given to
->>>>>>> drm_fb_helper_memory_range_to_clip()
->>>>>>> to generate a out-of-bound when drm_fb_helper_sys_write() is called.
->>>>>>>
->>>>>>> This patch break the trigger condition of this bug by shrinking the
->>>>>>> shadow
->>>>>>> buffer size to sizes->surface_height * buffer->fb->pitches[0].
->>>>>>>
->>>>>>> Fixes: '8fbc9af55de0 ("drm/fbdev-generic: Set screen size to size of
->>>>>>> GEM
->>>>>>> buffer")'
->>>>>>>
->>>>>>> Signed-off-by: Sui Jingfeng <suijingfeng@loongson.cn>
->>>>>>> ---
->>>>>>>     drivers/gpu/drm/drm_fbdev_generic.c | 2 +-
->>>>>>>     1 file changed, 1 insertion(+), 1 deletion(-)
->>>>>>>
->>>>>>> diff --git a/drivers/gpu/drm/drm_fbdev_generic.c
->>>>>>> b/drivers/gpu/drm/drm_fbdev_generic.c
->>>>>>> index 8e5148bf40bb..b057cfbba938 100644
->>>>>>> --- a/drivers/gpu/drm/drm_fbdev_generic.c
->>>>>>> +++ b/drivers/gpu/drm/drm_fbdev_generic.c
->>>>>>> @@ -94,7 +94,7 @@ static int
->>>>>>> drm_fbdev_generic_helper_fb_probe(struct drm_fb_helper *fb_helper,
->>>>>>>         fb_helper->buffer = buffer;
->>>>>>>         fb_helper->fb = buffer->fb;
->>>>>>>     -    screen_size = buffer->gem->size;
->>>>>>> +    screen_size = sizes->surface_height * buffer->fb->pitches[0];
->>>>>> So I read core some more and stumbled over drm_fb_helper_deferred_io().
->>>>>> Which has all the code and comments about this, including limiting.
->>>>>>
->>>>>> I think it would be clearer if we fix the issue there, instead of
->>>>>> passing
->>>>>> limits around in obscure places that then again get broken?
->>>>> No, it is more obscure doing that way...
->>>>>
->>>>>
->>>>> As the size of the shadow screen buffer will be exposed to userspace.
->>>>>
->>>>> The size 'helper->fb->height * helper->fb->pitches[0]' is a
->>>>> exactly(best) fit,
->>>>>
->>>>> You are guaranteed to waste at lease one byte by increasing one byte,
->>>>>
->>>>> and can not store all pixels by decreasing one byte (In the case where
->>>>> `helper->fb->pitches[0] = helper->fb->width * 4`).
->>>>>
->>>>> It implicitly tell the userspace do not go beyond that boundary.
->>>>>
->>>>> although userspace program can still choose to write  after EOF,
->>>>>
->>>>> But it is for test purpose, to test the kernel if it can return a
->>>>> -EFBIG or not.
->>>>>
->>>>>> The thing is,
->>>>>> Thomas both authored the limit checks in drm_fb_helper_deferred_io() and
->>>>>> the patch which broken them again, so clearly this isn't very
->>>>>> obvious. I'm
->>>>>> thinking of something like this:
->>>>>>
->>>>>>
->>>>>> diff --git a/drivers/gpu/drm/drm_fb_helper.c
->>>>>> b/drivers/gpu/drm/drm_fb_helper.c
->>>>>> index ef4eb8b12766..726dab67c359 100644
->>>>>> --- a/drivers/gpu/drm/drm_fb_helper.c
->>>>>> +++ b/drivers/gpu/drm/drm_fb_helper.c
->>>>>> @@ -697,10 +697,7 @@ void drm_fb_helper_deferred_io(struct fb_info
->>>>>> *info, struct list_head *pagerefli
->>>>>>          * of the screen and account for non-existing scanlines. Hence,
->>>>>>          * keep the covered memory area within the screen buffer.
->>>>>>          */
->>>>>> -    if (info->screen_size)
->>>>>> -        total_size = info->screen_size;
->>>>>> -    else
->>>>>> -        total_size = info->fix.smem_len;
->>>>>> +    total_size = helper->fb->height * helper->fb->pitches[0];
->>>>> This is just to mitigate the mistakes already has been made,
->>>>>
->>>>> because it  do not do a good splitting between the *clip* part and the
->>>>> *damage update* part.
->>>>>
->>>>> An ideal clipping do not obscure its updating backend with a
->>>>> out-of-bound damage rectangle.
->>>>>
->>>>> Why did the drm_fb_helper_memory_range_to_clip() can not do a good job
->>>>> in all case
->>>>>
->>>>> to pass its backend a always meaningful damage rect ?
->>>>>
->>>>>>         max_off = min(max_off, total_size);
->>>>>>           if (min_off < max_off) {
->>>>>>
->>>>>>
->>>>>> I think that would make it utmost clear on what we're doing and why.
->>>>>> Otherwise we're just going to re-create the same bug again, like we've
->>>>>> done already :-)
->>>>> No, we create no bugs, we fix one.
->>>>>
->>>>> Thanks.
->>>>>
->>>> But honestly I do not have strong feel toward this, I just type what I'm
->>>> understand without seeing you resend a V3.
->>>>
->>>> It's OK in overall,  I will help to test this tomorrow.  :-)
->>> Apologies for making you jump around all the time and doing different
->>> versions of the same bugfix :-/
->> No,  I do not mind.  I'm wondering if you are testing me.
-> Nah I'm really not any clearer on this than you :-/
+Quoting Stephen Boyd (2023-04-13 17:22:46)
+> Quoting Pin-yen Lin (2023-04-13 02:50:44)
+> >
+> > Actually the `mode-switch` property here is mainly because
+> > `fwnode_typec_mux_get`[1] and `typec_mux_match`[2] only return matches
+> > when the property is present. I am not sure what side effects would be
+> > if I remove the ID-matching condition in `typec_mux_match`, so I added
+> > the property here.
+> >
+> > Is it feasible to remove the `mode-switch` property here given the
+> > existing implementation of the Type-C framework?
 >
->>> I think this one here is ok to merge,
->> NO,  to be honest,  this version is not ok.
->>
->> I have just tested it on LoongArch . It does not prevent out-of-bound on
->> LoongArch.
->>
->> bellow is the call trace when running the fbdev test of IGT.
->>
->>
->> [  369.628841] Console: switching to colour dummy device 80x25
->> [  369.634440] [IGT] fbdev: executing
->> [  369.654684] [IGT] fbdev: starting subtest info
->> [  369.659173] [IGT] fbdev: starting subtest pan
->> [  369.722093] [IGT] fbdev: starting subtest read
->> [  369.737795] [IGT] fbdev: starting subtest unaligned-read
->> [  369.745695] [IGT] fbdev: starting subtest write
->> [  369.753154] CPU 3 Unable to handle kernel paging request at virtual address ffff800034bd0000, era == 9000000000223d5c, ra == ffff8000020d75a8
->> [  369.774570] [IGT] fbdev: starting subtest unaligned-write
->> [  369.779960] Oops[#1]:
->> [  369.782215] CPU: 3 PID: 504 Comm: kworker/3:3 Not tainted 6.3.0-rc5+ #377
->> [  369.782219] Hardware name: Loongson Loongson-3A5000-HV-7A2000-1w-V0.1-EVB/Loongson-LS3A5000-7A2000-1w-EVB-V1.21, BIOS Loongson-UDK2018-V4.0.05383-beta10 1
->> [  369.782223] Workqueue: events drm_fb_helper_damage_work [drm_kms_helper]
->> [  369.802706] $ 0   : 0000000000000000 ffff8000020d75a8 90000001367fc000 90000001367ffcf0
->> [  369.809368] $ 4   : ffff80003a3ec000 ffff800034bcee00 0000000000001e00 9000000001160000
->> [  369.825275] $ 8   : ffff80003a3ebfff 0000000000000040 0000000000000000 ffff80000214f20c
->> [  369.825280] $12   : ffff80003a3ecc00 ffff800034bd0000 0000000000000000 0000000000001e00
->> [  369.841188] $16   : 9000000107490800 9000000001a24000 9000000001a28000 00000e00207ec000
->> [  369.849152] $20   : fffffffffe000000 900000010684cec0 0000000000000439 90000001367ffd90
->> [  369.849165] $24   : 9000000106bc5200 ffff8000020de000 ffff800034bcee00 0000000000001e00
->> [  369.865072] $28   : 90000001076d4400 0000000000000001 900000010553c000 ffff80003a3eae00
->> [  369.865078] era   : 9000000000223d5c __memcpy_toio+0x4c/0x90
->> [  369.878651] ra    : ffff8000020d75a8 drm_fbdev_generic_helper_fb_dirty+0x1cc/0x300 [drm_kms_helper]
->> [  369.878762] [IGT] fbdev: starting subtest eof
->> [  369.887679] CSR crmd: 000000b0
->> [  369.887680] CSR prmd: 00000004
->> [  369.887682] CSR euen: 00000000
->> [  369.887683] CSR ecfg: 00071c1c
->> [  369.901340] CSR estat: 00010000
->> [  369.901342] ExcCode : 1 (SubCode 0)
->> [  369.901344] BadVA : ffff800034bd0000
->> [  369.914659] PrId  : 0014c011 (Loongson-64bit)
->> [  369.914660] Modules linked in: uas usb_storage snd_seq_dummy snd_seq snd_seq_device ip_set rfkill nf_tables nfnetlink vfat fat loongson ttm acpi_ipmi drm_kms_helper syscopyarea sysfillrect ipmi_si ipmi_devintf sysimgblt ipmi_msghandler fuse efivarfs
->> [  369.919013] Process kworker/3:3 (pid: 504, threadinfo=00000000a1234af0, task=000000004e2cde6f)
->> [  369.949519] Stack : 9000000106bc5318 900000010684cec0 9000000107afd470 ffff800039c00000
->> [  369.949535] [IGT] fbdev: starting subtest nullptr
->> [  369.957476]         0000000000000001 0000000000000000 0000000000000000 76e0ff420f8eaeab
->> [  369.957481]         9000000001712000 fffffffffffffffb 9000000100161080 0000000000000003
->> [  369.970105]         900000000980ba05 900000000980ba00 9000000106bc5200 9000000106bc52d4
->> [  369.978062]         ffff8000020de000 9000000106bc52d8 9000000110664b40 ffff8000020d78e4
->> [  369.986018]         043a078000000000 76e0ff420f8eaeab 900000000980be00 9000000009807400
->> [  370.001926]         0000000000000000 9000000110664b40 9000000106bc52d8 9000000000256dbc
->> [  370.001931]         900000000170e000 9000000107afce00 0000000000000001 900000000170e000
->> [  370.009888]         9000000009807428 9000000110664b70 9000000009807400 900000000025737c
->> [  370.025797]         9000000100161080 9000000001148080 9000000107afce00 0000000000000003
->> [  370.026543] [IGT] fbdev: exiting, ret=0
->> [  370.033753]         ...
->> [  370.033756] Call Trace:
->> [  370.033757] [<9000000000223d5c>] __memcpy_toio+0x4c/0x90
->> [  370.047681] [<ffff8000020d75a8>] drm_fbdev_generic_helper_fb_dirty+0x1cc/0x300 [drm_kms_helper]
->> [  370.056354] [<ffff8000020d78e4>] drm_fb_helper_damage_work+0xa4/0x1d0 [drm_kms_helper]
->> [  370.056381] [<9000000000256dbc>] process_one_work+0x1ec/0x35c
->> [  370.056385] [<900000000025737c>] worker_thread+0x88/0x428
->> [  370.056387] [<900000000025f4bc>] kthread+0x114/0x120
->> [  370.056392] [<90000000002215a8>] ret_from_kernel_thread+0xc/0xa4
->> [  370.056395]
->> [  370.056396] Code: 00410def  0010bc8c  001500ad <260001ae> 02c02084  02c021ad  29ffe08e  5ffff184  03401cc6
->> [  370.056406]
->> [  370.056421] fbcon_init: detected unhandled fb_set_par error, error code -16
->> [  370.056482] ---[ end trace 0000000000000000 ]---
->> [  370.066620] Console: switching to colour frame buffer device 240x67
->>
->>
->>> I just thought when looking at
->>> the history that we revert the exact patch without any other changes
->>> or comments,
->> Other part of that patch(except this line) may still useful, at least for
->> cleanup purpose.
->>> and usually that means someone will come up with the same
->>> cleanup idea again, and then we'll have a bug again. So maybe a
->>> comment or a WARN_ON or something else would be good.
->> A  WARN_ON is acceptable.
->>
->>> I guess we could also do your patch, but put a WARN_ON that the
->>> computed total_size is never bigger than the drm_fb size into
->>> drm_fb_helper_deferred_io()? That would also make sure that this bug
->>> doesn't get resurrected again.
->> Best to merge V2 [1] of this series, that is what I am really fixed.
->>
->> Maybe somebody can help to refine it, to add a better description about this
->> question and so on.
->>
->> [1] https://patchwork.freedesktop.org/patch/532143/?series=116454&rev=1
-> Ok, I guess this really is the safest one. For that patch, do we need the
-> change to screen_size in drm_fbdev_generic_helper_fb_probe()? I'm still
-> not entirely clear. If it works without that change I think that's clearer
-> for a minimal bugfix, if so can you send that out as v4 please?
-
-After those interesting discussion, I think I'm understand this question 
-more thoroughly.
-
-See V5 directly please, its commit message description is more clear.   
-hoping that not feel embarrassing about my broken english.
-
-I left the screen_size unchanged, it is already page size aligned.
-
-It should be page size aligned or not still deserve thinking.
-
-> Also please Cc: Geert on whatever you're resubmitting, so he can test too
-> and we can make sure it's still fixing the shmob issue he's seeing.
+> Omitting the mode-switch property would require changes to the type-c
+> framework.
 >
-> And finally please include a link to this discussion here with a note that
-> just reverting the screen_size changes is not enough:
+> I'm wondering if we can have this anx driver register mode switches for
+> however many endpoints exist in the output port all the time when the
+> aux-bus node doesn't exist. Then the type-c framework can walk from the
+> usb-c-connector to each connected node looking for a device that is both
+> a drm_bridge and a mode-switch. When it finds that combination, it knows
+> that the mode-switch has been found. This hinges on the idea that a
+> device that would have the mode-switch property is a drm_bridge and
+> would register a mode-switch with the type-c framework.
 >
-> https://lore.kernel.org/dri-devel/ad44df29-3241-0d9e-e708-b0338bf3c623@189.cn/
-Done.
-> Thanks a lot!
-> -Daniel
+> It may be a little complicated though, because we would only register
+> one drm_bridge for the input to this anx device. The type-c walking code
+> would need to look at the graph endpoint, and find the parent device to
+> see if it is a drm_bridge.
+
+I've been thinking more about this. I think we should only have the
+'mode-switch' property possible when the USB input pins (port@2) are
+connected and the DPI input pins are connected (port@0). Probably you
+don't have that case though?
+
+In your case, this device should register either one or two drm_bridges
+that connect to whatever downstream is actually muxing the 2 DP lanes
+with the USB SS lanes onto the usb-c-connector. If that is the EC for
+ChromeOS, then the EC should have a binding that accepts some number of
+input ports for DP. The EC would act as a drm_bridge, or in this case
+probably two bridges, and also as two type-c switches for each
+drm_bridge corresponding to the usb-c-connector nodes. When DP is on the
+cable, the type-c switch/mux would signal to the drm_bridge that the
+display is 'connected' via DRM_BRIDGE_OP_DETECT and struct
+drm_bridge_funcs::detect(). Then the drm_bridge in this anx part would
+implement struct drm_bridge_funcs::atomic_enable() and configure the
+crosspoint switch the right way depending on the reg property of the
+output node in port@1.
+
+Because you don't have the part that implements the orientation-switch,
+you don't need to implement the code for it. I think simply adding
+support in the binding for mode-switch and orientation-switch if this is
+directly wired to a usb-c-connector should be sufficient. Those
+properties would be at the top-level and not part of the graph binding.
