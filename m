@@ -1,75 +1,78 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA0556E966C
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Apr 2023 15:57:25 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 61A916E9672
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Apr 2023 15:59:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D186D10E053;
-	Thu, 20 Apr 2023 13:57:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0367810E2D5;
+	Thu, 20 Apr 2023 13:59:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22b.google.com (mail-lj1-x22b.google.com
- [IPv6:2a00:1450:4864:20::22b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5CB1310E053
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Apr 2023 13:57:18 +0000 (UTC)
-Received: by mail-lj1-x22b.google.com with SMTP id h4so2934265ljb.2
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Apr 2023 06:57:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1681999034; x=1684591034;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=TP4lhXyKE5KTAkDMfdfy/BJbT2e3OFVGbEmy4BDp5gk=;
- b=rC9/9IWUTmoWs2lMq4duP5f2Q5wO1ZSMqOxyQXiWG7Odjz8ix31G2JT83QqwLLjbXK
- 8atUiWASwss3zkgbMYud0bUjTN6ic89Gn0oM6AsaPra73UmyDa878XmQkO9/kZt8p7ZO
- 7FPsoO8u3JdgF+ibY5MToJGd/Xw6ovJOow8Ayxco4sdpGsg1iwqKCFJLnwL8Ntc6XyWj
- //hFspMHTwZWQUloofdjCBtyYad4x0XFlxS5xRAZb9m9513VBYMLbdBd8KW0cIL1oDCN
- GOkOPQzm9FobHEfRfe3C3XxuwK2yvjLbsCwsl9SouLhEuZZtlZ3JZCuCz28SM7OPESdb
- 2Y3g==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7E29610E0A7
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Apr 2023 13:59:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1681999148;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=m4/JuEsZscBS1QEjsB4TfQCsUwFo0JrhZtOzYqZKIzY=;
+ b=J5o9eHlexCND6vN5qOvZO5XlHx2swq6kD1chVNAwKntMU/l8eDVhlEHov59RkR06Q0DN3x
+ fuPFrgQ0sAHjmi+3qXRGdEHSqhKOTx0pPfu1/DJ0iOLqn84ly8cSN6Mrjd/TPJSkU0CGZD
+ FEy/cpLDWul+rhn/+vkejpmoBcLtkpU=
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
+ [209.85.222.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-355-ZLXppWhLOjqCRJY4cfILSA-1; Thu, 20 Apr 2023 09:59:05 -0400
+X-MC-Unique: ZLXppWhLOjqCRJY4cfILSA-1
+Received: by mail-qk1-f200.google.com with SMTP id
+ af79cd13be357-74e0c32a75eso58131685a.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Apr 2023 06:59:05 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681999034; x=1684591034;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=TP4lhXyKE5KTAkDMfdfy/BJbT2e3OFVGbEmy4BDp5gk=;
- b=WLuLmGZ7ZY1urkuxagJwTxvvpkXHQiHh8XpJt36Ame2h4NkMrXXQS6kVhiDWUeNw/T
- 8MIitOvHNo8sEUXwXKISH1e5PhEaKKT6zdqTDOOfzsFjHt1hTB3Dhj5qnEue23Dr6iyo
- L2AtTmzKFkMUWyPxSn8MQ1Xj1Q1VsxYrTUu2Oi8MGz1KPHWopXI7+pVq9MotxgT/MFu+
- UOQsTDP3+hNtwTFe3MpmRk3vUgspx57Ma7pFZvFbBD7n2CzxBm39fpZ5RqGvzlQbJFW2
- cewF2vQY/jT8d/L31RLUeyE7lHPA4hcDF2cyW9sNlGUEb0eMUQLHJjlvn8VbjxuLlLsN
- a81w==
-X-Gm-Message-State: AAQBX9ePJkKmLME2/ytduTeKm1Phi4Y1TRaoZRrpaYcC2SisTJfyNNZd
- bEP81LkoFT3cpWMJcycfCxFPtA==
-X-Google-Smtp-Source: AKy350bbrInQ8vcLAPDSHDfaUIBSaDalxHrdj5/uZoDKMnjxN0/nbHGpvT3D1EyWxc5tincgNn5nyg==
-X-Received: by 2002:a2e:9d83:0:b0:2a8:bd47:caf7 with SMTP id
- c3-20020a2e9d83000000b002a8bd47caf7mr448315ljj.7.1681999034024; 
- Thu, 20 Apr 2023 06:57:14 -0700 (PDT)
-Received: from ?IPV6:2001:14ba:a085:4d00::8a5?
- (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a085:4d00::8a5])
+ d=1e100.net; s=20221208; t=1681999145; x=1684591145;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=m4/JuEsZscBS1QEjsB4TfQCsUwFo0JrhZtOzYqZKIzY=;
+ b=BvkZQGoueiIcwn3NPjFB05UB34gYsIvCqeYmbzJ3KcvR7gdfOcDFNISqQv7ZlDLkB3
+ SF8CMxCEbLm/I7gEU4tsFeZSi9OuZifFY2wt87b+EzsF3wbw8k2iQRrB3VS9mUQ/A6fN
+ idAeJ674MSvBtGmpJKAhHMR+f7lU2+M6kutv90lXVHr65QIVxS+YTBRzVIOaHXTaMhUh
+ j4VqY+37XW+GR1+uVYw+Il6poP/wPwL/Wi1E14NsDrwtStDmxslauS2QkSivD50kMT1B
+ CjMFzZUXCCANDPD1GwYKxYkFKhFvOILkEuMtnCWsWXfEBiiTn6UREuJQ1ilmQ48LyQP5
+ I1yQ==
+X-Gm-Message-State: AAQBX9eN4Lsu8qkky85RkKxRVShkq7dY47emixNTlwDbP4V5B7fPW/iM
+ XJUG9QJoMGFIBcswfe3PJpZKbPWkwyt7DT5mxgEwmxblNKQOjbmikzklJIAc5vQMezUhshZ3hb5
+ EOfcqYIYUQC4AIRET1K0gQFVQNRpI
+X-Received: by 2002:a05:622a:18a9:b0:3e6:35ec:8a9f with SMTP id
+ v41-20020a05622a18a900b003e635ec8a9fmr2276776qtc.59.1681999145137; 
+ Thu, 20 Apr 2023 06:59:05 -0700 (PDT)
+X-Google-Smtp-Source: AKy350ZWmwkSKjotOboNJvMVMnZ/90aKxEW+jnR3KliISrG82OxoHSKFPujRz0mheXYNaiH8sWDnrA==
+X-Received: by 2002:a05:622a:18a9:b0:3e6:35ec:8a9f with SMTP id
+ v41-20020a05622a18a900b003e635ec8a9fmr2276737qtc.59.1681999144890; 
+ Thu, 20 Apr 2023 06:59:04 -0700 (PDT)
+Received: from dell-per740-01.7a2m.lab.eng.bos.redhat.com
+ (nat-pool-bos-t.redhat.com. [66.187.233.206])
  by smtp.gmail.com with ESMTPSA id
- x23-20020a2e7c17000000b002a5f554d263sm250062ljc.46.2023.04.20.06.57.13
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 20 Apr 2023 06:57:13 -0700 (PDT)
-Message-ID: <6d109e03-0a1a-fa3c-b1d4-7b64367fcc41@linaro.org>
-Date: Thu, 20 Apr 2023 16:57:12 +0300
+ z42-20020a05620a262a00b00745f3200f54sm430905qko.112.2023.04.20.06.59.03
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 20 Apr 2023 06:59:04 -0700 (PDT)
+From: Tom Rix <trix@redhat.com>
+To: harry.wentland@amd.com, sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com,
+ alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
+ airlied@gmail.com, daniel@ffwll.ch, Alvin.Lee2@amd.com, Jun.Lei@amd.com,
+ qingqing.zhuo@amd.com, Max.Tseng@amd.com, Josip.Pavic@amd.com,
+ Eric.Yang2@amd.com, aurabindo.pillai@amd.com
+Subject: [PATCH] drm/amd/display: return status of dmub_srv_get_fw_boot_status
+Date: Thu, 20 Apr 2023 09:59:01 -0400
+Message-Id: <20230420135901.3889747-1-trix@redhat.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH] dt-bindings: display/msm: dsi-controller-main: Document
- qcom,master-dsi and qcom,sync-dual-dsi
-Content-Language: en-GB
-To: Jianhua Lu <lujianhua000@gmail.com>, Rob Clark <robdclark@gmail.com>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Krishna Manikandan <quic_mkrishn@quicinc.com>
-References: <20230411143149.16742-1-lujianhua000@gmail.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <20230411143149.16742-1-lujianhua000@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,25 +85,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
- freedreno@lists.freedesktop.org
+Cc: Tom Rix <trix@redhat.com>, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/04/2023 17:31, Jianhua Lu wrote:
-> This fixes warning:
->    sm8250-xiaomi-elish-csot.dtb: dsi@ae94000: Unevaluated properties are not allowed ('qcom,master-dsi', 'qcom,sync-dual-dsi' were unexpected)
-> 
-> Signed-off-by: Jianhua Lu <lujianhua000@gmail.com>
-> ---
->   .../bindings/display/msm/dsi-controller-main.yaml    | 12 ++++++++++++
->   1 file changed, 12 insertions(+)
+gcc with W=1 reports
+drivers/gpu/drm/amd/amdgpu/../display/dc/dc_dmub_srv.c:
+  In function ‘dc_dmub_srv_optimized_init_done’:
+drivers/gpu/drm/amd/amdgpu/../display/dc/dc_dmub_srv.c:184:26:
+  error: variable ‘dmub’ set but not used [-Werror=unused-but-set-variable]
+  184 |         struct dmub_srv *dmub;
+      |                          ^~~~
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+The return status is never set.
+It looks like a call to dmub_srv_get_fw_boot_status is missing.
 
+Fixes: 499e4b1c722e ("drm/amd/display: add mechanism to skip DCN init")
+Signed-off-by: Tom Rix <trix@redhat.com>
+---
+ drivers/gpu/drm/amd/display/dc/dc_dmub_srv.c | 13 +++++++++++--
+ 1 file changed, 11 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/gpu/drm/amd/display/dc/dc_dmub_srv.c b/drivers/gpu/drm/amd/display/dc/dc_dmub_srv.c
+index d15ec32243e2..36d936ab4300 100644
+--- a/drivers/gpu/drm/amd/display/dc/dc_dmub_srv.c
++++ b/drivers/gpu/drm/amd/display/dc/dc_dmub_srv.c
+@@ -182,14 +182,23 @@ bool dc_dmub_srv_cmd_run_list(struct dc_dmub_srv *dc_dmub_srv, unsigned int coun
+ bool dc_dmub_srv_optimized_init_done(struct dc_dmub_srv *dc_dmub_srv)
+ {
+ 	struct dmub_srv *dmub;
+-	union dmub_fw_boot_status status;
++	struct dc_context *dc_ctx;
++	union dmub_fw_boot_status boot_status;
++	enum dmub_status status;
+ 
+ 	if (!dc_dmub_srv || !dc_dmub_srv->dmub)
+ 		return false;
+ 
+ 	dmub = dc_dmub_srv->dmub;
++	dc_ctx = dc_dmub_srv->ctx;
++
++	status = dmub_srv_get_fw_boot_status(dmub, &boot_status);
++	if (status != DMUB_STATUS_OK) {
++		DC_ERROR("Error querying DMUB boot status: error=%d\n", status);
++		return false;
++	}
+ 
+-	return status.bits.optimized_init_done;
++	return boot_status.bits.optimized_init_done;
+ }
+ 
+ bool dc_dmub_srv_notify_stream_mask(struct dc_dmub_srv *dc_dmub_srv,
 -- 
-With best wishes
-Dmitry
+2.27.0
 
