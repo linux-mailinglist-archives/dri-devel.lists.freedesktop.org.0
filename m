@@ -2,137 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53C2D6E9C3F
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Apr 2023 21:09:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E48D56E9C43
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Apr 2023 21:10:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 24BC010E305;
-	Thu, 20 Apr 2023 19:09:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2593210E4DB;
+	Thu, 20 Apr 2023 19:10:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C8A4F10E305
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Apr 2023 19:09:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1682017784; x=1713553784;
- h=date:from:to:cc:subject:message-id:references:
- in-reply-to:mime-version;
- bh=/rSwT408x8H1Bw6KNf+lmbhhbbl/0omMvTmeyKCYC3s=;
- b=fLXDBqWlGmQtvBXRRYlFCN5J/77lc6Btr97H75Zt1OxtoXAI4xMaeyWv
- FveQ6oqXwWD6bX82mZafy8Q3zonuZyqP0HUbTn7eQi4eYzAhzq8osSrIW
- Ngslg1Qz/5jkAg6oTCOi9Z7svaKYWDkPHU9pQJGcc/Xbhjp8ZYbqpz+C5
- gJUBJ1IvFg5hOcyt07GMFf8JZvhRuakx9OXf/+YparsQVnXXLs4+Xwwa8
- a0nxePtvpfGdmNSl1LYSEMOdRJu68O9SeX/Rju61FsT2fK42aVk1ni4r5
- KUKGG39hJDWhG/j611W70USf3JUryjh/987YGVbCVtE31yh8XbarButil A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10686"; a="325432613"
-X-IronPort-AV: E=Sophos;i="5.99,213,1677571200"; d="scan'208";a="325432613"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Apr 2023 12:09:43 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10686"; a="642242526"
-X-IronPort-AV: E=Sophos;i="5.99,213,1677571200"; d="scan'208";a="642242526"
-Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
- by orsmga003.jf.intel.com with ESMTP; 20 Apr 2023 12:09:43 -0700
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.23; Thu, 20 Apr 2023 12:09:43 -0700
-Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.23 via Frontend Transport; Thu, 20 Apr 2023 12:09:43 -0700
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com (104.47.56.170)
- by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.23; Thu, 20 Apr 2023 12:09:43 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=BX0g73QleGNgs5wcpfIHnL8HcU45CViKnqLnW4xYz8who2dCEb0i/iXX6fpuAnDadTNS6HTCB0DtFrrvBhF/rK79rvW1JiLcgd1/x3+d/KbbNQGvfZylRikRWwgPwwx8dy150jhuBSW29P1ljSsjgmX08OxvoxbjEx2e0b5Y9G4unvACO1ax3pcwmC76e3xJK9wdssczVS2Kt8hOy4GMyZk8nXDvuLcFV4YOx4mPVtMzxdNSGQa1N06gP8cB/HqVsD4/15vUTNs7rElX+lHcBcA1FAYWRO7IWQiTSTIFc8O3uaUWhtcLBNkMFY9PygYWQnMJ4PqriGUXcKUdVarcgA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=dhESdXTg/hxEbDaFVDB22cZGrj+DGDlsj/f6mB+OQVg=;
- b=JBWQ1dc5sJYbuYJyMoe/wFHb0yMNQdB6KxaOOAwM8/XihVPtncNgbyrBFD8YXEEtOSVEqZqwwoQVKqMOmxgcNkKETTDtFcU6jazSMfkNBVBGMXHs7PdWDwvJFRKPUZel4Z2RhS0K47My0bLIc+uvI1lcz/oQiH8hXATrI/w1dYpleKPO3Et6l53yWQN4eIIuRHpR3D6VjOOTuMuiUstDCphnL1oez8G+behXqxUDOTDLrQucdDuOqtZDqhdaoNTcvzcpBWScdgvIoNWP7U1e2GxoTIb077pCo4l8hkI0DHFQXe0JknfP1hcz3d6hriTnozwHxFa3Ax8N8VT+jmLEpQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from CY5PR11MB6139.namprd11.prod.outlook.com (2603:10b6:930:29::17)
- by MW4PR11MB6739.namprd11.prod.outlook.com (2603:10b6:303:20b::19)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6319.22; Thu, 20 Apr
- 2023 19:09:40 +0000
-Received: from CY5PR11MB6139.namprd11.prod.outlook.com
- ([fe80::44e7:c479:62f4:3eb4]) by CY5PR11MB6139.namprd11.prod.outlook.com
- ([fe80::44e7:c479:62f4:3eb4%3]) with mapi id 15.20.6319.022; Thu, 20 Apr 2023
- 19:09:40 +0000
-Date: Thu, 20 Apr 2023 12:09:36 -0700
-From: Lucas De Marchi <lucas.demarchi@intel.com>
-To: Dave Airlie <airlied@gmail.com>
-Subject: Re: [PATCH] modules/firmware: add a new option to denote a firmware
- group to choose one.
-Message-ID: <ck2dzxvllhhh74oa3vjlacutc7rdmgl7cfrfq7vgx4w3jcufrz@7jbgxcat42yn>
-X-Patchwork-Hint: comment
-References: <20230419043652.1773413-1-airlied@gmail.com>
-Content-Type: text/plain; charset="us-ascii"; format=flowed
-Content-Disposition: inline
-In-Reply-To: <20230419043652.1773413-1-airlied@gmail.com>
-X-ClientProxiedBy: SJ0PR05CA0116.namprd05.prod.outlook.com
- (2603:10b6:a03:334::31) To CY5PR11MB6139.namprd11.prod.outlook.com
- (2603:10b6:930:29::17)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9F48810E4DB
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Apr 2023 19:10:40 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 9F76264B69;
+ Thu, 20 Apr 2023 19:10:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 420C7C433D2;
+ Thu, 20 Apr 2023 19:10:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1682017838;
+ bh=XrXqfqmFPAxvfcLnA7hSYVE5T/DiaBScxzwQjC8CZk4=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:From;
+ b=LDA5jXTMDJtx+rIFPKnSiZlDcDjiPcZkkoYv6a7KaXWNVDExEskBTpBs+iuoiG1zV
+ EaLTGqTna5BKDtH/AhicV08Z60dmekfu41aStdgnq8vLIfZXpXLa/dg1XOB7TviBV9
+ En+gIxIR0IEveSaCahs3ZKDC//tkHJzO3Q7mJBsRYbgsdRYpzvEo81sC+MRJsGQThn
+ P8mFYrJ7distbVy02YT339dE/+3T1F9wHMGVjwgRFF1PkL9WeGmsdqTsYPbxVSptTB
+ VG8754GGBoYnE0DpeLBUFeJHoBOJ/nggPEiMu6CDz3cdlIS4JwDMpezehL0BJD6Mzv
+ hvPfJ+vO73uAg==
+Date: Thu, 20 Apr 2023 14:10:36 -0500
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH] PCI: Add ASPEED vendor ID
+Message-ID: <20230420191036.GA315493@bhelgaas>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY5PR11MB6139:EE_|MW4PR11MB6739:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4052da37-1248-4b1d-68b3-08db41d2cad3
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: WbmKO9hHWyVSM04zI9zziZj5nSNRae2lzHauQ015oeW6nXuyNsHCcoi7kXgXj/0U0ekd3fTKYazDBOmJ/GXcKhW48yP7XvTN5Fu3rjsIAG43m7levjFo70MPlSjTNqOh90E9HngIrnYoqhUeVHyl7xyem5BZrJ5/Q8HkQMq7xzKuOx+Ya9mHcziui3iF+ryAXkgnt+GwinNTvUFnagXSDmXkYjZMlWdwGm+D1W6TyJ0u3PBX9B4ciCRvMwa+xhG6g//uWzAdJCrPT6DkJ2IX54ktsmZL/w5jxVH7LNtg4OJRjFTII+v0kesEpI6eTEggzdlp7tyqoslnRQ5sXly6LwTG+5gseW3PjtfxbIf20jEs4hXp7aJWMiiPxSFymw5anD3PR8Hwue0QFLSsSx84CHD8ezzK9WWjHSDZdY6t4Wj+NCsPwjrwqLPqlAOYvI3fA5vXNcX+c1oSlpEQGHJGAOeNrxbPP5ocLZIzQeyZyo25xJAQC5QAH2UD21BpUT0pczOaLBQ4+tnSd5qvLi4tlMoPPoE7whIMKJl9yZofLRM=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CY5PR11MB6139.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230028)(7916004)(136003)(376002)(346002)(39860400002)(396003)(366004)(451199021)(6916009)(4326008)(316002)(54906003)(66946007)(66556008)(66476007)(6506007)(9686003)(6512007)(186003)(38100700002)(83380400001)(5660300002)(41300700001)(8676002)(33716001)(8936002)(478600001)(6666004)(6486002)(86362001)(82960400001)(2906002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?Jobw2092TrFvaQqo5o3QJPXVTYIU4qOReWGmmirRmYViy0URA2J34DQQA0ri?=
- =?us-ascii?Q?KPt4gx6QkRnqLXGS8EM1/r1MzGhnGLeyZJozFVeCg0VtgvBDvbPvcxcdVEx1?=
- =?us-ascii?Q?8weSrylDyzsYRUC+CAAwNtkko1DbWQeBwSxzJzmGh0Wfu+az/eGGQfYctcdc?=
- =?us-ascii?Q?jZjJrMhobOVabys1B0SCuMK3thAqlBe9XAVtD0CAV6MelzhMpD+IYuZW1iPA?=
- =?us-ascii?Q?fUdF6599NRFsZKYqwjSax89EdjVXLF0YaeBUmtp1qd5nb4xsMU7JPMN+A16d?=
- =?us-ascii?Q?GaJcOT2xO/OBAs57gVefXIx1UMNBTdaPmwV/DCf/Ou1A5sLRa9bBWZXobTlU?=
- =?us-ascii?Q?JW18h2+v/kMEv+WiM7/RSCvevtBAlgmkFqAdj63RoR+o7UqlPVSKVXayga6S?=
- =?us-ascii?Q?MFJAMBqc+KICmwR0d6P1ZiG3XjSC+ElSJd1kP86VcPtHuVm+gU9R4PMw/5fp?=
- =?us-ascii?Q?gySKEbnHfO4eJ08r7xDe2pFIaZcsqpqt3Je37kD+qREfqKNY9WOJ+NrjyaWr?=
- =?us-ascii?Q?Y3tUzhYDzceXm4HBEodPLWlpyUQ3j9ZY8cudDmHJ4JYILoUqpoAgke8/e15m?=
- =?us-ascii?Q?jcw3RualQt0OhRd1ZIWTQg1IJp8sjl13ZH/T1wx3+j9jUk7aalhnJqXWB3vt?=
- =?us-ascii?Q?TIkxyrG+toTQN/Mq0SaKz3SzFUXkKCkbjMKhgOMobscNaT0E0WkQmfnz6Vwu?=
- =?us-ascii?Q?2nrUNqsMdVRPD+TntXoLhAdOXzstVxpyypZvLecR+zHRq7QZlzt2ehKnjPlQ?=
- =?us-ascii?Q?ctle5RDysC220DUVdHzfva/tvttywMMyj2E/kkRM2lKOBBBcwIsEKePy7tar?=
- =?us-ascii?Q?cXLkmK8JKZ1hmAmTtYIkaEFYQytjez2SuKkOzirywIpXF2XBlIQKzgJXlhS9?=
- =?us-ascii?Q?jBtvzuma3ceEFEpat+NU86ke4h4RsIQEG28kZSjUYKMKdj/FyX/9VO+O0ijB?=
- =?us-ascii?Q?2OFDtFRrf7B5b4YTCF1dRlPJNxLA+LX/LaMd+fYfZFYTaR2lvtOShUV4zpxX?=
- =?us-ascii?Q?uakM07tgkMikMiYYgov2pNcTRTqQGNtca3yusA+MLQ6UMldqyYJnwACP/6iD?=
- =?us-ascii?Q?mq0P/exTQHJ9KgStN6CQwSbWiZ43SBiVkECiKSGbfyPSubew6P0JBH3sE5Ri?=
- =?us-ascii?Q?ce+kpcmauolqeTikNRKTZHUV17NY15v/BcWDNtiPezrL9I5jfY/kbZcxIRDi?=
- =?us-ascii?Q?juz443fxkMGZKH5+kY39ut6gG1E3kPYL9mvbAVg2qaFgd4RrCBShzsIIPhu6?=
- =?us-ascii?Q?ntWnPqOUMkOtaNssXnfKhQrGbNiKzOrSb28+LTEPV5Mm8hrk+o1XBT9fXcA8?=
- =?us-ascii?Q?T4wDoPp5vyjiOskaoL1l/mZ/GefbjslVaPwVSQHJf76U/eJ2o+R0yzDHiy+Q?=
- =?us-ascii?Q?at857Dz4FFAFmLJzCcFBtAtRKvJVm7lFpFxbheFDAG1G8qolRzFefb00unmy?=
- =?us-ascii?Q?uITcfGFOf7nlJ7HXYeDmwg0DRUHkbRnud8aecjHgFerbNsaLrEK0qyU5xlGh?=
- =?us-ascii?Q?jPCXe8idTXz058KQkfH8bFZeUDyJYGLVx46ITBjkvpAZ8qUjBgApQrUewFOQ?=
- =?us-ascii?Q?epIcDtsyZ9foxRdAP75paJPUuAEUvxXw+7RXC/3ZqqKapngHWJhc0i3wonSd?=
- =?us-ascii?Q?CXb3muvlkIEFDmx41oEibRYQComDsnGm3ZRp/HJrk7JkBCEu5EkGtYJ4V+1o?=
- =?us-ascii?Q?uVx4RQ=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4052da37-1248-4b1d-68b3-08db41d2cad3
-X-MS-Exchange-CrossTenant-AuthSource: CY5PR11MB6139.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Apr 2023 19:09:40.6956 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: os9LgWfON6C63zuqmPOHEgttgOHi3jdzq6Vy6RZvTLLo/ss9IbNytlxl28PTFWI3IdcfMCWVzjn9XMzdqyreXSSUQDItv8lWDbZ210El4Wo=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR11MB6739
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <d65e2938-2910-2330-b9c2-082ab947015d@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -145,70 +51,114 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dave Airlie <airlied@redhat.com>, Luis
- Chamberlain <mcgrof@kernel.org>, dri-devel@lists.freedesktop.org,
- linux-modules@vger.kernel.org
+Cc: "open list:PCI SUBSYSTEM" <linux-pci@vger.kernel.org>,
+ Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+ open list <linux-kernel@vger.kernel.org>,
+ "open list:DRM DRIVER FOR AST SERVER GRAPHICS CHIPS"
+ <dri-devel@lists.freedesktop.org>, linux-ide@vger.kernel.org,
+ Bjorn Helgaas <bhelgaas@google.com>, Dave Airlie <airlied@redhat.com>,
+ Patrick McLean <chutzpah@gentoo.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Apr 19, 2023 at 02:36:52PM +1000, Dave Airlie wrote:
->From: Dave Airlie <airlied@redhat.com>
->
->This adds a tag that will go into the module info, only one firmware from
->the group given needs to be available for this driver to work. This allows
->dracut to avoid adding in firmware that aren't needed.
->
->This just brackets a module list in the modinfo, the modules in the list
->will get entries in reversed order so the last module in the list is the
->preferred one.
->
->The corresponding dracut code it at:
->https://github.com/dracutdevs/dracut/pull/2309
+[+cc Damien, linux-ide]
 
-it would be good to have the example usage in the commit message here so
-it can be easily checked as reference for other drivers.
+On Thu, Apr 20, 2023 at 09:08:48AM +0200, Thomas Zimmermann wrote:
+> Am 19.04.23 um 20:37 schrieb Bjorn Helgaas:
+> > On Wed, Apr 19, 2023 at 09:00:15AM +0200, Thomas Zimmermann wrote:
+> > > Am 19.04.23 um 00:57 schrieb Patrick McLean:
+> > > > Currently the ASPEED PCI vendor ID is defined in
+> > > > drivers/gpu/drm/ast/ast_drv.c, move that to include/linux/pci_ids.h
+> > > > with all the rest of the PCI vendor ID definitions. Rename the definition
+> > > > to follow the format that the other definitions follow.
+> > > 
+> > > Thanks a lot. Can you please also move and rename the PCI device ids? [1]
+> > 
+> > Generally we move things to pci_ids.h only when they are shared
+> > between multiple drivers.  This is mostly to make backports easier.
+> > 
+> > PCI_VENDOR_ID_ASPEED is (or will be) used in both ast_drv.c and
+> > libata-core.c, so it qualifies.
+> > 
+> > It doesn't look like PCI_CHIP_AST2000 and PCI_CHIP_AST2100 would
+> > qualify since they're only used in ast_drv.c and ast_main.c, which are
+> > part of the same driver.
+> 
+> Ok, I see. Can I take the patch into DRM trees?
 
-I don't think we ever had any ordering in modinfo being relevant for
-other things. Considering the use case and that we could also use a
-similar thing for i915 / xe modules wrt to the major version,
-couldn't we do something like below?
+The first time around I got two patches [2].  This time I only got
+this patch, but IIUC there are still two patches in play here:
 
-	MODULE_FIRMWARE_GROUP("nvidia/ga106/gsp/gsp");
-	MODULE_FIRMWARE("nvidia/ga106/gsp/gsp-5258902.bin");
-	MODULE_FIRMWARE("nvidia/ga106/gsp/gsp-5303002.bin");
+  - This one, which moves PCI_VENDOR_ID_ASPEED to pci_ids.h, and
+  - The libata-core one that adds a use in ata_dev_config_ncq()
 
-so the group is created by startswith() rather than by the order the
-modinfo appears in the elf section. In i915 we'd have:
+Those should go together via the same tree.  I supplied my ack to
+indicate that I'm not going to merge anything myself, and I expect
+whoever merges the libata patch to also merge this one.
 
-MODULE_FIRMWARE_GROUP("i915/tgl_guc")
+If for some reason the libata-core patch doesn't happen, then this
+patch shouldn't happen either, because there would no longer be any
+sharing between drivers that would justify a pci_ids.h addition.
 
-There is still an order the kernel would probably like: latest version.
-But then it's an order only among things with the same key.
+Bjorn
 
-Lucas De Marchi
+[2] https://lore.kernel.org/r/20230418011720.3900090-1-chutzpah@gentoo.org
 
->
->Cc: Luis Chamberlain <mcgrof@kernel.org>
->Cc: linux-modules@vger.kernel.org
->Cc: dri-devel@lists.freedesktop.org
->Signed-off-by: Dave Airlie <airlied@redhat.com>
->---
-> include/linux/module.h | 2 ++
-> 1 file changed, 2 insertions(+)
->
->diff --git a/include/linux/module.h b/include/linux/module.h
->index 4435ad9439ab..f02448ed5e2b 100644
->--- a/include/linux/module.h
->+++ b/include/linux/module.h
->@@ -289,6 +289,8 @@ extern typeof(name) __mod_##type##__##name##_device_table		\
->  * files require multiple MODULE_FIRMWARE() specifiers */
-> #define MODULE_FIRMWARE(_firmware) MODULE_INFO(firmware, _firmware)
->
->+#define MODULE_FIRMWARE_GROUP_ONLY_ONE(_grpname) MODULE_INFO(firmware_group_only_one, _grpname)
->+
-> #define MODULE_IMPORT_NS(ns)	MODULE_INFO(import_ns, __stringify(ns))
->
-> struct notifier_block;
->-- 
->2.39.2
->
+> > > [1] https://elixir.bootlin.com/linux/v6.2/source/drivers/gpu/drm/ast/ast_drv.h#L52
+
+> > > > Signed-off-by: Patrick McLean <chutzpah@gentoo.org>
+> > > > ---
+> > > >    drivers/gpu/drm/ast/ast_drv.c | 4 +---
+> > > >    include/linux/pci_ids.h       | 2 ++
+> > > >    2 files changed, 3 insertions(+), 3 deletions(-)
+> > > > 
+> > > > diff --git a/drivers/gpu/drm/ast/ast_drv.c b/drivers/gpu/drm/ast/ast_drv.c
+> > > > index d78852c7cf5b..232e797793b6 100644
+> > > > --- a/drivers/gpu/drm/ast/ast_drv.c
+> > > > +++ b/drivers/gpu/drm/ast/ast_drv.c
+> > > > @@ -70,12 +70,10 @@ static const struct drm_driver ast_driver = {
+> > > >     * PCI driver
+> > > >     */
+> > > > -#define PCI_VENDOR_ASPEED 0x1a03
+> > > > -
+> > > >    #define AST_VGA_DEVICE(id, info) {		\
+> > > >    	.class = PCI_BASE_CLASS_DISPLAY << 16,	\
+> > > >    	.class_mask = 0xff0000,			\
+> > > > -	.vendor = PCI_VENDOR_ASPEED,			\
+> > > > +	.vendor = PCI_VENDOR_ID_ASPEED,			\
+> > > >    	.device = id,				\
+> > > >    	.subvendor = PCI_ANY_ID,		\
+> > > >    	.subdevice = PCI_ANY_ID,		\
+> > > > diff --git a/include/linux/pci_ids.h b/include/linux/pci_ids.h
+> > > > index 45c3d62e616d..40e04e88ca5a 100644
+> > > > --- a/include/linux/pci_ids.h
+> > > > +++ b/include/linux/pci_ids.h
+> > > > @@ -2553,6 +2553,8 @@
+> > > >    #define PCI_DEVICE_ID_NETRONOME_NFP3800_VF	0x3803
+> > > >    #define PCI_DEVICE_ID_NETRONOME_NFP6000_VF	0x6003
+> > > > +#define PCI_VENDOR_ID_ASPEED		0x1a03
+> > > > +
+> > > >    #define PCI_VENDOR_ID_QMI		0x1a32
+> > > >    #define PCI_VENDOR_ID_AZWAVE		0x1a3b
+> > > 
+> > > -- 
+> > > Thomas Zimmermann
+> > > Graphics Driver Developer
+> > > SUSE Software Solutions Germany GmbH
+> > > Maxfeldstr. 5, 90409 Nürnberg, Germany
+> > > (HRB 36809, AG Nürnberg)
+> > > Geschäftsführer: Ivo Totev
+> > 
+> > 
+> > 
+> 
+> -- 
+> Thomas Zimmermann
+> Graphics Driver Developer
+> SUSE Software Solutions Germany GmbH
+> Frankenstrasse 146, 90461 Nuernberg, Germany
+> GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+> HRB 36809 (AG Nuernberg)
+
+
+
