@@ -1,69 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87CD26E9044
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Apr 2023 12:33:16 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B51DF6E90FE
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Apr 2023 12:51:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9CE7810EBFE;
-	Thu, 20 Apr 2023 10:33:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EEB7210E2A6;
+	Thu, 20 Apr 2023 10:51:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-xf29.google.com (mail-qv1-xf29.google.com
- [IPv6:2607:f8b0:4864:20::f29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A057510EBFE;
- Thu, 20 Apr 2023 10:33:11 +0000 (UTC)
-Received: by mail-qv1-xf29.google.com with SMTP id
- 6a1803df08f44-5ef51409426so1023826d6.1; 
- Thu, 20 Apr 2023 03:33:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1681986790; x=1684578790;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=AGwZRkRlnsA+vGof+tjeyG6hWGi5lvtYkhKPwunLX8A=;
- b=Iq5QEWxAKEYRJ7WPHNhJ8UlX+yubs+UNSHhXEgJ8A7lQIFVREmWHZa4I/YWUbOo4ve
- y4n5aFWcZghPvezJBrb1gQTszLaMM38owWU148LCA7p8f6USPnp7rEDkG1oQqz7j70Ag
- W9aybdAmzWJSUzftjW1OD8chs9J1IZJMGbogH/3mRjjqOwO+GmWtFHADy6BlRzd0ArVz
- dU78Zf9XcGsQtmlrViWtHO20VFm5DiX8ulew8t5BoXO4LdG3itKuo0fD1ciio2W/Lx8r
- TgRxsKZw5ebPVaNGZRSCgL0ST998ZRRH6vNU2SyaVdEBDBwzIGbdGsIay+NwyZ3cHJgO
- 6ZIg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681986790; x=1684578790;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=AGwZRkRlnsA+vGof+tjeyG6hWGi5lvtYkhKPwunLX8A=;
- b=RkK97JwnYtRjfI2ifcAQf14oNT+MRZJ5veM70ffHUzReVck5966K+LOM0gBVUD7YzQ
- YCfOCki5EFSQzbiQgagSqgY6LM/WwE1wKFRGC1GrdCsESVXM+vQhyoIMyHr6xyk5z1Zp
- sqDcJG+Lt+Vc/ByGZYe5NG4adquCP2adxD99cX4/b3UESr00tcj3ZCWFbkXevnovAmfN
- 0wyxSbC1nKGYFI9uYtFiZw91XFdfSyOzX8repGxbCEgxUnnkQtPgIQOWP8wStBMK6ohm
- iIsN0lEeY3Fvs8/lPjkYrJllceT4pwlp5W5dNjOedO/yagZnY5ziJU7eoy3jD7vSMItX
- 6p+w==
-X-Gm-Message-State: AAQBX9e0ev/r1KqHI7mP4c35JYdGCNStTkJPTvCNHr0FJC7MFBAPLBAI
- niu7V7GyOonCI8qrGusEgMGoUKjy7sygKY8C+PQ=
-X-Google-Smtp-Source: AKy350YtBYEERlx+sQJO+modBKx/Gx0XrP1st2ET3yAiNNT10OgF3OckybBYcYbFBA5wgXUkBWVpnx1HU01jaCYIVmw=
-X-Received: by 2002:a05:6214:2aad:b0:5f1:31eb:1f0e with SMTP id
- js13-20020a0562142aad00b005f131eb1f0emr1074380qvb.4.1681986790164; Thu, 20
- Apr 2023 03:33:10 -0700 (PDT)
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1EB3010E2A6
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Apr 2023 10:51:26 +0000 (UTC)
+X-UUID: 47750d62df6911edb6b9f13eb10bd0fe-20230420
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From;
+ bh=HRqBpQlE3SEtleY2HNlMwleNJ7KOCqqrXuqNhzkdE4c=; 
+ b=lArS8IsVqfpuASQWV3UylxA7sSdwc+bPrce29Y1B59PYJ3bEuDYUtfm2XcInsy2ETvrA29odFX6cA1AwgsEaHv71Z6y0PpLrb8xHWxQ1cihCNZvZIa3KPk5A+rBdd4pHKJtLApay6pAWwscV9Q4TdZh+lpkRkEPDuhZkzGZvzKo=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.22, REQID:d2920aac-fcfc-49b3-be49-6d5c374ff0cd, IP:0,
+ U
+ RL:0,TC:0,Content:-5,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
+ :release,TS:-5
+X-CID-META: VersionHash:120426c, CLOUDID:ee1cfaa1-8fcb-430b-954a-ba3f00fa94a5,
+ B
+ ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
+ RL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0
+X-CID-BVR: 0,NGT
+X-CID-BAS: 0,NGT,0,_
+X-UUID: 47750d62df6911edb6b9f13eb10bd0fe-20230420
+Received: from mtkmbs13n2.mediatek.inc [(172.21.101.108)] by
+ mailgw02.mediatek.com (envelope-from <nancy.lin@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 1470003907; Thu, 20 Apr 2023 18:51:18 +0800
+Received: from mtkmbs13n2.mediatek.inc (172.21.101.108) by
+ mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.25; Thu, 20 Apr 2023 18:51:16 +0800
+Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
+ mtkmbs13n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.1118.25 via Frontend Transport; Thu, 20 Apr 2023 18:51:16 +0800
+From: Nancy.Lin <nancy.lin@mediatek.com>
+To: Chun-Kuang Hu <chunkuang.hu@kernel.org>, Philipp Zabel
+ <p.zabel@pengutronix.de>, Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Subject: [PATCH] drm/mediatek: fix uninitialized symbol
+Date: Thu, 20 Apr 2023 18:51:15 +0800
+Message-ID: <20230420105115.26838-1-nancy.lin@mediatek.com>
+X-Mailer: git-send-email 2.18.0
 MIME-Version: 1.0
-References: <CABXGCsPZxgpFzAVN=eFXu0WV+Jk0vB4rv4p+Jt31C841LcqV=A@mail.gmail.com>
- <CABXGCsO0sST8+MvQs=T1JP49ogRsaHPT9gMQZGJ3dY7v3m0H8g@mail.gmail.com>
- <CABXGCsOTEpJG_0NWdGXRvcXQ4iTav6AUJm-U4SQb-vVzjoL6rA@mail.gmail.com>
- <10b2570f-a297-d236-fa7b-2e001a4dff12@gmail.com>
- <CABXGCsPcPY8dqZm0aF4c1p0ZvMYHy+NksMrZi9xK0=WdE5_osA@mail.gmail.com>
- <d96519fb-9e12-5a81-a60b-384dcb286f28@gmail.com>
- <CABXGCsP2JQMtNjBROSLs2y612iLZuCyoe-uD6OScAWbKHBWsCA@mail.gmail.com>
- <b6ab0086-7d52-2a41-2f76-44694faed317@amd.com>
-In-Reply-To: <b6ab0086-7d52-2a41-2f76-44694faed317@amd.com>
-From: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
-Date: Thu, 20 Apr 2023 15:32:59 +0500
-Message-ID: <CABXGCsP+LSPE9fH4TW781w67ju=HrNMe9s0kigqBarketr_Qog@mail.gmail.com>
-Subject: Re: BUG: KASAN: null-ptr-deref in drm_sched_job_cleanup+0x96/0x290
- [gpu_sched]
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,38 +64,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Linux List Kernel Mailing <linux-kernel@vger.kernel.org>
+Cc: singo.chang@mediatek.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ clang-built-linux@googlegroups.com, "Nancy.Lin" <nancy.lin@mediatek.com>,
+ linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Apr 20, 2023 at 2:59=E2=80=AFPM Christian K=C3=B6nig
-<christian.koenig@amd.com> wrote:
->
-> Could you try drm-misc-next as well?
->
-> Going to give drm-fixes another round of testing.
->
-> Thanks,
-> Christian.
+fix Smatch static checker warning
+  - uninitialized symbol comp_pdev in mtk_ddp_comp_init.
 
-Important don't give up.
-https://youtu.be/25zhHBGIHJ8 [40 min]
-https://youtu.be/utnDR26eYBY [50 min]
-https://youtu.be/DJQ_tiimW6g [12 min]
-https://youtu.be/Y6AH1oJKivA [6 min]
-Yes the issue is everything reproducible, but time to time it not
-happens at first attempt.
-I also uploaded other videos which proves that the issue definitely
-exists if someone will launch those games in turn.
-Reproducibility is only a matter of time.
+Signed-off-by: Nancy.Lin <nancy.lin@mediatek.com>
+---
+ drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-Anyway I didn't want you to spend so much time trying to reproduce it.
-This monkey business fits me more than you.
-It would be better if I could collect more useful info.
+diff --git a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
+index f114da4d36a9..e987ac4481bc 100644
+--- a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
++++ b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
+@@ -546,7 +546,7 @@ unsigned int mtk_drm_find_possible_crtc_by_comp(struct drm_device *drm,
+ int mtk_ddp_comp_init(struct device_node *node, struct mtk_ddp_comp *comp,
+ 		      unsigned int comp_id)
+ {
+-	struct platform_device *comp_pdev;
++	struct platform_device *comp_pdev = NULL;
+ 	enum mtk_ddp_comp_type type;
+ 	struct mtk_ddp_comp_dev *priv;
+ #if IS_REACHABLE(CONFIG_MTK_CMDQ)
+@@ -588,6 +588,9 @@ int mtk_ddp_comp_init(struct device_node *node, struct mtk_ddp_comp *comp,
+ 	    type == MTK_DSI)
+ 		return 0;
+ 
++	if (!comp_pdev)
++		return -EPROBE_DEFER;
++
+ 	priv = devm_kzalloc(comp->dev, sizeof(*priv), GFP_KERNEL);
+ 	if (!priv)
+ 		return -ENOMEM;
+-- 
+2.18.0
 
---=20
-Best Regards,
-Mike Gavrilov.
