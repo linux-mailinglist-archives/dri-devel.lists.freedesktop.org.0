@@ -1,64 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CC9E6E9C55
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Apr 2023 21:15:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DE9F6E9C6E
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Apr 2023 21:24:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 88AA510E517;
-	Thu, 20 Apr 2023 19:15:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0439110E51B;
+	Thu, 20 Apr 2023 19:24:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x534.google.com (mail-pg1-x534.google.com
- [IPv6:2607:f8b0:4864:20::534])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2649010E517
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Apr 2023 19:15:13 +0000 (UTC)
-Received: by mail-pg1-x534.google.com with SMTP id
- 41be03b00d2f7-52019617020so1239765a12.3
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Apr 2023 12:15:13 -0700 (PDT)
+Received: from mail-yw1-x1134.google.com (mail-yw1-x1134.google.com
+ [IPv6:2607:f8b0:4864:20::1134])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ED7E910E51B
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Apr 2023 19:24:12 +0000 (UTC)
+Received: by mail-yw1-x1134.google.com with SMTP id
+ 00721157ae682-54f21cdfadbso55299337b3.7
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Apr 2023 12:24:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1682018112; x=1684610112;
+ d=chromium.org; s=google; t=1682018650; x=1684610650;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=TB42OP/0chsseE66LQ/QUwQPHdlFt1RecluHsLuAJY4=;
- b=PkfTz/PmrkjzTlyyAkJGB3k8eVlOC59C1SVPbdq6Edf6RyUTVqNYNlMvpRVkFgFDrv
- kch/3YnkgSp/yFqqSvhjw4/cyHFxsplXn9Ejlp6TV19kGl3/u6+m5181gAh57LAgvPqG
- zPGEtmrM3C0y0S5R2AEC31TfEFnRKGqmoe/zb34OPWQ09nIDUGoCNiNxnDstgDRSAtVl
- vrOmezSnSQV6wZq6Q0MMmoKn8M/a21t6uUaQp4WKMrVohxugniTDoERgncztowWyX0I+
- iDrmLrTd/R2snVC2C+deJLxzSWCLs+TTb/8hwTVdhTd5ZhmmwEODUk1Xzc2jvc/jEvC1
- E/iQ==
+ bh=5CitpErBCs21ceUt0nwXbHOId6v4Tpo7P8KbpX2/VYY=;
+ b=dKoTmw8B/k+mmMMG9RDuav358rjii0q6dltc22DHfrbV0jCG+nu7tk1bFkyl166V4D
+ oYanohNCAHc1XK3P6MhnqaK7QXxPty2ALB3fuOb1AnjvQKjCnJmQdsPZXaKiWdTVF+GH
+ lrC8f4HYnkWXaGwRwfWcZwFwy78UzlRMURSP0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682018112; x=1684610112;
+ d=1e100.net; s=20221208; t=1682018650; x=1684610650;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=TB42OP/0chsseE66LQ/QUwQPHdlFt1RecluHsLuAJY4=;
- b=AzMsws5DmmXQSTJIlJN40lsiLN9ftMbY7Z+ZTCtdlv6IGJad8sCBhSJ7x0KHRXrDSK
- UEnkM4iDw2Uvu4q1bBiIa5j0PWcX+An8rY1xBNukHc3Seye2qbzLY6Z8+avBjf1//oUN
- cxNYMtfLZRozZ6dNhpEbnWh8icMy46u5X8LahuH3+3Qp+w9zxrkOC5X6bO20whLpJ/My
- C7iQ/ShVgjdJqQ+QgGZ1rpww4/qq39Tm//66Z1+x5Pv0iCozi6nDYRSAg9zNFjbi82V2
- PGA3TR90TSzYMamCLUJVD9yt5khIR8InjPbSlwKyTCGrHlcV0SJDbR44vNZE4SVrjyKd
- NQhw==
-X-Gm-Message-State: AAQBX9f0PIMeGe6+tpsRipygIi1K+SnSfP47u7jf+hS3uB0rNh3Br1SC
- 4YZlTiP03iawZ3Ac7ECeAErSOMosHND9amvvP/c=
-X-Google-Smtp-Source: AKy350YVTmd97fwntq23PuJ/Ty5yPWRWuBjTNLojg7FftZa0smSn5bHtfBllr8HEG9WbWSpf91gSn4y34LDBr9UYvf4=
-X-Received: by 2002:a17:90a:4dc5:b0:247:90d8:41fd with SMTP id
- r5-20020a17090a4dc500b0024790d841fdmr2650658pjl.26.1682018111804; Thu, 20 Apr
- 2023 12:15:11 -0700 (PDT)
+ bh=5CitpErBCs21ceUt0nwXbHOId6v4Tpo7P8KbpX2/VYY=;
+ b=CIXy3cCIEnPdDBDn+fu5OodZvUkYcObb1zCwom1h52Kmt4/7WWvd73znlhMFzfGdih
+ fW1+xJJ9SJnGDWbOzKBywL6EvisOX4ZdrZj1M5PHPhGJy4M5Zz3LU56//4uO8F4RDsh/
+ sKeJa6yIpmBBEwhm74PFQtLRF/Npat1fHJvQkpKvTu4FeE8uP+Xu+UWu53bzfkBTC7jC
+ g7O0o3mqf3as/n8KDPC6vI+D3OmcPycP0TxxS2nXWi5bXcAqdJkbuZKUeU+rdM2d42dD
+ ncici2yZmPQpPu3WfFtjtIJwwfns7ZgLcI7CCEXg1VmKGiaYDIBVE7MzNKLdw9Z2NNTC
+ lZKg==
+X-Gm-Message-State: AAQBX9cwYvVc+9PQFnl60Yz3I42tMYVqY4FwunXS6Tkb6L72ewQ36IYe
+ nNBocAjt5nmZVHWwBPOONMa9gDmcQb/PgLwRR1Q=
+X-Google-Smtp-Source: AKy350YwmmcjdnZqzIFeNFEfa6o5XsbTcQxO8LERU+ruBzxEjpqQOQxC14tA+TKWvZgwfr/fLCKnVg==
+X-Received: by 2002:a0d:ebc7:0:b0:54f:dfc8:7ff4 with SMTP id
+ u190-20020a0debc7000000b0054fdfc87ff4mr1396067ywe.45.1682018650274; 
+ Thu, 20 Apr 2023 12:24:10 -0700 (PDT)
+Received: from mail-yb1-f182.google.com (mail-yb1-f182.google.com.
+ [209.85.219.182]) by smtp.gmail.com with ESMTPSA id
+ u11-20020a81a50b000000b00545a08184f3sm495665ywg.131.2023.04.20.12.24.09
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 20 Apr 2023 12:24:09 -0700 (PDT)
+Received: by mail-yb1-f182.google.com with SMTP id
+ 3f1490d57ef6-b8ed0d0a33dso870091276.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Apr 2023 12:24:09 -0700 (PDT)
+X-Received: by 2002:a25:cb96:0:b0:b98:6352:be17 with SMTP id
+ b144-20020a25cb96000000b00b986352be17mr119011ybg.0.1682018648700; Thu, 20 Apr
+ 2023 12:24:08 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230415104104.5537-1-aford173@gmail.com>
- <414febc4-aab1-95ec-ac2e-e82a3f881d01@denx.de>
- <CAHCN7xKsvT-TL4xdP=CKDzTJoFq1PGqmFmTohdRF9JaWaxWemw@mail.gmail.com>
- <5667233.DvuYhMxLoT@steina-w>
- <CAHCN7xK0Dban7ueB_ASrTOjqWK0++ujOoQ_RZpz=FR2Fktzy0g@mail.gmail.com>
-In-Reply-To: <CAHCN7xK0Dban7ueB_ASrTOjqWK0++ujOoQ_RZpz=FR2Fktzy0g@mail.gmail.com>
-From: Adam Ford <aford173@gmail.com>
-Date: Thu, 20 Apr 2023 14:15:00 -0500
-Message-ID: <CAHCN7xJx46zSOt5KLvJCo3NomFmjEzcirTnB9YdLWdR0aqOWew@mail.gmail.com>
-Subject: Re: [PATCH 2/6] drm: bridge: samsung-dsim: Fix PMS Calculator on
- imx8m[mnp]
-To: Alexander Stein <alexander.stein@ew.tq-group.com>
+References: <20230408082014.235425-1-nikita@trvn.ru>
+ <CAD=FV=XEQS9MB4e52B4yLjiP8ksYmeos_emiH4=-adCOwzfGUA@mail.gmail.com>
+ <905403377ec62914a2fbe21a6b4a6c8e@trvn.ru>
+ <CAD=FV=X_NUNXgY-9p6CUvNwYte+aPjjZPLV4oZRXR5zdEn0Kjg@mail.gmail.com>
+In-Reply-To: <CAD=FV=X_NUNXgY-9p6CUvNwYte+aPjjZPLV4oZRXR5zdEn0Kjg@mail.gmail.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Thu, 20 Apr 2023 12:23:56 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=V3+i51BQ3pE60-e=wU0ehTFx6C6qU7-7ghbyvon7=pCQ@mail.gmail.com>
+Message-ID: <CAD=FV=V3+i51BQ3pE60-e=wU0ehTFx6C6qU7-7ghbyvon7=pCQ@mail.gmail.com>
+Subject: Re: [PATCH] drm/bridge: ti-sn65dsi86: Implement wait_hpd_asserted
+To: Nikita Travkin <nikita@trvn.ru>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -73,139 +81,145 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, Jagan Teki <jagan@amarulasolutions.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Robert Foss <rfoss@kernel.org>,
- Andrzej Hajda <andrzej.hajda@intel.com>, devicetree@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Jonas Karlman <jonas@kwiboo.se>,
- aford@beaconembedded.com, Frieder Schrempf <frieder.schrempf@kontron.de>,
- linux-kernel@vger.kernel.org, Pengutronix Kernel Team <kernel@pengutronix.de>,
- Rob Herring <robh+dt@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Neil Armstrong <neil.armstrong@linaro.org>, NXP Linux Team <linux-imx@nxp.com>,
- Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
- linux-arm-kernel@lists.infradead.org, m.szyprowski@samsung.com
+Cc: neil.armstrong@linaro.org, rfoss@kernel.org, andrzej.hajda@intel.com,
+ jonas@kwiboo.se, dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ jernej.skrabec@gmail.com, Laurent.pinchart@ideasonboard.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Apr 18, 2023 at 6:53=E2=80=AFAM Adam Ford <aford173@gmail.com> wrot=
-e:
+Hi,
+
+On Thu, Apr 13, 2023 at 12:10=E2=80=AFPM Doug Anderson <dianders@chromium.o=
+rg> wrote:
 >
-> On Mon, Apr 17, 2023 at 2:00=E2=80=AFAM Alexander Stein
-> <alexander.stein@ew.tq-group.com> wrote:
-> >
-> > Hi,
-> >
-> > Am Montag, 17. April 2023, 00:31:24 CEST schrieb Adam Ford:
-> > > On Sun, Apr 16, 2023 at 5:07=E2=80=AFPM Marek Vasut <marex@denx.de> w=
+> Hi,
+>
+> On Wed, Apr 12, 2023 at 9:19=E2=80=AFPM Nikita Travkin <nikita@trvn.ru> w=
 rote:
-> > > > On 4/15/23 12:40, Adam Ford wrote:
-> > > > > According to Table 13-45 of the i.MX8M Mini Reference Manual, the=
- min
-> > > > > and max values for M and  the frequency range for the VCO_out
-> > > > > calculator were incorrect.  This also appears to be the case for =
-the
-> > > > > imx8mn and imx8mp.
-> > > > >
-> > > > > To fix this, make new variables to hold the min and max values of=
- m
-> > > > > and the minimum value of VCO_out, and update the PMS calculator t=
-o
-> > > > > use these new variables instead of using hard-coded values to kee=
-p
-> > > > > the backwards compatibility with other parts using this driver.
-> > > >
-> > > > [...]
-> > > >
-> > > > >   static const struct samsung_dsim_driver_data imx8mm_dsi_driver_=
-data =3D
-> > > > >   {
-> > > > >
-> > > > > @@ -470,6 +485,9 @@ static const struct samsung_dsim_driver_data
-> > > > > imx8mm_dsi_driver_data =3D {> >
-> > > > >        */
-> > > > >
-> > > > >       .pll_p_offset =3D 14,
-> > > > >       .reg_values =3D imx8mm_dsim_reg_values,
-> > > > >
-> > > > > +     .m_min =3D 64,
-> > > > > +     .m_max =3D 1023,
-> > > > > +     .vco_min =3D 1050,
-> > > >
-> > > > You might want to call this 'min_freq' since there is a 'max_freq' =
-which
-> > > > seems to indicate what VCO max frequency is.
-> > > >
-> > > > Note that the same datasheet contains the following information:
-> > > > "
-> > > > MIPI_DPHY_M_PLLPMS field descriptions
-> > > >
-> > > > 12=E2=80=934 PMS_M
-> > > > Specifies the PLL PMS value for the M divider
-> > > > NOTE: The programmable divider range should be within 25 to 125 to
-> > > > ensure PLL stability.
+> >
+> > Doug Anderson =D0=BF=D0=B8=D1=81=D0=B0=D0=BB(=D0=B0) 13.04.2023 01:22:
+> > > Hi,
 > > >
-> > > I was confused by this because this statement is not consistent with
-> > > the link they reference jumps me to the table where it reads M is
-> > > between 64 and 1023.
+> > > On Sat, Apr 8, 2023 at 1:20=E2=80=AFAM Nikita Travkin <nikita@trvn.ru=
+> wrote:
+> > >>
+> > >> This bridge doesn't actually implement HPD due to it being way too s=
+low
+> > >> but instead expects the panel driver to wait enough to assume HPD is
+> > >> asserted. However some panels (such as the generic 'edp-panel') expe=
+ct
+> > >> the bridge to deal with the delay and pass maximum delay to the aux
+> > >> instead.
+> > >>
+> > >> In order to support such panels, add a dummy implementation of wait
+> > >> that would just sleep the maximum delay and assume no failure has
+> > >> happened.
+> > >>
+> > >> Signed-off-by: Nikita Travkin <nikita@trvn.ru>
+> > >> ---
+> > >> This was suggested in [1] to make sure DT users can be semantically
+> > >> correct (not adding no-hpd when the line is actually there) while
+> > >> still using a hard delay to be faster than waiting the long debounce
+> > >> time.
+> > >>
+> > >> [1] - https://lore.kernel.org/all/CAD=3DFV=3DVR7sKsquE25eF7joc7gPApu=
+-vqwduZzjE=3DwFCoXjMYnQ@mail.gmail.com/
+> > >> ---
+> > >>  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 19 +++++++++++++++++++
+> > >>  1 file changed, 19 insertions(+)
+> > >>
+> > >> diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm=
+/bridge/ti-sn65dsi86.c
+> > >> index 7a748785c545..260cad1fd1da 100644
+> > >> --- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+> > >> +++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+> > >> @@ -618,6 +618,24 @@ static ssize_t ti_sn_aux_transfer(struct drm_dp=
+_aux *aux,
+> > >>         return len;
+> > >>  }
+> > >>
+> > >> +static int ti_sn_aux_wait_hpd_asserted(struct drm_dp_aux *aux, unsi=
+gned long wait_us)
+> > >> +{
+> > >> +       /*
+> > >> +        * The HPD in this chip is a bit useless (See comment in
+> > >> +        * ti_sn65dsi86_enable_comms) so if our driver is expected t=
+o wait
+> > >> +        * for HPD, we just assume it's asserted after the wait_us d=
+elay.
+> > >> +        *
+> > >> +        * In case we are asked to wait forever (wait_us=3D0) take c=
+onservative
+> > >> +        * 500ms delay.
+> > >> +        */
+> > >> +       if (wait_us =3D=3D 0)
+> > >> +               wait_us =3D 500000;
+> > >> +
+> > >> +       usleep_range(wait_us, wait_us + 1000);
+> > >> +
+> > >> +       return 0;
+> > >> +}
+> > >> +
+> > >>  static int ti_sn_aux_probe(struct auxiliary_device *adev,
+> > >>                            const struct auxiliary_device_id *id)
+> > >>  {
+> > >> @@ -627,6 +645,7 @@ static int ti_sn_aux_probe(struct auxiliary_devi=
+ce *adev,
+> > >>         pdata->aux.name =3D "ti-sn65dsi86-aux";
+> > >>         pdata->aux.dev =3D &adev->dev;
+> > >>         pdata->aux.transfer =3D ti_sn_aux_transfer;
+> > >> +       pdata->aux.wait_hpd_asserted =3D ti_sn_aux_wait_hpd_asserted=
+;
 > > >
-> > > > NOTE: The M and P divider values should be considered together to e=
-nsure
-> > > > VCO ouput frequency
-> > > > (VCO_out) range is between 350 MHz to 750 MHz.
-> > > > Please refer to the topic DPHY PLL for more information.
+> > > This looks reasonable to me, but I think you only want this
+> > > implementation if the "no-hpd" property _isn't_ present. In other
+> > > words:
 > > >
-> > > I was confused by this too, because the NXP documentation reads the
-> > > 350 - 750MHz that you state, but  "Table 13-45: DPHY PLL Parameters"
-> > > which immediately follows that sentence  on page 4158 shows VCO_out i=
+> > > if (!of_property_read_bool(np, "no-hpd"))
+> > >   pdata->aux.wait_hpd_asserted =3D ti_sn_aux_wait_hpd_asserted;
+> > >
+> > > Essentially:
+> > >
+> > > * If "no-hpd" is present in ti-sn65dsi86 then we'll assume that HPD i=
 s
-> > > between 1050-2100 MHz.
-
-I reached out to my NXP rep asking if the VCO_out is 350-750 or if it
-should be 1050-2100, and received the following statement:
-
-" Yes it is definitely wrong, the one that is part of the NOTE in
-MIPI_DPHY_M_PLLPMS register table against PMS_P, PMS_M and PMS_S is
-not correct. I will report this to Doc team, the one customer should
-be take into account is the Table 13-40 DPHY PLL Parameters and the
-Note above."
-
-Table 13-40 (for the Nano) reads the VCO_out is 1050-2100, despite
-other text stating 350-750MHz, so I believe this patch is appropriate.
-I'll add the above statement to the commit message as confirmation
-when I submit a V2 of this series.
-
-adam
+> > > handled by the panel driver via a GPIO or a "no-hpd" there (which wil=
+l
+> > > cause the panel driver to wait the maximum duration).
 > > >
-> > > I compared the PMS values for a variety of frequencies to those that
-> > > were set in the downstream NXP code, and the PMS values matched.
-> > > Maybe someone from NXP can explain the discrepancy.
+> > > * If "no-hpd" isn't present in ti-sn65dsi86 then HPD is actually
+> > > hooked up and thus the panel driver _won't_ handle it.
+> > >
+> > > Does that seem right? Presumably this should be explained by comments=
+.
+> > >
 > >
-> > Also note that, according to Table 13-28 in RM (Rev 2 07/2022) for i.MX=
-8M
-> > Nano, VCO_out and Fout has a maximum of 1500MHz only. Although the note=
- above
-> > mentions a range  of 1050-2100MHz...
->
-> I looked up the limits in NXP's downstream kernel [1] , and I believe
-> these values match the table in the reference manual instead of the
-> conflicting sentence.  I am guessing this is why the PMS values I get
-> match those of the NXP downstream kernel.
->
-> adam
->
-> [1] - https://github.com/nxp-imx/linux-imx/blob/lf-6.1.y/drivers/gpu/drm/=
-imx/sec_mipi_pll_1432x.h#L38
->
+> > This does sound reasonable indeed, I didn't think to add it
+> > conditionally because, looking at the current users of
+> > wait_hpd_asserted, they will first try the "no-hpd" paths
+> > and will only call the bridge when they think it's on the
+> > bridge to wait.
 > >
-> > Best regards,
-> > Alexander
-> > --
-> > TQ-Systems GmbH | M=C3=BChlstra=C3=9Fe 2, Gut Delling | 82229 Seefeld, =
-Germany
-> > Amtsgericht M=C3=BCnchen, HRB 105018
-> > Gesch=C3=A4ftsf=C3=BChrer: Detlef Schneider, R=C3=BCdiger Stahl, Stefan=
- Schneider
-> > http://www.tq-group.com/
+> > Thus, if DT is modeled properly - Panel has no-hpd or a gpio,
+> > wait_hpd_asserted will never be called anyway. Other bridges
+> > seem to also unconditionally enable the method.
 > >
+> > For this to be a trouble, a panel driver has to be "broken"
+> > with some form of calling wait_hpd_asserted despite knowing
+> > the HPD line is not hooked up...
 > >
+> > So I feel like guarding the wait_hpd_asserted for no-hpd
+> > users should not actually change much, but if you think
+> > I should add the check anyway, please let me know.
+>
+> Ah, true, it shouldn't actually matter. I guess I still like it
+> slightly better with the extra check but not enough that I'll insist
+> on it. Thus:
+>
+> Reviewed-by: Douglas Anderson <dianders@chromium.org>
+>
+> I can commit this to drm-misc-next, but I'll plan to wait ~1 week to
+> see if anyone else has any comments about it.
+
+Landed to drm-misc-next:
+
+34c1aeb579dd drm/bridge: ti-sn65dsi86: Implement wait_hpd_asserted
