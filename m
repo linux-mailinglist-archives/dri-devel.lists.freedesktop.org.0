@@ -2,62 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E01866E9F65
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Apr 2023 00:52:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 231856E9F6E
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Apr 2023 00:53:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4048510ED2B;
-	Thu, 20 Apr 2023 22:52:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1071010ED2C;
+	Thu, 20 Apr 2023 22:53:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com
- [IPv6:2a00:1450:4864:20::135])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8AD5810ED2C
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Apr 2023 22:52:53 +0000 (UTC)
-Received: by mail-lf1-x135.google.com with SMTP id
- 2adb3069b0e04-4ec816c9d03so991291e87.2
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Apr 2023 15:52:53 -0700 (PDT)
+Received: from mail-lj1-x234.google.com (mail-lj1-x234.google.com
+ [IPv6:2a00:1450:4864:20::234])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 977E110ED2C
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Apr 2023 22:53:31 +0000 (UTC)
+Received: by mail-lj1-x234.google.com with SMTP id
+ 38308e7fff4ca-2a7ac89b82dso9405581fa.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Apr 2023 15:53:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1682031172; x=1684623172;
+ d=linaro.org; s=google; t=1682031210; x=1684623210;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=NoW60Lm7GdjF79mPriJg9iX4x11OKcPemy9MLkVdBxc=;
- b=RB4YYiblAtjEpwZj0VpG1WT20iPmgOgtm07jwS9BRsoa9kYA0r794uyc6pEDrE2EeW
- IbzBcwAQ2wjGR09Ou7aT1vOmXVc1N2In3Ykw0WgC7uM8Q2BK6NBLhB0bKTXV9svxeIIQ
- 4Fztrq6poxYy5Kb4lToyyXkbMaN7mRkXPoujcj5ggdaKC/tq2B//x/42WlZ1N4jFJc5G
- 7z4wlltyH/IoGg51bPI6nHx7sCJzkUDPjYhkHkaBaU3x6YpM2h9zNNqp9u0VbahrRBxM
- ZTbSwdf6wVp8jBwRM8bPgUC9lg5kTSKEno5P+gnnWHZDBH4qj2PcxuMuYrR81L7+kTwz
- 1XIA==
+ bh=ce6pEJrw7tqRyJLpRXEMezCTvjoqYpZMZdtSajGXN44=;
+ b=MGA9BTGcZSHJD93go1tZ1QFmm9UrulMAvOf0fPOaovFyX0EOx1H82mcZMav6ut4ZXJ
+ 0V67IyZNL5GsuqlC6Bxy+tSuYrKo1hxncDM+v+/b52Lxk5OxR96CYqQpt7XcNEROkBgD
+ 9PNIk0Vorf7sw17NSGEafM1pHxmOpNtyx7WSLuJ+9h3LFGVDVFE61bpnSDfhtAsscg8n
+ CYRTHnfkzIJhN+KouINMyhVLGgL5Gexa6N7twQEJz/erAZEkqQJTiOEUYJgzo927Gxpy
+ I4Q+19IucjS6a7posiNkBhQPWvTZkpe9ZeoXqY8ZdgeO1Q34URW75kN+0I41yCDhpVFP
+ g63w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682031172; x=1684623172;
+ d=1e100.net; s=20221208; t=1682031210; x=1684623210;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=NoW60Lm7GdjF79mPriJg9iX4x11OKcPemy9MLkVdBxc=;
- b=h3Z+OoiIxKUH7z4UWjMlvsTvgRflMMib3llDDih3IS4qgvxq+/vqp5IB27binwgyE5
- 5teRlUSOKs+nqszxbyl3mXLk2LtEZi27WwP0812dulc8iddweceC+opHX12UZhjhtzlm
- nkV8w2Tl07aHo7L2iobOsGUd4w04IbNLKk1/eHgHDFRYF/s6KoPWJnM91wQ52ClsgJX/
- jc9IOGTkRq4LpsjibuR4CRI1wvBKG0lf6el/d/3GK6qYTcMN6HtbgwFkC3K0GMXpkUzu
- 5hsAPeYiqRiIC8bJXNJfoAHzXlnE+Pneo/Rd81zN3qt2CweXTBgyq/LigrqYvN13VdgI
- RhGw==
-X-Gm-Message-State: AAQBX9cABNxtmxV5mRq5c83RpJMhXs+V689HQpgTJQVt3tDDOCbnEBBO
- lakaIixAMC46wiIprsQtw/S9Dg==
-X-Google-Smtp-Source: AKy350aQqb8y+xF0W6oAo5D5GhlxWVGLI8E9FjmzqZU4jhc4y7WqtCf9P4PO6Z6YJJ/3nnM+xzL/Ng==
-X-Received: by 2002:ac2:44ca:0:b0:4eb:2d45:f67f with SMTP id
- d10-20020ac244ca000000b004eb2d45f67fmr786075lfm.33.1682031171724; 
- Thu, 20 Apr 2023 15:52:51 -0700 (PDT)
+ bh=ce6pEJrw7tqRyJLpRXEMezCTvjoqYpZMZdtSajGXN44=;
+ b=OfzQtHpugMBnMI34fuj4CnaPGyW5ptYk44JnVM5luRs1iMARfQ0Ssq551tQJDX0H3j
+ DBmGZhIq1VdRlWO7XhkvvufbNdXwvMy/xSu6b9AWjpvvfi3wRwG2lC8D9kdZentd588g
+ W701FNsdGST+D6n0Ig6DwijCpc8miL1/OOs+wEHWkRSVOir6lci6hxyDacvMeFUs+Ejh
+ MEWhyX+iCYGIXbznmYm3MEylQT6WVPxgB+RdB4j94F3dPAI5d9dqbwaOwMExjpJm1w9S
+ GoL42PNH7pcnIaUK5by0vCzT25pJgfnNryEOPdEGi+nGUIdkSD67TauX1JN14d8WCJET
+ T5Bg==
+X-Gm-Message-State: AAQBX9dMheB6ibWm53jj3zRJ6mmAaYWu5eY4y9vb3ZQAanxirCaP6p3B
+ AP8qKGh8KOroC4PDKKC+YR9INw==
+X-Google-Smtp-Source: AKy350bXwN5/7I7NtUsVNrh54eMPV97x8iBZbGocpm0fxXv6U5ipcBlanUTMeI6LZC1Gi7c8T8HacQ==
+X-Received: by 2002:a2e:82c3:0:b0:299:ac65:781d with SMTP id
+ n3-20020a2e82c3000000b00299ac65781dmr130137ljh.10.1682031209877; 
+ Thu, 20 Apr 2023 15:53:29 -0700 (PDT)
 Received: from ?IPV6:2001:14ba:a085:4d00::8a5?
  (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a085:4d00::8a5])
  by smtp.gmail.com with ESMTPSA id
- w3-20020ac254a3000000b004eafa141a12sm360784lfk.9.2023.04.20.15.52.51
+ c7-20020a05651c014700b002a9ec7c0b4csm407820ljd.10.2023.04.20.15.53.29
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 20 Apr 2023 15:52:51 -0700 (PDT)
-Message-ID: <353b93c5-27f5-a1a5-760d-5f7ad627a583@linaro.org>
-Date: Fri, 21 Apr 2023 01:52:50 +0300
+ Thu, 20 Apr 2023 15:53:29 -0700 (PDT)
+Message-ID: <edb8368e-4157-bb0c-f16e-e3605c405322@linaro.org>
+Date: Fri, 21 Apr 2023 01:53:28 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.9.0
-Subject: Re: [PATCH v2 11/13] iommu/arm-smmu-qcom: Add SM6375 DPU compatible
+Subject: Re: [PATCH v2 13/13] iommu/arm-smmu-qcom: Sort the compatible list
+ alphabetically
 Content-Language: en-GB
 To: Konrad Dybcio <konrad.dybcio@linaro.org>, Rob Clark
  <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
@@ -68,9 +69,9 @@ To: Konrad Dybcio <konrad.dybcio@linaro.org>, Rob Clark
  <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
  Joerg Roedel <joro@8bytes.org>
 References: <20230411-topic-straitlagoon_mdss-v2-0-5def73f50980@linaro.org>
- <20230411-topic-straitlagoon_mdss-v2-11-5def73f50980@linaro.org>
+ <20230411-topic-straitlagoon_mdss-v2-13-5def73f50980@linaro.org>
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <20230411-topic-straitlagoon_mdss-v2-11-5def73f50980@linaro.org>
+In-Reply-To: <20230411-topic-straitlagoon_mdss-v2-13-5def73f50980@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -93,15 +94,36 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 21/04/2023 01:31, Konrad Dybcio wrote:
-> Add the SM6375 DPU compatible to clients compatible list, as it also
-> needs the workarounds.
+> It got broken at some point, fix it up.
 > 
 > Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
 > ---
->   drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c | 1 +
->   1 file changed, 1 insertion(+)
+>   drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
 
-Acked-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+This should probably come before patches 11 and 12.
+
+> 
+> diff --git a/drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c b/drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c
+> index 2daaa600ac75..e64c737724c4 100644
+> --- a/drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c
+> +++ b/drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c
+> @@ -251,12 +251,12 @@ static const struct of_device_id qcom_smmu_client_of_match[] __maybe_unused = {
+>   	{ .compatible = "qcom,sc7280-mss-pil" },
+>   	{ .compatible = "qcom,sc8180x-mdss" },
+>   	{ .compatible = "qcom,sc8280xp-mdss" },
+> -	{ .compatible = "qcom,sm8150-mdss" },
+> -	{ .compatible = "qcom,sm8250-mdss" },
+>   	{ .compatible = "qcom,sdm845-mdss" },
+>   	{ .compatible = "qcom,sdm845-mss-pil" },
+>   	{ .compatible = "qcom,sm6350-mdss" },
+>   	{ .compatible = "qcom,sm6375-mdss" },
+> +	{ .compatible = "qcom,sm8150-mdss" },
+> +	{ .compatible = "qcom,sm8250-mdss" },
+>   	{ }
+>   };
+>   
+> 
 
 -- 
 With best wishes
