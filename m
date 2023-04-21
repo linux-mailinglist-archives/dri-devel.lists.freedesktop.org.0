@@ -1,70 +1,69 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 252076EAEE4
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Apr 2023 18:15:58 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 069E36EAEE7
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Apr 2023 18:16:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0BD6910E263;
-	Fri, 21 Apr 2023 16:15:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 493FD10EE5B;
+	Fri, 21 Apr 2023 16:16:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x735.google.com (mail-qk1-x735.google.com
- [IPv6:2607:f8b0:4864:20::735])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EFB7E10E263
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Apr 2023 16:15:54 +0000 (UTC)
-Received: by mail-qk1-x735.google.com with SMTP id
- af79cd13be357-74de7182043so113365985a.3
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Apr 2023 09:15:54 -0700 (PDT)
+Received: from mail-qk1-x730.google.com (mail-qk1-x730.google.com
+ [IPv6:2607:f8b0:4864:20::730])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8DE2310EE5B
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Apr 2023 16:16:05 +0000 (UTC)
+Received: by mail-qk1-x730.google.com with SMTP id
+ af79cd13be357-74d981be825so113636485a.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Apr 2023 09:16:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1682093753; x=1684685753;
+ d=chromium.org; s=google; t=1682093763; x=1684685763;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=9QZZtA/5NWdnQgb0jJuRZbKZ4eCkzSLiidtnIgHAhGA=;
- b=ctHvTjO/5U4CovqOB/IKUYhR5Rb84nnSGabYqdPB4zLuTXbLdPUDXWNgiX5PxrfrC+
- M1BwvxR2MVfL5nSisBMT8K22lGTd5mopnPhKLw8gHS6j4pJPDj5w3TTEsiewVZeH453B
- 8+tiS0Bdao4gH8YxugF/N7GrF+RNYmINQeVa0=
+ bh=Ef3idQ4zPSY5kI7SCQAQVACM6knAQnMe+8If0IdDnhE=;
+ b=QBgmkBkH7wElLP6ex68Z7idCcaU46oAPn5a+UD68C+ehtjnn5m2SLnrlBKHDgYkhxe
+ 0P2s+dGPeQFOntOmz1LN0sFdi2rtNF5foLKVl/kNEmagNcw/C1faORd2SN9GD4AZbIyA
+ Nf5xLJJxn7drO2gCUhAE7SFTHnKFMCCupETvo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682093753; x=1684685753;
+ d=1e100.net; s=20221208; t=1682093763; x=1684685763;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=9QZZtA/5NWdnQgb0jJuRZbKZ4eCkzSLiidtnIgHAhGA=;
- b=BZqxicpbJmWfC6gMZwdaOeQ9M+p1P9E0RtDj5HDDNag3UNmeMxyoeDhIiSDQ+yaUSF
- lByhjlAgv6hZKpAjZdnJ1ICv4GdauSzhAkPfKF04keNh3GCN7QtC196wh3avx3ZgF4Rn
- znp1aJf7thX8HuEzpI3tHzdF4R9qoj/hqzTrTabMZ7Lspzo/m8x0An79xYvSeEFlZjnJ
- v5qnSPQNcXVt0CItFMTH4r5qVF6SeG7o25F7Lm/8Fy4bw0xRJ9nVRIWjWIGJWbKKLJAr
- B7Z8wjgJyC0WnEKjKuk7IXm4xlTC2TKx6dS7U8JIvjxZwq2Zoeqb0aW13HNTMu86TmQL
- 0lHg==
-X-Gm-Message-State: AAQBX9cNYLqaFsnYfCEVPw1ofdsdyECdJBncqiizer1JNVZY43dIRCvY
- qHJ6fb/6S5QHg4zAofmir5tHC22/P2fzqulS8BY=
-X-Google-Smtp-Source: AKy350al6Zz5k317R8zp76YfDScjZic//SirD3UdDA94zn6+N5aGJH7OGh1oMMB5M6NGmbdjJgWhhg==
-X-Received: by 2002:a05:6214:d61:b0:5f1:5f73:aed4 with SMTP id
- 1-20020a0562140d6100b005f15f73aed4mr9468935qvs.15.1682093753020; 
- Fri, 21 Apr 2023 09:15:53 -0700 (PDT)
-Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com.
- [209.85.160.180]) by smtp.gmail.com with ESMTPSA id
- u15-20020a0cb40f000000b005dd8b9345cbsm1262875qve.99.2023.04.21.09.15.50
+ bh=Ef3idQ4zPSY5kI7SCQAQVACM6knAQnMe+8If0IdDnhE=;
+ b=R+eEHlXf0kjmKdOakKruQOVnX08X+hGB1HgiEnQ+fW5D3ozD1qJ9ZKaYmHv8RPtUdT
+ Hu3UMRlZiDaTfxNFjYxZW/UlrMNcGmy4mNFLGwRu9cnTDwLoUlIvxi7jyd3h+Wwvspax
+ LlfwHNLYL1/ndy9O6A+axUarDwhQXXou+NDRdoNuXjrdUmUHorwDZ9Xc1HgRcD/XhySY
+ v1QrmbIYGODf0lli7vkCIwciL6tROKik6SKexWJi1yQCM82ONVTnT2S19pzkPx6NRIxd
+ 6yMk+rSse5LEAaKG3hmTcS5r4LzN+fszjLlsYLtLnn2mIymxVwv6JjxZFkOF+60G1pau
+ P6DQ==
+X-Gm-Message-State: AAQBX9cnwKrXYPDm9oUDPefiuoXmiFj3EQq+x/sRJgIPBiF8/WOAjY00
+ HEueOd5T0nx5oQC1R7ALQfeST7u7sBlX9WKZMks=
+X-Google-Smtp-Source: AKy350aj6bi26C78aH/kewKwlAVXz9OBIDoHsrL8U5FkFeThqr41fA3ijEGtoSPc/sgJsGBy34SK5A==
+X-Received: by 2002:a05:6214:29c9:b0:5f7:5ae9:813d with SMTP id
+ gh9-20020a05621429c900b005f75ae9813dmr6972003qvb.39.1682093762792; 
+ Fri, 21 Apr 2023 09:16:02 -0700 (PDT)
+Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com.
+ [209.85.160.179]) by smtp.gmail.com with ESMTPSA id
+ z2-20020a0c8f02000000b005ef524ea9f1sm1237448qvd.141.2023.04.21.09.16.00
  for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 21 Apr 2023 09:15:51 -0700 (PDT)
-Received: by mail-qt1-f180.google.com with SMTP id
- d75a77b69052e-3e0965f70ecso1169871cf.0
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Apr 2023 09:15:50 -0700 (PDT)
-X-Received: by 2002:a05:622a:1906:b0:3db:1c01:9d95 with SMTP id
- w6-20020a05622a190600b003db1c019d95mr440522qtc.4.1682093750390; Fri, 21 Apr
- 2023 09:15:50 -0700 (PDT)
+ Fri, 21 Apr 2023 09:16:00 -0700 (PDT)
+Received: by mail-qt1-f179.google.com with SMTP id
+ d75a77b69052e-3ef31924c64so1171261cf.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Apr 2023 09:16:00 -0700 (PDT)
+X-Received: by 2002:a05:622a:d5:b0:3e0:c2dd:fd29 with SMTP id
+ p21-20020a05622a00d500b003e0c2ddfd29mr502316qtw.4.1682093759564; Fri, 21 Apr
+ 2023 09:15:59 -0700 (PDT)
 MIME-Version: 1.0
 References: <20230201-innolux-g070ace-v2-0-2371e251dd40@skidata.com>
- <20230201-innolux-g070ace-v2-1-2371e251dd40@skidata.com>
-In-Reply-To: <20230201-innolux-g070ace-v2-1-2371e251dd40@skidata.com>
+ <20230201-innolux-g070ace-v2-2-2371e251dd40@skidata.com>
+In-Reply-To: <20230201-innolux-g070ace-v2-2-2371e251dd40@skidata.com>
 From: Doug Anderson <dianders@chromium.org>
-Date: Fri, 21 Apr 2023 09:15:37 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=XJCtqep+92h3gLfs4o2TwvL4MORjc9ydTSpZiZ0dsR0w@mail.gmail.com>
-Message-ID: <CAD=FV=XJCtqep+92h3gLfs4o2TwvL4MORjc9ydTSpZiZ0dsR0w@mail.gmail.com>
-Subject: Re: [PATCH RESEND v2 1/2] dt-bindings: display: simple: add support
- for InnoLux G070ACE-L01
+Date: Fri, 21 Apr 2023 09:15:47 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=UQOGCCrNDCMXP_=qurPNQqN68n4khJNEgxSRT-xi87aQ@mail.gmail.com>
+Message-ID: <CAD=FV=UQOGCCrNDCMXP_=qurPNQqN68n4khJNEgxSRT-xi87aQ@mail.gmail.com>
+Subject: Re: [PATCH RESEND v2 2/2] drm/panel: simple: Add InnoLux G070ACE-L01
 To: richard.leitner@linux.dev
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -95,36 +94,22 @@ On Mon, Mar 13, 2023 at 12:51=E2=80=AFAM <richard.leitner@linux.dev> wrote:
 >
 > From: Richard Leitner <richard.leitner@skidata.com>
 >
-> Add Innolux G070ACE-L01 7" WVGA (800x480) TFT LCD panel compatible
-> string.
+> Add InnoLux G070ACE-L01 7" 800x480 TFT LCD with WLED backlight panel
+> support. Timing data was extracted from datasheet and vendor provided
+> EDID file.
 >
-> Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 > Signed-off-by: Richard Leitner <richard.leitner@skidata.com>
-
-nit: as I understand it, ordering of tags is usually supposed to be
-chronological. You signed off on this patch before Krzysztof acked it,
-so the SoB should be above. I'll fix that when applying.
-
 > ---
->  Documentation/devicetree/bindings/display/panel/panel-simple.yaml | 2 ++
->  1 file changed, 2 insertions(+)
->
-> diff --git a/Documentation/devicetree/bindings/display/panel/panel-simple=
-.yaml b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
-> index 18241f4051d2..fd3e5ad769dc 100644
-> --- a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
-> +++ b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
-> @@ -174,6 +174,8 @@ properties:
->        - innolux,at043tn24
->          # Innolux AT070TN92 7.0" WQVGA TFT LCD panel
->        - innolux,at070tn92
-> +        # Innolux G070ACE-L01 7" WVGA (800x480) TFT LCD panel
-> +      - innolux,g070ace-l01
+>  drivers/gpu/drm/panel/panel-simple.c | 35 ++++++++++++++++++++++++++++++=
++++++
+>  1 file changed, 35 insertions(+)
 
 I think panel-simple currently has no active maintainers. Given that
-I've touched all these files in the past, I don't mind applying.
+I've touched all these files in the past and this is trivial, I don't
+mind applying. I also did a review and this looks reasonable to me.
+
+Reviewed-by: Douglas Anderson <dianders@chromium.org>
 
 Pushed to drm-misc-next:
 
-4b4b96826ba9 dt-bindings: display: simple: add support for InnoLux G070ACE-=
-L01
+1993f598998d drm/panel: simple: Add InnoLux G070ACE-L01
