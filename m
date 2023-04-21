@@ -2,71 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A7376EB12F
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Apr 2023 19:50:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 846CC6EB191
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Apr 2023 20:26:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DB44910E65E;
-	Fri, 21 Apr 2023 17:50:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 71D3810E2E4;
+	Fri, 21 Apr 2023 18:26:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x235.google.com (mail-lj1-x235.google.com
- [IPv6:2a00:1450:4864:20::235])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1F63810E327
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Apr 2023 17:50:41 +0000 (UTC)
-Received: by mail-lj1-x235.google.com with SMTP id
- 38308e7fff4ca-2a8ba5f1d6bso18547051fa.2
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Apr 2023 10:50:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1682099439; x=1684691439;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=KhFQgubx3BwRpneR+uPik55kKaBM11rBostrxvE6DUg=;
- b=ZpfuMSjahsn2zfIK1YJS7GIdwB6UzWp+2za1evy8drzjnxvPZie5KKG0nDOoM6LnVj
- GqFraHvvzX9vPHUV5WF70e5oM7Hc9QhzR8LJtNZ5NWsaBhm8ZKOxW2ufSMQQVif1vpb5
- ujUsGDnwLHMi0SAZZzM0utYvrcaSwJiCkyb0ejIjOJDySLJHl9ap+qT+g+SGYjqRpnIZ
- U9dOEwdeYy6fsQGWKXYW0qB3ghe4So06E3DbbhTQ/lm14BkMdNtz5zGbOkE34OzpQqa7
- YZ9tx36Gy11cBPzdlV02uEEqtfAfOEarEYkZjF0bt2aKJcvq69/Ma1mtOeug+KsyvOp4
- FsNw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682099439; x=1684691439;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=KhFQgubx3BwRpneR+uPik55kKaBM11rBostrxvE6DUg=;
- b=jtt375SGQ4lDQncSmvRjc8gg1r1UBgxvwYtlxAsFuTg+uRZ2tFu4Rg1mn6tT2oakIX
- MMGQgNzT2Hs22j2GqIh3Zm2rmUmeNi+JWPafXjMd4fmmPt5qzfqJ1/6W8sfyo+dd+hmN
- b0PIVpHb1kGxb1IrAb3dORubTRYPDm3u73Oofv/D8G11ts2Z0EiG1rY4XB0PmP1p3HcK
- y7I+SG5y9WyZAFWOEDj2ri8tPeEPDxwXmGvvP55KDWVt+EztHvTsBKp3LHBVV8R18A+r
- HoF89m76A3KIo6OKd9AWt12rtaZqo22nrQ99iT4ayJfL2sL86/s6hJ8YLn8zQ94IKZDY
- PSrA==
-X-Gm-Message-State: AAQBX9dcW3GxpuzA+JFn3Z45USStMcrstm4CMu8veSciq0y2VrhJY+Nq
- jf+EtW27U88eixL5pWsEqW2+Fw==
-X-Google-Smtp-Source: AKy350YLl37LWk+3RtVor9s7w8AS7YAJyV+v7/RwqjI5kuzAKNNFDYjrD1jErrVutbXwsdxB1F4ZLQ==
-X-Received: by 2002:a2e:8350:0:b0:2a8:e4d3:11e2 with SMTP id
- l16-20020a2e8350000000b002a8e4d311e2mr832615ljh.39.1682099439063; 
- Fri, 21 Apr 2023 10:50:39 -0700 (PDT)
-Received: from ?IPV6:2001:14ba:a085:4d00::8a5?
- (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a085:4d00::8a5])
- by smtp.gmail.com with ESMTPSA id
- n3-20020a2e8783000000b002a8e4678da4sm679206lji.139.2023.04.21.10.50.38
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 21 Apr 2023 10:50:38 -0700 (PDT)
-Message-ID: <73e49bab-78a7-1fc2-e521-ede5429ed62e@linaro.org>
-Date: Fri, 21 Apr 2023 20:50:38 +0300
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5F6F310E2E4;
+ Fri, 21 Apr 2023 18:26:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1682101571; x=1713637571;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=HT1vfMwZpD2akETDmfmquuBsKsqWX4PaUX4OcA3kMD8=;
+ b=UxcyGPe+2XRMQjO0r0cGp9oilHM0/st7RaKa83w83AHYfcJhmp9dr1KL
+ eZk+OZlceKynSPCrON61leG/yrN0XmLfMaemfz3pqj3IXBZQXnVad/MmW
+ 23O4+lFaeut/LwPBG2ktQxo6fuvayTfpufYaQnNupjylxgK9N2ui0vKtq
+ V/6M6vVchRwb74ewsXGcOf1JBfWK8uR+wMDdc4C/vvWhz4MSaPAsJgIDE
+ ZHOoHcLZ/23lyXtD1RHno3cNdHReQvDgV3R5d8B2SzSXcyEmNsYG4mt5j
+ PqaKXW7GdHECmgmtR131IJNDn7c0e4BFDQnFQWj+Sxoj5m4+gHsocNHYb A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10687"; a="347959441"
+X-IronPort-AV: E=Sophos;i="5.99,216,1677571200"; d="scan'208";a="347959441"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Apr 2023 11:26:00 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10687"; a="781683302"
+X-IronPort-AV: E=Sophos;i="5.99,216,1677571200"; d="scan'208";a="781683302"
+Received: from ameghere-mobl2.ger.corp.intel.com (HELO intel.com)
+ ([10.249.35.194])
+ by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Apr 2023 11:25:56 -0700
+From: Andi Shyti <andi.shyti@linux.intel.com>
+To: Intel GFX <intel-gfx@lists.freedesktop.org>,
+ DRI Devel <dri-devel@lists.freedesktop.org>, Fei Yang <fei.yang@intel.com>
+Subject: [PATCH v2 0/2] Define MOCS and PAT tables for MTL
+Date: Fri, 21 Apr 2023 20:25:33 +0200
+Message-Id: <20230421182535.292670-1-andi.shyti@linux.intel.com>
+X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH v2 1/2] drm/msm/dpu: drop the regdma configuration
-Content-Language: en-GB
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>, Rob Clark
- <robdclark@gmail.com>, Sean Paul <sean@poorly.run>
-References: <20230420222558.1208887-1-dmitry.baryshkov@linaro.org>
- <911e0a6e-eae4-8f98-8247-f6b2e8a0aeb9@quicinc.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <911e0a6e-eae4-8f98-8247-f6b2e8a0aeb9@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,32 +57,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>
+Cc: Aravind Iddamsetty <aravind.iddamsetty@intel.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Lucas Martins De Marchi <lucas.demarchi@intel.com>,
+ Andi Shyti <andi.shyti@kernel.org>, Andi Shyti <andi.shyti@linux.intel.com>,
+ Matt Roper <matthew.d.roper@intel.com>, Nirmoy Das <nirmoy.das@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 21/04/2023 20:46, Abhinav Kumar wrote:
-> 
-> 
-> On 4/20/2023 3:25 PM, Dmitry Baryshkov wrote:
->> The regdma is currently not used by the current driver. We have no way
->> to practically verify that the regdma is described correctly. Drop it
->> now.
->>
->> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
->> ---
-> 
-> As Marijn noted, perhaps we can drop even DPU_CLK_CTRL_REG_DMA. But you 
-> can add that separately, hence
+Hi,
 
-I'd say it's not worth the trouble.
+just extracting this patch from Fei's series.
 
-> 
-> Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Andi
+
+Changelog:
+==========
+v1 -> v2:
+Taken from Fei's new series: https://patchwork.freedesktop.org/series/115980/
+ - Removed unnecessary defines
+ - Place the selftest patches in a different patch
+
+Fei Yang (1):
+  drm/i915/mtl: fix mocs selftest
+
+Madhumitha Tolakanahalli Pradeep (1):
+  drm/i915/mtl: Define MOCS and PAT tables for MTL
+
+ drivers/gpu/drm/i915/gt/intel_gt_regs.h |  6 ++-
+ drivers/gpu/drm/i915/gt/intel_gtt.c     | 47 ++++++++++++++++-
+ drivers/gpu/drm/i915/gt/intel_gtt.h     |  8 +++
+ drivers/gpu/drm/i915/gt/intel_mocs.c    | 70 ++++++++++++++++++++++++-
+ drivers/gpu/drm/i915/gt/selftest_mocs.c |  3 +-
+ 5 files changed, 130 insertions(+), 4 deletions(-)
 
 -- 
-With best wishes
-Dmitry
+2.40.0
 
