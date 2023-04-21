@@ -1,50 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 386DD6EAEEF
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Apr 2023 18:21:50 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6001A6EAEFF
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Apr 2023 18:27:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A0C6410EE5E;
-	Fri, 21 Apr 2023 16:21:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8B9CB10E195;
+	Fri, 21 Apr 2023 16:26:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 43E1310EE5E;
- Fri, 21 Apr 2023 16:21:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1682094103; x=1713630103;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=I9JtbpceS4zCAop9lMb1+WD0dv4abImQ6fWLGAUEkyg=;
- b=B66Q/nmeiMthJwlf316b2QbtIX3gkI891j+sTJuYoKIeqnAvaTbVs4+B
- rOfYlKGvXU6GMFMxqoVIGkqwCba0cW2Zor1PPxfWwOVP4WHGAVP2qBFfw
- 11iZQbiQNR0YlEY2lZavA75DEsabF1n3X24IWzwv+VyLid6oCBD0QwslQ
- 7zJbhm8V9G7ZYShMeKu6ARWQpDDab5cxCVSznjRUV0ARe5zXqh8AEP4gg
- qiTBfzI9HwYuN34kCuNe4RTQOLATbaTIND3WZxP19giy9ODXaxJrWxADh
- nIhZ0sQ2I7Y2sH8Hh8ow++8DHtpSzHwtjock4Z5wH+BOr+dSVzOni/9vC Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10687"; a="408966998"
-X-IronPort-AV: E=Sophos;i="5.99,214,1677571200"; d="scan'208";a="408966998"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Apr 2023 09:21:41 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10687"; a="756951984"
-X-IronPort-AV: E=Sophos;i="5.99,214,1677571200"; d="scan'208";a="756951984"
-Received: from nirmoyda-desk.igk.intel.com ([10.102.138.190])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Apr 2023 09:21:39 -0700
-From: Nirmoy Das <nirmoy.das@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v2] drm/i915/mtl: workaround coherency issue for Media
-Date: Fri, 21 Apr 2023 18:21:31 +0200
-Message-Id: <20230421162131.5487-1-nirmoy.das@intel.com>
-X-Mailer: git-send-email 2.39.0
+Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com
+ [IPv6:2a00:1450:4864:20::62e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1B11410E195
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Apr 2023 16:26:55 +0000 (UTC)
+Received: by mail-ej1-x62e.google.com with SMTP id
+ a640c23a62f3a-94a34a14a54so314368466b.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Apr 2023 09:26:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1682094413; x=1684686413;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=vIEVML4IO5anh889+aalXEgSW3X6EwyG+xKSv5s4BBU=;
+ b=vNf7B7OMSpTvkt/QhbB/PsdtgWBg1pW9dMi93H7w5lWvBEWhimVzdKHM56ubv9YdOi
+ MhSrry6TwNkGNklCPZ61WR+7zLhsd1Cp/go24HmMDtFzKEaH0KV3bPz+YzXwGXo3NdFa
+ AZqalVa8nxwpxvHRp77seyGRegReWeSrY7c+XCBK741gPSfK13cdMNmKo65eIZSU4jCj
+ irpenpQa2kKEPFolx2roZEow6EovgxA3f+ypHKWdATTLEmonSrskN/EDE0xdJ3gSoUol
+ QfjO3WbZ6W1HG4z7biEvEPaZ4rGDWbPI3rvS2yfP9tiTxb3SYT5RsEk1ClZTElkIxVu2
+ ikHw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1682094413; x=1684686413;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=vIEVML4IO5anh889+aalXEgSW3X6EwyG+xKSv5s4BBU=;
+ b=XXLAJvj1+0DeSOlYVNjN/7xpU2AdwvasZpJKN4mij0GYDf3ZDGsim3JP81CTfbTJFA
+ QEH4pV+IQ5JYS2cnIuLi7CWg/ENDLE0sx+KFd65IrhpV8B3qcGweCmpemPUxCIUrW6EW
+ bp/5mpWn0mND1SSBmQodGCb5e3viYHME0WdhaKDG1ZeAnfTviJIW06ZlR7JeuigmqBUd
+ WAV2zA3V0E2evt//7XlHuGN8Mrrwub89xh1XhEDWlPlgJFo9esjuIRp5AO24oBxkQDXp
+ MXEwjyN2cUAvynrxmA4ey8dXr2jElRFPddy1wKFIXk7yQ3Ce//gpMWiKoJ3j6HZ9HDRM
+ Aeiw==
+X-Gm-Message-State: AAQBX9e+KV2FpECFPmVuZDtfJY4RDsXVm0d7LNCENIRsC7Ouo/cy/wYT
+ nt5A0FTXWNZz1+X4Uv4tWXxTwQ==
+X-Google-Smtp-Source: AKy350ZlepiYHICnCvkKxXgRvs5qFi+tujr0SqeW/avud6pnNBIJ6AakgyIPJCcworE7G0FK8U1oBA==
+X-Received: by 2002:a17:906:194d:b0:94e:c938:1987 with SMTP id
+ b13-20020a170906194d00b0094ec9381987mr2928538eje.7.1682094413624; 
+ Fri, 21 Apr 2023 09:26:53 -0700 (PDT)
+Received: from ?IPV6:2a02:810d:15c0:828:687d:8c5:41cb:9883?
+ ([2a02:810d:15c0:828:687d:8c5:41cb:9883])
+ by smtp.gmail.com with ESMTPSA id
+ gn5-20020a1709070d0500b0094f29a53129sm2190915ejc.205.2023.04.21.09.26.52
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 21 Apr 2023 09:26:53 -0700 (PDT)
+Message-ID: <fb93e95f-181f-917d-9216-a81dec1a2959@linaro.org>
+Date: Fri, 21 Apr 2023 18:26:51 +0200
 MIME-Version: 1.0
-Organization: Intel Deutschland GmbH, Registered Address: Am Campeon 10,
- 85579 Neubiberg, Germany,
- Commercial Register: Amtsgericht Muenchen HRB 186928 
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH RESEND v2 1/2] dt-bindings: display: simple: add support
+ for InnoLux G070ACE-L01
+To: Doug Anderson <dianders@chromium.org>, richard.leitner@linux.dev
+References: <20230201-innolux-g070ace-v2-0-2371e251dd40@skidata.com>
+ <20230201-innolux-g070ace-v2-1-2371e251dd40@skidata.com>
+ <CAD=FV=XJCtqep+92h3gLfs4o2TwvL4MORjc9ydTSpZiZ0dsR0w@mail.gmail.com>
+Content-Language: en-US
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <CAD=FV=XJCtqep+92h3gLfs4o2TwvL4MORjc9ydTSpZiZ0dsR0w@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -58,132 +80,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Fei Yang <fei.yang@intel.com>, dri-devel@lists.freedesktop.org,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Andi Shyti <andi.shyti@linux.intel.com>,
- Matt Roper <matthew.d.roper@intel.com>, Nirmoy Das <nirmoy.das@intel.com>
+Cc: devicetree@vger.kernel.org, Sam Ravnborg <sam@ravnborg.org>,
+ linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+ Thierry Reding <thierry.reding@gmail.com>, dri-devel@lists.freedesktop.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Richard Leitner <richard.leitner@skidata.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Fei Yang <fei.yang@intel.com>
+On 21/04/2023 18:15, Doug Anderson wrote:
+> Hi,
+> 
+> On Mon, Mar 13, 2023 at 12:51 AM <richard.leitner@linux.dev> wrote:
+>>
+>> From: Richard Leitner <richard.leitner@skidata.com>
+>>
+>> Add Innolux G070ACE-L01 7" WVGA (800x480) TFT LCD panel compatible
+>> string.
+>>
+>> Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+>> Signed-off-by: Richard Leitner <richard.leitner@skidata.com>
+> 
+> nit: as I understand it, ordering of tags is usually supposed to be
+> chronological. You signed off on this patch before Krzysztof acked it,
+> so the SoB should be above. I'll fix that when applying.
 
-This patch implements Wa_22016122933.
+Some people agree with this... but b4 disagrees, so I would say the
+tools should implement the right process and right decisions. We should
+not be correcting the tools' output, unless the tools are not correct -
+then fix the tools.
 
-In MTL, memory writes initiated by the Media tile update the whole
-cache line, even for partial writes. This creates a coherency
-problem for cacheable memory if both CPU and GPU are writing data
-to different locations within a single cache line.
-This patch circumvents the issue by making CPU/GPU shared memory
-uncacheable (WC on CPU side, and PAT index 2 for GPU).  Additionally,
-it ensures that CPU writes are visible to the GPU with an
-intel_guc_write_barrier().
 
-While fixing the CTB issue, we noticed some random GSC firmware
-loading failure because the share buffers are cacheable (WB) on CPU
-side but uncached on GPU side. To fix these issues we need to map
-such shared buffers as WC on CPU side. Since such allocations are
-not all done through GuC allocator, to avoid too many code changes,
-the i915_coherent_map_type() is now hard coded to return WC for MTL.
 
-v2: Simplify the commit message(Matt).
-
-BSpec: 45101
-
-Signed-off-by: Fei Yang <fei.yang@intel.com>
-Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com>
-Acked-by: Nirmoy Das <nirmoy.das@intel.com>
-Reviewed-by: Andrzej Hajda <andrzej.hajda@intel.com>
-Reviewed-by: Matt Roper <matthew.d.roper@intel.com>
-Signed-off-by: Nirmoy Das <nirmoy.das@intel.com>
----
- drivers/gpu/drm/i915/gem/i915_gem_pages.c |  5 ++++-
- drivers/gpu/drm/i915/gt/uc/intel_gsc_fw.c | 13 +++++++++++++
- drivers/gpu/drm/i915/gt/uc/intel_guc.c    |  7 +++++++
- drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c |  6 ++++++
- 4 files changed, 30 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_pages.c b/drivers/gpu/drm/i915/gem/i915_gem_pages.c
-index ecd86130b74f..89fc8ea6bcfc 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_pages.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_pages.c
-@@ -469,7 +469,10 @@ enum i915_map_type i915_coherent_map_type(struct drm_i915_private *i915,
- 					  struct drm_i915_gem_object *obj,
- 					  bool always_coherent)
- {
--	if (i915_gem_object_is_lmem(obj))
-+	/*
-+	 * Wa_22016122933: always return I915_MAP_WC for MTL
-+	 */
-+	if (i915_gem_object_is_lmem(obj) || IS_METEORLAKE(i915))
- 		return I915_MAP_WC;
- 	if (HAS_LLC(i915) || always_coherent)
- 		return I915_MAP_WB;
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_gsc_fw.c b/drivers/gpu/drm/i915/gt/uc/intel_gsc_fw.c
-index 1d9fdfb11268..236673c02f9a 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_gsc_fw.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_gsc_fw.c
-@@ -110,6 +110,13 @@ static int gsc_fw_load_prepare(struct intel_gsc_uc *gsc)
- 	if (obj->base.size < gsc->fw.size)
- 		return -ENOSPC;
- 
-+	/*
-+	 * Wa_22016122933: For MTL the shared memory needs to be mapped
-+	 * as WC on CPU side and UC (PAT index 2) on GPU side
-+	 */
-+	if (IS_METEORLAKE(i915))
-+		i915_gem_object_set_cache_coherency(obj, I915_CACHE_NONE);
-+
- 	dst = i915_gem_object_pin_map_unlocked(obj,
- 					       i915_coherent_map_type(i915, obj, true));
- 	if (IS_ERR(dst))
-@@ -125,6 +132,12 @@ static int gsc_fw_load_prepare(struct intel_gsc_uc *gsc)
- 	memset(dst, 0, obj->base.size);
- 	memcpy(dst, src, gsc->fw.size);
- 
-+	/*
-+	 * Wa_22016122933: Making sure the data in dst is
-+	 * visible to GSC right away
-+	 */
-+	intel_guc_write_barrier(&gt->uc.guc);
-+
- 	i915_gem_object_unpin_map(gsc->fw.obj);
- 	i915_gem_object_unpin_map(obj);
- 
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc.c b/drivers/gpu/drm/i915/gt/uc/intel_guc.c
-index e89f16ecf1ae..c9f20385f6a0 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc.c
-@@ -744,6 +744,13 @@ struct i915_vma *intel_guc_allocate_vma(struct intel_guc *guc, u32 size)
- 	if (IS_ERR(obj))
- 		return ERR_CAST(obj);
- 
-+	/*
-+	 * Wa_22016122933: For MTL the shared memory needs to be mapped
-+	 * as WC on CPU side and UC (PAT index 2) on GPU side
-+	 */
-+	if (IS_METEORLAKE(gt->i915))
-+		i915_gem_object_set_cache_coherency(obj, I915_CACHE_NONE);
-+
- 	vma = i915_vma_instance(obj, &gt->ggtt->vm, NULL);
- 	if (IS_ERR(vma))
- 		goto err;
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
-index 1803a633ed64..99a0a89091e7 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
-@@ -902,6 +902,12 @@ static int ct_read(struct intel_guc_ct *ct, struct ct_incoming_msg **msg)
- 	/* now update descriptor */
- 	WRITE_ONCE(desc->head, head);
- 
-+	/*
-+	 * Wa_22016122933: Making sure the head update is
-+	 * visible to GuC right away
-+	 */
-+	intel_guc_write_barrier(ct_to_guc(ct));
-+
- 	return available - len;
- 
- corrupted:
--- 
-2.39.0
+Best regards,
+Krzysztof
 
