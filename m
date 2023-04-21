@@ -1,53 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC36F6EB1FD
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Apr 2023 21:02:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 95DCC6EB221
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Apr 2023 21:12:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DF05110EECD;
-	Fri, 21 Apr 2023 19:02:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 87ABF10EEDD;
+	Fri, 21 Apr 2023 19:12:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A4E4810E324;
- Fri, 21 Apr 2023 19:02:13 +0000 (UTC)
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5E4A510EEDC;
+ Fri, 21 Apr 2023 19:12:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1682103733; x=1713639733;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=T8IdYqcuwcyeJta+lOGtzAta49CiBbCShfdi2J7d13s=;
- b=GwPLoUnXKqaV4I/cXcm09ukPojfIZLBHEHnAbcjd92B4TFG4UGu99j9Q
- zyD529UbD1aYYycvsRydhxrbQKkzQwGjKdhusS4LysikQyrSX7AWj6ahH
- WEp/CspByZEEoCuw72WzwoBP5Pm7R2/hP7gyrT5czFsPhmMOWipN2Sk/A
- LBEmAdrahiLFYFjPHrCZE0ksC0hpezMqrcmnRxjJ+jznmdXoHQBk6cXfL
- zL7zkfNp1Y7tlPJPmngI57qVVLjHyVsLzwWve5JEcRzUwubUSirWmVOFC
- wWLHdf27J0I88CnPQ680moCnhq90W3B/oSPnWJIF1e3AheucNdktgFg1V g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10687"; a="347966543"
-X-IronPort-AV: E=Sophos;i="5.99,216,1677571200"; d="scan'208";a="347966543"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Apr 2023 12:01:02 -0700
+ t=1682104347; x=1713640347;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=P2lO8gIeNdl0e7LZtKdGG27+IN9spZdvrnbwnwJKFHA=;
+ b=Y8k8RsDURQiSTP9OWperuPg5ZAHtpdgbgC7d62wCYM8t437Fi6FE+9c/
+ aKlF7bWa68RR6b8jqvK4AIDvmP0352eoJyD6I8OP4t0nTwuFwNYEuy64d
+ qEPDuHlbzyvA1bPCEnDu5neuBAmZl9D2aWSCxvzd0ou7eY+mbX5gqBJqF
+ gbSsIa/JHOwM2XW/CqHNT3mIq/Hjm52jF7YyRLcj7Q6GLnOKYieugtKgF
+ nSzOFLGBGdOFpMKctJtUedOxgr+A8WaUphs1h+cFyv/I4DCxp52PSHCCO
+ ySs01HwHGDDF4tcCJD9sqUbEZnOmSSdN+5iunxY7/OE3z7MhU8DftnhJA w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10687"; a="346081466"
+X-IronPort-AV: E=Sophos;i="5.99,216,1677571200"; d="scan'208";a="346081466"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Apr 2023 12:12:26 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10687"; a="781690475"
-X-IronPort-AV: E=Sophos;i="5.99,216,1677571200"; d="scan'208";a="781690475"
-Received: from ameghere-mobl2.ger.corp.intel.com (HELO intel.com)
- ([10.249.35.194])
- by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Apr 2023 12:00:58 -0700
-From: Andi Shyti <andi.shyti@linux.intel.com>
-To: Intel GFX <intel-gfx@lists.freedesktop.org>,
- DRI Devel <dri-devel@lists.freedesktop.org>
-Subject: [PATCH v2 2/2] drm/i915/i915_drv: Use i915 instead of dev_priv insied
- the file_priv structure
-Date: Fri, 21 Apr 2023 21:00:26 +0200
-Message-Id: <20230421190026.294208-3-andi.shyti@linux.intel.com>
-X-Mailer: git-send-email 2.40.0
-In-Reply-To: <20230421190026.294208-1-andi.shyti@linux.intel.com>
-References: <20230421190026.294208-1-andi.shyti@linux.intel.com>
+X-IronPort-AV: E=McAfee;i="6600,9927,10687"; a="722845742"
+X-IronPort-AV: E=Sophos;i="5.99,216,1677571200"; d="scan'208";a="722845742"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+ by orsmga008.jf.intel.com with ESMTP; 21 Apr 2023 12:12:20 -0700
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1ppwBA-000gkO-0r;
+ Fri, 21 Apr 2023 19:12:20 +0000
+Date: Sat, 22 Apr 2023 03:12:05 +0800
+From: kernel test robot <lkp@intel.com>
+To: Kuogee Hsieh <quic_khsieh@quicinc.com>, dri-devel@lists.freedesktop.org,
+ robdclark@gmail.com, sean@poorly.run, swboyd@chromium.org,
+ dianders@chromium.org, vkoul@kernel.org, daniel@ffwll.ch,
+ airlied@gmail.com, agross@kernel.org, dmitry.baryshkov@linaro.org,
+ andersson@kernel.org
+Subject: Re: [PATCH v1 1/5] drm/msm/dpu: add support for DSC encoder v1.2
+ engine
+Message-ID: <202304220258.dmrglaf1-lkp@intel.com>
+References: <1682033114-28483-2-git-send-email-quic_khsieh@quicinc.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1682033114-28483-2-git-send-email-quic_khsieh@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,600 +64,217 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
+ llvm@lists.linux.dev, quic_abhinavk@quicinc.com,
+ Kuogee Hsieh <quic_khsieh@quicinc.com>, oe-kbuild-all@lists.linux.dev,
+ marijn.suijten@somainline.org, freedreno@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In the process of renaming all instances of 'dev_priv' to 'i915',
-start using 'i915' within the i915_drv.h file.
+Hi Kuogee,
 
-Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
-Reviewed-by: Andrzej Hajda <andrzej.hajda@intel.com>
----
- drivers/gpu/drm/i915/i915_drv.h | 458 ++++++++++++++++----------------
- 1 file changed, 229 insertions(+), 229 deletions(-)
+kernel test robot noticed the following build errors:
 
-diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
-index c16f8a3cd914f..14c5338c96a6b 100644
---- a/drivers/gpu/drm/i915/i915_drv.h
-+++ b/drivers/gpu/drm/i915/i915_drv.h
-@@ -407,11 +407,11 @@ static inline struct intel_gt *to_gt(struct drm_i915_private *i915)
- 	     (engine__) && (engine__)->uabi_class == (class__); \
- 	     (engine__) = rb_to_uabi_engine(rb_next(&(engine__)->uabi_node)))
- 
--#define INTEL_INFO(dev_priv)	(&(dev_priv)->__info)
--#define RUNTIME_INFO(dev_priv)	(&(dev_priv)->__runtime)
--#define DRIVER_CAPS(dev_priv)	(&(dev_priv)->caps)
-+#define INTEL_INFO(i915)	(&(i915)->__info)
-+#define RUNTIME_INFO(i915)	(&(i915)->__runtime)
-+#define DRIVER_CAPS(i915)	(&(i915)->caps)
- 
--#define INTEL_DEVID(dev_priv)	(RUNTIME_INFO(dev_priv)->device_id)
-+#define INTEL_DEVID(i915)	(RUNTIME_INFO(i915)->device_id)
- 
- #define IP_VER(ver, rel)		((ver) << 8 | (rel))
- 
-@@ -431,7 +431,7 @@ static inline struct intel_gt *to_gt(struct drm_i915_private *i915)
- #define IS_DISPLAY_VER(i915, from, until) \
- 	(DISPLAY_VER(i915) >= (from) && DISPLAY_VER(i915) <= (until))
- 
--#define INTEL_REVID(dev_priv)	(to_pci_dev((dev_priv)->drm.dev)->revision)
-+#define INTEL_REVID(i915)	(to_pci_dev((i915)->drm.dev)->revision)
- 
- #define INTEL_DISPLAY_STEP(__i915) (RUNTIME_INFO(__i915)->step.display_step)
- #define INTEL_GRAPHICS_STEP(__i915) (RUNTIME_INFO(__i915)->step.graphics_step)
-@@ -516,135 +516,135 @@ IS_SUBPLATFORM(const struct drm_i915_private *i915,
- 	return ((mask << (msb - pb)) & (mask << (msb - s))) & BIT(msb);
- }
- 
--#define IS_MOBILE(dev_priv)	(INTEL_INFO(dev_priv)->is_mobile)
--#define IS_DGFX(dev_priv)   (INTEL_INFO(dev_priv)->is_dgfx)
--
--#define IS_I830(dev_priv)	IS_PLATFORM(dev_priv, INTEL_I830)
--#define IS_I845G(dev_priv)	IS_PLATFORM(dev_priv, INTEL_I845G)
--#define IS_I85X(dev_priv)	IS_PLATFORM(dev_priv, INTEL_I85X)
--#define IS_I865G(dev_priv)	IS_PLATFORM(dev_priv, INTEL_I865G)
--#define IS_I915G(dev_priv)	IS_PLATFORM(dev_priv, INTEL_I915G)
--#define IS_I915GM(dev_priv)	IS_PLATFORM(dev_priv, INTEL_I915GM)
--#define IS_I945G(dev_priv)	IS_PLATFORM(dev_priv, INTEL_I945G)
--#define IS_I945GM(dev_priv)	IS_PLATFORM(dev_priv, INTEL_I945GM)
--#define IS_I965G(dev_priv)	IS_PLATFORM(dev_priv, INTEL_I965G)
--#define IS_I965GM(dev_priv)	IS_PLATFORM(dev_priv, INTEL_I965GM)
--#define IS_G45(dev_priv)	IS_PLATFORM(dev_priv, INTEL_G45)
--#define IS_GM45(dev_priv)	IS_PLATFORM(dev_priv, INTEL_GM45)
--#define IS_G4X(dev_priv)	(IS_G45(dev_priv) || IS_GM45(dev_priv))
--#define IS_PINEVIEW(dev_priv)	IS_PLATFORM(dev_priv, INTEL_PINEVIEW)
--#define IS_G33(dev_priv)	IS_PLATFORM(dev_priv, INTEL_G33)
--#define IS_IRONLAKE(dev_priv)	IS_PLATFORM(dev_priv, INTEL_IRONLAKE)
--#define IS_IRONLAKE_M(dev_priv) \
--	(IS_PLATFORM(dev_priv, INTEL_IRONLAKE) && IS_MOBILE(dev_priv))
--#define IS_SANDYBRIDGE(dev_priv) IS_PLATFORM(dev_priv, INTEL_SANDYBRIDGE)
--#define IS_IVYBRIDGE(dev_priv)	IS_PLATFORM(dev_priv, INTEL_IVYBRIDGE)
--#define IS_IVB_GT1(dev_priv)	(IS_IVYBRIDGE(dev_priv) && \
--				 INTEL_INFO(dev_priv)->gt == 1)
--#define IS_VALLEYVIEW(dev_priv)	IS_PLATFORM(dev_priv, INTEL_VALLEYVIEW)
--#define IS_CHERRYVIEW(dev_priv)	IS_PLATFORM(dev_priv, INTEL_CHERRYVIEW)
--#define IS_HASWELL(dev_priv)	IS_PLATFORM(dev_priv, INTEL_HASWELL)
--#define IS_BROADWELL(dev_priv)	IS_PLATFORM(dev_priv, INTEL_BROADWELL)
--#define IS_SKYLAKE(dev_priv)	IS_PLATFORM(dev_priv, INTEL_SKYLAKE)
--#define IS_BROXTON(dev_priv)	IS_PLATFORM(dev_priv, INTEL_BROXTON)
--#define IS_KABYLAKE(dev_priv)	IS_PLATFORM(dev_priv, INTEL_KABYLAKE)
--#define IS_GEMINILAKE(dev_priv)	IS_PLATFORM(dev_priv, INTEL_GEMINILAKE)
--#define IS_COFFEELAKE(dev_priv)	IS_PLATFORM(dev_priv, INTEL_COFFEELAKE)
--#define IS_COMETLAKE(dev_priv)	IS_PLATFORM(dev_priv, INTEL_COMETLAKE)
--#define IS_ICELAKE(dev_priv)	IS_PLATFORM(dev_priv, INTEL_ICELAKE)
--#define IS_JSL_EHL(dev_priv)	(IS_PLATFORM(dev_priv, INTEL_JASPERLAKE) || \
--				IS_PLATFORM(dev_priv, INTEL_ELKHARTLAKE))
--#define IS_TIGERLAKE(dev_priv)	IS_PLATFORM(dev_priv, INTEL_TIGERLAKE)
--#define IS_ROCKETLAKE(dev_priv)	IS_PLATFORM(dev_priv, INTEL_ROCKETLAKE)
--#define IS_DG1(dev_priv)        IS_PLATFORM(dev_priv, INTEL_DG1)
--#define IS_ALDERLAKE_S(dev_priv) IS_PLATFORM(dev_priv, INTEL_ALDERLAKE_S)
--#define IS_ALDERLAKE_P(dev_priv) IS_PLATFORM(dev_priv, INTEL_ALDERLAKE_P)
--#define IS_XEHPSDV(dev_priv) IS_PLATFORM(dev_priv, INTEL_XEHPSDV)
--#define IS_DG2(dev_priv)	IS_PLATFORM(dev_priv, INTEL_DG2)
--#define IS_PONTEVECCHIO(dev_priv) IS_PLATFORM(dev_priv, INTEL_PONTEVECCHIO)
--#define IS_METEORLAKE(dev_priv) IS_PLATFORM(dev_priv, INTEL_METEORLAKE)
--
--#define IS_METEORLAKE_M(dev_priv) \
--	IS_SUBPLATFORM(dev_priv, INTEL_METEORLAKE, INTEL_SUBPLATFORM_M)
--#define IS_METEORLAKE_P(dev_priv) \
--	IS_SUBPLATFORM(dev_priv, INTEL_METEORLAKE, INTEL_SUBPLATFORM_P)
--#define IS_DG2_G10(dev_priv) \
--	IS_SUBPLATFORM(dev_priv, INTEL_DG2, INTEL_SUBPLATFORM_G10)
--#define IS_DG2_G11(dev_priv) \
--	IS_SUBPLATFORM(dev_priv, INTEL_DG2, INTEL_SUBPLATFORM_G11)
--#define IS_DG2_G12(dev_priv) \
--	IS_SUBPLATFORM(dev_priv, INTEL_DG2, INTEL_SUBPLATFORM_G12)
--#define IS_ADLS_RPLS(dev_priv) \
--	IS_SUBPLATFORM(dev_priv, INTEL_ALDERLAKE_S, INTEL_SUBPLATFORM_RPL)
--#define IS_ADLP_N(dev_priv) \
--	IS_SUBPLATFORM(dev_priv, INTEL_ALDERLAKE_P, INTEL_SUBPLATFORM_N)
--#define IS_ADLP_RPLP(dev_priv) \
--	IS_SUBPLATFORM(dev_priv, INTEL_ALDERLAKE_P, INTEL_SUBPLATFORM_RPL)
--#define IS_ADLP_RPLU(dev_priv) \
--	IS_SUBPLATFORM(dev_priv, INTEL_ALDERLAKE_P, INTEL_SUBPLATFORM_RPLU)
--#define IS_HSW_EARLY_SDV(dev_priv) (IS_HASWELL(dev_priv) && \
--				    (INTEL_DEVID(dev_priv) & 0xFF00) == 0x0C00)
--#define IS_BDW_ULT(dev_priv) \
--	IS_SUBPLATFORM(dev_priv, INTEL_BROADWELL, INTEL_SUBPLATFORM_ULT)
--#define IS_BDW_ULX(dev_priv) \
--	IS_SUBPLATFORM(dev_priv, INTEL_BROADWELL, INTEL_SUBPLATFORM_ULX)
--#define IS_BDW_GT3(dev_priv)	(IS_BROADWELL(dev_priv) && \
--				 INTEL_INFO(dev_priv)->gt == 3)
--#define IS_HSW_ULT(dev_priv) \
--	IS_SUBPLATFORM(dev_priv, INTEL_HASWELL, INTEL_SUBPLATFORM_ULT)
--#define IS_HSW_GT3(dev_priv)	(IS_HASWELL(dev_priv) && \
--				 INTEL_INFO(dev_priv)->gt == 3)
--#define IS_HSW_GT1(dev_priv)	(IS_HASWELL(dev_priv) && \
--				 INTEL_INFO(dev_priv)->gt == 1)
-+#define IS_MOBILE(i915)	(INTEL_INFO(i915)->is_mobile)
-+#define IS_DGFX(i915)   (INTEL_INFO(i915)->is_dgfx)
-+
-+#define IS_I830(i915)	IS_PLATFORM(i915, INTEL_I830)
-+#define IS_I845G(i915)	IS_PLATFORM(i915, INTEL_I845G)
-+#define IS_I85X(i915)	IS_PLATFORM(i915, INTEL_I85X)
-+#define IS_I865G(i915)	IS_PLATFORM(i915, INTEL_I865G)
-+#define IS_I915G(i915)	IS_PLATFORM(i915, INTEL_I915G)
-+#define IS_I915GM(i915)	IS_PLATFORM(i915, INTEL_I915GM)
-+#define IS_I945G(i915)	IS_PLATFORM(i915, INTEL_I945G)
-+#define IS_I945GM(i915)	IS_PLATFORM(i915, INTEL_I945GM)
-+#define IS_I965G(i915)	IS_PLATFORM(i915, INTEL_I965G)
-+#define IS_I965GM(i915)	IS_PLATFORM(i915, INTEL_I965GM)
-+#define IS_G45(i915)	IS_PLATFORM(i915, INTEL_G45)
-+#define IS_GM45(i915)	IS_PLATFORM(i915, INTEL_GM45)
-+#define IS_G4X(i915)	(IS_G45(i915) || IS_GM45(i915))
-+#define IS_PINEVIEW(i915)	IS_PLATFORM(i915, INTEL_PINEVIEW)
-+#define IS_G33(i915)	IS_PLATFORM(i915, INTEL_G33)
-+#define IS_IRONLAKE(i915)	IS_PLATFORM(i915, INTEL_IRONLAKE)
-+#define IS_IRONLAKE_M(i915) \
-+	(IS_PLATFORM(i915, INTEL_IRONLAKE) && IS_MOBILE(i915))
-+#define IS_SANDYBRIDGE(i915) IS_PLATFORM(i915, INTEL_SANDYBRIDGE)
-+#define IS_IVYBRIDGE(i915)	IS_PLATFORM(i915, INTEL_IVYBRIDGE)
-+#define IS_IVB_GT1(i915)	(IS_IVYBRIDGE(i915) && \
-+				 INTEL_INFO(i915)->gt == 1)
-+#define IS_VALLEYVIEW(i915)	IS_PLATFORM(i915, INTEL_VALLEYVIEW)
-+#define IS_CHERRYVIEW(i915)	IS_PLATFORM(i915, INTEL_CHERRYVIEW)
-+#define IS_HASWELL(i915)	IS_PLATFORM(i915, INTEL_HASWELL)
-+#define IS_BROADWELL(i915)	IS_PLATFORM(i915, INTEL_BROADWELL)
-+#define IS_SKYLAKE(i915)	IS_PLATFORM(i915, INTEL_SKYLAKE)
-+#define IS_BROXTON(i915)	IS_PLATFORM(i915, INTEL_BROXTON)
-+#define IS_KABYLAKE(i915)	IS_PLATFORM(i915, INTEL_KABYLAKE)
-+#define IS_GEMINILAKE(i915)	IS_PLATFORM(i915, INTEL_GEMINILAKE)
-+#define IS_COFFEELAKE(i915)	IS_PLATFORM(i915, INTEL_COFFEELAKE)
-+#define IS_COMETLAKE(i915)	IS_PLATFORM(i915, INTEL_COMETLAKE)
-+#define IS_ICELAKE(i915)	IS_PLATFORM(i915, INTEL_ICELAKE)
-+#define IS_JSL_EHL(i915)	(IS_PLATFORM(i915, INTEL_JASPERLAKE) || \
-+				IS_PLATFORM(i915, INTEL_ELKHARTLAKE))
-+#define IS_TIGERLAKE(i915)	IS_PLATFORM(i915, INTEL_TIGERLAKE)
-+#define IS_ROCKETLAKE(i915)	IS_PLATFORM(i915, INTEL_ROCKETLAKE)
-+#define IS_DG1(i915)        IS_PLATFORM(i915, INTEL_DG1)
-+#define IS_ALDERLAKE_S(i915) IS_PLATFORM(i915, INTEL_ALDERLAKE_S)
-+#define IS_ALDERLAKE_P(i915) IS_PLATFORM(i915, INTEL_ALDERLAKE_P)
-+#define IS_XEHPSDV(i915) IS_PLATFORM(i915, INTEL_XEHPSDV)
-+#define IS_DG2(i915)	IS_PLATFORM(i915, INTEL_DG2)
-+#define IS_PONTEVECCHIO(i915) IS_PLATFORM(i915, INTEL_PONTEVECCHIO)
-+#define IS_METEORLAKE(i915) IS_PLATFORM(i915, INTEL_METEORLAKE)
-+
-+#define IS_METEORLAKE_M(i915) \
-+	IS_SUBPLATFORM(i915, INTEL_METEORLAKE, INTEL_SUBPLATFORM_M)
-+#define IS_METEORLAKE_P(i915) \
-+	IS_SUBPLATFORM(i915, INTEL_METEORLAKE, INTEL_SUBPLATFORM_P)
-+#define IS_DG2_G10(i915) \
-+	IS_SUBPLATFORM(i915, INTEL_DG2, INTEL_SUBPLATFORM_G10)
-+#define IS_DG2_G11(i915) \
-+	IS_SUBPLATFORM(i915, INTEL_DG2, INTEL_SUBPLATFORM_G11)
-+#define IS_DG2_G12(i915) \
-+	IS_SUBPLATFORM(i915, INTEL_DG2, INTEL_SUBPLATFORM_G12)
-+#define IS_ADLS_RPLS(i915) \
-+	IS_SUBPLATFORM(i915, INTEL_ALDERLAKE_S, INTEL_SUBPLATFORM_RPL)
-+#define IS_ADLP_N(i915) \
-+	IS_SUBPLATFORM(i915, INTEL_ALDERLAKE_P, INTEL_SUBPLATFORM_N)
-+#define IS_ADLP_RPLP(i915) \
-+	IS_SUBPLATFORM(i915, INTEL_ALDERLAKE_P, INTEL_SUBPLATFORM_RPL)
-+#define IS_ADLP_RPLU(i915) \
-+	IS_SUBPLATFORM(i915, INTEL_ALDERLAKE_P, INTEL_SUBPLATFORM_RPLU)
-+#define IS_HSW_EARLY_SDV(i915) (IS_HASWELL(i915) && \
-+				    (INTEL_DEVID(i915) & 0xFF00) == 0x0C00)
-+#define IS_BDW_ULT(i915) \
-+	IS_SUBPLATFORM(i915, INTEL_BROADWELL, INTEL_SUBPLATFORM_ULT)
-+#define IS_BDW_ULX(i915) \
-+	IS_SUBPLATFORM(i915, INTEL_BROADWELL, INTEL_SUBPLATFORM_ULX)
-+#define IS_BDW_GT3(i915)	(IS_BROADWELL(i915) && \
-+				 INTEL_INFO(i915)->gt == 3)
-+#define IS_HSW_ULT(i915) \
-+	IS_SUBPLATFORM(i915, INTEL_HASWELL, INTEL_SUBPLATFORM_ULT)
-+#define IS_HSW_GT3(i915)	(IS_HASWELL(i915) && \
-+				 INTEL_INFO(i915)->gt == 3)
-+#define IS_HSW_GT1(i915)	(IS_HASWELL(i915) && \
-+				 INTEL_INFO(i915)->gt == 1)
- /* ULX machines are also considered ULT. */
--#define IS_HSW_ULX(dev_priv) \
--	IS_SUBPLATFORM(dev_priv, INTEL_HASWELL, INTEL_SUBPLATFORM_ULX)
--#define IS_SKL_ULT(dev_priv) \
--	IS_SUBPLATFORM(dev_priv, INTEL_SKYLAKE, INTEL_SUBPLATFORM_ULT)
--#define IS_SKL_ULX(dev_priv) \
--	IS_SUBPLATFORM(dev_priv, INTEL_SKYLAKE, INTEL_SUBPLATFORM_ULX)
--#define IS_KBL_ULT(dev_priv) \
--	IS_SUBPLATFORM(dev_priv, INTEL_KABYLAKE, INTEL_SUBPLATFORM_ULT)
--#define IS_KBL_ULX(dev_priv) \
--	IS_SUBPLATFORM(dev_priv, INTEL_KABYLAKE, INTEL_SUBPLATFORM_ULX)
--#define IS_SKL_GT2(dev_priv)	(IS_SKYLAKE(dev_priv) && \
--				 INTEL_INFO(dev_priv)->gt == 2)
--#define IS_SKL_GT3(dev_priv)	(IS_SKYLAKE(dev_priv) && \
--				 INTEL_INFO(dev_priv)->gt == 3)
--#define IS_SKL_GT4(dev_priv)	(IS_SKYLAKE(dev_priv) && \
--				 INTEL_INFO(dev_priv)->gt == 4)
--#define IS_KBL_GT2(dev_priv)	(IS_KABYLAKE(dev_priv) && \
--				 INTEL_INFO(dev_priv)->gt == 2)
--#define IS_KBL_GT3(dev_priv)	(IS_KABYLAKE(dev_priv) && \
--				 INTEL_INFO(dev_priv)->gt == 3)
--#define IS_CFL_ULT(dev_priv) \
--	IS_SUBPLATFORM(dev_priv, INTEL_COFFEELAKE, INTEL_SUBPLATFORM_ULT)
--#define IS_CFL_ULX(dev_priv) \
--	IS_SUBPLATFORM(dev_priv, INTEL_COFFEELAKE, INTEL_SUBPLATFORM_ULX)
--#define IS_CFL_GT2(dev_priv)	(IS_COFFEELAKE(dev_priv) && \
--				 INTEL_INFO(dev_priv)->gt == 2)
--#define IS_CFL_GT3(dev_priv)	(IS_COFFEELAKE(dev_priv) && \
--				 INTEL_INFO(dev_priv)->gt == 3)
--
--#define IS_CML_ULT(dev_priv) \
--	IS_SUBPLATFORM(dev_priv, INTEL_COMETLAKE, INTEL_SUBPLATFORM_ULT)
--#define IS_CML_ULX(dev_priv) \
--	IS_SUBPLATFORM(dev_priv, INTEL_COMETLAKE, INTEL_SUBPLATFORM_ULX)
--#define IS_CML_GT2(dev_priv)	(IS_COMETLAKE(dev_priv) && \
--				 INTEL_INFO(dev_priv)->gt == 2)
--
--#define IS_ICL_WITH_PORT_F(dev_priv) \
--	IS_SUBPLATFORM(dev_priv, INTEL_ICELAKE, INTEL_SUBPLATFORM_PORTF)
--
--#define IS_TGL_UY(dev_priv) \
--	IS_SUBPLATFORM(dev_priv, INTEL_TIGERLAKE, INTEL_SUBPLATFORM_UY)
-+#define IS_HSW_ULX(i915) \
-+	IS_SUBPLATFORM(i915, INTEL_HASWELL, INTEL_SUBPLATFORM_ULX)
-+#define IS_SKL_ULT(i915) \
-+	IS_SUBPLATFORM(i915, INTEL_SKYLAKE, INTEL_SUBPLATFORM_ULT)
-+#define IS_SKL_ULX(i915) \
-+	IS_SUBPLATFORM(i915, INTEL_SKYLAKE, INTEL_SUBPLATFORM_ULX)
-+#define IS_KBL_ULT(i915) \
-+	IS_SUBPLATFORM(i915, INTEL_KABYLAKE, INTEL_SUBPLATFORM_ULT)
-+#define IS_KBL_ULX(i915) \
-+	IS_SUBPLATFORM(i915, INTEL_KABYLAKE, INTEL_SUBPLATFORM_ULX)
-+#define IS_SKL_GT2(i915)	(IS_SKYLAKE(i915) && \
-+				 INTEL_INFO(i915)->gt == 2)
-+#define IS_SKL_GT3(i915)	(IS_SKYLAKE(i915) && \
-+				 INTEL_INFO(i915)->gt == 3)
-+#define IS_SKL_GT4(i915)	(IS_SKYLAKE(i915) && \
-+				 INTEL_INFO(i915)->gt == 4)
-+#define IS_KBL_GT2(i915)	(IS_KABYLAKE(i915) && \
-+				 INTEL_INFO(i915)->gt == 2)
-+#define IS_KBL_GT3(i915)	(IS_KABYLAKE(i915) && \
-+				 INTEL_INFO(i915)->gt == 3)
-+#define IS_CFL_ULT(i915) \
-+	IS_SUBPLATFORM(i915, INTEL_COFFEELAKE, INTEL_SUBPLATFORM_ULT)
-+#define IS_CFL_ULX(i915) \
-+	IS_SUBPLATFORM(i915, INTEL_COFFEELAKE, INTEL_SUBPLATFORM_ULX)
-+#define IS_CFL_GT2(i915)	(IS_COFFEELAKE(i915) && \
-+				 INTEL_INFO(i915)->gt == 2)
-+#define IS_CFL_GT3(i915)	(IS_COFFEELAKE(i915) && \
-+				 INTEL_INFO(i915)->gt == 3)
-+
-+#define IS_CML_ULT(i915) \
-+	IS_SUBPLATFORM(i915, INTEL_COMETLAKE, INTEL_SUBPLATFORM_ULT)
-+#define IS_CML_ULX(i915) \
-+	IS_SUBPLATFORM(i915, INTEL_COMETLAKE, INTEL_SUBPLATFORM_ULX)
-+#define IS_CML_GT2(i915)	(IS_COMETLAKE(i915) && \
-+				 INTEL_INFO(i915)->gt == 2)
-+
-+#define IS_ICL_WITH_PORT_F(i915) \
-+	IS_SUBPLATFORM(i915, INTEL_ICELAKE, INTEL_SUBPLATFORM_PORTF)
-+
-+#define IS_TGL_UY(i915) \
-+	IS_SUBPLATFORM(i915, INTEL_TIGERLAKE, INTEL_SUBPLATFORM_UY)
- 
- #define IS_SKL_GRAPHICS_STEP(p, since, until) (IS_SKYLAKE(p) && IS_GRAPHICS_STEP(p, since, until))
- 
--#define IS_KBL_GRAPHICS_STEP(dev_priv, since, until) \
--	(IS_KABYLAKE(dev_priv) && IS_GRAPHICS_STEP(dev_priv, since, until))
--#define IS_KBL_DISPLAY_STEP(dev_priv, since, until) \
--	(IS_KABYLAKE(dev_priv) && IS_DISPLAY_STEP(dev_priv, since, until))
-+#define IS_KBL_GRAPHICS_STEP(i915, since, until) \
-+	(IS_KABYLAKE(i915) && IS_GRAPHICS_STEP(i915, since, until))
-+#define IS_KBL_DISPLAY_STEP(i915, since, until) \
-+	(IS_KABYLAKE(i915) && IS_DISPLAY_STEP(i915, since, until))
- 
- #define IS_JSL_EHL_GRAPHICS_STEP(p, since, until) \
- 	(IS_JSL_EHL(p) && IS_GRAPHICS_STEP(p, since, until))
-@@ -720,9 +720,9 @@ IS_SUBPLATFORM(const struct drm_i915_private *i915,
- 	(IS_PONTEVECCHIO(__i915) && \
- 	 IS_GRAPHICS_STEP(__i915, since, until))
- 
--#define IS_LP(dev_priv)		(INTEL_INFO(dev_priv)->is_lp)
--#define IS_GEN9_LP(dev_priv)	(GRAPHICS_VER(dev_priv) == 9 && IS_LP(dev_priv))
--#define IS_GEN9_BC(dev_priv)	(GRAPHICS_VER(dev_priv) == 9 && !IS_LP(dev_priv))
-+#define IS_LP(i915)		(INTEL_INFO(i915)->is_lp)
-+#define IS_GEN9_LP(i915)	(GRAPHICS_VER(i915) == 9 && IS_LP(i915))
-+#define IS_GEN9_BC(i915)	(GRAPHICS_VER(i915) == 9 && !IS_LP(i915))
- 
- #define __HAS_ENGINE(engine_mask, id) ((engine_mask) & BIT(id))
- #define HAS_ENGINE(gt, id) __HAS_ENGINE((gt)->info.engine_mask, id)
-@@ -747,180 +747,180 @@ IS_SUBPLATFORM(const struct drm_i915_private *i915,
- #define CCS_MASK(gt) \
- 	ENGINE_INSTANCES_MASK(gt, CCS0, I915_MAX_CCS)
- 
--#define HAS_MEDIA_RATIO_MODE(dev_priv) (INTEL_INFO(dev_priv)->has_media_ratio_mode)
-+#define HAS_MEDIA_RATIO_MODE(i915) (INTEL_INFO(i915)->has_media_ratio_mode)
- 
- /*
-  * The Gen7 cmdparser copies the scanned buffer to the ggtt for execution
-  * All later gens can run the final buffer from the ppgtt
-  */
--#define CMDPARSER_USES_GGTT(dev_priv) (GRAPHICS_VER(dev_priv) == 7)
-+#define CMDPARSER_USES_GGTT(i915) (GRAPHICS_VER(i915) == 7)
- 
--#define HAS_LLC(dev_priv)	(INTEL_INFO(dev_priv)->has_llc)
--#define HAS_4TILE(dev_priv)	(INTEL_INFO(dev_priv)->has_4tile)
--#define HAS_SNOOP(dev_priv)	(INTEL_INFO(dev_priv)->has_snoop)
--#define HAS_EDRAM(dev_priv)	((dev_priv)->edram_size_mb)
--#define HAS_SECURE_BATCHES(dev_priv) (GRAPHICS_VER(dev_priv) < 6)
--#define HAS_WT(dev_priv)	HAS_EDRAM(dev_priv)
-+#define HAS_LLC(i915)	(INTEL_INFO(i915)->has_llc)
-+#define HAS_4TILE(i915)	(INTEL_INFO(i915)->has_4tile)
-+#define HAS_SNOOP(i915)	(INTEL_INFO(i915)->has_snoop)
-+#define HAS_EDRAM(i915)	((i915)->edram_size_mb)
-+#define HAS_SECURE_BATCHES(i915) (GRAPHICS_VER(i915) < 6)
-+#define HAS_WT(i915)	HAS_EDRAM(i915)
- 
--#define HWS_NEEDS_PHYSICAL(dev_priv)	(INTEL_INFO(dev_priv)->hws_needs_physical)
-+#define HWS_NEEDS_PHYSICAL(i915)	(INTEL_INFO(i915)->hws_needs_physical)
- 
--#define HAS_LOGICAL_RING_CONTEXTS(dev_priv) \
--		(INTEL_INFO(dev_priv)->has_logical_ring_contexts)
--#define HAS_LOGICAL_RING_ELSQ(dev_priv) \
--		(INTEL_INFO(dev_priv)->has_logical_ring_elsq)
-+#define HAS_LOGICAL_RING_CONTEXTS(i915) \
-+		(INTEL_INFO(i915)->has_logical_ring_contexts)
-+#define HAS_LOGICAL_RING_ELSQ(i915) \
-+		(INTEL_INFO(i915)->has_logical_ring_elsq)
- 
--#define HAS_EXECLISTS(dev_priv) HAS_LOGICAL_RING_CONTEXTS(dev_priv)
-+#define HAS_EXECLISTS(i915) HAS_LOGICAL_RING_CONTEXTS(i915)
- 
--#define INTEL_PPGTT(dev_priv) (RUNTIME_INFO(dev_priv)->ppgtt_type)
--#define HAS_PPGTT(dev_priv) \
--	(INTEL_PPGTT(dev_priv) != INTEL_PPGTT_NONE)
--#define HAS_FULL_PPGTT(dev_priv) \
--	(INTEL_PPGTT(dev_priv) >= INTEL_PPGTT_FULL)
-+#define INTEL_PPGTT(i915) (RUNTIME_INFO(i915)->ppgtt_type)
-+#define HAS_PPGTT(i915) \
-+	(INTEL_PPGTT(i915) != INTEL_PPGTT_NONE)
-+#define HAS_FULL_PPGTT(i915) \
-+	(INTEL_PPGTT(i915) >= INTEL_PPGTT_FULL)
- 
--#define HAS_PAGE_SIZES(dev_priv, sizes) ({ \
-+#define HAS_PAGE_SIZES(i915, sizes) ({ \
- 	GEM_BUG_ON((sizes) == 0); \
--	((sizes) & ~RUNTIME_INFO(dev_priv)->page_sizes) == 0; \
-+	((sizes) & ~RUNTIME_INFO(i915)->page_sizes) == 0; \
- })
- 
--#define HAS_OVERLAY(dev_priv)		 (INTEL_INFO(dev_priv)->display.has_overlay)
--#define OVERLAY_NEEDS_PHYSICAL(dev_priv) \
--		(INTEL_INFO(dev_priv)->display.overlay_needs_physical)
-+#define HAS_OVERLAY(i915)		 (INTEL_INFO(i915)->display.has_overlay)
-+#define OVERLAY_NEEDS_PHYSICAL(i915) \
-+		(INTEL_INFO(i915)->display.overlay_needs_physical)
- 
- /* Early gen2 have a totally busted CS tlb and require pinned batches. */
--#define HAS_BROKEN_CS_TLB(dev_priv)	(IS_I830(dev_priv) || IS_I845G(dev_priv))
-+#define HAS_BROKEN_CS_TLB(i915)	(IS_I830(i915) || IS_I845G(i915))
- 
--#define NEEDS_RC6_CTX_CORRUPTION_WA(dev_priv)	\
--	(IS_BROADWELL(dev_priv) || GRAPHICS_VER(dev_priv) == 9)
-+#define NEEDS_RC6_CTX_CORRUPTION_WA(i915)	\
-+	(IS_BROADWELL(i915) || GRAPHICS_VER(i915) == 9)
- 
- /* WaRsDisableCoarsePowerGating:skl,cnl */
--#define NEEDS_WaRsDisableCoarsePowerGating(dev_priv)			\
--	(IS_SKL_GT3(dev_priv) || IS_SKL_GT4(dev_priv))
-+#define NEEDS_WaRsDisableCoarsePowerGating(i915)			\
-+	(IS_SKL_GT3(i915) || IS_SKL_GT4(i915))
- 
--#define HAS_GMBUS_IRQ(dev_priv) (DISPLAY_VER(dev_priv) >= 4)
--#define HAS_GMBUS_BURST_READ(dev_priv) (DISPLAY_VER(dev_priv) >= 11 || \
--					IS_GEMINILAKE(dev_priv) || \
--					IS_KABYLAKE(dev_priv))
-+#define HAS_GMBUS_IRQ(i915) (DISPLAY_VER(i915) >= 4)
-+#define HAS_GMBUS_BURST_READ(i915) (DISPLAY_VER(i915) >= 11 || \
-+					IS_GEMINILAKE(i915) || \
-+					IS_KABYLAKE(i915))
- 
- /* With the 945 and later, Y tiling got adjusted so that it was 32 128-byte
-  * rows, which changed the alignment requirements and fence programming.
-  */
--#define HAS_128_BYTE_Y_TILING(dev_priv) (GRAPHICS_VER(dev_priv) != 2 && \
--					 !(IS_I915G(dev_priv) || IS_I915GM(dev_priv)))
--#define SUPPORTS_TV(dev_priv)		(INTEL_INFO(dev_priv)->display.supports_tv)
--#define I915_HAS_HOTPLUG(dev_priv)	(INTEL_INFO(dev_priv)->display.has_hotplug)
-+#define HAS_128_BYTE_Y_TILING(i915) (GRAPHICS_VER(i915) != 2 && \
-+					 !(IS_I915G(i915) || IS_I915GM(i915)))
-+#define SUPPORTS_TV(i915)		(INTEL_INFO(i915)->display.supports_tv)
-+#define I915_HAS_HOTPLUG(i915)	(INTEL_INFO(i915)->display.has_hotplug)
- 
--#define HAS_FW_BLC(dev_priv)	(DISPLAY_VER(dev_priv) > 2)
--#define HAS_FBC(dev_priv)	(RUNTIME_INFO(dev_priv)->fbc_mask != 0)
--#define HAS_CUR_FBC(dev_priv)	(!HAS_GMCH(dev_priv) && DISPLAY_VER(dev_priv) >= 7)
-+#define HAS_FW_BLC(i915)	(DISPLAY_VER(i915) > 2)
-+#define HAS_FBC(i915)	(RUNTIME_INFO(i915)->fbc_mask != 0)
-+#define HAS_CUR_FBC(i915)	(!HAS_GMCH(i915) && DISPLAY_VER(i915) >= 7)
- 
--#define HAS_DPT(dev_priv)	(DISPLAY_VER(dev_priv) >= 13)
-+#define HAS_DPT(i915)	(DISPLAY_VER(i915) >= 13)
- 
--#define HAS_IPS(dev_priv)	(IS_HSW_ULT(dev_priv) || IS_BROADWELL(dev_priv))
-+#define HAS_IPS(i915)	(IS_HSW_ULT(i915) || IS_BROADWELL(i915))
- 
--#define HAS_DP_MST(dev_priv)	(INTEL_INFO(dev_priv)->display.has_dp_mst)
--#define HAS_DP20(dev_priv)	(IS_DG2(dev_priv) || DISPLAY_VER(dev_priv) >= 14)
-+#define HAS_DP_MST(i915)	(INTEL_INFO(i915)->display.has_dp_mst)
-+#define HAS_DP20(i915)	(IS_DG2(i915) || DISPLAY_VER(i915) >= 14)
- 
--#define HAS_DOUBLE_BUFFERED_M_N(dev_priv)	(DISPLAY_VER(dev_priv) >= 9 || IS_BROADWELL(dev_priv))
-+#define HAS_DOUBLE_BUFFERED_M_N(i915)	(DISPLAY_VER(i915) >= 9 || IS_BROADWELL(i915))
- 
--#define HAS_CDCLK_CRAWL(dev_priv)	 (INTEL_INFO(dev_priv)->display.has_cdclk_crawl)
--#define HAS_CDCLK_SQUASH(dev_priv)	 (INTEL_INFO(dev_priv)->display.has_cdclk_squash)
--#define HAS_DDI(dev_priv)		 (INTEL_INFO(dev_priv)->display.has_ddi)
--#define HAS_FPGA_DBG_UNCLAIMED(dev_priv) (INTEL_INFO(dev_priv)->display.has_fpga_dbg)
--#define HAS_PSR(dev_priv)		 (INTEL_INFO(dev_priv)->display.has_psr)
--#define HAS_PSR_HW_TRACKING(dev_priv) \
--	(INTEL_INFO(dev_priv)->display.has_psr_hw_tracking)
--#define HAS_PSR2_SEL_FETCH(dev_priv)	 (DISPLAY_VER(dev_priv) >= 12)
--#define HAS_TRANSCODER(dev_priv, trans)	 ((RUNTIME_INFO(dev_priv)->cpu_transcoder_mask & BIT(trans)) != 0)
-+#define HAS_CDCLK_CRAWL(i915)	 (INTEL_INFO(i915)->display.has_cdclk_crawl)
-+#define HAS_CDCLK_SQUASH(i915)	 (INTEL_INFO(i915)->display.has_cdclk_squash)
-+#define HAS_DDI(i915)		 (INTEL_INFO(i915)->display.has_ddi)
-+#define HAS_FPGA_DBG_UNCLAIMED(i915) (INTEL_INFO(i915)->display.has_fpga_dbg)
-+#define HAS_PSR(i915)		 (INTEL_INFO(i915)->display.has_psr)
-+#define HAS_PSR_HW_TRACKING(i915) \
-+	(INTEL_INFO(i915)->display.has_psr_hw_tracking)
-+#define HAS_PSR2_SEL_FETCH(i915)	 (DISPLAY_VER(i915) >= 12)
-+#define HAS_TRANSCODER(i915, trans)	 ((RUNTIME_INFO(i915)->cpu_transcoder_mask & BIT(trans)) != 0)
- 
--#define HAS_RC6(dev_priv)		 (INTEL_INFO(dev_priv)->has_rc6)
--#define HAS_RC6p(dev_priv)		 (INTEL_INFO(dev_priv)->has_rc6p)
--#define HAS_RC6pp(dev_priv)		 (false) /* HW was never validated */
-+#define HAS_RC6(i915)		 (INTEL_INFO(i915)->has_rc6)
-+#define HAS_RC6p(i915)		 (INTEL_INFO(i915)->has_rc6p)
-+#define HAS_RC6pp(i915)		 (false) /* HW was never validated */
- 
--#define HAS_RPS(dev_priv)	(INTEL_INFO(dev_priv)->has_rps)
-+#define HAS_RPS(i915)	(INTEL_INFO(i915)->has_rps)
- 
--#define HAS_DMC(dev_priv)	(RUNTIME_INFO(dev_priv)->has_dmc)
--#define HAS_DSB(dev_priv)	(INTEL_INFO(dev_priv)->display.has_dsb)
-+#define HAS_DMC(i915)	(RUNTIME_INFO(i915)->has_dmc)
-+#define HAS_DSB(i915)	(INTEL_INFO(i915)->display.has_dsb)
- #define HAS_DSC(__i915)		(RUNTIME_INFO(__i915)->has_dsc)
- #define HAS_HW_SAGV_WM(i915) (DISPLAY_VER(i915) >= 13 && !IS_DGFX(i915))
- 
--#define HAS_HECI_PXP(dev_priv) \
--	(INTEL_INFO(dev_priv)->has_heci_pxp)
-+#define HAS_HECI_PXP(i915) \
-+	(INTEL_INFO(i915)->has_heci_pxp)
- 
--#define HAS_HECI_GSCFI(dev_priv) \
--	(INTEL_INFO(dev_priv)->has_heci_gscfi)
-+#define HAS_HECI_GSCFI(i915) \
-+	(INTEL_INFO(i915)->has_heci_gscfi)
- 
--#define HAS_HECI_GSC(dev_priv) (HAS_HECI_PXP(dev_priv) || HAS_HECI_GSCFI(dev_priv))
-+#define HAS_HECI_GSC(i915) (HAS_HECI_PXP(i915) || HAS_HECI_GSCFI(i915))
- 
- #define HAS_MSO(i915)		(DISPLAY_VER(i915) >= 12)
- 
--#define HAS_RUNTIME_PM(dev_priv) (INTEL_INFO(dev_priv)->has_runtime_pm)
--#define HAS_64BIT_RELOC(dev_priv) (INTEL_INFO(dev_priv)->has_64bit_reloc)
-+#define HAS_RUNTIME_PM(i915) (INTEL_INFO(i915)->has_runtime_pm)
-+#define HAS_64BIT_RELOC(i915) (INTEL_INFO(i915)->has_64bit_reloc)
- 
--#define HAS_OA_BPC_REPORTING(dev_priv) \
--	(INTEL_INFO(dev_priv)->has_oa_bpc_reporting)
--#define HAS_OA_SLICE_CONTRIB_LIMITS(dev_priv) \
--	(INTEL_INFO(dev_priv)->has_oa_slice_contrib_limits)
--#define HAS_OAM(dev_priv) \
--	(INTEL_INFO(dev_priv)->has_oam)
-+#define HAS_OA_BPC_REPORTING(i915) \
-+	(INTEL_INFO(i915)->has_oa_bpc_reporting)
-+#define HAS_OA_SLICE_CONTRIB_LIMITS(i915) \
-+	(INTEL_INFO(i915)->has_oa_slice_contrib_limits)
-+#define HAS_OAM(i915) \
-+	(INTEL_INFO(i915)->has_oam)
- 
- /*
-  * Set this flag, when platform requires 64K GTT page sizes or larger for
-  * device local memory access.
-  */
--#define HAS_64K_PAGES(dev_priv) (INTEL_INFO(dev_priv)->has_64k_pages)
-+#define HAS_64K_PAGES(i915) (INTEL_INFO(i915)->has_64k_pages)
- 
--#define HAS_IPC(dev_priv)		(INTEL_INFO(dev_priv)->display.has_ipc)
--#define HAS_SAGV(dev_priv)		(DISPLAY_VER(dev_priv) >= 9 && !IS_LP(dev_priv))
-+#define HAS_IPC(i915)		(INTEL_INFO(i915)->display.has_ipc)
-+#define HAS_SAGV(i915)		(DISPLAY_VER(i915) >= 9 && !IS_LP(i915))
- 
- #define HAS_REGION(i915, i) (RUNTIME_INFO(i915)->memory_regions & (i))
- #define HAS_LMEM(i915) HAS_REGION(i915, REGION_LMEM)
- 
--#define HAS_EXTRA_GT_LIST(dev_priv)   (INTEL_INFO(dev_priv)->extra_gt_list)
-+#define HAS_EXTRA_GT_LIST(i915)   (INTEL_INFO(i915)->extra_gt_list)
- 
- /*
-  * Platform has the dedicated compression control state for each lmem surfaces
-  * stored in lmem to support the 3D and media compression formats.
-  */
--#define HAS_FLAT_CCS(dev_priv)   (INTEL_INFO(dev_priv)->has_flat_ccs)
-+#define HAS_FLAT_CCS(i915)   (INTEL_INFO(i915)->has_flat_ccs)
- 
--#define HAS_GT_UC(dev_priv)	(INTEL_INFO(dev_priv)->has_gt_uc)
-+#define HAS_GT_UC(i915)	(INTEL_INFO(i915)->has_gt_uc)
- 
--#define HAS_POOLED_EU(dev_priv)	(RUNTIME_INFO(dev_priv)->has_pooled_eu)
-+#define HAS_POOLED_EU(i915)	(RUNTIME_INFO(i915)->has_pooled_eu)
- 
--#define HAS_GLOBAL_MOCS_REGISTERS(dev_priv)	(INTEL_INFO(dev_priv)->has_global_mocs)
-+#define HAS_GLOBAL_MOCS_REGISTERS(i915)	(INTEL_INFO(i915)->has_global_mocs)
- 
--#define HAS_GMCH(dev_priv) (INTEL_INFO(dev_priv)->display.has_gmch)
-+#define HAS_GMCH(i915) (INTEL_INFO(i915)->display.has_gmch)
- 
- #define HAS_GMD_ID(i915)	(INTEL_INFO(i915)->has_gmd_id)
- 
--#define HAS_LSPCON(dev_priv) (IS_DISPLAY_VER(dev_priv, 9, 10))
-+#define HAS_LSPCON(i915) (IS_DISPLAY_VER(i915, 9, 10))
- 
- #define HAS_L3_CCS_READ(i915) (INTEL_INFO(i915)->has_l3_ccs_read)
- 
- /* DPF == dynamic parity feature */
--#define HAS_L3_DPF(dev_priv) (INTEL_INFO(dev_priv)->has_l3_dpf)
--#define NUM_L3_SLICES(dev_priv) (IS_HSW_GT3(dev_priv) ? \
--				 2 : HAS_L3_DPF(dev_priv))
-+#define HAS_L3_DPF(i915) (INTEL_INFO(i915)->has_l3_dpf)
-+#define NUM_L3_SLICES(i915) (IS_HSW_GT3(i915) ? \
-+				 2 : HAS_L3_DPF(i915))
- 
--#define INTEL_NUM_PIPES(dev_priv) (hweight8(RUNTIME_INFO(dev_priv)->pipe_mask))
-+#define INTEL_NUM_PIPES(i915) (hweight8(RUNTIME_INFO(i915)->pipe_mask))
- 
--#define HAS_DISPLAY(dev_priv) (RUNTIME_INFO(dev_priv)->pipe_mask != 0)
-+#define HAS_DISPLAY(i915) (RUNTIME_INFO(i915)->pipe_mask != 0)
- 
- #define HAS_VRR(i915)	(DISPLAY_VER(i915) >= 11)
- 
- #define HAS_ASYNC_FLIPS(i915)		(DISPLAY_VER(i915) >= 5)
- 
- /* Only valid when HAS_DISPLAY() is true */
--#define INTEL_DISPLAY_ENABLED(dev_priv) \
--	(drm_WARN_ON(&(dev_priv)->drm, !HAS_DISPLAY(dev_priv)),		\
--	 !(dev_priv)->params.disable_display &&				\
--	 !intel_opregion_headless_sku(dev_priv))
-+#define INTEL_DISPLAY_ENABLED(i915) \
-+	(drm_WARN_ON(&(i915)->drm, !HAS_DISPLAY(i915)),		\
-+	 !(i915)->params.disable_display &&				\
-+	 !intel_opregion_headless_sku(i915))
- 
--#define HAS_GUC_DEPRIVILEGE(dev_priv) \
--	(INTEL_INFO(dev_priv)->has_guc_deprivilege)
-+#define HAS_GUC_DEPRIVILEGE(i915) \
-+	(INTEL_INFO(i915)->has_guc_deprivilege)
- 
--#define HAS_D12_PLANE_MINIMIZATION(dev_priv) (IS_ROCKETLAKE(dev_priv) || \
--					      IS_ALDERLAKE_S(dev_priv))
-+#define HAS_D12_PLANE_MINIMIZATION(i915) (IS_ROCKETLAKE(i915) || \
-+					      IS_ALDERLAKE_S(i915))
- 
- #define HAS_MBUS_JOINING(i915) (IS_ALDERLAKE_P(i915) || DISPLAY_VER(i915) >= 14)
- 
+[auto build test ERROR on drm-misc/drm-misc-next]
+[also build test ERROR on drm/drm-next drm-exynos/exynos-drm-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.3-rc7 next-20230420]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Kuogee-Hsieh/drm-msm-dpu-add-support-for-DSC-encoder-v1-2-engine/20230421-072925
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/1682033114-28483-2-git-send-email-quic_khsieh%40quicinc.com
+patch subject: [PATCH v1 1/5] drm/msm/dpu: add support for DSC encoder v1.2 engine
+config: riscv-randconfig-r013-20230421 (https://download.01.org/0day-ci/archive/20230422/202304220258.dmrglaf1-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 437b7602e4a998220871de78afcb020b9c14a661)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install riscv cross compiling tool for clang build
+        # apt-get install binutils-riscv64-linux-gnu
+        # https://github.com/intel-lab-lkp/linux/commit/1c3eede9e4f8fc63f52eddb0c55f63d59fad4b68
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Kuogee-Hsieh/drm-msm-dpu-add-support-for-DSC-encoder-v1-2-engine/20230421-072925
+        git checkout 1c3eede9e4f8fc63f52eddb0c55f63d59fad4b68
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash drivers/gpu/drm/msm/
+
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202304220258.dmrglaf1-lkp@intel.com/
+
+All error/warnings (new ones prefixed by >>):
+
+>> drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc_1_2.c:227:24: error: call to undeclared function 'drm_dsc_calculate_flatness_det_thresh'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+           det_thresh_flatness = drm_dsc_calculate_flatness_det_thresh(dsc);
+                                 ^
+>> drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc_1_2.c:124:16: warning: variable 'off' set but not used [-Wunused-but-set-variable]
+           void __iomem *off;
+                         ^
+   1 warning and 1 error generated.
+
+
+vim +/drm_dsc_calculate_flatness_det_thresh +227 drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc_1_2.c
+
+   112	
+   113	static void dpu_hw_dsc_config_1_2(struct dpu_hw_dsc *hw_dsc,
+   114				      struct drm_dsc_config *dsc,
+   115				      u32 mode,
+   116				      u32 initial_lines)
+   117	{
+   118		struct dpu_hw_blk_reg_map *hw;
+   119		u32 offset;
+   120		u32 data = 0;
+   121		u32 det_thresh_flatness;
+   122		u32 num_active_ss_per_enc;
+   123		u32 bpp;
+ > 124		void __iomem *off;
+   125	
+   126		if (!hw_dsc || !dsc)
+   127			return;
+   128	
+   129		hw = &hw_dsc->hw;
+   130	
+   131		_dsc_subblk_offset(hw_dsc, DPU_DSC_ENC, &offset);
+   132	
+   133		if (mode & DSC_MODE_SPLIT_PANEL)
+   134			data |= BIT(0);
+   135	
+   136		if (mode & DSC_MODE_MULTIPLEX)
+   137			data |= BIT(1);
+   138	
+   139		num_active_ss_per_enc = dsc->slice_count;
+   140		if (mode & DSC_MODE_MULTIPLEX)
+   141			num_active_ss_per_enc = dsc->slice_count >> 1;
+   142	
+   143		data |= (num_active_ss_per_enc & 0x3) << 7;
+   144	
+   145		DPU_REG_WRITE(hw, DSC_CMN_MAIN_CNF, data);
+   146	
+   147		data = (initial_lines & 0xff);
+   148	
+   149		if (mode & DSC_MODE_VIDEO)
+   150			data |= BIT(9);
+   151	
+   152		data |= (_dsc_calc_ob_max_addr(hw_dsc, num_active_ss_per_enc) << 18);
+   153	
+   154		DPU_REG_WRITE(hw, offset + ENC_DF_CTRL, data);
+   155	
+   156		data = (dsc->dsc_version_minor & 0xf) << 28;
+   157		if (dsc->dsc_version_minor == 0x2) {
+   158			if (dsc->native_422)
+   159				data |= BIT(22);
+   160			if (dsc->native_420)
+   161				data |= BIT(21);
+   162		}
+   163	
+   164		bpp = dsc->bits_per_pixel;
+   165		/* as per hw requirement bpp should be programmed
+   166		 * twice the actual value in case of 420 or 422 encoding
+   167		 */
+   168		if (dsc->native_422 || dsc->native_420)
+   169			bpp = 2 * bpp;
+   170		data |= (dsc->block_pred_enable ? 1 : 0) << 20;
+   171		data |= bpp << 10;
+   172		data |= (dsc->line_buf_depth & 0xf) << 6;
+   173		data |= dsc->convert_rgb << 4;
+   174		data |= dsc->bits_per_component & 0xf;
+   175	
+   176		DPU_REG_WRITE(hw, offset + DSC_MAIN_CONF, data);
+   177	
+   178		data = (dsc->pic_width & 0xffff) |
+   179			((dsc->pic_height & 0xffff) << 16);
+   180	
+   181		DPU_REG_WRITE(hw, offset + DSC_PICTURE_SIZE, data);
+   182	
+   183		data = (dsc->slice_width & 0xffff) |
+   184			((dsc->slice_height & 0xffff) << 16);
+   185	
+   186		DPU_REG_WRITE(hw, offset + DSC_SLICE_SIZE, data);
+   187	
+   188		DPU_REG_WRITE(hw, offset + DSC_MISC_SIZE,
+   189				(dsc->slice_chunk_size) & 0xffff);
+   190	
+   191		data = (dsc->initial_xmit_delay & 0xffff) |
+   192			((dsc->initial_dec_delay & 0xffff) << 16);
+   193	
+   194		DPU_REG_WRITE(hw, offset + DSC_HRD_DELAYS, data);
+   195	
+   196		DPU_REG_WRITE(hw, offset + DSC_RC_SCALE,
+   197				dsc->initial_scale_value & 0x3f);
+   198	
+   199		data = (dsc->scale_increment_interval & 0xffff) |
+   200			((dsc->scale_decrement_interval & 0x7ff) << 16);
+   201	
+   202		DPU_REG_WRITE(hw, offset + DSC_RC_SCALE_INC_DEC, data);
+   203	
+   204		data = (dsc->first_line_bpg_offset & 0x1f) |
+   205			((dsc->second_line_bpg_offset & 0x1f) << 5);
+   206	
+   207		DPU_REG_WRITE(hw, offset + DSC_RC_OFFSETS_1, data);
+   208	
+   209		data = (dsc->nfl_bpg_offset & 0xffff) |
+   210			((dsc->slice_bpg_offset & 0xffff) << 16);
+   211	
+   212		DPU_REG_WRITE(hw, offset + DSC_RC_OFFSETS_2, data);
+   213	
+   214		data = (dsc->initial_offset & 0xffff) |
+   215			((dsc->final_offset & 0xffff) << 16);
+   216	
+   217		DPU_REG_WRITE(hw, offset + DSC_RC_OFFSETS_3, data);
+   218	
+   219		data = (dsc->nsl_bpg_offset & 0xffff) |
+   220			((dsc->second_line_offset_adj & 0xffff) << 16);
+   221	
+   222		DPU_REG_WRITE(hw, offset + DSC_RC_OFFSETS_4, data);
+   223	
+   224		data = (dsc->flatness_min_qp & 0x1f);
+   225		data |= (dsc->flatness_max_qp & 0x1f) << 5;
+   226	
+ > 227		det_thresh_flatness = drm_dsc_calculate_flatness_det_thresh(dsc);
+   228		data |= (det_thresh_flatness & 0xff) << 10;
+   229	
+   230		DPU_REG_WRITE(hw, offset + DSC_FLATNESS_QP, data);
+   231	
+   232		DPU_REG_WRITE(hw, offset + DSC_RC_MODEL_SIZE,
+   233				(dsc->rc_model_size) & 0xffff);
+   234	
+   235		data = dsc->rc_edge_factor & 0xf;
+   236		data |= (dsc->rc_quant_incr_limit0 & 0x1f) << 8;
+   237		data |= (dsc->rc_quant_incr_limit1 & 0x1f) << 13;
+   238		data |= (dsc->rc_tgt_offset_high & 0xf) << 20;
+   239		data |= (dsc->rc_tgt_offset_low & 0xf) << 24;
+   240	
+   241		DPU_REG_WRITE(hw, offset + DSC_RC_CONFIG, data);
+   242	
+   243		/* program the dsc wrapper */
+   244		_dsc_subblk_offset(hw_dsc, DPU_DSC_CTL, &offset);
+   245	
+   246		off = hw->blk_addr + offset;
+   247	
+   248		data = BIT(0); /* encoder enable */
+   249		if (dsc->native_422)
+   250			data |= BIT(8);
+   251		else if (dsc->native_420)
+   252			data |= BIT(9);
+   253		if (!dsc->convert_rgb)
+   254			data |= BIT(10);
+   255		if (dsc->bits_per_component == 8)
+   256			data |= BIT(11);
+   257		if (mode & DSC_MODE_SPLIT_PANEL)
+   258			data |= BIT(12);
+   259		if (mode & DSC_MODE_MULTIPLEX)
+   260			data |= BIT(13);
+   261		if (!(mode & DSC_MODE_VIDEO))
+   262			data |= BIT(17);
+   263	
+   264		DPU_REG_WRITE(hw, offset + DSC_CFG, data);
+   265	}
+   266	
+
 -- 
-2.40.0
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
