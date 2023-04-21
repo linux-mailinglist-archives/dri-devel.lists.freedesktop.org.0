@@ -2,75 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2CF76EB532
-	for <lists+dri-devel@lfdr.de>; Sat, 22 Apr 2023 00:47:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2FA86EB537
+	for <lists+dri-devel@lfdr.de>; Sat, 22 Apr 2023 00:47:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4DEE410EF1F;
-	Fri, 21 Apr 2023 22:47:40 +0000 (UTC)
-X-Original-To: dri-devel@lists.freedesktop.org
-Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D3C2F10EF1F;
- Fri, 21 Apr 2023 22:47:37 +0000 (UTC)
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 33LKrCTP014264; Fri, 21 Apr 2023 22:47:35 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding : content-type; s=qcppdkim1;
- bh=8EE8timcjGGxQsm//IdKVah5+CYhJ5HJN8lauwDkGgc=;
- b=pKe6sDCsoJD6SPye8/7iZ184cs4C0x1GmfPbq5ZhIbpmVx7Jv27sgKP5HjJrgwZKynZ0
- xy906I8fu9kmHgH3MG7uh2sV184MrZ7TziywLJhxZtgPPvbhIWMLgoRBHiFZ+7o+J007
- wkAep3tHNwjqE94jFOlk4R5XWAG6OiwWoRr4JBxNERa80XXf/Di3/UwpUt75wrV/h4sx
- AY5jw4oPNOjBdw+rFLaRzYsh1euta/2V/tlS2hoTG0/DaHY/C0gC4umRImnRz7lE3/ni
- XnvZXRJv4rnY4UBrlQFcsYa2nRKzgxABFLd4HvCxRaKx6y8xxuoVbwJTPC1+jq++tuLR gw== 
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3q41wu074c-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 21 Apr 2023 22:47:35 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 33LMlY17018048
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 21 Apr 2023 22:47:34 GMT
-Received: from abhinavk-linux.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.42; Fri, 21 Apr 2023 15:47:33 -0700
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-To: <freedreno@lists.freedesktop.org>, Rob Clark <robdclark@gmail.com>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Dmitry Baryshkov
- <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, David Airlie
- <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH 2/2] drm/msm/dpu: remove GC related code from dpu catalog
-Date: Fri, 21 Apr 2023 15:47:20 -0700
-Message-ID: <20230421224721.12738-2-quic_abhinavk@quicinc.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230421224721.12738-1-quic_abhinavk@quicinc.com>
-References: <20230421224721.12738-1-quic_abhinavk@quicinc.com>
+	by gabe.freedesktop.org (Postfix) with ESMTP id C115410EF21;
+	Fri, 21 Apr 2023 22:47:49 +0000 (UTC)
+X-Original-To: DRI-Devel@lists.freedesktop.org
+Delivered-To: DRI-Devel@lists.freedesktop.org
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 73B0E10EF1E;
+ Fri, 21 Apr 2023 22:47:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1682117267; x=1713653267;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=N5Nz96zPTT4S7mlCkKCfzlD42lLGoMbiPHT6/A6l4MA=;
+ b=VpaCsIrVds41sU9DkTdbWIpTTBZIOC0w/tff1xdsviSgmG5lAGxPUxb7
+ ZyggYeQSaurs19onEnbcGkJNwb1zp4rbTdkHBlo8iKqjzBfOW1hVtNvAz
+ eQxp/HMgt5nZz/JxTxPpSooT2+l3SwiiTrq7eIvv0eq4GQjMf1oPS0eTT
+ IZFDqKXN+rBNPrVymXDk06QtJIWwru7At9RZpzwopWOZqEqg9qzGaG3il
+ X+8hYsarIh0vD9JCDtNBoYtVUjJvM5JSytc7UYWPw0t2It976k/atC1Q3
+ jHSfj+R0mJqjY+MIep1bzwQKrDzU9us96d0xg6+8zZCJhqXtprhBhKmhU Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10687"; a="374033672"
+X-IronPort-AV: E=Sophos;i="5.99,216,1677571200"; d="scan'208";a="374033672"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Apr 2023 15:47:46 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10687"; a="642669301"
+X-IronPort-AV: E=Sophos;i="5.99,216,1677571200"; d="scan'208";a="642669301"
+Received: from relo-linux-5.jf.intel.com ([10.165.21.152])
+ by orsmga003.jf.intel.com with ESMTP; 21 Apr 2023 15:47:46 -0700
+From: John.C.Harrison@Intel.com
+To: Intel-GFX@Lists.FreeDesktop.Org
+Subject: [PATCH] drm/i915/guc: Actually return an error if GuC version range
+ check fails
+Date: Fri, 21 Apr 2023 15:47:42 -0700
+Message-Id: <20230421224742.2357198-1-John.C.Harrison@Intel.com>
+X-Mailer: git-send-email 2.39.1
 MIME-Version: 1.0
+Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
+ Swindon SN3 1RJ
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: fpqcGfbj42z99P_t5-KueDemiBXZSgj3
-X-Proofpoint-ORIG-GUID: fpqcGfbj42z99P_t5-KueDemiBXZSgj3
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-04-21_08,2023-04-21_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 phishscore=0
- mlxlogscore=999 bulkscore=0 malwarescore=0 spamscore=0 mlxscore=0
- priorityscore=1501 impostorscore=0 adultscore=0 lowpriorityscore=0
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2303200000 definitions=main-2304210199
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,84 +57,109 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_jesszhan@quicinc.com, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- marijn.suijten@somainline.org
+Cc: Matthew Brost <matthew.brost@intel.com>, Dan Carpenter <error27@gmail.com>,
+ Alan Previn <alan.previn.teres.alexis@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@intel.com>, Jani Nikula <jani.nikula@intel.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>, DRI-Devel@Lists.FreeDesktop.Org,
+ Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
+ Matthew Auld <matthew.auld@intel.com>, Andi Shyti <andi.shyti@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>,
+ John Harrison <John.C.Harrison@Intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Since Gamma Correction (GC) block is currently unused, drop
-related code from the dpu hardware catalog otherwise this
-becomes a burden to carry across chipsets in the catalog.
+From: John Harrison <John.C.Harrison@Intel.com>
 
-Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Dan Carpenter pointed out that 'err' was not being set in the case
+where the GuC firmware version range check fails. Fix that.
+
+Note that while this is bug fix for a previous patch (see Fixes tag
+below). It is an exceedingly low risk bug. The range check is
+asserting that the GuC firmware version is within spec. So it should
+not be possible to ever have a firmware file that fails this check. If
+larger version numbers are required in the future, that would be a
+backwards breaking spec change and thus require a major version bump,
+in which case an old i915 driver would not load that new version anyway.
+
+Fixes: 9bbba0667f37 ("drm/i915/guc: Use GuC submission API version number")
+Reported-by: Dan Carpenter <error27@gmail.com>
+Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
+Cc: John Harrison <John.C.Harrison@Intel.com>
+Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+Cc: Alan Previn <alan.previn.teres.alexis@intel.com>
+Cc: Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>
+Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: Matthew Brost <matthew.brost@intel.com>
+Cc: Andi Shyti <andi.shyti@linux.intel.com>
+Cc: Matthew Auld <matthew.auld@intel.com>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+Cc: Lucas De Marchi <lucas.demarchi@intel.com>
+Cc: Jani Nikula <jani.nikula@intel.com>
 ---
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c | 4 +---
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h | 6 ------
- 2 files changed, 1 insertion(+), 9 deletions(-)
+ drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c | 20 ++++++++++++--------
+ 1 file changed, 12 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-index 03f162af1a50..badfc3680485 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-@@ -91,7 +91,7 @@
+diff --git a/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c b/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
+index a82a53dbbc86d..6b71b9febd74c 100644
+--- a/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
++++ b/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
+@@ -636,9 +636,10 @@ static bool is_ver_8bit(struct intel_uc_fw_ver *ver)
+ 	return ver->major < 0xFF && ver->minor < 0xFF && ver->patch < 0xFF;
+ }
  
- #define MERGE_3D_SM8150_MASK (0)
+-static bool guc_check_version_range(struct intel_uc_fw *uc_fw)
++static int guc_check_version_range(struct intel_uc_fw *uc_fw)
+ {
+ 	struct intel_guc *guc = container_of(uc_fw, struct intel_guc, fw);
++	struct intel_gt *gt = __uc_fw_to_gt(uc_fw);
  
--#define DSPP_MSM8998_MASK BIT(DPU_DSPP_PCC) | BIT(DPU_DSPP_GC)
-+#define DSPP_MSM8998_MASK BIT(DPU_DSPP_PCC)
+ 	/*
+ 	 * GuC version number components are defined as being 8-bits.
+@@ -647,24 +648,24 @@ static bool guc_check_version_range(struct intel_uc_fw *uc_fw)
+ 	 */
  
- #define DSPP_SC7180_MASK BIT(DPU_DSPP_PCC)
+ 	if (!is_ver_8bit(&uc_fw->file_selected.ver)) {
+-		gt_warn(__uc_fw_to_gt(uc_fw), "%s firmware: invalid file version: 0x%02X:%02X:%02X\n",
++		gt_warn(gt, "%s firmware: invalid file version: 0x%02X:%02X:%02X\n",
+ 			intel_uc_fw_type_repr(uc_fw->type),
+ 			uc_fw->file_selected.ver.major,
+ 			uc_fw->file_selected.ver.minor,
+ 			uc_fw->file_selected.ver.patch);
+-		return false;
++		return -EINVAL;
+ 	}
  
-@@ -449,8 +449,6 @@ static const struct dpu_lm_sub_blks qcm2290_lm_sblk = {
- static const struct dpu_dspp_sub_blks msm8998_dspp_sblk = {
- 	.pcc = {.id = DPU_DSPP_PCC, .base = 0x1700,
- 		.len = 0x90, .version = 0x10007},
--	.gc = { .id = DPU_DSPP_GC, .base = 0x17c0,
--		.len = 0x90, .version = 0x10007},
- };
+ 	if (!is_ver_8bit(&guc->submission_version)) {
+-		gt_warn(__uc_fw_to_gt(uc_fw), "%s firmware: invalid submit version: 0x%02X:%02X:%02X\n",
++		gt_warn(gt, "%s firmware: invalid submit version: 0x%02X:%02X:%02X\n",
+ 			intel_uc_fw_type_repr(uc_fw->type),
+ 			guc->submission_version.major,
+ 			guc->submission_version.minor,
+ 			guc->submission_version.patch);
+-		return false;
++		return -EINVAL;
+ 	}
  
- static const struct dpu_dspp_sub_blks sc7180_dspp_sblk = {
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-index 71584cd56fd7..e0dcef04bc61 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-@@ -127,12 +127,10 @@ enum {
- /**
-  * DSPP sub-blocks
-  * @DPU_DSPP_PCC             Panel color correction block
-- * @DPU_DSPP_GC              Gamma correction block
-  * @DPU_DSPP_IGC             Inverse gamma correction block
-  */
- enum {
- 	DPU_DSPP_PCC = 0x1,
--	DPU_DSPP_GC,
- 	DPU_DSPP_IGC,
- 	DPU_DSPP_MAX
- };
-@@ -433,22 +431,18 @@ struct dpu_sspp_sub_blks {
-  * @maxwidth:               Max pixel width supported by this mixer
-  * @maxblendstages:         Max number of blend-stages supported
-  * @blendstage_base:        Blend-stage register base offset
-- * @gc: gamma correction block
-  */
- struct dpu_lm_sub_blks {
- 	u32 maxwidth;
- 	u32 maxblendstages;
- 	u32 blendstage_base[MAX_BLOCKS];
--	struct dpu_pp_blk gc;
- };
+-	return true;
++	return i915_inject_probe_error(gt->i915, -EINVAL);
+ }
  
- /**
-  * struct dpu_dspp_sub_blks: Information of DSPP block
-- * @gc : gamma correction block
-  * @pcc: pixel color correction block
-  */
- struct dpu_dspp_sub_blks {
--	struct dpu_pp_blk gc;
- 	struct dpu_pp_blk pcc;
- };
+ static int check_fw_header(struct intel_gt *gt,
+@@ -773,8 +774,11 @@ int intel_uc_fw_fetch(struct intel_uc_fw *uc_fw)
+ 	if (err)
+ 		goto fail;
  
+-	if (uc_fw->type == INTEL_UC_FW_TYPE_GUC && !guc_check_version_range(uc_fw))
+-		goto fail;
++	if (uc_fw->type == INTEL_UC_FW_TYPE_GUC) {
++		err = guc_check_version_range(uc_fw);
++		if (err)
++			goto fail;
++	}
+ 
+ 	if (uc_fw->file_wanted.ver.major && uc_fw->file_selected.ver.major) {
+ 		/* Check the file's major version was as it claimed */
 -- 
-2.39.2
+2.39.1
 
