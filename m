@@ -1,50 +1,84 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2FA86EB537
-	for <lists+dri-devel@lfdr.de>; Sat, 22 Apr 2023 00:47:51 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 05AA86EB585
+	for <lists+dri-devel@lfdr.de>; Sat, 22 Apr 2023 01:09:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C115410EF21;
-	Fri, 21 Apr 2023 22:47:49 +0000 (UTC)
-X-Original-To: DRI-Devel@lists.freedesktop.org
-Delivered-To: DRI-Devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 73B0E10EF1E;
- Fri, 21 Apr 2023 22:47:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1682117267; x=1713653267;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=N5Nz96zPTT4S7mlCkKCfzlD42lLGoMbiPHT6/A6l4MA=;
- b=VpaCsIrVds41sU9DkTdbWIpTTBZIOC0w/tff1xdsviSgmG5lAGxPUxb7
- ZyggYeQSaurs19onEnbcGkJNwb1zp4rbTdkHBlo8iKqjzBfOW1hVtNvAz
- eQxp/HMgt5nZz/JxTxPpSooT2+l3SwiiTrq7eIvv0eq4GQjMf1oPS0eTT
- IZFDqKXN+rBNPrVymXDk06QtJIWwru7At9RZpzwopWOZqEqg9qzGaG3il
- X+8hYsarIh0vD9JCDtNBoYtVUjJvM5JSytc7UYWPw0t2It976k/atC1Q3
- jHSfj+R0mJqjY+MIep1bzwQKrDzU9us96d0xg6+8zZCJhqXtprhBhKmhU Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10687"; a="374033672"
-X-IronPort-AV: E=Sophos;i="5.99,216,1677571200"; d="scan'208";a="374033672"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Apr 2023 15:47:46 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10687"; a="642669301"
-X-IronPort-AV: E=Sophos;i="5.99,216,1677571200"; d="scan'208";a="642669301"
-Received: from relo-linux-5.jf.intel.com ([10.165.21.152])
- by orsmga003.jf.intel.com with ESMTP; 21 Apr 2023 15:47:46 -0700
-From: John.C.Harrison@Intel.com
-To: Intel-GFX@Lists.FreeDesktop.Org
-Subject: [PATCH] drm/i915/guc: Actually return an error if GuC version range
- check fails
-Date: Fri, 21 Apr 2023 15:47:42 -0700
-Message-Id: <20230421224742.2357198-1-John.C.Harrison@Intel.com>
-X-Mailer: git-send-email 2.39.1
+	by gabe.freedesktop.org (Postfix) with ESMTP id 875BC10E116;
+	Fri, 21 Apr 2023 23:09:02 +0000 (UTC)
+X-Original-To: dri-devel@lists.freedesktop.org
+Delivered-To: dri-devel@lists.freedesktop.org
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C0C6710E05A;
+ Fri, 21 Apr 2023 23:08:59 +0000 (UTC)
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 33LLkBUv018799; Fri, 21 Apr 2023 23:08:54 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=NrWL5L19tZP4h4qid7tM/oqw2qQB19TVlhNcq9Zl2u0=;
+ b=JbysjYUs0jMhqZM5Ry4UtWGOptvXXIWWvEJOCAiti8eB9V1bw1T6hLMA/3UrM56kniFC
+ S7reFlzRIaT9wonnui82AkIk/shlaLMKjGEpbMDZf4rLwBZn9gzT7vid+NXuJpZ8Kk9Q
+ ojoetrX9oOv9Mv/2SDGhzF5FYGyE40U5kPTV9frjSncrP1ek4dzcsS/IlfPAGbcX0J1Q
+ S0P4rGszqo+ardAr8PMsTcSJ1y74xmMavzuj3ckp584RfZuLgYTnNoM86rVEVoTqfXN1
+ 5XofIOxlFpmyC0xc3AMYNc167Fy1f9OSP8C/7pdvOIbHmuMzTFYt4JugXnT/jteCRUwx Gg== 
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3q41wu083b-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 21 Apr 2023 23:08:54 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 33LN8rxk032617
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 21 Apr 2023 23:08:53 GMT
+Received: from [10.110.0.180] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Fri, 21 Apr
+ 2023 16:08:51 -0700
+Message-ID: <4bea9976-d353-6783-f55a-3e83e7501da2@quicinc.com>
+Date: Fri, 21 Apr 2023 16:08:50 -0700
 MIME-Version: 1.0
-Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
- Swindon SN3 1RJ
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH v1 5/5] drm/msm/dpu: add DSC 1.2 hw blocks for relevant
+ chipsets
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ <dri-devel@lists.freedesktop.org>, <robdclark@gmail.com>,
+ <sean@poorly.run>, <swboyd@chromium.org>, <dianders@chromium.org>,
+ <vkoul@kernel.org>, <daniel@ffwll.ch>, <airlied@gmail.com>,
+ <agross@kernel.org>, <andersson@kernel.org>
+References: <1682033114-28483-1-git-send-email-quic_khsieh@quicinc.com>
+ <1682033114-28483-6-git-send-email-quic_khsieh@quicinc.com>
+ <b26dfb22-bf97-b65e-ef06-62098c4eafec@linaro.org>
+ <3ee67248-c94c-5f3d-527e-914e8c8b4a31@quicinc.com>
+ <7b493d85-0691-8797-367e-1d71ea87c826@linaro.org>
+From: Kuogee Hsieh <quic_khsieh@quicinc.com>
+In-Reply-To: <7b493d85-0691-8797-367e-1d71ea87c826@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: 0L4kFsjCAx1dmZq-Jhik2ZW3WnMn-14h
+X-Proofpoint-ORIG-GUID: 0L4kFsjCAx1dmZq-Jhik2ZW3WnMn-14h
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-04-21_08,2023-04-21_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 phishscore=0
+ mlxlogscore=791 bulkscore=0 malwarescore=0 spamscore=0 mlxscore=0
+ priorityscore=1501 impostorscore=0 adultscore=0 lowpriorityscore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2303200000 definitions=main-2304210202
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,109 +91,161 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Matthew Brost <matthew.brost@intel.com>, Dan Carpenter <error27@gmail.com>,
- Alan Previn <alan.previn.teres.alexis@intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@intel.com>, Jani Nikula <jani.nikula@intel.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>, DRI-Devel@Lists.FreeDesktop.Org,
- Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
- Matthew Auld <matthew.auld@intel.com>, Andi Shyti <andi.shyti@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>,
- John Harrison <John.C.Harrison@Intel.com>
+Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, linux-kernel@vger.kernel.org,
+ marijn.suijten@somainline.org, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: John Harrison <John.C.Harrison@Intel.com>
 
-Dan Carpenter pointed out that 'err' was not being set in the case
-where the GuC firmware version range check fails. Fix that.
+On 4/21/2023 3:16 PM, Dmitry Baryshkov wrote:
+> On 22/04/2023 01:05, Kuogee Hsieh wrote:
+>>
+>> On 4/20/2023 5:07 PM, Dmitry Baryshkov wrote:
+>>> On 21/04/2023 02:25, Kuogee Hsieh wrote:
+>>>> From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+>>>>
+>>>> Add DSC 1.2 hardware blocks to the catalog with necessary
+>>>> sub-block and feature flag information.
+>>>> Each display compression engine (DCE) contains dual hard
+>>>> slice DSC encoders so both share same base address but with
+>>>> its own different sub block address.
+>>>
+>>> Please correct line wrapping. 72-75 is usually the preferred width
+>>>
+>>>>
+>>>> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+>>>> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
+>>>> ---
+>>>>   .../gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h  | 19 
+>>>> +++++++++++++++++++
+>>>>   .../gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h  | 11 +++++++++++
+>>>>   .../drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h    | 21 
+>>>> +++++++++++++++++++++
+>>>>   .../gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h  | 19 
+>>>> +++++++++++++++++++
+>>>>   .../gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h  | 19 
+>>>> +++++++++++++++++++
+>>>>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c      | 12 
+>>>> ++++++++++--
+>>>>   6 files changed, 99 insertions(+), 2 deletions(-)
+>>>>
+>>>
+>>>
+>>> [I commented on sm8550, it applies to all the rest of platforms]
+>>>
+>>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h 
+>>>> b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h
+>>>> index 9e40303..72a7bcf 100644
+>>>> --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h
+>>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h
+>>>> @@ -165,6 +165,23 @@ static const struct dpu_merge_3d_cfg 
+>>>> sm8550_merge_3d[] = {
+>>>>       MERGE_3D_BLK("merge_3d_3", MERGE_3D_3, 0x66700),
+>>>>   };
+>>>>   +static const struct dpu_dsc_sub_blks sm8550_dsc_sblk_0 = {
+>>>> +    .enc = {.base = 0x100, .len = 0x100},
+>>>> +    .ctl = {.base = 0xF00, .len = 0x10},
+>>>> +};
+>>>> +
+>>>> +static const struct dpu_dsc_sub_blks sm8550_dsc_sblk_1 = {
+>>>> +    .enc = {.base = 0x200, .len = 0x100},
+>>>> +    .ctl = {.base = 0xF80, .len = 0x10},
+>>>> +};
+>>>
+>>> Please keep sblk in dpu_hw_catalog for now.
+>>>
+>>>> +
+>>>> +static const struct dpu_dsc_cfg sm8550_dsc[] = {
+>>>> +    DSC_BLK_1_2("dsc_0", DSC_0, 0x80000, 0x100, 0, 
+>>>> sm8550_dsc_sblk_0),
+>>>> +    DSC_BLK_1_2("dsc_0", DSC_1, 0x80000, 0x100, 0, 
+>>>> sm8550_dsc_sblk_1),
+>>>
+>>> Is there a reason why index in "dsc_N" doesn't match the DSC_n which 
+>>> comes next to it?
+>>
+>> usually each DCE (display compression engine) contains two hard slice 
+>> encoders.
+>>
+>> DSC_0 and DSC_1 (index) is belong to dsc_0.
+>>
+>> If there are two DCE, then DSC_2 and DSC_3 belong to dsc_1
+>
+> Ah, I see now. So, the block register space is the following:
+> DCEi ->
+>   common
+>   dsc0_enc
+>   dsc1_enc
+>   dsc0_ctl
+>   dsc1_ctl
+>
+> Instead of declaring a single DCE unit with two DSC blocks, we declare 
+> two distinct DSC blocks. This raises a question, how independent are 
+> these two parts of a single DCE block? For example, can we use them to 
+> perform compression with different parameters? Or use one of them for 
+> the DP DSC and another one for DSI DSC? Can we have the following 
+> configuration:
+>
+> DSC_0 => DP DSC
+> DSC_1, DSC_2 => DSI DSC in DSC_MERGE topology?
 
-Note that while this is bug fix for a previous patch (see Fixes tag
-below). It is an exceedingly low risk bug. The range check is
-asserting that the GuC firmware version is within spec. So it should
-not be possible to ever have a firmware file that fails this check. If
-larger version numbers are required in the future, that would be a
-backwards breaking spec change and thus require a major version bump,
-in which case an old i915 driver would not load that new version anyway.
+no, For merge mode you have to use same DCE, such as DSC_2 and DSC3 (pair)
 
-Fixes: 9bbba0667f37 ("drm/i915/guc: Use GuC submission API version number")
-Reported-by: Dan Carpenter <error27@gmail.com>
-Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
-Cc: John Harrison <John.C.Harrison@Intel.com>
-Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-Cc: Alan Previn <alan.previn.teres.alexis@intel.com>
-Cc: Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>
-Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
-Cc: Matthew Brost <matthew.brost@intel.com>
-Cc: Andi Shyti <andi.shyti@linux.intel.com>
-Cc: Matthew Auld <matthew.auld@intel.com>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-Cc: Lucas De Marchi <lucas.demarchi@intel.com>
-Cc: Jani Nikula <jani.nikula@intel.com>
----
- drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c | 20 ++++++++++++--------
- 1 file changed, 12 insertions(+), 8 deletions(-)
-
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c b/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
-index a82a53dbbc86d..6b71b9febd74c 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
-@@ -636,9 +636,10 @@ static bool is_ver_8bit(struct intel_uc_fw_ver *ver)
- 	return ver->major < 0xFF && ver->minor < 0xFF && ver->patch < 0xFF;
- }
- 
--static bool guc_check_version_range(struct intel_uc_fw *uc_fw)
-+static int guc_check_version_range(struct intel_uc_fw *uc_fw)
- {
- 	struct intel_guc *guc = container_of(uc_fw, struct intel_guc, fw);
-+	struct intel_gt *gt = __uc_fw_to_gt(uc_fw);
- 
- 	/*
- 	 * GuC version number components are defined as being 8-bits.
-@@ -647,24 +648,24 @@ static bool guc_check_version_range(struct intel_uc_fw *uc_fw)
- 	 */
- 
- 	if (!is_ver_8bit(&uc_fw->file_selected.ver)) {
--		gt_warn(__uc_fw_to_gt(uc_fw), "%s firmware: invalid file version: 0x%02X:%02X:%02X\n",
-+		gt_warn(gt, "%s firmware: invalid file version: 0x%02X:%02X:%02X\n",
- 			intel_uc_fw_type_repr(uc_fw->type),
- 			uc_fw->file_selected.ver.major,
- 			uc_fw->file_selected.ver.minor,
- 			uc_fw->file_selected.ver.patch);
--		return false;
-+		return -EINVAL;
- 	}
- 
- 	if (!is_ver_8bit(&guc->submission_version)) {
--		gt_warn(__uc_fw_to_gt(uc_fw), "%s firmware: invalid submit version: 0x%02X:%02X:%02X\n",
-+		gt_warn(gt, "%s firmware: invalid submit version: 0x%02X:%02X:%02X\n",
- 			intel_uc_fw_type_repr(uc_fw->type),
- 			guc->submission_version.major,
- 			guc->submission_version.minor,
- 			guc->submission_version.patch);
--		return false;
-+		return -EINVAL;
- 	}
- 
--	return true;
-+	return i915_inject_probe_error(gt->i915, -EINVAL);
- }
- 
- static int check_fw_header(struct intel_gt *gt,
-@@ -773,8 +774,11 @@ int intel_uc_fw_fetch(struct intel_uc_fw *uc_fw)
- 	if (err)
- 		goto fail;
- 
--	if (uc_fw->type == INTEL_UC_FW_TYPE_GUC && !guc_check_version_range(uc_fw))
--		goto fail;
-+	if (uc_fw->type == INTEL_UC_FW_TYPE_GUC) {
-+		err = guc_check_version_range(uc_fw);
-+		if (err)
-+			goto fail;
-+	}
- 
- 	if (uc_fw->file_wanted.ver.major && uc_fw->file_selected.ver.major) {
- 		/* Check the file's major version was as it claimed */
--- 
-2.39.1
-
+>
+>>
+>>>
+>>>> +    DSC_BLK_1_2("dsc_1", DSC_2, 0x81000, 0x100, 
+>>>> BIT(DPU_DSC_NATIVE_422_EN), sm8550_dsc_sblk_0),
+>>>> +    DSC_BLK_1_2("dsc_1", DSC_3, 0x81000, 0x100, 
+>>>> BIT(DPU_DSC_NATIVE_422_EN), sm8550_dsc_sblk_1),
+>>>> +};
+>>>> +
+>>>>   static const struct dpu_intf_cfg sm8550_intf[] = {
+>>>>       INTF_BLK("intf_0", INTF_0, 0x34000, 0x280, INTF_DP, 
+>>>> MSM_DP_CONTROLLER_0, 24, INTF_SC7280_MASK, MDP_SSPP_TOP0_INTR, 24, 
+>>>> 25),
+>>>>       /* TODO TE sub-blocks for intf1 & intf2 */
+>>>> @@ -218,6 +235,8 @@ const struct dpu_mdss_cfg dpu_sm8550_cfg = {
+>>>>       .dspp = sm8550_dspp,
+>>>>       .pingpong_count = ARRAY_SIZE(sm8550_pp),
+>>>>       .pingpong = sm8550_pp,
+>>>> +    .dsc = sm8550_dsc,
+>>>> +    .dsc_count = ARRAY_SIZE(sm8550_dsc),
+>>>>       .merge_3d_count = ARRAY_SIZE(sm8550_merge_3d),
+>>>>       .merge_3d = sm8550_merge_3d,
+>>>>       .intf_count = ARRAY_SIZE(sm8550_intf),
+>>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c 
+>>>> b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+>>>> index 03f162a..be08158 100644
+>>>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+>>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+>>>> @@ -1,6 +1,6 @@
+>>>>   // SPDX-License-Identifier: GPL-2.0-only
+>>>>   /* Copyright (c) 2015-2018, The Linux Foundation. All rights 
+>>>> reserved.
+>>>> - * Copyright (c) 2022. Qualcomm Innovation Center, Inc. All rights 
+>>>> reserved.
+>>>> + * Copyright (c) 2022-2023, Qualcomm Innovation Center, Inc. All 
+>>>> rights reserved.
+>>>>    */
+>>>>     #define pr_fmt(fmt)    "[drm:%s:%d] " fmt, __func__, __LINE__
+>>>> @@ -540,7 +540,15 @@ static const struct dpu_pingpong_sub_blks 
+>>>> sc7280_pp_sblk = {
+>>>>       {\
+>>>>       .name = _name, .id = _id, \
+>>>>       .base = _base, .len = 0x140, \
+>>>> -    .features = _features, \
+>>>> +    .features = BIT(DPU_DSC_HW_REV_1_1) | _features, \
+>>>> +    }
+>>>> +
+>>>> +#define DSC_BLK_1_2(_name, _id, _base, _len, _features, _sblk) \
+>>>> +    {\
+>>>> +    .name = _name, .id = _id, \
+>>>> +    .base = _base, .len = _len, \
+>>>> +    .features = BIT(DPU_DSC_HW_REV_1_2) | _features, \
+>>>> +    .sblk = &_sblk, \
+>>>>       }
+>>>> /*************************************************************
+>>>
+>
