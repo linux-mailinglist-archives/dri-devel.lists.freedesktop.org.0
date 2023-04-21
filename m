@@ -1,72 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6001A6EAEFF
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Apr 2023 18:27:04 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 507B46EAF02
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Apr 2023 18:27:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8B9CB10E195;
-	Fri, 21 Apr 2023 16:26:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9C40310EE66;
+	Fri, 21 Apr 2023 16:27:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com
- [IPv6:2a00:1450:4864:20::62e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1B11410E195
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Apr 2023 16:26:55 +0000 (UTC)
-Received: by mail-ej1-x62e.google.com with SMTP id
- a640c23a62f3a-94a34a14a54so314368466b.1
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Apr 2023 09:26:55 -0700 (PDT)
+Received: from mail-yb1-xb2c.google.com (mail-yb1-xb2c.google.com
+ [IPv6:2607:f8b0:4864:20::b2c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 65B7C10EE69
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Apr 2023 16:27:53 +0000 (UTC)
+Received: by mail-yb1-xb2c.google.com with SMTP id
+ 3f1490d57ef6-b98434b5311so2031217276.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Apr 2023 09:27:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1682094413; x=1684686413;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=vIEVML4IO5anh889+aalXEgSW3X6EwyG+xKSv5s4BBU=;
- b=vNf7B7OMSpTvkt/QhbB/PsdtgWBg1pW9dMi93H7w5lWvBEWhimVzdKHM56ubv9YdOi
- MhSrry6TwNkGNklCPZ61WR+7zLhsd1Cp/go24HmMDtFzKEaH0KV3bPz+YzXwGXo3NdFa
- AZqalVa8nxwpxvHRp77seyGRegReWeSrY7c+XCBK741gPSfK13cdMNmKo65eIZSU4jCj
- irpenpQa2kKEPFolx2roZEow6EovgxA3f+ypHKWdATTLEmonSrskN/EDE0xdJ3gSoUol
- QfjO3WbZ6W1HG4z7biEvEPaZ4rGDWbPI3rvS2yfP9tiTxb3SYT5RsEk1ClZTElkIxVu2
- ikHw==
+ d=chromium.org; s=google; t=1682094472; x=1684686472;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=9+xE3Wm1qodu869l4ok3XAYSCDo7yF+Nc6Y5zDXcnPg=;
+ b=i/+PgShiQL5qfbfdoXayj+fkkTBr4G2sffw6vbWqyRDC5jytqUXFdY7HR8Kz8kLzTk
+ S/IvwVuN0BnrdnbIDQr5PDkagYcQHaRddEjoOSpNh4+/YY8bw+zXUOPrv11iguHY78h/
+ n46AIwA4t9t7e7neoCJBSOzQhKxwQcbIT0Q2o=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682094413; x=1684686413;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=vIEVML4IO5anh889+aalXEgSW3X6EwyG+xKSv5s4BBU=;
- b=XXLAJvj1+0DeSOlYVNjN/7xpU2AdwvasZpJKN4mij0GYDf3ZDGsim3JP81CTfbTJFA
- QEH4pV+IQ5JYS2cnIuLi7CWg/ENDLE0sx+KFd65IrhpV8B3qcGweCmpemPUxCIUrW6EW
- bp/5mpWn0mND1SSBmQodGCb5e3viYHME0WdhaKDG1ZeAnfTviJIW06ZlR7JeuigmqBUd
- WAV2zA3V0E2evt//7XlHuGN8Mrrwub89xh1XhEDWlPlgJFo9esjuIRp5AO24oBxkQDXp
- MXEwjyN2cUAvynrxmA4ey8dXr2jElRFPddy1wKFIXk7yQ3Ce//gpMWiKoJ3j6HZ9HDRM
- Aeiw==
-X-Gm-Message-State: AAQBX9e+KV2FpECFPmVuZDtfJY4RDsXVm0d7LNCENIRsC7Ouo/cy/wYT
- nt5A0FTXWNZz1+X4Uv4tWXxTwQ==
-X-Google-Smtp-Source: AKy350ZlepiYHICnCvkKxXgRvs5qFi+tujr0SqeW/avud6pnNBIJ6AakgyIPJCcworE7G0FK8U1oBA==
-X-Received: by 2002:a17:906:194d:b0:94e:c938:1987 with SMTP id
- b13-20020a170906194d00b0094ec9381987mr2928538eje.7.1682094413624; 
- Fri, 21 Apr 2023 09:26:53 -0700 (PDT)
-Received: from ?IPV6:2a02:810d:15c0:828:687d:8c5:41cb:9883?
- ([2a02:810d:15c0:828:687d:8c5:41cb:9883])
- by smtp.gmail.com with ESMTPSA id
- gn5-20020a1709070d0500b0094f29a53129sm2190915ejc.205.2023.04.21.09.26.52
+ d=1e100.net; s=20221208; t=1682094472; x=1684686472;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=9+xE3Wm1qodu869l4ok3XAYSCDo7yF+Nc6Y5zDXcnPg=;
+ b=XEzYK/k+T+BvyiiqswyWjZxZu9u3aGlwU47tSwTGUgIqxx3wXbZosY5EhDXyw5OzPi
+ 6OKDs/Rhfj9iQ3QXm75urOYdiw0OboXzwgsRmYN0XRT+mbf0tMvUEcr+yD2vZ7ami0On
+ Wc7YPMZaaqYZN0I5srmVdjm3gMcTSA4GChnLjEaL3Tni6p5TFmhFF78iEOh6he+tLekc
+ GsyWMJorqHvN7XGEbw+ihezE6tLePXlXvRK2vTN8ROwr6neYBkaYArDO8ikkbulE9TwT
+ RZy7pH7Yhshyyzo9hk2V0PG2aTNoFZSYiNCgruMPgEdLevlsCuD+sKJK1/ghKZYrxHoE
+ zQQg==
+X-Gm-Message-State: AAQBX9d22vKVIhbPUFiPlxmvy9wgHdthiNb/czmCTw8LvRFrH4qMhVJv
+ /7Fpz8MNxpgBI/6VBAUhPVQMSu/Bm0+rScoBVIQ=
+X-Google-Smtp-Source: AKy350Z+WJv+LAd8zAQUyDHILjfQyRmgLWJkgn0t4i2NQ8+FMiduNDEWQhEvOqPJQCY9wgkOuQer2Q==
+X-Received: by 2002:a25:694b:0:b0:b95:8ccd:e9e6 with SMTP id
+ e72-20020a25694b000000b00b958ccde9e6mr2835096ybc.37.1682094471939; 
+ Fri, 21 Apr 2023 09:27:51 -0700 (PDT)
+Received: from localhost ([2620:0:1035:15:25e5:2115:c97c:bf00])
+ by smtp.gmail.com with UTF8SMTPSA id
+ t1-20020a0dea01000000b00545a08184fesm1013673ywe.142.2023.04.21.09.27.51
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 21 Apr 2023 09:26:53 -0700 (PDT)
-Message-ID: <fb93e95f-181f-917d-9216-a81dec1a2959@linaro.org>
-Date: Fri, 21 Apr 2023 18:26:51 +0200
+ Fri, 21 Apr 2023 09:27:51 -0700 (PDT)
+From: Mark Yacoub <markyacoub@chromium.org>
+X-Google-Original-From: Mark Yacoub <markyacoub@google.com>
+To: dri-devel@lists.freedesktop.org,
+	freedreno@lists.freedesktop.org
+Subject: [PATCH v2 0/3] Create Content Protection Property and Use it
+Date: Fri, 21 Apr 2023 12:27:46 -0400
+Message-ID: <20230421162749.360777-1-markyacoub@google.com>
+X-Mailer: git-send-email 2.40.0.634.g4ca3ef3211-goog
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH RESEND v2 1/2] dt-bindings: display: simple: add support
- for InnoLux G070ACE-L01
-To: Doug Anderson <dianders@chromium.org>, richard.leitner@linux.dev
-References: <20230201-innolux-g070ace-v2-0-2371e251dd40@skidata.com>
- <20230201-innolux-g070ace-v2-1-2371e251dd40@skidata.com>
- <CAD=FV=XJCtqep+92h3gLfs4o2TwvL4MORjc9ydTSpZiZ0dsR0w@mail.gmail.com>
-Content-Language: en-US
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <CAD=FV=XJCtqep+92h3gLfs4o2TwvL4MORjc9ydTSpZiZ0dsR0w@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -80,38 +69,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Sam Ravnborg <sam@ravnborg.org>,
- linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
- Thierry Reding <thierry.reding@gmail.com>, dri-devel@lists.freedesktop.org,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Richard Leitner <richard.leitner@skidata.com>
+Cc: dmitry.baryshkov@linaro.org, Mark Yacoub <markyacoub@chromium.org>,
+ seanpaul@chromium.org, dianders@chromium.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 21/04/2023 18:15, Doug Anderson wrote:
-> Hi,
-> 
-> On Mon, Mar 13, 2023 at 12:51 AM <richard.leitner@linux.dev> wrote:
->>
->> From: Richard Leitner <richard.leitner@skidata.com>
->>
->> Add Innolux G070ACE-L01 7" WVGA (800x480) TFT LCD panel compatible
->> string.
->>
->> Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
->> Signed-off-by: Richard Leitner <richard.leitner@skidata.com>
-> 
-> nit: as I understand it, ordering of tags is usually supposed to be
-> chronological. You signed off on this patch before Krzysztof acked it,
-> so the SoB should be above. I'll fix that when applying.
+From: Mark Yacoub <markyacoub@chromium.org>
 
-Some people agree with this... but b4 disagrees, so I would say the
-tools should implement the right process and right decisions. We should
-not be correcting the tools' output, unless the tools are not correct -
-then fix the tools.
+Hi all, 
+Following up to my HDCP patches[1], this series introduces a new connector prop that is required to push the key from user space to a driver that requires a key from user space to enable HDCP on a connector.
 
+Patch 1 is the WO blob patch to protect the key
+Patch 2 is the DRM code that creates this prop.
+Patch 3 is the MSM driver making use of the value of this prop
 
+V2: Added the WO property blob
 
-Best regards,
-Krzysztof
+Thanks,
+Mark Yacoub
+
+[1] https://patchwork.freedesktop.org/series/94713/
+
+Mark Yacoub (3):
+  drm: Create support for Write-Only property blob
+  DRM: Create new Content Protection connector property
+  dp_hdcp: Get the hdcp key from the connector prop
+
+ drivers/gpu/drm/drm_atomic_uapi.c |  9 +++++
+ drivers/gpu/drm/drm_property.c    |  3 +-
+ drivers/gpu/drm/msm/dp/dp_hdcp.c  | 66 ++++++++++++++++++++++++++++---
+ include/drm/drm_connector.h       |  6 +++
+ include/drm/drm_mode_config.h     |  6 +++
+ include/drm/drm_property.h        |  2 +
+ include/uapi/drm/drm_mode.h       |  6 +++
+ 7 files changed, 92 insertions(+), 6 deletions(-)
+
+-- 
+2.40.0.634.g4ca3ef3211-goog
 
