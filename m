@@ -1,118 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 707D16EAB53
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Apr 2023 15:14:03 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 588AD6EABC6
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Apr 2023 15:38:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2865110E080;
-	Fri, 21 Apr 2023 13:13:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AFD2310EE0E;
+	Fri, 21 Apr 2023 13:38:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com
- (mail-co1nam11on20609.outbound.protection.outlook.com
- [IPv6:2a01:111:f400:7eab::609])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8567010E09A;
- Fri, 21 Apr 2023 13:13:56 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=dcU6c77J6KpRlyoyzu+9uwFE8N40YdnJOJ23LD9ULj45+ZCbC4+WLp/G5zrOzAs7hO9QIoH1n5YJ+QVT9TQacUAyWNPu7JAU5Tdh2RA/LYRvbjerr1fKBMPGym7kypOVoJX9/Bx0QK3Yt8eT2vTdLpgucr3aa+s298bPyjsjWdGmHSD+GltNh0AlDzorpF7dwFj+ei4Fl84JP2XHtPOh+qZPauP0vETQWZ80+p/HCnh39gUC+LgDPw8WRrrRoteCiok8/mj+oeK/42Jysak/9ERVEs26qQF6dBkYdWYqEp212CQh/CH0AgpDLGFUba3gHmNCOg4QoLgBNprBvY3L/w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ssuDPhmsX+dV466wBK+9NCr2IIo7ssZeaXVJgeCgIdU=;
- b=JoGZCVAHnxrcfxT3OTuHBwI6Sv3votwyspR4ZZUBI8L6VImWtIu/2Sc68cp8y8NH9sucbS7IXJSrqhNvm6xqH0IOpqFl3fNFPvpNb2qfTt5ZbNtiNKd4j1WSUtmoFEi4AnzPOVR8J4pC4lyYvvuvCzIvk39IzLQ/w+rOPjklUBnNgN4Iisy/JiqcbChmGIVBLqGmk16uF0CTqW/Krdj52YfCFj45OFB3FASthUYZ387Fqi7HMJCTUM2M0y1V5wjcnksZIpS5joSwB+QwZ/6AY/xK5HmtsQHcxmcipzAJ0XSBmnkps29F54SvY+FH4StY2g308N5Nzc56a1y6+6dCDg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ssuDPhmsX+dV466wBK+9NCr2IIo7ssZeaXVJgeCgIdU=;
- b=uJC4uVdpHJT45Xd0chzdO5LVOZxxvwON1mtQ70npq9bnan3j6C65UlEts0FbDTUg89woIssxRTOQCz4owZhqBJFhcDMVk4qxug7yO0Xt2ktt99DTOgv4KVGO3rP2a1Nk0RLJu30yGPf8Ntu1OzGY3VcjaUjCw1QWgs+3cPF/4nc=
-Received: from CO6PR12MB5489.namprd12.prod.outlook.com (2603:10b6:303:139::18)
- by CH3PR12MB7690.namprd12.prod.outlook.com (2603:10b6:610:14e::20)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6319.22; Fri, 21 Apr
- 2023 13:13:52 +0000
-Received: from CO6PR12MB5489.namprd12.prod.outlook.com
- ([fe80::eb2a:87af:d22d:ccb]) by CO6PR12MB5489.namprd12.prod.outlook.com
- ([fe80::eb2a:87af:d22d:ccb%5]) with mapi id 15.20.6319.022; Fri, 21 Apr 2023
- 13:13:52 +0000
-From: "Lin, Wayne" <Wayne.Lin@amd.com>
-To: =?iso-8859-1?Q?Ville_Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-Subject: RE: [PATCH] drm/dp_mst: Clear MSG_RDY flag before sending new message
-Thread-Topic: [PATCH] drm/dp_mst: Clear MSG_RDY flag before sending new message
-Thread-Index: AQHZcbxV7BqBioN1p0GeDL3gde3pDK8xGQoAgASm9EA=
-Date: Fri, 21 Apr 2023 13:13:52 +0000
-Message-ID: <CO6PR12MB54893CD6D3B839F5F78AC203FC609@CO6PR12MB5489.namprd12.prod.outlook.com>
-References: <20230418060905.4078976-1-Wayne.Lin@amd.com>
- <ZD6isq36T+RQ7uNK@intel.com>
-In-Reply-To: <ZD6isq36T+RQ7uNK@intel.com>
-Accept-Language: en-US, zh-TW
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_Enabled=true;
- MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_SetDate=2023-04-21T13:13:04Z; 
- MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_Method=Privileged;
- MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_Name=Public-AIP 2.0;
- MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_SiteId=3dd8961f-e488-4e60-8e11-a82d994e183d;
- MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_ActionId=99b1f007-9036-4c33-8be6-3a728cb24061;
- MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_ContentBits=1
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: CO6PR12MB5489:EE_|CH3PR12MB7690:EE_
-x-ms-office365-filtering-correlation-id: b2328da4-fbfc-40bd-9f47-08db426a40b7
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: arhwg4IXJVdvlZL7Xr5QjD0rEdyGHnng3Kzzf0u6bpL5HBqYgkvXGrl5P4QpA3R/t5CY3bYt7R+HWsi0z+q0SufMZgWxJTOqtEz+G1putrMMdCDojbuHYGljP8y+NPbt4LVYFJTAJbS+SHfJ23KeTD4n85i0TK0Ohm5St1Myn3Y/Q2RN/K/nf0azMDX0y/2BNHUei9hUjWjbiGJsN9+HTdkx7h1A+HIb1CkaGZK3l1ehYWv8nT5F7uNiIy/mSns1qvj5B+NJYj1aHu0PtUqWS4Dh806VzezVuLd1g95fYHcS9GjDZ9CUF1S2W7e6qu89v8ZwAxXnkmY28ktQniKepfKS2QUBhIKMX8w2T57LTtXC75WVbUACV408z55kt0+zk1tN+7m7s/r749S/K0FptYchqSVApqrXjx/ZcrpKPO8L0HpK6UNBy7o1NLzRDfqDRHz+6Un9Q6QADpg21D57EI/YfnSpRLab7hBqQyesDAYGks/dWC4GWwo3yn/QIQisnUVppP7NBuPQ1LAS0AOCcnIqIYdAa88t48Nlucf37hT9mFO/gW73KVfvIWSfSM9xbYplnHGC8GfbXiHtvB2JIjVGFg4AX67MPH+ArQJbiVGbmcxANg42DWHu5EfSR9K0
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CO6PR12MB5489.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230028)(4636009)(346002)(396003)(136003)(39860400002)(366004)(376002)(451199021)(53546011)(9686003)(6506007)(26005)(55016003)(186003)(33656002)(54906003)(478600001)(71200400001)(5660300002)(7696005)(38100700002)(52536014)(4326008)(8676002)(2906002)(316002)(38070700005)(15650500001)(64756008)(6916009)(86362001)(66476007)(66556008)(66946007)(66446008)(76116006)(8936002)(41300700001)(122000001)(83380400001)(66574015);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?bcBsLp+MWQpI+qfu8M0x0xhjBUUxWrFT0oc5IfM9wam9ThiHoJdt8yJtV8?=
- =?iso-8859-1?Q?gPsWs5UB2Q4WgXwhIE+gNLwAi29DG1pgJl6fnrA4ONgLiUx6Z35qnp1/eO?=
- =?iso-8859-1?Q?gpapA5AbeiimQmy0rkwarmZze0N2r4ipETy4b+YSz1XMVIPFM2IRSp6w/U?=
- =?iso-8859-1?Q?69FrmXZHt1bQwSUxutP7fFbzjXd2b9+8vI0z1uRYO+Uk6IfgjZnBKvbgeJ?=
- =?iso-8859-1?Q?Nyu/7jz49s/58KSEvyOxy38U+BJFgpwKFbuSGK6ODPc1IsdJuUhtEPkQV0?=
- =?iso-8859-1?Q?c3kvhu09tZYtwHnfWxvMXwV3ulVLGRgG3Gg1GCszUcTjLyZAKICgMczgIf?=
- =?iso-8859-1?Q?BGdG5G8P8keOASISrHqau7g/wP7RPNeEX9vsYdmWpgPFFErH16uBMdJDTb?=
- =?iso-8859-1?Q?p+dVsZaOdeDzBshgE2NUPKZyOUoM8UF3uVrmRWG0pmpFT2S2fQgfEgsglU?=
- =?iso-8859-1?Q?rIBSG5farja5vxHCgmXvs7V57uCe72fYM2dqZQWJ1WrMMw3NvW5UzBnj5M?=
- =?iso-8859-1?Q?QMQFKAlvyk+UkHx6VpC0TemQK38NROfYNSt3LbUcSKFo3xY1hBDgvPuDQc?=
- =?iso-8859-1?Q?jaS6Xs7bkjew0n518rQTWcr5Uo+ltRspt6yvJwaZiXCgZSNADL420Skk+S?=
- =?iso-8859-1?Q?wMAcS2URrhfIFbHSanSUVgHY7GO9y/hrtk1Uyv9oUoF00i7A1BAC2QgUGo?=
- =?iso-8859-1?Q?OvkVWbIfvWVMvUzmf4spkQ3BAPeVHTM+xMvCQbbPFuMBl1GcLhgLkedX4Y?=
- =?iso-8859-1?Q?ZkOuYAr9IYPXUR8K0t4uNhXZWx8qcKfbT3fPWjy2o5eksYqCKUzaAOPBv8?=
- =?iso-8859-1?Q?QTZS0qvvPqke8n9169lGronVuzQ4TwrggtS8t8dFVJM7dK6BNBJBedGJ4M?=
- =?iso-8859-1?Q?EZ20UNEnihqTD0SYSv9ltx/ARv7Uy6kvmBsrX7aapLHfjxZQ1yzKOIJcXj?=
- =?iso-8859-1?Q?2LXDS5yYfmyl4RnI6W+7zanr3oTQnwtiVgbwQqqa7qwwFEFBgyJVu0lr2e?=
- =?iso-8859-1?Q?ChuMVb8JpP/zMOSjEdSrIJo46KERBZ1tlkjW2CxJYE0ommjKZ0kpXKlsZx?=
- =?iso-8859-1?Q?7S7OTdCURX2wYQK7bh+B4WCMEEBJK1f7ME/Wb6sZHryqksGI49/3dtP1Qm?=
- =?iso-8859-1?Q?7cGqOP+O4Bbd7jj9Zj7zrWhpWT7nf4wBq5pTyxI9uFYi9VulJLV39x3Ljd?=
- =?iso-8859-1?Q?GbTAKu//ifGE6PFHc/JorrNdAdcjnZlKzN5Ht/Z1PL3cjaGJG82d5xyBND?=
- =?iso-8859-1?Q?7o47pKdHLMeB1SkML1mxds3IQrAfUWSjKxayh3NqNg723yWoLwPdRfg6F6?=
- =?iso-8859-1?Q?JsV5fPfSEpR6cvlLOfzHGPXOt/i8vmAcpFUsIt/Ra0y29WpcFpLcCrJyL/?=
- =?iso-8859-1?Q?N0FQ2Qg2+M8kS/ibOBe78m5bOjv3ANri4S1NQqha8F8V6HQCDGlCbnrgPW?=
- =?iso-8859-1?Q?jmdFjY91mU5sXnvtjukCrHXTvN0ctB+DJAASzxrpCL/2O98bUzX6uUE7Ug?=
- =?iso-8859-1?Q?fXXGHufdjI5MQBRUakvktxrV6vjw6dZL4UR9NWIsFbpu2RdbXZRDausUNL?=
- =?iso-8859-1?Q?MXSibTphIonO2DCAcY0T4kywQKqySnrD5PmtwQ2bRog9TojZOy6bOBjx2r?=
- =?iso-8859-1?Q?qmOVwjoqDCKjU=3D?=
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+X-Greylist: delayed 663 seconds by postgrey-1.36 at gabe;
+ Fri, 21 Apr 2023 13:38:08 UTC
+Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.185])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BE8E310EE0E
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Apr 2023 13:38:08 +0000 (UTC)
+X-KPN-MessageId: 28358edf-e048-11ed-80ce-005056999439
+Received: from smtp.kpnmail.nl (unknown [10.31.155.8])
+ by ewsoutbound.so.kpn.org (Halon) with ESMTPS
+ id 28358edf-e048-11ed-80ce-005056999439;
+ Fri, 21 Apr 2023 15:26:43 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=xs4all01;
+ h=content-type:from:to:subject:mime-version:date:message-id;
+ bh=vWi/x44lcKq+zBKIxmLKE7euy7KJH7Kft9+PezLNV48=;
+ b=CD005T9bJeuRAh5Q4wgIWt85uqOkx9p8FU3uSvhTm5FSNOb2Ky3OrralmCIBW2/yiBQ5QZxf8lxV6
+ Dpy19hA84tPIRerz+bbT8OkD8yK7EJ0cc0oS9pGVLiT+XEJbKE3XUEzJDfjWKFPMuTpPOkT+Dmttnm
+ AG41NU5j4C99GplEKh5bTvMOWmaEZjfSa0selVJ0IOjlllrr+p9MipCqlJMhpnJrC3ZH3hZrbvvJIK
+ Mfr1izkufxZiE7pfZmALV8NVNuL66NO9mFESrNTinyDq8j5eZR98zlTVTnLlc1HBNfeYmqiwoVMSoh
+ niVK79qTw2mVAfan4LNSenuwQ00CPNQ==
+X-KPN-MID: 33|FpNjAt2YJPmYxjhhTwrVaN2WV/BCrU0VrLF2OTcB6m7OcCr/FP74Ydqk4lFQXU7
+ 8PkgFC8cVzI0PTlXA6NVlsw==
+X-KPN-VerifiedSender: Yes
+X-CMASSUN: 33|GQeUAJciaWJZk5xmJ4c0P0I17cSA8sj9F/6qI/CcTDVr/Gy7vs19kLz2PT696jE
+ B3QCVcEsQsWI7sOgmOW5uTg==
+X-Originating-IP: 173.38.220.44
+Received: from [10.47.77.214] (unknown [173.38.220.44])
+ by smtp.xs4all.nl (Halon) with ESMTPSA
+ id 300021a7-e048-11ed-b306-00505699d6e5;
+ Fri, 21 Apr 2023 15:26:58 +0200 (CEST)
+Message-ID: <85a999b2-ae13-2ab7-6706-477b9d302efa@xs4all.nl>
+Date: Fri, 21 Apr 2023 15:26:56 +0200
 MIME-Version: 1.0
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: CO6PR12MB5489.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b2328da4-fbfc-40bd-9f47-08db426a40b7
-X-MS-Exchange-CrossTenant-originalarrivaltime: 21 Apr 2023 13:13:52.2323 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: VxGGEwIhA8umIV6pHnu+Lpxjx1rgj2kjUnkK2z8vZ4wN0qxdOIH38FZoZ6sERlwzS37C9s7F59jYATzIJojNRQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB7690
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH 2/4] drm/msm: add hdmi cec support
+Content-Language: en-US
+To: Arnaud Vrac <avrac@freebox.fr>, Rob Clark <robdclark@gmail.com>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>,
+ Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+References: <20230418-msm8998-hdmi-cec-v1-0-176479fb2fce@freebox.fr>
+ <20230418-msm8998-hdmi-cec-v1-2-176479fb2fce@freebox.fr>
+From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <20230418-msm8998-hdmi-cec-v1-2-176479fb2fce@freebox.fr>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -125,192 +68,494 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "jani.nikula@intel.com" <jani.nikula@intel.com>,
- "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>, "Zuo,
- Jerry" <Jerry.Zuo@amd.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "stable@vger.kernel.org" <stable@vger.kernel.org>
+Cc: devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-[Public]
+Hi Arnaud,
 
-Much appreciated, Ville and Jani!
+Some review comments below...
 
-To tackle this MST message ack event now, probably I could just pull out th=
-e=20
-drm_dp_mst_kick_tx() out of drm_dp_mst_hpd_irq() and make it the second=20
-step function to handle mst hpd irq? Would like to know your thoughts : )
+On 4/18/23 20:10, Arnaud Vrac wrote:
+> Some Qualcomm SoCs that support HDMI also support CEC, including MSM8996
+> and MSM8998. The hardware block can handle a single CEC logical address
+> and broadcast messages.
+> 
+> Port the CEC driver from downstream msm-4.4 kernel. It has been tested
+> on MSM8998 and passes the cec-compliance tool tests.
 
-Again, thanks for your time!
+Just to verify: did you run the cec-compliance --test-adapter test? That's
+the important one to verify your own driver.
+
+> 
+> Signed-off-by: Arnaud Vrac <avrac@freebox.fr>
+> ---
+>  drivers/gpu/drm/msm/Kconfig         |   8 ++
+>  drivers/gpu/drm/msm/Makefile        |   1 +
+>  drivers/gpu/drm/msm/hdmi/hdmi.c     |  15 ++
+>  drivers/gpu/drm/msm/hdmi/hdmi.h     |  18 +++
+>  drivers/gpu/drm/msm/hdmi/hdmi_cec.c | 280 ++++++++++++++++++++++++++++++++++++
+>  5 files changed, 322 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/msm/Kconfig b/drivers/gpu/drm/msm/Kconfig
+> index 85f5ab1d552c4..2a02c74207935 100644
+> --- a/drivers/gpu/drm/msm/Kconfig
+> +++ b/drivers/gpu/drm/msm/Kconfig
+> @@ -165,3 +165,11 @@ config DRM_MSM_HDMI_HDCP
+>  	default y
+>  	help
+>  	  Choose this option to enable HDCP state machine
+> +
+> +config DRM_MSM_HDMI_CEC
+> +	bool "Enable HDMI CEC support in MSM DRM driver"
+> +	depends on DRM_MSM && DRM_MSM_HDMI
+> +	select CEC_CORE
+> +	default y
+> +	help
+> +	  Choose this option to enable CEC support
+> diff --git a/drivers/gpu/drm/msm/Makefile b/drivers/gpu/drm/msm/Makefile
+> index 7274c41228ed9..0237a2f219ac2 100644
+> --- a/drivers/gpu/drm/msm/Makefile
+> +++ b/drivers/gpu/drm/msm/Makefile
+> @@ -131,6 +131,7 @@ msm-$(CONFIG_DRM_MSM_DP)+= dp/dp_aux.o \
+>  
+>  msm-$(CONFIG_DRM_FBDEV_EMULATION) += msm_fbdev.o
+>  
+> +msm-$(CONFIG_DRM_MSM_HDMI_CEC) += hdmi/hdmi_cec.o
+>  msm-$(CONFIG_DRM_MSM_HDMI_HDCP) += hdmi/hdmi_hdcp.o
+>  
+>  msm-$(CONFIG_DRM_MSM_DSI) += dsi/dsi.o \
+> diff --git a/drivers/gpu/drm/msm/hdmi/hdmi.c b/drivers/gpu/drm/msm/hdmi/hdmi.c
+> index 3132105a2a433..1dde3890e25c0 100644
+> --- a/drivers/gpu/drm/msm/hdmi/hdmi.c
+> +++ b/drivers/gpu/drm/msm/hdmi/hdmi.c
+> @@ -11,6 +11,8 @@
+>  #include <drm/drm_bridge_connector.h>
+>  #include <drm/drm_of.h>
+>  
+> +#include <media/cec.h>
+> +
+>  #include <sound/hdmi-codec.h>
+>  #include "hdmi.h"
+>  
+> @@ -53,6 +55,9 @@ static irqreturn_t msm_hdmi_irq(int irq, void *dev_id)
+>  	if (hdmi->hdcp_ctrl)
+>  		msm_hdmi_hdcp_irq(hdmi->hdcp_ctrl);
+>  
+> +	/* Process CEC: */
+> +	msm_hdmi_cec_irq(hdmi);
+> +
+>  	/* TODO audio.. */
+>  
+>  	return IRQ_HANDLED;
+> @@ -66,6 +71,8 @@ static void msm_hdmi_destroy(struct hdmi *hdmi)
+>  	 */
+>  	if (hdmi->workq)
+>  		destroy_workqueue(hdmi->workq);
+> +
+> +	msm_hdmi_cec_exit(hdmi);
+>  	msm_hdmi_hdcp_destroy(hdmi);
+>  
+>  	if (hdmi->i2c)
+> @@ -139,6 +146,8 @@ static int msm_hdmi_init(struct hdmi *hdmi)
+>  		hdmi->hdcp_ctrl = NULL;
+>  	}
+>  
+> +	msm_hdmi_cec_init(hdmi);
+> +
+>  	return 0;
+>  
+>  fail:
+> @@ -198,6 +207,12 @@ int msm_hdmi_modeset_init(struct hdmi *hdmi,
+>  
+>  	drm_connector_attach_encoder(hdmi->connector, hdmi->encoder);
+>  
+> +	if (hdmi->cec_adap) {
+> +		struct cec_connector_info conn_info;
+> +		cec_fill_conn_info_from_drm(&conn_info, hdmi->connector);
+> +		cec_s_conn_info(hdmi->cec_adap, &conn_info);
+> +	}
+> +
+>  	ret = devm_request_irq(dev->dev, hdmi->irq,
+>  			msm_hdmi_irq, IRQF_TRIGGER_HIGH,
+>  			"hdmi_isr", hdmi);
+> diff --git a/drivers/gpu/drm/msm/hdmi/hdmi.h b/drivers/gpu/drm/msm/hdmi/hdmi.h
+> index e8dbee50637fa..c639bd87f4b8f 100644
+> --- a/drivers/gpu/drm/msm/hdmi/hdmi.h
+> +++ b/drivers/gpu/drm/msm/hdmi/hdmi.h
+> @@ -29,6 +29,7 @@ struct hdmi_audio {
+>  };
+>  
+>  struct hdmi_hdcp_ctrl;
+> +struct cec_adapter;
+>  
+>  struct hdmi {
+>  	struct drm_device *dev;
+> @@ -73,6 +74,7 @@ struct hdmi {
+>  	struct workqueue_struct *workq;
+>  
+>  	struct hdmi_hdcp_ctrl *hdcp_ctrl;
+> +	struct cec_adapter *cec_adap;
+>  
+>  	/*
+>  	* spinlock to protect registers shared by different execution
+> @@ -261,4 +263,20 @@ static inline void msm_hdmi_hdcp_off(struct hdmi_hdcp_ctrl *hdcp_ctrl) {}
+>  static inline void msm_hdmi_hdcp_irq(struct hdmi_hdcp_ctrl *hdcp_ctrl) {}
+>  #endif
+>  
+> +/*
+> + * cec
+> + */
+> +#ifdef CONFIG_DRM_MSM_HDMI_CEC
+> +int msm_hdmi_cec_init(struct hdmi *hdmi);
+> +void msm_hdmi_cec_exit(struct hdmi *hdmi);
+> +void msm_hdmi_cec_irq(struct hdmi *hdmi);
+> +#else
+> +static inline int msm_hdmi_cec_init(struct hdmi *hdmi)
+> +{
+> +	return -ENXIO;
+> +}
+> +static inline void msm_hdmi_cec_exit(struct hdmi *hdmi) {}
+> +static inline void msm_hdmi_cec_irq(struct hdmi *hdmi) {}
+> +#endif
+> +
+>  #endif /* __HDMI_CONNECTOR_H__ */
+> diff --git a/drivers/gpu/drm/msm/hdmi/hdmi_cec.c b/drivers/gpu/drm/msm/hdmi/hdmi_cec.c
+> new file mode 100644
+> index 0000000000000..51326e493e5da
+> --- /dev/null
+> +++ b/drivers/gpu/drm/msm/hdmi/hdmi_cec.c
+> @@ -0,0 +1,280 @@
+> +#include <linux/iopoll.h>
+> +#include <media/cec.h>
+> +
+> +#include "hdmi.h"
+> +
+> +#define HDMI_CEC_INT_MASK ( \
+> +	HDMI_CEC_INT_TX_DONE_MASK | \
+> +	HDMI_CEC_INT_TX_ERROR_MASK | \
+> +	HDMI_CEC_INT_RX_DONE_MASK)
+> +
+> +struct hdmi_cec_ctrl {
+> +	struct hdmi *hdmi;
+> +	struct work_struct work;
+> +	spinlock_t lock;
+> +	u32 irq_status;
+> +	u32 tx_status;
+> +	u32 tx_retransmits;
+> +};
+> +
+> +static int msm_hdmi_cec_adap_enable(struct cec_adapter *adap, bool enable)
+> +{
+> +	struct hdmi_cec_ctrl *cec_ctrl = adap->priv;
+> +	struct hdmi *hdmi = cec_ctrl->hdmi;
+> +
+> +	if (enable) {
+> +		/* timer frequency, 19.2Mhz * 0.05ms / 1000ms = 960 */
+> +		hdmi_write(hdmi, REG_HDMI_CEC_REFTIMER,
+> +			   HDMI_CEC_REFTIMER_REFTIMER(960) |
+> +			   HDMI_CEC_REFTIMER_ENABLE);
+> +
+> +		/* read and write timings */
+> +		hdmi_write(hdmi, REG_HDMI_CEC_RD_RANGE, 0x30AB9888);
+> +		hdmi_write(hdmi, REG_HDMI_CEC_WR_RANGE, 0x888AA888);
+> +		hdmi_write(hdmi, REG_HDMI_CEC_RD_START_RANGE, 0x88888888);
+> +		hdmi_write(hdmi, REG_HDMI_CEC_RD_TOTAL_RANGE, 0x99);
+> +
+> +		/* start bit low pulse duration, 3.7ms */
+> +		hdmi_write(hdmi, REG_HDMI_CEC_RD_ERR_RESP_LO, 74);
+> +
+> +		/* signal free time, 7 * 2.4ms */
+> +		hdmi_write(hdmi, REG_HDMI_CEC_TIME,
+> +			   HDMI_CEC_TIME_SIGNAL_FREE_TIME(7 * 48) |
+> +			   HDMI_CEC_TIME_ENABLE);
+
+The Signal Free Time changes depending on the situation (3, 5 or 7 bit
+periods). Does the hardware take care of that, or do you need to update
+this register in the transmit op as well?
+
+> +
+> +		hdmi_write(hdmi, REG_HDMI_CEC_COMPL_CTL, 0xF);
+> +		hdmi_write(hdmi, REG_HDMI_CEC_WR_CHECK_CONFIG, 0x4);
+> +		hdmi_write(hdmi, REG_HDMI_CEC_RD_FILTER, BIT(0) | (0x7FF << 4));
+> +
+> +		hdmi_write(hdmi, REG_HDMI_CEC_INT, HDMI_CEC_INT_MASK);
+> +		hdmi_write(hdmi, REG_HDMI_CEC_CTRL, HDMI_CEC_CTRL_ENABLE);
+> +	} else {
+> +		hdmi_write(hdmi, REG_HDMI_CEC_INT, 0);
+> +		hdmi_write(hdmi, REG_HDMI_CEC_CTRL, 0);
+> +		cancel_work_sync(&cec_ctrl->work);
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int msm_hdmi_cec_adap_log_addr(struct cec_adapter *adap, u8 logical_addr)
+> +{
+> +	struct hdmi_cec_ctrl *cec_ctrl = adap->priv;
+> +	struct hdmi *hdmi = cec_ctrl->hdmi;
+> +
+> +	hdmi_write(hdmi, REG_HDMI_CEC_ADDR, logical_addr & 0xF);
+
+So to disable the logical address you set this to 0xf, right? Since
+CEC_LOG_ADDR_INVALID is 0xff.
+
+> +
+> +	return 0;
+> +}
+> +
+> +static int msm_hdmi_cec_adap_transmit(struct cec_adapter *adap, u8 attempts,
+> +				      u32 signal_free_time, struct cec_msg *msg)
+
+Note that the SFT is passed in as an argument for those hardware devices
+that do not keep track of it themselves.
+
+> +{
+> +	struct hdmi_cec_ctrl *cec_ctrl = adap->priv;
+> +	struct hdmi *hdmi = cec_ctrl->hdmi;
+> +	u8 retransmits;
+> +	u32 broadcast;
+> +	u32 status;
+> +	int i;
+> +
+> +	/* toggle cec in order to flush out bad hw state, if any */
+> +	hdmi_write(hdmi, REG_HDMI_CEC_CTRL, 0);
+> +	hdmi_write(hdmi, REG_HDMI_CEC_CTRL, HDMI_CEC_CTRL_ENABLE);
+> +
+> +	/* flush register writes */
+> +	wmb();
+> +
+> +	retransmits = attempts ? (attempts - 1) : 0;
+> +	hdmi_write(hdmi, REG_HDMI_CEC_RETRANSMIT,
+> +		   HDMI_CEC_RETRANSMIT_ENABLE |
+> +		   HDMI_CEC_RETRANSMIT_COUNT(retransmits));
+> +
+> +	broadcast = cec_msg_is_broadcast(msg) ? HDMI_CEC_WR_DATA_BROADCAST : 0;
+> +	for (i = 0; i < msg->len; i++) {
+> +		hdmi_write(hdmi, REG_HDMI_CEC_WR_DATA,
+> +			   HDMI_CEC_WR_DATA_DATA(msg->msg[i]) | broadcast);
+> +	}
+> +
+> +	/* check line status */
+> +	if (read_poll_timeout(hdmi_read, status, !(status & HDMI_CEC_STATUS_BUSY),
+> +			      5, 1000, false, hdmi, REG_HDMI_CEC_STATUS)) {
+> +		pr_err("CEC line is busy. Retry failed\n");
+
+This doesn't look right. Normally it is the CEC hardware that will wait for the
+bus to become free, and then it will start the transmit. That is not something
+you should have to do in the driver. And this waits for just 1 ms, right? That's
+much too short if a message is currently being received.
+
+Is there documentation of the CEC hardware available somewhere? Or can you
+explain a bit about it?
+
+> +		return -EBUSY;
+> +	}
+> +
+> +	cec_ctrl->tx_retransmits = retransmits;
+> +
+> +	/* start transmission */
+> +	hdmi_write(hdmi, REG_HDMI_CEC_CTRL,
+> +		   HDMI_CEC_CTRL_ENABLE |
+> +		   HDMI_CEC_CTRL_SEND_TRIGGER |
+> +		   HDMI_CEC_CTRL_FRAME_SIZE(msg->len) |
+> +		   HDMI_CEC_CTRL_LINE_OE);
+> +
+> +	return 0;
+> +}
+> +
+> +static void msm_hdmi_cec_adap_free(struct cec_adapter *adap)
+> +{
+> +	struct hdmi_cec_ctrl *cec_ctrl = adap->priv;
+> +
+> +	cec_ctrl->hdmi->cec_adap = NULL;
+> +	kfree(cec_ctrl);
+> +}
+> +
+> +static const struct cec_adap_ops msm_hdmi_cec_adap_ops = {
+> +	.adap_enable = msm_hdmi_cec_adap_enable,
+> +	.adap_log_addr = msm_hdmi_cec_adap_log_addr,
+> +	.adap_transmit = msm_hdmi_cec_adap_transmit,
+> +	.adap_free = msm_hdmi_cec_adap_free,
+> +};
+> +
+> +#define CEC_IRQ_FRAME_WR_DONE 0x01
+> +#define CEC_IRQ_FRAME_RD_DONE 0x02
+> +
+> +static void msm_hdmi_cec_handle_rx_done(struct hdmi_cec_ctrl *cec_ctrl)
+> +{
+> +	struct hdmi *hdmi = cec_ctrl->hdmi;
+> +	struct cec_msg msg = {};
+> +	u32 data;
+> +	int i;
+> +
+> +	data = hdmi_read(hdmi, REG_HDMI_CEC_RD_DATA);
+> +	msg.len = (data & 0x1f00) >> 8;
+> +	if (msg.len < 1 || msg.len > CEC_MAX_MSG_SIZE)
+> +		return;
+> +
+> +	msg.msg[0] = data & 0xff;
+> +	for (i = 1; i < msg.len; i++)
+> +		msg.msg[i] = hdmi_read(hdmi, REG_HDMI_CEC_RD_DATA) & 0xff;
+> +
+> +	cec_received_msg(hdmi->cec_adap, &msg);
+> +}
+> +
+> +static void msm_hdmi_cec_handle_tx_done(struct hdmi_cec_ctrl *cec_ctrl)
+> +{
+> +	struct hdmi *hdmi = cec_ctrl->hdmi;
+> +	u32 tx_status;
+> +
+> +	tx_status = (cec_ctrl->tx_status & HDMI_CEC_STATUS_TX_STATUS__MASK) >>
+> +		HDMI_CEC_STATUS_TX_STATUS__SHIFT;
+> +
+> +	switch (tx_status) {
+> +	case 0:
+> +		cec_transmit_done(hdmi->cec_adap,
+> +				  CEC_TX_STATUS_OK, 0, 0, 0, 0);
+> +		break;
+> +	case 1:
+> +		cec_transmit_done(hdmi->cec_adap,
+> +				  CEC_TX_STATUS_NACK, 0, 1, 0, 0);
+
+It's not clear to me who does the retransmits. There are two possibilities:
+the hardware takes care of that, and so you just get the final result
+and you OR this status with CEC_TX_STATUS_MAX_RETRIES to indicate that
+the CEC framework shouldn't attempt to retry.
+
+Or the hardware just does a single transmit, and in that case you never
+supply the CEC_TX_STATUS_MAX_RETRIES and just leave it up to the framework
+to reissue a transmit.
+
+So here you do no supply MAX_RETRIES...
+
+> +		break;
+> +	case 2:
+> +		cec_transmit_done(hdmi->cec_adap,
+> +				  CEC_TX_STATUS_ARB_LOST, 1, 0, 0, 0);
+
+... and also not here...
+
+> +		break;
+> +	case 3:
+> +		cec_transmit_done(hdmi->cec_adap,
+> +				  CEC_TX_STATUS_MAX_RETRIES |
+> +				  CEC_TX_STATUS_NACK,
+> +				  0, cec_ctrl->tx_retransmits + 1, 0, 0);
+
+...but here you do.
+
+> +		break;
+> +	default:
+> +		cec_transmit_done(hdmi->cec_adap,
+> +				  CEC_TX_STATUS_ERROR, 0, 0, 0, 1);
+> +		break;
+> +	}
+> +}
+> +
+> +static void msm_hdmi_cec_work(struct work_struct *work)
+> +{
+> +	struct hdmi_cec_ctrl *cec_ctrl =
+> +		container_of(work, struct hdmi_cec_ctrl, work);
+> +	unsigned long flags;
+> +
+> +	spin_lock_irqsave(&cec_ctrl->lock, flags);
+> +
+> +	if (cec_ctrl->irq_status & CEC_IRQ_FRAME_WR_DONE)
+> +		msm_hdmi_cec_handle_tx_done(cec_ctrl);
+> +
+> +	if (cec_ctrl->irq_status & CEC_IRQ_FRAME_RD_DONE)
+> +		msm_hdmi_cec_handle_rx_done(cec_ctrl);
+> +
+> +	cec_ctrl->irq_status = 0;
+> +	cec_ctrl->tx_status = 0;
+> +
+> +	spin_unlock_irqrestore(&cec_ctrl->lock, flags);
+> +}
+> +
+> +void msm_hdmi_cec_irq(struct hdmi *hdmi)
+> +{
+> +	struct hdmi_cec_ctrl *cec_ctrl;
+> +	unsigned long flags;
+> +	u32 int_status;
+> +
+> +	if (!hdmi->cec_adap)
+> +		return;
+> +
+> +	cec_ctrl = hdmi->cec_adap->priv;
+> +
+> +	int_status = hdmi_read(hdmi, REG_HDMI_CEC_INT);
+> +	if (!(int_status & HDMI_CEC_INT_MASK))
+> +		return;
+> +
+> +	spin_lock_irqsave(&cec_ctrl->lock, flags);
+> +
+> +	if (int_status & (HDMI_CEC_INT_TX_DONE | HDMI_CEC_INT_TX_ERROR)) {
+> +		cec_ctrl->tx_status = hdmi_read(hdmi, REG_HDMI_CEC_STATUS);
+> +		cec_ctrl->irq_status |= CEC_IRQ_FRAME_WR_DONE;
+> +	}
+> +
+> +	if (int_status & HDMI_CEC_INT_RX_DONE)
+> +		cec_ctrl->irq_status |= CEC_IRQ_FRAME_RD_DONE;
+> +
+> +	spin_unlock_irqrestore(&cec_ctrl->lock, flags);
+> +
+> +	hdmi_write(hdmi, REG_HDMI_CEC_INT, int_status);
+> +	queue_work(hdmi->workq, &cec_ctrl->work);
+> +}
+> +
+> +int msm_hdmi_cec_init(struct hdmi *hdmi)
+> +{
+> +	struct platform_device *pdev = hdmi->pdev;
+> +	struct hdmi_cec_ctrl *cec_ctrl;
+> +	struct cec_adapter *cec_adap;
+> +	int ret;
+> +
+> +	cec_ctrl = kzalloc(sizeof (*cec_ctrl), GFP_KERNEL);
+> +	if (!cec_ctrl)
+> +		return -ENOMEM;
+> +
+> +	cec_ctrl->hdmi = hdmi;
+> +	INIT_WORK(&cec_ctrl->work, msm_hdmi_cec_work);
+> +
+> +	cec_adap = cec_allocate_adapter(&msm_hdmi_cec_adap_ops,
+> +					cec_ctrl, "msm",
+> +					CEC_CAP_DEFAULTS |
+> +					CEC_CAP_CONNECTOR_INFO, 1);
+> +	ret = PTR_ERR_OR_ZERO(cec_adap);
+> +	if (ret < 0) {
+> +		kfree(cec_ctrl);
+> +		return ret;
+> +	}
+> +
+> +	/* Set the logical address to Unregistered */
+> +	hdmi_write(hdmi, REG_HDMI_CEC_ADDR, 0xf);
+> +
+> +	ret = cec_register_adapter(cec_adap, &pdev->dev);
+> +	if (ret < 0) {
+> +		cec_delete_adapter(cec_adap);
+> +		return ret;
+> +	}
+> +
+> +	hdmi->cec_adap = cec_adap;
+> +
+> +	return 0;
+> +}
+> +
+> +void msm_hdmi_cec_exit(struct hdmi *hdmi)
+> +{
+> +	cec_unregister_adapter(hdmi->cec_adap);
+> +}
+> 
+
+Final question: is this CEC device able to transmit messages when the hotplug detect
+pin is low? Some displays pull the HPD low when in Standby, but it is still possible
+to wake them up with a <Image View On> message. It is important to check that.
+
+If this is really not possible, then the CEC_CAP_NEEDS_HPD should be set.
 
 Regards,
-Wayne Lin
 
-> -----Original Message-----
-> From: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
-> Sent: Tuesday, April 18, 2023 10:01 PM
-> To: Lin, Wayne <Wayne.Lin@amd.com>
-> Cc: dri-devel@lists.freedesktop.org; amd-gfx@lists.freedesktop.org;
-> lyude@redhat.com; imre.deak@intel.com; jani.nikula@intel.com; Wentland,
-> Harry <Harry.Wentland@amd.com>; Zuo, Jerry <Jerry.Zuo@amd.com>;
-> stable@vger.kernel.org
-> Subject: Re: [PATCH] drm/dp_mst: Clear MSG_RDY flag before sending new
-> message
->=20
-> On Tue, Apr 18, 2023 at 02:09:05PM +0800, Wayne Lin wrote:
-> > [Why & How]
-> > The sequence for collecting down_reply/up_request from source
-> > perspective should be:
-> >
-> > Request_n->repeat (get partial reply of Request_n->clear message ready
-> > flag to ack DPRX that the message is received) till all partial
-> > replies for Request_n are received->new Request_n+1.
-> >
-> > While assembling partial reply packets, reading out DPCD DOWN_REP
-> > Sideband MSG buffer + clearing DOWN_REP_MSG_RDY flag should be
-> wrapped
-> > up as a complete operation for reading out a reply packet.
-> > Kicking off a new request before clearing DOWN_REP_MSG_RDY flag might
-> > be risky. e.g. If the reply of the new request has overwritten the
-> > DPRX DOWN_REP Sideband MSG buffer before source writing ack to clear
-> > DOWN_REP_MSG_RDY flag, source then unintentionally flushes the reply
-> > for the new request. Should handle the up request in the same way.
-> >
-> > In drm_dp_mst_hpd_irq(), we don't clear MSG_RDY flag before caliing
-> > drm_dp_mst_kick_tx(). Fix that.
-> >
-> > Signed-off-by: Wayne Lin <Wayne.Lin@amd.com>
-> > Cc: stable@vger.kernel.org
-> > ---
-> >  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |  2 ++
-> > drivers/gpu/drm/display/drm_dp_mst_topology.c | 22
-> +++++++++++++++++++
-> >  drivers/gpu/drm/i915/display/intel_dp.c       |  3 +++
-> >  drivers/gpu/drm/nouveau/dispnv50/disp.c       |  2 ++
-> >  4 files changed, 29 insertions(+)
-> >
-> > diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> > b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> > index 77277d90b6e2..5313a5656598 100644
-> > --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> > +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> > @@ -3166,6 +3166,8 @@ static void dm_handle_mst_sideband_msg(struct
-> amdgpu_dm_connector *aconnector)
-> >  			for (retry =3D 0; retry < 3; retry++) {
-> >  				uint8_t wret;
-> >
-> > +				/* MSG_RDY ack is done in drm*/
-> > +				esi[1] &=3D ~(DP_DOWN_REP_MSG_RDY |
-> DP_UP_REQ_MSG_RDY);
-> >  				wret =3D drm_dp_dpcd_write(
-> >  					&aconnector->dm_dp_aux.aux,
-> >  					dpcd_addr + 1,
-> > diff --git a/drivers/gpu/drm/display/drm_dp_mst_topology.c
-> > b/drivers/gpu/drm/display/drm_dp_mst_topology.c
-> > index 51a46689cda7..02aad713c67c 100644
-> > --- a/drivers/gpu/drm/display/drm_dp_mst_topology.c
-> > +++ b/drivers/gpu/drm/display/drm_dp_mst_topology.c
-> > @@ -4054,6 +4054,9 @@ int drm_dp_mst_hpd_irq(struct
-> > drm_dp_mst_topology_mgr *mgr, u8 *esi, bool *handl  {
-> >  	int ret =3D 0;
-> >  	int sc;
-> > +	const int tosend =3D 1;
-> > +	int retries =3D 0;
-> > +	u8 buf =3D 0;
-> >  	*handled =3D false;
-> >  	sc =3D DP_GET_SINK_COUNT(esi[0]);
-> >
-> > @@ -4072,6 +4075,25 @@ int drm_dp_mst_hpd_irq(struct
-> drm_dp_mst_topology_mgr *mgr, u8 *esi, bool *handl
-> >  		*handled =3D true;
-> >  	}
-> >
-> > +	if (*handled) {
-> > +		buf =3D esi[1] & (DP_DOWN_REP_MSG_RDY |
-> DP_UP_REQ_MSG_RDY);
-> > +		do {
-> > +			ret =3D drm_dp_dpcd_write(mgr->aux,
-> > +
-> 	DP_DEVICE_SERVICE_IRQ_VECTOR_ESI0,
-> > +						&buf,
-> > +						tosend);
-> > +
-> > +			if (ret =3D=3D tosend)
-> > +				break;
-> > +
-> > +			retries++;
-> > +		} while (retries < 5);
->=20
-> What's with this magic retry loop?
->=20
-> Not sure I like the whole thing though. Splitting the irq ack semi-random=
-ly
-> between driver vs. multiple helpers doesn't feel great to me.
->=20
-> As a whole the HPD_IRQ handling is a total mess atm. At some point I was
-> trying to sketch something a bit better for it. The approach I was thinki=
-ng was
-> something along the lines of:
->=20
->  u8 vector[...];
->  drm_dp_read_irq_vector(vector);
->  ... handle all irqs/etc., calling suitable helpers as needed
-> drm_dp_clear_irq_vector(vector);
->=20
-> And I was also thinking that this drm_dp_*_irq_vector() stuff would alway=
-s
-> use the ESI layout, converting as needed from/to the old layout for pre-1=
-.2
-> (or whatever the cutoff was) devices.
-> That way drivers would just need the one codepath.
->=20
-> > +
-> > +		if (ret !=3D tosend)
-> > +			drm_dbg_kms(mgr->dev, "failed to write dpcd
-> 0x%x\n",
-> > +				    DP_DEVICE_SERVICE_IRQ_VECTOR_ESI0);
-> > +	}
-> > +
-> >  	drm_dp_mst_kick_tx(mgr);
-> >  	return ret;
-> >  }
-> > diff --git a/drivers/gpu/drm/i915/display/intel_dp.c
-> > b/drivers/gpu/drm/i915/display/intel_dp.c
-> > index bf80f296a8fd..abec3de38b66 100644
-> > --- a/drivers/gpu/drm/i915/display/intel_dp.c
-> > +++ b/drivers/gpu/drm/i915/display/intel_dp.c
-> > @@ -3939,6 +3939,9 @@ intel_dp_check_mst_status(struct intel_dp
-> *intel_dp)
-> >  		if (!memchr_inv(ack, 0, sizeof(ack)))
-> >  			break;
-> >
-> > +		/* MSG_RDY ack is done in drm*/
-> > +		ack[1] &=3D ~(DP_DOWN_REP_MSG_RDY |
-> DP_UP_REQ_MSG_RDY);
-> > +
-> >  		if (!intel_dp_ack_sink_irq_esi(intel_dp, ack))
-> >  			drm_dbg_kms(&i915->drm, "Failed to ack ESI\n");
-> >  	}
-> > diff --git a/drivers/gpu/drm/nouveau/dispnv50/disp.c
-> > b/drivers/gpu/drm/nouveau/dispnv50/disp.c
-> > index edcb2529b402..e905987104ed 100644
-> > --- a/drivers/gpu/drm/nouveau/dispnv50/disp.c
-> > +++ b/drivers/gpu/drm/nouveau/dispnv50/disp.c
-> > @@ -1336,6 +1336,8 @@ nv50_mstm_service(struct nouveau_drm *drm,
-> >  		if (!handled)
-> >  			break;
-> >
-> > +		/* MSG_RDY ack is done in drm*/
-> > +		esi[1] &=3D ~(DP_DOWN_REP_MSG_RDY |
-> DP_UP_REQ_MSG_RDY);
-> >  		rc =3D drm_dp_dpcd_write(aux, DP_SINK_COUNT_ESI + 1,
-> &esi[1],
-> >  				       3);
-> >  		if (rc !=3D 3) {
-> > --
-> > 2.37.3
->=20
-> --
-> Ville Syrj=E4l=E4
-> Intel
+	Hans
