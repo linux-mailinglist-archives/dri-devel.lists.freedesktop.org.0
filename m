@@ -2,64 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D71D46EA702
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Apr 2023 11:33:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD7CD6EA81B
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Apr 2023 12:17:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5E7F310EDD6;
-	Fri, 21 Apr 2023 09:33:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AF2F210E0A4;
+	Fri, 21 Apr 2023 10:17:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-x1132.google.com (mail-yw1-x1132.google.com
- [IPv6:2607:f8b0:4864:20::1132])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3C76010EDD6;
- Fri, 21 Apr 2023 09:33:33 +0000 (UTC)
-Received: by mail-yw1-x1132.google.com with SMTP id
- 00721157ae682-54f945a7bddso16692937b3.0; 
- Fri, 21 Apr 2023 02:33:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1682069612; x=1684661612;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=T5p6bvHwMyW7lziwaSul4O5r1HMCPQXOQK/D0l6nW90=;
- b=g8MjhIQdjGxLoIgiSzKatFf1xYtIgKS+bgDQB5OL6VoUyZdmddgHFb5qfO5OJill7Z
- 8dQb6jeaSwzQQtj2TqMXja/EAPmlhsau7pg4EMgeBLOYNGFWk/pQdKHbnOfhm+NCAxaK
- +gsMoJaptHLN+8nd6dK03DF7CWAUayErFT4o6Lerc4z06gz8O1Hty3S01Sy3+ZuTmUx9
- BOdYy+2ttz5CteUy7k6Q+DUfdU9FjDbmMB9VlI2uRzvqP+9ep4U/2TzbPpcT8Y9v42+5
- v4pTtgw93Fm8ERP2TDy4amJR9Fmc8falWud21v6z1OBwlY/I3vyKeGhpwuaGnvIZY0jI
- BuHA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682069612; x=1684661612;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=T5p6bvHwMyW7lziwaSul4O5r1HMCPQXOQK/D0l6nW90=;
- b=bWLbpsm5AjvnT9ZZJK3kRCe1JxlTDhjvI9LBleFCCdObvIjWdVaFDCiZiuvDgVDRTs
- EkMsnEhumypyFMzeuVi4HS+35KqPcCqcNuOJH8HUxiNgH9Y/lRrFv7RpZNUPW0OLTm0J
- FT3vQv6/WqrNccuzM2KEkk9wcgfKML0vbGEYr6dTm+wjxF5Zanuds7mF+urBlawIyTjw
- WdCH/naoO9HA/pSf2pjc5YLRYEhpA8UCmXk6KXRDLJlJgfLjsldtfIWpG4oE3ere8DTP
- ZAV27Mhd8W7xLnF1aMtGswtiPKnij+VYywxO6g3oVAc8yFxwUt9SCtCQbSgQiLMa4E+M
- ujmQ==
-X-Gm-Message-State: AAQBX9f7csPwVEo4gAh4dK9eGkHTv8QMpTLDLLeH6kER3d7JaKvwe/dh
- Zat+Afk23c7Zv2AIToetb+wMMpRPwj1IXSMfrgE=
-X-Google-Smtp-Source: AKy350aJAz949U56arY/RpcI9y4j/0DW6OJo5Grq9qVA9gs8hIZAx1lt/+6V34ibq32dXRhlt1z8YItoigsBMzaWfQQ=
-X-Received: by 2002:a0d:c2c1:0:b0:552:c551:9cff with SMTP id
- e184-20020a0dc2c1000000b00552c5519cffmr1131888ywd.21.1682069611741; Fri, 21
- Apr 2023 02:33:31 -0700 (PDT)
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 093EE10E04A;
+ Fri, 21 Apr 2023 10:17:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1682072249; x=1713608249;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=ILNISb0swWY+HD27JowBpDMXpM0jD8AU38PbG66Diw0=;
+ b=kq+XyUBmVS+xWrYF/ImGyiO7KXY3vnJm49Dco5en3urYo+fNHcJZ1WVj
+ qcq//WCPYr8gSFOhWhQbYg9jlmRXQG9ughOOYl5PMDBVX8EMV5UFAuDbd
+ GvI8BlYvecxBAB9yHTiLhwMZSs8XdrsnJnWR7T+JR5FwONLP0Pn9SDmRd
+ GWA5vxfSPbtWyppqnqReXtVPhGOVex4dwbsVq7rQ5DsStaM5GGkAXAeiw
+ cYvGgGsqnHMBpLARZnntLXe6a5/8IwrLxyktn10tAEhd16LqiNzsQ/Qw9
+ +FJ+pEaE9QzW11Hd+ymKYH2GOA/9qhI4i8B0xRKzfKFHcgf/c/42/Vlii A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10686"; a="408900668"
+X-IronPort-AV: E=Sophos;i="5.99,214,1677571200"; d="scan'208";a="408900668"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Apr 2023 03:17:26 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10686"; a="685688556"
+X-IronPort-AV: E=Sophos;i="5.99,214,1677571200"; d="scan'208";a="685688556"
+Received: from vhavelx-mobl2.ger.corp.intel.com (HELO [10.213.192.37])
+ ([10.213.192.37])
+ by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Apr 2023 03:17:02 -0700
+Message-ID: <705b5e5b-78cd-857f-ad26-80835217520c@linux.intel.com>
+Date: Fri, 21 Apr 2023 11:17:00 +0100
 MIME-Version: 1.0
-References: <20230417201215.448099-1-robdclark@gmail.com>
- <20230417201215.448099-3-robdclark@gmail.com>
- <58977051-197b-f1f0-c795-9037e70d7a91@linux.intel.com>
- <ZD5WLMRNibbRkGQO@phenom.ffwll.local>
- <CAF6AEGugcuV08G_pxjUGvhTbp8DFFG4ws3=oiP5PpbRf=SJdhQ@mail.gmail.com>
-In-Reply-To: <CAF6AEGugcuV08G_pxjUGvhTbp8DFFG4ws3=oiP5PpbRf=SJdhQ@mail.gmail.com>
-From: Emil Velikov <emil.l.velikov@gmail.com>
-Date: Fri, 21 Apr 2023 10:33:20 +0100
-Message-ID: <CACvgo52gByHzwtm4gxqUxZ5yJGTQ5NucBmMHSO7nLPsba3rTfw@mail.gmail.com>
-Subject: Re: [RFC 2/3] drm/msm: Rework get_comm_cmdline() helper
-To: Rob Clark <robdclark@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [Intel-gfx] [PATCH 7/8] drm/i915: use pat_index instead of
+ cache_level
+Content-Language: en-US
+To: fei.yang@intel.com, intel-gfx@lists.freedesktop.org
+References: <20230419230058.2659455-1-fei.yang@intel.com>
+ <20230419230058.2659455-8-fei.yang@intel.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <20230419230058.2659455-8-fei.yang@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,126 +64,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Akhil P Oommen <quic_akhilpo@quicinc.com>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
- open list <linux-kernel@vger.kernel.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <freedreno@lists.freedesktop.org>,
- Sean Paul <sean@poorly.run>
+Cc: Chris Wilson <chris.p.wilson@linux.intel.com>,
+ Matt Roper <matthew.d.roper@intel.com>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Greeting all,
 
-Sorry for the delay - Easter Holidays, food coma and all that :-)
 
-On Tue, 18 Apr 2023 at 15:31, Rob Clark <robdclark@gmail.com> wrote:
->
-> On Tue, Apr 18, 2023 at 1:34=E2=80=AFAM Daniel Vetter <daniel@ffwll.ch> w=
-rote:
-> >
-> > On Tue, Apr 18, 2023 at 09:27:49AM +0100, Tvrtko Ursulin wrote:
-> > >
-> > > On 17/04/2023 21:12, Rob Clark wrote:
-> > > > From: Rob Clark <robdclark@chromium.org>
-> > > >
-> > > > Make it work in terms of ctx so that it can be re-used for fdinfo.
-> > > >
-> > > > Signed-off-by: Rob Clark <robdclark@chromium.org>
-> > > > ---
-> > > >   drivers/gpu/drm/msm/adreno/adreno_gpu.c |  4 ++--
-> > > >   drivers/gpu/drm/msm/msm_drv.c           |  2 ++
-> > > >   drivers/gpu/drm/msm/msm_gpu.c           | 13 ++++++-------
-> > > >   drivers/gpu/drm/msm/msm_gpu.h           | 12 ++++++++++--
-> > > >   drivers/gpu/drm/msm/msm_submitqueue.c   |  1 +
-> > > >   5 files changed, 21 insertions(+), 11 deletions(-)
-> > > >
-> > > > diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.c b/drivers/gpu/=
-drm/msm/adreno/adreno_gpu.c
-> > > > index bb38e728864d..43c4e1fea83f 100644
-> > > > --- a/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-> > > > +++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-> > > > @@ -412,7 +412,7 @@ int adreno_set_param(struct msm_gpu *gpu, struc=
-t msm_file_private *ctx,
-> > > >             /* Ensure string is null terminated: */
-> > > >             str[len] =3D '\0';
-> > > > -           mutex_lock(&gpu->lock);
-> > > > +           mutex_lock(&ctx->lock);
-> > > >             if (param =3D=3D MSM_PARAM_COMM) {
-> > > >                     paramp =3D &ctx->comm;
-> > > > @@ -423,7 +423,7 @@ int adreno_set_param(struct msm_gpu *gpu, struc=
-t msm_file_private *ctx,
-> > > >             kfree(*paramp);
-> > > >             *paramp =3D str;
-> > > > -           mutex_unlock(&gpu->lock);
-> > > > +           mutex_unlock(&ctx->lock);
-> > > >             return 0;
-> > > >     }
-> > > > diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/ms=
-m_drv.c
-> > > > index 3d73b98d6a9c..ca0e89e46e13 100644
-> > > > --- a/drivers/gpu/drm/msm/msm_drv.c
-> > > > +++ b/drivers/gpu/drm/msm/msm_drv.c
-> > > > @@ -581,6 +581,8 @@ static int context_init(struct drm_device *dev,=
- struct drm_file *file)
-> > > >     rwlock_init(&ctx->queuelock);
-> > > >     kref_init(&ctx->ref);
-> > > > +   ctx->pid =3D get_pid(task_pid(current));
-> > >
-> > > Would it simplify things for msm if DRM core had an up to date file->=
-pid as
-> > > proposed in
-> > > https://patchwork.freedesktop.org/patch/526752/?series=3D109902&rev=
-=3D4 ? It
-> > > gets updated if ioctl issuer is different than fd opener and this bei=
-ng
-> > > context_init here reminded me of it. Maybe you wouldn't have to track=
- the
-> > > pid in msm?
->
-> The problem is that we also need this for gpu devcore dumps, which
-> could happen after the drm_file is closed.  The ctx can outlive the
-> file.
->
-I think we all kept forgetting about that. MSM had support for ages,
-while AMDGPU is the second driver to land support - just a release
-ago.
+On 20/04/2023 00:00, fei.yang@intel.com wrote:
+> From: Fei Yang <fei.yang@intel.com>
+> 
+> Currently the KMD is using enum i915_cache_level to set caching policy for
+> buffer objects. This is flaky because the PAT index which really controls
+> the caching behavior in PTE has far more levels than what's defined in the
+> enum. In addition, the PAT index is platform dependent, having to translate
+> between i915_cache_level and PAT index is not reliable, and makes the code
+> more complicated.
+> 
+>>From UMD's perspective there is also a necessity to set caching policy for
+> performance fine tuning. It's much easier for the UMD to directly use PAT
+> index because the behavior of each PAT index is clearly defined in Bspec.
+> Having the abstracted i915_cache_level sitting in between would only cause
+> more ambiguity.
+> 
+> For these reasons this patch replaces i915_cache_level with PAT index. Also
+> note, the cache_level is not completely removed yet, because the KMD still
+> has the need of creating buffer objects with simple cache settings such as
+> cached, uncached, or writethrough. For such simple cases, using cache_level
+> would help simplify the code.
+> 
+> Cc: Chris Wilson <chris.p.wilson@linux.intel.com>
+> Cc: Matt Roper <matthew.d.roper@intel.com>
+> Signed-off-by: Fei Yang <fei.yang@intel.com>
+> Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com>
 
-> But the ctx->pid has the same problem as the existing file->pid when
-> it comes to Xorg.. hopefully over time that problem just goes away.
+[snip]
 
-Out of curiosity: what do you mean with "when it comes to Xorg" - the
-"was_master" handling or something else?
+>   
+>   bool i915_gem_cpu_write_needs_clflush(struct drm_i915_gem_object *obj)
+> @@ -267,7 +267,7 @@ int i915_gem_object_set_cache_level(struct drm_i915_gem_object *obj,
+>   {
+>   	int ret;
+>   
+> -	if (obj->cache_level == cache_level)
+> +	if (i915_gem_object_has_cache_level(obj, cache_level))
+>   		return 0;
 
-> guess I could do a similar dance to your patch to update the pid
-> whenever (for ex) a submitqueue is created.
->
-> > Can we go one step further and let the drm fdinfo stuff print these new
-> > additions? Consistency across drivers and all that.
->
-> Hmm, I guess I could _also_ store the overridden comm/cmdline in
-> drm_file.  I still need to track it in ctx (msm_file_private) because
-> I could need it after the file is closed.
->
-> Maybe it could be useful to have a gl extension to let the app set a
-> name on the context so that this is useful beyond native-ctx (ie.
-> maybe it would be nice to see that "chrome: lwn.net" is using less gpu
-> memory than "chrome: phoronix.com", etc)
->
+When userspace calls i915_gem_set_caching_ioctl after having set the PAT index explicitly this will make it silently succeed regardless of the cache level passed in, no? Because of:
 
-/me awaits for the series to hit the respective websites ;-)
++bool i915_gem_object_has_cache_level(const struct drm_i915_gem_object *obj,
++				     enum i915_cache_level lvl)
++{
++	/*
++	 * cache_level == I915_CACHE_INVAL indicates the UMD's have set the
++	 * caching policy through pat_index, in which case the KMD should
++	 * leave the coherency to be managed by user space, simply return
++	 * true here.
++	 */
++	if (obj->cache_level == I915_CACHE_INVAL)
++		return true;
 
-But seriously - the series from Tvrtko (thanks for the link, will
-check in a moment) makes sense. Although given the livespan issue
-mentioned above, I don't think it's applicable here.
+I think we need to let it know it is doing it wrong with an error.
 
-So if it were me, I would consider the two orthogonal for the
-short/mid term. Fwiw this and patch 1/3 are:
-Reviewed-by: Emil Velikov <emil.l.velikov@gmail.com>
+Regards,
 
-HTH
--Emil
+Tvrtko
