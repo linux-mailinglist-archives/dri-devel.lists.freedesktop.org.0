@@ -1,68 +1,73 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1213B6EAED8
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Apr 2023 18:12:57 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 252076EAEE4
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Apr 2023 18:15:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 54CA410E256;
-	Fri, 21 Apr 2023 16:12:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0BD6910E263;
+	Fri, 21 Apr 2023 16:15:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb36.google.com (mail-yb1-xb36.google.com
- [IPv6:2607:f8b0:4864:20::b36])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2D74E10E256
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Apr 2023 16:12:47 +0000 (UTC)
-Received: by mail-yb1-xb36.google.com with SMTP id
- 3f1490d57ef6-b8f5121503eso2466337276.1
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Apr 2023 09:12:46 -0700 (PDT)
+Received: from mail-qk1-x735.google.com (mail-qk1-x735.google.com
+ [IPv6:2607:f8b0:4864:20::735])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EFB7E10E263
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Apr 2023 16:15:54 +0000 (UTC)
+Received: by mail-qk1-x735.google.com with SMTP id
+ af79cd13be357-74de7182043so113365985a.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Apr 2023 09:15:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1682093565; x=1684685565;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ d=chromium.org; s=google; t=1682093753; x=1684685753;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=ZKO1I2nyCroJ5CwepD9IlxcHZJ24Ly0m35i9l8S4MQs=;
- b=HJfyn5H0QVx3NXHRM8iU50CH7Ukb/wfDINz8hm/4f7n2NjK0MiMfZadyU4/9ZxGvkJ
- pH/IHUyy274lKYCO1jODOlPX2cacKBGdFCiGRGEYu2bzEwGpsO7LKkbrxIkAQWVLIc+j
- byWAkFmPgv/5cQKlcgPuQSV6bzI9E6E8GcAvs=
+ bh=9QZZtA/5NWdnQgb0jJuRZbKZ4eCkzSLiidtnIgHAhGA=;
+ b=ctHvTjO/5U4CovqOB/IKUYhR5Rb84nnSGabYqdPB4zLuTXbLdPUDXWNgiX5PxrfrC+
+ M1BwvxR2MVfL5nSisBMT8K22lGTd5mopnPhKLw8gHS6j4pJPDj5w3TTEsiewVZeH453B
+ 8+tiS0Bdao4gH8YxugF/N7GrF+RNYmINQeVa0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682093565; x=1684685565;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ d=1e100.net; s=20221208; t=1682093753; x=1684685753;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=ZKO1I2nyCroJ5CwepD9IlxcHZJ24Ly0m35i9l8S4MQs=;
- b=aT5T22WBfIYFc5vyHNCjJWbXdUo7vtsXsWIuiBHd6RgXxsFruFak4LNs6OWNAZj1in
- O1+KSYaYjITmrIv4l4V39U6khAO5hkk5UO0MitHgYYeyw+MXp6lRePGMqxh6yp8oQoZg
- iBPSRYQaw5pC36c8btKt0SC30VWs8ZZlEGRLAkIZgTDfhMragV9kS2hIOp2TuWRSD73n
- l3VuzPaI8oWWrUX6yBbCqDX4ojXOHxsKJRKCCKqxHE9YAVVRT6Mj6tgE/4VmKSpanLT/
- H+uKWTpz2TA4GkTkcn+mqV+rSb/bimDQbtIIk87z0bz3qXbLDCVV/qCrQimFQnBWrQE/
- b1Xw==
-X-Gm-Message-State: AAQBX9fNb/67IEwNOBD9uGF/LnHEUSHACw2GlOgMuTnf5Aru92Is0W7y
- o93U0gWA6NPkVQE+7qRRSCIH8RoCqSpuCGfyMug=
-X-Google-Smtp-Source: AKy350ZfHj4U+debwEjtoM+P+zXHEbqLPoMWNeevKjzr0FvvwqIS7hVfrAuFlrrufYErsNiIub5ahw==
-X-Received: by 2002:a25:b31b:0:b0:b8c:4e4:d3d4 with SMTP id
- l27-20020a25b31b000000b00b8c04e4d3d4mr2748897ybj.17.1682093565513; 
- Fri, 21 Apr 2023 09:12:45 -0700 (PDT)
-Received: from localhost ([2620:0:1035:15:25e5:2115:c97c:bf00])
- by smtp.gmail.com with UTF8SMTPSA id
- n12-20020a0dcb0c000000b00552e32354f8sm1038529ywd.32.2023.04.21.09.12.44
+ bh=9QZZtA/5NWdnQgb0jJuRZbKZ4eCkzSLiidtnIgHAhGA=;
+ b=BZqxicpbJmWfC6gMZwdaOeQ9M+p1P9E0RtDj5HDDNag3UNmeMxyoeDhIiSDQ+yaUSF
+ lByhjlAgv6hZKpAjZdnJ1ICv4GdauSzhAkPfKF04keNh3GCN7QtC196wh3avx3ZgF4Rn
+ znp1aJf7thX8HuEzpI3tHzdF4R9qoj/hqzTrTabMZ7Lspzo/m8x0An79xYvSeEFlZjnJ
+ v5qnSPQNcXVt0CItFMTH4r5qVF6SeG7o25F7Lm/8Fy4bw0xRJ9nVRIWjWIGJWbKKLJAr
+ B7Z8wjgJyC0WnEKjKuk7IXm4xlTC2TKx6dS7U8JIvjxZwq2Zoeqb0aW13HNTMu86TmQL
+ 0lHg==
+X-Gm-Message-State: AAQBX9cNYLqaFsnYfCEVPw1ofdsdyECdJBncqiizer1JNVZY43dIRCvY
+ qHJ6fb/6S5QHg4zAofmir5tHC22/P2fzqulS8BY=
+X-Google-Smtp-Source: AKy350al6Zz5k317R8zp76YfDScjZic//SirD3UdDA94zn6+N5aGJH7OGh1oMMB5M6NGmbdjJgWhhg==
+X-Received: by 2002:a05:6214:d61:b0:5f1:5f73:aed4 with SMTP id
+ 1-20020a0562140d6100b005f15f73aed4mr9468935qvs.15.1682093753020; 
+ Fri, 21 Apr 2023 09:15:53 -0700 (PDT)
+Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com.
+ [209.85.160.180]) by smtp.gmail.com with ESMTPSA id
+ u15-20020a0cb40f000000b005dd8b9345cbsm1262875qve.99.2023.04.21.09.15.50
+ for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 21 Apr 2023 09:12:45 -0700 (PDT)
-From: Mark Yacoub <markyacoub@chromium.org>
-X-Google-Original-From: Mark Yacoub <markyacoub@google.com>
-To: dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Sean Paul <sean@poorly.run>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH v1 2/2] dp_hdcp: Get the hdcp key from the connector prop
-Date: Fri, 21 Apr 2023 12:12:37 -0400
-Message-ID: <20230421161237.357342-3-markyacoub@google.com>
-X-Mailer: git-send-email 2.40.0.634.g4ca3ef3211-goog
-In-Reply-To: <20230421161237.357342-1-markyacoub@google.com>
-References: <20230421161237.357342-1-markyacoub@google.com>
+ Fri, 21 Apr 2023 09:15:51 -0700 (PDT)
+Received: by mail-qt1-f180.google.com with SMTP id
+ d75a77b69052e-3e0965f70ecso1169871cf.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Apr 2023 09:15:50 -0700 (PDT)
+X-Received: by 2002:a05:622a:1906:b0:3db:1c01:9d95 with SMTP id
+ w6-20020a05622a190600b003db1c019d95mr440522qtc.4.1682093750390; Fri, 21 Apr
+ 2023 09:15:50 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20230201-innolux-g070ace-v2-0-2371e251dd40@skidata.com>
+ <20230201-innolux-g070ace-v2-1-2371e251dd40@skidata.com>
+In-Reply-To: <20230201-innolux-g070ace-v2-1-2371e251dd40@skidata.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Fri, 21 Apr 2023 09:15:37 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=XJCtqep+92h3gLfs4o2TwvL4MORjc9ydTSpZiZ0dsR0w@mail.gmail.com>
+Message-ID: <CAD=FV=XJCtqep+92h3gLfs4o2TwvL4MORjc9ydTSpZiZ0dsR0w@mail.gmail.com>
+Subject: Re: [PATCH RESEND v2 1/2] dt-bindings: display: simple: add support
+ for InnoLux G070ACE-L01
+To: richard.leitner@linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,137 +80,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Yacoub <markyacoub@chromium.org>, seanpaul@chromium.org,
- dianders@chromium.org, linux-kernel@vger.kernel.org,
- linux-arm-msm@vger.kernel.org
+Cc: devicetree@vger.kernel.org, Sam Ravnborg <sam@ravnborg.org>,
+ linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Thierry Reding <thierry.reding@gmail.com>, dri-devel@lists.freedesktop.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Richard Leitner <richard.leitner@skidata.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Mark Yacoub <markyacoub@chromium.org>
+Hi,
 
-[Why]
-To support protected content, the driver requires a key.
-Currently, it's being injected from debugfs, which is not super useful
-to run a user space in the wild.
+On Mon, Mar 13, 2023 at 12:51=E2=80=AFAM <richard.leitner@linux.dev> wrote:
+>
+> From: Richard Leitner <richard.leitner@skidata.com>
+>
+> Add Innolux G070ACE-L01 7" WVGA (800x480) TFT LCD panel compatible
+> string.
+>
+> Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> Signed-off-by: Richard Leitner <richard.leitner@skidata.com>
 
-[How]
-When the key is needed, fetch the "Content Protection Property" on the
-connector and get the key blob. Verify that the size is valid and use
-it.
+nit: as I understand it, ordering of tags is usually supposed to be
+chronological. You signed off on this patch before Krzysztof acked it,
+so the SoB should be above. I'll fix that when applying.
 
-Signed-off-by: Mark Yacoub <markyacoub@chromium.org>
----
- drivers/gpu/drm/msm/dp/dp_hdcp.c | 66 +++++++++++++++++++++++++++++---
- 1 file changed, 61 insertions(+), 5 deletions(-)
+> ---
+>  Documentation/devicetree/bindings/display/panel/panel-simple.yaml | 2 ++
+>  1 file changed, 2 insertions(+)
+>
+> diff --git a/Documentation/devicetree/bindings/display/panel/panel-simple=
+.yaml b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
+> index 18241f4051d2..fd3e5ad769dc 100644
+> --- a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
+> +++ b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
+> @@ -174,6 +174,8 @@ properties:
+>        - innolux,at043tn24
+>          # Innolux AT070TN92 7.0" WQVGA TFT LCD panel
+>        - innolux,at070tn92
+> +        # Innolux G070ACE-L01 7" WVGA (800x480) TFT LCD panel
+> +      - innolux,g070ace-l01
 
-diff --git a/drivers/gpu/drm/msm/dp/dp_hdcp.c b/drivers/gpu/drm/msm/dp/dp_hdcp.c
-index 191340971f943..4321d245b36c9 100644
---- a/drivers/gpu/drm/msm/dp/dp_hdcp.c
-+++ b/drivers/gpu/drm/msm/dp/dp_hdcp.c
-@@ -117,19 +117,61 @@ static bool dp_hdcp_are_keys_valid(struct drm_connector *connector,
- 	return FIELD_GET(DP_HDCP_KEY_STATUS, val) == DP_HDCP_KEY_STATUS_VALID;
- }
- 
-+static bool dp_hdcp_get_key_from_connector(struct drm_connector *connector,
-+					   struct drm_bridge *bridge)
-+{
-+	struct drm_property_blob *key_blob;
-+	u8 *raw_key;
-+	int ret;
-+	struct dp_hdcp *hdcp;
-+	struct drm_device *dev = connector->dev;
-+	struct drm_property *prop =
-+		dev->mode_config.content_protection_key_property;
-+
-+	if (!prop)
-+		return false;
-+
-+	key_blob = connector->state->content_protection_key;
-+	if (!key_blob)
-+		return false;
-+
-+	raw_key = key_blob->data;
-+
-+	if (key_blob->length !=
-+	    DRM_HDCP_KSV_LEN + DP_HDCP_NUM_KEYS * DP_HDCP_KEY_LEN) {
-+		drm_dbg_atomic(
-+			dev,
-+			"[CONNECTOR:%d:%s] Content Protection Key is a blob that we don't expect.\n",
-+			connector->base.id, connector->name);
-+		return false;
-+	}
-+
-+	hdcp = dp_display_bridge_to_hdcp(bridge);
-+	ret = dp_hdcp_ingest_key(hdcp, key_blob->data, key_blob->length);
-+	if (ret)
-+		return false;
-+
-+	return true;
-+}
-+
- static int dp_hdcp_load_keys(struct drm_connector *connector, void *driver_data)
- {
- 	struct drm_bridge *bridge = (struct drm_bridge *)driver_data;
- 	struct dp_hdcp *hdcp = dp_display_bridge_to_hdcp(bridge);
- 	int i, ret = 0;
-+	bool is_hdcp_key_valid;
- 
- 	mutex_lock(&hdcp->key_lock);
-+	is_hdcp_key_valid = hdcp->key.valid;
-+	mutex_unlock(&hdcp->key_lock);
- 
--	if (!hdcp->key.valid) {
--		ret = -ENOENT;
--		goto out;
-+	if (!is_hdcp_key_valid &&
-+	    !dp_hdcp_get_key_from_connector(connector, bridge)) {
-+		return -ENOENT;
- 	}
- 
-+	mutex_lock(&hdcp->key_lock);
-+
- 	dp_catalog_hdcp_write_aksv(hdcp->catalog, hdcp->key.ksv.words);
- 
- 
-@@ -139,7 +181,6 @@ static int dp_hdcp_load_keys(struct drm_connector *connector, void *driver_data)
- 	}
- 	dp_catalog_hdcp_post_write_key(hdcp->catalog);
- 
--out:
- 	mutex_unlock(&hdcp->key_lock);
- 	return ret;
- }
-@@ -346,6 +387,8 @@ int dp_hdcp_attach(struct dp_hdcp *hdcp, struct drm_connector *connector,
- 		   struct drm_bridge *bridge, struct dp_catalog *catalog)
- {
- 	struct drm_hdcp_helper_data *helper_data;
-+	struct drm_device *dev;
-+	struct drm_property *prop;
- 
- 	/* HDCP is not configured for this device */
- 	if (!hdcp->parser->io.dp_controller.hdcp_key.base)
-@@ -357,7 +400,20 @@ int dp_hdcp_attach(struct dp_hdcp *hdcp, struct drm_connector *connector,
- 		return PTR_ERR(helper_data);
- 
- 	helper_data->driver_data = bridge;
--	hdcp->dev = connector->dev;
-+
-+	dev = connector->dev;
-+	prop = dev->mode_config.content_protection_key_property;
-+	if (!prop) {
-+		prop = drm_property_create(dev, DRM_MODE_PROP_BLOB,
-+					   "Content Protection Key", 0);
-+	}
-+	if (!prop)
-+		return -1;
-+	drm_object_attach_property(&connector->base, prop,
-+				   DRM_MODE_HDCP_CONTENT_TYPE0);
-+	dev->mode_config.content_protection_key_property = prop;
-+
-+	hdcp->dev = dev;
- 	hdcp->connector = connector;
- 	hdcp->helper_data = helper_data;
- 	hdcp->catalog = catalog;
--- 
-2.40.0.634.g4ca3ef3211-goog
+I think panel-simple currently has no active maintainers. Given that
+I've touched all these files in the past, I don't mind applying.
 
+Pushed to drm-misc-next:
+
+4b4b96826ba9 dt-bindings: display: simple: add support for InnoLux G070ACE-=
+L01
