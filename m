@@ -1,30 +1,30 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF6966EA659
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Apr 2023 10:56:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BF916EA6A9
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Apr 2023 11:13:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B05E510EDD0;
-	Fri, 21 Apr 2023 08:56:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 575B410E043;
+	Fri, 21 Apr 2023 09:13:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out30-131.freemail.mail.aliyun.com
- (out30-131.freemail.mail.aliyun.com [115.124.30.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 55E2510EDD0
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Apr 2023 08:56:19 +0000 (UTC)
-X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R461e4; CH=green; DM=||false|;
- DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018046050;
+Received: from out30-99.freemail.mail.aliyun.com
+ (out30-99.freemail.mail.aliyun.com [115.124.30.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A284E10E043
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Apr 2023 09:13:26 +0000 (UTC)
+X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R121e4; CH=green; DM=||false|;
+ DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018046049;
  MF=yang.lee@linux.alibaba.com; NM=1; PH=DS; RN=6; SR=0;
- TI=SMTPD_---0VgcKNzt_1682067374; 
+ TI=SMTPD_---0VgcHWof_1682068400; 
 Received: from localhost(mailfrom:yang.lee@linux.alibaba.com
- fp:SMTPD_---0VgcKNzt_1682067374) by smtp.aliyun-inc.com;
- Fri, 21 Apr 2023 16:56:15 +0800
+ fp:SMTPD_---0VgcHWof_1682068400) by smtp.aliyun-inc.com;
+ Fri, 21 Apr 2023 17:13:21 +0800
 From: Yang Li <yang.lee@linux.alibaba.com>
-To: abrodkin@synopsys.com
-Subject: [PATCH -next] drm/arc: Use devm_platform_ioremap_resource()
-Date: Fri, 21 Apr 2023 16:56:14 +0800
-Message-Id: <20230421085614.54169-1-yang.lee@linux.alibaba.com>
+To: linus.walleij@linaro.org
+Subject: [PATCH -next] drm/tve200: Use devm_platform_ioremap_resource()
+Date: Fri, 21 Apr 2023 17:13:19 +0800
+Message-Id: <20230421091319.79744-1-yang.lee@linux.alibaba.com>
 X-Mailer: git-send-email 2.20.1.7.g153144c
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -51,31 +51,31 @@ function does.
 
 Signed-off-by: Yang Li <yang.lee@linux.alibaba.com>
 ---
- drivers/gpu/drm/tiny/arcpgu.c | 4 +---
+ drivers/gpu/drm/tve200/tve200_drv.c | 4 +---
  1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/tiny/arcpgu.c b/drivers/gpu/drm/tiny/arcpgu.c
-index e5b10e41554a..3a5e66d909a4 100644
---- a/drivers/gpu/drm/tiny/arcpgu.c
-+++ b/drivers/gpu/drm/tiny/arcpgu.c
-@@ -251,7 +251,6 @@ static int arcpgu_load(struct arcpgu_drm_private *arcpgu)
- 	struct device_node *encoder_node = NULL, *endpoint_node = NULL;
- 	struct drm_connector *connector = NULL;
- 	struct drm_device *drm = &arcpgu->drm;
+diff --git a/drivers/gpu/drm/tve200/tve200_drv.c b/drivers/gpu/drm/tve200/tve200_drv.c
+index abd557332b28..40b1168ad671 100644
+--- a/drivers/gpu/drm/tve200/tve200_drv.c
++++ b/drivers/gpu/drm/tve200/tve200_drv.c
+@@ -156,7 +156,6 @@ static int tve200_probe(struct platform_device *pdev)
+ 	struct device *dev = &pdev->dev;
+ 	struct tve200_drm_dev_private *priv;
+ 	struct drm_device *drm;
 -	struct resource *res;
+ 	int irq;
  	int ret;
  
- 	arcpgu->clk = devm_clk_get(drm->dev, "pxlclk");
-@@ -268,8 +267,7 @@ static int arcpgu_load(struct arcpgu_drm_private *arcpgu)
- 	drm->mode_config.max_height = 1080;
- 	drm->mode_config.funcs = &arcpgu_drm_modecfg_funcs;
+@@ -192,8 +191,7 @@ static int tve200_probe(struct platform_device *pdev)
+ 		goto clk_disable;
+ 	}
  
 -	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
--	arcpgu->regs = devm_ioremap_resource(&pdev->dev, res);
-+	arcpgu->regs = devm_platform_ioremap_resource(pdev, 0);
- 	if (IS_ERR(arcpgu->regs))
- 		return PTR_ERR(arcpgu->regs);
- 
+-	priv->regs = devm_ioremap_resource(dev, res);
++	priv->regs = devm_platform_ioremap_resource(pdev, 0);
+ 	if (IS_ERR(priv->regs)) {
+ 		dev_err(dev, "%s failed mmio\n", __func__);
+ 		ret = -EINVAL;
 -- 
 2.20.1.7.g153144c
 
