@@ -2,83 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05AA86EB585
-	for <lists+dri-devel@lfdr.de>; Sat, 22 Apr 2023 01:09:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48E196EB58A
+	for <lists+dri-devel@lfdr.de>; Sat, 22 Apr 2023 01:09:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 875BC10E116;
-	Fri, 21 Apr 2023 23:09:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B2AA610E27A;
+	Fri, 21 Apr 2023 23:09:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C0C6710E05A;
- Fri, 21 Apr 2023 23:08:59 +0000 (UTC)
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 33LLkBUv018799; Fri, 21 Apr 2023 23:08:54 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=NrWL5L19tZP4h4qid7tM/oqw2qQB19TVlhNcq9Zl2u0=;
- b=JbysjYUs0jMhqZM5Ry4UtWGOptvXXIWWvEJOCAiti8eB9V1bw1T6hLMA/3UrM56kniFC
- S7reFlzRIaT9wonnui82AkIk/shlaLMKjGEpbMDZf4rLwBZn9gzT7vid+NXuJpZ8Kk9Q
- ojoetrX9oOv9Mv/2SDGhzF5FYGyE40U5kPTV9frjSncrP1ek4dzcsS/IlfPAGbcX0J1Q
- S0P4rGszqo+ardAr8PMsTcSJ1y74xmMavzuj3ckp584RfZuLgYTnNoM86rVEVoTqfXN1
- 5XofIOxlFpmyC0xc3AMYNc167Fy1f9OSP8C/7pdvOIbHmuMzTFYt4JugXnT/jteCRUwx Gg== 
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3q41wu083b-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 21 Apr 2023 23:08:54 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 33LN8rxk032617
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 21 Apr 2023 23:08:53 GMT
-Received: from [10.110.0.180] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Fri, 21 Apr
- 2023 16:08:51 -0700
-Message-ID: <4bea9976-d353-6783-f55a-3e83e7501da2@quicinc.com>
-Date: Fri, 21 Apr 2023 16:08:50 -0700
+Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com
+ [IPv6:2a00:1450:4864:20::130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EEBF310E05A
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Apr 2023 23:09:18 +0000 (UTC)
+Received: by mail-lf1-x130.google.com with SMTP id
+ 2adb3069b0e04-4ec8143400aso2313485e87.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Apr 2023 16:09:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1682118557; x=1684710557;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=+huuKa+3v0k2tRGIzkWAd9TvVwbi6xql2nym7kQgbj8=;
+ b=fClxCHFOKMFUpXxe4XKTu9aykUMnbPzm0edppGSnBWAF0Juf22SUD7mNdXCTttB/QA
+ uFgbVBcjfAYRy+zFT3Ah9DTgWqJXCN/P4mu6imWRTDrPvbR5wctAHMDsEQ4RzfFLWN8G
+ TG+c6i5jqEo2/Wberuit6IT21iG49cdpVlEKmQpVzBKHxDKemBYIHzYPLMR8UGNKmtG6
+ 5Dm+EE8JxgJbS4jwWzCYB4F56JmwucNIB2+XOdJZ+P68+2oFY5LuXon27tPR4putTtuo
+ w52DwjOhU228jpSOHM9t/vbBS2Nrw296WKkg0qno/6pas6gk8atshbv1Vq+NYUEnnPmk
+ oK1A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1682118557; x=1684710557;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=+huuKa+3v0k2tRGIzkWAd9TvVwbi6xql2nym7kQgbj8=;
+ b=Ce+7MNNKe7KA3+kz9bm8qFNJ0s8G8BshxoBTvc3TzmNFYokI67IUgp6f0kdXu1FsKx
+ 3AAYrTnvbRindJt74yq6JTbKis0pj5VGc/SE87iPHJMf443XtOLocUcBXpVmFHKaP8vg
+ wlHHsr3nieb0/e6sWy+iabWT33WikI5Kn+ttP2X6JE+tp5ioVJREaZewBrUtVJCNcsnw
+ 3hMEuEGcPXZRuYZJyNiL+7zcewhZeJWxEawnEjO4/wSYUG8hqG3a/hpWem8gmbySIoQH
+ 1eXko7wPNbIdrHw1hAh/idgZPh71Y3VK0FntYVIVwcR0EQ20ICA+9asCudLdVDIkip18
+ 4k4w==
+X-Gm-Message-State: AAQBX9dmYGYM7vrSI/qpAHE9f7wMfYC2yPYJNREpG6J+9Q0WPyIDR3dv
+ baooX7LFFSaH7uq+kA9mbcJUuQ==
+X-Google-Smtp-Source: AKy350b67nOG2SbVU9dXeSGgpROgpu1qRY+JGqM6azpDsExv3KfPPZ6yk5fxzb7yG0/Ec6eDrqInLg==
+X-Received: by 2002:a05:6512:145:b0:4ed:c6d5:bdc with SMTP id
+ m5-20020a056512014500b004edc6d50bdcmr1777429lfo.24.1682118556680; 
+ Fri, 21 Apr 2023 16:09:16 -0700 (PDT)
+Received: from ?IPV6:2001:14ba:a085:4d00::8a5?
+ (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a085:4d00::8a5])
+ by smtp.gmail.com with ESMTPSA id
+ b24-20020ac247f8000000b004edd4d1e55dsm697027lfp.284.2023.04.21.16.09.16
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 21 Apr 2023 16:09:16 -0700 (PDT)
+Message-ID: <f400c714-8bee-895a-5bf7-bbaf9cbc0619@linaro.org>
+Date: Sat, 22 Apr 2023 02:09:15 +0300
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.9.0
-Subject: Re: [PATCH v1 5/5] drm/msm/dpu: add DSC 1.2 hw blocks for relevant
- chipsets
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- <dri-devel@lists.freedesktop.org>, <robdclark@gmail.com>,
- <sean@poorly.run>, <swboyd@chromium.org>, <dianders@chromium.org>,
- <vkoul@kernel.org>, <daniel@ffwll.ch>, <airlied@gmail.com>,
- <agross@kernel.org>, <andersson@kernel.org>
-References: <1682033114-28483-1-git-send-email-quic_khsieh@quicinc.com>
- <1682033114-28483-6-git-send-email-quic_khsieh@quicinc.com>
- <b26dfb22-bf97-b65e-ef06-62098c4eafec@linaro.org>
- <3ee67248-c94c-5f3d-527e-914e8c8b4a31@quicinc.com>
- <7b493d85-0691-8797-367e-1d71ea87c826@linaro.org>
-From: Kuogee Hsieh <quic_khsieh@quicinc.com>
-In-Reply-To: <7b493d85-0691-8797-367e-1d71ea87c826@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: 0L4kFsjCAx1dmZq-Jhik2ZW3WnMn-14h
-X-Proofpoint-ORIG-GUID: 0L4kFsjCAx1dmZq-Jhik2ZW3WnMn-14h
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-04-21_08,2023-04-21_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 phishscore=0
- mlxlogscore=791 bulkscore=0 malwarescore=0 spamscore=0 mlxscore=0
- priorityscore=1501 impostorscore=0 adultscore=0 lowpriorityscore=0
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2303200000 definitions=main-2304210202
+Subject: Re: [PATCH 2/2] drm/msm/dpu: remove GC related code from dpu catalog
+Content-Language: en-GB
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ freedreno@lists.freedesktop.org, Rob Clark <robdclark@gmail.com>,
+ Sean Paul <sean@poorly.run>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>
+References: <20230421224721.12738-1-quic_abhinavk@quicinc.com>
+ <20230421224721.12738-2-quic_abhinavk@quicinc.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <20230421224721.12738-2-quic_abhinavk@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,161 +81,98 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, linux-kernel@vger.kernel.org,
- marijn.suijten@somainline.org, freedreno@lists.freedesktop.org
+Cc: quic_jesszhan@quicinc.com, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ marijn.suijten@somainline.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 22/04/2023 01:47, Abhinav Kumar wrote:
+> Since Gamma Correction (GC) block is currently unused, drop
+> related code from the dpu hardware catalog otherwise this
+> becomes a burden to carry across chipsets in the catalog.
+> 
+> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+> ---
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c | 4 +---
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h | 6 ------
+>   2 files changed, 1 insertion(+), 9 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+> index 03f162af1a50..badfc3680485 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+> @@ -91,7 +91,7 @@
+>   
+>   #define MERGE_3D_SM8150_MASK (0)
+>   
+> -#define DSPP_MSM8998_MASK BIT(DPU_DSPP_PCC) | BIT(DPU_DSPP_GC)
+> +#define DSPP_MSM8998_MASK BIT(DPU_DSPP_PCC)
+>   
+>   #define DSPP_SC7180_MASK BIT(DPU_DSPP_PCC)
 
-On 4/21/2023 3:16 PM, Dmitry Baryshkov wrote:
-> On 22/04/2023 01:05, Kuogee Hsieh wrote:
->>
->> On 4/20/2023 5:07 PM, Dmitry Baryshkov wrote:
->>> On 21/04/2023 02:25, Kuogee Hsieh wrote:
->>>> From: Abhinav Kumar <quic_abhinavk@quicinc.com>
->>>>
->>>> Add DSC 1.2 hardware blocks to the catalog with necessary
->>>> sub-block and feature flag information.
->>>> Each display compression engine (DCE) contains dual hard
->>>> slice DSC encoders so both share same base address but with
->>>> its own different sub block address.
->>>
->>> Please correct line wrapping. 72-75 is usually the preferred width
->>>
->>>>
->>>> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
->>>> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
->>>> ---
->>>>   .../gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h  | 19 
->>>> +++++++++++++++++++
->>>>   .../gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h  | 11 +++++++++++
->>>>   .../drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h    | 21 
->>>> +++++++++++++++++++++
->>>>   .../gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h  | 19 
->>>> +++++++++++++++++++
->>>>   .../gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h  | 19 
->>>> +++++++++++++++++++
->>>>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c      | 12 
->>>> ++++++++++--
->>>>   6 files changed, 99 insertions(+), 2 deletions(-)
->>>>
->>>
->>>
->>> [I commented on sm8550, it applies to all the rest of platforms]
->>>
->>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h 
->>>> b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h
->>>> index 9e40303..72a7bcf 100644
->>>> --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h
->>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h
->>>> @@ -165,6 +165,23 @@ static const struct dpu_merge_3d_cfg 
->>>> sm8550_merge_3d[] = {
->>>>       MERGE_3D_BLK("merge_3d_3", MERGE_3D_3, 0x66700),
->>>>   };
->>>>   +static const struct dpu_dsc_sub_blks sm8550_dsc_sblk_0 = {
->>>> +    .enc = {.base = 0x100, .len = 0x100},
->>>> +    .ctl = {.base = 0xF00, .len = 0x10},
->>>> +};
->>>> +
->>>> +static const struct dpu_dsc_sub_blks sm8550_dsc_sblk_1 = {
->>>> +    .enc = {.base = 0x200, .len = 0x100},
->>>> +    .ctl = {.base = 0xF80, .len = 0x10},
->>>> +};
->>>
->>> Please keep sblk in dpu_hw_catalog for now.
->>>
->>>> +
->>>> +static const struct dpu_dsc_cfg sm8550_dsc[] = {
->>>> +    DSC_BLK_1_2("dsc_0", DSC_0, 0x80000, 0x100, 0, 
->>>> sm8550_dsc_sblk_0),
->>>> +    DSC_BLK_1_2("dsc_0", DSC_1, 0x80000, 0x100, 0, 
->>>> sm8550_dsc_sblk_1),
->>>
->>> Is there a reason why index in "dsc_N" doesn't match the DSC_n which 
->>> comes next to it?
->>
->> usually each DCE (display compression engine) contains two hard slice 
->> encoders.
->>
->> DSC_0 and DSC_1 (index) is belong to dsc_0.
->>
->> If there are two DCE, then DSC_2 and DSC_3 belong to dsc_1
->
-> Ah, I see now. So, the block register space is the following:
-> DCEi ->
->   common
->   dsc0_enc
->   dsc1_enc
->   dsc0_ctl
->   dsc1_ctl
->
-> Instead of declaring a single DCE unit with two DSC blocks, we declare 
-> two distinct DSC blocks. This raises a question, how independent are 
-> these two parts of a single DCE block? For example, can we use them to 
-> perform compression with different parameters? Or use one of them for 
-> the DP DSC and another one for DSI DSC? Can we have the following 
-> configuration:
->
-> DSC_0 => DP DSC
-> DSC_1, DSC_2 => DSI DSC in DSC_MERGE topology?
+At this point we can merge these two masks.
 
-no, For merge mode you have to use same DCE, such as DSC_2 and DSC3 (pair)
+Could you please extend this for v2 with the following patches:
+- merge of two DSPP_foo_MASKs
+- dropping of DPU_DSPP_IGC?
 
->
->>
->>>
->>>> +    DSC_BLK_1_2("dsc_1", DSC_2, 0x81000, 0x100, 
->>>> BIT(DPU_DSC_NATIVE_422_EN), sm8550_dsc_sblk_0),
->>>> +    DSC_BLK_1_2("dsc_1", DSC_3, 0x81000, 0x100, 
->>>> BIT(DPU_DSC_NATIVE_422_EN), sm8550_dsc_sblk_1),
->>>> +};
->>>> +
->>>>   static const struct dpu_intf_cfg sm8550_intf[] = {
->>>>       INTF_BLK("intf_0", INTF_0, 0x34000, 0x280, INTF_DP, 
->>>> MSM_DP_CONTROLLER_0, 24, INTF_SC7280_MASK, MDP_SSPP_TOP0_INTR, 24, 
->>>> 25),
->>>>       /* TODO TE sub-blocks for intf1 & intf2 */
->>>> @@ -218,6 +235,8 @@ const struct dpu_mdss_cfg dpu_sm8550_cfg = {
->>>>       .dspp = sm8550_dspp,
->>>>       .pingpong_count = ARRAY_SIZE(sm8550_pp),
->>>>       .pingpong = sm8550_pp,
->>>> +    .dsc = sm8550_dsc,
->>>> +    .dsc_count = ARRAY_SIZE(sm8550_dsc),
->>>>       .merge_3d_count = ARRAY_SIZE(sm8550_merge_3d),
->>>>       .merge_3d = sm8550_merge_3d,
->>>>       .intf_count = ARRAY_SIZE(sm8550_intf),
->>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c 
->>>> b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
->>>> index 03f162a..be08158 100644
->>>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
->>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
->>>> @@ -1,6 +1,6 @@
->>>>   // SPDX-License-Identifier: GPL-2.0-only
->>>>   /* Copyright (c) 2015-2018, The Linux Foundation. All rights 
->>>> reserved.
->>>> - * Copyright (c) 2022. Qualcomm Innovation Center, Inc. All rights 
->>>> reserved.
->>>> + * Copyright (c) 2022-2023, Qualcomm Innovation Center, Inc. All 
->>>> rights reserved.
->>>>    */
->>>>     #define pr_fmt(fmt)    "[drm:%s:%d] " fmt, __func__, __LINE__
->>>> @@ -540,7 +540,15 @@ static const struct dpu_pingpong_sub_blks 
->>>> sc7280_pp_sblk = {
->>>>       {\
->>>>       .name = _name, .id = _id, \
->>>>       .base = _base, .len = 0x140, \
->>>> -    .features = _features, \
->>>> +    .features = BIT(DPU_DSC_HW_REV_1_1) | _features, \
->>>> +    }
->>>> +
->>>> +#define DSC_BLK_1_2(_name, _id, _base, _len, _features, _sblk) \
->>>> +    {\
->>>> +    .name = _name, .id = _id, \
->>>> +    .base = _base, .len = _len, \
->>>> +    .features = BIT(DPU_DSC_HW_REV_1_2) | _features, \
->>>> +    .sblk = &_sblk, \
->>>>       }
->>>> /*************************************************************
->>>
->
+For this patch:
+
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+
+>   
+> @@ -449,8 +449,6 @@ static const struct dpu_lm_sub_blks qcm2290_lm_sblk = {
+>   static const struct dpu_dspp_sub_blks msm8998_dspp_sblk = {
+>   	.pcc = {.id = DPU_DSPP_PCC, .base = 0x1700,
+>   		.len = 0x90, .version = 0x10007},
+> -	.gc = { .id = DPU_DSPP_GC, .base = 0x17c0,
+> -		.len = 0x90, .version = 0x10007},
+>   };
+>   
+>   static const struct dpu_dspp_sub_blks sc7180_dspp_sblk = {
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+> index 71584cd56fd7..e0dcef04bc61 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+> @@ -127,12 +127,10 @@ enum {
+>   /**
+>    * DSPP sub-blocks
+>    * @DPU_DSPP_PCC             Panel color correction block
+> - * @DPU_DSPP_GC              Gamma correction block
+>    * @DPU_DSPP_IGC             Inverse gamma correction block
+>    */
+>   enum {
+>   	DPU_DSPP_PCC = 0x1,
+> -	DPU_DSPP_GC,
+>   	DPU_DSPP_IGC,
+>   	DPU_DSPP_MAX
+>   };
+> @@ -433,22 +431,18 @@ struct dpu_sspp_sub_blks {
+>    * @maxwidth:               Max pixel width supported by this mixer
+>    * @maxblendstages:         Max number of blend-stages supported
+>    * @blendstage_base:        Blend-stage register base offset
+> - * @gc: gamma correction block
+>    */
+>   struct dpu_lm_sub_blks {
+>   	u32 maxwidth;
+>   	u32 maxblendstages;
+>   	u32 blendstage_base[MAX_BLOCKS];
+> -	struct dpu_pp_blk gc;
+>   };
+>   
+>   /**
+>    * struct dpu_dspp_sub_blks: Information of DSPP block
+> - * @gc : gamma correction block
+>    * @pcc: pixel color correction block
+>    */
+>   struct dpu_dspp_sub_blks {
+> -	struct dpu_pp_blk gc;
+>   	struct dpu_pp_blk pcc;
+>   };
+>   
+
+-- 
+With best wishes
+Dmitry
+
