@@ -2,56 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD7CD6EA81B
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Apr 2023 12:17:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE59E6EA855
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Apr 2023 12:27:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AF2F210E0A4;
-	Fri, 21 Apr 2023 10:17:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 14AD910E0F8;
+	Fri, 21 Apr 2023 10:27:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 093EE10E04A;
- Fri, 21 Apr 2023 10:17:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1682072249; x=1713608249;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=ILNISb0swWY+HD27JowBpDMXpM0jD8AU38PbG66Diw0=;
- b=kq+XyUBmVS+xWrYF/ImGyiO7KXY3vnJm49Dco5en3urYo+fNHcJZ1WVj
- qcq//WCPYr8gSFOhWhQbYg9jlmRXQG9ughOOYl5PMDBVX8EMV5UFAuDbd
- GvI8BlYvecxBAB9yHTiLhwMZSs8XdrsnJnWR7T+JR5FwONLP0Pn9SDmRd
- GWA5vxfSPbtWyppqnqReXtVPhGOVex4dwbsVq7rQ5DsStaM5GGkAXAeiw
- cYvGgGsqnHMBpLARZnntLXe6a5/8IwrLxyktn10tAEhd16LqiNzsQ/Qw9
- +FJ+pEaE9QzW11Hd+ymKYH2GOA/9qhI4i8B0xRKzfKFHcgf/c/42/Vlii A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10686"; a="408900668"
-X-IronPort-AV: E=Sophos;i="5.99,214,1677571200"; d="scan'208";a="408900668"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Apr 2023 03:17:26 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10686"; a="685688556"
-X-IronPort-AV: E=Sophos;i="5.99,214,1677571200"; d="scan'208";a="685688556"
-Received: from vhavelx-mobl2.ger.corp.intel.com (HELO [10.213.192.37])
- ([10.213.192.37])
- by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Apr 2023 03:17:02 -0700
-Message-ID: <705b5e5b-78cd-857f-ad26-80835217520c@linux.intel.com>
-Date: Fri, 21 Apr 2023 11:17:00 +0100
+Received: from mail-yw1-x112c.google.com (mail-yw1-x112c.google.com
+ [IPv6:2607:f8b0:4864:20::112c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0E9CA10E04A;
+ Fri, 21 Apr 2023 10:27:08 +0000 (UTC)
+Received: by mail-yw1-x112c.google.com with SMTP id
+ 00721157ae682-54f8d59a8a9so17557577b3.0; 
+ Fri, 21 Apr 2023 03:27:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1682072827; x=1684664827;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=1jDlW0W3MhjA8VbvOr9JFFYadMRZj0oB2XjEN8u/ZQs=;
+ b=Jq29MVaVXQLS7/50058udG92P2tJ0UekckHnIlgksme797+yXQe/r1AZ4lHs6wJmM3
+ 68UCR52u1/x0QZPBwDYQC/+6TpzG3a8XR8OnW+Usfo6Lna4M1f7uF7w9BeRa1aD06cMl
+ zGL9krAi1vZ3U5UyV+Dl4j5XfFhrXqTgk/dPt3WpF1wqAXu44UUqaWLHNcjgV8b3zGjU
+ dutK14XNfjEG+u2galkQfJXW/wAtUUJeqXrDXCeEVrEdt33M8X4iB/PsrMPsSqmyizi5
+ xGCiDATgeh9PHT84RlBa7BJERI6ne2eFDP3lBcKxKS1LVBKsCtxb2+PJ0gnXGCFR8QLp
+ pBmw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1682072827; x=1684664827;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=1jDlW0W3MhjA8VbvOr9JFFYadMRZj0oB2XjEN8u/ZQs=;
+ b=Pg6Qs1DJx5fEGVSGI9hhK8Rx9lz0zgSJQrv1ra26T9Tydbszn2rsp6ILvTqooxOjUT
+ +Dn1ZzhiHMPNVGbAF1zi+6fR64Vz65NUu07MG+nrT54HpCMuln3s2H2IIeal+xE+Vc8m
+ MGQEe5IF2A7f23+6nJT+wxfz3ZlM46rpfZ83+ng4wM3DN/Q9u133/ndam5/n6Jnja92G
+ wjOz6dC+ozt8f5kBOsIW4DbsI6xzAT3u9ZM4jCXjDwO2TzgrdoJi0ZCZprCvHZFlm2Nz
+ EsuvdeZZ25BOEbyPkHBHQ2sdACCzZog9+HYvWEGurTHKKd5ljosy3BQCVeURTEEPobS5
+ XGYg==
+X-Gm-Message-State: AAQBX9fGWLJfwbQTZhLa9NhUGWvw2nJbjINE/dXHPdl5EbrjamZVKODl
+ Ymgux6k2UAKNxrssqbfsa5SbIPu/E3jTfjqJ5Ec=
+X-Google-Smtp-Source: AKy350Z7RE8rSiaLK/lDI02fKHY8C/Hkm8qnkU6IUdScLzIa6Hrc+QXATCBAVcaBw4SmzH5UZ0SVAeWWaxXJZEHiMro=
+X-Received: by 2002:a81:6fd5:0:b0:541:6d79:9291 with SMTP id
+ k204-20020a816fd5000000b005416d799291mr1599574ywc.43.1682072827166; Fri, 21
+ Apr 2023 03:27:07 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [Intel-gfx] [PATCH 7/8] drm/i915: use pat_index instead of
- cache_level
-Content-Language: en-US
-To: fei.yang@intel.com, intel-gfx@lists.freedesktop.org
-References: <20230419230058.2659455-1-fei.yang@intel.com>
- <20230419230058.2659455-8-fei.yang@intel.com>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-In-Reply-To: <20230419230058.2659455-8-fei.yang@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20230412224311.23511-1-robdclark@gmail.com>
+ <20230412224311.23511-6-robdclark@gmail.com>
+In-Reply-To: <20230412224311.23511-6-robdclark@gmail.com>
+From: Emil Velikov <emil.l.velikov@gmail.com>
+Date: Fri, 21 Apr 2023 11:26:55 +0100
+Message-ID: <CACvgo525ogS4LSZDUyaqjSqjJWj=qLRkphji5469=3obFXoMrQ@mail.gmail.com>
+Subject: Re: [PATCH v4 5/6] drm: Add fdinfo memory stats
+To: Rob Clark <robdclark@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,68 +67,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Chris Wilson <chris.p.wilson@linux.intel.com>,
- Matt Roper <matthew.d.roper@intel.com>, dri-devel@lists.freedesktop.org
+Cc: Rob Clark <robdclark@chromium.org>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Jonathan Corbet <corbet@lwn.net>,
+ linux-arm-msm@vger.kernel.org,
+ "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+ Christopher Healy <healych@amazon.com>, dri-devel@lists.freedesktop.org,
+ open list <linux-kernel@vger.kernel.org>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, freedreno@lists.freedesktop.org,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Wed, 12 Apr 2023 at 23:43, Rob Clark <robdclark@gmail.com> wrote:
+
+> +/**
+> + * enum drm_gem_object_status - bitmask of object state for fdinfo reporting
+> + * @DRM_GEM_OBJECT_RESIDENT: object is resident in memory (ie. not unpinned)
+> + * @DRM_GEM_OBJECT_PURGEABLE: object marked as purgeable by userspace
+> + *
+> + * Bitmask of status used for fdinfo memory stats, see &drm_gem_object_funcs.status
+> + * and drm_show_fdinfo().  Note that an object can DRM_GEM_OBJECT_PURGEABLE if
+> + * it still active or not resident, in which case drm_show_fdinfo() will not
+
+nit: s/can/can be/;s/if it still/if it is still/
+
+> + * account for it as purgeable.  So drivers do not need to check if the buffer
+> + * is idle and resident to return this bit.  (Ie. userspace can mark a buffer
+> + * as purgeable even while it is still busy on the GPU.. it does not _actually_
+> + * become puregeable until it becomes idle.  The status gem object func does
+
+nit: s/puregeable/purgeable/
 
 
-On 20/04/2023 00:00, fei.yang@intel.com wrote:
-> From: Fei Yang <fei.yang@intel.com>
-> 
-> Currently the KMD is using enum i915_cache_level to set caching policy for
-> buffer objects. This is flaky because the PAT index which really controls
-> the caching behavior in PTE has far more levels than what's defined in the
-> enum. In addition, the PAT index is platform dependent, having to translate
-> between i915_cache_level and PAT index is not reliable, and makes the code
-> more complicated.
-> 
->>From UMD's perspective there is also a necessity to set caching policy for
-> performance fine tuning. It's much easier for the UMD to directly use PAT
-> index because the behavior of each PAT index is clearly defined in Bspec.
-> Having the abstracted i915_cache_level sitting in between would only cause
-> more ambiguity.
-> 
-> For these reasons this patch replaces i915_cache_level with PAT index. Also
-> note, the cache_level is not completely removed yet, because the KMD still
-> has the need of creating buffer objects with simple cache settings such as
-> cached, uncached, or writethrough. For such simple cases, using cache_level
-> would help simplify the code.
-> 
-> Cc: Chris Wilson <chris.p.wilson@linux.intel.com>
-> Cc: Matt Roper <matthew.d.roper@intel.com>
-> Signed-off-by: Fei Yang <fei.yang@intel.com>
-> Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com>
+I think we want a similar note in the drm-usage-stats.rst file.
 
-[snip]
+With the above the whole series is:
+Reviewed-by: Emil Velikov <emil.l.velikov@gmail.com>
 
->   
->   bool i915_gem_cpu_write_needs_clflush(struct drm_i915_gem_object *obj)
-> @@ -267,7 +267,7 @@ int i915_gem_object_set_cache_level(struct drm_i915_gem_object *obj,
->   {
->   	int ret;
->   
-> -	if (obj->cache_level == cache_level)
-> +	if (i915_gem_object_has_cache_level(obj, cache_level))
->   		return 0;
+Fwiw: Keeping the i915 patch as part of this series would be great.
+Sure i915_drm_client->id becomes dead code, but it's a piece one can
+live with for a release or two. Then again it's not my call to make.
 
-When userspace calls i915_gem_set_caching_ioctl after having set the PAT index explicitly this will make it silently succeed regardless of the cache level passed in, no? Because of:
-
-+bool i915_gem_object_has_cache_level(const struct drm_i915_gem_object *obj,
-+				     enum i915_cache_level lvl)
-+{
-+	/*
-+	 * cache_level == I915_CACHE_INVAL indicates the UMD's have set the
-+	 * caching policy through pat_index, in which case the KMD should
-+	 * leave the coherency to be managed by user space, simply return
-+	 * true here.
-+	 */
-+	if (obj->cache_level == I915_CACHE_INVAL)
-+		return true;
-
-I think we need to let it know it is doing it wrong with an error.
-
-Regards,
-
-Tvrtko
+HTH
+Emil
