@@ -2,53 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD2296EAD71
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Apr 2023 16:51:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE0256EAD89
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Apr 2023 16:57:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8DF6910E0F9;
-	Fri, 21 Apr 2023 14:51:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 139B610E175;
+	Fri, 21 Apr 2023 14:57:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6FA8C10E0F9;
- Fri, 21 Apr 2023 14:51:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1682088687; x=1713624687;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=n2wZLR1wie0ieDr0G/BlX3Zu/5MW4wugHGr/DRcWOOA=;
- b=Lt1Wk9XiXBBzKvd6Ih46h8lfEm923+eO/8LqhbgE8eH4NBYP9YDUlbRD
- a10HrWdqB4wliKpeW47m1R4ie8nNjKeBzGHo3sUfHRETprkDVFxJHT/r3
- rXM8Xa4jTA2IvapGiXGzUKKk/lughJqKSjl+2+PNeiu0er0mXLuwU+t56
- a74WRcrDq1uCzODXUBRYUhu6AUdXfRMHQAcKdSQyVUPYK2f7rczGf2IrA
- cadKGOT9GqeID9cQ/dgmW11ckT+f72po3OdDvSwSU3vbTgllkaQAd08Rz
- qxBu1vW0QTvSoha7vWXdPEsHiN0ifIOEUNqbk5gb8zliG/AqubKb1KrXD w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10687"; a="346025096"
-X-IronPort-AV: E=Sophos;i="5.99,214,1677571200"; d="scan'208";a="346025096"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Apr 2023 07:51:26 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10687"; a="1021954791"
-X-IronPort-AV: E=Sophos;i="5.99,214,1677571200"; d="scan'208";a="1021954791"
-Received: from abaldovi-mobl1.ger.corp.intel.com (HELO intel.com)
- ([10.252.57.154])
- by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Apr 2023 07:51:23 -0700
-Date: Fri, 21 Apr 2023 16:51:20 +0200
-From: Andi Shyti <andi.shyti@linux.intel.com>
-To: Rodrigo Vivi <rodrigo.vivi@kernel.org>
-Subject: Re: [Intel-gfx] [PATCH 2/2] drm/i915/i915_drv: Use i915 instead of
- dev_priv insied the file_priv structure
-Message-ID: <ZEKi6HrrVaOSVUv1@ashyti-mobl2.lan>
-References: <20230421134654.273182-1-andi.shyti@linux.intel.com>
- <20230421134654.273182-3-andi.shyti@linux.intel.com>
- <ZEKYoMMtYRkngiIz@rdvivi-mobl4>
+Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com
+ [IPv6:2a00:1450:4864:20::535])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 01F9E10E175
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Apr 2023 14:57:04 +0000 (UTC)
+Received: by mail-ed1-x535.google.com with SMTP id
+ 4fb4d7f45d1cf-504ecbfddd5so2569037a12.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Apr 2023 07:57:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1682089023; x=1684681023;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=uctUzwBZNxJlKpvlCCGIAPlY6l+7Y7RDinQUecvvB3o=;
+ b=cpqNYtVyifWBpd7Olh6M27aSvswD+dUQz/fYK6h1wu/OC2xlMDRH8XDAnG3iJQBI0D
+ 26urFToMIi56QHNGa4WMAGDRaE1qKjdHGF4JySErBO1QIhveRbvjx7eTzYcJ3f2f+w1r
+ twY0DSHEQbxpDerw7+XhnFryKRoAgu6hS+nYlJpWI64/fn98UQSfksvNd4ePVjDFKSbo
+ 9TL8k3L+yf/xY8scabRgTyLQYjCQTUlKie3aFhnW8noQhUyLEfbDJG7VGDJ/FwuxoxKH
+ zyRn3zoEsgbd+ssdWhz5y2y9y2F4/vqzucbMHdUx/0+HxLAaHfLh3k+gFN2tXpDwq8tD
+ qe2w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1682089023; x=1684681023;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=uctUzwBZNxJlKpvlCCGIAPlY6l+7Y7RDinQUecvvB3o=;
+ b=epnALH6mA6nRoBzxNIupSULNNzOhXvXna+IX9Ex50Usn16FkCYq9TdDmu0mqQnEQ8U
+ 8JiFN+q7iflwJNxRGg3BE77LC+fplX1c07GbVkPA35BW5ZVXgCZIBXMFIXNkxkPzH55n
+ v2QKnme9tA5hnhJJbvUd84G8CnT8G3+vZ2QSEqM14OTKG/kcNC6+cwocl6VEaZO9aVMr
+ 4zNQk0mF65R4pCpfWIspBQVOSSqH/w3RuhmIFNeG3BaPs1x+p8g9Jlipu4WNHo4Y/foL
+ FjV3waCuMS9M2MGj4wNxKJcGJCmYrzrnGhzi6VUpS8cFSGZyL53TYWbSKy7l8v64txMm
+ wy8Q==
+X-Gm-Message-State: AAQBX9eczPRnh1AFJTqX3vpkxTLN6hIdIYzms+jpEACRrYcBPCFQCCAp
+ O/v6j3hwioxpDl7qsN+cGuwheA==
+X-Google-Smtp-Source: AKy350b2REY5H1kl7TPN9WKhRxrc9GCLZbpAU2wbU/1Wwzj0x/BQ66ZPvwtnLFJvkl9omAcUfzsOeA==
+X-Received: by 2002:a17:906:16d7:b0:94a:8ada:d109 with SMTP id
+ t23-20020a17090616d700b0094a8adad109mr2517876ejd.77.1682089022753; 
+ Fri, 21 Apr 2023 07:57:02 -0700 (PDT)
+Received: from localhost.localdomain ([5.133.47.210])
+ by smtp.gmail.com with ESMTPSA id
+ 15-20020a170906058f00b0095708428cdcsm1227625ejn.6.2023.04.21.07.57.01
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 21 Apr 2023 07:57:02 -0700 (PDT)
+From: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+To: robdclark@gmail.com, quic_abhinavk@quicinc.com, sean@poorly.run,
+ dmitry.baryshkov@linaro.org, airlied@gmail.com, daniel@ffwll.ch,
+ lyude@redhat.com
+Subject: [PATCH] drm/msm/dp: unregister audio driver during unbind
+Date: Fri, 21 Apr 2023 15:56:57 +0100
+Message-Id: <20230421145657.12186-1-srinivas.kandagatla@linaro.org>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZEKYoMMtYRkngiIz@rdvivi-mobl4>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,37 +72,77 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Intel GFX <intel-gfx@lists.freedesktop.org>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- DRI Devel <dri-devel@lists.freedesktop.org>,
- Andi Shyti <andi.shyti@linux.intel.com>, Andi Shyti <andi.shyti@kernel.org>
+Cc: quic_bjorande@quicinc.com, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, javierm@redhat.com,
+ dri-devel@lists.freedesktop.org, quic_khsieh@quicinc.com,
+ Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, tzimmermann@suse.de,
+ freedreno@lists.freedesktop.org, johan+linaro@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Apr 21, 2023 at 10:07:28AM -0400, Rodrigo Vivi wrote:
-> On Fri, Apr 21, 2023 at 03:46:54PM +0200, Andi Shyti wrote:
-> > In the process of renaming all instances of 'dev_priv' to 'i915',
-> > start using 'i915' within the 'drm_i915_file_private' structure.
-> 
-> The patch looks good but the commit message seems off to me...
+while binding the code always registers a audio driver, however there
+is no corresponding unregistration done in unbind. This leads to multiple
+redundant audio platform devices if dp_display_bind and dp_display_unbind
+happens multiple times during startup. On X13s platform this resulted in
+6 to 9 audio codec device instead of just 3 codec devices for 3 dp ports.
 
-Will rephrase.
+Fix this by unregistering codecs on unbind.
 
-> One thing we need to take care with mass conversions of dev_priv
-> to i915 is to ensure we are not converting the implicit declarations,
-> since we want to kill that. But on a quick glance it looks fine.
-> 
-> Did you generated this with full s/dev_priv/i915 in i915_drv.h?
+Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+---
+ drivers/gpu/drm/msm/dp/dp_audio.c   | 12 ++++++++++++
+ drivers/gpu/drm/msm/dp/dp_audio.h   |  2 ++
+ drivers/gpu/drm/msm/dp/dp_display.c |  1 +
+ 3 files changed, 15 insertions(+)
 
-Yes, I did such swap in i915_drv.h but I checked each line not to
-break anything.  In this file it's OK to do a /dev_priv/i915/
-change.
+diff --git a/drivers/gpu/drm/msm/dp/dp_audio.c b/drivers/gpu/drm/msm/dp/dp_audio.c
+index 6666783e1468..1245c7aa49df 100644
+--- a/drivers/gpu/drm/msm/dp/dp_audio.c
++++ b/drivers/gpu/drm/msm/dp/dp_audio.c
+@@ -593,6 +593,18 @@ static struct hdmi_codec_pdata codec_data = {
+ 	.i2s = 1,
+ };
+ 
++void dp_unregister_audio_driver(struct device *dev, struct dp_audio *dp_audio)
++{
++	struct dp_audio_private *audio_priv;
++
++	audio_priv = container_of(dp_audio, struct dp_audio_private, dp_audio);
++
++	if (audio_priv->audio_pdev) {
++		platform_device_unregister(audio_priv->audio_pdev);
++		audio_priv->audio_pdev = NULL;
++	}
++}
++
+ int dp_register_audio_driver(struct device *dev,
+ 		struct dp_audio *dp_audio)
+ {
+diff --git a/drivers/gpu/drm/msm/dp/dp_audio.h b/drivers/gpu/drm/msm/dp/dp_audio.h
+index 84e5f4a5d26b..4ab78880af82 100644
+--- a/drivers/gpu/drm/msm/dp/dp_audio.h
++++ b/drivers/gpu/drm/msm/dp/dp_audio.h
+@@ -53,6 +53,8 @@ struct dp_audio *dp_audio_get(struct platform_device *pdev,
+ int dp_register_audio_driver(struct device *dev,
+ 		struct dp_audio *dp_audio);
+ 
++void dp_unregister_audio_driver(struct device *dev, struct dp_audio *dp_audio);
++
+ /**
+  * dp_audio_put()
+  *
+diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
+index 3e13acdfa7e5..99a38dbe51c0 100644
+--- a/drivers/gpu/drm/msm/dp/dp_display.c
++++ b/drivers/gpu/drm/msm/dp/dp_display.c
+@@ -326,6 +326,7 @@ static void dp_display_unbind(struct device *dev, struct device *master,
+ 	kthread_stop(dp->ev_tsk);
+ 
+ 	dp_power_client_deinit(dp->power);
++	dp_unregister_audio_driver(dev, dp->audio);
+ 	dp_aux_unregister(dp->aux);
+ 	dp->drm_dev = NULL;
+ 	dp->aux->drm_dev = NULL;
+-- 
+2.21.0
 
-It will be different with i915_irq.h where dev_priv is embedded
-in the define.
-
-I there is anything off it wouldn't have compiled and anyway,
-CI will warn.
-
-Thanks, Rodrigo!
-Andi
