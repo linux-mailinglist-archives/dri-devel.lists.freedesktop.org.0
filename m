@@ -2,44 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 361436EB0AF
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Apr 2023 19:37:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C18B96EB0A6
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Apr 2023 19:37:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9E50910EE9D;
-	Fri, 21 Apr 2023 17:37:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F37B510EE9A;
+	Fri, 21 Apr 2023 17:36:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C504C10E0FD;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E2A0110E274;
  Fri, 21 Apr 2023 17:36:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1682098611; x=1713634611;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=VRyz9rgqaZ90vMi7EIBePNer9lWyycArV6zRZxAZIi4=;
- b=hGwp4tzv1F3UKRbTmXg6guFqvEQj09edw51rB6Qi9RRXqdOebEt7CciH
- r/NY5Kcniw2aEhJA5bgEOC1qep9X4wa/NxT109Gp0IupM9UYNlVJiv1zt
- eom55pXrhw3LXQsiFvkosJ9hl59bPSBSG95tHYFcLh1ql5TrEP1GZHqVm
- J1wmhuzobW8/nluMxCEskrAPtnGLmMWEnHlTmPfqm7pkwCSehZ/P4btQX
- jqSAwV+8NYFaYYDg7KwzAfb2S++xw7+ZgXXaNYByvVCb8vgPCFe1UxaQJ
- 5+khX38A0VJdH6klMig82dxMu4C0842UO4xKK50uUYj8nFzN8TP9fx6zZ w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10687"; a="347949463"
-X-IronPort-AV: E=Sophos;i="5.99,214,1677571200"; d="scan'208";a="347949463"
+ bh=AIP+5rCCT5iAuuW5/3nOS9hp3Cioudei45sCPogjlow=;
+ b=M80es9yEwmdsPbfS+yJiqQ6EdMOh6xKuyzBn/XulD+xuG2s4wAg8DWrn
+ dBEgSB2RqSaC/lD188kNezF2BttkFyoz95vNLasetfaA0/EsztqsqKDgd
+ iMGhNzkUQ6pwsJ5N/W+wTZJmphGivcJrawWo2/Svqzix57xajbTjFWb8v
+ t5VAdXp8n30//BIwIgybW//Rtm+sc4DYJqSxLP5VzMzSW88Nx/8NPxkoA
+ /e87gED4pIwgodGzq7V5i39BSMJ1bM93wrD4ApW9eiQ8IrkT9d1yBVERX
+ Hh6Yc7/qaiNFlz5ws1aAcdl1adYm2vb5nzs35n5vvnAfMw7OlCq7H8JVq w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10687"; a="347949465"
+X-IronPort-AV: E=Sophos;i="5.99,214,1677571200"; d="scan'208";a="347949465"
 Received: from orsmga006.jf.intel.com ([10.7.209.51])
  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  21 Apr 2023 10:36:49 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10687"; a="669794806"
-X-IronPort-AV: E=Sophos;i="5.99,214,1677571200"; d="scan'208";a="669794806"
+X-IronPort-AV: E=McAfee;i="6600,9927,10687"; a="669794809"
+X-IronPort-AV: E=Sophos;i="5.99,214,1677571200"; d="scan'208";a="669794809"
 Received: from fyang16-desk.jf.intel.com ([10.24.96.243])
  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  21 Apr 2023 10:36:49 -0700
 From: fei.yang@intel.com
 To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v4 6/8] drm/i915: make sure correct pte encode is used
-Date: Fri, 21 Apr 2023 10:37:59 -0700
-Message-Id: <20230421173801.3369303-7-fei.yang@intel.com>
+Subject: [PATCH v4 7/8] drm/i915/mtl: end support for set caching ioctl
+Date: Fri, 21 Apr 2023 10:38:00 -0700
+Message-Id: <20230421173801.3369303-8-fei.yang@intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20230421173801.3369303-1-fei.yang@intel.com>
 References: <20230421173801.3369303-1-fei.yang@intel.com>
@@ -57,51 +57,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Matt Roper <matthew.d.roper@intel.com>,
- Chris Wilson <chris.p.wilson@linux.intel.com>, Fei Yang <fei.yang@intel.com>,
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>, Fei Yang <fei.yang@intel.com>,
  dri-devel@lists.freedesktop.org, Andi Shyti <andi.shyti@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Fei Yang <fei.yang@intel.com>
 
-PTE encode is platform dependent. After replacing cache_level with
-pat_index, the newly introduced mtl_pte_encode is actually generic
-for all gen12 platforms, thus rename it to gen12_pte_encode and
-apply it to all gen12 platforms.
+The design is to keep Buffer Object's caching policy immutable through
+out its life cycle. This patch ends the support for set caching ioctl
+from MTL onward. While doing that we also set BO's to be 1-way coherent
+at creation time because GPU is no longer automatically snooping CPU
+cache. For UMD's need to fine tune the caching policy for BO's, a follow
+up patch will extend the GEM_CREATE uAPI to allow UMD's specify caching
+mode at BO creation time.
 
-Cc: Chris Wilson <chris.p.wilson@linux.intel.com>
-Cc: Matt Roper <matthew.d.roper@intel.com>
 Signed-off-by: Fei Yang <fei.yang@intel.com>
 Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com>
+Reviewed-by: Andrzej Hajda <andrzej.hajda@intel.com>
 ---
- drivers/gpu/drm/i915/gt/gen8_ppgtt.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/i915/gem/i915_gem_domain.c | 3 +++
+ drivers/gpu/drm/i915/gem/i915_gem_shmem.c  | 9 ++++++++-
+ 2 files changed, 11 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/i915/gt/gen8_ppgtt.c b/drivers/gpu/drm/i915/gt/gen8_ppgtt.c
-index c046813514f4..3373b2aeae86 100644
---- a/drivers/gpu/drm/i915/gt/gen8_ppgtt.c
-+++ b/drivers/gpu/drm/i915/gt/gen8_ppgtt.c
-@@ -55,7 +55,7 @@ static u64 gen8_pte_encode(dma_addr_t addr,
- 	return pte;
- }
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_domain.c b/drivers/gpu/drm/i915/gem/i915_gem_domain.c
+index 89938084af97..d5fd4c9cd9f8 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_domain.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_domain.c
+@@ -328,6 +328,9 @@ int i915_gem_set_caching_ioctl(struct drm_device *dev, void *data,
+ 	if (IS_DGFX(i915))
+ 		return -ENODEV;
  
--static u64 mtl_pte_encode(dma_addr_t addr,
-+static u64 gen12_pte_encode(dma_addr_t addr,
- 			  unsigned int pat_index,
- 			  u32 flags)
- {
-@@ -994,8 +994,8 @@ struct i915_ppgtt *gen8_ppgtt_create(struct intel_gt *gt,
- 	 */
- 	ppgtt->vm.alloc_scratch_dma = alloc_pt_dma;
++	if (GRAPHICS_VER_FULL(i915) >= IP_VER(12, 70))
++		return -EOPNOTSUPP;
++
+ 	switch (args->caching) {
+ 	case I915_CACHING_NONE:
+ 		level = I915_CACHE_NONE;
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_shmem.c b/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
+index 37d1efcd3ca6..cad4a6017f4b 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
+@@ -601,7 +601,14 @@ static int shmem_object_init(struct intel_memory_region *mem,
+ 	obj->write_domain = I915_GEM_DOMAIN_CPU;
+ 	obj->read_domains = I915_GEM_DOMAIN_CPU;
  
--	if (GRAPHICS_VER_FULL(gt->i915) >= IP_VER(12, 70))
--		ppgtt->vm.pte_encode = mtl_pte_encode;
-+	if (GRAPHICS_VER(gt->i915) >= 12)
-+		ppgtt->vm.pte_encode = gen12_pte_encode;
- 	else
- 		ppgtt->vm.pte_encode = gen8_pte_encode;
- 
+-	if (HAS_LLC(i915))
++	/*
++	 * MTL doesn't snoop CPU cache by default for GPU access (namely
++	 * 1-way coherency). However some UMD's are currently depending on
++	 * that. Make 1-way coherent the default setting for MTL. A follow
++	 * up patch will extend the GEM_CREATE uAPI to allow UMD's specify
++	 * caching mode at BO creation time
++	 */
++	if (HAS_LLC(i915) || (GRAPHICS_VER_FULL(i915) >= IP_VER(12, 70)))
+ 		/* On some devices, we can have the GPU use the LLC (the CPU
+ 		 * cache) for about a 10% performance improvement
+ 		 * compared to uncached.  Graphics requests other than
 -- 
 2.25.1
 
