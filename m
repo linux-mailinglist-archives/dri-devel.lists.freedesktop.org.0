@@ -2,43 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 519536EABEA
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Apr 2023 15:42:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EE656EAC02
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Apr 2023 15:47:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 963A910EE11;
-	Fri, 21 Apr 2023 13:42:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3A57710EE1B;
+	Fri, 21 Apr 2023 13:47:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailbackend.panix.com (mailbackend.panix.com [166.84.1.89])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7E1BD10EE11
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Apr 2023 13:42:27 +0000 (UTC)
-Received: from mail.panix.com (localhost [127.0.0.1])
- by mailbackend.panix.com (Postfix) with ESMTPA id 4Q2wgj4dRTz48Zd;
- Fri, 21 Apr 2023 09:42:25 -0400 (EDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=panix.com; s=panix;
- t=1682084546; bh=ilKSAXYbb2I3tPDKY5tTE2ROdSFgRHhDclUFKT6+ApU=;
- h=In-Reply-To:References:Date:Subject:From:To:Cc;
- b=W0XJKCS1EOMytKJyx//xVUT6RCVCk8urGcWwzNCNZo6FHURPscK52TThLWj4C36S4
- ActEb0SHiKjBRi1sqqNHfZAvFTMxV1355G792EvHdEd3+PRHipOcJpWBF+d1u4JVW8
- IZBMD1YO0W+VtLPEQeD3LXULPCuSGFHiuUixjI5g=
-X-Panix-Received: from 166.84.1.2
- (SquirrelMail authenticated user pa@panix.com)
- by mail.panix.com with HTTP; Fri, 21 Apr 2023 09:42:25 -0400
-Message-ID: <40075ac685423d46663dd6a4038add90.squirrel@mail.panix.com>
-In-Reply-To: <d8d22c77-1bde-774f-aa6e-41234ffa6e8d@suse.de>
-References: <20230420155705.21463-1-pa@panix.com>
- <c4c09a67-6897-751c-c091-6e33f48542cc@leemhuis.info>
- <d8d22c77-1bde-774f-aa6e-41234ffa6e8d@suse.de>
-Date: Fri, 21 Apr 2023 09:42:25 -0400
-Subject: Re: [PATCH v3] firmware/sysfb: Fix VESA format selection
-From: "Pierre Asselin" <pa@panix.com>
-To: "Thomas Zimmermann" <tzimmermann@suse.de>
-User-Agent: SquirrelMail/1.4.23-p1
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5EA8710EE1B;
+ Fri, 21 Apr 2023 13:47:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1682084839; x=1713620839;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=1HhtCLng92GrgcUoxBiOg6l1TOi7DBBvXy+nn6Ql/cY=;
+ b=WfdfBKVrieGFBAGHBWidY/hGCa6kzIaYpGf0emIi0DNS2/miEBfwYk6e
+ FFbboZ64MtrUU0+FV/ERH0DAAjiPEUVhBhLT/kxa/ofezwQvzfu7UUf9m
+ bGbKr40hHb+jAyq2+WkYkebErvLUBi8A0ftxGqj3Qof095L0DtT0W4rrY
+ H4CTnhV+iT9YQQaQFG2BuYm/1rRtAE6c2Xxj3lqnofqxeMpzcs7EEucSN
+ AQ7m8o/MyUjrWPZuCw7CYRsl/rIIG94g4y/7sWpdxZ+3q8E+kwHu6uIG0
+ cf3ZJlRK51qXFW7CPKh7TmpA8+pBEXd2zemvI2+7vwlXflllqGIwkx9M1 Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10686"; a="432271989"
+X-IronPort-AV: E=Sophos;i="5.99,214,1677571200"; d="scan'208";a="432271989"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Apr 2023 06:47:18 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10686"; a="938483456"
+X-IronPort-AV: E=Sophos;i="5.99,214,1677571200"; d="scan'208";a="938483456"
+Received: from ppuente-mobl.ger.corp.intel.com (HELO intel.com)
+ ([10.251.214.65])
+ by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Apr 2023 06:47:14 -0700
+From: Andi Shyti <andi.shyti@linux.intel.com>
+To: Intel GFX <intel-gfx@lists.freedesktop.org>,
+ DRI Devel <dri-devel@lists.freedesktop.org>
+Subject: [PATCH 0/2] Use i915 instead of dev_priv
+Date: Fri, 21 Apr 2023 15:46:52 +0200
+Message-Id: <20230421134654.273182-1-andi.shyti@linux.intel.com>
+X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
-Content-Type: text/plain;charset=iso-8859-1
 Content-Transfer-Encoding: 8bit
-X-Priority: 3 (Normal)
-Importance: Normal
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,37 +57,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux regressions mailing list <regressions@lists.linux.dev>,
- Pierre Asselin <pa@panix.com>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Javier Martinez Canillas <javierm@redhat.com>,
- Hans de Goede <hdegoede@redhat.com>, Ard Biesheuvel <ardb@kernel.org>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Andi Shyti <andi.shyti@kernel.org>, Andi Shyti <andi.shyti@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Thomas Zimmerman writes:
->
-> Am 21.04.23 um 13:32 schrieb Linux regression tracking (Thorsten
-> Leemhuis):
->>
->> Pierre, Tomas, Javier, et. al: how many "legacy BIOSes" do we suspect
->> are affected by this?
+Hi,
 
-So far, two:
-1) my Gateway laptop (Intel(R) Core(TM) Duo CPU,
-   Phoenix BIOS 83.08 Revision: 131.8 Release Date: 03/06/07)
-2) my Dell Precision T3610 (Intel(R) Xeon(R) CPU E5-1650,
-   Dell BIOS A19 Revision: 65.19 Release Date: 09/11/2019)
+just another "Friday patch". While reviewing some patches from
+Tejas I found a bit confusing the use of dev_priv__ inside the
+for_each_engine(), perhaps it should be moved inside the gt/?
 
-I don't know how to give a more precise description.
+As I was at it I made the /dev_priv/i915/ change which is still
+harmless. Next in queue is to change the i915_irq.h, which is a
+bit tricky (but not much) as the "dev_priv" is hardcoded inside
+some defines.
 
->> might it be worth asking Linus to merge this patch directly[1]?
->
-> IMHO it's a fairly obscure bug and certainly not a release blocker. I'll
-> send it through the regular channels of the DRM subsystem.
+Andi
 
-I agree.  Even when the regression bites, it's not a blocker.  The screen
-is strange but readable.
+Andi Shyti (2):
+  drm/i915/i915_drv: Use proper parameter naming in for_each_gt()
+  drm/i915/i915_drv: Use i915 instead of dev_priv insied the file_priv
+    structure
 
---PA
+ drivers/gpu/drm/i915/i915_drv.h | 462 ++++++++++++++++----------------
+ 1 file changed, 231 insertions(+), 231 deletions(-)
+
+-- 
+2.40.0
 
