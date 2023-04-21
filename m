@@ -1,62 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DA866EACC9
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Apr 2023 16:25:05 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CD8456EACF3
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Apr 2023 16:30:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E2B7D10EE49;
-	Fri, 21 Apr 2023 14:25:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EE8F010EE2A;
+	Fri, 21 Apr 2023 14:30:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-x12e.google.com (mail-il1-x12e.google.com
- [IPv6:2607:f8b0:4864:20::12e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D211910EE26
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Apr 2023 14:24:58 +0000 (UTC)
-Received: by mail-il1-x12e.google.com with SMTP id
- e9e14a558f8ab-329577952c5so693925ab.1
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Apr 2023 07:24:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20221208; t=1682087098; x=1684679098;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Fev/HjWH2B8yyfQiDGZ9D/O2oZYyJ9gGuApag0ZRVwc=;
- b=TVGpX8Rsft5hzMr9h6Hwyheu0HJYGuHxxs7ojc6Kil4QcUiO/DlWT0in/uLxRo6Cjj
- k1VQcRlDqVO4SIIb5IVwDa4JdfL4zYLvXGhLV/kB+NM5PH/u+XjBKfnkjEQ9QVQmK60w
- Vc8FzK6DfY5mi2TbK4uHxCC49bYsU4nxKZJdASBm+oks7LbQ+RxB90HBUI6mYlegxr7U
- 1XR6A+LHNGRyTDAhBVssIxGbpCl6otjWPglcnEPEXNFs1XXpb+XtVA4I/tlXGMqxR+pq
- 8D4T4nbhmC3rl/qw+IT0JwOuDIGlL0G4YOWFtTiFq80UoDYKM6UOS6EJnHjngA/3Jjn6
- mLOA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682087098; x=1684679098;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=Fev/HjWH2B8yyfQiDGZ9D/O2oZYyJ9gGuApag0ZRVwc=;
- b=XCwrpNe9wMcL5kP6x5XzPFWODxGiZQiu7H3UwAiotoyT9rYSKEQ/6PiDcdLQdEoTuY
- 6CGFb3PDEC/+DTZygWBQyLUUgZvbSWRn86AZKs1H2gNBucNm4MxTZOUi7xvNCurUT7mk
- 7mf9Ewby7lDHx5fSr6LiE9T8s396gW2MY29ZLZVVs1id8p94SIRcmMyD6ClBQKEVrNn/
- CR5xs6oPzQsY3Ah8MXbi9cNPkc59E4FucKRbKlHt2FwFqr+6R1YpROhAIUxVbehF2T0Z
- HrnwMirbkoNuJ0K28YtbharSCHLfrHVfXnu393hOB7YRz1Vz0h7GJFzraMytuscSHJsv
- mgBQ==
-X-Gm-Message-State: AAQBX9dvT3btBLZT2xAaQTz52F9jCAsb7DRwsbPPHIKAVOMiywUKZy+M
- UCSfYbgl17dVg0DTTi74eDzvFaw7RCPD4PB7SGATIg==
-X-Google-Smtp-Source: AKy350Z0juoPECKlzKlGMdUfKVumXOK21XHMESzNTTUc7EvrFvimwX3M8kvTGyloRw/nYChUw0o5sGJI99iK2oqYk/g=
-X-Received: by 2002:a05:6e02:1a22:b0:32a:b8fd:19be with SMTP id
- g2-20020a056e021a2200b0032ab8fd19bemr279553ile.18.1682087097600; Fri, 21 Apr
- 2023 07:24:57 -0700 (PDT)
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 07B1B10EE33;
+ Fri, 21 Apr 2023 14:30:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1682087442; x=1713623442;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=H8Remee2zEmqfUSIzqd+utYJFsZGQbKHCN0Q/yHbfqI=;
+ b=OMrhgfRuBw/95coy5PmDjnHmC07coFxvGhkDfMvpaUiwq9QDuXiyysZO
+ 1nESKbByfAYyU1Nq15IXDai1cdktfwsM+/Y9AsGwjkqJ9ftTrq/UtSKhG
+ Om2+HNsSau48dIh7ZJNndNmaPBkkMl5BtKeIFNGoNpdrP1m0Oe7QT3b4q
+ 0jH4czUPWrkwwzqY8ad6slPt+l8TOX5KQpeXBdzQnFpNXdGml+gkLlJW1
+ 0XFLgZofWTTL5/NapG7r6fokUZ3o/QoOMafq3W9clhOYtfNRvnxMgvxFj
+ orC5A4x5FIdhJJ8/kc5v6eIZgmrph9IJfiPqhgUYjcV0CLvnVYqObGGyK A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10687"; a="411273237"
+X-IronPort-AV: E=Sophos;i="5.99,214,1677571200"; d="scan'208";a="411273237"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Apr 2023 07:30:40 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10687"; a="836184884"
+X-IronPort-AV: E=Sophos;i="5.99,214,1677571200"; d="scan'208";a="836184884"
+Received: from ahajda-mobl.ger.corp.intel.com (HELO [10.213.8.140])
+ ([10.213.8.140])
+ by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Apr 2023 07:30:36 -0700
+Message-ID: <a10480c6-162b-a886-28f6-e95930d4664b@intel.com>
+Date: Fri, 21 Apr 2023 16:30:34 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Firefox/102.0 Thunderbird/102.10.0
+Subject: Re: [PATCH v7 2/7] lib/ref_tracker: improve printing stats
+Content-Language: en-US
+To: Eric Dumazet <edumazet@google.com>
 References: <20230224-track_gt-v7-0-11f08358c1ec@intel.com>
- <20230224-track_gt-v7-1-11f08358c1ec@intel.com>
-In-Reply-To: <20230224-track_gt-v7-1-11f08358c1ec@intel.com>
-From: Eric Dumazet <edumazet@google.com>
-Date: Fri, 21 Apr 2023 16:24:43 +0200
-Message-ID: <CANn89iL65YYs_+cJs6STTH=7n22VLi-eru2FzFh1rtrxp_a7Aw@mail.gmail.com>
-Subject: Re: [PATCH v7 1/7] lib/ref_tracker: add unlocked leak print helper
-To: Andrzej Hajda <andrzej.hajda@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ <20230224-track_gt-v7-2-11f08358c1ec@intel.com>
+ <CANn89iLUDXz9VAtCQ6Gr2Jkxogdu_5g0tN9iCkAB0JD_B_05Gw@mail.gmail.com>
+From: Andrzej Hajda <andrzej.hajda@intel.com>
+Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
+ Gdansk - KRS 101882 - NIP 957-07-52-316
+In-Reply-To: <CANn89iLUDXz9VAtCQ6Gr2Jkxogdu_5g0tN9iCkAB0JD_B_05Gw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,20 +74,53 @@ Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Apr 21, 2023 at 1:35=E2=80=AFPM Andrzej Hajda <andrzej.hajda@intel.=
-com> wrote:
->
-> To have reliable detection of leaks, caller must be able to check under t=
-he same
-> lock both: tracked counter and the leaks. dir.lock is natural candidate f=
-or such
-> lock and unlocked print helper can be called with this lock taken.
-> As a bonus we can reuse this helper in ref_tracker_dir_exit.
->
-> Signed-off-by: Andrzej Hajda <andrzej.hajda@intel.com>
-> Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com>
-> ---
 
-SGTM, thanks.
 
-Reviewed-by: Eric Dumazet <edumazet@google.com>
+On 21.04.2023 16:21, Eric Dumazet wrote:
+> On Fri, Apr 21, 2023 at 1:35 PM Andrzej Hajda <andrzej.hajda@intel.com> wrote:
+>> In case the library is tracking busy subsystem, simply
+>> printing stack for every active reference will spam log
+>> with long, hard to read, redundant stack traces. To improve
+>> readabilty following changes have been made:
+>> - reports are printed per stack_handle - log is more compact,
+>> - added display name for ref_tracker_dir - it will differentiate
+>>    multiple subsystems,
+>> - stack trace is printed indented, in the same printk call,
+>> - info about dropped references is printed as well.
+>>
+>> Signed-off-by: Andrzej Hajda <andrzej.hajda@intel.com>
+>> Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com>
+>> ---
+>>   include/linux/ref_tracker.h | 15 ++++++--
+>>   lib/ref_tracker.c           | 90 +++++++++++++++++++++++++++++++++++++++------
+>>   2 files changed, 91 insertions(+), 14 deletions(-)
+>>
+>> diff --git a/include/linux/ref_tracker.h b/include/linux/ref_tracker.h
+>> index 87a92f2bec1b88..fc9ef9952f01fd 100644
+>> --- a/include/linux/ref_tracker.h
+>> +++ b/include/linux/ref_tracker.h
+>> @@ -17,12 +17,19 @@ struct ref_tracker_dir {
+>>          bool                    dead;
+>>          struct list_head        list; /* List of active trackers */
+>>          struct list_head        quarantine; /* List of dead trackers */
+>> +       char                    name[32];
+>>   #endif
+>>   };
+>>
+>>   #ifdef CONFIG_REF_TRACKER
+>> -static inline void ref_tracker_dir_init(struct ref_tracker_dir *dir,
+>> -                                       unsigned int quarantine_count)
+>> +
+>> +/* Temporary allow two and three arguments, until consumers are converted */
+>> +#define ref_tracker_dir_init(_d, _q, args...) _ref_tracker_dir_init(_d, _q, ##args, #_d)
+>> +#define _ref_tracker_dir_init(_d, _q, _n, ...) __ref_tracker_dir_init(_d, _q, _n)
+>> +
+> We only have four callers of ref_tracker_dir_init() .
+>
+> Why not simply add a name on them, and avoid this magic ?
+
+If this can be done in one patch, that's great.
+
+Regards
+Andrzej
+
