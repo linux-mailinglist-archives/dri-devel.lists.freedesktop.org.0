@@ -2,46 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E3706EBB45
-	for <lists+dri-devel@lfdr.de>; Sat, 22 Apr 2023 22:50:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E08176EBB76
+	for <lists+dri-devel@lfdr.de>; Sat, 22 Apr 2023 23:18:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A428110E1CC;
-	Sat, 22 Apr 2023 20:50:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E01F810E1E9;
+	Sat, 22 Apr 2023 21:18:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4B90B10E1A7
- for <dri-devel@lists.freedesktop.org>; Sat, 22 Apr 2023 20:50:32 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id A611C61578;
- Sat, 22 Apr 2023 20:50:31 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 69095C433A1;
- Sat, 22 Apr 2023 20:50:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1682196630;
- bh=eUU5RldMNCDDlm4SoM+xtwyGoFwbZ815W9/D47ihSVI=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=MG5GyLBgcBInmQq6rn0xgHi5c/ZuG76NQlt5f0s4j2WcrDIGVAoNVxkufW0ECBBAt
- izW/XN+3AAe8Ghj8/hQSyln7Od3wl5NE2cFcZyifoD1mIe/Odj00i83lH+SY0V39eD
- xNtUjd/3hsWO0Oa6UIWhzomtcFMqaRze2SjKO8tVt05k+qGNNANlWTz61r3K179aTq
- rwz59hTYbFeJD4/vECJtusc3jacJFwgsWr3awUobEDHJzGvnsZBt86m7q70jcfrox8
- gPyBV+G9OZsexTmZ/6W7H2YN1BDWoqF3Ns7EwhD2lNQ5USPN5KcB6ozP2Tuwvy2e6B
- Rg4LAvME+qc/A==
-Received: by mercury (Postfix, from userid 1000)
- id 253661066CD2; Sat, 22 Apr 2023 22:50:25 +0200 (CEST)
-From: Sebastian Reichel <sre@kernel.org>
-To: Sebastian Reichel <sre@kernel.org>
-Subject: [PATCH v2 13/13] drm/panel: sitronix-st7789v: add Inanbo T28CP45TN89
- support
-Date: Sat, 22 Apr 2023 22:50:12 +0200
-Message-Id: <20230422205012.2464933-14-sre@kernel.org>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230422205012.2464933-1-sre@kernel.org>
-References: <20230422205012.2464933-1-sre@kernel.org>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 07F3C10E0FB;
+ Sat, 22 Apr 2023 21:18:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1682198281; x=1713734281;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=eTYnPvF9fN3o1kgqHDQFSMFOfgmWEAjhvZwZlajfpiI=;
+ b=b9Pek3hDT1KvUNVSglycJvKNh4ScoUXxBH0OqZ5i57qEr3WOB/05E/JT
+ KQJwWbB2/D9DruKzTtuQM4yXEMPDC0WL9eLf1QtkTecF0M040ii6MOgYZ
+ uOgvoZeIdEvUAzkSY9wDWWqTXzYdcMWY4ws9p4VWKVdLivxKFj8k0AQuA
+ 9x9zuLRpzw5SePpBnuZ2v/cRwHNbbJ+pjE+j7jsD1yc6Ivirk6+HDws/g
+ fOCnEplRiXFxN/p1S7UWlMeFasfI/11u3Lm81fkXnK+CN2BYELj35tbr4
+ olSvYE5A7q1HJ1GmeWQkJ5ZuT7AuC3fDTO83mi1sA6pYb6dwRiv5TGJ01 Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10688"; a="346219346"
+X-IronPort-AV: E=Sophos;i="5.99,219,1677571200"; d="scan'208";a="346219346"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Apr 2023 14:17:58 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10688"; a="836504025"
+X-IronPort-AV: E=Sophos;i="5.99,219,1677571200"; d="scan'208";a="836504025"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+ by fmsmga001.fm.intel.com with ESMTP; 22 Apr 2023 14:17:53 -0700
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1pqKcC-000hVU-2Q;
+ Sat, 22 Apr 2023 21:17:52 +0000
+Date: Sun, 23 Apr 2023 05:17:07 +0800
+From: kernel test robot <lkp@intel.com>
+To: Nikita Zhandarovich <n.zhandarovich@fintech.ru>,
+ David Airlie <airlied@gmail.com>
+Subject: Re: [Intel-gfx] [PATCH] video/hdmi: minor fixes for *_infoframe_init
+ functions
+Message-ID: <202304230527.lMhdvedk-lkp@intel.com>
+References: <20230412152910.9486-1-n.zhandarovich@fintech.ru>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230412152910.9486-1-n.zhandarovich@fintech.ru>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,83 +62,104 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Gerald Loacker <gerald.loacker@wolfvision.net>,
- Sam Ravnborg <sam@ravnborg.org>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
- Thierry Reding <thierry.reding@gmail.com>,
- Michael Riesch <michael.riesch@wolfvision.net>
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>, linux-fbdev@vger.kernel.org,
+ lvc-project@linuxtesting.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ Helge Deller <deller@gmx.de>, llvm@lists.linux.dev,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-tegra@vger.kernel.org, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ linux-mediatek@lists.infradead.org, amd-gfx@lists.freedesktop.org,
+ Nikita Zhandarovich <n.zhandarovich@fintech.ru>, oe-kbuild-all@lists.linux.dev,
+ Matthias Brugger <matthias.bgg@gmail.com>, intel-gfx@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-UNI-T UTi260b has a Inanbo T28CP45TN89 v17 panel. I could not find
-proper documentation for the panel apart from a technical drawing, but
-according to the vendor U-Boot it is based on a Sitronix st7789v chip.
-I generated the init sequence by modifying the default one until proper
-graphics output has been seen on the device.
+Hi Nikita,
 
-Signed-off-by: Sebastian Reichel <sre@kernel.org>
----
- .../gpu/drm/panel/panel-sitronix-st7789v.c    | 25 +++++++++++++++++++
- 1 file changed, 25 insertions(+)
+kernel test robot noticed the following build errors:
 
-diff --git a/drivers/gpu/drm/panel/panel-sitronix-st7789v.c b/drivers/gpu/drm/panel/panel-sitronix-st7789v.c
-index f3b1bf7ef996..172c6c1fc090 100644
---- a/drivers/gpu/drm/panel/panel-sitronix-st7789v.c
-+++ b/drivers/gpu/drm/panel/panel-sitronix-st7789v.c
-@@ -173,6 +173,21 @@ static const struct drm_display_mode default_mode = {
- 	.flags = DRM_MODE_FLAG_PHSYNC | DRM_MODE_FLAG_PVSYNC,
- };
- 
-+static const struct drm_display_mode t28cp45tn89_mode = {
-+	.clock = 6008,
-+	.hdisplay = 240,
-+	.hsync_start = 240 + 38,
-+	.hsync_end = 240 + 38 + 10,
-+	.htotal = 240 + 38 + 10 + 10,
-+	.vdisplay = 320,
-+	.vsync_start = 320 + 8,
-+	.vsync_end = 320 + 8 + 4,
-+	.vtotal = 320 + 8 + 4 + 4,
-+	.width_mm = 43,
-+	.height_mm = 57,
-+	.flags = DRM_MODE_FLAG_PVSYNC | DRM_MODE_FLAG_NVSYNC,
-+};
-+
- struct st7789_panel_info default_panel = {
- 	.mode = &default_mode,
- 	.invert_mode = true,
-@@ -181,6 +196,14 @@ struct st7789_panel_info default_panel = {
- 		     DRM_BUS_FLAG_PIXDATA_SAMPLE_NEGEDGE,
- };
- 
-+struct st7789_panel_info t28cp45tn89_panel = {
-+	.mode = &t28cp45tn89_mode,
-+	.invert_mode = false,
-+	.bus_format = MEDIA_BUS_FMT_RGB565_1X16,
-+	.bus_flags = DRM_BUS_FLAG_DE_HIGH |
-+		     DRM_BUS_FLAG_PIXDATA_SAMPLE_POSEDGE,
-+};
-+
- static int st7789v_get_modes(struct drm_panel *panel,
- 			     struct drm_connector *connector)
- {
-@@ -446,12 +469,14 @@ static void st7789v_remove(struct spi_device *spi)
- 
- static const struct spi_device_id st7789v_spi_id[] = {
- 	{ "st7789v", (unsigned long) &default_panel },
-+	{ "t28cp45tn89-v17", (unsigned long) &t28cp45tn89_panel },
- 	{ }
- };
- MODULE_DEVICE_TABLE(spi, st7789v_spi_id);
- 
- static const struct of_device_id st7789v_of_match[] = {
- 	{ .compatible = "sitronix,st7789v", .data = &default_panel },
-+	{ .compatible = "inanbo,t28cp45tn89-v17", .data = &t28cp45tn89_panel },
- 	{ }
- };
- MODULE_DEVICE_TABLE(of, st7789v_of_match);
+[auto build test ERROR on drm-tip/drm-tip]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Nikita-Zhandarovich/video-hdmi-minor-fixes-for-_infoframe_init-functions/20230421-221128
+base:   git://anongit.freedesktop.org/drm/drm-tip drm-tip
+patch link:    https://lore.kernel.org/r/20230412152910.9486-1-n.zhandarovich%40fintech.ru
+patch subject: [Intel-gfx] [PATCH] video/hdmi: minor fixes for *_infoframe_init functions
+config: x86_64-allmodconfig (https://download.01.org/0day-ci/archive/20230423/202304230527.lMhdvedk-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/63c44f02ae13a5f50eadc26f5b45d4ade624f20c
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Nikita-Zhandarovich/video-hdmi-minor-fixes-for-_infoframe_init-functions/20230421-221128
+        git checkout 63c44f02ae13a5f50eadc26f5b45d4ade624f20c
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash arch/x86/xen/ drivers/gpu/drm/i915/ drivers/power/supply/ drivers/vdpa/mlx5/
+
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202304230527.lMhdvedk-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> drivers/gpu/drm/i915/display/intel_hdmi.c:769:37: error: variable 'ret' is uninitialized when used here [-Werror,-Wuninitialized]
+           if (drm_WARN_ON(encoder->base.dev, ret))
+                                              ^~~
+   include/drm/drm_print.h:630:19: note: expanded from macro 'drm_WARN_ON'
+           drm_WARN((drm), (x), "%s",                                      \
+                            ^
+   include/drm/drm_print.h:620:7: note: expanded from macro 'drm_WARN'
+           WARN(condition, "%s %s: " format,                               \
+                ^~~~~~~~~
+   include/asm-generic/bug.h:131:25: note: expanded from macro 'WARN'
+           int __ret_warn_on = !!(condition);                              \
+                                  ^~~~~~~~~
+   drivers/gpu/drm/i915/display/intel_hdmi.c:756:9: note: initialize the variable 'ret' to silence this warning
+           int ret;
+                  ^
+                   = 0
+   1 error generated.
+
+
+vim +/ret +769 drivers/gpu/drm/i915/display/intel_hdmi.c
+
+b055c8f3ef9f7b drivers/gpu/drm/i915/intel_hdmi.c         Jesse Barnes        2011-07-08  748  
+fbf08556ed4344 drivers/gpu/drm/i915/intel_hdmi.c         Ville Syrjälä       2019-02-25  749  static bool
+fbf08556ed4344 drivers/gpu/drm/i915/intel_hdmi.c         Ville Syrjälä       2019-02-25  750  intel_hdmi_compute_spd_infoframe(struct intel_encoder *encoder,
+fbf08556ed4344 drivers/gpu/drm/i915/intel_hdmi.c         Ville Syrjälä       2019-02-25  751  				 struct intel_crtc_state *crtc_state,
+fbf08556ed4344 drivers/gpu/drm/i915/intel_hdmi.c         Ville Syrjälä       2019-02-25  752  				 struct drm_connector_state *conn_state)
+c0864cb39c6869 drivers/gpu/drm/i915/intel_hdmi.c         Jesse Barnes        2011-08-03  753  {
+7d1675dcb5a16c drivers/gpu/drm/i915/display/intel_hdmi.c Taylor, Clinton A   2022-11-29  754  	struct drm_i915_private *i915 = to_i915(encoder->base.dev);
+fbf08556ed4344 drivers/gpu/drm/i915/intel_hdmi.c         Ville Syrjälä       2019-02-25  755  	struct hdmi_spd_infoframe *frame = &crtc_state->infoframes.spd.spd;
+5adaea799c1c2c drivers/gpu/drm/i915/intel_hdmi.c         Damien Lespiau      2013-08-06  756  	int ret;
+5adaea799c1c2c drivers/gpu/drm/i915/intel_hdmi.c         Damien Lespiau      2013-08-06  757  
+fbf08556ed4344 drivers/gpu/drm/i915/intel_hdmi.c         Ville Syrjälä       2019-02-25  758  	if (!crtc_state->has_infoframe)
+fbf08556ed4344 drivers/gpu/drm/i915/intel_hdmi.c         Ville Syrjälä       2019-02-25  759  		return true;
+c0864cb39c6869 drivers/gpu/drm/i915/intel_hdmi.c         Jesse Barnes        2011-08-03  760  
+fbf08556ed4344 drivers/gpu/drm/i915/intel_hdmi.c         Ville Syrjälä       2019-02-25  761  	crtc_state->infoframes.enable |=
+fbf08556ed4344 drivers/gpu/drm/i915/intel_hdmi.c         Ville Syrjälä       2019-02-25  762  		intel_hdmi_infoframe_enable(HDMI_INFOFRAME_TYPE_SPD);
+c0864cb39c6869 drivers/gpu/drm/i915/intel_hdmi.c         Jesse Barnes        2011-08-03  763  
+7d1675dcb5a16c drivers/gpu/drm/i915/display/intel_hdmi.c Taylor, Clinton A   2022-11-29  764  	if (IS_DGFX(i915))
+63c44f02ae13a5 drivers/gpu/drm/i915/display/intel_hdmi.c Nikita Zhandarovich 2023-04-12  765  		hdmi_spd_infoframe_init(frame, "Intel", "Discrete gfx");
+7d1675dcb5a16c drivers/gpu/drm/i915/display/intel_hdmi.c Taylor, Clinton A   2022-11-29  766  	else
+63c44f02ae13a5 drivers/gpu/drm/i915/display/intel_hdmi.c Nikita Zhandarovich 2023-04-12  767  		hdmi_spd_infoframe_init(frame, "Intel", "Integrated gfx");
+7d1675dcb5a16c drivers/gpu/drm/i915/display/intel_hdmi.c Taylor, Clinton A   2022-11-29  768  
+3a47ae201e0749 drivers/gpu/drm/i915/display/intel_hdmi.c Pankaj Bharadiya    2020-01-15 @769  	if (drm_WARN_ON(encoder->base.dev, ret))
+fbf08556ed4344 drivers/gpu/drm/i915/intel_hdmi.c         Ville Syrjälä       2019-02-25  770  		return false;
+fbf08556ed4344 drivers/gpu/drm/i915/intel_hdmi.c         Ville Syrjälä       2019-02-25  771  
+fbf08556ed4344 drivers/gpu/drm/i915/intel_hdmi.c         Ville Syrjälä       2019-02-25  772  	frame->sdi = HDMI_SPD_SDI_PC;
+fbf08556ed4344 drivers/gpu/drm/i915/intel_hdmi.c         Ville Syrjälä       2019-02-25  773  
+fbf08556ed4344 drivers/gpu/drm/i915/intel_hdmi.c         Ville Syrjälä       2019-02-25  774  	ret = hdmi_spd_infoframe_check(frame);
+3a47ae201e0749 drivers/gpu/drm/i915/display/intel_hdmi.c Pankaj Bharadiya    2020-01-15  775  	if (drm_WARN_ON(encoder->base.dev, ret))
+fbf08556ed4344 drivers/gpu/drm/i915/intel_hdmi.c         Ville Syrjälä       2019-02-25  776  		return false;
+fbf08556ed4344 drivers/gpu/drm/i915/intel_hdmi.c         Ville Syrjälä       2019-02-25  777  
+fbf08556ed4344 drivers/gpu/drm/i915/intel_hdmi.c         Ville Syrjälä       2019-02-25  778  	return true;
+c0864cb39c6869 drivers/gpu/drm/i915/intel_hdmi.c         Jesse Barnes        2011-08-03  779  }
+c0864cb39c6869 drivers/gpu/drm/i915/intel_hdmi.c         Jesse Barnes        2011-08-03  780  
+
 -- 
-2.39.2
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
