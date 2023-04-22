@@ -2,65 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D3126EB84C
-	for <lists+dri-devel@lfdr.de>; Sat, 22 Apr 2023 11:50:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1234B6EB90C
+	for <lists+dri-devel@lfdr.de>; Sat, 22 Apr 2023 14:08:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2BD3310E00E;
-	Sat, 22 Apr 2023 09:50:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A0AFC10E14B;
+	Sat, 22 Apr 2023 12:08:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7F30410E00E
- for <dri-devel@lists.freedesktop.org>; Sat, 22 Apr 2023 09:50:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de; s=s31663417;
- t=1682157023; i=deller@gmx.de;
- bh=LinhArFfnf7KGQs8kxbfvg2R3rvrChV9Pz18t9V6fps=;
- h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:In-Reply-To;
- b=GtrZhGJCWkZj6IhoDJn5F0r5esIH6WhD1wBiethk8ztvVgbycemkEw+TvHxXDFqm1
- zAfDBDRN9998n9P47ZJvp8QtZn9RHNRNtZhrCTMd/bfBRU+XE+xcTSx2slHoixqRM9
- 3i9FJ1o9/3i4GOcviWORwONKVSu17I98j4cYlPCxwKkK3j27+2lVGeKM4k32EWr7LQ
- VQoWcZ5SuW8tWm7uC/jk7f8EXVfuMYP4n3UBGOG5vBcxhLCOeIlzLGOpIbjR1jVIpP
- VIqHFvL84+80LPlJ/6TmuYEx1/L5ehJz8I4XQ0VJ/mfvfBeBzs3jxLgIxeB8bgMJob
- bm/FU2aWPYRRw==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.20.60] ([94.134.157.94]) by mail.gmx.net (mrgmx004
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1MDysg-1q01Fr0jIK-009to4; Sat, 22
- Apr 2023 11:50:23 +0200
-Message-ID: <9f6547e5-ba5d-11bf-3646-2f65b4a6a2ea@gmx.de>
-Date: Sat, 22 Apr 2023 11:50:22 +0200
+Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com
+ [IPv6:2a00:1450:4864:20::136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BE08010E14B
+ for <dri-devel@lists.freedesktop.org>; Sat, 22 Apr 2023 12:08:11 +0000 (UTC)
+Received: by mail-lf1-x136.google.com with SMTP id
+ 2adb3069b0e04-4eed6ddcae1so11613383e87.0
+ for <dri-devel@lists.freedesktop.org>; Sat, 22 Apr 2023 05:08:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1682165287; x=1684757287;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=9GDmJNueG7xvHJSuyd9rLemP2UP6fJ5kCNsM0oZLf0c=;
+ b=epzCGo4BQwPSgU50raaRrSMsXncJ7bFElplNuEIhpEZ5+F5BmKvGfrRJNj1v9eaTZu
+ QI3GdJaBLJBy/fu+cvNFMQ9OTvXh6s3UX+cC2lYDoJRgbpLLhMkIVaQMxLS1iOIOZjcs
+ Q9dESVfprMP29DW3YnSLCo7Qi5knCZjRza48d7Wfhhk/bpT8R5ED5pR/9Ic/L4/h4Yh7
+ 7DwcpkhK7tifJbIB7H/dSS3NBa12IFq6KihU7B5EO793E2CJviAaFxIxBFMd02V+PX0G
+ nCiu/UEGNvDEwIYnnOt9Dtwr0IKWhEZFuhKrCwtcju9vQE+tNvhZi7sMvp9HKDYkzuv8
+ y47w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1682165287; x=1684757287;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=9GDmJNueG7xvHJSuyd9rLemP2UP6fJ5kCNsM0oZLf0c=;
+ b=fExO/suPvrl/m+mg6t/CyEf04qgU4tl30PidtW6niQKKlw6LjAls5ujzqzbGHE8WTw
+ DBn99669DmSOXJ5gpUZP5EQ32oTPt3lJwUegUhQ2sIB2NrZQHzt8RAdfiquGGKR5DDy5
+ g2b9IeOSWiJc5W9xtIPbsvhEEJVsS9kmo/P8aDoUcCJc0ZWj677SyXUfSAusa2qzDmCL
+ HEYnVRdiMHfGBXTuTr2JCRy9zxhVsFwMWsGGs9dIHwy9mWOl+q7kI2Ec9rhbVJ8kmNio
+ 699KroZEezgQMwGW3/tbgv02IVCFqYDAMCHJ1brhEdDjTgV0cqtVRRnptQCVph9XXtpl
+ st9w==
+X-Gm-Message-State: AAQBX9f6YKIKEAC6w6ZM70jkZFBU1uXBkC83Sq5pWERHcbKvI+dJ592+
+ nOxwnTDA2BqTRih0PjeuOZKtvw==
+X-Google-Smtp-Source: AKy350bNif2HJSh87Q2TpGjJVY2xiHP1kdIyebhnG4o3vq5xgwlttjmpYH8xHwzuXWyGEQ0gp5kaoA==
+X-Received: by 2002:a05:6512:3e16:b0:4eb:41ac:e33 with SMTP id
+ i22-20020a0565123e1600b004eb41ac0e33mr3781242lfv.19.1682165287653; 
+ Sat, 22 Apr 2023 05:08:07 -0700 (PDT)
+Received: from [192.168.1.101] (abyj144.neoplus.adsl.tpnet.pl. [83.9.29.144])
+ by smtp.gmail.com with ESMTPSA id
+ w7-20020ac254a7000000b004efe73ee01fsm200108lfk.306.2023.04.22.05.08.06
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 22 Apr 2023 05:08:07 -0700 (PDT)
+Message-ID: <cbafc6fd-58db-91f5-b453-4b45ba80ee4d@linaro.org>
+Date: Sat, 22 Apr 2023 14:08:05 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH 1/2] fbdev/offb: Update expected device name
+ Thunderbird/102.9.1
+Subject: Re: [PATCH 0/2] DPU1 GC1.8 wiring-up
 Content-Language: en-US
-To: Cyril Brulebois <cyril@debamax.com>, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-References: <20230412095509.2196162-1-cyril@debamax.com>
- <20230412095509.2196162-2-cyril@debamax.com>
-From: Helge Deller <deller@gmx.de>
-In-Reply-To: <20230412095509.2196162-2-cyril@debamax.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:H6SNLZBC93QHTP8rBnvbbn8eavBf7kTQSVkEbnwzBzmtG2S5hM7
- kpH2H3Fye7vMU2MUkYkH5FL8r/WH3zBMaD5TZGgmZ/s2TARfPAwlyTL5rg0rqSOmO0A61Ll
- PowLcApDXINEb1WPol75OD5Q4HkGq5WxtMi3RVoBzjDBavFbyo26kXBgbMAHziiQpM4GSx9
- Oyhrm7IxF/6Em1xfXj7HA==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:y38Rp/jC5iw=;OoilsxTUaVzuVBE/eSPC9mDIJuS
- 0SFsSqkyASTfSUVd2yKX8krnYZLx8qYNjsgehKRYHPTysreQF6cB7YSceiSuJwyQ5jJ3EXfJf
- DBWj7GQovPx6t8HlUH9Iq7IAcIniT1HCtq7tOdvNVkG2oSASirxyWm31t5BPbJEq2H9/bclFw
- grXBvB6y9l32jUMqLN4SV2X+k3r1A7GQxhsT9d/iNQmhHSOWD7Mni/JAU3dEJPnOEWJ6AORwz
- nAwoPR+tgToE7JeaqvGhhdupQYpcffqzJmMlzQ/JVd6SHiaqlzwFpcvPgfgoipcZxsN81A8oc
- wjLc1Tone5fh3oSMcKcSvSENKqsmgP8G077WxgxksE/rCVJZBDxWbRTihWdJDdhbIhBpkx4sv
- vkvTu59GH69InrSoF9drVOHsjo5nvTQMIh0SvmVwFgtienUZKS8TF2d1Ewv0+W34nlgzwCVhK
- nZdVUIForkcc4Zkgqe3TucgQiggUcJDQPzLxi6xI6HOe0Y81MweWvKLow4DjGUiVXLvZzzaFI
- ujmcvXpWNRtvYZXDv784t7En5ewNsiGSfNt4/8cTWIPQbfEyO0nEmJvmAMf7AJN0g0W2qdV3N
- cs768pEpQdrmAAjYdPa6VAmrB0Yh2+lKMCCysEZQTfqi7+xKECQWkJ6YiY93MA7U85gOgpUEx
- bQaqpSv5nhnWvxCpu5wyDuYTzyo/+qqIZP1dW5XljX1k1KvF2hlsPV+JH+Ted+3KVE5Ak99gy
- r9r048VS46HVx6uqJTWZzIqnJZzq8k6LSV+DoQ/LyaNgS3Hh1PPmX5T+T9ZXJrPjSjaAry83V
- 2f3sO88vufkYyWLb5sx91ZYq/9jls3yW0IioH65rzXv0f8rtSMxG1L90GopXv7XUEAde7JThR
- H0fjYoSmJW6lRYeWH/pQqc89wcQ4TzFNVCWsjhPQZ2ydnGTwzkY1QLvxgDUNMabmLC3KlItvY
- 5KNmPf9wziT85PODFJ6M6Nf3CGk=
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Marijn Suijten <marijn.suijten@somainline.org>
+References: <20230420-topic-dpu_gc-v1-0-d9d1a5e40917@linaro.org>
+ <5b133c55-e4f5-bfd2-b542-a7d44313c038@linaro.org>
+ <c0e0a55a-cc37-fe8a-8d8a-5fe257f99b9a@linaro.org>
+ <3f3b3637-ed85-09a1-22b7-3ccd4bc929bb@quicinc.com>
+ <2dff9d62-cffe-c66f-9e50-3ecd64e44d37@linaro.org>
+ <6a335df7-ff0b-098a-feec-45714159df04@linaro.org>
+ <b134d09c-55fa-7879-80ff-900e39c20c3d@quicinc.com>
+ <0f469b3c-5f0f-e027-8a9f-d1233169c04a@linaro.org>
+ <57pxyxwluu33z4lpij5gx7biwfo5pbhdalhhxflw7esi5n3vts@qhjb7ldnz3wb>
+ <0bba90c1-01be-a76e-df12-2328b84f7298@linaro.org>
+ <b6d56e50-fb5b-1d59-7b39-a3ca2a0a8d83@quicinc.com>
+ <1f7bb81a-d38c-725a-9ee1-89efe2950b1d@linaro.org>
+From: Konrad Dybcio <konrad.dybcio@linaro.org>
+In-Reply-To: <1f7bb81a-d38c-725a-9ee1-89efe2950b1d@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,53 +89,110 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: stable@vger.kernel.org, Michal Suchanek <msuchanek@suse.de>,
- linux-kernel@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>
+Cc: freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-arm-msm@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 4/12/23 11:55, Cyril Brulebois wrote:
-> Since commit 241d2fb56a18 ("of: Make OF framebuffer device names unique"=
-),
-> as spotted by Fr=C3=A9d=C3=A9ric Bonnard, the historical "of-display" de=
-vice is
-> gone: the updated logic creates "of-display.0" instead, then as many
-> "of-display.N" as required.
->
-> This means that offb no longer finds the expected device, which prevents
-> the Debian Installer from setting up its interface, at least on ppc64el.
->
-> It might be better to iterate on all possible nodes, but updating the
-> hardcoded device from "of-display" to "of-display.0" is confirmed to fix
-> the Debian Installer at the very least.
->
-> Link: https://bugzilla.kernel.org/show_bug.cgi?id=3D217328
-> Link: https://bugs.debian.org/1033058
-> Fixes: 241d2fb56a18 ("of: Make OF framebuffer device names unique")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Cyril Brulebois <cyril@debamax.com>
 
-I've applied the series (2 patches, one of them in drm) to the fbdev git t=
-ree.
 
-Thanks!
-Helge
+On 22.04.2023 00:35, Dmitry Baryshkov wrote:
+> On 22/04/2023 01:34, Abhinav Kumar wrote:
+>>
+>>
+>> On 4/20/2023 3:52 PM, Dmitry Baryshkov wrote:
+>>> On 20/04/2023 22:56, Marijn Suijten wrote:
+>>>> On 2023-04-20 22:51:22, Dmitry Baryshkov wrote:
+>>>>> On 20/04/2023 22:47, Abhinav Kumar wrote:
+>>>>>>
+>>>>>>
+>>>>>> On 4/20/2023 11:01 AM, Dmitry Baryshkov wrote:
+>>>>>>> On 20/04/2023 04:36, Konrad Dybcio wrote:
+>>>>>>>>
+>>>>>>>>
+>>>>>>>> On 20.04.2023 03:28, Abhinav Kumar wrote:
+>>>>>>>>>
+>>>>>>>>>
+>>>>>>>>> On 4/19/2023 6:26 PM, Konrad Dybcio wrote:
+>>>>>>>>>>
+>>>>>>>>>>
+>>>>>>>>>> On 20.04.2023 03:25, Dmitry Baryshkov wrote:
+>>>>>>>>>>> On 20/04/2023 04:14, Konrad Dybcio wrote:
+>>>>>>>>>>>> Almost all SoCs from SDM845 to SM8550 inclusive feature a GC1.8
+>>>>>>>>>>>> dspp sub-block in addition to PCCv4. The other block differ a bit
+>>>>>>>>>>>> more, but none of them are supported upstream.
+>>>>>>>>>>>>
+>>>>>>>>>>>> This series adds configures the GCv1.8 on all the relevant SoCs.
+>>>>>>>>>>>
+>>>>>>>>>>> Does this mean that we will see gamma_lut support soon?
+>>>>>>>>>> No promises, my plate is not even full, it's beyond overflowing! :P
+>>>>>>>>>>
+>>>>>>>>>> Konrad
+>>>>>>>>>
+>>>>>>>>> So I think I wrote about this before during the catalog rework/fixes
+>>>>>>>>> that the gc registers are not written to / programmed.
+>>>>>>>>>
+>>>>>>>>> If thats not done, is there any benefit to this series?
+>>>>>>>> Completeness and preparation for the code itself, if nothing else?
+>>>>>>>
+>>>>>>> The usual problem is that if something is not put to use, it quickly
+>>>>>>> rots or becomes misused for newer platforms. We have seen this with
+>>>>>>> the some of DPU features.
+>>>>>>>
+>>>>>>> In case of GC (and the freshly defined DPU_DSPP_IGC, but not used) we
+>>>>>>> have three options:
+>>>>>>> - drop the unused GC from msm8998_sblk.
+>>>>>>> - keep things as is, single unused GC entry
+>>>>>>> - fill all the sblk with the correct information in hope that it stays
+>>>>>>> correct
+>>>>>>>
+>>>>>>> Each of these options has its own drawbacks. I have slight bias
+>>>>>>> towards the last option, to have the information in place (as long as
+>>>>>>> it is accurate).
+>>>>>>>
+>>>>>>
+>>>>>> My vote is for (1) . Today, GC is unused and from the discussion here,
+>>>>>> there is no concrete plan to add it. If we keep extending an unused
+>>>>>> bitmask for all the chipsets including the ones which will get added in
+>>>>>> the future in the hope that someday the feature comes, it doesnt sound
+>>>>>> like a good idea.
+>>>>>>
+>>>>>> I would rather do (1), if someone has time.
+>>>>>
+>>>>> Agree, this was the second item on my preference list. Could you please
+>>>>> send this oneliner?
+>>>>
+>>>> Nit (to make sure we're on the same thought here): I think it's a
+>>>> 3-liner: remove it from DSPP_MSM8998_MASK as well as msm8998_dspp_sblk.
+>>>>
+>>>>>> OR lets stay at (2) till
+>>>>>> someone does (1).
+>>>>
+>>>> I'm personally okay leaving it in place too, with an eye on implementing
+>>>> this, IGC, and other blocks at some point if there's a use for it via
+>>>> standard DRM properties.
+>>>
+>>> I took a quick glance. I think it is possible, but not straightforward. But I must admit here, I don't have a full picture regarding different color encodings, ranges and the rest of gamma/degamma API and usage.
+>>>
+>>
+>> I think its easier to remove this now and then add it when we add the support. As discussed, will post this shortly.
+>>
+>> Otherwise, whenever any new chipset gets added, we will run into the same question of whether to add GC or not.
+> 
+> Yes, I absolutely agree here.
+Sorry for the useless patches, though I guess they were a good
+discussion starter..
 
-> ---
->   drivers/video/fbdev/offb.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/video/fbdev/offb.c b/drivers/video/fbdev/offb.c
-> index b97d251d894b..6264c7184457 100644
-> --- a/drivers/video/fbdev/offb.c
-> +++ b/drivers/video/fbdev/offb.c
-> @@ -698,7 +698,7 @@ MODULE_DEVICE_TABLE(of, offb_of_match_display);
->
->   static struct platform_driver offb_driver_display =3D {
->   	.driver =3D {
-> -		.name =3D "of-display",
-> +		.name =3D "of-display.0",
->   		.of_match_table =3D offb_of_match_display,
->   	},
->   	.probe =3D offb_probe_display,
-
+Konrad
+> 
+>>
+>>>>
+>>>>>> When someone implements GC, we can re-use this patch and that time keep
+>>>>>> konrad's author rights or co-developed by.
+>>>>
+>>>> Good to at least know all these SoCs have the same offset and revision.
+>>>>
+>>>> - Marijn
+>>>
+> 
