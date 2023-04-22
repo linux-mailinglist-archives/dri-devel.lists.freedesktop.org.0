@@ -2,42 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DB216EBB4C
-	for <lists+dri-devel@lfdr.de>; Sat, 22 Apr 2023 22:51:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E3706EBB45
+	for <lists+dri-devel@lfdr.de>; Sat, 22 Apr 2023 22:50:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AA57D10E202;
-	Sat, 22 Apr 2023 20:51:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A428110E1CC;
+	Sat, 22 Apr 2023 20:50:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5D23810E18F
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4B90B10E1A7
  for <dri-devel@lists.freedesktop.org>; Sat, 22 Apr 2023 20:50:32 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 22D6761585;
- Sat, 22 Apr 2023 20:50:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A8D73C43446;
+ by dfw.source.kernel.org (Postfix) with ESMTPS id A611C61578;
+ Sat, 22 Apr 2023 20:50:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 69095C433A1;
  Sat, 22 Apr 2023 20:50:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
  s=k20201202; t=1682196630;
- bh=UCgJ0lBHPs8yqB9le5P3aPDLxWVWkM/ZAlRVx5+BBZs=;
+ bh=eUU5RldMNCDDlm4SoM+xtwyGoFwbZ815W9/D47ihSVI=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=dBu4DRifQ43325uLYeciViJyaRPqX/vJ/rw/P6oIQB8teAQE7bMD1b56MJCTrQRYY
- WkLtR3d/5dUs+rnVTpvarTIeXpLA63sYkwfPQoYKdvkyqMBfxjYj5gd6dEo1wgXc9A
- mj4ewMSDx2mpe8nkksmeflkRUrDp3oQLJTEH2w+imgZppYtHu8SiTXKpmo6Zt1SHc/
- WT2fBIpfLkJVjUUkSIqm2VdVNpT9ppt/H9WompSFl5ixLxbIi1bCwZvcfn0NtZXDsR
- 0Q5tkDAlXVum4CwLyiY3zM52N4MFu44yHW5Ge+NazJ+NiJTCh49tXBEmxf/cMoWrTo
- oCqXRj5LZ4GVw==
+ b=MG5GyLBgcBInmQq6rn0xgHi5c/ZuG76NQlt5f0s4j2WcrDIGVAoNVxkufW0ECBBAt
+ izW/XN+3AAe8Ghj8/hQSyln7Od3wl5NE2cFcZyifoD1mIe/Odj00i83lH+SY0V39eD
+ xNtUjd/3hsWO0Oa6UIWhzomtcFMqaRze2SjKO8tVt05k+qGNNANlWTz61r3K179aTq
+ rwz59hTYbFeJD4/vECJtusc3jacJFwgsWr3awUobEDHJzGvnsZBt86m7q70jcfrox8
+ gPyBV+G9OZsexTmZ/6W7H2YN1BDWoqF3Ns7EwhD2lNQ5USPN5KcB6ozP2Tuwvy2e6B
+ Rg4LAvME+qc/A==
 Received: by mercury (Postfix, from userid 1000)
- id 22D051066CD0; Sat, 22 Apr 2023 22:50:25 +0200 (CEST)
+ id 253661066CD2; Sat, 22 Apr 2023 22:50:25 +0200 (CEST)
 From: Sebastian Reichel <sre@kernel.org>
 To: Sebastian Reichel <sre@kernel.org>
-Subject: [PATCH v2 12/13] drm/panel: sitronix-st7789v: avoid hardcoding
- polarity info
-Date: Sat, 22 Apr 2023 22:50:11 +0200
-Message-Id: <20230422205012.2464933-13-sre@kernel.org>
+Subject: [PATCH v2 13/13] drm/panel: sitronix-st7789v: add Inanbo T28CP45TN89
+ support
+Date: Sat, 22 Apr 2023 22:50:12 +0200
+Message-Id: <20230422205012.2464933-14-sre@kernel.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230422205012.2464933-1-sre@kernel.org>
 References: <20230422205012.2464933-1-sre@kernel.org>
@@ -65,96 +64,73 @@ Cc: devicetree@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add polarity information via mode and bus flags, so that they are no
-longer hardcoded and forward the information to the DRM stack. This is
-required for adding panels with different settings.
+UNI-T UTi260b has a Inanbo T28CP45TN89 v17 panel. I could not find
+proper documentation for the panel apart from a technical drawing, but
+according to the vendor U-Boot it is based on a Sitronix st7789v chip.
+I generated the init sequence by modifying the default one until proper
+graphics output has been seen on the device.
 
 Signed-off-by: Sebastian Reichel <sre@kernel.org>
 ---
- .../gpu/drm/panel/panel-sitronix-st7789v.c    | 22 +++++++++++++++----
- 1 file changed, 18 insertions(+), 4 deletions(-)
+ .../gpu/drm/panel/panel-sitronix-st7789v.c    | 25 +++++++++++++++++++
+ 1 file changed, 25 insertions(+)
 
 diff --git a/drivers/gpu/drm/panel/panel-sitronix-st7789v.c b/drivers/gpu/drm/panel/panel-sitronix-st7789v.c
-index 158623a8dfb7..f3b1bf7ef996 100644
+index f3b1bf7ef996..172c6c1fc090 100644
 --- a/drivers/gpu/drm/panel/panel-sitronix-st7789v.c
 +++ b/drivers/gpu/drm/panel/panel-sitronix-st7789v.c
-@@ -28,6 +28,7 @@
- #define ST7789V_RGBCTRL_VSYNC_HIGH		BIT(3)
- #define ST7789V_RGBCTRL_HSYNC_HIGH		BIT(2)
- #define ST7789V_RGBCTRL_PCLK_HIGH		BIT(1)
-+#define ST7789V_RGBCTRL_DE_LOW			BIT(0)
- #define ST7789V_RGBCTRL_VBP(n)			((n) & 0x7f)
- #define ST7789V_RGBCTRL_HBP(n)			((n) & 0x1f)
- 
-@@ -112,6 +113,7 @@
- struct st7789_panel_info {
- 	const struct drm_display_mode *mode;
- 	u32 bus_format;
-+	u32 bus_flags;
- 	bool invert_mode;
+@@ -173,6 +173,21 @@ static const struct drm_display_mode default_mode = {
+ 	.flags = DRM_MODE_FLAG_PHSYNC | DRM_MODE_FLAG_PVSYNC,
  };
  
-@@ -168,12 +170,15 @@ static const struct drm_display_mode default_mode = {
- 	.vtotal = 320 + 8 + 4 + 4,
- 	.width_mm = 61,
- 	.height_mm = 103,
-+	.flags = DRM_MODE_FLAG_PHSYNC | DRM_MODE_FLAG_PVSYNC,
- };
- 
++static const struct drm_display_mode t28cp45tn89_mode = {
++	.clock = 6008,
++	.hdisplay = 240,
++	.hsync_start = 240 + 38,
++	.hsync_end = 240 + 38 + 10,
++	.htotal = 240 + 38 + 10 + 10,
++	.vdisplay = 320,
++	.vsync_start = 320 + 8,
++	.vsync_end = 320 + 8 + 4,
++	.vtotal = 320 + 8 + 4 + 4,
++	.width_mm = 43,
++	.height_mm = 57,
++	.flags = DRM_MODE_FLAG_PVSYNC | DRM_MODE_FLAG_NVSYNC,
++};
++
  struct st7789_panel_info default_panel = {
  	.mode = &default_mode,
  	.invert_mode = true,
- 	.bus_format = MEDIA_BUS_FMT_RGB666_1X18,
-+	.bus_flags = DRM_BUS_FLAG_DE_HIGH |
-+		     DRM_BUS_FLAG_PIXDATA_SAMPLE_NEGEDGE,
+@@ -181,6 +196,14 @@ struct st7789_panel_info default_panel = {
+ 		     DRM_BUS_FLAG_PIXDATA_SAMPLE_NEGEDGE,
  };
  
- static int st7789v_get_modes(struct drm_panel *panel,
-@@ -198,6 +203,7 @@ static int st7789v_get_modes(struct drm_panel *panel,
- 	connector->display_info.bpc = 6;
- 	connector->display_info.width_mm = ctx->info->mode->width_mm;
- 	connector->display_info.height_mm = ctx->info->mode->height_mm;
-+	connector->display_info.bus_flags = ctx->info->bus_flags;
- 	drm_display_info_set_bus_formats(&connector->display_info,
- 					 &ctx->info->bus_format, 1);
- 
-@@ -207,7 +213,7 @@ static int st7789v_get_modes(struct drm_panel *panel,
- static int st7789v_prepare(struct drm_panel *panel)
- {
- 	struct st7789v *ctx = panel_to_st7789v(panel);
--	u8 pixel_fmt;
-+	u8 pixel_fmt, polarity;
- 	int ret;
- 
- 	switch (ctx->info->bus_format) {
-@@ -225,6 +231,16 @@ static int st7789v_prepare(struct drm_panel *panel)
- 
- 	pixel_fmt = (pixel_fmt << 4) | pixel_fmt;
- 
-+	polarity = 0;
-+	if (ctx->info->mode->flags & DRM_MODE_FLAG_PVSYNC)
-+		polarity |= ST7789V_RGBCTRL_VSYNC_HIGH;
-+	if (ctx->info->mode->flags & DRM_MODE_FLAG_PHSYNC)
-+		polarity |= ST7789V_RGBCTRL_HSYNC_HIGH;
-+	if (ctx->info->bus_flags & DRM_BUS_FLAG_PIXDATA_SAMPLE_NEGEDGE)
-+		polarity |= ST7789V_RGBCTRL_PCLK_HIGH;
-+	if (ctx->info->bus_flags & DRM_BUS_FLAG_DE_LOW)
-+		polarity |= ST7789V_RGBCTRL_DE_LOW;
++struct st7789_panel_info t28cp45tn89_panel = {
++	.mode = &t28cp45tn89_mode,
++	.invert_mode = false,
++	.bus_format = MEDIA_BUS_FMT_RGB565_1X16,
++	.bus_flags = DRM_BUS_FLAG_DE_HIGH |
++		     DRM_BUS_FLAG_PIXDATA_SAMPLE_POSEDGE,
++};
 +
- 	ret = regulator_enable(ctx->power);
- 	if (ret)
- 		return ret;
-@@ -340,9 +356,7 @@ static int st7789v_prepare(struct drm_panel *panel)
- 	ST7789V_TEST(ret, st7789v_write_command(ctx, ST7789V_RGBCTRL_CMD));
- 	ST7789V_TEST(ret, st7789v_write_data(ctx, ST7789V_RGBCTRL_WO |
- 					     ST7789V_RGBCTRL_RCM(2) |
--					     ST7789V_RGBCTRL_VSYNC_HIGH |
--					     ST7789V_RGBCTRL_HSYNC_HIGH |
--					     ST7789V_RGBCTRL_PCLK_HIGH));
-+					     polarity));
- 	ST7789V_TEST(ret, st7789v_write_data(ctx, ST7789V_RGBCTRL_VBP(8)));
- 	ST7789V_TEST(ret, st7789v_write_data(ctx, ST7789V_RGBCTRL_HBP(20)));
+ static int st7789v_get_modes(struct drm_panel *panel,
+ 			     struct drm_connector *connector)
+ {
+@@ -446,12 +469,14 @@ static void st7789v_remove(struct spi_device *spi)
  
+ static const struct spi_device_id st7789v_spi_id[] = {
+ 	{ "st7789v", (unsigned long) &default_panel },
++	{ "t28cp45tn89-v17", (unsigned long) &t28cp45tn89_panel },
+ 	{ }
+ };
+ MODULE_DEVICE_TABLE(spi, st7789v_spi_id);
+ 
+ static const struct of_device_id st7789v_of_match[] = {
+ 	{ .compatible = "sitronix,st7789v", .data = &default_panel },
++	{ .compatible = "inanbo,t28cp45tn89-v17", .data = &t28cp45tn89_panel },
+ 	{ }
+ };
+ MODULE_DEVICE_TABLE(of, st7789v_of_match);
 -- 
 2.39.2
 
