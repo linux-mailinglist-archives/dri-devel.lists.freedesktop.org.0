@@ -2,65 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 556D76EB844
-	for <lists+dri-devel@lfdr.de>; Sat, 22 Apr 2023 11:41:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D3126EB84C
+	for <lists+dri-devel@lfdr.de>; Sat, 22 Apr 2023 11:50:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 487A310E122;
-	Sat, 22 Apr 2023 09:41:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2BD3310E00E;
+	Sat, 22 Apr 2023 09:50:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CF4D910E122
- for <dri-devel@lists.freedesktop.org>; Sat, 22 Apr 2023 09:41:46 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7F30410E00E
+ for <dri-devel@lists.freedesktop.org>; Sat, 22 Apr 2023 09:50:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de; s=s31663417;
- t=1682156503; i=deller@gmx.de;
- bh=DsrLIIluLdgO3bhcRHmlFP9nZL0fd0/iJPDU9qOBfjc=;
+ t=1682157023; i=deller@gmx.de;
+ bh=LinhArFfnf7KGQs8kxbfvg2R3rvrChV9Pz18t9V6fps=;
  h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:In-Reply-To;
- b=rVSlOPRDQE2i5mnHQnYFaswQlPY/GF82A2OQ4DhfttWy+z7mPOlO+FwB8dSsNqxwD
- Gbv/2omTDZCGzHswS6tCTky9DGDDXep5DdLuTKBG9PcPb2f5cNGJ6N1ZCYE8Q6D3SI
- wpFEduLizWsk3d0NcK5UPP43VHrF755qINxOPrVguNlUnzFMOORccPEpy1e8KF/mnN
- J1mXlA0yVeab75d5kX0Hz+bKPmAuj+/QqfMbdS8Ft+0f9kvZRUh1iBBUGfAom3y2fp
- YQ3hfTEYK61lYJtbOHtXx0wgRllC67xY+xWikrQhMztZINIBUgiIhli3d1gaaFkQyh
- Ri8kpBgH7WBiA==
+ b=GtrZhGJCWkZj6IhoDJn5F0r5esIH6WhD1wBiethk8ztvVgbycemkEw+TvHxXDFqm1
+ zAfDBDRN9998n9P47ZJvp8QtZn9RHNRNtZhrCTMd/bfBRU+XE+xcTSx2slHoixqRM9
+ 3i9FJ1o9/3i4GOcviWORwONKVSu17I98j4cYlPCxwKkK3j27+2lVGeKM4k32EWr7LQ
+ VQoWcZ5SuW8tWm7uC/jk7f8EXVfuMYP4n3UBGOG5vBcxhLCOeIlzLGOpIbjR1jVIpP
+ VIqHFvL84+80LPlJ/6TmuYEx1/L5ehJz8I4XQ0VJ/mfvfBeBzs3jxLgIxeB8bgMJob
+ bm/FU2aWPYRRw==
 X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.20.60] ([94.134.157.94]) by mail.gmx.net (mrgmx005
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1N4QwW-1qH0Eq3yT8-011TXz; Sat, 22
- Apr 2023 11:41:43 +0200
-Message-ID: <6a884317-392b-f650-a568-d15ccc48003a@gmx.de>
-Date: Sat, 22 Apr 2023 11:41:42 +0200
+Received: from [192.168.20.60] ([94.134.157.94]) by mail.gmx.net (mrgmx004
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1MDysg-1q01Fr0jIK-009to4; Sat, 22
+ Apr 2023 11:50:23 +0200
+Message-ID: <9f6547e5-ba5d-11bf-3646-2f65b4a6a2ea@gmx.de>
+Date: Sat, 22 Apr 2023 11:50:22 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.8.0
-Subject: Re: [PATCH] video: fbdev: mmp: Fix deferred clk handling in
- mmphw_probe()
+Subject: Re: [PATCH 1/2] fbdev/offb: Update expected device name
 Content-Language: en-US
-To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
- Cai Huoqing <cai.huoqing@linux.dev>
-References: <685f452cacc74f4983aaff2bc28a02a95e8aa8b7.1681414375.git.christophe.jaillet@wanadoo.fr>
+To: Cyril Brulebois <cyril@debamax.com>, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+References: <20230412095509.2196162-1-cyril@debamax.com>
+ <20230412095509.2196162-2-cyril@debamax.com>
 From: Helge Deller <deller@gmx.de>
-In-Reply-To: <685f452cacc74f4983aaff2bc28a02a95e8aa8b7.1681414375.git.christophe.jaillet@wanadoo.fr>
+In-Reply-To: <20230412095509.2196162-2-cyril@debamax.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:8DLUdHsBEC11ImvIVpi71DOvVHxWYxBpkiAqhEunAt3ANScjdYc
- AtSaGHPFYFszjdvdvKaNoOS3/1/s9T41l0tyUfJU5ZhN0OL10rjjOolav2HU1cX/arYH0H6
- PYUYks1c5oyW/NYNhHGB+2P8JPfAy3il7wWboXWJPT9YAsi9Z0TrUT/kq8OZIjP5aAvZOL0
- Koimrcf+OLuO1sw+37zHA==
+X-Provags-ID: V03:K1:H6SNLZBC93QHTP8rBnvbbn8eavBf7kTQSVkEbnwzBzmtG2S5hM7
+ kpH2H3Fye7vMU2MUkYkH5FL8r/WH3zBMaD5TZGgmZ/s2TARfPAwlyTL5rg0rqSOmO0A61Ll
+ PowLcApDXINEb1WPol75OD5Q4HkGq5WxtMi3RVoBzjDBavFbyo26kXBgbMAHziiQpM4GSx9
+ Oyhrm7IxF/6Em1xfXj7HA==
 X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:9Sxpr+R4hCM=;0jIm3eStXPw1yRfwq0/eSMazErh
- RAB6HO/ADP71oPqMdvSzmNdBH28DgGJkIxnWMG2ZZK224PNdje7SMdmPrS0mFt+NgLtSdVMv8
- g86LIOKsGXOqIlMhVo3t52H5gBQvEbakW7tnM+nrkc9nF2YVeNnG7KbvfjSgdPIHGOlByaem6
- 8COnX+QzsXYZpnImaSD4je446sX6sZ1R/s+9jqqaT6Bk+bafD8F4SuD9J3CaqDYEOYV9sZ2Hw
- HORXHgk1KpuqEJoeYUIAA9g55CIx9nxXrHWKorYvdq31UdJmpV994sf3Eib9ezowtuLGgircQ
- BNTC4LB0E453jR7vPMqUpXR85+bjJzQTwK9JR1FyW7LwylnrCiQ0dKDWgoOgdD/NO+ChyaJ47
- LLqjWr5+mt1u/1zJVUC1R3ltdGV/y+b1n7z+zf+6XgM7iurni39ECPyJFaFBOlBF1V8e+Zh6Q
- MlDRqsocnJCY8Wird6PT+JcDnPbXOn+5dYv3DbDYDInCRj+w/9b9sHZIgZLKGoUnai3Gf3qNK
- y/xv1jzKBujJcdZ2088q/DwS9CanOftnh7awD2MhKPjVkTBSLmelbv8Vrl+NAqNfK5oDvT5l6
- VMkMKLo2xenz8H3BLQDXEEFSJUjvlcKIzcEY8QUFeMXQVykggal/gM2PL7i6WSZR85oibEd3o
- CSYYG4pPlTvLztrjPJyvuj2orOIsZ2DXo+GqVS44Tm7NLlXp0yaSTO6fNVotcVy6WaK3NeQzN
- OONmZEAAoUwVNnwk93tVRLMlL27qUUWtxSkBYx23kBpcgVVG1pOHXsD73r8qoGHMzdGUqOKPM
- dUH0DDlwO/SojzviCPZXHaDt1X0MDFYRq45DU3fBb9yDlN4V57QC6+MN0hbakEeRG9gMn7vRX
- J5f6dP0cabXmb8tygWYLHgvZdfH2n/rboVt0uuP90WD2s5n0PkTJGB9juMVTWcS2BhXbf1zol
- 1oR9FUeySknBwgD+J6DIVUfiqi0=
+UI-OutboundReport: notjunk:1;M01:P0:y38Rp/jC5iw=;OoilsxTUaVzuVBE/eSPC9mDIJuS
+ 0SFsSqkyASTfSUVd2yKX8krnYZLx8qYNjsgehKRYHPTysreQF6cB7YSceiSuJwyQ5jJ3EXfJf
+ DBWj7GQovPx6t8HlUH9Iq7IAcIniT1HCtq7tOdvNVkG2oSASirxyWm31t5BPbJEq2H9/bclFw
+ grXBvB6y9l32jUMqLN4SV2X+k3r1A7GQxhsT9d/iNQmhHSOWD7Mni/JAU3dEJPnOEWJ6AORwz
+ nAwoPR+tgToE7JeaqvGhhdupQYpcffqzJmMlzQ/JVd6SHiaqlzwFpcvPgfgoipcZxsN81A8oc
+ wjLc1Tone5fh3oSMcKcSvSENKqsmgP8G077WxgxksE/rCVJZBDxWbRTihWdJDdhbIhBpkx4sv
+ vkvTu59GH69InrSoF9drVOHsjo5nvTQMIh0SvmVwFgtienUZKS8TF2d1Ewv0+W34nlgzwCVhK
+ nZdVUIForkcc4Zkgqe3TucgQiggUcJDQPzLxi6xI6HOe0Y81MweWvKLow4DjGUiVXLvZzzaFI
+ ujmcvXpWNRtvYZXDv784t7En5ewNsiGSfNt4/8cTWIPQbfEyO0nEmJvmAMf7AJN0g0W2qdV3N
+ cs768pEpQdrmAAjYdPa6VAmrB0Yh2+lKMCCysEZQTfqi7+xKECQWkJ6YiY93MA7U85gOgpUEx
+ bQaqpSv5nhnWvxCpu5wyDuYTzyo/+qqIZP1dW5XljX1k1KvF2hlsPV+JH+Ted+3KVE5Ak99gy
+ r9r048VS46HVx6uqJTWZzIqnJZzq8k6LSV+DoQ/LyaNgS3Hh1PPmX5T+T9ZXJrPjSjaAry83V
+ 2f3sO88vufkYyWLb5sx91ZYq/9jls3yW0IioH65rzXv0f8rtSMxG1L90GopXv7XUEAde7JThR
+ H0fjYoSmJW6lRYeWH/pQqc89wcQ4TzFNVCWsjhPQZ2ydnGTwzkY1QLvxgDUNMabmLC3KlItvY
+ 5KNmPf9wziT85PODFJ6M6Nf3CGk=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,47 +73,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, kernel-janitors@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: stable@vger.kernel.org, Michal Suchanek <msuchanek@suse.de>,
+ linux-kernel@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 4/13/23 21:33, Christophe JAILLET wrote:
-> When dev_err_probe() is called, 'ret' holds the value of the previous
-> successful devm_request_irq() call.
-> 'ret' should be assigned with a meaningful value before being used in
-> dev_err_probe().
+On 4/12/23 11:55, Cyril Brulebois wrote:
+> Since commit 241d2fb56a18 ("of: Make OF framebuffer device names unique"=
+),
+> as spotted by Fr=C3=A9d=C3=A9ric Bonnard, the historical "of-display" de=
+vice is
+> gone: the updated logic creates "of-display.0" instead, then as many
+> "of-display.N" as required.
 >
-> While at it, use and return "PTR_ERR(ctrl->clk)" instead of a hard-coded
-> "-ENOENT" so that -EPROBE_DEFER is handled and propagated correctly.
+> This means that offb no longer finds the expected device, which prevents
+> the Debian Installer from setting up its interface, at least on ppc64el.
 >
-> Fixes: 81b63420564d ("video: fbdev: mmp: Make use of the helper function=
- dev_err_probe()")
-> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-> ---
->   drivers/video/fbdev/mmp/hw/mmp_ctrl.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+> It might be better to iterate on all possible nodes, but updating the
+> hardcoded device from "of-display" to "of-display.0" is confirmed to fix
+> the Debian Installer at the very least.
+>
+> Link: https://bugzilla.kernel.org/show_bug.cgi?id=3D217328
+> Link: https://bugs.debian.org/1033058
+> Fixes: 241d2fb56a18 ("of: Make OF framebuffer device names unique")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Cyril Brulebois <cyril@debamax.com>
 
-applied.
+I've applied the series (2 patches, one of them in drm) to the fbdev git t=
+ree.
 
 Thanks!
 Helge
 
+> ---
+>   drivers/video/fbdev/offb.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> diff --git a/drivers/video/fbdev/mmp/hw/mmp_ctrl.c b/drivers/video/fbdev=
-/mmp/hw/mmp_ctrl.c
-> index a9df8ee79810..51fbf02a0343 100644
-> --- a/drivers/video/fbdev/mmp/hw/mmp_ctrl.c
-> +++ b/drivers/video/fbdev/mmp/hw/mmp_ctrl.c
-> @@ -514,9 +514,9 @@ static int mmphw_probe(struct platform_device *pdev)
->   	/* get clock */
->   	ctrl->clk =3D devm_clk_get(ctrl->dev, mi->clk_name);
->   	if (IS_ERR(ctrl->clk)) {
-> +		ret =3D PTR_ERR(ctrl->clk);
->   		dev_err_probe(ctrl->dev, ret,
->   			      "unable to get clk %s\n", mi->clk_name);
-> -		ret =3D -ENOENT;
->   		goto failed;
->   	}
->   	clk_prepare_enable(ctrl->clk);
+> diff --git a/drivers/video/fbdev/offb.c b/drivers/video/fbdev/offb.c
+> index b97d251d894b..6264c7184457 100644
+> --- a/drivers/video/fbdev/offb.c
+> +++ b/drivers/video/fbdev/offb.c
+> @@ -698,7 +698,7 @@ MODULE_DEVICE_TABLE(of, offb_of_match_display);
+>
+>   static struct platform_driver offb_driver_display =3D {
+>   	.driver =3D {
+> -		.name =3D "of-display",
+> +		.name =3D "of-display.0",
+>   		.of_match_table =3D offb_of_match_display,
+>   	},
+>   	.probe =3D offb_probe_display,
 
