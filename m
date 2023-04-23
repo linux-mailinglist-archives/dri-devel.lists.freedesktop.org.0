@@ -1,17 +1,17 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4CA36EBFEC
-	for <lists+dri-devel@lfdr.de>; Sun, 23 Apr 2023 16:12:21 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BCD96EBFF0
+	for <lists+dri-devel@lfdr.de>; Sun, 23 Apr 2023 16:12:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C16FA10E3C8;
-	Sun, 23 Apr 2023 14:12:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3079410E3C5;
+	Sun, 23 Apr 2023 14:12:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6790310E3BC;
- Sun, 23 Apr 2023 14:12:14 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B06A010E3C4;
+ Sun, 23 Apr 2023 14:12:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
  h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
@@ -19,25 +19,26 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=Bm3Geo0t068sVPmTEYcYCE9oJGTq0xUkld/+z+807H0=; b=B1NZFih/nsbd8wN6emS12XMH6n
- cwfjEmV3Y44Dz3/Jj7ajJQ/7sbm69ggsPB1k5wAAeN0ByvwkioyXOW6e+ROOXLqvS5Fspi704K85n
- z+HQDTm53njLaBKNoTVb/TByZQ5C8JeVPvNR1IMFkNNu1QCT8vxEMWEi27nofoUNZZqYP48++6puT
- PyoEa9gUMyzc6wPhuEj6wxGZDC0ffLsJ8oUwacWdtHxZifgKqubO+L94NfMh7hBY1xND4hh6w2lmA
- acVUfeUsfjyMas0hFFMbpfHUpU5ImuCoznCUlPt/Gam7swjP8337OZHbrF989Pxb1NEMNx3yivn9r
- Xz+mnWFQ==;
+ bh=wQhPhw7uUonhHv6/pWaJwwFqQGY16VHjVM8DO5hkoxs=; b=qDuXtaWPVP/TKMVjyGy+mjnaLX
+ LxYOPVWECl+YkJA4RcDIRr3nMqDwH2ZnP6/zouD+0EZfJ+tODlPAf6VUkVFj/wj0JO9Cwsg+A0TDk
+ ChIum3eAfJKKKfE0+RWL41Wz7gIy0BPJH8sAatZzDeU20+2Agf6Z4PNBMNTEhg7H3itGe8e2D/gVF
+ tjLHQ8IPFDgQW4rgXvK+AcW167XXtY+Qcfdn03BoHDtUGEQEDRZGxroN6D1TCkRV0vAGZPTsRJO8f
+ P/8X0eEh7eH+PRsl//4vMrDl47QYkSDX8QDDsr3KBcf/J0GZRWnK+Q1/lzQ7yYHwkRt8wIL83Rd87
+ PWJjHKSQ==;
 Received: from nat-wifi.fi.muni.cz ([147.251.43.9] helo=killbill.fi.muni.cz)
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1pqaRn-00ANVs-ED; Sun, 23 Apr 2023 16:12:11 +0200
+ id 1pqaRq-00ANVs-Bb; Sun, 23 Apr 2023 16:12:14 +0200
 From: Melissa Wen <mwen@igalia.com>
 To: amd-gfx@lists.freedesktop.org, Harry Wentland <harry.wentland@amd.com>,
  Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, sunpeng.li@amd.com,
  Alex Deucher <alexander.deucher@amd.com>, dri-devel@lists.freedesktop.org,
  christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
  daniel@ffwll.ch
-Subject: [RFC PATCH 06/40] drm/amd/display: add 3D LUT driver-private props
-Date: Sun, 23 Apr 2023 13:10:18 -0100
-Message-Id: <20230423141051.702990-7-mwen@igalia.com>
+Subject: [RFC PATCH 07/40] drm/amd/display: add CRTC gamma TF to
+ driver-private props
+Date: Sun, 23 Apr 2023 13:10:19 -0100
+Message-Id: <20230423141051.702990-8-mwen@igalia.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230423141051.702990-1-mwen@igalia.com>
 References: <20230423141051.702990-1-mwen@igalia.com>
@@ -64,156 +65,159 @@ Cc: Sebastian Wick <sebastian.wick@redhat.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add CRTC 3D LUT for gamma correction using a 3D lookup table. A shaper
-lut must be set to shape the content for a non-linear space. That
-details should be handled by the driver according to HW color
-capabilities.
+From: Joshua Ashton <joshua@froggi.es>
 
+Add predefined transfer function property to DRM CRTC gamma to convert
+to wire encoding with or without gamma LUT.
+
+Co-developed-by: Melissa Wen <mwen@igalia.com>
 Signed-off-by: Melissa Wen <mwen@igalia.com>
+Signed-off-by: Joshua Ashton <joshua@froggi.es>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_display.c   | 14 +++++++++++++
- drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h      | 11 ++++++++++
- .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h | 13 ++++++++++++
- .../amd/display/amdgpu_dm/amdgpu_dm_crtc.c    | 20 +++++++++++++++++++
- 4 files changed, 58 insertions(+)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_display.c   | 22 ++++++++++++++++++
+ drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h      |  4 ++++
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h | 23 +++++++++++++++++++
+ .../amd/display/amdgpu_dm/amdgpu_dm_crtc.c    | 13 +++++++++++
+ 4 files changed, 62 insertions(+)
 
 diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
-index 44c22cb87dde..2abe5fe87c10 100644
+index 2abe5fe87c10..1913903cab88 100644
 --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
 +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
-@@ -1267,6 +1267,20 @@ amdgpu_display_create_color_properties(struct amdgpu_device *adev)
- 		return -ENOMEM;
- 	adev->mode_info.shaper_lut_size_property = prop;
+@@ -1248,6 +1248,19 @@ amdgpu_display_user_framebuffer_create(struct drm_device *dev,
+ }
  
-+	prop = drm_property_create(adev_to_drm(adev),
-+				   DRM_MODE_PROP_BLOB,
-+				   "AMD_LUT3D", 0);
-+	if (!prop)
-+		return -ENOMEM;
-+	adev->mode_info.lut3d_property = prop;
+ #ifdef CONFIG_STEAM_DECK
++static const struct drm_prop_enum_list drm_transfer_function_enum_list[] = {
++	{ DRM_TRANSFER_FUNCTION_DEFAULT, "Default" },
++	{ DRM_TRANSFER_FUNCTION_SRGB, "sRGB" },
++	{ DRM_TRANSFER_FUNCTION_BT709, "BT.709" },
++	{ DRM_TRANSFER_FUNCTION_PQ, "PQ (Perceptual Quantizer)" },
++	{ DRM_TRANSFER_FUNCTION_LINEAR, "Linear" },
++	{ DRM_TRANSFER_FUNCTION_UNITY, "Unity" },
++	{ DRM_TRANSFER_FUNCTION_HLG, "HLG (Hybrid Log Gamma)" },
++	{ DRM_TRANSFER_FUNCTION_GAMMA22, "Gamma 2.2" },
++	{ DRM_TRANSFER_FUNCTION_GAMMA24, "Gamma 2.4" },
++	{ DRM_TRANSFER_FUNCTION_GAMMA26, "Gamma 2.6" },
++};
 +
-+	prop = drm_property_create_range(adev_to_drm(adev),
-+					 DRM_MODE_PROP_IMMUTABLE,
-+					 "AMD_LUT3D_SIZE", 0, UINT_MAX);
+ static int
+ amdgpu_display_create_color_properties(struct amdgpu_device *adev)
+ {
+@@ -1281,6 +1294,15 @@ amdgpu_display_create_color_properties(struct amdgpu_device *adev)
+ 		return -ENOMEM;
+ 	adev->mode_info.lut3d_size_property = prop;
+ 
++	prop = drm_property_create_enum(adev_to_drm(adev),
++					DRM_MODE_PROP_ENUM,
++					"GAMMA_TF",
++					drm_transfer_function_enum_list,
++					ARRAY_SIZE(drm_transfer_function_enum_list));
 +	if (!prop)
 +		return -ENOMEM;
-+	adev->mode_info.lut3d_size_property = prop;
++	adev->mode_info.gamma_tf_property = prop;
 +
  	return 0;
  }
  #endif
 diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h
-index 1fd3497af3b5..205fa4f5bea7 100644
+index 205fa4f5bea7..76337e18c728 100644
 --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h
 +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h
-@@ -357,6 +357,17 @@ struct amdgpu_mode_info {
- 	 * post-blending shaper LUT as supported by the driver (read-only).
+@@ -368,6 +368,10 @@ struct amdgpu_mode_info {
+ 	 * LUT as supported by the driver (read-only).
  	 */
- 	struct drm_property *shaper_lut_size_property;
+ 	struct drm_property *lut3d_size_property;
 +	/**
-+	 * lut3d_property: CRTC property to set post-blending 3D LUT gamma
-+	 * correction; a shaper LUT can be used before applying 3D LUT to
-+	 * delinearize content.
++	 * @gamma_tf_property: Transfer function for CRTC regamma.
 +	 */
-+	struct drm_property *lut3d_property;
-+	/**
-+	 * @lut3d_size_property: CRTC property for the size of post-blending 3D
-+	 * LUT as supported by the driver (read-only).
-+	 */
-+	struct drm_property *lut3d_size_property;
++	struct drm_property *gamma_tf_property;
  #endif
  };
  
 diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
-index de63455896cc..09c3e1858b56 100644
+index 09c3e1858b56..1e90a2dd445e 100644
 --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
 +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
-@@ -742,6 +742,15 @@ struct dm_crtc_state {
- 	 * of &struct drm_color_lut.
+@@ -699,6 +699,23 @@ static inline void amdgpu_dm_set_mst_status(uint8_t *status,
+ 
+ extern const struct amdgpu_ip_block_version dm_ip_block;
+ 
++#ifdef CONFIG_STEAM_DECK
++enum drm_transfer_function {
++	DRM_TRANSFER_FUNCTION_DEFAULT,
++
++	DRM_TRANSFER_FUNCTION_SRGB,
++	DRM_TRANSFER_FUNCTION_BT709,
++	DRM_TRANSFER_FUNCTION_PQ,
++	DRM_TRANSFER_FUNCTION_LINEAR,
++	DRM_TRANSFER_FUNCTION_UNITY,
++	DRM_TRANSFER_FUNCTION_HLG,
++	DRM_TRANSFER_FUNCTION_GAMMA22,
++	DRM_TRANSFER_FUNCTION_GAMMA24,
++	DRM_TRANSFER_FUNCTION_GAMMA26,
++	DRM_TRANSFER_FUNCTION_MAX,
++};
++#endif
++
+ struct dm_plane_state {
+ 	struct drm_plane_state base;
+ 	struct dc_plane_state *dc_state;
+@@ -751,6 +768,12 @@ struct dm_crtc_state {
+ 	 * &struct drm_color_lut.
  	 */
- 	struct drm_property_blob *shaper_lut;
-+	/**
-+	 * @lut3d:
+ 	struct drm_property_blob *lut3d;
++        /**
++	 * @gamma_tf:
 +	 *
-+	 * 3D Lookup table for converting pixel data. Position where it takes
-+	 * place depends on hw design, after @ctm or @gamma_lut. See
-+	 * drm_crtc_enable_color_mgmt(). The blob (if not NULL) is an array of
-+	 * &struct drm_color_lut.
++	 * Pre-defined transfer function for converting internal FB -> wire encoding.
 +	 */
-+	struct drm_property_blob *lut3d;
++	enum drm_transfer_function gamma_tf;
  #endif
  };
  
-@@ -804,6 +813,10 @@ void amdgpu_dm_update_freesync_caps(struct drm_connector *connector,
- 
- void amdgpu_dm_trigger_timing_sync(struct drm_device *dev);
- 
-+/* 3D LUT max size is 17x17x17 */
-+#define MAX_COLOR_3DLUT_ENTRIES 4913
-+#define MAX_COLOR_3DLUT_BITDEPTH 12
-+/* 1D LUT degamma, regamma and shaper*/
- #define MAX_COLOR_LUT_ENTRIES 4096
- /* Legacy gamm LUT users such as X doesn't like large LUT sizes */
- #define MAX_COLOR_LEGACY_LUT_ENTRIES 256
 diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c
-index 503433e5cb38..0e1280228e6e 100644
+index 0e1280228e6e..79324fbab1f1 100644
 --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c
 +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c
-@@ -231,6 +231,7 @@ static void dm_crtc_destroy_state(struct drm_crtc *crtc,
- 
- #ifdef CONFIG_STEAM_DECK
- 	drm_property_blob_put(cur->shaper_lut);
-+	drm_property_blob_put(cur->lut3d);
- #endif
- 	__drm_atomic_helper_crtc_destroy_state(state);
- 
-@@ -270,9 +271,12 @@ static struct drm_crtc_state *dm_crtc_duplicate_state(struct drm_crtc *crtc)
- 	/* TODO Duplicate dc_stream after objects are stream object is flattened */
+@@ -272,6 +272,7 @@ static struct drm_crtc_state *dm_crtc_duplicate_state(struct drm_crtc *crtc)
  #ifdef CONFIG_STEAM_DECK
  	state->shaper_lut = cur->shaper_lut;
-+	state->lut3d = cur->lut3d;
+ 	state->lut3d = cur->lut3d;
++	state->gamma_tf = cur->gamma_tf;
  
  	if (state->shaper_lut)
  		drm_property_blob_get(state->shaper_lut);
-+	if (state->lut3d)
-+		drm_property_blob_get(state->lut3d);
- #endif
- 	return &state->base;
- }
-@@ -326,6 +330,11 @@ dm_crtc_additional_color_mgmt(struct drm_crtc *crtc)
- 		drm_object_attach_property(&crtc->base,
- 					   adev->mode_info.shaper_lut_size_property,
- 					   MAX_COLOR_LUT_ENTRIES);
-+		drm_object_attach_property(&crtc->base,
-+					   adev->mode_info.lut3d_property, 0);
-+		drm_object_attach_property(&crtc->base,
-+					   adev->mode_info.lut3d_size_property,
-+					   MAX_COLOR_3DLUT_ENTRIES);
+@@ -336,6 +337,11 @@ dm_crtc_additional_color_mgmt(struct drm_crtc *crtc)
+ 					   adev->mode_info.lut3d_size_property,
+ 					   MAX_COLOR_3DLUT_ENTRIES);
  	}
++
++	if(adev->dm.dc->caps.color.mpc.ogam_ram)
++		drm_object_attach_property(&crtc->base,
++					   adev->mode_info.gamma_tf_property,
++					   DRM_TRANSFER_FUNCTION_DEFAULT);
  }
  
-@@ -381,6 +390,14 @@ amdgpu_dm_atomic_crtc_set_property(struct drm_crtc *crtc,
+ static int
+@@ -398,6 +404,11 @@ amdgpu_dm_atomic_crtc_set_property(struct drm_crtc *crtc,
  					&replaced);
  		acrtc_state->base.color_mgmt_changed |= replaced;
  		return ret;
-+	} else if (property == adev->mode_info.lut3d_property) {
-+		ret = atomic_replace_property_blob_from_id(crtc->dev,
-+					&acrtc_state->lut3d,
-+					val,
-+					-1, sizeof(struct drm_color_lut),
-+					&replaced);
-+		acrtc_state->base.color_mgmt_changed |= replaced;
-+		return ret;
++	} else if (property == adev->mode_info.gamma_tf_property) {
++		if (acrtc_state->gamma_tf != val) {
++			acrtc_state->gamma_tf = val;
++			acrtc_state->base.color_mgmt_changed |= 1;
++		}
  	} else {
  		drm_dbg_atomic(crtc->dev,
  			       "[CRTC:%d:%s] unknown property [PROP:%d:%s]]\n",
-@@ -404,6 +421,9 @@ amdgpu_dm_atomic_crtc_get_property(struct drm_crtc *crtc,
- 	if (property == adev->mode_info.shaper_lut_property)
- 		*val = (acrtc_state->shaper_lut) ?
- 			acrtc_state->shaper_lut->base.id : 0;
-+	else if (property == adev->mode_info.lut3d_property)
-+		*val = (acrtc_state->lut3d) ?
-+			acrtc_state->lut3d->base.id : 0;
+@@ -424,6 +435,8 @@ amdgpu_dm_atomic_crtc_get_property(struct drm_crtc *crtc,
+ 	else if (property == adev->mode_info.lut3d_property)
+ 		*val = (acrtc_state->lut3d) ?
+ 			acrtc_state->lut3d->base.id : 0;
++	else if (property == adev->mode_info.gamma_tf_property)
++		*val = acrtc_state->gamma_tf;
  	else
  		return -EINVAL;
  
