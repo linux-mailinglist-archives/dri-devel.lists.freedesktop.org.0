@@ -2,63 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A12C6ECDE5
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Apr 2023 15:27:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AEF76EC164
+	for <lists+dri-devel@lfdr.de>; Sun, 23 Apr 2023 19:36:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D31F810E4FA;
-	Mon, 24 Apr 2023 13:27:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0E89410E11C;
+	Sun, 23 Apr 2023 17:36:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-xc2e.google.com (mail-oo1-xc2e.google.com
- [IPv6:2607:f8b0:4864:20::c2e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5CF4410E088
- for <dri-devel@lists.freedesktop.org>; Sun, 23 Apr 2023 15:58:14 +0000 (UTC)
-Received: by mail-oo1-xc2e.google.com with SMTP id
- 006d021491bc7-545d82e1a1bso1032407eaf.2
- for <dri-devel@lists.freedesktop.org>; Sun, 23 Apr 2023 08:58:14 -0700 (PDT)
+Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com
+ [IPv6:2a00:1450:4864:20::533])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9F62B10E0DA
+ for <dri-devel@lists.freedesktop.org>; Sun, 23 Apr 2023 17:36:45 +0000 (UTC)
+Received: by mail-ed1-x533.google.com with SMTP id
+ 4fb4d7f45d1cf-504ecbfddd5so5097205a12.0
+ for <dri-devel@lists.freedesktop.org>; Sun, 23 Apr 2023 10:36:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1682265493; x=1684857493;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=TB7sS0vRaJ2yMh+LCRuJhJdEEsjAZfdxyZZU3tIGV3w=;
- b=nreCZNs4rCLf53m2uxKivjAK5veHlYlfDOgPm2u77TmfMmpK773ntvHeJIEuq09xO5
- xbqGyym8z8wVu+DfFxY2a2BKkaKgR2M3QhT056LbkH+yLapBES5ZkLKfN/FRViucCAnR
- 5WU2sbiIP6ZLNPD8zmnLsQZAIoGvHUne4fi4AmJX4oLmpKmNMrCa1/DKv8tkwaHNycoK
- 0S9U7oV2kRJAtcSJ1ye/rK7Ulehoxln0KbgZNiLgYIcTs7JakJ+JyDimPGtDa9GXKfmV
- AxoW10nEFOE6ymI8jclGFXUDUfpUYUjKil+8LMVE7Dkicc0oGclKbceTBhWSjLjNlqSZ
- bv5w==
+ d=linux-foundation.org; s=google; t=1682271403; x=1684863403;
+ h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=wNv3VClFzMvt3MDI7I2HzZM+U4+0tRFHNLn+/5zq8Hk=;
+ b=ICB9f2XYji9QBkEQ20ggHB4He1kLG+CmpUtVBzlw85+XZnVMWov4Z0KbL79vWgMS/M
+ jpOo7T1XzkagLlnFOzg+BSvAZbAOMpkw4KUU75Ul3OKq4HcNeUnC0s4Avd+RqCGzXwV1
+ AVPnqpnLVLoDJTxHOivuTU7cd/cpNTjWddB80=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682265493; x=1684857493;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=TB7sS0vRaJ2yMh+LCRuJhJdEEsjAZfdxyZZU3tIGV3w=;
- b=bR1n55FkjUKnLol9xx9k/rexIMXFt7GLiZOYNdFGMKTGGjSU9j4yxxGzoSpKz3XqJ4
- O6JeJcBsGcg5CuahiTr6Efgup7dvm0osyqRQaXWoj8W8dvPTgD75Bey5mo9KIo32Znmr
- siHgAtH5dlhE+PIOXYDiZmj3J60SsR1I7Yt5S3Q7IytcjbpCU6EO+HwOgC4X0FuXmtjO
- DYHld5pWfcN3H5Lz3Pp0ERgPEVAgP0zOVxItRnhOXPErWgIYXCc0Bq1Byje4yca/wyD6
- wDzj2FUwvJQQu2vDpNHO9Snf5Xt6i+AJSrBYY7h9C48SIDQLaueA+qHeUmjz1C0DdLFN
- 4fzg==
-X-Gm-Message-State: AAQBX9fp533kbl88ppMMKEY4F3k7FioeD5tn/h+ksinxV1RSQV1acxFn
- imzVv4HDhZ+PhajjmsV+PRhMk6HvrrpaIbmH3bw=
-X-Google-Smtp-Source: AKy350a6iasbl3Y30SH+Pb3zS0L6cJ79O57apgTOobSuLfzcqdaDbZvPuYRl6XtAFAKRgDNFkDMleBI+oT8sFA5R9g0=
-X-Received: by 2002:a05:6808:148c:b0:38d:ec3f:3118 with SMTP id
- e12-20020a056808148c00b0038dec3f3118mr6742551oiw.28.1682265493116; Sun, 23
- Apr 2023 08:58:13 -0700 (PDT)
+ d=1e100.net; s=20221208; t=1682271403; x=1684863403;
+ h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=wNv3VClFzMvt3MDI7I2HzZM+U4+0tRFHNLn+/5zq8Hk=;
+ b=fk6UWQeT8PEhqfaH8r7IKnSXSyYdhW2iz+pP2die/JUojqS/TdHFwUIqjM81H6/UnP
+ Eb9daXirDHPi37zlXgFB5DY7n1TouGyFWI4Uyhurk8q8gCeDoYYTdbix6gB+ODdc4iui
+ UY044ski4dxmyM8Oc3XYTQ2QaD2ErLt9R/ECLPY32ptYch08ZhcJ+AeOIEKXcZEpgWZ1
+ MfM/2krEzetmc3VXoK48BlzJIn180rRalfAk62aXv57m9r1OY2MgWQxKd1cnr8kpdpHE
+ A9ijFfp/Qb1CDqRTgGYn8T63KaJP/4qQBqc5NoUq2PoU1Ar+bbTSUhwmQre2ZfmeKjHL
+ yt6g==
+X-Gm-Message-State: AAQBX9fxG6VkjUA1Y6ekeLxRS6lrReHQ1RS1xiyI6AungT5WyV5TpIp6
+ bX4sR6AOvmECPxEjuj8tVFWfbg3IB+HkNIEe4x7x0Q==
+X-Google-Smtp-Source: AKy350boAUyP0xI4v46nBIDLKe3+F0iPeLz50zAs9u+Am7q0qCdkJIWK8ngbdj4A67v7MY46B1Q+vQ==
+X-Received: by 2002:aa7:d58d:0:b0:4fa:aee8:235f with SMTP id
+ r13-20020aa7d58d000000b004faaee8235fmr9199848edq.9.1682271403263; 
+ Sun, 23 Apr 2023 10:36:43 -0700 (PDT)
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com.
+ [209.85.218.46]) by smtp.gmail.com with ESMTPSA id
+ p15-20020aa7cc8f000000b004aef147add6sm3826853edt.47.2023.04.23.10.36.41
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 23 Apr 2023 10:36:42 -0700 (PDT)
+Received: by mail-ej1-f46.google.com with SMTP id
+ a640c23a62f3a-94ef8b88a5bso506062366b.2
+ for <dri-devel@lists.freedesktop.org>; Sun, 23 Apr 2023 10:36:41 -0700 (PDT)
+X-Received: by 2002:a17:907:7659:b0:94d:a2c2:9aeb with SMTP id
+ kj25-20020a170907765900b0094da2c29aebmr7938240ejc.49.1682271401463; Sun, 23
+ Apr 2023 10:36:41 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230414181641.8868-1-hymmsx.yu@gmail.com>
- <CAMty3ZD=SVZg=EQO9-mxPp9TZzu2hOpZ8qDP5asE276zbTJ7Zg@mail.gmail.com>
- <CAMpKc0mZ-0tyQTssCpdfByhq1b2uX8WOa=D-CuLrHHooKgz4Nw@mail.gmail.com>
- <CAMty3ZAcg6BXywmQZfk2PMSWyi8-+3i-oFnNETw3fRepDaG0Pw@mail.gmail.com>
-In-Reply-To: <CAMty3ZAcg6BXywmQZfk2PMSWyi8-+3i-oFnNETw3fRepDaG0Pw@mail.gmail.com>
-From: =?UTF-8?B?5L2Z5rK75Zu9?= <hymmsx.yu@gmail.com>
-Date: Sun, 23 Apr 2023 23:57:57 +0800
-Message-ID: <CAMpKc0nb5MUkCzz4i+fuVEzpVCM-uF3DBYEacBxCTh-maQ8ZdA@mail.gmail.com>
-Subject: Re: [PATCH] drm/bridge:Fix the panic problem caused by
- bridge->funcs->attach
-To: Jagan Teki <jagan@amarulasolutions.com>
-Content-Type: multipart/alternative; boundary="000000000000229bb105fa02f5d0"
-X-Mailman-Approved-At: Mon, 24 Apr 2023 13:27:52 +0000
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Sun, 23 Apr 2023 10:36:24 -0700
+X-Gmail-Original-Message-ID: <CAHk-=whMiMqAv5ATKRkjrdgP2R7WgWmCS4hW2mPwBcL=gzdDNw@mail.gmail.com>
+Message-ID: <CAHk-=whMiMqAv5ATKRkjrdgP2R7WgWmCS4hW2mPwBcL=gzdDNw@mail.gmail.com>
+Subject: Disabling -Warray-bounds for gcc-13 too
+To: Kees Cook <keescook@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,128 +73,89 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- tzimmermann@suse.de, dri-devel@lists.freedesktop.org,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>
+Cc: Karol Herbst <kherbst@redhat.com>, nouveau@lists.freedesktop.org,
+ dri-devel <dri-devel@lists.freedesktop.org>, Ben Skeggs <bskeggs@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---000000000000229bb105fa02f5d0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Kees,
+  I made the mistake of upgrading my M2 Macbook Air to Fedora-38, and
+in the process I got gcc-13 which is not WERROR-clean because we only
+limited the 'array-bounds' warning to gcc-11 and gcc-12. But gcc-13
+has all the same issues.
 
-two separate pipeline:crtc->encoder->bridge->connector->panel
+And I want to be able to do my arm64 builds with WERROR on still...
 
-Jagan Teki <jagan@amarulasolutions.com> =E4=BA=8E2023=E5=B9=B44=E6=9C=8823=
-=E6=97=A5=E5=91=A8=E6=97=A5 19:10=E5=86=99=E9=81=93=EF=BC=9A
+I guess it never made much sense to hope it was going to go away
+without having a confirmation, so I just changed it to be gcc-11+.
 
-> + Bridge Maintainers
->
-> On Wed, Apr 19, 2023 at 8:35=E2=80=AFAM =E4=BD=99=E6=B2=BB=E5=9B=BD <hymm=
-sx.yu@gmail.com> wrote:
-> >
-> > The log looks like this:
-> > [ 31.723823] Internal error: Oops: 96000004 [#1] SMP\013 \010
-> > [ 31.729030] Modules linked in:\013 \010
-> > [ 31.733395] CPU: 0 PID: 1 Comm: swapper/0 Not tainted 5.10.59+2.0.0
-> #250\013
-> > \010
-> > [ 31.745167] pstate: 60c00005 (nZCv daif +PAN +UAO -TCO BTYPE=3D--)\013
-> \010
-> > [ 31.752785] pc : drm_bridge_attach+0xdc/0x1a4\013 \010
-> > [ 31.757518] lr : drm_bridge_attach+0x40/0x1a4\013 \010
-> > [ 31.762104] sp : ffff0000000678f0\013 \010
-> > [ 31.765726] x29: ffff0000000678f0 x28: ffff00000031c880 \013 \010
-> > [ 31.771599] x27: 0000000000000060 x26: ffff800010539e90 \013 \010
-> > [ 31.777340] x25: ffff0000000a6000 x24: ffff000000129c10 \013 \010
-> > [ 31.783060] x23: 0000000000000000 x22: ffff0000000131c0 \013 \010
-> > [ 31.788770] x21: ffff80001052a5b8 x20: ffff0000003e2c80 \013 \010
-> > [ 31.794506] x19: ffff000000017080 x18: 0000000000000010 \013 \010
-> > [ 31.800210] x17: 000000005fcfcd6c x16: 00000000d27b105e \013 \010
-> > [ 31.805907] x15: 00000000000000c7 x14: ffff0000000675d0 \013 \010
-> > [ 31.811599] x13: 00000000ffffffea x12: ffff8000114158c0 \013 \010
-> > [ 31.817282] x11: 0000000000000003 x10: ffff800011295880 \013 \010
-> > [ 31.823000] x9 : ffff8000112958d8 x8 : 000000000017ffe8 \013 \010
-> > [ 31.828731] x7 : c0000000fffeffff x6 : 0000000000000001 \013 \010
-> > [ 31.834425] x5 : 000000000057ffa8 x4 : 0000000000000000 \013 \010
-> > [ 31.840101] x3 : 0000000000000000 x2 : ffff000000013218 \013 \010
-> > [ 31.845787] x1 : ffff0000003e2cf8 x0 : 0000000000000000 \013 \010
-> > [ 31.851594] Call trace:\013 \010
-> > [ 31.854603] drm_bridge_attach+0xdc/0x1a4\013 \010
-> > [ 31.859079] dw_mipi_dsi_bridge_attach+0x98/0xa8\013 \010
-> > [ 31.864035] drm_bridge_attach+0x104/0x1a4\013 \010
-> > [ 31.869211] dw_mipi_dsi_bind+0x24/0x58\013 \010
-> > drm_bridge_attach will call bridge->funcs in many cases, so I think it
-> is necessary to check=E3=80=82
->
-> I don't think the bridge pointer or bridge->funcs pointer is NULL
-> here. It looks like the controlling is attaching the bridge prior to
-> registering it. If I remember correctly, I got a similar issue with
-> rockchip-drm pipeline. Would you please share your pipeline as well?
->
-> Thanks,
-> Jagan.
->
+A lot of the warnings seem just crazy, with gcc just not getting the
+bounds right, and then being upset about us going backwards with
+'container_of()' etc. Ok, so the kernel is special. We do odd things.
+I get it, gcc ends up being confused.
 
---000000000000229bb105fa02f5d0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+But before I disabled it, I did take a look at a couple of warnings
+that didn't look like the sea of crazy.
 
-<div dir=3D"ltr">two separate pipeline:crtc-&gt;encoder-&gt;bridge-&gt;conn=
-ector-&gt;panel<br></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" cl=
-ass=3D"gmail_attr">Jagan Teki &lt;<a href=3D"mailto:jagan@amarulasolutions.=
-com">jagan@amarulasolutions.com</a>&gt; =E4=BA=8E2023=E5=B9=B44=E6=9C=8823=
-=E6=97=A5=E5=91=A8=E6=97=A5 19:10=E5=86=99=E9=81=93=EF=BC=9A<br></div><bloc=
-kquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:=
-1px solid rgb(204,204,204);padding-left:1ex">+ Bridge Maintainers<br>
-<br>
-On Wed, Apr 19, 2023 at 8:35=E2=80=AFAM =E4=BD=99=E6=B2=BB=E5=9B=BD &lt;<a =
-href=3D"mailto:hymmsx.yu@gmail.com" target=3D"_blank">hymmsx.yu@gmail.com</=
-a>&gt; wrote:<br>
-&gt;<br>
-&gt; The log looks like this:<br>
-&gt; [ 31.723823] Internal error: Oops: 96000004 [#1] SMP\013 \010<br>
-&gt; [ 31.729030] Modules linked in:\013 \010<br>
-&gt; [ 31.733395] CPU: 0 PID: 1 Comm: swapper/0 Not tainted 5.10.59+2.0.0 #=
-250\013<br>
-&gt; \010<br>
-&gt; [ 31.745167] pstate: 60c00005 (nZCv daif +PAN +UAO -TCO BTYPE=3D--)\01=
-3 \010<br>
-&gt; [ 31.752785] pc : drm_bridge_attach+0xdc/0x1a4\013 \010<br>
-&gt; [ 31.757518] lr : drm_bridge_attach+0x40/0x1a4\013 \010<br>
-&gt; [ 31.762104] sp : ffff0000000678f0\013 \010<br>
-&gt; [ 31.765726] x29: ffff0000000678f0 x28: ffff00000031c880 \013 \010<br>
-&gt; [ 31.771599] x27: 0000000000000060 x26: ffff800010539e90 \013 \010<br>
-&gt; [ 31.777340] x25: ffff0000000a6000 x24: ffff000000129c10 \013 \010<br>
-&gt; [ 31.783060] x23: 0000000000000000 x22: ffff0000000131c0 \013 \010<br>
-&gt; [ 31.788770] x21: ffff80001052a5b8 x20: ffff0000003e2c80 \013 \010<br>
-&gt; [ 31.794506] x19: ffff000000017080 x18: 0000000000000010 \013 \010<br>
-&gt; [ 31.800210] x17: 000000005fcfcd6c x16: 00000000d27b105e \013 \010<br>
-&gt; [ 31.805907] x15: 00000000000000c7 x14: ffff0000000675d0 \013 \010<br>
-&gt; [ 31.811599] x13: 00000000ffffffea x12: ffff8000114158c0 \013 \010<br>
-&gt; [ 31.817282] x11: 0000000000000003 x10: ffff800011295880 \013 \010<br>
-&gt; [ 31.823000] x9 : ffff8000112958d8 x8 : 000000000017ffe8 \013 \010<br>
-&gt; [ 31.828731] x7 : c0000000fffeffff x6 : 0000000000000001 \013 \010<br>
-&gt; [ 31.834425] x5 : 000000000057ffa8 x4 : 0000000000000000 \013 \010<br>
-&gt; [ 31.840101] x3 : 0000000000000000 x2 : ffff000000013218 \013 \010<br>
-&gt; [ 31.845787] x1 : ffff0000003e2cf8 x0 : 0000000000000000 \013 \010<br>
-&gt; [ 31.851594] Call trace:\013 \010<br>
-&gt; [ 31.854603] drm_bridge_attach+0xdc/0x1a4\013 \010<br>
-&gt; [ 31.859079] dw_mipi_dsi_bridge_attach+0x98/0xa8\013 \010<br>
-&gt; [ 31.864035] drm_bridge_attach+0x104/0x1a4\013 \010<br>
-&gt; [ 31.869211] dw_mipi_dsi_bind+0x24/0x58\013 \010<br>
-&gt; drm_bridge_attach will call bridge-&gt;funcs in many cases, so I think=
- it is necessary to check=E3=80=82<br>
-<br>
-I don&#39;t think the bridge pointer or bridge-&gt;funcs pointer is NULL<br=
->
-here. It looks like the controlling is attaching the bridge prior to<br>
-registering it. If I remember correctly, I got a similar issue with<br>
-rockchip-drm pipeline. Would you please share your pipeline as well?<br>
-<br>
-Thanks,<br>
-Jagan.<br>
-</blockquote></div>
+And one of them is from you.
 
---000000000000229bb105fa02f5d0--
+In particular, commit 4076ea2419cf ("drm/nouveau/disp: Fix
+nvif_outp_acquire_dp() argument size") cannot possibly be right, It
+changes
+
+ nvif_outp_acquire_dp(struct nvif_outp *outp, u8 dpcd[16],
+
+to
+
+ nvif_outp_acquire_dp(struct nvif_outp *outp, u8 dpcd[DP_RECEIVER_CAP_SIZE],
+
+and then does
+
+        memcpy(args.dp.dpcd, dpcd, sizeof(args.dp.dpcd));
+
+where that 'args.dp.dpcd' is a 16-byte array, and DP_RECEIVER_CAP_SIZE is 15.
+
+So yeah, it's copying 16 bytes from an argument that claims to be 15
+bytes in size.
+
+I think that commit was wrong, and the problem is that the 'dpcd'
+array is something 15 and sometimes 16. For example, we have
+
+  struct nouveau_encoder {
+        ...
+        union {
+            struct {
+            ...
+                u8 dpcd[DP_RECEIVER_CAP_SIZE];
+            } dp;
+        };
+
+so there it's indeed 15 bytes, but then we have
+
+union nvif_outp_acquire_args {
+        struct nvif_outp_acquire_v0 {
+            ...
+            union {
+                ...
+                struct {
+                    ...
+                    __u8 dpcd[16];
+                } dp;
+
+where it's 16.
+
+I think it's all entirely harmless from a code generation standpoint,
+because the 15-byte field will be padded out to 16 bytes in the
+structure that contains it, but it's most definitely buggy.
+
+So that warning does find real cases of wrong code. But when those
+real cases are hidden by hundreds of lines of unfixable false
+positives, we don't have much choice.
+
+But could the Nouveau driver *please* pick a size for the dhcp[] array
+and stick with it?
+
+The other driver where the warnings didn't look entirely crazy was the
+ath/carl9170 wireless driver, but I didn't look closer at that one.
+
+                 Linus
