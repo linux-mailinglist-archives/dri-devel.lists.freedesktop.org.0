@@ -1,48 +1,33 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4E176EC235
-	for <lists+dri-devel@lfdr.de>; Sun, 23 Apr 2023 22:24:00 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A79F6EC24F
+	for <lists+dri-devel@lfdr.de>; Sun, 23 Apr 2023 22:51:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8ACFE10E02F;
-	Sun, 23 Apr 2023 20:23:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2AD3110E160;
+	Sun, 23 Apr 2023 20:51:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 78BA410E02F;
- Sun, 23 Apr 2023 20:23:54 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 33F1261140;
- Sun, 23 Apr 2023 20:23:51 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 71C6FC433EF;
- Sun, 23 Apr 2023 20:23:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1682281430;
- bh=aJomo+1XriWp58HKaMQAxMIYXWh9x3/TZjRP96T4xvs=;
- h=Date:From:To:CC:Subject:In-Reply-To:References:From;
- b=XQaAGwMCQAX9BzLybKa6RtI8RJAZPJJgnwb30OXkudNH8YKEXvgOlnidHt06Ud/+C
- gO8a1+yZG3vabIZx3Biz5B2/6tCmd85sTXYEcotmyInc6o22CVjoO+x+UqdLUefg9v
- FeOqv8S6PUILyAfsPQOO8NlE3qXzN1HNp/q3H7CQE4nK+rUPhCFaT30RClQkvSmSn6
- I+NpzpItMXfSdzFPDtbZ1NNDnyTbkSa8huvSkirtzf4YjaN1UiDNC8nr5eTvkHQs4Z
- SFq7jDhqfKfdYHPcJZyMtNm1JosFLLjJ1vNz/mvPnU9s3vZV66xXca/KdwgSvI4vUM
- Q/nL0OYBb3RGA==
-Date: Sun, 23 Apr 2023 13:23:48 -0700
-From: Kees Cook <kees@kernel.org>
-To: Linus Torvalds <torvalds@linux-foundation.org>,
- Kees Cook <keescook@chromium.org>
-Subject: Re: Disabling -Warray-bounds for gcc-13 too
-User-Agent: K-9 Mail for Android
-In-Reply-To: <CAHk-=whMiMqAv5ATKRkjrdgP2R7WgWmCS4hW2mPwBcL=gzdDNw@mail.gmail.com>
-References: <CAHk-=whMiMqAv5ATKRkjrdgP2R7WgWmCS4hW2mPwBcL=gzdDNw@mail.gmail.com>
-Message-ID: <D57F9A07-AB77-4FF9-B0A6-C502DC60D093@kernel.org>
+Received: from soltyk.jannau.net (soltyk.jannau.net [144.76.91.90])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 07AF310E160
+ for <dri-devel@lists.freedesktop.org>; Sun, 23 Apr 2023 20:51:04 +0000 (UTC)
+Received: by soltyk.jannau.net (Postfix, from userid 1000)
+ id 4361826FC9D; Sun, 23 Apr 2023 22:51:02 +0200 (CEST)
+Date: Sun, 23 Apr 2023 22:51:02 +0200
+From: Janne Grunau <j@jannau.net>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: Re: [PATCH] drm/probe_helper: fix the warning reported when calling
+ drm_kms_helper_poll_disable during suspend
+Message-ID: <20230423205102.GE3280@jannau.net>
+References: <20230328023129.3596968-1-zhouzongmin@kylinos.cn>
+ <20230420200148.GD3280@jannau.net>
+ <CAA8EJpoK3yv3E==bJuDoQhsW2Q1LdqKakJgdZx6S=ec-CvyGyw@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAA8EJpoK3yv3E==bJuDoQhsW2Q1LdqKakJgdZx6S=ec-CvyGyw@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,77 +40,104 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Karol Herbst <kherbst@redhat.com>, gustavo@embeddedor.com,
- nouveau@lists.freedesktop.org, dri-devel <dri-devel@lists.freedesktop.org>,
- qing.zhao@oracle.com, Ben Skeggs <bskeggs@redhat.com>,
- linux-hardening@vger.kernel.org
+Cc: neil.armstrong@linaro.org, tony.luck@intel.com, tzimmermann@suse.de,
+ regressions@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Zongmin Zhou <zhouzongmin@kylinos.cn>, gpiccoli@igalia.com,
+ linux-hardening@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ laurentiu.palcu@oss.nxp.com, keescook@chromium.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On April 23, 2023 10:36:24 AM PDT, Linus Torvalds <torvalds@linux-foundatio=
-n=2Eorg> wrote:
->Kees,
->  I made the mistake of upgrading my M2 Macbook Air to Fedora-38, and
->in the process I got gcc-13 which is not WERROR-clean because we only
->limited the 'array-bounds' warning to gcc-11 and gcc-12=2E But gcc-13
->has all the same issues=2E
->
->And I want to be able to do my arm64 builds with WERROR on still=2E=2E=2E
->
->I guess it never made much sense to hope it was going to go away
->without having a confirmation, so I just changed it to be gcc-11+=2E
+On 2023-04-20 23:07:01 +0300, Dmitry Baryshkov wrote:
+> On Thu, 20 Apr 2023 at 23:01, Janne Grunau <j@jannau.net> wrote:
+> >
+> > On 2023-03-28 10:31:29 +0800, Zongmin Zhou wrote:
+> > > When drivers call drm_kms_helper_poll_disable from
+> > > their device suspend implementation without enabled output polling before,
+> > > following warning will be reported,due to work->func not be initialized:
+> >
+> > we see the same warning with the wpork in progress kms driver for apple
+> > silicon SoCs. The connectors do not need to polled so the driver never
+> > calls drm_kms_helper_poll_init().
+> >
+> > > [   55.141361] WARNING: CPU: 3 PID: 372 at kernel/workqueue.c:3066 __flush_work+0x22f/0x240
+> > > [   55.141382] Modules linked in: nls_iso8859_1 snd_hda_codec_generic ledtrig_audio snd_hda_intel snd_intel_dspcfg snd_intel_sdw_acpi snd_hda_codec snd_hda_core snd_hwdep snd_pcm snd_seq_midi snd_seq_midi_event snd_rawmidi snd_seq intel_rapl_msr intel_rapl_common bochs drm_vram_helper drm_ttm_helper snd_seq_device nfit ttm crct10dif_pclmul snd_timer ghash_clmulni_intel binfmt_misc sha512_ssse3 aesni_intel drm_kms_helper joydev input_leds syscopyarea crypto_simd snd cryptd sysfillrect sysimgblt mac_hid serio_raw soundcore qemu_fw_cfg sch_fq_codel msr parport_pc ppdev lp parport drm ramoops reed_solomon pstore_blk pstore_zone efi_pstore virtio_rng ip_tables x_tables autofs4 hid_generic usbhid hid ahci virtio_net i2c_i801 crc32_pclmul psmouse virtio_scsi libahci i2c_smbus lpc_ich xhci_pci net_failover virtio_blk xhci_pci_renesas failover
+> > > [   55.141430] CPU: 3 PID: 372 Comm: kworker/u16:9 Not tainted 6.2.0-rc6+ #16
+> > > [   55.141433] Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS rel-1.12.1-0-ga5cab58e9a3f-prebuilt.qemu.org 04/01/2014
+> > > [   55.141435] Workqueue: events_unbound async_run_entry_fn
+> > > [   55.141441] RIP: 0010:__flush_work+0x22f/0x240
+> > > [   55.141444] Code: 8b 43 28 48 8b 53 30 89 c1 e9 f9 fe ff ff 4c 89 f7 e8 b5 95 d9 00 e8 00 53 08 00 45 31 ff e9 11 ff ff ff 0f 0b e9 0a ff ff ff <0f> 0b 45 31 ff e9 00 ff ff ff e8 e2 54 d8 00 66 90 90 90 90 90 90
+> > > [   55.141446] RSP: 0018:ff59221940833c18 EFLAGS: 00010246
+> > > [   55.141449] RAX: 0000000000000000 RBX: 0000000000000000 RCX: ffffffff9b72bcbe
+> > > [   55.141450] RDX: 0000000000000001 RSI: 0000000000000001 RDI: ff3ea01e4265e330
+> > > [   55.141451] RBP: ff59221940833c90 R08: 0000000000000000 R09: 8080808080808080
+> > > [   55.141453] R10: ff3ea01e42b3caf4 R11: 000000000000000f R12: ff3ea01e4265e330
+> > > [   55.141454] R13: 0000000000000001 R14: ff3ea01e505e5e80 R15: 0000000000000001
+> > > [   55.141455] FS:  0000000000000000(0000) GS:ff3ea01fb7cc0000(0000) knlGS:0000000000000000
+> > > [   55.141456] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> > > [   55.141458] CR2: 0000563543ad1546 CR3: 000000010ee82005 CR4: 0000000000771ee0
+> > > [   55.141464] DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+> > > [   55.141465] DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+> > > [   55.141466] PKRU: 55555554
+> > > [   55.141467] Call Trace:
+> > > [   55.141469]  <TASK>
+> > > [   55.141472]  ? pcie_wait_cmd+0xdf/0x220
+> > > [   55.141478]  ? mptcp_seq_show+0xe0/0x180
+> > > [   55.141484]  __cancel_work_timer+0x124/0x1b0
+> > > [   55.141487]  cancel_delayed_work_sync+0x17/0x20
+> > > [   55.141490]  drm_kms_helper_poll_disable+0x26/0x40 [drm_kms_helper]
+> > > [   55.141516]  drm_mode_config_helper_suspend+0x25/0x90 [drm_kms_helper]
+> > > [   55.141531]  ? __pm_runtime_resume+0x64/0x90
+> > > [   55.141536]  bochs_pm_suspend+0x16/0x20 [bochs]
+> > > [   55.141540]  pci_pm_suspend+0x8b/0x1b0
+> > > [   55.141545]  ? __pfx_pci_pm_suspend+0x10/0x10
+> > > [   55.141547]  dpm_run_callback+0x4c/0x160
+> > > [   55.141550]  __device_suspend+0x14c/0x4c0
+> > > [   55.141553]  async_suspend+0x24/0xa0
+> > > [   55.141555]  async_run_entry_fn+0x34/0x120
+> > > [   55.141557]  process_one_work+0x21a/0x3f0
+> > > [   55.141560]  worker_thread+0x4e/0x3c0
+> > > [   55.141563]  ? __pfx_worker_thread+0x10/0x10
+> > > [   55.141565]  kthread+0xf2/0x120
+> > > [   55.141568]  ? __pfx_kthread+0x10/0x10
+> > > [   55.141570]  ret_from_fork+0x29/0x50
+> > > [   55.141575]  </TASK>
+> > > [   55.141575] ---[ end trace 0000000000000000 ]---
+> > >
+> > > Fixes: a4e771729a51 ("drm/probe_helper: sort out poll_running vs poll_enabled")
+> > > Signed-off-by: Zongmin Zhou<zhouzongmin@kylinos.cn>
+> > > ---
+> > >  drivers/gpu/drm/drm_probe_helper.c | 3 ++-
+> > >  1 file changed, 2 insertions(+), 1 deletion(-)
+> > >
+> > > diff --git a/drivers/gpu/drm/drm_probe_helper.c b/drivers/gpu/drm/drm_probe_helper.c
+> > > index 8127be134c39..ac72b18e2257 100644
+> > > --- a/drivers/gpu/drm/drm_probe_helper.c
+> > > +++ b/drivers/gpu/drm/drm_probe_helper.c
+> > > @@ -855,7 +855,8 @@ void drm_kms_helper_poll_disable(struct drm_device *dev)
+> > >       if (dev->mode_config.poll_running)
+> > >               drm_kms_helper_disable_hpd(dev);
+> > >
+> > > -     cancel_delayed_work_sync(&dev->mode_config.output_poll_work);
+> > > +     if (dev->mode_config.poll_enabled)
+> > > +             cancel_delayed_work_sync(&dev->mode_config.output_poll_work);
+> >
+> > Checking for dev->mode_config.poll_enabled at the start of the function
+> > and return early if it is not true looks more in style with the rest of
+> > drm_probe_helper.c.
+> 
+> I think it is an error to call drm_kms_helper_poll_disable() if
+> polling was not initialized. So, in my opinion the fix should go to
+> the drm_mode_config_helper_suspend() / _resume() instead. Please add a
+> guard there using dev->mode_config.poll_enabled.
 
-Yeah, that's fine=2E GCC 13 released without having a fix for at least one=
- (hopefully last) known array-bounds vs jump threading bug:
-https://gcc=2Egnu=2Eorg/bugzilla/show_bug=2Ecgi?id=3D109071
+While I tend to agree to the sentiment I do not think this is the 
+correct fix in this situation. drm_kms_helper_poll_disable had the
+check since at least 2014. a4e771729a51 is a regression. If we want to  
+change the behavior it should be done explicitly and after verifying all 
+drm_kms_helper_poll_disable() calls.
 
->And one of them is from you=2E
->
->In particular, commit 4076ea2419cf ("drm/nouveau/disp: Fix
->nvif_outp_acquire_dp() argument size") cannot possibly be right, It
->changes
->
-> nvif_outp_acquire_dp(struct nvif_outp *outp, u8 dpcd[16],
->
->to
->
-> nvif_outp_acquire_dp(struct nvif_outp *outp, u8 dpcd[DP_RECEIVER_CAP_SIZ=
-E],
->
->and then does
->
->        memcpy(args=2Edp=2Edpcd, dpcd, sizeof(args=2Edp=2Edpcd));
->
->where that 'args=2Edp=2Edpcd' is a 16-byte array, and DP_RECEIVER_CAP_SIZ=
-E is 15=2E
+#regzbot ^introduced a4e771729a51
 
-Yeah, it was an incomplete fix=2E I sent the other half here, but it fell =
-through the cracks:
-https://lore=2Ekernel=2Eorg/lkml/20230204184307=2Enever=2E825-kees@kernel=
-=2Eorg/
-
-
-
->
-
->I think it's all entirely harmless from a code generation standpoint,
->because the 15-byte field will be padded out to 16 bytes in the
->structure that contains it, but it's most definitely buggy=2E
-
-Right; between this, that GCC 13 wasn't released yet, and I had no feedbac=
-k from NV folks, I didn't chase down landing that fix=2E
-
->
->So that warning does find real cases of wrong code=2E But when those
->real cases are hidden by hundreds of lines of unfixable false
->positives, we don't have much choice=2E
-
-Yup, totally agreed=2E The false positives I've looked at all seem to be s=
-imilar to the outstanding jump threading bug, so I'm hoping once that gets =
-fixed we'll finally have a good signal with that warning enabled=2E :)
-
--Kees
-
-
---=20
-Kees Cook
+ciao
+Janne
