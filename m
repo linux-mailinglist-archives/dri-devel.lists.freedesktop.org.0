@@ -2,48 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 561986EC03C
-	for <lists+dri-devel@lfdr.de>; Sun, 23 Apr 2023 16:14:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A4A56EC0A4
+	for <lists+dri-devel@lfdr.de>; Sun, 23 Apr 2023 16:53:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4447F10E408;
-	Sun, 23 Apr 2023 14:14:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0EA8710E0FC;
+	Sun, 23 Apr 2023 14:53:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 79D9A10E421;
- Sun, 23 Apr 2023 14:14:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
- Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=DSe48vE9nywjx4G3xnygTop+WxvlePBvLA+a/JHlHUc=; b=JIxgWWwNV5I9b+JeGqYfWNgjd/
- 8rdv1Drcdv9QZIxwJVANyd5HLbtCLyJJIETXuvP3ivC1Y+Us68jrlyzzfufTze/73gCrizVxU9123
- opcPsg0fkAlNGppOPlNtzSPq2SYKd2lWiMnd3ZnN9T2pEo7lItOuqSSAdCqwC2kHLj0F9uDSgdqSV
- td0yVqEI81iD3lVIlbco7S03v3nAe1rBELF/dPEimmtFKifIBVZt+URe014F5pQ8kWa0kCbQC6Kpr
- C5K9Ke68c/8CTe677l0PGaTwnXYZmlBm4JVOkhN8HCgMmbvHNUtn8LyQ9bWi9+he4fShwiR1rd6GQ
- 9jsCqjeQ==;
-Received: from nat-wifi.fi.muni.cz ([147.251.43.9] helo=killbill.fi.muni.cz)
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1pqaTl-00ANVs-MW; Sun, 23 Apr 2023 16:14:13 +0200
-From: Melissa Wen <mwen@igalia.com>
-To: amd-gfx@lists.freedesktop.org, Harry Wentland <harry.wentland@amd.com>,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, sunpeng.li@amd.com,
- Alex Deucher <alexander.deucher@amd.com>, dri-devel@lists.freedesktop.org,
- christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
- daniel@ffwll.ch
-Subject: [RFC PATCH 40/40] drm/amd/display: allow newer DC hardware to use
- degamma ROM for PQ/HLG
-Date: Sun, 23 Apr 2023 13:10:52 -0100
-Message-Id: <20230423141051.702990-41-mwen@igalia.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230423141051.702990-1-mwen@igalia.com>
-References: <20230423141051.702990-1-mwen@igalia.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9AC2D10E0FC
+ for <dri-devel@lists.freedesktop.org>; Sun, 23 Apr 2023 14:53:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1682261588;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=brUP6Y4+fxRUO3RjcIxh9okEQNw9LLitzlIw6oM9sjU=;
+ b=TJyCLN96bhb7oELolk/NjHIb/8yUcBKCIaNL633t6vL4XkDNHxgyT2HRolK+oAjZX4B1Dz
+ B64teMPZsvrJEUrkMPDp61Ig03Q3VRZgQFKDwsU0D/mXbOXBK0ClZDfNAHpyI2YUEWy66f
+ ZXs3gY3wABrBAg8x3z8ob78PS4AbWms=
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
+ [209.85.160.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-44-XdCLAsXBNmC_0JcV9no1og-1; Sun, 23 Apr 2023 10:53:05 -0400
+X-MC-Unique: XdCLAsXBNmC_0JcV9no1og-1
+Received: by mail-qt1-f197.google.com with SMTP id
+ d75a77b69052e-3ef3fc80bb6so42692411cf.1
+ for <dri-devel@lists.freedesktop.org>; Sun, 23 Apr 2023 07:53:05 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1682261585; x=1684853585;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=brUP6Y4+fxRUO3RjcIxh9okEQNw9LLitzlIw6oM9sjU=;
+ b=WqaU5p9vbBLa0PgYLBz8kTW3ewwavBgbz7mPl/CkOUMkimJn2wIt15ae2SgGaqKa2Y
+ d2kQ0XIpl+LHMvgLGX9kM7qdkpNK65LJDbDDxbspHPYOG/Eadmg+XqGYQ53h5fmE1s2d
+ Jiy93JxeqEoRH36OFZRCg5eunOcjysy/R3uK8/xf0u8f7HbAaQXtr5c9h7Y4HI5DiuSw
+ vhpyRQD+f7yNwed8jvFAg/+MeBWW/INdE2X3EtzHndJg+9cZP6oGB+CWcUNm5i79hOje
+ BPrqTGz4ZRjqzRg2/uRl7Rj+Bd/MZvtxlNuQpqCbzJnnQNvKR8ZJCwzr9DRIMFpUyadQ
+ jSVw==
+X-Gm-Message-State: AAQBX9fixpuqikATHfZiDdldgiNANQErgZxjlHvbR2ql6IaxuE7vfL6V
+ 8ii2ANJS/TeoyPdfY4aAk5OCYa3zhNzmS6X7XUx1xC3RNq9hccsDVeTbmujAY9+ZYB9coyWE5SF
+ 8Uq4r8sb8dGlqdw2P61iLs5C4YHnG
+X-Received: by 2002:ac8:5892:0:b0:3e3:9117:66e8 with SMTP id
+ t18-20020ac85892000000b003e3911766e8mr19520248qta.35.1682261584971; 
+ Sun, 23 Apr 2023 07:53:04 -0700 (PDT)
+X-Google-Smtp-Source: AKy350bmzZ2YfZA9i7Lvmo/Y61N2NeOxSpRotijBmk2JHeQ07QlcP3dqMW3ponYcBCaTHnGgvtlrcg==
+X-Received: by 2002:ac8:5892:0:b0:3e3:9117:66e8 with SMTP id
+ t18-20020ac85892000000b003e3911766e8mr19520221qta.35.1682261584717; 
+ Sun, 23 Apr 2023 07:53:04 -0700 (PDT)
+Received: from dell-per740-01.7a2m.lab.eng.bos.redhat.com
+ (nat-pool-bos-t.redhat.com. [66.187.233.206])
+ by smtp.gmail.com with ESMTPSA id
+ w24-20020a05622a191800b003ef59e2b9a6sm2358221qtc.78.2023.04.23.07.53.03
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 23 Apr 2023 07:53:04 -0700 (PDT)
+From: Tom Rix <trix@redhat.com>
+To: neil.armstrong@linaro.org, airlied@gmail.com, daniel@ffwll.ch,
+ khilman@baylibre.com, jbrunet@baylibre.com,
+ martin.blumenstingl@googlemail.com
+Subject: [PATCH] drm/meson: set variables meson_hdmi_* storage-class-specifier
+ to static
+Date: Sun, 23 Apr 2023 10:53:00 -0400
+Message-Id: <20230423145300.3937831-1-trix@redhat.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"; x-default=true
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,163 +84,171 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sebastian Wick <sebastian.wick@redhat.com>,
- Shashank Sharma <Shashank.Sharma@amd.com>, Alex Hung <alex.hung@amd.com>,
- Xaver Hugl <xaver.hugl@gmail.com>, linux-kernel@vger.kernel.org,
- Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>,
- Joshua Ashton <joshua@froggi.es>, sungjoon.kim@amd.com
+Cc: linux-amlogic@lists.infradead.org, Tom Rix <trix@redhat.com>,
+ linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Joshua Ashton <joshua@froggi.es>
+smatch has several simailar warnings to
+drivers/gpu/drm/meson/meson_venc.c:189:28: warning: symbol
+  'meson_hdmi_enci_mode_480i' was not declared. Should it be static?
 
-Need to funnel the color caps through to these functions so it can check
-that the hardware is capable.
+These variables are only used in their defining file so should be static
 
-Signed-off-by: Joshua Ashton <joshua@froggi.es>
+Signed-off-by: Tom Rix <trix@redhat.com>
 ---
- .../amd/display/amdgpu_dm/amdgpu_dm_color.c   | 34 ++++++++++++-------
- 1 file changed, 21 insertions(+), 13 deletions(-)
+ drivers/gpu/drm/meson/meson_venc.c | 32 +++++++++++++++---------------
+ 1 file changed, 16 insertions(+), 16 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
-index a034c0c0d383..f0b5f09b9146 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
-@@ -336,6 +336,7 @@ static int amdgpu_dm_set_atomic_regamma(struct dc_stream_state *stream,
- /**
-  * __set_input_tf - calculates the input transfer function based on expected
-  * input space.
-+ * @caps: dc color capabilities
-  * @func: transfer function
-  * @lut: lookup table that defines the color space
-  * @lut_size: size of respective lut.
-@@ -343,7 +344,7 @@ static int amdgpu_dm_set_atomic_regamma(struct dc_stream_state *stream,
-  * Returns:
-  * 0 in case of success. -ENOMEM if fails.
-  */
--static int __set_input_tf(struct dc_transfer_func *func,
-+static int __set_input_tf(struct dc_color_caps *caps, struct dc_transfer_func *func,
- 			  const struct drm_color_lut *lut, uint32_t lut_size)
- {
- 	struct dc_gamma *gamma = NULL;
-@@ -360,7 +361,7 @@ static int __set_input_tf(struct dc_transfer_func *func,
- 		__drm_lut_to_dc_gamma(lut, gamma, false);
- 	}
+diff --git a/drivers/gpu/drm/meson/meson_venc.c b/drivers/gpu/drm/meson/meson_venc.c
+index fcd532db19c1..27ef9f88e4ff 100644
+--- a/drivers/gpu/drm/meson/meson_venc.c
++++ b/drivers/gpu/drm/meson/meson_venc.c
+@@ -186,7 +186,7 @@ union meson_hdmi_venc_mode {
+ 	} encp;
+ };
  
--	res = mod_color_calculate_degamma_params(NULL, func, gamma, gamma != NULL);
-+	res = mod_color_calculate_degamma_params(caps, func, gamma, gamma != NULL);
+-union meson_hdmi_venc_mode meson_hdmi_enci_mode_480i = {
++static union meson_hdmi_venc_mode meson_hdmi_enci_mode_480i = {
+ 	.enci = {
+ 		.hso_begin = 5,
+ 		.hso_end = 129,
+@@ -206,7 +206,7 @@ union meson_hdmi_venc_mode meson_hdmi_enci_mode_480i = {
+ 	},
+ };
  
- 	if (gamma)
- 		dc_gamma_release(&gamma);
-@@ -512,7 +513,7 @@ static int amdgpu_dm_atomic_blend_lut(const struct drm_color_lut *blend_lut,
- 		func_blend->tf = tf;
- 		func_blend->sdr_ref_white_level = 80; /* hardcoded for now */
+-union meson_hdmi_venc_mode meson_hdmi_enci_mode_576i = {
++static union meson_hdmi_venc_mode meson_hdmi_enci_mode_576i = {
+ 	.enci = {
+ 		.hso_begin = 3,
+ 		.hso_end = 129,
+@@ -226,7 +226,7 @@ union meson_hdmi_venc_mode meson_hdmi_enci_mode_576i = {
+ 	},
+ };
  
--		ret = __set_input_tf(func_blend, blend_lut, blend_size);
-+		ret = __set_input_tf(NULL, func_blend, blend_lut, blend_size);
- 	} else {
- 		func_blend->type = TF_TYPE_BYPASS;
- 		func_blend->tf = TRANSFER_FUNCTION_LINEAR;
-@@ -819,7 +820,8 @@ int amdgpu_dm_update_crtc_color_mgmt(struct dm_crtc_state *crtc,
- }
+-union meson_hdmi_venc_mode meson_hdmi_encp_mode_480p = {
++static union meson_hdmi_venc_mode meson_hdmi_encp_mode_480p = {
+ 	.encp = {
+ 		.dvi_settings = 0x21,
+ 		.video_mode = 0x4000,
+@@ -272,7 +272,7 @@ union meson_hdmi_venc_mode meson_hdmi_encp_mode_480p = {
+ 	},
+ };
  
- static int map_crtc_degamma_to_dc_plane(struct dm_crtc_state *crtc,
--					struct dc_plane_state *dc_plane_state)
-+					struct dc_plane_state *dc_plane_state,
-+					struct dc_color_caps *caps)
- {
- 	const struct drm_color_lut *degamma_lut;
- 	enum dc_transfer_func_predefined tf = TRANSFER_FUNCTION_SRGB;
-@@ -874,7 +876,7 @@ static int map_crtc_degamma_to_dc_plane(struct dm_crtc_state *crtc,
- 			dc_plane_state->in_transfer_func->tf =
- 				TRANSFER_FUNCTION_LINEAR;
+-union meson_hdmi_venc_mode meson_hdmi_encp_mode_576p = {
++static union meson_hdmi_venc_mode meson_hdmi_encp_mode_576p = {
+ 	.encp = {
+ 		.dvi_settings = 0x21,
+ 		.video_mode = 0x4000,
+@@ -318,7 +318,7 @@ union meson_hdmi_venc_mode meson_hdmi_encp_mode_576p = {
+ 	},
+ };
  
--		r = __set_input_tf(dc_plane_state->in_transfer_func,
-+		r = __set_input_tf(caps, dc_plane_state->in_transfer_func,
- 				   degamma_lut, degamma_size);
- 		if (r)
- 			return r;
-@@ -887,7 +889,7 @@ static int map_crtc_degamma_to_dc_plane(struct dm_crtc_state *crtc,
- 		dc_plane_state->in_transfer_func->tf = tf;
+-union meson_hdmi_venc_mode meson_hdmi_encp_mode_720p60 = {
++static union meson_hdmi_venc_mode meson_hdmi_encp_mode_720p60 = {
+ 	.encp = {
+ 		.dvi_settings = 0x2029,
+ 		.video_mode = 0x4040,
+@@ -360,7 +360,7 @@ union meson_hdmi_venc_mode meson_hdmi_encp_mode_720p60 = {
+ 	},
+ };
  
- 		if (tf != TRANSFER_FUNCTION_SRGB &&
--		    !mod_color_calculate_degamma_params(NULL,
-+		    !mod_color_calculate_degamma_params(caps,
- 			    dc_plane_state->in_transfer_func, NULL, false))
- 			return -ENOMEM;
- 	}
-@@ -898,7 +900,8 @@ static int map_crtc_degamma_to_dc_plane(struct dm_crtc_state *crtc,
- #ifdef CONFIG_STEAM_DECK
- static int
- __set_dm_plane_degamma(struct drm_plane_state *plane_state,
--		       struct dc_plane_state *dc_plane_state)
-+		       struct dc_plane_state *dc_plane_state,
-+		       struct dc_color_caps *color_caps)
- {
- 	struct dm_plane_state *dm_plane_state = to_dm_plane_state(plane_state);
- 	const struct drm_color_lut *degamma_lut;
-@@ -907,6 +910,9 @@ __set_dm_plane_degamma(struct drm_plane_state *plane_state,
- 	bool has_degamma_lut;
- 	int ret;
+-union meson_hdmi_venc_mode meson_hdmi_encp_mode_720p50 = {
++static union meson_hdmi_venc_mode meson_hdmi_encp_mode_720p50 = {
+ 	.encp = {
+ 		.dvi_settings = 0x202d,
+ 		.video_mode = 0x4040,
+@@ -405,7 +405,7 @@ union meson_hdmi_venc_mode meson_hdmi_encp_mode_720p50 = {
+ 	},
+ };
  
-+	if (dc_plane_state->ctx && dc_plane_state->ctx->dc)
-+		color_caps = &dc_plane_state->ctx->dc->caps.color;
-+
- 	degamma_lut = __extract_blob_lut(dm_plane_state->degamma_lut, &degamma_size);
+-union meson_hdmi_venc_mode meson_hdmi_encp_mode_1080i60 = {
++static union meson_hdmi_venc_mode meson_hdmi_encp_mode_1080i60 = {
+ 	.encp = {
+ 		.dvi_settings = 0x2029,
+ 		.video_mode = 0x5ffc,
+@@ -454,7 +454,7 @@ union meson_hdmi_venc_mode meson_hdmi_encp_mode_1080i60 = {
+ 	},
+ };
  
- 	has_degamma_lut = degamma_lut &&
-@@ -928,8 +934,8 @@ __set_dm_plane_degamma(struct drm_plane_state *plane_state,
- 		dc_plane_state->in_transfer_func->type =
- 			TF_TYPE_DISTRIBUTED_POINTS;
+-union meson_hdmi_venc_mode meson_hdmi_encp_mode_1080i50 = {
++static union meson_hdmi_venc_mode meson_hdmi_encp_mode_1080i50 = {
+ 	.encp = {
+ 		.dvi_settings = 0x202d,
+ 		.video_mode = 0x5ffc,
+@@ -503,7 +503,7 @@ union meson_hdmi_venc_mode meson_hdmi_encp_mode_1080i50 = {
+ 	},
+ };
  
--		ret = __set_input_tf(dc_plane_state->in_transfer_func,
--				   degamma_lut, degamma_size);
-+		ret = __set_input_tf(color_caps, dc_plane_state->in_transfer_func,
-+				     degamma_lut, degamma_size);
- 		if (ret)
- 			return ret;
-        } else {
-@@ -945,7 +951,8 @@ __set_dm_plane_degamma(struct drm_plane_state *plane_state,
+-union meson_hdmi_venc_mode meson_hdmi_encp_mode_1080p24 = {
++static union meson_hdmi_venc_mode meson_hdmi_encp_mode_1080p24 = {
+ 	.encp = {
+ 		.dvi_settings = 0xd,
+ 		.video_mode = 0x4040,
+@@ -552,7 +552,7 @@ union meson_hdmi_venc_mode meson_hdmi_encp_mode_1080p24 = {
+ 	},
+ };
  
- static int
- amdgpu_dm_plane_set_color_properties(struct drm_plane_state *plane_state,
--				     struct dc_plane_state *dc_plane_state)
-+				     struct dc_plane_state *dc_plane_state,
-+				     struct dc_color_caps *color_caps)
- {
- 	struct dm_plane_state *dm_plane_state = to_dm_plane_state(plane_state);
- 	enum drm_transfer_function shaper_tf = DRM_TRANSFER_FUNCTION_DEFAULT;
-@@ -1014,6 +1021,7 @@ int amdgpu_dm_update_plane_color_mgmt(struct dm_crtc_state *crtc,
- 				      struct drm_plane_state *plane_state,
- 				      struct dc_plane_state *dc_plane_state)
- {
-+	struct dc_color_caps *color_caps = NULL;
- 	bool has_crtc_cm_degamma;
- 	int ret;
+-union meson_hdmi_venc_mode meson_hdmi_encp_mode_1080p30 = {
++static union meson_hdmi_venc_mode meson_hdmi_encp_mode_1080p30 = {
+ 	.encp = {
+ 		.dvi_settings = 0x1,
+ 		.video_mode = 0x4040,
+@@ -596,7 +596,7 @@ union meson_hdmi_venc_mode meson_hdmi_encp_mode_1080p30 = {
+ 	},
+ };
  
-@@ -1025,11 +1033,11 @@ int amdgpu_dm_update_plane_color_mgmt(struct dm_crtc_state *crtc,
- 	has_crtc_cm_degamma = (crtc->cm_has_degamma || crtc->cm_is_degamma_srgb);
+-union meson_hdmi_venc_mode meson_hdmi_encp_mode_1080p50 = {
++static union meson_hdmi_venc_mode meson_hdmi_encp_mode_1080p50 = {
+ 	.encp = {
+ 		.dvi_settings = 0xd,
+ 		.video_mode = 0x4040,
+@@ -644,7 +644,7 @@ union meson_hdmi_venc_mode meson_hdmi_encp_mode_1080p50 = {
+ 	},
+ };
  
- #ifdef CONFIG_STEAM_DECK
--	ret = amdgpu_dm_plane_set_color_properties(plane_state, dc_plane_state);
-+	ret = amdgpu_dm_plane_set_color_properties(plane_state, dc_plane_state, color_caps);
- 	if(ret)
- 		return ret;
+-union meson_hdmi_venc_mode meson_hdmi_encp_mode_1080p60 = {
++static union meson_hdmi_venc_mode meson_hdmi_encp_mode_1080p60 = {
+ 	.encp = {
+ 		.dvi_settings = 0x1,
+ 		.video_mode = 0x4040,
+@@ -688,7 +688,7 @@ union meson_hdmi_venc_mode meson_hdmi_encp_mode_1080p60 = {
+ 	},
+ };
  
--	ret = __set_dm_plane_degamma(plane_state, dc_plane_state);
-+	ret = __set_dm_plane_degamma(plane_state, dc_plane_state, color_caps);
- 	if (ret != -EINVAL)
- 		return ret;
+-union meson_hdmi_venc_mode meson_hdmi_encp_mode_2160p24 = {
++static union meson_hdmi_venc_mode meson_hdmi_encp_mode_2160p24 = {
+ 	.encp = {
+ 		.dvi_settings = 0x1,
+ 		.video_mode = 0x4040,
+@@ -730,7 +730,7 @@ union meson_hdmi_venc_mode meson_hdmi_encp_mode_2160p24 = {
+ 	},
+ };
  
-@@ -1054,7 +1062,7 @@ int amdgpu_dm_update_plane_color_mgmt(struct dm_crtc_state *crtc,
- 		 * linearize (implicit degamma) from sRGB/BT709 according to
- 		 * the input space.
- 		 */
--		ret = map_crtc_degamma_to_dc_plane(crtc, dc_plane_state);
-+		ret = map_crtc_degamma_to_dc_plane(crtc, dc_plane_state, color_caps);
- 		if (ret)
- 			return ret;
- 	}
+-union meson_hdmi_venc_mode meson_hdmi_encp_mode_2160p25 = {
++static union meson_hdmi_venc_mode meson_hdmi_encp_mode_2160p25 = {
+ 	.encp = {
+ 		.dvi_settings = 0x1,
+ 		.video_mode = 0x4040,
+@@ -772,7 +772,7 @@ union meson_hdmi_venc_mode meson_hdmi_encp_mode_2160p25 = {
+ 	},
+ };
+ 
+-union meson_hdmi_venc_mode meson_hdmi_encp_mode_2160p30 = {
++static union meson_hdmi_venc_mode meson_hdmi_encp_mode_2160p30 = {
+ 	.encp = {
+ 		.dvi_settings = 0x1,
+ 		.video_mode = 0x4040,
+@@ -814,7 +814,7 @@ union meson_hdmi_venc_mode meson_hdmi_encp_mode_2160p30 = {
+ 	},
+ };
+ 
+-struct meson_hdmi_venc_vic_mode {
++static struct meson_hdmi_venc_vic_mode {
+ 	unsigned int vic;
+ 	union meson_hdmi_venc_mode *mode;
+ } meson_hdmi_venc_vic_modes[] = {
 -- 
-2.39.2
+2.27.0
 
