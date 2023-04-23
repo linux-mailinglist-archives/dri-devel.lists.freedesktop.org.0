@@ -1,77 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A4A56EC0A4
-	for <lists+dri-devel@lfdr.de>; Sun, 23 Apr 2023 16:53:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BB26A6EC0BC
+	for <lists+dri-devel@lfdr.de>; Sun, 23 Apr 2023 17:13:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0EA8710E0FC;
-	Sun, 23 Apr 2023 14:53:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3B0BF10E0CE;
+	Sun, 23 Apr 2023 15:13:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9AC2D10E0FC
- for <dri-devel@lists.freedesktop.org>; Sun, 23 Apr 2023 14:53:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1682261588;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=brUP6Y4+fxRUO3RjcIxh9okEQNw9LLitzlIw6oM9sjU=;
- b=TJyCLN96bhb7oELolk/NjHIb/8yUcBKCIaNL633t6vL4XkDNHxgyT2HRolK+oAjZX4B1Dz
- B64teMPZsvrJEUrkMPDp61Ig03Q3VRZgQFKDwsU0D/mXbOXBK0ClZDfNAHpyI2YUEWy66f
- ZXs3gY3wABrBAg8x3z8ob78PS4AbWms=
-Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
- [209.85.160.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-44-XdCLAsXBNmC_0JcV9no1og-1; Sun, 23 Apr 2023 10:53:05 -0400
-X-MC-Unique: XdCLAsXBNmC_0JcV9no1og-1
-Received: by mail-qt1-f197.google.com with SMTP id
- d75a77b69052e-3ef3fc80bb6so42692411cf.1
- for <dri-devel@lists.freedesktop.org>; Sun, 23 Apr 2023 07:53:05 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682261585; x=1684853585;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=brUP6Y4+fxRUO3RjcIxh9okEQNw9LLitzlIw6oM9sjU=;
- b=WqaU5p9vbBLa0PgYLBz8kTW3ewwavBgbz7mPl/CkOUMkimJn2wIt15ae2SgGaqKa2Y
- d2kQ0XIpl+LHMvgLGX9kM7qdkpNK65LJDbDDxbspHPYOG/Eadmg+XqGYQ53h5fmE1s2d
- Jiy93JxeqEoRH36OFZRCg5eunOcjysy/R3uK8/xf0u8f7HbAaQXtr5c9h7Y4HI5DiuSw
- vhpyRQD+f7yNwed8jvFAg/+MeBWW/INdE2X3EtzHndJg+9cZP6oGB+CWcUNm5i79hOje
- BPrqTGz4ZRjqzRg2/uRl7Rj+Bd/MZvtxlNuQpqCbzJnnQNvKR8ZJCwzr9DRIMFpUyadQ
- jSVw==
-X-Gm-Message-State: AAQBX9fixpuqikATHfZiDdldgiNANQErgZxjlHvbR2ql6IaxuE7vfL6V
- 8ii2ANJS/TeoyPdfY4aAk5OCYa3zhNzmS6X7XUx1xC3RNq9hccsDVeTbmujAY9+ZYB9coyWE5SF
- 8Uq4r8sb8dGlqdw2P61iLs5C4YHnG
-X-Received: by 2002:ac8:5892:0:b0:3e3:9117:66e8 with SMTP id
- t18-20020ac85892000000b003e3911766e8mr19520248qta.35.1682261584971; 
- Sun, 23 Apr 2023 07:53:04 -0700 (PDT)
-X-Google-Smtp-Source: AKy350bmzZ2YfZA9i7Lvmo/Y61N2NeOxSpRotijBmk2JHeQ07QlcP3dqMW3ponYcBCaTHnGgvtlrcg==
-X-Received: by 2002:ac8:5892:0:b0:3e3:9117:66e8 with SMTP id
- t18-20020ac85892000000b003e3911766e8mr19520221qta.35.1682261584717; 
- Sun, 23 Apr 2023 07:53:04 -0700 (PDT)
-Received: from dell-per740-01.7a2m.lab.eng.bos.redhat.com
- (nat-pool-bos-t.redhat.com. [66.187.233.206])
- by smtp.gmail.com with ESMTPSA id
- w24-20020a05622a191800b003ef59e2b9a6sm2358221qtc.78.2023.04.23.07.53.03
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 23 Apr 2023 07:53:04 -0700 (PDT)
-From: Tom Rix <trix@redhat.com>
-To: neil.armstrong@linaro.org, airlied@gmail.com, daniel@ffwll.ch,
- khilman@baylibre.com, jbrunet@baylibre.com,
- martin.blumenstingl@googlemail.com
-Subject: [PATCH] drm/meson: set variables meson_hdmi_* storage-class-specifier
- to static
-Date: Sun, 23 Apr 2023 10:53:00 -0400
-Message-Id: <20230423145300.3937831-1-trix@redhat.com>
-X-Mailer: git-send-email 2.27.0
-MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"; x-default=true
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A852610E0CE;
+ Sun, 23 Apr 2023 15:13:02 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 070AF60C89;
+ Sun, 23 Apr 2023 15:13:01 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4B041C433D2;
+ Sun, 23 Apr 2023 15:12:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1682262780;
+ bh=AG9DJZKb5AXH2c0az9/0UlHgvcR2b85u+6yXwdK30HQ=;
+ h=Date:Cc:Subject:From:To:References:In-Reply-To:From;
+ b=BSRWhPBhfSM03HuvQb+y4p1ndshuPczQ3mHWCR+WA4fQ5nDNHEaWh8JqgK5D3rkgS
+ 2DJE+sYAWgM0a7xj8Zx4jYjguuU6825y+HjVRV1Qc9UkEnOBFaEfBcNUrWXU+y3Qgq
+ kgW7miXSbTIzjbjwUNrjqRDlfyc1qkiU8+MMAfcYBCYgiBwj9Yf/yEONL00FXIYo92
+ 4lcZ6kvGY+DRGol+2jEuvIsw9daS/r8WkkToPoPvxxoLRFeoES9rlKs6l81BxYBjoe
+ ypYWeO+bidGIy58+24pHa7wGcTJLrMzULDe8M2YyuGga4evpEa62pFaO4I76LM18e+
+ By/mijx/sgvtw==
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Sun, 23 Apr 2023 18:12:54 +0300
+Message-Id: <CS48DTLH7UEG.1PX2N6DVS1UDR@suppilovahvero>
+Subject: Re: [PATCH v4 1/6] mm/gup: remove unused vmas parameter from
+ get_user_pages()
+From: "Jarkko Sakkinen" <jarkko@kernel.org>
+To: "Lorenzo Stoakes" <lstoakes@gmail.com>, <linux-mm@kvack.org>,
+ <linux-kernel@vger.kernel.org>, "Andrew Morton" <akpm@linux-foundation.org>
+X-Mailer: aerc 0.14.0
+References: <cover.1681831798.git.lstoakes@gmail.com>
+ <cd05b41d6d15ee9ff94273bc116ed3db3f5125bf.1681831798.git.lstoakes@gmail.com>
+In-Reply-To: <cd05b41d6d15ee9ff94273bc116ed3db3f5125bf.1681831798.git.lstoakes@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,171 +55,187 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-amlogic@lists.infradead.org, Tom Rix <trix@redhat.com>,
- linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
+Cc: Dimitri Sivanich <dimitri.sivanich@hpe.com>,
+ Matthew Wilcox <willy@infradead.org>, Arnd Bergmann <arnd@arndb.de>,
+ kvm@vger.kernel.org, David Hildenbrand <david@redhat.com>,
+ Xinhui Pan <Xinhui.Pan@amd.com>, x86@kernel.org, Greg
+ Kroah-Hartman <gregkh@linuxfoundation.org>, dri-devel@lists.freedesktop.org,
+ Jason Gunthorpe <jgg@nvidia.com>, Ingo
+ Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ amd-gfx@lists.freedesktop.org, "H . Peter
+ Anvin" <hpa@zytor.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Thomas Gleixner <tglx@linutronix.de>, linux-sgx@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-smatch has several simailar warnings to
-drivers/gpu/drm/meson/meson_venc.c:189:28: warning: symbol
-  'meson_hdmi_enci_mode_480i' was not declared. Should it be static?
+On Tue Apr 18, 2023 at 6:49 PM EEST, Lorenzo Stoakes wrote:
+> No invocation of get_user_pages() uses the vmas parameter, so remove
+> it.
+>
+> The GUP API is confusing and caveated. Recent changes have done much to
+> improve that, however there is more we can do. Exporting vmas is a prime
+> target as the caller has to be extremely careful to preclude their use
+> after the mmap_lock has expired or otherwise be left with dangling
+> pointers.
+>
+> Removing the vmas parameter focuses the GUP functions upon their primary
+> purpose - pinning (and outputting) pages as well as performing the action=
+s
+> implied by the input flags.
+>
+> This is part of a patch series aiming to remove the vmas parameter
+> altogether.
+>
+> Suggested-by: Matthew Wilcox (Oracle) <willy@infradead.org>
+> Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Acked-by: David Hildenbrand <david@redhat.com>
+> Reviewed-by: Jason Gunthorpe <jgg@nvidia.com>
+> Signed-off-by: Lorenzo Stoakes <lstoakes@gmail.com>
+> ---
+>  arch/x86/kernel/cpu/sgx/ioctl.c     | 2 +-
+>  drivers/gpu/drm/radeon/radeon_ttm.c | 2 +-
+>  drivers/misc/sgi-gru/grufault.c     | 2 +-
+>  include/linux/mm.h                  | 3 +--
+>  mm/gup.c                            | 9 +++------
+>  mm/gup_test.c                       | 5 ++---
+>  virt/kvm/kvm_main.c                 | 2 +-
+>  7 files changed, 10 insertions(+), 15 deletions(-)
+>
+> diff --git a/arch/x86/kernel/cpu/sgx/ioctl.c b/arch/x86/kernel/cpu/sgx/io=
+ctl.c
+> index 21ca0a831b70..5d390df21440 100644
+> --- a/arch/x86/kernel/cpu/sgx/ioctl.c
+> +++ b/arch/x86/kernel/cpu/sgx/ioctl.c
+> @@ -214,7 +214,7 @@ static int __sgx_encl_add_page(struct sgx_encl *encl,
+>  	if (!(vma->vm_flags & VM_MAYEXEC))
+>  		return -EACCES;
+> =20
+> -	ret =3D get_user_pages(src, 1, 0, &src_page, NULL);
+> +	ret =3D get_user_pages(src, 1, 0, &src_page);
+>  	if (ret < 1)
+>  		return -EFAULT;
+> =20
+> diff --git a/drivers/gpu/drm/radeon/radeon_ttm.c b/drivers/gpu/drm/radeon=
+/radeon_ttm.c
+> index 1e8e287e113c..0597540f0dde 100644
+> --- a/drivers/gpu/drm/radeon/radeon_ttm.c
+> +++ b/drivers/gpu/drm/radeon/radeon_ttm.c
+> @@ -362,7 +362,7 @@ static int radeon_ttm_tt_pin_userptr(struct ttm_devic=
+e *bdev, struct ttm_tt *ttm
+>  		struct page **pages =3D ttm->pages + pinned;
+> =20
+>  		r =3D get_user_pages(userptr, num_pages, write ? FOLL_WRITE : 0,
+> -				   pages, NULL);
+> +				   pages);
+>  		if (r < 0)
+>  			goto release_pages;
+> =20
+> diff --git a/drivers/misc/sgi-gru/grufault.c b/drivers/misc/sgi-gru/grufa=
+ult.c
+> index b836936e9747..378cf02a2aa1 100644
+> --- a/drivers/misc/sgi-gru/grufault.c
+> +++ b/drivers/misc/sgi-gru/grufault.c
+> @@ -185,7 +185,7 @@ static int non_atomic_pte_lookup(struct vm_area_struc=
+t *vma,
+>  #else
+>  	*pageshift =3D PAGE_SHIFT;
+>  #endif
+> -	if (get_user_pages(vaddr, 1, write ? FOLL_WRITE : 0, &page, NULL) <=3D =
+0)
+> +	if (get_user_pages(vaddr, 1, write ? FOLL_WRITE : 0, &page) <=3D 0)
+>  		return -EFAULT;
+>  	*paddr =3D page_to_phys(page);
+>  	put_page(page);
+> diff --git a/include/linux/mm.h b/include/linux/mm.h
+> index 37554b08bb28..b14cc4972d0b 100644
+> --- a/include/linux/mm.h
+> +++ b/include/linux/mm.h
+> @@ -2380,8 +2380,7 @@ long pin_user_pages_remote(struct mm_struct *mm,
+>  			   unsigned int gup_flags, struct page **pages,
+>  			   struct vm_area_struct **vmas, int *locked);
+>  long get_user_pages(unsigned long start, unsigned long nr_pages,
+> -			    unsigned int gup_flags, struct page **pages,
+> -			    struct vm_area_struct **vmas);
+> +		    unsigned int gup_flags, struct page **pages);
+>  long pin_user_pages(unsigned long start, unsigned long nr_pages,
+>  		    unsigned int gup_flags, struct page **pages,
+>  		    struct vm_area_struct **vmas);
+> diff --git a/mm/gup.c b/mm/gup.c
+> index 1f72a717232b..7e454d6b157e 100644
+> --- a/mm/gup.c
+> +++ b/mm/gup.c
+> @@ -2251,8 +2251,6 @@ long get_user_pages_remote(struct mm_struct *mm,
+>   * @pages:      array that receives pointers to the pages pinned.
+>   *              Should be at least nr_pages long. Or NULL, if caller
+>   *              only intends to ensure the pages are faulted in.
+> - * @vmas:       array of pointers to vmas corresponding to each page.
+> - *              Or NULL if the caller does not require them.
+>   *
+>   * This is the same as get_user_pages_remote(), just with a less-flexibl=
+e
+>   * calling convention where we assume that the mm being operated on belo=
+ngs to
+> @@ -2260,16 +2258,15 @@ long get_user_pages_remote(struct mm_struct *mm,
+>   * obviously don't pass FOLL_REMOTE in here.
+>   */
+>  long get_user_pages(unsigned long start, unsigned long nr_pages,
+> -		unsigned int gup_flags, struct page **pages,
+> -		struct vm_area_struct **vmas)
+> +		    unsigned int gup_flags, struct page **pages)
+>  {
+>  	int locked =3D 1;
+> =20
+> -	if (!is_valid_gup_args(pages, vmas, NULL, &gup_flags, FOLL_TOUCH))
+> +	if (!is_valid_gup_args(pages, NULL, NULL, &gup_flags, FOLL_TOUCH))
+>  		return -EINVAL;
+> =20
+>  	return __get_user_pages_locked(current->mm, start, nr_pages, pages,
+> -				       vmas, &locked, gup_flags);
+> +				       NULL, &locked, gup_flags);
+>  }
+>  EXPORT_SYMBOL(get_user_pages);
+> =20
+> diff --git a/mm/gup_test.c b/mm/gup_test.c
+> index 8ae7307a1bb6..9ba8ea23f84e 100644
+> --- a/mm/gup_test.c
+> +++ b/mm/gup_test.c
+> @@ -139,8 +139,7 @@ static int __gup_test_ioctl(unsigned int cmd,
+>  						 pages + i);
+>  			break;
+>  		case GUP_BASIC_TEST:
+> -			nr =3D get_user_pages(addr, nr, gup->gup_flags, pages + i,
+> -					    NULL);
+> +			nr =3D get_user_pages(addr, nr, gup->gup_flags, pages + i);
+>  			break;
+>  		case PIN_FAST_BENCHMARK:
+>  			nr =3D pin_user_pages_fast(addr, nr, gup->gup_flags,
+> @@ -161,7 +160,7 @@ static int __gup_test_ioctl(unsigned int cmd,
+>  						    pages + i, NULL);
+>  			else
+>  				nr =3D get_user_pages(addr, nr, gup->gup_flags,
+> -						    pages + i, NULL);
+> +						    pages + i);
+>  			break;
+>  		default:
+>  			ret =3D -EINVAL;
+> diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
+> index d255964ec331..7f31e0a4adb5 100644
+> --- a/virt/kvm/kvm_main.c
+> +++ b/virt/kvm/kvm_main.c
+> @@ -2474,7 +2474,7 @@ static inline int check_user_page_hwpoison(unsigned=
+ long addr)
+>  {
+>  	int rc, flags =3D FOLL_HWPOISON | FOLL_WRITE;
+> =20
+> -	rc =3D get_user_pages(addr, 1, flags, NULL, NULL);
+> +	rc =3D get_user_pages(addr, 1, flags, NULL);
+>  	return rc =3D=3D -EHWPOISON;
+>  }
+> =20
+> --=20
+> 2.40.0
 
-These variables are only used in their defining file so should be static
 
-Signed-off-by: Tom Rix <trix@redhat.com>
----
- drivers/gpu/drm/meson/meson_venc.c | 32 +++++++++++++++---------------
- 1 file changed, 16 insertions(+), 16 deletions(-)
+Acked-by: Jarkko Sakkinen <jarkko@kernel.org>
 
-diff --git a/drivers/gpu/drm/meson/meson_venc.c b/drivers/gpu/drm/meson/meson_venc.c
-index fcd532db19c1..27ef9f88e4ff 100644
---- a/drivers/gpu/drm/meson/meson_venc.c
-+++ b/drivers/gpu/drm/meson/meson_venc.c
-@@ -186,7 +186,7 @@ union meson_hdmi_venc_mode {
- 	} encp;
- };
- 
--union meson_hdmi_venc_mode meson_hdmi_enci_mode_480i = {
-+static union meson_hdmi_venc_mode meson_hdmi_enci_mode_480i = {
- 	.enci = {
- 		.hso_begin = 5,
- 		.hso_end = 129,
-@@ -206,7 +206,7 @@ union meson_hdmi_venc_mode meson_hdmi_enci_mode_480i = {
- 	},
- };
- 
--union meson_hdmi_venc_mode meson_hdmi_enci_mode_576i = {
-+static union meson_hdmi_venc_mode meson_hdmi_enci_mode_576i = {
- 	.enci = {
- 		.hso_begin = 3,
- 		.hso_end = 129,
-@@ -226,7 +226,7 @@ union meson_hdmi_venc_mode meson_hdmi_enci_mode_576i = {
- 	},
- };
- 
--union meson_hdmi_venc_mode meson_hdmi_encp_mode_480p = {
-+static union meson_hdmi_venc_mode meson_hdmi_encp_mode_480p = {
- 	.encp = {
- 		.dvi_settings = 0x21,
- 		.video_mode = 0x4000,
-@@ -272,7 +272,7 @@ union meson_hdmi_venc_mode meson_hdmi_encp_mode_480p = {
- 	},
- };
- 
--union meson_hdmi_venc_mode meson_hdmi_encp_mode_576p = {
-+static union meson_hdmi_venc_mode meson_hdmi_encp_mode_576p = {
- 	.encp = {
- 		.dvi_settings = 0x21,
- 		.video_mode = 0x4000,
-@@ -318,7 +318,7 @@ union meson_hdmi_venc_mode meson_hdmi_encp_mode_576p = {
- 	},
- };
- 
--union meson_hdmi_venc_mode meson_hdmi_encp_mode_720p60 = {
-+static union meson_hdmi_venc_mode meson_hdmi_encp_mode_720p60 = {
- 	.encp = {
- 		.dvi_settings = 0x2029,
- 		.video_mode = 0x4040,
-@@ -360,7 +360,7 @@ union meson_hdmi_venc_mode meson_hdmi_encp_mode_720p60 = {
- 	},
- };
- 
--union meson_hdmi_venc_mode meson_hdmi_encp_mode_720p50 = {
-+static union meson_hdmi_venc_mode meson_hdmi_encp_mode_720p50 = {
- 	.encp = {
- 		.dvi_settings = 0x202d,
- 		.video_mode = 0x4040,
-@@ -405,7 +405,7 @@ union meson_hdmi_venc_mode meson_hdmi_encp_mode_720p50 = {
- 	},
- };
- 
--union meson_hdmi_venc_mode meson_hdmi_encp_mode_1080i60 = {
-+static union meson_hdmi_venc_mode meson_hdmi_encp_mode_1080i60 = {
- 	.encp = {
- 		.dvi_settings = 0x2029,
- 		.video_mode = 0x5ffc,
-@@ -454,7 +454,7 @@ union meson_hdmi_venc_mode meson_hdmi_encp_mode_1080i60 = {
- 	},
- };
- 
--union meson_hdmi_venc_mode meson_hdmi_encp_mode_1080i50 = {
-+static union meson_hdmi_venc_mode meson_hdmi_encp_mode_1080i50 = {
- 	.encp = {
- 		.dvi_settings = 0x202d,
- 		.video_mode = 0x5ffc,
-@@ -503,7 +503,7 @@ union meson_hdmi_venc_mode meson_hdmi_encp_mode_1080i50 = {
- 	},
- };
- 
--union meson_hdmi_venc_mode meson_hdmi_encp_mode_1080p24 = {
-+static union meson_hdmi_venc_mode meson_hdmi_encp_mode_1080p24 = {
- 	.encp = {
- 		.dvi_settings = 0xd,
- 		.video_mode = 0x4040,
-@@ -552,7 +552,7 @@ union meson_hdmi_venc_mode meson_hdmi_encp_mode_1080p24 = {
- 	},
- };
- 
--union meson_hdmi_venc_mode meson_hdmi_encp_mode_1080p30 = {
-+static union meson_hdmi_venc_mode meson_hdmi_encp_mode_1080p30 = {
- 	.encp = {
- 		.dvi_settings = 0x1,
- 		.video_mode = 0x4040,
-@@ -596,7 +596,7 @@ union meson_hdmi_venc_mode meson_hdmi_encp_mode_1080p30 = {
- 	},
- };
- 
--union meson_hdmi_venc_mode meson_hdmi_encp_mode_1080p50 = {
-+static union meson_hdmi_venc_mode meson_hdmi_encp_mode_1080p50 = {
- 	.encp = {
- 		.dvi_settings = 0xd,
- 		.video_mode = 0x4040,
-@@ -644,7 +644,7 @@ union meson_hdmi_venc_mode meson_hdmi_encp_mode_1080p50 = {
- 	},
- };
- 
--union meson_hdmi_venc_mode meson_hdmi_encp_mode_1080p60 = {
-+static union meson_hdmi_venc_mode meson_hdmi_encp_mode_1080p60 = {
- 	.encp = {
- 		.dvi_settings = 0x1,
- 		.video_mode = 0x4040,
-@@ -688,7 +688,7 @@ union meson_hdmi_venc_mode meson_hdmi_encp_mode_1080p60 = {
- 	},
- };
- 
--union meson_hdmi_venc_mode meson_hdmi_encp_mode_2160p24 = {
-+static union meson_hdmi_venc_mode meson_hdmi_encp_mode_2160p24 = {
- 	.encp = {
- 		.dvi_settings = 0x1,
- 		.video_mode = 0x4040,
-@@ -730,7 +730,7 @@ union meson_hdmi_venc_mode meson_hdmi_encp_mode_2160p24 = {
- 	},
- };
- 
--union meson_hdmi_venc_mode meson_hdmi_encp_mode_2160p25 = {
-+static union meson_hdmi_venc_mode meson_hdmi_encp_mode_2160p25 = {
- 	.encp = {
- 		.dvi_settings = 0x1,
- 		.video_mode = 0x4040,
-@@ -772,7 +772,7 @@ union meson_hdmi_venc_mode meson_hdmi_encp_mode_2160p25 = {
- 	},
- };
- 
--union meson_hdmi_venc_mode meson_hdmi_encp_mode_2160p30 = {
-+static union meson_hdmi_venc_mode meson_hdmi_encp_mode_2160p30 = {
- 	.encp = {
- 		.dvi_settings = 0x1,
- 		.video_mode = 0x4040,
-@@ -814,7 +814,7 @@ union meson_hdmi_venc_mode meson_hdmi_encp_mode_2160p30 = {
- 	},
- };
- 
--struct meson_hdmi_venc_vic_mode {
-+static struct meson_hdmi_venc_vic_mode {
- 	unsigned int vic;
- 	union meson_hdmi_venc_mode *mode;
- } meson_hdmi_venc_vic_modes[] = {
--- 
-2.27.0
-
+BR, Jarkko
