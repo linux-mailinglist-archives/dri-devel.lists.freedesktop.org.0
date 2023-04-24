@@ -2,71 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8B3C6ECBEA
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Apr 2023 14:17:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E2A66ECC02
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Apr 2023 14:30:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 37AD410E4C8;
-	Mon, 24 Apr 2023 12:17:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9F66510E4D9;
+	Mon, 24 Apr 2023 12:30:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com
- [IPv6:2a00:1450:4864:20::534])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C3E9610E40A
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Apr 2023 12:17:52 +0000 (UTC)
-Received: by mail-ed1-x534.google.com with SMTP id
- 4fb4d7f45d1cf-5050491cb04so6513877a12.0
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Apr 2023 05:17:52 -0700 (PDT)
+Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com
+ [IPv6:2a00:1450:4864:20::636])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 87B1E10E4D4
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Apr 2023 12:30:32 +0000 (UTC)
+Received: by mail-ej1-x636.google.com with SMTP id
+ a640c23a62f3a-959a626b622so145385166b.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Apr 2023 05:30:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1682338669; x=1684930669;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=H9mfbm+dbpf9TS0Ou+ho3Hm3/Am7ff8ldikg0BEOO8c=;
- b=Fx2Xh4B8a9ZQufp8mXt8s+IpxTfBjlXTDegasscpICbBKAsTvOr3oIbvhMf6WEzit6
- EZHpw4gDhs7SbXoF1aMQ2gYpcpb8sTMFYN8C206nln+9WBQ7wPhq8Cm1ul+S6Krrlso7
- IzliVANvvPM2OlabuVXXWw4zqI6Hf1pEbiKaCsFZq6Mdy89XvBEG/BJ1Ouua2Gx7Hm0+
- RnDrp46igE0rQ+/x0NAP9CyBiH9PHjSoD1G6N380PYNhS6ZQhaGf/8TEMs8o9TDiuZ0c
- CTyEKJvPVUotFqXGfU45joouTxundAG+xfWZv0NcFeENFVjo/CFAjrMsXU0rpJzRB+qB
- eEOg==
+ d=gmail.com; s=20221208; t=1682339430; x=1684931430;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=zQmjReLMkxtS3Ylf9Gai6KIzJluY9/zyQyab67UImSw=;
+ b=RvL4Wg7DTMmhUx+Ixuj6uUuOvRuSlXaAetqVK0NYggnzCU6ishQuvPfI/1mWi0NuEf
+ +DHkenLS0Ag+kq4tesHSCeq+wduu6xsRbx9ZCW1f9CLTEwG7+cU9pCC6j0bqbGSaCK17
+ 1xkKPwFLLWqwpeAmy86FxZZ7NTkLI7J7ovGxWGYPxN0Kb7ynK9NZCwBwJWyaSyykkUNt
+ flGuaKyJAC+xbzT0xN8CdrfLSnpaOvazlstw6gwaUEkCZT0pyjDV907gmB+235Xj4OZP
+ 47jC8vyc9HkMMFZCFhPG2M+2IUfEv3fbry1+67QOWFfFfqWX7uklcrkC2JYij+8or9c1
+ rAbg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682338669; x=1684930669;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=H9mfbm+dbpf9TS0Ou+ho3Hm3/Am7ff8ldikg0BEOO8c=;
- b=XLIYj9+Ag7ddclR5RipFK4qxQhQsSRGS0J+EK+CZGC7IF/xJ80a5Fcm/2lADC/+lgU
- hZFZ8O0b8t+hbTHl/T+XXVU6DGjoZb8Mz8QN10C6Egzqq+jZOWClyvcyBZ28DXGlBQX5
- wlziqSUIyVR6dkXxniyjtEHEpj6XWkmwOrjJ23ef8RbEyjVaFAUhWSExKcJTI8vo9a78
- le1D1QL2QkC0tQSelvui0xnr+6DVEbHG7cSFTQ0YMGyhbtq59WddS0oflGHnWhrm8pYg
- XI5h2zuLHgn1icJqvKQgcm6hsO0VcFLqVlkfK5Xl1+V9syXA9ia+zxH7XqcdB6VRJUxG
- vubA==
-X-Gm-Message-State: AAQBX9cT1MfJTsdN0NmrYyodwhmuGOih6sLJ6DkXxWizDvYwEy+ILqZD
- auT7HeZTSxPJuNKLRm05E+DB95RMe1GiMg==
-X-Google-Smtp-Source: AKy350bWB5Sn5+/nZXvXb0Z9P0V9LHEg53SuNMEB8hHPQ8aiVUlXuhT3c009ZV46oUE1ZBpAmxENdA==
-X-Received: by 2002:aa7:c393:0:b0:4fb:4fc2:e600 with SMTP id
- k19-20020aa7c393000000b004fb4fc2e600mr11607995edq.42.1682338668522; 
- Mon, 24 Apr 2023 05:17:48 -0700 (PDT)
-Received: from [192.168.178.21] (p4fc2092b.dip0.t-ipconnect.de. [79.194.9.43])
+ d=1e100.net; s=20221208; t=1682339430; x=1684931430;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=zQmjReLMkxtS3Ylf9Gai6KIzJluY9/zyQyab67UImSw=;
+ b=E6KE/3NQN8rT5NOTzAD3qdeNUpphs2/fDukdVtXty1cf1UajW0TGCdhHU3XskEeb6C
+ rcaJ5VtNUxKVKiUcQOPZdC/uyM4FxPGPJytEiVl5r/vbWeoPTE2ZGQUQM+5HB0T4VxNx
+ 2NDbMpm/Tb5yk3Fwb7qetwraW1JEyq2+Cd30qlpt69J/aUNIwTvktOtCCD3I+wr7QjEe
+ qYLFahDHZwRdNnQJxhv16QNWHZEo/X5dvC52wY/lSDBF2aZHsD8RQjVEbzypjiqaYbak
+ V+mbBrjuJY/Dszjz6GB2b3AhgdIIOqcTvqgdwy4+JtRVXKYLj5JVa0ndw2ViR6owIgiN
+ rL8Q==
+X-Gm-Message-State: AAQBX9cFkUrr0CUHFf2+dnj6crk1H9RAyxveZVvO8ZTNnDjA8iBkds+s
+ PmQSRUpEnPN7w/XQtdWUjhISYKnUvlb0zw==
+X-Google-Smtp-Source: AKy350asOvRRpjEPfAgWDVNGbm71Rs/paoYPnEm5MbgIhCgjG/J+yYx8xHEg+hfAqtECCvHfLpO5WA==
+X-Received: by 2002:a17:906:14e:b0:94f:8605:3f31 with SMTP id
+ 14-20020a170906014e00b0094f86053f31mr10376608ejh.42.1682339430347; 
+ Mon, 24 Apr 2023 05:30:30 -0700 (PDT)
+Received: from able.fritz.box (p4fc2092b.dip0.t-ipconnect.de. [79.194.9.43])
  by smtp.gmail.com with ESMTPSA id
- c26-20020a056402121a00b0050673b13b58sm4613816edw.56.2023.04.24.05.17.47
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 24 Apr 2023 05:17:48 -0700 (PDT)
-Message-ID: <49564165-3248-f212-231d-e7130dd61f09@gmail.com>
-Date: Mon, 24 Apr 2023 14:17:46 +0200
+ wv14-20020a170907080e00b009598cbe55c2sm1608146ejb.28.2023.04.24.05.30.29
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 24 Apr 2023 05:30:29 -0700 (PDT)
+From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
+X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
+ <christian.koenig@amd.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH 1/5] drm/debugfs: drop debugfs_init() for the render and accel
+ node v2
+Date: Mon, 24 Apr 2023 14:30:24 +0200
+Message-Id: <20230424123028.25986-1-christian.koenig@amd.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH 2/5] drm/debugfs: rework debugfs directory creation v3
-Content-Language: en-US
-To: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
-References: <20230412145206.2483-1-christian.koenig@amd.com>
- <20230412145206.2483-3-christian.koenig@amd.com>
- <e0803bcf-c447-ad8d-bd1d-af8658cc72c4@habana.ai>
- <5446881a-bdb8-4d85-bf00-c54e001661f1@gmail.com>
- <20230417102624.GB3141290@linux.intel.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-In-Reply-To: <20230417102624.GB3141290@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -80,63 +74,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "quic_jhugo@quicinc.com" <quic_jhugo@quicinc.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "ogabbay@kernel.org" <ogabbay@kernel.org>,
- "mcanal@igalia.com" <mcanal@igalia.com>, "mwen@igalia.com" <mwen@igalia.com>,
- Tomer Tayar <ttayar@habana.ai>, "maxime@cerno.tech" <maxime@cerno.tech>,
- "wambui.karugax@gmail.com" <wambui.karugax@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+We want to remove per minor debugfs directories. Start by stopping
+drivers from adding anything inside of those in the mid layer callback.
 
+v2: drop it for the accel node as well
 
-Am 17.04.23 um 12:26 schrieb Stanislaw Gruszka:
-> On Mon, Apr 17, 2023 at 09:18:31AM +0200, Christian König wrote:
->>
->> Am 16.04.23 um 18:03 schrieb Tomer Tayar:
->>> On 12/04/2023 17:52, Christian König wrote:
->>>>     /**
->>>> - * accel_debugfs_init() - Initialize debugfs for accel minor
->>>> + * accel_debugfs_init() - Register debugfs for accel minor
->>>> + * @dev: Pointer to the device instance.
->>>> + *
->>>> + * This function creates a root directory for the device in debugfs.
->>>> + */
->>>> +void accel_debugfs_init(struct drm_device *dev)
->>>> +{
->>>> +	drm_debugfs_dev_init(dev, accel_debugfs_root);
->>>> +}
->>>> +
->>>> +/**
->>>> + * accel_debugfs_register() - Register debugfs for device
->>>>      * @minor: Pointer to the drm_minor instance.
->>>>      * @minor_id: The minor's id
->>>>      *
->>>> - * This function initializes the drm minor's debugfs members and creates
->>>> - * a root directory for the minor in debugfs. It also creates common files
->>>> - * for accelerators and calls the driver's debugfs init callback.
->>>> + * Creates common files for accelerators.
->>>>      */
->>>> -void accel_debugfs_init(struct drm_minor *minor, int minor_id)
->>>> +void accel_debugfs_register(struct drm_device *dev)
->>>>     {
-> I wonder if we need this and can not use drm_debugfs_dev_register() ?
-> In drm there are two additional files "clients" and "gem_names" which are
-> appropriate to accel as well and so far we do not have any accel
-> specific files.
+Signed-off-by: Christian König <christian.koenig@amd.com>
+---
+ drivers/accel/drm_accel.c     | 3 ---
+ drivers/gpu/drm/drm_debugfs.c | 2 +-
+ 2 files changed, 1 insertion(+), 4 deletions(-)
 
-I was wondering the same thing while going over this, but then decided 
-to leave it as it is for now.
-
-My primary concern is to remove the mid layering with the driver 
-callback because that is blocking functionality from working correctly, 
-cleanup and re-joining of functionality can then come later on.
-
-Regards,
-Christian.
-
->
-> Regards
-> Stanislaw
+diff --git a/drivers/accel/drm_accel.c b/drivers/accel/drm_accel.c
+index 1b69824286fd..d473388ee807 100644
+--- a/drivers/accel/drm_accel.c
++++ b/drivers/accel/drm_accel.c
+@@ -99,9 +99,6 @@ void accel_debugfs_init(struct drm_minor *minor, int minor_id)
+ 
+ 	drm_debugfs_create_files(accel_debugfs_list, ACCEL_DEBUGFS_ENTRIES,
+ 				 minor->debugfs_root, minor);
+-
+-	if (dev->driver->debugfs_init)
+-		dev->driver->debugfs_init(minor);
+ }
+ 
+ /**
+diff --git a/drivers/gpu/drm/drm_debugfs.c b/drivers/gpu/drm/drm_debugfs.c
+index 4855230ba2c6..54376e2400bb 100644
+--- a/drivers/gpu/drm/drm_debugfs.c
++++ b/drivers/gpu/drm/drm_debugfs.c
+@@ -242,7 +242,7 @@ int drm_debugfs_init(struct drm_minor *minor, int minor_id,
+ 		drm_client_debugfs_init(minor);
+ 	}
+ 
+-	if (dev->driver->debugfs_init)
++	if (dev->driver->debugfs_init && dev->render != minor)
+ 		dev->driver->debugfs_init(minor);
+ 
+ 	list_for_each_entry_safe(entry, tmp, &dev->debugfs_list, list) {
+-- 
+2.34.1
 
