@@ -2,37 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E016F6ED761
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Apr 2023 00:03:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B5966ED771
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Apr 2023 00:06:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2D9C710E613;
-	Mon, 24 Apr 2023 22:03:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 01FCD10E61E;
+	Mon, 24 Apr 2023 22:06:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay06.th.seeweb.it (relay06.th.seeweb.it
- [IPv6:2001:4b7a:2000:18::167])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EDF8610E613
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Apr 2023 22:03:13 +0000 (UTC)
-Received: from SoMainline.org (94-211-6-86.cable.dynamic.v4.ziggo.nl
- [94.211.6.86])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
- SHA256) (No client certificate requested)
- by m-r2.th.seeweb.it (Postfix) with ESMTPSA id C77C83F364;
- Tue, 25 Apr 2023 00:03:02 +0200 (CEST)
-Date: Tue, 25 Apr 2023 00:03:01 +0200
-From: Marijn Suijten <marijn.suijten@somainline.org>
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>
-Subject: Re: [PATCH v2 3/3] drm/msm/dpu: Pass catalog pointers directly from
- RM instead of IDs
-Message-ID: <ymq4kstme55dm3j5kr6trevnwdelhjq7e7m4yky6zcbnf7auid@66l7inxz4oq2>
-References: <20230418-dpu-drop-useless-for-lookup-v2-0-acb08e82ef19@somainline.org>
- <20230418-dpu-drop-useless-for-lookup-v2-3-acb08e82ef19@somainline.org>
- <50d22e0c-84b3-0678-eb06-30fb66fd24cf@quicinc.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ECDEA10E61E;
+ Mon, 24 Apr 2023 22:05:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1682373959; x=1713909959;
+ h=from:date:subject:mime-version:content-transfer-encoding:
+ message-id:references:in-reply-to:to:cc;
+ bh=mqfual4qhwBGATemiquiJwy5ApxQS+xFr1kM/b4gHaA=;
+ b=Zcpfd0u+ta+PH5r5XCi5iApguNK95Nd/TRSBqqyiQ+c3QSeZr52BTrWD
+ 4esE/MavDyFV5qosgWC+KNqHGmqToJ2N+JOKNpsKs7AYnAGPOCo4GUDs4
+ wh4LNg4k1IXLmp9dcWOr1IXxDti3YVV/gpKYrT3CsyVpz+57HLzg+Avdi
+ A2RwjwR/ZVwHc0bYubNa92IjdQi7bZ2EltQNpSgUq9oYIONtGQVvtxDmJ
+ 5msjfE6iR1QohDNVMH3cFSm6DdACVtSm6uReZxl2FsDU/Bl2wrUt7HOFf
+ GXQBBKP0dXxdWQZklKYj81glqXEAFCUBQmQ4InUDSGGGiHLXCZl2TBZt3 Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10690"; a="335473644"
+X-IronPort-AV: E=Sophos;i="5.99,223,1677571200"; d="scan'208";a="335473644"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Apr 2023 15:05:56 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10690"; a="939500112"
+X-IronPort-AV: E=Sophos;i="5.99,223,1677571200"; d="scan'208";a="939500112"
+Received: from lab-ah.igk.intel.com ([10.102.138.202])
+ by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Apr 2023 15:05:53 -0700
+From: Andrzej Hajda <andrzej.hajda@intel.com>
+Date: Tue, 25 Apr 2023 00:05:38 +0200
+Subject: [PATCH v8 1/7] lib/ref_tracker: add unlocked leak print helper
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <50d22e0c-84b3-0678-eb06-30fb66fd24cf@quicinc.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20230224-track_gt-v8-1-4b6517e61be6@intel.com>
+References: <20230224-track_gt-v8-0-4b6517e61be6@intel.com>
+In-Reply-To: <20230224-track_gt-v8-0-4b6517e61be6@intel.com>
+To: Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Eric Dumazet <edumazet@google.com>
+X-Mailer: b4 0.11.1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,124 +63,146 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org,
- Jami Kettunen <jami.kettunen@somainline.org>, Sean Paul <sean@poorly.run>,
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Jordan Crouse <jordan@cosmicpenguin.net>,
- Konrad Dybcio <konrad.dybcio@linaro.org>,
- Martin Botka <martin.botka@somainline.org>,
- ~postmarketos/upstreaming@lists.sr.ht,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>, netdev@vger.kernel.org,
+ intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Chris Wilson <chris@chris-wilson.co.uk>,
+ Andi Shyti <andi.shyti@linux.intel.com>, Jakub Kicinski <kuba@kernel.org>,
+ "David S. Miller" <davem@davemloft.net>, Dmitry Vyukov <dvyukov@google.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2023-04-21 16:25:15, Abhinav Kumar wrote:
-> 
-> 
-> On 4/21/2023 1:53 PM, Marijn Suijten wrote:
-> > The Resource Manager already iterates over all available blocks from the
-> > catalog, only to pass their ID to a dpu_hw_xxx_init() function which
-> > uses an _xxx_offset() helper to search for and find the exact same
-> > catalog pointer again to initialize the block with, fallible error
-> > handling and all.
-> > 
-> > Instead, pass const pointers to the catalog entries directly to these
-> > _init functions and drop the for loops entirely, saving on both
-> > readability complexity and unnecessary cycles at boot.
-> > 
-> > Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
-> > Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> 
-> Overall, a nice cleanup!
-> 
-> One comment below.
-> 
-> > ---
-> >   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c        | 37 +++++----------------
-> >   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h        | 14 ++++----
-> >   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.c        | 32 +++---------------
-> >   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.h        | 11 +++----
-> >   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.c       | 38 ++++-----------------
-> >   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.h       | 12 +++----
-> >   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.h |  2 +-
-> >   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c       | 40 ++++++-----------------
-> >   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h       | 12 +++----
-> >   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_lm.c         | 38 ++++-----------------
-> >   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_lm.h         | 10 +++---
-> >   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_merge3d.c    | 33 +++----------------
-> >   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_merge3d.h    | 14 ++++----
-> >   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.c   | 33 +++----------------
-> >   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.h   | 14 ++++----
-> >   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c       | 39 ++++------------------
-> >   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h       | 12 +++----
-> >   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_vbif.c       | 33 +++----------------
-> >   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_vbif.h       | 11 +++----
-> >   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_wb.c         | 33 ++++---------------
-> >   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_wb.h         | 11 +++----
-> >   drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c           | 17 +++++-----
-> >   drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c            | 18 +++++-----
-> >   23 files changed, 139 insertions(+), 375 deletions(-)
-> > 
-> 
-> <snipped>
-> 
-> > -struct dpu_hw_intf *dpu_hw_intf_init(enum dpu_intf idx,
-> > -		void __iomem *addr,
-> > -		const struct dpu_mdss_cfg *m)
-> > +struct dpu_hw_intf *dpu_hw_intf_init(const struct dpu_intf_cfg *cfg,
-> > +		void __iomem *addr)
-> >   {
-> >   	struct dpu_hw_intf *c;
-> > -	const struct dpu_intf_cfg *cfg;
-> > +
-> > +	if (cfg->type == INTF_NONE) {
-> > +		pr_err("Cannot create interface hw object for INTF_NONE type\n");
-> > +		return ERR_PTR(-EINVAL);
-> > +	}
-> 
-> The caller of dpu_hw_intf_init which is the RM already has protection 
-> for INTF_NONE, see below
-> 
->          for (i = 0; i < cat->intf_count; i++) {
->                  struct dpu_hw_intf *hw;
->                  const struct dpu_intf_cfg *intf = &cat->intf[i];
-> 
->                  if (intf->type == INTF_NONE) {
->                          DPU_DEBUG("skip intf %d with type none\n", i);
->                          continue;
->                  }
->                  if (intf->id < INTF_0 || intf->id >= INTF_MAX) {
->                          DPU_ERROR("skip intf %d with invalid id\n", 
-> intf->id);
->                          continue;
->                  }
->                  hw = dpu_hw_intf_init(intf->id, mmio, cat);
-> 
-> So this part can be dropped.
+To have reliable detection of leaks, caller must be able to check under
+the same lock both: tracked counter and the leaks. dir.lock is natural
+candidate for such lock and unlocked print helper can be called with this
+lock taken.
+As a bonus we can reuse this helper in ref_tracker_dir_exit.
 
-I mainly intended to keep original validation where _intf_offset would
-skip INTF_NONE, and error out.  RM init is hence expected to filter out
-INTF_NONE instead of running into that `-EINVAL`, which I maintained
-here.
+Signed-off-by: Andrzej Hajda <andrzej.hajda@intel.com>
+Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com>
+Reviewed-by: Eric Dumazet <edumazet@google.com>
+---
+ include/linux/ref_tracker.h |  8 ++++++
+ lib/ref_tracker.c           | 66 ++++++++++++++++++++++++++-------------------
+ 2 files changed, 46 insertions(+), 28 deletions(-)
 
-If you think there won't be another caller of dpu_hw_intf_init, and that
-such validation is hence excessive, I can remove it in a followup v3.
+diff --git a/include/linux/ref_tracker.h b/include/linux/ref_tracker.h
+index 9ca353ab712b5e..87a92f2bec1b88 100644
+--- a/include/linux/ref_tracker.h
++++ b/include/linux/ref_tracker.h
+@@ -36,6 +36,9 @@ static inline void ref_tracker_dir_init(struct ref_tracker_dir *dir,
+ 
+ void ref_tracker_dir_exit(struct ref_tracker_dir *dir);
+ 
++void ref_tracker_dir_print_locked(struct ref_tracker_dir *dir,
++				  unsigned int display_limit);
++
+ void ref_tracker_dir_print(struct ref_tracker_dir *dir,
+ 			   unsigned int display_limit);
+ 
+@@ -56,6 +59,11 @@ static inline void ref_tracker_dir_exit(struct ref_tracker_dir *dir)
+ {
+ }
+ 
++static inline void ref_tracker_dir_print_locked(struct ref_tracker_dir *dir,
++						unsigned int display_limit)
++{
++}
++
+ static inline void ref_tracker_dir_print(struct ref_tracker_dir *dir,
+ 					 unsigned int display_limit)
+ {
+diff --git a/lib/ref_tracker.c b/lib/ref_tracker.c
+index dc7b14aa3431e2..d4eb0929af8f96 100644
+--- a/lib/ref_tracker.c
++++ b/lib/ref_tracker.c
+@@ -14,6 +14,38 @@ struct ref_tracker {
+ 	depot_stack_handle_t	free_stack_handle;
+ };
+ 
++void ref_tracker_dir_print_locked(struct ref_tracker_dir *dir,
++				  unsigned int display_limit)
++{
++	struct ref_tracker *tracker;
++	unsigned int i = 0;
++
++	lockdep_assert_held(&dir->lock);
++
++	list_for_each_entry(tracker, &dir->list, head) {
++		if (i < display_limit) {
++			pr_err("leaked reference.\n");
++			if (tracker->alloc_stack_handle)
++				stack_depot_print(tracker->alloc_stack_handle);
++			i++;
++		} else {
++			break;
++		}
++	}
++}
++EXPORT_SYMBOL(ref_tracker_dir_print_locked);
++
++void ref_tracker_dir_print(struct ref_tracker_dir *dir,
++			   unsigned int display_limit)
++{
++	unsigned long flags;
++
++	spin_lock_irqsave(&dir->lock, flags);
++	ref_tracker_dir_print_locked(dir, display_limit);
++	spin_unlock_irqrestore(&dir->lock, flags);
++}
++EXPORT_SYMBOL(ref_tracker_dir_print);
++
+ void ref_tracker_dir_exit(struct ref_tracker_dir *dir)
+ {
+ 	struct ref_tracker *tracker, *n;
+@@ -27,13 +59,13 @@ void ref_tracker_dir_exit(struct ref_tracker_dir *dir)
+ 		kfree(tracker);
+ 		dir->quarantine_avail++;
+ 	}
+-	list_for_each_entry_safe(tracker, n, &dir->list, head) {
+-		pr_err("leaked reference.\n");
+-		if (tracker->alloc_stack_handle)
+-			stack_depot_print(tracker->alloc_stack_handle);
++	if (!list_empty(&dir->list)) {
++		ref_tracker_dir_print_locked(dir, 16);
+ 		leak = true;
+-		list_del(&tracker->head);
+-		kfree(tracker);
++		list_for_each_entry_safe(tracker, n, &dir->list, head) {
++			list_del(&tracker->head);
++			kfree(tracker);
++		}
+ 	}
+ 	spin_unlock_irqrestore(&dir->lock, flags);
+ 	WARN_ON_ONCE(leak);
+@@ -42,28 +74,6 @@ void ref_tracker_dir_exit(struct ref_tracker_dir *dir)
+ }
+ EXPORT_SYMBOL(ref_tracker_dir_exit);
+ 
+-void ref_tracker_dir_print(struct ref_tracker_dir *dir,
+-			   unsigned int display_limit)
+-{
+-	struct ref_tracker *tracker;
+-	unsigned long flags;
+-	unsigned int i = 0;
+-
+-	spin_lock_irqsave(&dir->lock, flags);
+-	list_for_each_entry(tracker, &dir->list, head) {
+-		if (i < display_limit) {
+-			pr_err("leaked reference.\n");
+-			if (tracker->alloc_stack_handle)
+-				stack_depot_print(tracker->alloc_stack_handle);
+-			i++;
+-		} else {
+-			break;
+-		}
+-	}
+-	spin_unlock_irqrestore(&dir->lock, flags);
+-}
+-EXPORT_SYMBOL(ref_tracker_dir_print);
+-
+ int ref_tracker_alloc(struct ref_tracker_dir *dir,
+ 		      struct ref_tracker **trackerp,
+ 		      gfp_t gfp)
 
-- Marijn
-
-> >   	c = kzalloc(sizeof(*c), GFP_KERNEL);
-> >   	if (!c)
-> >   		return ERR_PTR(-ENOMEM);
-> >   
-> > -	cfg = _intf_offset(idx, m, addr, &c->hw);
-> > -	if (IS_ERR_OR_NULL(cfg)) {
-> > -		kfree(c);
-> > -		pr_err("failed to create dpu_hw_intf %d\n", idx);
-> > -		return ERR_PTR(-EINVAL);
-> > -	}
-> > +	c->hw.blk_addr = addr + cfg->base;
-> > +	c->hw.log_mask = DPU_DBG_MASK_INTF;
-> >   
-> 
-> <snipped>
+-- 
+2.34.1
