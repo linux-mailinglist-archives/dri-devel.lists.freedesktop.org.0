@@ -2,59 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E8D36EC845
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Apr 2023 11:03:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 133EF6EC861
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Apr 2023 11:07:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A438A10E411;
-	Mon, 24 Apr 2023 09:03:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6521910E439;
+	Mon, 24 Apr 2023 09:07:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-x112e.google.com (mail-yw1-x112e.google.com
- [IPv6:2607:f8b0:4864:20::112e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9F80810E411
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Apr 2023 09:03:51 +0000 (UTC)
-Received: by mail-yw1-x112e.google.com with SMTP id
- 00721157ae682-54fb9384c2dso48990497b3.2
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Apr 2023 02:03:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amarulasolutions.com; s=google; t=1682327030; x=1684919030;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=6cSv908+XbxMNLsKEbTm9jFklu64ICgFxL9KYAhHv6U=;
- b=rGaI5R8xnw5jjlLgvyRcDN8MOmGhLU9gutbCOvkCTQbBB+j+2n1wbu+UrIaQX86gRE
- iX9ivyYi8HeVrwFZZr3hr65F7WfYO0deRCEtc9aUtuMVfCZ1+2Jm/SSZQ+OuUqVDwpT2
- WOk7s7eTJLqytJMxbB5TAJuIpEEflg/IqVdGo=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682327030; x=1684919030;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=6cSv908+XbxMNLsKEbTm9jFklu64ICgFxL9KYAhHv6U=;
- b=kuJ1Dgu1yl5+1qLrKnbSjMxDNeHSyTqb1Pz0tImFS2LOhhqasmf/4+xPK5pR55Cpp9
- TZxbxda/QeGw24i2JQ6RBsmrM3sT10yCg92Nu5Q1cm7HS88ZN0M3uukBK76X1d/9oKgb
- z2FumEIbcnscCeMX+Dntmz3DfDhxhUSVhwnKCoUSKp0FqO6pvGbWxm/Rd//ZDpzV3/0T
- Lh1ZC0Wfiswvg08ourUVKegBXzCCwGKQlVfURITGtTY4NDHYK0wxvaXn0l9DdH47iBt7
- ZDemAY16i3OTT6EH85gPVZFMPzhvm6V+TF1xCNmJYAqTVZQMf1ssgPzAEHIBDOolfFKg
- b47Q==
-X-Gm-Message-State: AAQBX9dcR+rYUpAuCcumPYRBVpCvL9JcxGGT5+Hx4yObuvFwWuoIRATD
- KjSe1avd8t11XapctT9SPMOo1+lhXrx2fjy1Kh+aPw==
-X-Google-Smtp-Source: AKy350Z7B0vqLEmVxsm8gwNXz0Mr3uw6c5CelEFXXRS8WBWNscFAnrUucpIycBwqf062sEv89dWQgMEgJ48vn/ek6tc=
-X-Received: by 2002:a0d:de85:0:b0:527:b681:3e62 with SMTP id
- h127-20020a0dde85000000b00527b6813e62mr6741490ywe.23.1682327030489; Mon, 24
- Apr 2023 02:03:50 -0700 (PDT)
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6942010E439
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Apr 2023 09:07:48 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 6E5D421A97;
+ Mon, 24 Apr 2023 09:07:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1682327266; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=SGD+BucwGfbqQ4YTykkUooDJ6V+PD7E9RWT+3z5Q+D0=;
+ b=tHaOZWeTAvZw49i0zC3hJSv8ar/7nNs5/1v4S2uX4BKukt+4199GzNn7ui0UsgcsSpG9w1
+ bkN6x4zi8ZqgeYiuYwilIRVteMVxVp5vVfm6wruPrU7WqFbZeaKygD2Bhtyw6rmxE930Tz
+ XUVKMo4dp6Il2GCMY2xNfbOByRfrRf8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1682327266;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=SGD+BucwGfbqQ4YTykkUooDJ6V+PD7E9RWT+3z5Q+D0=;
+ b=js37x903mmnmfVlAU4K1hY4i3egjXW0KqHf1lOsdwIsRlYzv76fC1WWH9QAc//MzS5eAfS
+ 9op37d7ccUvS/NBg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 39CD213780;
+ Mon, 24 Apr 2023 09:07:46 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id k/r+DOJGRmR8fgAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Mon, 24 Apr 2023 09:07:46 +0000
+Message-ID: <5694a9ab-d474-c101-9398-eea55aab29df@suse.de>
+Date: Mon, 24 Apr 2023 11:07:45 +0200
 MIME-Version: 1.0
-References: <20230423121232.1345909-1-aford173@gmail.com>
- <20230423121232.1345909-2-aford173@gmail.com>
-In-Reply-To: <20230423121232.1345909-2-aford173@gmail.com>
-From: Jagan Teki <jagan@amarulasolutions.com>
-Date: Mon, 24 Apr 2023 14:33:38 +0530
-Message-ID: <CAMty3ZCn9_AT8SOfFD-MYox16ZcqOEezt_0x6aES6LWQFj8Kpg@mail.gmail.com>
-Subject: Re: [PATCH V2 1/6] drm: bridge: samsung-dsim: fix blanking packet
- size calculation
-To: Adam Ford <aford173@gmail.com>, l.stach@pengutronix.de
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH 2/2] drm/ofdrm: Update expected device name
+To: Geert Uytterhoeven <geert@linux-m68k.org>,
+ Cyril Brulebois <cyril@debamax.com>
+References: <20230412095509.2196162-1-cyril@debamax.com>
+ <20230412095509.2196162-3-cyril@debamax.com>
+ <CAMuHMdW4rZn4p=gQZRWQQSEbQPmzZUd5eN+kP_Yr7bLgTHyvig@mail.gmail.com>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <CAMuHMdW4rZn4p=gQZRWQQSEbQPmzZUd5eN+kP_Yr7bLgTHyvig@mail.gmail.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------3Y3pbc50us0Nmvsa7ArgK72j"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,63 +72,104 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, Neil Armstrong <neil.armstrong@linaro.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Robert Foss <rfoss@kernel.org>,
- Jonas Karlman <jonas@kwiboo.se>, linux-kernel@vger.kernel.org,
- aford@beaconembedded.com, dri-devel@lists.freedesktop.org,
- Frieder Schrempf <frieder.schrempf@kontron.de>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, dario.binacchi@amarulasolutions.com,
- m.szyprowski@samsung.com
+Cc: linux-fbdev@vger.kernel.org,
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, linux-kernel@vger.kernel.org,
+ stable@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Michal Suchanek <msuchanek@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Apr 23, 2023 at 5:42=E2=80=AFPM Adam Ford <aford173@gmail.com> wrot=
-e:
->
-> From: Lucas Stach <l.stach@pengutronix.de>
->
-> Scale the blanking packet sizes to match the ratio between HS clock
-> and DPI interface clock. The controller seems to do internal scaling
-> to the number of active lanes, so we don't take those into account.
->
-> Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
-> Signed-off-by: Adam Ford <aford173@gmail.com>
-> ---
->  drivers/gpu/drm/bridge/samsung-dsim.c | 18 +++++++++++++++---
->  1 file changed, 15 insertions(+), 3 deletions(-)
->
-> diff --git a/drivers/gpu/drm/bridge/samsung-dsim.c b/drivers/gpu/drm/brid=
-ge/samsung-dsim.c
-> index e0a402a85787..2be3b58624c3 100644
-> --- a/drivers/gpu/drm/bridge/samsung-dsim.c
-> +++ b/drivers/gpu/drm/bridge/samsung-dsim.c
-> @@ -874,17 +874,29 @@ static void samsung_dsim_set_display_mode(struct sa=
-msung_dsim *dsi)
->         u32 reg;
->
->         if (dsi->mode_flags & MIPI_DSI_MODE_VIDEO) {
-> +               int byte_clk_khz =3D dsi->burst_clk_rate / 1000 / 8;
-> +               int hfp =3D (m->hsync_start - m->hdisplay) * byte_clk_khz=
- / m->clock;
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------3Y3pbc50us0Nmvsa7ArgK72j
+Content-Type: multipart/mixed; boundary="------------ip8hjlLeTlrIhQEr3G4ZyMBc";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Geert Uytterhoeven <geert@linux-m68k.org>,
+ Cyril Brulebois <cyril@debamax.com>
+Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Rob Herring <robh@kernel.org>, Michal Suchanek <msuchanek@suse.de>,
+ linux-kernel@vger.kernel.org, stable@vger.kernel.org,
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>
+Message-ID: <5694a9ab-d474-c101-9398-eea55aab29df@suse.de>
+Subject: Re: [PATCH 2/2] drm/ofdrm: Update expected device name
+References: <20230412095509.2196162-1-cyril@debamax.com>
+ <20230412095509.2196162-3-cyril@debamax.com>
+ <CAMuHMdW4rZn4p=gQZRWQQSEbQPmzZUd5eN+kP_Yr7bLgTHyvig@mail.gmail.com>
+In-Reply-To: <CAMuHMdW4rZn4p=gQZRWQQSEbQPmzZUd5eN+kP_Yr7bLgTHyvig@mail.gmail.com>
 
-I do not quite understand why it depends on burst_clk_rate, would you
-please explain? does it depends on bpp something like this
+--------------ip8hjlLeTlrIhQEr3G4ZyMBc
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-mipi_dsi_pixel_format_to_bpp(format) / 8
+SGkNCg0KQW0gMjQuMDQuMjMgdW0gMDk6MzMgc2NocmllYiBHZWVydCBVeXR0ZXJob2V2ZW46
+DQo+IEhpIEN5cmlsLA0KPiANCj4gQ0MgRFQNCj4gDQo+IE9uIFdlZCwgQXByIDEyLCAyMDIz
+IGF0IDEyOjA14oCvUE0gQ3lyaWwgQnJ1bGVib2lzIDxjeXJpbEBkZWJhbWF4LmNvbT4gd3Jv
+dGU6DQo+PiBTaW5jZSBjb21taXQgMjQxZDJmYjU2YTE4ICgib2Y6IE1ha2UgT0YgZnJhbWVi
+dWZmZXIgZGV2aWNlIG5hbWVzIHVuaXF1ZSIpLA0KPj4gYXMgc3BvdHRlZCBieSBGcsOpZMOp
+cmljIEJvbm5hcmQsIHRoZSBoaXN0b3JpY2FsICJvZi1kaXNwbGF5IiBkZXZpY2UgaXMNCj4+
+IGdvbmU6IHRoZSB1cGRhdGVkIGxvZ2ljIGNyZWF0ZXMgIm9mLWRpc3BsYXkuMCIgaW5zdGVh
+ZCwgdGhlbiBhcyBtYW55DQo+PiAib2YtZGlzcGxheS5OIiBhcyByZXF1aXJlZC4NCj4+DQo+
+PiBUaGlzIG1lYW5zIHRoYXQgb2ZmYiBubyBsb25nZXIgZmluZHMgdGhlIGV4cGVjdGVkIGRl
+dmljZSwgd2hpY2ggcHJldmVudHMNCj4+IHRoZSBEZWJpYW4gSW5zdGFsbGVyIGZyb20gc2V0
+dGluZyB1cCBpdHMgaW50ZXJmYWNlLCBhdCBsZWFzdCBvbiBwcGM2NGVsLg0KPj4NCj4+IEdp
+dmVuIHRoZSBjb2RlIHNpbWlsYXJpdHkgaXQgaXMgbGlrZWx5IHRvIGFmZmVjdCBvZmRybSBp
+biB0aGUgc2FtZSB3YXkuDQo+Pg0KPj4gSXQgbWlnaHQgYmUgYmV0dGVyIHRvIGl0ZXJhdGUg
+b24gYWxsIHBvc3NpYmxlIG5vZGVzLCBidXQgdXBkYXRpbmcgdGhlDQo+PiBoYXJkY29kZWQg
+ZGV2aWNlIGZyb20gIm9mLWRpc3BsYXkiIHRvICJvZi1kaXNwbGF5LjAiIGlzIGxpa2VseSB0
+byBoZWxwDQo+PiBhcyBhIGZpcnN0IHN0ZXAuDQo+Pg0KPj4gTGluazogaHR0cHM6Ly9idWd6
+aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVnLmNnaT9pZD0yMTczMjgNCj4+IExpbms6IGh0dHBz
+Oi8vYnVncy5kZWJpYW4ub3JnLzEwMzMwNTgNCj4+IEZpeGVzOiAyNDFkMmZiNTZhMTggKCJv
+ZjogTWFrZSBPRiBmcmFtZWJ1ZmZlciBkZXZpY2UgbmFtZXMgdW5pcXVlIikNCj4+IENjOiBz
+dGFibGVAdmdlci5rZXJuZWwub3JnICMgdjYuMisNCj4+IFNpZ25lZC1vZmYtYnk6IEN5cmls
+IEJydWxlYm9pcyA8Y3lyaWxAZGViYW1heC5jb20+DQo+IA0KPiBUaGFua3MgZm9yIHlvdXIg
+cGF0Y2gsIHdoaWNoIGlzIG5vdyBjb21taXQgM2E5ZDhlYTI1MzllYmViZA0KPiAoImRybS9v
+ZmRybTogVXBkYXRlIGV4cGVjdGVkIGRldmljZSBuYW1lIikgaW4gZmJkZXYvZm9yLW5leHQu
+DQo+IA0KPj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL3Rpbnkvb2Zkcm0uYw0KPj4gKysrIGIv
+ZHJpdmVycy9ncHUvZHJtL3Rpbnkvb2Zkcm0uYw0KPj4gQEAgLTEzOTAsNyArMTM5MCw3IEBA
+IE1PRFVMRV9ERVZJQ0VfVEFCTEUob2YsIG9mZHJtX29mX21hdGNoX2Rpc3BsYXkpOw0KPj4N
+Cj4+ICAgc3RhdGljIHN0cnVjdCBwbGF0Zm9ybV9kcml2ZXIgb2Zkcm1fcGxhdGZvcm1fZHJp
+dmVyID0gew0KPj4gICAgICAgICAgLmRyaXZlciA9IHsNCj4+IC0gICAgICAgICAgICAgICAu
+bmFtZSA9ICJvZi1kaXNwbGF5IiwNCj4+ICsgICAgICAgICAgICAgICAubmFtZSA9ICJvZi1k
+aXNwbGF5LjAiLA0KPj4gICAgICAgICAgICAgICAgICAub2ZfbWF0Y2hfdGFibGUgPSBvZmRy
+bV9vZl9tYXRjaF9kaXNwbGF5LA0KPj4gICAgICAgICAgfSwNCj4+ICAgICAgICAgIC5wcm9i
+ZSA9IG9mZHJtX3Byb2JlLA0KPiANCj4gU2FtZSBjb21tZW50IGFzIGZvciAiW1BBVENIIDEv
+Ml0gZmJkZXYvb2ZmYjogVXBkYXRlIGV4cGVjdGVkIGRldmljZQ0KPiBuYW1lIi4NCj4gDQo+
+IGh0dHBzOi8vbG9yZS5rZXJuZWwub3JnL3IvQ0FNdUhNZFZHRWVBc21iNHRBdXVxcUdKLTQr
+QkJFVHdFd1lKQStNOU55SnYwQkpfaE5nQG1haWwuZ21haWwuY29tDQoNClNvcnJ5IHRoYXQg
+SSBtaXNzZWQgdGhpcyBwYXRjaC4gSSBhZ3JlZSB0aGF0IGl0J3MgcHJvYmFibHkgbm90IGNv
+cnJlY3QuIA0KQXQgbGVhc3QgaW4gb2Zkcm0sIHdlIHdhbnQgdG8gYmUgYWJsZSB0byB1c2Ug
+bXVsdGlwbGUgZnJhbWVidWZmZXJzIGF0IA0KdGhlIHNhbWUgdGltZTsgYSBmZWF0dXJlIHRo
+YXQgaGFzIGJlZW4gYnJva2VuIGJ5IHRoaXMgY2hhbmdlLg0KDQpCZXN0IHJlZ2FyZHMNClRo
+b21hcw0KDQo+IA0KPiBHcntvZXRqZSxlZXRpbmd9cywNCj4gDQo+ICAgICAgICAgICAgICAg
+ICAgICAgICAgICBHZWVydA0KPiANCg0KLS0gDQpUaG9tYXMgWmltbWVybWFubg0KR3JhcGhp
+Y3MgRHJpdmVyIERldmVsb3Blcg0KU1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFueSBH
+bWJIDQpGcmFua2Vuc3RyYXNzZSAxNDYsIDkwNDYxIE51ZXJuYmVyZywgR2VybWFueQ0KR0Y6
+IEl2byBUb3RldiwgQW5kcmV3IE15ZXJzLCBBbmRyZXcgTWNEb25hbGQsIEJvdWRpZW4gTW9l
+cm1hbg0KSFJCIDM2ODA5IChBRyBOdWVybmJlcmcpDQo=
 
-> +               int hbp =3D (m->htotal - m->hsync_end) * byte_clk_khz / m=
-->clock;
-> +               int hsa =3D (m->hsync_end - m->hsync_start) * byte_clk_kh=
-z / m->clock;
-> +
-> +               /* remove packet overhead when possible */
-> +               hfp =3D max(hfp - 6, 0);
-> +               hbp =3D max(hbp - 6, 0);
-> +               hsa =3D max(hsa - 6, 0);
+--------------ip8hjlLeTlrIhQEr3G4ZyMBc--
 
-6 blanking packet overhead here means, 4 bytes + payload + 2 bytes
-format? does this packet overhead depends on the respective porch's
-like hpf, hbp and hsa has different packet overheads?
+--------------3Y3pbc50us0Nmvsa7ArgK72j
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
-Jagan.
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmRGRuEFAwAAAAAACgkQlh/E3EQov+Dr
+pRAAnj/UaISsoar5e1fo8PKJl+COcayGzfuST7+pRcHKO17GTckJv7liddZ2C+EMFsQB3NL5cHoU
+dszXVUkbrVVr0U3PHDvSiXLkRC7beKNI4vxuqOZsOQiwAQzVBVq9CfqpOEqrner+5UIOolOoEk+E
+R0cE5N7xJY+QgYqHqm5pxM34PiHe72NfW5juUo/hA57NomKntlBX1zykT7pUiJ7cWrZe04Yeao82
+5KLr6gAfWLJsLAoeFI+X+a7govMo1QNxVY1VlWBOQpPV1WnsV7WL/D2Vh8J1ML+xRB1B+cybj6Rj
+VOIIp9rEc4bXt5N0CpdtXmi/RDB2wVvxluV7++aTfe33s6bWQN30MABA7m1kvZQbgQLLEWfHcGkN
+JDN8fd0TZ087lIO0JJ9fpjb6Hm2s1iOm5HwK7h+bK32BMDfVMXBjpsUOM3Ox2UgoN9GzltNssUi8
+abKlBw/x4TQvVl6rewqe3dwsCh2BO3CN/cJgqrKSk45gERItJvsVVGnq8VZG8YxU0D8b3Hb8YxEW
+qw8lUryEr6pI2uo4Qn55Sh0oKexgmpW5whB1KZG2ePjNjVdtFZ/DLUHLyP1lDR6yf5Wq22wTDR9o
+W09VGWZ+eOjWfyGfO0NRpfpUOW0WfF4XJsQLUlVZoRGgt4a7DWyZ0PjR6pSN+kM08ecWM3Kp4xpN
+hgg=
+=Ntcm
+-----END PGP SIGNATURE-----
+
+--------------3Y3pbc50us0Nmvsa7ArgK72j--
