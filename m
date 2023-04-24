@@ -2,39 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7607A6ED330
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Apr 2023 19:09:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 83D216ED348
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Apr 2023 19:13:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 46D2410E0A3;
-	Mon, 24 Apr 2023 17:09:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F317510E4C7;
+	Mon, 24 Apr 2023 17:13:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1DB9710E0A3
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Apr 2023 17:09:45 +0000 (UTC)
-Received: from pendragon.ideasonboard.com
- (133-32-181-51.west.xps.vectant.ne.jp [133.32.181.51])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id E7FE4802;
- Mon, 24 Apr 2023 19:09:32 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1682356173;
- bh=gs7mngzaBkdzog+3P47XLpw3741YgE5tzTdc9VsLVMk=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=rM2UFZ75PpkFA/Uq5pC/J5kjHoTNfchRLY2d8NjpvTffzDksqtNF8DfVtmvQHmBkj
- S9iMJr5fvAwnWtedjN5wm9d2vALUBK9Hbjq6MXax7MTVmXB4Ui1nQuTjZZSApfGHCs
- BtMlQGFJesDkE6st+H4758t6yTaE1r21ykY56jVU=
-Date: Mon, 24 Apr 2023 20:09:55 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Biju Das <biju.das.jz@bp.renesas.com>
-Subject: Re: [PATCH v8 1/5] drm: Place Renesas drivers in a separate dir
-Message-ID: <20230424170955.GD6316@pendragon.ideasonboard.com>
-References: <20230424161024.136316-1-biju.das.jz@bp.renesas.com>
- <20230424161024.136316-2-biju.das.jz@bp.renesas.com>
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 37D6010E3F1;
+ Mon, 24 Apr 2023 17:13:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1682356382; x=1713892382;
+ h=mime-version:content-transfer-encoding:in-reply-to:
+ references:subject:from:cc:to:date:message-id;
+ bh=f00bfTfqcLFN3iXNjVAD0Fff+Vhc8RGA6+P4ZM64hpc=;
+ b=YO8aLF6RSLpeFZ3y9/Heku3HTvOl5vlE+RFnocOb55CzgALfXMwlP+3C
+ ZqNfttPnq+J6twB3KbzWFIyPRGHRZPMQzI9inB+tJ3pk3Ld0OzWuhc4oA
+ ckgS8fKRw/WclYcixlI3VCavtshi0Ngw8h5ZhxIoOoGZE4Ds6v5L6KioY
+ 2N/0O6g39XDAfPaueDWwrGF+xyDDsVa64GgcOeVzTPAuLy/tz8zEG4D9B
+ Hy0A3DfPHmY36bYeCTH9WrKkKLn36FnNzuZvBpYeQ3qCJDXWb8v+TUPPS
+ Y+JE1HhugEvylGA9ZpaLGnEhrJ1J0Uw8JCORIjhP903h2a28V5SrVkSmP w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10690"; a="326824403"
+X-IronPort-AV: E=Sophos;i="5.99,223,1677571200"; d="scan'208";a="326824403"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Apr 2023 10:13:01 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10690"; a="686934399"
+X-IronPort-AV: E=Sophos;i="5.99,223,1677571200"; d="scan'208";a="686934399"
+Received: from rmanna-mobl1.amr.corp.intel.com (HELO localhost)
+ ([10.209.73.193])
+ by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Apr 2023 10:13:00 -0700
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20230424161024.136316-2-biju.das.jz@bp.renesas.com>
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <5d0e2cf4-a487-1a1e-dae9-4fbe8c2fe649@linux.intel.com>
+References: <20230419230058.2659455-1-fei.yang@intel.com>
+ <20230419230058.2659455-9-fei.yang@intel.com>
+ <ZEEkV3XOdmtYWnMv@ashyti-mobl2.lan>
+ <471addf7-1670-32cd-9d2e-3f94d6825eab@linux.intel.com>
+ <BYAPR11MB2567A1A450448AE17B38ED1C9A639@BYAPR11MB2567.namprd11.prod.outlook.com>
+ <168211012988.392286.16107510619704913123@jljusten-skl>
+ <BYAPR11MB2567F03AD43D7E2DE2628D5D9A669@BYAPR11MB2567.namprd11.prod.outlook.com>
+ <168232538771.392286.3227368099155268955@jljusten-skl>
+ <5d0e2cf4-a487-1a1e-dae9-4fbe8c2fe649@linux.intel.com>
+Subject: Re: [Intel-gfx] [PATCH 8/8] drm/i915: Allow user to set cache at BO
+ creation
+From: Jordan Justen <jordan.l.justen@intel.com>
+To: "Teres Alexis, Alan Previn" <alan.previn.teres.alexis@intel.com>, "Yang,
+ Fei" <fei.yang@intel.com>, Andi Shyti <andi.shyti@linux.intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Date: Mon, 24 Apr 2023 10:13:00 -0700
+Message-ID: <168235638024.392286.14697291321034695564@jljusten-skl>
+User-Agent: alot/0.10
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,370 +70,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Stephen Kitt <steve@sk2.org>, Dan Carpenter <error27@gmail.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Liviu Dudau <liviu.dudau@arm.com>, dri-devel@lists.freedesktop.org,
- Paul Cercueil <paul@crapouillou.net>, Sam Ravnborg <sam@ravnborg.org>,
- Marek Vasut <marex@denx.de>, Takanari Hayama <taki@igel.co.jp>,
- Danilo Krummrich <dakr@redhat.com>, Peter Robinson <pbrobinson@gmail.com>,
- LUU HOAI <hoai.luu.ub@renesas.com>, Jani Nikula <jani.nikula@intel.com>,
- Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Koji Matsuoka <koji.matsuoka.xm@renesas.com>,
- Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
- Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
- linux-renesas-soc@vger.kernel.org,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: "Roper, Matthew D" <matthew.d.roper@intel.com>,
+ Intel-gfx@lists.freedesktop.org, "Landwerlin,
+ Lionel G" <lionel.g.landwerlin@intel.com>, "Ceraolo Spurio,
+ Daniele" <daniele.ceraolospurio@intel.com>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Chris Wilson <chris.p.wilson@linux.intel.com>, "Das,
+ Nirmoy" <nirmoy.das@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Biju,
+On 2023-04-24 02:08:43, Tvrtko Ursulin wrote:
+>=20
+> Being able to "list" supported extensions sounds like a reasonable
+> principle, albeit a departure from the design direction to date.
+> Which means there are probably no quick solutions. Also, AFAIU, only
+> PXP context create is the problematic one, right? Everything else is
+> pretty much instant or delayed allocation so super cheap to probe by
+> attempting to use.
+>=20
+> If I got that right and given this series is about
+> drm_i915_gem_create_ext I don't think this side discussion should be
+> blocking it.
 
-Thank you for the patch.
+This still leaves the issue of no reasonable detection mechanism for
+the extension. If the discussion gets too complicated, then can we add
+a GET_PARAM for the SET_PAT extension? I'm hoping we could either come
+up with something better reasonably quickly, or i915/Xe can add a new
+param for each new extensions until a better approach is available.
 
-On Mon, Apr 24, 2023 at 05:10:20PM +0100, Biju Das wrote:
-> Create vendor specific renesas directory and move renesas drivers
-> to that directory.
-> 
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> Furthermore the PXP context create story is even more complicated,
+> in a way that it is not just about querying whether the extension is
+> supported, but the expensive check is something more complicated.
+>=20
+> Going back to implementation details for this proposed new feature,
+> one alternative to query could be something like:
+>=20
+>    drm_i915_gem_create_ext.flags |=3D I915_GEM_CREATE_EXT_FLAG_PROBE_EXTE=
+NSIONS;
+>=20
+> That would be somewhat more light weight to implement that the
+> i915_query route. And it appears it would work for all ioctls which
+> support extensions apart for i915_context_param_engines.
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+This seems little better than the "try it, and if it works then it's
+supported".
 
-> ---
->  MAINTAINERS                                                  | 3 +--
->  drivers/gpu/drm/Kconfig                                      | 4 +---
->  drivers/gpu/drm/Makefile                                     | 3 +--
->  drivers/gpu/drm/renesas/Kconfig                              | 4 ++++
->  drivers/gpu/drm/renesas/Makefile                             | 4 ++++
->  drivers/gpu/drm/{ => renesas}/rcar-du/Kconfig                | 0
->  drivers/gpu/drm/{ => renesas}/rcar-du/Makefile               | 0
->  drivers/gpu/drm/{ => renesas}/rcar-du/rcar_cmm.c             | 0
->  drivers/gpu/drm/{ => renesas}/rcar-du/rcar_cmm.h             | 0
->  drivers/gpu/drm/{ => renesas}/rcar-du/rcar_du_crtc.c         | 0
->  drivers/gpu/drm/{ => renesas}/rcar-du/rcar_du_crtc.h         | 0
->  drivers/gpu/drm/{ => renesas}/rcar-du/rcar_du_drv.c          | 0
->  drivers/gpu/drm/{ => renesas}/rcar-du/rcar_du_drv.h          | 0
->  drivers/gpu/drm/{ => renesas}/rcar-du/rcar_du_encoder.c      | 0
->  drivers/gpu/drm/{ => renesas}/rcar-du/rcar_du_encoder.h      | 0
->  drivers/gpu/drm/{ => renesas}/rcar-du/rcar_du_group.c        | 0
->  drivers/gpu/drm/{ => renesas}/rcar-du/rcar_du_group.h        | 0
->  drivers/gpu/drm/{ => renesas}/rcar-du/rcar_du_kms.c          | 0
->  drivers/gpu/drm/{ => renesas}/rcar-du/rcar_du_kms.h          | 0
->  drivers/gpu/drm/{ => renesas}/rcar-du/rcar_du_plane.c        | 0
->  drivers/gpu/drm/{ => renesas}/rcar-du/rcar_du_plane.h        | 0
->  drivers/gpu/drm/{ => renesas}/rcar-du/rcar_du_regs.h         | 0
->  drivers/gpu/drm/{ => renesas}/rcar-du/rcar_du_vsp.c          | 0
->  drivers/gpu/drm/{ => renesas}/rcar-du/rcar_du_vsp.h          | 0
->  drivers/gpu/drm/{ => renesas}/rcar-du/rcar_du_writeback.c    | 0
->  drivers/gpu/drm/{ => renesas}/rcar-du/rcar_du_writeback.h    | 0
->  drivers/gpu/drm/{ => renesas}/rcar-du/rcar_dw_hdmi.c         | 0
->  drivers/gpu/drm/{ => renesas}/rcar-du/rcar_lvds.c            | 0
->  drivers/gpu/drm/{ => renesas}/rcar-du/rcar_lvds.h            | 0
->  drivers/gpu/drm/{ => renesas}/rcar-du/rcar_lvds_regs.h       | 0
->  drivers/gpu/drm/{ => renesas}/rcar-du/rcar_mipi_dsi.c        | 0
->  drivers/gpu/drm/{ => renesas}/rcar-du/rcar_mipi_dsi.h        | 0
->  drivers/gpu/drm/{ => renesas}/rcar-du/rcar_mipi_dsi_regs.h   | 0
->  drivers/gpu/drm/{ => renesas}/rcar-du/rzg2l_mipi_dsi.c       | 0
->  drivers/gpu/drm/{ => renesas}/rcar-du/rzg2l_mipi_dsi_regs.h  | 0
->  drivers/gpu/drm/{ => renesas}/shmobile/Kconfig               | 0
->  drivers/gpu/drm/{ => renesas}/shmobile/Makefile              | 0
->  drivers/gpu/drm/{ => renesas}/shmobile/shmob_drm_backlight.c | 0
->  drivers/gpu/drm/{ => renesas}/shmobile/shmob_drm_backlight.h | 0
->  drivers/gpu/drm/{ => renesas}/shmobile/shmob_drm_crtc.c      | 0
->  drivers/gpu/drm/{ => renesas}/shmobile/shmob_drm_crtc.h      | 0
->  drivers/gpu/drm/{ => renesas}/shmobile/shmob_drm_drv.c       | 0
->  drivers/gpu/drm/{ => renesas}/shmobile/shmob_drm_drv.h       | 0
->  drivers/gpu/drm/{ => renesas}/shmobile/shmob_drm_kms.c       | 0
->  drivers/gpu/drm/{ => renesas}/shmobile/shmob_drm_kms.h       | 0
->  drivers/gpu/drm/{ => renesas}/shmobile/shmob_drm_plane.c     | 0
->  drivers/gpu/drm/{ => renesas}/shmobile/shmob_drm_plane.h     | 0
->  drivers/gpu/drm/{ => renesas}/shmobile/shmob_drm_regs.h      | 0
->  48 files changed, 11 insertions(+), 7 deletions(-)
->  create mode 100644 drivers/gpu/drm/renesas/Kconfig
->  create mode 100644 drivers/gpu/drm/renesas/Makefile
->  rename drivers/gpu/drm/{ => renesas}/rcar-du/Kconfig (100%)
->  rename drivers/gpu/drm/{ => renesas}/rcar-du/Makefile (100%)
->  rename drivers/gpu/drm/{ => renesas}/rcar-du/rcar_cmm.c (100%)
->  rename drivers/gpu/drm/{ => renesas}/rcar-du/rcar_cmm.h (100%)
->  rename drivers/gpu/drm/{ => renesas}/rcar-du/rcar_du_crtc.c (100%)
->  rename drivers/gpu/drm/{ => renesas}/rcar-du/rcar_du_crtc.h (100%)
->  rename drivers/gpu/drm/{ => renesas}/rcar-du/rcar_du_drv.c (100%)
->  rename drivers/gpu/drm/{ => renesas}/rcar-du/rcar_du_drv.h (100%)
->  rename drivers/gpu/drm/{ => renesas}/rcar-du/rcar_du_encoder.c (100%)
->  rename drivers/gpu/drm/{ => renesas}/rcar-du/rcar_du_encoder.h (100%)
->  rename drivers/gpu/drm/{ => renesas}/rcar-du/rcar_du_group.c (100%)
->  rename drivers/gpu/drm/{ => renesas}/rcar-du/rcar_du_group.h (100%)
->  rename drivers/gpu/drm/{ => renesas}/rcar-du/rcar_du_kms.c (100%)
->  rename drivers/gpu/drm/{ => renesas}/rcar-du/rcar_du_kms.h (100%)
->  rename drivers/gpu/drm/{ => renesas}/rcar-du/rcar_du_plane.c (100%)
->  rename drivers/gpu/drm/{ => renesas}/rcar-du/rcar_du_plane.h (100%)
->  rename drivers/gpu/drm/{ => renesas}/rcar-du/rcar_du_regs.h (100%)
->  rename drivers/gpu/drm/{ => renesas}/rcar-du/rcar_du_vsp.c (100%)
->  rename drivers/gpu/drm/{ => renesas}/rcar-du/rcar_du_vsp.h (100%)
->  rename drivers/gpu/drm/{ => renesas}/rcar-du/rcar_du_writeback.c (100%)
->  rename drivers/gpu/drm/{ => renesas}/rcar-du/rcar_du_writeback.h (100%)
->  rename drivers/gpu/drm/{ => renesas}/rcar-du/rcar_dw_hdmi.c (100%)
->  rename drivers/gpu/drm/{ => renesas}/rcar-du/rcar_lvds.c (100%)
->  rename drivers/gpu/drm/{ => renesas}/rcar-du/rcar_lvds.h (100%)
->  rename drivers/gpu/drm/{ => renesas}/rcar-du/rcar_lvds_regs.h (100%)
->  rename drivers/gpu/drm/{ => renesas}/rcar-du/rcar_mipi_dsi.c (100%)
->  rename drivers/gpu/drm/{ => renesas}/rcar-du/rcar_mipi_dsi.h (100%)
->  rename drivers/gpu/drm/{ => renesas}/rcar-du/rcar_mipi_dsi_regs.h (100%)
->  rename drivers/gpu/drm/{ => renesas}/rcar-du/rzg2l_mipi_dsi.c (100%)
->  rename drivers/gpu/drm/{ => renesas}/rcar-du/rzg2l_mipi_dsi_regs.h (100%)
->  rename drivers/gpu/drm/{ => renesas}/shmobile/Kconfig (100%)
->  rename drivers/gpu/drm/{ => renesas}/shmobile/Makefile (100%)
->  rename drivers/gpu/drm/{ => renesas}/shmobile/shmob_drm_backlight.c (100%)
->  rename drivers/gpu/drm/{ => renesas}/shmobile/shmob_drm_backlight.h (100%)
->  rename drivers/gpu/drm/{ => renesas}/shmobile/shmob_drm_crtc.c (100%)
->  rename drivers/gpu/drm/{ => renesas}/shmobile/shmob_drm_crtc.h (100%)
->  rename drivers/gpu/drm/{ => renesas}/shmobile/shmob_drm_drv.c (100%)
->  rename drivers/gpu/drm/{ => renesas}/shmobile/shmob_drm_drv.h (100%)
->  rename drivers/gpu/drm/{ => renesas}/shmobile/shmob_drm_kms.c (100%)
->  rename drivers/gpu/drm/{ => renesas}/shmobile/shmob_drm_kms.h (100%)
->  rename drivers/gpu/drm/{ => renesas}/shmobile/shmob_drm_plane.c (100%)
->  rename drivers/gpu/drm/{ => renesas}/shmobile/shmob_drm_plane.h (100%)
->  rename drivers/gpu/drm/{ => renesas}/shmobile/shmob_drm_regs.h (100%)
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 276298cfc7ee..1218a2ec6d97 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -6959,8 +6959,7 @@ F:	Documentation/devicetree/bindings/display/bridge/renesas,dsi-csi2-tx.yaml
->  F:	Documentation/devicetree/bindings/display/bridge/renesas,dw-hdmi.yaml
->  F:	Documentation/devicetree/bindings/display/bridge/renesas,lvds.yaml
->  F:	Documentation/devicetree/bindings/display/renesas,du.yaml
-> -F:	drivers/gpu/drm/rcar-du/
-> -F:	drivers/gpu/drm/shmobile/
-> +F:	drivers/gpu/drm/renesas/
->  F:	include/linux/platform_data/shmob_drm.h
->  
->  DRM DRIVERS FOR ROCKCHIP
-> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-> index ba3fb04bb691..41aa8b07252b 100644
-> --- a/drivers/gpu/drm/Kconfig
-> +++ b/drivers/gpu/drm/Kconfig
-> @@ -295,9 +295,7 @@ source "drivers/gpu/drm/armada/Kconfig"
->  
->  source "drivers/gpu/drm/atmel-hlcdc/Kconfig"
->  
-> -source "drivers/gpu/drm/rcar-du/Kconfig"
-> -
-> -source "drivers/gpu/drm/shmobile/Kconfig"
-> +source "drivers/gpu/drm/renesas/Kconfig"
->  
->  source "drivers/gpu/drm/sun4i/Kconfig"
->  
-> diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
-> index a33257d2bc7f..982d9e06168a 100644
-> --- a/drivers/gpu/drm/Makefile
-> +++ b/drivers/gpu/drm/Makefile
-> @@ -156,8 +156,7 @@ obj-$(CONFIG_DRM_UDL) += udl/
->  obj-$(CONFIG_DRM_AST) += ast/
->  obj-$(CONFIG_DRM_ARMADA) += armada/
->  obj-$(CONFIG_DRM_ATMEL_HLCDC)	+= atmel-hlcdc/
-> -obj-y			+= rcar-du/
-> -obj-$(CONFIG_DRM_SHMOBILE) +=shmobile/
-> +obj-y			+= renesas/
->  obj-y			+= omapdrm/
->  obj-$(CONFIG_DRM_SUN4I) += sun4i/
->  obj-y			+= tilcdc/
-> diff --git a/drivers/gpu/drm/renesas/Kconfig b/drivers/gpu/drm/renesas/Kconfig
-> new file mode 100644
-> index 000000000000..3777dad17f81
-> --- /dev/null
-> +++ b/drivers/gpu/drm/renesas/Kconfig
-> @@ -0,0 +1,4 @@
-> +# SPDX-License-Identifier: GPL-2.0-only
-> +
-> +source "drivers/gpu/drm/renesas/rcar-du/Kconfig"
-> +source "drivers/gpu/drm/renesas/shmobile/Kconfig"
-> diff --git a/drivers/gpu/drm/renesas/Makefile b/drivers/gpu/drm/renesas/Makefile
-> new file mode 100644
-> index 000000000000..ec0e89e7a592
-> --- /dev/null
-> +++ b/drivers/gpu/drm/renesas/Makefile
-> @@ -0,0 +1,4 @@
-> +# SPDX-License-Identifier: GPL-2.0
-> +
-> +obj-y += rcar-du/
-> +obj-$(CONFIG_DRM_SHMOBILE) += shmobile/
-> diff --git a/drivers/gpu/drm/rcar-du/Kconfig b/drivers/gpu/drm/renesas/rcar-du/Kconfig
-> similarity index 100%
-> rename from drivers/gpu/drm/rcar-du/Kconfig
-> rename to drivers/gpu/drm/renesas/rcar-du/Kconfig
-> diff --git a/drivers/gpu/drm/rcar-du/Makefile b/drivers/gpu/drm/renesas/rcar-du/Makefile
-> similarity index 100%
-> rename from drivers/gpu/drm/rcar-du/Makefile
-> rename to drivers/gpu/drm/renesas/rcar-du/Makefile
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_cmm.c b/drivers/gpu/drm/renesas/rcar-du/rcar_cmm.c
-> similarity index 100%
-> rename from drivers/gpu/drm/rcar-du/rcar_cmm.c
-> rename to drivers/gpu/drm/renesas/rcar-du/rcar_cmm.c
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_cmm.h b/drivers/gpu/drm/renesas/rcar-du/rcar_cmm.h
-> similarity index 100%
-> rename from drivers/gpu/drm/rcar-du/rcar_cmm.h
-> rename to drivers/gpu/drm/renesas/rcar-du/rcar_cmm.h
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_crtc.c b/drivers/gpu/drm/renesas/rcar-du/rcar_du_crtc.c
-> similarity index 100%
-> rename from drivers/gpu/drm/rcar-du/rcar_du_crtc.c
-> rename to drivers/gpu/drm/renesas/rcar-du/rcar_du_crtc.c
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_crtc.h b/drivers/gpu/drm/renesas/rcar-du/rcar_du_crtc.h
-> similarity index 100%
-> rename from drivers/gpu/drm/rcar-du/rcar_du_crtc.h
-> rename to drivers/gpu/drm/renesas/rcar-du/rcar_du_crtc.h
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_drv.c b/drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.c
-> similarity index 100%
-> rename from drivers/gpu/drm/rcar-du/rcar_du_drv.c
-> rename to drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.c
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_drv.h b/drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.h
-> similarity index 100%
-> rename from drivers/gpu/drm/rcar-du/rcar_du_drv.h
-> rename to drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.h
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_encoder.c b/drivers/gpu/drm/renesas/rcar-du/rcar_du_encoder.c
-> similarity index 100%
-> rename from drivers/gpu/drm/rcar-du/rcar_du_encoder.c
-> rename to drivers/gpu/drm/renesas/rcar-du/rcar_du_encoder.c
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_encoder.h b/drivers/gpu/drm/renesas/rcar-du/rcar_du_encoder.h
-> similarity index 100%
-> rename from drivers/gpu/drm/rcar-du/rcar_du_encoder.h
-> rename to drivers/gpu/drm/renesas/rcar-du/rcar_du_encoder.h
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_group.c b/drivers/gpu/drm/renesas/rcar-du/rcar_du_group.c
-> similarity index 100%
-> rename from drivers/gpu/drm/rcar-du/rcar_du_group.c
-> rename to drivers/gpu/drm/renesas/rcar-du/rcar_du_group.c
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_group.h b/drivers/gpu/drm/renesas/rcar-du/rcar_du_group.h
-> similarity index 100%
-> rename from drivers/gpu/drm/rcar-du/rcar_du_group.h
-> rename to drivers/gpu/drm/renesas/rcar-du/rcar_du_group.h
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_kms.c b/drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c
-> similarity index 100%
-> rename from drivers/gpu/drm/rcar-du/rcar_du_kms.c
-> rename to drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_kms.h b/drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.h
-> similarity index 100%
-> rename from drivers/gpu/drm/rcar-du/rcar_du_kms.h
-> rename to drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.h
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_plane.c b/drivers/gpu/drm/renesas/rcar-du/rcar_du_plane.c
-> similarity index 100%
-> rename from drivers/gpu/drm/rcar-du/rcar_du_plane.c
-> rename to drivers/gpu/drm/renesas/rcar-du/rcar_du_plane.c
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_plane.h b/drivers/gpu/drm/renesas/rcar-du/rcar_du_plane.h
-> similarity index 100%
-> rename from drivers/gpu/drm/rcar-du/rcar_du_plane.h
-> rename to drivers/gpu/drm/renesas/rcar-du/rcar_du_plane.h
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_regs.h b/drivers/gpu/drm/renesas/rcar-du/rcar_du_regs.h
-> similarity index 100%
-> rename from drivers/gpu/drm/rcar-du/rcar_du_regs.h
-> rename to drivers/gpu/drm/renesas/rcar-du/rcar_du_regs.h
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_vsp.c b/drivers/gpu/drm/renesas/rcar-du/rcar_du_vsp.c
-> similarity index 100%
-> rename from drivers/gpu/drm/rcar-du/rcar_du_vsp.c
-> rename to drivers/gpu/drm/renesas/rcar-du/rcar_du_vsp.c
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_vsp.h b/drivers/gpu/drm/renesas/rcar-du/rcar_du_vsp.h
-> similarity index 100%
-> rename from drivers/gpu/drm/rcar-du/rcar_du_vsp.h
-> rename to drivers/gpu/drm/renesas/rcar-du/rcar_du_vsp.h
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_writeback.c b/drivers/gpu/drm/renesas/rcar-du/rcar_du_writeback.c
-> similarity index 100%
-> rename from drivers/gpu/drm/rcar-du/rcar_du_writeback.c
-> rename to drivers/gpu/drm/renesas/rcar-du/rcar_du_writeback.c
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_writeback.h b/drivers/gpu/drm/renesas/rcar-du/rcar_du_writeback.h
-> similarity index 100%
-> rename from drivers/gpu/drm/rcar-du/rcar_du_writeback.h
-> rename to drivers/gpu/drm/renesas/rcar-du/rcar_du_writeback.h
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_dw_hdmi.c b/drivers/gpu/drm/renesas/rcar-du/rcar_dw_hdmi.c
-> similarity index 100%
-> rename from drivers/gpu/drm/rcar-du/rcar_dw_hdmi.c
-> rename to drivers/gpu/drm/renesas/rcar-du/rcar_dw_hdmi.c
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_lvds.c b/drivers/gpu/drm/renesas/rcar-du/rcar_lvds.c
-> similarity index 100%
-> rename from drivers/gpu/drm/rcar-du/rcar_lvds.c
-> rename to drivers/gpu/drm/renesas/rcar-du/rcar_lvds.c
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_lvds.h b/drivers/gpu/drm/renesas/rcar-du/rcar_lvds.h
-> similarity index 100%
-> rename from drivers/gpu/drm/rcar-du/rcar_lvds.h
-> rename to drivers/gpu/drm/renesas/rcar-du/rcar_lvds.h
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_lvds_regs.h b/drivers/gpu/drm/renesas/rcar-du/rcar_lvds_regs.h
-> similarity index 100%
-> rename from drivers/gpu/drm/rcar-du/rcar_lvds_regs.h
-> rename to drivers/gpu/drm/renesas/rcar-du/rcar_lvds_regs.h
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c b/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c
-> similarity index 100%
-> rename from drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c
-> rename to drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.h b/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.h
-> similarity index 100%
-> rename from drivers/gpu/drm/rcar-du/rcar_mipi_dsi.h
-> rename to drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.h
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_mipi_dsi_regs.h b/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h
-> similarity index 100%
-> rename from drivers/gpu/drm/rcar-du/rcar_mipi_dsi_regs.h
-> rename to drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h
-> diff --git a/drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c b/drivers/gpu/drm/renesas/rcar-du/rzg2l_mipi_dsi.c
-> similarity index 100%
-> rename from drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c
-> rename to drivers/gpu/drm/renesas/rcar-du/rzg2l_mipi_dsi.c
-> diff --git a/drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi_regs.h b/drivers/gpu/drm/renesas/rcar-du/rzg2l_mipi_dsi_regs.h
-> similarity index 100%
-> rename from drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi_regs.h
-> rename to drivers/gpu/drm/renesas/rcar-du/rzg2l_mipi_dsi_regs.h
-> diff --git a/drivers/gpu/drm/shmobile/Kconfig b/drivers/gpu/drm/renesas/shmobile/Kconfig
-> similarity index 100%
-> rename from drivers/gpu/drm/shmobile/Kconfig
-> rename to drivers/gpu/drm/renesas/shmobile/Kconfig
-> diff --git a/drivers/gpu/drm/shmobile/Makefile b/drivers/gpu/drm/renesas/shmobile/Makefile
-> similarity index 100%
-> rename from drivers/gpu/drm/shmobile/Makefile
-> rename to drivers/gpu/drm/renesas/shmobile/Makefile
-> diff --git a/drivers/gpu/drm/shmobile/shmob_drm_backlight.c b/drivers/gpu/drm/renesas/shmobile/shmob_drm_backlight.c
-> similarity index 100%
-> rename from drivers/gpu/drm/shmobile/shmob_drm_backlight.c
-> rename to drivers/gpu/drm/renesas/shmobile/shmob_drm_backlight.c
-> diff --git a/drivers/gpu/drm/shmobile/shmob_drm_backlight.h b/drivers/gpu/drm/renesas/shmobile/shmob_drm_backlight.h
-> similarity index 100%
-> rename from drivers/gpu/drm/shmobile/shmob_drm_backlight.h
-> rename to drivers/gpu/drm/renesas/shmobile/shmob_drm_backlight.h
-> diff --git a/drivers/gpu/drm/shmobile/shmob_drm_crtc.c b/drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.c
-> similarity index 100%
-> rename from drivers/gpu/drm/shmobile/shmob_drm_crtc.c
-> rename to drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.c
-> diff --git a/drivers/gpu/drm/shmobile/shmob_drm_crtc.h b/drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.h
-> similarity index 100%
-> rename from drivers/gpu/drm/shmobile/shmob_drm_crtc.h
-> rename to drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.h
-> diff --git a/drivers/gpu/drm/shmobile/shmob_drm_drv.c b/drivers/gpu/drm/renesas/shmobile/shmob_drm_drv.c
-> similarity index 100%
-> rename from drivers/gpu/drm/shmobile/shmob_drm_drv.c
-> rename to drivers/gpu/drm/renesas/shmobile/shmob_drm_drv.c
-> diff --git a/drivers/gpu/drm/shmobile/shmob_drm_drv.h b/drivers/gpu/drm/renesas/shmobile/shmob_drm_drv.h
-> similarity index 100%
-> rename from drivers/gpu/drm/shmobile/shmob_drm_drv.h
-> rename to drivers/gpu/drm/renesas/shmobile/shmob_drm_drv.h
-> diff --git a/drivers/gpu/drm/shmobile/shmob_drm_kms.c b/drivers/gpu/drm/renesas/shmobile/shmob_drm_kms.c
-> similarity index 100%
-> rename from drivers/gpu/drm/shmobile/shmob_drm_kms.c
-> rename to drivers/gpu/drm/renesas/shmobile/shmob_drm_kms.c
-> diff --git a/drivers/gpu/drm/shmobile/shmob_drm_kms.h b/drivers/gpu/drm/renesas/shmobile/shmob_drm_kms.h
-> similarity index 100%
-> rename from drivers/gpu/drm/shmobile/shmob_drm_kms.h
-> rename to drivers/gpu/drm/renesas/shmobile/shmob_drm_kms.h
-> diff --git a/drivers/gpu/drm/shmobile/shmob_drm_plane.c b/drivers/gpu/drm/renesas/shmobile/shmob_drm_plane.c
-> similarity index 100%
-> rename from drivers/gpu/drm/shmobile/shmob_drm_plane.c
-> rename to drivers/gpu/drm/renesas/shmobile/shmob_drm_plane.c
-> diff --git a/drivers/gpu/drm/shmobile/shmob_drm_plane.h b/drivers/gpu/drm/renesas/shmobile/shmob_drm_plane.h
-> similarity index 100%
-> rename from drivers/gpu/drm/shmobile/shmob_drm_plane.h
-> rename to drivers/gpu/drm/renesas/shmobile/shmob_drm_plane.h
-> diff --git a/drivers/gpu/drm/shmobile/shmob_drm_regs.h b/drivers/gpu/drm/renesas/shmobile/shmob_drm_regs.h
-> similarity index 100%
-> rename from drivers/gpu/drm/shmobile/shmob_drm_regs.h
-> rename to drivers/gpu/drm/renesas/shmobile/shmob_drm_regs.h
+I'm not suggesting that userspace should be able to check that
+scenario x+y+z will work, but more a list of extensions that
+conceivably could work. Normally this should just a matter of the
+kernel unconditionally adding the newly implemented extension to the
+list returned in the query call.
 
--- 
-Regards,
+If a GET_PARAM can be made for the PXP case, then it seems like a
+query item returning CONTEXT_CREATE extensions could conditionally
+omit that extension just as easily as implementing the proposed new
+GET_PARAM.
 
-Laurent Pinchart
+-Jordan
