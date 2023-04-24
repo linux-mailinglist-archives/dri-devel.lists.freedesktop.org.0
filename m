@@ -2,43 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D53C96ED839
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Apr 2023 00:57:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A66C6ED857
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Apr 2023 01:11:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B619A10E55E;
-	Mon, 24 Apr 2023 22:56:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E8DB310E057;
+	Mon, 24 Apr 2023 23:10:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bombadil.infradead.org (bombadil.infradead.org
- [IPv6:2607:7c80:54:3::133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 04A9310E55E
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Apr 2023 22:56:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=bombadil.20210309; h=Sender:In-Reply-To:Content-Type:
- MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
- Content-Transfer-Encoding:Content-ID:Content-Description;
- bh=HzgjvK0ubj+ERQ1LfdXCjji6k+DvtKZctwDhlZRvBX8=; b=h7dfZeFWODQdL55Xv4rMJoQ0VU
- 8Auf/8mLAQebtblG9YCG/QgnwvOTGYf23iClnaJQNnNmq261w85lu3/nMIqiK3TV9XpNyPJi03LAh
- eJs/i9l9HdvYLmI7L0kW7imDFKxKt4J/TH4QjDCUH9QmcbxKfnonbbbvJSN0k7pmrkKZy9PFQsSyu
- 2CJmyfYIv1KAzMQ7bkq641c1+6AhMZh9Fgmt7LekAdidEw0dJB5GdzkOxZgJ2Q5RrgO7udxQk510/
- ZjzKo7XLo4G0YSJP4lCoEoSqq+ZUwC3JrGZWj7oqnKKPeszpdAbobsudxNF6B7baegH5O/h70Tr31
- tXo3HbjQ==;
-Received: from mcgrof by bombadil.infradead.org with local (Exim 4.96 #2 (Red
- Hat Linux)) id 1pr577-00HJon-2V; Mon, 24 Apr 2023 22:56:53 +0000
-Date: Mon, 24 Apr 2023 15:56:53 -0700
-From: Luis Chamberlain <mcgrof@kernel.org>
-To: Lucas De Marchi <lucas.demarchi@intel.com>
-Subject: Re: [PATCH] modules/firmware: add a new option to denote a firmware
- group to choose one.
-Message-ID: <ZEcJNcz+ArLfUSJ1@bombadil.infradead.org>
-References: <20230419043652.1773413-1-airlied@gmail.com>
- <ck2dzxvllhhh74oa3vjlacutc7rdmgl7cfrfq7vgx4w3jcufrz@7jbgxcat42yn>
- <CAPM=9tw0Y2A4DvuTHT_yd58Eit+tUmo63pbEOHwRJ66LeqznEQ@mail.gmail.com>
- <fsleccud43leoioli6bj4xoydwbdcjb5qr4denuf6morhgtqki@t6xya2mygon5>
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 918D110E057;
+ Mon, 24 Apr 2023 23:10:55 +0000 (UTC)
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 33OMWh3L005351; Mon, 24 Apr 2023 23:09:49 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=8GdsQCr0p4YLH4qvUym0R6hMLq4gi02IrKOF11qjjxM=;
+ b=GonEO0e8cnPaHgdUgLhLR1Kqg2EA8P9/zCIsmWpzlyPpgJRrxRJ3gc6XyYbw6FAa1wIT
+ EoMsQIm2LXTWU8UhZWJo8EFRAA2vE4QeAK3BwO/NJVpObseDxXUJNVeu9OwUDZ8hUtk+
+ OCyPbnk49TrxbLN9A4oPNCJMdu+FaadVZ781Nrrh78W2kBR79fXUO81JuyP262V1EKpl
+ DT5yRfwUEhd2ei6bXDsb75I6gOBW/GYCMxwz3+wltZv4dzcTxZD2KZwoxn6Jl/cZgBUY
+ iNMoBnpGjXkBIZ2G453xN3aIx6ScGkDv/4iJA0o9IOZRBM4v4x4E2qNoS6d5m4e7N+dJ vw== 
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3q61jdr57d-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 24 Apr 2023 23:09:49 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 33ON9msF024347
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 24 Apr 2023 23:09:48 GMT
+Received: from [10.110.104.134] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Mon, 24 Apr
+ 2023 16:09:46 -0700
+Message-ID: <65bb4d8a-c607-4152-0ae3-bf3134955925@quicinc.com>
+Date: Mon, 24 Apr 2023 16:09:45 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <fsleccud43leoioli6bj4xoydwbdcjb5qr4denuf6morhgtqki@t6xya2mygon5>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.2
+Subject: Re: [Freedreno] [PATCH v2 04/17] drm/msm/dpu: Fix PP_BLK_DIPHER ->
+ DITHER typo
+Content-Language: en-US
+To: Marijn Suijten <marijn.suijten@somainline.org>
+References: <20230411-dpu-intf-te-v2-0-ef76c877eb97@somainline.org>
+ <20230411-dpu-intf-te-v2-4-ef76c877eb97@somainline.org>
+ <a0a0b8fb-0d6b-d11b-5596-d61c41aabe7f@quicinc.com>
+ <bhatfkgdkjt2bih4lcwa5cxcp3w2tkjrqmbdhqhzqa2cizrmxs@py3gr5vifsoc>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <bhatfkgdkjt2bih4lcwa5cxcp3w2tkjrqmbdhqhzqa2cizrmxs@py3gr5vifsoc>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: BM0PKs6kXF-Aeb2IrdblbYtISv0IQxnd
+X-Proofpoint-GUID: BM0PKs6kXF-Aeb2IrdblbYtISv0IQxnd
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-04-24_11,2023-04-21_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ spamscore=0 clxscore=1015 mlxlogscore=999 malwarescore=0 phishscore=0
+ adultscore=0 mlxscore=0 suspectscore=0 impostorscore=0 bulkscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2303200000 definitions=main-2304240210
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,101 +86,129 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dave Airlie <airlied@redhat.com>, linux-modules@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org, Jordan Crouse <jordan@cosmicpenguin.net>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
+ Chandan Uddaraju <chandanu@codeaurora.org>,
+ Archit Taneja <architt@codeaurora.org>, Robert Foss <rfoss@kernel.org>,
+ Vinod Koul <vkoul@kernel.org>, Kuogee Hsieh <quic_khsieh@quicinc.com>,
+ Rajesh Yadav <ryadav@codeaurora.org>, linux-arm-msm@vger.kernel.org,
+ Adam Skladowski <a39.skl@gmail.com>,
+ Martin Botka <martin.botka@somainline.org>,
+ ~postmarketos/upstreaming@lists.sr.ht,
+ Jeykumar Sankaran <jsanka@codeaurora.org>, Sean Paul <sean@poorly.run>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Loic Poulain <loic.poulain@linaro.org>, Jami
+ Kettunen <jami.kettunen@somainline.org>, Bjorn Andersson <andersson@kernel.org>,
+ linux-kernel@vger.kernel.org, Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ freedreno@lists.freedesktop.org,
+ Sravanthi Kollukuduru <skolluku@codeaurora.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Apr 24, 2023 at 10:01:13AM -0700, Lucas De Marchi wrote:
-> On Mon, Apr 24, 2023 at 03:44:18PM +1000, Dave Airlie wrote:
-> > On Fri, 21 Apr 2023 at 05:09, Lucas De Marchi <lucas.demarchi@intel.com> wrote:
-> > > 
-> > > On Wed, Apr 19, 2023 at 02:36:52PM +1000, Dave Airlie wrote:
-> > > >From: Dave Airlie <airlied@redhat.com>
-> > > >
-> > > >This adds a tag that will go into the module info, only one firmware from
-> > > >the group given needs to be available for this driver to work. This allows
-> > > >dracut to avoid adding in firmware that aren't needed.
-> > > >
-> > > >This just brackets a module list in the modinfo, the modules in the list
-> > > >will get entries in reversed order so the last module in the list is the
-> > > >preferred one.
-> > > >
-> > > >The corresponding dracut code it at:
-> > > >https://github.com/dracutdevs/dracut/pull/2309
-> > > 
-> > > it would be good to have the example usage in the commit message here so
-> > > it can be easily checked as reference for other drivers.
-> > 
-> > Good point.
-> > 
-> > > 
-> > > I don't think we ever had any ordering in modinfo being relevant for
-> > > other things. Considering the use case and that we could also use a
-> > > similar thing for i915 / xe modules wrt to the major version,
-> > > couldn't we do something like below?
-> > > 
-> > >         MODULE_FIRMWARE_GROUP("nvidia/ga106/gsp/gsp");
-> > >         MODULE_FIRMWARE("nvidia/ga106/gsp/gsp-5258902.bin");
-> > >         MODULE_FIRMWARE("nvidia/ga106/gsp/gsp-5303002.bin");
-> > > 
-> > > so the group is created by startswith() rather than by the order the
-> > > modinfo appears in the elf section. In i915 we'd have:
-> > 
-> > The way userspace parses these is reverse order, and it doesn't see
+
+
+On 4/24/2023 3:30 PM, Marijn Suijten wrote:
+> On 2023-04-24 13:53:13, Abhinav Kumar wrote:
+>>
+>>
+>> On 4/17/2023 1:21 PM, Marijn Suijten wrote:
+>>> SM8550 only comes with a DITHER subblock inside the PINGPONG block,
+>>> hence the name and a block length of zero.  However, the PP_BLK macro
+>>> name was typo'd to DIPHER rather than DITHER.
+>>>
+>>> Fixes: efcd0107727c ("drm/msm/dpu: add support for SM8550")
+>>> Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
+>>
+>> This change itself is fine, hence
+>>
+>> Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+>>
+>> one comment below
+>>
+>>> ---
+>>>    drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h | 16 ++++++++--------
+>>>    drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c         |  2 +-
+>>>    2 files changed, 9 insertions(+), 9 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h
+>>> index 9e403034093f..d0ab351b6a8b 100644
+>>> --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h
+>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h
+>>> @@ -132,28 +132,28 @@ static const struct dpu_dspp_cfg sm8550_dspp[] = {
+>>>    		 &sm8150_dspp_sblk),
+>>>    };
+>>>    static const struct dpu_pingpong_cfg sm8550_pp[] = {
+>>
+>> dither block should be present on many other chipsets too but looks like
+>> on sm8550 was enabling it. Not sure how it was validated there. But we
+>> are enabling dither, even other chipsets have this block.
 > 
-> the main issue I have with it is that it relies on a order that is
-> implicit rather than intended. The order comes from how the .modinfo ELF
-> section is assembled together... so the fact that your call to
-> kmod_module_get_info() returns a list with the keys in the reverse order
-> of the MODULE_FIRMWARE() definitions, is basically because the compiler
-> toolchain did it did that way.
+> Correct, they all seem to have it starting at sdm845.  My patch message
+> seems to lack the word "exclusively" as the PP on sm8550 appears to
+> exclusively contain a DITHER subblock (unless other blocks are available
+> that simply aren't supported within this driver yet) and no other
+> registers.  Hence this aptly named macro exist to emit just the feature
+> bitflag for that and a .len of zero.
 > 
-> It's worse when those sections come from different compilation units as
-> the order then is not predictable and can easily break with changes to
-> the build infra if the files are linked in different order.
+
+I think after the TE blocks were moved to INTF, dither is the only 
+sub-block for all Ping-Pongs not just in sm8550.
+
+> Now, whether we should have the features contain subblock flags rather
+> than just scanning for their id's or presence in the subblocks is a
+> different discussion / cleanup we should have.
 > 
-> I think the grouping thing here would only be supported with firmware
-> defined on the same compilation unit, but it's something to keep in mind
-> and document.
 
-I had provided a simple API to help with explicit linker order years ago:
+Yes, separate patch and hence I gave R-b on this one. But had to leave 
+this comment to not lose context.
 
-https://git.kernel.org/pub/scm/linux/kernel/git/mcgrof/linux-next.git/log/?h=20170620-linker-tables-v8
-
-Other than that you have to rely on the order in the Makefile or way
-in which they are declared.
-
-> > the GROUP until after the FIRMWARE, so this can't work, as it already
-> > will have included all the ones below, hence why I bracketed top and
-> > bottom with a group.
+> - Marijn
 > 
-> well... that is something that can be adapted easily by using a 2 pass
-> approach, filtering out the list based on the groups.
-> 
-> I agree that yours is simpler though.  If we can rely on the
-> order produced by the compiler and we document the expectations of
-> MODULE_FIRMWARE_GROUP_ONLY_ONE, then I believe we can stay with the
-> simpler approach.
-> 
-> Luis, any thoughts here?
-
-I see the Dracut code indicates that the order says now that you should
-put the preferred firmware last, and that seems to match most coding
-conventions, ie, new firmwares likely get added last, so it's a nice
-coincidence. Will this always work? I don't know. But if you like to
-hedge, then this seems fine so long as I'm folks follow up to fix issues
-later. I think it should and the simplicity is preferred, worth a shot
-I think.
-
-But the examples on both sides are pretty terrible. I'd just like to ask
-all this gets extended in proper kdoc form and we are able to get users
-and developers to read this under "Module support" in:
-
-https://docs.kernel.org/core-api/kernel-api.html
-
-So go to town with a new section for:
-
-Documentation/core-api/kernel-api.rst
-
-  Luis
+>>> -	PP_BLK_DIPHER("pingpong_0", PINGPONG_0, 0x69000, MERGE_3D_0, sc7280_pp_sblk,
+>>> +	PP_BLK_DITHER("pingpong_0", PINGPONG_0, 0x69000, MERGE_3D_0, sc7280_pp_sblk,
+>>>    			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 8),
+>>>    			-1),
+>>> -	PP_BLK_DIPHER("pingpong_1", PINGPONG_1, 0x6a000, MERGE_3D_0, sc7280_pp_sblk,
+>>> +	PP_BLK_DITHER("pingpong_1", PINGPONG_1, 0x6a000, MERGE_3D_0, sc7280_pp_sblk,
+>>>    			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 9),
+>>>    			-1),
+>>> -	PP_BLK_DIPHER("pingpong_2", PINGPONG_2, 0x6b000, MERGE_3D_1, sc7280_pp_sblk,
+>>> +	PP_BLK_DITHER("pingpong_2", PINGPONG_2, 0x6b000, MERGE_3D_1, sc7280_pp_sblk,
+>>>    			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 10),
+>>>    			-1),
+>>> -	PP_BLK_DIPHER("pingpong_3", PINGPONG_3, 0x6c000, MERGE_3D_1, sc7280_pp_sblk,
+>>> +	PP_BLK_DITHER("pingpong_3", PINGPONG_3, 0x6c000, MERGE_3D_1, sc7280_pp_sblk,
+>>>    			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 11),
+>>>    			-1),
+>>> -	PP_BLK_DIPHER("pingpong_4", PINGPONG_4, 0x6d000, MERGE_3D_2, sc7280_pp_sblk,
+>>> +	PP_BLK_DITHER("pingpong_4", PINGPONG_4, 0x6d000, MERGE_3D_2, sc7280_pp_sblk,
+>>>    			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR2, 30),
+>>>    			-1),
+>>> -	PP_BLK_DIPHER("pingpong_5", PINGPONG_5, 0x6e000, MERGE_3D_2, sc7280_pp_sblk,
+>>> +	PP_BLK_DITHER("pingpong_5", PINGPONG_5, 0x6e000, MERGE_3D_2, sc7280_pp_sblk,
+>>>    			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR2, 31),
+>>>    			-1),
+>>> -	PP_BLK_DIPHER("pingpong_6", PINGPONG_6, 0x66000, MERGE_3D_3, sc7280_pp_sblk,
+>>> +	PP_BLK_DITHER("pingpong_6", PINGPONG_6, 0x66000, MERGE_3D_3, sc7280_pp_sblk,
+>>>    			-1,
+>>>    			-1),
+>>> -	PP_BLK_DIPHER("pingpong_7", PINGPONG_7, 0x66400, MERGE_3D_3, sc7280_pp_sblk,
+>>> +	PP_BLK_DITHER("pingpong_7", PINGPONG_7, 0x66400, MERGE_3D_3, sc7280_pp_sblk,
+>>>    			-1,
+>>>    			-1),
+>>>    };
+>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+>>> index 03f162af1a50..ca8a02debda9 100644
+>>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+>>> @@ -491,7 +491,7 @@ static const struct dpu_pingpong_sub_blks sc7280_pp_sblk = {
+>>>    	.len = 0x20, .version = 0x20000},
+>>>    };
+>>>    
+>>> -#define PP_BLK_DIPHER(_name, _id, _base, _merge_3d, _sblk, _done, _rdptr) \
+>>> +#define PP_BLK_DITHER(_name, _id, _base, _merge_3d, _sblk, _done, _rdptr) \
+>>>    	{\
+>>>    	.name = _name, .id = _id, \
+>>>    	.base = _base, .len = 0, \
+>>>
