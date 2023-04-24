@@ -2,56 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FA7C6EC6E9
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Apr 2023 09:20:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 60EE46EC728
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Apr 2023 09:31:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 87FA410E1D5;
-	Mon, 24 Apr 2023 07:20:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F09E210E31A;
+	Mon, 24 Apr 2023 07:31:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vk1-xa2d.google.com (mail-vk1-xa2d.google.com
- [IPv6:2607:f8b0:4864:20::a2d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 13C4410E1D5
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Apr 2023 07:20:32 +0000 (UTC)
-Received: by mail-vk1-xa2d.google.com with SMTP id
- 71dfb90a1353d-443bd60988eso2866072e0c.1
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Apr 2023 00:20:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1682320832; x=1684912832;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=InRVR5tViOC9ShtIBT4ewDyQe/oRbEDimCDKVkObJco=;
- b=GH2STlEFktHM2bkMFI1q6ADmk9pyiHflx3473RYpy5DlEJA+9Re+2Fj76zdfR24ljy
- rr+Zz18yIbv59TCnqcl0Ak8PrPTO8JbKuMxizV6GkylJ8F79Wc4SC157k2cCQbFRtfBK
- prSycLhVOXqitti6e6Mys2T1CXOu0lYMLpnCk=
+Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com
+ [209.85.128.181])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6693510E2FC
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Apr 2023 07:31:37 +0000 (UTC)
+Received: by mail-yw1-f181.google.com with SMTP id
+ 00721157ae682-54fb8a8a597so47517607b3.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Apr 2023 00:31:37 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682320832; x=1684912832;
+ d=1e100.net; s=20221208; t=1682321496; x=1684913496;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=InRVR5tViOC9ShtIBT4ewDyQe/oRbEDimCDKVkObJco=;
- b=OItksVvfq70NiUS385/LsNNqy7z8+LoA6WcwAVONcRMCrbcxtkCafmMICz4hiGxJnT
- IexUFGb2RZIKbw+G9ofzA9lMmtcP+i5+9n0SLGJdevWpsKk3Abr8ig//jQDv1gPuSd9i
- RIxxRwhHBcqMhPmLiG/p0aFb68UU+KfXRki9yQb0ZysjMiaAn4j2TNx8AVHRswE4ancc
- RaQpNGIprMzb24fVWKFc83BlD7pWsEx7IxrrfErQX5P9GLu40PIt+47pHL30SiZ/+nJx
- /v+mkCAL1Snkh8TO4bWFfBBwMteQktZWyY7YvdUNpjg+8ODgL5cW0SjfUho3gzMjnMa6
- 8Phg==
-X-Gm-Message-State: AAQBX9cuk1oB2FoEHjMQbUWwEGW9GoscrwvW8S5Wsx3fi99vQ9f2hnMR
- qnnzuJc0FgTeIGV0iqOQBi3DtW+pimPClvu2och+UA==
-X-Google-Smtp-Source: AKy350YuctfBKriko29k+cGfbV+w1OLRc1OuTx3Hk0RuY+HlIwk3Pv/0iPX9qpxRnYDkWfQIietUJK3kZuZPFQzYRfQ=
-X-Received: by 2002:a1f:3f53:0:b0:43f:fc32:15f0 with SMTP id
- m80-20020a1f3f53000000b0043ffc3215f0mr3519433vka.14.1682320831928; Mon, 24
- Apr 2023 00:20:31 -0700 (PDT)
+ bh=qVjrUBePw3Nq2ZtrxyHKPMRQvOHRrO/KkUf1wauFdNw=;
+ b=HRSnS30MGH0iV8kuKnmMyapP/8OoTDDur5dV0tUGxtaZqWBgpLzMEfAPetr/KBW8Iz
+ sUdswn2MeLFBDNFTLjyE4SHUgLE20oflKOxX6f1eN5lVdUrHPOWsh0JBXNab9bP1oemc
+ dy8R0B2TyAQ19enkYxOrCw+cR4t3vCpkoOPfKmBuZ1/ROvdQMyDIowp/9Cnmky4wRHYv
+ 71IT4VNms7lT3tYy1sDVLPwykUOyMIQgmCbb9e18s4e3NnEFk1dZG7xawOaWET9qvurd
+ WWh0xPqg42M4mpMrIfQImRKRuHBRXOtVIVfYtgrVnBjWBPsFwQHpqcURln0JiOSoD3ia
+ DtWg==
+X-Gm-Message-State: AAQBX9cGO9HxEbP/iNmxZ9NBYpDLzcPy+9OYgYUc3slt6E5xYggaNNoH
+ Z24Ogx5p0ds9CZ3/EKUALw1id7xrqoascA==
+X-Google-Smtp-Source: AKy350ZMZWcbIHdn8Q9cVpOzF7W+LSBzRsSKFl3F4R4eAdS72eQySfoayamWgWjPDt4wH/B7c6peiA==
+X-Received: by 2002:a0d:f545:0:b0:556:1cea:5bf8 with SMTP id
+ e66-20020a0df545000000b005561cea5bf8mr6625931ywf.22.1682321496052; 
+ Mon, 24 Apr 2023 00:31:36 -0700 (PDT)
+Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com.
+ [209.85.128.176]) by smtp.gmail.com with ESMTPSA id
+ d69-20020a0ddb48000000b00545a0818494sm2820599ywe.36.2023.04.24.00.31.35
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 24 Apr 2023 00:31:35 -0700 (PDT)
+Received: by mail-yw1-f176.google.com with SMTP id
+ 00721157ae682-54f9d6eccf3so47456947b3.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Apr 2023 00:31:35 -0700 (PDT)
+X-Received: by 2002:a81:6d93:0:b0:54f:e2ae:21e1 with SMTP id
+ i141-20020a816d93000000b0054fe2ae21e1mr6851865ywc.36.1682321494895; Mon, 24
+ Apr 2023 00:31:34 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230423121232.1345909-1-aford173@gmail.com>
-In-Reply-To: <20230423121232.1345909-1-aford173@gmail.com>
-From: Chen-Yu Tsai <wenst@chromium.org>
-Date: Mon, 24 Apr 2023 15:20:20 +0800
-Message-ID: <CAGXv+5EqdFb1hgQ0uP=hmPDrAH_enp39PSUxmQ6WDZ+0h-vd6w@mail.gmail.com>
-Subject: Re: [PATCH V2 0/6] drm: bridge: samsung-dsim: Support variable
- clocking
-To: Adam Ford <aford173@gmail.com>
+References: <20230412095509.2196162-1-cyril@debamax.com>
+ <20230412095509.2196162-2-cyril@debamax.com>
+In-Reply-To: <20230412095509.2196162-2-cyril@debamax.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 24 Apr 2023 09:31:22 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdVGEeAsmb4tAuuqqGJ-4+BBETwEwYJA+M9NyJv0BJ_hNg@mail.gmail.com>
+Message-ID: <CAMuHMdVGEeAsmb4tAuuqqGJ-4+BBETwEwYJA+M9NyJv0BJ_hNg@mail.gmail.com>
+Subject: Re: [PATCH 1/2] fbdev/offb: Update expected device name
+To: Cyril Brulebois <cyril@debamax.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -66,52 +70,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Robert Foss <rfoss@kernel.org>,
- dario.binacchi@amarulasolutions.com, Jonas Karlman <jonas@kwiboo.se>,
- linux-kernel@vger.kernel.org, aford@beaconembedded.com,
- dri-devel@lists.freedesktop.org,
- Frieder Schrempf <frieder.schrempf@kontron.de>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, m.szyprowski@samsung.com,
- Jagan Teki <jagan@amarulasolutions.com>
+Cc: linux-fbdev@vger.kernel.org,
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, stable@vger.kernel.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, Michal Suchanek <msuchanek@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Apr 23, 2023 at 8:12=E2=80=AFPM Adam Ford <aford173@gmail.com> wrot=
-e:
->
-> This series fixes the blanking pack size and the PMS calculation.  It the=
-n
-> adds support to allows the DSIM to dynamically DPHY clocks, and support
-> non-burst mode while allowing the removal of the hard-coded clock values
-> for the PLL for imx8m mini/nano/plus, and it allows the removal of the
-> burst-clock device tree entry when burst-mode isn't supported by connecte=
-d
-> devices like an HDMI brige.  In that event, the HS clock is set to the va=
-lue
-> requested by the bridge chip.
->
-> This has been tested on both an i.MX8M Nano and i.MX8M Plus, and should w=
-ork
-> on i.MX8M Mini as well.
->
->
-> Adam Ford (5):
->   drm: bridge: samsung-dsim: Fix PMS Calculator on imx8m[mnp]
->   drm: bridge: samsung-dsim: Fetch pll-clock-frequency automatically
->   drm: bridge: samsung-dsim: Dynamically configure DPHY timing
->   drm: bridge: samsung-dsim: Support non-burst mode
->   drm: bridge: samsung-dsim: Let blanking calcuation work in non-burst
->     mode
->
-> Lucas Stach (1):
->   drm: bridge: samsung-dsim: fix blanking packet size calculation
+Hi Cyril,
 
-This makes the micro-HDMI port on my Hummingboard Pulse (w/ i.MX8M Mini SOM=
-)
-work properly, so the whole series is
+CC DT
 
-Tested-by: Chen-Yu Tsai <wenst@chromium.org>
+On Wed, Apr 12, 2023 at 12:05=E2=80=AFPM Cyril Brulebois <cyril@debamax.com=
+> wrote:
+> Since commit 241d2fb56a18 ("of: Make OF framebuffer device names unique")=
+,
+> as spotted by Fr=C3=A9d=C3=A9ric Bonnard, the historical "of-display" dev=
+ice is
+> gone: the updated logic creates "of-display.0" instead, then as many
+> "of-display.N" as required.
+>
+> This means that offb no longer finds the expected device, which prevents
+> the Debian Installer from setting up its interface, at least on ppc64el.
+>
+> It might be better to iterate on all possible nodes, but updating the
+> hardcoded device from "of-display" to "of-display.0" is confirmed to fix
+> the Debian Installer at the very least.
+>
+> Link: https://bugzilla.kernel.org/show_bug.cgi?id=3D217328
+> Link: https://bugs.debian.org/1033058
+> Fixes: 241d2fb56a18 ("of: Make OF framebuffer device names unique")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Cyril Brulebois <cyril@debamax.com>
 
-Thanks!
+Thanks for your patch, which is now commit 27c74ea74be805cc
+("fbdev/offb: Update expected device name") in fbdev/for-next
+
+> --- a/drivers/video/fbdev/offb.c
+> +++ b/drivers/video/fbdev/offb.c
+> @@ -698,7 +698,7 @@ MODULE_DEVICE_TABLE(of, offb_of_match_display);
+>
+>  static struct platform_driver offb_driver_display =3D {
+>         .driver =3D {
+> -               .name =3D "of-display",
+> +               .name =3D "of-display.0",
+>                 .of_match_table =3D offb_of_match_display,
+>         },
+>         .probe =3D offb_probe_display,
+
+This looks like the wrong fix for me: platform drivers' names must
+not contain the device index, and DT-based devices are probed using
+the compatible value (which is "display") instead of the node name.
+
+I think the problem is with the of_platform_default_populate_init()
+function, which should create proper name@unit-address device nodes,
+with unique unit addresses, and with the correct compatible value.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
