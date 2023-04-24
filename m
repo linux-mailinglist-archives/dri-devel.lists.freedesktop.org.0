@@ -2,66 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0774F6ED12C
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Apr 2023 17:20:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9FB36ED12F
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Apr 2023 17:21:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A5EF510E1B8;
-	Mon, 24 Apr 2023 15:20:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7DE9310E363;
+	Mon, 24 Apr 2023 15:21:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C71E810E1B8
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Apr 2023 15:20:32 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5322B10E363
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Apr 2023 15:21:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1682349631;
+ s=mimecast20190719; t=1682349701;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=0ybXQpJGX8ksVbqeQTg5aMwu/7o/goFFitwiYzrK7BM=;
- b=iLWSstTU8RFdFouf+/9bbF0wRY5a22XyOHsBZdBww1Ueumuu/zMB4dnk03Aqzid/ba0OuY
- DEMrGKXlRU0KHPsTfjPcNvLsghxKTlz3XFRIG2lBVk7DQIAeJAOdIDdw/Txe/1832IkE6k
- eChzSTmhKna7fjboE8L9lkDu3uYsJZI=
-Received: from mail-lj1-f200.google.com (mail-lj1-f200.google.com
- [209.85.208.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=h9mLtuhNzL4W66bGMVKcTb36aTtFdYTyTbAVeY28DY4=;
+ b=gCyH4L7TnMsZueFsBXCxZugx2zdtcC+Uhj1qoEE156Ng4gffSgP/5oki6UcXyEUG82w1Nx
+ ApEk9tOD558bYA4hqkweQZc2UZsWYe4tmZkutLvOIGMGPh/ixpVqngrAO/qmDbhVa6tyhG
+ 2JbO9mtAxg9rbDV65mJnj7WPIDkja5Y=
+Received: from mail-lf1-f69.google.com (mail-lf1-f69.google.com
+ [209.85.167.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-382-g5Hq6X0IOxW0QbhIzFUuhg-1; Mon, 24 Apr 2023 11:20:29 -0400
-X-MC-Unique: g5Hq6X0IOxW0QbhIzFUuhg-1
-Received: by mail-lj1-f200.google.com with SMTP id
- 38308e7fff4ca-2a7a6393ba6so2670501fa.1
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Apr 2023 08:20:29 -0700 (PDT)
+ us-mta-581-Ar4bc6KlNP-rLAwVzK5euA-1; Mon, 24 Apr 2023 11:21:39 -0400
+X-MC-Unique: Ar4bc6KlNP-rLAwVzK5euA-1
+Received: by mail-lf1-f69.google.com with SMTP id
+ 2adb3069b0e04-4ec55b6b585so721694e87.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Apr 2023 08:21:39 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682349628; x=1684941628;
+ d=1e100.net; s=20221208; t=1682349698; x=1684941698;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=0ybXQpJGX8ksVbqeQTg5aMwu/7o/goFFitwiYzrK7BM=;
- b=gkd+VzM3ToP10Ro292gDlqCUNAktjk1v2elA3o0Z7JMUw77HDi18OLEsU8Jp2vap7y
- 29KdPIEDXjPmzQou1T3GSfmguzBCAHxlYWL1godPbIdiVFjThBOU6fhh+rI0+mps1ey0
- KHtFAJgmg16t+cL+pEHIWfpAr6NRLQNl9WddwIKq2RTx8YWEpr2dCzWqZnxOG7+R1Jh4
- WLJnzgswkpDb/89b5MsMJ3AZzylKiTNAd6ao/Tf53XbiQXfy8RXKktIzU3c9i+jDpkxX
- 0A9Xgex01KvJhn2Xhxrh1ugYFYNjEWJWuXKHfOFlCqrQN5bDXy5sZ2ASLN3dHD86Rtgl
- /LrQ==
-X-Gm-Message-State: AAQBX9fXnSOsi5fZjhafokGytIjy7zROI0vCVslYMwPQGQiYGpcjzEw6
- QFtTevsJw/30NkUGuzU93sX3KCtYhn1eLSX2nvtISNXA751wU5B3qDVJtEYUGKpbc2buG8u0fEA
- Z9Eo1zzvXCNyz2jjU88UqXvf+SNhJqqC8H+wrM4IRJzRb
-X-Received: by 2002:a2e:924b:0:b0:2a9:f6f0:fc84 with SMTP id
- v11-20020a2e924b000000b002a9f6f0fc84mr3486694ljg.4.1682349628201; 
- Mon, 24 Apr 2023 08:20:28 -0700 (PDT)
-X-Google-Smtp-Source: AKy350brn3/2mvZw23jR8Revx5XmXXtkygZGuUo8HD5LLVeLxmu8zC85TkjrgP/HdRDXdUOJ1/BuBAsvCCX/3rAcWwU=
-X-Received: by 2002:a2e:924b:0:b0:2a9:f6f0:fc84 with SMTP id
- v11-20020a2e924b000000b002a9f6f0fc84mr3486688ljg.4.1682349627904; Mon, 24 Apr
- 2023 08:20:27 -0700 (PDT)
+ bh=h9mLtuhNzL4W66bGMVKcTb36aTtFdYTyTbAVeY28DY4=;
+ b=E2N9G0npJskL/yY2YSTXJUBtvepNEDgx+lvKrIALg0dZboajvDz2+ilYQjn/X3fZOg
+ 7Y6YhBbu8OPIo2kUhIS/IcjsfyfoFZWJ7/ETcuxFWzN2kpU/gvzM8hjM3y1cmVSWsn6D
+ jcImfrXfD/RwCHWqcgmwYkypOyTLIpIBByHD+Yg595PlRR3cxoT+BYe3gbrxoxB1xtQA
+ mPKEU9QjYlIqV9mzfAZ7DvKxZmxzSF2MQkpElJyrr2JuG/nIEMYo4bRYqBUyUQdIEeNv
+ omMZ8PxarI/F0XQ589+JEUgOp5q1XUrWytiZKYdM8aIZTgazVvke0dtP5NskrjMYDXw6
+ Etng==
+X-Gm-Message-State: AAQBX9e4SxJGea2QliTgAIv2+Fir/bRRUB47gEjUBbp0WMv5Wdcetg9j
+ WZioyB4FVIdF/Ygtv16VhHNN3A4YjeRR5N/XMZRbYTVD60hLnVlKn529GWN82Dy0nmeS36GMNCj
+ uSnOFv5qz8O8ZztyppMg5q8y6LIqI/wY8BACTkkUKzdcs
+X-Received: by 2002:a2e:bea2:0:b0:2a7:ab72:1687 with SMTP id
+ a34-20020a2ebea2000000b002a7ab721687mr3595016ljr.5.1682349698374; 
+ Mon, 24 Apr 2023 08:21:38 -0700 (PDT)
+X-Google-Smtp-Source: AKy350YxGt6Cwo4tIqSGLrVoLpjanytXyrNDC0r+4Mb8YdvhCBq1mG2uXlYEQc0hcpiACAZU/uRrtQYtpZLEX+kTCpc=
+X-Received: by 2002:a2e:bea2:0:b0:2a7:ab72:1687 with SMTP id
+ a34-20020a2ebea2000000b002a7ab721687mr3595004ljr.5.1682349698092; Mon, 24 Apr
+ 2023 08:21:38 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230204184307.never.825-kees@kernel.org>
- <0a48d61b-6e11-9144-b11e-dd46de836c53@embeddedor.com>
-In-Reply-To: <0a48d61b-6e11-9144-b11e-dd46de836c53@embeddedor.com>
+References: <CAHk-=whMiMqAv5ATKRkjrdgP2R7WgWmCS4hW2mPwBcL=gzdDNw@mail.gmail.com>
+ <D57F9A07-AB77-4FF9-B0A6-C502DC60D093@kernel.org>
+In-Reply-To: <D57F9A07-AB77-4FF9-B0A6-C502DC60D093@kernel.org>
 From: Karol Herbst <kherbst@redhat.com>
-Date: Mon, 24 Apr 2023 17:20:16 +0200
-Message-ID: <CACO55tv43F7TQGYCmifyzOxR-Ddt28wpj9t9RyK4sQPR6aU+bQ@mail.gmail.com>
-Subject: Re: [PATCH] drm/nouveau/disp: More DP_RECEIVER_CAP_SIZE array fixes
-To: "Gustavo A. R. Silva" <gustavo@embeddedor.com>
+Date: Mon, 24 Apr 2023 17:21:27 +0200
+Message-ID: <CACO55tvLHh4jfdT==t=B9JpPGEH-5vnEE3Q6AfJWZ_v_1uC6pg@mail.gmail.com>
+Subject: Re: Disabling -Warray-bounds for gcc-13 too
+To: Kees Cook <kees@kernel.org>
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
@@ -78,133 +78,86 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Kees Cook <keescook@chromium.org>, nouveau@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Ben Skeggs <bskeggs@redhat.com>, Dave Airlie <airlied@redhat.com>,
+Cc: Kees Cook <keescook@chromium.org>, gustavo@embeddedor.com,
+ nouveau@lists.freedesktop.org, dri-devel <dri-devel@lists.freedesktop.org>,
+ qing.zhao@oracle.com, Ben Skeggs <bskeggs@redhat.com>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
  linux-hardening@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Mar 22, 2023 at 10:40=E2=80=AFPM Gustavo A. R. Silva
-<gustavo@embeddedor.com> wrote:
+On Sun, Apr 23, 2023 at 10:24=E2=80=AFPM Kees Cook <kees@kernel.org> wrote:
 >
->
->
-> On 2/4/23 12:43, Kees Cook wrote:
-> > More arrays (and arguments) for dcpd were set to 16, when it looks like
-> > DP_RECEIVER_CAP_SIZE (15) should be used. Fix the remaining cases, seen
-> > with GCC 13:
+> On April 23, 2023 10:36:24 AM PDT, Linus Torvalds <torvalds@linux-foundat=
+ion.org> wrote:
+> >Kees,
+> >  I made the mistake of upgrading my M2 Macbook Air to Fedora-38, and
+> >in the process I got gcc-13 which is not WERROR-clean because we only
+> >limited the 'array-bounds' warning to gcc-11 and gcc-12. But gcc-13
+> >has all the same issues.
 > >
-> > ../drivers/gpu/drm/nouveau/nvif/outp.c: In function 'nvif_outp_acquire_=
-dp':
-> > ../include/linux/fortify-string.h:57:33: warning: array subscript 'unsi=
-gned char[16][0]' is partly outside array bounds of 'u8[15]' {aka 'unsigned=
- char[15]'} [-Warray-bounds=3D]
-> >     57 | #define __underlying_memcpy     __builtin_memcpy
-> >        |                                 ^
-> > ...
-> > ../drivers/gpu/drm/nouveau/nvif/outp.c:140:9: note: in expansion of mac=
-ro 'memcpy'
-> >    140 |         memcpy(args.dp.dpcd, dpcd, sizeof(args.dp.dpcd));
-> >        |         ^~~~~~
-> > ../drivers/gpu/drm/nouveau/nvif/outp.c:130:49: note: object 'dpcd' of s=
-ize [0, 15]
-> >    130 | nvif_outp_acquire_dp(struct nvif_outp *outp, u8 dpcd[DP_RECEIV=
-ER_CAP_SIZE],
-> >        |                                              ~~~^~~~~~~~~~~~~~=
-~~~~~~~~~~~~
+> >And I want to be able to do my arm64 builds with WERROR on still...
 > >
-> > Fixes: 813443721331 ("drm/nouveau/disp: move DP link config into acquir=
-e")
-> > Cc: Ben Skeggs <bskeggs@redhat.com>
-> > Cc: Lyude Paul <lyude@redhat.com>
-> > Cc: Karol Herbst <kherbst@redhat.com>
-> > Cc: David Airlie <airlied@gmail.com>
-> > Cc: Daniel Vetter <daniel@ffwll.ch>
-> > Cc: Dave Airlie <airlied@redhat.com>
-> > Cc: "Gustavo A. R. Silva" <gustavo@embeddedor.com>
-> > Cc: dri-devel@lists.freedesktop.org
-> > Cc: nouveau@lists.freedesktop.org
-> > Signed-off-by: Kees Cook <keescook@chromium.org>
+> >I guess it never made much sense to hope it was going to go away
+> >without having a confirmation, so I just changed it to be gcc-11+.
 >
-> Reviewed-by: Gustavo A. R. Silva <gustavoars@kernel.org>
+> Yeah, that's fine. GCC 13 released without having a fix for at least one =
+(hopefully last) known array-bounds vs jump threading bug:
+> https://gcc.gnu.org/bugzilla/show_bug.cgi?id=3D109071
+>
+> >And one of them is from you.
+> >
+> >In particular, commit 4076ea2419cf ("drm/nouveau/disp: Fix
+> >nvif_outp_acquire_dp() argument size") cannot possibly be right, It
+> >changes
+> >
+> > nvif_outp_acquire_dp(struct nvif_outp *outp, u8 dpcd[16],
+> >
+> >to
+> >
+> > nvif_outp_acquire_dp(struct nvif_outp *outp, u8 dpcd[DP_RECEIVER_CAP_SI=
+ZE],
+> >
+> >and then does
+> >
+> >        memcpy(args.dp.dpcd, dpcd, sizeof(args.dp.dpcd));
+> >
+> >where that 'args.dp.dpcd' is a 16-byte array, and DP_RECEIVER_CAP_SIZE i=
+s 15.
+>
+> Yeah, it was an incomplete fix. I sent the other half here, but it fell t=
+hrough the cracks:
+> https://lore.kernel.org/lkml/20230204184307.never.825-kees@kernel.org/
 >
 
-Reviewed-by: Karol Herbst <kherbst@redhat.com>
+left a review on that patch. Any preferred way of getting it upstream?
+I could push it through drm-misc, but the delay until it reaches
+Linus' tree is a bit high.
 
-sorry for not seeing this earlier.
-
-> Thanks!
+>
+>
+> >
+>
+> >I think it's all entirely harmless from a code generation standpoint,
+> >because the 15-byte field will be padded out to 16 bytes in the
+> >structure that contains it, but it's most definitely buggy.
+>
+> Right; between this, that GCC 13 wasn't released yet, and I had no feedba=
+ck from NV folks, I didn't chase down landing that fix.
+>
+> >
+> >So that warning does find real cases of wrong code. But when those
+> >real cases are hidden by hundreds of lines of unfixable false
+> >positives, we don't have much choice.
+>
+> Yup, totally agreed. The false positives I've looked at all seem to be si=
+milar to the outstanding jump threading bug, so I'm hoping once that gets f=
+ixed we'll finally have a good signal with that warning enabled. :)
+>
+> -Kees
+>
+>
 > --
-> Gustavo
->
-> > ---
-> >   drivers/gpu/drm/nouveau/include/nvif/if0012.h    | 4 +++-
-> >   drivers/gpu/drm/nouveau/nvkm/engine/disp/outp.h  | 3 ++-
-> >   drivers/gpu/drm/nouveau/nvkm/engine/disp/uoutp.c | 2 +-
-> >   3 files changed, 6 insertions(+), 3 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/nouveau/include/nvif/if0012.h b/drivers/gp=
-u/drm/nouveau/include/nvif/if0012.h
-> > index eb99d84eb844..16d4ad5023a3 100644
-> > --- a/drivers/gpu/drm/nouveau/include/nvif/if0012.h
-> > +++ b/drivers/gpu/drm/nouveau/include/nvif/if0012.h
-> > @@ -2,6 +2,8 @@
-> >   #ifndef __NVIF_IF0012_H__
-> >   #define __NVIF_IF0012_H__
-> >
-> > +#include <drm/display/drm_dp.h>
-> > +
-> >   union nvif_outp_args {
-> >       struct nvif_outp_v0 {
-> >               __u8 version;
-> > @@ -63,7 +65,7 @@ union nvif_outp_acquire_args {
-> >                               __u8 hda;
-> >                               __u8 mst;
-> >                               __u8 pad04[4];
-> > -                             __u8 dpcd[16];
-> > +                             __u8 dpcd[DP_RECEIVER_CAP_SIZE];
-> >                       } dp;
-> >               };
-> >       } v0;
-> > diff --git a/drivers/gpu/drm/nouveau/nvkm/engine/disp/outp.h b/drivers/=
-gpu/drm/nouveau/nvkm/engine/disp/outp.h
-> > index b7631c1ab242..4e7f873f66e2 100644
-> > --- a/drivers/gpu/drm/nouveau/nvkm/engine/disp/outp.h
-> > +++ b/drivers/gpu/drm/nouveau/nvkm/engine/disp/outp.h
-> > @@ -3,6 +3,7 @@
-> >   #define __NVKM_DISP_OUTP_H__
-> >   #include "priv.h"
-> >
-> > +#include <drm/display/drm_dp.h>
-> >   #include <subdev/bios.h>
-> >   #include <subdev/bios/dcb.h>
-> >   #include <subdev/bios/dp.h>
-> > @@ -42,7 +43,7 @@ struct nvkm_outp {
-> >                       bool aux_pwr_pu;
-> >                       u8 lttpr[6];
-> >                       u8 lttprs;
-> > -                     u8 dpcd[16];
-> > +                     u8 dpcd[DP_RECEIVER_CAP_SIZE];
-> >
-> >                       struct {
-> >                               int dpcd; /* -1, or index into SUPPORTED_=
-LINK_RATES table */
-> > diff --git a/drivers/gpu/drm/nouveau/nvkm/engine/disp/uoutp.c b/drivers=
-/gpu/drm/nouveau/nvkm/engine/disp/uoutp.c
-> > index 4f0ca709c85a..fc283a4a1522 100644
-> > --- a/drivers/gpu/drm/nouveau/nvkm/engine/disp/uoutp.c
-> > +++ b/drivers/gpu/drm/nouveau/nvkm/engine/disp/uoutp.c
-> > @@ -146,7 +146,7 @@ nvkm_uoutp_mthd_release(struct nvkm_outp *outp, voi=
-d *argv, u32 argc)
-> >   }
-> >
-> >   static int
-> > -nvkm_uoutp_mthd_acquire_dp(struct nvkm_outp *outp, u8 dpcd[16],
-> > +nvkm_uoutp_mthd_acquire_dp(struct nvkm_outp *outp, u8 dpcd[DP_RECEIVER=
-_CAP_SIZE],
-> >                          u8 link_nr, u8 link_bw, bool hda, bool mst)
-> >   {
-> >       int ret;
+> Kees Cook
 >
 
