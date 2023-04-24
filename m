@@ -1,48 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F7046ED234
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Apr 2023 18:11:48 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 918406ED224
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Apr 2023 18:10:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B911910E1A6;
-	Mon, 24 Apr 2023 16:11:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B77FC10E532;
+	Mon, 24 Apr 2023 16:10:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A1DEE10E1A6;
- Mon, 24 Apr 2023 16:11:43 +0000 (UTC)
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A7B7510E1A6;
+ Mon, 24 Apr 2023 16:10:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1682352703; x=1713888703;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=jABK15YiphsYfiscTtHzZO8ulLqkFThb+aET7bDonzk=;
- b=eeX573qxHeI39Zy2gRcntBywohfIZoY0jfZJs7hnYrgln8ui04CXkop6
- /MmU+/a6pBBqhdopyHjlypWaculqKzT2ns6G081ZdFObqU0dASzMQZMcH
- VDC5x4fZQE6SR0RPkWe3pDXS1pRou2zMtQl+WWQ9yP6JhR5mVhiJhJe+f
- 7drCzK2qFd+GBlC83n1jMN36d+iSBp2ji7VX/H2mvi3i/ccn05nCgs5Ug
- 6Kyi6xtSfv6L2hW7wuUYoWK2T+GLaptD7BfTNnM9na5GsIZ4kdqvcsVmw
- lR1p/9bx+GDnTfwUTSKvkcwD0myBgbyIQxF9ZzW5suo12PPQPsDYYcqoo g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10690"; a="349293201"
-X-IronPort-AV: E=Sophos;i="5.99,223,1677571200"; d="scan'208";a="349293201"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Apr 2023 09:09:27 -0700
+ t=1682352636; x=1713888636;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=coi5Vjns5duNbkYPJ7E4FYYeE5hvswdptrqTez1vh0c=;
+ b=n7rJRY3HwWir/5os9uAbkzSoYczvJ8gLGF50CyjLHEM3ZyEmePT8UOCr
+ /FcTiXPOiiYAqvF5vQSd9LYVoRtIgdkz3rNs06x7mTkgNPLCmmqmCRtX5
+ ec+9ZOa95M9iiiCmlbncwAFKgTek8u6pWwJYeRggY13zu/dIMaTkOI1mu
+ p+o7C41ILHo9++1eIir+6vEm2jBdEuPmKjcSBV07B6YR0NHwYAWyLOwkz
+ 49PDrza5AqWf7X5PmIEs88O9nbeRadaAffH2RCMnxHh+NtVB7I2aA86cx
+ Sn3Ckd0TPU/c0gGHs0VYl2FvxDc7ab391QdjNSgV/yU1TTDK/LLHyapSC A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10690"; a="326808649"
+X-IronPort-AV: E=Sophos;i="5.99,223,1677571200"; d="scan'208";a="326808649"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Apr 2023 09:09:33 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10690"; a="867533873"
-X-IronPort-AV: E=Sophos;i="5.99,223,1677571200"; d="scan'208";a="867533873"
+X-IronPort-AV: E=McAfee;i="6600,9927,10690"; a="695822641"
+X-IronPort-AV: E=Sophos;i="5.99,223,1677571200"; d="scan'208";a="695822641"
 Received: from apalfi-mobl.ger.corp.intel.com (HELO intel.com)
  ([10.252.34.175])
- by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Apr 2023 09:09:23 -0700
+ by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Apr 2023 09:09:30 -0700
 From: Andi Shyti <andi.shyti@linux.intel.com>
 To: Intel GFX <intel-gfx@lists.freedesktop.org>,
  DRI Devel <dri-devel@lists.freedesktop.org>, Fei Yang <fei.yang@intel.com>
-Subject: [PATCH 0/2] Restore MTL boot
-Date: Mon, 24 Apr 2023 18:09:11 +0200
-Message-Id: <20230424160913.19886-1-andi.shyti@linux.intel.com>
+Subject: [PATCH 1/2] Revert "drm/i915/mtl: fix mocs selftest"
+Date: Mon, 24 Apr 2023 18:09:12 +0200
+Message-Id: <20230424160913.19886-2-andi.shyti@linux.intel.com>
 X-Mailer: git-send-email 2.40.0
+In-Reply-To: <20230424160913.19886-1-andi.shyti@linux.intel.com>
+References: <20230424160913.19886-1-andi.shyti@linux.intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -65,26 +67,40 @@ Cc: Aravind Iddamsetty <aravind.iddamsetty@intel.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+This reverts commit faca6aaa4838c3c234caa619d3c7d1f09da0d303.
 
-The two patches reverted in this series are, together, preventing
-MTL from booting.
+This patch, in series with the next "Define MOCS and PAT tables
+for MTL" are causing boot failures for MTL.
 
-Revert them until the fix is deployed.
+Revert them both.
 
-Andi
+Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
+Cc: Fei Yang <fei.yang@intel.com>
+Cc: Matt Roper <matthew.d.roper@intel.com>
+---
+ drivers/gpu/drm/i915/gt/selftest_mocs.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-Andi Shyti (2):
-  Revert "drm/i915/mtl: fix mocs selftest"
-  Revert "drm/i915/mtl: Define MOCS and PAT tables for MTL"
-
- drivers/gpu/drm/i915/gt/intel_gt_regs.h |  6 +--
- drivers/gpu/drm/i915/gt/intel_gtt.c     | 47 +----------------
- drivers/gpu/drm/i915/gt/intel_gtt.h     |  8 ---
- drivers/gpu/drm/i915/gt/intel_mocs.c    | 70 +------------------------
- drivers/gpu/drm/i915/gt/selftest_mocs.c |  3 +-
- 5 files changed, 4 insertions(+), 130 deletions(-)
-
+diff --git a/drivers/gpu/drm/i915/gt/selftest_mocs.c b/drivers/gpu/drm/i915/gt/selftest_mocs.c
+index a8446ab825012..ca009a6a13bdb 100644
+--- a/drivers/gpu/drm/i915/gt/selftest_mocs.c
++++ b/drivers/gpu/drm/i915/gt/selftest_mocs.c
+@@ -131,14 +131,13 @@ static int read_mocs_table(struct i915_request *rq,
+ 			   const struct drm_i915_mocs_table *table,
+ 			   u32 *offset)
+ {
+-	struct intel_gt *gt = rq->engine->gt;
+ 	u32 addr;
+ 
+ 	if (!table)
+ 		return 0;
+ 
+ 	if (HAS_GLOBAL_MOCS_REGISTERS(rq->engine->i915))
+-		addr = global_mocs_offset() + gt->uncore->gsi_offset;
++		addr = global_mocs_offset();
+ 	else
+ 		addr = mocs_offset(rq->engine);
+ 
 -- 
 2.40.0
 
