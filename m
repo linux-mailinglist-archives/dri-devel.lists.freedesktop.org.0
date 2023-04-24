@@ -2,49 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A40B6ED2DD
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Apr 2023 18:53:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73CBD6ED2EC
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Apr 2023 18:56:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CE12710E12B;
-	Mon, 24 Apr 2023 16:53:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 41E1F10E1CA;
+	Mon, 24 Apr 2023 16:56:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7707510E12B;
- Mon, 24 Apr 2023 16:53:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1682355181; x=1713891181;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=dwYVxqPeH0CmQAMXEPNFMj1AbFDbIPfLSM3z4LPBfXw=;
- b=mKVX5IDEhx5cYwU8+y1zYobjGd7BBgBq/CIG32O8r0BxzOXULCGdxquE
- YeBcjUhHYmuP/qvtY+JgoPHcEsT0O1NtMFqM4Q/6S3q/vxVRVwf99XvL4
- +3XU702e1TA8FYMt8BovEA3izUWb/M1+rrm2ZNEhdwtUsCI3TtbpLQyJD
- 2N4ljo17gsnLsJvToRtdTT6rbI6ZRz45rwlODdhzCL3v8ETguW3YcgHzJ
- NlcDFu5XNnvmO4Z6HGd5CtyqlxJ8Tl1fHajemroqkS2tIcp7iD+eTXN7K
- br/Gt/L19Tv9znH1SI64HfXV/00uJQh2997zS34M79F1UKi7UnIqhdIfW Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10690"; a="335392404"
-X-IronPort-AV: E=Sophos;i="5.99,223,1677571200"; d="scan'208";a="335392404"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Apr 2023 09:52:59 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10690"; a="695836567"
-X-IronPort-AV: E=Sophos;i="5.99,223,1677571200"; d="scan'208";a="695836567"
-Received: from fyang16-desk.jf.intel.com ([10.24.96.243])
- by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Apr 2023 09:52:59 -0700
-From: fei.yang@intel.com
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH 2/2] drm/i915/mtl: workaround coherency issue for Media
-Date: Mon, 24 Apr 2023 09:54:07 -0700
-Message-Id: <20230424165407.3584612-3-fei.yang@intel.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230424165407.3584612-1-fei.yang@intel.com>
-References: <20230424165407.3584612-1-fei.yang@intel.com>
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E490110E1BB;
+ Mon, 24 Apr 2023 16:56:50 +0000 (UTC)
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 33OFb9kp009958; Mon, 24 Apr 2023 16:55:48 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=ibcvq83T8ea5Zx9L7cpwBc6UOXr5caP2oYnDsWVp1IY=;
+ b=n99EL/gGtC3DZ3hVF7p/iZAM6zRz+mw8IJ8KooXvE3GgQe9LrEULLYsPzp5q+EMpB8FD
+ j7hHi/tkozlkPEL+XFMamsv/80WENEF3xq67lAImmzR5OgHzh+5J/jU0Xzg3vu6NeSQv
+ Er9Dr+OZqa9QfUYLsbwHWr8k5jjG1dVETLRiYaYm+2LaFSFoaK7kwChhWegh46p5DBVq
+ HdKTQarpYqkCUzLpcIo7pXapZQ2R0IJR+OGRGQ2atoSfkRpKmGhzy6gKhHwfqihWlb3Y
+ bGORnRlxPvDitLj2YsEXvQOcFlDPx3iHLIi+B96NqKrxrgwAPqeYmfv5JADBKtI5PhmG uQ== 
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3q5mnnh9qm-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 24 Apr 2023 16:55:48 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 33OGtkJd026082
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 24 Apr 2023 16:55:47 GMT
+Received: from [10.110.104.134] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Mon, 24 Apr
+ 2023 09:55:45 -0700
+Message-ID: <e4a771f2-b390-ea8e-ee8b-b8d0860c834f@quicinc.com>
+Date: Mon, 24 Apr 2023 09:55:44 -0700
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.2
+Subject: Re: [PATCH v2 01/17] drm/msm/dpu: Remove unused INTF0 interrupt mask
+ from SM6115/QCM2290
+Content-Language: en-US
+To: Marijn Suijten <marijn.suijten@somainline.org>, Rob Clark
+ <robdclark@gmail.com>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ "Sean Paul" <sean@poorly.run>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Adam Skladowski <a39.skl@gmail.com>,
+ Loic Poulain <loic.poulain@linaro.org>,
+ Bjorn Andersson <andersson@kernel.org>, "Kuogee
+ Hsieh" <quic_khsieh@quicinc.com>,
+ Robert Foss <rfoss@kernel.org>, Vinod Koul <vkoul@kernel.org>,
+ Rajesh Yadav <ryadav@codeaurora.org>, Jeykumar Sankaran
+ <jsanka@codeaurora.org>, Neil Armstrong <neil.armstrong@linaro.org>,
+ "Chandan Uddaraju" <chandanu@codeaurora.org>
+References: <20230411-dpu-intf-te-v2-0-ef76c877eb97@somainline.org>
+ <20230411-dpu-intf-te-v2-1-ef76c877eb97@somainline.org>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <20230411-dpu-intf-te-v2-1-ef76c877eb97@somainline.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: 31_lSA82AM0D1kln3gWakn39Hun2n1mE
+X-Proofpoint-ORIG-GUID: 31_lSA82AM0D1kln3gWakn39Hun2n1mE
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-04-24_10,2023-04-21_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ impostorscore=0 phishscore=0 mlxscore=0 lowpriorityscore=0 malwarescore=0
+ suspectscore=0 adultscore=0 mlxlogscore=694 spamscore=0 clxscore=1011
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2303200000 definitions=main-2304240151
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,132 +94,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Fei Yang <fei.yang@intel.com>, dri-devel@lists.freedesktop.org,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Andi Shyti <andi.shyti@linux.intel.com>,
- Matt Roper <matthew.d.roper@intel.com>, Nirmoy Das <nirmoy.das@intel.com>
+Cc: Archit Taneja <architt@codeaurora.org>, Jami
+ Kettunen <jami.kettunen@somainline.org>, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Jordan Crouse <jordan@cosmicpenguin.net>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Martin Botka <martin.botka@somainline.org>,
+ ~postmarketos/upstreaming@lists.sr.ht,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
+ freedreno@lists.freedesktop.org,
+ Sravanthi Kollukuduru <skolluku@codeaurora.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Fei Yang <fei.yang@intel.com>
 
-This patch implements Wa_22016122933.
 
-In MTL, memory writes initiated by the Media tile update the whole
-cache line, even for partial writes. This creates a coherency
-problem for cacheable memory if both CPU and GPU are writing data
-to different locations within a single cache line.
-This patch circumvents the issue by making CPU/GPU shared memory
-uncacheable (WC on CPU side, and PAT index 2 for GPU).  Additionally,
-it ensures that CPU writes are visible to the GPU with an
-intel_guc_write_barrier().
+On 4/17/2023 1:21 PM, Marijn Suijten wrote:
+> Neither of these SoCs has INTF0, they only have a DSI interface on index
+> 1.  Stop enabling an interrupt that can't fire.
+> 
+> Fixes: 3581b7062cec ("drm/msm/disp/dpu1: add support for display on SM6115")
+> Fixes: 5334087ee743 ("drm/msm: add support for QCM2290 MDSS")
+> Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
+> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> Reviewed-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+> ---
 
-While fixing the CTB issue, we noticed some random GSC firmware
-loading failure because the share buffers are cacheable (WB) on CPU
-side but uncached on GPU side. To fix these issues we need to map
-such shared buffers as WC on CPU side. Since such allocations are
-not all done through GuC allocator, to avoid too many code changes,
-the i915_coherent_map_type() is now hard coded to return WC for MTL.
+Yes, this is right, Both of these chipsets only have DSI on index 1.
 
-v2: Simplify the commit message(Matt).
+Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
 
-BSpec: 45101
-
-Signed-off-by: Fei Yang <fei.yang@intel.com>
-Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com>
-Acked-by: Nirmoy Das <nirmoy.das@intel.com>
-Reviewed-by: Andrzej Hajda <andrzej.hajda@intel.com>
-Reviewed-by: Matt Roper <matthew.d.roper@intel.com>
-Signed-off-by: Nirmoy Das <nirmoy.das@intel.com>
----
- drivers/gpu/drm/i915/gem/i915_gem_pages.c |  5 ++++-
- drivers/gpu/drm/i915/gt/uc/intel_gsc_fw.c | 13 +++++++++++++
- drivers/gpu/drm/i915/gt/uc/intel_guc.c    |  7 +++++++
- drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c |  6 ++++++
- 4 files changed, 30 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_pages.c b/drivers/gpu/drm/i915/gem/i915_gem_pages.c
-index ecd86130b74f..89fc8ea6bcfc 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_pages.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_pages.c
-@@ -469,7 +469,10 @@ enum i915_map_type i915_coherent_map_type(struct drm_i915_private *i915,
- 					  struct drm_i915_gem_object *obj,
- 					  bool always_coherent)
- {
--	if (i915_gem_object_is_lmem(obj))
-+	/*
-+	 * Wa_22016122933: always return I915_MAP_WC for MTL
-+	 */
-+	if (i915_gem_object_is_lmem(obj) || IS_METEORLAKE(i915))
- 		return I915_MAP_WC;
- 	if (HAS_LLC(i915) || always_coherent)
- 		return I915_MAP_WB;
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_gsc_fw.c b/drivers/gpu/drm/i915/gt/uc/intel_gsc_fw.c
-index 1d9fdfb11268..236673c02f9a 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_gsc_fw.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_gsc_fw.c
-@@ -110,6 +110,13 @@ static int gsc_fw_load_prepare(struct intel_gsc_uc *gsc)
- 	if (obj->base.size < gsc->fw.size)
- 		return -ENOSPC;
- 
-+	/*
-+	 * Wa_22016122933: For MTL the shared memory needs to be mapped
-+	 * as WC on CPU side and UC (PAT index 2) on GPU side
-+	 */
-+	if (IS_METEORLAKE(i915))
-+		i915_gem_object_set_cache_coherency(obj, I915_CACHE_NONE);
-+
- 	dst = i915_gem_object_pin_map_unlocked(obj,
- 					       i915_coherent_map_type(i915, obj, true));
- 	if (IS_ERR(dst))
-@@ -125,6 +132,12 @@ static int gsc_fw_load_prepare(struct intel_gsc_uc *gsc)
- 	memset(dst, 0, obj->base.size);
- 	memcpy(dst, src, gsc->fw.size);
- 
-+	/*
-+	 * Wa_22016122933: Making sure the data in dst is
-+	 * visible to GSC right away
-+	 */
-+	intel_guc_write_barrier(&gt->uc.guc);
-+
- 	i915_gem_object_unpin_map(gsc->fw.obj);
- 	i915_gem_object_unpin_map(obj);
- 
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc.c b/drivers/gpu/drm/i915/gt/uc/intel_guc.c
-index e89f16ecf1ae..c9f20385f6a0 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc.c
-@@ -744,6 +744,13 @@ struct i915_vma *intel_guc_allocate_vma(struct intel_guc *guc, u32 size)
- 	if (IS_ERR(obj))
- 		return ERR_CAST(obj);
- 
-+	/*
-+	 * Wa_22016122933: For MTL the shared memory needs to be mapped
-+	 * as WC on CPU side and UC (PAT index 2) on GPU side
-+	 */
-+	if (IS_METEORLAKE(gt->i915))
-+		i915_gem_object_set_cache_coherency(obj, I915_CACHE_NONE);
-+
- 	vma = i915_vma_instance(obj, &gt->ggtt->vm, NULL);
- 	if (IS_ERR(vma))
- 		goto err;
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
-index 1803a633ed64..99a0a89091e7 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
-@@ -902,6 +902,12 @@ static int ct_read(struct intel_guc_ct *ct, struct ct_incoming_msg **msg)
- 	/* now update descriptor */
- 	WRITE_ONCE(desc->head, head);
- 
-+	/*
-+	 * Wa_22016122933: Making sure the head update is
-+	 * visible to GuC right away
-+	 */
-+	intel_guc_write_barrier(ct_to_guc(ct));
-+
- 	return available - len;
- 
- corrupted:
--- 
-2.25.1
 
