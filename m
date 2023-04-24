@@ -1,88 +1,138 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8E366ED302
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Apr 2023 18:59:09 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9750B6ED30A
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Apr 2023 19:01:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D166E10E1BB;
-	Mon, 24 Apr 2023 16:59:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B356D10E1D8;
+	Mon, 24 Apr 2023 17:01:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 93AC710E0E8;
- Mon, 24 Apr 2023 16:59:05 +0000 (UTC)
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 33OFxjKt022240; Mon, 24 Apr 2023 16:59:00 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=IAojL9P59lyqntf0zLwGFxcGGrjKtYiJJY4Sqr2kfHU=;
- b=dKXn0evT9ZOK2+I4EjG6V1RtFj5VynU/4zU3TytQNcAOAdpZDFTVvrCi0q20c281OhGL
- r8kkdji+XhAiKA1R78579X/0F6Gfz3YHSLERYc4vRWG6XWJw1HIIh4UQVKFYtXwfnBhb
- ESefFWacS4xcVeSeicOLjgjd3CH8iTFvDBcZqgX3FGhpHFu0VRd7V/x8OMIRxRB2gXSw
- 9O1KXQTGEYOfGMOdFBtNwBMX6YGZlymW7xACo+uQ6HOaLHbb20VEWk3sRxLKg+d4jp2x
- zl7cttSYjpG8IJ93TeDziUi65Ox6bzOUa9s7UdTMC5cTGH2sdN8k0MS5PejqcGQWN2EN JA== 
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3q5r0urw4r-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 24 Apr 2023 16:59:00 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 33OGwwuq025561
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 24 Apr 2023 16:58:58 GMT
-Received: from [10.110.115.131] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Mon, 24 Apr
- 2023 09:58:57 -0700
-Message-ID: <eebb2245-20b2-c6cf-481b-2fde677870a4@quicinc.com>
-Date: Mon, 24 Apr 2023 09:58:49 -0700
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6D18F10E3F1
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Apr 2023 17:01:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1682355701; x=1713891701;
+ h=date:from:to:cc:subject:message-id:references:
+ in-reply-to:mime-version;
+ bh=M3PFv4Cwi8a8pD5XmGf7aJef5fBaPjMpe08udCEvdNc=;
+ b=KJaCc/PvN/42L56WmghyYwMetpcrwgxB79MdO61jHx0RpWNu3i2RtnSe
+ BPO2P3KHhOP+LFtW0GIaUqz3KSeOaTQSLAV1/lLoTVsb2Qsd50Xti2uj8
+ ZgcglS1+yPh05Cl8IqBJsmwcYK54dsGempw5HRmiootGYZnEhf7QFS5gL
+ cs55wX78wDTQPz5OGfez+hmSKjh+ZVt3Hxqd3FdyKviVSjUfx5pE8OzfD
+ 0iVD1pzh2hPwrinV1leqBK93GjjBVZgQmVmb/c34y+0Oskg6eFEyXV6BV
+ nZZFZSixNvNleaG4f/qMm20GkxXsNPmX/VUYwrO6LbBaXvyXgLYwWUUFk g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10690"; a="330707810"
+X-IronPort-AV: E=Sophos;i="5.99,223,1677571200"; d="scan'208";a="330707810"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Apr 2023 10:01:28 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10690"; a="1022791046"
+X-IronPort-AV: E=Sophos;i="5.99,223,1677571200"; d="scan'208";a="1022791046"
+Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
+ by fmsmga005.fm.intel.com with ESMTP; 24 Apr 2023 10:01:27 -0700
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.23; Mon, 24 Apr 2023 10:01:17 -0700
+Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
+ orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.23 via Frontend Transport; Mon, 24 Apr 2023 10:01:17 -0700
+Received: from NAM02-DM3-obe.outbound.protection.outlook.com (104.47.56.43) by
+ edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.23; Mon, 24 Apr 2023 10:01:17 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ecgG2cYAmZ+LroktObDVPVxL6XgzO/DV2RNTWAz9JIx5u68SMW6jPAYYX/nkYISOGoDLPyW4uPPF5Z9l5IIF4S9aGnCHV55sG4No7LG+gYQ1jptsEAlmyPU0OUlj6Dx/WMHwCRMAQl/rRSFzbS6YdrQorEZBizHNCK7nlBkZr9PuVRCKNR6WbAk3Vy6XSVwOALHz1/0hXxAxSSywYkpIKsYXVazvOpF3CWI2++PXzmEr9k/sS/he9xj/5FJj2dp3SQNpVc8fm6HIs69GThGnsCM6U3yZRCxgABD217jhsBX05X6WpQCSCjCI7ACYnIFzCbQ6Z+/s27ws7WtecFexjQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=hDxp7ox2xgUlQ0IrTcFmENhsR67ekJtRlswD3vVJ+Mw=;
+ b=J47TBSnwZBbGCKPZNM/3QBzsnh5bXW+MQOmqZ2ttZYh/8Fl9MJdmlwTB9WWR+xohRYtOFojcgs5ugMvFw+SLoMPjYdOKSMlgYEZj/sHxGPiSbHjQx6l2goC2QJDMn8ej7lieZv+T5n1sHvF3OTxJaDizrG2hxXZvg/Jo2cwaGHcN4IrpKJVTdZUPklwkxjji3fx3pP5QTuMjtfNIl0MAQTsY3r9FLf8CGhoCI1M86D/RZbT+BDW0cbpv+8ktXYpmq34KVBQAyBsdH3XVFwgB76wUfGxnACYKJaTgFbCNnyWNE3tsGTdDMJkmHF9Vwj1lCLbSvKN3lnGbDd27UVgLAg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from CY5PR11MB6139.namprd11.prod.outlook.com (2603:10b6:930:29::17)
+ by SA1PR11MB7129.namprd11.prod.outlook.com (2603:10b6:806:29d::12)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6319.22; Mon, 24 Apr
+ 2023 17:01:15 +0000
+Received: from CY5PR11MB6139.namprd11.prod.outlook.com
+ ([fe80::44e7:c479:62f4:3eb4]) by CY5PR11MB6139.namprd11.prod.outlook.com
+ ([fe80::44e7:c479:62f4:3eb4%3]) with mapi id 15.20.6319.033; Mon, 24 Apr 2023
+ 17:01:15 +0000
+Date: Mon, 24 Apr 2023 10:01:13 -0700
+From: Lucas De Marchi <lucas.demarchi@intel.com>
+To: Dave Airlie <airlied@gmail.com>
+Subject: Re: [PATCH] modules/firmware: add a new option to denote a firmware
+ group to choose one.
+Message-ID: <fsleccud43leoioli6bj4xoydwbdcjb5qr4denuf6morhgtqki@t6xya2mygon5>
+References: <20230419043652.1773413-1-airlied@gmail.com>
+ <ck2dzxvllhhh74oa3vjlacutc7rdmgl7cfrfq7vgx4w3jcufrz@7jbgxcat42yn>
+ <CAPM=9tw0Y2A4DvuTHT_yd58Eit+tUmo63pbEOHwRJ66LeqznEQ@mail.gmail.com>
+Content-Type: text/plain; charset="us-ascii"; format=flowed
+Content-Disposition: inline
+In-Reply-To: <CAPM=9tw0Y2A4DvuTHT_yd58Eit+tUmo63pbEOHwRJ66LeqznEQ@mail.gmail.com>
+X-ClientProxiedBy: BYAPR02CA0001.namprd02.prod.outlook.com
+ (2603:10b6:a02:ee::14) To CY5PR11MB6139.namprd11.prod.outlook.com
+ (2603:10b6:930:29::17)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH v1 5/5] drm/msm/dpu: add DSC 1.2 hw blocks for relevant
- chipsets
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- <dri-devel@lists.freedesktop.org>, <robdclark@gmail.com>,
- <sean@poorly.run>, <swboyd@chromium.org>, <dianders@chromium.org>,
- <vkoul@kernel.org>, <daniel@ffwll.ch>, <airlied@gmail.com>,
- <agross@kernel.org>, <andersson@kernel.org>
-References: <1682033114-28483-1-git-send-email-quic_khsieh@quicinc.com>
- <1682033114-28483-6-git-send-email-quic_khsieh@quicinc.com>
- <b26dfb22-bf97-b65e-ef06-62098c4eafec@linaro.org>
- <3ee67248-c94c-5f3d-527e-914e8c8b4a31@quicinc.com>
- <7b493d85-0691-8797-367e-1d71ea87c826@linaro.org>
- <4bea9976-d353-6783-f55a-3e83e7501da2@quicinc.com>
- <40f5ac92-f658-25cf-352b-60db49a129f6@linaro.org>
- <89b2a4a0-ddbb-b176-aa3c-c06449a9758d@quicinc.com>
- <347f0ca0-2657-4cb5-c006-ef19b0f04e80@linaro.org>
-Content-Language: en-US
-From: Kuogee Hsieh <quic_khsieh@quicinc.com>
-In-Reply-To: <347f0ca0-2657-4cb5-c006-ef19b0f04e80@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: YFbHwSLzh5BRY-aoUkp_nX4dPBBbgEnU
-X-Proofpoint-ORIG-GUID: YFbHwSLzh5BRY-aoUkp_nX4dPBBbgEnU
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-04-24_10,2023-04-21_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 adultscore=0
- mlxlogscore=999 phishscore=0 mlxscore=0 spamscore=0 priorityscore=1501
- malwarescore=0 impostorscore=0 lowpriorityscore=0 clxscore=1015
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2303200000 definitions=main-2304240152
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CY5PR11MB6139:EE_|SA1PR11MB7129:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8e3a5dd0-a6f7-49ab-48fb-08db44e583d0
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: dVVQZO8MxRBgyfyfoGyOS57Zj1ngOMC/7HfTKs/A8zf1n2MWKsoBt2Z+yFe3cX3EnnJg5abGAxGi05yRugWPgyK5XVXRkYeAq1cxvAFHPn1LSQcJFqZ0wNwctBIGoSDpCnXRmATPVrKP0zq8DKT/7aq2LWQhHbDF3bCGjGugnlVV/5bNCPFIdu1w8eUn0kZfsJAOSd32K2JjFqIajrMryeGbar7gmmSxV98AVBf/a+ImGzHPYEm+dr7HLOILXllX6WjmZqkZ2oyDjjzcpodT9f8yhUvSZZzorXxrbutWaHcuDJz2qNo4LmYN3QT34yXgsGHKZzI0gNOlGx/Dts7+VZW+YlNEU96aeLw8uKvfQoCzMXg+tmp9zlZMnHFLIv9vkuQk07luLdFCAHfG5MF/aPvJDnOoGnLtu9++z/k0Yar3zl00dHOkkk7rjnz5yrUsIxUaBu+V4OHrEUSF/VKYCh2zu31wkIau/4aTmfkdiVBOo0UCPDIk2PSw9bpM6DfstLZ/MnXcQWjEvfjTYECHkqyyK2RHjcMVbJH5gdKbyo8=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CY5PR11MB6139.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230028)(7916004)(136003)(366004)(39860400002)(396003)(376002)(346002)(451199021)(6506007)(26005)(9686003)(186003)(4326008)(66556008)(66476007)(6916009)(66946007)(316002)(478600001)(41300700001)(8676002)(33716001)(45080400002)(8936002)(5660300002)(54906003)(6486002)(6512007)(82960400001)(38100700002)(2906002)(86362001)(83380400001);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?0lnDFpeW0nb0wTK4cZRoM6AAE43oBxRaUsWy/N/p6x1S1wpn//8zYKDFsSXB?=
+ =?us-ascii?Q?1sqybIneg7bwz16AEeKpm74u8EpmV8E+ntpLXaMMKeH1qp6urLBE87n4A6Dq?=
+ =?us-ascii?Q?YTk0JphDPNMDijldf+fcW+4c+cMAa4UeAodoAukinO10XneqTgifWqCxPXu9?=
+ =?us-ascii?Q?wW4wj6rAQccUK8KSYS6cfn0iVW9muHeC8YXVcL83IpiPZju5iPJeZW91zSTd?=
+ =?us-ascii?Q?U+Um5A67w2XBfQO3TRr+cLUGav93ti4ocr+fvRcwRRwO6rcMcLBlMm1Ldn6t?=
+ =?us-ascii?Q?P4lmiOdLeSZNgqMJibOkMSb2UOSy1PpluFkHnS8D8ubIki6paMdkVYD2X+KO?=
+ =?us-ascii?Q?znaw5rtpHIyCe01ClGZYAkz4WgGPs+X9koQnQU3SptgLjeujrHnI0vF7bsDS?=
+ =?us-ascii?Q?Vyc+GLydueq+wgwWkRbOSeYXf6npAcGzc++3KpKwB57UlECkzZsP5gAM5w+e?=
+ =?us-ascii?Q?Teeybl2WEISTHTwmYDbZo7kR2KGifLtlbdOKwToZgC29LZayDTqzLZ9kLPOO?=
+ =?us-ascii?Q?LWqv1BiJZCnQgQaVUaxk1UpEcC/5l/p+nL0WmUSrFHIHDi6nPR4zOwj77Yc4?=
+ =?us-ascii?Q?BdWX/sNLF08H4hlCbBsji8OAb1+Av2RL95jOZO4cbz9xvHmO5ztkKXqSwAy4?=
+ =?us-ascii?Q?S5kVhPEfslg4kss92s3fO7NWvUIyBWcoHEImDBpcQFkSR8AvfGN0KzSciv0e?=
+ =?us-ascii?Q?ObjmMlYZHpoFUlFdQcwQeURWi0YfgDiCXQk1NCqYbxVzlrrzyp9VTGMrnYI9?=
+ =?us-ascii?Q?ppu3PrO9gTlEjB2HozVVyEuen+OHu9q3q0FaAkwjpAfpx29ofsKVy3fTosup?=
+ =?us-ascii?Q?KXrApayAZH6pyt/zkrOxNdDMaeOGWfJqxcajGWsWXw9gueWoCrhUebVPNP7n?=
+ =?us-ascii?Q?ecKCEEpP8Au8jna6manMQTLzEpa335TCl8SsxwvI0HcxwbGf4SlkPYj8f9uF?=
+ =?us-ascii?Q?HIO9NH+L6qiaTlf+6JL3glGdoemjg3ca3jL/Fvgcuy/M1CMDBBuy22nREEmS?=
+ =?us-ascii?Q?vXGatZYJ/Z7D7XeFhCs//keGJ4ozSgCyvU/qeSgyRxYhJzb9y5SGi2qEpsJu?=
+ =?us-ascii?Q?ibPmo4iCgsTmFGWygmM+CrR+uFjjvnuRlU647bMe9yP4bXLomXyDVOYSYFG0?=
+ =?us-ascii?Q?nsthrsM+syeq46k2moAlofYnxFQYb/OAVTIr5w1039HTZh/Vugp9ei0jdUlQ?=
+ =?us-ascii?Q?ZaD5am7psFXrb55MvAlp/xcAONP0pKSMPLubM9CtYoA9LqYHP8LVCPOTBIXQ?=
+ =?us-ascii?Q?OXiMnBcRs8CySej9oIMG44f6VkKT/lzBkb1Fpq9k8TWTB8Hk8mASY1sjcprC?=
+ =?us-ascii?Q?2L8LWhuVcogDpLlnMc74f2U1MN/4LSEudphoxytGUuV3viyMf1/87UwdVGtT?=
+ =?us-ascii?Q?/evBjOE11SsrxEDNgwpY3M0lXqjKuSBJC/qrHrzw+MoIpkVIdov3wfvS6lXR?=
+ =?us-ascii?Q?oySZQRyWKnBkkIZgIikepuRRrvWiLmCPuOqCs96kZ8klhuf39RC336+MSAc3?=
+ =?us-ascii?Q?Fn6rFjIuVUffz6SPXR1PNd4WM0Zb42VI2CGdjPGU3c9QCX2hfzdmXkNK595x?=
+ =?us-ascii?Q?VjakyE7k0n/Fn57e1RZXIobRVrbl3hgX5wkdqyy8TZH66era4soi3dsI+Q4M?=
+ =?us-ascii?Q?VA=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8e3a5dd0-a6f7-49ab-48fb-08db44e583d0
+X-MS-Exchange-CrossTenant-AuthSource: CY5PR11MB6139.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Apr 2023 17:01:15.5283 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: mrkrotFyu4dFql+rxKdIiXRhILYXDJflgnNuw/LpO4XE7WJgkCJw4BwfxoxhQvIOxrJtkvwCPBl9Xh+3LhjI+HHK9U77Him8OwYHgcG1cVo=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR11MB7129
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,194 +145,85 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, linux-kernel@vger.kernel.org,
- marijn.suijten@somainline.org, freedreno@lists.freedesktop.org
+Cc: Dave Airlie <airlied@redhat.com>, Luis Chamberlain <mcgrof@kernel.org>,
+ linux-modules@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Mon, Apr 24, 2023 at 03:44:18PM +1000, Dave Airlie wrote:
+>On Fri, 21 Apr 2023 at 05:09, Lucas De Marchi <lucas.demarchi@intel.com> wrote:
+>>
+>> On Wed, Apr 19, 2023 at 02:36:52PM +1000, Dave Airlie wrote:
+>> >From: Dave Airlie <airlied@redhat.com>
+>> >
+>> >This adds a tag that will go into the module info, only one firmware from
+>> >the group given needs to be available for this driver to work. This allows
+>> >dracut to avoid adding in firmware that aren't needed.
+>> >
+>> >This just brackets a module list in the modinfo, the modules in the list
+>> >will get entries in reversed order so the last module in the list is the
+>> >preferred one.
+>> >
+>> >The corresponding dracut code it at:
+>> >https://github.com/dracutdevs/dracut/pull/2309
+>>
+>> it would be good to have the example usage in the commit message here so
+>> it can be easily checked as reference for other drivers.
+>
+>Good point.
+>
+>>
+>> I don't think we ever had any ordering in modinfo being relevant for
+>> other things. Considering the use case and that we could also use a
+>> similar thing for i915 / xe modules wrt to the major version,
+>> couldn't we do something like below?
+>>
+>>         MODULE_FIRMWARE_GROUP("nvidia/ga106/gsp/gsp");
+>>         MODULE_FIRMWARE("nvidia/ga106/gsp/gsp-5258902.bin");
+>>         MODULE_FIRMWARE("nvidia/ga106/gsp/gsp-5303002.bin");
+>>
+>> so the group is created by startswith() rather than by the order the
+>> modinfo appears in the elf section. In i915 we'd have:
+>
+>The way userspace parses these is reverse order, and it doesn't see
 
-On 4/21/2023 4:22 PM, Dmitry Baryshkov wrote:
-> On 22/04/2023 02:16, Kuogee Hsieh wrote:
->>
->> On 4/21/2023 4:11 PM, Dmitry Baryshkov wrote:
->>> On 22/04/2023 02:08, Kuogee Hsieh wrote:
->>>>
->>>> On 4/21/2023 3:16 PM, Dmitry Baryshkov wrote:
->>>>> On 22/04/2023 01:05, Kuogee Hsieh wrote:
->>>>>>
->>>>>> On 4/20/2023 5:07 PM, Dmitry Baryshkov wrote:
->>>>>>> On 21/04/2023 02:25, Kuogee Hsieh wrote:
->>>>>>>> From: Abhinav Kumar <quic_abhinavk@quicinc.com>
->>>>>>>>
->>>>>>>> Add DSC 1.2 hardware blocks to the catalog with necessary
->>>>>>>> sub-block and feature flag information.
->>>>>>>> Each display compression engine (DCE) contains dual hard
->>>>>>>> slice DSC encoders so both share same base address but with
->>>>>>>> its own different sub block address.
->>>>>>>
->>>>>>> Please correct line wrapping. 72-75 is usually the preferred width
->>>>>>>
->>>>>>>>
->>>>>>>> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
->>>>>>>> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
->>>>>>>> ---
->>>>>>>> .../gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h | 19 
->>>>>>>> +++++++++++++++++++
->>>>>>>> .../gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h | 11 
->>>>>>>> +++++++++++
->>>>>>>> .../drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h | 21 
->>>>>>>> +++++++++++++++++++++
->>>>>>>> .../gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h | 19 
->>>>>>>> +++++++++++++++++++
->>>>>>>> .../gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h | 19 
->>>>>>>> +++++++++++++++++++
->>>>>>>> drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c | 12 ++++++++++--
->>>>>>>>   6 files changed, 99 insertions(+), 2 deletions(-)
->>>>>>>>
->>>>>>>
->>>>>>>
->>>>>>> [I commented on sm8550, it applies to all the rest of platforms]
->>>>>>>
->>>>>>>> diff --git 
->>>>>>>> a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h 
->>>>>>>> b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h
->>>>>>>> index 9e40303..72a7bcf 100644
->>>>>>>> --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h
->>>>>>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h
->>>>>>>> @@ -165,6 +165,23 @@ static const struct dpu_merge_3d_cfg 
->>>>>>>> sm8550_merge_3d[] = {
->>>>>>>>       MERGE_3D_BLK("merge_3d_3", MERGE_3D_3, 0x66700),
->>>>>>>>   };
->>>>>>>>   +static const struct dpu_dsc_sub_blks sm8550_dsc_sblk_0 = {
->>>>>>>> +    .enc = {.base = 0x100, .len = 0x100},
->>>>>>>> +    .ctl = {.base = 0xF00, .len = 0x10},
->>>>>>>> +};
->>>>>>>> +
->>>>>>>> +static const struct dpu_dsc_sub_blks sm8550_dsc_sblk_1 = {
->>>>>>>> +    .enc = {.base = 0x200, .len = 0x100},
->>>>>>>> +    .ctl = {.base = 0xF80, .len = 0x10},
->>>>>>>> +};
->>>>>>>
->>>>>>> Please keep sblk in dpu_hw_catalog for now.
->>>>>>>
->>>>>>>> +
->>>>>>>> +static const struct dpu_dsc_cfg sm8550_dsc[] = {
->>>>>>>> +    DSC_BLK_1_2("dsc_0", DSC_0, 0x80000, 0x100, 0, 
->>>>>>>> sm8550_dsc_sblk_0),
->>>>>>>> +    DSC_BLK_1_2("dsc_0", DSC_1, 0x80000, 0x100, 0, 
->>>>>>>> sm8550_dsc_sblk_1),
->>>>>>>
->>>>>>> Is there a reason why index in "dsc_N" doesn't match the DSC_n 
->>>>>>> which comes next to it?
->>>>>>
->>>>>> usually each DCE (display compression engine) contains two hard 
->>>>>> slice encoders.
->>>>>>
->>>>>> DSC_0 and DSC_1 (index) is belong to dsc_0.
->>>>>>
->>>>>> If there are two DCE, then DSC_2 and DSC_3 belong to dsc_1
->>>>>
->>>>> Ah, I see now. So, the block register space is the following:
->>>>> DCEi ->
->>>>>   common
->>>>>   dsc0_enc
->>>>>   dsc1_enc
->>>>>   dsc0_ctl
->>>>>   dsc1_ctl
->>>>>
->>>>> Instead of declaring a single DCE unit with two DSC blocks, we 
->>>>> declare two distinct DSC blocks. This raises a question, how 
->>>>> independent are these two parts of a single DCE block? For 
->>>>> example, can we use them to perform compression with different 
->>>>> parameters? Or use one of them for the DP DSC and another one for 
->>>>> DSI DSC? Can we have the following configuration:
->>>>>
->>>>> DSC_0 => DP DSC
->>>>> DSC_1, DSC_2 => DSI DSC in DSC_MERGE topology?
->>>>
->>>> no, For merge mode you have to use same DCE, such as DSC_2 and DSC3 
->>>> (pair)
->>>
->>> Ok, this is for the merge mode. So the dpu_rm should be extended to 
->>> allocate them in pairs if merge mode is requested.
->>>
->>> What about using DSC_0 for DP and DSC_1 for DSI? Is it possible?
->>
->> I never do that, but i think it should  works since they can work 
->> independently.
->
-> Good, thanks for the confirmation. For v2, could you please describe 
-> this arrangement of DCE -> 2xDSC in a comment close to DSC_BLK_1_2 and 
-> corresponding sblk definitions?
->
-> Also could you please fix dpu_rm to allocate DSC blocks in pairs for 
-> DSC_MERGE mode.
-yes, I will fix DSC_MERGE mode at next patch serial.
->
-> Last, but not least, would it make sense to name the blocks as "dceN" 
-> instead of "dscN"?
+the main issue I have with it is that it relies on a order that is
+implicit rather than intended. The order comes from how the .modinfo ELF
+section is assembled together... so the fact that your call to
+kmod_module_get_info() returns a list with the keys in the reverse order
+of the MODULE_FIRMWARE() definitions, is basically because the compiler
+toolchain did it did that way.
+
+It's worse when those sections come from different compilation units as
+the order then is not predictable and can easily break with changes to
+the build infra if the files are linked in different order.
+
+I think the grouping thing here would only be supported with firmware
+defined on the same compilation unit, but it's something to keep in mind
+and document.
+
+>the GROUP until after the FIRMWARE, so this can't work, as it already
+>will have included all the ones below, hence why I bracketed top and
+>bottom with a group.
+
+well... that is something that can be adapted easily by using a 2 pass
+approach, filtering out the list based on the groups.
+
+I agree that yours is simpler though.  If we can rely on the
+order produced by the compiler and we document the expectations of
+MODULE_FIRMWARE_GROUP_ONLY_ONE, then I believe we can stay with the
+simpler approach.
+
+Luis, any thoughts here?
+
+thanks
+Lucas De Marchi
+
 >
 >>
+>> MODULE_FIRMWARE_GROUP("i915/tgl_guc")
 >>
->>>
->>>>
->>>>>
->>>>>>
->>>>>>>
->>>>>>>> +    DSC_BLK_1_2("dsc_1", DSC_2, 0x81000, 0x100, 
->>>>>>>> BIT(DPU_DSC_NATIVE_422_EN), sm8550_dsc_sblk_0),
->>>>>>>> +    DSC_BLK_1_2("dsc_1", DSC_3, 0x81000, 0x100, 
->>>>>>>> BIT(DPU_DSC_NATIVE_422_EN), sm8550_dsc_sblk_1),
->>>>>>>> +};
->>>>>>>> +
->>>>>>>>   static const struct dpu_intf_cfg sm8550_intf[] = {
->>>>>>>>       INTF_BLK("intf_0", INTF_0, 0x34000, 0x280, INTF_DP, 
->>>>>>>> MSM_DP_CONTROLLER_0, 24, INTF_SC7280_MASK, MDP_SSPP_TOP0_INTR, 
->>>>>>>> 24, 25),
->>>>>>>>       /* TODO TE sub-blocks for intf1 & intf2 */
->>>>>>>> @@ -218,6 +235,8 @@ const struct dpu_mdss_cfg dpu_sm8550_cfg = {
->>>>>>>>       .dspp = sm8550_dspp,
->>>>>>>>       .pingpong_count = ARRAY_SIZE(sm8550_pp),
->>>>>>>>       .pingpong = sm8550_pp,
->>>>>>>> +    .dsc = sm8550_dsc,
->>>>>>>> +    .dsc_count = ARRAY_SIZE(sm8550_dsc),
->>>>>>>>       .merge_3d_count = ARRAY_SIZE(sm8550_merge_3d),
->>>>>>>>       .merge_3d = sm8550_merge_3d,
->>>>>>>>       .intf_count = ARRAY_SIZE(sm8550_intf),
->>>>>>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c 
->>>>>>>> b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
->>>>>>>> index 03f162a..be08158 100644
->>>>>>>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
->>>>>>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
->>>>>>>> @@ -1,6 +1,6 @@
->>>>>>>>   // SPDX-License-Identifier: GPL-2.0-only
->>>>>>>>   /* Copyright (c) 2015-2018, The Linux Foundation. All rights 
->>>>>>>> reserved.
->>>>>>>> - * Copyright (c) 2022. Qualcomm Innovation Center, Inc. All 
->>>>>>>> rights reserved.
->>>>>>>> + * Copyright (c) 2022-2023, Qualcomm Innovation Center, Inc. 
->>>>>>>> All rights reserved.
->>>>>>>>    */
->>>>>>>>     #define pr_fmt(fmt)    "[drm:%s:%d] " fmt, __func__, __LINE__
->>>>>>>> @@ -540,7 +540,15 @@ static const struct dpu_pingpong_sub_blks 
->>>>>>>> sc7280_pp_sblk = {
->>>>>>>>       {\
->>>>>>>>       .name = _name, .id = _id, \
->>>>>>>>       .base = _base, .len = 0x140, \
->>>>>>>> -    .features = _features, \
->>>>>>>> +    .features = BIT(DPU_DSC_HW_REV_1_1) | _features, \
->>>>>>>> +    }
->>>>>>>> +
->>>>>>>> +#define DSC_BLK_1_2(_name, _id, _base, _len, _features, _sblk) \
->>>>>>>> +    {\
->>>>>>>> +    .name = _name, .id = _id, \
->>>>>>>> +    .base = _base, .len = _len, \
->>>>>>>> +    .features = BIT(DPU_DSC_HW_REV_1_2) | _features, \
->>>>>>>> +    .sblk = &_sblk, \
->>>>>>>>       }
->>>>>>>> /*************************************************************
->>>>>>>
->>>>>
->>>
+>> There is still an order the kernel would probably like: latest version.
+>> But then it's an order only among things with the same key.
 >
+>Dave.
