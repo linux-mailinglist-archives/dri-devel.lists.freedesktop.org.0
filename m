@@ -2,56 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62AA66ECE2E
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Apr 2023 15:30:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B9E956ECFA3
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Apr 2023 15:51:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6599310E505;
-	Mon, 24 Apr 2023 13:30:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 527F310E1B2;
+	Mon, 24 Apr 2023 13:51:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BE75610E500;
- Mon, 24 Apr 2023 13:30:02 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 66EAB1FD7D;
- Mon, 24 Apr 2023 13:30:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
- t=1682343000; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=tLPbo/UZqeeiUO9KIxTgk4ZZt8WHIXufmzl7K93VOsU=;
- b=FXAYjaIE+ddK6693P2nO5MJMlmKsl6RFQyEWh6fs0X1nnQ0iUuiziFaq1/DFUNwDzPk4Cy
- IDRNVmsaSryTzpdOqJhUbsNmRMdLFaogTUovOLtXQf6hwmfqS4Au+tGiQa/ty85ORN5aBZ
- dI2wGCGSgJt4qeDybzAitw8EAgn6+rI=
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id E182413780;
- Mon, 24 Apr 2023 13:29:59 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id tyikNVeERmQ8HQAAMHmgww
- (envelope-from <jgross@suse.com>); Mon, 24 Apr 2023 13:29:59 +0000
-Message-ID: <9b5c3df3-b795-782d-d01f-ab43868f3675@suse.com>
-Date: Mon, 24 Apr 2023 15:29:59 +0200
+Received: from mail-vk1-xa2b.google.com (mail-vk1-xa2b.google.com
+ [IPv6:2607:f8b0:4864:20::a2b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8766410E14A
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Apr 2023 13:51:00 +0000 (UTC)
+Received: by mail-vk1-xa2b.google.com with SMTP id
+ 71dfb90a1353d-44089f95265so1430846e0c.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Apr 2023 06:51:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=raspberrypi.com; s=google; t=1682344259; x=1684936259;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=stIu8ClgUckLBUEBsGl276jISixWZ1mw4pn+EsJ7JZw=;
+ b=KSCkfZE/+9pcGuTPdYh0YG+OpxdgMPNE/MyoU8GLGzVZLaVDkcOOOiVlAkC51CgDls
+ k/fWTgHeT+w7yuZ4vQea57YQu81DVgO+cZ1jGkJL1yWt2ZQSix1MMWb0ZK5Jlzqwihy+
+ 5/xgbRsi9P5AdCAmMoCyARaTi4gw8eRM7kCZtqBuS0EW/nWMhNJdXeSS3ag6HHdbNlXP
+ HY1yO6yFVPCiSpzU2GmnQRHtsIdW1Yjx7wnD7BQ5BDYeOxGMS4FRqKc15UnJwRrYI8T4
+ vj5jRXWmFN++FWw9ShT9iNFoiJTjP7ObUyZ05BWIZfrgRp+xuoM2C1D6V0Tyk3MCjsLM
+ 0QvQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1682344259; x=1684936259;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=stIu8ClgUckLBUEBsGl276jISixWZ1mw4pn+EsJ7JZw=;
+ b=Rs/1BQn4Aj17n98lxk7gqdpLt6bRQKvW9iXV9bXdbqUKhB4FaACmIgS5C58Oq0xo0r
+ e2MR/uiMLtHSQnr29ZAkqfV5qrCHttNWB6Qk+hY2Ww5yR9MqQalfgmqRXDbE2ddlS35M
+ LYfCwirDeIu+YJjhnf96txXmIsYBapXrwv3TRo/lsGcI1ki5GYVM/xnXYP1hgdSOTIg+
+ +UR9PmhT67wb4PvJMup4jQDUOdFjtDpdi4fGxOosJp5skIejy10xndWpGDvyc6XDCusM
+ E5+Zvwqnycue0H8BwXvNt1oPt+KQ3ELdqO+mbInHwdBizGgEPeUPYMa4LoKJ5/ugmpQS
+ MJRg==
+X-Gm-Message-State: AAQBX9clAjjhRh1B3aoDeEeojypHhMEXOE8gr8Os19JMvtDXUDWI7s69
+ oEhwHePz8abydKl/KhNEJP/DPgaCf6pPxEwpqFvF5A==
+X-Google-Smtp-Source: AKy350a4qyB83sh/fBMONyQnHylHjTS1iRVanU7zyJs8OKiEqNzAR2eSAuuca+2K3dXjc7hTvSAfIxsd08BHQGYCe/Y=
+X-Received: by 2002:a1f:d544:0:b0:443:675e:3096 with SMTP id
+ m65-20020a1fd544000000b00443675e3096mr3107100vkg.16.1682344259023; Mon, 24
+ Apr 2023 06:50:59 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.1
-Content-Language: en-US
-To: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>,
- Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
- Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>
-References: <20230424123524.17008-1-janusz.krzysztofik@linux.intel.com>
-From: Juergen Gross <jgross@suse.com>
-Subject: Re: [RFC PATCH] x86/mm: Fix PAT bit missing from page protection
- modify mask
-In-Reply-To: <20230424123524.17008-1-janusz.krzysztofik@linux.intel.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------KgChvB1UOSFWzuvpekN3GQ8z"
+References: <20230421162749.360777-1-markyacoub@google.com>
+ <20230421162749.360777-3-markyacoub@google.com>
+ <bc723ffd-73cd-0339-c2aa-42b3db5a3560@linaro.org>
+In-Reply-To: <bc723ffd-73cd-0339-c2aa-42b3db5a3560@linaro.org>
+From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date: Mon, 24 Apr 2023 14:50:43 +0100
+Message-ID: <CAPY8ntBH_AHp85Ak5YA4wkHxSHOf_3O7vKbLDVY2NVB_q=tpUg@mail.gmail.com>
+Subject: Re: [PATCH v2 2/3] DRM: Create new Content Protection connector
+ property
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,182 +69,127 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Yu Zhao <yuzhao@google.com>, David Hildenbrand <david@redhat.com>,
- intel-gfx@lists.freedesktop.org, x86@kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Andrzej Hajda <andrzej.hajda@intel.com>,
- Andi Shyti <andi.shyti@linux.intel.com>, "H. Peter Anvin" <hpa@zytor.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Chris Wilson <chris.p.wilson@linux.intel.com>,
- Nirmoy Das <nirmoy.das@intel.com>
+Cc: Mark Yacoub <markyacoub@chromium.org>, dianders@chromium.org,
+ linux-kernel@vger.kernel.org, seanpaul@chromium.org,
+ dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------KgChvB1UOSFWzuvpekN3GQ8z
-Content-Type: multipart/mixed; boundary="------------JIo6qJ5DPUNRum2MSGQXDkVy";
- protected-headers="v1"
-From: Juergen Gross <jgross@suse.com>
-To: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>,
- Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
- Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>
-Cc: x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- David Hildenbrand <david@redhat.com>, Yu Zhao <yuzhao@google.com>,
- linux-kernel@vger.kernel.org, Andi Shyti <andi.shyti@linux.intel.com>,
- Chris Wilson <chris.p.wilson@linux.intel.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Nirmoy Das <nirmoy.das@intel.com>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Message-ID: <9b5c3df3-b795-782d-d01f-ab43868f3675@suse.com>
-Subject: Re: [RFC PATCH] x86/mm: Fix PAT bit missing from page protection
- modify mask
-References: <20230424123524.17008-1-janusz.krzysztofik@linux.intel.com>
-In-Reply-To: <20230424123524.17008-1-janusz.krzysztofik@linux.intel.com>
+Hi Mark (and Dmitry)
 
---------------JIo6qJ5DPUNRum2MSGQXDkVy
-Content-Type: multipart/mixed; boundary="------------nZGh77PNEWss04qVuuM8lUrp"
+On Fri, 21 Apr 2023 at 18:07, Dmitry Baryshkov
+<dmitry.baryshkov@linaro.org> wrote:
+>
+> On 21/04/2023 19:27, Mark Yacoub wrote:
+> > From: Mark Yacoub <markyacoub@chromium.org>
+>
+> Nit: is there a reason for this header? My first impression is that it
+> matches your outgoing name & email address and as such is not necessary.
+>
+> Nit#2: subject should mention 'Key', as you are creating a property for
+> the key.
+>
+> >
+> > [Why]
+> > To enable Protected Content, some drivers require a key to be injected
+> > from user space to enable HDCP on the connector.
+> >
+> > [How]
+> > Create new "Content Protection Property" of type "Blob"
+>
+> Generic observation is that the ability to inject HDCP keys manually
+> seems to be quite unique to your hardware. As such, I think the debugfs
+> or sysfs suits better in comparison to the DRM property.
 
---------------nZGh77PNEWss04qVuuM8lUrp
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+I was about to reply to v1 with a very similar comment over the
+requirement to keep HDCP keys secret.
 
-T24gMjQuMDQuMjMgMTQ6MzUsIEphbnVzeiBLcnp5c3p0b2ZpayB3cm90ZToNCj4gVmlzaWJs
-ZSBnbGl0Y2hlcyBoYXZlIGJlZW4gb2JzZXJ2ZWQgd2hlbiBydW5uaW5nIGdyYXBoaWNzIGFw
-cGxpY2F0aW9ucyBvbg0KPiBMaW51eCB1bmRlciBYZW4gaHlwZXJ2aXNvci4gIFRob3NlIG9i
-c2VydmF0aW9ucyBoYXZlIGJlZW4gY29uZmlybWVkIHdpdGgNCj4gZmFpbHVyZXMgZnJvbSBr
-bXNfcHdyaXRlX2NyYyBJbnRlbCBHUFUgdGVzdCB0aGF0IHZlcmlmaWVzIGRhdGEgY29oZXJl
-bmN5DQo+IG9mIERSTSBmcmFtZSBidWZmZXIgb2JqZWN0cyB1c2luZyBoYXJkd2FyZSBDUkMg
-Y2hlY2tzdW1zIGNhbGN1bGF0ZWQgYnkNCj4gZGlzcGxheSBjb250cm9sbGVycywgZXhwb3Nl
-ZCB0byB1c2Vyc3BhY2UgdmlhIGRlYnVnZnMuICBBZmZlY3RlZA0KPiBwcm9jZXNzaW5nIHBh
-dGhzIGhhdmUgdGhlbiBiZWVuIGlkZW50aWZpZWQgd2l0aCBuZXcgdGVzdCB2YXJpYW50cyB0
-aGF0DQo+IG1tYXAgdGhlIG9iamVjdHMgdXNpbmcgZGlmZmVyZW50IG1ldGhvZHMgYW5kIGNh
-Y2hpbmcgbW9kZXMuDQo+IA0KPiBXaGVuIHJ1bm5pbmcgYXMgYSBYZW4gUFYgZ3Vlc3QsIExp
-bnV4IHVzZXMgWGVuIHByb3ZpZGVkIFBBVCBjb25maWd1cmF0aW9uDQo+IHdoaWNoIGlzIGRp
-ZmZlcmVudCBmcm9tIGl0cyBuYXRpdmUgb25lLiAgSW4gcGFydGljdWxhciwgWGVuIHNwZWNp
-ZmljIFBURQ0KPiBlbmNvZGluZyBvZiB3cml0ZS1jb21iaW5pbmcgY2FjaGluZywgbGlrZWx5
-IHVzZWQgYnkgZ3JhcGhpY3MgYXBwbGljYXRpb25zLA0KPiBkaWZmZXJzIGZyb20gdGhlIExp
-bnV4IGRlZmF1bHQgb25lIGZvdW5kIGFtb25nIHN0YXRpY2FsbHkgZGVmaW5lZCBtaW5pbWFs
-DQo+IHNldCBvZiBzdXBwb3J0ZWQgbW9kZXMuICBTaW5jZSBYZW4gZGVmaW5lcyBQVEUgZW5j
-b2Rpbmcgb2YgdGhlIFdDIG1vZGUgYXMNCj4gX1BBR0VfUEFULCBpdCBubyBsb25nZXIgYmVs
-b25ncyB0byB0aGUgbWluaW1hbCBzZXQsIGRlcGVuZHMgb24gY29ycmVjdA0KPiBoYW5kbGlu
-ZyBvZiBfUEFHRV9QQVQgYml0LCBhbmQgY2FuIGJlIG1pc21hdGNoZWQgd2l0aCB3cml0ZS1i
-YWNrIGNhY2hpbmcuDQo+IA0KPiBXaGVuIGEgdXNlciBjYWxscyBtbWFwKCkgZm9yIGEgRFJN
-IGJ1ZmZlciBvYmplY3QsIERSTSBkZXZpY2Ugc3BlY2lmaWMNCj4gLm1tYXAgZmlsZSBvcGVy
-YXRpb24sIGNhbGxlZCBmcm9tIG1tYXBfcmVnaW9uKCksIHRha2VzIGNhcmUgb2Ygc2V0dGlu
-ZyBQVEUNCj4gZW5jb2RpbmcgYml0cyBpbiBhIHZtX3BhZ2VfcHJvdCBmaWVsZCBvZiBhbiBh
-c3NvY2lhdGVkIHZpcnR1YWwgbWVtb3J5IGFyZWENCj4gc3RydWN0dXJlLiAgVW5mb3J0dW5h
-dGVseSwgX1BBR0VfUEFUIGJpdCBpcyBub3QgcHJlc2VydmVkIHdoZW4gdGhlIHZtYSdzDQo+
-IC52bV9mbGFncyBhcmUgdGhlbiBhcHBsaWVkIHRvIC52bV9wYWdlX3Byb3QgdmlhIHZtX3Nl
-dF9wYWdlX3Byb3QoKS4gIEJpdHMNCj4gdG8gYmUgcHJlc2VydmVkIGFyZSBkZXRlcm1pbmVk
-IHdpdGggX1BBR0VfQ0hHX01BU0sgc3ltYm9sIHRoYXQgZG9lc24ndA0KPiBjb3ZlciBfUEFH
-RV9QQVQuICBBcyBhIGNvbnNlcXVlbmNlLCBXQiBjYWNoaW5nIGlzIHJlcXVlc3RlZCBpbnN0
-ZWFkIG9mIFdDDQo+IHdoZW4gcnVubmluZyB1bmRlciBYZW4gKGFsc28sIFdQIGlzIHNpbGVu
-dGx5IGNoYW5nZWQgdG8gV1QsIGFuZCBVQw0KPiBkb3duZ3JhZGVkIHRvIFVDX01JTlVTKS4g
-IFdoZW4gcnVubmluZyBvbiBiYXJlIG1ldGFsLCBXQyBpcyBub3QgYWZmZWN0ZWQsDQo+IGJ1
-dCBXUCBhbmQgV1QgZXh0cmEgbW9kZXMgYXJlIHVuaW50ZW50aW9uYWxseSByZXBsYWNlZCB3
-aXRoIFdDIGFuZCBVQywNCj4gcmVzcGVjdGl2ZWx5Lg0KPiANCj4gV1AgYW5kIFdUIG1vZGVz
-LCBlbmNvZGVkIHdpdGggX1BBR0VfUEFUIGJpdCBzZXQsIHdlcmUgaW50cm9kdWNlZCBieSBj
-b21taXQNCj4gMjgxZDQwNzhiZWMzICgieDg2OiBNYWtlIHBhZ2UgY2FjaGUgbW9kZSBhIHJl
-YWwgdHlwZSIpLiAgQ2FyZSB3YXMgdGFrZW4NCj4gdG8gZXh0ZW5kIF9QQUdFX0NBQ0hFX01B
-U0sgc3ltYm9sIHdpdGggdGhhdCBhZGRpdGlvbmFsIGJpdCwgYnV0IHRoYXQNCj4gc3ltYm9s
-IGhhcyBuZXZlciBiZWVuIHVzZWQgZm9yIGlkZW50aWZpY2F0aW9uIG9mIGJpdHMgcHJlc2Vy
-dmVkIHdoZW4NCj4gYXBwbHlpbmcgcGFnZSBwcm90ZWN0aW9uIGZsYWdzLiAgU3VwcG9ydCBm
-b3IgYWxsIGNhY2hlIG1vZGVzIHVuZGVyIFhlbiwNCj4gaW5jbHVkaW5nIHRoZSBwcm9ibGVt
-YXRpYyBXQyBtb2RlLCB3YXMgdGhlbiBpbnRyb2R1Y2VkIGJ5IGNvbW1pdA0KPiA0NzU5MWRm
-NTA1MTIgKCJ4ZW46IFN1cHBvcnQgWGVuIHB2LWRvbWFpbnMgdXNpbmcgUEFUIikuDQo+IA0K
-PiBFeHRlbmQgYml0bWFzayB1c2VkIGJ5IHBncHJvdF9tb2RpZnkoKSBmb3Igc2VsZWN0aW5n
-IGJpdHMgdG8gYmUgcHJlc2VydmVkDQo+IHdpdGggX1BBR0VfUEFUIGJpdC4gIEhvd2V2ZXIs
-IHNpbmNlIHRoYXQgYml0IGNhbiBiZSByZXVzZWQgYXMgX1BBR0VfUFNFLA0KPiBhbmQgdGhl
-IF9QQUdFX0NIR19NQVNLIHN5bWJvbCwgcHJpbWFybHkgdXNlZCBieSBwdGVfbW9kaWZ5KCks
-IGlzIGxpa2VseQ0KPiBpbnRlbnRpb25hbGx5IGRlZmluZWQgd2l0aCB0aGF0IGJpdCBub3Qg
-c2V0LCBrZWVwIHRoYXQgc3ltYm9sIHVuY2hhbmdlZC4NCg0KSG1tLCBJIHdvbmRlciB3aGV0
-aGVyIHB0ZV9ta2h1Z2UoKSBzaG91bGRuJ3QganVzdCBzZXQgX1BBR0VfUFNFLCBidXQgdXNl
-DQpwZ3Byb3RfNGtfMl9sYXJnZSgpIGJlZm9yZSBkb2luZyBzby4NCg0KT1RPSCBhIHVzZSBj
-YXNlIGxpa2UgaW4gcmVtb3ZlX21pZ3JhdGlvbl9wdGUoKSwgd2hlcmUgcHRlX21raHVnZSgp
-IGlzDQpkaXJlY3RseSBmb2xsb3dlZCBieSBhIGNhbGwgb2YgYXJjaF9tYWtlX2h1Z2VfcHRl
-KCksIHdoaWNoIGluIHR1cm4gaXMNCmNhbGxpbmcgcHRlX21raHVnZSgpIGFnYWluLCB3b3Vs
-ZCBzZXQgX2Fsd2F5c18gdGhlIFBBVCBiaXQuDQoNCldoZW4gcnVubmluZyBhcyBhIFhlbiBQ
-ViBndWVzdCB0aGlzIGRvZXNuJ3QgbWF0dGVyIGF0IGFsbCwgYXMgbGFyZ2Ugb3INCmh1Z2Ug
-cGFnZXMgYXJlbid0IHN1cHBvcnRlZCB0aGVyZS4gU28gY2xlYXJseSBzb21ldGhpbmcgZm9y
-IHRoZSBNTQ0KbWFpbnRhaW5lcnMuIDotKQ0KDQoNCkp1ZXJnZW4NCg0KUC5TLjogSmFudXN6
-LCBuaWNlIGNhdGNoISBUaGUgUXViZXNPUyBmb2xrcyB3aG8gcmVwb3J0ZWQgdGhlIHByb2Js
-ZW0NCiAgICAgICBvcmlnaW5hbGx5IHdpbGwgdGVzdCB5b3VyIHBhdGNoIHVuZGVyIFhlbiBz
-b29uLg0K
---------------nZGh77PNEWss04qVuuM8lUrp
-Content-Type: application/pgp-keys; name="OpenPGP_0xB0DE9DD628BF132F.asc"
-Content-Disposition: attachment; filename="OpenPGP_0xB0DE9DD628BF132F.asc"
-Content-Description: OpenPGP public key
-Content-Transfer-Encoding: quoted-printable
+v2 has added WRITE_ONLY blobs so at least another process can't just
+read the blob back out again, but it feels like there are still
+numerous ways to grab those keys. For an unsecured userspace to have
+the keys in the first place seems like a bad move, and IMHO they
+should only be held in either a secure environment, or only held in
+hardware (passed direct from OTP to HDCP block).
 
------BEGIN PGP PUBLIC KEY BLOCK-----
 
-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
-jR/i1DG86lem3iBDXzXsZDn8R38=3D
-=3D2wuH
------END PGP PUBLIC KEY BLOCK-----
+There's also the DRM uAPI requirement for having reviewed patches for
+an open source project to go alongside any uAPI change. Do such
+patches exist? https://docs.kernel.org/gpu/drm-uapi.html#open-source-userspace-requirements
 
---------------nZGh77PNEWss04qVuuM8lUrp--
+  Dave
 
---------------JIo6qJ5DPUNRum2MSGQXDkVy--
-
---------------KgChvB1UOSFWzuvpekN3GQ8z
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsB5BAABCAAjFiEEhRJncuj2BJSl0Jf3sN6d1ii/Ey8FAmRGhFcFAwAAAAAACgkQsN6d1ii/Ey/i
-RQf/TRbhRJqx5FYf6UKJIfwG6Blsnm6rpsjHnf39a8CdQFtq+BCiarh223RPa1o+vgudpUXifDfs
-r4lZskH1YjMGUgXUBuAHeOer3Yyza5SD+2/JH3QO4WyBEpRL6bBgrWlaCFe8JfOiu7YXK3xQsSxl
-QSuruEzYvBbiE6PV7KPW987s4Ej4hi71yMKAm60APhrglk0chCZ8DK6v/PDvRXaikZfehNl5ozeN
-+zxZKOqQGCf0w499k8UnuTnGiILm0/NBl+gM4A7z0/lOzAra2W4+TUd5eZ4/+8DlbeAP3X4fQAsR
-B7PhJbxs6XiIM/qB6NAum41xAZ9sn4wefCjxNEh2+A==
-=VfcL
------END PGP SIGNATURE-----
-
---------------KgChvB1UOSFWzuvpekN3GQ8z--
+> >
+> > Signed-off-by: Mark Yacoub <markyacoub@chromium.org>
+> > ---
+> >   drivers/gpu/drm/drm_atomic_uapi.c | 9 +++++++++
+> >   include/drm/drm_connector.h       | 6 ++++++
+> >   include/drm/drm_mode_config.h     | 6 ++++++
+> >   3 files changed, 21 insertions(+)
+> >
+> > diff --git a/drivers/gpu/drm/drm_atomic_uapi.c b/drivers/gpu/drm/drm_atomic_uapi.c
+> > index d867e7f9f2cd5..e20bc57cdb05c 100644
+> > --- a/drivers/gpu/drm/drm_atomic_uapi.c
+> > +++ b/drivers/gpu/drm/drm_atomic_uapi.c
+> > @@ -749,6 +749,11 @@ static int drm_atomic_connector_set_property(struct drm_connector *connector,
+> >               state->content_protection = val;
+> >       } else if (property == config->hdcp_content_type_property) {
+> >               state->hdcp_content_type = val;
+> > +     } else if (property == config->content_protection_key_property) {
+> > +             ret = drm_atomic_replace_property_blob_from_id(
+> > +                     dev, &state->content_protection_key, val, -1, -1,
+> > +                     &replaced);
+> > +             return ret;
+> >       } else if (property == connector->colorspace_property) {
+> >               state->colorspace = val;
+> >       } else if (property == config->writeback_fb_id_property) {
+> > @@ -843,6 +848,10 @@ drm_atomic_connector_get_property(struct drm_connector *connector,
+> >               *val = state->content_protection;
+> >       } else if (property == config->hdcp_content_type_property) {
+> >               *val = state->hdcp_content_type;
+> > +     } else if (property == config->content_protection_key_property) {
+> > +             *val = state->content_protection_key ?
+> > +                            state->content_protection_key->base.id :
+> > +                            0;
+> >       } else if (property == config->writeback_fb_id_property) {
+> >               /* Writeback framebuffer is one-shot, write and forget */
+> >               *val = 0;
+> > diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
+> > index 7b5048516185c..2fbe51272bfeb 100644
+> > --- a/include/drm/drm_connector.h
+> > +++ b/include/drm/drm_connector.h
+> > @@ -896,6 +896,12 @@ struct drm_connector_state {
+> >        */
+> >       unsigned int content_protection;
+> >
+> > +     /**
+> > +      * @content_protection_key: DRM blob property for holding the Content
+> > +      * Protection Key injected from user space.
+> > +      */
+> > +     struct drm_property_blob *content_protection_key;
+> > +
+> >       /**
+> >        * @colorspace: State variable for Connector property to request
+> >        * colorspace change on Sink. This is most commonly used to switch
+> > diff --git a/include/drm/drm_mode_config.h b/include/drm/drm_mode_config.h
+> > index e5b053001d22e..615d1e5f57562 100644
+> > --- a/include/drm/drm_mode_config.h
+> > +++ b/include/drm/drm_mode_config.h
+> > @@ -887,6 +887,12 @@ struct drm_mode_config {
+> >        */
+> >       struct drm_property *hdcp_content_type_property;
+> >
+> > +     /**
+> > +      * @content_protection_key_property: DRM blob property that receives the
+> > +      * content protection key from user space to be injected into the kernel.
+> > +      */
+> > +     struct drm_property *content_protection_key_property;
+> > +
+> >       /* dumb ioctl parameters */
+> >       uint32_t preferred_depth, prefer_shadow;
+> >
+>
+> --
+> With best wishes
+> Dmitry
+>
