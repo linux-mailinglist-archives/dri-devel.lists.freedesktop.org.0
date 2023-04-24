@@ -2,50 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBA4D6ECB1C
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Apr 2023 13:15:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DFC2B6ECB21
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Apr 2023 13:16:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C1ED010E499;
-	Mon, 24 Apr 2023 11:15:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0FCE510E49F;
+	Mon, 24 Apr 2023 11:16:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx1.riseup.net (mx1.riseup.net [198.252.153.129])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 084FA10E499
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Apr 2023 11:15:15 +0000 (UTC)
-Received: from mx0.riseup.net (mx0-pn.riseup.net [10.0.1.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E712B10E49F
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Apr 2023 11:16:45 +0000 (UTC)
+Received: from fews02-sea.riseup.net (fews02-sea-pn.riseup.net [10.0.1.112])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by mx1.riseup.net (Postfix) with ESMTPS id 4Q4jGW3DfFzDqPd
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Apr 2023 11:15:15 +0000 (UTC)
+ by mx1.riseup.net (Postfix) with ESMTPS id 4Q4jJF2qC1zDqPv;
+ Mon, 24 Apr 2023 11:16:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
- t=1682334915; bh=eXZhgxZ3gSLiN1Dk3zBmzyKLQtCuDkHTvvCzaNHb+/M=;
+ t=1682335005; bh=9PyrAd2emcEb7E0sv0ZfE/I+7D43xNrD7rumUp6r68I=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=s25KcURk6oxbsVdordzuf0RVYDuCs0MCM+JwtkUFnzlsPjh5wBes8ERVyhHbOu0FR
- zPOObm8HX9/fDuTxE3WGNoBZRZhgQ6VrYaGKtqehCrpZi2MZxXLtnxejCgYuD+IjCr
- UpJVmW10GpNoOXMD1ES3We/T69/I09uMKRxnMzm8=
-Received: from fews02-sea.riseup.net (fews02-sea-pn.riseup.net [10.0.1.112])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
- client-signature RSA-PSS (2048 bits) client-digest SHA256)
- (Client CN "mail.riseup.net", Issuer "R3" (not verified))
- by mx0.riseup.net (Postfix) with ESMTPS id 4Q4jGV2zYkz9tJt;
- Mon, 24 Apr 2023 11:15:14 +0000 (UTC)
-X-Riseup-User-ID: 97066700368D72C7421B5CE4B917102B984FF54652C96645EE0B34F119C783BA
+ b=sEBjk+C9GVjh0iQLb2yT6rnMVyR5BrF+hCsmGcq581zSExdCTgbkuoNin8Y51rvlk
+ mSAgcLC1I21X/E55FP7zVmhg/Gnd7RusQMGE01PbXPU/jeYJj5pSo/4RsKvaUBIRP9
+ 3UFYU+Z8yvMxpzJGfdOxwh6XYDdN1hKgxEWYKdYA=
+X-Riseup-User-ID: 678DA1CC7131AB175392FD4C789BE3F85A386801FA2D3B237D515B53B6153B02
 Received: from [127.0.0.1] (localhost [127.0.0.1])
- by fews02-sea.riseup.net (Postfix) with ESMTPSA id 4Q4jGD14LszFqLB;
- Mon, 24 Apr 2023 11:14:59 +0000 (UTC)
-Message-ID: <eecbe65c-25d9-1864-dbab-97a626a19b9f@riseup.net>
-Date: Mon, 24 Apr 2023 08:14:56 -0300
+ by fews02-sea.riseup.net (Postfix) with ESMTPSA id 4Q4jJ90NrGzFrxG;
+ Mon, 24 Apr 2023 11:16:40 +0000 (UTC)
+Message-ID: <55b8a1bf-e41e-16f9-8377-90e4a94d6436@riseup.net>
+Date: Mon, 24 Apr 2023 08:16:39 -0300
 MIME-Version: 1.0
-Subject: Re: [PATCH 4/5] drm/sti: Drop of_gpio header
+Subject: Re: [PATCH 1/5] drm/bridge: anx7625: Drop of_gpio header
+Content-Language: en-US
 To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
  Maxime Ripard <maxime@cerno.tech>
 References: <20220812205746.609107-1-mairacanal@riseup.net>
- <20220812205746.609107-5-mairacanal@riseup.net>
-Content-Language: en-US
+ <20220812205746.609107-2-mairacanal@riseup.net>
 From: =?UTF-8?Q?Ma=c3=adra_Canal?= <mairacanal@riseup.net>
-In-Reply-To: <20220812205746.609107-5-mairacanal@riseup.net>
+In-Reply-To: <20220812205746.609107-2-mairacanal@riseup.net>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -60,16 +53,25 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alain Volmat <alain.volmat@foss.st.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Neil Armstrong <narmstrong@baylibre.com>, dri-devel@lists.freedesktop.org,
+ Jonas Karlman <jonas@kwiboo.se>, linux-kernel@vger.kernel.org,
+ Robert Foss <robert.foss@linaro.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 8/12/22 17:57, Maíra Canal wrote:
 > This driver includes the deprecated OF GPIO header <linux/of_gpio.h>
-> yet fail to use symbols from it, so drop this include.
+> yet fail to use symbols from it, so drop the include.
 > 
-> Cc: Alain Volmat <alain.volmat@foss.st.com>
+> Cc: Andrzej Hajda <andrzej.hajda@intel.com>
+> Cc: Neil Armstrong <narmstrong@baylibre.com>
+> Cc: Robert Foss <robert.foss@linaro.org>
+> Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+> Cc: Jonas Karlman <jonas@kwiboo.se>
+> Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
 > Signed-off-by: Maíra Canal <mairacanal@riseup.net>
 
 Applied to drm/drm-misc (drm-misc-next).
@@ -78,19 +80,18 @@ Best Regards,
 - Maíra Canal
 
 > ---
->   drivers/gpu/drm/sti/sti_dvo.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+>   drivers/gpu/drm/bridge/analogix/anx7625.c | 1 -
+>   1 file changed, 1 deletion(-)
 > 
-> diff --git a/drivers/gpu/drm/sti/sti_dvo.c b/drivers/gpu/drm/sti/sti_dvo.c
-> index b6ee8a82e656..0fc7710b054a 100644
-> --- a/drivers/gpu/drm/sti/sti_dvo.c
-> +++ b/drivers/gpu/drm/sti/sti_dvo.c
-> @@ -8,7 +8,7 @@
->   #include <linux/component.h>
->   #include <linux/debugfs.h>
->   #include <linux/module.h>
-> -#include <linux/of_gpio.h>
-> +#include <linux/of.h>
->   #include <linux/platform_device.h>
+> diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.c b/drivers/gpu/drm/bridge/analogix/anx7625.c
+> index 79fc7a50b497..d7d4ca1c8b30 100644
+> --- a/drivers/gpu/drm/bridge/analogix/anx7625.c
+> +++ b/drivers/gpu/drm/bridge/analogix/anx7625.c
+> @@ -17,7 +17,6 @@
+>   #include <linux/types.h>
+>   #include <linux/workqueue.h>
 >   
->   #include <drm/drm_atomic_helper.h>
+> -#include <linux/of_gpio.h>
+>   #include <linux/of_graph.h>
+>   #include <linux/of_platform.h>
+>   
