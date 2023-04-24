@@ -2,61 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D298B6EC282
-	for <lists+dri-devel@lfdr.de>; Sun, 23 Apr 2023 23:37:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 340776EC377
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Apr 2023 03:44:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B816B10E060;
-	Sun, 23 Apr 2023 21:37:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 66CB510E10C;
+	Mon, 24 Apr 2023 01:44:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com
- [IPv6:2a00:1450:4864:20::634])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8776010E060
- for <dri-devel@lists.freedesktop.org>; Sun, 23 Apr 2023 21:37:04 +0000 (UTC)
-Received: by mail-ej1-x634.google.com with SMTP id
- a640c23a62f3a-94f32588c13so511701466b.2
- for <dri-devel@lists.freedesktop.org>; Sun, 23 Apr 2023 14:37:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=googlemail.com; s=20221208; t=1682285817; x=1684877817;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=B+3ip4SFD8EZ4AogSeaajIrcWIDGjTnupCvB0Wex6sU=;
- b=BiFu6VDoYcTeU8wvs0mVHTjYbn12mqsHHm0FHm/LqRVi62qlw+bF6qVmX44l0LAtiL
- knNGqM1HGnzS24x0qHFzgmYGukcFYpJj4CnoSJYkY2tp4qyCIYuFb0CpsBL2/t+feJ1Q
- BeClrpyYt2MQ8BLLoxS8pjvFhnkBxpGOsOM/bP9Y1L5XDOlsEH/j1S0JlgMgFft+cg6O
- GIOFnyblmF2stvfBm2Bhmr5qjJRm4VL62pmbsJdsHi/vDbzkG9cX1OpG/VdQz5PneGRy
- zI9i4Ne3tweszm5HIi7mLfHGvCDIdq0spz9FnRLq5YiAwUb/rLjkCb+tXHQdHhK2682B
- TpRA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682285817; x=1684877817;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=B+3ip4SFD8EZ4AogSeaajIrcWIDGjTnupCvB0Wex6sU=;
- b=aS8YfAss9lHS+cpAn43zKZY5qCr1VtCuI92fh52p39rNlJ/93bE+PmE+5iX7tO/mhT
- LzuR0bOK6OynWZ9ylo+AWwajpoN9hu2234pfrD8uCaixmtviBK1BrgJeAOjZb0CyRemL
- sVUpLlVeqVnJ2F5I9yUpaJXUpplEkA4KMezlgT8HtENov9DRzvm9qdCMhaf+LfwmceGI
- RRnzgQyXDN/yHnyAA1Y5ECtw0qcYWdj0WgPGRzmZe31dXGfFa7fRBor5pyX/AFyrH7jS
- CO5AzNDjMNupFguFaKNvL+p/y/6/QvzxLO/vVGm8gvXhHxQP6LjFhFuZus38P2zoXlJo
- Vq+A==
-X-Gm-Message-State: AAQBX9fKMb696YdzChRRWkgeocxp+WAIwgVZEL+sMKsB/5L1wHd2NhTp
- dS+xknSN+Zvw/0/QO3Z02E1GXOJlQePjlDAuVIo=
-X-Google-Smtp-Source: AKy350YEV07e4rhC2sKUikbC3KSbrZ0KxnyPPhrSLqzhZHnP47SzVPucdMXG0LWYPJZq5gUmWL1XdW9YM7KyAkHFSBk=
-X-Received: by 2002:a17:906:9b85:b0:94e:fe77:3f47 with SMTP id
- dd5-20020a1709069b8500b0094efe773f47mr9464495ejc.67.1682285816723; Sun, 23
- Apr 2023 14:36:56 -0700 (PDT)
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 647EE10E01F;
+ Mon, 24 Apr 2023 01:44:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-Id:
+ Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:Content-Description:
+ Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+ In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=0Sf6LJiinXD0+Z04+CoBCjhP6xRPg9WnwCH4CvJn44g=; b=JIcVwiky7ofsROMjxVeNT+AQEL
+ gSU2A0P4XNRrWSyZwXgZi/+FOiKwNjUmXLgtMSC3hz+vOL4g/EYOnY170TdlZqVgSFfImBxA5+sFo
+ iPTnAFTQhlifb5rJHjqGpyfhf49jz7pt0yN/UHMkYNQhAgwyslyIB6BdsBlZIenn4GiL/Fv98NYDA
+ gDjFSgCcyQTeR6ls08+hXDWYDf3aGeA9zCejqkMaiEnzaEcH089aZc9Mdl5B++z2groTyLjc1dsvd
+ uEwnjUDOTomCjEfvzlCCPNtq5LZI0vv+SN0/hE1Ll2yuZ85HzJY2PD2SVyNZWUA3DjgMnj0HnB+It
+ xX5CGfEQ==;
+Received: from [152.249.146.45] (helo=steammachine.lan)
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1pqlFV-00AeE7-4w; Mon, 24 Apr 2023 03:44:13 +0200
+From: =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>
+To: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH] drm/amdgpu: Mark contexts guilty for any reset type
+Date: Sun, 23 Apr 2023 22:43:24 -0300
+Message-Id: <20230424014324.218531-1-andrealmeid@igalia.com>
+X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
-References: <20230423145300.3937831-1-trix@redhat.com>
-In-Reply-To: <20230423145300.3937831-1-trix@redhat.com>
-From: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
-Date: Sun, 23 Apr 2023 23:36:46 +0200
-Message-ID: <CAFBinCDQRwaTNLeHD973gD-g9aHOwnu+G+U2di7Tz17LPT2DXg@mail.gmail.com>
-Subject: Re: [PATCH] drm/meson: set variables meson_hdmi_*
- storage-class-specifier to static
-To: Tom Rix <trix@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,24 +51,72 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: neil.armstrong@linaro.org, khilman@baylibre.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- jbrunet@baylibre.com
+Cc: pierre-eric.pelloux-prayer@amd.com,
+ =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>,
+ =?UTF-8?q?=27Marek=20Ol=C5=A1=C3=A1k=27?= <maraeo@gmail.com>,
+ kernel-dev@igalia.com, alexander.deucher@amd.com, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Apr 23, 2023 at 4:53=E2=80=AFPM Tom Rix <trix@redhat.com> wrote:
->
-> smatch has several simailar warnings to
-s/simailar/similar/
+When a DRM job timeout, the GPU is probably hang and amdgpu have some
+ways to deal with that, ranging from soft recoveries to full device
+reset. Anyway, when userspace ask the kernel the state of the context
+(via AMDGPU_CTX_OP_QUERY_STATE), the kernel reports that the device was
+reset, regardless if a full reset happened or not.
 
-> drivers/gpu/drm/meson/meson_venc.c:189:28: warning: symbol
->   'meson_hdmi_enci_mode_480i' was not declared. Should it be static?
->
-> These variables are only used in their defining file so should be static
->
-> Signed-off-by: Tom Rix <trix@redhat.com>
-With above typo fixed (or with a comment from the maintainers that
-they can fix it while applying):
-Acked-by: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+However, amdgpu only marks a context guilty in the ASIC reset path. This
+makes the userspace report incomplete, given that on soft recovery path
+the guilty context is not told that it's the guilty one.
+
+Fix this by marking the context guilty for every type of reset when a
+job timeouts.
+
+Signed-off-by: André Almeida <andrealmeid@igalia.com>
+---
+ drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 3 ---
+ drivers/gpu/drm/amd/amdgpu/amdgpu_job.c    | 8 +++++++-
+ 2 files changed, 7 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+index ac78caa7cba8..ea169d1689e2 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+@@ -4771,9 +4771,6 @@ int amdgpu_device_pre_asic_reset(struct amdgpu_device *adev,
+ 
+ 	amdgpu_fence_driver_isr_toggle(adev, false);
+ 
+-	if (job && job->vm)
+-		drm_sched_increase_karma(&job->base);
+-
+ 	r = amdgpu_reset_prepare_hwcontext(adev, reset_context);
+ 	/* If reset handler not implemented, continue; otherwise return */
+ 	if (r == -ENOSYS)
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
+index c3d9d75143f4..097ed8f06865 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
+@@ -51,6 +51,13 @@ static enum drm_gpu_sched_stat amdgpu_job_timedout(struct drm_sched_job *s_job)
+ 	memset(&ti, 0, sizeof(struct amdgpu_task_info));
+ 	adev->job_hang = true;
+ 
++	amdgpu_vm_get_task_info(ring->adev, job->pasid, &ti);
++
++	if (job && job->vm) {
++		DRM_INFO("marking %s context as guilty", ti.process_name);
++		drm_sched_increase_karma(&job->base);
++	}
++
+ 	if (amdgpu_gpu_recovery &&
+ 	    amdgpu_ring_soft_recovery(ring, job->vmid, s_job->s_fence->parent)) {
+ 		DRM_ERROR("ring %s timeout, but soft recovered\n",
+@@ -58,7 +65,6 @@ static enum drm_gpu_sched_stat amdgpu_job_timedout(struct drm_sched_job *s_job)
+ 		goto exit;
+ 	}
+ 
+-	amdgpu_vm_get_task_info(ring->adev, job->pasid, &ti);
+ 	DRM_ERROR("ring %s timeout, signaled seq=%u, emitted seq=%u\n",
+ 		  job->base.sched->name, atomic_read(&ring->fence_drv.last_seq),
+ 		  ring->fence_drv.sync_seq);
+-- 
+2.40.0
+
