@@ -1,48 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A6DD6ED774
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Apr 2023 00:06:19 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 528F76ED779
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Apr 2023 00:06:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1CBA610E62E;
-	Mon, 24 Apr 2023 22:06:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B2ADC10E631;
+	Mon, 24 Apr 2023 22:06:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D8E2910E62E;
- Mon, 24 Apr 2023 22:06:06 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4FB6E10E62F;
+ Mon, 24 Apr 2023 22:06:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1682373966; x=1713909966;
+ t=1682373975; x=1713909975;
  h=from:date:subject:mime-version:content-transfer-encoding:
  message-id:references:in-reply-to:to:cc;
- bh=aF+00fMmCxB5g2z9dZZXQyc7aZrPeManS84M0BOgQmc=;
- b=bTKEJXjHMqLxo52c6fuzAF3gW3YXsglVm3dZmDZni5IyTf3VVQwooDkZ
- TQ+HMRDut8Oi49Xm1/OAlJ/BnLsptAzXvp616tEDcYMUkJsu5OzL+8KJp
- I6MDF7bHdwBdh6bj+ErRFrszkBs+OJDS3X0ce4fqJCMrSgPAzx045pHYP
- CsT2uPmCyAhbywkMcYPjV7OEBNiISeXGm1FRonJfgpvMy8IrhEZoBJEH3
- hO0mjDY7A7G5BLeM+r1RVQxI4EtZSTiMLSzg7AleDsvam1vGvNye8J3NX
- /oN/58gji4prxniJd3YfR4ql+s025OhLrfIpInHIt5WiOJVP7lbKeD47Q A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10690"; a="335473720"
-X-IronPort-AV: E=Sophos;i="5.99,223,1677571200"; d="scan'208";a="335473720"
+ bh=Qt1xoilG/L7Fu1loOHz9Fk2Q2Og1EPjmLUv1rFNp/s4=;
+ b=ROjkT2oOUrxMkNmc00oCBxA5sklFb126MaXlzJT2UnD7RKVfX2tAKmxr
+ p7AdkRrTlvHLoM91MK33FKlVUCWWJ1A32dTZkBbAUREUX6dZKLViA9fvP
+ gsYpkY5Qi25O8H2Qt4DeJST5oBBdt8SAZFMZiE7IR6pI0rdsBmEBxtLmM
+ ZD8mdRFB2HNb0prFBnIafn74IBQ6a+v1dLBjsBRwFrPObGqJ4y/iFo860
+ aHcV+jBNX8+6UMGorJraCsDrHj8LUWqDxAkPxFIiCva2K9xOqj4X/MW5R
+ zcJMQuX+UlZWcnqe7wnqsMQkY7h9LEdau4b5moTCJh3PsJKG0P4724b2c A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10690"; a="335473753"
+X-IronPort-AV: E=Sophos;i="5.99,223,1677571200"; d="scan'208";a="335473753"
 Received: from fmsmga006.fm.intel.com ([10.253.24.20])
  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Apr 2023 15:06:06 -0700
+ 24 Apr 2023 15:06:14 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10690"; a="939500256"
-X-IronPort-AV: E=Sophos;i="5.99,223,1677571200"; d="scan'208";a="939500256"
+X-IronPort-AV: E=McAfee;i="6600,9927,10690"; a="939500409"
+X-IronPort-AV: E=Sophos;i="5.99,223,1677571200"; d="scan'208";a="939500409"
 Received: from lab-ah.igk.intel.com ([10.102.138.202])
  by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Apr 2023 15:06:03 -0700
+ 24 Apr 2023 15:06:06 -0700
 From: Andrzej Hajda <andrzej.hajda@intel.com>
-Date: Tue, 25 Apr 2023 00:05:41 +0200
-Subject: [PATCH v8 4/7] lib/ref_tracker: remove warnings in case of allocation
- failure
+Date: Tue, 25 Apr 2023 00:05:42 +0200
+Subject: [PATCH v8 5/7] drm/i915: Correct type of wakeref variable
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230224-track_gt-v8-4-4b6517e61be6@intel.com>
+Message-Id: <20230224-track_gt-v8-5-4b6517e61be6@intel.com>
 References: <20230224-track_gt-v8-0-4b6517e61be6@intel.com>
 In-Reply-To: <20230224-track_gt-v8-0-4b6517e61be6@intel.com>
 To: Jani Nikula <jani.nikula@linux.intel.com>,
@@ -72,41 +71,28 @@ Cc: Andrzej Hajda <andrzej.hajda@intel.com>, netdev@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Library can handle allocation failures. To avoid allocation warnings
-__GFP_NOWARN has been added everywhere. Moreover GFP_ATOMIC has been
-replaced with GFP_NOWAIT in case of stack allocation on tracker free
-call.
+Wakeref has dedicated type. Assumption it will be int
+compatible forever is incorrect.
 
 Signed-off-by: Andrzej Hajda <andrzej.hajda@intel.com>
 Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com>
-Reviewed-by: Eric Dumazet <edumazet@google.com>
 ---
- lib/ref_tracker.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/lib/ref_tracker.c b/lib/ref_tracker.c
-index cce4614b07940f..cf5609b1ca7936 100644
---- a/lib/ref_tracker.c
-+++ b/lib/ref_tracker.c
-@@ -189,7 +189,7 @@ int ref_tracker_alloc(struct ref_tracker_dir *dir,
- 	unsigned long entries[REF_TRACKER_STACK_ENTRIES];
- 	struct ref_tracker *tracker;
- 	unsigned int nr_entries;
--	gfp_t gfp_mask = gfp;
-+	gfp_t gfp_mask = gfp | __GFP_NOWARN;
- 	unsigned long flags;
+diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+index ee3e8352637f28..fe390d59929b02 100644
+--- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
++++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+@@ -3248,7 +3248,7 @@ static void destroyed_worker_func(struct work_struct *w)
+ 	struct intel_guc *guc = container_of(w, struct intel_guc,
+ 					     submission_state.destroyed_worker);
+ 	struct intel_gt *gt = guc_to_gt(guc);
+-	int tmp;
++	intel_wakeref_t tmp;
  
- 	WARN_ON_ONCE(dir->dead);
-@@ -237,7 +237,8 @@ int ref_tracker_free(struct ref_tracker_dir *dir,
- 		return -EEXIST;
- 	}
- 	nr_entries = stack_trace_save(entries, ARRAY_SIZE(entries), 1);
--	stack_handle = stack_depot_save(entries, nr_entries, GFP_ATOMIC);
-+	stack_handle = stack_depot_save(entries, nr_entries,
-+					GFP_NOWAIT | __GFP_NOWARN);
- 
- 	spin_lock_irqsave(&dir->lock, flags);
- 	if (tracker->dead) {
+ 	with_intel_gt_pm(gt, tmp)
+ 		deregister_destroyed_contexts(guc);
 
 -- 
 2.34.1
