@@ -1,37 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F05A6ED7AE
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Apr 2023 00:18:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E46706ED7D9
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Apr 2023 00:25:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CD79210E20D;
-	Mon, 24 Apr 2023 22:18:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6B55510E623;
+	Mon, 24 Apr 2023 22:25:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay05.th.seeweb.it (relay05.th.seeweb.it [5.144.164.166])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 878DE10E20D
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Apr 2023 22:18:14 +0000 (UTC)
+Received: from relay06.th.seeweb.it (relay06.th.seeweb.it
+ [IPv6:2001:4b7a:2000:18::167])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E55D510E1F4
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Apr 2023 22:25:34 +0000 (UTC)
 Received: from SoMainline.org (94-211-6-86.cable.dynamic.v4.ziggo.nl
  [94.211.6.86])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
  SHA256) (No client certificate requested)
- by m-r2.th.seeweb.it (Postfix) with ESMTPSA id 378C93F5CF;
- Tue, 25 Apr 2023 00:18:06 +0200 (CEST)
-Date: Tue, 25 Apr 2023 00:18:04 +0200
+ by m-r2.th.seeweb.it (Postfix) with ESMTPSA id A9DAE3F5BC;
+ Tue, 25 Apr 2023 00:25:32 +0200 (CEST)
+Date: Tue, 25 Apr 2023 00:25:31 +0200
 From: Marijn Suijten <marijn.suijten@somainline.org>
 To: Abhinav Kumar <quic_abhinavk@quicinc.com>
-Subject: Re: [PATCH v2 02/17] drm/msm/dpu: Remove TE2 block and feature from
- DPU >= 7.0.0 hardware
-Message-ID: <l3adl3saeqovypmluubddp6kqcjducn75ifpf63ylbecuprpi3@gpoks434n4yg>
+Subject: Re: [PATCH v2 03/17] drm/msm/dpu: Move non-MDP_TOP INTF_INTR offsets
+ out of hwio header
+Message-ID: <7j6ww6nkplq6adjgpzu3uyswdmid2oxldpwlmis6cyw7tcbkrh@whpmzhsl5rpj>
 References: <20230411-dpu-intf-te-v2-0-ef76c877eb97@somainline.org>
- <20230411-dpu-intf-te-v2-2-ef76c877eb97@somainline.org>
- <ca4012ee-d964-c2e9-b437-b03277d71529@quicinc.com>
+ <20230411-dpu-intf-te-v2-3-ef76c877eb97@somainline.org>
+ <62d78d23-e191-a64f-5c4c-cd2c26217bdf@quicinc.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ca4012ee-d964-c2e9-b437-b03277d71529@quicinc.com>
+In-Reply-To: <62d78d23-e191-a64f-5c4c-cd2c26217bdf@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,59 +65,75 @@ Cc: dri-devel@lists.freedesktop.org, Jordan Crouse <jordan@cosmicpenguin.net>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2023-04-24 13:41:07, Abhinav Kumar wrote:
+On 2023-04-24 13:44:55, Abhinav Kumar wrote:
 > 
 > 
 > On 4/17/2023 1:21 PM, Marijn Suijten wrote:
-> > No hardware beyond kona (sm8250) defines the TE2 PINGPONG sub-block
-> > offset downstream.  Even though neither downstream nor upstream utilizes
-> > these registers in any way, remove the erroneous specification for
-> > SC8280XP, SM8350 and SM8450 to prevent confusion.
+> > These offsets do not fall under the MDP TOP block and do not fit the
+> > comment right above.  Move them to dpu_hw_interrupts.c next to the
+> > repsective MDP_INTF_x_OFF interrupt block offsets.
 > > 
-> > Note that downstream enables the PPSPLIT (split-FIFO) topology (single
-> > LM for 2 PP and 2 INTF) based on the presence of a TE2 block.
+> > Fixes: 25fdd5933e4c ("drm/msm: Add SDM845 DPU support")
+> > Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
+> 
+> This change itself is fine, hence
+> 
+> Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+> 
+> One comment below.
+> 
+> > ---
+> >   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c | 5 ++++-
+> >   drivers/gpu/drm/msm/disp/dpu1/dpu_hwio.h          | 3 ---
+> >   2 files changed, 4 insertions(+), 4 deletions(-)
 > > 
-> > Fixes: f0a1bdf64dd7 ("drm/msm/dpu: Introduce SC8280XP")
-> > Fixes: 0a72f23f6ef8 ("drm/msm/dpu: Add SM8350 to hw catalog")
-> > Fixes: 8cbbc3396065 ("drm/msm/dpu: add support for SM8450")
+> > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c
+> > index 53326f25e40e..85c0bda3ff90 100644
+> > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c
+> > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c
+> > @@ -15,7 +15,7 @@
+> >   
+> >   /*
+> >    * Register offsets in MDSS register file for the interrupt registers
+> > - * w.r.t. to the MDP base
+> > + * w.r.t. the MDP base
+> >    */
+> >   #define MDP_SSPP_TOP0_OFF		0x0
+> >   #define MDP_INTF_0_OFF			0x6A000
+> > @@ -24,6 +24,9 @@
+> >   #define MDP_INTF_3_OFF			0x6B800
+> >   #define MDP_INTF_4_OFF			0x6C000
+> >   #define MDP_INTF_5_OFF			0x6C800
+> > +#define INTF_INTR_EN			0x1c0
+> > +#define INTF_INTR_STATUS		0x1c4
+> > +#define INTF_INTR_CLEAR			0x1c8
+> >   #define MDP_AD4_0_OFF			0x7C000
+> >   #define MDP_AD4_1_OFF			0x7D000
+> >   #define MDP_AD4_INTR_EN_OFF		0x41c
+> > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hwio.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hwio.h
+> > index feb9a729844a..5acd5683d25a 100644
+> > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hwio.h
+> > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hwio.h
+> > @@ -21,9 +21,6 @@
+> >   #define HIST_INTR_EN                    0x01c
+> >   #define HIST_INTR_STATUS                0x020
+> >   #define HIST_INTR_CLEAR                 0x024
 > 
-> I cannot find any commits with those hashes.
-> 
-> Should this be
-> 
-> Fixes: 4a352c2fc15a ("drm/msm/dpu: Introduce SC8280XP")
-> Fixes: 0e91bcbb0016 ("drm/msm/dpu: Add SM8350 to hw catalog")
-> Fixes: 100d7ef6995d ("drm/msm/dpu: add support for SM8450")
+> Even HIST_INTR_*** need to be moved then.
 
-Yes they are, thanks for spotting that.  These patches were on drm-msm
-/ msm-next when I made this patch on January 11th, hence these were the
-hashes given to me by git bisect: see how those patches have an author
-timestamp of January 9th, while the proper hashes that landed upstream
-have a hash of January 12th: the branch has been force-pushed after.
+These are relative to MDP_SSPP_TOP0_OFF too just like
+INTR(2)_{CLEAR,EN,STATUS} so I left them here.  Otherwise, *all* these
+interrupt masks are probably best moved to dpu_hw_interrupts.c for
+clarity, as that's also the only place they are used?
 
-Old:
-
-https://gitlab.freedesktop.org/drm/msm/-/commit/f0a1bdf64dd7
-https://gitlab.freedesktop.org/drm/msm/-/commit/0a72f23f6ef8
-https://gitlab.freedesktop.org/drm/msm/-/commit/8cbbc3396065
-
-New:
-
-https://gitlab.freedesktop.org/drm/msm/-/commit/4a352c2fc15a
-https://gitlab.freedesktop.org/drm/msm/-/commit/0e91bcbb0016
-https://gitlab.freedesktop.org/drm/msm/-/commit/100d7ef6995d
-
-> Will wait for a day to fix this up, otherwise I will do it while applying.
-
-Thanks, that's appreciated.
+Let me know which way you prefer.
 
 - Marijn
 
-> > Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
-> > ---
-> >   drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h   |  4 ++--
-> >   drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h | 12 ++++++------
-> >   drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h   |  4 ++--
-> >   3 files changed, 10 insertions(+), 10 deletions(-)
-
-<snip>
+> > -#define INTF_INTR_EN                    0x1C0
+> > -#define INTF_INTR_STATUS                0x1C4
+> > -#define INTF_INTR_CLEAR                 0x1C8
+> >   #define SPLIT_DISPLAY_EN                0x2F4
+> >   #define SPLIT_DISPLAY_UPPER_PIPE_CTRL   0x2F8
+> >   #define DSPP_IGC_COLOR0_RAM_LUTN        0x300
+> > 
