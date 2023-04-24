@@ -2,52 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3DBE6ED6BC
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Apr 2023 23:22:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E016F6ED761
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Apr 2023 00:03:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C235410E07D;
-	Mon, 24 Apr 2023 21:22:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2D9C710E613;
+	Mon, 24 Apr 2023 22:03:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6C56310E07D
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Apr 2023 21:22:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=PvG+oKAwPubvNCCjizi+PV3gSjp9w6IpvV7IfYh7Tyw=; b=VIXC2vfcYXwLBdf0viDfueM3/L
- KE8cWwiXdjcMMSC1EYHeKjW0IGUIuBr47+9wqytsiOnKoGygcT1MqSZ1PXOOomRdEVG0oG8n5gsQl
- pyUe7cbGX41YlNm1tpIW1SUg7EVG1+J5k0/hXx3ONAPsmFJzhYvL6MEglEHR44CD+MDCvVFQZdXvQ
- T1BfXNyWzTyk6ppYWspSb8ErwLwMwv0/O643yRhUbkZKgC1rRVG8n1bvpAUdeHYsyUfVYFq/bMXav
- SfJV2u0yvQTb44Ju93i4uW+jwQ+Z0gzkGl7Clvb6cE1TOLknEXZD4L7C2Heys50hsKcp0GZTXKEoI
- VCHGJNFg==;
-Received: from [177.34.168.16] (helo=[192.168.0.4])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1pr3dt-00BGAL-5a; Mon, 24 Apr 2023 23:22:38 +0200
-Message-ID: <d5ebf417-877c-494c-8db1-9d585bff9dd8@igalia.com>
-Date: Mon, 24 Apr 2023 18:22:29 -0300
+Received: from relay06.th.seeweb.it (relay06.th.seeweb.it
+ [IPv6:2001:4b7a:2000:18::167])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EDF8610E613
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Apr 2023 22:03:13 +0000 (UTC)
+Received: from SoMainline.org (94-211-6-86.cable.dynamic.v4.ziggo.nl
+ [94.211.6.86])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
+ SHA256) (No client certificate requested)
+ by m-r2.th.seeweb.it (Postfix) with ESMTPSA id C77C83F364;
+ Tue, 25 Apr 2023 00:03:02 +0200 (CEST)
+Date: Tue, 25 Apr 2023 00:03:01 +0200
+From: Marijn Suijten <marijn.suijten@somainline.org>
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Subject: Re: [PATCH v2 3/3] drm/msm/dpu: Pass catalog pointers directly from
+ RM instead of IDs
+Message-ID: <ymq4kstme55dm3j5kr6trevnwdelhjq7e7m4yky6zcbnf7auid@66l7inxz4oq2>
+References: <20230418-dpu-drop-useless-for-lookup-v2-0-acb08e82ef19@somainline.org>
+ <20230418-dpu-drop-useless-for-lookup-v2-3-acb08e82ef19@somainline.org>
+ <50d22e0c-84b3-0678-eb06-30fb66fd24cf@quicinc.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH v4 1/6] drm/vkms: isolate pixel conversion functionality
-Content-Language: en-US
-To: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- Melissa Wen <mwen@igalia.com>, Haneen Mohammed <hamohammed.sa@gmail.com>,
- Igor Matheus Andrade Torrente <igormtorrente@gmail.com>,
- Arthur Grillo <arthurgrillo@riseup.net>,
- =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
-References: <20230418130525.128733-1-mcanal@igalia.com>
- <20230418130525.128733-2-mcanal@igalia.com>
-From: =?UTF-8?Q?Ma=c3=adra_Canal?= <mcanal@igalia.com>
-In-Reply-To: <20230418130525.128733-2-mcanal@igalia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <50d22e0c-84b3-0678-eb06-30fb66fd24cf@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,263 +45,124 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: freedreno@lists.freedesktop.org,
+ Jami Kettunen <jami.kettunen@somainline.org>, Sean Paul <sean@poorly.run>,
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Jordan Crouse <jordan@cosmicpenguin.net>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Martin Botka <martin.botka@somainline.org>,
+ ~postmarketos/upstreaming@lists.sr.ht,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 4/18/23 10:05, Maíra Canal wrote:
-> Currently, the pixel conversion functions repeat the same loop to
-> iterate the rows. Instead of repeating the same code for each pixel
-> format, create a function to wrap the loop and isolate the pixel
-> conversion functionality.
+On 2023-04-21 16:25:15, Abhinav Kumar wrote:
 > 
-> Suggested-by: Arthur Grillo <arthurgrillo@riseup.net>
-> Signed-off-by: Maíra Canal <mcanal@igalia.com>
-> Reviewed-by: Arthur Grillo <arthurgrillo@riseup.net>
-
-Applied to drm/drm-misc (drm-misc-next).
-
-Best Regards,
-- Maíra Canal
-
-> ---
->   drivers/gpu/drm/vkms/vkms_composer.c |   4 +-
->   drivers/gpu/drm/vkms/vkms_drv.h      |   4 +-
->   drivers/gpu/drm/vkms/vkms_formats.c  | 125 +++++++++++----------------
->   drivers/gpu/drm/vkms/vkms_formats.h  |   2 +-
->   drivers/gpu/drm/vkms/vkms_plane.c    |   2 +-
->   5 files changed, 56 insertions(+), 81 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/vkms/vkms_composer.c b/drivers/gpu/drm/vkms/vkms_composer.c
-> index 8e53fa80742b..80164e79af00 100644
-> --- a/drivers/gpu/drm/vkms/vkms_composer.c
-> +++ b/drivers/gpu/drm/vkms/vkms_composer.c
-> @@ -99,7 +99,7 @@ static void blend(struct vkms_writeback_job *wb,
->   			if (!check_y_limit(plane[i]->frame_info, y))
->   				continue;
->   
-> -			plane[i]->plane_read(stage_buffer, plane[i]->frame_info, y);
-> +			vkms_compose_row(stage_buffer, plane[i], y);
->   			pre_mul_alpha_blend(plane[i]->frame_info, stage_buffer,
->   					    output_buffer);
->   		}
-> @@ -118,7 +118,7 @@ static int check_format_funcs(struct vkms_crtc_state *crtc_state,
->   	u32 n_active_planes = crtc_state->num_active_planes;
->   
->   	for (size_t i = 0; i < n_active_planes; i++)
-> -		if (!planes[i]->plane_read)
-> +		if (!planes[i]->pixel_read)
->   			return -1;
->   
->   	if (active_wb && !active_wb->wb_write)
-> diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/vkms_drv.h
-> index 4a248567efb2..f152d54baf76 100644
-> --- a/drivers/gpu/drm/vkms/vkms_drv.h
-> +++ b/drivers/gpu/drm/vkms/vkms_drv.h
-> @@ -56,8 +56,7 @@ struct vkms_writeback_job {
->   struct vkms_plane_state {
->   	struct drm_shadow_plane_state base;
->   	struct vkms_frame_info *frame_info;
-> -	void (*plane_read)(struct line_buffer *buffer,
-> -			   const struct vkms_frame_info *frame_info, int y);
-> +	void (*pixel_read)(u8 *src_buffer, struct pixel_argb_u16 *out_pixel);
->   };
->   
->   struct vkms_plane {
-> @@ -155,6 +154,7 @@ int vkms_verify_crc_source(struct drm_crtc *crtc, const char *source_name,
->   /* Composer Support */
->   void vkms_composer_worker(struct work_struct *work);
->   void vkms_set_composer(struct vkms_output *out, bool enabled);
-> +void vkms_compose_row(struct line_buffer *stage_buffer, struct vkms_plane_state *plane, int y);
->   
->   /* Writeback */
->   int vkms_enable_writeback_connector(struct vkms_device *vkmsdev);
-> diff --git a/drivers/gpu/drm/vkms/vkms_formats.c b/drivers/gpu/drm/vkms/vkms_formats.c
-> index d4950688b3f1..8d948c73741e 100644
-> --- a/drivers/gpu/drm/vkms/vkms_formats.c
-> +++ b/drivers/gpu/drm/vkms/vkms_formats.c
-> @@ -42,100 +42,75 @@ static void *get_packed_src_addr(const struct vkms_frame_info *frame_info, int y
->   	return packed_pixels_addr(frame_info, x_src, y_src);
->   }
->   
-> -static void ARGB8888_to_argb_u16(struct line_buffer *stage_buffer,
-> -				 const struct vkms_frame_info *frame_info, int y)
-> +static void ARGB8888_to_argb_u16(u8 *src_pixels, struct pixel_argb_u16 *out_pixel)
->   {
-> -	struct pixel_argb_u16 *out_pixels = stage_buffer->pixels;
-> -	u8 *src_pixels = get_packed_src_addr(frame_info, y);
-> -	int x_limit = min_t(size_t, drm_rect_width(&frame_info->dst),
-> -			    stage_buffer->n_pixels);
-> -
-> -	for (size_t x = 0; x < x_limit; x++, src_pixels += 4) {
-> -		/*
-> -		 * The 257 is the "conversion ratio". This number is obtained by the
-> -		 * (2^16 - 1) / (2^8 - 1) division. Which, in this case, tries to get
-> -		 * the best color value in a pixel format with more possibilities.
-> -		 * A similar idea applies to others RGB color conversions.
-> -		 */
-> -		out_pixels[x].a = (u16)src_pixels[3] * 257;
-> -		out_pixels[x].r = (u16)src_pixels[2] * 257;
-> -		out_pixels[x].g = (u16)src_pixels[1] * 257;
-> -		out_pixels[x].b = (u16)src_pixels[0] * 257;
-> -	}
-> +	/*
-> +	 * The 257 is the "conversion ratio". This number is obtained by the
-> +	 * (2^16 - 1) / (2^8 - 1) division. Which, in this case, tries to get
-> +	 * the best color value in a pixel format with more possibilities.
-> +	 * A similar idea applies to others RGB color conversions.
-> +	 */
-> +	out_pixel->a = (u16)src_pixels[3] * 257;
-> +	out_pixel->r = (u16)src_pixels[2] * 257;
-> +	out_pixel->g = (u16)src_pixels[1] * 257;
-> +	out_pixel->b = (u16)src_pixels[0] * 257;
->   }
->   
-> -static void XRGB8888_to_argb_u16(struct line_buffer *stage_buffer,
-> -				 const struct vkms_frame_info *frame_info, int y)
-> +static void XRGB8888_to_argb_u16(u8 *src_pixels, struct pixel_argb_u16 *out_pixel)
->   {
-> -	struct pixel_argb_u16 *out_pixels = stage_buffer->pixels;
-> -	u8 *src_pixels = get_packed_src_addr(frame_info, y);
-> -	int x_limit = min_t(size_t, drm_rect_width(&frame_info->dst),
-> -			    stage_buffer->n_pixels);
-> -
-> -	for (size_t x = 0; x < x_limit; x++, src_pixels += 4) {
-> -		out_pixels[x].a = (u16)0xffff;
-> -		out_pixels[x].r = (u16)src_pixels[2] * 257;
-> -		out_pixels[x].g = (u16)src_pixels[1] * 257;
-> -		out_pixels[x].b = (u16)src_pixels[0] * 257;
-> -	}
-> +	out_pixel->a = (u16)0xffff;
-> +	out_pixel->r = (u16)src_pixels[2] * 257;
-> +	out_pixel->g = (u16)src_pixels[1] * 257;
-> +	out_pixel->b = (u16)src_pixels[0] * 257;
->   }
->   
-> -static void ARGB16161616_to_argb_u16(struct line_buffer *stage_buffer,
-> -				     const struct vkms_frame_info *frame_info,
-> -				     int y)
-> +static void ARGB16161616_to_argb_u16(u8 *src_pixels, struct pixel_argb_u16 *out_pixel)
->   {
-> -	struct pixel_argb_u16 *out_pixels = stage_buffer->pixels;
-> -	u16 *src_pixels = get_packed_src_addr(frame_info, y);
-> -	int x_limit = min_t(size_t, drm_rect_width(&frame_info->dst),
-> -			    stage_buffer->n_pixels);
-> +	u16 *pixels = (u16 *)src_pixels;
->   
-> -	for (size_t x = 0; x < x_limit; x++, src_pixels += 4) {
-> -		out_pixels[x].a = le16_to_cpu(src_pixels[3]);
-> -		out_pixels[x].r = le16_to_cpu(src_pixels[2]);
-> -		out_pixels[x].g = le16_to_cpu(src_pixels[1]);
-> -		out_pixels[x].b = le16_to_cpu(src_pixels[0]);
-> -	}
-> +	out_pixel->a = le16_to_cpu(pixels[3]);
-> +	out_pixel->r = le16_to_cpu(pixels[2]);
-> +	out_pixel->g = le16_to_cpu(pixels[1]);
-> +	out_pixel->b = le16_to_cpu(pixels[0]);
->   }
->   
-> -static void XRGB16161616_to_argb_u16(struct line_buffer *stage_buffer,
-> -				     const struct vkms_frame_info *frame_info,
-> -				     int y)
-> +static void XRGB16161616_to_argb_u16(u8 *src_pixels, struct pixel_argb_u16 *out_pixel)
->   {
-> -	struct pixel_argb_u16 *out_pixels = stage_buffer->pixels;
-> -	u16 *src_pixels = get_packed_src_addr(frame_info, y);
-> -	int x_limit = min_t(size_t, drm_rect_width(&frame_info->dst),
-> -			    stage_buffer->n_pixels);
-> +	u16 *pixels = (u16 *)src_pixels;
->   
-> -	for (size_t x = 0; x < x_limit; x++, src_pixels += 4) {
-> -		out_pixels[x].a = (u16)0xffff;
-> -		out_pixels[x].r = le16_to_cpu(src_pixels[2]);
-> -		out_pixels[x].g = le16_to_cpu(src_pixels[1]);
-> -		out_pixels[x].b = le16_to_cpu(src_pixels[0]);
-> -	}
-> +	out_pixel->a = (u16)0xffff;
-> +	out_pixel->r = le16_to_cpu(pixels[2]);
-> +	out_pixel->g = le16_to_cpu(pixels[1]);
-> +	out_pixel->b = le16_to_cpu(pixels[0]);
->   }
->   
-> -static void RGB565_to_argb_u16(struct line_buffer *stage_buffer,
-> -			       const struct vkms_frame_info *frame_info, int y)
-> +static void RGB565_to_argb_u16(u8 *src_pixels, struct pixel_argb_u16 *out_pixel)
->   {
-> -	struct pixel_argb_u16 *out_pixels = stage_buffer->pixels;
-> -	u16 *src_pixels = get_packed_src_addr(frame_info, y);
-> -	int x_limit = min_t(size_t, drm_rect_width(&frame_info->dst),
-> -			       stage_buffer->n_pixels);
-> +	u16 *pixels = (u16 *)src_pixels;
->   
->   	s64 fp_rb_ratio = drm_fixp_div(drm_int2fixp(65535), drm_int2fixp(31));
->   	s64 fp_g_ratio = drm_fixp_div(drm_int2fixp(65535), drm_int2fixp(63));
->   
-> -	for (size_t x = 0; x < x_limit; x++, src_pixels++) {
-> -		u16 rgb_565 = le16_to_cpu(*src_pixels);
-> -		s64 fp_r = drm_int2fixp((rgb_565 >> 11) & 0x1f);
-> -		s64 fp_g = drm_int2fixp((rgb_565 >> 5) & 0x3f);
-> -		s64 fp_b = drm_int2fixp(rgb_565 & 0x1f);
-> +	u16 rgb_565 = le16_to_cpu(*pixels);
-> +	s64 fp_r = drm_int2fixp((rgb_565 >> 11) & 0x1f);
-> +	s64 fp_g = drm_int2fixp((rgb_565 >> 5) & 0x3f);
-> +	s64 fp_b = drm_int2fixp(rgb_565 & 0x1f);
->   
-> -		out_pixels[x].a = (u16)0xffff;
-> -		out_pixels[x].r = drm_fixp2int(drm_fixp_mul(fp_r, fp_rb_ratio));
-> -		out_pixels[x].g = drm_fixp2int(drm_fixp_mul(fp_g, fp_g_ratio));
-> -		out_pixels[x].b = drm_fixp2int(drm_fixp_mul(fp_b, fp_rb_ratio));
-> -	}
-> +	out_pixel->a = (u16)0xffff;
-> +	out_pixel->r = drm_fixp2int(drm_fixp_mul(fp_r, fp_rb_ratio));
-> +	out_pixel->g = drm_fixp2int(drm_fixp_mul(fp_g, fp_g_ratio));
-> +	out_pixel->b = drm_fixp2int(drm_fixp_mul(fp_b, fp_rb_ratio));
-> +}
-> +
-> +void vkms_compose_row(struct line_buffer *stage_buffer, struct vkms_plane_state *plane, int y)
-> +{
-> +	struct pixel_argb_u16 *out_pixels = stage_buffer->pixels;
-> +	struct vkms_frame_info *frame_info = plane->frame_info;
-> +	u8 *src_pixels = get_packed_src_addr(frame_info, y);
-> +	int limit = min_t(size_t, drm_rect_width(&frame_info->dst), stage_buffer->n_pixels);
-> +
-> +	for (size_t x = 0; x < limit; x++, src_pixels += frame_info->cpp)
-> +		plane->pixel_read(src_pixels, &out_pixels[x]);
->   }
->   
->   /*
-> @@ -249,7 +224,7 @@ static void argb_u16_to_RGB565(struct vkms_frame_info *frame_info,
->   	}
->   }
->   
-> -void *get_frame_to_line_function(u32 format)
-> +void *get_pixel_conversion_function(u32 format)
->   {
->   	switch (format) {
->   	case DRM_FORMAT_ARGB8888:
-> diff --git a/drivers/gpu/drm/vkms/vkms_formats.h b/drivers/gpu/drm/vkms/vkms_formats.h
-> index 43b7c1979018..c5b113495d0c 100644
-> --- a/drivers/gpu/drm/vkms/vkms_formats.h
-> +++ b/drivers/gpu/drm/vkms/vkms_formats.h
-> @@ -5,7 +5,7 @@
->   
->   #include "vkms_drv.h"
->   
-> -void *get_frame_to_line_function(u32 format);
-> +void *get_pixel_conversion_function(u32 format);
->   
->   void *get_line_to_frame_function(u32 format);
->   
-> diff --git a/drivers/gpu/drm/vkms/vkms_plane.c b/drivers/gpu/drm/vkms/vkms_plane.c
-> index c41cec7dcb70..0a23875900ec 100644
-> --- a/drivers/gpu/drm/vkms/vkms_plane.c
-> +++ b/drivers/gpu/drm/vkms/vkms_plane.c
-> @@ -123,7 +123,7 @@ static void vkms_plane_atomic_update(struct drm_plane *plane,
->   	frame_info->offset = fb->offsets[0];
->   	frame_info->pitch = fb->pitches[0];
->   	frame_info->cpp = fb->format->cpp[0];
-> -	vkms_plane_state->plane_read = get_frame_to_line_function(fmt);
-> +	vkms_plane_state->pixel_read = get_pixel_conversion_function(fmt);
->   }
->   
->   static int vkms_plane_atomic_check(struct drm_plane *plane,
+> On 4/21/2023 1:53 PM, Marijn Suijten wrote:
+> > The Resource Manager already iterates over all available blocks from the
+> > catalog, only to pass their ID to a dpu_hw_xxx_init() function which
+> > uses an _xxx_offset() helper to search for and find the exact same
+> > catalog pointer again to initialize the block with, fallible error
+> > handling and all.
+> > 
+> > Instead, pass const pointers to the catalog entries directly to these
+> > _init functions and drop the for loops entirely, saving on both
+> > readability complexity and unnecessary cycles at boot.
+> > 
+> > Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
+> > Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> 
+> Overall, a nice cleanup!
+> 
+> One comment below.
+> 
+> > ---
+> >   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c        | 37 +++++----------------
+> >   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h        | 14 ++++----
+> >   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.c        | 32 +++---------------
+> >   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.h        | 11 +++----
+> >   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.c       | 38 ++++-----------------
+> >   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.h       | 12 +++----
+> >   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.h |  2 +-
+> >   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c       | 40 ++++++-----------------
+> >   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h       | 12 +++----
+> >   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_lm.c         | 38 ++++-----------------
+> >   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_lm.h         | 10 +++---
+> >   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_merge3d.c    | 33 +++----------------
+> >   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_merge3d.h    | 14 ++++----
+> >   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.c   | 33 +++----------------
+> >   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.h   | 14 ++++----
+> >   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c       | 39 ++++------------------
+> >   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h       | 12 +++----
+> >   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_vbif.c       | 33 +++----------------
+> >   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_vbif.h       | 11 +++----
+> >   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_wb.c         | 33 ++++---------------
+> >   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_wb.h         | 11 +++----
+> >   drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c           | 17 +++++-----
+> >   drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c            | 18 +++++-----
+> >   23 files changed, 139 insertions(+), 375 deletions(-)
+> > 
+> 
+> <snipped>
+> 
+> > -struct dpu_hw_intf *dpu_hw_intf_init(enum dpu_intf idx,
+> > -		void __iomem *addr,
+> > -		const struct dpu_mdss_cfg *m)
+> > +struct dpu_hw_intf *dpu_hw_intf_init(const struct dpu_intf_cfg *cfg,
+> > +		void __iomem *addr)
+> >   {
+> >   	struct dpu_hw_intf *c;
+> > -	const struct dpu_intf_cfg *cfg;
+> > +
+> > +	if (cfg->type == INTF_NONE) {
+> > +		pr_err("Cannot create interface hw object for INTF_NONE type\n");
+> > +		return ERR_PTR(-EINVAL);
+> > +	}
+> 
+> The caller of dpu_hw_intf_init which is the RM already has protection 
+> for INTF_NONE, see below
+> 
+>          for (i = 0; i < cat->intf_count; i++) {
+>                  struct dpu_hw_intf *hw;
+>                  const struct dpu_intf_cfg *intf = &cat->intf[i];
+> 
+>                  if (intf->type == INTF_NONE) {
+>                          DPU_DEBUG("skip intf %d with type none\n", i);
+>                          continue;
+>                  }
+>                  if (intf->id < INTF_0 || intf->id >= INTF_MAX) {
+>                          DPU_ERROR("skip intf %d with invalid id\n", 
+> intf->id);
+>                          continue;
+>                  }
+>                  hw = dpu_hw_intf_init(intf->id, mmio, cat);
+> 
+> So this part can be dropped.
+
+I mainly intended to keep original validation where _intf_offset would
+skip INTF_NONE, and error out.  RM init is hence expected to filter out
+INTF_NONE instead of running into that `-EINVAL`, which I maintained
+here.
+
+If you think there won't be another caller of dpu_hw_intf_init, and that
+such validation is hence excessive, I can remove it in a followup v3.
+
+- Marijn
+
+> >   	c = kzalloc(sizeof(*c), GFP_KERNEL);
+> >   	if (!c)
+> >   		return ERR_PTR(-ENOMEM);
+> >   
+> > -	cfg = _intf_offset(idx, m, addr, &c->hw);
+> > -	if (IS_ERR_OR_NULL(cfg)) {
+> > -		kfree(c);
+> > -		pr_err("failed to create dpu_hw_intf %d\n", idx);
+> > -		return ERR_PTR(-EINVAL);
+> > -	}
+> > +	c->hw.blk_addr = addr + cfg->base;
+> > +	c->hw.log_mask = DPU_DBG_MASK_INTF;
+> >   
+> 
+> <snipped>
