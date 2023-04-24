@@ -2,79 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF58E6ED0F9
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Apr 2023 17:09:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0774F6ED12C
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Apr 2023 17:20:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 817F110E528;
-	Mon, 24 Apr 2023 15:09:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A5EF510E1B8;
+	Mon, 24 Apr 2023 15:20:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com
- [66.111.4.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CA35D10E133;
- Mon, 24 Apr 2023 15:09:40 +0000 (UTC)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
- by mailout.nyi.internal (Postfix) with ESMTP id 780645C014E;
- Mon, 24 Apr 2023 11:09:38 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute6.internal (MEProxy); Mon, 24 Apr 2023 11:09:38 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- invisiblethingslab.com; h=cc:cc:content-type:content-type:date
- :date:from:from:in-reply-to:in-reply-to:message-id:mime-version
- :references:reply-to:sender:subject:subject:to:to; s=fm3; t=
- 1682348978; x=1682435378; bh=br2FvkkiVd9k+hHaNH9Pd3RjVFL01dwydgz
- wiLtpTq4=; b=e15dlCFA9qXwho9DW72jqNpVUNwKx1eg6liq0FCXwo3fHxGLKGQ
- TiwiaGSRG2ZTsocxtXw4S8TlVpZ9ze0A3C6d1SV4f7Bsu9Pvp7Rs/48kbL5eR5Vl
- uhxZAUw2X+v3OPS0uX39GrsnD5hIOeCBVyo6f0uZz18f1KXQhvFPGXTr/aSZdObh
- emK7qOPGsDApkPtu/+hCTM9O2B4hdCWKKJ9F6R+9b9juGOlcDis6m0ZNGHdqN3VP
- xWllgEUOvvqEghlFcTy09VVNUgs92zQb2e18BVcTuAcrbu0MFqD+eW/Dxpsip+zv
- mKV2x63s5xu8nZEUDUFZXsHB507iegiaeXw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:content-type:date:date
- :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm3; t=1682348978; x=1682435378; bh=br2FvkkiVd9k+
- hHaNH9Pd3RjVFL01dwydgzwiLtpTq4=; b=AusWtLUMcsQDQwrShNinBYrilcsn9
- Z44HTzvvbP6+cw3x+ZrU78ICS2gPJ1qH2QxSnRHdG9M6DPEflShaQ/675mw6GSfm
- RuWvORGfDsBG76cVNehHRwjiQr7+nlUK3oqJLoiLaxte34wesB1/z1mWdfst/iX8
- +pJ6KpioLW5LD06dGXSsUZXQNcI1eiZrKFM+b+9QDb47DOnfSvzf2fis2ExJ6DKK
- mTkmSjKWsDyvrAAMVgSdJ5Yuhe467QQmXts6BVr5bE3MC95bLHxrqiZstjiNrog6
- rOIkG6FgDDhLaUSzOE0u7SV0cT+6zcm+T2HoibMjiqbOOdD+0m5SwaE6A==
-X-ME-Sender: <xms:sptGZNLl26Sq51wiTh0XLRplamLP9ZCusuyTgFQRe-zaB2N2P8_oKw>
- <xme:sptGZJKiqQNNmyErshmzHblsreaHxBm_PGZmuViTjxatY75sdE2wn2OWvFQiQGFfQ
- yfI0-XnA_QaDg>
-X-ME-Received: <xmr:sptGZFu8QWlvLepv_AD7AHQ5-E5rwiay_nsblOAV0HMI8NgvD3mt25xPd_fGOYTXOJ_xQQjwsunkYHue9CPSsb3TUNK8c47ClOM>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrfedutddgkeegucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepofgrrhgv
- khcuofgrrhgtiiihkhhofihskhhiqdfikphrvggtkhhiuceomhgrrhhmrghrvghksehinh
- hvihhsihgslhgvthhhihhnghhslhgrsgdrtghomheqnecuggftrfgrthhtvghrnhepvdeh
- fefgffefudegveetueegfeevvedvvedtleefgefftddufeejtdfhleeftdevnecuffhomh
- grihhnpehfrhgvvgguvghskhhtohhprdhorhhgnecuvehluhhsthgvrhfuihiivgeptden
- ucfrrghrrghmpehmrghilhhfrhhomhepmhgrrhhmrghrvghksehinhhvihhsihgslhgvth
- hhihhnghhslhgrsgdrtghomh
-X-ME-Proxy: <xmx:sptGZOZg_rJe0p8CvVq279FvOlTK6YS701BFJUNR0u0nHFgRMRH-EQ>
- <xmx:sptGZEaqqcVxO0HKGJKAGNPEuhgljw1tIejaCFoBu9ZGhNu3iMhlGg>
- <xmx:sptGZCAAp8XnrDUpGdTKBTjspC0ZBalCKmWoZZgpTZ3uisig7zc7hw>
- <xmx:sptGZBIdh_m-NeIHOlWZYqGtNfdInslv2PbQ8Rq0E1nVpbWf9Upa-w>
-Feedback-ID: i1568416f:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 24 Apr 2023 11:09:35 -0400 (EDT)
-Date: Mon, 24 Apr 2023 17:09:31 +0200
-From: Marek =?utf-8?Q?Marczykowski-G=C3=B3recki?=
- <marmarek@invisiblethingslab.com>
-To: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
-Subject: Re: [RFC PATCH] x86/mm: Fix PAT bit missing from page protection
- modify mask
-Message-ID: <ZEabrGgRA1vKn+11@mail-itl>
-References: <20230424123524.17008-1-janusz.krzysztofik@linux.intel.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C71E810E1B8
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Apr 2023 15:20:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1682349631;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=0ybXQpJGX8ksVbqeQTg5aMwu/7o/goFFitwiYzrK7BM=;
+ b=iLWSstTU8RFdFouf+/9bbF0wRY5a22XyOHsBZdBww1Ueumuu/zMB4dnk03Aqzid/ba0OuY
+ DEMrGKXlRU0KHPsTfjPcNvLsghxKTlz3XFRIG2lBVk7DQIAeJAOdIDdw/Txe/1832IkE6k
+ eChzSTmhKna7fjboE8L9lkDu3uYsJZI=
+Received: from mail-lj1-f200.google.com (mail-lj1-f200.google.com
+ [209.85.208.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-382-g5Hq6X0IOxW0QbhIzFUuhg-1; Mon, 24 Apr 2023 11:20:29 -0400
+X-MC-Unique: g5Hq6X0IOxW0QbhIzFUuhg-1
+Received: by mail-lj1-f200.google.com with SMTP id
+ 38308e7fff4ca-2a7a6393ba6so2670501fa.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Apr 2023 08:20:29 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1682349628; x=1684941628;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=0ybXQpJGX8ksVbqeQTg5aMwu/7o/goFFitwiYzrK7BM=;
+ b=gkd+VzM3ToP10Ro292gDlqCUNAktjk1v2elA3o0Z7JMUw77HDi18OLEsU8Jp2vap7y
+ 29KdPIEDXjPmzQou1T3GSfmguzBCAHxlYWL1godPbIdiVFjThBOU6fhh+rI0+mps1ey0
+ KHtFAJgmg16t+cL+pEHIWfpAr6NRLQNl9WddwIKq2RTx8YWEpr2dCzWqZnxOG7+R1Jh4
+ WLJnzgswkpDb/89b5MsMJ3AZzylKiTNAd6ao/Tf53XbiQXfy8RXKktIzU3c9i+jDpkxX
+ 0A9Xgex01KvJhn2Xhxrh1ugYFYNjEWJWuXKHfOFlCqrQN5bDXy5sZ2ASLN3dHD86Rtgl
+ /LrQ==
+X-Gm-Message-State: AAQBX9fXnSOsi5fZjhafokGytIjy7zROI0vCVslYMwPQGQiYGpcjzEw6
+ QFtTevsJw/30NkUGuzU93sX3KCtYhn1eLSX2nvtISNXA751wU5B3qDVJtEYUGKpbc2buG8u0fEA
+ Z9Eo1zzvXCNyz2jjU88UqXvf+SNhJqqC8H+wrM4IRJzRb
+X-Received: by 2002:a2e:924b:0:b0:2a9:f6f0:fc84 with SMTP id
+ v11-20020a2e924b000000b002a9f6f0fc84mr3486694ljg.4.1682349628201; 
+ Mon, 24 Apr 2023 08:20:28 -0700 (PDT)
+X-Google-Smtp-Source: AKy350brn3/2mvZw23jR8Revx5XmXXtkygZGuUo8HD5LLVeLxmu8zC85TkjrgP/HdRDXdUOJ1/BuBAsvCCX/3rAcWwU=
+X-Received: by 2002:a2e:924b:0:b0:2a9:f6f0:fc84 with SMTP id
+ v11-20020a2e924b000000b002a9f6f0fc84mr3486688ljg.4.1682349627904; Mon, 24 Apr
+ 2023 08:20:27 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="osZaiv/38K3nEkTW"
-Content-Disposition: inline
-In-Reply-To: <20230424123524.17008-1-janusz.krzysztofik@linux.intel.com>
+References: <20230204184307.never.825-kees@kernel.org>
+ <0a48d61b-6e11-9144-b11e-dd46de836c53@embeddedor.com>
+In-Reply-To: <0a48d61b-6e11-9144-b11e-dd46de836c53@embeddedor.com>
+From: Karol Herbst <kherbst@redhat.com>
+Date: Mon, 24 Apr 2023 17:20:16 +0200
+Message-ID: <CACO55tv43F7TQGYCmifyzOxR-Ddt28wpj9t9RyK4sQPR6aU+bQ@mail.gmail.com>
+Subject: Re: [PATCH] drm/nouveau/disp: More DP_RECEIVER_CAP_SIZE array fixes
+To: "Gustavo A. R. Silva" <gustavo@embeddedor.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,110 +78,133 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Juergen Gross <jgross@suse.com>, x86@kernel.org,
- Yu Zhao <yuzhao@google.com>, David Hildenbrand <david@redhat.com>,
- intel-gfx@lists.freedesktop.org, Dave Hansen <dave.hansen@linux.intel.com>,
+Cc: Kees Cook <keescook@chromium.org>, nouveau@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Andrzej Hajda <andrzej.hajda@intel.com>, Ingo Molnar <mingo@redhat.com>,
- Borislav Petkov <bp@alien8.de>, Andi Shyti <andi.shyti@linux.intel.com>,
- "H. Peter Anvin" <hpa@zytor.com>, Thomas Gleixner <tglx@linutronix.de>,
- Chris Wilson <chris.p.wilson@linux.intel.com>,
- Andrew Morton <akpm@linux-foundation.org>, Nirmoy Das <nirmoy.das@intel.com>
+ Ben Skeggs <bskeggs@redhat.com>, Dave Airlie <airlied@redhat.com>,
+ linux-hardening@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Wed, Mar 22, 2023 at 10:40=E2=80=AFPM Gustavo A. R. Silva
+<gustavo@embeddedor.com> wrote:
+>
+>
+>
+> On 2/4/23 12:43, Kees Cook wrote:
+> > More arrays (and arguments) for dcpd were set to 16, when it looks like
+> > DP_RECEIVER_CAP_SIZE (15) should be used. Fix the remaining cases, seen
+> > with GCC 13:
+> >
+> > ../drivers/gpu/drm/nouveau/nvif/outp.c: In function 'nvif_outp_acquire_=
+dp':
+> > ../include/linux/fortify-string.h:57:33: warning: array subscript 'unsi=
+gned char[16][0]' is partly outside array bounds of 'u8[15]' {aka 'unsigned=
+ char[15]'} [-Warray-bounds=3D]
+> >     57 | #define __underlying_memcpy     __builtin_memcpy
+> >        |                                 ^
+> > ...
+> > ../drivers/gpu/drm/nouveau/nvif/outp.c:140:9: note: in expansion of mac=
+ro 'memcpy'
+> >    140 |         memcpy(args.dp.dpcd, dpcd, sizeof(args.dp.dpcd));
+> >        |         ^~~~~~
+> > ../drivers/gpu/drm/nouveau/nvif/outp.c:130:49: note: object 'dpcd' of s=
+ize [0, 15]
+> >    130 | nvif_outp_acquire_dp(struct nvif_outp *outp, u8 dpcd[DP_RECEIV=
+ER_CAP_SIZE],
+> >        |                                              ~~~^~~~~~~~~~~~~~=
+~~~~~~~~~~~~
+> >
+> > Fixes: 813443721331 ("drm/nouveau/disp: move DP link config into acquir=
+e")
+> > Cc: Ben Skeggs <bskeggs@redhat.com>
+> > Cc: Lyude Paul <lyude@redhat.com>
+> > Cc: Karol Herbst <kherbst@redhat.com>
+> > Cc: David Airlie <airlied@gmail.com>
+> > Cc: Daniel Vetter <daniel@ffwll.ch>
+> > Cc: Dave Airlie <airlied@redhat.com>
+> > Cc: "Gustavo A. R. Silva" <gustavo@embeddedor.com>
+> > Cc: dri-devel@lists.freedesktop.org
+> > Cc: nouveau@lists.freedesktop.org
+> > Signed-off-by: Kees Cook <keescook@chromium.org>
+>
+> Reviewed-by: Gustavo A. R. Silva <gustavoars@kernel.org>
+>
 
---osZaiv/38K3nEkTW
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 24 Apr 2023 17:09:31 +0200
-From: Marek =?utf-8?Q?Marczykowski-G=C3=B3recki?= <marmarek@invisiblethingslab.com>
-To: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
-Cc: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	David Hildenbrand <david@redhat.com>, Yu Zhao <yuzhao@google.com>,
-	Juergen Gross <jgross@suse.com>, linux-kernel@vger.kernel.org,
-	Andi Shyti <andi.shyti@linux.intel.com>,
-	Chris Wilson <chris.p.wilson@linux.intel.com>,
-	Andrzej Hajda <andrzej.hajda@intel.com>,
-	Nirmoy Das <nirmoy.das@intel.com>, intel-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org
-Subject: Re: [RFC PATCH] x86/mm: Fix PAT bit missing from page protection
- modify mask
+Reviewed-by: Karol Herbst <kherbst@redhat.com>
 
-On Mon, Apr 24, 2023 at 02:35:24PM +0200, Janusz Krzysztofik wrote:
-> Visible glitches have been observed when running graphics applications on
-> Linux under Xen hypervisor.  Those observations have been confirmed with
-> failures from kms_pwrite_crc Intel GPU test that verifies data coherency
-> of DRM frame buffer objects using hardware CRC checksums calculated by
-> display controllers, exposed to userspace via debugfs.  Affected
-> processing paths have then been identified with new test variants that
-> mmap the objects using different methods and caching modes.
->=20
-> When running as a Xen PV guest, Linux uses Xen provided PAT configuration
-> which is different from its native one.  In particular, Xen specific PTE
-> encoding of write-combining caching, likely used by graphics applications,
-> differs from the Linux default one found among statically defined minimal
-> set of supported modes.  Since Xen defines PTE encoding of the WC mode as
-> _PAGE_PAT, it no longer belongs to the minimal set, depends on correct
-> handling of _PAGE_PAT bit, and can be mismatched with write-back caching.
->=20
-> When a user calls mmap() for a DRM buffer object, DRM device specific
-> .mmap file operation, called from mmap_region(), takes care of setting PTE
-> encoding bits in a vm_page_prot field of an associated virtual memory area
-> structure.  Unfortunately, _PAGE_PAT bit is not preserved when the vma's
-> .vm_flags are then applied to .vm_page_prot via vm_set_page_prot().  Bits
-> to be preserved are determined with _PAGE_CHG_MASK symbol that doesn't
-> cover _PAGE_PAT.  As a consequence, WB caching is requested instead of WC
-> when running under Xen (also, WP is silently changed to WT, and UC
-> downgraded to UC_MINUS).  When running on bare metal, WC is not affected,
-> but WP and WT extra modes are unintentionally replaced with WC and UC,
-> respectively.
->=20
-> WP and WT modes, encoded with _PAGE_PAT bit set, were introduced by commit
-> 281d4078bec3 ("x86: Make page cache mode a real type").  Care was taken
-> to extend _PAGE_CACHE_MASK symbol with that additional bit, but that
-> symbol has never been used for identification of bits preserved when
-> applying page protection flags.  Support for all cache modes under Xen,
-> including the problematic WC mode, was then introduced by commit
-> 47591df50512 ("xen: Support Xen pv-domains using PAT").
->=20
-> Extend bitmask used by pgprot_modify() for selecting bits to be preserved
-> with _PAGE_PAT bit.  However, since that bit can be reused as _PAGE_PSE,
-> and the _PAGE_CHG_MASK symbol, primarly used by pte_modify(), is likely
-> intentionally defined with that bit not set, keep that symbol unchanged.
->=20
-> Closes: https://gitlab.freedesktop.org/drm/intel/-/issues/7648
-> Fixes: 281d4078bec3 ("x86: Make page cache mode a real type")
-> Signed-off-by: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
-> Cc: stable@vger.kernel.org # v3.19+
+sorry for not seeing this earlier.
 
-I can confirm it fixes the issue, thanks!
+> Thanks!
+> --
+> Gustavo
+>
+> > ---
+> >   drivers/gpu/drm/nouveau/include/nvif/if0012.h    | 4 +++-
+> >   drivers/gpu/drm/nouveau/nvkm/engine/disp/outp.h  | 3 ++-
+> >   drivers/gpu/drm/nouveau/nvkm/engine/disp/uoutp.c | 2 +-
+> >   3 files changed, 6 insertions(+), 3 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/nouveau/include/nvif/if0012.h b/drivers/gp=
+u/drm/nouveau/include/nvif/if0012.h
+> > index eb99d84eb844..16d4ad5023a3 100644
+> > --- a/drivers/gpu/drm/nouveau/include/nvif/if0012.h
+> > +++ b/drivers/gpu/drm/nouveau/include/nvif/if0012.h
+> > @@ -2,6 +2,8 @@
+> >   #ifndef __NVIF_IF0012_H__
+> >   #define __NVIF_IF0012_H__
+> >
+> > +#include <drm/display/drm_dp.h>
+> > +
+> >   union nvif_outp_args {
+> >       struct nvif_outp_v0 {
+> >               __u8 version;
+> > @@ -63,7 +65,7 @@ union nvif_outp_acquire_args {
+> >                               __u8 hda;
+> >                               __u8 mst;
+> >                               __u8 pad04[4];
+> > -                             __u8 dpcd[16];
+> > +                             __u8 dpcd[DP_RECEIVER_CAP_SIZE];
+> >                       } dp;
+> >               };
+> >       } v0;
+> > diff --git a/drivers/gpu/drm/nouveau/nvkm/engine/disp/outp.h b/drivers/=
+gpu/drm/nouveau/nvkm/engine/disp/outp.h
+> > index b7631c1ab242..4e7f873f66e2 100644
+> > --- a/drivers/gpu/drm/nouveau/nvkm/engine/disp/outp.h
+> > +++ b/drivers/gpu/drm/nouveau/nvkm/engine/disp/outp.h
+> > @@ -3,6 +3,7 @@
+> >   #define __NVKM_DISP_OUTP_H__
+> >   #include "priv.h"
+> >
+> > +#include <drm/display/drm_dp.h>
+> >   #include <subdev/bios.h>
+> >   #include <subdev/bios/dcb.h>
+> >   #include <subdev/bios/dp.h>
+> > @@ -42,7 +43,7 @@ struct nvkm_outp {
+> >                       bool aux_pwr_pu;
+> >                       u8 lttpr[6];
+> >                       u8 lttprs;
+> > -                     u8 dpcd[16];
+> > +                     u8 dpcd[DP_RECEIVER_CAP_SIZE];
+> >
+> >                       struct {
+> >                               int dpcd; /* -1, or index into SUPPORTED_=
+LINK_RATES table */
+> > diff --git a/drivers/gpu/drm/nouveau/nvkm/engine/disp/uoutp.c b/drivers=
+/gpu/drm/nouveau/nvkm/engine/disp/uoutp.c
+> > index 4f0ca709c85a..fc283a4a1522 100644
+> > --- a/drivers/gpu/drm/nouveau/nvkm/engine/disp/uoutp.c
+> > +++ b/drivers/gpu/drm/nouveau/nvkm/engine/disp/uoutp.c
+> > @@ -146,7 +146,7 @@ nvkm_uoutp_mthd_release(struct nvkm_outp *outp, voi=
+d *argv, u32 argc)
+> >   }
+> >
+> >   static int
+> > -nvkm_uoutp_mthd_acquire_dp(struct nvkm_outp *outp, u8 dpcd[16],
+> > +nvkm_uoutp_mthd_acquire_dp(struct nvkm_outp *outp, u8 dpcd[DP_RECEIVER=
+_CAP_SIZE],
+> >                          u8 link_nr, u8 link_bw, bool hda, bool mst)
+> >   {
+> >       int ret;
+>
 
-Tested-by: Marek Marczykowski-G=C3=B3recki <marmarek@invisiblethingslab.com>
-
---=20
-Best Regards,
-Marek Marczykowski-G=C3=B3recki
-Invisible Things Lab
-
---osZaiv/38K3nEkTW
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEyBAEBCAAdFiEEhrpukzGPukRmQqkK24/THMrX1ywFAmRGm6sACgkQ24/THMrX
-1yzT0gf400BOXJvJeqI1javhvP81SDOZYUdV+Hbr92YK3/V923fZE3lL3vkMM0TQ
-TqbUZ0pvUaeds3y1dTt812XjjS/1AoT3tC+fj++bfX6LAYLuQWVO5P0gllFsb4bN
-ny3EG2Vz7YVYbFkVbWBZVhL1FgMJr176wvc0kNr1etE+PqeQjycOEK9y3lsr2gBi
-QuMreECQO49lJjzEViX0cC+OSQ8OaN460diENUnYrQf9b0Zp6OCWIWnGFjUuMO1W
-SB74scfbpDW3MvpGFjBT1vjLyTckriD/E4KvGDNETIf/nRrSa1PiVP98LHesAQwJ
-arBw1aNL48n2Xi10dhUmhhM+uQr3
-=cWLA
------END PGP SIGNATURE-----
-
---osZaiv/38K3nEkTW--
