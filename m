@@ -1,46 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B5176EC415
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Apr 2023 05:43:11 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E84B16EC414
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Apr 2023 05:43:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 55D6D10E235;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4A6A610E1E3;
 	Mon, 24 Apr 2023 03:42:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2894210E15A;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 639AB10E1E3;
  Mon, 24 Apr 2023 03:42:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1682307775; x=1713843775;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=+BZ0DBpkXGeUXGZfCwjwT2m/8m5dxGZ/TsIfP681Rjg=;
- b=BKN9yZi8aESlhQzD4kHuddlIDCii9FSZ8FF4LEeoJKC7dvBV2B4G1jRl
- DIUlytKnM4OCxxCBFbn86hR2Cv4A9Ah7hzSK3IqVUfnFnZPyiN9fnl+xa
- +bkBq1B9fAp+t+sJCUN1F1W472NhD2kcHwAtdlRnSJDxSHt1bbThhhTEQ
- bYFHP7kvk+RWxcyzqt2mf9IVsYMqhVqUmmudmzCQI9FNgW4ddQPXMnHo8
- QXcn+OArT0WT/Tnbjp+TL55ylmES8/RBoOfC8lCvA6+ajVY8Yirser4X0
- Ewtfiu+AnYA8Qwa5cfhrvhllCCI206LIIE1BXWDYhHcCVh8wNJvFuV4Bh g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10689"; a="349149199"
-X-IronPort-AV: E=Sophos;i="5.99,221,1677571200"; d="scan'208";a="349149199"
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=SvtoO2uiSxuCW7lEByVXHEV9ki4J5DOyZf+lMn9QHJA=;
+ b=HBIW+2qc+amiJab9grsCBLWugy4ApPfqsXMdmILU+G5YNGkNrAzGwg/q
+ ht9WGrbCRUfmfg7LKPD3lbtEMlDVZ+xEgL4kmpBFOFi8maC08z7RfFXsO
+ vfKiRYlG1NxQqGaQlG36DuSQGuaxW+/IUNFicwacVwuvTzlB4siyiH9CN
+ J3Q6dmHHPxYvIvLkq2xSP0ZyL/lllhmgIqEjDsqjWr+1X5LfpHuMqgY1Y
+ Pc0no9EbP/4A9AG+OPub3QcbWuedI6BnhIOwPsn9vROtBSjFYJfDXnJd1
+ /krFEP3lTalGk03F7V2kulvGGrQo9ojwT7KejrvbF62pTmlyBD5diMG1t Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10689"; a="349149200"
+X-IronPort-AV: E=Sophos;i="5.99,221,1677571200"; d="scan'208";a="349149200"
 Received: from orsmga004.jf.intel.com ([10.7.209.38])
  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  23 Apr 2023 20:42:54 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10689"; a="817096670"
-X-IronPort-AV: E=Sophos;i="5.99,221,1677571200"; d="scan'208";a="817096670"
+X-IronPort-AV: E=McAfee;i="6600,9927,10689"; a="817096673"
+X-IronPort-AV: E=Sophos;i="5.99,221,1677571200"; d="scan'208";a="817096673"
 Received: from fyang16-desk.jf.intel.com ([10.24.96.243])
  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  23 Apr 2023 20:42:54 -0700
 From: fei.yang@intel.com
 To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v1 0/4] drm/i915/mtl: add PTE encode function
-Date: Sun, 23 Apr 2023 20:43:59 -0700
-Message-Id: <20230424034403.3390144-1-fei.yang@intel.com>
+Subject: [PATCH v1 1/4] drm/i915/mtl: Add PTE encode function
+Date: Sun, 23 Apr 2023 20:44:00 -0700
+Message-Id: <20230424034403.3390144-2-fei.yang@intel.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20230424034403.3390144-1-fei.yang@intel.com>
+References: <20230424034403.3390144-1-fei.yang@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -55,70 +57,235 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Fei Yang <fei.yang@intel.com>, dri-devel@lists.freedesktop.org
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>, Nirmoy Das <nirmoy.das@intel.com>,
+ Fei Yang <fei.yang@intel.com>, dri-devel@lists.freedesktop.org,
+ Andi Shyti <andi.shyti@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Fei Yang <fei.yang@intel.com>
 
-These patches are extracted from series
-https://patchwork.freedesktop.org/series/115980/
+PTE encode functions are platform dependent. This patch implements
+PTE functions for MTL, and ensures the correct PTE encode function
+is used by calling pte_encode function pointer instead of the
+hardcoded gen8 version of PTE encode.
 
-This series start with adding PTE encode functions for MTL as it can no
-longer reuse the PTE encode functions for GEN8 due to PAT index changes.
-Then there are patches refactoring the cache policy programming so that
-the PTE encode functions can be unified across all GEN12 platforms.
-This refactor is also important in implementing the design which allows
-uerspace to directly set cache policy for each Buffer Object.
+Signed-off-by: Fei Yang <fei.yang@intel.com>
+Reviewed-by: Andrzej Hajda <andrzej.hajda@intel.com>
+Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com>
+Acked-by: Nirmoy Das <nirmoy.das@intel.com>
+---
+ drivers/gpu/drm/i915/display/intel_dpt.c |  2 +-
+ drivers/gpu/drm/i915/gt/gen8_ppgtt.c     | 45 ++++++++++++++++++++----
+ drivers/gpu/drm/i915/gt/intel_ggtt.c     | 36 +++++++++++++++++--
+ drivers/gpu/drm/i915/gt/intel_gtt.h      | 13 +++++--
+ 4 files changed, 83 insertions(+), 13 deletions(-)
 
-Fei Yang (4):
-  drm/i915/mtl: Add PTE encode function
-  drm/i915: preparation for using PAT index
-  drm/i915: use pat_index instead of cache_level
-  drm/i915: make sure correct pte encode is used
-
- drivers/gpu/drm/i915/display/intel_dpt.c      | 14 ++--
- drivers/gpu/drm/i915/gem/i915_gem_domain.c    | 27 ++----
- .../gpu/drm/i915/gem/i915_gem_execbuffer.c    | 10 ++-
- drivers/gpu/drm/i915/gem/i915_gem_mman.c      |  3 +-
- drivers/gpu/drm/i915/gem/i915_gem_object.c    | 61 +++++++++++++-
- drivers/gpu/drm/i915/gem/i915_gem_object.h    |  8 ++
- .../gpu/drm/i915/gem/i915_gem_object_types.h  | 26 +++++-
- drivers/gpu/drm/i915/gem/i915_gem_shrinker.c  |  2 -
- drivers/gpu/drm/i915/gem/i915_gem_stolen.c    |  4 +-
- drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c  | 16 ++--
- .../gpu/drm/i915/gem/selftests/huge_pages.c   |  2 +-
- .../drm/i915/gem/selftests/i915_gem_migrate.c |  2 +-
- .../drm/i915/gem/selftests/i915_gem_mman.c    |  2 +-
- drivers/gpu/drm/i915/gt/gen6_ppgtt.c          | 10 ++-
- drivers/gpu/drm/i915/gt/gen8_ppgtt.c          | 76 ++++++++++++-----
- drivers/gpu/drm/i915/gt/gen8_ppgtt.h          |  3 +-
- drivers/gpu/drm/i915/gt/intel_ggtt.c          | 84 +++++++++++++------
- drivers/gpu/drm/i915/gt/intel_gtt.h           | 31 ++++---
- drivers/gpu/drm/i915/gt/intel_migrate.c       | 47 ++++++-----
- drivers/gpu/drm/i915/gt/intel_migrate.h       | 13 ++-
- drivers/gpu/drm/i915/gt/intel_ppgtt.c         |  6 +-
- drivers/gpu/drm/i915/gt/selftest_migrate.c    | 47 ++++++-----
- drivers/gpu/drm/i915/gt/selftest_reset.c      |  8 +-
- drivers/gpu/drm/i915/gt/selftest_timeline.c   |  2 +-
- drivers/gpu/drm/i915/gt/selftest_tlb.c        |  4 +-
- drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c      | 10 ++-
- drivers/gpu/drm/i915/i915_debugfs.c           | 55 +++++++++---
- drivers/gpu/drm/i915/i915_gem.c               | 16 +++-
- drivers/gpu/drm/i915/i915_gpu_error.c         |  8 +-
- drivers/gpu/drm/i915/i915_pci.c               | 79 +++++++++++++++--
- drivers/gpu/drm/i915/i915_vma.c               | 16 ++--
- drivers/gpu/drm/i915/i915_vma.h               |  2 +-
- drivers/gpu/drm/i915/i915_vma_types.h         |  2 -
- drivers/gpu/drm/i915/intel_device_info.h      |  5 ++
- drivers/gpu/drm/i915/selftests/i915_gem.c     |  5 +-
- .../gpu/drm/i915/selftests/i915_gem_evict.c   |  4 +-
- drivers/gpu/drm/i915/selftests/i915_gem_gtt.c | 15 ++--
- .../drm/i915/selftests/intel_memory_region.c  |  4 +-
- .../gpu/drm/i915/selftests/mock_gem_device.c  |  9 ++
- drivers/gpu/drm/i915/selftests/mock_gtt.c     |  8 +-
- 40 files changed, 527 insertions(+), 219 deletions(-)
-
+diff --git a/drivers/gpu/drm/i915/display/intel_dpt.c b/drivers/gpu/drm/i915/display/intel_dpt.c
+index b8027392144d..c5eacfdba1a5 100644
+--- a/drivers/gpu/drm/i915/display/intel_dpt.c
++++ b/drivers/gpu/drm/i915/display/intel_dpt.c
+@@ -300,7 +300,7 @@ intel_dpt_create(struct intel_framebuffer *fb)
+ 	vm->vma_ops.bind_vma    = dpt_bind_vma;
+ 	vm->vma_ops.unbind_vma  = dpt_unbind_vma;
+ 
+-	vm->pte_encode = gen8_ggtt_pte_encode;
++	vm->pte_encode = vm->gt->ggtt->vm.pte_encode;
+ 
+ 	dpt->obj = dpt_obj;
+ 	dpt->obj->is_dpt = true;
+diff --git a/drivers/gpu/drm/i915/gt/gen8_ppgtt.c b/drivers/gpu/drm/i915/gt/gen8_ppgtt.c
+index 4daaa6f55668..11b91e0453c8 100644
+--- a/drivers/gpu/drm/i915/gt/gen8_ppgtt.c
++++ b/drivers/gpu/drm/i915/gt/gen8_ppgtt.c
+@@ -55,6 +55,34 @@ static u64 gen8_pte_encode(dma_addr_t addr,
+ 	return pte;
+ }
+ 
++static u64 mtl_pte_encode(dma_addr_t addr,
++			  enum i915_cache_level level,
++			  u32 flags)
++{
++	gen8_pte_t pte = addr | GEN8_PAGE_PRESENT | GEN8_PAGE_RW;
++
++	if (unlikely(flags & PTE_READ_ONLY))
++		pte &= ~GEN8_PAGE_RW;
++
++	if (flags & PTE_LM)
++		pte |= GEN12_PPGTT_PTE_LM | GEN12_PPGTT_PTE_NC;
++
++	switch (level) {
++	case I915_CACHE_NONE:
++		pte |= GEN12_PPGTT_PTE_PAT1;
++		break;
++	case I915_CACHE_LLC:
++	case I915_CACHE_L3_LLC:
++		pte |= GEN12_PPGTT_PTE_PAT0 | GEN12_PPGTT_PTE_PAT1;
++		break;
++	case I915_CACHE_WT:
++		pte |= GEN12_PPGTT_PTE_PAT0;
++		break;
++	}
++
++	return pte;
++}
++
+ static void gen8_ppgtt_notify_vgt(struct i915_ppgtt *ppgtt, bool create)
+ {
+ 	struct drm_i915_private *i915 = ppgtt->vm.i915;
+@@ -427,7 +455,7 @@ gen8_ppgtt_insert_pte(struct i915_ppgtt *ppgtt,
+ 		      u32 flags)
+ {
+ 	struct i915_page_directory *pd;
+-	const gen8_pte_t pte_encode = gen8_pte_encode(0, cache_level, flags);
++	const gen8_pte_t pte_encode = ppgtt->vm.pte_encode(0, cache_level, flags);
+ 	gen8_pte_t *vaddr;
+ 
+ 	pd = i915_pd_entry(pdp, gen8_pd_index(idx, 2));
+@@ -580,7 +608,7 @@ static void gen8_ppgtt_insert_huge(struct i915_address_space *vm,
+ 				   enum i915_cache_level cache_level,
+ 				   u32 flags)
+ {
+-	const gen8_pte_t pte_encode = gen8_pte_encode(0, cache_level, flags);
++	const gen8_pte_t pte_encode = vm->pte_encode(0, cache_level, flags);
+ 	unsigned int rem = sg_dma_len(iter->sg);
+ 	u64 start = vma_res->start;
+ 
+@@ -743,7 +771,7 @@ static void gen8_ppgtt_insert_entry(struct i915_address_space *vm,
+ 	GEM_BUG_ON(pt->is_compact);
+ 
+ 	vaddr = px_vaddr(pt);
+-	vaddr[gen8_pd_index(idx, 0)] = gen8_pte_encode(addr, level, flags);
++	vaddr[gen8_pd_index(idx, 0)] = vm->pte_encode(addr, level, flags);
+ 	drm_clflush_virt_range(&vaddr[gen8_pd_index(idx, 0)], sizeof(*vaddr));
+ }
+ 
+@@ -773,7 +801,7 @@ static void __xehpsdv_ppgtt_insert_entry_lm(struct i915_address_space *vm,
+ 	}
+ 
+ 	vaddr = px_vaddr(pt);
+-	vaddr[gen8_pd_index(idx, 0) / 16] = gen8_pte_encode(addr, level, flags);
++	vaddr[gen8_pd_index(idx, 0) / 16] = vm->pte_encode(addr, level, flags);
+ }
+ 
+ static void xehpsdv_ppgtt_insert_entry(struct i915_address_space *vm,
+@@ -820,8 +848,8 @@ static int gen8_init_scratch(struct i915_address_space *vm)
+ 		pte_flags |= PTE_LM;
+ 
+ 	vm->scratch[0]->encode =
+-		gen8_pte_encode(px_dma(vm->scratch[0]),
+-				I915_CACHE_NONE, pte_flags);
++		vm->pte_encode(px_dma(vm->scratch[0]),
++			       I915_CACHE_NONE, pte_flags);
+ 
+ 	for (i = 1; i <= vm->top; i++) {
+ 		struct drm_i915_gem_object *obj;
+@@ -963,7 +991,10 @@ struct i915_ppgtt *gen8_ppgtt_create(struct intel_gt *gt,
+ 	 */
+ 	ppgtt->vm.alloc_scratch_dma = alloc_pt_dma;
+ 
+-	ppgtt->vm.pte_encode = gen8_pte_encode;
++	if (GRAPHICS_VER_FULL(gt->i915) >= IP_VER(12, 70))
++		ppgtt->vm.pte_encode = mtl_pte_encode;
++	else
++		ppgtt->vm.pte_encode = gen8_pte_encode;
+ 
+ 	ppgtt->vm.bind_async_flags = I915_VMA_LOCAL_BIND;
+ 	ppgtt->vm.insert_entries = gen8_ppgtt_insert;
+diff --git a/drivers/gpu/drm/i915/gt/intel_ggtt.c b/drivers/gpu/drm/i915/gt/intel_ggtt.c
+index 3c7f1ed92f5b..20915edc8bd9 100644
+--- a/drivers/gpu/drm/i915/gt/intel_ggtt.c
++++ b/drivers/gpu/drm/i915/gt/intel_ggtt.c
+@@ -220,6 +220,33 @@ static void guc_ggtt_invalidate(struct i915_ggtt *ggtt)
+ 	}
+ }
+ 
++static u64 mtl_ggtt_pte_encode(dma_addr_t addr,
++			       enum i915_cache_level level,
++			       u32 flags)
++{
++	gen8_pte_t pte = addr | GEN8_PAGE_PRESENT;
++
++	WARN_ON_ONCE(addr & ~GEN12_GGTT_PTE_ADDR_MASK);
++
++	if (flags & PTE_LM)
++		pte |= GEN12_GGTT_PTE_LM;
++
++	switch (level) {
++	case I915_CACHE_NONE:
++		pte |= MTL_GGTT_PTE_PAT1;
++		break;
++	case I915_CACHE_LLC:
++	case I915_CACHE_L3_LLC:
++		pte |= MTL_GGTT_PTE_PAT0 | MTL_GGTT_PTE_PAT1;
++		break;
++	case I915_CACHE_WT:
++		pte |= MTL_GGTT_PTE_PAT0;
++		break;
++	}
++
++	return pte;
++}
++
+ u64 gen8_ggtt_pte_encode(dma_addr_t addr,
+ 			 enum i915_cache_level level,
+ 			 u32 flags)
+@@ -247,7 +274,7 @@ static void gen8_ggtt_insert_page(struct i915_address_space *vm,
+ 	gen8_pte_t __iomem *pte =
+ 		(gen8_pte_t __iomem *)ggtt->gsm + offset / I915_GTT_PAGE_SIZE;
+ 
+-	gen8_set_pte(pte, gen8_ggtt_pte_encode(addr, level, flags));
++	gen8_set_pte(pte, ggtt->vm.pte_encode(addr, level, flags));
+ 
+ 	ggtt->invalidate(ggtt);
+ }
+@@ -257,8 +284,8 @@ static void gen8_ggtt_insert_entries(struct i915_address_space *vm,
+ 				     enum i915_cache_level level,
+ 				     u32 flags)
+ {
+-	const gen8_pte_t pte_encode = gen8_ggtt_pte_encode(0, level, flags);
+ 	struct i915_ggtt *ggtt = i915_vm_to_ggtt(vm);
++	const gen8_pte_t pte_encode = ggtt->vm.pte_encode(0, level, flags);
+ 	gen8_pte_t __iomem *gte;
+ 	gen8_pte_t __iomem *end;
+ 	struct sgt_iter iter;
+@@ -981,7 +1008,10 @@ static int gen8_gmch_probe(struct i915_ggtt *ggtt)
+ 	ggtt->vm.vma_ops.bind_vma    = intel_ggtt_bind_vma;
+ 	ggtt->vm.vma_ops.unbind_vma  = intel_ggtt_unbind_vma;
+ 
+-	ggtt->vm.pte_encode = gen8_ggtt_pte_encode;
++	if (GRAPHICS_VER_FULL(i915) >= IP_VER(12, 70))
++		ggtt->vm.pte_encode = mtl_ggtt_pte_encode;
++	else
++		ggtt->vm.pte_encode = gen8_ggtt_pte_encode;
+ 
+ 	return ggtt_probe_common(ggtt, size);
+ }
+diff --git a/drivers/gpu/drm/i915/gt/intel_gtt.h b/drivers/gpu/drm/i915/gt/intel_gtt.h
+index ea17849e7a5c..009968808730 100644
+--- a/drivers/gpu/drm/i915/gt/intel_gtt.h
++++ b/drivers/gpu/drm/i915/gt/intel_gtt.h
+@@ -88,9 +88,18 @@ typedef u64 gen8_pte_t;
+ #define BYT_PTE_SNOOPED_BY_CPU_CACHES	REG_BIT(2)
+ #define BYT_PTE_WRITEABLE		REG_BIT(1)
+ 
++#define MTL_PPGTT_PTE_PAT3	BIT_ULL(62)
+ #define GEN12_PPGTT_PTE_LM	BIT_ULL(11)
+-
+-#define GEN12_GGTT_PTE_LM	BIT_ULL(1)
++#define GEN12_PPGTT_PTE_PAT2	BIT_ULL(7)
++#define GEN12_PPGTT_PTE_NC	BIT_ULL(5)
++#define GEN12_PPGTT_PTE_PAT1	BIT_ULL(4)
++#define GEN12_PPGTT_PTE_PAT0	BIT_ULL(3)
++
++#define GEN12_GGTT_PTE_LM		BIT_ULL(1)
++#define MTL_GGTT_PTE_PAT0		BIT_ULL(52)
++#define MTL_GGTT_PTE_PAT1		BIT_ULL(53)
++#define GEN12_GGTT_PTE_ADDR_MASK	GENMASK_ULL(45, 12)
++#define MTL_GGTT_PTE_PAT_MASK		GENMASK_ULL(53, 52)
+ 
+ #define GEN12_PDE_64K BIT(6)
+ #define GEN12_PTE_PS64 BIT(8)
 -- 
 2.25.1
 
