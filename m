@@ -1,56 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2F986ED5C3
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Apr 2023 22:00:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B16E6ED5C4
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Apr 2023 22:00:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 24B1310E5DD;
-	Mon, 24 Apr 2023 20:00:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6EF7510E5F0;
+	Mon, 24 Apr 2023 20:00:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CDB4210E5DD;
- Mon, 24 Apr 2023 20:00:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1682366419; x=1713902419;
- h=mime-version:content-transfer-encoding:in-reply-to:
- references:subject:from:cc:to:date:message-id;
- bh=+TbFrM6eq4Hos/iHRxkTwpOWwNOssXY0698PPyrAaRc=;
- b=TR9AehM7MuIUxyp9faerSLZsxuvZiKhdYfvOxcYNUbJzfACnlPLibnX4
- 3FjQRjgLDHoVjZo+ynVmlXpFBxtikgJjaDmEBZz3JSeXWxMjz/ZPBE9K+
- 2z/KtpNnV84ksvUY9Bw9qqyyfHyVO/XoO9ftfNy4VMEZ8+QQP2/06JMhQ
- Fik1Y47Ga7+QfQfiTdgfoYTH5bLKFL/w7BNO0j5IiDytEcAWUmKy9lNQg
- h8bH1HU8DDsqbeWiWEJo8bVkENg+i7hyuVwe+Hw/uDpXzGdANcCo4SIS8
- g9dORkBihf0JvmSQINDCuvCsfb8EpPCEaS8Mmtdhezf1I4WWNrzXFhA5V A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10690"; a="326157513"
-X-IronPort-AV: E=Sophos;i="5.99,223,1677571200"; d="scan'208";a="326157513"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Apr 2023 13:00:18 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10690"; a="670622362"
-X-IronPort-AV: E=Sophos;i="5.99,223,1677571200"; d="scan'208";a="670622362"
-Received: from rmanna-mobl1.amr.corp.intel.com (HELO localhost)
- ([10.209.73.193])
- by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Apr 2023 13:00:18 -0700
-Content-Type: text/plain; charset="utf-8"
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BDFE710E5F0
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Apr 2023 20:00:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=JdJIzWScoHlk51wSJC5yMhKQQN9pcgPOKGtSmpD94WY=; b=obWVWawCXF69m5it+sYM8XpHuN
+ dZdUghES0FFPHWBvgkT2otkUMuHMXFEHbKj4bZ4bP23L6qpEvt+a4wTjx8snZKw+ncUs2UG8QVWir
+ Unz1+XooJZRl5EWIKqERMdajEysbfGjNxPs0DM+C9olXPEk56vZfh/tyuriB0hdy834/CWgGemv0w
+ tKFPBEVRbL/fJl+PkY9g8k57CtYjz8p73LvC8/DKuLRzgo5FKYEmJUOB1bFxfWd7ChtI3v2ryYaBT
+ Xt0kk00YV3TYMilkf8S5apIlmq21JIY5sr2r9KLVCAYkrM/U4q35TrMA/JZtA9I0JJxD1l5FNbm6A
+ PtrqUDSw==;
+Received: from [177.34.168.16] (helo=[192.168.0.4])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1pr2MX-00B7NK-Nu; Mon, 24 Apr 2023 22:00:38 +0200
+Message-ID: <3635d005-181a-9300-1ed2-ce11a0255a58@igalia.com>
+Date: Mon, 24 Apr 2023 17:00:29 -0300
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <SN6PR11MB257475B612B2D78EC9801D189A9C9@SN6PR11MB2574.namprd11.prod.outlook.com>
-References: <20230417062503.1884465-1-fei.yang@intel.com>
- <22235ebd-434f-ec17-43ca-41a29589b202@ubuntu.com>
- <SN6PR11MB257475B612B2D78EC9801D189A9C9@SN6PR11MB2574.namprd11.prod.outlook.com>
-Subject: RE: [Intel-gfx] [PATCH 0/8] drm/i915/mtl: Define MOCS and PAT tables
- for MTL
-From: Jordan Justen <jordan.l.justen@intel.com>
-To: "Yang, Fei" <fei.yang@intel.com>, Timo Aaltonen <tjaalton@ubuntu.com>,
- intel-gfx@lists.freedesktop.org
-Date: Mon, 24 Apr 2023 13:00:17 -0700
-Message-ID: <168236641763.392286.5740817225685975052@jljusten-skl>
-User-Agent: alot/0.10
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH v5 0/5] Create tests for the drm_rect functions
+Content-Language: en-US
+To: Arthur Grillo <arthurgrillo@riseup.net>, dri-devel@lists.freedesktop.org
+References: <20230418230146.461129-1-arthurgrillo@riseup.net>
+From: =?UTF-8?Q?Ma=c3=adra_Canal?= <mcanal@igalia.com>
+In-Reply-To: <20230418230146.461129-1-arthurgrillo@riseup.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,30 +54,85 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: carlos.craveiro@usp.br, tales.aparecida@gmail.com, dlatypov@google.com,
+ javierm@redhat.com, maxime@cerno.tech, andrealmeid@riseup.net,
+ matheus.vieira.g@usp.br
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2023-04-16 23:43:20, Yang, Fei wrote:
-> > fei.yang@intel.com kirjoitti 17.4.2023 klo 9.24:
-> >> From: Fei Yang <fei.yang@intel.com>
-> >>=20
-> >> The series includes patches needed to enable MTL.
-> >> Also add new extension for GEM_CREATE uAPI to let user space set cache=
-=20
-> >> policy for buffer objects.
-> >
-> > if I'm counting right, this would be version 5 of the series, yet
-> > that is not shown anywhere nor the changes between series..
->=20
-> Yes, mostly addressing minor issues, just want to keep the commit
-> message clean as it's the enablement patch set for new platform.
+On 4/18/23 20:01, Arthur Grillo wrote:
+> This patchset seeks to add unit tests for the rest of the functions on
+> the drm_rect.c.
+> 
+> The test coverage report generated by the gcov[1] tool states that this
+> set reaches 100% of coverage on the drm_rect.c file. This would be
+> very good for future development on the file.
+> 
+> If you want to see the coverage report, I uploaded on the link below:
+> https://grillo-0.github.io/coverage-reports/more-rect-tests/drivers/gpu/drm/drm_rect.c.gcov.html
+> 
+> Thanks for reviewing!
+> 
+> Best regards,
+> ~Arthur Grillo
 
-One thing that could help is to use the --subject-prefix parameter to
-git format-patch so "PATCH v5" would be in the subject of the emails.
+I just applied the series to drm/drm-misc (drm-misc-next).
 
-Additionally, it's helpful to include full a version history in the
-cover-letter (0/8) patch so it's clear what has changed in each
-version of the patches sent out.
+Thanks for improving the tests!
 
--Jordan
+Best Regards,
+- Maíra Canal
+
+> 
+> ---
+> 
+> v1->v2: https://lore.kernel.org/all/20230322140701.69852-1-arthurgrillo@riseup.net/
+> - Create parameterized tests for drm_rect_intersect().
+> - Use .16 binary fixed point values on the drm_rect_calc_hscale() and
+>    drm_rect_calc_vscale() tests.
+> - Replace INT_MIN for 0 on the on the drm_rect_calc_hscale() and
+>    drm_rect_calc_vscale() tests.
+> - Assign nonzero values to the width and height parameters of the
+>    drm_rect_rotate() and drm_rect_rotate_inv() tests.
+> - Switch memcpy to a simple variable assignment on the drm_rect_rotate()
+>    and drm_rect_rotate_inv() tests.
+> 
+> v2->v3: https://lore.kernel.org/all/20230327133848.5250-1-arthurgrillo@riseup.net/
+> - Change "x" to lowercase on the drm_rect_intersect() cases.
+> - Remove the option for no description on the drm_rect_intersect() cases.
+> - Add a test for rects with zero height and width on the
+>    drm_rect_intersect().
+> - Switch to parameterized tests for drm_rect_calc_hscale() and
+>    drm_rect_calc_vscale().
+> - Add a test for a dst drm_rect with zero width for
+>    drm_rect_calc_hscale() and zero height for drm_rect_calc_vscale().
+> - Place an "-" on the drm_rect_rotate case names to match the userspace.
+> - s/drm_rect_case_desc/drm_rect_rotate_case_desc/
+> - Improve the commit messages.
+> 
+> v3->v4: https://lore.kernel.org/all/20230404184158.26290-1-arthurgrillo@riseup.net/
+> - Place parenthesis around .16 fixed point values before making it
+>    negative to avoid error when generating tests coverages.
+> 
+> v4->v5: https://lore.kernel.org/all/20230406115338.36228-1-arthurgrillo@riseup.net/
+> - Use the same parameters for drm_rect_calc_hscale() and
+>    drm_rect_calc_vscale() by scaling both sides at the same time.
+> - Place nonzero values for .x1 and .y1 on the drm_rect_rotate() test
+>    cases.
+> 
+> ---
+> 
+> [1]: https://gcc.gnu.org/onlinedocs/gcc/Gcov.html#Gcov
+> 
+> ---
+> 
+> Arthur Grillo (5):
+>    drm/tests: Add test cases for drm_rect_intersect()
+>    drm/tests: Add test cases for drm_rect_calc_hscale()
+>    drm/tests: Add test cases for drm_rect_calc_vscale()
+>    drm/tests: Add test cases for drm_rect_rotate()
+>    drm/test: Add test cases for drm_rect_rotate_inv()
+> 
+>   drivers/gpu/drm/tests/drm_rect_test.c | 315 ++++++++++++++++++++++++++
+>   1 file changed, 315 insertions(+)
+> 
