@@ -2,64 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 133EF6EC861
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Apr 2023 11:07:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D22A56EC86E
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Apr 2023 11:08:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6521910E439;
-	Mon, 24 Apr 2023 09:07:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E1C7110E144;
+	Mon, 24 Apr 2023 09:08:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6942010E439
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Apr 2023 09:07:48 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 6E5D421A97;
- Mon, 24 Apr 2023 09:07:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1682327266; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=SGD+BucwGfbqQ4YTykkUooDJ6V+PD7E9RWT+3z5Q+D0=;
- b=tHaOZWeTAvZw49i0zC3hJSv8ar/7nNs5/1v4S2uX4BKukt+4199GzNn7ui0UsgcsSpG9w1
- bkN6x4zi8ZqgeYiuYwilIRVteMVxVp5vVfm6wruPrU7WqFbZeaKygD2Bhtyw6rmxE930Tz
- XUVKMo4dp6Il2GCMY2xNfbOByRfrRf8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1682327266;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=SGD+BucwGfbqQ4YTykkUooDJ6V+PD7E9RWT+3z5Q+D0=;
- b=js37x903mmnmfVlAU4K1hY4i3egjXW0KqHf1lOsdwIsRlYzv76fC1WWH9QAc//MzS5eAfS
- 9op37d7ccUvS/NBg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 39CD213780;
- Mon, 24 Apr 2023 09:07:46 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id k/r+DOJGRmR8fgAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Mon, 24 Apr 2023 09:07:46 +0000
-Message-ID: <5694a9ab-d474-c101-9398-eea55aab29df@suse.de>
-Date: Mon, 24 Apr 2023 11:07:45 +0200
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6F07010E144;
+ Mon, 24 Apr 2023 09:08:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1682327329; x=1713863329;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=4Tk4ys2GJMF/DtgQSff29NO1cBe/bYOw5XR1LlYK5e4=;
+ b=UzKof4+jxIsY2D5aRYu1DftW2010qjOswO05Ay8sKCLW+UeTm5fHeowo
+ 0BMBwkf1PA0jl3fu0OmjRTUmrLWXpnxLCWqNM7WbNul7iNOAAJPdAL+NO
+ mfe+RItu68PFDF9PXkCxDn3YXQ8Qj3RO24ZtaKf4Rjc1qMVoH1gg9dE7W
+ c5FUTn546vRGfG21HWr/UMtw9t73YdnOmtH8BGPBCRqpuFb0nT7jklPOG
+ XQHAyJAPIIDEzJtmmOLKUjqtvWTtMeW1JbwXxg3VugG0kFhvYJ+MAkxbz
+ EC2FS2uzKkXd59KrK5hSF03exLU2y0L+LCiejs9TkRxbYyrUXz8hmJKfi A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10689"; a="326722146"
+X-IronPort-AV: E=Sophos;i="5.99,222,1677571200"; d="scan'208";a="326722146"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Apr 2023 02:08:48 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10689"; a="782345966"
+X-IronPort-AV: E=Sophos;i="5.99,222,1677571200"; d="scan'208";a="782345966"
+Received: from maisasax-mobl.ger.corp.intel.com (HELO [10.213.209.63])
+ ([10.213.209.63])
+ by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Apr 2023 02:08:45 -0700
+Message-ID: <5d0e2cf4-a487-1a1e-dae9-4fbe8c2fe649@linux.intel.com>
+Date: Mon, 24 Apr 2023 10:08:43 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.10.0
-Subject: Re: [PATCH 2/2] drm/ofdrm: Update expected device name
-To: Geert Uytterhoeven <geert@linux-m68k.org>,
- Cyril Brulebois <cyril@debamax.com>
-References: <20230412095509.2196162-1-cyril@debamax.com>
- <20230412095509.2196162-3-cyril@debamax.com>
- <CAMuHMdW4rZn4p=gQZRWQQSEbQPmzZUd5eN+kP_Yr7bLgTHyvig@mail.gmail.com>
+Subject: Re: [Intel-gfx] [PATCH 8/8] drm/i915: Allow user to set cache at BO
+ creation
 Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <CAMuHMdW4rZn4p=gQZRWQQSEbQPmzZUd5eN+kP_Yr7bLgTHyvig@mail.gmail.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------3Y3pbc50us0Nmvsa7ArgK72j"
+To: Jordan Justen <jordan.l.justen@intel.com>,
+ "Teres Alexis, Alan Previn" <alan.previn.teres.alexis@intel.com>,
+ "Yang, Fei" <fei.yang@intel.com>, Andi Shyti <andi.shyti@linux.intel.com>
+References: <20230419230058.2659455-1-fei.yang@intel.com>
+ <20230419230058.2659455-9-fei.yang@intel.com>
+ <ZEEkV3XOdmtYWnMv@ashyti-mobl2.lan>
+ <471addf7-1670-32cd-9d2e-3f94d6825eab@linux.intel.com>
+ <BYAPR11MB2567A1A450448AE17B38ED1C9A639@BYAPR11MB2567.namprd11.prod.outlook.com>
+ <168211012988.392286.16107510619704913123@jljusten-skl>
+ <BYAPR11MB2567F03AD43D7E2DE2628D5D9A669@BYAPR11MB2567.namprd11.prod.outlook.com>
+ <168232538771.392286.3227368099155268955@jljusten-skl>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <168232538771.392286.3227368099155268955@jljusten-skl>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,104 +72,74 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, linux-kernel@vger.kernel.org,
- stable@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Michal Suchanek <msuchanek@suse.de>
+Cc: "Roper, Matthew D" <matthew.d.roper@intel.com>,
+ "Intel-gfx@lists.freedesktop.org" <Intel-gfx@lists.freedesktop.org>,
+ "Landwerlin, Lionel G" <lionel.g.landwerlin@intel.com>, "Ceraolo Spurio,
+ Daniele" <daniele.ceraolospurio@intel.com>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Chris Wilson <chris.p.wilson@linux.intel.com>, "Das,
+ Nirmoy" <nirmoy.das@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------3Y3pbc50us0Nmvsa7ArgK72j
-Content-Type: multipart/mixed; boundary="------------ip8hjlLeTlrIhQEr3G4ZyMBc";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Geert Uytterhoeven <geert@linux-m68k.org>,
- Cyril Brulebois <cyril@debamax.com>
-Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Rob Herring <robh@kernel.org>, Michal Suchanek <msuchanek@suse.de>,
- linux-kernel@vger.kernel.org, stable@vger.kernel.org,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>
-Message-ID: <5694a9ab-d474-c101-9398-eea55aab29df@suse.de>
-Subject: Re: [PATCH 2/2] drm/ofdrm: Update expected device name
-References: <20230412095509.2196162-1-cyril@debamax.com>
- <20230412095509.2196162-3-cyril@debamax.com>
- <CAMuHMdW4rZn4p=gQZRWQQSEbQPmzZUd5eN+kP_Yr7bLgTHyvig@mail.gmail.com>
-In-Reply-To: <CAMuHMdW4rZn4p=gQZRWQQSEbQPmzZUd5eN+kP_Yr7bLgTHyvig@mail.gmail.com>
 
---------------ip8hjlLeTlrIhQEr3G4ZyMBc
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+[fixed mailing lists addresses]
 
-SGkNCg0KQW0gMjQuMDQuMjMgdW0gMDk6MzMgc2NocmllYiBHZWVydCBVeXR0ZXJob2V2ZW46
-DQo+IEhpIEN5cmlsLA0KPiANCj4gQ0MgRFQNCj4gDQo+IE9uIFdlZCwgQXByIDEyLCAyMDIz
-IGF0IDEyOjA14oCvUE0gQ3lyaWwgQnJ1bGVib2lzIDxjeXJpbEBkZWJhbWF4LmNvbT4gd3Jv
-dGU6DQo+PiBTaW5jZSBjb21taXQgMjQxZDJmYjU2YTE4ICgib2Y6IE1ha2UgT0YgZnJhbWVi
-dWZmZXIgZGV2aWNlIG5hbWVzIHVuaXF1ZSIpLA0KPj4gYXMgc3BvdHRlZCBieSBGcsOpZMOp
-cmljIEJvbm5hcmQsIHRoZSBoaXN0b3JpY2FsICJvZi1kaXNwbGF5IiBkZXZpY2UgaXMNCj4+
-IGdvbmU6IHRoZSB1cGRhdGVkIGxvZ2ljIGNyZWF0ZXMgIm9mLWRpc3BsYXkuMCIgaW5zdGVh
-ZCwgdGhlbiBhcyBtYW55DQo+PiAib2YtZGlzcGxheS5OIiBhcyByZXF1aXJlZC4NCj4+DQo+
-PiBUaGlzIG1lYW5zIHRoYXQgb2ZmYiBubyBsb25nZXIgZmluZHMgdGhlIGV4cGVjdGVkIGRl
-dmljZSwgd2hpY2ggcHJldmVudHMNCj4+IHRoZSBEZWJpYW4gSW5zdGFsbGVyIGZyb20gc2V0
-dGluZyB1cCBpdHMgaW50ZXJmYWNlLCBhdCBsZWFzdCBvbiBwcGM2NGVsLg0KPj4NCj4+IEdp
-dmVuIHRoZSBjb2RlIHNpbWlsYXJpdHkgaXQgaXMgbGlrZWx5IHRvIGFmZmVjdCBvZmRybSBp
-biB0aGUgc2FtZSB3YXkuDQo+Pg0KPj4gSXQgbWlnaHQgYmUgYmV0dGVyIHRvIGl0ZXJhdGUg
-b24gYWxsIHBvc3NpYmxlIG5vZGVzLCBidXQgdXBkYXRpbmcgdGhlDQo+PiBoYXJkY29kZWQg
-ZGV2aWNlIGZyb20gIm9mLWRpc3BsYXkiIHRvICJvZi1kaXNwbGF5LjAiIGlzIGxpa2VseSB0
-byBoZWxwDQo+PiBhcyBhIGZpcnN0IHN0ZXAuDQo+Pg0KPj4gTGluazogaHR0cHM6Ly9idWd6
-aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVnLmNnaT9pZD0yMTczMjgNCj4+IExpbms6IGh0dHBz
-Oi8vYnVncy5kZWJpYW4ub3JnLzEwMzMwNTgNCj4+IEZpeGVzOiAyNDFkMmZiNTZhMTggKCJv
-ZjogTWFrZSBPRiBmcmFtZWJ1ZmZlciBkZXZpY2UgbmFtZXMgdW5pcXVlIikNCj4+IENjOiBz
-dGFibGVAdmdlci5rZXJuZWwub3JnICMgdjYuMisNCj4+IFNpZ25lZC1vZmYtYnk6IEN5cmls
-IEJydWxlYm9pcyA8Y3lyaWxAZGViYW1heC5jb20+DQo+IA0KPiBUaGFua3MgZm9yIHlvdXIg
-cGF0Y2gsIHdoaWNoIGlzIG5vdyBjb21taXQgM2E5ZDhlYTI1MzllYmViZA0KPiAoImRybS9v
-ZmRybTogVXBkYXRlIGV4cGVjdGVkIGRldmljZSBuYW1lIikgaW4gZmJkZXYvZm9yLW5leHQu
-DQo+IA0KPj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL3Rpbnkvb2Zkcm0uYw0KPj4gKysrIGIv
-ZHJpdmVycy9ncHUvZHJtL3Rpbnkvb2Zkcm0uYw0KPj4gQEAgLTEzOTAsNyArMTM5MCw3IEBA
-IE1PRFVMRV9ERVZJQ0VfVEFCTEUob2YsIG9mZHJtX29mX21hdGNoX2Rpc3BsYXkpOw0KPj4N
-Cj4+ICAgc3RhdGljIHN0cnVjdCBwbGF0Zm9ybV9kcml2ZXIgb2Zkcm1fcGxhdGZvcm1fZHJp
-dmVyID0gew0KPj4gICAgICAgICAgLmRyaXZlciA9IHsNCj4+IC0gICAgICAgICAgICAgICAu
-bmFtZSA9ICJvZi1kaXNwbGF5IiwNCj4+ICsgICAgICAgICAgICAgICAubmFtZSA9ICJvZi1k
-aXNwbGF5LjAiLA0KPj4gICAgICAgICAgICAgICAgICAub2ZfbWF0Y2hfdGFibGUgPSBvZmRy
-bV9vZl9tYXRjaF9kaXNwbGF5LA0KPj4gICAgICAgICAgfSwNCj4+ICAgICAgICAgIC5wcm9i
-ZSA9IG9mZHJtX3Byb2JlLA0KPiANCj4gU2FtZSBjb21tZW50IGFzIGZvciAiW1BBVENIIDEv
-Ml0gZmJkZXYvb2ZmYjogVXBkYXRlIGV4cGVjdGVkIGRldmljZQ0KPiBuYW1lIi4NCj4gDQo+
-IGh0dHBzOi8vbG9yZS5rZXJuZWwub3JnL3IvQ0FNdUhNZFZHRWVBc21iNHRBdXVxcUdKLTQr
-QkJFVHdFd1lKQStNOU55SnYwQkpfaE5nQG1haWwuZ21haWwuY29tDQoNClNvcnJ5IHRoYXQg
-SSBtaXNzZWQgdGhpcyBwYXRjaC4gSSBhZ3JlZSB0aGF0IGl0J3MgcHJvYmFibHkgbm90IGNv
-cnJlY3QuIA0KQXQgbGVhc3QgaW4gb2Zkcm0sIHdlIHdhbnQgdG8gYmUgYWJsZSB0byB1c2Ug
-bXVsdGlwbGUgZnJhbWVidWZmZXJzIGF0IA0KdGhlIHNhbWUgdGltZTsgYSBmZWF0dXJlIHRo
-YXQgaGFzIGJlZW4gYnJva2VuIGJ5IHRoaXMgY2hhbmdlLg0KDQpCZXN0IHJlZ2FyZHMNClRo
-b21hcw0KDQo+IA0KPiBHcntvZXRqZSxlZXRpbmd9cywNCj4gDQo+ICAgICAgICAgICAgICAg
-ICAgICAgICAgICBHZWVydA0KPiANCg0KLS0gDQpUaG9tYXMgWmltbWVybWFubg0KR3JhcGhp
-Y3MgRHJpdmVyIERldmVsb3Blcg0KU1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFueSBH
-bWJIDQpGcmFua2Vuc3RyYXNzZSAxNDYsIDkwNDYxIE51ZXJuYmVyZywgR2VybWFueQ0KR0Y6
-IEl2byBUb3RldiwgQW5kcmV3IE15ZXJzLCBBbmRyZXcgTWNEb25hbGQsIEJvdWRpZW4gTW9l
-cm1hbg0KSFJCIDM2ODA5IChBRyBOdWVybmJlcmcpDQo=
+On 24/04/2023 09:36, Jordan Justen wrote:
+> On 2023-04-23 00:05:06, Yang, Fei wrote:
+>>> On 2023-04-20 09:11:18, Yang, Fei wrote:
+>>>>> On 20/04/2023 12:39, Andi Shyti wrote:
+>>>>>> Hi Fei,
+>>>>>>
+>>>>>> because this is an API change, we need some more information here.
+>>>>>>
+>>>>>> First of all you need to CC the userspace guys that have been
+>>>>>> working on top of your series and get their ack's.
+>>>>>
+>>>>> Yes, and a link to a Mesa merge request which uses the uapi should
+>>>>> be included.
+>>>>
+>>>> Working with Mesa team on this, stay tuned.
+>>>>
+>>>
+>>> I would like to see the extension detection issue is handled
+>>> before ack'ing this.
+>>>
+>>> How about a new DRM_I915_QUERY_GEM_CREATE_EXTENSIONS item, that returns
+>>> a u64 array of usable extension names for DRM_IOCTL_I915_GEM_CREATE_EXT?
+>>
+>> I agree a query mechanism is necessary, but that should be generic for all
+>> uAPI's, not just for GEM_CREATE.
+>>
+>>> A similar DRM_I915_QUERY_GEM_CONTEXT_CREATE_EXTENSIONS could also provide
+>>> an alternative to Alan's "drm/i915/uapi/pxp: Add a GET_PARAM for PXP",
+>>> and more easily allow advertising future new extensions for context/buffer
+>>> creation.
+>>
+>> I think we should have a discussion and come up with a sustainable design for
+>> the query uAPI, rather than just put in a quick hack for this.
+> 
+> I think you are being a bit too quick to dismiss my idea as a quick
+> hack... Nevetheless, I would love to hear an alternate suggestion.
+> Just as long as it's not, "let's figure this out later, because I need
+> to add this feature now".
+> 
+> I don't think "just try to use it and if it fails, I guess it isn't
+> supported" is reasonable. So, if we can't do better, at least add a
+> GET_PARAM. Yeah, it's a quick hack, but it's better than nothing.
 
---------------ip8hjlLeTlrIhQEr3G4ZyMBc--
+Being able to "list" supported extensions sounds like a reasonable principle, albeit a departure from the design direction to date. Which means there are probably no quick solutions. Also, AFAIU, only PXP context create is the problematic one, right? Everything else is pretty much instant or delayed allocation so super cheap to probe by attempting to use.
 
---------------3Y3pbc50us0Nmvsa7ArgK72j
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+If I got that right and given this series is about drm_i915_gem_create_ext I don't think this side discussion should be blocking it.
 
------BEGIN PGP SIGNATURE-----
+Furthermore the PXP context create story is even more complicated, in a way that it is not just about querying whether the extension is supported, but the expensive check is something more complicated.
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmRGRuEFAwAAAAAACgkQlh/E3EQov+Dr
-pRAAnj/UaISsoar5e1fo8PKJl+COcayGzfuST7+pRcHKO17GTckJv7liddZ2C+EMFsQB3NL5cHoU
-dszXVUkbrVVr0U3PHDvSiXLkRC7beKNI4vxuqOZsOQiwAQzVBVq9CfqpOEqrner+5UIOolOoEk+E
-R0cE5N7xJY+QgYqHqm5pxM34PiHe72NfW5juUo/hA57NomKntlBX1zykT7pUiJ7cWrZe04Yeao82
-5KLr6gAfWLJsLAoeFI+X+a7govMo1QNxVY1VlWBOQpPV1WnsV7WL/D2Vh8J1ML+xRB1B+cybj6Rj
-VOIIp9rEc4bXt5N0CpdtXmi/RDB2wVvxluV7++aTfe33s6bWQN30MABA7m1kvZQbgQLLEWfHcGkN
-JDN8fd0TZ087lIO0JJ9fpjb6Hm2s1iOm5HwK7h+bK32BMDfVMXBjpsUOM3Ox2UgoN9GzltNssUi8
-abKlBw/x4TQvVl6rewqe3dwsCh2BO3CN/cJgqrKSk45gERItJvsVVGnq8VZG8YxU0D8b3Hb8YxEW
-qw8lUryEr6pI2uo4Qn55Sh0oKexgmpW5whB1KZG2ePjNjVdtFZ/DLUHLyP1lDR6yf5Wq22wTDR9o
-W09VGWZ+eOjWfyGfO0NRpfpUOW0WfF4XJsQLUlVZoRGgt4a7DWyZ0PjR6pSN+kM08ecWM3Kp4xpN
-hgg=
-=Ntcm
------END PGP SIGNATURE-----
+Going back to implementation details for this proposed new feature, one alternative to query could be something like:
 
---------------3Y3pbc50us0Nmvsa7ArgK72j--
+   drm_i915_gem_create_ext.flags |= I915_GEM_CREATE_EXT_FLAG_PROBE_EXTENSIONS;
+
+That would be somewhat more light weight to implement that the i915_query route. And it appears it would work for all ioctls which support extensions apart for i915_context_param_engines.
+
+Regards,
+
+Tvrtko
