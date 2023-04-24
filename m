@@ -1,43 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 340776EC377
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Apr 2023 03:44:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B5176EC415
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Apr 2023 05:43:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 66CB510E10C;
-	Mon, 24 Apr 2023 01:44:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 55D6D10E235;
+	Mon, 24 Apr 2023 03:42:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 647EE10E01F;
- Mon, 24 Apr 2023 01:44:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-Id:
- Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:Content-Description:
- Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
- In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=0Sf6LJiinXD0+Z04+CoBCjhP6xRPg9WnwCH4CvJn44g=; b=JIcVwiky7ofsROMjxVeNT+AQEL
- gSU2A0P4XNRrWSyZwXgZi/+FOiKwNjUmXLgtMSC3hz+vOL4g/EYOnY170TdlZqVgSFfImBxA5+sFo
- iPTnAFTQhlifb5rJHjqGpyfhf49jz7pt0yN/UHMkYNQhAgwyslyIB6BdsBlZIenn4GiL/Fv98NYDA
- gDjFSgCcyQTeR6ls08+hXDWYDf3aGeA9zCejqkMaiEnzaEcH089aZc9Mdl5B++z2groTyLjc1dsvd
- uEwnjUDOTomCjEfvzlCCPNtq5LZI0vv+SN0/hE1Ll2yuZ85HzJY2PD2SVyNZWUA3DjgMnj0HnB+It
- xX5CGfEQ==;
-Received: from [152.249.146.45] (helo=steammachine.lan)
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1pqlFV-00AeE7-4w; Mon, 24 Apr 2023 03:44:13 +0200
-From: =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>
-To: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/amdgpu: Mark contexts guilty for any reset type
-Date: Sun, 23 Apr 2023 22:43:24 -0300
-Message-Id: <20230424014324.218531-1-andrealmeid@igalia.com>
-X-Mailer: git-send-email 2.40.0
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2894210E15A;
+ Mon, 24 Apr 2023 03:42:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1682307775; x=1713843775;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=+BZ0DBpkXGeUXGZfCwjwT2m/8m5dxGZ/TsIfP681Rjg=;
+ b=BKN9yZi8aESlhQzD4kHuddlIDCii9FSZ8FF4LEeoJKC7dvBV2B4G1jRl
+ DIUlytKnM4OCxxCBFbn86hR2Cv4A9Ah7hzSK3IqVUfnFnZPyiN9fnl+xa
+ +bkBq1B9fAp+t+sJCUN1F1W472NhD2kcHwAtdlRnSJDxSHt1bbThhhTEQ
+ bYFHP7kvk+RWxcyzqt2mf9IVsYMqhVqUmmudmzCQI9FNgW4ddQPXMnHo8
+ QXcn+OArT0WT/Tnbjp+TL55ylmES8/RBoOfC8lCvA6+ajVY8Yirser4X0
+ Ewtfiu+AnYA8Qwa5cfhrvhllCCI206LIIE1BXWDYhHcCVh8wNJvFuV4Bh g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10689"; a="349149199"
+X-IronPort-AV: E=Sophos;i="5.99,221,1677571200"; d="scan'208";a="349149199"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Apr 2023 20:42:54 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10689"; a="817096670"
+X-IronPort-AV: E=Sophos;i="5.99,221,1677571200"; d="scan'208";a="817096670"
+Received: from fyang16-desk.jf.intel.com ([10.24.96.243])
+ by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Apr 2023 20:42:54 -0700
+From: fei.yang@intel.com
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH v1 0/4] drm/i915/mtl: add PTE encode function
+Date: Sun, 23 Apr 2023 20:43:59 -0700
+Message-Id: <20230424034403.3390144-1-fei.yang@intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -51,72 +55,70 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: pierre-eric.pelloux-prayer@amd.com,
- =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>,
- =?UTF-8?q?=27Marek=20Ol=C5=A1=C3=A1k=27?= <maraeo@gmail.com>,
- kernel-dev@igalia.com, alexander.deucher@amd.com, christian.koenig@amd.com
+Cc: Fei Yang <fei.yang@intel.com>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When a DRM job timeout, the GPU is probably hang and amdgpu have some
-ways to deal with that, ranging from soft recoveries to full device
-reset. Anyway, when userspace ask the kernel the state of the context
-(via AMDGPU_CTX_OP_QUERY_STATE), the kernel reports that the device was
-reset, regardless if a full reset happened or not.
+From: Fei Yang <fei.yang@intel.com>
 
-However, amdgpu only marks a context guilty in the ASIC reset path. This
-makes the userspace report incomplete, given that on soft recovery path
-the guilty context is not told that it's the guilty one.
+These patches are extracted from series
+https://patchwork.freedesktop.org/series/115980/
 
-Fix this by marking the context guilty for every type of reset when a
-job timeouts.
+This series start with adding PTE encode functions for MTL as it can no
+longer reuse the PTE encode functions for GEN8 due to PAT index changes.
+Then there are patches refactoring the cache policy programming so that
+the PTE encode functions can be unified across all GEN12 platforms.
+This refactor is also important in implementing the design which allows
+uerspace to directly set cache policy for each Buffer Object.
 
-Signed-off-by: André Almeida <andrealmeid@igalia.com>
----
- drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 3 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_job.c    | 8 +++++++-
- 2 files changed, 7 insertions(+), 4 deletions(-)
+Fei Yang (4):
+  drm/i915/mtl: Add PTE encode function
+  drm/i915: preparation for using PAT index
+  drm/i915: use pat_index instead of cache_level
+  drm/i915: make sure correct pte encode is used
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-index ac78caa7cba8..ea169d1689e2 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-@@ -4771,9 +4771,6 @@ int amdgpu_device_pre_asic_reset(struct amdgpu_device *adev,
- 
- 	amdgpu_fence_driver_isr_toggle(adev, false);
- 
--	if (job && job->vm)
--		drm_sched_increase_karma(&job->base);
--
- 	r = amdgpu_reset_prepare_hwcontext(adev, reset_context);
- 	/* If reset handler not implemented, continue; otherwise return */
- 	if (r == -ENOSYS)
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
-index c3d9d75143f4..097ed8f06865 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
-@@ -51,6 +51,13 @@ static enum drm_gpu_sched_stat amdgpu_job_timedout(struct drm_sched_job *s_job)
- 	memset(&ti, 0, sizeof(struct amdgpu_task_info));
- 	adev->job_hang = true;
- 
-+	amdgpu_vm_get_task_info(ring->adev, job->pasid, &ti);
-+
-+	if (job && job->vm) {
-+		DRM_INFO("marking %s context as guilty", ti.process_name);
-+		drm_sched_increase_karma(&job->base);
-+	}
-+
- 	if (amdgpu_gpu_recovery &&
- 	    amdgpu_ring_soft_recovery(ring, job->vmid, s_job->s_fence->parent)) {
- 		DRM_ERROR("ring %s timeout, but soft recovered\n",
-@@ -58,7 +65,6 @@ static enum drm_gpu_sched_stat amdgpu_job_timedout(struct drm_sched_job *s_job)
- 		goto exit;
- 	}
- 
--	amdgpu_vm_get_task_info(ring->adev, job->pasid, &ti);
- 	DRM_ERROR("ring %s timeout, signaled seq=%u, emitted seq=%u\n",
- 		  job->base.sched->name, atomic_read(&ring->fence_drv.last_seq),
- 		  ring->fence_drv.sync_seq);
+ drivers/gpu/drm/i915/display/intel_dpt.c      | 14 ++--
+ drivers/gpu/drm/i915/gem/i915_gem_domain.c    | 27 ++----
+ .../gpu/drm/i915/gem/i915_gem_execbuffer.c    | 10 ++-
+ drivers/gpu/drm/i915/gem/i915_gem_mman.c      |  3 +-
+ drivers/gpu/drm/i915/gem/i915_gem_object.c    | 61 +++++++++++++-
+ drivers/gpu/drm/i915/gem/i915_gem_object.h    |  8 ++
+ .../gpu/drm/i915/gem/i915_gem_object_types.h  | 26 +++++-
+ drivers/gpu/drm/i915/gem/i915_gem_shrinker.c  |  2 -
+ drivers/gpu/drm/i915/gem/i915_gem_stolen.c    |  4 +-
+ drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c  | 16 ++--
+ .../gpu/drm/i915/gem/selftests/huge_pages.c   |  2 +-
+ .../drm/i915/gem/selftests/i915_gem_migrate.c |  2 +-
+ .../drm/i915/gem/selftests/i915_gem_mman.c    |  2 +-
+ drivers/gpu/drm/i915/gt/gen6_ppgtt.c          | 10 ++-
+ drivers/gpu/drm/i915/gt/gen8_ppgtt.c          | 76 ++++++++++++-----
+ drivers/gpu/drm/i915/gt/gen8_ppgtt.h          |  3 +-
+ drivers/gpu/drm/i915/gt/intel_ggtt.c          | 84 +++++++++++++------
+ drivers/gpu/drm/i915/gt/intel_gtt.h           | 31 ++++---
+ drivers/gpu/drm/i915/gt/intel_migrate.c       | 47 ++++++-----
+ drivers/gpu/drm/i915/gt/intel_migrate.h       | 13 ++-
+ drivers/gpu/drm/i915/gt/intel_ppgtt.c         |  6 +-
+ drivers/gpu/drm/i915/gt/selftest_migrate.c    | 47 ++++++-----
+ drivers/gpu/drm/i915/gt/selftest_reset.c      |  8 +-
+ drivers/gpu/drm/i915/gt/selftest_timeline.c   |  2 +-
+ drivers/gpu/drm/i915/gt/selftest_tlb.c        |  4 +-
+ drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c      | 10 ++-
+ drivers/gpu/drm/i915/i915_debugfs.c           | 55 +++++++++---
+ drivers/gpu/drm/i915/i915_gem.c               | 16 +++-
+ drivers/gpu/drm/i915/i915_gpu_error.c         |  8 +-
+ drivers/gpu/drm/i915/i915_pci.c               | 79 +++++++++++++++--
+ drivers/gpu/drm/i915/i915_vma.c               | 16 ++--
+ drivers/gpu/drm/i915/i915_vma.h               |  2 +-
+ drivers/gpu/drm/i915/i915_vma_types.h         |  2 -
+ drivers/gpu/drm/i915/intel_device_info.h      |  5 ++
+ drivers/gpu/drm/i915/selftests/i915_gem.c     |  5 +-
+ .../gpu/drm/i915/selftests/i915_gem_evict.c   |  4 +-
+ drivers/gpu/drm/i915/selftests/i915_gem_gtt.c | 15 ++--
+ .../drm/i915/selftests/intel_memory_region.c  |  4 +-
+ .../gpu/drm/i915/selftests/mock_gem_device.c  |  9 ++
+ drivers/gpu/drm/i915/selftests/mock_gtt.c     |  8 +-
+ 40 files changed, 527 insertions(+), 219 deletions(-)
+
 -- 
-2.40.0
+2.25.1
 
