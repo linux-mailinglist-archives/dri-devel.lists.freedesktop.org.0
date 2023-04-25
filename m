@@ -2,63 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B1F16EDD17
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Apr 2023 09:47:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 541316EDD3D
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Apr 2023 09:53:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 85C0E10E6B6;
-	Tue, 25 Apr 2023 07:47:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 120E810E258;
+	Tue, 25 Apr 2023 07:53:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-f172.google.com (mail-yb1-f172.google.com
- [209.85.219.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C58C410E6C7
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Apr 2023 07:47:44 +0000 (UTC)
-Received: by mail-yb1-f172.google.com with SMTP id
- 3f1490d57ef6-b95c3b869dcso18604029276.1
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Apr 2023 00:47:44 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682408863; x=1685000863;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=fXATlI8zQFpvioDHoFlOVVEH9bB1ha5NF20/P873Yjo=;
- b=G9eFKTre4/btaa/yH+S5JUh07cDP6P1lpk3oJws5IdTVSfSvQ8658h1mbbExk97aEa
- ZPJH+L3PCuV/j5OZQMwRKmQ5uyW2KXyj6gYF8rQl/cqqNNRjvvRoKHTpp39mQwxbuC7G
- i37J7G0s3yOnVTXItJsXkq4ZuF7HG5sXw1+GtlS4tHon2KSH0+7kRjVKyy5nNnYvl5uz
- RJvdQR7JwcglvlsT15MRuZoe8uh7ZId87WHNPS5SII85w7fsWTdh+xLAop1/oMPXyStE
- zE/h3rdhQ572xlEHSXVX1dogtoSyl78oPKNBotTeBI2/0SpUsXP2AJmRYzcPvGsQMQ67
- 9vSA==
-X-Gm-Message-State: AC+VfDyF86eobW76Yw9Q/cv6+3+kvoRQQbDQKKHR42jKVn0xqQjjEg1+
- /V9eOSKc0nx7ARudT3Vb1qs5g8+/vmRQ6g==
-X-Google-Smtp-Source: ACHHUZ7J2EqdpEuS0yl14cEPcqoGf5Y3Y5he1nrLiTCQY2hB9KWPpOCO2MOnoEgNPjuWwEXClpzDJQ==
-X-Received: by 2002:a25:18d4:0:b0:b99:b742:3c91 with SMTP id
- 203-20020a2518d4000000b00b99b7423c91mr3198229yby.3.1682408863025; 
- Tue, 25 Apr 2023 00:47:43 -0700 (PDT)
-Received: from mail-yb1-f177.google.com (mail-yb1-f177.google.com.
- [209.85.219.177]) by smtp.gmail.com with ESMTPSA id
- i83-20020a256d56000000b00b8f448e1b6csm3354717ybc.1.2023.04.25.00.47.42
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 25 Apr 2023 00:47:42 -0700 (PDT)
-Received: by mail-yb1-f177.google.com with SMTP id
- 3f1490d57ef6-b95c3b869dcso18603939276.1
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Apr 2023 00:47:42 -0700 (PDT)
-X-Received: by 2002:a0d:dbcb:0:b0:54f:8636:2152 with SMTP id
- d194-20020a0ddbcb000000b0054f86362152mr10417319ywe.15.1682408861984; Tue, 25
- Apr 2023 00:47:41 -0700 (PDT)
+Received: from smtp.smtpout.orange.fr (smtp-23.smtpout.orange.fr
+ [80.12.242.23])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A871E10E258
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Apr 2023 07:53:39 +0000 (UTC)
+Received: from pop-os.home ([86.243.2.178]) by smtp.orange.fr with ESMTPA
+ id rDUWpfoNtvolhrDUWpTpgz; Tue, 25 Apr 2023 09:53:37 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
+ s=t20230301; t=1682409217;
+ bh=5mXZM2+8CUq1MLkMg5pCYcpJ5YHT+aXC4TWjV894QWw=;
+ h=From:To:Cc:Subject:Date;
+ b=TnvJO9+WncBBDJvXwGxUGPZpoAVDCM9dCNOGEU0rqOTlm0gCl3atNvsuo/MZ8D0rH
+ hc0nxV3G5j9dk4MjnbEt5pxtRu3a51zzcVgZfeMTyvBzTvsvj1AxTgp4ivP59Mm0x8
+ bKanJ+IA/L/Kx3eKki/wsL6JLYoQy/dlOeOJxG4J4y04j1lanRs8//O8NRG9KlgURY
+ 20CRQc+UCFa85ucEXacBZQbNhRusWfHXpxn9PfQP84aFcZSoEV2jbnfW0vHdun4dpF
+ 1DSX9oeWmHjOJ25XWrYw+0p17UkCu0dT4oyE3FMZLHjSAxnNTE4pAjHCH4IF1g3u1v
+ xLNqU7hYp7wzw==
+X-ME-Helo: pop-os.home
+X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
+X-ME-Date: Tue, 25 Apr 2023 09:53:37 +0200
+X-ME-IP: 86.243.2.178
+From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+To: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ "Pan, Xinhui" <Xinhui.Pan@amd.com>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>
+Subject: [PATCH] drm/amd/display: Correctly initialize some memory in
+ get_available_dsc_slices()
+Date: Tue, 25 Apr 2023 09:53:34 +0200
+Message-Id: <f7953bb41b7d5e28ec6bc3abfa06c8aaa0193ca4.1682409190.git.christophe.jaillet@wanadoo.fr>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20230424161024.136316-1-biju.das.jz@bp.renesas.com>
- <20230424161024.136316-4-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20230424161024.136316-4-biju.das.jz@bp.renesas.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 25 Apr 2023 09:47:28 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdVx65YSb7THMKVFjWt8BnvsR5yOXhR1T2PZ=coPPARXpw@mail.gmail.com>
-Message-ID: <CAMuHMdVx65YSb7THMKVFjWt8BnvsR5yOXhR1T2PZ=coPPARXpw@mail.gmail.com>
-Subject: Re: [PATCH v8 3/5] dt-bindings: display: renesas,rzg2l-du: Document
- RZ/V2L DU bindings
-To: Biju Das <biju.das.jz@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,40 +55,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
- Rob Herring <robh+dt@kernel.org>,
- Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Cc: Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+ dri-devel@lists.freedesktop.org, kernel-janitors@vger.kernel.org,
+ linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Apr 24, 2023 at 6:10=E2=80=AFPM Biju Das <biju.das.jz@bp.renesas.co=
-m> wrote:
-> Document DU found in RZ/V2L SoC. The DU block is identical to RZ/G2L
-> SoC and therefore use RZ/G2L fallback to avoid any driver changes.
->
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> Reviewed-by: Rob Herring <robh@kernel.org>
-> ---
-> v7->v8:
->  * Fixed the typo vsp2->du
->  * Added Rb tag from Rob as the change is trivial.
+The intent here is to clear the 'available_slices' buffer before setting
+some values in it.
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+This is an array of int, so in order to fully initialize it, we must clear
+MIN_AVAILABLE_SLICES_SIZE * sizeof(int) bytes.
 
-Gr{oetje,eeting}s,
+Compute the right length of the buffer when calling memset().
 
-                        Geert
+Fixes: 97bda0322b8a ("drm/amd/display: Add DSC support for Navi (v2)")
+Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+---
+NOT even compile-tested.
 
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
+make -j7  drivers/gpu/drm/amd/display/dc/dsc/dc_dsc.o
 
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+on my setup, it fails with:
+  CC      drivers/gpu/drm/amd/display/dc/dsc/dc_dsc.o
+drivers/gpu/drm/amd/display/dc/dsc/dc_dsc.c:27:10: fatal error: dc_hw_types.h: Aucun fichier ou dossier de ce type
+   27 | #include "dc_hw_types.h"
+      |          ^~~~~~~~~~~~~~~
+
+I've not investigated why.
+---
+ drivers/gpu/drm/amd/display/dc/dsc/dc_dsc.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/amd/display/dc/dsc/dc_dsc.c b/drivers/gpu/drm/amd/display/dc/dsc/dc_dsc.c
+index b9a05bb025db..1d7384b2be28 100644
+--- a/drivers/gpu/drm/amd/display/dc/dsc/dc_dsc.c
++++ b/drivers/gpu/drm/amd/display/dc/dsc/dc_dsc.c
+@@ -645,7 +645,7 @@ static int get_available_dsc_slices(union dsc_enc_slice_caps slice_caps, int *av
+ {
+ 	int idx = 0;
+ 
+-	memset(available_slices, -1, MIN_AVAILABLE_SLICES_SIZE);
++	memset(available_slices, -1, MIN_AVAILABLE_SLICES_SIZE * sizeof(*available_slices));
+ 
+ 	if (slice_caps.bits.NUM_SLICES_1)
+ 		available_slices[idx++] = 1;
+-- 
+2.34.1
+
