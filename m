@@ -2,45 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 073076EE4D1
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Apr 2023 17:34:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6D646EE4F6
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Apr 2023 17:48:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 88E3310E2DB;
-	Tue, 25 Apr 2023 15:34:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E4D3210E337;
+	Tue, 25 Apr 2023 15:48:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 52CE210E2DB
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Apr 2023 15:34:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-Id:
- Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:Content-Description:
- Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
- In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=G1ttLqP+WYxyFuR2KPFs952aSYGn1IU5GuTcEi0UmLM=; b=VDWl+ZJ/B2svDaHcQpB7gZPbK/
- uivAfbMoNT2vxTu6n7CXbfvdVzYx3d0f/8wEcOU0pfS6P5gok7yaRp3yatlUVv2zGAjHlUClVEuSk
- h7OTnGRzqkmQixYEizaT3zHx0hoSjAWqV53FjUlfkLwunSjhCJu2jApmBPlqc9g2LykEO/qiqC8lb
- VZySJ1/pyIr8gx7cUFcYF/HcBdBhWvzQTQiz7XzaiGOx1vGjQHD7itkKJhiA2iUDA/ZEKr7Vgf9lU
- H72sSKhqeFCE9RuEl0sK4/a3Y4p6c88UesGMf5h/lV4MP3eMrqdNPyDh5izYU4HHP2TOLe4NKu2Ax
- A3GNlQtQ==;
-Received: from [143.107.183.66] (helo=bowie.hotspot.icmc.usp.br)
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1prKg8-00Bhuu-In; Tue, 25 Apr 2023 17:34:05 +0200
-From: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>
-To: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- Melissa Wen <mwen@igalia.com>, Haneen Mohammed <hamohammed.sa@gmail.com>,
- Arthur Grillo <arthurgrillo@riseup.net>,
- Igor Matheus Andrade Torrente <igormtorrente@gmail.com>
-Subject: [PATCH] drm/vkms: Fix RGB565 pixel conversion
-Date: Tue, 25 Apr 2023 12:33:53 -0300
-Message-Id: <20230425153353.238844-1-mcanal@igalia.com>
-X-Mailer: git-send-email 2.40.0
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E275F10E76E
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Apr 2023 15:48:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1682437699;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ZdbfBO9P3dNA5DkFcgzGIbmG69CDWbTOQpd5bSddDV0=;
+ b=gVxpB06Eh3s9neQsNFQQ5bzpupASICkL7D7cYX8UGEEqWXvF4XDuQp051BcvGNgcWObotB
+ X8/4QXKnKeLfBuQFo3sjtp1C82qGeo0/SYzKsfRZkY8vAsEPGq2LqH4LF/JTu/VBE4C+Na
+ r/miQrIRfcSyVjb9ktMrFRNVflF4cqY=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-659-xtlZXWbnNTypdDieuuHESQ-1; Tue, 25 Apr 2023 11:48:18 -0400
+X-MC-Unique: xtlZXWbnNTypdDieuuHESQ-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ 5b1f17b1804b1-3f16fa91923so32865665e9.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Apr 2023 08:48:18 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1682437692; x=1685029692;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=ZdbfBO9P3dNA5DkFcgzGIbmG69CDWbTOQpd5bSddDV0=;
+ b=F/Bp8lYkeKLz94F6QPoGkemr23UnF9/v6OJ0BrWVXNQmIJ9Pyj1Hr6dYV6+9zScwxE
+ nGsIO8RgPz+BeMbJ6eFwIFgK9soXepl+Dmo5DQYD3KJQ234hq4kv5LmtkirYyDdznvwJ
+ OtkqKsj2oh/vc2xdSdj/9CFuJM+dD22UCTQ207Co3SynezmRjKulpYXkZiuTbknoI5Ma
+ WaHp+Q/iBLFJdf1c3390QzFh7VNB6bDOUhswNwaZhOSJ0UVsgzzv/XRNRyRyggB8YKg8
+ jVFGXMHkI0UwxNGZv3cjg+suVBl+lr8z/FAkfDTwGIsXP3Xb/9/pQAQpzCgh9DwKn2ek
+ fm5A==
+X-Gm-Message-State: AAQBX9fA6dOLYNl10HNlJo0cvb9aFHlg1OJ5XknKKvtAkfZ/UtRclZ2D
+ vZrN8RoeGQUwE7la5ro/1WZIHmrjaXfYxEHu4a8Y7vMEphUP1nASdrDkRrokF0QeiXJp2YM9vep
+ z2KRYAix7W0i1EXFHHBfJJihAI3R5khRnHbXp
+X-Received: by 2002:a05:600c:2208:b0:3f1:75a9:5c0d with SMTP id
+ z8-20020a05600c220800b003f175a95c0dmr10971879wml.26.1682437692253; 
+ Tue, 25 Apr 2023 08:48:12 -0700 (PDT)
+X-Google-Smtp-Source: AKy350a2ebJyOhQ86Yx9z2gfk+jG2hn0YREABP7ZUfgejh1DXprAc0icDV2bfWJZ5Ch/UePPyQXivQ==
+X-Received: by 2002:a05:600c:2208:b0:3f1:75a9:5c0d with SMTP id
+ z8-20020a05600c220800b003f175a95c0dmr10971864wml.26.1682437691910; 
+ Tue, 25 Apr 2023 08:48:11 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:d5:a000:329d:db81:ed0c:c9cd?
+ ([2a01:e0a:d5:a000:329d:db81:ed0c:c9cd])
+ by smtp.gmail.com with ESMTPSA id
+ e26-20020a05600c219a00b003f180d5b145sm15312837wme.40.2023.04.25.08.48.11
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 25 Apr 2023 08:48:11 -0700 (PDT)
+Message-ID: <8b9243fa-8836-1fb8-4ed6-3d9f611d9c86@redhat.com>
+Date: Tue, 25 Apr 2023 17:48:10 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.1
+Subject: Re: [PATCH 07/14] drm/mgag200: Replace simple-KMS with regular atomic
+ helpers
+To: Thomas Zimmermann <tzimmermann@suse.de>, kernel@linuxace.com
+References: <20220708093929.4446-8-tzimmermann@suse.de>
+ <20230425142519.13201-1-kernel@linuxace.com>
+ <7f770bc8-d79b-ca1c-21ba-aa888ace2153@suse.de>
+From: Jocelyn Falempe <jfalempe@redhat.com>
+In-Reply-To: <7f770bc8-d79b-ca1c-21ba-aa888ace2153@suse.de>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -54,76 +89,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>,
- dri-devel@lists.freedesktop.org
+Cc: Sam Ravnborg <sam@ravnborg.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Perform the correct casting of the intermediate coefficients of the
-RGB565 pixel conversion. Currently, the pixel conversion is using s64
-for the intermediate coefficients, which is causing the IGT pixel-format
-tests to fail. So, cast the operands to s32 in order to improve the
-vkms' test coverage.
+On 25/04/2023 17:03, Thomas Zimmermann wrote:
+> (cc'ing dri-devel, Jocelyn and Sam)
+> 
+> Hi Phil,
+> 
+> I've put dri-devel into cc, which is the developer's mailing list. It's 
+> the first time I hear about this bug.
 
-Tested with igt@kms_plane@pixel-format and igt@kms_plane@pixel-format-source-clamping.
+Thanks for pointing this to me, I will take a look at it.
 
-Fixes: 89b03aeaef16 ("drm/vkms: fix 32bit compilation error by replacing macros")
-Signed-off-by: Maíra Canal <mcanal@igalia.com>
----
- drivers/gpu/drm/vkms/vkms_formats.c | 20 ++++++++++----------
- 1 file changed, 10 insertions(+), 10 deletions(-)
-
-diff --git a/drivers/gpu/drm/vkms/vkms_formats.c b/drivers/gpu/drm/vkms/vkms_formats.c
-index 8d948c73741e..f6aeaea81902 100644
---- a/drivers/gpu/drm/vkms/vkms_formats.c
-+++ b/drivers/gpu/drm/vkms/vkms_formats.c
-@@ -88,8 +88,8 @@ static void RGB565_to_argb_u16(u8 *src_pixels, struct pixel_argb_u16 *out_pixel)
- {
- 	u16 *pixels = (u16 *)src_pixels;
- 
--	s64 fp_rb_ratio = drm_fixp_div(drm_int2fixp(65535), drm_int2fixp(31));
--	s64 fp_g_ratio = drm_fixp_div(drm_int2fixp(65535), drm_int2fixp(63));
-+	s32 fp_rb_ratio = drm_fixp_div(drm_int2fixp(65535), drm_int2fixp(31));
-+	s32 fp_g_ratio = drm_fixp_div(drm_int2fixp(65535), drm_int2fixp(63));
- 
- 	u16 rgb_565 = le16_to_cpu(*pixels);
- 	s64 fp_r = drm_int2fixp((rgb_565 >> 11) & 0x1f);
-@@ -97,9 +97,9 @@ static void RGB565_to_argb_u16(u8 *src_pixels, struct pixel_argb_u16 *out_pixel)
- 	s64 fp_b = drm_int2fixp(rgb_565 & 0x1f);
- 
- 	out_pixel->a = (u16)0xffff;
--	out_pixel->r = drm_fixp2int(drm_fixp_mul(fp_r, fp_rb_ratio));
--	out_pixel->g = drm_fixp2int(drm_fixp_mul(fp_g, fp_g_ratio));
--	out_pixel->b = drm_fixp2int(drm_fixp_mul(fp_b, fp_rb_ratio));
-+	out_pixel->r = drm_fixp2int((s32)drm_fixp_mul(fp_r, fp_rb_ratio));
-+	out_pixel->g = drm_fixp2int((s32)drm_fixp_mul(fp_g, fp_g_ratio));
-+	out_pixel->b = drm_fixp2int((s32)drm_fixp_mul(fp_b, fp_rb_ratio));
- }
- 
- void vkms_compose_row(struct line_buffer *stage_buffer, struct vkms_plane_state *plane, int y)
-@@ -208,17 +208,17 @@ static void argb_u16_to_RGB565(struct vkms_frame_info *frame_info,
- 	int x_limit = min_t(size_t, drm_rect_width(&frame_info->dst),
- 			    src_buffer->n_pixels);
- 
--	s64 fp_rb_ratio = drm_fixp_div(drm_int2fixp(65535), drm_int2fixp(31));
--	s64 fp_g_ratio = drm_fixp_div(drm_int2fixp(65535), drm_int2fixp(63));
-+	s32 fp_rb_ratio = drm_fixp_div(drm_int2fixp(65535), drm_int2fixp(31));
-+	s32 fp_g_ratio = drm_fixp_div(drm_int2fixp(65535), drm_int2fixp(63));
- 
- 	for (size_t x = 0; x < x_limit; x++, dst_pixels++) {
- 		s64 fp_r = drm_int2fixp(in_pixels[x].r);
- 		s64 fp_g = drm_int2fixp(in_pixels[x].g);
- 		s64 fp_b = drm_int2fixp(in_pixels[x].b);
- 
--		u16 r = drm_fixp2int(drm_fixp_div(fp_r, fp_rb_ratio));
--		u16 g = drm_fixp2int(drm_fixp_div(fp_g, fp_g_ratio));
--		u16 b = drm_fixp2int(drm_fixp_div(fp_b, fp_rb_ratio));
-+		u16 r = drm_fixp2int((s32)drm_fixp_div(fp_r, fp_rb_ratio));
-+		u16 g = drm_fixp2int((s32)drm_fixp_div(fp_g, fp_g_ratio));
-+		u16 b = drm_fixp2int((s32)drm_fixp_div(fp_b, fp_rb_ratio));
- 
- 		*dst_pixels = cpu_to_le16(r << 11 | g << 5 | b);
- 	}
 -- 
-2.40.0
+
+Jocelyn
+> 
+> Am 25.04.23 um 16:25 schrieb kernel@linuxace.com:
+>> Hi Thomas,
+>>
+>> I have been trying to track down why we lost console on our Dell 
+>> servers since
+>> switching to kernel 6.1, and finally narrowed it down to the commit 
+>> referenced
+>> in the subject (1baf9127c482).  If I boot kernel 1baf9127c482, I will 
+>> have
+>> no console at all on my servers.  Booting the prior kernel 
+>> (4f4dc37e374c) restores
+>> console.  The server I am testing on has a G200EH card.
+>>
+>> There is a bug report about this (not opened by me) here:
+>>
+>> https://bugzilla.redhat.com/show_bug.cgi?id=2171155
+>>
+>> but I'm not sure if RedHat bugzilla is the best place to report this.  
+>> Any
+>> suggestions for a better place?  I'm available for any testing.  I've 
+>> already
+>> tried simply reverting this commit from 6.1 but it does not reverse 
+>> cleanly
+>> given all the other MGA changes made after this specific commit.  Any
+>> guidance you could provide is appreciated.
+> 
+> You cannot really revert it, as it's too old already. But could you 
+> please try the latest developer tree from
+> 
+>    git://anongit.freedesktop.org/drm/drm-tip
+> 
+> The branch is drm-tip. Maybe the bug has been fixed meanwhile. If this 
+> also doesn't work, we can take a closer look at the changes.
+> 
+> Best regards
+> Thomas
+> 
+>>
+>> Thanks,
+>> Phil
+> 
 
