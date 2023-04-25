@@ -1,44 +1,79 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5FD66EDC9A
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Apr 2023 09:30:36 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0379E6EDCB2
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Apr 2023 09:34:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6138F10E6B0;
-	Tue, 25 Apr 2023 07:30:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 88E3E10E6AC;
+	Tue, 25 Apr 2023 07:34:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 71CA610E6A6
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Apr 2023 07:30:21 +0000 (UTC)
-Received: from localhost.localdomain (unknown [109.100.38.211])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: mvlad)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 9318B660329C;
- Tue, 25 Apr 2023 08:30:19 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1682407820;
- bh=N4/94JtOEZ4X/fOEEmtlia4gYzBnalJE25/8Ejbzfd0=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=ULX/QYbgKTNJuGJDRP4SWEP7vmQyRWSgxQt4mQoy5VmHYe1IaDHqJZHmL2fuCg7ow
- 7qq4J1ZMpuKXbFDDUHZWNED38WRKgD+51Gouhj6+HupngqQ7i9viPZvYRdSfDMEvhF
- 8/6NbF+qw3eA2AmQckrCf5H1xHEMn5Mgmc1v0BooSVYuOYWmcDkDAbpDN+ocY6GVIP
- 0WpArReN9ZZUHwY2Jjn1p3n+fZD9Zq79gBsF5TIsPkoaP8wP7f4i/0eG999PN+OwKa
- r5AtJzHebqcinlnge/EUPml8RL6ZTkLWaT7gCAQvtlNNuAgf/ATPoYLDEka/cnijKh
- wH2pQVGbbMyjw==
-From: Marius Vlad <marius.vlad@collabora.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v3 3/3] Documentation/gpu/vkms.rst: Added a note about plane
- migration
-Date: Tue, 25 Apr 2023 10:30:12 +0300
-Message-Id: <20230425073012.11036-4-marius.vlad@collabora.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230425073012.11036-1-marius.vlad@collabora.com>
-References: <20230425073012.11036-1-marius.vlad@collabora.com>
+Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com
+ [66.111.4.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BB35E10E6AC
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Apr 2023 07:34:47 +0000 (UTC)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+ by mailout.nyi.internal (Postfix) with ESMTP id 7F1EC5C00D0;
+ Tue, 25 Apr 2023 03:34:45 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute2.internal (MEProxy); Tue, 25 Apr 2023 03:34:45 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+ :cc:content-transfer-encoding:content-type:content-type:date
+ :date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+ :references:reply-to:sender:subject:subject:to:to; s=fm2; t=
+ 1682408085; x=1682494485; bh=EoZK+Nj8Veym+ct5siLk5lUK0IAvRR+5xh6
+ EbdHJolk=; b=K9C1XHcMxOnp//g0K7gd+W1oBMo99B7Gi8Ejyt2d+1nw3GEOAbq
+ syeADFPw5Ga0+dRl8UnYKXSuiA5+ri7Vj2yE/AfaaaQMpWAubBCYfTb2KZUo66yu
+ Do0Iz8tJV8odk2pFWfWAYTZu3L1+VyLuGQgXr2DUvxkK45DW3L/7qg4TmqeWtMLM
+ xmreLKOnbIK8sJovsqDqpw01fDuHYy7vzTrLwpkl5AzWB1wJw5f1ZdhQUu57bu7I
+ o1AIbFTwvuHYxHNaL20YSGXvU6xePU4l7NTGZzbqbqdI0LSqaIZv5uq4UydUMV71
+ HaAquG/rkPNXYH7CKsQZQq6p5oaL5txunFw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:content-type:date:date:feedback-id:feedback-id
+ :from:from:in-reply-to:in-reply-to:message-id:mime-version
+ :references:reply-to:sender:subject:subject:to:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
+ 1682408085; x=1682494485; bh=EoZK+Nj8Veym+ct5siLk5lUK0IAvRR+5xh6
+ EbdHJolk=; b=Kh2zOHUKmvXrKqa5f+RHrammUAdvKkCUwoCHfh0PxzSN8CCIGn3
+ zXVGjLOJFrJGI8lws3waVjhwzynFdkLS18xBsEamZY+81OUkkdUKe1IE+mpsaqop
+ he/3WYfKpXzmXUvutOj+8srlwoCUqCpV5337LOcJ+Dkxnv/iAq/kvfOq0JYsxbNW
+ JGBxMxSU1pqswhbedbp48R7TzM53lz9Qxp3c682KQ9Z1pmecDeCKu/EFKS240oIe
+ GFgELnYnpBEPDwGx8pT69/u0iThJsnfvlLKfRBx+qK4OtP5GR+ZVFgXYwIqu79Kd
+ FbA9lZfpVFmuvl+cDncT46NdaBhVxaJYPmQ==
+X-ME-Sender: <xms:lIJHZLkJYB--EvnEcEv4ngWxUuaBxtdeQZEJzCKzjfHN9Te7y3UB1w>
+ <xme:lIJHZO11IlH7-rpuSDHITQZn52xqTeqM3W7W9-nHbGrpK-h7Cep2UEdjZZMbKUh8u
+ rI_17v53g1jysNvG9g>
+X-ME-Received: <xmr:lIJHZBp8e7VrfYmfXfVuNzUWisaTIQ6p1qUluu9kgeL80ptIjWrOKgVfXuMCwRJN5R1za5h-ihEE_QEUEhSyN76f9sI3oxM>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrfeduuddguddvvdcutefuodetggdotefrod
+ ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+ necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+ enucfjughrpefhvfevjghfuffkffggtgfgofesthejredtredtjeenucfhrhhomhepofgr
+ gihimhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtf
+ frrghtthgvrhhnpeelieffgfdvteejjeeujeeiheeuvdetieegheethffhieefgeelkedu
+ keetgeeuffenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhroh
+ hmpehmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:lIJHZDmf7m9cVzSL_F-pmKF074qZNQfhiYoSo1LJKs-qRf-dLvQCow>
+ <xmx:lIJHZJ3Fdn65CUfyDWZSnv45ZAY1FN3cjy7omjZ-9Intr-QZ9atD9g>
+ <xmx:lIJHZCvOv2FgRzr7SWTsuADCTJnj5ddsWXXHkpUa-gLf5xPBBL0vFg>
+ <xmx:lYJHZCKfyT5nltzfEWbmmni9HUzyhI9iHXuVZXUE4LmAfSHVvawhqw>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 25 Apr 2023 03:34:44 -0400 (EDT)
+From: Maxime Ripard <maxime@cerno.tech>
+To: Emma Anholt <emma@anholt.net>, Maxime Ripard <mripard@kernel.org>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ Maxime Ripard <maxime@cerno.tech>
+In-Reply-To: <20221207-rpi-hdmi-improvements-v3-0-bdd54f66884e@cerno.tech>
+References: <20221207-rpi-hdmi-improvements-v3-0-bdd54f66884e@cerno.tech>
+Subject: Re: [PATCH v3 0/9] drm/vc4: hdmi: Broadcast RGB, BT601, BT2020
+Message-Id: <168240808168.134250.8409328987520507623.b4-ty@cerno.tech>
+Date: Tue, 25 Apr 2023 09:34:41 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.12.1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,43 +86,24 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: mwen@igalia.com, tzimmermann@suse.de, rodrigosiqueiramelo@gmail.com,
- mcanal@igalia.com, melissa.srw@gmail.com, marius.vlad@collabora.com,
- igormtorrente@gmail.com
+Cc: Hans Verkuil <hverkuil@xs4all.nl>, Thomas Zimmermann <tzimmermann@suse.de>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-And remove the run-time configuration comment regarding needing first
-more than 1 pipe.
+On Mon, 06 Mar 2023 11:46:41 +0100, Maxime Ripard wrote:
+> Here's a collection of patches that have been in the downstream tree for a
+> while to add a bunch of new features to the HDMI controller.
+> 
+> Let me know what you think,
+> Maxime
+> 
+> 
+> [...]
 
-Signed-off-by: Marius Vlad <marius.vlad@collabora.com>
----
- Documentation/gpu/vkms.rst | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+Applied to drm/drm-misc (drm-misc-next).
 
-diff --git a/Documentation/gpu/vkms.rst b/Documentation/gpu/vkms.rst
-index 49db221c0f52..cfb3406933c0 100644
---- a/Documentation/gpu/vkms.rst
-+++ b/Documentation/gpu/vkms.rst
-@@ -133,6 +133,8 @@ There's lots of plane features we could add support for:
- - Async updates (currently only possible on cursor plane using the legacy
-   cursor api).
- 
-+- Overlay plane migration between CRTCs
-+
- For all of these, we also want to review the igt test coverage and make sure
- all relevant igt testcases work on vkms. They are good options for internship
- project.
-@@ -146,8 +148,7 @@ module. Use/Test-cases:
- - Hotplug/hotremove connectors on the fly (to be able to test DP MST handling
-   of compositors).
- 
--- Configure planes/crtcs/connectors (we'd need some code to have more than 1 of
--  them first).
-+- Configure planes/crtcs/connectors
- 
- - Change output configuration: Plug/unplug screens, change EDID, allow changing
-   the refresh rate.
--- 
-2.39.2
+Thanks!
+Maxime
 
