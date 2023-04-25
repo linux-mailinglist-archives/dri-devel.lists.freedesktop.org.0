@@ -1,53 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AACCF6EE830
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Apr 2023 21:25:57 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 21DF96EE897
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Apr 2023 21:49:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D510410E186;
-	Tue, 25 Apr 2023 19:25:52 +0000 (UTC)
-X-Original-To: dri-devel@lists.freedesktop.org
-Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BC32410E137;
- Tue, 25 Apr 2023 19:25:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A6ED710E083;
+	Tue, 25 Apr 2023 19:49:40 +0000 (UTC)
+X-Original-To: DRI-Devel@lists.freedesktop.org
+Delivered-To: DRI-Devel@lists.freedesktop.org
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5AD5110E083;
+ Tue, 25 Apr 2023 19:49:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1682450749; x=1713986749;
+ t=1682452178; x=1713988178;
  h=date:from:to:cc:subject:message-id:references:
  mime-version:in-reply-to;
- bh=HOAC/vLL0DpnjM4KLA7wvfcyNWTRHuEgYKkZK8Nx2kI=;
- b=kNvccJVVGHKHevQWppfa4YergCEPahdaiP0vzIVo5vmlQbTwaQQtGjm3
- YljgW0RO60ymByPZaUJ1m77aL10DZ03LePG1dLINlnR1qPN77Ve/CDJwh
- kfGJQWe0ZcaEcZh5FT6Ol0ikwl79YQC2Whn5nCeAb1EvY7/09cPvO1xRB
- /3HNURj6qTlRfaM7POxWSjjCVjNcHO3AHzksJWEXDANzbCzSTO9MnPykS
- j9W+t6q7FH+2u+Az2KwuhxELYhd1knKx/Dpf9hoj77PsXkwX9PuSlhOWx
- Oyet1K5bDrP7fJqpNgtKdyPisHB7RD34YIM9PVLcdyGIULT3Wb0dUz4h7 g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10691"; a="331099931"
-X-IronPort-AV: E=Sophos;i="5.99,226,1677571200"; d="scan'208";a="331099931"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Apr 2023 12:25:31 -0700
+ bh=+A55figV2KY0Lbwx7DKL+lUi654PZn0kCZuRq6PAiTc=;
+ b=bvFyVPQTOu4YTsHQSjIZh1WHxpBnYYhZK7a5tB/abxp1W8uB9N5mrJ9i
+ WjMPtSIvnML8su+2Cd+z3QLM9w92fyocp6E6iBWCa5GGa9+/C6/HO6jyz
+ nIORiGm+Tn+jfy+33iTCKaAVfBOz0wbXiv117yH34m0UZfN8iSi7YEJDi
+ 6g5MKudr/O3LFwmrVVaHFr4dPxQDHwUvwd2miJDnITM+ezqYE0zHfiNue
+ hcLXzorJNFOAJiwpifNjWmZSmBI+kBA+LVHzj2XE69OzCacAVXDK4ciAv
+ IFSrdG2wbPgkDXGKeho5CJE2FnTy+8IbDt6xdK6CfiSrThDcxZLGYYVps A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10691"; a="374833799"
+X-IronPort-AV: E=Sophos;i="5.99,226,1677571200"; d="scan'208";a="374833799"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Apr 2023 12:49:37 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10691"; a="726240109"
-X-IronPort-AV: E=Sophos;i="5.99,226,1677571200"; d="scan'208";a="726240109"
+X-IronPort-AV: E=McAfee;i="6600,9927,10691"; a="817837806"
+X-IronPort-AV: E=Sophos;i="5.99,226,1677571200"; d="scan'208";a="817837806"
 Received: from cpetruta-mobl1.ger.corp.intel.com (HELO intel.com)
  ([10.252.59.107])
- by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Apr 2023 12:25:26 -0700
-Date: Tue, 25 Apr 2023 21:25:24 +0200
+ by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Apr 2023 12:49:33 -0700
+Date: Tue, 25 Apr 2023 21:49:30 +0200
 From: Andi Shyti <andi.shyti@linux.intel.com>
-To: Andrzej Hajda <andrzej.hajda@intel.com>
-Subject: Re: [PATCH v8 6/7] drm/i915: Replace custom intel runtime_pm tracker
- with ref_tracker library
-Message-ID: <ZEgpJN6GzSK/w4TV@ashyti-mobl2.lan>
-References: <20230224-track_gt-v8-0-4b6517e61be6@intel.com>
- <20230224-track_gt-v8-6-4b6517e61be6@intel.com>
+To: John.C.Harrison@intel.com
+Subject: Re: [PATCH] drm/i915/guc: Actually return an error if GuC version
+ range check fails
+Message-ID: <ZEguyolJp/kM73AP@ashyti-mobl2.lan>
+References: <20230421224742.2357198-1-John.C.Harrison@Intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230224-track_gt-v8-6-4b6517e61be6@intel.com>
+In-Reply-To: <20230421224742.2357198-1-John.C.Harrison@Intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,26 +59,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Andi Shyti <andi.shyti@linux.intel.com>, netdev@vger.kernel.org,
- intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Chris Wilson <chris@chris-wilson.co.uk>, Eric Dumazet <edumazet@google.com>,
- dri-devel@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Jakub Kicinski <kuba@kernel.org>, "David S. Miller" <davem@davemloft.net>,
- Dmitry Vyukov <dvyukov@google.com>
+Cc: Matthew Brost <matthew.brost@intel.com>, Dan Carpenter <error27@gmail.com>,
+ Alan Previn <alan.previn.teres.alexis@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@intel.com>, Jani Nikula <jani.nikula@intel.com>,
+ Intel-GFX@lists.freedesktop.org, Lucas De Marchi <lucas.demarchi@intel.com>,
+ DRI-Devel@lists.freedesktop.org,
+ Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
+ Matthew Auld <matthew.auld@intel.com>, Andi Shyti <andi.shyti@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Andrzej,
+Hi John,
 
-On Tue, Apr 25, 2023 at 12:05:43AM +0200, Andrzej Hajda wrote:
-> Beside reusing existing code, the main advantage of ref_tracker is
-> tracking per instance of wakeref. It allows also to catch double
-> put.
-> On the other side we lose information about the first acquire and
-> the last release, but the advantages outweigh it.
+> Dan Carpenter pointed out that 'err' was not being set in the case
+> where the GuC firmware version range check fails. Fix that.
 > 
-> Signed-off-by: Andrzej Hajda <andrzej.hajda@intel.com>
+> Note that while this is bug fix for a previous patch (see Fixes tag
+
+is _a_ bug fix.
+
+> below). It is an exceedingly low risk bug. The range check is
+> asserting that the GuC firmware version is within spec. So it should
+> not be possible to ever have a firmware file that fails this check. If
+> larger version numbers are required in the future, that would be a
+> backwards breaking spec change and thus require a major version bump,
+> in which case an old i915 driver would not load that new version anyway.
+> 
+> Fixes: 9bbba0667f37 ("drm/i915/guc: Use GuC submission API version number")
+> Reported-by: Dan Carpenter <error27@gmail.com>
+> Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
+> Cc: John Harrison <John.C.Harrison@Intel.com>
+> Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+> Cc: Alan Previn <alan.previn.teres.alexis@intel.com>
+> Cc: Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>
+> Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+> Cc: Matthew Brost <matthew.brost@intel.com>
+> Cc: Andi Shyti <andi.shyti@linux.intel.com>
+> Cc: Matthew Auld <matthew.auld@intel.com>
+> Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+> Cc: Lucas De Marchi <lucas.demarchi@intel.com>
+> Cc: Jani Nikula <jani.nikula@intel.com>
 
 Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com> 
 
