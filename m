@@ -1,54 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60D926EE3F2
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Apr 2023 16:29:21 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 030F16EE3EC
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Apr 2023 16:29:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5086410E75B;
-	Tue, 25 Apr 2023 14:29:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 15DC410E741;
+	Tue, 25 Apr 2023 14:29:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 684FC10E735
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6595310E0A0
  for <dri-devel@lists.freedesktop.org>; Tue, 25 Apr 2023 14:28:53 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 2EAF71FDA6;
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 63B411FDA8;
  Tue, 25 Apr 2023 14:28:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1682432929; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=kZb5AYHxFFhMP6xupqT3f9APNbR+VPklPqZGgGYTKfI=;
- b=0Mj9n6wBn4SHKpT4eCOVFBMmTftdf/ReCwrlams1QkKx87RUQJQMRLW/n7sdNAcL6MKDbN
- ROUdSJOYsKmNB3ADdvlnKzRBs7cOVfger4qaqzy9CyXnsa/IYvp+CEMe8HKA3f5XkQR2B5
- XDrVwy7y2TjekhwYZiO+hPUFhiqxe4U=
+ mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=yhZtLuipIaP1SL5I00RfVJ9QqqfF6Jn3zWQoYLjkd0A=;
+ b=tFmDw1BRdbV63i5FHc+JmOBmgsaFsbESjlFsvKPOQV5Ap/L68k0Lb4Xx8Y3OkZ3ze0+09w
+ t5NDhFECsIsJDovN6A+HbZfaHeVR1qxiWUoS3gWERqBA4rrbsLxahuea+crEYsCZGUpwBR
+ kaKrLDV6T/0EdYbGoF1n2qAVbLw68Qw=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1682432929;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=kZb5AYHxFFhMP6xupqT3f9APNbR+VPklPqZGgGYTKfI=;
- b=mhE25a2KwJng+5pys70nA8p7WOQ4/6Tn57fu5rOANHwOPwY+HhDwM3ces6XfbI2Qrujjzv
- nX3jQEGrnlc5oiCg==
+ mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=yhZtLuipIaP1SL5I00RfVJ9QqqfF6Jn3zWQoYLjkd0A=;
+ b=tb8ydx+1R5rd9GJoa+dZRIKIvdrIj6uNugeSORj3zSG2qHFYts7w8XyTpobIWjtwIDM7nR
+ IkK81iKvuaa9AGAQ==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id D894B138E3;
- Tue, 25 Apr 2023 14:28:48 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 288AC13920;
+ Tue, 25 Apr 2023 14:28:49 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id NrXtM6DjR2ReOgAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Tue, 25 Apr 2023 14:28:48 +0000
+ by imap2.suse-dmz.suse.de with ESMTPSA id EM3YCKHjR2ReOgAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Tue, 25 Apr 2023 14:28:49 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
  daniel@ffwll.ch, javierm@redhat.com, deller@gmx.de, geert@linux-m68k.org,
  sudipm.mukherjee@gmail.com, teddy.wang@siliconmotion.com
-Subject: [PATCH 0/6] drm,fbdev: Use fbdev's I/O helpers
-Date: Tue, 25 Apr 2023 16:28:40 +0200
-Message-Id: <20230425142846.730-1-tzimmermann@suse.de>
+Subject: [PATCH 1/6] fbdev: Return number of bytes read or written
+Date: Tue, 25 Apr 2023 16:28:41 +0200
+Message-Id: <20230425142846.730-2-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.40.0
+In-Reply-To: <20230425142846.730-1-tzimmermann@suse.de>
+References: <20230425142846.730-1-tzimmermann@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -68,48 +74,98 @@ Cc: linux-fbdev@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Make fbdev's built-in helpers for reading and writing I/O and system
-memory available to DRM. Replace DRM's internal helpers.
+Always return the number of bytes read or written within the
+framebuffer. Only return an errno code if framebuffer memory
+was not touched. This is the semantics required by POSIX and
+makes fb_read() and fb_write() compatible with IGT tests. [1]
 
-The first patch resolves a bug that's been in the fbdev code for
-more than 15 years. Makes the read/write helpers work successfully
-with the IGT tests.
+This bug has been fixed for fb_write() long ago by
+commit 6a2a88668e90 ("[PATCH] fbdev: Fix return error of
+fb_write"). The code in fb_read() and the corresponding fb_sys_()
+helpers was forgotten.
 
-Patches 2 to 4 streamline fbdev's file-I/O code and remove a few
-duplicate checks.
+Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+Link: https://gitlab.freedesktop.org/drm/igt-gpu-tools/-/blob/master/tests/fbdev.c # 1
+---
+ drivers/video/fbdev/core/fb_sys_fops.c | 24 ++++++++++++++----------
+ drivers/video/fbdev/core/fbmem.c       |  2 +-
+ 2 files changed, 15 insertions(+), 11 deletions(-)
 
-Patch 5 moves the default-I/O code into the new helpers fb_cfb_read()
-and fb_cfb_write(); patch 6 uses them in DRM. This allows us to remove
-quite a bit of code from DRM's internal fbdev helpers.
-
-Tested with i915 and simpledrm.
-
-The next step here is to remove the drm_fb_helper_{cfb,sys}_*()
-entirely. They where mostly introduced because fbdev doesn't protect
-it's public interfaces with an CONFIG_FB preprocessor guards. But all
-of DRM driver's fbdev emulation won't be build without CONFIG_FB, so
-this is not an issue in practice. Removing the DRM wrappers will
-further simplify the DRM code.
-
-Thomas Zimmermann (6):
-  fbdev: Return number of bytes read or written
-  fbdev: Use screen_buffer in fb_sys_{read,write}()
-  fbdev: Don't re-validate info->state in fb_ops implementations
-  fbdev: Validate info->screen_{base,buffer} in fb_ops implementations
-  fbdev: Move CFB read and write code into helper functions
-  drm/fb-helper: Use fb_{cfb,sys}_{read, write}()
-
- drivers/gpu/drm/drm_fb_helper.c        | 174 +------------------------
- drivers/video/fbdev/cobalt_lcdfb.c     |   6 +
- drivers/video/fbdev/core/Makefile      |   2 +-
- drivers/video/fbdev/core/fb_cfb_fops.c | 126 ++++++++++++++++++
- drivers/video/fbdev/core/fb_sys_fops.c |  36 ++---
- drivers/video/fbdev/core/fbmem.c       | 111 +---------------
- drivers/video/fbdev/sm712fb.c          |  10 +-
- include/linux/fb.h                     |  10 ++
- 8 files changed, 173 insertions(+), 302 deletions(-)
- create mode 100644 drivers/video/fbdev/core/fb_cfb_fops.c
-
+diff --git a/drivers/video/fbdev/core/fb_sys_fops.c b/drivers/video/fbdev/core/fb_sys_fops.c
+index ff275d7f3eaf..cefb77b9546d 100644
+--- a/drivers/video/fbdev/core/fb_sys_fops.c
++++ b/drivers/video/fbdev/core/fb_sys_fops.c
+@@ -19,7 +19,8 @@ ssize_t fb_sys_read(struct fb_info *info, char __user *buf, size_t count,
+ 	unsigned long p = *ppos;
+ 	void *src;
+ 	int err = 0;
+-	unsigned long total_size;
++	unsigned long total_size, c;
++	ssize_t ret;
+ 
+ 	if (info->state != FBINFO_STATE_RUNNING)
+ 		return -EPERM;
+@@ -43,13 +44,14 @@ ssize_t fb_sys_read(struct fb_info *info, char __user *buf, size_t count,
+ 	if (info->fbops->fb_sync)
+ 		info->fbops->fb_sync(info);
+ 
+-	if (copy_to_user(buf, src, count))
++	c = copy_to_user(buf, src, count);
++	if (c)
+ 		err = -EFAULT;
++	ret = count - c;
+ 
+-	if  (!err)
+-		*ppos += count;
++	*ppos += ret;
+ 
+-	return (err) ? err : count;
++	return ret ? ret : err;
+ }
+ EXPORT_SYMBOL_GPL(fb_sys_read);
+ 
+@@ -59,7 +61,8 @@ ssize_t fb_sys_write(struct fb_info *info, const char __user *buf,
+ 	unsigned long p = *ppos;
+ 	void *dst;
+ 	int err = 0;
+-	unsigned long total_size;
++	unsigned long total_size, c;
++	size_t ret;
+ 
+ 	if (info->state != FBINFO_STATE_RUNNING)
+ 		return -EPERM;
+@@ -89,13 +92,14 @@ ssize_t fb_sys_write(struct fb_info *info, const char __user *buf,
+ 	if (info->fbops->fb_sync)
+ 		info->fbops->fb_sync(info);
+ 
+-	if (copy_from_user(dst, buf, count))
++	c = copy_from_user(dst, buf, count);
++	if (c)
+ 		err = -EFAULT;
++	ret = count - c;
+ 
+-	if  (!err)
+-		*ppos += count;
++	*ppos += ret;
+ 
+-	return (err) ? err : count;
++	return ret ? ret : err;
+ }
+ EXPORT_SYMBOL_GPL(fb_sys_write);
+ 
+diff --git a/drivers/video/fbdev/core/fbmem.c b/drivers/video/fbdev/core/fbmem.c
+index 3fd95a79e4c3..abc92d79a295 100644
+--- a/drivers/video/fbdev/core/fbmem.c
++++ b/drivers/video/fbdev/core/fbmem.c
+@@ -820,7 +820,7 @@ fb_read(struct file *file, char __user *buf, size_t count, loff_t *ppos)
+ 
+ 	kfree(buffer);
+ 
+-	return (err) ? err : cnt;
++	return cnt ? cnt : err;
+ }
+ 
+ static ssize_t
 -- 
 2.40.0
 
