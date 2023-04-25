@@ -2,77 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B9F96ED98A
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Apr 2023 03:05:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 586B66ED9FE
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Apr 2023 03:46:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D263410E1F3;
-	Tue, 25 Apr 2023 01:05:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 751A610E0BA;
+	Tue, 25 Apr 2023 01:46:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 84E3C10E1F3;
- Tue, 25 Apr 2023 01:05:32 +0000 (UTC)
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 33P00YwJ028384; Tue, 25 Apr 2023 01:05:27 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=/JE2Tu/eXUj5gxjpv0IdfC9ftwGd1WGPHWuNkdxVajY=;
- b=KySaNFNZdaUjKwBbxqfmMrLKWLkKNKIgygq4K1aSouC2lwMZ5RYZLMCnHhRKQwAiOoJr
- aXpDnqd/t+DJvD7S9cT36n2HDozpe0TzxY7husptJlhoiBDwa32FFhphY+nZDzWGbcRx
- 7WcG5sRp78dISMOPaPnxxezSOI3Nfp1sNUvY1pSf993krLqTmkPV1G7v7wP7mT+Y8XMw
- ImbjhM/fEiN9LE5nUvi8riKemFlq/d+Sle4qyJnTo2WfPdvl91ZDqmaZoQQrmoLXPhpf
- DLGHQh1Iv0ESBF6fgsVWVI0k9IJAjqrQgFC8zdtT5CFJxHPZ8APtqttNPRa59g4eFuGC yg== 
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3q5uwj15cf-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 25 Apr 2023 01:05:27 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 33P15QW2026816
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 25 Apr 2023 01:05:26 GMT
-Received: from [10.110.104.134] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Mon, 24 Apr
- 2023 18:05:25 -0700
-Message-ID: <4228ade9-fab2-7732-4143-3edeb1de2059@quicinc.com>
-Date: Mon, 24 Apr 2023 18:05:24 -0700
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3A96610E0BA;
+ Tue, 25 Apr 2023 01:46:00 +0000 (UTC)
+X-UUID: 9f6bb248181d4d54822b9d9891d4fdbf-20230425
+X-CID-O-RULE: Release_Ham
+X-CID-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.22, REQID:67799942-4058-436d-8104-f1c19049ea09, IP:5,
+ U
+ RL:0,TC:0,Content:0,EDM:0,RT:0,SF:-15,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
+ N:release,TS:-10
+X-CID-INFO: VERSION:1.1.22, REQID:67799942-4058-436d-8104-f1c19049ea09, IP:5,
+ URL
+ :0,TC:0,Content:0,EDM:0,RT:0,SF:-15,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+ release,TS:-10
+X-CID-META: VersionHash:120426c, CLOUDID:83d603ec-db6f-41fe-8b83-13fe7ed1ef52,
+ B
+ ulkID:230425094553WM112X05,BulkQuantity:0,Recheck:0,SF:38|24|17|19|44|102,
+ TC:nil,Content:0,EDM:-3,IP:-2,URL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0
+ ,OSI:0,OSA:0,AV:0
+X-CID-BVR: 0,NGT
+X-CID-BAS: 0,NGT,0,_
+X-UUID: 9f6bb248181d4d54822b9d9891d4fdbf-20230425
+X-User: zhouzongmin@kylinos.cn
+Received: from thinkpadx13gen2i.. [(116.128.244.169)] by mailgw
+ (envelope-from <zhouzongmin@kylinos.cn>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 489722498; Tue, 25 Apr 2023 09:45:50 +0800
+From: Zongmin Zhou <zhouzongmin@kylinos.cn>
+To: airlied@redhat.com, kraxel@redhat.com, airlied@gmail.com, daniel@ffwll.ch
+Subject: [RESEND PATCH] drm/qxl: prevent memory leak
+Date: Tue, 25 Apr 2023 09:45:43 +0800
+Message-Id: <20230425014543.3448839-1-zhouzongmin@kylinos.cn>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20230322085847.3385930-1-zhouzongmin@kylinos.cn>
+References: <20230322085847.3385930-1-zhouzongmin@kylinos.cn>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.2
-Subject: Re: [PATCH 10/11] drm/msm/dpu: tweak lm pairings in msm8998 hw catalog
-Content-Language: en-US
-To: Arnaud Vrac <avrac@freebox.fr>, Rob Clark <robdclark@gmail.com>, Dmitry
- Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, David
- Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-References: <20230419-dpu-tweaks-v1-0-d1bac46db075@freebox.fr>
- <20230419-dpu-tweaks-v1-10-d1bac46db075@freebox.fr>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <20230419-dpu-tweaks-v1-10-d1bac46db075@freebox.fr>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: cen5c6kz_CXqYbcHoGqWuE6EWoaM8ddI
-X-Proofpoint-GUID: cen5c6kz_CXqYbcHoGqWuE6EWoaM8ddI
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-04-24_12,2023-04-21_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 mlxscore=0
- lowpriorityscore=0 phishscore=0 suspectscore=0 impostorscore=0
- adultscore=0 priorityscore=1501 clxscore=1015 malwarescore=0 spamscore=0
- mlxlogscore=826 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2303200000 definitions=main-2304250008
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,26 +58,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: Zongmin Zhou <zhouzongmin@kylinos.cn>, spice-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ virtualization@lists.linux-foundation.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+The allocated memory for qdev->dumb_heads should be released
+in qxl_destroy_monitors_object before qxl suspend.
+otherwise,qxl_create_monitors_object will be called to
+reallocate memory for qdev->dumb_heads after qxl resume,
+it will cause memory leak.
 
+Signed-off-by: Zongmin Zhou<zhouzongmin@kylinos.cn>
+---
+ drivers/gpu/drm/qxl/qxl_display.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-On 4/19/2023 7:41 AM, Arnaud Vrac wrote:
-> Change lm blocks pairs so that lm blocks with the same features are
-> paired together:
-> 
-> LM_0 and LM_1 with PP and DSPP
-> LM_2 and LM_5 with PP
-> LM_3 and LM_4
-> 
-> This matches the sdm845 configuration and allows using pp or dspp when 2
-> lm blocks are needed in the topology. In the previous config the
-> reservation code could never find an lm pair without a matching feature
-> set.
-> 
-> Signed-off-by: Arnaud Vrac <avrac@freebox.fr>
+diff --git a/drivers/gpu/drm/qxl/qxl_display.c b/drivers/gpu/drm/qxl/qxl_display.c
+index 6492a70e3c39..404b0483bb7c 100644
+--- a/drivers/gpu/drm/qxl/qxl_display.c
++++ b/drivers/gpu/drm/qxl/qxl_display.c
+@@ -1229,6 +1229,9 @@ int qxl_destroy_monitors_object(struct qxl_device *qdev)
+ 	if (!qdev->monitors_config_bo)
+ 		return 0;
+ 
++	kfree(qdev->dumb_heads);
++	qdev->dumb_heads = NULL;
++
+ 	qdev->monitors_config = NULL;
+ 	qdev->ram_header->monitors_config = 0;
+ 
+-- 
+2.34.1
 
-Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
