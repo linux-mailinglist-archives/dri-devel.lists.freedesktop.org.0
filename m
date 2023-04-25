@@ -1,44 +1,86 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24CB86EEA54
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Apr 2023 00:35:57 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B79466EEA58
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Apr 2023 00:38:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C0FA110E2B6;
-	Tue, 25 Apr 2023 22:35:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3367D10E2D3;
+	Tue, 25 Apr 2023 22:38:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay05.th.seeweb.it (relay05.th.seeweb.it [5.144.164.166])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A73EC10E2B6;
- Tue, 25 Apr 2023 22:35:51 +0000 (UTC)
-Received: from SoMainline.org (94-211-6-86.cable.dynamic.v4.ziggo.nl
- [94.211.6.86])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
- SHA256) (No client certificate requested)
- by m-r2.th.seeweb.it (Postfix) with ESMTPSA id 2EC3A3F094;
- Wed, 26 Apr 2023 00:35:49 +0200 (CEST)
-Date: Wed, 26 Apr 2023 00:35:47 +0200
-From: Marijn Suijten <marijn.suijten@somainline.org>
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>
-Subject: Re: [Freedreno] [PATCH v2 3/3] drm/msm/dpu: Pass catalog pointers
- directly from RM instead of IDs
-Message-ID: <ecopixnagol7yd5znvmjanknqbv7vi4ayy36vchaeyyhuavu4w@rkdfllrd4uzb>
-References: <ymq4kstme55dm3j5kr6trevnwdelhjq7e7m4yky6zcbnf7auid@66l7inxz4oq2>
- <CAA8EJprYQUFER6x1+ucHX_Ze2uqWc6xoEaYDdJ1s0jgZjPJ0QQ@mail.gmail.com>
- <c809476f-74bc-0399-08f9-1bf26e7170fa@quicinc.com>
- <r2tndjr5jbjtrwwti6l3ag7562e53nqx2uk6vz6fx43yc7sncl@eypc37r2ey3j>
- <31f116f6-a6b7-1241-83bc-96c31e718f3f@linaro.org>
- <m5z5mv5hbdgpjbfo3mqo5s3egshnlu77nla4b7txddlsbk5fvi@jitwvapbr7wr>
- <CAA8EJpoCeCkucvb=a+1ken_yR=8FvcECrvajOk5MxgO-j2nD6A@mail.gmail.com>
- <2c3ef118-d7b1-83bd-f789-3e5c5212a6e5@quicinc.com>
- <CAA8EJpq8i4YxRc4yM-BGyV0uM4WyDOoFAgsU8bOoZL963wRMkQ@mail.gmail.com>
- <fc3089b6-5511-7046-9c70-f0535d8f4ba3@quicinc.com>
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 68CD510E206;
+ Tue, 25 Apr 2023 22:38:51 +0000 (UTC)
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 33PMBapf002941; Tue, 25 Apr 2023 22:37:48 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=f+5A1qztiXhNmFaeF8ZnrVXAG1ddU+0Am4irhfVFlX4=;
+ b=OmxFnS0T/lEN9FMVRmbiDpez8vE6uSJAW7DqNFdQgk/cYcXfDhZ983w38b1+Ama2pi1h
+ 1eM4A4Ms6RffZ5kvaAS9k3+/eGurD+hPJfQsu/LwiExKuQA22Bwlt2yLzotxBdg7kfws
+ ZKpqhQy7vwQzN5eFJcKEujuhO8CgJVg31U6GJgzhFcsANie84GWIgC4LNschrESxvTXl
+ TXq0qPVajmGTZkMJkcAIhw/i41UAeKRqP38ow7tsD3hg8X2zgEJSoCuk5hHoCPjuDaL7
+ P7S7kqPGKwFQwRXk7OCHMtuFIpT4iRnr6GqtKScETZ6787Z1a5zyCZbzDKL3EKW/as0J lg== 
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3q6bgpa2hh-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 25 Apr 2023 22:37:48 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 33PMbkwt021702
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 25 Apr 2023 22:37:46 GMT
+Received: from [10.110.124.105] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Tue, 25 Apr
+ 2023 15:37:45 -0700
+Message-ID: <a1501b6c-6859-549a-5739-67afdec8865b@quicinc.com>
+Date: Tue, 25 Apr 2023 15:37:44 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <fc3089b6-5511-7046-9c70-f0535d8f4ba3@quicinc.com>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.2
+Subject: Re: [Freedreno] [PATCH v2 04/17] drm/msm/dpu: Fix PP_BLK_DIPHER ->
+ DITHER typo
+Content-Language: en-US
+To: Marijn Suijten <marijn.suijten@somainline.org>
+References: <bhatfkgdkjt2bih4lcwa5cxcp3w2tkjrqmbdhqhzqa2cizrmxs@py3gr5vifsoc>
+ <65bb4d8a-c607-4152-0ae3-bf3134955925@quicinc.com>
+ <5td7ikd76obc5bn5sndnt7fbzjuwmyxtu35ma3lykzmmbyfffk@b24jh6imaocy>
+ <7541b780-482e-ea92-f788-18c8fbf45d77@quicinc.com>
+ <o536qdkbrqob5wux7jvmo7expwn4bdlj7vy7egjfsyydxp5myb@xjhmolci5jzl>
+ <cc537736-a555-dc3e-2e53-f1d4479eab21@quicinc.com>
+ <6crk3acgxcdfdokpgcfjkojs2wdjoxalkmctqfgtc725wsgoep@kdj4zbavbe62>
+ <a8f33707-b9ea-5595-e458-4f56c24c1167@quicinc.com>
+ <klrcz6zw4syxllhtbuclo65lo73kdunl5syuuoiv6zzkf3fadl@rgjc7rlgaoxq>
+ <5661d20d-81e9-61ba-b556-d90b5b8fdb4d@quicinc.com>
+ <ztgyg2uplm7fbju7hfxvc6547zvttnslotwook2wmejiytlq7u@clq6zzwgvc5c>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <ztgyg2uplm7fbju7hfxvc6547zvttnslotwook2wmejiytlq7u@clq6zzwgvc5c>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: D1LDtd0Ggi10h9dwdda-EeVDWXxDZlcf
+X-Proofpoint-ORIG-GUID: D1LDtd0Ggi10h9dwdda-EeVDWXxDZlcf
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-04-25_08,2023-04-25_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 bulkscore=0
+ mlxscore=0 mlxlogscore=921 suspectscore=0 adultscore=0 priorityscore=1501
+ phishscore=0 lowpriorityscore=0 spamscore=0 malwarescore=0 impostorscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2303200000
+ definitions=main-2304250202
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,55 +93,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sean Paul <sean@poorly.run>, Jami Kettunen <jami.kettunen@somainline.org>,
- freedreno@lists.freedesktop.org,
+Cc: dri-devel@lists.freedesktop.org, Jordan Crouse <jordan@cosmicpenguin.net>,
  AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Jordan Crouse <jordan@cosmicpenguin.net>,
- Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Chandan Uddaraju <chandanu@codeaurora.org>,
+ Archit Taneja <architt@codeaurora.org>, Robert Foss <rfoss@kernel.org>,
+ Kuogee Hsieh <quic_khsieh@quicinc.com>, Rajesh Yadav <ryadav@codeaurora.org>,
+ linux-arm-msm@vger.kernel.org, Adam Skladowski <a39.skl@gmail.com>,
  Martin Botka <martin.botka@somainline.org>,
- ~postmarketos/upstreaming@lists.sr.ht, linux-arm-msm@vger.kernel.org,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+ ~postmarketos/upstreaming@lists.sr.ht,
+ Jeykumar Sankaran <jsanka@codeaurora.org>, Sean Paul <sean@poorly.run>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Loic Poulain <loic.poulain@linaro.org>, Jami
+ Kettunen <jami.kettunen@somainline.org>, Bjorn Andersson <andersson@kernel.org>,
+ linux-kernel@vger.kernel.org, Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Vinod Koul <vkoul@kernel.org>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ freedreno@lists.freedesktop.org,
+ Sravanthi Kollukuduru <skolluku@codeaurora.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2023-04-25 14:32:51, Abhinav Kumar wrote:
-<snip>
-> >>>>> We can return NULL from dpu_hw_foo_init(), which would mean that the
-> >>>>> block was skipped or is not present.
-> >>>>
-> >>>> An then replace the `if INTF_NONE continue` logic in dpu_rm_init with a
-> >>>> check for NULL that skips, and a check for IS_ERR` that goes to `fail`?
-> >>>
-> >>> You can just drop the INTF_NONE in dpu_rm. If dpu_hw_intf_init()
-> >>> returns NULL, the rest of the code in dpu_rm will work correctly.
 
-Sure, I'll keep the check exclusively in dpu_hw_intf_init().  Should I
-also move the pingpong==PINGPONG_MAX check into dpu_hw_lm_init()?
 
-> >> The only thing lost will be that the loop in the RM will break at the
-> >> first instance of NULL so if the loop has valid intf blocks later, those
-> >> will also not get initialized.
-> >
-> > No, it won't. There is the IS_ERR check, not the IS_ERR_OR_NULL()
+On 4/25/2023 3:15 PM, Marijn Suijten wrote:
+> On 2023-04-25 14:55:56, Abhinav Kumar wrote:
+> <snip>
+>>> I'll see whether I can include these fixes before sending v3 (got all
+>>> the other changes in and am all-ready to send it): is there any other
+>>> SoC you're seeing this issue on?
+>>>
+>>
+>> Thats alright, you can have it in a separate series not v3 of this one.
+>>
+>> I am picking up the fixes from this one now.
+>>
+>> I will update the other SOCs on IRC or even better i will take up this
+>> cleanup.
+> 
+> I already have the fix patch in my tree that is compatible with the
+> other patches, and will send those in a minute.  All DPU >= 7.0.0 seems
+> to be affected, both SM8350 and SM8450 need to use the SC7280 sblk with
+> DITHER V2 at 0xe0 (SM8250 is still V1).  I believe SC8280XP should also
+> be updated but do not have access to DTS: where can I find that (what is
+> its codename again?) or can you otherwise confirm this for me?
+> 
 
-Only DSC currently uses IS_ERR_OR_NULL... We should fix that as
-rc=PTR_ERR(hw) on the next should be 0 (actually, the intent is for it
-to be undefined I think) for that...
+Sure, I can wait another day too. Dont want to rush you too much for this.
 
-> Ack, but isnt that an issue since rm->hw_intf[intf->id - INTF_0] can be 
-> assigned to a NULL hw.
+8280xp still has dither at 0xe0 and yes its version is V2.
 
-Yes, that is exactly the intent here.
+8280xp's DTS is not located in the techpack. Its a different tree.
 
-> >> That wont happen today because catalog doesnt have such entries but just
-> >> wanted to note what gets lost with this change.
 
-It does, we have a few SoCs with type=INTF_NONE.  Quoting myself from
-above:
-
-    As per the first patch of this series SM6115/QCM2290 only have a DSI
-    interface which always sits at ID 1, and ID 0 has its TYPE set to
-    INTF_NONE and is skipped.
-
-- Marijn
+> - Marijn
