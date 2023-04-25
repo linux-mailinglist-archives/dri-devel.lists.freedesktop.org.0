@@ -2,85 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B79466EEA58
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Apr 2023 00:38:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9EA296EEA83
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Apr 2023 01:06:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3367D10E2D3;
-	Tue, 25 Apr 2023 22:38:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8921A10E30E;
+	Tue, 25 Apr 2023 23:06:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 68CD510E206;
- Tue, 25 Apr 2023 22:38:51 +0000 (UTC)
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 33PMBapf002941; Tue, 25 Apr 2023 22:37:48 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=f+5A1qztiXhNmFaeF8ZnrVXAG1ddU+0Am4irhfVFlX4=;
- b=OmxFnS0T/lEN9FMVRmbiDpez8vE6uSJAW7DqNFdQgk/cYcXfDhZ983w38b1+Ama2pi1h
- 1eM4A4Ms6RffZ5kvaAS9k3+/eGurD+hPJfQsu/LwiExKuQA22Bwlt2yLzotxBdg7kfws
- ZKpqhQy7vwQzN5eFJcKEujuhO8CgJVg31U6GJgzhFcsANie84GWIgC4LNschrESxvTXl
- TXq0qPVajmGTZkMJkcAIhw/i41UAeKRqP38ow7tsD3hg8X2zgEJSoCuk5hHoCPjuDaL7
- P7S7kqPGKwFQwRXk7OCHMtuFIpT4iRnr6GqtKScETZ6787Z1a5zyCZbzDKL3EKW/as0J lg== 
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3q6bgpa2hh-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 25 Apr 2023 22:37:48 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 33PMbkwt021702
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 25 Apr 2023 22:37:46 GMT
-Received: from [10.110.124.105] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Tue, 25 Apr
- 2023 15:37:45 -0700
-Message-ID: <a1501b6c-6859-549a-5739-67afdec8865b@quicinc.com>
-Date: Tue, 25 Apr 2023 15:37:44 -0700
+Received: from relay02.th.seeweb.it (relay02.th.seeweb.it [5.144.164.163])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9F3B210E82A
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Apr 2023 23:06:04 +0000 (UTC)
+Received: from Marijn-Arch-PC.localdomain
+ (94-211-6-86.cable.dynamic.v4.ziggo.nl [94.211.6.86])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by m-r1.th.seeweb.it (Postfix) with ESMTPSA id 733321F9B4;
+ Wed, 26 Apr 2023 01:06:01 +0200 (CEST)
+From: Marijn Suijten <marijn.suijten@somainline.org>
+Subject: [PATCH v3 00/21] drm/msm/dpu: Implement tearcheck support on INTF
+ block
+Date: Wed, 26 Apr 2023 01:05:51 +0200
+Message-Id: <20230411-dpu-intf-te-v3-0-693b17fe6500@somainline.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.2
-Subject: Re: [Freedreno] [PATCH v2 04/17] drm/msm/dpu: Fix PP_BLK_DIPHER ->
- DITHER typo
-Content-Language: en-US
-To: Marijn Suijten <marijn.suijten@somainline.org>
-References: <bhatfkgdkjt2bih4lcwa5cxcp3w2tkjrqmbdhqhzqa2cizrmxs@py3gr5vifsoc>
- <65bb4d8a-c607-4152-0ae3-bf3134955925@quicinc.com>
- <5td7ikd76obc5bn5sndnt7fbzjuwmyxtu35ma3lykzmmbyfffk@b24jh6imaocy>
- <7541b780-482e-ea92-f788-18c8fbf45d77@quicinc.com>
- <o536qdkbrqob5wux7jvmo7expwn4bdlj7vy7egjfsyydxp5myb@xjhmolci5jzl>
- <cc537736-a555-dc3e-2e53-f1d4479eab21@quicinc.com>
- <6crk3acgxcdfdokpgcfjkojs2wdjoxalkmctqfgtc725wsgoep@kdj4zbavbe62>
- <a8f33707-b9ea-5595-e458-4f56c24c1167@quicinc.com>
- <klrcz6zw4syxllhtbuclo65lo73kdunl5syuuoiv6zzkf3fadl@rgjc7rlgaoxq>
- <5661d20d-81e9-61ba-b556-d90b5b8fdb4d@quicinc.com>
- <ztgyg2uplm7fbju7hfxvc6547zvttnslotwook2wmejiytlq7u@clq6zzwgvc5c>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <ztgyg2uplm7fbju7hfxvc6547zvttnslotwook2wmejiytlq7u@clq6zzwgvc5c>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: D1LDtd0Ggi10h9dwdda-EeVDWXxDZlcf
-X-Proofpoint-ORIG-GUID: D1LDtd0Ggi10h9dwdda-EeVDWXxDZlcf
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-04-25_08,2023-04-25_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 bulkscore=0
- mlxscore=0 mlxlogscore=921 suspectscore=0 adultscore=0 priorityscore=1501
- phishscore=0 lowpriorityscore=0 spamscore=0 malwarescore=0 impostorscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2303200000
- definitions=main-2304250202
+X-B4-Tracking: v=1; b=H4sIANBcSGQC/2XOQQ6CMBCF4auYrh3SabGgK+9hXCAMMERa0kKjI
+ dxdIHHF8n/JfJlZBPJMQdxOs/AUObCza+jzSZRtYRsCrtYWSiotU0SohgnYjjWMBFSYPK1Rk8y
+ 1WC8GTzV/du3xXLvlMDr/3fGI27o5CpVGhRcpTaIQcyMBoS88dzYJE3cj2XtwfcH2zZYS5xuxY
+ VH9geMjUYEEqjNT5llGr2t2AJZl+QGdXnRT7AAAAA==
+To: Rob Clark <robdclark@gmail.com>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ Adam Skladowski <a39.skl@gmail.com>, Loic Poulain <loic.poulain@linaro.org>, 
+ Bjorn Andersson <andersson@kernel.org>, 
+ Kuogee Hsieh <quic_khsieh@quicinc.com>, Robert Foss <rfoss@kernel.org>, 
+ Vinod Koul <vkoul@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>
+X-Mailer: b4 0.12.2
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,55 +52,148 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, Jordan Crouse <jordan@cosmicpenguin.net>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
- Chandan Uddaraju <chandanu@codeaurora.org>,
- Archit Taneja <architt@codeaurora.org>, Robert Foss <rfoss@kernel.org>,
- Kuogee Hsieh <quic_khsieh@quicinc.com>, Rajesh Yadav <ryadav@codeaurora.org>,
- linux-arm-msm@vger.kernel.org, Adam Skladowski <a39.skl@gmail.com>,
+Cc: Marijn Suijten <marijn.suijten@somainline.org>,
+ Jami Kettunen <jami.kettunen@somainline.org>, linux-arm-msm@vger.kernel.org,
+ Konrad Dybcio <konrad.dybcio@somainline.org>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Jordan Crouse <jordan@cosmicpenguin.net>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
  Martin Botka <martin.botka@somainline.org>,
  ~postmarketos/upstreaming@lists.sr.ht,
- Jeykumar Sankaran <jsanka@codeaurora.org>, Sean Paul <sean@poorly.run>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Loic Poulain <loic.poulain@linaro.org>, Jami
- Kettunen <jami.kettunen@somainline.org>, Bjorn Andersson <andersson@kernel.org>,
- linux-kernel@vger.kernel.org, Konrad Dybcio <konrad.dybcio@linaro.org>,
- Vinod Koul <vkoul@kernel.org>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- freedreno@lists.freedesktop.org,
- Sravanthi Kollukuduru <skolluku@codeaurora.org>
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Since DPU 5.0.0 the TEARCHECK registers and interrupts moved out of the
+PINGPONG block and into the INTF.  Implement the necessary callbacks in
+the INTF block, and use these callbacks together with the INTF_TEAR
+interrupts.  Additionally, disable previous register writes and remove
+unused interrupts in the PINGPONG and MDP_TOP blocks for these newer
+platforms.
 
+With these patches the devices on DPU >= 5.0.0 listed below now update
+their panels at 60fps without tearing (nor sluggishness), and without
+repeated timeouts in dmesg.
 
-On 4/25/2023 3:15 PM, Marijn Suijten wrote:
-> On 2023-04-25 14:55:56, Abhinav Kumar wrote:
-> <snip>
->>> I'll see whether I can include these fixes before sending v3 (got all
->>> the other changes in and am all-ready to send it): is there any other
->>> SoC you're seeing this issue on?
->>>
->>
->> Thats alright, you can have it in a separate series not v3 of this one.
->>
->> I am picking up the fixes from this one now.
->>
->> I will update the other SOCs on IRC or even better i will take up this
->> cleanup.
-> 
-> I already have the fix patch in my tree that is compatible with the
-> other patches, and will send those in a minute.  All DPU >= 7.0.0 seems
-> to be affected, both SM8350 and SM8450 need to use the SC7280 sblk with
-> DITHER V2 at 0xe0 (SM8250 is still V1).  I believe SC8280XP should also
-> be updated but do not have access to DTS: where can I find that (what is
-> its codename again?) or can you otherwise confirm this for me?
-> 
+Tested on the following devices with command-mode panels and TE pins:
 
-Sure, I can wait another day too. Dont want to rush you too much for this.
+- Sony Xperia XZ3 (sdm845, DPU 4.0.0, cmdmode panel): no regressions on
+  PINGPONG TE;
+- Sony Xperia 5 (sm8150, DPU 5.0.0);
+- Sony Xperia 10 II (sm6125, DPU 5.0.4).
 
-8280xp still has dither at 0xe0 and yes its version is V2.
+---
+Changes in v3:
+- Use new commit hashes in Fixes: tags after drm-msm's msm-next was
+  force-pushed;
+- Rename dpu_hw_setup_vsync_source to
+  dpu_hw_setup_vsync_source_and_vsync_sel and drop _v1 suffix from
+  dpu_hw_setup_vsync_source_v1;
+- Refactor dpu_hw_interrupts register offsets to take the block offset
+  as argument and compute the actual register with a base offset and
+  stride, rather than hardcoding the many per-INTF and per-AD4 register
+  offsets with fixed stride manually;
+- Split INTF_TEAR interrupt additions into a core (dpu_hw_interrupts.c)
+  and catalog patch;
+- Add new patch to make DITHER sub-block of SM8[34]50 and SC8280XP V2
+  instead of V1.
 
-8280xp's DTS is not located in the techpack. Its a different tree.
+v2: https://lore.kernel.org/r/20230411-dpu-intf-te-v2-0-ef76c877eb97@somainline.org
 
+Changes in v2:
+- Rebase on -next with all the new SC8280XP and SM8[345]50 support;
+  - Remove duplicate PP_BLK_TE macro now that .features is an argument;
+  - Fix PP_BLK_DIPHER -> DITHER typo that was added recently;
+  - Add INTF_TEAR interrupt blocks for DPU 7.0.0 (moved to different
+    register range);
+  - Describe INTF_TEAR support for the newly added SM8350, SM8450,
+    SM8550 and SC8280XP SoCs;
+  - Remove TE2 subblocks from 8[34]50 and sc8280xp (new patch);
+- Rebase on -next with DPU catalog rework;
+  - Remove dpu_hw_intf_v1_get_status which was inlined in the original
+    dpu_hw_intf_get_status function in e3969eadc8ee ("drm/msm/disp/dpu:
+    get timing engine status from intf status register");
+  - Many changes to move all catalog edits to separate files;
+- Add documentation for DPU_MDP_VSYNC_SEL;
+- Fix sdm8150_mdp typo, should be sm8150_mdp;
+- Move unrelated INTF_INTR offsets out of hwio header (new patch);
+- Remove _reg argument from INTF_BLK, since we now have a third
+  interrupt with a different base register.  To prevent confusion all
+  three interrupts should provide the final value from DPU_IRQ_IDX
+  directly.
+- Only request the new tear_rd_ptr in a new INTF_BLK_DSI_TE macro;
+- Drop stray INTF_MISR_SIGNATURE register definition;
+- Clean up registers in dpu_hw_intf.c (many new patches);
+- merged setup_tearcheck() and enable_tearcheck() callbacks;
+- replaced enable_tearcheck(false) with new disable_tearcheck()
+  callback;
+- Moved dpu_encoder_phys_cmd_enable_te intestines (just autorefresh
+  disablement) to INTF and PP block, replacing 3 callbacks in both
+  blocks with just a single disable_autorefresh() callback.
 
-> - Marijn
+v1: https://lore.kernel.org/r/20221231215006.211860-1-marijn.suijten@somainline.org
+
+---
+Konrad Dybcio (1):
+      drm/msm/dpu: Move dpu_hw_{tear_check,pp_vsync_info} to dpu_hw_mdss.h
+
+Marijn Suijten (20):
+      drm/msm/dpu: Remove unused INTF0 interrupt mask from SM6115/QCM2290
+      drm/msm/dpu: Remove TE2 block and feature from DPU >= 7.0.0 hardware
+      drm/msm/dpu: Move non-MDP_TOP INTF_INTR offsets out of hwio header
+      drm/msm/dpu: Reindent REV_7xxx interrupt masks with tabs
+      drm/msm/dpu: Fix PP_BLK_DIPHER -> DITHER typo
+      drm/msm/dpu: Use V2 DITHER PINGPONG sub-block in SM8[34]50/SC8280XP
+      drm/msm/dpu: Remove duplicate register defines from INTF
+      drm/msm/dpu: Remove extraneous register define indentation
+      drm/msm/dpu: Sort INTF registers numerically
+      drm/msm/dpu: Take INTF index as parameter in interrupt register defines
+      drm/msm/dpu: Drop unused poll_timeout_wr_ptr PINGPONG callback
+      drm/msm/dpu: Move autorefresh disable from CMD encoder to pingpong
+      drm/msm/dpu: Disable pingpong TE on DPU 5.0.0 and above
+      drm/msm/dpu: Disable MDP vsync source selection on DPU 5.0.0 and above
+      drm/msm/dpu: Factor out shared interrupt register in INTF_BLK macro
+      drm/msm/dpu: Describe TEAR interrupt registers for DSI interfaces
+      drm/msm/dpu: Add TEAR-READ-pointer interrupt to INTF block
+      drm/msm/dpu: Merge setup_- and enable_tearcheck pingpong callbacks
+      drm/msm/dpu: Implement tearcheck support on INTF block
+      drm/msm/dpu: Remove intr_rdptr from DPU >= 5.0.0 pingpong config
+
+ .../drm/msm/disp/dpu1/catalog/dpu_3_0_msm8998.h    |  26 +-
+ .../gpu/drm/msm/disp/dpu1/catalog/dpu_4_0_sdm845.h |  26 +-
+ .../gpu/drm/msm/disp/dpu1/catalog/dpu_5_0_sm8150.h |  40 +--
+ .../drm/msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h    |  48 ++--
+ .../gpu/drm/msm/disp/dpu1/catalog/dpu_6_0_sm8250.h |  40 +--
+ .../gpu/drm/msm/disp/dpu1/catalog/dpu_6_2_sc7180.h |  16 +-
+ .../gpu/drm/msm/disp/dpu1/catalog/dpu_6_3_sm6115.h |  15 +-
+ .../drm/msm/disp/dpu1/catalog/dpu_6_5_qcm2290.h    |  15 +-
+ .../gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h |  40 +--
+ .../gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h |  22 +-
+ .../drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h   |  64 +++--
+ .../gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h |  46 ++--
+ .../gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h |  36 ++-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c        |  11 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h   |  10 +-
+ .../gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c   | 210 ++++++++--------
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c     |  48 ++--
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h     |   9 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c  | 183 +++++++-------
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.h  |   4 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c        | 268 ++++++++++++++++++---
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h        |  25 ++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h        |  48 ++++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.c    |  83 ++++---
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.h    |  64 +----
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.c         |  50 ++--
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hwio.h           |   3 -
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h            |   4 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_trace.h          |  14 ++
+ 29 files changed, 978 insertions(+), 490 deletions(-)
+---
+base-commit: f600e0bbde8562a06bee31b3eb1b69d49acac4c5
+change-id: 20230411-dpu-intf-te-ea684f13e083
+
+Best regards,
+-- 
+Marijn Suijten <marijn.suijten@somainline.org>
+
