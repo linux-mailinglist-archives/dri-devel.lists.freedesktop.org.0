@@ -1,58 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B691A6EE3F1
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Apr 2023 16:29:09 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F2AB6EE3F3
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Apr 2023 16:29:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 114CB10E744;
-	Tue, 25 Apr 2023 14:29:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 934F610E762;
+	Tue, 25 Apr 2023 14:29:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7B5AF10E755
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 71CEA10E752
  for <dri-devel@lists.freedesktop.org>; Tue, 25 Apr 2023 14:28:53 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id E31A9219C0;
- Tue, 25 Apr 2023 14:28:49 +0000 (UTC)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 2EAE4219C1;
+ Tue, 25 Apr 2023 14:28:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1682432929; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1682432930; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=pEl4quZln5av8T3BtD9s4WiR9E5Q2FduIfE+05guzso=;
- b=t178I0XJ5CxTsI+8nzAFlB8ucfNb1PPB3QzyFMUjL9S+/HPgEnE6WAwEg14u/+lrYkoPZL
- KshC/S2/SspHOBYHXezu6Z43boBUJgAHdACX722PsnxOArRxKIuzXjqrk4fNq4yJ/8O21K
- t5bpjatAoZNRLvDT6siCLNbjelFTHJE=
+ bh=MQABSfQRyIdDzQ/2aBb6RQQndmg/tEmC+h0//N9kxaE=;
+ b=1nvApDr0Vf6xjcXPKlh5HXFwc5SVHGSYsalRjKRY+oRCbGEqPxOWuyra5HwezGpGKL1gDl
+ hV8LmyFe+2OLxphBPaunug6NPNInBfFiP+/12c8gzpAJ0N6XIrXAjvgra79cEsSjhnzl7z
+ DUlg/WRfkcXo/WKK5eI1h7s0XfTuEPI=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1682432929;
+ s=susede2_ed25519; t=1682432930;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=pEl4quZln5av8T3BtD9s4WiR9E5Q2FduIfE+05guzso=;
- b=Z6qbksarB0GU9Iarrc82/oIr5YyopNUmeksuQvw3niiSWFcgF78dLAEvTibn8MdWH//ezJ
- VWoucAn//v+b25AA==
+ bh=MQABSfQRyIdDzQ/2aBb6RQQndmg/tEmC+h0//N9kxaE=;
+ b=DHDfYIN0L01WOEnz6oeP0z74SvDE0DXAofMCC/7ExHP/VTJSd25bXh5aVoAV9Cmm34PgMo
+ hPGLJ3X+FRL31tDQ==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id A858B13920;
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id E6CD2138E3;
  Tue, 25 Apr 2023 14:28:49 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id kPgwKKHjR2ReOgAAMHmgww
+ by imap2.suse-dmz.suse.de with ESMTPSA id MKF5N6HjR2ReOgAAMHmgww
  (envelope-from <tzimmermann@suse.de>); Tue, 25 Apr 2023 14:28:49 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
  daniel@ffwll.ch, javierm@redhat.com, deller@gmx.de, geert@linux-m68k.org,
  sudipm.mukherjee@gmail.com, teddy.wang@siliconmotion.com
-Subject: [PATCH 3/6] fbdev: Don't re-validate info->state in fb_ops
- implementations
-Date: Tue, 25 Apr 2023 16:28:43 +0200
-Message-Id: <20230425142846.730-4-tzimmermann@suse.de>
+Subject: [PATCH 4/6] fbdev: Validate info->screen_{base,
+ buffer} in fb_ops implementations
+Date: Tue, 25 Apr 2023 16:28:44 +0200
+Message-Id: <20230425142846.730-5-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.40.0
 In-Reply-To: <20230425142846.730-1-tzimmermann@suse.de>
 References: <20230425142846.730-1-tzimmermann@suse.de>
@@ -75,64 +75,130 @@ Cc: linux-fbdev@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The file-op entry points fb_read() and fb_write() verify that
-info->state has been set to FBINFO_STATE_RUNNING. Remove the same
-test from the implementations of struct fb_ops.{fb_read,fb_write}.
+Push the test for info->screen_base from fb_read() and fb_write() into
+the implementations of struct fb_ops.{fb_read,fb_write}. In cases where
+the driver operates on info->screen_buffer, test this field instead.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/video/fbdev/core/fb_sys_fops.c | 6 ------
- drivers/video/fbdev/sm712fb.c          | 6 ------
- 2 files changed, 12 deletions(-)
+ drivers/video/fbdev/cobalt_lcdfb.c     |  6 ++++++
+ drivers/video/fbdev/core/fb_sys_fops.c |  6 ++++++
+ drivers/video/fbdev/core/fbmem.c       | 10 ++++++++--
+ drivers/video/fbdev/sm712fb.c          |  4 ++--
+ 4 files changed, 22 insertions(+), 4 deletions(-)
 
+diff --git a/drivers/video/fbdev/cobalt_lcdfb.c b/drivers/video/fbdev/cobalt_lcdfb.c
+index 5f8b6324d2e8..26dbd1c78195 100644
+--- a/drivers/video/fbdev/cobalt_lcdfb.c
++++ b/drivers/video/fbdev/cobalt_lcdfb.c
+@@ -129,6 +129,9 @@ static ssize_t cobalt_lcdfb_read(struct fb_info *info, char __user *buf,
+ 	unsigned long pos;
+ 	int len, retval = 0;
+ 
++	if (!info->screen_base)
++		return -ENODEV;
++
+ 	pos = *ppos;
+ 	if (pos >= LCD_CHARS_MAX || count == 0)
+ 		return 0;
+@@ -175,6 +178,9 @@ static ssize_t cobalt_lcdfb_write(struct fb_info *info, const char __user *buf,
+ 	unsigned long pos;
+ 	int len, retval = 0;
+ 
++	if (!info->screen_base)
++		return -ENODEV;
++
+ 	pos = *ppos;
+ 	if (pos >= LCD_CHARS_MAX || count == 0)
+ 		return 0;
 diff --git a/drivers/video/fbdev/core/fb_sys_fops.c b/drivers/video/fbdev/core/fb_sys_fops.c
-index 6589123f4127..7dee5d3c7fb1 100644
+index 7dee5d3c7fb1..0cb0989abda6 100644
 --- a/drivers/video/fbdev/core/fb_sys_fops.c
 +++ b/drivers/video/fbdev/core/fb_sys_fops.c
-@@ -22,9 +22,6 @@ ssize_t fb_sys_read(struct fb_info *info, char __user *buf, size_t count,
+@@ -22,6 +22,9 @@ ssize_t fb_sys_read(struct fb_info *info, char __user *buf, size_t count,
  	unsigned long total_size, c;
  	ssize_t ret;
  
--	if (info->state != FBINFO_STATE_RUNNING)
--		return -EPERM;
--
++	if (!info->screen_buffer)
++		return -ENODEV;
++
  	total_size = info->screen_size;
  
  	if (total_size == 0)
-@@ -64,9 +61,6 @@ ssize_t fb_sys_write(struct fb_info *info, const char __user *buf,
+@@ -61,6 +64,9 @@ ssize_t fb_sys_write(struct fb_info *info, const char __user *buf,
  	unsigned long total_size, c;
  	size_t ret;
  
--	if (info->state != FBINFO_STATE_RUNNING)
--		return -EPERM;
--
++	if (!info->screen_buffer)
++		return -ENODEV;
++
+ 	total_size = info->screen_size;
+ 
+ 	if (total_size == 0)
+diff --git a/drivers/video/fbdev/core/fbmem.c b/drivers/video/fbdev/core/fbmem.c
+index abc92d79a295..b993bb97058f 100644
+--- a/drivers/video/fbdev/core/fbmem.c
++++ b/drivers/video/fbdev/core/fbmem.c
+@@ -768,7 +768,7 @@ fb_read(struct file *file, char __user *buf, size_t count, loff_t *ppos)
+ 	int c, cnt = 0, err = 0;
+ 	unsigned long total_size;
+ 
+-	if (!info || ! info->screen_base)
++	if (!info)
+ 		return -ENODEV;
+ 
+ 	if (info->state != FBINFO_STATE_RUNNING)
+@@ -777,6 +777,9 @@ fb_read(struct file *file, char __user *buf, size_t count, loff_t *ppos)
+ 	if (info->fbops->fb_read)
+ 		return info->fbops->fb_read(info, buf, count, ppos);
+ 
++	if (!info->screen_base)
++		return -ENODEV;
++
+ 	total_size = info->screen_size;
+ 
+ 	if (total_size == 0)
+@@ -833,7 +836,7 @@ fb_write(struct file *file, const char __user *buf, size_t count, loff_t *ppos)
+ 	int c, cnt = 0, err = 0;
+ 	unsigned long total_size;
+ 
+-	if (!info || !info->screen_base)
++	if (!info)
+ 		return -ENODEV;
+ 
+ 	if (info->state != FBINFO_STATE_RUNNING)
+@@ -842,6 +845,9 @@ fb_write(struct file *file, const char __user *buf, size_t count, loff_t *ppos)
+ 	if (info->fbops->fb_write)
+ 		return info->fbops->fb_write(info, buf, count, ppos);
+ 
++	if (!info->screen_base)
++		return -ENODEV;
++
  	total_size = info->screen_size;
  
  	if (total_size == 0)
 diff --git a/drivers/video/fbdev/sm712fb.c b/drivers/video/fbdev/sm712fb.c
-index b528776c7612..6f852cd756c5 100644
+index 6f852cd756c5..b7ad3c644e13 100644
 --- a/drivers/video/fbdev/sm712fb.c
 +++ b/drivers/video/fbdev/sm712fb.c
-@@ -1031,9 +1031,6 @@ static ssize_t smtcfb_read(struct fb_info *info, char __user *buf,
- 	if (!info || !info->screen_base)
+@@ -1028,7 +1028,7 @@ static ssize_t smtcfb_read(struct fb_info *info, char __user *buf,
+ 	int c, i, cnt = 0, err = 0;
+ 	unsigned long total_size;
+ 
+-	if (!info || !info->screen_base)
++	if (!info->screen_base)
  		return -ENODEV;
  
--	if (info->state != FBINFO_STATE_RUNNING)
--		return -EPERM;
--
  	total_size = info->screen_size;
+@@ -1091,7 +1091,7 @@ static ssize_t smtcfb_write(struct fb_info *info, const char __user *buf,
+ 	int c, i, cnt = 0, err = 0;
+ 	unsigned long total_size;
  
- 	if (total_size == 0)
-@@ -1097,9 +1094,6 @@ static ssize_t smtcfb_write(struct fb_info *info, const char __user *buf,
- 	if (!info || !info->screen_base)
+-	if (!info || !info->screen_base)
++	if (!info->screen_base)
  		return -ENODEV;
  
--	if (info->state != FBINFO_STATE_RUNNING)
--		return -EPERM;
--
  	total_size = info->screen_size;
- 
- 	if (total_size == 0)
 -- 
 2.40.0
 
