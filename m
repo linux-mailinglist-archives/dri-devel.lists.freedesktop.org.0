@@ -1,76 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A744B6EDD44
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Apr 2023 09:54:55 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 071046EDD47
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Apr 2023 09:55:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8CC1C10E6B7;
-	Tue, 25 Apr 2023 07:54:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3572010E6BC;
+	Tue, 25 Apr 2023 07:55:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com
- [IPv6:2a00:1450:4864:20::335])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7424610E6BC
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Apr 2023 07:54:52 +0000 (UTC)
-Received: by mail-wm1-x335.google.com with SMTP id
- 5b1f17b1804b1-3f1957e80a2so103644425e9.1
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Apr 2023 00:54:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1682409289; x=1685001289;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=VQwbma0iSI5QAy6oY/g8yyHDTalLHVN442ZQ8tvUH24=;
- b=fbLhHVt+lFYR4yIQa+10NhRc6dkhInNnA8+K7HTASmn+mKX4Hfm7yq7LFxEthff06H
- M4/EtuuBL/h9BmwBsZC9J0ZqOb0HxbtVYVFuYKt1IEROEUctGiRzrIj+yO2UiNVyViSx
- j2AfmUyyKbUXV9N6ztoCdIzNm2fegmQTUptqhsWigMLzZMU6W2cGH6fYIr/oaPhbADmB
- ijLSNIVrrESS6BQmopEXhUGaJ53opq2rmslJPPnZZaym3x8q2x89fgx2ULchAXDxzhhZ
- sGKhHZWJRc27SMAPllO9LRB/zd+a902zQgjUeSfRH647+AJnQFlFEKM3zqO95PU9RsuS
- KsHg==
+Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com
+ [209.85.219.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 686CA10E6BC
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Apr 2023 07:55:39 +0000 (UTC)
+Received: by mail-yb1-f171.google.com with SMTP id
+ 3f1490d57ef6-b99e0ffbabbso1463744276.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Apr 2023 00:55:39 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682409289; x=1685001289;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=VQwbma0iSI5QAy6oY/g8yyHDTalLHVN442ZQ8tvUH24=;
- b=IG6yV0/wuaHIHpv8wm5u3jZ7yII6e3ly7+TU4pgsEWYomqalWAC3V5Nf7jmuhid1Ye
- NWidXfQUb2DDd8pz6wPDTkFVKYv5Bbs4l+UWkhSsGt0dAa2PZl2taFNwZFAVO14irRgh
- k68AEVF4uR2nCxRhFfZHOEpitKhZj+VbqDB12nqfN18B4HLFHQy8V6mo3isP0rMSQvr6
- lSbIZRKdJ5qb5sWFn5JLg0k8eBv+aaxouwigx6wsbBF4wutSoWsp7oKarj/OCQtjBSxH
- aaYzbzNSw18soOljqc0SMTABKQISMtZk3COJk5Md8ySfyKvG8XEMy0v6NDFSOid4Mj+8
- saew==
-X-Gm-Message-State: AAQBX9c3cG0Na4xhnbpbwA7B28X5t3IlhtLroMPHK3h7DxH3a7nwVIwE
- Bi1G4aPPPf98Jgf83cJKXUBCjA==
-X-Google-Smtp-Source: AKy350bxj+aLsLRHeyMoP4qkYz3CwXQQYHpY+KUVzCxjAPI+daPQkuA/5bLUrLZ68T16RxCKRXIXAg==
-X-Received: by 2002:a5d:414c:0:b0:2fa:d00d:cab8 with SMTP id
- c12-20020a5d414c000000b002fad00dcab8mr11412934wrq.18.1682409288661; 
- Tue, 25 Apr 2023 00:54:48 -0700 (PDT)
-Received: from [172.23.2.5] ([31.221.30.162]) by smtp.gmail.com with ESMTPSA id
- v7-20020a5d4a47000000b002fe065da369sm12333449wrs.69.2023.04.25.00.54.47
+ d=1e100.net; s=20221208; t=1682409338; x=1685001338;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=32lcqM6Fq0qcXElBsoyKk2B7Vu57XT2++1XOz45oKjQ=;
+ b=XYEVtbDmR62hFZ7ek/SRPv7LAvEv1dXG/Jx9HcihEAwcMoPgALdHN+8mQLZijM1xCg
+ cFiklSxZP1ebsN/eHhiLlBi/dlFNRvZp77OqO7kLSJYs/MrikK5LMHoP3dbE1LJr50NP
+ fDcKz5noVqN5xNQbLe2ykJ4zXTpT3dGASDP8mFQs0TTPWRDzJ7+p0SPF3Jd8JTHbfHVw
+ Ibx7odSxlmwOw3hE1+N9Shmt5F5B43uy0adkKGFWchGY7Gy4knxY20gslCDEeNdfCiim
+ bPMVW7gwUT9Nbckb6Frqrd0YafjzVLz42mUJGZ7aL8aery/+HFg4f2qRtSWWglhmyn6B
+ sEFQ==
+X-Gm-Message-State: AAQBX9etEVsOFh5SIGJaXUg4T1SIqAu3z9O4vmwZa0Wc7H/a4I5gEv/J
+ ckmsq4y+k5+C2Vt2Ztsy5MdwqH0Fafvj2Q==
+X-Google-Smtp-Source: AKy350a/ZLVKFt/9uFoNjLCkqVZlBWDQsWGU5KvVT58ENHvgx0XpZqmi2I3kNZiUoz7Kt9Ob+Y9OkA==
+X-Received: by 2002:a25:4243:0:b0:b75:9a44:5342 with SMTP id
+ p64-20020a254243000000b00b759a445342mr11590983yba.4.1682409338050; 
+ Tue, 25 Apr 2023 00:55:38 -0700 (PDT)
+Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com.
+ [209.85.128.173]) by smtp.gmail.com with ESMTPSA id
+ y2-20020a056902052200b00b923c50bd3fsm3363358ybs.15.2023.04.25.00.55.37
+ for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 25 Apr 2023 00:54:48 -0700 (PDT)
-Message-ID: <31f116f6-a6b7-1241-83bc-96c31e718f3f@linaro.org>
-Date: Tue, 25 Apr 2023 10:54:47 +0300
+ Tue, 25 Apr 2023 00:55:37 -0700 (PDT)
+Received: by mail-yw1-f173.google.com with SMTP id
+ 00721157ae682-555c8a12b26so61716037b3.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Apr 2023 00:55:37 -0700 (PDT)
+X-Received: by 2002:a0d:ccc9:0:b0:546:4626:bfc5 with SMTP id
+ o192-20020a0dccc9000000b005464626bfc5mr10570998ywd.31.1682409337504; Tue, 25
+ Apr 2023 00:55:37 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH v2 3/3] drm/msm/dpu: Pass catalog pointers directly from
- RM instead of IDs
-Content-Language: en-GB
-To: Marijn Suijten <marijn.suijten@somainline.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>
-References: <20230418-dpu-drop-useless-for-lookup-v2-0-acb08e82ef19@somainline.org>
- <20230418-dpu-drop-useless-for-lookup-v2-3-acb08e82ef19@somainline.org>
- <50d22e0c-84b3-0678-eb06-30fb66fd24cf@quicinc.com>
- <ymq4kstme55dm3j5kr6trevnwdelhjq7e7m4yky6zcbnf7auid@66l7inxz4oq2>
- <CAA8EJprYQUFER6x1+ucHX_Ze2uqWc6xoEaYDdJ1s0jgZjPJ0QQ@mail.gmail.com>
- <c809476f-74bc-0399-08f9-1bf26e7170fa@quicinc.com>
- <r2tndjr5jbjtrwwti6l3ag7562e53nqx2uk6vz6fx43yc7sncl@eypc37r2ey3j>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <r2tndjr5jbjtrwwti6l3ag7562e53nqx2uk6vz6fx43yc7sncl@eypc37r2ey3j>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20230424161024.136316-1-biju.das.jz@bp.renesas.com>
+ <20230424161024.136316-6-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20230424161024.136316-6-biju.das.jz@bp.renesas.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 25 Apr 2023 09:55:25 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWR1XE3SqCwqG=81WLDc_rY8Ec_rH7mjt6_5cL7=JA=TQ@mail.gmail.com>
+Message-ID: <CAMuHMdWR1XE3SqCwqG=81WLDc_rY8Ec_rH7mjt6_5cL7=JA=TQ@mail.gmail.com>
+Subject: Re: [PATCH v8 5/5] MAINTAINERS: Add maintainer for RZ DU drivers
+To: Biju Das <biju.das.jz@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,150 +70,72 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org,
- Jami Kettunen <jami.kettunen@somainline.org>, Sean Paul <sean@poorly.run>,
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Jordan Crouse <jordan@cosmicpenguin.net>,
- Konrad Dybcio <konrad.dybcio@linaro.org>,
- Martin Botka <martin.botka@somainline.org>,
- ~postmarketos/upstreaming@lists.sr.ht,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
+Cc: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+ Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+ linux-renesas-soc@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 25/04/2023 10:16, Marijn Suijten wrote:
-> On 2023-04-24 16:23:17, Abhinav Kumar wrote:
->>
->>
->> On 4/24/2023 3:54 PM, Dmitry Baryshkov wrote:
->>> On Tue, 25 Apr 2023 at 01:03, Marijn Suijten
->>> <marijn.suijten@somainline.org> wrote:
->>>>
->>>> On 2023-04-21 16:25:15, Abhinav Kumar wrote:
->>>>>
->>>>>
->>>>> On 4/21/2023 1:53 PM, Marijn Suijten wrote:
->>>>>> The Resource Manager already iterates over all available blocks from the
->>>>>> catalog, only to pass their ID to a dpu_hw_xxx_init() function which
->>>>>> uses an _xxx_offset() helper to search for and find the exact same
->>>>>> catalog pointer again to initialize the block with, fallible error
->>>>>> handling and all.
->>>>>>
->>>>>> Instead, pass const pointers to the catalog entries directly to these
->>>>>> _init functions and drop the for loops entirely, saving on both
->>>>>> readability complexity and unnecessary cycles at boot.
->>>>>>
->>>>>> Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
->>>>>> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
->>>>>
->>>>> Overall, a nice cleanup!
->>>>>
->>>>> One comment below.
->>>>>
->>>>>> ---
->>>>>>     drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c        | 37 +++++----------------
->>>>>>     drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h        | 14 ++++----
->>>>>>     drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.c        | 32 +++---------------
->>>>>>     drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.h        | 11 +++----
->>>>>>     drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.c       | 38 ++++-----------------
->>>>>>     drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.h       | 12 +++----
->>>>>>     drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.h |  2 +-
->>>>>>     drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c       | 40 ++++++-----------------
->>>>>>     drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h       | 12 +++----
->>>>>>     drivers/gpu/drm/msm/disp/dpu1/dpu_hw_lm.c         | 38 ++++-----------------
->>>>>>     drivers/gpu/drm/msm/disp/dpu1/dpu_hw_lm.h         | 10 +++---
->>>>>>     drivers/gpu/drm/msm/disp/dpu1/dpu_hw_merge3d.c    | 33 +++----------------
->>>>>>     drivers/gpu/drm/msm/disp/dpu1/dpu_hw_merge3d.h    | 14 ++++----
->>>>>>     drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.c   | 33 +++----------------
->>>>>>     drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.h   | 14 ++++----
->>>>>>     drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c       | 39 ++++------------------
->>>>>>     drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h       | 12 +++----
->>>>>>     drivers/gpu/drm/msm/disp/dpu1/dpu_hw_vbif.c       | 33 +++----------------
->>>>>>     drivers/gpu/drm/msm/disp/dpu1/dpu_hw_vbif.h       | 11 +++----
->>>>>>     drivers/gpu/drm/msm/disp/dpu1/dpu_hw_wb.c         | 33 ++++---------------
->>>>>>     drivers/gpu/drm/msm/disp/dpu1/dpu_hw_wb.h         | 11 +++----
->>>>>>     drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c           | 17 +++++-----
->>>>>>     drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c            | 18 +++++-----
->>>>>>     23 files changed, 139 insertions(+), 375 deletions(-)
->>>>>>
->>>>>
->>>>> <snipped>
->>>>>
->>>>>> -struct dpu_hw_intf *dpu_hw_intf_init(enum dpu_intf idx,
->>>>>> -           void __iomem *addr,
->>>>>> -           const struct dpu_mdss_cfg *m)
->>>>>> +struct dpu_hw_intf *dpu_hw_intf_init(const struct dpu_intf_cfg *cfg,
->>>>>> +           void __iomem *addr)
->>>>>>     {
->>>>>>       struct dpu_hw_intf *c;
->>>>>> -   const struct dpu_intf_cfg *cfg;
->>>>>> +
->>>>>> +   if (cfg->type == INTF_NONE) {
->>>>>> +           pr_err("Cannot create interface hw object for INTF_NONE type\n");
->>>>>> +           return ERR_PTR(-EINVAL);
->>>>>> +   }
->>>>>
->>>>> The caller of dpu_hw_intf_init which is the RM already has protection
->>>>> for INTF_NONE, see below
->>>>>
->>>>>            for (i = 0; i < cat->intf_count; i++) {
->>>>>                    struct dpu_hw_intf *hw;
->>>>>                    const struct dpu_intf_cfg *intf = &cat->intf[i];
->>>>>
->>>>>                    if (intf->type == INTF_NONE) {
->>>>>                            DPU_DEBUG("skip intf %d with type none\n", i);
->>>>>                            continue;
->>>>>                    }
->>>>>                    if (intf->id < INTF_0 || intf->id >= INTF_MAX) {
->>>>>                            DPU_ERROR("skip intf %d with invalid id\n",
->>>>> intf->id);
->>>>>                            continue;
->>>>>                    }
->>>>>                    hw = dpu_hw_intf_init(intf->id, mmio, cat);
->>>>>
->>>>> So this part can be dropped.
->>>>
->>>> I mainly intended to keep original validation where _intf_offset would
->>>> skip INTF_NONE, and error out.  RM init is hence expected to filter out
->>>> INTF_NONE instead of running into that `-EINVAL`, which I maintained
->>>> here.
->>>>
->>>> If you think there won't be another caller of dpu_hw_intf_init, and that
->>>> such validation is hence excessive, I can remove it in a followup v3.
->>>
->>> I'd prefer to see the checks at dpu_rm to be dropped.
->>> dpu_hw_intf_init() (and other dpu_hw_foo_init() functions) should be
->>> self-contained. If they can not init HW block (e.g. because the index
->>> is out of the boundaries), they should return an error.
->>>
->>
->> They already do that today because even without this it will call into
->> _intf_offset() and that will bail out for INTF_NONE.
->>
->> I feel this is a duplicated check because the caller with the loop needs
->> to validate the index before passing it to dpu_hw_intf_init() otherwise
->> the loop will get broken at the first return of the error and rest of
->> the blocks will also not be initialized.
-> 
-> To both: keep in mind that the range-checks we want to remove from
-> dpu_rm_init validate the ID (index?) of a block.  This check is for the
-> *TYPE* of an INTF block, to skip it gracefully if no hardware is mapped
-> there.  As per the first patch of this series SM6115/QCM2290 only have a
-> DSI interface which always sits at ID 1, and ID 0 has its TYPE set to
-> INTF_NONE and is skipped.
-> 
-> Hence we _should_ keep the graceful TYPE check in dpu_rm_init() to skip
-> calling this function _and assigning it to the rm->hw_intf array_.  But
-> I can remove the second TYPE check here in dpu_hw_intf_init() if you
-> prefer.
+Hi Biju,
 
-We can return NULL from dpu_hw_foo_init(), which would mean that the 
-block was skipped or is not present.
+On Mon, Apr 24, 2023 at 6:10=E2=80=AFPM Biju Das <biju.das.jz@bp.renesas.co=
+m> wrote:
+> Add my self as maintainer for RZ DU drivers.
+> While at it, update the entries for rcar-du and shmobile.
+>
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 
-> 
-> - Marijn
+Thanks for your patch!
 
--- 
-With best wishes
-Dmitry
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -6948,7 +6948,7 @@ F:        drivers/gpu/host1x/
+>  F:     include/linux/host1x.h
+>  F:     include/uapi/drm/tegra_drm.h
+>
+> -DRM DRIVERS FOR RENESAS
+> +DRM DRIVERS FOR RENESAS RCAR AND SHMOBILE
+>  M:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+>  M:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+>  L:     dri-devel@lists.freedesktop.org
+> @@ -6959,9 +6959,18 @@ F:       Documentation/devicetree/bindings/display=
+/bridge/renesas,dsi-csi2-tx.yaml
+>  F:     Documentation/devicetree/bindings/display/bridge/renesas,dw-hdmi.=
+yaml
+>  F:     Documentation/devicetree/bindings/display/bridge/renesas,lvds.yam=
+l
+>  F:     Documentation/devicetree/bindings/display/renesas,du.yaml
+> -F:     drivers/gpu/drm/renesas/
+> +F:     drivers/gpu/drm/renesas/rcar-du/
+> +F:     drivers/gpu/drm/renesas/shmobile/
+>  F:     include/linux/platform_data/shmob_drm.h
+>
+> +DRM DRIVERS FOR RENESAS RZ
+> +M:     Biju Das <biju.das.jz@bp.renesas.com>
+> +L:     dri-devel@lists.freedesktop.org
+> +L:     linux-renesas-soc@vger.kernel.org
+> +S:     Maintained
+> +F:     Documentation/devicetree/bindings/display/renesas,rzg2l-du.yaml
+> +F:     drivers/gpu/drm/renesas/rz-du/
+> +
+>  DRM DRIVERS FOR ROCKCHIP
+>  M:     Sandy Huang <hjc@rock-chips.com>
+>  M:     Heiko St=C3=BCbner <heiko@sntech.de>
 
+Who's gonna maintain the common parts under drivers/gpu/drm/renesas/?
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
