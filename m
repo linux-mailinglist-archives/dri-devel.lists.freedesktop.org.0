@@ -1,45 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A96396EEA38
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Apr 2023 00:15:46 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 24CB86EEA54
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Apr 2023 00:35:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4923210E2CC;
-	Tue, 25 Apr 2023 22:15:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C0FA110E2B6;
+	Tue, 25 Apr 2023 22:35:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay06.th.seeweb.it (relay06.th.seeweb.it
- [IPv6:2001:4b7a:2000:18::167])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C2D4610E2CC
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Apr 2023 22:15:38 +0000 (UTC)
+Received: from relay05.th.seeweb.it (relay05.th.seeweb.it [5.144.164.166])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A73EC10E2B6;
+ Tue, 25 Apr 2023 22:35:51 +0000 (UTC)
 Received: from SoMainline.org (94-211-6-86.cable.dynamic.v4.ziggo.nl
  [94.211.6.86])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
  SHA256) (No client certificate requested)
- by m-r2.th.seeweb.it (Postfix) with ESMTPSA id 68D273F4E7;
- Wed, 26 Apr 2023 00:15:36 +0200 (CEST)
-Date: Wed, 26 Apr 2023 00:15:34 +0200
+ by m-r2.th.seeweb.it (Postfix) with ESMTPSA id 2EC3A3F094;
+ Wed, 26 Apr 2023 00:35:49 +0200 (CEST)
+Date: Wed, 26 Apr 2023 00:35:47 +0200
 From: Marijn Suijten <marijn.suijten@somainline.org>
 To: Abhinav Kumar <quic_abhinavk@quicinc.com>
-Subject: Re: [Freedreno] [PATCH v2 04/17] drm/msm/dpu: Fix PP_BLK_DIPHER ->
- DITHER typo
-Message-ID: <ztgyg2uplm7fbju7hfxvc6547zvttnslotwook2wmejiytlq7u@clq6zzwgvc5c>
-References: <bhatfkgdkjt2bih4lcwa5cxcp3w2tkjrqmbdhqhzqa2cizrmxs@py3gr5vifsoc>
- <65bb4d8a-c607-4152-0ae3-bf3134955925@quicinc.com>
- <5td7ikd76obc5bn5sndnt7fbzjuwmyxtu35ma3lykzmmbyfffk@b24jh6imaocy>
- <7541b780-482e-ea92-f788-18c8fbf45d77@quicinc.com>
- <o536qdkbrqob5wux7jvmo7expwn4bdlj7vy7egjfsyydxp5myb@xjhmolci5jzl>
- <cc537736-a555-dc3e-2e53-f1d4479eab21@quicinc.com>
- <6crk3acgxcdfdokpgcfjkojs2wdjoxalkmctqfgtc725wsgoep@kdj4zbavbe62>
- <a8f33707-b9ea-5595-e458-4f56c24c1167@quicinc.com>
- <klrcz6zw4syxllhtbuclo65lo73kdunl5syuuoiv6zzkf3fadl@rgjc7rlgaoxq>
- <5661d20d-81e9-61ba-b556-d90b5b8fdb4d@quicinc.com>
+Subject: Re: [Freedreno] [PATCH v2 3/3] drm/msm/dpu: Pass catalog pointers
+ directly from RM instead of IDs
+Message-ID: <ecopixnagol7yd5znvmjanknqbv7vi4ayy36vchaeyyhuavu4w@rkdfllrd4uzb>
+References: <ymq4kstme55dm3j5kr6trevnwdelhjq7e7m4yky6zcbnf7auid@66l7inxz4oq2>
+ <CAA8EJprYQUFER6x1+ucHX_Ze2uqWc6xoEaYDdJ1s0jgZjPJ0QQ@mail.gmail.com>
+ <c809476f-74bc-0399-08f9-1bf26e7170fa@quicinc.com>
+ <r2tndjr5jbjtrwwti6l3ag7562e53nqx2uk6vz6fx43yc7sncl@eypc37r2ey3j>
+ <31f116f6-a6b7-1241-83bc-96c31e718f3f@linaro.org>
+ <m5z5mv5hbdgpjbfo3mqo5s3egshnlu77nla4b7txddlsbk5fvi@jitwvapbr7wr>
+ <CAA8EJpoCeCkucvb=a+1ken_yR=8FvcECrvajOk5MxgO-j2nD6A@mail.gmail.com>
+ <2c3ef118-d7b1-83bd-f789-3e5c5212a6e5@quicinc.com>
+ <CAA8EJpq8i4YxRc4yM-BGyV0uM4WyDOoFAgsU8bOoZL963wRMkQ@mail.gmail.com>
+ <fc3089b6-5511-7046-9c70-f0535d8f4ba3@quicinc.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <5661d20d-81e9-61ba-b556-d90b5b8fdb4d@quicinc.com>
+In-Reply-To: <fc3089b6-5511-7046-9c70-f0535d8f4ba3@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,45 +51,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, Jordan Crouse <jordan@cosmicpenguin.net>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
- Chandan Uddaraju <chandanu@codeaurora.org>,
- Archit Taneja <architt@codeaurora.org>, Robert Foss <rfoss@kernel.org>,
- Kuogee Hsieh <quic_khsieh@quicinc.com>, Rajesh Yadav <ryadav@codeaurora.org>,
- linux-arm-msm@vger.kernel.org, Adam Skladowski <a39.skl@gmail.com>,
- Martin Botka <martin.botka@somainline.org>,
- ~postmarketos/upstreaming@lists.sr.ht,
- Jeykumar Sankaran <jsanka@codeaurora.org>, Sean Paul <sean@poorly.run>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Loic Poulain <loic.poulain@linaro.org>,
- Jami Kettunen <jami.kettunen@somainline.org>,
- Bjorn Andersson <andersson@kernel.org>, linux-kernel@vger.kernel.org,
- Konrad Dybcio <konrad.dybcio@linaro.org>, Vinod Koul <vkoul@kernel.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+Cc: Sean Paul <sean@poorly.run>, Jami Kettunen <jami.kettunen@somainline.org>,
  freedreno@lists.freedesktop.org,
- Sravanthi Kollukuduru <skolluku@codeaurora.org>
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Jordan Crouse <jordan@cosmicpenguin.net>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Martin Botka <martin.botka@somainline.org>,
+ ~postmarketos/upstreaming@lists.sr.ht, linux-arm-msm@vger.kernel.org,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2023-04-25 14:55:56, Abhinav Kumar wrote:
+On 2023-04-25 14:32:51, Abhinav Kumar wrote:
 <snip>
-> > I'll see whether I can include these fixes before sending v3 (got all
-> > the other changes in and am all-ready to send it): is there any other
-> > SoC you're seeing this issue on?
-> > 
-> 
-> Thats alright, you can have it in a separate series not v3 of this one.
-> 
-> I am picking up the fixes from this one now.
-> 
-> I will update the other SOCs on IRC or even better i will take up this 
-> cleanup.
+> >>>>> We can return NULL from dpu_hw_foo_init(), which would mean that the
+> >>>>> block was skipped or is not present.
+> >>>>
+> >>>> An then replace the `if INTF_NONE continue` logic in dpu_rm_init with a
+> >>>> check for NULL that skips, and a check for IS_ERR` that goes to `fail`?
+> >>>
+> >>> You can just drop the INTF_NONE in dpu_rm. If dpu_hw_intf_init()
+> >>> returns NULL, the rest of the code in dpu_rm will work correctly.
 
-I already have the fix patch in my tree that is compatible with the
-other patches, and will send those in a minute.  All DPU >= 7.0.0 seems
-to be affected, both SM8350 and SM8450 need to use the SC7280 sblk with
-DITHER V2 at 0xe0 (SM8250 is still V1).  I believe SC8280XP should also
-be updated but do not have access to DTS: where can I find that (what is
-its codename again?) or can you otherwise confirm this for me?
+Sure, I'll keep the check exclusively in dpu_hw_intf_init().  Should I
+also move the pingpong==PINGPONG_MAX check into dpu_hw_lm_init()?
+
+> >> The only thing lost will be that the loop in the RM will break at the
+> >> first instance of NULL so if the loop has valid intf blocks later, those
+> >> will also not get initialized.
+> >
+> > No, it won't. There is the IS_ERR check, not the IS_ERR_OR_NULL()
+
+Only DSC currently uses IS_ERR_OR_NULL... We should fix that as
+rc=PTR_ERR(hw) on the next should be 0 (actually, the intent is for it
+to be undefined I think) for that...
+
+> Ack, but isnt that an issue since rm->hw_intf[intf->id - INTF_0] can be 
+> assigned to a NULL hw.
+
+Yes, that is exactly the intent here.
+
+> >> That wont happen today because catalog doesnt have such entries but just
+> >> wanted to note what gets lost with this change.
+
+It does, we have a few SoCs with type=INTF_NONE.  Quoting myself from
+above:
+
+    As per the first patch of this series SM6115/QCM2290 only have a DSI
+    interface which always sits at ID 1, and ID 0 has its TYPE set to
+    INTF_NONE and is skipped.
 
 - Marijn
