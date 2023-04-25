@@ -1,82 +1,78 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6D646EE4F6
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Apr 2023 17:48:28 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 948886EE544
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Apr 2023 18:09:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E4D3210E337;
-	Tue, 25 Apr 2023 15:48:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BC38410E2D2;
+	Tue, 25 Apr 2023 16:09:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E275F10E76E
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Apr 2023 15:48:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1682437699;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ZdbfBO9P3dNA5DkFcgzGIbmG69CDWbTOQpd5bSddDV0=;
- b=gVxpB06Eh3s9neQsNFQQ5bzpupASICkL7D7cYX8UGEEqWXvF4XDuQp051BcvGNgcWObotB
- X8/4QXKnKeLfBuQFo3sjtp1C82qGeo0/SYzKsfRZkY8vAsEPGq2LqH4LF/JTu/VBE4C+Na
- r/miQrIRfcSyVjb9ktMrFRNVflF4cqY=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-659-xtlZXWbnNTypdDieuuHESQ-1; Tue, 25 Apr 2023 11:48:18 -0400
-X-MC-Unique: xtlZXWbnNTypdDieuuHESQ-1
-Received: by mail-wm1-f70.google.com with SMTP id
- 5b1f17b1804b1-3f16fa91923so32865665e9.2
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Apr 2023 08:48:18 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682437692; x=1685029692;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=ZdbfBO9P3dNA5DkFcgzGIbmG69CDWbTOQpd5bSddDV0=;
- b=F/Bp8lYkeKLz94F6QPoGkemr23UnF9/v6OJ0BrWVXNQmIJ9Pyj1Hr6dYV6+9zScwxE
- nGsIO8RgPz+BeMbJ6eFwIFgK9soXepl+Dmo5DQYD3KJQ234hq4kv5LmtkirYyDdznvwJ
- OtkqKsj2oh/vc2xdSdj/9CFuJM+dD22UCTQ207Co3SynezmRjKulpYXkZiuTbknoI5Ma
- WaHp+Q/iBLFJdf1c3390QzFh7VNB6bDOUhswNwaZhOSJ0UVsgzzv/XRNRyRyggB8YKg8
- jVFGXMHkI0UwxNGZv3cjg+suVBl+lr8z/FAkfDTwGIsXP3Xb/9/pQAQpzCgh9DwKn2ek
- fm5A==
-X-Gm-Message-State: AAQBX9fA6dOLYNl10HNlJo0cvb9aFHlg1OJ5XknKKvtAkfZ/UtRclZ2D
- vZrN8RoeGQUwE7la5ro/1WZIHmrjaXfYxEHu4a8Y7vMEphUP1nASdrDkRrokF0QeiXJp2YM9vep
- z2KRYAix7W0i1EXFHHBfJJihAI3R5khRnHbXp
-X-Received: by 2002:a05:600c:2208:b0:3f1:75a9:5c0d with SMTP id
- z8-20020a05600c220800b003f175a95c0dmr10971879wml.26.1682437692253; 
- Tue, 25 Apr 2023 08:48:12 -0700 (PDT)
-X-Google-Smtp-Source: AKy350a2ebJyOhQ86Yx9z2gfk+jG2hn0YREABP7ZUfgejh1DXprAc0icDV2bfWJZ5Ch/UePPyQXivQ==
-X-Received: by 2002:a05:600c:2208:b0:3f1:75a9:5c0d with SMTP id
- z8-20020a05600c220800b003f175a95c0dmr10971864wml.26.1682437691910; 
- Tue, 25 Apr 2023 08:48:11 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:d5:a000:329d:db81:ed0c:c9cd?
- ([2a01:e0a:d5:a000:329d:db81:ed0c:c9cd])
- by smtp.gmail.com with ESMTPSA id
- e26-20020a05600c219a00b003f180d5b145sm15312837wme.40.2023.04.25.08.48.11
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 25 Apr 2023 08:48:11 -0700 (PDT)
-Message-ID: <8b9243fa-8836-1fb8-4ed6-3d9f611d9c86@redhat.com>
-Date: Tue, 25 Apr 2023 17:48:10 +0200
+Received: from wnew3-smtp.messagingengine.com (wnew3-smtp.messagingengine.com
+ [64.147.123.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9C4F210E2D2
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Apr 2023 16:09:09 +0000 (UTC)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailnew.west.internal (Postfix) with ESMTP id 58BBE2B066EE;
+ Tue, 25 Apr 2023 12:09:06 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute3.internal (MEProxy); Tue, 25 Apr 2023 12:09:08 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+ :cc:content-type:content-type:date:date:from:from:in-reply-to
+ :in-reply-to:message-id:mime-version:references:reply-to:sender
+ :subject:subject:to:to; s=fm2; t=1682438945; x=1682446145; bh=OQ
+ bk/kcId6uCyxUgunwrLpX0eRV2V+V1kjrMSflW4bw=; b=xfL+bIvoqJkDlIn6NT
+ JZABXentETsjQmDqX+VeP82DXmf9JUaacNXYyZsOEz3yRUBp7Au7qCEIWJMIye7A
+ t9DOuW4Pt7S4O9mEdjF5QCe5WKbPEYe9LUoqbHdJ7geCRNIDVbhmeADSSSe+lOYR
+ Hvp27IX5gonGrfFCLaeiZ6v7E5QQZz5Gv0o1ucj6maVISdK9jZaYk1iwGpVJ/0JZ
+ n1DnYTZWFAOSSA3amJP0yhbTXUX9zS1oPOkCs6mPnxvnrStliyvfwfURquB98u7C
+ gH8LRGomgQNCAKFFFUeqJb0qKiPyFZrnBieOsvJ+huc4HWZBR7sW3XSz4KxbO7iQ
+ Dmlg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:content-type:date:date
+ :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
+ :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+ :x-sasl-enc; s=fm3; t=1682438945; x=1682446145; bh=OQbk/kcId6uCy
+ xUgunwrLpX0eRV2V+V1kjrMSflW4bw=; b=RrqaQmCV3ic2Cw6IQVPi+EHytTXcW
+ Le8Pa5kd23TCvs+VtguVnHSgSxTIggj9nnZOkxI0FOx32Gr+j3ISk1DE4IdMqswU
+ x+hI/gUJlNlmY+AgsD35ANsmSzXJcfwgk9/5WUUvFUs3yZOvG8EEUBYsn7+K2uI7
+ L8R/Bdmx3S51Gmtyn1IaHlWATEaPhGWyLmvrH/lbakV/jWE21Huwowlmpo4C9HBr
+ NZTqmaEzkeUhn4hCDX6uuTeBup+LKUsytzipT4TL3NU2YSQyQwpp80BY/i26D+jC
+ xXGxB2Zs7cvEg/NT85L5atwMb9pUZnqyA8o7JRT+zJuVjuiufU+PeXVRA==
+X-ME-Sender: <xms:IPtHZCqbNRTzXvOxc9ebAK-NhsMlCnlFevO7pBJv1-fkOSHYLfi-6A>
+ <xme:IPtHZArp6IJ88X8w89fwRB93tfYVCarSxKmNR5mWP8p860iEGNUlxbJM8WDaHIfnT
+ YQpZ3UW-iKJKynKQQ4>
+X-ME-Received: <xmr:IPtHZHONIndbAJI4qZw5-icA44GPx5wXWKGTIo99f6vou0Y3To2uPfRnUWle8UNrnrMPODg7Gq5pBQpaZAdt1CBZAwThD_M>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrfeduvddgleejucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvfevuffkfhggtggujgesghdtsfertddtvdenucfhrhhomhepofgrgihi
+ mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
+ htthgvrhhnpeeuveduheeutdekvefgudevjeeufedvvdevhfejgfelgfdtkeevueegteek
+ gfelfeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+ hmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:IPtHZB74simx7Dvnq_JO4GXRbnw6s5w60_fOTePPjHYkNjQB1jcYUw>
+ <xmx:IPtHZB5dCohDIbKCcDNOda-l0U91Ve42omh-E2gD89tFvRstFAmhGQ>
+ <xmx:IPtHZBg2oZhWOZIrfe8zI4Nw0PXTHjoc5n-JlQR2J-6NAms1ihA4jw>
+ <xmx:IftHZBol1LSWumMtyJH7TvVO5McxamADQDbwywOuZMSn3_PRfga7yJ5wn1I>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 25 Apr 2023 12:09:04 -0400 (EDT)
+Date: Tue, 25 Apr 2023 18:09:01 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Roman Beranek <me@crly.cz>
+Subject: Re: [PATCH v2 1/7] clk: sunxi-ng: a64: propagate rate change from
+ pll-mipi
+Message-ID: <eyhlequ4hldyvtjqi5ouvbozmjeqqve4jcvgdtvktf3tqmwqjf@bqvjcu2kxajf>
+References: <20230418074008.69752-1-me@crly.cz>
+ <20230418074008.69752-2-me@crly.cz>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.1
-Subject: Re: [PATCH 07/14] drm/mgag200: Replace simple-KMS with regular atomic
- helpers
-To: Thomas Zimmermann <tzimmermann@suse.de>, kernel@linuxace.com
-References: <20220708093929.4446-8-tzimmermann@suse.de>
- <20230425142519.13201-1-kernel@linuxace.com>
- <7f770bc8-d79b-ca1c-21ba-aa888ace2153@suse.de>
-From: Jocelyn Falempe <jfalempe@redhat.com>
-In-Reply-To: <7f770bc8-d79b-ca1c-21ba-aa888ace2153@suse.de>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="drnscjmrlojh2hnd"
+Content-Disposition: inline
+In-Reply-To: <20230418074008.69752-2-me@crly.cz>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,64 +85,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sam Ravnborg <sam@ravnborg.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
+Cc: Icenowy Zheng <icenowy@aosp.io>, Samuel Holland <samuel@sholland.org>,
+ Frank Oltmanns <frank@oltmanns.dev>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ linux-kernel@vger.kernel.org, Chen-Yu Tsai <wens@csie.org>,
+ Ondrej Jirman <megi@xff.cz>, dri-devel@lists.freedesktop.org,
+ linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 25/04/2023 17:03, Thomas Zimmermann wrote:
-> (cc'ing dri-devel, Jocelyn and Sam)
-> 
-> Hi Phil,
-> 
-> I've put dri-devel into cc, which is the developer's mailing list. It's 
-> the first time I hear about this bug.
 
-Thanks for pointing this to me, I will take a look at it.
+--drnscjmrlojh2hnd
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
--- 
+Hi,
 
-Jocelyn
-> 
-> Am 25.04.23 um 16:25 schrieb kernel@linuxace.com:
->> Hi Thomas,
->>
->> I have been trying to track down why we lost console on our Dell 
->> servers since
->> switching to kernel 6.1, and finally narrowed it down to the commit 
->> referenced
->> in the subject (1baf9127c482).  If I boot kernel 1baf9127c482, I will 
->> have
->> no console at all on my servers.  Booting the prior kernel 
->> (4f4dc37e374c) restores
->> console.  The server I am testing on has a G200EH card.
->>
->> There is a bug report about this (not opened by me) here:
->>
->> https://bugzilla.redhat.com/show_bug.cgi?id=2171155
->>
->> but I'm not sure if RedHat bugzilla is the best place to report this.  
->> Any
->> suggestions for a better place?  I'm available for any testing.  I've 
->> already
->> tried simply reverting this commit from 6.1 but it does not reverse 
->> cleanly
->> given all the other MGA changes made after this specific commit.  Any
->> guidance you could provide is appreciated.
-> 
-> You cannot really revert it, as it's too old already. But could you 
-> please try the latest developer tree from
-> 
->    git://anongit.freedesktop.org/drm/drm-tip
-> 
-> The branch is drm-tip. Maybe the bug has been fixed meanwhile. If this 
-> also doesn't work, we can take a closer look at the changes.
-> 
-> Best regards
-> Thomas
-> 
->>
->> Thanks,
->> Phil
-> 
+On Tue, Apr 18, 2023 at 09:40:02AM +0200, Roman Beranek wrote:
+> Propagating rate change from tcon0 all the way to pll-video0 allows for
+> greater precision in matching requested display timing.
+>=20
+> Signed-off-by: Roman Beranek <me@crly.cz>
+> ---
+>  drivers/clk/sunxi-ng/ccu-sun50i-a64.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/clk/sunxi-ng/ccu-sun50i-a64.c b/drivers/clk/sunxi-ng=
+/ccu-sun50i-a64.c
+> index 41519185600a..dd6212286dcd 100644
+> --- a/drivers/clk/sunxi-ng/ccu-sun50i-a64.c
+> +++ b/drivers/clk/sunxi-ng/ccu-sun50i-a64.c
+> @@ -179,7 +179,8 @@ static struct ccu_nkm pll_mipi_clk =3D {
+>  	.common		=3D {
+>  		.reg		=3D 0x040,
+>  		.hw.init	=3D CLK_HW_INIT("pll-mipi", "pll-video0",
+> -					      &ccu_nkm_ops, CLK_SET_RATE_UNGATE),
+> +					      &ccu_nkm_ops, CLK_SET_RATE_UNGATE
+> +							  | CLK_SET_RATE_PARENT),
 
+The OR should be on the previous line
+
+Maxime
+
+--drnscjmrlojh2hnd
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZEf7HQAKCRDj7w1vZxhR
+xUnvAP4yDrqezoLe1dBxve+9KckvqmP5apjHhhVINJc5nbFIlgD+Pf04BAirUXFu
+I2LHFHnGnYXeBu6+yR/jrJs6uxw9tAM=
+=slla
+-----END PGP SIGNATURE-----
+
+--drnscjmrlojh2hnd--
