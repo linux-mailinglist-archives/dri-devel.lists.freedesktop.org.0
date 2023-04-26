@@ -2,57 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26DD16EFC06
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Apr 2023 22:57:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D60F86EFC07
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Apr 2023 22:57:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AF25910E33B;
-	Wed, 26 Apr 2023 20:57:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1F60310E9D9;
+	Wed, 26 Apr 2023 20:57:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1BF6110E571;
- Wed, 26 Apr 2023 20:57:34 +0000 (UTC)
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5CC1C10E143;
+ Wed, 26 Apr 2023 20:57:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1682542654; x=1714078654;
+ t=1682542657; x=1714078657;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:content-transfer-encoding:mime-version;
- bh=FuE1CQRzl7ekRzQhJ29y2W1GcwGdyL/Si0JfGIgZ/K4=;
- b=gZnQQg3GvtprKzN5fzsge2Oq+QG56lSFEhLbnNnU2WedZpLWHau5KUcF
- 1Fo/1BbiHqxAeVoLf3rQoAgPO2+zp8Hij9wpiKa6QEDyqWx8UiO9pqFS/
- ZNyTIa6Uz94/EHqJuhXd8L9ZrZIHe4NPtQE3Yfj675fglvm8GVYUHfSmL
- dXRwr4CnKJ/j2qGe2dwi1co8L5VaFWvFdQe8oE4QkuFzsE2Qvu4zhTl58
- JB4z8UQi7XUCnZwNHNmGcEsVfj33IFHNLNMubH5sa8oDklyhywOBM9fMN
- pvYLrG3dyhsawSr4R4QcHbjbBMl8HEO74oOl8J58JTUr0XdNXpm30c4/U Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10692"; a="375203521"
-X-IronPort-AV: E=Sophos;i="5.99,229,1677571200"; d="scan'208";a="375203521"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Apr 2023 13:57:32 -0700
+ bh=PKUPodSWJm6zFdDK2CSJ3Idoh2Hab8QKsC+Rx6cwX9M=;
+ b=ldvdeEeNA6I+YMW8EdReSspvUGeWxReYY1AF02TubdYK7ccoXBNl2pD5
+ FUM5KsJWSZU2oPuYGGFfHRGzmCBUg+Hp1K+C+7F1J2g+KgtQf2Hel3qzt
+ NrTd1O4Uk3cBDLttqre0FDP8K1HRFMwya+IMRQG/Z0VHO+b6YAfxdLefI
+ mtXpMNnwUDtZQq9yAY6OuzUae394FGoXdfli1/HPqSp+EqF2stwL3BqDk
+ ALfCvGfCFFZ76Obl5H+u5ufAtLfj1c0Vng6RfXPES75/jhXeTbOosoCFx
+ 5HAVjCPaft09io4uB4ksQxyf0sTPD+CpiuS2cKZhXXrQ1EUxZbJdGv7ig g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10692"; a="410249461"
+X-IronPort-AV: E=Sophos;i="5.99,229,1677571200"; d="scan'208";a="410249461"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Apr 2023 13:57:36 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10692"; a="688105005"
-X-IronPort-AV: E=Sophos;i="5.99,229,1677571200"; d="scan'208";a="688105005"
-Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
- by orsmga007.jf.intel.com with ESMTP; 26 Apr 2023 13:57:32 -0700
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+X-IronPort-AV: E=McAfee;i="6600,9927,10692"; a="868435110"
+X-IronPort-AV: E=Sophos;i="5.99,229,1677571200"; d="scan'208";a="868435110"
+Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
+ by orsmga005.jf.intel.com with ESMTP; 26 Apr 2023 13:57:36 -0700
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.23; Wed, 26 Apr 2023 13:57:31 -0700
-Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ 15.1.2507.23; Wed, 26 Apr 2023 13:57:36 -0700
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.23 via Frontend Transport; Wed, 26 Apr 2023 13:57:31 -0700
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (104.47.66.45) by
- edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
+ 15.1.2507.23 via Frontend Transport; Wed, 26 Apr 2023 13:57:36 -0700
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (104.47.56.175)
+ by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.23; Wed, 26 Apr 2023 13:57:31 -0700
+ 15.1.2507.23; Wed, 26 Apr 2023 13:57:35 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=jLPZ6gLInC+jDiZygq85blaSvmkR4tFSoVDwzixNsemDkPhY/4fg9I7nQLaWV03YLSXXe7c3WZYTv8pudfLQrVOKzqScBn/4EFc1gfi+VCW6SDZpCJp1N+23Dnd1fQLDsiZyZYvJQRxTAbAClaGoiNYRVNiWtlQOeC8QqLJUBGNvboUIcsbVk7xluH5ToPLNWbXc13iNvNTBtny6bxENcYbl8v9aw0cUfq8MIS0UWK61xcw4AbmrOmg15Z6hE5sNry3l43/O85JUzd7S/fJ1G+70KMW0bK/ZSnrD6xkHu8H2k8Y+4ieMzmSbByUGnkgj2TLtIRM/9YPfWwx5Tbv7lg==
+ b=VccsY5DIqZKYjv7ibGPJj+mCaDhIAhIO0H1KSKcbmZKf6pKrN7MdC+4ctFT6cwtyKyNEQn7JG0DdmuzLAsfTGLVahKSnsgWOHd8LMFuBghsvRD1Iu66GiudsPq+Wtvd6EXcfZ185a1QFZNSYPKb4sqTKHFDwX4FIB6SA8wq1AaJLPdvVKV7koZ3WNFI7zISy/McXnyZEYT2CASc+K2zwGgicp7O/QtOrFf5Oyht2I6o5nZmlWjsxJPIlaUh54eIflmOilRIoR+IMpcJQNCGpsPxbHVXNK2aQCvYvkpy+xh6nea2f1AuR9g8EfHYplodaKCK0puA2X8ppGqICxRp0oA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=dlWCYEAUPAi/XhGddmgjvW8ZMwpz7GwYGArdZqMF1j8=;
- b=KwO+QbsR81n7q1XOqMBRRl3MyhIYPvLcc0KyWVSPaqH80VzVRJDVGCGzY0cLbFRLJYuLx1z82JMrSZeLAWa8XFv39wVNu9VGmFEwfHbLkG8/nmmd3W7vgtrfjrmDNqVdalBSI0ldnx4Xk0cpuT7n/qskxnRo6dei/xaGoOmjlJBkRKgJHn0grjc5zjBrHHsVo0+mM6UynrynExWGz83GQUekQnBQmvz3SEoCkBxnODos+jncGYQeHmYxFw+kCTwss8kKEN1J67++UCP+BmC+cPJ/4KsDqsIcvSAb/nDAT0Nu6LnENKW9PQHeos1JVv7rggT2hk7zi+/tWe4nkAzdVw==
+ bh=KkQI9kylSSJRgpgSTvhUcpis4mtOqMyequN69k264Wk=;
+ b=G573pewJ1Ayj0Ie8FsALAEwlWlglGZ66krtn0YdCkti321r89OHq4XWa43LXVAhl1GGQD58/BBVx5UOfvfdoZ4Mi/1I//UVpiLOt38qPJjOosgkJdrQ2NSQ6TdT10mH2XFRwmEoE8miCGxva+GzCDhqt6PZbVr/y//vPFa01B55Zawz2CHSJ29o0YzCYcD0pFkK2x1Lvde7VO1si0EqapV6lYYJuo20neTUdZkqHTiE8eut3P92ImncsV/0yDxcouwirp9FVVocH0hp3gMmtQOdUiyXi+ZeQEp2dNvBazcUEU8KJw/i9LJ1wr6FWLwRNcnWpZlZFN7cXO2PqTcYUvQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
@@ -62,74 +62,74 @@ Received: from MN0PR11MB6059.namprd11.prod.outlook.com (2603:10b6:208:377::9)
  by MN0PR11MB6182.namprd11.prod.outlook.com (2603:10b6:208:3c6::19)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6340.21; Wed, 26 Apr
- 2023 20:57:30 +0000
+ 2023 20:57:34 +0000
 Received: from MN0PR11MB6059.namprd11.prod.outlook.com
  ([fe80::f7ec:aae9:1e7b:e004]) by MN0PR11MB6059.namprd11.prod.outlook.com
  ([fe80::f7ec:aae9:1e7b:e004%6]) with mapi id 15.20.6319.033; Wed, 26 Apr 2023
- 20:57:30 +0000
+ 20:57:34 +0000
 From: Rodrigo Vivi <rodrigo.vivi@intel.com>
 To: <intel-xe@lists.freedesktop.org>
-Subject: [PATCH 03/14] drm/xe: Do not take any action if our device was
- removed.
-Date: Wed, 26 Apr 2023 16:57:02 -0400
-Message-ID: <20230426205713.512695-4-rodrigo.vivi@intel.com>
+Subject: [PATCH 04/14] drm/xe: Extract non mapped regions out of GuC CTB into
+ its own struct.
+Date: Wed, 26 Apr 2023 16:57:03 -0400
+Message-ID: <20230426205713.512695-5-rodrigo.vivi@intel.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230426205713.512695-1-rodrigo.vivi@intel.com>
 References: <20230426205713.512695-1-rodrigo.vivi@intel.com>
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-ClientProxiedBy: SJ0PR03CA0161.namprd03.prod.outlook.com
- (2603:10b6:a03:338::16) To MN0PR11MB6059.namprd11.prod.outlook.com
+X-ClientProxiedBy: SJ0PR05CA0177.namprd05.prod.outlook.com
+ (2603:10b6:a03:339::32) To MN0PR11MB6059.namprd11.prod.outlook.com
  (2603:10b6:208:377::9)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: MN0PR11MB6059:EE_|MN0PR11MB6182:EE_
-X-MS-Office365-Filtering-Correlation-Id: f5d1c93c-bfce-4c3f-812b-08db4698d96c
+X-MS-Office365-Filtering-Correlation-Id: 13a13a6e-3760-4866-368e-08db4698dbc5
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: t98aBWJzr+/oujpJN2nhhDfLwv9Mm2If78zPy8dZ1UFHqHb4EYDR9Tnl3z+aS9w0ueW3PxgcKIeDrqsgaMSeg4DEZhe801pJdHlg7QWyh5zMpWXrDTrpyBLfLt4rXxVU1JzwwYf9AvpFUP5ekTvLYA1033RkcuSYBe/P+f2ubHW8pnAy1FKVFJBCEMgrpWfEtvyLdmKissG2Y41DgiNswz/nz67JTEuYJ3BBGemEf3H3NeLCl9a1VGClyuNhppKav1CDt6Vu+0rH0pQXyPiouoYecZBp99Gnmu7YIZTdX8T5dG4CgDIVXVwC2IbaJ/8UORKeb2AdO5dWTFSagd6xqeSUHVNxbTrDszNVRBOF15I5MlluHt6KMmDZHBp8GP1mxFeusmzTZ/X2RZuvYW/SMs0Xwm6E01rWG8bDtoFTct9O6WI1PkxpgOy+ifFtkANF9ctPmjYyeqwSFLhvN0xxZfBV+Va2w84BhH5jbNbGt62ul3KPFb6t6gdjINShEZZmhYU+aQPvmCpxQ+QlYfD3R0miBNbSWqeRTNSERboDwzJE5c9jzt65BQWjNca1ZpeM
+X-Microsoft-Antispam-Message-Info: mZ7TFysjinr4GfAGugkzgpUaYMM6OgynbaW+5avKiA5QsgoYnWe9cosE/glXHS3YuH0ETonJ5ya42a6Sg3aiI+RDMKFDveeRB1W/r4BGYMATznRSaj15R/xnFCyyEDcDRivnd38pQWTq++3HjdRrcznkynUkPV8xH6Q6KFqJXySTm7bItiBM2dPH3+1GdoJwwAS0lso604CVB1KbhMF97ZS4XMGm+OrsisTHvj8B2FKln1H6ahLIpJDz5GeTCA5QUKRzZyqXvCSU3Ns7EPOZcnvc4i/+hSfDo5ybyX/xFhhiD0oUaiBQ843TNhnYEn25FYVCsFbi0/iL5GrjnLwDgOVHkdyn+TcD/xO1cueRlf0ycGlTotvQFo68fxgkNbEC/WjbxuKNA0IcVpMcoIgsn7LcC3A8NxcJ6E5Jz/ELadD0CIvt6vBRVMpKhljYaz0fDwjWT40cA+BWnSproyWBb3IYWXI6T4K+X1FzCjaeqgj6l2lMxyWpsyxEyiaDMLRq5EplICFxSgojl7y9UGQAu36TEasE2wMIW9xo+Y55cEOP4kxHutHdQ/EuQhIzxm0N
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:MN0PR11MB6059.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230028)(346002)(39860400002)(366004)(136003)(376002)(396003)(451199021)(2616005)(83380400001)(186003)(1076003)(26005)(6506007)(6512007)(316002)(6916009)(66476007)(86362001)(4326008)(450100002)(38100700002)(82960400001)(66556008)(66946007)(2906002)(44832011)(41300700001)(107886003)(478600001)(5660300002)(36756003)(8676002)(6486002)(6666004)(8936002);
+ SFS:(13230028)(346002)(39860400002)(366004)(136003)(376002)(396003)(451199021)(2616005)(83380400001)(186003)(1076003)(26005)(6506007)(6512007)(316002)(6916009)(66476007)(86362001)(4326008)(450100002)(38100700002)(82960400001)(66556008)(66946007)(2906002)(30864003)(44832011)(41300700001)(107886003)(478600001)(5660300002)(36756003)(8676002)(6486002)(6666004)(8936002);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?L9GY9+OpYZH0ilp+WieW0b/ZnOBH90a2Fk0w6/dCYQU0/K81uB+7p4wXcewV?=
- =?us-ascii?Q?B5Usbv+BY2bLID0hyTr7IX+WwmCt7JgLAYZ6h9r9IfXeNxBlRLtpfmoNQ1BR?=
- =?us-ascii?Q?Ax3LGl1eBwPwL06PP5A1BLDleM7ElFamiwEaHq4bx2ydmYas5HtzVCxT6ByY?=
- =?us-ascii?Q?/xcpm1jgEkdbDb/Zj/PKw4vC0DrvFZ8HJelrLYfU2thII+2L1LlsIKlJti7r?=
- =?us-ascii?Q?VYJcb3oe9JnLX7nkkhTbyPT6JVsjcUPT6CoI9Ao+sRHEPHh+qysaGSDMBCfu?=
- =?us-ascii?Q?avVdXr3oHBnEwE38LgcPahgLOEoknslW1GFGPgs8eHmf4AZgShmmwj5nDY7I?=
- =?us-ascii?Q?N7Iq7FwsYFaELTfp7tvFMXoe+Xfte7OrZceUTd38iI/0pXZeSQxbBJyceksC?=
- =?us-ascii?Q?IsYrpfPcWp7v/hXVmncPaxRwG8RtRBh5F10NRfmTXMj4vrfUByMe9CYs1NMQ?=
- =?us-ascii?Q?hFM5rtrq5R7I9uMwZ9VtEKy4EImqXLJbCMMsQojsxSTo3Dv9p0P9CQCEhl0o?=
- =?us-ascii?Q?G//fbUD76ql9AO9fgpihtcNCJS40Cm+9oPqK0N+AZIezcwLaftRJTCgqJho1?=
- =?us-ascii?Q?jG5B2FFcN+zdCIqg0y2WmnuO5mZyS5sZUSXM1yD63DKidPTv3vJkQ1JvGCTQ?=
- =?us-ascii?Q?c+FkubvuALtBd2uD/033M42qX8SniQ997eYMbkkGeSWJTKnc7hAPU0VSoC9t?=
- =?us-ascii?Q?Myz68uOoryJLC3oLjM5iLbCQV52Ef9TzGCuKzVl/aM2HhRW43Uyrp+wnrDI2?=
- =?us-ascii?Q?fOLcIqaWLLaCIHlw64Ent9b4bJcJH+cTja9+Ylb8V8Gkk0NzY9EPPGkMx/Tp?=
- =?us-ascii?Q?3RA5tDYQ3wfwdE5qHEfU+ifz0RQBndhwRkYm/LtkK3iZ8GjmRO6F18fKuWHt?=
- =?us-ascii?Q?ABRPfemi7g4Im+Ry8e5eu3Gx2LFSj0ua+8pzgKFKzou94jlPYq9tWfxhMB9F?=
- =?us-ascii?Q?zKLtVabosrHC88MXEj8/XksMhpIoGihqFoZwQJFQtaiSQ+FkS0Vb8hXwLOYQ?=
- =?us-ascii?Q?8et7pPDHrC7m2QJWLpDLhZihyynWNB0YPcBHVYKy4EAFhkJIULL/JZDO+5t7?=
- =?us-ascii?Q?p47qJW6/cpsLVrRuHCZRnYN4rhU1yBtNKS5BTjSbuuhI6EvsxhwVh2VuF0Wx?=
- =?us-ascii?Q?hLO/F1QgsYl8G1wAGczZWXCF+hRaeXXtMtqu2HJ3qmRHv39moiVZGAs0xYnS?=
- =?us-ascii?Q?M82017Ir2q9bwU+InOluFLh4PjSquvKhXO3BK6kANLbPe5eQ0214F4p+tfSh?=
- =?us-ascii?Q?UWZFD0i9rDdxk3SvfM1m6xg51OhsHPDII8Q7A9keUyEuBr1IDJm+SxCIWCpq?=
- =?us-ascii?Q?TSVMkqr+J7sjKMtxZgONTa58URED0B4RXFSOqWfY16UwCNOAOkdTxFOYJrdv?=
- =?us-ascii?Q?mP+KX3Drwb7Pu/BsyceQ+gUPtBljFIzAmDPL8J6NoylCiYcu5cZraDbJSMYa?=
- =?us-ascii?Q?fqFENccqUIvbBcN9UigilmHghsUayTaxJWaei2m7cO1M1VryfJDUJEnWeAn/?=
- =?us-ascii?Q?etrAltroY85eg9aziwPMJVqQ94dwu1fLhF2n3N5fvacTWez8ySsQdDXpvMHF?=
- =?us-ascii?Q?hGwfUrfOpTiYaUUETNNwpZQ4OYbS7ujx1iknz2xYJNEQr+dKQodxnwvjD4FX?=
- =?us-ascii?Q?4Q=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: f5d1c93c-bfce-4c3f-812b-08db4698d96c
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?N4kO88fk53tn1/8FVx8M0Vv4JjgY5ePE7hzdujAcsUyuEzbkDMxKnXDoxC5B?=
+ =?us-ascii?Q?e4/RLMTiYunSxXTiDTT2ETjUoyN3ap4uyAhOuY+2IudEA4Q2hFnGhB3lnf3B?=
+ =?us-ascii?Q?oeL68Tby+MqDo/J101UvQFLaZJ3m8HtPFbfVJXQIQaN8KZvkesyBJkrYkIh0?=
+ =?us-ascii?Q?wxgPy1QvR0RixiwA7L+W7MEM1qfIRqloWuMGrFFfy7zUB7yNSpFNC/3utGqH?=
+ =?us-ascii?Q?UdMcaJcJ8fMvBcJWC0sJP4q3u3GmQMQtZAm6OoEBPAcpIyeyAZoYYOoSKj4F?=
+ =?us-ascii?Q?x5zCZ46WqR27rS7FdAjaSFagBNF4jJD0hLINgP/zoNtkt5bCbdLCdvO+bd5k?=
+ =?us-ascii?Q?RgAfRGB8wcgsvs6BOGQXZsOaljO/8/S5aPVYpSkTcBoFxk9oaFbVMf0ZqOGA?=
+ =?us-ascii?Q?ovDbZNVaUuiXk+xkw4fYyZHW0O/Z1L+wJVioaYkl98lHA4y7zJUXGzB++UNQ?=
+ =?us-ascii?Q?VmtpOfaMUab+k+FuFudea/VeRoiVz62Tx9gZPxWEvFfWiMs5nA504p0mP1D+?=
+ =?us-ascii?Q?KgLCJdjyq+memaJGgUpKRdA1DAueqJHbAVeT9nBfqPJVLdztSfyxMv7g+HxP?=
+ =?us-ascii?Q?qpMF295ARMLGmISYY8VuHW4T08dcgaAXpNs96m3viSIwPvIX0hGEiDs0TI1l?=
+ =?us-ascii?Q?k+GXKlLc0NgZ/ASHXgutj8GdvzYBlq0k7vxvMPNMZ7VO0c+RyhBtClbY3QmO?=
+ =?us-ascii?Q?sVjP9J3YjQUJH0FT7DB4aTOJvhdpJARhOEIbbrVnakM/3PwbVUI8o+IF+tV5?=
+ =?us-ascii?Q?GXImrha0s8SlLWrsG2FT5w34ypWUBlfeQwVt0lbdM2AshDmjEKlgL8Qfih0r?=
+ =?us-ascii?Q?v38FIE92w1HA+BRzcQRbC2cJ+FS6vcBozXcVcAAapAKagRlmLWZ/U5i0Uzjn?=
+ =?us-ascii?Q?SCZfY5ZVA2ykUE7TCZPMbE2sqFE5EQ/5fU57IoOMmXQbLkHJ8bEEVd6TnfDN?=
+ =?us-ascii?Q?Za0VJh4d++XULR557Ig8fUBwBIp3Env7YJsvJ4ZQqAn7a01KTGUnayGz78i2?=
+ =?us-ascii?Q?6tma0Jr9uBArEIYTmuJG8NMSgQWDmkYxG5iZDNkTi7zexCqhvwQjD2j9og+x?=
+ =?us-ascii?Q?2u2OFzY3o2LDYLM9Eg2ftLakUFNs2oFnW5ruILqtWOOgDcxJOSBIT5mSx9V8?=
+ =?us-ascii?Q?JeD7CLwmyHeJLjqA9LK8qqx8fXB6aewj/WCToV1/obBf+1z/7VKOY8xFvX9Y?=
+ =?us-ascii?Q?vOvgfpty2wf+Fi3ouCHHEVRvjtLDEdsX1PcQqUS6guOQ5oro+5gMFzHzcGmG?=
+ =?us-ascii?Q?MuU3+GPFatGJaHB5ft2+stFBEBluZSY/c4BK+yGJ8uO5ToqNysng2o8NOYPF?=
+ =?us-ascii?Q?7j6WktqeLbw0F/a0ZwXGH48b4SMakvScsqZBuPnudML8iUuHGN8iBJhfyGu7?=
+ =?us-ascii?Q?hTEodwSE0I20EnZvga6bnGP3Yxmhuy/Co+8K0e5ufVO8ClPCwQuxgrlLKqtD?=
+ =?us-ascii?Q?HnQJdkaL86D5uw8/mZbKpQB+VvRvADGuoDc+rXNhYjkbSp3VcqNcoxcwDdMd?=
+ =?us-ascii?Q?dq9IJp+cOO63c04Fv5Dl9Up4J/vZ55mL6IgURzVAC3UsKNkhqs3yymxEvcYf?=
+ =?us-ascii?Q?XAU2QrxSUaCj0kY6EaqwkAQjaowaWF712XRvSjONWjvC1aSYiBwMJjOI7h7a?=
+ =?us-ascii?Q?ng=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 13a13a6e-3760-4866-368e-08db4698dbc5
 X-MS-Exchange-CrossTenant-AuthSource: MN0PR11MB6059.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Apr 2023 20:57:30.3054 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Apr 2023 20:57:34.1800 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: t4+4+0jMy96fxzgT6Cpxr0/eth5uV8COpqDq80njM5H7clyU5uztEuVE64iQKodKl9yJzIAb2aQVqB2k5zPaPg==
+X-MS-Exchange-CrossTenant-UserPrincipalName: xFdas2ARE6YRffRfONS57sM1aUWO86wI15r5VCBuRYOyztPxHEPJ2Y57T6mIZP+SpiEETqXAu3aFECE7NAP2sQ==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR11MB6182
 X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -148,70 +148,424 @@ Cc: dri-devel@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Unfortunately devcoredump infrastructure does not provide and
-interface for us to force the device removal upon the pci_remove
-time of our device.
-
-The devcoredump is linked at the device level, so when in use
-it will prevent the module removal, but it doesn't prevent the
-call of the pci_remove callback. This callback cannot fail
-anyway and we end up clearing and freeing the entire pci device.
-
-Hence, after we removed the pci device, we shouldn't allow any
-read or free operations to avoid segmentation fault.
+No functional change here. The goal is to have a clear split between
+the mapped portions of the CTB and the static information, so we can
+easily capture snapshots that will be used for later read out with
+the devcoredump infrastructure.
 
 Signed-off-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
 ---
- drivers/gpu/drm/xe/xe_devcoredump.c | 19 ++++++++++++++++---
- 1 file changed, 16 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/xe/xe_guc_ct.c       | 155 ++++++++++++++-------------
+ drivers/gpu/drm/xe/xe_guc_ct_types.h |  20 ++--
+ 2 files changed, 95 insertions(+), 80 deletions(-)
 
-diff --git a/drivers/gpu/drm/xe/xe_devcoredump.c b/drivers/gpu/drm/xe/xe_devcoredump.c
-index d9531183f03a..a08929c01b75 100644
---- a/drivers/gpu/drm/xe/xe_devcoredump.c
-+++ b/drivers/gpu/drm/xe/xe_devcoredump.c
-@@ -42,6 +42,11 @@
-  * hang capture.
-  */
- 
-+static struct xe_device *coredump_to_xe(const struct xe_devcoredump *coredump)
-+{
-+	return container_of(coredump, struct xe_device, devcoredump);
-+}
-+
- static ssize_t xe_devcoredump_read(char *buffer, loff_t offset,
- 				   size_t count, void *data, size_t datalen)
+diff --git a/drivers/gpu/drm/xe/xe_guc_ct.c b/drivers/gpu/drm/xe/xe_guc_ct.c
+index 9055ff133a7c..e16e5fe37ed4 100644
+--- a/drivers/gpu/drm/xe/xe_guc_ct.c
++++ b/drivers/gpu/drm/xe/xe_guc_ct.c
+@@ -172,13 +172,14 @@ int xe_guc_ct_init(struct xe_guc_ct *ct)
+ static void guc_ct_ctb_h2g_init(struct xe_device *xe, struct guc_ctb *h2g,
+ 				struct iosys_map *map)
  {
-@@ -51,6 +56,10 @@ static ssize_t xe_devcoredump_read(char *buffer, loff_t offset,
- 	struct drm_print_iterator iter;
- 	struct timespec64 ts;
+-	h2g->size = CTB_H2G_BUFFER_SIZE / sizeof(u32);
+-	h2g->resv_space = 0;
+-	h2g->tail = 0;
+-	h2g->head = 0;
+-	h2g->space = CIRC_SPACE(h2g->tail, h2g->head, h2g->size) -
+-		h2g->resv_space;
+-	h2g->broken = false;
++	h2g->info.size = CTB_H2G_BUFFER_SIZE / sizeof(u32);
++	h2g->info.resv_space = 0;
++	h2g->info.tail = 0;
++	h2g->info.head = 0;
++	h2g->info.space = CIRC_SPACE(h2g->info.tail, h2g->info.head,
++				     h2g->info.size) -
++			  h2g->info.resv_space;
++	h2g->info.broken = false;
  
-+	/* Our device is gone already... */
-+	if (!data || !coredump_to_xe(coredump))
-+		return -ENODEV;
-+
- 	iter.data = buffer;
- 	iter.offset = 0;
- 	iter.start = offset;
-@@ -80,12 +89,16 @@ static ssize_t xe_devcoredump_read(char *buffer, loff_t offset,
- static void xe_devcoredump_free(void *data)
+ 	h2g->desc = *map;
+ 	xe_map_memset(xe, &h2g->desc, 0, 0, sizeof(struct guc_ct_buffer_desc));
+@@ -189,13 +190,14 @@ static void guc_ct_ctb_h2g_init(struct xe_device *xe, struct guc_ctb *h2g,
+ static void guc_ct_ctb_g2h_init(struct xe_device *xe, struct guc_ctb *g2h,
+ 				struct iosys_map *map)
  {
- 	struct xe_devcoredump *coredump = data;
--	struct xe_device *xe = container_of(coredump, struct xe_device,
--					    devcoredump);
-+
-+	/* Our device is gone. Nothing to do... */
-+	if (!data || !coredump_to_xe(coredump))
-+		return;
-+
- 	mutex_lock(&coredump->lock);
+-	g2h->size = CTB_G2H_BUFFER_SIZE / sizeof(u32);
+-	g2h->resv_space = G2H_ROOM_BUFFER_SIZE / sizeof(u32);
+-	g2h->head = 0;
+-	g2h->tail = 0;
+-	g2h->space = CIRC_SPACE(g2h->tail, g2h->head, g2h->size) -
+-		g2h->resv_space;
+-	g2h->broken = false;
++	g2h->info.size = CTB_G2H_BUFFER_SIZE / sizeof(u32);
++	g2h->info.resv_space = G2H_ROOM_BUFFER_SIZE / sizeof(u32);
++	g2h->info.head = 0;
++	g2h->info.tail = 0;
++	g2h->info.space = CIRC_SPACE(g2h->info.tail, g2h->info.head,
++				     g2h->info.size) -
++			  g2h->info.resv_space;
++	g2h->info.broken = false;
  
- 	coredump->faulty_engine = NULL;
--	drm_info(&xe->drm, "Xe device coredump has been deleted.\n");
-+	drm_info(&coredump_to_xe(coredump)->drm,
-+		 "Xe device coredump has been deleted.\n");
+ 	g2h->desc = IOSYS_MAP_INIT_OFFSET(map, CTB_DESC_SIZE);
+ 	xe_map_memset(xe, &g2h->desc, 0, 0, sizeof(struct guc_ct_buffer_desc));
+@@ -212,7 +214,7 @@ static int guc_ct_ctb_h2g_register(struct xe_guc_ct *ct)
  
- 	mutex_unlock(&coredump->lock);
+ 	desc_addr = xe_bo_ggtt_addr(ct->bo);
+ 	ctb_addr = xe_bo_ggtt_addr(ct->bo) + CTB_DESC_SIZE * 2;
+-	size = ct->ctbs.h2g.size * sizeof(u32);
++	size = ct->ctbs.h2g.info.size * sizeof(u32);
+ 
+ 	err = xe_guc_self_cfg64(guc,
+ 				GUC_KLV_SELF_CFG_H2G_CTB_DESCRIPTOR_ADDR_KEY,
+@@ -240,7 +242,7 @@ static int guc_ct_ctb_g2h_register(struct xe_guc_ct *ct)
+ 	desc_addr = xe_bo_ggtt_addr(ct->bo) + CTB_DESC_SIZE;
+ 	ctb_addr = xe_bo_ggtt_addr(ct->bo) + CTB_DESC_SIZE * 2 +
+ 		CTB_H2G_BUFFER_SIZE;
+-	size = ct->ctbs.g2h.size * sizeof(u32);
++	size = ct->ctbs.g2h.info.size * sizeof(u32);
+ 
+ 	err = xe_guc_self_cfg64(guc,
+ 				GUC_KLV_SELF_CFG_G2H_CTB_DESCRIPTOR_ADDR_KEY,
+@@ -329,11 +331,12 @@ static bool h2g_has_room(struct xe_guc_ct *ct, u32 cmd_len)
+ 
+ 	lockdep_assert_held(&ct->lock);
+ 
+-	if (cmd_len > h2g->space) {
+-		h2g->head = desc_read(ct_to_xe(ct), h2g, head);
+-		h2g->space = CIRC_SPACE(h2g->tail, h2g->head, h2g->size) -
+-			h2g->resv_space;
+-		if (cmd_len > h2g->space)
++	if (cmd_len > h2g->info.space) {
++		h2g->info.head = desc_read(ct_to_xe(ct), h2g, head);
++		h2g->info.space = CIRC_SPACE(h2g->info.tail, h2g->info.head,
++					     h2g->info.size) -
++				  h2g->info.resv_space;
++		if (cmd_len > h2g->info.space)
+ 			return false;
+ 	}
+ 
+@@ -344,7 +347,7 @@ static bool g2h_has_room(struct xe_guc_ct *ct, u32 g2h_len)
+ {
+ 	lockdep_assert_held(&ct->lock);
+ 
+-	return ct->ctbs.g2h.space > g2h_len;
++	return ct->ctbs.g2h.info.space > g2h_len;
  }
+ 
+ static int has_room(struct xe_guc_ct *ct, u32 cmd_len, u32 g2h_len)
+@@ -360,16 +363,16 @@ static int has_room(struct xe_guc_ct *ct, u32 cmd_len, u32 g2h_len)
+ static void h2g_reserve_space(struct xe_guc_ct *ct, u32 cmd_len)
+ {
+ 	lockdep_assert_held(&ct->lock);
+-	ct->ctbs.h2g.space -= cmd_len;
++	ct->ctbs.h2g.info.space -= cmd_len;
+ }
+ 
+ static void g2h_reserve_space(struct xe_guc_ct *ct, u32 g2h_len, u32 num_g2h)
+ {
+-	XE_BUG_ON(g2h_len > ct->ctbs.g2h.space);
++	XE_BUG_ON(g2h_len > ct->ctbs.g2h.info.space);
+ 
+ 	if (g2h_len) {
+ 		spin_lock_irq(&ct->fast_lock);
+-		ct->ctbs.g2h.space -= g2h_len;
++		ct->ctbs.g2h.info.space -= g2h_len;
+ 		ct->g2h_outstanding += num_g2h;
+ 		spin_unlock_irq(&ct->fast_lock);
+ 	}
+@@ -378,10 +381,10 @@ static void g2h_reserve_space(struct xe_guc_ct *ct, u32 g2h_len, u32 num_g2h)
+ static void __g2h_release_space(struct xe_guc_ct *ct, u32 g2h_len)
+ {
+ 	lockdep_assert_held(&ct->fast_lock);
+-	XE_WARN_ON(ct->ctbs.g2h.space + g2h_len >
+-		   ct->ctbs.g2h.size - ct->ctbs.g2h.resv_space);
++	XE_WARN_ON(ct->ctbs.g2h.info.space + g2h_len >
++		   ct->ctbs.g2h.info.size - ct->ctbs.g2h.info.resv_space);
+ 
+-	ct->ctbs.g2h.space += g2h_len;
++	ct->ctbs.g2h.info.space += g2h_len;
+ 	--ct->g2h_outstanding;
+ }
+ 
+@@ -400,20 +403,21 @@ static int h2g_write(struct xe_guc_ct *ct, const u32 *action, u32 len,
+ 	u32 cmd[GUC_CTB_MSG_MAX_LEN / sizeof(u32)];
+ 	u32 cmd_len = len + GUC_CTB_HDR_LEN;
+ 	u32 cmd_idx = 0, i;
+-	u32 tail = h2g->tail;
++	u32 tail = h2g->info.tail;
+ 	struct iosys_map map = IOSYS_MAP_INIT_OFFSET(&h2g->cmds,
+ 							 tail * sizeof(u32));
+ 
+ 	lockdep_assert_held(&ct->lock);
+ 	XE_BUG_ON(len * sizeof(u32) > GUC_CTB_MSG_MAX_LEN);
+-	XE_BUG_ON(tail > h2g->size);
++	XE_BUG_ON(tail > h2g->info.size);
+ 
+ 	/* Command will wrap, zero fill (NOPs), return and check credits again */
+-	if (tail + cmd_len > h2g->size) {
+-		xe_map_memset(xe, &map, 0, 0, (h2g->size - tail) * sizeof(u32));
+-		h2g_reserve_space(ct, (h2g->size - tail));
+-		h2g->tail = 0;
+-		desc_write(xe, h2g, tail, h2g->tail);
++	if (tail + cmd_len > h2g->info.size) {
++		xe_map_memset(xe, &map, 0, 0,
++			      (h2g->info.size - tail) * sizeof(u32));
++		h2g_reserve_space(ct, (h2g->info.size - tail));
++		h2g->info.tail = 0;
++		desc_write(xe, h2g, tail, h2g->info.tail);
+ 
+ 		return -EAGAIN;
+ 	}
+@@ -445,11 +449,11 @@ static int h2g_write(struct xe_guc_ct *ct, const u32 *action, u32 len,
+ 	xe_device_wmb(ct_to_xe(ct));
+ 
+ 	/* Update local copies */
+-	h2g->tail = (tail + cmd_len) % h2g->size;
++	h2g->info.tail = (tail + cmd_len) % h2g->info.size;
+ 	h2g_reserve_space(ct, cmd_len);
+ 
+ 	/* Update descriptor */
+-	desc_write(xe, h2g, tail, h2g->tail);
++	desc_write(xe, h2g, tail, h2g->info.tail);
+ 
+ 	return 0;
+ }
+@@ -466,7 +470,7 @@ static int __guc_ct_send_locked(struct xe_guc_ct *ct, const u32 *action,
+ 	XE_BUG_ON(!g2h_len && num_g2h);
+ 	lockdep_assert_held(&ct->lock);
+ 
+-	if (unlikely(ct->ctbs.h2g.broken)) {
++	if (unlikely(ct->ctbs.h2g.info.broken)) {
+ 		ret = -EPIPE;
+ 		goto out;
+ 	}
+@@ -554,8 +558,9 @@ static int guc_ct_send_locked(struct xe_guc_ct *ct, const u32 *action, u32 len,
+ 		if (sleep_period_ms == 1024)
+ 			goto broken;
+ 
+-		trace_xe_guc_ct_h2g_flow_control(h2g->head, h2g->tail,
+-						 h2g->size, h2g->space,
++		trace_xe_guc_ct_h2g_flow_control(h2g->info.head, h2g->info.tail,
++						 h2g->info.size,
++						 h2g->info.space,
+ 						 len + GUC_CTB_HDR_LEN);
+ 		msleep(sleep_period_ms);
+ 		sleep_period_ms <<= 1;
+@@ -565,15 +570,16 @@ static int guc_ct_send_locked(struct xe_guc_ct *ct, const u32 *action, u32 len,
+ 		struct xe_device *xe = ct_to_xe(ct);
+ 		struct guc_ctb *g2h = &ct->ctbs.g2h;
+ 
+-		trace_xe_guc_ct_g2h_flow_control(g2h->head,
++		trace_xe_guc_ct_g2h_flow_control(g2h->info.head,
+ 						 desc_read(xe, g2h, tail),
+-						 g2h->size, g2h->space,
++						 g2h->info.size,
++						 g2h->info.space,
+ 						 g2h_fence ?
+ 						 GUC_CTB_HXG_MSG_MAX_LEN :
+ 						 g2h_len);
+ 
+ #define g2h_avail(ct)	\
+-	(desc_read(ct_to_xe(ct), (&ct->ctbs.g2h), tail) != ct->ctbs.g2h.head)
++	(desc_read(ct_to_xe(ct), (&ct->ctbs.g2h), tail) != ct->ctbs.g2h.info.head)
+ 		if (!wait_event_timeout(ct->wq, !ct->g2h_outstanding ||
+ 					g2h_avail(ct), HZ))
+ 			goto broken;
+@@ -590,7 +596,7 @@ static int guc_ct_send_locked(struct xe_guc_ct *ct, const u32 *action, u32 len,
+ broken:
+ 	drm_err(drm, "No forward process on H2G, reset required");
+ 	xe_guc_ct_print(ct, &p);
+-	ct->ctbs.h2g.broken = true;
++	ct->ctbs.h2g.info.broken = true;
+ 
+ 	return -EDEADLK;
+ }
+@@ -656,7 +662,7 @@ static bool retry_failure(struct xe_guc_ct *ct, int ret)
+ 		return false;
+ 
+ #define ct_alive(ct)	\
+-	(ct->enabled && !ct->ctbs.h2g.broken && !ct->ctbs.g2h.broken)
++	(ct->enabled && !ct->ctbs.h2g.info.broken && !ct->ctbs.g2h.info.broken)
+ 	if (!wait_event_interruptible_timeout(ct->wq, ct_alive(ct),  HZ * 5))
+ 		return false;
+ #undef ct_alive
+@@ -821,7 +827,7 @@ static int parse_g2h_msg(struct xe_guc_ct *ct, u32 *msg, u32 len)
+ 		drm_err(&xe->drm,
+ 			"G2H channel broken on read, origin=%d, reset required\n",
+ 			origin);
+-		ct->ctbs.g2h.broken = true;
++		ct->ctbs.g2h.info.broken = true;
+ 
+ 		return -EPROTO;
+ 	}
+@@ -840,7 +846,7 @@ static int parse_g2h_msg(struct xe_guc_ct *ct, u32 *msg, u32 len)
+ 		drm_err(&xe->drm,
+ 			"G2H channel broken on read, type=%d, reset required\n",
+ 			type);
+-		ct->ctbs.g2h.broken = true;
++		ct->ctbs.g2h.info.broken = true;
+ 
+ 		ret = -EOPNOTSUPP;
+ 	}
+@@ -919,36 +925,37 @@ static int g2h_read(struct xe_guc_ct *ct, u32 *msg, bool fast_path)
+ 	if (!ct->enabled)
+ 		return -ENODEV;
+ 
+-	if (g2h->broken)
++	if (g2h->info.broken)
+ 		return -EPIPE;
+ 
+ 	/* Calculate DW available to read */
+ 	tail = desc_read(xe, g2h, tail);
+-	avail = tail - g2h->head;
++	avail = tail - g2h->info.head;
+ 	if (unlikely(avail == 0))
+ 		return 0;
+ 
+ 	if (avail < 0)
+-		avail += g2h->size;
++		avail += g2h->info.size;
+ 
+ 	/* Read header */
+-	xe_map_memcpy_from(xe, msg, &g2h->cmds, sizeof(u32) * g2h->head, sizeof(u32));
++	xe_map_memcpy_from(xe, msg, &g2h->cmds, sizeof(u32) * g2h->info.head,
++			   sizeof(u32));
+ 	len = FIELD_GET(GUC_CTB_MSG_0_NUM_DWORDS, msg[0]) + GUC_CTB_MSG_MIN_LEN;
+ 	if (len > avail) {
+ 		drm_err(&xe->drm,
+ 			"G2H channel broken on read, avail=%d, len=%d, reset required\n",
+ 			avail, len);
+-		g2h->broken = true;
++		g2h->info.broken = true;
+ 
+ 		return -EPROTO;
+ 	}
+ 
+-	head = (g2h->head + 1) % g2h->size;
++	head = (g2h->info.head + 1) % g2h->info.size;
+ 	avail = len - 1;
+ 
+ 	/* Read G2H message */
+-	if (avail + head > g2h->size) {
+-		u32 avail_til_wrap = g2h->size - head;
++	if (avail + head > g2h->info.size) {
++		u32 avail_til_wrap = g2h->info.size - head;
+ 
+ 		xe_map_memcpy_from(xe, msg + 1,
+ 				   &g2h->cmds, sizeof(u32) * head,
+@@ -983,8 +990,8 @@ static int g2h_read(struct xe_guc_ct *ct, u32 *msg, bool fast_path)
+ 	}
+ 
+ 	/* Update local / descriptor header */
+-	g2h->head = (head + avail) % g2h->size;
+-	desc_write(xe, g2h, head, g2h->head);
++	g2h->info.head = (head + avail) % g2h->info.size;
++	desc_write(xe, g2h, head, g2h->info.head);
+ 
+ 	return len;
+ }
+@@ -1093,12 +1100,12 @@ static void guc_ct_ctb_print(struct xe_device *xe, struct guc_ctb *ctb,
+ {
+ 	u32 head, tail;
+ 
+-	drm_printf(p, "\tsize: %d\n", ctb->size);
+-	drm_printf(p, "\tresv_space: %d\n", ctb->resv_space);
+-	drm_printf(p, "\thead: %d\n", ctb->head);
+-	drm_printf(p, "\ttail: %d\n", ctb->tail);
+-	drm_printf(p, "\tspace: %d\n", ctb->space);
+-	drm_printf(p, "\tbroken: %d\n", ctb->broken);
++	drm_printf(p, "\tsize: %d\n", ctb->info.size);
++	drm_printf(p, "\tresv_space: %d\n", ctb->info.resv_space);
++	drm_printf(p, "\thead: %d\n", ctb->info.head);
++	drm_printf(p, "\ttail: %d\n", ctb->info.tail);
++	drm_printf(p, "\tspace: %d\n", ctb->info.space);
++	drm_printf(p, "\tbroken: %d\n", ctb->info.broken);
+ 
+ 	head = desc_read(xe, ctb, head);
+ 	tail = desc_read(xe, ctb, tail);
+@@ -1114,7 +1121,7 @@ static void guc_ct_ctb_print(struct xe_device *xe, struct guc_ctb *ctb,
+ 			drm_printf(p, "\tcmd[%d]: 0x%08x\n", head,
+ 				   xe_map_rd(xe, &map, 0, u32));
+ 			++head;
+-			if (head == ctb->size) {
++			if (head == ctb->info.size) {
+ 				head = 0;
+ 				map = ctb->cmds;
+ 			} else {
+@@ -1168,12 +1175,12 @@ void xe_guc_ct_selftest(struct xe_guc_ct *ct, struct drm_printer *p)
+ 	if (!ret) {
+ 		xe_guc_ct_irq_handler(ct);
+ 		msleep(200);
+-		if (g2h->space !=
+-		    CIRC_SPACE(0, 0, g2h->size) - g2h->resv_space) {
++		if (g2h->info.space !=
++		    CIRC_SPACE(0, 0, g2h->info.size) - g2h->info.resv_space) {
+ 			drm_printf(p, "Mismatch on space %d, %d\n",
+-				   g2h->space,
+-				   CIRC_SPACE(0, 0, g2h->size) -
+-				   g2h->resv_space);
++				   g2h->info.space,
++				   CIRC_SPACE(0, 0, g2h->info.size) -
++				   g2h->info.resv_space);
+ 			ret = -EIO;
+ 		}
+ 		if (ct->g2h_outstanding) {
+@@ -1185,12 +1192,12 @@ void xe_guc_ct_selftest(struct xe_guc_ct *ct, struct drm_printer *p)
+ 
+ 	/* Check failure path for blocking CTs too */
+ 	xe_guc_ct_send_block(ct, bad_action, ARRAY_SIZE(bad_action));
+-	if (g2h->space !=
+-	    CIRC_SPACE(0, 0, g2h->size) - g2h->resv_space) {
++	if (g2h->info.space !=
++	    CIRC_SPACE(0, 0, g2h->info.size) - g2h->info.resv_space) {
+ 		drm_printf(p, "Mismatch on space %d, %d\n",
+-			   g2h->space,
+-			   CIRC_SPACE(0, 0, g2h->size) -
+-			   g2h->resv_space);
++			   g2h->info.space,
++			   CIRC_SPACE(0, 0, g2h->info.size) -
++			   g2h->info.resv_space);
+ 		ret = -EIO;
+ 	}
+ 	if (ct->g2h_outstanding) {
+diff --git a/drivers/gpu/drm/xe/xe_guc_ct_types.h b/drivers/gpu/drm/xe/xe_guc_ct_types.h
+index fd27dacf00c5..64e3dd14d4b2 100644
+--- a/drivers/gpu/drm/xe/xe_guc_ct_types.h
++++ b/drivers/gpu/drm/xe/xe_guc_ct_types.h
+@@ -19,13 +19,9 @@
+ struct xe_bo;
+ 
+ /**
+- * struct guc_ctb - GuC command transport buffer (CTB)
++ * struct guc_ctb_info - GuC command transport buffer (CTB) info
+  */
+-struct guc_ctb {
+-	/** @desc: dma buffer map for CTB descriptor */
+-	struct iosys_map desc;
+-	/** @cmds: dma buffer map for CTB commands */
+-	struct iosys_map cmds;
++struct guc_ctb_info {
+ 	/** @size: size of CTB commands (DW) */
+ 	u32 size;
+ 	/** @resv_space: reserved space of CTB commands (DW) */
+@@ -40,6 +36,18 @@ struct guc_ctb {
+ 	bool broken;
+ };
+ 
++/**
++ * struct guc_ctb - GuC command transport buffer (CTB)
++ */
++struct guc_ctb {
++	/** @desc: dma buffer map for CTB descriptor */
++	struct iosys_map desc;
++	/** @cmds: dma buffer map for CTB commands */
++	struct iosys_map cmds;
++	/** @info: CTB info */
++	struct guc_ctb_info info;
++};
++
+ /**
+  * struct xe_guc_ct - GuC command transport (CT) layer
+  *
 -- 
 2.39.2
 
