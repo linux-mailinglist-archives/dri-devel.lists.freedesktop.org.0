@@ -1,46 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89D816EF4C2
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Apr 2023 14:54:02 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 68B196EF4C5
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Apr 2023 14:54:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E690810E0C1;
-	Wed, 26 Apr 2023 12:53:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5B8C910E2BA;
+	Wed, 26 Apr 2023 12:54:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AEC5710E0C1
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Apr 2023 12:53:56 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id E6BF163664;
- Wed, 26 Apr 2023 12:53:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C0A4AC433D2;
- Wed, 26 Apr 2023 12:53:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1682513635;
- bh=rnR2gHMom5cZ9EE0QbaWG0mAQc/4BfAqxA6wiBHOddQ=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=0O5fefgIhXFVwx4bd/JHCnR2BWedmFunEuhy57jrlZSyAl3OzSBYYcehg0kqdST72
- LDrHPOnCB314Vs0VFJJIEkS9b2AQwIuZKkVcvVjIisDaelGAgM9+dQ/hD/hIewmiWV
- KBROROmgExlXq2SJmL+iWP6rJn4hf+8RDIC0tFSM=
-Date: Wed, 26 Apr 2023 14:53:52 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Petr =?utf-8?B?VGVzYcWZw61r?= <petr@tesarici.cz>
-Subject: Re: [PATCH v2 0/7] Allow dynamic allocation of software IO TLB
- bounce buffers
-Message-ID: <2023042630-amends-speech-7db2@gregkh>
-References: <cover.1681898595.git.petr.tesarik.ext@huawei.com>
- <20230426141520.0caf4386@meshulam.tesarici.cz>
- <2023042617-wobble-enlighten-9361@gregkh>
- <20230426144439.5674f8bc@meshulam.tesarici.cz>
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 801B110E2BA
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Apr 2023 12:54:52 +0000 (UTC)
+Received: from [192.168.100.4] (unknown [109.100.38.211])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: mvlad)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 05F3766031F7;
+ Wed, 26 Apr 2023 13:54:49 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1682513690;
+ bh=yOsGY1q1xwneL+HoDqmYZo9WFj0lUI0fY5zTMUuKoqo=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=LcqCDzeywUl4RiXg3rWUAkEIbQpNhLbxD08MdTbr8mv1OjhA0tbt6eA+RTSJl36Hu
+ tuWqrc7Ee3INemyJ7sLlemt1njwCpPXp2HwY5KWXeTXhyEAaqV0uzO4k3R53X9eEx/
+ w5AXSextls/Hn0RenKOEgYSEVMVoBw7rPBTUB1esSscoltBTEP4orPsk6j0kEoxj9N
+ 6QlfZn/+YLWg1IK+GnZMSCoi97Mums/WuTfNR5H6PZYAMvrghiD5RYR9lufPqNwRBW
+ AppXQuwADeGF3HuHi4/hQKDKuylHYls96DdScOvvqHEsnaL1JTE78noH8lutVKX5r/
+ IlbBovRoe3eXA==
+Message-ID: <a2239e16-31e8-3163-b349-8fc3328f33ed@collabora.com>
+Date: Wed, 26 Apr 2023 15:54:47 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH v3 0/3] drm/vkms: Add support for multiple pipes
+Content-Language: en-US
+To: Brandon Ross Pollack <brpol@chromium.org>, yixie@chromium.org
+References: <20230425073012.11036-1-marius.vlad@collabora.com>
+ <CALWYx-a90Zee0_js5h=53bxsN-BXxumiGid-qc=9405ZkUE-gg@mail.gmail.com>
+From: Marius Vlad <marius.vlad@collabora.com>
+In-Reply-To: <CALWYx-a90Zee0_js5h=53bxsN-BXxumiGid-qc=9405ZkUE-gg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230426144439.5674f8bc@meshulam.tesarici.cz>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,93 +55,90 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>, Muchun Song <muchun.song@linux.dev>,
- "Rafael J. Wysocki" <rafael@kernel.org>,
- Catalin Marinas <catalin.marinas@arm.com>,
- Kefeng Wang <wangkefeng.wang@huawei.com>,
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- Kim Phillips <kim.phillips@amd.com>, Christoph Hellwig <hch@lst.de>,
- Marek Szyprowski <m.szyprowski@samsung.com>, Jonathan Corbet <corbet@lwn.net>,
- Will Deacon <will@kernel.org>,
- Damien Le Moal <damien.lemoal@opensource.wdc.com>,
- "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
- "open list:DMA MAPPING HELPERS" <iommu@lists.linux.dev>,
- Borislav Petkov <bp@suse.de>, Won Chung <wonchung@google.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- "Paul E. McKenney" <paulmck@kernel.org>, Hans de Goede <hdegoede@redhat.com>,
- "Steven Rostedt \(Google\)" <rostedt@goodmis.org>,
- Zhen Lei <thunder.leizhen@huawei.com>, Dan Williams <dan.j.williams@intel.com>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Petr Tesarik <petr.tesarik.ext@huawei.com>, Kees Cook <keescook@chromium.org>,
- Ondrej Zary <linux@zary.sk>, Petr Tesarik <petrtesarik@huaweicloud.com>,
- Randy Dunlap <rdunlap@infradead.org>, Roberto Sassu <roberto.sassu@huawei.com>,
- open list <linux-kernel@vger.kernel.org>, Thomas Gleixner <tglx@linutronix.de>,
- Robin Murphy <robin.murphy@arm.com>
+Cc: melissa.srw@gmail.com, rodrigosiqueiramelo@gmail.com, mcanal@igalia.com,
+ dri-devel@lists.freedesktop.org, mwen@igalia.com, tzimmermann@suse.de,
+ igormtorrente@gmail.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Apr 26, 2023 at 02:44:39PM +0200, Petr Tesařík wrote:
-> Hi Greg,
-> 
-> On Wed, 26 Apr 2023 14:26:36 +0200
-> Greg Kroah-Hartman <gregkh@linuxfoundation.org> wrote:
-> 
-> > On Wed, Apr 26, 2023 at 02:15:20PM +0200, Petr Tesařík wrote:
-> > > Hi,
-> > > 
-> > > On Wed, 19 Apr 2023 12:03:52 +0200
-> > > Petr Tesarik <petrtesarik@huaweicloud.com> wrote:
-> > >   
-> > > > From: Petr Tesarik <petr.tesarik.ext@huawei.com>
-> > > > 
-> > > > The goal of my work is to provide more flexibility in the sizing of
-> > > > SWIOTLB.
-> > > > 
-> > > > The software IO TLB was designed with these assumptions:
-> > > > 
-> > > > 1. It would not be used much, especially on 64-bit systems.
-> > > > 2. A small fixed memory area (64 MiB by default) is sufficient to
-> > > >    handle the few cases which require a bounce buffer.
-> > > > 3. 64 MiB is little enough that it has no impact on the rest of the
-> > > >    system.
-> > > > 
-> > > > First, if SEV is active, all DMA must be done through shared
-> > > > unencrypted pages, and SWIOTLB is used to make this happen without
-> > > > changing device drivers. The software IO TLB size is increased to
-> > > > 6% of total memory in sev_setup_arch(), but that is more of an
-> > > > approximation. The actual requirements may vary depending on the
-> > > > amount of I/O and which drivers are used. These factors may not be
-> > > > know at boot time, i.e. when SWIOTLB is allocated.
-> > > > 
-> > > > Second, other colleagues have noticed that they can reliably get
-> > > > rid of occasional OOM kills on an Arm embedded device by reducing
-> > > > the SWIOTLB size. This can be achieved with a kernel parameter, but
-> > > > determining the right value puts additional burden on pre-release
-> > > > testing, which could be avoided if SWIOTLB is allocated small and
-> > > > grows only when necessary.  
-> > > 
-> > > Now that merging into 6.4 has begun, what about this patch series? I'm
-> > > eager to get some feedback (positive or negative) and respin the next
-> > > version.  
-> > 
-> > It's the merge window, we can't add new things that haven't been in
-> > linux-next already.
-> 
-> This is understood. I'm not asking for immediate inclusion.
-> 
-> >   Please resubmit it after -rc1 is out.
-> 
-> If you can believe that rebasing to -rc1 will be enough, then I will
-> also try to believe I'm lucky. ;-)
-> 
-> The kind of feedback I really want to get is e.g. about the extra
-> per-device DMA-specific fields. If they cannot be added to struct
-> device, then I'd rather start discussing an interim solution, because
-> getting all existing DMA fields out of that struct will take a lot of
-> time...
+Hi Brandon, Xie,
 
-I thought the goal was to get them out of the device and into the bus
-instead right?  Or was it the other way around?  I can't remember
-anymore, sorry...
+Thanks for reaching out, and for the heads-up. I need to take a closer 
+look, but by glancing over it, using configFS would be really awesome. 
+Think we could really benefit from having that in our CI and being able 
+to customize the entire pipeline. I'm totally for that.
 
-greg k-h
+It looks like it requires some infra work so I guess landing that might 
+require quite a bit of time. Not sure if there are recent updates for it.
+
+My changes are quite trivial and much more focused on just having 
+multiple virtual displays, so IDK, I've submitted a version that seems 
+to work, so I guess others should or would decide if we should drop mine 
+and focus on the configFS series, or we should go with configFS as a 
+follow-up. Would have liked to get something in the tree so we can at 
+least have something to work with.
+
+Thoughts on the matter on how should we go about it?
+
+On 4/26/23 05:06, Brandon Ross Pollack wrote:
+> We're doing/planning on doing similar or related work here at chromium.
+> 
+> https://patchwork.kernel.org/project/dri-devel/list/?series=662676&submitter=&state=&q=&delegate=&archive=both <https://patchwork.kernel.org/project/dri-devel/list/?series=662676&submitter=&state=&q=&delegate=&archive=both>
+> 
+> Here's the stuff we have now (we're currently rebasing and touching it 
+> up, myself and @Yi Xie <mailto:yixie@google.com> will be taking over 
+> this work.
+> 
+> Our plans are to add configFS changes and DRI VKMS changes to be able to 
+> add and remove virtual displays at runtime (among other things needed 
+> for our own testing purposes for our Exo wayland implementation).
+> 
+> We're still learning how this all works and comes together, but it is 
+> worth letting you know "us too"
+> 
+> We can chat more and see where we overlap and can learn from each other :)
+> 
+> On Tue, Apr 25, 2023 at 4:30 PM Marius Vlad <marius.vlad@collabora.com 
+> <mailto:marius.vlad@collabora.com>> wrote:
+> 
+>     With multiple pipe available we can perform management of outputs at
+>     a more granular level, such that we're able to turn off or on several
+>     outputs at a time, or combinations that arise from doing that.
+> 
+>     The Weston project use VKMS when running its test suite in CI, and we
+>     have now uses cases which would need to ability to set-up the outputs
+>     DPMS/state individually, rather than globally -- which would affect all
+>     outputs. This an attempt on fixing that by giving the possibility to
+>     create more than one pipe, and thus allowing to run tests that could
+>     exercise code paths in the compositor related to management of outputs.
+> 
+>     v3:
+>        - Apply the series against drm-misc-next (Maíra Canal)
+>        - Add a lower range check to avoid passing negative values to
+>        max_pipes (Maíra Canal)
+> 
+>     v2:
+>        - Replace 'outputs' with 'pipes' as to use the proper terminology
+>          (Thomas Zimmermann, Maíra Canal)
+>        - Fixed passing wrong possible_crtc bitmask when initializing the
+>          write back connector which address kms_writeback failure (Maíra
+>     Canal)
+>        - Add a feat. note about moving overlay planes between CRTCs
+>     (Melissa Wen)
+> 
+>     Marius Vlad (3):
+>        vkms: Pass the correct bitmask for possible crtcs
+>        vkms: Add support for multiple pipes
+>        Documentation/gpu/vkms.rst: Added a note about plane migration
+> 
+>       Documentation/gpu/vkms.rst            |  5 +++--
+>       drivers/gpu/drm/vkms/vkms_crtc.c      |  3 +--
+>       drivers/gpu/drm/vkms/vkms_drv.c       | 31 +++++++++++++++++++++------
+>       drivers/gpu/drm/vkms/vkms_drv.h       | 12 ++++++++---
+>       drivers/gpu/drm/vkms/vkms_output.c    |  7 +++---
+>       drivers/gpu/drm/vkms/vkms_writeback.c | 24 ++++++++++-----------
+>       6 files changed, 53 insertions(+), 29 deletions(-)
+> 
+>     -- 
+>     2.39.2
+> 
