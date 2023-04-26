@@ -1,33 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 826B76EEF5D
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Apr 2023 09:37:10 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D14BE6EEDF5
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Apr 2023 08:04:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 91D6510E8E9;
-	Wed, 26 Apr 2023 07:37:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3F9A010E8A3;
+	Wed, 26 Apr 2023 06:04:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mxout1.internetbrands.com (mxout1.internetbrands.com
- [98.158.192.111])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B0F1F10E2DD
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Apr 2023 23:39:53 +0000 (UTC)
-Received: from la1-kvm184.internetbrands.com (unknown [10.16.82.5])
- by mxout1.internetbrands.com (Postfix) with ESMTP id 937416737444;
- Tue, 25 Apr 2023 16:39:52 -0700 (PDT)
-From: kernel@linuxace.com
-To: tzimmermann@suse.de
-Subject: RE: [PATCH 07/14] drm/mgag200: Replace simple-KMS with regular atomic
- helpers
-Date: Tue, 25 Apr 2023 16:39:52 -0700
-Message-Id: <20230425233952.5618-1-kernel@linuxace.com>
-X-Mailer: git-send-email 2.40.0
-In-Reply-To: <7f770bc8-d79b-ca1c-21ba-aa888ace2153@suse.de>
-References: <7f770bc8-d79b-ca1c-21ba-aa888ace2153@suse.de>
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0397310E8A3;
+ Wed, 26 Apr 2023 06:04:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1682489090; x=1714025090;
+ h=message-id:date:mime-version:from:subject:to:cc:
+ content-transfer-encoding;
+ bh=3SEcgBRccRZ/r/EX9X0r/aUjaYTFykKZyDakmFpR3kI=;
+ b=n6NhSm83mzgZi7pzlFgE7fzFB4lhxZTXksMPD/ygRXUqHTNPQU8NiJq/
+ gk5wVsG8DORB1poqHKpodNX9YCK3k6ukqxdJwjuUW/HAK/j5PrNoHA4iL
+ EaDXbCJUeAwZ5TRrwawosAjCl2XnnGKU/j5QFTnXPyegFYtmQN0l8oEqD
+ Nhb4Ziadcf0XUlsN1W+OlMazDVtYrG8GxQ2JwcjQxxcVFaHWNzVppmMVA
+ IBua9W6WxnqyXwXZPYWL+9qEf8i6NuOU/kqoLPa2uSrLjoJKVPR67704H
+ 9HQwIvkpHasAoFTXLsye++POIY0Pf6xm5PGrmmJiklCEdRprYMHtfDFkr Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10691"; a="433288106"
+X-IronPort-AV: E=Sophos;i="5.99,227,1677571200"; d="scan'208";a="433288106"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Apr 2023 23:04:46 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10691"; a="805351727"
+X-IronPort-AV: E=Sophos;i="5.99,227,1677571200"; d="scan'208";a="805351727"
+Received: from mpkangas-mobl1.ger.corp.intel.com (HELO [10.249.38.1])
+ ([10.249.38.1])
+ by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Apr 2023 23:04:43 -0700
+Message-ID: <45757de9-75d8-5b41-f1f9-562a7c4675b9@linux.intel.com>
+Date: Wed, 26 Apr 2023 08:04:40 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Firefox/102.0 Thunderbird/102.10.0
+From: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Subject: [PULL] drm-misc-next-fixes
+To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Wed, 26 Apr 2023 07:36:59 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -40,57 +59,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel@linuxace.com, jfalempe@redhat.com, sam@ravnborg.org,
- dri-devel@lists.freedesktop.org
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ dim-tools@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-I'm not sure if this information is useful, but we have found one system which
-works with the 6.1 kernel.  I grabbed the lspci output from a working and
-non-working system, pasted below.  Same kernel and same distro.  
+Hey Dave, Daniel,
 
-BAD Dell R815 AMD
-0a:03.0 VGA compatible controller: Matrox Electronics Systems Ltd. MGA G200eW
-        WPCM450 (rev 0a) (prog-if 00 [VGA controller])
-       DeviceName: Embedded Video                           
-       Subsystem: Dell Device 0444
-       Control: I/O+ Mem+ BusMaster+ SpecCycle- MemWINV- VGASnoop- ParErr- Stepping- SERR- FastB2B- DisINTx-
-       Status: Cap+ 66MHz- UDF- FastB2B+ ParErr- DEVSEL=medium >TAbort- <TAbort- <MAbort- >SERR- <PERR- INTx-
-       Latency: 32 (4000ns min, 8000ns max), Cache Line Size: 64 bytes
-       Interrupt: pin A routed to IRQ 5
-       NUMA node: 0
-       IOMMU group: 10
-       Region 0: Memory at ec800000 (32-bit, prefetchable) [size=8M]
-       Region 1: Memory at ef7fc000 (32-bit, non-prefetchable) [size=16K]
-       Region 2: Memory at ee800000 (32-bit, non-prefetchable) [size=8M]
-       Expansion ROM at 000c0000 [virtual] [disabled] [size=128K]
-       Capabilities: [dc] Power Management version 1
-               Flags: PMEClk- DSI+ D1- D2- AuxCurrent=0mA PME(D0-,D1-,D2-,D3hot-,D3cold-)
-               Status: D0 NoSoftRst- PME-Enable- DSel=0 DScale=0 PME-
-00: 2b 10 32 05 07 00 90 02 0a 00 00 03 10 20 00 00
-10: 08 00 80 ec 00 c0 7f ef 00 00 80 ee 00 00 00 00
-20: 00 00 00 00 00 00 00 00 00 00 00 00 28 10 44 04
-30: 00 00 00 00 dc 00 00 00 00 00 00 00 05 01 10 20
+Complementary pull request for drm-misc-next-fixes!
 
-GOOD Dell R710 INTEL
-0a:03.0 VGA compatible controller: Matrox Electronics Systems Ltd. MGA G200eW
-        WPCM450 (rev 0a) (prog-if 00 [VGA controller])
-       DeviceName: Embedded Video                           
-       Subsystem: Dell PowerEdge R710 MGA G200eW WPCM450
-       Control: I/O+ Mem+ BusMaster+ SpecCycle- MemWINV- VGASnoop- ParErr- Stepping- SERR- FastB2B- DisINTx-
-       Status: Cap+ 66MHz- UDF- FastB2B+ ParErr- DEVSEL=medium >TAbort- <TAbort- <MAbort- >SERR- <PERR- INTx-
-       Latency: 32 (4000ns min, 8000ns max), Cache Line Size: 64 bytes
-       Interrupt: pin A routed to IRQ 10
-       Region 0: Memory at d5000000 (32-bit, prefetchable) [size=8M]
-       Region 1: Memory at deffc000 (32-bit, non-prefetchable) [size=16K]
-       Region 2: Memory at df000000 (32-bit, non-prefetchable) [size=8M]
-       Expansion ROM at 000c0000 [virtual] [disabled] [size=128K]
-       Capabilities: [dc] Power Management version 1
-               Flags: PMEClk- DSI+ D1- D2- AuxCurrent=0mA PME(D0-,D1-,D2-,D3hot-,D3cold-)
-               Status: D0 NoSoftRst- PME-Enable- DSel=0 DScale=0 PME-
-00: 2b 10 32 05 07 00 90 02 0a 00 00 03 10 20 00 00
-10: 08 00 00 d5 00 c0 ff de 00 00 00 df 00 00 00 00
-20: 00 00 00 00 00 00 00 00 00 00 00 00 28 10 35 02
-30: 00 00 00 00 dc 00 00 00 00 00 00 00 0a 01 10 20
+~Maarten
 
-Phil
+drm-misc-next-fixes-2023-04-26:
+
+drm-misc-next-fixes for v6.4-rc1:
+- Revert uAPI from accel/qaic.
+- Fix TTM build on archs where PMD_SHIFT is not constant.
+- Improve error handling in nt35950.
+- Fix double unregister in otm8009a when removing the driver.
+The following changes since commit d8dab40a8b37fe8207e1edf68205c709b477e0a4:
+
+   Merge tag 'drm-misc-next-2023-04-12' of 
+git://anongit.freedesktop.org/drm/drm-misc into drm-next (2023-04-12 
+16:23:04 +0200)
+
+are available in the Git repository at:
+
+   git://anongit.freedesktop.org/drm/drm-misc 
+tags/drm-misc-next-fixes-2023-04-26
+
+for you to fetch changes up to a50be876f4fe2349dc8b056a49d87f69c944570f:
+
+   drm/panel: novatek-nt35950: Only unregister DSI1 if it exists 
+(2023-04-18 10:20:26 +0200)
+
+----------------------------------------------------------------
+drm-misc-next-fixes for v6.4-rc1:
+- Revert uAPI from accel/qaic.
+- Fix TTM build on archs where PMD_SHIFT is not constant.
+- Improve error handling in nt35950.
+- Fix double unregister in otm8009a when removing the driver.
+
+----------------------------------------------------------------
+Christian König (1):
+       drm/ttm: revert "Reduce the number of used allocation orders for 
+TTM pages"
+
+James Cowgill (1):
+       drm/panel: otm8009a: Set backlight parent to panel device
+
+Jeffrey Hugo (1):
+       Revert "accel/qaic: Add mhi_qaic_cntl"
+
+Konrad Dybcio (2):
+       drm/panel: novatek-nt35950: Improve error handling
+       drm/panel: novatek-nt35950: Only unregister DSI1 if it exists
+
+  drivers/accel/qaic/Makefile                      |   1 -
+  drivers/accel/qaic/mhi_qaic_ctrl.c               | 569 
+-----------------------
+  drivers/accel/qaic/mhi_qaic_ctrl.h               |  12 -
+  drivers/accel/qaic/qaic_drv.c                    |  10 -
+  drivers/gpu/drm/panel/panel-novatek-nt35950.c    |  10 +-
+  drivers/gpu/drm/panel/panel-orisetech-otm8009a.c |   2 +-
+  drivers/gpu/drm/ttm/ttm_pool.c                   |  30 +-
+  7 files changed, 21 insertions(+), 613 deletions(-)
+  delete mode 100644 drivers/accel/qaic/mhi_qaic_ctrl.c
+  delete mode 100644 drivers/accel/qaic/mhi_qaic_ctrl.h
+
