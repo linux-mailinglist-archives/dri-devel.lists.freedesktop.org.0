@@ -1,53 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DCEF6EF3FB
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Apr 2023 14:06:31 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 93BA56EF43F
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Apr 2023 14:26:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E0BD110E2D8;
-	Wed, 26 Apr 2023 12:06:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 994C010E2CE;
+	Wed, 26 Apr 2023 12:26:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8BEBC10E2D8
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Apr 2023 12:06:24 +0000 (UTC)
-Received: from [IPV6:2001:b07:2ed:14ed:c5f8:7372:f042:90a2] (unknown
- [IPv6:2001:b07:2ed:14ed:c5f8:7372:f042:90a2])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits))
- (No client certificate requested) (Authenticated sender: kholk11)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 6420A660036F;
- Wed, 26 Apr 2023 13:06:21 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1682510782;
- bh=OfMlzuTrSWbL6RmSjUOMVmGVdnb1BVtFW+nmxN56VS4=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=DPPysip393PCjfe9Jv+L2SXJuYsGGsHvvK1XWXBikxECYbVFvi/PhDIaAeepxrAL7
- +wJpLFS1g8wTc4+JN6TZYN4waXDzKuSCrFSe3UPdGsalhSBUGqqMWAbSASbRC0hSW3
- AODPeJIo40uTfCCReDOlt15TyZCnMp0yEA6AEhkqlYUuxbXrzQoxHX/qPeUX8MOEdr
- eKD9lPe+MzEvZrNTxRJziSdAgghr//60ohBw/K9jvUEPgjHfVUQ26TERUBZ2QlWsoI
- kTEze4VfJf0ahBK+l+o6Ht28PDMQZmwAp4oU3WEkBZ3hX+ugF17r7KN+TpWLYFpC0r
- jQVZrI6+fNDRQ==
-Message-ID: <0c8d08e2-770a-1ec2-e990-1d48bfc0eac6@collabora.com>
-Date: Wed, 26 Apr 2023 14:06:19 +0200
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1D21710E2CE
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Apr 2023 12:26:40 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 00F5C62F13;
+ Wed, 26 Apr 2023 12:26:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 70C57C433EF;
+ Wed, 26 Apr 2023 12:26:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1682511999;
+ bh=cdI2zaKgoeVH8+lh7QkDEcGOwMPtzMzzDqC1Ob1nKds=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=qnOqm7ybgwu+DC68iZtWPjdOTym6MH7XxTN2/p31qzx99QWiUJFxjFpek/am/RsjL
+ J78JpEkD/lO49If6n8utrPfZrNtelum+LW9DYynU1hPJC7QnHXYzPZdECqdd0aVD7D
+ VlWhKvBu7PcmbTjDYaHQSB/lz1VE7E3fYaXez6xA=
+Date: Wed, 26 Apr 2023 14:26:36 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Petr =?utf-8?B?VGVzYcWZw61r?= <petr@tesarici.cz>
+Subject: Re: [PATCH v2 0/7] Allow dynamic allocation of software IO TLB
+ bounce buffers
+Message-ID: <2023042617-wobble-enlighten-9361@gregkh>
+References: <cover.1681898595.git.petr.tesarik.ext@huawei.com>
+ <20230426141520.0caf4386@meshulam.tesarici.cz>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH RESEND v3 6/9] drm/mediatek: Add gamma support different
- bank_size for other SoC
-Content-Language: en-US
-To: "Jason-JH.Lin" <jason-jh.lin@mediatek.com>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Matthias Brugger <matthias.bgg@gmail.com>
-References: <20220912013006.27541-1-jason-jh.lin@mediatek.com>
- <20220912013006.27541-7-jason-jh.lin@mediatek.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20220912013006.27541-7-jason-jh.lin@mediatek.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230426141520.0caf4386@meshulam.tesarici.cz>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,74 +51,72 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Singo Chang <singo.chang@mediatek.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- Rex-BC Chen <rex-bc.chen@mediatek.com>, linux-mediatek@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org
+Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>, Muchun Song <muchun.song@linux.dev>,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ Catalin Marinas <catalin.marinas@arm.com>,
+ Kefeng Wang <wangkefeng.wang@huawei.com>,
+ "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
+ Kim Phillips <kim.phillips@amd.com>, Christoph Hellwig <hch@lst.de>,
+ Marek Szyprowski <m.szyprowski@samsung.com>, Jonathan Corbet <corbet@lwn.net>,
+ Will Deacon <will@kernel.org>,
+ Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+ "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+ "open list:DMA MAPPING HELPERS" <iommu@lists.linux.dev>,
+ Borislav Petkov <bp@suse.de>, Won Chung <wonchung@google.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ "Paul E. McKenney" <paulmck@kernel.org>, Hans de Goede <hdegoede@redhat.com>,
+ "Steven Rostedt \(Google\)" <rostedt@goodmis.org>,
+ Zhen Lei <thunder.leizhen@huawei.com>, Dan Williams <dan.j.williams@intel.com>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Petr Tesarik <petr.tesarik.ext@huawei.com>, Kees Cook <keescook@chromium.org>,
+ Ondrej Zary <linux@zary.sk>, Petr Tesarik <petrtesarik@huaweicloud.com>,
+ Randy Dunlap <rdunlap@infradead.org>, Roberto Sassu <roberto.sassu@huawei.com>,
+ open list <linux-kernel@vger.kernel.org>, Thomas Gleixner <tglx@linutronix.de>,
+ Robin Murphy <robin.murphy@arm.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Il 12/09/22 03:30, Jason-JH.Lin ha scritto:
-> Add multiple bank support for mt8195.
-> If bank size is 0 which means no bank support.
+On Wed, Apr 26, 2023 at 02:15:20PM +0200, Petr Tesařík wrote:
+> Hi,
 > 
-> Signed-off-by: Jason-JH.Lin <jason-jh.lin@mediatek.com>
-> ---
->   drivers/gpu/drm/mediatek/mtk_disp_gamma.c | 45 +++++++++++++----------
->   1 file changed, 26 insertions(+), 19 deletions(-)
+> On Wed, 19 Apr 2023 12:03:52 +0200
+> Petr Tesarik <petrtesarik@huaweicloud.com> wrote:
 > 
-> diff --git a/drivers/gpu/drm/mediatek/mtk_disp_gamma.c b/drivers/gpu/drm/mediatek/mtk_disp_gamma.c
-> index be82d15a5204..45da2b6206c8 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_disp_gamma.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_disp_gamma.c
-> @@ -21,6 +21,7 @@
->   #define GAMMA_LUT_EN					BIT(1)
->   #define GAMMA_DITHERING					BIT(2)
->   #define DISP_GAMMA_SIZE				0x0030
-> +#define DISP_GAMMA_BANK				0x0100
->   #define DISP_GAMMA_LUT				0x0700
->   
->   #define LUT_10BIT_MASK				0x03ff
-> @@ -33,6 +34,7 @@ struct mtk_disp_gamma_data {
->   	bool lut_diff;
->   	u16 lut_size;
->   	u8 lut_bits;
-> +	u16 bank_size;
->   };
->   
->   /*
-> @@ -75,9 +77,10 @@ void mtk_gamma_set_common(struct device *dev, void __iomem *regs, struct drm_crt
->   	struct mtk_disp_gamma *gamma = dev_get_drvdata(dev);
->   	bool lut_diff = false;
->   	u16 lut_size = LUT_SIZE_DEFAULT;
-> +	u16 bank_size = lut_size;
+> > From: Petr Tesarik <petr.tesarik.ext@huawei.com>
+> > 
+> > The goal of my work is to provide more flexibility in the sizing of
+> > SWIOTLB.
+> > 
+> > The software IO TLB was designed with these assumptions:
+> > 
+> > 1. It would not be used much, especially on 64-bit systems.
+> > 2. A small fixed memory area (64 MiB by default) is sufficient to
+> >    handle the few cases which require a bounce buffer.
+> > 3. 64 MiB is little enough that it has no impact on the rest of the
+> >    system.
+> > 
+> > First, if SEV is active, all DMA must be done through shared
+> > unencrypted pages, and SWIOTLB is used to make this happen without
+> > changing device drivers. The software IO TLB size is increased to
+> > 6% of total memory in sev_setup_arch(), but that is more of an
+> > approximation. The actual requirements may vary depending on the
+> > amount of I/O and which drivers are used. These factors may not be
+> > know at boot time, i.e. when SWIOTLB is allocated.
+> > 
+> > Second, other colleagues have noticed that they can reliably get
+> > rid of occasional OOM kills on an Arm embedded device by reducing
+> > the SWIOTLB size. This can be achieved with a kernel parameter, but
+> > determining the right value puts additional burden on pre-release
+> > testing, which could be avoided if SWIOTLB is allocated small and
+> > grows only when necessary.
+> 
+> Now that merging into 6.4 has begun, what about this patch series? I'm
+> eager to get some feedback (positive or negative) and respin the next
+> version.
 
-Just use gamma->data->bank_size directly, as platform data is always present.
+It's the merge window, we can't add new things that haven't been in
+linux-next already.   Please resubmit it after -rc1 is out.
 
->   	u8 lut_bits = LUT_BITS_DEFAULT;
->   	u8 shift_bits;
-> -	unsigned int i, reg;
-> +	unsigned int i, j, reg, bank_num;
->   	struct drm_color_lut *lut;
->   	void __iomem *lut_base;
->   	u32 word, mask;
-> @@ -87,8 +90,10 @@ void mtk_gamma_set_common(struct device *dev, void __iomem *regs, struct drm_crt
->   		lut_diff = gamma->data->lut_diff;
->   		lut_size = gamma->data->lut_size;
->   		lut_bits = gamma->data->lut_bits;
-> +		bank_size = gamma->data->bank_size;
+thanks,
 
-You shall set bank_size = 512 to MT8173 and MT8183, otherwise they break, as this
-will set bank_size to 0.
-
->   	}
->   
-> +	bank_num = lut_size / bank_size;
->   	shift_bits = LUT_INPUT_BITS - lut_bits;
->   	mask = GENMASK(lut_bits - 1, 0);
->   
-
-Regards,
-Angelo
-
+greg k-h
