@@ -1,62 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0B326EEC80
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Apr 2023 04:48:51 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 395B76EECE2
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Apr 2023 06:03:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4B82010E583;
-	Wed, 26 Apr 2023 02:48:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 121D010E873;
+	Wed, 26 Apr 2023 04:03:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com
- [IPv6:2a00:1450:4864:20::636])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7322B10E583;
- Wed, 26 Apr 2023 02:48:46 +0000 (UTC)
-Received: by mail-ej1-x636.google.com with SMTP id
- a640c23a62f3a-94f161ee14fso182000566b.0; 
- Tue, 25 Apr 2023 19:48:46 -0700 (PDT)
+Received: from mail-pf1-x42e.google.com (mail-pf1-x42e.google.com
+ [IPv6:2607:f8b0:4864:20::42e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AAED910E873
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Apr 2023 04:03:34 +0000 (UTC)
+Received: by mail-pf1-x42e.google.com with SMTP id
+ d2e1a72fcca58-63b52ad6311so7867903b3a.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Apr 2023 21:03:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1682477324; x=1685069324;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=luIBezxVj8vjsN8taNGI10NmyK3fPLG8Q9qSFZe7gVg=;
- b=ry1w73aKJZhF+mw0bkTlPfi3NbHr2/r5LIV+7uuHtOZw2S0AU5hZV6agpBs5LVE9DE
- oUbO/kvBh69w2pol++Z8lg1MonDRS7VNSnk/gX0ceyn/HkDMTvUm3UYG1mtgj+aBEWXl
- Yu23ATANopFyLcA5MwyfFQ/QAdVRRLffuXKnL5majIbPm+81MjCV2nGreqsz5tYSm5k6
- fELHB8SOyEOSNAg8R+qnj4TQyhJ04k1q6bhS0V8FXDr4fhPoRzxwL6PY7WkgZcfy4VYf
- H8YbrOp1rC9t8FiKhzzQ1wWc9LBSupPu4zojUkO9IA5NtinbqIOXyEW+zibRrAlezp/n
- HEkw==
+ d=chromium.org; s=google; t=1682481813; x=1685073813;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=jRvA37+TZqURtYKAjHmKMLWPmrsZ8ddC6S0Q1RiCXTs=;
+ b=h+yrEfGpXUD9SP5n9yWLh2sTJDF5/bjZR+vYQbropc3QIhIBQT6iiCBv7emIgzengo
+ idoBYQVz1IVsabub24GLyOWjfOAPGLCIcgxKKAEJ9+RMCKsNKQh2tGHxaz0Od4wx0wcs
+ 6dkEBwf1Zc3r+aDQlxfBcdsU5fyN6l8NFAueg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682477324; x=1685069324;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=luIBezxVj8vjsN8taNGI10NmyK3fPLG8Q9qSFZe7gVg=;
- b=T5HdwoY0Gkp+NeAseE83kMPGrzLzrd18/1Q03YWI+vIJjO4P1tgsbDiIwuvVeX/GkA
- 5ZDd5YB49o5p8w70WeqtNyhwMJUeEb1vUg9h0WOVTxgq0lY4zTUx0MoSdyft5matv9FZ
- L4+GF8rL5aogasbkWd8P+3RMJKcJeWz5u0YpKBw8SaoSYzyHC3B8w6CPKiiFikQf8ggI
- 6cPcLG6j/EQZ4HhSA9/URHdVLshqXnP6WqhjGTjDQv2FaAzaUE3JnEyTLt072obyRnNT
- W45lnVR58+StbbnYsgCFoQe1fHRR1w0bD32GX4H6HjH+laUiKwAlhs1NL0udZHqyNVAD
- jboQ==
-X-Gm-Message-State: AAQBX9eXx9Wo/gC/uGT2jjJNU0FpmfdJ9jwLhPEY9FoD2IlDnteY1t10
- T9/ufOescyRY/wnNpQk5uTG5jqZqkMtOOVumFg8=
-X-Google-Smtp-Source: AKy350ah10QfjHhR3RthnizYYdfMX/dVDPe92W7VgE61H/ui8jl13kTYbQo4YMuGTSjZrMGEVf9Gvgn7D7dF7fy00yk=
-X-Received: by 2002:a17:907:2087:b0:930:7f40:c1bb with SMTP id
- pv7-20020a170907208700b009307f40c1bbmr15743065ejb.4.1682477323728; Tue, 25
- Apr 2023 19:48:43 -0700 (PDT)
+ d=1e100.net; s=20221208; t=1682481813; x=1685073813;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=jRvA37+TZqURtYKAjHmKMLWPmrsZ8ddC6S0Q1RiCXTs=;
+ b=G8kvNnLxZku/09jUGSCYEVEIIzKGymafJjDnFvH/C8+KV8TxR0It9hy4BcFRlw4s5C
+ EiAW9xGX/J6bBroJylCp26UK/JqLAyH1rYQ1sdRcyi8Q/p/tRG4N+BRi3/uMsymbSXFy
+ B/ajPO5apCnNvsuydJzYz3zEdB8y9l5krYRBGRy+R+MfdNVsD8FUvNbVO0lX2C+5EesM
+ 8mMye+8aMXNthJ4rcEN1GPLpHOI5sFfUlaR3uwch2uRd3SzeP3DAd9H3aSmQ9MWPXlNn
+ eES8L8VcGy8Tz1wTgouAY67sbon1/QpV8JAdBQQ5VVq3HQ5HHX/izC55XPCNT6tOTrm9
+ BrRg==
+X-Gm-Message-State: AAQBX9d8VW48+DWfFxghDWJsuDgGoB9Ct3ba9mwXhoqiBpyPULR+5tLL
+ 2+ZK2BS40/l5O5730RAfFjzaGT9fqND9dZMCJk8RKoVf
+X-Google-Smtp-Source: AKy350btPWvDbB/VqNYU+PLrAt45K0WY10weyUZ3PytbEaUVilXQVxgp/mrZrMueMTmxZsjCjn/5ug==
+X-Received: by 2002:a05:6a00:1947:b0:63f:18ae:1d5f with SMTP id
+ s7-20020a056a00194700b0063f18ae1d5fmr23143113pfk.29.1682481813500; 
+ Tue, 25 Apr 2023 21:03:33 -0700 (PDT)
+Received: from datalore.c.googlers.com.com
+ (148.175.199.104.bc.googleusercontent.com. [104.199.175.148])
+ by smtp.gmail.com with ESMTPSA id
+ b21-20020a62a115000000b0063b64f1d6e9sm9015886pff.33.2023.04.25.21.03.31
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 25 Apr 2023 21:03:33 -0700 (PDT)
+From: Brandon Pollack <brpol@chromium.org>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH] drivers/vkms: checkpatch.pl suggested style fix
+Date: Wed, 26 Apr 2023 04:03:27 +0000
+Message-ID: <20230426040327.396866-1-brpol@chromium.org>
+X-Mailer: git-send-email 2.40.1.495.gc816e09b53d-goog
 MIME-Version: 1.0
-References: <20230426004831.650908-1-olvaffe@gmail.com>
- <BL0PR12MB2465ACA3AC6D8CCDFA043239F1659@BL0PR12MB2465.namprd12.prod.outlook.com>
-In-Reply-To: <BL0PR12MB2465ACA3AC6D8CCDFA043239F1659@BL0PR12MB2465.namprd12.prod.outlook.com>
-From: Chia-I Wu <olvaffe@gmail.com>
-Date: Tue, 25 Apr 2023 19:48:32 -0700
-Message-ID: <CAPaKu7SA5wWrwdP6MQvDu=3qH-QCH_iUFASmDY-VYxnrXn=2zg@mail.gmail.com>
-Subject: Re: [PATCH] drm/amdgpu: add a missing lock for AMDGPU_SCHED
-To: "Chen, Guchun" <Guchun.Chen@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,72 +68,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, "Pan,
- Xinhui" <Xinhui.Pan@amd.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
- "stable@vger.kernel.org" <stable@vger.kernel.org>, "Deucher,
- Alexander" <Alexander.Deucher@amd.com>, "Koenig,
- Christian" <Christian.Koenig@amd.com>
+Cc: tzimmermann@suse.de, Brandon Pollack <brpol@chromium.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Apr 25, 2023 at 7:27=E2=80=AFPM Chen, Guchun <Guchun.Chen@amd.com> =
-wrote:
->
-> From coding style's perspective, this lock/unlock handling should be put =
-into amdgpu_ctx_priority_override.
-The locking is to protect mgr->ctx_handles.
->
-> Regards,
-> Guchun
->
-> > -----Original Message-----
-> > From: amd-gfx <amd-gfx-bounces@lists.freedesktop.org> On Behalf Of Chia=
--
-> > I Wu
-> > Sent: Wednesday, April 26, 2023 8:48 AM
-> > To: dri-devel@lists.freedesktop.org
-> > Cc: Pan, Xinhui <Xinhui.Pan@amd.com>; linux-kernel@vger.kernel.org;
-> > stable@vger.kernel.org; amd-gfx@lists.freedesktop.org; Daniel Vetter
-> > <daniel@ffwll.ch>; Deucher, Alexander <Alexander.Deucher@amd.com>;
-> > David Airlie <airlied@gmail.com>; Koenig, Christian
-> > <Christian.Koenig@amd.com>
-> > Subject: [PATCH] drm/amdgpu: add a missing lock for AMDGPU_SCHED
-> >
-> > Signed-off-by: Chia-I Wu <olvaffe@gmail.com>
-> > Cc: stable@vger.kernel.org
-> > ---
-> >  drivers/gpu/drm/amd/amdgpu/amdgpu_sched.c | 6 +++++-
-> >  1 file changed, 5 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_sched.c
-> > b/drivers/gpu/drm/amd/amdgpu/amdgpu_sched.c
-> > index e9b45089a28a6..863b2a34b2d64 100644
-> > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_sched.c
-> > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_sched.c
-> > @@ -38,6 +38,7 @@ static int
-> > amdgpu_sched_process_priority_override(struct amdgpu_device *adev,  {
-> >       struct fd f =3D fdget(fd);
-> >       struct amdgpu_fpriv *fpriv;
-> > +     struct amdgpu_ctx_mgr *mgr;
-> >       struct amdgpu_ctx *ctx;
-> >       uint32_t id;
-> >       int r;
-> > @@ -51,8 +52,11 @@ static int
-> > amdgpu_sched_process_priority_override(struct amdgpu_device *adev,
-> >               return r;
-> >       }
-> >
-> > -     idr_for_each_entry(&fpriv->ctx_mgr.ctx_handles, ctx, id)
-> > +     mgr =3D &fpriv->ctx_mgr;
-> > +     mutex_lock(&mgr->lock);
-> > +     idr_for_each_entry(&mgr->ctx_handles, ctx, id)
-> >               amdgpu_ctx_priority_override(ctx, priority);
-> > +     mutex_unlock(&mgr->lock);
-> >
-> >       fdput(f);
-> >       return 0;
-> > --
-> > 2.40.0.634.g4ca3ef3211-goog
->
+added a newline for block comment
+
+checkpatch.pl output:
+
+-------------------------------
+drivers/gpu/drm/vkms/vkms_drv.c
+-------------------------------
+WARNING: Block comments use a trailing */ on a separate line
++        * which ix XRGB8888 in all cases. */
+
+total: 0 errors, 1 warnings, 274 lines checked
+---
+ drivers/gpu/drm/vkms/vkms_drv.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/vkms/vkms_drv.c b/drivers/gpu/drm/vkms/vkms_drv.c
+index e3c9c9571c8d..3be240355255 100644
+--- a/drivers/gpu/drm/vkms/vkms_drv.c
++++ b/drivers/gpu/drm/vkms/vkms_drv.c
+@@ -148,7 +148,8 @@ static int vkms_modeset_init(struct vkms_device *vkmsdev)
+ 	dev->mode_config.cursor_height = 512;
+ 	/* FIXME: There's a confusion between bpp and depth between this and
+ 	 * fbdev helpers. We have to go with 0, meaning "pick the default",
+-	 * which ix XRGB8888 in all cases. */
++	 * which ix XRGB8888 in all cases.
++	 */
+ 	dev->mode_config.preferred_depth = 0;
+ 	dev->mode_config.helper_private = &vkms_mode_config_helpers;
+ 
+-- 
+2.40.1.495.gc816e09b53d-goog
+
