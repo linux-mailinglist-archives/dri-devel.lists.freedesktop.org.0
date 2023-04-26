@@ -2,60 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4700E6EF6ED
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Apr 2023 16:56:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EC5A6EF704
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Apr 2023 17:01:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7D7A710E436;
-	Wed, 26 Apr 2023 14:56:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 41E4010E9DA;
+	Wed, 26 Apr 2023 15:01:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com
- [209.85.219.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7C0F310E436
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Apr 2023 14:56:30 +0000 (UTC)
-Received: by mail-yb1-f171.google.com with SMTP id
- 3f1490d57ef6-b8f599b9277so10862219276.2
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Apr 2023 07:56:30 -0700 (PDT)
+Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com
+ [209.85.128.169])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7C0CC10E9DA
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Apr 2023 15:01:41 +0000 (UTC)
+Received: by mail-yw1-f169.google.com with SMTP id
+ 00721157ae682-54f8b46d031so83302307b3.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Apr 2023 08:01:41 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682520989; x=1685112989;
+ d=1e100.net; s=20221208; t=1682521300; x=1685113300;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=/XCTcDbpPB/liGF983vey6mh6nUAjd3zqT7KMY+SE1g=;
- b=bArwaiA1ZgZxFyeFN4w3b4067VnyadaVQaysfHjkSYN8RTZ1UIC72WX/dbrhMU9LHF
- GHkBl8w9Xe4oOmf/YX313XfQB6ZxC0pW4vj3+aE3ENqU0AWiiIA3W63t5hF8qRt6ToYy
- 5NsTlsIDIH8nhOatWmHJYt8syJ8Po9dSUzTKcvbTzXBra+YajNb5dLYoMMw0qldvCx5b
- 6lSvESC71OZt13EPiWXxTUG+9qJ47Kbw6jgm1JdfugxhDffX0g/69Q+aGMy3EVqoK7O4
- TkDouaquESnBGl3boRbgo8XqhJ78mZuksb7dJDxuKgeSP8b39AUvBjsy4K0AqthVydKY
- KjLQ==
-X-Gm-Message-State: AAQBX9dzoQ8UM6vSiDfnzda5iXvVfswcb5RVho8MIFqiAQXidz6y9aL/
- t9QVwhEUDAQCk7iujYjrIvsltpKdPNbg+A==
-X-Google-Smtp-Source: AKy350Z5IW5vsmr9bJ18abPJppEda+3olQD47tTVNCgzRGBqDGXpP7ioPuUiH2cBC/slxLKEhsfyjQ==
-X-Received: by 2002:a25:c502:0:b0:b98:d45e:7bd4 with SMTP id
- v2-20020a25c502000000b00b98d45e7bd4mr15773614ybe.13.1682520988627; 
- Wed, 26 Apr 2023 07:56:28 -0700 (PDT)
-Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com.
- [209.85.128.170]) by smtp.gmail.com with ESMTPSA id
- y69-20020a81a148000000b00545a081847bsm4233884ywg.11.2023.04.26.07.56.27
+ bh=InRK/SXUr8n9eTPGJfhjR3lsiyg7RVplSp0EEYbdwVU=;
+ b=HGd4nxJ93OZKgpjafhNhH6yKC93gccy8oxbLwRQIzgAo+kYRst9rUAq2EYDhW/L5TD
+ 7BUBBvYzfw5S90R0QdMIe88HqWiBjmmLmlgNasHx1NPUIvE2L5xqpJhJonl7GEfBaV0w
+ h+daCJOJj2nJDDZl0J7s5CUUwognpkAalvAYlt7mnVQaJxh5Ycw0y71Nwk1GixnRs6qf
+ Dzpmk5YeY/sssWr2mmTEOvDI+JSdJCkPFv/pREDp9wDdynb+A2pe/NsXiTjBTfARCMrS
+ xNhatKuh4tewYbw0Ig1Y5B69fXg9zvSf8GOdjIOsWbPkeF+TEY9LGHBOdUebfAOQ1w4E
+ kzNA==
+X-Gm-Message-State: AC+VfDxwifK4OHIW86b+GXQxuNVjQMXX/ShojTSeskazErv6RwW32x1r
+ 2PztHr9JdaHKJfOjyFhFqz75T3hhHx9/ZQ==
+X-Google-Smtp-Source: ACHHUZ5e6iDVETBIVAOqGOiOvEgKO95U5c6ZPSAFng7YRGTgAy18mwWXiRmt8YgVr1svsq063L205Q==
+X-Received: by 2002:a81:4a46:0:b0:556:a562:66bb with SMTP id
+ x67-20020a814a46000000b00556a56266bbmr6974882ywa.26.1682521299346; 
+ Wed, 26 Apr 2023 08:01:39 -0700 (PDT)
+Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com.
+ [209.85.128.182]) by smtp.gmail.com with ESMTPSA id
+ r127-20020a0dcf85000000b00552df52450csm4216465ywd.88.2023.04.26.08.01.38
  for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 26 Apr 2023 07:56:27 -0700 (PDT)
-Received: by mail-yw1-f170.google.com with SMTP id
- 00721157ae682-54f8d59a8a9so87483637b3.0
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Apr 2023 07:56:27 -0700 (PDT)
-X-Received: by 2002:a0d:fc46:0:b0:54f:b133:b2d with SMTP id
- m67-20020a0dfc46000000b0054fb1330b2dmr14383489ywf.26.1682520986826; Wed, 26
- Apr 2023 07:56:26 -0700 (PDT)
+ Wed, 26 Apr 2023 08:01:38 -0700 (PDT)
+Received: by mail-yw1-f182.google.com with SMTP id
+ 00721157ae682-555d2b43a23so83384147b3.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Apr 2023 08:01:38 -0700 (PDT)
+X-Received: by 2002:a81:7104:0:b0:54f:b6af:ac15 with SMTP id
+ m4-20020a817104000000b0054fb6afac15mr11853502ywc.51.1682521298213; Wed, 26
+ Apr 2023 08:01:38 -0700 (PDT)
 MIME-Version: 1.0
 References: <20230425142846.730-1-tzimmermann@suse.de>
- <20230425142846.730-5-tzimmermann@suse.de>
-In-Reply-To: <20230425142846.730-5-tzimmermann@suse.de>
+ <20230425142846.730-6-tzimmermann@suse.de>
+In-Reply-To: <20230425142846.730-6-tzimmermann@suse.de>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 26 Apr 2023 16:56:14 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdX8A_5Kd_D4qQfmYLbECekLWHFzrcK-xMTeyBaz=T_a-A@mail.gmail.com>
-Message-ID: <CAMuHMdX8A_5Kd_D4qQfmYLbECekLWHFzrcK-xMTeyBaz=T_a-A@mail.gmail.com>
-Subject: Re: [PATCH 4/6] fbdev: Validate info->screen_{base,
- buffer} in fb_ops implementations
+Date: Wed, 26 Apr 2023 17:01:25 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdU-_w9yQHYhOCD3cz4CEY6ag-dTXjuHSLnzty0hAMBbXw@mail.gmail.com>
+Message-ID: <CAMuHMdU-_w9yQHYhOCD3cz4CEY6ag-dTXjuHSLnzty0hAMBbXw@mail.gmail.com>
+Subject: Re: [PATCH 5/6] fbdev: Move CFB read and write code into helper
+ functions
 To: Thomas Zimmermann <tzimmermann@suse.de>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -79,27 +79,97 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi Thomas,
 
-
 On Tue, Apr 25, 2023 at 4:28=E2=80=AFPM Thomas Zimmermann <tzimmermann@suse=
 .de> wrote:
-> Push the test for info->screen_base from fb_read() and fb_write() into
-> the implementations of struct fb_ops.{fb_read,fb_write}. In cases where
-> the driver operates on info->screen_buffer, test this field instead.
+> Move the existing CFB read and write code for I/O memory into
+> the new helpers fb_cfb_read() and fb_cfb_write(). Make them the
+> default fp_ops. No functional changes.
 >
 > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> ---
+>  drivers/video/fbdev/core/Makefile      |   2 +-
+>  drivers/video/fbdev/core/fb_cfb_fops.c | 126 +++++++++++++++++++++++++
+>  drivers/video/fbdev/core/fbmem.c       | 113 +---------------------
+>  include/linux/fb.h                     |  10 ++
+>  4 files changed, 139 insertions(+), 112 deletions(-)
+>  create mode 100644 drivers/video/fbdev/core/fb_cfb_fops.c
 
-Thanks for your patch!
-You forgot to mention why it is a good idea to duplicate this in all
-the implementations, instead of doing it once in the core?
+While the general idea is fine, please do not call any of this "cfb",
+as it is not related to chunky color frame buffer formats.
+All of these operate on the raw frame buffer contents.
 
->  drivers/video/fbdev/cobalt_lcdfb.c     |  6 ++++++
->  drivers/video/fbdev/core/fb_sys_fops.c |  6 ++++++
->  drivers/video/fbdev/core/fbmem.c       | 10 ++++++++--
->  drivers/video/fbdev/sm712fb.c          |  4 ++--
->  4 files changed, 22 insertions(+), 4 deletions(-)
+> --- /dev/null
+> +++ b/drivers/video/fbdev/core/fb_cfb_fops.c
+> @@ -0,0 +1,126 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +
+> +#include <linux/fb.h>
+> +#include <linux/module.h>
+> +#include <linux/uaccess.h>
+> +
+> +ssize_t fb_cfb_read(struct fb_info *info, char __user *buf, size_t count=
+, loff_t *ppos)
+> +{
 
-Aren't there more fbdev drivers to fix, before you can move the checks
-in drivers/video/fbdev/core/fbmem.c?
+[...]
+
+> +       while (count) {
+> +               c  =3D (count > PAGE_SIZE) ? PAGE_SIZE : count;
+> +               dst =3D buffer;
+> +               fb_memcpy_fromfb(dst, src, c);
+> +               dst +=3D c;
+> +               src +=3D c;
+> +
+> +               if (copy_to_user(buf, buffer, c)) {
+
+So here's still the buggy copy_to_user() handling, copied from fb_read().
+
+> +                       err =3D -EFAULT;
+> +                       break;
+> +               }
+> +               *ppos +=3D c;
+> +               buf +=3D c;
+> +               cnt +=3D c;
+> +               count -=3D c;
+> +       }
+> +
+> +       kfree(buffer);
+> +
+> +       return cnt ? cnt : err;
+> +}
+> +EXPORT_SYMBOL(fb_cfb_read);
+> +
+> +ssize_t fb_cfb_write(struct fb_info *info, const char __user *buf, size_=
+t count, loff_t *ppos)
+> +{
+
+[...]
+
+> +       while (count) {
+> +               c =3D (count > PAGE_SIZE) ? PAGE_SIZE : count;
+> +               src =3D buffer;
+> +
+> +               if (copy_from_user(src, buf, c)) {
+
+And copy_from_user(), too...
+
+> +                       err =3D -EFAULT;
+> +                       break;
+> +               }
+> +
+> +               fb_memcpy_tofb(dst, src, c);
+> +               dst +=3D c;
+> +               src +=3D c;
+> +               *ppos +=3D c;
+> +               buf +=3D c;
+> +               cnt +=3D c;
+> +               count -=3D c;
+> +       }
+> +
+> +       kfree(buffer);
+> +
+> +       return (cnt) ? cnt : err;
+> +}
 
 Gr{oetje,eeting}s,
 
