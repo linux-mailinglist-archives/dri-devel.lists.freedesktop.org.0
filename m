@@ -1,62 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66FEA6EF6A4
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Apr 2023 16:43:28 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 602CC6EF6BD
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Apr 2023 16:50:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B390D10E9AF;
-	Wed, 26 Apr 2023 14:43:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 78F5410E9CC;
+	Wed, 26 Apr 2023 14:50:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com
- [209.85.128.177])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 205B410E9AF
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Apr 2023 14:43:25 +0000 (UTC)
-Received: by mail-yw1-f177.google.com with SMTP id
- 00721157ae682-54fb8a8a597so86215677b3.0
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Apr 2023 07:43:25 -0700 (PDT)
+Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com
+ [209.85.128.178])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EE3EA10E9CC
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Apr 2023 14:50:08 +0000 (UTC)
+Received: by mail-yw1-f178.google.com with SMTP id
+ 00721157ae682-54fae5e9ec7so82201847b3.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Apr 2023 07:50:08 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682520204; x=1685112204;
+ d=1e100.net; s=20221208; t=1682520607; x=1685112607;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=0rVbowk0MpNFFS0mWHjJ/lam3bouM7aV76q+/1YGj60=;
- b=GCcyjfGOSgvFqpARx963QpSL4f0Wo989SJ9TPl+Pm5vm6yJoBbRk83KujqOXbDSyRP
- TfFgfMWmnxkshg5y6ji1VU0I1MqdCxATKjnTkkDyOfSm9JICLEUrLC+NrTr0W5Ljau4N
- b5iSrsbSQRK1uYn2jmGsof60Oi7WAgSJQe/7QCaUW7HaymZaTz36UdX9bBTGQytoXcUk
- kaPLquxEXCzwuNsc0r/mAXa2N3zdrQYcBR3Z6U9zypUSEBEORfUbetFH85YDAhjLOWYN
- Kyds6KwU6m2coLqIqOXO9KUDeF4/krbASHcY42voCImtrcUEmls4f2xrdftnV8GLctZy
- WzHw==
-X-Gm-Message-State: AAQBX9f3ZnH9d8miO8KRBJARlpfOZZ7Emf4hd5rXVtFiPOk945fhlPAp
- slDCy8/Popit7SnnoZ06X0KKmY1SjXRaBA==
-X-Google-Smtp-Source: AKy350Y5W7WjjYjMFA1P8oR7uTv5xCEq6hTx34OcZx9xN4ekJnFcKMg6E8XzoeKhQSVhv2RWiZpdzQ==
-X-Received: by 2002:a81:6d93:0:b0:54f:e2ae:21e1 with SMTP id
- i141-20020a816d93000000b0054fe2ae21e1mr12580463ywc.36.1682520203973; 
- Wed, 26 Apr 2023 07:43:23 -0700 (PDT)
-Received: from mail-yb1-f176.google.com (mail-yb1-f176.google.com.
- [209.85.219.176]) by smtp.gmail.com with ESMTPSA id
- f129-20020a816a87000000b00545a08184edsm4208664ywc.125.2023.04.26.07.43.23
+ bh=FWcjXDUPKLzWemqJDhq5l62EqMdBCWgt6RFaH5quzXc=;
+ b=iRc8P6DEu3I63yU0IJleyXR21tH9QzB3rAIBiXw9hV5s0k/i95btQeTGnxvAoBxWfz
+ oKIKk8m/i4TuXNeQt9EscMmclE7xXrZqA1urnvyqZym7ONZEv8L3fGoDMN92oBCBh1+O
+ ujQv4V/8vgEnbG1lYN3fdZ9gNYlk5B3O7K9CyDdy8XERHOTJyHzm5X9c+L+7RcGFMjqN
+ oSR2wSsB2PfTxvm8MozBRSVFO7NdBo6reCN6T4+7i91tp0mme8J1dljW26jlM6DkwcER
+ cBTdCMuv5LozdpoPcDC4/5myXeCYmZvaCLmwoQB8FAn9iHw5ekKGzyMwmyszS6huTUo6
+ Ic5g==
+X-Gm-Message-State: AAQBX9ecTaCSQKWQ6UC2awldTFzddxzwWsvuxsnj5GLQUr1hPTVnVSqO
+ ykmCQKHckjrkgbRiHx5b3F82ztNBmlFwlg==
+X-Google-Smtp-Source: AKy350ZbJAZi+yVU4lhKzXTHYyzqgitlXraxBi2jNyD80tIm41M82ApUaeAdgjl3xJczgAFnDW5a5A==
+X-Received: by 2002:a81:6604:0:b0:54f:5419:2fa4 with SMTP id
+ a4-20020a816604000000b0054f54192fa4mr13062126ywc.50.1682520607467; 
+ Wed, 26 Apr 2023 07:50:07 -0700 (PDT)
+Received: from mail-yb1-f177.google.com (mail-yb1-f177.google.com.
+ [209.85.219.177]) by smtp.gmail.com with ESMTPSA id
+ g195-20020a0dddcc000000b00545a081849esm4196781ywe.46.2023.04.26.07.50.06
  for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 26 Apr 2023 07:43:23 -0700 (PDT)
-Received: by mail-yb1-f176.google.com with SMTP id
- 3f1490d57ef6-b8f510fecf4so10802031276.1
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Apr 2023 07:43:23 -0700 (PDT)
-X-Received: by 2002:a81:5f83:0:b0:556:300c:d653 with SMTP id
- t125-20020a815f83000000b00556300cd653mr11680465ywb.40.1682520203320; Wed, 26
- Apr 2023 07:43:23 -0700 (PDT)
+ Wed, 26 Apr 2023 07:50:07 -0700 (PDT)
+Received: by mail-yb1-f177.google.com with SMTP id
+ 3f1490d57ef6-b9963a72fbfso6965055276.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Apr 2023 07:50:06 -0700 (PDT)
+X-Received: by 2002:a81:6c0d:0:b0:556:1070:7c60 with SMTP id
+ h13-20020a816c0d000000b0055610707c60mr13905263ywc.18.1682520606754; Wed, 26
+ Apr 2023 07:50:06 -0700 (PDT)
 MIME-Version: 1.0
 References: <20230425142846.730-1-tzimmermann@suse.de>
- <20230425142846.730-3-tzimmermann@suse.de>
- <87a5yvj4wl.fsf@minerva.mail-host-address-is-not-set>
-In-Reply-To: <87a5yvj4wl.fsf@minerva.mail-host-address-is-not-set>
+ <20230425142846.730-4-tzimmermann@suse.de>
+In-Reply-To: <20230425142846.730-4-tzimmermann@suse.de>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 26 Apr 2023 16:43:10 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWrtdHSKmJfT+RugX5Q=qVWC7XdFPaE+Y98dY=o0A9P-Q@mail.gmail.com>
-Message-ID: <CAMuHMdWrtdHSKmJfT+RugX5Q=qVWC7XdFPaE+Y98dY=o0A9P-Q@mail.gmail.com>
-Subject: Re: [PATCH 2/6] fbdev: Use screen_buffer in fb_sys_{read,write}()
-To: Javier Martinez Canillas <javierm@redhat.com>
+Date: Wed, 26 Apr 2023 16:49:54 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWmPHge3jXxx4_OMAjfvnk70C=TZzxOUGceFOimj7fG=A@mail.gmail.com>
+Message-ID: <CAMuHMdWmPHge3jXxx4_OMAjfvnk70C=TZzxOUGceFOimj7fG=A@mail.gmail.com>
+Subject: Re: [PATCH 3/6] fbdev: Don't re-validate info->state in fb_ops
+ implementations
+To: Thomas Zimmermann <tzimmermann@suse.de>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -71,37 +71,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
- deller@gmx.de, dri-devel@lists.freedesktop.org, sudipm.mukherjee@gmail.com,
- teddy.wang@siliconmotion.com
+Cc: linux-fbdev@vger.kernel.org, teddy.wang@siliconmotion.com, deller@gmx.de,
+ javierm@redhat.com, dri-devel@lists.freedesktop.org,
+ sudipm.mukherjee@gmail.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Apr 25, 2023 at 6:36=E2=80=AFPM Javier Martinez Canillas
-<javierm@redhat.com> wrote:
-> Thomas Zimmermann <tzimmermann@suse.de> writes:
->
-> > Use info->screen_buffer when reading and writing framebuffers in
-> > system memory. It's the correct pointer for this address space.
-> >
->
-> Maybe can expand the explanation a little bit with something like this?
->
-> "The struct fb_info has a union to store the framebuffer memory. This can
-> either be info->screen_base if the framebuffer is stored in I/O memory,
-> or info->screen_buffer if the framebuffer is stored in system memory.
->
-> Since the fb_sys_{read,write}() functions operate on the latter address
-> space, it is wrong to use .screen_base and .screen_buffer must be used
-> instead. This also get rids of all the casting needed due not using the
+Hi Thomas,
 
-... due to not ...
+On Tue, Apr 25, 2023 at 4:28=E2=80=AFPM Thomas Zimmermann <tzimmermann@suse=
+.de> wrote:
+> The file-op entry points fb_read() and fb_write() verify that
+> info->state has been set to FBINFO_STATE_RUNNING. Remove the same
+> test from the implementations of struct fb_ops.{fb_read,fb_write}.
+>
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 
-> correct data type."
+Thanks for your patch!
 
-+1
+>  drivers/video/fbdev/core/fb_sys_fops.c | 6 ------
+>  drivers/video/fbdev/sm712fb.c          | 6 ------
 
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+
+But there are several other fbdev drivers to fix:
+drivers/media/pci/ivtv/ivtvfb.c
+drivers/video/fbdev/broadsheetfb.c
+drivers/video/fbdev/hecubafb.c
+drivers/video/fbdev/metronomefb.c
 
 Gr{oetje,eeting}s,
 
