@@ -1,58 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C07F06EFC03
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Apr 2023 22:57:30 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 453D86EFC04
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Apr 2023 22:57:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B976D10E08A;
-	Wed, 26 Apr 2023 20:57:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CE3EA10E239;
+	Wed, 26 Apr 2023 20:57:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A45D810E08A;
- Wed, 26 Apr 2023 20:57:22 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8BE9710E1FD;
+ Wed, 26 Apr 2023 20:57:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1682542642; x=1714078642;
- h=from:to:cc:subject:date:message-id:
- content-transfer-encoding:mime-version;
- bh=9D2jkKlK/Yv2dNSC5NwYDAPbxO0QWUw2m7bLW7lMIbg=;
- b=Y3C6PBu2YypdQuKSxAjbac3svc0K1W6eggAoC/R+e3kYIwb2NJ9bfmrH
- srhVqw0zt55aC/Ug6YHlcW0RUXfjNrKAjTu/W9n48qT225PEYz31hUjcB
- ZqGl+lN4xjzSiqnKv8PFrznVus4ZqT87axgdFEdrgJHkgFZff2z074nAb
- LX1xpRm/+HOmJTKzJTXg5qiwYKxbxFpBnX3WVscCQNKLIqdrd8JMYDeJd
- UqhKz10uWbN6LFgphk2EaivCqcWuYb7KmvOfRlW+Lgm0DEvprGtL7kLNg
- K7XEtVTCUuLPhseSk5HjhFZMQK3m71EoR1n7lxyf+wrtlkdp7FGyaCp9h g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10692"; a="410249401"
-X-IronPort-AV: E=Sophos;i="5.99,229,1677571200"; d="scan'208";a="410249401"
+ t=1682542645; x=1714078645;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:content-transfer-encoding:mime-version;
+ bh=tAQf0FEJlkeNWaMHKHFYIp6l7S0xHpih33tO5eVWotc=;
+ b=h2ijdE0rT5gcfih/KuVioJktKv6ZuMQkN/85Ala3J3yvrQqUhf9iQFFx
+ 96Tw7FbaZlj8yElzuJ+qvMrHAQAdIPUn6DER6NK+W7r7+W8craG0uYAgU
+ d9tXsE+xPjMZWdTjdxbgXX+aWW8hCRLjvXyX1VtNlvoKbqQFMz8PiOcsd
+ XtQoq50/O86l/RlzzmTzGXT/zkR81aB9oKrxrKQ5gkCElHCwfGsffzAoR
+ Jk2QFKVkW3FYRzFuztzYiAKBvitZSoOsAXVwcuSnIx058T4V/KaVwJwDb
+ fYvQPKp1UlV7coaphwzXe7AvC5z/9/h9h5pH1gh4ACiAk3UW3x776B/B8 A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10692"; a="410249414"
+X-IronPort-AV: E=Sophos;i="5.99,229,1677571200"; d="scan'208";a="410249414"
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Apr 2023 13:57:21 -0700
+ 26 Apr 2023 13:57:25 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10692"; a="868434933"
-X-IronPort-AV: E=Sophos;i="5.99,229,1677571200"; d="scan'208";a="868434933"
-Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
- by orsmga005.jf.intel.com with ESMTP; 26 Apr 2023 13:57:21 -0700
+X-IronPort-AV: E=McAfee;i="6600,9927,10692"; a="868434967"
+X-IronPort-AV: E=Sophos;i="5.99,229,1677571200"; d="scan'208";a="868434967"
+Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
+ by orsmga005.jf.intel.com with ESMTP; 26 Apr 2023 13:57:25 -0700
 Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
+ ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.23; Wed, 26 Apr 2023 13:57:21 -0700
+ 15.1.2507.23; Wed, 26 Apr 2023 13:57:25 -0700
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.23; Wed, 26 Apr 2023 13:57:24 -0700
 Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
  orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.23 via Frontend Transport; Wed, 26 Apr 2023 13:57:20 -0700
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (104.47.66.46) by
+ 15.1.2507.23 via Frontend Transport; Wed, 26 Apr 2023 13:57:24 -0700
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com (104.47.66.47) by
  edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.23; Wed, 26 Apr 2023 13:57:20 -0700
+ 15.1.2507.23; Wed, 26 Apr 2023 13:57:24 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=dHsqdlxnLyEjK3xZMyZS+TDuV3MkbBHjhTJoBlBl8/igncSN9EE/ZloBBatM8hhmIA7ozx8d4FAe1Fagob8GiySxguGh8wuCqjbEgZIaqxKuKqAyfYjkSY66nVEII/vkGV42RAKrKwvnKxdK2HKCafdHoWf7V8qj0G0d4i3DCJKY0zEzEhQ7mba2aLnJWT1tw+IRXS59q+VshQEVfWxY7zVKZlXFRqAzTJ7lEQA3wvJFMP6/7QqsE3i2EWnJMo5sv1yEn9hJJEhBoZGF5Zq1Ywkrg15zsbL7IJlCigc5hiwjn4oVJlqdjTts55xJKU6ybwFhBUljC9KJ5bvP0ihXww==
+ b=OeejHLXqtofCiSxRlqdI6eZQcjkqm6GqPByTNjXIARGHjoG5HtK6jpXzn2Z9JkTwA0uNZ4upWcym2nAqq3hXDUN/JekJ8PKOhWX6Dr5xjZr60ToaI3a/O2goR31NRnwOue6/Wrizt2GRZgDwVTHIEWncZxIZJ450dIX5ObhuJ30+ARQyIK9QkC1twcCgmWQBH69cTRBH2sZaK3HpXl2MXw39IIqENDetZzeD9wwkD1gPXbPgiWPdxNWijFhd2x6/TtUacmtk3onL0JF/gGQ3JuRbcmY6MnloXe+H5NNetUik1E/BtgXn6lAqc6qcykQQKpt1iL+XrmSFbIIgF/+24g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=IgXF+NQtExQyzfizyKO62/ZuXuIGFrL88he986oCiUw=;
- b=BY8lm4nBJO1ZjydkX5Ghgpuh0NQ5P/oO5i4YPmbmeBrsOZIJ0IslmIwdOBVJp+jWfjAdzydhNmVljIn2EbMNfEvK++j21ZQ1/znEVYswZtSeo5StYoLP0nTadD4FHtMrHRgjPXHT6z8KrghbPF3o4Jtx30AAQed7BJplatM4ZFOn43Vt6NdwhsrNv7zPhW9hO0jZ+FElAcJgHEiyZtcOZP5mnw8yRTnKRanp9+nrpjnDB/AwBm3S9YbP1+OM39XCJUUb9bORSI3M9q4LtvImg8XtHW9YG6ledSwVHjx9v9q4uqq+eV0jAXHCbi8HLBaNkeLhTFCSTa1jPCrId/kdVg==
+ bh=l6z8xpPcKBdxwDkLShdRzfohW7IDq6Vp7k3CqLAxspo=;
+ b=XFGj/LU0abmpq5e7XLeV0zJn3KrQ3lHCwdyjtzhca2tZKTqUIp31ViO9Pdg03lwFrLguC8La/llYCkU/z+8FKgD/mpKxZTYaluTKDuE+Zr1ieGJXbM4r5To/pIHMqQloFktkRSWqCqDVVWu/aTPNh0Oh7mC4mqvvm3YyLfPpJjHpYlUCH8nVdUN7p5dLLsB7OxaJX/6gyYel6dWRCZmPZDcGi0y7KZWf58ANiWZL2gxULVPqd/TJ3Iqo9uUaX4y1LrByeyhzWXKe7PccmA0AvEpDeryCsGgwa8mS7I5xIOMLJ9YMKO1hsD5FxyzlwPtExvCbOx05ghUGFtJxv0T6Pg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
@@ -62,70 +66,72 @@ Received: from MN0PR11MB6059.namprd11.prod.outlook.com (2603:10b6:208:377::9)
  by MN0PR11MB6182.namprd11.prod.outlook.com (2603:10b6:208:3c6::19)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6340.21; Wed, 26 Apr
- 2023 20:57:19 +0000
+ 2023 20:57:23 +0000
 Received: from MN0PR11MB6059.namprd11.prod.outlook.com
  ([fe80::f7ec:aae9:1e7b:e004]) by MN0PR11MB6059.namprd11.prod.outlook.com
  ([fe80::f7ec:aae9:1e7b:e004%6]) with mapi id 15.20.6319.033; Wed, 26 Apr 2023
- 20:57:19 +0000
+ 20:57:23 +0000
 From: Rodrigo Vivi <rodrigo.vivi@intel.com>
 To: <intel-xe@lists.freedesktop.org>
-Subject: [PATCH 00/14] Introduce xe_devcoredump.
-Date: Wed, 26 Apr 2023 16:56:59 -0400
-Message-ID: <20230426205713.512695-1-rodrigo.vivi@intel.com>
+Subject: [PATCH 01/14] drm/xe: Fix print of RING_EXECLIST_SQ_CONTENTS_HI
+Date: Wed, 26 Apr 2023 16:57:00 -0400
+Message-ID: <20230426205713.512695-2-rodrigo.vivi@intel.com>
 X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20230426205713.512695-1-rodrigo.vivi@intel.com>
+References: <20230426205713.512695-1-rodrigo.vivi@intel.com>
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-ClientProxiedBy: BYAPR03CA0021.namprd03.prod.outlook.com
- (2603:10b6:a02:a8::34) To MN0PR11MB6059.namprd11.prod.outlook.com
+X-ClientProxiedBy: SJ0PR13CA0133.namprd13.prod.outlook.com
+ (2603:10b6:a03:2c6::18) To MN0PR11MB6059.namprd11.prod.outlook.com
  (2603:10b6:208:377::9)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: MN0PR11MB6059:EE_|MN0PR11MB6182:EE_
-X-MS-Office365-Filtering-Correlation-Id: 82043de3-5f28-4426-9482-08db4698d2ba
+X-MS-Office365-Filtering-Correlation-Id: ef1f7bfe-0de8-4e6c-22f7-08db4698d50c
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: yVI6exqcEkT8bvEUDQtfBtIqj09S8spQmYqWl3aoFul78XiZuH3x7WNt/ANM8dOAUQYC7rDHevulY779pmW44hswa7z7dXDzaU8H2u8rd0/I2/drIcFTer6cW7HB66BI/687npdjX5+wNvtrxOmM+HTnQk8Olk0ejTWZ9oNMwt/vmwa3ObZR1RnOdtZoprkccozgbjj6YPMRCQ7g9EImU7pzwTiAQ0TOnkAAkmSwBQLqwrDeVWSx5Rid5QdYK0X9FkuUSoPaRwRlujxoncQOV8EqFVoRrzhKF3s+Lwmx0E41yK8rWyLeKLd/oJEzeeBxd2wOxy5brQrqu+yZfhwafevqCYNJ7ElORnrem1gx7K3v1UvrnGYWduSB5N98ZelZ4n9bCOIUNVchyq2hFVLgzP+Ugk/uFxuhTDCzIrabtdA8WSN+OlFlVQDn5/ba9J9i8TNMv1mQtnnUY+BIP0KrOnAyenYMHGeohaYy9DMxF7I0BPoDVPBKUHE3a4YaHhM/6dXvgQe8eqV9b/fxu4WMkdtfMcMNpKannG9HdkC3q60AsBaeUixuB/+E7wQbSXk7
+X-Microsoft-Antispam-Message-Info: /jrI6vKMaS+D8G316B1TeACs8dJ26Jlzhhei8dbjA/O4A6rXX+qgcbAslf8WENQZ2+mIV4t3fudmVOavLro5Ixuy00XAYq7tfQwB2NpG5a2LBuWWvGNlMdApLOdADxOerGmtuiFbM3IsjYnHzgHmj9M4vw2oLJBGe6c0NTtQ1mw46JCADwSKsZamzXOSldpUg/xMzSjyQOK0AtvnWbnGnvr4F4SZ+d1P9iUuOL2Gs75LzD/35sXhWrjtE++wHPjxnG4xfD+edaE9T3Y1gXj3TSRI+XLq0y0GhWn4P7JduemMDLBiRsX6DfQQAoDRmW1eUknobUAMPzfs/6EBYOs/mOklc/5kZsiE2oQTv2dql7Y1/nbXLqZSEt0qtK4sIYmCvQ5P2IeN4sZCyYtq3j30c8Uyu9XlHXfkLZzTmjkkOOv4LysJVQ9msRfSn/XSUwxNDIrOw03weBx2E02dG8N/HJu/tGMrv3IE3RTIU5o1Ak/7xfV8XkO6gzxzg37gmKjvsFT0lPpEfmpFsbIlyFhNEV/zsrLzhuhDUpUT0XSwI8PRP5T2mfGgl9NLe3PTecVT
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:MN0PR11MB6059.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230028)(346002)(39860400002)(366004)(136003)(376002)(396003)(451199021)(2616005)(83380400001)(186003)(1076003)(26005)(6506007)(6512007)(316002)(6916009)(66476007)(86362001)(4326008)(38100700002)(82960400001)(66556008)(66946007)(2906002)(44832011)(41300700001)(478600001)(54906003)(5660300002)(36756003)(8676002)(6486002)(6666004)(8936002);
+ SFS:(13230028)(346002)(39860400002)(366004)(136003)(376002)(396003)(451199021)(2616005)(83380400001)(186003)(1076003)(26005)(6506007)(6512007)(316002)(6916009)(66476007)(86362001)(4326008)(450100002)(38100700002)(82960400001)(66556008)(66946007)(2906002)(44832011)(41300700001)(107886003)(478600001)(5660300002)(36756003)(8676002)(6486002)(6666004)(8936002);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?R36Lla7u+xEizIZf/qZIJJy3BuTvIxNXdlZ2/mPbuuMlcj1oxiQpM0pcuKua?=
- =?us-ascii?Q?kMGzyG/cFT5S2YkQdx6Qe0hJT+GNqWUyIarQ6XpwAMX5lS3UwLK0IzGIf0fy?=
- =?us-ascii?Q?gRmELnNcFkgR2ysuiVIbCGH/3ObnCAtjp0KMv/10c+TecrNphK7ylp4ulRbh?=
- =?us-ascii?Q?KTwq9pXNGUz636bYt+8FOAUdUNcv7ftkh+WQ5CP04iC/bW/MJVvTIT3MAAD9?=
- =?us-ascii?Q?OB+AB1si/u4mNYCqqapl/k4BJKIw+Tim9UEzjXOer/2ufIf0IfXWMXqDCkKw?=
- =?us-ascii?Q?4/e6kRAPkQ8ryZsCswXnTj2OgfrVjQp1AUNi1NsdM5IMI284dMfX5Nxz9gNr?=
- =?us-ascii?Q?YDPERIamF+uVSNfWtC/TadFRjtb41qQFh/9Bd7q/Glck3wb+BalDsmGOEJdA?=
- =?us-ascii?Q?TmEE+GfaQysSycGDOmegHvgDVD7Np99/HeFBGRnGtp2CNttRMzDM05KQBW9U?=
- =?us-ascii?Q?EK+InSqIBRYBtFhf+HQkV7BCbZy4dssowW8aasg8MPJpTcyFi01S7mk+QkaR?=
- =?us-ascii?Q?T20Nepmd88Djz0XbZxJA5laaYh4loGTnWQbBcYS59IPUlcR7qfH6Mtbwe4vY?=
- =?us-ascii?Q?rUHydBweshFXrpT4KOtcrJb123WHpJtv35DvhgzQyTW0e3SG0K2fNW7AsDgG?=
- =?us-ascii?Q?QbTGmAcBFOUZASNF7QzJGlCamJrnKuHseU638z5GteuLLw0k6kamyDJjDgwy?=
- =?us-ascii?Q?tcXT3+7oXqDua2ljFGhHrgNGpjTI4eiAiW0GjMBpE7KlmOmPyI45hLgQosEs?=
- =?us-ascii?Q?sra6FVoamMAfBvuvR53Dijr+HvSrOlhO6t5FIkgN613psKt2BkYYmvErU43J?=
- =?us-ascii?Q?x6VVIJMA+kkeR/RrjvdDYZdWRSp5qof9Bsou1Css4NJTOL7bjpup43ocolPK?=
- =?us-ascii?Q?uuejfpRMLVgB6/q3MVIuk5dXuPY7ZDWfBcrxjrUnkKWCaqyA16LnazaKszfi?=
- =?us-ascii?Q?NCUoymAoJBV+dCAHGxP4GKKo/ZfAPOAbE3DNi/03ofIKXS/TAcTToL898458?=
- =?us-ascii?Q?30sgfCPhu9oJLGGcekpOHlqrmb/m/838+VaQJg8msdVUWxh6Ei7z4/EHgu7j?=
- =?us-ascii?Q?hnrSuMZTk1TZEVBaTH1YRirpWpsigWn69cVyg/kYHxIA0P+svX5sPnUYDnvE?=
- =?us-ascii?Q?ZGu0ky6Fke1RdntxAx18f6iY9UDzkVM6tn3HyAAHELuMLaXSaOx5pCkVPwpo?=
- =?us-ascii?Q?/Ogsd3lY46cnp7jUkHmA6+3/XbVRRT6tR9iTR1xKKyD7t+Dm/sFZ5zm5tONE?=
- =?us-ascii?Q?id+FRYKNiblVUKXLGoFJhBnHNVgWKi8mAqttMi7otq1iiXijUBMPf7wWbQL3?=
- =?us-ascii?Q?gHk5B79+E0S4yWU0xV5QXCnqHTtMS0GvJ8AiGddhrQg078W+kHOCMW2FRUph?=
- =?us-ascii?Q?O0LtlttAAgvuAtsxD6uYnhfQvycx8UO2CnVTtihC65A5CFx5kzN24NoUOQoF?=
- =?us-ascii?Q?XdIA3CR0jMNd1PYYkyoQWDeru39EUh4G8subar7HDTwKeKvV7RWpuO723cz+?=
- =?us-ascii?Q?TxW23Zi+4+99BJBKwCtysYB1JdmsmxQ6cDycx/MuxflDpXNy8Sf3iG6BhCJO?=
- =?us-ascii?Q?6YvPVBqfO46qzOGRhEIMXudOWkPIap8tOnQay6s4?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 82043de3-5f28-4426-9482-08db4698d2ba
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?4Vc9jxkUpRtQQxmBhk5FJa9D9cOi/sqmXWJl3wPdOc+CVPmOq0Tz+XuhNLrB?=
+ =?us-ascii?Q?UMaCzOZG/fn/Ui/C7aFZILML62x6JCT1SRkK0QfKBVZvg9TnJmbzOJlSi0jy?=
+ =?us-ascii?Q?9cLkVxMSfkl3MHt4G6tzMk/n6zbdHCt5HGvrPO9TUZKEEfMBcAMT0hsPDhDu?=
+ =?us-ascii?Q?XhW4OCe2oJHdzuhPnU113c9fAhjh/EPlDhLwWEaGae1/rsJ/z5pS7eLeiNfW?=
+ =?us-ascii?Q?/vyWdsTpK3a2Wks+Vg+HpoctYuBaWf6cGihFGD2j6ZjbFuJnR23zB5hmxe6i?=
+ =?us-ascii?Q?1qq3wyqXyPErYF06B4tOpYo+s0oY/lF/bgzo/8wlT8Iu7R+r0e3U3ILXJz2w?=
+ =?us-ascii?Q?TfQbdlZIaWVhUT9TH/mV/JRtQJQCERXdFjuIKJklTPJjyiXdqFSvOqIs7Zez?=
+ =?us-ascii?Q?j2/UZ7bECAiDTo2xH1z1vjtLYt+xN6DMi8dw9AqD/Bi1E5NnPaIVYglZc4Ub?=
+ =?us-ascii?Q?2z7N0yz5NTg+qnbofnR1ZlEt9+2jvby4zYo1NvuyGt/DFjB+fAT3n4sPpaHJ?=
+ =?us-ascii?Q?nR//L4sYpsCaz8hBLNPpgy+LPQgtKA8/gpz1eOwxhotUnPs35EeidnvolWiJ?=
+ =?us-ascii?Q?USgDoh467o1h7VIowDAOCOAVFXLcHilK+OpD2rMLv/xAhJTC0kPQM/4rvQF/?=
+ =?us-ascii?Q?TuNW94KBVTHulq877ZNgF5VlGHW2t1g9CsIiSub+Vt86+bleYA7zcjCWoOSM?=
+ =?us-ascii?Q?xA7ZYh/p7/Q/8GPgjX9KT8tDxl9WQpgnyrVLM25vG8JJAPB0lzoMXQU2ifKT?=
+ =?us-ascii?Q?wNCeTH5WmIewxJcuRJIaa//NWpilDlMuZ0n/FeTbMqcu9wy3LNqV+vQxkjC8?=
+ =?us-ascii?Q?WeSiuGirpqPwa4oq7uVMvkpEixnm2kxicNH4CeRzUebUkW4MGvoMFQOQsdc9?=
+ =?us-ascii?Q?s8/j6OKz7PCFcmpbsMx48060K/BSyyIfx7SZkuCcUHMSXljUr+ZFWeqLQXvg?=
+ =?us-ascii?Q?kSTb8+Qq1QwHVDzu3U0/wdsRT/9qBJca4cIK1onoba6TTr/P0lNbSNsRph/N?=
+ =?us-ascii?Q?izpNv11Te83ejT9cKwWAg+UBGBbVWgynQDl27cX/9JTgd+RgcIlaJikTQ0FV?=
+ =?us-ascii?Q?sYtlF91B06rY6jXWi2Rq987IvjzpfeXzc6wt9SD8J8+QuhtDaDbqE6Aotrrh?=
+ =?us-ascii?Q?8AHXQ3fxbLTWS9tf7BxBb7q6+qm1RsJfDQKHpNbPqwVFapddHJQiyQ2QDMm3?=
+ =?us-ascii?Q?3E8bvG9u921dhX7nvxJSf38kRbCAUq8pSFsByfDap/k0ZUYLxrwW6IH4a7pC?=
+ =?us-ascii?Q?ibzQOzPVZQMH7gCr0uTA91rtYHw3Z1yP8n8RD2J7Zf9LAY3YfV1wAIWZ1U5n?=
+ =?us-ascii?Q?DYcmo272QyrmcXosqntAuJXsGSlz3/EHmJR4qfVas0C/m+0qDg6AbzSqtGGc?=
+ =?us-ascii?Q?Xo1wgIVBohGRS8JXBGP10KZ8iw7EQ6ksb0e8coPLuTPTwu8iYi9CpO7PkfWl?=
+ =?us-ascii?Q?QyrAkKDGttkYOGPj1/QgiBM3WbB/yrO88YNigjhe6FphXUYFLpNhipYf2U4A?=
+ =?us-ascii?Q?ofupWk+WuTF7ikaEuamPy7yikjpyrlDPyWRXC49VoGpJIMSLlX9Qqzq+TEsX?=
+ =?us-ascii?Q?ivKwl5K5fLNLl31BFdsoFhNNS5Z0Yxlcfyyfi31v?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: ef1f7bfe-0de8-4e6c-22f7-08db4698d50c
 X-MS-Exchange-CrossTenant-AuthSource: MN0PR11MB6059.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Apr 2023 20:57:19.1429 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Apr 2023 20:57:22.9094 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: fny4jY8X1Oy43BGhtYTN71HRkpzskLJQTr2dHkHISquq9ewGcJ4+NUSso2nHTs4rkSWPmYZ36WDacFAzFKsxng==
+X-MS-Exchange-CrossTenant-UserPrincipalName: QMwvCNP//0dpIj/ioU1djNWlrIew0macnWEqzaCSQPdYZaZWEXUJl/dfN8leeVwWOD5DnKy87cbhBXLzB2x07Q==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR11MB6182
 X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -140,76 +146,72 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, dri-devel@lists.freedesktop.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: dri-devel@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Xe needs to align with other drivers on the way that the error states are
-dumped, avoiding a Xe only error_state solution. The goal is to use devcoredump
-infrastructure to report error states, since it produces a standardized way
-by exposing a virtual and temporary /sys/class/devcoredump device.
+On xe_hw_engine_print_state we were printing:
+value_of(0x510) + 4 instead of
+value_of(0x514) as desired.
 
-The initial goal is to have the simple_error_state in the devcoredump
-so we start using the infrastructure.
+So, let's properly define a RING_EXECLIST_SQ_CONTENTS_HI
+register to fix the issue and also to avoid other issues
+like that.
 
-But this is just a start point to start building a useful and
-organized crash dump, using standard infrastructure. Later this
-will be changed to have output that can be parsed by tools and
-used for error replay.
-
-Later, when we are in-tree, the goal is to collaborate with devcoredump
-infrastructure with overall possible improvements, like multiple file support
-for better organization of the dumps, snapshot support, dmesg extra print,
-and whatever may make sense and help the overall infrastructure.
-
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
 Signed-off-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
+---
+ drivers/gpu/drm/xe/regs/xe_engine_regs.h | 3 ++-
+ drivers/gpu/drm/xe/xe_execlist.c         | 4 ++--
+ drivers/gpu/drm/xe/xe_hw_engine.c        | 4 ++--
+ 3 files changed, 6 insertions(+), 5 deletions(-)
 
-Rodrigo Vivi (14):
-  drm/xe: Fix print of RING_EXECLIST_SQ_CONTENTS_HI
-  drm/xe: Introduce the dev_coredump infrastructure.
-  drm/xe: Do not take any action if our device was removed.
-  drm/xe: Extract non mapped regions out of GuC CTB into its own struct.
-  drm/xe: Convert GuC CT print to snapshot capture and print.
-  drm/xe: Add GuC CT snapshot to xe_devcoredump.
-  drm/xe: Introduce guc_submit_types.h with relevant structs.
-  drm/xe: Convert GuC Engine print to snapshot capture and print.
-  drm/xe: Add GuC Submit Engine snapshot to xe_devcoredump.
-  drm/xe: Convert Xe HW Engine print to snapshot capture and print.
-  drm/xe: Add HW Engine snapshot to xe_devcoredump.
-  drm/xe: Limit CONFIG_DRM_XE_SIMPLE_ERROR_CAPTURE to itself.
-  drm/xe: Convert VM print to snapshot capture and print.
-  drm/xe: Add VM snapshot to xe_devcoredump.
-
- drivers/gpu/drm/xe/Kconfig                |   1 +
- drivers/gpu/drm/xe/Makefile               |   1 +
- drivers/gpu/drm/xe/regs/xe_engine_regs.h  |   3 +-
- drivers/gpu/drm/xe/xe_devcoredump.c       | 227 ++++++++++++++++++
- drivers/gpu/drm/xe/xe_devcoredump.h       |  22 ++
- drivers/gpu/drm/xe/xe_devcoredump_types.h |  60 +++++
- drivers/gpu/drm/xe/xe_device_types.h      |   4 +
- drivers/gpu/drm/xe/xe_execlist.c          |   4 +-
- drivers/gpu/drm/xe/xe_gt_debugfs.c        |   2 +-
- drivers/gpu/drm/xe/xe_guc_ct.c            | 275 +++++++++++++++-------
- drivers/gpu/drm/xe/xe_guc_ct.h            |   7 +-
- drivers/gpu/drm/xe/xe_guc_ct_types.h      |  46 +++-
- drivers/gpu/drm/xe/xe_guc_fwif.h          |  29 ---
- drivers/gpu/drm/xe/xe_guc_submit.c        | 258 ++++++++++++++------
- drivers/gpu/drm/xe/xe_guc_submit.h        |  10 +-
- drivers/gpu/drm/xe/xe_guc_submit_types.h  | 155 ++++++++++++
- drivers/gpu/drm/xe/xe_hw_engine.c         | 210 ++++++++++++-----
- drivers/gpu/drm/xe/xe_hw_engine.h         |   8 +-
- drivers/gpu/drm/xe/xe_hw_engine_types.h   |  78 ++++++
- drivers/gpu/drm/xe/xe_pci.c               |   2 +
- drivers/gpu/drm/xe/xe_vm.c                | 140 +++++++++--
- drivers/gpu/drm/xe/xe_vm.h                |   6 +-
- drivers/gpu/drm/xe/xe_vm_types.h          |  18 ++
- 23 files changed, 1288 insertions(+), 278 deletions(-)
- create mode 100644 drivers/gpu/drm/xe/xe_devcoredump.c
- create mode 100644 drivers/gpu/drm/xe/xe_devcoredump.h
- create mode 100644 drivers/gpu/drm/xe/xe_devcoredump_types.h
- create mode 100644 drivers/gpu/drm/xe/xe_guc_submit_types.h
-
---
+diff --git a/drivers/gpu/drm/xe/regs/xe_engine_regs.h b/drivers/gpu/drm/xe/regs/xe_engine_regs.h
+index 2aa67d001c34..a1e1d1c206fa 100644
+--- a/drivers/gpu/drm/xe/regs/xe_engine_regs.h
++++ b/drivers/gpu/drm/xe/regs/xe_engine_regs.h
+@@ -84,7 +84,8 @@
+ 						 RING_FORCE_TO_NONPRIV_DENY)
+ #define   RING_MAX_NONPRIV_SLOTS  12
+ 
+-#define RING_EXECLIST_SQ_CONTENTS(base)		_MMIO((base) + 0x510)
++#define RING_EXECLIST_SQ_CONTENTS_LO(base)	_MMIO((base) + 0x510)
++#define RING_EXECLIST_SQ_CONTENTS_HI(base)	_MMIO((base) + 0x510 + 4)
+ 
+ #define RING_EXECLIST_CONTROL(base)		_MMIO((base) + 0x550)
+ #define	  EL_CTRL_LOAD				REG_BIT(0)
+diff --git a/drivers/gpu/drm/xe/xe_execlist.c b/drivers/gpu/drm/xe/xe_execlist.c
+index 02021457b1f0..37ac6473195e 100644
+--- a/drivers/gpu/drm/xe/xe_execlist.c
++++ b/drivers/gpu/drm/xe/xe_execlist.c
+@@ -84,9 +84,9 @@ static void __start_lrc(struct xe_hw_engine *hwe, struct xe_lrc *lrc,
+ 	xe_mmio_write32(gt, RING_MODE_GEN7(hwe->mmio_base).reg,
+ 			_MASKED_BIT_ENABLE(GEN11_GFX_DISABLE_LEGACY_MODE));
+ 
+-	xe_mmio_write32(gt, RING_EXECLIST_SQ_CONTENTS(hwe->mmio_base).reg + 0,
++	xe_mmio_write32(gt, RING_EXECLIST_SQ_CONTENTS_LO(hwe->mmio_base).reg,
+ 			lower_32_bits(lrc_desc));
+-	xe_mmio_write32(gt, RING_EXECLIST_SQ_CONTENTS(hwe->mmio_base).reg + 4,
++	xe_mmio_write32(gt, RING_EXECLIST_SQ_CONTENTS_HI(hwe->mmio_base).reg,
+ 			upper_32_bits(lrc_desc));
+ 	xe_mmio_write32(gt, RING_EXECLIST_CONTROL(hwe->mmio_base).reg,
+ 			EL_CTRL_LOAD);
+diff --git a/drivers/gpu/drm/xe/xe_hw_engine.c b/drivers/gpu/drm/xe/xe_hw_engine.c
+index 4b56c35b988d..23b9f120c258 100644
+--- a/drivers/gpu/drm/xe/xe_hw_engine.c
++++ b/drivers/gpu/drm/xe/xe_hw_engine.c
+@@ -528,10 +528,10 @@ void xe_hw_engine_print_state(struct xe_hw_engine *hwe, struct drm_printer *p)
+ 		hw_engine_mmio_read32(hwe, RING_EXECLIST_STATUS_HI(0).reg));
+ 	drm_printf(p, "\tRING_EXECLIST_SQ_CONTENTS_LO: 0x%08x\n",
+ 		hw_engine_mmio_read32(hwe,
+-					 RING_EXECLIST_SQ_CONTENTS(0).reg));
++					 RING_EXECLIST_SQ_CONTENTS_LO(0).reg));
+ 	drm_printf(p, "\tRING_EXECLIST_SQ_CONTENTS_HI: 0x%08x\n",
+ 		hw_engine_mmio_read32(hwe,
+-					 RING_EXECLIST_SQ_CONTENTS(0).reg) + 4);
++					 RING_EXECLIST_SQ_CONTENTS_HI(0).reg));
+ 	drm_printf(p, "\tRING_EXECLIST_CONTROL: 0x%08x\n",
+ 		hw_engine_mmio_read32(hwe, RING_EXECLIST_CONTROL(0).reg));
+ 
+-- 
 2.39.2
+
