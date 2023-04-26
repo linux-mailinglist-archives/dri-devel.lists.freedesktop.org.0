@@ -1,76 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 575046EFAED
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Apr 2023 21:21:13 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 40FA26EFB38
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Apr 2023 21:37:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CAB0410EA15;
-	Wed, 26 Apr 2023 19:21:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2ADE010EA24;
+	Wed, 26 Apr 2023 19:37:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BCDE510EA09;
- Wed, 26 Apr 2023 19:20:56 +0000 (UTC)
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 33QFu0AN018808; Wed, 26 Apr 2023 19:20:54 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding : content-type; s=qcppdkim1;
- bh=qrF3PHA/LTofJyqIZNo4xMGwShOGEkjlvcHgFnXUyJs=;
- b=hgtaXsFC2bQ3GUODKHFYiNTig0aS78FXefMIAIunNc6ruuRxNReK7XOvBuw4M1f5KvIF
- BCAOlW0PE8iENWJvfs28SqsIDxtVDUygVuR/7mMdxWTtfvlDlhb0JjtYrxdiYlo1icAo
- Jb6rqyF7lXFMwGq+Sm2SqEwNMdz7XgVH1QZ4XVbd6QLqUZKWZ5oplTCvk8l9z2l10yY9
- /ynrUzjFnMxrzLpnDCUjfFCVjSZUx/XGW1/3B1IY52cDUTbZXTOQdcnUCAa2MlhHQvJ1
- L4PC0iZFHcRBpt22sjJhbDLGeOl5E+sIEh/aj/8HBVEDx+xN13QFCxhJYoAKf2ghNtZg Dw== 
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3q741xgxk3-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 26 Apr 2023 19:20:54 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 33QJKrP9020469
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 26 Apr 2023 19:20:53 GMT
-Received: from abhinavk-linux.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.42; Wed, 26 Apr 2023 12:20:53 -0700
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-To: <freedreno@lists.freedesktop.org>, Rob Clark <robdclark@gmail.com>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Dmitry Baryshkov
- <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, David Airlie
- <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH 4/4] drm/msm/dpu: drop DSPP_MSM8998_MASK from hw catalog
-Date: Wed, 26 Apr 2023 12:20:34 -0700
-Message-ID: <20230426192035.5088-4-quic_abhinavk@quicinc.com>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20230426192035.5088-1-quic_abhinavk@quicinc.com>
-References: <20230426192035.5088-1-quic_abhinavk@quicinc.com>
+X-Greylist: delayed 964 seconds by postgrey-1.36 at gabe;
+ Wed, 26 Apr 2023 19:37:21 UTC
+Received: from mailrelay6-1.pub.mailoutpod2-cph3.one.com
+ (mailrelay6-1.pub.mailoutpod2-cph3.one.com [IPv6:2a02:2350:5:405::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EC6F010EA20
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Apr 2023 19:37:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ravnborg.org; s=rsa1;
+ h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
+ from:date:from;
+ bh=eVeo2+G0wfE7Th9mpMzqAlZwNjPXsqF5qhbG8BjXhfs=;
+ b=cAOCLgpYeIgd+SmmPnle/bw2nmkoV/Wcu/JfousxXCWTrIQvRkzjoJkXzUu5C1+v5pjh9PiCe2CkM
+ Qhz+tS62TbtvfjoewZNnQsVIohf5Lh6j3eeLb8oGMplSAWtWY4RmGoC8NWdegN1XZLMnR9ogqNkoQQ
+ uXc2S1EUvclv9hfY33OezLtHys0IF70fCqjzu+pHztUy/Iv8rfBGvFIDt/l34oUk1uqmoZp0TRedDb
+ n3a+nAhUaclrLH2tNkgZu49/49pwlw+NVupLOTPMnq2rs+LzYaCkGqNPvf12SGaHEpL638nDRGgYoM
+ zGAQT7MBPP3QhvGMAQLLL8egMyK3MZg==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
+ d=ravnborg.org; s=ed1;
+ h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
+ from:date:from;
+ bh=eVeo2+G0wfE7Th9mpMzqAlZwNjPXsqF5qhbG8BjXhfs=;
+ b=do/hY8c+tmgFEa4FnPVB0BzaGeCw1ybrSgm/bAII+A4jObIR152O0J//1DGI4vY4Rp4c904oVYBoa
+ GD/PMttDA==
+X-HalOne-ID: 7fc0ec5f-e467-11ed-9e8c-6f01c1d0a443
+Received: from ravnborg.org (2-105-2-98-cable.dk.customer.tdc.net [2.105.2.98])
+ by mailrelay6 (Halon) with ESMTPSA
+ id 7fc0ec5f-e467-11ed-9e8c-6f01c1d0a443;
+ Wed, 26 Apr 2023 19:21:11 +0000 (UTC)
+Date: Wed, 26 Apr 2023 21:21:10 +0200
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH 0/5] fbdev: Move framebuffer I/O helpers to <asm/fb.h>
+Message-ID: <20230426192110.GA3791243@ravnborg.org>
+References: <20230426130420.19942-1-tzimmermann@suse.de>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: 8UZk2bg0RE0cdnOf7LC_BC7ZcMbT9n4h
-X-Proofpoint-ORIG-GUID: 8UZk2bg0RE0cdnOf7LC_BC7ZcMbT9n4h
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-04-26_10,2023-04-26_03,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- adultscore=0 mlxscore=0 lowpriorityscore=0 mlxlogscore=875 phishscore=0
- clxscore=1015 malwarescore=0 bulkscore=0 spamscore=0 suspectscore=0
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2303200000 definitions=main-2304260172
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230426130420.19942-1-tzimmermann@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,51 +58,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_jesszhan@quicinc.com, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- marijn.suijten@somainline.org
+Cc: linux-arch@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ linux-ia64@vger.kernel.org, loongarch@lists.linux.dev, arnd@arndb.de,
+ deller@gmx.de, chenhuacai@kernel.org, javierm@redhat.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ James.Bottomley@hansenpartnership.com, linux-m68k@lists.linux-m68k.org,
+ geert@linux-m68k.org, linux-parisc@vger.kernel.org, vgupta@kernel.org,
+ sparclinux@vger.kernel.org, kernel@xen0n.name,
+ linux-snps-arc@lists.infradead.org, davem@davemloft.net,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Since GC and IGC masks have now been dropped DSPP_MSM8998_MASK
-is same as DSPP_SC7180_MASK. Since DSPP_SC7180_MASK is used more
-than DSPP_MSM8998_MASK, lets drop the latter.
+Hi Thomas.
 
-Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
----
- drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_3_0_msm8998.h | 4 ++--
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c          | 2 --
- 2 files changed, 2 insertions(+), 4 deletions(-)
+On Wed, Apr 26, 2023 at 03:04:15PM +0200, Thomas Zimmermann wrote:
+> Fbdev provides helpers for framebuffer I/O, such as fb_readl(),
+> fb_writel() or fb_memcpy_to_fb(). The implementation of each helper
+> depends on the architecture. It's still all located in fbdev's main
+> header file <linux/fb.h>. Move all of it into each archtecture's
+> <asm/fb.h>, with shared code in <asm-generic/fb.h>.
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_3_0_msm8998.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_3_0_msm8998.h
-index 2b3ae84057df..5f6e4715aa04 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_3_0_msm8998.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_3_0_msm8998.h
-@@ -127,9 +127,9 @@ static const struct dpu_pingpong_cfg msm8998_pp[] = {
- };
- 
- static const struct dpu_dspp_cfg msm8998_dspp[] = {
--	DSPP_BLK("dspp_0", DSPP_0, 0x54000, DSPP_MSM8998_MASK,
-+	DSPP_BLK("dspp_0", DSPP_0, 0x54000, DSPP_SC7180_MASK,
- 		 &msm8998_dspp_sblk),
--	DSPP_BLK("dspp_1", DSPP_1, 0x56000, DSPP_MSM8998_MASK,
-+	DSPP_BLK("dspp_1", DSPP_1, 0x56000, DSPP_SC7180_MASK,
- 		 &msm8998_dspp_sblk),
- };
- 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-index badfc3680485..2cabba0bb513 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-@@ -91,8 +91,6 @@
- 
- #define MERGE_3D_SM8150_MASK (0)
- 
--#define DSPP_MSM8998_MASK BIT(DPU_DSPP_PCC)
--
- #define DSPP_SC7180_MASK BIT(DPU_DSPP_PCC)
- 
- #define INTF_SDM845_MASK (0)
--- 
-2.40.1
+For once I think this cleanup is moving things in the wrong direction.
 
+The fb_* helpers predates the generic io.h support and try to
+add a generic layer for read read / write operations.
+
+The right fix would be to migrate fb_* to use the io helpers
+we have today - so we use the existing way to handle the architecture
+specific details.
+
+From a quick look there seems to be some challenges but the current
+helpers that re-do part of io.h is not the way forward and hiding them
+in arch/include/asm/fb.h seems counter productive.
+
+	Sam
