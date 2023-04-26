@@ -1,45 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3815A6EF21F
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Apr 2023 12:33:57 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 291876EF22A
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Apr 2023 12:38:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C215F10E8E1;
-	Wed, 26 Apr 2023 10:33:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1239510E8FF;
+	Wed, 26 Apr 2023 10:38:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from 189.cn (ptr.189.cn [183.61.185.104])
- by gabe.freedesktop.org (Postfix) with ESMTP id 1677F10E8E1
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Apr 2023 10:33:51 +0000 (UTC)
-HMM_SOURCE_IP: 10.64.8.43:34228.184384075
-HMM_ATTACHE_NUM: 0000
-HMM_SOURCE_TYPE: SMTP
-Received: from clientip-114.242.206.180 (unknown [10.64.8.43])
- by 189.cn (HERMES) with SMTP id EEB58100207;
- Wed, 26 Apr 2023 18:33:47 +0800 (CST)
-Received: from  ([114.242.206.180])
- by gateway-151646-dep-85667d6c59-fm8l8 with ESMTP id
- 7ff2290f80bf408d93a485a4acdd9b38 for tzimmermann@suse.de; 
- Wed, 26 Apr 2023 18:33:50 CST
-X-Transaction-ID: 7ff2290f80bf408d93a485a4acdd9b38
-X-Real-From: 15330273260@189.cn
-X-Receive-IP: 114.242.206.180
-X-MEDUSA-Status: 0
-Message-ID: <3731fda4-14d6-b4ee-0036-0ea0dd2e9bc9@189.cn>
-Date: Wed, 26 Apr 2023 18:33:47 +0800
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3F5B810E8F7;
+ Wed, 26 Apr 2023 10:38:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1682505496; x=1714041496;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=leTNLiuHbsNCoNWgMp049ZQ1hIs4dkuKNSbInu2f0NM=;
+ b=kQAzzLYIIkCVrvkzVWllSY3/xRTuzXytB4s28eICvjsUVm1O8rlCT2m+
+ S1Z3pLpN2qZ+CKhrGy2KzhTUp8uD0pWzLc4LmL/txPFG9xVEsEKbEe9kj
+ C23jmcYJ1HND5o7F8OPEBxZ6t+2fHn4L4NKQAKzGXv7vbM2yFm6DodR/p
+ 81ldW1bKyRF1rHEA+f12SmIcu2wwATUR8zmFWjOz6NJT93NNlKPWwvpZ9
+ MOIb2yZfXeH8eA8ApVh+V2VuC8TyyjjY1k58qx54BJph7Xl5p7Hm0QyPb
+ x5ltSYmFp8sM5zcXpQ/vpG7VxmYi0bsxsTvtWoLgRBToT2kU2rcdRQVvr g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10691"; a="412380690"
+X-IronPort-AV: E=Sophos;i="5.99,227,1677571200"; d="scan'208";a="412380690"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Apr 2023 03:38:15 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10691"; a="805452291"
+X-IronPort-AV: E=Sophos;i="5.99,227,1677571200"; d="scan'208";a="805452291"
+Received: from abreheny-mobl1.ger.corp.intel.com (HELO [10.213.209.108])
+ ([10.213.209.108])
+ by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Apr 2023 03:38:13 -0700
+Message-ID: <c7cb1466-e698-ff3f-0572-4693c4b0025c@linux.intel.com>
+Date: Wed, 26 Apr 2023 11:38:11 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.10.0
-Subject: Re: [PATCH 0/6] drm,fbdev: Use fbdev's I/O helpers
+Subject: Re: [Intel-gfx] [PATCH v2 0/5] drm/i915: Allow user to set cache at
+ BO creation
 Content-Language: en-US
-To: Thomas Zimmermann <tzimmermann@suse.de>,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
- daniel@ffwll.ch, javierm@redhat.com, deller@gmx.de, geert@linux-m68k.org,
- sudipm.mukherjee@gmail.com, teddy.wang@siliconmotion.com
-References: <20230425142846.730-1-tzimmermann@suse.de>
-From: Sui Jingfeng <15330273260@189.cn>
-In-Reply-To: <20230425142846.730-1-tzimmermann@suse.de>
+To: fei.yang@intel.com, intel-gfx@lists.freedesktop.org
+References: <20230426062423.320519-1-fei.yang@intel.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <20230426062423.320519-1-fei.yang@intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -54,57 +63,103 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
 
+On 26/04/2023 07:24, fei.yang@intel.com wrote:
+> From: Fei Yang <fei.yang@intel.com>
+> 
+> The first three patches in this series are taken from
+> https://patchwork.freedesktop.org/series/116868/
+> These patches are included here because the last patch
+> has dependency on the pat_index refactor.
+> 
+> This series is focusing on uAPI changes,
+> 1. end support for set caching ioctl [PATCH 4/5]
+> 2. add set_pat extension for gem_create [PATCH 5/5]
+> 
+> v2: drop one patch that was merged separately
+>      341ad0e8e254 drm/i915/mtl: Add PTE encode function
 
-The whole patch set is tested with fbdev of IGT, on LoongArch with
-drm/radeon and efifb driver. Test results say SUCCESS.
+Are the re-sends for stabilizing the series, or focusing on merge?
 
+If the latter then opens are:
 
-On 2023/4/25 22:28, Thomas Zimmermann wrote:
-> Make fbdev's built-in helpers for reading and writing I/O and system
-> memory available to DRM. Replace DRM's internal helpers.
->
-> The first patch resolves a bug that's been in the fbdev code for
-> more than 15 years. Makes the read/write helpers work successfully
-> with the IGT tests.
->
-> Patches 2 to 4 streamline fbdev's file-I/O code and remove a few
-> duplicate checks.
->
-> Patch 5 moves the default-I/O code into the new helpers fb_cfb_read()
-> and fb_cfb_write(); patch 6 uses them in DRM. This allows us to remove
-> quite a bit of code from DRM's internal fbdev helpers.
->
-> Tested with i915 and simpledrm.
->
-> The next step here is to remove the drm_fb_helper_{cfb,sys}_*()
-> entirely. They where mostly introduced because fbdev doesn't protect
-> it's public interfaces with an CONFIG_FB preprocessor guards. But all
-> of DRM driver's fbdev emulation won't be build without CONFIG_FB, so
-> this is not an issue in practice. Removing the DRM wrappers will
-> further simplify the DRM code.
->
-> Thomas Zimmermann (6):
->    fbdev: Return number of bytes read or written
->    fbdev: Use screen_buffer in fb_sys_{read,write}()
->    fbdev: Don't re-validate info->state in fb_ops implementations
->    fbdev: Validate info->screen_{base,buffer} in fb_ops implementations
->    fbdev: Move CFB read and write code into helper functions
->    drm/fb-helper: Use fb_{cfb,sys}_{read, write}()
->
->   drivers/gpu/drm/drm_fb_helper.c        | 174 +------------------------
->   drivers/video/fbdev/cobalt_lcdfb.c     |   6 +
->   drivers/video/fbdev/core/Makefile      |   2 +-
->   drivers/video/fbdev/core/fb_cfb_fops.c | 126 ++++++++++++++++++
->   drivers/video/fbdev/core/fb_sys_fops.c |  36 ++---
->   drivers/video/fbdev/core/fbmem.c       | 111 +---------------
->   drivers/video/fbdev/sm712fb.c          |  10 +-
->   include/linux/fb.h                     |  10 ++
->   8 files changed, 173 insertions(+), 302 deletions(-)
->   create mode 100644 drivers/video/fbdev/core/fb_cfb_fops.c
->
+1) Link to Mesa MR reviewed and ready to merge.
+
+2) IGT reviewed.
+
+3) I raised an open that get/set_caching should not "lie" but return an 
+error if set pat extension has been used. I don't see a good reason not 
+to do that.
+
++ Joonas on this one.
+
+4) Refactoring as done is not very pretty and I proposed an idea for a 
+nicer approach. Feasible or not, open for discussion.
+
+At a push I can look past that and someone can attempt to tidy the 
+driver later.
+
+But without 1-3 we cannot merge this.
+
+Regards,
+
+Tvrtko
+
+> 
+> Fei Yang (5):
+>    drm/i915: preparation for using PAT index
+>    drm/i915: use pat_index instead of cache_level
+>    drm/i915: make sure correct pte encode is used
+>    drm/i915/mtl: end support for set caching ioctl
+>    drm/i915: Allow user to set cache at BO creation
+> 
+>   drivers/gpu/drm/i915/display/intel_dpt.c      | 12 +--
+>   drivers/gpu/drm/i915/gem/i915_gem_create.c    | 36 +++++++++
+>   drivers/gpu/drm/i915/gem/i915_gem_domain.c    | 30 +++----
+>   .../gpu/drm/i915/gem/i915_gem_execbuffer.c    | 10 ++-
+>   drivers/gpu/drm/i915/gem/i915_gem_mman.c      |  3 +-
+>   drivers/gpu/drm/i915/gem/i915_gem_object.c    | 67 +++++++++++++++-
+>   drivers/gpu/drm/i915/gem/i915_gem_object.h    |  8 ++
+>   .../gpu/drm/i915/gem/i915_gem_object_types.h  | 26 +++++-
+>   drivers/gpu/drm/i915/gem/i915_gem_shmem.c     |  9 ++-
+>   drivers/gpu/drm/i915/gem/i915_gem_shrinker.c  |  2 -
+>   drivers/gpu/drm/i915/gem/i915_gem_stolen.c    |  4 +-
+>   drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c  | 16 ++--
+>   .../gpu/drm/i915/gem/selftests/huge_pages.c   |  2 +-
+>   .../drm/i915/gem/selftests/i915_gem_migrate.c |  2 +-
+>   .../drm/i915/gem/selftests/i915_gem_mman.c    |  2 +-
+>   drivers/gpu/drm/i915/gt/gen6_ppgtt.c          | 10 ++-
+>   drivers/gpu/drm/i915/gt/gen8_ppgtt.c          | 73 +++++++++--------
+>   drivers/gpu/drm/i915/gt/gen8_ppgtt.h          |  3 +-
+>   drivers/gpu/drm/i915/gt/intel_ggtt.c          | 76 +++++++++---------
+>   drivers/gpu/drm/i915/gt/intel_gtt.h           | 20 +++--
+>   drivers/gpu/drm/i915/gt/intel_migrate.c       | 47 ++++++-----
+>   drivers/gpu/drm/i915/gt/intel_migrate.h       | 13 ++-
+>   drivers/gpu/drm/i915/gt/intel_ppgtt.c         |  6 +-
+>   drivers/gpu/drm/i915/gt/selftest_migrate.c    | 47 +++++------
+>   drivers/gpu/drm/i915/gt/selftest_reset.c      |  8 +-
+>   drivers/gpu/drm/i915/gt/selftest_timeline.c   |  2 +-
+>   drivers/gpu/drm/i915/gt/selftest_tlb.c        |  4 +-
+>   drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c      | 10 ++-
+>   drivers/gpu/drm/i915/i915_debugfs.c           | 55 ++++++++++---
+>   drivers/gpu/drm/i915/i915_gem.c               | 16 +++-
+>   drivers/gpu/drm/i915/i915_gpu_error.c         |  8 +-
+>   drivers/gpu/drm/i915/i915_pci.c               | 79 ++++++++++++++++---
+>   drivers/gpu/drm/i915/i915_vma.c               | 16 ++--
+>   drivers/gpu/drm/i915/i915_vma.h               |  2 +-
+>   drivers/gpu/drm/i915/i915_vma_types.h         |  2 -
+>   drivers/gpu/drm/i915/intel_device_info.h      |  5 ++
+>   drivers/gpu/drm/i915/selftests/i915_gem.c     |  5 +-
+>   .../gpu/drm/i915/selftests/i915_gem_evict.c   |  4 +-
+>   drivers/gpu/drm/i915/selftests/i915_gem_gtt.c | 15 ++--
+>   .../drm/i915/selftests/intel_memory_region.c  |  4 +-
+>   .../gpu/drm/i915/selftests/mock_gem_device.c  |  9 +++
+>   drivers/gpu/drm/i915/selftests/mock_gtt.c     |  8 +-
+>   include/uapi/drm/i915_drm.h                   | 36 +++++++++
+>   tools/include/uapi/drm/i915_drm.h             | 36 +++++++++
+>   44 files changed, 605 insertions(+), 243 deletions(-)
+> 
