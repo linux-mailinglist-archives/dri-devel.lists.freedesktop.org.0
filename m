@@ -1,63 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 243726EFB81
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Apr 2023 22:04:55 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BD0D66EFBBD
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Apr 2023 22:35:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B504A10E14F;
-	Wed, 26 Apr 2023 20:04:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B2B4110E06D;
+	Wed, 26 Apr 2023 20:35:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 104F810E105;
- Wed, 26 Apr 2023 20:04:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1682539488; x=1714075488;
- h=mime-version:content-transfer-encoding:in-reply-to:
- references:subject:from:cc:to:date:message-id;
- bh=XqfRp5+ieFJ3Ybp5clGQt8iE0BLjp8cz8czLwrjjhqw=;
- b=g62SB31bb09eQb8BNe9Q1d2TcyIPRBbrmGJIgL5Omtz8w42xCXVYhavK
- E46s7sYpbW/AmVEJ8N2yGrpQVOG2kKatGt2m7b/7F0T9vahWUj8R0pLE9
- x2ip76aP21ymVW/dxAmrAKiZZ93KAcL3NrqYJyPzp7Yq94i2XcOei5mnP
- vjMRniRDTbaEwy1FkW8M4m9hkIoDjsjEnBwpdmAODZEyP9I1DUMY9V55E
- ezrwVQ150zx4NLFmIsBl1cFJuuucJT4+H5r6el4LbJIl4VDYYNM7npQUk
- jtBOEKtL+C+eb5fQdP/kiSRu5XJBpfcy8mSxlPWNSHLKKEf5xz9MkQs7P Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10692"; a="375191068"
-X-IronPort-AV: E=Sophos;i="5.99,229,1677571200"; d="scan'208";a="375191068"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Apr 2023 13:04:47 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10692"; a="940378648"
-X-IronPort-AV: E=Sophos;i="5.99,229,1677571200"; d="scan'208";a="940378648"
-Received: from taylorv1-mobl.amr.corp.intel.com (HELO localhost)
- ([10.212.168.208])
- by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Apr 2023 13:04:46 -0700
-Content-Type: text/plain; charset="utf-8"
+Received: from relay06.th.seeweb.it (relay06.th.seeweb.it
+ [IPv6:2001:4b7a:2000:18::167])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2973B10E06D;
+ Wed, 26 Apr 2023 20:35:27 +0000 (UTC)
+Received: from SoMainline.org (94-211-6-86.cable.dynamic.v4.ziggo.nl
+ [94.211.6.86])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
+ SHA256) (No client certificate requested)
+ by m-r2.th.seeweb.it (Postfix) with ESMTPSA id 2FC763F7AD;
+ Wed, 26 Apr 2023 22:35:21 +0200 (CEST)
+Date: Wed, 26 Apr 2023 22:35:19 +0200
+From: Marijn Suijten <marijn.suijten@somainline.org>
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Subject: Re: [PATCH v3 06/21] drm/msm/dpu: Use V2 DITHER PINGPONG sub-block
+ in SM8[34]50/SC8280XP
+Message-ID: <5i3lldg2ayomfs2yo3bs2bfbuhwocujedegcz57ptowlg24ckk@euxp6sz3lvqh>
+References: <20230411-dpu-intf-te-v3-0-693b17fe6500@somainline.org>
+ <20230411-dpu-intf-te-v3-6-693b17fe6500@somainline.org>
+ <d44022e0-bc09-122e-5a48-1994cb025ba8@quicinc.com>
+ <vwejuayy7ulq3frpqpqetkyhyefgrmgo6222how4hp4bissepx@uauvwlhsekgn>
+ <e0a64c2b-6178-6513-d7ba-d6a79831f21d@quicinc.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <ZEkQi6Zrb6lR4DEm@phenom.ffwll.local>
-References: <20230419230058.2659455-9-fei.yang@intel.com>
- <471addf7-1670-32cd-9d2e-3f94d6825eab@linux.intel.com>
- <BYAPR11MB2567A1A450448AE17B38ED1C9A639@BYAPR11MB2567.namprd11.prod.outlook.com>
- <168211012988.392286.16107510619704913123@jljusten-skl>
- <BYAPR11MB2567F03AD43D7E2DE2628D5D9A669@BYAPR11MB2567.namprd11.prod.outlook.com>
- <168232538771.392286.3227368099155268955@jljusten-skl>
- <5d0e2cf4-a487-1a1e-dae9-4fbe8c2fe649@linux.intel.com>
- <168235638024.392286.14697291321034695564@jljusten-skl>
- <168243011485.13318.1376529380245430200@jlahtine-mobl.ger.corp.intel.com>
- <ZEkQi6Zrb6lR4DEm@phenom.ffwll.local>
-Subject: Re: IOCTL feature detection (Was: Re: [Intel-gfx] [PATCH 8/8]
- drm/i915: Allow user to set cache at BO creation)
-From: Jordan Justen <jordan.l.justen@intel.com>
-To: Daniel Vetter <daniel@ffwll.ch>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-Date: Wed, 26 Apr 2023 13:04:45 -0700
-Message-ID: <168253948596.392286.2237664538921869335@jljusten-skl>
-User-Agent: alot/0.10
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <e0a64c2b-6178-6513-d7ba-d6a79831f21d@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,55 +47,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Andi Shyti <andi.shyti@linux.intel.com>, "Teres Alexis,
- Alan Previn" <alan.previn.teres.alexis@intel.com>, "Roper,
- Matthew D" <matthew.d.roper@intel.com>, Intel-gfx@lists.freedesktop.org,
- DRI Development <dri-devel@lists.freedesktop.org>, "Yang,
- Fei" <fei.yang@intel.com>, Chris Wilson <chris.p.wilson@linux.intel.com>,
- Faith Ekstrand <faith.ekstrand@collabora.com>, "Das,
- Nirmoy" <nirmoy.das@intel.com>
+Cc: dri-devel@lists.freedesktop.org, Jordan Crouse <jordan@cosmicpenguin.net>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
+ Robert Foss <rfoss@kernel.org>, Kuogee Hsieh <quic_khsieh@quicinc.com>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, linux-arm-msm@vger.kernel.org,
+ Adam Skladowski <a39.skl@gmail.com>,
+ Martin Botka <martin.botka@somainline.org>,
+ ~postmarketos/upstreaming@lists.sr.ht, Sean Paul <sean@poorly.run>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Loic Poulain <loic.poulain@linaro.org>,
+ Jami Kettunen <jami.kettunen@somainline.org>,
+ Bjorn Andersson <andersson@kernel.org>, linux-kernel@vger.kernel.org,
+ Konrad Dybcio <konrad.dybcio@linaro.org>, Vinod Koul <vkoul@kernel.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2023-04-26 04:52:43, Daniel Vetter wrote:
->=20
-> Joonas asked me to put my thoughts here:
->=20
-> - in general the "feature discovery by trying it out" approach is most
->   robust and hence preferred, but it's also not something that's required
->   when there's good reasons against it
+On 2023-04-26 12:11:39, Abhinav Kumar wrote:
+> 
+> 
+> On 4/26/2023 12:08 PM, Marijn Suijten wrote:
+> > On 2023-04-26 09:24:19, Abhinav Kumar wrote:
+> >>
+> >>
+> >> On 4/25/2023 4:05 PM, Marijn Suijten wrote:
+> >>> According to downstream sources this DITHER sub-block sits at an offset
+> >>> of 0xe0 with version 0x20000.  The PP_BLK_DITHER macro is _not_ used as
+> >>> downstream still says the size of the PINGPONG block is 0xd4 and not 0.
+> >>>
+> >>
+> >> the PINGPONG block size is 0x0 on sm8350, sm8450 and sc8280xp.
+> >>
+> >> and length of dither is 0x20 and they all start at 0xe0.
+> >>
+> >> So now does anything prevent us from using PP_BLK_DITHER macro for these?
+> > 
+> > Nothing prevents it from being used (if you are referring to our
+> > previous conversations) besides this information not being available in
+> > public DTS (I simply did not know) and the fact that all these many
+> > fixes - however necessary they are - distract from the main topic of
+> > this series: bringing INTF TE support to DPU1.
+> > 
+> 
+> Yeah, you could have sent these as a separate series if you wanted to 
+> stick to this one being only intf te.
 
-More robust in what sense?
+As already explained in IRC, and repeating here for posterity:
 
-Userspace has to set up some scenario to use the interface, which
-hopefully is not too complex. It's difficult to predict what it may
-look like in the future since we are talking about undefined
-extensions.
+Maintaining two heavily-dependent series that constantly touch the exact
+same lines in the catalog for many SoCs at once is pretty much
+impossible.  Doing it that way relies on one of the two series to be
+easily pick-able so that the other can proceed through a few review
+rounds and revisions without constantly conflicting or having to be
+rebased on the other.  And that doesn't apply here: both INTF TE and the
+fixes have required extra revisions.  And then, some of the fixes are
+even preliminary to INTF TE support.
 
-Userspace has to rely on the kernel making creating and destroying
-this thing essentially free. For
-I915_GEM_CREATE_EXT_PROTECTED_CONTENT, that did not work out. For
-I915_GEM_CREATE_EXT_SET_PAT, just wondering, since the PAT indices are
-platform specific, what might happen if we tried to choose some common
-index value to detect the extension in a generic manner? Could it
-potentially lead to unexpected behavior, or maybe just an error. I
-guess it's really extension specific what kind of issues potentially
-could arise.
-
-> tldr; prefer discovery, don't sweat it if not, definitely don't
-> overengineer this with some magic "give me all extensions" thing because
-> that results in guaranteed cross-component backporting pains sooner or
-> later. Or inconsistency, which defeats the point.
-
-I guess I don't know the full context of your concerns here.
-
-For returning the gem-create extensions, isn't this just a matter of
-returning the valid indices to the create_extensions array in
-i915_gem_create.c? Is that an over-engineered query?
-
-It seems weird that there's a reasonably well defined "extension"
-mechanism here, but no way for the kernel to just tell us what
-extensions it knows about.
-
--Jordan
+- Marijn
