@@ -1,64 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EC5A6EF704
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Apr 2023 17:01:45 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CD80B6EF707
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Apr 2023 17:01:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 41E4010E9DA;
-	Wed, 26 Apr 2023 15:01:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D65E510E9DD;
+	Wed, 26 Apr 2023 15:01:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com
- [209.85.128.169])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7C0CC10E9DA
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Apr 2023 15:01:41 +0000 (UTC)
-Received: by mail-yw1-f169.google.com with SMTP id
- 00721157ae682-54f8b46d031so83302307b3.3
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Apr 2023 08:01:41 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682521300; x=1685113300;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=InRK/SXUr8n9eTPGJfhjR3lsiyg7RVplSp0EEYbdwVU=;
- b=HGd4nxJ93OZKgpjafhNhH6yKC93gccy8oxbLwRQIzgAo+kYRst9rUAq2EYDhW/L5TD
- 7BUBBvYzfw5S90R0QdMIe88HqWiBjmmLmlgNasHx1NPUIvE2L5xqpJhJonl7GEfBaV0w
- h+daCJOJj2nJDDZl0J7s5CUUwognpkAalvAYlt7mnVQaJxh5Ycw0y71Nwk1GixnRs6qf
- Dzpmk5YeY/sssWr2mmTEOvDI+JSdJCkPFv/pREDp9wDdynb+A2pe/NsXiTjBTfARCMrS
- xNhatKuh4tewYbw0Ig1Y5B69fXg9zvSf8GOdjIOsWbPkeF+TEY9LGHBOdUebfAOQ1w4E
- kzNA==
-X-Gm-Message-State: AC+VfDxwifK4OHIW86b+GXQxuNVjQMXX/ShojTSeskazErv6RwW32x1r
- 2PztHr9JdaHKJfOjyFhFqz75T3hhHx9/ZQ==
-X-Google-Smtp-Source: ACHHUZ5e6iDVETBIVAOqGOiOvEgKO95U5c6ZPSAFng7YRGTgAy18mwWXiRmt8YgVr1svsq063L205Q==
-X-Received: by 2002:a81:4a46:0:b0:556:a562:66bb with SMTP id
- x67-20020a814a46000000b00556a56266bbmr6974882ywa.26.1682521299346; 
- Wed, 26 Apr 2023 08:01:39 -0700 (PDT)
-Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com.
- [209.85.128.182]) by smtp.gmail.com with ESMTPSA id
- r127-20020a0dcf85000000b00552df52450csm4216465ywd.88.2023.04.26.08.01.38
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 26 Apr 2023 08:01:38 -0700 (PDT)
-Received: by mail-yw1-f182.google.com with SMTP id
- 00721157ae682-555d2b43a23so83384147b3.2
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Apr 2023 08:01:38 -0700 (PDT)
-X-Received: by 2002:a81:7104:0:b0:54f:b6af:ac15 with SMTP id
- m4-20020a817104000000b0054fb6afac15mr11853502ywc.51.1682521298213; Wed, 26
- Apr 2023 08:01:38 -0700 (PDT)
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 45EA610E9DD
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Apr 2023 15:01:53 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 6CAD51FDD1;
+ Wed, 26 Apr 2023 15:01:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1682521310; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=RQSFVHVOoRHRUw8fHhZjYmJzL02ujbgo5LxbCfRcENY=;
+ b=J83HeokaXTJbycgYxym8PIVl6vcTLrffYms0AmouufncXqMCJyDK+kZaQDYzoA8sn13lyB
+ Xo5l08tH7WzdAap3lx68+puwtCXfSIX3qEYPf/gt0P9kRMVwtanvdphoM2BKlpJQo1nWs5
+ m81jRMy8a0P9MHHY5yDuvI1bHes8CvY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1682521310;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=RQSFVHVOoRHRUw8fHhZjYmJzL02ujbgo5LxbCfRcENY=;
+ b=sCWCCMFQyEqzjuT1fXyixgcdZmjL+nfNLmGnE+Dd+XcICUHH1WkEVBFfcygCmZhRnM8aRk
+ +S91pO3GjmHxqtDg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 3211B13421;
+ Wed, 26 Apr 2023 15:01:50 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id 2j0zC948SWTidAAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Wed, 26 Apr 2023 15:01:50 +0000
+Message-ID: <c6cf2f7c-ef32-287c-2b3a-e08a96176af5@suse.de>
+Date: Wed, 26 Apr 2023 17:01:49 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH 1/6] fbdev: Return number of bytes read or written
+Content-Language: en-US
+To: Geert Uytterhoeven <geert@linux-m68k.org>
 References: <20230425142846.730-1-tzimmermann@suse.de>
- <20230425142846.730-6-tzimmermann@suse.de>
-In-Reply-To: <20230425142846.730-6-tzimmermann@suse.de>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 26 Apr 2023 17:01:25 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdU-_w9yQHYhOCD3cz4CEY6ag-dTXjuHSLnzty0hAMBbXw@mail.gmail.com>
-Message-ID: <CAMuHMdU-_w9yQHYhOCD3cz4CEY6ag-dTXjuHSLnzty0hAMBbXw@mail.gmail.com>
-Subject: Re: [PATCH 5/6] fbdev: Move CFB read and write code into helper
- functions
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ <20230425142846.730-2-tzimmermann@suse.de>
+ <CAMuHMdUUO3oC5+f9G=scwcySr17puO3ozrW746xcuhAkWGy8tg@mail.gmail.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <CAMuHMdUUO3oC5+f9G=scwcySr17puO3ozrW746xcuhAkWGy8tg@mail.gmail.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------uofbEGIb9XqGLbtFxtnyA1HZ"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,110 +77,83 @@ Cc: linux-fbdev@vger.kernel.org, teddy.wang@siliconmotion.com, deller@gmx.de,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Thomas,
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------uofbEGIb9XqGLbtFxtnyA1HZ
+Content-Type: multipart/mixed; boundary="------------1YFCLrKUn5J6j7Iaewa96rm0";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
+ daniel@ffwll.ch, javierm@redhat.com, deller@gmx.de,
+ sudipm.mukherjee@gmail.com, teddy.wang@siliconmotion.com,
+ dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org
+Message-ID: <c6cf2f7c-ef32-287c-2b3a-e08a96176af5@suse.de>
+Subject: Re: [PATCH 1/6] fbdev: Return number of bytes read or written
+References: <20230425142846.730-1-tzimmermann@suse.de>
+ <20230425142846.730-2-tzimmermann@suse.de>
+ <CAMuHMdUUO3oC5+f9G=scwcySr17puO3ozrW746xcuhAkWGy8tg@mail.gmail.com>
+In-Reply-To: <CAMuHMdUUO3oC5+f9G=scwcySr17puO3ozrW746xcuhAkWGy8tg@mail.gmail.com>
 
-On Tue, Apr 25, 2023 at 4:28=E2=80=AFPM Thomas Zimmermann <tzimmermann@suse=
-.de> wrote:
-> Move the existing CFB read and write code for I/O memory into
-> the new helpers fb_cfb_read() and fb_cfb_write(). Make them the
-> default fp_ops. No functional changes.
->
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> ---
->  drivers/video/fbdev/core/Makefile      |   2 +-
->  drivers/video/fbdev/core/fb_cfb_fops.c | 126 +++++++++++++++++++++++++
->  drivers/video/fbdev/core/fbmem.c       | 113 +---------------------
->  include/linux/fb.h                     |  10 ++
->  4 files changed, 139 insertions(+), 112 deletions(-)
->  create mode 100644 drivers/video/fbdev/core/fb_cfb_fops.c
+--------------1YFCLrKUn5J6j7Iaewa96rm0
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-While the general idea is fine, please do not call any of this "cfb",
-as it is not related to chunky color frame buffer formats.
-All of these operate on the raw frame buffer contents.
+SGkNCg0KQW0gMjYuMDQuMjMgdW0gMTY6NDEgc2NocmllYiBHZWVydCBVeXR0ZXJob2V2ZW46
+DQo+IEhpIFRob21hcywNCj4gDQo+IE9uIFR1ZSwgQXByIDI1LCAyMDIzIGF0IDQ6MjjigK9Q
+TSBUaG9tYXMgWmltbWVybWFubiA8dHppbW1lcm1hbm5Ac3VzZS5kZT4gd3JvdGU6DQo+PiBB
+bHdheXMgcmV0dXJuIHRoZSBudW1iZXIgb2YgYnl0ZXMgcmVhZCBvciB3cml0dGVuIHdpdGhp
+biB0aGUNCj4+IGZyYW1lYnVmZmVyLiBPbmx5IHJldHVybiBhbiBlcnJubyBjb2RlIGlmIGZy
+YW1lYnVmZmVyIG1lbW9yeQ0KPj4gd2FzIG5vdCB0b3VjaGVkLiBUaGlzIGlzIHRoZSBzZW1h
+bnRpY3MgcmVxdWlyZWQgYnkgUE9TSVggYW5kDQo+PiBtYWtlcyBmYl9yZWFkKCkgYW5kIGZi
+X3dyaXRlKCkgY29tcGF0aWJsZSB3aXRoIElHVCB0ZXN0cy4gWzFdDQo+Pg0KPj4gVGhpcyBi
+dWcgaGFzIGJlZW4gZml4ZWQgZm9yIGZiX3dyaXRlKCkgbG9uZyBhZ28gYnkNCj4+IGNvbW1p
+dCA2YTJhODg2NjhlOTAgKCJbUEFUQ0hdIGZiZGV2OiBGaXggcmV0dXJuIGVycm9yIG9mDQo+
+PiBmYl93cml0ZSIpLiBUaGUgY29kZSBpbiBmYl9yZWFkKCkgYW5kIHRoZSBjb3JyZXNwb25k
+aW5nIGZiX3N5c18oKQ0KPj4gaGVscGVycyB3YXMgZm9yZ290dGVuLg0KPj4NCj4+IFNpZ25l
+ZC1vZmYtYnk6IFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPg0KPj4g
+TGluazogaHR0cHM6Ly9naXRsYWIuZnJlZWRlc2t0b3Aub3JnL2RybS9pZ3QtZ3B1LXRvb2xz
+Ly0vYmxvYi9tYXN0ZXIvdGVzdHMvZmJkZXYuYyAjIDENCj4gDQo+IFRoYW5rcyBmb3IgeW91
+ciBwYXRjaCENCj4gDQo+PiAtLS0gYS9kcml2ZXJzL3ZpZGVvL2ZiZGV2L2NvcmUvZmJtZW0u
+Yw0KPj4gKysrIGIvZHJpdmVycy92aWRlby9mYmRldi9jb3JlL2ZibWVtLmMNCj4+IEBAIC04
+MjAsNyArODIwLDcgQEAgZmJfcmVhZChzdHJ1Y3QgZmlsZSAqZmlsZSwgY2hhciBfX3VzZXIg
+KmJ1Ziwgc2l6ZV90IGNvdW50LCBsb2ZmX3QgKnBwb3MpDQo+Pg0KPj4gICAgICAgICAga2Zy
+ZWUoYnVmZmVyKTsNCj4+DQo+PiAtICAgICAgIHJldHVybiAoZXJyKSA/IGVyciA6IGNudDsN
+Cj4+ICsgICAgICAgcmV0dXJuIGNudCA/IGNudCA6IGVycjsNCj4+ICAgfQ0KPiANCj4gTG9v
+a3MgYWxsIGdvb2QgdG8gbWUsIHNvDQo+IFJldmlld2VkLWJ5OiBHZWVydCBVeXR0ZXJob2V2
+ZW4gPGdlZXJ0K3JlbmVzYXNAZ2xpZGVyLmJlPg0KPiANCj4gSG93ZXZlciwgc2hvdWxkbid0
+IHRoZSBjb3B5X3RvX3VzZXIoKSBoYW5kbGluZyBpbiBmYl9yZWFkKCkgYmUgZml4ZWQsDQo+
+IHRvbz8NCg0KVGhhdCdzIGEgZ29vZCBwb2ludC4gSXQgZG9lc24ndCBuZWNlc3NhcmlseSBj
+b3B5IGFsbCBnaXZlbiBieXRlcyBhbmQgY2FuIA0KdGh1cyByZXR1cm4gdGhlIHdyb25nIHJl
+c3VsdC4gVGhlIElHVCB0ZXN0cyBwYXNzZWQgYW55d2F5LCBidXQgSSdsbCBmaXggDQppdCBp
+biB2Mi4NCg0KQmVzdCByZWdhcmRzDQpUaG9tYXMNCg0KPiANCj4gR3J7b2V0amUsZWV0aW5n
+fXMsDQo+IA0KPiAgICAgICAgICAgICAgICAgICAgICAgICAgR2VlcnQNCj4gDQoNCi0tIA0K
+VGhvbWFzIFppbW1lcm1hbm4NCkdyYXBoaWNzIERyaXZlciBEZXZlbG9wZXINClNVU0UgU29m
+dHdhcmUgU29sdXRpb25zIEdlcm1hbnkgR21iSA0KRnJhbmtlbnN0cmFzc2UgMTQ2LCA5MDQ2
+MSBOdWVybmJlcmcsIEdlcm1hbnkNCkdGOiBJdm8gVG90ZXYsIEFuZHJldyBNeWVycywgQW5k
+cmV3IE1jRG9uYWxkLCBCb3VkaWVuIE1vZXJtYW4NCkhSQiAzNjgwOSAoQUcgTnVlcm5iZXJn
+KQ0K
 
-> --- /dev/null
-> +++ b/drivers/video/fbdev/core/fb_cfb_fops.c
-> @@ -0,0 +1,126 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +
-> +#include <linux/fb.h>
-> +#include <linux/module.h>
-> +#include <linux/uaccess.h>
-> +
-> +ssize_t fb_cfb_read(struct fb_info *info, char __user *buf, size_t count=
-, loff_t *ppos)
-> +{
+--------------1YFCLrKUn5J6j7Iaewa96rm0--
 
-[...]
+--------------uofbEGIb9XqGLbtFxtnyA1HZ
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
-> +       while (count) {
-> +               c  =3D (count > PAGE_SIZE) ? PAGE_SIZE : count;
-> +               dst =3D buffer;
-> +               fb_memcpy_fromfb(dst, src, c);
-> +               dst +=3D c;
-> +               src +=3D c;
-> +
-> +               if (copy_to_user(buf, buffer, c)) {
+-----BEGIN PGP SIGNATURE-----
 
-So here's still the buggy copy_to_user() handling, copied from fb_read().
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmRJPN0FAwAAAAAACgkQlh/E3EQov+Ba
+hQ//dzAWG0xHdkaF0Yqj1p6qZo9r+mSgyZ4NcxH0Hr53UQqzMEOCO66FUcDMGWelBWU1hiDC3ihJ
+TVk+e2E4Y+ZNFiVVxoti6zEz/MsQ1ZYvd9bOML3kw4uyMb2DsyVft8XQAkRAooTomELnqIm+VUJR
+NmiR2LDZ9HZDSG4r5uKDELaAtJ+gMD8nwmlTeBnIotm/dBcYXjynWSmbVXgA06wtE3YY5WhgwoiB
+rW0H7n/5dGPQ1hDYpAvKm3uXnIO5M8zcFBHhIHnpYBBDM4B/aKWLHgel7S3hFxC1sucjkMn770Wf
+57CKw/f4eBxXleIJnE6qjwQe4YBuIFbXic23HNzx2dfhNi8sjhba8dOh2beAupmAu9++6y2WmDwP
+I4BijVeLnzZE7qgzsN9Wd2I0c6ZBw4CoXG7GTECFzpgOJ6lY0aZMemQjgFokwyL/3cT/mEQljde/
+ULxJQepBq709/O7siN+LWVBWFx677TsMrg00m9v7ewt/AOTNHCRQ/KZltMKafG9RLhTUI94LzwGB
+MQC60OGltmKkqeNW/keM9hj0y+s7IZw+sq2NTqBL/2OdAjnlhU+7gzrcivkfWUYmOfBV6zJPXy7s
+YK+Mce8WirGqsJqL/0eViSBAL/3FZdoRBV1bUMV+gOP8zEG+sv1PcZEYm+ALWAZ4Eqaa+ZOa/qOK
+jzM=
+=ai4+
+-----END PGP SIGNATURE-----
 
-> +                       err =3D -EFAULT;
-> +                       break;
-> +               }
-> +               *ppos +=3D c;
-> +               buf +=3D c;
-> +               cnt +=3D c;
-> +               count -=3D c;
-> +       }
-> +
-> +       kfree(buffer);
-> +
-> +       return cnt ? cnt : err;
-> +}
-> +EXPORT_SYMBOL(fb_cfb_read);
-> +
-> +ssize_t fb_cfb_write(struct fb_info *info, const char __user *buf, size_=
-t count, loff_t *ppos)
-> +{
-
-[...]
-
-> +       while (count) {
-> +               c =3D (count > PAGE_SIZE) ? PAGE_SIZE : count;
-> +               src =3D buffer;
-> +
-> +               if (copy_from_user(src, buf, c)) {
-
-And copy_from_user(), too...
-
-> +                       err =3D -EFAULT;
-> +                       break;
-> +               }
-> +
-> +               fb_memcpy_tofb(dst, src, c);
-> +               dst +=3D c;
-> +               src +=3D c;
-> +               *ppos +=3D c;
-> +               buf +=3D c;
-> +               cnt +=3D c;
-> +               count -=3D c;
-> +       }
-> +
-> +       kfree(buffer);
-> +
-> +       return (cnt) ? cnt : err;
-> +}
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+--------------uofbEGIb9XqGLbtFxtnyA1HZ--
