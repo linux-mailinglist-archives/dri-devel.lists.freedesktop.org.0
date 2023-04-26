@@ -2,61 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E01F06EF4F1
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Apr 2023 15:04:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48D546EF508
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Apr 2023 15:06:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C7FF610E986;
-	Wed, 26 Apr 2023 13:04:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DF8AA10E990;
+	Wed, 26 Apr 2023 13:06:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9D3E610E98D
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Apr 2023 13:04:26 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 0D17C21A12;
- Wed, 26 Apr 2023 13:04:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1682514265; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=wE1CGLf64MgpqW7i1P8Xq0VK4UG/io6kopwoxd0Op0s=;
- b=K61+tGwwnMGwloMqhEtXinm1PAVVusHLv3ljsaXfulZTZqWqZ0HS/ZM19UOoLxO8FxViPq
- wQeg0d8KMkcnC+ur5I6G1R0SzxjAcbemlRjwhJmfglXFS0pu60zaweD/kqI9KkPm88q+CK
- tjUdJ2+t9dD+Cc1x17y51F/rVxuEn3I=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1682514265;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=wE1CGLf64MgpqW7i1P8Xq0VK4UG/io6kopwoxd0Op0s=;
- b=l1/pH9/wd+5DYhHsG3gIP8hZ6gbLh16kzKSToklD2YuMEwVwChWGF2rAzdxNBC+SNeDa0t
- aiqYJHcn7eoScUAQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 9E3991390E;
- Wed, 26 Apr 2023 13:04:24 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id WHfdJVghSWSBMgAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Wed, 26 Apr 2023 13:04:24 +0000
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: deller@gmx.de, geert@linux-m68k.org, javierm@redhat.com, daniel@ffwll.ch,
- vgupta@kernel.org, chenhuacai@kernel.org, kernel@xen0n.name,
- davem@davemloft.net, James.Bottomley@HansenPartnership.com, arnd@arndb.de
-Subject: [PATCH 5/5] fbdev: Move framebuffer I/O helpers into <asm/fb.h>
-Date: Wed, 26 Apr 2023 15:04:20 +0200
-Message-Id: <20230426130420.19942-6-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.40.0
-In-Reply-To: <20230426130420.19942-1-tzimmermann@suse.de>
-References: <20230426130420.19942-1-tzimmermann@suse.de>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CD6E310E990
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Apr 2023 13:06:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1682514398; x=1714050398;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=oVxuTR4A/wrlt9G6C/zKK3j09fIf1TBLj219Iy+IWg4=;
+ b=cZ1CJFmmJ8Tt1hKvS6cEQc1IySVLcvIP8wh6e41qv/0X4X/pgeThcTz3
+ cAl+qwWKE4AuVCW8PPHQVhgfRKMZqSZeACKslaB4RN8Z5x64l7dso3zoQ
+ r7rv6ov9YiWvOP0SDb3QF34n1Zs8xnF9Tq5pcZBo1Pf8EMGhMb6EoEIyZ
+ h6mufUH3JtMTZu/lpkxZFxaXLA1M0VIrILq4ZIk081Em7rzgVdxbSoJna
+ 23x+i1Z3yNpjc9r2CNmQrsdnEbkAfddTQ3kVD3hV8nCu/ycfYIdH6vQmR
+ cMXTumocwcVs/+eIl800bI7Zo0Gg6d/da+fv1kDmcUalWcW+h+T2uKfz3 A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10691"; a="349033784"
+X-IronPort-AV: E=Sophos;i="5.99,228,1677571200"; d="scan'208";a="349033784"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Apr 2023 06:06:37 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10691"; a="783323577"
+X-IronPort-AV: E=Sophos;i="5.99,228,1677571200"; d="scan'208";a="783323577"
+Received: from lkp-server01.sh.intel.com (HELO 041f065c1b1b) ([10.239.97.150])
+ by FMSMGA003.fm.intel.com with ESMTP; 26 Apr 2023 06:06:33 -0700
+Received: from kbuild by 041f065c1b1b with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1preqv-0000AU-0U;
+ Wed, 26 Apr 2023 13:06:33 +0000
+Date: Wed, 26 Apr 2023 21:06:23 +0800
+From: kernel test robot <lkp@intel.com>
+To: Arseniy Krasnov <AVKrasnov@sberdevices.ru>,
+ Miquel Raynal <miquel.raynal@bootlin.com>,
+ Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Subject: Re: [PATCH v1] mtd: rawnand: macronix: OTP access for MX30LFxG18AC
+Message-ID: <202304262003.Lzpyh2BA-lkp@intel.com>
+References: <20230426072455.3887717-1-AVKrasnov@sberdevices.ru>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230426072455.3887717-1-AVKrasnov@sberdevices.ru>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,480 +63,143 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arch@vger.kernel.org, linux-fbdev@vger.kernel.org,
- linux-ia64@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
- linux-parisc@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-m68k@lists.linux-m68k.org,
- loongarch@lists.linux.dev, sparclinux@vger.kernel.org,
- linux-snps-arc@lists.infradead.org, linux-arm-kernel@lists.infradead.org
+Cc: llvm@lists.linux.dev, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ linux-mtd@lists.infradead.org, oxffffaa@gmail.com,
+ oe-kbuild-all@lists.linux.dev, kernel@sberdevices.ru,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Implement framebuffer I/O helpers, such as fb_read*() and fb_write*(),
-in the architecture's <asm/fb.h> header file or the generic one.
+Hi Arseniy,
 
-The general solution is to use regular I/O functions, such as
-__raw_readb() or memset_io(). This has been the most-common case so
-far.
+kernel test robot noticed the following build errors:
 
-The implementations for arc, ia64, loongarch and m68k operate on system
-memory. As framebuffer memory is declared with volatile __iomem, the
-helpers add a __force cast to avoid warnings.
+[auto build test ERROR on mtd/nand/next]
+[also build test ERROR on linus/master v6.3 next-20230425]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Sparc uses SBus to connect framebuffer devices. It provides respective
-implementations of the framebuffer I/O helpers.
+url:    https://github.com/intel-lab-lkp/linux/commits/Arseniy-Krasnov/mtd-rawnand-macronix-OTP-access-for-MX30LFxG18AC/20230426-153143
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/mtd/linux.git nand/next
+patch link:    https://lore.kernel.org/r/20230426072455.3887717-1-AVKrasnov%40sberdevices.ru
+patch subject: [PATCH v1] mtd: rawnand: macronix: OTP access for MX30LFxG18AC
+config: i386-randconfig-a001-20230424 (https://download.01.org/0day-ci/archive/20230426/202304262003.Lzpyh2BA-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/3529f3465e99379489b59c035a8a0506c3756ef4
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Arseniy-Krasnov/mtd-rawnand-macronix-OTP-access-for-MX30LFxG18AC/20230426-153143
+        git checkout 3529f3465e99379489b59c035a8a0506c3756ef4
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/mtd/nand/raw/
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
----
- arch/arc/include/asm/fb.h       | 29 +++++++++++
- arch/ia64/include/asm/fb.h      | 28 ++++++++++
- arch/loongarch/include/asm/fb.h | 29 +++++++++++
- arch/m68k/include/asm/fb.h      | 29 +++++++++++
- arch/sparc/include/asm/fb.h     | 77 +++++++++++++++++++++++++++
- include/asm-generic/fb.h        | 92 +++++++++++++++++++++++++++++++++
- include/linux/fb.h              | 53 -------------------
- 7 files changed, 284 insertions(+), 53 deletions(-)
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202304262003.Lzpyh2BA-lkp@intel.com/
 
-diff --git a/arch/arc/include/asm/fb.h b/arch/arc/include/asm/fb.h
-index 9c2383d29cbb..88fd9051e74a 100644
---- a/arch/arc/include/asm/fb.h
-+++ b/arch/arc/include/asm/fb.h
-@@ -3,6 +3,35 @@
- #ifndef _ASM_FB_H_
- #define _ASM_FB_H_
- 
-+#include <linux/string.h>
-+
-+#define fb_readb(addr) (*(volatile u8 __force *) (addr))
-+#define fb_readw(addr) (*(volatile u16 __force *) (addr))
-+#define fb_readl(addr) (*(volatile u32 __force *) (addr))
-+#define fb_readq(addr) (*(volatile u64 __force *) (addr))
-+#define fb_writeb(b, addr) (*(volatile u8 __force *) (addr) = (b))
-+#define fb_writew(b, addr) (*(volatile u16 __force *) (addr) = (b))
-+#define fb_writel(b, addr) (*(volatile u32 __force *) (addr) = (b))
-+#define fb_writeq(b, addr) (*(volatile u64 __force *) (addr) = (b))
-+
-+static inline void fb_memcpy_fromfb(void *to, const volatile void __iomem *from, size_t n)
-+{
-+	memcpy(to, (const void __force *)from, n);
-+}
-+#define fb_memcpy_fromfb fb_memcpy_fromfb
-+
-+static inline void fb_memcpy_tofb(volatile void __iomem *to, const void *from, size_t n)
-+{
-+	memcpy((void __force *)to, from, n);
-+}
-+#define fb_memcpy_tofb fb_memcpy_tofb
-+
-+static inline void fb_memset(volatile void __iomem *addr, int c, size_t n)
-+{
-+	memset((void __force *)addr, c, n);
-+}
-+#define fb_memset fb_memset
-+
- #include <asm-generic/fb.h>
- 
- #endif /* _ASM_FB_H_ */
-diff --git a/arch/ia64/include/asm/fb.h b/arch/ia64/include/asm/fb.h
-index 0208f64a0da0..9aea9461850c 100644
---- a/arch/ia64/include/asm/fb.h
-+++ b/arch/ia64/include/asm/fb.h
-@@ -3,6 +3,7 @@
- #define _ASM_FB_H_
- 
- #include <linux/efi.h>
-+#include <linux/string.h>
- 
- #include <asm/page.h>
- 
-@@ -18,6 +19,33 @@ static inline void fb_pgprotect(struct file *file, struct vm_area_struct *vma,
- }
- #define fb_pgprotect fb_pgprotect
- 
-+#define fb_readb(addr) (*(volatile u8 __force *) (addr))
-+#define fb_readw(addr) (*(volatile u16 __force *) (addr))
-+#define fb_readl(addr) (*(volatile u32 __force *) (addr))
-+#define fb_readq(addr) (*(volatile u64 __force *) (addr))
-+#define fb_writeb(b, addr) (*(volatile u8 __force *) (addr) = (b))
-+#define fb_writew(b, addr) (*(volatile u16 __force *) (addr) = (b))
-+#define fb_writel(b, addr) (*(volatile u32 __force *) (addr) = (b))
-+#define fb_writeq(b, addr) (*(volatile u64 __force *) (addr) = (b))
-+
-+static inline void fb_memcpy_fromfb(void *to, const volatile void __iomem *from, size_t n)
-+{
-+	memcpy(to, (const void __force *)from, n);
-+}
-+#define fb_memcpy_fromfb fb_memcpy_fromfb
-+
-+static inline void fb_memcpy_tofb(volatile void __iomem *to, const void *from, size_t n)
-+{
-+	memcpy((void __force *)to, from, n);
-+}
-+#define fb_memcpy_tofb fb_memcpy_tofb
-+
-+static inline void fb_memset(volatile void __iomem *addr, int c, size_t n)
-+{
-+	memset((void __force *)addr, c, n);
-+}
-+#define fb_memset fb_memset
-+
- #include <asm-generic/fb.h>
- 
- #endif /* _ASM_FB_H_ */
-diff --git a/arch/loongarch/include/asm/fb.h b/arch/loongarch/include/asm/fb.h
-index ff82f20685c8..97b0f02ffd0c 100644
---- a/arch/loongarch/include/asm/fb.h
-+++ b/arch/loongarch/include/asm/fb.h
-@@ -5,6 +5,35 @@
- #ifndef _ASM_FB_H_
- #define _ASM_FB_H_
- 
-+#include <linux/string.h>
-+
-+#define fb_readb(addr) (*(volatile u8 __force *) (addr))
-+#define fb_readw(addr) (*(volatile u16 __force *) (addr))
-+#define fb_readl(addr) (*(volatile u32 __force *) (addr))
-+#define fb_readq(addr) (*(volatile u64 __force *) (addr))
-+#define fb_writeb(b, addr) (*(volatile u8 __force *) (addr) = (b))
-+#define fb_writew(b, addr) (*(volatile u16 __force *) (addr) = (b))
-+#define fb_writel(b, addr) (*(volatile u32 __force *) (addr) = (b))
-+#define fb_writeq(b, addr) (*(volatile u64 __force *) (addr) = (b))
-+
-+static inline void fb_memcpy_fromfb(void *to, const volatile void __iomem *from, size_t n)
-+{
-+	memcpy(to, (const void __force *)from, n);
-+}
-+#define fb_memcpy_fromfb fb_memcpy_fromfb
-+
-+static inline void fb_memcpy_tofb(volatile void __iomem *to, const void *from, size_t n)
-+{
-+	memcpy((void __force *)to, from, n);
-+}
-+#define fb_memcpy_tofb fb_memcpy_tofb
-+
-+static inline void fb_memset(volatile void __iomem *addr, int c, size_t n)
-+{
-+	memset((void __force *)addr, c, n);
-+}
-+#define fb_memset fb_memset
-+
- #include <asm-generic/fb.h>
- 
- #endif /* _ASM_FB_H_ */
-diff --git a/arch/m68k/include/asm/fb.h b/arch/m68k/include/asm/fb.h
-index 24273fc7ad91..8530d09fa04d 100644
---- a/arch/m68k/include/asm/fb.h
-+++ b/arch/m68k/include/asm/fb.h
-@@ -2,6 +2,8 @@
- #ifndef _ASM_FB_H_
- #define _ASM_FB_H_
- 
-+#include <linux/string.h>
-+
- #include <asm/page.h>
- #include <asm/setup.h>
- 
-@@ -26,6 +28,33 @@ static inline void fb_pgprotect(struct file *file, struct vm_area_struct *vma,
- }
- #define fb_pgprotect fb_pgprotect
- 
-+#define fb_readb(addr) (*(volatile u8 __force *) (addr))
-+#define fb_readw(addr) (*(volatile u16 __force *) (addr))
-+#define fb_readl(addr) (*(volatile u32 __force *) (addr))
-+#define fb_readq(addr) (*(volatile u64 __force *) (addr))
-+#define fb_writeb(b, addr) (*(volatile u8 __force *) (addr) = (b))
-+#define fb_writew(b, addr) (*(volatile u16 __force *) (addr) = (b))
-+#define fb_writel(b, addr) (*(volatile u32 __force *) (addr) = (b))
-+#define fb_writeq(b, addr) (*(volatile u64 __force *) (addr) = (b))
-+
-+static inline void fb_memcpy_fromfb(void *to, const volatile void __iomem *from, size_t n)
-+{
-+	memcpy(to, (const void __force *)from, n);
-+}
-+#define fb_memcpy_fromfb fb_memcpy_fromfb
-+
-+static inline void fb_memcpy_tofb(volatile void __iomem *to, const void *from, size_t n)
-+{
-+	memcpy((void __force *)to, from, n);
-+}
-+#define fb_memcpy_tofb fb_memcpy_tofb
-+
-+static inline void fb_memset(volatile void __iomem *addr, int c, size_t n)
-+{
-+	memset((void __force *)addr, c, n);
-+}
-+#define fb_memset fb_memset
-+
- #include <asm-generic/fb.h>
- 
- #endif /* _ASM_FB_H_ */
-diff --git a/arch/sparc/include/asm/fb.h b/arch/sparc/include/asm/fb.h
-index 689ee5c60054..c702892b2db7 100644
---- a/arch/sparc/include/asm/fb.h
-+++ b/arch/sparc/include/asm/fb.h
-@@ -2,6 +2,8 @@
- #ifndef _SPARC_FB_H_
- #define _SPARC_FB_H_
- 
-+#include <asm/io.h>
-+
- struct fb_info;
- struct file;
- struct vm_area_struct;
-@@ -16,6 +18,81 @@ static inline void fb_pgprotect(struct file *file, struct vm_area_struct *vma,
- int fb_is_primary_device(struct fb_info *info);
- #define fb_is_primary_device fb_is_primary_device
- 
-+/*
-+ * We map all of our framebuffers such that big-endian accesses
-+ * are what we want, so the following is sufficient.
-+ */
-+
-+static inline u8 fb_readb(const volatile void __iomem *addr)
-+{
-+	return sbus_readb(addr);
-+}
-+#define fb_readb fb_readb
-+
-+static inline u16 fb_readw(const volatile void __iomem *addr)
-+{
-+	return sbus_readw(addr);
-+}
-+#define fb_readw fb_readw
-+
-+static inline u32 fb_readl(const volatile void __iomem *addr)
-+{
-+	return sbus_readl(addr);
-+}
-+#define fb_readl fb_readl
-+
-+#ifdef CONFIG_SPARC64
-+static inline u64 fb_readq(const volatile void __iomem *addr)
-+{
-+	return sbus_readq(addr);
-+}
-+#define fb_readq fb_readq
-+#endif
-+
-+static inline void fb_writeb(u8 b, volatile void __iomem *addr)
-+{
-+	sbus_writeb(b, addr);
-+}
-+#define fb_writeb fb_writeb
-+
-+static inline void fb_writew(u16 b, volatile void __iomem *addr)
-+{
-+	sbus_writew(b, addr);
-+}
-+#define fb_writew fb_writew
-+
-+static inline void fb_writel(u32 b, volatile void __iomem *addr)
-+{
-+	sbus_writel(b, addr);
-+}
-+#define fb_writel fb_writel
-+
-+#ifdef CONFIG_SPARC64
-+static inline void fb_writeq(u64 b, volatile void __iomem *addr)
-+{
-+	sbus_writeq(b, addr);
-+}
-+#define fb_writeq fb_writeq
-+#endif
-+
-+static inline void fb_memcpy_fromfb(void *to, const volatile void __iomem *from, size_t n)
-+{
-+	sbus_memcpy_fromio(to, from, n);
-+}
-+#define fb_memcpy_fromfb fb_memcpy_fromfb
-+
-+static inline void fb_memcpy_tofb(volatile void __iomem *to, const void *from, size_t n)
-+{
-+	sbus_memcpy_toio(to, from, n);
-+}
-+#define fb_memcpy_tofb fb_memcpy_tofb
-+
-+static inline void fb_memset(volatile void __iomem *addr, int c, size_t n)
-+{
-+	sbus_memset_io(addr, c, n);
-+}
-+#define fb_memset fb_memset
-+
- #include <asm-generic/fb.h>
- 
- #endif /* _SPARC_FB_H_ */
-diff --git a/include/asm-generic/fb.h b/include/asm-generic/fb.h
-index 6922dd248c51..49eb63629ffe 100644
---- a/include/asm-generic/fb.h
-+++ b/include/asm-generic/fb.h
-@@ -31,4 +31,96 @@ static inline int fb_is_primary_device(struct fb_info *info)
- }
- #endif
- 
-+#ifndef fb_readb
-+static inline u8 fb_readb(const volatile void __iomem *addr)
-+{
-+	return __raw_readb(addr);
-+}
-+#define fb_readb fb_readb
-+#endif
-+
-+#ifndef fb_readw
-+static inline u16 fb_readw(const volatile void __iomem *addr)
-+{
-+	return __raw_readw(addr);
-+}
-+#define fb_readw fb_readw
-+#endif
-+
-+#ifndef fb_readl
-+static inline u32 fb_readl(const volatile void __iomem *addr)
-+{
-+	return __raw_readl(addr);
-+}
-+#define fb_readl fb_readl
-+#endif
-+
-+#if defined(CONFIG_64BIT)
-+#ifndef fb_readq
-+static inline u64 fb_readq(const volatile void __iomem *addr)
-+{
-+	return __raw_readq(addr);
-+}
-+#define fb_readq fb_readq
-+#endif
-+#endif /* CONFIG_64BIT */
-+
-+#ifndef fb_writeb
-+static inline void fb_writeb(u8 b, volatile void __iomem *addr)
-+{
-+	__raw_writeb(b, addr);
-+}
-+#define fb_writeb fb_writeb
-+#endif
-+
-+#ifndef fb_writew
-+static inline void fb_writew(u16 b, volatile void __iomem *addr)
-+{
-+	__raw_writew(b, addr);
-+}
-+#define fb_writew fb_writew
-+#endif
-+
-+#ifndef fb_writel
-+static inline void fb_writel(u32 b, volatile void __iomem *addr)
-+{
-+	__raw_writel(b, addr);
-+}
-+#define fb_writel fb_writel
-+#endif
-+
-+#if defined(CONFIG_64BIT)
-+#ifndef fb_writeq
-+static inline void fb_writeq(u64 b, volatile void __iomem *addr)
-+{
-+	__raw_writeq(b, addr);
-+}
-+#define fb_writeq fb_writeq
-+#endif
-+#endif /* CONFIG_64BIT */
-+
-+#ifndef fb_memcpy_fromfb
-+static inline void fb_memcpy_fromfb(void *to, const volatile void __iomem *from, size_t n)
-+{
-+	memcpy_fromio(to, from, n);
-+}
-+#define fb_memcpy_fromfb fb_memcpy_fromfb
-+#endif
-+
-+#ifndef fb_memcpy_tofb
-+static inline void fb_memcpy_tofb(volatile void __iomem *to, const void *from, size_t n)
-+{
-+	memcpy_toio(to, from, n);
-+}
-+#define fb_memcpy_tofb fb_memcpy_tofb
-+#endif
-+
-+#ifndef fb_memset
-+static inline void fb_memset(volatile void __iomem *addr, int c, size_t n)
-+{
-+	memset_io(addr, c, n);
-+}
-+#define fb_memset fb_memset
-+#endif
-+
- #endif /* __ASM_GENERIC_FB_H_ */
-diff --git a/include/linux/fb.h b/include/linux/fb.h
-index 08cb47da71f8..7d80ee62a9d5 100644
---- a/include/linux/fb.h
-+++ b/include/linux/fb.h
-@@ -15,7 +15,6 @@
- #include <linux/list.h>
- #include <linux/backlight.h>
- #include <linux/slab.h>
--#include <asm/io.h>
- 
- struct vm_area_struct;
- struct fb_info;
-@@ -511,58 +510,6 @@ struct fb_info {
-  */
- #define STUPID_ACCELF_TEXT_SHIT
- 
--// This will go away
--#if defined(__sparc__)
--
--/* We map all of our framebuffers such that big-endian accesses
-- * are what we want, so the following is sufficient.
-- */
--
--// This will go away
--#define fb_readb sbus_readb
--#define fb_readw sbus_readw
--#define fb_readl sbus_readl
--#define fb_readq sbus_readq
--#define fb_writeb sbus_writeb
--#define fb_writew sbus_writew
--#define fb_writel sbus_writel
--#define fb_writeq sbus_writeq
--#define fb_memset sbus_memset_io
--#define fb_memcpy_fromfb sbus_memcpy_fromio
--#define fb_memcpy_tofb sbus_memcpy_toio
--
--#elif defined(__i386__) || defined(__alpha__) || defined(__x86_64__) ||	\
--	defined(__hppa__) || defined(__sh__) || defined(__powerpc__) ||	\
--	defined(__arm__) || defined(__aarch64__) || defined(__mips__)
--
--#define fb_readb __raw_readb
--#define fb_readw __raw_readw
--#define fb_readl __raw_readl
--#define fb_readq __raw_readq
--#define fb_writeb __raw_writeb
--#define fb_writew __raw_writew
--#define fb_writel __raw_writel
--#define fb_writeq __raw_writeq
--#define fb_memset memset_io
--#define fb_memcpy_fromfb memcpy_fromio
--#define fb_memcpy_tofb memcpy_toio
--
--#else
--
--#define fb_readb(addr) (*(volatile u8 *) (addr))
--#define fb_readw(addr) (*(volatile u16 *) (addr))
--#define fb_readl(addr) (*(volatile u32 *) (addr))
--#define fb_readq(addr) (*(volatile u64 *) (addr))
--#define fb_writeb(b,addr) (*(volatile u8 *) (addr) = (b))
--#define fb_writew(b,addr) (*(volatile u16 *) (addr) = (b))
--#define fb_writel(b,addr) (*(volatile u32 *) (addr) = (b))
--#define fb_writeq(b,addr) (*(volatile u64 *) (addr) = (b))
--#define fb_memset memset
--#define fb_memcpy_fromfb memcpy
--#define fb_memcpy_tofb memcpy
--
--#endif
--
- #define FB_LEFT_POS(p, bpp)          (fb_be_math(p) ? (32 - (bpp)) : 0)
- #define FB_SHIFT_HIGH(p, val, bits)  (fb_be_math(p) ? (val) >> (bits) : \
- 						      (val) << (bits))
+All error/warnings (new ones prefixed by >>):
+
+>> drivers/mtd/nand/raw/nand_macronix.c:384:12: error: implicit declaration of function 'kmalloc' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
+           dma_buf = kmalloc(MACRONIX_30LFXG18AC_OTP_PAGE_SIZE, GFP_KERNEL);
+                     ^
+   drivers/mtd/nand/raw/nand_macronix.c:384:12: note: did you mean 'mm_alloc'?
+   include/linux/sched/mm.h:16:26: note: 'mm_alloc' declared here
+   extern struct mm_struct *mm_alloc(void);
+                            ^
+>> drivers/mtd/nand/raw/nand_macronix.c:384:10: warning: incompatible integer to pointer conversion assigning to 'void *' from 'int' [-Wint-conversion]
+           dma_buf = kmalloc(MACRONIX_30LFXG18AC_OTP_PAGE_SIZE, GFP_KERNEL);
+                   ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/mtd/nand/raw/nand_macronix.c:437:2: error: implicit declaration of function 'kfree' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
+           kfree(dma_buf);
+           ^
+   1 warning and 2 errors generated.
+
+
+vim +/kmalloc +384 drivers/mtd/nand/raw/nand_macronix.c
+
+   366	
+   367	static int __macronix_30lfxg18ac_rw_otp(struct mtd_info *mtd,
+   368						loff_t offs_in_flash,
+   369						size_t len, size_t *retlen,
+   370						u_char *buf, bool write)
+   371	{
+   372		struct nand_chip *nand;
+   373		size_t bytes_handled;
+   374		unsigned long page;
+   375		off_t offs_in_page;
+   376		void *dma_buf;
+   377		int ret;
+   378	
+   379		/* 'nand_prog/read_page_op()' may use 'buf' as DMA buffer,
+   380		 * so allocate properly aligned memory for it. This is
+   381		 * needed because cross page accesses may lead to unaligned
+   382		 * buffer address for DMA.
+   383		 */
+ > 384		dma_buf = kmalloc(MACRONIX_30LFXG18AC_OTP_PAGE_SIZE, GFP_KERNEL);
+   385		if (!dma_buf)
+   386			return -ENOMEM;
+   387	
+   388		nand = mtd_to_nand(mtd);
+   389		nand_select_target(nand, 0);
+   390	
+   391		ret = macronix_30lfxg18ac_otp_enable(nand);
+   392		if (ret)
+   393			goto out_otp;
+   394	
+   395		page = offs_in_flash;
+   396		/* 'page' will be result of division. */
+   397		offs_in_page = do_div(page, MACRONIX_30LFXG18AC_OTP_PAGE_SIZE);
+   398		bytes_handled = 0;
+   399	
+   400		while (bytes_handled < len &&
+   401		       page < MACRONIX_30LFXG18AC_OTP_PAGES) {
+   402			size_t bytes_to_handle;
+   403	
+   404			bytes_to_handle = min_t(size_t, len - bytes_handled,
+   405						MACRONIX_30LFXG18AC_OTP_PAGE_SIZE -
+   406						offs_in_page);
+   407	
+   408			if (write) {
+   409				memcpy(dma_buf, &buf[bytes_handled], bytes_to_handle);
+   410				ret = nand_prog_page_op(nand, page, offs_in_page,
+   411							dma_buf, bytes_to_handle);
+   412			} else {
+   413				ret = nand_read_page_op(nand, page, offs_in_page,
+   414							dma_buf, bytes_to_handle);
+   415				if (!ret)
+   416					memcpy(&buf[bytes_handled], dma_buf,
+   417					       bytes_to_handle);
+   418			}
+   419			if (ret)
+   420				goto out_otp;
+   421	
+   422			bytes_handled += bytes_to_handle;
+   423			offs_in_page = 0;
+   424			page++;
+   425		}
+   426	
+   427		*retlen = bytes_handled;
+   428	
+   429	out_otp:
+   430		if (ret)
+   431			dev_err(&mtd->dev, "failed to perform OTP IO: %i\n", ret);
+   432	
+   433		ret = macronix_30lfxg18ac_otp_disable(nand);
+   434		WARN(ret, "failed to leave OTP mode after %s\n",
+   435		     write ? "write" : "read");
+   436		nand_deselect_target(nand);
+ > 437		kfree(dma_buf);
+   438	
+   439		return ret;
+   440	}
+   441	
+
 -- 
-2.40.0
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
