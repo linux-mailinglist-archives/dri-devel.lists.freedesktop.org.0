@@ -1,61 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 395B76EECE2
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Apr 2023 06:03:40 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id F059C6EECF8
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Apr 2023 06:31:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 121D010E873;
-	Wed, 26 Apr 2023 04:03:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4FED110E876;
+	Wed, 26 Apr 2023 04:31:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x42e.google.com (mail-pf1-x42e.google.com
- [IPv6:2607:f8b0:4864:20::42e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AAED910E873
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Apr 2023 04:03:34 +0000 (UTC)
-Received: by mail-pf1-x42e.google.com with SMTP id
- d2e1a72fcca58-63b52ad6311so7867903b3a.2
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Apr 2023 21:03:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1682481813; x=1685073813;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=jRvA37+TZqURtYKAjHmKMLWPmrsZ8ddC6S0Q1RiCXTs=;
- b=h+yrEfGpXUD9SP5n9yWLh2sTJDF5/bjZR+vYQbropc3QIhIBQT6iiCBv7emIgzengo
- idoBYQVz1IVsabub24GLyOWjfOAPGLCIcgxKKAEJ9+RMCKsNKQh2tGHxaz0Od4wx0wcs
- 6dkEBwf1Zc3r+aDQlxfBcdsU5fyN6l8NFAueg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682481813; x=1685073813;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=jRvA37+TZqURtYKAjHmKMLWPmrsZ8ddC6S0Q1RiCXTs=;
- b=G8kvNnLxZku/09jUGSCYEVEIIzKGymafJjDnFvH/C8+KV8TxR0It9hy4BcFRlw4s5C
- EiAW9xGX/J6bBroJylCp26UK/JqLAyH1rYQ1sdRcyi8Q/p/tRG4N+BRi3/uMsymbSXFy
- B/ajPO5apCnNvsuydJzYz3zEdB8y9l5krYRBGRy+R+MfdNVsD8FUvNbVO0lX2C+5EesM
- 8mMye+8aMXNthJ4rcEN1GPLpHOI5sFfUlaR3uwch2uRd3SzeP3DAd9H3aSmQ9MWPXlNn
- eES8L8VcGy8Tz1wTgouAY67sbon1/QpV8JAdBQQ5VVq3HQ5HHX/izC55XPCNT6tOTrm9
- BrRg==
-X-Gm-Message-State: AAQBX9d8VW48+DWfFxghDWJsuDgGoB9Ct3ba9mwXhoqiBpyPULR+5tLL
- 2+ZK2BS40/l5O5730RAfFjzaGT9fqND9dZMCJk8RKoVf
-X-Google-Smtp-Source: AKy350btPWvDbB/VqNYU+PLrAt45K0WY10weyUZ3PytbEaUVilXQVxgp/mrZrMueMTmxZsjCjn/5ug==
-X-Received: by 2002:a05:6a00:1947:b0:63f:18ae:1d5f with SMTP id
- s7-20020a056a00194700b0063f18ae1d5fmr23143113pfk.29.1682481813500; 
- Tue, 25 Apr 2023 21:03:33 -0700 (PDT)
-Received: from datalore.c.googlers.com.com
- (148.175.199.104.bc.googleusercontent.com. [104.199.175.148])
- by smtp.gmail.com with ESMTPSA id
- b21-20020a62a115000000b0063b64f1d6e9sm9015886pff.33.2023.04.25.21.03.31
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 25 Apr 2023 21:03:33 -0700 (PDT)
-From: Brandon Pollack <brpol@chromium.org>
+Received: from us-smtp-delivery-44.mimecast.com (unknown [207.211.30.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 24ACC10E876
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Apr 2023 04:31:12 +0000 (UTC)
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-106-jtyXA9uGN4G54fFbdg1izQ-1; Wed, 26 Apr 2023 00:29:11 -0400
+X-MC-Unique: jtyXA9uGN4G54fFbdg1izQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 55311A0F381;
+ Wed, 26 Apr 2023 04:29:11 +0000 (UTC)
+Received: from nomad.redhat.com (vpn2-54-28.bne.redhat.com [10.64.54.28])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3205840C2064;
+ Wed, 26 Apr 2023 04:29:08 +0000 (UTC)
+From: Dave Airlie <airlied@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] drivers/vkms: checkpatch.pl suggested style fix
-Date: Wed, 26 Apr 2023 04:03:27 +0000
-Message-ID: <20230426040327.396866-1-brpol@chromium.org>
-X-Mailer: git-send-email 2.40.1.495.gc816e09b53d-goog
+Subject: [PATCH 1/2] docs: module: start adding some docs for MODULE_ macros.
+Date: Wed, 26 Apr 2023 14:29:05 +1000
+Message-Id: <20230426042906.724352-1-airlied@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: gmail.com
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=WINDOWS-1252; x-default=true
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,39 +49,202 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: tzimmermann@suse.de, Brandon Pollack <brpol@chromium.org>
+Cc: Dave Airlie <airlied@redhat.com>, Luis Chamberlain <mcgrof@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>, linux-modules@vger.kernel.org,
+ linux-doc@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-added a newline for block comment
+From: Dave Airlie <airlied@redhat.com>
 
-checkpatch.pl output:
+In order to add a new macro, Luis suggested converting some docs
+for the new ones.
 
--------------------------------
-drivers/gpu/drm/vkms/vkms_drv.c
--------------------------------
-WARNING: Block comments use a trailing */ on a separate line
-+        * which ix XRGB8888 in all cases. */
+This tries to keep exisiting module_init, module_exit where they are,
+and adds the new docs to the module section.
 
-total: 0 errors, 1 warnings, 274 lines checked
+Cc: linux-doc@vger.kernel.org
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: Luis Chamberlain <mcgrof@kernel.org>
+Cc: linux-modules@vger.kernel.org
+Signed-off-by: Dave Airlie <airlied@redhat.com>
 ---
- drivers/gpu/drm/vkms/vkms_drv.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ Documentation/core-api/kernel-api.rst |  3 ++
+ Documentation/driver-api/basics.rst   |  2 +-
+ include/linux/module.h                | 76 ++++++++++++++++++---------
+ 3 files changed, 54 insertions(+), 27 deletions(-)
 
-diff --git a/drivers/gpu/drm/vkms/vkms_drv.c b/drivers/gpu/drm/vkms/vkms_drv.c
-index e3c9c9571c8d..3be240355255 100644
---- a/drivers/gpu/drm/vkms/vkms_drv.c
-+++ b/drivers/gpu/drm/vkms/vkms_drv.c
-@@ -148,7 +148,8 @@ static int vkms_modeset_init(struct vkms_device *vkmsdev)
- 	dev->mode_config.cursor_height = 512;
- 	/* FIXME: There's a confusion between bpp and depth between this and
- 	 * fbdev helpers. We have to go with 0, meaning "pick the default",
--	 * which ix XRGB8888 in all cases. */
-+	 * which ix XRGB8888 in all cases.
-+	 */
- 	dev->mode_config.preferred_depth = 0;
- 	dev->mode_config.helper_private = &vkms_mode_config_helpers;
- 
--- 
-2.40.1.495.gc816e09b53d-goog
+diff --git a/Documentation/core-api/kernel-api.rst b/Documentation/core-api=
+/kernel-api.rst
+index 62f961610773..0b78b1a3e8a2 100644
+--- a/Documentation/core-api/kernel-api.rst
++++ b/Documentation/core-api/kernel-api.rst
+@@ -226,6 +226,9 @@ Module Loading
+ .. kernel-doc:: kernel/kmod.c
+    :export:
+=20
++.. kernel-doc:: include/linux/module.h
++   :no-identifiers: module_init module_exit klp_modinfo
++
+ Inter Module support
+ --------------------
+=20
+diff --git a/Documentation/driver-api/basics.rst b/Documentation/driver-api=
+/basics.rst
+index 4b4d8e28d3be..fea42d6cad80 100644
+--- a/Documentation/driver-api/basics.rst
++++ b/Documentation/driver-api/basics.rst
+@@ -5,7 +5,7 @@ Driver Entry and Exit points
+ ----------------------------
+=20
+ .. kernel-doc:: include/linux/module.h
+-   :internal:
++   :identifiers: module_init module_exit
+=20
+ Driver device table
+ -------------------
+diff --git a/include/linux/module.h b/include/linux/module.h
+index 4435ad9439ab..f9d072a7e198 100644
+--- a/include/linux/module.h
++++ b/include/linux/module.h
+@@ -182,23 +182,27 @@ extern void cleanup_module(void);
+ #define MODULE_FILE=09MODULE_INFO(file, KBUILD_MODFILE);
+ #endif
+=20
+-/*
++/**
++ * MODULE_LICENSE - module license
++ * @_license: license covering this module.
++ *
+  * The following license idents are currently accepted as indicating free
+  * software modules
+  *
+- *=09"GPL"=09=09=09=09[GNU Public License v2]
+- *=09"GPL v2"=09=09=09[GNU Public License v2]
+- *=09"GPL and additional rights"=09[GNU Public License v2 rights and more]
+- *=09"Dual BSD/GPL"=09=09=09[GNU Public License v2
+- *=09=09=09=09=09 or BSD license choice]
+- *=09"Dual MIT/GPL"=09=09=09[GNU Public License v2
+- *=09=09=09=09=09 or MIT license choice]
+- *=09"Dual MPL/GPL"=09=09=09[GNU Public License v2
+- *=09=09=09=09=09 or Mozilla license choice]
++ *    "GPL"                        [GNU Public License v2]
+  *
+- * The following other idents are available
++ *    "GPL v2"                     [GNU Public License v2]
+  *
+- *=09"Proprietary"=09=09=09[Non free products]
++ *    "GPL and additional rights"  [GNU Public License v2 rights and more]
++ *
++ *    "Dual BSD/GPL"               [GNU Public License v2 or BSD license c=
+hoice]
++ *
++ *    "Dual MIT/GPL"               [GNU Public License v2 or MIT license c=
+hoice]
++ *
++ *    "Dual MPL/GPL"               [GNU Public License v2 or Mozilla licen=
+se choice]
++ *
++ * The following other idents are available
++ *    "Proprietary"                [Non free products]
+  *
+  * Both "GPL v2" and "GPL" (the latter also in dual licensed strings) are
+  * merely stating that the module is licensed under the GPL v2, but are no=
+t
+@@ -221,20 +225,26 @@ extern void cleanup_module(void);
+  * is a GPL combined work.
+  *
+  * This exists for several reasons
+- * 1.=09So modinfo can show license info for users wanting to vet their se=
+tup
+- *=09is free
++ *
++ * 1.=09So modinfo can show license info for users wanting to vet their se=
+tup is free
++ *
+  * 2.=09So the community can ignore bug reports including proprietary modu=
+les
++ *
+  * 3.=09So vendors can do likewise based on their own policies
+  */
+ #define MODULE_LICENSE(_license) MODULE_FILE MODULE_INFO(license, _license=
+)
+=20
+-/*
+- * Author(s), use "Name <email>" or just "Name", for multiple
+- * authors use multiple MODULE_AUTHOR() statements/lines.
++/**
++ * MODULE_AUTHOR - Module author
++ * @_author: Author(s), use "Name <email>" or just "Name", for multiple
++ *           authors use multiple MODULE_AUTHOR() statements/lines.
+  */
+ #define MODULE_AUTHOR(_author) MODULE_INFO(author, _author)
+=20
+-/* What your module does. */
++/**
++ * MODULE_DESCRIPTION - Module description
++ * @_description: What your module does.
++ */
+ #define MODULE_DESCRIPTION(_description) MODULE_INFO(description, _descrip=
+tion)
+=20
+ #ifdef MODULE
+@@ -246,19 +256,23 @@ extern typeof(name) __mod_##type##__##name##_device_t=
+able=09=09\
+ #define MODULE_DEVICE_TABLE(type, name)
+ #endif
+=20
+-/* Version of form [<epoch>:]<version>[-<extra-version>].
++/**
++ * MODULE_VERSION: version of module
++ * @_version: version in the form below
++ *
++ * Version of form [<epoch>:]<version>[-<extra-version>].
+  * Or for CVS/RCS ID version, everything but the number is stripped.
+  * <epoch>: A (small) unsigned integer which allows you to start versions
+  * anew. If not mentioned, it's zero.  eg. "2:1.0" is after
+  * "1:2.0".
+-
++ *
+  * <version>: The <version> may contain only alphanumerics and the
+- * character `.'.  Ordered by numeric sort for numeric parts,
++ * character '.'.  Ordered by numeric sort for numeric parts,
+  * ascii sort for ascii parts (as per RPM or DEB algorithm).
+-
++ *
+  * <extraversion>: Like <version>, but inserted for local
+  * customizations, eg "rh3" or "rusty1".
+-
++ *
+  * Using this automatically adds a checksum of the .c files and the
+  * local headers in "srcversion".
+  */
+@@ -284,11 +298,21 @@ extern typeof(name) __mod_##type##__##name##_device_t=
+able=09=09\
+ =09=09}
+ #endif
+=20
+-/* Optional firmware file (or files) needed by the module
+- * format is simply firmware file name.  Multiple firmware
+- * files require multiple MODULE_FIRMWARE() specifiers */
++/**
++ * MODULE_FIRMWARE - Optional firmware files needed by the module
++ * @_firmware: firmware file name
++ *
++ * Multiple firmware files require multiple MODULE_FIRMWARE() specifiers.
++ */
+ #define MODULE_FIRMWARE(_firmware) MODULE_INFO(firmware, _firmware)
+=20
++/**
++ * MODULE_IMPORT_NS - Set the symbol namespace for the module.
++ * @ns: symbol namespace to import the module into.
++ *
++ * This adds a modinfo tag 'import_ns' to the module. This is observed
++ * by userspace at module loading time.
++ */
+ #define MODULE_IMPORT_NS(ns)=09MODULE_INFO(import_ns, __stringify(ns))
+=20
+ struct notifier_block;
+--=20
+2.39.2
 
