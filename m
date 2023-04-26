@@ -2,47 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BAA586EEE22
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Apr 2023 08:14:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 166C66EEE2C
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Apr 2023 08:17:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AE8C810E8BB;
-	Wed, 26 Apr 2023 06:14:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EC13110E8BE;
+	Wed, 26 Apr 2023 06:17:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 730E510E8B2;
- Wed, 26 Apr 2023 06:13:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1682489630; x=1714025630;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=I8bBOBE2tRibyZSoE0eVxxJLlRgeLjMj4rXll4Vn914=;
- b=BUOSJF8U7qZhyYvKHNATrjZsvFtU4VP34HS2hkKU1jKXEHu6dXeiJDol
- fdXrwN5FQ9JYY/P0kRcKjNR4qWgxnCAueKdyp4kNbPLbKoLig1BknwP5K
- bZ4izEMMcEJjAH+4S8flMAN2sGPi4UYZPnCVeeDQnbB4qTgiiGyr0PB8g
- /I/d4Q7etR+JnypTyIM0Ah/D8g/4YwDOg5vsipMH7bkEwBj/YrIuQP1Pt
- ETQ6YLfxrkNeocDuFo/ij4Dc9FF7AW8ltJh0R9DTunHMYu8SoxdSnrOCm
- wuFAWu1/CFIOFM5WayK4JYtSKwJujbeTqfEyqHOyJbPZg9wBp3VrTwbvq g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10691"; a="331234663"
-X-IronPort-AV: E=Sophos;i="5.99,227,1677571200"; d="scan'208";a="331234663"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Apr 2023 23:13:48 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10691"; a="837767314"
-X-IronPort-AV: E=Sophos;i="5.99,227,1677571200"; d="scan'208";a="837767314"
-Received: from fyang16-desk.jf.intel.com ([10.24.96.243])
- by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Apr 2023 23:13:47 -0700
-From: fei.yang@intel.com
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v2 3/3] drm/i915: make sure correct pte encode is used
-Date: Tue, 25 Apr 2023 23:14:52 -0700
-Message-Id: <20230426061452.320390-4-fei.yang@intel.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230426061452.320390-1-fei.yang@intel.com>
-References: <20230426061452.320390-1-fei.yang@intel.com>
+Received: from mail-pg1-x532.google.com (mail-pg1-x532.google.com
+ [IPv6:2607:f8b0:4864:20::532])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 03FD510E8BD;
+ Wed, 26 Apr 2023 06:17:29 +0000 (UTC)
+Received: by mail-pg1-x532.google.com with SMTP id
+ 41be03b00d2f7-517ca8972c5so636028a12.0; 
+ Tue, 25 Apr 2023 23:17:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1682489848; x=1685081848;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=54QT2qvIeWHdzjZ4EieSD34moWDamE7VGmQ7alnRC98=;
+ b=sF+P8bb8uMhYrTOmSX99gvg7Hru+61Rlk2NYSAmxAbzFaHJ9SIj7+SjR0pxefdjN5r
+ hFt9x6840LiGIIMysJkU+WbnAdwbMxBdQRsv/pQrZFRnzdw7LUC+D7MPgj8wTiFc/CuG
+ KkXY6/Ys64F/aPaHUC3zG+MRUxVRpg53YaqUDLsd15CspB+8+5RQaMlfn4SbQfjNu0kS
+ dbIa5Kkbv2TcP2OsDQiaFCYdjxrqsfpR7tTz+JtD37h9tS3/rUfWxdRwIjanZySnRYYf
+ uONLqV8nBibPXcOKjU5MrwR8k7x5nIpa3dAiDegXDvl8HbdhPmjxIEtceUBAHzPpomst
+ xVtw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1682489848; x=1685081848;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=54QT2qvIeWHdzjZ4EieSD34moWDamE7VGmQ7alnRC98=;
+ b=fLN2N6l4DhTUS1P9h9idsPc8gAfCjKSDqN53f7h657/Yf63DMmL9/cYVBUzQvaDhJo
+ 8BrvIyxz8U0SsF0vBmSajyR769cg7nn4sTim/PRrTMB3rinbpWavLZDL4I8tJ/aQHdIh
+ 3Esl8L5FgRbDVZlKRHT9SLhFJCwfnAK1mNrh3lQNwMomjNcyhl4z7DkeWM3NJWLyFbdn
+ Kr+9OUHL7K3Pfje7vlP3e+717j008LUoAgzM6ZepFOEr50Z/9ijvgx4L/8lk5p28PRaM
+ EFmxF4zkZIBzJ+sDQ4PHwwPWIAYwV9Gn3+0Z2w35Dm7YfiKZoQviL02oXPvpFAU3Z0dA
+ rSmg==
+X-Gm-Message-State: AAQBX9eMk5MKZ+i9BD3fAhmyyXzvAvdb9+HC3tEBqorSMIdm2OuHCZl2
+ iwyRwoKseQzbHRN6an72sifjy/nuW1U=
+X-Google-Smtp-Source: AKy350aycLnLbKLXtxd6n+hL6qzyM3+dfBPm8y7nLsLJ95s7tYOugYfR14+YBfg9XJq9kFbAi7tIog==
+X-Received: by 2002:a05:6a20:1608:b0:c0:2875:9e8c with SMTP id
+ l8-20020a056a20160800b000c028759e8cmr25435942pzj.1.1682489848305; 
+ Tue, 25 Apr 2023 23:17:28 -0700 (PDT)
+Received: from olv-ct-22.c.googlers.com.com
+ (217.108.125.34.bc.googleusercontent.com. [34.125.108.217])
+ by smtp.gmail.com with ESMTPSA id
+ i23-20020aa796f7000000b0063f0068cf6csm7034692pfq.198.2023.04.25.23.17.27
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 25 Apr 2023 23:17:27 -0700 (PDT)
+From: Chia-I Wu <olvaffe@gmail.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH v2] drm/amdgpu: add a missing lock for AMDGPU_SCHED
+Date: Tue, 25 Apr 2023 23:17:14 -0700
+Message-ID: <20230426061718.755586-1-olvaffe@gmail.com>
+X-Mailer: git-send-email 2.40.1.495.gc816e09b53d-goog
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -57,55 +71,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Matt Roper <matthew.d.roper@intel.com>,
- Chris Wilson <chris.p.wilson@linux.intel.com>, Fei Yang <fei.yang@intel.com>,
- dri-devel@lists.freedesktop.org, Andi Shyti <andi.shyti@linux.intel.com>
+Cc: "Pan, Xinhui" <Xinhui.Pan@amd.com>, linux-kernel@vger.kernel.org,
+ stable@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Fei Yang <fei.yang@intel.com>
+mgr->ctx_handles should be protected by mgr->lock.
 
-PTE encode is platform dependent. After replacing cache_level with
-pat_index, the newly introduced mtl_pte_encode is actually generic
-for all gen12 platforms, thus rename it to gen12_pte_encode and
-apply it to all gen12 platforms.
+v2: improve commit message
 
-Cc: Chris Wilson <chris.p.wilson@linux.intel.com>
-Cc: Matt Roper <matthew.d.roper@intel.com>
-Signed-off-by: Fei Yang <fei.yang@intel.com>
-Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com>
+Signed-off-by: Chia-I Wu <olvaffe@gmail.com>
+Cc: stable@vger.kernel.org
 ---
- drivers/gpu/drm/i915/gt/gen8_ppgtt.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_sched.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/i915/gt/gen8_ppgtt.c b/drivers/gpu/drm/i915/gt/gen8_ppgtt.c
-index ee52e5833c50..81b7725812ce 100644
---- a/drivers/gpu/drm/i915/gt/gen8_ppgtt.c
-+++ b/drivers/gpu/drm/i915/gt/gen8_ppgtt.c
-@@ -55,9 +55,9 @@ static u64 gen8_pte_encode(dma_addr_t addr,
- 	return pte;
- }
- 
--static u64 mtl_pte_encode(dma_addr_t addr,
--			  unsigned int pat_index,
--			  u32 flags)
-+static u64 gen12_pte_encode(dma_addr_t addr,
-+			    unsigned int pat_index,
-+			    u32 flags)
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_sched.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_sched.c
+index e9b45089a28a6..863b2a34b2d64 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_sched.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_sched.c
+@@ -38,6 +38,7 @@ static int amdgpu_sched_process_priority_override(struct amdgpu_device *adev,
  {
- 	gen8_pte_t pte = addr | GEN8_PAGE_PRESENT | GEN8_PAGE_RW;
+ 	struct fd f = fdget(fd);
+ 	struct amdgpu_fpriv *fpriv;
++	struct amdgpu_ctx_mgr *mgr;
+ 	struct amdgpu_ctx *ctx;
+ 	uint32_t id;
+ 	int r;
+@@ -51,8 +52,11 @@ static int amdgpu_sched_process_priority_override(struct amdgpu_device *adev,
+ 		return r;
+ 	}
  
-@@ -994,8 +994,8 @@ struct i915_ppgtt *gen8_ppgtt_create(struct intel_gt *gt,
- 	 */
- 	ppgtt->vm.alloc_scratch_dma = alloc_pt_dma;
+-	idr_for_each_entry(&fpriv->ctx_mgr.ctx_handles, ctx, id)
++	mgr = &fpriv->ctx_mgr;
++	mutex_lock(&mgr->lock);
++	idr_for_each_entry(&mgr->ctx_handles, ctx, id)
+ 		amdgpu_ctx_priority_override(ctx, priority);
++	mutex_unlock(&mgr->lock);
  
--	if (GRAPHICS_VER_FULL(gt->i915) >= IP_VER(12, 70))
--		ppgtt->vm.pte_encode = mtl_pte_encode;
-+	if (GRAPHICS_VER(gt->i915) >= 12)
-+		ppgtt->vm.pte_encode = gen12_pte_encode;
- 	else
- 		ppgtt->vm.pte_encode = gen8_pte_encode;
- 
+ 	fdput(f);
+ 	return 0;
 -- 
-2.25.1
+2.40.1.495.gc816e09b53d-goog
 
