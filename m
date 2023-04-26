@@ -1,53 +1,77 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 433EC6EEB07
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Apr 2023 01:40:12 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B0E96EEB2C
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Apr 2023 02:01:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 035AF10E2DD;
-	Tue, 25 Apr 2023 23:40:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 54CAA10E824;
+	Wed, 26 Apr 2023 00:01:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7DB4F10E2DD
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Apr 2023 23:40:06 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 20FBD6322A;
- Tue, 25 Apr 2023 23:40:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 85623C4339C;
- Tue, 25 Apr 2023 23:40:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1682466004;
- bh=qPJx8ZN4x8kU/qF0Od1/2a/2gkZq1+OIYG7LIP6jFy4=;
- h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
- b=cf/OCsgqtu8fPpzmxWGxgLDeXiviRat1X6dIWklxkuw+EdgHmn/lqJyz/R+rvRqAY
- Znm3HcxinkYSPP+4LKu3rNKxHv0sVv1ep+64MTSlOPmgtSr4A8vnxJ5M4yCuf2h9UE
- xUWvstHNiV0kO5BjeZEG5QCasyBB9F93IlP9+dLY6OHQkVvPZ3czcld+TEi/seFnml
- TNiB8O0h8wx8n0N6t7ZjzxUn4XEoS8hJqVukkexlQEVorBTHt5a3iC8qzPiZI3alk0
- JzmXgUpEPh0doblVEgWWOREeJ5LkVnzigDWQNroHlMbvSqoagFdgKYB1x/LTEZSfPa
- BndL/WF4rYW8Q==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org
- (localhost.localdomain [127.0.0.1])
- by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id
- 6C5DEE5FFC9; Tue, 25 Apr 2023 23:40:04 +0000 (UTC)
-Subject: Re: [git pull] drm for 6.4-rc1
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <CAPM=9txgxnFundgAa9LrveUVUU9_8A1RK8-hy+3pg7tDMJmSPQ@mail.gmail.com>
-References: <CAPM=9txgxnFundgAa9LrveUVUU9_8A1RK8-hy+3pg7tDMJmSPQ@mail.gmail.com>
-X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
-X-PR-Tracked-Message-Id: <CAPM=9txgxnFundgAa9LrveUVUU9_8A1RK8-hy+3pg7tDMJmSPQ@mail.gmail.com>
-X-PR-Tracked-Remote: git://anongit.freedesktop.org/drm/drm
- tags/drm-next-2023-04-24
-X-PR-Tracked-Commit-Id: 289af45508ca890585f329376d16e08f41f75bd5
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: c8cc58e289ed3b5bc50258f52776cf3dfa3bad66
-Message-Id: <168246600441.4872.8908465628713097973.pr-tracker-bot@kernel.org>
-Date: Tue, 25 Apr 2023 23:40:04 +0000
-To: Dave Airlie <airlied@gmail.com>
+Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com
+ [IPv6:2a00:1450:4864:20::633])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B26A810E824
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Apr 2023 00:01:39 +0000 (UTC)
+Received: by mail-ej1-x633.google.com with SMTP id
+ a640c23a62f3a-94ef0a8546fso1022476866b.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Apr 2023 17:01:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1682467297; x=1685059297;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=yTdc9DJ14HbNnnfxarhYVsLnqLsfg9vMdDLB5FChyxE=;
+ b=T2u6R7p0/3Naz9CpQHHIiQlXKSa/8shAFvj+JmuSUz71hjyl/B7wfyjWpKY2MSwt9X
+ kxiSDY2DP8qtEX0Yr4FIsYI2hg7SSG7pTRcabKuDw80MFxmROsrTI++g1HtIGdhFzmID
+ vV+CyugLT6r83uuMVEXW1xXRZqH+T9Wkm1WSrxGD5YEIhPe0nETPbDe1fy8Kt83zxaa+
+ q/vJVVVrSwfux57up5piUclqlR84rIcI5jwSpigbe5uK1sYaZLNbRQ3UUxoJP4iZUv1H
+ ICuzx0Fk90LCu7cjfqcqSSJXvCxy7j3Fzn070mx6aJRI4ndd8TQO64D0zX7Gui2YHRlf
+ s23Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1682467297; x=1685059297;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=yTdc9DJ14HbNnnfxarhYVsLnqLsfg9vMdDLB5FChyxE=;
+ b=f7Z5TxmyccugZBJVZR6BrHNLTUQS5yrD5ODb9g2ymat7KkUsTFP5DzplIGBHiWEny6
+ 2bk8flIO/7oqdQW6hyW/hV8XWCivhYZb/UY+VUQ1T0Tn4U+tthvndsahtMnbww/v5D6k
+ y729UX70UJfAeqGLt64VxIjKP2vXOQ3MqqqSEDYNTcuz1aYwQJ6Fbs/nJgw9VWNhGK3c
+ AtgLQSW897gxpcNJHq4cPpySkOZNyckoLaIQ/Fw95NF5rrX6TsV+5zPu6ShZMfd/tRfw
+ wDcS4ZCT/ICAlm3aEAYnL53dzGEEY85ycgtIvj/n8MXx2xyE/ueJ/91uoLfBvIFz2DFq
+ v/og==
+X-Gm-Message-State: AAQBX9eb7NHO+ed69UuQ0xV6QphSiKbBnVaSrYzCoJUPsKuvWaqIPNAL
+ YS4u6cTwSj45rJreJZj44KOblw==
+X-Google-Smtp-Source: AKy350Yi+SP1ungFzVgkmrReJnEHkZSbkfMXXsoAkLVpKsdFjozoiLrSA2Mv5lSGeMBCu/kUCxwNeQ==
+X-Received: by 2002:a17:907:8b87:b0:94f:21f3:b5f8 with SMTP id
+ tb7-20020a1709078b8700b0094f21f3b5f8mr14879847ejc.21.1682467296852; 
+ Tue, 25 Apr 2023 17:01:36 -0700 (PDT)
+Received: from [172.23.2.4] ([31.221.30.162]) by smtp.gmail.com with ESMTPSA id
+ op4-20020a170906bce400b0094f39379230sm7381550ejb.163.2023.04.25.17.01.35
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 25 Apr 2023 17:01:36 -0700 (PDT)
+Message-ID: <41d74c67-3d66-a363-f888-ee7763c76495@linaro.org>
+Date: Wed, 26 Apr 2023 03:01:35 +0300
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH v3 04/21] drm/msm/dpu: Reindent REV_7xxx interrupt masks
+ with tabs
+Content-Language: en-GB
+To: Marijn Suijten <marijn.suijten@somainline.org>,
+ Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Sean Paul <sean@poorly.run>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Adam Skladowski <a39.skl@gmail.com>,
+ Loic Poulain <loic.poulain@linaro.org>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Kuogee Hsieh <quic_khsieh@quicinc.com>, Robert Foss <rfoss@kernel.org>,
+ Vinod Koul <vkoul@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>
+References: <20230411-dpu-intf-te-v3-0-693b17fe6500@somainline.org>
+ <20230411-dpu-intf-te-v3-4-693b17fe6500@somainline.org>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <20230411-dpu-intf-te-v3-4-693b17fe6500@somainline.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,22 +84,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Linus Torvalds <torvalds@linux-foundation.org>,
- LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
+Cc: Jami Kettunen <jami.kettunen@somainline.org>, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Jordan Crouse <jordan@cosmicpenguin.net>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Martin Botka <martin.botka@somainline.org>,
+ ~postmarketos/upstreaming@lists.sr.ht,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The pull request you sent on Mon, 24 Apr 2023 15:41:41 +1000:
+On 26/04/2023 02:05, Marijn Suijten wrote:
+> Use tabs for consistency with the other interrupt register definitions,
+> rather than spaces.
+> 
+> Fixes: ed6154a136e4 ("drm/msm/disp/dpu1: add intf offsets for SC7280 target")
+> Fixes: 89688e2119b2 ("drm/msm/dpu: Add more of the INTF interrupt regions")
+> Fixes: 4a352c2fc15a ("drm/msm/dpu: Introduce SC8280XP")
+> Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
+> ---
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c | 18 +++++++++---------
+>   1 file changed, 9 insertions(+), 9 deletions(-)
 
-> git://anongit.freedesktop.org/drm/drm tags/drm-next-2023-04-24
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/c8cc58e289ed3b5bc50258f52776cf3dfa3bad66
-
-Thank you!
 
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+With best wishes
+Dmitry
+
