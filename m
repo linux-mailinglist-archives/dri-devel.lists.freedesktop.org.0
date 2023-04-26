@@ -1,48 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8465A6EEB85
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Apr 2023 02:40:13 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 96FC06EEBAD
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Apr 2023 02:48:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 20B6B10E85C;
-	Wed, 26 Apr 2023 00:40:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BC03710E84F;
+	Wed, 26 Apr 2023 00:48:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 25C3010E857;
- Wed, 26 Apr 2023 00:40:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1682469607; x=1714005607;
- h=from:to:subject:date:message-id:in-reply-to:references:
- mime-version:content-transfer-encoding;
- bh=o5Gm7heevRRIQed/77N3E9XhPmA90hlJ3PHKrQcEnoY=;
- b=U4wTgWVzazoTzRPuLxVYi000y6Yy1FR0vl4EM/9e7NwnEThRdn9aLDUi
- VMu7gvDipzx0kiOkuEjISvv+j8QgY38uYE/G/FK9JTYCYrt8o0fGNE/ZJ
- wJrzRL72M1fhWsg6AXPFx+0KZZQ8fNZPkXEa2HnD5sBlzRB5QNgtNzC4/
- UVLc4CecpEbPgClV9YpqEBH7FWEMO69j2Mo+K94GtYJoljKGJLlfVLdUy
- PIkyf2ZwwrLSESJW/cZIDtYRQw2MrvZ2Xjq4zlaqrB9+MGc7DkKPxYzGs
- RO7n6nhU5o+tk4wBB/BZcck1sQdWlLqGCN8R7gTdU2B/1QhvotkZiaJGW A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10691"; a="433220313"
-X-IronPort-AV: E=Sophos;i="5.99,227,1677571200"; d="scan'208";a="433220313"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Apr 2023 17:40:06 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10691"; a="763083138"
-X-IronPort-AV: E=Sophos;i="5.99,227,1677571200"; d="scan'208";a="763083138"
-Received: from vbelgaum-ubuntu.fm.intel.com ([10.1.27.27])
- by fmsmga004.fm.intel.com with ESMTP; 25 Apr 2023 17:40:06 -0700
-From: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
-To: intel-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org
-Subject: [PATCH v6 2/2] drm/i915/selftest: Update the SLPC selftest
-Date: Tue, 25 Apr 2023 17:39:42 -0700
-Message-Id: <20230426003942.1924347-2-vinay.belgaumkar@intel.com>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20230426003942.1924347-1-vinay.belgaumkar@intel.com>
-References: <20230426003942.1924347-1-vinay.belgaumkar@intel.com>
+Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com
+ [IPv6:2607:f8b0:4864:20::62c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7464C10E132;
+ Wed, 26 Apr 2023 00:48:47 +0000 (UTC)
+Received: by mail-pl1-x62c.google.com with SMTP id
+ d9443c01a7336-1a69e101070so12699945ad.1; 
+ Tue, 25 Apr 2023 17:48:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1682470126; x=1685062126;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=o0BnfPBPiojl+QP/k4t2sPrlYYfp861ciAthUpTF5X4=;
+ b=HqoNoVrVJ0tYNI9Bcc8izp2vO9TiFwXSsmlLp9xOUhj53NzjTbyewO2fTWssq5dCXq
+ R9f6ivJblpFgQFJ2P42l/8IJggxjPLS3wQB4PQjvwx04sSPvotNgV37FOWKpLpe/OUAU
+ hFwPp2YcVADhEUji0dbloenohkutOfWIJGU3rNntY2scMAMlL5WRZ/PFPr2e8QINCYRK
+ oYlzSG7Biw4RkhICfWQ1xYGg3BIEGrxQdEIIL+uwcGjvD/4gJAQ4xiEm9n/04Xp1tvdm
+ lylzhgDYcyCcTfFKXyNQYt+aNsEvBuRcmC1MY4RpvF0ZhWpHKbiqM9WCLKa/2yV+zjVi
+ NeBg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1682470126; x=1685062126;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=o0BnfPBPiojl+QP/k4t2sPrlYYfp861ciAthUpTF5X4=;
+ b=ZRr9Gsnwpt74HW8wOPVtiUWy1nVyCY4FYftyZojsyu3nGptunzwMpWGH4Joka6Ms/V
+ zbjcycBXzOenaz0EfRW+4Z7PPLkX+H2Q/fvDEgAa/cbOm5eV8NSPPLIBkcaaqQ/Z2gWP
+ ibcvNTnrBk0fVk0fmcDteDj7j/JTWeOWfNNQHugrsKKTPwGQyTSvfCIJ4NyiXu/vlF3U
+ uDaLSqD/pLlBHxZtUQAg+U7Gs3V8Wxv/edQWUJ7XlwRAWQoMxgZHxhdcrFeb+1kvzwt1
+ rAZMffmPuTn8jYR3vZWoWhGQJyhTBQWSUxYPoIr2660yJUwTZAVSS0iDqfMGpW1hmJDB
+ WZ5A==
+X-Gm-Message-State: AAQBX9cL7x9I+lbnoUgjpqapy7y7mnXfoQBjFgKVu8zZqWJ1hb0gQ4mn
+ eK5UsElaSRadwFWoMJCXvyfTnkgzP7Y=
+X-Google-Smtp-Source: AKy350ajvykvbDO2EsAOkoWDcIipTLmTGBCKWlhBF3bRZPXOHTwGHyYwev95vinACirrl3ksLTtIuA==
+X-Received: by 2002:a17:903:1d1:b0:1a6:93cc:924b with SMTP id
+ e17-20020a17090301d100b001a693cc924bmr24020006plh.3.1682470126042; 
+ Tue, 25 Apr 2023 17:48:46 -0700 (PDT)
+Received: from olv-ct-22.c.googlers.com.com
+ (217.108.125.34.bc.googleusercontent.com. [34.125.108.217])
+ by smtp.gmail.com with ESMTPSA id
+ q1-20020a170902788100b001a688de1f0esm8798611pll.234.2023.04.25.17.48.44
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 25 Apr 2023 17:48:45 -0700 (PDT)
+From: Chia-I Wu <olvaffe@gmail.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/amdgpu: add a missing lock for AMDGPU_SCHED
+Date: Tue, 25 Apr 2023 17:48:27 -0700
+Message-ID: <20230426004831.650908-1-olvaffe@gmail.com>
+X-Mailer: git-send-email 2.40.0.634.g4ca3ef3211-goog
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -57,94 +71,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: "Pan, Xinhui" <Xinhui.Pan@amd.com>, linux-kernel@vger.kernel.org,
+ stable@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use the new efficient frequency toggling interface. Also
-create a helper function to restore the frequencies after
-the test is done.
-
-v2: Restore max freq first and then min.
-
-Signed-off-by: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
+Signed-off-by: Chia-I Wu <olvaffe@gmail.com>
+Cc: stable@vger.kernel.org
 ---
- drivers/gpu/drm/i915/gt/selftest_slpc.c | 42 ++++++++++++++++++++++---
- 1 file changed, 37 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_sched.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/i915/gt/selftest_slpc.c b/drivers/gpu/drm/i915/gt/selftest_slpc.c
-index bd44ce73a504..952c8d52d68a 100644
---- a/drivers/gpu/drm/i915/gt/selftest_slpc.c
-+++ b/drivers/gpu/drm/i915/gt/selftest_slpc.c
-@@ -70,6 +70,31 @@ static int slpc_set_freq(struct intel_gt *gt, u32 freq)
- 	return err;
- }
- 
-+static int slpc_restore_freq(struct intel_guc_slpc *slpc, u32 min, u32 max)
-+{
-+	int err;
-+
-+	err = slpc_set_max_freq(slpc, max);
-+	if (err) {
-+		pr_err("Unable to restore max freq");
-+		return err;
-+	}
-+
-+	err = slpc_set_min_freq(slpc, min);
-+	if (err) {
-+		pr_err("Unable to restore min freq");
-+		return err;
-+	}
-+
-+	err = intel_guc_slpc_set_ignore_eff_freq(slpc, false);
-+	if (err) {
-+		pr_err("Unable to restore efficient freq");
-+		return err;
-+	}
-+
-+	return 0;
-+}
-+
- static u64 measure_power_at_freq(struct intel_gt *gt, int *freq, u64 *power)
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_sched.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_sched.c
+index e9b45089a28a6..863b2a34b2d64 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_sched.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_sched.c
+@@ -38,6 +38,7 @@ static int amdgpu_sched_process_priority_override(struct amdgpu_device *adev,
  {
- 	int err = 0;
-@@ -268,8 +293,7 @@ static int run_test(struct intel_gt *gt, int test_type)
- 
- 	/*
- 	 * Set min frequency to RPn so that we can test the whole
--	 * range of RPn-RP0. This also turns off efficient freq
--	 * usage and makes results more predictable.
-+	 * range of RPn-RP0.
- 	 */
- 	err = slpc_set_min_freq(slpc, slpc->min_freq);
- 	if (err) {
-@@ -277,6 +301,15 @@ static int run_test(struct intel_gt *gt, int test_type)
- 		return err;
+ 	struct fd f = fdget(fd);
+ 	struct amdgpu_fpriv *fpriv;
++	struct amdgpu_ctx_mgr *mgr;
+ 	struct amdgpu_ctx *ctx;
+ 	uint32_t id;
+ 	int r;
+@@ -51,8 +52,11 @@ static int amdgpu_sched_process_priority_override(struct amdgpu_device *adev,
+ 		return r;
  	}
  
-+	/*
-+	 * Turn off efficient frequency so RPn/RP0 ranges are obeyed.
-+	 */
-+	err = intel_guc_slpc_set_ignore_eff_freq(slpc, true);
-+	if (err) {
-+		pr_err("Unable to turn off efficient freq!");
-+		return err;
-+	}
-+
- 	intel_gt_pm_wait_for_idle(gt);
- 	intel_gt_pm_get(gt);
- 	for_each_engine(engine, gt, id) {
-@@ -358,9 +391,8 @@ static int run_test(struct intel_gt *gt, int test_type)
- 			break;
- 	}
+-	idr_for_each_entry(&fpriv->ctx_mgr.ctx_handles, ctx, id)
++	mgr = &fpriv->ctx_mgr;
++	mutex_lock(&mgr->lock);
++	idr_for_each_entry(&mgr->ctx_handles, ctx, id)
+ 		amdgpu_ctx_priority_override(ctx, priority);
++	mutex_unlock(&mgr->lock);
  
--	/* Restore min/max frequencies */
--	slpc_set_max_freq(slpc, slpc_max_freq);
--	slpc_set_min_freq(slpc, slpc_min_freq);
-+	/* Restore min/max/efficient frequencies */
-+	err = slpc_restore_freq(slpc, slpc_min_freq, slpc_max_freq);
- 
- 	if (igt_flush_test(gt->i915))
- 		err = -EIO;
+ 	fdput(f);
+ 	return 0;
 -- 
-2.38.1
+2.40.0.634.g4ca3ef3211-goog
 
