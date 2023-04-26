@@ -2,47 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 587616F01EC
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Apr 2023 09:39:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AC3E6F01EA
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Apr 2023 09:39:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6766810EAD0;
-	Thu, 27 Apr 2023 07:39:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4DECA10EAC8;
+	Thu, 27 Apr 2023 07:38:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 1754 seconds by postgrey-1.36 at gabe;
- Wed, 26 Apr 2023 12:44:44 UTC
-Received: from bee.tesarici.cz (bee.tesarici.cz [IPv6:2a03:3b40:fe:2d4::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3CD9010E0BE
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Apr 2023 12:44:44 +0000 (UTC)
+Received: from bee.tesarici.cz (bee.tesarici.cz [77.93.223.253])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D6EE110E99E
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Apr 2023 13:16:14 +0000 (UTC)
 Received: from meshulam.tesarici.cz
  (dynamic-2a00-1028-83b8-1e7a-4427-cc85-6706-c595.ipv6.o2.cz
  [IPv6:2a00:1028:83b8:1e7a:4427:cc85:6706:c595])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
  SHA256) (No client certificate requested)
- by bee.tesarici.cz (Postfix) with ESMTPSA id CA0C9165337;
- Wed, 26 Apr 2023 14:44:40 +0200 (CEST)
+ by bee.tesarici.cz (Postfix) with ESMTPSA id 51497164FAB;
+ Wed, 26 Apr 2023 15:16:10 +0200 (CEST)
 Authentication-Results: mail.tesarici.cz;
  dmarc=fail (p=none dis=none) header.from=tesarici.cz
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=tesarici.cz; s=mail;
- t=1682513081; bh=TUvWyN8jrQgQ7QsrJmJ6ZjN4uMqDIuUrXKhGCfiOkT4=;
+ t=1682514970; bh=ySihG43IoB4tpWhlx7AVZWC9Dx5jlOj4dyXUyipMA7Q=;
  h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=W9ZadZpoOR/aiQ3ArOSxYlCe4i81AoAJ2X36fC/6cYva7r6B6NKzsh7xS8FB1MZCA
- ghC5/ZaJl5If6DnpEnLvxseVebYHoee5ytSORNXCiH4AvSGmzfow6fTL5xG21KGXKr
- 3MBq6vh3NSBopuWhUDcbCWpJNFjf9JcqlWLT+Gz6oy7HG/11IwZTrJNDomATw8u7a2
- gDdYRuHACnfzoQ5c99yHxDV8QCfKWZFD+7KKEK1eGLWUbdaJuSXF+KBMAqFghkrW/D
- s7GKjvo14gtjI37/6t8zfyh9wWDL7tHklrNDb2N8mrGVRNlAbxkS84kZ1lvFwVMR7h
- /O8vY9/sPtH3g==
-Date: Wed, 26 Apr 2023 14:44:39 +0200
+ b=Iu7UL+tAHg2VEC+RL5h27qD/fNQUAKbT7kgcZZf1g497AeyfPIPaGhhRtpEslQbb3
+ 6kxX27a/K4P+3Knn/iGYBK84Y7BITpnKqlS+mxanOplxfWK6trlORAISOUDAnsPfYi
+ ZMYwi7x/I0iH+jtQLXcwkBViPSo3yhjEa0Ji3MrcaBZx1u+3h1M9n0ll9o49dUUuVw
+ qqq0BKQgT/A9dQ6iWf7cl49Zt+7Z0FzUfVGYfy7bnY5GmiR9/SNS8seHF+2yrISHvH
+ tjloekhRtq0ZySIC6pSQhn6hQ+cxYY+i2mxsL+nDWjGfobITrNxU5mIn8j9iOjMnKs
+ +4nGOe2XjYzHw==
+Date: Wed, 26 Apr 2023 15:16:09 +0200
 From: Petr =?UTF-8?B?VGVzYcWZw61r?= <petr@tesarici.cz>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Subject: Re: [PATCH v2 0/7] Allow dynamic allocation of software IO TLB
  bounce buffers
-Message-ID: <20230426144439.5674f8bc@meshulam.tesarici.cz>
-In-Reply-To: <2023042617-wobble-enlighten-9361@gregkh>
+Message-ID: <20230426151609.2f922349@meshulam.tesarici.cz>
+In-Reply-To: <2023042630-amends-speech-7db2@gregkh>
 References: <cover.1681898595.git.petr.tesarik.ext@huawei.com>
  <20230426141520.0caf4386@meshulam.tesarici.cz>
  <2023042617-wobble-enlighten-9361@gregkh>
+ <20230426144439.5674f8bc@meshulam.tesarici.cz>
+ <2023042630-amends-speech-7db2@gregkh>
 X-Mailer: Claws Mail 4.1.1 (GTK 3.24.37; x86_64-suse-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -84,64 +84,83 @@ Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>, Muchun Song <muchun.song@linux.dev>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Greg,
-
-On Wed, 26 Apr 2023 14:26:36 +0200
+On Wed, 26 Apr 2023 14:53:52 +0200
 Greg Kroah-Hartman <gregkh@linuxfoundation.org> wrote:
 
-> On Wed, Apr 26, 2023 at 02:15:20PM +0200, Petr Tesa=C5=99=C3=ADk wrote:
-> > Hi,
+> On Wed, Apr 26, 2023 at 02:44:39PM +0200, Petr Tesa=C5=99=C3=ADk wrote:
+> > Hi Greg,
 > >=20
-> > On Wed, 19 Apr 2023 12:03:52 +0200
-> > Petr Tesarik <petrtesarik@huaweicloud.com> wrote:
+> > On Wed, 26 Apr 2023 14:26:36 +0200
+> > Greg Kroah-Hartman <gregkh@linuxfoundation.org> wrote:
 > >  =20
-> > > From: Petr Tesarik <petr.tesarik.ext@huawei.com>
+> > > On Wed, Apr 26, 2023 at 02:15:20PM +0200, Petr Tesa=C5=99=C3=ADk wrot=
+e: =20
+> > > > Hi,
+> > > >=20
+> > > > On Wed, 19 Apr 2023 12:03:52 +0200
+> > > > Petr Tesarik <petrtesarik@huaweicloud.com> wrote:
+> > > >    =20
+> > > > > From: Petr Tesarik <petr.tesarik.ext@huawei.com>
+> > > > >=20
+> > > > > The goal of my work is to provide more flexibility in the sizing =
+of
+> > > > > SWIOTLB.
+> > > > >=20
+> > > > > The software IO TLB was designed with these assumptions:
+> > > > >=20
+> > > > > 1. It would not be used much, especially on 64-bit systems.
+> > > > > 2. A small fixed memory area (64 MiB by default) is sufficient to
+> > > > >    handle the few cases which require a bounce buffer.
+> > > > > 3. 64 MiB is little enough that it has no impact on the rest of t=
+he
+> > > > >    system.
+> > > > >=20
+> > > > > First, if SEV is active, all DMA must be done through shared
+> > > > > unencrypted pages, and SWIOTLB is used to make this happen without
+> > > > > changing device drivers. The software IO TLB size is increased to
+> > > > > 6% of total memory in sev_setup_arch(), but that is more of an
+> > > > > approximation. The actual requirements may vary depending on the
+> > > > > amount of I/O and which drivers are used. These factors may not be
+> > > > > know at boot time, i.e. when SWIOTLB is allocated.
+> > > > >=20
+> > > > > Second, other colleagues have noticed that they can reliably get
+> > > > > rid of occasional OOM kills on an Arm embedded device by reducing
+> > > > > the SWIOTLB size. This can be achieved with a kernel parameter, b=
+ut
+> > > > > determining the right value puts additional burden on pre-release
+> > > > > testing, which could be avoided if SWIOTLB is allocated small and
+> > > > > grows only when necessary.   =20
+> > > >=20
+> > > > Now that merging into 6.4 has begun, what about this patch series? =
+I'm
+> > > > eager to get some feedback (positive or negative) and respin the ne=
+xt
+> > > > version.   =20
 > > >=20
-> > > The goal of my work is to provide more flexibility in the sizing of
-> > > SWIOTLB.
-> > >=20
-> > > The software IO TLB was designed with these assumptions:
-> > >=20
-> > > 1. It would not be used much, especially on 64-bit systems.
-> > > 2. A small fixed memory area (64 MiB by default) is sufficient to
-> > >    handle the few cases which require a bounce buffer.
-> > > 3. 64 MiB is little enough that it has no impact on the rest of the
-> > >    system.
-> > >=20
-> > > First, if SEV is active, all DMA must be done through shared
-> > > unencrypted pages, and SWIOTLB is used to make this happen without
-> > > changing device drivers. The software IO TLB size is increased to
-> > > 6% of total memory in sev_setup_arch(), but that is more of an
-> > > approximation. The actual requirements may vary depending on the
-> > > amount of I/O and which drivers are used. These factors may not be
-> > > know at boot time, i.e. when SWIOTLB is allocated.
-> > >=20
-> > > Second, other colleagues have noticed that they can reliably get
-> > > rid of occasional OOM kills on an Arm embedded device by reducing
-> > > the SWIOTLB size. This can be achieved with a kernel parameter, but
-> > > determining the right value puts additional burden on pre-release
-> > > testing, which could be avoided if SWIOTLB is allocated small and
-> > > grows only when necessary. =20
+> > > It's the merge window, we can't add new things that haven't been in
+> > > linux-next already. =20
 > >=20
-> > Now that merging into 6.4 has begun, what about this patch series? I'm
-> > eager to get some feedback (positive or negative) and respin the next
-> > version. =20
+> > This is understood. I'm not asking for immediate inclusion.
+> >  =20
+> > >   Please resubmit it after -rc1 is out. =20
+> >=20
+> > If you can believe that rebasing to -rc1 will be enough, then I will
+> > also try to believe I'm lucky. ;-)
+> >=20
+> > The kind of feedback I really want to get is e.g. about the extra
+> > per-device DMA-specific fields. If they cannot be added to struct
+> > device, then I'd rather start discussing an interim solution, because
+> > getting all existing DMA fields out of that struct will take a lot of
+> > time... =20
 >=20
-> It's the merge window, we can't add new things that haven't been in
-> linux-next already.
+> I thought the goal was to get them out of the device and into the bus
+> instead right?  Or was it the other way around?  I can't remember
+> anymore, sorry...
 
-This is understood. I'm not asking for immediate inclusion.
-
->   Please resubmit it after -rc1 is out.
-
-If you can believe that rebasing to -rc1 will be enough, then I will
-also try to believe I'm lucky. ;-)
-
-The kind of feedback I really want to get is e.g. about the extra
-per-device DMA-specific fields. If they cannot be added to struct
-device, then I'd rather start discussing an interim solution, because
-getting all existing DMA fields out of that struct will take a lot of
-time...
+You remember it almost right. The goal is to get them out of struct
+device into the bus (or platform device, or whatever holds struct
+device). But I'd like to keep this task decoupled from the dynamic
+swiotlb.
 
 Thanks,
 Petr T
