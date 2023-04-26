@@ -1,57 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BD5B6EEE09
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Apr 2023 08:07:47 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id EF4796EEE1D
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Apr 2023 08:13:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5316910E8AD;
-	Wed, 26 Apr 2023 06:07:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 47E1010E8B0;
+	Wed, 26 Apr 2023 06:13:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 160BC10E8AD
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Apr 2023 06:07:42 +0000 (UTC)
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 226B910E8AC;
+ Wed, 26 Apr 2023 06:13:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1682489262; x=1714025262;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=61rcuQojzawqY3VT1NZUTOHb6tPHTiO+dnB8VHoY9UQ=;
- b=YF7E5FIrl0/xlhmRdULePWZ1ropcVJSC6CI9iCdAx2ugK0x0M5gwxcjb
- fRg6gHOQQlzpVfCL/mQ3/7Asps4ARt/Su98A66lW9OsSfzLNR4zsv3alE
- 3EsCcuGWNhmGyIQhpjJ3P+s9pnEKKhp5NBzibVquylTp70lhHpSSvhxuK
- WcnfVEbickJJ2FUxH7r/5jISGnHBdvCmwIJ0WszNqQ1hwxFlsRgCYmNez
- RQ0ABf4ZBZ6Lb5qkClYS70DlgLb56ZcTl68rw9ONhDPHqGzwWd9CuxzwR
- wlapvfJ8mHX/RVmMXfxN6IX7pPTk/khZiNlj7jZtoe8rmmqyLnVw3RKR9 Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10691"; a="348943229"
-X-IronPort-AV: E=Sophos;i="5.99,227,1677571200"; d="scan'208";a="348943229"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Apr 2023 23:07:39 -0700
+ t=1682489628; x=1714025628;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=vXMere5abWeWLUbOeNV3HZxptbF7UQ48LzeZzYrGc6k=;
+ b=CUne6ngIMler8quy3gqpYo2I1VQHoC6V8PCybEiORlhypPZszq/tU6D3
+ xGSb/nkCT9RAqQII/ZtZsSHDZSNU7XpHEOVoUoTFKO7UXV+o+efGFR/a2
+ CfIpTHhWhOx9jkByYudDY+Hpqk1V+gQktRLaC4lpf/lw1VSvAmSzN+Xtt
+ bOhPJWNB+lQEa/ktIDn0iZ8z4+SaPvgtfsgxzXCqlteDb9d+TDeB8Fpfe
+ QJOqzm13+1Koq6iRKF1w228/KNBMpvSSFvesgS0MkT6Ic0rupWkHHRApv
+ 7WQkNeaTyzO89spBLEOQPUucEgbQ+CaQdUKn2089bMFJsIIThqTT9LzhI A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10691"; a="331234659"
+X-IronPort-AV: E=Sophos;i="5.99,227,1677571200"; d="scan'208";a="331234659"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Apr 2023 23:13:47 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10691"; a="758467967"
-X-IronPort-AV: E=Sophos;i="5.99,227,1677571200"; d="scan'208";a="758467967"
-Received: from lkp-server01.sh.intel.com (HELO 98ee5a99fc83) ([10.239.97.150])
- by fmsmga008.fm.intel.com with ESMTP; 25 Apr 2023 23:07:35 -0700
-Received: from kbuild by 98ee5a99fc83 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1prYJS-0000C4-1P;
- Wed, 26 Apr 2023 06:07:34 +0000
-Date: Wed, 26 Apr 2023 14:07:03 +0800
-From: kernel test robot <lkp@intel.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- airlied@gmail.com, daniel@ffwll.ch, javierm@redhat.com,
- deller@gmx.de, geert@linux-m68k.org, sudipm.mukherjee@gmail.com,
- teddy.wang@siliconmotion.com
-Subject: Re: [PATCH 5/6] fbdev: Move CFB read and write code into helper
- functions
-Message-ID: <202304261333.9giYEbEl-lkp@intel.com>
-References: <20230425142846.730-6-tzimmermann@suse.de>
+X-IronPort-AV: E=McAfee;i="6600,9927,10691"; a="837767302"
+X-IronPort-AV: E=Sophos;i="5.99,227,1677571200"; d="scan'208";a="837767302"
+Received: from fyang16-desk.jf.intel.com ([10.24.96.243])
+ by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Apr 2023 23:13:47 -0700
+From: fei.yang@intel.com
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH v2 0/3] drm/i915/mtl: add PTE encode function
+Date: Tue, 25 Apr 2023 23:14:49 -0700
+Message-Id: <20230426061452.320390-1-fei.yang@intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230425142846.730-6-tzimmermann@suse.de>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,165 +55,70 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>, oe-kbuild-all@lists.linux.dev
+Cc: Fei Yang <fei.yang@intel.com>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Thomas,
+From: Fei Yang <fei.yang@intel.com>
 
-kernel test robot noticed the following build warnings:
+These patches are extracted from series
+https://patchwork.freedesktop.org/series/115980/
 
-[auto build test WARNING on drm-misc/drm-misc-next]
-[also build test WARNING on linus/master next-20230425]
-[cannot apply to v6.3]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+This series refactor the cache policy programming so that the PTE
+encode functions can be unified across all GEN12 platforms. This
+refactor is also important in implementing the design which allows
+uerspace to directly set cache policy for each Buffer Object.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Zimmermann/fbdev-Return-number-of-bytes-read-or-written/20230425-223011
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20230425142846.730-6-tzimmermann%40suse.de
-patch subject: [PATCH 5/6] fbdev: Move CFB read and write code into helper functions
-config: nios2-randconfig-s031-20230423 (https://download.01.org/0day-ci/archive/20230426/202304261333.9giYEbEl-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 12.1.0
-reproduce:
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # apt-get install sparse
-        # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://github.com/intel-lab-lkp/linux/commit/d4a150f3dfa8e73f2e92f1c7efc9271e17632cc2
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Thomas-Zimmermann/fbdev-Return-number-of-bytes-read-or-written/20230425-223011
-        git checkout d4a150f3dfa8e73f2e92f1c7efc9271e17632cc2
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=nios2 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=nios2 SHELL=/bin/bash drivers/video/fbdev/core/
+v2: drop one patch that was merged separately
+    341ad0e8e254 drm/i915/mtl: Add PTE encode function
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304261333.9giYEbEl-lkp@intel.com/
+Fei Yang (3):
+  drm/i915: preparation for using PAT index
+  drm/i915: use pat_index instead of cache_level
+  drm/i915: make sure correct pte encode is used
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/video/fbdev/core/fb_cfb_fops.c:44:39: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const *s @@     got unsigned char [noderef] [usertype] __iomem *[assigned] src @@
-   drivers/video/fbdev/core/fb_cfb_fops.c:44:39: sparse:     expected void const *s
-   drivers/video/fbdev/core/fb_cfb_fops.c:44:39: sparse:     got unsigned char [noderef] [usertype] __iomem *[assigned] src
->> drivers/video/fbdev/core/fb_cfb_fops.c:113:32: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *d @@     got unsigned char [noderef] [usertype] __iomem *[assigned] dst @@
-   drivers/video/fbdev/core/fb_cfb_fops.c:113:32: sparse:     expected void *d
-   drivers/video/fbdev/core/fb_cfb_fops.c:113:32: sparse:     got unsigned char [noderef] [usertype] __iomem *[assigned] dst
-
-vim +44 drivers/video/fbdev/core/fb_cfb_fops.c
-
-     6	
-     7	ssize_t fb_cfb_read(struct fb_info *info, char __user *buf, size_t count, loff_t *ppos)
-     8	{
-     9		unsigned long p = *ppos;
-    10		u8 *buffer, *dst;
-    11		u8 __iomem *src;
-    12		int c, cnt = 0, err = 0;
-    13		unsigned long total_size;
-    14	
-    15		if (!info->screen_base)
-    16			return -ENODEV;
-    17	
-    18		total_size = info->screen_size;
-    19	
-    20		if (total_size == 0)
-    21			total_size = info->fix.smem_len;
-    22	
-    23		if (p >= total_size)
-    24			return 0;
-    25	
-    26		if (count >= total_size)
-    27			count = total_size;
-    28	
-    29		if (count + p > total_size)
-    30			count = total_size - p;
-    31	
-    32		buffer = kmalloc((count > PAGE_SIZE) ? PAGE_SIZE : count, GFP_KERNEL);
-    33		if (!buffer)
-    34			return -ENOMEM;
-    35	
-    36		src = (u8 __iomem *)(info->screen_base + p);
-    37	
-    38		if (info->fbops->fb_sync)
-    39			info->fbops->fb_sync(info);
-    40	
-    41		while (count) {
-    42			c  = (count > PAGE_SIZE) ? PAGE_SIZE : count;
-    43			dst = buffer;
-  > 44			fb_memcpy_fromfb(dst, src, c);
-    45			dst += c;
-    46			src += c;
-    47	
-    48			if (copy_to_user(buf, buffer, c)) {
-    49				err = -EFAULT;
-    50				break;
-    51			}
-    52			*ppos += c;
-    53			buf += c;
-    54			cnt += c;
-    55			count -= c;
-    56		}
-    57	
-    58		kfree(buffer);
-    59	
-    60		return cnt ? cnt : err;
-    61	}
-    62	EXPORT_SYMBOL(fb_cfb_read);
-    63	
-    64	ssize_t fb_cfb_write(struct fb_info *info, const char __user *buf, size_t count, loff_t *ppos)
-    65	{
-    66		unsigned long p = *ppos;
-    67		u8 *buffer, *src;
-    68		u8 __iomem *dst;
-    69		int c, cnt = 0, err = 0;
-    70		unsigned long total_size;
-    71	
-    72		if (!info->screen_base)
-    73			return -ENODEV;
-    74	
-    75		total_size = info->screen_size;
-    76	
-    77		if (total_size == 0)
-    78			total_size = info->fix.smem_len;
-    79	
-    80		if (p > total_size)
-    81			return -EFBIG;
-    82	
-    83		if (count > total_size) {
-    84			err = -EFBIG;
-    85			count = total_size;
-    86		}
-    87	
-    88		if (count + p > total_size) {
-    89			if (!err)
-    90				err = -ENOSPC;
-    91	
-    92			count = total_size - p;
-    93		}
-    94	
-    95		buffer = kmalloc((count > PAGE_SIZE) ? PAGE_SIZE : count, GFP_KERNEL);
-    96		if (!buffer)
-    97			return -ENOMEM;
-    98	
-    99		dst = (u8 __iomem *)(info->screen_base + p);
-   100	
-   101		if (info->fbops->fb_sync)
-   102			info->fbops->fb_sync(info);
-   103	
-   104		while (count) {
-   105			c = (count > PAGE_SIZE) ? PAGE_SIZE : count;
-   106			src = buffer;
-   107	
-   108			if (copy_from_user(src, buf, c)) {
-   109				err = -EFAULT;
-   110				break;
-   111			}
-   112	
- > 113			fb_memcpy_tofb(dst, src, c);
+ drivers/gpu/drm/i915/display/intel_dpt.c      | 12 +--
+ drivers/gpu/drm/i915/gem/i915_gem_domain.c    | 27 +++----
+ .../gpu/drm/i915/gem/i915_gem_execbuffer.c    | 10 ++-
+ drivers/gpu/drm/i915/gem/i915_gem_mman.c      |  3 +-
+ drivers/gpu/drm/i915/gem/i915_gem_object.c    | 61 +++++++++++++-
+ drivers/gpu/drm/i915/gem/i915_gem_object.h    |  8 ++
+ .../gpu/drm/i915/gem/i915_gem_object_types.h  | 26 +++++-
+ drivers/gpu/drm/i915/gem/i915_gem_shrinker.c  |  2 -
+ drivers/gpu/drm/i915/gem/i915_gem_stolen.c    |  4 +-
+ drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c  | 16 ++--
+ .../gpu/drm/i915/gem/selftests/huge_pages.c   |  2 +-
+ .../drm/i915/gem/selftests/i915_gem_migrate.c |  2 +-
+ .../drm/i915/gem/selftests/i915_gem_mman.c    |  2 +-
+ drivers/gpu/drm/i915/gt/gen6_ppgtt.c          | 10 ++-
+ drivers/gpu/drm/i915/gt/gen8_ppgtt.c          | 73 +++++++++--------
+ drivers/gpu/drm/i915/gt/gen8_ppgtt.h          |  3 +-
+ drivers/gpu/drm/i915/gt/intel_ggtt.c          | 76 +++++++++---------
+ drivers/gpu/drm/i915/gt/intel_gtt.h           | 20 +++--
+ drivers/gpu/drm/i915/gt/intel_migrate.c       | 47 ++++++-----
+ drivers/gpu/drm/i915/gt/intel_migrate.h       | 13 ++-
+ drivers/gpu/drm/i915/gt/intel_ppgtt.c         |  6 +-
+ drivers/gpu/drm/i915/gt/selftest_migrate.c    | 47 +++++------
+ drivers/gpu/drm/i915/gt/selftest_reset.c      |  8 +-
+ drivers/gpu/drm/i915/gt/selftest_timeline.c   |  2 +-
+ drivers/gpu/drm/i915/gt/selftest_tlb.c        |  4 +-
+ drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c      | 10 ++-
+ drivers/gpu/drm/i915/i915_debugfs.c           | 55 ++++++++++---
+ drivers/gpu/drm/i915/i915_gem.c               | 16 +++-
+ drivers/gpu/drm/i915/i915_gpu_error.c         |  8 +-
+ drivers/gpu/drm/i915/i915_pci.c               | 79 ++++++++++++++++---
+ drivers/gpu/drm/i915/i915_vma.c               | 16 ++--
+ drivers/gpu/drm/i915/i915_vma.h               |  2 +-
+ drivers/gpu/drm/i915/i915_vma_types.h         |  2 -
+ drivers/gpu/drm/i915/intel_device_info.h      |  5 ++
+ drivers/gpu/drm/i915/selftests/i915_gem.c     |  5 +-
+ .../gpu/drm/i915/selftests/i915_gem_evict.c   |  4 +-
+ drivers/gpu/drm/i915/selftests/i915_gem_gtt.c | 15 ++--
+ .../drm/i915/selftests/intel_memory_region.c  |  4 +-
+ .../gpu/drm/i915/selftests/mock_gem_device.c  |  9 +++
+ drivers/gpu/drm/i915/selftests/mock_gtt.c     |  8 +-
+ 40 files changed, 480 insertions(+), 242 deletions(-)
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+2.25.1
+
