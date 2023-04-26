@@ -1,62 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44DF86EFA21
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Apr 2023 20:40:20 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0301C6EFA28
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Apr 2023 20:41:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BD41C10E274;
-	Wed, 26 Apr 2023 18:40:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3CB1010E99D;
+	Wed, 26 Apr 2023 18:41:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A54BA10E274
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Apr 2023 18:40:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de; s=s31663417;
- t=1682534409; i=deller@gmx.de;
- bh=3/idmjlkYQnQ8PWvJhQzEugXCooeMcxuUiAXbdpczjU=;
- h=X-UI-Sender-Class:Date:From:To:Subject;
- b=EcBdEO6mz/orCZLbOKFbyTm4rRDHUXvh1teITtY3HvdCO99QJaAR1JB+BOB25yWXg
- +kyrH2E1Y4Hyzu1fPa1i1EL1nDivLRFO6fhEQkhWQbVmcd6SPigRWW627IcHgpP2Ec
- vTnmcNgSMTkYwOTAN4W1zDt2ZMS+WMU010qbr2EWZ+gU8f1lrjAsVOYc8qLSTO+tFQ
- WsfUfkMfYT92PSKlubkhARScwoEqAGDOgwLGASFCLEsUD+xeQp4C5xcE2bpVOYLJZu
- MAKM4ND76/qy0RyaqLI+b5neYTO0ZMKSJL6jR7ps0qDK8Ltwm0Cev5PZwZ+t8n4rNG
- RnVlOBH0pmpgw==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from ls3530 ([94.134.157.68]) by mail.gmx.net (mrgmx004
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1MoO2E-1qc2BF0UY4-00ori7; Wed, 26
- Apr 2023 20:40:09 +0200
-Date: Wed, 26 Apr 2023 20:40:07 +0200
-From: Helge Deller <deller@gmx.de>
-To: Linus Torvalds <torvalds@linux-foundation.org>,
- linux-kernel@vger.kernel.org, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-Subject: [GIT PULL] fbdev fixes and updates for v6.4-rc1
-Message-ID: <ZElwB2/zlXli1QwA@ls3530>
+Received: from mail-pf1-x430.google.com (mail-pf1-x430.google.com
+ [IPv6:2607:f8b0:4864:20::430])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4017810E995;
+ Wed, 26 Apr 2023 18:41:40 +0000 (UTC)
+Received: by mail-pf1-x430.google.com with SMTP id
+ d2e1a72fcca58-63b35789313so5403795b3a.3; 
+ Wed, 26 Apr 2023 11:41:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1682534499; x=1685126499;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=SYpdWPBKF6WtvjS6a95BWqItPJIuC0oKimDsWIUQ4Q8=;
+ b=sFN+mXF7tDhvfEqtwRAOVcywLlHnmCxmo3SkqkYCwX+aD6EpwcgaYuTqrCvBQjzDix
+ gicnyQ+E1rw4sAtqiFpg2XESPWemVwoSlDVp0kVzEBbSBWozPtvGSpabuqh4UBrrr2Id
+ 7Frc0QzPt0PMp63P6YvQZFv2VjKlflSnBcPdlLlkr8AQtnMJSVYiJj1+LaKqxu8ADaSG
+ /Fj4dR3bedGWQk9Y7x/rWFSpGbdaJI5yN+vFiMza60BIKMJKHhPSGfRElZMVpY/gicDY
+ cyCoWaTNHWWhYfk19MFx+riNunmuxEAzBXJJdm5TVB4HMg23FbDaAyYhS8y0EjGshuTn
+ n4Lg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1682534499; x=1685126499;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=SYpdWPBKF6WtvjS6a95BWqItPJIuC0oKimDsWIUQ4Q8=;
+ b=KhWGaJKqDg+HrQpffq4tzCjLexe6YdEHmsr1vv9GZkD72GW2dte/KhxmlLVUVu26ik
+ 52w0Ei7sJqeVQkgoTRDIQ9QCysrsWzZIhCICpbg2CGIHptmHG0rtMz/PAgl2Et+z2n2a
+ Jf4b6AojClO7ccxOOZE0LipWRgL0wSePS0Z5b5BxJx+qPwTjTDkfCfslQ8bxRnIkHcx/
+ ow7P7PSu4RNSDrz5UZ9lymi8dETSvMXci3oTAYYG57GVOaOFacH1HO2ZB+uu3jn0LApU
+ ahYJJK3Ut65TP2biMTjYCSo8l90VB4Rjgd+r4hCm8psxicGvMCIthUcZiPFynUlDEyR+
+ +Evw==
+X-Gm-Message-State: AAQBX9d9RYjsGwXzYAW+gd2bfhRPZ6o1Ut24I/zNS6ybP+TIHmg/7rPz
+ Am0DhvoWaOBneItWbiioOdMMcUUtzBE=
+X-Google-Smtp-Source: AKy350Y28ghKhL5CtmgJLuAj4gwRtgOUa1NPg+23FyPvJPmR0DnxUxSzzaMd/0Xi4bzvresYErsnSg==
+X-Received: by 2002:a05:6a00:2387:b0:640:dbe4:190c with SMTP id
+ f7-20020a056a00238700b00640dbe4190cmr13730052pfc.4.1682534498911; 
+ Wed, 26 Apr 2023 11:41:38 -0700 (PDT)
+Received: from localhost ([2a00:79e1:abd:4a00:61b:48ed:72ab:435b])
+ by smtp.gmail.com with ESMTPSA id
+ t6-20020aa79386000000b0063b6bc2be16sm11972570pfe.141.2023.04.26.11.41.38
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 26 Apr 2023 11:41:38 -0700 (PDT)
+From: Rob Clark <robdclark@gmail.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/syncobj: Add deadline support for syncobj waits
+Date: Wed, 26 Apr 2023 11:41:30 -0700
+Message-Id: <20230426184131.1173689-1-robdclark@gmail.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-15
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:BVkxNRdQChXfv8LUMeg9FmQA7jsIGj4IDi1yP7gIopD3vVhxfvd
- LJF7K7BlNatHlQoRbs0TetFchfcrK6Agi/WaD8UCFvUpJ+B91NUlcS26ViWQOrH8SsgoNRj
- jYV0vIL4CITxl4YbwtbQIXp/bfyHuKD5c1NcsXjWEGDkYAe+g8638q53fElXd2L5LkV/OTd
- BEgLC98KkK1MM6Nu9xqEg==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:IKDWcD3kPWU=;v2eXmqlRseCUu3KbYvc+/uDu+XB
- 7Ojd8V61DECiHMUM7/K5k2Oh7aLZIJI2AQ1wJBbnl+58Vam6NU2w6kyCxJdvW7EF5mXgeq+z/
- LshzFWFzWPFdnJenF8leH6fe/qJURFfrRx/id/JtnMc3Y6HHC5AhoKec0xS2qdCoVF8hkhYlJ
- TmZDGgeaaJTZlIi93I42nE/0KJLyZOEl2ZkxYD7qxFTWp7SZSlbt4N0CxoMWh7awmT+zrnNMT
- Xo2pOdjdGFNlWkPdXHQOClyryTvZp51d4yZW7qwI0Y96KXqb63U3q2wIlDIJptxMKScPY3Ypa
- tReMj2TpMoEFtLFmFPJuxuQiwqtqNKxyVvnhbdDbz+KNwR//MF2hfVVj0iTo6gbD5Bd+HbJ07
- Zp0oew3Ludlf+8dZVdk3TEWI7fiABDIuvJEqpFspjd7vcCPUK7vMWv+x6SGILFgErCs4WocVu
- smw0NPCul2CVHGh0laPI8s7dUeGWtKUi3Q9KjT9bOieOXKVPul5fVvhobgGPq6ezSuVYMLJja
- ecYen5nCBmShRKTIUXdplAavFXFnpm9O/CyYo0VZErYsszPVkZwXPLZIB8EapvgaE1ZTlWuP5
- Mvfenup8kueGbjJ9wUI6G7l6FD5b9Bthjrlvi0cysht1m7g+wpDx3bfyr6x5fElWvm3RZW5/9
- RQwjj+gWX7QzXwMfR8XcufshDjzd/fcOleoOwFGTLmaAyWrWFQEIP5t4Um3bjS986Vk15TeD2
- vZubzA2kgISIT27H2SFIZRint03KTv2jQ4YcVV46j8gQstMiliudrWRcME1URda8ZK0IGpq2S
- VYsWD51DikvOtzPYF8lkggWw7OMER/uFZdkLNjN2MKG+2HcOuEENVWhr/ykkBbGBO2jzV9scc
- UVPzWmW6CSDQn7K5Ryt4Dc6FUb+zSIcXskzxs6jFq6dp3wx58i5TZT4H2j7xfTKQWiRdUFfr7
- udmmVQ==
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,181 +70,240 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Rob Clark <robdclark@chromium.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ intel-gfx@lists.freedesktop.org, open list <linux-kernel@vger.kernel.org>,
+ Matt Turner <mattst88@gmail.com>, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Linus,
+From: Rob Clark <robdclark@chromium.org>
 
-please pull the fbdev updates for v6.4-rc1.
+Add a new flag to let userspace provide a deadline as a hint for syncobj
+and timeline waits.  This gives a hint to the driver signaling the
+backing fences about how soon userspace needs it to compete work, so it
+can addjust GPU frequency accordingly.  An immediate deadline can be
+given to provide something equivalent to i915 "wait boost".
 
-Nothing really exiting in here. The majority of lines changed is
-due to Uwe's preparation patches to change the return value of the
-.remove() callback to void.
+v2: Use absolute u64 ns value for deadline hint, drop cap and driver
+    feature flag in favor of allowing count_handles==0 as a way for
+    userspace to probe kernel for support of new flag
+v3: More verbose comments about UAPI
+v4: Fix negative zero, s/deadline_ns/deadline_nsec/ for consistency with
+    existing ioctl struct fields
 
-Thanks!
-Helge
+Signed-off-by: Rob Clark <robdclark@chromium.org>
+---
+Discussion on mesa MR (https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/2197)
+seems to have died down.  So resending this as a singlton.  This version
+has some minor cosmetic cleanups compared to the previous iteration.
 
+There are some other remaining UABI bits, waiting for someone to have a
+chance to implement userspace for, such as sync_file SET_DEADLINE ioctl,
+which can be found: https://patchwork.freedesktop.org/series/93035/
 
+ drivers/gpu/drm/drm_syncobj.c | 64 ++++++++++++++++++++++++++++-------
+ include/uapi/drm/drm.h        | 17 ++++++++++
+ 2 files changed, 68 insertions(+), 13 deletions(-)
 
-The following changes since commit e8d018dd0257f744ca50a729e3d042cf2ec9da6=
-5:
+diff --git a/drivers/gpu/drm/drm_syncobj.c b/drivers/gpu/drm/drm_syncobj.c
+index 0c2be8360525..3f86e2b84200 100644
+--- a/drivers/gpu/drm/drm_syncobj.c
++++ b/drivers/gpu/drm/drm_syncobj.c
+@@ -126,6 +126,11 @@
+  * synchronize between the two.
+  * This requirement is inherited from the Vulkan fence API.
+  *
++ * If &DRM_SYNCOBJ_WAIT_FLAGS_WAIT_DEADLINE is set, the ioctl will also set
++ * a fence deadline hint on the backing fences before waiting, to provide the
++ * fence signaler with an appropriate sense of urgency.  The deadline is
++ * specified as an absolute &CLOCK_MONOTONIC value in units of ns.
++ *
+  * Similarly, &DRM_IOCTL_SYNCOBJ_TIMELINE_WAIT takes an array of syncobj
+  * handles as well as an array of u64 points and does a host-side wait on all
+  * of syncobj fences at the given points simultaneously.
+@@ -973,7 +978,8 @@ static signed long drm_syncobj_array_wait_timeout(struct drm_syncobj **syncobjs,
+ 						  uint32_t count,
+ 						  uint32_t flags,
+ 						  signed long timeout,
+-						  uint32_t *idx)
++						  uint32_t *idx,
++						  ktime_t *deadline)
+ {
+ 	struct syncobj_wait_entry *entries;
+ 	struct dma_fence *fence;
+@@ -1053,6 +1059,15 @@ static signed long drm_syncobj_array_wait_timeout(struct drm_syncobj **syncobjs,
+ 			drm_syncobj_fence_add_wait(syncobjs[i], &entries[i]);
+ 	}
+ 
++	if (deadline) {
++		for (i = 0; i < count; ++i) {
++			fence = entries[i].fence;
++			if (!fence)
++				continue;
++			dma_fence_set_deadline(fence, *deadline);
++		}
++	}
++
+ 	do {
+ 		set_current_state(TASK_INTERRUPTIBLE);
+ 
+@@ -1151,7 +1166,8 @@ static int drm_syncobj_array_wait(struct drm_device *dev,
+ 				  struct drm_file *file_private,
+ 				  struct drm_syncobj_wait *wait,
+ 				  struct drm_syncobj_timeline_wait *timeline_wait,
+-				  struct drm_syncobj **syncobjs, bool timeline)
++				  struct drm_syncobj **syncobjs, bool timeline,
++				  ktime_t *deadline)
+ {
+ 	signed long timeout = 0;
+ 	uint32_t first = ~0;
+@@ -1162,7 +1178,8 @@ static int drm_syncobj_array_wait(struct drm_device *dev,
+ 							 NULL,
+ 							 wait->count_handles,
+ 							 wait->flags,
+-							 timeout, &first);
++							 timeout, &first,
++							 deadline);
+ 		if (timeout < 0)
+ 			return timeout;
+ 		wait->first_signaled = first;
+@@ -1172,7 +1189,8 @@ static int drm_syncobj_array_wait(struct drm_device *dev,
+ 							 u64_to_user_ptr(timeline_wait->points),
+ 							 timeline_wait->count_handles,
+ 							 timeline_wait->flags,
+-							 timeout, &first);
++							 timeout, &first,
++							 deadline);
+ 		if (timeout < 0)
+ 			return timeout;
+ 		timeline_wait->first_signaled = first;
+@@ -1243,17 +1261,22 @@ drm_syncobj_wait_ioctl(struct drm_device *dev, void *data,
+ {
+ 	struct drm_syncobj_wait *args = data;
+ 	struct drm_syncobj **syncobjs;
++	unsigned possible_flags;
++	ktime_t t, *tp = NULL;
+ 	int ret = 0;
+ 
+ 	if (!drm_core_check_feature(dev, DRIVER_SYNCOBJ))
+ 		return -EOPNOTSUPP;
+ 
+-	if (args->flags & ~(DRM_SYNCOBJ_WAIT_FLAGS_WAIT_ALL |
+-			    DRM_SYNCOBJ_WAIT_FLAGS_WAIT_FOR_SUBMIT))
++	possible_flags = DRM_SYNCOBJ_WAIT_FLAGS_WAIT_ALL |
++			 DRM_SYNCOBJ_WAIT_FLAGS_WAIT_FOR_SUBMIT |
++			 DRM_SYNCOBJ_WAIT_FLAGS_WAIT_DEADLINE;
++
++	if (args->flags & ~possible_flags)
+ 		return -EINVAL;
+ 
+ 	if (args->count_handles == 0)
+-		return -EINVAL;
++		return 0;
+ 
+ 	ret = drm_syncobj_array_find(file_private,
+ 				     u64_to_user_ptr(args->handles),
+@@ -1262,8 +1285,13 @@ drm_syncobj_wait_ioctl(struct drm_device *dev, void *data,
+ 	if (ret < 0)
+ 		return ret;
+ 
++	if (args->flags & DRM_SYNCOBJ_WAIT_FLAGS_WAIT_DEADLINE) {
++		t = ns_to_ktime(args->deadline_nsec);
++		tp = &t;
++	}
++
+ 	ret = drm_syncobj_array_wait(dev, file_private,
+-				     args, NULL, syncobjs, false);
++				     args, NULL, syncobjs, false, tp);
+ 
+ 	drm_syncobj_array_free(syncobjs, args->count_handles);
+ 
+@@ -1276,18 +1304,23 @@ drm_syncobj_timeline_wait_ioctl(struct drm_device *dev, void *data,
+ {
+ 	struct drm_syncobj_timeline_wait *args = data;
+ 	struct drm_syncobj **syncobjs;
++	unsigned possible_flags;
++	ktime_t t, *tp = NULL;
+ 	int ret = 0;
+ 
+ 	if (!drm_core_check_feature(dev, DRIVER_SYNCOBJ_TIMELINE))
+ 		return -EOPNOTSUPP;
+ 
+-	if (args->flags & ~(DRM_SYNCOBJ_WAIT_FLAGS_WAIT_ALL |
+-			    DRM_SYNCOBJ_WAIT_FLAGS_WAIT_FOR_SUBMIT |
+-			    DRM_SYNCOBJ_WAIT_FLAGS_WAIT_AVAILABLE))
++	possible_flags = DRM_SYNCOBJ_WAIT_FLAGS_WAIT_ALL |
++			 DRM_SYNCOBJ_WAIT_FLAGS_WAIT_FOR_SUBMIT |
++			 DRM_SYNCOBJ_WAIT_FLAGS_WAIT_AVAILABLE |
++			 DRM_SYNCOBJ_WAIT_FLAGS_WAIT_DEADLINE;
++
++	if (args->flags & ~possible_flags)
+ 		return -EINVAL;
+ 
+ 	if (args->count_handles == 0)
+-		return -EINVAL;
++		return 0;
+ 
+ 	ret = drm_syncobj_array_find(file_private,
+ 				     u64_to_user_ptr(args->handles),
+@@ -1296,8 +1329,13 @@ drm_syncobj_timeline_wait_ioctl(struct drm_device *dev, void *data,
+ 	if (ret < 0)
+ 		return ret;
+ 
++	if (args->flags & DRM_SYNCOBJ_WAIT_FLAGS_WAIT_DEADLINE) {
++		t = ns_to_ktime(args->deadline_nsec);
++		tp = &t;
++	}
++
+ 	ret = drm_syncobj_array_wait(dev, file_private,
+-				     NULL, args, syncobjs, true);
++				     NULL, args, syncobjs, true, tp);
+ 
+ 	drm_syncobj_array_free(syncobjs, args->count_handles);
+ 
+diff --git a/include/uapi/drm/drm.h b/include/uapi/drm/drm.h
+index 642808520d92..cd38b0891f25 100644
+--- a/include/uapi/drm/drm.h
++++ b/include/uapi/drm/drm.h
+@@ -887,6 +887,7 @@ struct drm_syncobj_transfer {
+ #define DRM_SYNCOBJ_WAIT_FLAGS_WAIT_ALL (1 << 0)
+ #define DRM_SYNCOBJ_WAIT_FLAGS_WAIT_FOR_SUBMIT (1 << 1)
+ #define DRM_SYNCOBJ_WAIT_FLAGS_WAIT_AVAILABLE (1 << 2) /* wait for time point to become available */
++#define DRM_SYNCOBJ_WAIT_FLAGS_WAIT_DEADLINE (1 << 3) /* set fence deadline based to deadline_ns */
+ struct drm_syncobj_wait {
+ 	__u64 handles;
+ 	/* absolute timeout */
+@@ -895,6 +896,14 @@ struct drm_syncobj_wait {
+ 	__u32 flags;
+ 	__u32 first_signaled; /* only valid when not waiting all */
+ 	__u32 pad;
++	/**
++	 * @deadline_nsec - fence deadline hint
++	 *
++	 * Deadline hint, in absolute CLOCK_MONOTONIC, to set on backing
++	 * fence(s) if the DRM_SYNCOBJ_WAIT_FLAGS_WAIT_DEADLINE flag is
++	 * set.
++	 */
++	__u64 deadline_nsec;
+ };
+ 
+ struct drm_syncobj_timeline_wait {
+@@ -907,6 +916,14 @@ struct drm_syncobj_timeline_wait {
+ 	__u32 flags;
+ 	__u32 first_signaled; /* only valid when not waiting all */
+ 	__u32 pad;
++	/**
++	 * @deadline_nsec - fence deadline hint
++	 *
++	 * Deadline hint, in absolute CLOCK_MONOTONIC, to set on backing
++	 * fence(s) if the DRM_SYNCOBJ_WAIT_FLAGS_WAIT_DEADLINE flag is
++	 * set.
++	 */
++	__u64 deadline_nsec;
+ };
+ 
+ 
+-- 
+2.39.2
 
-  Linux 6.3-rc3 (2023-03-19 13:27:55 -0700)
-
-are available in the Git repository at:
-
-  http://git.kernel.org/pub/scm/linux/kernel/git/deller/linux-fbdev.git ta=
-gs/fbdev-for-6.4-rc1
-
-for you to fetch changes up to 60ed3cd85b95184936bce70ed7f9e76a6a54a5e1:
-
-  MAINTAINERS: Remove rage128 framebuffer driver maintainer (2023-04-24 11=
-:48:47 +0200)
-
-=2D---------------------------------------------------------------
-fbdev updates for kernel 6.4-rc1:
-
-- vt_buffer.h: Fix build on alpha (Randy Dunlap)
-- mmp: Clock handling fix (Christophe JAILLET)
-- 68328fb, ps3fb, vfb: Init .owner field of struct fb_ops (Thomas Zimmerma=
-nn)
-- Preparation patches to convert drivers to return void in .remove() callb=
-ack
-  (Uwe Kleine-K=F6nig)
-- Drop Paul Mackerras as rage128 maintainer
-
-=2D---------------------------------------------------------------
-Christophe JAILLET (1):
-      fbdev: mmp: Fix deferred clk handling in mmphw_probe()
-
-Paul Mackerras (1):
-      MAINTAINERS: Remove rage128 framebuffer driver maintainer
-
-Randy Dunlap (1):
-      linux/vt_buffer.h: allow either builtin or modular for macros
-
-Thomas Zimmermann (3):
-      fbdev: 68328fb: Init owner field of struct fb_ops
-      fbdev: ps3fb: Init owner field of struct fb_ops
-      fbdev: vfb: Init owner field of struct fb_ops
-
-Uwe Kleine-K=F6nig (45):
-      fbdev: cg14: Convert to platform remove callback returning void
-      fbdev: cg3: Convert to platform remove callback returning void
-      fbdev: cg6: Convert to platform remove callback returning void
-      fbdev: clps711x-fb: Convert to platform remove callback returning vo=
-id
-      fbdev: cobalt_lcdfb: Convert to platform remove callback returning v=
-oid
-      fbdev: da8xx-fb: Convert to platform remove callback returning void
-      fbdev: efifb: Convert to platform remove callback returning void
-      fbdev: ep93xx-fb: Convert to platform remove callback returning void
-      fbdev: ffb: Convert to platform remove callback returning void
-      fbdev: fsl-diu-fb: Convert to platform remove callback returning voi=
-d
-      fbdev: gbefb: Convert to platform remove callback returning void
-      fbdev: goldfishfb: Convert to platform remove callback returning voi=
-d
-      fbdev: grvga: Convert to platform remove callback returning void
-      fbdev: hecubafb: Convert to platform remove callback returning void
-      fbdev: hgafb: Convert to platform remove callback returning void
-      fbdev: hitfb: Convert to platform remove callback returning void
-      fbdev: imxfb: Convert to platform remove callback returning void
-      fbdev: leo: Convert to platform remove callback returning void
-      fbdev: mb862xx: Convert to platform remove callback returning void
-      fbdev: metronomefb: Convert to platform remove callback returning vo=
-id
-      fbdev: mx3fb: Convert to platform remove callback returning void
-      fbdev: ocfb: Convert to platform remove callback returning void
-      fbdev: offb: Convert to platform remove callback returning void
-      fbdev: omapfb: Convert to platform remove callback returning void
-      fbdev: p9100: Convert to platform remove callback returning void
-      fbdev: platinumfb: Convert to platform remove callback returning voi=
-d
-      fbdev: pxa168fb: Convert to platform remove callback returning void
-      fbdev: pxa3xx-gcu: Convert to platform remove callback returning voi=
-d
-      fbdev: pxafb: Convert to platform remove callback returning void
-      fbdev: s1d13xxxfb: Convert to platform remove callback returning voi=
-d
-      fbdev: s3c-fb: Convert to platform remove callback returning void
-      fbdev: sh7760fb: Convert to platform remove callback returning void
-      fbdev: sh_mobile_lcdcfb: Convert to platform remove callback returni=
-ng void
-      fbdev: simplefb: Convert to platform remove callback returning void
-      fbdev: sm501fb: Convert to platform remove callback returning void
-      fbdev: tcx: Convert to platform remove callback returning void
-      fbdev: uvesafb: Convert to platform remove callback returning void
-      fbdev: vesafb: Convert to platform remove callback returning void
-      fbdev: vfb: Convert to platform remove callback returning void
-      fbdev: vga16fb: Convert to platform remove callback returning void
-      fbdev: via: Convert to platform remove callback returning void
-      fbdev: vt8500lcdfb: Convert to platform remove callback returning vo=
-id
-      fbdev: wm8505fb: Convert to platform remove callback returning void
-      fbdev: wmt_ge_rops: Convert to platform remove callback returning vo=
-id
-      fbdev: xilinxfb: Convert to platform remove callback returning void
-
- MAINTAINERS                                    | 3 +--
- drivers/video/fbdev/68328fb.c                  | 1 +
- drivers/video/fbdev/cg14.c                     | 6 ++----
- drivers/video/fbdev/cg3.c                      | 6 ++----
- drivers/video/fbdev/cg6.c                      | 6 ++----
- drivers/video/fbdev/clps711x-fb.c              | 6 ++----
- drivers/video/fbdev/cobalt_lcdfb.c             | 6 ++----
- drivers/video/fbdev/da8xx-fb.c                 | 6 ++----
- drivers/video/fbdev/efifb.c                    | 6 ++----
- drivers/video/fbdev/ep93xx-fb.c                | 6 ++----
- drivers/video/fbdev/ffb.c                      | 6 ++----
- drivers/video/fbdev/fsl-diu-fb.c               | 6 ++----
- drivers/video/fbdev/gbefb.c                    | 6 ++----
- drivers/video/fbdev/goldfishfb.c               | 5 ++---
- drivers/video/fbdev/grvga.c                    | 6 ++----
- drivers/video/fbdev/hecubafb.c                 | 5 ++---
- drivers/video/fbdev/hgafb.c                    | 6 ++----
- drivers/video/fbdev/hitfb.c                    | 6 ++----
- drivers/video/fbdev/imxfb.c                    | 6 ++----
- drivers/video/fbdev/leo.c                      | 6 ++----
- drivers/video/fbdev/mb862xx/mb862xxfbdrv.c     | 5 ++---
- drivers/video/fbdev/metronomefb.c              | 5 ++---
- drivers/video/fbdev/mmp/hw/mmp_ctrl.c          | 2 +-
- drivers/video/fbdev/mx3fb.c                    | 5 ++---
- drivers/video/fbdev/ocfb.c                     | 6 ++----
- drivers/video/fbdev/offb.c                     | 8 +++-----
- drivers/video/fbdev/omap/omapfb_main.c         | 6 ++----
- drivers/video/fbdev/omap2/omapfb/dss/core.c    | 6 ++----
- drivers/video/fbdev/omap2/omapfb/dss/dispc.c   | 5 ++---
- drivers/video/fbdev/omap2/omapfb/dss/dpi.c     | 5 ++---
- drivers/video/fbdev/omap2/omapfb/dss/dsi.c     | 5 ++---
- drivers/video/fbdev/omap2/omapfb/dss/dss.c     | 5 ++---
- drivers/video/fbdev/omap2/omapfb/dss/hdmi4.c   | 5 ++---
- drivers/video/fbdev/omap2/omapfb/dss/hdmi5.c   | 5 ++---
- drivers/video/fbdev/omap2/omapfb/dss/sdi.c     | 5 ++---
- drivers/video/fbdev/omap2/omapfb/dss/venc.c    | 5 ++---
- drivers/video/fbdev/omap2/omapfb/omapfb-main.c | 6 ++----
- drivers/video/fbdev/p9100.c                    | 6 ++----
- drivers/video/fbdev/platinumfb.c               | 6 ++----
- drivers/video/fbdev/ps3fb.c                    | 1 +
- drivers/video/fbdev/pxa168fb.c                 | 8 +++-----
- drivers/video/fbdev/pxa3xx-gcu.c               | 6 ++----
- drivers/video/fbdev/pxafb.c                    | 8 +++-----
- drivers/video/fbdev/s1d13xxxfb.c               | 5 ++---
- drivers/video/fbdev/s3c-fb.c                   | 6 ++----
- drivers/video/fbdev/sh7760fb.c                 | 6 ++----
- drivers/video/fbdev/sh_mobile_lcdcfb.c         | 5 ++---
- drivers/video/fbdev/simplefb.c                 | 6 ++----
- drivers/video/fbdev/sm501fb.c                  | 6 ++----
- drivers/video/fbdev/tcx.c                      | 6 ++----
- drivers/video/fbdev/uvesafb.c                  | 6 ++----
- drivers/video/fbdev/vesafb.c                   | 6 ++----
- drivers/video/fbdev/vfb.c                      | 6 +++---
- drivers/video/fbdev/vga16fb.c                  | 6 ++----
- drivers/video/fbdev/via/via-gpio.c             | 5 ++---
- drivers/video/fbdev/via/via_i2c.c              | 5 ++---
- drivers/video/fbdev/vt8500lcdfb.c              | 6 ++----
- drivers/video/fbdev/wm8505fb.c                 | 6 ++----
- drivers/video/fbdev/wmt_ge_rops.c              | 5 ++---
- drivers/video/fbdev/xilinxfb.c                 | 6 ++----
- include/linux/vt_buffer.h                      | 2 +-
- 61 files changed, 121 insertions(+), 212 deletions(-)
