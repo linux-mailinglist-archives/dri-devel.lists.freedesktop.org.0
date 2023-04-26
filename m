@@ -2,63 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD80B6EF707
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Apr 2023 17:01:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D35B26EF773
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Apr 2023 17:06:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D65E510E9DD;
-	Wed, 26 Apr 2023 15:01:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4BAB110E99E;
+	Wed, 26 Apr 2023 15:06:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 45EA610E9DD
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Apr 2023 15:01:53 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 11E0010E99E
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Apr 2023 15:06:29 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 6CAD51FDD1;
- Wed, 26 Apr 2023 15:01:50 +0000 (UTC)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 9A39C1FDD2;
+ Wed, 26 Apr 2023 15:06:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1682521310; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1682521588; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=RQSFVHVOoRHRUw8fHhZjYmJzL02ujbgo5LxbCfRcENY=;
- b=J83HeokaXTJbycgYxym8PIVl6vcTLrffYms0AmouufncXqMCJyDK+kZaQDYzoA8sn13lyB
- Xo5l08tH7WzdAap3lx68+puwtCXfSIX3qEYPf/gt0P9kRMVwtanvdphoM2BKlpJQo1nWs5
- m81jRMy8a0P9MHHY5yDuvI1bHes8CvY=
+ bh=+FH2kz2J/j6o/wPVOyeJutn89PZiJ36fgd3yf/d+JfA=;
+ b=W4Qj9Ld/jmeCJfD87Xn9nJ7FzdDJnCsCGNzhIHiw373INqZ5XSSl3CVFXJM4xvStMOAP/+
+ lyVi0mswxX0nvZt4dRnnPhittgB0RKunQJX7OjDeXFG/hl/Tii7a4wzSDuKF0JpjJTh2jl
+ Bwwrt3kC+mPZGwPxtZ2W1K8eUIfTCeQ=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1682521310;
+ s=susede2_ed25519; t=1682521588;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=RQSFVHVOoRHRUw8fHhZjYmJzL02ujbgo5LxbCfRcENY=;
- b=sCWCCMFQyEqzjuT1fXyixgcdZmjL+nfNLmGnE+Dd+XcICUHH1WkEVBFfcygCmZhRnM8aRk
- +S91pO3GjmHxqtDg==
+ bh=+FH2kz2J/j6o/wPVOyeJutn89PZiJ36fgd3yf/d+JfA=;
+ b=b50vz4zPsjTnE0y/AElrqRPdjYYrrh/KX3EUAtc36au+OVuYug4b058AUOSU5d3nTVvx9n
+ DapltiRhFBtlx+Ag==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 3211B13421;
- Wed, 26 Apr 2023 15:01:50 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 620B913421;
+ Wed, 26 Apr 2023 15:06:28 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id 2j0zC948SWTidAAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Wed, 26 Apr 2023 15:01:50 +0000
-Message-ID: <c6cf2f7c-ef32-287c-2b3a-e08a96176af5@suse.de>
-Date: Wed, 26 Apr 2023 17:01:49 +0200
+ by imap2.suse-dmz.suse.de with ESMTPSA id WrXiFvQ9SWQ6dwAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Wed, 26 Apr 2023 15:06:28 +0000
+Message-ID: <1d81e4cc-5079-12a7-4cf5-c31879396e56@suse.de>
+Date: Wed, 26 Apr 2023 17:06:27 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.10.0
-Subject: Re: [PATCH 1/6] fbdev: Return number of bytes read or written
+Subject: Re: [PATCH 5/6] fbdev: Move CFB read and write code into helper
+ functions
 Content-Language: en-US
 To: Geert Uytterhoeven <geert@linux-m68k.org>
 References: <20230425142846.730-1-tzimmermann@suse.de>
- <20230425142846.730-2-tzimmermann@suse.de>
- <CAMuHMdUUO3oC5+f9G=scwcySr17puO3ozrW746xcuhAkWGy8tg@mail.gmail.com>
+ <20230425142846.730-6-tzimmermann@suse.de>
+ <CAMuHMdU-_w9yQHYhOCD3cz4CEY6ag-dTXjuHSLnzty0hAMBbXw@mail.gmail.com>
 From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <CAMuHMdUUO3oC5+f9G=scwcySr17puO3ozrW746xcuhAkWGy8tg@mail.gmail.com>
+In-Reply-To: <CAMuHMdU-_w9yQHYhOCD3cz4CEY6ag-dTXjuHSLnzty0hAMBbXw@mail.gmail.com>
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="------------uofbEGIb9XqGLbtFxtnyA1HZ"
+ boundary="------------r5TkLtDRp0yqxLfwSn0Scbim"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,8 +79,8 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------uofbEGIb9XqGLbtFxtnyA1HZ
-Content-Type: multipart/mixed; boundary="------------1YFCLrKUn5J6j7Iaewa96rm0";
+--------------r5TkLtDRp0yqxLfwSn0Scbim
+Content-Type: multipart/mixed; boundary="------------MdMefs1OOZp0W1ibMx4XFf4E";
  protected-headers="v1"
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: Geert Uytterhoeven <geert@linux-m68k.org>
@@ -87,45 +88,75 @@ Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
  daniel@ffwll.ch, javierm@redhat.com, deller@gmx.de,
  sudipm.mukherjee@gmail.com, teddy.wang@siliconmotion.com,
  dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org
-Message-ID: <c6cf2f7c-ef32-287c-2b3a-e08a96176af5@suse.de>
-Subject: Re: [PATCH 1/6] fbdev: Return number of bytes read or written
+Message-ID: <1d81e4cc-5079-12a7-4cf5-c31879396e56@suse.de>
+Subject: Re: [PATCH 5/6] fbdev: Move CFB read and write code into helper
+ functions
 References: <20230425142846.730-1-tzimmermann@suse.de>
- <20230425142846.730-2-tzimmermann@suse.de>
- <CAMuHMdUUO3oC5+f9G=scwcySr17puO3ozrW746xcuhAkWGy8tg@mail.gmail.com>
-In-Reply-To: <CAMuHMdUUO3oC5+f9G=scwcySr17puO3ozrW746xcuhAkWGy8tg@mail.gmail.com>
+ <20230425142846.730-6-tzimmermann@suse.de>
+ <CAMuHMdU-_w9yQHYhOCD3cz4CEY6ag-dTXjuHSLnzty0hAMBbXw@mail.gmail.com>
+In-Reply-To: <CAMuHMdU-_w9yQHYhOCD3cz4CEY6ag-dTXjuHSLnzty0hAMBbXw@mail.gmail.com>
 
---------------1YFCLrKUn5J6j7Iaewa96rm0
+--------------MdMefs1OOZp0W1ibMx4XFf4E
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: base64
 
-SGkNCg0KQW0gMjYuMDQuMjMgdW0gMTY6NDEgc2NocmllYiBHZWVydCBVeXR0ZXJob2V2ZW46
+SGkNCg0KQW0gMjYuMDQuMjMgdW0gMTc6MDEgc2NocmllYiBHZWVydCBVeXR0ZXJob2V2ZW46
 DQo+IEhpIFRob21hcywNCj4gDQo+IE9uIFR1ZSwgQXByIDI1LCAyMDIzIGF0IDQ6MjjigK9Q
-TSBUaG9tYXMgWmltbWVybWFubiA8dHppbW1lcm1hbm5Ac3VzZS5kZT4gd3JvdGU6DQo+PiBB
-bHdheXMgcmV0dXJuIHRoZSBudW1iZXIgb2YgYnl0ZXMgcmVhZCBvciB3cml0dGVuIHdpdGhp
-biB0aGUNCj4+IGZyYW1lYnVmZmVyLiBPbmx5IHJldHVybiBhbiBlcnJubyBjb2RlIGlmIGZy
-YW1lYnVmZmVyIG1lbW9yeQ0KPj4gd2FzIG5vdCB0b3VjaGVkLiBUaGlzIGlzIHRoZSBzZW1h
-bnRpY3MgcmVxdWlyZWQgYnkgUE9TSVggYW5kDQo+PiBtYWtlcyBmYl9yZWFkKCkgYW5kIGZi
-X3dyaXRlKCkgY29tcGF0aWJsZSB3aXRoIElHVCB0ZXN0cy4gWzFdDQo+Pg0KPj4gVGhpcyBi
-dWcgaGFzIGJlZW4gZml4ZWQgZm9yIGZiX3dyaXRlKCkgbG9uZyBhZ28gYnkNCj4+IGNvbW1p
-dCA2YTJhODg2NjhlOTAgKCJbUEFUQ0hdIGZiZGV2OiBGaXggcmV0dXJuIGVycm9yIG9mDQo+
-PiBmYl93cml0ZSIpLiBUaGUgY29kZSBpbiBmYl9yZWFkKCkgYW5kIHRoZSBjb3JyZXNwb25k
-aW5nIGZiX3N5c18oKQ0KPj4gaGVscGVycyB3YXMgZm9yZ290dGVuLg0KPj4NCj4+IFNpZ25l
-ZC1vZmYtYnk6IFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPg0KPj4g
-TGluazogaHR0cHM6Ly9naXRsYWIuZnJlZWRlc2t0b3Aub3JnL2RybS9pZ3QtZ3B1LXRvb2xz
-Ly0vYmxvYi9tYXN0ZXIvdGVzdHMvZmJkZXYuYyAjIDENCj4gDQo+IFRoYW5rcyBmb3IgeW91
-ciBwYXRjaCENCj4gDQo+PiAtLS0gYS9kcml2ZXJzL3ZpZGVvL2ZiZGV2L2NvcmUvZmJtZW0u
-Yw0KPj4gKysrIGIvZHJpdmVycy92aWRlby9mYmRldi9jb3JlL2ZibWVtLmMNCj4+IEBAIC04
-MjAsNyArODIwLDcgQEAgZmJfcmVhZChzdHJ1Y3QgZmlsZSAqZmlsZSwgY2hhciBfX3VzZXIg
-KmJ1Ziwgc2l6ZV90IGNvdW50LCBsb2ZmX3QgKnBwb3MpDQo+Pg0KPj4gICAgICAgICAga2Zy
-ZWUoYnVmZmVyKTsNCj4+DQo+PiAtICAgICAgIHJldHVybiAoZXJyKSA/IGVyciA6IGNudDsN
-Cj4+ICsgICAgICAgcmV0dXJuIGNudCA/IGNudCA6IGVycjsNCj4+ICAgfQ0KPiANCj4gTG9v
-a3MgYWxsIGdvb2QgdG8gbWUsIHNvDQo+IFJldmlld2VkLWJ5OiBHZWVydCBVeXR0ZXJob2V2
-ZW4gPGdlZXJ0K3JlbmVzYXNAZ2xpZGVyLmJlPg0KPiANCj4gSG93ZXZlciwgc2hvdWxkbid0
-IHRoZSBjb3B5X3RvX3VzZXIoKSBoYW5kbGluZyBpbiBmYl9yZWFkKCkgYmUgZml4ZWQsDQo+
-IHRvbz8NCg0KVGhhdCdzIGEgZ29vZCBwb2ludC4gSXQgZG9lc24ndCBuZWNlc3NhcmlseSBj
-b3B5IGFsbCBnaXZlbiBieXRlcyBhbmQgY2FuIA0KdGh1cyByZXR1cm4gdGhlIHdyb25nIHJl
-c3VsdC4gVGhlIElHVCB0ZXN0cyBwYXNzZWQgYW55d2F5LCBidXQgSSdsbCBmaXggDQppdCBp
-biB2Mi4NCg0KQmVzdCByZWdhcmRzDQpUaG9tYXMNCg0KPiANCj4gR3J7b2V0amUsZWV0aW5n
+TSBUaG9tYXMgWmltbWVybWFubiA8dHppbW1lcm1hbm5Ac3VzZS5kZT4gd3JvdGU6DQo+PiBN
+b3ZlIHRoZSBleGlzdGluZyBDRkIgcmVhZCBhbmQgd3JpdGUgY29kZSBmb3IgSS9PIG1lbW9y
+eSBpbnRvDQo+PiB0aGUgbmV3IGhlbHBlcnMgZmJfY2ZiX3JlYWQoKSBhbmQgZmJfY2ZiX3dy
+aXRlKCkuIE1ha2UgdGhlbSB0aGUNCj4+IGRlZmF1bHQgZnBfb3BzLiBObyBmdW5jdGlvbmFs
+IGNoYW5nZXMuDQo+Pg0KPj4gU2lnbmVkLW9mZi1ieTogVGhvbWFzIFppbW1lcm1hbm4gPHR6
+aW1tZXJtYW5uQHN1c2UuZGU+DQo+PiAtLS0NCj4+ICAgZHJpdmVycy92aWRlby9mYmRldi9j
+b3JlL01ha2VmaWxlICAgICAgfCAgIDIgKy0NCj4+ICAgZHJpdmVycy92aWRlby9mYmRldi9j
+b3JlL2ZiX2NmYl9mb3BzLmMgfCAxMjYgKysrKysrKysrKysrKysrKysrKysrKysrKw0KPj4g
+ICBkcml2ZXJzL3ZpZGVvL2ZiZGV2L2NvcmUvZmJtZW0uYyAgICAgICB8IDExMyArLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tDQo+PiAgIGluY2x1ZGUvbGludXgvZmIuaCAgICAgICAgICAgICAg
+ICAgICAgIHwgIDEwICsrDQo+PiAgIDQgZmlsZXMgY2hhbmdlZCwgMTM5IGluc2VydGlvbnMo
+KyksIDExMiBkZWxldGlvbnMoLSkNCj4+ICAgY3JlYXRlIG1vZGUgMTAwNjQ0IGRyaXZlcnMv
+dmlkZW8vZmJkZXYvY29yZS9mYl9jZmJfZm9wcy5jDQo+IA0KPiBXaGlsZSB0aGUgZ2VuZXJh
+bCBpZGVhIGlzIGZpbmUsIHBsZWFzZSBkbyBub3QgY2FsbCBhbnkgb2YgdGhpcyAiY2ZiIiwN
+Cj4gYXMgaXQgaXMgbm90IHJlbGF0ZWQgdG8gY2h1bmt5IGNvbG9yIGZyYW1lIGJ1ZmZlciBm
+b3JtYXRzLg0KPiBBbGwgb2YgdGhlc2Ugb3BlcmF0ZSBvbiB0aGUgcmF3IGZyYW1lIGJ1ZmZl
+ciBjb250ZW50cy4NCg0KU2hhbGwgSSBjYWxsIGl0IGZiX3Jhd18oKSBvciBmYl9pb18oKT8N
+Cg0KQ0ZCIGlzIHVzZWQgYnkgdGhlIGRyYXdpbmcgaGVscGVycywgd2hpY2ggYXJlIHVzdWFs
+bHkgdXNlZCB0b2dldGhlciB3aXRoIA0KdGhpcyBjb2RlLiBIZW5jZSB0aGUgY3VycmVudCBu
+YW1pbmcuDQoNCkJlc3QgcmVnYXJkcw0KVGhvbWFzDQoNCg0KPiANCj4+IC0tLSAvZGV2L251
+bGwNCj4+ICsrKyBiL2RyaXZlcnMvdmlkZW8vZmJkZXYvY29yZS9mYl9jZmJfZm9wcy5jDQo+
+PiBAQCAtMCwwICsxLDEyNiBAQA0KPj4gKy8vIFNQRFgtTGljZW5zZS1JZGVudGlmaWVyOiBH
+UEwtMi4wDQo+PiArDQo+PiArI2luY2x1ZGUgPGxpbnV4L2ZiLmg+DQo+PiArI2luY2x1ZGUg
+PGxpbnV4L21vZHVsZS5oPg0KPj4gKyNpbmNsdWRlIDxsaW51eC91YWNjZXNzLmg+DQo+PiAr
+DQo+PiArc3NpemVfdCBmYl9jZmJfcmVhZChzdHJ1Y3QgZmJfaW5mbyAqaW5mbywgY2hhciBf
+X3VzZXIgKmJ1Ziwgc2l6ZV90IGNvdW50LCBsb2ZmX3QgKnBwb3MpDQo+PiArew0KPiANCj4g
+Wy4uLl0NCj4gDQo+PiArICAgICAgIHdoaWxlIChjb3VudCkgew0KPj4gKyAgICAgICAgICAg
+ICAgIGMgID0gKGNvdW50ID4gUEFHRV9TSVpFKSA/IFBBR0VfU0laRSA6IGNvdW50Ow0KPj4g
+KyAgICAgICAgICAgICAgIGRzdCA9IGJ1ZmZlcjsNCj4+ICsgICAgICAgICAgICAgICBmYl9t
+ZW1jcHlfZnJvbWZiKGRzdCwgc3JjLCBjKTsNCj4+ICsgICAgICAgICAgICAgICBkc3QgKz0g
+YzsNCj4+ICsgICAgICAgICAgICAgICBzcmMgKz0gYzsNCj4+ICsNCj4+ICsgICAgICAgICAg
+ICAgICBpZiAoY29weV90b191c2VyKGJ1ZiwgYnVmZmVyLCBjKSkgew0KPiANCj4gU28gaGVy
+ZSdzIHN0aWxsIHRoZSBidWdneSBjb3B5X3RvX3VzZXIoKSBoYW5kbGluZywgY29waWVkIGZy
+b20gZmJfcmVhZCgpLg0KPiANCj4+ICsgICAgICAgICAgICAgICAgICAgICAgIGVyciA9IC1F
+RkFVTFQ7DQo+PiArICAgICAgICAgICAgICAgICAgICAgICBicmVhazsNCj4+ICsgICAgICAg
+ICAgICAgICB9DQo+PiArICAgICAgICAgICAgICAgKnBwb3MgKz0gYzsNCj4+ICsgICAgICAg
+ICAgICAgICBidWYgKz0gYzsNCj4+ICsgICAgICAgICAgICAgICBjbnQgKz0gYzsNCj4+ICsg
+ICAgICAgICAgICAgICBjb3VudCAtPSBjOw0KPj4gKyAgICAgICB9DQo+PiArDQo+PiArICAg
+ICAgIGtmcmVlKGJ1ZmZlcik7DQo+PiArDQo+PiArICAgICAgIHJldHVybiBjbnQgPyBjbnQg
+OiBlcnI7DQo+PiArfQ0KPj4gK0VYUE9SVF9TWU1CT0woZmJfY2ZiX3JlYWQpOw0KPj4gKw0K
+Pj4gK3NzaXplX3QgZmJfY2ZiX3dyaXRlKHN0cnVjdCBmYl9pbmZvICppbmZvLCBjb25zdCBj
+aGFyIF9fdXNlciAqYnVmLCBzaXplX3QgY291bnQsIGxvZmZfdCAqcHBvcykNCj4+ICt7DQo+
+IA0KPiBbLi4uXQ0KPiANCj4+ICsgICAgICAgd2hpbGUgKGNvdW50KSB7DQo+PiArICAgICAg
+ICAgICAgICAgYyA9IChjb3VudCA+IFBBR0VfU0laRSkgPyBQQUdFX1NJWkUgOiBjb3VudDsN
+Cj4+ICsgICAgICAgICAgICAgICBzcmMgPSBidWZmZXI7DQo+PiArDQo+PiArICAgICAgICAg
+ICAgICAgaWYgKGNvcHlfZnJvbV91c2VyKHNyYywgYnVmLCBjKSkgew0KPiANCj4gQW5kIGNv
+cHlfZnJvbV91c2VyKCksIHRvby4uLg0KPiANCj4+ICsgICAgICAgICAgICAgICAgICAgICAg
+IGVyciA9IC1FRkFVTFQ7DQo+PiArICAgICAgICAgICAgICAgICAgICAgICBicmVhazsNCj4+
+ICsgICAgICAgICAgICAgICB9DQo+PiArDQo+PiArICAgICAgICAgICAgICAgZmJfbWVtY3B5
+X3RvZmIoZHN0LCBzcmMsIGMpOw0KPj4gKyAgICAgICAgICAgICAgIGRzdCArPSBjOw0KPj4g
+KyAgICAgICAgICAgICAgIHNyYyArPSBjOw0KPj4gKyAgICAgICAgICAgICAgICpwcG9zICs9
+IGM7DQo+PiArICAgICAgICAgICAgICAgYnVmICs9IGM7DQo+PiArICAgICAgICAgICAgICAg
+Y250ICs9IGM7DQo+PiArICAgICAgICAgICAgICAgY291bnQgLT0gYzsNCj4+ICsgICAgICAg
+fQ0KPj4gKw0KPj4gKyAgICAgICBrZnJlZShidWZmZXIpOw0KPj4gKw0KPj4gKyAgICAgICBy
+ZXR1cm4gKGNudCkgPyBjbnQgOiBlcnI7DQo+PiArfQ0KPiANCj4gR3J7b2V0amUsZWV0aW5n
 fXMsDQo+IA0KPiAgICAgICAgICAgICAgICAgICAgICAgICAgR2VlcnQNCj4gDQoNCi0tIA0K
 VGhvbWFzIFppbW1lcm1hbm4NCkdyYXBoaWNzIERyaXZlciBEZXZlbG9wZXINClNVU0UgU29m
 dHdhcmUgU29sdXRpb25zIEdlcm1hbnkgR21iSA0KRnJhbmtlbnN0cmFzc2UgMTQ2LCA5MDQ2
@@ -133,27 +164,27 @@ MSBOdWVybmJlcmcsIEdlcm1hbnkNCkdGOiBJdm8gVG90ZXYsIEFuZHJldyBNeWVycywgQW5k
 cmV3IE1jRG9uYWxkLCBCb3VkaWVuIE1vZXJtYW4NCkhSQiAzNjgwOSAoQUcgTnVlcm5iZXJn
 KQ0K
 
---------------1YFCLrKUn5J6j7Iaewa96rm0--
+--------------MdMefs1OOZp0W1ibMx4XFf4E--
 
---------------uofbEGIb9XqGLbtFxtnyA1HZ
+--------------r5TkLtDRp0yqxLfwSn0Scbim
 Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="OpenPGP_signature"
 
 -----BEGIN PGP SIGNATURE-----
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmRJPN0FAwAAAAAACgkQlh/E3EQov+Ba
-hQ//dzAWG0xHdkaF0Yqj1p6qZo9r+mSgyZ4NcxH0Hr53UQqzMEOCO66FUcDMGWelBWU1hiDC3ihJ
-TVk+e2E4Y+ZNFiVVxoti6zEz/MsQ1ZYvd9bOML3kw4uyMb2DsyVft8XQAkRAooTomELnqIm+VUJR
-NmiR2LDZ9HZDSG4r5uKDELaAtJ+gMD8nwmlTeBnIotm/dBcYXjynWSmbVXgA06wtE3YY5WhgwoiB
-rW0H7n/5dGPQ1hDYpAvKm3uXnIO5M8zcFBHhIHnpYBBDM4B/aKWLHgel7S3hFxC1sucjkMn770Wf
-57CKw/f4eBxXleIJnE6qjwQe4YBuIFbXic23HNzx2dfhNi8sjhba8dOh2beAupmAu9++6y2WmDwP
-I4BijVeLnzZE7qgzsN9Wd2I0c6ZBw4CoXG7GTECFzpgOJ6lY0aZMemQjgFokwyL/3cT/mEQljde/
-ULxJQepBq709/O7siN+LWVBWFx677TsMrg00m9v7ewt/AOTNHCRQ/KZltMKafG9RLhTUI94LzwGB
-MQC60OGltmKkqeNW/keM9hj0y+s7IZw+sq2NTqBL/2OdAjnlhU+7gzrcivkfWUYmOfBV6zJPXy7s
-YK+Mce8WirGqsJqL/0eViSBAL/3FZdoRBV1bUMV+gOP8zEG+sv1PcZEYm+ALWAZ4Eqaa+ZOa/qOK
-jzM=
-=ai4+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmRJPfMFAwAAAAAACgkQlh/E3EQov+Dr
+8g/8C7ZSWA45wtGGxSyCUoHnM4/jvmcCn3M3dJ3Wx/EsqNedEptbwpH+0iBEjjqttkHsnpKQM9uT
+1q2UP3eu46qu4yAVL94wR/Ws/NdtIjIFIccgugD1uggGNV/uUobkAEAYor3hU0IhnlHiKmXOXSRU
+ci7M2xaSHxvUA803DjBOu0GqAtpRRsk4Va4BMiMz4F5z6wfjotnuDz1f401u3IHh0Kz6EkwReBSc
+0PDhaEhZakbqfKmiwibZ/FXn1tCug0tgA7d9P+woYumGnMd2Afx7W9d5m83AIGHplhoWG1QJJnl2
+3XbBzL/xp3GNx6EDVTix+b+uYTStun4c8YjcI5Lb+A2eQX1gDrxJRGAw0bK1hfdRtQsx6BXljCfr
+e+5OPuUUQPq+OsAx5rCLhivF86cXTshk4KdaC/x6/9YaBUEQJxGbQAxqJWqOeZ8NMkUjYW01LNpA
+UfoPdK4dbg78tZ1VMUBIzhk3dwFcVJVCHzzrAxGOvRy+wyRkp39bHo09EmCcPABViFVv2eLfLevm
+mgS+OiHGK3f+D/V+djT3DSQB4e+PCkEfvDf45e2kNoV1jXGp9H5UuODCUY19+aKFstQ6WcqowaJN
+76HPCTIM7I/OcD6Fa4251Nqker0Iv9Wvrtf55+17St87D0oAtGr/CplHRwfxi6httq7eotNOxYB1
+pXA=
+=s5rI
 -----END PGP SIGNATURE-----
 
---------------uofbEGIb9XqGLbtFxtnyA1HZ--
+--------------r5TkLtDRp0yqxLfwSn0Scbim--
