@@ -1,69 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BCA06EEC3B
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Apr 2023 04:06:50 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FEAC6EEC52
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Apr 2023 04:22:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B751710E865;
-	Wed, 26 Apr 2023 02:06:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BAF0410E869;
+	Wed, 26 Apr 2023 02:22:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com
- [IPv6:2a00:1450:4864:20::12a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B933010E865
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Apr 2023 02:06:43 +0000 (UTC)
-Received: by mail-lf1-x12a.google.com with SMTP id
- 2adb3069b0e04-4ec816d64afso28166659e87.1
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Apr 2023 19:06:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1682474799; x=1685066799;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=utUfWrMHit0AThqCANV9NV1PNt+aeHf9ujwE1UaOGKo=;
- b=Mr4VJc1DpWml0O+kNPHdOhHGJYiK3ltyDmMsitO03YkLSsDjj/Mf0zufM8Cdmmc0JN
- Q+vVUnzd/Zw/MxlEwNQcJc8Dw2i6AX4pHb9qxkd5af1QLuEAmzAkrKMEyiMvj1eTocez
- MFcLikyD5b+VsCFYbHqvKiUYjSR36ASHa5UzM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682474799; x=1685066799;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=utUfWrMHit0AThqCANV9NV1PNt+aeHf9ujwE1UaOGKo=;
- b=I0AHe/ApSeKEx5tT6vBqvI13tC4NIoXSIw49LhWKk7AIog/iyv0X5JfGb4WHEzNICC
- +sh0H+Tdfj8zLf49IGHlW0T9zxd/6UCBHLKSeMYBppgtYFbQ0gQg/7OJnMZo2LKGal9b
- dG/y03cqqsy9kGOb6cUXgkYuIHK3MZTrJVJDbpupDCH0jeE+2DZ9x2dDKZqPR/6/Zp2c
- a3zGGRwXCbaiU06W0G3+M1ZUtOxf7mr6Z7jo4k5OQSycAkilNnxAioJgwq2uh/PadisH
- uFbF3YOmgmXhfGxVbua/tG33JssQP8QZLGrSlZQnFu2zpHM/u0MmOn14Taf/9efGTGtk
- ny7A==
-X-Gm-Message-State: AC+VfDwG1SaCn9NdSEnAnmJ3BMTrtmL9G4mpwRdZHoqteidBG6sNnKz1
- HUAA7sRxbpeeEhngBirppJFR1qtRH4XFt+W4QTnYLA==
-X-Google-Smtp-Source: ACHHUZ5LvkJzGYMHa2mljsaAf1dtcn4AKfQxXxNgrnu/lYn6s9fSieMSxWE8ilul2GRTN3irsoRJiw==
-X-Received: by 2002:ac2:46cf:0:b0:4ef:f064:263b with SMTP id
- p15-20020ac246cf000000b004eff064263bmr184712lfo.12.1682474799756; 
- Tue, 25 Apr 2023 19:06:39 -0700 (PDT)
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com.
- [209.85.167.51]) by smtp.gmail.com with ESMTPSA id
- y18-20020a197512000000b004efd39ef3c2sm1911573lfe.179.2023.04.25.19.06.38
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 25 Apr 2023 19:06:38 -0700 (PDT)
-Received: by mail-lf1-f51.google.com with SMTP id
- 2adb3069b0e04-4efd5e4d302so6372e87.0
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Apr 2023 19:06:38 -0700 (PDT)
-X-Received: by 2002:a05:6512:3d90:b0:4ed:d7d:d141 with SMTP id
- k16-20020a0565123d9000b004ed0d7dd141mr94580lfv.6.1682474798152; Tue, 25 Apr
- 2023 19:06:38 -0700 (PDT)
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9FD7710E864;
+ Wed, 26 Apr 2023 02:22:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1682475744; x=1714011744;
+ h=date:from:to:cc:subject:message-id:mime-version:
+ content-transfer-encoding;
+ bh=8SZ3I2m1PTCJhxsTYgIZ6hOWIPZ8k9drMMvfpZQsbdc=;
+ b=Q9szV3EAdzOmKPWKe+Kp557gU8TXj7StyyvCojDUQrxSlebOxiwBrNZq
+ 73RduoaRZe64iMbBWL7u6UB9jc4CI+zRRhFsoF++nYuTYDll7+4lwbqbv
+ dn45EeTdgyRg17ku9NKJq0n9V6USnO6qFP9EoiWxdVpCqK2AGVlw8pJMO
+ pnIXLZRKNaFe/hQdG3urhghdBZeHcwyXElv5SZ8M3OcLsoUgLihMITenG
+ Mf/i5EtY6fZuyMsnz2KRpmCWq/fAMEEHy8TppmqBkMPW2Xsy9isYKnlMZ
+ BBfSGoNS36nOCsh0+whfkB1GP0XqXsm4b/OkBGQx6RZQlxuSk6dCFLfR6 g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10691"; a="346991732"
+X-IronPort-AV: E=Sophos;i="5.99,227,1677571200"; d="scan'208";a="346991732"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Apr 2023 19:22:21 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10691"; a="644061305"
+X-IronPort-AV: E=Sophos;i="5.99,227,1677571200"; d="scan'208";a="644061305"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+ by orsmga003.jf.intel.com with ESMTP; 25 Apr 2023 19:22:13 -0700
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1prUnM-000k0m-1o;
+ Wed, 26 Apr 2023 02:22:12 +0000
+Date: Wed, 26 Apr 2023 10:21:14 +0800
+From: kernel test robot <lkp@intel.com>
+To: Andrew Morton <akpm@linux-foundation.org>
+Subject: [linux-next:master] BUILD REGRESSION
+ f600e0bbde8562a06bee31b3eb1b69d49acac4c5
+Message-ID: <64488a9a.Dl/ldFuPHOHNov5Q%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-References: <20230425073012.11036-1-marius.vlad@collabora.com>
-In-Reply-To: <20230425073012.11036-1-marius.vlad@collabora.com>
-From: Brandon Ross Pollack <brpol@chromium.org>
-Date: Wed, 26 Apr 2023 11:06:26 +0900
-X-Gmail-Original-Message-ID: <CALWYx-a90Zee0_js5h=53bxsN-BXxumiGid-qc=9405ZkUE-gg@mail.gmail.com>
-Message-ID: <CALWYx-a90Zee0_js5h=53bxsN-BXxumiGid-qc=9405ZkUE-gg@mail.gmail.com>
-Subject: Re: [PATCH v3 0/3] drm/vkms: Add support for multiple pipes
-To: Marius Vlad <marius.vlad@collabora.com>, yixie@chromium.org
-Content-Type: multipart/alternative; boundary="000000000000b05a3a05fa33b0c2"
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,154 +59,328 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: melissa.srw@gmail.com, rodrigosiqueiramelo@gmail.com, mcanal@igalia.com,
- dri-devel@lists.freedesktop.org, mwen@igalia.com, tzimmermann@suse.de,
- igormtorrente@gmail.com
+Cc: Linux Memory Management List <linux-mm@kvack.org>,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-spi@vger.kernel.org, linux-acpi@vger.kernel.org,
+ Mark Brown <broonie@kernel.org>, linux-mediatek@lists.infradead.org,
+ amd-gfx@lists.freedesktop.org, linux-ext4@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---000000000000b05a3a05fa33b0c2
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+branch HEAD: f600e0bbde8562a06bee31b3eb1b69d49acac4c5  Add linux-next specific files for 20230425
 
-We're doing/planning on doing similar or related work here at chromium.
+Error/Warning reports:
 
-https://patchwork.kernel.org/project/dri-devel/list/?series=3D662676&submit=
-ter=3D&state=3D&q=3D&delegate=3D&archive=3Dboth
+https://lore.kernel.org/oe-kbuild-all/202304102354.Q4VOXGTE-lkp@intel.com
+https://lore.kernel.org/oe-kbuild-all/202304140707.CoH337Ux-lkp@intel.com
+https://lore.kernel.org/oe-kbuild-all/202304210303.nlMI0sRQ-lkp@intel.com
+https://lore.kernel.org/oe-kbuild-all/202304210349.DykCi88S-lkp@intel.com
+https://lore.kernel.org/oe-kbuild-all/202304230014.YbScpx20-lkp@intel.com
+https://lore.kernel.org/oe-kbuild-all/202304260503.EVDTG0PJ-lkp@intel.com
 
-Here's the stuff we have now (we're currently rebasing and touching it up,
-myself and @Yi Xie <yixie@google.com> will be taking over this work.
+Error/Warning: (recently discovered and may have been fixed)
 
-Our plans are to add configFS changes and DRI VKMS changes to be able to
-add and remove virtual displays at runtime (among other things needed for
-our own testing purposes for our Exo wayland implementation).
+drivers/accel/habanalabs/gaudi/gaudi.c:117:19: warning: unused variable 'gaudi_irq_name' [-Wunused-const-variable]
+drivers/base/regmap/regcache-maple.c:113:23: warning: 'lower_index' is used uninitialized [-Wuninitialized]
+drivers/base/regmap/regcache-maple.c:113:36: warning: 'lower_last' is used uninitialized [-Wuninitialized]
+drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:458:16: warning: variable 'j' set but not used [-Wunused-but-set-variable]
+drivers/gpu/drm/amd/amdgpu/gfx_v9_4_3.c:1078:6: warning: no previous prototype for 'gfx_v9_4_3_disable_gpa_mode' [-Wmissing-prototypes]
+drivers/gpu/drm/i915/gt/uc/guc_capture_fwif.h:62: warning: wrong kernel-doc identifier on line:
+drivers/gpu/drm/i915/i915_pmu.h:41: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+drivers/gpu/drm/i915/i915_request.h:176: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+drivers/gpu/drm/i915/i915_vma.h:145: warning: expecting prototype for i915_vma_offset(). Prototype was for i915_vma_size() instead
+drivers/phy/mediatek/phy-mtk-hdmi-mt8195.c:298:6: warning: variable 'ret' is uninitialized when used here [-Wuninitialized]
+fs/ext4/super.c:1262:13: warning: unused variable 'i' [-Wunused-variable]
+fs/ext4/super.c:1262:6: warning: unused variable 'i' [-Wunused-variable]
+s390-linux-ld: arc-rimi.c:(.text+0x18c): undefined reference to `iounmap'
 
-We're still learning how this all works and comes together, but it is worth
-letting you know "us too"
+Unverified Error/Warning (likely false positive, please contact us if interested):
 
-We can chat more and see where we overlap and can learn from each other :)
+drivers/acpi/property.c:985 acpi_data_prop_read_single() error: potentially dereferencing uninitialized 'obj'.
 
-On Tue, Apr 25, 2023 at 4:30=E2=80=AFPM Marius Vlad <marius.vlad@collabora.=
-com>
-wrote:
+Error/Warning ids grouped by kconfigs:
 
-> With multiple pipe available we can perform management of outputs at
-> a more granular level, such that we're able to turn off or on several
-> outputs at a time, or combinations that arise from doing that.
->
-> The Weston project use VKMS when running its test suite in CI, and we
-> have now uses cases which would need to ability to set-up the outputs
-> DPMS/state individually, rather than globally -- which would affect all
-> outputs. This an attempt on fixing that by giving the possibility to
-> create more than one pipe, and thus allowing to run tests that could
-> exercise code paths in the compositor related to management of outputs.
->
-> v3:
->   - Apply the series against drm-misc-next (Ma=C3=ADra Canal)
->   - Add a lower range check to avoid passing negative values to
->   max_pipes (Ma=C3=ADra Canal)
->
-> v2:
->   - Replace 'outputs' with 'pipes' as to use the proper terminology
->     (Thomas Zimmermann, Ma=C3=ADra Canal)
->   - Fixed passing wrong possible_crtc bitmask when initializing the
->     write back connector which address kms_writeback failure (Ma=C3=ADra =
-Canal)
->   - Add a feat. note about moving overlay planes between CRTCs (Melissa
-> Wen)
->
-> Marius Vlad (3):
->   vkms: Pass the correct bitmask for possible crtcs
->   vkms: Add support for multiple pipes
->   Documentation/gpu/vkms.rst: Added a note about plane migration
->
->  Documentation/gpu/vkms.rst            |  5 +++--
->  drivers/gpu/drm/vkms/vkms_crtc.c      |  3 +--
->  drivers/gpu/drm/vkms/vkms_drv.c       | 31 +++++++++++++++++++++------
->  drivers/gpu/drm/vkms/vkms_drv.h       | 12 ++++++++---
->  drivers/gpu/drm/vkms/vkms_output.c    |  7 +++---
->  drivers/gpu/drm/vkms/vkms_writeback.c | 24 ++++++++++-----------
->  6 files changed, 53 insertions(+), 29 deletions(-)
->
-> --
-> 2.39.2
->
->
+gcc_recent_errors
+|-- alpha-allyesconfig
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_gfx.c:warning:variable-j-set-but-not-used
+|   `-- drivers-gpu-drm-amd-amdgpu-gfx_v9_4_3.c:warning:no-previous-prototype-for-gfx_v9_4_3_disable_gpa_mode
+|-- alpha-buildonly-randconfig-r006-20230424
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_gfx.c:warning:variable-j-set-but-not-used
+|   `-- drivers-gpu-drm-amd-amdgpu-gfx_v9_4_3.c:warning:no-previous-prototype-for-gfx_v9_4_3_disable_gpa_mode
+|-- alpha-randconfig-r013-20230424
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_gfx.c:warning:variable-j-set-but-not-used
+|   `-- drivers-gpu-drm-amd-amdgpu-gfx_v9_4_3.c:warning:no-previous-prototype-for-gfx_v9_4_3_disable_gpa_mode
+|-- arc-allyesconfig
+|   |-- drivers-base-regmap-regcache-maple.c:warning:lower_index-is-used-uninitialized
+|   |-- drivers-base-regmap-regcache-maple.c:warning:lower_last-is-used-uninitialized
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_gfx.c:warning:variable-j-set-but-not-used
+|   `-- drivers-gpu-drm-amd-amdgpu-gfx_v9_4_3.c:warning:no-previous-prototype-for-gfx_v9_4_3_disable_gpa_mode
+|-- arc-randconfig-c031-20230423
+|   |-- drivers-base-regmap-regcache-maple.c:warning:lower_index-is-used-uninitialized
+|   `-- drivers-base-regmap-regcache-maple.c:warning:lower_last-is-used-uninitialized
+|-- arc-randconfig-m031-20230423
+|   |-- drivers-base-regmap-regcache-maple.c:warning:lower_index-is-used-uninitialized
+|   `-- drivers-base-regmap-regcache-maple.c:warning:lower_last-is-used-uninitialized
+|-- arc-randconfig-r043-20230424
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_gfx.c:warning:variable-j-set-but-not-used
+|   `-- drivers-gpu-drm-amd-amdgpu-gfx_v9_4_3.c:warning:no-previous-prototype-for-gfx_v9_4_3_disable_gpa_mode
+|-- arm-allmodconfig
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_gfx.c:warning:variable-j-set-but-not-used
+|   `-- drivers-gpu-drm-amd-amdgpu-gfx_v9_4_3.c:warning:no-previous-prototype-for-gfx_v9_4_3_disable_gpa_mode
+|-- arm-allyesconfig
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_gfx.c:warning:variable-j-set-but-not-used
+|   `-- drivers-gpu-drm-amd-amdgpu-gfx_v9_4_3.c:warning:no-previous-prototype-for-gfx_v9_4_3_disable_gpa_mode
+|-- arm64-allyesconfig
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_gfx.c:warning:variable-j-set-but-not-used
+|   `-- drivers-gpu-drm-amd-amdgpu-gfx_v9_4_3.c:warning:no-previous-prototype-for-gfx_v9_4_3_disable_gpa_mode
+|-- arm64-randconfig-r031-20230423
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_gfx.c:warning:variable-j-set-but-not-used
+|   `-- drivers-gpu-drm-amd-amdgpu-gfx_v9_4_3.c:warning:no-previous-prototype-for-gfx_v9_4_3_disable_gpa_mode
+|-- i386-allyesconfig
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_gfx.c:warning:variable-j-set-but-not-used
+|   `-- drivers-gpu-drm-amd-amdgpu-gfx_v9_4_3.c:warning:no-previous-prototype-for-gfx_v9_4_3_disable_gpa_mode
+|-- i386-randconfig-a011-20230424
+|   `-- fs-ext4-super.c:warning:unused-variable-i
+|-- i386-randconfig-a016-20230424
+|   `-- fs-ext4-super.c:warning:unused-variable-i
+|-- i386-randconfig-c021
+|   `-- fs-ext4-super.c:warning:unused-variable-i
+|-- i386-randconfig-m021-20230424
+|   `-- drivers-acpi-property.c-acpi_data_prop_read_single()-error:potentially-dereferencing-uninitialized-obj-.
+|-- ia64-allmodconfig
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_gfx.c:warning:variable-j-set-but-not-used
+|   `-- drivers-gpu-drm-amd-amdgpu-gfx_v9_4_3.c:warning:no-previous-prototype-for-gfx_v9_4_3_disable_gpa_mode
+|-- loongarch-allmodconfig
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_gfx.c:warning:variable-j-set-but-not-used
+|   `-- drivers-gpu-drm-amd-amdgpu-gfx_v9_4_3.c:warning:no-previous-prototype-for-gfx_v9_4_3_disable_gpa_mode
+|-- loongarch-defconfig
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_gfx.c:warning:variable-j-set-but-not-used
+|   `-- drivers-gpu-drm-amd-amdgpu-gfx_v9_4_3.c:warning:no-previous-prototype-for-gfx_v9_4_3_disable_gpa_mode
+|-- loongarch-loongson3_defconfig
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_gfx.c:warning:variable-j-set-but-not-used
+|   `-- drivers-gpu-drm-amd-amdgpu-gfx_v9_4_3.c:warning:no-previous-prototype-for-gfx_v9_4_3_disable_gpa_mode
+|-- mips-allmodconfig
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_gfx.c:warning:variable-j-set-but-not-used
+|   `-- drivers-gpu-drm-amd-amdgpu-gfx_v9_4_3.c:warning:no-previous-prototype-for-gfx_v9_4_3_disable_gpa_mode
+|-- mips-allyesconfig
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_gfx.c:warning:variable-j-set-but-not-used
+|   `-- drivers-gpu-drm-amd-amdgpu-gfx_v9_4_3.c:warning:no-previous-prototype-for-gfx_v9_4_3_disable_gpa_mode
+|-- openrisc-buildonly-randconfig-r002-20230424
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_gfx.c:warning:variable-j-set-but-not-used
+|   `-- drivers-gpu-drm-amd-amdgpu-gfx_v9_4_3.c:warning:no-previous-prototype-for-gfx_v9_4_3_disable_gpa_mode
+|-- parisc-randconfig-c043-20230423
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_gfx.c:warning:variable-j-set-but-not-used
+|   `-- drivers-gpu-drm-amd-amdgpu-gfx_v9_4_3.c:warning:no-previous-prototype-for-gfx_v9_4_3_disable_gpa_mode
+|-- parisc-randconfig-s052-20230423
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_gfx.c:warning:variable-j-set-but-not-used
+|   `-- drivers-gpu-drm-amd-amdgpu-gfx_v9_4_3.c:warning:no-previous-prototype-for-gfx_v9_4_3_disable_gpa_mode
+|-- powerpc-allmodconfig
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_gfx.c:warning:variable-j-set-but-not-used
+|   `-- drivers-gpu-drm-amd-amdgpu-gfx_v9_4_3.c:warning:no-previous-prototype-for-gfx_v9_4_3_disable_gpa_mode
+|-- powerpc-randconfig-s031-20230423
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_gfx.c:warning:variable-j-set-but-not-used
+|   |-- drivers-gpu-drm-amd-amdgpu-gfx_v9_4_3.c:warning:no-previous-prototype-for-gfx_v9_4_3_disable_gpa_mode
+|   `-- drivers-spi-spi-fsl-cpm.c:sparse:sparse:incorrect-type-in-assignment-(different-base-types)-expected-unsigned-short-usertype-got-restricted-__le16
+|-- riscv-allmodconfig
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_gfx.c:warning:variable-j-set-but-not-used
+|   `-- drivers-gpu-drm-amd-amdgpu-gfx_v9_4_3.c:warning:no-previous-prototype-for-gfx_v9_4_3_disable_gpa_mode
+|-- riscv-buildonly-randconfig-r005-20230424
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_gfx.c:warning:variable-j-set-but-not-used
+|   `-- drivers-gpu-drm-amd-amdgpu-gfx_v9_4_3.c:warning:no-previous-prototype-for-gfx_v9_4_3_disable_gpa_mode
+|-- s390-allyesconfig
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_gfx.c:warning:variable-j-set-but-not-used
+|   `-- drivers-gpu-drm-amd-amdgpu-gfx_v9_4_3.c:warning:no-previous-prototype-for-gfx_v9_4_3_disable_gpa_mode
+|-- s390-randconfig-r022-20230424
+|   `-- s390-linux-ld:arc-rimi.c:(.text):undefined-reference-to-iounmap
+|-- s390-randconfig-r044-20230424
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_gfx.c:warning:variable-j-set-but-not-used
+|   `-- drivers-gpu-drm-amd-amdgpu-gfx_v9_4_3.c:warning:no-previous-prototype-for-gfx_v9_4_3_disable_gpa_mode
+|-- sparc-allyesconfig
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_gfx.c:warning:variable-j-set-but-not-used
+|   `-- drivers-gpu-drm-amd-amdgpu-gfx_v9_4_3.c:warning:no-previous-prototype-for-gfx_v9_4_3_disable_gpa_mode
+|-- sparc64-buildonly-randconfig-r002-20230423
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_gfx.c:warning:variable-j-set-but-not-used
+|   `-- drivers-gpu-drm-amd-amdgpu-gfx_v9_4_3.c:warning:no-previous-prototype-for-gfx_v9_4_3_disable_gpa_mode
+|-- x86_64-allyesconfig
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_gfx.c:warning:variable-j-set-but-not-used
+|   `-- drivers-gpu-drm-amd-amdgpu-gfx_v9_4_3.c:warning:no-previous-prototype-for-gfx_v9_4_3_disable_gpa_mode
+`-- x86_64-randconfig-m001
+    `-- drivers-acpi-property.c-acpi_data_prop_read_single()-error:potentially-dereferencing-uninitialized-obj-.
+clang_recent_errors
+|-- arm-randconfig-r046-20230424
+|   `-- drivers-phy-mediatek-phy-mtk-hdmi-mt8195.c:warning:variable-ret-is-uninitialized-when-used-here
+|-- i386-randconfig-a001-20230424
+|   `-- fs-ext4-super.c:warning:unused-variable-i
+|-- i386-randconfig-a003-20230424
+|   `-- fs-ext4-super.c:warning:unused-variable-i
+|-- i386-randconfig-a004-20230424
+|   |-- drivers-gpu-drm-i915-gt-uc-guc_capture_fwif.h:warning:wrong-kernel-doc-identifier-on-line:
+|   |-- drivers-gpu-drm-i915-i915_pmu.h:warning:This-comment-starts-with-but-isn-t-a-kernel-doc-comment.-Refer-Documentation-doc-guide-kernel-doc.rst
+|   |-- drivers-gpu-drm-i915-i915_request.h:warning:This-comment-starts-with-but-isn-t-a-kernel-doc-comment.-Refer-Documentation-doc-guide-kernel-doc.rst
+|   `-- drivers-gpu-drm-i915-i915_vma.h:warning:expecting-prototype-for-i915_vma_offset().-Prototype-was-for-i915_vma_size()-instead
+|-- i386-randconfig-a005-20230424
+|   `-- fs-ext4-super.c:warning:unused-variable-i
+|-- x86_64-randconfig-a001-20230424
+|   `-- fs-ext4-super.c:warning:unused-variable-i
+|-- x86_64-randconfig-a003-20230424
+|   `-- fs-ext4-super.c:warning:unused-variable-i
+|-- x86_64-randconfig-a004-20230424
+|   |-- drivers-accel-habanalabs-gaudi-gaudi.c:warning:unused-variable-gaudi_irq_name
+|   `-- fs-ext4-super.c:warning:unused-variable-i
+|-- x86_64-randconfig-a005-20230424
+|   `-- fs-ext4-super.c:warning:unused-variable-i
+|-- x86_64-randconfig-a006-20230424
+|   `-- fs-ext4-super.c:warning:unused-variable-i
+|-- x86_64-randconfig-a012
+|   `-- fs-ext4-super.c:warning:unused-variable-i
+`-- x86_64-randconfig-a014
+    `-- fs-ext4-super.c:warning:unused-variable-i
 
---000000000000b05a3a05fa33b0c2
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+elapsed time: 723m
 
-<div dir=3D"ltr">We&#39;re doing/planning on doing similar or related work =
-here at chromium.<div><br></div><div><a href=3D"https://patchwork.kernel.or=
-g/project/dri-devel/list/?series=3D662676&amp;submitter=3D&amp;state=3D&amp=
-;q=3D&amp;delegate=3D&amp;archive=3Dboth" target=3D"_blank">https://patchwo=
-rk.kernel.org/project/dri-devel/list/?series=3D662676&amp;submitter=3D&amp;=
-state=3D&amp;q=3D&amp;delegate=3D&amp;archive=3Dboth</a><br></div><div><br>=
-</div><div>Here&#39;s the stuff we have now (we&#39;re currently rebasing a=
-nd touching it up, myself=C2=A0and=C2=A0<a class=3D"gmail_plusreply" id=3D"=
-m_2404692483624593004plusReplyChip-0" href=3D"mailto:yixie@google.com" targ=
-et=3D"_blank">@Yi Xie</a>=C2=A0will be taking over this work.</div><div><br=
-></div><div>Our plans are to add configFS changes and DRI VKMS changes to b=
-e able to add and remove virtual displays at runtime (among other things ne=
-eded for our own testing purposes for our Exo wayland implementation).</div=
-><div><br></div><div>We&#39;re still learning how this all works and comes =
-together, but it is worth letting you know &quot;us too&quot;</div><div><br=
-></div><div>We can chat more and see where we overlap and can learn from ea=
-ch other :)</div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" clas=
-s=3D"gmail_attr">On Tue, Apr 25, 2023 at 4:30=E2=80=AFPM Marius Vlad &lt;<a=
- href=3D"mailto:marius.vlad@collabora.com" target=3D"_blank">marius.vlad@co=
-llabora.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=
-=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
--left:1ex">With multiple pipe available we can perform management of output=
-s at<br>
-a more granular level, such that we&#39;re able to turn off or on several<b=
-r>
-outputs at a time, or combinations that arise from doing that. <br>
-<br>
-The Weston project use VKMS when running its test suite in CI, and we<br>
-have now uses cases which would need to ability to set-up the outputs<br>
-DPMS/state individually, rather than globally -- which would affect all<br>
-outputs. This an attempt on fixing that by giving the possibility to<br>
-create more than one pipe, and thus allowing to run tests that could<br>
-exercise code paths in the compositor related to management of outputs.<br>
-<br>
-v3:<br>
-=C2=A0 - Apply the series against drm-misc-next (Ma=C3=ADra Canal)<br>
-=C2=A0 - Add a lower range check to avoid passing negative values to<br>
-=C2=A0 max_pipes (Ma=C3=ADra Canal)<br>
-<br>
-v2:<br>
-=C2=A0 - Replace &#39;outputs&#39; with &#39;pipes&#39; as to use the prope=
-r terminology <br>
-=C2=A0 =C2=A0 (Thomas Zimmermann, Ma=C3=ADra Canal)<br>
-=C2=A0 - Fixed passing wrong possible_crtc bitmask when initializing the<br=
->
-=C2=A0 =C2=A0 write back connector which address kms_writeback failure (Ma=
-=C3=ADra Canal)<br>
-=C2=A0 - Add a feat. note about moving overlay planes between CRTCs (Meliss=
-a Wen)<br>
-<br>
-Marius Vlad (3):<br>
-=C2=A0 vkms: Pass the correct bitmask for possible crtcs<br>
-=C2=A0 vkms: Add support for multiple pipes<br>
-=C2=A0 Documentation/gpu/vkms.rst: Added a note about plane migration<br>
-<br>
-=C2=A0Documentation/gpu/vkms.rst=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=
-=C2=A0 5 +++--<br>
-=C2=A0drivers/gpu/drm/vkms/vkms_crtc.c=C2=A0 =C2=A0 =C2=A0 |=C2=A0 3 +--<br=
->
-=C2=A0drivers/gpu/drm/vkms/vkms_drv.c=C2=A0 =C2=A0 =C2=A0 =C2=A0| 31 ++++++=
-+++++++++++++++------<br>
-=C2=A0drivers/gpu/drm/vkms/vkms_drv.h=C2=A0 =C2=A0 =C2=A0 =C2=A0| 12 ++++++=
-++---<br>
-=C2=A0drivers/gpu/drm/vkms/vkms_output.c=C2=A0 =C2=A0 |=C2=A0 7 +++---<br>
-=C2=A0drivers/gpu/drm/vkms/vkms_writeback.c | 24 ++++++++++-----------<br>
-=C2=A06 files changed, 53 insertions(+), 29 deletions(-)<br>
-<br>
--- <br>
-2.39.2<br>
-<br>
-</blockquote></div>
+configs tested: 136
+configs skipped: 8
 
---000000000000b05a3a05fa33b0c2--
+tested configs:
+alpha                            allyesconfig   gcc  
+alpha        buildonly-randconfig-r006-20230424   gcc  
+alpha                               defconfig   gcc  
+alpha                randconfig-r011-20230423   gcc  
+alpha                randconfig-r013-20230424   gcc  
+arc                              allyesconfig   gcc  
+arc                                 defconfig   gcc  
+arc                     nsimosci_hs_defconfig   gcc  
+arc                  randconfig-r043-20230423   gcc  
+arc                  randconfig-r043-20230424   gcc  
+arm                              allmodconfig   gcc  
+arm                              allyesconfig   gcc  
+arm                         assabet_defconfig   gcc  
+arm          buildonly-randconfig-r004-20230423   gcc  
+arm                                 defconfig   gcc  
+arm                            hisi_defconfig   gcc  
+arm                  randconfig-r015-20230424   clang
+arm                  randconfig-r016-20230423   gcc  
+arm                  randconfig-r023-20230425   gcc  
+arm                  randconfig-r046-20230423   gcc  
+arm                  randconfig-r046-20230424   clang
+arm64                            allyesconfig   gcc  
+arm64                               defconfig   gcc  
+arm64                randconfig-r013-20230423   clang
+arm64                randconfig-r031-20230423   gcc  
+arm64                randconfig-r035-20230423   gcc  
+csky                                defconfig   gcc  
+csky                 randconfig-r021-20230425   gcc  
+csky                 randconfig-r033-20230423   gcc  
+hexagon              randconfig-r004-20230425   clang
+hexagon              randconfig-r014-20230423   clang
+hexagon              randconfig-r041-20230423   clang
+hexagon              randconfig-r041-20230424   clang
+hexagon              randconfig-r045-20230423   clang
+hexagon              randconfig-r045-20230424   clang
+i386                             allyesconfig   gcc  
+i386                              debian-10.3   gcc  
+i386                                defconfig   gcc  
+i386                 randconfig-a001-20230424   clang
+i386                 randconfig-a002-20230424   clang
+i386                 randconfig-a003-20230424   clang
+i386                 randconfig-a004-20230424   clang
+i386                 randconfig-a005-20230424   clang
+i386                 randconfig-a006-20230424   clang
+i386                 randconfig-a011-20230424   gcc  
+i386                 randconfig-a012-20230424   gcc  
+i386                 randconfig-a013-20230424   gcc  
+i386                 randconfig-a014-20230424   gcc  
+i386                 randconfig-a015-20230424   gcc  
+i386                 randconfig-a016-20230424   gcc  
+ia64                             allmodconfig   gcc  
+ia64                                defconfig   gcc  
+ia64                 randconfig-r001-20230425   gcc  
+ia64                 randconfig-r026-20230425   gcc  
+loongarch                        alldefconfig   gcc  
+loongarch                        allmodconfig   gcc  
+loongarch                         allnoconfig   gcc  
+loongarch                           defconfig   gcc  
+loongarch                 loongson3_defconfig   gcc  
+loongarch            randconfig-r002-20230425   gcc  
+loongarch            randconfig-r034-20230423   gcc  
+m68k                             allmodconfig   gcc  
+m68k                                defconfig   gcc  
+m68k                          multi_defconfig   gcc  
+m68k                        mvme16x_defconfig   gcc  
+m68k                 randconfig-r015-20230423   gcc  
+microblaze   buildonly-randconfig-r004-20230424   gcc  
+microblaze                          defconfig   gcc  
+microblaze           randconfig-r014-20230424   gcc  
+mips                             allmodconfig   gcc  
+mips                             allyesconfig   gcc  
+mips                          ath79_defconfig   clang
+mips         buildonly-randconfig-r003-20230423   clang
+mips                 randconfig-r031-20230424   gcc  
+nios2                               defconfig   gcc  
+nios2                randconfig-r034-20230424   gcc  
+openrisc     buildonly-randconfig-r002-20230424   gcc  
+openrisc             randconfig-r032-20230423   gcc  
+openrisc             randconfig-r036-20230423   gcc  
+openrisc             randconfig-r036-20230424   gcc  
+parisc                              defconfig   gcc  
+parisc               randconfig-r012-20230424   gcc  
+parisc               randconfig-r025-20230425   gcc  
+parisc64                            defconfig   gcc  
+powerpc                          allmodconfig   gcc  
+powerpc                           allnoconfig   gcc  
+powerpc                      bamboo_defconfig   gcc  
+powerpc                   currituck_defconfig   gcc  
+riscv                            allmodconfig   gcc  
+riscv                             allnoconfig   gcc  
+riscv        buildonly-randconfig-r003-20230424   gcc  
+riscv        buildonly-randconfig-r005-20230424   gcc  
+riscv                               defconfig   gcc  
+riscv                randconfig-r042-20230423   clang
+riscv                randconfig-r042-20230424   gcc  
+riscv                          rv32_defconfig   gcc  
+s390                             allmodconfig   gcc  
+s390                             allyesconfig   gcc  
+s390                                defconfig   gcc  
+s390                 randconfig-r012-20230423   clang
+s390                 randconfig-r044-20230423   clang
+s390                 randconfig-r044-20230424   gcc  
+sh                               allmodconfig   gcc  
+sh                         ap325rxa_defconfig   gcc  
+sh           buildonly-randconfig-r001-20230423   gcc  
+sh           buildonly-randconfig-r005-20230423   gcc  
+sh                          kfr2r09_defconfig   gcc  
+sh                   randconfig-r032-20230424   gcc  
+sh                   randconfig-r033-20230424   gcc  
+sparc        buildonly-randconfig-r001-20230424   gcc  
+sparc                               defconfig   gcc  
+sparc                randconfig-r016-20230424   gcc  
+sparc                randconfig-r022-20230425   gcc  
+sparc64      buildonly-randconfig-r002-20230423   gcc  
+um                             i386_defconfig   gcc  
+um                           x86_64_defconfig   gcc  
+x86_64                            allnoconfig   gcc  
+x86_64                           allyesconfig   gcc  
+x86_64                              defconfig   gcc  
+x86_64                                  kexec   gcc  
+x86_64               randconfig-a001-20230424   clang
+x86_64               randconfig-a002-20230424   clang
+x86_64               randconfig-a003-20230424   clang
+x86_64               randconfig-a004-20230424   clang
+x86_64               randconfig-a005-20230424   clang
+x86_64               randconfig-a006-20230424   clang
+x86_64                        randconfig-a011   gcc  
+x86_64                        randconfig-a012   clang
+x86_64                        randconfig-a013   gcc  
+x86_64                        randconfig-a014   clang
+x86_64                        randconfig-a015   gcc  
+x86_64                        randconfig-a016   clang
+x86_64                               rhel-8.3   gcc  
+xtensa       buildonly-randconfig-r006-20230423   gcc  
+xtensa               randconfig-r006-20230425   gcc  
+xtensa               randconfig-r024-20230425   gcc  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
