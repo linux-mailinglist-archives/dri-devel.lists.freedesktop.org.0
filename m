@@ -2,55 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48D546EF508
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Apr 2023 15:06:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 365096EF52B
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Apr 2023 15:10:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DF8AA10E990;
-	Wed, 26 Apr 2023 13:06:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 61DF210E0A2;
+	Wed, 26 Apr 2023 13:10:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CD6E310E990
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Apr 2023 13:06:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1682514398; x=1714050398;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=oVxuTR4A/wrlt9G6C/zKK3j09fIf1TBLj219Iy+IWg4=;
- b=cZ1CJFmmJ8Tt1hKvS6cEQc1IySVLcvIP8wh6e41qv/0X4X/pgeThcTz3
- cAl+qwWKE4AuVCW8PPHQVhgfRKMZqSZeACKslaB4RN8Z5x64l7dso3zoQ
- r7rv6ov9YiWvOP0SDb3QF34n1Zs8xnF9Tq5pcZBo1Pf8EMGhMb6EoEIyZ
- h6mufUH3JtMTZu/lpkxZFxaXLA1M0VIrILq4ZIk081Em7rzgVdxbSoJna
- 23x+i1Z3yNpjc9r2CNmQrsdnEbkAfddTQ3kVD3hV8nCu/ycfYIdH6vQmR
- cMXTumocwcVs/+eIl800bI7Zo0Gg6d/da+fv1kDmcUalWcW+h+T2uKfz3 A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10691"; a="349033784"
-X-IronPort-AV: E=Sophos;i="5.99,228,1677571200"; d="scan'208";a="349033784"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Apr 2023 06:06:37 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10691"; a="783323577"
-X-IronPort-AV: E=Sophos;i="5.99,228,1677571200"; d="scan'208";a="783323577"
-Received: from lkp-server01.sh.intel.com (HELO 041f065c1b1b) ([10.239.97.150])
- by FMSMGA003.fm.intel.com with ESMTP; 26 Apr 2023 06:06:33 -0700
-Received: from kbuild by 041f065c1b1b with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1preqv-0000AU-0U;
- Wed, 26 Apr 2023 13:06:33 +0000
-Date: Wed, 26 Apr 2023 21:06:23 +0800
-From: kernel test robot <lkp@intel.com>
-To: Arseniy Krasnov <AVKrasnov@sberdevices.ru>,
- Miquel Raynal <miquel.raynal@bootlin.com>,
- Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Subject: Re: [PATCH v1] mtd: rawnand: macronix: OTP access for MX30LFxG18AC
-Message-ID: <202304262003.Lzpyh2BA-lkp@intel.com>
-References: <20230426072455.3887717-1-AVKrasnov@sberdevices.ru>
+Received: from mail-yw1-x1135.google.com (mail-yw1-x1135.google.com
+ [IPv6:2607:f8b0:4864:20::1135])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F296210E0A2
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Apr 2023 13:10:50 +0000 (UTC)
+Received: by mail-yw1-x1135.google.com with SMTP id
+ 00721157ae682-54f9d6eccf3so84445937b3.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Apr 2023 06:10:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1682514649; x=1685106649;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=vACPPwznA8lYuRITSgExcomV76WPtMWhcF8RbyTwndA=;
+ b=fMhTuIxYyjqcIRk7bNjFHjFTLxIR/NgtstPtVj3WioAhAVoRs14RCZuUsEp7zm42za
+ r3J/pj/HEagTGG4Lcqw+RBC1PZGI676/GNG/FDP5wFdu/9A85CYGba8w63KGz/GSlZCj
+ MBhzuMqNBNhUy9xhZAKROBAUt1oQQMcAU/4TMi6m523zKUioHQVM6UskyiX5SXBz/Ze/
+ wJDG7ktkrWCUturRJT4KmKiIDwZH6mACsX/KYvw/pG2v5zq1l3L0r60+94ZBIq7QnI8/
+ VZ+Qg/OYGAfDYukKxwcvHzTUHn7J1y+SCs+Z40GKABzvK7J7SxZfdeUpdlzb6R+PP7SZ
+ gGZQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1682514649; x=1685106649;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=vACPPwznA8lYuRITSgExcomV76WPtMWhcF8RbyTwndA=;
+ b=SAhJZrofVYs9cxnv/xiREPmfTmjQoHCECW1Y0T1LNXdpyZPpIdYMO2/YNdd4iOC6PC
+ yX90cmFzECoNTg5BR0HrJ4uLyygr6NKL3tzrtXWwsDrxUSwHWEj9k+NVP6UgrKY1o3IR
+ vYcU2rhh6niwYHRQMuZC0Ou9uY4aMOLAyIVJsVjB6AYAqQR2tjZ9BkBZCy7NgG4P+NQN
+ Rv596Nt4xE5O/8TgaNthfiJ/qFq+R5aEOBB0UzSB4zhSFnN+2P0ymgxPH7znt0X0lrZ4
+ OjsTbqjBZsMAGcT6kXZ1j7OzBpK/FBNhNVEJGR/xUTt+zoPSFzhAxxwB3+GuJa4+aDj2
+ MuUw==
+X-Gm-Message-State: AAQBX9c+FnQFBBisLTaqOFC01m9rPWJZAJh8wzElBUfqDvw1JltBNIvM
+ d9vRW5RzYEHtWqAjELmbihMUHlea1AqiQkD8ouIgqA==
+X-Google-Smtp-Source: AKy350abVQY9pCdngRInq66MxUfYChdxizykYfojy5FBTOfIDPipL5pE7RezoHZGUg6jLlcnlpxRCIzcnYOjb/A+Se0=
+X-Received: by 2002:a0d:f207:0:b0:54f:e78d:b592 with SMTP id
+ b7-20020a0df207000000b0054fe78db592mr13321837ywf.44.1682514649453; Wed, 26
+ Apr 2023 06:10:49 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230426072455.3887717-1-AVKrasnov@sberdevices.ru>
+References: <20230328023129.3596968-1-zhouzongmin@kylinos.cn>
+ <20230420200148.GD3280@jannau.net>
+ <CAA8EJpoK3yv3E==bJuDoQhsW2Q1LdqKakJgdZx6S=ec-CvyGyw@mail.gmail.com>
+ <1682386644754589.204.seg@mailgw>
+ <1186d62a5fe7f2aa6e06f06a3dc7605c0072f1eb.camel@kylinos.cn>
+In-Reply-To: <1186d62a5fe7f2aa6e06f06a3dc7605c0072f1eb.camel@kylinos.cn>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Wed, 26 Apr 2023 16:10:37 +0300
+Message-ID: <CAA8EJppmUtuhAF+VHPh3Q8tNYp1m4T6P7dZ0wYZ8Vzwo0DF6cg@mail.gmail.com>
+Subject: Re: [PATCH] drm/probe_helper: fix the warning reported when calling
+ drm_kms_helper_poll_disable during suspend
+To: zongmin zhou <zhouzongmin@kylinos.cn>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,143 +71,171 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: llvm@lists.linux.dev, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- linux-mtd@lists.infradead.org, oxffffaa@gmail.com,
- oe-kbuild-all@lists.linux.dev, kernel@sberdevices.ru,
- linux-media@vger.kernel.org
+Cc: neil.armstrong@linaro.org, tony.luck@intel.com, tzimmermann@suse.de,
+ Janne Grunau <j@jannau.net>, linux-kernel@vger.kernel.org,
+ regressions@lists.linux.dev, gpiccoli@igalia.com,
+ linux-hardening@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ laurentiu.palcu@oss.nxp.com, keescook@chromium.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Arseniy,
+On Wed, 26 Apr 2023 at 12:09, zongmin zhou <zhouzongmin@kylinos.cn> wrote:
+>
+> On Sun, 2023-04-23 at 22:51 +0200, Janne Grunau wrote:
+> > On 2023-04-20 23:07:01 +0300, Dmitry Baryshkov wrote:
+> > > On Thu, 20 Apr 2023 at 23:01, Janne Grunau <j@jannau.net> wrote:
+> > > >
+> > > > On 2023-03-28 10:31:29 +0800, Zongmin Zhou wrote:
+> > > > > When drivers call drm_kms_helper_poll_disable from
+> > > > > their device suspend implementation without enabled output
+> > > > > polling before,
+> > > > > following warning will be reported,due to work->func not be
+> > > > > initialized:
+> > > >
+> > > > we see the same warning with the wpork in progress kms driver for
+> > > > apple
+> > > > silicon SoCs. The connectors do not need to polled so the driver
+> > > > never
+> > > > calls drm_kms_helper_poll_init().
+> > > >
+> > > > > [   55.141361] WARNING: CPU: 3 PID: 372 at
+> > > > > kernel/workqueue.c:3066 __flush_work+0x22f/0x240
+> > > > > [   55.141382] Modules linked in: nls_iso8859_1
+> > > > > snd_hda_codec_generic ledtrig_audio snd_hda_intel
+> > > > > snd_intel_dspcfg snd_intel_sdw_acpi snd_hda_codec snd_hda_core
+> > > > > snd_hwdep snd_pcm snd_seq_midi snd_seq_midi_event snd_rawmidi
+> > > > > snd_seq intel_rapl_msr intel_rapl_common bochs drm_vram_helper
+> > > > > drm_ttm_helper snd_seq_device nfit ttm crct10dif_pclmul
+> > > > > snd_timer ghash_clmulni_intel binfmt_misc sha512_ssse3
+> > > > > aesni_intel drm_kms_helper joydev input_leds syscopyarea
+> > > > > crypto_simd snd cryptd sysfillrect sysimgblt mac_hid serio_raw
+> > > > > soundcore qemu_fw_cfg sch_fq_codel msr parport_pc ppdev lp
+> > > > > parport drm ramoops reed_solomon pstore_blk pstore_zone
+> > > > > efi_pstore virtio_rng ip_tables x_tables autofs4 hid_generic
+> > > > > usbhid hid ahci virtio_net i2c_i801 crc32_pclmul psmouse
+> > > > > virtio_scsi libahci i2c_smbus lpc_ich xhci_pci net_failover
+> > > > > virtio_blk xhci_pci_renesas failover
+> > > > > [   55.141430] CPU: 3 PID: 372 Comm: kworker/u16:9 Not tainted
+> > > > > 6.2.0-rc6+ #16
+> > > > > [   55.141433] Hardware name: QEMU Standard PC (Q35 + ICH9,
+> > > > > 2009), BIOS rel-1.12.1-0-ga5cab58e9a3f-prebuilt.qemu.org
+> > > > > 04/01/2014
+> > > > > [   55.141435] Workqueue: events_unbound async_run_entry_fn
+> > > > > [   55.141441] RIP: 0010:__flush_work+0x22f/0x240
+> > > > > [   55.141444] Code: 8b 43 28 48 8b 53 30 89 c1 e9 f9 fe ff ff
+> > > > > 4c 89 f7 e8 b5 95 d9 00 e8 00 53 08 00 45 31 ff e9 11 ff ff ff
+> > > > > 0f 0b e9 0a ff ff ff <0f> 0b 45 31 ff e9 00 ff ff ff e8 e2 54
+> > > > > d8 00 66 90 90 90 90 90 90
+> > > > > [   55.141446] RSP: 0018:ff59221940833c18 EFLAGS: 00010246
+> > > > > [   55.141449] RAX: 0000000000000000 RBX: 0000000000000000 RCX:
+> > > > > ffffffff9b72bcbe
+> > > > > [   55.141450] RDX: 0000000000000001 RSI: 0000000000000001 RDI:
+> > > > > ff3ea01e4265e330
+> > > > > [   55.141451] RBP: ff59221940833c90 R08: 0000000000000000 R09:
+> > > > > 8080808080808080
+> > > > > [   55.141453] R10: ff3ea01e42b3caf4 R11: 000000000000000f R12:
+> > > > > ff3ea01e4265e330
+> > > > > [   55.141454] R13: 0000000000000001 R14: ff3ea01e505e5e80 R15:
+> > > > > 0000000000000001
+> > > > > [   55.141455] FS:  0000000000000000(0000)
+> > > > > GS:ff3ea01fb7cc0000(0000) knlGS:0000000000000000
+> > > > > [   55.141456] CS:  0010 DS: 0000 ES: 0000 CR0:
+> > > > > 0000000080050033
+> > > > > [   55.141458] CR2: 0000563543ad1546 CR3: 000000010ee82005 CR4:
+> > > > > 0000000000771ee0
+> > > > > [   55.141464] DR0: 0000000000000000 DR1: 0000000000000000 DR2:
+> > > > > 0000000000000000
+> > > > > [   55.141465] DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7:
+> > > > > 0000000000000400
+> > > > > [   55.141466] PKRU: 55555554
+> > > > > [   55.141467] Call Trace:
+> > > > > [   55.141469]  <TASK>
+> > > > > [   55.141472]  ? pcie_wait_cmd+0xdf/0x220
+> > > > > [   55.141478]  ? mptcp_seq_show+0xe0/0x180
+> > > > > [   55.141484]  __cancel_work_timer+0x124/0x1b0
+> > > > > [   55.141487]  cancel_delayed_work_sync+0x17/0x20
+> > > > > [   55.141490]  drm_kms_helper_poll_disable+0x26/0x40
+> > > > > [drm_kms_helper]
+> > > > > [   55.141516]  drm_mode_config_helper_suspend+0x25/0x90
+> > > > > [drm_kms_helper]
+> > > > > [   55.141531]  ? __pm_runtime_resume+0x64/0x90
+> > > > > [   55.141536]  bochs_pm_suspend+0x16/0x20 [bochs]
+> > > > > [   55.141540]  pci_pm_suspend+0x8b/0x1b0
+> > > > > [   55.141545]  ? __pfx_pci_pm_suspend+0x10/0x10
+> > > > > [   55.141547]  dpm_run_callback+0x4c/0x160
+> > > > > [   55.141550]  __device_suspend+0x14c/0x4c0
+> > > > > [   55.141553]  async_suspend+0x24/0xa0
+> > > > > [   55.141555]  async_run_entry_fn+0x34/0x120
+> > > > > [   55.141557]  process_one_work+0x21a/0x3f0
+> > > > > [   55.141560]  worker_thread+0x4e/0x3c0
+> > > > > [   55.141563]  ? __pfx_worker_thread+0x10/0x10
+> > > > > [   55.141565]  kthread+0xf2/0x120
+> > > > > [   55.141568]  ? __pfx_kthread+0x10/0x10
+> > > > > [   55.141570]  ret_from_fork+0x29/0x50
+> > > > > [   55.141575]  </TASK>
+> > > > > [   55.141575] ---[ end trace 0000000000000000 ]---
+> > > > >
+> > > > > Fixes: a4e771729a51 ("drm/probe_helper: sort out poll_running
+> > > > > vs poll_enabled")
+> > > > > Signed-off-by: Zongmin Zhou<zhouzongmin@kylinos.cn>
+> > > > > ---
+> > > > >  drivers/gpu/drm/drm_probe_helper.c | 3 ++-
+> > > > >  1 file changed, 2 insertions(+), 1 deletion(-)
+> > > > >
+> > > > > diff --git a/drivers/gpu/drm/drm_probe_helper.c
+> > > > > b/drivers/gpu/drm/drm_probe_helper.c
+> > > > > index 8127be134c39..ac72b18e2257 100644
+> > > > > --- a/drivers/gpu/drm/drm_probe_helper.c
+> > > > > +++ b/drivers/gpu/drm/drm_probe_helper.c
+> > > > > @@ -855,7 +855,8 @@ void drm_kms_helper_poll_disable(struct
+> > > > > drm_device *dev)
+> > > > >       if (dev->mode_config.poll_running)
+> > > > >               drm_kms_helper_disable_hpd(dev);
+> > > > >
+> > > > > -     cancel_delayed_work_sync(&dev-
+> > > > > >mode_config.output_poll_work);
+> > > > > +     if (dev->mode_config.poll_enabled)
+> > > > > +             cancel_delayed_work_sync(&dev-
+> > > > > >mode_config.output_poll_work);
+> > > >
+> > > > Checking for dev->mode_config.poll_enabled at the start of the
+> > > > function
+> > > > and return early if it is not true looks more in style with the
+> > > > rest of
+> > > > drm_probe_helper.c.
+> > >
+> > > I think it is an error to call drm_kms_helper_poll_disable() if
+> > > polling was not initialized. So, in my opinion the fix should go to
+> > > the drm_mode_config_helper_suspend() / _resume() instead. Please
+> > > add a
+> > > guard there using dev->mode_config.poll_enabled.
+> >
+> > While I tend to agree to the sentiment I do not think this is the
+> > correct fix in this situation. drm_kms_helper_poll_disable had the
+> > check since at least 2014. a4e771729a51 is a regression. If we want
+> > to
+> > change the behavior it should be done explicitly and after verifying
+> > all
+> > drm_kms_helper_poll_disable() calls.
+> >
+> > #regzbot ^introduced a4e771729a51
+> >
+> > ciao
+> > Janne
+>
+> Dear Janne:
+>
+> I agree with you like I mentioned on last letter.
+> Thanks for your time.
+>
+>
+> Dear Dmitry:
+>
+> Is there anything else I can do?
+> Looking forward to your reply.
 
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on mtd/nand/next]
-[also build test ERROR on linus/master v6.3 next-20230425]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Arseniy-Krasnov/mtd-rawnand-macronix-OTP-access-for-MX30LFxG18AC/20230426-153143
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/mtd/linux.git nand/next
-patch link:    https://lore.kernel.org/r/20230426072455.3887717-1-AVKrasnov%40sberdevices.ru
-patch subject: [PATCH v1] mtd: rawnand: macronix: OTP access for MX30LFxG18AC
-config: i386-randconfig-a001-20230424 (https://download.01.org/0day-ci/archive/20230426/202304262003.Lzpyh2BA-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/3529f3465e99379489b59c035a8a0506c3756ef4
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Arseniy-Krasnov/mtd-rawnand-macronix-OTP-access-for-MX30LFxG18AC/20230426-153143
-        git checkout 3529f3465e99379489b59c035a8a0506c3756ef4
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/mtd/nand/raw/
-
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304262003.Lzpyh2BA-lkp@intel.com/
-
-All error/warnings (new ones prefixed by >>):
-
->> drivers/mtd/nand/raw/nand_macronix.c:384:12: error: implicit declaration of function 'kmalloc' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-           dma_buf = kmalloc(MACRONIX_30LFXG18AC_OTP_PAGE_SIZE, GFP_KERNEL);
-                     ^
-   drivers/mtd/nand/raw/nand_macronix.c:384:12: note: did you mean 'mm_alloc'?
-   include/linux/sched/mm.h:16:26: note: 'mm_alloc' declared here
-   extern struct mm_struct *mm_alloc(void);
-                            ^
->> drivers/mtd/nand/raw/nand_macronix.c:384:10: warning: incompatible integer to pointer conversion assigning to 'void *' from 'int' [-Wint-conversion]
-           dma_buf = kmalloc(MACRONIX_30LFXG18AC_OTP_PAGE_SIZE, GFP_KERNEL);
-                   ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/mtd/nand/raw/nand_macronix.c:437:2: error: implicit declaration of function 'kfree' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-           kfree(dma_buf);
-           ^
-   1 warning and 2 errors generated.
-
-
-vim +/kmalloc +384 drivers/mtd/nand/raw/nand_macronix.c
-
-   366	
-   367	static int __macronix_30lfxg18ac_rw_otp(struct mtd_info *mtd,
-   368						loff_t offs_in_flash,
-   369						size_t len, size_t *retlen,
-   370						u_char *buf, bool write)
-   371	{
-   372		struct nand_chip *nand;
-   373		size_t bytes_handled;
-   374		unsigned long page;
-   375		off_t offs_in_page;
-   376		void *dma_buf;
-   377		int ret;
-   378	
-   379		/* 'nand_prog/read_page_op()' may use 'buf' as DMA buffer,
-   380		 * so allocate properly aligned memory for it. This is
-   381		 * needed because cross page accesses may lead to unaligned
-   382		 * buffer address for DMA.
-   383		 */
- > 384		dma_buf = kmalloc(MACRONIX_30LFXG18AC_OTP_PAGE_SIZE, GFP_KERNEL);
-   385		if (!dma_buf)
-   386			return -ENOMEM;
-   387	
-   388		nand = mtd_to_nand(mtd);
-   389		nand_select_target(nand, 0);
-   390	
-   391		ret = macronix_30lfxg18ac_otp_enable(nand);
-   392		if (ret)
-   393			goto out_otp;
-   394	
-   395		page = offs_in_flash;
-   396		/* 'page' will be result of division. */
-   397		offs_in_page = do_div(page, MACRONIX_30LFXG18AC_OTP_PAGE_SIZE);
-   398		bytes_handled = 0;
-   399	
-   400		while (bytes_handled < len &&
-   401		       page < MACRONIX_30LFXG18AC_OTP_PAGES) {
-   402			size_t bytes_to_handle;
-   403	
-   404			bytes_to_handle = min_t(size_t, len - bytes_handled,
-   405						MACRONIX_30LFXG18AC_OTP_PAGE_SIZE -
-   406						offs_in_page);
-   407	
-   408			if (write) {
-   409				memcpy(dma_buf, &buf[bytes_handled], bytes_to_handle);
-   410				ret = nand_prog_page_op(nand, page, offs_in_page,
-   411							dma_buf, bytes_to_handle);
-   412			} else {
-   413				ret = nand_read_page_op(nand, page, offs_in_page,
-   414							dma_buf, bytes_to_handle);
-   415				if (!ret)
-   416					memcpy(&buf[bytes_handled], dma_buf,
-   417					       bytes_to_handle);
-   418			}
-   419			if (ret)
-   420				goto out_otp;
-   421	
-   422			bytes_handled += bytes_to_handle;
-   423			offs_in_page = 0;
-   424			page++;
-   425		}
-   426	
-   427		*retlen = bytes_handled;
-   428	
-   429	out_otp:
-   430		if (ret)
-   431			dev_err(&mtd->dev, "failed to perform OTP IO: %i\n", ret);
-   432	
-   433		ret = macronix_30lfxg18ac_otp_disable(nand);
-   434		WARN(ret, "failed to leave OTP mode after %s\n",
-   435		     write ? "write" : "read");
-   436		nand_deselect_target(nand);
- > 437		kfree(dma_buf);
-   438	
-   439		return ret;
-   440	}
-   441	
+If it is a common consensus, I'm fine with your approach.
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+With best wishes
+Dmitry
