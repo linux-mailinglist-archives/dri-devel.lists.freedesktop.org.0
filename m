@@ -1,34 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D60456F01F2
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Apr 2023 09:39:21 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E1C5C6EFF04
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Apr 2023 03:43:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D12BE10EAE0;
-	Thu, 27 Apr 2023 07:39:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 72A3910E102;
+	Thu, 27 Apr 2023 01:43:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mxout4.internetbrands.com (mxout4.internetbrands.com
- [98.158.192.114])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3DD0310E116
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Apr 2023 00:47:36 +0000 (UTC)
-Received: from la1-kvm184.internetbrands.com (unknown [10.16.82.5])
- by mxout4.internetbrands.com (Postfix) with ESMTP id 0D8787BC0317;
- Wed, 26 Apr 2023 17:47:35 -0700 (PDT)
-From: kernel@linuxace.com
-To: tzimmermann@suse.de
-Subject: RE: [PATCH 07/14] drm/mgag200: Replace simple-KMS with regular atomic
- helpers
-Date: Wed, 26 Apr 2023 17:47:34 -0700
-Message-Id: <20230427004734.23923-1-kernel@linuxace.com>
-X-Mailer: git-send-email 2.40.0
-In-Reply-To: <a8fde333-0e27-f0f4-44fa-9291927c4a3e@suse.de>
-References: <a8fde333-0e27-f0f4-44fa-9291927c4a3e@suse.de>
+Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com
+ [IPv6:2a00:1450:4864:20::62d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6654A10E102
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Apr 2023 01:43:33 +0000 (UTC)
+Received: by mail-ej1-x62d.google.com with SMTP id
+ a640c23a62f3a-94ed7e49541so1226532566b.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Apr 2023 18:43:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1682559810; x=1685151810;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=TLWZrM6G4E8kyAJ3+hqX8NPwV4Y3xpLTC/w/EM11mYI=;
+ b=PJQiXtBkhSZjq404pH2L5nHxMU/QJEmILV0rBc0uWQuEX/GZtcH58vHc7uzQbb+jpz
+ fblEUhBhdAdu6zHxhPwKTwHHwuA3m4mkN3Xz1T7Wzhc/eu9Tzi3TtQ72Zlr5GRI8oXjw
+ C438pR63pQr3HQMfR2MbA6GiI6gPYaaFoenbwMPSk7X8gRv0WX4vSEORCmnoDEubwAxz
+ a41w5GB95N0ooQR/g+PiLDTkMicsmyxxM6ddmrtwJ0FGmD/oaOgElOjwEjuqF7QmyGFX
+ Uc9vS50wwK/JaMnmgAvrdyv9V7vyy+mc5ngjAVhXG7uNRzVisVmM2crM0dN+62EuGzkr
+ Nvnw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1682559810; x=1685151810;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=TLWZrM6G4E8kyAJ3+hqX8NPwV4Y3xpLTC/w/EM11mYI=;
+ b=Y/YwOnAchE2udrtfi1sT4tEItuwwt0aeMmoxGFNDBX3GyrXszvXp7mP3cYVvrFhrkm
+ NA6TY0VqO+m3IdNDgfughHYb/ht45whSuYNmr0wnGr9J1lykItFHms6Ag/2A5um1Ionl
+ Vba9FiCvfiCA2BfhnBqrtq/buLHI9nQ+hlROp2IWtfn6pmZSZBdIYuHU05owpbL6mrLX
+ +1w7q6s+BLch/H0UvwTRHJFqwEUPzoNjcHAhdN7CdkRijEMw8HNfYhQFE59FWJtU14UA
+ OCNxY+QA2IogzB5DVCJWK8n/y5oE6c2biSG5zPrcHyDQ7yoQv1waDJJxnr/drdNbFq0F
+ ISHQ==
+X-Gm-Message-State: AC+VfDzFOvOnyQxVLB81XiP5e0CdxTeWTPAgFk64Mp5Wd9k6F8PDtair
+ iqgOR9WXAIE0ahBBSXQl/h1gPDpZmezNwofp7z4=
+X-Google-Smtp-Source: ACHHUZ4DbuKsaZlJwyNtmw3hFB9SA23R5V7wmj7FOeBjSn9C9jyPXXToChmHTrrxjqwCTmipfDvYt7b42di4zffByGA=
+X-Received: by 2002:a17:906:eec8:b0:953:8322:a99f with SMTP id
+ wu8-20020a170906eec800b009538322a99fmr67601ejb.0.1682559809797; Wed, 26 Apr
+ 2023 18:43:29 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Thu, 27 Apr 2023 07:38:49 +0000
+From: Dave Airlie <airlied@gmail.com>
+Date: Thu, 27 Apr 2023 11:43:17 +1000
+Message-ID: <CAPM=9tw2xUZQJkzmt5aj=F8erC3cv9aAB+KqTQgn7=B7D8haFA@mail.gmail.com>
+Subject: [git pull] drm next fixes for 6.4-rc1
+To: Linus Torvalds <torvalds@linux-foundation.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -41,18 +66,87 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel@linuxace.com, jfalempe@redhat.com, sam@ravnborg.org,
- dri-devel@lists.freedesktop.org
+Cc: LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Apr 26, 2023 at 3:15 AM Thomas Zimmermann <tzimmermann@suse.de> wrote:
+Hi Linus,
 
-> Oh, now I got it. This G200eW is broken. The other one is good. And the
-> kernel is also broken on the G200EH?
+A bit out of routine fixes pull for rc1, there's a build breakage on
+some platforms due to ttm, this has that fix + qaic uapi removal +
+minor panel fixes.
 
-Correct, which doesn't make much sense.  I have two Dells, both of which
-have 102b:0532, but only one has no video.  On your second point, I do have
-a number of HP DL360p G8s with G200EH [102b:0533] which also have no video.
+Dave.
+drm-next-2023-04-27:
+drm-next fixes for 6.4-rc1
 
-Phil
+ttm:
+- Fix TTM build on archs where PMD_SHIFT is not constant.
+
+qaic:
+- Revert uAPI from accel/qaic.
+
+panel:
+- Improve error handling in nt35950.
+- Fix double unregister in otm8009a when removing the driver.
+The following changes since commit 289af45508ca890585f329376d16e08f41f75bd5=
+:
+
+  Merge tag 'exynos-drm-next-for-v6.4-2' of
+git://git.kernel.org/pub/scm/linux/kernel/git/daeinki/drm-exynos into
+drm-next (2023-04-24 10:50:15 +1000)
+
+are available in the Git repository at:
+
+  git://anongit.freedesktop.org/drm/drm tags/drm-next-2023-04-27
+
+for you to fetch changes up to cf03e2956af307dc25e8c41fd4cffe44482a6ec1:
+
+  Merge tag 'drm-misc-next-fixes-2023-04-26' of
+git://anongit.freedesktop.org/drm/drm-misc into drm-next (2023-04-27
+11:29:34 +1000)
+
+----------------------------------------------------------------
+drm-next fixes for 6.4-rc1
+
+ttm:
+- Fix TTM build on archs where PMD_SHIFT is not constant.
+
+qaic:
+- Revert uAPI from accel/qaic.
+
+panel:
+- Improve error handling in nt35950.
+- Fix double unregister in otm8009a when removing the driver.
+
+----------------------------------------------------------------
+Christian K=C3=B6nig (1):
+      drm/ttm: revert "Reduce the number of used allocation orders for
+TTM pages"
+
+Dave Airlie (1):
+      Merge tag 'drm-misc-next-fixes-2023-04-26' of
+git://anongit.freedesktop.org/drm/drm-misc into drm-next
+
+James Cowgill (1):
+      drm/panel: otm8009a: Set backlight parent to panel device
+
+Jeffrey Hugo (1):
+      Revert "accel/qaic: Add mhi_qaic_cntl"
+
+Konrad Dybcio (2):
+      drm/panel: novatek-nt35950: Improve error handling
+      drm/panel: novatek-nt35950: Only unregister DSI1 if it exists
+
+ drivers/accel/qaic/Makefile                      |   1 -
+ drivers/accel/qaic/mhi_qaic_ctrl.c               | 569 -------------------=
+----
+ drivers/accel/qaic/mhi_qaic_ctrl.h               |  12 -
+ drivers/accel/qaic/qaic_drv.c                    |  10 -
+ drivers/gpu/drm/panel/panel-novatek-nt35950.c    |  10 +-
+ drivers/gpu/drm/panel/panel-orisetech-otm8009a.c |   2 +-
+ drivers/gpu/drm/ttm/ttm_pool.c                   |  30 +-
+ 7 files changed, 21 insertions(+), 613 deletions(-)
+ delete mode 100644 drivers/accel/qaic/mhi_qaic_ctrl.c
+ delete mode 100644 drivers/accel/qaic/mhi_qaic_ctrl.h
