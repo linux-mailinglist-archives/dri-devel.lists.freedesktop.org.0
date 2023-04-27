@@ -2,60 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CB516F0B92
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Apr 2023 19:54:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D425C6F0B98
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Apr 2023 19:54:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4978710EBC1;
-	Thu, 27 Apr 2023 17:54:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 953DF10EBBC;
+	Thu, 27 Apr 2023 17:54:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x430.google.com (mail-pf1-x430.google.com
- [IPv6:2607:f8b0:4864:20::430])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8A27210EBA6;
- Thu, 27 Apr 2023 17:54:11 +0000 (UTC)
-Received: by mail-pf1-x430.google.com with SMTP id
- d2e1a72fcca58-64115eef620so6797437b3a.1; 
- Thu, 27 Apr 2023 10:54:11 -0700 (PDT)
+Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com
+ [IPv6:2607:f8b0:4864:20::62c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1EFF310EBB5;
+ Thu, 27 Apr 2023 17:54:15 +0000 (UTC)
+Received: by mail-pl1-x62c.google.com with SMTP id
+ d9443c01a7336-1a9253d4551so68669335ad.0; 
+ Thu, 27 Apr 2023 10:54:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1682618051; x=1685210051;
+ d=gmail.com; s=20221208; t=1682618054; x=1685210054;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=sGLJmibW87WAJcS5t0uIh72jCVPBIb7Gj0WXUx1P9zU=;
- b=QMXQRPIdXA5q5Km0eEBU7rKyuFO/cgMrtoDCMJdyNqAiJII2NpWeJLh5tHe70Cy232
- Sm5bFKWRn1oSSzIdYYglEqg8J6RUhcSkcWnMH7d4qgcvGCmFinBCuh81eI4k4yWHVpvx
- ZGSfIBbB+9WYYIJU6QL3JOedPPhjgrhrXsvSGBPHyj1zrMv0q578RG/AT6Ue8xSs2fL3
- VqFTs5aUbk2lfTToiCebxdTsxyY8QfQ8af5msEFx2/6VxM7sz1Mj6jn3ZRQ6NcpfhnBz
- smFVLkXfhebsJulsoQqEEQZQriQbsmux38e2ELM+/aEBKnk7Y2f+FUt5q8Q7P6pfwUeA
- 1fdw==
+ bh=3ok26iuO88WTdiTh3yqSvF0njUaJd/G7EVrYrB/tlNM=;
+ b=NGkm71aOJ/s2qjTeR/gaLYWgyuhDv8G+me2tBr6PxbRaq548LAyp+ofSB/dnvdlG4R
+ I0wgCM/25DaIqgEo3jPIP843OCkPqhy0nXXYCOS+CS1MurrPlIwbHuYOk/q+Z88c+IO0
+ P6wg134IWILVVK6Br15IsyK1zVeHw7oqYdaMNk5qyypE++AIRlcPyHqgxZEQi2AqM6ks
+ ylyb/vau7BR6OElUXcPm0NUbGJsAOUhzbqc3fv7+Ek4GhRxkujAVLcjGcNgB1cgZVi9g
+ CWzq92oioySI+k78Up20FrrLdXQHF1kGfIuEF7/Uo1Vbs43oc8ko4IPQqQhI/FALmL32
+ leFw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682618051; x=1685210051;
+ d=1e100.net; s=20221208; t=1682618054; x=1685210054;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=sGLJmibW87WAJcS5t0uIh72jCVPBIb7Gj0WXUx1P9zU=;
- b=kVdLKSX9rinbJ5+VJYrohR/1CP0U35hyOXe3ygUdIgD7wb92wOpzd3cZ6dqXM5dtjX
- 1FWB9QW2JFIFWaRInISH7Mw7nU4u1YMoDnhFMCsmoXdCU6cvNAoPP066E4hXV2ONHbdM
- edYWcHl+ddrufJ5JHtuu0xkzd9qAC8TarGZ7Fhjca/hmCoq48XPnog1wiFqAkSi0nfEt
- b/lumOJeoX++L1hMA66Qw+cnRXhSM9zXDeztpjZDIHxdH+SGO3CeOfZAqdKKHCEROoT/
- JznVU7DWj+hoXTm/eaD/SHpgqHnt2vOZa8uL2/eqrCa1PdwKXskVE9aGKq0TWIBn4zF+
- bQkA==
-X-Gm-Message-State: AC+VfDwTVW1Uf9Sw1N2X/e+vrsZu70+EQSphFow2zI+Qr9pnC7Uf2ijK
- mYi9QJ8f2Pjv7zPl4Fy5peHjLlUgs6w=
-X-Google-Smtp-Source: ACHHUZ6Nn15Zn+c1Wo6Qo1HTjwDdKmVdH9HihAreo97OXBbuOLvs3ki9YVei3t6pb2Epm77vQyXY1g==
-X-Received: by 2002:a05:6a20:918f:b0:f0:3fc4:744f with SMTP id
- v15-20020a056a20918f00b000f03fc4744fmr3333199pzd.8.1682618050907; 
- Thu, 27 Apr 2023 10:54:10 -0700 (PDT)
+ bh=3ok26iuO88WTdiTh3yqSvF0njUaJd/G7EVrYrB/tlNM=;
+ b=VH5R1RfPQMaiYtLTRwe09CN6FNDEXZZnNDfp3RnzDwYAHgOLggBUIxXLZTNW0tc/9r
+ noH9FCX6VWlcJXE/PEwM8oZRGrFeANEuX5uWIahGMZf4NP47ddZDczOB0ShbCFqwcAvR
+ +IOsOogIhpOn7DfWIQyhypyLmtldZCDE4oSs6zXzR6V3+Lwxpc56kYo8oYycrRLD+lG/
+ 1+2WaBW44BlybFqkfGFs1DtkdqyeJPwv1yq58o0Y4iRDWLE75yTNsgqlscqdZXzsUW/1
+ Y1s+ZKjCweE01kEH8sBgJOnDjIX2TPegVIOxXw2E0L8F8HxELvrqtptl6SdvVlloEvw4
+ INYg==
+X-Gm-Message-State: AC+VfDz0t7QHWNsIR74JvPFkXGjFBnkYHwr1MlGPtByshjie0ZeFcFOB
+ TZMwhEzrgHvtKLpIUOp+3A6ImTxv2YQ=
+X-Google-Smtp-Source: ACHHUZ7NYzhki84oqM5sC/T0ASeC0x8KLgCKVbwvSy/vX3s9gdhOdDf04XFw8HA41JD89ghsoCr/qw==
+X-Received: by 2002:a17:902:868a:b0:1a6:9f09:866d with SMTP id
+ g10-20020a170902868a00b001a69f09866dmr2347865plo.61.1682618054077; 
+ Thu, 27 Apr 2023 10:54:14 -0700 (PDT)
 Received: from localhost ([2a00:79e1:abd:4a00:61b:48ed:72ab:435b])
  by smtp.gmail.com with ESMTPSA id
- y189-20020a62cec6000000b00640defda6d2sm6860749pfg.207.2023.04.27.10.54.10
+ ja14-20020a170902efce00b001a69dfd918dsm4852762plb.187.2023.04.27.10.54.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 27 Apr 2023 10:54:10 -0700 (PDT)
+ Thu, 27 Apr 2023 10:54:13 -0700 (PDT)
 From: Rob Clark <robdclark@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 8/9] drm/fdinfo: Add comm/cmdline override fields
-Date: Thu, 27 Apr 2023 10:53:32 -0700
-Message-Id: <20230427175340.1280952-9-robdclark@gmail.com>
+Subject: [PATCH v2 9/9] drm/msm: Wire up comm/cmdline override for fdinfo
+Date: Thu, 27 Apr 2023 10:53:33 -0700
+Message-Id: <20230427175340.1280952-10-robdclark@gmail.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230427175340.1280952-1-robdclark@gmail.com>
 References: <20230427175340.1280952-1-robdclark@gmail.com>
@@ -75,129 +75,133 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Rob Clark <robdclark@chromium.org>,
  Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Jonathan Corbet <corbet@lwn.net>,
- "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+ Elliot Berman <quic_eberman@quicinc.com>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Akhil P Oommen <quic_akhilpo@quicinc.com>, Sean Paul <sean@poorly.run>,
  Emil Velikov <emil.l.velikov@gmail.com>,
  Christopher Healy <healych@amazon.com>,
- open list <linux-kernel@vger.kernel.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Luca Weiss <luca@z3ntu.xyz>,
+ Maximilian Luz <luzmaximilian@gmail.com>,
  Boris Brezillon <boris.brezillon@collabora.com>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
  freedreno@lists.freedesktop.org,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ open list <linux-kernel@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Rob Clark <robdclark@chromium.org>
 
-These are useful in particular for VM scenarios where the process which
-has opened to drm device file is just a proxy for the real user in a VM
-guest.
+Also store the override strings in drm_file so that fdinfo can display
+them.  We still need to keep our original copy as we could need these
+override strings after the device file has been closed and drm_file
+freed.
 
 Signed-off-by: Rob Clark <robdclark@chromium.org>
 ---
- Documentation/gpu/drm-usage-stats.rst | 18 ++++++++++++++++++
- drivers/gpu/drm/drm_file.c            | 15 +++++++++++++++
- include/drm/drm_file.h                | 19 +++++++++++++++++++
- 3 files changed, 52 insertions(+)
+ drivers/gpu/drm/msm/adreno/adreno_gpu.c | 24 +++++++++++++++++++++++-
+ drivers/gpu/drm/msm/msm_drv.c           |  2 ++
+ drivers/gpu/drm/msm/msm_gpu.h           | 10 ++++++++++
+ 3 files changed, 35 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/gpu/drm-usage-stats.rst b/Documentation/gpu/drm-usage-stats.rst
-index 58dc0d3f8c58..e4877cf8089c 100644
---- a/Documentation/gpu/drm-usage-stats.rst
-+++ b/Documentation/gpu/drm-usage-stats.rst
-@@ -73,6 +73,24 @@ scope of each device, in which case `drm-pdev` shall be present as well.
- Userspace should make sure to not double account any usage statistics by using
- the above described criteria in order to associate data to individual clients.
+diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.c b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
+index bb38e728864d..a20c2622a61f 100644
+--- a/drivers/gpu/drm/msm/adreno/adreno_gpu.c
++++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
+@@ -16,6 +16,7 @@
+ #include <linux/soc/qcom/mdt_loader.h>
+ #include <linux/nvmem-consumer.h>
+ #include <soc/qcom/ocmem.h>
++#include <drm/drm_file.h>
+ #include "adreno_gpu.h"
+ #include "a6xx_gpu.h"
+ #include "msm_gem.h"
+@@ -398,7 +399,8 @@ int adreno_set_param(struct msm_gpu *gpu, struct msm_file_private *ctx,
+ 	switch (param) {
+ 	case MSM_PARAM_COMM:
+ 	case MSM_PARAM_CMDLINE: {
+-		char *str, **paramp;
++		char *str, *str2, **paramp;
++		struct drm_file *file = ctx->file;
  
-+- drm-comm-override: <valstr>
+ 		str = kmalloc(len + 1, GFP_KERNEL);
+ 		if (!str)
+@@ -412,6 +414,13 @@ int adreno_set_param(struct msm_gpu *gpu, struct msm_file_private *ctx,
+ 		/* Ensure string is null terminated: */
+ 		str[len] = '\0';
+ 
++		/*
++		 * We need a 2nd copy for drm_file.. this copy can't replace
++		 * our internal copy in the ctx, because we may need it for
++		 * recovery/devcoredump after the file is already closed.
++		 */
++		str2 = kstrdup(str, GFP_KERNEL);
 +
-+Returns the client executable override string.  Some drivers support letting
-+userspace override this in cases where the userspace is simply a "proxy".
-+Such as is the case with virglrenderer drm native context, where the host
-+process is just forwarding command submission, etc, from guest userspace.
-+This allows the proxy to make visible the executable name of the actual
-+app in the VM guest.
+ 		mutex_lock(&gpu->lock);
+ 
+ 		if (param == MSM_PARAM_COMM) {
+@@ -425,6 +434,19 @@ int adreno_set_param(struct msm_gpu *gpu, struct msm_file_private *ctx,
+ 
+ 		mutex_unlock(&gpu->lock);
+ 
++		mutex_lock(&file->override_lock);
 +
-+- drm-cmdline-override: <valstr>
++		if (param == MSM_PARAM_COMM) {
++			paramp = &file->override_comm;
++		} else {
++			paramp = &file->override_cmdline;
++		}
 +
-+Returns the client cmdline override string.  Some drivers support letting
-+userspace override this in cases where the userspace is simply a "proxy".
-+Such as is the case with virglrenderer drm native context, where the host
-+process is just forwarding command submission, etc, from guest userspace.
-+This allows the proxy to make visible the cmdline of the actual app in the
-+VM guest.
++		kfree(*paramp);
++		*paramp = str2;
 +
- Utilization
- ^^^^^^^^^^^
- 
-diff --git a/drivers/gpu/drm/drm_file.c b/drivers/gpu/drm/drm_file.c
-index 9321eb0bf020..d7514c313af1 100644
---- a/drivers/gpu/drm/drm_file.c
-+++ b/drivers/gpu/drm/drm_file.c
-@@ -178,6 +178,8 @@ struct drm_file *drm_file_alloc(struct drm_minor *minor)
- 	spin_lock_init(&file->master_lookup_lock);
- 	mutex_init(&file->event_read_lock);
- 
-+	mutex_init(&file->override_lock);
++		mutex_unlock(&file->override_lock);
 +
- 	if (drm_core_check_feature(dev, DRIVER_GEM))
- 		drm_gem_open(dev, file);
- 
-@@ -292,6 +294,8 @@ void drm_file_free(struct drm_file *file)
- 	WARN_ON(!list_empty(&file->event_list));
- 
- 	put_pid(file->pid);
-+	kfree(file->override_comm);
-+	kfree(file->override_cmdline);
- 	kfree(file);
- }
- 
-@@ -995,6 +999,17 @@ void drm_show_fdinfo(struct seq_file *m, struct file *f)
- 			   PCI_SLOT(pdev->devfn), PCI_FUNC(pdev->devfn));
+ 		return 0;
  	}
+ 	case MSM_PARAM_SYSPROF:
+diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
+index 81a1371c0307..3a74b5653e96 100644
+--- a/drivers/gpu/drm/msm/msm_drv.c
++++ b/drivers/gpu/drm/msm/msm_drv.c
+@@ -581,6 +581,7 @@ static int context_init(struct drm_device *dev, struct drm_file *file)
+ 	rwlock_init(&ctx->queuelock);
  
-+	mutex_lock(&file->override_lock);
-+	if (file->override_comm) {
-+		drm_printf(&p, "drm-comm-override:\t%s\n",
-+			   file->override_comm);
-+	}
-+	if (file->override_cmdline) {
-+		drm_printf(&p, "drm-cmdline-override:\t%s\n",
-+			   file->override_cmdline);
-+	}
-+	mutex_unlock(&file->override_lock);
-+
- 	if (dev->driver->show_fdinfo)
- 		dev->driver->show_fdinfo(&p, file);
+ 	kref_init(&ctx->ref);
++	ctx->file = file;
+ 	msm_submitqueue_init(dev, ctx);
+ 
+ 	ctx->aspace = msm_gpu_create_private_address_space(priv->gpu, current);
+@@ -603,6 +604,7 @@ static int msm_open(struct drm_device *dev, struct drm_file *file)
+ 
+ static void context_close(struct msm_file_private *ctx)
+ {
++	ctx->file = NULL;
+ 	msm_submitqueue_close(ctx);
+ 	msm_file_private_put(ctx);
  }
-diff --git a/include/drm/drm_file.h b/include/drm/drm_file.h
-index 1339e925af52..604d05fa6f0c 100644
---- a/include/drm/drm_file.h
-+++ b/include/drm/drm_file.h
-@@ -370,6 +370,25 @@ struct drm_file {
- 	 */
- 	struct drm_prime_file_private prime;
+diff --git a/drivers/gpu/drm/msm/msm_gpu.h b/drivers/gpu/drm/msm/msm_gpu.h
+index 7a4fa1b8655b..671ce89e61b0 100644
+--- a/drivers/gpu/drm/msm/msm_gpu.h
++++ b/drivers/gpu/drm/msm/msm_gpu.h
+@@ -359,6 +359,16 @@ struct msm_file_private {
+ 	struct kref ref;
+ 	int seqno;
  
 +	/**
-+	 * @comm: Overridden task comm
++	 * @file: link back to the associated drm_file
 +	 *
-+	 * Accessed under override_lock
++	 * Note that msm_file_private can outlive the drm_file, ie.
++	 * after the drm_file is closed but before jobs submitted have
++	 * been cleaned up.  After the drm_file is closed this will be
++	 * NULL.
 +	 */
-+	char *override_comm;
++	struct drm_file *file;
 +
-+	/**
-+	 * @cmdline: Overridden task cmdline
-+	 *
-+	 * Accessed under override_lock
-+	 */
-+	char *override_cmdline;
-+
-+	/**
-+	 * @override_lock: Serialize access to override_comm and override_cmdline
-+	 */
-+	struct mutex override_lock;
-+
- 	/* private: */
- #if IS_ENABLED(CONFIG_DRM_LEGACY)
- 	unsigned long lock_count; /* DRI1 legacy lock count */
+ 	/**
+ 	 * sysprof:
+ 	 *
 -- 
 2.39.2
 
