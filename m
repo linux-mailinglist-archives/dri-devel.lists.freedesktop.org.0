@@ -1,20 +1,20 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C30B6F076D
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Apr 2023 16:30:25 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A0296F076B
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Apr 2023 16:30:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DE7D410EB56;
-	Thu, 27 Apr 2023 14:30:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5E8D110EB4D;
+	Thu, 27 Apr 2023 14:30:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail11.truemail.it (mail11.truemail.it [217.194.8.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3A80A10EB33
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3989D10E386
  for <dri-devel@lists.freedesktop.org>; Thu, 27 Apr 2023 14:29:46 +0000 (UTC)
 Received: from francesco-nb.pivistrello.it (93-49-2-63.ip317.fastwebnet.it
  [93.49.2.63])
- by mail11.truemail.it (Postfix) with ESMTPA id 2F95C20B61;
+ by mail11.truemail.it (Postfix) with ESMTPA id A1E7320B63;
  Thu, 27 Apr 2023 16:29:43 +0200 (CEST)
 From: Francesco Dolcini <francesco@dolcini.it>
 To: Andrzej Hajda <andrzej.hajda@intel.com>,
@@ -22,9 +22,9 @@ To: Andrzej Hajda <andrzej.hajda@intel.com>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
  Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
  tomi.valkeinen@ideasonboard.com, dri-devel@lists.freedesktop.org
-Subject: [PATCH v1 8/9] drm/bridge: tc358768: fix THS_TRAILCNT computation
-Date: Thu, 27 Apr 2023 16:29:33 +0200
-Message-Id: <20230427142934.55435-9-francesco@dolcini.it>
+Subject: [PATCH v1 9/9] drm/bridge: tc358768: remove unused variable
+Date: Thu, 27 Apr 2023 16:29:34 +0200
+Message-Id: <20230427142934.55435-10-francesco@dolcini.it>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20230427142934.55435-1-francesco@dolcini.it>
 References: <20230427142934.55435-1-francesco@dolcini.it>
@@ -49,50 +49,40 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Francesco Dolcini <francesco.dolcini@toradex.com>
 
-Correct computation of THS_TRAILCNT register.
+Remove the unused phy_delay_nsk variable, before it was wrongly used
+to compute some register value, the fixed computation is no longer using
+it and therefore can be removed.
 
-This register must be set to a value that ensure that
-THS_TRAIL > 60 ns + 4 x UI
- and
-THS_TRAIL > 8 x UI
- and
-THS_TRAIL < TEOT
- with
-TEOT = 105 ns + (12 x UI)
-
-with the actual value of THS_TRAIL being
-
-(1 + THS_TRAILCNT) x ByteClk cycle + ((1 to 2) + 2) xHSBYTECLK cycle +
- - (PHY output delay)
-
-with PHY output delay being about
-
-(8 + (5 to 6)) x MIPIBitClk cycle in the BitClk conversion.
-
-Fixes: ff1ca6397b1d ("drm/bridge: Add tc358768 driver")
 Signed-off-by: Francesco Dolcini <francesco.dolcini@toradex.com>
 ---
- drivers/gpu/drm/bridge/tc358768.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/bridge/tc358768.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
 diff --git a/drivers/gpu/drm/bridge/tc358768.c b/drivers/gpu/drm/bridge/tc358768.c
-index 854fc04f08d0..947c7dca567a 100644
+index 947c7dca567a..d3af42a16e69 100644
 --- a/drivers/gpu/drm/bridge/tc358768.c
 +++ b/drivers/gpu/drm/bridge/tc358768.c
-@@ -779,9 +779,10 @@ static void tc358768_bridge_pre_enable(struct drm_bridge *bridge)
- 	dev_dbg(priv->dev, "TCLK_POSTCNT: 0x%x\n", val);
- 	tc358768_write(priv, TC358768_TCLK_POSTCNT, val);
+@@ -641,7 +641,7 @@ static void tc358768_bridge_pre_enable(struct drm_bridge *bridge)
+ 	u32 val, val2, lptxcnt, hact, data_type;
+ 	s32 raw_val;
+ 	const struct drm_display_mode *mode;
+-	u32 dsibclk_nsk, dsiclk_nsk, ui_nsk, phy_delay_nsk;
++	u32 dsibclk_nsk, dsiclk_nsk, ui_nsk;
+ 	u32 dsiclk, dsibclk, video_start;
+ 	const u32 internal_delay = 40;
+ 	int ret, i;
+@@ -725,11 +725,9 @@ static void tc358768_bridge_pre_enable(struct drm_bridge *bridge)
+ 				  dsibclk);
+ 	dsiclk_nsk = (u32)div_u64((u64)1000000000 * TC358768_PRECISION, dsiclk);
+ 	ui_nsk = dsiclk_nsk / 2;
+-	phy_delay_nsk = dsibclk_nsk + 2 * dsiclk_nsk;
+ 	dev_dbg(priv->dev, "dsiclk_nsk: %u\n", dsiclk_nsk);
+ 	dev_dbg(priv->dev, "ui_nsk: %u\n", ui_nsk);
+ 	dev_dbg(priv->dev, "dsibclk_nsk: %u\n", dsibclk_nsk);
+-	dev_dbg(priv->dev, "phy_delay_nsk: %u\n", phy_delay_nsk);
  
--	/* 60ns + 4*UI < THS_PREPARE < 105ns + 12*UI */
--	val = tc358768_ns_to_cnt(60 + tc358768_to_ns(15 * ui_nsk),
--				 dsibclk_nsk) - 5;
-+	/* max(60ns + 4*UI, 8*UI) < THS_TRAILCNT < 105ns + 12*UI */
-+	raw_val = tc358768_ns_to_cnt(60 + tc358768_to_ns(18 * ui_nsk),
-+				     dsibclk_nsk) - 4;
-+	val = clamp(raw_val, 0, 15);
- 	dev_dbg(priv->dev, "THS_TRAILCNT: 0x%x\n", val);
- 	tc358768_write(priv, TC358768_THS_TRAILCNT, val);
- 
+ 	/* LP11 > 100us for D-PHY Rx Init */
+ 	val = tc358768_ns_to_cnt(100 * 1000, dsibclk_nsk) - 1;
 -- 
 2.25.1
 
