@@ -2,41 +2,92 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE0C06EFFB1
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Apr 2023 05:09:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B197D6EFFD5
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Apr 2023 05:30:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EDD3C10E358;
-	Thu, 27 Apr 2023 03:08:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 169D310EA7A;
+	Thu, 27 Apr 2023 03:30:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m12.mail.163.com (m12.mail.163.com [220.181.12.197])
- by gabe.freedesktop.org (Postfix) with ESMTP id 2B50810E358
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Apr 2023 03:08:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=aJJrv
- yTyo8hE6ICK1Lxk50jXuG4KqTFF4VfxF35PEdo=; b=BKEP3oc6YdFydmWaXWXc0
- yGtJWWiLg8SAh7R/jClOrjeYA2r4LPlwlwpSnxfUc9iAdkdLfa7XVSGLyMtwQniW
- 4cOWj25t1y9XAmqYnHwc7v98vpuns2Gl2dyjka+WNGw2JwAiSNBDrTCFcSbEp6Yq
- JZ8rf2Qlsurgo++GH+4oVw=
-Received: from leanderwang-LC2.localdomain (unknown [111.206.145.21])
- by zwqz-smtp-mta-g5-4 (Coremail) with SMTP id _____wD3uKQ650lkHEztAA--.58828S2;
- Thu, 27 Apr 2023 11:08:42 +0800 (CST)
-From: Zheng Wang <zyytlz.wz@163.com>
-To: deller@gmx.de
-Subject: [PATCH v2] video: imsttfb: Fix use after free bug in imsttfb_probe
- due to lack of error-handling of init_imstt
-Date: Thu, 27 Apr 2023 11:08:41 +0800
-Message-Id: <20230427030841.2384157-1-zyytlz.wz@163.com>
-X-Mailer: git-send-email 2.25.1
+Received: from NAM04-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam04on20625.outbound.protection.outlook.com
+ [IPv6:2a01:111:f400:7e8d::625])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4D2FD10EA7A;
+ Thu, 27 Apr 2023 03:30:51 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=MXEXjLa91Kdj1cOB5rbZuJgDm72xIGpcrNk2MtkRmtGVA2i50vor8Q7NjIRXsar5SRkFz4s0xjidBMAKZmQduIGXI33uLv3sisbOWqHhXnMKu9LAqGlNfYZ1sWAgWcZSju2EMXj0KlpWdp6EkCTF9RoMp404UHXsHHdAu5hhQAp6yaE/N7QFWaiFmyOZyv2aRZCW0oDL34tuKJhHmCLPZfuSq9F8++8kjoD3rIgNQfqULoJ092gOK4il5siWKjDTBcEJUwiUQDioMvUZth6CqmfkUeP5AO8XRK/yFUfo5saGoiilTIulNDwCZ36PA2qgz1uVoYeIMRSy0VRg36PcXw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=GAKSgdvJsDIVaqiHLip41YB9fxC47D787sfsyoWr/gg=;
+ b=jxc4hI2FpGSZOI53t4hT7ff4ixo5elNDb44foJ+ikiSbLF1uvRunfsQqrJLymvCTaUKPWKN3hEC8XHJctuo6fAOsRL4RPfxYtvBLhefaY8PiWGwgenRWYMW8CrzZeaMPV5qjL+j/tR37gh07+aGz9stZ2c8fBgPLJNdld5Ef9ozQWdchFwGXn7LkPjGZvc6t0D8+hfBoSItoqB07U8UWebLYK2n5aoOoCOuvqQw/id3WfK3ilGp864YmPqx2i6nUmIq6VJxY73+8E4xFFmKAYsDM5wtUe1Qxf4DMEeEOdRlYXx+KNpHYbAEFcCQhnyxtcxBKstsFblUboM9I3rodDg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=GAKSgdvJsDIVaqiHLip41YB9fxC47D787sfsyoWr/gg=;
+ b=LkCre7QtcVxc7VvkzTYNE0CYW2IFNS+hPfn1KE23GGh4JTZhuCgReERxqzWqz4Ko4o7/CGKWzM6YtkjWIi34+ot9CJaDVgVi/3UUsf9h+x8tL3ubGV5+Kj/5QtbAg41330I7h0MriD8STs4Fv6tCUJ/IlrIVPF02dd9QUvrTOQs=
+Received: from DM5PR08CA0049.namprd08.prod.outlook.com (2603:10b6:4:60::38) by
+ CH0PR12MB8506.namprd12.prod.outlook.com (2603:10b6:610:18a::6) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6340.22; Thu, 27 Apr 2023 03:30:43 +0000
+Received: from DM6NAM11FT108.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:4:60:cafe::80) by DM5PR08CA0049.outlook.office365.com
+ (2603:10b6:4:60::38) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6340.21 via Frontend
+ Transport; Thu, 27 Apr 2023 03:30:43 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ DM6NAM11FT108.mail.protection.outlook.com (10.13.172.95) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.6340.22 via Frontend Transport; Thu, 27 Apr 2023 03:30:43 +0000
+Received: from tr4.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Wed, 26 Apr
+ 2023 22:30:42 -0500
+From: Alex Deucher <alexander.deucher@amd.com>
+To: <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
+ <airlied@gmail.com>, <daniel.vetter@ffwll.ch>
+Subject: [pull] amdgpu drm-fixes-6.4
+Date: Wed, 26 Apr 2023 23:30:12 -0400
+Message-ID: <20230427033012.7668-1-alexander.deucher@amd.com>
+X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: _____wD3uKQ650lkHEztAA--.58828S2
-X-Coremail-Antispam: 1Uf129KBjvJXoW7KFWxKr18uF1kur4rGw4xCrg_yoW8tw47pF
- 45A3Z8JrsrJF48Ww4kJF4UAF43KFn7t34agrW7Ka4SyF13CrW0gr1xGa42vr93JrZ7Jr17
- ZF4kt34UCF1UuFDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0ziIzuAUUUUU=
-X-Originating-IP: [111.206.145.21]
-X-CM-SenderInfo: h2113zf2oz6qqrwthudrp/xtbBzhteU2I0Y-4VnQAAsb
+Content-Type: text/plain
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM6NAM11FT108:EE_|CH0PR12MB8506:EE_
+X-MS-Office365-Filtering-Correlation-Id: a6b3367a-a2eb-4aae-bf3a-08db46cfc828
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: Sm4dicrvrvvSmbMtZD0hVHczh7j7ldNJOKcuLjYWeUvJgtm20roaBWGS5wZ0cgXLgf2SsyCKMiHcz58vT8ggC3UBrKYa+wy8OXST1x4/uwP/kxjCh2WEkFFJE9A/MqIE03KlyiGiVeUDTIb8Z72Pi1tHWhY7Chu1Opd41WUNLWuuEMxae4ikXDMVO8V74PDigg9nR4jQr/HmvgWWLWzm9d6Ho9mtDOyJktomXkAIgtf+ZBONboyu8utVOf+WMJSqVby5NXBdG0fQnza/fYIl3h4zPCmvviYwmP8HlAKSI6ifsD/oTcbMFkDZ/sJ+aQKv3hihNzHMdccf2QzusV4026d0dMaDsd4J2Ry61cJWmJ55g+WuZeY48fAVviiOtllUKGbeoDKDi1rbAO36RvPtKnl6Y9EgLeJPQ3TK5+DvkRIadrDPFqqugtcZL3PvBwwgAlorRTmguWmU58M82UsM4YAl4OlLi46oyRgwiS9gyDIlpoG3VOF4dSzGb7C+4er+B7+k68H8eAfnKHtY9NS6aFx9FBa0cNJfmZwHZBYig2b7FrORDRgsnKHNacw7XlGqGRRVu73FBbKBoL1050gt347p2j1AIzJFwRCrod5sPA0FhGI6iHDCKweF2jmlRqvC3rG1XZfgWzl+qV87/ZYnNAEPhurT8F8QMToU/kpgRywrW9sDS29kWoZqBiDcVSDb
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230028)(4636009)(136003)(376002)(39860400002)(396003)(346002)(451199021)(40470700004)(36840700001)(46966006)(86362001)(36756003)(82310400005)(2906002)(40460700003)(40480700001)(7696005)(36860700001)(6666004)(16526019)(2616005)(47076005)(83380400001)(336012)(186003)(426003)(1076003)(26005)(966005)(4326008)(70206006)(110136005)(70586007)(478600001)(356005)(316002)(82740400003)(5660300002)(41300700001)(8676002)(81166007)(8936002)(36900700001);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Apr 2023 03:30:43.2564 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: a6b3367a-a2eb-4aae-bf3a-08db46cfc828
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT108.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR12MB8506
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,83 +100,143 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: alex000young@gmail.com, linux-fbdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, hackerzheng666@gmail.com,
- dri-devel@lists.freedesktop.org, javierm@redhat.com, 1395428693sheep@gmail.com,
- tzimmermann@suse.de, Zheng Wang <zyytlz.wz@163.com>
+Cc: Alex Deucher <alexander.deucher@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-A use-after-free bug may occur if init_imstt invokes framebuffer_release
-and free the info ptr. The caller, imsttfb_probe didn't notice that and
-still keep the ptr as private data in pdev.
+Hi Dave, Daniel,
 
-If we remove the driver which will call imsttfb_remove to make cleanup,
-UAF happens.
+Fixes for 6.4.  A bit bigger than usual since it's two weeks worth.  Mostly
+display fixes.
 
-Fix it by return error code if bad case happens in init_imstt.
+The following changes since commit e82c98f2ca439356d5595ba8c9cd782f993f6f8c:
 
-Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
-Signed-off-by: Zheng Wang <zyytlz.wz@163.com>
----
-v2:
-- add return error code in another location.
----
- drivers/video/fbdev/imsttfb.c | 15 ++++++++-------
- 1 file changed, 8 insertions(+), 7 deletions(-)
+  Merge tag 'amd-drm-next-6.4-2023-04-14' of https://gitlab.freedesktop.org/agd5f/linux into drm-next (2023-04-17 10:54:59 +1000)
 
-diff --git a/drivers/video/fbdev/imsttfb.c b/drivers/video/fbdev/imsttfb.c
-index bea45647184e..975dd682fae4 100644
---- a/drivers/video/fbdev/imsttfb.c
-+++ b/drivers/video/fbdev/imsttfb.c
-@@ -1347,7 +1347,7 @@ static const struct fb_ops imsttfb_ops = {
- 	.fb_ioctl 	= imsttfb_ioctl,
- };
- 
--static void init_imstt(struct fb_info *info)
-+static int init_imstt(struct fb_info *info)
- {
- 	struct imstt_par *par = info->par;
- 	__u32 i, tmp, *ip, *end;
-@@ -1420,7 +1420,7 @@ static void init_imstt(struct fb_info *info)
- 	    || !(compute_imstt_regvals(par, info->var.xres, info->var.yres))) {
- 		printk("imsttfb: %ux%ux%u not supported\n", info->var.xres, info->var.yres, info->var.bits_per_pixel);
- 		framebuffer_release(info);
--		return;
-+		return -ENODEV;
- 	}
- 
- 	sprintf(info->fix.id, "IMS TT (%s)", par->ramdac == IBM ? "IBM" : "TVP");
-@@ -1456,12 +1456,13 @@ static void init_imstt(struct fb_info *info)
- 
- 	if (register_framebuffer(info) < 0) {
- 		framebuffer_release(info);
--		return;
-+		return -ENODEV;
- 	}
- 
- 	tmp = (read_reg_le32(par->dc_regs, SSTATUS) & 0x0f00) >> 8;
- 	fb_info(info, "%s frame buffer; %uMB vram; chip version %u\n",
- 		info->fix.id, info->fix.smem_len >> 20, tmp);
-+	return 0;
- }
- 
- static int imsttfb_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
-@@ -1529,10 +1530,10 @@ static int imsttfb_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
- 	if (!par->cmap_regs)
- 		goto error;
- 	info->pseudo_palette = par->palette;
--	init_imstt(info);
--
--	pci_set_drvdata(pdev, info);
--	return 0;
-+	ret = init_imstt(info);
-+	if (!ret)
-+		pci_set_drvdata(pdev, info);
-+	return ret;
- 
- error:
- 	if (par->dc_regs)
--- 
-2.25.1
+are available in the Git repository at:
 
+  https://gitlab.freedesktop.org/agd5f/linux.git tags/amd-drm-fixes-6.4-2023-04-26
+
+for you to fetch changes up to d893f39320e1248d1c97fde0d6e51e5ea008a76b:
+
+  drm/amd/display: Lowering min Z8 residency time (2023-04-26 22:53:58 -0400)
+
+----------------------------------------------------------------
+amd-drm-fixes-6.4-2023-04-26:
+
+amdgpu:
+- SR-IOV fixes
+- DCN 3.2 fixes
+- DC mclk handling fixes
+- eDP fixes
+- SubVP fixes
+- HDCP regression fix
+- DSC fixes
+- DC FP fixes
+- DCN 3.x fixes
+- Display flickering fix when switching between vram and gtt
+- Z8 power saving fix
+- Fix hang when skipping modeset
+
+----------------------------------------------------------------
+Alex Hung (1):
+      drm/amd/display: allow edp updates for virtual signal
+
+Alvin Lee (1):
+      drm/amd/display: Reduce SubVP + DRR stretch margin
+
+Aurabindo Pillai (5):
+      drm/amd/display: Fix hang when skipping modeset
+      drm/amd/display: remove incorrect early return
+      drm/amd/display: Fixes for dcn32_clk_mgr implementation
+      drm/amd/display: Do not clear GPINT register when releasing DMUB from reset
+      drm/amd/display: Update bounding box values for DCN321
+
+Chong Li (1):
+      drm/amdgpu: release gpu full access after "amdgpu_device_ip_late_init"
+
+Cruise Hung (1):
+      drm/amd/display: Reset OUTBOX0 r/w pointer on DMUB reset
+
+Hamza Mahfooz (1):
+      drm/amd/display: fix flickering caused by S/G mode
+
+Hersen Wu (3):
+      drm/amd/display: fix memleak in aconnector->timing_requested
+      drm/amd/display: fix access hdcp_workqueue assert
+      drm/amd/display: Return error code on DSC atomic check failure
+
+Igor Kravchenko (1):
+      drm/amd/display: Set min_width and min_height capability for DCN30
+
+Jane Jian (1):
+      drm/amdgpu/vcn: fix mmsch ctx table size
+
+Jasdeep Dhillon (1):
+      drm/amd/display: Isolate remaining FPU code in DCN32
+
+Jingwen Zhu (1):
+      drm/amd/display: Improvement for handling edp link training fails
+
+Josip Pavic (1):
+      drm/amd/display: copy dmub caps to dc on dcn31
+
+Leo Chen (1):
+      drm/amd/display: Lowering min Z8 residency time
+
+Michael Mityushkin (1):
+      drm/amd/display: Apply correct panel mode when reinitializing hardware
+
+Rodrigo Siqueira (8):
+      drm/amd/display: Update bouding box values for DCN32
+      drm/amd/display: Add missing mclk update
+      drm/amd/display: Adjust code identation and other minor details
+      drm/amd/display: Set maximum VStartup if is DCN201
+      drm/amd/display: Set dp_rate to dm_dp_rate_na by default
+      drm/amd/display: Remove wrong assignment of DP link rate
+      drm/amd/display: Use pointer in the memcpy
+      drm/amd/display: Add missing WA and MCLK validation
+
+Tianci Yin (1):
+      drm/amd/display: Disable migration to ensure consistency of per-CPU variable
+
+Tom Rix (2):
+      drm/amd/pm: change pmfw_decoded_link_width, speed variables to globals
+      drm/amd/display: set variable dccg314_init storage-class-specifier to static
+
+Wesley Chalmers (2):
+      drm/amd/display: Do not set drr on pipe commit
+      drm/amd/display: Block optimize on consecutive FAMS enables
+
+ drivers/gpu/drm/amd/amdgpu/amdgpu_device.c         |  32 ++--
+ drivers/gpu/drm/amd/amdgpu/jpeg_v4_0.c             |   2 +-
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c  |  34 +++-
+ .../drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c  |   1 -
+ .../amd/display/amdgpu_dm/amdgpu_dm_mst_types.c    |  17 +-
+ drivers/gpu/drm/amd/display/amdgpu_dm/dc_fpu.c     |   2 +
+ .../amd/display/dc/clk_mgr/dcn32/dcn32_clk_mgr.c   |   5 +
+ drivers/gpu/drm/amd/display/dc/core/dc_resource.c  |   3 +
+ drivers/gpu/drm/amd/display/dc/dc.h                |   1 +
+ drivers/gpu/drm/amd/display/dc/dc_stream.h         |   2 +-
+ .../amd/display/dc/dce110/dce110_hw_sequencer.c    |  19 ++-
+ drivers/gpu/drm/amd/display/dc/dcn20/dcn20_hwseq.c |   9 ++
+ drivers/gpu/drm/amd/display/dc/dcn30/dcn30_hwseq.c |  25 ++-
+ .../gpu/drm/amd/display/dc/dcn30/dcn30_resource.c  |   4 +-
+ drivers/gpu/drm/amd/display/dc/dcn31/dcn31_hwseq.c |   4 +
+ .../gpu/drm/amd/display/dc/dcn314/dcn314_dccg.c    |   2 +-
+ .../drm/amd/display/dc/dcn314/dcn314_resource.c    |   2 +-
+ drivers/gpu/drm/amd/display/dc/dcn32/dcn32_hwseq.c |   1 +
+ .../gpu/drm/amd/display/dc/dcn32/dcn32_resource.c  |  46 +++---
+ .../gpu/drm/amd/display/dc/dml/dcn20/dcn20_fpu.c   | 178 +++++++++++----------
+ .../gpu/drm/amd/display/dc/dml/dcn30/dcn30_fpu.c   |  18 ++-
+ .../gpu/drm/amd/display/dc/dml/dcn32/dcn32_fpu.c   |  17 +-
+ .../gpu/drm/amd/display/dc/dml/dcn32/dcn32_fpu.h   |   2 +
+ .../gpu/drm/amd/display/dc/dml/dcn321/dcn321_fpu.c |  24 +--
+ drivers/gpu/drm/amd/display/dc/link/link_dpms.c    |   5 +
+ .../display/dc/link/protocols/link_dp_training.c   |   5 +-
+ .../dc/link/protocols/link_edp_panel_control.c     |   1 +
+ drivers/gpu/drm/amd/display/dmub/src/dmub_dcn32.c  |   3 +-
+ drivers/gpu/drm/amd/display/include/signal_types.h |   1 +
+ drivers/gpu/drm/amd/pm/swsmu/inc/smu_v13_0.h       |   4 +-
+ drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0.c     |   3 +
+ 31 files changed, 300 insertions(+), 172 deletions(-)
