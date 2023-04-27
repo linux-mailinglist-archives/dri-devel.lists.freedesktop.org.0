@@ -1,56 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D6C76F0287
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Apr 2023 10:28:30 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 901346F02A0
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Apr 2023 10:34:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 35F3A10E111;
-	Thu, 27 Apr 2023 08:28:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9A6B310E325;
+	Thu, 27 Apr 2023 08:34:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E008010E089;
- Thu, 27 Apr 2023 08:28:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1682584103; x=1714120103;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=UM4DAfcv3rucxppKd5Irb36BjuE+/+KDmIffh+kyVOA=;
- b=NeIC8jHrWYBxM7dOAElpLTR91Mpd7bSflQr5c6oEqNH8Iry/G0QEsgwd
- h/4PkO0pTX1FIWJ+3Xv6Kjkjlvk4jjy2HXgARdpF+lF3Fnhv2fvbe0t1o
- 3k4NOCtI0czbewlef9vrA3q+jvrqzspBQWFM0Hcy4zA27YmrGyVnTC2bk
- BfxgQg7EHzK8rpTCNfzI+V3mqFswjQDA6eRbU59WRrOC3rt58Hd4CPNgd
- G14SywTAx1IoMKSA33dzCUXuJzCZAfaVHxgqAsQ8BO7qkBVxEo3aIrGCW
- iIKhSX8r1QUDi7XrOusSf52W5Je/4wpFRGfxn+qvs3J/QFlQE2S6ESIpX g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10692"; a="412706171"
-X-IronPort-AV: E=Sophos;i="5.99,230,1677571200"; d="scan'208";a="412706171"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Apr 2023 01:28:18 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10692"; a="724796853"
-X-IronPort-AV: E=Sophos;i="5.99,230,1677571200"; d="scan'208";a="724796853"
-Received: from clanggaa-mobl.ger.corp.intel.com (HELO [10.249.254.169])
- ([10.249.254.169])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Apr 2023 01:28:15 -0700
-Message-ID: <2f09ea83-59f0-f210-797f-40dc13908f7d@linux.intel.com>
-Date: Thu, 27 Apr 2023 10:28:13 +0200
+Received: from mail-io1-xd2f.google.com (mail-io1-xd2f.google.com
+ [IPv6:2607:f8b0:4864:20::d2f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4F75110E325
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Apr 2023 08:34:03 +0000 (UTC)
+Received: by mail-io1-xd2f.google.com with SMTP id
+ ca18e2360f4ac-7606df33c42so200621039f.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Apr 2023 01:34:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1682584442; x=1685176442;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=sABY6A67E6Cr5HzYkc9PhVkZQhkD8kgg0GZ6k0SOVCs=;
+ b=ZXCewySSCGLGW2ssIYmj8XvdD9bNIevJa4tXEfsy/2Rz+vT3jB+TdKdDT0dHQdtQ7P
+ NhkiCmfWRYa1242dz9Hna3BPrYr0bHYXfjGTQyIMEr46utyp7Zty4/mxL4k08MdVqMbv
+ NysGsqgJnHdLCcEzprjPToeuBT/32G1FAqNKY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1682584442; x=1685176442;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=sABY6A67E6Cr5HzYkc9PhVkZQhkD8kgg0GZ6k0SOVCs=;
+ b=SPeOdzDJ5xem38NcpQziek5mdy1GZWSc/u0KVTTuQqimDvQYs/itZhWPZry2AsMYK9
+ +tH+zdhrzRbHChu8+6oWepaLmyC8EBc6B5ChVwsn0XarF+MgmY6xbDOCJdJuSm5XCtjx
+ s+bRCmUGR/YdUAZ/qN0WFxiyIznL6aytFzViVofFDa8vO9YdT62cUEPU47suEyFqsFFK
+ FUI2jc4rrMQlshRjBVnacqMF/ELj0dStBEnQl5jsc1c04728NlXZJdiTb7LYqogmV2s9
+ MQTppeskwlaNTwJ5OrP7C5k2AsjCWqIKXC8x4BNMIB+gwYapFCg/uBE3AlBj7bz4LY7Z
+ LcGw==
+X-Gm-Message-State: AC+VfDw5puhRQXI4+M4iR169Z6LvkggcR6F0+k0a2mnWH8uT4m5JMaOT
+ FMeHmeD6aRikA0SeaOEwphcxw+jNE8qaDH+Kf1PQYg==
+X-Google-Smtp-Source: ACHHUZ6G8bxKhwblghlEc4n/zFsjFZp0dwMaJ3weKd4SVVgKwn7iy+BZ9ek6/DBO+rvf15mslpALYE3KPS/vz18U6n8=
+X-Received: by 2002:a92:c84d:0:b0:318:ab40:4e9b with SMTP id
+ b13-20020a92c84d000000b00318ab404e9bmr742195ilq.2.1682584441951; Thu, 27 Apr
+ 2023 01:34:01 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [Intel-xe] [PATCH 02/14] drm/xe: Introduce the dev_coredump
- infrastructure.
-Content-Language: en-US
-To: Rodrigo Vivi <rodrigo.vivi@intel.com>, intel-xe@lists.freedesktop.org
-References: <20230426205713.512695-1-rodrigo.vivi@intel.com>
- <20230426205713.512695-3-rodrigo.vivi@intel.com>
-From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>
-In-Reply-To: <20230426205713.512695-3-rodrigo.vivi@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20230331091145.737305-1-treapking@chromium.org>
+ <20230331091145.737305-5-treapking@chromium.org>
+ <CAE-0n51E5foFWQAsA73662_5e6XP426wuUCVVmcS5UWwiYpDmw@mail.gmail.com>
+ <CAEXTbpdcbB_z4ZGCGzc-cM74ECKyxekbroKCWFnhH8eR=4HmvA@mail.gmail.com>
+ <CAE-0n50atfmr-bFh5XtTCm4WpSijJGSe0B5JP8ni7CCYk7Bs5A@mail.gmail.com>
+ <CAE-0n51Qy-KDGHOCr4Smpebq1fCURqvJ2RJz6KAtVpv5e+DSGA@mail.gmail.com>
+ <CAEXTbpeKe1dVHp9cauMN-9nQb35oJ-ZhdFV-8BiWzjjhWAy0Zg@mail.gmail.com>
+In-Reply-To: <CAEXTbpeKe1dVHp9cauMN-9nQb35oJ-ZhdFV-8BiWzjjhWAy0Zg@mail.gmail.com>
+From: Pin-yen Lin <treapking@chromium.org>
+Date: Thu, 27 Apr 2023 16:33:51 +0800
+Message-ID: <CAEXTbpcBrd9W_BLcDO5JO9v=r+WOOfU8KmuSyZKr5sT=ezk6KA@mail.gmail.com>
+Subject: Re: [PATCH v15 04/10] dt-bindings: display: bridge: anx7625: Add
+ mode-switch support
+To: Stephen Boyd <swboyd@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,380 +72,137 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, dri-devel@lists.freedesktop.org
+Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ "Rafael J . Wysocki" <rafael@kernel.org>, dri-devel@lists.freedesktop.org,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Guenter Roeck <groeck@chromium.org>,
+ Marek Vasut <marex@denx.de>, chrome-platform@lists.linux.dev,
+ Robert Foss <rfoss@kernel.org>, Javier Martinez Canillas <javierm@redhat.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, linux-acpi@vger.kernel.org,
+ Chen-Yu Tsai <wenst@chromium.org>, devicetree@vger.kernel.org,
+ =?UTF-8?B?TsOtY29sYXMgRiAuIFIgLiBBIC4gUHJhZG8=?= <nfraprado@collabora.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Rob Herring <robh+dt@kernel.org>,
+ Hsin-Yi Wang <hsinyi@chromium.org>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Xin Ji <xji@analogixsemi.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
+ Daniel Scally <djrscally@gmail.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Prashant Malani <pmalani@chromium.org>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Thu, Apr 20, 2023 at 5:10=E2=80=AFPM Pin-yen Lin <treapking@chromium.org=
+> wrote:
+>
+> On Thu, Apr 20, 2023 at 2:10=E2=80=AFPM Stephen Boyd <swboyd@chromium.org=
+> wrote:
+> >
+> > Quoting Stephen Boyd (2023-04-13 17:22:46)
+> > > Quoting Pin-yen Lin (2023-04-13 02:50:44)
+> > > >
+> > > > Actually the `mode-switch` property here is mainly because
+> > > > `fwnode_typec_mux_get`[1] and `typec_mux_match`[2] only return matc=
+hes
+> > > > when the property is present. I am not sure what side effects would=
+ be
+> > > > if I remove the ID-matching condition in `typec_mux_match`, so I ad=
+ded
+> > > > the property here.
+> > > >
+> > > > Is it feasible to remove the `mode-switch` property here given the
+> > > > existing implementation of the Type-C framework?
+> > >
+> > > Omitting the mode-switch property would require changes to the type-c
+> > > framework.
+> > >
+> > > I'm wondering if we can have this anx driver register mode switches f=
+or
+> > > however many endpoints exist in the output port all the time when the
+> > > aux-bus node doesn't exist. Then the type-c framework can walk from t=
+he
+> > > usb-c-connector to each connected node looking for a device that is b=
+oth
+> > > a drm_bridge and a mode-switch. When it finds that combination, it kn=
+ows
+> > > that the mode-switch has been found. This hinges on the idea that a
+> > > device that would have the mode-switch property is a drm_bridge and
+> > > would register a mode-switch with the type-c framework.
 
-On 4/26/23 22:57, Rodrigo Vivi wrote:
-> The goal is to use devcoredump infrastructure to report error states
-> captured at the crash time.
->
-> The error state will contain useful information for GPU hang debug, such
-> as INSTDONE registers and the current buffers getting executed, as well
-> as any other information that helps user space and allow later replays of
-> the error.
->
-> The proposal here is to avoid a Xe only error_state like i915 and use
-> a standard dev_coredump infrastructure to expose the error state.
->
-> For our own case, the data is only useful if it is a snapshot of the
-> time when the GPU crash has happened, since we reset the GPU immediately
-> after and the registers might have changed. So the proposal here is to
-> have an internal snapshot to be printed out later.
->
-> Also, usually a subsequent GPU hang can be only a cause of the initial
-> one. So we only save the 'first' hang. The dev_coredump has a delayed
-> work queue where it remove the coredump and free all the data withing a
-> few moments of the error. When that happens we also reset our capture
-> state and allow further snapshots.
->
-> Right now this infra only print out the time of the hang. More information
-> will be migrated here on subsequent work. Also, in order to organize the
-> dump better, the goal is to propose dev_coredump changes itself to allow
-> multiple files and different controls. But for now we start Xe usage of
-> it without any dependency on dev_coredump core changes.
->
-> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-> Signed-off-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
-> ---
->   drivers/gpu/drm/xe/Kconfig                |   1 +
->   drivers/gpu/drm/xe/Makefile               |   1 +
->   drivers/gpu/drm/xe/xe_devcoredump.c       | 144 ++++++++++++++++++++++
->   drivers/gpu/drm/xe/xe_devcoredump.h       |  22 ++++
->   drivers/gpu/drm/xe/xe_devcoredump_types.h |  47 +++++++
->   drivers/gpu/drm/xe/xe_device_types.h      |   4 +
->   drivers/gpu/drm/xe/xe_guc_submit.c        |   2 +
->   drivers/gpu/drm/xe/xe_pci.c               |   2 +
->   8 files changed, 223 insertions(+)
->   create mode 100644 drivers/gpu/drm/xe/xe_devcoredump.c
->   create mode 100644 drivers/gpu/drm/xe/xe_devcoredump.h
->   create mode 100644 drivers/gpu/drm/xe/xe_devcoredump_types.h
->
-> diff --git a/drivers/gpu/drm/xe/Kconfig b/drivers/gpu/drm/xe/Kconfig
-> index f6f3b491d162..d44794f99338 100644
-> --- a/drivers/gpu/drm/xe/Kconfig
-> +++ b/drivers/gpu/drm/xe/Kconfig
-> @@ -35,6 +35,7 @@ config DRM_XE
->   	select DRM_TTM_HELPER
->   	select DRM_SCHED
->   	select MMU_NOTIFIER
-> +	select WANT_DEV_COREDUMP
->   	help
->   	  Experimental driver for Intel Xe series GPUs
->   
-> diff --git a/drivers/gpu/drm/xe/Makefile b/drivers/gpu/drm/xe/Makefile
-> index ee4a95beec20..9d675f7c77aa 100644
-> --- a/drivers/gpu/drm/xe/Makefile
-> +++ b/drivers/gpu/drm/xe/Makefile
-> @@ -34,6 +34,7 @@ xe-y += xe_bb.o \
->   	xe_bo.o \
->   	xe_bo_evict.o \
->   	xe_debugfs.o \
-> +	xe_devcoredump.o \
->   	xe_device.o \
->   	xe_dma_buf.o \
->   	xe_engine.o \
-> diff --git a/drivers/gpu/drm/xe/xe_devcoredump.c b/drivers/gpu/drm/xe/xe_devcoredump.c
-> new file mode 100644
-> index 000000000000..d9531183f03a
-> --- /dev/null
-> +++ b/drivers/gpu/drm/xe/xe_devcoredump.c
-> @@ -0,0 +1,144 @@
-> +// SPDX-License-Identifier: MIT
-> +/*
-> + * Copyright © 2023 Intel Corporation
-> + */
-> +
-> +#include "xe_devcoredump.h"
-> +#include "xe_devcoredump_types.h"
-> +
-> +#include <linux/devcoredump.h>
-> +#include <generated/utsrelease.h>
-> +
-> +#include "xe_engine.h"
-> +#include "xe_gt.h"
-> +
-> +/**
-> + * DOC: Xe device coredump
-> + *
-> + * Devices overview:
-> + * Xe uses dev_coredump infrastructure for exposing the crash errors in a
-> + * standardized way.
-> + * devcoredump exposes a temporary device under /sys/class/devcoredump/
-> + * which is linked with our card device directly.
-> + * The core dump can be accessed either from
-> + * /sys/class/drm/card<n>/device/devcoredump/ or from
-> + * /sys/class/devcoredump/devcd<m> where
-> + * /sys/class/devcoredump/devcd<m>/failing_device is a link to
-> + * /sys/class/drm/card<n>/device/.
-> + *
-> + * Snapshot at hang:
-> + * The 'data' file is printed with a drm_printer pointer at devcoredump read
-> + * time. For this reason, we need to take snapshots from when the hang has
-> + * happened, and not only when the user is reading the file. Otherwise the
-> + * information is outdated since the resets might have happened in between.
-> + *
-> + * 'First' failure snapshot:
-> + * In general, the first hang is the most critical one since the following hangs
-> + * can be a consequence of the initial hang. For this reason we only take the
-> + * snapshot of the 'first' failure and ignore subsequent calls of this function,
-> + * at least while the coredump device is alive. Dev_coredump has a delayed work
-> + * queue that will eventually delete the device and free all the dump
-> + * information. At this time we also clear the faulty_engine and allow the next
-> + * hang capture.
-> + */
-> +
-> +static ssize_t xe_devcoredump_read(char *buffer, loff_t offset,
-> +				   size_t count, void *data, size_t datalen)
-> +{
-> +	struct xe_devcoredump *coredump = data;
-> +	struct xe_devcoredump_snapshot *ss;
-> +	struct drm_printer p;
-> +	struct drm_print_iterator iter;
-> +	struct timespec64 ts;
-> +
-> +	iter.data = buffer;
-> +	iter.offset = 0;
-> +	iter.start = offset;
-> +	iter.remain = count;
-> +
-> +	mutex_lock(&coredump->lock);
-> +
-> +	ss = &coredump->snapshot;
-> +	p = drm_coredump_printer(&iter);
-> +
-> +	drm_printf(&p, "**** Xe Device Coredump ****\n");
-> +	drm_printf(&p, "kernel: " UTS_RELEASE "\n");
-> +	drm_printf(&p, "module: " KBUILD_MODNAME "\n");
-> +
-> +	ts = ktime_to_timespec64(ss->snapshot_time);
-> +	drm_printf(&p, "Snapshot time: %lld.%09ld\n", ts.tv_sec, ts.tv_nsec);
-> +	ts = ktime_to_timespec64(ss->boot_time);
-> +	drm_printf(&p, "Boot time: %lld.%09ld\n", ts.tv_sec, ts.tv_nsec);
-> +	ts = ktime_to_timespec64(ktime_sub(ss->snapshot_time, ss->boot_time));
-> +	drm_printf(&p, "Uptime: %lld.%09ld\n", ts.tv_sec, ts.tv_nsec);
-> +
-> +	mutex_unlock(&coredump->lock);
-> +
-> +	return count - iter.remain;
-> +}
-> +
-> +static void xe_devcoredump_free(void *data)
-> +{
-> +	struct xe_devcoredump *coredump = data;
-> +	struct xe_device *xe = container_of(coredump, struct xe_device,
-> +					    devcoredump);
-> +	mutex_lock(&coredump->lock);
-> +
-> +	coredump->faulty_engine = NULL;
-> +	drm_info(&xe->drm, "Xe device coredump has been deleted.\n");
-> +
-> +	mutex_unlock(&coredump->lock);
-> +}
-> +
-> +static void devcoredump_snapshot(struct xe_devcoredump *coredump)
-> +{
-> +	struct xe_devcoredump_snapshot *ss = &coredump->snapshot;
-> +
-> +	lockdep_assert_held(&coredump->lock);
-> +	ss->snapshot_time = ktime_get_real();
-> +	ss->boot_time = ktime_get_boottime();
-> +}
-> +
-> +/**
-> + * xe_devcoredump - Take the required snapshots and initialize coredump device.
-> + * @e: The faulty xe_engine, where the issue was detected.
-> + *
-> + * This function should be called at the crash time. It is skipped if we still
-> + * have the core dump device available with the information of the 'first'
-> + * snapshot.
-> + */
-> +void xe_devcoredump(struct xe_engine *e)
-> +{
-> +	struct xe_device *xe = gt_to_xe(e->gt);
-> +	struct xe_devcoredump *coredump = &xe->devcoredump;
+I spent some time working on this approach on the Type-C side. The
+issue I met is that the driver doesn't know whether a node is a
+drm_bridge before the anx7625 driver probes. When there is a
+"mode-switch" property in the node, the Type-C framework knows that
+"here is a mode switch, but the corresponding driver hasn't registered
+the typec_mux". So it returns -EPROBE_DEFER and retries later.
+However, if we remove the property, the Type-C framework won't know
+whether a node will be registered as a drm_bridge and register a
+typec_mux.
 
-For !long running engines, this is the dma-fence signalling critical 
-path, and since the drm_scheduler has not yet been properly annotated, 
-we should probably annotate that here, to avoid seeing strange deadlocks 
-during coredumps....
+Do you have other suggestions on this if we want to choose this approach?
 
-/Thomas
-
-
-
-> +
-> +	mutex_lock(&coredump->lock);
-> +	if (coredump->faulty_engine) {
-> +		drm_dbg(&xe->drm, "Multiple hangs are occuring, but only the first snapshot was taken\n");
-> +		mutex_unlock(&coredump->lock);
-> +		return;
-> +	}
-> +	coredump->faulty_engine = e;
-> +	devcoredump_snapshot(coredump);
-> +	mutex_unlock(&coredump->lock);
-> +
-> +	drm_info(&xe->drm, "Xe device coredump has been created\n");
-> +	drm_info(&xe->drm, "Check your /sys/class/drm/card<n>/device/devcoredump/data\n");
-> +
-> +	dev_coredumpm(xe->drm.dev, THIS_MODULE, coredump, 0, GFP_KERNEL,
-> +		      xe_devcoredump_read, xe_devcoredump_free);
-> +}
-> +
-> +/**
-> + * xe_devcoredump_init - Initialize xe_devcoredump.
-> + * @xe: Xe device.
-> + *
-> + * This function should be called at the probe so the mutex lock can be
-> + * initialized.
-> + */
-> +void xe_devcoredump_init(struct xe_device *xe)
-> +{
-> +	struct xe_devcoredump *coredump = &xe->devcoredump;
-> +
-> +	mutex_init(&coredump->lock);
-> +}
-> diff --git a/drivers/gpu/drm/xe/xe_devcoredump.h b/drivers/gpu/drm/xe/xe_devcoredump.h
-> new file mode 100644
-> index 000000000000..30941d2e554b
-> --- /dev/null
-> +++ b/drivers/gpu/drm/xe/xe_devcoredump.h
-> @@ -0,0 +1,22 @@
-> +/* SPDX-License-Identifier: MIT */
-> +/*
-> + * Copyright © 2023 Intel Corporation
-> + */
-> +
-> +#ifndef _XE_DEVCOREDUMP_H_
-> +#define _XE_DEVCOREDUMP_H_
-> +
-> +struct xe_device;
-> +struct xe_engine;
-> +
-> +void xe_devcoredump_init(struct xe_device *xe);
-> +
-> +#ifdef CONFIG_DEV_COREDUMP
-> +void xe_devcoredump(struct xe_engine *e);
-> +#else
-> +static inline void xe_devcoredump(struct xe_engine *e)
-> +{
-> +}
-> +#endif
-> +
-> +#endif
-> diff --git a/drivers/gpu/drm/xe/xe_devcoredump_types.h b/drivers/gpu/drm/xe/xe_devcoredump_types.h
-> new file mode 100644
-> index 000000000000..3f395fa9104e
-> --- /dev/null
-> +++ b/drivers/gpu/drm/xe/xe_devcoredump_types.h
-> @@ -0,0 +1,47 @@
-> +/* SPDX-License-Identifier: MIT */
-> +/*
-> + * Copyright © 2023 Intel Corporation
-> + */
-> +
-> +#ifndef _XE_DEVCOREDUMP_TYPES_H_
-> +#define _XE_DEVCOREDUMP_TYPES_H_
-> +
-> +#include <linux/ktime.h>
-> +#include <linux/mutex.h>
-> +
-> +struct xe_device;
-> +
-> +/**
-> + * struct xe_devcoredump_snapshot - Crash snapshot
-> + *
-> + * This struct contains all the useful information quickly captured at the time
-> + * of the crash. So, any subsequent reads of the coredump points to a data that
-> + * shows the state of the GPU of when the issue has happened.
-> + */
-> +struct xe_devcoredump_snapshot {
-> +	/** @snapshot_time:  Time of this capture. */
-> +	ktime_t snapshot_time;
-> +	/** @boot_time:  Relative boot time so the uptime can be calculated. */
-> +	ktime_t boot_time;
-> +};
-> +
-> +/**
-> + * struct xe_devcoredump - Xe devcoredump main structure
-> + *
-> + * This struct represents the live and active dev_coredump node.
-> + * It is created/populated at the time of a crash/error. Then it
-> + * is read later when user access the device coredump data file
-> + * for reading the information.
-> + */
-> +struct xe_devcoredump {
-> +	/** @xe: Xe device. */
-> +	struct xe_device *xe;
-> +	/** @falty_engine: Engine where the crash/error happened. */
-> +	struct xe_engine *faulty_engine;
-> +	/** @lock: Protects data from races between capture and read out. */
-> +	struct mutex lock;
-> +	/** @snapshot: Snapshot is captured at time of the first crash */
-> +	struct xe_devcoredump_snapshot snapshot;
-> +};
-> +
-> +#endif
-> diff --git a/drivers/gpu/drm/xe/xe_device_types.h b/drivers/gpu/drm/xe/xe_device_types.h
-> index 1cb404e48aaa..2a0995824692 100644
-> --- a/drivers/gpu/drm/xe/xe_device_types.h
-> +++ b/drivers/gpu/drm/xe/xe_device_types.h
-> @@ -12,6 +12,7 @@
->   #include <drm/drm_file.h>
->   #include <drm/ttm/ttm_device.h>
->   
-> +#include "xe_devcoredump_types.h"
->   #include "xe_gt_types.h"
->   #include "xe_platform_types.h"
->   #include "xe_step_types.h"
-> @@ -55,6 +56,9 @@ struct xe_device {
->   	/** @drm: drm device */
->   	struct drm_device drm;
->   
-> +	/** @devcoredump: device coredump */
-> +	struct xe_devcoredump devcoredump;
-> +
->   	/** @info: device info */
->   	struct intel_device_info {
->   		/** @graphics_name: graphics IP name */
-> diff --git a/drivers/gpu/drm/xe/xe_guc_submit.c b/drivers/gpu/drm/xe/xe_guc_submit.c
-> index e857013070b9..231fb4145297 100644
-> --- a/drivers/gpu/drm/xe/xe_guc_submit.c
-> +++ b/drivers/gpu/drm/xe/xe_guc_submit.c
-> @@ -14,6 +14,7 @@
->   #include <drm/drm_managed.h>
->   
->   #include "regs/xe_lrc_layout.h"
-> +#include "xe_devcoredump.h"
->   #include "xe_device.h"
->   #include "xe_engine.h"
->   #include "xe_force_wake.h"
-> @@ -800,6 +801,7 @@ guc_engine_timedout_job(struct drm_sched_job *drm_job)
->   		drm_warn(&xe->drm, "Timedout job: seqno=%u, guc_id=%d, flags=0x%lx",
->   			 xe_sched_job_seqno(job), e->guc->id, e->flags);
->   		simple_error_capture(e);
-> +		xe_devcoredump(e);
->   	} else {
->   		drm_dbg(&xe->drm, "Timedout signaled job: seqno=%u, guc_id=%d, flags=0x%lx",
->   			 xe_sched_job_seqno(job), e->guc->id, e->flags);
-> diff --git a/drivers/gpu/drm/xe/xe_pci.c b/drivers/gpu/drm/xe/xe_pci.c
-> index e512e8b69831..1d496210b580 100644
-> --- a/drivers/gpu/drm/xe/xe_pci.c
-> +++ b/drivers/gpu/drm/xe/xe_pci.c
-> @@ -16,6 +16,7 @@
->   
->   #include "regs/xe_regs.h"
->   #include "regs/xe_gt_regs.h"
-> +#include "xe_devcoredump.h"
->   #include "xe_device.h"
->   #include "xe_display.h"
->   #include "xe_drv.h"
-> @@ -657,6 +658,7 @@ static int xe_pci_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
->   		return err;
->   	}
->   
-> +	xe_devcoredump_init(xe);
->   	xe_pm_runtime_init(xe);
->   
->   	return 0;
+Best regards,
+Pin-yen
+> > >
+> > > It may be a little complicated though, because we would only register
+> > > one drm_bridge for the input to this anx device. The type-c walking c=
+ode
+> > > would need to look at the graph endpoint, and find the parent device =
+to
+> > > see if it is a drm_bridge.
+> >
+> > I've been thinking more about this. I think we should only have the
+> > 'mode-switch' property possible when the USB input pins (port@2) are
+> > connected and the DPI input pins are connected (port@0). Probably you
+> > don't have that case though?
+>
+> No we don't have the use case that uses the USB input pins on anx7625.
+> >
+> > In your case, this device should register either one or two drm_bridges
+> > that connect to whatever downstream is actually muxing the 2 DP lanes
+> > with the USB SS lanes onto the usb-c-connector.
+>
+> What do you mean by "muxing the 2 DP lanes with the USB SS lanes''? In
+> our use case, the USB data lanes from both ports are connected to a
+> USB hub, but the DP lanes are muxed by the crosspoint switch on
+> anx7625. HPD and AUX for the external display are muxed by the EC. You
+> can find the diagram at
+> https://lore.kernel.org/linux-usb/YxGzk6DNAt0aCvIY@chromium.org/
+>
+> > If that is the EC for
+> > ChromeOS, then the EC should have a binding that accepts some number of
+> > input ports for DP. The EC would act as a drm_bridge, or in this case
+> > probably two bridges, and also as two type-c switches for each
+> > drm_bridge corresponding to the usb-c-connector nodes. When DP is on th=
+e
+> > cable, the type-c switch/mux would signal to the drm_bridge that the
+> > display is 'connected' via DRM_BRIDGE_OP_DETECT and struct
+> > drm_bridge_funcs::detect(). Then the drm_bridge in this anx part would
+> > implement struct drm_bridge_funcs::atomic_enable() and configure the
+> > crosspoint switch the right way depending on the reg property of the
+> > output node in port@1.
+>
+> So there will be two drm bridges that act as the downstreams for
+> anx7625, and we find the downstream with connector_status_connected to
+> configure the crosspoint switch? How do we support that kind of
+> topology given that the drm bridge chain is currently a list? Are you
+> suggesting making the bridge topology to a tree, or maintaining the
+> two downstreams inside the anx7625 driver and not attaching them to
+> the bridge chain?
+>
+> Also, if we still register mode switches on the two downstream
+> bridges, why do you prefer that over the original approach that
+> register switches in the anx7625 driver?
+>
+> >
+> > Because you don't have the part that implements the orientation-switch,
+> > you don't need to implement the code for it. I think simply adding
+> > support in the binding for mode-switch and orientation-switch if this i=
+s
+> > directly wired to a usb-c-connector should be sufficient. Those
+> > properties would be at the top-level and not part of the graph binding.
