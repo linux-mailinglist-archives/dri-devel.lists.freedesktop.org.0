@@ -1,68 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A98F6F05AB
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Apr 2023 14:22:35 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E2BE86F05BC
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Apr 2023 14:27:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7F4C510E34D;
-	Thu, 27 Apr 2023 12:22:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2B8F910E1BD;
+	Thu, 27 Apr 2023 12:27:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x42b.google.com (mail-pf1-x42b.google.com
- [IPv6:2607:f8b0:4864:20::42b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A7F0D10E1BD;
- Thu, 27 Apr 2023 12:22:29 +0000 (UTC)
-Received: by mail-pf1-x42b.google.com with SMTP id
- d2e1a72fcca58-63d2ba63dddso6567807b3a.2; 
- Thu, 27 Apr 2023 05:22:29 -0700 (PDT)
+Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com
+ [IPv6:2a00:1450:4864:20::631])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 61E6A10E1BD
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Apr 2023 12:27:31 +0000 (UTC)
+Received: by mail-ej1-x631.google.com with SMTP id
+ a640c23a62f3a-94f4b911570so1317143266b.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Apr 2023 05:27:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1682598149; x=1685190149;
+ d=gmail.com; s=20221208; t=1682598449; x=1685190449;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=Je9dOfRheV0xbkP5D8rz4YMFOXvOjexxPPlhbTAEfPg=;
- b=GQkHqLCx9QOiCVqkmdxf0PEzuwjMhhQn140pliLqoJPgOQ5nb4HFSUeFmKRAUUFL65
- ygD+kZbwE/NQVPdP2oeBIAXKvHhkanPAeWnkIkz9JlAxYph7Rh+fF2hJqEUFSCO4jOO+
- mie45R/RwxKV4XqV301GJksXsUh+PpMsyvjT0T/yMpZnEIFbHNI+2ADNuPmvtxQRjbL7
- qfeqLmsNO6dxA/XznhGoOIvDCAtl/J/xBFWbEIidS5y/piZ8gfH5Z9VHGjUJbqhhVvBi
- v4zdblaFMnGtRS50BUFUUv4E95KhJbOxxNclkMMex9+fV9mdbVYdz8xAFlZyNEYqgqnt
- DRrQ==
+ bh=XcXkQ35VzuXmktFSlr3XbBQskfJ38OEp7gZXdpTt2tY=;
+ b=j6uq3kVXW2gmh9hfEYbfBajlfYv7aRAAgKPlnvGWyqN8KhVWmrvKPPSN+gSX2YzCLn
+ RsUAiGP0Fu8jfBSVHEPrXrQlFZU4+87hajNxZRTG5grkJbGc0jryfFiGvXGbIi8qXoDR
+ tTi6Xq/ZGYUjebdavcqyeli9+ObS0Gbw45sKbEWxhzcSb7v/y8PoPll9xoDXV2JIZTxP
+ 2sJLBjxL8HtA/agup9f6eLh9badzjQOLmMz1CH/FLHyV/VLXM5zCMLhRplTi7Tc6Pb6f
+ gKHXMZ8T2o9WapoIJXYEH8OUBGaxiO98ERaXpu4uzVIhCLdMqZQlAHb0dei00bUU5SsN
+ yLBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682598149; x=1685190149;
+ d=1e100.net; s=20221208; t=1682598449; x=1685190449;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=Je9dOfRheV0xbkP5D8rz4YMFOXvOjexxPPlhbTAEfPg=;
- b=NxmGckA839zMau655B3GJxIiVFsPcBFKgwWuYQFOPfjvgISkVcZGtBxfjx3hvidgaa
- ojXxwCTi8xvV9rAHJrAl/tHs1s1+rCl3DL3Sx6WUXL+kK1+Bz+HiEthTTJnoybmcEKrI
- z9WpBR8OJw4TsF7Ay8ffSR5KCXmMmEV00bJMeLZjKGUWMvt0nWe5o85xDHE4vOcWmq2q
- 7hooBZCWy/wwQIpMgXgR7IP4A8UnMY/CFBzbbvAjCUG9JOX+v+tblOJ08P9Si5GdAeR9
- 2uPLA77gbx40zn53EZRBPs9/Zklx8jTjtVVa9mko2pP2VLr8PgOUYIeIGUcwHM8Cq+U/
- /A4g==
-X-Gm-Message-State: AC+VfDw7qItKMzuNRaHwIVaj2i/VoCoW7HJV97ql7s2ZJn/EHsuNU5o7
- sh37I7n3av/yFZz33GtjNDM=
-X-Google-Smtp-Source: ACHHUZ60LSwIT0w8lkNEvMzM0Y0TrOpiNVgl24TggeN+M+JPyg2fFsrpOK3fdBeW4lKJvNEje1Dz8w==
-X-Received: by 2002:a17:90a:f312:b0:24c:1cc:e15 with SMTP id
- ca18-20020a17090af31200b0024c01cc0e15mr1813547pjb.12.1682598148867; 
- Thu, 27 Apr 2023 05:22:28 -0700 (PDT)
-Received: from localhost.localdomain (n220246252240.netvigator.com.
- [220.246.252.240]) by smtp.gmail.com with ESMTPSA id
- ot2-20020a17090b3b4200b0023cfdbb6496sm13443011pjb.1.2023.04.27.05.22.23
+ bh=XcXkQ35VzuXmktFSlr3XbBQskfJ38OEp7gZXdpTt2tY=;
+ b=CR4SkCEkUHSbJkralnYb+/PRfJnowf1qNavw/Oj7FUIQ64PQx6mtc8M1RHOl9vNjHg
+ QPXn44ZmmoeT0DLjjYz6ijhjAgnwhj5QkZChv8/q+bGdjFeYWnyq814Zod9NK9DTKl54
+ nRyelvPux5jNC97Tnvg0QPdvi5jlm9bSHYgWRYCuIkwyGPaiZLS+7vNU6c5JQgyv02hy
+ HqlkBYPktizL4N6x4WGAyYBrF+DTzkyPfTB817t6ySRtgdMO+9HzkjxGSuQzClq3LKnK
+ Ozav41AtYH8/7iMBrE51Wyt2PrMBR5lpm5GbVRbSv1WzCyG5+ceNGXKtale8XFIGeCWR
+ BxzA==
+X-Gm-Message-State: AC+VfDy6pdogc+ceZuk2lsLQRUqSHeagHwL4SYH2PPhRGW28+yNX3Pyk
+ hVmlaAVdBOlezfxDcmWT+kMdQtB0ou8=
+X-Google-Smtp-Source: ACHHUZ6HnzDdvEB9MK8EIIhEqyLXlCL2ElHiNEswztvbsWAR4iNFg/4RBOn7TLNTPhd4j+Qr6dkaBw==
+X-Received: by 2002:a17:907:94ca:b0:957:7551:38c0 with SMTP id
+ dn10-20020a17090794ca00b00957755138c0mr1574286ejc.7.1682598449159; 
+ Thu, 27 Apr 2023 05:27:29 -0700 (PDT)
+Received: from EliteBook.fritz.box (p4fc2092b.dip0.t-ipconnect.de.
+ [79.194.9.43]) by smtp.gmail.com with ESMTPSA id
+ 28-20020a170906225c00b0094ee88207d5sm9516642ejr.191.2023.04.27.05.27.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 27 Apr 2023 05:22:28 -0700 (PDT)
-From: Jianhua Lu <lujianhua000@gmail.com>
-To: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Sean Paul <sean@poorly.run>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Krishna Manikandan <quic_mkrishn@quicinc.com>
-Subject: [PATCH v2] dt-bindings: display/msm: dsi-controller-main: Document
- qcom, master-dsi and qcom, sync-dual-dsi
-Date: Thu, 27 Apr 2023 20:21:32 +0800
-Message-Id: <20230427122132.24840-1-lujianhua000@gmail.com>
-X-Mailer: git-send-email 2.39.2
+ Thu, 27 Apr 2023 05:27:28 -0700 (PDT)
+From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
+X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
+ <christian.koenig@amd.com>
+To: luben.tuikov@amd.com,
+	dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/scheduler: mark jobs without fence as canceled
+Date: Thu, 27 Apr 2023 14:27:26 +0200
+Message-Id: <20230427122726.1290170-1-christian.koenig@amd.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -76,50 +74,30 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Jianhua Lu <lujianhua000@gmail.com>, ~postmarketos/upstreaming@lists.sr.ht,
- phone-devel@vger.kernel.org, freedreno@lists.freedesktop.org
+Cc: =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This fixes warning:
-  sm8250-xiaomi-elish-csot.dtb: dsi@ae94000: Unevaluated properties are not allowed ('qcom,master-dsi', 'qcom,sync-dual-dsi' were unexpected)
+When no hw fence is provided for a job that means that the job didn't executed.
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Acked-by: Rob Herring <robh@kernel.org>
-Signed-off-by: Jianhua Lu <lujianhua000@gmail.com>
+Signed-off-by: Christian König <christian.koenig@amd.com>
 ---
-Changes in v2:
-  - pick up tags
-  - fix typo (need -> needs)
+ drivers/gpu/drm/scheduler/sched_main.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
- .../bindings/display/msm/dsi-controller-main.yaml    | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
-
-diff --git a/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml b/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml
-index e6c1ebfe8a32..130e16d025bc 100644
---- a/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml
-+++ b/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml
-@@ -82,6 +82,18 @@ properties:
-       Indicates if the DSI controller is driving a panel which needs
-       2 DSI links.
+diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
+index 7849e2d7780e..b09cdacfd062 100644
+--- a/drivers/gpu/drm/scheduler/sched_main.c
++++ b/drivers/gpu/drm/scheduler/sched_main.c
+@@ -542,7 +542,7 @@ void drm_sched_start(struct drm_gpu_scheduler *sched, bool full_recovery)
+ 				DRM_DEV_ERROR(sched->dev, "fence add callback failed (%d)\n",
+ 					  r);
+ 		} else
+-			drm_sched_job_done(s_job, 0);
++			drm_sched_job_done(s_job, -ECANCELED);
+ 	}
  
-+  qcom,master-dsi:
-+    type: boolean
-+    description: |
-+      Indicates if the DSI controller is the master DSI controller when
-+      qcom,dual-dsi-mode enabled.
-+
-+  qcom,sync-dual-dsi:
-+    type: boolean
-+    description: |
-+      Indicates if the DSI controller needs to sync the other DSI controller
-+      with MIPI DCS commands when qcom,dual-dsi-mode enabled.
-+
-   assigned-clocks:
-     minItems: 2
-     maxItems: 4
+ 	if (full_recovery) {
 -- 
-2.39.2
+2.34.1
 
