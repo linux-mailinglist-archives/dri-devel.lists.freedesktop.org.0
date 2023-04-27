@@ -2,79 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44E866F036E
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Apr 2023 11:34:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5439E6F0383
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Apr 2023 11:40:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 75CDA10EB06;
-	Thu, 27 Apr 2023 09:34:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4107A10EB17;
+	Thu, 27 Apr 2023 09:40:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com
- [IPv6:2a00:1450:4864:20::630])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 15F6710EB04
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Apr 2023 09:34:22 +0000 (UTC)
-Received: by mail-ej1-x630.google.com with SMTP id
- a640c23a62f3a-94a342f4c8eso241173266b.0
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Apr 2023 02:34:22 -0700 (PDT)
+Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com
+ [IPv6:2a00:1450:4864:20::62f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 827B810EB14
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Apr 2023 09:39:58 +0000 (UTC)
+Received: by mail-ej1-x62f.google.com with SMTP id
+ a640c23a62f3a-94f9cd65b1aso235485166b.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Apr 2023 02:39:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1682588061; x=1685180061;
+ d=ffwll.ch; s=google; t=1682588394; x=1685180394;
  h=in-reply-to:content-transfer-encoding:content-disposition
  :mime-version:references:mail-followup-to:message-id:subject:cc:to
  :from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=yeIan/JSDyZwSjp844K7PXXJYLJPBH9WqpSlLW7EWXw=;
- b=d+foUqMtXryzKwaQEHwLbVfesxzZN5XUQk1OKzle14DYUHW1Kww29x3obq8TAnLRCc
- ndE7/WSqmz7QriOkBbsP2vEMPY9JT+cjbNM/TwM07p9qNsEg5u7vrlBlqSz4DjWoYZVr
- Lcdk9bDucIihtEQyjJg0g5T5zzscAzmuzH5S0=
+ bh=ijOvNVXHQPQ7K3a8mfotlj3EqkLbm2iNVAzawaQHZIw=;
+ b=kFa3Dgvsdqo+BXHl6yahcNl1383pNFvNtKjCwWMfHTj+Bit3JIwCGJEQDI6N/QU00j
+ 7X00IV28cyVTxMhXOHSSaNOtJlIO/f240AjyaV+PfAb4s7UETaAAtwNr4ZxvB9KF2UtB
+ pZGfcxrFXB1KoRo0EnWbU8+HE3g7nM63d1OjQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682588061; x=1685180061;
+ d=1e100.net; s=20221208; t=1682588394; x=1685180394;
  h=in-reply-to:content-transfer-encoding:content-disposition
  :mime-version:references:mail-followup-to:message-id:subject:cc:to
  :from:date:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=yeIan/JSDyZwSjp844K7PXXJYLJPBH9WqpSlLW7EWXw=;
- b=iQs3vcX3dXmzB90WUB1piS5ZWR/6qunFpLKgqYHO9RVwaVPPOTna7r1qE6w4jyZwRD
- Pm9BTGryh+rLupbjAAY//nvGtb9pOPttZYsSk4H5Muv/gxTjtaKM2aMhEVwkSICR+3ho
- wYE9fUJQdN7Zjd1ixegiN3Qn/f0d1rZrrveA9wMotxMt7cd/yL1VdDC5GNs45xbXNaxz
- fu/r9isFQeOlLRU6WOzgP8qLlCE8sg62mWsyuE5V98+t4Bg36IhZw0R4L5QzMiFHwTJz
- ilKHtckB4k7at8OTG4Sw8+QgoxWDpdM3MyhXSV2xfMr/YrrtdYyfvu89XEKZu2kdBJZS
- o0vg==
-X-Gm-Message-State: AC+VfDwNsO3kL91Z2aI3cyrW65CZ+7epJ8oTo5+aqonXzI5HJv7OO3ko
- C+xrJ0kt6UXSmFw2TCMYQV/zBg==
-X-Google-Smtp-Source: ACHHUZ4CHRi0qIYkapsekPN1tVRhqZj/jpDaiEZx0z3X0UZCcWHaTxdWYtC5ZnkkwJ+eYa47FbEtQA==
-X-Received: by 2002:a17:906:7a08:b0:953:2918:71e7 with SMTP id
- d8-20020a1709067a0800b00953291871e7mr1035224ejo.5.1682588060892; 
- Thu, 27 Apr 2023 02:34:20 -0700 (PDT)
+ bh=ijOvNVXHQPQ7K3a8mfotlj3EqkLbm2iNVAzawaQHZIw=;
+ b=NtsqI2pOPC3xlngeq3a6yrLyeWZ5KhiU67YCeCD3JTPE5kBCn7MFkJU2JyWaXwUs5q
+ +sWwfkeCvxRIXxKKhhwoV7BcqaLLH24fK29/sRa3c3Cch2LC8fsx+1BHRC5HCagrezb6
+ /eWWpPD7FoAv7Eulc/kxRk9qwc7fkjUntaZMK0EsiQB6ZeLV9EkIITwradUzKJAFlyQL
+ ys4GwWgONLmnna1vasZTmw8gW6pLwntgJJO24D5518OEdN0lTKkrB7ZOI9ZXL3XEGLu0
+ zp2RBvBvz2OBOBkIVyo4/DhmZRGfbQhJqu5XomWIypdlDpXJKKol3TCES/njh1PM/SUl
+ gyZA==
+X-Gm-Message-State: AC+VfDy7Hg1aoxLbofbhzAy/tCacP+60yjdmscvcZgKvujvBMBNNtCYU
+ BDGq+nuF1IE8H7vA2UchVvp3Ig==
+X-Google-Smtp-Source: ACHHUZ7VSLJU2Bi7Vlppn+yZkQubTXq/4j3BnKk8IoW139u/a/w2x464xtiUeWCmvDcGrbJw+QXvuw==
+X-Received: by 2002:a17:906:7491:b0:95f:db5f:73b7 with SMTP id
+ e17-20020a170906749100b0095fdb5f73b7mr888891ejl.0.1682588393848; 
+ Thu, 27 Apr 2023 02:39:53 -0700 (PDT)
 Received: from phenom.ffwll.local (212-51-149-33.fiber7.init7.net.
  [212.51.149.33]) by smtp.gmail.com with ESMTPSA id
- sb10-20020a1709076d8a00b00958079b676asm6817586ejc.122.2023.04.27.02.34.20
+ jt11-20020a170906ca0b00b00958434d4ecesm6820771ejb.13.2023.04.27.02.39.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 27 Apr 2023 02:34:20 -0700 (PDT)
-Date: Thu, 27 Apr 2023 11:34:18 +0200
+ Thu, 27 Apr 2023 02:39:53 -0700 (PDT)
+Date: Thu, 27 Apr 2023 11:39:51 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Sui Jingfeng <15330273260@189.cn>
-Subject: Re: [PATCH v2] drm/fbdev-generic: prohibit potential out-of-bounds
- access
-Message-ID: <ZEpBmkf8CWMwZ/gr@phenom.ffwll.local>
-Mail-Followup-To: Sui Jingfeng <15330273260@189.cn>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Maxime Ripard <mripard@kernel.org>,
- David Airlie <airlied@gmail.com>,
- Sui Jingfeng <suijingfeng@loongson.cn>, Li Yi <liyi@loongson.cn>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Helge Deller <deller@gmx.de>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- linux-kernel@vger.kernel.org, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org, loongson-kernel@lists.loongnix.cn
-References: <20230413180622.1014016-1-15330273260@189.cn>
- <fccc494f-0e52-5fdf-0e40-acc29177c73c@suse.de>
- <32a1510e-d38a-ffb6-8e8d-026f8b3aa17a@189.cn>
- <fab85750-dcb7-0eeb-cabc-8fcfcc84b11c@suse.de>
- <95ef7589-9775-5ad4-f09c-43bcd696823a@189.cn>
+To: Rob Clark <robdclark@gmail.com>
+Subject: Re: [RFC 2/3] drm/msm: Rework get_comm_cmdline() helper
+Message-ID: <ZEpC5xEZ4cueb881@phenom.ffwll.local>
+Mail-Followup-To: Rob Clark <robdclark@gmail.com>,
+ Emil Velikov <emil.l.velikov@gmail.com>,
+ Rob Clark <robdclark@chromium.org>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Akhil P Oommen <quic_akhilpo@quicinc.com>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ dri-devel@lists.freedesktop.org,
+ open list <linux-kernel@vger.kernel.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <freedreno@lists.freedesktop.org>,
+ Sean Paul <sean@poorly.run>
+References: <20230417201215.448099-1-robdclark@gmail.com>
+ <20230417201215.448099-3-robdclark@gmail.com>
+ <58977051-197b-f1f0-c795-9037e70d7a91@linux.intel.com>
+ <ZD5WLMRNibbRkGQO@phenom.ffwll.local>
+ <CAF6AEGugcuV08G_pxjUGvhTbp8DFFG4ws3=oiP5PpbRf=SJdhQ@mail.gmail.com>
+ <CACvgo52gByHzwtm4gxqUxZ5yJGTQ5NucBmMHSO7nLPsba3rTfw@mail.gmail.com>
+ <CAF6AEGtijkCt2uUx98auFcK0GQHY=5GV7CxbOejGz22no6J0GQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <95ef7589-9775-5ad4-f09c-43bcd696823a@189.cn>
+In-Reply-To: <CAF6AEGtijkCt2uUx98auFcK0GQHY=5GV7CxbOejGz22no6J0GQ@mail.gmail.com>
 X-Operating-System: Linux phenom 6.1.0-7-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -88,216 +92,155 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Sui Jingfeng <suijingfeng@loongson.cn>,
- Thomas Zimmermann <tzimmermann@suse.de>, Li Yi <liyi@loongson.cn>,
- Helge Deller <deller@gmx.de>, Lucas De Marchi <lucas.demarchi@intel.com>,
- Javier Martinez Canillas <javierm@redhat.com>, linux-kernel@vger.kernel.org,
- loongson-kernel@lists.loongnix.cn, dri-devel@lists.freedesktop.org
+Cc: Rob Clark <robdclark@chromium.org>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Akhil P Oommen <quic_akhilpo@quicinc.com>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
+ Emil Velikov <emil.l.velikov@gmail.com>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
+ open list <linux-kernel@vger.kernel.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>, Sean Paul <sean@poorly.run>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <freedreno@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Apr 20, 2023 at 02:47:24AM +0800, Sui Jingfeng wrote:
-> Hi,
+On Fri, Apr 21, 2023 at 07:47:26AM -0700, Rob Clark wrote:
+> On Fri, Apr 21, 2023 at 2:33â€¯AM Emil Velikov <emil.l.velikov@gmail.com> wrote:
+> >
+> > Greeting all,
+> >
+> > Sorry for the delay - Easter Holidays, food coma and all that :-)
+> >
+> > On Tue, 18 Apr 2023 at 15:31, Rob Clark <robdclark@gmail.com> wrote:
+> > >
+> > > On Tue, Apr 18, 2023 at 1:34â€¯AM Daniel Vetter <daniel@ffwll.ch> wrote:
+> > > >
+> > > > On Tue, Apr 18, 2023 at 09:27:49AM +0100, Tvrtko Ursulin wrote:
+> > > > >
+> > > > > On 17/04/2023 21:12, Rob Clark wrote:
+> > > > > > From: Rob Clark <robdclark@chromium.org>
+> > > > > >
+> > > > > > Make it work in terms of ctx so that it can be re-used for fdinfo.
+> > > > > >
+> > > > > > Signed-off-by: Rob Clark <robdclark@chromium.org>
+> > > > > > ---
+> > > > > >   drivers/gpu/drm/msm/adreno/adreno_gpu.c |  4 ++--
+> > > > > >   drivers/gpu/drm/msm/msm_drv.c           |  2 ++
+> > > > > >   drivers/gpu/drm/msm/msm_gpu.c           | 13 ++++++-------
+> > > > > >   drivers/gpu/drm/msm/msm_gpu.h           | 12 ++++++++++--
+> > > > > >   drivers/gpu/drm/msm/msm_submitqueue.c   |  1 +
+> > > > > >   5 files changed, 21 insertions(+), 11 deletions(-)
+> > > > > >
+> > > > > > diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.c b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
+> > > > > > index bb38e728864d..43c4e1fea83f 100644
+> > > > > > --- a/drivers/gpu/drm/msm/adreno/adreno_gpu.c
+> > > > > > +++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
+> > > > > > @@ -412,7 +412,7 @@ int adreno_set_param(struct msm_gpu *gpu, struct msm_file_private *ctx,
+> > > > > >             /* Ensure string is null terminated: */
+> > > > > >             str[len] = '\0';
+> > > > > > -           mutex_lock(&gpu->lock);
+> > > > > > +           mutex_lock(&ctx->lock);
+> > > > > >             if (param == MSM_PARAM_COMM) {
+> > > > > >                     paramp = &ctx->comm;
+> > > > > > @@ -423,7 +423,7 @@ int adreno_set_param(struct msm_gpu *gpu, struct msm_file_private *ctx,
+> > > > > >             kfree(*paramp);
+> > > > > >             *paramp = str;
+> > > > > > -           mutex_unlock(&gpu->lock);
+> > > > > > +           mutex_unlock(&ctx->lock);
+> > > > > >             return 0;
+> > > > > >     }
+> > > > > > diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
+> > > > > > index 3d73b98d6a9c..ca0e89e46e13 100644
+> > > > > > --- a/drivers/gpu/drm/msm/msm_drv.c
+> > > > > > +++ b/drivers/gpu/drm/msm/msm_drv.c
+> > > > > > @@ -581,6 +581,8 @@ static int context_init(struct drm_device *dev, struct drm_file *file)
+> > > > > >     rwlock_init(&ctx->queuelock);
+> > > > > >     kref_init(&ctx->ref);
+> > > > > > +   ctx->pid = get_pid(task_pid(current));
+> > > > >
+> > > > > Would it simplify things for msm if DRM core had an up to date file->pid as
+> > > > > proposed in
+> > > > > https://patchwork.freedesktop.org/patch/526752/?series=109902&rev=4 ? It
+> > > > > gets updated if ioctl issuer is different than fd opener and this being
+> > > > > context_init here reminded me of it. Maybe you wouldn't have to track the
+> > > > > pid in msm?
+> > >
+> > > The problem is that we also need this for gpu devcore dumps, which
+> > > could happen after the drm_file is closed.  The ctx can outlive the
+> > > file.
+> > >
+> > I think we all kept forgetting about that. MSM had support for ages,
+> > while AMDGPU is the second driver to land support - just a release
+> > ago.
+> >
+> > > But the ctx->pid has the same problem as the existing file->pid when
+> > > it comes to Xorg.. hopefully over time that problem just goes away.
+> >
+> > Out of curiosity: what do you mean with "when it comes to Xorg" - the
+> > "was_master" handling or something else?
 > 
-> On 2023/4/17 15:29, Thomas Zimmermann wrote:
-> > Hi
-> > 
-> > Am 14.04.23 um 12:58 schrieb Sui Jingfeng:
-> > > Hi,
-> > > 
-> > > On 2023/4/14 03:16, Thomas Zimmermann wrote:
-> > > > Hi,
-> > > > 
-> > > > thanks for the patch. This is effectively a revert of commit
-> > > > 8fbc9af55de0 ("drm/fbdev-generic: Set screen size to size of GEM
-> > > > buffer"). Please add a Fixes tag.
-> > > > 
-> > > > Am 13.04.23 um 20:06 schrieb Sui Jingfeng:
-> > > > > From: Sui Jingfeng <suijingfeng@loongson.cn>
-> > > > > 
-> > > > > The crazy fbdev test of IGT may write after EOF, which lead
-> > > > > to out-of-bound
-> > > > 
-> > > > Please drop 'crazy'. :)
-> > > 
-> > > This is OK.
-> > > 
-> > > By using the world 'crazy',
-> > > 
-> > > I meant that the test is very good and maybe it is written by
-> > > professional  peoples
-> > > 
-> > > with the guidance by  experienced  engineer. So that even the corner
-> > > get tested.
-> > > 
-> > > 
-> > > > 
-> > > > > access for the drm drivers using fbdev-generic. For example,
-> > > > > run fbdev test
-> > > > > on a x86-64+ast2400 platform with 1680x1050 resolution will
-> > > > > cause the linux
-> > > > > kernel hang with following call trace:
-> > > > > 
-> > > > >    Oops: 0000 [#1] PREEMPT SMP PTI
-> > > > >    [IGT] fbdev: starting subtest eof
-> > > > >    Workqueue: events drm_fb_helper_damage_work [drm_kms_helper]
-> > > > >    [IGT] fbdev: starting subtest nullptr
-> > > > > 
-> > > > >    RIP: 0010:memcpy_erms+0xa/0x20
-> > > > >    RSP: 0018:ffffa17d40167d98 EFLAGS: 00010246
-> > > > >    RAX: ffffa17d4eb7fa80 RBX: ffffa17d40e0aa80 RCX: 00000000000014c0
-> > > > >    RDX: 0000000000001a40 RSI: ffffa17d40e0b000 RDI: ffffa17d4eb80000
-> > > > >    RBP: ffffa17d40167e20 R08: 0000000000000000 R09: ffff89522ecff8c0
-> > > > >    R10: ffffa17d4e4c5000 R11: 0000000000000000 R12: ffffa17d4eb7fa80
-> > > > >    R13: 0000000000001a40 R14: 000000000000041a R15: ffffa17d40167e30
-> > > > >    FS:  0000000000000000(0000) GS:ffff895257380000(0000)
-> > > > > knlGS:0000000000000000
-> > > > >    CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> > > > >    CR2: ffffa17d40e0b000 CR3: 00000001eaeca006 CR4: 00000000001706e0
-> > > > >    Call Trace:
-> > > > >     <TASK>
-> > > > >     ? drm_fbdev_generic_helper_fb_dirty+0x207/0x330 [drm_kms_helper]
-> > > > >     drm_fb_helper_damage_work+0x8f/0x170 [drm_kms_helper]
-> > > > >     process_one_work+0x21f/0x430
-> > > > >     worker_thread+0x4e/0x3c0
-> > > > >     ? __pfx_worker_thread+0x10/0x10
-> > > > >     kthread+0xf4/0x120
-> > > > >     ? __pfx_kthread+0x10/0x10
-> > > > >     ret_from_fork+0x2c/0x50
-> > > > >     </TASK>
-> > > > >    CR2: ffffa17d40e0b000
-> > > > >    ---[ end trace 0000000000000000 ]---
-> > > > > 
-> > > > > The indirect reason is drm_fb_helper_memory_range_to_clip()
-> > > > > generate damage
-> > > > > rectangles which partially or completely go out of the
-> > > > > active display area.
-> > > > > The second of argument 'off' is passing from the user-space,
-> > > > > this will lead
-> > > > > to the out-of-bound if it is large than (fb_height + 1) *
-> > > > > fb_pitches; while
-> > > > > DIV_ROUND_UP() may also controbute to error by 1.
-> > > > > 
-> > > > > This patch will add code to restrict the damage rect
-> > > > > computed go beyond of
-> > > > > the last line of the framebuffer.
-> > > > > 
-> > > > > Signed-off-by: Sui Jingfeng <suijingfeng@loongson.cn>
-> > > > > ---
-> > > > >   drivers/gpu/drm/drm_fb_helper.c     | 16 ++++++++++++----
-> > > > >   drivers/gpu/drm/drm_fbdev_generic.c |  2 +-
-> > > > >   2 files changed, 13 insertions(+), 5 deletions(-)
-> > > > > 
-> > > > > diff --git a/drivers/gpu/drm/drm_fb_helper.c
-> > > > > b/drivers/gpu/drm/drm_fb_helper.c
-> > > > > index 64458982be40..6bb1b8b27d7a 100644
-> > > > > --- a/drivers/gpu/drm/drm_fb_helper.c
-> > > > > +++ b/drivers/gpu/drm/drm_fb_helper.c
-> > > > > @@ -641,19 +641,27 @@ static void
-> > > > > drm_fb_helper_damage(struct drm_fb_helper *helper, u32 x,
-> > > > > u32 y,
-> > > > >   static void drm_fb_helper_memory_range_to_clip(struct
-> > > > > fb_info *info, off_t off, size_t len,
-> > > > >                              struct drm_rect *clip)
-> > > > >   {
-> > > > > +    u32 line_length = info->fix.line_length;
-> > > > > +    u32 fb_height = info->var.yres;
-> > > > >       off_t end = off + len;
-> > > > >       u32 x1 = 0;
-> > > > > -    u32 y1 = off / info->fix.line_length;
-> > > > > +    u32 y1 = off / line_length;
-> > > > >       u32 x2 = info->var.xres;
-> > > > > -    u32 y2 = DIV_ROUND_UP(end, info->fix.line_length);
-> > > > > +    u32 y2 = DIV_ROUND_UP(end, line_length);
-> > > > > +
-> > > > > +    /* Don't allow any of them beyond the bottom bound of
-> > > > > display area */
-> > > > > +    if (y1 > fb_height)
-> > > > > +        y1 = fb_height;
-> > > > > +    if (y2 > fb_height)
-> > > > > +        y2 = fb_height;
-> > > > >         if ((y2 - y1) == 1) {
-> > > > >           /*
-> > > > >            * We've only written to a single scanline. Try to reduce
-> > > > >            * the number of horizontal pixels that need an update.
-> > > > >            */
-> > > > > -        off_t bit_off = (off % info->fix.line_length) * 8;
-> > > > > -        off_t bit_end = (end % info->fix.line_length) * 8;
-> > > > > +        off_t bit_off = (off % line_length) * 8;
-> > > > > +        off_t bit_end = (end % line_length) * 8;
-> > > > 
-> > > > Please scratch all these changes. The current code should work
-> > > > as intended. Only the generic fbdev emulation uses this code and
-> > > > it should really be moved there at some point.
-> > > 
-> > > 
-> > > Are you meant  that we should remove all these changes in
-> > > drivers/gpu/drm/drm_fb_helper.c ?
-> > 
-> > As Daniel mentioned, there's the discussion in the other thread. I don't
-> > want to reopen it here. Just to summarize: I'm not convinced that this
-> > should be DRM code because it can be shared with other fbdev drivers.
-> > 
-> > [...]
-> > 
-> > > > > diff --git a/drivers/gpu/drm/drm_fbdev_generic.c
-> > > > > b/drivers/gpu/drm/drm_fbdev_generic.c
-> > > > > index 8e5148bf40bb..b057cfbba938 100644
-> > > > > --- a/drivers/gpu/drm/drm_fbdev_generic.c
-> > > > > +++ b/drivers/gpu/drm/drm_fbdev_generic.c
-> > > > > @@ -94,7 +94,7 @@ static int
-> > > > > drm_fbdev_generic_helper_fb_probe(struct drm_fb_helper
-> > > > > *fb_helper,
-> > > > >       fb_helper->buffer = buffer;
-> > > > >       fb_helper->fb = buffer->fb;
-> > > > >   -    screen_size = buffer->gem->size;
-> > > > > +    screen_size = sizes->surface_height * buffer->fb->pitches[0];
-> > 
-> > This has been bothering me over the weekend. And I think it's because
-> > what we want the screen_size to be heigth * pitch,  but the mmap'ed
-> > memory is still at page granularity. Therefore...
-> > 
-> > [...]
-> > > > 
-> > > > >       screen_buffer = vzalloc(screen_size);
-> > 
-> > ... this line should explicitly allocate multiples of pages. Something
-> > like
-> > 
-> >     /* allocate page-size multiples for mmap */
-> >     vzalloc(PAGE_ALIGN(screen_size))
-> > 
-> I just thought about your instruction at here, thanks!
+> The problem is that Xorg is the one to open the drm fd, and then
+> passes the fd to the client.. so the pid of drm_file is the Xorg pid,
+> not the client.  Making it not terribly informative.
 > 
-> But it is already page size aligned if we don't tough it.
+> Tvrtko's patch he linked above would address that for drm_file, but
+> not for other driver internal usages.  Maybe it could be wired up as a
+> helper so that drivers don't have to re-invent that dance.  Idk, I
+> have to think about it.
 > 
-> It is guaranteed by the GEM memory manger,
-> 
-> so a previous patch tested by me, is turn out to be a extremely correct?
-> 
-> We exposed a  page size aligned buffer(even though it is larger than needed)
-> is actually for mmap ?
+> Btw, with my WIP drm sched fence signalling patch lockdep is unhappy
+> when gpu devcore dumps are triggered.  I'm still pondering how to
+> decouple the locking so that anything coming from fs (ie.
+> show_fdinfo()) is decoupled from anything that happens in the fence
+> signaling path.  But will repost this series once I get that sorted
+> out.
 
-mmap() is always page aligned, because that's the smallest size the cpu
-pagetables can map. So there's fundamentally always a bit of memory at the
-end of the buffer which logically is not part of the framebuffer memory.
-And somehow we need to handle that to make sure we don't overflow.
+So the cleanest imo is that you push most of the capturing into a worker
+that's entirely decoupled. If you have terminal context (i.e. on first
+hang they stop all further cmd submission, which is anyway what
+vk/arb_robustness want), then you don't have to capture at tdr time,
+because there's no subsequent batch that will wreck the state.
+
+But it only works if your gpu ctx don't have recoverable semantics.
+
+If you can't do that it's a _lot_ of GFP_ATOMIC and trylock and bailing
+out if any fails :-/
 -Daniel
 
 > 
+> BR,
+> -R
 > 
-> > It has not been a bug so far because vzalloc() always returns full pages
-> > IIRC. It's still worth fixing.
-> > 
-> 
-> > Best regards
-> > Thomas
-> > 
-> > 
-> > > > >       if (!screen_buffer) {
-> > > > >           ret = -ENOMEM;
-> > > > 
-> > 
+> >
+> > > guess I could do a similar dance to your patch to update the pid
+> > > whenever (for ex) a submitqueue is created.
+> > >
+> > > > Can we go one step further and let the drm fdinfo stuff print these new
+> > > > additions? Consistency across drivers and all that.
+> > >
+> > > Hmm, I guess I could _also_ store the overridden comm/cmdline in
+> > > drm_file.  I still need to track it in ctx (msm_file_private) because
+> > > I could need it after the file is closed.
+> > >
+> > > Maybe it could be useful to have a gl extension to let the app set a
+> > > name on the context so that this is useful beyond native-ctx (ie.
+> > > maybe it would be nice to see that "chrome: lwn.net" is using less gpu
+> > > memory than "chrome: phoronix.com", etc)
+> > >
+> >
+> > /me awaits for the series to hit the respective websites ;-)
+> >
+> > But seriously - the series from Tvrtko (thanks for the link, will
+> > check in a moment) makes sense. Although given the livespan issue
+> > mentioned above, I don't think it's applicable here.
+> >
+> > So if it were me, I would consider the two orthogonal for the
+> > short/mid term. Fwiw this and patch 1/3 are:
+> > Reviewed-by: Emil Velikov <emil.l.velikov@gmail.com>
+> >
+> > HTH
+> > -Emil
 
 -- 
 Daniel Vetter
