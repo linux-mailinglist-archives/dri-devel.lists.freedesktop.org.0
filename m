@@ -1,67 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2BE86F05BC
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Apr 2023 14:27:37 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C9A66F05F4
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Apr 2023 14:40:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2B8F910E1BD;
-	Thu, 27 Apr 2023 12:27:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CDA7710EB30;
+	Thu, 27 Apr 2023 12:40:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com
- [IPv6:2a00:1450:4864:20::631])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 61E6A10E1BD
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Apr 2023 12:27:31 +0000 (UTC)
-Received: by mail-ej1-x631.google.com with SMTP id
- a640c23a62f3a-94f4b911570so1317143266b.0
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Apr 2023 05:27:31 -0700 (PDT)
+Received: from mail-oo1-xc34.google.com (mail-oo1-xc34.google.com
+ [IPv6:2607:f8b0:4864:20::c34])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AC7F810EB44;
+ Thu, 27 Apr 2023 12:40:04 +0000 (UTC)
+Received: by mail-oo1-xc34.google.com with SMTP id
+ 006d021491bc7-547303fccefso5989258eaf.3; 
+ Thu, 27 Apr 2023 05:40:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1682598449; x=1685190449;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=XcXkQ35VzuXmktFSlr3XbBQskfJ38OEp7gZXdpTt2tY=;
- b=j6uq3kVXW2gmh9hfEYbfBajlfYv7aRAAgKPlnvGWyqN8KhVWmrvKPPSN+gSX2YzCLn
- RsUAiGP0Fu8jfBSVHEPrXrQlFZU4+87hajNxZRTG5grkJbGc0jryfFiGvXGbIi8qXoDR
- tTi6Xq/ZGYUjebdavcqyeli9+ObS0Gbw45sKbEWxhzcSb7v/y8PoPll9xoDXV2JIZTxP
- 2sJLBjxL8HtA/agup9f6eLh9badzjQOLmMz1CH/FLHyV/VLXM5zCMLhRplTi7Tc6Pb6f
- gKHXMZ8T2o9WapoIJXYEH8OUBGaxiO98ERaXpu4uzVIhCLdMqZQlAHb0dei00bUU5SsN
- yLBw==
+ d=gmail.com; s=20221208; t=1682599203; x=1685191203;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=J6ET9XLS5jM/TyHq4+UE6o4i1yy/wsCl/8+/RTLOHqY=;
+ b=msyOC8BBuy7I5069cJ9Fs6UeK9SnEiNiykDGApouWwIVmp6W+w4i7EI0BD6bwq45Te
+ Mv8ooCvRm5eCzKziAc0k3FmoE9HbIC5yDZUY+pqJzuVCHk7IWnWr9+mXvwTTuj9l0Ncz
+ CMRlMc3859WHiODGKv/+0U7vSrJpu/RWfAH+SyiwNgsOLmX1BVdKgnoAV2YMsITtsmPL
+ iFdrpSLUmvyTf8WJnrfeTYpIh//v5KGODvIhdeuaNW1lM1XD3gmrZ34un2ub2iJvj1wM
+ LXVyWM9yoKcEjEPrVn+zY9Fu3t3uKe4w/r4/5m/2yU76S0mRQPAZCd3XfuQMVJwWXUBL
+ bGLw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682598449; x=1685190449;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=XcXkQ35VzuXmktFSlr3XbBQskfJ38OEp7gZXdpTt2tY=;
- b=CR4SkCEkUHSbJkralnYb+/PRfJnowf1qNavw/Oj7FUIQ64PQx6mtc8M1RHOl9vNjHg
- QPXn44ZmmoeT0DLjjYz6ijhjAgnwhj5QkZChv8/q+bGdjFeYWnyq814Zod9NK9DTKl54
- nRyelvPux5jNC97Tnvg0QPdvi5jlm9bSHYgWRYCuIkwyGPaiZLS+7vNU6c5JQgyv02hy
- HqlkBYPktizL4N6x4WGAyYBrF+DTzkyPfTB817t6ySRtgdMO+9HzkjxGSuQzClq3LKnK
- Ozav41AtYH8/7iMBrE51Wyt2PrMBR5lpm5GbVRbSv1WzCyG5+ceNGXKtale8XFIGeCWR
- BxzA==
-X-Gm-Message-State: AC+VfDy6pdogc+ceZuk2lsLQRUqSHeagHwL4SYH2PPhRGW28+yNX3Pyk
- hVmlaAVdBOlezfxDcmWT+kMdQtB0ou8=
-X-Google-Smtp-Source: ACHHUZ6HnzDdvEB9MK8EIIhEqyLXlCL2ElHiNEswztvbsWAR4iNFg/4RBOn7TLNTPhd4j+Qr6dkaBw==
-X-Received: by 2002:a17:907:94ca:b0:957:7551:38c0 with SMTP id
- dn10-20020a17090794ca00b00957755138c0mr1574286ejc.7.1682598449159; 
- Thu, 27 Apr 2023 05:27:29 -0700 (PDT)
-Received: from EliteBook.fritz.box (p4fc2092b.dip0.t-ipconnect.de.
- [79.194.9.43]) by smtp.gmail.com with ESMTPSA id
- 28-20020a170906225c00b0094ee88207d5sm9516642ejr.191.2023.04.27.05.27.28
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 27 Apr 2023 05:27:28 -0700 (PDT)
-From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
-X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
- <christian.koenig@amd.com>
-To: luben.tuikov@amd.com,
-	dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/scheduler: mark jobs without fence as canceled
-Date: Thu, 27 Apr 2023 14:27:26 +0200
-Message-Id: <20230427122726.1290170-1-christian.koenig@amd.com>
-X-Mailer: git-send-email 2.34.1
+ d=1e100.net; s=20221208; t=1682599203; x=1685191203;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=J6ET9XLS5jM/TyHq4+UE6o4i1yy/wsCl/8+/RTLOHqY=;
+ b=Yz1Ddq70Lq77aJFIDwhT+ssCyGtSpAd3Uy2PQO31h4gXdhuV9odZ2aoF0C1ct6tJQh
+ Gmus6Szb2CgI6t+8bzUGaMF7QthTZuKlEjxXirCkOxfYg4f0uv5bTlY64jiEL/7+YY/+
+ UGeqdnzvIYjoqNIYBvEOd8HYFMDgck52ZtPdaOJA8fisw5tIowr+bgUrpOC4qnAwgaj0
+ 62MvrSCwazibHDW58uxuNIUkGYOc0mCaJbzNRl2DENFs+8WnRFzT0mY0KjwJ7IBUtsfF
+ 3qFmF5Znh73UIpGIU0/Zw+a2clmA+3d3ALrOdK9umWPs+y0JNKq/W/5iTdIq2+jb378a
+ ViTQ==
+X-Gm-Message-State: AC+VfDymsXYhV8lxd4Ypcp6RxqdOW+Sx2bNhHfk2c3XIz87Tp4+z/7Xx
+ caoKnyLwY+h5WQcgXN/zyRYUd767uHGIG9Wq8b0=
+X-Google-Smtp-Source: ACHHUZ5+5nq8G0fdCC1+vwj+KmJkfoWFgNBUEKtOzD2dq9+mpvse2ZJ72PF955P7xK8j8473xqe+Z9K5Jz67W2iX7LQ=
+X-Received: by 2002:aca:1307:0:b0:38e:2879:735b with SMTP id
+ e7-20020aca1307000000b0038e2879735bmr563675oii.34.1682599203057; Thu, 27 Apr
+ 2023 05:40:03 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20230419122233.3440-1-hackyzh002@gmail.com>
+ <CAF6NKda1Jy_wfxaVqWt-o75f1BO-o4JXHY9HS9_JtJ2FHztMmQ@mail.gmail.com>
+In-Reply-To: <CAF6NKda1Jy_wfxaVqWt-o75f1BO-o4JXHY9HS9_JtJ2FHztMmQ@mail.gmail.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Thu, 27 Apr 2023 08:39:51 -0400
+Message-ID: <CADnq5_MfynMAPU8c-Lq1X_dcDOdRpjW6i=m-Qo8zsZZ=dO-62w@mail.gmail.com>
+Subject: Re: [PATCH v3 2/2] drm/amdgpu: Fix integer overflow in amdgpu_cs_pass1
+To: whitehat002 whitehat002 <hackyzh002@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,30 +69,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: Xinhui.Pan@amd.com, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, christian.koenig@amd.com,
+ linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
+ alexander.deucher@amd.com, sumit.semwal@linaro.org,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When no hw fence is provided for a job that means that the job didn't executed.
+As per my prior reply, it has been applied.
 
-Signed-off-by: Christian König <christian.koenig@amd.com>
----
- drivers/gpu/drm/scheduler/sched_main.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Thanks,
 
-diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
-index 7849e2d7780e..b09cdacfd062 100644
---- a/drivers/gpu/drm/scheduler/sched_main.c
-+++ b/drivers/gpu/drm/scheduler/sched_main.c
-@@ -542,7 +542,7 @@ void drm_sched_start(struct drm_gpu_scheduler *sched, bool full_recovery)
- 				DRM_DEV_ERROR(sched->dev, "fence add callback failed (%d)\n",
- 					  r);
- 		} else
--			drm_sched_job_done(s_job, 0);
-+			drm_sched_job_done(s_job, -ECANCELED);
- 	}
- 
- 	if (full_recovery) {
--- 
-2.34.1
+Alex
 
+On Thu, Apr 27, 2023 at 8:39=E2=80=AFAM whitehat002 whitehat002
+<hackyzh002@gmail.com> wrote:
+>
+> hello
+> What is the current status of this patch, has it been applied?
+>
+>
+> hackyzh002 <hackyzh002@gmail.com> =E4=BA=8E2023=E5=B9=B44=E6=9C=8819=E6=
+=97=A5=E5=91=A8=E4=B8=89 20:23=E5=86=99=E9=81=93=EF=BC=9A
+> >
+> > The type of size is unsigned int, if size is 0x40000000, there will
+> > be an integer overflow, size will be zero after size *=3D sizeof(uint32=
+_t),
+> > will cause uninitialized memory to be referenced later.
+> >
+> > Signed-off-by: hackyzh002 <hackyzh002@gmail.com>
+> > ---
+> >  drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c b/drivers/gpu/drm/a=
+md/amdgpu/amdgpu_cs.c
+> > index 08eced097..89bcacc65 100644
+> > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
+> > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
+> > @@ -192,7 +192,7 @@ static int amdgpu_cs_pass1(struct amdgpu_cs_parser =
+*p,
+> >         uint64_t *chunk_array_user;
+> >         uint64_t *chunk_array;
+> >         uint32_t uf_offset =3D 0;
+> > -       unsigned int size;
+> > +       size_t size;
+> >         int ret;
+> >         int i;
+> >
+> > --
+> > 2.34.1
+> >
