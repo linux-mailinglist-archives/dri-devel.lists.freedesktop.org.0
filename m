@@ -1,51 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14C356F0806
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Apr 2023 17:15:29 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A4C196F087E
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Apr 2023 17:37:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C17A010E2B9;
-	Thu, 27 Apr 2023 15:15:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8F12410EBCA;
+	Thu, 27 Apr 2023 15:37:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5630E10E2B9
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Apr 2023 15:15:23 +0000 (UTC)
-Received: from [IPV6:2001:b07:2ed:14ed:c5f8:7372:f042:90a2] (unknown
- [IPv6:2001:b07:2ed:14ed:c5f8:7372:f042:90a2])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits))
- (No client certificate requested) (Authenticated sender: kholk11)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id EDD7B66032B5;
- Thu, 27 Apr 2023 16:15:20 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1682608522;
- bh=wx4QwWQd9NsnskAEPQUncauUhMSHJCUjAMBurj5VCPw=;
- h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
- b=Jm/XTqkVdeGNCtWpZpEhTDlndoLNfCkYlhVE0tRHH+AnSHsVTPcFlQUYWKu5Q7O2Y
- hpQn5J88h7AS7Aj6hrxV1wJH0yVIBH81FJKTkx/4JEgSD9br9/nP2VIs/Jouzq4+GZ
- +XhVlV4yCgAdpn+yWv6IoqMBabKshxpvQcen9A/Lv0BicMihifmbxjDiUQqL7CQqPx
- q5gu7ZjrTVBE+6HLa/d7p4V+n6cQnigJR3HzoyjvPAMCjihPRFukIkbQzciS8/3Rnv
- OttUxoMFyh7orzPjG2FgdrOVgjsqJHBE88TBNtK25tiRtZZyaTAdt/Dvn8gdxmP4vu
- 92WRXZjLmQjBg==
-Message-ID: <17525028-80bb-cd03-fbc9-b8ff65378517@collabora.com>
-Date: Thu, 27 Apr 2023 17:15:18 +0200
+Received: from relay04.th.seeweb.it (relay04.th.seeweb.it
+ [IPv6:2001:4b7a:2000:18::165])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1230B10EB86
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Apr 2023 15:37:46 +0000 (UTC)
+Received: from SoMainline.org (94-211-6-86.cable.dynamic.v4.ziggo.nl
+ [94.211.6.86])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
+ SHA256) (No client certificate requested)
+ by m-r1.th.seeweb.it (Postfix) with ESMTPSA id E127D20159;
+ Thu, 27 Apr 2023 17:37:41 +0200 (CEST)
+Date: Thu, 27 Apr 2023 17:37:40 +0200
+From: Marijn Suijten <marijn.suijten@somainline.org>
+To: Konrad Dybcio <konrad.dybcio@linaro.org>
+Subject: Re: [PATCH v2 07/13] drm/msm/dpu: Add SM6350 support
+Message-ID: <k25jg7cez2kimpxr4ztbdzjr2adq6a2vjknyvfe5frxujtogfg@vhfdyt45unv6>
+References: <20230411-topic-straitlagoon_mdss-v2-0-5def73f50980@linaro.org>
+ <20230411-topic-straitlagoon_mdss-v2-7-5def73f50980@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH RESEND v3 0/9] Add gamma lut support for mt8195
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-To: "Jason-JH.Lin" <jason-jh.lin@mediatek.com>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Matthias Brugger <matthias.bgg@gmail.com>
-References: <20220912013006.27541-1-jason-jh.lin@mediatek.com>
- <c6a12ebc-99f1-855d-e366-e5a4833dc562@collabora.com>
-Content-Language: en-US
-In-Reply-To: <c6a12ebc-99f1-855d-e366-e5a4833dc562@collabora.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230411-topic-straitlagoon_mdss-v2-7-5def73f50980@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,43 +43,311 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Singo Chang <singo.chang@mediatek.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- Rex-BC Chen <rex-bc.chen@mediatek.com>, linux-mediatek@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org
+Cc: freedreno@lists.freedesktop.org, iommu@lists.linux.dev,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Will Deacon <will@kernel.org>, devicetree@vger.kernel.org,
+ Sean Paul <sean@poorly.run>, Joerg Roedel <joro@8bytes.org>,
+ Konrad Dybcio <konrad.dybcio@somainline.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+ Krishna Manikandan <quic_mkrishn@quicinc.com>, linux-arm-msm@vger.kernel.org,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ linux-arm-kernel@lists.infradead.org, Robin Murphy <robin.murphy@arm.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Il 26/04/23 13:43, AngeloGioacchino Del Regno ha scritto:
-> Il 12/09/22 03:29, Jason-JH.Lin ha scritto:
->> Since the gamma_set_common() function for previous SoC,
->> such as  mt8173 and mt8183, is designed for 9bit-to-10bit
->> conversion.
->> mt8195 is using 10bit-to-12bit conversion, which is
->> not compatible with the previous function.
->>
->> Thus, need to update the function to fit the need of mt8195.
+On 2023-04-21 00:31:16, Konrad Dybcio wrote:
+> Add SM6350 support to the DPU1 driver to enable display output.
 > 
-> Hello,
-> can you please respin and fix this series on the latest linux-next?
-> 
-> Besides, please test it carefully: as far as I can see, GNOME Night Light
-> (or others) are not working on MT8195 (color temperature/ccorr).
-> As for gamma itself, that's not working either; you can test it with a tool
-> that will create a color profile by applying a new VCGT table, please look
-> at [1] if you need tools.
-> 
-> We can confirm that color correction works on at least MT8192 (colord), so
-> it's MT8195 at fault.
-> 
-> [1]: https://github.com/zb3/gnome-gamma-tool
-> 
+> Signed-off-by: Konrad Dybcio <konrad.dybcio@somainline.org>
+> Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
 
-Nevermind. I've actually fixed this code and refactored it a bit as well.
+After addressing the comments from Dmitry (CURSOR0->DMA1 and
+CURSOR1->DMA2), this is:
 
-I'll push my own version soon. No action required.
+Reviewed-by: Marijn Suijten <marijn.suijten@somainline.org>
 
-Regards,
-Angelo
+See below for some nits.
 
+> ---
+>  .../gpu/drm/msm/disp/dpu1/catalog/dpu_6_4_sm6350.h | 191 +++++++++++++++++++++
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c     |   1 +
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h     |   3 +
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c            |   1 +
+>  4 files changed, 196 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_4_sm6350.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_4_sm6350.h
+> new file mode 100644
+> index 000000000000..687a508cbaa6
+> --- /dev/null
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_4_sm6350.h
+> @@ -0,0 +1,191 @@
+> +/* SPDX-License-Identifier: GPL-2.0-only */
+> +/*
+> + * Copyright (c) 2022. Qualcomm Innovation Center, Inc. All rights reserved.
+> + * Copyright (c) 2015-2018, 2020 The Linux Foundation. All rights reserved.
+> + * Copyright (c) 2023, Linaro Limited
+> + */
+> +
+> +#ifndef _DPU_6_4_SM6350_H
+> +#define _DPU_6_4_SM6350_H
+> +
+> +static const struct dpu_caps sm6350_dpu_caps = {
+> +	.max_mixer_width = DEFAULT_DPU_OUTPUT_LINE_WIDTH,
+> +	.max_mixer_blendstages = 0x7,
+> +	.qseed_type = DPU_SSPP_SCALER_QSEED4,
+
+I thought it was QSEED3LITE, but doesn't really matter as both are
+handled similarly.  It'll anyway change when I resubmit:
+
+https://lore.kernel.org/linux-arm-msm/20230215-sspp-scaler-version-v1-0-416b1500b85b@somainline.org/T/#u
+
+which should hardcode the register value directly, making this field
+superfluous.
+
+> +	.has_src_split = true,
+> +	.has_dim_layer = true,
+> +	.has_idle_pc = true,
+> +	.max_linewidth = DEFAULT_DPU_OUTPUT_LINE_WIDTH,
+> +	.pixel_ram_size = DEFAULT_PIXEL_RAM_SIZE,
+> +};
+> +
+> +static const struct dpu_ubwc_cfg sm6350_ubwc_cfg = {
+> +	.ubwc_version = DPU_HW_UBWC_VER_20,
+> +	.ubwc_swizzle = 6,
+> +	.highest_bank_bit = 1,
+> +};
+> +
+> +static const struct dpu_mdp_cfg sm6350_mdp[] = {
+> +	{
+> +	.name = "top_0", .id = MDP_TOP,
+> +	.base = 0x0, .len = 0x494,
+> +	.features = 0,
+> +	.clk_ctrls[DPU_CLK_CTRL_VIG0] = { .reg_off = 0x2ac, .bit_off = 0 },
+> +	.clk_ctrls[DPU_CLK_CTRL_DMA0] = { .reg_off = 0x2ac, .bit_off = 8 },
+> +	.clk_ctrls[DPU_CLK_CTRL_DMA1] = { .reg_off = 0x2b4, .bit_off = 8 },
+> +	.clk_ctrls[DPU_CLK_CTRL_DMA2] = { .reg_off = 0x2c4, .bit_off = 8 },
+> +	.clk_ctrls[DPU_CLK_CTRL_REG_DMA] = { .reg_off = 0x2bc, .bit_off = 20 },
+> +	},
+> +};
+> +
+> +static const struct dpu_ctl_cfg sm6350_ctl[] = {
+> +	{
+> +	.name = "ctl_0", .id = CTL_0,
+> +	.base = 0x1000, .len = 0x1dc,
+> +	.features = BIT(DPU_CTL_ACTIVE_CFG),
+> +	.intr_start = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR2, 9),
+> +	},
+> +	{
+> +	.name = "ctl_1", .id = CTL_1,
+> +	.base = 0x1200, .len = 0x1dc,
+> +	.features = BIT(DPU_CTL_ACTIVE_CFG),
+> +	.intr_start = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR2, 10),
+> +	},
+> +	{
+> +	.name = "ctl_2", .id = CTL_2,
+> +	.base = 0x1400, .len = 0x1dc,
+> +	.features = BIT(DPU_CTL_ACTIVE_CFG),
+> +	.intr_start = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR2, 11),
+> +	},
+> +	{
+> +	.name = "ctl_3", .id = CTL_3,
+> +	.base = 0x1600, .len = 0x1dc,
+> +	.features = BIT(DPU_CTL_ACTIVE_CFG),
+> +	.intr_start = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR2, 12),
+> +	},
+> +};
+> +
+> +static const struct dpu_sspp_cfg sm6350_sspp[] = {
+> +	SSPP_BLK("sspp_0", SSPP_VIG0, 0x4000, 0x1f8, VIG_SC7180_MASK,
+> +		 sc7180_vig_sblk_0, 0,  SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG0),
+> +	SSPP_BLK("sspp_8", SSPP_DMA0, 0x24000, 0x1f8, DMA_SDM845_MASK,
+> +		 sdm845_dma_sblk_0, 1, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA0),
+> +	SSPP_BLK("sspp_9", SSPP_DMA1, 0x26000, 0x1f8, DMA_CURSOR_SDM845_MASK,
+> +		 sdm845_dma_sblk_1, 5, SSPP_TYPE_DMA, DPU_CLK_CTRL_CURSOR0),
+> +	SSPP_BLK("sspp_10", SSPP_DMA2, 0x28000, 0x1f8, DMA_CURSOR_SDM845_MASK,
+> +		 sdm845_dma_sblk_2, 9, SSPP_TYPE_DMA, DPU_CLK_CTRL_CURSOR1),
+> +};
+> +
+> +static const struct dpu_lm_cfg sm6350_lm[] = {
+> +	LM_BLK("lm_0", LM_0, 0x44000, MIXER_SDM845_MASK,
+> +		&sc7180_lm_sblk, PINGPONG_0, LM_1, DSPP_0),
+> +	LM_BLK("lm_1", LM_1, 0x45000, MIXER_SDM845_MASK,
+> +		&sc7180_lm_sblk, PINGPONG_1, LM_0, 0),
+
+These two entries are indented with two tabs and have one character too
+many to align with the opening parenthesis on the previous line.  Can we
+please settle on a single style, as this commit mostly uses tabs+spaces
+to align with the opening parenthesis?
+
+Dmitry vouched for `cino=(0` (when in unclosed parenthesis, align next
+line with zero extra characters to the opening parenthesis), but I find
+double tabs more convenient as it doesn't require reindenting when
+changing the name of the macro (which happened too often in my INTF TE
+series).
+
+> +};
+> +
+> +static const struct dpu_dspp_cfg sm6350_dspp[] = {
+> +	DSPP_BLK("dspp_0", DSPP_0, 0x54000, DSPP_SC7180_MASK,
+> +		 &sm8150_dspp_sblk),
+> +};
+> +
+> +static struct dpu_pingpong_cfg sm6350_pp[] = {
+> +	PP_BLK("pingpong_0", PINGPONG_0, 0x70000, PINGPONG_SM8150_MASK, 0, sdm845_pp_sblk,
+> +	       DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 8),
+> +	       -1),
+> +	PP_BLK("pingpong_1", PINGPONG_1, 0x70800, PINGPONG_SM8150_MASK, 0, sdm845_pp_sblk,
+> +	       DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 9),
+> +	       -1),
+
+Glad to see no TE2 here, we just removed it from all of DPU >= 5.0.0
+instead of >= 7.0.0 in [1] as downstream DTS turned out to be wrong.
+
+[1]: https://lore.kernel.org/linux-arm-msm/20230411-dpu-intf-te-v4-2-27ce1a5ab5c6@somainline.org/
+
+- Marijn
+
+> +};
+> +
+> +static const struct dpu_intf_cfg sm6350_intf[] = {
+> +	INTF_BLK("intf_0", INTF_0, 0x6a000, 0x2c0, INTF_DP, 0, 35, INTF_SC7180_MASK,
+> +		 DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 24),
+> +		 DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 25)),
+> +	INTF_BLK_DSI_TE("intf_1", INTF_1, 0x6a800, 0x2c0, INTF_DSI, 0, 35, INTF_SC7180_MASK,
+> +			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 26),
+> +			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 27),
+> +			DPU_IRQ_IDX(MDP_INTF1_TEAR_INTR, 2)),
+> +};
+> +
+> +static const struct dpu_vbif_cfg sm6350_vbif[] = {
+> +	{
+> +	.name = "vbif_0", .id = VBIF_RT,
+> +	.base = 0, .len = 0x1044,
+> +	.features = BIT(DPU_VBIF_QOS_REMAP),
+> +	.xin_halt_timeout = 0x4000,
+> +	.qos_rt_tbl = {
+> +		.npriority_lvl = ARRAY_SIZE(sdm845_rt_pri_lvl),
+> +		.priority_lvl = sdm845_rt_pri_lvl,
+> +	},
+> +	.qos_nrt_tbl = {
+> +		.npriority_lvl = ARRAY_SIZE(sdm845_nrt_pri_lvl),
+> +		.priority_lvl = sdm845_nrt_pri_lvl,
+> +	},
+> +	.memtype_count = 14,
+> +	.memtype = {3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3},
+> +	},
+> +};
+> +
+> +static const struct dpu_qos_lut_entry sm6350_qos_linear_macrotile[] = {
+> +	{.fl = 0, .lut = 0x0011223344556677 },
+> +	{.fl = 0, .lut = 0x0011223445566777 },
+> +};
+> +
+> +static const struct dpu_perf_cfg sm6350_perf_data = {
+> +	.max_bw_low = 4200000,
+> +	.max_bw_high = 5100000,
+> +	.min_core_ib = 2500000,
+> +	.min_llcc_ib = 0,
+> +	.min_dram_ib = 1600000,
+> +	.min_prefill_lines = 35,
+> +	/* TODO: confirm danger_lut_tbl */
+> +	.danger_lut_tbl = {0xffff, 0xffff, 0x0, 0x0, 0xffff},
+> +	.qos_lut_tbl = {
+> +		{.nentry = ARRAY_SIZE(sm6350_qos_linear_macrotile),
+> +		.entries = sm6350_qos_linear_macrotile
+> +		},
+> +		{.nentry = ARRAY_SIZE(sm6350_qos_linear_macrotile),
+> +		.entries = sm6350_qos_linear_macrotile
+> +		},
+> +		{.nentry = ARRAY_SIZE(sc7180_qos_nrt),
+> +		.entries = sc7180_qos_nrt
+> +		},
+> +	},
+> +	.cdp_cfg = {
+> +		{.rd_enable = 1, .wr_enable = 1},
+> +		{.rd_enable = 1, .wr_enable = 0}
+> +	},
+> +	.clk_inefficiency_factor = 105,
+> +	.bw_inefficiency_factor = 120,
+> +};
+> +
+> +const struct dpu_mdss_cfg dpu_sm6350_cfg = {
+> +	.caps = &sm6350_dpu_caps,
+> +	.ubwc = &sm6350_ubwc_cfg,
+> +	.mdp_count = ARRAY_SIZE(sm6350_mdp),
+> +	.mdp = sm6350_mdp,
+> +	.ctl_count = ARRAY_SIZE(sm6350_ctl),
+> +	.ctl = sm6350_ctl,
+> +	.sspp_count = ARRAY_SIZE(sm6350_sspp),
+> +	.sspp = sm6350_sspp,
+> +	.mixer_count = ARRAY_SIZE(sm6350_lm),
+> +	.mixer = sm6350_lm,
+> +	.dspp_count = ARRAY_SIZE(sm6350_dspp),
+> +	.dspp = sm6350_dspp,
+> +	.pingpong_count = ARRAY_SIZE(sm6350_pp),
+> +	.pingpong = sm6350_pp,
+> +	.intf_count = ARRAY_SIZE(sm6350_intf),
+> +	.intf = sm6350_intf,
+> +	.vbif_count = ARRAY_SIZE(sm6350_vbif),
+> +	.vbif = sm6350_vbif,
+> +	.reg_dma_count = 1,
+> +	.dma_cfg = &sm8250_regdma,
+> +	.perf = &sm6350_perf_data,
+> +	.mdss_irqs = BIT(MDP_SSPP_TOP0_INTR) | \
+> +		     BIT(MDP_SSPP_TOP0_INTR2) | \
+> +		     BIT(MDP_SSPP_TOP0_HIST_INTR) | \
+> +		     BIT(MDP_INTF0_INTR) | \
+> +		     BIT(MDP_INTF1_INTR)
+> +};
+> +
+> +#endif
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+> index db558a9ae36e..52750b592b36 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+> @@ -806,6 +806,7 @@ static const struct dpu_qos_lut_entry sc7180_qos_nrt[] = {
+>  #include "catalog/dpu_6_0_sm8250.h"
+>  #include "catalog/dpu_6_2_sc7180.h"
+>  #include "catalog/dpu_6_3_sm6115.h"
+> +#include "catalog/dpu_6_4_sm6350.h"
+>  #include "catalog/dpu_6_5_qcm2290.h"
+>  
+>  #include "catalog/dpu_7_0_sm8350.h"
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+> index 756bff1d2185..f9611bd75e02 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+> @@ -320,6 +320,8 @@ enum dpu_qos_lut_usage {
+>  	DPU_QOS_LUT_USAGE_LINEAR,
+>  	DPU_QOS_LUT_USAGE_MACROTILE,
+>  	DPU_QOS_LUT_USAGE_NRT,
+> +	DPU_QOS_LUT_USAGE_CWB,
+> +	DPU_QOS_LUT_USAGE_MACROTILE_QSEED,
+>  	DPU_QOS_LUT_USAGE_MAX,
+>  };
+>  
+> @@ -880,6 +882,7 @@ extern const struct dpu_mdss_cfg dpu_sc8180x_cfg;
+>  extern const struct dpu_mdss_cfg dpu_sm8250_cfg;
+>  extern const struct dpu_mdss_cfg dpu_sc7180_cfg;
+>  extern const struct dpu_mdss_cfg dpu_sm6115_cfg;
+> +extern const struct dpu_mdss_cfg dpu_sm6350_cfg;
+>  extern const struct dpu_mdss_cfg dpu_qcm2290_cfg;
+>  extern const struct dpu_mdss_cfg dpu_sm8350_cfg;
+>  extern const struct dpu_mdss_cfg dpu_sc7280_cfg;
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+> index 0e7a68714e9e..46be7ad8d615 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+> @@ -1286,6 +1286,7 @@ static const struct of_device_id dpu_dt_match[] = {
+>  	{ .compatible = "qcom,sc8180x-dpu", .data = &dpu_sc8180x_cfg, },
+>  	{ .compatible = "qcom,sc8280xp-dpu", .data = &dpu_sc8280xp_cfg, },
+>  	{ .compatible = "qcom,sm6115-dpu", .data = &dpu_sm6115_cfg, },
+> +	{ .compatible = "qcom,sm6350-dpu", .data = &dpu_sm6350_cfg, },
+>  	{ .compatible = "qcom,sm8150-dpu", .data = &dpu_sm8150_cfg, },
+>  	{ .compatible = "qcom,sm8250-dpu", .data = &dpu_sm8250_cfg, },
+>  	{ .compatible = "qcom,sm8350-dpu", .data = &dpu_sm8350_cfg, },
+> 
+> -- 
+> 2.40.0
+> 
