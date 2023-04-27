@@ -1,41 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A85A16F12C5
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Apr 2023 09:47:59 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8357F6F12C2
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Apr 2023 09:47:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 879CD10EC70;
-	Fri, 28 Apr 2023 07:47:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C604610EC64;
+	Fri, 28 Apr 2023 07:47:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net
  [IPv6:2001:4b98:dc4:8::228])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1AAA610EAEC
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Apr 2023 09:17:04 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DED1C10EAEC
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Apr 2023 09:17:07 +0000 (UTC)
 Received: (Authenticated sender: me@crly.cz)
- by mail.gandi.net (Postfix) with ESMTPSA id 4770E1BF212;
- Thu, 27 Apr 2023 09:17:01 +0000 (UTC)
+ by mail.gandi.net (Postfix) with ESMTPSA id 09D081BF20D;
+ Thu, 27 Apr 2023 09:17:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crly.cz; s=gm1;
- t=1682587023;
+ t=1682587026;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=I2h5VMqaJesUOuPG8+eybvYx3Ki8p5H+CLiCTNTLovw=;
- b=GgasaxcNkI+SGUsQZJuzuZwIdPpd1MTVPJ2lq6t3yH7M0xQN3Id6ZveAAR3mguKKSel/Po
- eAK2Blyiw86ew2FfV25lnNHrAHcYxo7YiU3sT793Ht+rQGsqsWiepQ4ZcmWnIybsx6b1pf
- 8RrFa+eGGCFWbZKezbuGYYRk6dVonD00gWS0n7SCdRI6aETKIE98/kTbnX+wRlWkv5/erq
- nTPEqOxFSuONbeq9j5FALmt8xlCEztT9QtfM96/ieMXasE51MhEm1+7BWI9O2/uMFZw+aR
- jErfU4nyB1730zdc6LHFvRfQX+YDP6CYADP+TIztmjXdSD3xNkZ+wbHzXQHKtQ==
+ bh=bD9KwDLg2m8+Br4YPFy4e8CxpYZb1W3wINLNprzhZeA=;
+ b=g5QPMqzzVHXHQ77u1winEQ/3sWz4IR3C0gB6Ooif/lxyOdyKgzhNrQwdRYR8SFnn5+b0Gt
+ BD6iNvKC9prKpfoQuVdDfYzJGN/3DU87cRzejkHvCiQ/pZC5MZOQ5x3KBOJL+kao4MZ9rJ
+ Y3lSeipW8djxW4SDSSM9p+ICxtfB01ea3SLXgNHipeATwJPLvcYaoMv0qs9uiWZB159CQB
+ Qbdn+h0mlSv9HlygKuvPknVKu8qykWnJ06rVZ41h9a2oA+wzQuZfwQgAzY0vyjoj8Iknc+
+ TJ9BFqdk3X5nPYU1ujsGla0mw6aw4EBbIRFAowAfgtUiaeQIrdDIPR9m/eHJfQ==
 From: Roman Beranek <me@crly.cz>
 To: Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
  David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
  Jernej Skrabec <jernej.skrabec@gmail.com>,
  Samuel Holland <samuel@sholland.org>
-Subject: [PATCH v3 5/7] ARM: dts: sunxi: rename tcon's clock output
-Date: Thu, 27 Apr 2023 11:16:09 +0200
-Message-Id: <20230427091611.99044-6-me@crly.cz>
+Subject: [PATCH v3 6/7] drm: sun4i: rename sun4i_dotclock to sun4i_tcon_dclk
+Date: Thu, 27 Apr 2023 11:16:10 +0200
+Message-Id: <20230427091611.99044-7-me@crly.cz>
 X-Mailer: git-send-email 2.32.0 (Apple Git-132)
 In-Reply-To: <20230427091611.99044-1-me@crly.cz>
 References: <20230427091611.99044-1-me@crly.cz>
@@ -62,84 +62,106 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 While the rate of TCON0's DCLK matches dotclock for parallel and LVDS
-outputs, this doesn't hold for DSI. According manuals from Allwinner,
-DCLK is an abbreviation of Data Clock, not dotclock, so go with that
-instead.
+outputs, this doesn't hold for DSI. The 'D' in DCLK actually stands for
+'Data' according to Allwinner's manuals. The clock is mostly referred to
+as dclk throughout this driver already anyway, so stick with that.
 
 Signed-off-by: Roman Beranek <me@crly.cz>
 ---
- arch/arm/boot/dts/sun5i.dtsi                  | 2 +-
- arch/arm/boot/dts/sun8i-a23-a33.dtsi          | 2 +-
- arch/arm/boot/dts/sun8i-a83t.dtsi             | 2 +-
- arch/arm/boot/dts/sun8i-v3s.dtsi              | 2 +-
- arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi | 2 +-
- 5 files changed, 5 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/sun4i/Makefile                         |  2 +-
+ drivers/gpu/drm/sun4i/sun4i_tcon.c                     | 10 +++++-----
+ .../drm/sun4i/{sun4i_dotclock.c => sun4i_tcon_dclk.c}  |  2 +-
+ .../drm/sun4i/{sun4i_dotclock.h => sun4i_tcon_dclk.h}  |  0
+ 4 files changed, 7 insertions(+), 7 deletions(-)
+ rename drivers/gpu/drm/sun4i/{sun4i_dotclock.c => sun4i_tcon_dclk.c} (99%)
+ rename drivers/gpu/drm/sun4i/{sun4i_dotclock.h => sun4i_tcon_dclk.h} (100%)
 
-diff --git a/arch/arm/boot/dts/sun5i.dtsi b/arch/arm/boot/dts/sun5i.dtsi
-index 250d6b87ab4d..2f901a013676 100644
---- a/arch/arm/boot/dts/sun5i.dtsi
-+++ b/arch/arm/boot/dts/sun5i.dtsi
-@@ -286,7 +286,7 @@ tcon0: lcd-controller@1c0c000 {
- 			clock-names = "ahb",
- 				      "tcon-ch0",
- 				      "tcon-ch1";
--			clock-output-names = "tcon-pixel-clock";
-+			clock-output-names = "tcon-data-clock";
- 			#clock-cells = <0>;
- 			status = "disabled";
+diff --git a/drivers/gpu/drm/sun4i/Makefile b/drivers/gpu/drm/sun4i/Makefile
+index 0d04f2447b01..bad7497a0d11 100644
+--- a/drivers/gpu/drm/sun4i/Makefile
++++ b/drivers/gpu/drm/sun4i/Makefile
+@@ -19,7 +19,7 @@ sun8i-mixer-y			+= sun8i_mixer.o sun8i_ui_layer.o \
+ 				   sun8i_vi_scaler.o sun8i_csc.o
  
-diff --git a/arch/arm/boot/dts/sun8i-a23-a33.dtsi b/arch/arm/boot/dts/sun8i-a23-a33.dtsi
-index f630ab55bb6a..ddc87cc15e51 100644
---- a/arch/arm/boot/dts/sun8i-a23-a33.dtsi
-+++ b/arch/arm/boot/dts/sun8i-a23-a33.dtsi
-@@ -190,7 +190,7 @@ tcon0: lcd-controller@1c0c000 {
- 			clock-names = "ahb",
- 				      "tcon-ch0",
- 				      "lvds-alt";
--			clock-output-names = "tcon-pixel-clock";
-+			clock-output-names = "tcon-data-clock";
- 			#clock-cells = <0>;
- 			resets = <&ccu RST_BUS_LCD>,
- 				 <&ccu RST_BUS_LVDS>;
-diff --git a/arch/arm/boot/dts/sun8i-a83t.dtsi b/arch/arm/boot/dts/sun8i-a83t.dtsi
-index 82fdb04122ca..94eb3bfc989e 100644
---- a/arch/arm/boot/dts/sun8i-a83t.dtsi
-+++ b/arch/arm/boot/dts/sun8i-a83t.dtsi
-@@ -456,7 +456,7 @@ tcon0: lcd-controller@1c0c000 {
- 			interrupts = <GIC_SPI 86 IRQ_TYPE_LEVEL_HIGH>;
- 			clocks = <&ccu CLK_BUS_TCON0>, <&ccu CLK_TCON0>;
- 			clock-names = "ahb", "tcon-ch0";
--			clock-output-names = "tcon-pixel-clock";
-+			clock-output-names = "tcon-data-clock";
- 			#clock-cells = <0>;
- 			resets = <&ccu RST_BUS_TCON0>, <&ccu RST_BUS_LVDS>;
- 			reset-names = "lcd", "lvds";
-diff --git a/arch/arm/boot/dts/sun8i-v3s.dtsi b/arch/arm/boot/dts/sun8i-v3s.dtsi
-index db194c606fdc..ab2a0e1235e4 100644
---- a/arch/arm/boot/dts/sun8i-v3s.dtsi
-+++ b/arch/arm/boot/dts/sun8i-v3s.dtsi
-@@ -191,7 +191,7 @@ tcon0: lcd-controller@1c0c000 {
- 				 <&ccu CLK_TCON0>;
- 			clock-names = "ahb",
- 				      "tcon-ch0";
--			clock-output-names = "tcon-pixel-clock";
-+			clock-output-names = "tcon-data-clock";
- 			#clock-cells = <0>;
- 			resets = <&ccu RST_BUS_TCON0>;
- 			reset-names = "lcd";
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi
-index cfc60dce80b0..b40474c92d48 100644
---- a/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi
-@@ -407,7 +407,7 @@ tcon0: lcd-controller@1c0c000 {
- 			interrupts = <GIC_SPI 86 IRQ_TYPE_LEVEL_HIGH>;
- 			clocks = <&ccu CLK_BUS_TCON0>, <&ccu CLK_TCON0>;
- 			clock-names = "ahb", "tcon-ch0";
--			clock-output-names = "tcon-pixel-clock";
-+			clock-output-names = "tcon-data-clock";
- 			#clock-cells = <0>;
- 			resets = <&ccu RST_BUS_TCON0>, <&ccu RST_BUS_LVDS>;
- 			reset-names = "lcd", "lvds";
+ sun4i-tcon-y			+= sun4i_crtc.o
+-sun4i-tcon-y			+= sun4i_dotclock.o
++sun4i-tcon-y			+= sun4i_tcon_dclk.o
+ sun4i-tcon-y			+= sun4i_lvds.o
+ sun4i-tcon-y			+= sun4i_tcon.o
+ sun4i-tcon-y			+= sun4i_rgb.o
+diff --git a/drivers/gpu/drm/sun4i/sun4i_tcon.c b/drivers/gpu/drm/sun4i/sun4i_tcon.c
+index 523a6d787921..eec26b1faa4b 100644
+--- a/drivers/gpu/drm/sun4i/sun4i_tcon.c
++++ b/drivers/gpu/drm/sun4i/sun4i_tcon.c
+@@ -31,12 +31,12 @@
+ #include <uapi/drm/drm_mode.h>
+ 
+ #include "sun4i_crtc.h"
+-#include "sun4i_dotclock.h"
+ #include "sun4i_drv.h"
+ #include "sun4i_lvds.h"
+ #include "sun4i_rgb.h"
+ #include "sun4i_tcon.h"
+ #include "sun6i_mipi_dsi.h"
++#include "sun4i_tcon_dclk.h"
+ #include "sun8i_tcon_top.h"
+ #include "sunxi_engine.h"
+ 
+@@ -1237,14 +1237,14 @@ static int sun4i_tcon_bind(struct device *dev, struct device *master,
+ 	ret = sun4i_tcon_init_irq(dev, tcon);
+ 	if (ret) {
+ 		dev_err(dev, "Couldn't init our TCON interrupts\n");
+-		goto err_free_dotclock;
++		goto err_free_dclk;
+ 	}
+ 
+ 	tcon->crtc = sun4i_crtc_init(drm, engine, tcon);
+ 	if (IS_ERR(tcon->crtc)) {
+ 		dev_err(dev, "Couldn't create our CRTC\n");
+ 		ret = PTR_ERR(tcon->crtc);
+-		goto err_free_dotclock;
++		goto err_free_dclk;
+ 	}
+ 
+ 	if (tcon->quirks->has_channel_0) {
+@@ -1264,7 +1264,7 @@ static int sun4i_tcon_bind(struct device *dev, struct device *master,
+ 		of_node_put(remote);
+ 
+ 		if (ret < 0)
+-			goto err_free_dotclock;
++			goto err_free_dclk;
+ 	}
+ 
+ 	if (tcon->quirks->needs_de_be_mux) {
+@@ -1290,7 +1290,7 @@ static int sun4i_tcon_bind(struct device *dev, struct device *master,
+ 
+ 	return 0;
+ 
+-err_free_dotclock:
++err_free_dclk:
+ 	if (tcon->quirks->has_channel_0)
+ 		sun4i_dclk_free(tcon);
+ err_free_clocks:
+diff --git a/drivers/gpu/drm/sun4i/sun4i_dotclock.c b/drivers/gpu/drm/sun4i/sun4i_tcon_dclk.c
+similarity index 99%
+rename from drivers/gpu/drm/sun4i/sun4i_dotclock.c
+rename to drivers/gpu/drm/sun4i/sun4i_tcon_dclk.c
+index 417ade3d2565..03d7de1911cd 100644
+--- a/drivers/gpu/drm/sun4i/sun4i_dotclock.c
++++ b/drivers/gpu/drm/sun4i/sun4i_tcon_dclk.c
+@@ -10,7 +10,7 @@
+ #include <linux/regmap.h>
+ 
+ #include "sun4i_tcon.h"
+-#include "sun4i_dotclock.h"
++#include "sun4i_tcon_dclk.h"
+ 
+ struct sun4i_dclk {
+ 	struct clk_hw		hw;
+diff --git a/drivers/gpu/drm/sun4i/sun4i_dotclock.h b/drivers/gpu/drm/sun4i/sun4i_tcon_dclk.h
+similarity index 100%
+rename from drivers/gpu/drm/sun4i/sun4i_dotclock.h
+rename to drivers/gpu/drm/sun4i/sun4i_tcon_dclk.h
 -- 
 2.34.1
 
