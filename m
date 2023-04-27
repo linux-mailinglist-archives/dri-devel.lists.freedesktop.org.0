@@ -1,72 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DA1E6F0A7F
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Apr 2023 19:06:11 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 87DC76F0A9B
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Apr 2023 19:16:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 63CE610E14C;
-	Thu, 27 Apr 2023 17:06:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B2F8A10E1BE;
+	Thu, 27 Apr 2023 17:16:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x42f.google.com (mail-pf1-x42f.google.com
- [IPv6:2607:f8b0:4864:20::42f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2BCB210E09D
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Apr 2023 17:06:05 +0000 (UTC)
-Received: by mail-pf1-x42f.google.com with SMTP id
- d2e1a72fcca58-63b7588005fso7272801b3a.0
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Apr 2023 10:06:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1682615164; x=1685207164;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=k4ophyycar0aN5e81E3kbl+YpoXereyDprZ51sERIL8=;
- b=i6/aY2NfYGxoC+7GgURKzVC56OJa2jvZNZjfNwibceLVJhzOOTtbUM4nfx6gLxx15S
- RziVhq7c2xc5YgOV642ohAS/HCHxv3mo4jF0rf2pssX6WyaJTyjOOU91sy16SWS5uNUZ
- ypOE3B30h4V6mp1paI0blkrj9pBTM1yDZjCoY04QOHrGZ+xUMgOn8va/PKoBIds2hOo/
- CWwbOQl31D0XH9cbPc2mAW08+xKpqNlzC0CqkBi8R624h/CRmqzpW0n0vXLw6fFXPnpa
- YW26CyGEF/Ar/zwq/JFfTZu30pcrndHVLXDtLrUr5L8GSyWBxmQDqml/6vuTvxlymv70
- 0Nmg==
+Received: from mail-oa1-f47.google.com (mail-oa1-f47.google.com
+ [209.85.160.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 710CD10E1BE
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Apr 2023 17:16:28 +0000 (UTC)
+Received: by mail-oa1-f47.google.com with SMTP id
+ 586e51a60fabf-187ba2311b7so7054039fac.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Apr 2023 10:16:28 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682615164; x=1685207164;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=k4ophyycar0aN5e81E3kbl+YpoXereyDprZ51sERIL8=;
- b=jHEmyOoYkPc8Cppw/DGA931yI8NYNE9eiJORifpLKDVWjCvOLmKowpoz71cO0LqlJg
- lVidOdBcXn8z8PYMF5gSVRenztC7xHK4zFLGo0Dn0YGCQ1BkkJa6Jya2gms6/pnjTUMU
- nyOHNA8CajMvrSvdBC6soMsC4P0ozWfpv5HRLICi6FfG/Oj5oYMlIaJOvxJd/QjVy6ag
- kzgorMYGlKa0iF6nxy9t1l+Q67RzZbvK6Kxusp53qf6Z18lryhOlz39LwHOoXrdKQxnr
- g6O44xv5rfV1Yez3l6xmiNRpc2CwZuUZIk0d1MMunGReO9+A6oKF0grHmxg1fpMYwXiH
- Z6Zw==
-X-Gm-Message-State: AC+VfDz1ud+gmFZWYp4O3JzETqQxVX6wm15kA0XOYEJcnM5O36iBAvja
- kzs6d12CivlMlEeFEWMZaJBlK5g6joMydA==
-X-Google-Smtp-Source: ACHHUZ4mt7vAeiKnllxZX7gigR+rhFGQGjOgpputfITtx3lb+CeixxmjixTTJbcZp/ZQAPdkDYgwkA==
-X-Received: by 2002:a05:6a00:1746:b0:63d:6825:d843 with SMTP id
- j6-20020a056a00174600b0063d6825d843mr3814843pfc.23.1682615164048; 
- Thu, 27 Apr 2023 10:06:04 -0700 (PDT)
-Received: from [10.67.48.245] ([192.19.223.252])
- by smtp.googlemail.com with ESMTPSA id
- k27-20020aa79d1b000000b0063b6451cd01sm13443138pfp.121.2023.04.27.10.05.56
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 27 Apr 2023 10:06:03 -0700 (PDT)
-Message-ID: <61bc7bc0-4e1d-247f-14ab-2a677af5aace@gmail.com>
-Date: Thu, 27 Apr 2023 10:05:54 -0700
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH v2 net-next 1/6] dt-bindings: net: brcm,unimac-mdio: Add
- asp-v2.0
-Content-Language: en-US
-To: Rob Herring <robh@kernel.org>, Justin Chen <justinpopo6@gmail.com>
+ d=1e100.net; s=20221208; t=1682615787; x=1685207787;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=EU2imsOOlLlZrjIN9juePbtOcgAYjelVwfmwyTnDSd0=;
+ b=I39MzlozHLR7MsHfPk0x3aaJkH/Qkj5ukaGqxt1CJbdk4zk1Z64jfUC2fkey+knOm9
+ M4KmVdVa51Rn2jDsLWKRipZUbVjRkBMzhuKsJAKspvE73a1Fa+YcDxAktk/WwhSEcCe8
+ AoY68icpAciaVXxkrjTcdChIemplSC4d18nOjtx1UCV4Kny2aUphgGlTESh3ZSWvMGza
+ wx03TSiIcxKrCZoOXfFzbrKvNj06F75Ibi9B2Da7gz+vas/GeXg2axocfvcEDRRsAaCP
+ KZuqVYmB+YPi79Hl3eq5PVvBkBjyTRw/nxiPlL/+DAxpuMTD7183bWYgazk/sY8khOK3
+ 505Q==
+X-Gm-Message-State: AC+VfDzYW3GGOT3RjbfyAvaI++1rrwt8YAUSWjtYpLE+f/L9LYbhc8Rk
+ Jd77u2yDD5BDLKr99YV6ig==
+X-Google-Smtp-Source: ACHHUZ62jIB7/4HoIDgm9vH/cSn1n7x8c4dz+fdSLMdOTBaQWdDp0VNFyfLCi152XnNtbQPU3Ox3rA==
+X-Received: by 2002:a05:6870:822a:b0:180:3b6:82bd with SMTP id
+ n42-20020a056870822a00b0018003b682bdmr1002246oae.33.1682615786901; 
+ Thu, 27 Apr 2023 10:16:26 -0700 (PDT)
+Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net.
+ [66.90.144.107]) by smtp.gmail.com with ESMTPSA id
+ v12-20020a4aad8c000000b0054542d3219asm8453503oom.11.2023.04.27.10.16.25
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 27 Apr 2023 10:16:26 -0700 (PDT)
+Received: (nullmailer pid 3185188 invoked by uid 1000);
+ Thu, 27 Apr 2023 17:16:25 -0000
+Date: Thu, 27 Apr 2023 12:16:25 -0500
+From: Rob Herring <robh@kernel.org>
+To: Justin Chen <justinpopo6@gmail.com>
+Subject: Re: [PATCH v2 net-next 2/6] dt-bindings: net: Brcm ASP 2.0 Ethernet
+ controller
+Message-ID: <20230427171625.GA3172205-robh@kernel.org>
 References: <1682535272-32249-1-git-send-email-justinpopo6@gmail.com>
- <1682535272-32249-2-git-send-email-justinpopo6@gmail.com>
- <20230427170354.GA3163369-robh@kernel.org>
-From: Florian Fainelli <f.fainelli@gmail.com>
-In-Reply-To: <20230427170354.GA3163369-robh@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+ <1682535272-32249-3-git-send-email-justinpopo6@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1682535272-32249-3-git-send-email-justinpopo6@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,33 +76,198 @@ Cc: devicetree@vger.kernel.org, f.fainelli@gmail.com, andrew@lunn.ch,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 4/27/23 10:03, Rob Herring wrote:
-> On Wed, Apr 26, 2023 at 11:54:27AM -0700, Justin Chen wrote:
->> The ASP 2.0 Ethernet controller uses a brcm unimac.
->>
->> Signed-off-by: Florian Fainelli <f.fainelli@gmail.com>
->> Signed-off-by: Justin Chen <justinpopo6@gmail.com>
->> ---
->>   Documentation/devicetree/bindings/net/brcm,unimac-mdio.yaml | 2 ++
->>   1 file changed, 2 insertions(+)
->>
->> diff --git a/Documentation/devicetree/bindings/net/brcm,unimac-mdio.yaml b/Documentation/devicetree/bindings/net/brcm,unimac-mdio.yaml
->> index 0be426ee1e44..6684810fcbf0 100644
->> --- a/Documentation/devicetree/bindings/net/brcm,unimac-mdio.yaml
->> +++ b/Documentation/devicetree/bindings/net/brcm,unimac-mdio.yaml
->> @@ -22,6 +22,8 @@ properties:
->>         - brcm,genet-mdio-v3
->>         - brcm,genet-mdio-v4
->>         - brcm,genet-mdio-v5
->> +      - brcm,asp-v2.0-mdio
->> +      - brcm,asp-v2.1-mdio
+On Wed, Apr 26, 2023 at 11:54:28AM -0700, Justin Chen wrote:
+> From: Florian Fainelli <f.fainelli@gmail.com>
 > 
-> How many SoCs does each of these correspond to? SoC specific compatibles
-> are preferred to version numbers (because few vendors are disciplined
-> at versioning and also not changing versions with every Soc).
+> Add a binding document for the Broadcom ASP 2.0 Ethernet
+> controller.
+> 
+> Signed-off-by: Florian Fainelli <f.fainelli@gmail.com>
+> Signed-off-by: Justin Chen <justinpopo6@gmail.com>
+> ---
+>  .../devicetree/bindings/net/brcm,asp-v2.0.yaml     | 145 +++++++++++++++++++++
+>  1 file changed, 145 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/net/brcm,asp-v2.0.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/net/brcm,asp-v2.0.yaml b/Documentation/devicetree/bindings/net/brcm,asp-v2.0.yaml
+> new file mode 100644
+> index 000000000000..818d91692e6e
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/net/brcm,asp-v2.0.yaml
+> @@ -0,0 +1,145 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/net/brcm,asp-v2.0.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Broadcom ASP 2.0 Ethernet controller
+> +
+> +maintainers:
+> +  - Justin Chen <justinpopo6@gmail.com>
+> +  - Florian Fainelli <f.fainelli@gmail.com>
+> +
+> +description: Broadcom Ethernet controller first introduced with 72165
+> +
+> +properties:
+> +  '#address-cells':
+> +    const: 1
+> +  '#size-cells':
+> +    const: 1
+> +
+> +  compatible:
+> +    enum:
+> +      - brcm,asp-v2.0
+> +      - brcm,bcm72165-asp-v2.0
+> +      - brcm,asp-v2.1
+> +      - brcm,bcm74165-asp-v2.1
 
-So far there is a 1:1 mapping between the number of versions and the 
-number of SoCs, and the older SoC uses v2.0, while the newer one uses v2.1.
--- 
-Florian
+You have 1 SoC per version, so what's the point of versions? If you have 
+more coming, then fine, but I'd expect it to be something like this:
 
+compatible = "brcm,bcm74165-asp-v2.1", "brcm,asp-v2.1";
+
+Also, the version in the SoC specific compatible is redundant. Just 
+"brcm,bcm74165-asp" is enough.
+
+v2.1 is not compatible with v2.0? What that means is would a client/OS 
+that only understands what v2.0 is work with v2.1 h/w? If so, you should 
+have fallback compatible.
+
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  ranges: true
+> +
+> +  interrupts:
+> +    minItems: 1
+> +    items:
+> +      - description: RX/TX interrupt
+> +      - description: Port 0 Wake-on-LAN
+> +      - description: Port 1 Wake-on-LAN
+> +
+> +  clocks:
+> +    maxItems: 1
+> +
+> +  ethernet-ports:
+
+The ethernet-switch.yaml schema doesn't work for you?
+
+> +    type: object
+> +    properties:
+> +      '#address-cells':
+> +        const: 1
+> +      '#size-cells':
+> +        const: 0
+> +
+> +    patternProperties:
+> +      "^port@[0-9]+$":
+> +        type: object
+> +
+> +        $ref: ethernet-controller.yaml#
+> +
+> +        properties:
+> +          reg:
+> +            maxItems: 1
+> +            description: Port number
+> +
+> +          channel:
+> +            maxItems: 1
+> +            description: ASP channel number
+
+Not a standard property, so it needs a type and vendor prefix. However, 
+what's the difference between channel and port? Can the port numbers 
+correspond to the channels?
+
+> +
+> +        required:
+> +          - reg
+> +          - channel
+> +
+> +    additionalProperties: false
+> +
+> +patternProperties:
+> +  "^mdio@[0-9a-f]+$":
+> +    type: object
+> +    $ref: "brcm,unimac-mdio.yaml"
+
+Drop quotes.
+
+> +
+> +    description:
+> +      ASP internal UniMAC MDIO bus
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - interrupts
+> +  - clocks
+> +  - ranges
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/interrupt-controller/irq.h>
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +
+> +    ethernet@9c00000 {
+> +        compatible = "brcm,asp-v2.0";
+> +        reg = <0x9c00000 0x1fff14>;
+> +        interrupts = <GIC_SPI 51 IRQ_TYPE_LEVEL_HIGH>;
+> +        ranges;
+> +        clocks = <&scmi 14>;
+> +        #address-cells = <1>;
+> +        #size-cells = <1>;
+> +
+> +        mdio@c614 {
+> +            compatible = "brcm,asp-v2.0-mdio";
+> +            reg = <0xc614 0x8>;
+
+You have 1:1 ranges, is that really what you want? That means 0xc614 is 
+an absolute address.
+
+> +            reg-names = "mdio";
+> +            #address-cells = <1>;
+> +            #size-cells = <0>;
+> +
+> +            phy0: ethernet-phy@1 {
+> +                reg = <1>;
+> +            };
+> +       };
+> +
+> +        mdio@ce14 {
+> +            compatible = "brcm,asp-v2.0-mdio";
+> +            reg = <0xce14 0x8>;
+> +            reg-names = "mdio";
+> +            #address-cells = <1>;
+> +            #size-cells = <0>;
+> +
+> +            phy1: ethernet-phy@1 {
+> +                reg = <1>;
+> +            };
+> +        };
+> +
+> +        ethernet-ports {
+> +            #address-cells = <1>;
+> +            #size-cells = <0>;
+> +
+> +            port@0 {
+> +                reg = <0>;
+> +                channel = <8>;
+> +                phy-mode = "rgmii";
+> +                phy-handle = <&phy0>;
+> +            };
+> +
+> +            port@1 {
+> +                reg = <1>;
+> +                channel = <9>;
+> +                phy-mode = "rgmii";
+> +                phy-handle = <&phy1>;
+> +            };
+> +        };
+> +    };
+> -- 
+> 2.7.4
+> 
