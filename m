@@ -2,64 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4786E6F06E7
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Apr 2023 15:54:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92DE86F0712
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Apr 2023 16:15:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6483F10E284;
-	Thu, 27 Apr 2023 13:54:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 06F2810E394;
+	Thu, 27 Apr 2023 14:15:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A32E510E284
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Apr 2023 13:54:37 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 1570321A4E;
- Thu, 27 Apr 2023 13:54:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1682603674; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=AZ5CXx61DlIwnory3L9+QYP6+SkR5bSvBqmjWzUPpJc=;
- b=BOfFSIDyQXWnW6DSjZ/+t4HzKjtGqOoVWeGnNzl07CZqO2FJvGGZA4fIuQmqoasU0lbvGY
- KkiUm/vHvFVAjxIXM4J7c49JdRIYKPrph81heoKz5rzzOLmfyCTjHa+kCFbiAG9krwkRJP
- QrpsrOKZ8BM+fjHZZZ68GHjheBAQfCc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1682603674;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=AZ5CXx61DlIwnory3L9+QYP6+SkR5bSvBqmjWzUPpJc=;
- b=84QEalb8HiJ31bHdApYvMREU6FVrr33PK+K10HBKfCC6HPNjHGkKPc2x70y/D9fVOpmA88
- C1EdPmhu4wrNL8Bg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id CB49B138F9;
- Thu, 27 Apr 2023 13:54:33 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id S80eMJl+SmS+BQAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Thu, 27 Apr 2023 13:54:33 +0000
-Message-ID: <a579ef4b-2183-0456-0aeb-379abf216a3d@suse.de>
-Date: Thu, 27 Apr 2023 15:54:33 +0200
+Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com
+ [IPv6:2a00:1450:4864:20::62e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CFCF910E378
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Apr 2023 14:15:25 +0000 (UTC)
+Received: by mail-ej1-x62e.google.com with SMTP id
+ a640c23a62f3a-94eee951c70so1391005466b.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Apr 2023 07:15:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1682604924; x=1685196924;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=lqzI0wZ2EqQrQrjO8vqAoXJym2hVEg0r8e35+35xmQw=;
+ b=q2xrjcGWRoZmThPFkxvA4QmteJ3wUDZ408LAWzx4rwMTFR/z8YJNxIz+O2Mjg2MMmX
+ M5IsGnIEtDuyGpAX1CRk6f58dZCv1E2AmvkDqebIDtkyNzcZuwZRDrQBn8zySmo2Tz7X
+ YAXCaU2n/ykqnbd9cSgSmfHAyZ+iTDqXTu7iSfhqrWbFE37HlWlAAYDlDuFCQ7GXFmFk
+ fo4JFEU6Lwzii5xIPQXV3ZscUExZZGpdIyNBNhYPf1JM2BDfXqFuvQSPxq3FKavbqGBi
+ J7sgqHN90xjjTkPCgKmF4a2X8Z4FQ2RqtsnSA1NlFkj1aT/RpV/P5V9NqRDnMcCK7lXE
+ R5xQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1682604924; x=1685196924;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=lqzI0wZ2EqQrQrjO8vqAoXJym2hVEg0r8e35+35xmQw=;
+ b=ePoAPJmSYLxTEUPNAueviG2AcAsdlEfkTMjpIu6G+wfV9QVEc/gue3Rh6kFo9L1aub
+ R4GVogUoPyRGGUVOTPgDUPCcsgijYEc1AdwlyzcKL3N4GNr/vOWQcI5KO5Bvq8FhulWn
+ OtXCR3FxqL5oL8aDo5HKRFgkV8HyJDWWXBGFhuAzWfpnc4U71YSGeJ6tix1zkHkd88cx
+ +T/inosXBWkzu5WB+ak4C4892/mISLhW2M31Co8wWCX0pNrrJtXHQZKCgyvI7hfdv+pI
+ +TRhtIANRJrykbx/uxhCZT2CL3sg4HiqnayjN47XNcEq+izaf3q82ZT31iZWpnOC3xS0
+ RM4Q==
+X-Gm-Message-State: AC+VfDzK1PqzCKRfyuUzVj4Xx0VFyOrXJe+Hc8Wi7vIHlcxKuDBiti4a
+ 1qFlGDqk85E9cpnXKyWqN0+F1g==
+X-Google-Smtp-Source: ACHHUZ5dGF5nSry14i4bNMUV9qu86lYwG1gJxFEaX/tWakik5oSiGyZqTA3ZLSg6+Q3Lrb4MV+sXRg==
+X-Received: by 2002:a17:906:7307:b0:958:489f:d050 with SMTP id
+ di7-20020a170906730700b00958489fd050mr2012618ejc.43.1682604923689; 
+ Thu, 27 Apr 2023 07:15:23 -0700 (PDT)
+Received: from [172.23.2.5] ([195.167.132.10])
+ by smtp.gmail.com with ESMTPSA id
+ pv4-20020a170907208400b0094f49f58019sm9658604ejb.27.2023.04.27.07.15.22
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 27 Apr 2023 07:15:23 -0700 (PDT)
+Message-ID: <544e3e61-d471-f0b5-4daf-53bfc531f361@linaro.org>
+Date: Thu, 27 Apr 2023 17:15:22 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH 4/6] fbdev: Validate info->screen_{base, buffer} in fb_ops
- implementations
-Content-Language: en-US
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-References: <20230425142846.730-1-tzimmermann@suse.de>
- <20230425142846.730-5-tzimmermann@suse.de>
- <CAMuHMdX8A_5Kd_D4qQfmYLbECekLWHFzrcK-xMTeyBaz=T_a-A@mail.gmail.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <CAMuHMdX8A_5Kd_D4qQfmYLbECekLWHFzrcK-xMTeyBaz=T_a-A@mail.gmail.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------PXdOtrP30q7JG6OOhMDyo9Ud"
+ Thunderbird/102.9.0
+Subject: Re: [PATCH v4 02/22] drm/msm/dpu: Remove TE2 block and feature from
+ DPU >= 5.0.0 hardware
+Content-Language: en-GB
+To: Marijn Suijten <marijn.suijten@somainline.org>,
+ Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Sean Paul <sean@poorly.run>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Adam Skladowski <a39.skl@gmail.com>,
+ Loic Poulain <loic.poulain@linaro.org>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Kuogee Hsieh <quic_khsieh@quicinc.com>, Robert Foss <rfoss@kernel.org>,
+ Vinod Koul <vkoul@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>
+References: <20230411-dpu-intf-te-v4-0-27ce1a5ab5c6@somainline.org>
+ <20230411-dpu-intf-te-v4-2-27ce1a5ab5c6@somainline.org>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <20230411-dpu-intf-te-v4-2-27ce1a5ab5c6@somainline.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,84 +85,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, teddy.wang@siliconmotion.com, deller@gmx.de,
- javierm@redhat.com, dri-devel@lists.freedesktop.org,
- sudipm.mukherjee@gmail.com
+Cc: Jami Kettunen <jami.kettunen@somainline.org>, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Jordan Crouse <jordan@cosmicpenguin.net>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Martin Botka <martin.botka@somainline.org>,
+ ~postmarketos/upstreaming@lists.sr.ht,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------PXdOtrP30q7JG6OOhMDyo9Ud
-Content-Type: multipart/mixed; boundary="------------plRhPPhYgITRq5CDLVqcy4qF";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
- daniel@ffwll.ch, javierm@redhat.com, deller@gmx.de,
- sudipm.mukherjee@gmail.com, teddy.wang@siliconmotion.com,
- dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org
-Message-ID: <a579ef4b-2183-0456-0aeb-379abf216a3d@suse.de>
-Subject: Re: [PATCH 4/6] fbdev: Validate info->screen_{base,buffer} in fb_ops
- implementations
-References: <20230425142846.730-1-tzimmermann@suse.de>
- <20230425142846.730-5-tzimmermann@suse.de>
- <CAMuHMdX8A_5Kd_D4qQfmYLbECekLWHFzrcK-xMTeyBaz=T_a-A@mail.gmail.com>
-In-Reply-To: <CAMuHMdX8A_5Kd_D4qQfmYLbECekLWHFzrcK-xMTeyBaz=T_a-A@mail.gmail.com>
+On 27/04/2023 01:37, Marijn Suijten wrote:
+> No hardware beyond kona (sm8250, DPU 6.0.0) defines the TE2 PINGPONG
+> sub-block offset downstream, and according to insiders no DPU >= 5.0.0
+> hardware has support for it either.  Especially since neither downstream
+> nor upstream utilize these registers in any way, remove the erroneous
+> specification from SM8150, SC8180X, SM8250, SC7180, SM8350, SC8280XP and
+> SM8450 to prevent confusion.
+> 
+> Note that downstream enables the PPSPLIT (split-FIFO) topology (single
+> LM for 2 PP and 2 INTF) based on the presence of a TE2 block.
+> 
+> Fixes: 386fced3f76f ("drm/msm/dpu: add SM8150 to hw catalog")
+> Fixes: 7bdc0c4b8126 ("msm:disp:dpu1: add support for display for SC7180 target")
+> Fixes: 0e91bcbb0016 ("drm/msm/dpu: Add SM8350 to hw catalog")
+> Fixes: 4a352c2fc15a ("drm/msm/dpu: Introduce SC8280XP")
+> Fixes: 100d7ef6995d ("drm/msm/dpu: add support for SM8450")
+> Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
 
---------------plRhPPhYgITRq5CDLVqcy4qF
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-SGkNCg0KQW0gMjYuMDQuMjMgdW0gMTY6NTYgc2NocmllYiBHZWVydCBVeXR0ZXJob2V2ZW46
-DQo+IEhpIFRob21hcywNCj4gDQo+IA0KPiBPbiBUdWUsIEFwciAyNSwgMjAyMyBhdCA0OjI4
-4oCvUE0gVGhvbWFzIFppbW1lcm1hbm4gPHR6aW1tZXJtYW5uQHN1c2UuZGU+IHdyb3RlOg0K
-Pj4gUHVzaCB0aGUgdGVzdCBmb3IgaW5mby0+c2NyZWVuX2Jhc2UgZnJvbSBmYl9yZWFkKCkg
-YW5kIGZiX3dyaXRlKCkgaW50bw0KPj4gdGhlIGltcGxlbWVudGF0aW9ucyBvZiBzdHJ1Y3Qg
-ZmJfb3BzLntmYl9yZWFkLGZiX3dyaXRlfS4gSW4gY2FzZXMgd2hlcmUNCj4+IHRoZSBkcml2
-ZXIgb3BlcmF0ZXMgb24gaW5mby0+c2NyZWVuX2J1ZmZlciwgdGVzdCB0aGlzIGZpZWxkIGlu
-c3RlYWQuDQo+Pg0KPj4gU2lnbmVkLW9mZi1ieTogVGhvbWFzIFppbW1lcm1hbm4gPHR6aW1t
-ZXJtYW5uQHN1c2UuZGU+DQo+IA0KPiBUaGFua3MgZm9yIHlvdXIgcGF0Y2ghDQo+IFlvdSBm
-b3Jnb3QgdG8gbWVudGlvbiB3aHkgaXQgaXMgYSBnb29kIGlkZWEgdG8gZHVwbGljYXRlIHRo
-aXMgaW4gYWxsDQo+IHRoZSBpbXBsZW1lbnRhdGlvbnMsIGluc3RlYWQgb2YgZG9pbmcgaXQg
-b25jZSBpbiB0aGUgY29yZT8NCj4gDQo+PiAgIGRyaXZlcnMvdmlkZW8vZmJkZXYvY29iYWx0
-X2xjZGZiLmMgICAgIHwgIDYgKysrKysrDQo+PiAgIGRyaXZlcnMvdmlkZW8vZmJkZXYvY29y
-ZS9mYl9zeXNfZm9wcy5jIHwgIDYgKysrKysrDQo+PiAgIGRyaXZlcnMvdmlkZW8vZmJkZXYv
-Y29yZS9mYm1lbS5jICAgICAgIHwgMTAgKysrKysrKystLQ0KPj4gICBkcml2ZXJzL3ZpZGVv
-L2ZiZGV2L3NtNzEyZmIuYyAgICAgICAgICB8ICA0ICsrLS0NCj4+ICAgNCBmaWxlcyBjaGFu
-Z2VkLCAyMiBpbnNlcnRpb25zKCspLCA0IGRlbGV0aW9ucygtKQ0KPiANCj4gQXJlbid0IHRo
-ZXJlIG1vcmUgZmJkZXYgZHJpdmVycyB0byBmaXgsIGJlZm9yZSB5b3UgY2FuIG1vdmUgdGhl
-IGNoZWNrcw0KPiBpbiBkcml2ZXJzL3ZpZGVvL2ZiZGV2L2NvcmUvZmJtZW0uYz8NCg0KSSd2
-ZSBmb3VuZCBhIGZldy4gQW5kIEkndmUgYWxzbyBmb3VuZCBxdWl0ZSBhIG51bWJlciBvZiBk
-cml2ZXJzIHRoYXQgdXNlIA0Kc2NyZWVuX2Jhc2Ugd2hlbiB0aGV5IHNob3VsZCB1c2Ugc2Ny
-ZWVuX2J1ZmZlciBpbnN0ZWFkLiBJJ2xsIGZpeCB0aGVtIGFzIA0Kd2VsbC4NCg0KQmVzdCBy
-ZWdhcmRzDQpUaG9tYXMNCg0KPiANCj4gR3J7b2V0amUsZWV0aW5nfXMsDQo+IA0KPiAgICAg
-ICAgICAgICAgICAgICAgICAgICAgR2VlcnQNCj4gDQoNCi0tIA0KVGhvbWFzIFppbW1lcm1h
-bm4NCkdyYXBoaWNzIERyaXZlciBEZXZlbG9wZXINClNVU0UgU29mdHdhcmUgU29sdXRpb25z
-IEdlcm1hbnkgR21iSA0KRnJhbmtlbnN0cmFzc2UgMTQ2LCA5MDQ2MSBOdWVybmJlcmcsIEdl
-cm1hbnkNCkdGOiBJdm8gVG90ZXYsIEFuZHJldyBNeWVycywgQW5kcmV3IE1jRG9uYWxkLCBC
-b3VkaWVuIE1vZXJtYW4NCkhSQiAzNjgwOSAoQUcgTnVlcm5iZXJnKQ0K
+> ---
+>   .../gpu/drm/msm/disp/dpu1/catalog/dpu_5_0_sm8150.h |  4 ++--
+>   .../drm/msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h    |  4 ++--
+>   .../gpu/drm/msm/disp/dpu1/catalog/dpu_6_0_sm8250.h |  4 ++--
+>   .../gpu/drm/msm/disp/dpu1/catalog/dpu_6_2_sc7180.h |  4 ++--
+>   .../gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h |  4 ++--
+>   .../drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h   | 24 +++++++++++-----------
+>   .../gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h |  4 ++--
+>   7 files changed, 24 insertions(+), 24 deletions(-)-- 
+With best wishes
+Dmitry
 
---------------plRhPPhYgITRq5CDLVqcy4qF--
-
---------------PXdOtrP30q7JG6OOhMDyo9Ud
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmRKfpkFAwAAAAAACgkQlh/E3EQov+Dc
-+A/+LFpIMFm2aGDGSMuIrNjfMrYxv3fMZFZjHJxFy0H10uosDMAHyb6KDAy0vn0Z+fjQfeni0Aas
-n3H/fEjo1XIm8mn/KU+2OIDpwDVbHplAN6WmWg3B+qCHwZmSKCBcF221HY6mRCAM7N6v8Q1HADLs
-OmHx/k/4vAq5oaAxBrxpPS4Y/rPXbnnKq+kWYPF3fYaicdIRGkrioxMCnlFrGnzgSgtZh6eJp2fJ
-2AzggGEIG+do4fwiZlAh99n673+oc+MWUdsPDWegXkv+e12gx9OCz0R5ueGM2Q/nG1Nu933s9hK0
-CYJlYrJAUpshK1avEVsrelTDgp2Bf0Y5/SUNjGrsJ9dZ3bp2QONGdTxeB5XpN3aB6WXdCFHL9pEc
-JhK/45TrGnn+qUFkMcX1gPjUMVQFOPjp1QBmzNVktXs13iadxosivrkhp6HI3MAemMLORxRUDvI9
-9MIiW8+ZdBl4+ZwSXnzPEhG13RX9tBRT2USSEMsG3f9uacKHpJW4DKu3g+Jgu3g25DZShiYUgBxh
-aXKBWU/J8VvlwZk6NHbO89rSZzij07qG1g5jVviK/Qrb85WjryLwjCEZ6OQAx8eYSjYFIbUrRN4s
-2Nc4v8ShUNkCrjy+uLxLovB+fDZVmVUkJhx4B1oM/k4i7jFcyhfnACNR5fMXpN6DUw6aQN4SKMRW
-nkc=
-=XiIQ
------END PGP SIGNATURE-----
-
---------------PXdOtrP30q7JG6OOhMDyo9Ud--
