@@ -2,61 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C25C26F0C0B
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Apr 2023 20:37:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1AD76F0C26
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Apr 2023 20:51:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CB50510E377;
-	Thu, 27 Apr 2023 18:37:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CB90E10E395;
+	Thu, 27 Apr 2023 18:51:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb34.google.com (mail-yb1-xb34.google.com
- [IPv6:2607:f8b0:4864:20::b34])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4833710E377
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Apr 2023 18:37:08 +0000 (UTC)
-Received: by mail-yb1-xb34.google.com with SMTP id
- 3f1490d57ef6-b8f510fecf4so13396006276.1
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Apr 2023 11:37:08 -0700 (PDT)
+Received: from mail-oo1-xc30.google.com (mail-oo1-xc30.google.com
+ [IPv6:2607:f8b0:4864:20::c30])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 78C8310E081;
+ Thu, 27 Apr 2023 18:51:10 +0000 (UTC)
+Received: by mail-oo1-xc30.google.com with SMTP id
+ 006d021491bc7-5475e0147c9so2611061eaf.1; 
+ Thu, 27 Apr 2023 11:51:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1682620627; x=1685212627;
+ d=gmail.com; s=20221208; t=1682621469; x=1685213469;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=lFyU6RzzaWKzYQaB6d+4t8LyXp1LdQYNUdPNzYi7/h8=;
- b=HtY/DrgzGk3h4mFu2d6z33PwyHYydkJ+NBB4QlHY2snwb9ss1G8DMKOSNLZYSfMBrf
- L9HrRa7Qi91+ewz4uCqmCXi6PffsNxEgyy27JYm4IaOHWpQO1iFnJ39HPj7ADkgWhgXu
- oO783CuL8Er/66b5OhJW0YrvGmtuekT+MqSgaRTW7JXAz7wWq8YUVAH1Q43yvLQszZnf
- D1dVCT7sFkmekVAl/Jq4Ynk1RUeiK6oMDAqkk81qX2oJO5f0YuuUkuj5x4LhVtaW0r26
- oa+BqOF/W4Hub1s/EKssPZgNx3t1rhfbFZe1tRO3R1ig17jjLn1SrheUS06MwRtb8fWp
- JHwA==
+ bh=Yj/UQ4EcbnPYX5rdQ2FvYxfbgSOOZ5uRyKBmHlffxD0=;
+ b=feWpeKjy4Sm9WZ7b/pmiLnFFZIGc9T7VUaULKfCt+h8y00oglLNWZnO1AUj/v3GvTg
+ RJx94X1q0Y2oaGd496aUHH52PdWa7vtZDDj/j+ywnG8msPz0EzD64GmJqd0/zajrF/TQ
+ ZAQr/tw0N0lAR+CdrS6TXNzM4L5mZyjiOVTmc7nemSJlZ2NYh2WJfeCKj+fn1fA64Otq
+ bflm1HlReI7Zk3+9tfrzvJLs8iZ2H5MuA8N3/uyTvaXRNf9lHJ9LkrGFQpwBXwfwHmJl
+ 41QLwgUBiPS8CA/obC//N88K3/zQA5V1elhBb3/0noB0bohqB7iV/osY6KEq6+30smYJ
+ VL3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682620627; x=1685212627;
+ d=1e100.net; s=20221208; t=1682621469; x=1685213469;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=lFyU6RzzaWKzYQaB6d+4t8LyXp1LdQYNUdPNzYi7/h8=;
- b=Y209L5+jisZqrBNdbgbQOP8fK+2IECBSg4sPfkZpkXTtUAtcZLXhrtCEDPAhljAF1t
- PpP2l679kI5nt8NvIVnZg8twJTyyvHmE2oQEllM2Tf0XeqsTSdgJAd7pUONRPFqjt0km
- i71TUmvumO/wbYg3+nFWwUWkWoNOimUl/Ijqw1F4SJvofb+xU4MBtaRdoUUdytDWrQ+2
- xSwXYw17U0Ixoz0wty9K99ivasRqjmRJogTONpqtJaW+AUi916S/KZwg1hRNn+dHTKdt
- mm/E3DFyV4PgKMXwWusRuK9qBTi4119iQlsfngmuIFYvYUyEX18QKdGfuggp+IXCp6dx
- Avtg==
-X-Gm-Message-State: AC+VfDxxsL4MwmCCTFyRVNQHyVh2Noztu8nIfzby2yWtar4q20EJu9EO
- +9kjboBUgdWPSDyibyUAyDtH/zxalXAt8t26lyk=
-X-Google-Smtp-Source: ACHHUZ5kfpWpgI8QLz6dJm1lPtmJAogFkq7qb2Shv4MtdtAmRW5KuuaGfUGAHEbHc0k1Nb7jmHOxyKxgQj4ClUZRznA=
-X-Received: by 2002:a25:4907:0:b0:b92:2a56:bcc5 with SMTP id
- w7-20020a254907000000b00b922a56bcc5mr1589957yba.56.1682620626836; Thu, 27 Apr
- 2023 11:37:06 -0700 (PDT)
+ bh=Yj/UQ4EcbnPYX5rdQ2FvYxfbgSOOZ5uRyKBmHlffxD0=;
+ b=b/8Y08sXsD9APbYko9P3JaZ/Q1l1mW/oEbO0dCk10ZNH+p9moT2JqU3g5oFtCZDSrq
+ PUUuofMv1XokNLo9tn/zotq2RW9Kjz0ezMkhBlNIN+gDSRi85Zq1WMP84tW1L3Oq5Zi4
+ iRKqX/j/irZI/cYzDeLQ2vfg5+htwQ4lmVtIeRbMBvdqIJksOTwECl+HWJoB7Ig5sYdA
+ TZ11zWvT2veWEzdizCOWxbnSwXltA25zioxBE5njSP4AlVmmkPIRFawuhem+4p3ywRY1
+ bu/ViQts9iDj4agRhKpfG0qPr9ZELYZ5tWGLCDLrwNcPC2V+DGky3tlc8blNK5gqbyaf
+ sBLA==
+X-Gm-Message-State: AC+VfDwjNmq47Pa15RU2Ow6Q3UhVCm10fTinEdGBlwnBa9R4G/tgzutF
+ BQO1hHjfSuS8beBCDcQKSFCrc06mFb28gM7Nt4o=
+X-Google-Smtp-Source: ACHHUZ4eZ4DAEDIK0HbrjPaPpejSm+oDIFgpiHFoT+ZzsqnI11a4sHlFLxDUZdwYEQ9bI1gMnrKuuC4PpWSFm0URrco=
+X-Received: by 2002:a05:6808:1cf:b0:38c:25e3:d9d2 with SMTP id
+ x15-20020a05680801cf00b0038c25e3d9d2mr1130277oic.57.1682621469037; Thu, 27
+ Apr 2023 11:51:09 -0700 (PDT)
 MIME-Version: 1.0
-References: <1682535272-32249-1-git-send-email-justinpopo6@gmail.com>
- <1682535272-32249-3-git-send-email-justinpopo6@gmail.com>
- <20230427171625.GA3172205-robh@kernel.org>
-In-Reply-To: <20230427171625.GA3172205-robh@kernel.org>
-From: Justin Chen <justinpopo6@gmail.com>
-Date: Thu, 27 Apr 2023 11:36:55 -0700
-Message-ID: <CAJx26kUGs7B=v10YEPAP3jPu6FXSBTn0oBhQkfoiGY0E-PvUjA@mail.gmail.com>
-Subject: Re: [PATCH v2 net-next 2/6] dt-bindings: net: Brcm ASP 2.0 Ethernet
- controller
-To: Rob Herring <robh@kernel.org>
+References: <20230426225458.877481-1-olvaffe@gmail.com>
+In-Reply-To: <20230426225458.877481-1-olvaffe@gmail.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Thu, 27 Apr 2023 14:50:57 -0400
+Message-ID: <CADnq5_MEc_YAfts-wWEZVsm=bJLv5CT65qNX8c-qj_VZsxnS5A@mail.gmail.com>
+Subject: Re: [PATCH v3] drm/amdgpu: add a missing lock for AMDGPU_SCHED
+To: Chia-I Wu <olvaffe@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -71,232 +68,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, f.fainelli@gmail.com, andrew@lunn.ch,
- linux@armlinux.org.uk, netdev@vger.kernel.org, richardcochran@gmail.com,
- hkallweit1@gmail.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, justin.chen@broadcom.com, edumazet@google.com,
- opendmb@gmail.com, bcm-kernel-feedback-list@broadcom.com,
- krzysztof.kozlowski+dt@linaro.org, kuba@kernel.org, christian.koenig@amd.com,
- pabeni@redhat.com, sumit.semwal@linaro.org, davem@davemloft.net,
- linux-media@vger.kernel.org
+Cc: "Pan, Xinhui" <Xinhui.Pan@amd.com>, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Andres Rodriguez <andresx7@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Apr 27, 2023 at 10:16=E2=80=AFAM Rob Herring <robh@kernel.org> wrot=
-e:
->
-> On Wed, Apr 26, 2023 at 11:54:28AM -0700, Justin Chen wrote:
-> > From: Florian Fainelli <f.fainelli@gmail.com>
-> >
-> > Add a binding document for the Broadcom ASP 2.0 Ethernet
-> > controller.
-> >
-> > Signed-off-by: Florian Fainelli <f.fainelli@gmail.com>
-> > Signed-off-by: Justin Chen <justinpopo6@gmail.com>
-> > ---
-> >  .../devicetree/bindings/net/brcm,asp-v2.0.yaml     | 145 +++++++++++++=
-++++++++
-> >  1 file changed, 145 insertions(+)
-> >  create mode 100644 Documentation/devicetree/bindings/net/brcm,asp-v2.0=
-.yaml
-> >
-> > diff --git a/Documentation/devicetree/bindings/net/brcm,asp-v2.0.yaml b=
-/Documentation/devicetree/bindings/net/brcm,asp-v2.0.yaml
-> > new file mode 100644
-> > index 000000000000..818d91692e6e
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/net/brcm,asp-v2.0.yaml
-> > @@ -0,0 +1,145 @@
-> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > +%YAML 1.2
-> > +---
-> > +$id: http://devicetree.org/schemas/net/brcm,asp-v2.0.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: Broadcom ASP 2.0 Ethernet controller
-> > +
-> > +maintainers:
-> > +  - Justin Chen <justinpopo6@gmail.com>
-> > +  - Florian Fainelli <f.fainelli@gmail.com>
-> > +
-> > +description: Broadcom Ethernet controller first introduced with 72165
-> > +
-> > +properties:
-> > +  '#address-cells':
-> > +    const: 1
-> > +  '#size-cells':
-> > +    const: 1
-> > +
-> > +  compatible:
-> > +    enum:
-> > +      - brcm,asp-v2.0
-> > +      - brcm,bcm72165-asp-v2.0
-> > +      - brcm,asp-v2.1
-> > +      - brcm,bcm74165-asp-v2.1
->
-> You have 1 SoC per version, so what's the point of versions? If you have
-> more coming, then fine, but I'd expect it to be something like this:
->
-> compatible =3D "brcm,bcm74165-asp-v2.1", "brcm,asp-v2.1";
->
-> Also, the version in the SoC specific compatible is redundant. Just
-> "brcm,bcm74165-asp" is enough.
->
-> v2.1 is not compatible with v2.0? What that means is would a client/OS
-> that only understands what v2.0 is work with v2.1 h/w? If so, you should
-> have fallback compatible.
->
-v2.1 is not compatible with v2.0 unfortunately. So no, a client/OS
-that only understands v2.0 will not work with v2.1 h/w.
+Applied.  Thanks!
 
-> > +
-> > +  reg:
-> > +    maxItems: 1
-> > +
-> > +  ranges: true
-> > +
-> > +  interrupts:
-> > +    minItems: 1
-> > +    items:
-> > +      - description: RX/TX interrupt
-> > +      - description: Port 0 Wake-on-LAN
-> > +      - description: Port 1 Wake-on-LAN
-> > +
-> > +  clocks:
-> > +    maxItems: 1
-> > +
-> > +  ethernet-ports:
->
-> The ethernet-switch.yaml schema doesn't work for you?
->
-Technically it is not a switch. But it might work... If we use port to
-reference the unimac and reg to reference the ethernet channel. I
-rather not though, just cause it is not a switch, so calling it an
-ethernet-switch is confusing.
+Alex
 
-> > +    type: object
-> > +    properties:
-> > +      '#address-cells':
-> > +        const: 1
-> > +      '#size-cells':
-> > +        const: 0
-> > +
-> > +    patternProperties:
-> > +      "^port@[0-9]+$":
-> > +        type: object
-> > +
-> > +        $ref: ethernet-controller.yaml#
-> > +
-> > +        properties:
-> > +          reg:
-> > +            maxItems: 1
-> > +            description: Port number
-> > +
-> > +          channel:
-> > +            maxItems: 1
-> > +            description: ASP channel number
+On Wed, Apr 26, 2023 at 6:55=E2=80=AFPM Chia-I Wu <olvaffe@gmail.com> wrote=
+:
 >
-> Not a standard property, so it needs a type and vendor prefix. However,
-> what's the difference between channel and port? Can the port numbers
-> correspond to the channels?
+> mgr->ctx_handles should be protected by mgr->lock.
 >
-Port refers to the unimac. In our case we currently have a maximum of
-2. Channel refers to the ethernet hardware channel proper, in which we
-have many. So yes, you can have a port correlate to any channel.
-
-> > +
-> > +        required:
-> > +          - reg
-> > +          - channel
-> > +
-> > +    additionalProperties: false
-> > +
-> > +patternProperties:
-> > +  "^mdio@[0-9a-f]+$":
-> > +    type: object
-> > +    $ref: "brcm,unimac-mdio.yaml"
+> v2: improve commit message
+> v3: add a Fixes tag
 >
-> Drop quotes.
+> Signed-off-by: Chia-I Wu <olvaffe@gmail.com>
+> Reviewed-by: Christian K=C3=B6nig <christian.koenig@amd.com>
+> Fixes: 52c6a62c64fac ("drm/amdgpu: add interface for editing a foreign pr=
+ocess's priority v3")
+> ---
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_sched.c | 6 +++++-
+>  1 file changed, 5 insertions(+), 1 deletion(-)
 >
-> > +
-> > +    description:
-> > +      ASP internal UniMAC MDIO bus
-> > +
-> > +required:
-> > +  - compatible
-> > +  - reg
-> > +  - interrupts
-> > +  - clocks
-> > +  - ranges
-> > +
-> > +additionalProperties: false
-> > +
-> > +examples:
-> > +  - |
-> > +    #include <dt-bindings/interrupt-controller/irq.h>
-> > +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> > +
-> > +    ethernet@9c00000 {
-> > +        compatible =3D "brcm,asp-v2.0";
-> > +        reg =3D <0x9c00000 0x1fff14>;
-> > +        interrupts =3D <GIC_SPI 51 IRQ_TYPE_LEVEL_HIGH>;
-> > +        ranges;
-> > +        clocks =3D <&scmi 14>;
-> > +        #address-cells =3D <1>;
-> > +        #size-cells =3D <1>;
-> > +
-> > +        mdio@c614 {
-> > +            compatible =3D "brcm,asp-v2.0-mdio";
-> > +            reg =3D <0xc614 0x8>;
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_sched.c b/drivers/gpu/drm/=
+amd/amdgpu/amdgpu_sched.c
+> index e9b45089a28a6..863b2a34b2d64 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_sched.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_sched.c
+> @@ -38,6 +38,7 @@ static int amdgpu_sched_process_priority_override(struc=
+t amdgpu_device *adev,
+>  {
+>         struct fd f =3D fdget(fd);
+>         struct amdgpu_fpriv *fpriv;
+> +       struct amdgpu_ctx_mgr *mgr;
+>         struct amdgpu_ctx *ctx;
+>         uint32_t id;
+>         int r;
+> @@ -51,8 +52,11 @@ static int amdgpu_sched_process_priority_override(stru=
+ct amdgpu_device *adev,
+>                 return r;
+>         }
 >
-> You have 1:1 ranges, is that really what you want? That means 0xc614 is
-> an absolute address.
-Ack, will fix.
-
-Thanks for the review,
-Justin
-
+> -       idr_for_each_entry(&fpriv->ctx_mgr.ctx_handles, ctx, id)
+> +       mgr =3D &fpriv->ctx_mgr;
+> +       mutex_lock(&mgr->lock);
+> +       idr_for_each_entry(&mgr->ctx_handles, ctx, id)
+>                 amdgpu_ctx_priority_override(ctx, priority);
+> +       mutex_unlock(&mgr->lock);
 >
-> > +            reg-names =3D "mdio";
-> > +            #address-cells =3D <1>;
-> > +            #size-cells =3D <0>;
-> > +
-> > +            phy0: ethernet-phy@1 {
-> > +                reg =3D <1>;
-> > +            };
-> > +       };
-> > +
-> > +        mdio@ce14 {
-> > +            compatible =3D "brcm,asp-v2.0-mdio";
-> > +            reg =3D <0xce14 0x8>;
-> > +            reg-names =3D "mdio";
-> > +            #address-cells =3D <1>;
-> > +            #size-cells =3D <0>;
-> > +
-> > +            phy1: ethernet-phy@1 {
-> > +                reg =3D <1>;
-> > +            };
-> > +        };
-> > +
-> > +        ethernet-ports {
-> > +            #address-cells =3D <1>;
-> > +            #size-cells =3D <0>;
-> > +
-> > +            port@0 {
-> > +                reg =3D <0>;
-> > +                channel =3D <8>;
-> > +                phy-mode =3D "rgmii";
-> > +                phy-handle =3D <&phy0>;
-> > +            };
-> > +
-> > +            port@1 {
-> > +                reg =3D <1>;
-> > +                channel =3D <9>;
-> > +                phy-mode =3D "rgmii";
-> > +                phy-handle =3D <&phy1>;
-> > +            };
-> > +        };
-> > +    };
-> > --
-> > 2.7.4
-> >
+>         fdput(f);
+>         return 0;
+> --
+> 2.40.1.495.gc816e09b53d-goog
+>
