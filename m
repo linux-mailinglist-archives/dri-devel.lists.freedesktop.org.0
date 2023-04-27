@@ -1,53 +1,78 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E529C6F0AA8
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Apr 2023 19:18:44 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 84FDC6F0B2D
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Apr 2023 19:43:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D17C610E225;
-	Thu, 27 Apr 2023 17:18:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 375B510E289;
+	Thu, 27 Apr 2023 17:42:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 78980 seconds by postgrey-1.36 at gabe;
- Thu, 27 Apr 2023 17:18:40 UTC
-Received: from mailrelay5-1.pub.mailoutpod2-cph3.one.com
- (mailrelay5-1.pub.mailoutpod2-cph3.one.com [46.30.211.180])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6A8BF10E225
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Apr 2023 17:18:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ravnborg.org; s=rsa1;
- h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
- from:date:from;
- bh=3aPWmuilP5wLRilofoqbOrLGxKBwB7pAtJ4SXkaLvoc=;
- b=TLJMIi0RX8F2D4MECviwMXYvEcVb0lEsEy3+u8aUlSP8SU8rlCRGlNNmsB/nVOCzgK5pBrkqJQZ1F
- 4Pk0P0hLFN1/gQl0wOoX80yo5LMFFkY8AFk8tIjenbcNtBTjLcrXTVOu35BU0ZgXdWnnSf7qi6nZ3E
- orNHCnRqwI7LiLkgzVpEQaOMbxTZLeop5dV4q915EpZK5kidlhmu8EBhfMffenaiZSY9k7inpdXkTU
- Jqtqf/GAdMoncZ0gbyd6bbDaxV/c7d0xakYFi8MhdcA4DCSizJdUq7VgNEnQ2ErW0+f+L1lpNilWl3
- /TH/k1Te5r34DMQFVMUEym1QgkeLrjQ==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
- d=ravnborg.org; s=ed1;
- h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
- from:date:from;
- bh=3aPWmuilP5wLRilofoqbOrLGxKBwB7pAtJ4SXkaLvoc=;
- b=G5LZPAqKFgpnZqaJfT/ouJ07IZWuTH9E70Iw4lwAnH6U6PTleuFBBWfBI+H0sNsJGesQJZYrDGZOe
- rwUJGIwDg==
-X-HalOne-ID: 62b9268b-e51f-11ed-ad1f-231b2edd0ed2
-Received: from ravnborg.org (2-105-2-98-cable.dk.customer.tdc.net [2.105.2.98])
- by mailrelay5 (Halon) with ESMTPSA
- id 62b9268b-e51f-11ed-ad1f-231b2edd0ed2;
- Thu, 27 Apr 2023 17:17:31 +0000 (UTC)
-Date: Thu, 27 Apr 2023 19:17:29 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH 0/5] fbdev: Move framebuffer I/O helpers to <asm/fb.h>
-Message-ID: <20230427171729.GA3899979@ravnborg.org>
-References: <20230426130420.19942-1-tzimmermann@suse.de>
- <20230426192110.GA3791243@ravnborg.org>
- <3e33ab1d-b478-fdf5-6fbe-6580000182d1@suse.de>
+Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com
+ [IPv6:2a00:1450:4864:20::630])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5267E10E32B
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Apr 2023 17:42:55 +0000 (UTC)
+Received: by mail-ej1-x630.google.com with SMTP id
+ a640c23a62f3a-94eff00bcdaso1634376466b.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Apr 2023 10:42:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1682617373; x=1685209373;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=F1SAc0HcV8hEhAyAPR7y6pjkMxfBvrPrHvmJ+SfKKKc=;
+ b=yAG0oIoiiWeumBvBDJF3ZsFnf5PXkOXoWw6EID+Y9XG2yTvAP6xsv/sk/ewXuqM0oW
+ kD66hLM4pYZMHDuCQu+Q5guEZf51fsHDyuLmd31M8c1eKL3aCScUS9JDqtCRIMfaDsS7
+ 2CtcYjL6PQjAcDPdU0WRsCrK5uHcLbBA9kJ+jaTHKGPBcYmJyNAog8+o3L5TLekxUOlp
+ gGweK9Db5qU1UYMMNoySSkIYeJHUvtLL1wbp+VABgDfRUm4GyyG8/Fjf30gzrmiA9d7b
+ 8uOM1wMSMFss8xyQss08PlH1AImkWl1clD0/A81X9T9N3gUzcmZom5JZu3ph7LIcTZbY
+ fEfg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1682617373; x=1685209373;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=F1SAc0HcV8hEhAyAPR7y6pjkMxfBvrPrHvmJ+SfKKKc=;
+ b=VLhXHnxH009CyRDLpmMlfJx5QRg3BpLUQOkRoodNC1euchzVD29Alxmn7wGlxv776E
+ 2RJ63t2hb9KgW0P0uV0Q/ghstI3ac8IFSXzEfXXBdzHepILvGjn6+Qug1ua5woxx5CeT
+ t+vD1ePWs2k+w3cLkygXebC5Bwxo6Gm76EZ++vUfSlLRosvxKYndk5WMFcUgdchQoXvW
+ dHR60vR0YvugEfud+XQXnAxgif9ABlS+vUyLb+u00NxU8YDt9o0YtoulOiE5CU0iXIvg
+ LSMdcp6pZnUZrPRQthzM80j7HvFyY5aOPCV9d5d1z52eIdfcWKaap1EU0oRTkH/zRApJ
+ zohQ==
+X-Gm-Message-State: AC+VfDwFsgIPEsc5FnTs4SBQb0a2tzSIRHbOHiB0VGcD7p+dhqNTP1sR
+ BTJE5VTTBNKLmuR56Pe3gWkrpg==
+X-Google-Smtp-Source: ACHHUZ4+E/IFCnlWTF5xlWJOov/l6OzVHmSPhNh/zH0h6Ak5Scx+1Je+GsxGhmB2P5fMQ8VujrmzGg==
+X-Received: by 2002:a17:907:7fa7:b0:94f:3bf7:dacf with SMTP id
+ qk39-20020a1709077fa700b0094f3bf7dacfmr3268721ejc.71.1682617372720; 
+ Thu, 27 Apr 2023 10:42:52 -0700 (PDT)
+Received: from [172.23.2.5] ([195.167.132.10])
+ by smtp.gmail.com with ESMTPSA id
+ o19-20020a1709062e9300b0094f281bd279sm9930523eji.198.2023.04.27.10.42.51
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 27 Apr 2023 10:42:51 -0700 (PDT)
+Message-ID: <e0af881f-7350-05b8-4ec0-b56b4f70254f@linaro.org>
+Date: Thu, 27 Apr 2023 20:42:50 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <3e33ab1d-b478-fdf5-6fbe-6580000182d1@suse.de>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH v4 07/22] drm/msm/dpu: Set PINGPONG block length to zero
+ for DPU >= 7.0.0
+Content-Language: en-GB
+To: Marijn Suijten <marijn.suijten@somainline.org>,
+ Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Sean Paul <sean@poorly.run>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Adam Skladowski <a39.skl@gmail.com>,
+ Loic Poulain <loic.poulain@linaro.org>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Kuogee Hsieh <quic_khsieh@quicinc.com>, Robert Foss <rfoss@kernel.org>,
+ Vinod Koul <vkoul@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>
+References: <20230411-dpu-intf-te-v4-0-27ce1a5ab5c6@somainline.org>
+ <20230411-dpu-intf-te-v4-7-27ce1a5ab5c6@somainline.org>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <20230411-dpu-intf-te-v4-7-27ce1a5ab5c6@somainline.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,64 +85,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arch@vger.kernel.org, linux-fbdev@vger.kernel.org,
- linux-ia64@vger.kernel.org, loongarch@lists.linux.dev, arnd@arndb.de,
- deller@gmx.de, chenhuacai@kernel.org, javierm@redhat.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- James.Bottomley@hansenpartnership.com, linux-m68k@lists.linux-m68k.org,
- geert@linux-m68k.org, linux-parisc@vger.kernel.org, vgupta@kernel.org,
- sparclinux@vger.kernel.org, kernel@xen0n.name,
- linux-snps-arc@lists.infradead.org, davem@davemloft.net,
- linux-arm-kernel@lists.infradead.org
+Cc: Jami Kettunen <jami.kettunen@somainline.org>, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Jordan Crouse <jordan@cosmicpenguin.net>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Martin Botka <martin.botka@somainline.org>,
+ ~postmarketos/upstreaming@lists.sr.ht,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Thomas,
+On 27/04/2023 01:37, Marijn Suijten wrote:
+> Despite downstream DTS stating otherwise, the PINGPONG block has no
+> registers starting with DPU revision 7.0.0.  TEAR registers are gone
+> since DPU 5.0.0 after being moved to the INTF block, and DSC registers
+> are gone since 7.0.0, leaving only the dither sub-block.
+> 
+> A future patch, part of the DSC 1.2 series, should disable DSC functions
+> on the PINGPONG block for all DPU >= 7.0.0 hardware.
+> 
+> Fixes: 4a352c2fc15a ("drm/msm/dpu: Introduce SC8280XP")
+> Fixes: 0e91bcbb0016 ("drm/msm/dpu: Add SM8350 to hw catalog")
+> Fixes: 100d7ef6995d ("drm/msm/dpu: add support for SM8450")
+> Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
+> ---
+>   drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h   | 12 ++++++------
+>   drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h   |  8 ++++----
+>   drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h | 12 ++++++------
+>   drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h   | 16 ++++++++--------
+>   4 files changed, 24 insertions(+), 24 deletions(-)
 
-On Thu, Apr 27, 2023 at 09:22:47AM +0200, Thomas Zimmermann wrote:
-> Hi Sam
-> 
-> Am 26.04.23 um 21:21 schrieb Sam Ravnborg:
-> > Hi Thomas.
-> > 
-> > On Wed, Apr 26, 2023 at 03:04:15PM +0200, Thomas Zimmermann wrote:
-> > > Fbdev provides helpers for framebuffer I/O, such as fb_readl(),
-> > > fb_writel() or fb_memcpy_to_fb(). The implementation of each helper
-> > > depends on the architecture. It's still all located in fbdev's main
-> > > header file <linux/fb.h>. Move all of it into each archtecture's
-> > > <asm/fb.h>, with shared code in <asm-generic/fb.h>.
-> > 
-> > For once I think this cleanup is moving things in the wrong direction.
-> > 
-> > The fb_* helpers predates the generic io.h support and try to
-> > add a generic layer for read read / write operations.
-> > 
-> > The right fix would be to migrate fb_* to use the io helpers
-> > we have today - so we use the existing way to handle the architecture
-> > specific details.
-> 
-> I looked through the existing versions of the fb_() I/O helpers. They can
-> apparently be implemented with the regular helpers of similar names.
-> 
-> I'm not sure, but even Sparc looks compatible. At least these sbus_
-> functions seem to be equivalent to the __raw_() I/O helpers of similar
-> names.
+https://patchwork.freedesktop.org/patch/534306/?series=116327&rev=2
 
-> Do you still have that Sparc emulator?
-I used qemu the last time I played with sparc and saved the instructions
-somewhere how to redo it - but that would use to bohcs driver only I think.
-I have saprc machines, but none of these are easy to get operational.
-We can always ask on sparclinux to get some testing feedback.
+-- 
+With best wishes
+Dmitry
 
-> 
-> > 
-> >  From a quick look there seems to be some challenges but the current
-> > helpers that re-do part of io.h is not the way forward and hiding them
-> > in arch/include/asm/fb.h seems counter productive.
-> 
-> Which challenges did you see?
-sparc was the main thing - but maybe I did not look close enough.
-And then I tried to map the macros to some of the more highlevel ones
-from io.h, but as Arnd says the __raw* is the way to go here.
-
-	Sam
