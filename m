@@ -1,50 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E7D06F035A
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Apr 2023 11:27:25 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 654E76F036A
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Apr 2023 11:31:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D85BE10EAFF;
-	Thu, 27 Apr 2023 09:27:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 430BF10E011;
+	Thu, 27 Apr 2023 09:31:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from wnew4-smtp.messagingengine.com (wnew4-smtp.messagingengine.com
  [64.147.123.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A129910EAFF
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Apr 2023 09:27:18 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailnew.west.internal (Postfix) with ESMTP id 7BCBF2B06722;
- Thu, 27 Apr 2023 05:27:15 -0400 (EDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9304110E011
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Apr 2023 09:31:34 +0000 (UTC)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailnew.west.internal (Postfix) with ESMTP id 473382B05EAC;
+ Thu, 27 Apr 2023 05:31:32 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute5.internal (MEProxy); Thu, 27 Apr 2023 05:27:17 -0400
+ by compute3.internal (MEProxy); Thu, 27 Apr 2023 05:31:34 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
  :cc:content-type:content-type:date:date:from:from:in-reply-to
  :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm2; t=1682587635; x=1682594835; bh=Di
- IG0SqQqwKC+QxzuzST+OM7ic3p060jotUTDIfc4ws=; b=Dn+Is4x5yrdGG9I/J9
- ApHGPFahxTBhzqskzdGrli7Yz+fBKHAK2zed1hSfZCngH8KV/gVRkUUC6i4Z8u79
- WNXzO0aUR5kkBcpydvtpxIGV+yubw/8teSuQrrcthxDYz8S83es01YH/2hETAESR
- Kc+BMRDQxzQaW/RNAzCQ/QHFDZYUPFRSvZu2jxN92wk+IhUCghQQiLcKqDvO4TCv
- QtxL45lnpq9qYhxRvv+uoSjsXMbrCEhdK2paHJerNkBHhirbz4LSPLvIorBOaxtY
- n3bn3P83y+l6uylpp+Gj9pdsLHl2cxcR2/8KYMdvVjFnuRQbmgrhADdmFtwlbpam
- X/9A==
+ :subject:subject:to:to; s=fm2; t=1682587891; x=1682595091; bh=4A
+ A/hUm7D5pj1dXpkRE40WDcs6X1KOVEyS7AjjrVzTg=; b=c6gG7qWeLWbvTYBneh
+ 0cpMlN1hyuwFW9AVaILSZUzXlq2VrkXNdECHe5Koom2PdV8p4wwa+81y5gKhunta
+ aAaGkdMC0YRzd1PuHg2GdjJHx1yUYKa3lb8ki5/TovNESn5HJ2N9l+uxdSERyb8j
+ 6UPazgbAd3C/ncRP8N+/LNCKgVEUAyUYGQmIdwKAjaQOFwCgj0SYRfCbU69u17uo
+ DjtDjRJDjj7Nxd6B1mqAC/0L3o2vyxySuqMqklSIh7zx01IuMQ1BH1ZIKVXGTc5C
+ drJu3ZJFshS42Uzf3h6K9NIB1X8C/49PWH9Hw8cNXB+Kiiv/KvVSxaFg5MBToIp6
+ KlCA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-type:content-type:date:date
  :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
  :message-id:mime-version:references:reply-to:sender:subject
  :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm3; t=1682587635; x=1682594835; bh=DiIG0SqQqwKC+
- QxzuzST+OM7ic3p060jotUTDIfc4ws=; b=O+IzhBOLswPqo4Q7DC7VEdKHjH2ST
- YxgfUQCbaKqV0420VrHPgYbUQ07TJH8HVIXtqt04TO1rkSRwxeltCm+NiBsgucuX
- /j/pDCTbeC5LuoF+5Ho5ZjusWXUCh9Q9XTk7cojkW+2LIXIV0f086JhdkygNq+Kx
- BnCFxPumMZgCt9biR9zcc60cEU+o5HpZLA/9Hh4+Ofiuv17fpQXqdh9040gTHnzV
- joNyjI6Sv7pqW/AGdeFN8rCrMx9tlM5URZqgAQHb35T4B1hyfSlxIWvAyeUVDtE3
- 7czqih1jOrh3MDCPMhfcH2EEO5eKoOqz40dDLyMeU3iAfh7QLYdDmJJnw==
-X-ME-Sender: <xms:8j9KZFAnOYGV5MesUxkBMi4Ak9sJrNKjWh60NIQsCeEthkUmA7UREg>
- <xme:8j9KZDi5XUQJem8w3r0LagYAAU8-S9Ns7t8bxQ30RROA6VeIlQubt70nLesyltScN
- Ki728lvwrsRVwSodos>
-X-ME-Received: <xmr:8j9KZAmFUJeIeXVIpysJ_0IpkLZVovKjiFreZT0T1APdyJ-Djfq4UVZy5QkUZSlOQJGCpxmJ4zndSyIXHKoMCFVSVCagm54>
+ :x-sasl-enc; s=fm3; t=1682587891; x=1682595091; bh=4AA/hUm7D5pj1
+ dXpkRE40WDcs6X1KOVEyS7AjjrVzTg=; b=W7jpYx5LESYg91sizldIl10GJj+rD
+ jy65wkdbCw9O2TfuZAxD8IXNKrJU54OHcVsK0s8PBzGKRRhO5D8H64obaZgmJLzj
+ 6t0y2Voe0mmDovsP/Sr02ZFSSs/A2fTixlzQ4cCky62qPAsnYsOYe7WxgqGVuGMr
+ w23ok5ubBrSkkNAql/NxVjgSxlwUCzI4a8fdNS1kiq8iCLrBlWQ2+c2UIY+Rf5D+
+ 1zKWmXemMSUJxEKiioxqTLbe8DNGVa2ZTMcxW69sMUcqZIiHQ3BCksM3h4uo88hI
+ 5hmu0js2B8jrbEAXV8FqDng+UL7k1Vhc3SFFs3Rk5PR8jjIFkVzqd7ctw==
+X-ME-Sender: <xms:80BKZMuezHer77xiPJPHYQSQdr8oXzND7NAvo5BvbwQ0SgOCW6OvZA>
+ <xme:80BKZJca5I2T0brI_D2owkz9GslDbTu4l1WYIuAoUiV0SHjP0NMKOs02VbIhYqvwH
+ AUJ-guwwvwIUWQy66s>
+X-ME-Received: <xmr:80BKZHxUl8aMEWZltEiEr2W91x2OfV3PxH-BSGTEwSjUxVD-Q28S6TiPP6e6lAeK_BLtID6_fIr33xntyh37F71PREGTxpw>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrfeduiedgudeiucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
@@ -53,26 +53,25 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrfeduiedgudeiucetufdoteggod
  htthgvrhhnpeeuveduheeutdekvefgudevjeeufedvvdevhfejgfelgfdtkeevueegteek
  gfelfeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
  hmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:8j9KZPwm_ntFwRHPNLGMFMoJi6qaU9SzEOKJ7BMiDu2K1QuhB40Izw>
- <xmx:8j9KZKTF0NZi-fKYzZVEq6Lxw3tyy0LUe60V9nSYDuzKLs4fMSRPwg>
- <xmx:8j9KZCYbjPQi9P-2RtB3hlfoaEKTYE2nS44fFHJoXaX-hKS6PEIm9w>
- <xmx:8z9KZLCfMxW6IqCEN2G3j3m-PI1tGeNIz98Hj7TwYEXIp1we6DTKopM1KDQ>
+X-ME-Proxy: <xmx:80BKZPPMiTNp0pBWuXJpw5IwOR3f38iRB439Cq27YP-QUCoGIsVqpw>
+ <xmx:80BKZM9ZFqa3UlRm8hdodsvAqVdMvyDVXWChodXOIVFa3Yjt3eWzVg>
+ <xmx:80BKZHXT7pkUKMWvj08PDMoi81_ZdSo8ESftR8zGgCqgAPx_znBg0g>
+ <xmx:80BKZKMkjjtpN_9xl810hqNl5QdFO91lcsI8bvgOh3pYhmGLgHUvkD2O1vA>
 Feedback-ID: i8771445c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 27 Apr 2023 05:27:13 -0400 (EDT)
-Date: Thu, 27 Apr 2023 11:27:11 +0200
+ 27 Apr 2023 05:31:30 -0400 (EDT)
+Date: Thu, 27 Apr 2023 11:31:29 +0200
 From: Maxime Ripard <maxime@cerno.tech>
 To: Roman Beranek <me@crly.cz>
-Subject: Re: [PATCH v3 3/7] arm64: dts: allwinner: a64: assign PLL_MIPI to
- CLK_TCON0
-Message-ID: <4o243jwhbdfw32s5gzsbn4nhinicliugo4gqhh55lwxbfxkvkh@2jofbkdavewn>
+Subject: Re: [PATCH v3 4/7] arm64: dts: allwinner: a64: reset pll-video0 rate
+Message-ID: <i5sad34yvpcdavj76imjeifdz72ah3ue6mi6g6tf4cxc54yzla@gzhfmogh3oar>
 References: <20230427091611.99044-1-me@crly.cz>
- <20230427091611.99044-4-me@crly.cz>
+ <20230427091611.99044-5-me@crly.cz>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="qgslua4gfdtt6xq5"
+ protocol="application/pgp-signature"; boundary="73te7bsofh2bjjp6"
 Content-Disposition: inline
-In-Reply-To: <20230427091611.99044-4-me@crly.cz>
+In-Reply-To: <20230427091611.99044-5-me@crly.cz>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,29 +93,48 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---qgslua4gfdtt6xq5
+--73te7bsofh2bjjp6
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Apr 27, 2023 at 11:16:07AM +0200, Roman Beranek wrote:
-> Assign pll-mipi parent to tcon0's source clock via 'assigned-clocks'.
+Hi,
+
+I'm not sure I understand what you're doing here
+
+On Thu, Apr 27, 2023 at 11:16:08AM +0200, Roman Beranek wrote:
+> With pll-mipi as its source clock, the exact rate to which TCON0's data
+> clock can be set to is constrained by the current rate of pll-video0.
+
+What in the TCON exactly is constrained by pll-video0 rate?
+
+> Unless changed on a request of another consumer, the rate of pll-video0
+> is left as inherited from the bootloader.
+>
+> The default rate on reset is 297 MHz, a value preferable to what it is
+> later set to in u-boot (294 MHz). This happens unintentionally though,
+> as u-boot, for the sake of simplicity, rounds the rate requested by DE2
+> driver (297 MHz) to 6 MHz steps.
+>
+> Reset the PLL to its default rate of 297 MHz.
 >=20
 > Signed-off-by: Roman Beranek <me@crly.cz>
 
-Again, you should be doing it in the driver, not the device tree.
+If the driver depends on the value being the reset value, then that's
+the issue we should fix, either by reading the clock rate and adjusting
+to it, or enforcing the rate we expect in the TCON driver.
 
 Maxime
 
---qgslua4gfdtt6xq5
+--73te7bsofh2bjjp6
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZEo/7wAKCRDj7w1vZxhR
-xeKXAP9u1WrfKJfosG1ywij448ZJihQE5w/g08nQ3OOHuy8mxwD/TadcRTkLXYFT
-CabMDNnhkfOFqrbngXbnseRYpdEFKAw=
-=UrYD
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZEpA8QAKCRDj7w1vZxhR
+xaEnAP9+CfgLfIBh7+mlIZQEeNhmazMhTc+4FfTDKHlU2/4uwwEAhul26+AYC72i
+NRQL72HmiIWlL9U7nFEsCX6vZx2DlgI=
+=ra2f
 -----END PGP SIGNATURE-----
 
---qgslua4gfdtt6xq5--
+--73te7bsofh2bjjp6--
