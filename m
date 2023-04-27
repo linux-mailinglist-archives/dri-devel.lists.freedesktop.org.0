@@ -2,51 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 889836F062A
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Apr 2023 14:46:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 55D806F0631
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Apr 2023 14:52:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E1C0410EB50;
-	Thu, 27 Apr 2023 12:45:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 392EC10EB40;
+	Thu, 27 Apr 2023 12:52:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A4B4A10EB4A;
- Thu, 27 Apr 2023 12:45:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1682599553; x=1714135553;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=5wYSUCOP8c/f8dUmE993Lb7hQFoS+E3Lw+fDhhj/isw=;
- b=bEKgJURKuzj407UUIQpOo73d2gzqSVgy546se+GBdhP9wg36sNjQvM1P
- 6MDdJtOGBDSZwRBSFk4zUUZ8oIrxAHdiHeTTyqO+Aye36I5/zbDdIs3t9
- RCc3nTZO8Qy0Y4Ld6xWfOx03QXmRIKocYft97BQXReyqkO+6NNY9V1C91
- akJdwEYQPS0VootJkZ0b1Vo1tEXVPTkRN3j+GmwDICImCIwJuP0Sf+FZs
- VOm0ii45u/T6+N0Ru8eDpnSO9BsmNFIMyUG9b4vTujzXGeFdrB3c9/n23
- 4XVed0eN6KjrH5UMsMa6Ve7GQ441nWQZg3pGkjz4K7bOehtZQPIsa4fVV g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10692"; a="331680649"
-X-IronPort-AV: E=Sophos;i="5.99,230,1677571200"; d="scan'208";a="331680649"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Apr 2023 05:45:53 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10692"; a="688414526"
-X-IronPort-AV: E=Sophos;i="5.99,230,1677571200"; d="scan'208";a="688414526"
-Received: from ebaldwin-mobl.ger.corp.intel.com (HELO localhost.localdomain)
- ([10.213.239.242])
- by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Apr 2023 05:45:52 -0700
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-To: Intel-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org
-Subject: [RFC 4/4] drm/i915: Expose RPS thresholds in sysfs
-Date: Thu, 27 Apr 2023 13:45:37 +0100
-Message-Id: <20230427124537.820273-5-tvrtko.ursulin@linux.intel.com>
-X-Mailer: git-send-email 2.37.2
-In-Reply-To: <20230427124537.820273-1-tvrtko.ursulin@linux.intel.com>
-References: <20230427124537.820273-1-tvrtko.ursulin@linux.intel.com>
+Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com
+ [IPv6:2a00:1450:4864:20::433])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 55EA710EB40
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Apr 2023 12:52:04 +0000 (UTC)
+Received: by mail-wr1-x433.google.com with SMTP id
+ ffacd0b85a97d-2fa47de5b04so8170563f8f.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Apr 2023 05:52:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1682599920; x=1685191920;
+ h=content-transfer-encoding:mime-version:date:message-id:subject
+ :references:in-reply-to:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=vfWLAe/fF1E4LgUmECNUtdr8sZ/Z/BT/KZ2q+zP0IlY=;
+ b=ssf4q2tqkQe8GWV2NhnHzlfB1EFlj2xlT5+L+5STyjYwTHyNixHH/xbHNLJ8WQbhDM
+ W9Qy/goPwiyWfsS8LeXJSrrqnZI0ibD7BeHltDffIADyQhnklKeJPHc73w/7A/lfFPii
+ iuTWxKaE4O+PZBxhfX3Rz8Xw/ZQuoixe5wDDUa3a3ow6YZGUORJC3G8/eTBYqPwLn2cG
+ PAHptahVaA7eYA4WoUSXBpAKh0x9DPnoo+boaAWB2y1Cxgl7exLimNNekvidA3nosQvm
+ 2mHEib5vZ76wooGH11x6nOUXluNRp5mrMM9/gncTpG02QUqKl/pv93mArpb3Il7ciOq3
+ 1uQA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1682599920; x=1685191920;
+ h=content-transfer-encoding:mime-version:date:message-id:subject
+ :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=vfWLAe/fF1E4LgUmECNUtdr8sZ/Z/BT/KZ2q+zP0IlY=;
+ b=jEzbObQxVVuw7ccp1JL8VcdIzhsolqfiiHz+Ap2Gn/MYCpXtlICXnbfbn266z1KGbO
+ RvrhKr+ZjF1sFtvA0tXDilxVkkQli0NSvTi5XLa71ce5hO+Hjc+i7jQkj9JjK6RzYjss
+ XQgo+JnIbbsOubGvmSlJrD9OkEmG8nX/8x0oalskU6YSM9MctW3KokRai0BcPvU6L2PU
+ QjwEwmRJG6WtH3D2dhlACbjcV+fm1i9TTpJfrmKVAgLs9Os0nBVhmpsTOYzt9/W9HW7T
+ HKTsSBTT8bR7Z/5vQxqCieX/F6LmCBarL1oqqoTj8ooNsyNBmc6CGgE/uZk8dsK7cJdk
+ +S+Q==
+X-Gm-Message-State: AC+VfDwFJry7k2lNjPV23RDax9GVGri9gpR8jCifA/J9GMjz5tC9/WPb
+ +vfn/le4UiDFFXP7q6lN0ta2og==
+X-Google-Smtp-Source: ACHHUZ6jkZGtDsfDwIEI40ww2DZomo1siHaiNuHWw1JgWvoQFqIbKz2YXzN8VVmfDkjJ6lOmgvBLeQ==
+X-Received: by 2002:a5d:6a83:0:b0:2fb:283a:1757 with SMTP id
+ s3-20020a5d6a83000000b002fb283a1757mr1413955wru.26.1682599920684; 
+ Thu, 27 Apr 2023 05:52:00 -0700 (PDT)
+Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:8261:5fff:fe11:bdda])
+ by smtp.gmail.com with ESMTPSA id
+ e16-20020a5d5950000000b0030490c8ccafsm6499980wri.52.2023.04.27.05.51.59
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 27 Apr 2023 05:52:00 -0700 (PDT)
+From: Neil Armstrong <neil.armstrong@linaro.org>
+To: airlied@gmail.com, daniel@ffwll.ch, khilman@baylibre.com, 
+ jbrunet@baylibre.com, martin.blumenstingl@googlemail.com, 
+ Tom Rix <trix@redhat.com>
+In-Reply-To: <20230423145300.3937831-1-trix@redhat.com>
+References: <20230423145300.3937831-1-trix@redhat.com>
+Subject: Re: [PATCH] drm/meson: set variables meson_hdmi_*
+ storage-class-specifier to static
+Message-Id: <168259991963.3093924.6221745093198482770.b4-ty@linaro.org>
+Date: Thu, 27 Apr 2023 14:51:59 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.12.2
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,158 +77,28 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+Cc: linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+Hi,
 
-User feedback indicates significant performance gains are possible in
-specific games with non default RPS up/down thresholds.
+On Sun, 23 Apr 2023 10:53:00 -0400, Tom Rix wrote:
+> smatch has several simailar warnings to
+> drivers/gpu/drm/meson/meson_venc.c:189:28: warning: symbol
+>   'meson_hdmi_enci_mode_480i' was not declared. Should it be static?
+> 
+> These variables are only used in their defining file so should be static
+> 
+> 
+> [...]
 
-Expose these tunables via sysfs which will allow users to achieve best
-performance when running games and best power efficiency elsewhere.
+Thanks, Applied to https://anongit.freedesktop.org/git/drm/drm-misc.git (drm-misc-next)
 
-Note this patch supports non GuC based platforms only.
+[1/1] drm/meson: set variables meson_hdmi_* storage-class-specifier to static
+      https://cgit.freedesktop.org/drm/drm-misc/commit/?id=4b733b2c38b7c9304bbb92cf88f1b23f43ca575d
 
-Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-References: https://gitlab.freedesktop.org/drm/intel/-/issues/8389
----
- drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c | 104 ++++++++++++++++++++
- 1 file changed, 104 insertions(+)
-
-diff --git a/drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c b/drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c
-index 28f27091cd3b..df1f9ef08475 100644
---- a/drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c
-+++ b/drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c
-@@ -671,6 +671,76 @@ static const struct attribute *media_perf_power_attrs[] = {
- 	NULL
- };
- 
-+static ssize_t
-+rps_up_threshold_pct_show(struct kobject *kobj, struct kobj_attribute *attr,
-+			  char *buf)
-+{
-+	struct intel_gt *gt = intel_gt_sysfs_get_drvdata(kobj, attr->attr.name);
-+	struct intel_rps *rps = &gt->rps;
-+
-+	return sysfs_emit(buf, "%u\n", intel_rps_get_up_threshold(rps));
-+}
-+
-+static ssize_t
-+rps_up_threshold_pct_store(struct kobject *kobj, struct kobj_attribute *attr,
-+			   const char *buf, size_t count)
-+{
-+	struct intel_gt *gt = intel_gt_sysfs_get_drvdata(kobj, attr->attr.name);
-+	struct intel_rps *rps = &gt->rps;
-+	int ret;
-+	u8 val;
-+
-+	ret = kstrtou8(buf, 10, &val);
-+	if (ret)
-+		return ret;
-+
-+	ret = intel_rps_set_up_threshold(rps, val);
-+
-+	return ret == 0 ? count : ret;
-+}
-+
-+static struct kobj_attribute rps_up_threshold_pct =
-+__ATTR(rps_up_threshold_pct, 0664,
-+       rps_up_threshold_pct_show, rps_up_threshold_pct_store);
-+
-+static ssize_t
-+rps_down_threshold_pct_show(struct kobject *kobj, struct kobj_attribute *attr,
-+			    char *buf)
-+{
-+	struct intel_gt *gt = intel_gt_sysfs_get_drvdata(kobj, attr->attr.name);
-+	struct intel_rps *rps = &gt->rps;
-+
-+	return sysfs_emit(buf, "%u\n", intel_rps_get_down_threshold(rps));
-+}
-+
-+static ssize_t
-+rps_down_threshold_pct_store(struct kobject *kobj, struct kobj_attribute *attr,
-+			     const char *buf, size_t count)
-+{
-+	struct intel_gt *gt = intel_gt_sysfs_get_drvdata(kobj, attr->attr.name);
-+	struct intel_rps *rps = &gt->rps;
-+	int ret;
-+	u8 val;
-+
-+	ret = kstrtou8(buf, 10, &val);
-+	if (ret)
-+		return ret;
-+
-+	ret = intel_rps_set_down_threshold(rps, val);
-+
-+	return ret == 0 ? count : ret;
-+}
-+
-+static struct kobj_attribute rps_down_threshold_pct =
-+__ATTR(rps_down_threshold_pct, 0664,
-+       rps_down_threshold_pct_show, rps_down_threshold_pct_store);
-+
-+static const struct attribute * const gen6_gt_rps_attrs[] = {
-+	&rps_up_threshold_pct.attr,
-+	&rps_down_threshold_pct.attr,
-+	NULL
-+};
-+
- static ssize_t
- default_min_freq_mhz_show(struct kobject *kobj, struct kobj_attribute *attr, char *buf)
- {
-@@ -693,9 +763,37 @@ default_max_freq_mhz_show(struct kobject *kobj, struct kobj_attribute *attr, cha
- static struct kobj_attribute default_max_freq_mhz =
- __ATTR(rps_max_freq_mhz, 0444, default_max_freq_mhz_show, NULL);
- 
-+static ssize_t
-+default_rps_up_threshold_pct_show(struct kobject *kobj,
-+				  struct kobj_attribute *attr,
-+				  char *buf)
-+{
-+	struct intel_gt *gt = kobj_to_gt(kobj->parent);
-+
-+	return sysfs_emit(buf, "%u\n", gt->defaults.rps_up_threshold);
-+}
-+
-+static struct kobj_attribute default_rps_up_threshold_pct =
-+__ATTR(rps_up_threshold_pct, 0444, default_rps_up_threshold_pct_show, NULL);
-+
-+static ssize_t
-+default_rps_down_threshold_pct_show(struct kobject *kobj,
-+				    struct kobj_attribute *attr,
-+				    char *buf)
-+{
-+	struct intel_gt *gt = kobj_to_gt(kobj->parent);
-+
-+	return sysfs_emit(buf, "%u\n", gt->defaults.rps_down_threshold);
-+}
-+
-+static struct kobj_attribute default_rps_down_threshold_pct =
-+__ATTR(rps_down_threshold_pct, 0444, default_rps_down_threshold_pct_show, NULL);
-+
- static const struct attribute * const rps_defaults_attrs[] = {
- 	&default_min_freq_mhz.attr,
- 	&default_max_freq_mhz.attr,
-+	&default_rps_up_threshold_pct.attr,
-+	&default_rps_down_threshold_pct.attr,
- 	NULL
- };
- 
-@@ -723,6 +821,12 @@ static int intel_sysfs_rps_init(struct intel_gt *gt, struct kobject *kobj)
- 	if (IS_VALLEYVIEW(gt->i915) || IS_CHERRYVIEW(gt->i915))
- 		ret = sysfs_create_file(kobj, vlv_attr);
- 
-+	if (is_object_gt(kobj) && !intel_uc_uses_guc_slpc(&gt->uc)) {
-+		ret = sysfs_create_files(kobj, gen6_gt_rps_attrs);
-+		if (ret)
-+			return ret;
-+	}
-+
- 	return ret;
- }
- 
 -- 
-2.37.2
+Neil
 
