@@ -1,84 +1,76 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5439E6F0383
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Apr 2023 11:40:03 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B7256F0390
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Apr 2023 11:44:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4107A10EB17;
-	Thu, 27 Apr 2023 09:40:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8030410EB11;
+	Thu, 27 Apr 2023 09:44:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com
  [IPv6:2a00:1450:4864:20::62f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 827B810EB14
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Apr 2023 09:39:58 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4E09F10EB11
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Apr 2023 09:44:01 +0000 (UTC)
 Received: by mail-ej1-x62f.google.com with SMTP id
- a640c23a62f3a-94f9cd65b1aso235485166b.0
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Apr 2023 02:39:58 -0700 (PDT)
+ a640c23a62f3a-95227e5164dso235605966b.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Apr 2023 02:44:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1682588394; x=1685180394;
+ d=ffwll.ch; s=google; t=1682588640; x=1685180640;
  h=in-reply-to:content-transfer-encoding:content-disposition
  :mime-version:references:mail-followup-to:message-id:subject:cc:to
  :from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=ijOvNVXHQPQ7K3a8mfotlj3EqkLbm2iNVAzawaQHZIw=;
- b=kFa3Dgvsdqo+BXHl6yahcNl1383pNFvNtKjCwWMfHTj+Bit3JIwCGJEQDI6N/QU00j
- 7X00IV28cyVTxMhXOHSSaNOtJlIO/f240AjyaV+PfAb4s7UETaAAtwNr4ZxvB9KF2UtB
- pZGfcxrFXB1KoRo0EnWbU8+HE3g7nM63d1OjQ=
+ bh=9h6Btw8PHhXUr3L5p9rqPUrFBGBJRem5mhcTJAFeicc=;
+ b=Y9rOx+v2OjHfDAzkBBWQLdEZjt5mPqrsIx+pVlefyRrj6VNmwN4JeAiAUO7L+c6BcA
+ XmkSIVfT+SVnA6LBr+6rhotImic+iSOmdCH0plrL/+uzgY4IGYXyELCdDN8V8S4Hhxnz
+ FMoFmwbHgYz9UCBL+AJ7EjqAa1zeFw0WWT/Bw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682588394; x=1685180394;
+ d=1e100.net; s=20221208; t=1682588640; x=1685180640;
  h=in-reply-to:content-transfer-encoding:content-disposition
  :mime-version:references:mail-followup-to:message-id:subject:cc:to
  :from:date:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=ijOvNVXHQPQ7K3a8mfotlj3EqkLbm2iNVAzawaQHZIw=;
- b=NtsqI2pOPC3xlngeq3a6yrLyeWZ5KhiU67YCeCD3JTPE5kBCn7MFkJU2JyWaXwUs5q
- +sWwfkeCvxRIXxKKhhwoV7BcqaLLH24fK29/sRa3c3Cch2LC8fsx+1BHRC5HCagrezb6
- /eWWpPD7FoAv7Eulc/kxRk9qwc7fkjUntaZMK0EsiQB6ZeLV9EkIITwradUzKJAFlyQL
- ys4GwWgONLmnna1vasZTmw8gW6pLwntgJJO24D5518OEdN0lTKkrB7ZOI9ZXL3XEGLu0
- zp2RBvBvz2OBOBkIVyo4/DhmZRGfbQhJqu5XomWIypdlDpXJKKol3TCES/njh1PM/SUl
- gyZA==
-X-Gm-Message-State: AC+VfDy7Hg1aoxLbofbhzAy/tCacP+60yjdmscvcZgKvujvBMBNNtCYU
- BDGq+nuF1IE8H7vA2UchVvp3Ig==
-X-Google-Smtp-Source: ACHHUZ7VSLJU2Bi7Vlppn+yZkQubTXq/4j3BnKk8IoW139u/a/w2x464xtiUeWCmvDcGrbJw+QXvuw==
-X-Received: by 2002:a17:906:7491:b0:95f:db5f:73b7 with SMTP id
- e17-20020a170906749100b0095fdb5f73b7mr888891ejl.0.1682588393848; 
- Thu, 27 Apr 2023 02:39:53 -0700 (PDT)
+ bh=9h6Btw8PHhXUr3L5p9rqPUrFBGBJRem5mhcTJAFeicc=;
+ b=YrOMkbtBSx2DAatlJakFM4W4vvV29RxoHawGh5Hy8ONh8CUMXDQLntdVvjaukzUZH+
+ pTL0nZob2vLj1F/cb/BhZ3N2NfGA9cGSL0t36iI8ABFBoFqNke52RjDKW4ohrjTfqUx8
+ wDe1TDSQ3n/vF3j8swBxqnqDiei/+cN1IuQX1M+O7tN/BEGDd5HLrqAS+JQ6EukIXuLN
+ LnfaJ9ZKYeYMr5PxFdOzHiliMd4lttsMhTyVTDs7PwIVkI5uIbXYWU7inkHELBNXdXDa
+ a4Mc8/04AhEVuRv3D5SUt6rAueY7NGqZdYxsihh8OkY2WbsqFKEeSKdyCM10u+DJsaon
+ 2sPg==
+X-Gm-Message-State: AC+VfDxal8CjTFDeT/aFIAMkgV2WQIehtWfGdD8dUg87gxD05bKS9ImW
+ nRwdojXI3JrKxmsIG0ohkeZHQA==
+X-Google-Smtp-Source: ACHHUZ6VAmexrUu0fojeJELeltvCH9VnpMyeG2fW/GKlGgRxjxerL3jAv+fxsEx651bYl1RCOHnZ5Q==
+X-Received: by 2002:a05:6402:518d:b0:502:1f7b:f069 with SMTP id
+ q13-20020a056402518d00b005021f7bf069mr1128721edd.2.1682588639727; 
+ Thu, 27 Apr 2023 02:43:59 -0700 (PDT)
 Received: from phenom.ffwll.local (212-51-149-33.fiber7.init7.net.
  [212.51.149.33]) by smtp.gmail.com with ESMTPSA id
- jt11-20020a170906ca0b00b00958434d4ecesm6820771ejb.13.2023.04.27.02.39.52
+ b13-20020aa7df8d000000b004fa012332ecsm7743325edy.1.2023.04.27.02.43.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 27 Apr 2023 02:39:53 -0700 (PDT)
-Date: Thu, 27 Apr 2023 11:39:51 +0200
+ Thu, 27 Apr 2023 02:43:59 -0700 (PDT)
+Date: Thu, 27 Apr 2023 11:43:57 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Rob Clark <robdclark@gmail.com>
-Subject: Re: [RFC 2/3] drm/msm: Rework get_comm_cmdline() helper
-Message-ID: <ZEpC5xEZ4cueb881@phenom.ffwll.local>
-Mail-Followup-To: Rob Clark <robdclark@gmail.com>,
- Emil Velikov <emil.l.velikov@gmail.com>,
- Rob Clark <robdclark@chromium.org>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Akhil P Oommen <quic_akhilpo@quicinc.com>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- dri-devel@lists.freedesktop.org,
- open list <linux-kernel@vger.kernel.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <freedreno@lists.freedesktop.org>,
- Sean Paul <sean@poorly.run>
-References: <20230417201215.448099-1-robdclark@gmail.com>
- <20230417201215.448099-3-robdclark@gmail.com>
- <58977051-197b-f1f0-c795-9037e70d7a91@linux.intel.com>
- <ZD5WLMRNibbRkGQO@phenom.ffwll.local>
- <CAF6AEGugcuV08G_pxjUGvhTbp8DFFG4ws3=oiP5PpbRf=SJdhQ@mail.gmail.com>
- <CACvgo52gByHzwtm4gxqUxZ5yJGTQ5NucBmMHSO7nLPsba3rTfw@mail.gmail.com>
- <CAF6AEGtijkCt2uUx98auFcK0GQHY=5GV7CxbOejGz22no6J0GQ@mail.gmail.com>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Subject: Re: [PATCH] drm/fb-helper: Fix height, width, and accel_flags in
+ fb_var
+Message-ID: <ZEpD3atNuBycOcLX@phenom.ffwll.local>
+Mail-Followup-To: Geert Uytterhoeven <geert@linux-m68k.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <2b6073d9c2d869c6a4eac6edebd616e0568dec91.1681843245.git.geert+renesas@glider.be>
+ <ZEAY5Sf/V10ipDZk@phenom.ffwll.local>
+ <CAMuHMdWbsFHP7Amoz16o5ge5a=wv5u2x0B+yP7e-0bRJufqrQQ@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAF6AEGtijkCt2uUx98auFcK0GQHY=5GV7CxbOejGz22no6J0GQ@mail.gmail.com>
+In-Reply-To: <CAMuHMdWbsFHP7Amoz16o5ge5a=wv5u2x0B+yP7e-0bRJufqrQQ@mail.gmail.com>
 X-Operating-System: Linux phenom 6.1.0-7-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -92,155 +84,96 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Akhil P Oommen <quic_akhilpo@quicinc.com>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
- Emil Velikov <emil.l.velikov@gmail.com>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
- open list <linux-kernel@vger.kernel.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>, Sean Paul <sean@poorly.run>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <freedreno@lists.freedesktop.org>
+Cc: linux-fbdev@vger.kernel.org, Javier Martinez Canillas <javierm@redhat.com>,
+ linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Apr 21, 2023 at 07:47:26AM -0700, Rob Clark wrote:
-> On Fri, Apr 21, 2023 at 2:33 AM Emil Velikov <emil.l.velikov@gmail.com> wrote:
-> >
-> > Greeting all,
-> >
-> > Sorry for the delay - Easter Holidays, food coma and all that :-)
-> >
-> > On Tue, 18 Apr 2023 at 15:31, Rob Clark <robdclark@gmail.com> wrote:
-> > >
-> > > On Tue, Apr 18, 2023 at 1:34 AM Daniel Vetter <daniel@ffwll.ch> wrote:
-> > > >
-> > > > On Tue, Apr 18, 2023 at 09:27:49AM +0100, Tvrtko Ursulin wrote:
-> > > > >
-> > > > > On 17/04/2023 21:12, Rob Clark wrote:
-> > > > > > From: Rob Clark <robdclark@chromium.org>
-> > > > > >
-> > > > > > Make it work in terms of ctx so that it can be re-used for fdinfo.
-> > > > > >
-> > > > > > Signed-off-by: Rob Clark <robdclark@chromium.org>
-> > > > > > ---
-> > > > > >   drivers/gpu/drm/msm/adreno/adreno_gpu.c |  4 ++--
-> > > > > >   drivers/gpu/drm/msm/msm_drv.c           |  2 ++
-> > > > > >   drivers/gpu/drm/msm/msm_gpu.c           | 13 ++++++-------
-> > > > > >   drivers/gpu/drm/msm/msm_gpu.h           | 12 ++++++++++--
-> > > > > >   drivers/gpu/drm/msm/msm_submitqueue.c   |  1 +
-> > > > > >   5 files changed, 21 insertions(+), 11 deletions(-)
-> > > > > >
-> > > > > > diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.c b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-> > > > > > index bb38e728864d..43c4e1fea83f 100644
-> > > > > > --- a/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-> > > > > > +++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-> > > > > > @@ -412,7 +412,7 @@ int adreno_set_param(struct msm_gpu *gpu, struct msm_file_private *ctx,
-> > > > > >             /* Ensure string is null terminated: */
-> > > > > >             str[len] = '\0';
-> > > > > > -           mutex_lock(&gpu->lock);
-> > > > > > +           mutex_lock(&ctx->lock);
-> > > > > >             if (param == MSM_PARAM_COMM) {
-> > > > > >                     paramp = &ctx->comm;
-> > > > > > @@ -423,7 +423,7 @@ int adreno_set_param(struct msm_gpu *gpu, struct msm_file_private *ctx,
-> > > > > >             kfree(*paramp);
-> > > > > >             *paramp = str;
-> > > > > > -           mutex_unlock(&gpu->lock);
-> > > > > > +           mutex_unlock(&ctx->lock);
-> > > > > >             return 0;
-> > > > > >     }
-> > > > > > diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
-> > > > > > index 3d73b98d6a9c..ca0e89e46e13 100644
-> > > > > > --- a/drivers/gpu/drm/msm/msm_drv.c
-> > > > > > +++ b/drivers/gpu/drm/msm/msm_drv.c
-> > > > > > @@ -581,6 +581,8 @@ static int context_init(struct drm_device *dev, struct drm_file *file)
-> > > > > >     rwlock_init(&ctx->queuelock);
-> > > > > >     kref_init(&ctx->ref);
-> > > > > > +   ctx->pid = get_pid(task_pid(current));
-> > > > >
-> > > > > Would it simplify things for msm if DRM core had an up to date file->pid as
-> > > > > proposed in
-> > > > > https://patchwork.freedesktop.org/patch/526752/?series=109902&rev=4 ? It
-> > > > > gets updated if ioctl issuer is different than fd opener and this being
-> > > > > context_init here reminded me of it. Maybe you wouldn't have to track the
-> > > > > pid in msm?
-> > >
-> > > The problem is that we also need this for gpu devcore dumps, which
-> > > could happen after the drm_file is closed.  The ctx can outlive the
-> > > file.
-> > >
-> > I think we all kept forgetting about that. MSM had support for ages,
-> > while AMDGPU is the second driver to land support - just a release
-> > ago.
-> >
-> > > But the ctx->pid has the same problem as the existing file->pid when
-> > > it comes to Xorg.. hopefully over time that problem just goes away.
-> >
-> > Out of curiosity: what do you mean with "when it comes to Xorg" - the
-> > "was_master" handling or something else?
+On Thu, Apr 20, 2023 at 11:15:24AM +0200, Geert Uytterhoeven wrote:
+> Hi Daniel,
 > 
-> The problem is that Xorg is the one to open the drm fd, and then
-> passes the fd to the client.. so the pid of drm_file is the Xorg pid,
-> not the client.  Making it not terribly informative.
+> On Wed, Apr 19, 2023 at 6:38 PM Daniel Vetter <daniel@ffwll.ch> wrote:
+> > On Tue, Apr 18, 2023 at 08:42:46PM +0200, Geert Uytterhoeven wrote:
+> > > Fbtest contains some very simple validation of the fbdev userspace API
+> > > contract.  When used with shmob-drm, it reports the following warnings
+> > > and errors:
+> > >
+> > >     height changed from 68 to 0
+> > >     height was rounded down
+> > >     width changed from 111 to 0
+> > >     width was rounded down
+> > >     accel_flags changed from 0 to 1
+> > >
+> > > The first part happens because __fill_var() resets the physical
+> > > dimensions of the first connector, as filled in by drm_setup_crtcs_fb().
+> > > Fix this by retaining the original values.
+> > >
+> > > The last part happens because __fill_var() forces the FB_ACCELF_TEXT
+> > > flag on, while fbtest disables all acceleration on purpose, so it can
+> > > draw safely to the frame buffer.  Fix this by setting accel_flags to
+> > > zero, as DRM does not implement any text console acceleration.
+> > > Note that this issue can also be seen in the output of fbset, which
+> > > reports "accel true".
+> > >
+> > > Fixes: ee4cce0a8f03a333 ("drm/fb-helper: fix input validation gaps in check_var")
+> > > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 > 
-> Tvrtko's patch he linked above would address that for drm_file, but
-> not for other driver internal usages.  Maybe it could be wired up as a
-> helper so that drivers don't have to re-invent that dance.  Idk, I
-> have to think about it.
+> > > --- a/drivers/gpu/drm/drm_fb_helper.c
+> > > +++ b/drivers/gpu/drm/drm_fb_helper.c
+> > > @@ -2066,7 +2068,7 @@ static void drm_fb_helper_fill_var(struct fb_info *info,
+> > >       info->pseudo_palette = fb_helper->pseudo_palette;
+> > >       info->var.xoffset = 0;
+> > >       info->var.yoffset = 0;
+> > > -     __fill_var(&info->var, fb);
+> > > +     __fill_var(&info->var, info, fb);
+> >
+> > Bit a bikeshed since it zeroed-allocated anyway, but I'd pass NULL here
+> > for info and catch that in __fill_var and then keep the explicit = 0;
 > 
-> Btw, with my WIP drm sched fence signalling patch lockdep is unhappy
-> when gpu devcore dumps are triggered.  I'm still pondering how to
-> decouple the locking so that anything coming from fs (ie.
-> show_fdinfo()) is decoupled from anything that happens in the fence
-> signaling path.  But will repost this series once I get that sorted
-> out.
+> Yeah, it's a bit unfortunate this is done in two places, and
+> info->var.{height,width} are initialized by drm_setup_crtcs_fb()
+> only later.
+> 
+> Most of the var contents cannot change as mode changes are not
+> supported, so drm_fb_helper_check_var() should just do
+> 
+>     if (var->foo > info->var.foo)
+>             return -EINVAL;
+>     var->foo = info->var.foo;
+> 
+> For the parts that can change, based on earlier discussions I saw pass
+> by, I believe there should be a call into atomic try-modesetting at
+> the end of drm_fb_helper_check_var()?
 
-So the cleanest imo is that you push most of the capturing into a worker
-that's entirely decoupled. If you have terminal context (i.e. on first
-hang they stop all further cmd submission, which is anyway what
-vk/arb_robustness want), then you don't have to capture at tdr time,
-because there's no subsequent batch that will wreck the state.
+Yeah ideally that's what we do. And I guess we could limit that to
+atomic-only drivers since with legacy kms there's really no way to
+correctly implement any fbdev mode changes (because there's just no
+check/commit split there and fbdev wants that).
 
-But it only works if your gpu ctx don't have recoverable semantics.
+I guess the trickier part is reworking the drm fbdev code so that it won't
+tamper with it's internal structures (or roll them back) when only doing a
+TEST_ONLY commit.
 
-If you can't do that it's a _lot_ of GFP_ATOMIC and trylock and bailing
-out if any fails :-/
+And in theory we could then actually support proper mode changes through
+fbdev, as long as it fits into the fb we allocated at least. Reallocating
+fbs would be a lot more intrusive but also not impossible.
 -Daniel
 
+> > Either way Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 > 
-> BR,
-> -R
+> Thanks!
 > 
-> >
-> > > guess I could do a similar dance to your patch to update the pid
-> > > whenever (for ex) a submitqueue is created.
-> > >
-> > > > Can we go one step further and let the drm fdinfo stuff print these new
-> > > > additions? Consistency across drivers and all that.
-> > >
-> > > Hmm, I guess I could _also_ store the overridden comm/cmdline in
-> > > drm_file.  I still need to track it in ctx (msm_file_private) because
-> > > I could need it after the file is closed.
-> > >
-> > > Maybe it could be useful to have a gl extension to let the app set a
-> > > name on the context so that this is useful beyond native-ctx (ie.
-> > > maybe it would be nice to see that "chrome: lwn.net" is using less gpu
-> > > memory than "chrome: phoronix.com", etc)
-> > >
-> >
-> > /me awaits for the series to hit the respective websites ;-)
-> >
-> > But seriously - the series from Tvrtko (thanks for the link, will
-> > check in a moment) makes sense. Although given the livespan issue
-> > mentioned above, I don't think it's applicable here.
-> >
-> > So if it were me, I would consider the two orthogonal for the
-> > short/mid term. Fwiw this and patch 1/3 are:
-> > Reviewed-by: Emil Velikov <emil.l.velikov@gmail.com>
-> >
-> > HTH
-> > -Emil
+> Gr{oetje,eeting}s,
+> 
+>                         Geert
+> 
+> -- 
+> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+> 
+> In personal conversations with technical people, I call myself a hacker. But
+> when I'm talking to journalists I just say "programmer" or something like that.
+>                                 -- Linus Torvalds
 
 -- 
 Daniel Vetter
