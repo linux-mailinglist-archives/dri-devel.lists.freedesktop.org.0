@@ -1,62 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C9A66F05F4
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Apr 2023 14:40:11 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 96F926F0619
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Apr 2023 14:45:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CDA7710EB30;
-	Thu, 27 Apr 2023 12:40:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BC89C10E24E;
+	Thu, 27 Apr 2023 12:45:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-xc34.google.com (mail-oo1-xc34.google.com
- [IPv6:2607:f8b0:4864:20::c34])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AC7F810EB44;
- Thu, 27 Apr 2023 12:40:04 +0000 (UTC)
-Received: by mail-oo1-xc34.google.com with SMTP id
- 006d021491bc7-547303fccefso5989258eaf.3; 
- Thu, 27 Apr 2023 05:40:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1682599203; x=1685191203;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=J6ET9XLS5jM/TyHq4+UE6o4i1yy/wsCl/8+/RTLOHqY=;
- b=msyOC8BBuy7I5069cJ9Fs6UeK9SnEiNiykDGApouWwIVmp6W+w4i7EI0BD6bwq45Te
- Mv8ooCvRm5eCzKziAc0k3FmoE9HbIC5yDZUY+pqJzuVCHk7IWnWr9+mXvwTTuj9l0Ncz
- CMRlMc3859WHiODGKv/+0U7vSrJpu/RWfAH+SyiwNgsOLmX1BVdKgnoAV2YMsITtsmPL
- iFdrpSLUmvyTf8WJnrfeTYpIh//v5KGODvIhdeuaNW1lM1XD3gmrZ34un2ub2iJvj1wM
- LXVyWM9yoKcEjEPrVn+zY9Fu3t3uKe4w/r4/5m/2yU76S0mRQPAZCd3XfuQMVJwWXUBL
- bGLw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682599203; x=1685191203;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=J6ET9XLS5jM/TyHq4+UE6o4i1yy/wsCl/8+/RTLOHqY=;
- b=Yz1Ddq70Lq77aJFIDwhT+ssCyGtSpAd3Uy2PQO31h4gXdhuV9odZ2aoF0C1ct6tJQh
- Gmus6Szb2CgI6t+8bzUGaMF7QthTZuKlEjxXirCkOxfYg4f0uv5bTlY64jiEL/7+YY/+
- UGeqdnzvIYjoqNIYBvEOd8HYFMDgck52ZtPdaOJA8fisw5tIowr+bgUrpOC4qnAwgaj0
- 62MvrSCwazibHDW58uxuNIUkGYOc0mCaJbzNRl2DENFs+8WnRFzT0mY0KjwJ7IBUtsfF
- 3qFmF5Znh73UIpGIU0/Zw+a2clmA+3d3ALrOdK9umWPs+y0JNKq/W/5iTdIq2+jb378a
- ViTQ==
-X-Gm-Message-State: AC+VfDymsXYhV8lxd4Ypcp6RxqdOW+Sx2bNhHfk2c3XIz87Tp4+z/7Xx
- caoKnyLwY+h5WQcgXN/zyRYUd767uHGIG9Wq8b0=
-X-Google-Smtp-Source: ACHHUZ5+5nq8G0fdCC1+vwj+KmJkfoWFgNBUEKtOzD2dq9+mpvse2ZJ72PF955P7xK8j8473xqe+Z9K5Jz67W2iX7LQ=
-X-Received: by 2002:aca:1307:0:b0:38e:2879:735b with SMTP id
- e7-20020aca1307000000b0038e2879735bmr563675oii.34.1682599203057; Thu, 27 Apr
- 2023 05:40:03 -0700 (PDT)
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0FD6310E24E;
+ Thu, 27 Apr 2023 12:45:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1682599549; x=1714135549;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=m9hl442UVeTU2IpyTrg/u7VZDJtgH9uF3UoAhnpK2J8=;
+ b=KhyndKs2sSpOzJRtvVXuckjKK342zGTY33bSPfvq+yTn/fxyFDUc05y8
+ 51p1OPrZifhB8ZCF9ji5PcaO6Rb68lZLDzWRPPjVZMnWRbPMM64SMkG1y
+ nYeoMIGUDw5fmcAEEnrrVHh+FlMm6S7Li0NKYzbwSLi0JXZ9nOsTQv/+A
+ mYUgkkXcXlVhcAxzUim6G0bdIHF8DsyhbVv2KGEOpU+rpvkrAEoBQWhE2
+ 5JHfTA9ROJDFEk0YQBFC1LljU8hLTdPHN9D1R1heaEwX+uuBr+WHr5wTb
+ cKvmxwzO+tNMgur/SjKxHdcCHODvPmiA2wQsx/CXCgZJ1rlsKDnJhepJt Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10692"; a="331680611"
+X-IronPort-AV: E=Sophos;i="5.99,230,1677571200"; d="scan'208";a="331680611"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Apr 2023 05:45:48 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10692"; a="688414507"
+X-IronPort-AV: E=Sophos;i="5.99,230,1677571200"; d="scan'208";a="688414507"
+Received: from ebaldwin-mobl.ger.corp.intel.com (HELO localhost.localdomain)
+ ([10.213.239.242])
+ by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Apr 2023 05:45:46 -0700
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+To: Intel-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Subject: [RFC 0/4] Expose RPS thresholds in sysfs
+Date: Thu, 27 Apr 2023 13:45:33 +0100
+Message-Id: <20230427124537.820273-1-tvrtko.ursulin@linux.intel.com>
+X-Mailer: git-send-email 2.37.2
 MIME-Version: 1.0
-References: <20230419122233.3440-1-hackyzh002@gmail.com>
- <CAF6NKda1Jy_wfxaVqWt-o75f1BO-o4JXHY9HS9_JtJ2FHztMmQ@mail.gmail.com>
-In-Reply-To: <CAF6NKda1Jy_wfxaVqWt-o75f1BO-o4JXHY9HS9_JtJ2FHztMmQ@mail.gmail.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Thu, 27 Apr 2023 08:39:51 -0400
-Message-ID: <CADnq5_MfynMAPU8c-Lq1X_dcDOdRpjW6i=m-Qo8zsZZ=dO-62w@mail.gmail.com>
-Subject: Re: [PATCH v3 2/2] drm/amdgpu: Fix integer overflow in amdgpu_cs_pass1
-To: whitehat002 whitehat002 <hackyzh002@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,55 +57,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Xinhui.Pan@amd.com, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, christian.koenig@amd.com,
- linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
- alexander.deucher@amd.com, sumit.semwal@linaro.org,
- linux-media@vger.kernel.org
+Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-As per my prior reply, it has been applied.
+From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 
-Thanks,
+From patch 4:
 
-Alex
+    User feedback indicates significant performance gains are possible in
+    specific games with non default RPS up/down thresholds.
 
-On Thu, Apr 27, 2023 at 8:39=E2=80=AFAM whitehat002 whitehat002
-<hackyzh002@gmail.com> wrote:
->
-> hello
-> What is the current status of this patch, has it been applied?
->
->
-> hackyzh002 <hackyzh002@gmail.com> =E4=BA=8E2023=E5=B9=B44=E6=9C=8819=E6=
-=97=A5=E5=91=A8=E4=B8=89 20:23=E5=86=99=E9=81=93=EF=BC=9A
-> >
-> > The type of size is unsigned int, if size is 0x40000000, there will
-> > be an integer overflow, size will be zero after size *=3D sizeof(uint32=
-_t),
-> > will cause uninitialized memory to be referenced later.
-> >
-> > Signed-off-by: hackyzh002 <hackyzh002@gmail.com>
-> > ---
-> >  drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c b/drivers/gpu/drm/a=
-md/amdgpu/amdgpu_cs.c
-> > index 08eced097..89bcacc65 100644
-> > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
-> > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
-> > @@ -192,7 +192,7 @@ static int amdgpu_cs_pass1(struct amdgpu_cs_parser =
-*p,
-> >         uint64_t *chunk_array_user;
-> >         uint64_t *chunk_array;
-> >         uint32_t uf_offset =3D 0;
-> > -       unsigned int size;
-> > +       size_t size;
-> >         int ret;
-> >         int i;
-> >
-> > --
-> > 2.34.1
-> >
+    Expose these tunables via sysfs which will allow users to achieve best
+    performance when running games and best power efficiency elsewhere.
+
+    Note this patch supports non GuC based platforms only.
+
+    References: https://gitlab.freedesktop.org/drm/intel/-/issues/8389
+
+Issue 8389 suggests 10-15% performance gains are possible with tweaked
+thresholds.
+
+One question is are we able to find a "one size fits all" values.
+
+However regardless of that, given we already expose frequency controls in sysfs
+with the same reasoning of allowing system owners explicit control if so wanted,
+I think exposing the thresholds can be equally justified.
+
+Tvrtko Ursulin (4):
+  drm/i915: Move setting of rps thresholds to init
+  drm/i915: Record default rps threshold values
+  drm/i915: Add helpers for managing rps thresholds
+  drm/i915: Expose RPS thresholds in sysfs
+
+ drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c | 104 ++++++++++++++++++++
+ drivers/gpu/drm/i915/gt/intel_gt_types.h    |   3 +
+ drivers/gpu/drm/i915/gt/intel_rps.c         |  65 +++++++++---
+ drivers/gpu/drm/i915/gt/intel_rps.h         |   4 +
+ 4 files changed, 165 insertions(+), 11 deletions(-)
+
+-- 
+2.37.2
