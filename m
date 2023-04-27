@@ -2,62 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 953486F018A
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Apr 2023 09:22:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C73D6F01EE
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Apr 2023 09:39:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2451810EABB;
-	Thu, 27 Apr 2023 07:22:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A5A7410EAD9;
+	Thu, 27 Apr 2023 07:39:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0106410EABB
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Apr 2023 07:22:50 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id D50261FDF6;
- Thu, 27 Apr 2023 07:22:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1682580168; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=mwjDvnTTpUQQAU0S0NYQu7NztQ86BE/cY3YTj2NNeVM=;
- b=Un7Gx01PokhNQiVoDb02P2s+kOPGU770pEPzJrxxIAFVFRAXtAUqKAYpk5HGhcEcjn2qx3
- 2C9Ze5cftpcNs/R+ie2ctuvNWHI8ZUZH2qu4rexmtorhKnrzH9Uite0TY3cAwazKzLSnM9
- bSgsC8Qen6ZvcZ9aCUO46+tQxItvtIo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1682580168;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=mwjDvnTTpUQQAU0S0NYQu7NztQ86BE/cY3YTj2NNeVM=;
- b=MVwyD8XGPiCuNb0tm4gyVIuhyn9YeI8pxDwrB2nQC/aLSapjlluwmmOAV+r89rHGjJ5Ohb
- IWkBOldoEBcgo0BA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 628F613910;
- Thu, 27 Apr 2023 07:22:48 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id SCQXF8giSmT2JQAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Thu, 27 Apr 2023 07:22:48 +0000
-Message-ID: <3e33ab1d-b478-fdf5-6fbe-6580000182d1@suse.de>
-Date: Thu, 27 Apr 2023 09:22:47 +0200
+Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com
+ [IPv6:2a00:1450:4864:20::62e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A8B6F10E158;
+ Thu, 27 Apr 2023 07:24:59 +0000 (UTC)
+Received: by mail-ej1-x62e.google.com with SMTP id
+ a640c23a62f3a-95f4c5cb755so288817966b.0; 
+ Thu, 27 Apr 2023 00:24:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1682580296; x=1685172296;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=n0x8yz/BH7Sp+Esx42OKv6E3BY74SAY231PEuV+HVic=;
+ b=qgDEtLJoLUTp1mVpKJti0vgMciCsmbV9quipZsc1mmin8erWwYVALwvZuvna6cuqI/
+ //NuiCub7siQYE4rQIDTMU+ODGSCUQNiqWTsDazHqwglwnBzNkFK1rzL8MayzaI/sBmt
+ GS0HS9AZPT3XXwPZ1XBBIL1eDf+ZAm1/+ncpTSrh4YQLHa7qDZDJ85jkFDxloSXGF36t
+ pLSZOk02UZ6SyvzfZRR6++apQn1eNSu4ciICWCEqxN3wmCO0WjEZ0SboQwBgoqCFXh+6
+ V0mncZGSAy1OMRtce1v6dXhiOleUJGDQWGH92hZa/uDStDq2lZasPJEvYJ3kyrv4qDLV
+ +dvw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1682580296; x=1685172296;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=n0x8yz/BH7Sp+Esx42OKv6E3BY74SAY231PEuV+HVic=;
+ b=DpTMOqWs8Yt2vnq8MDGd4d6us6WXed2CNL7qN/0r4D+Ub3a2m+2sFOwAi9Nu8IH/1x
+ swXspxWUDDFALYpXfTvEYbwVViBsNfqrd/9LAKHfe3ewT9tmBwZjcRCbVduuWBu1r9KV
+ 6bBvPQZRMsTzCzd+m+YHJGXlMSyhmJHUlgKTxKCVN5nyHFkIYtGODEuOcauGWMM2GQi/
+ z6MUdk15NQ7Bw8hkAeQGvOXY3LTsKb6w1JChiKN2YQrLZ1kxedOiAex7MA/HGwQLP95I
+ VCv1PhnjFVR0gzPmGwuektUhk6DQJ9RC0idIwCC+PHM0KShum0MQqA0z6QioZ6xUsvDA
+ +vTg==
+X-Gm-Message-State: AC+VfDym9NOfmCFTRPztnvNbCRbdC8STjhlGhtgkBhlCIo0s/TFGQnQS
+ ufMw8V5W6GOMAFLUvT21BgAucLwb8mCRePUZbdQ=
+X-Google-Smtp-Source: ACHHUZ6MtYHlNvjJ9sRe22WzKbPWWOFUTw9vlD6bgF2wcZyljqJ1jfJlm8cKhraM2loDqlpT0O8sLNYfzHIj8twFO3I=
+X-Received: by 2002:a17:906:6a28:b0:93e:8791:7d8e with SMTP id
+ qw40-20020a1709066a2800b0093e87917d8emr810871ejc.2.1682580296267; Thu, 27 Apr
+ 2023 00:24:56 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH 0/5] fbdev: Move framebuffer I/O helpers to <asm/fb.h>
-To: Sam Ravnborg <sam@ravnborg.org>
-References: <20230426130420.19942-1-tzimmermann@suse.de>
- <20230426192110.GA3791243@ravnborg.org>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <20230426192110.GA3791243@ravnborg.org>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------7Tnoo09B1y1bqPUqHSpN4Mqn"
+References: <20230419122058.3420-1-hackyzh002@gmail.com>
+ <62ae58cb-9fec-37ca-fd40-12bf0c1c5ba3@amd.com>
+ <CADnq5_MTgMtHM87YQJcZLcENevcHOuQihoTz-xRetypJ6BQSXQ@mail.gmail.com>
+In-Reply-To: <CADnq5_MTgMtHM87YQJcZLcENevcHOuQihoTz-xRetypJ6BQSXQ@mail.gmail.com>
+From: whitehat002 whitehat002 <hackyzh002@gmail.com>
+Date: Thu, 27 Apr 2023 15:24:44 +0800
+Message-ID: <CAF6NKdY49N09+ubFrOfbr9Pj+6EK5U4G0_nmR-d6Sz1keZ_5Jg@mail.gmail.com>
+Subject: Re: [PATCH V3 1/2] drm/radeon: Fix integer overflow in
+ radeon_cs_parser_init
+To: Alex Deucher <alexdeucher@gmail.com>
+Content-Type: multipart/alternative; boundary="000000000000dd835705fa4c4077"
+X-Mailman-Approved-At: Thu, 27 Apr 2023 07:38:49 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,97 +70,119 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arch@vger.kernel.org, linux-fbdev@vger.kernel.org,
- linux-ia64@vger.kernel.org, loongarch@lists.linux.dev, arnd@arndb.de,
- deller@gmx.de, chenhuacai@kernel.org, javierm@redhat.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- James.Bottomley@hansenpartnership.com, linux-m68k@lists.linux-m68k.org,
- geert@linux-m68k.org, linux-parisc@vger.kernel.org, vgupta@kernel.org,
- sparclinux@vger.kernel.org, kernel@xen0n.name,
- linux-snps-arc@lists.infradead.org, davem@davemloft.net,
- linux-arm-kernel@lists.infradead.org
+Cc: Xinhui.Pan@amd.com, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, sumit.semwal@linaro.org,
+ linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
+ alexander.deucher@amd.com,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------7Tnoo09B1y1bqPUqHSpN4Mqn
-Content-Type: multipart/mixed; boundary="------------0BnAEdd7ws0JRInwI0tlF7W0";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Sam Ravnborg <sam@ravnborg.org>
-Cc: deller@gmx.de, geert@linux-m68k.org, javierm@redhat.com, daniel@ffwll.ch,
- vgupta@kernel.org, chenhuacai@kernel.org, kernel@xen0n.name,
- davem@davemloft.net, James.Bottomley@hansenpartnership.com, arnd@arndb.de,
- linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-arch@vger.kernel.org, linux-snps-arc@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-ia64@vger.kernel.org,
- loongarch@lists.linux.dev, linux-m68k@lists.linux-m68k.org,
- sparclinux@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-parisc@vger.kernel.org
-Message-ID: <3e33ab1d-b478-fdf5-6fbe-6580000182d1@suse.de>
-Subject: Re: [PATCH 0/5] fbdev: Move framebuffer I/O helpers to <asm/fb.h>
-References: <20230426130420.19942-1-tzimmermann@suse.de>
- <20230426192110.GA3791243@ravnborg.org>
-In-Reply-To: <20230426192110.GA3791243@ravnborg.org>
+--000000000000dd835705fa4c4077
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
---------------0BnAEdd7ws0JRInwI0tlF7W0
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+Hello,
 
-SGkgU2FtDQoNCkFtIDI2LjA0LjIzIHVtIDIxOjIxIHNjaHJpZWIgU2FtIFJhdm5ib3JnOg0K
-PiBIaSBUaG9tYXMuDQo+IA0KPiBPbiBXZWQsIEFwciAyNiwgMjAyMyBhdCAwMzowNDoxNVBN
-ICswMjAwLCBUaG9tYXMgWmltbWVybWFubiB3cm90ZToNCj4+IEZiZGV2IHByb3ZpZGVzIGhl
-bHBlcnMgZm9yIGZyYW1lYnVmZmVyIEkvTywgc3VjaCBhcyBmYl9yZWFkbCgpLA0KPj4gZmJf
-d3JpdGVsKCkgb3IgZmJfbWVtY3B5X3RvX2ZiKCkuIFRoZSBpbXBsZW1lbnRhdGlvbiBvZiBl
-YWNoIGhlbHBlcg0KPj4gZGVwZW5kcyBvbiB0aGUgYXJjaGl0ZWN0dXJlLiBJdCdzIHN0aWxs
-IGFsbCBsb2NhdGVkIGluIGZiZGV2J3MgbWFpbg0KPj4gaGVhZGVyIGZpbGUgPGxpbnV4L2Zi
-Lmg+LiBNb3ZlIGFsbCBvZiBpdCBpbnRvIGVhY2ggYXJjaHRlY3R1cmUncw0KPj4gPGFzbS9m
-Yi5oPiwgd2l0aCBzaGFyZWQgY29kZSBpbiA8YXNtLWdlbmVyaWMvZmIuaD4uDQo+IA0KPiBG
-b3Igb25jZSBJIHRoaW5rIHRoaXMgY2xlYW51cCBpcyBtb3ZpbmcgdGhpbmdzIGluIHRoZSB3
-cm9uZyBkaXJlY3Rpb24uDQo+IA0KPiBUaGUgZmJfKiBoZWxwZXJzIHByZWRhdGVzIHRoZSBn
-ZW5lcmljIGlvLmggc3VwcG9ydCBhbmQgdHJ5IHRvDQo+IGFkZCBhIGdlbmVyaWMgbGF5ZXIg
-Zm9yIHJlYWQgcmVhZCAvIHdyaXRlIG9wZXJhdGlvbnMuDQo+IA0KPiBUaGUgcmlnaHQgZml4
-IHdvdWxkIGJlIHRvIG1pZ3JhdGUgZmJfKiB0byB1c2UgdGhlIGlvIGhlbHBlcnMNCj4gd2Ug
-aGF2ZSB0b2RheSAtIHNvIHdlIHVzZSB0aGUgZXhpc3Rpbmcgd2F5IHRvIGhhbmRsZSB0aGUg
-YXJjaGl0ZWN0dXJlDQo+IHNwZWNpZmljIGRldGFpbHMuDQoNCkkgbG9va2VkIHRocm91Z2gg
-dGhlIGV4aXN0aW5nIHZlcnNpb25zIG9mIHRoZSBmYl8oKSBJL08gaGVscGVycy4gVGhleSAN
-CmNhbiBhcHBhcmVudGx5IGJlIGltcGxlbWVudGVkIHdpdGggdGhlIHJlZ3VsYXIgaGVscGVy
-cyBvZiBzaW1pbGFyIG5hbWVzLg0KDQpJJ20gbm90IHN1cmUsIGJ1dCBldmVuIFNwYXJjIGxv
-b2tzIGNvbXBhdGlibGUuIEF0IGxlYXN0IHRoZXNlIHNidXNfIA0KZnVuY3Rpb25zIHNlZW0g
-dG8gYmUgZXF1aXZhbGVudCB0byB0aGUgX19yYXdfKCkgSS9PIGhlbHBlcnMgb2Ygc2ltaWxh
-ciANCm5hbWVzLiBEbyB5b3Ugc3RpbGwgaGF2ZSB0aGF0IFNwYXJjIGVtdWxhdG9yPw0KDQo+
-IA0KPiAgRnJvbSBhIHF1aWNrIGxvb2sgdGhlcmUgc2VlbXMgdG8gYmUgc29tZSBjaGFsbGVu
-Z2VzIGJ1dCB0aGUgY3VycmVudA0KPiBoZWxwZXJzIHRoYXQgcmUtZG8gcGFydCBvZiBpby5o
-IGlzIG5vdCB0aGUgd2F5IGZvcndhcmQgYW5kIGhpZGluZyB0aGVtDQo+IGluIGFyY2gvaW5j
-bHVkZS9hc20vZmIuaCBzZWVtcyBjb3VudGVyIHByb2R1Y3RpdmUuDQoNCldoaWNoIGNoYWxs
-ZW5nZXMgZGlkIHlvdSBzZWU/DQoNCkJlc3QgcmVnYXJkcw0KVGhvbWFzDQoNCj4gDQo+IAlT
-YW0NCg0KLS0gDQpUaG9tYXMgWmltbWVybWFubg0KR3JhcGhpY3MgRHJpdmVyIERldmVsb3Bl
-cg0KU1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFueSBHbWJIDQpGcmFua2Vuc3RyYXNz
-ZSAxNDYsIDkwNDYxIE51ZXJuYmVyZywgR2VybWFueQ0KR0Y6IEl2byBUb3RldiwgQW5kcmV3
-IE15ZXJzLCBBbmRyZXcgTWNEb25hbGQsIEJvdWRpZW4gTW9lcm1hbg0KSFJCIDM2ODA5IChB
-RyBOdWVybmJlcmcpDQo=
+What is the current status of this patch, has it been applied?
 
---------------0BnAEdd7ws0JRInwI0tlF7W0--
+Alex Deucher <alexdeucher@gmail.com> =E4=BA=8E2023=E5=B9=B44=E6=9C=8819=E6=
+=97=A5=E5=91=A8=E4=B8=89 21:49=E5=86=99=E9=81=93=EF=BC=9A
 
---------------7Tnoo09B1y1bqPUqHSpN4Mqn
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+> Applied.  Thanks!
+>
+> Alex
+>
+> On Wed, Apr 19, 2023 at 8:24=E2=80=AFAM Christian K=C3=B6nig
+> <christian.koenig@amd.com> wrote:
+> >
+> > Am 19.04.23 um 14:20 schrieb hackyzh002:
+> > > The type of size is unsigned, if size is 0x40000000, there will be an
+> > > integer overflow, size will be zero after size *=3D sizeof(uint32_t),
+> > > will cause uninitialized memory to be referenced later
+> > >
+> > > Signed-off-by: hackyzh002 <hackyzh002@gmail.com>
+> >
+> > Reviewed-by: Christian K=C3=B6nig <christian.koenig@amd.com> for the se=
+ries.
+> >
+> > > ---
+> > >   drivers/gpu/drm/radeon/radeon_cs.c | 3 ++-
+> > >   1 file changed, 2 insertions(+), 1 deletion(-)
+> > >
+> > > diff --git a/drivers/gpu/drm/radeon/radeon_cs.c
+> b/drivers/gpu/drm/radeon/radeon_cs.c
+> > > index 46a27ebf4..a6700d727 100644
+> > > --- a/drivers/gpu/drm/radeon/radeon_cs.c
+> > > +++ b/drivers/gpu/drm/radeon/radeon_cs.c
+> > > @@ -270,7 +270,8 @@ int radeon_cs_parser_init(struct radeon_cs_parser
+> *p, void *data)
+> > >   {
+> > >       struct drm_radeon_cs *cs =3D data;
+> > >       uint64_t *chunk_array_ptr;
+> > > -     unsigned size, i;
+> > > +     u64 size;
+> > > +     unsigned i;
+> > >       u32 ring =3D RADEON_CS_RING_GFX;
+> > >       s32 priority =3D 0;
+> > >
+> >
+>
 
------BEGIN PGP SIGNATURE-----
+--000000000000dd835705fa4c4077
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmRKIscFAwAAAAAACgkQlh/E3EQov+CT
-oBAA0joPCJExKZHc0py1Nmn46HLD2xkGXPqvlDNyOfv9K2WAzSvDzx5KShE1DzyUEcLTvhQfPm/D
-5nQOnQrSn7HQkCIR4umRPp+nXP2coyxCHOnBIowCq2R5+j9pCCLIke3VDkTBCjo1S2FXNaWQ7akF
-bWxfDg2rsatU/OkSba1nBa3LGj5JxZRa7DPQm4/HBXeL3WIuFiFEvklKelWui99NyANYaoXx7yoW
-enEpmf+18GQR9FDziRZjTgETxW+/HXBqLC8vF6nuig1uqQ5TuuiT6/UomLXEdARPKkDKwq4Qg7Cq
-CkIq8jsFYW3Caq7xfMmVfaz1zjSHoZ9Mc2hWnqzjSEbOgRRUpiwVVp0YmcHvr5ZkRma96jeAqXZx
-YLGHYr6u7/jyNAKDs7rqsVHSwLHrrqNvIStQ0pZTt0yVI5f52dk2FhPeKqC3n3gjEVf5BwAk1gRx
-lLlMhkoWTQBfkYZFtor/haDOuPrjOfKSgtU+mYD+SZVeRocMYVVqkRfvUyrZEH1yvOTYFZoK64aJ
-aiKd4shbSRUdRhYx6kmwsKR35X4Ww+uXrVqOtdjMhMx0uZ7rzQCEVQ312EYW1a15koHLyAWNon2n
-+UfEZE1yEvYWAqdUTcveIJ2B9Hv6jVjx1YO+vppl2GNVWBf8+ms8MW6DrPtR4AYx95gK46rcTnGM
-IJY=
-=bpnU
------END PGP SIGNATURE-----
+<div dir=3D"ltr">Hello,<div><br>What is the current status of this patch, h=
+as it been applied?<br></div></div><br><div class=3D"gmail_quote"><div dir=
+=3D"ltr" class=3D"gmail_attr">Alex Deucher &lt;<a href=3D"mailto:alexdeuche=
+r@gmail.com">alexdeucher@gmail.com</a>&gt; =E4=BA=8E2023=E5=B9=B44=E6=9C=88=
+19=E6=97=A5=E5=91=A8=E4=B8=89 21:49=E5=86=99=E9=81=93=EF=BC=9A<br></div><bl=
+ockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-lef=
+t:1px solid rgb(204,204,204);padding-left:1ex">Applied.=C2=A0 Thanks!<br>
+<br>
+Alex<br>
+<br>
+On Wed, Apr 19, 2023 at 8:24=E2=80=AFAM Christian K=C3=B6nig<br>
+&lt;<a href=3D"mailto:christian.koenig@amd.com" target=3D"_blank">christian=
+.koenig@amd.com</a>&gt; wrote:<br>
+&gt;<br>
+&gt; Am 19.04.23 um 14:20 schrieb hackyzh002:<br>
+&gt; &gt; The type of size is unsigned, if size is 0x40000000, there will b=
+e an<br>
+&gt; &gt; integer overflow, size will be zero after size *=3D sizeof(uint32=
+_t),<br>
+&gt; &gt; will cause uninitialized memory to be referenced later<br>
+&gt; &gt;<br>
+&gt; &gt; Signed-off-by: hackyzh002 &lt;<a href=3D"mailto:hackyzh002@gmail.=
+com" target=3D"_blank">hackyzh002@gmail.com</a>&gt;<br>
+&gt;<br>
+&gt; Reviewed-by: Christian K=C3=B6nig &lt;<a href=3D"mailto:christian.koen=
+ig@amd.com" target=3D"_blank">christian.koenig@amd.com</a>&gt; for the seri=
+es.<br>
+&gt;<br>
+&gt; &gt; ---<br>
+&gt; &gt;=C2=A0 =C2=A0drivers/gpu/drm/radeon/radeon_cs.c | 3 ++-<br>
+&gt; &gt;=C2=A0 =C2=A01 file changed, 2 insertions(+), 1 deletion(-)<br>
+&gt; &gt;<br>
+&gt; &gt; diff --git a/drivers/gpu/drm/radeon/radeon_cs.c b/drivers/gpu/drm=
+/radeon/radeon_cs.c<br>
+&gt; &gt; index 46a27ebf4..a6700d727 100644<br>
+&gt; &gt; --- a/drivers/gpu/drm/radeon/radeon_cs.c<br>
+&gt; &gt; +++ b/drivers/gpu/drm/radeon/radeon_cs.c<br>
+&gt; &gt; @@ -270,7 +270,8 @@ int radeon_cs_parser_init(struct radeon_cs_pa=
+rser *p, void *data)<br>
+&gt; &gt;=C2=A0 =C2=A0{<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0struct drm_radeon_cs *cs =3D data;<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0uint64_t *chunk_array_ptr;<br>
+&gt; &gt; -=C2=A0 =C2=A0 =C2=A0unsigned size, i;<br>
+&gt; &gt; +=C2=A0 =C2=A0 =C2=A0u64 size;<br>
+&gt; &gt; +=C2=A0 =C2=A0 =C2=A0unsigned i;<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0u32 ring =3D RADEON_CS_RING_GFX;<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0s32 priority =3D 0;<br>
+&gt; &gt;<br>
+&gt;<br>
+</blockquote></div>
 
---------------7Tnoo09B1y1bqPUqHSpN4Mqn--
+--000000000000dd835705fa4c4077--
