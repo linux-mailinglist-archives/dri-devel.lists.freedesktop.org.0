@@ -1,93 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B197D6EFFD5
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Apr 2023 05:30:56 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B37166F000D
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Apr 2023 06:06:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 169D310EA7A;
-	Thu, 27 Apr 2023 03:30:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9E1A110E2D1;
+	Thu, 27 Apr 2023 04:06:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM04-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam04on20625.outbound.protection.outlook.com
- [IPv6:2a01:111:f400:7e8d::625])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4D2FD10EA7A;
- Thu, 27 Apr 2023 03:30:51 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=MXEXjLa91Kdj1cOB5rbZuJgDm72xIGpcrNk2MtkRmtGVA2i50vor8Q7NjIRXsar5SRkFz4s0xjidBMAKZmQduIGXI33uLv3sisbOWqHhXnMKu9LAqGlNfYZ1sWAgWcZSju2EMXj0KlpWdp6EkCTF9RoMp404UHXsHHdAu5hhQAp6yaE/N7QFWaiFmyOZyv2aRZCW0oDL34tuKJhHmCLPZfuSq9F8++8kjoD3rIgNQfqULoJ092gOK4il5siWKjDTBcEJUwiUQDioMvUZth6CqmfkUeP5AO8XRK/yFUfo5saGoiilTIulNDwCZ36PA2qgz1uVoYeIMRSy0VRg36PcXw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=GAKSgdvJsDIVaqiHLip41YB9fxC47D787sfsyoWr/gg=;
- b=jxc4hI2FpGSZOI53t4hT7ff4ixo5elNDb44foJ+ikiSbLF1uvRunfsQqrJLymvCTaUKPWKN3hEC8XHJctuo6fAOsRL4RPfxYtvBLhefaY8PiWGwgenRWYMW8CrzZeaMPV5qjL+j/tR37gh07+aGz9stZ2c8fBgPLJNdld5Ef9ozQWdchFwGXn7LkPjGZvc6t0D8+hfBoSItoqB07U8UWebLYK2n5aoOoCOuvqQw/id3WfK3ilGp864YmPqx2i6nUmIq6VJxY73+8E4xFFmKAYsDM5wtUe1Qxf4DMEeEOdRlYXx+KNpHYbAEFcCQhnyxtcxBKstsFblUboM9I3rodDg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=GAKSgdvJsDIVaqiHLip41YB9fxC47D787sfsyoWr/gg=;
- b=LkCre7QtcVxc7VvkzTYNE0CYW2IFNS+hPfn1KE23GGh4JTZhuCgReERxqzWqz4Ko4o7/CGKWzM6YtkjWIi34+ot9CJaDVgVi/3UUsf9h+x8tL3ubGV5+Kj/5QtbAg41330I7h0MriD8STs4Fv6tCUJ/IlrIVPF02dd9QUvrTOQs=
-Received: from DM5PR08CA0049.namprd08.prod.outlook.com (2603:10b6:4:60::38) by
- CH0PR12MB8506.namprd12.prod.outlook.com (2603:10b6:610:18a::6) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6340.22; Thu, 27 Apr 2023 03:30:43 +0000
-Received: from DM6NAM11FT108.eop-nam11.prod.protection.outlook.com
- (2603:10b6:4:60:cafe::80) by DM5PR08CA0049.outlook.office365.com
- (2603:10b6:4:60::38) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6340.21 via Frontend
- Transport; Thu, 27 Apr 2023 03:30:43 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- DM6NAM11FT108.mail.protection.outlook.com (10.13.172.95) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.6340.22 via Frontend Transport; Thu, 27 Apr 2023 03:30:43 +0000
-Received: from tr4.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Wed, 26 Apr
- 2023 22:30:42 -0500
-From: Alex Deucher <alexander.deucher@amd.com>
-To: <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
- <airlied@gmail.com>, <daniel.vetter@ffwll.ch>
-Subject: [pull] amdgpu drm-fixes-6.4
-Date: Wed, 26 Apr 2023 23:30:12 -0400
-Message-ID: <20230427033012.7668-1-alexander.deucher@amd.com>
-X-Mailer: git-send-email 2.40.0
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8AD5810E2D1;
+ Thu, 27 Apr 2023 04:06:52 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id D359D6394C;
+ Thu, 27 Apr 2023 04:06:51 +0000 (UTC)
+Received: from rdvivi-mobl4 (unknown [192.55.54.52])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by smtp.kernel.org (Postfix) with ESMTPSA id 0618AC433D2;
+ Thu, 27 Apr 2023 04:06:46 +0000 (UTC)
+Date: Thu, 27 Apr 2023 00:06:44 -0400
+From: Rodrigo Vivi <rodrigo.vivi@kernel.org>
+To: Dave Airlie <airlied@gmail.com>
+Subject: Re: [PATCH] drm/doc/rfc: Introduce the merge plan for the Xe driver.
+Message-ID: <ZEn01EvqeqEO7y3p@rdvivi-mobl4>
+References: <20230418133133.80434-1-rodrigo.vivi@intel.com>
+ <20230419191913.158807-1-rodrigo.vivi@intel.com>
+ <CAPM=9twezi635ZYA+TvZfWc9Dc7RyMhACfcT=DZ1nA3nAenynA@mail.gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM6NAM11FT108:EE_|CH0PR12MB8506:EE_
-X-MS-Office365-Filtering-Correlation-Id: a6b3367a-a2eb-4aae-bf3a-08db46cfc828
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Sm4dicrvrvvSmbMtZD0hVHczh7j7ldNJOKcuLjYWeUvJgtm20roaBWGS5wZ0cgXLgf2SsyCKMiHcz58vT8ggC3UBrKYa+wy8OXST1x4/uwP/kxjCh2WEkFFJE9A/MqIE03KlyiGiVeUDTIb8Z72Pi1tHWhY7Chu1Opd41WUNLWuuEMxae4ikXDMVO8V74PDigg9nR4jQr/HmvgWWLWzm9d6Ho9mtDOyJktomXkAIgtf+ZBONboyu8utVOf+WMJSqVby5NXBdG0fQnza/fYIl3h4zPCmvviYwmP8HlAKSI6ifsD/oTcbMFkDZ/sJ+aQKv3hihNzHMdccf2QzusV4026d0dMaDsd4J2Ry61cJWmJ55g+WuZeY48fAVviiOtllUKGbeoDKDi1rbAO36RvPtKnl6Y9EgLeJPQ3TK5+DvkRIadrDPFqqugtcZL3PvBwwgAlorRTmguWmU58M82UsM4YAl4OlLi46oyRgwiS9gyDIlpoG3VOF4dSzGb7C+4er+B7+k68H8eAfnKHtY9NS6aFx9FBa0cNJfmZwHZBYig2b7FrORDRgsnKHNacw7XlGqGRRVu73FBbKBoL1050gt347p2j1AIzJFwRCrod5sPA0FhGI6iHDCKweF2jmlRqvC3rG1XZfgWzl+qV87/ZYnNAEPhurT8F8QMToU/kpgRywrW9sDS29kWoZqBiDcVSDb
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230028)(4636009)(136003)(376002)(39860400002)(396003)(346002)(451199021)(40470700004)(36840700001)(46966006)(86362001)(36756003)(82310400005)(2906002)(40460700003)(40480700001)(7696005)(36860700001)(6666004)(16526019)(2616005)(47076005)(83380400001)(336012)(186003)(426003)(1076003)(26005)(966005)(4326008)(70206006)(110136005)(70586007)(478600001)(356005)(316002)(82740400003)(5660300002)(41300700001)(8676002)(81166007)(8936002)(36900700001);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Apr 2023 03:30:43.2564 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: a6b3367a-a2eb-4aae-bf3a-08db46cfc828
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT108.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR12MB8506
+In-Reply-To: <CAPM=9twezi635ZYA+TvZfWc9Dc7RyMhACfcT=DZ1nA3nAenynA@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,143 +48,323 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alex Deucher <alexander.deucher@amd.com>
+Cc: Matthew Brost <matthew.brost@intel.com>,
+ Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, Oded Gabbay <ogabbay@kernel.org>,
+ Francois Dugast <francois.dugast@intel.com>, dri-devel@lists.freedesktop.org,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Dave Airlie <airlied@redhat.com>,
+ intel-xe@lists.freedesktop.org, Luis Strano <luis.strano@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave, Daniel,
+On Thu, Apr 27, 2023 at 11:56:22AM +1000, Dave Airlie wrote:
+> On Thu, 20 Apr 2023 at 05:19, Rodrigo Vivi <rodrigo.vivi@intel.com> wrote:
+> >
+> > Let’s establish a merge plan for Xe, by writing down clear pre-merge goals, in
+> > order to avoid unnecessary delays.
+> 
+> LGTM,
+> 
+> Acked-by: Dave Airlie <airlied@redhat.com>
 
-Fixes for 6.4.  A bit bigger than usual since it's two weeks worth.  Mostly
-display fixes.
+Thanks, pushed to drm-misc-next
 
-The following changes since commit e82c98f2ca439356d5595ba8c9cd782f993f6f8c:
-
-  Merge tag 'amd-drm-next-6.4-2023-04-14' of https://gitlab.freedesktop.org/agd5f/linux into drm-next (2023-04-17 10:54:59 +1000)
-
-are available in the Git repository at:
-
-  https://gitlab.freedesktop.org/agd5f/linux.git tags/amd-drm-fixes-6.4-2023-04-26
-
-for you to fetch changes up to d893f39320e1248d1c97fde0d6e51e5ea008a76b:
-
-  drm/amd/display: Lowering min Z8 residency time (2023-04-26 22:53:58 -0400)
-
-----------------------------------------------------------------
-amd-drm-fixes-6.4-2023-04-26:
-
-amdgpu:
-- SR-IOV fixes
-- DCN 3.2 fixes
-- DC mclk handling fixes
-- eDP fixes
-- SubVP fixes
-- HDCP regression fix
-- DSC fixes
-- DC FP fixes
-- DCN 3.x fixes
-- Display flickering fix when switching between vram and gtt
-- Z8 power saving fix
-- Fix hang when skipping modeset
-
-----------------------------------------------------------------
-Alex Hung (1):
-      drm/amd/display: allow edp updates for virtual signal
-
-Alvin Lee (1):
-      drm/amd/display: Reduce SubVP + DRR stretch margin
-
-Aurabindo Pillai (5):
-      drm/amd/display: Fix hang when skipping modeset
-      drm/amd/display: remove incorrect early return
-      drm/amd/display: Fixes for dcn32_clk_mgr implementation
-      drm/amd/display: Do not clear GPINT register when releasing DMUB from reset
-      drm/amd/display: Update bounding box values for DCN321
-
-Chong Li (1):
-      drm/amdgpu: release gpu full access after "amdgpu_device_ip_late_init"
-
-Cruise Hung (1):
-      drm/amd/display: Reset OUTBOX0 r/w pointer on DMUB reset
-
-Hamza Mahfooz (1):
-      drm/amd/display: fix flickering caused by S/G mode
-
-Hersen Wu (3):
-      drm/amd/display: fix memleak in aconnector->timing_requested
-      drm/amd/display: fix access hdcp_workqueue assert
-      drm/amd/display: Return error code on DSC atomic check failure
-
-Igor Kravchenko (1):
-      drm/amd/display: Set min_width and min_height capability for DCN30
-
-Jane Jian (1):
-      drm/amdgpu/vcn: fix mmsch ctx table size
-
-Jasdeep Dhillon (1):
-      drm/amd/display: Isolate remaining FPU code in DCN32
-
-Jingwen Zhu (1):
-      drm/amd/display: Improvement for handling edp link training fails
-
-Josip Pavic (1):
-      drm/amd/display: copy dmub caps to dc on dcn31
-
-Leo Chen (1):
-      drm/amd/display: Lowering min Z8 residency time
-
-Michael Mityushkin (1):
-      drm/amd/display: Apply correct panel mode when reinitializing hardware
-
-Rodrigo Siqueira (8):
-      drm/amd/display: Update bouding box values for DCN32
-      drm/amd/display: Add missing mclk update
-      drm/amd/display: Adjust code identation and other minor details
-      drm/amd/display: Set maximum VStartup if is DCN201
-      drm/amd/display: Set dp_rate to dm_dp_rate_na by default
-      drm/amd/display: Remove wrong assignment of DP link rate
-      drm/amd/display: Use pointer in the memcpy
-      drm/amd/display: Add missing WA and MCLK validation
-
-Tianci Yin (1):
-      drm/amd/display: Disable migration to ensure consistency of per-CPU variable
-
-Tom Rix (2):
-      drm/amd/pm: change pmfw_decoded_link_width, speed variables to globals
-      drm/amd/display: set variable dccg314_init storage-class-specifier to static
-
-Wesley Chalmers (2):
-      drm/amd/display: Do not set drr on pipe commit
-      drm/amd/display: Block optimize on consecutive FAMS enables
-
- drivers/gpu/drm/amd/amdgpu/amdgpu_device.c         |  32 ++--
- drivers/gpu/drm/amd/amdgpu/jpeg_v4_0.c             |   2 +-
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c  |  34 +++-
- .../drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c  |   1 -
- .../amd/display/amdgpu_dm/amdgpu_dm_mst_types.c    |  17 +-
- drivers/gpu/drm/amd/display/amdgpu_dm/dc_fpu.c     |   2 +
- .../amd/display/dc/clk_mgr/dcn32/dcn32_clk_mgr.c   |   5 +
- drivers/gpu/drm/amd/display/dc/core/dc_resource.c  |   3 +
- drivers/gpu/drm/amd/display/dc/dc.h                |   1 +
- drivers/gpu/drm/amd/display/dc/dc_stream.h         |   2 +-
- .../amd/display/dc/dce110/dce110_hw_sequencer.c    |  19 ++-
- drivers/gpu/drm/amd/display/dc/dcn20/dcn20_hwseq.c |   9 ++
- drivers/gpu/drm/amd/display/dc/dcn30/dcn30_hwseq.c |  25 ++-
- .../gpu/drm/amd/display/dc/dcn30/dcn30_resource.c  |   4 +-
- drivers/gpu/drm/amd/display/dc/dcn31/dcn31_hwseq.c |   4 +
- .../gpu/drm/amd/display/dc/dcn314/dcn314_dccg.c    |   2 +-
- .../drm/amd/display/dc/dcn314/dcn314_resource.c    |   2 +-
- drivers/gpu/drm/amd/display/dc/dcn32/dcn32_hwseq.c |   1 +
- .../gpu/drm/amd/display/dc/dcn32/dcn32_resource.c  |  46 +++---
- .../gpu/drm/amd/display/dc/dml/dcn20/dcn20_fpu.c   | 178 +++++++++++----------
- .../gpu/drm/amd/display/dc/dml/dcn30/dcn30_fpu.c   |  18 ++-
- .../gpu/drm/amd/display/dc/dml/dcn32/dcn32_fpu.c   |  17 +-
- .../gpu/drm/amd/display/dc/dml/dcn32/dcn32_fpu.h   |   2 +
- .../gpu/drm/amd/display/dc/dml/dcn321/dcn321_fpu.c |  24 +--
- drivers/gpu/drm/amd/display/dc/link/link_dpms.c    |   5 +
- .../display/dc/link/protocols/link_dp_training.c   |   5 +-
- .../dc/link/protocols/link_edp_panel_control.c     |   1 +
- drivers/gpu/drm/amd/display/dmub/src/dmub_dcn32.c  |   3 +-
- drivers/gpu/drm/amd/display/include/signal_types.h |   1 +
- drivers/gpu/drm/amd/pm/swsmu/inc/smu_v13_0.h       |   4 +-
- drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0.c     |   3 +
- 31 files changed, 300 insertions(+), 172 deletions(-)
+> 
+> >
+> > This initial document starts with a TODO list containing items with clear and
+> > measurable key results. Xe’s initial pull request should only be sent to
+> > dri-devel after all the items are clearly resolved.
+> >
+> > Since many of them involve some level of a community consensus, in many cases,
+> > the consensus will be reached in follow-up patches to this document with more
+> > details of the API or helpers that will be developed or modified.
+> >
+> > Besides of the items that are highlighted in this document, it is important
+> > to highlight that Oded, has been volunteered to give the overall ack on Xe
+> > driver as the way to confirm that it looks good for upstream.
+> >
+> > v2: Incorporated Daniel's feedback:
+> >     - Do not make long-running compute a blocker.
+> >     - Add a mention to drm-exec that that ties to vm_bind and long-running
+> >       compute jobs. Then I also added GPUVA since I recently noticed that this
+> >       ties also to the work Matt is doing on that front.
+> >     - Added the devcoredump section.
+> >     - Add the mention to Oded being volunteered for the overall ack.
+> >
+> > v3: Reword a bit the Async VM_BIND to incorporate Daniel's feedback on ensuring
+> >     the async vmbind consensus explicitly include Mesa, besides other kernel
+> >     drivers.
+> >
+> > Cc: Dave Airlie <airlied@redhat.com>
+> > Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+> > Cc: Oded Gabbay <ogabbay@kernel.org>
+> > Signed-off-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
+> > Signed-off-by: Francois Dugast <francois.dugast@intel.com>
+> > Signed-off-by: Luis Strano <luis.strano@intel.com>
+> > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+> > Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+> > Signed-off-by: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> > Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+> > Signed-off-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
+> > ---
+> >  Documentation/gpu/rfc/index.rst |   4 +
+> >  Documentation/gpu/rfc/xe.rst    | 235 ++++++++++++++++++++++++++++++++
+> >  2 files changed, 239 insertions(+)
+> >  create mode 100644 Documentation/gpu/rfc/xe.rst
+> >
+> > diff --git a/Documentation/gpu/rfc/index.rst b/Documentation/gpu/rfc/index.rst
+> > index 476719771eef..e4f7b005138d 100644
+> > --- a/Documentation/gpu/rfc/index.rst
+> > +++ b/Documentation/gpu/rfc/index.rst
+> > @@ -31,3 +31,7 @@ host such documentation:
+> >  .. toctree::
+> >
+> >      i915_vm_bind.rst
+> > +
+> > +.. toctree::
+> > +
+> > +   xe.rst
+> > diff --git a/Documentation/gpu/rfc/xe.rst b/Documentation/gpu/rfc/xe.rst
+> > new file mode 100644
+> > index 000000000000..2516fe141db6
+> > --- /dev/null
+> > +++ b/Documentation/gpu/rfc/xe.rst
+> > @@ -0,0 +1,235 @@
+> > +==========================
+> > +Xe – Merge Acceptance Plan
+> > +==========================
+> > +Xe is a new driver for Intel GPUs that supports both integrated and
+> > +discrete platforms starting with Tiger Lake (first Intel Xe Architecture).
+> > +
+> > +This document aims to establish a merge plan for the Xe, by writing down clear
+> > +pre-merge goals, in order to avoid unnecessary delays.
+> > +
+> > +Xe – Overview
+> > +=============
+> > +The main motivation of Xe is to have a fresh base to work from that is
+> > +unencumbered by older platforms, whilst also taking the opportunity to
+> > +rearchitect our driver to increase sharing across the drm subsystem, both
+> > +leveraging and allowing us to contribute more towards other shared components
+> > +like TTM and drm/scheduler.
+> > +
+> > +This is also an opportunity to start from the beginning with a clean uAPI that is
+> > +extensible by design and already aligned with the modern userspace needs. For
+> > +this reason, the memory model is solely based on GPU Virtual Address space
+> > +bind/unbind (‘VM_BIND’) of GEM buffer objects (BOs) and execution only supporting
+> > +explicit synchronization. With persistent mapping across the execution, the
+> > +userspace does not need to provide a list of all required mappings during each
+> > +submission.
+> > +
+> > +The new driver leverages a lot from i915. As for display, the intent is to share
+> > +the display code with the i915 driver so that there is maximum reuse there.
+> > +
+> > +As for the power management area, the goal is to have a much-simplified support
+> > +for the system suspend states (S-states), PCI device suspend states (D-states),
+> > +GPU/Render suspend states (R-states) and frequency management. It should leverage
+> > +as much as possible all the existent PCI-subsystem infrastructure (pm and
+> > +runtime_pm) and underlying firmware components such PCODE and GuC for the power
+> > +states and frequency decisions.
+> > +
+> > +Repository:
+> > +
+> > +https://gitlab.freedesktop.org/drm/xe/kernel (branch drm-xe-next)
+> > +
+> > +Xe – Platforms
+> > +==============
+> > +Currently, Xe is already functional and has experimental support for multiple
+> > +platforms starting from Tiger Lake, with initial support in userspace implemented
+> > +in Mesa (for Iris and Anv, our OpenGL and Vulkan drivers), as well as in NEO
+> > +(for OpenCL and Level0).
+> > +
+> > +During a transition period, platforms will be supported by both Xe and i915.
+> > +However, the force_probe mechanism existent in both drivers will allow only one
+> > +official and by-default probe at a given time.
+> > +
+> > +For instance, in order to probe a DG2 which PCI ID is 0x5690 by Xe instead of
+> > +i915, the following set of parameters need to be used:
+> > +
+> > +```
+> > +i915.force_probe=!5690 xe.force_probe=5690
+> > +```
+> > +
+> > +In both drivers, the ‘.require_force_probe’ protection forces the user to use the
+> > +force_probe parameter while the driver is under development. This protection is
+> > +only removed when the support for the platform and the uAPI are stable. Stability
+> > +which needs to be demonstrated by CI results.
+> > +
+> > +In order to avoid user space regressions, i915 will continue to support all the
+> > +current platforms that are already out of this protection. Xe support will be
+> > +forever experimental and dependent on the usage of force_probe for these
+> > +platforms.
+> > +
+> > +When the time comes for Xe, the protection will be lifted on Xe and kept in i915.
+> > +
+> > +Xe driver will be protected with both STAGING Kconfig and force_probe. Changes in
+> > +the uAPI are expected while the driver is behind these protections. STAGING will
+> > +be removed when the driver uAPI gets to a mature state where we can guarantee the
+> > +‘no regression’ rule. Then force_probe will be lifted only for future platforms
+> > +that will be productized with Xe driver, but not with i915.
+> > +
+> > +Xe – Pre-Merge Goals
+> > +====================
+> > +
+> > +Drm_scheduler
+> > +-------------
+> > +Xe primarily uses Firmware based scheduling (GuC FW). However, it will use
+> > +drm_scheduler as the scheduler ‘frontend’ for userspace submission in order to
+> > +resolve syncobj and dma-buf implicit sync dependencies. However, drm_scheduler is
+> > +not yet prepared to handle the 1-to-1 relationship between drm_gpu_scheduler and
+> > +drm_sched_entity.
+> > +
+> > +Deeper changes to drm_scheduler should *not* be required to get Xe accepted, but
+> > +some consensus needs to be reached between Xe and other community drivers that
+> > +could also benefit from this work, for coupling FW based/assisted submission such
+> > +as the ARM’s new Mali GPU driver, and others.
+> > +
+> > +As a key measurable result, the patch series introducing Xe itself shall not
+> > +depend on any other patch touching drm_scheduler itself that was not yet merged
+> > +through drm-misc. This, by itself, already includes the reach of an agreement for
+> > +uniform 1 to 1 relationship implementation / usage across drivers.
+> > +
+> > +GPU VA
+> > +------
+> > +Two main goals of Xe are meeting together here:
+> > +
+> > +1) Have an uAPI that aligns with modern UMD needs.
+> > +
+> > +2) Early upstream engagement.
+> > +
+> > +RedHat engineers working on Nouveau proposed a new DRM feature to handle keeping
+> > +track of GPU virtual address mappings. This is still not merged upstream, but
+> > +this aligns very well with our goals and with our VM_BIND. The engagement with
+> > +upstream and the port of Xe towards GPUVA is already ongoing.
+> > +
+> > +As a key measurable result, Xe needs to be aligned with the GPU VA and working in
+> > +our tree. Missing Nouveau patches should *not* block Xe and any needed GPUVA
+> > +related patch should be independent and present on dri-devel or acked by
+> > +maintainers to go along with the first Xe pull request towards drm-next.
+> > +
+> > +DRM_VM_BIND
+> > +-----------
+> > +Nouveau, and Xe are all implementing ‘VM_BIND’ and new ‘Exec’ uAPIs in order to
+> > +fulfill the needs of the modern uAPI. Xe merge should *not* be blocked on the
+> > +development of a common new drm_infrastructure. However, the Xe team needs to
+> > +engage with the community to explore the options of a common API.
+> > +
+> > +As a key measurable result, the DRM_VM_BIND needs to be documented in this file
+> > +below, or this entire block deleted if the consensus is for independent drivers
+> > +vm_bind ioctls.
+> > +
+> > +Although having a common DRM level IOCTL for VM_BIND is not a requirement to get
+> > +Xe merged, it is mandatory to enforce the overall locking scheme for all major
+> > +structs and list (so vm and vma). So, a consensus is needed, and possibly some
+> > +common helpers. If helpers are needed, they should be also documented in this
+> > +document.
+> > +
+> > +ASYNC VM_BIND
+> > +-------------
+> > +Although having a common DRM level IOCTL for VM_BIND is not a requirement to get
+> > +Xe merged, it is mandatory to have a consensus with other drivers and Mesa.
+> > +It needs to be clear how to handle async VM_BIND and interactions with userspace
+> > +memory fences. Ideally with helper support so people don't get it wrong in all
+> > +possible ways.
+> > +
+> > +As a key measurable result, the benefits of ASYNC VM_BIND and a discussion of
+> > +various flavors, error handling and a sample API should be documented here or in
+> > +a separate document pointed to by this document.
+> > +
+> > +Userptr integration and vm_bind
+> > +-------------------------------
+> > +Different drivers implement different ways of dealing with execution of userptr.
+> > +With multiple drivers currently introducing support to VM_BIND, the goal is to
+> > +aim for a DRM consensus on what’s the best way to have that support. To some
+> > +extent this is already getting addressed itself with the GPUVA where likely the
+> > +userptr will be a GPUVA with a NULL GEM call VM bind directly on the userptr.
+> > +However, there are more aspects around the rules for that and the usage of
+> > +mmu_notifiers, locking and other aspects.
+> > +
+> > +This task here has the goal of introducing a documentation of the basic rules.
+> > +
+> > +The documentation *needs* to first live in this document (API session below) and
+> > +then moved to another more specific document or at Xe level or at DRM level.
+> > +
+> > +Documentation should include:
+> > +
+> > + * The userptr part of the VM_BIND api.
+> > +
+> > + * Locking, including the page-faulting case.
+> > +
+> > + * O(1) complexity under VM_BIND.
+> > +
+> > +Some parts of userptr like mmu_notifiers should become GPUVA or DRM helpers when
+> > +the second driver supporting VM_BIND+userptr appears. Details to be defined when
+> > +the time comes.
+> > +
+> > +Long running compute: minimal data structure/scaffolding
+> > +--------------------------------------------------------
+> > +The generic scheduler code needs to include the handling of endless compute
+> > +contexts, with the minimal scaffolding for preempt-ctx fences (probably on the
+> > +drm_sched_entity) and making sure drm_scheduler can cope with the lack of job
+> > +completion fence.
+> > +
+> > +The goal is to achieve a consensus ahead of Xe initial pull-request, ideally with
+> > +this minimal drm/scheduler work, if needed, merged to drm-misc in a way that any
+> > +drm driver, including Xe, could re-use and add their own individual needs on top
+> > +in a next stage. However, this should not block the initial merge.
+> > +
+> > +This is a non-blocker item since the driver without the support for the long
+> > +running compute enabled is not a showstopper.
+> > +
+> > +Display integration with i915
+> > +-----------------------------
+> > +In order to share the display code with the i915 driver so that there is maximum
+> > +reuse, the i915/display/ code is built twice, once for i915.ko and then for
+> > +xe.ko. Currently, the i915/display code in Xe tree is polluted with many 'ifdefs'
+> > +depending on the build target. The goal is to refactor both Xe and i915/display
+> > +code simultaneously in order to get a clean result before they land upstream, so
+> > +that display can already be part of the initial pull request towards drm-next.
+> > +
+> > +However, display code should not gate the acceptance of Xe in upstream. Xe
+> > +patches will be refactored in a way that display code can be removed, if needed,
+> > +from the first pull request of Xe towards drm-next. The expectation is that when
+> > +both drivers are part of the drm-tip, the introduction of cleaner patches will be
+> > +easier and speed up.
+> > +
+> > +Drm_exec
+> > +--------
+> > +Helper to make dma_resv locking for a big number of buffers is getting removed in
+> > +the drm_exec series proposed in https://patchwork.freedesktop.org/patch/524376/
+> > +If that happens, Xe needs to change and incorporate the changes in the driver.
+> > +The goal is to engage with the Community to understand if the best approach is to
+> > +move that to the drivers that are using it or if we should keep the helpers in
+> > +place waiting for Xe to get merged.
+> > +
+> > +This item ties into the GPUVA, VM_BIND, and even long-running compute support.
+> > +
+> > +As a key measurable result, we need to have a community consensus documented in
+> > +this document and the Xe driver prepared for the changes, if necessary.
+> > +
+> > +Dev_coredump
+> > +------------
+> > +
+> > +Xe needs to align with other drivers on the way that the error states are
+> > +dumped, avoiding a Xe only error_state solution. The goal is to use devcoredump
+> > +infrastructure to report error states, since it produces a standardized way
+> > +by exposing a virtual and temporary /sys/class/devcoredump device.
+> > +
+> > +As the key measurable result, Xe driver needs to provide GPU snapshots captured
+> > +at hang time through devcoredump, but without depending on any core modification
+> > +of devcoredump infrastructure itself.
+> > +
+> > +Later, when we are in-tree, the goal is to collaborate with devcoredump
+> > +infrastructure with overall possible improvements, like multiple file support
+> > +for better organization of the dumps, snapshot support, dmesg extra print,
+> > +and whatever may make sense and help the overall infrastructure.
+> > +
+> > +Xe – uAPI high level overview
+> > +=============================
+> > +
+> > +...Warning: To be done in follow up patches after/when/where the main consensus in various items are individually reached.
+> > --
+> > 2.39.2
+> >
