@@ -1,47 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12D446F1316
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Apr 2023 10:15:28 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D5D56F1318
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Apr 2023 10:15:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2A28A10EC76;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9CD1910EC78;
 	Fri, 28 Apr 2023 08:15:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6B51310EC6D;
- Fri, 28 Apr 2023 08:15:09 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D0CE610EC66;
+ Fri, 28 Apr 2023 08:15:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1682669709; x=1714205709;
+ t=1682669710; x=1714205710;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=4B20lUE1ON4vMMwkAs7ciCQmA9lQDT48Tp5c5tkAh+I=;
- b=MraAfq/0mT03UN8OOCL/ySHnOV3AstfWuUOuaiONyg2u6U3CwaT/24VY
- jjqQ8EqDTsWj3nh8Ye9HnXfVl0re4Z05cQJfAp/jyjE6O+DqWSsyD1mhQ
- 3SN2icaQVFtI3cGjYFkyPQse3Demby8Z0xBAhN2naQAL67G5yaowQHf7z
- 20cpWdXxq9Q6o8a0cXDJzn+Z/G3+8XeQisy5Qm66+TfTmcKcSj356yEJk
- BQcQg+Kl0xYGDvIsRDZPJr5Sftbv0iZMmCx57Uhp8/dqMYRJ/1MQ/ZhfE
- e64NYw1D2TTXxgDfdwMmW25UaEkqDygcVwcO+aPFdYhJsLMwbCkjryuFi A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10693"; a="328011803"
-X-IronPort-AV: E=Sophos;i="5.99,234,1677571200"; d="scan'208";a="328011803"
+ bh=/fbGcVUAgRkDxLs2w4eCmY9c8d+f/M9VsWSm5d15y9Y=;
+ b=ZAeijC6jKMX6FKAigZnIpLLa+fDhOG2Y3YYVmzN3Ucbsbvs9GYlxaFl2
+ PRjHiihxHotEC51rwf+nAHEO8RqQ5GRWCw8TYZibTnvp+m1n0xgbhD2CF
+ 6ionFfTdjcfBH9Tcw5LrhqmDMZQBGpQspGC9EGpzP6kMPRkZBKZMxUatN
+ 9QJilwm96GWY0uiGhWpnWSQkYxyLVQ+C9yz80jJP54HWfJEf8xPyS8i22
+ BTKUpNFMpIQIRTjDMT9IsWUrpNa3VmDtTNziq9sCLtQof0TmrY4iQ3B0V
+ lWj17kREUnts9AWMpD4NHDOo5I6srJ/pZUSXHckohxiax8JFZWxJmpvxf g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10693"; a="328011805"
+X-IronPort-AV: E=Sophos;i="5.99,234,1677571200"; d="scan'208";a="328011805"
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Apr 2023 01:15:09 -0700
+ 28 Apr 2023 01:15:10 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10693"; a="694726768"
-X-IronPort-AV: E=Sophos;i="5.99,234,1677571200"; d="scan'208";a="694726768"
+X-IronPort-AV: E=McAfee;i="6600,9927,10693"; a="694726772"
+X-IronPort-AV: E=Sophos;i="5.99,234,1677571200"; d="scan'208";a="694726772"
 Received: from ksathish-mobl.ger.corp.intel.com (HELO localhost.localdomain)
  ([10.213.194.196])
  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Apr 2023 01:15:07 -0700
+ 28 Apr 2023 01:15:09 -0700
 From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
 To: Intel-gfx@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
-Subject: [RFC 3/4] drm/i915: Add helpers for managing rps thresholds
-Date: Fri, 28 Apr 2023 09:14:56 +0100
-Message-Id: <20230428081457.857009-4-tvrtko.ursulin@linux.intel.com>
+Subject: [RFC 4/4] drm/i915: Expose RPS thresholds in sysfs
+Date: Fri, 28 Apr 2023 09:14:57 +0100
+Message-Id: <20230428081457.857009-5-tvrtko.ursulin@linux.intel.com>
 X-Mailer: git-send-email 2.37.2
 In-Reply-To: <20230428081457.857009-1-tvrtko.ursulin@linux.intel.com>
 References: <20230428081457.857009-1-tvrtko.ursulin@linux.intel.com>
@@ -65,77 +65,171 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 
-In preparation for exposing via sysfs add helpers for managing rps
-thresholds.
+User feedback indicates significant performance gains are possible in
+specific games with non default RPS up/down thresholds.
+
+Expose these tunables via sysfs which will allow users to achieve best
+performance when running games and best power efficiency elsewhere.
+
+Note this patch supports non GuC based platforms only.
 
 Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+References: https://gitlab.freedesktop.org/drm/intel/-/issues/8389
 ---
- drivers/gpu/drm/i915/gt/intel_rps.c | 36 +++++++++++++++++++++++++++++
- drivers/gpu/drm/i915/gt/intel_rps.h |  4 ++++
- 2 files changed, 40 insertions(+)
+ drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c | 104 ++++++++++++++++++++
+ drivers/gpu/drm/i915/gt/intel_rps.c         |   7 +-
+ 2 files changed, 110 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/i915/gt/intel_rps.c b/drivers/gpu/drm/i915/gt/intel_rps.c
-index a39eee444849..a5a7315f5ace 100644
---- a/drivers/gpu/drm/i915/gt/intel_rps.c
-+++ b/drivers/gpu/drm/i915/gt/intel_rps.c
-@@ -2573,6 +2573,42 @@ int intel_rps_set_min_frequency(struct intel_rps *rps, u32 val)
- 		return set_min_freq(rps, val);
- }
+diff --git a/drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c b/drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c
+index 28f27091cd3b..df1f9ef08475 100644
+--- a/drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c
++++ b/drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c
+@@ -671,6 +671,76 @@ static const struct attribute *media_perf_power_attrs[] = {
+ 	NULL
+ };
  
-+u8 intel_rps_get_up_threshold(struct intel_rps *rps)
++static ssize_t
++rps_up_threshold_pct_show(struct kobject *kobj, struct kobj_attribute *attr,
++			  char *buf)
 +{
-+	return rps->power.up_threshold;
++	struct intel_gt *gt = intel_gt_sysfs_get_drvdata(kobj, attr->attr.name);
++	struct intel_rps *rps = &gt->rps;
++
++	return sysfs_emit(buf, "%u\n", intel_rps_get_up_threshold(rps));
 +}
 +
-+static int rps_set_threshold(struct intel_rps *rps, u8 *threshold, u8 val)
++static ssize_t
++rps_up_threshold_pct_store(struct kobject *kobj, struct kobj_attribute *attr,
++			   const char *buf, size_t count)
 +{
++	struct intel_gt *gt = intel_gt_sysfs_get_drvdata(kobj, attr->attr.name);
++	struct intel_rps *rps = &gt->rps;
 +	int ret;
++	u8 val;
 +
-+	if (val > 100)
-+		return -EINVAL;
-+
-+	ret = mutex_lock_interruptible(&rps->lock);
++	ret = kstrtou8(buf, 10, &val);
 +	if (ret)
 +		return ret;
-+	*threshold = val;
-+	mutex_unlock(&rps->lock);
 +
-+	return 0;
++	ret = intel_rps_set_up_threshold(rps, val);
++
++	return ret == 0 ? count : ret;
 +}
 +
-+int intel_rps_set_up_threshold(struct intel_rps *rps, u8 threshold)
++static struct kobj_attribute rps_up_threshold_pct =
++__ATTR(rps_up_threshold_pct, 0664,
++       rps_up_threshold_pct_show, rps_up_threshold_pct_store);
++
++static ssize_t
++rps_down_threshold_pct_show(struct kobject *kobj, struct kobj_attribute *attr,
++			    char *buf)
 +{
-+	return rps_set_threshold(rps, &rps->power.up_threshold, threshold);
++	struct intel_gt *gt = intel_gt_sysfs_get_drvdata(kobj, attr->attr.name);
++	struct intel_rps *rps = &gt->rps;
++
++	return sysfs_emit(buf, "%u\n", intel_rps_get_down_threshold(rps));
 +}
 +
-+u8 intel_rps_get_down_threshold(struct intel_rps *rps)
++static ssize_t
++rps_down_threshold_pct_store(struct kobject *kobj, struct kobj_attribute *attr,
++			     const char *buf, size_t count)
 +{
-+	return rps->power.down_threshold;
++	struct intel_gt *gt = intel_gt_sysfs_get_drvdata(kobj, attr->attr.name);
++	struct intel_rps *rps = &gt->rps;
++	int ret;
++	u8 val;
++
++	ret = kstrtou8(buf, 10, &val);
++	if (ret)
++		return ret;
++
++	ret = intel_rps_set_down_threshold(rps, val);
++
++	return ret == 0 ? count : ret;
 +}
 +
-+int intel_rps_set_down_threshold(struct intel_rps *rps, u8 threshold)
-+{
-+	return rps_set_threshold(rps, &rps->power.down_threshold, threshold);
-+}
++static struct kobj_attribute rps_down_threshold_pct =
++__ATTR(rps_down_threshold_pct, 0664,
++       rps_down_threshold_pct_show, rps_down_threshold_pct_store);
 +
- static void intel_rps_set_manual(struct intel_rps *rps, bool enable)
++static const struct attribute * const gen6_gt_rps_attrs[] = {
++	&rps_up_threshold_pct.attr,
++	&rps_down_threshold_pct.attr,
++	NULL
++};
++
+ static ssize_t
+ default_min_freq_mhz_show(struct kobject *kobj, struct kobj_attribute *attr, char *buf)
  {
- 	struct intel_uncore *uncore = rps_to_uncore(rps);
-diff --git a/drivers/gpu/drm/i915/gt/intel_rps.h b/drivers/gpu/drm/i915/gt/intel_rps.h
-index a3fa987aa91f..92fb01f5a452 100644
---- a/drivers/gpu/drm/i915/gt/intel_rps.h
-+++ b/drivers/gpu/drm/i915/gt/intel_rps.h
-@@ -37,6 +37,10 @@ void intel_rps_mark_interactive(struct intel_rps *rps, bool interactive);
+@@ -693,9 +763,37 @@ default_max_freq_mhz_show(struct kobject *kobj, struct kobj_attribute *attr, cha
+ static struct kobj_attribute default_max_freq_mhz =
+ __ATTR(rps_max_freq_mhz, 0444, default_max_freq_mhz_show, NULL);
  
- int intel_gpu_freq(struct intel_rps *rps, int val);
- int intel_freq_opcode(struct intel_rps *rps, int val);
-+u8 intel_rps_get_up_threshold(struct intel_rps *rps);
-+int intel_rps_set_up_threshold(struct intel_rps *rps, u8 threshold);
-+u8 intel_rps_get_down_threshold(struct intel_rps *rps);
-+int intel_rps_set_down_threshold(struct intel_rps *rps, u8 threshold);
- u32 intel_rps_read_actual_frequency(struct intel_rps *rps);
- u32 intel_rps_read_actual_frequency_fw(struct intel_rps *rps);
- u32 intel_rps_get_requested_frequency(struct intel_rps *rps);
++static ssize_t
++default_rps_up_threshold_pct_show(struct kobject *kobj,
++				  struct kobj_attribute *attr,
++				  char *buf)
++{
++	struct intel_gt *gt = kobj_to_gt(kobj->parent);
++
++	return sysfs_emit(buf, "%u\n", gt->defaults.rps_up_threshold);
++}
++
++static struct kobj_attribute default_rps_up_threshold_pct =
++__ATTR(rps_up_threshold_pct, 0444, default_rps_up_threshold_pct_show, NULL);
++
++static ssize_t
++default_rps_down_threshold_pct_show(struct kobject *kobj,
++				    struct kobj_attribute *attr,
++				    char *buf)
++{
++	struct intel_gt *gt = kobj_to_gt(kobj->parent);
++
++	return sysfs_emit(buf, "%u\n", gt->defaults.rps_down_threshold);
++}
++
++static struct kobj_attribute default_rps_down_threshold_pct =
++__ATTR(rps_down_threshold_pct, 0444, default_rps_down_threshold_pct_show, NULL);
++
+ static const struct attribute * const rps_defaults_attrs[] = {
+ 	&default_min_freq_mhz.attr,
+ 	&default_max_freq_mhz.attr,
++	&default_rps_up_threshold_pct.attr,
++	&default_rps_down_threshold_pct.attr,
+ 	NULL
+ };
+ 
+@@ -723,6 +821,12 @@ static int intel_sysfs_rps_init(struct intel_gt *gt, struct kobject *kobj)
+ 	if (IS_VALLEYVIEW(gt->i915) || IS_CHERRYVIEW(gt->i915))
+ 		ret = sysfs_create_file(kobj, vlv_attr);
+ 
++	if (is_object_gt(kobj) && !intel_uc_uses_guc_slpc(&gt->uc)) {
++		ret = sysfs_create_files(kobj, gen6_gt_rps_attrs);
++		if (ret)
++			return ret;
++	}
++
+ 	return ret;
+ }
+ 
+diff --git a/drivers/gpu/drm/i915/gt/intel_rps.c b/drivers/gpu/drm/i915/gt/intel_rps.c
+index a5a7315f5ace..f790e81546ff 100644
+--- a/drivers/gpu/drm/i915/gt/intel_rps.c
++++ b/drivers/gpu/drm/i915/gt/intel_rps.c
+@@ -2588,7 +2588,12 @@ static int rps_set_threshold(struct intel_rps *rps, u8 *threshold, u8 val)
+ 	ret = mutex_lock_interruptible(&rps->lock);
+ 	if (ret)
+ 		return ret;
+-	*threshold = val;
++	if (*threshold != val) {
++		*threshold = val;
++		intel_rps_set(rps, clamp(rps->cur_freq,
++					 rps->min_freq_softlimit,
++					 rps->max_freq_softlimit));
++	}
+ 	mutex_unlock(&rps->lock);
+ 
+ 	return 0;
 -- 
 2.37.2
 
