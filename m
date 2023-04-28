@@ -2,63 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 554636F1990
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Apr 2023 15:31:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79D456F19A9
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Apr 2023 15:33:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 34C1510E7D9;
-	Fri, 28 Apr 2023 13:31:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AE62910E1E4;
+	Fri, 28 Apr 2023 13:33:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x336.google.com (mail-ot1-x336.google.com
- [IPv6:2607:f8b0:4864:20::336])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AE71A10E7D9;
- Fri, 28 Apr 2023 13:31:45 +0000 (UTC)
-Received: by mail-ot1-x336.google.com with SMTP id
- 46e09a7af769-6a5dd070aa1so3840262a34.3; 
- Fri, 28 Apr 2023 06:31:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1682688704; x=1685280704;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=kjkfMeDN5MElQoz8pTsP+XGTEHdi6FRFZYxvJHVi3ac=;
- b=FDeDMqBwExbEym6j6TOk37nY9oI4HncB9PyjAK3xsu85s//1YumEwNM6XHMpBiJaTl
- LIcOQoKJF3duQpQ4fi3MUuNe95JzAdbMC+jaDaenqC9vQQ1PkPeCQDxUORlr4jph7+mF
- aeh4W4qQGGJCNLbzlh8+cRDwOptfjIM4q4M1u5OCET/NL/eBuHsz2HgpROszr0KEGVox
- XSGj4sSLwyz5aSOVxxH6xSfd0oTKHk67mW+/DdbNEIUn2vRkkBoWq+38UrBLH0AHIwhl
- qxH1tfTR+iPiFkm6BnPOWuyjX76DWygTZTpasvFWXmgnhAxOU2daWz5NAHvLmcPA197T
- 7mYQ==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 45D6110E1E4
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Apr 2023 13:33:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1682688820;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=T6nMtf6Gzq3uJ6hYj+VP/gNrA7S63KDC0HhAUOQNVRE=;
+ b=Lo1vQxn9uoDbA94qo/xXBz/VbLMOqy0KEh5xDqDuYyiLUrcBNlYV+IWPTRVoE3MeijYCBu
+ SoaJVzuR9ewI7q7PhydjvWjAQo0FkXpuRcP6ATqgrg/uOwekcisU3YfUNUzQ3QvZ3UhmON
+ iv8nY0QO8s9cicTvLNWUwnVHMrCWWNM=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-634-NmWsZQPHO1KjHpqi323qLQ-1; Fri, 28 Apr 2023 09:33:38 -0400
+X-MC-Unique: NmWsZQPHO1KjHpqi323qLQ-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ 5b1f17b1804b1-3f1757ebb1eso35616345e9.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Apr 2023 06:33:38 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682688704; x=1685280704;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=kjkfMeDN5MElQoz8pTsP+XGTEHdi6FRFZYxvJHVi3ac=;
- b=DkOf2aRe7wqK5+v1v51QcWs4474qMWVQZrfuBleW6zBYOykx1dAg3i9WQVMilxZ/r8
- m2NwrkcKyy/L+VEe+O+32+cZuLVwd7uJTa41JcIq6jR7bRwpJzvuFkV7HuCrC2Od0R5l
- joKMWvUnZaARUYTBD3tW9g5LG7voFvi59NMCYUgl9Exh21peU1c12X8QYmOJlCczw6Fw
- CZcgbDWqCQhHt2VWt7oH4tnClXRXynw+pjqRf+YD0389TpxSR4m14Sg0uUQlO3QwCAuz
- 6T1MB+fpJbhD1Odj5nSmVUCbJnT870YvL+nOKj5dpsB6ifaGBKWoRh1S2iBmSAibI30o
- ekGA==
-X-Gm-Message-State: AC+VfDwdEC7McOa4izHWV90QG17XmGooAt/dNeKP1HbVAHATosNsReXD
- 76i+E8a+Add6U+ch80bKv8TXbzOnh5Jzh3g9AXk=
-X-Google-Smtp-Source: ACHHUZ7yvFYc1g1/6ZrWu+yC981EbH+g9hDzh8IJ1jVWuHgi19JnIS7N2v3hh/Wbl3/EX2jYloKqk69fVlW/msgtfZM=
-X-Received: by 2002:a05:6870:51d5:b0:18e:ae84:7d87 with SMTP id
- b21-20020a05687051d500b0018eae847d87mr2369255oaj.53.1682688704128; Fri, 28
- Apr 2023 06:31:44 -0700 (PDT)
+ d=1e100.net; s=20221208; t=1682688817; x=1685280817;
+ h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=T6nMtf6Gzq3uJ6hYj+VP/gNrA7S63KDC0HhAUOQNVRE=;
+ b=ZpwqP39bGhs74CekPnZlyZ/pl0IP7S/d+DEXHpj6MkDohZ49Dt+juEub0HwfvruB5M
+ ywE/bsTXJ6HCE3y1akQjoH54ym0OjMmAiD8aND+Jc0Tr3oq7/H727dRZ/xeGClWisycF
+ GKWttDC1Byb4orm6dp+7hNem/UoXEkCN0M0tJX/mudilI/i2RUESynmwAs5VDixBhV17
+ Z5i6TWuuwgmRoKLY5SebZh63r06l5guhyDakLf4MrOeV8OSYoLttP9FNqoL09QeiK3hW
+ 9iVyYZY3fsNjiSJmZAOVqnnQt0yde3S8TDFtdtY0eTfu+pepBcpN64B/5zMHrqpCVbrK
+ +0Ow==
+X-Gm-Message-State: AC+VfDy7YaZbRnvIWV5lxCSh38plPrT7zzRSeuc7r1RhrY8xacsqlxyf
+ qA0cfY5ONRYYV/uSMajQDesbVtDZ/kUIs1FDP6PMM+3YGgfAxdyfUeV1VSPgZv60JB2lmg23L6k
+ pLDnaaeXExmCNG8voz8IT6DuiTGqk
+X-Received: by 2002:a5d:54cb:0:b0:2f4:f727:14b9 with SMTP id
+ x11-20020a5d54cb000000b002f4f72714b9mr3754767wrv.43.1682688817682; 
+ Fri, 28 Apr 2023 06:33:37 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ4aoS11M0VcXzkzoTNNDPlJ9yq5eLNx4vXdbKR1p77ehBhl3fOopeYeVOMj3at8BjlbnCOB3Q==
+X-Received: by 2002:a5d:54cb:0:b0:2f4:f727:14b9 with SMTP id
+ x11-20020a5d54cb000000b002f4f72714b9mr3754743wrv.43.1682688817385; 
+ Fri, 28 Apr 2023 06:33:37 -0700 (PDT)
+Received: from localhost (205.pool92-176-231.dynamic.orange.es.
+ [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
+ l18-20020a05600012d200b002ceacff44c7sm21198449wrx.83.2023.04.28.06.33.36
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 28 Apr 2023 06:33:37 -0700 (PDT)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
+ daniel@ffwll.ch, deller@gmx.de, geert@linux-m68k.org,
+ sudipm.mukherjee@gmail.com, teddy.wang@siliconmotion.com
+Subject: Re: [PATCH v2 01/19] auxdisplay/cfag12864bfb: Use struct
+ fb_info.screen_buffer
+In-Reply-To: <20230428122452.4856-2-tzimmermann@suse.de>
+References: <20230428122452.4856-1-tzimmermann@suse.de>
+ <20230428122452.4856-2-tzimmermann@suse.de>
+Date: Fri, 28 Apr 2023 15:33:36 +0200
+Message-ID: <87ildggmhb.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
-References: <20230419122233.3440-1-hackyzh002@gmail.com>
- <CAF6NKda1Jy_wfxaVqWt-o75f1BO-o4JXHY9HS9_JtJ2FHztMmQ@mail.gmail.com>
- <CADnq5_MfynMAPU8c-Lq1X_dcDOdRpjW6i=m-Qo8zsZZ=dO-62w@mail.gmail.com>
- <CAF6NKdaxK_ZRkKRyWtm9Cj-8fNE9RptW3FjW-V39rmaHaCGHTw@mail.gmail.com>
-In-Reply-To: <CAF6NKdaxK_ZRkKRyWtm9Cj-8fNE9RptW3FjW-V39rmaHaCGHTw@mail.gmail.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Fri, 28 Apr 2023 09:31:33 -0400
-Message-ID: <CADnq5_MrRC-htfEn3TbR7pbs4rRZJL=zW-3swuc8VZQyHW0DXw@mail.gmail.com>
-Subject: Re: [PATCH v3 2/2] drm/amdgpu: Fix integer overflow in amdgpu_cs_pass1
-To: whitehat002 whitehat002 <hackyzh002@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,68 +84,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Xinhui.Pan@amd.com, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, christian.koenig@amd.com,
- linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
- alexander.deucher@amd.com, sumit.semwal@linaro.org,
- linux-media@vger.kernel.org
+Cc: linux-fbdev@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-these?
-https://patchwork.freedesktop.org/series/116699/
-https://patchwork.freedesktop.org/series/116695/
+Thomas Zimmermann <tzimmermann@suse.de> writes:
 
-On Thu, Apr 27, 2023 at 8:45=E2=80=AFPM whitehat002 whitehat002
-<hackyzh002@gmail.com> wrote:
+> Use info->screen_buffer when reading and writing framebuffers in
+> system memory. It's the correct pointer for this address space.
 >
-> Alex,I have a question, why I don't see it on the
-> https://patchwork.freedesktop.org/
+> The struct fb_info has a union to store the framebuffer memory. This can
+> either be info->screen_base if the framebuffer is stored in I/O memory,
+> or info->screen_buffer if the framebuffer is stored in system memory.
 >
-> Alex Deucher <alexdeucher@gmail.com> =E4=BA=8E2023=E5=B9=B44=E6=9C=8827=
-=E6=97=A5=E5=91=A8=E5=9B=9B 20:40=E5=86=99=E9=81=93=EF=BC=9A
-> >
-> > As per my prior reply, it has been applied.
-> >
-> > Thanks,
-> >
-> > Alex
-> >
-> > On Thu, Apr 27, 2023 at 8:39=E2=80=AFAM whitehat002 whitehat002
-> > <hackyzh002@gmail.com> wrote:
-> > >
-> > > hello
-> > > What is the current status of this patch, has it been applied?
-> > >
-> > >
-> > > hackyzh002 <hackyzh002@gmail.com> =E4=BA=8E2023=E5=B9=B44=E6=9C=8819=
-=E6=97=A5=E5=91=A8=E4=B8=89 20:23=E5=86=99=E9=81=93=EF=BC=9A
-> > > >
-> > > > The type of size is unsigned int, if size is 0x40000000, there will
-> > > > be an integer overflow, size will be zero after size *=3D sizeof(ui=
-nt32_t),
-> > > > will cause uninitialized memory to be referenced later.
-> > > >
-> > > > Signed-off-by: hackyzh002 <hackyzh002@gmail.com>
-> > > > ---
-> > > >  drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c | 2 +-
-> > > >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > > >
-> > > > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c b/drivers/gpu/d=
-rm/amd/amdgpu/amdgpu_cs.c
-> > > > index 08eced097..89bcacc65 100644
-> > > > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
-> > > > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
-> > > > @@ -192,7 +192,7 @@ static int amdgpu_cs_pass1(struct amdgpu_cs_par=
-ser *p,
-> > > >         uint64_t *chunk_array_user;
-> > > >         uint64_t *chunk_array;
-> > > >         uint32_t uf_offset =3D 0;
-> > > > -       unsigned int size;
-> > > > +       size_t size;
-> > > >         int ret;
-> > > >         int i;
-> > > >
-> > > > --
-> > > > 2.34.1
-> > > >
+> As the driver operates on the latter address space, it is wrong to use
+> .screen_base and .screen_buffer must be used instead. This also gets
+> rid of casting needed due to not using the correct data type.
+>
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> ---
+
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+
+-- 
+Best regards,
+
+Javier Martinez Canillas
+Core Platforms
+Red Hat
+
