@@ -1,53 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A9676F2149
-	for <lists+dri-devel@lfdr.de>; Sat, 29 Apr 2023 01:45:46 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 54FB26F2153
+	for <lists+dri-devel@lfdr.de>; Sat, 29 Apr 2023 01:45:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6244F10E341;
-	Fri, 28 Apr 2023 23:45:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 679E610EE0C;
+	Fri, 28 Apr 2023 23:45:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 18FE310E161;
- Fri, 28 Apr 2023 23:45:36 +0000 (UTC)
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 88DA710EDFF;
+ Fri, 28 Apr 2023 23:45:40 +0000 (UTC)
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
  by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 33SNesJO013584; Fri, 28 Apr 2023 23:45:31 GMT
+ 33SNfLp4013721; Fri, 28 Apr 2023 23:45:32 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references : mime-version :
  content-type; s=qcppdkim1;
- bh=Cd6T5kXO8xP3cnqm2p1FpIi5xQhaTPmdx3B2GqhBgh0=;
- b=FXc7Fd3usS/F9TuB/I0ExlrRt6xscdlVU/+B+17l+oMIgGpWEICa3A/1vQuw37RGDQBA
- 740IO+03FHTVDeUoGQFYAZM+SXGp9bO2iKFD8TUd4eMyVjdRUZ1RgqY50xeRpYIUlC+Y
- JxJ8cMlAAZsopb11gXS3j/DZREjDFH6aMK59gwnq56tNqunB7MbfrHVc38dtSjLYJSQs
- 2wGs87hpbrEjTiMy30soMUoydOhLeSHKJwqnkmmEvI5J7bxXGvdGw3jUbQf5MV3qtme/
- VXcglVPv/Y6WOJWH/Ms7DY8PSwYIq044Ww7DGaVPhqZDZyKniZc1PEDnUmIvG1yqULeo UA== 
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
+ bh=gmb12qesKT+MWDY6q3XnXs0dYeE1m8qMx7XDwVuArvk=;
+ b=YTalC/eBrNcrIvC4x2WgvkJh5svKmveF5C35vx4xLCkF0wfEkB3gidzbtp38V3ZvSJv4
+ 7modYW7wprQKdXRDetU0oqIrXT1DZyb7LJ0RtJmK/dgcoG2xIGnhZ2muRCNUqLJTpQ6K
+ XbACmPtKEgksvhShdTlNMgQNu9NG3Ou3eY3WVg86LU2WdQuncT6mv6VfDVJ4cE9ixB95
+ J/eGuOwwYqVfDZSKTIQXDOIBn1AeVi2BuUH7l1XBs6TrZ3ezx9Muo5U8oJ+HYkvBIfYo
+ All4N8Xsz4t+BNVdDiDnZ/XFT6+VkFkgaCCXx+b8zeSllgacY0Fc+Lt1v1bvcnck4O2O yg== 
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
  [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3q8jun8mww-1
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3q850cu35m-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 28 Apr 2023 23:45:30 +0000
+ Fri, 28 Apr 2023 23:45:32 +0000
 Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
  [10.47.209.196])
- by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 33SNjTgc003693
+ by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 33SNjVvD003660
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 28 Apr 2023 23:45:29 GMT
+ Fri, 28 Apr 2023 23:45:31 GMT
 Received: from khsieh-linux1.qualcomm.com (10.80.80.8) by
  nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.42; Fri, 28 Apr 2023 16:45:28 -0700
+ 15.2.986.42; Fri, 28 Apr 2023 16:45:31 -0700
 From: Kuogee Hsieh <quic_khsieh@quicinc.com>
 To: <dri-devel@lists.freedesktop.org>, <robdclark@gmail.com>,
  <sean@poorly.run>, <swboyd@chromium.org>, <dianders@chromium.org>,
  <vkoul@kernel.org>, <daniel@ffwll.ch>, <airlied@gmail.com>,
  <agross@kernel.org>, <dmitry.baryshkov@linaro.org>, <andersson@kernel.org>
-Subject: [PATCH v2 1/7] drm/msm/dpu: add support for DSC encoder v1.2 engine
-Date: Fri, 28 Apr 2023 16:45:05 -0700
-Message-ID: <1682725511-18185-2-git-send-email-quic_khsieh@quicinc.com>
+Subject: [PATCH v2 2/7] drm/msm/dpu: separate DSC flush update out of interface
+Date: Fri, 28 Apr 2023 16:45:06 -0700
+Message-ID: <1682725511-18185-3-git-send-email-quic_khsieh@quicinc.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1682725511-18185-1-git-send-email-quic_khsieh@quicinc.com>
 References: <1682725511-18185-1-git-send-email-quic_khsieh@quicinc.com>
@@ -59,16 +59,16 @@ X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
  signatures=585085
-X-Proofpoint-GUID: Ewi1w0c7XeXuPdIgBhCc_hQxlPZHQide
-X-Proofpoint-ORIG-GUID: Ewi1w0c7XeXuPdIgBhCc_hQxlPZHQide
+X-Proofpoint-ORIG-GUID: 3pn6pgr-NVcbbvkDSjawEXqr2RxOQ_pV
+X-Proofpoint-GUID: 3pn6pgr-NVcbbvkDSjawEXqr2RxOQ_pV
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
  definitions=2023-04-28_08,2023-04-27_01,2023-02-09_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 impostorscore=0
- clxscore=1015 bulkscore=0 mlxlogscore=999 priorityscore=1501
- malwarescore=0 phishscore=0 mlxscore=0 spamscore=0 suspectscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ malwarescore=0 clxscore=1011
+ suspectscore=0 mlxlogscore=888 mlxscore=0 phishscore=0 bulkscore=0
+ adultscore=0 impostorscore=0 spamscore=0 lowpriorityscore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2303200000 definitions=main-2304280199
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -89,509 +89,154 @@ Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add support for DSC 1.2 by providing the necessary hooks to program
-the DPU DSC 1.2 encoder.
+Current DSC flush update is piggyback inside dpu_hw_ctl_intf_cfg_v1().
+This patch separate DSC flush away from dpu_hw_ctl_intf_cfg_v1() by
+adding dpu_hw_ctl_update_pending_flush_dsc_v1() to handle both per
+DSC engine and DSC flush bits at same time to make it consistent with
+the location of flush programming of other dpu sub blocks.
 
-Reported-by: kernel test robot <lkp@intel.com>
 Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- drivers/gpu/drm/msm/Makefile                   |   1 +
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h |  34 ++-
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.h     |  14 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc_1_2.c | 335 +++++++++++++++++++++++++
- drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c         |   7 +-
- 5 files changed, 387 insertions(+), 4 deletions(-)
- create mode 100644 drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc_1_2.c
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 14 ++++++++++++--
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c  | 22 ++++++++++++++++------
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h  | 10 ++++++++++
+ 3 files changed, 38 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/Makefile b/drivers/gpu/drm/msm/Makefile
-index b814fc8..b9af5e4 100644
---- a/drivers/gpu/drm/msm/Makefile
-+++ b/drivers/gpu/drm/msm/Makefile
-@@ -65,6 +65,7 @@ msm-$(CONFIG_DRM_MSM_DPU) += \
- 	disp/dpu1/dpu_hw_catalog.o \
- 	disp/dpu1/dpu_hw_ctl.o \
- 	disp/dpu1/dpu_hw_dsc.o \
-+	disp/dpu1/dpu_hw_dsc_1_2.o \
- 	disp/dpu1/dpu_hw_interrupts.o \
- 	disp/dpu1/dpu_hw_intf.o \
- 	disp/dpu1/dpu_hw_lm.o \
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-index 71584cd..fc87db1 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-@@ -1,6 +1,6 @@
- /* SPDX-License-Identifier: GPL-2.0-only */
- /*
-- * Copyright (c) 2022. Qualcomm Innovation Center, Inc. All rights reserved.
-+ * Copyright (c) 2022-2023, Qualcomm Innovation Center, Inc. All rights reserved.
-  * Copyright (c) 2015-2018, 2020 The Linux Foundation. All rights reserved.
-  */
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+index 1dc5dbe..ecb87bc 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+@@ -1823,12 +1823,18 @@ dpu_encoder_dsc_initial_line_calc(struct drm_dsc_config *dsc,
+ 	return DIV_ROUND_UP(total_pixels, dsc->slice_width);
+ }
  
-@@ -241,12 +241,20 @@ enum {
- };
+-static void dpu_encoder_dsc_pipe_cfg(struct dpu_hw_dsc *hw_dsc,
++static void dpu_encoder_dsc_pipe_cfg(struct dpu_encoder_virt *dpu_enc,
++				     struct dpu_hw_dsc *hw_dsc,
+ 				     struct dpu_hw_pingpong *hw_pp,
+ 				     struct drm_dsc_config *dsc,
+ 				     u32 common_mode,
+ 				     u32 initial_lines)
+ {
++	struct dpu_encoder_phys *cur_master = dpu_enc->cur_master;
++	struct dpu_hw_ctl *ctl;
++
++	ctl = cur_master->hw_ctl;
++
+ 	if (hw_dsc->ops.dsc_config)
+ 		hw_dsc->ops.dsc_config(hw_dsc, dsc, common_mode, initial_lines);
  
- /**
-- * DSC features
-+ * DSC sub-blocks/features
-  * @DPU_DSC_OUTPUT_CTRL       Configure which PINGPONG block gets
-  *                            the pixel output from this DSC.
-+ * @DPU_DSC_HW_REV_1_1        DSC block supports dsc 1.1 only
-+ * @DPU_DSC_HW_REV_1_2        DSC block supports dsc 1.1 and 1.2
-+ * @DPU_DSC_NATIVE_422_EN     Supports native422 and native420 encoding
-+ * @DPU_DSC_MAX
-  */
- enum {
- 	DPU_DSC_OUTPUT_CTRL = 0x1,
-+	DPU_DSC_HW_REV_1_1,
-+	DPU_DSC_HW_REV_1_2,
-+	DPU_DSC_NATIVE_422_EN,
-+	DPU_DSC_MAX
- };
+@@ -1843,6 +1849,9 @@ static void dpu_encoder_dsc_pipe_cfg(struct dpu_hw_dsc *hw_dsc,
  
- /**
-@@ -311,6 +319,14 @@ struct dpu_pp_blk {
- };
+ 	if (hw_pp->ops.enable_dsc)
+ 		hw_pp->ops.enable_dsc(hw_pp);
++
++	if (ctl->ops.update_pending_flush_dsc)
++		ctl->ops.update_pending_flush_dsc(ctl, hw_dsc->idx);
+ }
  
- /**
-+ * struct dpu_dsc_blk - DSC Encoder sub-blk information
-+ * @info:   HW register and features supported by this sub-blk
-+ */
-+struct dpu_dsc_blk {
-+	DPU_HW_SUBBLK_INFO;
-+};
-+
-+/**
-  * enum dpu_qos_lut_usage - define QoS LUT use cases
-  */
- enum dpu_qos_lut_usage {
-@@ -459,6 +475,17 @@ struct dpu_pingpong_sub_blks {
- };
+ static void dpu_encoder_prep_dsc(struct dpu_encoder_virt *dpu_enc,
+@@ -1887,7 +1896,8 @@ static void dpu_encoder_prep_dsc(struct dpu_encoder_virt *dpu_enc,
+ 	initial_lines = dpu_encoder_dsc_initial_line_calc(dsc, enc_ip_w);
  
- /**
-+ * struct dpu_dsc_sub_blks - DSC sub-blks
-+ * @enc: DSC encoder sub block
-+ * @ctl: DSC controller sub block
-+ *
-+ */
-+struct dpu_dsc_sub_blks {
-+	struct dpu_dsc_blk enc;
-+	struct dpu_dsc_blk ctl;
-+};
-+
-+/**
-  * dpu_clk_ctrl_type - Defines top level clock control signals
-  */
- enum dpu_clk_ctrl_type {
-@@ -612,10 +639,13 @@ struct dpu_merge_3d_cfg  {
-  * struct dpu_dsc_cfg - information of DSC blocks
-  * @id                 enum identifying this block
-  * @base               register offset of this block
-+ * @len:               length of hardware block
-  * @features           bit mask identifying sub-blocks/features
-+ * @sblk               sub-blocks information
-  */
- struct dpu_dsc_cfg {
- 	DPU_HW_BLK_INFO;
-+	const struct dpu_dsc_sub_blks *sblk;
- };
+ 	for (i = 0; i < MAX_CHANNELS_PER_ENC; i++)
+-		dpu_encoder_dsc_pipe_cfg(hw_dsc[i], hw_pp[i], dsc, dsc_common_mode, initial_lines);
++		dpu_encoder_dsc_pipe_cfg(dpu_enc, hw_dsc[i], hw_pp[i], dsc,
++					dsc_common_mode, initial_lines);
+ }
  
- /**
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.h
-index 287ec5f..e11240a 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.h
-@@ -1,5 +1,8 @@
- /* SPDX-License-Identifier: GPL-2.0-only */
--/* Copyright (c) 2020-2022, Linaro Limited */
-+/*
-+ * Copyright (c) 2020-2022, Linaro Limited
-+ * Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved
-+ */
+ void dpu_encoder_prepare_for_kickoff(struct drm_encoder *drm_enc)
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
+index 4f7cfa9..832a6a7 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
+@@ -139,6 +139,11 @@ static inline void dpu_hw_ctl_trigger_flush_v1(struct dpu_hw_ctl *ctx)
+ 				CTL_DSPP_n_FLUSH(dspp - DSPP_0),
+ 				ctx->pending_dspp_flush_mask[dspp - DSPP_0]);
+ 		}
++
++	if (ctx->pending_flush_mask & BIT(DSC_IDX))
++		DPU_REG_WRITE(&ctx->hw, CTL_DSC_FLUSH,
++				ctx->pending_dsc_flush_mask);
++
+ 	DPU_REG_WRITE(&ctx->hw, CTL_FLUSH, ctx->pending_flush_mask);
+ }
  
- #ifndef _DPU_HW_DSC_H
- #define _DPU_HW_DSC_H
-@@ -70,6 +73,15 @@ struct dpu_hw_dsc *dpu_hw_dsc_init(const struct dpu_dsc_cfg *cfg,
- 		void __iomem *addr);
+@@ -285,6 +290,13 @@ static void dpu_hw_ctl_update_pending_flush_merge_3d_v1(struct dpu_hw_ctl *ctx,
+ 	ctx->pending_flush_mask |= BIT(MERGE_3D_IDX);
+ }
  
- /**
-+ * dpu_hw_dsc_init_1_2 - initializes the v1.2 DSC hw driver block
-+ * @cfg:  DSC catalog entry for which driver object is required
-+ * @addr: Mapped register io address of MDP
-+ * Returns: Error code or allocated dpu_hw_dsc context
-+ */
-+struct dpu_hw_dsc *dpu_hw_dsc_init_1_2(const struct dpu_dsc_cfg *cfg,
-+		void __iomem *addr);
-+
-+/**
-  * dpu_hw_dsc_destroy - destroys dsc driver context
-  * @dsc:   Pointer to dsc driver context returned by dpu_hw_dsc_init
-  */
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc_1_2.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc_1_2.c
-new file mode 100644
-index 00000000..a777c7b
---- /dev/null
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc_1_2.c
-@@ -0,0 +1,335 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * Copyright (c) 2020-2021, The Linux Foundation. All rights reserved.
-+ * Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved
-+ */
-+
-+#include <drm/display/drm_dsc_helper.h>
-+
-+#include "dpu_kms.h"
-+#include "dpu_hw_catalog.h"
-+#include "dpu_hwio.h"
-+#include "dpu_hw_mdss.h"
-+#include "dpu_hw_dsc.h"
-+
-+
-+#define DSC_CMN_MAIN_CNF           0x00
-+
-+/* DPU_DSC_ENC register offsets */
-+#define ENC_DF_CTRL                0x00
-+#define ENC_GENERAL_STATUS         0x04
-+#define ENC_HSLICE_STATUS          0x08
-+#define ENC_OUT_STATUS             0x0C
-+#define ENC_INT_STAT               0x10
-+#define ENC_INT_CLR                0x14
-+#define ENC_INT_MASK               0x18
-+#define DSC_MAIN_CONF              0x30
-+#define DSC_PICTURE_SIZE           0x34
-+#define DSC_SLICE_SIZE             0x38
-+#define DSC_MISC_SIZE              0x3C
-+#define DSC_HRD_DELAYS             0x40
-+#define DSC_RC_SCALE               0x44
-+#define DSC_RC_SCALE_INC_DEC       0x48
-+#define DSC_RC_OFFSETS_1           0x4C
-+#define DSC_RC_OFFSETS_2           0x50
-+#define DSC_RC_OFFSETS_3           0x54
-+#define DSC_RC_OFFSETS_4           0x58
-+#define DSC_FLATNESS_QP            0x5C
-+#define DSC_RC_MODEL_SIZE          0x60
-+#define DSC_RC_CONFIG              0x64
-+#define DSC_RC_BUF_THRESH_0        0x68
-+#define DSC_RC_MIN_QP_0            0x78
-+#define DSC_RC_MAX_QP_0            0x84
-+#define DSC_RC_RANGE_BPG_OFFSETS_0 0x90
-+
-+/* DPU_DSC_CTL register offsets */
-+#define DSC_CTL                    0x00
-+#define DSC_CFG                    0x04
-+#define DSC_DATA_IN_SWAP           0x08
-+#define DSC_CLK_CTRL               0x0C
-+
-+static inline int _dsc_calc_ob_max_addr(struct dpu_hw_dsc *hw_dsc, int num_ss, bool native_422)
++static void dpu_hw_ctl_update_pending_flush_dsc_v1(struct dpu_hw_ctl *ctx,
++		enum dpu_dsc dsc_num)
 +{
-+	int max_addr = 2400 / num_ss;
-+
-+	if ((hw_dsc->caps->features & BIT(DPU_DSC_NATIVE_422_EN)) && native_422)
-+		max_addr /= 2;
-+
-+	return max_addr - 1;
-+};
-+
-+static void dpu_hw_dsc_disable_1_2(struct dpu_hw_dsc *hw_dsc)
-+{
-+	struct dpu_hw_blk_reg_map *hw;
-+	u32 offset;
-+
-+	if (!hw_dsc)
-+		return;
-+
-+	hw = &hw_dsc->hw;
-+	offset = hw_dsc->caps->sblk->ctl.base;
-+	DPU_REG_WRITE(hw, offset + DSC_CFG, 0);
-+
-+	offset = hw_dsc->caps->sblk->enc.base;
-+	DPU_REG_WRITE(hw, offset + ENC_DF_CTRL, 0);
-+	DPU_REG_WRITE(hw, offset + DSC_MAIN_CONF, 0);
++	ctx->pending_dsc_flush_mask |= BIT(dsc_num - DSC_0);
++	ctx->pending_flush_mask |= BIT(DSC_IDX);
 +}
 +
-+static void dpu_hw_dsc_config_1_2(struct dpu_hw_dsc *hw_dsc,
-+			      struct drm_dsc_config *dsc,
-+			      u32 mode,
-+			      u32 initial_lines)
-+{
-+	struct dpu_hw_blk_reg_map *hw;
-+	u32 offset;
-+	u32 data = 0;
-+	u32 det_thresh_flatness;
-+	u32 num_active_ss_per_enc;
-+	u32 bpp;
+ static void dpu_hw_ctl_update_pending_flush_dspp(struct dpu_hw_ctl *ctx,
+ 	enum dpu_dspp dspp, u32 dspp_sub_blk)
+ {
+@@ -502,9 +514,6 @@ static void dpu_hw_ctl_intf_cfg_v1(struct dpu_hw_ctl *ctx,
+ 	if ((test_bit(DPU_CTL_VM_CFG, &ctx->caps->features)))
+ 		mode_sel = CTL_DEFAULT_GROUP_ID  << 28;
+ 
+-	if (cfg->dsc)
+-		DPU_REG_WRITE(&ctx->hw, CTL_DSC_FLUSH, cfg->dsc);
+-
+ 	if (cfg->intf_mode_sel == DPU_CTL_MODE_SEL_CMD)
+ 		mode_sel |= BIT(17);
+ 
+@@ -524,10 +533,8 @@ static void dpu_hw_ctl_intf_cfg_v1(struct dpu_hw_ctl *ctx,
+ 	if (cfg->merge_3d)
+ 		DPU_REG_WRITE(c, CTL_MERGE_3D_ACTIVE,
+ 			      BIT(cfg->merge_3d - MERGE_3D_0));
+-	if (cfg->dsc) {
+-		DPU_REG_WRITE(&ctx->hw, CTL_FLUSH, DSC_IDX);
++	if (cfg->dsc)
+ 		DPU_REG_WRITE(c, CTL_DSC_ACTIVE, cfg->dsc);
+-	}
+ }
+ 
+ static void dpu_hw_ctl_intf_cfg(struct dpu_hw_ctl *ctx,
+@@ -630,6 +637,9 @@ static void _setup_ctl_ops(struct dpu_hw_ctl_ops *ops,
+ 		ops->update_pending_flush_merge_3d =
+ 			dpu_hw_ctl_update_pending_flush_merge_3d_v1;
+ 		ops->update_pending_flush_wb = dpu_hw_ctl_update_pending_flush_wb_v1;
 +
-+	if (!hw_dsc || !dsc)
-+		return;
-+
-+	hw = &hw_dsc->hw;
-+
-+	offset = hw_dsc->caps->sblk->enc.base;
-+
-+	if (mode & DSC_MODE_SPLIT_PANEL)
-+		data |= BIT(0);
-+
-+	if (mode & DSC_MODE_MULTIPLEX)
-+		data |= BIT(1);
-+
-+	num_active_ss_per_enc = dsc->slice_count;
-+	if (mode & DSC_MODE_MULTIPLEX)
-+		num_active_ss_per_enc = dsc->slice_count >> 1;
-+
-+	data |= (num_active_ss_per_enc & 0x3) << 7;
-+
-+	DPU_REG_WRITE(hw, DSC_CMN_MAIN_CNF, data);
-+
-+	data = (initial_lines & 0xff);
-+
-+	if (mode & DSC_MODE_VIDEO)
-+		data |= BIT(9);
-+
-+	data |= (_dsc_calc_ob_max_addr(hw_dsc, num_active_ss_per_enc, dsc->native_422) << 18);
-+
-+	DPU_REG_WRITE(hw, offset + ENC_DF_CTRL, data);
-+
-+	data = (dsc->dsc_version_minor & 0xf) << 28;
-+	if (dsc->dsc_version_minor == 0x2) {
-+		if (dsc->native_422)
-+			data |= BIT(22);
-+		if (dsc->native_420)
-+			data |= BIT(21);
-+	}
-+
-+	bpp = dsc->bits_per_pixel;
-+	/* as per hw requirement bpp should be programmed
-+	 * twice the actual value in case of 420 or 422 encoding
++		ops->update_pending_flush_dsc =
++			dpu_hw_ctl_update_pending_flush_dsc_v1;
+ 	} else {
+ 		ops->trigger_flush = dpu_hw_ctl_trigger_flush;
+ 		ops->setup_intf_cfg = dpu_hw_ctl_intf_cfg;
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h
+index 6292002..5762752 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h
+@@ -158,6 +158,15 @@ struct dpu_hw_ctl_ops {
+ 		enum dpu_dspp blk, u32 dspp_sub_blk);
+ 
+ 	/**
++	 * OR in the given flushbits to the cached pending_(dsc_)flush_mask
++	 * No effect on hardware
++	 * @ctx       : ctl path ctx pointer
++	 * @blk       : interface block index
 +	 */
-+	if (dsc->native_422 || dsc->native_420)
-+		bpp = 2 * bpp;
-+	data |= (dsc->block_pred_enable ? 1 : 0) << 20;
-+	data |= bpp << 10;
-+	data |= (dsc->line_buf_depth & 0xf) << 6;
-+	data |= dsc->convert_rgb << 4;
-+	data |= dsc->bits_per_component & 0xf;
++	void (*update_pending_flush_dsc)(struct dpu_hw_ctl *ctx,
++		enum dpu_dsc blk);
 +
-+	DPU_REG_WRITE(hw, offset + DSC_MAIN_CONF, data);
-+
-+	data = (dsc->pic_width & 0xffff) |
-+		((dsc->pic_height & 0xffff) << 16);
-+
-+	DPU_REG_WRITE(hw, offset + DSC_PICTURE_SIZE, data);
-+
-+	data = (dsc->slice_width & 0xffff) |
-+		((dsc->slice_height & 0xffff) << 16);
-+
-+	DPU_REG_WRITE(hw, offset + DSC_SLICE_SIZE, data);
-+
-+	DPU_REG_WRITE(hw, offset + DSC_MISC_SIZE,
-+			(dsc->slice_chunk_size) & 0xffff);
-+
-+	data = (dsc->initial_xmit_delay & 0xffff) |
-+		((dsc->initial_dec_delay & 0xffff) << 16);
-+
-+	DPU_REG_WRITE(hw, offset + DSC_HRD_DELAYS, data);
-+
-+	DPU_REG_WRITE(hw, offset + DSC_RC_SCALE,
-+			dsc->initial_scale_value & 0x3f);
-+
-+	data = (dsc->scale_increment_interval & 0xffff) |
-+		((dsc->scale_decrement_interval & 0x7ff) << 16);
-+
-+	DPU_REG_WRITE(hw, offset + DSC_RC_SCALE_INC_DEC, data);
-+
-+	data = (dsc->first_line_bpg_offset & 0x1f) |
-+		((dsc->second_line_bpg_offset & 0x1f) << 5);
-+
-+	DPU_REG_WRITE(hw, offset + DSC_RC_OFFSETS_1, data);
-+
-+	data = (dsc->nfl_bpg_offset & 0xffff) |
-+		((dsc->slice_bpg_offset & 0xffff) << 16);
-+
-+	DPU_REG_WRITE(hw, offset + DSC_RC_OFFSETS_2, data);
-+
-+	data = (dsc->initial_offset & 0xffff) |
-+		((dsc->final_offset & 0xffff) << 16);
-+
-+	DPU_REG_WRITE(hw, offset + DSC_RC_OFFSETS_3, data);
-+
-+	data = (dsc->nsl_bpg_offset & 0xffff) |
-+		((dsc->second_line_offset_adj & 0xffff) << 16);
-+
-+	DPU_REG_WRITE(hw, offset + DSC_RC_OFFSETS_4, data);
-+
-+	data = (dsc->flatness_min_qp & 0x1f);
-+	data |= (dsc->flatness_max_qp & 0x1f) << 5;
-+
-+	det_thresh_flatness = drm_dsc_calculate_flatness_det_thresh(dsc);
-+	data |= (det_thresh_flatness & 0xff) << 10;
-+
-+	DPU_REG_WRITE(hw, offset + DSC_FLATNESS_QP, data);
-+
-+	DPU_REG_WRITE(hw, offset + DSC_RC_MODEL_SIZE,
-+			(dsc->rc_model_size) & 0xffff);
-+
-+	data = dsc->rc_edge_factor & 0xf;
-+	data |= (dsc->rc_quant_incr_limit0 & 0x1f) << 8;
-+	data |= (dsc->rc_quant_incr_limit1 & 0x1f) << 13;
-+	data |= (dsc->rc_tgt_offset_high & 0xf) << 20;
-+	data |= (dsc->rc_tgt_offset_low & 0xf) << 24;
-+
-+	DPU_REG_WRITE(hw, offset + DSC_RC_CONFIG, data);
-+
-+	/* program the dsc wrapper */
-+	offset = hw_dsc->caps->sblk->ctl.base;
-+
-+	data = BIT(0); /* encoder enable */
-+	if (dsc->native_422)
-+		data |= BIT(8);
-+	else if (dsc->native_420)
-+		data |= BIT(9);
-+	if (!dsc->convert_rgb)
-+		data |= BIT(10);
-+	if (dsc->bits_per_component == 8)
-+		data |= BIT(11);
-+	if (mode & DSC_MODE_SPLIT_PANEL)
-+		data |= BIT(12);
-+	if (mode & DSC_MODE_MULTIPLEX)
-+		data |= BIT(13);
-+	if (!(mode & DSC_MODE_VIDEO))
-+		data |= BIT(17);
-+
-+	DPU_REG_WRITE(hw, offset + DSC_CFG, data);
-+}
-+
-+static void dpu_hw_dsc_config_thresh_1_2(struct dpu_hw_dsc *hw_dsc,
-+					struct drm_dsc_config *dsc)
-+{
-+	struct dpu_hw_blk_reg_map *hw;
-+	u32 offset, off;
-+	int i, j = 0;
-+	struct drm_dsc_rc_range_parameters *rc;
-+	u32 data = 0, min_qp = 0, max_qp = 0, bpg_off = 0;
-+
-+	if (!hw_dsc || !dsc)
-+		return;
-+
-+	offset = hw_dsc->caps->sblk->enc.base;
-+
-+	hw = &hw_dsc->hw;
-+
-+	rc = dsc->rc_range_params;
-+
-+	/*
-+	 * With BUF_THRESH -- 14 in total
-+	 * each register contains 4 thresh values with the last register
-+	 * containing only 2 thresh values
-+	 */
-+	off = 0;
-+	for (i = 0; i < DSC_NUM_BUF_RANGES - 1; i++) {
-+		data |= dsc->rc_buf_thresh[i] << (8 * j);
-+		j++;
-+		if ((j == 4) || (i == DSC_NUM_BUF_RANGES - 2)) {
-+			DPU_REG_WRITE(hw, offset + DSC_RC_BUF_THRESH_0 + off, data);
-+			off += 4;
-+			j = 0;
-+			data = 0;
-+		}
-+	}
-+
-+
-+	/*
-+	 * with min/max_QP -- 5 bits each
-+	 * each register contains 5 min_qp or max_qp for total of 15
-+	 *
-+	 * With BPG_OFFSET -- 6 bits each
-+	 * each register contains 5 BPG_offset for total of 15
-+	 */
-+	off = 0;
-+	for (i = 0; i < DSC_NUM_BUF_RANGES; i++) {
-+		min_qp |= rc[i].range_min_qp << (5 * j);
-+		max_qp |= rc[i].range_max_qp << (5 * j);
-+		bpg_off |= rc[i].range_bpg_offset << (6 * j);
-+		j++;
-+		if (j == 5) {
-+			DPU_REG_WRITE(hw, offset + DSC_RC_MIN_QP_0 + off, min_qp);
-+			DPU_REG_WRITE(hw, offset + DSC_RC_MAX_QP_0 + off, max_qp);
-+			DPU_REG_WRITE(hw, offset + DSC_RC_RANGE_BPG_OFFSETS_0 + off, bpg_off);
-+			off += 4;
-+			j = 0;
-+			min_qp = 0;
-+			max_qp = 0;
-+			bpg_off = 0;
-+		}
-+	}
-+}
-+
-+static void dpu_hw_dsc_bind_pingpong_blk_1_2(
-+		struct dpu_hw_dsc *hw_dsc,
-+		bool enable,
-+		const enum dpu_pingpong pp)
-+{
-+	struct dpu_hw_blk_reg_map *hw;
-+	int offset;
-+	int mux_cfg = 0xf; /* Disabled */
-+
-+	offset = hw_dsc->caps->sblk->ctl.base;
-+
-+	hw = &hw_dsc->hw;
-+	if (enable)
-+		mux_cfg = (pp - PINGPONG_0) & 0x7;
-+
-+	DPU_REG_WRITE(hw, offset + DSC_CTL, mux_cfg);
-+}
-+
-+static void _setup_dcs_ops_1_2(struct dpu_hw_dsc_ops *ops,
-+		const unsigned long features)
-+{
-+	ops->dsc_disable = dpu_hw_dsc_disable_1_2;
-+	ops->dsc_config = dpu_hw_dsc_config_1_2;
-+	ops->dsc_config_thresh = dpu_hw_dsc_config_thresh_1_2;
-+	ops->dsc_bind_pingpong_blk = dpu_hw_dsc_bind_pingpong_blk_1_2;
-+}
-+
-+struct dpu_hw_dsc *dpu_hw_dsc_init_1_2(const struct dpu_dsc_cfg *cfg,
-+				   void __iomem *addr)
-+{
-+	struct dpu_hw_dsc *c;
-+
-+	c = kzalloc(sizeof(*c), GFP_KERNEL);
-+	if (!c)
-+		return ERR_PTR(-ENOMEM);
-+
-+	c->hw.blk_addr = addr + cfg->base;
-+	c->hw.log_mask = DPU_DBG_MASK_DSC;
-+
-+	c->idx = cfg->id;
-+	c->caps = cfg;
-+	_setup_dcs_ops_1_2(&c->ops, c->caps->features);
-+
-+	return c;
-+}
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
-index 3452f88..b2f618f6 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
-@@ -1,6 +1,7 @@
- // SPDX-License-Identifier: GPL-2.0-only
- /*
-  * Copyright (c) 2016-2018, The Linux Foundation. All rights reserved.
-+ * Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved.
-  */
++	/**
+ 	 * Write the value of the pending_flush_mask to hardware
+ 	 * @ctx       : ctl path ctx pointer
+ 	 */
+@@ -245,6 +254,7 @@ struct dpu_hw_ctl {
+ 	u32 pending_wb_flush_mask;
+ 	u32 pending_merge_3d_flush_mask;
+ 	u32 pending_dspp_flush_mask[DSPP_MAX - DSPP_0];
++	u32 pending_dsc_flush_mask;
  
- #define pr_fmt(fmt)	"[drm:%s] " fmt, __func__
-@@ -250,7 +251,11 @@ int dpu_rm_init(struct dpu_rm *rm,
- 		struct dpu_hw_dsc *hw;
- 		const struct dpu_dsc_cfg *dsc = &cat->dsc[i];
- 
--		hw = dpu_hw_dsc_init(dsc, mmio);
-+		if (test_bit(DPU_DSC_HW_REV_1_2, &dsc->features))
-+			hw = dpu_hw_dsc_init_1_2(dsc, mmio);
-+		else
-+			hw = dpu_hw_dsc_init(dsc, mmio);
-+
- 		if (IS_ERR_OR_NULL(hw)) {
- 			rc = PTR_ERR(hw);
- 			DPU_ERROR("failed dsc object creation: err %d\n", rc);
+ 	/* ops */
+ 	struct dpu_hw_ctl_ops ops;
 -- 
 The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
 a Linux Foundation Collaborative Project
