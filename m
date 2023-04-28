@@ -2,67 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25A146F1791
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Apr 2023 14:20:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA3A46F17BA
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Apr 2023 14:25:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3D45D10E29A;
-	Fri, 28 Apr 2023 12:20:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4D21810ED0B;
+	Fri, 28 Apr 2023 12:25:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com
- [209.85.128.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0A1DB10E29A
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Apr 2023 12:20:21 +0000 (UTC)
-Received: by mail-yw1-f171.google.com with SMTP id
- 00721157ae682-54fc6949475so113033327b3.3
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Apr 2023 05:20:21 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682684420; x=1685276420;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=7o32H4PTL3mzxqBzaVY0LbmteAecqwupnN7CxCbojaQ=;
- b=Nzzs/I+ibeL6LpqPtRtm2XX9P9psxWriP1PYGX2sr19BuEWFDqqTW0rDFUa9w0KLLD
- F9aQrvCX9EHXGZaS2OTiuji/Of6XmGXBWN+smVpgFPM4fqEoSOAf8PBro7H+HLrQMcKH
- XPOoqJ29nqQuBz3lFk6WAhaIaUyIzj1yvq94TwBn9Yj0YfNRB61/a6b36EE/n7UNqnQd
- xyTK6pfhs8z9EzKNXfJq4mbAIswTn16BG8VNHPd10vXkg2S09HPEa3wOH6OE0jZT5aA/
- bEnGHIVOyF03ivDn3BFyZrc9zGciksKUSVecONivMYoEokvPg8HeuA982otEvKqzTX6I
- lq/w==
-X-Gm-Message-State: AC+VfDxpxrJlgLLOwbfTnhnm64PZZh7Zuu0pda+jZM7b+EyY9TlIGGZm
- CwlLQ2aY6o3KVDJir1ZXk9E/3fldINocuA==
-X-Google-Smtp-Source: ACHHUZ55e0GTXcE0jz87echznKe9Aq74IlkCbjV1PNlH/SML4RhMWFpjgWvZEEaEMJQToVhLXxoomA==
-X-Received: by 2002:a81:88c5:0:b0:552:d36e:e6db with SMTP id
- y188-20020a8188c5000000b00552d36ee6dbmr3390512ywf.6.1682684420076; 
- Fri, 28 Apr 2023 05:20:20 -0700 (PDT)
-Received: from mail-yb1-f170.google.com (mail-yb1-f170.google.com.
- [209.85.219.170]) by smtp.gmail.com with ESMTPSA id
- i198-20020a816dcf000000b005463239c01esm5490942ywc.51.2023.04.28.05.20.18
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 28 Apr 2023 05:20:18 -0700 (PDT)
-Received: by mail-yb1-f170.google.com with SMTP id
- 3f1490d57ef6-b8f5121503eso14625889276.1
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Apr 2023 05:20:18 -0700 (PDT)
-X-Received: by 2002:a25:782:0:b0:b97:1e2e:a4e5 with SMTP id
- 124-20020a250782000000b00b971e2ea4e5mr3739275ybh.40.1682684417838; Fri, 28
- Apr 2023 05:20:17 -0700 (PDT)
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A1CF310ED02
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Apr 2023 12:24:58 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id B6A2A20085;
+ Fri, 28 Apr 2023 12:24:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1682684695; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=CPsrpmI15kdAMdZDSgdd2i0u00cenKxKta4utAInOB4=;
+ b=1U5g2FHBPgdFc8BjkA72LpXUE+encLy3h7SferVC2YH8jMUC6OPqYawxicvvHnqh1crtWa
+ UWDqcl/vQjSkUmxBO5CjERu/L7y1oSyxY2a/Dbvds+rXcJbVQJmmszrzn3705NS027JgOx
+ X4hpGQWx9wPqSyjFrkP2mOqI+6dl75E=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1682684695;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=CPsrpmI15kdAMdZDSgdd2i0u00cenKxKta4utAInOB4=;
+ b=qvqZ8yR4D3vFbJ7b3cMz2Wgf87osCNq0XI47D1zPxlk9WSUDhV7yX91KS4QoC8pnvRYCpt
+ LFn4/0oyahTNfyCQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 795661390E;
+ Fri, 28 Apr 2023 12:24:55 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id T6GrHBe7S2RgeAAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Fri, 28 Apr 2023 12:24:55 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
+ daniel@ffwll.ch, javierm@redhat.com, deller@gmx.de, geert@linux-m68k.org,
+ sudipm.mukherjee@gmail.com, teddy.wang@siliconmotion.com
+Subject: [PATCH v2 00/19] drm,fbdev: Use fbdev's I/O helpers
+Date: Fri, 28 Apr 2023 14:24:33 +0200
+Message-Id: <20230428122452.4856-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
-References: <20230425142846.730-1-tzimmermann@suse.de>
- <20230425142846.730-6-tzimmermann@suse.de>
- <CAMuHMdU-_w9yQHYhOCD3cz4CEY6ag-dTXjuHSLnzty0hAMBbXw@mail.gmail.com>
- <1d81e4cc-5079-12a7-4cf5-c31879396e56@suse.de>
- <CAMuHMdWDyabYxtRHtvuNZy8BjoukRdycAMK2jX+qmgc51HU5Xw@mail.gmail.com>
- <b7c09aa8-ce41-9c9a-062f-e652ea92f8a8@suse.de>
-In-Reply-To: <b7c09aa8-ce41-9c9a-062f-e652ea92f8a8@suse.de>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 28 Apr 2023 14:20:03 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUq_bkCWQJfe=j+RAC8s6Ce9KPROy7RxaoPGpUX70+EXw@mail.gmail.com>
-Message-ID: <CAMuHMdUq_bkCWQJfe=j+RAC8s6Ce9KPROy7RxaoPGpUX70+EXw@mail.gmail.com>
-Subject: Re: [PATCH 5/6] fbdev: Move CFB read and write code into helper
- functions
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,75 +63,91 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, teddy.wang@siliconmotion.com, deller@gmx.de,
- javierm@redhat.com, dri-devel@lists.freedesktop.org,
- sudipm.mukherjee@gmail.com
+Cc: linux-fbdev@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Thomas,
+Make fbdev's built-in helpers for reading and writing I/O and system
+memory available to DRM. Replace DRM's internal helpers.
 
-On Fri, Apr 28, 2023 at 1:20=E2=80=AFPM Thomas Zimmermann <tzimmermann@suse=
-.de> wrote:
-> Am 26.04.23 um 17:21 schrieb Geert Uytterhoeven:
-> > On Wed, Apr 26, 2023 at 5:06=E2=80=AFPM Thomas Zimmermann <tzimmermann@=
-suse.de> wrote:
-> >> Am 26.04.23 um 17:01 schrieb Geert Uytterhoeven:
-> >>> On Tue, Apr 25, 2023 at 4:28=E2=80=AFPM Thomas Zimmermann <tzimmerman=
-n@suse.de> wrote:
-> >>>> Move the existing CFB read and write code for I/O memory into
-> >>>> the new helpers fb_cfb_read() and fb_cfb_write(). Make them the
-> >>>> default fp_ops. No functional changes.
-> >>>>
-> >>>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> >>>> ---
-> >>>>    drivers/video/fbdev/core/Makefile      |   2 +-
-> >>>>    drivers/video/fbdev/core/fb_cfb_fops.c | 126 ++++++++++++++++++++=
-+++++
-> >>>>    drivers/video/fbdev/core/fbmem.c       | 113 +-------------------=
---
-> >>>>    include/linux/fb.h                     |  10 ++
-> >>>>    4 files changed, 139 insertions(+), 112 deletions(-)
-> >>>>    create mode 100644 drivers/video/fbdev/core/fb_cfb_fops.c
-> >>>
-> >>> While the general idea is fine, please do not call any of this "cfb",
-> >>> as it is not related to chunky color frame buffer formats.
-> >>> All of these operate on the raw frame buffer contents.
-> >>
-> >> Shall I call it fb_raw_() or fb_io_()?
-> >
-> > Given fb_memcpy_fromfb() is mapped to memcpy_fromio() on
-> > most architectures, I'd go for fb_io_*().
->
-> Ok, makes sense.
->
-> >> CFB is used by the drawing helpers, which are usually used together wi=
-th
-> >> this code. Hence the current naming.
-> >
-> > That's because your drawing helpers operate (only) on chunky color
-> > frame buffer formats ;-)
->
-> Should we rename the CFB drawing functions to fb_io_ then? AFAICT they
-> are the same algorithms as in the fb_sys_ functions; just with I/O memory=
-.
+The first 13 patches and patch 15 fix the use of screen_base and
+screen_buffer. A number of drivers mix them up.
 
-I don't know if that's worth the churn.
-Historically, the frame buffer was usually located in dedicated memory,
-hence the drawing operations operated on I/O memory.
-With the advent of unified memory architectures, the fb_sys_*()
-functions were introduced.
+Patch 14 resolves a bug that's been in the fbdev code for more than
+15 years. Makes the read/write helpers work successfully with the IGT
+tests.
 
-Gr{oetje,eeting}s,
+Patches 16 and 17 streamline fbdev's file-I/O code and remove a few
+duplicate checks.
 
-                        Geert
+Patch 18 moves the default-I/O code into the new helpers fb_io_read()
+and fb_io_write(); patch 19 uses them in DRM. This allows us to remove
+quite a bit of code from DRM's internal fbdev helpers.
 
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
+Tested with i915 and simpledrm.
 
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+The next step here is to remove the drm_fb_helper_{cfb,sys}_*()
+entirely. They where mostly introduced because fbdev doesn't protect
+it's public interfaces with an CONFIG_FB preprocessor guards. But all
+of DRM driver's fbdev emulation won't be build without CONFIG_FB, so
+this is not an issue in practice. Removing the DRM wrappers will
+further simplify the DRM code.
+
+v2:
+	* fix screen_base vs. screen_buffer usage
+	* fix copy_{from,to}_user() return value (Geert)
+	* use fb_io_() prefix (Geert)
+	* improved commit messages
+
+Thomas Zimmermann (19):
+  auxdisplay/cfag12864bfb: Use struct fb_info.screen_buffer
+  auxdisplay/ht16k33: Use struct fb_info.screen_buffer
+  hid/hid-picolcd_fb: Use struct fb_info.screen_buffer
+  fbdev/arcfb: Use struct fb_info.screen_buffer
+  fbdev/au1200fb: Use struct fb_info.screen_buffer
+  fbdev/broadsheetfb: Use struct fb_info.screen_buffer
+  fbdev/hecubafb: Use struct fb_info.screen_buffer
+  fbdev/metronomefb: Use struct fb_info.screen_buffer
+  fbdev/ps3fb: Use struct fb_info.screen_buffer
+  fbdev/smscufx: Use struct fb_info.screen_buffer
+  fbdev/udlfb: Use struct fb_info.screen_buffer
+  fbdev/vfb: Use struct fb_info.screen_buffer
+  fbdev/xen-fbfront: Use struct fb_info.screen_buffer
+  fbdev: Return number of bytes read or written
+  fbdev: Use screen_buffer in fb_sys_{read,write}()
+  fbdev: Don't re-validate info->state in fb_ops implementations
+  fbdev: Validate info->screen_{base,buffer} in fb_ops implementations
+  fbdev: Move I/O read and write code into helper functions
+  drm/fb-helper: Use fb_{cfb,sys}_{read, write}()
+
+ drivers/auxdisplay/cfag12864bfb.c      |   2 +-
+ drivers/auxdisplay/ht16k33.c           |   2 +-
+ drivers/gpu/drm/drm_fb_helper.c        | 174 +------------------------
+ drivers/hid/hid-picolcd_fb.c           |   4 +-
+ drivers/media/pci/ivtv/ivtvfb.c        |   4 +-
+ drivers/video/fbdev/arcfb.c            |  11 +-
+ drivers/video/fbdev/au1200fb.c         |   2 +-
+ drivers/video/fbdev/broadsheetfb.c     |  16 +--
+ drivers/video/fbdev/cobalt_lcdfb.c     |   6 +
+ drivers/video/fbdev/core/Makefile      |   2 +-
+ drivers/video/fbdev/core/fb_io_fops.c  | 133 +++++++++++++++++++
+ drivers/video/fbdev/core/fb_sys_fops.c |  36 ++---
+ drivers/video/fbdev/core/fbmem.c       | 111 +---------------
+ drivers/video/fbdev/hecubafb.c         |  12 +-
+ drivers/video/fbdev/metronomefb.c      |  16 +--
+ drivers/video/fbdev/ps3fb.c            |   4 +-
+ drivers/video/fbdev/pvr2fb.c           |   3 +
+ drivers/video/fbdev/sm712fb.c          |  10 +-
+ drivers/video/fbdev/smscufx.c          |  14 +-
+ drivers/video/fbdev/ssd1307fb.c        |   3 +
+ drivers/video/fbdev/udlfb.c            |  12 +-
+ drivers/video/fbdev/vfb.c              |   2 +-
+ drivers/video/fbdev/xen-fbfront.c      |   2 +-
+ include/linux/fb.h                     |  10 ++
+ 24 files changed, 239 insertions(+), 352 deletions(-)
+ create mode 100644 drivers/video/fbdev/core/fb_io_fops.c
+
+-- 
+2.40.0
+
