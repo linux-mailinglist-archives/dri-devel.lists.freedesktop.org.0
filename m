@@ -1,50 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B6206F18B5
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Apr 2023 15:02:47 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DBFF6F18BB
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Apr 2023 15:03:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 88AA410ED3F;
-	Fri, 28 Apr 2023 13:02:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D22DB10ED43;
+	Fri, 28 Apr 2023 13:03:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailrelay4-1.pub.mailoutpod2-cph3.one.com
- (mailrelay4-1.pub.mailoutpod2-cph3.one.com [46.30.211.179])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2870A10ED3F
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Apr 2023 13:02:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ravnborg.org; s=rsa1;
- h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
- from:date:from;
- bh=HuayhvMNLZFfoE8myADqJK6FtKIr57X+86B8hGYQl2w=;
- b=SCpVSm5pBCpFNh1GPhNMzRfTOCZzKYGKhLHpLD+2ZTc79BM9sphzJXLP/eU5i49qwiXVdG3HmMVO2
- rJlPp/eQ+2P/0687zUr9U1bXmFWSrMuFImw+geVAS7iu89gHEm76IvwnGdvYSlAGB/0Kxexmu7J/dt
- n5fSk4fq6NS4Ksx5FPe1Al6xk8ePeQfNBjhJfPA2TD6MW+pf64Yv5A4zWhqyQ/FkRHsSwFg5LUo+D1
- z1kJx0y+Fv4gSrpYI9oyItlclXbhXUtkTwKrGHkGi93vco5wwETkCLKb+5aHbK76jqjIA1UeLlRmIo
- noD0H3DQUEN6q90007dlOgB/3PZkgUA==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
- d=ravnborg.org; s=ed1;
- h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
- from:date:from;
- bh=HuayhvMNLZFfoE8myADqJK6FtKIr57X+86B8hGYQl2w=;
- b=o571oP5bTkKtQAvnnX2JW1r4VqmjR5xfZ4ElG+d++wteJfV9kiMGihtD2n9iS3OnQnWMyStmAVDow
- ahuQyQYBg==
-X-HalOne-ID: cdfc1691-e5c4-11ed-a696-592bb1efe9dc
-Received: from ravnborg.org (2-105-2-98-cable.dk.customer.tdc.net [2.105.2.98])
- by mailrelay4 (Halon) with ESMTPSA
- id cdfc1691-e5c4-11ed-a696-592bb1efe9dc;
- Fri, 28 Apr 2023 13:01:37 +0000 (UTC)
-Date: Fri, 28 Apr 2023 15:01:36 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH v2 3/5] fbdev: Include <linux/io.h> in various drivers
-Message-ID: <20230428130136.GC3995435@ravnborg.org>
-References: <20230428092711.406-1-tzimmermann@suse.de>
- <20230428092711.406-4-tzimmermann@suse.de>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 949E110ED40;
+ Fri, 28 Apr 2023 13:03:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1682686987; x=1714222987;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=hYK1XSLoRGsBKCo9w+lFLE47lpEyIhbguL7HZvkfN5s=;
+ b=YP/sLzxY2DPNtKFaoB0adgMKEbR41TRZVQbEcNtrLu0dgnyE+cDIhstU
+ 0P/W5hHFXlHYKgKSyDlX+6ps73F5YxX5O+MYQPzsn7tRDWLs2QGNBL02U
+ X3d31P2Li0ZE3J3ZMlhxGqwTmHPb6mEqlU05CMQCMtk4lX5S8KjSFRiMl
+ eN1RN2Un5zVuqLlRlLjGEzcNe0KRSAnZJTkFczYcGNC4sDOfN3U9w72nA
+ fh3VYsP2cd/CxIbOGL7XxJSZg11KxCIvmGUbTjiBLNmJOEgrig1YtCkb1
+ x+hrFGmwASONedTGLS+hsscjxM/fgrt0I5RU96cFQWREuG4o0MN9YL7qA w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10694"; a="350650511"
+X-IronPort-AV: E=Sophos;i="5.99,234,1677571200"; d="scan'208";a="350650511"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Apr 2023 06:03:05 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10694"; a="764276437"
+X-IronPort-AV: E=Sophos;i="5.99,234,1677571200"; d="scan'208";a="764276437"
+Received: from kdobkakr-mobl1.ger.corp.intel.com (HELO [10.249.254.45])
+ ([10.249.254.45])
+ by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Apr 2023 06:03:03 -0700
+Message-ID: <60bb9e25-062c-a893-d5cc-1c6f1362703c@linux.intel.com>
+Date: Fri, 28 Apr 2023 15:03:01 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230428092711.406-4-tzimmermann@suse.de>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [RFC PATCH] dma-buf/dma-fence: Use a successful read_trylock()
+ annotation for dma_fence_begin_signalling()
+Content-Language: en-US
+To: dri-devel@lists.freedesktop.org
+References: <20230428125233.228353-1-thomas.hellstrom@linux.intel.com>
+From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>
+In-Reply-To: <20230428125233.228353-1-thomas.hellstrom@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,70 +62,30 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arch@vger.kernel.org, linux-fbdev@vger.kernel.org,
- linux-ia64@vger.kernel.org, loongarch@lists.linux.dev, arnd@arndb.de,
- deller@gmx.de, chenhuacai@kernel.org, javierm@redhat.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- James.Bottomley@hansenpartnership.com, linux-m68k@lists.linux-m68k.org,
- geert@linux-m68k.org, linux-parisc@vger.kernel.org, vgupta@kernel.org,
- sparclinux@vger.kernel.org, kernel@xen0n.name,
- linux-snps-arc@lists.infradead.org, davem@davemloft.net,
- linux-arm-kernel@lists.infradead.org
+Cc: linaro-mm-sig@lists.linaro.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ intel-gfx@lists.freedesktop.org, Christian Koenig <christian.koenig@amd.com>,
+ intel-xe@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Apr 28, 2023 at 11:27:09AM +0200, Thomas Zimmermann wrote:
-> The code uses writel() and similar I/O-memory helpers. Include
-> the header file to get the declarations.
-> 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
-> ---
->  drivers/video/fbdev/arcfb.c       | 1 +
->  drivers/video/fbdev/aty/atyfb.h   | 2 ++
->  drivers/video/fbdev/wmt_ge_rops.c | 2 ++
->  3 files changed, 5 insertions(+)
-> 
-> diff --git a/drivers/video/fbdev/arcfb.c b/drivers/video/fbdev/arcfb.c
-> index 45e64016db32..d631d53f42ad 100644
-> --- a/drivers/video/fbdev/arcfb.c
-> +++ b/drivers/video/fbdev/arcfb.c
-> @@ -41,6 +41,7 @@
->  #include <linux/vmalloc.h>
->  #include <linux/delay.h>
->  #include <linux/interrupt.h>
-> +#include <linux/io.h>
->  #include <linux/fb.h>
->  #include <linux/init.h>
->  #include <linux/arcfb.h>
-> diff --git a/drivers/video/fbdev/aty/atyfb.h b/drivers/video/fbdev/aty/atyfb.h
-> index 465f55beb97f..30da3e82ed3c 100644
-> --- a/drivers/video/fbdev/aty/atyfb.h
-> +++ b/drivers/video/fbdev/aty/atyfb.h
-> @@ -3,8 +3,10 @@
->   *  ATI Frame Buffer Device Driver Core Definitions
->   */
->  
-> +#include <linux/io.h>
->  #include <linux/spinlock.h>
->  #include <linux/wait.h>
-> +
->      /*
->       *  Elements of the hardware specific atyfb_par structure
->       */
-> diff --git a/drivers/video/fbdev/wmt_ge_rops.c b/drivers/video/fbdev/wmt_ge_rops.c
-> index 42255d27a1db..99c7b0aea615 100644
-> --- a/drivers/video/fbdev/wmt_ge_rops.c
-> +++ b/drivers/video/fbdev/wmt_ge_rops.c
-> @@ -9,7 +9,9 @@
->  
->  #include <linux/module.h>
->  #include <linux/fb.h>
-> +#include <linux/io.h>
->  #include <linux/platform_device.h>
-> +
->  #include "core/fb_draw.h"
->  #include "wmt_ge_rops.h"
->  
-> -- 
-> 2.40.0
+
+On 4/28/23 14:52, Thomas Hellström wrote:
+> Condsider the following call sequence:
+>
+> /* Upper layer */
+> dma_fence_begin_signalling();
+> lock(tainted_shared_lock);
+> /* Driver callback */
+> dma_fence_begin_signalling();
+> ...
+
+The "Upper layer" here currently being the drm scheduler and "Driver 
+callback" being an xe scheduler callback.
+
+While opt-in annotating the drm scheduler would achieve the same result, 
+I think this patch should be considered anyway, as I don't think we will 
+miss any true lockdep violations as a result of it.
+
+/Thomas
+
+
