@@ -1,62 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D48F56F17DA
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Apr 2023 14:25:56 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 79A056F17D6
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Apr 2023 14:25:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 00A8A10ED0F;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6496B10ED19;
 	Fri, 28 Apr 2023 12:25:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 30D9E10ED1C
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Apr 2023 12:25:02 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id E53B921F5F;
- Fri, 28 Apr 2023 12:25:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1682684700; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=HsPIvbNC6GHuVXLVGI1uofvpk99oL+MDj5sIQvVPz5s=;
- b=y4yV0D6P6fdd85AriwE9Fk2PcJxrYjjSzuzQ9fHqMOUkQFtLElThbmkXZrIJDmDeDq5fJM
- tsutFZxwUJslFY0uqltPYWQc2tSRE95bDekMq6LhXOU99T2gHUafdF2DmdrYgcGr9RXsrS
- 8WHlGqcKClxG+VHtvrjdfV573Yyvxbg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1682684700;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=HsPIvbNC6GHuVXLVGI1uofvpk99oL+MDj5sIQvVPz5s=;
- b=gQYcWUxOPM2V76h7aAdE8Va16JBFjxv9IwoGBnJLCYgjWPwFO2pBuGzxlvDLmlwxcqCvIx
- rnjlS5k1Zet0UlBA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id AE8131390E;
- Fri, 28 Apr 2023 12:25:00 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id GODYKRy7S2RgeAAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Fri, 28 Apr 2023 12:25:00 +0000
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
- daniel@ffwll.ch, javierm@redhat.com, deller@gmx.de, geert@linux-m68k.org,
- sudipm.mukherjee@gmail.com, teddy.wang@siliconmotion.com
-Subject: [PATCH v2 19/19] drm/fb-helper: Use fb_{cfb,sys}_{read, write}()
-Date: Fri, 28 Apr 2023 14:24:52 +0200
-Message-Id: <20230428122452.4856-20-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.40.0
-In-Reply-To: <20230428122452.4856-1-tzimmermann@suse.de>
-References: <20230428122452.4856-1-tzimmermann@suse.de>
+Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com
+ [IPv6:2a00:1450:4864:20::52e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4184710ECED
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Apr 2023 12:25:41 +0000 (UTC)
+Received: by mail-ed1-x52e.google.com with SMTP id
+ 4fb4d7f45d1cf-506b8c6bbdbso14523814a12.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Apr 2023 05:25:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1682684739; x=1685276739;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=JZaTVYj+7JHW5ogrU2gshDHZR4SGV9IAITO2F/xNkdE=;
+ b=S09ujwy6aOa6ctTYPXwZoPuRqF36CQOsazZonATFMiCtuWUqgPKeTkzkXMlHuMRDwV
+ fLyWqUdCI9LTy5qBVXnvUr9nsc1iUB70043XxxZExzigT7J8Q5IBgzamv6tF2kALgu1Y
+ Yea9deTDF9RU3VYdjcs6b5Rjz461ikvTNh/RO1MsUPAASsf9MNnIjvxm5MHjXHO8mWd3
+ MpDfVvBEqhnqWnh/krHjWorg//QItjEdQCqnZZ+7NaRY3SFEK9fv0qHuNQP8oTu23hUq
+ XRgPM+D1+VtGFF4UcvqEN3Z1pUWM0Gxg0ZN152oSurdgRNsePO4i9JsPUHjavQrMvg1Y
+ Uwww==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1682684739; x=1685276739;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=JZaTVYj+7JHW5ogrU2gshDHZR4SGV9IAITO2F/xNkdE=;
+ b=PuPkbT/m1g/8EdKV1XP0Bp+xXgeH0F5YpHeDBMr0HQsr/32rhEfCLmY0fhbZ27Fc/Q
+ NgzChM4y5XddMDKHniqyeEBG9WApj58pvKm/eO2OyvjdR/Og5p9XgI5kMXqRfGeehC5s
+ y3jtNX31SNsuHwi8nptrt53FFccKbt423OwSNCDfr5izq5u1Ta7M9U43t9HaTMQBcCBi
+ r8Z6njn2zE+LpkDSMXjal9B/EVwMiKFfNjX5jXMWE5L2GJ8TYmMPLS0fiQ4/dTLq4S0d
+ eAERrWGlAuKUtvg/D0hpZxSsAErFZRXFTVWMKkKsBPH+10Hq2EMgRgg0l13f3LQLj9FD
+ 5snA==
+X-Gm-Message-State: AC+VfDzL000ytg++MXYeqmYNJ3qkQTojHSY+AgFISninQOrTJL65F4ef
+ kKEBD4eCOWc8BsSQkqJdOlq4dQ==
+X-Google-Smtp-Source: ACHHUZ5nE8CV6swtaa6RT8oWCahIZAfJUkO/1Goui9aA/rILn+31p0oddbno5lpzYsEOiXt4oKJLeg==
+X-Received: by 2002:a50:fb04:0:b0:506:be49:243a with SMTP id
+ d4-20020a50fb04000000b00506be49243amr4117396edq.15.1682684739187; 
+ Fri, 28 Apr 2023 05:25:39 -0700 (PDT)
+Received: from [172.23.4.26] ([31.221.30.162])
+ by smtp.gmail.com with ESMTPSA id
+ f7-20020a05640214c700b004fa380a14e7sm9102383edx.77.2023.04.28.05.25.38
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 28 Apr 2023 05:25:38 -0700 (PDT)
+Message-ID: <87d16bb4-178a-2583-5338-d9e9674da6e9@linaro.org>
+Date: Fri, 28 Apr 2023 13:25:37 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH v2 07/13] drm/msm/dpu: Add SM6350 support
+Content-Language: en-US
+To: Marijn Suijten <marijn.suijten@somainline.org>
+References: <20230411-topic-straitlagoon_mdss-v2-0-5def73f50980@linaro.org>
+ <20230411-topic-straitlagoon_mdss-v2-7-5def73f50980@linaro.org>
+ <k25jg7cez2kimpxr4ztbdzjr2adq6a2vjknyvfe5frxujtogfg@vhfdyt45unv6>
+ <b3fajcbkfxqy4bxzjezrugbetpbjxdskarr3fhtn2unhqv2srj@y2o3wfd4v7dz>
+From: Konrad Dybcio <konrad.dybcio@linaro.org>
+In-Reply-To: <b3fajcbkfxqy4bxzjezrugbetpbjxdskarr3fhtn2unhqv2srj@y2o3wfd4v7dz>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,252 +79,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Sui Jingfeng <suijingfeng@loongson.cn>,
- Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
+Cc: freedreno@lists.freedesktop.org, iommu@lists.linux.dev,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Will Deacon <will@kernel.org>, devicetree@vger.kernel.org,
+ Sean Paul <sean@poorly.run>, Joerg Roedel <joro@8bytes.org>,
+ Konrad Dybcio <konrad.dybcio@somainline.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+ Krishna Manikandan <quic_mkrishn@quicinc.com>, linux-arm-msm@vger.kernel.org,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ linux-arm-kernel@lists.infradead.org, Robin Murphy <robin.murphy@arm.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Implement DRM fbdev helpers for reading and writing framebuffer
-memory with the respective fbdev functions. Removes duplicate
-code.
 
-v2:
-	* rename fb_cfb_() to fb_io_() (Geert)
+On 4/27/23 16:48, Marijn Suijten wrote:
+> On 2023-04-27 17:37:42, Marijn Suijten wrote:
+>> On 2023-04-21 00:31:16, Konrad Dybcio wrote:
+>>> Add SM6350 support to the DPU1 driver to enable display output.
+>>>
+>>> Signed-off-by: Konrad Dybcio <konrad.dybcio@somainline.org>
+>>> Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+>> After addressing the comments from Dmitry (CURSOR0->DMA1 and
+>> CURSOR1->DMA2), this is:
+>>
+>> Reviewed-by: Marijn Suijten <marijn.suijten@somainline.org>
+>>
+>> See below for some nits.
+> Actually found one glaring issue that might explain why INTF TE wasn't
+> working for you the other day!
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Tested-by: Sui Jingfeng <suijingfeng@loongson.cn>
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
-Acked-by: Helge Deller <deller@gmx.de>
----
- drivers/gpu/drm/drm_fb_helper.c | 174 +-------------------------------
- 1 file changed, 4 insertions(+), 170 deletions(-)
+[...]
 
-diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
-index 6bb1b8b27d7a..f0e9549b6bd7 100644
---- a/drivers/gpu/drm/drm_fb_helper.c
-+++ b/drivers/gpu/drm/drm_fb_helper.c
-@@ -714,95 +714,6 @@ void drm_fb_helper_deferred_io(struct fb_info *info, struct list_head *pagerefli
- }
- EXPORT_SYMBOL(drm_fb_helper_deferred_io);
- 
--typedef ssize_t (*drm_fb_helper_read_screen)(struct fb_info *info, char __user *buf,
--					     size_t count, loff_t pos);
--
--static ssize_t __drm_fb_helper_read(struct fb_info *info, char __user *buf, size_t count,
--				    loff_t *ppos, drm_fb_helper_read_screen read_screen)
--{
--	loff_t pos = *ppos;
--	size_t total_size;
--	ssize_t ret;
--
--	if (info->screen_size)
--		total_size = info->screen_size;
--	else
--		total_size = info->fix.smem_len;
--
--	if (pos >= total_size)
--		return 0;
--	if (count >= total_size)
--		count = total_size;
--	if (total_size - count < pos)
--		count = total_size - pos;
--
--	if (info->fbops->fb_sync)
--		info->fbops->fb_sync(info);
--
--	ret = read_screen(info, buf, count, pos);
--	if (ret > 0)
--		*ppos += ret;
--
--	return ret;
--}
--
--typedef ssize_t (*drm_fb_helper_write_screen)(struct fb_info *info, const char __user *buf,
--					      size_t count, loff_t pos);
--
--static ssize_t __drm_fb_helper_write(struct fb_info *info, const char __user *buf, size_t count,
--				     loff_t *ppos, drm_fb_helper_write_screen write_screen)
--{
--	loff_t pos = *ppos;
--	size_t total_size;
--	ssize_t ret;
--	int err = 0;
--
--	if (info->screen_size)
--		total_size = info->screen_size;
--	else
--		total_size = info->fix.smem_len;
--
--	if (pos > total_size)
--		return -EFBIG;
--	if (count > total_size) {
--		err = -EFBIG;
--		count = total_size;
--	}
--	if (total_size - count < pos) {
--		if (!err)
--			err = -ENOSPC;
--		count = total_size - pos;
--	}
--
--	if (info->fbops->fb_sync)
--		info->fbops->fb_sync(info);
--
--	/*
--	 * Copy to framebuffer even if we already logged an error. Emulates
--	 * the behavior of the original fbdev implementation.
--	 */
--	ret = write_screen(info, buf, count, pos);
--	if (ret < 0)
--		return ret; /* return last error, if any */
--	else if (!ret)
--		return err; /* return previous error, if any */
--
--	*ppos += ret;
--
--	return ret;
--}
--
--static ssize_t drm_fb_helper_read_screen_buffer(struct fb_info *info, char __user *buf,
--						size_t count, loff_t pos)
--{
--	const char *src = info->screen_buffer + pos;
--
--	if (copy_to_user(buf, src, count))
--		return -EFAULT;
--
--	return count;
--}
--
- /**
-  * drm_fb_helper_sys_read - Implements struct &fb_ops.fb_read for system memory
-  * @info: fb_info struct pointer
-@@ -816,21 +727,10 @@ static ssize_t drm_fb_helper_read_screen_buffer(struct fb_info *info, char __use
- ssize_t drm_fb_helper_sys_read(struct fb_info *info, char __user *buf,
- 			       size_t count, loff_t *ppos)
- {
--	return __drm_fb_helper_read(info, buf, count, ppos, drm_fb_helper_read_screen_buffer);
-+	return fb_sys_read(info, buf, count, ppos);
- }
- EXPORT_SYMBOL(drm_fb_helper_sys_read);
- 
--static ssize_t drm_fb_helper_write_screen_buffer(struct fb_info *info, const char __user *buf,
--						 size_t count, loff_t pos)
--{
--	char *dst = info->screen_buffer + pos;
--
--	if (copy_from_user(dst, buf, count))
--		return -EFAULT;
--
--	return count;
--}
--
- /**
-  * drm_fb_helper_sys_write - Implements struct &fb_ops.fb_write for system memory
-  * @info: fb_info struct pointer
-@@ -849,7 +749,7 @@ ssize_t drm_fb_helper_sys_write(struct fb_info *info, const char __user *buf,
- 	ssize_t ret;
- 	struct drm_rect damage_area;
- 
--	ret = __drm_fb_helper_write(info, buf, count, ppos, drm_fb_helper_write_screen_buffer);
-+	ret = fb_sys_write(info, buf, count, ppos);
- 	if (ret <= 0)
- 		return ret;
- 
-@@ -921,39 +821,6 @@ void drm_fb_helper_sys_imageblit(struct fb_info *info,
- }
- EXPORT_SYMBOL(drm_fb_helper_sys_imageblit);
- 
--static ssize_t fb_read_screen_base(struct fb_info *info, char __user *buf, size_t count,
--				   loff_t pos)
--{
--	const char __iomem *src = info->screen_base + pos;
--	size_t alloc_size = min_t(size_t, count, PAGE_SIZE);
--	ssize_t ret = 0;
--	int err = 0;
--	char *tmp;
--
--	tmp = kmalloc(alloc_size, GFP_KERNEL);
--	if (!tmp)
--		return -ENOMEM;
--
--	while (count) {
--		size_t c = min_t(size_t, count, alloc_size);
--
--		memcpy_fromio(tmp, src, c);
--		if (copy_to_user(buf, tmp, c)) {
--			err = -EFAULT;
--			break;
--		}
--
--		src += c;
--		buf += c;
--		ret += c;
--		count -= c;
--	}
--
--	kfree(tmp);
--
--	return ret ? ret : err;
--}
--
- /**
-  * drm_fb_helper_cfb_read - Implements struct &fb_ops.fb_read for I/O memory
-  * @info: fb_info struct pointer
-@@ -967,43 +834,10 @@ static ssize_t fb_read_screen_base(struct fb_info *info, char __user *buf, size_
- ssize_t drm_fb_helper_cfb_read(struct fb_info *info, char __user *buf,
- 			       size_t count, loff_t *ppos)
- {
--	return __drm_fb_helper_read(info, buf, count, ppos, fb_read_screen_base);
-+	return fb_io_read(info, buf, count, ppos);
- }
- EXPORT_SYMBOL(drm_fb_helper_cfb_read);
- 
--static ssize_t fb_write_screen_base(struct fb_info *info, const char __user *buf, size_t count,
--				    loff_t pos)
--{
--	char __iomem *dst = info->screen_base + pos;
--	size_t alloc_size = min_t(size_t, count, PAGE_SIZE);
--	ssize_t ret = 0;
--	int err = 0;
--	u8 *tmp;
--
--	tmp = kmalloc(alloc_size, GFP_KERNEL);
--	if (!tmp)
--		return -ENOMEM;
--
--	while (count) {
--		size_t c = min_t(size_t, count, alloc_size);
--
--		if (copy_from_user(tmp, buf, c)) {
--			err = -EFAULT;
--			break;
--		}
--		memcpy_toio(dst, tmp, c);
--
--		dst += c;
--		buf += c;
--		ret += c;
--		count -= c;
--	}
--
--	kfree(tmp);
--
--	return ret ? ret : err;
--}
--
- /**
-  * drm_fb_helper_cfb_write - Implements struct &fb_ops.fb_write for I/O memory
-  * @info: fb_info struct pointer
-@@ -1022,7 +856,7 @@ ssize_t drm_fb_helper_cfb_write(struct fb_info *info, const char __user *buf,
- 	ssize_t ret;
- 	struct drm_rect damage_area;
- 
--	ret = __drm_fb_helper_write(info, buf, count, ppos, fb_write_screen_base);
-+	ret = fb_io_write(info, buf, count, ppos);
- 	if (ret <= 0)
- 		return ret;
- 
--- 
-2.40.0
 
+>>> +	.vbif = sm6350_vbif,
+>>> +	.reg_dma_count = 1,
+>>> +	.dma_cfg = &sm8250_regdma,
+>>> +	.perf = &sm6350_perf_data,
+>>> +	.mdss_irqs = BIT(MDP_SSPP_TOP0_INTR) | \
+>>> +		     BIT(MDP_SSPP_TOP0_INTR2) | \
+>>> +		     BIT(MDP_SSPP_TOP0_HIST_INTR) | \
+>>> +		     BIT(MDP_INTF0_INTR) | \
+>>> +		     BIT(MDP_INTF1_INTR)
+> For completeness I should've pointed out that you're missing
+> MDP_INTF1_TEAR_INTR here, likely resulting in INTF TE not working.
+>
+> - Marijn
+
+<annoyed noises>
+
+so it might have been this.. I'll retest, thanks!
+
+
+Konrad
+
+>
+> <snip>
