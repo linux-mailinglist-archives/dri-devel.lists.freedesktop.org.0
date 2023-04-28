@@ -1,67 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6EC56F18FA
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Apr 2023 15:11:06 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C33AA6F1908
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Apr 2023 15:12:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 57C3B10E30B;
-	Fri, 28 Apr 2023 13:11:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B87D410ED4F;
+	Fri, 28 Apr 2023 13:12:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 55E7A10E30B
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Apr 2023 13:11:00 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id C2B4521F7C;
- Fri, 28 Apr 2023 13:10:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1682687458; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=FRqrMM19p3HeUciJL3I7cDdZrio595+aLz1J7KWfSA0=;
- b=ZPs7qKes2T1eM8QLZc4CBCc9IEZJpUBytScxV/o9Bh+rEAs67iN0DU5yVo7hbKa9QTOv9C
- mK9UA2fpsV9/fE5LE9veGn7yCrV7IaFCxUpWwuy3SmkM3OCqiVq6NQUWULZn/USK1C9jXI
- FmG26ubpmb55xF+alDKjaZ+FFr28Xy0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1682687458;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=FRqrMM19p3HeUciJL3I7cDdZrio595+aLz1J7KWfSA0=;
- b=i8YJ+nJI6i6artOXs3jnB9Wd77oBrGUmtkYzoZ/Bvc3CbhbnzduEnZIED+jMtqxj6ajFPE
- A0fsZO0Bs1ztTdDQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 4F99A138FA;
- Fri, 28 Apr 2023 13:10:58 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id Lth9EeLFS2R/EwAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Fri, 28 Apr 2023 13:10:58 +0000
-Message-ID: <b9a67217-4665-0d31-378d-ade1d50fe5f1@suse.de>
-Date: Fri, 28 Apr 2023 15:10:57 +0200
+Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com
+ [IPv6:2a00:1450:4864:20::12d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D03C010ED4F
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Apr 2023 13:12:31 +0000 (UTC)
+Received: by mail-lf1-x12d.google.com with SMTP id
+ 2adb3069b0e04-4ec816c9d03so10984944e87.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Apr 2023 06:12:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1682687549; x=1685279549;
+ h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
+ :date:from:to:cc:subject:date:message-id:reply-to;
+ bh=ONlv/pBnNzNsJzOVny7iGg8MzK+2uBB+rwoCToG/N4o=;
+ b=aw17PQrgJMSm9BUhI9IZ9+6y47ET8u+e+Rl2lXxNBXkmu5WKNI7eGA0M2vvw/txLTV
+ UejNf5mfZrUyrTV/vL00OmXO4/n6SQxDmOwyCb0MBxRof3rjocHMKjZgz9jleztEvpb4
+ Yw5ojmV5mxHj4s5I6KitDIWYZ2fCP8OQKqnv6ZUne136ipLSgKcUyn5qh+hDpQnoM0Kw
+ 3+KEF1y9dNa1eue9d0Wz4C1Ud4Q78KbD7pdkMQ/g+n/mOVOJ1HN+STP0vM2fiph3vhFa
+ Fqkv7rrYFEs/ezy5xZh4tPkOlQcZuP9x0l/cp6U5dWvobuxq4z2sStFwvLhszzpZ1cIw
+ Gc5g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1682687549; x=1685279549;
+ h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
+ :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=ONlv/pBnNzNsJzOVny7iGg8MzK+2uBB+rwoCToG/N4o=;
+ b=XXpco9LQKPevB0hz5P/zDecIa1kFSA3DI9br/gLwdnbVor6mUZueaPURcq1tMtBl9/
+ /Jzrm2IT1NA4JDC+NPrt9Rh36hAIaHz+hV2VsdCKcBA5nkyO7pwgWHwx/qTbAWDaocaU
+ 8RBj3m0I9dJvbP5mP2OXhOabLYbzmRGJQJR4QfWn7tq55NtikYr8j8JEUGnU2VHPWtIh
+ eaCAY5SptrQWG3yJkkVoaZrX7yt6JVOLGtyxFhpxyW0N9ipfs8PqX1bQBKbpN/S8s7rp
+ QEOCTprBWI/AQ5zOkp/HlShbRtCwnvNGBpHaA5GwJ5hk0gV6SzuD6UI//PmvvXx1VoEY
+ h+yA==
+X-Gm-Message-State: AC+VfDzpNOaBtRao6I9Lx7mZ8IeO/bs0KuusOBlEL3rMB107EPJo3nRf
+ 5J67Yaj+4pMs5++JKB2gDP8=
+X-Google-Smtp-Source: ACHHUZ6WYixetXxqscnEuaye58EHNCfk7U2R+MR+HHdutBLP3n0D0AInyIH0o5xQZgTALwu/XZmzpQ==
+X-Received: by 2002:ac2:4895:0:b0:4eb:30f9:eed7 with SMTP id
+ x21-20020ac24895000000b004eb30f9eed7mr1419264lfc.22.1682687549169; 
+ Fri, 28 Apr 2023 06:12:29 -0700 (PDT)
+Received: from eldfell ([194.136.85.206]) by smtp.gmail.com with ESMTPSA id
+ w20-20020ac24434000000b004cc8196a308sm3362954lfl.98.2023.04.28.06.12.28
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 28 Apr 2023 06:12:28 -0700 (PDT)
+Date: Fri, 28 Apr 2023 16:12:18 +0300
+From: Pekka Paalanen <ppaalanen@gmail.com>
+To: Simon Ser <contact@emersion.fr>
+Subject: Re: [PATCH 2/3] drm: add define for Static_Metadata_Descriptor_ID
+Message-ID: <20230428161218.338591a4@eldfell>
+In-Reply-To: <20230428100115.9802-2-contact@emersion.fr>
+References: <20230428100115.9802-1-contact@emersion.fr>
+ <20230428100115.9802-2-contact@emersion.fr>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.24; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH v2 5/5] fbdev: Define framebuffer I/O from Linux' I/O
- functions
-Content-Language: en-US
-To: Geert Uytterhoeven <geert@linux-m68k.org>,
- Robin Murphy <robin.murphy@arm.com>
-References: <20230428092711.406-1-tzimmermann@suse.de>
- <20230428092711.406-6-tzimmermann@suse.de>
- <430c73f0-45f4-f81e-6506-bc8cc955d936@arm.com>
- <CAMuHMdUGjtiAR37L4_e0_p8ee2=gxoUj7+e7rqMLTBK+vpV4yw@mail.gmail.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <CAMuHMdUGjtiAR37L4_e0_p8ee2=gxoUj7+e7rqMLTBK+vpV4yw@mail.gmail.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------DtzGj0U2BDprAWf4ov3bjWMb"
+Content-Type: multipart/signed; boundary="Sig_/7AesK.59JS9abN2Dz7e=47p";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,84 +72,111 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arch@vger.kernel.org, linux-fbdev@vger.kernel.org,
- linux-ia64@vger.kernel.org, linux-parisc@vger.kernel.org, arnd@arndb.de,
- deller@gmx.de, chenhuacai@kernel.org, javierm@redhat.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- James.Bottomley@hansenpartnership.com, linux-m68k@lists.linux-m68k.org,
- loongarch@lists.linux.dev, vgupta@kernel.org, sparclinux@vger.kernel.org,
- kernel@xen0n.name, linux-snps-arc@lists.infradead.org, sam@ravnborg.org,
- davem@davemloft.net, linux-arm-kernel@lists.infradead.org
+Cc: Joshua Ashton <joshua@froggi.es>,
+ Sebastian Wick <sebastian.wick@redhat.com>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------DtzGj0U2BDprAWf4ov3bjWMb
-Content-Type: multipart/mixed; boundary="------------QqwzqE2k5QMQXDVM2QKm13co";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Geert Uytterhoeven <geert@linux-m68k.org>,
- Robin Murphy <robin.murphy@arm.com>
-Cc: linux-fbdev@vger.kernel.org, linux-ia64@vger.kernel.org,
- dri-devel@lists.freedesktop.org, James.Bottomley@hansenpartnership.com,
- sparclinux@vger.kernel.org, kernel@xen0n.name, sam@ravnborg.org,
- linux-arch@vger.kernel.org, deller@gmx.de, chenhuacai@kernel.org,
- javierm@redhat.com, vgupta@kernel.org, linux-snps-arc@lists.infradead.org,
- arnd@arndb.de, linux-m68k@lists.linux-m68k.org, loongarch@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-parisc@vger.kernel.org,
- linux-kernel@vger.kernel.org, davem@davemloft.net
-Message-ID: <b9a67217-4665-0d31-378d-ade1d50fe5f1@suse.de>
-Subject: Re: [PATCH v2 5/5] fbdev: Define framebuffer I/O from Linux' I/O
- functions
-References: <20230428092711.406-1-tzimmermann@suse.de>
- <20230428092711.406-6-tzimmermann@suse.de>
- <430c73f0-45f4-f81e-6506-bc8cc955d936@arm.com>
- <CAMuHMdUGjtiAR37L4_e0_p8ee2=gxoUj7+e7rqMLTBK+vpV4yw@mail.gmail.com>
-In-Reply-To: <CAMuHMdUGjtiAR37L4_e0_p8ee2=gxoUj7+e7rqMLTBK+vpV4yw@mail.gmail.com>
+--Sig_/7AesK.59JS9abN2Dz7e=47p
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
---------------QqwzqE2k5QMQXDVM2QKm13co
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+On Fri, 28 Apr 2023 10:01:29 +0000
+Simon Ser <contact@emersion.fr> wrote:
 
-SGkNCg0KQW0gMjguMDQuMjMgdW0gMTQ6Mjcgc2NocmllYiBHZWVydCBVeXR0ZXJob2V2ZW46
-DQpbLi4uXQ0KPiANCj4gSW4gYWRkaXRpb24sIHRoZSBub24tcmF3IHZhcmlhbnRzIG1heSBk
-byBzb21lIGV4dHJhcyB0byBndWFyYW50ZWUNCj4gb3JkZXJpbmcsIHdoaWNoIHlvdSBkbyBu
-b3QgbmVlZCBvbiBhIGZyYW1lIGJ1ZmZlci4NCg0KR2l2ZW4gdGhpcyBjb21tZW50LCBzaG91
-bGQgd2UgZGVjbGFyZSB0aGUgZmJfKCkgaGVscGVycyBpbiANCjxhc20tZ2VuZXJpYy9pby5o
-PiBvciA8bGludXgvaW8uaD4/DQoNCkkgc3RpbGwgZG9uJ3QgbGlrZSB0aGUgaWRlYSBvZiBo
-YXZpbmcgdGhlIGZ1bmN0aW9ucyBpbiA8bGludXgvZmIuaD4uIFdlIA0KaGF2ZSBjb2RlIGlu
-IERSTSB0aGF0IGFsc28gYWNjZXNzZXMgZnJhbWVidWZmZXIgbWVtb3J5ICh2aWEgDQptZW1j
-cHlfdG9pbygpKS4gSXQgd291bGQgbWFrZSBzZW5zZSB0byB1c2UgdGhlIGZiXygpIGhlbHBl
-cnMsIGlmIHRoZXkgDQphcmUgdGFpbG9yZWQgdG93YXJkcyB0aGlzIHVzZWNhc2UuDQoNCkJl
-c3QgcmVnYXJkcw0KVGhvbWFzDQoNCj4gDQo+IFNvIEknZCBnbyBmb3IgdGhlIF9fcmF3Xyoo
-KSB2YXJpYW50cyBldmVyeXdoZXJlLg0KPiANCj4gR3J7b2V0amUsZWV0aW5nfXMsDQo+IA0K
-PiAgICAgICAgICAgICAgICAgICAgICAgICAgR2VlcnQNCj4gDQoNCi0tIA0KVGhvbWFzIFpp
-bW1lcm1hbm4NCkdyYXBoaWNzIERyaXZlciBEZXZlbG9wZXINClNVU0UgU29mdHdhcmUgU29s
-dXRpb25zIEdlcm1hbnkgR21iSA0KRnJhbmtlbnN0cmFzc2UgMTQ2LCA5MDQ2MSBOdWVybmJl
-cmcsIEdlcm1hbnkNCkdGOiBJdm8gVG90ZXYsIEFuZHJldyBNeWVycywgQW5kcmV3IE1jRG9u
-YWxkLCBCb3VkaWVuIE1vZXJtYW4NCkhSQiAzNjgwOSAoQUcgTnVlcm5iZXJnKQ0K
+> This avoids hard-coding magic values in user-space, and makes our
+> documentation clearer.
+>=20
+> Signed-off-by: Simon Ser <contact@emersion.fr>
+> Cc: Harry Wentland <harry.wentland@amd.com>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
+> Cc: Sebastian Wick <sebastian.wick@redhat.com>
+> Cc: Joshua Ashton <joshua@froggi.es>
+> Cc: Pekka Paalanen <pekka.paalanen@collabora.com>
+> ---
+>  include/uapi/drm/drm_mode.h | 12 ++++++++++++
+>  1 file changed, 12 insertions(+)
+>=20
+> diff --git a/include/uapi/drm/drm_mode.h b/include/uapi/drm/drm_mode.h
+> index 997d23fb2d68..c0c40dc9e2f1 100644
+> --- a/include/uapi/drm/drm_mode.h
+> +++ b/include/uapi/drm/drm_mode.h
+> @@ -849,6 +849,16 @@ struct drm_color_lut {
+>  	__u16 reserved;
+>  };
+> =20
+> +/**
+> + * enum drm_hdr_metadata_type - HDR metadata descriptor ID.
+> + */
+> +enum drm_hdr_metadata_type {
+> +	/**
+> +	 * @DRM_HDR_STATIC_METADATA_TYPE1: Static Metadata Type 1.
+> +	 */
+> +	DRM_HDR_STATIC_METADATA_TYPE1 =3D 0,
+> +};
 
---------------QqwzqE2k5QMQXDVM2QKm13co--
+Hi,
 
---------------DtzGj0U2BDprAWf4ov3bjWMb
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+the subject says "define" but this is an enum. No big deal, but the
+thing I started wondering is how I am going to use these in userspace.
+There is no #define I could test to know if I need to provide a
+fallback definition. What's the migration plan for userspace to start
+using this and patch 3?
+
+Nevertheless, these are good to have.
+
+Oh, is it a libdrm version check I should use?
+
+In that case, patches 2 and 3 are
+
+Reviewed-by: Pekka Paalanen <pekka.paalanen@collabora.com>
+
+
+Thanks,
+pq
+
+
+> +
+>  /**
+>   * struct hdr_metadata_infoframe - HDR Metadata Infoframe Data.
+>   *
+> @@ -866,6 +876,7 @@ struct hdr_metadata_infoframe {
+>  	__u8 eotf;
+>  	/**
+>  	 * @metadata_type: Static_Metadata_Descriptor_ID.
+> +	 * This must be &DRM_HDR_STATIC_METADATA_TYPE1.
+>  	 */
+>  	__u8 metadata_type;
+>  	/**
+> @@ -925,6 +936,7 @@ struct hdr_metadata_infoframe {
+>  struct hdr_output_metadata {
+>  	/**
+>  	 * @metadata_type: Static_Metadata_Descriptor_ID.
+> +	 * This must be &DRM_HDR_STATIC_METADATA_TYPE1.
+>  	 */
+>  	__u32 metadata_type;
+>  	/**
+
+
+--Sig_/7AesK.59JS9abN2Dz7e=47p
+Content-Type: application/pgp-signature
 Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
 
 -----BEGIN PGP SIGNATURE-----
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmRLxeEFAwAAAAAACgkQlh/E3EQov+BG
-IxAArW6Y0YDQCNr1aySTx/07IbAHS0y+vhIgCiTpfq5oowyVudzNjdBxnedCiRjYWsZfBCjMsdfr
-SxG+xgQzdSfWxn5NIwDqE0oEckroWqzuCJYMPzjc8Y1+bJnGiNzVRI12YWtNY0GpaCjcKmUE75ex
-6c6loZmjjSiohO5mMQbUKZ2H9VchlqkPVkvuCZb5CdwzMgrMkfcfq9almxX7WdOigfXMpbg2Fk7p
-WudCvuFuCIVRRrLIsCowogRjWVN0SL7GwJUN/rHec1FCkBipWrUazGk7oTPG1AXrpOXBSSj6mRCn
-H2jj7DsWTgPHaHBBLJelQDwgN3qjA94odDVKgKWGQoncs0+x5pEhkhn1HsOdBNPq6/KpozQPMoGz
-QmooLt+AuV98nZyhlHWOxudGcY7/M1ERukgQLYzRVlHeaeQaQb+wbCBkV7Tm8ih99q64LpVwaSS/
-Nfv/k/Zfq4yu4mQv24CdUqjlH1aA/XGzlmXlAgEiPpAfAUHgHy3Yoo+tZDtA837yssImYcvhwr2y
-0cz3duc61je5Odls9Q9CS1szkJkhFpy9ctg0FrXQbv0IivBLnoxJiK7iES2y0NhXxUK/L9o+L/zc
-FEc2JYYMJyNIGFM5dtmBMo6kmUoE5FbGeuwX6Ao4p2q/IoYK7MQ29bcKMRx28VoSCpPON+jpQ95S
-M4s=
-=GGjv
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmRLxjIACgkQI1/ltBGq
+qqertg/+N077B6lwTPas5wigfehFNdnZO27q+T5K5wCeLIP/aPBPVW/WoEGvJ7IV
+b0/3B9jnzcyxKcxW1FI9aCGnXCUEgswmNMD72usYlWyJlq6rb0C/rVeZQ7NhW9I0
+JQryx6DMyVtjrLOX7gqLZ2P1uF7WUNtuYOI9wjKJfqEabTTYcJHrQnrc9YZSPHH9
+RLx4eBBLZi2OhyunhM/tvaN1sPz6CQQ9fRjmdfWLCbQREjytt0FYzRjRg70Cfrr8
+rMxFFr1yk5vocOMF9rhXnYaymMs2kMMyrjBEjgjBUYm1Ipue7FlAbnqlTH5+UeFb
+xE4IP81at2/Zus2BAre2c81/kx0snSj+3q9vVpnUUBwasTWsssjDSiw1Liq+jUxQ
+eQc3SfryWTVOFdGqL0/jPtTAefO3KT3pOA5yc+Yv2WuR5re2wXUyH0KZacSVhOMm
+XOR1dvaTcTXZ30C8GJDwQ7m6x7pdIsE9uW4edYqYbi/cOck/OijAPm7vPbQMp8/y
+Z41sQuEBFmHmpUebfCY860Wrtrx0ByVdmwducC4W4Wha1aa3efqibdB2hVETrum/
+zyhOff2vKk8fWa6QPBsGHqgiAJc20ueBtrTV7E8jmiI9RcWP9Dvf/zvMNEUiEzOw
+CSmNsQIYzoGsUrLhJ8cMm20M8C3fW2xlJFfCDstxKb2bXWL3fXw=
+=UQRu
 -----END PGP SIGNATURE-----
 
---------------DtzGj0U2BDprAWf4ov3bjWMb--
+--Sig_/7AesK.59JS9abN2Dz7e=47p--
