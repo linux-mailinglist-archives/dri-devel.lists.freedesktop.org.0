@@ -1,58 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75F796F17AB
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Apr 2023 14:25:02 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E06B6F17B1
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Apr 2023 14:25:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AE54310ED05;
-	Fri, 28 Apr 2023 12:24:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A755810ED08;
+	Fri, 28 Apr 2023 12:25:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 74FA310ED02
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Apr 2023 12:24:57 +0000 (UTC)
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AE40D10ED08
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Apr 2023 12:24:58 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 03FF820086;
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 4F45E21B34;
  Fri, 28 Apr 2023 12:24:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1682684696; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=OpwUZ9PBUAtBursC98bI9OZ0Vwg7yJS7jiV+xlbCGAw=;
- b=er+meh0E+wel4UT5E0boEeLGASuABS8UefIEpAuGp7a+Y+hIEe1Iy9VR21oXaduTKyNyaT
- LHPwXet3oOat5NQjjhQ+u1VydeitFSjpjsDcajUDn0n22ffvbWRoRVCK6wKgZ3G2sR9b5t
- kJ+VA6Y6sHTjn/lFVjjz5CHsaSChFDg=
+ bh=977BzZbdocxC5JHBNNhoVeAIGt0M39OELrLGLEkrVjo=;
+ b=oOlDRlqGNorr/+Y3TMfdToZh9WgAp4JQ8JQ+YBHcEZ52YwoMzkI3nzn80yT5802pSoyX7C
+ ATgKnL0cc9zwksFxhOFObczOK0M4L9qX4v/KAusBDDonlLxxEk3oI/lqN4W4HjOG1IPEeH
+ Lae8wc//zC28rNflr6sCFn8sEr45pRI=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1682684696;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=OpwUZ9PBUAtBursC98bI9OZ0Vwg7yJS7jiV+xlbCGAw=;
- b=EDDySLZzk/eW/mY7mlAOa6Yz41u/ZWgt69nGe4qPuFxf4WDawORJGJaCobnLFM70UJpOuj
- budHM7/6Pf0u6TCg==
+ bh=977BzZbdocxC5JHBNNhoVeAIGt0M39OELrLGLEkrVjo=;
+ b=wKArUOk3b4UDxR0OJtiv7yRaQdr5Vo/6zsphIiT58YxSDaI2e2q8vQogBHEOWuiHMXNvVW
+ HXvDsNLF00qyCvCw==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id BB660139C3;
- Fri, 28 Apr 2023 12:24:55 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 090C41390E;
+ Fri, 28 Apr 2023 12:24:56 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id +CXYLBe7S2RgeAAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Fri, 28 Apr 2023 12:24:55 +0000
+ by imap2.suse-dmz.suse.de with ESMTPSA id GCzyABi7S2RgeAAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Fri, 28 Apr 2023 12:24:56 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
  daniel@ffwll.ch, javierm@redhat.com, deller@gmx.de, geert@linux-m68k.org,
  sudipm.mukherjee@gmail.com, teddy.wang@siliconmotion.com
-Subject: [PATCH v2 01/19] auxdisplay/cfag12864bfb: Use struct
- fb_info.screen_buffer
-Date: Fri, 28 Apr 2023 14:24:34 +0200
-Message-Id: <20230428122452.4856-2-tzimmermann@suse.de>
+Subject: [PATCH v2 02/19] auxdisplay/ht16k33: Use struct fb_info.screen_buffer
+Date: Fri, 28 Apr 2023 14:24:35 +0200
+Message-Id: <20230428122452.4856-3-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.40.0
 In-Reply-To: <20230428122452.4856-1-tzimmermann@suse.de>
 References: <20230428122452.4856-1-tzimmermann@suse.de>
@@ -88,22 +87,22 @@ rid of casting needed due to not using the correct data type.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/auxdisplay/cfag12864bfb.c | 2 +-
+ drivers/auxdisplay/ht16k33.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/auxdisplay/cfag12864bfb.c b/drivers/auxdisplay/cfag12864bfb.c
-index 0df474506fb9..c2cab7e2b126 100644
---- a/drivers/auxdisplay/cfag12864bfb.c
-+++ b/drivers/auxdisplay/cfag12864bfb.c
-@@ -72,7 +72,7 @@ static int cfag12864bfb_probe(struct platform_device *device)
- 	if (!info)
- 		goto none;
+diff --git a/drivers/auxdisplay/ht16k33.c b/drivers/auxdisplay/ht16k33.c
+index 02425991c159..edaf92b7ea77 100644
+--- a/drivers/auxdisplay/ht16k33.c
++++ b/drivers/auxdisplay/ht16k33.c
+@@ -640,7 +640,7 @@ static int ht16k33_fbdev_probe(struct device *dev, struct ht16k33_priv *priv,
  
--	info->screen_base = (char __iomem *) cfag12864b_buffer;
-+	info->screen_buffer = cfag12864b_buffer;
- 	info->screen_size = CFAG12864B_SIZE;
- 	info->fbops = &cfag12864bfb_ops;
- 	info->fix = cfag12864bfb_fix;
+ 	INIT_DELAYED_WORK(&priv->work, ht16k33_fb_update);
+ 	fbdev->info->fbops = &ht16k33_fb_ops;
+-	fbdev->info->screen_base = (char __iomem *) fbdev->buffer;
++	fbdev->info->screen_buffer = fbdev->buffer;
+ 	fbdev->info->screen_size = HT16K33_FB_SIZE;
+ 	fbdev->info->fix = ht16k33_fb_fix;
+ 	fbdev->info->var = ht16k33_fb_var;
 -- 
 2.40.0
 
