@@ -1,62 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BD2F6F142D
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Apr 2023 11:27:59 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C4006F1459
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Apr 2023 11:43:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CBE2F10ECA7;
-	Fri, 28 Apr 2023 09:27:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 18B0310E3C7;
+	Fri, 28 Apr 2023 09:43:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 186FB10E030
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Apr 2023 09:27:17 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 580052002E;
- Fri, 28 Apr 2023 09:27:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1682674035; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=5VYWy/AvbpTwYMUvgq/Qf7JvO1LdK29uHbuVPQM8w+I=;
- b=GVDAylSdFB2aC8MzuHMzQQpnFsJO4b+FYu4OUDiHDHTyD+mATNULQ82rwHCWtJJ2n7oa4O
- wmtSxgAGOys9EGQlQlyGj32QskSRu6EmzTrpvbR8TcTaUiGEWxITGrBNjm9U13oGsvKd9E
- L3rjOzqF3CBsko70lonU/BQKqTYWGMo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1682674035;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=5VYWy/AvbpTwYMUvgq/Qf7JvO1LdK29uHbuVPQM8w+I=;
- b=OVW7mKvhPqZ91zi25yBTo9BJR5O4Kqqzh5IohkbwFTzfRAquwndXbRpfe1BoyZ0d8UJeDt
- 2gGjf0nPmiJngkBg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id EE31E139C3;
- Fri, 28 Apr 2023 09:27:14 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id 0HViOXKRS2ReFwAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Fri, 28 Apr 2023 09:27:14 +0000
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: deller@gmx.de, geert@linux-m68k.org, javierm@redhat.com, daniel@ffwll.ch,
- vgupta@kernel.org, chenhuacai@kernel.org, kernel@xen0n.name,
- davem@davemloft.net, James.Bottomley@HansenPartnership.com, arnd@arndb.de,
- sam@ravnborg.org
-Subject: [PATCH v2 5/5] fbdev: Define framebuffer I/O from Linux' I/O functions
-Date: Fri, 28 Apr 2023 11:27:11 +0200
-Message-Id: <20230428092711.406-6-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.40.0
-In-Reply-To: <20230428092711.406-1-tzimmermann@suse.de>
-References: <20230428092711.406-1-tzimmermann@suse.de>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A1BB710E3B6;
+ Fri, 28 Apr 2023 09:43:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1682675013; x=1714211013;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=6JMYowT+3BNj7Tyvw43TWjHH9QzaxU2LV3yJgoolpP0=;
+ b=Ihx6+d58fM1+c6vy5cl/JkaMaUnnb8/u/THOCaWCSB23Zp6Aw9dA4cAA
+ BbumVRHer7WbjLRWO6BiRDyeSBIu9JZRSQUS0o0ED237PysEr+xoFkrKE
+ MdPakGD9MGJGHG5P6EEk9OpypIVJAuTOshsCZWtMfVqeIL4o+TAiecAZL
+ LQu+AtAYrt2ib4WGDVGYv6kvJ997pldwSbkrcg03GQ+jWCmlfMZxWHzxG
+ UNvE8SCQBHBZtmc8cvqY7q/TCo8O6F+D5HAItNeA/VJOHMupVEiwnRefY
+ Kl2EIV4UsDxjzEKl/Azy9O5mwqAsOHdYL0hhz0ig2h9WHZjeYHPAjWLEH Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10693"; a="346469242"
+X-IronPort-AV: E=Sophos;i="5.99,234,1677571200"; d="scan'208";a="346469242"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Apr 2023 02:43:32 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10693"; a="759593119"
+X-IronPort-AV: E=Sophos;i="5.99,234,1677571200"; d="scan'208";a="759593119"
+Received: from ksathish-mobl.ger.corp.intel.com (HELO [10.213.194.196])
+ ([10.213.194.196])
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Apr 2023 02:43:31 -0700
+Message-ID: <962c29c2-ca50-118e-4849-77324b510929@linux.intel.com>
+Date: Fri, 28 Apr 2023 10:43:28 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [Intel-gfx] [PATCH v2 0/5] drm/i915: Allow user to set cache at
+ BO creation
+Content-Language: en-US
+To: "Yang, Fei" <fei.yang@intel.com>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>
+References: <20230426062423.320519-1-fei.yang@intel.com>
+ <c7cb1466-e698-ff3f-0572-4693c4b0025c@linux.intel.com>
+ <BYAPR11MB2567F72C44D485E628A574069A659@BYAPR11MB2567.namprd11.prod.outlook.com>
+ <7d5d497d-b552-d8d9-e58c-20f4b0ded76c@linux.intel.com>
+ <BYAPR11MB25676FC11B8AC0045BABCC849A6A9@BYAPR11MB2567.namprd11.prod.outlook.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <BYAPR11MB25676FC11B8AC0045BABCC849A6A9@BYAPR11MB2567.namprd11.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -70,122 +68,162 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arch@vger.kernel.org, linux-fbdev@vger.kernel.org,
- linux-ia64@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
- linux-parisc@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-m68k@lists.linux-m68k.org,
- loongarch@lists.linux.dev, sparclinux@vger.kernel.org,
- linux-snps-arc@lists.infradead.org, linux-arm-kernel@lists.infradead.org
+Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Implement framebuffer I/O helpers, such as fb_read*() and fb_write*()
-with Linux' regular I/O functions. Remove all ifdef cases for the
-various architectures.
 
-Most of the supported architectures use __raw_() I/O functions or treat
-framebuffer memory like regular memory. This is also implemented by the
-architectures' I/O function, so we can use them instead.
+On 27/04/2023 17:07, Yang, Fei wrote:
+>  > On 26/04/2023 16:41, Yang, Fei wrote:
+>  >>> On 26/04/2023 07:24, fei.yang@intel.com wrote:
+>  >>>> From: Fei Yang <fei.yang@intel.com>
+>  >>>>
+>  >>>> The first three patches in this series are taken from
+>  >>>> https://patchwork.freedesktop.org/series/116868/
+>  >>>> These patches are included here because the last patch
+>  >>>> has dependency on the pat_index refactor.
+>  >>>>
+>  >>>> This series is focusing on uAPI changes,
+>  >>>> 1. end support for set caching ioctl [PATCH 4/5]
+>  >>>> 2. add set_pat extension for gem_create [PATCH 5/5]
+>  >>>>
+>  >>>> v2: drop one patch that was merged separately
+>  >>>>      341ad0e8e254 drm/i915/mtl: Add PTE encode function
+>  >>>
+>  >>> Are the re-sends for stabilizing the series, or focusing on merge?
+>  >>
+>  >> v2 was sent just to drop one of patches that has already been merged.
+>  >>
+>  >>> If the latter then opens are:
+>  >>>
+>  >>> 1) Link to Mesa MR reviewed and ready to merge.
+>  >>>
+>  >>> 2) IGT reviewed.
+>  >>>
+>  >>> 3) I raised an open that get/set_caching should not "lie" but return an
+>  >>> error if set pat extension has been used. I don't see a good reason not
+>  >>> to do that.
+>  >>
+>  >> I don't think it's "lying" to the userspace. the comparison is only 
+> valid
+>  >> for objects created by KMD because only such object uses the pat_index
+>  >> from the cachelevel_to_pat table.
+>  >
+>  > Lets double check my understanding is correct. Userspace sequence of
+>  > operations:
+>  > 1)
+>  > obj = gem_create()+set_pat(PAT_UC)
+>  >
+>  > 2a)
+>  > get_caching(obj)
+>> What gets reported?
+> 
+> I see your point here. nice catch.
+> That should be handled by,
+> if (obj->cachel_level == I915_CACHE_INVAL) /* indicated pat-index is set 
+> by userspace */
+>       return -EOPNOTSUPP;
+> Will update the patch.
+> 
+>  >
+>  > 2b)
+>  > set_caching(obj, I915_CACHE_LLC)
+>> What is the return code?
+> 
+> This will either return -EOPNOTSUPP, or ignored because set_pat 
+> extension was called.
 
-Sparc uses SBus to connect to framebuffer devices. It provides respective
-implementations of the framebuffer I/O helpers. The involved sbus_()
-I/O helpers map to the same code as Sparc's regular I/O functions. As
-with other platforms, we can use those instead.
+I see that you made it fail instead of fake success in the latest respin 
+and I definitely agree with that.
 
-We leave a TODO item to replace all fb_() functions with their regular
-I/O counterparts throughout the fbdev drivers.
+> 
+>  >
+>  > If answer to 2a is I915_CACHING_CACHED and to 2b) success, then please
+>  > state a good reason why both shouldn't return an error.
+>  >
+>  >>
+>  >>> + Joonas on this one.
+>  >>>
+>  >>> 4) Refactoring as done is not very pretty and I proposed an idea for a
+>  >>> nicer approach. Feasible or not, open for discussion.
+>  >>
+>  >> Still digesting your proposal. but not sure how would you define things
+>  >> like PAT_UC as that is platform dependent, not a constant.
+>  >
+>  > "PAT_UC" in my outline was purely a driver specific value, similarly as
+>  > I915_CACHE_... are.
+> 
+> Okay. Then you were suggesting to add a translation table for 
+> pat_index-to-(PAT-UC/WB/WT)?
+> It's going to be a N:1 mapping.
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
----
- include/linux/fb.h | 63 +++++++++++-----------------------------------
- 1 file changed, 15 insertions(+), 48 deletions(-)
+PAT index to a value, probably a bitmask, built out of bits which define 
+caching modes. Like "PAT_WB | PAT_1WAY_COHERENT", or just PAT_WB. Would 
+that approach be enough to express everything?
 
-diff --git a/include/linux/fb.h b/include/linux/fb.h
-index 08cb47da71f8..4aa9e90edd17 100644
---- a/include/linux/fb.h
-+++ b/include/linux/fb.h
-@@ -15,7 +15,6 @@
- #include <linux/list.h>
- #include <linux/backlight.h>
- #include <linux/slab.h>
--#include <asm/io.h>
- 
- struct vm_area_struct;
- struct fb_info;
-@@ -511,58 +510,26 @@ struct fb_info {
-  */
- #define STUPID_ACCELF_TEXT_SHIT
- 
--// This will go away
--#if defined(__sparc__)
--
--/* We map all of our framebuffers such that big-endian accesses
-- * are what we want, so the following is sufficient.
-+/*
-+ * TODO: Update fbdev drivers to call the I/O helpers directly and
-+ *       remove the fb_() tokens.
-  */
--
--// This will go away
--#define fb_readb sbus_readb
--#define fb_readw sbus_readw
--#define fb_readl sbus_readl
--#define fb_readq sbus_readq
--#define fb_writeb sbus_writeb
--#define fb_writew sbus_writew
--#define fb_writel sbus_writel
--#define fb_writeq sbus_writeq
--#define fb_memset sbus_memset_io
--#define fb_memcpy_fromfb sbus_memcpy_fromio
--#define fb_memcpy_tofb sbus_memcpy_toio
--
--#elif defined(__i386__) || defined(__alpha__) || defined(__x86_64__) ||	\
--	defined(__hppa__) || defined(__sh__) || defined(__powerpc__) ||	\
--	defined(__arm__) || defined(__aarch64__) || defined(__mips__)
--
--#define fb_readb __raw_readb
--#define fb_readw __raw_readw
--#define fb_readl __raw_readl
--#define fb_readq __raw_readq
--#define fb_writeb __raw_writeb
--#define fb_writew __raw_writew
--#define fb_writel __raw_writel
--#define fb_writeq __raw_writeq
-+#define fb_readb readb
-+#define fb_readw readw
-+#define fb_readl readl
-+#if defined(CONFIG_64BIT)
-+#define fb_readq readq
-+#endif
-+#define fb_writeb writeb
-+#define fb_writew writew
-+#define fb_writel writel
-+#if defined(CONFIG_64BIT)
-+#define fb_writeq writeq
-+#endif
- #define fb_memset memset_io
- #define fb_memcpy_fromfb memcpy_fromio
- #define fb_memcpy_tofb memcpy_toio
- 
--#else
--
--#define fb_readb(addr) (*(volatile u8 *) (addr))
--#define fb_readw(addr) (*(volatile u16 *) (addr))
--#define fb_readl(addr) (*(volatile u32 *) (addr))
--#define fb_readq(addr) (*(volatile u64 *) (addr))
--#define fb_writeb(b,addr) (*(volatile u8 *) (addr) = (b))
--#define fb_writew(b,addr) (*(volatile u16 *) (addr) = (b))
--#define fb_writel(b,addr) (*(volatile u32 *) (addr) = (b))
--#define fb_writeq(b,addr) (*(volatile u64 *) (addr) = (b))
--#define fb_memset memset
--#define fb_memcpy_fromfb memcpy
--#define fb_memcpy_tofb memcpy
--
--#endif
--
- #define FB_LEFT_POS(p, bpp)          (fb_be_math(p) ? (32 - (bpp)) : 0)
- #define FB_SHIFT_HIGH(p, val, bits)  (fb_be_math(p) ? (val) >> (bits) : \
- 						      (val) << (bits))
--- 
-2.40.0
+> 
+>  > With the whole point that driver can ask if
+>  > something is uncached, WT or whatever. Using the platform specific
+>  > mapping table which converts platform specific obj->pat_index to driver
+>  > representation of caching modes (PAT_UC etc).
+> 
+> Are you suggesting completely remove i915_cache_level and use 
+> (PAT-UC/WB/WT) instead?
 
+Not completely but throughout the most internal code paths, which would 
+all just work on PAT index. Basically object always has PAT index set, 
+with a separate boolean saying whether it came from gem_create_ext or 
+set_cache_level.
+
+> Let's say a KMD object wants to be set as WB, how you get the exact 
+> pat_index to use?
+> Note that there are multiple PAT indices having caching mod WB, but they 
+> are different,
+> e.g. do you want just WB or WB with 1-way-coherency or WB with 2-way 
+> coherency?
+
+Just use the cache_level to pat_index mapping you added in the series?
+
+> Also, in case a checking of pat_index is needed, do we say WB with 
+> 1-way-coherency is
+> equal to WB or not?
+
+You mean the call sites where i915 is checking the object caching mode?
+
+We have two call sites which check for !I915_CACHE_NONE. Those would 
+just check if PAT_UC is not set.
+
+Then the one in gpu_write_needs_clflush is checking for neither UC nor 
+WT, which also directly translates.
+
+For the WB case there aren't any callers but if we just checked for 
+"base" PAT_WB bit being set that would work.
+
+So in all cases helper which does "return bits_required | bits_set" 
+seems would work fine.
+
+> BTW, isn't PAT-UC/WB/WT the same kind of abstraction as enum 
+> i915_cache_level, I'm not
+> sure how that would simplify anything.
+
+As I wrote before, I *think* it provides a way of not needing to 
+sprinkle around i915_gem_get_pat_index and a simpler "has_cache_level". 
+Conceptually cache_level->pat_index is done only in gem_create_ext and 
+set_cache_level. Lower level code does not have to consult cache_level 
+at all. And existence of tables simplifies the pretty printing code to a 
+platform agnostic loop.
+
+I *think* at least.. We can leave it all for later. My main concern was 
+that UAPI needs to be clear and solid which it now seems to be.
+
+Regards,
+
+Tvrtko
+
+> 
+>  > Quite possible I missed some detail, but if I haven't then it could be
+>  > a neat and lightweight solution.
+>  >
+>  > Regards,
+>  >
+>  > Tvrtko
