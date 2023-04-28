@@ -1,52 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E8416F151D
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Apr 2023 12:16:05 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 50E3F6F152B
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Apr 2023 12:18:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2B89110E3A1;
-	Fri, 28 Apr 2023 10:16:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B21CD10ECC6;
+	Fri, 28 Apr 2023 10:18:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1336D10E3A1;
- Fri, 28 Apr 2023 10:15:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1682676960; x=1714212960;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=qSnBD9Q/OPngNLKT5XE2IH5dyiEzxoNCFq97JA9HfyU=;
- b=lWYucIY6+OIKgt1/eFPFuYIuyKDMyV9p5HwUE2Wc3s4BJZ/+bwJLmLJ3
- R2k6LHMN3JVVRENak1nB9NY1pf70cPCgMxGwkfTFTftErn1ILnW6+FB5W
- 9CdXmQ11rYpwtBdz7k1oOKvqy45Vg1hpRYv23NxPZoL07UFr6cKGUFu7p
- pMCd3T0BDPqYU+601yblNyhazYnu4ikdpE785eMtL8y52RBt+XEDfC9zT
- 7cZUkMRoTxk1Ks9naS2Np94ASjh5M/xUuH8Lt8c3kU2L/mrWFDYbFpGZa
- bOceyEIJACcawJ4Sbz2cLX/VhyrvbyHjZQ8/PhYb031nkmBqDtIY8a0z1 A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10693"; a="336764979"
-X-IronPort-AV: E=Sophos;i="5.99,234,1677571200"; d="scan'208";a="336764979"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Apr 2023 03:15:58 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10693"; a="838802319"
-X-IronPort-AV: E=Sophos;i="5.99,234,1677571200"; d="scan'208";a="838802319"
-Received: from ahermans-mobl1.ger.corp.intel.com (HELO intel.com)
- ([10.252.35.91])
- by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Apr 2023 03:15:53 -0700
-Date: Fri, 28 Apr 2023 12:15:51 +0200
-From: Andi Shyti <andi.shyti@linux.intel.com>
-To: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
-Subject: Re: [RFC PATCH] x86/mm: Fix PAT bit missing from page protection
- modify mask
-Message-ID: <ZEuc12/4hilGXYUL@ashyti-mobl2.lan>
-References: <20230424123524.17008-1-janusz.krzysztofik@linux.intel.com>
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4F71210ECC6;
+ Fri, 28 Apr 2023 10:18:20 +0000 (UTC)
+Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 265436602097;
+ Fri, 28 Apr 2023 11:18:17 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1682677097;
+ bh=Yk5D9b+oPUkoCZwzeMIIJtHOgvXide7fZoW+I8ghpV0=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=mhhECMNxkLs1iW+QaB2pRm8nUySryOtAT9Y4NOyMqr2EqHYzZmpOT+adaU6/ID1a9
+ no1OdnK+ALZIj8/C7cBWw20X2bNzE89ZFuf6mYMbos909zeCh8D7m0E2UFsLyi3fri
+ MJloqfSnhMn9R9NfMh89i03ukNYFMrsV08bymj3SSPhXtXvaNygxNTThFredKI91aT
+ E3NP3647tgYI23H9PtLyuLvhEXAJoK4jHGAjfi09ZqIlAzfKWTKK6G/5bZj9bKGvUX
+ sM8uGnfSD66AngdfS1WteFdbKzplq4xmhjx4GPFm5NVhHHnboQ0n6DZdSmsdshX2G0
+ mCGmVSSVOfJmw==
+Date: Fri, 28 Apr 2023 12:18:13 +0200
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Danilo Krummrich <dakr@redhat.com>
+Subject: Re: [PATCH drm-next v3 04/15] drm: manager to keep track of GPUs VA
+ mappings
+Message-ID: <20230428121813.309ea609@collabora.com>
+In-Reply-To: <20230404012741.116502-5-dakr@redhat.com>
+References: <20230404012741.116502-1-dakr@redhat.com>
+ <20230404012741.116502-5-dakr@redhat.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.36; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230424123524.17008-1-janusz.krzysztofik@linux.intel.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,94 +54,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Juergen Gross <jgross@suse.com>, x86@kernel.org,
- Yu Zhao <yuzhao@google.com>, David Hildenbrand <david@redhat.com>,
- intel-gfx@lists.freedesktop.org, Dave Hansen <dave.hansen@linux.intel.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Andrzej Hajda <andrzej.hajda@intel.com>, Ingo Molnar <mingo@redhat.com>,
- Borislav Petkov <bp@alien8.de>, Andi Shyti <andi.shyti@linux.intel.com>,
- "H. Peter Anvin" <hpa@zytor.com>, Thomas Gleixner <tglx@linutronix.de>,
- Chris Wilson <chris.p.wilson@linux.intel.com>,
- Andrew Morton <akpm@linux-foundation.org>, Nirmoy Das <nirmoy.das@intel.com>
+Cc: matthew.brost@intel.com, willy@infradead.org,
+ dri-devel@lists.freedesktop.org, corbet@lwn.net, nouveau@lists.freedesktop.org,
+ ogabbay@kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-mm@kvack.org, bskeggs@redhat.com, tzimmermann@suse.de,
+ Liam.Howlett@oracle.com, Dave Airlie <airlied@redhat.com>,
+ bagasdotme@gmail.com, christian.koenig@amd.com, jason@jlekstrand.net
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Janusz,
+On Tue,  4 Apr 2023 03:27:30 +0200
+Danilo Krummrich <dakr@redhat.com> wrote:
 
-On Mon, Apr 24, 2023 at 02:35:24PM +0200, Janusz Krzysztofik wrote:
-> Visible glitches have been observed when running graphics applications on
-> Linux under Xen hypervisor.  Those observations have been confirmed with
-> failures from kms_pwrite_crc Intel GPU test that verifies data coherency
-> of DRM frame buffer objects using hardware CRC checksums calculated by
-> display controllers, exposed to userspace via debugfs.  Affected
-> processing paths have then been identified with new test variants that
-> mmap the objects using different methods and caching modes.
-> 
-> When running as a Xen PV guest, Linux uses Xen provided PAT configuration
-> which is different from its native one.  In particular, Xen specific PTE
-> encoding of write-combining caching, likely used by graphics applications,
-> differs from the Linux default one found among statically defined minimal
-> set of supported modes.  Since Xen defines PTE encoding of the WC mode as
-> _PAGE_PAT, it no longer belongs to the minimal set, depends on correct
-> handling of _PAGE_PAT bit, and can be mismatched with write-back caching.
-> 
-> When a user calls mmap() for a DRM buffer object, DRM device specific
-> .mmap file operation, called from mmap_region(), takes care of setting PTE
-> encoding bits in a vm_page_prot field of an associated virtual memory area
-> structure.  Unfortunately, _PAGE_PAT bit is not preserved when the vma's
-> .vm_flags are then applied to .vm_page_prot via vm_set_page_prot().  Bits
-> to be preserved are determined with _PAGE_CHG_MASK symbol that doesn't
-> cover _PAGE_PAT.  As a consequence, WB caching is requested instead of WC
-> when running under Xen (also, WP is silently changed to WT, and UC
-> downgraded to UC_MINUS).  When running on bare metal, WC is not affected,
-> but WP and WT extra modes are unintentionally replaced with WC and UC,
-> respectively.
-> 
-> WP and WT modes, encoded with _PAGE_PAT bit set, were introduced by commit
-> 281d4078bec3 ("x86: Make page cache mode a real type").  Care was taken
-> to extend _PAGE_CACHE_MASK symbol with that additional bit, but that
-> symbol has never been used for identification of bits preserved when
-> applying page protection flags.  Support for all cache modes under Xen,
-> including the problematic WC mode, was then introduced by commit
-> 47591df50512 ("xen: Support Xen pv-domains using PAT").
-> 
-> Extend bitmask used by pgprot_modify() for selecting bits to be preserved
-> with _PAGE_PAT bit.  However, since that bit can be reused as _PAGE_PSE,
-> and the _PAGE_CHG_MASK symbol, primarly used by pte_modify(), is likely
-> intentionally defined with that bit not set, keep that symbol unchanged.
-> 
-> Closes: https://gitlab.freedesktop.org/drm/intel/-/issues/7648
-> Fixes: 281d4078bec3 ("x86: Make page cache mode a real type")
-> Signed-off-by: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
-> Cc: stable@vger.kernel.org # v3.19+
-> ---
->  arch/x86/include/asm/pgtable.h | 6 ++++--
->  1 file changed, 4 insertions(+), 2 deletions(-)
-> 
-> diff --git a/arch/x86/include/asm/pgtable.h b/arch/x86/include/asm/pgtable.h
-> index 7425f32e52932..f797f8da2e5b6 100644
-> --- a/arch/x86/include/asm/pgtable.h
-> +++ b/arch/x86/include/asm/pgtable.h
-> @@ -654,8 +654,10 @@ static inline pmd_t pmd_modify(pmd_t pmd, pgprot_t newprot)
->  #define pgprot_modify pgprot_modify
->  static inline pgprot_t pgprot_modify(pgprot_t oldprot, pgprot_t newprot)
->  {
-> -	pgprotval_t preservebits = pgprot_val(oldprot) & _PAGE_CHG_MASK;
-> -	pgprotval_t addbits = pgprot_val(newprot) & ~_PAGE_CHG_MASK;
-> +	unsigned long mask = _PAGE_CHG_MASK | _PAGE_CACHE_MASK;
-
-nice catch!
-
-Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com> 
-
-Thanks,
-Andi
-
+> +struct drm_gpuva_manager {
+> +	/**
+> +	 * @name: the name of the DRM GPU VA space
+> +	 */
+> +	const char *name;
 > +
-> +	pgprotval_t preservebits = pgprot_val(oldprot) & mask;
-> +	pgprotval_t addbits = pgprot_val(newprot) & ~mask;
->  	return __pgprot(preservebits | addbits);
->  }
->  
-> -- 
-> 2.40.0
+> +	/**
+> +	 * @mm_start: start of the VA space
+> +	 */
+> +	u64 mm_start;
+> +
+> +	/**
+> +	 * @mm_range: length of the VA space
+> +	 */
+> +	u64 mm_range;
+> +
+> +	/**
+> +	 * @mtree: the &maple_tree to track GPU VA mappings
+> +	 */
+> +	struct maple_tree mtree;
+> +
+> +	/**
+> +	 * @kernel_alloc_node:
+> +	 *
+> +	 * &drm_gpuva representing the address space cutout reserved for
+> +	 * the kernel
+> +	 */
+> +	struct drm_gpuva kernel_alloc_node;
+> +
+> +	/**
+> +	 * @ops: &drm_gpuva_fn_ops providing the split/merge steps to drivers
+> +	 */
+> +	struct drm_gpuva_fn_ops *ops;
+
+Any reason for not making that a const object (same goes for all the
+functions being passed a drm_gpuva_fn_ops)?
+
+> +};
