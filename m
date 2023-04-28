@@ -1,68 +1,81 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECE546F1C2A
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Apr 2023 18:03:06 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 526326F1CBB
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Apr 2023 18:39:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3250A10E3D9;
-	Fri, 28 Apr 2023 16:03:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AD45010E3F3;
+	Fri, 28 Apr 2023 16:39:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x42e.google.com (mail-pf1-x42e.google.com
- [IPv6:2607:f8b0:4864:20::42e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 24ED310E3DA
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Apr 2023 16:03:00 +0000 (UTC)
-Received: by mail-pf1-x42e.google.com with SMTP id
- d2e1a72fcca58-64115eef620so13604740b3a.1
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Apr 2023 09:03:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1682697779; x=1685289779;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=NFqCvF6zcr5bU/PC6sitkV28Z2TiIUDFVfcU6fA1uhs=;
- b=PwjZmFWjx0l6/Cp3B6ZEV6WQ7Zx28GfcOc51v/XK+23ClDY50ePtgxT09IwNgPEopC
- XgFev2tc3ytoXpXLsu2m7KZ5WzuFJI08T+0tRjFosmfzexucrkduyA3QGDctCx5X1sl3
- 1Enws9t3ncavnNHrV7394jQs6V2A1q0TUYUigkpb3CxG/rDvjjqvkDXW0VazHIbG+l7L
- bkjeRYHv6/rRV69VLp7KVgFOX3e9KAbdkhb6BWIUhT/urHkwkoMdUf5v9LLm6CeLVkRr
- z0fnVDsae2mmHQiEdZuIdHcl6LHoFqiGR5rtgFHEVb5carY4Nr9lqieW4rWV43BzLB25
- TPPg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682697779; x=1685289779;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=NFqCvF6zcr5bU/PC6sitkV28Z2TiIUDFVfcU6fA1uhs=;
- b=e6lQuLXmiQI9jfnkWnHxje/1OTRXOP0djRP/DepOB9+glhRyXFO4whOBb11ryuHlzk
- lb3ympxdWIr4Xs8KFgYvgyDRVKs7tVZDzFT+tzZba0sAbQpTTknIVqlvoIeyG1zNbp5X
- u0hI63O1LZIrJ3chdanQc+s5+Io6iUQtKKKQUKH6CLVLA7LES7lqhBxLtBkkcOpdZQ5i
- dNETTHz1i1Pb1eiGUPaHGYymujFsy6Y2JykhHBrkqL+zXLOeB6FoyZln57ad6ES82RW7
- e1/H6jQNy7Ebt6BdELwLGP+eKgtxYJRdJmRa6q6t8KBlBpEJFvPGqk8/rP0nDa8vKTWA
- F7Lg==
-X-Gm-Message-State: AC+VfDws4bjdZiVpTsM9LEQyUFBaHhjwFiXqI2dbchZqmT8DnA+HU5Kt
- e85pPD/PTvaQG3oHTLDV4IjRy9oB36FILc84
-X-Google-Smtp-Source: ACHHUZ4n9eWm1zNiFdfRPnFXpG+pdAIxXQZgdvnrdjIN6cuRBezH8a5Vp7dwCkgu/eE23rnzdDfxEw==
-X-Received: by 2002:a17:902:dacb:b0:1a2:a904:c42e with SMTP id
- q11-20020a170902dacb00b001a2a904c42emr7025837plx.24.1682697778013; 
- Fri, 28 Apr 2023 09:02:58 -0700 (PDT)
-Received: from localhost.localdomain (n220246252240.netvigator.com.
- [220.246.252.240]) by smtp.gmail.com with ESMTPSA id
- x15-20020a170902820f00b001a045f45d49sm13354756pln.281.2023.04.28.09.02.53
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Apr 2023 09:02:57 -0700 (PDT)
-From: Jianhua Lu <lujianhua000@gmail.com>
-To: Jianhua Lu <lujianhua000@gmail.com>, Lee Jones <lee@kernel.org>,
- Daniel Thompson <daniel.thompson@linaro.org>,
- Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@ucw.cz>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-Subject: [PATCH] dt-bindings: leds: backlight: ktz8866: Add reg property and
- update example
-Date: Sat, 29 Apr 2023 00:02:46 +0800
-Message-Id: <20230428160246.16982-1-lujianhua000@gmail.com>
-X-Mailer: git-send-email 2.39.2
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6948D10E3F3;
+ Fri, 28 Apr 2023 16:39:00 +0000 (UTC)
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 33S6daWg002201; Fri, 28 Apr 2023 16:38:49 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=TqQJkjTwoWF4dMGDBX0d8aMt6DnlZbBLw5na6S7xh40=;
+ b=A9lwD8qAT5QnEHd3CRQQdRbi7WlSVzMZ9vYfDscd7pmLX/GyQs3kEpBndulaXNOQWs2C
+ ayw5bjmPJ+/85ny8VdW/gXuIg4WLTv4CcGdIScHVEsEpIEsM6GAzH+G24zzLCxBMu8ck
+ M1KYKNaSwMlZ3NF6VLKa4aZ3YiSi2rKRRHSaMkfOJya4fLMrwhQtdH1tIo/0ahgpy558
+ wzPvJWATLYyJ4eWfwn96uR5J5KhXWZzolm6c0Ea4TFM9/QbHbGunnW+HMjN1bM5sM2D6
+ epgTHCrBqni/wjgjo+iLcpMdTWij5VJXBvwbiI6OXMTxp9ZKBJdzvpXEJIzziAkIAl4Q +g== 
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3q7xdyaxky-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 28 Apr 2023 16:38:49 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 33SGcnL5020862
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 28 Apr 2023 16:38:49 GMT
+Received: from [10.110.124.105] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Fri, 28 Apr
+ 2023 09:38:47 -0700
+Message-ID: <ca0d68b9-b81c-ad3f-2835-9661cc946de2@quicinc.com>
+Date: Fri, 28 Apr 2023 09:38:46 -0700
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.2
+Subject: Re: [PATCH v2] dt-bindings: display/msm: dsi-controller-main:
+ Document qcom,master-dsi and qcom,sync-dual-dsi
+Content-Language: en-US
+To: Jianhua Lu <lujianhua000@gmail.com>, Rob Clark <robdclark@gmail.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Sean Paul <sean@poorly.run>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, "Rob Herring" <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Krishna Manikandan
+ <quic_mkrishn@quicinc.com>
+References: <20230427122132.24840-1-lujianhua000@gmail.com>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <20230427122132.24840-1-lujianhua000@gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: cCp5ILIbGKeWAEiSCRIOvhfR0isVcKMf
+X-Proofpoint-ORIG-GUID: cCp5ILIbGKeWAEiSCRIOvhfR0isVcKMf
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-04-28_04,2023-04-27_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0
+ lowpriorityscore=0 suspectscore=0 bulkscore=0 priorityscore=1501
+ phishscore=0 adultscore=0 mlxlogscore=999 clxscore=1011 mlxscore=0
+ spamscore=0 malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2303200000 definitions=main-2304280133
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,72 +88,32 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, ~postmarketos/upstreaming@lists.sr.ht,
- phone-devel@vger.kernel.org, linux-leds@vger.kernel.org
+Cc: devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The kinetic,ktz8866 is a I2C driver, so add the missing reg property.
-And update example to make it clear.
 
-Signed-off-by: Jianhua Lu <lujianhua000@gmail.com>
----
- .../leds/backlight/kinetic,ktz8866.yaml       | 29 ++++++++++++-------
- 1 file changed, 19 insertions(+), 10 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/leds/backlight/kinetic,ktz8866.yaml b/Documentation/devicetree/bindings/leds/backlight/kinetic,ktz8866.yaml
-index e1191453c2f0..6ec40cce3f11 100644
---- a/Documentation/devicetree/bindings/leds/backlight/kinetic,ktz8866.yaml
-+++ b/Documentation/devicetree/bindings/leds/backlight/kinetic,ktz8866.yaml
-@@ -21,6 +21,9 @@ properties:
-   compatible:
-     const: kinetic,ktz8866
- 
-+  reg:
-+    maxItems: 1
-+
-   vddpos-supply:
-     description: positive boost supply regulator.
- 
-@@ -53,6 +56,7 @@ properties:
- 
- required:
-   - compatible
-+  - reg
-   - vddpos-supply
-   - vddneg-supply
-   - enable-gpios
-@@ -63,14 +67,19 @@ examples:
-   - |
-     #include <dt-bindings/gpio/gpio.h>
- 
--    backlight {
--        compatible = "kinetic,ktz8866";
--
--        vddpos-supply = <&bl_vddpos_5p5>;
--        vddneg-supply = <&bl_vddneg_5p5>;
--        enable-gpios = <&tlmm 139 GPIO_ACTIVE_HIGH>;
--        current-num-sinks = <5>;
--        kinetic,current-ramp-delay-ms = <128>;
--        kinetic,led-enable-ramp-delay-ms = <1>;
--        kinetic,enable-lcd-bias;
-+    i2c {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+
-+        backlight@11 {
-+            compatible = "kinetic,ktz8866";
-+            reg = <0x11>;
-+            vddpos-supply = <&bl_vddpos_5p5>;
-+            vddneg-supply = <&bl_vddneg_5p5>;
-+            enable-gpios = <&tlmm 139 GPIO_ACTIVE_HIGH>;
-+            current-num-sinks = <5>;
-+            kinetic,current-ramp-delay-ms = <128>;
-+            kinetic,led-enable-ramp-delay-ms = <1>;
-+            kinetic,enable-lcd-bias;
-+        };
-     };
--- 
-2.39.2
+On 4/27/2023 5:21 AM, Jianhua Lu wrote:
+> This fixes warning:
+>    sm8250-xiaomi-elish-csot.dtb: dsi@ae94000: Unevaluated properties are not allowed ('qcom,master-dsi', 'qcom,sync-dual-dsi' were unexpected)
+> 
+> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> Acked-by: Rob Herring <robh@kernel.org>
+> Signed-off-by: Jianhua Lu <lujianhua000@gmail.com>
+> ---
+> Changes in v2:
+>    - pick up tags
+>    - fix typo (need -> needs)
+> 
+>   .../bindings/display/msm/dsi-controller-main.yaml    | 12 ++++++++++++
+>   1 file changed, 12 insertions(+)
+> 
 
+Fixes: 4dbe55c97741 ("dt-bindings: msm: dsi: add yaml schemas for DSI 
+bindings")
+
+Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
