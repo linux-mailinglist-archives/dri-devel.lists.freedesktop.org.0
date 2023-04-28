@@ -2,67 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90A1B6F1A3E
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Apr 2023 16:10:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A586A6F1A5A
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Apr 2023 16:18:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 73E9D10E147;
-	Fri, 28 Apr 2023 14:09:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0B71410ED72;
+	Fri, 28 Apr 2023 14:18:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com
- [IPv6:2607:f8b0:4864:20::1033])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A409610E147
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Apr 2023 14:09:56 +0000 (UTC)
-Received: by mail-pj1-x1033.google.com with SMTP id
- 98e67ed59e1d1-246fd87a124so27155a91.0
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Apr 2023 07:09:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1682690996; x=1685282996;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=p2b78iqTC7OToTOHQ6fHrEeDrWrCuNdZPNAb0fZD55U=;
- b=ZLkCHgrXybRzPv+DwSbafrfSNV39zdsVZBmrPykFn1NLr65U7rjnAkOXL8Fx2Jwat5
- DB+pVf5II54c4Gh9Zyj0uJ1V6NL14c08jj7TRJMdmg3g97eOvc2rWHBC3HzSTD1nXDBx
- MIRZ82u6JAEJzkuTRreiOBby//730kfRhqsCn6fng4ZLdqI58KGiJPjVn0p+2fiX35Aw
- nGy9W9/ffg1vzPYUW26EiIWFwZ3NdFPxjZHMH0vuj9dnPaoWB1Zz1wSE2Z6o5dBiIHsu
- FMcMoBNiMbUFoTITXmsH0gT/4i9fv4iwjlKSKDekjY45MN6Zo2MBeBvdYqmmNaA0kUWf
- XWZQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682690996; x=1685282996;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=p2b78iqTC7OToTOHQ6fHrEeDrWrCuNdZPNAb0fZD55U=;
- b=SkWgrX+Wq6U6n6CtGYjGUvjRG6e9Ct6hq84x/2R/PyohTTf0qfY6dn96udDs3RjQ6Y
- 6ZGuq53eYOeubOX1t9BwoD2S36OGtkxfWbzGCzdSWrEt8hUVd8RZQR3fJGSfqZBMItgk
- Ezw7vdO0sq+sKVEcGvjqkRSPpzWhMFPCZfoqT1kcliVts/DCfI7CfZdWAp6fKcInWv0S
- P/ZbYLKCkK3Umnl4q3ie4PWNkzhebRB2EsBMEkf+Pb4mOK8+oC6kTTJy8hPFo+/Y+WOd
- 8e6y9UjbYc4ZmzPtys2kYvZ2uaYpvCkrxyms61yhlMJ5/AYOEj77oSGOh4UKiWcvt00e
- xScQ==
-X-Gm-Message-State: AC+VfDwd3/ZpMe0IZntQEwrp66Y3Z0AhOVZbFNj2OFJLM4ifb44MF6xS
- WnUSWyVBqVivdZ5/SPt+U7wjYqQnXyEiocp4d9I=
-X-Google-Smtp-Source: ACHHUZ5AEt7w1BySwRThXroxDTX4QU1RNchIAB/DIvq3N/HIBZ2/uQDtKAhJKESIEP3SitEDbDdQb5t3yok7tYSQIKw=
-X-Received: by 2002:a17:90a:bc8d:b0:246:a782:d94 with SMTP id
- x13-20020a17090abc8d00b00246a7820d94mr5992258pjr.7.1682690995638; Fri, 28 Apr
- 2023 07:09:55 -0700 (PDT)
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3F8A910ED70
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Apr 2023 14:18:41 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id ADA71200BD;
+ Fri, 28 Apr 2023 14:18:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1682691519; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=bHwqI9LusReiqtzsVrh14x6d8mBbcXqTxS97UaAPiJc=;
+ b=w05GEg59ITc0jlfwD4MCtuN0X72pz6Dk79yupOH8T8y0GjYzKjf4ilyl4+c4bi2EFISZQ5
+ JnCP5A+fTZuLpKwrFZ+mB3ypDk4/RdMbY5fKYsvUQmf9MzviVugGveRNn50bUaBa6UAzb7
+ CxycaLnOid56K6kuD3pQ2q58UTiCr/Y=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1682691519;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=bHwqI9LusReiqtzsVrh14x6d8mBbcXqTxS97UaAPiJc=;
+ b=LLqe0uZG2Qvr6GOce5R8FBohJvmwxtL6Iyv9cM0nb0Y30o/x/QZL8Repm+uPk0JnFqKETT
+ 6ZDEdP0fwM6gfaAw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 3ADFB1390E;
+ Fri, 28 Apr 2023 14:18:39 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id 2ldADb/VS2QLOQAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Fri, 28 Apr 2023 14:18:39 +0000
+Message-ID: <900eaf1c-4d29-2c26-c220-6b4e089d9b94@suse.de>
+Date: Fri, 28 Apr 2023 16:18:38 +0200
 MIME-Version: 1.0
-References: <20230423121232.1345909-1-aford173@gmail.com>
- <CGME20230423121305eucas1p287a952d41b1884b117fa15a748b9e1a2@eucas1p2.samsung.com>
- <20230423121232.1345909-6-aford173@gmail.com>
- <b6b53da5-6986-a958-ef84-650b3a57ad9c@samsung.com>
- <CAHCN7x+vd-bP8NgS-cRrnm8ojq0kwUg6aXokJv6xSU7BrT04Vw@mail.gmail.com>
- <343f8d25-566f-9d14-64db-4e796cc9e406@samsung.com>
- <CAHCN7x+QU29Wv9TQEANhbxLcL4jCZUKbk+uGu2sOwhCcTt798A@mail.gmail.com>
- <46429c9b-cf14-a67e-81a8-b56be0350ea3@samsung.com>
-In-Reply-To: <46429c9b-cf14-a67e-81a8-b56be0350ea3@samsung.com>
-From: Adam Ford <aford173@gmail.com>
-Date: Fri, 28 Apr 2023 09:09:44 -0500
-Message-ID: <CAHCN7xKcHELG3n8+f4pjj05NCFUhBfz0_q_huN9bP65Fv6Ombg@mail.gmail.com>
-Subject: Re: [PATCH V2 5/6] drm: bridge: samsung-dsim: Support non-burst mode
-To: Marek Szyprowski <m.szyprowski@samsung.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH v2 5/5] fbdev: Define framebuffer I/O from Linux' I/O
+ functions
+Content-Language: en-US
+To: Sam Ravnborg <sam@ravnborg.org>
+References: <20230428092711.406-1-tzimmermann@suse.de>
+ <20230428092711.406-6-tzimmermann@suse.de>
+ <20230428131221.GE3995435@ravnborg.org>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <20230428131221.GE3995435@ravnborg.org>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------c0F146zPaNsO7viNjr1zOXUQ"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,99 +72,120 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, Neil Armstrong <neil.armstrong@linaro.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Robert Foss <rfoss@kernel.org>,
- Jonas Karlman <jonas@kwiboo.se>, linux-kernel@vger.kernel.org,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, aford@beaconembedded.com,
- dri-devel@lists.freedesktop.org,
- Frieder Schrempf <frieder.schrempf@kontron.de>,
- Jagan Teki <jagan@amarulasolutions.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, dario.binacchi@amarulasolutions.com
+Cc: linux-arch@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ linux-ia64@vger.kernel.org, loongarch@lists.linux.dev, arnd@arndb.de,
+ deller@gmx.de, chenhuacai@kernel.org, javierm@redhat.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ James.Bottomley@hansenpartnership.com, linux-m68k@lists.linux-m68k.org,
+ geert@linux-m68k.org, linux-parisc@vger.kernel.org, vgupta@kernel.org,
+ sparclinux@vger.kernel.org, kernel@xen0n.name,
+ linux-snps-arc@lists.infradead.org, davem@davemloft.net,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Apr 28, 2023 at 9:04=E2=80=AFAM Marek Szyprowski
-<m.szyprowski@samsung.com> wrote:
->
-> On 28.04.2023 15:35, Adam Ford wrote:
-> > On Fri, Apr 28, 2023 at 7:31=E2=80=AFAM Marek Szyprowski
-> > <m.szyprowski@samsung.com> wrote:
-> >> On 24.04.2023 12:00, Adam Ford wrote:
-> >>> On Mon, Apr 24, 2023 at 3:25=E2=80=AFAM Marek Szyprowski
-> >>> <m.szyprowski@samsung.com> wrote:
-> >>>> On 23.04.2023 14:12, Adam Ford wrote:
-> >>>>> The high-speed clock is hard-coded to the burst-clock
-> >>>>> frequency specified in the device tree.  However, when
-> >>>>> using devices like certain bridge chips without burst mode
-> >>>>> and varying resolutions and refresh rates, it may be
-> >>>>> necessary to set the high-speed clock dynamically based
-> >>>>> on the desired pixel clock for the connected device.
-> >>>>>
-> >>>>> This also removes the need to set a clock speed from
-> >>>>> the device tree for non-burst mode operation, since the
-> >>>>> pixel clock rate is the rate requested from the attached
-> >>>>> device like an HDMI bridge chip.  This should have no
-> >>>>> impact for people using burst-mode and setting the burst
-> >>>>> clock rate is still required for those users.
-> >>>>>
-> >>>>> Signed-off-by: Adam Ford <aford173@gmail.com>
-> >>>> This one breaks Exynos-5433 based TM2e board with a DSI panel.
-> >>> Marek S,
-> >>>
-> >>> Thank you for testing!  I knoiw there are several of us who appreciat=
-e
-> >>> your testing this since it's hard to know if something broke without
-> >>> hardware.  Is there any way you can tell me if the flag is set to
-> >>> enable MIPI_DSI_MODE_VIDEO_BURST?
-> >> TM2e board uses the DSI panel operated in command mode and handled by
-> >> panel-samsung-s6e3ha2.c driver. The MIPI_DSI_MODE_VIDEO_BURST flag is
-> >> not set by the driver. However, the MIPI_DSI_CLOCK_NON_CONTINUOUS flag=
-s
-> >> is set there. I really have no idea if setting VIDEO_BURST would make
-> >> sense together with CLOCK_NON_CONTINUOUS or not. Maybe the driver lack=
-s
-> >> setting it?
-> >>
-> >>
-> >>> I was trying to be diligent about not breaking your boards, but
-> >>> without your boards, it's difficult.  The theory was that if
-> >>> MIPI_DSI_MODE_VIDEO_BURST is set and there is a burst clock set in th=
-e
-> >>> device tree, it would use the burst clock.
-> >>>
-> >>> As a fall-back I could just simply check for the presence of the
-> >>> burst_clock_rate instead of both MIPI_DSI_MODE_VIDEO_BURST and
-> >>> burst_clock_rate.
-> >> Maybe you should extend your check also for the
-> >> MIPI_DSI_CLOCK_NON_CONTINUOUS flag? Does it make sense?
-> > Looking at some of the devices that might attach in the future, It
-> > appears that ti-sn65dsi86.c sets this flag.  It's a display port
-> > bridge, so I would expect it to need a variable clock rate similar to
-> > how the HDMI bridge that I need works.  I am concerned that I make the
-> > burst clock dependent on MIPI_DSI_CLOCK_NON_CONTINUOUS, it might break
-> > the Display Port bridge.
-> >
-> > I think it's better to just check if the samsung,burst-clock-frequency
-> > is present in the device tree and use it when present.  If it's not
-> > present, then fall back to the pixel clock of the connected device.
->
-> Right, this sounds rational.
->
-> > I looked at a bunch of Exynos parts, and it looks like they all use
-> > the samsung,burst-clock-frequency device tree setting.  Is that true,
-> > or did I miss one?
->
-> That true. All Exynos based boards with DSI panels use constant DSI
-> burst frequency defined in the device tree.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------c0F146zPaNsO7viNjr1zOXUQ
+Content-Type: multipart/mixed; boundary="------------Zz5vCKFZk2N0vxBo31k95sox";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Sam Ravnborg <sam@ravnborg.org>
+Cc: deller@gmx.de, geert@linux-m68k.org, javierm@redhat.com, daniel@ffwll.ch,
+ vgupta@kernel.org, chenhuacai@kernel.org, kernel@xen0n.name,
+ davem@davemloft.net, James.Bottomley@hansenpartnership.com, arnd@arndb.de,
+ linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-arch@vger.kernel.org, linux-snps-arc@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-ia64@vger.kernel.org,
+ loongarch@lists.linux.dev, linux-m68k@lists.linux-m68k.org,
+ sparclinux@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-parisc@vger.kernel.org
+Message-ID: <900eaf1c-4d29-2c26-c220-6b4e089d9b94@suse.de>
+Subject: Re: [PATCH v2 5/5] fbdev: Define framebuffer I/O from Linux' I/O
+ functions
+References: <20230428092711.406-1-tzimmermann@suse.de>
+ <20230428092711.406-6-tzimmermann@suse.de>
+ <20230428131221.GE3995435@ravnborg.org>
+In-Reply-To: <20230428131221.GE3995435@ravnborg.org>
 
-Thanks for the feedback.  I'll try to get another rev of this series
-pushed later today or Monday.
+--------------Zz5vCKFZk2N0vxBo31k95sox
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-adam
->
->
-> Best regards
-> --
-> Marek Szyprowski, PhD
-> Samsung R&D Institute Poland
->
+SGkNCg0KQW0gMjguMDQuMjMgdW0gMTU6MTIgc2NocmllYiBTYW0gUmF2bmJvcmc6DQo+IEhp
+IFRob21hcywNCj4gDQo+IE9uIEZyaSwgQXByIDI4LCAyMDIzIGF0IDExOjI3OjExQU0gKzAy
+MDAsIFRob21hcyBaaW1tZXJtYW5uIHdyb3RlOg0KPj4gSW1wbGVtZW50IGZyYW1lYnVmZmVy
+IEkvTyBoZWxwZXJzLCBzdWNoIGFzIGZiX3JlYWQqKCkgYW5kIGZiX3dyaXRlKigpDQo+PiB3
+aXRoIExpbnV4JyByZWd1bGFyIEkvTyBmdW5jdGlvbnMuIFJlbW92ZSBhbGwgaWZkZWYgY2Fz
+ZXMgZm9yIHRoZQ0KPj4gdmFyaW91cyBhcmNoaXRlY3R1cmVzLg0KPj4NCj4+IE1vc3Qgb2Yg
+dGhlIHN1cHBvcnRlZCBhcmNoaXRlY3R1cmVzIHVzZSBfX3Jhd18oKSBJL08gZnVuY3Rpb25z
+IG9yIHRyZWF0DQo+PiBmcmFtZWJ1ZmZlciBtZW1vcnkgbGlrZSByZWd1bGFyIG1lbW9yeS4g
+VGhpcyBpcyBhbHNvIGltcGxlbWVudGVkIGJ5IHRoZQ0KPj4gYXJjaGl0ZWN0dXJlcycgSS9P
+IGZ1bmN0aW9uLCBzbyB3ZSBjYW4gdXNlIHRoZW0gaW5zdGVhZC4NCj4+DQo+PiBTcGFyYyB1
+c2VzIFNCdXMgdG8gY29ubmVjdCB0byBmcmFtZWJ1ZmZlciBkZXZpY2VzLiBJdCBwcm92aWRl
+cyByZXNwZWN0aXZlDQo+PiBpbXBsZW1lbnRhdGlvbnMgb2YgdGhlIGZyYW1lYnVmZmVyIEkv
+TyBoZWxwZXJzLiBUaGUgaW52b2x2ZWQgc2J1c18oKQ0KPj4gSS9PIGhlbHBlcnMgbWFwIHRv
+IHRoZSBzYW1lIGNvZGUgYXMgU3BhcmMncyByZWd1bGFyIEkvTyBmdW5jdGlvbnMuIEFzDQo+
+PiB3aXRoIG90aGVyIHBsYXRmb3Jtcywgd2UgY2FuIHVzZSB0aG9zZSBpbnN0ZWFkLg0KPj4N
+Cj4+IFdlIGxlYXZlIGEgVE9ETyBpdGVtIHRvIHJlcGxhY2UgYWxsIGZiXygpIGZ1bmN0aW9u
+cyB3aXRoIHRoZWlyIHJlZ3VsYXINCj4+IEkvTyBjb3VudGVycGFydHMgdGhyb3VnaG91dCB0
+aGUgZmJkZXYgZHJpdmVycy4NCj4+DQo+PiBTaWduZWQtb2ZmLWJ5OiBUaG9tYXMgWmltbWVy
+bWFubiA8dHppbW1lcm1hbm5Ac3VzZS5kZT4NCj4+IC0tLQ0KPj4gICBpbmNsdWRlL2xpbnV4
+L2ZiLmggfCA2MyArKysrKysrKysrKy0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tDQo+PiAgIDEgZmlsZSBjaGFuZ2VkLCAxNSBpbnNlcnRpb25zKCspLCA0OCBkZWxldGlv
+bnMoLSkNCj4+DQo+PiBkaWZmIC0tZ2l0IGEvaW5jbHVkZS9saW51eC9mYi5oIGIvaW5jbHVk
+ZS9saW51eC9mYi5oDQo+PiBpbmRleCAwOGNiNDdkYTcxZjguLjRhYTllOTBlZGQxNyAxMDA2
+NDQNCj4+IC0tLSBhL2luY2x1ZGUvbGludXgvZmIuaA0KPj4gKysrIGIvaW5jbHVkZS9saW51
+eC9mYi5oDQo+PiBAQCAtMTUsNyArMTUsNiBAQA0KPj4gICAjaW5jbHVkZSA8bGludXgvbGlz
+dC5oPg0KPj4gICAjaW5jbHVkZSA8bGludXgvYmFja2xpZ2h0Lmg+DQo+PiAgICNpbmNsdWRl
+IDxsaW51eC9zbGFiLmg+DQo+PiAtI2luY2x1ZGUgPGFzbS9pby5oPg0KPj4gICANCj4+ICAg
+c3RydWN0IHZtX2FyZWFfc3RydWN0Ow0KPj4gICBzdHJ1Y3QgZmJfaW5mbzsNCj4+IEBAIC01
+MTEsNTggKzUxMCwyNiBAQCBzdHJ1Y3QgZmJfaW5mbyB7DQo+PiAgICAqLw0KPj4gICAjZGVm
+aW5lIFNUVVBJRF9BQ0NFTEZfVEVYVF9TSElUDQo+PiAgIA0KPj4gLS8vIFRoaXMgd2lsbCBn
+byBhd2F5DQo+PiAtI2lmIGRlZmluZWQoX19zcGFyY19fKQ0KPj4gLQ0KPj4gLS8qIFdlIG1h
+cCBhbGwgb2Ygb3VyIGZyYW1lYnVmZmVycyBzdWNoIHRoYXQgYmlnLWVuZGlhbiBhY2Nlc3Nl
+cw0KPj4gLSAqIGFyZSB3aGF0IHdlIHdhbnQsIHNvIHRoZSBmb2xsb3dpbmcgaXMgc3VmZmlj
+aWVudC4NCj4+ICsvKg0KPj4gKyAqIFRPRE86IFVwZGF0ZSBmYmRldiBkcml2ZXJzIHRvIGNh
+bGwgdGhlIEkvTyBoZWxwZXJzIGRpcmVjdGx5IGFuZA0KPj4gKyAqICAgICAgIHJlbW92ZSB0
+aGUgZmJfKCkgdG9rZW5zLg0KPj4gICAgKi8NCj4gV2hlbiB0aGUgX19yYXdfKiB2YXJpYW50
+cyBhcmUgdXNlZCwgYXMgR2VlcnQgcG9pbnRzIG91dCwgdGhlbiBJIHRoaW5rDQo+IHRoZSBt
+ZW1jcHkgLyBtZW1zZXQgY2FuIGJlIHJlcGxhY2VkLCBidXQgdGhlIHJlc3Qgc2VlbXMgZmlu
+ZSB0byBrZWVwLg0KDQpJJ2QgZWl0aGVyIHdhbnQgdGhlIHJlZ3VsYXIgSS9PIGZ1bmN0aW9u
+cyBvciB0aGUgZmJfKCkgd3JhcHBlcnMsIGJ1dCBub3QgDQp0aGUgX19yYXdfKCkgZnVuY3Rp
+b24uIEknZCBhbHNvIHByZWZlciB0byBrZWVwIGZiXyBpbiBmcm9udCBvZiBtZW1zZXQgDQph
+bmQgbWVtY3B5LiAgSSdkIGJlIGhhcHB5IHRvIGhhdmUgZmJfKCkgd3JhcHBlcnMgdGhhdCBh
+cmUgSS9PIGhlbHBlcnMgDQp3aXRob3V0IG9yZGVyaW5nIGd1YXJhbnRlZXMuIEknZCBqdXN0
+IHdvdWxkbid0IHdhbnQgdGhlbSBpbiA8bGludXgvZmIuaD4NCg0KQmVzdCByZWdhcmRzDQpU
+aG9tYXMNCg0KPiANCj4gTXkgcGVyc29uYWwgb3BpbmlvbiBpcyB0aGF0IF9fcmF3XyogaXMg
+Zm9yIG1hY3JvIHVzZSBldGMsIGFuZCBub3QNCj4gc29tZXRoaW5nIHRvIHVzZSBldmVyeXdo
+ZXJlLiBTbyBJIGxpa2UgdGhlIGZiX3JlYWQvZmJfd3JpdGUgbWFjcm9zLg0KPiBCdXQgdGhh
+dCBpcyBqdXN0IG15IGNvbG9yIG9mIHRoZSBiaWtlc2hlZC4NCj4gDQo+IAlTYW0NCg0KLS0g
+DQpUaG9tYXMgWmltbWVybWFubg0KR3JhcGhpY3MgRHJpdmVyIERldmVsb3Blcg0KU1VTRSBT
+b2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFueSBHbWJIDQpGcmFua2Vuc3RyYXNzZSAxNDYsIDkw
+NDYxIE51ZXJuYmVyZywgR2VybWFueQ0KR0Y6IEl2byBUb3RldiwgQW5kcmV3IE15ZXJzLCBB
+bmRyZXcgTWNEb25hbGQsIEJvdWRpZW4gTW9lcm1hbg0KSFJCIDM2ODA5IChBRyBOdWVybmJl
+cmcpDQo=
+
+--------------Zz5vCKFZk2N0vxBo31k95sox--
+
+--------------c0F146zPaNsO7viNjr1zOXUQ
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmRL1b4FAwAAAAAACgkQlh/E3EQov+Ds
+HA/9FboYwhheuV2afpQ/SaP1wYDQp07GWmCD6BrWFr+zcYG0SXAkFjvnnZwIE5sxgx63yJaTIS2k
+HClkJ6q89fGY/8XISiOhMZDZMO01vbT54iMD9/d/ARiq3sbP6le7jGjhQNf4qQxwChm75nPiRNuk
+3DrW9Rd5y5V7zBu5S66Qc+Qa5froBkkkdK6SxeCWHI7IN7uQ/SaA7+MIhoWf6nsShyJIgfXr6Ari
+pUx/2n169Cxc34R3ftRVWrInl5pACavFjtXeW9uWHV7HNVWCPby74kN8FYS4SX2V0jDpwiCCMZmd
+i2dSuHltV+jyQxEnMhwLRUstXz7n+hnpsIt1qffv8sW5hS2Vz7FIJV1Uf5OQ6Kj+J3iqI6mmb3eW
+EtaFwAfj4LB2EaD3pKcZ9M3WjfiXC6+cVQR+cf6jJDJWoJGfbr3KpDFIEa1mMjWrPBM8QGGIGtqv
+IfD1TrCQNzo0rb14BPTt0S7UVt8VSCGbLeyZpmiAczti8t6t0rkFS5eCHCfW1rBcRdg0Tn1BsQqm
+aE+xNNstqNLpPRpGSvL7AFAbTbpzLJQAeeg58YkytjUB+xq7gQl4Ssff+c99NZZSCKKQM+wRrCpz
+nlUyb+lA/nVwARQwrCNXHhxtG9aKcmQ5UcwCWDLGzrPcdLtptct1CdM0YwJqKl6++eigX63ysIgT
++1c=
+=t+WE
+-----END PGP SIGNATURE-----
+
+--------------c0F146zPaNsO7viNjr1zOXUQ--
