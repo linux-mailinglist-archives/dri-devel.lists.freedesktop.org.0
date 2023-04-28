@@ -1,57 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB80D6F17BF
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Apr 2023 14:25:13 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F7386F17C8
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Apr 2023 14:25:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9993210ED0C;
-	Fri, 28 Apr 2023 12:25:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8BDF110ED14;
+	Fri, 28 Apr 2023 12:25:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AB96010ED05
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ABF2E10ED07
  for <dri-devel@lists.freedesktop.org>; Fri, 28 Apr 2023 12:24:58 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 8D10421F57;
+ by smtp-out1.suse.de (Postfix) with ESMTPS id D229521F58;
  Fri, 28 Apr 2023 12:24:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1682684696; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=IO6VeosqS9+n7L1naSlHESMxaeiRmTE2GHrbh7xUu/A=;
- b=Q4+BnEO1FUB6iF7oo+QLETP7f1eO/XIWUisX3DOarwTalwl4XadaFr6hQ093mpqtOEtRj+
- 8sJ9fnI7cR8gXccLRj/eflBMb3AeSvo/IKxO4AWFKiJfOvnSte7iAVnzDMbeQL+/qyWpuL
- DW48PxY0bFUADz8dDggq9oyL/oz6DRw=
+ bh=wLWuGCUCtLFjHCc+Azt5ygcchweoqpbB1KeKuZbqua4=;
+ b=xCi+dWd/o4Ijb0RqswEuDZTQ4boaVuMS0605usGbdwfF3hL/D1Z6QfMTH2NbatQlvyebQP
+ y4oAjFmw/HMxPokARhZriB2v4WsvTarGaBymmciKV1lG/AfdKJMu8RA51tGIBOACdTOO9B
+ GVg0uAp39yI0ESh58k4X7xLv4vRqYVI=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1682684696;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=IO6VeosqS9+n7L1naSlHESMxaeiRmTE2GHrbh7xUu/A=;
- b=hsnW2i5vt93MdKUK06UVrzARtXA/I2hpTx0pHLAsC/AMHyy2pQjbrjqtTp30PakFVOCXgZ
- 6CEYEJlkxjP4mDCQ==
+ bh=wLWuGCUCtLFjHCc+Azt5ygcchweoqpbB1KeKuZbqua4=;
+ b=y0c/jgfjY2bsav2KS8eyKFAzPeJd9qm53OhcstdGoWo2yVBdvmcCFA+pNDbYRd77AIgKi/
+ pJ7MHLKNdgC4IHCg==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 4E305139C3;
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 902B21390E;
  Fri, 28 Apr 2023 12:24:56 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id YIM3Ehi7S2RgeAAAMHmgww
+ by imap2.suse-dmz.suse.de with ESMTPSA id AFJKIhi7S2RgeAAAMHmgww
  (envelope-from <tzimmermann@suse.de>); Fri, 28 Apr 2023 12:24:56 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
  daniel@ffwll.ch, javierm@redhat.com, deller@gmx.de, geert@linux-m68k.org,
  sudipm.mukherjee@gmail.com, teddy.wang@siliconmotion.com
-Subject: [PATCH v2 03/19] hid/hid-picolcd_fb: Use struct fb_info.screen_buffer
-Date: Fri, 28 Apr 2023 14:24:36 +0200
-Message-Id: <20230428122452.4856-4-tzimmermann@suse.de>
+Subject: [PATCH v2 04/19] fbdev/arcfb: Use struct fb_info.screen_buffer
+Date: Fri, 28 Apr 2023 14:24:37 +0200
+Message-Id: <20230428122452.4856-5-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.40.0
 In-Reply-To: <20230428122452.4856-1-tzimmermann@suse.de>
 References: <20230428122452.4856-1-tzimmermann@suse.de>
@@ -87,31 +87,49 @@ rid of casting needed due to not using the correct data type.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/hid/hid-picolcd_fb.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/video/fbdev/arcfb.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/hid/hid-picolcd_fb.c b/drivers/hid/hid-picolcd_fb.c
-index de61c08fabea..dabcd054dad9 100644
---- a/drivers/hid/hid-picolcd_fb.c
-+++ b/drivers/hid/hid-picolcd_fb.c
-@@ -221,7 +221,7 @@ int picolcd_fb_reset(struct picolcd_data *data, int clear)
- 	return 0;
- }
+diff --git a/drivers/video/fbdev/arcfb.c b/drivers/video/fbdev/arcfb.c
+index 45e64016db32..088c4b30fd31 100644
+--- a/drivers/video/fbdev/arcfb.c
++++ b/drivers/video/fbdev/arcfb.c
+@@ -260,7 +260,7 @@ static void arcfb_lcd_update_page(struct arcfb_par *par, unsigned int upper,
+ 	ks108_set_yaddr(par, chipindex, upper/8);
  
--/* Update fb_vbitmap from the screen_base and send changed tiles to device */
-+/* Update fb_vbitmap from the screen_buffer and send changed tiles to device */
- static void picolcd_fb_update(struct fb_info *info)
- {
- 	int chip, tile, n;
-@@ -541,7 +541,7 @@ int picolcd_init_framebuffer(struct picolcd_data *data)
- 		dev_err(dev, "can't get a free page for framebuffer\n");
- 		goto err_nomem;
+ 	linesize = par->info->var.xres/8;
+-	src = (unsigned char __force *) par->info->screen_base + (left/8) +
++	src = (unsigned char *)par->info->screen_buffer + (left/8) +
+ 		(upper * linesize);
+ 	ks108_set_xaddr(par, chipindex, left);
+ 
+@@ -468,7 +468,7 @@ static ssize_t arcfb_write(struct fb_info *info, const char __user *buf,
+ 	if (count) {
+ 		char *base_addr;
+ 
+-		base_addr = (char __force *)info->screen_base;
++		base_addr = info->screen_buffer;
+ 		count -= copy_from_user(base_addr + p, buf, count);
+ 		*ppos += count;
+ 		err = -EFAULT;
+@@ -525,7 +525,7 @@ static int arcfb_probe(struct platform_device *dev)
+ 	if (!info)
+ 		goto err;
+ 
+-	info->screen_base = (char __iomem *)videomemory;
++	info->screen_buffer = videomemory;
+ 	info->fbops = &arcfb_ops;
+ 
+ 	info->var = arcfb_var;
+@@ -595,7 +595,7 @@ static int arcfb_remove(struct platform_device *dev)
+ 		unregister_framebuffer(info);
+ 		if (irq)
+ 			free_irq(((struct arcfb_par *)(info->par))->irq, info);
+-		vfree((void __force *)info->screen_base);
++		vfree(info->screen_buffer);
+ 		framebuffer_release(info);
  	}
--	info->screen_base = (char __force __iomem *)fbdata->bitmap;
-+	info->screen_buffer = fbdata->bitmap;
- 	info->fix.smem_start = (unsigned long)fbdata->bitmap;
- 	memset(fbdata->vbitmap, 0xff, PICOLCDFB_SIZE);
- 	data->fb_info = info;
+ 	return 0;
 -- 
 2.40.0
 
