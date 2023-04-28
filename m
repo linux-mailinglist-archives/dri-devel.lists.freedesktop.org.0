@@ -2,62 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2FD86F1A7B
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Apr 2023 16:29:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E0136F1A7E
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Apr 2023 16:31:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6892F10ED78;
-	Fri, 28 Apr 2023 14:29:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A589D10E128;
+	Fri, 28 Apr 2023 14:31:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x229.google.com (mail-oi1-x229.google.com
- [IPv6:2607:f8b0:4864:20::229])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4B0B610E128;
- Fri, 28 Apr 2023 14:29:41 +0000 (UTC)
-Received: by mail-oi1-x229.google.com with SMTP id
- 5614622812f47-38e12d973bfso32641b6e.0; 
- Fri, 28 Apr 2023 07:29:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1682692180; x=1685284180;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=lYzqB28RMSFODBuTMB/KY5cl7Tjsfy3OkCWgNjZ6ZLE=;
- b=kh97gIflH3BI4ERsMSHvjFc0yOO2bt2fLm/uIbDsDrqqCu8s1sBxd1qDVEdBRIXaVx
- iL5RpT2zMNzyg+NFwLpVdMi4AybUyNQoR4/KTIyCNQ6rbL1F0DeQ5KmZHZmRbVrbxMMI
- EVvL2F+CnVM44ANsh30EStkooMTY3pgBJcPpfXLKde2v/nu6v57pykRxydjH1nTW2/FA
- TfRXpk1QRjR02exKoXYK2MUCINulVfTlZ+sUo+7AckhEWV6lOlDp77IYs7xS8lGE0Ir4
- PzdyIuMruilIAnr8RxZgmYIczOd6F8olt3vtZ53rzCG7Ai88S1HDJjafAmDY7EMzhuzg
- t0MQ==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F142910E128
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Apr 2023 14:31:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1682692295;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=T6nMtf6Gzq3uJ6hYj+VP/gNrA7S63KDC0HhAUOQNVRE=;
+ b=avHzSlayKi9IllRZx3NuUeE2fL+ihfarAaYX0ez6dVxgnXhv7KuSW27BnHpNGJ3iNerbPH
+ tHhDjNzeQxfcuc5WpdIv/vyS69n8qskh+iOKoedUn2T5V8XaZW3J4HtIYBnLPiUpgB97j8
+ 6wasYyQrUseOWOhDw5b4DSnWZ2+E7+Y=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-282-b71bjK7LNA6_PkH6NkZlvA-1; Fri, 28 Apr 2023 10:31:33 -0400
+X-MC-Unique: b71bjK7LNA6_PkH6NkZlvA-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ 5b1f17b1804b1-3f315735edeso41805595e9.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Apr 2023 07:31:33 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682692180; x=1685284180;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=lYzqB28RMSFODBuTMB/KY5cl7Tjsfy3OkCWgNjZ6ZLE=;
- b=IioYNvqBQnCnBRafVbGN2/hPJZB3zGv5FVXBDA8gdOLKrx745fTYQdWi7fSIf+KAap
- Pa8VnSQZpg8OHvmnrQkAi8e5fCImEN2W8cLyqtaUc9mD3395pqAIUeWGMHMAdHqi5Mmr
- bUDkBNH1KuxLJSTCIDVlUT7IyWWVWeTicmXAqP7uKb7Mb+B7kH/ShSIC6MuLzYlTyNAN
- fWp7954t/9O6ev1b4Q60uOkdJHgX+Zns+bdajin1XWwiyRXDUaR/B3zH8kZ/MFq7nWW8
- WZ7yGAd+v/yhVJtbtQMeoVg9+fbfgUtDV0kWMqv3T7v73FbUZsMxNUny1K3bVwM6c9dj
- eyjg==
-X-Gm-Message-State: AC+VfDxBQoPzL2peWNcuBQ16c8lvW+Zim8RigsMpHMu5j06xjov9eQhs
- rrHgP7a0J+JexD6AkOvuwborA2SvmJCsNumQFSM=
-X-Google-Smtp-Source: ACHHUZ5KCaCwW1hvzW8OWPVzp040UD7tuDkE/lZ6cadmhT2Hjv5r9AbIl/f2DmSYTc/uRNg/F3c8gxInAbFvh4+1rRI=
-X-Received: by 2002:a05:6808:5da:b0:38e:e0c3:5cce with SMTP id
- d26-20020a05680805da00b0038ee0c35ccemr2440343oij.18.1682692180051; Fri, 28
- Apr 2023 07:29:40 -0700 (PDT)
+ d=1e100.net; s=20221208; t=1682692292; x=1685284292;
+ h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=T6nMtf6Gzq3uJ6hYj+VP/gNrA7S63KDC0HhAUOQNVRE=;
+ b=kFr6fHEwi5pNwaZ5lG9xQsMJepknJn74TmUny4YoWYOHavqk6mDB94uJD3Lq0BFt8u
+ evYczCQfs9vNIy2jDZVHDlJ6vMNif70v6mwg23S6vVw65mWyJEbu8OORJaWZjGGPRiE6
+ ARYdHzQWy/jBxxpf1wza+fajYV2FtBQ8J1d4aH7GQJswp2Hn6VSCEYz0KLa4ME0r8AyR
+ 3KxCBKaYhXCiS2FoU7R1x2rMEvRxv0KqYs9yk3ZuhPZ2+/+y6A4cIhEfZOvwLPZ3uZgk
+ ugOuVS4wZnX9Q7Ska7h+Wl8VNQHCcRhY+HJiZUygAq8mTO7umc8GyvWKdqIPC76IW5+S
+ AY5w==
+X-Gm-Message-State: AC+VfDydFO4+Dpds+GqNdY1CoaOXn39fxqxX+xHlU1kYQLPTQ1ciZimc
+ YDxMOd/zjvTIFRxNeY9QHDviiCENCTQLWKI9mmZJl7yfu5c1jVnafe/1WsL7Rqtz178sB05sMii
+ X4GBhz0YzwxKJZGRVMBhYDm8RpKu5
+X-Received: by 2002:a05:600c:378e:b0:3f1:65cb:8156 with SMTP id
+ o14-20020a05600c378e00b003f165cb8156mr3964484wmr.0.1682692292496; 
+ Fri, 28 Apr 2023 07:31:32 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ4muiSR8Tdhi6QJG9j+lv9oeqIiugsfDwxBycG/oNh6nECXC9yJkPiL5Ke6E4x/Ylci6N3S/w==
+X-Received: by 2002:a05:600c:378e:b0:3f1:65cb:8156 with SMTP id
+ o14-20020a05600c378e00b003f165cb8156mr3964469wmr.0.1682692292241; 
+ Fri, 28 Apr 2023 07:31:32 -0700 (PDT)
+Received: from localhost (205.pool92-176-231.dynamic.orange.es.
+ [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
+ u3-20020a7bcb03000000b003f16f3cc9fcsm24600054wmj.9.2023.04.28.07.31.31
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 28 Apr 2023 07:31:31 -0700 (PDT)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
+ daniel@ffwll.ch, deller@gmx.de, geert@linux-m68k.org,
+ sudipm.mukherjee@gmail.com, teddy.wang@siliconmotion.com
+Subject: Re: [PATCH v2 06/19] fbdev/broadsheetfb: Use struct
+ fb_info.screen_buffer
+In-Reply-To: <20230428122452.4856-7-tzimmermann@suse.de>
+References: <20230428122452.4856-1-tzimmermann@suse.de>
+ <20230428122452.4856-7-tzimmermann@suse.de>
+Date: Fri, 28 Apr 2023 16:31:31 +0200
+Message-ID: <874jp0gjss.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
-References: <20230427175340.1280952-1-robdclark@gmail.com>
- <20230427175340.1280952-2-robdclark@gmail.com>
- <0be60cda-6b8b-5844-c4fe-b711e7279cc7@amd.com>
-In-Reply-To: <0be60cda-6b8b-5844-c4fe-b711e7279cc7@amd.com>
-From: Rob Clark <robdclark@gmail.com>
-Date: Fri, 28 Apr 2023 07:29:28 -0700
-Message-ID: <CAF6AEGtd=fP1_JnD6-V7U_ZNnD1VG-rZean6mNDTLHsqZJdeYw@mail.gmail.com>
-Subject: Re: [PATCH v2 1/9] drm/docs: Fix usage stats typos
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,74 +84,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Jonathan Corbet <corbet@lwn.net>,
- "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
- Emil Velikov <emil.l.velikov@gmail.com>,
- Christopher Healy <healych@amazon.com>, dri-devel@lists.freedesktop.org,
- open list <linux-kernel@vger.kernel.org>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, freedreno@lists.freedesktop.org
+Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Apr 28, 2023 at 1:50=E2=80=AFAM Christian K=C3=B6nig
-<christian.koenig@amd.com> wrote:
->
-> Am 27.04.23 um 19:53 schrieb Rob Clark:
-> > From: Rob Clark <robdclark@chromium.org>
-> >
-> > Fix a couple missing ':'s.
-> >
-> > Signed-off-by: Rob Clark <robdclark@chromium.org>
-> > Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
->
-> Reviewed-by: Christian K=C3=B6nig <christian.koenig@amd.com>
->
-> Since this is a pretty clear fix I suggest to get this pushed to reduce
-> the number of patches in the set.
+Thomas Zimmermann <tzimmermann@suse.de> writes:
 
-Thanks, this is fine by me if someone wants to push it for me.  Note
-that the later .rst updates in this series depend on this so if/when
-they are merged it probably should be the same tree
-
-BR,
--R
-
-> Christian.
+> Use info->screen_buffer when reading and writing framebuffers in
+> system memory. It's the correct pointer for this address space.
 >
-> > ---
-> >   Documentation/gpu/drm-usage-stats.rst | 4 ++--
-> >   1 file changed, 2 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/Documentation/gpu/drm-usage-stats.rst b/Documentation/gpu/=
-drm-usage-stats.rst
-> > index b46327356e80..72d069e5dacb 100644
-> > --- a/Documentation/gpu/drm-usage-stats.rst
-> > +++ b/Documentation/gpu/drm-usage-stats.rst
-> > @@ -105,7 +105,7 @@ object belong to this client, in the respective mem=
-ory region.
-> >   Default unit shall be bytes with optional unit specifiers of 'KiB' or=
- 'MiB'
-> >   indicating kibi- or mebi-bytes.
-> >
-> > -- drm-cycles-<str> <uint>
-> > +- drm-cycles-<str>: <uint>
-> >
-> >   Engine identifier string must be the same as the one specified in the
-> >   drm-engine-<str> tag and shall contain the number of busy cycles for =
-the given
-> > @@ -117,7 +117,7 @@ larger value within a reasonable period. Upon obser=
-ving a value lower than what
-> >   was previously read, userspace is expected to stay with that larger p=
-revious
-> >   value until a monotonic update is seen.
-> >
-> > -- drm-maxfreq-<str> <uint> [Hz|MHz|KHz]
-> > +- drm-maxfreq-<str>: <uint> [Hz|MHz|KHz]
-> >
-> >   Engine identifier string must be the same as the one specified in the
-> >   drm-engine-<str> tag and shall contain the maximum frequency for the =
-given
+> The struct fb_info has a union to store the framebuffer memory. This can
+> either be info->screen_base if the framebuffer is stored in I/O memory,
+> or info->screen_buffer if the framebuffer is stored in system memory.
 >
+> As the driver operates on the latter address space, it is wrong to use
+> .screen_base and .screen_buffer must be used instead. This also gets
+> rid of casting needed due to not using the correct data type.
+>
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> ---
+
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+
+-- 
+Best regards,
+
+Javier Martinez Canillas
+Core Platforms
+Red Hat
+
