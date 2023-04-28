@@ -1,50 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B07956F1470
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Apr 2023 11:46:14 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id EF7F16F141D
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Apr 2023 11:27:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5159C10EC8C;
-	Fri, 28 Apr 2023 09:46:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C649F10EC8E;
+	Fri, 28 Apr 2023 09:27:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bee.tesarici.cz (bee.tesarici.cz [77.93.223.253])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DE77210EC8C
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Apr 2023 09:07:41 +0000 (UTC)
-Received: from meshulam.tesarici.cz
- (dynamic-2a00-1028-83b8-1e7a-4427-cc85-6706-c595.ipv6.o2.cz
- [IPv6:2a00:1028:83b8:1e7a:4427:cc85:6706:c595])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9CF7810E030
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Apr 2023 09:27:15 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
- SHA256) (No client certificate requested)
- by bee.tesarici.cz (Postfix) with ESMTPSA id 35F29166B6C;
- Fri, 28 Apr 2023 11:07:36 +0200 (CEST)
-Authentication-Results: mail.tesarici.cz;
- dmarc=fail (p=none dis=none) header.from=tesarici.cz
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=tesarici.cz; s=mail;
- t=1682672856; bh=fSr4PauhzPiknlEm9f1x9jaf0EP4/nRRsNaPi7F6oq8=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=1A8Aj6vFQ9OMmP4Cog+6T6QXa6fal+LKll7jPxBdWh6gTHb2NcCWIT2opzUFnClcm
- Za3pILziDiG1G2Q/pHQ3reYCGVThne+WvgK0/PjHdMoO7NngsBiq4CC4zmTYXRY1KQ
- cpEb/ECwMtXQjwn9MSSUQ8uefBRj5PZnuuHLwkdC7a/FDc70XAuIuxc5VdK6dIpADs
- HCDxS0hRuxWR+cbRkQHYSg02dDuJm0khJ5+iy7w2qU9Xoh2PeLY0UvhUfW0xWGolMD
- 1wahwh0CIrIH0ErPk+m47YLjZlY2HM0Klgzmx87U/YnSF209NU+v8CL7UuRW8qkICN
- n3CH65zUiUaMQ==
-Date: Fri, 28 Apr 2023 11:07:35 +0200
-From: Petr =?UTF-8?B?VGVzYcWZw61r?= <petr@tesarici.cz>
-To: Mike Lothian <mike@fireburn.co.uk>
-Subject: Re: [PATCH v2 0/7] Allow dynamic allocation of software IO TLB
- bounce buffers
-Message-ID: <20230428110735.4348511d@meshulam.tesarici.cz>
-In-Reply-To: <CAHbf0-HwQhFsYW8cp0t9660877b9tTxZBego7VSfx0ayAwKePQ@mail.gmail.com>
-References: <cover.1681898595.git.petr.tesarik.ext@huawei.com>
- <CAHbf0-HwQhFsYW8cp0t9660877b9tTxZBego7VSfx0ayAwKePQ@mail.gmail.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.37; x86_64-suse-linux-gnu)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 3BA8221A2D;
+ Fri, 28 Apr 2023 09:27:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1682674033; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=H634jX8sSYMwnQT1vLr7vYP2Eo6TaCU+J3gzKVsIAq4=;
+ b=VbHHcK4793S8Ps7niwJ/Fwfmq+pXThNJc0kyX1jeLNE6xy35UoTR3ljF9sLnSM3cZintOy
+ YdHtZSHPLoPgN1oikxQp2DXNqWBiENQRuP0ROqwzpUBiK1jRzN3nwlptu1ijUTjf0zvy/d
+ zq4KTdTSkchp187Tn9tNbgxtKTUcp6U=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1682674033;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=H634jX8sSYMwnQT1vLr7vYP2Eo6TaCU+J3gzKVsIAq4=;
+ b=DW2G43drDfPSAccNnQi6KBQ7vl1Fmv8Co40ZZveXyfpskVMHp3yPMtZ6tOE7+kr7M00llZ
+ MhFKTW90T3B8rDAQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id C0F21138FA;
+ Fri, 28 Apr 2023 09:27:12 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id jkouLnCRS2ReFwAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Fri, 28 Apr 2023 09:27:12 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: deller@gmx.de, geert@linux-m68k.org, javierm@redhat.com, daniel@ffwll.ch,
+ vgupta@kernel.org, chenhuacai@kernel.org, kernel@xen0n.name,
+ davem@davemloft.net, James.Bottomley@HansenPartnership.com, arnd@arndb.de,
+ sam@ravnborg.org
+Subject: [PATCH v2 0/5] fbdev: Use regular I/O function for framebuffers
+Date: Fri, 28 Apr 2023 11:27:06 +0200
+Message-Id: <20230428092711.406-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Mailman-Approved-At: Fri, 28 Apr 2023 09:46:09 +0000
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,117 +64,80 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>, Muchun Song <muchun.song@linux.dev>,
- "Rafael
- J. Wysocki" <rafael@kernel.org>, Catalin Marinas <catalin.marinas@arm.com>,
- Kefeng Wang <wangkefeng.wang@huawei.com>,
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- Kim Phillips <kim.phillips@amd.com>, Will Deacon <will@kernel.org>,
- Christoph Hellwig <hch@lst.de>, Marek Szyprowski <m.szyprowski@samsung.com>,
- Petr Tesarik <petrtesarik@huaweicloud.com>, Jonathan Corbet <corbet@lwn.net>,
- Damien Le Moal <damien.lemoal@opensource.wdc.com>,
- "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
- "open list:DMA MAPPING HELPERS" <iommu@lists.linux.dev>,
- Borislav Petkov <bp@suse.de>, Won Chung <wonchung@google.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- "Paul E. McKenney" <paulmck@kernel.org>, Hans de Goede <hdegoede@redhat.com>,
- "Steven Rostedt \(Google\)" <rostedt@goodmis.org>,
- Zhen Lei <thunder.leizhen@huawei.com>, Dan Williams <dan.j.williams@intel.com>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Petr Tesarik <petr.tesarik.ext@huawei.com>, Kees Cook <keescook@chromium.org>,
- Ondrej Zary <linux@zary.sk>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Randy Dunlap <rdunlap@infradead.org>, Roberto Sassu <roberto.sassu@huawei.com>,
- open list <linux-kernel@vger.kernel.org>, Thomas Gleixner <tglx@linutronix.de>,
- Robin Murphy <robin.murphy@arm.com>
+Cc: linux-arch@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ linux-ia64@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ linux-parisc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-m68k@lists.linux-m68k.org,
+ loongarch@lists.linux.dev, sparclinux@vger.kernel.org,
+ linux-snps-arc@lists.infradead.org, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 28 Apr 2023 09:53:38 +0100
-Mike Lothian <mike@fireburn.co.uk> wrote:
+(was: fbdev: Move framebuffer I/O helpers to <asm/fb.h>)
 
-> On Wed, 19 Apr 2023 at 11:05, Petr Tesarik <petrtesarik@huaweicloud.com> wrote:
-> >
-> > From: Petr Tesarik <petr.tesarik.ext@huawei.com>
-> >
-> > The goal of my work is to provide more flexibility in the sizing of
-> > SWIOTLB.
-> >
-> > The software IO TLB was designed with these assumptions:
-> >
-> > 1. It would not be used much, especially on 64-bit systems.
-> > 2. A small fixed memory area (64 MiB by default) is sufficient to
-> >    handle the few cases which require a bounce buffer.
-> > 3. 64 MiB is little enough that it has no impact on the rest of the
-> >    system.
-> >
-> > First, if SEV is active, all DMA must be done through shared
-> > unencrypted pages, and SWIOTLB is used to make this happen without
-> > changing device drivers. The software IO TLB size is increased to
-> > 6% of total memory in sev_setup_arch(), but that is more of an
-> > approximation. The actual requirements may vary depending on the
-> > amount of I/O and which drivers are used. These factors may not be
-> > know at boot time, i.e. when SWIOTLB is allocated.
-> >
-> > Second, other colleagues have noticed that they can reliably get
-> > rid of occasional OOM kills on an Arm embedded device by reducing
-> > the SWIOTLB size. This can be achieved with a kernel parameter, but
-> > determining the right value puts additional burden on pre-release
-> > testing, which could be avoided if SWIOTLB is allocated small and
-> > grows only when necessary.
-> >
-> > Changes from v1-devel-v7:
-> > - Add comments to acquire/release barriers
-> > - Fix whitespace issues reported by checkpatch.pl
-> >
-> > Changes from v1-devel-v6:
-> > - Provide long description of functions
-> > - Fix kernel-doc (Returns: to Return:)
-> > - Rename __lookup_dyn_slot() to lookup_dyn_slot_locked()
-> >
-> > Changes from RFC:
-> > - Track dynamic buffers per device instead of per swiotlb
-> > - Use a linked list instead of a maple tree
-> > - Move initialization of swiotlb fields of struct device to a
-> >   helper function
-> > - Rename __lookup_dyn_slot() to lookup_dyn_slot_locked()
-> > - Introduce per-device flag if dynamic buffers are in use
-> > - Add one more user of DMA_ATTR_MAY_SLEEP
-> > - Add kernel-doc comments for new (and some old) code
-> > - Properly escape '*' in dma-attributes.rst
-> >
-> > Petr Tesarik (7):
-> >   swiotlb: Use a helper to initialize swiotlb fields in struct device
-> >   swiotlb: Move code around in preparation for dynamic bounce buffers
-> >   dma-mapping: introduce the DMA_ATTR_MAY_SLEEP attribute
-> >   swiotlb: Dynamically allocated bounce buffers
-> >   swiotlb: Add a boot option to enable dynamic bounce buffers
-> >   drm: Use DMA_ATTR_MAY_SLEEP from process context
-> >   swiotlb: per-device flag if there are dynamically allocated buffers
-> >
-> >  .../admin-guide/kernel-parameters.txt         |   6 +-
-> >  Documentation/core-api/dma-attributes.rst     |  10 +
-> >  drivers/base/core.c                           |   4 +-
-> >  drivers/gpu/drm/drm_gem_shmem_helper.c        |   2 +-
-> >  drivers/gpu/drm/drm_prime.c                   |   2 +-
-> >  include/linux/device.h                        |  12 +
-> >  include/linux/dma-mapping.h                   |   6 +
-> >  include/linux/swiotlb.h                       |  54 ++-
-> >  kernel/dma/swiotlb.c                          | 382 ++++++++++++++++--
-> >  9 files changed, 443 insertions(+), 35 deletions(-)
-> >
-> > --
-> > 2.25.1
-> >  
-> 
-> Hi
-> 
-> Is this a potential fix for
-> https://bugzilla.kernel.org/show_bug.cgi?id=217310 where I'm manually
-> setting bigger buffers to keep my wifi working?
+Fbdev provides helpers for framebuffer I/O, such as fb_readl(),
+fb_writel() or fb_memcpy_to_fb(). The implementation of each helper
+depends on the architecture, but they all come down to regular I/O
+functions of similar names. So use the regular functions instead.
 
-Yes. With these patches applied, your system should run just fine with
-swiotlb=dynamic. However, keep in mind that this implementation adds a
-bit of overhead. In short, it trades a bit of performance for not
-having to figure out the optimal swiotlb size at boot time.
+The first patch a simple whitespace cleanup.
 
-Petr T
+Until now, <linux/fb.h> contained an include of <asm/io.h>. As this
+will go away patches 2 to 4 prepare include statements in the various
+drivers. Source files that use regular I/O helpers, such as readl(),
+now include <linux/io.h>. Source files that use framebuffer I/O
+helpers, such as fb_readl(), also include <linux/io.h>.
+
+Patch 5 replaces the architecture-based if-else branching in 
+<linux/fb.h> by define statements that map to Linux' I/O fucntions.
+
+After this change has been merged and included in a few release
+without complains, we can update the drivers to regular I/O functions
+and remove the fbdev-specific defines.
+
+The patchset has been built for a variety of platforms, such as x86-64,
+arm, aarch64, ppc64, parisc, m64k, mips and sparc.
+
+v2:
+	* use Linux I/O helpers (Sam, Arnd)
+
+Thomas Zimmermann (5):
+  fbdev/matrox: Remove trailing whitespaces
+  ipu-v3: Include <linux/io.h>
+  fbdev: Include <linux/io.h> in various drivers
+  fbdev: Include <linux/io.h> in drivers
+  fbdev: Define framebuffer I/O from Linux' I/O functions
+
+ drivers/gpu/ipu-v3/ipu-prv.h                |  1 +
+ drivers/video/fbdev/arcfb.c                 |  1 +
+ drivers/video/fbdev/arkfb.c                 |  1 +
+ drivers/video/fbdev/aty/atyfb.h             |  2 +
+ drivers/video/fbdev/aty/mach64_cursor.c     |  3 +-
+ drivers/video/fbdev/chipsfb.c               |  1 +
+ drivers/video/fbdev/cirrusfb.c              |  1 +
+ drivers/video/fbdev/core/cfbcopyarea.c      |  2 +-
+ drivers/video/fbdev/core/cfbfillrect.c      |  2 +
+ drivers/video/fbdev/core/cfbimgblt.c        |  2 +
+ drivers/video/fbdev/core/fbmem.c            |  1 +
+ drivers/video/fbdev/core/svgalib.c          |  2 +-
+ drivers/video/fbdev/hgafb.c                 |  2 +-
+ drivers/video/fbdev/hitfb.c                 |  2 +-
+ drivers/video/fbdev/kyro/fbdev.c            |  2 +-
+ drivers/video/fbdev/matrox/matroxfb_accel.c |  8 ++-
+ drivers/video/fbdev/matrox/matroxfb_base.h  |  6 +-
+ drivers/video/fbdev/pm2fb.c                 |  1 +
+ drivers/video/fbdev/pm3fb.c                 |  1 +
+ drivers/video/fbdev/pvr2fb.c                |  1 +
+ drivers/video/fbdev/s3fb.c                  |  1 +
+ drivers/video/fbdev/sstfb.c                 |  2 +-
+ drivers/video/fbdev/tdfxfb.c                |  2 +-
+ drivers/video/fbdev/tridentfb.c             |  1 +
+ drivers/video/fbdev/vga16fb.c               |  2 +-
+ drivers/video/fbdev/vt8623fb.c              |  1 +
+ drivers/video/fbdev/wmt_ge_rops.c           |  2 +
+ include/linux/fb.h                          | 63 +++++----------------
+ 28 files changed, 52 insertions(+), 64 deletions(-)
+
+-- 
+2.40.0
+
