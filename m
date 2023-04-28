@@ -1,65 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C33AA6F1908
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Apr 2023 15:12:36 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0AD226F1907
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Apr 2023 15:12:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B87D410ED4F;
-	Fri, 28 Apr 2023 13:12:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 874C410ED5A;
+	Fri, 28 Apr 2023 13:12:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com
- [IPv6:2a00:1450:4864:20::12d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D03C010ED4F
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Apr 2023 13:12:31 +0000 (UTC)
-Received: by mail-lf1-x12d.google.com with SMTP id
- 2adb3069b0e04-4ec816c9d03so10984944e87.2
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Apr 2023 06:12:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1682687549; x=1685279549;
- h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
- :date:from:to:cc:subject:date:message-id:reply-to;
- bh=ONlv/pBnNzNsJzOVny7iGg8MzK+2uBB+rwoCToG/N4o=;
- b=aw17PQrgJMSm9BUhI9IZ9+6y47ET8u+e+Rl2lXxNBXkmu5WKNI7eGA0M2vvw/txLTV
- UejNf5mfZrUyrTV/vL00OmXO4/n6SQxDmOwyCb0MBxRof3rjocHMKjZgz9jleztEvpb4
- Yw5ojmV5mxHj4s5I6KitDIWYZ2fCP8OQKqnv6ZUne136ipLSgKcUyn5qh+hDpQnoM0Kw
- 3+KEF1y9dNa1eue9d0Wz4C1Ud4Q78KbD7pdkMQ/g+n/mOVOJ1HN+STP0vM2fiph3vhFa
- Fqkv7rrYFEs/ezy5xZh4tPkOlQcZuP9x0l/cp6U5dWvobuxq4z2sStFwvLhszzpZ1cIw
- Gc5g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682687549; x=1685279549;
- h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
- :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=ONlv/pBnNzNsJzOVny7iGg8MzK+2uBB+rwoCToG/N4o=;
- b=XXpco9LQKPevB0hz5P/zDecIa1kFSA3DI9br/gLwdnbVor6mUZueaPURcq1tMtBl9/
- /Jzrm2IT1NA4JDC+NPrt9Rh36hAIaHz+hV2VsdCKcBA5nkyO7pwgWHwx/qTbAWDaocaU
- 8RBj3m0I9dJvbP5mP2OXhOabLYbzmRGJQJR4QfWn7tq55NtikYr8j8JEUGnU2VHPWtIh
- eaCAY5SptrQWG3yJkkVoaZrX7yt6JVOLGtyxFhpxyW0N9ipfs8PqX1bQBKbpN/S8s7rp
- QEOCTprBWI/AQ5zOkp/HlShbRtCwnvNGBpHaA5GwJ5hk0gV6SzuD6UI//PmvvXx1VoEY
- h+yA==
-X-Gm-Message-State: AC+VfDzpNOaBtRao6I9Lx7mZ8IeO/bs0KuusOBlEL3rMB107EPJo3nRf
- 5J67Yaj+4pMs5++JKB2gDP8=
-X-Google-Smtp-Source: ACHHUZ6WYixetXxqscnEuaye58EHNCfk7U2R+MR+HHdutBLP3n0D0AInyIH0o5xQZgTALwu/XZmzpQ==
-X-Received: by 2002:ac2:4895:0:b0:4eb:30f9:eed7 with SMTP id
- x21-20020ac24895000000b004eb30f9eed7mr1419264lfc.22.1682687549169; 
- Fri, 28 Apr 2023 06:12:29 -0700 (PDT)
-Received: from eldfell ([194.136.85.206]) by smtp.gmail.com with ESMTPSA id
- w20-20020ac24434000000b004cc8196a308sm3362954lfl.98.2023.04.28.06.12.28
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Apr 2023 06:12:28 -0700 (PDT)
-Date: Fri, 28 Apr 2023 16:12:18 +0300
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Simon Ser <contact@emersion.fr>
-Subject: Re: [PATCH 2/3] drm: add define for Static_Metadata_Descriptor_ID
-Message-ID: <20230428161218.338591a4@eldfell>
-In-Reply-To: <20230428100115.9802-2-contact@emersion.fr>
-References: <20230428100115.9802-1-contact@emersion.fr>
- <20230428100115.9802-2-contact@emersion.fr>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.24; x86_64-pc-linux-gnu)
+X-Greylist: delayed 316 seconds by postgrey-1.36 at gabe;
+ Fri, 28 Apr 2023 13:12:24 UTC
+Received: from mailrelay2-1.pub.mailoutpod2-cph3.one.com
+ (mailrelay2-1.pub.mailoutpod2-cph3.one.com [IPv6:2a02:2350:5:401::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ABCF810ED4F
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Apr 2023 13:12:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ravnborg.org; s=rsa1;
+ h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
+ from:date:from;
+ bh=kmbigf8ZVmooEPRLcPWea0C5h/tG8tqKZ9j5z66PqBY=;
+ b=eF1EsYiPJqXNskjn8lLNQ9+SL1ozu7DWmdUJ0wcEG54JzKFiSjRAPjbhy8H0+ZeYNmOBVGFyCGbxz
+ 1DqXAIXpm/M1j1pEPlF21UxeOY9nSl8/Iap7s1D3yCRgky5Tf80L/WY954alIRbLpoRtvZVhxcohcH
+ gZD+6fQpR0DA7lwuphoh9i3Dd/maumGn+Tt03U+E+G1J826wfTSa+oaLhdKuvV7O3rOy6M3AH/bTVT
+ eeFuoeTpNjqcA1avBxePv+IBiCUAGPqV57NpcpjKAT9+Yl5+7MpsaighKpk8/33r2f8BLL2Qa32pZL
+ 7l5szrsw+UlNB1/m+sTEJZXBaipCRvA==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
+ d=ravnborg.org; s=ed1;
+ h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
+ from:date:from;
+ bh=kmbigf8ZVmooEPRLcPWea0C5h/tG8tqKZ9j5z66PqBY=;
+ b=4Jlvbtvr17/0MN2lAZB4KR0YNvraiUSF3TAKjdHVbDRCCaeKQbtDwZJbVZrTzY+ezyqRT4rd+YKPh
+ HNdg4s7Ag==
+X-HalOne-ID: 4f01baa5-e5c6-11ed-95e5-13111ccb208d
+Received: from ravnborg.org (2-105-2-98-cable.dk.customer.tdc.net [2.105.2.98])
+ by mailrelay2 (Halon) with ESMTPSA
+ id 4f01baa5-e5c6-11ed-95e5-13111ccb208d;
+ Fri, 28 Apr 2023 13:12:23 +0000 (UTC)
+Date: Fri, 28 Apr 2023 15:12:21 +0200
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH v2 5/5] fbdev: Define framebuffer I/O from Linux' I/O
+ functions
+Message-ID: <20230428131221.GE3995435@ravnborg.org>
+References: <20230428092711.406-1-tzimmermann@suse.de>
+ <20230428092711.406-6-tzimmermann@suse.de>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/7AesK.59JS9abN2Dz7e=47p";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230428092711.406-6-tzimmermann@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,111 +60,72 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Joshua Ashton <joshua@froggi.es>,
- Sebastian Wick <sebastian.wick@redhat.com>, dri-devel@lists.freedesktop.org
+Cc: linux-arch@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ linux-ia64@vger.kernel.org, loongarch@lists.linux.dev, arnd@arndb.de,
+ deller@gmx.de, chenhuacai@kernel.org, javierm@redhat.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ James.Bottomley@hansenpartnership.com, linux-m68k@lists.linux-m68k.org,
+ geert@linux-m68k.org, linux-parisc@vger.kernel.org, vgupta@kernel.org,
+ sparclinux@vger.kernel.org, kernel@xen0n.name,
+ linux-snps-arc@lists.infradead.org, davem@davemloft.net,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/7AesK.59JS9abN2Dz7e=47p
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Hi Thomas,
 
-On Fri, 28 Apr 2023 10:01:29 +0000
-Simon Ser <contact@emersion.fr> wrote:
-
-> This avoids hard-coding magic values in user-space, and makes our
-> documentation clearer.
->=20
-> Signed-off-by: Simon Ser <contact@emersion.fr>
-> Cc: Harry Wentland <harry.wentland@amd.com>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Cc: Sebastian Wick <sebastian.wick@redhat.com>
-> Cc: Joshua Ashton <joshua@froggi.es>
-> Cc: Pekka Paalanen <pekka.paalanen@collabora.com>
+On Fri, Apr 28, 2023 at 11:27:11AM +0200, Thomas Zimmermann wrote:
+> Implement framebuffer I/O helpers, such as fb_read*() and fb_write*()
+> with Linux' regular I/O functions. Remove all ifdef cases for the
+> various architectures.
+> 
+> Most of the supported architectures use __raw_() I/O functions or treat
+> framebuffer memory like regular memory. This is also implemented by the
+> architectures' I/O function, so we can use them instead.
+> 
+> Sparc uses SBus to connect to framebuffer devices. It provides respective
+> implementations of the framebuffer I/O helpers. The involved sbus_()
+> I/O helpers map to the same code as Sparc's regular I/O functions. As
+> with other platforms, we can use those instead.
+> 
+> We leave a TODO item to replace all fb_() functions with their regular
+> I/O counterparts throughout the fbdev drivers.
+> 
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 > ---
->  include/uapi/drm/drm_mode.h | 12 ++++++++++++
->  1 file changed, 12 insertions(+)
->=20
-> diff --git a/include/uapi/drm/drm_mode.h b/include/uapi/drm/drm_mode.h
-> index 997d23fb2d68..c0c40dc9e2f1 100644
-> --- a/include/uapi/drm/drm_mode.h
-> +++ b/include/uapi/drm/drm_mode.h
-> @@ -849,6 +849,16 @@ struct drm_color_lut {
->  	__u16 reserved;
->  };
-> =20
-> +/**
-> + * enum drm_hdr_metadata_type - HDR metadata descriptor ID.
-> + */
-> +enum drm_hdr_metadata_type {
-> +	/**
-> +	 * @DRM_HDR_STATIC_METADATA_TYPE1: Static Metadata Type 1.
-> +	 */
-> +	DRM_HDR_STATIC_METADATA_TYPE1 =3D 0,
-> +};
+>  include/linux/fb.h | 63 +++++++++++-----------------------------------
+>  1 file changed, 15 insertions(+), 48 deletions(-)
+> 
+> diff --git a/include/linux/fb.h b/include/linux/fb.h
+> index 08cb47da71f8..4aa9e90edd17 100644
+> --- a/include/linux/fb.h
+> +++ b/include/linux/fb.h
+> @@ -15,7 +15,6 @@
+>  #include <linux/list.h>
+>  #include <linux/backlight.h>
+>  #include <linux/slab.h>
+> -#include <asm/io.h>
+>  
+>  struct vm_area_struct;
+>  struct fb_info;
+> @@ -511,58 +510,26 @@ struct fb_info {
+>   */
+>  #define STUPID_ACCELF_TEXT_SHIT
+>  
+> -// This will go away
+> -#if defined(__sparc__)
+> -
+> -/* We map all of our framebuffers such that big-endian accesses
+> - * are what we want, so the following is sufficient.
+> +/*
+> + * TODO: Update fbdev drivers to call the I/O helpers directly and
+> + *       remove the fb_() tokens.
+>   */
+When the __raw_* variants are used, as Geert points out, then I think
+the memcpy / memset can be replaced, but the rest seems fine to keep.
 
-Hi,
+My personal opinion is that __raw_* is for macro use etc, and not
+something to use everywhere. So I like the fb_read/fb_write macros.
+But that is just my color of the bikeshed.
 
-the subject says "define" but this is an enum. No big deal, but the
-thing I started wondering is how I am going to use these in userspace.
-There is no #define I could test to know if I need to provide a
-fallback definition. What's the migration plan for userspace to start
-using this and patch 3?
-
-Nevertheless, these are good to have.
-
-Oh, is it a libdrm version check I should use?
-
-In that case, patches 2 and 3 are
-
-Reviewed-by: Pekka Paalanen <pekka.paalanen@collabora.com>
-
-
-Thanks,
-pq
-
-
-> +
->  /**
->   * struct hdr_metadata_infoframe - HDR Metadata Infoframe Data.
->   *
-> @@ -866,6 +876,7 @@ struct hdr_metadata_infoframe {
->  	__u8 eotf;
->  	/**
->  	 * @metadata_type: Static_Metadata_Descriptor_ID.
-> +	 * This must be &DRM_HDR_STATIC_METADATA_TYPE1.
->  	 */
->  	__u8 metadata_type;
->  	/**
-> @@ -925,6 +936,7 @@ struct hdr_metadata_infoframe {
->  struct hdr_output_metadata {
->  	/**
->  	 * @metadata_type: Static_Metadata_Descriptor_ID.
-> +	 * This must be &DRM_HDR_STATIC_METADATA_TYPE1.
->  	 */
->  	__u32 metadata_type;
->  	/**
-
-
---Sig_/7AesK.59JS9abN2Dz7e=47p
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmRLxjIACgkQI1/ltBGq
-qqertg/+N077B6lwTPas5wigfehFNdnZO27q+T5K5wCeLIP/aPBPVW/WoEGvJ7IV
-b0/3B9jnzcyxKcxW1FI9aCGnXCUEgswmNMD72usYlWyJlq6rb0C/rVeZQ7NhW9I0
-JQryx6DMyVtjrLOX7gqLZ2P1uF7WUNtuYOI9wjKJfqEabTTYcJHrQnrc9YZSPHH9
-RLx4eBBLZi2OhyunhM/tvaN1sPz6CQQ9fRjmdfWLCbQREjytt0FYzRjRg70Cfrr8
-rMxFFr1yk5vocOMF9rhXnYaymMs2kMMyrjBEjgjBUYm1Ipue7FlAbnqlTH5+UeFb
-xE4IP81at2/Zus2BAre2c81/kx0snSj+3q9vVpnUUBwasTWsssjDSiw1Liq+jUxQ
-eQc3SfryWTVOFdGqL0/jPtTAefO3KT3pOA5yc+Yv2WuR5re2wXUyH0KZacSVhOMm
-XOR1dvaTcTXZ30C8GJDwQ7m6x7pdIsE9uW4edYqYbi/cOck/OijAPm7vPbQMp8/y
-Z41sQuEBFmHmpUebfCY860Wrtrx0ByVdmwducC4W4Wha1aa3efqibdB2hVETrum/
-zyhOff2vKk8fWa6QPBsGHqgiAJc20ueBtrTV7E8jmiI9RcWP9Dvf/zvMNEUiEzOw
-CSmNsQIYzoGsUrLhJ8cMm20M8C3fW2xlJFfCDstxKb2bXWL3fXw=
-=UQRu
------END PGP SIGNATURE-----
-
---Sig_/7AesK.59JS9abN2Dz7e=47p--
+	Sam
