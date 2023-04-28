@@ -1,57 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18E806F17DB
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Apr 2023 14:25:58 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DE5086F17D5
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Apr 2023 14:25:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 90FD010ED2F;
-	Fri, 28 Apr 2023 12:25:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C635010ED0A;
+	Fri, 28 Apr 2023 12:25:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3185810ED09
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 003DE10ED09
  for <dri-devel@lists.freedesktop.org>; Fri, 28 Apr 2023 12:25:00 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id BEE122008D;
- Fri, 28 Apr 2023 12:24:58 +0000 (UTC)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 14C2521F5A;
+ Fri, 28 Apr 2023 12:24:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1682684698; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1682684699; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=+OcYfYVJ7U+KiGswDbBZ+oiWz6sQpYQbnNJZdT2+/4I=;
- b=vH+NWtNXZOr3hHQNVE5aL4/NZCNylcfT9Fw5c2ARYhe0dinKCeRUJ1gzo2XbeY6flwnR3B
- SvEBoA9FbFs8NsYS/t0ia6k2A0qkzrliOKz3CDwwD01pVn2cEUNNED38QtOzJp0Vq2EbzR
- drgKU8uGDvi7vd3jxtLfKvLU6YRM3QE=
+ bh=USWD/iAP7VvqqS3jPSlmBxxzXVWGLapBVB8uaV1NxOA=;
+ b=E4OkxnLj/rzTA3OfbhOCfRrGELmaLeAFEvG64XLxRt9yatrssiF/T7m6Y3UkCD1MC+j3NC
+ gFmldcPWYuGCHnd6+ZDn6XZMKbpL1i0vz0eRSNfWdNUwIeqd4g/NbML8rSYKLU8z+W8f44
+ rEXft8aPv3MYVgZqa23D6pFeeSfuyOE=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1682684698;
+ s=susede2_ed25519; t=1682684699;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=+OcYfYVJ7U+KiGswDbBZ+oiWz6sQpYQbnNJZdT2+/4I=;
- b=jKK7E3cUIZZr6sWtJymZgs/iQ7ng7EeId5Mk85iUzgYBE54NSb9Ap+7F/Kgh6YSfEICtSQ
- v9JN5IBMQaP0FfCQ==
+ bh=USWD/iAP7VvqqS3jPSlmBxxzXVWGLapBVB8uaV1NxOA=;
+ b=R8oSraXaq4QLD0d8BDxj9QStOHaKorDiWYMHPoDWtRTKXSkt0BZLNE5f4ntgQ2sFtYoy7a
+ 8Wu88pxbXeUeVcCg==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 85710139C3;
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id C37DF1390E;
  Fri, 28 Apr 2023 12:24:58 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id uEbIHxq7S2RgeAAAMHmgww
+ by imap2.suse-dmz.suse.de with ESMTPSA id aAzpLhq7S2RgeAAAMHmgww
  (envelope-from <tzimmermann@suse.de>); Fri, 28 Apr 2023 12:24:58 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
  daniel@ffwll.ch, javierm@redhat.com, deller@gmx.de, geert@linux-m68k.org,
  sudipm.mukherjee@gmail.com, teddy.wang@siliconmotion.com
-Subject: [PATCH v2 11/19] fbdev/udlfb: Use struct fb_info.screen_buffer
-Date: Fri, 28 Apr 2023 14:24:44 +0200
-Message-Id: <20230428122452.4856-12-tzimmermann@suse.de>
+Subject: [PATCH v2 12/19] fbdev/vfb: Use struct fb_info.screen_buffer
+Date: Fri, 28 Apr 2023 14:24:45 +0200
+Message-Id: <20230428122452.4856-13-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.40.0
 In-Reply-To: <20230428122452.4856-1-tzimmermann@suse.de>
 References: <20230428122452.4856-1-tzimmermann@suse.de>
@@ -87,56 +87,22 @@ rid of casting needed due to not using the correct data type.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/video/fbdev/udlfb.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+ drivers/video/fbdev/vfb.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/video/fbdev/udlfb.c b/drivers/video/fbdev/udlfb.c
-index 216d49c9d47e..09cf9381075a 100644
---- a/drivers/video/fbdev/udlfb.c
-+++ b/drivers/video/fbdev/udlfb.c
-@@ -1006,7 +1006,7 @@ static void dlfb_ops_destroy(struct fb_info *info)
- 		fb_dealloc_cmap(&info->cmap);
- 	if (info->monspecs.modedb)
- 		fb_destroy_modedb(info->monspecs.modedb);
--	vfree(info->screen_base);
-+	vfree(info->screen_buffer);
+diff --git a/drivers/video/fbdev/vfb.c b/drivers/video/fbdev/vfb.c
+index a0a2009e003e..43c5ac90d527 100644
+--- a/drivers/video/fbdev/vfb.c
++++ b/drivers/video/fbdev/vfb.c
+@@ -440,7 +440,7 @@ static int vfb_probe(struct platform_device *dev)
+ 	if (!info)
+ 		goto err;
  
- 	fb_destroy_modelist(&info->modelist);
+-	info->screen_base = (char __iomem *)videomemory;
++	info->screen_buffer = videomemory;
+ 	info->fbops = &vfb_ops;
  
-@@ -1120,7 +1120,7 @@ static int dlfb_ops_set_par(struct fb_info *info)
- 
- 		/* paint greenscreen */
- 
--		pix_framebuffer = (u16 *) info->screen_base;
-+		pix_framebuffer = (u16 *)info->screen_buffer;
- 		for (i = 0; i < info->fix.smem_len / 2; i++)
- 			pix_framebuffer[i] = 0x37e6;
- 	}
-@@ -1219,7 +1219,7 @@ static void dlfb_deferred_vfree(struct dlfb_data *dlfb, void *mem)
- static int dlfb_realloc_framebuffer(struct dlfb_data *dlfb, struct fb_info *info, u32 new_len)
- {
- 	u32 old_len = info->fix.smem_len;
--	const void *old_fb = (const void __force *)info->screen_base;
-+	const void *old_fb = info->screen_buffer;
- 	unsigned char *new_fb;
- 	unsigned char *new_back = NULL;
- 
-@@ -1236,12 +1236,12 @@ static int dlfb_realloc_framebuffer(struct dlfb_data *dlfb, struct fb_info *info
- 		}
- 		memset(new_fb, 0xff, new_len);
- 
--		if (info->screen_base) {
-+		if (info->screen_buffer) {
- 			memcpy(new_fb, old_fb, old_len);
--			dlfb_deferred_vfree(dlfb, (void __force *)info->screen_base);
-+			dlfb_deferred_vfree(dlfb, info->screen_buffer);
- 		}
- 
--		info->screen_base = (char __iomem *)new_fb;
-+		info->screen_buffer = new_fb;
- 		info->fix.smem_len = new_len;
- 		info->fix.smem_start = (unsigned long) new_fb;
- 		info->flags = udlfb_info_flags;
+ 	if (!fb_find_mode(&info->var, info, mode_option,
 -- 
 2.40.0
 
