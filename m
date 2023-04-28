@@ -1,72 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D7516F1B2D
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Apr 2023 17:09:17 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5179D6F1B37
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Apr 2023 17:13:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 65E6210E3C5;
-	Fri, 28 Apr 2023 15:09:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 86C4110E3CE;
+	Fri, 28 Apr 2023 15:13:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5AE4510E3C5
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Apr 2023 15:09:12 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9953710E3CE
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Apr 2023 15:13:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1682694551;
+ s=mimecast20190719; t=1682694788;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=CtuyV//oUjSwLm+8sbTRXQA1ElJkX8KhmdItyI9uBhU=;
- b=Jc73HwRHtAvxUGkS/O6wMrs4BtWg9l+mKLF+wIFJcu5u62HY2D57dN5DA/wx65AfrVvBPB
- +Du6XKui7VC5Lw1VTsZPQJZRVUZ6CKyEFwUBDhTM/4S/KqU5USLPtUZULmbMzU/OEc2eYh
- EH4WHHzJaHxuPXGDGsHDv2G+sSqs+IY=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=T6nMtf6Gzq3uJ6hYj+VP/gNrA7S63KDC0HhAUOQNVRE=;
+ b=ea2r46un4+f9taKv8oVNBdRC1HDvV4QB04t02iJhTy4mE+kzlEfCdFKMzkRM1en8b3R4cM
+ v2JM/Q5mvoW69oL7Lzy9LIUl0+Oytw9N8QgBCjJFKALjjgjDDUpnp4u9dI6HDpFY9Jq3RU
+ aqAmcp+42HLLKiPw3dPQNZAItSdScLo=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-265-bbosu54mPuuNHARFy947ZQ-1; Fri, 28 Apr 2023 11:08:46 -0400
-X-MC-Unique: bbosu54mPuuNHARFy947ZQ-1
-Received: by mail-wr1-f72.google.com with SMTP id
- ffacd0b85a97d-2f446161e5aso6059737f8f.1
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Apr 2023 08:08:37 -0700 (PDT)
+ us-mta-379-hW_EVH2nPbCEUUtFHQ3vqw-1; Fri, 28 Apr 2023 11:12:31 -0400
+X-MC-Unique: hW_EVH2nPbCEUUtFHQ3vqw-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ ffacd0b85a97d-2f69e5def13so3709737f8f.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Apr 2023 08:12:12 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682694516; x=1685286516;
+ d=1e100.net; s=20221208; t=1682694729; x=1685286729;
  h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
  :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=CtuyV//oUjSwLm+8sbTRXQA1ElJkX8KhmdItyI9uBhU=;
- b=PlskVcLQ5Sx7KTurbEciZnzyPy/hXH8ENAmWWAcWUcANGzgbPg/MfsejA3k6yWjUD6
- TV/2rcS+zQpF/8NP+Kj+CQ3QI/fr5moqrfLZQtOIFHvrEbLVnZ9gWeOv5NDBR3XH8VsN
- JWBu8jupYE044k0uchrGBRgUx36qw9Up2apP2jEtWi/awf+cvZZEegq2NZ3OwA5V7iFT
- aA7WDD555FGHsJpnMKq4M2LZqHuSCMYpNPlPRG7Ww1uzhc8mWsYnRLhIQUvmN/saocPE
- 8o3z6vCTnbPiknjW3MHIORpCnUONhKrMODg1smesXKy46svY+rJRGd8epge3y30Mphhx
- ZP8w==
-X-Gm-Message-State: AC+VfDyAtZx5WkwW+nJgAjOoqnY0anH0u4vS56Z++mvsF0C2CntvUKcZ
- mFz65gimOVYTC5maBAvK3eHuWUoO6GMwDVADm2KmTOj0Y/0zeHHd1+L0Bftgdjcp8pGUPUGt/WR
- 4A9NpyZBxotT32kfiqLA+rg3BIUvG
-X-Received: by 2002:adf:f9cd:0:b0:300:cb8c:fd8f with SMTP id
- w13-20020adff9cd000000b00300cb8cfd8fmr4303856wrr.54.1682694516518; 
- Fri, 28 Apr 2023 08:08:36 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ5FgJceQYz2SY41hmwVKRoPDdwpglz9z+P8bHRPnmCN2iLhJTTykty1Ty35JpjNffWOYwatQA==
-X-Received: by 2002:adf:f9cd:0:b0:300:cb8c:fd8f with SMTP id
- w13-20020adff9cd000000b00300cb8cfd8fmr4303836wrr.54.1682694516221; 
- Fri, 28 Apr 2023 08:08:36 -0700 (PDT)
+ bh=T6nMtf6Gzq3uJ6hYj+VP/gNrA7S63KDC0HhAUOQNVRE=;
+ b=PZGnOrr+OCNMbprpuGLkKcS/CRY1jUDSyedzXRwCDnpyYu2CW0ILm6kSOFBuXxb0pU
+ DWBqnIeGNYnIG4nDFXRzxeBawiTyRDfxIpu+U7ZcLXusCgtZiUk/hiygP1MeApVHYyi8
+ LoQXjEqsCOVVWdURZI3u3wGg4zg/lOT9MQqx+O6X4ityXjB6gwnZkFbX3zOxicvSUYvI
+ 8FvVWSDvMsTTUZS1uZWIIFHGPPsugIbgETi0tcQQvUw6WD3z2l9Fop6bg7uR0wx7EAek
+ KFyJzzncNAZwDsLZ9jcr07BaIS6AkpMB1CseEYGlfFYs85Cu/y1srvy8pnVlpfTArf1M
+ ugMw==
+X-Gm-Message-State: AC+VfDz+31sCeVpc8H6u4NJHDqeyWg84zlgOK58gGBoLHHLhRWyIkOGl
+ p4VLRFFsmF9FR7mIKWRv4rW75odpNLn84rIpo+EvqLyXg3S2txn4glIhTcSxQMF0wkPL52JMdMs
+ 57HZ7VE/+c3N2KzfivYt7ez+bpZ1O
+X-Received: by 2002:adf:e689:0:b0:304:760c:6474 with SMTP id
+ r9-20020adfe689000000b00304760c6474mr4572624wrm.10.1682694728863; 
+ Fri, 28 Apr 2023 08:12:08 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ44bsNLFtYJtMnmm9jFzKFRATuTWPXEJOmr7ScTjElY9MxGn1aNvKFBPBprMOJgW6uVbp7bQw==
+X-Received: by 2002:adf:e689:0:b0:304:760c:6474 with SMTP id
+ r9-20020adfe689000000b00304760c6474mr4572608wrm.10.1682694728534; 
+ Fri, 28 Apr 2023 08:12:08 -0700 (PDT)
 Received: from localhost (205.pool92-176-231.dynamic.orange.es.
  [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- k5-20020adff5c5000000b002f103ca90cdsm21275148wrp.101.2023.04.28.08.08.35
+ h19-20020a05600c351300b003f1958eeadcsm20815145wmq.17.2023.04.28.08.12.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Apr 2023 08:08:35 -0700 (PDT)
+ Fri, 28 Apr 2023 08:12:08 -0700 (PDT)
 From: Javier Martinez Canillas <javierm@redhat.com>
 To: Thomas Zimmermann <tzimmermann@suse.de>,
  maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
  daniel@ffwll.ch, deller@gmx.de, geert@linux-m68k.org,
  sudipm.mukherjee@gmail.com, teddy.wang@siliconmotion.com
-Subject: Re: [PATCH v2 10/19] fbdev/smscufx: Use struct fb_info.screen_buffer
-In-Reply-To: <20230428122452.4856-11-tzimmermann@suse.de>
+Subject: Re: [PATCH v2 11/19] fbdev/udlfb: Use struct fb_info.screen_buffer
+In-Reply-To: <20230428122452.4856-12-tzimmermann@suse.de>
 References: <20230428122452.4856-1-tzimmermann@suse.de>
- <20230428122452.4856-11-tzimmermann@suse.de>
-Date: Fri, 28 Apr 2023 17:08:34 +0200
-Message-ID: <87r0s4f3il.fsf@minerva.mail-host-address-is-not-set>
+ <20230428122452.4856-12-tzimmermann@suse.de>
+Date: Fri, 28 Apr 2023 17:12:07 +0200
+Message-ID: <87o7n8f3co.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
@@ -98,7 +98,8 @@ Thomas Zimmermann <tzimmermann@suse.de> writes:
 > or info->screen_buffer if the framebuffer is stored in system memory.
 >
 > As the driver operates on the latter address space, it is wrong to use
-> .screen_base and .screen_buffer must be used instead.
+> .screen_base and .screen_buffer must be used instead. This also gets
+> rid of casting needed due to not using the correct data type.
 >
 > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 > ---
