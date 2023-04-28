@@ -1,60 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46FCF6F13A2
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Apr 2023 10:53:58 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B73A66F13AE
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Apr 2023 10:56:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 35A9810EC6D;
-	Fri, 28 Apr 2023 08:53:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B0AB010EC86;
+	Fri, 28 Apr 2023 08:56:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com
- [IPv6:2a00:1450:4864:20::32b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7C55910EC85
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Apr 2023 08:53:53 +0000 (UTC)
-Received: by mail-wm1-x32b.google.com with SMTP id
- 5b1f17b1804b1-3f1763ee8f8so65836625e9.1
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Apr 2023 01:53:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=fireburn-co-uk.20221208.gappssmtp.com; s=20221208; t=1682672030; x=1685264030;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=pL4Xsln7CoA4UJTPrm8Ceoo9nwMvFKVDs7triguts9c=;
- b=iOgcvluJ5NlwY+G2e3qRzuy+4lPMNksSVQlm7/f+23M3xismiwP81z2CjEF983Rtzz
- hfAKd9oi1J+uyQpmFVfLIOEh9YTNZ5tvHlChRgsM9K/WaTIlJqz8bp6UWXacz0IpIhbn
- MekpkdSne5knaH4YfrOPUlQWNE3hHOG3i/jRykdfxxBJvW111nbs+cbjdVtSpjH4vR+x
- wrNyi2FQ8LRBY+F2hkQvMk5UGNZnHkcTuU8xIitWijrjoV3Vjr2tZFLEIb3jEbbgVgO1
- cqLKVJDm/+qbcilvevaTFEhIbxJSbqS/comyiqIQrMTlC8ja8cADbGUVrANh0K9SGGZN
- VJeQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682672030; x=1685264030;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=pL4Xsln7CoA4UJTPrm8Ceoo9nwMvFKVDs7triguts9c=;
- b=Q3B5jWlX3kbMHDYANT5jGxatGK6zY3yC5igbdOR7ws0QmNSRFRc+wyJxh7UjmlfoUK
- MkYARvZuQGfeubaKRU9QJHq+3MIWbwQg7mCRIaSR9oLxfjfLzUnx/nFuIpcYzaGSYaE5
- g+nEFHWeBhXb2/4Y4svTMr+maB1yhrqHicDxzEMUSeoru9oAnRRe0khL3WzAY/chvYfu
- 02le5hNIb9UYFCDe+/MelH/KykMMsEHPKINzLUV5KAabYKq/5dQNHD9B5Hp5CWB8Yeo1
- ZqLZt6ElEBsDyicdMdx+VBkpwhMdZW+zaGpKFfSygIFNwOO2Eo5yu2hdQR+rNuDJRbGL
- mZVg==
-X-Gm-Message-State: AC+VfDxFx3br5IkCx9QbRgeQyu0OLlnqYs6BlomZV4Rnyq+av+aothBM
- aFWQvv2XTBofQe5TUnBgF6iJVbuinanUu7vyWBUucg==
-X-Google-Smtp-Source: ACHHUZ4L+JHzNv6HlWmdBjRonkyWikGIyXD0OGcZhY2soKtk3FiHrs3ub07ijNaUbKOzSh/rnPq0ARlpLFg9zkYYhek=
-X-Received: by 2002:a7b:c5c6:0:b0:3f0:8fb3:24ea with SMTP id
- n6-20020a7bc5c6000000b003f08fb324eamr3436522wmk.9.1682672029706; Fri, 28 Apr
- 2023 01:53:49 -0700 (PDT)
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3FDA210EC80;
+ Fri, 28 Apr 2023 08:56:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1682672160; x=1714208160;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=9pexECH/mgIvrvJ2poPTW606fGUoKNk4Fi15axrvXsU=;
+ b=gV6XuRfSvGm5aDW7EhePDDGcBSwcjQZdnZH73PqGRa6S3mvbe6Lsrp0U
+ stFGuslJiInpbk0glqpMAX273TlgdBipryFKQz2XyIt26PTdUXO3+Mute
+ mCvsFWTfAcW2MXgA/TjDeF4McqO62RwwOTtdiQnUx4/lrcvSG+X3OiAQi
+ uN0ZvQVD5cK2idoFDaixCi2OPVuErVhTvBkX0dPKgTvgeFPLwHhpecZAr
+ ACICNK9jzHJboCNmc/FfInP4weAfCfQ9DHgG4+GCzEe2Xj07troA2LoXD
+ kgN2Aux2ZFlsiy/yZXMJDXNwXvWUsrq1gq4IRicUOd0ODom+NfgBiBkia g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10693"; a="375681425"
+X-IronPort-AV: E=Sophos;i="5.99,234,1677571200"; d="scan'208";a="375681425"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Apr 2023 01:55:59 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10693"; a="784131306"
+X-IronPort-AV: E=Sophos;i="5.99,234,1677571200"; d="scan'208";a="784131306"
+Received: from ahermans-mobl1.ger.corp.intel.com (HELO intel.com)
+ ([10.252.35.91])
+ by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Apr 2023 01:55:54 -0700
+Date: Fri, 28 Apr 2023 10:55:52 +0200
+From: Andi Shyti <andi.shyti@linux.intel.com>
+To: Andrzej Hajda <andrzej.hajda@intel.com>
+Subject: Re: [PATCH v8 7/7] drm/i915: Track gt pm wakerefs
+Message-ID: <ZEuKGN7S7L/FfYRV@ashyti-mobl2.lan>
+References: <20230224-track_gt-v8-0-4b6517e61be6@intel.com>
+ <20230224-track_gt-v8-7-4b6517e61be6@intel.com>
 MIME-Version: 1.0
-References: <cover.1681898595.git.petr.tesarik.ext@huawei.com>
-In-Reply-To: <cover.1681898595.git.petr.tesarik.ext@huawei.com>
-From: Mike Lothian <mike@fireburn.co.uk>
-Date: Fri, 28 Apr 2023 09:53:38 +0100
-Message-ID: <CAHbf0-HwQhFsYW8cp0t9660877b9tTxZBego7VSfx0ayAwKePQ@mail.gmail.com>
-Subject: Re: [PATCH v2 0/7] Allow dynamic allocation of software IO TLB bounce
- buffers
-To: Petr Tesarik <petrtesarik@huaweicloud.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230224-track_gt-v8-7-4b6517e61be6@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,112 +59,26 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>, Muchun Song <muchun.song@linux.dev>,
- "Rafael J. Wysocki" <rafael@kernel.org>,
- Catalin Marinas <catalin.marinas@arm.com>,
- Kefeng Wang <wangkefeng.wang@huawei.com>,
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- Kim Phillips <kim.phillips@amd.com>, Will Deacon <will@kernel.org>,
- Christoph Hellwig <hch@lst.de>, Marek Szyprowski <m.szyprowski@samsung.com>,
- Jonathan Corbet <corbet@lwn.net>,
- Damien Le Moal <damien.lemoal@opensource.wdc.com>,
- "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
- "open list:DMA MAPPING HELPERS" <iommu@lists.linux.dev>,
- Borislav Petkov <bp@suse.de>, Won Chung <wonchung@google.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- "Paul E. McKenney" <paulmck@kernel.org>, petr@tesarici.cz,
- Hans de Goede <hdegoede@redhat.com>,
- "Steven Rostedt \(Google\)" <rostedt@goodmis.org>,
- Zhen Lei <thunder.leizhen@huawei.com>, Dan Williams <dan.j.williams@intel.com>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Petr Tesarik <petr.tesarik.ext@huawei.com>, Kees Cook <keescook@chromium.org>,
- Ondrej Zary <linux@zary.sk>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Randy Dunlap <rdunlap@infradead.org>, Roberto Sassu <roberto.sassu@huawei.com>,
- open list <linux-kernel@vger.kernel.org>, Thomas Gleixner <tglx@linutronix.de>,
- Robin Murphy <robin.murphy@arm.com>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Andi Shyti <andi.shyti@linux.intel.com>, netdev@vger.kernel.org,
+ intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Chris Wilson <chris@chris-wilson.co.uk>, Eric Dumazet <edumazet@google.com>,
+ dri-devel@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Jakub Kicinski <kuba@kernel.org>, "David S. Miller" <davem@davemloft.net>,
+ Dmitry Vyukov <dvyukov@google.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 19 Apr 2023 at 11:05, Petr Tesarik <petrtesarik@huaweicloud.com> wrote:
->
-> From: Petr Tesarik <petr.tesarik.ext@huawei.com>
->
-> The goal of my work is to provide more flexibility in the sizing of
-> SWIOTLB.
->
-> The software IO TLB was designed with these assumptions:
->
-> 1. It would not be used much, especially on 64-bit systems.
-> 2. A small fixed memory area (64 MiB by default) is sufficient to
->    handle the few cases which require a bounce buffer.
-> 3. 64 MiB is little enough that it has no impact on the rest of the
->    system.
->
-> First, if SEV is active, all DMA must be done through shared
-> unencrypted pages, and SWIOTLB is used to make this happen without
-> changing device drivers. The software IO TLB size is increased to
-> 6% of total memory in sev_setup_arch(), but that is more of an
-> approximation. The actual requirements may vary depending on the
-> amount of I/O and which drivers are used. These factors may not be
-> know at boot time, i.e. when SWIOTLB is allocated.
->
-> Second, other colleagues have noticed that they can reliably get
-> rid of occasional OOM kills on an Arm embedded device by reducing
-> the SWIOTLB size. This can be achieved with a kernel parameter, but
-> determining the right value puts additional burden on pre-release
-> testing, which could be avoided if SWIOTLB is allocated small and
-> grows only when necessary.
->
-> Changes from v1-devel-v7:
-> - Add comments to acquire/release barriers
-> - Fix whitespace issues reported by checkpatch.pl
->
-> Changes from v1-devel-v6:
-> - Provide long description of functions
-> - Fix kernel-doc (Returns: to Return:)
-> - Rename __lookup_dyn_slot() to lookup_dyn_slot_locked()
->
-> Changes from RFC:
-> - Track dynamic buffers per device instead of per swiotlb
-> - Use a linked list instead of a maple tree
-> - Move initialization of swiotlb fields of struct device to a
->   helper function
-> - Rename __lookup_dyn_slot() to lookup_dyn_slot_locked()
-> - Introduce per-device flag if dynamic buffers are in use
-> - Add one more user of DMA_ATTR_MAY_SLEEP
-> - Add kernel-doc comments for new (and some old) code
-> - Properly escape '*' in dma-attributes.rst
->
-> Petr Tesarik (7):
->   swiotlb: Use a helper to initialize swiotlb fields in struct device
->   swiotlb: Move code around in preparation for dynamic bounce buffers
->   dma-mapping: introduce the DMA_ATTR_MAY_SLEEP attribute
->   swiotlb: Dynamically allocated bounce buffers
->   swiotlb: Add a boot option to enable dynamic bounce buffers
->   drm: Use DMA_ATTR_MAY_SLEEP from process context
->   swiotlb: per-device flag if there are dynamically allocated buffers
->
->  .../admin-guide/kernel-parameters.txt         |   6 +-
->  Documentation/core-api/dma-attributes.rst     |  10 +
->  drivers/base/core.c                           |   4 +-
->  drivers/gpu/drm/drm_gem_shmem_helper.c        |   2 +-
->  drivers/gpu/drm/drm_prime.c                   |   2 +-
->  include/linux/device.h                        |  12 +
->  include/linux/dma-mapping.h                   |   6 +
->  include/linux/swiotlb.h                       |  54 ++-
->  kernel/dma/swiotlb.c                          | 382 ++++++++++++++++--
->  9 files changed, 443 insertions(+), 35 deletions(-)
->
-> --
-> 2.25.1
->
+Hi Andrzej,
 
-Hi
+On Tue, Apr 25, 2023 at 12:05:44AM +0200, Andrzej Hajda wrote:
+> Track every intel_gt_pm_get() until its corresponding release in
+> intel_gt_pm_put() by returning a cookie to the caller for acquire that
+> must be passed by on released. When there is an imbalance, we can see who
+> either tried to free a stale wakeref, or who forgot to free theirs.
+> 
+> Signed-off-by: Andrzej Hajda <andrzej.hajda@intel.com>
 
-Is this a potential fix for
-https://bugzilla.kernel.org/show_bug.cgi?id=217310 where I'm manually
-setting bigger buffers to keep my wifi working?
+Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com> 
 
-Thanks
-
-Mike
+Andi
