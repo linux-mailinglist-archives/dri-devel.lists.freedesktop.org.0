@@ -1,72 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79A056F17D6
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Apr 2023 14:25:52 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 824E06F180C
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Apr 2023 14:33:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6496B10ED19;
-	Fri, 28 Apr 2023 12:25:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3B4E310ED29;
+	Fri, 28 Apr 2023 12:33:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com
- [IPv6:2a00:1450:4864:20::52e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4184710ECED
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Apr 2023 12:25:41 +0000 (UTC)
-Received: by mail-ed1-x52e.google.com with SMTP id
- 4fb4d7f45d1cf-506b8c6bbdbso14523814a12.1
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Apr 2023 05:25:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1682684739; x=1685276739;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=JZaTVYj+7JHW5ogrU2gshDHZR4SGV9IAITO2F/xNkdE=;
- b=S09ujwy6aOa6ctTYPXwZoPuRqF36CQOsazZonATFMiCtuWUqgPKeTkzkXMlHuMRDwV
- fLyWqUdCI9LTy5qBVXnvUr9nsc1iUB70043XxxZExzigT7J8Q5IBgzamv6tF2kALgu1Y
- Yea9deTDF9RU3VYdjcs6b5Rjz461ikvTNh/RO1MsUPAASsf9MNnIjvxm5MHjXHO8mWd3
- MpDfVvBEqhnqWnh/krHjWorg//QItjEdQCqnZZ+7NaRY3SFEK9fv0qHuNQP8oTu23hUq
- XRgPM+D1+VtGFF4UcvqEN3Z1pUWM0Gxg0ZN152oSurdgRNsePO4i9JsPUHjavQrMvg1Y
- Uwww==
+Received: from mail-il1-f170.google.com (mail-il1-f170.google.com
+ [209.85.166.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 737DC10ED25
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Apr 2023 12:33:02 +0000 (UTC)
+Received: by mail-il1-f170.google.com with SMTP id
+ e9e14a558f8ab-32b1c8ff598so73975295ab.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Apr 2023 05:33:02 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682684739; x=1685276739;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=JZaTVYj+7JHW5ogrU2gshDHZR4SGV9IAITO2F/xNkdE=;
- b=PuPkbT/m1g/8EdKV1XP0Bp+xXgeH0F5YpHeDBMr0HQsr/32rhEfCLmY0fhbZ27Fc/Q
- NgzChM4y5XddMDKHniqyeEBG9WApj58pvKm/eO2OyvjdR/Og5p9XgI5kMXqRfGeehC5s
- y3jtNX31SNsuHwi8nptrt53FFccKbt423OwSNCDfr5izq5u1Ta7M9U43t9HaTMQBcCBi
- r8Z6njn2zE+LpkDSMXjal9B/EVwMiKFfNjX5jXMWE5L2GJ8TYmMPLS0fiQ4/dTLq4S0d
- eAERrWGlAuKUtvg/D0hpZxSsAErFZRXFTVWMKkKsBPH+10Hq2EMgRgg0l13f3LQLj9FD
- 5snA==
-X-Gm-Message-State: AC+VfDzL000ytg++MXYeqmYNJ3qkQTojHSY+AgFISninQOrTJL65F4ef
- kKEBD4eCOWc8BsSQkqJdOlq4dQ==
-X-Google-Smtp-Source: ACHHUZ5nE8CV6swtaa6RT8oWCahIZAfJUkO/1Goui9aA/rILn+31p0oddbno5lpzYsEOiXt4oKJLeg==
-X-Received: by 2002:a50:fb04:0:b0:506:be49:243a with SMTP id
- d4-20020a50fb04000000b00506be49243amr4117396edq.15.1682684739187; 
- Fri, 28 Apr 2023 05:25:39 -0700 (PDT)
-Received: from [172.23.4.26] ([31.221.30.162])
- by smtp.gmail.com with ESMTPSA id
- f7-20020a05640214c700b004fa380a14e7sm9102383edx.77.2023.04.28.05.25.38
+ d=1e100.net; s=20221208; t=1682685181; x=1685277181;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=XDsEdn6WDxg314v0qLuVGHvJOHZvS1YLN0vYRrRrPEc=;
+ b=UJiz18BqFtevdkcxj1H5+BrLUUPkrapk3oeM0UQus2YXpJ24BD9wsf5QV4ciRrEsbk
+ 6W7tBqzVSa7b1a9eiYObHX8ss0K9tT3jeLaseh6iGCkGx42sNjxk1R9ON4CnFL4Dhcjp
+ 8vYEiYLwboOULkIC74OnQiOVbf31DpNEP9cPgGOzHd/EMz9pvM/0JqRDsWg1gQQT5agg
+ L90WGFPow5bsGeSUgL5VoedZ5BXyHowpVIbC/ZtndKXwiVxGnde0/pUVxl5TC8bHwrB4
+ KrghbqqH1VtL4uL55UERlIIzXfdd9wCk96Whu4SXrzcppXYHkE0GSCmcYHMvXMYftVHz
+ P5xQ==
+X-Gm-Message-State: AC+VfDxhzs1Jq+tHz1VBqsz9E/rHMHQiEEJ6/5W87l23dex2PSwPyP0D
+ WQhTAW5lOSYY1W7dzU7eRbvboCUkfUy7Vg==
+X-Google-Smtp-Source: ACHHUZ6c7n0TktVXxn92U1SXQKPiVLMp/csfkG4bPlCefrn/SfLETdUfSKxpxG1eGWFUHNlYkmwDnA==
+X-Received: by 2002:a92:d4d0:0:b0:329:3eb7:7ef1 with SMTP id
+ o16-20020a92d4d0000000b003293eb77ef1mr3309108ilm.32.1682685181146; 
+ Fri, 28 Apr 2023 05:33:01 -0700 (PDT)
+Received: from mail-il1-f171.google.com (mail-il1-f171.google.com.
+ [209.85.166.171]) by smtp.gmail.com with ESMTPSA id
+ a6-20020a029406000000b0040bbb88f308sm6351085jai.17.2023.04.28.05.33.00
+ for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 28 Apr 2023 05:25:38 -0700 (PDT)
-Message-ID: <87d16bb4-178a-2583-5338-d9e9674da6e9@linaro.org>
-Date: Fri, 28 Apr 2023 13:25:37 +0100
+ Fri, 28 Apr 2023 05:33:00 -0700 (PDT)
+Received: by mail-il1-f171.google.com with SMTP id
+ e9e14a558f8ab-32ac0743030so74182295ab.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Apr 2023 05:33:00 -0700 (PDT)
+X-Received: by 2002:a81:8a01:0:b0:544:69f5:fadc with SMTP id
+ a1-20020a818a01000000b0054469f5fadcmr3593096ywg.6.1682684839491; Fri, 28 Apr
+ 2023 05:27:19 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH v2 07/13] drm/msm/dpu: Add SM6350 support
-Content-Language: en-US
-To: Marijn Suijten <marijn.suijten@somainline.org>
-References: <20230411-topic-straitlagoon_mdss-v2-0-5def73f50980@linaro.org>
- <20230411-topic-straitlagoon_mdss-v2-7-5def73f50980@linaro.org>
- <k25jg7cez2kimpxr4ztbdzjr2adq6a2vjknyvfe5frxujtogfg@vhfdyt45unv6>
- <b3fajcbkfxqy4bxzjezrugbetpbjxdskarr3fhtn2unhqv2srj@y2o3wfd4v7dz>
-From: Konrad Dybcio <konrad.dybcio@linaro.org>
-In-Reply-To: <b3fajcbkfxqy4bxzjezrugbetpbjxdskarr3fhtn2unhqv2srj@y2o3wfd4v7dz>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20230428092711.406-1-tzimmermann@suse.de>
+ <20230428092711.406-6-tzimmermann@suse.de>
+ <430c73f0-45f4-f81e-6506-bc8cc955d936@arm.com>
+In-Reply-To: <430c73f0-45f4-f81e-6506-bc8cc955d936@arm.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Fri, 28 Apr 2023 14:27:05 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdUGjtiAR37L4_e0_p8ee2=gxoUj7+e7rqMLTBK+vpV4yw@mail.gmail.com>
+Message-ID: <CAMuHMdUGjtiAR37L4_e0_p8ee2=gxoUj7+e7rqMLTBK+vpV4yw@mail.gmail.com>
+Subject: Re: [PATCH v2 5/5] fbdev: Define framebuffer I/O from Linux' I/O
+ functions
+To: Robin Murphy <robin.murphy@arm.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,59 +72,120 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, iommu@lists.linux.dev,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Will Deacon <will@kernel.org>, devicetree@vger.kernel.org,
- Sean Paul <sean@poorly.run>, Joerg Roedel <joro@8bytes.org>,
- Konrad Dybcio <konrad.dybcio@somainline.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
- Krishna Manikandan <quic_mkrishn@quicinc.com>, linux-arm-msm@vger.kernel.org,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- linux-arm-kernel@lists.infradead.org, Robin Murphy <robin.murphy@arm.com>
+Cc: linux-fbdev@vger.kernel.org, linux-ia64@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, James.Bottomley@hansenpartnership.com,
+ sparclinux@vger.kernel.org, kernel@xen0n.name, sam@ravnborg.org,
+ linux-arch@vger.kernel.org, deller@gmx.de, chenhuacai@kernel.org,
+ javierm@redhat.com, vgupta@kernel.org, linux-snps-arc@lists.infradead.org,
+ arnd@arndb.de, linux-m68k@lists.linux-m68k.org, loongarch@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-parisc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ davem@davemloft.net
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On 4/27/23 16:48, Marijn Suijten wrote:
-> On 2023-04-27 17:37:42, Marijn Suijten wrote:
->> On 2023-04-21 00:31:16, Konrad Dybcio wrote:
->>> Add SM6350 support to the DPU1 driver to enable display output.
->>>
->>> Signed-off-by: Konrad Dybcio <konrad.dybcio@somainline.org>
->>> Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
->> After addressing the comments from Dmitry (CURSOR0->DMA1 and
->> CURSOR1->DMA2), this is:
->>
->> Reviewed-by: Marijn Suijten <marijn.suijten@somainline.org>
->>
->> See below for some nits.
-> Actually found one glaring issue that might explain why INTF TE wasn't
-> working for you the other day!
-
-[...]
-
-
->>> +	.vbif = sm6350_vbif,
->>> +	.reg_dma_count = 1,
->>> +	.dma_cfg = &sm8250_regdma,
->>> +	.perf = &sm6350_perf_data,
->>> +	.mdss_irqs = BIT(MDP_SSPP_TOP0_INTR) | \
->>> +		     BIT(MDP_SSPP_TOP0_INTR2) | \
->>> +		     BIT(MDP_SSPP_TOP0_HIST_INTR) | \
->>> +		     BIT(MDP_INTF0_INTR) | \
->>> +		     BIT(MDP_INTF1_INTR)
-> For completeness I should've pointed out that you're missing
-> MDP_INTF1_TEAR_INTR here, likely resulting in INTF TE not working.
+On Fri, Apr 28, 2023 at 2:18=E2=80=AFPM Robin Murphy <robin.murphy@arm.com>=
+ wrote:
+> On 2023-04-28 10:27, Thomas Zimmermann wrote:
+> > Implement framebuffer I/O helpers, such as fb_read*() and fb_write*()
+> > with Linux' regular I/O functions. Remove all ifdef cases for the
+> > various architectures.
+> >
+> > Most of the supported architectures use __raw_() I/O functions or treat
+> > framebuffer memory like regular memory. This is also implemented by the
+> > architectures' I/O function, so we can use them instead.
+> >
+> > Sparc uses SBus to connect to framebuffer devices. It provides respecti=
+ve
+> > implementations of the framebuffer I/O helpers. The involved sbus_()
+> > I/O helpers map to the same code as Sparc's regular I/O functions. As
+> > with other platforms, we can use those instead.
+> >
+> > We leave a TODO item to replace all fb_() functions with their regular
+> > I/O counterparts throughout the fbdev drivers.
+> >
+> > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> > ---
+> >   include/linux/fb.h | 63 +++++++++++----------------------------------=
+-
+> >   1 file changed, 15 insertions(+), 48 deletions(-)
+> >
+> > diff --git a/include/linux/fb.h b/include/linux/fb.h
+> > index 08cb47da71f8..4aa9e90edd17 100644
+> > --- a/include/linux/fb.h
+> > +++ b/include/linux/fb.h
+> > @@ -15,7 +15,6 @@
+> >   #include <linux/list.h>
+> >   #include <linux/backlight.h>
+> >   #include <linux/slab.h>
+> > -#include <asm/io.h>
+> >
+> >   struct vm_area_struct;
+> >   struct fb_info;
+> > @@ -511,58 +510,26 @@ struct fb_info {
+> >    */
+> >   #define STUPID_ACCELF_TEXT_SHIT
+> >
+> > -// This will go away
+> > -#if defined(__sparc__)
+> > -
+> > -/* We map all of our framebuffers such that big-endian accesses
+> > - * are what we want, so the following is sufficient.
+> > +/*
+> > + * TODO: Update fbdev drivers to call the I/O helpers directly and
+> > + *       remove the fb_() tokens.
+> >    */
+> > -
+> > -// This will go away
+> > -#define fb_readb sbus_readb
+> > -#define fb_readw sbus_readw
+> > -#define fb_readl sbus_readl
+> > -#define fb_readq sbus_readq
+> > -#define fb_writeb sbus_writeb
+> > -#define fb_writew sbus_writew
+> > -#define fb_writel sbus_writel
+> > -#define fb_writeq sbus_writeq
+> > -#define fb_memset sbus_memset_io
+> > -#define fb_memcpy_fromfb sbus_memcpy_fromio
+> > -#define fb_memcpy_tofb sbus_memcpy_toio
+> > -
+> > -#elif defined(__i386__) || defined(__alpha__) || defined(__x86_64__) |=
+|      \
+> > -     defined(__hppa__) || defined(__sh__) || defined(__powerpc__) || \
+> > -     defined(__arm__) || defined(__aarch64__) || defined(__mips__)
+> > -
+> > -#define fb_readb __raw_readb
+> > -#define fb_readw __raw_readw
+> > -#define fb_readl __raw_readl
+> > -#define fb_readq __raw_readq
+> > -#define fb_writeb __raw_writeb
+> > -#define fb_writew __raw_writew
+> > -#define fb_writel __raw_writel
+> > -#define fb_writeq __raw_writeq
 >
-> - Marijn
+> Note that on at least some architectures, the __raw variants are
+> native-endian, whereas the regular accessors are explicitly
+> little-endian, so there is a slight risk of inadvertently changing
+> behaviour on big-endian systems (MIPS most likely, but a few old ARM
+> platforms run BE as well).
 
-<annoyed noises>
+Also on m68k, when ISA or PCI are enabled.
 
-so it might have been this.. I'll retest, thanks!
+In addition, the non-raw variants may do some extras to guarantee
+ordering, which you do not need on a frame buffer.
 
+So I'd go for the __raw_*() variants everywhere.
 
-Konrad
+Gr{oetje,eeting}s,
 
->
-> <snip>
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
