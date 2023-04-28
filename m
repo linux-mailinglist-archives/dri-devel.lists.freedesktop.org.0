@@ -2,119 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE3AE6F1384
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Apr 2023 10:50:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 46FCF6F13A2
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Apr 2023 10:53:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EB23910E3AE;
-	Fri, 28 Apr 2023 08:50:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 35A9810EC6D;
+	Fri, 28 Apr 2023 08:53:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam10on20628.outbound.protection.outlook.com
- [IPv6:2a01:111:f400:7e89::628])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 23DFC10E0CA;
- Fri, 28 Apr 2023 08:50:49 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=jJ9ZFJqm6T5wWFe5j6ELlHUMmWaT7fc7KyKz4AEaxfaMFFnsXwupN3PlLhES3bqZ1KYclEXzKB8X3xTrwzp8WYwx2mOiMzEOuOrr4Mq9upf7URZZb2hRxRqUeBT0jWU/WvUeMhGqu+tlUcNb59CS1+EGFKZ/BQMqKQI/N94yL1XnRnBQ7wPge4l82ABqSKKqEX8fykn8B/cZV8NTpBs4AEiUFyBgLSl+X7EWxnfuRFYIBr3JrIm7+HdsTl4cyupfs/Bl+Zf+kRRI2zPac8BKgWX+qcXcLk8BAHtEc8c7FZULs3gcjPKDJjXq8qH/4CP1zC17jh2q5keyBmOiv2jSXg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=GxXceFf2kndtxGdhJFSF+Qp67KP2Ciq5k1LPkvyySBg=;
- b=fzj3gPKMnXflVzXObAD5RwiQrhSA/SBHL3xipfHBFjNlLQriWusgTI2kaNwNJkirbPMl+/K54IYbBP0AdaHbDFumtVhxzypZwqxwr7zihB58fVpOVNyISWEqoq3QqZESuSPAeQ4aC6nJO1RB0PkFlPTjLEaZNy0xdVzC0ZiaQY1lgxLgYBydCpm7S6SlTMJXQryN7bZF/fbxnu6uftJP3Es4nA7uBLBz4kwf4JUe6j54MrW9h0eBIu6Fu7Z9TwhiJdHFj+FyFUIO4zhEJeETYjCNsMsC8puYVhntBs2E4kWmXNgszT+2CgFf96z9ToF+jTb7uS2qvHDjXitRfKeevw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=GxXceFf2kndtxGdhJFSF+Qp67KP2Ciq5k1LPkvyySBg=;
- b=it5mrMvI5S479kb9OhbU4kVi6QDlrl6BfYnlrNqeOmSRQMYLM50+x8pACe9j9L8w1MZy7LlndxfV3QYX0VXpxOf86QjQzZeXAZlvy/sxYu6Rz2/eXjmYf8Ni/bLavSuLE3qN6/SCyoGk3dAL9C0aAdaLTvZNYvklLUIC1eWEg7c=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
- by CY8PR12MB7193.namprd12.prod.outlook.com (2603:10b6:930:5b::16)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6340.22; Fri, 28 Apr
- 2023 08:50:43 +0000
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::d2f8:7388:39c1:bbed]) by BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::d2f8:7388:39c1:bbed%3]) with mapi id 15.20.6340.022; Fri, 28 Apr 2023
- 08:50:43 +0000
-Message-ID: <0be60cda-6b8b-5844-c4fe-b711e7279cc7@amd.com>
-Date: Fri, 28 Apr 2023 10:50:36 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH v2 1/9] drm/docs: Fix usage stats typos
-Content-Language: en-US
-To: Rob Clark <robdclark@gmail.com>, dri-devel@lists.freedesktop.org
-References: <20230427175340.1280952-1-robdclark@gmail.com>
- <20230427175340.1280952-2-robdclark@gmail.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20230427175340.1280952-2-robdclark@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR2P281CA0167.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:99::15) To BN8PR12MB3587.namprd12.prod.outlook.com
- (2603:10b6:408:43::13)
+Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com
+ [IPv6:2a00:1450:4864:20::32b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7C55910EC85
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Apr 2023 08:53:53 +0000 (UTC)
+Received: by mail-wm1-x32b.google.com with SMTP id
+ 5b1f17b1804b1-3f1763ee8f8so65836625e9.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Apr 2023 01:53:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=fireburn-co-uk.20221208.gappssmtp.com; s=20221208; t=1682672030; x=1685264030;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=pL4Xsln7CoA4UJTPrm8Ceoo9nwMvFKVDs7triguts9c=;
+ b=iOgcvluJ5NlwY+G2e3qRzuy+4lPMNksSVQlm7/f+23M3xismiwP81z2CjEF983Rtzz
+ hfAKd9oi1J+uyQpmFVfLIOEh9YTNZ5tvHlChRgsM9K/WaTIlJqz8bp6UWXacz0IpIhbn
+ MekpkdSne5knaH4YfrOPUlQWNE3hHOG3i/jRykdfxxBJvW111nbs+cbjdVtSpjH4vR+x
+ wrNyi2FQ8LRBY+F2hkQvMk5UGNZnHkcTuU8xIitWijrjoV3Vjr2tZFLEIb3jEbbgVgO1
+ cqLKVJDm/+qbcilvevaTFEhIbxJSbqS/comyiqIQrMTlC8ja8cADbGUVrANh0K9SGGZN
+ VJeQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1682672030; x=1685264030;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=pL4Xsln7CoA4UJTPrm8Ceoo9nwMvFKVDs7triguts9c=;
+ b=Q3B5jWlX3kbMHDYANT5jGxatGK6zY3yC5igbdOR7ws0QmNSRFRc+wyJxh7UjmlfoUK
+ MkYARvZuQGfeubaKRU9QJHq+3MIWbwQg7mCRIaSR9oLxfjfLzUnx/nFuIpcYzaGSYaE5
+ g+nEFHWeBhXb2/4Y4svTMr+maB1yhrqHicDxzEMUSeoru9oAnRRe0khL3WzAY/chvYfu
+ 02le5hNIb9UYFCDe+/MelH/KykMMsEHPKINzLUV5KAabYKq/5dQNHD9B5Hp5CWB8Yeo1
+ ZqLZt6ElEBsDyicdMdx+VBkpwhMdZW+zaGpKFfSygIFNwOO2Eo5yu2hdQR+rNuDJRbGL
+ mZVg==
+X-Gm-Message-State: AC+VfDxFx3br5IkCx9QbRgeQyu0OLlnqYs6BlomZV4Rnyq+av+aothBM
+ aFWQvv2XTBofQe5TUnBgF6iJVbuinanUu7vyWBUucg==
+X-Google-Smtp-Source: ACHHUZ4L+JHzNv6HlWmdBjRonkyWikGIyXD0OGcZhY2soKtk3FiHrs3ub07ijNaUbKOzSh/rnPq0ARlpLFg9zkYYhek=
+X-Received: by 2002:a7b:c5c6:0:b0:3f0:8fb3:24ea with SMTP id
+ n6-20020a7bc5c6000000b003f08fb324eamr3436522wmk.9.1682672029706; Fri, 28 Apr
+ 2023 01:53:49 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|CY8PR12MB7193:EE_
-X-MS-Office365-Filtering-Correlation-Id: e6677d50-c33a-49bf-48d2-08db47c5a67c
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: CEfojVXSty3z+eVc896YzoC+/RjvOaqMuY+el8QrT6WclIkcUx8e/ZCCmN6beT7mDrhzAbhQRvjGWaLnqDh+G5FL8FXSA08iujBK7j4hRibDTjusRZUOyu8LqrLnrcxV6hJLEpo30qr/e11P1V7uRyTlgFqC1Q89DVZU/xmfv/sffXTXpDrPIKgtluGgbTZ/uQ2mlZnjSp4EvauxR+IbaGDlsWIjRBey76Bk/lbdelV6SDvHWX/wrIae/Z9sAwHKxIF8mugKOkXNJ/2VyxTHsXYA2HA0SUyI8cHlWkeMOpCTlwXRIwHoofRP8M79aEdVcjZ0RttlX/TFgiYq2rJq174nnXas7ZcH5lnAfMpy6s0NdjnxbJBMl0hRk/XlbVWLN21pa1OU5rIgFHnzwpGM2NXSdltvwtfKLsre5h32JEzPHUD7l6sKSKvEm5/vIzSkbeSSmKOAi99tUx/FFeN3k42/UQGA0g5u5RlmI3gj9k0XDUqijWGrzqph2e2yOs3ujQGbXl8pjjoh1ebv/yUMnLupDOYoko7OH9jAM7I8DAbI0msLxp4Opsj13kZ+/otw04gFRunnwAoKxaNEc9UkxG20yHtYz7URXHMCNuFRhVhrYRmCrYPa7Y8pcW2y3Cuq+RFJ5dbOu7HfVbqY32cjdA==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230028)(4636009)(376002)(39860400002)(366004)(136003)(396003)(346002)(451199021)(186003)(6512007)(6506007)(2616005)(83380400001)(31686004)(66556008)(66476007)(66946007)(41300700001)(38100700002)(316002)(5660300002)(4326008)(2906002)(7416002)(31696002)(86362001)(478600001)(54906003)(6666004)(66574015)(8936002)(8676002)(6486002)(36756003)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?bnFKczNGY0owOEliTTdVQzdwU1AxN2VQZ1l6Rm5Ga2hNcFRuTnR6MXVKUjIz?=
- =?utf-8?B?WWxSRnJUVVB1T01qcVRXSEZTLzR4NytDcStJUlUxakVQR1pQVk4zWWZWTmpm?=
- =?utf-8?B?ZG43dnh4akUrWlVGNS9pSWxBYk00KzZ3Z2h2elRlZG90eDRCQ3A4clNrMzRi?=
- =?utf-8?B?dEdaWFJoVEUxbFhocjlLTDN4VzU5MXd0V0tUbS85c0IwMXJqODdkL3lIT1Jl?=
- =?utf-8?B?VzFTdmxDbE9yTWxKV3c2Nnc3SkRxaS9OYmNpS2J2YlJwR3AvbnAvdHV0RXNL?=
- =?utf-8?B?bGlodjNwVy8wTG5CM2dVS1BXRGRPcm5GRFFOUWY5dEptTmx6SzZBc2x5eHpl?=
- =?utf-8?B?K3U5NkdyNlNrYVNvT09GbUV6aUlWdXgwRHJOKy9YZlZJWHMvTlU1VEI1Rkp3?=
- =?utf-8?B?d0UreTBZWmVXOFVxRUxpbWNRbzFUSWVhUWt2RjhPUGFEUFoxZnd2WG5JWWJL?=
- =?utf-8?B?MGpXdHh0OXZNQUwwL1M1b1ZBWXFqVDBCTDM2RlJqaUN6WDlIRzYxSFEzWVYv?=
- =?utf-8?B?bzkwQ0szVE5rUkpZN05zN3BnalRXcTc4S3kzWkFlVVFZOGp4L1lvS1NWUjRp?=
- =?utf-8?B?Q1RTd2ttWlFsKzRhSnpEWHUzZkZ0dWJuMHNXbzNYS21ISjRqbDBqdldKSWxJ?=
- =?utf-8?B?RmYzL0xkZFBEcTNoYW82OEI3TTBQOHN4VlNLY2xOOStkNEdaNDhkZWJsMk5x?=
- =?utf-8?B?UGR2dVJDcUZrN1p6VnFoeWc5cjB1TmZQbE56SUFqNUY5dFdrYlUxakZsL3Nq?=
- =?utf-8?B?T2FvUjZrcVpCaG9RdlBscy9Ud0VEZk5XUG9GcjlxUFM3Q2k4S3pTZDBzZ1M1?=
- =?utf-8?B?SW9VczlnWXZRcWdCbFoyekZNaWtYQmJGK3BjaitkZ21zM04zbkdXcmlvaGxi?=
- =?utf-8?B?OXFHZm5JamRFQ1hlRWlwT1g3WHFjZVE5RlVCdHhCYXAwWGYvcFRSVC8rTmpV?=
- =?utf-8?B?MlJmc2VuVTFwL1FVcXpJWkcyd0ZPVm5jbzNHS3NGK1BjZEg1d1RHbFJaTUc0?=
- =?utf-8?B?VU5ucmY2VE14dVE3NndFaXZlM1o5SHV4cVh4Z29QcmF1R0V3Yyt6RGw4UzR3?=
- =?utf-8?B?R2ttVllWNVRaYjF4WGtaVGk4bEovR09TZGN1NmxDRVpabldYUHdxalpJMVJ4?=
- =?utf-8?B?UlJOMkw2cVNDWTFuZ0cyODZsQXJTRWk4TmZmUDZwM0V3MWU1bkdybmp3dXJL?=
- =?utf-8?B?WFAwejQ5OTg2TzNoNEhRdnBGZno4aSs4RVlXeFNqcVlPb2FXN2RJdm9ibmZj?=
- =?utf-8?B?cEFXdTBYTG9JR2Y0M2NCRGZISVlPdHVpajRQVmVCVHNIS0lQbEoxU3hwaWla?=
- =?utf-8?B?akhUdGVsMTY5ZTJ2RmxHaVpnNzM2c3FTQ3dsVnNYelp2VlNwaWpRSDlCNHh1?=
- =?utf-8?B?NEoyQzNoOERHNGk0NWdqUS95QjNBYkFkeU1Ta1RCSitZdldFMHVwWDMzNHky?=
- =?utf-8?B?Vk51UWM2OGZuUWN5eWRxdFB3SEZuUHZpUVNJTUFqbkFiNjlpaU84MGlRU1JO?=
- =?utf-8?B?dXh6Q2wyRzRXenJNVDU2ckJraXpSaUwrbG1QMFFiMUxRY2dDZEZZS1F0MVBv?=
- =?utf-8?B?NjZtUHh0ZEpZY3BwSEdQeDhaNEhUUi8zQ2NjK29WTjhQcnYwTUtPMy9FbTJo?=
- =?utf-8?B?anIvbEFQOTFkM0NjRkoyN2p4bkc0RC9NRlpLRStaVGdiNzd2WVIzZnBzL0tE?=
- =?utf-8?B?RHRzL1pZYTMyU1dKTVZpZno3M01NL01uSlIrZFlsUzRvNzRadmlha3Z2TVFI?=
- =?utf-8?B?dWxMamc0d2hZR24rL0E0MnlCUlZqbFNwdENLQ1hvbWVkN2VVTTNwQzdTem1X?=
- =?utf-8?B?SzBSdEZ4bTFyZGo2bmVTQXdKRnN0RkR2ZXo5NzBvaFplcWdnNmdLUU1vOHNU?=
- =?utf-8?B?RUlxTGM5N2UyeFVZYTJCdkVtNXlUdWlkanFNZUl5Z1JCb0ZPS3ZaazZ1RFNn?=
- =?utf-8?B?UVBZRjF5U0pYVU1ZbFF2c3R2S3plMWxUSG5aeG9vOXZBaTd6Tk5ReGhSS0N2?=
- =?utf-8?B?T1NQNjlEUFdNbzI1SnIyV2JaQ0VqTUI3U1p1RTRMSkV1OUNwV242ejFVVkpW?=
- =?utf-8?B?ajhJS1JYS3E0bTJUaTR5N2FCL0ZCRWFBeUxwZTIzMEpxNDRuUXhKdjJ3OG11?=
- =?utf-8?B?M3JWQVlnc2VmQ1p2V3FhTmdCNU56TDRhSG9Vbk8yditHNEJ6RmRxV3FXVXRM?=
- =?utf-8?Q?NfI32KHSDouGapqmLQf71ouVD21RH2TpBdp9+O6h/5aM?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e6677d50-c33a-49bf-48d2-08db47c5a67c
-X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Apr 2023 08:50:43.2146 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: fISLttXeNXDc6YOrbIj+Fs17VBnNErbadzFj7NHnLs450TO5+BbOQktDDDtQ4WUW
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR12MB7193
+References: <cover.1681898595.git.petr.tesarik.ext@huawei.com>
+In-Reply-To: <cover.1681898595.git.petr.tesarik.ext@huawei.com>
+From: Mike Lothian <mike@fireburn.co.uk>
+Date: Fri, 28 Apr 2023 09:53:38 +0100
+Message-ID: <CAHbf0-HwQhFsYW8cp0t9660877b9tTxZBego7VSfx0ayAwKePQ@mail.gmail.com>
+Subject: Re: [PATCH v2 0/7] Allow dynamic allocation of software IO TLB bounce
+ buffers
+To: Petr Tesarik <petrtesarik@huaweicloud.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -127,57 +67,112 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Jonathan Corbet <corbet@lwn.net>,
+Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>, Muchun Song <muchun.song@linux.dev>,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ Catalin Marinas <catalin.marinas@arm.com>,
+ Kefeng Wang <wangkefeng.wang@huawei.com>,
+ "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
+ Kim Phillips <kim.phillips@amd.com>, Will Deacon <will@kernel.org>,
+ Christoph Hellwig <hch@lst.de>, Marek Szyprowski <m.szyprowski@samsung.com>,
+ Jonathan Corbet <corbet@lwn.net>,
+ Damien Le Moal <damien.lemoal@opensource.wdc.com>,
  "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
- Emil Velikov <emil.l.velikov@gmail.com>,
- Christopher Healy <healych@amazon.com>,
- open list <linux-kernel@vger.kernel.org>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, freedreno@lists.freedesktop.org
+ "open list:DMA MAPPING HELPERS" <iommu@lists.linux.dev>,
+ Borislav Petkov <bp@suse.de>, Won Chung <wonchung@google.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ "Paul E. McKenney" <paulmck@kernel.org>, petr@tesarici.cz,
+ Hans de Goede <hdegoede@redhat.com>,
+ "Steven Rostedt \(Google\)" <rostedt@goodmis.org>,
+ Zhen Lei <thunder.leizhen@huawei.com>, Dan Williams <dan.j.williams@intel.com>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Petr Tesarik <petr.tesarik.ext@huawei.com>, Kees Cook <keescook@chromium.org>,
+ Ondrej Zary <linux@zary.sk>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Randy Dunlap <rdunlap@infradead.org>, Roberto Sassu <roberto.sassu@huawei.com>,
+ open list <linux-kernel@vger.kernel.org>, Thomas Gleixner <tglx@linutronix.de>,
+ Robin Murphy <robin.murphy@arm.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 27.04.23 um 19:53 schrieb Rob Clark:
-> From: Rob Clark <robdclark@chromium.org>
+On Wed, 19 Apr 2023 at 11:05, Petr Tesarik <petrtesarik@huaweicloud.com> wrote:
 >
-> Fix a couple missing ':'s.
+> From: Petr Tesarik <petr.tesarik.ext@huawei.com>
 >
-> Signed-off-by: Rob Clark <robdclark@chromium.org>
-> Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
-
-Reviewed-by: Christian König <christian.koenig@amd.com>
-
-Since this is a pretty clear fix I suggest to get this pushed to reduce 
-the number of patches in the set.
-
-Christian.
-
-> ---
->   Documentation/gpu/drm-usage-stats.rst | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
+> The goal of my work is to provide more flexibility in the sizing of
+> SWIOTLB.
 >
-> diff --git a/Documentation/gpu/drm-usage-stats.rst b/Documentation/gpu/drm-usage-stats.rst
-> index b46327356e80..72d069e5dacb 100644
-> --- a/Documentation/gpu/drm-usage-stats.rst
-> +++ b/Documentation/gpu/drm-usage-stats.rst
-> @@ -105,7 +105,7 @@ object belong to this client, in the respective memory region.
->   Default unit shall be bytes with optional unit specifiers of 'KiB' or 'MiB'
->   indicating kibi- or mebi-bytes.
->   
-> -- drm-cycles-<str> <uint>
-> +- drm-cycles-<str>: <uint>
->   
->   Engine identifier string must be the same as the one specified in the
->   drm-engine-<str> tag and shall contain the number of busy cycles for the given
-> @@ -117,7 +117,7 @@ larger value within a reasonable period. Upon observing a value lower than what
->   was previously read, userspace is expected to stay with that larger previous
->   value until a monotonic update is seen.
->   
-> -- drm-maxfreq-<str> <uint> [Hz|MHz|KHz]
-> +- drm-maxfreq-<str>: <uint> [Hz|MHz|KHz]
->   
->   Engine identifier string must be the same as the one specified in the
->   drm-engine-<str> tag and shall contain the maximum frequency for the given
+> The software IO TLB was designed with these assumptions:
+>
+> 1. It would not be used much, especially on 64-bit systems.
+> 2. A small fixed memory area (64 MiB by default) is sufficient to
+>    handle the few cases which require a bounce buffer.
+> 3. 64 MiB is little enough that it has no impact on the rest of the
+>    system.
+>
+> First, if SEV is active, all DMA must be done through shared
+> unencrypted pages, and SWIOTLB is used to make this happen without
+> changing device drivers. The software IO TLB size is increased to
+> 6% of total memory in sev_setup_arch(), but that is more of an
+> approximation. The actual requirements may vary depending on the
+> amount of I/O and which drivers are used. These factors may not be
+> know at boot time, i.e. when SWIOTLB is allocated.
+>
+> Second, other colleagues have noticed that they can reliably get
+> rid of occasional OOM kills on an Arm embedded device by reducing
+> the SWIOTLB size. This can be achieved with a kernel parameter, but
+> determining the right value puts additional burden on pre-release
+> testing, which could be avoided if SWIOTLB is allocated small and
+> grows only when necessary.
+>
+> Changes from v1-devel-v7:
+> - Add comments to acquire/release barriers
+> - Fix whitespace issues reported by checkpatch.pl
+>
+> Changes from v1-devel-v6:
+> - Provide long description of functions
+> - Fix kernel-doc (Returns: to Return:)
+> - Rename __lookup_dyn_slot() to lookup_dyn_slot_locked()
+>
+> Changes from RFC:
+> - Track dynamic buffers per device instead of per swiotlb
+> - Use a linked list instead of a maple tree
+> - Move initialization of swiotlb fields of struct device to a
+>   helper function
+> - Rename __lookup_dyn_slot() to lookup_dyn_slot_locked()
+> - Introduce per-device flag if dynamic buffers are in use
+> - Add one more user of DMA_ATTR_MAY_SLEEP
+> - Add kernel-doc comments for new (and some old) code
+> - Properly escape '*' in dma-attributes.rst
+>
+> Petr Tesarik (7):
+>   swiotlb: Use a helper to initialize swiotlb fields in struct device
+>   swiotlb: Move code around in preparation for dynamic bounce buffers
+>   dma-mapping: introduce the DMA_ATTR_MAY_SLEEP attribute
+>   swiotlb: Dynamically allocated bounce buffers
+>   swiotlb: Add a boot option to enable dynamic bounce buffers
+>   drm: Use DMA_ATTR_MAY_SLEEP from process context
+>   swiotlb: per-device flag if there are dynamically allocated buffers
+>
+>  .../admin-guide/kernel-parameters.txt         |   6 +-
+>  Documentation/core-api/dma-attributes.rst     |  10 +
+>  drivers/base/core.c                           |   4 +-
+>  drivers/gpu/drm/drm_gem_shmem_helper.c        |   2 +-
+>  drivers/gpu/drm/drm_prime.c                   |   2 +-
+>  include/linux/device.h                        |  12 +
+>  include/linux/dma-mapping.h                   |   6 +
+>  include/linux/swiotlb.h                       |  54 ++-
+>  kernel/dma/swiotlb.c                          | 382 ++++++++++++++++--
+>  9 files changed, 443 insertions(+), 35 deletions(-)
+>
+> --
+> 2.25.1
+>
 
+Hi
+
+Is this a potential fix for
+https://bugzilla.kernel.org/show_bug.cgi?id=217310 where I'm manually
+setting bigger buffers to keep my wifi working?
+
+Thanks
+
+Mike
