@@ -1,63 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DC9E6F244F
-	for <lists+dri-devel@lfdr.de>; Sat, 29 Apr 2023 12:46:14 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B5A26F244D
+	for <lists+dri-devel@lfdr.de>; Sat, 29 Apr 2023 12:46:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2A66010E0DD;
-	Sat, 29 Apr 2023 10:46:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 13C3B10E0E2;
+	Sat, 29 Apr 2023 10:46:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com
- [IPv6:2a00:1450:4864:20::62a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9A0B010E0AB
- for <dri-devel@lists.freedesktop.org>; Sat, 29 Apr 2023 10:45:59 +0000 (UTC)
-Received: by mail-ej1-x62a.google.com with SMTP id
- a640c23a62f3a-94f1d0d2e03so118148266b.0
- for <dri-devel@lists.freedesktop.org>; Sat, 29 Apr 2023 03:45:59 -0700 (PDT)
+Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com
+ [IPv6:2a00:1450:4864:20::529])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2782310E0AB
+ for <dri-devel@lists.freedesktop.org>; Sat, 29 Apr 2023 10:46:00 +0000 (UTC)
+Received: by mail-ed1-x529.google.com with SMTP id
+ 4fb4d7f45d1cf-5066ce4f490so917123a12.2
+ for <dri-devel@lists.freedesktop.org>; Sat, 29 Apr 2023 03:46:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1682765157; x=1685357157;
+ d=gmail.com; s=20221208; t=1682765159; x=1685357159;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=85dGX3BcJlsvsmIB6J26oSZoBGI3NIb+OIXm3X+ki1M=;
- b=SavQORTDBSYuMf4NYpgxnmvNWIzE5CKP433xtRUMTq7J/Q6oYvGzI2G07vovknCplW
- aKOMKbde1U6gPNSmEhbHyKLXhY3Yz1V6wTf55xiuGHClESIuGM4+Jp6CD7HlgR9fc4uM
- hpiD6zq9LOb2Z2Lv3J8miwjq0WhyybIk76uNwYF3Su3lCyRwK0O/j4xDX+Xbvbh62um7
- oho9YD5G2iVO9Z16716wKfe28m9CC7jgPAS8OZpNYRuvdeId/8LJBRwOTdSeK0teBJbE
- UtzF7qNFdOJHeMHjcJaYkZwpGeyZuZuagXqS8sQNyVI27SI3f+CcOMWS4cvUytTtoqxM
- U8kw==
+ bh=U8i7rGQnK06oWrox/+/zsH6gyQIWGdw1cmoWrKvTJu0=;
+ b=ECTA/9/pB1Aymto+vgPPXAGx2Mz0xzcGbhYKDM/Gj4N5GH35j+EKmQ8cCYBB1SNBVd
+ 18dQAyC2YsDgi6+QKqbkaRKmbSblqWh5Al5G8D/u/avdbAT3sNcuEMdFmDlM31xUNICY
+ E3FWlj6q6uOLAGoRxrMoPhAIgbPtHD5eZAEdMjprP7RCioYDXy21t5m+I8hQ8WDOG+G+
+ FG8M58072bKX0imFso5nTX2CJSx4fRE0DSZpDybJwN04wikukos70njeZhL1AzT3vg2A
+ 3Tg59bfjkpu/qjBOjiYo7B6oYwp9HjGSyhPgLH4Iz0MEdgGrfO+b2P2QYjbtVpRBj1iP
+ 1qFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682765157; x=1685357157;
+ d=1e100.net; s=20221208; t=1682765159; x=1685357159;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=85dGX3BcJlsvsmIB6J26oSZoBGI3NIb+OIXm3X+ki1M=;
- b=ioS9kCrqBK1Es+FRGHO7O3ybCLhpOTh1JeReImfPqrSciLw5t0UJdImBM3YViZcN1F
- R9DWIjnVCx4fNC+c5A/VIsLmyjkyKgzHmGUNE1Ddwi3tLdbeE2uXdhXlnfsHLvFDWIce
- +MNIiWaAuvy+r12tYyyRFdxrN4XrNcyu1n5wqmcl0JMNUe5oeCBSa8lBF71CKST+FrZN
- HRiu7K0bEpJZNAajAiojmAyjYnb+WmSOR+lEIxgyMcKBRElGE3/owmeqFkb+r+YfNtND
- 3AmzLblAlYZu5uwBVtTdp3/5aY2pepUM32jd9pz+RkL+DDQChFUD2ScqZnBoJiIXao7D
- a+1w==
-X-Gm-Message-State: AC+VfDwDcxQscsYnM9b6HDgWIe9WEl4UMnCDpo4aRwoW2qAv6VaD68qR
- sq2WD3cNUCZSl0tu+b2l+0c=
-X-Google-Smtp-Source: ACHHUZ4Iks8feZLZPZ6+i/k546kbejwZ5TdS3uy3LbDxgsao9syengkKD6aI8RhLUoQTP/Dzj7NCig==
-X-Received: by 2002:a17:907:3e08:b0:94a:5c6d:3207 with SMTP id
- hp8-20020a1709073e0800b0094a5c6d3207mr7154482ejc.44.1682765157169; 
- Sat, 29 Apr 2023 03:45:57 -0700 (PDT)
+ bh=U8i7rGQnK06oWrox/+/zsH6gyQIWGdw1cmoWrKvTJu0=;
+ b=IzUhtVTsYyjgATyyVoHbl9quqAvPyw4TMzvqpP5qB2BDRTIaBq6cHCQyWeJKyg7VDy
+ qKEZ/QVzKSHXdVnOsPlJsoAyebujc2/RZz2Vme9OgTaNSsOYlvZSgEYimQk1FGSmfYUF
+ zTQVuRKWhMdon2gwdEQjbx7H/9AL/xuxsPyk43V5SRhYpGWb9P95DeIj0Yfq6+nGaEsh
+ dHQcHNPceP3LT3OD1knRDI1BnL/egjhJ55xJyf1M3ZBKeGZpp3WLNgaI4F2vEXXkRHan
+ b6Tx3h9ngavpN8vO8CteqGvMmRlFKXN89bD1tMfc1u/p4ykLN1+Yk7F/CQ8aYLMKXuoj
+ rReQ==
+X-Gm-Message-State: AC+VfDwbcNoW5YNhq5DkJ/oUxYaWH/cAVmlN9hSFP3A0Rpbc9Ilscex7
+ x27Nl1A0roFyJIkd6qV68vQ=
+X-Google-Smtp-Source: ACHHUZ7QTqQ3HOeexrhn9fW09EilRSCgystsEJS6enNJ6B7Rh0+1wWmP0iMty5BrTXpQ46zowvgyGg==
+X-Received: by 2002:a50:ef1a:0:b0:502:233e:af49 with SMTP id
+ m26-20020a50ef1a000000b00502233eaf49mr1253772eds.4.1682765159016; 
+ Sat, 29 Apr 2023 03:45:59 -0700 (PDT)
 Received: from localhost.my.domain (83.8.115.30.ipv4.supernova.orange.pl.
  [83.8.115.30]) by smtp.gmail.com with ESMTPSA id
- b11-20020a056402138b00b004bd6e3ed196sm9952522edv.86.2023.04.29.03.45.55
+ b11-20020a056402138b00b004bd6e3ed196sm9952522edv.86.2023.04.29.03.45.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 29 Apr 2023 03:45:56 -0700 (PDT)
+ Sat, 29 Apr 2023 03:45:58 -0700 (PDT)
 From: Artur Weber <aweber.kernel@gmail.com>
 To: Lee Jones <lee@kernel.org>, Rob Herring <robh+dt@kernel.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-Subject: [PATCH 2/4] video: backlight: lp855x: get PWM for PWM mode during
- probe
-Date: Sat, 29 Apr 2023 12:45:32 +0200
-Message-Id: <20230429104534.28943-3-aweber.kernel@gmail.com>
+Subject: [PATCH 3/4] ARM: dts: adapt to LP855X bindings changes
+Date: Sat, 29 Apr 2023 12:45:33 +0200
+Message-Id: <20230429104534.28943-4-aweber.kernel@gmail.com>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20230429104534.28943-1-aweber.kernel@gmail.com>
 References: <20230429104534.28943-1-aweber.kernel@gmail.com>
@@ -90,106 +89,91 @@ Cc: linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Also deprecate the pwm-period DT property, as it is now redundant
-(pwms property already contains period value).
+Change underscores in ROM node names to dashes, and remove deprecated
+pwm-period property.
 
 Signed-off-by: Artur Weber <aweber.kernel@gmail.com>
 ---
- drivers/video/backlight/lp855x_bl.c | 48 ++++++++++++++++-------------
- 1 file changed, 26 insertions(+), 22 deletions(-)
+ .../dts/qcom-apq8026-samsung-matisse-wifi.dts |  1 -
+ ...-msm8974pro-sony-xperia-shinano-castor.dts | 23 ++++++++++---------
+ 2 files changed, 12 insertions(+), 12 deletions(-)
 
-diff --git a/drivers/video/backlight/lp855x_bl.c b/drivers/video/backlight/lp855x_bl.c
-index 81012bf29baf..21eb4943ed56 100644
---- a/drivers/video/backlight/lp855x_bl.c
-+++ b/drivers/video/backlight/lp855x_bl.c
-@@ -218,23 +218,10 @@ static int lp855x_configure(struct lp855x *lp)
+diff --git a/arch/arm/boot/dts/qcom-apq8026-samsung-matisse-wifi.dts b/arch/arm/boot/dts/qcom-apq8026-samsung-matisse-wifi.dts
+index 91b860e24681..884d99297d4c 100644
+--- a/arch/arm/boot/dts/qcom-apq8026-samsung-matisse-wifi.dts
++++ b/arch/arm/boot/dts/qcom-apq8026-samsung-matisse-wifi.dts
+@@ -99,7 +99,6 @@ backlight@2c {
  
- static void lp855x_pwm_ctrl(struct lp855x *lp, int br, int max_br)
- {
--	struct pwm_device *pwm;
- 	struct pwm_state state;
+ 			dev-ctrl = /bits/ 8 <0x80>;
+ 			init-brt = /bits/ 8 <0x3f>;
+-			pwm-period = <100000>;
  
--	/* request pwm device with the consumer name */
--	if (!lp->pwm) {
--		pwm = devm_pwm_get(lp->dev, lp->chipname);
--		if (IS_ERR(pwm))
--			return;
--
--		lp->pwm = pwm;
--
--		pwm_init_state(lp->pwm, &state);
--	} else {
--		pwm_get_state(lp->pwm, &state);
--	}
-+	pwm_get_state(lp->pwm, &state);
- 
--	state.period = lp->pdata->period_ns;
- 	state.duty_cycle = div_u64(br * state.period, max_br);
- 	state.enabled = state.duty_cycle;
- 
-@@ -339,6 +326,7 @@ static int lp855x_parse_dt(struct lp855x *lp)
- 	of_property_read_string(node, "bl-name", &pdata->name);
- 	of_property_read_u8(node, "dev-ctrl", &pdata->device_control);
- 	of_property_read_u8(node, "init-brt", &pdata->initial_brightness);
-+	/* Deprecated, specify period in pwms property instead */
- 	of_property_read_u32(node, "pwm-period", &pdata->period_ns);
- 
- 	/* Fill ROM platform data if defined */
-@@ -399,6 +387,7 @@ static int lp855x_probe(struct i2c_client *cl)
- 	const struct i2c_device_id *id = i2c_client_get_device_id(cl);
- 	const struct acpi_device_id *acpi_id = NULL;
- 	struct device *dev = &cl->dev;
-+	struct pwm_state pwmstate;
- 	struct lp855x *lp;
- 	int ret;
- 
-@@ -457,11 +446,6 @@ static int lp855x_probe(struct i2c_client *cl)
- 		}
- 	}
- 
--	if (lp->pdata->period_ns > 0)
--		lp->mode = PWM_BASED;
--	else
--		lp->mode = REGISTER_BASED;
--
- 	lp->supply = devm_regulator_get(dev, "power");
- 	if (IS_ERR(lp->supply)) {
- 		if (PTR_ERR(lp->supply) == -EPROBE_DEFER)
-@@ -472,11 +456,31 @@ static int lp855x_probe(struct i2c_client *cl)
- 	lp->enable = devm_regulator_get_optional(dev, "enable");
- 	if (IS_ERR(lp->enable)) {
- 		ret = PTR_ERR(lp->enable);
--		if (ret == -ENODEV) {
-+		if (ret == -ENODEV)
- 			lp->enable = NULL;
--		} else {
-+		else
- 			return dev_err_probe(dev, ret, "getting enable regulator\n");
--		}
-+	}
+ 			pwms = <&backlight_pwm 0 100000>;
+ 			pwm-names = "lp8556";
+diff --git a/arch/arm/boot/dts/qcom-msm8974pro-sony-xperia-shinano-castor.dts b/arch/arm/boot/dts/qcom-msm8974pro-sony-xperia-shinano-castor.dts
+index 04bc58d87abf..2396253f953a 100644
+--- a/arch/arm/boot/dts/qcom-msm8974pro-sony-xperia-shinano-castor.dts
++++ b/arch/arm/boot/dts/qcom-msm8974pro-sony-xperia-shinano-castor.dts
+@@ -150,47 +150,48 @@ lp8566_wled: backlight@2c {
+ 		bl-name = "backlight";
+ 		dev-ctrl = /bits/ 8 <0x05>;
+ 		init-brt = /bits/ 8 <0x3f>;
+-		rom_a0h {
 +
-+	lp->pwm = devm_pwm_get(lp->dev, lp->chipname);
-+	if (IS_ERR(lp->pwm)) {
-+		ret = PTR_ERR(lp->pwm);
-+		if (ret == -ENODEV || ret == -EINVAL)
-+			lp->pwm = NULL;
-+		else
-+			return dev_err_probe(dev, ret, "getting PWM\n");
-+
-+		lp->mode = REGISTER_BASED;
-+		dev_dbg(dev, "mode: register based\n");
-+	} else {
-+		pwm_init_state(lp->pwm, &pwmstate);
-+		/* Legacy platform data compatibility */
-+		if (lp->pdata->period_ns > 0)
-+			pwmstate.period = lp->pdata->period_ns;
-+		pwm_apply_state(lp->pwm, &pwmstate);
-+
-+		lp->mode = PWM_BASED;
-+		dev_dbg(dev, "mode: PWM based\n");
- 	}
- 
- 	if (lp->supply) {
++		rom-a0h {
+ 			rom-addr = /bits/ 8 <0xa0>;
+ 			rom-val = /bits/ 8 <0xff>;
+ 		};
+-		rom_a1h {
++		rom-a1h {
+ 			rom-addr = /bits/ 8 <0xa1>;
+ 			rom-val = /bits/ 8 <0x3f>;
+ 		};
+-		rom_a2h {
++		rom-a2h {
+ 			rom-addr = /bits/ 8 <0xa2>;
+ 			rom-val = /bits/ 8 <0x20>;
+ 		};
+-		rom_a3h {
++		rom-a3h {
+ 			rom-addr = /bits/ 8 <0xa3>;
+ 			rom-val = /bits/ 8 <0x5e>;
+ 		};
+-		rom_a4h {
++		rom-a4h {
+ 			rom-addr = /bits/ 8 <0xa4>;
+ 			rom-val = /bits/ 8 <0x02>;
+ 		};
+-		rom_a5h {
++		rom-a5h {
+ 			rom-addr = /bits/ 8 <0xa5>;
+ 			rom-val = /bits/ 8 <0x04>;
+ 		};
+-		rom_a6h {
++		rom-a6h {
+ 			rom-addr = /bits/ 8 <0xa6>;
+ 			rom-val = /bits/ 8 <0x80>;
+ 		};
+-		rom_a7h {
++		rom-a7h {
+ 			rom-addr = /bits/ 8 <0xa7>;
+ 			rom-val = /bits/ 8 <0xf7>;
+ 		};
+-		rom_a9h {
++		rom-a9h {
+ 			rom-addr = /bits/ 8 <0xa9>;
+ 			rom-val = /bits/ 8 <0x80>;
+ 		};
+-		rom_aah {
++		rom-aah {
+ 			rom-addr = /bits/ 8 <0xaa>;
+ 			rom-val = /bits/ 8 <0x0f>;
+ 		};
+-		rom_aeh {
++		rom-aeh {
+ 			rom-addr = /bits/ 8 <0xae>;
+ 			rom-val = /bits/ 8 <0x0f>;
+ 		};
 -- 
 2.40.1
 
