@@ -2,62 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BDB86F2446
-	for <lists+dri-devel@lfdr.de>; Sat, 29 Apr 2023 12:46:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DC9E6F244F
+	for <lists+dri-devel@lfdr.de>; Sat, 29 Apr 2023 12:46:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9267610E0AB;
-	Sat, 29 Apr 2023 10:46:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2A66010E0DD;
+	Sat, 29 Apr 2023 10:46:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com
- [IPv6:2a00:1450:4864:20::52c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A7EDD10E0A5
- for <dri-devel@lists.freedesktop.org>; Sat, 29 Apr 2023 10:45:57 +0000 (UTC)
-Received: by mail-ed1-x52c.google.com with SMTP id
- 4fb4d7f45d1cf-508418b6d59so1172151a12.3
- for <dri-devel@lists.freedesktop.org>; Sat, 29 Apr 2023 03:45:57 -0700 (PDT)
+Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com
+ [IPv6:2a00:1450:4864:20::62a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9A0B010E0AB
+ for <dri-devel@lists.freedesktop.org>; Sat, 29 Apr 2023 10:45:59 +0000 (UTC)
+Received: by mail-ej1-x62a.google.com with SMTP id
+ a640c23a62f3a-94f1d0d2e03so118148266b.0
+ for <dri-devel@lists.freedesktop.org>; Sat, 29 Apr 2023 03:45:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1682765155; x=1685357155;
+ d=gmail.com; s=20221208; t=1682765157; x=1685357157;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=DqgQik20RaJrNL1T+Wan9fC2dfJvhcXkp91dOJuP+tU=;
- b=ff5jeISUOKBWdr65mnm8rSLXdTfGoje2crU/FV35AS0hXK1tnEOiIy2sk0zZE9kuU7
- KOoc61t3VEXaiI8VwHvk/4mhERtXxVrOXgNNfCSzoT9VxFWeSGCqpf0rrMKkt+WsNRMT
- LLHBxRHPczDtZqvVsP42/RY+dNSMDNY2kiU6wBxeEyrDBy7+aHxEzK1T7Zqwl3ASa1sk
- t1G0oHANQt2Q/qaxAURMz32lytoIsvi6evHsGQtz1vXjYKczmgyfkKfl9SGV8G+cuDhz
- jpDbmXoFIDGQ2x8wzHsjtLs5gIh6eAEt7zZz8HWF1/cugDS/ZPbocMiGjj2Ptj2Vge4W
- dsTw==
+ bh=85dGX3BcJlsvsmIB6J26oSZoBGI3NIb+OIXm3X+ki1M=;
+ b=SavQORTDBSYuMf4NYpgxnmvNWIzE5CKP433xtRUMTq7J/Q6oYvGzI2G07vovknCplW
+ aKOMKbde1U6gPNSmEhbHyKLXhY3Yz1V6wTf55xiuGHClESIuGM4+Jp6CD7HlgR9fc4uM
+ hpiD6zq9LOb2Z2Lv3J8miwjq0WhyybIk76uNwYF3Su3lCyRwK0O/j4xDX+Xbvbh62um7
+ oho9YD5G2iVO9Z16716wKfe28m9CC7jgPAS8OZpNYRuvdeId/8LJBRwOTdSeK0teBJbE
+ UtzF7qNFdOJHeMHjcJaYkZwpGeyZuZuagXqS8sQNyVI27SI3f+CcOMWS4cvUytTtoqxM
+ U8kw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682765155; x=1685357155;
+ d=1e100.net; s=20221208; t=1682765157; x=1685357157;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=DqgQik20RaJrNL1T+Wan9fC2dfJvhcXkp91dOJuP+tU=;
- b=CTJlci30I0wppdStH7MSi9/uytNmdFqFxX+NScEeGucpBvH8rmsiO0Gih4chgUhqEx
- m6+1jOLghtY5rsfDBG9PIJZAbFA5AD6+ol09PZrICku+KbhMdhYYp9QfJ4zPCS5n+jyU
- 6380E9YrGhNkdla49l+B1XxuEZ3ESJPdapyFsYXLUZY5zSMIMZMfbXE98WWBOgLw4rAz
- pHNZj/B4HlxgqWARk+BaBGmAR5ZEE4i2oKO2QB1mzeIryhKsRqVm4AVOiIDg6BN/sFE4
- ReSZkO8sIl+Q8AJch4G5Hq7M+kbwMGTcZoZyAVVcovh8MgIrTBFoGo1KVx7jYJKkd/HO
- unqA==
-X-Gm-Message-State: AC+VfDxa4buE9dZJNSIKqZCmpxxj5vG/WXcoJzPizlYeLFyDYVzBbs+O
- JDjaFIXUMkGUCCAFC5avZC8=
-X-Google-Smtp-Source: ACHHUZ5IX7xd8VAKHJ8OC13ltLaInMOVU/XbGBnAThSTe8i0B/XBGS7hyaGf2AaaeTCqRO2qTgWDrQ==
-X-Received: by 2002:a05:6402:1219:b0:506:7d65:c1fb with SMTP id
- c25-20020a056402121900b005067d65c1fbmr960029edw.30.1682765155315; 
- Sat, 29 Apr 2023 03:45:55 -0700 (PDT)
+ bh=85dGX3BcJlsvsmIB6J26oSZoBGI3NIb+OIXm3X+ki1M=;
+ b=ioS9kCrqBK1Es+FRGHO7O3ybCLhpOTh1JeReImfPqrSciLw5t0UJdImBM3YViZcN1F
+ R9DWIjnVCx4fNC+c5A/VIsLmyjkyKgzHmGUNE1Ddwi3tLdbeE2uXdhXlnfsHLvFDWIce
+ +MNIiWaAuvy+r12tYyyRFdxrN4XrNcyu1n5wqmcl0JMNUe5oeCBSa8lBF71CKST+FrZN
+ HRiu7K0bEpJZNAajAiojmAyjYnb+WmSOR+lEIxgyMcKBRElGE3/owmeqFkb+r+YfNtND
+ 3AmzLblAlYZu5uwBVtTdp3/5aY2pepUM32jd9pz+RkL+DDQChFUD2ScqZnBoJiIXao7D
+ a+1w==
+X-Gm-Message-State: AC+VfDwDcxQscsYnM9b6HDgWIe9WEl4UMnCDpo4aRwoW2qAv6VaD68qR
+ sq2WD3cNUCZSl0tu+b2l+0c=
+X-Google-Smtp-Source: ACHHUZ4Iks8feZLZPZ6+i/k546kbejwZ5TdS3uy3LbDxgsao9syengkKD6aI8RhLUoQTP/Dzj7NCig==
+X-Received: by 2002:a17:907:3e08:b0:94a:5c6d:3207 with SMTP id
+ hp8-20020a1709073e0800b0094a5c6d3207mr7154482ejc.44.1682765157169; 
+ Sat, 29 Apr 2023 03:45:57 -0700 (PDT)
 Received: from localhost.my.domain (83.8.115.30.ipv4.supernova.orange.pl.
  [83.8.115.30]) by smtp.gmail.com with ESMTPSA id
- b11-20020a056402138b00b004bd6e3ed196sm9952522edv.86.2023.04.29.03.45.53
+ b11-20020a056402138b00b004bd6e3ed196sm9952522edv.86.2023.04.29.03.45.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 29 Apr 2023 03:45:55 -0700 (PDT)
+ Sat, 29 Apr 2023 03:45:56 -0700 (PDT)
 From: Artur Weber <aweber.kernel@gmail.com>
 To: Lee Jones <lee@kernel.org>, Rob Herring <robh+dt@kernel.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-Subject: [PATCH 1/4] dt-bindings: backlight: lp855x: convert to YAML and
- modernize
-Date: Sat, 29 Apr 2023 12:45:31 +0200
-Message-Id: <20230429104534.28943-2-aweber.kernel@gmail.com>
+Subject: [PATCH 2/4] video: backlight: lp855x: get PWM for PWM mode during
+ probe
+Date: Sat, 29 Apr 2023 12:45:32 +0200
+Message-Id: <20230429104534.28943-3-aweber.kernel@gmail.com>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20230429104534.28943-1-aweber.kernel@gmail.com>
 References: <20230429104534.28943-1-aweber.kernel@gmail.com>
@@ -90,254 +90,106 @@ Cc: linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Notable changes:
-- ROM child nodes use dashes instead of underscores; the driver
-  reads all child nodes regardless of their names, so this doesn't
-  break ABI.
-- pwm-period argument is deprecated, as it effectively duplicates
-  the period value provided in pwms. The driver continues to accept
-  the property, so this should not break ABI.
+Also deprecate the pwm-period DT property, as it is now redundant
+(pwms property already contains period value).
 
 Signed-off-by: Artur Weber <aweber.kernel@gmail.com>
 ---
- .../leds/backlight/lp855x-backlight.yaml      | 148 ++++++++++++++++++
- .../bindings/leds/backlight/lp855x.txt        |  72 ---------
- 2 files changed, 148 insertions(+), 72 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/leds/backlight/lp855x-backlight.yaml
- delete mode 100644 Documentation/devicetree/bindings/leds/backlight/lp855x.txt
+ drivers/video/backlight/lp855x_bl.c | 48 ++++++++++++++++-------------
+ 1 file changed, 26 insertions(+), 22 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/leds/backlight/lp855x-backlight.yaml b/Documentation/devicetree/bindings/leds/backlight/lp855x-backlight.yaml
-new file mode 100644
-index 000000000000..dfe8131d2a32
---- /dev/null
-+++ b/Documentation/devicetree/bindings/leds/backlight/lp855x-backlight.yaml
-@@ -0,0 +1,148 @@
-+# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/leds/backlight/lp855x-backlight.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Texas Instruments LP855X backlight controllers
-+
-+maintainers:
-+  - Artur Weber <aweber.kernel@gmail.com>
-+
-+properties:
-+  compatible:
-+    enum:
-+      - ti,lp8550
-+      - ti,lp8551
-+      - ti,lp8552
-+      - ti,lp8553
-+      - ti,lp8555
-+      - ti,lp8556
-+      - ti,lp8557
-+
-+  reg:
-+    maxItems: 1
-+
-+  dev-ctrl:
-+    $ref: /schemas/types.yaml#/definitions/uint8
-+    description:
-+      Value of device control register. This is a device-specific value.
-+
-+  bl-name:
-+    $ref: /schemas/types.yaml#/definitions/string
-+    description: Backlight device name.
-+
-+  init-brt:
-+    $ref: /schemas/types.yaml#/definitions/uint8
-+    description: Initial value of backlight brightness.
-+
-+  power-supply:
-+    description: Regulator which controls the 3V rail.
-+
-+  enable-supply:
-+    description: Regulator which controls the EN/VDDIO input.
-+
-+  pwms:
-+    maxItems: 1
-+    description: |
-+      PWM channel to use for controlling the backlight; setting this
-+      enables the PWM-based backlight control mode.
-+
-+  pwm-names: true
-+
-+  pwm-period:
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    description:
-+      PWM period value. Deprecated; set the period value in the pwms
-+      property instead.
-+    deprecated: true
-+
-+patternProperties:
-+  "^rom-[0-9a-f]{2}h$":
-+    type: object
-+    description: Nodes containing the values of configuration registers.
-+    properties:
-+      rom-addr:
-+        $ref: /schemas/types.yaml#/definitions/uint8
-+        description: Register address of ROM area to be updated.
-+
-+      rom-val:
-+        $ref: /schemas/types.yaml#/definitions/uint8
-+        description: Value to write to the ROM register.
-+
-+required:
-+  - compatible
-+  - reg
-+  - dev-ctrl
-+
-+unevaluatedProperties: false
-+
-+examples:
-+  - |
-+    i2c {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+
-+        backlight@2c {
-+            compatible = "ti,lp8555";
-+            reg = <0x2c>;
-+
-+            dev-ctrl = /bits/ 8 <0x00>;
-+
-+            pwms = <&pwm 0 10000>;
-+            pwm-names = "lp8555";
-+
-+            /* 4V OV, 4 output LED0 string enabled */
-+            rom-14h {
-+              rom-addr = /bits/ 8 <0x14>;
-+              rom-val = /bits/ 8 <0xcf>;
-+            };
-+
-+            /* Heavy smoothing, 24ms ramp time step */
-+            rom-15h {
-+              rom-addr = /bits/ 8 <0x15>;
-+              rom-val = /bits/ 8 <0xc7>;
-+            };
-+
-+            /* 4 output LED1 string enabled */
-+            rom-19h {
-+              rom-addr = /bits/ 8 <0x19>;
-+              rom-val = /bits/ 8 <0x0f>;
-+            };
-+        };
-+    };
-+  - |
-+    i2c {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+
-+        backlight@2c {
-+            compatible = "ti,lp8556";
-+            reg = <0x2c>;
-+
-+            bl-name = "lcd-bl";
-+            dev-ctrl = /bits/ 8 <0x85>;
-+            init-brt = /bits/ 8 <0x10>;
-+        };
-+      };
-+  - |
-+    i2c {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+
-+        backlight@2c {
-+            compatible = "ti,lp8557";
-+            reg = <0x2c>;
-+            enable-supply = <&backlight_vddio>;
-+            power-supply = <&backlight_vdd>;
-+
-+            dev-ctrl = /bits/ 8 <0x41>;
-+            init-brt = /bits/ 8 <0x0a>;
-+
-+            /* 4V OV, 4 output LED string enabled */
-+            rom-14h {
-+              rom-addr = /bits/ 8 <0x14>;
-+              rom-val = /bits/ 8 <0xcf>;
-+            };
-+        };
-+    };
-diff --git a/Documentation/devicetree/bindings/leds/backlight/lp855x.txt b/Documentation/devicetree/bindings/leds/backlight/lp855x.txt
-deleted file mode 100644
-index 88f56641fc28..000000000000
---- a/Documentation/devicetree/bindings/leds/backlight/lp855x.txt
-+++ /dev/null
-@@ -1,72 +0,0 @@
--lp855x bindings
+diff --git a/drivers/video/backlight/lp855x_bl.c b/drivers/video/backlight/lp855x_bl.c
+index 81012bf29baf..21eb4943ed56 100644
+--- a/drivers/video/backlight/lp855x_bl.c
++++ b/drivers/video/backlight/lp855x_bl.c
+@@ -218,23 +218,10 @@ static int lp855x_configure(struct lp855x *lp)
+ 
+ static void lp855x_pwm_ctrl(struct lp855x *lp, int br, int max_br)
+ {
+-	struct pwm_device *pwm;
+ 	struct pwm_state state;
+ 
+-	/* request pwm device with the consumer name */
+-	if (!lp->pwm) {
+-		pwm = devm_pwm_get(lp->dev, lp->chipname);
+-		if (IS_ERR(pwm))
+-			return;
 -
--Required properties:
--  - compatible: "ti,lp8550", "ti,lp8551", "ti,lp8552", "ti,lp8553",
--                "ti,lp8555", "ti,lp8556", "ti,lp8557"
--  - reg: I2C slave address (u8)
--  - dev-ctrl: Value of DEVICE CONTROL register (u8). It depends on the device.
+-		lp->pwm = pwm;
 -
--Optional properties:
--  - bl-name: Backlight device name (string)
--  - init-brt: Initial value of backlight brightness (u8)
--  - pwm-period: PWM period value. Set only PWM input mode used (u32)
--  - rom-addr: Register address of ROM area to be updated (u8)
--  - rom-val: Register value to be updated (u8)
--  - power-supply: Regulator which controls the 3V rail
--  - enable-supply: Regulator which controls the EN/VDDIO input
+-		pwm_init_state(lp->pwm, &state);
+-	} else {
+-		pwm_get_state(lp->pwm, &state);
+-	}
++	pwm_get_state(lp->pwm, &state);
+ 
+-	state.period = lp->pdata->period_ns;
+ 	state.duty_cycle = div_u64(br * state.period, max_br);
+ 	state.enabled = state.duty_cycle;
+ 
+@@ -339,6 +326,7 @@ static int lp855x_parse_dt(struct lp855x *lp)
+ 	of_property_read_string(node, "bl-name", &pdata->name);
+ 	of_property_read_u8(node, "dev-ctrl", &pdata->device_control);
+ 	of_property_read_u8(node, "init-brt", &pdata->initial_brightness);
++	/* Deprecated, specify period in pwms property instead */
+ 	of_property_read_u32(node, "pwm-period", &pdata->period_ns);
+ 
+ 	/* Fill ROM platform data if defined */
+@@ -399,6 +387,7 @@ static int lp855x_probe(struct i2c_client *cl)
+ 	const struct i2c_device_id *id = i2c_client_get_device_id(cl);
+ 	const struct acpi_device_id *acpi_id = NULL;
+ 	struct device *dev = &cl->dev;
++	struct pwm_state pwmstate;
+ 	struct lp855x *lp;
+ 	int ret;
+ 
+@@ -457,11 +446,6 @@ static int lp855x_probe(struct i2c_client *cl)
+ 		}
+ 	}
+ 
+-	if (lp->pdata->period_ns > 0)
+-		lp->mode = PWM_BASED;
+-	else
+-		lp->mode = REGISTER_BASED;
 -
--Example:
--
--	/* LP8555 */
--	backlight@2c {
--		compatible = "ti,lp8555";
--		reg = <0x2c>;
--
--		dev-ctrl = /bits/ 8 <0x00>;
--		pwm-period = <10000>;
--
--		/* 4V OV, 4 output LED0 string enabled */
--		rom_14h {
--			rom-addr = /bits/ 8 <0x14>;
--			rom-val = /bits/ 8 <0xcf>;
--		};
--
--		/* Heavy smoothing, 24ms ramp time step */
--		rom_15h {
--			rom-addr = /bits/ 8 <0x15>;
--			rom-val = /bits/ 8 <0xc7>;
--		};
--
--		/* 4 output LED1 string enabled */
--		rom_19h {
--			rom-addr = /bits/ 8 <0x19>;
--			rom-val = /bits/ 8 <0x0f>;
--		};
--	};
--
--	/* LP8556 */
--	backlight@2c {
--		compatible = "ti,lp8556";
--		reg = <0x2c>;
--
--		bl-name = "lcd-bl";
--		dev-ctrl = /bits/ 8 <0x85>;
--		init-brt = /bits/ 8 <0x10>;
--	};
--
--	/* LP8557 */
--	backlight@2c {
--		compatible = "ti,lp8557";
--		reg = <0x2c>;
--		enable-supply = <&backlight_vddio>;
--		power-supply = <&backlight_vdd>;
--
--		dev-ctrl = /bits/ 8 <0x41>;
--		init-brt = /bits/ 8 <0x0a>;
--
--		/* 4V OV, 4 output LED string enabled */
--		rom_14h {
--			rom-addr = /bits/ 8 <0x14>;
--			rom-val = /bits/ 8 <0xcf>;
--		};
--	};
+ 	lp->supply = devm_regulator_get(dev, "power");
+ 	if (IS_ERR(lp->supply)) {
+ 		if (PTR_ERR(lp->supply) == -EPROBE_DEFER)
+@@ -472,11 +456,31 @@ static int lp855x_probe(struct i2c_client *cl)
+ 	lp->enable = devm_regulator_get_optional(dev, "enable");
+ 	if (IS_ERR(lp->enable)) {
+ 		ret = PTR_ERR(lp->enable);
+-		if (ret == -ENODEV) {
++		if (ret == -ENODEV)
+ 			lp->enable = NULL;
+-		} else {
++		else
+ 			return dev_err_probe(dev, ret, "getting enable regulator\n");
+-		}
++	}
++
++	lp->pwm = devm_pwm_get(lp->dev, lp->chipname);
++	if (IS_ERR(lp->pwm)) {
++		ret = PTR_ERR(lp->pwm);
++		if (ret == -ENODEV || ret == -EINVAL)
++			lp->pwm = NULL;
++		else
++			return dev_err_probe(dev, ret, "getting PWM\n");
++
++		lp->mode = REGISTER_BASED;
++		dev_dbg(dev, "mode: register based\n");
++	} else {
++		pwm_init_state(lp->pwm, &pwmstate);
++		/* Legacy platform data compatibility */
++		if (lp->pdata->period_ns > 0)
++			pwmstate.period = lp->pdata->period_ns;
++		pwm_apply_state(lp->pwm, &pwmstate);
++
++		lp->mode = PWM_BASED;
++		dev_dbg(dev, "mode: PWM based\n");
+ 	}
+ 
+ 	if (lp->supply) {
 -- 
 2.40.1
 
