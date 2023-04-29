@@ -1,83 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C92B66F2503
-	for <lists+dri-devel@lfdr.de>; Sat, 29 Apr 2023 16:11:47 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D1436F25E1
+	for <lists+dri-devel@lfdr.de>; Sat, 29 Apr 2023 20:38:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A3A8710E163;
-	Sat, 29 Apr 2023 14:11:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C24D710E071;
+	Sat, 29 Apr 2023 18:38:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com
- [66.111.4.27])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A139210E1A5
- for <dri-devel@lists.freedesktop.org>; Sat, 29 Apr 2023 14:11:37 +0000 (UTC)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
- by mailout.nyi.internal (Postfix) with ESMTP id 2DD955C00FB;
- Sat, 29 Apr 2023 10:11:36 -0400 (EDT)
-Received: from imap51 ([10.202.2.101])
- by compute6.internal (MEProxy); Sat, 29 Apr 2023 10:11:36 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
- :cc:content-type:content-type:date:date:from:from:in-reply-to
- :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm2; t=1682777496; x=1682863896; bh=8d
- kHZ7/OLsjO2XUx8f1h6VDCdqS9HsgrgUgQPoekbMU=; b=Tt4hmIAKM+NNZGRbGy
- USiFmRb7ZQ7VESvUpDkvDC9rS9I/kjpxYoq4IidwwhIKTPcYD5vR6RqvLLGr+CaD
- 1I9aUqlKLEp8YNzWVAXHUtUi2kVpAha/zdduG5raE+Wi0wvbUISzk2AadoiGxkiZ
- fZrZqC1pSn3Zxe1+KbPC8fVvKo3sFwMmI+khbEppmvaKW9CmFCgdX2QktEKQKG96
- 0SC2oHRE3uFMLM/L3dVGCHbScyE7YVtM0HH4gQT9Mh2zq/OoF5XuXAM6yoLd/EIj
- ZLMzsUC3vaXLLJ6GGE7oLNpIHGXhuLTVOB66jjYD1eINb3WthQd7wDNhLD/+UKGq
- YWnQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:content-type:date:date
- :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm3; t=1682777496; x=1682863896; bh=8dkHZ7/OLsjO2
- XUx8f1h6VDCdqS9HsgrgUgQPoekbMU=; b=L+nvmAfj8gymGhB5xVReToYxjM6wj
- v8YL/JxVhiXT6yjB2/Yx5h/SGJAuFpH+LYE4mRnIgEwvZrwch6NpT/gSOm3PSm30
- bwzptyafMGf1520s8iYPvchCZ9FvC7zQx/AofzoW8CnPAm9cpnsX+tvIm8l6CBkt
- l6Yt2qTVsuFf+UtcSo0isg2MhJafTaqRhqjDh5e0bCdNSt6QOAH4NkSPUTzq6lqg
- IaNqSJFzzHT4wF8tk6iLVEl76ZIcQvAzUYcqtzZGN7wjqt4YIm/cBFu+jOkocHJJ
- 6aUIjnMFtOd00CnQB01bWd1lVpHN1OGQkflEeBtWUxIcBUtPa00kswySw==
-X-ME-Sender: <xms:lyVNZPz3z-p16274zMKpAKi5nlxUSJ7lk28d3S-Ob8c6-Zv8Bdk-Gw>
- <xme:lyVNZHQanz9SNk_GaqKBAu-Y-aPLh9z5YLE6AO4jRKX5HaqlB0s8ya2eyd2wC7WEQ
- j71iw5FIizBJSeFfXU>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrfedvtddggeekucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehr
- nhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrth
- htvghrnhepffehueegteeihfegtefhjefgtdeugfegjeelheejueethfefgeeghfektdek
- teffnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprg
- hrnhgusegrrhhnuggsrdguvg
-X-ME-Proxy: <xmx:lyVNZJXT0voWt151wzrxLt_t0PVcRbC_n0gzPllt-KSJgQjWEnhfPQ>
- <xmx:lyVNZJhgG76zOedSkzOp0As8nsjokHBAqvY3P4YbxzGMIvgrdkwY3A>
- <xmx:lyVNZBB11KK0qljfYMVgugmi1r0rm1svPDZhbgiqX_QChEeIGgbRGg>
- <xmx:mCVNZABxHV6GlowlDf3Y7NrFIlL86oq1NhGnPXRrsYfMgDf0xjmKGw>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id 00DD4B60086; Sat, 29 Apr 2023 10:11:34 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.9.0-alpha0-374-g72c94f7a42-fm-20230417.001-g72c94f7a
-Mime-Version: 1.0
-Message-Id: <260ee591-a71b-4c83-a775-5591d4222cec@app.fastmail.com>
-In-Reply-To: <df6fa134-3a62-0872-e008-393e4a29a5ab@suse.de>
-References: <20230428092711.406-1-tzimmermann@suse.de>
- <20230428092711.406-6-tzimmermann@suse.de>
- <430c73f0-45f4-f81e-6506-bc8cc955d936@arm.com>
- <CAMuHMdUGjtiAR37L4_e0_p8ee2=gxoUj7+e7rqMLTBK+vpV4yw@mail.gmail.com>
- <f612c682-5767-4a58-82f6-f4a4d1b592a1@app.fastmail.com>
- <df6fa134-3a62-0872-e008-393e4a29a5ab@suse.de>
-Date: Sat, 29 Apr 2023 16:11:13 +0200
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Thomas Zimmermann" <tzimmermann@suse.de>,
- "Geert Uytterhoeven" <geert@linux-m68k.org>,
- "Robin Murphy" <robin.murphy@arm.com>
-Subject: Re: [PATCH v2 5/5] fbdev: Define framebuffer I/O from Linux' I/O
- functions
-Content-Type: text/plain
+Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org
+ [IPv6:2001:67c:2050:0:465::102])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 373E310E071
+ for <dri-devel@lists.freedesktop.org>; Sat, 29 Apr 2023 18:38:51 +0000 (UTC)
+Received: from smtp2.mailbox.org (smtp2.mailbox.org
+ [IPv6:2001:67c:2050:b231:465::2])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4Q7ysx06D9z9scm;
+ Sat, 29 Apr 2023 20:38:45 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oltmanns.dev;
+ s=MBO0001; t=1682793525;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=MKVXlCxV91AvQC40PaHejbx2C5FhflXVfXqbt+Wgr3s=;
+ b=IhiiCZBEqOZRzOlnvV5+R34liaYcc6Xa16I+39uKaw/iDw5UdMwJoVBG2bumLqDuHZRpZI
+ lAi5kIkrCwb4Q9QVZkcrl1dYEAAzJlPHtCyzIjR1nBdEYc7l8d8EuueqSLXzHKOMLWFqjJ
+ 4feocP9ohcqWMjbz/ImXq4qVZc/+e9UfZHNKTyl5M9HvwhvPBkXHjqK97X6tKMuRlC9/6k
+ GTbj7MRFamyPKbWlraqmZiNC3c00UYjAUc5kugf2JImm7j3W2sFRdwGN2L+URUnC+DTXSS
+ zVT0yw8rPjVo7+WZSNiFmupP3Hz/BGTWHZED44BNjGV++RmfxdOXjGx2du5YLA==
+References: <20230427091611.99044-1-me@crly.cz>
+ <20230427091611.99044-5-me@crly.cz> <4477541.LvFx2qVVIh@jernej-laptop>
+From: Frank Oltmanns <frank@oltmanns.dev>
+To: Jernej =?utf-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>
+Subject: Re: [PATCH v3 4/7] arm64: dts: allwinner: a64: reset pll-video0 rate
+Date: Sat, 29 Apr 2023 20:28:38 +0200
+In-reply-to: <4477541.LvFx2qVVIh@jernej-laptop>
+Message-ID: <87wn1uleje.fsf@oltmanns.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Rspamd-Queue-Id: 4Q7ysx06D9z9scm
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,57 +56,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux-Arch <linux-arch@vger.kernel.org>, linux-fbdev@vger.kernel.org,
- linux-ia64@vger.kernel.org, loongarch@lists.linux.dev,
- linux-parisc@vger.kernel.org, Helge Deller <deller@gmx.de>,
- Huacai Chen <chenhuacai@kernel.org>,
- Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org,
- "James E . J . Bottomley" <James.Bottomley@hansenpartnership.com>,
- linux-m68k@lists.linux-m68k.org, Vineet Gupta <vgupta@kernel.org>,
- sparclinux@vger.kernel.org, WANG Xuerui <kernel@xen0n.name>,
- linux-snps-arc@lists.infradead.org, Sam Ravnborg <sam@ravnborg.org>,
- "David S . Miller" <davem@davemloft.net>, linux-arm-kernel@lists.infradead.org
+Cc: Samuel Holland <samuel@sholland.org>, linux-kernel@vger.kernel.org,
+ Roman Beranek <me@crly.cz>, Chen-Yu Tsai <wens@csie.org>,
+ Ondrej Jirman <megi@xff.cz>, dri-devel@lists.freedesktop.org,
+ linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ Icenowy Zheng <icenowy@aosc.io>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Apr 29, 2023, at 14:26, Thomas Zimmermann wrote:
-> Am 28.04.23 um 15:17 schrieb Arnd Bergmann:
->> The only implementations in fbdev are
->> 
->>   1) sparc sbus
->>   2) __raw_writel
->>   3) direct pointer dereference
->> 
->> But none use the byte-swapping writel() implementations, and
->> the only ones that use the direct pointer dereference or sbus
->> are the ones on which these are defined the same as __raw_writel
+Hi Jernej,
+
+On 2023-04-28 at 08:43:29 +0200, Jernej =C5=A0krabec <jernej.skrabec@gmail.=
+com> wrote:
+> Dne =C4=8Detrtek, 27. april 2023 ob 11:16:08 CEST je Roman Beranek napisa=
+l(a):
+>> With pll-mipi as its source clock, the exact rate to which TCON0's data
+>> clock can be set to is constrained by the current rate of pll-video0.
+>> Unless changed on a request of another consumer, the rate of pll-video0
+>> is left as inherited from the bootloader.
+>>
+>> The default rate on reset is 297 MHz, a value preferable to what it is
+>> later set to in u-boot (294 MHz). This happens unintentionally though,
+>> as u-boot, for the sake of simplicity, rounds the rate requested by DE2
+>> driver (297 MHz) to 6 MHz steps.
+>>
+>> Reset the PLL to its default rate of 297 MHz.
 >
-> After thinking a bit more about the requirements, I'd like to got back 
-> to v1, but with a different spin. We want to avoid ordering guarantees, 
-> so I looked at the _relaxed() helpers, but they seem to swap bytes to 
-> little endian.
+> Why would that be preferable? You actually dropped "clk: sunxi-ng: a64:
+> propagate rate change from pll-mipi" patch which would take care for adju=
+sting
+> parent rate to correct value.
 
-Right, the _relaxed() oens are clearly wrong, aside from
-the byteswap they also include barriers on some architectures
-where the __raw_* version is more relaxed than the required
-semantics for relaxed.
+For me, on the pinephone, it somehow doesn't. Please see here:
+https://lore.kernel.org/all/87cz3uzpx1.fsf@oltmanns.dev/
 
-> I guess we can remove the fb_mem*() functions entirely. They are the 
-> same as the non-fb_ counterparts.
+I haven't figured out yet why that is. But hopefully, I'll find time in
+the coming days / weeks to look into that.
 
-These might actually be different in some cases, or sub-optimal
-at the moment. memcpy()/memset() don't take __iomem pointers, so they
-cause sparse warnings, while the memset_io()/memcpy_fromio()/
-memcpy_toio() sometimes fall back to bytewise access that is slower
-than word-sized copy. I only looked at the readl/writel style 
-functions earlier, no idea what we want here.
+Best regards,
+  Frank
 
-> For the fb read/write helpers, I'd 
-> like to add them to <asm-generic/fb.h> in a platform-neutral way. They'd 
-> be wrappers around __raw_(), as I wouldn't want invocations of  __raw_() 
-> functions in the fbdev drivers.
-
-That sounds good to me.
-
-     Arnd
+> Best regards,
+> Jernej
+>
+>>
+>> Signed-off-by: Roman Beranek <me@crly.cz>
+>> ---
+>>  arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi | 3 +++
+>>  1 file changed, 3 insertions(+)
+>>
+>> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi
+>> b/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi index
+>> e6a194db420d..cfc60dce80b0 100644
+>> --- a/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi
+>> +++ b/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi
+>> @@ -667,6 +667,9 @@ ccu: clock@1c20000 {
+>>  			clock-names =3D "hosc", "losc";
+>>  			#clock-cells =3D <1>;
+>>  			#reset-cells =3D <1>;
+>> +
+>> +			assigned-clocks =3D <&ccu CLK_PLL_VIDEO0>;
+>> +			assigned-clock-rates =3D <297000000>;
+>>  		};
+>>
+>>  		pio: pinctrl@1c20800 {
