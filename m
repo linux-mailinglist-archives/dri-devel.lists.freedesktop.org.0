@@ -2,75 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FABE6F22E4
-	for <lists+dri-devel@lfdr.de>; Sat, 29 Apr 2023 06:30:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D80D6F22E6
+	for <lists+dri-devel@lfdr.de>; Sat, 29 Apr 2023 06:30:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CF01310E0AD;
-	Sat, 29 Apr 2023 04:30:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 65D4B10E296;
+	Sat, 29 Apr 2023 04:30:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 15ECD10E0AD;
- Sat, 29 Apr 2023 04:29:59 +0000 (UTC)
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 33T4TsOl003797; Sat, 29 Apr 2023 04:29:54 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=AD1D6KCC3n1cGm8VtVunEhkz8vjG3ZWkaTybxGNQNgc=;
- b=BmjTjQ3MwIGywF9ST/PCBPYDRKkHEC15Z4k9MnNUyeH+8g5lQqCb9B7SJ9T27p5GYjpW
- Od6P+khRUVycsBswDrkpmWnvMIBPOnZK8HU263zVUb12lMPBYB6NCzWW6vEaRqWzMl/I
- OyPZ9cMvuAfpx6qZrik3p/ugzjIG7vFZS3SoGo7Eeo60GrmM1Bed8ba4UyjHBiMBAqyO
- 0LxqjEZgJWgE+HVEhm+q8fA6Wnx3pbTwRDrsj64zPFqw/GuYMBJ6oOPetgp3ro00hxi9
- UAfEAeFcSgh0qCwoomj6v7t+UXax3Mvm9J2D8eA1A1ecZfLm2ht+BToermrAuGWviUBK 4w== 
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3q8b38tk65-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Sat, 29 Apr 2023 04:29:54 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 33T4TrHA008734
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Sat, 29 Apr 2023 04:29:53 GMT
-Received: from [10.110.119.27] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Fri, 28 Apr
- 2023 21:29:52 -0700
-Message-ID: <085c3b3a-1a29-7082-934d-497be5b050fd@quicinc.com>
-Date: Fri, 28 Apr 2023 21:29:52 -0700
+Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com
+ [IPv6:2a00:1450:4864:20::32c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7A9D010E296
+ for <dri-devel@lists.freedesktop.org>; Sat, 29 Apr 2023 04:30:56 +0000 (UTC)
+Received: by mail-wm1-x32c.google.com with SMTP id
+ 5b1f17b1804b1-3f199696149so2351845e9.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Apr 2023 21:30:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1682742655; x=1685334655;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=70CLsPLPGvYuNGCjjpWeKhkV30RvIZvFqib8wvNo8BI=;
+ b=S/kK6yVm8up3febiwVIbdTbOHRiu4sICNqG7fPocRLpCbKh7ooJiFrB74BwT2cBaH1
+ /IogxMopSr+iRD9yMRLii3vYSJelmEp8PrbgBs4UeBiCcZeZWS11hCD3q5JfVh9Lbfg9
+ iVXZ+kq0xbbBc+bMJ/kQSGONAotxpEnxGTxrIWb4J088lvXMXq2Yc9jqa/ko+TBWJof/
+ vjOmeN1AYcZ+oQaQoClZ+WCduwzp2Psz3phLIwySlcyC7S3Jbqo8+Mu322GjnjRAAyn1
+ bKQyR5v44C4po8rHXc9fNbQPxyJR8/f4xW2fgfXpwVH0BXMoYjOC6O5GWiePJ1a2oAk/
+ XUCQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1682742655; x=1685334655;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=70CLsPLPGvYuNGCjjpWeKhkV30RvIZvFqib8wvNo8BI=;
+ b=d6M9rtSMqEJFXCpDIG7MA//Q+Vi+8/400ylwk+g1WH9H+5kaZ1gznDnRu8ddFaf3cQ
+ lWUWwpgmLl8teVzAMie45r5L60bUbByyhpYkVsUX1REeARJ4PDmiUcU/ASvhggfPGfkw
+ +mKkFWZkGUOmLFR2x5IWK3sBQF1qecdJCT26y4hamHe3JreCz2FiB/aNzlDdOub35MFg
+ 2khIJITP61RJWCQTtid7K0lUItG4slVZmJH9iuXnSyWWEQNwA3AV7LaGwCv8iQoOuC1Y
+ azzKPhIF/yKpw4iP4OWczc9XgSpZL+K61VFRPPr1RgTZLpyEB2piBXl5go0qT9Le+zzD
+ o1XQ==
+X-Gm-Message-State: AC+VfDx/fDH8eTMmM7b2/9VkG0lhq/bIeijgYHN+b7nKn/dM7zJbNDrz
+ OVqMxiMOkgYDEanZtco2lbDRXQ==
+X-Google-Smtp-Source: ACHHUZ7yGixdJAGrCOCAVMIN2RhZecVVxHWLhGGgOW4BlsMHqcuFh0X45hj11xVYaxopwGAcwZ+BVQ==
+X-Received: by 2002:a1c:ed01:0:b0:3ed:2e02:1c02 with SMTP id
+ l1-20020a1ced01000000b003ed2e021c02mr5399359wmh.23.1682742654802; 
+ Fri, 28 Apr 2023 21:30:54 -0700 (PDT)
+Received: from [10.6.30.123] ([212.140.138.202])
+ by smtp.gmail.com with ESMTPSA id
+ h15-20020a05600c314f00b003f1978bbcd6sm28540488wmo.3.2023.04.28.21.30.54
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 28 Apr 2023 21:30:54 -0700 (PDT)
+Message-ID: <5fbf2ba1-f8fd-1373-55f2-4eb3789bc5e7@linaro.org>
+Date: Sat, 29 Apr 2023 07:30:53 +0300
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.2
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
 Subject: Re: [PATCH] drm/msm/dpu: drop unused SSPP sub-block information
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
+Content-Language: en-GB
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>, Rob Clark
  <robdclark@gmail.com>, Sean Paul <sean@poorly.run>
 References: <20230429024242.2613957-1-dmitry.baryshkov@linaro.org>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <20230429024242.2613957-1-dmitry.baryshkov@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: b1GkdMi-qISejoVxqsuf0P2P3UrgQrwM
-X-Proofpoint-ORIG-GUID: b1GkdMi-qISejoVxqsuf0P2P3UrgQrwM
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-04-28_08,2023-04-27_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 mlxscore=0
- clxscore=1015 suspectscore=0 mlxlogscore=848 lowpriorityscore=0
- malwarescore=0 phishscore=0 impostorscore=0 priorityscore=1501
- adultscore=0 spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2303200000 definitions=main-2304290041
+ <085c3b3a-1a29-7082-934d-497be5b050fd@quicinc.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <085c3b3a-1a29-7082-934d-497be5b050fd@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,48 +84,58 @@ Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 4/28/2023 7:42 PM, Dmitry Baryshkov wrote:
-> The driver  doesn't support hsic/memcolor, pcc and igc SSPP subblocks.
-> Drop corresponding definitions.
+On 29/04/2023 07:29, Abhinav Kumar wrote:
 > 
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> ---
->   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h | 8 --------
->   1 file changed, 8 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-> index 3e92c2c66716..db6488a6929d 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-> @@ -384,10 +384,6 @@ struct dpu_caps {
->    * @qseed_ver: qseed version
->    * @scaler_blk:
->    * @csc_blk:
-> - * @hsic:
-> - * @memcolor:
-> - * @pcc_blk:
-> - * @igc_blk:
->    * @format_list: Pointer to list of supported formats
->    * @num_formats: Number of supported formats
->    * @virt_format_list: Pointer to list of supported formats for virtual planes
-> @@ -404,10 +400,6 @@ struct dpu_sspp_sub_blks {
->   	u32 qseed_ver;
->   	struct dpu_scaler_blk scaler_blk;
->   	struct dpu_pp_blk csc_blk;
-> -	struct dpu_pp_blk hsic_blk;
-> -	struct dpu_pp_blk memcolor_blk;
-> -	struct dpu_pp_blk pcc_blk;
-> -	struct dpu_pp_blk igc_blk;
+> On 4/28/2023 7:42 PM, Dmitry Baryshkov wrote:
+>> The driver  doesn't support hsic/memcolor, pcc and igc SSPP subblocks.
+>> Drop corresponding definitions.
+>>
+>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+>> ---
+>>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h | 8 --------
+>>   1 file changed, 8 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h 
+>> b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+>> index 3e92c2c66716..db6488a6929d 100644
+>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+>> @@ -384,10 +384,6 @@ struct dpu_caps {
+>>    * @qseed_ver: qseed version
+>>    * @scaler_blk:
+>>    * @csc_blk:
+>> - * @hsic:
+>> - * @memcolor:
+>> - * @pcc_blk:
+>> - * @igc_blk:
+>>    * @format_list: Pointer to list of supported formats
+>>    * @num_formats: Number of supported formats
+>>    * @virt_format_list: Pointer to list of supported formats for 
+>> virtual planes
+>> @@ -404,10 +400,6 @@ struct dpu_sspp_sub_blks {
+>>       u32 qseed_ver;
+>>       struct dpu_scaler_blk scaler_blk;
+>>       struct dpu_pp_blk csc_blk;
+>> -    struct dpu_pp_blk hsic_blk;
+>> -    struct dpu_pp_blk memcolor_blk;
+>> -    struct dpu_pp_blk pcc_blk;
+>> -    struct dpu_pp_blk igc_blk;
+> 
+> I have included IGC in this patch 
+> https://patchwork.freedesktop.org/patch/534725/?series=117130&rev=1
+> 
+> So that one can be dropped from this patch?
 
-I have included IGC in this patch 
-https://patchwork.freedesktop.org/patch/534725/?series=117130&rev=1
+It will get dropped while applying because of the conflict.
 
-So that one can be dropped from this patch?
+> 
+> Rest is fine.
+> 
+>>       const u32 *format_list;
+>>       u32 num_formats;
 
-Rest is fine.
+-- 
+With best wishes
+Dmitry
 
->   
->   	const u32 *format_list;
->   	u32 num_formats;
