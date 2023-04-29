@@ -2,65 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 982DD6F2207
-	for <lists+dri-devel@lfdr.de>; Sat, 29 Apr 2023 03:24:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 532176F221E
+	for <lists+dri-devel@lfdr.de>; Sat, 29 Apr 2023 03:35:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CA6FC10EE4C;
-	Sat, 29 Apr 2023 01:24:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 17CAB10EE3B;
+	Sat, 29 Apr 2023 01:35:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com
- [IPv6:2a00:1450:4864:20::336])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DEEC110EE48
- for <dri-devel@lists.freedesktop.org>; Sat, 29 Apr 2023 01:23:58 +0000 (UTC)
-Received: by mail-wm1-x336.google.com with SMTP id
- 5b1f17b1804b1-3f19ab99540so3026565e9.2
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Apr 2023 18:23:58 -0700 (PDT)
+Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com
+ [IPv6:2a00:1450:4864:20::333])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9D42610E0B8
+ for <dri-devel@lists.freedesktop.org>; Sat, 29 Apr 2023 01:35:42 +0000 (UTC)
+Received: by mail-wm1-x333.google.com with SMTP id
+ 5b1f17b1804b1-3f1958d3a53so3234225e9.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Apr 2023 18:35:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1682731437; x=1685323437;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=XpHRCDl8YUqkvzGdi9xj3a31C+ZLIPISEtnli6YWyd8=;
- b=u2t1BbsEvLJsnd4haLznJtlvYjxKqBGVHQAPIb3m371bwOG6enT5Ukd1Bw9aIcfsxt
- IL1y003mSznP1CBJfmRDEvIuf/qQYUePPKXw+s2wr2BaNj2DjjcoWKjVf9/oHFqwz8Uq
- RPWXYpmQl24WllwEYSTsY7jd2TIk2Lmw2tmLOskDahaclH2E+AsD4mdlWYbAuhTRh9y4
- aETvUyggCsDlVcN71ehfLa+9O5ydXLFgM06Y71q/XS5OCNCN1hXIqeDsvVd0YrumvMOS
- JXod0tfaucW56Zmiz126LPbg9oo+Uf4Hgblg4956FEC4iCL2ibbO1hYaYmZ5JxIDdgkP
- MNVg==
+ d=linaro.org; s=google; t=1682732141; x=1685324141;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=oxRlt7xFBtroIE2klrBllvLJLQfgkFj7/E1EFBuveSs=;
+ b=OwGnDdNkSUZrbP5R/E0/iv3d9+3hudriAg7vwXDig95tEGKmMyTCA6efi9YuE3PXXs
+ /fFdMxziFmVkgE80HxQ73MEriLaT2fEgviSgUdz1FnECPh2X1WVOemzCUZapyl1JeFMN
+ dHLoDktcG/0z2GJTIZVUGbCAFvKhJcF5hB2RfAz9K8HCW9L43UzJ9ZpUSsOIXjQcAMrB
+ 7TEtm4+ux6PpBsSfsPapIMebvJoP6uxgD7xgcUpBxzh7WO+trhKj7KPfVfRxkDPXvWrB
+ 5T56w9wWOr900CBxcPSUg3Rhj1jGxHFEiYsG8Nwxw0kG8vyOYjiuUhpdYf7JfYjNnu9l
+ MmSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682731437; x=1685323437;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=XpHRCDl8YUqkvzGdi9xj3a31C+ZLIPISEtnli6YWyd8=;
- b=jP+c/h5YurVSn7JYsHiGKdVJSRDRedS4TEZLzohvP9uToA2T4GHLwXcTFxJOgv63I1
- I/7YcB18e0PtsY0X3IjbK4hFhRUI2l3B/TcqitFlGdw9Yk7uxxuc6EXhMDuC7wVvMnQT
- +YBCtMQFuJgO6qDebpDGD5+mHI57OA5FYmV/zuBLlGWGm6T0IkCU0RTsonrcRC9v848k
- ZgmoGtVCFZqM3ghN8VWehApxtIg9cPO2ik1kN80gfDnxqhXPTcAYrZTFanpe9Rsq5zUP
- buBiIumwsQVX/ICOK9893Af6inqaB4dtbAn1/gK4IxTjPN3Sv2Cum0C2+xgWuaS6zGST
- dDGg==
-X-Gm-Message-State: AC+VfDzLmYHPwSjT9xtfQBI9dWEQPnLuGErTuNoxIlv7QHamm2n7DEHl
- pGAnroqFNg3v7ANsRkQhwwg/2Q==
-X-Google-Smtp-Source: ACHHUZ7UGhVk/hWFxV7349dYMYcFwWyPjAS+bnGonW90J8FBTiYvv5a9C69sPp7xss24J2zXiOt5Gg==
-X-Received: by 2002:a1c:f217:0:b0:3f2:5be3:cd6a with SMTP id
- s23-20020a1cf217000000b003f25be3cd6amr5096302wmc.4.1682731437417; 
- Fri, 28 Apr 2023 18:23:57 -0700 (PDT)
-Received: from eriador.lumag.spb.ru ([212.140.138.218])
+ d=1e100.net; s=20221208; t=1682732141; x=1685324141;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=oxRlt7xFBtroIE2klrBllvLJLQfgkFj7/E1EFBuveSs=;
+ b=OXSiZdqHGB5hsJtkLn3iyt+KrR0mz6nAvCyPG6pSsQx6sORQA3VYttqB/78PW9F8AH
+ ci+uIG0e6HVykwzXRPGWox5QDtZCQF1QPbuAIjhrwe0ekvPiBx6TGE3eEEu7m3Vu4lYk
+ pS2BY/AwgS0lFcz/+lHXY9kyHVO85ehZqZ99I6L69qtMTCynfdfcJKExRqFwEnpSZucu
+ aw8i1nKiqO5Gz5prZ0mhzHEI1mxyTi777btkJ27+/YZQIV0JE9WpBrY4vPzEG8ZIP2ch
+ V2/LJ9QcQaaCrB3Zz7yuOPEsWZke5ZCDS9kaUvPIv0sqmF2eRD1lA4lff9Wgd9LLeDBA
+ gu3g==
+X-Gm-Message-State: AC+VfDyBhZYE0S7+ghAqgBVbXNJQ8/ge/SfNwA9qQ/efyuPy+kk6nREf
+ JG/kswwGqRVwMibRZYMfy3/wgA==
+X-Google-Smtp-Source: ACHHUZ6nVeyKUSGK2CwwUVUNM1Cfs2Oq/SHdoPsCwiM5ncvxYkxl4dzZzo5OIWJw5kH8gQmGUqF3Cg==
+X-Received: by 2002:a05:600c:2242:b0:3eb:39e0:3530 with SMTP id
+ a2-20020a05600c224200b003eb39e03530mr5033110wmm.41.1682732140896; 
+ Fri, 28 Apr 2023 18:35:40 -0700 (PDT)
+Received: from [10.6.148.94] ([212.140.138.218])
  by smtp.gmail.com with ESMTPSA id
- p10-20020a5d48ca000000b003047dc162f7sm12983554wrs.67.2023.04.28.18.23.56
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Apr 2023 18:23:57 -0700 (PDT)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>
-Subject: [PATCH v2 3/3] drm/msm/dpu: access CSC/CSC10 registers directly
-Date: Sat, 29 Apr 2023 04:23:53 +0300
-Message-Id: <20230429012353.2569481-4-dmitry.baryshkov@linaro.org>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230429012353.2569481-1-dmitry.baryshkov@linaro.org>
-References: <20230429012353.2569481-1-dmitry.baryshkov@linaro.org>
+ g9-20020a05600c000900b003f0aa490336sm29042322wmc.26.2023.04.28.18.35.39
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 28 Apr 2023 18:35:40 -0700 (PDT)
+Message-ID: <f4884e43-f21e-13a6-65f5-623c101cb823@linaro.org>
+Date: Sat, 29 Apr 2023 04:35:39 +0300
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH v2 7/7] drm/msm/dpu: calculate DSC encoder parameters
+ dynamically
+Content-Language: en-GB
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Kuogee Hsieh <quic_khsieh@quicinc.com>, dri-devel@lists.freedesktop.org,
+ robdclark@gmail.com, sean@poorly.run, swboyd@chromium.org,
+ dianders@chromium.org, vkoul@kernel.org, daniel@ffwll.ch, airlied@gmail.com,
+ agross@kernel.org, andersson@kernel.org
+References: <1682725511-18185-1-git-send-email-quic_khsieh@quicinc.com>
+ <1682725511-18185-8-git-send-email-quic_khsieh@quicinc.com>
+ <51edf131-8fe0-2187-a4ba-744cc0c81a99@linaro.org>
+ <def3011f-d8e7-3090-47f2-ec13a650337e@quicinc.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <def3011f-d8e7-3090-47f2-ec13a650337e@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -74,107 +84,140 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>,
- Jeykumar Sankaran <quic_jeykumar@quicinc.com>
+Cc: marijn.suijten@somainline.org, quic_sbillaka@quicinc.com,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Stop using _sspp_subblk_offset() to get offset of the csc_blk. Inline
-this function and use ctx->cap->sblk->csc_blk.base directly.
+On 29/04/2023 04:22, Abhinav Kumar wrote:
+> 
+> 
+> On 4/28/2023 5:52 PM, Dmitry Baryshkov wrote:
+>> On 29/04/2023 02:45, Kuogee Hsieh wrote:
+>>> During DSC preparation, add run time calculation to figure out what
+>>> usage modes, split mode and merge mode, is going to be setup.
+>>
+>> This patch doesn't determine the mode. It changes programming of DSC 
+>> bits according to the mode being selected.
+>>
+> 
+> The term mode is a bit confusing here but he is referring to 
+> dsc_common_mode.
 
-As this was the last user, drop _sspp_subblk_offset() too.
+Yes, that's clear. The patch description is not correct.
 
-Reviewed-by: Jeykumar Sankaran <quic_jeykumar@quicinc.com>
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c | 43 +++++----------------
- 1 file changed, 9 insertions(+), 34 deletions(-)
+> 
+>>>
+>>> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
+>>> ---
+>>>   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 56 
+>>> ++++++++++++++++-------------
+>>>   1 file changed, 31 insertions(+), 25 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c 
+>>> b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+>>> index 2fdacf1..3d18642 100644
+>>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+>>> @@ -529,17 +529,9 @@ void dpu_encoder_helper_split_config(
+>>>   bool dpu_encoder_use_dsc_merge(struct drm_encoder *drm_enc)
+>>>   {
+>>>       struct dpu_encoder_virt *dpu_enc = to_dpu_encoder_virt(drm_enc);
+>>> -    int i, intf_count = 0, num_dsc = 0;
+>>> +    struct msm_display_topology *topology = &dpu_enc->topology;
+>>> -    for (i = 0; i < MAX_PHYS_ENCODERS_PER_VIRTUAL; i++)
+>>> -        if (dpu_enc->phys_encs[i])
+>>> -            intf_count++;
+>>> -
+>>> -    /* See dpu_encoder_get_topology, we only support 2:2:1 topology */
+>>> -    if (dpu_enc->dsc)
+>>> -        num_dsc = 2;
+>>> -
+>>> -    return (num_dsc > 0) && (num_dsc > intf_count);
+>>> +    return (topology->num_dsc > topology->num_intf);
+>>>   }
+>>>   static void dpu_encoder_get_topology(
+>>> @@ -1861,41 +1853,55 @@ static void dpu_encoder_prep_dsc(struct 
+>>> dpu_encoder_virt *dpu_enc,
+>>>       struct dpu_encoder_phys *enc_master = dpu_enc->cur_master;
+>>>       struct dpu_hw_dsc *hw_dsc[MAX_CHANNELS_PER_ENC];
+>>>       struct dpu_hw_pingpong *hw_pp[MAX_CHANNELS_PER_ENC];
+>>> -    int this_frame_slices;
+>>> +    struct msm_display_topology *topology = &dpu_enc->topology;
+>>>       int intf_ip_w, enc_ip_w;
+>>> -    int dsc_common_mode;
+>>> -    int pic_width;
+>>> +    int dsc_common_mode = 0;
+>>
+>> Please don't top-init variables unless required (or unless they are 
+>> constant).
+>>
+>>>       u32 initial_lines;
+>>> +    int num_dsc = topology->num_dsc;
+>>> +    int num_intf = topology->num_intf;
+>>>       int i;
+>>> -    for (i = 0; i < MAX_CHANNELS_PER_ENC; i++) {
+>>> +    for (i = 0; i < num_dsc; i++) {
+>>>           hw_pp[i] = dpu_enc->hw_pp[i];
+>>>           hw_dsc[i] = dpu_enc->hw_dsc[i];
+>>>           if (!hw_pp[i] || !hw_dsc[i]) {
+>>>               DPU_ERROR_ENC(dpu_enc, "invalid params for DSC\n");
+>>>               return;
+>>> -        }
+>>> +        }
+>>
+>> What is the difference here?
+>>
+>>>       }
+>>> -    dsc_common_mode = 0;
+>>> -    pic_width = dsc->pic_width;
+>>> +    intf_ip_w = dsc->pic_width;
+>>> -    dsc_common_mode = DSC_MODE_MULTIPLEX | DSC_MODE_SPLIT_PANEL;
+>>>       if (enc_master->intf_mode == INTF_MODE_VIDEO)
+>>>           dsc_common_mode |= DSC_MODE_VIDEO;
+>>> -    this_frame_slices = pic_width / dsc->slice_width;
+>>> -    intf_ip_w = this_frame_slices * dsc->slice_width;
+>>> -
+>>>       /*
+>>> -     * dsc merge case: when using 2 encoders for the same stream,
+>>> -     * no. of slices need to be same on both the encoders.
+>>> +     * If this encoder is driving more than one DSC encoder, they
+>>> +     * operate in tandem, same pic dimension needs to be used by
+>>> +     * each of them.(pp-split is assumed to be not supported)
+>>> +     *
+>>
+>> Extra empty line. Also the comment doesn't make sense here anymore. We 
+>> already have comment for the division by two below.
+>>
+>>>        */
+>>> -    enc_ip_w = intf_ip_w / 2;
+>>> +    enc_ip_w = intf_ip_w;
+>>> +
+>>> +    intf_ip_w /= num_intf;
+>>> +
+>>> +    if (num_dsc > 1)
+>>> +        dsc_common_mode |= DSC_MODE_SPLIT_PANEL;
+>>> +
+>>> +    if (dpu_encoder_use_dsc_merge(&dpu_enc->base)) {
+>>> +        dsc_common_mode |= DSC_MODE_MULTIPLEX;
+>>> +        /*
+>>> +         * in dsc merge case: when using 2 encoders for the same
+>>> +         * stream, no. of slices need to be same on both the
+>>> +         * encoders.
+>>> +         */
+>>> +        enc_ip_w = intf_ip_w / 2;
+>>> +    }
+>>> +
+>>>       initial_lines = dpu_encoder_dsc_initial_line_calc(dsc, enc_ip_w);
+>>> -    for (i = 0; i < MAX_CHANNELS_PER_ENC; i++)
+>>> +    for (i = 0; i < num_dsc; i++)
+>>>           dpu_encoder_dsc_pipe_cfg(dpu_enc, hw_dsc[i], hw_pp[i], dsc,
+>>>                       dsc_common_mode, initial_lines);
+>>>   }
+>>
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c
-index 37cd5f4396c6..fd9714659293 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c
-@@ -136,30 +136,6 @@
- #define TS_CLK			19200000
- 
- 
--static int _sspp_subblk_offset(struct dpu_hw_sspp *ctx,
--		int s_id,
--		u32 *idx)
--{
--	int rc = 0;
--	const struct dpu_sspp_sub_blks *sblk;
--
--	if (!ctx || !ctx->cap || !ctx->cap->sblk)
--		return -EINVAL;
--
--	sblk = ctx->cap->sblk;
--
--	switch (s_id) {
--	case DPU_SSPP_CSC:
--	case DPU_SSPP_CSC_10BIT:
--		*idx = sblk->csc_blk.base;
--		break;
--	default:
--		rc = -EINVAL;
--	}
--
--	return rc;
--}
--
- static void dpu_hw_sspp_setup_multirect(struct dpu_sw_pipe *pipe)
- {
- 	struct dpu_hw_sspp *ctx = pipe->sspp;
-@@ -210,19 +186,16 @@ static void _sspp_setup_opmode(struct dpu_hw_sspp *ctx,
- static void _sspp_setup_csc10_opmode(struct dpu_hw_sspp *ctx,
- 		u32 mask, u8 en)
- {
--	u32 idx;
-+	const struct dpu_sspp_sub_blks *sblk = ctx->cap->sblk;
- 	u32 opmode;
- 
--	if (_sspp_subblk_offset(ctx, DPU_SSPP_CSC_10BIT, &idx))
--		return;
--
--	opmode = DPU_REG_READ(&ctx->hw, SSPP_VIG_CSC_10_OP_MODE + idx);
-+	opmode = DPU_REG_READ(&ctx->hw, sblk->csc_blk.base + SSPP_VIG_CSC_10_OP_MODE);
- 	if (en)
- 		opmode |= mask;
- 	else
- 		opmode &= ~mask;
- 
--	DPU_REG_WRITE(&ctx->hw, SSPP_VIG_CSC_10_OP_MODE + idx, opmode);
-+	DPU_REG_WRITE(&ctx->hw, sblk->csc_blk.base + SSPP_VIG_CSC_10_OP_MODE, opmode);
- }
- 
- /*
-@@ -530,18 +503,20 @@ static void dpu_hw_sspp_setup_sourceaddress(struct dpu_sw_pipe *pipe,
- static void dpu_hw_sspp_setup_csc(struct dpu_hw_sspp *ctx,
- 		const struct dpu_csc_cfg *data)
- {
--	u32 idx;
-+	u32 offset;
- 	bool csc10 = false;
- 
--	if (_sspp_subblk_offset(ctx, DPU_SSPP_CSC, &idx) || !data)
-+	if (!ctx || !data)
- 		return;
- 
-+	offset = ctx->cap->sblk->csc_blk.base;
-+
- 	if (test_bit(DPU_SSPP_CSC_10BIT, &ctx->cap->features)) {
--		idx += CSC_10BIT_OFFSET;
-+		offset += CSC_10BIT_OFFSET;
- 		csc10 = true;
- 	}
- 
--	dpu_hw_csc_setup(&ctx->hw, idx, data, csc10);
-+	dpu_hw_csc_setup(&ctx->hw, offset, data, csc10);
- }
- 
- static void dpu_hw_sspp_setup_solidfill(struct dpu_sw_pipe *pipe, u32 color)
 -- 
-2.39.2
+With best wishes
+Dmitry
 
