@@ -1,152 +1,147 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 371C06F2168
-	for <lists+dri-devel@lfdr.de>; Sat, 29 Apr 2023 01:53:42 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C6D756F217C
+	for <lists+dri-devel@lfdr.de>; Sat, 29 Apr 2023 02:05:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2BA1410E0AC;
-	Fri, 28 Apr 2023 23:53:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3320C10EE0A;
+	Sat, 29 Apr 2023 00:05:01 +0000 (UTC)
 X-Original-To: DRI-Devel@lists.freedesktop.org
 Delivered-To: DRI-Devel@lists.freedesktop.org
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 053D410E0AC;
- Fri, 28 Apr 2023 23:53:34 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3E9CB10E161;
+ Sat, 29 Apr 2023 00:04:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1682726015; x=1714262015;
+ t=1682726699; x=1714262699;
  h=message-id:date:subject:to:cc:references:from:
  in-reply-to:content-transfer-encoding:mime-version;
- bh=4BhIkWoS/aUOH6wsnX7oXakqFVAFKdn7S3p4Hj4vf3A=;
- b=gsxC0eKtTapCYTM3dCJapnvT53w6gk4Wo8ZOmz7V3QT5vG0KNu/12Ujo
- Esz7s1kz+oxo6jne/jIR6TqPiFXGxhPC8wSIsYq/jprQov+frjmVDstik
- w6/M/jgKdynMBbkbPYiFHh1RqY9v/86nkCO0LbYK1BjZe4o+h7841RrG9
- yQe466+kKY/KtH/ojxzViTwsTw25EnZzHHXvfRL9GcthJ3olKCyNHC/ff
- 9YJNkHtdzychJ6cwMTMTLw0RA6jJux6mQ6pWTZMAMdDwu7/GwVOKKJro7
- fq9okmI9p7zQm7kflN7cekeC04W601qPlPu/hLthUh36gDf470RWKRSXZ w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10694"; a="347908883"
-X-IronPort-AV: E=Sophos;i="5.99,235,1677571200"; d="scan'208";a="347908883"
+ bh=pxUdYdTpgHrEzMuw0qWzn8hyQwjtdCMfywuSFITRKmM=;
+ b=mxpyyA234aeDIYYXM0VCtoEypD0fAQxYTS8y7JUM8rHuvV0GbKPfjOvX
+ K2Tkwk/12WalItjQMabohyk8jBXb6xwLFrr4EWguiPUmAT11UcIzyNpx6
+ wdUusma+MJZpPCFy45kuPmA4x2rL9WLPlkCNcnrymh6ehnqSeFK2s84cD
+ I/+zCVYpX6ZQCh6irjBKhB520CvDhQw2o2SguvoPk110r5Sww0bn6mY1S
+ lT0O0znfmwNXYp9YZ3kR2CGtDQiCd/osVtFQTCHWr8igvewxfwWuEuRIA
+ 9zcUT9Rr816snoxZSMS9Mw55pe2goYgQloZ40z2e147qLFMwtxPUygSvg Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10694"; a="347910985"
+X-IronPort-AV: E=Sophos;i="5.99,235,1677571200"; d="scan'208";a="347910985"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Apr 2023 16:53:33 -0700
+ 28 Apr 2023 17:04:58 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10694"; a="725524616"
-X-IronPort-AV: E=Sophos;i="5.99,235,1677571200"; d="scan'208";a="725524616"
-Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
- by orsmga008.jf.intel.com with ESMTP; 28 Apr 2023 16:53:34 -0700
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+X-IronPort-AV: E=McAfee;i="6600,9927,10694"; a="725528925"
+X-IronPort-AV: E=Sophos;i="5.99,235,1677571200"; d="scan'208";a="725528925"
+Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
+ by orsmga008.jf.intel.com with ESMTP; 28 Apr 2023 17:04:58 -0700
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.23; Fri, 28 Apr 2023 16:53:33 -0700
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ 15.1.2507.23; Fri, 28 Apr 2023 17:04:58 -0700
+Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.23; Fri, 28 Apr 2023 16:53:33 -0700
-Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
- orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.23 via Frontend Transport; Fri, 28 Apr 2023 16:53:33 -0700
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.173)
- by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
+ 15.1.2507.23 via Frontend Transport; Fri, 28 Apr 2023 17:04:58 -0700
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (104.47.58.106)
+ by edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.23; Fri, 28 Apr 2023 16:53:32 -0700
+ 15.1.2507.23; Fri, 28 Apr 2023 17:04:57 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=CSIaeuwem7uvYUg/WlxxqDruuIMPu2hp4BL0+Bzj54ls226GBQDY+0t3FrGhi89uF/GjdN/OvCfm2gzFVzJmqFcyg7tF6NjHhs/QoTxDcWhLDgicR7KlTY8NY9F1m0/2FKzXdiFLP3LF5gU7bXfSpKpOyUKwhCtr2qsT4q7WM/08Ge1SyIWLzxWlYHZ8MsCSd/78r/PvFzT2Psfo8b60LOAORNn9LWE59sZxZYF1O87dAJJvH8GFmsNAUYMDVWcvlaX/8znzNijscMyVTdjhKPbbEvxziL1gh41/HM7InlenL3/GHBjwme6qkvn+RceD1SKaGM9x5+DYppgfkWLr9g==
+ b=We+4QEubK951Zw3eJQZ5MH1TSHWReyqyg0mOsSV4ukKkOj0N/IDKsGWboZZDvRVxV4FbFqpKcUUZ5nVgina4vEXVAu4OCiFWkbWiapeW3ssHIgo8jhf0VDyQf+Y3lJGbk24AAUWl6SSfK9QCP3LpvTQz5971Y9TgosRpZovD8T06AxixD0tUO+E7NLSaWwS7P8x7dC3eG05cD4onAOJ9SF1SNt5BKT8ru0gCELal1235l1i1Pf4VdBQiyx05UxCE7V1pZPdm1fzgevWHmLgvuiCRte36I2jIH8J+2pJ5c0cIOTsFZwpuxxmSI1gedM5daaa9vILCwdqD7oYQGW61Mw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=qxjSkq7Tuluvx/udRRtNghwVZ3P4OoHAwaEoPu1yrYM=;
- b=IxosHHZ++mUdqxs1P229IhverWe1mopOl2RSPoG8mJw3VQDcaNq0TU3k+nQawY2nTqHQSq4U63w7fKpSd+2RvuoljXQS/quFUQVqwgDynSLxuG46TZw7X6cfLnvKX6olbm63rNp1HHJB8CnztseNeMyDeyg3xWEyxDZMWAMULe7eYZX+UVL/4xyAVzgIoX2JXoS0zi45DB+FpdObt+bd0ebrlyB1+17sz1kUr3ryn2/JBvkkqkvE7EwiMs11NZIJSJKQCBMv9+0NYz+V73dKJm+6mP5mXikF7+IAT2buiPb80+vDYWXblx0T+xHzoJQkElO21tKJcnrh5MrMOe6Qqg==
+ bh=gkd4qAvol95X2le5ri9FfbRu4FcyNSdPtPvdRw54M5M=;
+ b=DUblUB50q7WGaS53FGtqV84XUb8HG7UHUYVta85WbrNJ3MeZvuj+Zy/G6I1yfqlOKDIl4MubUkkMrMQ4hsegZZMSVx+duAdBWmYlnrUC9TG2rsk0E2jc+nzpvUhHM7zbaC7DE1bkkkWy3kaRYyGrPTfVjsH/xoRds6gFjD1rkjwc+GX/Yh1cvlItbKl8rZW8dw4zaW+3Ki8IhzAg+PbSL5RbR5XlmGiD2hl4jI03azmdXRhWFDgZZbvUxdYMoeWyGDQC+vahpUXZl0L5uewdeBIWpAKc7cTmhZ55KJcCeiBchkZa8QUu1HGYH/HcMnTsUIhH9VHESJXwy8/r3dbRxA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=intel.com;
 Received: from DM4PR11MB5488.namprd11.prod.outlook.com (2603:10b6:5:39d::5) by
- SA0PR11MB4672.namprd11.prod.outlook.com (2603:10b6:806:96::24) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6340.22; Fri, 28 Apr 2023 23:53:31 +0000
+ IA0PR11MB7353.namprd11.prod.outlook.com (2603:10b6:208:435::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6340.21; Sat, 29 Apr
+ 2023 00:04:55 +0000
 Received: from DM4PR11MB5488.namprd11.prod.outlook.com
  ([fe80::4ae6:750e:a237:4eb0]) by DM4PR11MB5488.namprd11.prod.outlook.com
- ([fe80::4ae6:750e:a237:4eb0%7]) with mapi id 15.20.6340.023; Fri, 28 Apr 2023
- 23:53:31 +0000
-Message-ID: <02ee29c3-65f4-60ae-95c7-79f01f3dbf38@intel.com>
-Date: Fri, 28 Apr 2023 16:53:28 -0700
+ ([fe80::4ae6:750e:a237:4eb0%7]) with mapi id 15.20.6340.023; Sat, 29 Apr 2023
+ 00:04:55 +0000
+Message-ID: <7716eaf2-41e8-9b28-3b87-70b5ff2962a3@intel.com>
+Date: Fri, 28 Apr 2023 17:04:51 -0700
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
  Thunderbird/102.10.0
-Subject: Re: [PATCH 3/6] drm/i915/uc: Track patch level versions on reduced
- version firmware files
+Subject: Re: [PATCH 4/6] drm/i915/uc: Enhancements to firmware table validation
 Content-Language: en-US
 To: <John.C.Harrison@Intel.com>, <Intel-GFX@Lists.FreeDesktop.Org>
 References: <20230421011525.3282664-1-John.C.Harrison@Intel.com>
- <20230421011525.3282664-4-John.C.Harrison@Intel.com>
+ <20230421011525.3282664-5-John.C.Harrison@Intel.com>
 From: "Ceraolo Spurio, Daniele" <daniele.ceraolospurio@intel.com>
-In-Reply-To: <20230421011525.3282664-4-John.C.Harrison@Intel.com>
+In-Reply-To: <20230421011525.3282664-5-John.C.Harrison@Intel.com>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SJ0PR03CA0168.namprd03.prod.outlook.com
- (2603:10b6:a03:338::23) To DM4PR11MB5488.namprd11.prod.outlook.com
+X-ClientProxiedBy: SJ0PR05CA0077.namprd05.prod.outlook.com
+ (2603:10b6:a03:332::22) To DM4PR11MB5488.namprd11.prod.outlook.com
  (2603:10b6:5:39d::5)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR11MB5488:EE_|SA0PR11MB4672:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8ae2a146-7e3d-4717-6124-08db4843c4e9
+X-MS-TrafficTypeDiagnostic: DM4PR11MB5488:EE_|IA0PR11MB7353:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9d1cf216-234e-42db-a93d-08db48455c59
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: /wgJrjFq76DX8/U5iHhjPayUbRBvo4C308i8HFw6r0Uk6QnS/W7cle2vAhMofFkJFuWgNggWNNk+qj6HssH4ETsEHy456pvXXhMpmsvFuhW3Q3ZmCa1rFv8MU/WWOvJn01Eam3ZgOur+6ZtpoGF43gB9OpPOX8de7BQcv5p01RKVWNnUIi0eKEa6dR8DCPKxMKn5AEIYwSKQPH1QpXzqR/mmOOD82+8jhJcGlhnH+iPUHklzOgR+UH8Oh/20kYWDKSO30cU8FUAEqtrM+fA3DNfR0vCy2Py0BxqhW3O8tcrJ3zXd5Ediy/lxRHUbpJ/waLm7ORj/UfWNftJi9o7r1Nc/R8HUaa82BYZ/eDKrOvjODRI1xSqELl1j2bPzDDyVBgzUgInjuogUGKOZnLRgtKY60H3uZuHo4+B9NHYpzob46ntysKFcE4vEYCy4LIOH2hO2KK5CAYGKZoLg6/15YupkUhtza21d3/m2LWolT0h3Ql7rym1EtcuvQj8INe4nUwYKVMLI8w8SwzheF2Ocd9o8oSEiw+kMBL9zvVSJ/TXPtNoqTsdMTRGDQxyrZNHBjLjm1jZ61VdM76Wdi3rzCdOmm9H3X/nWUCBWPJQzmeBhqjAdVTftjmVdTWHV8KIXmszy3e6k2ZkBvTtCc5mLLA==
+X-Microsoft-Antispam-Message-Info: 7algaqzoyPgCRjatmTwDxq0l0uWXdmTeCQr/jfiiAzOH5mMevyKxnBps/FrkBDK7xZw57jOwAiRhStKAWgdbR49GJ8Z2IbO5bKqwgW69JWG/wgFI3eloEdqFaxJuQHKgETlfVI6WGNfRsJXzMXDylIwdD2iJjfytho1SCKMU2csNxuc4oSUleJk8bTVXoGTycCFoAbumoerbhTu+GpapyC0fG8361DEEsWJPYdeVfNuSD9PyaLYc5vsLzFTGHqnHvH9jLHP83FYYVbPhtN75JgzytA/wT8mpqLq5Af9LVmfASxkdR4ZqBDLSn0FZ0YvNs/BTsb91SmrrhqKK28h3OPAAEHJmVAzlQgf577rhjk/Q3lXY6AKw2SEqX/OgKBxC1ORosd2I7pi9otJw94la7NPizB2pr6PdRnjjX6Ir5s8TX4cqn26hAVD9ZYOZox7lw68vVD1pxSP/SF6ObZZWh6grMtsnkhlXJ8sisvO1jgVRSZ2Bda0MCKMmmI2IL0xejwkNrg2xJ7Jv6Xw5cWe5FTc1VySah2PLHyVGERxGXkAQU3XPSHlazxqhHsFGG6CFeZL/rKpG0KfM/LYvGnKGiLEUXXm0Ga7B/eV6RZ1ISFhTeQDP5aZtNY6EuquJpVlINKPaxSmvqqRBbbrv/15CXA==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:DM4PR11MB5488.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230028)(39860400002)(396003)(136003)(376002)(346002)(366004)(451199021)(4326008)(66476007)(66946007)(478600001)(66556008)(450100002)(8676002)(8936002)(316002)(5660300002)(38100700002)(41300700001)(82960400001)(186003)(53546011)(26005)(83380400001)(2616005)(6486002)(6506007)(6512007)(6666004)(86362001)(31696002)(36756003)(2906002)(31686004)(66899021)(45980500001)(43740500002);
+ SFS:(13230028)(396003)(376002)(39860400002)(346002)(366004)(136003)(451199021)(4326008)(66556008)(66476007)(450100002)(5660300002)(66946007)(31686004)(316002)(41300700001)(2906002)(8676002)(8936002)(86362001)(31696002)(478600001)(38100700002)(6486002)(6666004)(2616005)(82960400001)(6512007)(36756003)(26005)(53546011)(83380400001)(6506007)(186003)(43740500002)(45980500001);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?SlRWYmVUSGV3Z2ZQUzMwNGF3NnR4cmsyT29JMmlvWDNyM0VScEp1K2swbFNH?=
- =?utf-8?B?QnZ6V0tWVjFPeVg1Z29DcXVLQ0lBcVYyTGV5WGkxUEYyMzltT3JrOWdQZ2Jp?=
- =?utf-8?B?U1BFQi8rYXlueExCY1I3VmhYSXpRMzA0a3dvaHVTTnBXM0NIcGJHR0ZiME00?=
- =?utf-8?B?QVp3U2s0N0JRY1owMk9VZkVOVnVOUkNzV0lhVHdQZnpzOERDQ0I0emdFMWxa?=
- =?utf-8?B?NmxiSVpNbHhHSzBSQmcwZG5JM2dLN0E3QVdkQkhSQW93WGo0blB5RGxhQkVB?=
- =?utf-8?B?L2oxM1ZJQWFsek5lTzIwdXlnT1FvQVRVN0xzMzNpb0p1L3pNT0Jtc21UQWZO?=
- =?utf-8?B?eHk1bkpnajJMZ1FxYTB2dmpwVUZIei9hZ2hlWUJBQkF0MjVQampmQ3Y1RXhN?=
- =?utf-8?B?UVFlL2J2aFI0akdGM0RnNVEvcFVDY1FuQ3l2bVNJY0lhNkVpOGovTmptbFl1?=
- =?utf-8?B?S21kUUZteE1MRThPa3M2OWVHd3FXSGNhbzNmdWpiMXVCakg3em5qL2U3QVlU?=
- =?utf-8?B?aTZOQUxHQ25kZjVZNXVsWmhKeGw3Ry9WRkMxWjEyUENyM3VPSmNPd2ZFMTB4?=
- =?utf-8?B?TlRtRnlvSDdMak02bnYyTEV3eGF3aWRWcm1aMW40R21jWVVUc0NOWkhjamMx?=
- =?utf-8?B?V1QxbmJ5YnM3L1hrUzlFQ1FkVjlMb21TZDEzTXliSllldWEvZTRiVzZOaEc5?=
- =?utf-8?B?Ykl2Wi8vVlYvOWxVN0tHLzNBSUszN3ZCZkRsdTFsQkJQcUhlOWZydnFIUGhi?=
- =?utf-8?B?eTB5TDZER2tRWDlSVEczbmlmQXM5U0xEMTZkcGhKajh6a0UrK0kxbVdFWWFq?=
- =?utf-8?B?QmFidjFjRnRuUENXTWZlcHBnZGJxR2lwbE0rbDVHWmZ0NUJLV09aNUFHcEl2?=
- =?utf-8?B?bTRGQlU2RUlaRGZCcU91eGR6Mi9XaDZPbzV4c3RobCtmVklwZmFWeXpQaStJ?=
- =?utf-8?B?Z0VDeURmOFFEK243L09kN2VzMkVvT1FOSjhhZW9keERVV216WUVnN1JqMXlQ?=
- =?utf-8?B?bVdPNm9tL0lDZUJIRVl4WHlXN2ZCU2FwZUQvWGdWd1p6U2ZYL0o2V01tTVU4?=
- =?utf-8?B?K0o2SmEreTNrU1JpNkNPd1lYeVdzVndRaG4xaWVzMysxVmZKOExPbERaTGgy?=
- =?utf-8?B?RUgwcm1SNzFuSWFtR2c0UUl1OWF4OFBUUXIwNmswcW5ZQ0ZVR1Bzd0NTbzQ2?=
- =?utf-8?B?OEJDVWhsS2VTVWVPQzhCclV3SlZkQU5DQjlmb1lEeXY1SEZYekU4djd1dTNX?=
- =?utf-8?B?NVAya1Y4Vm1ucHo1d2lpWncrMFo4aHR4TG5TS3dzeFp0YVcrRklaeXhoVStn?=
- =?utf-8?B?NlpNTm5PSGlvRERZcUxGQlBMRTVlWmRjTWp1Vk05a3I5MXJYaFU2NzBua0Rl?=
- =?utf-8?B?WUlRMER5SmhxS2c1ZGxKSGEwKy9SbzFlNGFIaVc0eEhoYUI5Z0owemNodHU4?=
- =?utf-8?B?WEFBWk9GaThVNTJLaXlsRW9PWlBTVDNBMnpISy9NWFI2bWpHbmJ4TEpHNE1a?=
- =?utf-8?B?bWtMV253ZHdoR0RwU3ZOZm5GYWJURkJQd3RRT2tOWERYRjRUejlVR3JJUnY3?=
- =?utf-8?B?M1hoamdaaVFSeTRXbGthSXFmdjd6Z1R1TnNjVGdYRTFIZFEvNzd4QlVRSkh2?=
- =?utf-8?B?WXNKS2ViMXJ4TEdFVjZMVUd0ZE9hV3JkQlRxeEhONTRFbURmMzdHUkJQRXU5?=
- =?utf-8?B?ZzJ6ZzBQMjYxK25PbCtGazZOSWtKSUNXMG04T2xEOXFqSjZLZnZ1MFVob01v?=
- =?utf-8?B?b3RzRGFra1Ezd2o4aytDUDgxNXZ3dTZyT0hDVDl3M3hqNldJTTlRQjJrYmFv?=
- =?utf-8?B?VnJ3V1IzUXVDLzArRE95cVFwSkwwTW9WVjlOTmdrQXUwOVU2UnBPa00xR09x?=
- =?utf-8?B?QXBFcUhiRFJQQ2NGOHFRaW1sekN0REpYdWxNRlpYcTVIdE85dXVJc1NjNWEy?=
- =?utf-8?B?dzlib2lLUkttaUt6aW5zRlJmN1h5TGdzTnlGZnhLWWVYUWZPd1QwQWNxREVO?=
- =?utf-8?B?M0dhK1Z3dnVud2RNYU10UkFJMXhWQ1o3dEZGMVZyWHYrYkx4OFN6TzVpVFMy?=
- =?utf-8?B?WkhmT3Z0V1FmNDBkUUkvcTVuMk5WWXBGM2xTZ1JxZlJRZkpVWDZyTkV2eUFy?=
- =?utf-8?B?SWs5SDBOaWFLK1BlTHQwM3A2UHpDMHYvd0gyUEcwMnlGeTFUem1DdVFEc09i?=
- =?utf-8?B?R0E9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8ae2a146-7e3d-4717-6124-08db4843c4e9
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ZUcraVk5cGlSTi9IT2cvaGtkU1c5U1BDbWxCcXJva3FTZXZRUzRiZXdIWW9T?=
+ =?utf-8?B?Mjl3RlV1Qmw4ZFJRbEhMS1JvN1VsL0NqQzQxYndER3o5MzJhYlh3N1ZEMWNy?=
+ =?utf-8?B?eldIU3EzMGs4Q2kwZldPNGczRGFzZ1NyUUxrc21UU2cyUUZTcGIrYjRNVTZN?=
+ =?utf-8?B?WTNORkpPcjM2Um5rMnNXclF3ZDFNOC9sYmtPdkhXbnJTcW5hWjZKMzd6dzg4?=
+ =?utf-8?B?RGhyeUFGR3FMekRNS3ZCY3NFaVlOblM1cVc4cU9IQmpWdlpRT2RTdDNZZTYw?=
+ =?utf-8?B?b08zWWNPVmZ6aHgxUmJCRGtuUklsU1dDdVRiU3ZlOWdIaU5iVjRvaGdhbm1l?=
+ =?utf-8?B?OEc5UzRNTlNpNS8wS0pMaEFraWRXbGQzVkNtaDJTaUFaeHFTYnJHc2ZBRWE0?=
+ =?utf-8?B?UmZUTEQ4cnd3VVByL0pocU1QMUVVSG9weWN0US9xU2VkMHY4bWtWMkVhckY5?=
+ =?utf-8?B?cWpmVEtaUVNVMnhEZ0pEdzlTVnVrMnd0WVBLdHY4TEF2ZWlFZ2hQQklXaE83?=
+ =?utf-8?B?cmJadFgvNWZONVE4NUVmajJsb3FBUTZkWXFoa29ObzhCbjV0WlJnendjVm9E?=
+ =?utf-8?B?SUUwWmdMQWpadnk4enBQQVJoM0hubnJzTEo0ZXRWc3JiNC9ybEs3VzFCVHZO?=
+ =?utf-8?B?SkpRSkJzeFNIU3JTM1pneXQwcXRWeUFYZklOWGNtTFZmM0VlVlRtSVhtWDlJ?=
+ =?utf-8?B?TzNSTVF4OS9RQmJFUDN4OHUyekVQaytGdWlKUXZ1aVg2MjVSL3RER2dJdWk0?=
+ =?utf-8?B?UjlzNGVLTENoQ05rTWJoRmtUMHB2cWplVWJNMmxVV1VwelJabVova3MzMzVm?=
+ =?utf-8?B?cU9QbjJTM0syUXBkK3dsVWZyTkVyTXhsdUpndytwUjFRc3Rac1Z2YWk4dXpV?=
+ =?utf-8?B?Y1VIdWlPcE4renI3Yk5iY3h5Z3FSOVMxemErd1NYZWJ3ZTIxYnRDWDJTL21t?=
+ =?utf-8?B?UlhsSnlkS3ZyQ0MxWVdBcWZBMkl3VWM0bXhhcVJEUEphVURPS3BoSk00dWFh?=
+ =?utf-8?B?ZHdhaUdwMFdXYmFYaHVhR3lubVd3R2Y3V3lOTnRkOFlPVDhFbnExUHU1Rm1C?=
+ =?utf-8?B?b2xqUllNelB0VFZ6Z3VXM1lJK2pBU3FyYlNJRXdxaUZ4c0M4WlBUZjROekhI?=
+ =?utf-8?B?NXgxOWp1U010VmV2WC9CQUFuenl4T3pYRWhyb21ZV09jSWhWWTB3MytObmtT?=
+ =?utf-8?B?MEdDMGFtOVc0cjRHa09obVRFdkdoZG9PL2hBSnpOVlVsQVNiNmh2emlkU0do?=
+ =?utf-8?B?dlg5d04vMDRqNzFkZzdFcnVCamhxb1Y5ck5FVnFSdnFqdEZwaEZZbmFhVlVo?=
+ =?utf-8?B?TzAzRjdMcmVZc1d6TVZYZG5sQmZPRFRlU2pwekFwNXBReXdTeEFNMWQrQUlY?=
+ =?utf-8?B?UFZCM2FxY21YRVl3Z2dRV0NOT3BmckgrY1liWm5odEM4Ty9WS2xDTzNteXho?=
+ =?utf-8?B?cE5qOTQweDdheHkvQWhVQ2wxek1USUMzMjFrVTFldWRSalBpUllQOURPamdK?=
+ =?utf-8?B?akgvL2x4cm9IeVdBdlZoclp5ZFg0Nk43cG91b3hnL3Y0WUNwTVM0di9Ed2Vu?=
+ =?utf-8?B?bkt1bXorcWE0aUxNOGVEYkhxY3dWVWNicmlLa0dWSDVOSmk3Zm8zaSszZ2Fs?=
+ =?utf-8?B?MEo5cnV3UDVXUGh4M2w4dDVoMHBjTUhlTW56SldTS0NlamlvRlBPbksvVVhV?=
+ =?utf-8?B?RlN3MlgySmFzYjM1K3BZSGRRdTRDUzM2aUdVUXNIYjg4cVdtR2tJUzMvc0J6?=
+ =?utf-8?B?VGN0YXBiU01SRHpKTXRFNWE0a3BKUU0wUUhGMHYvdTlSZ01rRUtpakEyOGw2?=
+ =?utf-8?B?MkR6bmpkWDNKQWdPUndheWlmYWU0STFDRzVQYUo0bVpjbDAxY3VGaWdIbm8r?=
+ =?utf-8?B?YUQ3ZUQyV1QrU0t5eCtaUlI1WkNPZTBmWTJDT1lBczYrTGhObW9LZzVGWjBz?=
+ =?utf-8?B?Z3gxZ2t3M0UvZUlTYTh2eTlSUmJpSG9UbWNCc0lPQ0JFWDNuZjhyRTVMWnhm?=
+ =?utf-8?B?eTh0QWd1bVdDK0dWYzdjWWNublZyUnBSMlgwbU05bSsrNnV4c1R3cVdnQnlq?=
+ =?utf-8?B?UWNKR3RxWk9hZENHWUl1dXJmbVNPeUt5dHhDUk9hRFpDM0dqSFBoWXZJOEF6?=
+ =?utf-8?B?SmhIdmJmUmJxcEl1QU4rM2k1blU3RUxFTWRzTlZ5M0o4T1ZLVlBLTU1zaXM5?=
+ =?utf-8?Q?HOG2aCiTqGznr3Svj2C3RV0=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9d1cf216-234e-42db-a93d-08db48455c59
 X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5488.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Apr 2023 23:53:30.8956 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Apr 2023 00:04:54.4077 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: XU+l2hX7XGxzIn/N6lwPqDEzbtpgrkjrMeSB7B8I7oXOj2lr/dag1nalDcXXqEhcv9assY7mV4Kn1jqfbHODvz6MxLXSubIVUdQIXueUwO8=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR11MB4672
+X-MS-Exchange-CrossTenant-UserPrincipalName: 4YNu2N4a7HCbeYxcPqajkMz8JK025dWzg5cLjRVvlooVL3r472XFfIelgz+n2RpqVi3+BiSXARnS3vQsOjg3fqIW4FAuCTgNjCXJ37PK/tQ=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR11MB7353
 X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -169,110 +164,241 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 On 4/20/2023 6:15 PM, John.C.Harrison@Intel.com wrote:
 > From: John Harrison <John.C.Harrison@Intel.com>
 >
-> When reduced version firmware files were added (matching major
-> component being the only strict requirement), the minor version was
-> still tracked and a notification reported if it was older. However,
-> the patch version should really be tracked as well for the same
-> reasons. The KMD can work without the change but if the effort has
-> been taken to release a new firmware with the change then there must
-> be a valid reason for doing so - important bug fix, security fix, etc.
-> And in that case it would be good to alert the user if they are
-> missing out on that new fix.
+> The validation of the firmware table was being done inside the code
+> for scanning the table for the next available firmware blob. Which is
+> unnecessary. So pull it out into a separate function that is only
+> called once per blob type at init time.
 >
-> v2: Use correct patch version number and drop redunant debug print
-> (review by Daniele / CI results).
+> Also, drop the CONFIG_SELFTEST requirement and make errors terminal.
+> It was mentioned that potential issues with backports would not be
+> caught by regular pre-merge CI as that only occurs on tip not stable
+> branches. Making the validation unconditional and failing driver load
+> on detecting of a problem ensures that such backports will also be
+> validated correctly.
+>
+> v2: Change to unconditionally fail module load on a validation error
+> (review feedback/discussion with Daniele).
 >
 > Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
+> ---
+>   drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c | 157 +++++++++++++----------
+>   1 file changed, 92 insertions(+), 65 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c b/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
+> index c9cd9bb47577f..eb52e8db9ae0b 100644
+> --- a/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
+> +++ b/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
+> @@ -233,20 +233,22 @@ struct fw_blobs_by_type {
+>   	u32 count;
+>   };
+>   
+> +static const struct uc_fw_platform_requirement blobs_guc[] = {
+> +	INTEL_GUC_FIRMWARE_DEFS(MAKE_FW_LIST, GUC_FW_BLOB, GUC_FW_BLOB_MMP)
+> +};
+> +
+> +static const struct uc_fw_platform_requirement blobs_huc[] = {
+> +	INTEL_HUC_FIRMWARE_DEFS(MAKE_FW_LIST, HUC_FW_BLOB, HUC_FW_BLOB_MMP, HUC_FW_BLOB_GSC)
+> +};
+> +
+> +static const struct fw_blobs_by_type blobs_all[INTEL_UC_FW_NUM_TYPES] = {
+> +	[INTEL_UC_FW_TYPE_GUC] = { blobs_guc, ARRAY_SIZE(blobs_guc) },
+> +	[INTEL_UC_FW_TYPE_HUC] = { blobs_huc, ARRAY_SIZE(blobs_huc) },
+> +};
+> +
+>   static void
+>   __uc_fw_auto_select(struct drm_i915_private *i915, struct intel_uc_fw *uc_fw)
+>   {
+> -	static const struct uc_fw_platform_requirement blobs_guc[] = {
+> -		INTEL_GUC_FIRMWARE_DEFS(MAKE_FW_LIST, GUC_FW_BLOB, GUC_FW_BLOB_MMP)
+> -	};
+> -	static const struct uc_fw_platform_requirement blobs_huc[] = {
+> -		INTEL_HUC_FIRMWARE_DEFS(MAKE_FW_LIST, HUC_FW_BLOB, HUC_FW_BLOB_MMP, HUC_FW_BLOB_GSC)
+> -	};
+> -	static const struct fw_blobs_by_type blobs_all[INTEL_UC_FW_NUM_TYPES] = {
+> -		[INTEL_UC_FW_TYPE_GUC] = { blobs_guc, ARRAY_SIZE(blobs_guc) },
+> -		[INTEL_UC_FW_TYPE_HUC] = { blobs_huc, ARRAY_SIZE(blobs_huc) },
+> -	};
+> -	static bool verified[INTEL_UC_FW_NUM_TYPES];
+>   	const struct uc_fw_platform_requirement *fw_blobs;
+>   	enum intel_platform p = INTEL_INFO(i915)->platform;
+>   	u32 fw_count;
+> @@ -286,6 +288,11 @@ __uc_fw_auto_select(struct drm_i915_private *i915, struct intel_uc_fw *uc_fw)
+>   			continue;
+>   
+>   		if (uc_fw->file_selected.path) {
+> +			/*
+> +			 * Continuing an earlier search after a found blob failed to load.
+> +			 * Once the previously chosen path has been found, clear it out
+> +			 * and let the search continue from there.
+> +			 */
+>   			if (uc_fw->file_selected.path == blob->path)
+>   				uc_fw->file_selected.path = NULL;
+>   
+> @@ -306,76 +313,91 @@ __uc_fw_auto_select(struct drm_i915_private *i915, struct intel_uc_fw *uc_fw)
+>   		/* Failed to find a match for the last attempt?! */
+>   		uc_fw->file_selected.path = NULL;
+>   	}
+> +}
+>   
+> -	/* make sure the list is ordered as expected */
+> -	if (IS_ENABLED(CONFIG_DRM_I915_SELFTEST) && !verified[uc_fw->type]) {
+> -		verified[uc_fw->type] = true;
+> +static bool validate_fw_table_type(struct drm_i915_private *i915, enum intel_uc_fw_type type)
+> +{
+> +	const struct uc_fw_platform_requirement *fw_blobs;
+> +	u32 fw_count;
+> +	int i;
+>   
+> -		for (i = 1; i < fw_count; i++) {
+> -			/* Next platform is good: */
+> -			if (fw_blobs[i].p < fw_blobs[i - 1].p)
+> -				continue;
+> +	if (type >= ARRAY_SIZE(blobs_all)) {
+> +		drm_err(&i915->drm, "No blob array for %s\n", intel_uc_fw_type_repr(type));
+> +		return false;
+> +	}
+>   
+> -			/* Next platform revision is good: */
+> -			if (fw_blobs[i].p == fw_blobs[i - 1].p &&
+> -			    fw_blobs[i].rev < fw_blobs[i - 1].rev)
+> -				continue;
+> +	fw_blobs = blobs_all[type].blobs;
+> +	fw_count = blobs_all[type].count;
+>   
+> -			/* Platform/revision must be in order: */
+> -			if (fw_blobs[i].p != fw_blobs[i - 1].p ||
+> -			    fw_blobs[i].rev != fw_blobs[i - 1].rev)
+> -				goto bad;
+> +	if (!fw_count)
+> +		return true;
+>   
+> -			/* Next major version is good: */
+> -			if (fw_blobs[i].blob.major < fw_blobs[i - 1].blob.major)
+> -				continue;
+> +	/* make sure the list is ordered as expected */
+> +	for (i = 1; i < fw_count; i++) {
+> +		/* Next platform is good: */
+> +		if (fw_blobs[i].p < fw_blobs[i - 1].p)
+> +			continue;
+>   
+> -			/* New must be before legacy: */
+> -			if (!fw_blobs[i].blob.legacy && fw_blobs[i - 1].blob.legacy)
+> -				goto bad;
+> +		/* Next platform revision is good: */
+> +		if (fw_blobs[i].p == fw_blobs[i - 1].p &&
+> +		    fw_blobs[i].rev < fw_blobs[i - 1].rev)
+> +			continue;
+>   
+> -			/* New to legacy also means 0.0 to X.Y (HuC), or X.0 to X.Y (GuC) */
+> -			if (fw_blobs[i].blob.legacy && !fw_blobs[i - 1].blob.legacy) {
+> -				if (!fw_blobs[i - 1].blob.major)
+> -					continue;
+> +		/* Platform/revision must be in order: */
+> +		if (fw_blobs[i].p != fw_blobs[i - 1].p ||
+> +		    fw_blobs[i].rev != fw_blobs[i - 1].rev)
+> +			goto bad;
+>   
+> -				if (fw_blobs[i].blob.major == fw_blobs[i - 1].blob.major)
+> -					continue;
+> -			}
+> +		/* Next major version is good: */
+> +		if (fw_blobs[i].blob.major < fw_blobs[i - 1].blob.major)
+> +			continue;
+>   
+> -			/* Major versions must be in order: */
+> -			if (fw_blobs[i].blob.major != fw_blobs[i - 1].blob.major)
+> -				goto bad;
+> +		/* New must be before legacy: */
+> +		if (!fw_blobs[i].blob.legacy && fw_blobs[i - 1].blob.legacy)
+> +			goto bad;
+>   
+> -			/* Next minor version is good: */
+> -			if (fw_blobs[i].blob.minor < fw_blobs[i - 1].blob.minor)
+> +		/* New to legacy also means 0.0 to X.Y (HuC), or X.0 to X.Y (GuC) */
+> +		if (fw_blobs[i].blob.legacy && !fw_blobs[i - 1].blob.legacy) {
+> +			if (!fw_blobs[i - 1].blob.major)
+>   				continue;
+>   
+> -			/* Minor versions must be in order: */
+> -			if (fw_blobs[i].blob.minor != fw_blobs[i - 1].blob.minor)
+> -				goto bad;
+> -
+> -			/* Patch versions must be in order: */
+> -			if (fw_blobs[i].blob.patch <= fw_blobs[i - 1].blob.patch)
+> +			if (fw_blobs[i].blob.major == fw_blobs[i - 1].blob.major)
+>   				continue;
+> +		}
+> +
+> +		/* Major versions must be in order: */
+> +		if (fw_blobs[i].blob.major != fw_blobs[i - 1].blob.major)
+> +			goto bad;
+> +
+> +		/* Next minor version is good: */
+> +		if (fw_blobs[i].blob.minor < fw_blobs[i - 1].blob.minor)
+> +			continue;
+> +
+> +		/* Minor versions must be in order: */
+> +		if (fw_blobs[i].blob.minor != fw_blobs[i - 1].blob.minor)
+> +			goto bad;
+> +
+> +		/* Patch versions must be in order: */
+> +		if (fw_blobs[i].blob.patch <= fw_blobs[i - 1].blob.patch)
+> +			continue;
+>   
+>   bad:
+> -			drm_err(&i915->drm, "Invalid %s blob order: %s r%u %s%d.%d.%d comes before %s r%u %s%d.%d.%d\n",
+> -				intel_uc_fw_type_repr(uc_fw->type),
+> -				intel_platform_name(fw_blobs[i - 1].p), fw_blobs[i - 1].rev,
+> -				fw_blobs[i - 1].blob.legacy ? "L" : "v",
+> -				fw_blobs[i - 1].blob.major,
+> -				fw_blobs[i - 1].blob.minor,
+> -				fw_blobs[i - 1].blob.patch,
+> -				intel_platform_name(fw_blobs[i].p), fw_blobs[i].rev,
+> -				fw_blobs[i].blob.legacy ? "L" : "v",
+> -				fw_blobs[i].blob.major,
+> -				fw_blobs[i].blob.minor,
+> -				fw_blobs[i].blob.patch);
+> -
+> -			uc_fw->file_selected.path = NULL;
+> -		}
+> +		drm_err(&i915->drm, "Invalid %s blob order: %s r%u %s%d.%d.%d comes before %s r%u %s%d.%d.%d\n",
+> +			intel_uc_fw_type_repr(type),
+> +			intel_platform_name(fw_blobs[i - 1].p), fw_blobs[i - 1].rev,
+> +			fw_blobs[i - 1].blob.legacy ? "L" : "v",
+> +			fw_blobs[i - 1].blob.major,
+> +			fw_blobs[i - 1].blob.minor,
+> +			fw_blobs[i - 1].blob.patch,
+> +			intel_platform_name(fw_blobs[i].p), fw_blobs[i].rev,
+> +			fw_blobs[i].blob.legacy ? "L" : "v",
+> +			fw_blobs[i].blob.major,
+> +			fw_blobs[i].blob.minor,
+> +			fw_blobs[i].blob.patch);
+> +		return false;
+>   	}
+> +
+> +	return true;
+>   }
+>   
+>   static const char *__override_guc_firmware_path(struct drm_i915_private *i915)
+> @@ -443,6 +465,11 @@ void intel_uc_fw_init_early(struct intel_uc_fw *uc_fw,
+>   	uc_fw->type = type;
+>   
+>   	if (HAS_GT_UC(i915)) {
+> +		if (!validate_fw_table_type(i915, type)) {
+> +			intel_uc_fw_change_status(uc_fw, INTEL_UC_FIRMWARE_ERROR);
 
-Reviewed-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+In our hierarchy of firmware statuses, INTEL_UC_FIRMWARE_ERROR includes 
+the fact that the fw has been selected, which in turns implies that 
+file_selected.path is valid. this means that even with enable_guc=0 the 
+wants/uses_guc macro might end up returning true, which is not something 
+we want.
 
 Daniele
 
-> ---
->   drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c | 30 +++++++++++++++---------
->   1 file changed, 19 insertions(+), 11 deletions(-)
->
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c b/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
-> index a82a53dbbc86d..c9cd9bb47577f 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
-> @@ -80,14 +80,14 @@ void intel_uc_fw_change_status(struct intel_uc_fw *uc_fw,
->    */
->   #define INTEL_GUC_FIRMWARE_DEFS(fw_def, guc_maj, guc_mmp) \
->   	fw_def(METEORLAKE,   0, guc_mmp(mtl,  70, 6, 5)) \
-> -	fw_def(DG2,          0, guc_maj(dg2,  70, 5)) \
-> -	fw_def(ALDERLAKE_P,  0, guc_maj(adlp, 70, 5)) \
-> +	fw_def(DG2,          0, guc_maj(dg2,  70, 5, 1)) \
-> +	fw_def(ALDERLAKE_P,  0, guc_maj(adlp, 70, 5, 1)) \
->   	fw_def(ALDERLAKE_P,  0, guc_mmp(adlp, 70, 1, 1)) \
->   	fw_def(ALDERLAKE_P,  0, guc_mmp(adlp, 69, 0, 3)) \
-> -	fw_def(ALDERLAKE_S,  0, guc_maj(tgl,  70, 5)) \
-> +	fw_def(ALDERLAKE_S,  0, guc_maj(tgl,  70, 5, 1)) \
->   	fw_def(ALDERLAKE_S,  0, guc_mmp(tgl,  70, 1, 1)) \
->   	fw_def(ALDERLAKE_S,  0, guc_mmp(tgl,  69, 0, 3)) \
-> -	fw_def(DG1,          0, guc_maj(dg1,  70, 5)) \
-> +	fw_def(DG1,          0, guc_maj(dg1,  70, 5, 1)) \
->   	fw_def(ROCKETLAKE,   0, guc_mmp(tgl,  70, 1, 1)) \
->   	fw_def(TIGERLAKE,    0, guc_mmp(tgl,  70, 1, 1)) \
->   	fw_def(JASPERLAKE,   0, guc_mmp(ehl,  70, 1, 1)) \
-> @@ -141,7 +141,7 @@ void intel_uc_fw_change_status(struct intel_uc_fw *uc_fw,
->   	__stringify(patch_) ".bin"
->   
->   /* Minor for internal driver use, not part of file name */
-> -#define MAKE_GUC_FW_PATH_MAJOR(prefix_, major_, minor_) \
-> +#define MAKE_GUC_FW_PATH_MAJOR(prefix_, major_, minor_, patch_) \
->   	__MAKE_UC_FW_PATH_MAJOR(prefix_, "guc", major_)
->   
->   #define MAKE_GUC_FW_PATH_MMP(prefix_, major_, minor_, patch_) \
-> @@ -197,9 +197,9 @@ struct __packed uc_fw_blob {
->   	{ UC_FW_BLOB_BASE(major_, minor_, patch_, path_) \
->   	  .legacy = true }
->   
-> -#define GUC_FW_BLOB(prefix_, major_, minor_) \
-> -	UC_FW_BLOB_NEW(major_, minor_, 0, false, \
-> -		       MAKE_GUC_FW_PATH_MAJOR(prefix_, major_, minor_))
-> +#define GUC_FW_BLOB(prefix_, major_, minor_, patch_) \
-> +	UC_FW_BLOB_NEW(major_, minor_, patch_, false, \
-> +		       MAKE_GUC_FW_PATH_MAJOR(prefix_, major_, minor_, patch_))
->   
->   #define GUC_FW_BLOB_MMP(prefix_, major_, minor_, patch_) \
->   	UC_FW_BLOB_OLD(major_, minor_, patch_, \
-> @@ -296,6 +296,7 @@ __uc_fw_auto_select(struct drm_i915_private *i915, struct intel_uc_fw *uc_fw)
->   		uc_fw->file_wanted.path = blob->path;
->   		uc_fw->file_wanted.ver.major = blob->major;
->   		uc_fw->file_wanted.ver.minor = blob->minor;
-> +		uc_fw->file_wanted.ver.patch = blob->patch;
->   		uc_fw->loaded_via_gsc = blob->loaded_via_gsc;
->   		found = true;
->   		break;
-> @@ -790,6 +791,9 @@ int intel_uc_fw_fetch(struct intel_uc_fw *uc_fw)
->   		} else {
->   			if (uc_fw->file_selected.ver.minor < uc_fw->file_wanted.ver.minor)
->   				old_ver = true;
-> +			else if ((uc_fw->file_selected.ver.minor == uc_fw->file_wanted.ver.minor) &&
-> +				 (uc_fw->file_selected.ver.patch < uc_fw->file_wanted.ver.patch))
-> +				old_ver = true;
->   		}
->   	}
->   
-> @@ -797,12 +801,16 @@ int intel_uc_fw_fetch(struct intel_uc_fw *uc_fw)
->   		/* Preserve the version that was really wanted */
->   		memcpy(&uc_fw->file_wanted, &file_ideal, sizeof(uc_fw->file_wanted));
->   
-> -		gt_notice(gt, "%s firmware %s (%d.%d) is recommended, but only %s (%d.%d) was found\n",
-> +		gt_notice(gt, "%s firmware %s (%d.%d.%d) is recommended, but only %s (%d.%d.%d) was found\n",
->   			  intel_uc_fw_type_repr(uc_fw->type),
->   			  uc_fw->file_wanted.path,
-> -			  uc_fw->file_wanted.ver.major, uc_fw->file_wanted.ver.minor,
-> +			  uc_fw->file_wanted.ver.major,
-> +			  uc_fw->file_wanted.ver.minor,
-> +			  uc_fw->file_wanted.ver.patch,
->   			  uc_fw->file_selected.path,
-> -			  uc_fw->file_selected.ver.major, uc_fw->file_selected.ver.minor);
-> +			  uc_fw->file_selected.ver.major,
-> +			  uc_fw->file_selected.ver.minor,
-> +			  uc_fw->file_selected.ver.patch);
->   		gt_info(gt, "Consider updating your linux-firmware pkg or downloading from %s\n",
->   			INTEL_UC_FIRMWARE_URL);
+> +			return;
+> +		}
+> +
+>   		__uc_fw_auto_select(i915, uc_fw);
+>   		__uc_fw_user_override(i915, uc_fw);
 >   	}
 
