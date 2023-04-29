@@ -1,74 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D418F6F228E
-	for <lists+dri-devel@lfdr.de>; Sat, 29 Apr 2023 05:10:31 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 22E9A6F2298
+	for <lists+dri-devel@lfdr.de>; Sat, 29 Apr 2023 05:12:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7786B10E288;
-	Sat, 29 Apr 2023 03:10:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 189B610E2E0;
+	Sat, 29 Apr 2023 03:12:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com
- [IPv6:2a00:1450:4864:20::62d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 83E2610E288
- for <dri-devel@lists.freedesktop.org>; Sat, 29 Apr 2023 03:10:25 +0000 (UTC)
-Received: by mail-ej1-x62d.google.com with SMTP id
- a640c23a62f3a-94a34a0b9e2so78573966b.1
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Apr 2023 20:10:25 -0700 (PDT)
+Received: from mail-yb1-xb33.google.com (mail-yb1-xb33.google.com
+ [IPv6:2607:f8b0:4864:20::b33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A1C8C10E2E0
+ for <dri-devel@lists.freedesktop.org>; Sat, 29 Apr 2023 03:12:49 +0000 (UTC)
+Received: by mail-yb1-xb33.google.com with SMTP id
+ 3f1490d57ef6-b9a6eec8611so11932034276.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Apr 2023 20:12:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1682737821; x=1685329821;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=8xOabGxg1/6/r8Ogfw76eL1ZGsVCCTmlPqTwzDPQA0I=;
- b=Kc+SvuwMvX2OH/Y2cYYcOx0xi8PWzH5sJDuWz0OrlZeGUjlNZ0fI2o11zgMphiUCNE
- 9tqI6883Slsbae8/Fk0k1haMVFHR5DqbGHqNrWDpWl9LgXPiLpA/T/y36Q1Oq1bHeIQt
- Q4zQccvwfzS5NoTmwaPf5I8miebZMPZp73cjw=
+ d=linaro.org; s=google; t=1682737968; x=1685329968;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=nZPq6FD/3HdqkAS4gdiecZ5aV1KvKGTujZQ7g9Eep30=;
+ b=bFmjAJXxy6pMgjln/PEg/IE4qffr3iiwOaftvquOqJDEeAk5e08MVLnBrv/3pMzIE3
+ UUZ75M63FT5x1OkVeAUojMW+6uXRKA0zIGxxk5Z2fFxeOLjJCySORHFIGH1vUJynWFtR
+ e2fKQdtDLmvdsPEeK3ac+xDetkOIPPNdU99vZMw8pxGyxUUsh1LguGeMnBcNqufPzJO1
+ 8TIVSR2iQryMhn8RPGKPDMAARaLuyF0Uhdhkb5bDaqqMynqm8pC87N3a7gmE4LMQIpj2
+ 6XkhegB5rrvxvrCRQHJFOoTdSWYwgodsE+VqukW5/gyZeNjkgwTkGga9DZikCYIAZJT0
+ 7OOg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682737821; x=1685329821;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=8xOabGxg1/6/r8Ogfw76eL1ZGsVCCTmlPqTwzDPQA0I=;
- b=iD67T3ogJd6oX42JQjsdrtYW1ECnBSBhbaQyByi9Xtru+SxtkSwSGA+G4VqFQA1dqL
- f0YT4Wce9LBE5nM0A5xiHX0RhuUJdxf9OL2O5AqVe+1q9POMESWaDzrzZwH3BpSZv0cg
- oyR+Ws/OExFLFFQuc/ERxaGfvZRwFNl0KkpHvyRGu569qpHbYxxYdf1c0sU/F7pGvOHx
- ZZ7ZuwBMevPVfXRJbzXqHDX3oROjsTMLHpQOVOZ4DhWPKIvJajUZWs8bXWJqC+br21+a
- ApJnK/wVIDM2CJAV+E0lpScsPfWLOHM/itObtcNpB2spk0/8+1Y5EzLqEx6NUoG/p24J
- VE4A==
-X-Gm-Message-State: AC+VfDwBjt8xrQt6DcuDM0AsZxDTL5vIafuO57UQYSIDW6ABS+qKO7E2
- SKZjwlFkEUwphxrPMgSsnmsjmTyjtTY+f9J1pCzchdFh
-X-Google-Smtp-Source: ACHHUZ4WWA6QhR9pLoQRVE5t9RumA18bF6NOmIil83B7FjbCmYoOzW9BoHO83JxNUnmWhjpk27PIaA==
-X-Received: by 2002:a17:907:2cc6:b0:94e:75f8:668 with SMTP id
- hg6-20020a1709072cc600b0094e75f80668mr7769865ejc.56.1682737821405; 
- Fri, 28 Apr 2023 20:10:21 -0700 (PDT)
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com.
- [209.85.218.54]) by smtp.gmail.com with ESMTPSA id
- sg9-20020a170907a40900b00959aba150c3sm7402355ejc.50.2023.04.28.20.10.19
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 28 Apr 2023 20:10:20 -0700 (PDT)
-Received: by mail-ej1-f54.google.com with SMTP id
- a640c23a62f3a-94f0dd117dcso76865266b.3
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Apr 2023 20:10:19 -0700 (PDT)
-X-Received: by 2002:a17:907:8a01:b0:94f:5e17:e80d with SMTP id
- sc1-20020a1709078a0100b0094f5e17e80dmr7299086ejc.45.1682737819304; Fri, 28
- Apr 2023 20:10:19 -0700 (PDT)
+ d=1e100.net; s=20221208; t=1682737968; x=1685329968;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=nZPq6FD/3HdqkAS4gdiecZ5aV1KvKGTujZQ7g9Eep30=;
+ b=lv86x4NSohTO9XJL+ya9gsXEP6GFOMBPxQW9i9m/mfS/W5QFUaAicie5Oq951AgoqY
+ fTflFv8U5BDklacssjYStL/iYZMkUrFUHynYtMP2J+p/oyR15GrDLckG7ozU0wHUKPZS
+ ipRP5jxpliqGZmsBprRnkNOL4yFXVXIWjj2RELX3PBE9Rl7JAcVjFeH+NnQm14nxydzc
+ NiboaO30STiWGg0AJhGLDG21J384AN64pa2NqQcVNrwsRIQtcOhrTy0x59gA6V5T1W93
+ fU1sXe1EWo2RumUN8e56zIQE/q2yimMNhmOlKJVgUXKWeHCpw0KUxGwUs/5AZ5qDFSUA
+ B7IA==
+X-Gm-Message-State: AC+VfDxIgx1YyXMKfymeDTVGEsdJZejarAL8M0jfejqS8j0+NPkktSCI
+ v0bzwJBZIWJpYtLnD+tzSHz9LtkHfJay46O6bZxgQg==
+X-Google-Smtp-Source: ACHHUZ5JBkowR4FYHJ45j/F+E6uXnfkS5GJ5kjJ+2PtHbQwKa11GayybRuy9sEXIRG6SM2/s0chaUKGVNrE40dHGjT8=
+X-Received: by 2002:a81:189:0:b0:54f:6f2e:b3f5 with SMTP id
+ 131-20020a810189000000b0054f6f2eb3f5mr8251813ywb.13.1682737968434; Fri, 28
+ Apr 2023 20:12:48 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230425073012.11036-1-marius.vlad@collabora.com>
- <CALWYx-a90Zee0_js5h=53bxsN-BXxumiGid-qc=9405ZkUE-gg@mail.gmail.com>
- <a2239e16-31e8-3163-b349-8fc3328f33ed@collabora.com>
- <CALWYx-ZoNU82Z2Z28uH8ZsABvZFBGtMi55x6e386QBTbDsECZA@mail.gmail.com>
-In-Reply-To: <CALWYx-ZoNU82Z2Z28uH8ZsABvZFBGtMi55x6e386QBTbDsECZA@mail.gmail.com>
-From: Jim Shargo <jshargo@chromium.org>
-Date: Fri, 28 Apr 2023 23:10:08 -0400
-X-Gmail-Original-Message-ID: <CACmi3jE=6hj21yu2ZCyA_vn-0vY==BPNBfHrxVc+Hi-oq_Cpgw@mail.gmail.com>
-Message-ID: <CACmi3jE=6hj21yu2ZCyA_vn-0vY==BPNBfHrxVc+Hi-oq_Cpgw@mail.gmail.com>
-Subject: Re: [PATCH v3 0/3] drm/vkms: Add support for multiple pipes
-To: Brandon Ross Pollack <brpol@chromium.org>
+References: <1682725511-18185-1-git-send-email-quic_khsieh@quicinc.com>
+ <CAA8EJpqqhP1QL7TuW8JXeVFqukWggYmB1XU8OeB65fQA+jhLAg@mail.gmail.com>
+ <ff60439f-9955-5e89-ee2c-17bc2b07d1e1@quicinc.com>
+In-Reply-To: <ff60439f-9955-5e89-ee2c-17bc2b07d1e1@quicinc.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Sat, 29 Apr 2023 06:12:37 +0300
+Message-ID: <CAA8EJppr7zYGTJcR4EAB3eybCz0tY=t4Srf2QhLVc4Uu5ZqNtQ@mail.gmail.com>
+Subject: Re: [PATCH v2 0/7] add DSC 1.2 dpu supports
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,153 +68,90 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: melissa.srw@gmail.com, rodrigosiqueiramelo@gmail.com, yixie@chromium.org,
- mcanal@igalia.com, dri-devel@lists.freedesktop.org, mwen@igalia.com,
- tzimmermann@suse.de, Marius Vlad <marius.vlad@collabora.com>,
- igormtorrente@gmail.com
+Cc: vkoul@kernel.org, quic_sbillaka@quicinc.com, andersson@kernel.org,
+ freedreno@lists.freedesktop.org, dianders@chromium.org,
+ dri-devel@lists.freedesktop.org, swboyd@chromium.org, agross@kernel.org,
+ linux-arm-msm@vger.kernel.org, marijn.suijten@somainline.org,
+ Kuogee Hsieh <quic_khsieh@quicinc.com>, sean@poorly.run,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hey, all!
-
-I am so excited to see other folks excited about extending VKMS. I
-think it's a great project and has outstanding potential!
-
-Life stuff made me AFK for the last few months, but I'm back now and
-I've been wrapping up the work on the patchset Brandon linked.
-
-The current WIP patches are here:
-https://gitlab.freedesktop.org/jshargo/compositor-kernel-explorations/-/mer=
-ge_requests/4
-
-They even come with matching IGT tests!
-https://gitlab.freedesktop.org/jshargo/igt-gpu-tools/-/commit/8375cf128f081=
-1d54ecb4a0b5cf044942ffc67b9
-
-I'm hoping to send them out again soon, hopefully next week.
-
-As a suggestion for how to move forward: the first three patches are
-little refactors that are separable from the core ConfigFS ones (which
-might have more back-and-forth design iterations). With those three,
-the param you're adding should be easy to put on top. I can try to get
-those out sooner for review.
-
-What do you think?
-
-
-On Thu, Apr 27, 2023 at 10:51=E2=80=AFPM Brandon Ross Pollack
-<brpol@chromium.org> wrote:
->
-> I'm adding the original offer of those changes.  We talked recently
-> and they have the intent to push forward and merge them.  I'm still
-> getting up to speed a bit, but I will probably have a stronger opinion
-> by early next week.
+On Sat, 29 Apr 2023 at 05:51, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
 >
 >
-> On Wed, Apr 26, 2023 at 9:54=E2=80=AFPM Marius Vlad <marius.vlad@collabor=
-a.com> wrote:
+>
+> On 4/28/2023 7:46 PM, Dmitry Baryshkov wrote:
+> > On Sat, 29 Apr 2023 at 02:45, Kuogee Hsieh <quic_khsieh@quicinc.com> wrote:
+> >>
+> >> This series adds the DPU side changes to support DSC 1.2 encoder. This
+> >> was validated with both DSI DSC 1.2 panel and DP DSC 1.2 monitor.
+> >> The DSI and DP parts will be pushed later on top of this change.
+> >> This seriel is rebase on [1], [2] and catalog fixes from [3].
+> >>
+> >> [1]: https://patchwork.freedesktop.org/series/116851/
+> >> [2]: https://patchwork.freedesktop.org/series/116615/
+> >> [3]: https://patchwork.freedesktop.org/series/112332/
+> >>
+> >> Abhinav Kumar (2):
+> >>    drm/msm/dpu: add DSC 1.2 hw blocks for relevant chipsets
+> >>    drm/msm/dpu: add dsc blocks for remaining chipsets in catalog
+> >>
+> >> Kuogee Hsieh (5):
+> >>    drm/msm/dpu: add support for DSC encoder v1.2 engine
+> >>    drm/msm/dpu: separate DSC flush update out of interface
+> >>    drm/msm/dpu: add DPU_PINGPONG_DSC feature PP_BLK and PP_BLK_TE
+> >>    drm/msm/dpu: save dpu topology configuration
+> >>    drm/msm/dpu: calculate DSC encoder parameters dynamically
 > >
-> > Hi Brandon, Xie,
+> > Another generic comment: this patchset doesn't have discussed RM
+> > changes to allocate DSC blocks in proper pairs as required by DCE.
 > >
-> > Thanks for reaching out, and for the heads-up. I need to take a closer
-> > look, but by glancing over it, using configFS would be really awesome.
-> > Think we could really benefit from having that in our CI and being able
-> > to customize the entire pipeline. I'm totally for that.
+>
+> We have already made that change. It will be pushed with the DP series
+> because today DSC only support 2-2-1 so they will always be allocated in
+> pairs.
+
+Then there is no reason to touch the dpu_encoder in this series as the
+topology is also known to be 2:2:1.
+
+>
+> >>
+> >>   drivers/gpu/drm/msm/Makefile                       |   1 +
+> >>   .../drm/msm/disp/dpu1/catalog/dpu_3_0_msm8998.h    |  19 +-
+> >>   .../gpu/drm/msm/disp/dpu1/catalog/dpu_4_0_sdm845.h |   8 +-
+> >>   .../gpu/drm/msm/disp/dpu1/catalog/dpu_5_0_sm8150.h |  26 +-
+> >>   .../drm/msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h    |  35 ++-
+> >>   .../gpu/drm/msm/disp/dpu1/catalog/dpu_6_0_sm8250.h |  26 +-
+> >>   .../gpu/drm/msm/disp/dpu1/catalog/dpu_6_2_sc7180.h |   4 +-
+> >>   .../gpu/drm/msm/disp/dpu1/catalog/dpu_6_3_sm6115.h |   2 +-
+> >>   .../drm/msm/disp/dpu1/catalog/dpu_6_5_qcm2290.h    |   2 +-
+> >>   .../gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h |  14 +
+> >>   .../gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h |   7 +
+> >>   .../drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h   |  16 +
+> >>   .../gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h |  14 +
+> >>   .../gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h |  14 +
+> >>   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c        | 102 ++++---
+> >>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c     |  35 ++-
+> >>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h     |  36 ++-
+> >>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c         |  22 +-
+> >>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h         |  10 +
+> >>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.h         |  14 +-
+> >>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc_1_2.c     | 335 +++++++++++++++++++++
+> >>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.c    |   9 +-
+> >>   drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c             |   7 +-
+> >>   23 files changed, 642 insertions(+), 116 deletions(-)
+> >>   create mode 100644 drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc_1_2.c
+> >>
+> >> --
+> >> The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
+> >> a Linux Foundation Collaborative Project
+> >>
 > >
-> > It looks like it requires some infra work so I guess landing that might
-> > require quite a bit of time. Not sure if there are recent updates for i=
-t.
 > >
-> > My changes are quite trivial and much more focused on just having
-> > multiple virtual displays, so IDK, I've submitted a version that seems
-> > to work, so I guess others should or would decide if we should drop min=
-e
-> > and focus on the configFS series, or we should go with configFS as a
-> > follow-up. Would have liked to get something in the tree so we can at
-> > least have something to work with.
-> >
-> > Thoughts on the matter on how should we go about it?
-> >
-> > On 4/26/23 05:06, Brandon Ross Pollack wrote:
-> > > We're doing/planning on doing similar or related work here at chromiu=
-m.
-> > >
-> > > https://patchwork.kernel.org/project/dri-devel/list/?series=3D662676&=
-submitter=3D&state=3D&q=3D&delegate=3D&archive=3Dboth <https://patchwork.ke=
-rnel.org/project/dri-devel/list/?series=3D662676&submitter=3D&state=3D&q=3D=
-&delegate=3D&archive=3Dboth>
-> > >
-> > > Here's the stuff we have now (we're currently rebasing and touching i=
-t
-> > > up, myself and @Yi Xie <mailto:yixie@google.com> will be taking over
-> > > this work.
-> > >
-> > > Our plans are to add configFS changes and DRI VKMS changes to be able=
- to
-> > > add and remove virtual displays at runtime (among other things needed
-> > > for our own testing purposes for our Exo wayland implementation).
-> > >
-> > > We're still learning how this all works and comes together, but it is
-> > > worth letting you know "us too"
-> > >
-> > > We can chat more and see where we overlap and can learn from each oth=
-er :)
-> > >
-> > > On Tue, Apr 25, 2023 at 4:30=E2=80=AFPM Marius Vlad <marius.vlad@coll=
-abora.com
-> > > <mailto:marius.vlad@collabora.com>> wrote:
-> > >
-> > >     With multiple pipe available we can perform management of outputs=
- at
-> > >     a more granular level, such that we're able to turn off or on sev=
-eral
-> > >     outputs at a time, or combinations that arise from doing that.
-> > >
-> > >     The Weston project use VKMS when running its test suite in CI, an=
-d we
-> > >     have now uses cases which would need to ability to set-up the out=
-puts
-> > >     DPMS/state individually, rather than globally -- which would affe=
-ct all
-> > >     outputs. This an attempt on fixing that by giving the possibility=
- to
-> > >     create more than one pipe, and thus allowing to run tests that co=
-uld
-> > >     exercise code paths in the compositor related to management of ou=
-tputs.
-> > >
-> > >     v3:
-> > >        - Apply the series against drm-misc-next (Ma=C3=ADra Canal)
-> > >        - Add a lower range check to avoid passing negative values to
-> > >        max_pipes (Ma=C3=ADra Canal)
-> > >
-> > >     v2:
-> > >        - Replace 'outputs' with 'pipes' as to use the proper terminol=
-ogy
-> > >          (Thomas Zimmermann, Ma=C3=ADra Canal)
-> > >        - Fixed passing wrong possible_crtc bitmask when initializing =
-the
-> > >          write back connector which address kms_writeback failure (Ma=
-=C3=ADra
-> > >     Canal)
-> > >        - Add a feat. note about moving overlay planes between CRTCs
-> > >     (Melissa Wen)
-> > >
-> > >     Marius Vlad (3):
-> > >        vkms: Pass the correct bitmask for possible crtcs
-> > >        vkms: Add support for multiple pipes
-> > >        Documentation/gpu/vkms.rst: Added a note about plane migration
-> > >
-> > >       Documentation/gpu/vkms.rst            |  5 +++--
-> > >       drivers/gpu/drm/vkms/vkms_crtc.c      |  3 +--
-> > >       drivers/gpu/drm/vkms/vkms_drv.c       | 31 ++++++++++++++++++++=
-+------
-> > >       drivers/gpu/drm/vkms/vkms_drv.h       | 12 ++++++++---
-> > >       drivers/gpu/drm/vkms/vkms_output.c    |  7 +++---
-> > >       drivers/gpu/drm/vkms/vkms_writeback.c | 24 ++++++++++----------=
--
-> > >       6 files changed, 53 insertions(+), 29 deletions(-)
-> > >
-> > >     --
-> > >     2.39.2
-> > >
+
+
+
+-- 
+With best wishes
+Dmitry
