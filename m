@@ -2,77 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BB026F23BE
-	for <lists+dri-devel@lfdr.de>; Sat, 29 Apr 2023 10:46:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA45C6F23C1
+	for <lists+dri-devel@lfdr.de>; Sat, 29 Apr 2023 10:56:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B2FB010E087;
-	Sat, 29 Apr 2023 08:46:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5FC3410E099;
+	Sat, 29 Apr 2023 08:56:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 11A4F10E087;
- Sat, 29 Apr 2023 08:46:16 +0000 (UTC)
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 33T8cJJK028761; Sat, 29 Apr 2023 08:46:10 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=hvONotVks+o5PvqFe1e2S4SGR+xR/2T/dU0/0aYp1LE=;
- b=BI+9gHroJQxo2/2j9+NHwFoN5nA5kdc9T8LpcB+SRrp/CCLQLUpdNmmp9SC4beiCdoT0
- 7FMnKlvkdw+o8iY7CzJd+SkL1OvikrQwt7zuO2D8z6+dBVCNgmC4cTvuqz+TP7PHgipI
- mFIzQEibX1GvKRl9HlL3eioD9ru4ZhNV14UVo0iN7ydl9Ou7wWzWNUaMBTw97l5kJjkW
- KkCQpzHLMQtaN+EEdG63iXYSwJ/9Sduw/SqVmDvEk43q4pjp24RUQF5y6A6WrSXjqtfB
- AZaZ/UzNNcjbsAbLldLpXA8xZ0yLMXaUdFEG0pUpaP5K3PJEEVLurYkp5CE94f+XagsK Xg== 
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3q8umg0bvh-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Sat, 29 Apr 2023 08:46:09 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 33T8k8SK025805
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Sat, 29 Apr 2023 08:46:08 GMT
-Received: from [10.110.119.27] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Sat, 29 Apr
- 2023 01:46:08 -0700
-Message-ID: <1c0f5c9d-f38e-a008-b950-e85a5eb94633@quicinc.com>
-Date: Sat, 29 Apr 2023 01:46:07 -0700
+Received: from ste-pvt-msa1.bahnhof.se (ste-pvt-msa1.bahnhof.se
+ [213.80.101.70])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F29F910E04F;
+ Sat, 29 Apr 2023 08:55:57 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by ste-pvt-msa1.bahnhof.se (Postfix) with ESMTP id E6E863F41E;
+ Sat, 29 Apr 2023 10:55:54 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at bahnhof.se
+X-Spam-Flag: NO
+X-Spam-Score: -2.098
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.098 tagged_above=-999 required=6.31
+ tests=[BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
+ URIBL_BLOCKED=0.001] autolearn=ham autolearn_force=no
+Authentication-Results: ste-pvt-msa1.bahnhof.se (amavisd-new);
+ dkim=pass (1024-bit key) header.d=shipmail.org
+Received: from ste-pvt-msa1.bahnhof.se ([127.0.0.1])
+ by localhost (ste-pvt-msa1.bahnhof.se [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id ifAiy-XCBSGm; Sat, 29 Apr 2023 10:55:53 +0200 (CEST)
+Received: by ste-pvt-msa1.bahnhof.se (Postfix) with ESMTPA id 030DE3F480;
+ Sat, 29 Apr 2023 10:55:52 +0200 (CEST)
+Received: from [192.168.0.209] (h-155-4-205-35.A357.priv.bahnhof.se
+ [155.4.205.35])
+ by mail1.shipmail.org (Postfix) with ESMTPSA id 4E24B363216;
+ Sat, 29 Apr 2023 10:55:52 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=shipmail.org; s=mail;
+ t=1682758552; bh=mUo5YJJWyET87wVzHkPrGqHTYJW4xa02rhEgDnwoJrs=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=gQyn1fdecB0QfYT8oNt8iB4KOWIm0Yj389V3TYQqbi+S5jXw/66vMdJbs78Qn2aaM
+ Bg13W52KWAekJaxTBenUGOA9mpMAKNl7SqtIsXRhOLH4p/ijhSxzKA85EsxUjOsJAn
+ RXu44lj8DG6JtWIVWHeZW9f78vAvRytSNAwOS+MI=
+Content-Type: multipart/alternative;
+ boundary="------------Jhm0zFU0j9KxALz0lmE946Vu"
+Message-ID: <06d6babb-5933-7fe5-5686-2336d695f8bd@shipmail.org>
+Date: Sat, 29 Apr 2023 10:55:51 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.2
-Subject: Re: [PATCH] drm/msm/dpu: drop unused SSPP sub-block information
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH v3 0/5] drm/i915: Allow user to set cache at BO creation
 Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
- <robdclark@gmail.com>, Sean Paul <sean@poorly.run>
-References: <20230429024242.2613957-1-dmitry.baryshkov@linaro.org>
- <085c3b3a-1a29-7082-934d-497be5b050fd@quicinc.com>
- <5fbf2ba1-f8fd-1373-55f2-4eb3789bc5e7@linaro.org>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <5fbf2ba1-f8fd-1373-55f2-4eb3789bc5e7@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: lTJcxFk4W-xWCAS2RwjA_SbD0e-915vq
-X-Proofpoint-ORIG-GUID: lTJcxFk4W-xWCAS2RwjA_SbD0e-915vq
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-04-28_08,2023-04-27_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 spamscore=0
- impostorscore=0 mlxlogscore=911 mlxscore=0 adultscore=0 suspectscore=0
- clxscore=1015 priorityscore=1501 malwarescore=0 bulkscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2303200000 definitions=main-2304290081
+To: "Yang, Fei" <fei.yang@intel.com>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>
+References: <20230428054737.1765778-1-fei.yang@intel.com>
+ <e1c73441-df6f-799c-eda0-8639067a0fea@shipmail.org>
+ <BYAPR11MB25676E1468DEEB827E889DA39A6B9@BYAPR11MB2567.namprd11.prod.outlook.com>
+ <73356be7-f57e-154a-e587-2785d62e61cd@shipmail.org>
+ <BYAPR11MB256741725865292D644140079A6B9@BYAPR11MB2567.namprd11.prod.outlook.com>
+From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m_=28Intel=29?= <thomas_os@shipmail.org>
+In-Reply-To: <BYAPR11MB256741725865292D644140079A6B9@BYAPR11MB2567.namprd11.prod.outlook.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,67 +71,220 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, Bjorn Andersson <andersson@kernel.org>,
- freedreno@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>
+Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+This is a multi-part message in MIME format.
+--------------Jhm0zFU0j9KxALz0lmE946Vu
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
 
-On 4/28/2023 9:30 PM, Dmitry Baryshkov wrote:
-> On 29/04/2023 07:29, Abhinav Kumar wrote:
->>
->>
->> On 4/28/2023 7:42 PM, Dmitry Baryshkov wrote:
->>> The driver  doesn't support hsic/memcolor, pcc and igc SSPP subblocks.
->>> Drop corresponding definitions.
->>>
->>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
->>> ---
->>>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h | 8 --------
->>>   1 file changed, 8 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h 
->>> b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
->>> index 3e92c2c66716..db6488a6929d 100644
->>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
->>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
->>> @@ -384,10 +384,6 @@ struct dpu_caps {
->>>    * @qseed_ver: qseed version
->>>    * @scaler_blk:
->>>    * @csc_blk:
->>> - * @hsic:
->>> - * @memcolor:
->>> - * @pcc_blk:
->>> - * @igc_blk:
->>>    * @format_list: Pointer to list of supported formats
->>>    * @num_formats: Number of supported formats
->>>    * @virt_format_list: Pointer to list of supported formats for 
->>> virtual planes
->>> @@ -404,10 +400,6 @@ struct dpu_sspp_sub_blks {
->>>       u32 qseed_ver;
->>>       struct dpu_scaler_blk scaler_blk;
->>>       struct dpu_pp_blk csc_blk;
->>> -    struct dpu_pp_blk hsic_blk;
->>> -    struct dpu_pp_blk memcolor_blk;
->>> -    struct dpu_pp_blk pcc_blk;
->>> -    struct dpu_pp_blk igc_blk;
->>
->> I have included IGC in this patch 
->> https://patchwork.freedesktop.org/patch/534725/?series=117130&rev=1
->>
->> So that one can be dropped from this patch?
-> 
-> It will get dropped while applying because of the conflict.
-> 
+On 4/28/23 19:43, Yang, Fei wrote:
+> >> On 4/28/23 17:19, Yang, Fei wrote:
+> >>> On 4/28/23 07:47, fei.yang@intel.com wrote:
+> >>>> From: Fei Yang <fei.yang@intel.com>
+> >>>>
+> >>>> The first three patches in this series are taken from
+> >>>> https://patchwork.freedesktop.org/series/116868/
+> >>>> These patches are included here because the last patch
+> >>>> has dependency on the pat_index refactor.
+> >>>>
+> >>>> This series is focusing on uAPI changes,
+> >>>> 1. end support for set caching ioctl [PATCH 4/5]
+> >>>> 2. add set_pat extension for gem_create [PATCH 5/5]
+> >>>>
+> >>>> v2: drop one patch that was merged separately
+> >>>>      341ad0e8e254 drm/i915/mtl: Add PTE encode function
+> >>>> v3: rebase on https://patchwork.freedesktop.org/series/117082/
+> >>>
+> >>> Hi, Fei.
+> >>>
+> >>> Does this uAPI update also affect any discrete GPUs supported by i915,
+> >>
+> >> It does.
+> >>
+> >>> And in that case, does it allow setting non-snooping PAT indices on
+> >>> those devices?
+> >>
+> >> It allows setting PAT indices specified in
+> >> KMD does a sanity check so that it won't go over the max recommended
+> >> by bspec.
+> >>
+> >>> If so, since the uAPI for discrete GPU devices doesn't allow 
+> incoherency
+> >>> between GPU and CPU (apart from write-combining buffering), the 
+> correct
+> >>> CPU caching mode matching the PAT index needs to be selected for the
+> >>> buffer object in i915_ttm_select_tt_caching().
+> >>
+> >> The patch doesn't affect the CPU caching mode setting logic though.
+> >> And the caching settings for objects created by kernel should remain
+> >> the same for both CPU and GPU, objects created by userspace are
+> >> managed completely by userspace.
+> >>
+> >> One question though, what do you mean by non-snooping PAT indices?
+> >
+> > Yes, that was actually the bottom question: What do these PAT settings
+> > allow you to do WRT the snooping on supported discrete devices (DG2) on
+> > i915?
+> > If they indeed don't allow disabling snooping, then that's not a 
+> problem.
+>
+> When dGPU's access SysMem, the PCIe default is for that access to 
+> snoop the
+> host's caches. All of our current dGPU's do that -- independent of PAT 
+> setting.
+>
+> > If they do, the ttm code there needs some modification.
+>
+> I'm not familiar with ttm, but if your concern is that certain PAT index
+> could disable snooping, that is not possible for current dGPU's.
+> I think it is possible for Xe2/3 though, because there will be COH_MODE
+> defined in the PAT registers going forward.
 
-Knowing that its going to conflict, why not fix one of the patches now, 
-preferably this one since I was handling GC/IGC together in that series.
 
->>
->> Rest is fine.
->>
->>>       const u32 *format_list;
->>>       u32 num_formats;
-> 
+OK. If that's the case, then it should be safe to disregard this concern.
+
+Thanks,
+
+
+Thomas
+
+
+
+>
+> -Fei
+>
+--------------Jhm0zFU0j9KxALz0lmE946Vu
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    <p><br>
+    </p>
+    <div class="moz-cite-prefix">On 4/28/23 19:43, Yang, Fei wrote:<br>
+    </div>
+    <blockquote type="cite"
+cite="mid:BYAPR11MB256741725865292D644140079A6B9@BYAPR11MB2567.namprd11.prod.outlook.com">
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+      <style type="text/css" style="display:none;">P {margin-top:0;margin-bottom:0;}</style>
+      &gt;&gt; On 4/28/23 17:19, Yang, Fei wrote:
+      <div>&gt;&gt;&gt; On 4/28/23 07:47, <a class="moz-txt-link-abbreviated" href="mailto:fei.yang@intel.com">fei.yang@intel.com</a> wrote:</div>
+      <div>&gt;&gt;&gt;&gt; From: Fei Yang <a class="moz-txt-link-rfc2396E" href="mailto:fei.yang@intel.com">&lt;fei.yang@intel.com&gt;</a></div>
+      <div>&gt;&gt;&gt;&gt;</div>
+      <div>&gt;&gt;&gt;&gt; The first three patches in this series are
+        taken from</div>
+      <div>&gt;&gt;&gt;&gt;
+        <a class="moz-txt-link-freetext" href="https://patchwork.freedesktop.org/series/116868/">https://patchwork.freedesktop.org/series/116868/</a></div>
+      <div>&gt;&gt;&gt;&gt; These patches are included here because the
+        last patch</div>
+      <div>&gt;&gt;&gt;&gt; has dependency on the pat_index refactor.</div>
+      <div>&gt;&gt;&gt;&gt;</div>
+      <div>&gt;&gt;&gt;&gt; This series is focusing on uAPI changes,</div>
+      <div>&gt;&gt;&gt;&gt; 1. end support for set caching ioctl [PATCH
+        4/5]</div>
+      <div>&gt;&gt;&gt;&gt; 2. add set_pat extension for gem_create
+        [PATCH 5/5]</div>
+      <div>&gt;&gt;&gt;&gt;</div>
+      <div>&gt;&gt;&gt;&gt; v2: drop one patch that was merged
+        separately</div>
+      <div>&gt;&gt;&gt;&gt;      341ad0e8e254 drm/i915/mtl: Add PTE
+        encode function</div>
+      <div>&gt;&gt;&gt;&gt; v3: rebase on
+        <a class="moz-txt-link-freetext" href="https://patchwork.freedesktop.org/series/117082/">https://patchwork.freedesktop.org/series/117082/</a></div>
+      <div>&gt;&gt;&gt;</div>
+      <div>&gt;&gt;&gt; Hi, Fei.</div>
+      <div>&gt;&gt;&gt;</div>
+      <div>&gt;&gt;&gt; Does this uAPI update also affect any discrete
+        GPUs supported by i915,</div>
+      <div>&gt;&gt;</div>
+      <div>&gt;&gt; It does.</div>
+      <div>&gt;&gt;</div>
+      <div>&gt;&gt;&gt; And in that case, does it allow setting
+        non-snooping PAT indices on</div>
+      <div>&gt;&gt;&gt; those devices?</div>
+      <div>&gt;&gt;</div>
+      <div>&gt;&gt; It allows setting PAT indices specified in</div>
+      <div>&gt;&gt; KMD does a sanity check so that it won't go over the
+        max recommended</div>
+      <div>&gt;&gt; by bspec.</div>
+      <div>&gt;&gt;</div>
+      <div>&gt;&gt;&gt; If so, since the uAPI for discrete GPU devices
+        doesn't allow incoherency</div>
+      <div>&gt;&gt;&gt; between GPU and CPU (apart from write-combining
+        buffering), the correct</div>
+      <div>&gt;&gt;&gt; CPU caching mode matching the PAT index needs to
+        be selected for the</div>
+      <div>&gt;&gt;&gt; buffer object in i915_ttm_select_tt_caching().</div>
+      <div>&gt;&gt;</div>
+      <div>&gt;&gt; The patch doesn't affect the CPU caching mode
+        setting logic though.</div>
+      <div>&gt;&gt; And the caching settings for objects created by
+        kernel should remain</div>
+      <div>&gt;&gt; the same for both CPU and GPU, objects created by
+        userspace are</div>
+      <div>&gt;&gt; managed completely by userspace.</div>
+      <div>&gt;&gt;</div>
+      <div class="elementToProof">&gt;&gt; One question though, what do
+        you mean by non-snooping PAT indices?</div>
+      <div class="elementToProof ContentPasted0">&gt;
+        <div class="ContentPasted0">&gt; Yes, that was actually the
+          bottom question: What do these PAT settings</div>
+        <div class="ContentPasted0">&gt; allow you to do WRT the
+          snooping on supported discrete devices (DG2) on</div>
+        <div class="ContentPasted0">&gt; i915?</div>
+        <div class="ContentPasted0">&gt; If they indeed don't allow
+          disabling snooping, then that's not a problem.</div>
+        <div><br class="ContentPasted0">
+        </div>
+        <div class="ContentPasted0">When dGPU's access SysMem, the PCIe
+          default is for that access to snoop the</div>
+        <div class="ContentPasted0">host's caches. All of our current
+          dGPU's do that -- independent of PAT setting.</div>
+        <div><br class="ContentPasted0">
+        </div>
+        <div class="ContentPasted0">&gt; If they do, the ttm code there
+          needs some modification.</div>
+        <div><br class="ContentPasted0">
+        </div>
+        <div class="ContentPasted0">I'm not familiar with ttm, but if
+          your concern is that certain PAT index</div>
+        <div class="ContentPasted0">could disable snooping, that is not
+          possible for current dGPU's.</div>
+        <div class="ContentPasted0">I think it is possible for Xe2/3
+          though, because there will be COH_MODE</div>
+        <div class="ContentPasted0">defined in the PAT registers going
+          forward.</div>
+      </div>
+    </blockquote>
+    <p><br>
+    </p>
+    <p>OK. If that's the case, then it should be safe to disregard this
+      concern.</p>
+    <p>Thanks,</p>
+    <p><br>
+    </p>
+    <p>Thomas</p>
+    <p><br>
+    </p>
+    <p><br>
+    </p>
+    <blockquote type="cite"
+cite="mid:BYAPR11MB256741725865292D644140079A6B9@BYAPR11MB2567.namprd11.prod.outlook.com">
+      <div class="elementToProof ContentPasted0">
+        <div><br class="ContentPasted0">
+        </div>
+        <div class="ContentPasted0">-Fei</div>
+        <br>
+      </div>
+    </blockquote>
+  </body>
+</html>
+
+--------------Jhm0zFU0j9KxALz0lmE946Vu--
