@@ -1,67 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CED4B6F2450
-	for <lists+dri-devel@lfdr.de>; Sat, 29 Apr 2023 12:46:20 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DC60C6F246F
+	for <lists+dri-devel@lfdr.de>; Sat, 29 Apr 2023 13:20:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 20CFC10E100;
-	Sat, 29 Apr 2023 10:46:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5B97E10E150;
+	Sat, 29 Apr 2023 11:20:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com
- [IPv6:2a00:1450:4864:20::52a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 02E4E10E0DD
- for <dri-devel@lists.freedesktop.org>; Sat, 29 Apr 2023 10:46:02 +0000 (UTC)
-Received: by mail-ed1-x52a.google.com with SMTP id
- 4fb4d7f45d1cf-5066ce4f725so961431a12.1
- for <dri-devel@lists.freedesktop.org>; Sat, 29 Apr 2023 03:46:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1682765161; x=1685357161;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=MF33tdMj9iVHCsjXUVoEa1ZEru2AhDHukTYWsA8encE=;
- b=GzY0hb9ZJ7kqcVA7IpKup7QloI+q7itlRzF8oDh4ZKLP+PVssTD1iBnizxj1qDsVZw
- DYy5JYtT3a4Kv/CEpAS1SwZKwtkgJfg1apgqRHbSqfUe9q2Rq4O8tGi8UZElslfhHPRp
- DFhGGo/MCEno4f8wRkQSyG5+sNBMBlpwkxk/AwE+oFJNm9NqrDO+aiJpCdkL15Rh9sI/
- MC9fzIb9h3xrA1GkQ682kgP8TVt0kIQCBZwS9NXsfRsaZa4pKPbyJEwyAGUYOwrphM9C
- mT0LEdpUXC9wLuN8A3VZG3tRFQ+xOZYfpHvdEFjjApyfZhe/vR1ZTFdLXZhQqlDU/MFb
- Agew==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682765161; x=1685357161;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=MF33tdMj9iVHCsjXUVoEa1ZEru2AhDHukTYWsA8encE=;
- b=XmdCKKXoUdZ3/g51Uo8pa7Fu56HoC+4iGCG1xTMl8A98B/AOTjWQQzMdyFnKkK8Cau
- 0GjmOKR2phmjldMNWRCWWYTk660rIbF5CK/mA7mUell1MjS3/w5GKYN/90Dk9QwLEVck
- jajgl7czKL2Qdix3gdGDJOsgOGb8RlK0P05+gP/rhRq4ap0fxNuiJmk93RFTmhg3QtJW
- a9tZ23UTMEm8vXcM85N3HvFtpx8oT8mrNltHUenP9HXEHLvzj2KRPwAXF+bNwORWwNpI
- H68ACDRuXQByV5U2Sm0+wvAqARHz2uwy/RLBfh0DZX+eR5kGi58AzRdv+9GDUKmAJrvj
- PDUQ==
-X-Gm-Message-State: AC+VfDzhvYFb/WtnSi+cpRn+PK6Ri3rYbmOhMegLuOHg8ddiwfQ/QdrS
- Ub31VzJzJSBWuBuaSIujK2Wol59t/fZnLg==
-X-Google-Smtp-Source: ACHHUZ4htWkiNf32PrNqaTd4pbSLyAPiCrak2mmu7yE7zpf3xoPvebX7GQiQEr92CjDQD1rqMPYpfQ==
-X-Received: by 2002:aa7:d641:0:b0:505:48c:3266 with SMTP id
- v1-20020aa7d641000000b00505048c3266mr1040474edr.20.1682765160956; 
- Sat, 29 Apr 2023 03:46:00 -0700 (PDT)
-Received: from localhost.my.domain (83.8.115.30.ipv4.supernova.orange.pl.
- [83.8.115.30]) by smtp.gmail.com with ESMTPSA id
- b11-20020a056402138b00b004bd6e3ed196sm9952522edv.86.2023.04.29.03.45.59
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 29 Apr 2023 03:46:00 -0700 (PDT)
-From: Artur Weber <aweber.kernel@gmail.com>
+X-Greylist: delayed 348 seconds by postgrey-1.36 at gabe;
+ Sat, 29 Apr 2023 11:20:34 UTC
+Received: from mail.z3ntu.xyz (mail.z3ntu.xyz [128.199.32.197])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 238F110E150
+ for <dri-devel@lists.freedesktop.org>; Sat, 29 Apr 2023 11:20:34 +0000 (UTC)
+Received: from g550jk.localnet (unknown [62.108.10.64])
+ by mail.z3ntu.xyz (Postfix) with ESMTPSA id 9293DC76D6;
+ Sat, 29 Apr 2023 11:14:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=z3ntu.xyz; s=z3ntu;
+ t=1682766853; bh=A8QySs6SKhnXKBxkO0+a10Q3xy1UQlrC6oSknuRX0p0=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References;
+ b=U7zokl7PwDhkg2mUuKqWuwfT1MxrzqVZ/5hi6RDzgNWum9wURWdBcStFGLcfBVMY8
+ UaDtySh/ktQAX2Bj61orQkqqmlcte/2DFaVZsjjcp4LVEPFIEio70LtCzx+VEJ1/eZ
+ gUtBK5DhbsU6wGkMv9uelFv8KytbxGpGtKzr0API=
+From: Luca Weiss <luca@z3ntu.xyz>
 To: Lee Jones <lee@kernel.org>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-Subject: [PATCH 4/4] arm64: dts: adapt to LP855X bindings changes
-Date: Sat, 29 Apr 2023 12:45:34 +0200
-Message-Id: <20230429104534.28943-5-aweber.kernel@gmail.com>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20230429104534.28943-1-aweber.kernel@gmail.com>
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ ~postmarketos/upstreaming@lists.sr.ht
+Subject: Re: [PATCH 3/4] ARM: dts: adapt to LP855X bindings changes
+Date: Sat, 29 Apr 2023 13:14:12 +0200
+Message-ID: <3414865.QJadu78ljV@z3ntu.xyz>
+In-Reply-To: <20230429104534.28943-4-aweber.kernel@gmail.com>
 References: <20230429104534.28943-1-aweber.kernel@gmail.com>
+ <20230429104534.28943-4-aweber.kernel@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,46 +57,105 @@ Cc: linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
  Konrad Dybcio <konrad.dybcio@linaro.org>, linux-fbdev@vger.kernel.org,
  Andy Gross <agross@kernel.org>, Thierry Reding <thierry.reding@gmail.com>,
  ~postmarketos/upstreaming@lists.sr.ht, Pavel Machek <pavel@ucw.cz>,
- =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+ Uwe =?ISO-8859-1?Q?Kleine=2DK=F6nig?= <u.kleine-koenig@pengutronix.de>,
  linux-tegra@vger.kernel.org, Helge Deller <deller@gmx.de>,
  linux-leds@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Change underscores in ROM node names to dashes, and remove deprecated
-pwm-period property.
+On Samstag, 29. April 2023 12:45:33 CEST Artur Weber wrote:
+> Change underscores in ROM node names to dashes, and remove deprecated
+> pwm-period property.
+> 
+> Signed-off-by: Artur Weber <aweber.kernel@gmail.com>
 
-Signed-off-by: Artur Weber <aweber.kernel@gmail.com>
----
- arch/arm64/boot/dts/nvidia/tegra210-p2371-2180.dts | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+Reviewed-by: Luca Weiss <luca@z3ntu.xyz>
 
-diff --git a/arch/arm64/boot/dts/nvidia/tegra210-p2371-2180.dts b/arch/arm64/boot/dts/nvidia/tegra210-p2371-2180.dts
-index 38f4ff229bef..a6a58e51822d 100644
---- a/arch/arm64/boot/dts/nvidia/tegra210-p2371-2180.dts
-+++ b/arch/arm64/boot/dts/nvidia/tegra210-p2371-2180.dts
-@@ -58,19 +58,17 @@ backlight: backlight@2c {
- 			dev-ctrl = /bits/ 8 <0x80>;
- 			init-brt = /bits/ 8 <0xff>;
- 
--			pwm-period = <29334>;
--
- 			pwms = <&pwm 0 29334>;
- 			pwm-names = "lp8557";
- 
- 			/* boost frequency 1 MHz */
--			rom_13h {
-+			rom-13h {
- 				rom-addr = /bits/ 8 <0x13>;
- 				rom-val = /bits/ 8 <0x01>;
- 			};
- 
- 			/* 3 LED string */
--			rom_14h {
-+			rom-14h {
- 				rom-addr = /bits/ 8 <0x14>;
- 				rom-val = /bits/ 8 <0x87>;
- 			};
--- 
-2.40.1
+> ---
+>  .../dts/qcom-apq8026-samsung-matisse-wifi.dts |  1 -
+>  ...-msm8974pro-sony-xperia-shinano-castor.dts | 23 ++++++++++---------
+>  2 files changed, 12 insertions(+), 12 deletions(-)
+> 
+> diff --git a/arch/arm/boot/dts/qcom-apq8026-samsung-matisse-wifi.dts
+> b/arch/arm/boot/dts/qcom-apq8026-samsung-matisse-wifi.dts index
+> 91b860e24681..884d99297d4c 100644
+> --- a/arch/arm/boot/dts/qcom-apq8026-samsung-matisse-wifi.dts
+> +++ b/arch/arm/boot/dts/qcom-apq8026-samsung-matisse-wifi.dts
+> @@ -99,7 +99,6 @@ backlight@2c {
+> 
+>  			dev-ctrl = /bits/ 8 <0x80>;
+>  			init-brt = /bits/ 8 <0x3f>;
+> -			pwm-period = <100000>;
+> 
+>  			pwms = <&backlight_pwm 0 100000>;
+>  			pwm-names = "lp8556";
+> diff --git
+> a/arch/arm/boot/dts/qcom-msm8974pro-sony-xperia-shinano-castor.dts
+> b/arch/arm/boot/dts/qcom-msm8974pro-sony-xperia-shinano-castor.dts index
+> 04bc58d87abf..2396253f953a 100644
+> --- a/arch/arm/boot/dts/qcom-msm8974pro-sony-xperia-shinano-castor.dts
+> +++ b/arch/arm/boot/dts/qcom-msm8974pro-sony-xperia-shinano-castor.dts
+> @@ -150,47 +150,48 @@ lp8566_wled: backlight@2c {
+>  		bl-name = "backlight";
+>  		dev-ctrl = /bits/ 8 <0x05>;
+>  		init-brt = /bits/ 8 <0x3f>;
+> -		rom_a0h {
+> +
+> +		rom-a0h {
+>  			rom-addr = /bits/ 8 <0xa0>;
+>  			rom-val = /bits/ 8 <0xff>;
+>  		};
+> -		rom_a1h {
+> +		rom-a1h {
+>  			rom-addr = /bits/ 8 <0xa1>;
+>  			rom-val = /bits/ 8 <0x3f>;
+>  		};
+> -		rom_a2h {
+> +		rom-a2h {
+>  			rom-addr = /bits/ 8 <0xa2>;
+>  			rom-val = /bits/ 8 <0x20>;
+>  		};
+> -		rom_a3h {
+> +		rom-a3h {
+>  			rom-addr = /bits/ 8 <0xa3>;
+>  			rom-val = /bits/ 8 <0x5e>;
+>  		};
+> -		rom_a4h {
+> +		rom-a4h {
+>  			rom-addr = /bits/ 8 <0xa4>;
+>  			rom-val = /bits/ 8 <0x02>;
+>  		};
+> -		rom_a5h {
+> +		rom-a5h {
+>  			rom-addr = /bits/ 8 <0xa5>;
+>  			rom-val = /bits/ 8 <0x04>;
+>  		};
+> -		rom_a6h {
+> +		rom-a6h {
+>  			rom-addr = /bits/ 8 <0xa6>;
+>  			rom-val = /bits/ 8 <0x80>;
+>  		};
+> -		rom_a7h {
+> +		rom-a7h {
+>  			rom-addr = /bits/ 8 <0xa7>;
+>  			rom-val = /bits/ 8 <0xf7>;
+>  		};
+> -		rom_a9h {
+> +		rom-a9h {
+>  			rom-addr = /bits/ 8 <0xa9>;
+>  			rom-val = /bits/ 8 <0x80>;
+>  		};
+> -		rom_aah {
+> +		rom-aah {
+>  			rom-addr = /bits/ 8 <0xaa>;
+>  			rom-val = /bits/ 8 <0x0f>;
+>  		};
+> -		rom_aeh {
+> +		rom-aeh {
+>  			rom-addr = /bits/ 8 <0xae>;
+>  			rom-val = /bits/ 8 <0x0f>;
+>  		};
+
+
+
 
