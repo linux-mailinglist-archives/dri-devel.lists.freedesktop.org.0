@@ -2,77 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBDEA6F22B1
-	for <lists+dri-devel@lfdr.de>; Sat, 29 Apr 2023 05:31:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 487476F22C0
+	for <lists+dri-devel@lfdr.de>; Sat, 29 Apr 2023 05:46:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7647010E269;
-	Sat, 29 Apr 2023 03:31:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ADE7010E380;
+	Sat, 29 Apr 2023 03:45:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 291E710E269;
- Sat, 29 Apr 2023 03:31:26 +0000 (UTC)
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 33T3VL8E027560; Sat, 29 Apr 2023 03:31:21 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=7CTLvOJ6WyS4+EGaBMjf9uMcozJp5gxF5echuTGMx5M=;
- b=gE9YZhDn+QSGVnvVWyZ2muWsw+5KD5yQnICl0kmDEOJr7XXuTHbxQNmcnG5zdaVUI4im
- SoAyH9AMqCXbqWtgk4pY6xy+in+z2NF0v0wfAhiUheUYNUJJVKxzX545uc8NxIo463Is
- 7rBeWf4FNeiGVau0MATHRbgtu6GtG6HN1afBmUKnfDOFBhyCwopwvAL3/l0DK6xNSLE+
- 4aL5khgmocG7M2ez2beq6esRlQqtu908BdW2iEftZ9ANmnZMmVYwaMT16nVkii7JM1wU
- r4PRrw0AMASQGPPmfi7ouBjUUqP6yokGWGfZV+VU/FlYBARVWvunprBnLCbQcPOkSjX+ vA== 
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3q8tju01ru-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Sat, 29 Apr 2023 03:31:21 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 33T3V02u007906
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Sat, 29 Apr 2023 03:31:00 GMT
-Received: from [10.110.119.27] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Fri, 28 Apr
- 2023 20:30:59 -0700
-Message-ID: <bebbe640-7e1a-520f-d4a2-977135fc6fee@quicinc.com>
-Date: Fri, 28 Apr 2023 20:30:58 -0700
+Received: from 189.cn (ptr.189.cn [183.61.185.104])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 8747510E380
+ for <dri-devel@lists.freedesktop.org>; Sat, 29 Apr 2023 03:45:51 +0000 (UTC)
+HMM_SOURCE_IP: 10.64.8.43:49174.1309328384
+HMM_ATTACHE_NUM: 0000
+HMM_SOURCE_TYPE: SMTP
+Received: from clientip-114.242.206.180 (unknown [10.64.8.43])
+ by 189.cn (HERMES) with SMTP id A7CD410023C;
+ Sat, 29 Apr 2023 11:45:43 +0800 (CST)
+Received: from  ([114.242.206.180])
+ by gateway-151646-dep-85667d6c59-fm8l8 with ESMTP id
+ c58e0e2cda1648ceab62faa32009eb89 for geert+renesas@glider.be; 
+ Sat, 29 Apr 2023 11:45:47 CST
+X-Transaction-ID: c58e0e2cda1648ceab62faa32009eb89
+X-Real-From: 15330273260@189.cn
+X-Receive-IP: 114.242.206.180
+X-MEDUSA-Status: 0
+Message-ID: <ce073f1d-0f40-aad9-5509-1f44d3887984@189.cn>
+Date: Sat, 29 Apr 2023 11:45:42 +0800
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.2
-Subject: Re: [PATCH v2 0/7] add DSC 1.2 dpu supports
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: drm/fb-helper: Fix height, width, and accel_flags in fb_var
+To: Geert Uytterhoeven <geert+renesas@glider.be>,
+ Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>,
+ Javier Martinez Canillas <javierm@redhat.com>
+References: <2b6073d9c2d869c6a4eac6edebd616e0568dec91.1681843245.git.geert+renesas@glider.be>
 Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-References: <1682725511-18185-1-git-send-email-quic_khsieh@quicinc.com>
- <CAA8EJpqqhP1QL7TuW8JXeVFqukWggYmB1XU8OeB65fQA+jhLAg@mail.gmail.com>
- <ff60439f-9955-5e89-ee2c-17bc2b07d1e1@quicinc.com>
- <CAA8EJppr7zYGTJcR4EAB3eybCz0tY=t4Srf2QhLVc4Uu5ZqNtQ@mail.gmail.com>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <CAA8EJppr7zYGTJcR4EAB3eybCz0tY=t4Srf2QhLVc4Uu5ZqNtQ@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: ouoIwlQ19Taee-V9igTCySvtJI4jrONv
-X-Proofpoint-ORIG-GUID: ouoIwlQ19Taee-V9igTCySvtJI4jrONv
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-04-28_08,2023-04-27_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- adultscore=0 lowpriorityscore=0 suspectscore=0 mlxscore=0 bulkscore=0
- phishscore=0 spamscore=0 mlxlogscore=999 clxscore=1015 impostorscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2303200000 definitions=main-2304290032
+From: Sui Jingfeng <15330273260@189.cn>
+In-Reply-To: <2b6073d9c2d869c6a4eac6edebd616e0568dec91.1681843245.git.geert+renesas@glider.be>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,93 +56,99 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: vkoul@kernel.org, quic_sbillaka@quicinc.com, andersson@kernel.org,
- freedreno@lists.freedesktop.org, dianders@chromium.org,
- dri-devel@lists.freedesktop.org, swboyd@chromium.org, agross@kernel.org,
- linux-arm-msm@vger.kernel.org, marijn.suijten@somainline.org,
- Kuogee Hsieh <quic_khsieh@quicinc.com>, sean@poorly.run,
- linux-kernel@vger.kernel.org
+Cc: linux-renesas-soc@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi,
+
+I have just tested this patch on a LoongArch(3a5000+ls7a2000 evb) machine,
+
+both fbtest and the fbdev test of IGT finished.
 
 
-On 4/28/2023 8:12 PM, Dmitry Baryshkov wrote:
-> On Sat, 29 Apr 2023 at 05:51, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
->>
->>
->>
->> On 4/28/2023 7:46 PM, Dmitry Baryshkov wrote:
->>> On Sat, 29 Apr 2023 at 02:45, Kuogee Hsieh <quic_khsieh@quicinc.com> wrote:
->>>>
->>>> This series adds the DPU side changes to support DSC 1.2 encoder. This
->>>> was validated with both DSI DSC 1.2 panel and DP DSC 1.2 monitor.
->>>> The DSI and DP parts will be pushed later on top of this change.
->>>> This seriel is rebase on [1], [2] and catalog fixes from [3].
->>>>
->>>> [1]: https://patchwork.freedesktop.org/series/116851/
->>>> [2]: https://patchwork.freedesktop.org/series/116615/
->>>> [3]: https://patchwork.freedesktop.org/series/112332/
->>>>
->>>> Abhinav Kumar (2):
->>>>     drm/msm/dpu: add DSC 1.2 hw blocks for relevant chipsets
->>>>     drm/msm/dpu: add dsc blocks for remaining chipsets in catalog
->>>>
->>>> Kuogee Hsieh (5):
->>>>     drm/msm/dpu: add support for DSC encoder v1.2 engine
->>>>     drm/msm/dpu: separate DSC flush update out of interface
->>>>     drm/msm/dpu: add DPU_PINGPONG_DSC feature PP_BLK and PP_BLK_TE
->>>>     drm/msm/dpu: save dpu topology configuration
->>>>     drm/msm/dpu: calculate DSC encoder parameters dynamically
->>>
->>> Another generic comment: this patchset doesn't have discussed RM
->>> changes to allocate DSC blocks in proper pairs as required by DCE.
->>>
->>
->> We have already made that change. It will be pushed with the DP series
->> because today DSC only support 2-2-1 so they will always be allocated in
->> pairs.
-> 
-> Then there is no reason to touch the dpu_encoder in this series as the
-> topology is also known to be 2:2:1.
-> 
+fbtest say test001: ~ test013: PASSED,
 
-Agreed, no concerns with that.
+After apply your patch, the warn log `accel_flags changed from 0 to 1` 
+disappeared while  running it.
 
->>
->>>>
->>>>    drivers/gpu/drm/msm/Makefile                       |   1 +
->>>>    .../drm/msm/disp/dpu1/catalog/dpu_3_0_msm8998.h    |  19 +-
->>>>    .../gpu/drm/msm/disp/dpu1/catalog/dpu_4_0_sdm845.h |   8 +-
->>>>    .../gpu/drm/msm/disp/dpu1/catalog/dpu_5_0_sm8150.h |  26 +-
->>>>    .../drm/msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h    |  35 ++-
->>>>    .../gpu/drm/msm/disp/dpu1/catalog/dpu_6_0_sm8250.h |  26 +-
->>>>    .../gpu/drm/msm/disp/dpu1/catalog/dpu_6_2_sc7180.h |   4 +-
->>>>    .../gpu/drm/msm/disp/dpu1/catalog/dpu_6_3_sm6115.h |   2 +-
->>>>    .../drm/msm/disp/dpu1/catalog/dpu_6_5_qcm2290.h    |   2 +-
->>>>    .../gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h |  14 +
->>>>    .../gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h |   7 +
->>>>    .../drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h   |  16 +
->>>>    .../gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h |  14 +
->>>>    .../gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h |  14 +
->>>>    drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c        | 102 ++++---
->>>>    drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c     |  35 ++-
->>>>    drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h     |  36 ++-
->>>>    drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c         |  22 +-
->>>>    drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h         |  10 +
->>>>    drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.h         |  14 +-
->>>>    drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc_1_2.c     | 335 +++++++++++++++++++++
->>>>    drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.c    |   9 +-
->>>>    drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c             |   7 +-
->>>>    23 files changed, 642 insertions(+), 116 deletions(-)
->>>>    create mode 100644 drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc_1_2.c
->>>>
->>>> --
->>>> The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
->>>> a Linux Foundation Collaborative Project
->>>>
->>>
->>>
-> 
-> 
-> 
+So,
+
+
+Tested-by: Sui Jingfeng <suijingfeng@loongson.cn>
+
+
+On 2023/4/19 02:42, Geert Uytterhoeven wrote:
+> Fbtest contains some very simple validation of the fbdev userspace API
+> contract.  When used with shmob-drm, it reports the following warnings
+> and errors:
+>
+>      height changed from 68 to 0
+>      height was rounded down
+>      width changed from 111 to 0
+>      width was rounded down
+>      accel_flags changed from 0 to 1
+>
+> The first part happens because __fill_var() resets the physical
+> dimensions of the first connector, as filled in by drm_setup_crtcs_fb().
+> Fix this by retaining the original values.
+>
+> The last part happens because __fill_var() forces the FB_ACCELF_TEXT
+> flag on, while fbtest disables all acceleration on purpose, so it can
+> draw safely to the frame buffer.  Fix this by setting accel_flags to
+> zero, as DRM does not implement any text console acceleration.
+> Note that this issue can also be seen in the output of fbset, which
+> reports "accel true".
+>
+> Fixes: ee4cce0a8f03a333 ("drm/fb-helper: fix input validation gaps in check_var")
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
+>   drivers/gpu/drm/drm_fb_helper.c | 12 +++++++-----
+>   1 file changed, 7 insertions(+), 5 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
+> index 64458982be40c468..ed6ad787915f0b8f 100644
+> --- a/drivers/gpu/drm/drm_fb_helper.c
+> +++ b/drivers/gpu/drm/drm_fb_helper.c
+> @@ -1537,17 +1537,19 @@ static void drm_fb_helper_fill_pixel_fmt(struct fb_var_screeninfo *var,
+>   	}
+>   }
+>   
+> -static void __fill_var(struct fb_var_screeninfo *var,
+> +static void __fill_var(struct fb_var_screeninfo *var, struct fb_info *info,
+>   		       struct drm_framebuffer *fb)
+>   {
+>   	int i;
+>   
+>   	var->xres_virtual = fb->width;
+>   	var->yres_virtual = fb->height;
+> -	var->accel_flags = FB_ACCELF_TEXT;
+> +	var->accel_flags = 0;
+>   	var->bits_per_pixel = drm_format_info_bpp(fb->format, 0);
+>   
+> -	var->height = var->width = 0;
+> +	var->height = info->var.height;
+> +	var->width = info->var.width;
+> +
+>   	var->left_margin = var->right_margin = 0;
+>   	var->upper_margin = var->lower_margin = 0;
+>   	var->hsync_len = var->vsync_len = 0;
+> @@ -1610,7 +1612,7 @@ int drm_fb_helper_check_var(struct fb_var_screeninfo *var,
+>   		return -EINVAL;
+>   	}
+>   
+> -	__fill_var(var, fb);
+> +	__fill_var(var, info, fb);
+>   
+>   	/*
+>   	 * fb_pan_display() validates this, but fb_set_par() doesn't and just
+> @@ -2066,7 +2068,7 @@ static void drm_fb_helper_fill_var(struct fb_info *info,
+>   	info->pseudo_palette = fb_helper->pseudo_palette;
+>   	info->var.xoffset = 0;
+>   	info->var.yoffset = 0;
+> -	__fill_var(&info->var, fb);
+> +	__fill_var(&info->var, info, fb);
+>   	info->var.activate = FB_ACTIVATE_NOW;
+>   
+>   	drm_fb_helper_fill_pixel_fmt(&info->var, format);
