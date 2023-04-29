@@ -2,151 +2,148 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13D2E6F217E
-	for <lists+dri-devel@lfdr.de>; Sat, 29 Apr 2023 02:09:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E6C36F218F
+	for <lists+dri-devel@lfdr.de>; Sat, 29 Apr 2023 02:17:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0F99010E246;
-	Sat, 29 Apr 2023 00:09:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5506B10EE0F;
+	Sat, 29 Apr 2023 00:17:08 +0000 (UTC)
 X-Original-To: DRI-Devel@lists.freedesktop.org
 Delivered-To: DRI-Devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 13F3410E161;
- Sat, 29 Apr 2023 00:08:57 +0000 (UTC)
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3357B10EE0E;
+ Sat, 29 Apr 2023 00:17:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1682726938; x=1714262938;
+ t=1682727426; x=1714263426;
  h=message-id:date:subject:to:cc:references:from:
  in-reply-to:content-transfer-encoding:mime-version;
- bh=Si5QxmNPr97kBxuQI+XE8luFbenC3LseW7eAQ2l64X8=;
- b=DcGByZo/rmBI0D6DizceURGM/eROawGcr+WRB1O8gRtrIssv6D/5A2/S
- lov6uuPV97SA65oT5aIy/gvOEhDTfBZ5J5AdUCLNeh33DsB9hisFa3JeX
- Bf24x9duYjCnE9RQxFKdoNaRIF1pvh4ZWLX9lQIJakUPTBXyt9Q69Xjo0
- MawQIpkJ6HnkG65OW0brAZB+k6WwuwzHGskeOJU7rUz++YgMXUqxdTOWQ
- ET4Guw8gf+LhXnJo0VnRLKAg/4kvXL6FLmHDHmxDMJGO2s5YSZ/vdTMf8
- TbOs8hi3CSqtNt4x5j8em4gOUMmvul8UR1GkYI0kX7c0pK9P/mi22GQHR g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10694"; a="347911932"
-X-IronPort-AV: E=Sophos;i="5.99,235,1677571200"; d="scan'208";a="347911932"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Apr 2023 17:08:56 -0700
+ bh=Ya60uZ4HUmhxod4YyGzbn61AD1b+TsMKwPI+HqgFBtI=;
+ b=bQJvJ2Rxml94WHKL54SVCW+FWrR7QOtMZy4y6/UyQHXrLqkPlj+Z8uZP
+ hc1th7zktqW2wHdqcjX8U+/mvzx39FMqQMEiSnhVYa0fW9YBzj/M5O9gr
+ +VNSS1Ikc44eMLrjWoQGKNA1H6LcdWrJSCMpm6STYC/y7JCJl8DX+JiXs
+ fIihY28JBOP/qOiiSN387MYNgUNChcTArYSoexOwaWgz4sk8TI03FF1qN
+ tXpogWO9PmrJ1c4Q1RkDF9n0EU3e5PTwWXp4UrLVhVk9feh9Lqsgr+nH4
+ LQ0tQO/k35RsfDgfTUYtlZYbhkqwj90kBoR9KcsZMSU1GHmrqCs3++8I+ g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10694"; a="328223628"
+X-IronPort-AV: E=Sophos;i="5.99,235,1677571200"; d="scan'208";a="328223628"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Apr 2023 17:17:04 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10694"; a="725531584"
-X-IronPort-AV: E=Sophos;i="5.99,235,1677571200"; d="scan'208";a="725531584"
-Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
- by orsmga008.jf.intel.com with ESMTP; 28 Apr 2023 17:08:50 -0700
-Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
- fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
+X-IronPort-AV: E=McAfee;i="6600,9927,10694"; a="759856848"
+X-IronPort-AV: E=Sophos;i="5.99,235,1677571200"; d="scan'208";a="759856848"
+Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
+ by fmsmga008.fm.intel.com with ESMTP; 28 Apr 2023 17:17:04 -0700
+Received: from orsmsx602.amr.corp.intel.com (10.22.229.15) by
+ ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.23; Fri, 28 Apr 2023 17:08:50 -0700
-Received: from fmsmsx601.amr.corp.intel.com (10.18.126.81) by
- fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ 15.1.2507.23; Fri, 28 Apr 2023 17:17:04 -0700
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ orsmsx602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.23; Fri, 28 Apr 2023 17:08:49 -0700
-Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
- fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.23 via Frontend Transport; Fri, 28 Apr 2023 17:08:49 -0700
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (104.47.55.108)
- by edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
+ 15.1.2507.23 via Frontend Transport; Fri, 28 Apr 2023 17:17:04 -0700
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com (104.47.66.48) by
+ edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.23; Fri, 28 Apr 2023 17:08:47 -0700
+ 15.1.2507.23; Fri, 28 Apr 2023 17:17:01 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=FNtXRon0triDF843QFB+A4p8Y+mWhiS67M5tISb9z2S7tAvSfjisKrIIcTiDxRkBdDGfIkN/FS2w4FFqsrBfPkpfJtRLpTTBU5Lw7KYCofeQHFRZuUpqtFxjKFwy9Cl/CGXH0I3eDBP1WDIRWnDnxM46THITnUCrjyIEIOrfJ0G76j6NzWFkPgml41YqIvursahDy3Qzr56sE5sM6HBtrOv64Ag5VmkxYylfWxgz3fGGRTcExIuUBmgbzxZNmqSKUVJNMB2YHkwD5Z+0dCehxBQFKhH0K5pGo1RMSdSWGn9ZTdhoO83MbjTRpeS0Gvnpm6UCMT8RGZ7gDbdsBB0RyQ==
+ b=Xkk+6djBO8lr3KthU0EUeoaHpfWif5/1tZHgfarpKRfcJuVA4E4wopV/H+WhgVECi0XqXy5nGBjf6YULcE4+dGzIFhuwLLzuSfyr9VmHWKtDmxnVme7ZVlJC0ZdKg9KQ6wDpP+J3uX85XWMBOxml8UaGBRHhXa3TvjE/q9Ab6ZGS5VVP/DGpqofYH1yQDBCsCxqOaEuunQPQjjzr0KaQ8NQCWI30pezwGmpcBvSIhFBzP76QvklFpbTBnVJUY9Vhy+XMrmsL0BYHRJmMO/bpfBKMnBx6w8gakldo4MK9WgAsrOHZgmgxSLNXhdTA0Uu6SRQslm3EAepysg38+hKDfg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Y4sxyKwQw4gP5NtxSQksklSysVrgKj+mRXT11aOTZOs=;
- b=XiinE9n0YpgK9X2nZ2wc28P8OBsCDZxHUjy/Zulgm4zXvGMFYKkKx+5PbTKhpAR4o79Haw4IWn9hevnb4NPagPkWAtF8Ndv4CebCXD+OwjB5RuBHynl/gJgNuCkXI/r0kRuBt8EEtLK1k9ztnClrGSRUIUlvDlRZtOMDdHjrchoMkk28Xi1wzoQleJPGgxXOXPQ6tfj9tSEasvfiyPJ4KnmedAICH4KLRlYqI2OQZjloTmjIx0nNfyrssP1gKGxVcYFui6UC7ipS/DHdA5LZZlYkWInBfKcwrjriPsRNwHOM0k37HGnlKcP12OnHp6euHyVqfUFyYxQZngRNAQHZfA==
+ bh=d8Ynk6kAYyU6wbuybwB9FaOYMHwWZAPtkTTzh71tHu8=;
+ b=E0NWVMGV8Sja2E59d7D4CjH0fw0cBxHPoJe7X1EWw6KjXTup2oHwIGNbCXAQgpeOql6hxmY1ZiPrqZFKHkVHB02vqb5OGiqPYoCzreBvbwzPFnBGgC893//4vJv51uUq7Zpyh/mI1NwBp21cWuGQb+TmkLUrUKCqP/yIVzJ9ZKsDhL0m82BFuvxti/6AfYtiXDFb8040wMh+dLEbyQbveq4VsCtmyufKC9uXnRxa9D53getuo05lFW8Zs7WDSA33OrY4/4lOvVPck8U5O/y9MRgtVkhFlQ25HnhEK4FPwqudspLlkVR0917Eemj7rVgochrPjCmj77yTFeEJlN2XoA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from DM4PR11MB5488.namprd11.prod.outlook.com (2603:10b6:5:39d::5) by
- SJ0PR11MB5086.namprd11.prod.outlook.com (2603:10b6:a03:2d1::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6340.22; Sat, 29 Apr
- 2023 00:08:46 +0000
-Received: from DM4PR11MB5488.namprd11.prod.outlook.com
- ([fe80::4ae6:750e:a237:4eb0]) by DM4PR11MB5488.namprd11.prod.outlook.com
- ([fe80::4ae6:750e:a237:4eb0%7]) with mapi id 15.20.6340.023; Sat, 29 Apr 2023
- 00:08:45 +0000
-Message-ID: <f818e364-010c-99c5-3a08-fafff09422d2@intel.com>
-Date: Fri, 28 Apr 2023 17:08:43 -0700
+Received: from BN6PR11MB3908.namprd11.prod.outlook.com (2603:10b6:405:7d::13)
+ by PH7PR11MB8034.namprd11.prod.outlook.com (2603:10b6:510:247::22)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6319.34; Sat, 29 Apr
+ 2023 00:16:54 +0000
+Received: from BN6PR11MB3908.namprd11.prod.outlook.com
+ ([fe80::7b09:91d7:6e26:5833]) by BN6PR11MB3908.namprd11.prod.outlook.com
+ ([fe80::7b09:91d7:6e26:5833%2]) with mapi id 15.20.6340.025; Sat, 29 Apr 2023
+ 00:16:54 +0000
+Message-ID: <8540acf3-82bc-629c-1bb2-24ee377e851d@intel.com>
+Date: Fri, 28 Apr 2023 17:16:50 -0700
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH 5/6] drm/i915/uc: Reject duplicate entries in firmware
- table
-Content-Language: en-US
-To: <John.C.Harrison@Intel.com>, <Intel-GFX@Lists.FreeDesktop.Org>
+ Firefox/102.0 Thunderbird/102.10.1
+Subject: Re: [PATCH 4/6] drm/i915/uc: Enhancements to firmware table validation
+To: "Ceraolo Spurio, Daniele" <daniele.ceraolospurio@intel.com>,
+ <Intel-GFX@Lists.FreeDesktop.Org>
 References: <20230421011525.3282664-1-John.C.Harrison@Intel.com>
- <20230421011525.3282664-6-John.C.Harrison@Intel.com>
-From: "Ceraolo Spurio, Daniele" <daniele.ceraolospurio@intel.com>
-In-Reply-To: <20230421011525.3282664-6-John.C.Harrison@Intel.com>
+ <20230421011525.3282664-5-John.C.Harrison@Intel.com>
+ <7716eaf2-41e8-9b28-3b87-70b5ff2962a3@intel.com>
+Content-Language: en-GB
+From: John Harrison <john.c.harrison@intel.com>
+In-Reply-To: <7716eaf2-41e8-9b28-3b87-70b5ff2962a3@intel.com>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SJ0PR03CA0292.namprd03.prod.outlook.com
- (2603:10b6:a03:39e::27) To DM4PR11MB5488.namprd11.prod.outlook.com
- (2603:10b6:5:39d::5)
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: SJ0PR13CA0053.namprd13.prod.outlook.com
+ (2603:10b6:a03:2c2::28) To BN6PR11MB3908.namprd11.prod.outlook.com
+ (2603:10b6:405:7d::13)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR11MB5488:EE_|SJ0PR11MB5086:EE_
-X-MS-Office365-Filtering-Correlation-Id: 60d75f70-f0ea-499d-865e-08db4845e621
+X-MS-TrafficTypeDiagnostic: BN6PR11MB3908:EE_|PH7PR11MB8034:EE_
+X-MS-Office365-Filtering-Correlation-Id: 746c032b-7627-45be-6874-08db4847094a
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: NCavXFWMeszBDIi1ZE8EXV60nb8IO286vy2PI3EpUBAiNA8ribA8Q+2RYTzEhoWgL5oks8xGcUoh8tXZaz5Lc8vPZH+oAMCe3JuNNvGANMhAobkcYyBa0QSp4xS8SqLiqr6gP6XNiboUdNhdZyMgBepUGQH4D+K/1Ei+gkSwS8TtNXmLf1AX0nIL2VHK7VcxabYkrJAQjHuscmzxSA7XSxTbifaAEi6lEtpJtvdEi1CrUlSwI0YcTo6acyCih5DXluAk1sDilr8dFm8tGIKSdreTt+L1bLFzIBT1Ze8UjNq7OumrWHoPy3TcCfrA5rnwogb7N8Vo7Chk3ukjb5k9yIYWwm2usutCbnpwBoJl/7rUPE6kJBJP7H/PlthP2HWFfuVi5oipTRPffro8x//7ZcZelk5ZUlO+ce+5zPYhyarjYGdmcJQ2XrQkrmFsa+lafDJcEJh/hcL45b8BxJ47AXmNCKtAN0VCJSRyZFWBZV/yvbuJu5i5czLv0bTwmGEVXQwaLucZzdtWR6hqpzdINfULdseRCAuQsMbSHhQuLlK3ZrCtBnjUl18Q70ZN1zmJ+4o6X7rL5zldoWUJK37/s/ZndWZTyD7PvTbWqBaCffTlHpeAzJGaxIFK30qV7vTiqA5DuBmcaAwMEs1KdzTi2Q==
+X-Microsoft-Antispam-Message-Info: y8GQiE12Ctt5Lb+CYSgvTItfSf1I0dt82DAXcjRf3u0DN0SDWO1Uq6VagFcS3uHvWSqq78QDDBWBeg1I/zQ+O+eUefPvA817u4zN6uRbsR79+SDkXkGlfeQ7qNvFaNKyOAElb6s9rye2VYnMOttMVax/uuwhKX49T1CVMmlGaaN7wxpVBASL5T0LM4BewXgfJ1CYjxEpQHl6U3tO1BBvmEpn62LhxEold0fnK2B3LXraCeFWKSeEKzcpdUNge6bw363OWdMz/82CIKiSZWdoRqP7M1WSQc0iO5626DW8VxN4nnXHtjBBfQSXjdXw8wMIStYFEPOljZisbBQbrtowBVwSfp1cHhoMAewdPFfBSA+Q8MCusx4vOO0U4PAAbqQsUtbEW7AIlcxuPTowhLl4yLnXkPeIjLcshO6CbRKaVm6ONevVXyNqe/QyBpCu0MnsUlP9Ol5USHYlXI98ywqUbgcRE30VgZ86QmzNpyNG6vGv5Q4I2prgoFN5M7/bv6iBUqRTr3l0t298mmLE4h6v8PZ6MNKX6DIaSoFIQ7wHMvvDtkyvK3cIVTXanKlMmhqVarj/ODIgtso2JcU3n+SS5KsbAKnVZe5DnEZHniHzIaJXoqy6/6MotSQFWgolottR8vq16Y8NtRezcMEmSOEAsA==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM4PR11MB5488.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230028)(346002)(136003)(376002)(39860400002)(396003)(366004)(451199021)(36756003)(186003)(2616005)(83380400001)(86362001)(38100700002)(31696002)(6512007)(82960400001)(6506007)(6486002)(26005)(53546011)(66946007)(2906002)(316002)(4326008)(450100002)(66556008)(66476007)(8936002)(8676002)(5660300002)(41300700001)(31686004)(478600001)(45980500001)(43740500002);
+ IPV:NLI; SFV:NSPM; H:BN6PR11MB3908.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230028)(346002)(39860400002)(366004)(376002)(396003)(136003)(451199021)(450100002)(4326008)(31686004)(41300700001)(66946007)(316002)(66476007)(66556008)(5660300002)(8936002)(8676002)(2906002)(83380400001)(478600001)(6666004)(6486002)(86362001)(6506007)(82960400001)(186003)(6512007)(53546011)(2616005)(36756003)(38100700002)(26005)(31696002)(45980500001)(43740500002);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?YlByeEhqTjY3dGg1dHlDcXBvcG5xdlExMDdKNFZoRFRVUEQwZFhwbUZLeGlj?=
- =?utf-8?B?UWt6WkJ3djByeWVvTXFzWERWa0ZwREd3Kzk2bUIzYTgyZVpMZkgrZ2NKclpT?=
- =?utf-8?B?QzZtZGFOdkNIc1RjMEJqMVpFeWtkRFpKc2Mrc1Nkc0NDZUllRE84c2NmQ05n?=
- =?utf-8?B?aTVBQXlnMXlYb3c5RHZwVWUrVEdJWWI1Wk5OMEcyemR0Wk1ReHprU0VIanZX?=
- =?utf-8?B?ZDdrd09jaitIelJiWEdyOUo3NGhZc083VGwvbUlPb1dFaGowTm1QZ1lGMVNS?=
- =?utf-8?B?QUhreG8rcEpGeG9PNlRObER1aHUzZXVQcUc0VWJMaXRWZTc2UzJkS1hXTU1s?=
- =?utf-8?B?aTBYVnpFN2IyNE1nUVRzRzB1M2FscTR5ODVYaTAvSE9EK2hmWGJ2QnBCWU5O?=
- =?utf-8?B?Y1ZSMTEyMXFWU0RPbHpjMXRreEcxSkMvaFFuRFRjdEZuMkt2aWFwaldESU1v?=
- =?utf-8?B?MnVrS3pHOHllMlc5N0U4OEhpQ3gxNmdocTJnWFZVem0rdTJaTmp0cWNMMDlK?=
- =?utf-8?B?bUJuTVA5NmRsK2NVcjNoUnhEdlNQcjB3WElSdklnSWg4RTN3dzdFOFJ4TW9n?=
- =?utf-8?B?d0tqZDgyL2oyaUtIN2cxK1RybEpnK2x1RGdxVUpEVE9URDN3VkZxR0NVa2dt?=
- =?utf-8?B?UDRZVmNwWXcwZmlvbkZ0RGVKWmlTRktGeVpwQjI0WVkycVVJK0JjRUhRdW85?=
- =?utf-8?B?YkwycnRDcjl1bjFXUW05RFl6bVV1Y1BzMGR5QldkSytBdVQ4T0JHcHBXT3Ny?=
- =?utf-8?B?YjN4amRBYmlVemt6SllDb2Jpd2x4SnpEWk1xU1dTcGtLMkRoenhVbzZUY3Va?=
- =?utf-8?B?Tlg3VmxMeXVaaWN5MU45OGxKd0laYUhSRW1YdzhzU1lWUFZZZEE0TERiOXFu?=
- =?utf-8?B?UkJuVmlmdEptK3VTVG9lNlFheUhtbXhRNU1zdW9TcjEyUnpiRWFyVDhCQmp1?=
- =?utf-8?B?MmljSE5sYnNHNUdQSllwVW1sVHlHUEFUSVB4d1B6KzNCUGM5ZXhrL0EvWVJT?=
- =?utf-8?B?NmZ6cDdnU1d3cERuRUR5Z2EzQzVOeUdLaXd0QWZJYmxsRDNIcktNNkVKV3Bs?=
- =?utf-8?B?OGtaRks5OGNyZ1cyYUgwSXhLK3ZGNllKWXdqeEZEMUNrMFUzdG5GNFF5MGhQ?=
- =?utf-8?B?Wno3ajNvclZTdVpHOWxFZXBRZHhnOFJCREFoY3R5RnR0SU1EMDdWSGpjTzhm?=
- =?utf-8?B?aFFMajdPZGFadnZOVzJ2TElWdll4bEZqSUNqTWVaNEFkRTY2M2ZWOXVhRzBp?=
- =?utf-8?B?S1ZpVm9lYzQxMjdrZVdZZ1ptYkdjZTN6QUtTTlNvZ1NUQUlKUXBHbWVVbkg4?=
- =?utf-8?B?WklUUWxmN2ZFSGxCSUQvWTRKengyNzFJTzZ6dkxkSFR5Ri9OL21JRUdnWWVN?=
- =?utf-8?B?eTdROUxGVmFTYzZRcVpiZ1I0WDgrTE0xVFZleklOZGpPbGVBRnJIcFhKbHdF?=
- =?utf-8?B?L2RyM3BBVTU2UnJ2cXBVVlFSMWNoZHluN2FtalFjZGI2UG8yTEN0d1BKZUZp?=
- =?utf-8?B?VzBvb1lqeFlmL1MwSmRVM1hqMkhrRG1ZbUlyU2pvcGZpTUxsK3pwVnBsLzNm?=
- =?utf-8?B?bHRhZnlyaVRNemVMbk1qVnk4VDFhak1BOGF3MjBDd1U3dzB2MFFKOFgyV1Nh?=
- =?utf-8?B?Zkpob1RGV0RnKys0NlBhQlN1cWdsWml6bFNVZXNPa1d5ZktxbFhZQTh2Q1VX?=
- =?utf-8?B?VlBHelNUWkFzVjVDQVowYUtuRnRPY1lUZExpVFBKcDhuZ2ttdmk4Q250R1lY?=
- =?utf-8?B?WFluL1FSN1laV1N3MEkreTVuWW9mK090eUs0cytuR3lVdW1yUnFWcEljNGsr?=
- =?utf-8?B?eVlFUlkwSFVsd0RYbGF0eFdmVUY5c0k2S3hnVXFxYjF5UW02ODdUTU5KdXdr?=
- =?utf-8?B?VjhqaGZnVnI4Sk1iaW1aa1h3VmVjcnhORGxvUzh2QmxJUmkvSDY5dHlmb3pW?=
- =?utf-8?B?V2hlRzZFQ3hXeCtvOXNtaG5QWHNiaUQ4VUY3ME5aMmtQWU4vdjF0b0ZGUjRX?=
- =?utf-8?B?ZWNkQ0VOa2ZKdXNYWlpwQSt5Uk8rYUVYS1ZaY1hwVFpwWHVBcjhlcTN2TDlS?=
- =?utf-8?B?QUdqNXpuK1poU2pqaldMSlZsTmVZeW1WZnE3SDdZQ2wyNFBzWGdQbW4xNzgv?=
- =?utf-8?B?YkxJMStnOW0vcEg4ekljUzh6STY1Z2loNnNMY1Q0U0tUTHQyQnExQTVOODVC?=
- =?utf-8?Q?E+uqZ6+vG5SOWt2lHiywijQ=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 60d75f70-f0ea-499d-865e-08db4845e621
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5488.namprd11.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?eHg4SldSaGQ4ZU1JZ0JEYlA0SWkwQlVtM2tvVUJ5aTlLeDMzNnRzZzZ6V3E4?=
+ =?utf-8?B?bnJma1YxL1FFSllubjM0QlA1Z3hHcUdVSEJlVjF3bDkrV2ZKbXRWNmZvN1Uz?=
+ =?utf-8?B?RTd3dWRXUjk5SVczeURWeHJrZjRoQnQ0U3VRbTVoZm0vTzA3RHRKbVBlR3Zm?=
+ =?utf-8?B?UlQ5azlvaFZ2NUJyem5RMTVMTit0bzBUdTNtU2lVd285bERyU3FFOEc0dkNj?=
+ =?utf-8?B?bXJhWjlRbFZRSlo4aDQ2dWhDdHN3OUNQcmwyd3RtQ1RUL003SnRMdEZpdEl4?=
+ =?utf-8?B?cUlrM2lieExhWlJZZzlxUXkvamRRSmdSaXozNVc3REZieGZVZVFJdEs0TU5W?=
+ =?utf-8?B?Y1gzUUx0eU9LMXZCbHhmR0FKZmlXQ3BlS01YYkYxQmdBa05WWk1yNURoNzZm?=
+ =?utf-8?B?cWpJaTVGUWhCQUNueGZuVVBoeE1iTUZJWnBhSHlOL0I5Vm9UaU5YZlpjeTFw?=
+ =?utf-8?B?cW5DN2dVZEJja0sya05QcWRMTStqV0w5aXZWOUdhTm5QT0cwb2RjU3g3cTdE?=
+ =?utf-8?B?SUczUDJCTDg3elUyTG0yZ1RkQlhuUTNrNWRUZ3MzYm5kZExWb0NDNWVST2pm?=
+ =?utf-8?B?UHh6dy8rb2VaN1Rwd0czbFUrMWZvNitzY0dyRWVLclc1Y3ZQYWh6SGRwd2Jy?=
+ =?utf-8?B?U2MwRW13SXVmbFdhZWVhREIrU0JRODRXeitUZENzWHdBdFNrYWpKWWdxQUcz?=
+ =?utf-8?B?STBWMWVZT1dCc0VTS3ZEanV1MTV5WnhZNFlqTzYzbDFMRlZjUWRMTXpXT0pY?=
+ =?utf-8?B?VHNmN01MS21OdU1NZE16d20wbHhjaktQTU1TMzdRZWpja1U0aDdob0tkTzE3?=
+ =?utf-8?B?Tkc5U3JJdStMTUtLbkNEakZMSkZJS1U1L1hNQXRQb0h3RDl0dkRLdEVIems4?=
+ =?utf-8?B?SlA2dHVySVNiUXNBWTVqZmlmdEV5UmdIclQvaCtxQzNZWi9QNmtvejZrTGxP?=
+ =?utf-8?B?TkVwNVZaWXlNd2JqSE5wUlRmUGpEZTl5SzJpVlNHVmNZdEFjeXhSc3gyc2lZ?=
+ =?utf-8?B?SjJBenpteGpxbW5aaUtVT3FFeDkyZGNndi9lazdPMTA1MUh3bXpCUmY1aVNS?=
+ =?utf-8?B?TUFvOWNabTNtQ2pZcVJNbmV5THJiOWV5R2UvUklIS1lxQ0czcDJJbW9RTE1w?=
+ =?utf-8?B?dUdkNDRXRGhIdndzUVA4YWNkbTRZVzFKL0dzaFNxR3pxSU4ySHBTUlNQSDlt?=
+ =?utf-8?B?Ti9oUmxMUGRvYmZHWW9HODVNczZYbWU5Tkh4QWs1UUUrZk8zTWd6YTUxdWZJ?=
+ =?utf-8?B?M29Za2tQNFZmcXNoZ3lWUDAxSExtT3JvNjhHUHV0S1dNQThFUThkWWZWODJK?=
+ =?utf-8?B?YzROWnpTdWVCMW1ad243YWhST0RxRmd3eXdyck5rR3JidS9HQ2lGeWVpWkhm?=
+ =?utf-8?B?QTVuUy9xYUdSY1JHRXFlT296cCtOaDRaWXF1Tm0zVFRXZjA1V1o5S1JGaFNr?=
+ =?utf-8?B?TW16NS9OTzhocEdEQ3dpdG5GU3grd0RJQkMvTy9TNVdLMnRTb2w0YVlRUnVN?=
+ =?utf-8?B?MDNEb2t6OWxGRkozblhXN1pVcU43R2VDVForSEh2cGFrRUYzTHdXdFhHVTdS?=
+ =?utf-8?B?UTFPZFB5RlgxZWdPU0RSZWw2S2REaGRyWmJDMUNCcEhTSW90czNwK0QvYjRC?=
+ =?utf-8?B?cVBCS1hkV1VWL253ZGVMTFdGOVZTY2VMR1hkaVR3cG5OdnAwWGhqdnErQW82?=
+ =?utf-8?B?c2FUamY1SFgvN1N4NC9uaStnY2NnOVluc1A4UVRxVngrQVk0UEYwOUM0RlZC?=
+ =?utf-8?B?RFJTNVNmSDhUc0lYei94ZGpueG9WUmxDKzQzYk5ZbGdmZW9PVE1MeFhLSW9y?=
+ =?utf-8?B?OE1CYjJkY3dXSUtmRmc5SWxITU1hUWxWSFMxemxVRTFETkJjbXZ6MlBIamI2?=
+ =?utf-8?B?MzB6K3E4TVE2bm9ENnZLeFpqSUVubXI5QmFOeW5yVHBwWEtVMTRGd3dmY1V5?=
+ =?utf-8?B?T0lWNGRZUWlIWHV0WlQ3WXVrenFGakZ2MGVrOXc2WGtUcWJidHhaNjFmbmtn?=
+ =?utf-8?B?YXZZTUFhL1RPdEg2eVpOc091Y0JlalRWME5GTlRkVHRCamxYMERxL2p2Z1B2?=
+ =?utf-8?B?R0VaN1VKSkVhWFF3YVZDM2hrTUZ4TE1IcWkxVnRSTVFnMmxCa09zeXdweU93?=
+ =?utf-8?B?dVY1UFllZHhLQWhSZmU4cGhpUjBOcUhLSHFXdzd4WStxQU84UllvZE5XbDlN?=
+ =?utf-8?B?Wnc9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 746c032b-7627-45be-6874-08db4847094a
+X-MS-Exchange-CrossTenant-AuthSource: BN6PR11MB3908.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Apr 2023 00:08:45.8090 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Apr 2023 00:16:54.1062 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: UYj4y0+3IXtmRBzwPH6V3Rg419qPbZDVGB6uZuybzaNPiybSWcey/hN1SfRFcPNtRv36wLn71PEWiv/o7ChIkL28amTYY7EHFpNF+kPMzn8=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR11MB5086
+X-MS-Exchange-CrossTenant-UserPrincipalName: 3fLCLQnEyeNtocmkcpbkUQVlffjeV0Zml4CaslXsjWi75MsDzKTLeoFTLNBhpLAiWBXeJ5C7Fvqr14TKeV6cXjDR+jPWzQheauDivFGiplc=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR11MB8034
 X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -164,88 +161,261 @@ Cc: DRI-Devel@Lists.FreeDesktop.Org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 4/20/2023 6:15 PM, John.C.Harrison@Intel.com wrote:
-> From: John Harrison <John.C.Harrison@Intel.com>
+On 4/28/2023 17:04, Ceraolo Spurio, Daniele wrote:
+> On 4/20/2023 6:15 PM, John.C.Harrison@Intel.com wrote:
+>> From: John Harrison <John.C.Harrison@Intel.com>
+>>
+>> The validation of the firmware table was being done inside the code
+>> for scanning the table for the next available firmware blob. Which is
+>> unnecessary. So pull it out into a separate function that is only
+>> called once per blob type at init time.
+>>
+>> Also, drop the CONFIG_SELFTEST requirement and make errors terminal.
+>> It was mentioned that potential issues with backports would not be
+>> caught by regular pre-merge CI as that only occurs on tip not stable
+>> branches. Making the validation unconditional and failing driver load
+>> on detecting of a problem ensures that such backports will also be
+>> validated correctly.
+>>
+>> v2: Change to unconditionally fail module load on a validation error
+>> (review feedback/discussion with Daniele).
+>>
+>> Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
+>> ---
+>>   drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c | 157 +++++++++++++----------
+>>   1 file changed, 92 insertions(+), 65 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c 
+>> b/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
+>> index c9cd9bb47577f..eb52e8db9ae0b 100644
+>> --- a/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
+>> +++ b/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
+>> @@ -233,20 +233,22 @@ struct fw_blobs_by_type {
+>>       u32 count;
+>>   };
+>>   +static const struct uc_fw_platform_requirement blobs_guc[] = {
+>> +    INTEL_GUC_FIRMWARE_DEFS(MAKE_FW_LIST, GUC_FW_BLOB, GUC_FW_BLOB_MMP)
+>> +};
+>> +
+>> +static const struct uc_fw_platform_requirement blobs_huc[] = {
+>> +    INTEL_HUC_FIRMWARE_DEFS(MAKE_FW_LIST, HUC_FW_BLOB, 
+>> HUC_FW_BLOB_MMP, HUC_FW_BLOB_GSC)
+>> +};
+>> +
+>> +static const struct fw_blobs_by_type 
+>> blobs_all[INTEL_UC_FW_NUM_TYPES] = {
+>> +    [INTEL_UC_FW_TYPE_GUC] = { blobs_guc, ARRAY_SIZE(blobs_guc) },
+>> +    [INTEL_UC_FW_TYPE_HUC] = { blobs_huc, ARRAY_SIZE(blobs_huc) },
+>> +};
+>> +
+>>   static void
+>>   __uc_fw_auto_select(struct drm_i915_private *i915, struct 
+>> intel_uc_fw *uc_fw)
+>>   {
+>> -    static const struct uc_fw_platform_requirement blobs_guc[] = {
+>> -        INTEL_GUC_FIRMWARE_DEFS(MAKE_FW_LIST, GUC_FW_BLOB, 
+>> GUC_FW_BLOB_MMP)
+>> -    };
+>> -    static const struct uc_fw_platform_requirement blobs_huc[] = {
+>> -        INTEL_HUC_FIRMWARE_DEFS(MAKE_FW_LIST, HUC_FW_BLOB, 
+>> HUC_FW_BLOB_MMP, HUC_FW_BLOB_GSC)
+>> -    };
+>> -    static const struct fw_blobs_by_type 
+>> blobs_all[INTEL_UC_FW_NUM_TYPES] = {
+>> -        [INTEL_UC_FW_TYPE_GUC] = { blobs_guc, ARRAY_SIZE(blobs_guc) },
+>> -        [INTEL_UC_FW_TYPE_HUC] = { blobs_huc, ARRAY_SIZE(blobs_huc) },
+>> -    };
+>> -    static bool verified[INTEL_UC_FW_NUM_TYPES];
+>>       const struct uc_fw_platform_requirement *fw_blobs;
+>>       enum intel_platform p = INTEL_INFO(i915)->platform;
+>>       u32 fw_count;
+>> @@ -286,6 +288,11 @@ __uc_fw_auto_select(struct drm_i915_private 
+>> *i915, struct intel_uc_fw *uc_fw)
+>>               continue;
+>>             if (uc_fw->file_selected.path) {
+>> +            /*
+>> +             * Continuing an earlier search after a found blob 
+>> failed to load.
+>> +             * Once the previously chosen path has been found, clear 
+>> it out
+>> +             * and let the search continue from there.
+>> +             */
+>>               if (uc_fw->file_selected.path == blob->path)
+>>                   uc_fw->file_selected.path = NULL;
+>>   @@ -306,76 +313,91 @@ __uc_fw_auto_select(struct drm_i915_private 
+>> *i915, struct intel_uc_fw *uc_fw)
+>>           /* Failed to find a match for the last attempt?! */
+>>           uc_fw->file_selected.path = NULL;
+>>       }
+>> +}
+>>   -    /* make sure the list is ordered as expected */
+>> -    if (IS_ENABLED(CONFIG_DRM_I915_SELFTEST) && 
+>> !verified[uc_fw->type]) {
+>> -        verified[uc_fw->type] = true;
+>> +static bool validate_fw_table_type(struct drm_i915_private *i915, 
+>> enum intel_uc_fw_type type)
+>> +{
+>> +    const struct uc_fw_platform_requirement *fw_blobs;
+>> +    u32 fw_count;
+>> +    int i;
+>>   -        for (i = 1; i < fw_count; i++) {
+>> -            /* Next platform is good: */
+>> -            if (fw_blobs[i].p < fw_blobs[i - 1].p)
+>> -                continue;
+>> +    if (type >= ARRAY_SIZE(blobs_all)) {
+>> +        drm_err(&i915->drm, "No blob array for %s\n", 
+>> intel_uc_fw_type_repr(type));
+>> +        return false;
+>> +    }
+>>   -            /* Next platform revision is good: */
+>> -            if (fw_blobs[i].p == fw_blobs[i - 1].p &&
+>> -                fw_blobs[i].rev < fw_blobs[i - 1].rev)
+>> -                continue;
+>> +    fw_blobs = blobs_all[type].blobs;
+>> +    fw_count = blobs_all[type].count;
+>>   -            /* Platform/revision must be in order: */
+>> -            if (fw_blobs[i].p != fw_blobs[i - 1].p ||
+>> -                fw_blobs[i].rev != fw_blobs[i - 1].rev)
+>> -                goto bad;
+>> +    if (!fw_count)
+>> +        return true;
+>>   -            /* Next major version is good: */
+>> -            if (fw_blobs[i].blob.major < fw_blobs[i - 1].blob.major)
+>> -                continue;
+>> +    /* make sure the list is ordered as expected */
+>> +    for (i = 1; i < fw_count; i++) {
+>> +        /* Next platform is good: */
+>> +        if (fw_blobs[i].p < fw_blobs[i - 1].p)
+>> +            continue;
+>>   -            /* New must be before legacy: */
+>> -            if (!fw_blobs[i].blob.legacy && fw_blobs[i - 
+>> 1].blob.legacy)
+>> -                goto bad;
+>> +        /* Next platform revision is good: */
+>> +        if (fw_blobs[i].p == fw_blobs[i - 1].p &&
+>> +            fw_blobs[i].rev < fw_blobs[i - 1].rev)
+>> +            continue;
+>>   -            /* New to legacy also means 0.0 to X.Y (HuC), or X.0 
+>> to X.Y (GuC) */
+>> -            if (fw_blobs[i].blob.legacy && !fw_blobs[i - 
+>> 1].blob.legacy) {
+>> -                if (!fw_blobs[i - 1].blob.major)
+>> -                    continue;
+>> +        /* Platform/revision must be in order: */
+>> +        if (fw_blobs[i].p != fw_blobs[i - 1].p ||
+>> +            fw_blobs[i].rev != fw_blobs[i - 1].rev)
+>> +            goto bad;
+>>   -                if (fw_blobs[i].blob.major == fw_blobs[i - 
+>> 1].blob.major)
+>> -                    continue;
+>> -            }
+>> +        /* Next major version is good: */
+>> +        if (fw_blobs[i].blob.major < fw_blobs[i - 1].blob.major)
+>> +            continue;
+>>   -            /* Major versions must be in order: */
+>> -            if (fw_blobs[i].blob.major != fw_blobs[i - 1].blob.major)
+>> -                goto bad;
+>> +        /* New must be before legacy: */
+>> +        if (!fw_blobs[i].blob.legacy && fw_blobs[i - 1].blob.legacy)
+>> +            goto bad;
+>>   -            /* Next minor version is good: */
+>> -            if (fw_blobs[i].blob.minor < fw_blobs[i - 1].blob.minor)
+>> +        /* New to legacy also means 0.0 to X.Y (HuC), or X.0 to X.Y 
+>> (GuC) */
+>> +        if (fw_blobs[i].blob.legacy && !fw_blobs[i - 1].blob.legacy) {
+>> +            if (!fw_blobs[i - 1].blob.major)
+>>                   continue;
+>>   -            /* Minor versions must be in order: */
+>> -            if (fw_blobs[i].blob.minor != fw_blobs[i - 1].blob.minor)
+>> -                goto bad;
+>> -
+>> -            /* Patch versions must be in order: */
+>> -            if (fw_blobs[i].blob.patch <= fw_blobs[i - 1].blob.patch)
+>> +            if (fw_blobs[i].blob.major == fw_blobs[i - 1].blob.major)
+>>                   continue;
+>> +        }
+>> +
+>> +        /* Major versions must be in order: */
+>> +        if (fw_blobs[i].blob.major != fw_blobs[i - 1].blob.major)
+>> +            goto bad;
+>> +
+>> +        /* Next minor version is good: */
+>> +        if (fw_blobs[i].blob.minor < fw_blobs[i - 1].blob.minor)
+>> +            continue;
+>> +
+>> +        /* Minor versions must be in order: */
+>> +        if (fw_blobs[i].blob.minor != fw_blobs[i - 1].blob.minor)
+>> +            goto bad;
+>> +
+>> +        /* Patch versions must be in order: */
+>> +        if (fw_blobs[i].blob.patch <= fw_blobs[i - 1].blob.patch)
+>> +            continue;
+>>     bad:
+>> -            drm_err(&i915->drm, "Invalid %s blob order: %s r%u 
+>> %s%d.%d.%d comes before %s r%u %s%d.%d.%d\n",
+>> -                intel_uc_fw_type_repr(uc_fw->type),
+>> -                intel_platform_name(fw_blobs[i - 1].p), fw_blobs[i - 
+>> 1].rev,
+>> -                fw_blobs[i - 1].blob.legacy ? "L" : "v",
+>> -                fw_blobs[i - 1].blob.major,
+>> -                fw_blobs[i - 1].blob.minor,
+>> -                fw_blobs[i - 1].blob.patch,
+>> -                intel_platform_name(fw_blobs[i].p), fw_blobs[i].rev,
+>> -                fw_blobs[i].blob.legacy ? "L" : "v",
+>> -                fw_blobs[i].blob.major,
+>> -                fw_blobs[i].blob.minor,
+>> -                fw_blobs[i].blob.patch);
+>> -
+>> -            uc_fw->file_selected.path = NULL;
+>> -        }
+>> +        drm_err(&i915->drm, "Invalid %s blob order: %s r%u 
+>> %s%d.%d.%d comes before %s r%u %s%d.%d.%d\n",
+>> +            intel_uc_fw_type_repr(type),
+>> +            intel_platform_name(fw_blobs[i - 1].p), fw_blobs[i - 
+>> 1].rev,
+>> +            fw_blobs[i - 1].blob.legacy ? "L" : "v",
+>> +            fw_blobs[i - 1].blob.major,
+>> +            fw_blobs[i - 1].blob.minor,
+>> +            fw_blobs[i - 1].blob.patch,
+>> +            intel_platform_name(fw_blobs[i].p), fw_blobs[i].rev,
+>> +            fw_blobs[i].blob.legacy ? "L" : "v",
+>> +            fw_blobs[i].blob.major,
+>> +            fw_blobs[i].blob.minor,
+>> +            fw_blobs[i].blob.patch);
+>> +        return false;
+>>       }
+>> +
+>> +    return true;
+>>   }
+>>     static const char *__override_guc_firmware_path(struct 
+>> drm_i915_private *i915)
+>> @@ -443,6 +465,11 @@ void intel_uc_fw_init_early(struct intel_uc_fw 
+>> *uc_fw,
+>>       uc_fw->type = type;
+>>         if (HAS_GT_UC(i915)) {
+>> +        if (!validate_fw_table_type(i915, type)) {
+>> +            intel_uc_fw_change_status(uc_fw, INTEL_UC_FIRMWARE_ERROR);
 >
-> It was noticed that duplicate entries in the firmware table could cause
-> an infinite loop in the firmware loading code if that entry failed to
-> load. Duplicate entries are a bug anyway and so should never happen.
-> Ensure they don't by tweaking the table validation code to reject
-> duplicates.
+> In our hierarchy of firmware statuses, INTEL_UC_FIRMWARE_ERROR 
+> includes the fact that the fw has been selected, which in turns 
+> implies that file_selected.path is valid. this means that even with 
+> enable_guc=0 the wants/uses_guc macro might end up returning true, 
+> which is not something we want.
 >
-> For full m/m/p files, that can be done by simply tweaking the patch
-> level check to reject matching values. For reduced version entries,
-> the filename itself must be compared.
+> Daniele
+Suggestions for a better plan? Add an another status enum? Nothing 
+earlier in the sequence seems appropriate. And the init_early stack does 
+not support returning error codes.
+
+John.
+
+
 >
-> Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
-> ---
->   drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c | 27 +++++++++++++++++++++---
->   1 file changed, 24 insertions(+), 3 deletions(-)
+>> +            return;
+>> +        }
+>> +
+>>           __uc_fw_auto_select(i915, uc_fw);
+>>           __uc_fw_user_override(i915, uc_fw);
+>>       }
 >
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c b/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
-> index eb52e8db9ae0b..bc4011d55667c 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
-> @@ -319,7 +319,7 @@ static bool validate_fw_table_type(struct drm_i915_private *i915, enum intel_uc_
->   {
->   	const struct uc_fw_platform_requirement *fw_blobs;
->   	u32 fw_count;
-> -	int i;
-> +	int i, j;
->   
->   	if (type >= ARRAY_SIZE(blobs_all)) {
->   		drm_err(&i915->drm, "No blob array for %s\n", intel_uc_fw_type_repr(type));
-> @@ -334,6 +334,27 @@ static bool validate_fw_table_type(struct drm_i915_private *i915, enum intel_uc_
->   
->   	/* make sure the list is ordered as expected */
->   	for (i = 1; i < fw_count; i++) {
-> +		/* Versionless file names must be unique per platform: */
-> +		for (j = i + 1; j < fw_count; j++) {
-> +			/* Same platform? */
-> +			if (fw_blobs[i].p != fw_blobs[j].p)
-> +				continue;
-> +
-> +			if (fw_blobs[i].blob.path != fw_blobs[j].blob.path)
-> +				continue;
-> +
-> +			drm_err(&i915->drm, "Diplicaate %s blobs: %s r%u %s%d.%d.%d [%s] matches %s r%u %s%d.%d.%d [%s]\n",
-
-typo Diplicaate
-
-> +				intel_uc_fw_type_repr(type),
-> +				intel_platform_name(fw_blobs[j].p), fw_blobs[j].rev,
-> +				fw_blobs[j].blob.legacy ? "L" : "v",
-> +				fw_blobs[j].blob.major, fw_blobs[j].blob.minor,
-> +				fw_blobs[j].blob.patch, fw_blobs[j].blob.path,
-> +				intel_platform_name(fw_blobs[i].p), fw_blobs[i].rev,
-
-nit: we could avoid printing the platform twice because you're 
-explicitly checking that it is the same earlier on. Not a blocked.
-With the typo fixed:
-
-Reviewed-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-
-Daniele
-
-> +				fw_blobs[i].blob.legacy ? "L" : "v",
-> +				fw_blobs[i].blob.major, fw_blobs[i].blob.minor,
-> +				fw_blobs[i].blob.patch, fw_blobs[i].blob.path);
-> +		}
-> +
->   		/* Next platform is good: */
->   		if (fw_blobs[i].p < fw_blobs[i - 1].p)
->   			continue;
-> @@ -377,8 +398,8 @@ static bool validate_fw_table_type(struct drm_i915_private *i915, enum intel_uc_
->   		if (fw_blobs[i].blob.minor != fw_blobs[i - 1].blob.minor)
->   			goto bad;
->   
-> -		/* Patch versions must be in order: */
-> -		if (fw_blobs[i].blob.patch <= fw_blobs[i - 1].blob.patch)
-> +		/* Patch versions must be in order and unique: */
-> +		if (fw_blobs[i].blob.patch < fw_blobs[i - 1].blob.patch)
->   			continue;
->   
->   bad:
 
