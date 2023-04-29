@@ -1,83 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E0306F21FB
-	for <lists+dri-devel@lfdr.de>; Sat, 29 Apr 2023 03:22:39 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E42106F2200
+	for <lists+dri-devel@lfdr.de>; Sat, 29 Apr 2023 03:23:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4A5CD10EE46;
-	Sat, 29 Apr 2023 01:22:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0C8B710EE31;
+	Sat, 29 Apr 2023 01:23:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9CB1610EE31;
- Sat, 29 Apr 2023 01:22:34 +0000 (UTC)
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 33T1JXkO030742; Sat, 29 Apr 2023 01:22:28 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=2fLV1SJmDRKN50BXvUbOpJgCto68OhVVZLyJI2qaMXE=;
- b=UfvPnJjHHI56UU7l1kkYBgClEzyE6cbJ/ge6TCBa7JgPoTFfq/okDJci0K83w0rywMGK
- 9QN2ml+PdO2yzfF0bzks3f0t4ZT/FMuo0tq5MiGRowyiMTivzANqR1x/FCptqBzcavb8
- kM90eYMOYPznhs4eKMSwblYtR8LOBYRQ3X1oXbAPv+L9U2PVelX0yAzdALRpH2HGzwni
- xl126/dIX6oRKXmyU+Vppqb9k7/80+d44Q7aUxKJgsD5vkD1uq7ajykJYBE5McEnG79Z
- QGstwXtxpIujoniUm1I7eQTzt+2mgqqrRUZ//VBuMN0CSV1iG6rMuubzGggk1OIwO/gQ Dw== 
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3q882gaybg-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Sat, 29 Apr 2023 01:22:28 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 33T1MRaE021035
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Sat, 29 Apr 2023 01:22:27 GMT
-Received: from [10.110.119.27] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Fri, 28 Apr
- 2023 18:22:26 -0700
-Message-ID: <def3011f-d8e7-3090-47f2-ec13a650337e@quicinc.com>
-Date: Fri, 28 Apr 2023 18:22:25 -0700
+Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com
+ [IPv6:2a00:1450:4864:20::432])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BA65C10EE31
+ for <dri-devel@lists.freedesktop.org>; Sat, 29 Apr 2023 01:23:56 +0000 (UTC)
+Received: by mail-wr1-x432.google.com with SMTP id
+ ffacd0b85a97d-2f9b9aa9d75so223320f8f.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Apr 2023 18:23:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1682731434; x=1685323434;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=htj/8vCj4I57SLW2faNCG4a/nF8sQzzLcq7GSZbM288=;
+ b=Pxo53+demnDQ6RpXQYMMyGE3bI1+MCzP2V7rPxsTzQkvqaz9HkTHQbMEVpQKViAc14
+ PYR6R0U0RS5N6BDbAguA3o9MobR8p+IinCEpTegzS1CEXFPSDeR0ZyOWBp5cAvhgB+Et
+ y+P5wRc7v1n0MlVaz5v7wzIHZrgTSQPW82UVkLEGVxs2J2kcsi4TnZY3BwahETsZqEDM
+ TYT6tpeHELzW4Rh5lmzErkYT7JzA0TVWi9hpl8GkJb2rBxjVN8ctenJVEmBVtP1JlwA+
+ U16xm6fuUOKtuHWR1k1oX+suDeMMx2rnOebfuGj7PVjWYD42b9Xwk2WL+4n/0/nrxHVy
+ U5ow==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1682731434; x=1685323434;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=htj/8vCj4I57SLW2faNCG4a/nF8sQzzLcq7GSZbM288=;
+ b=Rb3iAhvPXBIhjY81PZP2dhCsb9JSh+I0EyBFoeEDDZtyGMdSrecj+sx9buJBZUPRrN
+ 3q96xZxoIBi0v4WT46zjM1m/vwjfLjYK3WrC0Im3w3FWrdHlgufeaVPaiSN8EWgGzSAd
+ Xr86HcFLlZvb8ibl8NcS/Bm7Wxl+KYKb6+znzrAIlL+6btlK/6sd1QGTkxa4rLjR+XWq
+ YdODQDgrmTovphPm0CbenesT8V9/7LsI+R2r86Tyocmb/NQkx4NcbD5tk4L45ulaV29w
+ 7Ts1wpiu28S1NXtObBAMEi3pZkf6h8iblWrrxSuaHzfVliT9kDKdrseScn6hHtPjT4C8
+ HFOg==
+X-Gm-Message-State: AC+VfDwadupvSYPuYNM4nAbdCaIkR9arO8eh5GaCGrl0MhKD2UCLEXbm
+ 1Nu3hpYqAKohnQju6pOKsOnzEA==
+X-Google-Smtp-Source: ACHHUZ4ZWWsBh7oQ8wmPJFzelGX0O+OdC3f2yjnNkKepKP7xmHU96NT194CO4Qr1Gw/oAiBMhgnYtw==
+X-Received: by 2002:a05:6000:136f:b0:2f0:e287:1fbc with SMTP id
+ q15-20020a056000136f00b002f0e2871fbcmr5647327wrz.11.1682731434688; 
+ Fri, 28 Apr 2023 18:23:54 -0700 (PDT)
+Received: from eriador.lumag.spb.ru ([212.140.138.218])
+ by smtp.gmail.com with ESMTPSA id
+ p10-20020a5d48ca000000b003047dc162f7sm12983554wrs.67.2023.04.28.18.23.53
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 28 Apr 2023 18:23:54 -0700 (PDT)
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>
+Subject: [PATCH v2 0/3] drm/msm/dpu: drop _sspp_subblk_offset()
+Date: Sat, 29 Apr 2023 04:23:50 +0300
+Message-Id: <20230429012353.2569481-1-dmitry.baryshkov@linaro.org>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.2
-Subject: Re: [PATCH v2 7/7] drm/msm/dpu: calculate DSC encoder parameters
- dynamically
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Kuogee Hsieh
- <quic_khsieh@quicinc.com>,
- <dri-devel@lists.freedesktop.org>, <robdclark@gmail.com>,
- <sean@poorly.run>, <swboyd@chromium.org>, <dianders@chromium.org>,
- <vkoul@kernel.org>, <daniel@ffwll.ch>, <airlied@gmail.com>,
- <agross@kernel.org>, <andersson@kernel.org>
-References: <1682725511-18185-1-git-send-email-quic_khsieh@quicinc.com>
- <1682725511-18185-8-git-send-email-quic_khsieh@quicinc.com>
- <51edf131-8fe0-2187-a4ba-744cc0c81a99@linaro.org>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <51edf131-8fe0-2187-a4ba-744cc0c81a99@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: IX-jlxv3gWk6ICJlhrbrYIWule2GRqik
-X-Proofpoint-ORIG-GUID: IX-jlxv3gWk6ICJlhrbrYIWule2GRqik
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-04-28_08,2023-04-27_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- malwarescore=0 spamscore=0 lowpriorityscore=0 mlxlogscore=999 phishscore=0
- mlxscore=0 clxscore=1015 bulkscore=0 impostorscore=0 adultscore=0
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2303200000 definitions=main-2304290011
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,131 +71,29 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: marijn.suijten@somainline.org, quic_sbillaka@quicinc.com,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-arm-msm@vger.kernel.org
+Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Rework dpu_hw_sspp.c to access sblk base address directly rather than
+getting the sblk address through indirect function call.
 
+Changes since v1:
+ - Dropped DPU_SSPP_SRC feature, making SRC-related functions mandatory
+   (suggested by Jeykumar)
 
-On 4/28/2023 5:52 PM, Dmitry Baryshkov wrote:
-> On 29/04/2023 02:45, Kuogee Hsieh wrote:
->> During DSC preparation, add run time calculation to figure out what
->> usage modes, split mode and merge mode, is going to be setup.
-> 
-> This patch doesn't determine the mode. It changes programming of DSC 
-> bits according to the mode being selected.
-> 
+Dmitry Baryshkov (3):
+  drm/msm/dpu: drop SSPP's SRC subblock
+  drm/msm/dpu: access QSEED registers directly
+  drm/msm/dpu: access CSC/CSC10 registers directly
 
-The term mode is a bit confusing here but he is referring to 
-dsc_common_mode.
+ .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c    |  14 +-
+ .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h    |  14 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c   | 198 +++++++-----------
+ 3 files changed, 76 insertions(+), 150 deletions(-)
 
->>
->> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
->> ---
->>   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 56 
->> ++++++++++++++++-------------
->>   1 file changed, 31 insertions(+), 25 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c 
->> b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
->> index 2fdacf1..3d18642 100644
->> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
->> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
->> @@ -529,17 +529,9 @@ void dpu_encoder_helper_split_config(
->>   bool dpu_encoder_use_dsc_merge(struct drm_encoder *drm_enc)
->>   {
->>       struct dpu_encoder_virt *dpu_enc = to_dpu_encoder_virt(drm_enc);
->> -    int i, intf_count = 0, num_dsc = 0;
->> +    struct msm_display_topology *topology = &dpu_enc->topology;
->> -    for (i = 0; i < MAX_PHYS_ENCODERS_PER_VIRTUAL; i++)
->> -        if (dpu_enc->phys_encs[i])
->> -            intf_count++;
->> -
->> -    /* See dpu_encoder_get_topology, we only support 2:2:1 topology */
->> -    if (dpu_enc->dsc)
->> -        num_dsc = 2;
->> -
->> -    return (num_dsc > 0) && (num_dsc > intf_count);
->> +    return (topology->num_dsc > topology->num_intf);
->>   }
->>   static void dpu_encoder_get_topology(
->> @@ -1861,41 +1853,55 @@ static void dpu_encoder_prep_dsc(struct 
->> dpu_encoder_virt *dpu_enc,
->>       struct dpu_encoder_phys *enc_master = dpu_enc->cur_master;
->>       struct dpu_hw_dsc *hw_dsc[MAX_CHANNELS_PER_ENC];
->>       struct dpu_hw_pingpong *hw_pp[MAX_CHANNELS_PER_ENC];
->> -    int this_frame_slices;
->> +    struct msm_display_topology *topology = &dpu_enc->topology;
->>       int intf_ip_w, enc_ip_w;
->> -    int dsc_common_mode;
->> -    int pic_width;
->> +    int dsc_common_mode = 0;
-> 
-> Please don't top-init variables unless required (or unless they are 
-> constant).
-> 
->>       u32 initial_lines;
->> +    int num_dsc = topology->num_dsc;
->> +    int num_intf = topology->num_intf;
->>       int i;
->> -    for (i = 0; i < MAX_CHANNELS_PER_ENC; i++) {
->> +    for (i = 0; i < num_dsc; i++) {
->>           hw_pp[i] = dpu_enc->hw_pp[i];
->>           hw_dsc[i] = dpu_enc->hw_dsc[i];
->>           if (!hw_pp[i] || !hw_dsc[i]) {
->>               DPU_ERROR_ENC(dpu_enc, "invalid params for DSC\n");
->>               return;
->> -        }
->> +        }
-> 
-> What is the difference here?
-> 
->>       }
->> -    dsc_common_mode = 0;
->> -    pic_width = dsc->pic_width;
->> +    intf_ip_w = dsc->pic_width;
->> -    dsc_common_mode = DSC_MODE_MULTIPLEX | DSC_MODE_SPLIT_PANEL;
->>       if (enc_master->intf_mode == INTF_MODE_VIDEO)
->>           dsc_common_mode |= DSC_MODE_VIDEO;
->> -    this_frame_slices = pic_width / dsc->slice_width;
->> -    intf_ip_w = this_frame_slices * dsc->slice_width;
->> -
->>       /*
->> -     * dsc merge case: when using 2 encoders for the same stream,
->> -     * no. of slices need to be same on both the encoders.
->> +     * If this encoder is driving more than one DSC encoder, they
->> +     * operate in tandem, same pic dimension needs to be used by
->> +     * each of them.(pp-split is assumed to be not supported)
->> +     *
-> 
-> Extra empty line. Also the comment doesn't make sense here anymore. We 
-> already have comment for the division by two below.
-> 
->>        */
->> -    enc_ip_w = intf_ip_w / 2;
->> +    enc_ip_w = intf_ip_w;
->> +
->> +    intf_ip_w /= num_intf;
->> +
->> +    if (num_dsc > 1)
->> +        dsc_common_mode |= DSC_MODE_SPLIT_PANEL;
->> +
->> +    if (dpu_encoder_use_dsc_merge(&dpu_enc->base)) {
->> +        dsc_common_mode |= DSC_MODE_MULTIPLEX;
->> +        /*
->> +         * in dsc merge case: when using 2 encoders for the same
->> +         * stream, no. of slices need to be same on both the
->> +         * encoders.
->> +         */
->> +        enc_ip_w = intf_ip_w / 2;
->> +    }
->> +
->>       initial_lines = dpu_encoder_dsc_initial_line_calc(dsc, enc_ip_w);
->> -    for (i = 0; i < MAX_CHANNELS_PER_ENC; i++)
->> +    for (i = 0; i < num_dsc; i++)
->>           dpu_encoder_dsc_pipe_cfg(dpu_enc, hw_dsc[i], hw_pp[i], dsc,
->>                       dsc_common_mode, initial_lines);
->>   }
-> 
+-- 
+2.39.2
+
