@@ -2,155 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A388A6F21A0
-	for <lists+dri-devel@lfdr.de>; Sat, 29 Apr 2023 02:31:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 131FC6F219D
+	for <lists+dri-devel@lfdr.de>; Sat, 29 Apr 2023 02:31:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D953110EE17;
-	Sat, 29 Apr 2023 00:31:02 +0000 (UTC)
-X-Original-To: DRI-Devel@lists.freedesktop.org
-Delivered-To: DRI-Devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 966D010E193;
- Sat, 29 Apr 2023 00:30:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1682728256; x=1714264256;
- h=message-id:date:subject:to:cc:references:from:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=CjUwiNB3fdtjN/5uwCe8fjEv/mhXQDBhG3vQ7VV4QQM=;
- b=hgDzkHtsXfSFTyGfI/Am/+4sQyNxRiKDAl5tODmKlIq/grpNbbjz/B1c
- lMatWIGEWYqm0DGH+q9WIJUY1841vdPK9rjfJ/kQQIDUbTPsqhi//3LhN
- zl8W0/okoKJ1bHbiUysc7kIvH/qi9TsXJMBQ5/EoecR7cPz+GYMXAjz8M
- Pbkw5J0QuRTMiu0Z6Y+fAcdR8GjPewwCccZwyPPC3wOcjx4LcLpJd6mJB
- Xr+ff/2BztOoA7qgQBEu+6lqfFU7m5NqAwhx61mzUyCEZhG7eNEzdOE9p
- eMDuFikzFKVnH/ZWGVfHk+dbMjC7bQMIKAp9V21leg/Hk6z7wPfhbBiqq w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10694"; a="375894578"
-X-IronPort-AV: E=Sophos;i="5.99,235,1677571200"; d="scan'208";a="375894578"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Apr 2023 17:30:55 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10694"; a="819197812"
-X-IronPort-AV: E=Sophos;i="5.99,235,1677571200"; d="scan'208";a="819197812"
-Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
- by orsmga004.jf.intel.com with ESMTP; 28 Apr 2023 17:30:55 -0700
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.23; Fri, 28 Apr 2023 17:30:55 -0700
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.23; Fri, 28 Apr 2023 17:30:54 -0700
-Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.23 via Frontend Transport; Fri, 28 Apr 2023 17:30:54 -0700
-Received: from NAM04-MW2-obe.outbound.protection.outlook.com (104.47.73.175)
- by edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.23; Fri, 28 Apr 2023 17:30:53 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=UWmLeYtxCYXcqUfqaOtYVs7tFVtKc+w1H9xmUpMWtaZRJUOF3/zxRxQ47wWGFMzfraR633hUWBON76RvqZikDU5ppPZnzvtuS88EzaMWcPjCc+2k0jcYsIx2hb0c3YVT5kyKsTpO+RSKX+0prHPcCT9LMQA/NVxdItBqBHYaMNXk78ewOl9yMpFgQ89yWaNUlghq/8zRrrWPPthqyzrgSNUknsqAMAzW49OPQyUH2eRDYUbuiASkr9idvZJYq6Q6YyjJUntk2PDUQUh0tDewVjEg64urHLBXK7M8IpZVbKRZDsW5360Hi1eCEeab649Zm7FPSTVw5BYxoz1UuuuQGA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=HqQpRySmCPhivwBRE4DuVlzhOg6MG7b60B907QPWLXA=;
- b=WoZ11wfck4Z0gs1nMefLTJXG3yrSfoUjFcrVwKL78Iz9ajaXfG3dfaUZf42/wKoVAVOL4uH4fHwETTd6PeQAsLjq5k7U4hvo9wh2gw4NDYFkHKCOb6iznsx07Fd6sHGUNlST1/afBLLR8G50ipfgTkaGqTrZRwakqnjZhNZvNw2+9MAU6GIg6O9HPkukE2++Ed6Eao8c8978fJuimyDTNS82YeF0GYZa6+TPS4uSWKrBf+glipMAXUNPGglQPY0CxHpjv1wClOQIdfbDUTyeGBXcbSaRjRoRH/66ZiY7puQ2Bs0gFr1PkOiEEDUj6GcEhzdRiUuEMyl+oMBAPXsR/Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from BN6PR11MB3908.namprd11.prod.outlook.com (2603:10b6:405:7d::13)
- by SA1PR11MB5897.namprd11.prod.outlook.com (2603:10b6:806:228::20)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6340.24; Sat, 29 Apr
- 2023 00:30:51 +0000
-Received: from BN6PR11MB3908.namprd11.prod.outlook.com
- ([fe80::7b09:91d7:6e26:5833]) by BN6PR11MB3908.namprd11.prod.outlook.com
- ([fe80::7b09:91d7:6e26:5833%2]) with mapi id 15.20.6340.025; Sat, 29 Apr 2023
- 00:30:51 +0000
-Message-ID: <c60473ea-2131-7312-5942-890244c5c9d4@intel.com>
-Date: Fri, 28 Apr 2023 17:30:47 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Firefox/102.0 Thunderbird/102.10.1
-Subject: Re: [PATCH 4/6] drm/i915/uc: Enhancements to firmware table validation
-Content-Language: en-GB
-To: "Ceraolo Spurio, Daniele" <daniele.ceraolospurio@intel.com>,
- <Intel-GFX@Lists.FreeDesktop.Org>
-References: <20230421011525.3282664-1-John.C.Harrison@Intel.com>
- <20230421011525.3282664-5-John.C.Harrison@Intel.com>
- <7716eaf2-41e8-9b28-3b87-70b5ff2962a3@intel.com>
- <8540acf3-82bc-629c-1bb2-24ee377e851d@intel.com>
- <579dc07f-70d5-c444-17eb-89a5d4a38261@intel.com>
-From: John Harrison <john.c.harrison@intel.com>
-In-Reply-To: <579dc07f-70d5-c444-17eb-89a5d4a38261@intel.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: SJ0PR05CA0093.namprd05.prod.outlook.com
- (2603:10b6:a03:334::8) To BN6PR11MB3908.namprd11.prod.outlook.com
- (2603:10b6:405:7d::13)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DA12510E193;
+	Sat, 29 Apr 2023 00:30:57 +0000 (UTC)
+X-Original-To: dri-devel@lists.freedesktop.org
+Delivered-To: dri-devel@lists.freedesktop.org
+Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com
+ [IPv6:2a00:1450:4864:20::333])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8C2DC10E193
+ for <dri-devel@lists.freedesktop.org>; Sat, 29 Apr 2023 00:30:55 +0000 (UTC)
+Received: by mail-wm1-x333.google.com with SMTP id
+ 5b1f17b1804b1-3f182d745deso2925705e9.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Apr 2023 17:30:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1682728254; x=1685320254;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=QTDO+mRAQ6uSjw58ytYqiX+MtT/f3Lu3qMBouPaYyAE=;
+ b=GFnHXh+yxfwmTs2MrIwQ/joPZf/d92F9LwHs2pmx4DtZKHpIJYshPeCGucvRnT0wYt
+ fhxuze3QNmMAiYhuRAVC091ErFZESonnU1O84OwMX73G8QplU7A1bAXZ7wgRAzUcYTgW
+ OYXXhk+mC83UB7qoeQ77I8zVQLxb6ygL1kZijPSYm7vtEH8lOWsGyoykjwM8cwwhRbbL
+ Ex7exqsKtUjoV3hZr4pbT6IhcAQ86OjwMvyNNXWFkqdwXggp4gXMWkAr3tVOrFECXZgP
+ alTxq0nn5UjbbDtAOxeFp/iblsY4R+bhinv1rbkWAQkNfpOgNaDygY8Iu/ki0dTWJQNq
+ iP8A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1682728254; x=1685320254;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=QTDO+mRAQ6uSjw58ytYqiX+MtT/f3Lu3qMBouPaYyAE=;
+ b=Sp0u0ZrwmTBFxY1sBg2xEnfsTsIoshySK97pzt9hCrRvc/9cZiok8qY8wcOrS0Z0xw
+ l4NSfsAjAKGYKtgxwA7PlVarn1sk7kPA4sGsQk4KdKmzhJEdCG4TVMdHLHMabjqLtPfj
+ diSq4yF1DnnCG24oCveqZeZDH2T6u87OhL9j17mwJm4LqdWSCSQlI7bWesBrMTskC5S6
+ A4YkGhAw6W4F2f8NpxmP6zMoRVbMUSk+fRQTHNaMlInyQkJqNkq2d+/mgBiCmq6NrJH0
+ JIVZbAehnD17C7Zl7BhbXuU8pa7IY+7gg8lRp2cyMGVvaVYpSSBDCIjTjMyr4c47mswO
+ 1Z1A==
+X-Gm-Message-State: AC+VfDyUWbQWypXwebaedEx3CI8P//9v6ZTQnclveC2NfT/sFglb2By4
+ UAEV7yLq3pOgBRI3L0aa3YtqV9Gh9WA9oeEP4h4kQA==
+X-Google-Smtp-Source: ACHHUZ4sjYWV1DYfkbQWxgMSywUB269gSNc1DKiTjIA5QncBu5jpSU8XIFHR3GbF9sJnhhTAg5V/MQ==
+X-Received: by 2002:a05:600c:b49:b0:3f1:8c59:4713 with SMTP id
+ k9-20020a05600c0b4900b003f18c594713mr5177032wmr.12.1682728253525; 
+ Fri, 28 Apr 2023 17:30:53 -0700 (PDT)
+Received: from [10.6.147.212] ([212.140.138.218])
+ by smtp.gmail.com with ESMTPSA id
+ s8-20020a05600c45c800b003f18992079dsm26513660wmo.42.2023.04.28.17.30.52
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 28 Apr 2023 17:30:53 -0700 (PDT)
+Message-ID: <e5d2bf3f-d578-2206-49a4-7105ca810f6c@linaro.org>
+Date: Sat, 29 Apr 2023 03:30:52 +0300
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN6PR11MB3908:EE_|SA1PR11MB5897:EE_
-X-MS-Office365-Filtering-Correlation-Id: c501339d-c45f-4752-d434-08db4848fbe8
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: zHdK6iIu6ilH8Va7WfelDgDygp/1AgNFbakVjWwnyexRd4M6TqQGgbowqxckOUjCQhEjvUaIwmui8SGVrOS88nE6Krgcq79VhXQag4GVe0WgprsSr1t8/uGB8H7z29p3r1BvYa6IRKw6YNdSgqV3MckDCulUpUD/1YW3HaeZkrNUI3NCsLdQsIAGcA/fNuQ4sNcLQizE6p1mbfXKV+28PPa4xAUo41efLVlb97jeO0C3zy0kWhWZi3FkvoMYYr+GA3B4lcq4L2wmJT4GtyvxfF8FGIm++ZfbGSmSajF9/bohkMszoy4+ABw3vkpUbO0T15N2A9udGx56QlGq9RP6+q1B98XGOvkmqO0sDbIJozWiLPpgASNqzOxhKe1AfuvTVi9rzG6D/t6zuDm5ldAOBAvhbZXvQkh81EC3n33qHnMfZRfI2h1Ermfimmpy7G5opRGOY79eLHmVm/rBligbAmDbFI2pG3JiLzgH2XNQqRNfs9ewtzVEkRvC9WmttL0bJ7DCSpxaS0Xahu2xTRS2BLhM8estNeXjL5cS1RuhWL5RS5fvPGznCbQM7kjHe0hoKqeC6ZO7yk2KJeYzTw/BzsR/9aYVQMqTy3Ck8ReN3tmoTaYCMlR4UO6vyyBJdrdPvqM5K6M9oNa/JhNJ4yUYVH8sJoUEhPDhNI0yqW0ybJ+GCBjlrhUI0sIuTniI+yyN
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN6PR11MB3908.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230028)(346002)(39860400002)(376002)(366004)(396003)(136003)(451199021)(478600001)(6666004)(31686004)(6486002)(30864003)(66556008)(8936002)(8676002)(2906002)(66476007)(66946007)(450100002)(4326008)(5660300002)(6512007)(26005)(186003)(6506007)(53546011)(316002)(2616005)(41300700001)(36756003)(83380400001)(82960400001)(38100700002)(86362001)(31696002)(43740500002)(45980500001);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?R1UyNWxvYm4zek8wNTJyZ29zRmxDU0pLVS9Ialp2bjA2TEt4SXlSQkx0eUVQ?=
- =?utf-8?B?amU2RG0xcEZ0VE1SOTFNUlBXK0h2ZnhJaGdMSVE3WDlXS2M5UlRoZTIydDFH?=
- =?utf-8?B?VHd1OXpzb3pQTTFYU2x4QmRiTE9FVHppcERCeUw5REhqcGc4aEVWNzY1V3hN?=
- =?utf-8?B?enNVZk9RbHcrMWZNNHpvVWFOQ2hMeFd2WHc5V2kxWE5kT2h0RlVIdXVLekw5?=
- =?utf-8?B?SitWUFcwdk40NlQ1VzU4dXdWMGZyNllQUXFBbWxnTUhPM081TGN4c1JwRWxE?=
- =?utf-8?B?RGIzVGZ4V1RwVk9YRWx2NjdlVTkyQy9xWUp6bktFUjAvRlJ2VkVRNzY3czVo?=
- =?utf-8?B?NVVSeXp5UDMxYStWQitzVkVhZCtQVnJHN0dScWIwSEQ0WlBKdUk1N3dqWnlw?=
- =?utf-8?B?a3Z0T2Yxd3U4VGhJa2s0WnY0ZHc1NEZnMHdsSjdWWE1pZEZRdGUxSE9tV2dH?=
- =?utf-8?B?YTU1K0dWdk5XeFVwOXdzTmdScTRCLzFRS1I4d203UXZydW04bU5iSGFsWk8w?=
- =?utf-8?B?M0NFKzE5Rzk2TkdVU05JMktyMUQ0SUVLTWcwRERYdVo4QnhTblRYYUFuaFRo?=
- =?utf-8?B?RzliUnFLM0ordEdXbHdVaUEwRTNQV1BBM0ZPNFNyS21aZ2JCbzRNdlhXNUdO?=
- =?utf-8?B?UGtEUmhDNXQwSXFpZW5YQm1CVC91eW96K1NSS0cwdHJrTm5pSmtTU2ZvVmZ6?=
- =?utf-8?B?RVFRY3g4ZnhVQzF3V0prNnhROHBTSDBWdkhudXh4aytpYlJYWUc4aTh2bCtL?=
- =?utf-8?B?d1E5cFpLSFJwWmNWK2k4U2hidXBZdVNTVlhWSWhqZ2djNlV2MTdKL1Q0TERF?=
- =?utf-8?B?YkpZZFFFUFlIT3FTc2U4Yk94MnBkN3grdG1yZ2tsaUdHQ3RzY3NLbGYyYWdV?=
- =?utf-8?B?OS9TTTZOdnNUTmJtZFhGMW53cHhwRzNXSGZVNG5MU2NMTmNPVkNCczFhRDRn?=
- =?utf-8?B?QXBwMHFQcFYvcldRbncwUW5mYytSejdTK3FKOWRtalIwSHdJZjQyUmxZWS9R?=
- =?utf-8?B?NnpNTTRaTjB0bDI5eDRTWGlaYTd0L1F4OFFDQkNxZ3grRTVJQURhN1pjaWlG?=
- =?utf-8?B?ZzdUZ0dFTGliUGhPY3RhS3ZwY2s5TTZkNUV0MXJzV29xaTBrNmpTdEJHZWZa?=
- =?utf-8?B?UzJnbkpRODV0S25uWEZHcFpKejhxN1REaENPeGpESzNyK2UrSVBpQWd1UzNZ?=
- =?utf-8?B?QVBXMVo4dzY5NHU4aHU5blNMV2k4ZUQwdVdweXd1eElLcVdVemk2V0ptV2RC?=
- =?utf-8?B?MG5LNTQ5QjBML0tUK2FBc2tMM2FKckxuWVJoYU5MZWhNU2NDY0JxRHlJa3ZX?=
- =?utf-8?B?c1dBZG9KMWgxT0RLWkN5S09rUmM4WDhHZi9OTjRreHpwTUkvL0lLKy9Gbkdn?=
- =?utf-8?B?SHRUdTdRd0k2czU2dTR1eXdScU1vRit6VUViSmVSYWtsaFRoenFHN0t1K1FF?=
- =?utf-8?B?ZkdCUmNQcEh0UGFHWnNEaHFZc3l2YmgwckthSlVkUk1BN3FjWFhRVG9kYWZv?=
- =?utf-8?B?eDdHUXltQTNMbGw5b2FyaHlNd2NQQzcwek1wMllNT1B3N1BCM3FxalZpNFlO?=
- =?utf-8?B?cUl1QkVqUTJibEJIU1QzL2VMdEFQL2x1SHRQeXpMOWdLWnVPSktRMDk4MVhl?=
- =?utf-8?B?T001UzJXT09IcVBZTnIvdVB4b3ljMC9ldmhEZ1JoeUM3WUwzUHBKTllPUzdo?=
- =?utf-8?B?RWxzeTREbGhhR21kZG9kNDE5bGh2RkcvSXRIUncrSHdEUzYwZDVCb2J5TERl?=
- =?utf-8?B?cnlyd1ovVWNTUTFabTB0NGJ3a3gzMVVEc1BrSmtsOG5DaklZanZ0U3ljSkhQ?=
- =?utf-8?B?L0xjUnFPMit6TFBnQ2EwT1pGTW9YUlhjNkx3RXB0eVdxWmJrbUNnMXdNVGpj?=
- =?utf-8?B?ck5RQjF2SDF6bjhONnNEbllXeHZXb1Z0U0xJNjNHcUl4SE9sR3kxekFrblps?=
- =?utf-8?B?bEZjWDFqRE9tTC82bnJwZW5ZMzZvM1F4YUtvaVZWYzJXQTVIRDdqVitGdllQ?=
- =?utf-8?B?NisyaE16SllTMzVGZ0J5dUxCSzlHekVWRWpWbm9XSDI3SEdVU3JBaTBHdWQv?=
- =?utf-8?B?a0JaQVR2bGpjMERwMWxuaC9kN09rUytMRHp0ZFJrL0hWSUwrMW9OTlBtSVJG?=
- =?utf-8?B?MVRlclU2VVoxWkR4UEtiNDc0UHdpcnhtdGk1T20zVk1OMk1ucEJiVFptSXlJ?=
- =?utf-8?B?OGc9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: c501339d-c45f-4752-d434-08db4848fbe8
-X-MS-Exchange-CrossTenant-AuthSource: BN6PR11MB3908.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Apr 2023 00:30:50.7223 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: KeUvDCJJ6tAQvqD4bSm4sCykbRu1bm3Ho+t+jfwE2Cr44RhIPfIy/0QitBd+QcNeVgOkiuZEEWYMFJbKIajZqWRjVd8PXufOEgxcAkfh+tk=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR11MB5897
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH v2 1/7] drm/msm/dpu: add support for DSC encoder v1.2
+ engine
+Content-Language: en-GB
+To: Kuogee Hsieh <quic_khsieh@quicinc.com>, dri-devel@lists.freedesktop.org,
+ robdclark@gmail.com, sean@poorly.run, swboyd@chromium.org,
+ dianders@chromium.org, vkoul@kernel.org, daniel@ffwll.ch, airlied@gmail.com,
+ agross@kernel.org, andersson@kernel.org
+References: <1682725511-18185-1-git-send-email-quic_khsieh@quicinc.com>
+ <1682725511-18185-2-git-send-email-quic_khsieh@quicinc.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <1682725511-18185-2-git-send-email-quic_khsieh@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -163,296 +81,544 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: DRI-Devel@Lists.FreeDesktop.Org
+Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
+ quic_abhinavk@quicinc.com, linux-kernel@vger.kernel.org,
+ marijn.suijten@somainline.org, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 4/28/2023 17:26, Ceraolo Spurio, Daniele wrote:
-> On 4/28/2023 5:16 PM, John Harrison wrote:
->> On 4/28/2023 17:04, Ceraolo Spurio, Daniele wrote:
->>> On 4/20/2023 6:15 PM, John.C.Harrison@Intel.com wrote:
->>>> From: John Harrison <John.C.Harrison@Intel.com>
->>>>
->>>> The validation of the firmware table was being done inside the code
->>>> for scanning the table for the next available firmware blob. Which is
->>>> unnecessary. So pull it out into a separate function that is only
->>>> called once per blob type at init time.
->>>>
->>>> Also, drop the CONFIG_SELFTEST requirement and make errors terminal.
->>>> It was mentioned that potential issues with backports would not be
->>>> caught by regular pre-merge CI as that only occurs on tip not stable
->>>> branches. Making the validation unconditional and failing driver load
->>>> on detecting of a problem ensures that such backports will also be
->>>> validated correctly.
->>>>
->>>> v2: Change to unconditionally fail module load on a validation error
->>>> (review feedback/discussion with Daniele).
->>>>
->>>> Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
->>>> ---
->>>>   drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c | 157 
->>>> +++++++++++++----------
->>>>   1 file changed, 92 insertions(+), 65 deletions(-)
->>>>
->>>> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c 
->>>> b/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
->>>> index c9cd9bb47577f..eb52e8db9ae0b 100644
->>>> --- a/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
->>>> +++ b/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
->>>> @@ -233,20 +233,22 @@ struct fw_blobs_by_type {
->>>>       u32 count;
->>>>   };
->>>>   +static const struct uc_fw_platform_requirement blobs_guc[] = {
->>>> +    INTEL_GUC_FIRMWARE_DEFS(MAKE_FW_LIST, GUC_FW_BLOB, 
->>>> GUC_FW_BLOB_MMP)
->>>> +};
->>>> +
->>>> +static const struct uc_fw_platform_requirement blobs_huc[] = {
->>>> +    INTEL_HUC_FIRMWARE_DEFS(MAKE_FW_LIST, HUC_FW_BLOB, 
->>>> HUC_FW_BLOB_MMP, HUC_FW_BLOB_GSC)
->>>> +};
->>>> +
->>>> +static const struct fw_blobs_by_type 
->>>> blobs_all[INTEL_UC_FW_NUM_TYPES] = {
->>>> +    [INTEL_UC_FW_TYPE_GUC] = { blobs_guc, ARRAY_SIZE(blobs_guc) },
->>>> +    [INTEL_UC_FW_TYPE_HUC] = { blobs_huc, ARRAY_SIZE(blobs_huc) },
->>>> +};
->>>> +
->>>>   static void
->>>>   __uc_fw_auto_select(struct drm_i915_private *i915, struct 
->>>> intel_uc_fw *uc_fw)
->>>>   {
->>>> -    static const struct uc_fw_platform_requirement blobs_guc[] = {
->>>> -        INTEL_GUC_FIRMWARE_DEFS(MAKE_FW_LIST, GUC_FW_BLOB, 
->>>> GUC_FW_BLOB_MMP)
->>>> -    };
->>>> -    static const struct uc_fw_platform_requirement blobs_huc[] = {
->>>> -        INTEL_HUC_FIRMWARE_DEFS(MAKE_FW_LIST, HUC_FW_BLOB, 
->>>> HUC_FW_BLOB_MMP, HUC_FW_BLOB_GSC)
->>>> -    };
->>>> -    static const struct fw_blobs_by_type 
->>>> blobs_all[INTEL_UC_FW_NUM_TYPES] = {
->>>> -        [INTEL_UC_FW_TYPE_GUC] = { blobs_guc, 
->>>> ARRAY_SIZE(blobs_guc) },
->>>> -        [INTEL_UC_FW_TYPE_HUC] = { blobs_huc, 
->>>> ARRAY_SIZE(blobs_huc) },
->>>> -    };
->>>> -    static bool verified[INTEL_UC_FW_NUM_TYPES];
->>>>       const struct uc_fw_platform_requirement *fw_blobs;
->>>>       enum intel_platform p = INTEL_INFO(i915)->platform;
->>>>       u32 fw_count;
->>>> @@ -286,6 +288,11 @@ __uc_fw_auto_select(struct drm_i915_private 
->>>> *i915, struct intel_uc_fw *uc_fw)
->>>>               continue;
->>>>             if (uc_fw->file_selected.path) {
->>>> +            /*
->>>> +             * Continuing an earlier search after a found blob 
->>>> failed to load.
->>>> +             * Once the previously chosen path has been found, 
->>>> clear it out
->>>> +             * and let the search continue from there.
->>>> +             */
->>>>               if (uc_fw->file_selected.path == blob->path)
->>>>                   uc_fw->file_selected.path = NULL;
->>>>   @@ -306,76 +313,91 @@ __uc_fw_auto_select(struct drm_i915_private 
->>>> *i915, struct intel_uc_fw *uc_fw)
->>>>           /* Failed to find a match for the last attempt?! */
->>>>           uc_fw->file_selected.path = NULL;
->>>>       }
->>>> +}
->>>>   -    /* make sure the list is ordered as expected */
->>>> -    if (IS_ENABLED(CONFIG_DRM_I915_SELFTEST) && 
->>>> !verified[uc_fw->type]) {
->>>> -        verified[uc_fw->type] = true;
->>>> +static bool validate_fw_table_type(struct drm_i915_private *i915, 
->>>> enum intel_uc_fw_type type)
->>>> +{
->>>> +    const struct uc_fw_platform_requirement *fw_blobs;
->>>> +    u32 fw_count;
->>>> +    int i;
->>>>   -        for (i = 1; i < fw_count; i++) {
->>>> -            /* Next platform is good: */
->>>> -            if (fw_blobs[i].p < fw_blobs[i - 1].p)
->>>> -                continue;
->>>> +    if (type >= ARRAY_SIZE(blobs_all)) {
->>>> +        drm_err(&i915->drm, "No blob array for %s\n", 
->>>> intel_uc_fw_type_repr(type));
->>>> +        return false;
->>>> +    }
->>>>   -            /* Next platform revision is good: */
->>>> -            if (fw_blobs[i].p == fw_blobs[i - 1].p &&
->>>> -                fw_blobs[i].rev < fw_blobs[i - 1].rev)
->>>> -                continue;
->>>> +    fw_blobs = blobs_all[type].blobs;
->>>> +    fw_count = blobs_all[type].count;
->>>>   -            /* Platform/revision must be in order: */
->>>> -            if (fw_blobs[i].p != fw_blobs[i - 1].p ||
->>>> -                fw_blobs[i].rev != fw_blobs[i - 1].rev)
->>>> -                goto bad;
->>>> +    if (!fw_count)
->>>> +        return true;
->>>>   -            /* Next major version is good: */
->>>> -            if (fw_blobs[i].blob.major < fw_blobs[i - 1].blob.major)
->>>> -                continue;
->>>> +    /* make sure the list is ordered as expected */
->>>> +    for (i = 1; i < fw_count; i++) {
->>>> +        /* Next platform is good: */
->>>> +        if (fw_blobs[i].p < fw_blobs[i - 1].p)
->>>> +            continue;
->>>>   -            /* New must be before legacy: */
->>>> -            if (!fw_blobs[i].blob.legacy && fw_blobs[i - 
->>>> 1].blob.legacy)
->>>> -                goto bad;
->>>> +        /* Next platform revision is good: */
->>>> +        if (fw_blobs[i].p == fw_blobs[i - 1].p &&
->>>> +            fw_blobs[i].rev < fw_blobs[i - 1].rev)
->>>> +            continue;
->>>>   -            /* New to legacy also means 0.0 to X.Y (HuC), or X.0 
->>>> to X.Y (GuC) */
->>>> -            if (fw_blobs[i].blob.legacy && !fw_blobs[i - 
->>>> 1].blob.legacy) {
->>>> -                if (!fw_blobs[i - 1].blob.major)
->>>> -                    continue;
->>>> +        /* Platform/revision must be in order: */
->>>> +        if (fw_blobs[i].p != fw_blobs[i - 1].p ||
->>>> +            fw_blobs[i].rev != fw_blobs[i - 1].rev)
->>>> +            goto bad;
->>>>   -                if (fw_blobs[i].blob.major == fw_blobs[i - 
->>>> 1].blob.major)
->>>> -                    continue;
->>>> -            }
->>>> +        /* Next major version is good: */
->>>> +        if (fw_blobs[i].blob.major < fw_blobs[i - 1].blob.major)
->>>> +            continue;
->>>>   -            /* Major versions must be in order: */
->>>> -            if (fw_blobs[i].blob.major != fw_blobs[i - 1].blob.major)
->>>> -                goto bad;
->>>> +        /* New must be before legacy: */
->>>> +        if (!fw_blobs[i].blob.legacy && fw_blobs[i - 1].blob.legacy)
->>>> +            goto bad;
->>>>   -            /* Next minor version is good: */
->>>> -            if (fw_blobs[i].blob.minor < fw_blobs[i - 1].blob.minor)
->>>> +        /* New to legacy also means 0.0 to X.Y (HuC), or X.0 to 
->>>> X.Y (GuC) */
->>>> +        if (fw_blobs[i].blob.legacy && !fw_blobs[i - 
->>>> 1].blob.legacy) {
->>>> +            if (!fw_blobs[i - 1].blob.major)
->>>>                   continue;
->>>>   -            /* Minor versions must be in order: */
->>>> -            if (fw_blobs[i].blob.minor != fw_blobs[i - 1].blob.minor)
->>>> -                goto bad;
->>>> -
->>>> -            /* Patch versions must be in order: */
->>>> -            if (fw_blobs[i].blob.patch <= fw_blobs[i - 1].blob.patch)
->>>> +            if (fw_blobs[i].blob.major == fw_blobs[i - 1].blob.major)
->>>>                   continue;
->>>> +        }
->>>> +
->>>> +        /* Major versions must be in order: */
->>>> +        if (fw_blobs[i].blob.major != fw_blobs[i - 1].blob.major)
->>>> +            goto bad;
->>>> +
->>>> +        /* Next minor version is good: */
->>>> +        if (fw_blobs[i].blob.minor < fw_blobs[i - 1].blob.minor)
->>>> +            continue;
->>>> +
->>>> +        /* Minor versions must be in order: */
->>>> +        if (fw_blobs[i].blob.minor != fw_blobs[i - 1].blob.minor)
->>>> +            goto bad;
->>>> +
->>>> +        /* Patch versions must be in order: */
->>>> +        if (fw_blobs[i].blob.patch <= fw_blobs[i - 1].blob.patch)
->>>> +            continue;
->>>>     bad:
->>>> -            drm_err(&i915->drm, "Invalid %s blob order: %s r%u 
->>>> %s%d.%d.%d comes before %s r%u %s%d.%d.%d\n",
->>>> -                intel_uc_fw_type_repr(uc_fw->type),
->>>> -                intel_platform_name(fw_blobs[i - 1].p), fw_blobs[i 
->>>> - 1].rev,
->>>> -                fw_blobs[i - 1].blob.legacy ? "L" : "v",
->>>> -                fw_blobs[i - 1].blob.major,
->>>> -                fw_blobs[i - 1].blob.minor,
->>>> -                fw_blobs[i - 1].blob.patch,
->>>> -                intel_platform_name(fw_blobs[i].p), fw_blobs[i].rev,
->>>> -                fw_blobs[i].blob.legacy ? "L" : "v",
->>>> -                fw_blobs[i].blob.major,
->>>> -                fw_blobs[i].blob.minor,
->>>> -                fw_blobs[i].blob.patch);
->>>> -
->>>> -            uc_fw->file_selected.path = NULL;
->>>> -        }
->>>> +        drm_err(&i915->drm, "Invalid %s blob order: %s r%u 
->>>> %s%d.%d.%d comes before %s r%u %s%d.%d.%d\n",
->>>> +            intel_uc_fw_type_repr(type),
->>>> +            intel_platform_name(fw_blobs[i - 1].p), fw_blobs[i - 
->>>> 1].rev,
->>>> +            fw_blobs[i - 1].blob.legacy ? "L" : "v",
->>>> +            fw_blobs[i - 1].blob.major,
->>>> +            fw_blobs[i - 1].blob.minor,
->>>> +            fw_blobs[i - 1].blob.patch,
->>>> +            intel_platform_name(fw_blobs[i].p), fw_blobs[i].rev,
->>>> +            fw_blobs[i].blob.legacy ? "L" : "v",
->>>> +            fw_blobs[i].blob.major,
->>>> +            fw_blobs[i].blob.minor,
->>>> +            fw_blobs[i].blob.patch);
->>>> +        return false;
->>>>       }
->>>> +
->>>> +    return true;
->>>>   }
->>>>     static const char *__override_guc_firmware_path(struct 
->>>> drm_i915_private *i915)
->>>> @@ -443,6 +465,11 @@ void intel_uc_fw_init_early(struct intel_uc_fw 
->>>> *uc_fw,
->>>>       uc_fw->type = type;
->>>>         if (HAS_GT_UC(i915)) {
->>>> +        if (!validate_fw_table_type(i915, type)) {
->>>> +            intel_uc_fw_change_status(uc_fw, 
->>>> INTEL_UC_FIRMWARE_ERROR);
->>>
->>> In our hierarchy of firmware statuses, INTEL_UC_FIRMWARE_ERROR 
->>> includes the fact that the fw has been selected, which in turns 
->>> implies that file_selected.path is valid. this means that even with 
->>> enable_guc=0 the wants/uses_guc macro might end up returning true, 
->>> which is not something we want.
->>>
->>> Daniele
->> Suggestions for a better plan? Add an another status enum? Nothing 
->> earlier in the sequence seems appropriate. And the init_early stack 
->> does not support returning error codes.
->
-> I think the question here is: what are you expecting to happen in case 
-> of error and on what platforms? let's say we have an invalid table 
-> entry for ADLP, would the expectation be that all GuC platforms won't 
-> boot, or just ADLP? And is that only if we have enable_guc set to a 
-> positive value, or even if enable_guc=0?
-The intention is to totally break driver load on any table error.
+On 29/04/2023 02:45, Kuogee Hsieh wrote:
+> Add support for DSC 1.2 by providing the necessary hooks to program
+> the DPU DSC 1.2 encoder.
+> 
+> Reported-by: kernel test robot <lkp@intel.com>
 
-The reason being that someone is back porting a firmware update to ADL-P 
-but breaks DG2 in the process. However, the are only intending to change 
-ADL-P and so don't test on DG2. They therefore don't realise that the 
-driver is now broken for someone else. Whereas, if we make any table 
-error a fatal load failure irrespective of tested platform, enable_guc 
-or other module params, etc. then it is guaranteed to be caught no 
-matter what platform they test on.
+What exactly was reported?
 
-John.
+> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
+> ---
+>   drivers/gpu/drm/msm/Makefile                   |   1 +
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h |  34 ++-
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.h     |  14 +-
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc_1_2.c | 335 +++++++++++++++++++++++++
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c         |   7 +-
+>   5 files changed, 387 insertions(+), 4 deletions(-)
+>   create mode 100644 drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc_1_2.c
+> 
+> diff --git a/drivers/gpu/drm/msm/Makefile b/drivers/gpu/drm/msm/Makefile
+> index b814fc8..b9af5e4 100644
+> --- a/drivers/gpu/drm/msm/Makefile
+> +++ b/drivers/gpu/drm/msm/Makefile
+> @@ -65,6 +65,7 @@ msm-$(CONFIG_DRM_MSM_DPU) += \
+>   	disp/dpu1/dpu_hw_catalog.o \
+>   	disp/dpu1/dpu_hw_ctl.o \
+>   	disp/dpu1/dpu_hw_dsc.o \
+> +	disp/dpu1/dpu_hw_dsc_1_2.o \
+>   	disp/dpu1/dpu_hw_interrupts.o \
+>   	disp/dpu1/dpu_hw_intf.o \
+>   	disp/dpu1/dpu_hw_lm.o \
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+> index 71584cd..fc87db1 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+> @@ -1,6 +1,6 @@
+>   /* SPDX-License-Identifier: GPL-2.0-only */
+>   /*
+> - * Copyright (c) 2022. Qualcomm Innovation Center, Inc. All rights reserved.
+> + * Copyright (c) 2022-2023, Qualcomm Innovation Center, Inc. All rights reserved.
+>    * Copyright (c) 2015-2018, 2020 The Linux Foundation. All rights reserved.
+>    */
+>   
+> @@ -241,12 +241,20 @@ enum {
+>   };
+>   
+>   /**
+> - * DSC features
+> + * DSC sub-blocks/features
+>    * @DPU_DSC_OUTPUT_CTRL       Configure which PINGPONG block gets
+>    *                            the pixel output from this DSC.
+> + * @DPU_DSC_HW_REV_1_1        DSC block supports dsc 1.1 only
+> + * @DPU_DSC_HW_REV_1_2        DSC block supports dsc 1.1 and 1.2
+> + * @DPU_DSC_NATIVE_422_EN     Supports native422 and native420 encoding
+> + * @DPU_DSC_MAX
+>    */
+>   enum {
+>   	DPU_DSC_OUTPUT_CTRL = 0x1,
+> +	DPU_DSC_HW_REV_1_1,
+> +	DPU_DSC_HW_REV_1_2,
+> +	DPU_DSC_NATIVE_422_EN,
+> +	DPU_DSC_MAX
+>   };
+>   
+>   /**
+> @@ -311,6 +319,14 @@ struct dpu_pp_blk {
+>   };
+>   
+>   /**
+> + * struct dpu_dsc_blk - DSC Encoder sub-blk information
+> + * @info:   HW register and features supported by this sub-blk
+> + */
+> +struct dpu_dsc_blk {
+> +	DPU_HW_SUBBLK_INFO;
+> +};
+> +
+> +/**
+>    * enum dpu_qos_lut_usage - define QoS LUT use cases
+>    */
+>   enum dpu_qos_lut_usage {
+> @@ -459,6 +475,17 @@ struct dpu_pingpong_sub_blks {
+>   };
+>   
+>   /**
+> + * struct dpu_dsc_sub_blks - DSC sub-blks
+> + * @enc: DSC encoder sub block
+> + * @ctl: DSC controller sub block
+> + *
+> + */
+> +struct dpu_dsc_sub_blks {
+> +	struct dpu_dsc_blk enc;
+> +	struct dpu_dsc_blk ctl;
+> +};
+> +
+> +/**
+>    * dpu_clk_ctrl_type - Defines top level clock control signals
+>    */
+>   enum dpu_clk_ctrl_type {
+> @@ -612,10 +639,13 @@ struct dpu_merge_3d_cfg  {
+>    * struct dpu_dsc_cfg - information of DSC blocks
+>    * @id                 enum identifying this block
+>    * @base               register offset of this block
+> + * @len:               length of hardware block
+>    * @features           bit mask identifying sub-blocks/features
+> + * @sblk               sub-blocks information
+>    */
+>   struct dpu_dsc_cfg {
+>   	DPU_HW_BLK_INFO;
+> +	const struct dpu_dsc_sub_blks *sblk;
+>   };
+>   
+>   /**
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.h
+> index 287ec5f..e11240a 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.h
+> @@ -1,5 +1,8 @@
+>   /* SPDX-License-Identifier: GPL-2.0-only */
+> -/* Copyright (c) 2020-2022, Linaro Limited */
+> +/*
+> + * Copyright (c) 2020-2022, Linaro Limited
+> + * Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved
+> + */
+>   
+>   #ifndef _DPU_HW_DSC_H
+>   #define _DPU_HW_DSC_H
+> @@ -70,6 +73,15 @@ struct dpu_hw_dsc *dpu_hw_dsc_init(const struct dpu_dsc_cfg *cfg,
+>   		void __iomem *addr);
+>   
+>   /**
+> + * dpu_hw_dsc_init_1_2 - initializes the v1.2 DSC hw driver block
+> + * @cfg:  DSC catalog entry for which driver object is required
+> + * @addr: Mapped register io address of MDP
+> + * Returns: Error code or allocated dpu_hw_dsc context
+> + */
+> +struct dpu_hw_dsc *dpu_hw_dsc_init_1_2(const struct dpu_dsc_cfg *cfg,
+> +		void __iomem *addr);
+> +
+> +/**
+>    * dpu_hw_dsc_destroy - destroys dsc driver context
+>    * @dsc:   Pointer to dsc driver context returned by dpu_hw_dsc_init
+>    */
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc_1_2.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc_1_2.c
+> new file mode 100644
+> index 00000000..a777c7b
+> --- /dev/null
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc_1_2.c
+> @@ -0,0 +1,335 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * Copyright (c) 2020-2021, The Linux Foundation. All rights reserved.
+> + * Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved
+> + */
+> +
+> +#include <drm/display/drm_dsc_helper.h>
+> +
+> +#include "dpu_kms.h"
+> +#include "dpu_hw_catalog.h"
+> +#include "dpu_hwio.h"
+> +#include "dpu_hw_mdss.h"
+> +#include "dpu_hw_dsc.h"
+> +
+> +
 
->
-> Daniele
->
->>
->> John.
->>
->>
->>>
->>>> +            return;
->>>> +        }
->>>> +
->>>>           __uc_fw_auto_select(i915, uc_fw);
->>>>           __uc_fw_user_override(i915, uc_fw);
->>>>       }
->>>
->>
->
+Unused empty line
+
+> +#define DSC_CMN_MAIN_CNF           0x00
+> +
+> +/* DPU_DSC_ENC register offsets */
+> +#define ENC_DF_CTRL                0x00
+> +#define ENC_GENERAL_STATUS         0x04
+> +#define ENC_HSLICE_STATUS          0x08
+> +#define ENC_OUT_STATUS             0x0C
+> +#define ENC_INT_STAT               0x10
+> +#define ENC_INT_CLR                0x14
+> +#define ENC_INT_MASK               0x18
+> +#define DSC_MAIN_CONF              0x30
+> +#define DSC_PICTURE_SIZE           0x34
+> +#define DSC_SLICE_SIZE             0x38
+> +#define DSC_MISC_SIZE              0x3C
+> +#define DSC_HRD_DELAYS             0x40
+> +#define DSC_RC_SCALE               0x44
+> +#define DSC_RC_SCALE_INC_DEC       0x48
+> +#define DSC_RC_OFFSETS_1           0x4C
+> +#define DSC_RC_OFFSETS_2           0x50
+> +#define DSC_RC_OFFSETS_3           0x54
+> +#define DSC_RC_OFFSETS_4           0x58
+> +#define DSC_FLATNESS_QP            0x5C
+> +#define DSC_RC_MODEL_SIZE          0x60
+> +#define DSC_RC_CONFIG              0x64
+> +#define DSC_RC_BUF_THRESH_0        0x68
+> +#define DSC_RC_MIN_QP_0            0x78
+> +#define DSC_RC_MAX_QP_0            0x84
+> +#define DSC_RC_RANGE_BPG_OFFSETS_0 0x90
+> +
+> +/* DPU_DSC_CTL register offsets */
+> +#define DSC_CTL                    0x00
+> +#define DSC_CFG                    0x04
+> +#define DSC_DATA_IN_SWAP           0x08
+> +#define DSC_CLK_CTRL               0x0C
+> +
+> +static inline int _dsc_calc_ob_max_addr(struct dpu_hw_dsc *hw_dsc, int num_ss, bool native_422)
+> +{
+> +	int max_addr = 2400 / num_ss;
+> +
+> +	if ((hw_dsc->caps->features & BIT(DPU_DSC_NATIVE_422_EN)) && native_422)
+> +		max_addr /= 2;
+> +
+> +	return max_addr - 1;
+> +};
+> +
+> +static void dpu_hw_dsc_disable_1_2(struct dpu_hw_dsc *hw_dsc)
+> +{
+> +	struct dpu_hw_blk_reg_map *hw;
+> +	u32 offset;
+> +
+> +	if (!hw_dsc)
+> +		return;
+> +
+> +	hw = &hw_dsc->hw;
+> +	offset = hw_dsc->caps->sblk->ctl.base;
+> +	DPU_REG_WRITE(hw, offset + DSC_CFG, 0);
+> +
+> +	offset = hw_dsc->caps->sblk->enc.base;
+> +	DPU_REG_WRITE(hw, offset + ENC_DF_CTRL, 0);
+> +	DPU_REG_WRITE(hw, offset + DSC_MAIN_CONF, 0);
+> +}
+> +
+> +static void dpu_hw_dsc_config_1_2(struct dpu_hw_dsc *hw_dsc,
+> +			      struct drm_dsc_config *dsc,
+> +			      u32 mode,
+> +			      u32 initial_lines)
+> +{
+> +	struct dpu_hw_blk_reg_map *hw;
+> +	u32 offset;
+> +	u32 data = 0;
+> +	u32 det_thresh_flatness;
+> +	u32 num_active_ss_per_enc;
+> +	u32 bpp;
+> +
+> +	if (!hw_dsc || !dsc)
+> +		return;
+> +
+> +	hw = &hw_dsc->hw;
+> +
+> +	offset = hw_dsc->caps->sblk->enc.base;
+> +
+> +	if (mode & DSC_MODE_SPLIT_PANEL)
+> +		data |= BIT(0);
+> +
+> +	if (mode & DSC_MODE_MULTIPLEX)
+> +		data |= BIT(1);
+> +
+> +	num_active_ss_per_enc = dsc->slice_count;
+> +	if (mode & DSC_MODE_MULTIPLEX)
+> +		num_active_ss_per_enc = dsc->slice_count >> 1;
+> +
+> +	data |= (num_active_ss_per_enc & 0x3) << 7;
+> +
+> +	DPU_REG_WRITE(hw, DSC_CMN_MAIN_CNF, data);
+> +
+> +	data = (initial_lines & 0xff);
+> +
+> +	if (mode & DSC_MODE_VIDEO)
+> +		data |= BIT(9);
+> +
+> +	data |= (_dsc_calc_ob_max_addr(hw_dsc, num_active_ss_per_enc, dsc->native_422) << 18);
+> +
+> +	DPU_REG_WRITE(hw, offset + ENC_DF_CTRL, data);
+> +
+> +	data = (dsc->dsc_version_minor & 0xf) << 28;
+> +	if (dsc->dsc_version_minor == 0x2) {
+> +		if (dsc->native_422)
+> +			data |= BIT(22);
+> +		if (dsc->native_420)
+> +			data |= BIT(21);
+> +	}
+> +
+> +	bpp = dsc->bits_per_pixel;
+> +	/* as per hw requirement bpp should be programmed
+> +	 * twice the actual value in case of 420 or 422 encoding
+> +	 */
+> +	if (dsc->native_422 || dsc->native_420)
+> +		bpp = 2 * bpp;
+> +	data |= (dsc->block_pred_enable ? 1 : 0) << 20;
+> +	data |= bpp << 10;
+> +	data |= (dsc->line_buf_depth & 0xf) << 6;
+> +	data |= dsc->convert_rgb << 4;
+> +	data |= dsc->bits_per_component & 0xf;
+> +
+> +	DPU_REG_WRITE(hw, offset + DSC_MAIN_CONF, data);
+> +
+> +	data = (dsc->pic_width & 0xffff) |
+> +		((dsc->pic_height & 0xffff) << 16);
+> +
+> +	DPU_REG_WRITE(hw, offset + DSC_PICTURE_SIZE, data);
+> +
+> +	data = (dsc->slice_width & 0xffff) |
+> +		((dsc->slice_height & 0xffff) << 16);
+> +
+> +	DPU_REG_WRITE(hw, offset + DSC_SLICE_SIZE, data);
+> +
+> +	DPU_REG_WRITE(hw, offset + DSC_MISC_SIZE,
+> +			(dsc->slice_chunk_size) & 0xffff);
+> +
+> +	data = (dsc->initial_xmit_delay & 0xffff) |
+> +		((dsc->initial_dec_delay & 0xffff) << 16);
+> +
+> +	DPU_REG_WRITE(hw, offset + DSC_HRD_DELAYS, data);
+> +
+> +	DPU_REG_WRITE(hw, offset + DSC_RC_SCALE,
+> +			dsc->initial_scale_value & 0x3f);
+> +
+> +	data = (dsc->scale_increment_interval & 0xffff) |
+> +		((dsc->scale_decrement_interval & 0x7ff) << 16);
+> +
+> +	DPU_REG_WRITE(hw, offset + DSC_RC_SCALE_INC_DEC, data);
+> +
+> +	data = (dsc->first_line_bpg_offset & 0x1f) |
+> +		((dsc->second_line_bpg_offset & 0x1f) << 5);
+> +
+> +	DPU_REG_WRITE(hw, offset + DSC_RC_OFFSETS_1, data);
+> +
+> +	data = (dsc->nfl_bpg_offset & 0xffff) |
+> +		((dsc->slice_bpg_offset & 0xffff) << 16);
+> +
+> +	DPU_REG_WRITE(hw, offset + DSC_RC_OFFSETS_2, data);
+> +
+> +	data = (dsc->initial_offset & 0xffff) |
+> +		((dsc->final_offset & 0xffff) << 16);
+> +
+> +	DPU_REG_WRITE(hw, offset + DSC_RC_OFFSETS_3, data);
+> +
+> +	data = (dsc->nsl_bpg_offset & 0xffff) |
+> +		((dsc->second_line_offset_adj & 0xffff) << 16);
+> +
+> +	DPU_REG_WRITE(hw, offset + DSC_RC_OFFSETS_4, data);
+> +
+> +	data = (dsc->flatness_min_qp & 0x1f);
+> +	data |= (dsc->flatness_max_qp & 0x1f) << 5;
+> +
+> +	det_thresh_flatness = drm_dsc_calculate_flatness_det_thresh(dsc);
+> +	data |= (det_thresh_flatness & 0xff) << 10;
+> +
+> +	DPU_REG_WRITE(hw, offset + DSC_FLATNESS_QP, data);
+> +
+> +	DPU_REG_WRITE(hw, offset + DSC_RC_MODEL_SIZE,
+> +			(dsc->rc_model_size) & 0xffff);
+> +
+> +	data = dsc->rc_edge_factor & 0xf;
+> +	data |= (dsc->rc_quant_incr_limit0 & 0x1f) << 8;
+> +	data |= (dsc->rc_quant_incr_limit1 & 0x1f) << 13;
+> +	data |= (dsc->rc_tgt_offset_high & 0xf) << 20;
+> +	data |= (dsc->rc_tgt_offset_low & 0xf) << 24;
+> +
+> +	DPU_REG_WRITE(hw, offset + DSC_RC_CONFIG, data);
+> +
+> +	/* program the dsc wrapper */
+> +	offset = hw_dsc->caps->sblk->ctl.base;
+> +
+> +	data = BIT(0); /* encoder enable */
+> +	if (dsc->native_422)
+> +		data |= BIT(8);
+> +	else if (dsc->native_420)
+> +		data |= BIT(9);
+> +	if (!dsc->convert_rgb)
+> +		data |= BIT(10);
+> +	if (dsc->bits_per_component == 8)
+> +		data |= BIT(11);
+> +	if (mode & DSC_MODE_SPLIT_PANEL)
+> +		data |= BIT(12);
+> +	if (mode & DSC_MODE_MULTIPLEX)
+> +		data |= BIT(13);
+> +	if (!(mode & DSC_MODE_VIDEO))
+> +		data |= BIT(17);
+> +
+> +	DPU_REG_WRITE(hw, offset + DSC_CFG, data);
+> +}
+> +
+> +static void dpu_hw_dsc_config_thresh_1_2(struct dpu_hw_dsc *hw_dsc,
+> +					struct drm_dsc_config *dsc)
+> +{
+> +	struct dpu_hw_blk_reg_map *hw;
+> +	u32 offset, off;
+> +	int i, j = 0;
+> +	struct drm_dsc_rc_range_parameters *rc;
+> +	u32 data = 0, min_qp = 0, max_qp = 0, bpg_off = 0;
+> +
+> +	if (!hw_dsc || !dsc)
+> +		return;
+> +
+> +	offset = hw_dsc->caps->sblk->enc.base;
+> +
+> +	hw = &hw_dsc->hw;
+> +
+> +	rc = dsc->rc_range_params;
+> +
+> +	/*
+> +	 * With BUF_THRESH -- 14 in total
+> +	 * each register contains 4 thresh values with the last register
+> +	 * containing only 2 thresh values
+> +	 */
+> +	off = 0;
+> +	for (i = 0; i < DSC_NUM_BUF_RANGES - 1; i++) {
+> +		data |= dsc->rc_buf_thresh[i] << (8 * j);
+> +		j++;
+> +		if ((j == 4) || (i == DSC_NUM_BUF_RANGES - 2)) {
+> +			DPU_REG_WRITE(hw, offset + DSC_RC_BUF_THRESH_0 + off, data);
+> +			off += 4;
+> +			j = 0;
+> +			data = 0;
+> +		}
+> +	}
+
+This is barely understandable code. The following line is much better:
+
+DPU_REG_WRITE(hw, offset + DSC_RC_BUF_THRESH_0,
+     (dsc->rc_buf_thresh[0] << 0) |
+     (dsc->rc_buf_thresh[1] << 8) |
+     (dsc->rc_buf_thresh[2] << 16) |
+     (dsc->rc_buf_thresh[3] << 24));
+
+etc.
+
+Please unroll both loops.
+
+> +
+> +
+> +	/*
+> +	 * with min/max_QP -- 5 bits each
+> +	 * each register contains 5 min_qp or max_qp for total of 15
+> +	 *
+> +	 * With BPG_OFFSET -- 6 bits each
+> +	 * each register contains 5 BPG_offset for total of 15
+> +	 */
+> +	off = 0;
+> +	for (i = 0; i < DSC_NUM_BUF_RANGES; i++) {
+> +		min_qp |= rc[i].range_min_qp << (5 * j);
+> +		max_qp |= rc[i].range_max_qp << (5 * j);
+> +		bpg_off |= rc[i].range_bpg_offset << (6 * j);
+> +		j++;
+> +		if (j == 5) {
+> +			DPU_REG_WRITE(hw, offset + DSC_RC_MIN_QP_0 + off, min_qp);
+> +			DPU_REG_WRITE(hw, offset + DSC_RC_MAX_QP_0 + off, max_qp);
+> +			DPU_REG_WRITE(hw, offset + DSC_RC_RANGE_BPG_OFFSETS_0 + off, bpg_off);
+> +			off += 4;
+> +			j = 0;
+> +			min_qp = 0;
+> +			max_qp = 0;
+> +			bpg_off = 0;
+> +		}
+> +	}
+> +}
+> +
+> +static void dpu_hw_dsc_bind_pingpong_blk_1_2(
+> +		struct dpu_hw_dsc *hw_dsc,
+> +		bool enable,
+> +		const enum dpu_pingpong pp)
+> +{
+> +	struct dpu_hw_blk_reg_map *hw;
+> +	int offset;
+> +	int mux_cfg = 0xf; /* Disabled */
+> +
+> +	offset = hw_dsc->caps->sblk->ctl.base;
+> +
+> +	hw = &hw_dsc->hw;
+> +	if (enable)
+> +		mux_cfg = (pp - PINGPONG_0) & 0x7;
+> +
+> +	DPU_REG_WRITE(hw, offset + DSC_CTL, mux_cfg);
+> +}
+
+Please refactor the existing bind_pingpong_blk() semantics to accept 
+either a valid PINGPONG_n, or PINGPONG_NONE to disable the binding.
+
+> +
+> +static void _setup_dcs_ops_1_2(struct dpu_hw_dsc_ops *ops,
+> +		const unsigned long features)
+> +{
+> +	ops->dsc_disable = dpu_hw_dsc_disable_1_2;
+> +	ops->dsc_config = dpu_hw_dsc_config_1_2;
+> +	ops->dsc_config_thresh = dpu_hw_dsc_config_thresh_1_2;
+> +	ops->dsc_bind_pingpong_blk = dpu_hw_dsc_bind_pingpong_blk_1_2;
+> +}
+
+Please inline the function.
+
+> +
+> +struct dpu_hw_dsc *dpu_hw_dsc_init_1_2(const struct dpu_dsc_cfg *cfg,
+> +				   void __iomem *addr)
+> +{
+> +	struct dpu_hw_dsc *c;
+> +
+> +	c = kzalloc(sizeof(*c), GFP_KERNEL);
+> +	if (!c)
+> +		return ERR_PTR(-ENOMEM);
+> +
+> +	c->hw.blk_addr = addr + cfg->base;
+> +	c->hw.log_mask = DPU_DBG_MASK_DSC;
+> +
+> +	c->idx = cfg->id;
+> +	c->caps = cfg;
+> +	_setup_dcs_ops_1_2(&c->ops, c->caps->features);
+> +
+> +	return c;
+> +}
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
+> index 3452f88..b2f618f6 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
+> @@ -1,6 +1,7 @@
+>   // SPDX-License-Identifier: GPL-2.0-only
+>   /*
+>    * Copyright (c) 2016-2018, The Linux Foundation. All rights reserved.
+> + * Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved.
+>    */
+>   
+>   #define pr_fmt(fmt)	"[drm:%s] " fmt, __func__
+> @@ -250,7 +251,11 @@ int dpu_rm_init(struct dpu_rm *rm,
+>   		struct dpu_hw_dsc *hw;
+>   		const struct dpu_dsc_cfg *dsc = &cat->dsc[i];
+>   
+> -		hw = dpu_hw_dsc_init(dsc, mmio);
+> +		if (test_bit(DPU_DSC_HW_REV_1_2, &dsc->features))
+> +			hw = dpu_hw_dsc_init_1_2(dsc, mmio);
+> +		else
+> +			hw = dpu_hw_dsc_init(dsc, mmio);
+> +
+>   		if (IS_ERR_OR_NULL(hw)) {
+>   			rc = PTR_ERR(hw);
+>   			DPU_ERROR("failed dsc object creation: err %d\n", rc);
+
+-- 
+With best wishes
+Dmitry
 
