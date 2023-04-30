@@ -1,61 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02A386F2837
-	for <lists+dri-devel@lfdr.de>; Sun, 30 Apr 2023 11:22:35 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DF9546F2849
+	for <lists+dri-devel@lfdr.de>; Sun, 30 Apr 2023 11:22:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AF92C10E092;
-	Sun, 30 Apr 2023 09:22:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E519110E1F7;
+	Sun, 30 Apr 2023 09:22:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x235.google.com (mail-lj1-x235.google.com
- [IPv6:2a00:1450:4864:20::235])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8586B10E009
+Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com
+ [IPv6:2a00:1450:4864:20::131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A231310E092
  for <dri-devel@lists.freedesktop.org>; Sun, 30 Apr 2023 09:22:22 +0000 (UTC)
-Received: by mail-lj1-x235.google.com with SMTP id
- 38308e7fff4ca-2a8a6602171so14097911fa.0
+Received: by mail-lf1-x131.google.com with SMTP id
+ 2adb3069b0e04-4edc114c716so1902992e87.1
  for <dri-devel@lists.freedesktop.org>; Sun, 30 Apr 2023 02:22:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1682846539; x=1685438539;
+ d=linaro.org; s=google; t=1682846540; x=1685438540;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=resUwvNM45Aa//du85Xtj/QtBikvo9TML09+VNhhfII=;
- b=BzX2p8675UAOyhd0xXO4JXSNQ+Q6oadPaWJVvl/IEJCFiILBUwMR89yx4dBkpskcnK
- 4UHdU86GSoudLeZ32mTXeXnTPXUHB5UgTYt+nCB0c+Bv7p3Jn0xff3FUjr17Vsh+nV2o
- sFaz7IpV0zhgwojGVXTpsZXVLyHWmHevJiVSOpW1gK2G+1GNPaGH41qwoDIcHox49zST
- n85/llfjaBf9Oi36PgWG/Dii89VAnZwD3W2D3tBjjhXwgN3GQfyzfypXX4D+4KZBht1e
- XoGOFLG3pmmRkDZERwdIjuVI2ZxPhQShK8xAlQVGQcSJs3h8RB+J5RYJFrF1LMo0IaHe
- vVFw==
+ :reply-to; bh=Pp3PRNYbx/fsurHzrjtHyOhBV0+Rw2cfHp2A04u+CvU=;
+ b=ogQG1hefbBUDibvfB660K9VwHo/1OzVvHE9PYhoOMrc9ljBQ3pCYMW7AQs03a5VytT
+ Oo39k1OhdlbJ8mN63PexAX76k7B7o58cm359+ZnPCpx3lP1hX1OfDrTqK7AsWDdAkgiB
+ ctMqx+48GAYHEcbP5sfbbDIWdM+6j93MG48Qd7TJdJ/CXnbvQXvDfS03L0OPtOMeReHe
+ ip9H5x+po165jWyRLTpHhBLgTpeszBChgkatvewFfHh8EVXCencQPduCr2c6OY0RFwfR
+ RaoDYI3LRcfOqbM0aL1hh5bmAEoLq/6ucphw66KAEQ1Px0rNTsTS0RZc47HlH3mkJxO/
+ qYMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682846539; x=1685438539;
+ d=1e100.net; s=20221208; t=1682846540; x=1685438540;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=resUwvNM45Aa//du85Xtj/QtBikvo9TML09+VNhhfII=;
- b=Oi5AIDFE09VqR4NPnUZsdtJ78cP1LipGjF5Bs5yInlg94vIoN2lpd6iA50aEmxDV++
- ZlRQJ3n6S20HR6lBRnmYND8xJiiLXOeee85BWxeCKX7lWGZFJmg4gdozjRtfU1ThQHWK
- ec77wN0VtxQZyww+qBcY2SYp76//f0KY+M2qQaobY5Z647hQijtMiXugtEcHYgfuBqIK
- n20NCXImnNKim5uFE30HJIMwt2re52LOtftrNtxfPGneKEzCtgRpZu+qqFPi0GmJVwQB
- I4IMgZcd+4UlY/8Kz25OLPXuXIsg8rLRG67At04DEGaAmMRNnyMt2mQ/eo7nMoxhgvra
- nKHg==
-X-Gm-Message-State: AC+VfDzUEQxMqjlsWTUPjtjU3HUH2MwpphnqztLA15vm/zr18rNI89NI
- dQS0slBXnU3ic5NqxwhnF5Cjfw==
-X-Google-Smtp-Source: ACHHUZ4QG2c2JTTIGuJ93BP3KPxdYfao18zB/+rtBeQwSC4Sc9C4SOsibQ37E2evsq6hHx2vciyoDw==
-X-Received: by 2002:a2e:8e88:0:b0:2a8:d3bb:2d83 with SMTP id
- z8-20020a2e8e88000000b002a8d3bb2d83mr2960250ljk.42.1682846539211; 
- Sun, 30 Apr 2023 02:22:19 -0700 (PDT)
+ bh=Pp3PRNYbx/fsurHzrjtHyOhBV0+Rw2cfHp2A04u+CvU=;
+ b=j6O9hQpJ1XwUnmgaD5c09AJaB1GzePznfJjnRPO3D+aa/XPhnZlQT9bTfdFxaIEAhX
+ zD82TEaShiHbbQoRwA95oYN5iJ0QTswFvIqe0gBbClX8sldexefEPSXMgyqUiIBfoHtP
+ ziTnAFObB3zljV4rptfBwiSZGC8Kp013PTOXEI4y5oxFOEAmQq5Evn1xEyijDaR74qq2
+ UmkeE5KNtolkdgrvWLVoXRG2qXiu3zbBWHdXvbOLeBsX63YG2KT/pT29aB4eeMDn1atg
+ 0hd/4knolr5J78XufzIIAFk/nHnDOeWzEpaUySDJdaz7cWPWwud2yBuQplMuxDbf3cuJ
+ ZIUg==
+X-Gm-Message-State: AC+VfDzuf9sjpx3j7vwaHNTQqHC8nutqVXa1SfJbLbtG5jjWiJZIqJne
+ iipOoZUxhj6XAP/bejAX7qHNVQ==
+X-Google-Smtp-Source: ACHHUZ5qSx+bMQGVLRRHnfcdwsy1zCxobKTnDm6GAMGf84RnuSnGIlaEUsssFScThYQ8Ui2ipQzb4w==
+X-Received: by 2002:ac2:528a:0:b0:4ee:d562:5752 with SMTP id
+ q10-20020ac2528a000000b004eed5625752mr2748859lfm.27.1682846540332; 
+ Sun, 30 Apr 2023 02:22:20 -0700 (PDT)
 Received: from [127.0.1.1] ([85.235.12.238]) by smtp.gmail.com with ESMTPSA id
- o2-20020a05651238a200b004ec62d9a7f9sm4077327lft.62.2023.04.30.02.22.18
+ o2-20020a05651238a200b004ec62d9a7f9sm4077327lft.62.2023.04.30.02.22.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 30 Apr 2023 02:22:18 -0700 (PDT)
+ Sun, 30 Apr 2023 02:22:19 -0700 (PDT)
 From: Linus Walleij <linus.walleij@linaro.org>
-Date: Sun, 30 Apr 2023 11:22:16 +0200
-Subject: [PATCH 1/4] Input/ARM: ads7846: Get pendown IRQ from descriptors
+Date: Sun, 30 Apr 2023 11:22:17 +0200
+Subject: [PATCH 2/4] fbdev/ARM: Fix up LCD MIPID GPIO usage
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230430-nokia770-regression-v1-1-97704e36b094@linaro.org>
+Message-Id: <20230430-nokia770-regression-v1-2-97704e36b094@linaro.org>
 References: <20230430-nokia770-regression-v1-0-97704e36b094@linaro.org>
 In-Reply-To: <20230430-nokia770-regression-v1-0-97704e36b094@linaro.org>
 To: Aaro Koskinen <aaro.koskinen@iki.fi>, 
@@ -90,216 +90,123 @@ Cc: linux-fbdev@vger.kernel.org, linux-mips@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The ADS7846 has some limited support for using GPIO descriptors,
-let's convert it over completely and fix all users to provide
-GPIOs in descriptor tables.
+The Nokia 770 is using GPIOs from the global numberspace to pass
+down to the LCD controller. This regresses when we let the OMAP
+GPIO driver use dynamic GPIO base.
 
-The Nokia 770 now has dynamic allocation of IRQ numbers, so this
-needs to be fixed for it to work.
+As this is the only user of LCD MIPID we can easily augment the
+driver to use a GPIO descriptor instead and resolve the issue.
+
+The platform data .shutdown() callback wasn't even used in the
+code, but we encode a shutdown asserting RESET in the remove()
+callback for completeness sake.
 
 Fixes: 92bf78b33b0b ("gpio: omap: use dynamic allocation of base")
 Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
 ---
- arch/arm/mach-omap1/board-nokia770.c | 12 +++++++++++-
- arch/arm/mach-pxa/spitz.c            | 11 ++++++++++-
- arch/mips/alchemy/devboards/db1000.c | 11 ++++++++++-
- drivers/input/touchscreen/ads7846.c  | 32 ++++++++------------------------
- include/linux/spi/ads7846.h          |  2 --
- 5 files changed, 39 insertions(+), 29 deletions(-)
+ arch/arm/mach-omap1/board-nokia770.c    | 23 ++++++++++-------------
+ drivers/video/fbdev/omap/lcd_mipid.c    | 10 ++++++++++
+ include/linux/platform_data/lcd-mipid.h |  2 --
+ 3 files changed, 20 insertions(+), 15 deletions(-)
 
 diff --git a/arch/arm/mach-omap1/board-nokia770.c b/arch/arm/mach-omap1/board-nokia770.c
-index a501a473ffd6..eb7652670447 100644
+index eb7652670447..509afcd42823 100644
 --- a/arch/arm/mach-omap1/board-nokia770.c
 +++ b/arch/arm/mach-omap1/board-nokia770.c
-@@ -118,7 +118,16 @@ static struct ads7846_platform_data nokia770_ads7846_platform_data __initdata =
- 	.debounce_max	= 10,
- 	.debounce_tol	= 3,
- 	.debounce_rep	= 1,
--	.gpio_pendown	= ADS7846_PENDOWN_GPIO,
-+};
-+
-+static struct gpiod_lookup_table nokia770_ads7846_gpio_table = {
-+	/* SPI bus 2, device with chip select 0 */
-+	.dev_id = "spi2.0",
+@@ -85,26 +85,23 @@ static struct platform_device *nokia770_devices[] __initdata = {
+ 	&nokia770_kp_device,
+ };
+ 
+-static void mipid_shutdown(struct mipid_platform_data *pdata)
+-{
+-	if (pdata->nreset_gpio != -1) {
+-		printk(KERN_INFO "shutdown LCD\n");
+-		gpio_set_value(pdata->nreset_gpio, 0);
+-		msleep(120);
+-	}
+-}
+-
+-static struct mipid_platform_data nokia770_mipid_platform_data = {
+-	.shutdown = mipid_shutdown,
+-};
++static struct mipid_platform_data nokia770_mipid_platform_data = { };
+ 
+ static const struct omap_lcd_config nokia770_lcd_config __initconst = {
+ 	.ctrl_name	= "hwa742",
+ };
+ 
++static struct gpiod_lookup_table nokia770_lcd_gpio_table = {
++	.dev_id = "lcd_mipid",
 +	.table = {
-+		GPIO_LOOKUP("gpio-0-15", ADS7846_PENDOWN_GPIO,
-+			    "pendown", GPIO_ACTIVE_HIGH),
++		GPIO_LOOKUP("gpio-0-15", 13, "reset", GPIO_ACTIVE_LOW),
 +		{ }
 +	},
- };
- 
- static struct spi_board_info nokia770_spi_board_info[] __initdata = {
-@@ -274,6 +283,7 @@ static void __init omap_nokia770_init(void)
- 	omap_writew((omap_readw(0xfffb5004) & ~2), 0xfffb5004);
- 
- 	platform_add_devices(nokia770_devices, ARRAY_SIZE(nokia770_devices));
-+	gpiod_add_lookup_table(&nokia770_ads7846_gpio_table);
- 	nokia770_spi_board_info[1].irq = gpio_to_irq(15);
- 	spi_register_board_info(nokia770_spi_board_info,
- 				ARRAY_SIZE(nokia770_spi_board_info));
-diff --git a/arch/arm/mach-pxa/spitz.c b/arch/arm/mach-pxa/spitz.c
-index 26f0ebc4d136..4d2a72804495 100644
---- a/arch/arm/mach-pxa/spitz.c
-+++ b/arch/arm/mach-pxa/spitz.c
-@@ -505,10 +505,18 @@ static struct ads7846_platform_data spitz_ads7846_info = {
- 	.x_plate_ohms		= 419,
- 	.y_plate_ohms		= 486,
- 	.pressure_max		= 1024,
--	.gpio_pendown		= SPITZ_GPIO_TP_INT,
- 	.wait_for_sync		= spitz_ads7846_wait_for_hsync,
- };
- 
-+static struct gpiod_lookup_table spitz_ads7846_gpio_table = {
-+	.dev_id = "spi2.0",
-+	.table = {
-+		GPIO_LOOKUP("gpio-pxa", SPITZ_GPIO_TP_INT,
-+			    "pendown", GPIO_ACTIVE_HIGH),
-+		{ },
-+	},
 +};
 +
- static void spitz_bl_kick_battery(void)
+ static void __init mipid_dev_init(void)
  {
- 	void (*kick_batt)(void);
-@@ -593,6 +601,7 @@ static void __init spitz_spi_init(void)
- 	else
- 		gpiod_add_lookup_table(&spitz_lcdcon_gpio_table);
+-	nokia770_mipid_platform_data.nreset_gpio = 13;
++	gpiod_add_lookup_table(&nokia770_lcd_gpio_table);
+ 	nokia770_mipid_platform_data.data_lines = 16;
  
-+	gpiod_add_lookup_table(&spitz_ads7846_gpio_table);
- 	gpiod_add_lookup_table(&spitz_spi_gpio_table);
- 	pxa2xx_set_spi_info(2, &spitz_spi_info);
- 	spi_register_board_info(ARRAY_AND_SIZE(spitz_spi_devices));
-diff --git a/arch/mips/alchemy/devboards/db1000.c b/arch/mips/alchemy/devboards/db1000.c
-index 2c52ee27b4f2..f37644859f89 100644
---- a/arch/mips/alchemy/devboards/db1000.c
-+++ b/arch/mips/alchemy/devboards/db1000.c
-@@ -381,13 +381,21 @@ static struct platform_device db1100_mmc1_dev = {
- static struct ads7846_platform_data db1100_touch_pd = {
- 	.model		= 7846,
- 	.vref_mv	= 3300,
--	.gpio_pendown	= 21,
- };
- 
- static struct spi_gpio_platform_data db1100_spictl_pd = {
- 	.num_chipselect = 1,
- };
- 
-+static struct gpiod_lookup_table db1100_touch_gpio_table = {
-+	.dev_id = "spi0.0",
-+	.table = {
-+		GPIO_LOOKUP("alchemy-gpio2", 21,
-+			    "pendown", GPIO_ACTIVE_HIGH),
-+		{ },
-+	},
-+};
-+
- static struct spi_board_info db1100_spi_info[] __initdata = {
- 	[0] = {
- 		.modalias	 = "ads7846",
-@@ -474,6 +482,7 @@ int __init db1000_dev_setup(void)
- 		pfc |= (1 << 0);	/* SSI0 pins as GPIOs */
- 		alchemy_wrsys(pfc, AU1000_SYS_PINFUNC);
- 
-+		gpiod_add_lookup_table(&db1100_touch_gpio_table);
- 		spi_register_board_info(db1100_spi_info,
- 					ARRAY_SIZE(db1100_spi_info));
- 
-diff --git a/drivers/input/touchscreen/ads7846.c b/drivers/input/touchscreen/ads7846.c
-index bb1058b1e7fd..a3c623009247 100644
---- a/drivers/input/touchscreen/ads7846.c
-+++ b/drivers/input/touchscreen/ads7846.c
-@@ -25,10 +25,8 @@
+ 	omapfb_set_lcd_config(&nokia770_lcd_config);
+diff --git a/drivers/video/fbdev/omap/lcd_mipid.c b/drivers/video/fbdev/omap/lcd_mipid.c
+index 03cff39d392d..e4a7f0b824ff 100644
+--- a/drivers/video/fbdev/omap/lcd_mipid.c
++++ b/drivers/video/fbdev/omap/lcd_mipid.c
+@@ -7,6 +7,7 @@
+  */
+ #include <linux/device.h>
+ #include <linux/delay.h>
++#include <linux/gpio/consumer.h>
  #include <linux/slab.h>
- #include <linux/pm.h>
- #include <linux/of.h>
--#include <linux/of_gpio.h>
- #include <linux/of_device.h>
- #include <linux/gpio/consumer.h>
--#include <linux/gpio.h>
+ #include <linux/workqueue.h>
  #include <linux/spi/spi.h>
- #include <linux/spi/ads7846.h>
- #include <linux/regulator/consumer.h>
-@@ -140,7 +138,7 @@ struct ads7846 {
- 	int			(*filter)(void *data, int data_idx, int *val);
- 	void			*filter_data;
- 	int			(*get_pendown_state)(void);
--	int			gpio_pendown;
-+	struct gpio_desc	*gpio_pendown;
+@@ -41,6 +42,7 @@ struct mipid_device {
+ 						   when we can issue the
+ 						   next sleep in/out command */
+ 	unsigned long	hw_guard_wait;		/* max guard time in jiffies */
++	struct gpio_desc	*reset;
  
- 	void			(*wait_for_sync)(void);
- };
-@@ -223,7 +221,7 @@ static int get_pendown_state(struct ads7846 *ts)
- 	if (ts->get_pendown_state)
- 		return ts->get_pendown_state();
- 
--	return !gpio_get_value(ts->gpio_pendown);
-+	return !gpiod_get_value(ts->gpio_pendown);
- }
- 
- static void ads7846_report_pen_up(struct ads7846 *ts)
-@@ -989,8 +987,6 @@ static int ads7846_setup_pendown(struct spi_device *spi,
- 				 struct ads7846 *ts,
- 				 const struct ads7846_platform_data *pdata)
- {
--	int err;
--
- 	/*
- 	 * REVISIT when the irq can be triggered active-low, or if for some
- 	 * reason the touchscreen isn't hooked up, we don't need to access
-@@ -999,25 +995,15 @@ static int ads7846_setup_pendown(struct spi_device *spi,
- 
- 	if (pdata->get_pendown_state) {
- 		ts->get_pendown_state = pdata->get_pendown_state;
--	} else if (gpio_is_valid(pdata->gpio_pendown)) {
--
--		err = devm_gpio_request_one(&spi->dev, pdata->gpio_pendown,
--					    GPIOF_IN, "ads7846_pendown");
--		if (err) {
--			dev_err(&spi->dev,
--				"failed to request/setup pendown GPIO%d: %d\n",
--				pdata->gpio_pendown, err);
--			return err;
-+	} else {
-+		ts->gpio_pendown = gpiod_get(&spi->dev, "pendown", GPIOD_IN);
-+		if (IS_ERR(ts->gpio_pendown)) {
-+			dev_err(&spi->dev, "failed to request pendown GPIO\n");
-+			return PTR_ERR(ts->gpio_pendown);
- 		}
--
--		ts->gpio_pendown = pdata->gpio_pendown;
--
- 		if (pdata->gpio_pendown_debounce)
--			gpiod_set_debounce(gpio_to_desc(ts->gpio_pendown),
-+			gpiod_set_debounce(ts->gpio_pendown,
- 					   pdata->gpio_pendown_debounce);
--	} else {
--		dev_err(&spi->dev, "no get_pendown_state nor gpio_pendown?\n");
--		return -EINVAL;
+ 	struct omapfb_device	*fbdev;
+ 	struct spi_device	*spi;
+@@ -556,6 +558,12 @@ static int mipid_spi_probe(struct spi_device *spi)
+ 		return -ENOMEM;
  	}
  
- 	return 0;
-@@ -1195,8 +1181,6 @@ static const struct ads7846_platform_data *ads7846_probe_dt(struct device *dev)
- 	pdata->wakeup = of_property_read_bool(node, "wakeup-source") ||
- 			of_property_read_bool(node, "linux,wakeup");
++	/* This will de-assert RESET if active */
++	md->reset = gpiod_get(&spi->dev, "reset", GPIOD_OUT_LOW);
++	if (IS_ERR(md->reset))
++		return dev_err_probe(&spi->dev, PTR_ERR(md->reset),
++				     "no reset GPIO line\n");
++
+ 	spi->mode = SPI_MODE_0;
+ 	md->spi = spi;
+ 	dev_set_drvdata(&spi->dev, md);
+@@ -574,6 +582,8 @@ static void mipid_spi_remove(struct spi_device *spi)
+ {
+ 	struct mipid_device *md = dev_get_drvdata(&spi->dev);
  
--	pdata->gpio_pendown = of_get_named_gpio(dev->of_node, "pendown-gpio", 0);
--
- 	return pdata;
++	/* Asserts RESET */
++	gpiod_set_value(md->reset, 1);
+ 	mipid_disable(&md->panel);
+ 	kfree(md);
  }
- #else
-diff --git a/include/linux/spi/ads7846.h b/include/linux/spi/ads7846.h
-index d424c1aadf38..a04c1c34c344 100644
---- a/include/linux/spi/ads7846.h
-+++ b/include/linux/spi/ads7846.h
-@@ -35,8 +35,6 @@ struct ads7846_platform_data {
- 	u16	debounce_tol;		/* tolerance used for filtering */
- 	u16	debounce_rep;		/* additional consecutive good readings
- 					 * required after the first two */
--	int	gpio_pendown;		/* the GPIO used to decide the pendown
--					 * state if get_pendown_state == NULL */
- 	int	gpio_pendown_debounce;	/* platform specific debounce time for
- 					 * the gpio_pendown */
- 	int	(*get_pendown_state)(void);
+diff --git a/include/linux/platform_data/lcd-mipid.h b/include/linux/platform_data/lcd-mipid.h
+index 63f05eb23827..4927cfc5158c 100644
+--- a/include/linux/platform_data/lcd-mipid.h
++++ b/include/linux/platform_data/lcd-mipid.h
+@@ -15,10 +15,8 @@ enum mipid_test_result {
+ #ifdef __KERNEL__
+ 
+ struct mipid_platform_data {
+-	int	nreset_gpio;
+ 	int	data_lines;
+ 
+-	void	(*shutdown)(struct mipid_platform_data *pdata);
+ 	void	(*set_bklight_level)(struct mipid_platform_data *pdata,
+ 				     int level);
+ 	int	(*get_bklight_level)(struct mipid_platform_data *pdata);
 
 -- 
 2.34.1
