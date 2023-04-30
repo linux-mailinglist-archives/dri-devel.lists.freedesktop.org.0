@@ -1,63 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C00F56F2BBC
-	for <lists+dri-devel@lfdr.de>; Mon,  1 May 2023 01:58:06 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 536806F2BBD
+	for <lists+dri-devel@lfdr.de>; Mon,  1 May 2023 01:58:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DE01110E186;
-	Sun, 30 Apr 2023 23:57:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4B6AB10E088;
+	Sun, 30 Apr 2023 23:58:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com
- [IPv6:2a00:1450:4864:20::134])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1B7DF10E0EF
- for <dri-devel@lists.freedesktop.org>; Sun, 30 Apr 2023 23:57:38 +0000 (UTC)
-Received: by mail-lf1-x134.google.com with SMTP id
- 2adb3069b0e04-4f00d3f98deso20080271e87.0
- for <dri-devel@lists.freedesktop.org>; Sun, 30 Apr 2023 16:57:38 -0700 (PDT)
+Received: from mail-lj1-x22e.google.com (mail-lj1-x22e.google.com
+ [IPv6:2a00:1450:4864:20::22e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 05B6B10E0EF
+ for <dri-devel@lists.freedesktop.org>; Sun, 30 Apr 2023 23:57:39 +0000 (UTC)
+Received: by mail-lj1-x22e.google.com with SMTP id
+ 38308e7fff4ca-2a8baeac4d1so19485681fa.1
+ for <dri-devel@lists.freedesktop.org>; Sun, 30 Apr 2023 16:57:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=linaro.org; s=google; t=1682899057; x=1685491057;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=VGmFxFh/X4UXJV1G/EJTcl28FnvhXByAtzs1tNbxevg=;
- b=ZEkbahwH2+Z8EYsp20gQL5OuS8WNNFwalIwk0PjfdSe4ytIIAZ3mmkBxUKunibziSB
- sQnxBNrF+2vW/nAprTUeqnHEEq8285sZLlesdVgqtmtC4cIl2jzIIfmSnR3HwjQOP87U
- bpHdp55Vk7VxOe20eHIXU9frcNsNyQ2/H7XY667xbaPIwUire2WFohTw8McJbt3JNx8A
- nOti9/svJfcgVcWmU4oVZ++N4flSIsJQabpHG8QiQGBiZ3EGr7zM4dhAiQPtxK0tVaej
- Kim6OCn7UiDTz9xwhi8FzkzLcuCgssGSnqgYewKziP+hheidYZyzM4BXyQQhowWPpd44
- uFog==
+ bh=pF8t/AqUo8Et5YKjy/byNCQSRCIaffjpRgyw3XVjfmw=;
+ b=QjKcw9PcK6Kgfb0y+sw37x42bYfUOduEdZWMANbSeqoKaKJ2Cq58EFuVWK4bztOGpj
+ 2eGccbFnH4P6ESgxVGl+06h2tjl4WD1kfs5YJqGyAKQZxOqJSB0HyrnsbUXghslMmwoD
+ RzcB8HTo/dsoJpFhfugH8s0Qk64sOT8ZZ4BAmidrqbYDrUUGvp9dTDrAeUpr9HqAUN8a
+ QrZHGBH1fAA3pb6VA91UqNSYbTqLGqzAv5K/PLvWvWOTY2rloNvbIhPFl+tKKBvQ4Nj/
+ 3RxIzWvpc2PsfHr53VA20JP6yO07GwDMleTgW6Gg9gHzIxXa1n343ge10DqADPELZOFa
+ fXvA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20221208; t=1682899057; x=1685491057;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=VGmFxFh/X4UXJV1G/EJTcl28FnvhXByAtzs1tNbxevg=;
- b=clhnQ3EYi/5r5PYp7MLNRt4MqoZqRQApo3p4kEo/htNjLMcxkhdkEyxVHkI/eGf3hH
- /oxBk9VuqWNhNzf/92LcOEsbpwunmGQQhnyhbqVxWzkUXioKCcLUZUdyPgEkLgAeDePD
- CEPJVtkP2e9R2uauCut4LR4DiTQtUO6vdl82mKNE7PTeGnftYUMeP00Bh9lNpatqbQjc
- RQeWNzieL4Dz+w3WKjJO/X7JQ1b4HiLkAiCNgHo/Uxah64FDP5sbxHuhP2mtl6T7KPrU
- 65t1EJmu1PVXiUOfOoMYLnM7/ujra5XkvdsFgVIzd86TBXP9rtWMAUvhoFAmz0HY93fS
- /c0A==
-X-Gm-Message-State: AC+VfDzQ6n4kbZJNOA7hlXU7KoVR95JEu+4VmP28jCg5kb/0Kh2dUuEv
- xBkAdWkh0NVL2h3Wdh1inIA3lg==
-X-Google-Smtp-Source: ACHHUZ5q43gHQT9vO8NS2QC1Evk16o03p2SzASt2VZDvV5BtajmsgOBqvYIdO/fZyvWW519Aw/JoZQ==
-X-Received: by 2002:a05:6512:ea7:b0:4ec:8cc6:55d9 with SMTP id
- bi39-20020a0565120ea700b004ec8cc655d9mr4589920lfb.9.1682899057039; 
+ bh=pF8t/AqUo8Et5YKjy/byNCQSRCIaffjpRgyw3XVjfmw=;
+ b=JyFfj/UKi68wdGvENnYbpn5Eh8nQjHcbJ0orF6p19PGCGQkaBITC5ZTnvpU7IGRX3y
+ 9pTmrIxMmgSkVwXYSbGdVO7p2sSNHGCrXdHhpqsbNE5UCWoLdy70Q8vmO7fRZNE6VCNl
+ 9zN5dxZIlqS2vgk80q7eaXjwRFvBZ7HrdyftTdezk6TaWV1It1x2YrRBcK00w6PRfwhV
+ lzPamthtdJC5RNL51whcVlQpAlmiNk1P9b+BkjLyhl8FG+FParl/PRBpdFAa7WGqw86s
+ cgGTwEnZSEC0mz//O4ZjoQ2AUbznMlJbhuRFOJ01IQ5pvqh1tvlHvLksCG0gMFO/fxO+
+ kS/Q==
+X-Gm-Message-State: AC+VfDzJH+zoeKBSe3WJp8cCCY4GY5pXtSd4F/CDtMe7gsEuuhfQLcEV
+ NopVAnT0IYYbRzCDrD57jML2HA==
+X-Google-Smtp-Source: ACHHUZ5pQA+YPfuuFGC/gCLC7LzvMxGCuI1H+TScUYyIJiA/O5q0GqqtPofPj7Kwp3/KRQ+DpJT5gQ==
+X-Received: by 2002:a2e:7818:0:b0:2a8:baab:fb2e with SMTP id
+ t24-20020a2e7818000000b002a8baabfb2emr3566936ljc.47.1682899057790; 
  Sun, 30 Apr 2023 16:57:37 -0700 (PDT)
 Received: from eriador.lan (dzdqv0yyyyyyyyyyybcwt-3.rev.dnainternet.fi.
  [2001:14ba:a0db:1f00::8a5]) by smtp.gmail.com with ESMTPSA id
- p19-20020a2e9a93000000b002a9f022e8bcsm4292099lji.65.2023.04.30.16.57.36
+ p19-20020a2e9a93000000b002a9f022e8bcsm4292099lji.65.2023.04.30.16.57.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 30 Apr 2023 16:57:36 -0700 (PDT)
+ Sun, 30 Apr 2023 16:57:37 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
  Abhinav Kumar <quic_abhinavk@quicinc.com>,
  Marijn Suijten <marijn.suijten@somainline.org>
-Subject: [PATCH 5/7] drm/msm/dpu: inline dpu_encoder_get_wb()
-Date: Mon,  1 May 2023 02:57:30 +0300
-Message-Id: <20230430235732.3341119-6-dmitry.baryshkov@linaro.org>
+Subject: [PATCH 6/7] drm/msm/dpu: call dpu_rm_get_intf() from
+ dpu_encoder_get_intf()
+Date: Mon,  1 May 2023 02:57:31 +0300
+Message-Id: <20230430235732.3341119-7-dmitry.baryshkov@linaro.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230430235732.3341119-1-dmitry.baryshkov@linaro.org>
 References: <20230430235732.3341119-1-dmitry.baryshkov@linaro.org>
@@ -81,68 +82,78 @@ Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The function dpu_encoder_get_wb() returns controller_id if the
-corresponding WB is present in the catalog. We can inline this function
-and rely on dpu_rm_get_wb() returning NULL for indices for which the
-WB is not present on the device.
+There is little sense to get intf index just to call dpu_rm_get_intf()
+on it. Move dpu_rm_get_intf() call to dpu_encoder_get_intf() function.
 
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 24 ++-------------------
- 1 file changed, 2 insertions(+), 22 deletions(-)
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 20 ++++++++------------
+ 1 file changed, 8 insertions(+), 12 deletions(-)
 
 diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-index 4c85cbb030e4..507ff3f88c67 100644
+index 507ff3f88c67..b35e92c658ad 100644
 --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
 +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-@@ -1277,22 +1277,6 @@ static enum dpu_intf dpu_encoder_get_intf(const struct dpu_mdss_cfg *catalog,
- 	return INTF_MAX;
+@@ -1259,22 +1259,23 @@ static void dpu_encoder_virt_atomic_disable(struct drm_encoder *drm_enc,
+ 	mutex_unlock(&dpu_enc->enc_lock);
  }
  
--static enum dpu_wb dpu_encoder_get_wb(const struct dpu_mdss_cfg *catalog,
--		enum dpu_intf_type type, u32 controller_id)
--{
--	int i = 0;
--
--	if (type != INTF_WB)
--		return WB_MAX;
--
--	for (i = 0; i < catalog->wb_count; i++) {
--		if (catalog->wb[i].id == controller_id)
--			return catalog->wb[i].id;
--	}
--
--	return WB_MAX;
--}
--
- void dpu_encoder_vblank_callback(struct drm_encoder *drm_enc,
- 		struct dpu_encoder_phys *phy_enc)
+-static enum dpu_intf dpu_encoder_get_intf(const struct dpu_mdss_cfg *catalog,
++static struct dpu_hw_intf *dpu_encoder_get_intf(const struct dpu_mdss_cfg *catalog,
++		struct dpu_rm *dpu_rm,
+ 		enum dpu_intf_type type, u32 controller_id)
  {
-@@ -2261,7 +2245,6 @@ static int dpu_encoder_setup_display(struct dpu_encoder_virt *dpu_enc,
+ 	int i = 0;
+ 
+ 	if (type == INTF_WB)
+-		return INTF_MAX;
++		return NULL;
+ 
+ 	for (i = 0; i < catalog->intf_count; i++) {
+ 		if (catalog->intf[i].type == type
+ 		    && catalog->intf[i].controller_id == controller_id) {
+-			return catalog->intf[i].id;
++			return dpu_rm_get_intf(dpu_rm, catalog->intf[i].id);
+ 		}
+ 	}
+ 
+-	return INTF_MAX;
++	return NULL;
+ }
+ 
+ void dpu_encoder_vblank_callback(struct drm_encoder *drm_enc,
+@@ -2244,7 +2245,6 @@ static int dpu_encoder_setup_display(struct dpu_encoder_virt *dpu_enc,
+ 		 * h_tile_instance_ids[2] = {1, 0}; DSI1 = left, DSI0 = right
  		 */
  		u32 controller_id = disp_info->h_tile_instance[i];
- 		enum dpu_intf intf_idx;
--		enum dpu_wb wb_idx;
+-		enum dpu_intf intf_idx;
  
  		if (disp_info->num_of_h_tiles > 1) {
  			if (i == 0)
-@@ -2279,14 +2262,11 @@ static int dpu_encoder_setup_display(struct dpu_encoder_virt *dpu_enc,
- 							    disp_info->intf_type,
- 							    controller_id);
+@@ -2258,12 +2258,9 @@ static int dpu_encoder_setup_display(struct dpu_encoder_virt *dpu_enc,
+ 		DPU_DEBUG("h_tile_instance %d = %d, split_role %d\n",
+ 				i, controller_id, phys_params.split_role);
  
--		wb_idx = dpu_encoder_get_wb(dpu_kms->catalog,
--				disp_info->intf_type, controller_id);
+-		intf_idx = dpu_encoder_get_intf(dpu_kms->catalog,
+-							    disp_info->intf_type,
+-							    controller_id);
 -
- 		if (intf_idx >= INTF_0 && intf_idx < INTF_MAX)
- 			phys_params.hw_intf = dpu_rm_get_intf(&dpu_kms->rm, intf_idx);
+-		if (intf_idx >= INTF_0 && intf_idx < INTF_MAX)
+-			phys_params.hw_intf = dpu_rm_get_intf(&dpu_kms->rm, intf_idx);
++		phys_params.hw_intf = dpu_encoder_get_intf(dpu_kms->catalog, &dpu_kms->rm,
++							   disp_info->intf_type,
++							   controller_id);
  
--		if (wb_idx >= WB_0 && wb_idx < WB_MAX)
--			phys_params.hw_wb = dpu_rm_get_wb(&dpu_kms->rm, wb_idx);
-+		if (disp_info->intf_type == INTF_WB && controller_id < WB_MAX)
-+			phys_params.hw_wb = dpu_rm_get_wb(&dpu_kms->rm, controller_id);
+ 		if (disp_info->intf_type == INTF_WB && controller_id < WB_MAX)
+ 			phys_params.hw_wb = dpu_rm_get_wb(&dpu_kms->rm, controller_id);
+@@ -2287,7 +2284,6 @@ static int dpu_encoder_setup_display(struct dpu_encoder_virt *dpu_enc,
+ 			DPU_ERROR_ENC(dpu_enc, "failed to add phys encs\n");
+ 			break;
+ 		}
+-
+ 	}
  
- 		if (!phys_params.hw_intf && !phys_params.hw_wb) {
- 			DPU_ERROR_ENC(dpu_enc, "no intf or wb block assigned at idx: %d\n", i);
+ 	mutex_unlock(&dpu_enc->enc_lock);
 -- 
 2.39.2
 
