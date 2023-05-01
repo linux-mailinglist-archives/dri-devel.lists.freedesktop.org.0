@@ -2,77 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 364C26F366C
-	for <lists+dri-devel@lfdr.de>; Mon,  1 May 2023 20:58:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2ECFE6F36AC
+	for <lists+dri-devel@lfdr.de>; Mon,  1 May 2023 21:25:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F1F9710E44E;
-	Mon,  1 May 2023 18:58:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7A94810E2E4;
+	Mon,  1 May 2023 19:25:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B381910E43E;
- Mon,  1 May 2023 18:58:47 +0000 (UTC)
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 341FhE0A025721; Mon, 1 May 2023 18:58:42 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=GMHa6OHIeIVoZoQ36I9Et2ADpUxODcVxF5WZ7tZI4ww=;
- b=KdEMSnFXpewbTs1+iEg7N31cuGazszJDqVuGfxAha+pZTAfamsOoNmuddZANmsPtq9hj
- ZmRFE3e0Ulb3OtDxacxSn1Ww/YZ1EPWv+OU0MKFKYGuqDt684hifiP2v5niWwuoK2hm7
- UsG78ZH9i3DTmzMdReygTC5hPKKCn14WBnOSUcQh0yl8DnPVdzIa08kKgzmRJbn/V8lf
- DkjHS2A9ka1wTRYOPEXPQYol5AKDI74RlezRo7xGc3bNCqF6b+uKcICy/y3al4vbWSU0
- P+kgJlycnBzDUA9mJXhlktotcrpf+QDWoYDfcHVgz/o8siKUFtRlldgoLEilN0NLJBkP Wg== 
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3qa0a39ytt-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 01 May 2023 18:58:41 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 341Iwfak003771
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 1 May 2023 18:58:41 GMT
-Received: from [10.134.70.142] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Mon, 1 May 2023
- 11:58:40 -0700
-Message-ID: <dfc24f9d-af35-8c42-9c78-7e2f7f81c995@quicinc.com>
-Date: Mon, 1 May 2023 11:58:40 -0700
+Received: from mail-oi1-x22b.google.com (mail-oi1-x22b.google.com
+ [IPv6:2607:f8b0:4864:20::22b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9633710E274;
+ Mon,  1 May 2023 19:24:59 +0000 (UTC)
+Received: by mail-oi1-x22b.google.com with SMTP id
+ 5614622812f47-38e3a1a07c8so1852405b6e.0; 
+ Mon, 01 May 2023 12:24:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1682969098; x=1685561098;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=3bLR1GbZyZQUdq7br0qZHdQ9hAXjjgioO0YDBrhDkvo=;
+ b=pXZA61PiZhaZlnA+xdKWkmYbzFs3eWCrQJ8H26eQPJ5EhIP9vceeHgFdijexnZeuTa
+ zva8i2qX3O/jIS293YZUCi9hSKEDvKIr9QntcEczJtJMLZHLPseq6Pc+LhuaQjXE1jtr
+ HTBBHUMRKOj9byGzHQle9Tj3/52RtiZysg4sEmcXgo9JTUdFi4z1TFYZ8gs4epy+6Is3
+ eALRJ0e8JNELbb4zriVyatIA7YEVoCNem8b8UpsZDAdd8q8IrQJ9KisngOuHKQOJ/VYI
+ Vm9e0XMNcHfMIHM+WLwX4trfGehb9Ko+g8LocHXn1uIkMwXFd6loNHHdPEubWnGSUJ4J
+ bqqQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1682969098; x=1685561098;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=3bLR1GbZyZQUdq7br0qZHdQ9hAXjjgioO0YDBrhDkvo=;
+ b=YROw3o0iZFNYrkauGXf33ntVAj8JcLHaHNjzTa7cJzxookSxlWz48sOBm+/u2kIcul
+ cw2Q4khyuG44YJHKRDf9t8t4w+kbU7hCtkmfVQdAkjjwabzPgdlbjnEqInEIu/GQoSE2
+ JVSeCBT6d50yCeniFzDVyiBxHxOHQW5GrfZruI7mro0i7raeZkYCStffXbtM5G2KQ4p8
+ f8ZlSC3mDwDgbutpoWRykpZE749yw6T2hlgWQ4kBW5B5QUFGfuDrtu9LcJLS64vjbW2C
+ lvsSCqLiHqQusi1j+YfGfHbFgx+e495ICJksBy3nIbWtHBYTsHe5trImI54/SiRGKrxT
+ 3KGQ==
+X-Gm-Message-State: AC+VfDxoRijYBUmc7k+qPVge67LzlPGFUXlzZYaL5KKS30vvhaA/YOrT
+ v57PUTTkfLdqy7DQGbkFrZBevVxW13T439SlTOTGXCHzaBY=
+X-Google-Smtp-Source: ACHHUZ59tWI8+zhOkYkZ6pl9dhM5SsMozl6Skp/3tRe2BBRCrTjJMg8N/8iR0vG+rgDark0GOGaqZmsDR2BrWi16Wxg=
+X-Received: by 2002:a05:6808:2342:b0:38d:ed4a:52eb with SMTP id
+ ef2-20020a056808234200b0038ded4a52ebmr6825147oib.38.1682969098214; Mon, 01
+ May 2023 12:24:58 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.2
-Subject: Re: [PATCH v3] drm/msm/dpu: drop unused SSPP sub-block information
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
- <robdclark@gmail.com>, Sean Paul <sean@poorly.run>
-References: <20230429212512.2947245-1-dmitry.baryshkov@linaro.org>
- <61997e7e-1a4f-8b1d-1a7d-a1ed802ae83d@quicinc.com>
- <c2e1a277-4bb7-d437-9748-be6c36e460b4@linaro.org>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <c2e1a277-4bb7-d437-9748-be6c36e460b4@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: BB-8c_WQ0jCN8jAreP31xMCQVc1cINIr
-X-Proofpoint-GUID: BB-8c_WQ0jCN8jAreP31xMCQVc1cINIr
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-05-01_11,2023-04-27_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015
- priorityscore=1501 bulkscore=0 impostorscore=0 lowpriorityscore=0
- mlxlogscore=983 mlxscore=0 adultscore=0 phishscore=0 malwarescore=0
- spamscore=0 suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2303200000 definitions=main-2305010154
+References: <20230501185747.33519-1-andrealmeid@igalia.com>
+In-Reply-To: <20230501185747.33519-1-andrealmeid@igalia.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Mon, 1 May 2023 15:24:46 -0400
+Message-ID: <CADnq5_NXj4W44F_etRQ7HWdVTnf5zARCM3Y_o3EiwWiHj8QMpA@mail.gmail.com>
+Subject: Re: [RFC PATCH 0/1] Add AMDGPU_INFO_GUILTY_APP ioctl
+To: =?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,73 +68,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>
+Cc: pierre-eric.pelloux-prayer@amd.com,
+ Samuel Pitoiset <samuel.pitoiset@gmail.com>,
+ =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <maraeo@gmail.com>,
+ =?UTF-8?Q?Timur_Krist=C3=B3f?= <timur.kristof@gmail.com>,
+ michel.daenzer@mailbox.org, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ kernel-dev@igalia.com, alexander.deucher@amd.com, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Mon, May 1, 2023 at 2:58=E2=80=AFPM Andr=C3=A9 Almeida <andrealmeid@igal=
+ia.com> wrote:
+>
+> Currently UMD hasn't much information on what went wrong during a GPU res=
+et. To
+> help with that, this patch proposes a new IOCTL that can be used to query
+> information about the resources that caused the hang.
+
+If we went with the IOCTL, we'd want to limit this to the guilty process.
+
+>
+> The goal of this RFC is to gather feedback about this interface. The mesa=
+ part
+> can be found at https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests=
+/22785
+>
+> The current implementation is racy, meaning that if two resets happens (e=
+ven on
+> different rings), the app will get the last reset information available, =
+rather
+> than the one that is looking for. Maybe this can be fixed with a ring_id
+> parameter to query the information for a specific ring, but this also req=
+uires
+> an interface to tell the UMD which ring caused it.
+
+I think you'd want engine type or something like that so mesa knows
+how to interpret the IB info.  You could store the most recent info in
+the fd priv for the guilty app.  E.g., see what I did for tracking GPU
+page fault into:
+https://gitlab.freedesktop.org/agd5f/linux/-/commits/gpu_fault_info_ioctl
+
+>
+> I know that devcoredump is also used for this kind of information, but I =
+believe
+> that using an IOCTL is better for interfacing Mesa + Linux rather than pa=
+rsing
+> a file that its contents are subjected to be changed.
+
+Can you elaborate a bit on that?  Isn't the whole point of devcoredump
+to store this sort of information?
+
+Alex
 
 
-On 5/1/2023 11:56 AM, Dmitry Baryshkov wrote:
-> On 01/05/2023 21:49, Abhinav Kumar wrote:
->>
->>
->> On 4/29/2023 2:25 PM, Dmitry Baryshkov wrote:
->>> The driver  doesn't support hsic/memcolor and pcc SSPP subblocks.
->>> Drop corresponding definitions.
->>>
->>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
->>> ---
->>>
->>> Changes since v2:
->>> - Fixed commit message to remove igc block mention.
->>>
->>> Changes since v1:
->>>   - Rebased on top of 
->>> https://patchwork.freedesktop.org/patch/534725/?series=117130&rev=1
->>>
->>> ---
->>>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h | 6 ------
->>>   1 file changed, 6 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h 
->>> b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
->>> index 69d1f1e59db1..b2831b45ac64 100644
->>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
->>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
->>> @@ -380,9 +380,6 @@ struct dpu_caps {
->>>    * @qseed_ver: qseed version
->>>    * @scaler_blk:
->>>    * @csc_blk:
->>> - * @hsic:
->>> - * @memcolor:
->>> - * @pcc_blk:
->>
->> pcc_blk is still there. So this should be dropped. Once that is fixed,
-> 
-> But the pcc_blk is removed in the next chunk. Please take a glance.
-
-Ah yes, correct, my bad, i thought this from the dpu_dspp_sub_blks but 
-this is from struct dpu_sspp_sub_blks.
-
-Thanks for clarification. R-b is still good.
-
-> 
->>
->> Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
->>
->>>    * @format_list: Pointer to list of supported formats
->>>    * @num_formats: Number of supported formats
->>>    * @virt_format_list: Pointer to list of supported formats for 
->>> virtual planes
->>> @@ -399,9 +396,6 @@ struct dpu_sspp_sub_blks {
->>>       u32 qseed_ver;
->>>       struct dpu_scaler_blk scaler_blk;
->>>       struct dpu_pp_blk csc_blk;
->>> -    struct dpu_pp_blk hsic_blk;
->>> -    struct dpu_pp_blk memcolor_blk;
->>> -    struct dpu_pp_blk pcc_blk;
->>>       const u32 *format_list;
->>>       u32 num_formats;
-> 
+>
+> Andr=C3=A9 Almeida (1):
+>   drm/amdgpu: Add interface to dump guilty IB on GPU hang
+>
+>  drivers/gpu/drm/amd/amdgpu/amdgpu.h      |  3 +++
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c  |  3 ++-
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_job.c  |  3 +++
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c  |  7 ++++++
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_ring.h |  1 +
+>  drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c   | 29 ++++++++++++++++++++++++
+>  include/uapi/drm/amdgpu_drm.h            |  7 ++++++
+>  7 files changed, 52 insertions(+), 1 deletion(-)
+>
+> --
+> 2.40.1
+>
