@@ -1,42 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DDA56F2C17
-	for <lists+dri-devel@lfdr.de>; Mon,  1 May 2023 04:57:16 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 279EA6F2C1C
+	for <lists+dri-devel@lfdr.de>; Mon,  1 May 2023 04:57:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AD08310E1C9;
-	Mon,  1 May 2023 02:57:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 66B9710E1E2;
+	Mon,  1 May 2023 02:57:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org
  [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 19DA410E1C9;
- Mon,  1 May 2023 02:57:13 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 17F8710E1E2
+ for <dri-devel@lists.freedesktop.org>; Mon,  1 May 2023 02:57:34 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 9DE4061614;
- Mon,  1 May 2023 02:57:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 209CBC433D2;
- Mon,  1 May 2023 02:57:10 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 9A39161648;
+ Mon,  1 May 2023 02:57:33 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 40D86C433EF;
+ Mon,  1 May 2023 02:57:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1682909832;
- bh=8L0YUmQisuwdiCTcNyYLilgshNpv6wm2b+pOlg6m8to=;
+ s=k20201202; t=1682909853;
+ bh=CG6iidfJYvBtjEQvRVQLTsIrpzO11PNYCTvVzvScUro=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Q01JWXrlZY+3grWPFSO9CI8Q9C2cil4c4w8Ygcnx0bolxQdR2yjLi8mhe5M35/4RU
- LV+HTiyDAbLVMX64eFUXF7hqTpfo3TTh2CSX1ZShkBOhGKcgT4cEclijmVCnVANAK6
- Ruq4w8prE/ixQ90tPkHo0fknd01jQ5NtVF4PAnKeibffSSp4ZHY52HTfKDVftxZVsW
- Ssu26RGti7tOYBHI+3OEWRW/3lEoiTfLLva+Unl2+4FGzrBzJVOFKtetuoaa2AWT7m
- XRFAWNMi8SdG6g3/EwHiqcZysaRFqW7CbN10K09F0t+lmuJv2Nf+9J2sYwbctzSfGF
- X9D7XBXgfir8w==
+ b=t0mtl1JDv4A5vuIMdKDjMJE2ASvu10tAbFNmtUZUhShZIhgcYI+VSK/Iueuuvgfik
+ 8REf+jLM2C7TB0WlRIwvYJ/p4Hd4m5XucPs4R4Bh8vWij1i0cW7NgzJRJl7AxLxsi0
+ JtSZ2O++0Qndg/bdLW3lS2PdF0srr9iKFlpMoc0s0++SqEBDyKRHkxOx6Mf6CY0Nya
+ rdOagVrsyLqGHHn3xrYHzPjVUS3uC058qK3LooD7wutw5RDQnEr05pJRr3sfIFBlGQ
+ nnWO6GgEjhcmkMXL2mJVErkZblVhCDhs6Ow3XB1EmQKadg4Rqi9vvi+gk3PGodbccb
+ 4S1VEq7x9f8wg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.3 07/44] drm/amd/display: Use DC_LOG_DC in the
- trasform pixel function
-Date: Sun, 30 Apr 2023 22:55:55 -0400
-Message-Id: <20230501025632.3253067-7-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.3 11/44] accel/habanalabs: postpone mem_mgr IDR
+ destruction to hpriv_release()
+Date: Sun, 30 Apr 2023 22:55:59 -0400
+Message-Id: <20230501025632.3253067-11-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230501025632.3253067-1-sashal@kernel.org>
 References: <20230501025632.3253067-1-sashal@kernel.org>
@@ -56,115 +56,131 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, sunpeng.li@amd.com,
- Qingqing Zhuo <qingqing.zhuo@amd.com>, Xinhui.Pan@amd.com,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, amd-gfx@lists.freedesktop.org,
- Daniel Wheeler <daniel.wheeler@amd.com>, dri-devel@lists.freedesktop.org,
- Alex Deucher <alexander.deucher@amd.com>, christian.koenig@amd.com
+Cc: Sasha Levin <sashal@kernel.org>, osharabi@habana.ai, ynudelman@habana.ai,
+ bjauhari@habana.ai, gregkh@linuxfoundation.org,
+ Oded Gabbay <ogabbay@kernel.org>, dliberman@habana.ai,
+ dri-devel@lists.freedesktop.org, dhirschfeld@habana.ai,
+ stanislaw.gruszka@linux.intel.com, Tomer Tayar <ttayar@habana.ai>,
+ colin.i.king@gmail.com, talcohen@habana.ai, obitton@habana.ai,
+ fkassabri@habana.ai
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
+From: Tomer Tayar <ttayar@habana.ai>
 
-[ Upstream commit 7222f5841ff49709ca666b05ff336776e0664a20 ]
+[ Upstream commit 2e8e9a895c4589f124a37fc84d123b5114406e94 ]
 
-[Why & How]
-DC now uses a new commit sequence which is more robust since it
-addresses cases where we need to reorganize pipes based on planes and
-other parameters. As a result, this new commit sequence reset the DC
-state by cleaning plane states and re-creating them accordingly with the
-need. For this reason, the dce_transform_set_pixel_storage_depth can be
-invoked after a plane state is destroyed and before its re-creation. In
-this situation and on DCE devices, DC will hit a condition that will
-trigger a dmesg log that looks like this:
+The memory manager IDR is currently destroyed when user releases the
+file descriptor.
+However, at this point the user context might be still held, and memory
+buffers might be still in use.
+Later on, calls to release those buffers will fail due to not finding
+their handles in the IDR, leading to a memory leak.
+To avoid this leak, split the IDR destruction from the memory manager
+fini, and postpone it to hpriv_release() when there is no user context
+and no buffers are used.
 
-Console: switching to colour frame buffer device 240x67
-------------[ cut here ]------------
-[..]
-Hardware name: System manufacturer System Product Name/PRIME X370-PRO, BIOS 5603 07/28/2020
-RIP: 0010:dce_transform_set_pixel_storage_depth+0x3f8/0x480 [amdgpu]
-[..]
-RSP: 0018:ffffc9000202b850 EFLAGS: 00010293
-RAX: ffffffffa081d100 RBX: ffff888110790000 RCX: 000000000000000c
-RDX: ffff888100bedbf8 RSI: 0000000000001a50 RDI: ffff88810463c900
-RBP: 0000000000000000 R08: 0000000000000000 R09: 0000000000000007
-R10: 0000000000000001 R11: 0000000000000f00 R12: ffff88810f500010
-R13: ffff888100bedbf8 R14: ffff88810f515688 R15: 0000000000000000
-FS:  00007ff0159249c0(0000) GS:ffff88840e940000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00007ff01528e550 CR3: 0000000002a10000 CR4: 00000000003506e0
-Call Trace:
- <TASK>
- ? dm_write_reg_func+0x21/0x80 [amdgpu 340dadd3f7c8cf4be11cf0bdc850245e99abe0e8]
- dc_stream_set_dither_option+0xfb/0x130 [amdgpu 340dadd3f7c8cf4be11cf0bdc850245e99abe0e8]
- amdgpu_dm_crtc_configure_crc_source+0x10b/0x190 [amdgpu 340dadd3f7c8cf4be11cf0bdc850245e99abe0e8]
- amdgpu_dm_atomic_commit_tail+0x20a8/0x2a90 [amdgpu 340dadd3f7c8cf4be11cf0bdc850245e99abe0e8]
- ? free_unref_page_commit+0x98/0x170
- ? free_unref_page+0xcc/0x150
- commit_tail+0x94/0x120
- drm_atomic_helper_commit+0x10f/0x140
- drm_atomic_commit+0x94/0xc0
- ? drm_plane_get_damage_clips.cold+0x1c/0x1c
- drm_client_modeset_commit_atomic+0x203/0x250
- drm_client_modeset_commit_locked+0x56/0x150
- drm_client_modeset_commit+0x21/0x40
- drm_fb_helper_lastclose+0x42/0x70
- amdgpu_driver_lastclose_kms+0xa/0x10 [amdgpu 340dadd3f7c8cf4be11cf0bdc850245e99abe0e8]
- drm_release+0xda/0x110
- __fput+0x89/0x240
- task_work_run+0x5c/0x90
- do_exit+0x333/0xae0
- do_group_exit+0x2d/0x90
- __x64_sys_exit_group+0x14/0x20
- do_syscall_64+0x5b/0x80
- ? exit_to_user_mode_prepare+0x1e/0x140
- entry_SYSCALL_64_after_hwframe+0x44/0xae
-RIP: 0033:0x7ff016ceaca1
-Code: Unable to access opcode bytes at RIP 0x7ff016ceac77.
-RSP: 002b:00007ffe7a2357e8 EFLAGS: 00000246 ORIG_RAX: 00000000000000e7
-RAX: ffffffffffffffda RBX: 00007ff016e15a00 RCX: 00007ff016ceaca1
-RDX: 000000000000003c RSI: 00000000000000e7 RDI: 0000000000000000
-RBP: 0000000000000000 R08: ffffffffffffff78 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000246 R12: 00007ff016e15a00
-R13: 0000000000000000 R14: 00007ff016e1aee8 R15: 00007ff016e1af00
- </TASK>
-
-Since this issue only happens in a transition state on DC, this commit
-replace BREAK_TO_DEBUGGER with DC_LOG_DC.
-
-Reviewed-by: Harry Wentland <Harry.Wentland@amd.com>
-Acked-by: Qingqing Zhuo <qingqing.zhuo@amd.com>
-Signed-off-by: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
-Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+Signed-off-by: Tomer Tayar <ttayar@habana.ai>
+Reviewed-by: Oded Gabbay <ogabbay@kernel.org>
+Signed-off-by: Oded Gabbay <ogabbay@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/display/dc/dce/dce_transform.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ drivers/accel/habanalabs/common/device.c         |  9 +++++++++
+ drivers/accel/habanalabs/common/habanalabs.h     |  1 +
+ drivers/accel/habanalabs/common/habanalabs_drv.c |  1 +
+ drivers/accel/habanalabs/common/memory_mgr.c     | 13 ++++++++++++-
+ 4 files changed, 23 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/dce/dce_transform.c b/drivers/gpu/drm/amd/display/dc/dce/dce_transform.c
-index d9fd4ec60588f..670d5ab9d9984 100644
---- a/drivers/gpu/drm/amd/display/dc/dce/dce_transform.c
-+++ b/drivers/gpu/drm/amd/display/dc/dce/dce_transform.c
-@@ -1009,7 +1009,7 @@ static void dce_transform_set_pixel_storage_depth(
- 		color_depth = COLOR_DEPTH_101010;
- 		pixel_depth = 0;
- 		expan_mode  = 1;
--		BREAK_TO_DEBUGGER();
-+		DC_LOG_DC("The pixel depth %d is not valid, set COLOR_DEPTH_101010 instead.", depth);
- 		break;
+diff --git a/drivers/accel/habanalabs/common/device.c b/drivers/accel/habanalabs/common/device.c
+index 9933e5858a363..c91436609f080 100644
+--- a/drivers/accel/habanalabs/common/device.c
++++ b/drivers/accel/habanalabs/common/device.c
+@@ -423,6 +423,9 @@ static void hpriv_release(struct kref *ref)
+ 	mutex_destroy(&hpriv->ctx_lock);
+ 	mutex_destroy(&hpriv->restore_phase_mutex);
+ 
++	/* There should be no memory buffers at this point and handles IDR can be destroyed */
++	hl_mem_mgr_idr_destroy(&hpriv->mem_mgr);
++
+ 	/* Device should be reset if reset-upon-device-release is enabled, or if there is a pending
+ 	 * reset that waits for device release.
+ 	 */
+@@ -514,6 +517,10 @@ static int hl_device_release(struct inode *inode, struct file *filp)
  	}
  
-@@ -1023,8 +1023,7 @@ static void dce_transform_set_pixel_storage_depth(
- 	if (!(xfm_dce->lb_pixel_depth_supported & depth)) {
- 		/*we should use unsupported capabilities
- 		 *  unless it is required by w/a*/
--		DC_LOG_WARNING("%s: Capability not supported",
--			__func__);
-+		DC_LOG_DC("%s: Capability not supported", __func__);
+ 	hl_ctx_mgr_fini(hdev, &hpriv->ctx_mgr);
++
++	/* Memory buffers might be still in use at this point and thus the handles IDR destruction
++	 * is postponed to hpriv_release().
++	 */
+ 	hl_mem_mgr_fini(&hpriv->mem_mgr);
+ 
+ 	hdev->compute_ctx_in_release = 1;
+@@ -887,6 +894,7 @@ static int device_early_init(struct hl_device *hdev)
+ 
+ free_cb_mgr:
+ 	hl_mem_mgr_fini(&hdev->kernel_mem_mgr);
++	hl_mem_mgr_idr_destroy(&hdev->kernel_mem_mgr);
+ free_chip_info:
+ 	kfree(hdev->hl_chip_info);
+ free_prefetch_wq:
+@@ -930,6 +938,7 @@ static void device_early_fini(struct hl_device *hdev)
+ 	mutex_destroy(&hdev->clk_throttling.lock);
+ 
+ 	hl_mem_mgr_fini(&hdev->kernel_mem_mgr);
++	hl_mem_mgr_idr_destroy(&hdev->kernel_mem_mgr);
+ 
+ 	kfree(hdev->hl_chip_info);
+ 
+diff --git a/drivers/accel/habanalabs/common/habanalabs.h b/drivers/accel/habanalabs/common/habanalabs.h
+index fa05e76d3d21a..829b30ab1961a 100644
+--- a/drivers/accel/habanalabs/common/habanalabs.h
++++ b/drivers/accel/habanalabs/common/habanalabs.h
+@@ -3861,6 +3861,7 @@ const char *hl_sync_engine_to_string(enum hl_sync_engine_type engine_type);
+ 
+ void hl_mem_mgr_init(struct device *dev, struct hl_mem_mgr *mmg);
+ void hl_mem_mgr_fini(struct hl_mem_mgr *mmg);
++void hl_mem_mgr_idr_destroy(struct hl_mem_mgr *mmg);
+ int hl_mem_mgr_mmap(struct hl_mem_mgr *mmg, struct vm_area_struct *vma,
+ 		    void *args);
+ struct hl_mmap_mem_buf *hl_mmap_mem_buf_get(struct hl_mem_mgr *mmg,
+diff --git a/drivers/accel/habanalabs/common/habanalabs_drv.c b/drivers/accel/habanalabs/common/habanalabs_drv.c
+index 03dae57dc8386..e3781cfe8a7fe 100644
+--- a/drivers/accel/habanalabs/common/habanalabs_drv.c
++++ b/drivers/accel/habanalabs/common/habanalabs_drv.c
+@@ -237,6 +237,7 @@ int hl_device_open(struct inode *inode, struct file *filp)
+ out_err:
+ 	mutex_unlock(&hdev->fpriv_list_lock);
+ 	hl_mem_mgr_fini(&hpriv->mem_mgr);
++	hl_mem_mgr_idr_destroy(&hpriv->mem_mgr);
+ 	hl_ctx_mgr_fini(hpriv->hdev, &hpriv->ctx_mgr);
+ 	filp->private_data = NULL;
+ 	mutex_destroy(&hpriv->ctx_lock);
+diff --git a/drivers/accel/habanalabs/common/memory_mgr.c b/drivers/accel/habanalabs/common/memory_mgr.c
+index 0f2759e265477..f8e8261cc83d8 100644
+--- a/drivers/accel/habanalabs/common/memory_mgr.c
++++ b/drivers/accel/habanalabs/common/memory_mgr.c
+@@ -341,8 +341,19 @@ void hl_mem_mgr_fini(struct hl_mem_mgr *mmg)
+ 				"%s: Buff handle %u for CTX is still alive\n",
+ 				topic, id);
  	}
++}
+ 
+-	/* TODO: can it happen that some buffer is still in use at this point? */
++/**
++ * hl_mem_mgr_idr_destroy() - destroy memory manager IDR.
++ * @mmg: parent unified memory manager
++ *
++ * Destroy the memory manager IDR.
++ * Shall be called when IDR is empty and no memory buffers are in use.
++ */
++void hl_mem_mgr_idr_destroy(struct hl_mem_mgr *mmg)
++{
++	if (!idr_is_empty(&mmg->handles))
++		dev_crit(mmg->dev, "memory manager IDR is destroyed while it is not empty!\n");
+ 
+ 	idr_destroy(&mmg->handles);
  }
- 
 -- 
 2.39.2
 
