@@ -1,42 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B83766F2C31
-	for <lists+dri-devel@lfdr.de>; Mon,  1 May 2023 04:58:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BE8D6F2C34
+	for <lists+dri-devel@lfdr.de>; Mon,  1 May 2023 04:58:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0876C10E1EC;
-	Mon,  1 May 2023 02:58:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CE4BF10E206;
+	Mon,  1 May 2023 02:58:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1D03410E1EC;
- Mon,  1 May 2023 02:58:25 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 27EB610E206
+ for <dri-devel@lists.freedesktop.org>; Mon,  1 May 2023 02:58:28 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 9F685614A3;
- Mon,  1 May 2023 02:58:24 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 25548C4339B;
- Mon,  1 May 2023 02:58:21 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id A3B1F6168D;
+ Mon,  1 May 2023 02:58:27 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2F626C4339B;
+ Mon,  1 May 2023 02:58:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1682909904;
- bh=RR0RaiAa39AnLe3EdRJLf/R7mtHLliY0qBdaq/mN1Pk=;
+ s=k20201202; t=1682909907;
+ bh=byWCWSLw3MQQeHKSMnTSsapdwq8cJxSTwv7+8NmzPX0=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=hOV5bId3oz8LNVmvfo1ESDzr+n0fcaf9oBUrsP6/vaR14eZ/LddmplLz4EcVXJEqr
- 9SX7I2U3xD75CP2FYHTdcGTVOUJI4KlSXzYsqna4ZBNfqxS8OT+TLWg5e8irSUYzrE
- XQylvDy1PBcAU6fAnOcPtbBQjkmGQm/yQ+v30KeIQqyJKFp5Ka3G/QZv3a1g2427Aa
- HmnduMPIbIGmOHLn0ap1tKxtAYKdWPM1dX61HzGcAiReFuwXKHYBss6t2kmsI7PYPq
- WcDyLY3L8P2n72qi3OKUbYjypd5DmtKaeG417vHbnHnPkiG5u3xcXU9nXUqJWaMrVu
- rtuZNhk74NcbQ==
+ b=UgwpRNDvzm3n0FQ5zMuIVlLl3qDAAGkR7HpIAKHBaKlF5J51J9KEaQtnrFWOBn1fn
+ StfZ+vepMYiOEj9PmVNXa1LvpQCkJdQFmDh9h9AjO/2cJSH6Qir4sWr0PZ35LMqA8z
+ sDuZ3H/5nftrGAfgT3u8usMNx83wiKDUDw6Q9hqqmVl9vJk3JMvtHSi3Iee7jHLiEK
+ uH2Uecd6g+vf9A9wV3P43JpvutTOubFSqYLm3h73gU3itvbe9tMVSg9u7AMX8+/+Ea
+ mn1cHStPDATvZrp0Cpy1f9xCA57jjH1ai+u2G9eIQNWfCtOuSD5t/x0sd7K7jq/YMg
+ HRV5t9kBsRE8w==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.3 24/44] drm/amd/display: fixed dcn30+ underflow
- issue
-Date: Sun, 30 Apr 2023 22:56:12 -0400
-Message-Id: <20230501025632.3253067-24-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.3 26/44] accel/ivpu: Remove D3hot delay for
+ Meteorlake
+Date: Sun, 30 Apr 2023 22:56:14 -0400
+Message-Id: <20230501025632.3253067-26-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230501025632.3253067-1-sashal@kernel.org>
 References: <20230501025632.3253067-1-sashal@kernel.org>
@@ -56,86 +55,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: felipe.clark@amd.com, wenjing.liu@amd.com, dri-devel@lists.freedesktop.org,
- Jun.Lei@amd.com, Sasha Levin <sashal@kernel.org>, Charlene.Liu@amd.com,
- Rodrigo.Siqueira@amd.com, Syed.Hassan@amd.com, amd-gfx@lists.freedesktop.org,
- aurabindo.pillai@amd.com, Alvin Lee <Alvin.Lee2@amd.com>, Brian.Chang@amd.com,
- sunpeng.li@amd.com, duncan.ma@amd.com, mwen@igalia.com,
- Daniel Wheeler <daniel.wheeler@amd.com>, Martin Leung <Martin.Leung@amd.com>,
- Ayush Gupta <ayugupta@amd.com>, sungjoon.kim@amd.com, Dillon.Varone@amd.com,
- Wesley.Chalmers@amd.com, Qingqing Zhuo <qingqing.zhuo@amd.com>,
- Xinhui.Pan@amd.com, Alex Deucher <alexander.deucher@amd.com>,
- christian.koenig@amd.com
+Cc: Sasha Levin <sashal@kernel.org>, Jeffrey Hugo <quic_jhugo@quicinc.com>,
+ Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>, ogabbay@kernel.org,
+ dri-devel@lists.freedesktop.org,
+ Karol Wachowski <karol.wachowski@linux.intel.com>,
+ Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Ayush Gupta <ayugupta@amd.com>
+From: Karol Wachowski <karol.wachowski@linux.intel.com>
 
-[ Upstream commit 37403ced9f2873fab7f39ab4ac963bbb33fb0bc0 ]
+[ Upstream commit cb949ce504e829193234e26cb3042bb448465d52 ]
 
-[Why]
-Observing underflow on dcn30+ system config at 4k144hz
+VPU on MTL has hardware optimizations and does not require 10ms
+D0 - D3hot transition delay imposed by PCI specification (PCIe
+r6.0, sec 5.9.) .
 
-[How]
-We set the UCLK hardmax on AC/DC switch if softmax is enabled
-and also on boot. While booting up the UCLK Hardmax is set
-to softmax before the init sequence and the init sequence
-resets the hardmax to UCLK max which enables P-state switching.
-Just added a conditional check to avoid setting hardmax on init.
+The delay removal is traditionally done by adding PCI ID to
+quirk_remove_d3hot_delay() in drivers/pci/quirks.c . But since
+we do not need that optimization before driver probe and we
+can better specify in the ivpu driver on what (future) hardware
+use the optimization, we do not use quirk_remove_d3hot_delay()
+for that.
 
-Reviewed-by: Alvin Lee <Alvin.Lee2@amd.com>
-Reviewed-by: Martin Leung <Martin.Leung@amd.com>
-Acked-by: Qingqing Zhuo <qingqing.zhuo@amd.com>
-Signed-off-by: Ayush Gupta <ayugupta@amd.com>
-Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+Signed-off-by: Karol Wachowski <karol.wachowski@linux.intel.com>
+Signed-off-by: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
+Reviewed-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
+Signed-off-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/20230403121545.2995279-1-stanislaw.gruszka@linux.intel.com
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/display/dc/dcn30/dcn30_hwseq.c | 3 ++-
- drivers/gpu/drm/amd/display/dc/dcn31/dcn31_hwseq.c | 2 +-
- drivers/gpu/drm/amd/display/dc/dcn32/dcn32_hwseq.c | 2 +-
- 3 files changed, 4 insertions(+), 3 deletions(-)
+ drivers/accel/ivpu/ivpu_drv.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_hwseq.c b/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_hwseq.c
-index df787fcf8e86e..0e730445459c7 100644
---- a/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_hwseq.c
-+++ b/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_hwseq.c
-@@ -629,7 +629,8 @@ void dcn30_init_hw(struct dc *dc)
- 	if (dc->clk_mgr->funcs->notify_wm_ranges)
- 		dc->clk_mgr->funcs->notify_wm_ranges(dc->clk_mgr);
+diff --git a/drivers/accel/ivpu/ivpu_drv.c b/drivers/accel/ivpu/ivpu_drv.c
+index 6a320a73e3ccf..8396db2b52030 100644
+--- a/drivers/accel/ivpu/ivpu_drv.c
++++ b/drivers/accel/ivpu/ivpu_drv.c
+@@ -437,6 +437,10 @@ static int ivpu_pci_init(struct ivpu_device *vdev)
+ 	/* Clear any pending errors */
+ 	pcie_capability_clear_word(pdev, PCI_EXP_DEVSTA, 0x3f);
  
--	if (dc->clk_mgr->funcs->set_hard_max_memclk)
-+	//if softmax is enabled then hardmax will be set by a different call
-+	if (dc->clk_mgr->funcs->set_hard_max_memclk && !dc->clk_mgr->dc_mode_softmax_enabled)
- 		dc->clk_mgr->funcs->set_hard_max_memclk(dc->clk_mgr);
- 
- 	if (dc->res_pool->hubbub->funcs->force_pstate_change_control)
-diff --git a/drivers/gpu/drm/amd/display/dc/dcn31/dcn31_hwseq.c b/drivers/gpu/drm/amd/display/dc/dcn31/dcn31_hwseq.c
-index d13e46eeee3c0..6d3f2335b9f1e 100644
---- a/drivers/gpu/drm/amd/display/dc/dcn31/dcn31_hwseq.c
-+++ b/drivers/gpu/drm/amd/display/dc/dcn31/dcn31_hwseq.c
-@@ -285,7 +285,7 @@ void dcn31_init_hw(struct dc *dc)
- 	if (dc->clk_mgr->funcs->notify_wm_ranges)
- 		dc->clk_mgr->funcs->notify_wm_ranges(dc->clk_mgr);
- 
--	if (dc->clk_mgr->funcs->set_hard_max_memclk)
-+	if (dc->clk_mgr->funcs->set_hard_max_memclk && !dc->clk_mgr->dc_mode_softmax_enabled)
- 		dc->clk_mgr->funcs->set_hard_max_memclk(dc->clk_mgr);
- 
- 	if (dc->res_pool->hubbub->funcs->force_pstate_change_control)
-diff --git a/drivers/gpu/drm/amd/display/dc/dcn32/dcn32_hwseq.c b/drivers/gpu/drm/amd/display/dc/dcn32/dcn32_hwseq.c
-index 9d14045cccd63..ae96157e98ecb 100644
---- a/drivers/gpu/drm/amd/display/dc/dcn32/dcn32_hwseq.c
-+++ b/drivers/gpu/drm/amd/display/dc/dcn32/dcn32_hwseq.c
-@@ -895,7 +895,7 @@ void dcn32_init_hw(struct dc *dc)
- 	if (dc->clk_mgr->funcs->notify_wm_ranges)
- 		dc->clk_mgr->funcs->notify_wm_ranges(dc->clk_mgr);
- 
--	if (dc->clk_mgr->funcs->set_hard_max_memclk)
-+	if (dc->clk_mgr->funcs->set_hard_max_memclk && !dc->clk_mgr->dc_mode_softmax_enabled)
- 		dc->clk_mgr->funcs->set_hard_max_memclk(dc->clk_mgr);
- 
- 	if (dc->res_pool->hubbub->funcs->force_pstate_change_control)
++	/* VPU MTL does not require PCI spec 10m D3hot delay */
++	if (ivpu_is_mtl(vdev))
++		pdev->d3hot_delay = 0;
++
+ 	ret = pcim_enable_device(pdev);
+ 	if (ret) {
+ 		ivpu_err(vdev, "Failed to enable PCI device: %d\n", ret);
 -- 
 2.39.2
 
