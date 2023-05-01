@@ -2,42 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9C876F2C04
-	for <lists+dri-devel@lfdr.de>; Mon,  1 May 2023 04:56:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC9466F2C08
+	for <lists+dri-devel@lfdr.de>; Mon,  1 May 2023 04:56:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AB47210E093;
-	Mon,  1 May 2023 02:56:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3751F10E194;
+	Mon,  1 May 2023 02:56:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2BAAA10E093
- for <dri-devel@lists.freedesktop.org>; Mon,  1 May 2023 02:56:39 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 339E310E132;
+ Mon,  1 May 2023 02:56:44 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 798016156A;
- Mon,  1 May 2023 02:56:36 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AF01EC433D2;
- Mon,  1 May 2023 02:56:34 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id F0AC3615AE;
+ Mon,  1 May 2023 02:56:42 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9D503C433EF;
+ Mon,  1 May 2023 02:56:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1682909795;
- bh=BtlnXcSRm/rre6eCabVHchSdoSEbnBIthAn8DRjtqNY=;
- h=From:To:Cc:Subject:Date:From;
- b=RfD/1oIbqxfBnswE7K/yW/suqtBCk5TO/t7174a3AT1bJIgaUZYmrIZadhPdP+JnB
- nHAqVSFmelON0ySskz8yXnkXEJEgMYhRaiKh48mCAfzKE0yRhe0cywQPHIMeTDq3TK
- NkeDAMiHuHpbcxhv4TZbK6rYIN/m52QCr7AxdbyHEl+bNQlkqfFgbDa2iZiQ4DlzHt
- fq7ZETRHV3WaXmb/YteynOJHIuM+6ISDHVlRrw1Cb7bKLTwixjDFsSs4F9mIZUhuWQ
- c0/evp7K2zKoI2dP7Fyb3NLC3XcE3zRfD2+4bx9lM9KIwe3angtK/WTad4VKB7ruPP
- ntfsf4ERPNdaQ==
+ s=k20201202; t=1682909802;
+ bh=eDQoBVYoSsBP6p23VcpY+zOVKBPTRBSYB4h1WLwasnQ=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=WSjhzxYCgpQbPNA47XE/j3QSLyqiDDFVFcQXU9VtwTIulBvSmX2CPOARetgrzgijF
+ a0gxaPbWWLBBfGX9WZEey/cna/FgUWag8GECDbm8gBWVBJxBN7KIO263XLpPdayBBN
+ cqtE8LY4RzjUbU4rE7womO5IZFtihcaeoEjMR1Hnq8hRYVzITMfC85SMT7T0tok++7
+ NebUXsewlYvlYcDvRcmHb0zdF4awVHSsdut5XR0vucH01keEcmDHnj9NkkvzV6HWJw
+ riZsl0Ba6GLqPOJMu5/UeT4eu/+QgcvaherG1LDJpznZQT78Q1WHc2n4ZCK+AU41kr
+ odTldUsj5iw5A==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.3 01/44] drm/displayid: add displayid_get_header()
- and check bounds better
-Date: Sun, 30 Apr 2023 22:55:49 -0400
-Message-Id: <20230501025632.3253067-1-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.3 02/44] drm/amd/display: populate subvp cmd info
+ only for the top pipe
+Date: Sun, 30 Apr 2023 22:55:50 -0400
+Message-Id: <20230501025632.3253067-2-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20230501025632.3253067-1-sashal@kernel.org>
+References: <20230501025632.3253067-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -54,67 +55,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Iaroslav Boliukin <iam@lach.pw>,
- Jani Nikula <jani.nikula@intel.com>, tzimmermann@suse.de,
- dri-devel@lists.freedesktop.org,
- Dmitry Osipenko <dmitry.osipenko@collabora.com>
+Cc: Sasha Levin <sashal@kernel.org>, dri-devel@lists.freedesktop.org,
+ sunpeng.li@amd.com, Qingqing Zhuo <qingqing.zhuo@amd.com>, Xinhui.Pan@amd.com,
+ Rodrigo.Siqueira@amd.com, amd-gfx@lists.freedesktop.org, Max.Tseng@amd.com,
+ Ayush Gupta <ayush.gupta@amd.com>, Daniel Wheeler <daniel.wheeler@amd.com>,
+ Alvin Lee <Alvin.Lee2@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
+ Jun.Lei@amd.com, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Jani Nikula <jani.nikula@intel.com>
+From: Ayush Gupta <ayush.gupta@amd.com>
 
-[ Upstream commit 5bacecc3c56131c31f18b23d366f2184328fd9cf ]
+[ Upstream commit 9bb10b7aaec3b6278f9cc410c17dcaa129bbbbf0 ]
 
-Add a helper to get a pointer to struct displayid_header. To be
-pedantic, add buffer overflow checks to not touch the base if that
-itself would overflow.
+[Why]
+System restart observed while changing the display resolution
+to 8k with extended mode. Sytem restart was caused by a page fault.
 
-Cc: Iaroslav Boliukin <iam@lach.pw>
-Cc: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-Signed-off-by: Jani Nikula <jani.nikula@intel.com>
-Tested-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-Reviewed-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/4a03b3a5132642d3cdb6d4c2641422955a917292.1676580180.git.jani.nikula@intel.com
+[How]
+When the driver populates subvp info it did it for both the pipes using
+vblank which caused an outof bounds array access causing the page fault.
+added checks to allow the top pipe only to fix this issue.
+
+Co-authored-by: Ayush Gupta <ayush.gupta@amd.com>
+Reviewed-by: Alvin Lee <Alvin.Lee2@amd.com>
+Acked-by: Qingqing Zhuo <qingqing.zhuo@amd.com>
+Signed-off-by: Ayush Gupta <ayush.gupta@amd.com>
+Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/drm_displayid.c | 17 ++++++++++++++++-
- 1 file changed, 16 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/amd/display/dc/dc_dmub_srv.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/drm_displayid.c b/drivers/gpu/drm/drm_displayid.c
-index 38ea8203df45b..7d03159dc1461 100644
---- a/drivers/gpu/drm/drm_displayid.c
-+++ b/drivers/gpu/drm/drm_displayid.c
-@@ -7,13 +7,28 @@
- #include <drm/drm_edid.h>
- #include <drm/drm_print.h>
- 
-+static const struct displayid_header *
-+displayid_get_header(const u8 *displayid, int length, int index)
-+{
-+	const struct displayid_header *base;
-+
-+	if (sizeof(*base) > length - index)
-+		return ERR_PTR(-EINVAL);
-+
-+	base = (const struct displayid_header *)&displayid[index];
-+
-+	return base;
-+}
-+
- static int validate_displayid(const u8 *displayid, int length, int idx)
- {
- 	int i, dispid_length;
- 	u8 csum = 0;
- 	const struct displayid_header *base;
- 
--	base = (const struct displayid_header *)&displayid[idx];
-+	base = displayid_get_header(displayid, length, idx);
-+	if (IS_ERR(base))
-+		return PTR_ERR(base);
- 
- 	DRM_DEBUG_KMS("base revision 0x%x, length %d, %d %d\n",
- 		      base->rev, base->bytes, base->prod_id, base->ext_count);
+diff --git a/drivers/gpu/drm/amd/display/dc/dc_dmub_srv.c b/drivers/gpu/drm/amd/display/dc/dc_dmub_srv.c
+index c2092775ca88f..7f27e29fae116 100644
+--- a/drivers/gpu/drm/amd/display/dc/dc_dmub_srv.c
++++ b/drivers/gpu/drm/amd/display/dc/dc_dmub_srv.c
+@@ -750,7 +750,8 @@ void dc_dmub_setup_subvp_dmub_command(struct dc *dc,
+ 					!pipe->top_pipe && !pipe->prev_odm_pipe &&
+ 					pipe->stream->mall_stream_config.type == SUBVP_MAIN) {
+ 				populate_subvp_cmd_pipe_info(dc, context, &cmd, pipe, cmd_pipe_index++);
+-			} else if (pipe->plane_state && pipe->stream->mall_stream_config.type == SUBVP_NONE) {
++			} else if (pipe->plane_state && pipe->stream->mall_stream_config.type == SUBVP_NONE &&
++				    !pipe->top_pipe && !pipe->prev_odm_pipe) {
+ 				// Don't need to check for ActiveDRAMClockChangeMargin < 0, not valid in cases where
+ 				// we run through DML without calculating "natural" P-state support
+ 				populate_subvp_cmd_vblank_pipe_info(dc, context, &cmd, pipe, cmd_pipe_index++);
 -- 
 2.39.2
 
