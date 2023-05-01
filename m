@@ -2,75 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D94416F3635
-	for <lists+dri-devel@lfdr.de>; Mon,  1 May 2023 20:49:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85DC26F3642
+	for <lists+dri-devel@lfdr.de>; Mon,  1 May 2023 20:51:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BA50F10E263;
-	Mon,  1 May 2023 18:49:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 749B910E0FD;
+	Mon,  1 May 2023 18:51:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0A41410E0FD;
- Mon,  1 May 2023 18:49:17 +0000 (UTC)
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 341IRmJs031077; Mon, 1 May 2023 18:49:12 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=hVjorRTiAEpDUw9YlIjeJau77bm6NcDSrvcvnTirApI=;
- b=j7G8UEev4t3SKmrgMqsXSWXGdyL1z7MigHsmi/NCUENY7YY90av0wu1trAUd3ZRSWh1H
- 8cuGHEf3hHfT4EGMEARviRrf5ccD4itlNqondpHE8FE+A+oylkBDyGY0D3+skyQcV0ff
- LMMkJmf4tYF0Tj9rPTHAh1n9vs0ITvWvCY12WzTSTC8bdpgwPDPFZIcGWyA1/N74Fu6F
- LrYyDr1m53FpQtIu7fEINOk7tHe0xVqCV1IxbxNJq52iVRAXbdiLgGhseEqpPgeJze67
- qzFo03sJN4+sS8RJTiplmAAdo/Yu1+guVc+cHtQURaa8kbnpu9GcgKFYKUPEDYa913Ow pQ== 
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3q8vhgvbcc-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 01 May 2023 18:49:11 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 341In72v027951
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 1 May 2023 18:49:07 GMT
-Received: from [10.134.70.142] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Mon, 1 May 2023
- 11:49:06 -0700
-Message-ID: <61997e7e-1a4f-8b1d-1a7d-a1ed802ae83d@quicinc.com>
-Date: Mon, 1 May 2023 11:49:06 -0700
+Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com
+ [IPv6:2a00:1450:4864:20::533])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DD09510E0FD
+ for <dri-devel@lists.freedesktop.org>; Mon,  1 May 2023 18:51:12 +0000 (UTC)
+Received: by mail-ed1-x533.google.com with SMTP id
+ 4fb4d7f45d1cf-50a14564d17so42180388a12.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 01 May 2023 11:51:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1682967071; x=1685559071;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=3XXYNDfuK22xee9U1YJ5+QfMQLLMlc/YWcr8hr/XmrE=;
+ b=JTE+nMeiXrEBmK6b6ca7iIUWxu4N1hoW58ICQbltZgwzCnuO+JBl5zCLrj8usm2asB
+ PflGb3ymSYxog4V9KTm4LNh3RngboBo59/BE35JekpLKhWeJAoRPkaVKgsRD1nFA0LO5
+ PsYl0ceCqi05FBMeJmdgiKIuhkt4y7eeaS8A5qamMQvWMsRgSwsbrtVWrQooI7WQsGXd
+ FabVAaELtTkptC9EFQ7cOwWNjlt13VyQeO/dHGe6t2wddhMk0ycFLnFU/jJhivcvnu8P
+ V7YPCFZTzufXdcwPpjjf9ATog5ZTr31O+aN7NxoqI4/ZR8hjzrALg/ET7LrNMVXc2psp
+ jwyQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1682967071; x=1685559071;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=3XXYNDfuK22xee9U1YJ5+QfMQLLMlc/YWcr8hr/XmrE=;
+ b=MNFGMGWn6C1xoRsyGsdfsESt73XHwknZ3q/vF91SNEODfW6UkT4LsZsY8Gt0d3RxCX
+ x4tN6ZCAvMdJlstRinIIn1Y3o8/gEtOdX1xoxIwjjeeusv40uQY5toyL/QJiPZvtZLXX
+ 7TyjEyRU5xvyeSY/lN+rH5HI2P/8Nyl3sF82Q1D9xQy78jyUUZzumKy6lkxnWQpH4via
+ PTXF9OWYvnY4kC7hOQ5WzKwC88rpnFFfiuX0y3/MCAmhmINbW94izVx6/tES0ezFO+YT
+ EnrjAW2lMgKR9QN+yEn39qbJF/DJ9kD3q+GqFKkpn7H5vRMq8sIImVvB8rw6nW36d2fw
+ bbvA==
+X-Gm-Message-State: AC+VfDxCnK9ApR9X5sXenbkwO6ozg/WXSvbr7FqSUUR8kMKArbTLImcc
+ FdEOv+vilDgTHJ6KqkxyU4g=
+X-Google-Smtp-Source: ACHHUZ7ATh/b0KyAWXtQ+IaqPpPkys5spjADfJRhTldvk2ettaxUuN3dPUxInrA/94QBVnJsFMUuuw==
+X-Received: by 2002:a17:907:6d19:b0:94f:511a:a183 with SMTP id
+ sa25-20020a1709076d1900b0094f511aa183mr13144185ejc.36.1682967070908; 
+ Mon, 01 May 2023 11:51:10 -0700 (PDT)
+Received: from localhost.my.domain (83.8.115.30.ipv4.supernova.orange.pl.
+ [83.8.115.30]) by smtp.gmail.com with ESMTPSA id
+ g10-20020a170906594a00b008cecb8f374asm15028335ejr.0.2023.05.01.11.51.09
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 01 May 2023 11:51:10 -0700 (PDT)
+From: Artur Weber <aweber.kernel@gmail.com>
+To: Thierry Reding <thierry.reding@gmail.com>
+Subject: [PATCH v4 0/3] Add Samsung S6D7AA0 panel controller driver
+Date: Mon,  1 May 2023 20:51:00 +0200
+Message-Id: <20230501185103.25939-1-aweber.kernel@gmail.com>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.2
-Subject: Re: [PATCH v3] drm/msm/dpu: drop unused SSPP sub-block information
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
- <robdclark@gmail.com>, Sean Paul <sean@poorly.run>
-References: <20230429212512.2947245-1-dmitry.baryshkov@linaro.org>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <20230429212512.2947245-1-dmitry.baryshkov@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: NC9Q3yfR6IHhs_jEX9wx-fQ6oAS1skly
-X-Proofpoint-ORIG-GUID: NC9Q3yfR6IHhs_jEX9wx-fQ6oAS1skly
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-05-01_11,2023-04-27_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 impostorscore=0
- suspectscore=0 phishscore=0 mlxscore=0 bulkscore=0 malwarescore=0
- mlxlogscore=999 adultscore=0 lowpriorityscore=0 priorityscore=1501
- clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2303200000 definitions=main-2305010154
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,57 +70,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>
+Cc: devicetree@vger.kernel.org, Sam Ravnborg <sam@ravnborg.org>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Rob Herring <robh+dt@kernel.org>, ~postmarketos/upstreaming@lists.sr.ht,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Artur Weber <aweber.kernel@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+This patchset adds initial support for Samsung S6D7AA0-based panels.
+Currently, the following panels are supported:
+
+ - S6D7AA0-LSL080AL02 (Samsung Galaxy Tab 3 8.0)
+ - S6D7AA0-LSL080AL03 (Samsung Galaxy Tab A 8.0 2015)
+ - S6D7AA0-LTL101AT01 (Samsung Galaxy Tab A 9.7 2015)
+
+Changed in v2:
+ - Added commit messages for dt-bindings and MAINTAINERS entry commits
+ - dt-bindings: Applied suggestions from Krzysztof Kozlowski
+ - driver: Removed unused panel_name property from desc struct
+
+Changed in v3:
+ - Correctly applied patch for dt-bindings
+
+Changed in v4:
+ - Added support for LSL080AL03 and LTL101AT01 panels
+ - Added DSI-controlled backlight support for panels that support it
+ - Added vmipi-supply
+ - Dropped s6d7aa0_bl_ctl_on function (not universal across all panels)
+ - Removed MIPI_DSI_MODE_LPM flag
+
+Artur Weber (3):
+  dt-bindings: display: panel: Add Samsung S6D7AA0 LCD panel controller
+  drm/panel: Add Samsung S6D7AA0 panel controller driver
+  MAINTAINERS: Add entry for Samsung S6D7AA0 LCD panel controller driver
+
+ .../display/panel/samsung,s6d7aa0.yaml        |  68 ++
+ MAINTAINERS                                   |   6 +
+ drivers/gpu/drm/panel/Kconfig                 |   7 +
+ drivers/gpu/drm/panel/Makefile                |   1 +
+ drivers/gpu/drm/panel/panel-samsung-s6d7aa0.c | 585 ++++++++++++++++++
+ 5 files changed, 667 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/panel/samsung,s6d7aa0.yaml
+ create mode 100644 drivers/gpu/drm/panel/panel-samsung-s6d7aa0.c
 
 
-On 4/29/2023 2:25 PM, Dmitry Baryshkov wrote:
-> The driver  doesn't support hsic/memcolor and pcc SSPP subblocks.
-> Drop corresponding definitions.
-> 
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> ---
-> 
-> Changes since v2:
-> - Fixed commit message to remove igc block mention.
-> 
-> Changes since v1:
->   - Rebased on top of https://patchwork.freedesktop.org/patch/534725/?series=117130&rev=1
-> 
-> ---
->   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h | 6 ------
->   1 file changed, 6 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-> index 69d1f1e59db1..b2831b45ac64 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-> @@ -380,9 +380,6 @@ struct dpu_caps {
->    * @qseed_ver: qseed version
->    * @scaler_blk:
->    * @csc_blk:
-> - * @hsic:
-> - * @memcolor:
-> - * @pcc_blk:
+base-commit: 9102d61886cb887b152f89c2481a6c17d1846fee
+-- 
+2.40.1
 
-pcc_blk is still there. So this should be dropped. Once that is fixed,
-
-Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
-
->    * @format_list: Pointer to list of supported formats
->    * @num_formats: Number of supported formats
->    * @virt_format_list: Pointer to list of supported formats for virtual planes
-> @@ -399,9 +396,6 @@ struct dpu_sspp_sub_blks {
->   	u32 qseed_ver;
->   	struct dpu_scaler_blk scaler_blk;
->   	struct dpu_pp_blk csc_blk;
-> -	struct dpu_pp_blk hsic_blk;
-> -	struct dpu_pp_blk memcolor_blk;
-> -	struct dpu_pp_blk pcc_blk;
->   
->   	const u32 *format_list;
->   	u32 num_formats;
