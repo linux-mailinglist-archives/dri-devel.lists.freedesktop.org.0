@@ -1,50 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1AE6A6F3312
-	for <lists+dri-devel@lfdr.de>; Mon,  1 May 2023 17:42:55 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 491A76F336E
+	for <lists+dri-devel@lfdr.de>; Mon,  1 May 2023 18:09:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 210D810E175;
-	Mon,  1 May 2023 15:42:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 455F810E08B;
+	Mon,  1 May 2023 16:09:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3832110E117;
- Mon,  1 May 2023 15:42:47 +0000 (UTC)
-Received: from [192.168.2.246] (109-252-144-198.dynamic.spd-mgts.ru
- [109.252.144.198])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits))
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A81BF10E08B
+ for <dri-devel@lists.freedesktop.org>; Mon,  1 May 2023 16:09:19 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- (Authenticated sender: dmitry.osipenko)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id EB81C66029DE;
- Mon,  1 May 2023 16:42:43 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1682955765;
- bh=tnb48ajCvVa+EQpEey/B5t9Rz5vp0zrnI8Dk3GtJzds=;
- h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
- b=WgvDqGNqkRpELu/Mnul8g+QVtXq/hzn4k+FFEpusaFYSFGnm1Jzhw7htlINg83ht0
- rimocQaotDdO/fUi53zoTX3QHV7v9281Ek5Igtx+auJwFkjZpXDctQ0M/Kn5vHfS4+
- OW4QnmZX768H0BwI2PhD+LIZzOHhUDWBMs+Ix1NrYapO0+w/aY+gydF6hv1Foy7+Gb
- ViVwJ+6U+FpEkMOKSwdCn/llqkyoZM7FDHdwIeDlq2uH1XtoQerfiViPJdSJ5w6mWI
- 1vjSPku078f0wkOVjQ9EvdrbQ3FtYALJUEpnGClgOfUj1aOcHAQUZKOvTnrFiO979u
- 8o4Qf3UIpdQqQ==
-Message-ID: <14d7ed85-7ab6-04d9-1958-d5ceae2a79f8@collabora.com>
-Date: Mon, 1 May 2023 18:42:40 +0300
+ by dfw.source.kernel.org (Postfix) with ESMTPS id D408960E99;
+ Mon,  1 May 2023 16:09:18 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E49CAC433D2;
+ Mon,  1 May 2023 16:09:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1682957358;
+ bh=FpX1zNwZQzmzSkTPVq4PcLD3xWjdT3sXy6nTbjcK06Q=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=nFPnn1MdR23QP0io14jeQsK8WBK8E0y7G8G37buFvBxFvbHWDdKo76elxOU+pZInP
+ VL0YOYaYclgnWfZhctvmv9H4En4qjRie3Zbr96Ca55KFhtGPM84yPV9a0WZ6DDO3j7
+ rrB4o/1uO19CtnzLgJnxkQmjdwER4TWZImzkK8LKEtpqvcLwGIic1PwDIJ06j8r/ck
+ lP3a1u9WwXwm2m1Eg8cXo+IkrcypCIsiusgB/dDJ50wnhhQK4OHqPzucqRbWKUBxA2
+ /t2uqEi80OMTxnUe9y42Bf40xd8zkq8NIWjOIvTtqCFBRrGyeeGm4mHydH6+9OH97O
+ cDQFyymLTnZWQ==
+Date: Mon, 1 May 2023 17:25:02 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: Paul Cercueil <paul@crapouillou.net>
+Subject: Re: [PATCH v3 03/11] iio: buffer-dma: Get rid of outgoing queue
+Message-ID: <20230501172502.125e4859@jic23-huawei>
+In-Reply-To: <1f63ffced9ed18309401af9a885310e1715b6538.camel@crapouillou.net>
+References: <20230403154800.215924-1-paul@crapouillou.net>
+ <20230403154800.215924-4-paul@crapouillou.net>
+ <20230416152422.477ecf67@jic23-huawei>
+ <1f63ffced9ed18309401af9a885310e1715b6538.camel@crapouillou.net>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.37; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH v2 6/7] dma-buf: Change locking policy for mmap()
-Content-Language: en-US
-From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-References: <20230406160637.541702-1-dmitry.osipenko@collabora.com>
- <20230406160637.541702-7-dmitry.osipenko@collabora.com>
-In-Reply-To: <20230406160637.541702-7-dmitry.osipenko@collabora.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,41 +55,80 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, Thierry Reding <thierry.reding@gmail.com>,
- John Stultz <jstultz@google.com>, Gerd Hoffmann <kraxel@redhat.com>,
- kernel@collabora.com, Sumit Semwal <sumit.semwal@linaro.org>,
- Marek Szyprowski <m.szyprowski@samsung.com>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- linux-media@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
- linux-arm-msm@vger.kernel.org, intel-gfx@lists.freedesktop.org,
- linux-tegra@vger.kernel.org, Mauro Carvalho Chehab <mchehab@kernel.org>,
- Tomi Valkeinen <tomba@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Emil Velikov <emil.l.velikov@gmail.com>, linux-kernel@vger.kernel.org,
- Liam Mark <lmark@codeaurora.org>, Tomasz Figa <tfiga@chromium.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
- Amol Maheshwari <amahesh@qti.qualcomm.com>
+Cc: Michael Hennerich <Michael.Hennerich@analog.com>, linux-iio@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Sumit Semwal <sumit.semwal@linaro.org>, linaro-mm-sig@lists.linaro.org,
+ Vinod Koul <vkoul@kernel.org>, Nuno =?UTF-8?B?U8Oh?= <noname.nuno@gmail.com>,
+ dmaengine@vger.kernel.org,
+ Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 4/6/23 19:06, Dmitry Osipenko wrote:
-> Change locking policy of mmap() callback, making exporters responsible
-> for handling dma-buf reservation locking. Previous locking policy stated
-> that dma-buf is locked for both importers and exporters by the dma-buf
-> core, which caused a deadlock problem for DRM drivers in a case of
-> self-imported dma-bufs which required to take the lock from the DRM
-> exporter side.
-> 
-> Reviewed-by: Emil Velikov <emil.l.velikov@gmail.com>
-> Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-> ---
->  drivers/dma-buf/dma-buf.c | 17 +++--------------
->  1 file changed, 3 insertions(+), 14 deletions(-)
+On Tue, 18 Apr 2023 10:08:21 +0200
+Paul Cercueil <paul@crapouillou.net> wrote:
 
-Christian, may I add yours ack to this patch?
+> Hi Jonathan,
+>=20
+> Le dimanche 16 avril 2023 =C3=A0 15:24 +0100, Jonathan Cameron a =C3=A9cr=
+it=C2=A0:
+> > On Mon,=C2=A0 3 Apr 2023 17:47:52 +0200
+> > Paul Cercueil <paul@crapouillou.net> wrote:
+> >  =20
+> > > The buffer-dma code was using two queues, incoming and outgoing, to
+> > > manage the state of the blocks in use.
+> > >=20
+> > > While this totally works, it adds some complexity to the code,
+> > > especially since the code only manages 2 blocks. It is much easier
+> > > to
+> > > just check each block's state manually, and keep a counter for the
+> > > next
+> > > block to dequeue.
+> > >=20
+> > > Since the new DMABUF based API wouldn't use the outgoing queue
+> > > anyway,
+> > > getting rid of it now makes the upcoming changes simpler.
+> > >=20
+> > > With this change, the IIO_BLOCK_STATE_DEQUEUED is now useless, and
+> > > can
+> > > be removed.
+> > >=20
+> > > Signed-off-by: Paul Cercueil <paul@crapouillou.net>
+> > >=20
+> > > ---
+> > > v2: - Only remove the outgoing queue, and keep the incoming queue,
+> > > as we
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 want the buffer to start streaming dat=
+a as soon as it is
+> > > enabled.
+> > > =C2=A0=C2=A0=C2=A0 - Remove IIO_BLOCK_STATE_DEQUEUED, since it is now=
+ functionally
+> > > the
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 same as IIO_BLOCK_STATE_DONE. =20
+> >=20
+> > I'm not that familiar with this code, but with my understanding this
+> > makes
+> > sense.=C2=A0=C2=A0 I think it is independent of the earlier patches and=
+ is a
+> > useful
+> > change in it's own right.=C2=A0 As such, does it make sense to pick this
+> > up
+> > ahead of the rest of the series? I'm assuming that discussion on the
+> > rest will take a while.=C2=A0 No great rush as too late for the coming
+> > merge
+> > window anyway. =20
+>=20
+> Actually, you can pick patches 3 to 6 (when all have been acked). They
+> add write support for buffer-dma implementations; which is a dependency
+> for the rest of the patchset, but they can live on their own.
 
--- 
-Best regards,
-Dmitry
+Remind me of that in the cover letter for v4.
+
+Thanks,
+
+Jonathan
+
+>=20
+> Cheers,
+> -Paul
 
