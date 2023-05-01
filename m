@@ -1,73 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B74D66F3A61
-	for <lists+dri-devel@lfdr.de>; Tue,  2 May 2023 00:20:33 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 186F16F3A63
+	for <lists+dri-devel@lfdr.de>; Tue,  2 May 2023 00:23:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D6AD310E33B;
-	Mon,  1 May 2023 22:20:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2490010E204;
+	Mon,  1 May 2023 22:23:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x232.google.com (mail-lj1-x232.google.com
- [IPv6:2a00:1450:4864:20::232])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3F6DF10E204
- for <dri-devel@lists.freedesktop.org>; Mon,  1 May 2023 22:20:27 +0000 (UTC)
-Received: by mail-lj1-x232.google.com with SMTP id
- 38308e7fff4ca-2a8ad872ea5so29753481fa.2
- for <dri-devel@lists.freedesktop.org>; Mon, 01 May 2023 15:20:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1682979625; x=1685571625;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=2gdNweICcIcd6LA8fyCmb9oSxh/3nexy4N7eRxWxvCo=;
- b=q10bCBPfFfglixMg6jhybaJmY4v/F1zoR3nAfLgEFNN+xmwnzAMgJ4RnvjZmmFI3vO
- T6lbPuvSfY3yEW6RPtQjUTsK2i4at/X1IadaDf+dcYMF0zGAIZSk1LH7+5g3D4JWbfMW
- cxIp7YPjBu0G6BLVYRsBmCvDTER+6Wk4ZvgGWs9UDLJMr1SPi9BlxEbRkdrb4Qqw36dy
- N4U25xVlUDE9DgPElAIRspdPXWL/xiOAheZZscsHdEm6+8LXca+0DoZMsLmtaI9cq2XZ
- 8GHT5wSweURY3qEwYKAMjpEKqmtTzTPxcvQ12nzQOABMv911WORqH9XQ3c73lmsbV8sY
- pNvg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682979625; x=1685571625;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=2gdNweICcIcd6LA8fyCmb9oSxh/3nexy4N7eRxWxvCo=;
- b=DT2UogHOey5zD1qOmFku+VCZUzmWpEjkxyglrHN6pQ5VRms3dPCSgkdj5PPx18Bdaz
- YwqW3Nqen7TiYSJ6YgKVatFPWVdRMlGf7khiXbH81xBTiLc/9xHjZ3XGn/Q2W/3zoCP4
- 3mH41BDV6FfmshkNoOkU389c3kDLCb6oyxeZcyWUzA66SRrrIAyoxGFA5vhXzhgsrc1D
- AT2yysa0746nNzIVJh2UOlN3zHYaOvXgP/gl8EtjHX068vl4YjKA0/KQcm/b2r7B6t+0
- k9hymbZCcs0cCLf4ir5vgFrQ2AMcplvYImqc/dglR0ST+BnNkIYkqESB7BxbarETI3rv
- IjlA==
-X-Gm-Message-State: AC+VfDyFuUTB/uWiTYW5xBfvUn4aTLXPNPtvu9OG+EFgJkuCMVn33Lba
- GPXe3XV7EfrxFi3srGQXs7KoKg==
-X-Google-Smtp-Source: ACHHUZ5IE1LwBNBw554PWeeruy31Kz9pc3hCYOQ5wT9CrGyg+/pJZUxZYa69soJer6HDM9sb8d//QA==
-X-Received: by 2002:ac2:5a0e:0:b0:4ef:d5dd:8bba with SMTP id
- q14-20020ac25a0e000000b004efd5dd8bbamr3631020lfn.53.1682979624863; 
- Mon, 01 May 2023 15:20:24 -0700 (PDT)
-Received: from ?IPV6:2001:14ba:a0db:1f00::8a5?
- (dzdqv0yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a0db:1f00::8a5])
- by smtp.gmail.com with ESMTPSA id
- b7-20020a056512024700b004e7fa99f3f4sm4938514lfo.265.2023.05.01.15.20.24
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 01 May 2023 15:20:24 -0700 (PDT)
-Message-ID: <ba4f3c08-37a8-5b0b-22cd-241b0e465509@linaro.org>
-Date: Tue, 2 May 2023 01:20:23 +0300
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH 3/4] drm/msm/dpu: use PINGPONG_NONE for LMs with no PP
- attached
-Content-Language: en-GB
-To: Marijn Suijten <marijn.suijten@somainline.org>
+Received: from m-r2.th.seeweb.it (m-r2.th.seeweb.it [5.144.164.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 538A810E204
+ for <dri-devel@lists.freedesktop.org>; Mon,  1 May 2023 22:23:07 +0000 (UTC)
+Received: from SoMainline.org (94-211-6-86.cable.dynamic.v4.ziggo.nl
+ [94.211.6.86])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
+ SHA256) (No client certificate requested)
+ by m-r2.th.seeweb.it (Postfix) with ESMTPSA id A040540E5E;
+ Tue,  2 May 2023 00:23:05 +0200 (CEST)
+Date: Tue, 2 May 2023 00:23:04 +0200
+From: Marijn Suijten <marijn.suijten@somainline.org>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: Re: [PATCH 4/4] drm/msm/dpu: move PINGPONG_NONE check to dpu_lm_init()
+Message-ID: <ncdyjjt72to7mop6kgd46kmhvcqdzqyftdklm37dn3j5ycufx4@uvg74dm2x2zp>
 References: <20230430203556.3184252-1-dmitry.baryshkov@linaro.org>
- <20230430203556.3184252-4-dmitry.baryshkov@linaro.org>
- <alkcwa7qrqtwjxis4eish5aiqcp5o5uanlpo26gjhk76fx7spj@pcv7ibcnrdvo>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <alkcwa7qrqtwjxis4eish5aiqcp5o5uanlpo26gjhk76fx7spj@pcv7ibcnrdvo>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+ <20230430203556.3184252-5-dmitry.baryshkov@linaro.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230430203556.3184252-5-dmitry.baryshkov@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,97 +49,56 @@ Cc: freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 02/05/2023 01:17, Marijn Suijten wrote:
-> On 2023-04-30 23:35:55, Dmitry Baryshkov wrote:
->> On msm8998/sdm845 some LM blocks do not have corresponding PINGPONG
->> block. Currently the driver uses PINGPONG_MAX for such cases. Switch
->> that to use PINGPONG_NONE instead, which is more logical.
+On 2023-04-30 23:35:56, Dmitry Baryshkov wrote:
+> Move the check for lm->pingpong being not NONE from dpu_rm_init() to
+> dpu_lm_init(), following the change to dpu_hw_intf_init().
 > 
-> dpu_lm_cfg::pingpong still has a doc-comment stating that PINGPONG_MAX
-> is to be used if this is unsupported, that should be updated to read
-> PINGPONG_NONE as well.
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
+In some way I also suggested this change in [1], but did not receive a
+(N)ACK.
 
-Ack, missed that. Thanks for the note.
+[1]: https://lore.kernel.org/linux-arm-msm/ecopixnagol7yd5znvmjanknqbv7vi4ayy36vchaeyyhuavu4w@rkdfllrd4uzb/
 
+Reviewed-by: Marijn Suijten <marijn.suijten@somainline.org>
+
+> ---
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_lm.c | 5 +++++
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c    | 5 -----
+>  2 files changed, 5 insertions(+), 5 deletions(-)
 > 
->> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_lm.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_lm.c
+> index 214f207ddf8a..d1c3bd8379ea 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_lm.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_lm.c
+> @@ -161,6 +161,11 @@ struct dpu_hw_mixer *dpu_hw_lm_init(const struct dpu_lm_cfg *cfg,
+>  {
+>  	struct dpu_hw_mixer *c;
+>  
+> +	if (cfg->pingpong == PINGPONG_NONE) {
+> +		DPU_DEBUG("skip mixer %d without pingpong\n", cfg->id);
+> +		return NULL;
+> +	}
+> +
+>  	c = kzalloc(sizeof(*c), GFP_KERNEL);
+>  	if (!c)
+>  		return ERR_PTR(-ENOMEM);
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
+> index bf7b8e7c45b1..2ca3c666e22f 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
+> @@ -117,11 +117,6 @@ int dpu_rm_init(struct dpu_rm *rm,
+>  		struct dpu_hw_mixer *hw;
+>  		const struct dpu_lm_cfg *lm = &cat->mixer[i];
+>  
+> -		if (lm->pingpong == PINGPONG_NONE) {
+> -			DPU_DEBUG("skip mixer %d without pingpong\n", lm->id);
+> -			continue;
+> -		}
+> -
+>  		hw = dpu_hw_lm_init(lm, mmio);
+>  		if (IS_ERR(hw)) {
+>  			rc = PTR_ERR(hw);
+> -- 
+> 2.39.2
 > 
-> Good cleanup otherwise:
-> 
-> Reviewed-by: Marijn Suijten <marijn.suijten@somainline.org>
-> 
->> ---
->>   drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_3_0_msm8998.h | 4 ++--
->>   drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_4_0_sdm845.h  | 4 ++--
->>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h             | 3 ++-
->>   drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c                  | 2 +-
->>   4 files changed, 7 insertions(+), 6 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_3_0_msm8998.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_3_0_msm8998.h
->> index bdcd554fc8a8..6ae30f806ebc 100644
->> --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_3_0_msm8998.h
->> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_3_0_msm8998.h
->> @@ -104,9 +104,9 @@ static const struct dpu_lm_cfg msm8998_lm[] = {
->>   	LM_BLK("lm_2", LM_2, 0x46000, MIXER_MSM8998_MASK,
->>   		&msm8998_lm_sblk, PINGPONG_2, LM_5, 0),
->>   	LM_BLK("lm_3", LM_3, 0x47000, MIXER_MSM8998_MASK,
->> -		&msm8998_lm_sblk, PINGPONG_MAX, 0, 0),
->> +		&msm8998_lm_sblk, PINGPONG_NONE, 0, 0),
->>   	LM_BLK("lm_4", LM_4, 0x48000, MIXER_MSM8998_MASK,
->> -		&msm8998_lm_sblk, PINGPONG_MAX, 0, 0),
->> +		&msm8998_lm_sblk, PINGPONG_NONE, 0, 0),
->>   	LM_BLK("lm_5", LM_5, 0x49000, MIXER_MSM8998_MASK,
->>   		&msm8998_lm_sblk, PINGPONG_3, LM_2, 0),
->>   };
->> diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_4_0_sdm845.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_4_0_sdm845.h
->> index ceca741e93c9..4a94fd9b64a9 100644
->> --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_4_0_sdm845.h
->> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_4_0_sdm845.h
->> @@ -102,9 +102,9 @@ static const struct dpu_lm_cfg sdm845_lm[] = {
->>   	LM_BLK("lm_2", LM_2, 0x46000, MIXER_SDM845_MASK,
->>   		&sdm845_lm_sblk, PINGPONG_2, LM_5, 0),
->>   	LM_BLK("lm_3", LM_3, 0x0, MIXER_SDM845_MASK,
->> -		&sdm845_lm_sblk, PINGPONG_MAX, 0, 0),
->> +		&sdm845_lm_sblk, PINGPONG_NONE, 0, 0),
->>   	LM_BLK("lm_4", LM_4, 0x0, MIXER_SDM845_MASK,
->> -		&sdm845_lm_sblk, PINGPONG_MAX, 0, 0),
->> +		&sdm845_lm_sblk, PINGPONG_NONE, 0, 0),
->>   	LM_BLK("lm_5", LM_5, 0x49000, MIXER_SDM845_MASK,
->>   		&sdm845_lm_sblk, PINGPONG_3, LM_2, 0),
->>   };
->> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h
->> index 2d9192a6ce00..56826a92c155 100644
->> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h
->> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h
->> @@ -191,7 +191,8 @@ enum dpu_dsc {
->>   };
->>   
->>   enum dpu_pingpong {
->> -	PINGPONG_0 = 1,
->> +	PINGPONG_NONE,
->> +	PINGPONG_0,
->>   	PINGPONG_1,
->>   	PINGPONG_2,
->>   	PINGPONG_3,
->> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
->> index d5a06628885e..bf7b8e7c45b1 100644
->> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
->> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
->> @@ -117,7 +117,7 @@ int dpu_rm_init(struct dpu_rm *rm,
->>   		struct dpu_hw_mixer *hw;
->>   		const struct dpu_lm_cfg *lm = &cat->mixer[i];
->>   
->> -		if (lm->pingpong == PINGPONG_MAX) {
->> +		if (lm->pingpong == PINGPONG_NONE) {
->>   			DPU_DEBUG("skip mixer %d without pingpong\n", lm->id);
->>   			continue;
->>   		}
->> -- 
->> 2.39.2
->>
-
--- 
-With best wishes
-Dmitry
-
