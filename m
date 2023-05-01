@@ -2,44 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA6FD6F31FB
-	for <lists+dri-devel@lfdr.de>; Mon,  1 May 2023 16:32:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37D326F32E2
+	for <lists+dri-devel@lfdr.de>; Mon,  1 May 2023 17:29:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5A38210E2D7;
-	Mon,  1 May 2023 14:32:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EB5A810E130;
+	Mon,  1 May 2023 15:29:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5D80210E1D9;
- Mon,  1 May 2023 14:32:25 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CC40210E130
+ for <dri-devel@lists.freedesktop.org>; Mon,  1 May 2023 15:29:22 +0000 (UTC)
+Received: from [192.168.2.246] (109-252-144-198.dynamic.spd-mgts.ru
+ [109.252.144.198])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 0095960E9A;
- Mon,  1 May 2023 14:32:24 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 52335C433EF;
- Mon,  1 May 2023 14:32:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1682951543;
- bh=rszZaRt349rSKpXDtTUZKWMXkHmt5IGp9/2/HR6rRyo=;
- h=From:To:Cc:Subject:Date:From;
- b=p+8PyNo7PFE8jPejPTz6PdMaOMifB56eMcoqYWkzRafBVBPIq6ueWOSOcti27tEan
- 0+X4BCVjwv6ajyGGhXqgMJqi+LfhrrGDt372wsBk9Gq/0OiRhkUuTnLxgIcnPiwT+m
- +9REaBkA3YYdFd3pdOITw7qyNiqjYvVZkADZ/hANf+5NMFceiZWekLkDhpw/RL7z+E
- tM3FYFzyZBtDjKnrOdPeNqgXn5kIKdG2gKdWQvlYra1Ckm5C3fF08HWo09UVh356i7
- LbUEgvFT+/1/eY9sU/bI+tc0i51tpj05fwGdRlosrNK1koDNcV8rERdJJ8bIhAsjzh
- 9bW0neZkTfifA==
-From: Arnd Bergmann <arnd@kernel.org>
-To: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
-Subject: [PATCH] drm/amd/display: mark amdgpu_dm_connector_funcs_force static
-Date: Mon,  1 May 2023 16:31:53 +0200
-Message-Id: <20230501143213.1571373-1-arnd@kernel.org>
-X-Mailer: git-send-email 2.39.2
+ (Authenticated sender: dmitry.osipenko)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id A39F56602121;
+ Mon,  1 May 2023 16:29:19 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1682954960;
+ bh=FZyPsnbblvvI0dwFtBHzZu8AEK9Dl+/PqP5r71i3Los=;
+ h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
+ b=dsK9Lfh0mY5Ee/PPbnpDY1hIcenU8+6ZP4SuMHANIuf6zkac2xaVECSWFKSbM0FZK
+ cBoepnUBxZ1MkVctRVIjG7eqRXR+N2OyTEYi54ddlmu7JtSvnuvXorrGzax7deaTeN
+ YWcyBr0Xj9a2fiZfxO937MrXj0lIahKNpWPR4xK0F5DDcp+mhTXaviXq6Lb3W00ADn
+ 52+Omf000QaqOO0k0AJJfRM9SkUHA+prX0PhobW6VlMfkMybZu9JSCO0uVflRepxkn
+ nf22X8+NQSjEMIe2UIQE+WVYB5KPZcgBJIN0iv89ad/L+DtZTBOeJ8Zso3wstx+jML
+ icDue5QwFo1Ng==
+Message-ID: <b0970bbc-d759-3b93-cfcd-b8f5a7db0ff0@collabora.com>
+Date: Mon, 1 May 2023 18:29:16 +0300
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH v6 3/3] drm/virtio: Support sync objects
+Content-Language: en-US
+From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+To: David Airlie <airlied@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Gurchetan Singh <gurchetansingh@chromium.org>, Chia-I Wu
+ <olvaffe@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Rob Clark <robdclark@gmail.com>, =?UTF-8?B?TWFyZWsgT2zFocOhaw==?=
+ <maraeo@gmail.com>,
+ Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
+ Emil Velikov <emil.velikov@collabora.com>
+References: <20230416115237.798604-1-dmitry.osipenko@collabora.com>
+ <20230416115237.798604-4-dmitry.osipenko@collabora.com>
+In-Reply-To: <20230416115237.798604-4-dmitry.osipenko@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,51 +62,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Stylon Wang <stylon.wang@amd.com>, kernel test robot <lkp@intel.com>,
- Arnd Bergmann <arnd@arndb.de>, Alex Hung <alex.hung@amd.com>,
- Qingqing Zhuo <qingqing.zhuo@amd.com>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
- linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
- Hans de Goede <hdegoede@redhat.com>,
- Aurabindo Pillai <aurabindo.pillai@amd.com>, Hersen Wu <hersenxs.wu@amd.com>,
- dri-devel@lists.freedesktop.org, Wenchieh Chien <wenchieh.chien@amd.com>
+Cc: kernel@collabora.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Arnd Bergmann <arnd@arndb.de>
+On 4/16/23 14:52, Dmitry Osipenko wrote:
+> Add sync object DRM UAPI support to VirtIO-GPU driver. Sync objects
+> support is needed by native context VirtIO-GPU Mesa drivers, it also will
+> be used by Venus and Virgl contexts.
+> 
+> Reviewed-by; Emil Velikov <emil.velikov@collabora.com>
+> Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+> ---
+>  drivers/gpu/drm/virtio/virtgpu_drv.c    |   3 +-
+>  drivers/gpu/drm/virtio/virtgpu_submit.c | 219 ++++++++++++++++++++++++
+>  include/uapi/drm/virtgpu_drm.h          |  16 +-
+>  3 files changed, 236 insertions(+), 2 deletions(-)
 
-A global function without a header prototype has made it into
-linux-next during the merge window:
+Pierre-Eric tested this v6 patchset with the AMDGPU native context. He
+has problems his email/ML setup and is unable to reply here. I asked him
+to provide his t-b on the Mesa MR [1] and now replicating it here.
 
-drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:6339:6: error: no previous prototype for 'amdgpu_dm_connector_funcs_force' [-Werror=missing-prototypes]
+[1]
+https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/21658#note_1889792
 
-Mark the function static instead, as there are no other
-callers outside this file.
+Tested-by: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
 
-Fixes: 0ba4a784a145 ("drm/amd/display: implement force function in amdgpu_dm_connector_funcs")
-Reported-by: kernel test robot <lkp@intel.com>
-Link: https://lore.kernel.org/oe-kbuild-all/202304251640.JClqTim9-lkp@intel.com/
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
----
-This was previously reported by a bot for the drm-next tree but remains
-broken in linux-next-20230428. Sending it out as I needed this fix
-for my local builds.
----
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index 3647d21d688f..2bbb2988942d 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -6336,7 +6336,7 @@ amdgpu_dm_connector_late_register(struct drm_connector *connector)
- 	return 0;
- }
- 
--void amdgpu_dm_connector_funcs_force(struct drm_connector *connector)
-+static void amdgpu_dm_connector_funcs_force(struct drm_connector *connector)
- {
- 	struct amdgpu_dm_connector *aconnector = to_amdgpu_dm_connector(connector);
- 	struct dc_link *dc_link = aconnector->dc_link;
 -- 
-2.39.2
+Best regards,
+Dmitry
 
