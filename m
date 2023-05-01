@@ -2,46 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A42C6F2C65
-	for <lists+dri-devel@lfdr.de>; Mon,  1 May 2023 05:00:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B07E6F2C6B
+	for <lists+dri-devel@lfdr.de>; Mon,  1 May 2023 05:00:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 44CD210E23F;
-	Mon,  1 May 2023 03:00:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 85B0510E251;
+	Mon,  1 May 2023 03:00:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org
  [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8C89310E242;
- Mon,  1 May 2023 03:00:03 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 586AD10E248;
+ Mon,  1 May 2023 03:00:08 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id E10F8615FF;
- Mon,  1 May 2023 03:00:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CCAEEC433EF;
- Mon,  1 May 2023 02:59:59 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id DA73461710;
+ Mon,  1 May 2023 03:00:07 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3EBB7C4339C;
+ Mon,  1 May 2023 03:00:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1682910002;
- bh=vMe4OubmVDGRrStYhGVQzgVmHDPgzMSdfH8kKW3lcSk=;
+ s=k20201202; t=1682910007;
+ bh=Tx3vmCs861wXDaW6tV/68MgbPLCbqupwuszoS75cJuU=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Na57OSg6w+Ud9e1/fpfLX7yuDtoQr+jTrihBGF7IHvy0uFRULzj3GvzQDBinRBDgw
- wIfWKu+GTfX2QDLkEvtKzp3bicfvtstiCDLnoUG60MEudG6Lz09JauLHwQGekrOZpx
- +XkXA0kb50hhDF8jQ4UeLK35C/1XHGSNlgUdv5jwyjpdreTggza1L3vwou8HFHttU3
- /xE5ws9F6o2fHG74P1EOcRXi8Hy4p7Bgf+mBaAk3jQrKl3GtEc6oVOHYsyiX09YgTJ
- EXgfMGjGgkZJrPz4Cet41dai8bvDZEKHDdau6ODqFE6w4uZA1YFhJtWiOiB26mWGop
- +VBDDVxkjtC8A==
+ b=OQP4bN6hxQYUebCq0blr89E6cQmlocosOO8XpnQd2Vj2goXR7zhfFXR6W0GrnN0ab
+ NlKwRdNdDIBwQ+r6AQjRb9snpYc6XfYVnfd0Pdyho10eFnCmBudhmNLmuK/k9xe3nC
+ B9bMylqDQLtk8gjHI7WqNtK/4UDa72bA2RqTIfPx/27l80J9MNt2IzuLviQ26wR3hV
+ qRivR708FxcK/FsXsfBe3BgZWc/GKT7+p9B5MvkE1VKMDUnM3kWZYGU3cUUe+5uilI
+ LIfnnKxWbNJ+wpW+Qc8hmWn8WicuPOBjeUnx5obTdoulf1+P7tdnHjPIk8+ElQmtoa
+ cNnRzQYuoE8qg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.2 03/37] drm/amd/display: Correct DML calculation to
- align HW formula
-Date: Sun, 30 Apr 2023 22:59:11 -0400
-Message-Id: <20230501025945.3253774-3-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.2 04/37] drm/amd/display: enable DPG when disabling
+ plane for phantom pipe
+Date: Sun, 30 Apr 2023 22:59:12 -0400
+Message-Id: <20230501025945.3253774-4-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230501025945.3253774-1-sashal@kernel.org>
 References: <20230501025945.3253774-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
@@ -57,681 +56,111 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, mairacanal@riseup.net, Jun.Lei@amd.com,
- arthurgrillo@riseup.net, Sasha Levin <sashal@kernel.org>, Charlene.Liu@amd.com,
- Rodrigo.Siqueira@amd.com, amd-gfx@lists.freedesktop.org, sunpeng.li@amd.com,
- nathan@kernel.org, Daniel Wheeler <daniel.wheeler@amd.com>,
- Paul Hsieh <Paul.Hsieh@amd.com>, Daniel.Miess@amd.com,
- Qingqing Zhuo <qingqing.zhuo@amd.com>, Xinhui.Pan@amd.com,
- Nicholas Kazlauskas <Nicholas.Kazlauskas@amd.com>, yang.lee@linux.alibaba.com,
- Alex Deucher <alexander.deucher@amd.com>, christian.koenig@amd.com
+Cc: Sasha Levin <sashal@kernel.org>, HaoPing.Liu@amd.com, Dillon.Varone@amd.com,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ sunpeng.li@amd.com, Qingqing Zhuo <qingqing.zhuo@amd.com>, Xinhui.Pan@amd.com,
+ Rodrigo.Siqueira@amd.com, Samson Tam <samson.tam@amd.com>, wenjing.liu@amd.com,
+ Daniel Wheeler <daniel.wheeler@amd.com>, Alvin Lee <Alvin.Lee2@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>, Jun.Lei@amd.com,
+ christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Paul Hsieh <Paul.Hsieh@amd.com>
+From: Samson Tam <samson.tam@amd.com>
 
-[ Upstream commit 26a9f53198c955b15161da48cdb51041a38d5325 ]
+[ Upstream commit d47d2f9392f69f069c31d60ac3088471b1e1c7d4 ]
 
 [Why]
-In 2560x1440@240p eDP panel, some use cases will enable MPC
-combine with RGB MPO then underflow happened. This case is
-not allowed from HW formula. 
+In disable_dangling_plane, for phantom pipes, we enable OTG so
+disable programming gets the double buffer update.  But this
+causes an underflow to occur.
 
 [How]
-Correct eDP, DP and DP2 output bpp calculation to align HW
-formula.
+Enable DPG prior to enabling OTG.
 
-Reviewed-by: Nicholas Kazlauskas <Nicholas.Kazlauskas@amd.com>
+Reviewed-by: Alvin Lee <Alvin.Lee2@amd.com>
 Acked-by: Qingqing Zhuo <qingqing.zhuo@amd.com>
-Signed-off-by: Paul Hsieh <Paul.Hsieh@amd.com>
+Signed-off-by: Samson Tam <samson.tam@amd.com>
 Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- .../dc/dml/dcn31/display_mode_vba_31.c        | 298 ++++++++++++------
- .../dc/dml/dcn314/display_mode_vba_314.c      | 298 ++++++++++++------
- 2 files changed, 392 insertions(+), 204 deletions(-)
+ drivers/gpu/drm/amd/display/dc/core/dc.c | 47 +++++++++++++++++++++++-
+ 1 file changed, 46 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/dml/dcn31/display_mode_vba_31.c b/drivers/gpu/drm/amd/display/dc/dml/dcn31/display_mode_vba_31.c
-index ec351c8418cbb..3c42ba6039863 100644
---- a/drivers/gpu/drm/amd/display/dc/dml/dcn31/display_mode_vba_31.c
-+++ b/drivers/gpu/drm/amd/display/dc/dml/dcn31/display_mode_vba_31.c
-@@ -4304,11 +4304,11 @@ void dml31_ModeSupportAndSystemConfigurationFull(struct display_mode_lib *mode_l
- 							v->AudioSampleRate[k],
- 							v->AudioSampleLayout[k],
- 							v->ODMCombineEnablePerState[i][k]);
--				} else if (v->Output[k] == dm_dp || v->Output[k] == dm_edp) {
-+				} else if (v->Output[k] == dm_dp || v->Output[k] == dm_edp || v->Output[k] == dm_dp2p0) {
- 					if (v->DSCEnable[k] == true) {
- 						v->RequiresDSC[i][k] = true;
- 						v->LinkDSCEnable = true;
--						if (v->Output[k] == dm_dp) {
-+						if (v->Output[k] == dm_dp || v->Output[k] == dm_dp2p0) {
- 							v->RequiresFEC[i][k] = true;
- 						} else {
- 							v->RequiresFEC[i][k] = false;
-@@ -4316,107 +4316,201 @@ void dml31_ModeSupportAndSystemConfigurationFull(struct display_mode_lib *mode_l
- 					} else {
- 						v->RequiresDSC[i][k] = false;
- 						v->LinkDSCEnable = false;
--						v->RequiresFEC[i][k] = false;
--					}
--
--					v->Outbpp = BPP_INVALID;
--					if (v->PHYCLKPerState[i] >= 270.0) {
--						v->Outbpp = TruncToValidBPP(
--								(1.0 - v->Downspreading / 100.0) * 2700,
--								v->OutputLinkDPLanes[k],
--								v->HTotal[k],
--								v->HActive[k],
--								v->PixelClockBackEnd[k],
--								v->ForcedOutputLinkBPP[k],
--								v->LinkDSCEnable,
--								v->Output[k],
--								v->OutputFormat[k],
--								v->DSCInputBitPerComponent[k],
--								v->NumberOfDSCSlices[k],
--								v->AudioSampleRate[k],
--								v->AudioSampleLayout[k],
--								v->ODMCombineEnablePerState[i][k]);
--						v->OutputBppPerState[i][k] = v->Outbpp;
--						// TODO: Need some other way to handle this nonsense
--						// v->OutputTypeAndRatePerState[i][k] = v->Output[k] & " HBR"
--					}
--					if (v->Outbpp == BPP_INVALID && v->PHYCLKPerState[i] >= 540.0) {
--						v->Outbpp = TruncToValidBPP(
--								(1.0 - v->Downspreading / 100.0) * 5400,
--								v->OutputLinkDPLanes[k],
--								v->HTotal[k],
--								v->HActive[k],
--								v->PixelClockBackEnd[k],
--								v->ForcedOutputLinkBPP[k],
--								v->LinkDSCEnable,
--								v->Output[k],
--								v->OutputFormat[k],
--								v->DSCInputBitPerComponent[k],
--								v->NumberOfDSCSlices[k],
--								v->AudioSampleRate[k],
--								v->AudioSampleLayout[k],
--								v->ODMCombineEnablePerState[i][k]);
--						v->OutputBppPerState[i][k] = v->Outbpp;
--						// TODO: Need some other way to handle this nonsense
--						// v->OutputTypeAndRatePerState[i][k] = v->Output[k] & " HBR2"
--					}
--					if (v->Outbpp == BPP_INVALID && v->PHYCLKPerState[i] >= 810.0) {
--						v->Outbpp = TruncToValidBPP(
--								(1.0 - v->Downspreading / 100.0) * 8100,
--								v->OutputLinkDPLanes[k],
--								v->HTotal[k],
--								v->HActive[k],
--								v->PixelClockBackEnd[k],
--								v->ForcedOutputLinkBPP[k],
--								v->LinkDSCEnable,
--								v->Output[k],
--								v->OutputFormat[k],
--								v->DSCInputBitPerComponent[k],
--								v->NumberOfDSCSlices[k],
--								v->AudioSampleRate[k],
--								v->AudioSampleLayout[k],
--								v->ODMCombineEnablePerState[i][k]);
--						v->OutputBppPerState[i][k] = v->Outbpp;
--						// TODO: Need some other way to handle this nonsense
--						// v->OutputTypeAndRatePerState[i][k] = v->Output[k] & " HBR3"
--					}
--					if (v->Outbpp == BPP_INVALID && v->PHYCLKD18PerState[i] >= 10000.0 / 18) {
--						v->Outbpp = TruncToValidBPP(
--								(1.0 - v->Downspreading / 100.0) * 10000,
--								4,
--								v->HTotal[k],
--								v->HActive[k],
--								v->PixelClockBackEnd[k],
--								v->ForcedOutputLinkBPP[k],
--								v->LinkDSCEnable,
--								v->Output[k],
--								v->OutputFormat[k],
--								v->DSCInputBitPerComponent[k],
--								v->NumberOfDSCSlices[k],
--								v->AudioSampleRate[k],
--								v->AudioSampleLayout[k],
--								v->ODMCombineEnablePerState[i][k]);
--						v->OutputBppPerState[i][k] = v->Outbpp;
--						//v->OutputTypeAndRatePerState[i][k] = v->Output[k] & "10x4";
-+						if (v->Output[k] == dm_dp2p0) {
-+							v->RequiresFEC[i][k] = true;
-+						} else {
-+							v->RequiresFEC[i][k] = false;
-+						}
- 					}
--					if (v->Outbpp == BPP_INVALID && v->PHYCLKD18PerState[i] >= 12000.0 / 18) {
--						v->Outbpp = TruncToValidBPP(
--								12000,
--								4,
--								v->HTotal[k],
--								v->HActive[k],
--								v->PixelClockBackEnd[k],
--								v->ForcedOutputLinkBPP[k],
--								v->LinkDSCEnable,
--								v->Output[k],
--								v->OutputFormat[k],
--								v->DSCInputBitPerComponent[k],
--								v->NumberOfDSCSlices[k],
--								v->AudioSampleRate[k],
--								v->AudioSampleLayout[k],
--								v->ODMCombineEnablePerState[i][k]);
--						v->OutputBppPerState[i][k] = v->Outbpp;
--						//v->OutputTypeAndRatePerState[i][k] = v->Output[k] & "12x4";
-+					if (v->Output[k] == dm_dp2p0) {
-+						v->Outbpp = BPP_INVALID;
-+						if ((v->OutputLinkDPRate[k] == dm_dp_rate_na || v->OutputLinkDPRate[k] == dm_dp_rate_uhbr10) &&
-+							v->PHYCLKD18PerState[k] >= 10000.0 / 18.0) {
-+							v->Outbpp = TruncToValidBPP(
-+									(1.0 - v->Downspreading / 100.0) * 10000,
-+									v->OutputLinkDPLanes[k],
-+									v->HTotal[k],
-+									v->HActive[k],
-+									v->PixelClockBackEnd[k],
-+									v->ForcedOutputLinkBPP[k],
-+									v->LinkDSCEnable,
-+									v->Output[k],
-+									v->OutputFormat[k],
-+									v->DSCInputBitPerComponent[k],
-+									v->NumberOfDSCSlices[k],
-+									v->AudioSampleRate[k],
-+									v->AudioSampleLayout[k],
-+									v->ODMCombineEnablePerState[i][k]);
-+							if (v->Outbpp == BPP_INVALID && v->PHYCLKD18PerState[k] < 13500.0 / 18.0 &&
-+								v->DSCEnable[k] == true && v->ForcedOutputLinkBPP[k] == 0) {
-+								v->RequiresDSC[i][k] = true;
-+								v->LinkDSCEnable = true;
-+								v->Outbpp = TruncToValidBPP(
-+										(1.0 - v->Downspreading / 100.0) * 10000,
-+										v->OutputLinkDPLanes[k],
-+										v->HTotal[k],
-+										v->HActive[k],
-+										v->PixelClockBackEnd[k],
-+										v->ForcedOutputLinkBPP[k],
-+										v->LinkDSCEnable,
-+										v->Output[k],
-+										v->OutputFormat[k],
-+										v->DSCInputBitPerComponent[k],
-+										v->NumberOfDSCSlices[k],
-+										v->AudioSampleRate[k],
-+										v->AudioSampleLayout[k],
-+										v->ODMCombineEnablePerState[i][k]);
-+							}
-+							v->OutputBppPerState[i][k] = v->Outbpp;
-+							// TODO: Need some other way to handle this nonsense
-+							// v->OutputTypeAndRatePerState[i][k] = v->Output[k] & " UHBR10"
-+						}
-+						if (v->Outbpp == BPP_INVALID &&
-+							(v->OutputLinkDPRate[k] == dm_dp_rate_na || v->OutputLinkDPRate[k] == dm_dp_rate_uhbr13p5) &&
-+							v->PHYCLKD18PerState[k] >= 13500.0 / 18.0) {
-+							v->Outbpp = TruncToValidBPP(
-+									(1.0 - v->Downspreading / 100.0) * 13500,
-+									v->OutputLinkDPLanes[k],
-+									v->HTotal[k],
-+									v->HActive[k],
-+									v->PixelClockBackEnd[k],
-+									v->ForcedOutputLinkBPP[k],
-+									v->LinkDSCEnable,
-+									v->Output[k],
-+									v->OutputFormat[k],
-+									v->DSCInputBitPerComponent[k],
-+									v->NumberOfDSCSlices[k],
-+									v->AudioSampleRate[k],
-+									v->AudioSampleLayout[k],
-+									v->ODMCombineEnablePerState[i][k]);
-+							if (v->Outbpp == BPP_INVALID && v->PHYCLKD18PerState[k] < 20000.0 / 18.0 &&
-+								v->DSCEnable[k] == true && v->ForcedOutputLinkBPP[k] == 0) {
-+								v->RequiresDSC[i][k] = true;
-+								v->LinkDSCEnable = true;
-+								v->Outbpp = TruncToValidBPP(
-+										(1.0 - v->Downspreading / 100.0) * 13500,
-+										v->OutputLinkDPLanes[k],
-+										v->HTotal[k],
-+										v->HActive[k],
-+										v->PixelClockBackEnd[k],
-+										v->ForcedOutputLinkBPP[k],
-+										v->LinkDSCEnable,
-+										v->Output[k],
-+										v->OutputFormat[k],
-+										v->DSCInputBitPerComponent[k],
-+										v->NumberOfDSCSlices[k],
-+										v->AudioSampleRate[k],
-+										v->AudioSampleLayout[k],
-+										v->ODMCombineEnablePerState[i][k]);
-+							}
-+							v->OutputBppPerState[i][k] = v->Outbpp;
-+							// TODO: Need some other way to handle this nonsense
-+							// v->OutputTypeAndRatePerState[i][k] = v->Output[k] & " UHBR13p5"
-+						}
-+						if (v->Outbpp == BPP_INVALID &&
-+							(v->OutputLinkDPRate[k] == dm_dp_rate_na || v->OutputLinkDPRate[k] == dm_dp_rate_uhbr20) &&
-+							v->PHYCLKD18PerState[k] >= 20000.0 / 18.0) {
-+							v->Outbpp = TruncToValidBPP(
-+									(1.0 - v->Downspreading / 100.0) * 20000,
-+									v->OutputLinkDPLanes[k],
-+									v->HTotal[k],
-+									v->HActive[k],
-+									v->PixelClockBackEnd[k],
-+									v->ForcedOutputLinkBPP[k],
-+									v->LinkDSCEnable,
-+									v->Output[k],
-+									v->OutputFormat[k],
-+									v->DSCInputBitPerComponent[k],
-+									v->NumberOfDSCSlices[k],
-+									v->AudioSampleRate[k],
-+									v->AudioSampleLayout[k],
-+									v->ODMCombineEnablePerState[i][k]);
-+							if (v->Outbpp == BPP_INVALID && v->DSCEnable[k] == true &&
-+								v->ForcedOutputLinkBPP[k] == 0) {
-+								v->RequiresDSC[i][k] = true;
-+								v->LinkDSCEnable = true;
-+								v->Outbpp = TruncToValidBPP(
-+										(1.0 - v->Downspreading / 100.0) * 20000,
-+										v->OutputLinkDPLanes[k],
-+										v->HTotal[k],
-+										v->HActive[k],
-+										v->PixelClockBackEnd[k],
-+										v->ForcedOutputLinkBPP[k],
-+										v->LinkDSCEnable,
-+										v->Output[k],
-+										v->OutputFormat[k],
-+										v->DSCInputBitPerComponent[k],
-+										v->NumberOfDSCSlices[k],
-+										v->AudioSampleRate[k],
-+										v->AudioSampleLayout[k],
-+										v->ODMCombineEnablePerState[i][k]);
-+							}
-+							v->OutputBppPerState[i][k] = v->Outbpp;
-+							// TODO: Need some other way to handle this nonsense
-+							// v->OutputTypeAndRatePerState[i][k] = v->Output[k] & " UHBR20"
-+						}
-+					} else {
-+						v->Outbpp = BPP_INVALID;
-+						if (v->PHYCLKPerState[i] >= 270.0) {
-+							v->Outbpp = TruncToValidBPP(
-+									(1.0 - v->Downspreading / 100.0) * 2700,
-+									v->OutputLinkDPLanes[k],
-+									v->HTotal[k],
-+									v->HActive[k],
-+									v->PixelClockBackEnd[k],
-+									v->ForcedOutputLinkBPP[k],
-+									v->LinkDSCEnable,
-+									v->Output[k],
-+									v->OutputFormat[k],
-+									v->DSCInputBitPerComponent[k],
-+									v->NumberOfDSCSlices[k],
-+									v->AudioSampleRate[k],
-+									v->AudioSampleLayout[k],
-+									v->ODMCombineEnablePerState[i][k]);
-+							v->OutputBppPerState[i][k] = v->Outbpp;
-+							// TODO: Need some other way to handle this nonsense
-+							// v->OutputTypeAndRatePerState[i][k] = v->Output[k] & " HBR"
-+						}
-+						if (v->Outbpp == BPP_INVALID && v->PHYCLKPerState[i] >= 540.0) {
-+							v->Outbpp = TruncToValidBPP(
-+									(1.0 - v->Downspreading / 100.0) * 5400,
-+									v->OutputLinkDPLanes[k],
-+									v->HTotal[k],
-+									v->HActive[k],
-+									v->PixelClockBackEnd[k],
-+									v->ForcedOutputLinkBPP[k],
-+									v->LinkDSCEnable,
-+									v->Output[k],
-+									v->OutputFormat[k],
-+									v->DSCInputBitPerComponent[k],
-+									v->NumberOfDSCSlices[k],
-+									v->AudioSampleRate[k],
-+									v->AudioSampleLayout[k],
-+									v->ODMCombineEnablePerState[i][k]);
-+							v->OutputBppPerState[i][k] = v->Outbpp;
-+							// TODO: Need some other way to handle this nonsense
-+							// v->OutputTypeAndRatePerState[i][k] = v->Output[k] & " HBR2"
-+						}
-+						if (v->Outbpp == BPP_INVALID && v->PHYCLKPerState[i] >= 810.0) {
-+							v->Outbpp = TruncToValidBPP(
-+									(1.0 - v->Downspreading / 100.0) * 8100,
-+									v->OutputLinkDPLanes[k],
-+									v->HTotal[k],
-+									v->HActive[k],
-+									v->PixelClockBackEnd[k],
-+									v->ForcedOutputLinkBPP[k],
-+									v->LinkDSCEnable,
-+									v->Output[k],
-+									v->OutputFormat[k],
-+									v->DSCInputBitPerComponent[k],
-+									v->NumberOfDSCSlices[k],
-+									v->AudioSampleRate[k],
-+									v->AudioSampleLayout[k],
-+									v->ODMCombineEnablePerState[i][k]);
-+							v->OutputBppPerState[i][k] = v->Outbpp;
-+							// TODO: Need some other way to handle this nonsense
-+							// v->OutputTypeAndRatePerState[i][k] = v->Output[k] & " HBR3"
-+						}
- 					}
- 				}
- 			} else {
-diff --git a/drivers/gpu/drm/amd/display/dc/dml/dcn314/display_mode_vba_314.c b/drivers/gpu/drm/amd/display/dc/dml/dcn314/display_mode_vba_314.c
-index cb7c0c8784230..e6e98ee491429 100644
---- a/drivers/gpu/drm/amd/display/dc/dml/dcn314/display_mode_vba_314.c
-+++ b/drivers/gpu/drm/amd/display/dc/dml/dcn314/display_mode_vba_314.c
-@@ -4402,11 +4402,11 @@ void dml314_ModeSupportAndSystemConfigurationFull(struct display_mode_lib *mode_
- 							v->AudioSampleRate[k],
- 							v->AudioSampleLayout[k],
- 							v->ODMCombineEnablePerState[i][k]);
--				} else if (v->Output[k] == dm_dp || v->Output[k] == dm_edp) {
-+				} else if (v->Output[k] == dm_dp || v->Output[k] == dm_edp || v->Output[k] == dm_dp2p0) {
- 					if (v->DSCEnable[k] == true) {
- 						v->RequiresDSC[i][k] = true;
- 						v->LinkDSCEnable = true;
--						if (v->Output[k] == dm_dp) {
-+						if (v->Output[k] == dm_dp || v->Output[k] == dm_dp2p0) {
- 							v->RequiresFEC[i][k] = true;
- 						} else {
- 							v->RequiresFEC[i][k] = false;
-@@ -4414,107 +4414,201 @@ void dml314_ModeSupportAndSystemConfigurationFull(struct display_mode_lib *mode_
- 					} else {
- 						v->RequiresDSC[i][k] = false;
- 						v->LinkDSCEnable = false;
--						v->RequiresFEC[i][k] = false;
--					}
--
--					v->Outbpp = BPP_INVALID;
--					if (v->PHYCLKPerState[i] >= 270.0) {
--						v->Outbpp = TruncToValidBPP(
--								(1.0 - v->Downspreading / 100.0) * 2700,
--								v->OutputLinkDPLanes[k],
--								v->HTotal[k],
--								v->HActive[k],
--								v->PixelClockBackEnd[k],
--								v->ForcedOutputLinkBPP[k],
--								v->LinkDSCEnable,
--								v->Output[k],
--								v->OutputFormat[k],
--								v->DSCInputBitPerComponent[k],
--								v->NumberOfDSCSlices[k],
--								v->AudioSampleRate[k],
--								v->AudioSampleLayout[k],
--								v->ODMCombineEnablePerState[i][k]);
--						v->OutputBppPerState[i][k] = v->Outbpp;
--						// TODO: Need some other way to handle this nonsense
--						// v->OutputTypeAndRatePerState[i][k] = v->Output[k] & " HBR"
--					}
--					if (v->Outbpp == BPP_INVALID && v->PHYCLKPerState[i] >= 540.0) {
--						v->Outbpp = TruncToValidBPP(
--								(1.0 - v->Downspreading / 100.0) * 5400,
--								v->OutputLinkDPLanes[k],
--								v->HTotal[k],
--								v->HActive[k],
--								v->PixelClockBackEnd[k],
--								v->ForcedOutputLinkBPP[k],
--								v->LinkDSCEnable,
--								v->Output[k],
--								v->OutputFormat[k],
--								v->DSCInputBitPerComponent[k],
--								v->NumberOfDSCSlices[k],
--								v->AudioSampleRate[k],
--								v->AudioSampleLayout[k],
--								v->ODMCombineEnablePerState[i][k]);
--						v->OutputBppPerState[i][k] = v->Outbpp;
--						// TODO: Need some other way to handle this nonsense
--						// v->OutputTypeAndRatePerState[i][k] = v->Output[k] & " HBR2"
--					}
--					if (v->Outbpp == BPP_INVALID && v->PHYCLKPerState[i] >= 810.0) {
--						v->Outbpp = TruncToValidBPP(
--								(1.0 - v->Downspreading / 100.0) * 8100,
--								v->OutputLinkDPLanes[k],
--								v->HTotal[k],
--								v->HActive[k],
--								v->PixelClockBackEnd[k],
--								v->ForcedOutputLinkBPP[k],
--								v->LinkDSCEnable,
--								v->Output[k],
--								v->OutputFormat[k],
--								v->DSCInputBitPerComponent[k],
--								v->NumberOfDSCSlices[k],
--								v->AudioSampleRate[k],
--								v->AudioSampleLayout[k],
--								v->ODMCombineEnablePerState[i][k]);
--						v->OutputBppPerState[i][k] = v->Outbpp;
--						// TODO: Need some other way to handle this nonsense
--						// v->OutputTypeAndRatePerState[i][k] = v->Output[k] & " HBR3"
--					}
--					if (v->Outbpp == BPP_INVALID && v->PHYCLKD18PerState[i] >= 10000.0 / 18) {
--						v->Outbpp = TruncToValidBPP(
--								(1.0 - v->Downspreading / 100.0) * 10000,
--								4,
--								v->HTotal[k],
--								v->HActive[k],
--								v->PixelClockBackEnd[k],
--								v->ForcedOutputLinkBPP[k],
--								v->LinkDSCEnable,
--								v->Output[k],
--								v->OutputFormat[k],
--								v->DSCInputBitPerComponent[k],
--								v->NumberOfDSCSlices[k],
--								v->AudioSampleRate[k],
--								v->AudioSampleLayout[k],
--								v->ODMCombineEnablePerState[i][k]);
--						v->OutputBppPerState[i][k] = v->Outbpp;
--						//v->OutputTypeAndRatePerState[i][k] = v->Output[k] & "10x4";
-+						if (v->Output[k] == dm_dp2p0) {
-+							v->RequiresFEC[i][k] = true;
-+						} else {
-+							v->RequiresFEC[i][k] = false;
-+						}
- 					}
--					if (v->Outbpp == BPP_INVALID && v->PHYCLKD18PerState[i] >= 12000.0 / 18) {
--						v->Outbpp = TruncToValidBPP(
--								12000,
--								4,
--								v->HTotal[k],
--								v->HActive[k],
--								v->PixelClockBackEnd[k],
--								v->ForcedOutputLinkBPP[k],
--								v->LinkDSCEnable,
--								v->Output[k],
--								v->OutputFormat[k],
--								v->DSCInputBitPerComponent[k],
--								v->NumberOfDSCSlices[k],
--								v->AudioSampleRate[k],
--								v->AudioSampleLayout[k],
--								v->ODMCombineEnablePerState[i][k]);
--						v->OutputBppPerState[i][k] = v->Outbpp;
--						//v->OutputTypeAndRatePerState[i][k] = v->Output[k] & "12x4";
-+					if (v->Output[k] == dm_dp2p0) {
-+						v->Outbpp = BPP_INVALID;
-+						if ((v->OutputLinkDPRate[k] == dm_dp_rate_na || v->OutputLinkDPRate[k] == dm_dp_rate_uhbr10) &&
-+							v->PHYCLKD18PerState[k] >= 10000.0 / 18.0) {
-+							v->Outbpp = TruncToValidBPP(
-+									(1.0 - v->Downspreading / 100.0) * 10000,
-+									v->OutputLinkDPLanes[k],
-+									v->HTotal[k],
-+									v->HActive[k],
-+									v->PixelClockBackEnd[k],
-+									v->ForcedOutputLinkBPP[k],
-+									v->LinkDSCEnable,
-+									v->Output[k],
-+									v->OutputFormat[k],
-+									v->DSCInputBitPerComponent[k],
-+									v->NumberOfDSCSlices[k],
-+									v->AudioSampleRate[k],
-+									v->AudioSampleLayout[k],
-+									v->ODMCombineEnablePerState[i][k]);
-+							if (v->Outbpp == BPP_INVALID && v->PHYCLKD18PerState[k] < 13500.0 / 18.0 &&
-+								v->DSCEnable[k] == true && v->ForcedOutputLinkBPP[k] == 0) {
-+								v->RequiresDSC[i][k] = true;
-+								v->LinkDSCEnable = true;
-+								v->Outbpp = TruncToValidBPP(
-+										(1.0 - v->Downspreading / 100.0) * 10000,
-+										v->OutputLinkDPLanes[k],
-+										v->HTotal[k],
-+										v->HActive[k],
-+										v->PixelClockBackEnd[k],
-+										v->ForcedOutputLinkBPP[k],
-+										v->LinkDSCEnable,
-+										v->Output[k],
-+										v->OutputFormat[k],
-+										v->DSCInputBitPerComponent[k],
-+										v->NumberOfDSCSlices[k],
-+										v->AudioSampleRate[k],
-+										v->AudioSampleLayout[k],
-+										v->ODMCombineEnablePerState[i][k]);
-+							}
-+							v->OutputBppPerState[i][k] = v->Outbpp;
-+							// TODO: Need some other way to handle this nonsense
-+							// v->OutputTypeAndRatePerState[i][k] = v->Output[k] & " UHBR10"
-+						}
-+						if (v->Outbpp == BPP_INVALID &&
-+							(v->OutputLinkDPRate[k] == dm_dp_rate_na || v->OutputLinkDPRate[k] == dm_dp_rate_uhbr13p5) &&
-+							v->PHYCLKD18PerState[k] >= 13500.0 / 18.0) {
-+							v->Outbpp = TruncToValidBPP(
-+									(1.0 - v->Downspreading / 100.0) * 13500,
-+									v->OutputLinkDPLanes[k],
-+									v->HTotal[k],
-+									v->HActive[k],
-+									v->PixelClockBackEnd[k],
-+									v->ForcedOutputLinkBPP[k],
-+									v->LinkDSCEnable,
-+									v->Output[k],
-+									v->OutputFormat[k],
-+									v->DSCInputBitPerComponent[k],
-+									v->NumberOfDSCSlices[k],
-+									v->AudioSampleRate[k],
-+									v->AudioSampleLayout[k],
-+									v->ODMCombineEnablePerState[i][k]);
-+							if (v->Outbpp == BPP_INVALID && v->PHYCLKD18PerState[k] < 20000.0 / 18.0 &&
-+								v->DSCEnable[k] == true && v->ForcedOutputLinkBPP[k] == 0) {
-+								v->RequiresDSC[i][k] = true;
-+								v->LinkDSCEnable = true;
-+								v->Outbpp = TruncToValidBPP(
-+										(1.0 - v->Downspreading / 100.0) * 13500,
-+										v->OutputLinkDPLanes[k],
-+										v->HTotal[k],
-+										v->HActive[k],
-+										v->PixelClockBackEnd[k],
-+										v->ForcedOutputLinkBPP[k],
-+										v->LinkDSCEnable,
-+										v->Output[k],
-+										v->OutputFormat[k],
-+										v->DSCInputBitPerComponent[k],
-+										v->NumberOfDSCSlices[k],
-+										v->AudioSampleRate[k],
-+										v->AudioSampleLayout[k],
-+										v->ODMCombineEnablePerState[i][k]);
-+							}
-+							v->OutputBppPerState[i][k] = v->Outbpp;
-+							// TODO: Need some other way to handle this nonsense
-+							// v->OutputTypeAndRatePerState[i][k] = v->Output[k] & " UHBR13p5"
-+						}
-+						if (v->Outbpp == BPP_INVALID &&
-+							(v->OutputLinkDPRate[k] == dm_dp_rate_na || v->OutputLinkDPRate[k] == dm_dp_rate_uhbr20) &&
-+							v->PHYCLKD18PerState[k] >= 20000.0 / 18.0) {
-+							v->Outbpp = TruncToValidBPP(
-+									(1.0 - v->Downspreading / 100.0) * 20000,
-+									v->OutputLinkDPLanes[k],
-+									v->HTotal[k],
-+									v->HActive[k],
-+									v->PixelClockBackEnd[k],
-+									v->ForcedOutputLinkBPP[k],
-+									v->LinkDSCEnable,
-+									v->Output[k],
-+									v->OutputFormat[k],
-+									v->DSCInputBitPerComponent[k],
-+									v->NumberOfDSCSlices[k],
-+									v->AudioSampleRate[k],
-+									v->AudioSampleLayout[k],
-+									v->ODMCombineEnablePerState[i][k]);
-+							if (v->Outbpp == BPP_INVALID && v->DSCEnable[k] == true &&
-+								v->ForcedOutputLinkBPP[k] == 0) {
-+								v->RequiresDSC[i][k] = true;
-+								v->LinkDSCEnable = true;
-+								v->Outbpp = TruncToValidBPP(
-+										(1.0 - v->Downspreading / 100.0) * 20000,
-+										v->OutputLinkDPLanes[k],
-+										v->HTotal[k],
-+										v->HActive[k],
-+										v->PixelClockBackEnd[k],
-+										v->ForcedOutputLinkBPP[k],
-+										v->LinkDSCEnable,
-+										v->Output[k],
-+										v->OutputFormat[k],
-+										v->DSCInputBitPerComponent[k],
-+										v->NumberOfDSCSlices[k],
-+										v->AudioSampleRate[k],
-+										v->AudioSampleLayout[k],
-+										v->ODMCombineEnablePerState[i][k]);
-+							}
-+							v->OutputBppPerState[i][k] = v->Outbpp;
-+							// TODO: Need some other way to handle this nonsense
-+							// v->OutputTypeAndRatePerState[i][k] = v->Output[k] & " UHBR20"
-+						}
-+					} else {
-+						v->Outbpp = BPP_INVALID;
-+						if (v->PHYCLKPerState[i] >= 270.0) {
-+							v->Outbpp = TruncToValidBPP(
-+									(1.0 - v->Downspreading / 100.0) * 2700,
-+									v->OutputLinkDPLanes[k],
-+									v->HTotal[k],
-+									v->HActive[k],
-+									v->PixelClockBackEnd[k],
-+									v->ForcedOutputLinkBPP[k],
-+									v->LinkDSCEnable,
-+									v->Output[k],
-+									v->OutputFormat[k],
-+									v->DSCInputBitPerComponent[k],
-+									v->NumberOfDSCSlices[k],
-+									v->AudioSampleRate[k],
-+									v->AudioSampleLayout[k],
-+									v->ODMCombineEnablePerState[i][k]);
-+							v->OutputBppPerState[i][k] = v->Outbpp;
-+							// TODO: Need some other way to handle this nonsense
-+							// v->OutputTypeAndRatePerState[i][k] = v->Output[k] & " HBR"
-+						}
-+						if (v->Outbpp == BPP_INVALID && v->PHYCLKPerState[i] >= 540.0) {
-+							v->Outbpp = TruncToValidBPP(
-+									(1.0 - v->Downspreading / 100.0) * 5400,
-+									v->OutputLinkDPLanes[k],
-+									v->HTotal[k],
-+									v->HActive[k],
-+									v->PixelClockBackEnd[k],
-+									v->ForcedOutputLinkBPP[k],
-+									v->LinkDSCEnable,
-+									v->Output[k],
-+									v->OutputFormat[k],
-+									v->DSCInputBitPerComponent[k],
-+									v->NumberOfDSCSlices[k],
-+									v->AudioSampleRate[k],
-+									v->AudioSampleLayout[k],
-+									v->ODMCombineEnablePerState[i][k]);
-+							v->OutputBppPerState[i][k] = v->Outbpp;
-+							// TODO: Need some other way to handle this nonsense
-+							// v->OutputTypeAndRatePerState[i][k] = v->Output[k] & " HBR2"
-+						}
-+						if (v->Outbpp == BPP_INVALID && v->PHYCLKPerState[i] >= 810.0) {
-+							v->Outbpp = TruncToValidBPP(
-+									(1.0 - v->Downspreading / 100.0) * 8100,
-+									v->OutputLinkDPLanes[k],
-+									v->HTotal[k],
-+									v->HActive[k],
-+									v->PixelClockBackEnd[k],
-+									v->ForcedOutputLinkBPP[k],
-+									v->LinkDSCEnable,
-+									v->Output[k],
-+									v->OutputFormat[k],
-+									v->DSCInputBitPerComponent[k],
-+									v->NumberOfDSCSlices[k],
-+									v->AudioSampleRate[k],
-+									v->AudioSampleLayout[k],
-+									v->ODMCombineEnablePerState[i][k]);
-+							v->OutputBppPerState[i][k] = v->Outbpp;
-+							// TODO: Need some other way to handle this nonsense
-+							// v->OutputTypeAndRatePerState[i][k] = v->Output[k] & " HBR3"
-+						}
- 					}
- 				}
- 			} else {
+diff --git a/drivers/gpu/drm/amd/display/dc/core/dc.c b/drivers/gpu/drm/amd/display/dc/core/dc.c
+index 698ef50e83f3f..b29978ec17d68 100644
+--- a/drivers/gpu/drm/amd/display/dc/core/dc.c
++++ b/drivers/gpu/drm/amd/display/dc/core/dc.c
+@@ -76,6 +76,8 @@
+ 
+ #include "dc_trace.h"
+ 
++#include "hw_sequencer_private.h"
++
+ #include "dce/dmub_outbox.h"
+ 
+ #define CTX \
+@@ -1050,6 +1052,44 @@ static void apply_ctx_interdependent_lock(struct dc *dc, struct dc_state *contex
+ 	}
+ }
+ 
++static void phantom_pipe_blank(
++		struct dc *dc,
++		struct timing_generator *tg,
++		int width,
++		int height)
++{
++	struct dce_hwseq *hws = dc->hwseq;
++	enum dc_color_space color_space;
++	struct tg_color black_color = {0};
++	struct output_pixel_processor *opp = NULL;
++	uint32_t num_opps, opp_id_src0, opp_id_src1;
++	uint32_t otg_active_width, otg_active_height;
++
++	/* program opp dpg blank color */
++	color_space = COLOR_SPACE_SRGB;
++	color_space_to_black_color(dc, color_space, &black_color);
++
++	otg_active_width = width;
++	otg_active_height = height;
++
++	/* get the OPTC source */
++	tg->funcs->get_optc_source(tg, &num_opps, &opp_id_src0, &opp_id_src1);
++	ASSERT(opp_id_src0 < dc->res_pool->res_cap->num_opp);
++	opp = dc->res_pool->opps[opp_id_src0];
++
++	opp->funcs->opp_set_disp_pattern_generator(
++			opp,
++			CONTROLLER_DP_TEST_PATTERN_SOLID_COLOR,
++			CONTROLLER_DP_COLOR_SPACE_UDEFINED,
++			COLOR_DEPTH_UNDEFINED,
++			&black_color,
++			otg_active_width,
++			otg_active_height,
++			0);
++
++	hws->funcs.wait_for_blank_complete(opp);
++}
++
+ static void disable_dangling_plane(struct dc *dc, struct dc_state *context)
+ {
+ 	int i, j;
+@@ -1108,8 +1148,13 @@ static void disable_dangling_plane(struct dc *dc, struct dc_state *context)
+ 			 * again for different use.
+ 			 */
+ 			if (old_stream->mall_stream_config.type == SUBVP_PHANTOM) {
+-				if (tg->funcs->enable_crtc)
++				if (tg->funcs->enable_crtc) {
++					int main_pipe_width, main_pipe_height;
++					main_pipe_width = old_stream->mall_stream_config.paired_stream->dst.width;
++					main_pipe_height = old_stream->mall_stream_config.paired_stream->dst.height;
++					phantom_pipe_blank(dc, tg, main_pipe_width, main_pipe_height);
+ 					tg->funcs->enable_crtc(tg);
++				}
+ 			}
+ 			dc_rem_all_planes_for_stream(dc, old_stream, dangling_context);
+ 			disable_all_writeback_pipes_for_stream(dc, old_stream, dangling_context);
 -- 
 2.39.2
 
