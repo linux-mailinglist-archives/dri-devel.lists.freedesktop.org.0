@@ -2,60 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C0746F3183
-	for <lists+dri-devel@lfdr.de>; Mon,  1 May 2023 15:27:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99B6A6F3196
+	for <lists+dri-devel@lfdr.de>; Mon,  1 May 2023 15:42:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 556F910E0B7;
-	Mon,  1 May 2023 13:27:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2FD6C10E0A2;
+	Mon,  1 May 2023 13:42:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x329.google.com (mail-ot1-x329.google.com
- [IPv6:2607:f8b0:4864:20::329])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 198B910E0B7;
- Mon,  1 May 2023 13:27:16 +0000 (UTC)
-Received: by mail-ot1-x329.google.com with SMTP id
- 46e09a7af769-6a604259983so1860844a34.2; 
- Mon, 01 May 2023 06:27:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1682947635; x=1685539635;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=+SRkX38MRdzPiGInLxtyxcayxdTazEZbBoK0zR3RRn8=;
- b=d/2ynuGkGU0+C8CoYYk+HLNdwCZM1mCTw2354Pp2LJVewmfHA1JIkSMcZhO6iAPhiX
- M79WLERTM6QYJITZnEb1wLLhN+f8hWQ3fNy6vEgFYoGYtVbRJ7oRiQtjhUnm3jWXUa0A
- ZvZ7rjqoBaozBj9xnIb3Kw5q+aIP+XBnx6oxp9NNb0igDCA3Z8aI/JXy/0vSKoL/dRfF
- Km0VYNONe4tsVW156iS62AxCTfwKiCfnG+01hFdztRz21to8Bp02lWJr4Sr0xPb6rZs0
- VyzE4ORsWo1XW/mcdNoE0PaCABl06uopst7zFwuZtebr+ourOyC7kULgMRTIKt7zUv0A
- dpfQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682947635; x=1685539635;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=+SRkX38MRdzPiGInLxtyxcayxdTazEZbBoK0zR3RRn8=;
- b=gTcLS3XTdTDgtUFjgczZCj9b8yd9dhOEodu3DVv4XP9z/bsvQpsMRN1rDYqh3UmAB0
- eMLeyA1E+sJ/1fdh1p/v/vZX3qgqD7b4TEebFHJZRbf/YzHPwP4pbDQ7e6hAfdqdQDCb
- OnkWKn+ZB97F6DKMmFvkGNSQRGpajDrThH7OY7ZFNadc0Dvzi8oDFlp9MhiMVAy/yyzE
- IvZXj3m+wqkki2lmdrzFGuz00VtzcZBeDJA3ULvI891MFxRb3rGJgeStg7r+FI7s+fhM
- lULa6YxBQbngnT9p32EK7Ak7rxwnG8wDpawuJ3Yz+gdiQDBPmjtF3P58k3av+WxmQabg
- +LaQ==
-X-Gm-Message-State: AC+VfDxnTuTCT7VsyBI1Bh7x/jUwYJpi6fq/pXfYS8FVfC59n//Tlj5U
- 5t8IXatoqc2/tMVH+Tq0gl3C21U/ABgG/jQVnyV0qUovVJA=
-X-Google-Smtp-Source: ACHHUZ7IYC33M8jWWK0vSNPN30ZMiS9tuI3x0R8GFOmhLxkNfEvKAs1v+MipIrUvkxeBh2eP9tcmmFtSgHEPzsBV9KE=
-X-Received: by 2002:a54:4482:0:b0:38e:eaf:cf1f with SMTP id
- v2-20020a544482000000b0038e0eafcf1fmr6077521oiv.44.1682947635160; Mon, 01 May
- 2023 06:27:15 -0700 (PDT)
+Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org
+ [IPv6:2001:67c:2050:0:465::101])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BAE2810E0A2
+ for <dri-devel@lists.freedesktop.org>; Mon,  1 May 2023 13:42:02 +0000 (UTC)
+Received: from smtp1.mailbox.org (smtp1.mailbox.org
+ [IPv6:2001:67c:2050:b231:465::1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4Q94BX2xRGz9sVh;
+ Mon,  1 May 2023 15:41:56 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oltmanns.dev;
+ s=MBO0001; t=1682948516;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=jqYP4L/dOQIMjnG4KNToVeLEt+0G6LtXeDVBdi/r+Rg=;
+ b=zvcWH6KBDacptU5xkzi9uKyNMs3di7lqxMKl+ZHDf60qM2JjAQ9YphAvYDVbSp4Nk5p3/k
+ BNusxtiVRWr91z42j93X8ZpJYR5717bDOnVJph+9WTy2BrlkdYDGy22ceS6sXfVnhzrH6z
+ KDjDIkH59HlUqz0l4EtylDF5dJZda7BZhbKxBzcwzkf8sjq6ic08nLD+/7fYSRz6Efo4y6
+ ex2mdqmCTcVJH6vbiNj/NPkEf6hMLyz/VslpjDVkzIAoQNHd6F161qrCm4jkAXIa2bOC86
+ UFCOnfPeOhh2mQECnozaInvlast3VtVl1lwR1qngUtWw5XKKjtrTCbxqrYYffA==
+References: <20230418074008.69752-1-me@crly.cz> <87cz3uzpx1.fsf@oltmanns.dev>
+From: Frank Oltmanns <frank@oltmanns.dev>
+To: Maxime Ripard <mripard@kernel.org>, Jernej Skrabec
+ <jernej.skrabec@gmail.com>
+Subject: Re: [PATCH v2 0/7] drm: sun4i: set proper TCON0 DCLK rate in DSI mode
+Date: Mon, 01 May 2023 15:40:49 +0200
+In-reply-to: <87cz3uzpx1.fsf@oltmanns.dev>
+Message-ID: <87mt2o9njh.fsf@oltmanns.dev>
 MIME-Version: 1.0
-References: <46a7eb80-5f09-4f6a-4fd3-9550dafd497c@felixrichter.tech>
-In-Reply-To: <46a7eb80-5f09-4f6a-4fd3-9550dafd497c@felixrichter.tech>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Mon, 1 May 2023 09:27:03 -0400
-Message-ID: <CADnq5_Nuu7hAFR6A8SqaENA_CUV_F3J1qgCwE=Yn_1rY-n5GLg@mail.gmail.com>
-Subject: Re: PROBLEM: AMD Ryzen 9 7950X iGPU - Blinking Issue
-To: Felix Richter <judge@felixrichter.tech>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-Rspamd-Queue-Id: 4Q94BX2xRGz9sVh
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,36 +54,146 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
+Cc: Samuel Holland <samuel@sholland.org>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Roman Beranek <me@crly.cz>,
+ Chen-Yu Tsai <wens@csie.org>, Ondrej Jirman <megi@xff.cz>,
+ linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, May 1, 2023 at 3:20=E2=80=AFAM Felix Richter <judge@felixrichter.te=
-ch> wrote:
->
-> Hi,
->
-> I am running into an issue with the integrated GPU of the Ryzen 9 7950X. =
-It seems to be a regression from kernel version 6.1 to 6.2.
-> The bug materializes in from of my monitor blinking, meaning it turns ful=
-l white shortly. This happens very often so that the system becomes unpleas=
-ant to use.
->
-> I am running the Archlinux Kernel:
-> The Issue happens on the bleeding edge kernel: 6.2.13
-> Switching back to the LTS kernel resolves the issue: 6.1.26
->
-> I have two monitors attached to the system. One 42 inch 4k Display and a =
-24 inch 1080p Display and am running sway as my desktop.
->
-> Let me know if there is more information I could provide to help narrow d=
-own the issue.
+Maxime, Jernej, I was trying to understand why pll-video0 is not updated
+and I tracked down the culprit to ccu_nkm.c.
 
-It's related to scatter/gather display.  As a workaround, you can
-disable scatter/gather display by setting amd.sg_display=3D0 on the
-kernel command line in grub.  It's fixed properly in:
-https://gitlab.freedesktop.org/agd5f/linux/-/commit/08da182175db4c7f8085035=
-4849d95f2670e8cd9
-Which should land in Linus' tree this week.
+On 2023-04-23 at 15:24:33 +0200, Frank Oltmanns <frank@oltmanns.dev> wrote:
+> On 2023-04-18 at 09:40:01 +0200, Roman Beranek <me@crly.cz> wrote:
+>> According to Allwinner's BSP code, in DSI mode, TCON0 clock needs to be
+>> running at what's effectively the per-lane datarate of the DSI link.
+>> Given that the TCON DCLK divider is fixed to 4 (SUN6I_DSI_TCON_DIV),
+>> DCLK can't be set equal to the dotclock. Therefore labeling TCON DCLK
+>> as sun4i_dotclock or tcon-pixel-clock shall be avoided.
+>>
+>> With bpp bits per pixel transmitted over n DSI lanes, the target DCLK
+>> rate for a given pixel clock is obtained as follows:
+>>
+>> DCLK rate = 1/4 * bpp / n * pixel clock
+>>
+>> Effect of this change can be observed through the rate of Vblank IRQs
+>> which should now match refresh rate implied by set display mode. It
+>> was verified to do so on a A64 board with a 2-lane and a 4-lane panel.
+[...]
+> I've tried your patches on my pinephone. I also set the panel's clock to
+> 72 MHz, so at 24 bpp and 4 lanes that should result in a data clock of
+> 108 MHz. This should be possible when pll-video0 is at 297 MHz.
+>
+> Unfortunately, pll-video0 is not set and therefore the relevant part of
+> the clk_summary looks like this:
+>
+>                           enable  prepare  protect              hardware
+> clock                      count    count    count        rate    enable
+> ------------------------------------------------------------------------
+>  pll-video0                    1        1        1   294000000         Y
+>     hdmi                       0        0        0   294000000         N
+>     tcon1                      0        0        0   294000000         N
+>     pll-mipi                   1        1        1   431200000         Y
+>        tcon0                   2        2        1   431200000         Y
+>           tcon-data-clock      1        1        1   107800000         Y
+>     pll-video0-2x              0        0        0   588000000         Y
+>
+> Note, I've cut the columns accuracy, phase, and duty cycle, because they
+> show the same values for all clocks (0, 0, 50000).
+>
+> My understanding was that with this patchset setting the parent clock
+> should be possible. Do you have any idea why it doesn't work on the
+> pinephone? Or maybe it does work on yours and I'm making some kind of
+> mistake?
 
-Alex
+To better understand what's going on I've extended the clk_rate_request
+class to also output the requested rate. The relevant output is this
+(leading line numbers by me for referencing the lines below):
+line  1:     kworker/u8:2-49      [002] .....     1.850141: clk_rate_request_start: tcon-data-clock rate 108000000 min 0 max 18446744073709551615, parent tcon0 (588000000)
+line  2:     kworker/u8:2-49      [002] .....     1.850149: clk_rate_request_start: tcon0 rate 432000000 min 0 max 18446744073709551615, parent pll-mipi (588000000)
+line  3:     kworker/u8:2-49      [002] .....     1.850154: clk_rate_request_start: pll-mipi rate 432000000 min 0 max 18446744073709551615, parent pll-video0 (294000000)
+line  4:     kworker/u8:2-49      [002] .....     1.850168: clk_rate_request_done: pll-mipi rate 431200000 min 0 max 18446744073709551615, parent pll-video0 (294000000)
+line  5:     kworker/u8:2-49      [002] .....     1.850169: clk_rate_request_done: tcon0 rate 431200000 min 0 max 18446744073709551615, parent pll-mipi (431200000)
+line  6:     kworker/u8:2-49      [002] .....     1.850171: clk_rate_request_done: tcon-data-clock rate 107800000 min 0 max 18446744073709551615, parent tcon0 (431200000)
+line  7:     kworker/u8:2-49      [002] .....     1.850172: clk_rate_request_start: tcon-data-clock rate 108000000 min 0 max 18446744073709551615, parent tcon0 (588000000)
+line  8:     kworker/u8:2-49      [002] .....     1.850174: clk_rate_request_start: tcon0 rate 432000000 min 0 max 18446744073709551615, parent pll-mipi (588000000)
+line  9:     kworker/u8:2-49      [002] .....     1.850179: clk_rate_request_start: pll-mipi rate 432000000 min 0 max 18446744073709551615, parent pll-video0 (294000000)
+line 10:     kworker/u8:2-49      [002] .....     1.850190: clk_rate_request_done: pll-mipi rate 431200000 min 0 max 18446744073709551615, parent pll-video0 (294000000)
+line 11:     kworker/u8:2-49      [002] .....     1.850191: clk_rate_request_done: tcon0 rate 431200000 min 0 max 18446744073709551615, parent pll-mipi (431200000)
+line 12:     kworker/u8:2-49      [002] .....     1.850192: clk_rate_request_done: tcon-data-clock rate 107800000 min 0 max 18446744073709551615, parent tcon0 (431200000)
+line 13:     kworker/u8:2-49      [002] .....     1.850193: clk_rate_request_start: tcon0 rate 431200000 min 0 max 18446744073709551615, parent pll-mipi (588000000)
+line 14:     kworker/u8:2-49      [002] .....     1.850195: clk_rate_request_start: pll-mipi rate 431200000 min 0 max 18446744073709551615, parent pll-video0 (294000000)
+line 15:     kworker/u8:2-49      [002] .....     1.850205: clk_rate_request_done: pll-mipi rate 431200000 min 0 max 18446744073709551615, parent pll-video0 (294000000)
+line 16:     kworker/u8:2-49      [002] .....     1.850206: clk_rate_request_done: tcon0 rate 431200000 min 0 max 18446744073709551615, parent pll-mipi (431200000)
+line 17:     kworker/u8:2-49      [002] .....     1.850208: clk_rate_request_start: pll-mipi rate 431200000 min 0 max 18446744073709551615, parent pll-video0 (294000000)
+line 18:     kworker/u8:2-49      [002] .....     1.850219: clk_rate_request_done: pll-mipi rate 431200000 min 0 max 18446744073709551615, parent pll-video0 (294000000)
+line 19:     kworker/u8:2-49      [002] .....     1.850229: clk_set_rate: pll-mipi 431200000
+line 20:     kworker/u8:2-49      [003] .....     1.850508: clk_set_rate_complete: pll-mipi 431200000
+line 21:     kworker/u8:2-49      [003] .....     1.850513: clk_set_rate: tcon0 431200000
+line 22:     kworker/u8:2-49      [003] .....     1.850515: clk_set_rate_complete: tcon0 431200000
+line 23:     kworker/u8:2-49      [003] .....     1.850516: clk_set_rate: tcon-data-clock 107800000
+line 24:     kworker/u8:2-49      [003] .....     1.850524: clk_set_rate_complete: tcon-data-clock 107800000
+line 25:     kworker/u8:2-49      [003] .....     1.853320: clk_prepare: tcon-data-clock
+line 26:     kworker/u8:2-49      [003] .....     1.853324: clk_prepare_complete: tcon-data-clock
+line 27:     kworker/u8:2-49      [003] d..1.     1.853328: clk_enable: tcon-data-clock
+line 28:     kworker/u8:2-49      [003] d..1.     1.853333: clk_enable_complete: tcon-data-clock
+
+In line 1 we can see that a rate of 108 MHz is requested for
+tcon-data-clock. In lines 2 and 3 this is forwarded to tcon0 and
+pll-mipi (432 MHz). What surprised me, is that there is no request to
+set the rate of pll-video0. Instead pll-mipi (and subsequently tcon0)
+are set to 431.2 MHz (lines 4,5) and consequently tcon-data-clock is at
+107.8 MHz (line 6) as I also reported in my previous mail (see quote
+above).
+
+When figuring out the call stack, I traced the whole thing down to
+ccu_nkm_determine_rate(). The simplified call stack looks like this:
+
+clk_set_rate(tcon-data-clock, 108MHz)
+   clk_core_set_rate_nolock(tcon-data-clock, 108MHz)
+      clk_core_req_round_rate_nolock(tcon-data-clock, 108MHz)
+         clk_core_round_rate_nolock(tcon-data-clock, 108MHz)
+            sun4i_dclk_round_rate(tcon-data-clock)
+               clk_hw_round_rate(tcon0, 432MHz)
+                  clk_core_round_rate_nolock(tcon0, 432MHz)
+                     clk_mux_determine_rate_flags(tcon0, 432MHz)
+                        clk_core_round_rate_nolock(pll-mipi, 432MHz)
+                           ccu_nkm_determine_rate(pll-mipi, 432MHz)
+
+Looking at ccu_nkm_determine_rate(), we've found our culprit because it
+does not try parent clock rates other than the current one. The same
+applies to all other ccu_nkm_* functions.
+
+So, I can see two options:
+ a. Set pll-video0 to 297 MHz on boot
+ b. Add functionality to ccu_nkm_* to also update the parent clock rate.
+
+I'm actually interested in tackling b, but I can't make any promises as
+to if and when I'll be able to solve it. I'm not certain about any side
+effects this might have.
+
+Until then, is option a acceptable in mainline?
+
+Thanks,
+  Frank
+
+>
+> On a brighter note, when I initialize pll-video0 to 297 MHz in
+> sunxi-ng/ccu-sun50i-a64.c:sun50i_a64_ccu_probe() I get an even 108 Mhz
+> for the data clock. The patch is:
+>
+> 	writel(0x515, reg + SUN50I_A64_PLL_MIPI_REG);
+>
+> +	/*
+> +	 * Initialize PLL VIDEO0 to default values (297 MHz)
+> +	 * to clean up any changes made by bootloader
+> +	 */
+> +	writel(0x03006207, reg + 0x10);
+> +
+> 	ret = devm_sunxi_ccu_probe(&pdev->dev, reg, &sun50i_a64_ccu_desc);
+> 	if (ret)
+> 		return ret;
+>
+> Best,
+>   Frank
