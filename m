@@ -2,46 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 382E16F366A
-	for <lists+dri-devel@lfdr.de>; Mon,  1 May 2023 20:58:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 364C26F366C
+	for <lists+dri-devel@lfdr.de>; Mon,  1 May 2023 20:58:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6F60B10E442;
-	Mon,  1 May 2023 18:58:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F1F9710E44E;
+	Mon,  1 May 2023 18:58:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 52BAE10E260;
- Mon,  1 May 2023 18:58:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:
- In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=YEdOtdbcHwlpnBf3DukWHazJczyGepCiUzsZWgTu7yE=; b=dWAH8Mkv/D7whegou8NnfURdnk
- QJuu/BFYkVD4SbytFwh1IaQoMvagK3hE3DXuJHX8saatNM6CHRWJdYLNp/NfkOC0SvOZtXzORZIhB
- E0FyrlEUTu56SqBT5LbpmUbcLPKeG5xrKsu2wV15l88dHCjCaer6gtkIS+/5FUnv6OUWHPDJ/DL3L
- GCU15JzlKbPUXT/S1E8YZkNmxccxdFYfKhfWJh5+75N3sopW2C51liYpQeQ3UjDrLrBrcGXK7gfiZ
- YIU36XGlYLRZDLVT0roSQeeB15+0hCVxEZ7cyNdG+VsDIlIyb33rJ3KeFJrhrTLnSQEPn/Fa0BQG+
- LUcxu2vA==;
-Received: from [179.113.250.147] (helo=steammachine.lan)
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1ptYjS-00H3BT-1f; Mon, 01 May 2023 20:58:42 +0200
-From: =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>
-To: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: [RFC PATCH 1/1] drm/amdgpu: Add interface to dump guilty IB on GPU
- hang
-Date: Mon,  1 May 2023 15:57:47 -0300
-Message-Id: <20230501185747.33519-2-andrealmeid@igalia.com>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20230501185747.33519-1-andrealmeid@igalia.com>
-References: <20230501185747.33519-1-andrealmeid@igalia.com>
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B381910E43E;
+ Mon,  1 May 2023 18:58:47 +0000 (UTC)
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 341FhE0A025721; Mon, 1 May 2023 18:58:42 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=GMHa6OHIeIVoZoQ36I9Et2ADpUxODcVxF5WZ7tZI4ww=;
+ b=KdEMSnFXpewbTs1+iEg7N31cuGazszJDqVuGfxAha+pZTAfamsOoNmuddZANmsPtq9hj
+ ZmRFE3e0Ulb3OtDxacxSn1Ww/YZ1EPWv+OU0MKFKYGuqDt684hifiP2v5niWwuoK2hm7
+ UsG78ZH9i3DTmzMdReygTC5hPKKCn14WBnOSUcQh0yl8DnPVdzIa08kKgzmRJbn/V8lf
+ DkjHS2A9ka1wTRYOPEXPQYol5AKDI74RlezRo7xGc3bNCqF6b+uKcICy/y3al4vbWSU0
+ P+kgJlycnBzDUA9mJXhlktotcrpf+QDWoYDfcHVgz/o8siKUFtRlldgoLEilN0NLJBkP Wg== 
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3qa0a39ytt-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 01 May 2023 18:58:41 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 341Iwfak003771
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 1 May 2023 18:58:41 GMT
+Received: from [10.134.70.142] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Mon, 1 May 2023
+ 11:58:40 -0700
+Message-ID: <dfc24f9d-af35-8c42-9c78-7e2f7f81c995@quicinc.com>
+Date: Mon, 1 May 2023 11:58:40 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.2
+Subject: Re: [PATCH v3] drm/msm/dpu: drop unused SSPP sub-block information
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
+ <robdclark@gmail.com>, Sean Paul <sean@poorly.run>
+References: <20230429212512.2947245-1-dmitry.baryshkov@linaro.org>
+ <61997e7e-1a4f-8b1d-1a7d-a1ed802ae83d@quicinc.com>
+ <c2e1a277-4bb7-d437-9748-be6c36e460b4@linaro.org>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <c2e1a277-4bb7-d437-9748-be6c36e460b4@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: BB-8c_WQ0jCN8jAreP31xMCQVc1cINIr
+X-Proofpoint-GUID: BB-8c_WQ0jCN8jAreP31xMCQVc1cINIr
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-05-01_11,2023-04-27_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015
+ priorityscore=1501 bulkscore=0 impostorscore=0 lowpriorityscore=0
+ mlxlogscore=983 mlxscore=0 adultscore=0 phishscore=0 malwarescore=0
+ spamscore=0 suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2303200000 definitions=main-2305010154
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,176 +85,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: pierre-eric.pelloux-prayer@amd.com,
- =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>,
- =?UTF-8?q?=27Marek=20Ol=C5=A1=C3=A1k=27?= <maraeo@gmail.com>,
- =?UTF-8?q?Timur=20Krist=C3=B3f?= <timur.kristof@gmail.com>,
- michel.daenzer@mailbox.org, Samuel Pitoiset <samuel.pitoiset@gmail.com>,
- kernel-dev@igalia.com, alexander.deucher@amd.com, christian.koenig@amd.com
+Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add an interface to point out to userspace the guilty indirect buffer
-when a GPU reset happens, so the usermode driver can dump just the right
-IB for debug investigation.
 
-Signed-off-by: André Almeida <andrealmeid@igalia.com>
----
- drivers/gpu/drm/amd/amdgpu/amdgpu.h      |  3 +++
- drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c  |  3 ++-
- drivers/gpu/drm/amd/amdgpu/amdgpu_job.c  |  3 +++
- drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c  |  7 ++++++
- drivers/gpu/drm/amd/amdgpu/amdgpu_ring.h |  1 +
- drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c   | 29 ++++++++++++++++++++++++
- include/uapi/drm/amdgpu_drm.h            |  7 ++++++
- 7 files changed, 52 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu.h b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
-index 02b827785e39..89345e49ba20 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu.h
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
-@@ -1050,6 +1050,9 @@ struct amdgpu_device {
- 
- 	bool                            job_hang;
- 	bool                            dc_enabled;
-+
-+	/* TODO: Maybe this should be a per-ring info */
-+	struct drm_amdgpu_info_guilty_app	info;
- };
- 
- static inline struct amdgpu_device *drm_to_adev(struct drm_device *ddev)
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-index b400d598b75a..818bcd2c9b5d 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-@@ -110,9 +110,10 @@
-  *   3.52.0 - Add AMDGPU_IDS_FLAGS_CONFORMANT_TRUNC_COORD, add device_info fields:
-  *            tcp_cache_size, num_sqc_per_wgp, sqc_data_cache_size, sqc_inst_cache_size,
-  *            gl1c_cache_size, gl2c_cache_size, mall_size, enabled_rb_pipes_mask_hi
-+ *   3.53.0 - Add AMDGPU_INFO_GUILTY_APP IOCTL
-  */
- #define KMS_DRIVER_MAJOR	3
--#define KMS_DRIVER_MINOR	52
-+#define KMS_DRIVER_MINOR	53
- #define KMS_DRIVER_PATCHLEVEL	0
- 
- unsigned int amdgpu_vram_limit = UINT_MAX;
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
-index c3d9d75143f4..a15162f8c812 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
-@@ -48,6 +48,9 @@ static enum drm_gpu_sched_stat amdgpu_job_timedout(struct drm_sched_job *s_job)
- 		return DRM_GPU_SCHED_STAT_ENODEV;
- 	}
- 
-+	if (ring->funcs->get_reset_data)
-+		ring->funcs->get_reset_data(ring, job);
-+
- 	memset(&ti, 0, sizeof(struct amdgpu_task_info));
- 	adev->job_hang = true;
- 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
-index a5bae7eb993a..dc6cc94b6847 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
-@@ -1149,6 +1149,13 @@ int amdgpu_info_ioctl(struct drm_device *dev, void *data, struct drm_file *filp)
- 		return copy_to_user(out, max_ibs,
- 				    min((size_t)size, sizeof(max_ibs))) ? -EFAULT : 0;
- 	}
-+	case AMDGPU_INFO_GUILTY_APP: {
-+		struct drm_amdgpu_info_guilty_app info;
-+		info.ib_addr = adev->info.ib_addr;
-+		info.vmid = adev->info.vmid;
-+		info.ib_size = adev->info.ib_size;
-+		return copy_to_user(out, &info, min((size_t)size, sizeof(info))) ? -EFAULT : 0;
-+	}
- 	default:
- 		DRM_DEBUG_KMS("Invalid request %d\n", info->query);
- 		return -EINVAL;
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ring.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_ring.h
-index 8eca6532ed19..0993c7ec74c6 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ring.h
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ring.h
-@@ -227,6 +227,7 @@ struct amdgpu_ring_funcs {
- 	int (*preempt_ib)(struct amdgpu_ring *ring);
- 	void (*emit_mem_sync)(struct amdgpu_ring *ring);
- 	void (*emit_wave_limit)(struct amdgpu_ring *ring, bool enable);
-+	void (*get_reset_data)(struct amdgpu_ring *ring, struct amdgpu_job *job);
- };
- 
- struct amdgpu_ring {
-diff --git a/drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c b/drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c
-index 8bd07ff59671..12763ff8c83c 100644
---- a/drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c
-+++ b/drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c
-@@ -9226,6 +9226,34 @@ static void gfx_v10_0_emit_mem_sync(struct amdgpu_ring *ring)
- 	amdgpu_ring_write(ring, gcr_cntl); /* GCR_CNTL */
- }
- 
-+static void gfx_v10_0_get_reset_data(struct amdgpu_ring *ring,
-+				     struct amdgpu_job *job)
-+{
-+	int i;
-+
-+	struct amdgpu_device *adev = ring->adev;
-+	u64 ib_addr;
-+	u32 ib_addr_lo;
-+
-+	ib_addr = RREG32_SOC15(GC, 0, mmCP_IB1_BASE_HI);
-+	ib_addr = ib_addr << 32;
-+	ib_addr_lo = RREG32_SOC15(GC, 0, mmCP_IB1_BASE_LO);
-+	ib_addr += ib_addr_lo;
-+
-+	adev->info.ib_addr = ib_addr;
-+	adev->info.vmid = job->vmid;
-+
-+	for (i = 0; i < job->num_ibs; i++) {
-+		if (lower_32_bits(job->ibs[i].gpu_addr) == ib_addr_lo) {
-+			adev->info.ib_size = job->ibs[i].length_dw;
-+			break;
-+		}
-+	}
-+
-+	DRM_INFO("Guilty app info: IB addr 0x%llx IB size 0x%x VM id %u",
-+		  adev->info.ib_addr, adev->info.ib_size, adev->info.vmid);
-+}
-+
- static const struct amd_ip_funcs gfx_v10_0_ip_funcs = {
- 	.name = "gfx_v10_0",
- 	.early_init = gfx_v10_0_early_init,
-@@ -9297,6 +9325,7 @@ static const struct amdgpu_ring_funcs gfx_v10_0_ring_funcs_gfx = {
- 	.emit_reg_write_reg_wait = gfx_v10_0_ring_emit_reg_write_reg_wait,
- 	.soft_recovery = gfx_v10_0_ring_soft_recovery,
- 	.emit_mem_sync = gfx_v10_0_emit_mem_sync,
-+	.get_reset_data = gfx_v10_0_get_reset_data,
- };
- 
- static const struct amdgpu_ring_funcs gfx_v10_0_ring_funcs_compute = {
-diff --git a/include/uapi/drm/amdgpu_drm.h b/include/uapi/drm/amdgpu_drm.h
-index 6981e59a9401..4136d04bfb57 100644
---- a/include/uapi/drm/amdgpu_drm.h
-+++ b/include/uapi/drm/amdgpu_drm.h
-@@ -878,6 +878,7 @@ struct drm_amdgpu_cs_chunk_data {
- 	#define AMDGPU_INFO_VIDEO_CAPS_ENCODE		1
- /* Query the max number of IBs per gang per submission */
- #define AMDGPU_INFO_MAX_IBS			0x22
-+#define AMDGPU_INFO_GUILTY_APP			0x23
- 
- #define AMDGPU_INFO_MMR_SE_INDEX_SHIFT	0
- #define AMDGPU_INFO_MMR_SE_INDEX_MASK	0xff
-@@ -1195,6 +1196,12 @@ struct drm_amdgpu_info_video_caps {
- 	struct drm_amdgpu_info_video_codec_info codec_info[AMDGPU_INFO_VIDEO_CAPS_CODEC_IDX_COUNT];
- };
- 
-+struct drm_amdgpu_info_guilty_app {
-+	__u64 ib_addr;
-+	__u32 ib_size;
-+	__u32 vmid;
-+};
-+
- /*
-  * Supported GPU families
-  */
--- 
-2.40.1
+On 5/1/2023 11:56 AM, Dmitry Baryshkov wrote:
+> On 01/05/2023 21:49, Abhinav Kumar wrote:
+>>
+>>
+>> On 4/29/2023 2:25 PM, Dmitry Baryshkov wrote:
+>>> The driver  doesn't support hsic/memcolor and pcc SSPP subblocks.
+>>> Drop corresponding definitions.
+>>>
+>>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+>>> ---
+>>>
+>>> Changes since v2:
+>>> - Fixed commit message to remove igc block mention.
+>>>
+>>> Changes since v1:
+>>>   - Rebased on top of 
+>>> https://patchwork.freedesktop.org/patch/534725/?series=117130&rev=1
+>>>
+>>> ---
+>>>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h | 6 ------
+>>>   1 file changed, 6 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h 
+>>> b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+>>> index 69d1f1e59db1..b2831b45ac64 100644
+>>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+>>> @@ -380,9 +380,6 @@ struct dpu_caps {
+>>>    * @qseed_ver: qseed version
+>>>    * @scaler_blk:
+>>>    * @csc_blk:
+>>> - * @hsic:
+>>> - * @memcolor:
+>>> - * @pcc_blk:
+>>
+>> pcc_blk is still there. So this should be dropped. Once that is fixed,
+> 
+> But the pcc_blk is removed in the next chunk. Please take a glance.
 
+Ah yes, correct, my bad, i thought this from the dpu_dspp_sub_blks but 
+this is from struct dpu_sspp_sub_blks.
+
+Thanks for clarification. R-b is still good.
+
+> 
+>>
+>> Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+>>
+>>>    * @format_list: Pointer to list of supported formats
+>>>    * @num_formats: Number of supported formats
+>>>    * @virt_format_list: Pointer to list of supported formats for 
+>>> virtual planes
+>>> @@ -399,9 +396,6 @@ struct dpu_sspp_sub_blks {
+>>>       u32 qseed_ver;
+>>>       struct dpu_scaler_blk scaler_blk;
+>>>       struct dpu_pp_blk csc_blk;
+>>> -    struct dpu_pp_blk hsic_blk;
+>>> -    struct dpu_pp_blk memcolor_blk;
+>>> -    struct dpu_pp_blk pcc_blk;
+>>>       const u32 *format_list;
+>>>       u32 num_formats;
+> 
