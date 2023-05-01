@@ -2,41 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C0586F2C87
-	for <lists+dri-devel@lfdr.de>; Mon,  1 May 2023 05:01:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FC236F2C8A
+	for <lists+dri-devel@lfdr.de>; Mon,  1 May 2023 05:01:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0966510E259;
-	Mon,  1 May 2023 03:01:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 47C9A10E25A;
+	Mon,  1 May 2023 03:01:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7C7A610E259;
- Mon,  1 May 2023 03:01:17 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C0B3C10E25A
+ for <dri-devel@lists.freedesktop.org>; Mon,  1 May 2023 03:01:20 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 0B43360EA5;
- Mon,  1 May 2023 03:01:17 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AB253C433D2;
- Mon,  1 May 2023 03:01:13 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 3561661766;
+ Mon,  1 May 2023 03:01:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 66E8FC433D2;
+ Mon,  1 May 2023 03:01:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1682910076;
- bh=D+ads/ACd5JvDXrVLW/61Urwe3SqiT53uvd1olHHNcM=;
+ s=k20201202; t=1682910079;
+ bh=cv8JJGXNWBr26hY0SkfA4Eso+vQuOnX6tOzJprj6XyI=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=qZ+PT4aHPKaqE9jC5sBi377VNrV+NKD+THcZIS6+zl0oSjMtXbiRofdcoKACR/jtv
- ZIrKJJQUoXXerE+9fQ+eVtfZzvXIfFWPUJEAuugFYh5myTMXaUOwGvP6/zFqYkTYWX
- DTPn15tpOVqt0Zu9gRCVb3W/hRvNFd7uY/MlHi5+VlD1ikFoV3GH7RwMWugGfYnQWU
- O59nmPwyAYsJCCNrXvCvpoWYbHU4fmqFDhgrjZwAS1DIz2cZbuMcXgtnb7erlN3g+P
- Njou7TgyYL2giBe1XQmLND6Hn9XEJYQN2GTnkp3qQT7Onx8yBuriCdWtsD6YCwZhso
- kPG231Xw3xsRQ==
+ b=Ug1c7SKE4is/WPO7z4not0gLK107US9sRbdNr9/rTuPmuzgC9aXzHmXPk+IFoQZlB
+ yGNoDBQnasi7+UKYkvTs1IbqQtAGz/v25rxA16d1duM5eNkAlvyN0ErVVmFforA3LQ
+ mN34NQ3YMKdnuVoTmQSGvn145JjbzyxENeVGb4874NPZd2ukpPbUHud5LWDdbsuxu+
+ n32ZB3Lwama8+vyC3YLxwRL5SzWk6wIboRg1/efLuqhRFMm2M8fByMDBpr00+CdGpS
+ 3v0E1fNH6WlznD78EyRjuREUQUuvLHVPr5Y0EeZhMaQ3vyWLZF9X7j2k8ZaW7Ksd2P
+ 5yoko3VYcTAqQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.2 22/37] drm/amd/display: fixed dcn30+ underflow
- issue
-Date: Sun, 30 Apr 2023 22:59:30 -0400
-Message-Id: <20230501025945.3253774-22-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.2 24/37] drm/tegra: Avoid potential 32-bit integer
+ overflow
+Date: Sun, 30 Apr 2023 22:59:32 -0400
+Message-Id: <20230501025945.3253774-24-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230501025945.3253774-1-sashal@kernel.org>
 References: <20230501025945.3253774-1-sashal@kernel.org>
@@ -56,86 +55,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: felipe.clark@amd.com, wenjing.liu@amd.com, dri-devel@lists.freedesktop.org,
- Jun.Lei@amd.com, Sasha Levin <sashal@kernel.org>, Charlene.Liu@amd.com,
- Rodrigo.Siqueira@amd.com, Syed.Hassan@amd.com, amd-gfx@lists.freedesktop.org,
- aurabindo.pillai@amd.com, Alvin Lee <Alvin.Lee2@amd.com>, Brian.Chang@amd.com,
- sunpeng.li@amd.com, duncan.ma@amd.com, mwen@igalia.com,
- Daniel Wheeler <daniel.wheeler@amd.com>, Martin Leung <Martin.Leung@amd.com>,
- Ayush Gupta <ayugupta@amd.com>, sungjoon.kim@amd.com, Dillon.Varone@amd.com,
- Wesley.Chalmers@amd.com, Qingqing Zhuo <qingqing.zhuo@amd.com>,
- Xinhui.Pan@amd.com, Alex Deucher <alexander.deucher@amd.com>,
- christian.koenig@amd.com
+Cc: Sasha Levin <sashal@kernel.org>, Nur Hussein <hussein@unixcat.org>,
+ jonathanh@nvidia.com, dri-devel@lists.freedesktop.org, mperttunen@nvidia.com,
+ thierry.reding@gmail.com, linux-tegra@vger.kernel.org,
+ Thierry Reding <treding@nvidia.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Ayush Gupta <ayugupta@amd.com>
+From: Nur Hussein <hussein@unixcat.org>
 
-[ Upstream commit 37403ced9f2873fab7f39ab4ac963bbb33fb0bc0 ]
+[ Upstream commit 2429b3c529da29d4277d519bd66d034842dcd70c ]
 
-[Why]
-Observing underflow on dcn30+ system config at 4k144hz
+In tegra_sor_compute_config(), the 32-bit value mode->clock is
+multiplied by 1000, and assigned to the u64 variable pclk. We can avoid
+a potential 32-bit integer overflow by casting mode->clock to u64 before
+we do the arithmetic and assignment.
 
-[How]
-We set the UCLK hardmax on AC/DC switch if softmax is enabled
-and also on boot. While booting up the UCLK Hardmax is set
-to softmax before the init sequence and the init sequence
-resets the hardmax to UCLK max which enables P-state switching.
-Just added a conditional check to avoid setting hardmax on init.
-
-Reviewed-by: Alvin Lee <Alvin.Lee2@amd.com>
-Reviewed-by: Martin Leung <Martin.Leung@amd.com>
-Acked-by: Qingqing Zhuo <qingqing.zhuo@amd.com>
-Signed-off-by: Ayush Gupta <ayugupta@amd.com>
-Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+Signed-off-by: Nur Hussein <hussein@unixcat.org>
+Signed-off-by: Thierry Reding <treding@nvidia.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/display/dc/dcn30/dcn30_hwseq.c | 3 ++-
- drivers/gpu/drm/amd/display/dc/dcn31/dcn31_hwseq.c | 2 +-
- drivers/gpu/drm/amd/display/dc/dcn32/dcn32_hwseq.c | 2 +-
- 3 files changed, 4 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/tegra/sor.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_hwseq.c b/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_hwseq.c
-index c20e9f76f0213..a1b312483d7f1 100644
---- a/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_hwseq.c
-+++ b/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_hwseq.c
-@@ -629,7 +629,8 @@ void dcn30_init_hw(struct dc *dc)
- 	if (dc->clk_mgr->funcs->notify_wm_ranges)
- 		dc->clk_mgr->funcs->notify_wm_ranges(dc->clk_mgr);
- 
--	if (dc->clk_mgr->funcs->set_hard_max_memclk)
-+	//if softmax is enabled then hardmax will be set by a different call
-+	if (dc->clk_mgr->funcs->set_hard_max_memclk && !dc->clk_mgr->dc_mode_softmax_enabled)
- 		dc->clk_mgr->funcs->set_hard_max_memclk(dc->clk_mgr);
- 
- 	if (dc->res_pool->hubbub->funcs->force_pstate_change_control)
-diff --git a/drivers/gpu/drm/amd/display/dc/dcn31/dcn31_hwseq.c b/drivers/gpu/drm/amd/display/dc/dcn31/dcn31_hwseq.c
-index 4226a051df414..37d76012c0ec1 100644
---- a/drivers/gpu/drm/amd/display/dc/dcn31/dcn31_hwseq.c
-+++ b/drivers/gpu/drm/amd/display/dc/dcn31/dcn31_hwseq.c
-@@ -286,7 +286,7 @@ void dcn31_init_hw(struct dc *dc)
- 	if (dc->clk_mgr->funcs->notify_wm_ranges)
- 		dc->clk_mgr->funcs->notify_wm_ranges(dc->clk_mgr);
- 
--	if (dc->clk_mgr->funcs->set_hard_max_memclk)
-+	if (dc->clk_mgr->funcs->set_hard_max_memclk && !dc->clk_mgr->dc_mode_softmax_enabled)
- 		dc->clk_mgr->funcs->set_hard_max_memclk(dc->clk_mgr);
- 
- 	if (dc->res_pool->hubbub->funcs->force_pstate_change_control)
-diff --git a/drivers/gpu/drm/amd/display/dc/dcn32/dcn32_hwseq.c b/drivers/gpu/drm/amd/display/dc/dcn32/dcn32_hwseq.c
-index 30d15a94f720d..b428ad6389b9a 100644
---- a/drivers/gpu/drm/amd/display/dc/dcn32/dcn32_hwseq.c
-+++ b/drivers/gpu/drm/amd/display/dc/dcn32/dcn32_hwseq.c
-@@ -975,7 +975,7 @@ void dcn32_init_hw(struct dc *dc)
- 	if (dc->clk_mgr->funcs->notify_wm_ranges)
- 		dc->clk_mgr->funcs->notify_wm_ranges(dc->clk_mgr);
- 
--	if (dc->clk_mgr->funcs->set_hard_max_memclk)
-+	if (dc->clk_mgr->funcs->set_hard_max_memclk && !dc->clk_mgr->dc_mode_softmax_enabled)
- 		dc->clk_mgr->funcs->set_hard_max_memclk(dc->clk_mgr);
- 
- 	if (dc->res_pool->hubbub->funcs->force_pstate_change_control)
+diff --git a/drivers/gpu/drm/tegra/sor.c b/drivers/gpu/drm/tegra/sor.c
+index 8af632740673a..77723d5f1d3fd 100644
+--- a/drivers/gpu/drm/tegra/sor.c
++++ b/drivers/gpu/drm/tegra/sor.c
+@@ -1153,7 +1153,7 @@ static int tegra_sor_compute_config(struct tegra_sor *sor,
+ 				    struct drm_dp_link *link)
+ {
+ 	const u64 f = 100000, link_rate = link->rate * 1000;
+-	const u64 pclk = mode->clock * 1000;
++	const u64 pclk = (u64)mode->clock * 1000;
+ 	u64 input, output, watermark, num;
+ 	struct tegra_sor_params params;
+ 	u32 num_syms_per_line;
 -- 
 2.39.2
 
