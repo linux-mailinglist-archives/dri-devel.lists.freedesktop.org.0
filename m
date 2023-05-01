@@ -2,41 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BCD56F2C77
-	for <lists+dri-devel@lfdr.de>; Mon,  1 May 2023 05:00:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 726856F2C7B
+	for <lists+dri-devel@lfdr.de>; Mon,  1 May 2023 05:00:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7665410E244;
-	Mon,  1 May 2023 03:00:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7286510E254;
+	Mon,  1 May 2023 03:00:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D9D5910E244;
- Mon,  1 May 2023 03:00:17 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C026F10E254;
+ Mon,  1 May 2023 03:00:22 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 47A7E61769;
- Mon,  1 May 2023 03:00:17 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CBBB4C433D2;
- Mon,  1 May 2023 03:00:14 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 343C261758;
+ Mon,  1 May 2023 03:00:22 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 849A6C433D2;
+ Mon,  1 May 2023 03:00:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1682910017;
- bh=MdfxqeYAwDXh2VRMUaumN0FZctQaD2Tdai+MJVSkBmc=;
+ s=k20201202; t=1682910021;
+ bh=8L0YUmQisuwdiCTcNyYLilgshNpv6wm2b+pOlg6m8to=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=vGgCX8oARn1H2BTpJBb1xNQWJPusx4R/IywPXJ7XFMQNnriQcs5y+OcSvg5arY/xA
- E4lS0omqmqV1nEPDxBIW7fLvsJyHYf2G4KDYua+ZnHtstxrkpxNIgpP0vMWk3RnGma
- Mt6nE09m6D0xfy0ohOkuKljMQ3BHMxUgGdRno3MVmYs5PdxBsraYb9QHZANXjzR+Dr
- F7A+/CKHtnfMrSQ7Py/P0eHkmRe9HmMrQGMN48/+P2lW1XYj6A+Oq6fJTfg1ORs/xx
- +TPIgV/FSsXNXPIe1VZ14Q3wezwUhudCg3+Waxx3xchZjENKYiX01JN0dPOnJyMC7k
- t6jUdetbY1IRw==
+ b=GThbN/ipDDTVQdBq5+jxH5zC/phECnbYHHL/1C6uhAFSP9b6r1Lwp5RNw1Wh2H6hu
+ TItSNe6GViZqFbSD6j81/jGwMehtuk03bMA19KBdjOxPG3Pf6oLOlfpirU/clyVmpZ
+ IK8hh5RaJAYbuvDTFfJpRTt20Io9uXYu0UMuHb/KGCGPMX+O6eYjTdRYfHAjnmh1Vb
+ 7oTntcWf+eiRSXJe9lQbl1Xq+D7zMnUbVeVmVDa8p8kIcoKa6AvM/Pf41UkjUSEt5H
+ Kw72cFK4L20PWB2LlBEPxWHrUeC9vf4eII5HUuHEaisJwNts5t18wYq6av30t9/GNF
+ zGL1GUpCenn7w==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.2 06/37] drm/amd/display: Enable HostVM based on
- rIOMMU active
-Date: Sun, 30 Apr 2023 22:59:14 -0400
-Message-Id: <20230501025945.3253774-6-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.2 07/37] drm/amd/display: Use DC_LOG_DC in the
+ trasform pixel function
+Date: Sun, 30 Apr 2023 22:59:15 -0400
+Message-Id: <20230501025945.3253774-7-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230501025945.3253774-1-sashal@kernel.org>
 References: <20230501025945.3253774-1-sashal@kernel.org>
@@ -56,56 +55,115 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Charlene.Liu@amd.com,
- chiahsuan.chung@amd.com, christian.koenig@amd.com, sunpeng.li@amd.com,
+Cc: Sasha Levin <sashal@kernel.org>, sunpeng.li@amd.com,
  Qingqing Zhuo <qingqing.zhuo@amd.com>, Xinhui.Pan@amd.com,
- Rodrigo.Siqueira@amd.com, duncan.ma@amd.com, amd-gfx@lists.freedesktop.org,
- Gabe Teeger <gabe.teeger@amd.com>, Daniel Wheeler <daniel.wheeler@amd.com>,
- dri-devel@lists.freedesktop.org, trix@redhat.com,
- Alex Deucher <alexander.deucher@amd.com>, Jun.Lei@amd.com,
- nicholas.kazlauskas@amd.com, Pavle.Kotarac@amd.com
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, amd-gfx@lists.freedesktop.org,
+ Daniel Wheeler <daniel.wheeler@amd.com>, dri-devel@lists.freedesktop.org,
+ Alex Deucher <alexander.deucher@amd.com>, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Gabe Teeger <gabe.teeger@amd.com>
+From: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
 
-[ Upstream commit 97fa4dfa66fdd52ad3d0c9fadeaaa1e87605bac7 ]
+[ Upstream commit 7222f5841ff49709ca666b05ff336776e0664a20 ]
 
-[Why]
-There is underflow and flickering occuring. The
-underflow stops when hostvm is forced to active.
-According to policy, hostvm should be enabled if riommu
-is active, but this is not taken into account when
-deciding whether to enable hostvm.
+[Why & How]
+DC now uses a new commit sequence which is more robust since it
+addresses cases where we need to reorganize pipes based on planes and
+other parameters. As a result, this new commit sequence reset the DC
+state by cleaning plane states and re-creating them accordingly with the
+need. For this reason, the dce_transform_set_pixel_storage_depth can be
+invoked after a plane state is destroyed and before its re-creation. In
+this situation and on DCE devices, DC will hit a condition that will
+trigger a dmesg log that looks like this:
 
-[What]
-For DCN314, set hostvm to true if riommu is active.
+Console: switching to colour frame buffer device 240x67
+------------[ cut here ]------------
+[..]
+Hardware name: System manufacturer System Product Name/PRIME X370-PRO, BIOS 5603 07/28/2020
+RIP: 0010:dce_transform_set_pixel_storage_depth+0x3f8/0x480 [amdgpu]
+[..]
+RSP: 0018:ffffc9000202b850 EFLAGS: 00010293
+RAX: ffffffffa081d100 RBX: ffff888110790000 RCX: 000000000000000c
+RDX: ffff888100bedbf8 RSI: 0000000000001a50 RDI: ffff88810463c900
+RBP: 0000000000000000 R08: 0000000000000000 R09: 0000000000000007
+R10: 0000000000000001 R11: 0000000000000f00 R12: ffff88810f500010
+R13: ffff888100bedbf8 R14: ffff88810f515688 R15: 0000000000000000
+FS:  00007ff0159249c0(0000) GS:ffff88840e940000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007ff01528e550 CR3: 0000000002a10000 CR4: 00000000003506e0
+Call Trace:
+ <TASK>
+ ? dm_write_reg_func+0x21/0x80 [amdgpu 340dadd3f7c8cf4be11cf0bdc850245e99abe0e8]
+ dc_stream_set_dither_option+0xfb/0x130 [amdgpu 340dadd3f7c8cf4be11cf0bdc850245e99abe0e8]
+ amdgpu_dm_crtc_configure_crc_source+0x10b/0x190 [amdgpu 340dadd3f7c8cf4be11cf0bdc850245e99abe0e8]
+ amdgpu_dm_atomic_commit_tail+0x20a8/0x2a90 [amdgpu 340dadd3f7c8cf4be11cf0bdc850245e99abe0e8]
+ ? free_unref_page_commit+0x98/0x170
+ ? free_unref_page+0xcc/0x150
+ commit_tail+0x94/0x120
+ drm_atomic_helper_commit+0x10f/0x140
+ drm_atomic_commit+0x94/0xc0
+ ? drm_plane_get_damage_clips.cold+0x1c/0x1c
+ drm_client_modeset_commit_atomic+0x203/0x250
+ drm_client_modeset_commit_locked+0x56/0x150
+ drm_client_modeset_commit+0x21/0x40
+ drm_fb_helper_lastclose+0x42/0x70
+ amdgpu_driver_lastclose_kms+0xa/0x10 [amdgpu 340dadd3f7c8cf4be11cf0bdc850245e99abe0e8]
+ drm_release+0xda/0x110
+ __fput+0x89/0x240
+ task_work_run+0x5c/0x90
+ do_exit+0x333/0xae0
+ do_group_exit+0x2d/0x90
+ __x64_sys_exit_group+0x14/0x20
+ do_syscall_64+0x5b/0x80
+ ? exit_to_user_mode_prepare+0x1e/0x140
+ entry_SYSCALL_64_after_hwframe+0x44/0xae
+RIP: 0033:0x7ff016ceaca1
+Code: Unable to access opcode bytes at RIP 0x7ff016ceac77.
+RSP: 002b:00007ffe7a2357e8 EFLAGS: 00000246 ORIG_RAX: 00000000000000e7
+RAX: ffffffffffffffda RBX: 00007ff016e15a00 RCX: 00007ff016ceaca1
+RDX: 000000000000003c RSI: 00000000000000e7 RDI: 0000000000000000
+RBP: 0000000000000000 R08: ffffffffffffff78 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 00007ff016e15a00
+R13: 0000000000000000 R14: 00007ff016e1aee8 R15: 00007ff016e1af00
+ </TASK>
 
-Reviewed-by: Nicholas Kazlauskas <Nicholas.Kazlauskas@amd.com>
+Since this issue only happens in a transition state on DC, this commit
+replace BREAK_TO_DEBUGGER with DC_LOG_DC.
+
+Reviewed-by: Harry Wentland <Harry.Wentland@amd.com>
 Acked-by: Qingqing Zhuo <qingqing.zhuo@amd.com>
-Signed-off-by: Gabe Teeger <gabe.teeger@amd.com>
+Signed-off-by: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
 Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/display/dc/dml/dcn314/dcn314_fpu.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ drivers/gpu/drm/amd/display/dc/dce/dce_transform.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/dml/dcn314/dcn314_fpu.c b/drivers/gpu/drm/amd/display/dc/dml/dcn314/dcn314_fpu.c
-index 6a1cf6adea77d..8fa47233bc0a5 100644
---- a/drivers/gpu/drm/amd/display/dc/dml/dcn314/dcn314_fpu.c
-+++ b/drivers/gpu/drm/amd/display/dc/dml/dcn314/dcn314_fpu.c
-@@ -308,6 +308,10 @@ int dcn314_populate_dml_pipes_from_context_fpu(struct dc *dc, struct dc_state *c
- 				pipe->plane_state->src_rect.width < pipe->plane_state->dst_rect.width))
- 			upscaled = true;
+diff --git a/drivers/gpu/drm/amd/display/dc/dce/dce_transform.c b/drivers/gpu/drm/amd/display/dc/dce/dce_transform.c
+index d9fd4ec60588f..670d5ab9d9984 100644
+--- a/drivers/gpu/drm/amd/display/dc/dce/dce_transform.c
++++ b/drivers/gpu/drm/amd/display/dc/dce/dce_transform.c
+@@ -1009,7 +1009,7 @@ static void dce_transform_set_pixel_storage_depth(
+ 		color_depth = COLOR_DEPTH_101010;
+ 		pixel_depth = 0;
+ 		expan_mode  = 1;
+-		BREAK_TO_DEBUGGER();
++		DC_LOG_DC("The pixel depth %d is not valid, set COLOR_DEPTH_101010 instead.", depth);
+ 		break;
+ 	}
  
-+		/* Apply HostVM policy - either based on hypervisor globally enabled, or rIOMMU active */
-+		if (dc->debug.dml_hostvm_override == DML_HOSTVM_NO_OVERRIDE)
-+			pipes[i].pipe.src.hostvm = dc->vm_pa_config.is_hvm_enabled || dc->res_pool->hubbub->riommu_active;
-+
- 		/*
- 		 * Immediate flip can be set dynamically after enabling the plane.
- 		 * We need to require support for immediate flip or underflow can be
+@@ -1023,8 +1023,7 @@ static void dce_transform_set_pixel_storage_depth(
+ 	if (!(xfm_dce->lb_pixel_depth_supported & depth)) {
+ 		/*we should use unsupported capabilities
+ 		 *  unless it is required by w/a*/
+-		DC_LOG_WARNING("%s: Capability not supported",
+-			__func__);
++		DC_LOG_DC("%s: Capability not supported", __func__);
+ 	}
+ }
+ 
 -- 
 2.39.2
 
