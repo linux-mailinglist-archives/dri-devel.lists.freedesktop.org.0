@@ -2,51 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC9E96F4B4B
-	for <lists+dri-devel@lfdr.de>; Tue,  2 May 2023 22:24:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 897316F4B59
+	for <lists+dri-devel@lfdr.de>; Tue,  2 May 2023 22:28:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4D05210E081;
-	Tue,  2 May 2023 20:24:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1B6F310E08E;
+	Tue,  2 May 2023 20:28:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp.smtpout.orange.fr (smtp-16.smtpout.orange.fr
- [80.12.242.16])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8D75310E081
- for <dri-devel@lists.freedesktop.org>; Tue,  2 May 2023 20:24:16 +0000 (UTC)
-Received: from [192.168.1.18] ([86.243.2.178]) by smtp.orange.fr with ESMTPA
- id twXgppIyTDWLHtwXgpzUGe; Tue, 02 May 2023 22:24:13 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
- s=t20230301; t=1683059053;
- bh=PMrwAhXdyGkz9ytuGeyKVuEYfwV4KQf3cPRbS20fhZU=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To;
- b=MSxDoOzDIu/DiFTeig656t6lYDc/5KleISt5cSLrSnmdxSpe5lubkW36EctN9mU76
- Iq2tRyJ3Y+QATWBHdIUf1fXn61S0We2PvD86m0W7tCTHOZ5SYyZlb7YapCbVQ9CWT2
- dLGxi+FID4GpeRUO6V/7Hz7j16fTKyOeypOOc52E1rD/e+cUIP6IZxeSkiI/91Z6o2
- 2mfdT38mOIukQ6vGkb0XGT/fmgu2vXZpRJgZv1b6rKvSkLjL55EJ5PFEJ6X9tQ+UGg
- 4TILE30vzjSjVaj8aZ4kQ/Dbb71TypClXpVoxJWQGoV6FH0Nc1Buzo3gv9P3eRhQW0
- b5tE4r1jDlVJA==
-X-ME-Helo: [192.168.1.18]
-X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
-X-ME-Date: Tue, 02 May 2023 22:24:13 +0200
-X-ME-IP: 86.243.2.178
-Message-ID: <b1ee9be3-60db-31ea-97dd-916dc80f237c@wanadoo.fr>
-Date: Tue, 2 May 2023 22:24:08 +0200
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E6C9710E082;
+ Tue,  2 May 2023 20:28:04 +0000 (UTC)
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 342JurL9011028; Tue, 2 May 2023 20:27:58 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=bNSfF3fp8GOd4MX5IVX2LFeM5Oveea86k3zpUubxvG0=;
+ b=VtXNFBspPlpx5Dx1l8HuPNfMZcGj3r+8cugJWww5TJfURpbtB6CD3OzD0Tv9MKYSE4B1
+ Dr3urx8Z37nmEHFWcNOD3/MKSmQWrJUIsf7YlVxvyMxiRA2rhkxD6vpDhwIjGeZzuK03
+ WACiTdjzmpHc8zQs46dX7R9Q4qDnsWTCQECZoaov6vqKuuqaIT6IEfqM+LyPRlejegGS
+ MI037egkcabfNAvKtpcEAzhD34C3Tffb/R7E6CSRjVUHPqUYC3tIulf4p+NRcHy3k/fq
+ RVnzk12jQFUgb7yJPDd4dweH0UbWNuOWfZmW/Wt527em1uDqTMDy9U/st6g0Pcik7nRS Gg== 
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3qan8gjq1d-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 02 May 2023 20:27:58 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 342KRvub011320
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 2 May 2023 20:27:57 GMT
+Received: from [10.134.70.142] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Tue, 2 May 2023
+ 13:27:56 -0700
+Message-ID: <2fc36ced-039d-edc8-1695-6c79e196610e@quicinc.com>
+Date: Tue, 2 May 2023 13:27:56 -0700
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH v2 net-next 3/6] net: bcmasp: Add support for ASP2.0
- Ethernet controller
-Content-Language: fr
-To: Justin Chen <justinpopo6@gmail.com>, netdev@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- bcm-kernel-feedback-list@broadcom.com
-References: <1682535272-32249-1-git-send-email-justinpopo6@gmail.com>
- <1682535272-32249-4-git-send-email-justinpopo6@gmail.com>
-From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-In-Reply-To: <1682535272-32249-4-git-send-email-justinpopo6@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.2
+Subject: Re: [PATCH 1/7] drm/msm/dpu: merge dpu_encoder_init() and
+ dpu_encoder_setup()
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
+ <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, Marijn Suijten
+ <marijn.suijten@somainline.org>
+References: <20230430235732.3341119-1-dmitry.baryshkov@linaro.org>
+ <20230430235732.3341119-2-dmitry.baryshkov@linaro.org>
+ <0d09f4ea-8778-d61d-feea-c0b3a2a6ebe4@quicinc.com>
+ <048b40fb-b4d0-2b33-9e97-dddec1405269@linaro.org>
+ <ee9da7d9-44a7-eb99-679b-c968fdb9ef6a@quicinc.com>
+ <657391b8-7a87-6fcb-44d8-de505718f351@linaro.org>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <657391b8-7a87-6fcb-44d8-de505718f351@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: D8yCcLJMr64KaOjWRVKXZ_ToMa4AIu-d
+X-Proofpoint-ORIG-GUID: D8yCcLJMr64KaOjWRVKXZ_ToMa4AIu-d
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-05-02_12,2023-04-27_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 adultscore=0
+ lowpriorityscore=0 suspectscore=0 mlxscore=0 priorityscore=1501
+ mlxlogscore=807 impostorscore=0 bulkscore=0 phishscore=0 clxscore=1015
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2303200000 definitions=main-2305020174
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,157 +90,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: andrew@lunn.ch, f.fainelli@gmail.com, opendmb@gmail.com,
- christian.koenig@amd.com, richardcochran@gmail.com, linux@armlinux.org.uk,
- justin.chen@broadcom.com, edumazet@google.com, robh+dt@kernel.org,
- krzysztof.kozlowski+dt@linaro.org, kuba@kernel.org, pabeni@redhat.com,
- sumit.semwal@linaro.org, davem@davemloft.net, hkallweit1@gmail.com
+Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Le 26/04/2023 à 20:54, Justin Chen a écrit :
-> Add support for the Broadcom ASP 2.0 Ethernet controller which is first
-> introduced with 72165. This controller features two distinct Ethernet
-> ports that can be independently operated.
+
+
+On 5/1/2023 2:27 PM, Dmitry Baryshkov wrote:
+> On 02/05/2023 00:22, Abhinav Kumar wrote:
+>>
+>>
+>> On 5/1/2023 1:45 PM, Dmitry Baryshkov wrote:
+>>> On 01/05/2023 22:58, Abhinav Kumar wrote:
+>>>>
+>>>>
+>>>> On 4/30/2023 4:57 PM, Dmitry Baryshkov wrote:
+>>>>> There is no reason to split the dpu_encoder interface into separate
+>>>>> _init() and _setup() phases. Merge them into a single function.
+>>>>>
+>>>>
+>>>> I think the reason for having this split was to pass a valid encoder 
+>>>> to the interface_modeset_init() and then do the rest of encoder 
+>>>> initialization after modeset_init().
+>>>>
+>>>> Looking at the current code, one issue i am seeing is that you will 
+>>>> now initialize the dpu_encoder's msm_display_info along with 
+>>>> dpu_encoder_init().
+>>>>
+>>>> Most of it is fine but in the case of bonded_dsi(), I see an issue.
+>>>>
+>>>> The info.num_of_h_tiles++ happens after the modeset_init() of the 
+>>>> second dsi but now it has been moved earlier.
+>>>>
+>>>> If for some reason, msm_dsi_modeset_init() fails for the second DSI, 
+>>>> num_of_h_tiles will still be 2 now.
+>>>
+>>> If msm_dsi_modeset_init() fails, the function will err out and fail 
+>>> dpu_kms initialization. So it's not important, what is the value of 
+>>> num_h_tiles in this case.
+>>>
+>>
+>> But I still feel the msm_display_info should be saved in the dpu 
+>> encoder after the modeset_init() and not before. That way if some 
+>> display interface specific init is done in the modeset_init(), we save 
+>> the info after that.
 > 
-> This patch supports:
+> Up to now we have been using 'poll' model, e.g. we specifically asked 
+> for the DSC info from the DSI host rather than making msm_dsi set it. So 
+> far I don't see a good reason why this should be changed.
 > 
-> - Wake-on-LAN using magic packets
-> - basic ethtool operations (link, counters, message level)
-> - MAC destination address filtering (promiscuous, ALL_MULTI, etc.)
-> 
-> Signed-off-by: Florian Fainelli <f.fainelli@gmail.com>
-> Signed-off-by: Justin Chen <justinpopo6@gmail.com>
-> ---
 
-[...]
+Ok got it, so my concern came from the fact that we individually poll 
+each feature today but lets say the number of features keeps growing we 
+will have to combine them all into xxx_xxx_get_disp_info() which fills 
+up all the fields of the display_info in one go.
 
-> +void bcmasp_disable_all_filters(struct bcmasp_intf *intf)
-> +{
-> +	struct bcmasp_priv *priv = intf->parent;
-> +	unsigned int i;
+But yes, as long as we do that before calling dpu_encoder_init() it 
+should be fine.
 
-Hi,
+Hence,
 
-Nit: Some loop index are unsigned int, but most are int.
-This could be done consistantly.
-
-> +
-> +	/* Disable all filters held by this port */
-> +	for (i = ASP_RX_FILT_MDA_RES_COUNT(intf); i < NUM_MDA_FILTERS; i++) {
-> +		if (priv->mda_filters[i].en &&
-> +		    priv->mda_filters[i].port == intf->port)
-> +			bcmasp_en_mda_filter(intf, 0, i);
-> +	}
-> +}
-
-[...]
-
-> +static int bcmasp_probe(struct platform_device *pdev)
-> +{
-> +	struct device_node *ports_node, *intf_node;
-> +	const struct bcmasp_plat_data *pdata;
-> +	struct device *dev = &pdev->dev;
-> +	int ret, i, count = 0, port;
-> +	struct bcmasp_priv *priv;
-> +	struct bcmasp_intf *intf;
-> +
-> +	priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
-> +	if (!priv)
-> +		return -ENOMEM;
-> +
-> +	priv->irq = platform_get_irq(pdev, 0);
-> +	if (priv->irq <= 0) {
-> +		dev_err(dev, "invalid interrupt\n");
-> +		return -EINVAL;
-> +	}
-> +
-> +	priv->clk = devm_clk_get_optional_enabled(dev, "sw_asp");
-> +	if (IS_ERR(priv->clk)) {
-> +		dev_err(dev, "failed to request clock\n");
-> +		return PTR_ERR(priv->clk);
-> +	}
-> +
-> +	/* Base from parent node */
-> +	priv->base = devm_platform_ioremap_resource(pdev, 0);
-> +	if (IS_ERR(priv->base)) {
-> +		dev_err(dev, "failed to iomap\n");
-> +		return PTR_ERR(priv->base);
-> +	}
-> +
-> +	ret = dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(40));
-> +	if (ret)
-> +		ret = dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(32));
-
-I don't think that this fallback is needed.
-See [1].
-
-More over, using dev_err_probe() would slighly simplify the probe 
-function. (saves a few LoC, logs the error code in a human reading format)
-
-[1]: 
-https://lore.kernel.org/lkml/86bf852e-4220-52d4-259d-3455bc24def1@wanadoo.fr/T/#m022abc0051ede3ba1feeb06cefd59e2a8a5c7864
-
-> +	if (ret) {
-> +		dev_err(&pdev->dev, "unable to set DMA mask: %d\n", ret);
-> +		return ret;
-> +	}
-> +
-
-[...]
-
-> +static int __maybe_unused bcmasp_suspend(struct device *d)
-> +{
-> +	struct bcmasp_priv *priv = dev_get_drvdata(d);
-> +	struct bcmasp_intf *intf;
-> +	unsigned int i;
-
-Same
-
-> +	int ret = 0;
-
-no need to initialize, but it is mostmy a matter of taste.
-
-> +
-> +	for (i = 0; i < priv->intf_count; i++) {
-> +		intf = priv->intfs[i];
-> +		if (!intf)
-> +			continue;
-> +
-> +		ret = bcmasp_interface_suspend(intf);
-> +		if (ret)
-> +			break;
-> +	}
-> +
-> +	ret = clk_prepare_enable(priv->clk);
-> +	if (ret)
-> +		return ret;
-> +
-> +	/* Whether Wake-on-LAN is enabled or not, we can always disable
-> +	 * the shared TX clock
-> +	 */
-> +	bcmasp_core_clock_set(priv, 0, ASP_CTRL_CLOCK_CTRL_ASP_TX_DISABLE);
-> +
-> +	bcmasp_core_clock_select(priv, true);
-> +
-> +	clk_disable_unprepare(priv->clk);
-> +
-> +	return ret;
-> +}
-> +
-> +static int __maybe_unused bcmasp_resume(struct device *d)
-> +{
-> +	struct bcmasp_priv *priv = dev_get_drvdata(d);
-> +	struct bcmasp_intf *intf;
-> +	unsigned int i;
-
-same
-
-> +	int ret = 0;
-
-no need to initialize, but it is mostmy a matter of taste.
-
-Just my 2c,
-CJ
-
-
+Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
