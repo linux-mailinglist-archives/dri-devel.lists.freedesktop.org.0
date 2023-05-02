@@ -2,42 +2,139 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B88B36F4975
-	for <lists+dri-devel@lfdr.de>; Tue,  2 May 2023 20:07:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E25D6F498A
+	for <lists+dri-devel@lfdr.de>; Tue,  2 May 2023 20:14:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 82DE210E225;
-	Tue,  2 May 2023 18:07:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6BBC510E03D;
+	Tue,  2 May 2023 18:14:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A6F3910E18C;
- Tue,  2 May 2023 18:07:03 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 0375161518;
- Tue,  2 May 2023 18:07:03 +0000 (UTC)
-Received: from rdvivi-mobl4 (unknown [192.55.55.58])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by smtp.kernel.org (Postfix) with ESMTPSA id 61EC6C433D2;
- Tue,  2 May 2023 18:06:59 +0000 (UTC)
-Date: Tue, 2 May 2023 14:06:55 -0400
-From: Rodrigo Vivi <rodrigo.vivi@kernel.org>
-To: Matthew Brost <matthew.brost@intel.com>
-Subject: Re: [Intel-xe] [PATCH 02/14] drm/xe: Introduce the dev_coredump
- infrastructure.
-Message-ID: <ZFFNsemoaxUepnxw@rdvivi-mobl4>
-References: <20230426205713.512695-1-rodrigo.vivi@intel.com>
- <20230426205713.512695-3-rodrigo.vivi@intel.com>
- <2f09ea83-59f0-f210-797f-40dc13908f7d@linux.intel.com>
- <ZFDCTkAD5M0wdJ0f@DUT025-TGLU.fm.intel.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 78D2010E03D
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 May 2023 18:14:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1683051260; x=1714587260;
+ h=date:from:to:cc:subject:message-id:references:
+ in-reply-to:mime-version;
+ bh=RmHs+q9pxsm+ycRR28eXob61Q9umQ6vJiJljE0KtKHk=;
+ b=CXn4UTu7FFMtyd5HX6bOLp2JaMpPW5WPDZZJrohH1DvYiy72sBkit7Bx
+ Jyg5cZej0j2Gs8ldZhA0QX9msYazWlIeKdLvGRjrku033+E4kT/7jOVrq
+ sMfK8muY7QuwxXxj73y1DjMiNi5JBKXkbS/YJUk80e2ew8j4WP5tuHn2J
+ fnY67cCMFvRlwB6OA6ZF7mfbqGGACPxOFVbO52127NShtSYhcicFOvHBi
+ toRhaeh0XJX5v/PKUjJtkE1FbPJvGh68nDBoJhRPF5ICnz4ntQMfWw9dr
+ M2fJaaXp/JdX9mBY3gr6yUm5pBO0fv3kkcIv0XonYX/7OmGEqsua55cRD A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10698"; a="347293913"
+X-IronPort-AV: E=Sophos;i="5.99,244,1677571200"; d="scan'208";a="347293913"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 May 2023 11:12:09 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10698"; a="1026183935"
+X-IronPort-AV: E=Sophos;i="5.99,244,1677571200"; d="scan'208";a="1026183935"
+Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
+ by fmsmga005.fm.intel.com with ESMTP; 02 May 2023 11:12:09 -0700
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.23; Tue, 2 May 2023 11:12:08 -0700
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.23 via Frontend Transport; Tue, 2 May 2023 11:12:08 -0700
+Received: from NAM02-DM3-obe.outbound.protection.outlook.com (104.47.56.43) by
+ edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.23; Tue, 2 May 2023 11:12:08 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=PD6XdlrIaJzVGPe59w++xmQ+sVRF0duMT8bj/9pxNGWv/vK8IZcQskxN4O24ZjwJplPBZrgz26lzVnrzhwybePwsOfe8BSneNzOBOJIklST1/Xmqrxj1Nd2twg+INaHyNfMHkBAuOJAqfJGihLP+aiecpsK3AM+bk9L2b4ENoJJls+rtJd+Ff5/zZc5jcd4g4pVRGyykmK5P4C89OEA747F2dsuCByhk+vgh1hZc3YkTsp6ZHLx4vKaH/6VjwOxqszYM65BGfFTAjuXf65B+cFvFeRaJVn0ieZdTglBYSkkbAA+cy4BB0h4DjPFgfIphUgk/Ndq81oZH/XOZZoevTA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=6vAogqSf2pyjJM7jS02r7KY8lf+1hXJmrKjAeAFE6Cs=;
+ b=f6fGMNhKosy3PDBWX99qpKd75QZ7VMaBg05f5o/fS55KmX/dVH/TKcJ1nE+sth/J4MtlW/KkYE401UfV2N9wgIW7CeMIg/PjSgXKzITCA8iqqG8XuuINdBxZ7ZwC5fWdlvcvzd2Q9lqbLmZJA4nRT7mlHyZrkQ1aYmz+6IESHo7Vj0k0kYPRs+qmvVfXy1TRW+t4z4y9tfb00KIvK+K7MAk/WgknqD4ir7k9GjcY3ofpNLHJcfSlK4laRhGiK4Ou+utkWFblDExj8dKTBMHiHYuufjPPYJvsv5aNLa/qtMoEbC6hduW00+B0usSiIRZhaPvi9CVHqI6QDEIW2R1MgQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from CY5PR11MB6139.namprd11.prod.outlook.com (2603:10b6:930:29::17)
+ by SA1PR11MB7112.namprd11.prod.outlook.com (2603:10b6:806:2b7::14)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6340.31; Tue, 2 May
+ 2023 18:12:01 +0000
+Received: from CY5PR11MB6139.namprd11.prod.outlook.com
+ ([fe80::44e7:c479:62f4:3eb4]) by CY5PR11MB6139.namprd11.prod.outlook.com
+ ([fe80::44e7:c479:62f4:3eb4%3]) with mapi id 15.20.6340.031; Tue, 2 May 2023
+ 18:12:01 +0000
+Date: Tue, 2 May 2023 11:11:58 -0700
+From: Lucas De Marchi <lucas.demarchi@intel.com>
+To: Luis Chamberlain <mcgrof@kernel.org>
+Subject: Re: [PATCH] modules/firmware: add a new option to denote a firmware
+ group to choose one.
+Message-ID: <n6gwizwt26ucpuva2kt35rprth6iqeibi3inq2qrn5qhs3aa3b@4hjbhgnskutq>
+References: <20230419043652.1773413-1-airlied@gmail.com>
+ <ck2dzxvllhhh74oa3vjlacutc7rdmgl7cfrfq7vgx4w3jcufrz@7jbgxcat42yn>
+ <CAPM=9tw0Y2A4DvuTHT_yd58Eit+tUmo63pbEOHwRJ66LeqznEQ@mail.gmail.com>
+ <fsleccud43leoioli6bj4xoydwbdcjb5qr4denuf6morhgtqki@t6xya2mygon5>
+ <ZEcJNcz+ArLfUSJ1@bombadil.infradead.org>
+Content-Type: text/plain; charset="us-ascii"; format=flowed
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <ZFDCTkAD5M0wdJ0f@DUT025-TGLU.fm.intel.com>
+In-Reply-To: <ZEcJNcz+ArLfUSJ1@bombadil.infradead.org>
+X-ClientProxiedBy: SJ0PR03CA0057.namprd03.prod.outlook.com
+ (2603:10b6:a03:33e::32) To CY5PR11MB6139.namprd11.prod.outlook.com
+ (2603:10b6:930:29::17)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CY5PR11MB6139:EE_|SA1PR11MB7112:EE_
+X-MS-Office365-Filtering-Correlation-Id: c188b05a-af92-4868-8df3-08db4b38b98d
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: xL+RUBpxbQS3vtVOuKY1oJuumlSgWZNp4XbuD4vv7cWc39rS94f8uZVK+R82ltTFEo8yRgABjjxMzja0z/IhGU+FMrFS7G+XDa3VUM7F+jgiYaancI3tq1dOLWbiFxetFvDoXu8YjzWfTZHMKiVHVVBBSa0/DSHcsKaLQvFyNApU9ucMF41YED9QprxPiHPJGTK24/gtFMLFNvSFPp4DMoQMVMxGXfLA1DYwBrCoafMHX/Ex/tmrd7fDiQ6UQXP25KlIT2p9qa+CxiVp2z7wPPbyXBEaSOTsPrQvhxwt9tNxTSlre4YUi8tWPOhBVsxMcVHYaB/aPn/MjnAXj1IiyKfw1sn7kv2WJ8SNjrc6uqjeg8PRmfGCSoLCNDvoifIyFX+yKK1dReclv6KTv3Vsn8oX4Ufr5k1nB/Mxq78YteIUjTEqdA6dz0vEXdpzZvTt8is7LtPdZVXgvdG+P8bDG1v4SYvkXLHVn3sSJ/+K7xq26GYM2qbUZDdDt8ZBPx4JMVtPseNAgJ9flcWtaf3aej1A7O44v7PxzaoLeRZIZuSR3k2dojvO4KvguAZqOQPrNfyd7sF72Ugiaq40RXahRkXLVDlXXzOeZYrQHIQ+ogrnjp8cL32ygyRy5AxZL7Vz2UP7pP33uRjK7mEgHsSTQw==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CY5PR11MB6139.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230028)(7916004)(366004)(136003)(376002)(396003)(39860400002)(346002)(451199021)(4326008)(66946007)(6916009)(86362001)(66556008)(66476007)(6506007)(6512007)(8676002)(41300700001)(33716001)(8936002)(5660300002)(45080400002)(316002)(2906002)(478600001)(6486002)(6666004)(9686003)(26005)(82960400001)(186003)(38100700002)(83380400001)(130194005);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?4WbuwESNlHvJoOe2Dl2F6UNoU22WAX6sGwpJhmIoRVQ/pVJr/chMbQ9sWs3c?=
+ =?us-ascii?Q?Z2ibubwKtJ37ZdwRRSHo3AJq7+jB2f+YX15jdpv4vABNri966S9h1u4CYDdf?=
+ =?us-ascii?Q?ZSkSj0tl3CkveOLTHLmf97v5Y1Ghuzo7Mf8+6dCnimv6S0vGVpZMu2IB9q1k?=
+ =?us-ascii?Q?z3ZKoX5Mexo3deDScZGAOuJASmSbsI2KVHV0VFU6cf0Nw7vy4sNPcaSuTyBH?=
+ =?us-ascii?Q?s1eI4uGyEklhHG7/IZ0QyTE2WDepXqrvWY/UbBuCQIixcPh0Kk2b+1GR2vzk?=
+ =?us-ascii?Q?PuqFpK2RNPFL0fnsIUyoLn/DCn6EJqvaii3spiNdJEuXkLjwnjqSxHXShCkj?=
+ =?us-ascii?Q?7xfyXwvYDscUZkGjAsqPT+cvaayn9R4s7mmBf/ZSt6cMzIMxVZa51g3NT/GR?=
+ =?us-ascii?Q?ViD+xjsA4s4HnrqVaRc9EFPav77d/WkMQiOPZsy6XhSFpErO6DD6FzYPm7hz?=
+ =?us-ascii?Q?xqeyauEq+uvyLuHtk9FUzIjYLXWF8TUC9fW8V9T3xBdAoEvo2UagmJbd2ocr?=
+ =?us-ascii?Q?XeyCpjD0QSLfsy7FNRPzY0CWnModMoV8Skp1O/GhlYCqxnsDa3uk8pL7SULY?=
+ =?us-ascii?Q?RpX68dVKPu4z5nhWd01DjHTfGFbhPc99EYF/0Dx2pZwqnpjxRSdEwXvrIEuq?=
+ =?us-ascii?Q?aWIsP9OJVysSSPHAn0GJPx2O/gyGXS/vcj+CB4a/uNUHHLxFJLvNQEHcTdS4?=
+ =?us-ascii?Q?HWRfKOLCphtE8STq8UMKfNy2751Y1g5Oggr6hxZ45mOaLEFaVZE0YZxeem3F?=
+ =?us-ascii?Q?0x1MuXOax+WO9EEj0V132aArU08edgq190NUZ/fjYuts0ynFbOb58/QdGGC2?=
+ =?us-ascii?Q?R+ZEduGA7FIjquvkaZYdjkW/cvXNOhmYE6UAdeVgEe/teftnMaNtEOx21pBm?=
+ =?us-ascii?Q?NbBWzSU2rBN06s6sJcIytx+JBocE8RbePma+jmrG5EAML1qDkKhFS4KI/0Qa?=
+ =?us-ascii?Q?gjU6WXdJ7aWQ3RDXEfr0bZabfos+bm3pOn3Qx9EaOECJ6ig994H/B7skfzgb?=
+ =?us-ascii?Q?8h9J0Yxd4g3YyqWXVqihJp+Kf+F3XCP5FbvncczULYAn0S5ZtwVjWrMgfSKG?=
+ =?us-ascii?Q?8jww85A1fnhfC085uCBdvbkyJo76Aa7z+0kenQ2FRtG45XP0Lsm5a0duy/jv?=
+ =?us-ascii?Q?Z8r8jpFqUYs+Qjqhc5k6aRK8VfxUWcz7q9SBRnSQEO2bOvCiV+HESy9+8hq8?=
+ =?us-ascii?Q?4OUlzmC9GKwJg4FK7brXh3Pg9OcLyjHeOar0m5Sq57Dc/3rdNUBycI2T9QYC?=
+ =?us-ascii?Q?y5TUL+0iWZ3KPAWAXG8LndxFnI1yIMV7WoDbSB2I3bEneZRPaGYSISmNNgh5?=
+ =?us-ascii?Q?USV1Crc8ASt1P1dLaox4n2fYMUeEZwD396/gMRtQEkQ3G5SmDA3NCE809KVI?=
+ =?us-ascii?Q?ab0XaAHUKjdH+1yHybtjGY3vCkZauflfqCzS7cqWBqr4YsGsX8vJ4LzhcLg1?=
+ =?us-ascii?Q?+m85xEg0TDmPh2x7ma1diJFksLkUutFnW5s3ZcnkuyJwoNo1VLirDAxLCN5W?=
+ =?us-ascii?Q?ODEjbdXyni+rSF7kb2U5A/Cf7R0bi7gmaj9MrASvrC2ky85nZgqrTjtN9Qu2?=
+ =?us-ascii?Q?5R0MzG98MktPZDcw+K17Hw1fSH+s86cGgqj1El/D6ME5x016YsQJbpKNQpyC?=
+ =?us-ascii?Q?7w=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: c188b05a-af92-4868-8df3-08db4b38b98d
+X-MS-Exchange-CrossTenant-AuthSource: CY5PR11MB6139.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 May 2023 18:12:00.8375 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Nav5Dlh/Z/SffVc5JLBe4fO3cqBmwQIwnI5kl/6JfGP57DXTvwFADBJSQOlTjh6iDNKcxl+tG6pxDMy5EAzXUi4xuiVLJ//O4aR+bREt3Vg=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR11MB7112
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,389 +147,205 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
- intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: Dave Airlie <airlied@redhat.com>, dri-devel@lists.freedesktop.org,
+ linux-modules@vger.kernel.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, May 02, 2023 at 07:57:02AM +0000, Matthew Brost wrote:
-> On Thu, Apr 27, 2023 at 10:28:13AM +0200, Thomas Hellström wrote:
-> > 
-> > On 4/26/23 22:57, Rodrigo Vivi wrote:
-> > > The goal is to use devcoredump infrastructure to report error states
-> > > captured at the crash time.
-> > > 
-> > > The error state will contain useful information for GPU hang debug, such
-> > > as INSTDONE registers and the current buffers getting executed, as well
-> > > as any other information that helps user space and allow later replays of
-> > > the error.
-> > > 
-> > > The proposal here is to avoid a Xe only error_state like i915 and use
-> > > a standard dev_coredump infrastructure to expose the error state.
-> > > 
-> > > For our own case, the data is only useful if it is a snapshot of the
-> > > time when the GPU crash has happened, since we reset the GPU immediately
-> > > after and the registers might have changed. So the proposal here is to
-> > > have an internal snapshot to be printed out later.
-> > > 
-> > > Also, usually a subsequent GPU hang can be only a cause of the initial
-> > > one. So we only save the 'first' hang. The dev_coredump has a delayed
-> > > work queue where it remove the coredump and free all the data withing a
-> > > few moments of the error. When that happens we also reset our capture
-> > > state and allow further snapshots.
-> > > 
-> > > Right now this infra only print out the time of the hang. More information
-> > > will be migrated here on subsequent work. Also, in order to organize the
-> > > dump better, the goal is to propose dev_coredump changes itself to allow
-> > > multiple files and different controls. But for now we start Xe usage of
-> > > it without any dependency on dev_coredump core changes.
-> > > 
-> > > Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-> > > Signed-off-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
-> > > ---
-> > >   drivers/gpu/drm/xe/Kconfig                |   1 +
-> > >   drivers/gpu/drm/xe/Makefile               |   1 +
-> > >   drivers/gpu/drm/xe/xe_devcoredump.c       | 144 ++++++++++++++++++++++
-> > >   drivers/gpu/drm/xe/xe_devcoredump.h       |  22 ++++
-> > >   drivers/gpu/drm/xe/xe_devcoredump_types.h |  47 +++++++
-> > >   drivers/gpu/drm/xe/xe_device_types.h      |   4 +
-> > >   drivers/gpu/drm/xe/xe_guc_submit.c        |   2 +
-> > >   drivers/gpu/drm/xe/xe_pci.c               |   2 +
-> > >   8 files changed, 223 insertions(+)
-> > >   create mode 100644 drivers/gpu/drm/xe/xe_devcoredump.c
-> > >   create mode 100644 drivers/gpu/drm/xe/xe_devcoredump.h
-> > >   create mode 100644 drivers/gpu/drm/xe/xe_devcoredump_types.h
-> > > 
-> > > diff --git a/drivers/gpu/drm/xe/Kconfig b/drivers/gpu/drm/xe/Kconfig
-> > > index f6f3b491d162..d44794f99338 100644
-> > > --- a/drivers/gpu/drm/xe/Kconfig
-> > > +++ b/drivers/gpu/drm/xe/Kconfig
-> > > @@ -35,6 +35,7 @@ config DRM_XE
-> > >   	select DRM_TTM_HELPER
-> > >   	select DRM_SCHED
-> > >   	select MMU_NOTIFIER
-> > > +	select WANT_DEV_COREDUMP
-> > >   	help
-> > >   	  Experimental driver for Intel Xe series GPUs
-> > > diff --git a/drivers/gpu/drm/xe/Makefile b/drivers/gpu/drm/xe/Makefile
-> > > index ee4a95beec20..9d675f7c77aa 100644
-> > > --- a/drivers/gpu/drm/xe/Makefile
-> > > +++ b/drivers/gpu/drm/xe/Makefile
-> > > @@ -34,6 +34,7 @@ xe-y += xe_bb.o \
-> > >   	xe_bo.o \
-> > >   	xe_bo_evict.o \
-> > >   	xe_debugfs.o \
-> > > +	xe_devcoredump.o \
-> > >   	xe_device.o \
-> > >   	xe_dma_buf.o \
-> > >   	xe_engine.o \
-> > > diff --git a/drivers/gpu/drm/xe/xe_devcoredump.c b/drivers/gpu/drm/xe/xe_devcoredump.c
-> > > new file mode 100644
-> > > index 000000000000..d9531183f03a
-> > > --- /dev/null
-> > > +++ b/drivers/gpu/drm/xe/xe_devcoredump.c
-> > > @@ -0,0 +1,144 @@
-> > > +// SPDX-License-Identifier: MIT
-> > > +/*
-> > > + * Copyright © 2023 Intel Corporation
-> > > + */
-> > > +
-> > > +#include "xe_devcoredump.h"
-> > > +#include "xe_devcoredump_types.h"
-> > > +
-> > > +#include <linux/devcoredump.h>
-> > > +#include <generated/utsrelease.h>
-> > > +
-> > > +#include "xe_engine.h"
-> > > +#include "xe_gt.h"
-> > > +
-> > > +/**
-> > > + * DOC: Xe device coredump
-> > > + *
-> > > + * Devices overview:
-> > > + * Xe uses dev_coredump infrastructure for exposing the crash errors in a
-> > > + * standardized way.
-> > > + * devcoredump exposes a temporary device under /sys/class/devcoredump/
-> > > + * which is linked with our card device directly.
-> > > + * The core dump can be accessed either from
-> > > + * /sys/class/drm/card<n>/device/devcoredump/ or from
-> > > + * /sys/class/devcoredump/devcd<m> where
-> > > + * /sys/class/devcoredump/devcd<m>/failing_device is a link to
-> > > + * /sys/class/drm/card<n>/device/.
-> > > + *
-> > > + * Snapshot at hang:
-> > > + * The 'data' file is printed with a drm_printer pointer at devcoredump read
-> > > + * time. For this reason, we need to take snapshots from when the hang has
-> > > + * happened, and not only when the user is reading the file. Otherwise the
-> > > + * information is outdated since the resets might have happened in between.
-> > > + *
-> > > + * 'First' failure snapshot:
-> > > + * In general, the first hang is the most critical one since the following hangs
-> > > + * can be a consequence of the initial hang. For this reason we only take the
-> > > + * snapshot of the 'first' failure and ignore subsequent calls of this function,
-> > > + * at least while the coredump device is alive. Dev_coredump has a delayed work
-> > > + * queue that will eventually delete the device and free all the dump
-> > > + * information. At this time we also clear the faulty_engine and allow the next
-> > > + * hang capture.
-> > > + */
-> > > +
-> > > +static ssize_t xe_devcoredump_read(char *buffer, loff_t offset,
-> > > +				   size_t count, void *data, size_t datalen)
-> > > +{
-> > > +	struct xe_devcoredump *coredump = data;
-> > > +	struct xe_devcoredump_snapshot *ss;
-> > > +	struct drm_printer p;
-> > > +	struct drm_print_iterator iter;
-> > > +	struct timespec64 ts;
-> > > +
-> > > +	iter.data = buffer;
-> > > +	iter.offset = 0;
-> > > +	iter.start = offset;
-> > > +	iter.remain = count;
-> > > +
-> > > +	mutex_lock(&coredump->lock);
-> > > +
-> > > +	ss = &coredump->snapshot;
-> > > +	p = drm_coredump_printer(&iter);
-> > > +
-> > > +	drm_printf(&p, "**** Xe Device Coredump ****\n");
-> > > +	drm_printf(&p, "kernel: " UTS_RELEASE "\n");
-> > > +	drm_printf(&p, "module: " KBUILD_MODNAME "\n");
-> > > +
-> > > +	ts = ktime_to_timespec64(ss->snapshot_time);
-> > > +	drm_printf(&p, "Snapshot time: %lld.%09ld\n", ts.tv_sec, ts.tv_nsec);
-> > > +	ts = ktime_to_timespec64(ss->boot_time);
-> > > +	drm_printf(&p, "Boot time: %lld.%09ld\n", ts.tv_sec, ts.tv_nsec);
-> > > +	ts = ktime_to_timespec64(ktime_sub(ss->snapshot_time, ss->boot_time));
-> > > +	drm_printf(&p, "Uptime: %lld.%09ld\n", ts.tv_sec, ts.tv_nsec);
-> > > +
-> > > +	mutex_unlock(&coredump->lock);
-> > > +
-> > > +	return count - iter.remain;
-> > > +}
-> > > +
-> > > +static void xe_devcoredump_free(void *data)
-> > > +{
-> > > +	struct xe_devcoredump *coredump = data;
-> > > +	struct xe_device *xe = container_of(coredump, struct xe_device,
-> > > +					    devcoredump);
-> > > +	mutex_lock(&coredump->lock);
-> > > +
-> > > +	coredump->faulty_engine = NULL;
-> > > +	drm_info(&xe->drm, "Xe device coredump has been deleted.\n");
-> > > +
-> > > +	mutex_unlock(&coredump->lock);
-> > > +}
-> > > +
-> > > +static void devcoredump_snapshot(struct xe_devcoredump *coredump)
-> > > +{
-> > > +	struct xe_devcoredump_snapshot *ss = &coredump->snapshot;
-> > > +
-> > > +	lockdep_assert_held(&coredump->lock);
-> > > +	ss->snapshot_time = ktime_get_real();
-> > > +	ss->boot_time = ktime_get_boottime();
-> > > +}
-> > > +
-> > > +/**
-> > > + * xe_devcoredump - Take the required snapshots and initialize coredump device.
-> > > + * @e: The faulty xe_engine, where the issue was detected.
-> > > + *
-> > > + * This function should be called at the crash time. It is skipped if we still
-> > > + * have the core dump device available with the information of the 'first'
-> > > + * snapshot.
-> > > + */
-> > > +void xe_devcoredump(struct xe_engine *e)
-> > > +{
-> > > +	struct xe_device *xe = gt_to_xe(e->gt);
-> > > +	struct xe_devcoredump *coredump = &xe->devcoredump;
-> > 
-> > For !long running engines, this is the dma-fence signalling critical path,
-> > and since the drm_scheduler has not yet been properly annotated, we should
-> > probably annotate that here, to avoid seeing strange deadlocks during
-> > coredumps....
-> > 
-> > /Thomas
-> >
-> 
-> +1
+On Mon, Apr 24, 2023 at 03:56:53PM -0700, Luis Chamberlain wrote:
+>On Mon, Apr 24, 2023 at 10:01:13AM -0700, Lucas De Marchi wrote:
+>> On Mon, Apr 24, 2023 at 03:44:18PM +1000, Dave Airlie wrote:
+>> > On Fri, 21 Apr 2023 at 05:09, Lucas De Marchi <lucas.demarchi@intel.com> wrote:
+>> > >
+>> > > On Wed, Apr 19, 2023 at 02:36:52PM +1000, Dave Airlie wrote:
+>> > > >From: Dave Airlie <airlied@redhat.com>
+>> > > >
+>> > > >This adds a tag that will go into the module info, only one firmware from
+>> > > >the group given needs to be available for this driver to work. This allows
+>> > > >dracut to avoid adding in firmware that aren't needed.
+>> > > >
+>> > > >This just brackets a module list in the modinfo, the modules in the list
+>> > > >will get entries in reversed order so the last module in the list is the
+>> > > >preferred one.
+>> > > >
+>> > > >The corresponding dracut code it at:
+>> > > >https://github.com/dracutdevs/dracut/pull/2309
+>> > >
+>> > > it would be good to have the example usage in the commit message here so
+>> > > it can be easily checked as reference for other drivers.
+>> >
+>> > Good point.
+>> >
+>> > >
+>> > > I don't think we ever had any ordering in modinfo being relevant for
+>> > > other things. Considering the use case and that we could also use a
+>> > > similar thing for i915 / xe modules wrt to the major version,
+>> > > couldn't we do something like below?
+>> > >
+>> > >         MODULE_FIRMWARE_GROUP("nvidia/ga106/gsp/gsp");
+>> > >         MODULE_FIRMWARE("nvidia/ga106/gsp/gsp-5258902.bin");
+>> > >         MODULE_FIRMWARE("nvidia/ga106/gsp/gsp-5303002.bin");
+>> > >
+>> > > so the group is created by startswith() rather than by the order the
+>> > > modinfo appears in the elf section. In i915 we'd have:
+>> >
+>> > The way userspace parses these is reverse order, and it doesn't see
+>>
+>> the main issue I have with it is that it relies on a order that is
+>> implicit rather than intended. The order comes from how the .modinfo ELF
+>> section is assembled together... so the fact that your call to
+>> kmod_module_get_info() returns a list with the keys in the reverse order
+>> of the MODULE_FIRMWARE() definitions, is basically because the compiler
+>> toolchain did it did that way.
+>>
+>> It's worse when those sections come from different compilation units as
+>> the order then is not predictable and can easily break with changes to
+>> the build infra if the files are linked in different order.
+>>
+>> I think the grouping thing here would only be supported with firmware
+>> defined on the same compilation unit, but it's something to keep in mind
+>> and document.
+>
+>I had provided a simple API to help with explicit linker order years ago:
+>
+>https://git.kernel.org/pub/scm/linux/kernel/git/mcgrof/linux-next.git/log/?h=20170620-linker-tables-v8
+>
+>Other than that you have to rely on the order in the Makefile or way
+>in which they are declared.
 
-Just to confirm we are in the same page here, do you guys mean move
-dma_fence_begin_signalling() annotation here?
+but that doesn't change the order inside a single section, .modinfo in
+this case. Does it?
 
-or which annotation am I missing?
+>
+>> > the GROUP until after the FIRMWARE, so this can't work, as it already
+>> > will have included all the ones below, hence why I bracketed top and
+>> > bottom with a group.
+>>
+>> well... that is something that can be adapted easily by using a 2 pass
+>> approach, filtering out the list based on the groups.
+>>
+>> I agree that yours is simpler though.  If we can rely on the
+>> order produced by the compiler and we document the expectations of
+>> MODULE_FIRMWARE_GROUP_ONLY_ONE, then I believe we can stay with the
+>> simpler approach.
+>>
+>> Luis, any thoughts here?
+>
+>I see the Dracut code indicates that the order says now that you should
+>put the preferred firmware last, and that seems to match most coding
+>conventions, ie, new firmwares likely get added last, so it's a nice
 
-> 
-> Matt
->  
-> > 
-> > 
-> > > +
-> > > +	mutex_lock(&coredump->lock);
-> > > +	if (coredump->faulty_engine) {
-> > > +		drm_dbg(&xe->drm, "Multiple hangs are occuring, but only the first snapshot was taken\n");
-> > > +		mutex_unlock(&coredump->lock);
-> > > +		return;
-> > > +	}
-> > > +	coredump->faulty_engine = e;
-> > > +	devcoredump_snapshot(coredump);
-> > > +	mutex_unlock(&coredump->lock);
-> > > +
-> > > +	drm_info(&xe->drm, "Xe device coredump has been created\n");
-> > > +	drm_info(&xe->drm, "Check your /sys/class/drm/card<n>/device/devcoredump/data\n");
-> > > +
-> > > +	dev_coredumpm(xe->drm.dev, THIS_MODULE, coredump, 0, GFP_KERNEL,
-> > > +		      xe_devcoredump_read, xe_devcoredump_free);
-> > > +}
-> > > +
-> > > +/**
-> > > + * xe_devcoredump_init - Initialize xe_devcoredump.
-> > > + * @xe: Xe device.
-> > > + *
-> > > + * This function should be called at the probe so the mutex lock can be
-> > > + * initialized.
-> > > + */
-> > > +void xe_devcoredump_init(struct xe_device *xe)
-> > > +{
-> > > +	struct xe_devcoredump *coredump = &xe->devcoredump;
-> > > +
-> > > +	mutex_init(&coredump->lock);
-> > > +}
-> > > diff --git a/drivers/gpu/drm/xe/xe_devcoredump.h b/drivers/gpu/drm/xe/xe_devcoredump.h
-> > > new file mode 100644
-> > > index 000000000000..30941d2e554b
-> > > --- /dev/null
-> > > +++ b/drivers/gpu/drm/xe/xe_devcoredump.h
-> > > @@ -0,0 +1,22 @@
-> > > +/* SPDX-License-Identifier: MIT */
-> > > +/*
-> > > + * Copyright © 2023 Intel Corporation
-> > > + */
-> > > +
-> > > +#ifndef _XE_DEVCOREDUMP_H_
-> > > +#define _XE_DEVCOREDUMP_H_
-> > > +
-> > > +struct xe_device;
-> > > +struct xe_engine;
-> > > +
-> > > +void xe_devcoredump_init(struct xe_device *xe);
-> > > +
-> > > +#ifdef CONFIG_DEV_COREDUMP
-> > > +void xe_devcoredump(struct xe_engine *e);
-> > > +#else
-> > > +static inline void xe_devcoredump(struct xe_engine *e)
-> > > +{
-> > > +}
-> > > +#endif
-> > > +
-> > > +#endif
-> > > diff --git a/drivers/gpu/drm/xe/xe_devcoredump_types.h b/drivers/gpu/drm/xe/xe_devcoredump_types.h
-> > > new file mode 100644
-> > > index 000000000000..3f395fa9104e
-> > > --- /dev/null
-> > > +++ b/drivers/gpu/drm/xe/xe_devcoredump_types.h
-> > > @@ -0,0 +1,47 @@
-> > > +/* SPDX-License-Identifier: MIT */
-> > > +/*
-> > > + * Copyright © 2023 Intel Corporation
-> > > + */
-> > > +
-> > > +#ifndef _XE_DEVCOREDUMP_TYPES_H_
-> > > +#define _XE_DEVCOREDUMP_TYPES_H_
-> > > +
-> > > +#include <linux/ktime.h>
-> > > +#include <linux/mutex.h>
-> > > +
-> > > +struct xe_device;
-> > > +
-> > > +/**
-> > > + * struct xe_devcoredump_snapshot - Crash snapshot
-> > > + *
-> > > + * This struct contains all the useful information quickly captured at the time
-> > > + * of the crash. So, any subsequent reads of the coredump points to a data that
-> > > + * shows the state of the GPU of when the issue has happened.
-> > > + */
-> > > +struct xe_devcoredump_snapshot {
-> > > +	/** @snapshot_time:  Time of this capture. */
-> > > +	ktime_t snapshot_time;
-> > > +	/** @boot_time:  Relative boot time so the uptime can be calculated. */
-> > > +	ktime_t boot_time;
-> > > +};
-> > > +
-> > > +/**
-> > > + * struct xe_devcoredump - Xe devcoredump main structure
-> > > + *
-> > > + * This struct represents the live and active dev_coredump node.
-> > > + * It is created/populated at the time of a crash/error. Then it
-> > > + * is read later when user access the device coredump data file
-> > > + * for reading the information.
-> > > + */
-> > > +struct xe_devcoredump {
-> > > +	/** @xe: Xe device. */
-> > > +	struct xe_device *xe;
-> > > +	/** @falty_engine: Engine where the crash/error happened. */
-> > > +	struct xe_engine *faulty_engine;
-> > > +	/** @lock: Protects data from races between capture and read out. */
-> > > +	struct mutex lock;
-> > > +	/** @snapshot: Snapshot is captured at time of the first crash */
-> > > +	struct xe_devcoredump_snapshot snapshot;
-> > > +};
-> > > +
-> > > +#endif
-> > > diff --git a/drivers/gpu/drm/xe/xe_device_types.h b/drivers/gpu/drm/xe/xe_device_types.h
-> > > index 1cb404e48aaa..2a0995824692 100644
-> > > --- a/drivers/gpu/drm/xe/xe_device_types.h
-> > > +++ b/drivers/gpu/drm/xe/xe_device_types.h
-> > > @@ -12,6 +12,7 @@
-> > >   #include <drm/drm_file.h>
-> > >   #include <drm/ttm/ttm_device.h>
-> > > +#include "xe_devcoredump_types.h"
-> > >   #include "xe_gt_types.h"
-> > >   #include "xe_platform_types.h"
-> > >   #include "xe_step_types.h"
-> > > @@ -55,6 +56,9 @@ struct xe_device {
-> > >   	/** @drm: drm device */
-> > >   	struct drm_device drm;
-> > > +	/** @devcoredump: device coredump */
-> > > +	struct xe_devcoredump devcoredump;
-> > > +
-> > >   	/** @info: device info */
-> > >   	struct intel_device_info {
-> > >   		/** @graphics_name: graphics IP name */
-> > > diff --git a/drivers/gpu/drm/xe/xe_guc_submit.c b/drivers/gpu/drm/xe/xe_guc_submit.c
-> > > index e857013070b9..231fb4145297 100644
-> > > --- a/drivers/gpu/drm/xe/xe_guc_submit.c
-> > > +++ b/drivers/gpu/drm/xe/xe_guc_submit.c
-> > > @@ -14,6 +14,7 @@
-> > >   #include <drm/drm_managed.h>
-> > >   #include "regs/xe_lrc_layout.h"
-> > > +#include "xe_devcoredump.h"
-> > >   #include "xe_device.h"
-> > >   #include "xe_engine.h"
-> > >   #include "xe_force_wake.h"
-> > > @@ -800,6 +801,7 @@ guc_engine_timedout_job(struct drm_sched_job *drm_job)
-> > >   		drm_warn(&xe->drm, "Timedout job: seqno=%u, guc_id=%d, flags=0x%lx",
-> > >   			 xe_sched_job_seqno(job), e->guc->id, e->flags);
-> > >   		simple_error_capture(e);
-> > > +		xe_devcoredump(e);
-> > >   	} else {
-> > >   		drm_dbg(&xe->drm, "Timedout signaled job: seqno=%u, guc_id=%d, flags=0x%lx",
-> > >   			 xe_sched_job_seqno(job), e->guc->id, e->flags);
-> > > diff --git a/drivers/gpu/drm/xe/xe_pci.c b/drivers/gpu/drm/xe/xe_pci.c
-> > > index e512e8b69831..1d496210b580 100644
-> > > --- a/drivers/gpu/drm/xe/xe_pci.c
-> > > +++ b/drivers/gpu/drm/xe/xe_pci.c
-> > > @@ -16,6 +16,7 @@
-> > >   #include "regs/xe_regs.h"
-> > >   #include "regs/xe_gt_regs.h"
-> > > +#include "xe_devcoredump.h"
-> > >   #include "xe_device.h"
-> > >   #include "xe_display.h"
-> > >   #include "xe_drv.h"
-> > > @@ -657,6 +658,7 @@ static int xe_pci_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
-> > >   		return err;
-> > >   	}
-> > > +	xe_devcoredump_init(xe);
-> > >   	xe_pm_runtime_init(xe);
-> > >   	return 0;
+not all. i915 for example keeps it newest first so when attempting
+multiple firmware versions it starts from the preferred version.  It
+will be harder to convert since it also uses a x-macro to make sure the
+MODULE_FIRMWARE() and the the platform mapping are actually using the same
+firmware.
+
+>coincidence. Will this always work? I don't know. But if you like to
+
+short answer: it depends if your compiler is gcc *and* -O2 is used
+Longer debug ahead. Simple test with the expansion of MODULE_FIRMWARE
+baked in:
+
+	$ cat /tmp/a.c
+	static const __attribute__((section("__modinfo_manual"), used, aligned(1))) char foo[] = "modinfo_manual_foo";
+	static const __attribute__((section("__modinfo_manual"), used, aligned(1))) char bar[] = "modinfo_manual_bar";
+	$ gcc -c -o /tmp/a.o /tmp/a.c
+	$ objcopy -O binary --only-section=__modinfo_manual /tmp/a.o /tmp/modinfo_manual
+	$ strings /tmp/modinfo_manual
+	modinfo_manual_foo
+	modinfo_manual_bar
+
+However that doesn't match when building modules. In kmod:
+
+diff --git a/testsuite/module-playground/mod-simple.c b/testsuite/module-playground/mod-simple.c
+index 503e4d8..6dd5771 100644
+--- a/testsuite/module-playground/mod-simple.c
++++ b/testsuite/module-playground/mod-simple.c
+@@ -30,3 +30,9 @@ module_exit(test_module_exit);
+  
+  MODULE_AUTHOR("Lucas De Marchi <lucas.demarchi@intel.com>");
+  MODULE_LICENSE("GPL");
++
++
++static const char __UNIQUE_ID_firmware404[] __attribute__((__used__)) __attribute__((__section__("__modinfo_cpp"))) __attribute__((__aligned__(1))) = "modinfo_cpp_foo";
++static const char __UNIQUE_ID_firmware405[] __attribute__((__used__)) __attribute__((__section__("__modinfo_cpp"))) __attribute__((__aligned__(1))) = "modinfo_cpp_bar";
+
+	$ make ....
+	$ objcopy -O binary --only-section=__modinfo_cpp testsuite/module-playground/mod-simple.ko /tmp/modinfo_cpp
+	$ strings /tmp/modinfo_cpp
+	modinfo_cpp_bar
+	modinfo_cpp_foo
+
+It doesn't seem to be ./scripts/Makefile.modfinal neither as it's also
+inverted in testsuite/module-playground/mod-simple.o
+
+After checking the options passed to gcc, here is the "culprit": -O2
+
+	$ gcc -c -o /tmp/a.o /tmp/a.c && objcopy -O binary --only-section=__modinfo_manual /tmp/a.o /tmp/modinfo_manual && strings /tmp/modinfo_manual
+	modinfo_manual_foo
+	modinfo_manual_bar
+	$ gcc -O2 -c -o /tmp/a.o /tmp/a.c && objcopy -O binary --only-section=__modinfo_manual /tmp/a.o /tmp/modinfo_manual && strings /tmp/modinfo_manual
+	modinfo_manual_bar
+	modinfo_manual_foo
+
+It seems anything but -O0 inverts the section.
+
+	$ gcc --version 
+	gcc (GCC) 12.2.1 20230201
+
+It doesn't match the behavior described in its man page though. Manually
+specifying all the options that -O1 turns on doesn't invert it.
+
+	$ gcc -fauto-inc-dec -fbranch-count-reg -fcombine-stack-adjustments \
+		-fcompare-elim -fcprop-registers -fdce -fdefer-pop -fdelayed-branch
+		-fdse -fforward-propagate -fguess-branch-probability -fif-conversion \
+		-fif-conversion2 -finline-functions-called-once -fipa-modref \
+		-fipa-profile -fipa-pure-const -fipa-reference -fipa-reference-addressable \
+		-fmerge-constants -fmove-loop-stores -fomit-frame-pointer -freorder-blocks \
+		-fshrink-wrap -fshrink-wrap-separate -fsplit-wide-types -fssa-backprop \
+		-fssa-phiopt -ftree-bit-ccp -ftree-ccp -ftree-ch -ftree-coalesce-vars \
+		-ftree-copy-prop -ftree-dce -ftree-dominator-opts -ftree-dse -ftree-forwprop \
+		-ftree-fre -ftree-phiprop -ftree-pta -ftree-scev-cprop -ftree-sink -ftree-slsr \
+		-ftree-sra -ftree-ter -funit-at-a-time -c -o /tmp/a.o /tmp/a.c \
+		&& objcopy -O binary --only-section=__modinfo_manual /tmp/a.o /tmp/modinfo_manual && strings /tmp/modinfo_manual
+	cc1: warning: this target machine does not have delayed branches
+	modinfo_manual_foo
+	modinfo_manual_bar
+
+Why? I'm not sure.
+
+Finally, clang doesn't invert it for any optimization value.
+
+	$ clang -O -c -o /tmp/a.o /tmp/a.c && objcopy -O binary --only-section=__modinfo_manual /tmp/a.o /tmp/modinfo_manual && strings /tmp/modinfo_manual
+	modinfo_manual_foo
+	modinfo_manual_bar
+	$ clang -O1 -c -o /tmp/a.o /tmp/a.c && objcopy -O binary --only-section=__modinfo_manual /tmp/a.o /tmp/modinfo_manual && strings /tmp/modinfo_manual
+	modinfo_manual_foo
+	modinfo_manual_bar
+	$ clang -O2 -c -o /tmp/a.o /tmp/a.c && objcopy -O binary --only-section=__modinfo_manual /tmp/a.o /tmp/modinfo_manual && strings /tmp/modinfo_manual
+	modinfo_manual_foo
+	modinfo_manual_bar
+
+>hedge, then this seems fine so long as I'm folks follow up to fix issues
+>later. I think it should and the simplicity is preferred, worth a shot
+>I think.
+
+Based on the above and my previous reply, I think we should have
+something more explicit about the order rather than relying on the
+toolchain behavior.
+
+Lucas De Marchi
+
+>
+>But the examples on both sides are pretty terrible. I'd just like to ask
+>all this gets extended in proper kdoc form and we are able to get users
+>and developers to read this under "Module support" in:
+>
+>https://docs.kernel.org/core-api/kernel-api.html
+>
+>So go to town with a new section for:
+>
+>Documentation/core-api/kernel-api.rst
+>
+>  Luis
