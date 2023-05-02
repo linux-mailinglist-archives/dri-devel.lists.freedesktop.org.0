@@ -1,53 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 886906F4BBA
-	for <lists+dri-devel@lfdr.de>; Tue,  2 May 2023 23:03:29 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B013A6F4BBF
+	for <lists+dri-devel@lfdr.de>; Tue,  2 May 2023 23:03:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4962610E0B5;
-	Tue,  2 May 2023 21:03:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 578C910E0C7;
+	Tue,  2 May 2023 21:03:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
  [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7D8BB10E091;
- Tue,  2 May 2023 21:03:21 +0000 (UTC)
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EE08E10E091;
+ Tue,  2 May 2023 21:03:23 +0000 (UTC)
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
  by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 342K5SuD024453; Tue, 2 May 2023 21:03:16 GMT
+ 342K0lTd019264; Tue, 2 May 2023 21:03:19 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
  h=from : to : cc :
- subject : date : message-id : mime-version : content-type; s=qcppdkim1;
- bh=G4fLH6tdDL+FxY4Uh5FL/iRjZOZqa0PyaTLaRGD7OLg=;
- b=is+HJDLVsbFSaDGgQLUsUjDeuctwAvflrogArLCaUc9W5YFdl+EKJW+lp4Vpj+5IAwC8
- EhgK3l8CLLPRk5p/F3dk1M3il+6PZXjhLP3S0ruy1QFISPXqYjPGPQeOrZ8nJt9FMP/9
- GGsjHxRCW1H+vZSpaG1GABx30gLNLqyVNZ0HiV0t+jVARJv+QFxHVzOdw+f14PA3jSZs
- YKqDHTeCsdSrD12i3wN0dUdXNJK3RxZR8Bdfou2FSizLbFiyyQ5XY+k/4RgUJLGjuLqX
- bkTCmoQLNFT/4VlcdQ7JFpu5TlOuX51ri2kYc8EQ+riwBniLRCA/8Hn6xAzosXBctyPQ RQ== 
+ subject : date : message-id : in-reply-to : references : mime-version :
+ content-type; s=qcppdkim1;
+ bh=OPKdt//vSaNh72sFweXcSiw1Ma3ZJwxJs8Y+K1Iovsc=;
+ b=YNtxvC2tT2FoO5wo4NtlFnHUZ6/ZInWDC4qVxfBISyR6U2GpePFwNWw5W1/ynqskD4HV
+ r2BkDAbxrdqWfxOxf6r29z5ijHcxcL7j34T6E+juxOtXJOCVI8H20uENqWWTxcFGUkJY
+ 9s6/AyRBIPPnVdXp9UeFWNWCctuO9YNbT6XZiBL37u1VBU+/vDDef4ll2GA4fHR2vQad
+ qxMMe5D4Xv5NGOsHHMGsrpQ3TSdsThHq0/4olgc3dBvg5kbqANxGKthtHgGSYa3vh99N
+ hAi3FfF3DZDPq2ip/tkOglgZqErpWZlQmaK1qihBFedBTd2NnNKGkMhYvlhPOnB+utKe EA== 
 Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
  [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3qays51m83-1
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3qan8gjrty-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 02 May 2023 21:03:15 +0000
+ Tue, 02 May 2023 21:03:19 +0000
 Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
  [10.47.209.196])
- by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 342L3E5N019354
+ by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 342L3I58020570
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 2 May 2023 21:03:14 GMT
+ Tue, 2 May 2023 21:03:18 GMT
 Received: from khsieh-linux1.qualcomm.com (10.80.80.8) by
  nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.42; Tue, 2 May 2023 14:03:14 -0700
+ 15.2.986.42; Tue, 2 May 2023 14:03:17 -0700
 From: Kuogee Hsieh <quic_khsieh@quicinc.com>
 To: <dri-devel@lists.freedesktop.org>, <robdclark@gmail.com>,
  <sean@poorly.run>, <swboyd@chromium.org>, <dianders@chromium.org>,
  <vkoul@kernel.org>, <daniel@ffwll.ch>, <airlied@gmail.com>,
  <agross@kernel.org>, <dmitry.baryshkov@linaro.org>, <andersson@kernel.org>
-Subject: [PATCH v3 0/7]  add DSC 1.2 dpu supports
-Date: Tue, 2 May 2023 14:02:55 -0700
-Message-ID: <1683061382-32651-1-git-send-email-quic_khsieh@quicinc.com>
+Subject: [PATCH v3 1/7] drm/msm/dpu: add dsc blocks for remaining chipsets in
+ catalog
+Date: Tue, 2 May 2023 14:02:56 -0700
+Message-ID: <1683061382-32651-2-git-send-email-quic_khsieh@quicinc.com>
 X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1683061382-32651-1-git-send-email-quic_khsieh@quicinc.com>
+References: <1683061382-32651-1-git-send-email-quic_khsieh@quicinc.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-Originating-IP: [10.80.80.8]
@@ -56,16 +60,16 @@ X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
  signatures=585085
-X-Proofpoint-GUID: udsnfO7veMSawhs7iSvunxL2OXnQEzYn
-X-Proofpoint-ORIG-GUID: udsnfO7veMSawhs7iSvunxL2OXnQEzYn
+X-Proofpoint-GUID: 8tEXJrTN5MnoxFlDGvCivRcTMlmfiR-2
+X-Proofpoint-ORIG-GUID: 8tEXJrTN5MnoxFlDGvCivRcTMlmfiR-2
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
  definitions=2023-05-02_12,2023-04-27_01,2023-02-09_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0
- lowpriorityscore=0 bulkscore=0 priorityscore=1501 clxscore=1015
- impostorscore=0 spamscore=0 phishscore=0 malwarescore=0 adultscore=0
- mlxscore=0 mlxlogscore=960 classifier=spam adjust=0 reason=mlx scancount=1
+ malwarescore=0 adultscore=0
+ lowpriorityscore=0 suspectscore=0 mlxscore=0 priorityscore=1501
+ mlxlogscore=948 impostorscore=0 bulkscore=0 phishscore=0 clxscore=1015
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2303200000 definitions=main-2305020179
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -80,62 +84,78 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
- quic_abhinavk@quicinc.com, Kuogee Hsieh <quic_khsieh@quicinc.com>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, quic_khsieh@quicinc.com,
  marijn.suijten@somainline.org, freedreno@lists.freedesktop.org,
  linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This series adds the DPU side changes to support DSC 1.2 encoder. This
-was validated with both DSI DSC 1.2 panel and DP DSC 1.2 monitor.
-The DSI and DP parts will be pushed later on top of this change.
-This seriel is rebase on [1], [2] and catalog fixes from [3].
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
 
-[1]: https://patchwork.freedesktop.org/series/116851/
-[2]: https://patchwork.freedesktop.org/series/116615/
-[3]: https://patchwork.freedesktop.org/series/112332/
+There are some platforms has DSC blocks but it is not declared at catalog.
+For completeness, this patch adds DSC blocks for platforms which missed
+them.
 
+Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+---
+ drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_3_0_msm8998.h |  7 +++++++
+ drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h | 11 +++++++++++
+ 2 files changed, 18 insertions(+)
 
-Abhinav Kumar (2):
-  drm/msm/dpu: add dsc blocks for remaining chipsets in catalog
-  drm/msm/dpu: add DSC 1.2 hw blocks for relevant chipsets
-
-Kuogee Hsieh (5):
-  drm/msm/dpu: add DPU_PINGPONG_DSC feature bit
-  drm/msm/dpu: add DPU_PINGPONG_DSC bits into PP_BLK and PP_BLK_TE
-    marcos
-  drm/msm/dpu: add PINGPONG_NONE to disconnect DSC from PINGPONG
-  drm/msm/dpu: add support for DSC encoder v1.2 engine
-  drm/msm/dpu: separate DSC flush update out of interface
-
- drivers/gpu/drm/msm/Makefile                       |   1 +
- .../drm/msm/disp/dpu1/catalog/dpu_3_0_msm8998.h    |  19 +-
- .../gpu/drm/msm/disp/dpu1/catalog/dpu_4_0_sdm845.h |   8 +-
- .../gpu/drm/msm/disp/dpu1/catalog/dpu_5_0_sm8150.h |  26 +-
- .../drm/msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h    |  35 +-
- .../gpu/drm/msm/disp/dpu1/catalog/dpu_6_0_sm8250.h |  26 +-
- .../gpu/drm/msm/disp/dpu1/catalog/dpu_6_2_sc7180.h |   4 +-
- .../gpu/drm/msm/disp/dpu1/catalog/dpu_6_3_sm6115.h |   2 +-
- .../drm/msm/disp/dpu1/catalog/dpu_6_5_qcm2290.h    |   2 +-
- .../gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h |  14 +
- .../gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h |   7 +
- .../drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h   |  16 +
- .../gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h |  14 +
- .../gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h |  14 +
- drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c        |  16 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c     |  35 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h     |  36 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c         |  22 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h         |  10 +
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.c         |   7 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.h         |  15 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc_1_2.c     | 383 +++++++++++++++++++++
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h        |   3 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.c    |   9 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c             |   7 +-
- 25 files changed, 649 insertions(+), 82 deletions(-)
- create mode 100644 drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc_1_2.c
-
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_3_0_msm8998.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_3_0_msm8998.h
+index 2b3ae84..17f821c 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_3_0_msm8998.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_3_0_msm8998.h
+@@ -126,6 +126,11 @@ static const struct dpu_pingpong_cfg msm8998_pp[] = {
+ 			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 15)),
+ };
+ 
++static const struct dpu_dsc_cfg msm8998_dsc[] = {
++	DSC_BLK("dsc_0", DSC_0, 0x80000, 0),
++	DSC_BLK("dsc_1", DSC_1, 0x80400, 0),
++};
++
+ static const struct dpu_dspp_cfg msm8998_dspp[] = {
+ 	DSPP_BLK("dspp_0", DSPP_0, 0x54000, DSPP_MSM8998_MASK,
+ 		 &msm8998_dspp_sblk),
+@@ -191,6 +196,8 @@ const struct dpu_mdss_cfg dpu_msm8998_cfg = {
+ 	.dspp = msm8998_dspp,
+ 	.pingpong_count = ARRAY_SIZE(msm8998_pp),
+ 	.pingpong = msm8998_pp,
++	.dsc_count = ARRAY_SIZE(msm8998_dsc),
++	.dsc = msm8998_dsc,
+ 	.intf_count = ARRAY_SIZE(msm8998_intf),
+ 	.intf = msm8998_intf,
+ 	.vbif_count = ARRAY_SIZE(msm8998_vbif),
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h
+index e3bdfe7..5bb9882 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h
+@@ -142,6 +142,15 @@ static const struct dpu_merge_3d_cfg sc8180x_merge_3d[] = {
+ 	MERGE_3D_BLK("merge_3d_2", MERGE_3D_2, 0x83200),
+ };
+ 
++static const struct dpu_dsc_cfg sc8180x_dsc[] = {
++	DSC_BLK("dsc_0", DSC_0, 0x80000, BIT(DPU_DSC_OUTPUT_CTRL)),
++	DSC_BLK("dsc_1", DSC_1, 0x80400, BIT(DPU_DSC_OUTPUT_CTRL)),
++	DSC_BLK("dsc_2", DSC_2, 0x80800, BIT(DPU_DSC_OUTPUT_CTRL)),
++	DSC_BLK("dsc_3", DSC_3, 0x80c00, BIT(DPU_DSC_OUTPUT_CTRL)),
++	DSC_BLK("dsc_4", DSC_4, 0x81000, BIT(DPU_DSC_OUTPUT_CTRL)),
++	DSC_BLK("dsc_5", DSC_5, 0x81400, BIT(DPU_DSC_OUTPUT_CTRL)),
++};
++
+ static const struct dpu_intf_cfg sc8180x_intf[] = {
+ 	INTF_BLK("intf_0", INTF_0, 0x6a000, 0x280, INTF_DP, MSM_DP_CONTROLLER_0, 24, INTF_SC7180_MASK, MDP_SSPP_TOP0_INTR, 24, 25),
+ 	INTF_BLK("intf_1", INTF_1, 0x6a800, 0x2bc, INTF_DSI, 0, 24, INTF_SC7180_MASK, MDP_SSPP_TOP0_INTR, 26, 27),
+@@ -192,6 +201,8 @@ const struct dpu_mdss_cfg dpu_sc8180x_cfg = {
+ 	.mixer = sc8180x_lm,
+ 	.pingpong_count = ARRAY_SIZE(sc8180x_pp),
+ 	.pingpong = sc8180x_pp,
++	.dsc_count = ARRAY_SIZE(sc8180x_dsc),
++	.dsc = sc8180x_dsc,
+ 	.merge_3d_count = ARRAY_SIZE(sc8180x_merge_3d),
+ 	.merge_3d = sc8180x_merge_3d,
+ 	.intf_count = ARRAY_SIZE(sc8180x_intf),
 -- 
 The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
 a Linux Foundation Collaborative Project
