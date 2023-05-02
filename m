@@ -2,45 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7CE86F4637
-	for <lists+dri-devel@lfdr.de>; Tue,  2 May 2023 16:39:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F08796F4639
+	for <lists+dri-devel@lfdr.de>; Tue,  2 May 2023 16:39:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B7EA510E589;
-	Tue,  2 May 2023 14:39:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 12BD210E58B;
+	Tue,  2 May 2023 14:39:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5735A10E589;
- Tue,  2 May 2023 14:39:35 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B19C510E586;
+ Tue,  2 May 2023 14:39:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1683038375; x=1714574375;
+ t=1683038385; x=1714574385;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=qQ6Q1v1VFyY+PzlfwfGKTZsgF6lskGF6w8gf0hEQDZg=;
- b=Tm9Xtqe6B/KY4/GSzGBKvxfUgTrlxUmDqSuREv5Swh5TLk/M2HtxbmUt
- W/B/sdhUO5fNfHANzTsw5IbLV/9MGUf/jkvGBmiHstDngcNDx/w84mrP4
- ++Mwg23EBZTg5F+kbB94dqp6vpunffV4rKcrCqfV9eIK6WXUW75bn3FmN
- 1I8N9hm+RF+9ncgKfUUV1jLYsdjuJ6bTiAT724eKLzY+iyVxHiegdptYf
- GOgEyUmupNS8CW9mPYixRUJsAQiSfv1BB2NrFWUYIT4dbK3h6R+YmysX8
- Na8Y8f+fnAz3FY7eN24nM+Imsub8Qx+lKPKdUofnRlp0+zWoAASsZSkIJ w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10698"; a="351396921"
-X-IronPort-AV: E=Sophos;i="5.99,244,1677571200"; d="scan'208";a="351396921"
+ bh=mhfLm0axb6dS/Ei/OR9/qpF7w++RhVcK6xXwcw90yd4=;
+ b=PgzNpPY9H2bewZz0xNcoCjKYs32Dyd3ri1hd8YtXO+PJAaQoyMFHkf+s
+ 9viHEO2KEZk2cukAGmY28tTBUM0oo90sB2e1n68dPMq9TQy0HoH4HvFVs
+ DzrP/ZVJnBmZdMuk0aJb+7eDIMhqq2HMi0SYO+cFo+UcySt660vQVl2K/
+ BUwFA9R5kcuJScyAVJwyEcrpvUSGKTmyPLMr92fsdYsAKGb7M3kr7HjNm
+ r7k6TPmvfHI0IuqsL7YOxhCPfT4YSlzSkx+1ky4RTwfda8JO6csS6GTso
+ /ZK7HmUtpKWg4K1BM3Z9wPqjpiPkOKTfnHyEnb11+uYvV1pRVFne+r0Tu Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10698"; a="351396952"
+X-IronPort-AV: E=Sophos;i="5.99,244,1677571200"; d="scan'208";a="351396952"
 Received: from fmsmga007.fm.intel.com ([10.253.24.52])
  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 May 2023 07:39:34 -0700
+ 02 May 2023 07:39:45 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10698"; a="698991772"
-X-IronPort-AV: E=Sophos;i="5.99,244,1677571200"; d="scan'208";a="698991772"
+X-IronPort-AV: E=McAfee;i="6600,9927,10698"; a="698991807"
+X-IronPort-AV: E=Sophos;i="5.99,244,1677571200"; d="scan'208";a="698991807"
 Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.70])
- by fmsmga007.fm.intel.com with SMTP; 02 May 2023 07:39:27 -0700
+ by fmsmga007.fm.intel.com with SMTP; 02 May 2023 07:39:35 -0700
 Received: by stinkbox (sSMTP sendmail emulation);
- Tue, 02 May 2023 17:39:26 +0300
+ Tue, 02 May 2023 17:39:34 +0300
 From: Ville Syrjala <ville.syrjala@linux.intel.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 06/11] drm/i915: Fix FEC state dump
-Date: Tue,  2 May 2023 17:39:01 +0300
-Message-Id: <20230502143906.2401-7-ville.syrjala@linux.intel.com>
+Subject: [PATCH 07/11] drm/i915: Split some long lines
+Date: Tue,  2 May 2023 17:39:02 +0300
+Message-Id: <20230502143906.2401-8-ville.syrjala@linux.intel.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230502143906.2401-1-ville.syrjala@linux.intel.com>
 References: <20230502143906.2401-1-ville.syrjala@linux.intel.com>
@@ -65,53 +65,40 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Ville Syrjälä <ville.syrjala@linux.intel.com>
 
-Stop dumping state while reading it out. We have a proper
-place for that stuff.
+Split some overly long lines.
 
 Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
 ---
- .../gpu/drm/i915/display/intel_crtc_state_dump.c    |  2 ++
- drivers/gpu/drm/i915/display/intel_ddi.c            | 13 +++----------
- 2 files changed, 5 insertions(+), 10 deletions(-)
+ drivers/gpu/drm/i915/display/intel_fdi.c | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/display/intel_crtc_state_dump.c b/drivers/gpu/drm/i915/display/intel_crtc_state_dump.c
-index 0cdcaa49656f..91242ffe0768 100644
---- a/drivers/gpu/drm/i915/display/intel_crtc_state_dump.c
-+++ b/drivers/gpu/drm/i915/display/intel_crtc_state_dump.c
-@@ -257,6 +257,8 @@ void intel_crtc_state_dump(const struct intel_crtc_state *pipe_config,
- 		intel_dump_m_n_config(pipe_config, "dp m2_n2",
- 				      pipe_config->lane_count,
- 				      &pipe_config->dp_m2_n2);
-+		drm_dbg_kms(&i915->drm, "fec: %s\n",
-+			    str_enabled_disabled(pipe_config->fec_enable));
- 	}
+diff --git a/drivers/gpu/drm/i915/display/intel_fdi.c b/drivers/gpu/drm/i915/display/intel_fdi.c
+index 55283677c45a..19ee78ba3936 100644
+--- a/drivers/gpu/drm/i915/display/intel_fdi.c
++++ b/drivers/gpu/drm/i915/display/intel_fdi.c
+@@ -765,7 +765,10 @@ void hsw_fdi_link_train(struct intel_encoder *encoder,
+ 	 * WaFDIAutoLinkSetTimingOverrride:hsw
+ 	 */
+ 	intel_de_write(dev_priv, FDI_RX_MISC(PIPE_A),
+-		       FDI_RX_PWRDN_LANE1_VAL(2) | FDI_RX_PWRDN_LANE0_VAL(2) | FDI_RX_TP1_TO_TP2_48 | FDI_RX_FDI_DELAY_90);
++		       FDI_RX_PWRDN_LANE1_VAL(2) |
++		       FDI_RX_PWRDN_LANE0_VAL(2) |
++		       FDI_RX_TP1_TO_TP2_48 |
++		       FDI_RX_FDI_DELAY_90);
  
- 	drm_dbg_kms(&i915->drm, "framestart delay: %d, MSA timing delay: %d\n",
-diff --git a/drivers/gpu/drm/i915/display/intel_ddi.c b/drivers/gpu/drm/i915/display/intel_ddi.c
-index 41cfa28166e4..4246133950fd 100644
---- a/drivers/gpu/drm/i915/display/intel_ddi.c
-+++ b/drivers/gpu/drm/i915/display/intel_ddi.c
-@@ -3725,17 +3725,10 @@ static void intel_ddi_read_func_ctl(struct intel_encoder *encoder,
- 		intel_cpu_transcoder_get_m2_n2(crtc, cpu_transcoder,
- 					       &pipe_config->dp_m2_n2);
+ 	/* Enable the PCH Receiver FDI PLL */
+ 	rx_ctl_val = dev_priv->display.fdi.rx_config | FDI_RX_ENHANCE_FRAME_ENABLE |
+@@ -798,7 +801,9 @@ void hsw_fdi_link_train(struct intel_encoder *encoder,
+ 		 * achieved on the PCH side in FDI_RX_CTL, so no need to set the
+ 		 * port reversal bit */
+ 		intel_de_write(dev_priv, DDI_BUF_CTL(PORT_E),
+-			       DDI_BUF_CTL_ENABLE | ((crtc_state->fdi_lanes - 1) << 1) | DDI_BUF_TRANS_SELECT(i / 2));
++			       DDI_BUF_CTL_ENABLE |
++			       ((crtc_state->fdi_lanes - 1) << 1) |
++			       DDI_BUF_TRANS_SELECT(i / 2));
+ 		intel_de_posting_read(dev_priv, DDI_BUF_CTL(PORT_E));
  
--		if (DISPLAY_VER(dev_priv) >= 11) {
--			i915_reg_t dp_tp_ctl = dp_tp_ctl_reg(encoder, pipe_config);
--
-+		if (DISPLAY_VER(dev_priv) >= 11)
- 			pipe_config->fec_enable =
--				intel_de_read(dev_priv, dp_tp_ctl) & DP_TP_CTL_FEC_ENABLE;
--
--			drm_dbg_kms(&dev_priv->drm,
--				    "[ENCODER:%d:%s] Fec status: %u\n",
--				    encoder->base.base.id, encoder->base.name,
--				    pipe_config->fec_enable);
--		}
-+				intel_de_read(dev_priv,
-+					      dp_tp_ctl_reg(encoder, pipe_config)) & DP_TP_CTL_FEC_ENABLE;
- 
- 		if (dig_port->lspcon.active && dig_port->dp.has_hdmi_sink)
- 			pipe_config->infoframes.enable |=
+ 		udelay(600);
 -- 
 2.39.2
 
