@@ -1,67 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 780F86F427C
-	for <lists+dri-devel@lfdr.de>; Tue,  2 May 2023 13:17:29 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C5276F4289
+	for <lists+dri-devel@lfdr.de>; Tue,  2 May 2023 13:19:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D68EC10E514;
-	Tue,  2 May 2023 11:17:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C78D410E51C;
+	Tue,  2 May 2023 11:19:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com
- [IPv6:2a00:1450:4864:20::32d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0CD4010E514
- for <dri-devel@lists.freedesktop.org>; Tue,  2 May 2023 11:17:23 +0000 (UTC)
-Received: by mail-wm1-x32d.google.com with SMTP id
- 5b1f17b1804b1-3f19b9d5358so36201695e9.1
- for <dri-devel@lists.freedesktop.org>; Tue, 02 May 2023 04:17:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683026241; x=1685618241;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=hC5rYIWvK/tkRAoPAEF5edYxUmmDzm+5+7yR1xwhyX0=;
- b=dxhKeusNbXgpsiW1CpqtUWcJK9plsg0Ezqx8fKwR0zapkU8N3hAGXDFmSDhCiB6w46
- XVdt76X/wBAfL5WxSmINEmhZ3rxgkeXQdM+wozMGQQQBDpYr7R9h6cj+zRwJH/5cBbWR
- cRo/jwT083+CMmIMSImONFUnlHgocMCxXlNgI45kpy/JicSeJPaDEhV97la20RnohU5f
- Xt5hCpW4cF9//AvzGDbxn+p3xgGFMEYbGxMk8QvpBflWwvQn7BI2Arxol3s5E2WleiZ9
- qlLwtugL5TMWQ59Xj4RxXRWRaXxFj1RM6JOFjfXBE/cEuW8F9chZ1nuBm9YYFFHqIP5u
- EAEA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683026241; x=1685618241;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=hC5rYIWvK/tkRAoPAEF5edYxUmmDzm+5+7yR1xwhyX0=;
- b=BbzTHXKN4EimXTwIeIeEAGxQ1QGlbmdRvPjAiKmy4C8Zs0j8/U2JdaaWc0My88ZptU
- MoFwo9oJBTPHdVVMPFM0XxLvvoZRyc61ofIeEr4Z9SKVXXjBMkDMDfKeLO88okm/VgM5
- k7l62I5wn7DwlmWPZ9TTt9NSFYhTElxMOtNhVNVggwMMaIkIG5vROaih0Qs2qyAaXhWi
- 4r8z2w/gseofYmTWkO7835pi+4PhosbdrP8afXHxLSTs1+uKjkJV+Ql/ST+A86hGUoyl
- 7MhdobgfEHAO/nfp/RnLqS9zRgXFihs5fnxXott/DWlQ2pbnGORpw3//MB493WDOcUKN
- FvTQ==
-X-Gm-Message-State: AC+VfDwefmImMdLcws8ByGx8HwLhfuzbCL2F/osxvk2rGE1vHvbKmS4T
- CGctPLrI4Rs7K1baNj8vpKuEIA==
-X-Google-Smtp-Source: ACHHUZ5zpyqpXr+mFRT0QdK4GBZ6IFbr+l3lnDvYTS2KPabZ8s1ZjpQNTuYHyGo+UuIIUaf8/iI6jw==
-X-Received: by 2002:a1c:f019:0:b0:3f0:49b5:f0ce with SMTP id
- a25-20020a1cf019000000b003f049b5f0cemr11338031wmb.12.1683026241502; 
- Tue, 02 May 2023 04:17:21 -0700 (PDT)
-Received: from aspen.lan
- (aztw-34-b2-v4wan-166919-cust780.vm26.cable.virginm.net. [82.37.195.13])
- by smtp.gmail.com with ESMTPSA id
- y21-20020a05600c365500b003f182a10106sm35223317wmq.8.2023.05.02.04.17.20
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 02 May 2023 04:17:21 -0700 (PDT)
-Date: Tue, 2 May 2023 12:17:18 +0100
-From: Daniel Thompson <daniel.thompson@linaro.org>
-To: Jianhua Lu <lujianhua000@gmail.com>
-Subject: Re: [PATCH] dt-bindings: leds: backlight: ktz8866: Add reg property
- and update example
-Message-ID: <20230502111718.GB15678@aspen.lan>
-References: <20230428160246.16982-1-lujianhua000@gmail.com>
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7B98410E51C
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 May 2023 11:19:47 +0000 (UTC)
+Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id BAE4F6601F25;
+ Tue,  2 May 2023 12:19:44 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1683026385;
+ bh=8hea1QbFXdBcBcKypNwYvForurBNghJuopO7nhG2U7I=;
+ h=Date:From:To:Cc:Subject:From;
+ b=StplQOQsJnJz1V0kcpdDF7lgyC+nDH3a/7ZJssUz4f+Sfs0if8ghvpaCxPWZVZgyN
+ rBF0U1Pz4muOP1Qn4u8BDO4A0uKPS7WcJCKJo43FMa8YDTlXXfbt3E8EuIX2XibXSb
+ nfzJWDsVwmFIrzAm+DdbehO6fV/xTcqewnXkQyy31ThHBbDaNQNZ4B3ZV/J4phYUFf
+ wntqmI3JlOkSUnNZaj3xyc3EAtVjqjgqdNLIFPS2/+xKIQDEUQms9fzunyWOZdY1dq
+ KbcO/b37bTQDMzPHZR4YK0k7xTMtZllGCEuohJksaLW/xBEjYroiOhQdI/8NkInshA
+ yAZWQg1y9+y1Q==
+Date: Tue, 2 May 2023 13:19:41 +0200
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>, Alex Deucher
+ <alexander.deucher@amd.com>
+Subject: drm/sched: Replacement for drm_sched_resubmit_jobs() is deprecated
+Message-ID: <20230502131941.5fe5b79f@collabora.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.36; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230428160246.16982-1-lujianhua000@gmail.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,19 +51,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
- Jingoo Han <jingoohan1@gmail.com>, Lee Jones <lee@kernel.org>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Rob Herring <robh+dt@kernel.org>, ~postmarketos/upstreaming@lists.sr.ht,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- phone-devel@vger.kernel.org, linux-leds@vger.kernel.org
+Cc: Sarah Walker <sarah.walker@imgtec.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Apr 29, 2023 at 12:02:46AM +0800, Jianhua Lu wrote:
-> The kinetic,ktz8866 is a I2C driver, so add the missing reg property.
-> And update example to make it clear.
->
-> Signed-off-by: Jianhua Lu <lujianhua000@gmail.com>
+Hello Christian, Alex,
 
-Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
+As part of our transition to drm_sched for the powervr GPU driver, we
+realized drm_sched_resubmit_jobs(), which is used by all drivers
+relying on drm_sched right except amdgpu, has been deprecated.
+Unfortunately, commit 5efbe6aa7a0e ("drm/scheduler: deprecate
+drm_sched_resubmit_jobs") doesn't describe what drivers should do or use
+as an alternative.
+
+At the very least, for our implementation, we need to restore the
+drm_sched_job::parent pointers that were set to NULL in
+drm_sched_stop(), such that jobs submitted before the GPU recovery are
+considered active when drm_sched_start() is called. That could be done
+with a custom pending_list iteration restoring drm_sched_job::parent's
+pointer, but that seems odd to let the scheduler backend manipulate
+this list directly, and I suspect we need to do other checks, like the
+karma vs hang-limit thing, so we can flag the entity dirty and cancel
+all jobs being queued there if the entity has caused too many hangs.
+
+Now that drm_sched_resubmit_jobs() has been deprecated, that would be
+great if you could help us write a piece of documentation describing
+what should be done between drm_sched_stop() and drm_sched_start(), so
+new drivers don't come up with their own slightly different/broken
+version of the same thing.
+
+Thanks in advance for your help.
+
+Regards,
+
+Boris
