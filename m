@@ -2,74 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D5766F4D06
-	for <lists+dri-devel@lfdr.de>; Wed,  3 May 2023 00:42:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36B8F6F4D61
+	for <lists+dri-devel@lfdr.de>; Wed,  3 May 2023 01:04:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6A97010E0BF;
-	Tue,  2 May 2023 22:42:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 277D910E109;
+	Tue,  2 May 2023 23:04:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com
- [IPv6:2a00:1450:4864:20::135])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1941310E109
- for <dri-devel@lists.freedesktop.org>; Tue,  2 May 2023 22:42:16 +0000 (UTC)
-Received: by mail-lf1-x135.google.com with SMTP id
- 2adb3069b0e04-4f00d41df22so530160e87.1
- for <dri-devel@lists.freedesktop.org>; Tue, 02 May 2023 15:42:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683067332; x=1685659332;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=1OoGjVoe5CX5x9isNYM2e3Wk8FpfphvTo6RdDOuxz1Q=;
- b=hiNOid1JZFCR0nWkeMhUqACmCPxMSXATIgVxyAqZRb/BZ9qYmPWUOl+9U1t1l/HoId
- Zw6kbAjPvxEr0o4ZaVdP5uxMBbCoKfdK4L6rRRbXmVxfiljUloU28QMUEdtSJWkyFoLp
- FwvzyH68UnCS1vE/ORnBtggguwD4duZKlOXVDsLna6q+6Ko2R8Ashl3NedkducMgzDkW
- I+OxH12oIUUrKycH/7aO62+I84j/7/UirTW7HkxzAsjgUVVZlhoNoiyfNvtyfS+lK0rI
- YmKAp29Cd8RTuKHBvavoQGN80AyrmtTGDpwUebxnkcutAQ/1cE+n0iSL432thmlynzn0
- 2QLg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683067332; x=1685659332;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=1OoGjVoe5CX5x9isNYM2e3Wk8FpfphvTo6RdDOuxz1Q=;
- b=TefoGi42YdfeXNkuwZPIrPgo1WstTcCjXOyozmJSLhPKtxuHy8ys4PK/dVpBGIyCse
- 019THUcGtPWML5jXH6UeT1G3PuyYM1EVrA0bO64fP1o848w5U3yKjnwL/N0UwgbUhM4k
- h6qvIk/P/CPV1tcmfefy6zKxQRBmdpOiOWYXWeJ1p6Y4ybkneNeDd9+dO87c+lyNcMcP
- 1p7eBqBQcNkGlSnB3Xx6a3ihKaXuWT397haNSxgD8wZ8Yki206GlYWFhpQOEr+J/BpSd
- tWngzlZBg+61pyU+1AJf9WlMK/eNGfeb+LcVWWowa4i0mKXUurEWiCh+J0xcZ91mkGS6
- jMVQ==
-X-Gm-Message-State: AC+VfDyO8Vb39UDtt+9ZS1J47EG/LUPDdk2YDmSbFdocdedjYJ1wvlPq
- LgKYn6ulFcgeQiMWM6ZVR0NOZox+gEkohRzDwM4=
-X-Google-Smtp-Source: ACHHUZ6UfIY4PEgDDZl5KPbEeS9HO6lLQH5WJ2TyVoYK8uxLeQM1jOU8KtbNRY2Wa5bu+IJszRc06A==
-X-Received: by 2002:a05:6512:3a8d:b0:4ec:9f37:2cfb with SMTP id
- q13-20020a0565123a8d00b004ec9f372cfbmr31870lfu.27.1683067332313; 
- Tue, 02 May 2023 15:42:12 -0700 (PDT)
-Received: from ?IPV6:2001:14ba:a0db:1f00::8a5?
- (dzdqv0yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a0db:1f00::8a5])
- by smtp.gmail.com with ESMTPSA id
- c2-20020ac25302000000b004e8508899basm5641431lfh.86.2023.05.02.15.42.11
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 02 May 2023 15:42:11 -0700 (PDT)
-Message-ID: <4315e96f-ed29-92aa-9549-d6fc9d820de6@linaro.org>
-Date: Wed, 3 May 2023 01:42:10 +0300
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8B84810E109;
+ Tue,  2 May 2023 23:04:30 +0000 (UTC)
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 342MSK24023201; Tue, 2 May 2023 23:04:24 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=aCQqlxOWOUW4tpaXwOTQFsXC1G3e8ROqMcd7JKgom4w=;
+ b=L70MgH+esuR8UhHy+wgUi6/dGOPlOBKmcMz4tuI8XL5omHrypTnNswYYIVjV0Az5+YQ3
+ Ste/yZA5ll5bjLy3TeWsiYkyZ/C0hhtk12U9PAIRt0fm6YUBYW7oMETgPGDf82T/H2FO
+ xl31/fvzKfkaGDnaoFjk9FCs40QPvJDwQnogIV6AdlFMcOrWyZMka649+5LPDARcK78e
+ bxaFdbV8yZtjTYPbZ1RNBXC/SFEZJ0vAE+8mjkVlO7fX1ooIVwEK5BfpfqHdGAUh0a/X
+ CaQvu77CrZuqTOyKznr6Ee9wKJlmseRST8nl5vL+dBD1TNl1w0H9/v+iOVDUd2poLIMI pQ== 
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3qawcta34v-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 02 May 2023 23:04:24 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 342N4ND0026819
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 2 May 2023 23:04:23 GMT
+Received: from [10.134.70.142] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Tue, 2 May 2023
+ 16:04:23 -0700
+Message-ID: <dae23075-b907-48c0-7605-f91589630beb@quicinc.com>
+Date: Tue, 2 May 2023 16:04:22 -0700
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH v3 3/7] drm/msm/dpu: add DPU_PINGPONG_DSC bits into PP_BLK
- and PP_BLK_TE marcos
-Content-Language: en-GB
-To: Kuogee Hsieh <quic_khsieh@quicinc.com>, dri-devel@lists.freedesktop.org,
- robdclark@gmail.com, sean@poorly.run, swboyd@chromium.org,
- dianders@chromium.org, vkoul@kernel.org, daniel@ffwll.ch, airlied@gmail.com,
- agross@kernel.org, andersson@kernel.org
-References: <1683061382-32651-1-git-send-email-quic_khsieh@quicinc.com>
- <1683061382-32651-4-git-send-email-quic_khsieh@quicinc.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <1683061382-32651-4-git-send-email-quic_khsieh@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.2
+Subject: Re: [PATCH 4/7] drm/msm/dpu: drop duplicated intf/wb indices from
+ encoder structs
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
+ <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, Marijn Suijten
+ <marijn.suijten@somainline.org>
+References: <20230430235732.3341119-1-dmitry.baryshkov@linaro.org>
+ <20230430235732.3341119-5-dmitry.baryshkov@linaro.org>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <20230430235732.3341119-5-dmitry.baryshkov@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: o9b_M4_ZRleaST5Bq2oRUxVXBMlVS0OR
+X-Proofpoint-GUID: o9b_M4_ZRleaST5Bq2oRUxVXBMlVS0OR
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-05-02_12,2023-04-27_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 spamscore=0
+ lowpriorityscore=0 priorityscore=1501 bulkscore=0 phishscore=0
+ adultscore=0 mlxlogscore=995 impostorscore=0 malwarescore=0 suspectscore=0
+ clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2303200000 definitions=main-2305020197
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,93 +86,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
- quic_abhinavk@quicinc.com, linux-kernel@vger.kernel.org,
- marijn.suijten@somainline.org, freedreno@lists.freedesktop.org
+Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 03/05/2023 00:02, Kuogee Hsieh wrote:
-> At legacy chipsets, it required DPU_PINGPONG_DSC bit be set to indicate
-> pingpong ops functions are required to complete DSC data path setup if
-> this chipset has DSC hardware block presented. This patch add
-> DPU_PINGPONG_DSC bit to both PP_BLK and PP_BLK_TE marcos if it has DSC
-> hardware block presented.
+
+
+On 4/30/2023 4:57 PM, Dmitry Baryshkov wrote:
+> Remove intf_idx and wb_idx fields from struct dpu_encoder_phys and
+> struct dpu_enc_phys_init_params. Set the hw_intf and hw_wb directly and
+> use them to get the instance index.
 > 
-> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 > ---
->   .../drm/msm/disp/dpu1/catalog/dpu_3_0_msm8998.h    | 12 +++++-----
->   .../gpu/drm/msm/disp/dpu1/catalog/dpu_4_0_sdm845.h |  8 +++----
->   .../gpu/drm/msm/disp/dpu1/catalog/dpu_5_0_sm8150.h | 26 ++++++++++------------
->   .../drm/msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h    | 24 ++++++++++----------
->   .../gpu/drm/msm/disp/dpu1/catalog/dpu_6_0_sm8250.h | 26 ++++++++++------------
->   .../gpu/drm/msm/disp/dpu1/catalog/dpu_6_2_sc7180.h |  4 ++--
->   .../gpu/drm/msm/disp/dpu1/catalog/dpu_6_3_sm6115.h |  2 +-
->   .../drm/msm/disp/dpu1/catalog/dpu_6_5_qcm2290.h    |  2 +-
->   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c     |  8 +++----
->   9 files changed, 54 insertions(+), 58 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_3_0_msm8998.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_3_0_msm8998.h
-> index 17f821c..b7cd746 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_3_0_msm8998.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_3_0_msm8998.h
-> @@ -112,16 +112,16 @@ static const struct dpu_lm_cfg msm8998_lm[] = {
->   };
+
+ From whatever I can see, this will not affect functionality of intf or 
+wb and cleans it up well , so I am fine with this. Hence,
+
+Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+
+One minor comment/question.
+
+<snipped other parts>
+
+> @@ -761,7 +761,7 @@ struct dpu_encoder_phys *dpu_encoder_phys_cmd_init(
+>   	struct dpu_encoder_phys_cmd *cmd_enc = NULL;
+>   	int ret = 0;
 >   
->   static const struct dpu_pingpong_cfg msm8998_pp[] = {
-> -	PP_BLK_TE("pingpong_0", PINGPONG_0, 0x70000, 0, sdm845_pp_sblk_te,
-> -			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 8),
-> +	PP_BLK_TE("pingpong_0", PINGPONG_0, 0x70000, BIT(DPU_PINGPONG_DSC), 0,
-> +			sdm845_pp_sblk_te, DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 8),
->   			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 12)),
-> -	PP_BLK_TE("pingpong_1", PINGPONG_1, 0x70800, 0, sdm845_pp_sblk_te,
-> -			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 9),
-> +	PP_BLK_TE("pingpong_1", PINGPONG_1, 0x70800, BIT(DPU_PINGPONG_DSC), 0,
-> +			sdm845_pp_sblk_te, DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 9),
->   			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 13)),
-> -	PP_BLK("pingpong_2", PINGPONG_2, 0x71000, 0, sdm845_pp_sblk,
-> +	PP_BLK("pingpong_2", PINGPONG_2, 0x71000, 0, 0, sdm845_pp_sblk,
->   			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 10),
->   			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 14)),
-> -	PP_BLK("pingpong_3", PINGPONG_3, 0x71800, 0, sdm845_pp_sblk,
-> +	PP_BLK("pingpong_3", PINGPONG_3, 0x71800, 0, 0, sdm845_pp_sblk,
->   			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 11),
->   			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 15)),
+> -	DPU_DEBUG("intf %d\n", p->intf_idx - INTF_0);
 
-Just to doublecheck: why don't we have DPU_PINGPONG_DSC for PP_3/_4? We 
-do have them on sdm845. Is it because we should not use DSC with thos 
-PINGPONG blocks?
+Was it intentional to drop the index in this log?
 
->   };
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_4_0_sdm845.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_4_0_sdm845.h
-> index ceca741..8888bd9 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_4_0_sdm845.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_4_0_sdm845.h
-> @@ -110,16 +110,16 @@ static const struct dpu_lm_cfg sdm845_lm[] = {
->   };
+> +	DPU_DEBUG("intf\n");
 >   
->   static const struct dpu_pingpong_cfg sdm845_pp[] = {
-> -	PP_BLK_TE("pingpong_0", PINGPONG_0, 0x70000, 0, sdm845_pp_sblk_te,
-> +	PP_BLK_TE("pingpong_0", PINGPONG_0, 0x70000, BIT(DPU_PINGPONG_DSC), 0, sdm845_pp_sblk_te,
->   			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 8),
->   			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 12)),
-> -	PP_BLK_TE("pingpong_1", PINGPONG_1, 0x70800, 0, sdm845_pp_sblk_te,
-> +	PP_BLK_TE("pingpong_1", PINGPONG_1, 0x70800, BIT(DPU_PINGPONG_DSC), 0, sdm845_pp_sblk_te,
->   			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 9),
->   			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 13)),
-> -	PP_BLK("pingpong_2", PINGPONG_2, 0x71000, 0, sdm845_pp_sblk,
-> +	PP_BLK("pingpong_2", PINGPONG_2, 0x71000, BIT(DPU_PINGPONG_DSC), 0, sdm845_pp_sblk,
->   			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 10),
->   			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 14)),
-> -	PP_BLK("pingpong_3", PINGPONG_3, 0x71800, 0, sdm845_pp_sblk,
-> +	PP_BLK("pingpong_3", PINGPONG_3, 0x71800, BIT(DPU_PINGPONG_DSC), 0, sdm845_pp_sblk,
->   			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 11),
->   			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 15)),
->
-
-[skipped the rest, looks good to me]
-
--- 
-With best wishes
-Dmitry
-
+>   	cmd_enc = kzalloc(sizeof(*cmd_enc), GFP_KERNEL);
