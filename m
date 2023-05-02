@@ -2,45 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E10F36F4635
-	for <lists+dri-devel@lfdr.de>; Tue,  2 May 2023 16:39:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A7CE86F4637
+	for <lists+dri-devel@lfdr.de>; Tue,  2 May 2023 16:39:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A2C1210E588;
-	Tue,  2 May 2023 14:39:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B7EA510E589;
+	Tue,  2 May 2023 14:39:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 77FCC10E588;
- Tue,  2 May 2023 14:39:26 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5735A10E589;
+ Tue,  2 May 2023 14:39:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1683038366; x=1714574366;
+ t=1683038375; x=1714574375;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=uuyG4MekkC+E2hkOKaAYlq86ytV9648iCg3HkGxJWcU=;
- b=TEyRrIr8sYQFMX4bXYVWXWcrh8oW0wlc4A4iwVpKQGg92b4BlIpo4KOr
- dGEPizFMpK8UmPNgIyOqWOqYTMZHtfloXjEPNY+XZjOWwhc7kJqKHF5IF
- ksNAiMScq7qlOspQ3RXFZDwBfBUgYY1MMb+m++br1aZwMVAMMhjbFDMDw
- hdfvSOwb8+Ytvp2OyBg9JXL8l7SOYlxYnQSGK7BCpBNSuSGP+Xst0Ax0Y
- 9PlgMYFm+bU3R6C61QrSbeAGbrdWZ26fzWELfv5emGAqy9U/2aN/mSVo7
- Uc2yGZprqgdjrthqPXjHWbcK+/GcLK1Ry8VOwd9EUs9+GY8aPGRF6tBXa g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10698"; a="351396889"
-X-IronPort-AV: E=Sophos;i="5.99,244,1677571200"; d="scan'208";a="351396889"
+ bh=qQ6Q1v1VFyY+PzlfwfGKTZsgF6lskGF6w8gf0hEQDZg=;
+ b=Tm9Xtqe6B/KY4/GSzGBKvxfUgTrlxUmDqSuREv5Swh5TLk/M2HtxbmUt
+ W/B/sdhUO5fNfHANzTsw5IbLV/9MGUf/jkvGBmiHstDngcNDx/w84mrP4
+ ++Mwg23EBZTg5F+kbB94dqp6vpunffV4rKcrCqfV9eIK6WXUW75bn3FmN
+ 1I8N9hm+RF+9ncgKfUUV1jLYsdjuJ6bTiAT724eKLzY+iyVxHiegdptYf
+ GOgEyUmupNS8CW9mPYixRUJsAQiSfv1BB2NrFWUYIT4dbK3h6R+YmysX8
+ Na8Y8f+fnAz3FY7eN24nM+Imsub8Qx+lKPKdUofnRlp0+zWoAASsZSkIJ w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10698"; a="351396921"
+X-IronPort-AV: E=Sophos;i="5.99,244,1677571200"; d="scan'208";a="351396921"
 Received: from fmsmga007.fm.intel.com ([10.253.24.52])
  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 May 2023 07:39:26 -0700
+ 02 May 2023 07:39:34 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10698"; a="698991766"
-X-IronPort-AV: E=Sophos;i="5.99,244,1677571200"; d="scan'208";a="698991766"
+X-IronPort-AV: E=McAfee;i="6600,9927,10698"; a="698991772"
+X-IronPort-AV: E=Sophos;i="5.99,244,1677571200"; d="scan'208";a="698991772"
 Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.70])
- by fmsmga007.fm.intel.com with SMTP; 02 May 2023 07:39:24 -0700
+ by fmsmga007.fm.intel.com with SMTP; 02 May 2023 07:39:27 -0700
 Received: by stinkbox (sSMTP sendmail emulation);
- Tue, 02 May 2023 17:39:23 +0300
+ Tue, 02 May 2023 17:39:26 +0300
 From: Ville Syrjala <ville.syrjala@linux.intel.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 05/11] drm/i915: Check lane count when determining FEC support
-Date: Tue,  2 May 2023 17:39:00 +0300
-Message-Id: <20230502143906.2401-6-ville.syrjala@linux.intel.com>
+Subject: [PATCH 06/11] drm/i915: Fix FEC state dump
+Date: Tue,  2 May 2023 17:39:01 +0300
+Message-Id: <20230502143906.2401-7-ville.syrjala@linux.intel.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230502143906.2401-1-ville.syrjala@linux.intel.com>
 References: <20230502143906.2401-1-ville.syrjala@linux.intel.com>
@@ -65,69 +65,53 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Ville Syrjälä <ville.syrjala@linux.intel.com>
 
-ICL doesn't support FEC with a x1 DP link. Make sure
-we don't try to enable FEC in such cases.
+Stop dumping state while reading it out. We have a proper
+place for that stuff.
 
 Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
 ---
- drivers/gpu/drm/i915/display/intel_dp.c | 23 ++++++++++++-----------
- 1 file changed, 12 insertions(+), 11 deletions(-)
+ .../gpu/drm/i915/display/intel_crtc_state_dump.c    |  2 ++
+ drivers/gpu/drm/i915/display/intel_ddi.c            | 13 +++----------
+ 2 files changed, 5 insertions(+), 10 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
-index b27b4fb71ed7..9ac199444155 100644
---- a/drivers/gpu/drm/i915/display/intel_dp.c
-+++ b/drivers/gpu/drm/i915/display/intel_dp.c
-@@ -1218,7 +1218,8 @@ static bool intel_dp_source_supports_fec(struct intel_dp *intel_dp,
- 	if (DISPLAY_VER(dev_priv) >= 12)
- 		return true;
+diff --git a/drivers/gpu/drm/i915/display/intel_crtc_state_dump.c b/drivers/gpu/drm/i915/display/intel_crtc_state_dump.c
+index 0cdcaa49656f..91242ffe0768 100644
+--- a/drivers/gpu/drm/i915/display/intel_crtc_state_dump.c
++++ b/drivers/gpu/drm/i915/display/intel_crtc_state_dump.c
+@@ -257,6 +257,8 @@ void intel_crtc_state_dump(const struct intel_crtc_state *pipe_config,
+ 		intel_dump_m_n_config(pipe_config, "dp m2_n2",
+ 				      pipe_config->lane_count,
+ 				      &pipe_config->dp_m2_n2);
++		drm_dbg_kms(&i915->drm, "fec: %s\n",
++			    str_enabled_disabled(pipe_config->fec_enable));
+ 	}
  
--	if (DISPLAY_VER(dev_priv) == 11 && encoder->port != PORT_A)
-+	if (DISPLAY_VER(dev_priv) == 11 &&
-+	    encoder->port != PORT_A && pipe_config->lane_count != 1)
- 		return true;
+ 	drm_dbg_kms(&i915->drm, "framestart delay: %d, MSA timing delay: %d\n",
+diff --git a/drivers/gpu/drm/i915/display/intel_ddi.c b/drivers/gpu/drm/i915/display/intel_ddi.c
+index 41cfa28166e4..4246133950fd 100644
+--- a/drivers/gpu/drm/i915/display/intel_ddi.c
++++ b/drivers/gpu/drm/i915/display/intel_ddi.c
+@@ -3725,17 +3725,10 @@ static void intel_ddi_read_func_ctl(struct intel_encoder *encoder,
+ 		intel_cpu_transcoder_get_m2_n2(crtc, cpu_transcoder,
+ 					       &pipe_config->dp_m2_n2);
  
- 	return false;
-@@ -1234,7 +1235,7 @@ static bool intel_dp_supports_fec(struct intel_dp *intel_dp,
- static bool intel_dp_supports_dsc(struct intel_dp *intel_dp,
- 				  const struct intel_crtc_state *crtc_state)
- {
--	if (intel_crtc_has_type(crtc_state, INTEL_OUTPUT_DP) && !crtc_state->fec_enable)
-+	if (!intel_dp_is_edp(intel_dp) && !crtc_state->fec_enable)
- 		return false;
- 
- 	return intel_dsc_source_support(crtc_state) &&
-@@ -1580,15 +1581,6 @@ int intel_dp_dsc_compute_config(struct intel_dp *intel_dp,
- 	int pipe_bpp;
- 	int ret;
- 
--	pipe_config->fec_enable = !intel_dp_is_edp(intel_dp) &&
--		intel_dp_supports_fec(intel_dp, pipe_config);
+-		if (DISPLAY_VER(dev_priv) >= 11) {
+-			i915_reg_t dp_tp_ctl = dp_tp_ctl_reg(encoder, pipe_config);
 -
--	if (!intel_dp_supports_dsc(intel_dp, pipe_config))
--		return -EINVAL;
++		if (DISPLAY_VER(dev_priv) >= 11)
+ 			pipe_config->fec_enable =
+-				intel_de_read(dev_priv, dp_tp_ctl) & DP_TP_CTL_FEC_ENABLE;
 -
--	if (!intel_dp_dsc_supports_format(intel_dp, pipe_config->output_format))
--		return -EINVAL;
--
- 	if (compute_pipe_bpp)
- 		pipe_bpp = intel_dp_dsc_compute_bpp(intel_dp, conn_state->max_requested_bpc);
- 	else
-@@ -1615,6 +1607,15 @@ int intel_dp_dsc_compute_config(struct intel_dp *intel_dp,
- 	pipe_config->port_clock = limits->max_rate;
- 	pipe_config->lane_count = limits->max_lane_count;
+-			drm_dbg_kms(&dev_priv->drm,
+-				    "[ENCODER:%d:%s] Fec status: %u\n",
+-				    encoder->base.base.id, encoder->base.name,
+-				    pipe_config->fec_enable);
+-		}
++				intel_de_read(dev_priv,
++					      dp_tp_ctl_reg(encoder, pipe_config)) & DP_TP_CTL_FEC_ENABLE;
  
-+	pipe_config->fec_enable = !intel_dp_is_edp(intel_dp) &&
-+		intel_dp_supports_fec(intel_dp, pipe_config);
-+
-+	if (!intel_dp_supports_dsc(intel_dp, pipe_config))
-+		return -EINVAL;
-+
-+	if (!intel_dp_dsc_supports_format(intel_dp, pipe_config->output_format))
-+		return -EINVAL;
-+
- 	if (intel_dp_is_edp(intel_dp)) {
- 		pipe_config->dsc.compressed_bpp =
- 			min_t(u16, drm_edp_dsc_sink_output_bpp(intel_dp->dsc_dpcd) >> 4,
+ 		if (dig_port->lspcon.active && dig_port->dp.has_hdmi_sink)
+ 			pipe_config->infoframes.enable |=
 -- 
 2.39.2
 
