@@ -2,62 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 850416F4477
-	for <lists+dri-devel@lfdr.de>; Tue,  2 May 2023 15:02:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6152B6F44A0
+	for <lists+dri-devel@lfdr.de>; Tue,  2 May 2023 15:05:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A7DDD10E539;
-	Tue,  2 May 2023 13:02:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6497010E0A8;
+	Tue,  2 May 2023 13:05:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C1E6D10E53E
- for <dri-devel@lists.freedesktop.org>; Tue,  2 May 2023 13:02:29 +0000 (UTC)
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5B96110E0A8
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 May 2023 13:05:23 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 4AFB321FD9;
- Tue,  2 May 2023 13:02:28 +0000 (UTC)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id C489B1F8BE;
+ Tue,  2 May 2023 13:05:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1683032548; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
+ t=1683032721; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=V5smhVNnov7m4A55DYdhwmZ5Y9gsYQLIUAvwyfQy1iw=;
- b=YgAQQGGhS9p5y+Qswq2XdSC0Nb5dRapZC8k3SeCH8ou3A7cBdpeF9R1VcV/D98SVwf2rqe
- 0/HTdmP3C415eNlicuQLimYKjbyJJmXE/+RevYro6XFUrrADggGk+JzkjCj37yrvnbcWUc
- CPnxgHuTmqGD/7I9ChAO48pm4esmuco=
+ bh=lLKfgeB+JqNvGRsaL01WJVCtLpK1SXx0X+TEi5Cfkto=;
+ b=IORkPiHqrrYsdqhnwxts8I8RoHcm/La5btwPWosSWYFTpUW2pkfzvvuWR2h9F1oL64PfY4
+ Z8lCVl8cAuTVgB2y7XvZtT1aNpM9XBGLzhfsI1KYNIF0pgH/dWytVOt6Tvh/DImtIQvWJr
+ tjRiNqNwePR+44jFFDPRg9KJzSW1pkw=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1683032548;
+ s=susede2_ed25519; t=1683032721;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
+ mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=V5smhVNnov7m4A55DYdhwmZ5Y9gsYQLIUAvwyfQy1iw=;
- b=V6uRErJzJdt0ssGWz2NlWwz2l3uwbLi85IInTKe1+Lc39r1ohNgsoEqJ7rVGTetXUVCdaL
- Bwkd9zjgj4ixg2AQ==
+ bh=lLKfgeB+JqNvGRsaL01WJVCtLpK1SXx0X+TEi5Cfkto=;
+ b=rF5fEdeYzrDQOumP+Ak8A4Y8n3Kdl4qw3IcMzu4ze8OkoIb9WsRqr5GOuk3eJlqXTFyKLP
+ vqtc3wLlJRVTSuAg==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id DFF23134FB;
- Tue,  2 May 2023 13:02:27 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 15D32134FB;
+ Tue,  2 May 2023 13:05:21 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id 8NHLNeMJUWRYTQAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Tue, 02 May 2023 13:02:27 +0000
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: deller@gmx.de, geert@linux-m68k.org, javierm@redhat.com, daniel@ffwll.ch,
- vgupta@kernel.org, chenhuacai@kernel.org, kernel@xen0n.name,
- davem@davemloft.net, James.Bottomley@HansenPartnership.com, arnd@arndb.de,
- sam@ravnborg.org
-Subject: [PATCH v3 6/6] fbdev: Rename fb_mem*() helpers
-Date: Tue,  2 May 2023 15:02:23 +0200
-Message-Id: <20230502130223.14719-7-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20230502130223.14719-1-tzimmermann@suse.de>
-References: <20230502130223.14719-1-tzimmermann@suse.de>
+ by imap2.suse-dmz.suse.de with ESMTPSA id SroQAZEKUWTpTgAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Tue, 02 May 2023 13:05:21 +0000
+Message-ID: <8b76866e-4f6d-7960-65ec-9880c2882c5e@suse.de>
+Date: Tue, 2 May 2023 15:05:20 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH] drm/udl: delete dead code
+Content-Language: en-US
+To: Dan Carpenter <dan.carpenter@linaro.org>, Dave Airlie
+ <airlied@redhat.com>, Takashi Iwai <tiwai@suse.de>
+References: <e0e35421-8746-43b6-971e-e25d1cd1d6a7@kili.mountain>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <e0e35421-8746-43b6-971e-e25d1cd1d6a7@kili.mountain>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------OC0RpCrqK8uP7BE4HzCBDidD"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,189 +70,81 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arch@vger.kernel.org, linux-fbdev@vger.kernel.org,
- linux-ia64@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
- linux-parisc@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-m68k@lists.linux-m68k.org,
- loongarch@lists.linux.dev, sparclinux@vger.kernel.org,
- linux-snps-arc@lists.infradead.org, linux-arm-kernel@lists.infradead.org
+Cc: kernel-janitors@vger.kernel.org, Sean Paul <sean@poorly.run>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Update the names of the fb_mem*() helpers to be consistent with their
-regular counterparts. Hence, fb_memset() now becomes fb_memset_io(),
-fb_memcpy_fromfb() now becomes fb_memcpy_fromio() and fb_memcpy_tofb()
-becomes fb_memcpy_toio(). No functional changes.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------OC0RpCrqK8uP7BE4HzCBDidD
+Content-Type: multipart/mixed; boundary="------------aP8Dl8jZDUy5JphQHepJW9Un";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Dan Carpenter <dan.carpenter@linaro.org>, Dave Airlie
+ <airlied@redhat.com>, Takashi Iwai <tiwai@suse.de>
+Cc: Sean Paul <sean@poorly.run>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ kernel-janitors@vger.kernel.org
+Message-ID: <8b76866e-4f6d-7960-65ec-9880c2882c5e@suse.de>
+Subject: Re: [PATCH] drm/udl: delete dead code
+References: <e0e35421-8746-43b6-971e-e25d1cd1d6a7@kili.mountain>
+In-Reply-To: <e0e35421-8746-43b6-971e-e25d1cd1d6a7@kili.mountain>
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
----
- drivers/video/fbdev/aty/mach64_cursor.c |  2 +-
- drivers/video/fbdev/chipsfb.c           |  2 +-
- drivers/video/fbdev/core/fbmem.c        |  4 ++--
- drivers/video/fbdev/kyro/fbdev.c        |  2 +-
- drivers/video/fbdev/pvr2fb.c            |  2 +-
- drivers/video/fbdev/sstfb.c             |  2 +-
- drivers/video/fbdev/stifb.c             |  4 ++--
- drivers/video/fbdev/tdfxfb.c            |  2 +-
- include/asm-generic/fb.h                | 16 ++++++++--------
- 9 files changed, 18 insertions(+), 18 deletions(-)
+--------------aP8Dl8jZDUy5JphQHepJW9Un
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-diff --git a/drivers/video/fbdev/aty/mach64_cursor.c b/drivers/video/fbdev/aty/mach64_cursor.c
-index a848aaff510c..6adbcf366a98 100644
---- a/drivers/video/fbdev/aty/mach64_cursor.c
-+++ b/drivers/video/fbdev/aty/mach64_cursor.c
-@@ -153,7 +153,7 @@ static int atyfb_cursor(struct fb_info *info, struct fb_cursor *cursor)
- 	    u8 m, b;
- 
- 	    // Clear cursor image with 1010101010...
--	    fb_memset(dst, 0xaa, 1024);
-+	    fb_memset_io(dst, 0xaa, 1024);
- 
- 	    offset = align - width*2;
- 
-diff --git a/drivers/video/fbdev/chipsfb.c b/drivers/video/fbdev/chipsfb.c
-index 9f9ee13ba2be..297ca6eeac1e 100644
---- a/drivers/video/fbdev/chipsfb.c
-+++ b/drivers/video/fbdev/chipsfb.c
-@@ -333,7 +333,7 @@ static const struct fb_var_screeninfo chipsfb_var = {
- 
- static void init_chips(struct fb_info *p, unsigned long addr)
- {
--	fb_memset(p->screen_base, 0, 0x100000);
-+	fb_memset_io(p->screen_base, 0, 0x100000);
- 
- 	p->fix = chipsfb_fix;
- 	p->fix.smem_start = addr;
-diff --git a/drivers/video/fbdev/core/fbmem.c b/drivers/video/fbdev/core/fbmem.c
-index 3fd95a79e4c3..a696399f2160 100644
---- a/drivers/video/fbdev/core/fbmem.c
-+++ b/drivers/video/fbdev/core/fbmem.c
-@@ -804,7 +804,7 @@ fb_read(struct file *file, char __user *buf, size_t count, loff_t *ppos)
- 	while (count) {
- 		c  = (count > PAGE_SIZE) ? PAGE_SIZE : count;
- 		dst = buffer;
--		fb_memcpy_fromfb(dst, src, c);
-+		fb_memcpy_fromio(dst, src, c);
- 		dst += c;
- 		src += c;
- 
-@@ -881,7 +881,7 @@ fb_write(struct file *file, const char __user *buf, size_t count, loff_t *ppos)
- 			break;
- 		}
- 
--		fb_memcpy_tofb(dst, src, c);
-+		fb_memcpy_toio(dst, src, c);
- 		dst += c;
- 		src += c;
- 		*ppos += c;
-diff --git a/drivers/video/fbdev/kyro/fbdev.c b/drivers/video/fbdev/kyro/fbdev.c
-index 8b6c3318bf8c..59a6b71fba44 100644
---- a/drivers/video/fbdev/kyro/fbdev.c
-+++ b/drivers/video/fbdev/kyro/fbdev.c
-@@ -738,7 +738,7 @@ static int kyrofb_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
- 			       info->var.bits_per_pixel);
- 	size *= info->var.yres_virtual;
- 
--	fb_memset(info->screen_base, 0, size);
-+	fb_memset_io(info->screen_base, 0, size);
- 
- 	if (register_framebuffer(info) < 0)
- 		goto out_unmap;
-diff --git a/drivers/video/fbdev/pvr2fb.c b/drivers/video/fbdev/pvr2fb.c
-index 1dfb75b15eea..5f85207e91f7 100644
---- a/drivers/video/fbdev/pvr2fb.c
-+++ b/drivers/video/fbdev/pvr2fb.c
-@@ -800,7 +800,7 @@ static int __maybe_unused pvr2fb_common_init(void)
- 		goto out_err;
- 	}
- 
--	fb_memset(fb_info->screen_base, 0, pvr2_fix.smem_len);
-+	fb_memset_io(fb_info->screen_base, 0, pvr2_fix.smem_len);
- 
- 	pvr2_fix.ypanstep	= nopan  ? 0 : 1;
- 	pvr2_fix.ywrapstep	= nowrap ? 0 : 1;
-diff --git a/drivers/video/fbdev/sstfb.c b/drivers/video/fbdev/sstfb.c
-index 1ee4bea467b4..327831b64b85 100644
---- a/drivers/video/fbdev/sstfb.c
-+++ b/drivers/video/fbdev/sstfb.c
-@@ -335,7 +335,7 @@ static int sst_calc_pll(const int freq, int *freq_out, struct pll_timing *t)
- static void sstfb_clear_screen(struct fb_info *info)
- {
- 	/* clear screen */
--	fb_memset(info->screen_base, 0, info->fix.smem_len);
-+	fb_memset_io(info->screen_base, 0, info->fix.smem_len);
- }
- 
- 
-diff --git a/drivers/video/fbdev/stifb.c b/drivers/video/fbdev/stifb.c
-index a3b837a5fb81..93107909155a 100644
---- a/drivers/video/fbdev/stifb.c
-+++ b/drivers/video/fbdev/stifb.c
-@@ -529,8 +529,8 @@ rattlerSetupPlanes(struct stifb_info *fb)
- 	fb->id = saved_id;
- 
- 	for (y = 0; y < fb->info.var.yres; ++y)
--		fb_memset(fb->info.screen_base + y * fb->info.fix.line_length,
--			0xff, fb->info.var.xres * fb->info.var.bits_per_pixel/8);
-+		fb_memset_io(fb->info.screen_base + y * fb->info.fix.line_length,
-+			     0xff, fb->info.var.xres * fb->info.var.bits_per_pixel/8);
- 
- 	CRX24_SET_OVLY_MASK(fb);
- 	SETUP_FB(fb);
-diff --git a/drivers/video/fbdev/tdfxfb.c b/drivers/video/fbdev/tdfxfb.c
-index 5ed8f670f51c..bc8108396c22 100644
---- a/drivers/video/fbdev/tdfxfb.c
-+++ b/drivers/video/fbdev/tdfxfb.c
-@@ -1117,7 +1117,7 @@ static int tdfxfb_cursor(struct fb_info *info, struct fb_cursor *cursor)
- 		u8 *mask = (u8 *)cursor->mask;
- 		int i;
- 
--		fb_memset(cursorbase, 0, 1024);
-+		fb_memset_io(cursorbase, 0, 1024);
- 
- 		for (i = 0; i < cursor->image.height; i++) {
- 			int h = 0;
-diff --git a/include/asm-generic/fb.h b/include/asm-generic/fb.h
-index 0540eccdbeca..bb7ee9c70e60 100644
---- a/include/asm-generic/fb.h
-+++ b/include/asm-generic/fb.h
-@@ -108,28 +108,28 @@ static inline void fb_writeq(u64 b, volatile void __iomem *addr)
- #endif
- #endif
- 
--#ifndef fb_memcpy_fromfb
--static inline void fb_memcpy_fromfb(void *to, const volatile void __iomem *from, size_t n)
-+#ifndef fb_memcpy_fromio
-+static inline void fb_memcpy_fromio(void *to, const volatile void __iomem *from, size_t n)
- {
- 	memcpy_fromio(to, from, n);
- }
--#define fb_memcpy_fromfb fb_memcpy_fromfb
-+#define fb_memcpy_fromio fb_memcpy_fromio
- #endif
- 
--#ifndef fb_memcpy_tofb
--static inline void fb_memcpy_tofb(volatile void __iomem *to, const void *from, size_t n)
-+#ifndef fb_memcpy_toio
-+static inline void fb_memcpy_toio(volatile void __iomem *to, const void *from, size_t n)
- {
- 	memcpy_toio(to, from, n);
- }
--#define fb_memcpy_tofb fb_memcpy_tofb
-+#define fb_memcpy_toio fb_memcpy_toio
- #endif
- 
- #ifndef fb_memset
--static inline void fb_memset(volatile void __iomem *addr, int c, size_t n)
-+static inline void fb_memset_io(volatile void __iomem *addr, int c, size_t n)
- {
- 	memset_io(addr, c, n);
- }
--#define fb_memset fb_memset
-+#define fb_memset fb_memset_io
- #endif
- 
- #endif /* __ASM_GENERIC_FB_H_ */
--- 
-2.40.1
+SGkNCg0KQW0gMDIuMDUuMjMgdW0gMTQ6NTkgc2NocmllYiBEYW4gQ2FycGVudGVyOg0KPiBU
+aGUgInVub2RlIiBwb2ludGVyIGNhbm5vdCBiZSBOVUxMIGhlcmUgYW5kIGNoZWNraW5nIGZv
+ciBpdCBjYXVzZXMNCj4gU21hdGNoIHdhcm5pbmdzOg0KPiANCj4gICAgIGRyaXZlcnMvZ3B1
+L2RybS91ZGwvdWRsX21haW4uYzoyNTkgdWRsX2dldF91cmJfbG9ja2VkKCkNCj4gICAgIHdh
+cm46IGNhbiAndW5vZGUnIGV2ZW4gYmUgTlVMTD8NCj4gDQo+IEZvcnR1bmF0ZWx5LCBpdCdz
+IGp1c3QgaGFybWxlc3MgZGVhZCBjb2RlIHdoaWNoIGNhbiBiZSByZW1vdmVkLiAgSXQncw0K
+PiBsZWZ0IG92ZXIgZnJvbSBjb21taXQgYzVjMzU0YTNhNDcyICgiZHJtL3VkbDogRml4IGlu
+Y29uc2lzdGVudCB1cmJzLmNvdW50DQo+IHZhbHVlIGR1cmluZyB1ZGxfZnJlZV91cmJfbGlz
+dCgpIikuDQo+IA0KPiBSZXBvcnRlZC1ieToga2VybmVsIHRlc3Qgcm9ib3QgPGxrcEBpbnRl
+bC5jb20+DQo+IFNpZ25lZC1vZmYtYnk6IERhbiBDYXJwZW50ZXIgPGRhbi5jYXJwZW50ZXJA
+bGluYXJvLm9yZz4NCj4gLS0tDQo+ICAgZHJpdmVycy9ncHUvZHJtL3VkbC91ZGxfbWFpbi5j
+IHwgMiArLQ0KPiAgIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlv
+bigtKQ0KPiANCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS91ZGwvdWRsX21haW4u
+YyBiL2RyaXZlcnMvZ3B1L2RybS91ZGwvdWRsX21haW4uYw0KPiBpbmRleCAwNjFjYjg4YzA4
+YTIuLjNlYmUyY2U1NWRmZCAxMDA2NDQNCj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL3VkbC91
+ZGxfbWFpbi5jDQo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS91ZGwvdWRsX21haW4uYw0KPiBA
+QCAtMjU1LDcgKzI1NSw3IEBAIHN0YXRpYyBzdHJ1Y3QgdXJiICp1ZGxfZ2V0X3VyYl9sb2Nr
+ZWQoc3RydWN0IHVkbF9kZXZpY2UgKnVkbCwgbG9uZyB0aW1lb3V0KQ0KPiAgIAlsaXN0X2Rl
+bF9pbml0KCZ1bm9kZS0+ZW50cnkpOw0KPiAgIAl1ZGwtPnVyYnMuYXZhaWxhYmxlLS07DQo+
+ICAgDQo+IC0JcmV0dXJuIHVub2RlID8gdW5vZGUtPnVyYiA6IE5VTEw7DQo+ICsJcmV0dXJu
+IHVub2RlLT51cmI7DQoNClJldmlld2VkLWJ5OiBUaG9tYXMgWmltbWVybWFubiA8dHppbW1l
+cm1hbm5Ac3VzZS5kZT4NCg0KVGhhbmtzIGEgbG90LiBJZiBubyBvbmUgY29tcGxhaW5zLCBJ
+J2xsIGFkZCB0aGUgcGF0Y2ggdG8gZHJtLW1pc2MtbmV4dCBzb29uLg0KDQpCZXN0IHJlZ2Fy
+ZHMNClRob21hcw0KDQo+ICAgfQ0KPiAgIA0KPiAgICNkZWZpbmUgR0VUX1VSQl9USU1FT1VU
+CUhaDQoNCi0tIA0KVGhvbWFzIFppbW1lcm1hbm4NCkdyYXBoaWNzIERyaXZlciBEZXZlbG9w
+ZXINClNVU0UgU29mdHdhcmUgU29sdXRpb25zIEdlcm1hbnkgR21iSA0KRnJhbmtlbnN0cmFz
+c2UgMTQ2LCA5MDQ2MSBOdWVybmJlcmcsIEdlcm1hbnkNCkdGOiBJdm8gVG90ZXYsIEFuZHJl
+dyBNeWVycywgQW5kcmV3IE1jRG9uYWxkLCBCb3VkaWVuIE1vZXJtYW4NCkhSQiAzNjgwOSAo
+QUcgTnVlcm5iZXJnKQ0K
 
+--------------aP8Dl8jZDUy5JphQHepJW9Un--
+
+--------------OC0RpCrqK8uP7BE4HzCBDidD
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmRRCpAFAwAAAAAACgkQlh/E3EQov+A+
+tRAAj7nsnGFSuLJrZExzyZcnDTde+lFijANCv/Mxrly3qhY5jYGZmXd0H83CteSzqZQ8DMmTsmKJ
+KGpbQp8GElJqKkxD3fZ7T0g3+DdCPueFacnmvOlBPnZb3OEzu7JI3DQmmPy4c06NUwVTOfd/xFlw
++3loHApzq06ix4KHLoI7DbA4GhVjs2KJ/L9xv3+M30oudfbDQ0dW1yjKCB2tpYGM6AMyETGrsJNt
+MTBihif6PeJW+QWxiwEGdEV1BszF+EYOztYzb3FD7RAmTNqBRNV3PgUBHiZIp5G8IisE6Z6Qgg56
+G4wNotORlAQ5pdnBQQ511Byjo7teblblZ6g4VzSLYIXsDVmy+aaWCT2H6FL4J5wTsOk2/p35oTM5
+UlUYtrfUfWzySEQQFOMYgoD9sciPFVxHFL+Fiisua20l7pAJQX3xZoZoMDb7S4DemoBKlJcni3wx
+BPxuAM5hPunvdwQbUMhIg/ivE/HFhexmEs7i01lfmgEsmfXMFzi1xZ9hy6hHWfp0YmU5KNSU3MF8
+e1ZGr+qTPdi//kGfzrCVSk+06Q+j3z4JJwIhABK3w8pZC20ev3xn7DT+hYI6OAG9yL8Q85N7xTsn
+7BJno/Nn6vJpMS4aRNNwM55Fagawcp+C1hATrlgsKU3wDeFiIeU1kLxP4n/3aXBr0vvdyL+uXD4W
+OWc=
+=cj51
+-----END PGP SIGNATURE-----
+
+--------------OC0RpCrqK8uP7BE4HzCBDidD--
