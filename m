@@ -2,64 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B22F26F402F
-	for <lists+dri-devel@lfdr.de>; Tue,  2 May 2023 11:30:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B8EC66F4035
+	for <lists+dri-devel@lfdr.de>; Tue,  2 May 2023 11:32:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BE3B810E4CE;
-	Tue,  2 May 2023 09:30:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D258C10E4CF;
+	Tue,  2 May 2023 09:32:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb30.google.com (mail-yb1-xb30.google.com
- [IPv6:2607:f8b0:4864:20::b30])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2EF6F10E4CE
- for <dri-devel@lists.freedesktop.org>; Tue,  2 May 2023 09:30:25 +0000 (UTC)
-Received: by mail-yb1-xb30.google.com with SMTP id
- 3f1490d57ef6-b9e61ad0caeso156419276.1
- for <dri-devel@lists.freedesktop.org>; Tue, 02 May 2023 02:30:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=basnieuwenhuizen.nl; s=google; t=1683019824; x=1685611824;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=tATDJ3YwN0YIFuJkuZXPFoYmDT3Hka4KTY7vGtll+HE=;
- b=T3DU+8fIpXH7t9tYeLnAWEXQvAUb9dY3sS+DJBJM7A4zHOTrz2W9fg+oTF7EvryXGV
- ihUyAsloKLOgp9s3eqaOxiRzzAfu3ilIu7sS5lcRXkUcz6OAepnSevgFBzP8YNIIp+z8
- U/XD0xHhRaj4ZhYy/CQMX/0ZSwJsWpDEJfWhw/r5FT/agH11xFCvRTpkNzlIhx43iCRE
- 0vp0q3NVq8UGLvv2WFP4QAA+/ksvTutm15aFaVAmZCIp+MhXS3R6FtE0XRBS6XXqqNre
- wa1+ZfFWlmCiCnikziBlzdMrQgTjoQTLMclgrak5o+WpiwliL99WSZKT9DZrqf8atmrq
- L7xw==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 764CB10E4D4
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 May 2023 09:32:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1683019945;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=qGbrqqVaDpm05AHuHwpsi1G8xPM+DXbg5Uuq7VcQFf0=;
+ b=FnLPvUMGHeF2UYdCOXxDN5MZVj/S9yqjGViCRDEfm/V6hLlL7F6DhRkl/mf9r7WBY+yeCd
+ o5+52E6zsVbOmSN89IFBAVsxc+0Gw1ifDzenM/YfR+QtR7e6X2MxltSMi+L7D7d1b0VX4R
+ P5Gt3WQa72yfVytH7VAa0yvzVHQycns=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-275-YYOgWISCM7Kk1ig41TpwrQ-1; Tue, 02 May 2023 05:32:24 -0400
+X-MC-Unique: YYOgWISCM7Kk1ig41TpwrQ-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ 5b1f17b1804b1-3f3157128b4so99987625e9.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 02 May 2023 02:32:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683019824; x=1685611824;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=tATDJ3YwN0YIFuJkuZXPFoYmDT3Hka4KTY7vGtll+HE=;
- b=LbqLk7FAIXvRXBg6aIdtlkPMh/n2LIZOGI+VjLyt5wr4SXkHJ1kHi8UnOLosnY35OW
- yJjzvkcW+I35hwyTxJI8Hmt5RyVfW1Gtd+cAEJaU8BwJyAqjLv8i9mV3RNUn7H/A4J5y
- /SSYhoj4ZGVA1fm1j2B8ocYDE0Uxl1M65m5y7hsHQ8takUgcHrJ8kAw1H4tkL3WuOsPP
- cc2DARLCM55wQ2BGdcxy+cidKp8jnDiUzzERuiAxFrVDf9vvI9eFwyN52sa/3xiNohgL
- FsgV9bIAvL5n19hQdjzkVn4UxWW7J3mIKAZTDcA03Tgrx7Z+QolBQ6WyQq5n33k0naR1
- kgig==
-X-Gm-Message-State: AC+VfDwipyEgg62TmrAGAa+EAWm4gbkNzKqi+KYvdUdSPfnT3NIf3p5T
- GdQNuQfujZt7tSuylTjpKKLEtmQibFJat6VPNC/1JA==
-X-Google-Smtp-Source: ACHHUZ4k2Wr5BMfw4doAA5XEb2a7W22S3gh2sTrz81pNU+cjdiiPly442DUUXz5B4hvu3zJ3bFBu+400FhxHTwf7SjE=
-X-Received: by 2002:a25:ab04:0:b0:b9a:39e5:2f4d with SMTP id
- u4-20020a25ab04000000b00b9a39e52f4dmr2114758ybi.2.1683019823822; Tue, 02 May
- 2023 02:30:23 -0700 (PDT)
+ d=1e100.net; s=20221208; t=1683019943; x=1685611943;
+ h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=qGbrqqVaDpm05AHuHwpsi1G8xPM+DXbg5Uuq7VcQFf0=;
+ b=arSsV7pLBky6Ka/lYHHORlNW3pgK0F8bUpqMAUONlqGnD3+jZpn7PnXPk59oDUoOqy
+ vZjwukF6xrkUGfJzZk2riN84f5puy7nj4HaQ/qg7l5dWMjVlBNPiqyeTtsQfJLdocMFC
+ cRIq0BywMowB22NySfSszlZNJ8yqUJ9bLGoq0Bd+ZL/rOCcBDr7hRSzOb3zgWyUnSb36
+ G+rSLhlKf5ZeuY8GJA6x+mjv8hhg6Qy8qhpG3ItP3ub6FRdRFMRA5JR7atJ7bUdlFxU2
+ GMUsAiR1petyRaPTA7/WRI34w6mrZpxbRoAEd6Stmld6zEciwwgzBhZMTfIbRW9xNSJB
+ DEDQ==
+X-Gm-Message-State: AC+VfDxX9rCs4UnDaNCKApMma7YJ1U1eIksk46hQ1a5nG/M1THsvy42r
+ EDaNeXoGbRPRtlL8Ulu9Lb6wvBVdManuHZJTiwSh8P+h1GXgtCFDcmZ8TrKbp2Yz99YStruO4NL
+ Ulyh7TtDmPyppetiyvJDDcoRGLUKK
+X-Received: by 2002:adf:ed4c:0:b0:2fa:d00d:cab8 with SMTP id
+ u12-20020adfed4c000000b002fad00dcab8mr10523010wro.18.1683019942996; 
+ Tue, 02 May 2023 02:32:22 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ5Ny0SyxqPYdHROomDFuM2aXgIRoSLjZ8P4kUjzBL7vSVfqP59DeMhAr12tCEWBDTuCR61IBQ==
+X-Received: by 2002:adf:ed4c:0:b0:2fa:d00d:cab8 with SMTP id
+ u12-20020adfed4c000000b002fad00dcab8mr10522995wro.18.1683019942677; 
+ Tue, 02 May 2023 02:32:22 -0700 (PDT)
+Received: from localhost (205.pool92-176-231.dynamic.orange.es.
+ [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
+ h16-20020a5d5490000000b00304b5b2f5ffsm12180965wrv.53.2023.05.02.02.32.22
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 02 May 2023 02:32:22 -0700 (PDT)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Daniel Vetter <daniel@ffwll.ch>, Zack Rusin <zackr@vmware.com>
+Subject: Re: [PATCH v2 1/8] drm: Disable the cursor plane on atomic contexts
+ with virtualized drivers
+In-Reply-To: <YvPfedG/uLQNFG7e@phenom.ffwll.local>
+References: <20220712033246.1148476-1-zack@kde.org>
+ <20220712033246.1148476-2-zack@kde.org>
+ <YvPfedG/uLQNFG7e@phenom.ffwll.local>
+Date: Tue, 02 May 2023 11:32:21 +0200
+Message-ID: <87lei7xemy.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
-References: <20230501185747.33519-1-andrealmeid@igalia.com>
- <CADnq5_NXj4W44F_etRQ7HWdVTnf5zARCM3Y_o3EiwWiHj8QMpA@mail.gmail.com>
- <6ab2ff76-4518-6fac-071e-5d0d5adc4fcd@igalia.com>
- <cb3d2590-a1f8-fe7e-0bba-638ee80719af@amd.com>
- <CAFF-SiV0=WNmRW-D9uYUuj68Zq0APxtGLya9KR6FfZ7v0Zf2RQ@mail.gmail.com>
-In-Reply-To: <CAFF-SiV0=WNmRW-D9uYUuj68Zq0APxtGLya9KR6FfZ7v0Zf2RQ@mail.gmail.com>
-From: Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
-Date: Tue, 2 May 2023 11:30:05 +0200
-Message-ID: <CAP+8YyEkp7PuFZEy0_zVUsJem8dCjWpuznJ4Ysaa2JoXs7iGVQ@mail.gmail.com>
-Subject: Re: [RFC PATCH 0/1] Add AMDGPU_INFO_GUILTY_APP ioctl
-To: =?UTF-8?Q?Timur_Krist=C3=B3f?= <timur.kristof@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,130 +82,88 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Pelloux-Prayer, Pierre-Eric" <pierre-eric.pelloux-prayer@amd.com>,
- Samuel Pitoiset <samuel.pitoiset@gmail.com>,
- =?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>,
- =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <maraeo@gmail.com>,
- michel.daenzer@mailbox.org, linux-kernel@vger.kernel.org,
- amd-gfx list <amd-gfx@lists.freedesktop.org>, "Deucher,
- Alexander" <alexander.deucher@amd.com>,
- dri-devel <dri-devel@lists.freedesktop.org>, kernel-dev@igalia.com,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: krastevm@vmware.com, David Airlie <airlied@linux.ie>,
+ Bilal Elmoussaoui <belmouss@redhat.com>, stable@vger.kernel.org,
+ Gurchetan Singh <gurchetansingh@chromium.org>,
+ Hans de Goede <hdegoede@redhat.com>, ppaalanen@gmail.com,
+ dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ Dave Airlie <airlied@redhat.com>, spice-devel@lists.freedesktop.org,
+ virtualization@lists.linux-foundation.org, mombasawalam@vmware.com,
+ Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, May 2, 2023 at 11:12=E2=80=AFAM Timur Krist=C3=B3f <timur.kristof@g=
-mail.com> wrote:
->
-> Hi Christian,
->
-> Christian K=C3=B6nig <christian.koenig@amd.com> ezt =C3=ADrta (id=C5=91po=
-nt: 2023. m=C3=A1j. 2., Ke 9:59):
->>
->> Am 02.05.23 um 03:26 schrieb Andr=C3=A9 Almeida:
->> > Em 01/05/2023 16:24, Alex Deucher escreveu:
->> >> On Mon, May 1, 2023 at 2:58=E2=80=AFPM Andr=C3=A9 Almeida <andrealmei=
-d@igalia.com>
->> >> wrote:
->> >>>
->> >>> I know that devcoredump is also used for this kind of information,
->> >>> but I believe
->> >>> that using an IOCTL is better for interfacing Mesa + Linux rather
->> >>> than parsing
->> >>> a file that its contents are subjected to be changed.
->> >>
->> >> Can you elaborate a bit on that?  Isn't the whole point of devcoredum=
-p
->> >> to store this sort of information?
->> >>
->> >
->> > I think that devcoredump is something that you could use to submit to
->> > a bug report as it is, and then people can read/parse as they want,
->> > not as an interface to be read by Mesa... I'm not sure that it's
->> > something that I would call an API. But I might be wrong, if you know
->> > something that uses that as an API please share.
->> >
->> > Anyway, relying on that for Mesa would mean that we would need to
->> > ensure stability for the file content and format, making it less
->> > flexible to modify in the future and probe to bugs, while the IOCTL is
->> > well defined and extensible. Maybe the dump from Mesa + devcoredump
->> > could be complementary information to a bug report.
->>
->> Neither using an IOCTL nor devcoredump is a good approach for this since
->> the values read from the hw register are completely unreliable. They
->> could not be available because of GFXOFF or they could be overwritten or
->> not even updated by the CP in the first place because of a hang etc....
->>
->> If you want to track progress inside an IB what you do instead is to
->> insert intermediate fence write commands into the IB. E.g. something
->> like write value X to location Y when this executes.
->>
->> This way you can not only track how far the IB processed, but also in
->> which stages of processing we where when the hang occurred. E.g. End of
->> Pipe, End of Shaders, specific shader stages etc...
->
->
-> Currently our biggest challenge in the userspace driver is debugging "ran=
-dom" GPU hangs. We have many dozens of bug reports from users which are lik=
-e: "play the game for X hours and it will eventually hang the GPU". With th=
-e currently available tools, it is impossible for us to tackle these issues=
-. Andr=C3=A9's proposal would be a step in improving this situation.
->
-> We already do something like what you suggest, but there are multiple pro=
-blems with that approach:
->
-> 1. we can only submit 1 command buffer at a time because we won't know wh=
-ich IB hanged
-> 2. we can't use chaining because we don't know where in the IB it hanged
-> 3. it needs userspace to insert (a lot of) extra commands such as extra s=
-ynchronization and memory writes
-> 4. It doesn't work when GPU recovery is enabled because the information i=
-s already gone when we detect the hang
->
-> Consequences:
->
-> A. It has a huge perf impact, so we can't enable it always
-> B. Thanks to the extra synchronization, some issues can't be reproduced w=
-hen this kind of debugging is enabled
-> C. We have to ask users to disable GPU recovery to collect logs for us
+Daniel Vetter <daniel@ffwll.ch> writes:
 
-I think the problem is that the hang debugging in radv combines too
-many things. The information here can be gotten easily by adding a
-breadcrumb at the start of the cmdbuffer to store the IB address (or
-even just cmdbuffer CPU pointer) in the trace buffer. That should be
-approximately zero overhead and would give us the same info as this.
+> On Mon, Jul 11, 2022 at 11:32:39PM -0400, Zack Rusin wrote:
+>> From: Zack Rusin <zackr@vmware.com>
+>> 
+>> Cursor planes on virtualized drivers have special meaning and require
+>> that the clients handle them in specific ways, e.g. the cursor plane
+>> should react to the mouse movement the way a mouse cursor would be
+>> expected to and the client is required to set hotspot properties on it
+>> in order for the mouse events to be routed correctly.
+>> 
+>> This breaks the contract as specified by the "universal planes". Fix it
+>> by disabling the cursor planes on virtualized drivers while adding
+>> a foundation on top of which it's possible to special case mouse cursor
+>> planes for clients that want it.
+>> 
+>> Disabling the cursor planes makes some kms compositors which were broken,
+>> e.g. Weston, fallback to software cursor which works fine or at least
+>> better than currently while having no effect on others, e.g. gnome-shell
+>> or kwin, which put virtualized drivers on a deny-list when running in
+>> atomic context to make them fallback to legacy kms and avoid this issue.
+>> 
+>> Signed-off-by: Zack Rusin <zackr@vmware.com>
+>> Fixes: 681e7ec73044 ("drm: Allow userspace to ask for universal plane list (v2)")
 
-I tried to remove (1/2) at some point because with a breadcrumb like
-the above I don't think it is necessary, but I think Samuel was
-against it at the time? As for all the other synchronization that is
-for figuring out which part of the IB hung (e.g. without barriers the
-IB processing might have moved past the hanging shader already), and I
-don't think this kernel mechanism changes that.
+[...]
 
-So if we want to make this low overhead we can do this already without
-new kernel support, we just need to rework radv a bit.
+>> diff --git a/include/drm/drm_drv.h b/include/drm/drm_drv.h
+>> index f6159acb8856..c4cd7fc350d9 100644
+>> --- a/include/drm/drm_drv.h
+>> +++ b/include/drm/drm_drv.h
+>> @@ -94,6 +94,16 @@ enum drm_driver_feature {
+>>  	 * synchronization of command submission.
+>>  	 */
+>>  	DRIVER_SYNCOBJ_TIMELINE         = BIT(6),
+>> +	/**
+>> +	 * @DRIVER_VIRTUAL:
+>> +	 *
+>> +	 * Driver is running on top of virtual hardware. The most significant
+>> +	 * implication of this is a requirement of special handling of the
+>> +	 * cursor plane (e.g. cursor plane has to actually track the mouse
+>> +	 * cursor and the clients are required to set hotspot in order for
+>> +	 * the cursor planes to work correctly).
+>> +	 */
+>> +	DRIVER_VIRTUAL                  = BIT(7),
+>
+> I think the naming here is unfortunate, because people will vonder why
+> e.g. vkms doesn't set this, and then add it, and confuse stuff completely.
+>
+> Also it feels a bit wrong to put this onto the driver, when really it's a
+> cursor flag. I guess you can make it some kind of flag in the drm_plane
+> structure, or a new plane type, but putting it there instead of into the
+> "random pile of midlayer-mistake driver flags" would be a lot better.
+>
+> Otherwise I think the series looks roughly how I'd expect it to look.
+> -Daniel
+>
 
->
-> In my opinion, the correct solution to those problems would be if the ker=
-nel could give userspace the necessary information about a GPU hang before =
-a GPU reset. To avoid the massive peformance cost, it would be best if we c=
-ould know which IB hung and what were the commands being executed when it h=
-ung (perhaps pointers to the VA of the commands), along with which shaders =
-were in flight (perhaps pointers to the VA of the shader binaries).
->
-> If such an interface could be created, that would mean we could easily qu=
-ery this information and create useful logs of GPU hangs without much users=
-pace overhead and without requiring the user to disable GPU resets etc.
->
-> If it's not possible to do this, we'd appreciate some suggestions on how =
-to properly solve this without the massive performance cost and without req=
-uiring the user to disable GPU recovery.
->
-> Side note, it is also extremely difficult to even determine whether the p=
-roblem is in userspace or the kernel. While kernel developers usually dismi=
-ss all GPU hangs as userspace problems, we've seen many issues where the pr=
-oblem was in the kernel (eg. bugs where wrong voltages were set, etc.) - an=
-y idea for tackling those kind of issues is also welcome.
->
-> Thanks & best regards,
-> Timur
+AFAICT this is the only remaining thing to be addressed for this series ?
+
+Zack, are you planning to re-spin a v3 of this patch-set? Asking because
+we want to take virtio-gpu out of the atomic KMS deny list in mutter, but
+first need this to land.
+
+If you think that won't be able to do it in the short term, Bilal (Cc'ed)
+or me would be glad to help with that.
+
+-- 
+Best regards,
+
+Javier Martinez Canillas
+Core Platforms
+Red Hat
+
