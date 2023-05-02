@@ -2,49 +2,120 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE86C6F518B
-	for <lists+dri-devel@lfdr.de>; Wed,  3 May 2023 09:31:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9FDE6F43E9
+	for <lists+dri-devel@lfdr.de>; Tue,  2 May 2023 14:31:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C92B610E1BF;
-	Wed,  3 May 2023 07:30:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 68D9310E51D;
+	Tue,  2 May 2023 12:31:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 1118 seconds by postgrey-1.36 at gabe;
- Tue, 02 May 2023 12:34:35 UTC
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com
- [185.176.79.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B0B8910E04D
- for <dri-devel@lists.freedesktop.org>; Tue,  2 May 2023 12:34:35 +0000 (UTC)
-Received: from frapeml500002.china.huawei.com (unknown [172.18.147.207])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4Q9f8p2tH7z6J6nt;
- Tue,  2 May 2023 20:12:26 +0800 (CST)
-Received: from [10.45.146.102] (10.45.146.102) by
- frapeml500002.china.huawei.com (7.182.85.205) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.23; Tue, 2 May 2023 14:15:52 +0200
-Message-ID: <e05b416d-a298-cf71-0c04-a1fe6b993bf7@huawei.com>
-Date: Tue, 2 May 2023 14:15:49 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH v2 0/7] Allow dynamic allocation of software IO TLB bounce
- buffers
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam10on2048.outbound.protection.outlook.com [40.107.94.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1A8D810E524;
+ Tue,  2 May 2023 12:31:08 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=lg7sDEyZTb6HKxsNNBpAc6bbjskOsba3PZ1gt0Xua2Gq3h++qH39Fb9U7fLIp6WWnALMOlRsMJSWFxmvdWI3OZe32DJuvi/TwWEiiR5DJiicbZq05lpHZP38p4KCejHhtEFzyFJKWlGlONixBawnuiCmZhNP1RR4P7YOrQhYfFoP8u7xKTU+i+6hbfPz8YacajSkWU/ez47I4MXkGoU8Qo36PcUS+pg/7rAJPr2+2Tklo34LmlY9gTnz4OAGz3pjH0pRzQ95FNp018z+odIYUreJZoji15HzRNRRCjSqLBVs0aUIKOJU5Zx8gOU4UiTEDJ92Ww3Hu0/WMUyDEWqKQA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=6Qe6IzxohWTJvPMw9o0EKEnXl+KjXYPfB9HndJQJ1+w=;
+ b=odd8O99O4uOcOQ789+Xh8renz/R8Pn2csyOTBcoN6UuTnJAiN25BASVwquJvSQDnRSseHOsLA51Zhck1e0wJaoNdX5OKuqfqEzaXBAuZPu/gll/qUyaGBSTYG7aiKIliKwq4SADAxY2i6oLAo6kpsuR6ZUXAx9W9ZQ6RjbJjgcIybjGD+YWr/4/dgFeldJ1hX20UiPvOSThKJq21v1LFQubMhiL4Le1GXd9vnnlBFvXDnSIIR5caTlgxrkwPun7EGG2Yy2saIj5qRC9MzxdcDXcQMH87f4F3b4kplevYwwh0jqMtphU1yQK5rFQ7H3k0cj+tjdzK5TvG6HfvlIIzlg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=6Qe6IzxohWTJvPMw9o0EKEnXl+KjXYPfB9HndJQJ1+w=;
+ b=TKfETPPkDVh0LUCmNcsvwjDEREc6Z0HS2/ZMr5e7aa072Cdlcrnt8USMXCUD8h0e6w647O6Z5SbXSrrw+hsHEEoiGv9NPflkKJwOh0mSl3Cs+o6nkrs1FUDxm1oEJKlhbdJbqDNv4bMtdEf/ZzQH5JxzD0cevqERzp6Knah+sac=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from DM4PR12MB6280.namprd12.prod.outlook.com (2603:10b6:8:a2::11) by
+ CY8PR12MB7147.namprd12.prod.outlook.com (2603:10b6:930:5d::19) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6340.30; Tue, 2 May 2023 12:31:07 +0000
+Received: from DM4PR12MB6280.namprd12.prod.outlook.com
+ ([fe80::fe53:2742:10f9:b8f1]) by DM4PR12MB6280.namprd12.prod.outlook.com
+ ([fe80::fe53:2742:10f9:b8f1%9]) with mapi id 15.20.6340.031; Tue, 2 May 2023
+ 12:31:07 +0000
+Message-ID: <5c384fc1-4f4b-2ef1-2349-060448f81be6@amd.com>
+Date: Tue, 2 May 2023 08:32:32 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.1
+Subject: Re: [PATCH] drm/amd/display: mark amdgpu_dm_connector_funcs_force
+ static
+To: Arnd Bergmann <arnd@kernel.org>, Harry Wentland <harry.wentland@amd.com>, 
+ Leo Li <sunpeng.li@amd.com>, Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, 
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+References: <20230501143213.1571373-1-arnd@kernel.org>
 Content-Language: en-US
-To: Mike Lothian <mike@fireburn.co.uk>, =?UTF-8?B?UGV0ciBUZXNhxZnDrWs=?=
- <petr@tesarici.cz>
-References: <cover.1681898595.git.petr.tesarik.ext@huawei.com>
- <CAHbf0-HwQhFsYW8cp0t9660877b9tTxZBego7VSfx0ayAwKePQ@mail.gmail.com>
- <20230428110735.4348511d@meshulam.tesarici.cz>
- <CAHbf0-HnctoNN3AQoCeCfd-d7ppKBhWJHD+EbfmbfeTkbS1jqg@mail.gmail.com>
-From: Petr Tesarik <petr.tesarik.ext@huawei.com>
-In-Reply-To: <CAHbf0-HnctoNN3AQoCeCfd-d7ppKBhWJHD+EbfmbfeTkbS1jqg@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.45.146.102]
-X-ClientProxiedBy: frapeml500008.china.huawei.com (7.182.85.71) To
- frapeml500002.china.huawei.com (7.182.85.205)
-X-CFilter-Loop: Reflected
-X-Mailman-Approved-At: Wed, 03 May 2023 07:30:49 +0000
+From: Hamza Mahfooz <hamza.mahfooz@amd.com>
+In-Reply-To: <20230501143213.1571373-1-arnd@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: YQBPR0101CA0161.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:c01:e::34) To DM4PR12MB6280.namprd12.prod.outlook.com
+ (2603:10b6:8:a2::11)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM4PR12MB6280:EE_|CY8PR12MB7147:EE_
+X-MS-Office365-Filtering-Correlation-Id: 188ae03e-2963-4097-86e1-08db4b0919ff
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: dBBcQ1tsEWbLa91C4zHJl1oTKyqmtHv9H6+bObRxSukoRYrPy3ErKMZxh08Kuyc0b0ZnFXTGE9iaBQpg+oYJ9Jd5hbrRaZvrrShinccb3AUVoGibLAbN+gowMMajpZZGyRXQK3Cczz+ScdluwBc4lcqwMegQne0XZR7w02bqMHSpkWLf+7wIxpSL/U2ijrY3bHNO/W4jyoASnoFBP/8eU6e3qB/bN3UyE9dtJAD0jnj3zA846HMxys/AVzjwnDysmCLWnmPU0l2jLQP6IxzS+1itijyGxa6pX1bb4pZHWX4verX3jWT9f1eEib7ueP02zCW80+lSIv5yyR/t/zkaqPbUfhGjPvp1Ype9iBxNVbcmqJC9lmM8Ecf/fQ60H7DAn49hu2Ypx/IzSAXdpiUouJW4llS7Q5y+jb8fc+GeuJDAe735ISO59q5/lbvdemutyxX+RenCEVhyK9ITj6KB6v6gwqonbb9IvriC0nDoGn1kKY/RQozwVIpGg1yVqtabAFo2QUgDcHg7MOHkrPeo90jbp91Bfv97gJ/Lmn59CzcuBE4U1YlmtWswtX0IWfnw+kESPifMfKg4i0YP6ateABRO0Mm4bFAJnNGlyad9vA+2tvW0yfrQYhq6QkKgAiOvZSYfLkAqfHIUIEyhJ3TYMw==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM4PR12MB6280.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230028)(4636009)(136003)(39860400002)(346002)(396003)(376002)(366004)(451199021)(41300700001)(44832011)(5660300002)(8676002)(8936002)(2616005)(86362001)(31696002)(83380400001)(2906002)(110136005)(6486002)(54906003)(6506007)(6512007)(26005)(6666004)(31686004)(36756003)(53546011)(478600001)(316002)(4326008)(66556008)(66476007)(66946007)(38100700002)(6636002)(186003)(966005)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WDRWNzJVakF1TVhFZ2NGbEIrWWlDUWFjNXlVNWVEQVFnVU45bmFsNHdiZnFj?=
+ =?utf-8?B?VHVxWW9rN1p6WWFoT0tJWGpwMFpKdm0zMEpuMm53VjQvbkcxYlRxcTFBNW1B?=
+ =?utf-8?B?djE0NVh6QXFhY3BTVTFYeWlZYitpem14aisvNUJ2SDFleDZpQzhobzdiRk1n?=
+ =?utf-8?B?dVcxOEpLZEVsc0FJMWVCeHI4YkZvNVZaYThYY2xidFVINjlhUUlwcXlDUFd1?=
+ =?utf-8?B?bXpIdjlKWm0xajFhMVp0OGh6bmRlSjljdGdlZFVPQ0hSaHRJVmpYOHdlbE1a?=
+ =?utf-8?B?YWJBWlFCNXJFZGs4ekcrOTg4Z1F6RUFGMXNuU2Qvc0lHTFBZemtUVlI4aElK?=
+ =?utf-8?B?Zm41ZkZQY1RWZlNGY0JPT0UrSGNRaXpuU1JoQVh2bEhIakhGdmo0cTZWaXdZ?=
+ =?utf-8?B?Z2NkNVdubEtObmxObk5pZmxhUTZSdnpVVHNxd2RMVFFPZFdOWEhDMmVRMm1v?=
+ =?utf-8?B?cDVBYjEwc3FXUU9LbS9WTDBzT3JnVkN0OVdpSDJFZEZhVGgwMnkwQmpHOERU?=
+ =?utf-8?B?M1hOR3N2MXRqc3hJQlMrTHYxMTgvcE9xTWZFYkl3WU5XK3NsbW5WMjBnczhJ?=
+ =?utf-8?B?YUE1THBvUm40NDlIblVrTFBBSFhZUGtuUUUzOW92Q0Rwa3NKQ0tQMENlTURr?=
+ =?utf-8?B?elM3aUlCMmFKY0g0bnhrWExxOUVVcnp2UGFqajdCNzdKYzNFa0NVb1VrOGR6?=
+ =?utf-8?B?bzdNbjRwaHVoTHJobEQzbHFvaDNYU1Q4cUZTMjQ0WTMwanNUVWI2bG9neEQv?=
+ =?utf-8?B?MjJZWG81U1NXSmJZSkRUMUlUU3BoNE1lakJ4OTl5YzlONTZsMjhPczFiUEtl?=
+ =?utf-8?B?TWZuejY0elltOTFZSUtnK3pxVGZqTlFiVEMxMi9WRUEvL2YrV2gwNG1seXB3?=
+ =?utf-8?B?MXl5VndCRXZEMkxiZnhYOTNTNW9QaFg4d20wN2RadHRyRWhLR1JPVHZoQzZa?=
+ =?utf-8?B?dWFRc1JwbVJhOG83c2JrdG02L2lVa2ZDU0s2UTc0a0drTng4UTFad0NlMk9Y?=
+ =?utf-8?B?Z2xVTE5OWkwyM2F1OW9EVTFWNmk3dnRxQnFOb0MrWEg5ZlFSejZmamVrOURx?=
+ =?utf-8?B?ZGlRQ2xUdDhMMXU0RVpSK1VkZHVGYVMrQnNBMHFLVlFDeG9yWlRQNHFybmVZ?=
+ =?utf-8?B?RzBDRzhrQTNHODFYaHRBM2FYNW9YNnZoRTRPNElRR0VFT0FGSEdvUHlTUkVn?=
+ =?utf-8?B?SXBSOFZ3emZEMGJpMzFNNWp1MUhRQlFrMEFRWFdEVzZsSlhvZ200MmpHV1Z3?=
+ =?utf-8?B?WWNMeEVQWjBsZEkzSmllUHZFYjJuMGhLaUhYZWE4ZkdteU45Ky9hdVRZMzZM?=
+ =?utf-8?B?MEZxemRrWHRBei83ZTF3ZHpiNkE2WjNLYVdLTjR1Uy8rR0FIVm1zc1NYaTZR?=
+ =?utf-8?B?M1NmdjV4b1RibVY4U01MRHR0endZN1JBaTZoR3lQeU5qU0ZqNGEvOG1KNGJs?=
+ =?utf-8?B?YlJJVlQ1eGZMc1ZFYm4zUFF0MElKWVpIYS94T2h1eGxITHZyamZuZlkwTjVi?=
+ =?utf-8?B?cnR0VFhtbXhnM2Y2VER2ZGNMTVM4SW5MSHlYY25YbU9HUjBGVGVEN3BHU0ZL?=
+ =?utf-8?B?RERCV0tubGZBN0lENVZwWmxjbGJRdWFyaktUTUVwZGp1ZkZMbzgwWmd4Z1k5?=
+ =?utf-8?B?UW1Tanl5bUExQ0hQd3F1Vkk2MTQxMlVOV0dRN2ZGYW1UR2xabkhRMUkwWk10?=
+ =?utf-8?B?RjFya2hSc3g3dUZZaEZGZnZpQ1pjZVBhT3I1T2NjRFIvOFNSZ0ZxQk5qQlc3?=
+ =?utf-8?B?MmlpNjQ1UHVKTHhPNTFFV3lETUhrSnRPaElVK1hIdk0zb3ltTXhBeXNZQStt?=
+ =?utf-8?B?NjBJbHVOSnliYWpPdUJpU3B1TmR2cHJmNHFoOW4wTEk0MUpaZEdZU1ZyOFdo?=
+ =?utf-8?B?U2VQRW85ekppd3hvWXFqNGF0VXIraVBZK3dMenVNSlh3bHZKTUpMSm9RcEdE?=
+ =?utf-8?B?NEpvNjZibkJNcUF2WE1qQmdndmVQQnp1N0hReWY4bUFiVHJUeFhyUDM5OEsv?=
+ =?utf-8?B?NkVFcjdnb1hSTEtNdWoweGVKYTYyL2d4UmY4eDRVL2s2SlplVjRZbTJLTmV0?=
+ =?utf-8?B?SGZQWUdYYmRuNlFvL3V2UXg0WWd4YVBkQWhOYjhBZnB4VXdyTjVWak9kUU5X?=
+ =?utf-8?Q?KLgW75sj1our9xBSrd7yBmphZ?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 188ae03e-2963-4097-86e1-08db4b0919ff
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB6280.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 May 2023 12:31:06.8586 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 5Re95nrFukeyINPxaBQtEZHh8K6nUJPJAHUEZBJq28ERZZJqvipVlUpmUU/GR5jFilmLoR2QXZwVb/POky6A9g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR12MB7147
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,146 +128,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>, Muchun Song <muchun.song@linux.dev>,
- "Rafael J. Wysocki" <rafael@kernel.org>,
- Catalin Marinas <catalin.marinas@arm.com>,
- Kefeng Wang <wangkefeng.wang@huawei.com>,
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- Kim Phillips <kim.phillips@amd.com>, Will Deacon <will@kernel.org>,
- Christoph Hellwig <hch@lst.de>, Marek Szyprowski <m.szyprowski@samsung.com>,
- Jonathan Corbet <corbet@lwn.net>,
- Damien Le Moal <damien.lemoal@opensource.wdc.com>, "open
- list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
- "open list:DMA MAPPING HELPERS" <iommu@lists.linux.dev>,
- Borislav Petkov <bp@suse.de>, Won Chung <wonchung@google.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- "Paul E. McKenney" <paulmck@kernel.org>, Hans de Goede <hdegoede@redhat.com>,
- "Steven Rostedt \(Google\)" <rostedt@goodmis.org>,
- Zhen Lei <thunder.leizhen@huawei.com>, Dan Williams <dan.j.williams@intel.com>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Petr Tesarik <petr.tesarik.ext@huawei.com>, Kees Cook <keescook@chromium.org>,
- Ondrej Zary <linux@zary.sk>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Randy Dunlap <rdunlap@infradead.org>, Roberto Sassu <roberto.sassu@huawei.com>,
- open list <linux-kernel@vger.kernel.org>, Thomas Gleixner <tglx@linutronix.de>,
- Robin Murphy <robin.murphy@arm.com>
+Cc: Stylon Wang <stylon.wang@amd.com>, kernel test robot <lkp@intel.com>,
+ Arnd Bergmann <arnd@arndb.de>, Alex Hung <alex.hung@amd.com>,
+ Qingqing Zhuo <qingqing.zhuo@amd.com>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+ linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+ Hans de Goede <hdegoede@redhat.com>,
+ Aurabindo Pillai <aurabindo.pillai@amd.com>, Hersen Wu <hersenxs.wu@amd.com>,
+ dri-devel@lists.freedesktop.org, Wenchieh Chien <wenchieh.chien@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Mike,
-
-On 5/1/2023 12:29 PM, Mike Lothian wrote:
-> Hi
+On 5/1/23 10:31, Arnd Bergmann wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
 > 
-> I've not had any issues since using this, but I imagine most people
-> won't know how to set swiotlb=dynamic if they start seeing this (when
-> it lands)
+> A global function without a header prototype has made it into
+> linux-next during the merge window:
 > 
-> Any clue as to why this broke last cycle?
-
-IIRC the kernel messages indicate high swiotlb utilization. The most
-likely cause is that either the wifi driver is using more DMA buffers at
-once, or another device driver is now using swiotlb; it could also be a
-driver for a device that was previously not supported.
-
-If you're adventurous, you can use ftrace to capture the backtraces of
-swiotlb_tbl_map_single. This would reveal the other driver. Debugging
-increased DMA buffer usage by your wifi driver may be more difficult,
-because that's a dynamic process, which may change dramatically if you
-add some sort of tracing into the picture... As always, YMMV.
-
-Petr T
-
-> Mike
+> drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:6339:6: error: no previous prototype for 'amdgpu_dm_connector_funcs_force' [-Werror=missing-prototypes]
 > 
-> On Fri, 28 Apr 2023 at 10:07, Petr Tesařík <petr@tesarici.cz> wrote:
->>
->> On Fri, 28 Apr 2023 09:53:38 +0100
->> Mike Lothian <mike@fireburn.co.uk> wrote:
->>
->>> On Wed, 19 Apr 2023 at 11:05, Petr Tesarik <petrtesarik@huaweicloud.com> wrote:
->>>>
->>>> From: Petr Tesarik <petr.tesarik.ext@huawei.com>
->>>>
->>>> The goal of my work is to provide more flexibility in the sizing of
->>>> SWIOTLB.
->>>>
->>>> The software IO TLB was designed with these assumptions:
->>>>
->>>> 1. It would not be used much, especially on 64-bit systems.
->>>> 2. A small fixed memory area (64 MiB by default) is sufficient to
->>>>    handle the few cases which require a bounce buffer.
->>>> 3. 64 MiB is little enough that it has no impact on the rest of the
->>>>    system.
->>>>
->>>> First, if SEV is active, all DMA must be done through shared
->>>> unencrypted pages, and SWIOTLB is used to make this happen without
->>>> changing device drivers. The software IO TLB size is increased to
->>>> 6% of total memory in sev_setup_arch(), but that is more of an
->>>> approximation. The actual requirements may vary depending on the
->>>> amount of I/O and which drivers are used. These factors may not be
->>>> know at boot time, i.e. when SWIOTLB is allocated.
->>>>
->>>> Second, other colleagues have noticed that they can reliably get
->>>> rid of occasional OOM kills on an Arm embedded device by reducing
->>>> the SWIOTLB size. This can be achieved with a kernel parameter, but
->>>> determining the right value puts additional burden on pre-release
->>>> testing, which could be avoided if SWIOTLB is allocated small and
->>>> grows only when necessary.
->>>>
->>>> Changes from v1-devel-v7:
->>>> - Add comments to acquire/release barriers
->>>> - Fix whitespace issues reported by checkpatch.pl
->>>>
->>>> Changes from v1-devel-v6:
->>>> - Provide long description of functions
->>>> - Fix kernel-doc (Returns: to Return:)
->>>> - Rename __lookup_dyn_slot() to lookup_dyn_slot_locked()
->>>>
->>>> Changes from RFC:
->>>> - Track dynamic buffers per device instead of per swiotlb
->>>> - Use a linked list instead of a maple tree
->>>> - Move initialization of swiotlb fields of struct device to a
->>>>   helper function
->>>> - Rename __lookup_dyn_slot() to lookup_dyn_slot_locked()
->>>> - Introduce per-device flag if dynamic buffers are in use
->>>> - Add one more user of DMA_ATTR_MAY_SLEEP
->>>> - Add kernel-doc comments for new (and some old) code
->>>> - Properly escape '*' in dma-attributes.rst
->>>>
->>>> Petr Tesarik (7):
->>>>   swiotlb: Use a helper to initialize swiotlb fields in struct device
->>>>   swiotlb: Move code around in preparation for dynamic bounce buffers
->>>>   dma-mapping: introduce the DMA_ATTR_MAY_SLEEP attribute
->>>>   swiotlb: Dynamically allocated bounce buffers
->>>>   swiotlb: Add a boot option to enable dynamic bounce buffers
->>>>   drm: Use DMA_ATTR_MAY_SLEEP from process context
->>>>   swiotlb: per-device flag if there are dynamically allocated buffers
->>>>
->>>>  .../admin-guide/kernel-parameters.txt         |   6 +-
->>>>  Documentation/core-api/dma-attributes.rst     |  10 +
->>>>  drivers/base/core.c                           |   4 +-
->>>>  drivers/gpu/drm/drm_gem_shmem_helper.c        |   2 +-
->>>>  drivers/gpu/drm/drm_prime.c                   |   2 +-
->>>>  include/linux/device.h                        |  12 +
->>>>  include/linux/dma-mapping.h                   |   6 +
->>>>  include/linux/swiotlb.h                       |  54 ++-
->>>>  kernel/dma/swiotlb.c                          | 382 ++++++++++++++++--
->>>>  9 files changed, 443 insertions(+), 35 deletions(-)
->>>>
->>>> --
->>>> 2.25.1
->>>>
->>>
->>> Hi
->>>
->>> Is this a potential fix for
->>> https://bugzilla.kernel.org/show_bug.cgi?id=217310 where I'm manually
->>> setting bigger buffers to keep my wifi working?
->>
->> Yes. With these patches applied, your system should run just fine with
->> swiotlb=dynamic. However, keep in mind that this implementation adds a
->> bit of overhead. In short, it trades a bit of performance for not
->> having to figure out the optimal swiotlb size at boot time.
->>
->> Petr T
+> Mark the function static instead, as there are no other
+> callers outside this file.
+> 
+> Fixes: 0ba4a784a145 ("drm/amd/display: implement force function in amdgpu_dm_connector_funcs")
+> Reported-by: kernel test robot <lkp@intel.com>
+> Link: https://lore.kernel.org/oe-kbuild-all/202304251640.JClqTim9-lkp@intel.com/
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+
+Applied, thanks!
+
+> ---
+> This was previously reported by a bot for the drm-next tree but remains
+> broken in linux-next-20230428. Sending it out as I needed this fix
+> for my local builds.
+> ---
+>   drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> index 3647d21d688f..2bbb2988942d 100644
+> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> @@ -6336,7 +6336,7 @@ amdgpu_dm_connector_late_register(struct drm_connector *connector)
+>   	return 0;
+>   }
+>   
+> -void amdgpu_dm_connector_funcs_force(struct drm_connector *connector)
+> +static void amdgpu_dm_connector_funcs_force(struct drm_connector *connector)
+>   {
+>   	struct amdgpu_dm_connector *aconnector = to_amdgpu_dm_connector(connector);
+>   	struct dc_link *dc_link = aconnector->dc_link;
+-- 
+Hamza
 
