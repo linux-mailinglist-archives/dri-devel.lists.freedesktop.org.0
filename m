@@ -2,71 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9B1E6F44AE
-	for <lists+dri-devel@lfdr.de>; Tue,  2 May 2023 15:08:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8646B6F44D3
+	for <lists+dri-devel@lfdr.de>; Tue,  2 May 2023 15:13:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CD99710E577;
-	Tue,  2 May 2023 13:08:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4A65310E32D;
+	Tue,  2 May 2023 13:13:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com
- [IPv6:2a00:1450:4864:20::635])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0509510E562
- for <dri-devel@lists.freedesktop.org>; Tue,  2 May 2023 13:08:23 +0000 (UTC)
-Received: by mail-ej1-x635.google.com with SMTP id
- a640c23a62f3a-94a34a14a54so761135666b.1
- for <dri-devel@lists.freedesktop.org>; Tue, 02 May 2023 06:08:23 -0700 (PDT)
+Received: from mail-oi1-x233.google.com (mail-oi1-x233.google.com
+ [IPv6:2607:f8b0:4864:20::233])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4BEDA10E24E;
+ Tue,  2 May 2023 13:13:31 +0000 (UTC)
+Received: by mail-oi1-x233.google.com with SMTP id
+ 5614622812f47-38dfdc1daa9so2295414b6e.1; 
+ Tue, 02 May 2023 06:13:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683032902; x=1685624902;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=vTdVXb6d4xnv0YmTLdS0Qi0kVGTI9rnff/94Pf5/JNU=;
- b=OTiDWyUjc5vLKmDjfmk7vFBEmIE4CpI9soc/Ksp7mPInOkA3TNy6L2M7frTwl2kzaE
- tHgRxck2zMMwnkrzOBupt0niab9C6KVELTQkYM6fF4egq3bJC5ruaJCdxck/wB+J/Q4J
- rUjVjH/5Ymwx64TrF0ZMxxtL7qfixmlnzy4h0s0zJ0NTqw4VRiojQ0TtdDTmLLbD0dmp
- FQFqu/vlqgPP0kzO6K0gBFpAQ/Irbo6CMQypZzqTo3astF/GdzyFsHWoFwQ5f+hyfeBo
- INll3QaytXjs0N3qnXo180nKkheCRvj3eji1cekBtql1r5j9k3gsP7HM1WAybQNC6hVC
- WQ1g==
+ d=gmail.com; s=20221208; t=1683033210; x=1685625210;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=TUEF3QLxn693rhXEaa/WFrAyt3GuRVvWAiFCi9LSxcE=;
+ b=McJXSsAU5Kv+u7NJNkICwAIOR4MvXA5FzSyceSQyzzQVCvUrQAIBXdDLu+jLBJRSyH
+ fhG6nLkQ+v+55EZoYF8f0s/3hI6JQvjXLlHpXHQ69WpwYiNElrf/63p2QdSB+O8KufCT
+ uuLYqd/f/EFc4G9GKiMApMFMoy5Eq8W0W9KlhI2ezHtCc1W2yNZDFdMeyLkSAsjgpFlM
+ vhWY1ESgKvfonCglKqFLulvr93RSkKxuCb010MegetYJtgEAAO01i0Jul8LYmWOrgT0Z
+ 5yxn2Qw/bp/qT2RaHm/2HXgqK5nvfh50XjUMOfx2G33AXTuYmjx4ELMtPaiHfvl+klGK
+ izrQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683032902; x=1685624902;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=vTdVXb6d4xnv0YmTLdS0Qi0kVGTI9rnff/94Pf5/JNU=;
- b=Vs5JSBugNthNfCtr33Jx5J1G2C65MNc4XmiBEumCaI2u98mqBdOZavxyunQdT6LZs4
- WAGogt9MlYFh9ioOyZeGSpEMO6OOqj6yhu8Fy0UwJarD68y/DSqR48SRvtn4KTg5fbTh
- c4RjL8+FcAapBGiBoJBI/n8sZAdbrrTBd2Up5w95/pXCLJxqgpD/upqjk05B0istMqt/
- yEZn9TEcuU3tR/4nzYaBzzJykiMwd+laqA9PgKtrkLRS4wA4rQvNcK/JsZXd69I3pfsF
- HPCOGU/gwN9glFOLU8Uy09oTDXWa+t8+Rtlq69hscT/D0TgGjd6XdWcRgN0WqnN5adr/
- BhWw==
-X-Gm-Message-State: AC+VfDz4xmNu8sWbQ4oeSP+MN4x5Pe1kfs7FSRtGhTxckYC5CipmL7+D
- Cim+mQcbbzxl1OK6g0DaFm7iow==
-X-Google-Smtp-Source: ACHHUZ75BXm0BWRSmTJcDouunvHBmhjCdZtr03hxCxdUgu1OaMxH5zZSLU7E9xbmohDbZRVAPPrOjw==
-X-Received: by 2002:a17:907:c0d:b0:94f:969e:c52b with SMTP id
- ga13-20020a1709070c0d00b0094f969ec52bmr14376500ejc.74.1683032902382; 
- Tue, 02 May 2023 06:08:22 -0700 (PDT)
-Received: from ?IPV6:2a02:810d:15c0:828:bafd:1283:b136:5f6a?
- ([2a02:810d:15c0:828:bafd:1283:b136:5f6a])
- by smtp.gmail.com with ESMTPSA id
- lh11-20020a170906f8cb00b0094a789256dcsm16133602ejb.111.2023.05.02.06.08.19
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 02 May 2023 06:08:20 -0700 (PDT)
-Message-ID: <665a0e0e-6320-981f-8675-95f064864837@linaro.org>
-Date: Tue, 2 May 2023 15:08:19 +0200
+ d=1e100.net; s=20221208; t=1683033210; x=1685625210;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=TUEF3QLxn693rhXEaa/WFrAyt3GuRVvWAiFCi9LSxcE=;
+ b=icq/TrXCxql6FwLitkwy0zGptLh5bqwYa2kxUqgxFjdDnXValZaEjyyutlF+8WBNDH
+ v6lVblrqU3+Eq+iNThR6Y7FUTcnVgDbduvxjqVBA/gqOlSM5ISiICAYoFflC9FU5MpLG
+ VWRfkxdY0FIsrFdPvqV64C5G1fr93XIzlsbrAG0NXb+puMdYIhDMhA9ycUFu6cF45DV9
+ EgEj7COPzHn08GVQk2TISLkWLbTi0Dq2TVl47e+E8CFRu+K6LXdSymBoGPM+mwjvQq+n
+ zfKVfijp9sZFqpqS8SnDCUxssEPIo7/7j22Ko4u/d1lQ6bDCO4OlbmW4WwrdXuYkb5ZQ
+ JpPA==
+X-Gm-Message-State: AC+VfDwlSO/XK4Khe7J0wstx/GiNWnD+lCEzEFOIJjYiusrzC6JsSFfG
+ HL7evaerfHHVe44QddE5e9RG7tTwbVBmOTIN7bdDVgHDVXg=
+X-Google-Smtp-Source: ACHHUZ6aRVheMqHSh8QUmB0hKQpMwgH2/GyX3GEgmh2IQMnlT7Oe56Km5F6q9EowHCCWC2dThF6LQAf2An0Psav2uq4=
+X-Received: by 2002:a05:6808:4285:b0:38d:f03f:935b with SMTP id
+ dq5-20020a056808428500b0038df03f935bmr8748291oib.24.1683033210002; Tue, 02
+ May 2023 06:13:30 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.1
-Subject: Re: [PATCH v2 2/2] dt-bindings: display: novatek,nt36523: define ports
-Content-Language: en-US
-To: Jianhua Lu <lujianhua000@gmail.com>
-References: <20230502120036.47165-1-krzysztof.kozlowski@linaro.org>
- <20230502120036.47165-2-krzysztof.kozlowski@linaro.org>
- <ZFEFwwU9_h36xFvd@Gentoo>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <ZFEFwwU9_h36xFvd@Gentoo>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <46a7eb80-5f09-4f6a-4fd3-9550dafd497c@felixrichter.tech>
+ <1efbf587-e7b5-74a3-89e4-ca70386bd191@leemhuis.info>
+In-Reply-To: <1efbf587-e7b5-74a3-89e4-ca70386bd191@leemhuis.info>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Tue, 2 May 2023 09:13:18 -0400
+Message-ID: <CADnq5_M-5SD6HDRVtFHPNF3q9XKz75PECdUxR-OaVpPe2Zw=EQ@mail.gmail.com>
+Subject: Re: PROBLEM: AMD Ryzen 9 7950X iGPU - Blinking Issue
+To: Linux regressions mailing list <regressions@lists.linux.dev>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,32 +69,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>, devicetree@vger.kernel.org,
- Sam Ravnborg <sam@ravnborg.org>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Del Regno <angelogioacchino.delregno@somainline.org>
+Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ Felix Richter <judge@felixrichter.tech>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 02/05/2023 14:44, Jianhua Lu wrote:
-> On Tue, May 02, 2023 at 02:00:36PM +0200, Krzysztof Kozlowski wrote:
->>      description: regulator that supplies the I/O voltage
-> [..]
->>  
->> +  ports:
->> +    $ref: /schemas/graph.yaml#/properties/ports
->> +
->> +    required:
->> +      - port@0
->> +      - port@1
-> Konrad has added a single DSI panel to this bindings, so we should
-> drop port@1 to allow it.
-> 
-> See https://lore.kernel.org/lkml/20230412-topic-lenovopanel-v3-1-bcf9ba4de46f@linaro.org/
+On Tue, May 2, 2023 at 7:45=E2=80=AFAM Linux regression tracking (Thorsten
+Leemhuis) <regressions@leemhuis.info> wrote:
+>
+> [CCing the regression list, as it should be in the loop for regressions:
+> https://docs.kernel.org/admin-guide/reporting-regressions.html]
+>
+> [TLDR: I'm adding this report to the list of tracked Linux kernel
+> regressions; the text you find below is based on a few templates
+> paragraphs you might have encountered already in similar form.
+> See link in footer if these mails annoy you.]
+>
+> On 30.04.23 13:44, Felix Richter wrote:
+> > Hi,
+> >
+> > I am running into an issue with the integrated GPU of the Ryzen 9 7950X=
+. It seems to be a regression from kernel version 6.1 to 6.2.
+> > The bug materializes in from of my monitor blinking, meaning it turns f=
+ull white shortly. This happens very often so that the system becomes unple=
+asant to use.
+> >
+> > I am running the Archlinux Kernel:
+> > The Issue happens on the bleeding edge kernel: 6.2.13
+> > Switching back to the LTS kernel resolves the issue: 6.1.26
+> >
+> > I have two monitors attached to the system. One 42 inch 4k Display and =
+a 24 inch 1080p Display and am running sway as my desktop.
+> >
+> > Let me know if there is more information I could provide to help narrow=
+ down the issue.
+>
+> Thanks for the report. To be sure the issue doesn't fall through the
+> cracks unnoticed, I'm adding it to regzbot, the Linux kernel regression
+> tracking bot:
+>
+> #regzbot ^introduced v6.1..v6.2
+> #regzbot title drm: amdgpu: system becomes unpleasant to use after
+> monitor starts blinking and turns full white
+> #regzbot ignore-activity
+>
+> This isn't a regression? This issue or a fix for it are already
+> discussed somewhere else? It was fixed already? You want to clarify when
+> the regression started to happen? Or point out I got the title or
+> something else totally wrong? Then just reply and tell me -- ideally
+> while also telling regzbot about it, as explained by the page listed in
+> the footer of this mail.
+>
+> Developers: When fixing the issue, remember to add 'Link:' tags pointing
+> to the report (the parent of this mail). See page linked in footer for
+> details.
 
-Thanks, I'll send a v2 ~tomorrow.
+This sounds exactly like the issue that was fixed in this patch which
+is already on it's way to Linus:
+https://gitlab.freedesktop.org/agd5f/linux/-/commit/08da182175db4c7f8085035=
+4849d95f2670e8cd9
 
-Best regards,
-Krzysztof
+Alex
 
+>
+> Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
+> --
+> Everything you wanna know about Linux kernel regression tracking:
+> https://linux-regtracking.leemhuis.info/about/#tldr
+> That page also explains what to do if mails like this annoy you.
