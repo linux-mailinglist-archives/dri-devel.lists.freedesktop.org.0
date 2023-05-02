@@ -2,62 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51F806F46BC
-	for <lists+dri-devel@lfdr.de>; Tue,  2 May 2023 17:06:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C7796F46C0
+	for <lists+dri-devel@lfdr.de>; Tue,  2 May 2023 17:06:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F1F6610E59D;
-	Tue,  2 May 2023 15:05:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4496310E5A4;
+	Tue,  2 May 2023 15:05:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22a.google.com (mail-lj1-x22a.google.com
- [IPv6:2a00:1450:4864:20::22a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D304410E598
- for <dri-devel@lists.freedesktop.org>; Tue,  2 May 2023 15:05:41 +0000 (UTC)
-Received: by mail-lj1-x22a.google.com with SMTP id
- 38308e7fff4ca-2a8baeac4d1so39551011fa.1
- for <dri-devel@lists.freedesktop.org>; Tue, 02 May 2023 08:05:41 -0700 (PDT)
+Received: from mail-lj1-x22b.google.com (mail-lj1-x22b.google.com
+ [IPv6:2a00:1450:4864:20::22b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3680D10E59A
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 May 2023 15:05:43 +0000 (UTC)
+Received: by mail-lj1-x22b.google.com with SMTP id
+ 38308e7fff4ca-2a8eb8db083so39322271fa.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 02 May 2023 08:05:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=linaro.org; s=google; t=1683039940; x=1685631940;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=RWho3vDBlAyOte9RhNJbwdifZh0HWETRUs9xv+x2glc=;
- b=feteKQydGTacUl6nWs7yJZTVYJeGKpN4v6mOOMqw2v4JQtCDZ4rYBvtDB6rquaaTzN
- pwOYM7GXHCquzF7PhOhXkc8fhlhgpfBl9QesSvtoTBa8dCh/4gaauAa/oMYjmOra+nRx
- IoAMrfqygYAqGtI/0hoJ8r4XLwDFYnmpBDGLobelHMAnnfEq7S0g7qn8T9sliWrWcIHA
- 0EShytP+XJTplHJvMFkYMB0pFc2EnLIIEsFtJonVfc05b8cUql3lv55r1xrxMKXXdS1Z
- aOGcff5oO9gUjz5lWD9wTuGjDuwI8d3J9ZiR7Le8fcWBzcw5b97McqZb4IIKcLxZkuAp
- 04eA==
+ bh=bElysP1UJSOGquuvipEK769ngA8o08YYKDnk6OwOQeg=;
+ b=AC1d3IKWbRenC2OOtU2v/2DnwiI5mpovUXn823Y4N3V7jwB2JjZG89wC4IyzgTNvTl
+ HDo8bCb4z+xGQurb7keicFeBBHaWT5kJrTTmVTG5TI3/bNTmR832QwJwnVX/e9n6k4Tc
+ Gm4pfRpwEADFRJDMBNP15H69GHs62BOmVJAzIheSvaycrQxsj0TIC0DnjvcHcANOkOZn
+ CPku8hoplc5ODVcoeOJQYqiF6Db6az3o/1JYzglOfKI7Ym6jLfeZC5xUmrZvmUaqQTdi
+ mgmCQA381QYFlXRdTPME6jf14R0Y4daOsiIL/9IdgUh9/8DSLRpMMmW32v8IrxcdloZA
+ GTDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20221208; t=1683039940; x=1685631940;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=RWho3vDBlAyOte9RhNJbwdifZh0HWETRUs9xv+x2glc=;
- b=TI3aa0Cz7dYWFCvAL8I0PPIhkXuvEmaIEkzvsUZhfbhHJ6MmpgeRgNJOdBRCjjmrOf
- kNIRwbZ4tI196cZasLvHJFdEhoNrhvbLw33EhkTrvBiAwg9runMi8LYFKmtkkAKONI2y
- sG+fgjFb0CD5Tqt/n4B5To4g7uJZyZwNwvcRp7jumpDw0Bnz2r6WEKIJ4ciW4rnWtzmN
- loX6xA0HXiEv3aTHGaAnKk1L8Po9SaS/Oin1x0R6+vTO2HSpih/1Fc/pTNFJvaUZMk9/
- Fa181+MLYQK0Yu3A1tJhvPYFyjuO+WSwO6hhMUTJDdOucUsBF2yRlS7E7iaDUADlLa2i
- un4Q==
-X-Gm-Message-State: AC+VfDyCaapQ2DYBHdrwtUcTpCuHu72DK6Cj5rj9JA6A3GIY77pVfbKn
- GzJF/Z34KUaaCjuzGQYGjCrJvA==
-X-Google-Smtp-Source: ACHHUZ40BQlWFBVBclg6qpM51dHxNnllTgeO5HZJb1ozBv0BWGimhPWyRqvb25gRNDmrpLZCu/90Hg==
-X-Received: by 2002:a2e:80cc:0:b0:2a8:ca1c:12b with SMTP id
- r12-20020a2e80cc000000b002a8ca1c012bmr4568869ljg.17.1683039939152; 
- Tue, 02 May 2023 08:05:39 -0700 (PDT)
+ bh=bElysP1UJSOGquuvipEK769ngA8o08YYKDnk6OwOQeg=;
+ b=WPmAlspSVBIclan8MHTthM3mDnyR9LFQr6jCiu7DqBM9IOGeIoEPRtsptcUmzLn6B3
+ vktdnSRqmszq3cjTXljbmmLMIMmhog+JgkXiVnkc8u14rKKru15AA7t7DCLZ82j0aFPt
+ Kzvh5hFxHqHCeOFS2gtskmcjDaxxIH9q9g2PW+wOTbZfLfVbwgJJoeBsFYEVIONIrxPK
+ qdUThH1lPJuvDnnk5Xcz961d/N/TDt3UyV8CBZsAO79WP8y1aOb2+U2bKdBp0sae/qJV
+ SiglVxRzAZfIqguVYQaNWFWVgUygb+Vt02Nx3zvfoTPyePgSAcgLw5AMEB+S42r/WfH5
+ QqBw==
+X-Gm-Message-State: AC+VfDyvBI6Py9eKnY4PGV7MgukJYjyb2ciL2ydv4xJVzNdPPYWqN8zg
+ fLA/IqtU/YrpM8fyfDvMqfAKNg==
+X-Google-Smtp-Source: ACHHUZ5kGIzQWzeMLRi5+leeEwu7rwXbQrCuqJfzIr98G1B2LUDH5SC8OFmqK5xnDNKTkxI45oA0NA==
+X-Received: by 2002:a2e:8507:0:b0:2ac:66c8:3c4b with SMTP id
+ j7-20020a2e8507000000b002ac66c83c4bmr413374lji.11.1683039940735; 
+ Tue, 02 May 2023 08:05:40 -0700 (PDT)
 Received: from eriador.lan (dzdqv0yyyyyyyyyyybcwt-3.rev.dnainternet.fi.
  [2001:14ba:a0db:1f00::8a5]) by smtp.gmail.com with ESMTPSA id
- a22-20020a2e8316000000b002a8bb52d994sm5341659ljh.25.2023.05.02.08.05.38
+ a22-20020a2e8316000000b002a8bb52d994sm5341659ljh.25.2023.05.02.08.05.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 02 May 2023 08:05:38 -0700 (PDT)
+ Tue, 02 May 2023 08:05:40 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
  Abhinav Kumar <quic_abhinavk@quicinc.com>,
  Marijn Suijten <marijn.suijten@somainline.org>
-Subject: [PATCH v2 5/9] drm/msm/dpu: drop DPU_PLANE_QOS_VBLANK_CTRL
-Date: Tue,  2 May 2023 18:05:29 +0300
-Message-Id: <20230502150533.3672840-6-dmitry.baryshkov@linaro.org>
+Subject: [PATCH v2 6/9] drm/msm/dpu: simplify qos_ctrl handling
+Date: Tue,  2 May 2023 18:05:30 +0300
+Message-Id: <20230502150533.3672840-7-dmitry.baryshkov@linaro.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230502150533.3672840-1-dmitry.baryshkov@linaro.org>
 References: <20230502150533.3672840-1-dmitry.baryshkov@linaro.org>
@@ -81,91 +81,106 @@ Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Drop support for DPU_PLANE_QOS_VBLANK_CTRL flag. It is not used both
-in upstream driver and in vendor SDE driver.
+After removal of DPU_PLANE_QOS_VBLANK_CTRL, several fields of struct
+dpu_hw_pipe_qos_cfg are fixed to false/0. Drop them from the structure
+(and drop the corresponding code from the functions).
+
+The DPU_PLANE_QOS_VBLANK_AMORTIZE flag is also removed, since it is now
+a NOP.
 
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h |  4 ----
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c    |  8 --------
- drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c      | 10 ----------
- 3 files changed, 22 deletions(-)
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c | 10 ----------
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h |  6 ------
+ drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c   | 17 ++---------------
+ 3 files changed, 2 insertions(+), 31 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-index b2831b45ac64..d47e7061a36b 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-@@ -371,8 +371,6 @@ struct dpu_caps {
- /**
-  * struct dpu_sspp_sub_blks : SSPP sub-blocks
-  * common: Pointer to common configurations shared by sub blocks
-- * @creq_vblank: creq priority during vertical blanking
-- * @danger_vblank: danger priority during vertical blanking
-  * @maxdwnscale: max downscale ratio supported(without DECIMATION)
-  * @maxupscale:  maxupscale ratio supported
-  * @smart_dma_priority: hw priority of rect1 of multirect pipe
-@@ -387,8 +385,6 @@ struct dpu_caps {
-  * @dpu_rotation_cfg: inline rotation configuration
-  */
- struct dpu_sspp_sub_blks {
--	u32 creq_vblank;
--	u32 danger_vblank;
- 	u32 maxdwnscale;
- 	u32 maxupscale;
- 	u32 smart_dma_priority;
 diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c
-index 731199030336..b198def5534b 100644
+index b198def5534b..341e3a8fc927 100644
 --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c
 +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c
-@@ -697,14 +697,6 @@ int _dpu_hw_sspp_init_debugfs(struct dpu_hw_sspp *hw_pipe, struct dpu_kms *kms,
- 			0400,
- 			debugfs_root,
- 			(u32 *) &cfg->clk_ctrl);
--	debugfs_create_x32("creq_vblank",
--			0600,
--			debugfs_root,
--			(u32 *) &sblk->creq_vblank);
--	debugfs_create_x32("danger_vblank",
--			0600,
--			debugfs_root,
--			(u32 *) &sblk->danger_vblank);
+@@ -575,16 +575,6 @@ static void dpu_hw_sspp_setup_qos_ctrl(struct dpu_hw_sspp *ctx,
+ 	if (!ctx)
+ 		return;
  
- 	return 0;
- }
+-	if (cfg->vblank_en) {
+-		qos_ctrl |= ((cfg->creq_vblank &
+-				SSPP_QOS_CTRL_CREQ_VBLANK_MASK) <<
+-				SSPP_QOS_CTRL_CREQ_VBLANK_OFF);
+-		qos_ctrl |= ((cfg->danger_vblank &
+-				SSPP_QOS_CTRL_DANGER_VBLANK_MASK) <<
+-				SSPP_QOS_CTRL_DANGER_VBLANK_OFF);
+-		qos_ctrl |= SSPP_QOS_CTRL_VBLANK_EN;
+-	}
+-
+ 	if (cfg->danger_safe_en)
+ 		qos_ctrl |= SSPP_QOS_CTRL_DANGER_SAFE_EN;
+ 
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h
+index 86bf4b2cda77..aaf6f41d546c 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h
+@@ -165,15 +165,9 @@ struct dpu_sw_pipe_cfg {
+ 
+ /**
+  * struct dpu_hw_pipe_qos_cfg : Source pipe QoS configuration
+- * @creq_vblank: creq value generated to vbif during vertical blanking
+- * @danger_vblank: danger value generated during vertical blanking
+- * @vblank_en: enable creq_vblank and danger_vblank during vblank
+  * @danger_safe_en: enable danger safe generation
+  */
+ struct dpu_hw_pipe_qos_cfg {
+-	u32 creq_vblank;
+-	u32 danger_vblank;
+-	bool vblank_en;
+ 	bool danger_safe_en;
+ };
+ 
 diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-index 586f089756fa..3cb891917b65 100644
+index 3cb891917b65..0ed350776775 100644
 --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
 +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-@@ -73,13 +73,11 @@ static const uint32_t qcom_compressed_supported_formats[] = {
+@@ -73,12 +73,9 @@ static const uint32_t qcom_compressed_supported_formats[] = {
  /**
   * enum dpu_plane_qos - Different qos configurations for each pipe
   *
-- * @DPU_PLANE_QOS_VBLANK_CTRL: Setup VBLANK qos for the pipe.
-  * @DPU_PLANE_QOS_VBLANK_AMORTIZE: Enables Amortization within pipe.
-  *	this configuration is mutually exclusive from VBLANK_CTRL.
+- * @DPU_PLANE_QOS_VBLANK_AMORTIZE: Enables Amortization within pipe.
+- *	this configuration is mutually exclusive from VBLANK_CTRL.
   * @DPU_PLANE_QOS_PANIC_CTRL: Setup panic for the pipe.
   */
  enum dpu_plane_qos {
--	DPU_PLANE_QOS_VBLANK_CTRL = BIT(0),
- 	DPU_PLANE_QOS_VBLANK_AMORTIZE = BIT(1),
+-	DPU_PLANE_QOS_VBLANK_AMORTIZE = BIT(1),
  	DPU_PLANE_QOS_PANIC_CTRL = BIT(2),
  };
-@@ -361,15 +359,7 @@ static void _dpu_plane_set_qos_ctrl(struct drm_plane *plane,
+ 
+@@ -359,25 +356,15 @@ static void _dpu_plane_set_qos_ctrl(struct drm_plane *plane,
  
  	memset(&pipe_qos_cfg, 0, sizeof(pipe_qos_cfg));
  
--	if (flags & DPU_PLANE_QOS_VBLANK_CTRL) {
--		pipe_qos_cfg.creq_vblank = pipe->sspp->cap->sblk->creq_vblank;
--		pipe_qos_cfg.danger_vblank =
--				pipe->sspp->cap->sblk->danger_vblank;
--		pipe_qos_cfg.vblank_en = enable;
+-	if (flags & DPU_PLANE_QOS_VBLANK_AMORTIZE) {
+-		pipe_qos_cfg.vblank_en = false;
+-		pipe_qos_cfg.creq_vblank = 0; /* clear vblank bits */
 -	}
 -
- 	if (flags & DPU_PLANE_QOS_VBLANK_AMORTIZE) {
--		/* this feature overrules previous VBLANK_CTRL */
- 		pipe_qos_cfg.vblank_en = false;
- 		pipe_qos_cfg.creq_vblank = 0; /* clear vblank bits */
- 	}
+ 	if (flags & DPU_PLANE_QOS_PANIC_CTRL)
+ 		pipe_qos_cfg.danger_safe_en = enable;
+ 
+-	if (!pdpu->is_rt_pipe) {
+-		pipe_qos_cfg.vblank_en = false;
++	if (!pdpu->is_rt_pipe)
+ 		pipe_qos_cfg.danger_safe_en = false;
+-	}
+ 
+-	DPU_DEBUG_PLANE(pdpu, "pnum:%d ds:%d vb:%d pri[0x%x, 0x%x] is_rt:%d\n",
++	DPU_DEBUG_PLANE(pdpu, "pnum:%d ds:%d is_rt:%d\n",
+ 		pdpu->pipe - SSPP_VIG0,
+ 		pipe_qos_cfg.danger_safe_en,
+-		pipe_qos_cfg.vblank_en,
+-		pipe_qos_cfg.creq_vblank,
+-		pipe_qos_cfg.danger_vblank,
+ 		pdpu->is_rt_pipe);
+ 
+ 	pipe->sspp->ops.setup_qos_ctrl(pipe->sspp,
 -- 
 2.39.2
 
