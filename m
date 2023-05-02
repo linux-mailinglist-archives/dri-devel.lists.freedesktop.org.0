@@ -1,63 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6152B6F44A0
-	for <lists+dri-devel@lfdr.de>; Tue,  2 May 2023 15:05:29 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A9B1E6F44AE
+	for <lists+dri-devel@lfdr.de>; Tue,  2 May 2023 15:08:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6497010E0A8;
-	Tue,  2 May 2023 13:05:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CD99710E577;
+	Tue,  2 May 2023 13:08:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5B96110E0A8
- for <dri-devel@lists.freedesktop.org>; Tue,  2 May 2023 13:05:23 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id C489B1F8BE;
- Tue,  2 May 2023 13:05:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1683032721; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=lLKfgeB+JqNvGRsaL01WJVCtLpK1SXx0X+TEi5Cfkto=;
- b=IORkPiHqrrYsdqhnwxts8I8RoHcm/La5btwPWosSWYFTpUW2pkfzvvuWR2h9F1oL64PfY4
- Z8lCVl8cAuTVgB2y7XvZtT1aNpM9XBGLzhfsI1KYNIF0pgH/dWytVOt6Tvh/DImtIQvWJr
- tjRiNqNwePR+44jFFDPRg9KJzSW1pkw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1683032721;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=lLKfgeB+JqNvGRsaL01WJVCtLpK1SXx0X+TEi5Cfkto=;
- b=rF5fEdeYzrDQOumP+Ak8A4Y8n3Kdl4qw3IcMzu4ze8OkoIb9WsRqr5GOuk3eJlqXTFyKLP
- vqtc3wLlJRVTSuAg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 15D32134FB;
- Tue,  2 May 2023 13:05:21 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id SroQAZEKUWTpTgAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Tue, 02 May 2023 13:05:21 +0000
-Message-ID: <8b76866e-4f6d-7960-65ec-9880c2882c5e@suse.de>
-Date: Tue, 2 May 2023 15:05:20 +0200
+Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com
+ [IPv6:2a00:1450:4864:20::635])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0509510E562
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 May 2023 13:08:23 +0000 (UTC)
+Received: by mail-ej1-x635.google.com with SMTP id
+ a640c23a62f3a-94a34a14a54so761135666b.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 02 May 2023 06:08:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1683032902; x=1685624902;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=vTdVXb6d4xnv0YmTLdS0Qi0kVGTI9rnff/94Pf5/JNU=;
+ b=OTiDWyUjc5vLKmDjfmk7vFBEmIE4CpI9soc/Ksp7mPInOkA3TNy6L2M7frTwl2kzaE
+ tHgRxck2zMMwnkrzOBupt0niab9C6KVELTQkYM6fF4egq3bJC5ruaJCdxck/wB+J/Q4J
+ rUjVjH/5Ymwx64TrF0ZMxxtL7qfixmlnzy4h0s0zJ0NTqw4VRiojQ0TtdDTmLLbD0dmp
+ FQFqu/vlqgPP0kzO6K0gBFpAQ/Irbo6CMQypZzqTo3astF/GdzyFsHWoFwQ5f+hyfeBo
+ INll3QaytXjs0N3qnXo180nKkheCRvj3eji1cekBtql1r5j9k3gsP7HM1WAybQNC6hVC
+ WQ1g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1683032902; x=1685624902;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=vTdVXb6d4xnv0YmTLdS0Qi0kVGTI9rnff/94Pf5/JNU=;
+ b=Vs5JSBugNthNfCtr33Jx5J1G2C65MNc4XmiBEumCaI2u98mqBdOZavxyunQdT6LZs4
+ WAGogt9MlYFh9ioOyZeGSpEMO6OOqj6yhu8Fy0UwJarD68y/DSqR48SRvtn4KTg5fbTh
+ c4RjL8+FcAapBGiBoJBI/n8sZAdbrrTBd2Up5w95/pXCLJxqgpD/upqjk05B0istMqt/
+ yEZn9TEcuU3tR/4nzYaBzzJykiMwd+laqA9PgKtrkLRS4wA4rQvNcK/JsZXd69I3pfsF
+ HPCOGU/gwN9glFOLU8Uy09oTDXWa+t8+Rtlq69hscT/D0TgGjd6XdWcRgN0WqnN5adr/
+ BhWw==
+X-Gm-Message-State: AC+VfDz4xmNu8sWbQ4oeSP+MN4x5Pe1kfs7FSRtGhTxckYC5CipmL7+D
+ Cim+mQcbbzxl1OK6g0DaFm7iow==
+X-Google-Smtp-Source: ACHHUZ75BXm0BWRSmTJcDouunvHBmhjCdZtr03hxCxdUgu1OaMxH5zZSLU7E9xbmohDbZRVAPPrOjw==
+X-Received: by 2002:a17:907:c0d:b0:94f:969e:c52b with SMTP id
+ ga13-20020a1709070c0d00b0094f969ec52bmr14376500ejc.74.1683032902382; 
+ Tue, 02 May 2023 06:08:22 -0700 (PDT)
+Received: from ?IPV6:2a02:810d:15c0:828:bafd:1283:b136:5f6a?
+ ([2a02:810d:15c0:828:bafd:1283:b136:5f6a])
+ by smtp.gmail.com with ESMTPSA id
+ lh11-20020a170906f8cb00b0094a789256dcsm16133602ejb.111.2023.05.02.06.08.19
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 02 May 2023 06:08:20 -0700 (PDT)
+Message-ID: <665a0e0e-6320-981f-8675-95f064864837@linaro.org>
+Date: Tue, 2 May 2023 15:08:19 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH] drm/udl: delete dead code
+ Thunderbird/102.10.1
+Subject: Re: [PATCH v2 2/2] dt-bindings: display: novatek,nt36523: define ports
 Content-Language: en-US
-To: Dan Carpenter <dan.carpenter@linaro.org>, Dave Airlie
- <airlied@redhat.com>, Takashi Iwai <tiwai@suse.de>
-References: <e0e35421-8746-43b6-971e-e25d1cd1d6a7@kili.mountain>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <e0e35421-8746-43b6-971e-e25d1cd1d6a7@kili.mountain>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------OC0RpCrqK8uP7BE4HzCBDidD"
+To: Jianhua Lu <lujianhua000@gmail.com>
+References: <20230502120036.47165-1-krzysztof.kozlowski@linaro.org>
+ <20230502120036.47165-2-krzysztof.kozlowski@linaro.org>
+ <ZFEFwwU9_h36xFvd@Gentoo>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <ZFEFwwU9_h36xFvd@Gentoo>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,81 +79,32 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel-janitors@vger.kernel.org, Sean Paul <sean@poorly.run>,
- dri-devel@lists.freedesktop.org
+Cc: Neil Armstrong <neil.armstrong@linaro.org>, devicetree@vger.kernel.org,
+ Sam Ravnborg <sam@ravnborg.org>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Del Regno <angelogioacchino.delregno@somainline.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------OC0RpCrqK8uP7BE4HzCBDidD
-Content-Type: multipart/mixed; boundary="------------aP8Dl8jZDUy5JphQHepJW9Un";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Dan Carpenter <dan.carpenter@linaro.org>, Dave Airlie
- <airlied@redhat.com>, Takashi Iwai <tiwai@suse.de>
-Cc: Sean Paul <sean@poorly.run>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org,
- kernel-janitors@vger.kernel.org
-Message-ID: <8b76866e-4f6d-7960-65ec-9880c2882c5e@suse.de>
-Subject: Re: [PATCH] drm/udl: delete dead code
-References: <e0e35421-8746-43b6-971e-e25d1cd1d6a7@kili.mountain>
-In-Reply-To: <e0e35421-8746-43b6-971e-e25d1cd1d6a7@kili.mountain>
+On 02/05/2023 14:44, Jianhua Lu wrote:
+> On Tue, May 02, 2023 at 02:00:36PM +0200, Krzysztof Kozlowski wrote:
+>>      description: regulator that supplies the I/O voltage
+> [..]
+>>  
+>> +  ports:
+>> +    $ref: /schemas/graph.yaml#/properties/ports
+>> +
+>> +    required:
+>> +      - port@0
+>> +      - port@1
+> Konrad has added a single DSI panel to this bindings, so we should
+> drop port@1 to allow it.
+> 
+> See https://lore.kernel.org/lkml/20230412-topic-lenovopanel-v3-1-bcf9ba4de46f@linaro.org/
 
---------------aP8Dl8jZDUy5JphQHepJW9Un
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+Thanks, I'll send a v2 ~tomorrow.
 
-SGkNCg0KQW0gMDIuMDUuMjMgdW0gMTQ6NTkgc2NocmllYiBEYW4gQ2FycGVudGVyOg0KPiBU
-aGUgInVub2RlIiBwb2ludGVyIGNhbm5vdCBiZSBOVUxMIGhlcmUgYW5kIGNoZWNraW5nIGZv
-ciBpdCBjYXVzZXMNCj4gU21hdGNoIHdhcm5pbmdzOg0KPiANCj4gICAgIGRyaXZlcnMvZ3B1
-L2RybS91ZGwvdWRsX21haW4uYzoyNTkgdWRsX2dldF91cmJfbG9ja2VkKCkNCj4gICAgIHdh
-cm46IGNhbiAndW5vZGUnIGV2ZW4gYmUgTlVMTD8NCj4gDQo+IEZvcnR1bmF0ZWx5LCBpdCdz
-IGp1c3QgaGFybWxlc3MgZGVhZCBjb2RlIHdoaWNoIGNhbiBiZSByZW1vdmVkLiAgSXQncw0K
-PiBsZWZ0IG92ZXIgZnJvbSBjb21taXQgYzVjMzU0YTNhNDcyICgiZHJtL3VkbDogRml4IGlu
-Y29uc2lzdGVudCB1cmJzLmNvdW50DQo+IHZhbHVlIGR1cmluZyB1ZGxfZnJlZV91cmJfbGlz
-dCgpIikuDQo+IA0KPiBSZXBvcnRlZC1ieToga2VybmVsIHRlc3Qgcm9ib3QgPGxrcEBpbnRl
-bC5jb20+DQo+IFNpZ25lZC1vZmYtYnk6IERhbiBDYXJwZW50ZXIgPGRhbi5jYXJwZW50ZXJA
-bGluYXJvLm9yZz4NCj4gLS0tDQo+ICAgZHJpdmVycy9ncHUvZHJtL3VkbC91ZGxfbWFpbi5j
-IHwgMiArLQ0KPiAgIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlv
-bigtKQ0KPiANCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS91ZGwvdWRsX21haW4u
-YyBiL2RyaXZlcnMvZ3B1L2RybS91ZGwvdWRsX21haW4uYw0KPiBpbmRleCAwNjFjYjg4YzA4
-YTIuLjNlYmUyY2U1NWRmZCAxMDA2NDQNCj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL3VkbC91
-ZGxfbWFpbi5jDQo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS91ZGwvdWRsX21haW4uYw0KPiBA
-QCAtMjU1LDcgKzI1NSw3IEBAIHN0YXRpYyBzdHJ1Y3QgdXJiICp1ZGxfZ2V0X3VyYl9sb2Nr
-ZWQoc3RydWN0IHVkbF9kZXZpY2UgKnVkbCwgbG9uZyB0aW1lb3V0KQ0KPiAgIAlsaXN0X2Rl
-bF9pbml0KCZ1bm9kZS0+ZW50cnkpOw0KPiAgIAl1ZGwtPnVyYnMuYXZhaWxhYmxlLS07DQo+
-ICAgDQo+IC0JcmV0dXJuIHVub2RlID8gdW5vZGUtPnVyYiA6IE5VTEw7DQo+ICsJcmV0dXJu
-IHVub2RlLT51cmI7DQoNClJldmlld2VkLWJ5OiBUaG9tYXMgWmltbWVybWFubiA8dHppbW1l
-cm1hbm5Ac3VzZS5kZT4NCg0KVGhhbmtzIGEgbG90LiBJZiBubyBvbmUgY29tcGxhaW5zLCBJ
-J2xsIGFkZCB0aGUgcGF0Y2ggdG8gZHJtLW1pc2MtbmV4dCBzb29uLg0KDQpCZXN0IHJlZ2Fy
-ZHMNClRob21hcw0KDQo+ICAgfQ0KPiAgIA0KPiAgICNkZWZpbmUgR0VUX1VSQl9USU1FT1VU
-CUhaDQoNCi0tIA0KVGhvbWFzIFppbW1lcm1hbm4NCkdyYXBoaWNzIERyaXZlciBEZXZlbG9w
-ZXINClNVU0UgU29mdHdhcmUgU29sdXRpb25zIEdlcm1hbnkgR21iSA0KRnJhbmtlbnN0cmFz
-c2UgMTQ2LCA5MDQ2MSBOdWVybmJlcmcsIEdlcm1hbnkNCkdGOiBJdm8gVG90ZXYsIEFuZHJl
-dyBNeWVycywgQW5kcmV3IE1jRG9uYWxkLCBCb3VkaWVuIE1vZXJtYW4NCkhSQiAzNjgwOSAo
-QUcgTnVlcm5iZXJnKQ0K
+Best regards,
+Krzysztof
 
---------------aP8Dl8jZDUy5JphQHepJW9Un--
-
---------------OC0RpCrqK8uP7BE4HzCBDidD
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmRRCpAFAwAAAAAACgkQlh/E3EQov+A+
-tRAAj7nsnGFSuLJrZExzyZcnDTde+lFijANCv/Mxrly3qhY5jYGZmXd0H83CteSzqZQ8DMmTsmKJ
-KGpbQp8GElJqKkxD3fZ7T0g3+DdCPueFacnmvOlBPnZb3OEzu7JI3DQmmPy4c06NUwVTOfd/xFlw
-+3loHApzq06ix4KHLoI7DbA4GhVjs2KJ/L9xv3+M30oudfbDQ0dW1yjKCB2tpYGM6AMyETGrsJNt
-MTBihif6PeJW+QWxiwEGdEV1BszF+EYOztYzb3FD7RAmTNqBRNV3PgUBHiZIp5G8IisE6Z6Qgg56
-G4wNotORlAQ5pdnBQQ511Byjo7teblblZ6g4VzSLYIXsDVmy+aaWCT2H6FL4J5wTsOk2/p35oTM5
-UlUYtrfUfWzySEQQFOMYgoD9sciPFVxHFL+Fiisua20l7pAJQX3xZoZoMDb7S4DemoBKlJcni3wx
-BPxuAM5hPunvdwQbUMhIg/ivE/HFhexmEs7i01lfmgEsmfXMFzi1xZ9hy6hHWfp0YmU5KNSU3MF8
-e1ZGr+qTPdi//kGfzrCVSk+06Q+j3z4JJwIhABK3w8pZC20ev3xn7DT+hYI6OAG9yL8Q85N7xTsn
-7BJno/Nn6vJpMS4aRNNwM55Fagawcp+C1hATrlgsKU3wDeFiIeU1kLxP4n/3aXBr0vvdyL+uXD4W
-OWc=
-=cj51
------END PGP SIGNATURE-----
-
---------------OC0RpCrqK8uP7BE4HzCBDidD--
