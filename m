@@ -1,67 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13E376F4565
-	for <lists+dri-devel@lfdr.de>; Tue,  2 May 2023 15:45:23 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4199B6F518F
+	for <lists+dri-devel@lfdr.de>; Wed,  3 May 2023 09:31:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3EC5A10E286;
-	Tue,  2 May 2023 13:45:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BA03C10E1D1;
+	Wed,  3 May 2023 07:30:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x332.google.com (mail-ot1-x332.google.com
- [IPv6:2607:f8b0:4864:20::332])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0EFA010E286;
- Tue,  2 May 2023 13:45:17 +0000 (UTC)
-Received: by mail-ot1-x332.google.com with SMTP id
- 46e09a7af769-6a438f0d9c9so2682184a34.1; 
- Tue, 02 May 2023 06:45:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1683035116; x=1685627116;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=M8MTHJ52iLYQD5hklUS87Ar+YGmPytygVAeYV0UnYw0=;
- b=gYOWyPkt4QQAkSbtqPXdKGoGuU5TqFuXt5BI8IYWr4O97at9XkZOF9GUL6M0yxJ3t8
- KuFcLSVV8ZgFDgojs0nVoUPKEIpOXgstyVO5lHyJvkqwRHHcbQIKrgeG8QPCoAq8Ck2k
- LC0A1cr4NF5sVli9HXrbR6TcZaM7sh+7T9gHKH39ADFdeW4k9D02WsBK+Iar9iJbu3jI
- 3W7e9KpIsevBjuyGNewuizv6IZ9oG+txj4WAGckJXMLBYov4NAk0hmn8Q2NVB8Wh0Q8/
- DHB8BrMl9dY+9uH5ex0YReP7Dz6+B2xgm/Iz+FZqkzUZP3IwyDVfomVbn3+LDPD3GUDy
- BaqA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683035116; x=1685627116;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=M8MTHJ52iLYQD5hklUS87Ar+YGmPytygVAeYV0UnYw0=;
- b=Ab+YgRuW4+ZG0fKrsNd85fJwErU971z8lE0goyqY5hekTtVCiavfRW8BIeciHka/VH
- 7lIXSUiDUYIt02oX9/OrzMgKMervq+0k101TEDDVgbaQTgwMDxKUH0M2o9AyooSTP2tz
- JI17jGD5fsuFAZ1CSC5pO/7QCexWoGOKXgk6cROwDnF557u9Fo6cP8hfzoxlcNf1iKnZ
- HwO1pY9wZbizKlmrKdCglEd3gmq/eFw8Ob+ErJ1IMpZhLfKcfGvbHylhV99vT6/uCX0x
- iTVDoou6BdKlWJD4F5qvb0B4P76r1KbwRMNBqaJXF6dzOv88cpmE2KgE9vw27b6F3mQM
- luYA==
-X-Gm-Message-State: AC+VfDxs0FyaDDuyEMfo72jeNGfkcrUdgU7nXbJgXgK26/CWZHO2Ne3q
- 9scvFdB/H6DmWONxSOlaOfD0HqBi4+xIEKL3hJU=
-X-Google-Smtp-Source: ACHHUZ4ChQ+Ujphil3bnlZK25JwgSAA0QglzMgdEbCBRYR+E7nBTcEI62kwCTYWU1AwTEa3KQIPD+F2XaGSfPbmLYmA=
-X-Received: by 2002:a05:6808:159a:b0:392:3ba:3a28 with SMTP id
- t26-20020a056808159a00b0039203ba3a28mr6660179oiw.11.1683035116619; Tue, 02
- May 2023 06:45:16 -0700 (PDT)
+Received: from dijkstra.felixrichter.tech (dijkstra.felixrichter.tech
+ [37.120.184.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BB6F510E26F;
+ Tue,  2 May 2023 13:48:53 +0000 (UTC)
+Received: from [10.130.10.2] (unknown [10.130.10.2])
+ by dijkstra.felixrichter.tech (Postfix) with ESMTPSA id 035BE1A024E;
+ Tue,  2 May 2023 15:49:21 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=felixrichter.tech;
+ s=20210926; t=1683035362;
+ bh=4NZnipmb6YLcla5+VI50cBbXH7XresFxdMeUMfT+nFs=;
+ h=Date:To:Cc:References:From:Subject:In-Reply-To;
+ b=iWA+eweRcLqlXCVN87Vx0b4EpJ7S7jpTwjJxOxliVP8RbRV4bhr9pIZ8zTVuH7vxo
+ xlyiuiuI+TOEhfIjpkM7XRPNqAtdXTJpexdaYgOxj8pjmpY41D2zKM2yWnED3AcDyu
+ f5nHXISSfEQ038flnICYalca658j9VYWOEDUWPMI=
+Message-ID: <0cac032a-0f65-5134-cde5-f535fc58c5ab@felixrichter.tech>
+Date: Tue, 2 May 2023 15:48:50 +0200
 MIME-Version: 1.0
-References: <20230501185747.33519-1-andrealmeid@igalia.com>
- <CADnq5_NXj4W44F_etRQ7HWdVTnf5zARCM3Y_o3EiwWiHj8QMpA@mail.gmail.com>
- <6ab2ff76-4518-6fac-071e-5d0d5adc4fcd@igalia.com>
- <cb3d2590-a1f8-fe7e-0bba-638ee80719af@amd.com>
- <CAFF-SiV0=WNmRW-D9uYUuj68Zq0APxtGLya9KR6FfZ7v0Zf2RQ@mail.gmail.com>
- <fcca2934-a556-797c-535d-a66fc67bbe30@amd.com>
- <85c538b01efb6f3fa6ff05ed1a0bc3ff87df7a61.camel@gmail.com>
-In-Reply-To: <85c538b01efb6f3fa6ff05ed1a0bc3ff87df7a61.camel@gmail.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Tue, 2 May 2023 09:45:05 -0400
-Message-ID: <CADnq5_NHtFbwT=x8u7GYc4ESL_HVFzjgtOd3AnVFBYMrjZq55w@mail.gmail.com>
-Subject: Re: [RFC PATCH 0/1] Add AMDGPU_INFO_GUILTY_APP ioctl
-To: =?UTF-8?Q?Timur_Krist=C3=B3f?= <timur.kristof@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.1
+To: Linux regressions mailing list <regressions@lists.linux.dev>,
+ Alex Deucher <alexdeucher@gmail.com>
+References: <46a7eb80-5f09-4f6a-4fd3-9550dafd497c@felixrichter.tech>
+ <1efbf587-e7b5-74a3-89e4-ca70386bd191@leemhuis.info>
+ <CADnq5_M-5SD6HDRVtFHPNF3q9XKz75PECdUxR-OaVpPe2Zw=EQ@mail.gmail.com>
+ <8d23a70e-b132-9b25-917a-1f45918533cc@leemhuis.info>
+From: Felix Richter <judge@felixrichter.tech>
+Subject: Re: PROBLEM: AMD Ryzen 9 7950X iGPU - Blinking Issue
+In-Reply-To: <8d23a70e-b132-9b25-917a-1f45918533cc@leemhuis.info>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Wed, 03 May 2023 07:30:49 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,151 +52,91 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Pelloux-Prayer, Pierre-Eric" <pierre-eric.pelloux-prayer@amd.com>,
- Samuel Pitoiset <samuel.pitoiset@gmail.com>,
- =?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>,
- =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <maraeo@gmail.com>,
- michel.daenzer@mailbox.org, linux-kernel@vger.kernel.org,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, kernel-dev@igalia.com, "Deucher,
- Alexander" <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, May 2, 2023 at 9:35=E2=80=AFAM Timur Krist=C3=B3f <timur.kristof@gm=
-ail.com> wrote:
+On 5/2/23 15:34, Linux regression tracking (Thorsten Leemhuis) wrote:
+> On 02.05.23 15:13, Alex Deucher wrote:
+>> On Tue, May 2, 2023 at 7:45 AM Linux regression tracking (Thorsten
+>> Leemhuis) <regressions@leemhuis.info> wrote:
+>>
+>>> On 30.04.23 13:44, Felix Richter wrote:
+>>>> Hi,
+>>>>
+>>>> I am running into an issue with the integrated GPU of the Ryzen 9 7950X. It seems to be a regression from kernel version 6.1 to 6.2.
+>>>> The bug materializes in from of my monitor blinking, meaning it turns full white shortly. This happens very often so that the system becomes unpleasant to use.
+>>>>
+>>>> I am running the Archlinux Kernel:
+>>>> The Issue happens on the bleeding edge kernel: 6.2.13
+>>>> Switching back to the LTS kernel resolves the issue: 6.1.26
+>>>>
+>>>> I have two monitors attached to the system. One 42 inch 4k Display and a 24 inch 1080p Display and am running sway as my desktop.
+>>>>
+>>>> Let me know if there is more information I could provide to help narrow down the issue.
+>>> Thanks for the report. To be sure the issue doesn't fall through the
+>>> cracks unnoticed, I'm adding it to regzbot, the Linux kernel regression
+>>> tracking bot:
+>>>
+>>> #regzbot ^introduced v6.1..v6.2
+>>> #regzbot title drm: amdgpu: system becomes unpleasant to use after
+>>> monitor starts blinking and turns full white
+>>> #regzbot ignore-activity
+>>>
+>>> This isn't a regression? This issue or a fix for it are already
+>>> discussed somewhere else? It was fixed already? You want to clarify when
+>>> the regression started to happen? Or point out I got the title or
+>>> something else totally wrong? Then just reply and tell me -- ideally
+>>> while also telling regzbot about it, as explained by the page listed in
+>>> the footer of this mail.
+>>>
+>>> Developers: When fixing the issue, remember to add 'Link:' tags pointing
+>>> to the report (the parent of this mail). See page linked in footer for
+>>> details.
+>> This sounds exactly like the issue that was fixed in this patch which
+>> is already on it's way to Linus:
+>> https://gitlab.freedesktop.org/agd5f/linux/-/commit/08da182175db4c7f80850354849d95f2670e8cd9
+> FWIW, you in the flood of emails likely missed that this is the same
+> thread where you yesterday replied "If the module parameter didn't help
+> then perhaps you are seeing some other issue.  Can you bisect?". That's
+> why I decided to add this to the tracking. Or am I missing something
+> obvious here?
 >
-> Hi,
+> /me looks around again and can't see anything, but that doesn't have to
+> mean anything...
 >
-> On Tue, 2023-05-02 at 13:14 +0200, Christian K=C3=B6nig wrote:
-> > >
-> > > Christian K=C3=B6nig <christian.koenig@amd.com> ezt =C3=ADrta (id=C5=
-=91pont: 2023.
-> > > m=C3=A1j. 2., Ke 9:59):
-> > >
-> > > > Am 02.05.23 um 03:26 schrieb Andr=C3=A9 Almeida:
-> > > >  > Em 01/05/2023 16:24, Alex Deucher escreveu:
-> > > >  >> On Mon, May 1, 2023 at 2:58=E2=80=AFPM Andr=C3=A9 Almeida
-> > > > <andrealmeid@igalia.com>
-> > > >  >> wrote:
-> > > >  >>>
-> > > >  >>> I know that devcoredump is also used for this kind of
-> > > > information,
-> > > >  >>> but I believe
-> > > >  >>> that using an IOCTL is better for interfacing Mesa + Linux
-> > > > rather
-> > > >  >>> than parsing
-> > > >  >>> a file that its contents are subjected to be changed.
-> > > >  >>
-> > > >  >> Can you elaborate a bit on that?  Isn't the whole point of
-> > > > devcoredump
-> > > >  >> to store this sort of information?
-> > > >  >>
-> > > >  >
-> > > >  > I think that devcoredump is something that you could use to
-> > > > submit to
-> > > >  > a bug report as it is, and then people can read/parse as they
-> > > > want,
-> > > >  > not as an interface to be read by Mesa... I'm not sure that
-> > > > it's
-> > > >  > something that I would call an API. But I might be wrong, if
-> > > > you know
-> > > >  > something that uses that as an API please share.
-> > > >  >
-> > > >  > Anyway, relying on that for Mesa would mean that we would need
-> > > > to
-> > > >  > ensure stability for the file content and format, making it
-> > > > less
-> > > >  > flexible to modify in the future and probe to bugs, while the
-> > > > IOCTL is
-> > > >  > well defined and extensible. Maybe the dump from Mesa +
-> > > > devcoredump
-> > > >  > could be complementary information to a bug report.
-> > > >
-> > > >  Neither using an IOCTL nor devcoredump is a good approach for
-> > > > this since
-> > > >  the values read from the hw register are completely unreliable.
-> > > > They
-> > > >  could not be available because of GFXOFF or they could be
-> > > > overwritten or
-> > > >  not even updated by the CP in the first place because of a hang
-> > > > etc....
-> > > >
-> > > >  If you want to track progress inside an IB what you do instead
-> > > > is to
-> > > >  insert intermediate fence write commands into the IB. E.g.
-> > > > something
-> > > >  like write value X to location Y when this executes.
-> > > >
-> > > >  This way you can not only track how far the IB processed, but
-> > > > also in
-> > > >  which stages of processing we where when the hang occurred. E.g.
-> > > > End of
-> > > >  Pipe, End of Shaders, specific shader stages etc...
-> > > >
-> > > >
-> > >
-> > > Currently our biggest challenge in the userspace driver is
-> > > debugging "random" GPU hangs. We have many dozens of bug reports
-> > > from users which are like: "play the game for X hours and it will
-> > > eventually hang the GPU". With the currently available tools, it is
-> > > impossible for us to tackle these issues. Andr=C3=A9's proposal would=
- be
-> > > a step in improving this situation.
-> > >
-> > > We already do something like what you suggest, but there are
-> > > multiple problems with that approach:
-> > >
-> > > 1. we can only submit 1 command buffer at a time because we won't
-> > > know which IB hanged
-> > > 2. we can't use chaining because we don't know where in the IB it
-> > > hanged
-> > > 3. it needs userspace to insert (a lot of) extra commands such as
-> > > extra synchronization and memory writes
-> > > 4. It doesn't work when GPU recovery is enabled because the
-> > > information is already gone when we detect the hang
-> > >
-> >  You can still submit multiple IBs and even chain them. All you need
-> > to do is to insert into each IB commands which write to an extra
-> > memory location with the IB executed and the position inside the IB.
-> >
-> >  The write data command allows to write as many dw as you want (up to
-> > multiple kb). The only potential problem is when you submit the same
-> > IB multiple times.
-> >
-> >  And yes that is of course quite some extra overhead, but I think
-> > that should be manageable.
+> Felix, btw, this guide might help you with the bisection, even if it's
+> just for kernel compilation:
 >
-> Thanks, this sounds doable and would solve the limitation of how many
-> IBs are submitted at a time. However it doesn't address the problem
-> that enabling this sort of debugging will still have extra overhead.
+> https://docs.kernel.org/next/admin-guide/quickly-build-trimmed-linux.html
 >
-> I don't mean the overhead from writing a couple of dwords for the
-> trace, but rather, the overhead from needing to emit flushes or top of
-> pipe events or whatever else we need so that we can tell which command
-> hung the GPU.
+> And to indirectly reply to your mail from yesterday[1]. You might want
+> to ignore the arch linux kernel git repo and just do a bisection between
+> 6.1 and the latest 6.2.y kernel using upstream repos; and if I were you
+> I'd also try 6.3 or even mainline before that, in case the issue was
+> fixed already.
 >
-> >
-> > > In my opinion, the correct solution to those problems would be if
-> > > the kernel could give userspace the necessary information about a
-> > > GPU hang before a GPU reset.
-> > >
-> >  The fundamental problem here is that the kernel doesn't have that
-> > information either. We know which IB timed out and can potentially do
-> > a devcoredump when that happens, but that's it.
+> [1]
+> https://lore.kernel.org/all/04749ee4-0728-92fe-bcb0-a7320279eaac@felixrichter.tech/
 >
->
-> Is it really not possible to know such a fundamental thing as what the
-> GPU was doing when it hung? How are we supposed to do any kind of
-> debugging without knowing that?
->
-> I wonder what AMD's Windows driver team is doing with this problem,
-> surely they must have better tools to deal with GPU hangs?
+> Ciao, Thorsten
+Thanks for the pointers, I'll do a bisection on my desktop from 6.1 to 
+the newest commit. That was the part I was mostly unsure about … where 
+to start from.
 
-For better or worse, most teams internally rely on scan dumps via JTAG
-which sort of limits the usefulness outside of AMD, but also gives you
-the exact state of the hardware when it's hung so the hardware teams
-prefer it.
+I was planning to use PKGBUILD scripts from arch to achieve the same 
+configuration as I would when installing
+the package and just rewrite the script to use a local copy of the 
+source code instead of the repository.
+That way I can just use the bisect command, rebuild the package and test 
+again.
 
-Alex
+But I probably won't be able to finish it this week, since I am on 
+vacation starting tomorrow and will not have access to the computer in 
+question. I will be back next week, by that time the patch Alex is 
+talking about might
+already be in mainline. So if that fixes it, I will notice and let you 
+know. If not I will do the bisection to figure out what the actual issue is.
+
+Kind regards,
+Felix
