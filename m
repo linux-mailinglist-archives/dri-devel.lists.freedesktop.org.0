@@ -1,77 +1,136 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0185D6F4656
-	for <lists+dri-devel@lfdr.de>; Tue,  2 May 2023 16:50:40 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id ECC3E6F4672
+	for <lists+dri-devel@lfdr.de>; Tue,  2 May 2023 16:55:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 67A7F10E29E;
-	Tue,  2 May 2023 14:50:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 85EB110E55F;
+	Tue,  2 May 2023 14:55:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C1EBD10E29E
- for <dri-devel@lists.freedesktop.org>; Tue,  2 May 2023 14:50:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683039030;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=XhmeR7C2zfghm/IL/as+Y+pN51ISJ3AaRZIBkHirVVA=;
- b=MW9c6QbT+K2SwEofhsFBvoyIAlkomDWVsoltZmbc38ZxDHjdkV+UEp5pz5ICp3KAtWa7wS
- 5yOT7rLiqGBQcBljPsxt3a5TLNSOfRsQnCfDP/0AkLATU4pjksZs/Y8negXCJVp4JZA2T/
- OnIY9pKdKyxWJSdW5oLEaJPXG+3eOC0=
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
- [209.85.222.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-654-2sFFUhscO06b1uDS8eJ99g-1; Tue, 02 May 2023 10:50:27 -0400
-X-MC-Unique: 2sFFUhscO06b1uDS8eJ99g-1
-Received: by mail-qk1-f197.google.com with SMTP id
- af79cd13be357-74e3f0a8349so215454585a.2
- for <dri-devel@lists.freedesktop.org>; Tue, 02 May 2023 07:50:27 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683039027; x=1685631027;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=XhmeR7C2zfghm/IL/as+Y+pN51ISJ3AaRZIBkHirVVA=;
- b=F3ePyGlDI7M3MsasxGVFNPBId1WtPAat8JRAG69Ioq9CmACOi6AbJ76ecz+z2wrmwO
- zwHOfFZN8LDJfQmWFhB+pwCy4xwyPp4CgC7hNCfJoR13qc69nCZ++x6Zr4zvpSXTYkNx
- rTrhP7zRincwzNW78yy/ePbKdCuglB+9zRTrYpL9WVtDPRZgv8UB1mBFFGfpcpyJC4Ej
- cdhc9KxjlALiUFS1hO71fZXWMcL1YOB2DUpBdETkKyAhgudkb7DKzNaR3UW7cW+DqXFy
- 1dqkSOFIwstUt5vvtOSs8/XzbF/s254aY1vyTUhGqiSWqom1vTrh+8HVROddVVhJSuc2
- 4wjw==
-X-Gm-Message-State: AC+VfDyec4R7LOJbA+7bvUz4SLFDS79HG2olWuhJd3WqzVO7tI+UuqD0
- 5HyVTObXmhB2dPquZv8I/iVdyoz/ekcnR037GeYRCOROdoCOoGv3uGwY2ioRPGlX/2hflEV92aG
- +PUqyGNchu3K5VPKkNRo3zIfjz3Ee
-X-Received: by 2002:a05:622a:143:b0:3ea:bec4:ef57 with SMTP id
- v3-20020a05622a014300b003eabec4ef57mr28954468qtw.13.1683039027422; 
- Tue, 02 May 2023 07:50:27 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ4dHp9unnIVk0+Doy1XuqLSB0Po7DZSJ94Ylm3eZ5tLIvbR2wMADu2J7HkOiAWMy91uB3Mwgg==
-X-Received: by 2002:a05:622a:143:b0:3ea:bec4:ef57 with SMTP id
- v3-20020a05622a014300b003eabec4ef57mr28954428qtw.13.1683039027172; 
- Tue, 02 May 2023 07:50:27 -0700 (PDT)
-Received: from dell-per740-01.7a2m.lab.eng.bos.redhat.com
- (nat-pool-bos-t.redhat.com. [66.187.233.206])
- by smtp.gmail.com with ESMTPSA id
- g7-20020ac81247000000b003ef3bbd242asm10343812qtj.32.2023.05.02.07.50.26
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 02 May 2023 07:50:26 -0700 (PDT)
-From: Tom Rix <trix@redhat.com>
-To: chunkuang.hu@kernel.org, p.zabel@pengutronix.de, chunfeng.yun@mediatek.com,
- vkoul@kernel.org, kishon@kernel.org, matthias.bgg@gmail.com,
- angelogioacchino.delregno@collabora.com
-Subject: [PATCH v2] phy: mediatek: rework the floating point comparisons to
- fixed point
-Date: Tue,  2 May 2023 10:50:05 -0400
-Message-Id: <20230502145005.2927101-1-trix@redhat.com>
-X-Mailer: git-send-email 2.27.0
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 54B4A10E33C;
+ Tue,  2 May 2023 14:55:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1683039343; x=1714575343;
+ h=date:from:to:cc:subject:message-id:references:
+ in-reply-to:mime-version;
+ bh=GbLxtbPc1EXN3YtmRqP7CINjYcou3J2bdqr48+dMgoI=;
+ b=R4Cya8SzPefEJwabdyYfmXImvYJO2gn4aH1rF3VyO6yT2XouqrPybbdD
+ sbq6GLjwlzoiWFqxRa3ZEFPcoO+qArLu45ql8IsHvKbpUJgJ9FRfgdS52
+ GgFRea7k8+UF8oajdT2Fw47Y1j2h0lm7+tajjMtIuATxi/n0jrx60VQKC
+ csLMwLOGSRofSJu2zGHrrEXJX/N9jrDLRgRdYQb5+8QkPqIWPkgFeTzIJ
+ O3m/gSQ204Pbtmg02pM5S/D7D8ZY+H0OXsqzveCfDBJCDRE6EPWvNEWGe
+ k2pW62sTSqEwJQo3N++8Dbwd9xCi1fImm8OGFqgEQiOM4TlO/Nv8hcXW0 w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10698"; a="328051582"
+X-IronPort-AV: E=Sophos;i="5.99,244,1677571200"; d="scan'208";a="328051582"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 May 2023 07:55:39 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10698"; a="870579031"
+X-IronPort-AV: E=Sophos;i="5.99,244,1677571200"; d="scan'208";a="870579031"
+Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
+ by orsmga005.jf.intel.com with ESMTP; 02 May 2023 07:55:38 -0700
+Received: from fmsmsx601.amr.corp.intel.com (10.18.126.81) by
+ fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.23; Tue, 2 May 2023 07:55:37 -0700
+Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
+ fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.23 via Frontend Transport; Tue, 2 May 2023 07:55:37 -0700
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (104.47.55.104)
+ by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.23; Tue, 2 May 2023 07:55:37 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=do0LWL9lvdv5SmJLjbDX+ofjh8CQD0XpxEbm2sfHjJFeUDuFDU3zlV7c3RjCNLtBQD4PR5GDBaGXwh9k14oJhp74hP2EZdWPgpm1KWanJlZZscIodFBqoH63bpd8MWvblLTSiijuHm/YHB9fDfePcvVrWt02tnnqpGvA/KVlH/+EJBeuZrJ/awKX8Ch0WzdxahYcwoB+GA5oOVYFcqvlEuKUdijerGuhidhwFiBIoyP6N87rONezH0MEZ59rBbFWn7cqeZA2aNqQMTPfDZ9mBgRy5nwIvWucEEtjMBh4HNLRDrHxwacLHmBL1+HXn2O7bTqRmIjQiA+eGNu6Q9Nt5w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=jCJUNtX5x63iizl9lgiPACNjRJj92epMFhhPM0xPkec=;
+ b=jimh/JIdaKi+nHMVIs8HVqY7uEMlQoQ4iRs7J+9xFK/+9Ka9M1B8lMawPXFPeocKjNkhGs7o4DAtzNN7g11tVnFfrj+CVMi3wfowTSYcXrJ9yauI8wzA8Iq24KS7rjLRu/14caDQVYvmBlXc+L61PgCdxFySk7jXu6inOD1fgXJQ4vSCWxy5R3XNgYIHb16Ftz8CvUKS1P1wc13+UX2aqTOqKB4+mzIJZeqReKRtxcd8C1lGj/YsXRy0kNqa4obRHJ3WQaMAzgq6bMk5d2Java6RzdeFeeO5t7ZpYcVbzw7haPaFXZr+IJAJEW+Z0ib2zITZdFpli3PzgbnRJpxfUg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from PH7PR11MB6522.namprd11.prod.outlook.com (2603:10b6:510:212::12)
+ by SN7PR11MB8041.namprd11.prod.outlook.com (2603:10b6:806:2ec::22)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6340.30; Tue, 2 May
+ 2023 14:55:35 +0000
+Received: from PH7PR11MB6522.namprd11.prod.outlook.com
+ ([fe80::ff06:a115:e4eb:680e]) by PH7PR11MB6522.namprd11.prod.outlook.com
+ ([fe80::ff06:a115:e4eb:680e%4]) with mapi id 15.20.6340.030; Tue, 2 May 2023
+ 14:55:35 +0000
+Date: Tue, 2 May 2023 14:55:18 +0000
+From: Matthew Brost <matthew.brost@intel.com>
+To: Rodrigo Vivi <rodrigo.vivi@intel.com>
+Subject: Re: [PATCH 06/14] drm/xe: Add GuC CT snapshot to xe_devcoredump.
+Message-ID: <ZFEkVsRkpnUVUGoQ@DUT025-TGLU.fm.intel.com>
+References: <20230426205713.512695-1-rodrigo.vivi@intel.com>
+ <20230426205713.512695-7-rodrigo.vivi@intel.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20230426205713.512695-7-rodrigo.vivi@intel.com>
+X-ClientProxiedBy: SJ0PR05CA0024.namprd05.prod.outlook.com
+ (2603:10b6:a03:33b::29) To PH7PR11MB6522.namprd11.prod.outlook.com
+ (2603:10b6:510:212::12)
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR11MB6522:EE_|SN7PR11MB8041:EE_
+X-MS-Office365-Filtering-Correlation-Id: e77ab6ed-9a38-49f2-c9e0-08db4b1d487f
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: lb6luvGVQosJRLBTR3+ZRIwe766cHBw5IOKDU4KSjUQoUShxvKYbTVt+oS+x12pUUfWYRFY+jYlSYi5HtldxSmh9QBQujWlj/PhKy4g9e/RJJ8vtC2sj7a2hMhHFbUgwKrZScLKpLOZde1W9ZcPBOvq4uZrMyneCo2Z/IsisbLk8Fq/Lmc326vYDbhFNbbu1STwTfAErdf6sgJ75JCnojamBqQ7Ubz9szLgG+LKAKJ4dMlBd07VFPHlUYYseQ3EuYPZP0JXYFd4V+E8CD0mfcpnhKdsb8bvjsEK2zs9X4o9DyQhVB0d60G47AFZkZewrOzm7uSGiX3sPuQaBI/93JkzPOrzXe7eRGhdiNcWfL/bA9Va6zSAHs9cq3dWjpKrUWfztl9Ueq26NAwq8AssYaZA9eWErxd23Aj0WChv3TfmTHSLPriCTaq6qDiV2UKQpgy1VF1RQONDjKl3yvQgH1ZQo35KWb4hi/eKyQoLjfKpz/N0CjaegmqtTCXDJ9j76AXnIJSlnzKgvk47W9xGrliIHhDyoZvRNfrH+WQAZgLz8n8kVfb6JXMdco8imXSAH
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR11MB6522.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230028)(366004)(346002)(39860400002)(136003)(376002)(396003)(451199021)(316002)(478600001)(6486002)(6666004)(450100002)(41300700001)(6862004)(8936002)(8676002)(44832011)(6636002)(5660300002)(66946007)(4326008)(66556008)(66476007)(6506007)(6512007)(2906002)(186003)(82960400001)(83380400001)(26005)(38100700002)(86362001);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?ST5Tu4p0T546J15qGbfrLvjZgax/aaWN9M4VUNCClyytQDTY6VBSyIeySyjO?=
+ =?us-ascii?Q?DG5pR6rbX1UAEoLuD8OFp3EQf4X6ge0W02Fie1OIi6LkHl9xb6jkHkBWYOZq?=
+ =?us-ascii?Q?bTV+mQoLrNmF/tTUHxbrArhjr+8RMXMU3m6aq0cjwMP6ns3nCkIsHM2b4dfr?=
+ =?us-ascii?Q?fKXTb+QX3TO/WwcZdD4DDye+zRL7u68dgeak4Zfd9zdHRaQrtmFLqIhWKzZx?=
+ =?us-ascii?Q?QGUnZM17zL/ulejTVJNSOoi7cm4KPOMSqCtNOiSJ4/3y5cp0maj52UFSmX9L?=
+ =?us-ascii?Q?1JblN7Jc6FuIUyjIEaVtNFWSXf1tuEe/JOTEZYdwslqDx7lz/zTrLuCn92cX?=
+ =?us-ascii?Q?ZjOGzpu8zHldeXDjgxZdj/LTc9ZHeN98JopbZc32EtPUwhwYI35eDexs+WMQ?=
+ =?us-ascii?Q?Z0lOgXnk0Bs3Vkkg6hZUoYtolcOXAUc61N0PdMUmhcnwdKLXz0qK6j8fahr/?=
+ =?us-ascii?Q?NuJqA6SLbhySjrUj4Thf0V/dXCHGuXeQa2e1JXHp8MFFSg6ae2uO5ezAGNIm?=
+ =?us-ascii?Q?Df9J2GaSztet19l0WmS779F/6xUy6iKsDbUdhMDBseLQqtH426bcvGP+dPmT?=
+ =?us-ascii?Q?uwaZOyZ4qVgOw5MGCyd6Sly+HAFKKB18dZSvtJZnmKiPRMaVV8Ll2PG7RwVt?=
+ =?us-ascii?Q?WLmuVwG+N8IVm8plsCVxc55/g1m5SsUh2rNQteQbfnwscfh/Xb+FttJdZeSs?=
+ =?us-ascii?Q?yp/B1g8+gaVdeGRlV2QL+SkFWPW6ZJ2Ng8y40mTYlHYDNPTykaSfFO1VVR4M?=
+ =?us-ascii?Q?1W2N24QUEsaGdayIMd1ECSRakvxC8ZIyKWDfFCSoTODheWICPxbR1YVnOlAS?=
+ =?us-ascii?Q?mv63t0Rrxkb2ckWS82LOVD+gtOaqFVIZVdBvUoSZTvevlAQIneb/yQx/g4Oa?=
+ =?us-ascii?Q?hxrak3yaLYIJgkZ9lljjBjGsXa7R9Lwdc82R1NOPvgF1s8cKKMl2lu64hPVG?=
+ =?us-ascii?Q?CwkLvne0wUId0Y/mmgrSniKuoGDCUUkfHZQi/EuQTrNaCMvkSJPJYkCA1dvp?=
+ =?us-ascii?Q?/T1tOajv5fYCf9riZnUUupFTnvZafpLm47rZ8MIGw95lbmWNH2u0CkkvTOkF?=
+ =?us-ascii?Q?LIQA+iYbMbImrP+RJIvsW7vdm+VZU00Ehzw0rIdvflFWInQcmnnNXD0vicu/?=
+ =?us-ascii?Q?uGG1D4pvEzqWvsBMrRc+eICtMvvLSkzNjy49Q1BtnhD73fg5MwBuFdD7DW9O?=
+ =?us-ascii?Q?5v8twO3n8G/ICDbROPNusvZYzf2cgGaoKDCYLhMibWZY6mSfSGXqpYXABvKn?=
+ =?us-ascii?Q?gq/iKCS05fPXCA72/fkgVtOUkteVLQthZznjRiEw+NmYiCYAULnB3Sx6c6eI?=
+ =?us-ascii?Q?qbs/aKwIXdvxS1mbjQGtYlbW7QJ0v0WKBz05kb/la+mRIPYEnEOYbPG5A27j?=
+ =?us-ascii?Q?Q4bGf8GFuMtBm1NxD5sBFRDnm7CiDRjZiLJZkk9OhURiGE5WJMdWKW3hsQue?=
+ =?us-ascii?Q?bFLhVXHjkoMMBCf8jrD3928y2TngROstg05I3dPXf2hoKTHm9WngVINXH2Yx?=
+ =?us-ascii?Q?eyR/wnAF5DQiJn2tcji8IJIBIaEDoAhW1PdBzCEQ9gIde4SBPKijEJmnjk1V?=
+ =?us-ascii?Q?iBQSILB0EyZOYFMPB9FQliUj+yDnWTXKFQRVctEEsjl4RABoEwzxqW+DrTNz?=
+ =?us-ascii?Q?yw=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: e77ab6ed-9a38-49f2-c9e0-08db4b1d487f
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB6522.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 May 2023 14:55:34.7748 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: IDw1bpaqhMAXwfhDY37yMBd5t3Ginv77LDBrPu1Vj5MlsqR39mJ5sV2cn1Ql3361e1eL1im31o++0HWRha2q3g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR11MB8041
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,63 +143,95 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tom Rix <trix@redhat.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
- linux-phy@lists.infradead.org, linux-arm-kernel@lists.infradead.org
+Cc: intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-gcc on aarch64 reports
-drivers/phy/mediatek/phy-mtk-hdmi-mt8195.c: In function ‘mtk_hdmi_pll_set_rate’:
-drivers/phy/mediatek/phy-mtk-hdmi-mt8195.c:240:52: error: ‘-mgeneral-regs-only’
-  is incompatible with the use of floating-point types
-  240 |         else if (tmds_clk >= 54 * MEGA && tmds_clk < 148.35 * MEGA)
+On Wed, Apr 26, 2023 at 04:57:05PM -0400, Rodrigo Vivi wrote:
+> Let's start to move our existent logs to devcoredump one by
+> one. Any format change should come on follow-up work.
+> 
+> Signed-off-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
 
-Floating point should not be used, so rework the floating point comparisons
-to fixed point.
+Reviewed-by: Matthew Brost <matthew.brost@intel.com>
 
-Signed-off-by: Tom Rix <trix@redhat.com>
----
-v2: silence robot by casting types to u64
-
----
-drivers/phy/mediatek/phy-mtk-hdmi-mt8195.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
-
-diff --git a/drivers/phy/mediatek/phy-mtk-hdmi-mt8195.c b/drivers/phy/mediatek/phy-mtk-hdmi-mt8195.c
-index abfc077fb0a8..093c4d1da557 100644
---- a/drivers/phy/mediatek/phy-mtk-hdmi-mt8195.c
-+++ b/drivers/phy/mediatek/phy-mtk-hdmi-mt8195.c
-@@ -237,11 +237,11 @@ static int mtk_hdmi_pll_calc(struct mtk_hdmi_phy *hdmi_phy, struct clk_hw *hw,
- 	 */
- 	if (tmds_clk < 54 * MEGA)
- 		txposdiv = 8;
--	else if (tmds_clk >= 54 * MEGA && tmds_clk < 148.35 * MEGA)
-+	else if (tmds_clk >= 54 * MEGA && (tmds_clk * 100) < 14835 * MEGA)
- 		txposdiv = 4;
--	else if (tmds_clk >= 148.35 * MEGA && tmds_clk < 296.7 * MEGA)
-+	else if ((tmds_clk * 100) >= 14835 * MEGA && (tmds_clk * 10) < 2967 * MEGA)
- 		txposdiv = 2;
--	else if (tmds_clk >= 296.7 * MEGA && tmds_clk <= 594 * MEGA)
-+	else if ((tmds_clk * 10) >= 2967 * MEGA && tmds_clk <= 594 * MEGA)
- 		txposdiv = 1;
- 	else
- 		return -EINVAL;
-@@ -328,12 +328,12 @@ static int mtk_hdmi_pll_drv_setting(struct clk_hw *hw)
- 		clk_channel_bias = 0x34; /* 20mA */
- 		impedance_en = 0xf;
- 		impedance = 0x36; /* 100ohm */
--	} else if (pixel_clk >= 74.175 * MEGA && pixel_clk <= 300 * MEGA) {
-+	} else if (((u64)pixel_clk * 1000) >= 74175 * MEGA && pixel_clk <= 300 * MEGA) {
- 		data_channel_bias = 0x34; /* 20mA */
- 		clk_channel_bias = 0x2c; /* 16mA */
- 		impedance_en = 0xf;
- 		impedance = 0x36; /* 100ohm */
--	} else if (pixel_clk >= 27 * MEGA && pixel_clk < 74.175 * MEGA) {
-+	} else if (pixel_clk >= 27 * MEGA && ((u64)pixel_clk * 1000) < 74175 * MEGA) {
- 		data_channel_bias = 0x14; /* 10mA */
- 		clk_channel_bias = 0x14; /* 10mA */
- 		impedance_en = 0x0;
--- 
-2.27.0
-
+> ---
+>  drivers/gpu/drm/xe/xe_devcoredump.c       | 14 ++++++++++++++
+>  drivers/gpu/drm/xe/xe_devcoredump_types.h |  4 ++++
+>  2 files changed, 18 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/xe/xe_devcoredump.c b/drivers/gpu/drm/xe/xe_devcoredump.c
+> index a08929c01b75..795581c58d90 100644
+> --- a/drivers/gpu/drm/xe/xe_devcoredump.c
+> +++ b/drivers/gpu/drm/xe/xe_devcoredump.c
+> @@ -11,6 +11,7 @@
+>  
+>  #include "xe_engine.h"
+>  #include "xe_gt.h"
+> +#include "xe_guc_ct.h"
+>  
+>  /**
+>   * DOC: Xe device coredump
+> @@ -47,6 +48,11 @@ static struct xe_device *coredump_to_xe(const struct xe_devcoredump *coredump)
+>  	return container_of(coredump, struct xe_device, devcoredump);
+>  }
+>  
+> +static struct xe_guc *engine_to_guc(struct xe_engine *e)
+> +{
+> +	return &e->gt->uc.guc;
+> +}
+> +
+>  static ssize_t xe_devcoredump_read(char *buffer, loff_t offset,
+>  				   size_t count, void *data, size_t datalen)
+>  {
+> @@ -81,6 +87,9 @@ static ssize_t xe_devcoredump_read(char *buffer, loff_t offset,
+>  	ts = ktime_to_timespec64(ktime_sub(ss->snapshot_time, ss->boot_time));
+>  	drm_printf(&p, "Uptime: %lld.%09ld\n", ts.tv_sec, ts.tv_nsec);
+>  
+> +	drm_printf(&p, "\n**** GuC CT ****\n");
+> +	xe_guc_ct_snapshot_print(coredump->snapshot.ct, &p);
+> +
+>  	mutex_unlock(&coredump->lock);
+>  
+>  	return count - iter.remain;
+> @@ -96,6 +105,8 @@ static void xe_devcoredump_free(void *data)
+>  
+>  	mutex_lock(&coredump->lock);
+>  
+> +	xe_guc_ct_snapshot_free(coredump->snapshot.ct);
+> +
+>  	coredump->faulty_engine = NULL;
+>  	drm_info(&coredump_to_xe(coredump)->drm,
+>  		 "Xe device coredump has been deleted.\n");
+> @@ -106,10 +117,13 @@ static void xe_devcoredump_free(void *data)
+>  static void devcoredump_snapshot(struct xe_devcoredump *coredump)
+>  {
+>  	struct xe_devcoredump_snapshot *ss = &coredump->snapshot;
+> +	struct xe_guc *guc = engine_to_guc(coredump->faulty_engine);
+>  
+>  	lockdep_assert_held(&coredump->lock);
+>  	ss->snapshot_time = ktime_get_real();
+>  	ss->boot_time = ktime_get_boottime();
+> +
+> +	coredump->snapshot.ct = xe_guc_ct_snapshot_capture(&guc->ct);
+>  }
+>  
+>  /**
+> diff --git a/drivers/gpu/drm/xe/xe_devcoredump_types.h b/drivers/gpu/drm/xe/xe_devcoredump_types.h
+> index 3f395fa9104e..1e44d5346364 100644
+> --- a/drivers/gpu/drm/xe/xe_devcoredump_types.h
+> +++ b/drivers/gpu/drm/xe/xe_devcoredump_types.h
+> @@ -23,6 +23,10 @@ struct xe_devcoredump_snapshot {
+>  	ktime_t snapshot_time;
+>  	/** @boot_time:  Relative boot time so the uptime can be calculated. */
+>  	ktime_t boot_time;
+> +
+> +	/* GuC snapshots */
+> +	/** @ct_snapshot: GuC CT snapshot */
+> +	struct xe_guc_ct_snapshot *ct;
+>  };
+>  
+>  /**
+> -- 
+> 2.39.2
+> 
