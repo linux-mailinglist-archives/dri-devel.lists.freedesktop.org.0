@@ -1,72 +1,73 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7E1D6F4C08
-	for <lists+dri-devel@lfdr.de>; Tue,  2 May 2023 23:19:55 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 961286F4C18
+	for <lists+dri-devel@lfdr.de>; Tue,  2 May 2023 23:21:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D6DC310E0CA;
-	Tue,  2 May 2023 21:19:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0A49710E0E1;
+	Tue,  2 May 2023 21:21:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com
- [IPv6:2a00:1450:4864:20::12c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2B97310E0E1
- for <dri-devel@lists.freedesktop.org>; Tue,  2 May 2023 21:19:51 +0000 (UTC)
-Received: by mail-lf1-x12c.google.com with SMTP id
- 2adb3069b0e04-4f0108a7d20so5053925e87.3
- for <dri-devel@lists.freedesktop.org>; Tue, 02 May 2023 14:19:50 -0700 (PDT)
+Received: from mail-lj1-x22c.google.com (mail-lj1-x22c.google.com
+ [IPv6:2a00:1450:4864:20::22c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 25C1310E0E1
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 May 2023 21:21:51 +0000 (UTC)
+Received: by mail-lj1-x22c.google.com with SMTP id
+ 38308e7fff4ca-2a7af0cb2e6so44230591fa.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 02 May 2023 14:21:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683062389; x=1685654389;
+ d=linaro.org; s=google; t=1683062509; x=1685654509;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=YL0HTP2hogruEK5o6822RwsE/FsRfHqk/sZ5fYBkYpY=;
- b=qkxU8X69WCmYeF26b5A6eJHBpvj9iG5fHaRF07ui9uPjUJiuoCJeXA4Nmx5nnfbFS2
- OzMme+hOaQjL0WjgbUnLjvfFKC214yPVZ3J/k8meWEGph4ZFHHD6rW8WIFnbb3bBLwCg
- 7xsWgZcCE9rDFVs6nJKvU5gUjGNbZhJtiQqY4B1tZqkNaRibRC3EN3dL39etfGKaimUL
- cwyPP/Y06buZzkR77qMWwRXyZCLqtjFcCbT/vah9b6ilQ/Y79rfZVMtuI7HbwlUhMWKY
- aWv1KOGd1/kHuSvkrcR9Uv0hQ/AJbmhTqT/Oww0djRU2p+E005cQaBuBj/74jaQtxD1+
- wlDA==
+ bh=wGbP6RM3R75eA3RnhHLQ4W06nOme0g1Ed3QvUzGLWq0=;
+ b=Oqz1tTv7OVdAmsPsFQuYh79l0wo7ie+YsGt9Wuhk8ZZmKWFwnPeYt73iiW8dFY/6KN
+ XOkPCB8YO1ktn7aEBlk5bD083ylewZW+HVjS6xqcCShkvLF3z2wo44ykkn/biLDtiBwf
+ jNWcWwmvFLzOj28XzyoPshlKeywtZp3WErhkOsgeW3g9DkQxHHL/0MN/4Q2L9vNiIUv+
+ fx/yVP6dtoelc4xjr2XrjCAIyppe1dsvxIQo9kPdMypu/rZO4+B9t2WpfSnqoKwBtwJs
+ I8E6FmS3y8UBInZp8yvZafUB0oGaxlu9ZO/B5A8HG/IRBZ4uDEcGvWJ3b9dK2pX9/0TI
+ IUmg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683062389; x=1685654389;
+ d=1e100.net; s=20221208; t=1683062509; x=1685654509;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=YL0HTP2hogruEK5o6822RwsE/FsRfHqk/sZ5fYBkYpY=;
- b=adVWMjgvYco9Fqr2cFsJrAAQlEFaHiJNyyoAumFNudHPQ6eZO84wZNiql+fxcXC5JZ
- +glkesOC1GI7mtB87Q1qQsQXVd1WPBxbv3PV18dBOdVA2SPrl8U+bFbNPCPbw71kmruB
- Mo816Gpzz9fpBeLBXWkLXzME1D0i+/Fvt0qH7u8dkyfosBGhTesbl94RiX+PN2lt7ANm
- wS83Edx4G/mG8ewQnw4IdANjqXqw6MM4q+7QuObDiOG+aMGCUFeUCYVsBvLyN1Xx/0ox
- hnex+JEun5apU9VtV6mOrTBREIkdncJ/1rhbpSQ+uMBY/mK5bN4YbH6S8RAkecB8qMHm
- wGAA==
-X-Gm-Message-State: AC+VfDxxyNg6r1CbcOpkNMsQNGrJSOELGcNOSItWcHqBncxzSu+EHeUd
- auOKRPovJBR6VUg4XGo3iEvxG0juS829Y3cvUrU=
-X-Google-Smtp-Source: ACHHUZ7K353thxP/m/nJc6hXiu7I5BesEV/LnUXH2Py/TJOLlivtli2tg/ZZSu2NGgk22wQz0FACJw==
-X-Received: by 2002:a05:6512:3750:b0:4ed:bf01:3ff3 with SMTP id
- a16-20020a056512375000b004edbf013ff3mr284376lfs.43.1683062388893; 
- Tue, 02 May 2023 14:19:48 -0700 (PDT)
+ bh=wGbP6RM3R75eA3RnhHLQ4W06nOme0g1Ed3QvUzGLWq0=;
+ b=MxtjylbSopWafbYswjc+tFhBxHymx4wUmFTSmgZisht/xFq1obOY2qAVHoB1VHBdsm
+ T3orRWQc5eC3ehb9aD/Cq+IiRPuAdee4+TybPXi5xqtRIixcUyGaBe41Yi4mU8iSSfTD
+ QfMXDvrs+miqY2DnculRjogL/cttM3kuU9t+k0HAxuaZl5pr3zURo05zOjFzXJfS+VT7
+ UY/UL769FgmUg4tpAH/UjHm55S6KIXE7JnEXAkDXez+AcbxTX99VrrhbGkXngjcK3tTY
+ 9VszJARlOSOs1Vn0kiAZCFMrYAeMeRwuYaC8nh/dTd3cbjvEtnV6HIn2ASg6ZfmUonTK
+ ZfAw==
+X-Gm-Message-State: AC+VfDxN2r8o9YJfo5SmiUYRbWrtMsZzRbtHNbp4nxWw7f8AXjjmLut3
+ kerQ1PaEATqMY1sV1HbyganOUAKl76Ni0KD6zRE=
+X-Google-Smtp-Source: ACHHUZ77AYKGrnUhyy85bE2JFop+7AXDKKij2MhhnC28fjOENsIP1ecIk/CW6bd+UDPm4j7do4xn8Q==
+X-Received: by 2002:ac2:5199:0:b0:4eb:2643:c6c6 with SMTP id
+ u25-20020ac25199000000b004eb2643c6c6mr320900lfi.53.1683062509021; 
+ Tue, 02 May 2023 14:21:49 -0700 (PDT)
 Received: from ?IPV6:2001:14ba:a0db:1f00::8a5?
  (dzdqv0yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a0db:1f00::8a5])
  by smtp.gmail.com with ESMTPSA id
- o8-20020ac24948000000b004f121c8beddsm1158666lfi.124.2023.05.02.14.19.48
+ c15-20020ac2530f000000b004efe7b2e35asm4880584lfh.248.2023.05.02.14.21.48
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 02 May 2023 14:19:48 -0700 (PDT)
-Message-ID: <0aba48f3-b877-3d67-85a6-f71ba0a56495@linaro.org>
-Date: Wed, 3 May 2023 00:19:47 +0300
+ Tue, 02 May 2023 14:21:48 -0700 (PDT)
+Message-ID: <ebd22101-16de-f754-9304-6ce0532394c8@linaro.org>
+Date: Wed, 3 May 2023 00:21:48 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.10.0
-Subject: Re: [PATCH v3 2/7] drm/msm/dpu: add DPU_PINGPONG_DSC feature bit
+Subject: Re: [PATCH v3 4/7] drm/msm/dpu: add PINGPONG_NONE to disconnect DSC
+ from PINGPONG
 Content-Language: en-GB
 To: Kuogee Hsieh <quic_khsieh@quicinc.com>, dri-devel@lists.freedesktop.org,
  robdclark@gmail.com, sean@poorly.run, swboyd@chromium.org,
  dianders@chromium.org, vkoul@kernel.org, daniel@ffwll.ch, airlied@gmail.com,
  agross@kernel.org, andersson@kernel.org
 References: <1683061382-32651-1-git-send-email-quic_khsieh@quicinc.com>
- <1683061382-32651-3-git-send-email-quic_khsieh@quicinc.com>
+ <1683061382-32651-5-git-send-email-quic_khsieh@quicinc.com>
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <1683061382-32651-3-git-send-email-quic_khsieh@quicinc.com>
+In-Reply-To: <1683061382-32651-5-git-send-email-quic_khsieh@quicinc.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -88,72 +89,21 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 03/05/2023 00:02, Kuogee Hsieh wrote:
-> Legacy DPU requires PP block to be involved during DSC setting up.
-> This patch adds DDPU_PINGPONG_DSC feature bit to indicate that both
-
-DPU_PINGPONG_DSC
-
-> dpu_hw_pp_setup_dsc() and dpu_hw_pp_dsc_enable() pingpong ops
-> functions are required to complete DSC data path set up and start
-> DSC engine.
-
-Nit: as these ops were already present, I'd say that the lack of the 
-flag means that these operations are not supported and must not be 
-called for DSC setup/teardown.
-
-Nevertheless:
+> During DSC setup, the crossbar mux need to be programmed to engage
+> DSC to specified PINGPONG. Hence during tear down, the crossbar mux
+> need to be reset to disengage DSC from PINGPONG. This patch add
+> PINGPONG_NONE to serve as disable to reset crossbar mux.
+> 
+> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
 
 Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-> 
-> Reported-by : Marijn Suijten <marijn.suijten@somainline.org>
-> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
 > ---
->   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h  | 2 ++
->   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.c | 9 ++++++---
->   2 files changed, 8 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-> index 71584cd..c07a6b6 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-> @@ -144,6 +144,7 @@ enum {
->    * @DPU_PINGPONG_SPLIT      PP block supports split fifo
->    * @DPU_PINGPONG_SLAVE      PP block is a suitable slave for split fifo
->    * @DPU_PINGPONG_DITHER,    Dither blocks
-> + * @DPU_PINGPONG_DSC,	    PP ops functions required for DSC
->    * @DPU_PINGPONG_MAX
->    */
->   enum {
-> @@ -152,6 +153,7 @@ enum {
->   	DPU_PINGPONG_SPLIT,
->   	DPU_PINGPONG_SLAVE,
->   	DPU_PINGPONG_DITHER,
-> +	DPU_PINGPONG_DSC,
->   	DPU_PINGPONG_MAX
->   };
->   
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.c
-> index 3822e06..f255a04 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.c
-> @@ -264,9 +264,12 @@ static void _setup_pingpong_ops(struct dpu_hw_pingpong *c,
->   	c->ops.get_autorefresh = dpu_hw_pp_get_autorefresh_config;
->   	c->ops.poll_timeout_wr_ptr = dpu_hw_pp_poll_timeout_wr_ptr;
->   	c->ops.get_line_count = dpu_hw_pp_get_line_count;
-> -	c->ops.setup_dsc = dpu_hw_pp_setup_dsc;
-> -	c->ops.enable_dsc = dpu_hw_pp_dsc_enable;
-> -	c->ops.disable_dsc = dpu_hw_pp_dsc_disable;
-> +
-> +	if (features & BIT(DPU_PINGPONG_DSC)) {
-> +		c->ops.setup_dsc = dpu_hw_pp_setup_dsc;
-> +		c->ops.enable_dsc = dpu_hw_pp_dsc_enable;
-> +		c->ops.disable_dsc = dpu_hw_pp_dsc_disable;
-> +	}
->   
->   	if (test_bit(DPU_PINGPONG_DITHER, &features))
->   		c->ops.setup_dither = dpu_hw_pp_setup_dither;
-
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 2 +-
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.c  | 7 +++----
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.h  | 1 -
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h | 3 ++-
+>   4 files changed, 6 insertions(+), 7 deletions(-)
 -- 
 With best wishes
 Dmitry
