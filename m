@@ -2,45 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D3626F4873
-	for <lists+dri-devel@lfdr.de>; Tue,  2 May 2023 18:39:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59BBC6F487B
+	for <lists+dri-devel@lfdr.de>; Tue,  2 May 2023 18:39:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4E5F710E00D;
-	Tue,  2 May 2023 16:39:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 22D0110E5A2;
+	Tue,  2 May 2023 16:39:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5607010E00D;
- Tue,  2 May 2023 16:39:15 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 97EBA10E183;
+ Tue,  2 May 2023 16:39:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1683045556; x=1714581556;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=0rcgYpF2GM68m7oRNyKVxovaNtAsw04tCPIPS+wk+gs=;
- b=FV35pO/W4whZx/td4puMCX9FMyPIotfU6qgjM6oKuXRbKTh2YUvJ6Ajm
- dsQbVko6KgFlgFxcgYGTV+SqKu9MK9CTTQYkWwzb1mwuBs/HgcaMAeY0f
- e8Kkd3ntdpEsAW+ld29rV1GEc/JV8CCvRewyymRagO3uGBYThdJYquoIx
- WXJubKyK7/4TJu098TgKxP8P0nkOLJXSHNcXnGa5AmV5r2WQsxaNJdDYp
- ScS6cN34+cYgdsWRPnBmBy9/6fHfw5ZJah2qBknya1owDl4Pz+lDr7GRA
- JbhFk4Xns47gn/gc5sInGH27MUfjxeT9ovU+wt3LjKuBuZw15IZzXHjWU A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10698"; a="411595938"
-X-IronPort-AV: E=Sophos;i="5.99,244,1677571200"; d="scan'208";a="411595938"
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=5U99HzjOt4rO0hWH0XeL5t22Wu0472GBnpbwGWnV4pQ=;
+ b=le0UrPrw1jH7rbvtxuqC3PXWiF8RKg4Wp14KECf3pg5+TsX25+rQfk1E
+ rPQkKlwvfWjUBIw7/u9kOJdJtycQlhbioN8pHq5ydK3JcKTDAc1K/qCSk
+ XUvnWhWok84fUAF/YlUg+G61F9OVdPojxX+h/3wYTtZ8MSZqZt4E3MTIR
+ BsPiLZB5jAaAqyDfVA8rTF5zmQQ04KP2919dnbEHh8c6plXAcIh1pkHeU
+ sNERdsbqD3sA5KnHLqWQVoVzDxa06H44XTeOinXED68sEYYg9ARIuJmRR
+ teguW7MZdgrz3dRXcheMcRUWuKKni4VTELzn5tGExLYuc6SrRmMi/aIBJ Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10698"; a="411595948"
+X-IronPort-AV: E=Sophos;i="5.99,244,1677571200"; d="scan'208";a="411595948"
 Received: from fmsmga005.fm.intel.com ([10.253.24.32])
  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 May 2023 09:39:04 -0700
+ 02 May 2023 09:39:06 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10698"; a="1026160903"
-X-IronPort-AV: E=Sophos;i="5.99,244,1677571200"; d="scan'208";a="1026160903"
+X-IronPort-AV: E=McAfee;i="6600,9927,10698"; a="1026160910"
+X-IronPort-AV: E=Sophos;i="5.99,244,1677571200"; d="scan'208";a="1026160910"
 Received: from valcore-skull-1.fm.intel.com ([10.1.27.19])
  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 May 2023 09:39:04 -0700
+ 02 May 2023 09:39:06 -0700
 From: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v3 0/4] drm/i915: Add support for MTL GSC SW Proxy
-Date: Tue,  2 May 2023 09:38:50 -0700
-Message-Id: <20230502163854.317653-1-daniele.ceraolospurio@intel.com>
+Subject: [PATCH v3 1/4] drm/i915/mtl: Define GSC Proxy component interface
+Date: Tue,  2 May 2023 09:38:51 -0700
+Message-Id: <20230502163854.317653-2-daniele.ceraolospurio@intel.com>
 X-Mailer: git-send-email 2.40.0
+In-Reply-To: <20230502163854.317653-1-daniele.ceraolospurio@intel.com>
+References: <20230502163854.317653-1-daniele.ceraolospurio@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -55,72 +57,107 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Suraj Kandpal <suraj.kandpal@intel.com>,
- Alan Previn <alan.previn.teres.alexis@intel.com>,
+Cc: Alan Previn <alan.previn.teres.alexis@intel.com>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
  Alexander Usyskin <alexander.usyskin@intel.com>,
  dri-devel@lists.freedesktop.org,
- Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+ Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
+ Tomas Winkler <tomas.winkler@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On platforms where the GSC is part of GT, it needs to communicate with
-CSME for some of its operations. However, there is no direct HW
-communication channel, so the i915 and mei drivers must carry the
-messages back and forth between the 2 units. The protocol is fully
-described in the i915 patch that adds the initial support, but it
-basically amounts to SW blindly moving messages back and forth until the
-GSC tells us to stop.
+From: Alexander Usyskin <alexander.usyskin@intel.com>
 
-Implementing this features requires a new mei component to handle
-the mei side of things. The patches for this have already been
-reviewed on the char-misc ML and we already have an ack from Greg to
-merge them via the drm tree [1].
+GSC Proxy component is used for communication between the
+Intel graphics driver and MEI driver.
 
-v2: small fixes, better docs, code cleanup
-
-v3: add extra check on proxy status after the init flow is done, address
-    checkpatch issues
-
-[1] https://lore.kernel.org/lkml/20230208142358.1401618-1-tomas.winkler@intel.com/t/
 Cc: Alan Previn <alan.previn.teres.alexis@intel.com>
-Cc: Suraj Kandpal <suraj.kandpal@intel.com>
-Cc: Alexander Usyskin <alexander.usyskin@intel.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Signed-off-by: Alexander Usyskin <alexander.usyskin@intel.com>
+Signed-off-by: Tomas Winkler <tomas.winkler@intel.com>
+Signed-off-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+---
 
-Alexander Usyskin (2):
-  drm/i915/mtl: Define GSC Proxy component interface
-  mei: gsc_proxy: add gsc proxy driver
+v2: Improve documentation, remove unneeded includes
 
-Daniele Ceraolo Spurio (2):
-  drm/i915/gsc: add initial support for GSC proxy
-  drm/i915/gsc: add support for GSC proxy interrupt
-
- drivers/gpu/drm/i915/Makefile                 |   1 +
- drivers/gpu/drm/i915/gt/intel_gt_irq.c        |  22 +-
- drivers/gpu/drm/i915/gt/intel_gt_regs.h       |   3 +
- drivers/gpu/drm/i915/gt/uc/intel_gsc_fw.c     |  10 +
- drivers/gpu/drm/i915/gt/uc/intel_gsc_fw.h     |   1 +
- drivers/gpu/drm/i915/gt/uc/intel_gsc_proxy.c  | 425 ++++++++++++++++++
- drivers/gpu/drm/i915/gt/uc/intel_gsc_proxy.h  |  18 +
- drivers/gpu/drm/i915/gt/uc/intel_gsc_uc.c     |  76 +++-
- drivers/gpu/drm/i915/gt/uc/intel_gsc_uc.h     |  17 +-
- .../i915/gt/uc/intel_gsc_uc_heci_cmd_submit.h |   1 +
- drivers/misc/mei/Kconfig                      |   2 +-
- drivers/misc/mei/Makefile                     |   1 +
- drivers/misc/mei/gsc_proxy/Kconfig            |  14 +
- drivers/misc/mei/gsc_proxy/Makefile           |   7 +
- drivers/misc/mei/gsc_proxy/mei_gsc_proxy.c    | 208 +++++++++
- include/drm/i915_component.h                  |   3 +-
- include/drm/i915_gsc_proxy_mei_interface.h    |  53 +++
- 17 files changed, 852 insertions(+), 10 deletions(-)
- create mode 100644 drivers/gpu/drm/i915/gt/uc/intel_gsc_proxy.c
- create mode 100644 drivers/gpu/drm/i915/gt/uc/intel_gsc_proxy.h
- create mode 100644 drivers/misc/mei/gsc_proxy/Kconfig
- create mode 100644 drivers/misc/mei/gsc_proxy/Makefile
- create mode 100644 drivers/misc/mei/gsc_proxy/mei_gsc_proxy.c
+ include/drm/i915_component.h               |  3 +-
+ include/drm/i915_gsc_proxy_mei_interface.h | 53 ++++++++++++++++++++++
+ 2 files changed, 55 insertions(+), 1 deletion(-)
  create mode 100644 include/drm/i915_gsc_proxy_mei_interface.h
 
+diff --git a/include/drm/i915_component.h b/include/drm/i915_component.h
+index c1e2a43d2d1e..56a84ee1c64c 100644
+--- a/include/drm/i915_component.h
++++ b/include/drm/i915_component.h
+@@ -29,7 +29,8 @@
+ enum i915_component_type {
+ 	I915_COMPONENT_AUDIO = 1,
+ 	I915_COMPONENT_HDCP,
+-	I915_COMPONENT_PXP
++	I915_COMPONENT_PXP,
++	I915_COMPONENT_GSC_PROXY,
+ };
+ 
+ /* MAX_PORT is the number of port
+diff --git a/include/drm/i915_gsc_proxy_mei_interface.h b/include/drm/i915_gsc_proxy_mei_interface.h
+new file mode 100644
+index 000000000000..9462341d3ae1
+--- /dev/null
++++ b/include/drm/i915_gsc_proxy_mei_interface.h
+@@ -0,0 +1,53 @@
++/* SPDX-License-Identifier: MIT */
++/*
++ * Copyright (c) 2022-2023 Intel Corporation
++ */
++
++#ifndef _I915_GSC_PROXY_MEI_INTERFACE_H_
++#define _I915_GSC_PROXY_MEI_INTERFACE_H_
++
++#include <linux/types.h>
++
++struct device;
++struct module;
++
++/**
++ * struct i915_gsc_proxy_component_ops - ops for GSC Proxy services.
++ * @owner: Module providing the ops
++ * @send: sends a proxy message from GSC FW to ME FW
++ * @recv: receives a proxy message for GSC FW from ME FW
++ */
++struct i915_gsc_proxy_component_ops {
++	struct module *owner;
++
++	/**
++	 * send - Sends a proxy message to ME FW.
++	 * @dev: device struct corresponding to the mei device
++	 * @buf: message buffer to send
++	 * @size: size of the message
++	 * Return: bytes sent on success, negative errno value on failure
++	 */
++	int (*send)(struct device *dev, const void *buf, size_t size);
++
++	/**
++	 * recv - Receives a proxy message from ME FW.
++	 * @dev: device struct corresponding to the mei device
++	 * @buf: message buffer to contain the received message
++	 * @size: size of the buffer
++	 * Return: bytes received on success, negative errno value on failure
++	 */
++	int (*recv)(struct device *dev, void *buf, size_t size);
++};
++
++/**
++ * struct i915_gsc_proxy_component - Used for communication between i915 and
++ * MEI drivers for GSC proxy services
++ * @mei_dev: device that provide the GSC proxy service.
++ * @ops: Ops implemented by GSC proxy driver, used by i915 driver.
++ */
++struct i915_gsc_proxy_component {
++	struct device *mei_dev;
++	const struct i915_gsc_proxy_component_ops *ops;
++};
++
++#endif /* _I915_GSC_PROXY_MEI_INTERFACE_H_ */
 -- 
 2.40.0
 
