@@ -1,55 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 484536F4334
-	for <lists+dri-devel@lfdr.de>; Tue,  2 May 2023 14:00:51 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B2B7F6F4337
+	for <lists+dri-devel@lfdr.de>; Tue,  2 May 2023 14:01:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6517D10E0DF;
-	Tue,  2 May 2023 12:00:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 07AA610E227;
+	Tue,  2 May 2023 12:01:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com
- [IPv6:2a00:1450:4864:20::636])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 508B510E0DF
- for <dri-devel@lists.freedesktop.org>; Tue,  2 May 2023 12:00:48 +0000 (UTC)
-Received: by mail-ej1-x636.google.com with SMTP id
- a640c23a62f3a-95f4c5cb755so729789366b.0
- for <dri-devel@lists.freedesktop.org>; Tue, 02 May 2023 05:00:48 -0700 (PDT)
+Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com
+ [IPv6:2a00:1450:4864:20::635])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6577010E227
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 May 2023 12:00:59 +0000 (UTC)
+Received: by mail-ej1-x635.google.com with SMTP id
+ a640c23a62f3a-94ed7e49541so610147866b.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 02 May 2023 05:00:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683028846; x=1685620846;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=f3Lfco4BnCXSWDeSvGyocalO93LWCUXAn4Hyq4qa2GU=;
- b=k0Qq8qmjrUvfH6d/fC9U0sPZuAEoXcPQ4JTMgHYGwISYhsa+oGHET4gBj5mRXV5BY6
- J9oPKo6p6LNHUzk6fNIf1/8kxsUPtVW9Q/ap8x6H4UR0256dSsZKyyxiMM6bu9JmZAgD
- C3ul8k+qwtitqBiLFWI8XgCyZuh7Ma+NNHjVrxGHXaDpxWvzHFcwmACfQns75pQTOJmh
- /amtYuMgcdsWfxX0xl9doBLJhh7lzyKykOA3ZcSwH2mEBLq2MgB1AgriHZ0275vZbhcJ
- b++yGidZypMKNhCy9xAA4L4h4ef9MN65JVflD0AjbCpmbmYev0QUORf1kf3lOqVWZbPs
- YZyA==
+ d=linaro.org; s=google; t=1683028857; x=1685620857;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=+WYS2uNNoOkm3orqvZxxy/U4Nr8xICG5Dwp3aoTlmM4=;
+ b=KrNvgqnlCJ62jTv5QKIFn8l1MPz6NrKoUB/fs6ZiByAZQRfT32HlFohiu4KLlAKKv9
+ kLbaauMkSbT16Z6VAl1JcxnOE1qoMmLssiN+TlUwhoPWdLeVCdEVtWHaeUTklz1sr8Hy
+ FJjnyNlSUMs921zOgeC1Xf8RA6pCLNiYTAvj85ZV4Icmq2tHIgkDIj17EsDgmnt6484+
+ o5xo9O+atBqVzX14QE/WT32YhMBTEt+oFygM7LFwoy28EU+DU9dqXQm9clbOD7S3boUi
+ CsGfQ/xWDWdD3c/zo9kKqCsbOMV29Fh0qbFzDFKUv8VWsx6FN3IHSSLwabUYPSxQXyAV
+ qnpA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683028846; x=1685620846;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=f3Lfco4BnCXSWDeSvGyocalO93LWCUXAn4Hyq4qa2GU=;
- b=I0UUYzFFjTEsT0qsM5NCnIi+wOKBICfycJyoT/5QL7eeeNZ2Xwww4lXgPDmWYymsb9
- g9lAuZC8IWAuNDVBhyEr+4DK5wthOr31ca8PzLxOHowcyzfrynVa0xbrasP9pZWC9KWU
- 7RzjEy5yVuPgWRPNUum+wpOBbaid1Ix2FGlqiZeSOxcCFEZ8bKLxW80B8VFYTK28QjOW
- wTFernZsV71bbKlIrRhlNlBXTIdDj23F/RNpjvenBAUaI41JNsE8QYzhUj31MHB2muBZ
- jmBszgto5RgIru2Yl+Oo2QGo6VliGbAhf/o8c6uSFm4ajvix0C4+1DPlKZHi3xvHbUf5
- 8bsA==
-X-Gm-Message-State: AC+VfDxcNW7zzhgLrXEUMbTXQgyXZZOJsSPWQL9TgYalpHRZgG2ev5uH
- x4ByGmGBlA2TXUCHFpivminT+Q==
-X-Google-Smtp-Source: ACHHUZ4A7IqeyLXRL8smscOzdIf9v+IQzynF+xG31Ayj1umN6zEC38/CTVoxXfWwQg6EJ/5ynn1J+A==
-X-Received: by 2002:a17:907:6d19:b0:94f:720b:1b14 with SMTP id
- sa25-20020a1709076d1900b0094f720b1b14mr16467542ejc.29.1683028846077; 
- Tue, 02 May 2023 05:00:46 -0700 (PDT)
+ d=1e100.net; s=20221208; t=1683028857; x=1685620857;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=+WYS2uNNoOkm3orqvZxxy/U4Nr8xICG5Dwp3aoTlmM4=;
+ b=LVaeCUvljc77QMrBN7E4G0JzOElgnA9ItiSr+eO1JLrHrGgZrS4lNszDK9rJDu3BcP
+ SUiuBPyOStxzdFEqXtl7HPd3nrjEaq3GNl+FC3L3GyaUmAtQ9B2kgJo9hcJN2u7Mi94r
+ K6qSLm4vPGjGPXXZQrpIzBYhOCmxpKr9NiD6I+rnZGDuslFvrwoCRnyjmsAA/TfTyCB5
+ 3k4j+75LkLiiXGApGM1gEB9yoV4DE5FSqQgIQEDV0LzfqswDmB5//0pXji2LWDh2V90b
+ PV6JtxK+LcV/HErsU566aIRegKS444v4h33Wavs5G1ax/vBq9060j3MfayaftzDIRy2G
+ 0OrA==
+X-Gm-Message-State: AC+VfDw4Dv20KcqWv7+EiF0iD8MAuk9TzktS7FdlzJuFM5vJ7VPjS6nQ
+ 0dsyAz6TBNX/5c/qvfJMBjmc/w==
+X-Google-Smtp-Source: ACHHUZ7UP4zneqUqBTSrVE1dz3gYWQRhrswBtXkRlQD/zyv1FGBW6b28N3mfaqsf3b5HIL1999Ir6g==
+X-Received: by 2002:a17:907:6e89:b0:94a:62e7:70e1 with SMTP id
+ sh9-20020a1709076e8900b0094a62e770e1mr15086566ejc.68.1683028857540; 
+ Tue, 02 May 2023 05:00:57 -0700 (PDT)
 Received: from krzk-bin.. ([2a02:810d:15c0:828:bafd:1283:b136:5f6a])
  by smtp.gmail.com with ESMTPSA id
- v10-20020a1709063bca00b0094ee3e4c934sm16063403ejf.221.2023.05.02.05.00.38
+ v10-20020a1709063bca00b0094ee3e4c934sm16063403ejf.221.2023.05.02.05.00.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 02 May 2023 05:00:40 -0700 (PDT)
+ Tue, 02 May 2023 05:00:50 -0700 (PDT)
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 To: Neil Armstrong <neil.armstrong@linaro.org>,
  Sam Ravnborg <sam@ravnborg.org>, David Airlie <airlied@gmail.com>,
@@ -59,10 +60,12 @@ To: Neil Armstrong <neil.armstrong@linaro.org>,
  Del Regno <angelogioacchino.delregno@somainline.org>,
  dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org
-Subject: [PATCH v2 1/2] dt-bindings: display: novatek,nt35950: define ports
-Date: Tue,  2 May 2023 14:00:35 +0200
-Message-Id: <20230502120036.47165-1-krzysztof.kozlowski@linaro.org>
+Subject: [PATCH v2 2/2] dt-bindings: display: novatek,nt36523: define ports
+Date: Tue,  2 May 2023 14:00:36 +0200
+Message-Id: <20230502120036.47165-2-krzysztof.kozlowski@linaro.org>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20230502120036.47165-1-krzysztof.kozlowski@linaro.org>
+References: <20230502120036.47165-1-krzysztof.kozlowski@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -82,8 +85,8 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 The panel-common schema does not define what "ports" property is, so
-bring the definition to enforce the type.  Panels can be single- or
-dual-link, thus require only one port@0.
+bring the definition to enforce the type.  All panels described by
+binding are dual-link, thus require both ports.
 
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
@@ -93,14 +96,14 @@ Changes since v1:
 1. Rework to add ports to device schema, not to panel-common.
 https://lore.kernel.org/all/20230420160905.GA2952736-robh@kernel.org/
 ---
- .../bindings/display/panel/novatek,nt35950.yaml           | 8 +++++++-
+ .../bindings/display/panel/novatek,nt36523.yaml           | 8 +++++++-
  1 file changed, 7 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/devicetree/bindings/display/panel/novatek,nt35950.yaml b/Documentation/devicetree/bindings/display/panel/novatek,nt35950.yaml
-index 377a05d48a02..c93cc1018b41 100644
---- a/Documentation/devicetree/bindings/display/panel/novatek,nt35950.yaml
-+++ b/Documentation/devicetree/bindings/display/panel/novatek,nt35950.yaml
-@@ -47,8 +47,13 @@ properties:
+diff --git a/Documentation/devicetree/bindings/display/panel/novatek,nt36523.yaml b/Documentation/devicetree/bindings/display/panel/novatek,nt36523.yaml
+index 0039561ef04c..a2a8c4e39573 100644
+--- a/Documentation/devicetree/bindings/display/panel/novatek,nt36523.yaml
++++ b/Documentation/devicetree/bindings/display/panel/novatek,nt36523.yaml
+@@ -32,8 +32,14 @@ properties:
    vddio-supply:
      description: regulator that supplies the I/O voltage
  
@@ -109,20 +112,13 @@ index 377a05d48a02..c93cc1018b41 100644
 +
 +    required:
 +      - port@0
++      - port@1
 +
-   backlight: true
--  ports: true
    reg: true
+-  ports: true
+   backlight: true
  
  required:
-@@ -59,6 +64,7 @@ required:
-   - avee-supply
-   - dvdd-supply
-   - vddio-supply
-+  - ports
- 
- additionalProperties: false
- 
 -- 
 2.34.1
 
