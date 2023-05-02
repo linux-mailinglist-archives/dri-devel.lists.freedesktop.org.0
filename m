@@ -2,45 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63AFE6F463D
-	for <lists+dri-devel@lfdr.de>; Tue,  2 May 2023 16:39:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 361256F463F
+	for <lists+dri-devel@lfdr.de>; Tue,  2 May 2023 16:39:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5C4F510E594;
-	Tue,  2 May 2023 14:39:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 37BD610E595;
+	Tue,  2 May 2023 14:39:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5294310E594;
- Tue,  2 May 2023 14:39:49 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C53E110E58D;
+ Tue,  2 May 2023 14:39:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1683038389; x=1714574389;
+ t=1683038390; x=1714574390;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=ep5rKcbUKd1pNOAj46qTGtt2Th3Lt2JLdcODKkaP1iM=;
- b=L/NOjOim1C/Vo9WNCHtvS+U3GpxkFolHrHh0oHivhAq0hYd8kN2aY5gB
- jGIWxlmZ3+wwiG7A+PwISum6Vrs6VXvMZrabrOaKHVCBxAgZXJOAwRSy+
- 3n+/LyX6TWkxpPnlrdJiQMOeURVOVBLjfNt0NHDsGmWKPpwIpx2MqkUbn
- UVDQqClCxznmIkykWGMyTr8ry6pZt4LaxB0mqjvtU+bOMCtR7OQGuB7zw
- uY/rtrggXrnBCQcpDmmNQLOd9MeJDi2Dy9GnAjb98DeTZ8/5tMocGI2OE
- XeeHPXdU+idd4zfdnaUwH8IUwa1iGVyBdxKKZ6b9iFl2BE00Y6ljF5uJK A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10698"; a="351396971"
-X-IronPort-AV: E=Sophos;i="5.99,244,1677571200"; d="scan'208";a="351396971"
+ bh=nyxfMibiYNqWLraqnbeUXS/hUz6TDj1CET5IEus4gqQ=;
+ b=BmQThrzTE79FBNzV/CGSYz1lEVfDk0OT0Gu4p1F7fK/6Yfwab5s59H1f
+ OckUmTDZrlTM0elgeXl1bGhCSvLKofZdxCGcxMhESyWiomTE8QoWK3TMY
+ lc0YBwdYh9tljmd9yFAj/AKJvBHdKz144cHLWt7h8HcKIHabDG0tSQVWk
+ +0FOIhdI2SRM1/yu3X+RxFp8f/J+8MqAoHRN0u8hbZYDfWsbUVHMJDxmG
+ mjaUEsc5qP1YNuXeycvo3Sa8VANanmCpXCm9xLaBokIedUKeEYWzYeOG8
+ Vdv1WtHow+UQ0fjUcJ2ZmSJfVGMALBPNC44fGXqcNJ88pQ2mkPzkp0xCP A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10698"; a="351396993"
+X-IronPort-AV: E=Sophos;i="5.99,244,1677571200"; d="scan'208";a="351396993"
 Received: from fmsmga007.fm.intel.com ([10.253.24.52])
  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 May 2023 07:39:47 -0700
+ 02 May 2023 07:39:50 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10698"; a="698991848"
-X-IronPort-AV: E=Sophos;i="5.99,244,1677571200"; d="scan'208";a="698991848"
+X-IronPort-AV: E=McAfee;i="6600,9927,10698"; a="698991880"
+X-IronPort-AV: E=Sophos;i="5.99,244,1677571200"; d="scan'208";a="698991880"
 Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.70])
- by fmsmga007.fm.intel.com with SMTP; 02 May 2023 07:39:41 -0700
+ by fmsmga007.fm.intel.com with SMTP; 02 May 2023 07:39:45 -0700
 Received: by stinkbox (sSMTP sendmail emulation);
- Tue, 02 May 2023 17:39:40 +0300
+ Tue, 02 May 2023 17:39:44 +0300
 From: Ville Syrjala <ville.syrjala@linux.intel.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 09/11] drm/i915: Stop spamming the logs with PLL state
-Date: Tue,  2 May 2023 17:39:04 +0300
-Message-Id: <20230502143906.2401-10-ville.syrjala@linux.intel.com>
+Subject: [PATCH 10/11] drm/i915: Drop some redundant eDP checks
+Date: Tue,  2 May 2023 17:39:05 +0300
+Message-Id: <20230502143906.2401-11-ville.syrjala@linux.intel.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230502143906.2401-1-ville.syrjala@linux.intel.com>
 References: <20230502143906.2401-1-ville.syrjala@linux.intel.com>
@@ -65,30 +65,36 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Ville Syrjälä <ville.syrjala@linux.intel.com>
 
-encoder->get_config() is not the place where the state
-should be dumped. Get rid of the spam.
+There's no need to check for both eDP and fixed_mode when
+deciding whether to do the pfit calculations or not.
 
 Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
 ---
- drivers/gpu/drm/i915/display/intel_ddi.c | 2 --
- 1 file changed, 2 deletions(-)
+ drivers/gpu/drm/i915/display/intel_dp.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/display/intel_ddi.c b/drivers/gpu/drm/i915/display/intel_ddi.c
-index 51ae1aad7cc7..65e031ff740c 100644
---- a/drivers/gpu/drm/i915/display/intel_ddi.c
-+++ b/drivers/gpu/drm/i915/display/intel_ddi.c
-@@ -3863,11 +3863,9 @@ static void mtl_ddi_get_config(struct intel_encoder *encoder,
- 		crtc_state->port_clock = intel_mtl_tbt_calc_port_clock(encoder);
- 	} else if (intel_is_c10phy(i915, phy)) {
- 		intel_c10pll_readout_hw_state(encoder, &crtc_state->cx0pll_state.c10);
--		intel_c10pll_dump_hw_state(i915, &crtc_state->cx0pll_state.c10);
- 		crtc_state->port_clock = intel_c10pll_calc_port_clock(encoder, &crtc_state->cx0pll_state.c10);
- 	} else {
- 		intel_c20pll_readout_hw_state(encoder, &crtc_state->cx0pll_state.c20);
--		intel_c20pll_dump_hw_state(i915, &crtc_state->cx0pll_state.c20);
- 		crtc_state->port_clock = intel_c20pll_calc_port_clock(encoder, &crtc_state->cx0pll_state.c20);
- 	}
+diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
+index 9ac199444155..6bc7ff0c4320 100644
+--- a/drivers/gpu/drm/i915/display/intel_dp.c
++++ b/drivers/gpu/drm/i915/display/intel_dp.c
+@@ -1044,7 +1044,7 @@ intel_dp_mode_valid(struct drm_connector *_connector,
+ 		return MODE_H_ILLEGAL;
  
+ 	fixed_mode = intel_panel_fixed_mode(connector, mode);
+-	if (intel_dp_is_edp(intel_dp) && fixed_mode) {
++	if (fixed_mode) {
+ 		status = intel_panel_mode_valid(connector, mode);
+ 		if (status != MODE_OK)
+ 			return status;
+@@ -2175,7 +2175,7 @@ intel_dp_compute_config(struct intel_encoder *encoder,
+ 		intel_audio_compute_config(encoder, pipe_config, conn_state);
+ 
+ 	fixed_mode = intel_panel_fixed_mode(connector, adjusted_mode);
+-	if (intel_dp_is_edp(intel_dp) && fixed_mode) {
++	if (fixed_mode) {
+ 		ret = intel_panel_compute_config(connector, adjusted_mode);
+ 		if (ret)
+ 			return ret;
 -- 
 2.39.2
 
