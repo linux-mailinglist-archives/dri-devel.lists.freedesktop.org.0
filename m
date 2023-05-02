@@ -1,44 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E7086F4DC2
-	for <lists+dri-devel@lfdr.de>; Wed,  3 May 2023 01:40:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 647906F4DC3
+	for <lists+dri-devel@lfdr.de>; Wed,  3 May 2023 01:40:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DD87E10E176;
-	Tue,  2 May 2023 23:40:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DAB6B10E177;
+	Tue,  2 May 2023 23:40:04 +0000 (UTC)
 X-Original-To: DRI-Devel@lists.freedesktop.org
 Delivered-To: DRI-Devel@lists.freedesktop.org
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 718E610E12A;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6DFCB10E127;
  Tue,  2 May 2023 23:39:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1683070798; x=1714606798;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=N7q6zb224jOocFprm6ww0C5wTwJLPXc7ez1JPa38kKk=;
- b=fMdu2+NL0yJ7k6e2U2l55xEco45cX9dLtqgu9ELd+C42FmLFOGKIm+XZ
- MBLXgx+a86VTfcFeNYwy9yEGMSwcpi2QrGJXZm8vbNioQex4KHnlsXzTk
- 2frTUIROK8iyu5lXVK3XeLaaRkLZIM372+YUsDi4ZkGDwUo5aq9vWR6uS
- MedzONDse6nTNqz/O8oSSqcg0V8XcmE6rIVxc4o1m4jUHFohm6zUikEkr
- A7GBRbWvZ24MYY91Hdi27+YOovshdeR8bnPJe5EP7UqXyyEme1zdvHVEb
- Lg7awgWRwcSjDx5hhsHXE8icedfR652hlq0hzXOsGLd4LRkBqfh8NhYpw Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10698"; a="350601514"
-X-IronPort-AV: E=Sophos;i="5.99,245,1677571200"; d="scan'208";a="350601514"
+ bh=pg9Lmo5mqLCogzcNdwUvyTUQeFEVqby+apkLh04aMdA=;
+ b=fesSFEjb/Qp+r2vgP7pnkWrPTQujbufYTAlM+mUQkK4Wz2VLYTxCDTFT
+ GhT4QPaKrHeiLOj9rGAoILfiUmgHX6TtmTznH/aTuUU5lFwjbF0+sZYwq
+ x59zBCQUfDWUdte5SJL+rTYcHYS1r8W4T5muQy0kd3OeYGyIgrJxJy9AK
+ ONqia2fwXMCaeQpvqdwS5ZQ5VCcyaXBM8UY1uXGeLJEPLefGe1sWVrduy
+ LQvXeAk9Jin2bSP3xlpA8bk9isxI4N9ldhcVEVIRxoXhBxgOxp/XLWHOW
+ VmvgqDKv2DbdeV3ZFu8Zl+e0VBolQyU/HxXhZQUexsW67xJ/H0TdCwFbC Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10698"; a="350601515"
+X-IronPort-AV: E=Sophos;i="5.99,245,1677571200"; d="scan'208";a="350601515"
 Received: from orsmga006.jf.intel.com ([10.7.209.51])
  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  02 May 2023 16:39:57 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10698"; a="673865823"
-X-IronPort-AV: E=Sophos;i="5.99,245,1677571200"; d="scan'208";a="673865823"
+X-IronPort-AV: E=McAfee;i="6600,9927,10698"; a="673865826"
+X-IronPort-AV: E=Sophos;i="5.99,245,1677571200"; d="scan'208";a="673865826"
 Received: from relo-linux-5.jf.intel.com ([10.165.21.152])
- by orsmga006.jf.intel.com with ESMTP; 02 May 2023 16:39:56 -0700
+ by orsmga006.jf.intel.com with ESMTP; 02 May 2023 16:39:57 -0700
 From: John.C.Harrison@Intel.com
 To: Intel-GFX@Lists.FreeDesktop.Org
-Subject: [PATCH v3 5/6] drm/i915/uc: Reject duplicate entries in firmware table
-Date: Tue,  2 May 2023 16:40:06 -0700
-Message-Id: <20230502234007.1762014-6-John.C.Harrison@Intel.com>
+Subject: [PATCH v3 6/6] drm/i915/uc: Make unexpected firmware versions an
+ error in debug builds
+Date: Tue,  2 May 2023 16:40:07 -0700
+Message-Id: <20230502234007.1762014-7-John.C.Harrison@Intel.com>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230502234007.1762014-1-John.C.Harrison@Intel.com>
 References: <20230502234007.1762014-1-John.C.Harrison@Intel.com>
@@ -65,75 +66,76 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: John Harrison <John.C.Harrison@Intel.com>
 
-It was noticed that duplicate entries in the firmware table could cause
-an infinite loop in the firmware loading code if that entry failed to
-load. Duplicate entries are a bug anyway and so should never happen.
-Ensure they don't by tweaking the table validation code to reject
-duplicates.
-
-For full m/m/p files, that can be done by simply tweaking the patch
-level check to reject matching values. For reduced version entries,
-the filename itself must be compared.
-
-v2: Improve comment (review by Daniele)
+If the DEBUG_GEM config option is set then escalate the 'unexpected
+firmware version' message from a notice to an error. This will ensure
+that the CI system treats such occurences as a failure and logs a bug
+about it (or fails the pre-merge testing).
 
 Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
 Reviewed-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
 ---
- drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c | 26 +++++++++++++++++++++---
- 1 file changed, 23 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c | 34 ++++++++++++++----------
+ 1 file changed, 20 insertions(+), 14 deletions(-)
 
 diff --git a/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c b/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
-index 64e19688788d1..010c049609102 100644
+index 010c049609102..41ebd0ee0bb5e 100644
 --- a/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
 +++ b/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
-@@ -319,7 +319,7 @@ static bool validate_fw_table_type(struct drm_i915_private *i915, enum intel_uc_
+@@ -17,6 +17,12 @@
+ #include "i915_drv.h"
+ #include "i915_reg.h"
+ 
++#if IS_ENABLED(CONFIG_DRM_I915_DEBUG_GEM)
++#define UNEXPECTED	gt_err
++#else
++#define UNEXPECTED	gt_notice
++#endif
++
+ static inline struct intel_gt *
+ ____uc_fw_to_gt(struct intel_uc_fw *uc_fw, enum intel_uc_fw_type type)
  {
- 	const struct uc_fw_platform_requirement *fw_blobs;
- 	u32 fw_count;
--	int i;
-+	int i, j;
+@@ -833,10 +839,10 @@ int intel_uc_fw_fetch(struct intel_uc_fw *uc_fw)
+ 	if (uc_fw->file_wanted.ver.major && uc_fw->file_selected.ver.major) {
+ 		/* Check the file's major version was as it claimed */
+ 		if (uc_fw->file_selected.ver.major != uc_fw->file_wanted.ver.major) {
+-			gt_notice(gt, "%s firmware %s: unexpected version: %u.%u != %u.%u\n",
+-				  intel_uc_fw_type_repr(uc_fw->type), uc_fw->file_selected.path,
+-				  uc_fw->file_selected.ver.major, uc_fw->file_selected.ver.minor,
+-				  uc_fw->file_wanted.ver.major, uc_fw->file_wanted.ver.minor);
++			UNEXPECTED(gt, "%s firmware %s: unexpected version: %u.%u != %u.%u\n",
++				   intel_uc_fw_type_repr(uc_fw->type), uc_fw->file_selected.path,
++				   uc_fw->file_selected.ver.major, uc_fw->file_selected.ver.minor,
++				   uc_fw->file_wanted.ver.major, uc_fw->file_wanted.ver.minor);
+ 			if (!intel_uc_fw_is_overridden(uc_fw)) {
+ 				err = -ENOEXEC;
+ 				goto fail;
+@@ -854,16 +860,16 @@ int intel_uc_fw_fetch(struct intel_uc_fw *uc_fw)
+ 		/* Preserve the version that was really wanted */
+ 		memcpy(&uc_fw->file_wanted, &file_ideal, sizeof(uc_fw->file_wanted));
  
- 	if (type >= ARRAY_SIZE(blobs_all)) {
- 		drm_err(&i915->drm, "No blob array for %s\n", intel_uc_fw_type_repr(type));
-@@ -334,6 +334,26 @@ static bool validate_fw_table_type(struct drm_i915_private *i915, enum intel_uc_
- 
- 	/* make sure the list is ordered as expected */
- 	for (i = 1; i < fw_count; i++) {
-+		/* Versionless file names must be unique per platform: */
-+		for (j = i + 1; j < fw_count; j++) {
-+			/* Same platform? */
-+			if (fw_blobs[i].p != fw_blobs[j].p)
-+				continue;
-+
-+			if (fw_blobs[i].blob.path != fw_blobs[j].blob.path)
-+				continue;
-+
-+			drm_err(&i915->drm, "Duplicate %s blobs: %s r%u %s%d.%d.%d [%s] matches %s%d.%d.%d [%s]\n",
-+				intel_uc_fw_type_repr(type),
-+				intel_platform_name(fw_blobs[j].p), fw_blobs[j].rev,
-+				fw_blobs[j].blob.legacy ? "L" : "v",
-+				fw_blobs[j].blob.major, fw_blobs[j].blob.minor,
-+				fw_blobs[j].blob.patch, fw_blobs[j].blob.path,
-+				fw_blobs[i].blob.legacy ? "L" : "v",
-+				fw_blobs[i].blob.major, fw_blobs[i].blob.minor,
-+				fw_blobs[i].blob.patch, fw_blobs[i].blob.path);
-+		}
-+
- 		/* Next platform is good: */
- 		if (fw_blobs[i].p < fw_blobs[i - 1].p)
- 			continue;
-@@ -377,8 +397,8 @@ static bool validate_fw_table_type(struct drm_i915_private *i915, enum intel_uc_
- 		if (fw_blobs[i].blob.minor != fw_blobs[i - 1].blob.minor)
- 			goto bad;
- 
--		/* Patch versions must be in order: */
--		if (fw_blobs[i].blob.patch <= fw_blobs[i - 1].blob.patch)
-+		/* Patch versions must be in order and unique: */
-+		if (fw_blobs[i].blob.patch < fw_blobs[i - 1].blob.patch)
- 			continue;
- 
- bad:
+-		gt_notice(gt, "%s firmware %s (%d.%d.%d) is recommended, but only %s (%d.%d.%d) was found\n",
+-			  intel_uc_fw_type_repr(uc_fw->type),
+-			  uc_fw->file_wanted.path,
+-			  uc_fw->file_wanted.ver.major,
+-			  uc_fw->file_wanted.ver.minor,
+-			  uc_fw->file_wanted.ver.patch,
+-			  uc_fw->file_selected.path,
+-			  uc_fw->file_selected.ver.major,
+-			  uc_fw->file_selected.ver.minor,
+-			  uc_fw->file_selected.ver.patch);
++		UNEXPECTED(gt, "%s firmware %s (%d.%d.%d) is recommended, but only %s (%d.%d.%d) was found\n",
++			   intel_uc_fw_type_repr(uc_fw->type),
++			   uc_fw->file_wanted.path,
++			   uc_fw->file_wanted.ver.major,
++			   uc_fw->file_wanted.ver.minor,
++			   uc_fw->file_wanted.ver.patch,
++			   uc_fw->file_selected.path,
++			   uc_fw->file_selected.ver.major,
++			   uc_fw->file_selected.ver.minor,
++			   uc_fw->file_selected.ver.patch);
+ 		gt_info(gt, "Consider updating your linux-firmware pkg or downloading from %s\n",
+ 			INTEL_UC_FIRMWARE_URL);
+ 	}
 -- 
 2.39.1
 
