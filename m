@@ -2,39 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCDE66F42F8
-	for <lists+dri-devel@lfdr.de>; Tue,  2 May 2023 13:45:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 484536F4334
+	for <lists+dri-devel@lfdr.de>; Tue,  2 May 2023 14:00:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 77C9E10E502;
-	Tue,  2 May 2023 11:45:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6517D10E0DF;
+	Tue,  2 May 2023 12:00:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de
- [80.237.130.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 568FE10E502
- for <dri-devel@lists.freedesktop.org>; Tue,  2 May 2023 11:45:02 +0000 (UTC)
-Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
- by wp530.webpack.hosteurope.de running ExIM with esmtpsa
- (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- id 1ptoRG-00042P-Tx; Tue, 02 May 2023 13:44:58 +0200
-Message-ID: <1efbf587-e7b5-74a3-89e4-ca70386bd191@leemhuis.info>
-Date: Tue, 2 May 2023 13:44:56 +0200
+Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com
+ [IPv6:2a00:1450:4864:20::636])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 508B510E0DF
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 May 2023 12:00:48 +0000 (UTC)
+Received: by mail-ej1-x636.google.com with SMTP id
+ a640c23a62f3a-95f4c5cb755so729789366b.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 02 May 2023 05:00:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1683028846; x=1685620846;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=f3Lfco4BnCXSWDeSvGyocalO93LWCUXAn4Hyq4qa2GU=;
+ b=k0Qq8qmjrUvfH6d/fC9U0sPZuAEoXcPQ4JTMgHYGwISYhsa+oGHET4gBj5mRXV5BY6
+ J9oPKo6p6LNHUzk6fNIf1/8kxsUPtVW9Q/ap8x6H4UR0256dSsZKyyxiMM6bu9JmZAgD
+ C3ul8k+qwtitqBiLFWI8XgCyZuh7Ma+NNHjVrxGHXaDpxWvzHFcwmACfQns75pQTOJmh
+ /amtYuMgcdsWfxX0xl9doBLJhh7lzyKykOA3ZcSwH2mEBLq2MgB1AgriHZ0275vZbhcJ
+ b++yGidZypMKNhCy9xAA4L4h4ef9MN65JVflD0AjbCpmbmYev0QUORf1kf3lOqVWZbPs
+ YZyA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1683028846; x=1685620846;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=f3Lfco4BnCXSWDeSvGyocalO93LWCUXAn4Hyq4qa2GU=;
+ b=I0UUYzFFjTEsT0qsM5NCnIi+wOKBICfycJyoT/5QL7eeeNZ2Xwww4lXgPDmWYymsb9
+ g9lAuZC8IWAuNDVBhyEr+4DK5wthOr31ca8PzLxOHowcyzfrynVa0xbrasP9pZWC9KWU
+ 7RzjEy5yVuPgWRPNUum+wpOBbaid1Ix2FGlqiZeSOxcCFEZ8bKLxW80B8VFYTK28QjOW
+ wTFernZsV71bbKlIrRhlNlBXTIdDj23F/RNpjvenBAUaI41JNsE8QYzhUj31MHB2muBZ
+ jmBszgto5RgIru2Yl+Oo2QGo6VliGbAhf/o8c6uSFm4ajvix0C4+1DPlKZHi3xvHbUf5
+ 8bsA==
+X-Gm-Message-State: AC+VfDxcNW7zzhgLrXEUMbTXQgyXZZOJsSPWQL9TgYalpHRZgG2ev5uH
+ x4ByGmGBlA2TXUCHFpivminT+Q==
+X-Google-Smtp-Source: ACHHUZ4A7IqeyLXRL8smscOzdIf9v+IQzynF+xG31Ayj1umN6zEC38/CTVoxXfWwQg6EJ/5ynn1J+A==
+X-Received: by 2002:a17:907:6d19:b0:94f:720b:1b14 with SMTP id
+ sa25-20020a1709076d1900b0094f720b1b14mr16467542ejc.29.1683028846077; 
+ Tue, 02 May 2023 05:00:46 -0700 (PDT)
+Received: from krzk-bin.. ([2a02:810d:15c0:828:bafd:1283:b136:5f6a])
+ by smtp.gmail.com with ESMTPSA id
+ v10-20020a1709063bca00b0094ee3e4c934sm16063403ejf.221.2023.05.02.05.00.38
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 02 May 2023 05:00:40 -0700 (PDT)
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+To: Neil Armstrong <neil.armstrong@linaro.org>,
+ Sam Ravnborg <sam@ravnborg.org>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Jianhua Lu <lujianhua000@gmail.com>,
+ Del Regno <angelogioacchino.delregno@somainline.org>,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH v2 1/2] dt-bindings: display: novatek,nt35950: define ports
+Date: Tue,  2 May 2023 14:00:35 +0200
+Message-Id: <20230502120036.47165-1-krzysztof.kozlowski@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: PROBLEM: AMD Ryzen 9 7950X iGPU - Blinking Issue
-Content-Language: en-US, de-DE
-To: Felix Richter <judge@felixrichter.tech>, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-References: <46a7eb80-5f09-4f6a-4fd3-9550dafd497c@felixrichter.tech>
-From: "Linux regression tracking (Thorsten Leemhuis)"
- <regressions@leemhuis.info>
-In-Reply-To: <46a7eb80-5f09-4f6a-4fd3-9550dafd497c@felixrichter.tech>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-bounce-key: webpack.hosteurope.de; regressions@leemhuis.info; 1683027902;
- 58274b21; 
-X-HE-SMSGID: 1ptoRG-00042P-Tx
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,55 +77,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Linux regressions mailing list <regressions@lists.linux.dev>
-Cc: Linux kernel regressions list <regressions@lists.linux.dev>
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-[CCing the regression list, as it should be in the loop for regressions:
-https://docs.kernel.org/admin-guide/reporting-regressions.html]
+The panel-common schema does not define what "ports" property is, so
+bring the definition to enforce the type.  Panels can be single- or
+dual-link, thus require only one port@0.
 
-[TLDR: I'm adding this report to the list of tracked Linux kernel
-regressions; the text you find below is based on a few templates
-paragraphs you might have encountered already in similar form.
-See link in footer if these mails annoy you.]
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-On 30.04.23 13:44, Felix Richter wrote:
-> Hi,
-> 
-> I am running into an issue with the integrated GPU of the Ryzen 9 7950X. It seems to be a regression from kernel version 6.1 to 6.2. 
-> The bug materializes in from of my monitor blinking, meaning it turns full white shortly. This happens very often so that the system becomes unpleasant to use.
-> 
-> I am running the Archlinux Kernel:
-> The Issue happens on the bleeding edge kernel: 6.2.13
-> Switching back to the LTS kernel resolves the issue: 6.1.26
-> 
-> I have two monitors attached to the system. One 42 inch 4k Display and a 24 inch 1080p Display and am running sway as my desktop.
-> 
-> Let me know if there is more information I could provide to help narrow down the issue.
+---
 
-Thanks for the report. To be sure the issue doesn't fall through the
-cracks unnoticed, I'm adding it to regzbot, the Linux kernel regression
-tracking bot:
+Changes since v1:
+1. Rework to add ports to device schema, not to panel-common.
+https://lore.kernel.org/all/20230420160905.GA2952736-robh@kernel.org/
+---
+ .../bindings/display/panel/novatek,nt35950.yaml           | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
 
-#regzbot ^introduced v6.1..v6.2
-#regzbot title drm: amdgpu: system becomes unpleasant to use after
-monitor starts blinking and turns full white
-#regzbot ignore-activity
+diff --git a/Documentation/devicetree/bindings/display/panel/novatek,nt35950.yaml b/Documentation/devicetree/bindings/display/panel/novatek,nt35950.yaml
+index 377a05d48a02..c93cc1018b41 100644
+--- a/Documentation/devicetree/bindings/display/panel/novatek,nt35950.yaml
++++ b/Documentation/devicetree/bindings/display/panel/novatek,nt35950.yaml
+@@ -47,8 +47,13 @@ properties:
+   vddio-supply:
+     description: regulator that supplies the I/O voltage
+ 
++  ports:
++    $ref: /schemas/graph.yaml#/properties/ports
++
++    required:
++      - port@0
++
+   backlight: true
+-  ports: true
+   reg: true
+ 
+ required:
+@@ -59,6 +64,7 @@ required:
+   - avee-supply
+   - dvdd-supply
+   - vddio-supply
++  - ports
+ 
+ additionalProperties: false
+ 
+-- 
+2.34.1
 
-This isn't a regression? This issue or a fix for it are already
-discussed somewhere else? It was fixed already? You want to clarify when
-the regression started to happen? Or point out I got the title or
-something else totally wrong? Then just reply and tell me -- ideally
-while also telling regzbot about it, as explained by the page listed in
-the footer of this mail.
-
-Developers: When fixing the issue, remember to add 'Link:' tags pointing
-to the report (the parent of this mail). See page linked in footer for
-details.
-
-Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
---
-Everything you wanna know about Linux kernel regression tracking:
-https://linux-regtracking.leemhuis.info/about/#tldr
-That page also explains what to do if mails like this annoy you.
