@@ -1,44 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7E426F4DBF
-	for <lists+dri-devel@lfdr.de>; Wed,  3 May 2023 01:40:19 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 31E5E6F4DBC
+	for <lists+dri-devel@lfdr.de>; Wed,  3 May 2023 01:40:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2077B10E166;
-	Tue,  2 May 2023 23:40:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A859910E149;
+	Tue,  2 May 2023 23:40:00 +0000 (UTC)
 X-Original-To: DRI-Devel@lists.freedesktop.org
 Delivered-To: DRI-Devel@lists.freedesktop.org
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DAD4310E127;
- Tue,  2 May 2023 23:39:57 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2C0CA10E127;
+ Tue,  2 May 2023 23:39:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1683070797; x=1714606797;
+ t=1683070798; x=1714606798;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=ZnlFMrm3vSe/fgzpcy4mVJfRTwg0AFpN2wuu12IUBAg=;
- b=HsI3lMNnzVTPtKfFZ0Rdxd82SDogp+CC881LWkfHoscHMthcEH2/2TDA
- /jY3Gvdyxm/xaG/lF4TChy1jYUuejN4u81e1/zlJx5cmxLxdIwo4zmBB4
- Ho3Qsa1CBDXbFOfsbIhVtu426aOMxPHVWgKmVXicrGge8/VwWFx1pkPI8
- uZDWlTJ17afzEc08+X5llcEpSpMxJTl3lTJVCUWk9LW8bInx2IIuy8Gra
- oi9xEPzaySy2K/oFesOoBzRXy7yly1brgKCnwdN1HJ1mvy4tcevcLbAtw
- NOJ35yfWDoYehvUmQMAiYZmCeaO1dSDDSeS231SC7TlwVMReEdwYO6yLg g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10698"; a="350601510"
-X-IronPort-AV: E=Sophos;i="5.99,245,1677571200"; d="scan'208";a="350601510"
+ bh=iTOCIJh8xOMcFcx3QwMEkF3KAA1MhumGZ1hg2579bb8=;
+ b=AcGDYnaH7l+3qKrinIZOat6PCgh6fg6BrzXA5UZxeJpvJhdMfFjdUfi9
+ fFMGZAr9lzjz6a0HYP6LKv+xh0Thl9WpMj+1f2EtD/98DpNUJVor1udaD
+ TH4KmVxmsJCbyftqDEb0J9r+In6axiAJeFrKYbWWen6+pR6akALHavoGW
+ 61GiSxoUo1Nk5ZIf/G2KOQqaMjV7vyDXGEv9nqDaCYQLa6WatC3FR8jFf
+ VkZTd3cRzta5oXmEfQERobTIlUjUW1A/G77fwTZu1f8yZCEipkZhee9T0
+ KRV5MzwRsVWD9pveWyXR0epjzDQa8ot5TVIOdGN3KQymKwyZluhblFAFU A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10698"; a="350601511"
+X-IronPort-AV: E=Sophos;i="5.99,245,1677571200"; d="scan'208";a="350601511"
 Received: from orsmga006.jf.intel.com ([10.7.209.51])
  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 May 2023 16:39:56 -0700
+ 02 May 2023 16:39:57 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10698"; a="673865810"
-X-IronPort-AV: E=Sophos;i="5.99,245,1677571200"; d="scan'208";a="673865810"
+X-IronPort-AV: E=McAfee;i="6600,9927,10698"; a="673865813"
+X-IronPort-AV: E=Sophos;i="5.99,245,1677571200"; d="scan'208";a="673865813"
 Received: from relo-linux-5.jf.intel.com ([10.165.21.152])
  by orsmga006.jf.intel.com with ESMTP; 02 May 2023 16:39:56 -0700
 From: John.C.Harrison@Intel.com
 To: Intel-GFX@Lists.FreeDesktop.Org
-Subject: [PATCH v3 1/6] drm/i915/guc: Decode another GuC load failure case
-Date: Tue,  2 May 2023 16:40:02 -0700
-Message-Id: <20230502234007.1762014-2-John.C.Harrison@Intel.com>
+Subject: [PATCH v3 2/6] drm/i915/guc: Print status register when waiting for
+ GuC to load
+Date: Tue,  2 May 2023 16:40:03 -0700
+Message-Id: <20230502234007.1762014-3-John.C.Harrison@Intel.com>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230502234007.1762014-1-John.C.Harrison@Intel.com>
 References: <20230502234007.1762014-1-John.C.Harrison@Intel.com>
@@ -65,52 +66,34 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: John Harrison <John.C.Harrison@Intel.com>
 
-Explain another potential firmware failure mode and early exit the
-long wait if hit.
+If the GuC load is taking an excessively long time, the wait loop
+currently prints the GT frequency. Extend that to include the GuC
+status as well so we can see if the GuC is actually making progress or
+not.
 
 Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
 Reviewed-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
 ---
- drivers/gpu/drm/i915/gt/uc/abi/guc_errors_abi.h | 1 +
- drivers/gpu/drm/i915/gt/uc/intel_guc_fw.c       | 6 ++++++
- 2 files changed, 7 insertions(+)
+ drivers/gpu/drm/i915/gt/uc/intel_guc_fw.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/gt/uc/abi/guc_errors_abi.h b/drivers/gpu/drm/i915/gt/uc/abi/guc_errors_abi.h
-index bcb1129b36102..dabeaf4f245f3 100644
---- a/drivers/gpu/drm/i915/gt/uc/abi/guc_errors_abi.h
-+++ b/drivers/gpu/drm/i915/gt/uc/abi/guc_errors_abi.h
-@@ -44,6 +44,7 @@ enum intel_guc_load_status {
- enum intel_bootrom_load_status {
- 	INTEL_BOOTROM_STATUS_NO_KEY_FOUND                 = 0x13,
- 	INTEL_BOOTROM_STATUS_AES_PROD_KEY_FOUND           = 0x1A,
-+	INTEL_BOOTROM_STATUS_PROD_KEY_CHECK_FAILURE       = 0x2B,
- 	INTEL_BOOTROM_STATUS_RSA_FAILED                   = 0x50,
- 	INTEL_BOOTROM_STATUS_PAVPC_FAILED                 = 0x73,
- 	INTEL_BOOTROM_STATUS_WOPCM_FAILED                 = 0x74,
 diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_fw.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_fw.c
-index 6fda3aec5c66a..0ff088a5e51a8 100644
+index 0ff088a5e51a8..364d0d546ec82 100644
 --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_fw.c
 +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_fw.c
-@@ -129,6 +129,7 @@ static inline bool guc_load_done(struct intel_uncore *uncore, u32 *status, bool
- 	case INTEL_BOOTROM_STATUS_RC6CTXCONFIG_FAILED:
- 	case INTEL_BOOTROM_STATUS_MPUMAP_INCORRECT:
- 	case INTEL_BOOTROM_STATUS_EXCEPTION:
-+	case INTEL_BOOTROM_STATUS_PROD_KEY_CHECK_FAILURE:
- 		*success = false;
- 		return true;
- 	}
-@@ -219,6 +220,11 @@ static int guc_wait_ucode(struct intel_guc *guc)
- 			guc_info(guc, "firmware signature verification failed\n");
- 			ret = -ENOEXEC;
+@@ -191,8 +191,10 @@ static int guc_wait_ucode(struct intel_guc *guc)
+ 		if (!ret || !success)
  			break;
-+
-+		case INTEL_BOOTROM_STATUS_PROD_KEY_CHECK_FAILURE:
-+			guc_info(guc, "firmware production part check failure\n");
-+			ret = -ENOEXEC;
-+			break;
- 		}
  
- 		switch (ukernel) {
+-		guc_dbg(guc, "load still in progress, count = %d, freq = %dMHz\n",
+-			count, intel_rps_read_actual_frequency(&uncore->gt->rps));
++		guc_dbg(guc, "load still in progress, count = %d, freq = %dMHz, status = 0x%08X [0x%02X/%02X]\n",
++			count, intel_rps_read_actual_frequency(&uncore->gt->rps), status,
++			REG_FIELD_GET(GS_BOOTROM_MASK, status),
++			REG_FIELD_GET(GS_UKERNEL_MASK, status));
+ 	}
+ 	after = ktime_get();
+ 	delta = ktime_sub(after, before);
 -- 
 2.39.1
 
