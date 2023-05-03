@@ -2,79 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C4BD6F61F2
-	for <lists+dri-devel@lfdr.de>; Thu,  4 May 2023 01:16:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A6DB56F6201
+	for <lists+dri-devel@lfdr.de>; Thu,  4 May 2023 01:23:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 10F9310E371;
-	Wed,  3 May 2023 23:16:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C6A7210E360;
+	Wed,  3 May 2023 23:23:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 11C5010E35B;
- Wed,  3 May 2023 23:16:13 +0000 (UTC)
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 343MVgG3003181; Wed, 3 May 2023 23:16:11 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=UxTkhBpsnpmY6xxucMQdSRc3ibNabuhL7IWCyy9HV58=;
- b=OxEwRao2gdkU/BHZ/KnnqFL4xHMbfOKOBYGilHy84CaNgaTnrtGxGtXlGYyo2/QyA7dK
- yTuiBPmaxK0O9MaMVF4c/zhiXxu7TZadiHBYbcPiZ528Hxr+QJ/gPhoafHfN3PAbqGgy
- ZJs2GrHp98yBI2oXsKBDVd1znubcPATpXpdx1w0FF/Tr7j0jZuh3zoXUYEcnAz2PhJwQ
- xTXPykJAAxUCmDOAFmx18Cm1IY+Z4q0oMkTmXhRVmIe3cBCyn56L2cx9d/2Iego8PcXF
- 2mMUz1turLRfcpa0ZBslNhnDI6aMDfpkMbk8PziQ+jo6MErSA4wr4Sbbwz1k6SrymO5P TA== 
-Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com
- [199.106.103.254])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3qbvghgg7x-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 03 May 2023 23:16:11 +0000
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
- [10.46.141.250])
- by NASANPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 343NGA4n025281
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 3 May 2023 23:16:10 GMT
-Received: from [10.71.110.193] (10.80.80.8) by nasanex01b.na.qualcomm.com
- (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Wed, 3 May 2023
- 16:16:10 -0700
-Message-ID: <714d6e3a-4ddd-bf35-0949-ce162565c000@quicinc.com>
-Date: Wed, 3 May 2023 16:16:09 -0700
+Received: from relay07.th.seeweb.it (relay07.th.seeweb.it
+ [IPv6:2001:4b7a:2000:18::168])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8DE3489101
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 May 2023 23:23:22 +0000 (UTC)
+Received: from SoMainline.org (94-211-6-86.cable.dynamic.v4.ziggo.nl
+ [94.211.6.86])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
+ SHA256) (No client certificate requested)
+ by m-r2.th.seeweb.it (Postfix) with ESMTPSA id A401940233;
+ Thu,  4 May 2023 01:23:19 +0200 (CEST)
+Date: Thu, 4 May 2023 01:23:18 +0200
+From: Marijn Suijten <marijn.suijten@somainline.org>
+To: Kuogee Hsieh <quic_khsieh@quicinc.com>
+Subject: Re: [PATCH v4 2/7] drm/msm/dpu: add DPU_PINGPONG_DSC feature bit
+Message-ID: <q4csrdr4yib5nc5be5kxq4ejn2xqpe4jddtdx3tyfkwzpke4ar@6k2nmqqwwbpq>
+References: <1683144639-26614-1-git-send-email-quic_khsieh@quicinc.com>
+ <1683144639-26614-3-git-send-email-quic_khsieh@quicinc.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.1
-Subject: Re: [PATCH 4/4] drm/msm/dpu: Enable compression for command mode
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Marijn Suijten
- <marijn.suijten@somainline.org>
-References: <20230405-add-dsc-support-v1-0-6bc6f03ae735@quicinc.com>
- <20230405-add-dsc-support-v1-4-6bc6f03ae735@quicinc.com>
- <hxqxnfcydzyfrlvihmil3gecan6p6xyjw44gielu63ltgtqul7@xwvoprzofq6g>
- <d4b7a747-77a0-95eb-1201-c8b1c80defe3@quicinc.com>
- <3dddb676-750f-0bc7-7999-f8880c63931b@linaro.org>
-From: Jessica Zhang <quic_jesszhan@quicinc.com>
-In-Reply-To: <3dddb676-750f-0bc7-7999-f8880c63931b@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: U2GBB1urOEYfUsAzrC2_eYS2JyTqpd4e
-X-Proofpoint-GUID: U2GBB1urOEYfUsAzrC2_eYS2JyTqpd4e
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-05-03_14,2023-05-03_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxlogscore=999
- lowpriorityscore=0 impostorscore=0 suspectscore=0 malwarescore=0
- bulkscore=0 clxscore=1015 phishscore=0 spamscore=0 adultscore=0
- priorityscore=1501 mlxscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2303200000 definitions=main-2305030200
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1683144639-26614-3-git-send-email-quic_khsieh@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,144 +43,124 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Konrad Dybcio <konrad.dybcio@linaro.org>,
- linux-arm-msm@vger.kernel.org
+Cc: freedreno@lists.freedesktop.org, quic_sbillaka@quicinc.com,
+ quic_abhinavk@quicinc.com, andersson@kernel.org,
+ dri-devel@lists.freedesktop.org, dianders@chromium.org, vkoul@kernel.org,
+ agross@kernel.org, linux-arm-msm@vger.kernel.org, dmitry.baryshkov@linaro.org,
+ swboyd@chromium.org, sean@poorly.run, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Kuogee,
 
+On 2023-05-03 13:10:34, Kuogee Hsieh wrote:
+> Legacy DPU (DPU < 7.0.0) requires PP block to be involved during
 
-On 5/3/2023 12:51 PM, Dmitry Baryshkov wrote:
-> On 03/05/2023 22:04, Jessica Zhang wrote:
->>
->>
->> On 5/3/2023 12:28 AM, Marijn Suijten wrote:
->>> On 2023-05-02 18:19:15, Jessica Zhang wrote:
->>>> Add a dpu_hw_intf op to enable data compression.
->>>>
->>>> Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
->>>> ---
->>>>   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c | 4 ++++
->>>>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c          | 7 +++++++
->>>>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h          | 2 ++
->>>>   3 files changed, 13 insertions(+)
->>>>
->>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c 
->>>> b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
->>>> index 74470d068622..4321a1aba17f 100644
->>>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
->>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
->>>
->>> Can we have INTF DCE on video-mode encoders as well?
->>
->> Hi Marijn,
->>
->> Currently, there's no way to validate DSC for video mode as I've only 
->> made changes to support DSI for command mode. We are planning to post 
->> changes to support DSC over DP, which will include changes for video 
->> mode.
+Nit: I wouldn't call it "legacy" (that's not really relevant here), just
+
+    DPU < 7.0.0 requires the PINGPONG block ...
+
+> DSC setting up. Since then, enable and start the DSC encoder engine
+
+then -> since DPU 7.0.0
+
+enabling* and starting* the DSC encoder engine
+
+> had moved to INTF with helps of flush mechanism. This patch adds
+
+s/had/has, or remove had altogether
+
+"with the help of a/the"
+
+This patch adds a (new)*, but you shouldn't write "this patch" at all:
+
+https://www.kernel.org/doc/html/latest/process/submitting-patches.html#describe-your-changes
+
+> DPU_PINGPONG_DSC feature bit to indicate that both
+> dpu_hw_pp_setup_dsc() and dpu_hw_pp_dsc_enable() pingpong ops
+> functions are required to complete DSC datapath setup and start
+> DSC engine.
+
+... which should only be set on DPU < 7.0.0, but it doesn't seem like
+"complete DSC datapath" really explains the goal of this patch (namely
+disabling it on DPU >= 7.0.0, by only making it available on DPU <
+7.0.0).
+
+How about replacing this whole sentence, starting at "This patch", with:
+
+    Add a DPU_PINGPONG_DSC feature bit to restrict the availability of
+    dpu_hw_pp_setup_dsc() and dpu_hw_pp_dsc_{enable,disable}() on the
+    PINGPONG block to DPU < 7.0.0 hardware, as the registers are not
+    available [in the PINGPONG block] on DPU 7.0.0 and higher anymore.
+    Existing call-sites to these callbacks already skip calling into
+    them if the function pointer is NULL.
+
+How does that sound to you?
+
+> Changes in v4:
+> -- add more details commit text
 > 
-> If I remember correctly, HDK8350 panel should support DSC for both 
-> command and video modes.
-
-Hi Dmitry,
-
-Correct, however we are planning to submit the video mode changes with 
-the DP DSC v1.2 changes.
-
-My current panel driver/dt changes are for command mode, so we would 
-have to spent time to also add video mode support. It would be faster to 
-land the video mode changes with DP support as that's already a work in 
-progress.
-
+> Reported-by: Marijn Suijten <marijn.suijten@somainline.org>
+> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
+> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> ---
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h  | 2 ++
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.c | 9 ++++++---
+>  2 files changed, 8 insertions(+), 3 deletions(-)
 > 
->>
->>>
->>>> @@ -72,6 +72,10 @@ static void _dpu_encoder_phys_cmd_update_intf_cfg(
->>>>                   phys_enc->hw_intf,
->>>>                   true,
->>>>                   phys_enc->hw_pp->idx);
->>>> +
->>>> +    if (phys_enc->dpu_kms->catalog->caps->has_data_compress &&
->>>
->>> As per my suggestion on patch 3/4, drop the flag and check above and
->>> only check if the function is NULL (below).
->>
->> Acked.
->>
->>>
->>>> +            phys_enc->hw_intf->ops.enable_compression)
->>>> +        phys_enc->hw_intf->ops.enable_compression(phys_enc->hw_intf);
->>>>   }
->>>>   static void dpu_encoder_phys_cmd_pp_tx_done_irq(void *arg, int 
->>>> irq_idx)
->>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c 
->>>> b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c
->>>> index 671048a78801..4ce7ffdd7a05 100644
->>>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c
->>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c
->>>> @@ -64,10 +64,16 @@
->>>>   #define INTF_CFG2_DATABUS_WIDEN    BIT(0)
->>>>   #define INTF_CFG2_DATA_HCTL_EN    BIT(4)
->>>
->>> These should probably be reindented to match the below... And the rest
->>> of the defines use spaces instead of tabs.
->>
->> Fair point, though I think fixing the whitespace for these 2 macros 
->> specifically might be better in a more relevant series.
->>
->> With that being said, I'll change the spacing of the DATA_COMPRESS bit 
->> to spaces instead of tabs.
->>
->>>
->>>> +#define INTF_CFG2_DCE_DATA_COMPRESS    BIT(12)
->>>>   #define INTF_MISR_CTRL            0x180
->>>>   #define INTF_MISR_SIGNATURE        0x184
->>>
->>> This does not seem to apply on top of:
->>> https://lore.kernel.org/linux-arm-msm/20230411-dpu-intf-te-v4-10-27ce1a5ab5c6@somainline.org/
->>
->> Seems like I'm missing some patches from that series on my working 
->> branch. Will rebase on top of the full series for the v2.
->>
->>>
->>>> +static inline void dpu_hw_intf_enable_compression(struct 
->>>> dpu_hw_intf *ctx)
->>>
->>> Why inline?  This is used as a pointer callback.
->>
->> Acked, will remove the inline.
->>
->>>
->>>> +{
->>>> +    DPU_REG_WRITE(&ctx->hw, INTF_CONFIG2, 
->>>> INTF_CFG2_DCE_DATA_COMPRESS);
->>>
->>> dpu_hw_intf_setup_timing_engine() also programs INTF_CONFIG2.  Is it
->>> double-buffered, or is that config **always** unused when DSI CMD mode
->>> is used in conjunction with DSC/DCE?  Otherwise this should perhaps OR
->>> the bitflag into the register, or write the whole thing at once in
->>> dpu_hw_intf_setup_timing_engine()?
->>
->> For command mode, INTF_CONFIG2 is unused aside from setting 
->> DATA_COMPRESS for DSC.
->>
->> Since setup_timing_engine() is only used for video mode, the 
->> corresponding changes will be made in the DSC v1.2 for DP changes.
-> 
-> So, for command mode panels is this the only bit that should be set in 
-> INTF_CFG2?
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+> index 71584cd..5d210f3 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+> @@ -144,6 +144,7 @@ enum {
+>   * @DPU_PINGPONG_SPLIT      PP block supports split fifo
+>   * @DPU_PINGPONG_SLAVE      PP block is a suitable slave for split fifo
+>   * @DPU_PINGPONG_DITHER,    Dither blocks
+> + * @DPU_PINGPONG_DSC,       PP ops functions required for DSC
 
-Yep, outside of the changes in this patch, INTF_CONFIG2 is only used in 
-the video mode setup_timing_engine() method.
+As said in v3, drop the comma.
 
-Thanks,
+>   * @DPU_PINGPONG_MAX
+>   */
+>  enum {
+> @@ -152,6 +153,7 @@ enum {
+>  	DPU_PINGPONG_SPLIT,
+>  	DPU_PINGPONG_SLAVE,
+>  	DPU_PINGPONG_DITHER,
+> +	DPU_PINGPONG_DSC,
+>  	DPU_PINGPONG_MAX
+>  };
+>  
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.c
+> index 3822e06..f255a04 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.c
+> @@ -264,9 +264,12 @@ static void _setup_pingpong_ops(struct dpu_hw_pingpong *c,
+>  	c->ops.get_autorefresh = dpu_hw_pp_get_autorefresh_config;
+>  	c->ops.poll_timeout_wr_ptr = dpu_hw_pp_poll_timeout_wr_ptr;
+>  	c->ops.get_line_count = dpu_hw_pp_get_line_count;
+> -	c->ops.setup_dsc = dpu_hw_pp_setup_dsc;
+> -	c->ops.enable_dsc = dpu_hw_pp_dsc_enable;
+> -	c->ops.disable_dsc = dpu_hw_pp_dsc_disable;
+> +
+> +	if (features & BIT(DPU_PINGPONG_DSC)) {
 
-Jessica Zhang
+To stick with the style of this function, this should use test_bit()
+like below for DPU_PINGPONG_DITHER.
 
+Unless maintainers agree that we should replace all current uses in DPU
+with `x & BIT(..)`.
+
+- Marijn
+
+> +		c->ops.setup_dsc = dpu_hw_pp_setup_dsc;
+> +		c->ops.enable_dsc = dpu_hw_pp_dsc_enable;
+> +		c->ops.disable_dsc = dpu_hw_pp_dsc_disable;
+> +	}
+>  
+>  	if (test_bit(DPU_PINGPONG_DITHER, &features))
+>  		c->ops.setup_dither = dpu_hw_pp_setup_dither;
 > -- 
-> With best wishes
-> Dmitry
+> The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
+> a Linux Foundation Collaborative Project
 > 
