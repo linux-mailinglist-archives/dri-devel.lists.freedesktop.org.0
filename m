@@ -2,58 +2,120 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 570A06F5B41
-	for <lists+dri-devel@lfdr.de>; Wed,  3 May 2023 17:33:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F1526F5B68
+	for <lists+dri-devel@lfdr.de>; Wed,  3 May 2023 17:39:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8419E10E32C;
-	Wed,  3 May 2023 15:33:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F004410E309;
+	Wed,  3 May 2023 15:39:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C065310E326;
- Wed,  3 May 2023 15:33:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1683128029; x=1714664029;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=I2XdOjxfOswhnVb3OFS3ySe84t+T0b3m95G+P4479wY=;
- b=QM1XFKgIY+X8D85cpHXyW4whBKQX4p3JyFrwfYM6rMsecGhrW1ztIqKD
- vhHF69HwRDntdsk/fW+87zigHqaw+dMPs5hRc/XZM1MbS3PtM+sUILM3e
- Ew07EFQTLX/d4F1G6XMMq5qvyp2ZE8erSvzmKoKq8bOOpziTBSOzZMD14
- +x9HspinejKN2eSC8RXPv8jNHwCjZYs/XOEltGTL9EmW5IxnuzS3FHvQ6
- 9yJvRKxYo/Uzf/74pi7E5sKLrXXC+odAU3s7l/4LdOnPhF3Lry8Zawxuy
- G5X3p+0Rcjosa+zA2NDM/XEJtrwDk25Aj84wjqUlcc4KKlX+q4u659m59 w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10699"; a="376750290"
-X-IronPort-AV: E=Sophos;i="5.99,247,1677571200"; d="scan'208";a="376750290"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 May 2023 08:33:48 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10699"; a="727177472"
-X-IronPort-AV: E=Sophos;i="5.99,247,1677571200"; d="scan'208";a="727177472"
-Received: from bcurcic-mobl1.ger.corp.intel.com (HELO [10.249.36.167])
- ([10.249.36.167])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 May 2023 08:33:44 -0700
-Message-ID: <2379ca47-a23f-9cb8-2b2b-b79b069cd6eb@linux.intel.com>
-Date: Wed, 3 May 2023 17:33:42 +0200
-MIME-Version: 1.0
+Received: from EUR02-DB5-obe.outbound.protection.outlook.com
+ (mail-db5eur02on2109.outbound.protection.outlook.com [40.107.249.109])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ABBF710E309
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 May 2023 15:39:53 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Xy8gHBThQkafBkRZf6I/lcuLFsIhvugk8ZLLLKZnTOpclCTJjS75YYNpY9KpaE43TEPm/nST98x1hpR1V6iTp90lmXDDoxN5CuSCotjSadKQwQ4Wx1bWyGikwAlxRG56Algew1A/Ix4VRM0bLpHcI7eY72y34JtJ27zwabt/oaEUprfEanN2pU37RyE3sZIBVW3q2xxAVAdLEr26rv/UlavSfGVxC51XhY0sRfxPjRQnbCqn4kHWZZFSMEj7ajIrX+b9lbshl67AnCVnoVsRXGe/Fm3e1KTb64TUE+eYNSkZdJ2ogh9urXszUnNoDG3O7a/uQGIswdnbnAPN5nBIqA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=iDXVNOLNsQZfg8J0xy47IhFK/gbQ5SDlpTmyhqwh1wo=;
+ b=X+HHpF4IkJKO+FiEUzg9Y7wVb18+WRpPVDUCc7gLcdXsAJBKNGqFdIQVJZS6uvNJkc0w4ODYjyxLOokPB2/3shDK1TrlEOGGapAmi/zOmO7QePrOio9ZPw9rfdxuCFLqToR0HhnN7BrJaY+uU6RBljBez4npOOcFnLsOlnET30gsqDigG/vGd/JbxgmEYI22evYg3jqF9C/nN9BcDq7Moe/YNaiOQZpVGWhaQIbyngj5nf9OEJGxc+tvswK4qbHoQoNHhZW4urkWeuIUL5158L378R+8fFXSuaVheUqxusm+BRO6t8dLGzYY63O6/EHsbHQfT2xBBBXgfQTZxqNK3Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=kontron.de; dmarc=pass action=none header.from=kontron.de;
+ dkim=pass header.d=kontron.de; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mysnt.onmicrosoft.com; 
+ s=selector2-mysnt-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=iDXVNOLNsQZfg8J0xy47IhFK/gbQ5SDlpTmyhqwh1wo=;
+ b=JKpnDYsc1jGBFJPCTKP2PnkXuDDFwNplUCTjjjp40rC3eda67i5YAF/3Yw//TOadqdRrxVUacA2Sjq/p8XzW+2sJhhBAhvyPSU1fyEYOltmsSteio2UvA2PS+YM1pK6oE5udFkTQ81JBWzdIOYdQR+zmyAh1m56M6uIlb3llBsw=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=kontron.de;
+Received: from PA4PR10MB5681.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:102:263::10)
+ by DB9PR10MB5258.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:33c::20)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6363.21; Wed, 3 May
+ 2023 15:39:50 +0000
+Received: from PA4PR10MB5681.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::e6fd:d174:5710:fb3a]) by PA4PR10MB5681.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::e6fd:d174:5710:fb3a%2]) with mapi id 15.20.6340.031; Wed, 3 May 2023
+ 15:39:50 +0000
+Message-ID: <3f6be15d-24b2-5608-831c-f15cb7d7cdd2@kontron.de>
+Date: Wed, 3 May 2023 17:39:47 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Firefox/102.0 Thunderbird/102.10.1
-Subject: Re: [Intel-gfx] [RFC PATCH 2/4] drm/cgroup: Add memory accounting to
- DRM cgroup
-Content-Language: en-US
-To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- dri-devel@lists.freedesktop.org, cgroups@vger.kernel.org,
- intel-xe@lists.freedesktop.org
-References: <20230503083500.645848-1-maarten.lankhorst@linux.intel.com>
- <20230503083500.645848-3-maarten.lankhorst@linux.intel.com>
- <c9d1e666-50e9-d66a-d751-f4ec39fcb7bb@linux.intel.com>
-From: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-In-Reply-To: <c9d1e666-50e9-d66a-d751-f4ec39fcb7bb@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+ Thunderbird/102.10.0
+Subject: Re: [PATCH V3 5/7] drm: bridge: samsung-dsim: Dynamically configure
+ DPHY timing
+Content-Language: en-US, de-DE
+To: Adam Ford <aford173@gmail.com>, dri-devel@lists.freedesktop.org
+References: <20230502010759.17282-1-aford173@gmail.com>
+ <20230502010759.17282-6-aford173@gmail.com>
+From: Frieder Schrempf <frieder.schrempf@kontron.de>
+In-Reply-To: <20230502010759.17282-6-aford173@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: BE1P281CA0039.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:b10:22::10) To PA4PR10MB5681.EURPRD10.PROD.OUTLOOK.COM
+ (2603:10a6:102:263::10)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PA4PR10MB5681:EE_|DB9PR10MB5258:EE_
+X-MS-Office365-Filtering-Correlation-Id: 06279892-5743-4ebf-2a6c-08db4beca1ea
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 3uqZewQB/V5rwlAm+atNC8vkQkqsHCvYYFNcv1xrJU3RDefeUpuRMX3mBURjm7Qf6tOIRLMkqBWq09DHbgUx1iozipHMSgJTS+gT9m5jHaroWX52nwo9dRGieaeIM0fo8Lozaz5ozgq1ndDCDltVa62n9idWwai6EjY29+9PRTkRk68Z2Tc6KcNmUUULZc6BwQnVlmIeiM6pyQwqruWvINe3+EgyjCM+dYwSn0Ggnc1q1RiKJFm2z7Ee5I+fgjFfzvkEp/T/R3QO2qnKBP/uO6aO+w1izI5bUub3CLGzajdZakiyFciMAeB9s5SJbatTd4w58DjcFW1z3aBn7pqSkF1wEaX7vP2KcYJ/FpXYELi25tJ0Gf3t+VJMphhylvt+LlNGEMM+5BGkqOKIESZrLMVJaHI+VIMh1KjTCItl0KdIlrEmZSAeNxbiSZNgd+NWDqL8eiUdoUUUUusxbzmVroA4BSuldv01BqMY/iCh4SlAM31MTjqx67FgIRN2csWWrJexO513AMhIzXO21nRyI6AZdTF3NxS6t4GwRYrwmk2ZXBPyKvIkxSU8qLUSFhSL53XTDL8opiHjK7iQCnEYrrkuaC93FzC44A5M+1znyRzTOX05zvMqH/PHMfB21lAyA9rFwIGdfYjewqHEJ32asg==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PA4PR10MB5681.EURPRD10.PROD.OUTLOOK.COM; PTR:; CAT:NONE;
+ SFS:(13230028)(4636009)(376002)(346002)(366004)(39860400002)(136003)(396003)(451199021)(31686004)(31696002)(86362001)(36756003)(38100700002)(83380400001)(26005)(6486002)(6512007)(54906003)(186003)(2616005)(6666004)(478600001)(53546011)(6506007)(8676002)(41300700001)(66946007)(66476007)(66556008)(4326008)(316002)(8936002)(44832011)(5660300002)(2906002)(7416002)(43740500002)(45980500001);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?R2FWY0crTW9sVjk1RlBNT1lINFlHTWtCbmhSVCt1S01qYnN6a3o4cEY5bURo?=
+ =?utf-8?B?dHI2KzRaUVE5RFl6eEg4R284c2VZblRMTmFLVGZxZVZaVzZDQjF5WlZkMGNK?=
+ =?utf-8?B?QzB6T21Hc0w4OHpBYmpBZm9EY1ZHUTJveThhcjlyNTFwMk44Sm1wMXlSaXl1?=
+ =?utf-8?B?YWp4ekFoWjk4MDNqeStKSjhGWGtGS0VhbnUxVHZmQkNWWmptK2xSSFNMME9U?=
+ =?utf-8?B?bWxTM1hIOUwzWE01eXoxY0pmZzBhbEhGeldJWXFuRVhsYmFOUFh1VUlFZEQz?=
+ =?utf-8?B?Qkt5cFpVSnBjQTdEWEh1V3RSdGNsTnlxeUEzUVo3Rko2M1lpejJKc1ZuSUdt?=
+ =?utf-8?B?SCtJSjRtdVBBR3ZPdi9MdjdGVVdKaHJkNWlUUHhTd3hyT2FoY2IvNVQvVUYy?=
+ =?utf-8?B?S1BmUW5ZZTBGM2wzOGR3ZmtwNVlrb0tjZW8vcW9NMGxYc1ozVGdSV1JicFlv?=
+ =?utf-8?B?MTlodEhPSW0wU3laN2tHbXVlR0xUbDk3eURMYkJtOERlOUx5anlrYXo0WnJV?=
+ =?utf-8?B?NUc1TXdkUnJLM2VCMUJGSU1FMmxKbm9NVXF3cHFHRFZPOWpMUDdjZ29Tekxa?=
+ =?utf-8?B?SGNWTDlYTmFtL0dvQlUzUFc3ZmJqTWlSSGd3b2lEZGRPbmMyaDYwQXh6SVBy?=
+ =?utf-8?B?cE1oNGg4djdEQW1jZ1ltUDY2ZURLT3B3WTdRZGw3Q2IzT0VzbjJLR2p5cnJ5?=
+ =?utf-8?B?T3dOdDd5d2x5dnFmWkJvQjFJazBtblRkbDJKMWJLUlBuTTJDVG1PZ21IQ1BS?=
+ =?utf-8?B?ZzNpOVZsK3JOOWF4N3ExTDVLTnFjL1RYdThWR3hSR2FHb0ZCSk9iV2krMXZW?=
+ =?utf-8?B?clhYT09OMWNWZGFkN1hRTDhoeEFiSGV3Tyt0c0ZQS2NRV3l5NVVJVlVDamRU?=
+ =?utf-8?B?cERMbEtEZzFzY0JXWjBPbUtMbHJuYnZ2RG5Bbmd1TnVNdFlyT0EybEIvY2I1?=
+ =?utf-8?B?TEtvbkRWV0JPSnEraG1mT1liRWxMbzlNSFpBV2ZnUEVNcTVxdWFUdVBBQWhq?=
+ =?utf-8?B?VUpKU1I3SVZRYmhkM05qV2dQSmZwUitsMCtpZml1QzVXOVJ0V1ZkUTQ0NGw3?=
+ =?utf-8?B?WXpBbkNDVHZXVm1pOCtDbTRKK01lSituSEsyUnVFTFp3N2MwV3lNdXliQnlQ?=
+ =?utf-8?B?SnVkU0tkR0FmWEtLMStYcXcvdWFvTDZUdk0wbjB3ZW1JYmhpcmw0by9YR0JG?=
+ =?utf-8?B?TFhuSGZBd20rRkZpVDhnU0Q3M2VEVjk4UVBwMGRBSW1lQ3d5NFd6d0lZTFMw?=
+ =?utf-8?B?SDMyVk5ta1E3TzVzblRISUV2c1RiTEg0eFZVZ0g3bVZXellaYzBTOVNiNm1I?=
+ =?utf-8?B?dU5jcjVqYUVJVURKcjZkdk9ITk4rU2Y2Tyt6OUpsZENSaVdGd1RSUTlEckVi?=
+ =?utf-8?B?OGNJaGkrRjlFVUpBVDdWQWJNcGIxZzdTU1lhb2dsRFAzeTE2bUNZMEExbFl1?=
+ =?utf-8?B?SG5QY0s5RCtPbG9vWXFOcVhUNlVnWk1NZnh3KzRtWno0ZUdIRUJxU3JGNCs0?=
+ =?utf-8?B?eE5qdi9XK1puOVV5a2RWVVJnbDYvZTU0T21yb0t3aFVOb0EzaWo2cG80TGNB?=
+ =?utf-8?B?MjFQelVmSjRRWmp3TmVGM25kbE5pRU1IMHBaY09WNG00TjVuRXk2eGEyQ1Rk?=
+ =?utf-8?B?SUs3NitmZFdGRFpOMHl6QlkzdW9SbGp3RDArSUlSSCszVDdJZnEzaUl3YytG?=
+ =?utf-8?B?NDdtclFlWE9kYjQzSDByUUJNYTNVaVlGd3lRSGpaaFUwNkt1eEtRMEU5U3lJ?=
+ =?utf-8?B?SlV6U2lBMStEZGh2elV3UktSR25rZlkydjY0QVg3ZUNNT2hwempsYkl6SHY3?=
+ =?utf-8?B?ZHdkTHZvT2liNThRN1NuWjRuNVZoa3Q4c1kxdGNCSDg3aXQ1a1Y0ZGJ1V2Ni?=
+ =?utf-8?B?aE1XVjdYbGFQdEZlM2V0TE1iVGNNa3JIQm1sM25DL0NqdEcydlZWNGVoaW9G?=
+ =?utf-8?B?TDhJMFNjbjB1QkU4QmtBZVdOdDAyYWRaV0lPVGphSzNCUDV5bGh0VVo1WVlG?=
+ =?utf-8?B?bi9VMFgvZEhjcjNvcm94eFpxVnpuOUx2WlR2YjlGenNaSnJDNzd0SE1IS3JY?=
+ =?utf-8?B?eGFFV3JCaktZNVlTcW5SbGlzSnJzVE53VXJwNzVjemtFQ0RMTk5BUDFTd2lq?=
+ =?utf-8?B?VEVyOXFlcTZHNmFKR2EyV2EzTFVDZ01hY3lFRmY3RXdsZWxKU0RsZVRxVkMy?=
+ =?utf-8?B?QWc9PQ==?=
+X-OriginatorOrg: kontron.de
+X-MS-Exchange-CrossTenant-Network-Message-Id: 06279892-5743-4ebf-2a6c-08db4beca1ea
+X-MS-Exchange-CrossTenant-AuthSource: PA4PR10MB5681.EURPRD10.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 May 2023 15:39:50.4940 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8c9d3c97-3fd9-41c8-a2b1-646f3942daf1
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: gQ/hUx4+FtZVc6KWuIdtw/5hGhcLCOtqUAzHJUi8JKyHrq5s/UUNm6dXNJrXMF5J54WZsQw5byYcUrmX4tWkZ0HTyuiC5Bp9y8C5f9ABrx0=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR10MB5258
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,914 +128,209 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Zefan Li <lizefan.x@bytedance.com>, intel-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>, Johannes Weiner <hannes@cmpxchg.org>,
- Tejun Heo <tj@kernel.org>
+Cc: marex@denx.de, Neil Armstrong <neil.armstrong@linaro.org>,
+ Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
+ aford@beaconembedded.com, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ linux-kernel@vger.kernel.org,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Chen-Yu Tsai <wenst@chromium.org>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Jagan Teki <jagan@amarulasolutions.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 02.05.23 03:07, Adam Ford wrote:
+> The DPHY timings are currently hard coded. Since the input
+> clock can be variable, the phy timings need to be variable
+> too.  Add an additional variable to the driver data to enable
+> this feature to prevent breaking boards that don't support it.
+> 
+> The phy_mipi_dphy_get_default_config function configures the
+> DPHY timings in pico-seconds, and a small macro converts those
+> timings into clock cycles based on the pixel clock rate.
+> 
+> Signed-off-by: Adam Ford <aford173@gmail.com>
+> Tested-by: Chen-Yu Tsai <wenst@chromium.org>
 
-On 2023-05-03 17:31, Tvrtko Ursulin wrote:
->
-> On 03/05/2023 09:34, Maarten Lankhorst wrote:
->> Based roughly on the rdma and misc cgroup controllers, with a lot of
->> the accounting code borrowed from rdma.
->>
->> The interface is simple:
->> - populate drmcgroup_device->regions[..] name and size for each active
->>    region.
->> - Call drm(m)cg_register_device()
->> - Use drmcg_try_charge to check if you can allocate a chunk of memory,
->>    use drmcg_uncharge when freeing it. This may return an error code,
->>    or -EAGAIN when the cgroup limit is reached.
->>
->> The ttm code transforms -EAGAIN back to -ENOSPC since it has specific
->> logic for -ENOSPC, and returning -EAGAIN to userspace causes drmIoctl
->> to restart infinitely.
->>
->> This API allows you to limit stuff with cgroups.
->> You can see the supported cards in /sys/fs/cgroup/drm.capacity
->> You need to echo +drm to cgroup.subtree_control, and then you can
->> partition memory.
->>
->> In each cgroup subdir:
->> drm.max shows the current limits of the cgroup.
->> drm.current the current amount of allocated memory used by this cgroup.
->> drm.events shows the amount of time max memory was reached.
->
-> Events is not in the patch?
+A few nitpicks below, otherwise:
 
-Oops, correct.
+Tested on Kontron BL i.MX8MM with SN65DSI84 and ADV7535 bridges.
 
-I removed it since it added more complexity, and didn't seem granular 
-enough to be useful.
+Tested-by: Frieder Schrempf <frieder.schrempf@kontron.de>
+Reviewed-by: Frieder Schrempf <frieder.schrempf@kontron.de>
 
-I removed it from the documentation, but not the commit message it seems. :)
+> ---
+>  drivers/gpu/drm/bridge/samsung-dsim.c | 79 +++++++++++++++++++++++----
+>  include/drm/bridge/samsung-dsim.h     |  1 +
+>  2 files changed, 70 insertions(+), 10 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/bridge/samsung-dsim.c b/drivers/gpu/drm/bridge/samsung-dsim.c
+> index 2dc02a9e37c0..99642230a54a 100644
+> --- a/drivers/gpu/drm/bridge/samsung-dsim.c
+> +++ b/drivers/gpu/drm/bridge/samsung-dsim.c
+> @@ -18,9 +18,7 @@
+>  #include <linux/media-bus-format.h>
+>  #include <linux/of_device.h>
+>  #include <linux/phy/phy.h>
+> -
+>  #include <video/mipi_display.h>
+> -
 
->
->> Signed-off-by: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
->> ---
->>   Documentation/admin-guide/cgroup-v2.rst |  46 ++
->>   Documentation/gpu/drm-compute.rst       |  54 +++
->>   include/linux/cgroup_drm.h              |  81 ++++
->>   kernel/cgroup/drm.c                     | 539 +++++++++++++++++++++++-
->>   4 files changed, 699 insertions(+), 21 deletions(-)
->>   create mode 100644 Documentation/gpu/drm-compute.rst
->>
->> diff --git a/Documentation/admin-guide/cgroup-v2.rst 
->> b/Documentation/admin-guide/cgroup-v2.rst
->> index f67c0829350b..b858d99cb2ef 100644
->> --- a/Documentation/admin-guide/cgroup-v2.rst
->> +++ b/Documentation/admin-guide/cgroup-v2.rst
->> @@ -2374,6 +2374,52 @@ RDMA Interface Files
->>         mlx4_0 hca_handle=1 hca_object=20
->>         ocrdma1 hca_handle=1 hca_object=23
->>   +DRM
->> +----
->> +
->> +The "drm" controller regulates the distribution and accounting of
->> +DRM resources.
->> +
->> +DRM Interface Files
->> +~~~~~~~~~~~~~~~~~~~~
->> +
->> +  drm.max
->> +    A readwrite nested-keyed file that exists for all the cgroups
->> +    except root that describes current configured resource limit
->> +    for a DRM device.
->> +
->> +    Lines are keyed by device name and are not ordered.
->> +    Each line contains space separated resource name and its configured
->> +    limit that can be distributed.
->> +
->> +    The following nested keys are defined.
->> +
->> +      ========== 
->> =======================================================
->> +      region.*     Maximum amount of bytes that allocatable in this 
->> region
->> +      ========== 
->> =======================================================
->> +
->> +    An example for xe follows::
->> +
->> +      0000:03:00.0 region.vram0=1073741824 region.stolen=max
->> +
->> +  drm.capacity
->> +    A read-only file that describes maximum region capacity.
->> +    It only exists on the root cgroup. Not all memory can be
->> +    allocated by cgroups, as the kernel reserves some for
->> +    internal use.
->> +
->> +    An example for xe follows::
->> +
->> +      0000:03:00.0 region.vram0=8514437120 region.stolen=67108864
->> +
->> +  drm.current
->> +    A read-only file that describes current resource usage.
->> +    It exists for all the cgroup except root.
->> +
->> +    An example for xe follows::
->> +
->> +      0000:03:00.0 region.vram0=12550144 region.stolen=8650752
->> +
->>   HugeTLB
->>   -------
->>   diff --git a/Documentation/gpu/drm-compute.rst 
->> b/Documentation/gpu/drm-compute.rst
->> new file mode 100644
->> index 000000000000..116270976ef7
->> --- /dev/null
->> +++ b/Documentation/gpu/drm-compute.rst
->> @@ -0,0 +1,54 @@
->> +==================================
->> +Long running workloads and compute
->> +==================================
->> +
->> +Long running workloads (compute) are workloads that will not 
->> complete in 10
->> +seconds. (The time let the user wait before he reaches for the power 
->> button).
->> +This means that other techniques need to be used to manage those 
->> workloads,
->> +that cannot use fences.
->> +
->> +Some hardware may schedule compute jobs, and have no way to pre-empt 
->> them, or
->> +have their memory swapped out from them. Or they simply want their 
->> workload
->> +not to be preempted or swapped out at all.
->> +
->> +This means that it differs from what is described in 
->> driver-api/dma-buf.rst.
->> +
->> +As with normal compute jobs, dma-fence may not be used at all. In 
->> this case,
->> +not even to force preemption. The driver with is simply forced to 
->> unmap a BO
->> +from the long compute job's address space on unbind immediately, not 
->> even
->> +waiting for the workload to complete. Effectively this terminates 
->> the workload
->> +when there is no hardware support to recover.
->> +
->> +Since this is undesirable, there need to be mitigations to prevent a 
->> workload
->> +from being terminated. There are several possible approach, all with 
->> their
->> +advantages and drawbacks.
->> +
->> +The first approach you will likely try is to pin all buffers used by 
->> compute.
->> +This guarantees that the job will run uninterrupted, but also allows 
->> a very
->> +denial of service attack by pinning as much memory as possible, 
->> hogging the
->> +all GPU memory, and possibly a huge chunk of CPU memory.
->> +
->> +A second approach that will work slightly better on its own is 
->> adding an option
->> +not to evict when creating a new job (any kind). If all of userspace 
->> opts in
->> +to this flag, it would prevent cooperating userspace from forced 
->> terminating
->> +older compute jobs to start a new one.
->> +
->> +If job preemption and recoverable pagefaults are not available, 
->> those are the
->> +only approaches possible. So even with those, you want a separate 
->> way of
->> +controlling resources. The standard kernel way of doing so is cgroups.
->> +
->> +This creates a third option, using cgroups to prevent eviction. Both 
->> GPU and
->> +driver-allocated CPU memory would be accounted to the correct 
->> cgroup, and
->> +eviction would be made cgroup aware. This allows the GPU to be 
->> partitioned
->> +into cgroups, that will allow jobs to run next to each other without
->> +interference.
->
-> The 3rd approach is only valid if used strictly with device local 
-> memory, right? Because as soon as system memory backed buffers are 
-> used this approach cannot guarantee no eviction can be triggered.
->
->> +
->> +The interface to the cgroup would be similar to the current CPU memory
->> +interface, with similar semantics for min/low/high/max, if eviction can
->> +be made cgroup aware. For now only max is implemented.
->> +
->> +What should be noted is that each memory region (tiled memory for 
->> example)
->> +should have its own accounting, using $card key0 = value0 key1 = 
->> value1.
->> +
->> +The key is set to the regionid set by the driver, for example "tile0".
->> +For the value of $card, we use drmGetUnique().
->> diff --git a/include/linux/cgroup_drm.h b/include/linux/cgroup_drm.h
->> index 8ef66a47619f..4f17b1c85f47 100644
->> --- a/include/linux/cgroup_drm.h
->> +++ b/include/linux/cgroup_drm.h
->> @@ -6,4 +6,85 @@
->>   #ifndef _CGROUP_DRM_H
->>   #define _CGROUP_DRM_H
->>   +#include <linux/types.h>
->> +
->> +#include <drm/drm_managed.h>
->> +
->> +struct drm_device;
->> +struct drm_file;
->> +
->> +struct drmcgroup_state;
->> +
->> +/*
->> + * Use 8 as max, because of N^2 lookup when setting things, can be 
->> bumped if needed
->> + * Identical to TTM_NUM_MEM_TYPES to allow simplifying that code.
->> + */
->> +#define DRMCG_MAX_REGIONS 8
->> +
->> +struct drmcgroup_device {
->> +    struct list_head list;
->> +    struct list_head pools;
->> +
->> +    struct {
->> +        u64 size;
->> +        const char *name;
->> +    } regions[DRMCG_MAX_REGIONS];
->> +
->> +    /* Name describing the card, set by drmcg_register_device */
->> +    const char *name;
->> +
->> +};
->> +
->> +#if IS_ENABLED(CONFIG_CGROUP_DRM)
->> +int drmcg_register_device(struct drm_device *dev,
->> +               struct drmcgroup_device *drm_cg);
->> +void drmcg_unregister_device(struct drmcgroup_device *cgdev);
->> +int drmcg_try_charge(struct drmcgroup_state **drmcg,
->> +             struct drmcgroup_device *cgdev,
->> +             u32 index, u64 size);
->> +void drmcg_uncharge(struct drmcgroup_state *drmcg,
->> +            struct drmcgroup_device *cgdev,
->> +            u32 index, u64 size);
->> +#else
->> +static inline int
->> +drmcg_register_device(struct drm_device *dev,
->> +              struct drm_cgroup *drm_cg)
->> +{
->> +    return 0;
->> +}
->> +
->> +static inline void drmcg_unregister_device(struct drmcgroup_device 
->> *cgdev)
->> +{
->> +}
->> +
->> +static inline int drmcg_try_charge(struct drmcgroup_state **drmcg,
->> +                   struct drmcgroup_device *cgdev,
->> +                   u32 index, u64 size)
->> +{
->> +    *drmcg = NULL;
->> +    return 0;
->> +}
->> +
->> +static inline void drmcg_uncharge(struct drmcgroup_state *drmcg,
->> +                  struct drmcgroup_device *cgdev,
->> +                  u32 index, u64 size)
->> +{ }
->> +#endif
->> +
->> +static inline void drmmcg_unregister_device(struct drm_device *dev, 
->> void *arg)
->> +{
->> +    drmcg_unregister_device(arg);
->> +}
->> +
->> +/*
->> + * This needs to be done as inline, because cgroup lives in the core
->> + * kernel and it cannot call drm calls directly
->> + */
->> +static inline int drmmcg_register_device(struct drm_device *dev,
->> +                     struct drmcgroup_device *cgdev)
->> +{
->> +    return drmcg_register_device(dev, cgdev) ?:
->> +        drmm_add_action_or_reset(dev, drmmcg_unregister_device, cgdev);
->> +}
->> +
->>   #endif    /* _CGROUP_DRM_H */
->> diff --git a/kernel/cgroup/drm.c b/kernel/cgroup/drm.c
->> index 02c8eaa633d3..a93d9344fd36 100644
->> --- a/kernel/cgroup/drm.c
->> +++ b/kernel/cgroup/drm.c
->> @@ -1,60 +1,557 @@
->> -/* SPDX-License-Identifier: MIT */
->> +// SPDX-License-Identifier: GPL-2.0
->>   /*
->> - * Copyright © 2023 Intel Corporation
->> + * Copyright 2023 Intel
->> + * Partially based on the rdma and misc controllers, which bear the 
->> following copyrights:
->> + *
->> + * Copyright 2020 Google LLC
->> + * Copyright (C) 2016 Parav Pandit <pandit.parav@gmail.com>
->>    */
->>     #include <linux/cgroup.h>
->>   #include <linux/cgroup_drm.h>
->> +#include <linux/list.h>
->> +#include <linux/mutex.h>
->> +#include <linux/parser.h>
->>   #include <linux/slab.h>
->>   -struct drm_cgroup_state {
->
-> As a side note, it'd be easier to read the diff if you left the name 
-> as is, and some other details too, like the static root group (I need 
-> to remind myself if/why I needed it, but does it harm you?) and my 
-> missed static keywords and needless static struct initialization. I 
-> will fix that up in my patch localy. Aynway, that way it would maybe 
-> be less churn from one patch to the other in the series.
->
->> +#include <drm/drm_device.h>
->> +#include <drm/drm_drv.h>
->> +#include <drm/drm_file.h>
->> +#include <drm/drm_managed.h>
->> +
->> +struct drmcgroup_state {
->>       struct cgroup_subsys_state css;
->> +
->> +    struct list_head pools;
->>   };
->>   -struct drm_root_cgroup_state {
->> -    struct drm_cgroup_state drmcs;
->> +struct drmcgroup_pool_state {
->> +    struct drmcgroup_device *device;
->> +    struct drmcgroup_resource {
->> +        s64 max, used;
->> +    } resources[DRMCG_MAX_REGIONS];
->> +
->> +    s64 usage_sum;
->> +
->> +    struct list_head    cg_node;
->
-> cg always makes me think cgroup and not css so it is a bit confusing.
->
-> Why are two lists needed?
->
->> +    struct list_head    dev_node;
->>   };
->>   -static struct drm_root_cgroup_state root_drmcs;
->> +static DEFINE_MUTEX(drmcg_mutex);
->> +static LIST_HEAD(drmcg_devices);
->>   -static inline struct drm_cgroup_state *
->> +static inline struct drmcgroup_state *
->>   css_to_drmcs(struct cgroup_subsys_state *css)
->>   {
->> -    return container_of(css, struct drm_cgroup_state, css);
->> +    return container_of(css, struct drmcgroup_state, css);
->> +}
->> +
->> +static inline struct drmcgroup_state *get_current_drmcg(void)
->> +{
->> +    return css_to_drmcs(task_get_css(current, drm_cgrp_id));
->> +}
->> +
->> +static struct drmcgroup_state *parent_drmcg(struct drmcgroup_state *cg)
->> +{
->> +    return css_to_drmcs(cg->css.parent);
->> +}
->> +
->> +static void free_cg_pool_locked(struct drmcgroup_pool_state *pool)
->> +{
->> +    lockdep_assert_held(&drmcg_mutex);
->> +
->> +    list_del(&pool->cg_node);
->> +    list_del(&pool->dev_node);
->> +    kfree(pool);
->> +}
->> +
->> +static void
->> +set_resource_max(struct drmcgroup_pool_state *pool, int i, u64 new_max)
->> +{
->> +    pool->resources[i].max = new_max;
->> +}
->> +
->> +static void set_all_resource_max_limit(struct drmcgroup_pool_state 
->> *rpool)
->> +{
->> +    int i;
->> +
->> +    for (i = 0; i < DRMCG_MAX_REGIONS; i++)
->> +        set_resource_max(rpool, i, S64_MAX);
->> +}
->> +
->> +static void drmcs_offline(struct cgroup_subsys_state *css)
->> +{
->> +    struct drmcgroup_state *drmcs = css_to_drmcs(css);
->> +    struct drmcgroup_pool_state *pool, *next;
->> +
->> +    mutex_lock(&drmcg_mutex);
->> +    list_for_each_entry_safe(pool, next, &drmcs->pools, cg_node) {
->> +        if (!pool->usage_sum) {
->> +            free_cg_pool_locked(pool);
->> +        } else {
->> +            /* Reset all regions, last uncharge will remove pool */
->> +            set_all_resource_max_limit(pool);
->> +        }
->> +    }
->> +    mutex_unlock(&drmcg_mutex);
->>   }
->>     static void drmcs_free(struct cgroup_subsys_state *css)
->>   {
->> -    struct drm_cgroup_state *drmcs = css_to_drmcs(css);
->> +    struct drmcgroup_state *drmcs = css_to_drmcs(css);
->>   -    if (drmcs != &root_drmcs.drmcs)
->> -        kfree(drmcs);
->> +    kfree(drmcs);
->>   }
->>     static struct cgroup_subsys_state *
->>   drmcs_alloc(struct cgroup_subsys_state *parent_css)
->>   {
->> -    struct drm_cgroup_state *drmcs;
->> +    struct drmcgroup_state *drmcs = kzalloc(sizeof(*drmcs), 
->> GFP_KERNEL);
->> +    if (!drmcs)
->> +        return ERR_PTR(-ENOMEM);
->> +
->> +    INIT_LIST_HEAD(&drmcs->pools);
->> +    return &drmcs->css;
->> +}
->> +
->> +static struct drmcgroup_pool_state *
->> +find_cg_pool_locked(struct drmcgroup_state *drmcs, struct 
->> drmcgroup_device *dev)
->> +{
->> +    struct drmcgroup_pool_state *pool;
->> +
->> +    list_for_each_entry(pool, &drmcs->pools, cg_node)
->> +        if (pool->device == dev)
->> +            return pool;
->> +
->> +    return NULL;
->> +}
->> +
->> +static struct drmcgroup_pool_state *
->> +get_cg_pool_locked(struct drmcgroup_state *drmcs, struct 
->> drmcgroup_device *dev)
->> +{
->> +    struct drmcgroup_pool_state *pool;
->> +
->> +    pool = find_cg_pool_locked(drmcs, dev);
->> +    if (pool)
->> +        return pool;
->> +
->> +    pool = kzalloc(sizeof(*pool), GFP_KERNEL);
->> +    if (!pool)
->> +        return ERR_PTR(-ENOMEM);
->> +
->> +    pool->device = dev;
->> +    set_all_resource_max_limit(pool);
->>   -    if (!parent_css) {
->> -        drmcs = &root_drmcs.drmcs;
->> -    } else {
->> -        drmcs = kzalloc(sizeof(*drmcs), GFP_KERNEL);
->> -        if (!drmcs)
->> -            return ERR_PTR(-ENOMEM);
->> +    INIT_LIST_HEAD(&pool->cg_node);
->> +    INIT_LIST_HEAD(&pool->dev_node);
->> +    list_add_tail(&pool->cg_node, &drmcs->pools);
->> +    list_add_tail(&pool->dev_node, &dev->pools);
->> +    return pool;
->> +}
->> +
->> +void drmcg_unregister_device(struct drmcgroup_device *cgdev)
->> +{
->> +    struct drmcgroup_pool_state *pool, *next;
->> +
->> +    mutex_lock(&drmcg_mutex);
->> +    list_del(&cgdev->list);
->> +
->> +    list_for_each_entry_safe(pool, next, &cgdev->pools, dev_node)
->> +        free_cg_pool_locked(pool);
->> +    mutex_unlock(&drmcg_mutex);
->> +    kfree(cgdev->name);
->> +}
->> +
->> +EXPORT_SYMBOL_GPL(drmcg_unregister_device);
->> +
->> +int drmcg_register_device(struct drm_device *dev,
->> +              struct drmcgroup_device *cgdev)
->> +{
->> +    char *name = kstrdup(dev->unique, GFP_KERNEL);
->> +    if (!name)
->> +        return -ENOMEM;
->> +
->> +    INIT_LIST_HEAD(&cgdev->pools);
->> +    mutex_lock(&drmcg_mutex);
->> +    cgdev->name = name;
->> +    list_add_tail(&cgdev->list, &drmcg_devices);
->> +    mutex_unlock(&drmcg_mutex);
->> +
->> +    return 0;
->> +}
->> +EXPORT_SYMBOL_GPL(drmcg_register_device);
->> +
->> +static int drmcg_max_show(struct seq_file *sf, void *v)
->> +{
->> +    struct drmcgroup_state *drmcs = css_to_drmcs(seq_css(sf));
->> +    struct drmcgroup_pool_state *pool;
->> +
->> +    mutex_lock(&drmcg_mutex);
->> +    list_for_each_entry(pool, &drmcs->pools, cg_node) {
->> +        struct drmcgroup_device *dev = pool->device;
->> +        int i;
->> +
->> +        seq_puts(sf, dev->name);
->> +
->> +        for (i = 0; i < DRMCG_MAX_REGIONS; i++) {
->> +            if (!dev->regions[i].name)
->> +                continue;
->> +
->> +            if (pool->resources[i].max < S64_MAX)
->> +                seq_printf(sf, " region.%s=%lld", dev->regions[i].name,
->> +                       pool->resources[i].max);
->> +            else
->> +                seq_printf(sf, " region.%s=max", dev->regions[i].name);
->> +        }
->> +
->> +        seq_putc(sf, '\n');
->>       }
->> +    mutex_unlock(&drmcg_mutex);
->>   -    return &drmcs->css;
->> +    return 0;
->> +}
->> +
->> +static struct drmcgroup_device *drmcg_get_device_locked(const char 
->> *name)
->> +{
->> +    struct drmcgroup_device *dev;
->> +
->> +    lockdep_assert_held(&drmcg_mutex);
->> +
->> +    list_for_each_entry(dev, &drmcg_devices, list)
->> +        if (!strcmp(name, dev->name))
->> +            return dev;
->> +
->> +    return NULL;
->> +}
->> +
->> +static void try_to_free_cg_pool_locked(struct drmcgroup_pool_state 
->> *pool)
->> +{
->> +    struct drmcgroup_device *dev = pool->device;
->> +    u32 i;
->> +
->> +    /* Memory charged to this pool */
->> +    if (pool->usage_sum)
->> +        return;
->> +
->> +    for (i = 0; i < DRMCG_MAX_REGIONS; i++) {
->> +        if (!dev->regions[i].name)
->> +            continue;
->> +
->> +        /* Is a specific limit set? */
->> +        if (pool->resources[i].max < S64_MAX)
->> +            return;
->> +    }
->> +
->> +    /*
->> +     * No user of the pool and all entries are set to defaults;
->> +     * safe to delete this pool.
->> +     */
->> +    free_cg_pool_locked(pool);
->> +}
->> +
->> +
->> +static void
->> +uncharge_cg_locked(struct drmcgroup_state *drmcs,
->> +           struct drmcgroup_device *cgdev,
->> +           u32 index, u64 size)
->> +{
->> +    struct drmcgroup_pool_state *pool;
->> +
->> +    pool = find_cg_pool_locked(drmcs, cgdev);
->> +
->> +    if (unlikely(!pool)) {
->> +        pr_warn("Invalid device %p or drm cgroup %p\n", cgdev, drmcs);
->> +        return;
->> +    }
->> +
->> +    pool->resources[index].used -= size;
->> +
->> +    /*
->> +     * A negative count (or overflow) is invalid,
->> +     * it indicates a bug in the rdma controller.
->> +     */
->> +    WARN_ON_ONCE(pool->resources[index].used < 0);
->> +    pool->usage_sum--;
->> +    try_to_free_cg_pool_locked(pool);
->> +}
->> +
->> +static void drmcg_uncharge_hierarchy(struct drmcgroup_state *drmcs,
->> +                     struct drmcgroup_device *cgdev,
->> +                     struct drmcgroup_state *stop_cg,
->> +                     u32 index, u64 size)
->> +{
->> +    struct drmcgroup_state *p;
->> +
->> +    mutex_lock(&drmcg_mutex);
->> +
->> +    for (p = drmcs; p != stop_cg; p = parent_drmcg(p))
->> +        uncharge_cg_locked(p, cgdev, index, size);
->> +
->> +    mutex_unlock(&drmcg_mutex);
->> +
->> +    css_put(&drmcs->css);
->> +}
->> +
->> +void drmcg_uncharge(struct drmcgroup_state *drmcs,
->> +            struct drmcgroup_device *cgdev,
->> +            u32 index,
->> +            u64 size)
->> +{
->> +    if (index >= DRMCG_MAX_REGIONS)
->> +        return;
->> +
->> +    drmcg_uncharge_hierarchy(drmcs, cgdev, NULL, index, size);
->> +}
->> +EXPORT_SYMBOL_GPL(drmcg_uncharge);
->> +
->> +int drmcg_try_charge(struct drmcgroup_state **drmcs,
->> +             struct drmcgroup_device *cgdev,
->> +             u32 index,
->> +             u64 size)
->> +{
->> +    struct drmcgroup_state *cg, *p;
->> +    struct drmcgroup_pool_state *pool;
->> +    u64 new;
->> +    int ret = 0;
->> +
->> +    if (index >= DRMCG_MAX_REGIONS)
->> +        return -EINVAL;
->> +
->> +    /*
->> +     * hold on to css, as cgroup can be removed but resource
->> +     * accounting happens on css.
->> +     */
->> +    cg = get_current_drmcg();
->
-> 1)
->
-> I am not familiar with the Xe flows - charging is at the point of 
-> actual backing store allocation?
->
-> What about buffer sharing?
->
-> Also, given how the css is permanently stored in the caller - you 
-> deliberately decided not to deal with task migrations? I am not sure 
-> that will work. Or maybe just omitted for RFC v1?
->
-> 2)
->
-> Buffer objects which Xe can migrate between memory regions will be 
-> correctly charge/uncharged as they are moved?
->
-> Regards,
->
-> Tvrtko
->
->> +
->> +    mutex_lock(&drmcg_mutex);
->> +    for (p = cg; p; p = parent_drmcg(p)) {
->> +        pool = get_cg_pool_locked(p, cgdev);
->> +        if (IS_ERR(pool)) {
->> +            ret = PTR_ERR(pool);
->> +            goto err;
->> +        } else {
->> +            new = pool->resources[index].used + size;
->> +            if (new > pool->resources[index].max || new > S64_MAX) {
->> +                ret = -EAGAIN;
->> +                goto err;
->> +            } else {
->> +                pool->resources[index].used = new;
->> +                pool->usage_sum++;
->> +            }
->> +        }
->> +    }
->> +    mutex_unlock(&drmcg_mutex);
->> +
->> +    *drmcs = cg;
->> +    return 0;
->> +
->> +err:
->> +    mutex_unlock(&drmcg_mutex);
->> +    drmcg_uncharge_hierarchy(cg, cgdev, p, index, size);
->> +    return ret;
->> +}
->> +EXPORT_SYMBOL_GPL(drmcg_try_charge);
->> +
->> +static s64 parse_resource(char *c, char **retname)
->> +{
->> +    substring_t argstr;
->> +    char *name, *value = c;
->> +    size_t len;
->> +    int ret;
->> +    u64 retval;
->> +
->> +    name = strsep(&value, "=");
->> +    if (!name || !value)
->> +        return -EINVAL;
->> +
->> +    /* Only support region setting for now */
->> +    if (strncmp(name, "region.", 7))
->> +        return -EINVAL;
->> +    else
->> +        name += 7;
->> +
->> +    *retname = name;
->> +    len = strlen(value);
->> +
->> +    argstr.from = value;
->> +    argstr.to = value + len;
->> +
->> +    ret = match_u64(&argstr, &retval);
->> +    if (ret >= 0) {
->> +        if (retval > S64_MAX)
->> +            return -EINVAL;
->> +        return retval;
->> +    }
->> +    if (!strncmp(value, "max", len))
->> +        return S64_MAX;
->> +
->> +    /* Not u64 or max, error */
->> +    return -EINVAL;
->> +}
->> +
->> +static int drmcg_parse_limits(char *options,
->> +                  u64 *limits, char **enables)
->> +{
->> +    char *c;
->> +    int num_limits = 0;
->> +
->> +    /* parse resource options */
->> +    while ((c = strsep(&options, " ")) != NULL) {
->> +        s64 limit;
->> +
->> +        if (num_limits >= DRMCG_MAX_REGIONS)
->> +            return -EINVAL;
->> +
->> +        limit = parse_resource(c, &enables[num_limits]);
->> +        if (limit < 0)
->> +            return limit;
->> +
->> +        limits[num_limits++] = limit;
->> +    }
->> +    return num_limits;
->> +}
->> +
->> +static ssize_t drmcg_max_write(struct kernfs_open_file *of,
->> +                   char *buf, size_t nbytes, loff_t off)
->> +{
->> +    struct drmcgroup_state *drmcs = css_to_drmcs(of_css(of));
->> +    struct drmcgroup_device *dev;
->> +    struct drmcgroup_pool_state *pool;
->> +    char *options = strstrip(buf);
->> +    char *dev_name = strsep(&options, " ");
->> +    u64 limits[DRMCG_MAX_REGIONS];
->> +    u64 new_limits[DRMCG_MAX_REGIONS];
->> +    char *regions[DRMCG_MAX_REGIONS];
->> +    int num_limits, i;
->> +    unsigned long set_mask = 0;
->> +    int err = 0;
->> +
->> +    if (!dev_name)
->> +        return -EINVAL;
->> +
->> +    num_limits = drmcg_parse_limits(options, limits, regions);
->> +    if (num_limits < 0)
->> +        return num_limits;
->> +    if (!num_limits)
->> +        return -EINVAL;
->> +
->> +    /*
->> +     * Everything is parsed into key=value pairs now, take lock and 
->> attempt to update
->> +     * For good measure, set -EINVAL when a key is set twice.
->> +     */
->> +    mutex_lock(&drmcg_mutex);
->> +
->> +    dev = drmcg_get_device_locked(dev_name);
->> +    if (!dev) {
->> +        err = -ENODEV;
->> +        goto err;
->> +    }
->> +
->> +    pool = get_cg_pool_locked(drmcs, dev);
->> +    if (IS_ERR(pool)) {
->> +        err = PTR_ERR(pool);
->> +        goto err;
->> +    }
->> +
->> +    /* Lookup region names and set new_limits to the index */
->> +    for (i = 0; i < num_limits; i++) {
->> +        int j;
->> +
->> +        for (j = 0; j < DRMCG_MAX_REGIONS; j++)
->> +            if (dev->regions[j].name &&
->> +                !strcmp(regions[i], dev->regions[j].name))
->> +                break;
->> +
->> +        if (j == DRMCG_MAX_REGIONS ||
->> +            set_mask & BIT(j)) {
->> +            err = -EINVAL;
->> +            goto err_put;
->> +        }
->> +
->> +        set_mask |= BIT(j);
->> +        new_limits[j] = limits[i];
->> +    }
->> +
->> +    /* And commit */
->> +    for_each_set_bit(i, &set_mask, DRMCG_MAX_REGIONS)
->> +        set_resource_max(pool, i, new_limits[i]);
->> +
->> +err_put:
->> +    try_to_free_cg_pool_locked(pool);
->> +err:
->> +    mutex_unlock(&drmcg_mutex);
->> +
->> +    return err ?: nbytes;
->> +}
->> +
->> +static int drmcg_current_show(struct seq_file *sf, void *v)
->> +{
->> +    struct drmcgroup_state *drmcs = css_to_drmcs(seq_css(sf));
->> +    struct drmcgroup_device *dev;
->> +
->> +    mutex_lock(&drmcg_mutex);
->> +    list_for_each_entry(dev, &drmcg_devices, list) {
->> +        struct drmcgroup_pool_state *pool = 
->> find_cg_pool_locked(drmcs, dev);
->> +        int i;
->> +
->> +        seq_puts(sf, dev->name);
->> +
->> +        for (i = 0; i < DRMCG_MAX_REGIONS; i++) {
->> +            if (!dev->regions[i].name)
->> +                continue;
->> +
->> +            seq_printf(sf, " region.%s=%lld", dev->regions[i].name,
->> +                   pool ? pool->resources[i].used : 0ULL);
->> +        }
->> +
->> +        seq_putc(sf, '\n');
->> +    }
->> +    mutex_unlock(&drmcg_mutex);
->> +
->> +    return 0;
->> +}
->> +
->> +static int drmcg_capacity_show(struct seq_file *sf, void *v)
->> +{
->> +    struct drmcgroup_device *dev;
->> +    int i;
->> +
->> +    list_for_each_entry(dev, &drmcg_devices, list) {
->> +        seq_puts(sf, dev->name);
->> +        for (i = 0; i < DRMCG_MAX_REGIONS; i++)
->> +            if (dev->regions[i].name)
->> +                seq_printf(sf, " region.%s=%lld",
->> +                       dev->regions[i].name,
->> +                       dev->regions[i].size);
->> +        seq_putc(sf, '\n');
->> +    }
->> +    return 0;
->>   }
->>   -struct cftype files[] = {
->> +static struct cftype files[] = {
->> +    {
->> +        .name = "max",
->> +        .write = drmcg_max_write,
->> +        .seq_show = drmcg_max_show,
->> +        .flags = CFTYPE_NOT_ON_ROOT,
->> +    },
->> +    {
->> +        .name = "current",
->> +        .seq_show = drmcg_current_show,
->> +        .flags = CFTYPE_NOT_ON_ROOT,
->> +    },
->> +    {
->> +        .name = "capacity",
->> +        .seq_show = drmcg_capacity_show,
->> +        .flags = CFTYPE_ONLY_ON_ROOT,
->> +    },
->>       { } /* Zero entry terminates. */
->>   };
->>     struct cgroup_subsys drm_cgrp_subsys = {
->>       .css_alloc    = drmcs_alloc,
->>       .css_free    = drmcs_free,
->> -    .early_init    = false,
->> +    .css_offline    = drmcs_offline,
->>       .legacy_cftypes    = files,
->>       .dfl_cftypes    = files,
->>   };
+Unrelated blank lines removed above!?
+
+>  #include <drm/bridge/samsung-dsim.h>
+>  #include <drm/drm_panel.h>
+>  #include <drm/drm_print.h>
+> @@ -218,6 +216,8 @@
+>  
+>  #define OLD_SCLK_MIPI_CLK_NAME		"pll_clk"
+>  
+> +#define PS_TO_CYCLE(PS, MHz) DIV64_U64_ROUND_CLOSEST(((PS) * (MHz)), 1000000000000ULL)
+
+Should macro arguments PS and MHz better be all lower-case?
+Also, MHz is actually in Hz, right? So it should be renamed.
+
+> +
+>  static const char *const clk_names[5] = {
+>  	"bus_clk",
+>  	"sclk_mipi",
+> @@ -487,6 +487,7 @@ static const struct samsung_dsim_driver_data imx8mm_dsi_driver_data = {
+>  	.m_min = 64,
+>  	.m_max = 1023,
+>  	.min_freq = 1050,
+> +	.dynamic_dphy = 1,
+>  };
+>  
+>  static const struct samsung_dsim_driver_data *
+> @@ -698,13 +699,50 @@ static void samsung_dsim_set_phy_ctrl(struct samsung_dsim *dsi)
+>  	const struct samsung_dsim_driver_data *driver_data = dsi->driver_data;
+>  	const unsigned int *reg_values = driver_data->reg_values;
+>  	u32 reg;
+> +	struct drm_display_mode *m = &dsi->mode;
+> +	int bpp = mipi_dsi_pixel_format_to_bpp(dsi->format);
+> +	struct phy_configure_opts_mipi_dphy cfg;
+> +	int clk_prepare, lpx, clk_zero, clk_post, clk_trail;
+> +	int hs_exit, hs_prepare, hs_zero, hs_trail;
+> +	unsigned long long clock_in_hz = m->clock * 1000;
+>  
+>  	if (driver_data->has_freqband)
+>  		return;
+>  
+> +	/* The dynamic_phy has the ability to adjust PHY Timing settings */
+> +	if (driver_data->dynamic_dphy) {
+> +		phy_mipi_dphy_get_default_config(clock_in_hz, bpp, dsi->lanes, &cfg);
+> +
+> +		/*
+> +		 * TODO:
+> +		 * The tech reference manual for i.MX8M Mini/Nano/Plus
+> +		 * doesn't state what the definition of the PHYTIMING
+> +		 * bits are beyond their address and bit position.
+> +		 * After reviewing NXP's downstream code, it appears
+> +		 * that the various PHYTIMING registers take the number
+> +		 * of cycles and use various dividers on them.  This
+> +		 * calculation does not result in an exact match to the
+> +		 * downstream code, but it is very close, and it appears
+> +		 * to sync at a variety of resolutions. If someone
+> +		 * can get a more accurate mathematical equation needed
+> +		 * for these registers, this should be updated.
+> +		 */
+> +
+> +		lpx = PS_TO_CYCLE(cfg.lpx, clock_in_hz);
+> +		hs_exit = PS_TO_CYCLE(cfg.hs_exit, clock_in_hz);
+> +		clk_prepare = PS_TO_CYCLE(cfg.clk_prepare, clock_in_hz);
+> +		clk_zero = PS_TO_CYCLE(cfg.clk_zero, clock_in_hz);
+> +		clk_post = PS_TO_CYCLE(cfg.clk_post, clock_in_hz);
+> +		clk_trail = PS_TO_CYCLE(cfg.clk_trail, clock_in_hz);
+> +		hs_prepare = PS_TO_CYCLE(cfg.hs_prepare, clock_in_hz);
+> +		hs_zero = PS_TO_CYCLE(cfg.hs_zero, clock_in_hz);
+> +		hs_trail = PS_TO_CYCLE(cfg.hs_trail, clock_in_hz);
+> +	}
+> +
+>  	/* B D-PHY: D-PHY Master & Slave Analog Block control */
+>  	reg = reg_values[PHYCTRL_ULPS_EXIT] | reg_values[PHYCTRL_VREG_LP] |
+>  		reg_values[PHYCTRL_SLEW_UP];
+> +
+>  	samsung_dsim_write(dsi, DSIM_PHYCTRL_REG, reg);
+>  
+>  	/*
+> @@ -712,7 +750,11 @@ static void samsung_dsim_set_phy_ctrl(struct samsung_dsim *dsi)
+>  	 * T HS-EXIT: Time that the transmitter drives LP-11 following a HS
+>  	 *	burst
+>  	 */
+> -	reg = reg_values[PHYTIMING_LPX] | reg_values[PHYTIMING_HS_EXIT];
+> +	if (driver_data->dynamic_dphy)
+> +		reg  = DSIM_PHYTIMING_LPX(lpx) | DSIM_PHYTIMING_HS_EXIT(hs_exit);
+> +	else
+> +		reg = reg_values[PHYTIMING_LPX] | reg_values[PHYTIMING_HS_EXIT];
+> +
+>  	samsung_dsim_write(dsi, DSIM_PHYTIMING_REG, reg);
+>  
+>  	/*
+> @@ -728,10 +770,17 @@ static void samsung_dsim_set_phy_ctrl(struct samsung_dsim *dsi)
+>  	 * T CLK-TRAIL: Time that the transmitter drives the HS-0 state after
+>  	 *	the last payload clock bit of a HS transmission burst
+>  	 */
+> -	reg = reg_values[PHYTIMING_CLK_PREPARE] |
+> -		reg_values[PHYTIMING_CLK_ZERO] |
+> -		reg_values[PHYTIMING_CLK_POST] |
+> -		reg_values[PHYTIMING_CLK_TRAIL];
+> +	if (driver_data->dynamic_dphy) {
+> +		reg = DSIM_PHYTIMING1_CLK_PREPARE(clk_prepare)	|
+> +		      DSIM_PHYTIMING1_CLK_ZERO(clk_zero)	|
+> +		      DSIM_PHYTIMING1_CLK_POST(clk_post)	|
+> +		      DSIM_PHYTIMING1_CLK_TRAIL(clk_trail);
+> +	} else {
+> +		reg = reg_values[PHYTIMING_CLK_PREPARE] |
+> +		      reg_values[PHYTIMING_CLK_ZERO] |
+> +		      reg_values[PHYTIMING_CLK_POST] |
+> +		      reg_values[PHYTIMING_CLK_TRAIL];
+> +	}
+>  
+>  	samsung_dsim_write(dsi, DSIM_PHYTIMING1_REG, reg);
+>  
+> @@ -744,8 +793,17 @@ static void samsung_dsim_set_phy_ctrl(struct samsung_dsim *dsi)
+>  	 * T HS-TRAIL: Time that the transmitter drives the flipped differential
+>  	 *	state after last payload data bit of a HS transmission burst
+>  	 */
+> -	reg = reg_values[PHYTIMING_HS_PREPARE] | reg_values[PHYTIMING_HS_ZERO] |
+> -		reg_values[PHYTIMING_HS_TRAIL];
+> +
+> +	if (driver_data->dynamic_dphy) {
+> +		reg = DSIM_PHYTIMING2_HS_PREPARE(hs_prepare) |
+> +		      DSIM_PHYTIMING2_HS_ZERO(hs_zero) |
+> +		      DSIM_PHYTIMING2_HS_TRAIL(hs_trail);
+> +	} else {
+> +		reg = reg_values[PHYTIMING_HS_PREPARE] |
+> +		      reg_values[PHYTIMING_HS_ZERO] |
+> +		      reg_values[PHYTIMING_HS_TRAIL];
+> +	}
+> +
+>  	samsung_dsim_write(dsi, DSIM_PHYTIMING2_REG, reg);
+>  }
+>  
+> @@ -1337,7 +1395,8 @@ static int samsung_dsim_init(struct samsung_dsim *dsi)
+>  	samsung_dsim_enable_clock(dsi);
+>  	if (driver_data->wait_for_reset)
+>  		samsung_dsim_wait_for_reset(dsi);
+> -	samsung_dsim_set_phy_ctrl(dsi);
+> +	if (!driver_data->has_freqband)
+
+samsung_dsim_set_phy_ctrl() already contains a check for
+driver_data->has_freqband
+
+> +		samsung_dsim_set_phy_ctrl(dsi);
+>  	samsung_dsim_init_link(dsi);
+>  
+>  	dsi->state |= DSIM_STATE_INITIALIZED;
+> diff --git a/include/drm/bridge/samsung-dsim.h b/include/drm/bridge/samsung-dsim.h
+> index a1a5b2b89a7a..76ea8a1720cc 100644
+> --- a/include/drm/bridge/samsung-dsim.h
+> +++ b/include/drm/bridge/samsung-dsim.h
+> @@ -62,6 +62,7 @@ struct samsung_dsim_driver_data {
+>  	const unsigned int *reg_values;
+>  	u16 m_min;
+>  	u16 m_max;
+> +	bool dynamic_dphy;
+>  };
+>  
+>  struct samsung_dsim_host_ops {
