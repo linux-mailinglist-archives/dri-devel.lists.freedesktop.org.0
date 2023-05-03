@@ -2,79 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A20FC6F5D15
-	for <lists+dri-devel@lfdr.de>; Wed,  3 May 2023 19:34:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC2EC6F6AED
+	for <lists+dri-devel@lfdr.de>; Thu,  4 May 2023 14:11:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0550710E066;
-	Wed,  3 May 2023 17:34:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8B33410E386;
+	Thu,  4 May 2023 12:11:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EEA5010E066;
- Wed,  3 May 2023 17:34:47 +0000 (UTC)
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 343GcDSb010737; Wed, 3 May 2023 17:34:44 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=2SLyxb/oLFHe3Ff3BXtyoEm91MUW65yTTYRI3lRrWgE=;
- b=g34fVGZKG76Pp+sTgeZOTleEZXZjGS1NVsJf88NDukLEGQLUYpt5McGdsgJ+0XwTA13o
- yIToF6PsZSn1yGcyLa+9KCzsCY2D22Y54p6M7XXQC1FXeZ6rrmXXqU/6jvTA/m+QOmSP
- pYkarNV1HHvt0R/LdPLVJCmd4grSpOk3Uot0ZhyKenJ75eSBRxjn6/7dQjCLRJEMyEKP
- hUYv4IjDrD7h53FSR+NDCs7MZM/qtE1661UHzdRlmN8Lfj+uEz23aTsHc4mZv7zXpbji
- wquozkywd2mKLWXTdQ13D1LXgCD32/DzLwD05VuI16vuvO4IZ0E9BsFjWv76pHYlQxXK 7w== 
-Received: from nasanppmta05.qualcomm.com (i-global254.qualcomm.com
- [199.106.103.254])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3qbjwn9b7f-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 03 May 2023 17:34:44 +0000
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
- [10.46.141.250])
- by NASANPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 343HYhNc024246
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 3 May 2023 17:34:43 GMT
-Received: from [10.71.110.193] (10.80.80.8) by nasanex01b.na.qualcomm.com
- (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Wed, 3 May 2023
- 10:34:43 -0700
-Message-ID: <ff496926-98e3-98b4-e81c-594f4d67d123@quicinc.com>
-Date: Wed, 3 May 2023 10:34:42 -0700
+Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com
+ [IPv6:2a00:1450:4864:20::32f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E87F710E326;
+ Wed,  3 May 2023 17:43:17 +0000 (UTC)
+Received: by mail-wm1-x32f.google.com with SMTP id
+ 5b1f17b1804b1-3f20215fa70so36935615e9.0; 
+ Wed, 03 May 2023 10:43:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1683135796; x=1685727796;
+ h=mime-version:user-agent:content-transfer-encoding:references
+ :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=0fukvTQBpdJxkwknUT2et4g7cMhSFUYtb+Kco7h5oV8=;
+ b=D4rN9Laqs+WmrLaWcKfLpPBqjvy0awK33/oZwDDJTjZ4yZdvDfCvKqjVf4w05QrUQz
+ Kp2POikwVM+IMY8eg8qAldD/kEiuV7xR6r8bIWAf63uKGx4B9c+oHV00JWY9+LCK/acY
+ oneDyIioahvbNqsGOaXcMJHB6xlnvp/9tJSN/WD3C+0hrt9WjDmeewiYaJ0CkiZxLhXG
+ /zJ/Np3fUyJ1KqD7XfLHWUnSGzBtHEZMWsunf5MOc4C6OhHZVpmIVI4Ys+4o+R2m8hSY
+ wZfBjrDWgE01mKClJhTR1AQYQ+jUiBHTTxlzoSgX9kEhB89ftpxKxJQ8jw3rVcm1uyIW
+ fhzw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1683135796; x=1685727796;
+ h=mime-version:user-agent:content-transfer-encoding:references
+ :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=0fukvTQBpdJxkwknUT2et4g7cMhSFUYtb+Kco7h5oV8=;
+ b=YuTH29YGj+flH6UxYn6vV82HQscD89ePoO79sGKDRk0DBgI9iA20Vf8gWFbG3KFxYw
+ Ws7HNOPMSFU42n3NoORzwOt7lIalx+9RFsoSEy/FKZ3zEvNr2HBQrO2mY0lM7zm7dUqI
+ hD3KW/bK6SqlVWr+Nj8iRfqgeL2AR39/nnC/UfysqsPA4CkPtyTe3gzx8YUO+uTnLEIw
+ LvwK9LbyW4sMgWbe1ViYgbltR4Jw4T67wVjQ/RwMcD/BYXLPluBucX/uPbwofTJ661ux
+ DU6j23UFklhSOdyOLp65zHqaDZBsQLcVb+qpyOPn6K8OKPoKA5HrycVudwxi/Oc9Jqn7
+ 9aMw==
+X-Gm-Message-State: AC+VfDzuNsoDOMdLHBEVLgA+zHnLChG602wuBPZXdyxOaW+hRQl4Y7v6
+ JC8sN1acuZ4N30O3mrwZSZs=
+X-Google-Smtp-Source: ACHHUZ5DTr5HfRX9CyS/nfphMJGbrJb9KUL6YX5QqlgooaT+AFoRvjt2aMNUD9g5dZmrtbUWJtrOBA==
+X-Received: by 2002:a1c:7311:0:b0:3f1:72db:4554 with SMTP id
+ d17-20020a1c7311000000b003f172db4554mr15221288wmb.1.1683135795723; 
+ Wed, 03 May 2023 10:43:15 -0700 (PDT)
+Received: from [10.115.201.114] ([212.108.221.126])
+ by smtp.gmail.com with ESMTPSA id
+ d10-20020a1c730a000000b003f325f0e020sm2452648wmb.47.2023.05.03.10.43.14
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 03 May 2023 10:43:14 -0700 (PDT)
+Message-ID: <967a044bc2723cc24ab914506c0164db08923c59.camel@gmail.com>
+Subject: Re: [RFC PATCH 0/1] Add AMDGPU_INFO_GUILTY_APP ioctl
+From: Timur =?ISO-8859-1?Q?Krist=F3f?= <timur.kristof@gmail.com>
+To: Felix Kuehling <felix.kuehling@amd.com>, Christian
+ =?ISO-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>, Alex Deucher
+ <alexdeucher@gmail.com>
+Date: Wed, 03 May 2023 19:43:12 +0200
+In-Reply-To: <2bf162d0-6112-8370-8828-0e0b21ac22ba@amd.com>
+References: <20230501185747.33519-1-andrealmeid@igalia.com>
+ <CADnq5_NXj4W44F_etRQ7HWdVTnf5zARCM3Y_o3EiwWiHj8QMpA@mail.gmail.com>
+ <6ab2ff76-4518-6fac-071e-5d0d5adc4fcd@igalia.com>
+ <cb3d2590-a1f8-fe7e-0bba-638ee80719af@amd.com>
+ <CAFF-SiV0=WNmRW-D9uYUuj68Zq0APxtGLya9KR6FfZ7v0Zf2RQ@mail.gmail.com>
+ <fcca2934-a556-797c-535d-a66fc67bbe30@amd.com>
+ <85c538b01efb6f3fa6ff05ed1a0bc3ff87df7a61.camel@gmail.com>
+ <CADnq5_NHtFbwT=x8u7GYc4ESL_HVFzjgtOd3AnVFBYMrjZq55w@mail.gmail.com>
+ <c54414482b685af0991a6b095cbfb7534d998afc.camel@gmail.com>
+ <CADnq5_MSY=j9AobDk7ACevur4Hwvw_ub7g16Mfm7ymMJqwVNfQ@mail.gmail.com>
+ <57fa0ee4-de4f-3797-f817-d05f72541d0e@gmail.com>
+ <2bf162d0-6112-8370-8828-0e0b21ac22ba@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.1 (3.48.1-1.fc38) 
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.1
-Subject: Re: [PATCH 2/4] drm/msm/dsi: Fix compressed word count calculation
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
- <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul
- <sean@poorly.run>, David Airlie <airlied@gmail.com>, Daniel Vetter
- <daniel@ffwll.ch>, Marijn Suijten <marijn.suijten@somainline.org>
-References: <20230405-add-dsc-support-v1-0-6bc6f03ae735@quicinc.com>
- <20230405-add-dsc-support-v1-2-6bc6f03ae735@quicinc.com>
- <a60a9f37-bb43-6e2b-2535-995e9fae250a@linaro.org>
-From: Jessica Zhang <quic_jesszhan@quicinc.com>
-In-Reply-To: <a60a9f37-bb43-6e2b-2535-995e9fae250a@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: hiUM3e70zqOygWXzuqNVxh0fZHx9FlJg
-X-Proofpoint-ORIG-GUID: hiUM3e70zqOygWXzuqNVxh0fZHx9FlJg
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-05-03_12,2023-05-03_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0
- impostorscore=0 phishscore=0 suspectscore=0 adultscore=0 mlxlogscore=999
- lowpriorityscore=0 priorityscore=1501 clxscore=1015 mlxscore=0 spamscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2303200000 definitions=main-2305030150
+X-Mailman-Approved-At: Thu, 04 May 2023 12:11:44 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,84 +88,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Konrad Dybcio <konrad.dybcio@linaro.org>, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: "Pelloux-Prayer, Pierre-Eric" <pierre-eric.pelloux-prayer@amd.com>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ =?ISO-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>,
+ Marek =?UTF-8?Q?Ol=C5=A1=C3=A1k?= <maraeo@gmail.com>,
+ michel.daenzer@mailbox.org, linux-kernel@vger.kernel.org,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Samuel Pitoiset <samuel.pitoiset@gmail.com>, kernel-dev@igalia.com, "Deucher,
+ Alexander" <alexander.deucher@amd.com>,
+ Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Felix,
 
+On Wed, 2023-05-03 at 11:08 -0400, Felix Kuehling wrote:
+> That's the worst-case scenario where you're debugging HW or FW
+> issues.=20
+> Those should be pretty rare post-bringup. But are there hangs caused
+> by=20
+> user mode driver or application bugs that are easier to debug and=20
+> probably don't even require a GPU reset?
 
-On 5/3/2023 1:26 AM, Dmitry Baryshkov wrote:
-> On 03/05/2023 04:19, Jessica Zhang wrote:
->> Currently, word count is calculated using slice_count. This is incorrect
->> as downstream uses slice per packet, which is different from
->> slice_count.
->>
->> Slice count represents the number of soft slices per interface, and its
->> value will not always match that of slice per packet. For example, it is
->> possible to have cases where there are multiple soft slices per interface
->> but the panel specifies only one slice per packet.
->>
->> Thus, use the default value of one slice per packet and remove 
->> slice_count
->> from the word count calculation.
->>
->> Fixes: bc6b6ff8135c ("drm/msm/dsi: Use DSC slice(s) packet size to 
->> compute word count")
->> Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
->> ---
->>   drivers/gpu/drm/msm/dsi/dsi_host.c | 9 ++++++++-
->>   1 file changed, 8 insertions(+), 1 deletion(-)
->>
->> diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c 
->> b/drivers/gpu/drm/msm/dsi/dsi_host.c
->> index 35c69dbe5f6f..b0d448ffb078 100644
->> --- a/drivers/gpu/drm/msm/dsi/dsi_host.c
->> +++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
->> @@ -996,7 +996,14 @@ static void dsi_timing_setup(struct msm_dsi_host 
->> *msm_host, bool is_bonded_dsi)
->>           if (!msm_host->dsc)
->>               wc = hdisplay * dsi_get_bpp(msm_host->format) / 8 + 1;
->>           else
->> -            wc = msm_host->dsc->slice_chunk_size * 
->> msm_host->dsc->slice_count + 1;
->> +            /*
->> +             * When DSC is enabled, WC = slice_chunk_size * 
->> slice_per_packet + 1.
->> +             * Currently, the driver only supports default value of 
->> slice_per_packet = 1
->> +             *
->> +             * TODO: Expand drm_panel struct to hold slice_per_packet 
->> info
->> +             *       and adjust DSC math to account for 
->> slice_per_packet.
-> 
-> slice_per_packet is not a part of the standard DSC, so I'm not sure how 
-> that can be implemented. And definitely we should not care about the 
-> drm_panel here. It should be either a part of drm_dsc_config, or 
-> mipi_dsi_device.
+There are many GPU hangs that gamers experience while playing. We have
+dozens of open bug reports against RADV about GPU hangs on various GPU
+generations. These usually fall into two categories:
 
-Hi Dmitry,
+1. When the hang always happens at the same point in a game. These are
+painful to debug but manageable.
+2. "Random" hangs that happen to users over the course of playing a
+game for several hours. It is absolute hell to try to even reproduce
+let alone diagnose these issues, and this is what we would like to
+improve.
 
-IIRC slice per packet is given by the panel specs with the default value 
-being 1 if no value is specified, so it might be better to have it as 
-part of mipi_dsi_device.
+For these hard-to-diagnose problems, it is already a challenge to
+determine whether the problem is the kernel (eg. setting wrong voltages
+/ frequencies) or userspace (eg. missing some synchronization), can be
+even a game bug that we need to work around.
 
-Will update the TODO comment accordingly.
+> For example most VM faults can=20
+> be handled without hanging the GPU. Similarly, a shader in an endless
+> loop should not require a full GPU reset.
 
-Thanks,
+This is actually not the case, AFAIK Andr=C3=A9's test case was an app that
+had an infinite loop in a shader.
 
-Jessica Zhang
+>=20
+> It's more complicated for graphics because of the more complex
+> pipeline=20
+> and the lack of CWSR. But it should still be possible to do some=20
+> debugging without JTAG if the problem is in SW and not HW or FW. It's
+> probably worth improving that debugability without getting hung-up on
+> the worst case.
 
-> 
->> +             */
->> +            wc = msm_host->dsc->slice_chunk_size + 1;
->>           dsi_write(msm_host, REG_DSI_CMD_MDP_STREAM0_CTRL,
->>               DSI_CMD_MDP_STREAM0_CTRL_WORD_COUNT(wc) |
->>
-> 
-> -- 
-> With best wishes
-> Dmitry
-> 
+I agree, and we welcome any constructive suggestion to improve the
+situation. It seems like our idea doesn't work if the kernel can't give
+us the information we need.
+
+How do we move forward?
+
+Best regards,
+Timur
+
