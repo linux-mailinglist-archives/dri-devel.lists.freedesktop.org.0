@@ -2,80 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29D3D6F4DFF
-	for <lists+dri-devel@lfdr.de>; Wed,  3 May 2023 02:04:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32FB26F4E80
+	for <lists+dri-devel@lfdr.de>; Wed,  3 May 2023 03:19:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0577510E171;
-	Wed,  3 May 2023 00:04:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8807C10E18D;
+	Wed,  3 May 2023 01:19:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
  [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8E8DB10E171;
- Wed,  3 May 2023 00:04:18 +0000 (UTC)
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8590910E17F;
+ Wed,  3 May 2023 01:19:40 +0000 (UTC)
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
  by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 342NCfGs012160; Wed, 3 May 2023 00:04:11 GMT
+ 343115rD001844; Wed, 3 May 2023 01:19:37 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=iV/gq21IbcuANX5Z2dnRqhVwll/YQLCH12PsbUEmsJg=;
- b=IdS/OJnRw9ZMZGZN1/Y2SEgZcgupq5dWRcrFbz/sLD2Oks1J1vxWhDNmuL6p5MyNK4nm
- 0mbWz28Cuxx5Vt0Adpn5kd0ETGZTM5CSpM1l3sdYt+X9sSE8sTy8LL5hEttvjQbuHkRI
- ffwJLfIhWXcxM6gG+RP8TZy5sEqCRpjPj7eVd0otYVXAROFYejLg25CicZoPi9UCVBdK
- 7k1pvIuMjHVElq6zti4c/X+dB31neEXRaK4hK9yrf2MoqMFj4OBAzpkL1E3HJHI+7HfP
- H91cnYa9Z6iVyBUqLGbw7sAWGi5RhTWDAzLXgPzbgxFlmAHlNIMx5G+ZJiR33miwA+Y2 eg== 
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3qawak26bf-1
+ h=from : subject :
+ date : message-id : mime-version : content-type :
+ content-transfer-encoding : to : cc; s=qcppdkim1;
+ bh=rKP4YVtHkxJqxSOqGp+MkG6/BHs2hqGdO5ozyHsKlpw=;
+ b=GL1G6dmt1PJ0LsM6Z8zFFKvD9hqCKNHQUm/+jytJMAsC3C1YVXyuyBYd8HaiOE1KQSrW
+ vjFK2+GSoPvk8X1baR3OvBFbwxSmgXBCByqSs4fmYa72Op/MKHANJr8XnxmIBWvKdg8V
+ UoOpxDRJj2w9dDJwpowaI9Dd6UuDQ+mZa0FIxdEF8HHH3+Gm/pfuJCTcBUFDPwtM4LvF
+ AN+HbQiQy4DpdqulOjLXfFWj1MxICUQwXt5r5lkEAmMvEk4FSwIz3B/gCioxNWeZLh5J
+ WyIjjgczl1eWJ+mcId3zd22Ic6k6MZXiQotJFQZhengVODSM+AHs2kfL/BWVFnwUDNKb 1g== 
+Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3qawcta91t-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 03 May 2023 00:04:11 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 34304An8027984
+ Wed, 03 May 2023 01:19:37 +0000
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
+ [10.46.141.250])
+ by NASANPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3431JaLv031340
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 3 May 2023 00:04:10 GMT
-Received: from [10.134.70.142] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Tue, 2 May 2023
- 17:04:10 -0700
-Message-ID: <0b774fad-44c2-bd38-c7c3-b1ddf05e469c@quicinc.com>
-Date: Tue, 2 May 2023 17:04:09 -0700
+ Wed, 3 May 2023 01:19:36 GMT
+Received: from jesszhan-linux.qualcomm.com (10.80.80.8) by
+ nasanex01b.na.qualcomm.com (10.46.141.250) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.42; Tue, 2 May 2023 18:19:36 -0700
+From: Jessica Zhang <quic_jesszhan@quicinc.com>
+Subject: [PATCH 0/4] Add DSC v1.2 Support for DSI
+Date: Tue, 2 May 2023 18:19:11 -0700
+Message-ID: <20230405-add-dsc-support-v1-0-6bc6f03ae735@quicinc.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.2
-Subject: Re: [Freedreno] [PATCH 6/7] drm/msm/dpu: call dpu_rm_get_intf() from
- dpu_encoder_get_intf()
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
- <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, Marijn Suijten
- <marijn.suijten@somainline.org>
-References: <20230430235732.3341119-1-dmitry.baryshkov@linaro.org>
- <20230430235732.3341119-7-dmitry.baryshkov@linaro.org>
- <d4558099-541e-cc55-860a-fe21af3a8ca6@quicinc.com>
- <72e531fe-1ee5-a850-4887-11e1835983f9@linaro.org>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <72e531fe-1ee5-a850-4887-11e1835983f9@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAI+2UWQC/x2NQQqDMBAAvyJ77kKiKbT9Sulhk6x1D8awa4sg/
+ r2xx2EYZgdjFTZ4dDsof8VkKQ38pYM0UXkzSm4MvesHF9wVKWfMltA+tS664sh+cJHC/RY8tCq
+ SMUalkqazm23Gwtt6qqo8yvafPV/H8QPpET2hfAAAAA==
+To: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Sean Paul <sean@poorly.run>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>,
+ Marijn Suijten <marijn.suijten@somainline.org>
+X-Mailer: b4 0.13-dev-bfdf5
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1683076775; l=1613;
+ i=quic_jesszhan@quicinc.com; s=20230329; h=from:subject:message-id;
+ bh=PFFcQW6FTUXHIiVB7iLGZXdzML2G70MnT3tS7Jf4MOs=;
+ b=xvSfOsQs9d3kDGc+arl6THVhp9DuNnU0HYusnr8S65iUl6v+/QBVZAKNGh1Y0p5b2NSZfTL/Z
+ Pzv9/nfq842DCcT4V2Bx710V/LTEg0fP8FqTI/gxGqlUKWJAAuMSK9C
+X-Developer-Key: i=quic_jesszhan@quicinc.com; a=ed25519;
+ pk=gAUCgHZ6wTJOzQa3U0GfeCDH7iZLlqIEPo4rrjfDpWE=
 X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
  signatures=585085
-X-Proofpoint-GUID: t2hT2OSHazFGsMPKAYuvmOM1whNGQHMQ
-X-Proofpoint-ORIG-GUID: t2hT2OSHazFGsMPKAYuvmOM1whNGQHMQ
+X-Proofpoint-ORIG-GUID: pbAhUElu8_n0hA7eH1jv6HxoXm669A69
+X-Proofpoint-GUID: pbAhUElu8_n0hA7eH1jv6HxoXm669A69
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-05-02_13,2023-04-27_01,2023-02-09_01
+ definitions=2023-05-02_14,2023-04-27_01,2023-02-09_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 bulkscore=0
- suspectscore=0 lowpriorityscore=0 clxscore=1015 malwarescore=0
- priorityscore=1501 impostorscore=0 mlxlogscore=999 phishscore=0
- spamscore=0 adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2303200000 definitions=main-2305020202
+ mlxscore=0 spamscore=0
+ lowpriorityscore=0 priorityscore=1501 bulkscore=0 phishscore=0
+ adultscore=0 mlxlogscore=999 impostorscore=0 malwarescore=0 suspectscore=0
+ clxscore=1011 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2303200000 definitions=main-2305030009
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,108 +92,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, Bjorn Andersson <andersson@kernel.org>,
- dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
- freedreno@lists.freedesktop.org
+Cc: linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+This is a series of changes for DSI to enable support for DSC v1.2.
 
+This includes:
 
-On 5/2/2023 4:58 PM, Dmitry Baryshkov wrote:
-> On 03/05/2023 02:57, Abhinav Kumar wrote:
->>
->>
->> On 4/30/2023 4:57 PM, Dmitry Baryshkov wrote:
->>> There is little sense to get intf index just to call dpu_rm_get_intf()
->>> on it. Move dpu_rm_get_intf() call to dpu_encoder_get_intf() function.
->>>
->>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
->>> ---
->>>   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 20 ++++++++------------
->>>   1 file changed, 8 insertions(+), 12 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c 
->>> b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
->>> index 507ff3f88c67..b35e92c658ad 100644
->>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
->>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
->>> @@ -1259,22 +1259,23 @@ static void 
->>> dpu_encoder_virt_atomic_disable(struct drm_encoder *drm_enc,
->>>       mutex_unlock(&dpu_enc->enc_lock);
->>>   }
->>> -static enum dpu_intf dpu_encoder_get_intf(const struct dpu_mdss_cfg 
->>> *catalog,
->>> +static struct dpu_hw_intf *dpu_encoder_get_intf(const struct 
->>> dpu_mdss_cfg *catalog,
->>> +        struct dpu_rm *dpu_rm,
->>>           enum dpu_intf_type type, u32 controller_id)
->>>   {
->>>       int i = 0;
->>>       if (type == INTF_WB)
->>> -        return INTF_MAX;
->>> +        return NULL;
->>>       for (i = 0; i < catalog->intf_count; i++) {
->>>           if (catalog->intf[i].type == type
->>>               && catalog->intf[i].controller_id == controller_id) {
->>> -            return catalog->intf[i].id;
->>> +            return dpu_rm_get_intf(dpu_rm, catalog->intf[i].id);
->>>           }
->>
->> Why has the for loop been retained in this function but not for 
->> writeback? is there any difference? Doesnt looks like there needs to be.
-> 
-> For writeback we always return controller_id (WB_2). For interfaces we 
-> have to map type+controller_id to the INTF instance.
+1) Dividing the pclk_rate by the compression ratio when DSC is enabled
+2) Fixing the word count calculation for DSC
+3) Setting the DATA_COMPRESS bit when DSC is enabled
 
-Ah correct, got it now. With that minor comment fixed from below,
+With these changes (and the dependency below), DSC v1.2 should work over
+DSI.
 
-Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Depends-on: "add DSC 1.2 dpu supports" [1]
 
-> 
->>
->>>       }
->>> -    return INTF_MAX;
->>> +    return NULL;
->>>   }
->>>   void dpu_encoder_vblank_callback(struct drm_encoder *drm_enc,
->>> @@ -2244,7 +2245,6 @@ static int dpu_encoder_setup_display(struct 
->>> dpu_encoder_virt *dpu_enc,
->>>            * h_tile_instance_ids[2] = {1, 0}; DSI1 = left, DSI0 = right
->>>            */
->>>           u32 controller_id = disp_info->h_tile_instance[i];
->>> -        enum dpu_intf intf_idx;
->>>           if (disp_info->num_of_h_tiles > 1) {
->>>               if (i == 0)
->>> @@ -2258,12 +2258,9 @@ static int dpu_encoder_setup_display(struct 
->>> dpu_encoder_virt *dpu_enc,
->>>           DPU_DEBUG("h_tile_instance %d = %d, split_role %d\n",
->>>                   i, controller_id, phys_params.split_role);
->>> -        intf_idx = dpu_encoder_get_intf(dpu_kms->catalog,
->>> -                                disp_info->intf_type,
->>> -                                controller_id);
->>> -
->>> -        if (intf_idx >= INTF_0 && intf_idx < INTF_MAX)
->>> -            phys_params.hw_intf = dpu_rm_get_intf(&dpu_kms->rm, 
->>> intf_idx);
->>> +        phys_params.hw_intf = dpu_encoder_get_intf(dpu_kms->catalog, 
->>> &dpu_kms->rm,
->>> +                               disp_info->intf_type,
->>> +                               controller_id);
->>>           if (disp_info->intf_type == INTF_WB && controller_id < WB_MAX)
->>>               phys_params.hw_wb = dpu_rm_get_wb(&dpu_kms->rm, 
->>> controller_id);
->>> @@ -2287,7 +2284,6 @@ static int dpu_encoder_setup_display(struct 
->>> dpu_encoder_virt *dpu_enc,
->>>               DPU_ERROR_ENC(dpu_enc, "failed to add phys encs\n");
->>>               break;
->>>           }
->>> -
->> unnecessary change?
-> 
-> 
-> ack, it sneaked in. I'll drop it for v2.
-> 
->>>       }
->>>       mutex_unlock(&dpu_enc->enc_lock);
-> 
+[1] https://patchwork.freedesktop.org/series/116789/
+
+Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
+---
+Jessica Zhang (4):
+      drm/msm/dsi: Adjust pclk rate for compression
+      drm/msm/dsi: Fix compressed word count calculation
+      drm/msm/dpu: Add has_data_compress to dpu_caps
+      drm/msm/dpu: Enable compression for command mode
+
+ .../gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h |  1 +
+ .../gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h |  1 +
+ .../drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h   |  1 +
+ .../gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h |  1 +
+ .../gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h |  1 +
+ .../gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c   |  4 ++++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h     |  2 ++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c        |  7 +++++++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h        |  2 ++
+ drivers/gpu/drm/msm/dsi/dsi_host.c                 | 23 +++++++++++++++++-----
+ 10 files changed, 38 insertions(+), 5 deletions(-)
+---
+base-commit: a4e4b4826fe482d5f63a0232bc6588da2edfa45b
+change-id: 20230405-add-dsc-support-fe130ba49841
+
+Best regards,
+-- 
+Jessica Zhang <quic_jesszhan@quicinc.com>
+
