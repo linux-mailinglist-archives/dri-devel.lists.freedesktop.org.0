@@ -1,62 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A58626F5660
-	for <lists+dri-devel@lfdr.de>; Wed,  3 May 2023 12:41:39 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8302A6F56EF
+	for <lists+dri-devel@lfdr.de>; Wed,  3 May 2023 13:07:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 83B9610E257;
-	Wed,  3 May 2023 10:41:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BDD5310E258;
+	Wed,  3 May 2023 11:07:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com
- [IPv6:2a00:1450:4864:20::42b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4072E10E258
- for <dri-devel@lists.freedesktop.org>; Wed,  3 May 2023 10:41:34 +0000 (UTC)
-Received: by mail-wr1-x42b.google.com with SMTP id
- ffacd0b85a97d-2f7db354092so3118602f8f.2
- for <dri-devel@lists.freedesktop.org>; Wed, 03 May 2023 03:41:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683110492; x=1685702492;
- h=content-disposition:mime-version:message-id:subject:cc:to:from:date
- :from:to:cc:subject:date:message-id:reply-to;
- bh=xHsnWChYQT1z+NaKAydFHIQbH8RXi8T5lYad1K4Txs0=;
- b=lGacC+qgxPocSkx1r674MI1CUDVr3KX2qyaKs/LsCsd9gQ/L9HAOC+KCgMpeAGwHgx
- XZ7GUfebWa4+59RX0Ga72c/xyzbT/7EpW4EaKXD8u97PwnF+mqnxGct/Yuh5MYQhKB2N
- U85TB8Ry2jIg/2qRWK+vm+tFOYJ82rfE84Uitj9E022wxbJqqugwo1jKuRfhU5WkEVpB
- JipQvWyKi3FFssIeYhpixXB1I9av0BbZ25sXKym5f9NV5gLDdlnvLrp2VALBlza0CP8q
- ZCOkrxihaH8Buw+PR4dgL19xmNf69WlnX4KUV4GpQ1IWgcilZzznXZIkWu5qQha0zI3A
- 8//Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683110492; x=1685702492;
- h=content-disposition:mime-version:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=xHsnWChYQT1z+NaKAydFHIQbH8RXi8T5lYad1K4Txs0=;
- b=kgNhlQA4TAr4IFiCWAcZNVPcj2A9Q5+we6+Yb53Z7VDiHfGDlNIfPDWcQoECpKknxu
- 9CG4L0nAirDpdBmf0pSnJfzCWvVvAwp2J6cywIAR/oxl16m8s7HUcbpkBA8/JJPaEnGP
- i31bUph2sbM1F+p6WnIWiAtS3Nru5ZuOErp7mPlcp8mfUaewRmy5oAMSfWbQQdg3Ip/0
- zOR0S65m3wWgFuJqZoW2j9Gb4RjqwEPRc9UMPZLJpZfRgJEVNu4PKY7e1/oDAIexCLx8
- 1fhLj/1gzGKyupE0GWTsEvHHe8mdWo/kGIJrLnv/Eiw4S5Nj+WnchQyvLfUdVGz+c8Sp
- jgrQ==
-X-Gm-Message-State: AC+VfDzbhCA4dxxpdcmITQx+gSn1ZhDuAlot3DnnkNtDC1b3MfbNAtlj
- 6ENSlzdgjTLPvc9PKxEKNdhCDVCgJsIu9Zl9wo8=
-X-Google-Smtp-Source: ACHHUZ4ALCcCvovKE4Kn+I+8rCSPqIU/QyVEb0IdNAZcF87Q/sIr8B4EDuni8XCKFY2XzWxIzm9ksw==
-X-Received: by 2002:adf:ec04:0:b0:2f9:a798:602c with SMTP id
- x4-20020adfec04000000b002f9a798602cmr14969737wrn.12.1683110491914; 
- Wed, 03 May 2023 03:41:31 -0700 (PDT)
-Received: from localhost ([102.36.222.112]) by smtp.gmail.com with ESMTPSA id
- q11-20020a5d574b000000b003049d7b9f4csm19417469wrw.32.2023.05.03.03.41.29
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 03 May 2023 03:41:30 -0700 (PDT)
-Date: Wed, 3 May 2023 13:41:27 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Jeffrey Hugo <quic_jhugo@quicinc.com>
-Subject: [PATCH] accel/qaic: silence some uninitialized variable warnings
-Message-ID: <d11ee378-7b06-4b5e-b56f-d66174be1ab3@kili.mountain>
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ECC3010E121;
+ Wed,  3 May 2023 11:07:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1683112028; x=1714648028;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=isSEaTcczQehorA2XyFTb7Qg8MalrslW5ar7lNBTlZw=;
+ b=ktNfqAdZnZHrYLTAtxO1sP7jPLrk63jW8C8+lBOKHisXXVZ1K3ruyZWt
+ +juNiY5GMKeWA9Wh5Bsv9ysSpi2u4MjKvkenWdURC0+7SdSRevKmm9/NI
+ yTNtFqLystIHxGIViqzZvMB97VUh40otN83h/qQLU+rPCF/7KTMsAkOWg
+ 6ZL7Tr7K5RlqLgqreFEV6z09V8v0Eo35Y4PfDLnoQDWxaHKpAQDzF4SJw
+ B2YOHghTcHHb7QP3rXrMj/A6f7x2lOUV37TW2AYcx+wlIoHVJORHt2lqq
+ wEf1cCBFMoAD/rpIvqJZ5WKW+On8CjJjzi+1lk/UB07vnx0G35LJ4faKC g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10698"; a="411780903"
+X-IronPort-AV: E=Sophos;i="5.99,247,1677571200"; d="scan'208";a="411780903"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 May 2023 04:07:07 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10698"; a="699326439"
+X-IronPort-AV: E=Sophos;i="5.99,247,1677571200"; d="scan'208";a="699326439"
+Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.70])
+ by fmsmga007.fm.intel.com with SMTP; 03 May 2023 04:07:04 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Wed, 03 May 2023 14:07:04 +0300
+Date: Wed, 3 May 2023 14:07:04 +0300
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: "Lisovskiy, Stanislav" <stanislav.lisovskiy@intel.com>
+Subject: Re: [PATCH 02/11] drm/i915/mst: Remove broken MST DSC support
+Message-ID: <ZFJAWCGuWcLDQOfS@intel.com>
+References: <20230502143906.2401-1-ville.syrjala@linux.intel.com>
+ <20230502143906.2401-3-ville.syrjala@linux.intel.com>
+ <ZFIPCm+k9TCyfMfS@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-X-Mailer: git-send-email haha only kidding
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <ZFIPCm+k9TCyfMfS@intel.com>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,35 +62,86 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, Oded Gabbay <ogabbay@kernel.org>,
- kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: intel-gfx@lists.freedesktop.org, stable@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ Vinod Govindapillai <vinod.govindapillai@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Smatch complains that these are not initialized if get_cntl_version()
-fails but we still print them in the debug message.  Not the end of
-the world, but true enough.  Let's just initialize them to a dummy value
-to make the checker happy.
+On Wed, May 03, 2023 at 10:36:42AM +0300, Lisovskiy, Stanislav wrote:
+> On Tue, May 02, 2023 at 05:38:57PM +0300, Ville Syrjala wrote:
+> > From: Ville Syrjälä <ville.syrjala@linux.intel.com>
+> > 
+> > The MST DSC code has a myriad of issues:
+> > - Platform checks are wrong (MST+DSC is TGL+ only IIRC)
+> > - Return values of .mode_valid_ctx() are wrong
+> > - .mode_valid_ctx() assumes bigjoiner might be used, but ther rest
+> >   of the code doesn't agree
+> > - compressed bpp calculations don't make sense
+> > - FEC handling needs to consider the entire link as opposed to just
+> >   the single stream. Currently FEC would only get enabled if the
+> >   first enabled stream is compressed. Also I'm not seeing anything
+> >   that would account for the FEC overhead in any bandwidth calculations
+> > - PPS SDP is only handled for the first stream via the dig_port
+> >   hooks, other streams will not be transmittitng any PPS SDPs
+> > - PPS SDP readout is missing (also missing for SST!)
+> > - VDSC readout is missing (also missing for SST!)
+> > 
+> > The FEC issues is really the big one since we have no way currently
+> > to apply such link wide configuration constraints. Changing that is
+> > going to require a much bigger rework of the higher level modeset
+> > .compute_config() logic. We will also need such a rework to properly
+> > distribute the available bandwidth across all the streams on the
+> > same link (which is a must to eg. enable deep color).
+> 
+> Also all the things you mentioned are subject for discussion, for example
+> I see that FEC overhead is actually accounted for bpp calculation for instance.
 
-Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
----
- drivers/accel/qaic/qaic_drv.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+AFAICS FEC is only accounted for in the data M/N calculations,
+assuming that particular stream happened to be compressed. I'm
+not sure if that actually matters since at least the link M/N
+are not even used by the MST sink. I suppose the data M/N might
+still be used for something though. For any uncompressed stream
+on the same link the data M/N values will be calculated
+incorrectly without FEC.
 
-diff --git a/drivers/accel/qaic/qaic_drv.c b/drivers/accel/qaic/qaic_drv.c
-index ff80eb571729..e10e8b603e37 100644
---- a/drivers/accel/qaic/qaic_drv.c
-+++ b/drivers/accel/qaic/qaic_drv.c
-@@ -263,7 +263,7 @@ static void qaic_destroy_drm_device(struct qaic_device *qdev, s32 partition_id)
- static int qaic_mhi_probe(struct mhi_device *mhi_dev, const struct mhi_device_id *id)
- {
- 	struct qaic_device *qdev;
--	u16 major, minor;
-+	u16 major = -1, minor = -1;
- 	int ret;
- 
- 	/*
+And as mentioned, the FEC bandwidth overhead doesn't seem to
+be accounted anywhere so no guarantee that we won't try to
+oversubcribe the link.
+
+And FEC will only be enabled if the first stream to be enabled
+is compressed, otherwise we will enable the link without FEC
+and still try to cram other compressed streams through it
+(albeit without the PPS SDP so who knows what will happen)
+and that is illegal.
+
+> We usually improve things by gradually fixing, because if we act same way towards
+> all wrong code in the driver, we could end up removing the whole i915.
+
+We ususally don't merge code that has this many obvious and/or
+fundemental issues.
+
+Now, most of the issues I listed above are probably fixable
+in a way that could be backported to stable kernels, but
+unfortunately the FEC issue is not one of those. That one
+will likely need massive amounts of work all over the driver
+modeset code, making a backport impossible.
+
+> So from my side I would nack it, at least until you have a code which handles
+> all of this better - I have no doubt you probably have some ideas in your mind, so lets be constructive at least and propose something better first.
+> This code doesn't cause any regressions, but still provides "some" support to DP MST DSC to say the least and even if that would be removed, if some of those users 
+> refer to me, I would probably then just point to this mail discussion everytime.
+
+It seems very likely that it will cause regressions at some point,
+it just needs a specific multi-display MST setup. The resulting
+problems will be very confusing to debug since the order in which
+you enable/disable the outputs will have an impact on what actually
+goes wrong on account of the FEC and PPS SDP issues. The longer
+we wait disabling this the harder it will be to deal with those
+regressions since we the probably can't revert anymore (a straight
+revert was already not possible) but also can't fix it in a way
+that can be backported (due to the FEC issues in particular).
+
 -- 
-2.39.2
-
+Ville Syrjälä
+Intel
