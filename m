@@ -1,62 +1,75 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 837696F530D
-	for <lists+dri-devel@lfdr.de>; Wed,  3 May 2023 10:22:08 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 65D776F531E
+	for <lists+dri-devel@lfdr.de>; Wed,  3 May 2023 10:26:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 39EA210E0CC;
-	Wed,  3 May 2023 08:22:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7B6A810E1E1;
+	Wed,  3 May 2023 08:26:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com
- [209.85.128.176])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 351B210E0CC
- for <dri-devel@lists.freedesktop.org>; Wed,  3 May 2023 08:22:05 +0000 (UTC)
-Received: by mail-yw1-f176.google.com with SMTP id
- 00721157ae682-55a8019379fso24760077b3.0
- for <dri-devel@lists.freedesktop.org>; Wed, 03 May 2023 01:22:05 -0700 (PDT)
+Received: from mail-lj1-x22c.google.com (mail-lj1-x22c.google.com
+ [IPv6:2a00:1450:4864:20::22c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B8BAD10E1F5
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 May 2023 08:26:46 +0000 (UTC)
+Received: by mail-lj1-x22c.google.com with SMTP id
+ 38308e7fff4ca-2a8ad872ea5so49426961fa.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 03 May 2023 01:26:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1683102404; x=1685694404;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=BQnrm2QW4A/lP09UQBsC/buiW1QQXts5oTWTDd0Iapk=;
+ b=lDzxex/N/6+1jPEwsRwpTbE7kdGx+/+N/+gXGXx6vSL+UVNr6oeMm21UfdIDBbZZIT
+ KqQ365QFrR0ZtxGfp/u51BE3IQ7E7PZJ3VNbtqf0HMqFGnhA2j7r2Upb3xzEEavEcY8C
+ qUVTvNDN+DhLtvos/3KCh88DWtiLzmtoeV6MEgKrprb1OJlLCTpqlqxSGhTuB3UamZNE
+ l4azF/2/ASmLaEugvQPebmvn8g5HEhkMJaaYNgEceStBUD2suc+xPV1sT4C1+o1ZyIqu
+ dFd/mwyT2OqSm3TdCEcyY6gal0OzuIsOvWm1Sd+MwsEG6fYjQgU33UNRIy0rNlnPckBf
+ P88g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683102123; x=1685694123;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=yf0nQOOKHL0GEtmAgACXt9/1DKDkHK6ft7tmYSYGTKo=;
- b=KiLJas+V/GPDp74vzTso7RPeBFgunRTmz1eqc+1na4mgkW2VUZBzeM8lLILhgb5cW9
- YdRnFUyBxGDyBdwDJLW2FlaA5BztQn4z//ygZ8hy3CSjSb2oLFg6qlPvVqtv+tLvH5yd
- HtZcVp7amh7jOz9ONI3mjohJ2WDohK5nOW7F620hIRaExOw8J0KIAiBf9Db17TiEUSqq
- eg0o2mlcHC3DlqHNPnMi1yw3HB2wPNMYr5imjBYOA+/hL/qax0gaZQiAcD56jSM74CBa
- dw7wxRiC+llRwXBb38pAoR7v1EHuoemc4Fu/oIfzGoicSkTHrgbdQFKZw1lifH9+jpcP
- 9hiw==
-X-Gm-Message-State: AC+VfDxYpW+ujWR/LemX5jAaUhwESSukEa2AAtGQn0koGS/ep49BWkta
- lYmuS893izB6h+Fscg8MJI6010wM1Y6Cmg==
-X-Google-Smtp-Source: ACHHUZ7L74WZrFfOenQFTHEuskjJbT9wVTvhKmKB9npqCGke+nI6RE2aCnu6QKFv5I1yxaF/UgNuCQ==
-X-Received: by 2002:a25:ad48:0:b0:b9d:dde8:2a5a with SMTP id
- l8-20020a25ad48000000b00b9ddde82a5amr12146863ybe.49.1683102123366; 
- Wed, 03 May 2023 01:22:03 -0700 (PDT)
-Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com.
- [209.85.128.170]) by smtp.gmail.com with ESMTPSA id
- i63-20020a252242000000b00b99768e3b83sm215343ybi.25.2023.05.03.01.22.02
- for <dri-devel@lists.freedesktop.org>
+ d=1e100.net; s=20221208; t=1683102404; x=1685694404;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=BQnrm2QW4A/lP09UQBsC/buiW1QQXts5oTWTDd0Iapk=;
+ b=jvOcXJDm5Ps0INN1rPhY0K3pw3x+H5DaCwKc9crBQ+Fm+AM3kbJjoCNniICdKeTyTW
+ P+36CQwsf5HuzF1pqd9skbnAMifjiGwJ8y+3Lvs1mMheoRfIBe6oJaGd/ruzjPAL8soV
+ bpzxVBme9feS/coug/LU6/9fduF8N7sHbzx7lR+B0iGCA9ZBqDzpkozT0aaAFhIgZpw2
+ BCHYdCyH5ybYvUMKxh2pqTQ9uqYsd24c6Ofoc4hhG7kvRXHunDsoUeJuBw/cunBgD9ne
+ 9wYBgDgJYJsFquwIgAZEWU0i0eCqRNgj+D7L4jh3rScO04cc3utBq3eLnh2Oxor4CF2z
+ qh+A==
+X-Gm-Message-State: AC+VfDz1HVyXICVatcw7bFbueWPhNRvnLg4tL8wGu8gpQk167klciqb0
+ sqeK3SMaUvRSNF7uXLHkCqi0bQ==
+X-Google-Smtp-Source: ACHHUZ5I/B8/b7dNYVIEYJghFgcOuzDA4b8h+9I+HVutFLfzrBZ8gqF8yFrKzcjAPE9hprtWYeCNUQ==
+X-Received: by 2002:ac2:420d:0:b0:4ef:f5fe:bc76 with SMTP id
+ y13-20020ac2420d000000b004eff5febc76mr705187lfh.14.1683102404401; 
+ Wed, 03 May 2023 01:26:44 -0700 (PDT)
+Received: from ?IPV6:2001:14ba:a0db:1f00::8a5?
+ (dzdqv0yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a0db:1f00::8a5])
+ by smtp.gmail.com with ESMTPSA id
+ d14-20020ac2544e000000b004edc2a023ffsm5837150lfn.36.2023.05.03.01.26.42
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 03 May 2023 01:22:02 -0700 (PDT)
-Received: by mail-yw1-f170.google.com with SMTP id
- 00721157ae682-55a5a830238so29720217b3.3
- for <dri-devel@lists.freedesktop.org>; Wed, 03 May 2023 01:22:02 -0700 (PDT)
-X-Received: by 2002:a25:240f:0:b0:b9d:d5dc:596c with SMTP id
- k15-20020a25240f000000b00b9dd5dc596cmr11998230ybk.12.1683102122353; Wed, 03
- May 2023 01:22:02 -0700 (PDT)
+ Wed, 03 May 2023 01:26:43 -0700 (PDT)
+Message-ID: <a60a9f37-bb43-6e2b-2535-995e9fae250a@linaro.org>
+Date: Wed, 3 May 2023 11:26:42 +0300
 MIME-Version: 1.0
-References: <20230502130223.14719-1-tzimmermann@suse.de>
-In-Reply-To: <20230502130223.14719-1-tzimmermann@suse.de>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 3 May 2023 10:21:50 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdV06LN17KzOh42vjyF504myT=D=a-zz3MduOmQPEmv5SA@mail.gmail.com>
-Message-ID: <CAMuHMdV06LN17KzOh42vjyF504myT=D=a-zz3MduOmQPEmv5SA@mail.gmail.com>
-Subject: Re: [PATCH v3 0/6] fbdev: Move framebuffer I/O helpers to <asm/fb.h>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH 2/4] drm/msm/dsi: Fix compressed word count calculation
+Content-Language: en-GB
+To: Jessica Zhang <quic_jesszhan@quicinc.com>, Rob Clark
+ <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Sean Paul <sean@poorly.run>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>,
+ Marijn Suijten <marijn.suijten@somainline.org>
+References: <20230405-add-dsc-support-v1-0-6bc6f03ae735@quicinc.com>
+ <20230405-add-dsc-support-v1-2-6bc6f03ae735@quicinc.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <20230405-add-dsc-support-v1-2-6bc6f03ae735@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,70 +82,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arch@vger.kernel.org, linux-fbdev@vger.kernel.org,
- linux-ia64@vger.kernel.org, loongarch@lists.linux.dev, arnd@arndb.de,
- deller@gmx.de, chenhuacai@kernel.org, javierm@redhat.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- James.Bottomley@hansenpartnership.com, linux-m68k@lists.linux-m68k.org,
- linux-parisc@vger.kernel.org, vgupta@kernel.org, sparclinux@vger.kernel.org,
- kernel@xen0n.name, linux-snps-arc@lists.infradead.org, sam@ravnborg.org,
- davem@davemloft.net, linux-arm-kernel@lists.infradead.org
+Cc: Konrad Dybcio <konrad.dybcio@linaro.org>, linux-arm-msm@vger.kernel.org,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Thomas,
+On 03/05/2023 04:19, Jessica Zhang wrote:
+> Currently, word count is calculated using slice_count. This is incorrect
+> as downstream uses slice per packet, which is different from
+> slice_count.
+> 
+> Slice count represents the number of soft slices per interface, and its
+> value will not always match that of slice per packet. For example, it is
+> possible to have cases where there are multiple soft slices per interface
+> but the panel specifies only one slice per packet.
+> 
+> Thus, use the default value of one slice per packet and remove slice_count
+> from the word count calculation.
+> 
+> Fixes: bc6b6ff8135c ("drm/msm/dsi: Use DSC slice(s) packet size to compute word count")
+> Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
+> ---
+>   drivers/gpu/drm/msm/dsi/dsi_host.c | 9 ++++++++-
+>   1 file changed, 8 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c b/drivers/gpu/drm/msm/dsi/dsi_host.c
+> index 35c69dbe5f6f..b0d448ffb078 100644
+> --- a/drivers/gpu/drm/msm/dsi/dsi_host.c
+> +++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
+> @@ -996,7 +996,14 @@ static void dsi_timing_setup(struct msm_dsi_host *msm_host, bool is_bonded_dsi)
+>   		if (!msm_host->dsc)
+>   			wc = hdisplay * dsi_get_bpp(msm_host->format) / 8 + 1;
+>   		else
+> -			wc = msm_host->dsc->slice_chunk_size * msm_host->dsc->slice_count + 1;
+> +			/*
+> +			 * When DSC is enabled, WC = slice_chunk_size * slice_per_packet + 1.
+> +			 * Currently, the driver only supports default value of slice_per_packet = 1
+> +			 *
+> +			 * TODO: Expand drm_panel struct to hold slice_per_packet info
+> +			 *       and adjust DSC math to account for slice_per_packet.
 
-On Tue, May 2, 2023 at 3:02=E2=80=AFPM Thomas Zimmermann <tzimmermann@suse.=
-de> wrote:
-> (was: fbdev: Use regular I/O function for framebuffers)
->
-> Fbdev provides helpers for framebuffer I/O, such as fb_readl(),
-> fb_writel() or fb_memcpy_to_fb(). The implementation of each helper
-> depends on the architecture, but they are all equivalent to regular
-> I/O functions of similar names. So use regular functions instead and
-> move all helpers into <asm-generic/fb.h>
->
-> The first patch a simple whitespace cleanup.
->
-> Until now, <linux/fb.h> contained an include of <asm/io.h>. As this
-> will go away patches 2 to 4 prepare include statements in the various
-> drivers. Source files that use regular I/O helpers, such as readl(),
-> now include <linux/io.h>. Source files that use framebuffer I/O
-> helpers, such as fb_readl(), also include <asm/fb.h>.
->
-> Patch 5 replaces the architecture-based if-else branching in
-> <linux/fb.h> by helpers in <asm-generic/fb.h>. All helpers use Linux'
-> existing I/O functions.
->
-> Patch 6 harmonizes naming among fbdev and existing I/O functions.
->
-> The patchset has been built for a variety of platforms, such as x86-64,
-> arm, aarch64, ppc64, parisc, m64k, mips and sparc.
->
-> v3:
->         * add the new helpers in <asm-generic/fb.h>
->         * support reordering and native byte order (Geert, Arnd)
+slice_per_packet is not a part of the standard DSC, so I'm not sure how 
+that can be implemented. And definitely we should not care about the 
+drm_panel here. It should be either a part of drm_dsc_config, or 
+mipi_dsi_device.
 
-Thanks, this fixes the mangled display I was seeing on ARAnyM
-with bpp=3D16.
+> +			 */
+> +			wc = msm_host->dsc->slice_chunk_size + 1;
+>   
+>   		dsi_write(msm_host, REG_DSI_CMD_MDP_STREAM0_CTRL,
+>   			DSI_CMD_MDP_STREAM0_CTRL_WORD_COUNT(wc) |
+> 
 
-BTW, this series seems to have mixed dependencies: the change
-to include/asm-generic/fb.h depends on "[PATCH v3 00/19] arch:
-Consolidate <asm/fb.h>"[1], but with that applied, I had to manually
-fixup drivers/video/fbdev/core/fb_cfb_fops.c.
+-- 
+With best wishes
+Dmitry
 
-[1] https://lore.kernel.org/all/20230417125651.25126-1-tzimmermann@suse.de,
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
