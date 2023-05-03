@@ -2,68 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59F6B6F5703
-	for <lists+dri-devel@lfdr.de>; Wed,  3 May 2023 13:15:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C95B26F5716
+	for <lists+dri-devel@lfdr.de>; Wed,  3 May 2023 13:21:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5534410E262;
-	Wed,  3 May 2023 11:15:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4810310E121;
+	Wed,  3 May 2023 11:21:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 25B1210E292
- for <dri-devel@lists.freedesktop.org>; Wed,  3 May 2023 11:15:03 +0000 (UTC)
+Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com
+ [IPv6:2a00:1450:4864:20::430])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2AD5C10E121
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 May 2023 11:20:59 +0000 (UTC)
+Received: by mail-wr1-x430.google.com with SMTP id
+ ffacd0b85a97d-2f55ffdbaedso3088705f8f.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 03 May 2023 04:20:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
- t=1683112504; x=1714648504;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=MtY2s3yh1IVnpkcGyb3twXc6KSMhTK5mUaZU6OAmzlI=;
- b=eK4iILRpwUBrMbu2kD/3aW4YXgDqX89VAhCudcVW+rCv7shoCuoslgpS
- IG1bhlrxolvQ6PgEP/pSRWEcvYhGRDS2EtRGmICleqq5rhyLrCpmVzcyD
- Advd/mz2o5EBhFyGWejY1UAhkxub0vVCdwJjlYzMmFG2AwvDE5ZUcQJS/
- Hv8gUkiJK8D+3PygZJpRcm80z0PLTEJyhw5R9tr66Z71Tlfo5m9eFNRDW
- aS+cgz+4oeBsgXvGSnmizBHVs3qUo6wI2YtMEULjqkGMta0I8ceBsio9Q
- 9v1hk3QH5uxIyukXjOSaJUK15wtaiqe4DzdknqZmmOVY+bpWbG5By5Uau Q==;
-X-IronPort-AV: E=Sophos;i="5.99,247,1677538800"; d="scan'208";a="30691588"
-Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
- by mx1-pgp.tq-group.com with ESMTP; 03 May 2023 13:15:00 +0200
-Received: from mx1.tq-group.com ([192.168.6.7])
- by tq-pgp-pr1.tq-net.de (PGP Universal service);
- Wed, 03 May 2023 13:15:00 +0200
-X-PGP-Universal: processed;
- by tq-pgp-pr1.tq-net.de on Wed, 03 May 2023 13:15:00 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
- t=1683112500; x=1714648500;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=MtY2s3yh1IVnpkcGyb3twXc6KSMhTK5mUaZU6OAmzlI=;
- b=GD8jmJ3ggkMO1901Aypfe+0A+yKMjNf8+Zrb+MNajDhm41mM8NCr6TDR
- nYBPCdwOx6hIulP2jg00UxM3DgAKhatI+HKc8MtaJpltSdtVDv7/+cRzw
- l+udX7MBrbZROPplokekAm6wbDyrBgMy/8zKTtSjVIenj/CxOjjHWibYX
- kODZNllwW9Rd0quDK8LwqCbBQmx+mVbgYK+ywWKzOcsExnniB150R08Am
- joCe8RPdOm2yfou5B7mvLCZjnLQCIphtFpyNx/Uoc3IiJKuTSqefCYi0N
- tXh7k0004opficrl8KmiP6rrBctbuQLOou/r3nFDTyjSA/+ALKDPbgok6 w==;
-X-IronPort-AV: E=Sophos;i="5.99,247,1677538800"; d="scan'208";a="30691587"
-Received: from vtuxmail01.tq-net.de ([10.115.0.20])
- by mx1.tq-group.com with ESMTP; 03 May 2023 13:15:00 +0200
-Received: from steina-w.tq-net.de (unknown [10.123.53.21])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (No client certificate requested)
- by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 49B2E280056;
- Wed,  3 May 2023 13:14:59 +0200 (CEST)
-From: Alexander Stein <alexander.stein@ew.tq-group.com>
-To: Philipp Zabel <p.zabel@pengutronix.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Shawn Guo <shawnguo@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>, Fabio Estevam <festevam@gmail.com>,
- Sebastian Reichel <sebastian.reichel@collabora.com>
-Subject: [PATCH 1/1] drm/imx/ipuv-v3: Fix front porch adjustment upon hactive
- aligning
-Date: Wed,  3 May 2023 13:14:56 +0200
-Message-Id: <20230503111456.1748511-1-alexander.stein@ew.tq-group.com>
-X-Mailer: git-send-email 2.34.1
+ d=linaro.org; s=google; t=1683112856; x=1685704856;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=aJlibTx8TK7p5Pjke+lVcNzDYTvxet8ibw1NJMa5wZM=;
+ b=FHtm5x0ckmS28FmXCTxXR5WMeSX0le5DilqQ0gNxeA5Hc4Op0A6tUfJBGxym5jh78Y
+ iStp9o22yDPetjXAS438tCfbzHw6agB6jfy5skhbJK7WmPKMcGu/v9xgobFFryezbjl8
+ a9SVLjJrehlCCTusDOdmiSPe67gmcwj9sp+5kzQWhe1d9H+IAMMfU6M6joHiZlpOkkAX
+ Zmx7bBLUpZOYdZbxRXKgeOfR9knSWXqq2aGrJcGpK0j5Qtf1RuJOL6mcR+g9Tc7AO9Oh
+ 0VVRpOe/W5sSXDflEHnaVpYeEJat8+tky1jIC3ruZ0PN9ApbHt5daLcMPOewOG1z1e6U
+ 2L0Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1683112856; x=1685704856;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=aJlibTx8TK7p5Pjke+lVcNzDYTvxet8ibw1NJMa5wZM=;
+ b=OTqxjFZWbAGemgK/pD1gOk2aoLNsaE26Mj4s30nT061iV1W7ToYiCK9WmmzuLdl9+Y
+ saZ3So2wmB6qirYqcllRAJuqtEybqRDwaU9rg0lHJYYFLIW7zCTLOI7x57pfB0z3O2E8
+ Rq472Ok0ksc1awp1E2aqI6qBP0QNlH9iXrUfOi4X+sbnA9IGToXo8fFAoykiXD8CZd4F
+ w6a7TCjIjGN5eVOBurGlrQWlrgqC9B1+H8NrXjh/upEDKuToq7FJ9T9EM+ACv5qEBru9
+ KGFBg1VYrS0ySR0m/DHVnnmv1i2wtdY8mhBch3eaMWrl3YMJ6116C5oJ+s5T4r8Ofd1B
+ ofcg==
+X-Gm-Message-State: AC+VfDzMpkFhSXssLxFW3mr/lqRyGOn7Udr5uvNtc9FhxwIgyW4mArjI
+ l3lvVgbM1dfZEOQBOhT2IfCG1g==
+X-Google-Smtp-Source: ACHHUZ5Hhp9kVQi8FJhj11p5+rQBMBVgoYd2qOZc+s77icf4hUmkxo3GJMxFW8h7/MTiWdRxS6KnIw==
+X-Received: by 2002:a5d:5968:0:b0:2ef:bada:2f25 with SMTP id
+ e40-20020a5d5968000000b002efbada2f25mr13980541wri.67.1683112855882; 
+ Wed, 03 May 2023 04:20:55 -0700 (PDT)
+Received: from aspen.lan
+ (aztw-34-b2-v4wan-166919-cust780.vm26.cable.virginm.net. [82.37.195.13])
+ by smtp.gmail.com with ESMTPSA id
+ b9-20020adfee89000000b002f777345d21sm33424777wro.95.2023.05.03.04.20.54
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 03 May 2023 04:20:54 -0700 (PDT)
+Date: Wed, 3 May 2023 12:20:52 +0100
+From: Daniel Thompson <daniel.thompson@linaro.org>
+To: Arnd Bergmann <arnd@kernel.org>
+Subject: Re: [PATCH] backlight: corgi_lcd: fix missing prototype
+Message-ID: <20230503112052.GA109942@aspen.lan>
+References: <20230417210213.2385912-1-arnd@kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230417210213.2385912-1-arnd@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,40 +73,27 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alexander Stein <alexander.stein@ew.tq-group.com>,
- dri-devel@lists.freedesktop.org, NXP Linux Team <linux-imx@nxp.com>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- linux-arm-kernel@lists.infradead.org
+Cc: Jingoo Han <jingoohan1@gmail.com>, Lee Jones <lee@kernel.org>,
+ Arnd Bergmann <arnd@arndb.de>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When hactive is not aligned to 8 pixels, it is aligned accordingly and
-hfront porch needs to be reduced the same amount. Unfortunately the front
-porch is set to the difference rather than reducing it. There are some
-Samsung TVs which can't cope with a front porch of instead of 70.
+On Mon, Apr 17, 2023 at 11:02:13PM +0200, Arnd Bergmann wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
+>
+> The corgi_lcd_limit_intensity() function is called from platform
+> and defined in a driver, but the driver does not see the declaration:
+>
+> drivers/video/backlight/corgi_lcd.c:434:6: error: no previous prototype for 'corgi_lcd_limit_intensity' [-Werror=missing-prototypes]
+>   434 | void corgi_lcd_limit_intensity(int limit)
+>
+> Move the prototype into a header that can be included from both
+> sides to shut up the warning.
+>
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 
-Fixes: 94dfec48fca7 ("drm/imx: Add 8 pixel alignment fix")
-Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
----
-AFAICS ipu_di_adjust_videomode() checks that front porch is big enough to
-reduce the alignment difference.
+Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
 
- drivers/gpu/drm/imx/ipuv3/ipuv3-crtc.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/imx/ipuv3/ipuv3-crtc.c b/drivers/gpu/drm/imx/ipuv3/ipuv3-crtc.c
-index 1d306f7be9fd..341e9125bf2c 100644
---- a/drivers/gpu/drm/imx/ipuv3/ipuv3-crtc.c
-+++ b/drivers/gpu/drm/imx/ipuv3/ipuv3-crtc.c
-@@ -311,7 +311,7 @@ static void ipu_crtc_mode_set_nofb(struct drm_crtc *crtc)
- 			 sig_cfg.mode.hactive, new_hactive);
- 
- 		dev_info(ipu_crtc->dev, "hfront_porch: %u\n", sig_cfg.mode.hfront_porch);
--		sig_cfg.mode.hfront_porch = new_hactive - sig_cfg.mode.hactive;
-+		sig_cfg.mode.hfront_porch -= new_hactive - sig_cfg.mode.hactive;
- 		dev_info(ipu_crtc->dev, "hfront_porch: %u\n", sig_cfg.mode.hfront_porch);
- 		sig_cfg.mode.hactive = new_hactive;
- 	}
--- 
-2.34.1
-
+Daniel.
