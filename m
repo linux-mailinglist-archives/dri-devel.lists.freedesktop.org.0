@@ -1,121 +1,120 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F1526F5B68
-	for <lists+dri-devel@lfdr.de>; Wed,  3 May 2023 17:39:59 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AE3EE6F5B6F
+	for <lists+dri-devel@lfdr.de>; Wed,  3 May 2023 17:43:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F004410E309;
-	Wed,  3 May 2023 15:39:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3621110E30B;
+	Wed,  3 May 2023 15:43:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from EUR02-DB5-obe.outbound.protection.outlook.com
- (mail-db5eur02on2109.outbound.protection.outlook.com [40.107.249.109])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ABBF710E309
- for <dri-devel@lists.freedesktop.org>; Wed,  3 May 2023 15:39:53 +0000 (UTC)
+Received: from EUR02-VI1-obe.outbound.protection.outlook.com
+ (mail-vi1eur02on2097.outbound.protection.outlook.com [40.107.241.97])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3314E10E30B
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 May 2023 15:43:11 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Xy8gHBThQkafBkRZf6I/lcuLFsIhvugk8ZLLLKZnTOpclCTJjS75YYNpY9KpaE43TEPm/nST98x1hpR1V6iTp90lmXDDoxN5CuSCotjSadKQwQ4Wx1bWyGikwAlxRG56Algew1A/Ix4VRM0bLpHcI7eY72y34JtJ27zwabt/oaEUprfEanN2pU37RyE3sZIBVW3q2xxAVAdLEr26rv/UlavSfGVxC51XhY0sRfxPjRQnbCqn4kHWZZFSMEj7ajIrX+b9lbshl67AnCVnoVsRXGe/Fm3e1KTb64TUE+eYNSkZdJ2ogh9urXszUnNoDG3O7a/uQGIswdnbnAPN5nBIqA==
+ b=WEHY4oPnW9UR6hWT/YX5w9oPcfMJM59t/HHYurlfHkGFL5e1EksNdMrYpbrwEAweJ2AHp/2nno3gzEkec9hHkkm0ieDcXP/FD8JAi2e0PFvPdw2PQtfEbIh3mwZAOMi8K3V5YLKux5GVmXvHU6L8st4cflo/DhMz8VXEq4yrJ9s3UgmkLIDV5y/PPiae2ym7uVPwSnd7OSLPsHMFOF9hbigltPYhUxbrg220n6ibikK2Xdv1msB1wY8MT8lH7bdyjoByNypMxRZifoo5XiKPqeKAIxL/1vGDqmTRmx6FuH43qIeio9pPl5uGYze/0Psfh2Kopjf1xqpx7HuDEHgDNQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=iDXVNOLNsQZfg8J0xy47IhFK/gbQ5SDlpTmyhqwh1wo=;
- b=X+HHpF4IkJKO+FiEUzg9Y7wVb18+WRpPVDUCc7gLcdXsAJBKNGqFdIQVJZS6uvNJkc0w4ODYjyxLOokPB2/3shDK1TrlEOGGapAmi/zOmO7QePrOio9ZPw9rfdxuCFLqToR0HhnN7BrJaY+uU6RBljBez4npOOcFnLsOlnET30gsqDigG/vGd/JbxgmEYI22evYg3jqF9C/nN9BcDq7Moe/YNaiOQZpVGWhaQIbyngj5nf9OEJGxc+tvswK4qbHoQoNHhZW4urkWeuIUL5158L378R+8fFXSuaVheUqxusm+BRO6t8dLGzYY63O6/EHsbHQfT2xBBBXgfQTZxqNK3Q==
+ bh=aiiUY+uFCTE+qgX2aUEtApf/tNYfrWa9lnIP3deViGw=;
+ b=Rc7GPSHFVZofTLKTSyfmZgJasE9TDDfAmd1mNxrtc93Img4sObue5jBkYOrkESFSutoZIFvwchCBYRjfTG6ZjpBQqQdFT67iZvsk4uFdRw9vSkQTwPzOdpHs2zNG0mNGdDqNNeSu3otNPIhsgv87pFIsPPFpUjGAO9A9iJXr+2EtqcX0ENtn8lYA3846Sn7PIGfGZqsD58rcLpW6nJTB/Czg+9aDq+pxSs0/Cbylq7bs39yz2nMKoIO4TGg8iAq2uY3yHTeKrZch1ChMAOJHOWEvjRg+rODRBrmftRAK6sibCKkJFMdqBPFOSd8Gmq7cy4s7JBBYwUW8Hb1ek6ucFA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=kontron.de; dmarc=pass action=none header.from=kontron.de;
  dkim=pass header.d=kontron.de; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mysnt.onmicrosoft.com; 
  s=selector2-mysnt-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=iDXVNOLNsQZfg8J0xy47IhFK/gbQ5SDlpTmyhqwh1wo=;
- b=JKpnDYsc1jGBFJPCTKP2PnkXuDDFwNplUCTjjjp40rC3eda67i5YAF/3Yw//TOadqdRrxVUacA2Sjq/p8XzW+2sJhhBAhvyPSU1fyEYOltmsSteio2UvA2PS+YM1pK6oE5udFkTQ81JBWzdIOYdQR+zmyAh1m56M6uIlb3llBsw=
+ bh=aiiUY+uFCTE+qgX2aUEtApf/tNYfrWa9lnIP3deViGw=;
+ b=F2MnVaVsV4wL3/eRWkUOlQ2Wkrw5BeKy2nIOR2FxABReZCMCbfxYlUMoF+RHn2373j/NEC9K5FwAyHYCSjOvzV38Jgx5EpxBy7v8AvSFvHcg5Du9MS2OJoCibcRKDmdQId6kme4t6Ha5b2DEcjPIizRuVBbw72R9Zl+Q1f3G7wU=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=kontron.de;
 Received: from PA4PR10MB5681.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:102:263::10)
- by DB9PR10MB5258.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:33c::20)
+ by VI1PR10MB3646.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:800:138::11)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6363.21; Wed, 3 May
- 2023 15:39:50 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6363.22; Wed, 3 May
+ 2023 15:43:08 +0000
 Received: from PA4PR10MB5681.EURPRD10.PROD.OUTLOOK.COM
  ([fe80::e6fd:d174:5710:fb3a]) by PA4PR10MB5681.EURPRD10.PROD.OUTLOOK.COM
  ([fe80::e6fd:d174:5710:fb3a%2]) with mapi id 15.20.6340.031; Wed, 3 May 2023
- 15:39:50 +0000
-Message-ID: <3f6be15d-24b2-5608-831c-f15cb7d7cdd2@kontron.de>
-Date: Wed, 3 May 2023 17:39:47 +0200
+ 15:43:08 +0000
+Message-ID: <d7d435be-e178-2666-f83e-af3b6cc37137@kontron.de>
+Date: Wed, 3 May 2023 17:43:05 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.10.0
-Subject: Re: [PATCH V3 5/7] drm: bridge: samsung-dsim: Dynamically configure
- DPHY timing
+Subject: Re: [PATCH V3 6/7] drm: bridge: samsung-dsim: Support non-burst mode
 Content-Language: en-US, de-DE
 To: Adam Ford <aford173@gmail.com>, dri-devel@lists.freedesktop.org
 References: <20230502010759.17282-1-aford173@gmail.com>
- <20230502010759.17282-6-aford173@gmail.com>
+ <20230502010759.17282-7-aford173@gmail.com>
 From: Frieder Schrempf <frieder.schrempf@kontron.de>
-In-Reply-To: <20230502010759.17282-6-aford173@gmail.com>
+In-Reply-To: <20230502010759.17282-7-aford173@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: BE1P281CA0039.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:b10:22::10) To PA4PR10MB5681.EURPRD10.PROD.OUTLOOK.COM
+X-ClientProxiedBy: BE0P281CA0021.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:b10:14::8) To PA4PR10MB5681.EURPRD10.PROD.OUTLOOK.COM
  (2603:10a6:102:263::10)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PA4PR10MB5681:EE_|DB9PR10MB5258:EE_
-X-MS-Office365-Filtering-Correlation-Id: 06279892-5743-4ebf-2a6c-08db4beca1ea
+X-MS-TrafficTypeDiagnostic: PA4PR10MB5681:EE_|VI1PR10MB3646:EE_
+X-MS-Office365-Filtering-Correlation-Id: 02da4c02-30f9-401e-55f9-08db4bed17a1
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 3uqZewQB/V5rwlAm+atNC8vkQkqsHCvYYFNcv1xrJU3RDefeUpuRMX3mBURjm7Qf6tOIRLMkqBWq09DHbgUx1iozipHMSgJTS+gT9m5jHaroWX52nwo9dRGieaeIM0fo8Lozaz5ozgq1ndDCDltVa62n9idWwai6EjY29+9PRTkRk68Z2Tc6KcNmUUULZc6BwQnVlmIeiM6pyQwqruWvINe3+EgyjCM+dYwSn0Ggnc1q1RiKJFm2z7Ee5I+fgjFfzvkEp/T/R3QO2qnKBP/uO6aO+w1izI5bUub3CLGzajdZakiyFciMAeB9s5SJbatTd4w58DjcFW1z3aBn7pqSkF1wEaX7vP2KcYJ/FpXYELi25tJ0Gf3t+VJMphhylvt+LlNGEMM+5BGkqOKIESZrLMVJaHI+VIMh1KjTCItl0KdIlrEmZSAeNxbiSZNgd+NWDqL8eiUdoUUUUusxbzmVroA4BSuldv01BqMY/iCh4SlAM31MTjqx67FgIRN2csWWrJexO513AMhIzXO21nRyI6AZdTF3NxS6t4GwRYrwmk2ZXBPyKvIkxSU8qLUSFhSL53XTDL8opiHjK7iQCnEYrrkuaC93FzC44A5M+1znyRzTOX05zvMqH/PHMfB21lAyA9rFwIGdfYjewqHEJ32asg==
+X-Microsoft-Antispam-Message-Info: JfGSM/sr0BDz7mhFqQz0ythG1oW6LquxYyPUBuv01lKlBByq4QXLvW9xOhTojejtUcEMUqIdnjldQwHh8mVNtjq5x7FqpHSsJkPrtCWdgLqwYhkz7KsTHbQKRp+fhzZR8D9/eIrxo5uFGm1gwT9MgMvI4vcRPELdAn+Oe00ka0gVzZqmHH/8SNxw3XKpvJYaJuXHT90lPC7waZrbUGv3/2IjivifMDjEbdlqdtOEjJVnM4Zr7fUpoW7aB9GMgz+PUIcHpkWoMt/KrY3A3cftH4SvhQlukcIWUKklPgZVwdJjcseNaOc2TFUnrxjMqRUxz1bu9nV3WP3bdBhtLtP5skqlarRLpz4AaOPNNzi6GU0jsWy2vYj1PiTReDDsePlPN2szYFPQVc+TOlSXl9XBEtb98453rkGWyswUM0PrO53mt34321DgaA3aJ+IxkaSOEZ4HkJAvJeeR98XNjWblSvlwzKo27VRy1Iwd6IZKLwrPL3cfGuuDkMhGP5+HH4QEt0CxXHnn45JsPqFCjqYOSPGdUzb6x4MjJJgipYnyUYayCrtXui2dGbp7BsCMq+5+JsQXOsAtaz3tvfg6mX+n/byPCShdCiiIy5f4rsFmulP1oO2kmIB5YtZF4GU12A6x+Vy8Xa+NvpMN3joRUNTkaQ==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:PA4PR10MB5681.EURPRD10.PROD.OUTLOOK.COM; PTR:; CAT:NONE;
- SFS:(13230028)(4636009)(376002)(346002)(366004)(39860400002)(136003)(396003)(451199021)(31686004)(31696002)(86362001)(36756003)(38100700002)(83380400001)(26005)(6486002)(6512007)(54906003)(186003)(2616005)(6666004)(478600001)(53546011)(6506007)(8676002)(41300700001)(66946007)(66476007)(66556008)(4326008)(316002)(8936002)(44832011)(5660300002)(2906002)(7416002)(43740500002)(45980500001);
+ SFS:(13230028)(4636009)(39860400002)(376002)(136003)(346002)(396003)(366004)(451199021)(31686004)(2906002)(4744005)(5660300002)(44832011)(7416002)(36756003)(8676002)(8936002)(41300700001)(66476007)(66556008)(66946007)(86362001)(31696002)(6666004)(54906003)(4326008)(478600001)(316002)(6486002)(38100700002)(186003)(53546011)(2616005)(83380400001)(26005)(6506007)(6512007)(43740500002)(45980500001);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?R2FWY0crTW9sVjk1RlBNT1lINFlHTWtCbmhSVCt1S01qYnN6a3o4cEY5bURo?=
- =?utf-8?B?dHI2KzRaUVE5RFl6eEg4R284c2VZblRMTmFLVGZxZVZaVzZDQjF5WlZkMGNK?=
- =?utf-8?B?QzB6T21Hc0w4OHpBYmpBZm9EY1ZHUTJveThhcjlyNTFwMk44Sm1wMXlSaXl1?=
- =?utf-8?B?YWp4ekFoWjk4MDNqeStKSjhGWGtGS0VhbnUxVHZmQkNWWmptK2xSSFNMME9U?=
- =?utf-8?B?bWxTM1hIOUwzWE01eXoxY0pmZzBhbEhGeldJWXFuRVhsYmFOUFh1VUlFZEQz?=
- =?utf-8?B?Qkt5cFpVSnBjQTdEWEh1V3RSdGNsTnlxeUEzUVo3Rko2M1lpejJKc1ZuSUdt?=
- =?utf-8?B?SCtJSjRtdVBBR3ZPdi9MdjdGVVdKaHJkNWlUUHhTd3hyT2FoY2IvNVQvVUYy?=
- =?utf-8?B?S1BmUW5ZZTBGM2wzOGR3ZmtwNVlrb0tjZW8vcW9NMGxYc1ozVGdSV1JicFlv?=
- =?utf-8?B?MTlodEhPSW0wU3laN2tHbXVlR0xUbDk3eURMYkJtOERlOUx5anlrYXo0WnJV?=
- =?utf-8?B?NUc1TXdkUnJLM2VCMUJGSU1FMmxKbm9NVXF3cHFHRFZPOWpMUDdjZ29Tekxa?=
- =?utf-8?B?SGNWTDlYTmFtL0dvQlUzUFc3ZmJqTWlSSGd3b2lEZGRPbmMyaDYwQXh6SVBy?=
- =?utf-8?B?cE1oNGg4djdEQW1jZ1ltUDY2ZURLT3B3WTdRZGw3Q2IzT0VzbjJLR2p5cnJ5?=
- =?utf-8?B?T3dOdDd5d2x5dnFmWkJvQjFJazBtblRkbDJKMWJLUlBuTTJDVG1PZ21IQ1BS?=
- =?utf-8?B?ZzNpOVZsK3JOOWF4N3ExTDVLTnFjL1RYdThWR3hSR2FHb0ZCSk9iV2krMXZW?=
- =?utf-8?B?clhYT09OMWNWZGFkN1hRTDhoeEFiSGV3Tyt0c0ZQS2NRV3l5NVVJVlVDamRU?=
- =?utf-8?B?cERMbEtEZzFzY0JXWjBPbUtMbHJuYnZ2RG5Bbmd1TnVNdFlyT0EybEIvY2I1?=
- =?utf-8?B?TEtvbkRWV0JPSnEraG1mT1liRWxMbzlNSFpBV2ZnUEVNcTVxdWFUdVBBQWhq?=
- =?utf-8?B?VUpKU1I3SVZRYmhkM05qV2dQSmZwUitsMCtpZml1QzVXOVJ0V1ZkUTQ0NGw3?=
- =?utf-8?B?WXpBbkNDVHZXVm1pOCtDbTRKK01lSituSEsyUnVFTFp3N2MwV3lNdXliQnlQ?=
- =?utf-8?B?SnVkU0tkR0FmWEtLMStYcXcvdWFvTDZUdk0wbjB3ZW1JYmhpcmw0by9YR0JG?=
- =?utf-8?B?TFhuSGZBd20rRkZpVDhnU0Q3M2VEVjk4UVBwMGRBSW1lQ3d5NFd6d0lZTFMw?=
- =?utf-8?B?SDMyVk5ta1E3TzVzblRISUV2c1RiTEg0eFZVZ0g3bVZXellaYzBTOVNiNm1I?=
- =?utf-8?B?dU5jcjVqYUVJVURKcjZkdk9ITk4rU2Y2Tyt6OUpsZENSaVdGd1RSUTlEckVi?=
- =?utf-8?B?OGNJaGkrRjlFVUpBVDdWQWJNcGIxZzdTU1lhb2dsRFAzeTE2bUNZMEExbFl1?=
- =?utf-8?B?SG5QY0s5RCtPbG9vWXFOcVhUNlVnWk1NZnh3KzRtWno0ZUdIRUJxU3JGNCs0?=
- =?utf-8?B?eE5qdi9XK1puOVV5a2RWVVJnbDYvZTU0T21yb0t3aFVOb0EzaWo2cG80TGNB?=
- =?utf-8?B?MjFQelVmSjRRWmp3TmVGM25kbE5pRU1IMHBaY09WNG00TjVuRXk2eGEyQ1Rk?=
- =?utf-8?B?SUs3NitmZFdGRFpOMHl6QlkzdW9SbGp3RDArSUlSSCszVDdJZnEzaUl3YytG?=
- =?utf-8?B?NDdtclFlWE9kYjQzSDByUUJNYTNVaVlGd3lRSGpaaFUwNkt1eEtRMEU5U3lJ?=
- =?utf-8?B?SlV6U2lBMStEZGh2elV3UktSR25rZlkydjY0QVg3ZUNNT2hwempsYkl6SHY3?=
- =?utf-8?B?ZHdkTHZvT2liNThRN1NuWjRuNVZoa3Q4c1kxdGNCSDg3aXQ1a1Y0ZGJ1V2Ni?=
- =?utf-8?B?aE1XVjdYbGFQdEZlM2V0TE1iVGNNa3JIQm1sM25DL0NqdEcydlZWNGVoaW9G?=
- =?utf-8?B?TDhJMFNjbjB1QkU4QmtBZVdOdDAyYWRaV0lPVGphSzNCUDV5bGh0VVo1WVlG?=
- =?utf-8?B?bi9VMFgvZEhjcjNvcm94eFpxVnpuOUx2WlR2YjlGenNaSnJDNzd0SE1IS3JY?=
- =?utf-8?B?eGFFV3JCaktZNVlTcW5SbGlzSnJzVE53VXJwNzVjemtFQ0RMTk5BUDFTd2lq?=
- =?utf-8?B?VEVyOXFlcTZHNmFKR2EyV2EzTFVDZ01hY3lFRmY3RXdsZWxKU0RsZVRxVkMy?=
- =?utf-8?B?QWc9PQ==?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?dU82T2kxMUhraFB5dWNSakNUUncyK2Z1aHlZMFNmMnNQYUdzSjZ5N2VzeEI1?=
+ =?utf-8?B?bmE5UmY5eU9BVzFOQ1dNa3djcXhXK25OTmpOTDJzeTJ6UUwzU0xUUEhGOXV0?=
+ =?utf-8?B?T21PUk52Tk9UNWxsbU8vMmJtSjVWWmhMS3hHZzRiM1FOeGNSZjNDNFdIUWNP?=
+ =?utf-8?B?V1hZREJjVnFZUlBBa0JXNm4yR3ZtZ2p4MkdaajhXV2FoNXM0T1VJWXJ0bkNn?=
+ =?utf-8?B?cSt5MkVWRFphNjBEWkFjR1dFcHNEcWwvOU5peWNSaTY3elRxcVNjd2Vlamc3?=
+ =?utf-8?B?R0VlKzY2UGdMLy9ZeEVyNzdZbVpBcGtnRXIzRkxhZWJFczc5Rmo5UlhOa252?=
+ =?utf-8?B?eXErcllqWjN0V21SOXZCZ09HZDllUk53OXlxbEtXRTRGS1NaQzhwOTZVajN2?=
+ =?utf-8?B?eUZiRTAyRXNTU1gzanBrTmRZTUNmVVNMT09LNGpzc3pQVjRxc1drdHR0dUVR?=
+ =?utf-8?B?M1VsS01DRTFHR094OUJBcEVXeE5aM3UxU0hwU0tyNTlXN0llSzdldVhpYzZO?=
+ =?utf-8?B?a1UzM2tVdlFsUmMwM0llMkllUG0rbTFFMnhyNzFSWDNKVkthczlQUERvSGg1?=
+ =?utf-8?B?clRzeW90cU9yblZ2emdSeFMzTElpOU9Ddyt5Q0Z0RUZZY2srU1BTZit3SlhR?=
+ =?utf-8?B?ZUs1NWZGVWU0MWM2TUpzU0ZSOTlQcEJVUjBxSFNKN1lrSFZXcGFXTVArVmZl?=
+ =?utf-8?B?LzBVNXRLL05qL0hTK2lJM0JIbGN5ZlVBY2QvV0hsVGk2QzBGTmd2Sk9lWlpY?=
+ =?utf-8?B?MGo0UVZDbzdPU0t0a0czQnlVTkNRUGxTSjhKY0N1UlpvTGRVaW5STExYQkln?=
+ =?utf-8?B?aWpUNDBBaGFTeFhHL1BwZllqM3ZHdkI2L0hEbU11TEJJUFZHMm0zUDVsSlpj?=
+ =?utf-8?B?ZnlRc1N5czhhRm1TUHV0MUNIRjZyTlU0NkQ4MHVjano5WmpWcTRxV3lXWDF1?=
+ =?utf-8?B?OXRxNGhGYlZaNElud21Scm42Y3ZnVHlpVTRzY21XejBQZU9uUDhyd1ZpUWE0?=
+ =?utf-8?B?Y0VERUpDNzhRRTh0aGRVODMzaHpjWm85NXdBaDE0TnFsQlNYWjdHb1JSRDE4?=
+ =?utf-8?B?cnFCREVnRTFjR3A5bHREbjdpZ2g5Z1B5UTlCK1J2RE1Ba1NxaVBobUwwcDVy?=
+ =?utf-8?B?SkszUFluMWM0dm8rMFplUldtOEM5TXdrQldlU3lrSC9JVi81dzlURm5FZWZN?=
+ =?utf-8?B?ZHY0eXJvQStmcit6K0s5MDB3OXFia1FrNEw1QTNiYVNiakxGNmRPdm5LTXNw?=
+ =?utf-8?B?Qnd1NnRXN0ZLdWFhNjVSK3JSK1JMbGZIakRzbjlOQ0tmcTZMNmxJdlYwZDFE?=
+ =?utf-8?B?aEtaQ3FBaGFlL2d3ZW43WERHcHFObWl5TkxFUlNtWUx3SklYM2dJcXNFRVdr?=
+ =?utf-8?B?UlMrUmRZRGYwaHl5aDFpSHlXNHhGWmhwbjhqdzh5ZWREeGd3S1F3a2lKUU5Q?=
+ =?utf-8?B?YjFWWVl4U2VKQVBUb1diMzl6TDdrdWZQeG5sVGtETHpLWGlSUytiUWwxWE1N?=
+ =?utf-8?B?dG5jM0NiQ1UxSHBLcUhSWXFwamRRcjBKOEJQTHBSbWJYOCtBWVVDRFkzVEpD?=
+ =?utf-8?B?dTNFQnFpMmdub0djQTJ2QmJCcE0xR0NnWEQ4U2RhdXZWMW5CNUxPWWNETGtB?=
+ =?utf-8?B?b1dYR1BheDNPQTd2SWd2VmFKamlrYkNPTVpMWXdDVzdnU2x2aFNaYmI5UTVi?=
+ =?utf-8?B?WStTY1RhWXJCbmFhbDUySjZjWHpyOVVNdk9hZGorT1VDS3ovZzVEVC80QTNE?=
+ =?utf-8?B?cy8zTXcrdjh4ZEFqdStBTDNuUGpUSUxVcjljMG5QdVlkZ0VUNXp4N09nYXlL?=
+ =?utf-8?B?b1NFMDNocE52QnFkb0E5bkIrOEZqaUJBTEJzbHREalM0b29oVG1naS9XYVpX?=
+ =?utf-8?B?dXFvQ0dYV2FhRUJraEdhZGRzbmxjVytYSmdVQmcrekxYSmlTMnhqcFVTV0Fw?=
+ =?utf-8?B?MjZyZHJ1SXdZRHdlb1VOR3NzZi9pMlB1ZjZlTlBnY2FQdjFqcFRsbFNIT0Jw?=
+ =?utf-8?B?dDQvbzRzRFZsUnptekxzVGp3NVM4MTFESHhOcmcyWEx5QzFCVlZtQnBWcUpx?=
+ =?utf-8?B?R25taklJb0ZlWXRjM3dnSzUrOEo0UU1pcEZ4MmFoQ0VtejZnTEUvQmk4ZHN3?=
+ =?utf-8?B?SXMrVm5LWW94ZWdlRjgxVWxNTERtT3d4WWJ3RE41bmlUQk5FeVhFMW44blJr?=
+ =?utf-8?B?NHc9PQ==?=
 X-OriginatorOrg: kontron.de
-X-MS-Exchange-CrossTenant-Network-Message-Id: 06279892-5743-4ebf-2a6c-08db4beca1ea
+X-MS-Exchange-CrossTenant-Network-Message-Id: 02da4c02-30f9-401e-55f9-08db4bed17a1
 X-MS-Exchange-CrossTenant-AuthSource: PA4PR10MB5681.EURPRD10.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 May 2023 15:39:50.4940 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 May 2023 15:43:08.0323 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 8c9d3c97-3fd9-41c8-a2b1-646f3942daf1
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: gQ/hUx4+FtZVc6KWuIdtw/5hGhcLCOtqUAzHJUi8JKyHrq5s/UUNm6dXNJrXMF5J54WZsQw5byYcUrmX4tWkZ0HTyuiC5Bp9y8C5f9ABrx0=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR10MB5258
+X-MS-Exchange-CrossTenant-UserPrincipalName: 1EwPiBsnl0rZYzFR7JIbQf/EAjsfyxILQzwnw9sy5dc3BAWVaHxoCU3MZUyC6eQHnFPQpgmyHW7e6SANA+nYYzjfDiszKUHSnN721Mrbtyw=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR10MB3646
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -131,206 +130,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Cc: marex@denx.de, Neil Armstrong <neil.armstrong@linaro.org>,
  Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
  aford@beaconembedded.com, Jernej Skrabec <jernej.skrabec@gmail.com>,
- linux-kernel@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Jagan Teki <jagan@amarulasolutions.com>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
  Andrzej Hajda <andrzej.hajda@intel.com>, Chen-Yu Tsai <wenst@chromium.org>,
- Marek Szyprowski <m.szyprowski@samsung.com>,
- Jagan Teki <jagan@amarulasolutions.com>
+ Marek Szyprowski <m.szyprowski@samsung.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 02.05.23 03:07, Adam Ford wrote:
-> The DPHY timings are currently hard coded. Since the input
-> clock can be variable, the phy timings need to be variable
-> too.  Add an additional variable to the driver data to enable
-> this feature to prevent breaking boards that don't support it.
+> The high-speed clock is hard-coded to the burst-clock
+> frequency specified in the device tree.  However, when
+> using devices like certain bridge chips without burst mode
+> and varying resolutions and refresh rates, it may be
+> necessary to set the high-speed clock dynamically based
+> on the desired pixel clock for the connected device.
 > 
-> The phy_mipi_dphy_get_default_config function configures the
-> DPHY timings in pico-seconds, and a small macro converts those
-> timings into clock cycles based on the pixel clock rate.
+> This also removes the need to set a clock speed from
+> the device tree for non-burst mode operation, since the
+> pixel clock rate is the rate requested from the attached
+> device like an HDMI bridge chip.  This should have no
+> impact for people using burst-mode and setting the burst
+> clock rate is still required for those users.
 > 
 > Signed-off-by: Adam Ford <aford173@gmail.com>
 > Tested-by: Chen-Yu Tsai <wenst@chromium.org>
-
-A few nitpicks below, otherwise:
 
 Tested on Kontron BL i.MX8MM with SN65DSI84 and ADV7535 bridges.
 
 Tested-by: Frieder Schrempf <frieder.schrempf@kontron.de>
 Reviewed-by: Frieder Schrempf <frieder.schrempf@kontron.de>
-
-> ---
->  drivers/gpu/drm/bridge/samsung-dsim.c | 79 +++++++++++++++++++++++----
->  include/drm/bridge/samsung-dsim.h     |  1 +
->  2 files changed, 70 insertions(+), 10 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/bridge/samsung-dsim.c b/drivers/gpu/drm/bridge/samsung-dsim.c
-> index 2dc02a9e37c0..99642230a54a 100644
-> --- a/drivers/gpu/drm/bridge/samsung-dsim.c
-> +++ b/drivers/gpu/drm/bridge/samsung-dsim.c
-> @@ -18,9 +18,7 @@
->  #include <linux/media-bus-format.h>
->  #include <linux/of_device.h>
->  #include <linux/phy/phy.h>
-> -
->  #include <video/mipi_display.h>
-> -
-
-Unrelated blank lines removed above!?
-
->  #include <drm/bridge/samsung-dsim.h>
->  #include <drm/drm_panel.h>
->  #include <drm/drm_print.h>
-> @@ -218,6 +216,8 @@
->  
->  #define OLD_SCLK_MIPI_CLK_NAME		"pll_clk"
->  
-> +#define PS_TO_CYCLE(PS, MHz) DIV64_U64_ROUND_CLOSEST(((PS) * (MHz)), 1000000000000ULL)
-
-Should macro arguments PS and MHz better be all lower-case?
-Also, MHz is actually in Hz, right? So it should be renamed.
-
-> +
->  static const char *const clk_names[5] = {
->  	"bus_clk",
->  	"sclk_mipi",
-> @@ -487,6 +487,7 @@ static const struct samsung_dsim_driver_data imx8mm_dsi_driver_data = {
->  	.m_min = 64,
->  	.m_max = 1023,
->  	.min_freq = 1050,
-> +	.dynamic_dphy = 1,
->  };
->  
->  static const struct samsung_dsim_driver_data *
-> @@ -698,13 +699,50 @@ static void samsung_dsim_set_phy_ctrl(struct samsung_dsim *dsi)
->  	const struct samsung_dsim_driver_data *driver_data = dsi->driver_data;
->  	const unsigned int *reg_values = driver_data->reg_values;
->  	u32 reg;
-> +	struct drm_display_mode *m = &dsi->mode;
-> +	int bpp = mipi_dsi_pixel_format_to_bpp(dsi->format);
-> +	struct phy_configure_opts_mipi_dphy cfg;
-> +	int clk_prepare, lpx, clk_zero, clk_post, clk_trail;
-> +	int hs_exit, hs_prepare, hs_zero, hs_trail;
-> +	unsigned long long clock_in_hz = m->clock * 1000;
->  
->  	if (driver_data->has_freqband)
->  		return;
->  
-> +	/* The dynamic_phy has the ability to adjust PHY Timing settings */
-> +	if (driver_data->dynamic_dphy) {
-> +		phy_mipi_dphy_get_default_config(clock_in_hz, bpp, dsi->lanes, &cfg);
-> +
-> +		/*
-> +		 * TODO:
-> +		 * The tech reference manual for i.MX8M Mini/Nano/Plus
-> +		 * doesn't state what the definition of the PHYTIMING
-> +		 * bits are beyond their address and bit position.
-> +		 * After reviewing NXP's downstream code, it appears
-> +		 * that the various PHYTIMING registers take the number
-> +		 * of cycles and use various dividers on them.  This
-> +		 * calculation does not result in an exact match to the
-> +		 * downstream code, but it is very close, and it appears
-> +		 * to sync at a variety of resolutions. If someone
-> +		 * can get a more accurate mathematical equation needed
-> +		 * for these registers, this should be updated.
-> +		 */
-> +
-> +		lpx = PS_TO_CYCLE(cfg.lpx, clock_in_hz);
-> +		hs_exit = PS_TO_CYCLE(cfg.hs_exit, clock_in_hz);
-> +		clk_prepare = PS_TO_CYCLE(cfg.clk_prepare, clock_in_hz);
-> +		clk_zero = PS_TO_CYCLE(cfg.clk_zero, clock_in_hz);
-> +		clk_post = PS_TO_CYCLE(cfg.clk_post, clock_in_hz);
-> +		clk_trail = PS_TO_CYCLE(cfg.clk_trail, clock_in_hz);
-> +		hs_prepare = PS_TO_CYCLE(cfg.hs_prepare, clock_in_hz);
-> +		hs_zero = PS_TO_CYCLE(cfg.hs_zero, clock_in_hz);
-> +		hs_trail = PS_TO_CYCLE(cfg.hs_trail, clock_in_hz);
-> +	}
-> +
->  	/* B D-PHY: D-PHY Master & Slave Analog Block control */
->  	reg = reg_values[PHYCTRL_ULPS_EXIT] | reg_values[PHYCTRL_VREG_LP] |
->  		reg_values[PHYCTRL_SLEW_UP];
-> +
->  	samsung_dsim_write(dsi, DSIM_PHYCTRL_REG, reg);
->  
->  	/*
-> @@ -712,7 +750,11 @@ static void samsung_dsim_set_phy_ctrl(struct samsung_dsim *dsi)
->  	 * T HS-EXIT: Time that the transmitter drives LP-11 following a HS
->  	 *	burst
->  	 */
-> -	reg = reg_values[PHYTIMING_LPX] | reg_values[PHYTIMING_HS_EXIT];
-> +	if (driver_data->dynamic_dphy)
-> +		reg  = DSIM_PHYTIMING_LPX(lpx) | DSIM_PHYTIMING_HS_EXIT(hs_exit);
-> +	else
-> +		reg = reg_values[PHYTIMING_LPX] | reg_values[PHYTIMING_HS_EXIT];
-> +
->  	samsung_dsim_write(dsi, DSIM_PHYTIMING_REG, reg);
->  
->  	/*
-> @@ -728,10 +770,17 @@ static void samsung_dsim_set_phy_ctrl(struct samsung_dsim *dsi)
->  	 * T CLK-TRAIL: Time that the transmitter drives the HS-0 state after
->  	 *	the last payload clock bit of a HS transmission burst
->  	 */
-> -	reg = reg_values[PHYTIMING_CLK_PREPARE] |
-> -		reg_values[PHYTIMING_CLK_ZERO] |
-> -		reg_values[PHYTIMING_CLK_POST] |
-> -		reg_values[PHYTIMING_CLK_TRAIL];
-> +	if (driver_data->dynamic_dphy) {
-> +		reg = DSIM_PHYTIMING1_CLK_PREPARE(clk_prepare)	|
-> +		      DSIM_PHYTIMING1_CLK_ZERO(clk_zero)	|
-> +		      DSIM_PHYTIMING1_CLK_POST(clk_post)	|
-> +		      DSIM_PHYTIMING1_CLK_TRAIL(clk_trail);
-> +	} else {
-> +		reg = reg_values[PHYTIMING_CLK_PREPARE] |
-> +		      reg_values[PHYTIMING_CLK_ZERO] |
-> +		      reg_values[PHYTIMING_CLK_POST] |
-> +		      reg_values[PHYTIMING_CLK_TRAIL];
-> +	}
->  
->  	samsung_dsim_write(dsi, DSIM_PHYTIMING1_REG, reg);
->  
-> @@ -744,8 +793,17 @@ static void samsung_dsim_set_phy_ctrl(struct samsung_dsim *dsi)
->  	 * T HS-TRAIL: Time that the transmitter drives the flipped differential
->  	 *	state after last payload data bit of a HS transmission burst
->  	 */
-> -	reg = reg_values[PHYTIMING_HS_PREPARE] | reg_values[PHYTIMING_HS_ZERO] |
-> -		reg_values[PHYTIMING_HS_TRAIL];
-> +
-> +	if (driver_data->dynamic_dphy) {
-> +		reg = DSIM_PHYTIMING2_HS_PREPARE(hs_prepare) |
-> +		      DSIM_PHYTIMING2_HS_ZERO(hs_zero) |
-> +		      DSIM_PHYTIMING2_HS_TRAIL(hs_trail);
-> +	} else {
-> +		reg = reg_values[PHYTIMING_HS_PREPARE] |
-> +		      reg_values[PHYTIMING_HS_ZERO] |
-> +		      reg_values[PHYTIMING_HS_TRAIL];
-> +	}
-> +
->  	samsung_dsim_write(dsi, DSIM_PHYTIMING2_REG, reg);
->  }
->  
-> @@ -1337,7 +1395,8 @@ static int samsung_dsim_init(struct samsung_dsim *dsi)
->  	samsung_dsim_enable_clock(dsi);
->  	if (driver_data->wait_for_reset)
->  		samsung_dsim_wait_for_reset(dsi);
-> -	samsung_dsim_set_phy_ctrl(dsi);
-> +	if (!driver_data->has_freqband)
-
-samsung_dsim_set_phy_ctrl() already contains a check for
-driver_data->has_freqband
-
-> +		samsung_dsim_set_phy_ctrl(dsi);
->  	samsung_dsim_init_link(dsi);
->  
->  	dsi->state |= DSIM_STATE_INITIALIZED;
-> diff --git a/include/drm/bridge/samsung-dsim.h b/include/drm/bridge/samsung-dsim.h
-> index a1a5b2b89a7a..76ea8a1720cc 100644
-> --- a/include/drm/bridge/samsung-dsim.h
-> +++ b/include/drm/bridge/samsung-dsim.h
-> @@ -62,6 +62,7 @@ struct samsung_dsim_driver_data {
->  	const unsigned int *reg_values;
->  	u16 m_min;
->  	u16 m_max;
-> +	bool dynamic_dphy;
->  };
->  
->  struct samsung_dsim_host_ops {
