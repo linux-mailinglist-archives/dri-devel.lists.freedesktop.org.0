@@ -2,57 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DECE26F5F01
-	for <lists+dri-devel@lfdr.de>; Wed,  3 May 2023 21:15:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 585D76F5F6E
+	for <lists+dri-devel@lfdr.de>; Wed,  3 May 2023 21:51:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5FACF891BA;
-	Wed,  3 May 2023 19:15:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6707F10E34C;
+	Wed,  3 May 2023 19:51:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 24BB08916D;
- Wed,  3 May 2023 19:15:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=EhdvKt6fX3eyfVjkfKTMAZRD9OI88urIeLzb1B2hSPM=; b=j0Gwons4s5FUq/78sp8LgxzVTP
- 2FHF6xLZdhAxISl+mp2oHaYMQ7jwJTz3haBYn1dhDlKgsQJa0aIQO78CunvaTGc86Ki13q14YgTuU
- Q3umhiQrAVSAM+Gv1wDliK04Dm1pKTbxpPe8R9J8FCu62W2hIAWsSiRvmCgbgDdvKn2gRUJFyN3gl
- W848m7d6Km6t2WtFicatkglaPcAtZxbKRIxeqY2d2+8uMWGQWvy5ykUs/2HWe/1hqqBLsAkvTz5jX
- A/Y6isPexHsKdM+9iaicddj9Pty3El0qQNSyKPop4C5DU7153ldwlARn3VrA+6AeShivtXrnleV+G
- DsP1ZbLA==;
-Received: from [179.113.250.147] (helo=[192.168.1.111])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1puHwL-000eUN-2j; Wed, 03 May 2023 21:15:01 +0200
-Message-ID: <59774c28-a0ef-d4f2-e920-503857bce1cf@igalia.com>
-Date: Wed, 3 May 2023 16:14:11 -0300
+Received: from mail-lj1-x229.google.com (mail-lj1-x229.google.com
+ [IPv6:2a00:1450:4864:20::229])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3A05910E34C
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 May 2023 19:51:11 +0000 (UTC)
+Received: by mail-lj1-x229.google.com with SMTP id
+ 38308e7fff4ca-2a7ac89b82dso58232831fa.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 03 May 2023 12:51:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1683143469; x=1685735469;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=1tCxqgTlmiK2G7G+ORn5kV305PO7Vqbz86eaQYSkvcs=;
+ b=DUHUzCP5YT3cQDg7cXTgaGrue7QXMA2tTz7mrvsv+GBZjJ8qg4GfkMSV+xn0loNOkJ
+ 0Hw65/yygPdruSQKRfrJtBv6zAzJsso1g62Dy11Bi1Z5fmnCz9FAMXCuvUyDfvqa1WLy
+ eRrgaHY3T7HjcFCoymZyJYf5QTfUlpUi+ISBbtrXc6wQRUFHuGEG7GRDmRwjtfpW6YVk
+ NjaupmIK+4x41KL2XFMf2dN4TW0TlcgCQAaUXp8lT6jJB0Vackk8LpyD1XL3sGtsL6T/
+ 8LzpmFR9glGuQwnYDwm5dTYhlX5YDkROcmu4XGq6otvpkNqQ5PrPyvWCY8mIayPRb01I
+ iYHw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1683143469; x=1685735469;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=1tCxqgTlmiK2G7G+ORn5kV305PO7Vqbz86eaQYSkvcs=;
+ b=FmTcYKrPiGGRHdQZIOMFlk9bnVbYELa8gwd1t+Ex7sAixxPbq+ZrwPAaNYGK6cNtQS
+ hwHNSJi4hrT4NRPRZGc9lnKiHLTUEJgHc+hszjgmk0igv5dsizbim0TSjByh2QkfzBqT
+ Jr3pimqLWIC2KKe4+xpbSsXc2l90X+e+6dqRReTM5Jbk2Bv+nwUTUMS/Bx/iJ5J5FfVJ
+ fQujajpHmWWFVBzzXEIqCHAIk+D9EyO8yg2OPWG4zDKNfAhh/8+mOb6FxIBIEcxFSM3N
+ gwVBxAvIN1YrESgfUfkajKFfj6Kdf/jiHaqGgnWC0kc2wz0k2H+kjgBMEhdUORutVYTg
+ bdCg==
+X-Gm-Message-State: AC+VfDxGMJ6nLTbmxMwDVu6cn6ZiyFXIKLADACAoeNsjyhHXX7cd5J0Y
+ s0UyZW254mmjy0Hw/50MnQq8MA==
+X-Google-Smtp-Source: ACHHUZ4jyeZqMJR9fYD6wE3w9e0cGVfq9FIbs9eUYU/anKkInfAp8yKkTd2B+mSscQpkxJ/a1ZKluA==
+X-Received: by 2002:a2e:9cc2:0:b0:2ac:6858:45b9 with SMTP id
+ g2-20020a2e9cc2000000b002ac685845b9mr311316ljj.20.1683143468907; 
+ Wed, 03 May 2023 12:51:08 -0700 (PDT)
+Received: from ?IPV6:2001:14ba:a0db:1f00::8a5?
+ (dzdqv0yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a0db:1f00::8a5])
+ by smtp.gmail.com with ESMTPSA id
+ r16-20020a2e94d0000000b002aa40d705a5sm5781445ljh.11.2023.05.03.12.51.07
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 03 May 2023 12:51:08 -0700 (PDT)
+Message-ID: <3dddb676-750f-0bc7-7999-f8880c63931b@linaro.org>
+Date: Wed, 3 May 2023 22:51:07 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.1
-Subject: Re: [RFC PATCH 0/1] Add AMDGPU_INFO_GUILTY_APP ioctl
-Content-Language: en-US
-To: =?UTF-8?Q?Timur_Krist=c3=b3f?= <timur.kristof@gmail.com>,
- Felix Kuehling <felix.kuehling@amd.com>
-References: <20230501185747.33519-1-andrealmeid@igalia.com>
- <CADnq5_NXj4W44F_etRQ7HWdVTnf5zARCM3Y_o3EiwWiHj8QMpA@mail.gmail.com>
- <6ab2ff76-4518-6fac-071e-5d0d5adc4fcd@igalia.com>
- <cb3d2590-a1f8-fe7e-0bba-638ee80719af@amd.com>
- <CAFF-SiV0=WNmRW-D9uYUuj68Zq0APxtGLya9KR6FfZ7v0Zf2RQ@mail.gmail.com>
- <fcca2934-a556-797c-535d-a66fc67bbe30@amd.com>
- <85c538b01efb6f3fa6ff05ed1a0bc3ff87df7a61.camel@gmail.com>
- <CADnq5_NHtFbwT=x8u7GYc4ESL_HVFzjgtOd3AnVFBYMrjZq55w@mail.gmail.com>
- <c54414482b685af0991a6b095cbfb7534d998afc.camel@gmail.com>
- <CADnq5_MSY=j9AobDk7ACevur4Hwvw_ub7g16Mfm7ymMJqwVNfQ@mail.gmail.com>
- <57fa0ee4-de4f-3797-f817-d05f72541d0e@gmail.com>
- <2bf162d0-6112-8370-8828-0e0b21ac22ba@amd.com>
- <967a044bc2723cc24ab914506c0164db08923c59.camel@gmail.com>
-From: =?UTF-8?Q?Andr=c3=a9_Almeida?= <andrealmeid@igalia.com>
-In-Reply-To: <967a044bc2723cc24ab914506c0164db08923c59.camel@gmail.com>
+ Thunderbird/102.10.0
+Subject: Re: [PATCH 4/4] drm/msm/dpu: Enable compression for command mode
+Content-Language: en-GB
+To: Jessica Zhang <quic_jesszhan@quicinc.com>,
+ Marijn Suijten <marijn.suijten@somainline.org>
+References: <20230405-add-dsc-support-v1-0-6bc6f03ae735@quicinc.com>
+ <20230405-add-dsc-support-v1-4-6bc6f03ae735@quicinc.com>
+ <hxqxnfcydzyfrlvihmil3gecan6p6xyjw44gielu63ltgtqul7@xwvoprzofq6g>
+ <d4b7a747-77a0-95eb-1201-c8b1c80defe3@quicinc.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <d4b7a747-77a0-95eb-1201-c8b1c80defe3@quicinc.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -67,77 +81,120 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Pelloux-Prayer, Pierre-Eric" <pierre-eric.pelloux-prayer@amd.com>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <maraeo@gmail.com>,
- michel.daenzer@mailbox.org,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
- linux-kernel@vger.kernel.org, dri-devel <dri-devel@lists.freedesktop.org>,
- "Deucher, Alexander" <alexander.deucher@amd.com>,
- Samuel Pitoiset <samuel.pitoiset@gmail.com>, kernel-dev@igalia.com,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Cc: freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Konrad Dybcio <konrad.dybcio@linaro.org>,
+ linux-arm-msm@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Em 03/05/2023 14:43, Timur Kristóf escreveu:
-> Hi Felix,
+On 03/05/2023 22:04, Jessica Zhang wrote:
 > 
-> On Wed, 2023-05-03 at 11:08 -0400, Felix Kuehling wrote:
->> That's the worst-case scenario where you're debugging HW or FW
->> issues.
->> Those should be pretty rare post-bringup. But are there hangs caused
->> by
->> user mode driver or application bugs that are easier to debug and
->> probably don't even require a GPU reset?
 > 
-> There are many GPU hangs that gamers experience while playing. We have
-> dozens of open bug reports against RADV about GPU hangs on various GPU
-> generations. These usually fall into two categories:
-> 
-> 1. When the hang always happens at the same point in a game. These are
-> painful to debug but manageable.
-> 2. "Random" hangs that happen to users over the course of playing a
-> game for several hours. It is absolute hell to try to even reproduce
-> let alone diagnose these issues, and this is what we would like to
-> improve.
-> 
-> For these hard-to-diagnose problems, it is already a challenge to
-> determine whether the problem is the kernel (eg. setting wrong voltages
-> / frequencies) or userspace (eg. missing some synchronization), can be
-> even a game bug that we need to work around.
-> 
->> For example most VM faults can
->> be handled without hanging the GPU. Similarly, a shader in an endless
->> loop should not require a full GPU reset.
-> 
-> This is actually not the case, AFAIK André's test case was an app that
-> had an infinite loop in a shader.
-> 
-
-This is the test app if anyone want to try out: 
-https://github.com/andrealmeid/vulkan-triangle-v1. Just compile and run.
-
-The kernel calls amdgpu_ring_soft_recovery() when I run my example, but 
-I'm not sure what a soft recovery means here and if it's a full GPU 
-reset or not.
-
-But if we can at least trust the CP registers to dump information for 
-soft resets, it would be some improvement from the current state I think
-
+> On 5/3/2023 12:28 AM, Marijn Suijten wrote:
+>> On 2023-05-02 18:19:15, Jessica Zhang wrote:
+>>> Add a dpu_hw_intf op to enable data compression.
+>>>
+>>> Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
+>>> ---
+>>>   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c | 4 ++++
+>>>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c          | 7 +++++++
+>>>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h          | 2 ++
+>>>   3 files changed, 13 insertions(+)
+>>>
+>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c 
+>>> b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
+>>> index 74470d068622..4321a1aba17f 100644
+>>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
+>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
 >>
->> It's more complicated for graphics because of the more complex
->> pipeline
->> and the lack of CWSR. But it should still be possible to do some
->> debugging without JTAG if the problem is in SW and not HW or FW. It's
->> probably worth improving that debugability without getting hung-up on
->> the worst case.
+>> Can we have INTF DCE on video-mode encoders as well?
 > 
-> I agree, and we welcome any constructive suggestion to improve the
-> situation. It seems like our idea doesn't work if the kernel can't give
-> us the information we need.
+> Hi Marijn,
 > 
-> How do we move forward?
+> Currently, there's no way to validate DSC for video mode as I've only 
+> made changes to support DSI for command mode. We are planning to post 
+> changes to support DSC over DP, which will include changes for video mode.
+
+If I remember correctly, HDK8350 panel should support DSC for both 
+command and video modes.
+
 > 
-> Best regards,
-> Timur
+>>
+>>> @@ -72,6 +72,10 @@ static void _dpu_encoder_phys_cmd_update_intf_cfg(
+>>>                   phys_enc->hw_intf,
+>>>                   true,
+>>>                   phys_enc->hw_pp->idx);
+>>> +
+>>> +    if (phys_enc->dpu_kms->catalog->caps->has_data_compress &&
+>>
+>> As per my suggestion on patch 3/4, drop the flag and check above and
+>> only check if the function is NULL (below).
 > 
+> Acked.
+> 
+>>
+>>> +            phys_enc->hw_intf->ops.enable_compression)
+>>> +        phys_enc->hw_intf->ops.enable_compression(phys_enc->hw_intf);
+>>>   }
+>>>   static void dpu_encoder_phys_cmd_pp_tx_done_irq(void *arg, int 
+>>> irq_idx)
+>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c 
+>>> b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c
+>>> index 671048a78801..4ce7ffdd7a05 100644
+>>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c
+>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c
+>>> @@ -64,10 +64,16 @@
+>>>   #define INTF_CFG2_DATABUS_WIDEN    BIT(0)
+>>>   #define INTF_CFG2_DATA_HCTL_EN    BIT(4)
+>>
+>> These should probably be reindented to match the below... And the rest
+>> of the defines use spaces instead of tabs.
+> 
+> Fair point, though I think fixing the whitespace for these 2 macros 
+> specifically might be better in a more relevant series.
+> 
+> With that being said, I'll change the spacing of the DATA_COMPRESS bit 
+> to spaces instead of tabs.
+> 
+>>
+>>> +#define INTF_CFG2_DCE_DATA_COMPRESS    BIT(12)
+>>>   #define INTF_MISR_CTRL            0x180
+>>>   #define INTF_MISR_SIGNATURE        0x184
+>>
+>> This does not seem to apply on top of:
+>> https://lore.kernel.org/linux-arm-msm/20230411-dpu-intf-te-v4-10-27ce1a5ab5c6@somainline.org/
+> 
+> Seems like I'm missing some patches from that series on my working 
+> branch. Will rebase on top of the full series for the v2.
+> 
+>>
+>>> +static inline void dpu_hw_intf_enable_compression(struct dpu_hw_intf 
+>>> *ctx)
+>>
+>> Why inline?  This is used as a pointer callback.
+> 
+> Acked, will remove the inline.
+> 
+>>
+>>> +{
+>>> +    DPU_REG_WRITE(&ctx->hw, INTF_CONFIG2, INTF_CFG2_DCE_DATA_COMPRESS);
+>>
+>> dpu_hw_intf_setup_timing_engine() also programs INTF_CONFIG2.  Is it
+>> double-buffered, or is that config **always** unused when DSI CMD mode
+>> is used in conjunction with DSC/DCE?  Otherwise this should perhaps OR
+>> the bitflag into the register, or write the whole thing at once in
+>> dpu_hw_intf_setup_timing_engine()?
+> 
+> For command mode, INTF_CONFIG2 is unused aside from setting 
+> DATA_COMPRESS for DSC.
+> 
+> Since setup_timing_engine() is only used for video mode, the 
+> corresponding changes will be made in the DSC v1.2 for DP changes.
+
+So, for command mode panels is this the only bit that should be set in 
+INTF_CFG2?
+-- 
+With best wishes
+Dmitry
+
