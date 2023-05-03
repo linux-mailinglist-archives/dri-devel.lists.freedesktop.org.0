@@ -2,60 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B21156F54E0
-	for <lists+dri-devel@lfdr.de>; Wed,  3 May 2023 11:37:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A74496F5533
+	for <lists+dri-devel@lfdr.de>; Wed,  3 May 2023 11:49:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7280B10E24B;
-	Wed,  3 May 2023 09:37:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CAE9910E030;
+	Wed,  3 May 2023 09:49:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D104110E232;
- Wed,  3 May 2023 09:36:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1683106619; x=1714642619;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to;
- bh=MffWgZiRrbHn3+wIAetXWUaaQo9Vm7loAXSeTnnZ5i0=;
- b=FptxY2L807uYmL1h4tWylyIn+mGZvRfe4AtnVCenftST9ddTp7XZbjvj
- H4sVUbkMkrerOMDJNBgDdWKvpy916SK0R83+C0NkhF9k3toCNwPOMhyXm
- cVolqgMURDbdjuqdzVG1rWEUjDyw4qpD1y7GUSqqpXs1BvAmaXRvMC3SA
- xklscGFZFRSsrb9deRn91KNRupiPmbNdBGk3jiVVz0hhVS5zUr6cjai1h
- ju8wsbAm5mYgpLsVNmfJmM13acEPezc4H4V96ztdgVFNhGYyLe21+HZqA
- FH1lsYf4L0fhaH5M2O79E26hGlaVNoOAeZZM5P/D5lMLZTgU/D/NOl9Pb Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10698"; a="350687520"
-X-IronPort-AV: E=Sophos;i="5.99,246,1677571200"; 
- d="scan'208,217";a="350687520"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 May 2023 02:36:58 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10698"; a="1026437806"
-X-IronPort-AV: E=Sophos;i="5.99,246,1677571200"; 
- d="scan'208,217";a="1026437806"
-Received: from bcurcic-mobl1.ger.corp.intel.com (HELO [10.249.36.167])
- ([10.249.36.167])
- by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 May 2023 02:36:54 -0700
-Content-Type: multipart/alternative;
- boundary="------------vwH6Tjnx2mz1b995oCSxL25w"
-Message-ID: <3bf126ea-abec-7e44-c9ac-0ff429e2001a@linux.intel.com>
-Date: Wed, 3 May 2023 11:36:52 +0200
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 20DCC10E030
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 May 2023 09:49:34 +0000 (UTC)
+Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id B442C66056CE;
+ Wed,  3 May 2023 10:49:30 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1683107371;
+ bh=7VIjyuWzXiJWg90ZojWHhBuKxhpApW+cCqW1NmwccYg=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=E1qe25nYPv9M+mCQ0FH9LHwMadZHTvUIQWXBMXKo3ngMFH/cNHpvbcQCeOK/BQ07F
+ vMMNfCm1zET21kHSZfql7nvuw6GA7dQxBMo4q/vr/fU5IWgfrZhIhfnSUnD+etM0Zj
+ SRV8U9jsyHgAy/K77K6G0i6NIFgkkujS7XA/a4y5LNd83evhzWrhTAQNiLRsc/a0Z9
+ bnuFP1h7EysUVgpRtEjSydEWuJkPC+W/fT49i7pVju2mILokxi/dqmfOdW+Z9eTXTN
+ 9tRP4PbMBad7bwl7laO4qmUgD8kmlLWzPBWl/tmswO9wSZZuoMczonYk3lGeaZ/tZj
+ ZSXESJDdcmtbw==
+Date: Wed, 3 May 2023 11:49:27 +0200
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>
+Subject: Re: drm/sched: Replacement for drm_sched_resubmit_jobs() is deprecated
+Message-ID: <20230503114927.62114875@collabora.com>
+In-Reply-To: <f1c16424-e4cb-19a3-4854-40ead9d59d9c@amd.com>
+References: <20230502131941.5fe5b79f@collabora.com>
+ <5c4f4e89-6126-7701-2023-2628db1b7caa@amd.com>
+ <20230502144132.6a9e1bb5@collabora.com>
+ <20230503101624.5dbae57c@collabora.com>
+ <f1c16424-e4cb-19a3-4854-40ead9d59d9c@amd.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.36; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Firefox/102.0 Thunderbird/102.10.1
-Subject: Re: [Intel-xe] [RFC PATCH 3/4] drm/ttm: Handle -EAGAIN in
- ttm_resource_alloc as -ENOSPC.
-Content-Language: en-US
-To: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
- dri-devel@lists.freedesktop.org, cgroups@vger.kernel.org,
- intel-xe@lists.freedesktop.org
-References: <20230503083500.645848-1-maarten.lankhorst@linux.intel.com>
- <20230503083500.645848-4-maarten.lankhorst@linux.intel.com>
- <888841c4-7bd4-8174-7786-033715c995c6@linux.intel.com>
-From: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-In-Reply-To: <888841c4-7bd4-8174-7786-033715c995c6@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,155 +57,128 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
- Zefan Li <lizefan.x@bytedance.com>, intel-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>, Johannes Weiner <hannes@cmpxchg.org>,
- Tejun Heo <tj@kernel.org>
+Cc: Matthew Brost <matthew.brost@intel.com>,
+ Sarah Walker <sarah.walker@imgtec.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, "Tuikov,
+ Luben" <Luben.Tuikov@amd.com>, Alex Deucher <alexander.deucher@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is a multi-part message in MIME format.
---------------vwH6Tjnx2mz1b995oCSxL25w
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+On Wed, 3 May 2023 10:47:43 +0200
+Christian K=C3=B6nig <christian.koenig@amd.com> wrote:
 
+> Adding Luben as well.
+>=20
+> Am 03.05.23 um 10:16 schrieb Boris Brezillon:
+> > [SNIP] =20
+> >> To sum-up, we shouldn't call drm_sched_{start,stop,resubmit_jobs}(). =
+=20
+> > After the discussion I had with Matthew yesterday on IRC, I
+> > realized there was no clear agreement on this. Matthew uses those 3
+> > helpers in the Xe driver right now, and given he intends to use a
+> > multi-threaded wq for its 1:1 schedulers run queue, there's no way he
+> > can get away without calling drm_sched_{start,stop}().
+> > drm_sched_resubmit_jobs() can be open-coded in each driver, but I'm
+> > wondering if it wouldn't be preferable to add a ::resubmit_job() method
+> > or extend the ::run_job() one to support the resubmit semantics, which,
+> > AFAIU, is just about enforcing the job done fence (the one returned by
+> > ::run_job()) doesn't transition from a signaled to an unsignaled state.
+> >
+> > But probably more important than providing a generic helper, we should
+> > document the resubmit semantics (AKA, what should and/or shouldn't be
+> > done with pending jobs when a recovery happens). Because forbidding
+> > people to use a generic helper function doesn't give any guarantee that
+> > they'll do the right thing when coding their own logic, unless we give
+> > clues about what's considered right/wrong, and the current state of the
+> > doc is pretty unclear in this regard. =20
+>=20
+> I should probably talk about the history of the re-submit feature a bit=20
+> more.
+>=20
+> Basically AMD came up with re-submission as a cheap way of increasing=20
+> the reliability of GPU resets. Problem is that it turned into an=20
+> absolutely nightmare. We tried for the last 5 years or so to get that=20
+> stable and it's still crashing.
+>=20
+> The first and most major problem is that the kernel doesn't even has the=
+=20
+> information if re-submitting jobs is possible or not. For example a job=20
+> which has already been pushed to the hw could have grabbed a binary=20
+> semaphore and re-submitting it will just wait forever for the semaphore=20
+> to be released.
 
-On 2023-05-03 11:11, Thomas Hellström wrote:
-> Hi, Maarten
->
-> On 5/3/23 10:34, Maarten Lankhorst wrote:
->> This allows the drm cgroup controller to return no space is available..
->>
->> XXX: This is a hopeless simplification that changes behavior, and
->> returns -ENOSPC even if we could evict ourselves from the current
->> cgroup.
->>
->> Ideally, the eviction code becomes cgroup aware, and will force eviction
->> from the current cgroup or its parents.
->>
->> Signed-off-by: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
->
-> Thinking of the shrinker analogy, do non-cgroup aware shrinkers just 
-> shrink blindly or do they reject shrinking like this patch when a 
-> cgroup limit is reached?
+That's a valid point. Definitely something worth pointing out in the
+doc IMHO.
 
-When I made the cgroup controller return -ENOSPC I just hit an infinite 
-loop since it sees enough memory is free and tries to allocate memory 
-again. Hence the -EAGAIN handling here. It returns -ENOSPC, without the 
-infinite looping.
+>=20
+> The second problem is that the dma_fence semantics don't allow to ever=20
+> transit the state of a fence from signaled back to unsignaled. This=20
+> means that you can't re-use the hw fence and need to allocate a new one,=
+=20
+> but since memory allocation is forbidden inside a reset handler as well=20
+> (YES we need to better document that part) you actually need to keep a=20
+> bunch of hw fences pre-allocated around to make this work. Amdgpu choose=
+=20
+> to illegally re-use the hw fence instead which only works with quite=20
+> extreme hacks.
 
-I think there should be 2 code paths:
+Hm, maybe I'm missing something, but I don't really see why we'd ever go
+from signaled to unsignaled in the first place. If the parent fence is
+signaled by the time we reach the resubmit function (because the GPU
+keeps executing stuff after we called drm_sched_stop() and before we
+actually shut it down), the ::run_job() hook would just return a
+signaled fence at re-submission time, and the actual re-submission can
+be skipped. If the job hasn't finished before the reset, the fence
+should still be unsignaled, so no unsignaled -> signaled state
+transition AFAICT.
 
-- OOM, generic case: Handle like we do now. No need for special cgroup 
-handling needed right now.
+>=20
+> The third problem is that the lifetime of the job object was actually=20
+> defined very well before we tried to use re-submission. Basically it's=20
+> just an intermediate state used between the IOCTL and pushing things to=20
+> the hw, introducing this re-submit feature completely messed that up and=
+=20
+> cause quite a number of use after free errors in the past which are=20
+> again only solved by quite some hacks.
 
-Might change if we implement cgroup memory semantics. See the memory 
-section of Documentation/admin-guide/cgroup-v2.rst
+It's not clear to me what the resubmit logic has to do with that,
+but I trust you.
 
-It could be useful regardless.
+>=20
+> What we should do in the GPU scheduler instead is the follow:
+>=20
+> 1. Don't support re-submission at all!
+>  =C2=A0=C2=A0=C2=A0 Instead we can provide help to drivers to query which=
+ fences=20
+> (scheduler or hw) are still not signaled yet.
+>  =C2=A0=C2=A0=C2=A0 This can then be used to re-create hw state if (and o=
+nly if!) the=20
+> driver knows what it's doing and can actually guarantee that this will wo=
+rk.
+>  =C2=A0=C2=A0=C2=A0 E.g. the case for XE where the kernel driver knows th=
+e contexts=20
+> which were not running at the time and can re-create their queues.
 
-- OOM, cgroup limit reached: Check for each BO if it's valuable to evict to unblock the relevant limit.
+Okay, that basically means any queue that had in-flight jobs at
+recovery time becomes unusable after that point, because skipping one
+job might put you in an inconsistent state.
 
+>=20
+> 2. We can provide both a wq to use for single threaded application as=20
+> well as start/stop semantics.
 
-              / cg1.0
-root - cg1 --  cg1.1
-    \         \ cg1.2
-     \  cg2
+There's no risk calling stop+start even in the single-threaded wq
+case, and the overhead should be negligible. If we want to keep things
+simple, let's just say drivers should always call those :-).
 
-If we hit the cg limit in cg1.0 for only cg1.0, it doesn't make sense to evict from any other cgroup.
-If we hit the limit in cg1.0 for the entirety of cg1, it makes sense to evict from any of the cg1 nodes, but not from cg2.
+>  =C2=A0=C2=A0=C2=A0 It's just that the start/stop semantics should never =
+touch what was=20
+> already submitted, but rather just make sure that we don't get any new=20
+> submissions.
 
-This should be relatively straightforward to implement. We identify which cgroup hit a limit, and then let the shrinker
-run only on that cgroup and its childs.
+So, something like that:
 
-This could be simplified to the OOM generic case, for root/NULL cg.
-
-
-~Maarten
-
---------------vwH6Tjnx2mz1b995oCSxL25w
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body>
-    <p><br>
-    </p>
-    <div class="moz-cite-prefix">On 2023-05-03 11:11, Thomas Hellström
-      wrote:<br>
-    </div>
-    <blockquote type="cite"
-      cite="mid:888841c4-7bd4-8174-7786-033715c995c6@linux.intel.com">Hi,
-      Maarten
-      <br>
-      <br>
-      On 5/3/23 10:34, Maarten Lankhorst wrote:
-      <br>
-      <blockquote type="cite">This allows the drm cgroup controller to
-        return no space is available..
-        <br>
-        <br>
-        XXX: This is a hopeless simplification that changes behavior,
-        and
-        <br>
-        returns -ENOSPC even if we could evict ourselves from the
-        current
-        <br>
-        cgroup.
-        <br>
-        <br>
-        Ideally, the eviction code becomes cgroup aware, and will force
-        eviction
-        <br>
-        from the current cgroup or its parents.
-        <br>
-        <br>
-        Signed-off-by: Maarten Lankhorst
-        <a class="moz-txt-link-rfc2396E" href="mailto:maarten.lankhorst@linux.intel.com">&lt;maarten.lankhorst@linux.intel.com&gt;</a>
-        <br>
-      </blockquote>
-      <br>
-      Thinking of the shrinker analogy, do non-cgroup aware shrinkers
-      just shrink blindly or do they reject shrinking like this patch
-      when a cgroup limit is reached?
-      <br>
-    </blockquote>
-    <p>When I made the cgroup controller return -ENOSPC I just hit an
-      infinite loop since it sees enough memory is free and tries to
-      allocate memory again. Hence the -EAGAIN handling here. It returns
-      -ENOSPC, without the infinite looping.</p>
-    <p>I think there should be 2 code paths:</p>
-    <p>- OOM, generic case: Handle like we do now. No need for special
-      cgroup handling needed right now.</p>
-    <p>Might change if we implement cgroup memory semantics. See the
-      memory section of Documentation/admin-guide/cgroup-v2.rst <br>
-    </p>
-    <p>It could be useful regardless.<br>
-    </p>
-    <pre>- OOM, cgroup limit reached: Check for each BO if it's valuable to evict to unblock the relevant limit.
-
-
-             / cg1.0
-root - cg1 --  cg1.1
-   \         \ cg1.2
-    \  cg2
-
-If we hit the cg limit in cg1.0 for only cg1.0, it doesn't make sense to evict from any other cgroup.
-If we hit the limit in cg1.0 for the entirety of cg1, it makes sense to evict from any of the cg1 nodes, but not from cg2.
-
-This should be relatively straightforward to implement. We identify which cgroup hit a limit, and then let the shrinker
-run only on that cgroup and its childs.
-
-This could be simplified to the OOM generic case, for root/NULL cg.
-
-
-~Maarten
-</pre>
-  </body>
-</html>
-
---------------vwH6Tjnx2mz1b995oCSxL25w--
+1. Call drm_sched_stop()
+2. Iterate over all pending jobs, and flag the entity as dirty and/or
+   kill it if any of the jobs were unfinished when the GPU was reset
+3. Call drm_sched_start()
