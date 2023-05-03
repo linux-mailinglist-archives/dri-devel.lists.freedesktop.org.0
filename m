@@ -2,62 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9F486F5A2B
-	for <lists+dri-devel@lfdr.de>; Wed,  3 May 2023 16:34:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF5B46F5A6D
+	for <lists+dri-devel@lfdr.de>; Wed,  3 May 2023 16:55:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1EB0B10E278;
-	Wed,  3 May 2023 14:34:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BB1CA10E2CF;
+	Wed,  3 May 2023 14:55:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B006F10E278
- for <dri-devel@lists.freedesktop.org>; Wed,  3 May 2023 14:34:26 +0000 (UTC)
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F3EE610E2CF
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 May 2023 14:55:08 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 1DB1A228FA;
- Wed,  3 May 2023 14:34:25 +0000 (UTC)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id DBC0222929;
+ Wed,  3 May 2023 14:55:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1683124465; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1683125706; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=Bgp5FvF4QGWmZGIFXar9mUREceWHPttZvhBXr/qSGhM=;
- b=ghJWwgHkp5yOcUbwj5tAu9i6IxJHOCOBHXXzKIVhF9dchjs0Oy7f8DfOoXg3rPnBXQnsO/
- 4gGiDludsgsNQd++aiFYGPlvPrmZ9CRvqDBSqPVXexypfBCNpIIKva54ANC6y8lhs9Iafu
- /BrUesvpfuKDYQdAn1rRD7Q0/EcoXWw=
+ bh=HhvrVC97XBYmFSXZA3+Mafjkd40eBdeyxxUiArLGfFM=;
+ b=pRFgvKCL7PFHtPhgQ9QNUrZk37Bp+UyZOrndeXiL99om1bhlr+MVlhHGkmY7CCAuGq7oTG
+ KyYqS4NcIVXLqtpLaPALZhQQlDyYRwzp591EWsG56187vQIvayBTPHRxygG3ybWT6BJdjv
+ oSgUS5RP1DLwyMkDmCLJFKj/ffJfXHw=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1683124465;
+ s=susede2_ed25519; t=1683125706;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=Bgp5FvF4QGWmZGIFXar9mUREceWHPttZvhBXr/qSGhM=;
- b=/72xW2gI00fW3O4Y/wLb0NqGU9SNiqVMdTZxDhlsr91yt00pGpSlno6grW2K5pndYgTsv+
- rJYEruHQPUCnkBAw==
+ bh=HhvrVC97XBYmFSXZA3+Mafjkd40eBdeyxxUiArLGfFM=;
+ b=8SWl2HwLTNqxEG13HZ5zDyZE9sStVDEaRpczQzdfBAmkT9pzgYsHRx1a4zB9vM9rgEL1N8
+ DN00+Jk6pt6xD5Aw==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id EADC41331F;
- Wed,  3 May 2023 14:34:24 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 7495B1331F;
+ Wed,  3 May 2023 14:55:06 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id pI1tOPBwUmS9RwAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Wed, 03 May 2023 14:34:24 +0000
-Message-ID: <635b4dfa-8f9c-5926-1ed6-acfba6f673d0@suse.de>
-Date: Wed, 3 May 2023 16:34:24 +0200
+ by imap2.suse-dmz.suse.de with ESMTPSA id b8LcGsp1UmSHUwAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Wed, 03 May 2023 14:55:06 +0000
+Message-ID: <dd921bae-0145-09e2-24b1-f08d89a78eba@suse.de>
+Date: Wed, 3 May 2023 16:55:05 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.10.0
-Subject: Re: [PATCH] drm/udl: delete dead code
+Subject: Re: [PATCH v3 5/6] fbdev: Move framebuffer I/O helpers into <asm/fb.h>
 Content-Language: en-US
-To: Dan Carpenter <dan.carpenter@linaro.org>, Dave Airlie
- <airlied@redhat.com>, Takashi Iwai <tiwai@suse.de>
-References: <e0e35421-8746-43b6-971e-e25d1cd1d6a7@kili.mountain>
+To: Arnd Bergmann <arnd@arndb.de>, Helge Deller <deller@gmx.de>,
+ Geert Uytterhoeven <geert@linux-m68k.org>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Vineet Gupta <vgupta@kernel.org>,
+ Huacai Chen <chenhuacai@kernel.org>, WANG Xuerui <kernel@xen0n.name>,
+ "David S . Miller" <davem@davemloft.net>,
+ "James E . J . Bottomley" <James.Bottomley@HansenPartnership.com>,
+ Sam Ravnborg <sam@ravnborg.org>
+References: <20230502130223.14719-1-tzimmermann@suse.de>
+ <20230502130223.14719-6-tzimmermann@suse.de>
+ <67d6a188-041f-4604-99a3-548c41af0693@app.fastmail.com>
 From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <e0e35421-8746-43b6-971e-e25d1cd1d6a7@kili.mountain>
+In-Reply-To: <67d6a188-041f-4604-99a3-548c41af0693@app.fastmail.com>
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="------------qQTmuzsE4bbyaaVYioIKBfU1"
+ boundary="------------UDwmwmIfL482P7WlMrqweUEs"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,77 +78,112 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel-janitors@vger.kernel.org, Sean Paul <sean@poorly.run>,
- dri-devel@lists.freedesktop.org
+Cc: Linux-Arch <linux-arch@vger.kernel.org>, linux-fbdev@vger.kernel.org,
+ linux-ia64@vger.kernel.org, linux-parisc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-m68k@lists.linux-m68k.org, loongarch@lists.linux.dev,
+ sparclinux@vger.kernel.org, linux-snps-arc@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------qQTmuzsE4bbyaaVYioIKBfU1
-Content-Type: multipart/mixed; boundary="------------EPWoBo0E0IQymTXVyBy04oUZ";
+--------------UDwmwmIfL482P7WlMrqweUEs
+Content-Type: multipart/mixed; boundary="------------WF70DbsrzaM72ML8O0Xlqhcn";
  protected-headers="v1"
 From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Dan Carpenter <dan.carpenter@linaro.org>, Dave Airlie
- <airlied@redhat.com>, Takashi Iwai <tiwai@suse.de>
-Cc: Sean Paul <sean@poorly.run>, kernel-janitors@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-Message-ID: <635b4dfa-8f9c-5926-1ed6-acfba6f673d0@suse.de>
-Subject: Re: [PATCH] drm/udl: delete dead code
-References: <e0e35421-8746-43b6-971e-e25d1cd1d6a7@kili.mountain>
-In-Reply-To: <e0e35421-8746-43b6-971e-e25d1cd1d6a7@kili.mountain>
+To: Arnd Bergmann <arnd@arndb.de>, Helge Deller <deller@gmx.de>,
+ Geert Uytterhoeven <geert@linux-m68k.org>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Vineet Gupta <vgupta@kernel.org>,
+ Huacai Chen <chenhuacai@kernel.org>, WANG Xuerui <kernel@xen0n.name>,
+ "David S . Miller" <davem@davemloft.net>,
+ "James E . J . Bottomley" <James.Bottomley@HansenPartnership.com>,
+ Sam Ravnborg <sam@ravnborg.org>
+Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Linux-Arch <linux-arch@vger.kernel.org>, linux-snps-arc@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-ia64@vger.kernel.org,
+ loongarch@lists.linux.dev, linux-m68k@lists.linux-m68k.org,
+ sparclinux@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-parisc@vger.kernel.org
+Message-ID: <dd921bae-0145-09e2-24b1-f08d89a78eba@suse.de>
+Subject: Re: [PATCH v3 5/6] fbdev: Move framebuffer I/O helpers into
+ <asm/fb.h>
+References: <20230502130223.14719-1-tzimmermann@suse.de>
+ <20230502130223.14719-6-tzimmermann@suse.de>
+ <67d6a188-041f-4604-99a3-548c41af0693@app.fastmail.com>
+In-Reply-To: <67d6a188-041f-4604-99a3-548c41af0693@app.fastmail.com>
 
---------------EPWoBo0E0IQymTXVyBy04oUZ
+--------------WF70DbsrzaM72ML8O0Xlqhcn
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: base64
 
-TWVyZ2VkLCB0aGFua3MhDQoNCkFtIDAyLjA1LjIzIHVtIDE0OjU5IHNjaHJpZWIgRGFuIENh
-cnBlbnRlcjoNCj4gVGhlICJ1bm9kZSIgcG9pbnRlciBjYW5ub3QgYmUgTlVMTCBoZXJlIGFu
-ZCBjaGVja2luZyBmb3IgaXQgY2F1c2VzDQo+IFNtYXRjaCB3YXJuaW5nczoNCj4gDQo+ICAg
-ICBkcml2ZXJzL2dwdS9kcm0vdWRsL3VkbF9tYWluLmM6MjU5IHVkbF9nZXRfdXJiX2xvY2tl
-ZCgpDQo+ICAgICB3YXJuOiBjYW4gJ3Vub2RlJyBldmVuIGJlIE5VTEw/DQo+IA0KPiBGb3J0
-dW5hdGVseSwgaXQncyBqdXN0IGhhcm1sZXNzIGRlYWQgY29kZSB3aGljaCBjYW4gYmUgcmVt
-b3ZlZC4gIEl0J3MNCj4gbGVmdCBvdmVyIGZyb20gY29tbWl0IGM1YzM1NGEzYTQ3MiAoImRy
-bS91ZGw6IEZpeCBpbmNvbnNpc3RlbnQgdXJicy5jb3VudA0KPiB2YWx1ZSBkdXJpbmcgdWRs
-X2ZyZWVfdXJiX2xpc3QoKSIpLg0KPiANCj4gUmVwb3J0ZWQtYnk6IGtlcm5lbCB0ZXN0IHJv
-Ym90IDxsa3BAaW50ZWwuY29tPg0KPiBTaWduZWQtb2ZmLWJ5OiBEYW4gQ2FycGVudGVyIDxk
-YW4uY2FycGVudGVyQGxpbmFyby5vcmc+DQo+IC0tLQ0KPiAgIGRyaXZlcnMvZ3B1L2RybS91
-ZGwvdWRsX21haW4uYyB8IDIgKy0NCj4gICAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24o
-KyksIDEgZGVsZXRpb24oLSkNCj4gDQo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0v
-dWRsL3VkbF9tYWluLmMgYi9kcml2ZXJzL2dwdS9kcm0vdWRsL3VkbF9tYWluLmMNCj4gaW5k
-ZXggMDYxY2I4OGMwOGEyLi4zZWJlMmNlNTVkZmQgMTAwNjQ0DQo+IC0tLSBhL2RyaXZlcnMv
-Z3B1L2RybS91ZGwvdWRsX21haW4uYw0KPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vdWRsL3Vk
-bF9tYWluLmMNCj4gQEAgLTI1NSw3ICsyNTUsNyBAQCBzdGF0aWMgc3RydWN0IHVyYiAqdWRs
-X2dldF91cmJfbG9ja2VkKHN0cnVjdCB1ZGxfZGV2aWNlICp1ZGwsIGxvbmcgdGltZW91dCkN
-Cj4gICAJbGlzdF9kZWxfaW5pdCgmdW5vZGUtPmVudHJ5KTsNCj4gICAJdWRsLT51cmJzLmF2
-YWlsYWJsZS0tOw0KPiAgIA0KPiAtCXJldHVybiB1bm9kZSA/IHVub2RlLT51cmIgOiBOVUxM
-Ow0KPiArCXJldHVybiB1bm9kZS0+dXJiOw0KPiAgIH0NCj4gICANCj4gICAjZGVmaW5lIEdF
-VF9VUkJfVElNRU9VVAlIWg0KDQotLSANClRob21hcyBaaW1tZXJtYW5uDQpHcmFwaGljcyBE
-cml2ZXIgRGV2ZWxvcGVyDQpTVVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBHZXJtYW55IEdtYkgN
-CkZyYW5rZW5zdHJhc3NlIDE0NiwgOTA0NjEgTnVlcm5iZXJnLCBHZXJtYW55DQpHRjogSXZv
-IFRvdGV2LCBBbmRyZXcgTXllcnMsIEFuZHJldyBNY0RvbmFsZCwgQm91ZGllbiBNb2VybWFu
-DQpIUkIgMzY4MDkgKEFHIE51ZXJuYmVyZykNCg==
+SGkNCg0KQW0gMDIuMDUuMjMgdW0gMjI6MDYgc2NocmllYiBBcm5kIEJlcmdtYW5uOg0KPiBP
+biBUdWUsIE1heSAyLCAyMDIzLCBhdCAxNTowMiwgVGhvbWFzIFppbW1lcm1hbm4gd3JvdGU6
+DQo+PiBJbXBsZW1lbnQgZnJhbWVidWZmZXIgSS9PIGhlbHBlcnMsIHN1Y2ggYXMgZmJfcmVh
+ZCooKSBhbmQgZmJfd3JpdGUqKCksDQo+PiBpbiB0aGUgYXJjaGl0ZWN0dXJlJ3MgPGFzbS9m
+Yi5oPiBoZWFkZXIgZmlsZSBvciB0aGUgZ2VuZXJpYyBvbmUuDQo+Pg0KPj4gVGhlIGNvbW1v
+biBjYXNlIGhhcyBiZWVuIHRoZSB1c2Ugb2YgcmVndWxhciBJL08gZnVuY3Rpb25zLCBzdWNo
+IGFzDQo+PiBfX3Jhd19yZWFkYigpIG9yIG1lbXNldF9pbygpLiBBIGZldyBhcmNoaXRlY3R1
+cmVzIHVzZWQgcGxhaW4gc3lzdGVtLQ0KPj4gbWVtb3J5IHJlYWRzIGFuZCB3cml0ZXMuIFNw
+YXJjIHVzZWQgaGVscGVycyBmb3IgaXRzIFNCdXMuDQo+Pg0KPj4gVGhlIGFyY2hpdGVjdHVy
+ZXMgdGhhdCB1c2VkIHNwZWNpYWwgY2FzZXMgcHJvdmlkZSB0aGUgc2FtZSBjb2RlIGluDQo+
+PiB0aGVpciBfX3Jhd18qKCkgSS9PIGhlbHBlcnMuIFNvIHRoZSBwYXRjaCByZXBsYWNlcyB0
+aGlzIGNvZGUgd2l0aCB0aGUNCj4+IF9fcmF3XyooKSBmdW5jdGlvbnMgYW5kIG1vdmVzIGl0
+IHRvIDxhc20tZ2VuZXJpYy9mYi5oPiBmb3IgYWxsDQo+PiBhcmNoaXRlY3R1cmVzLg0KPj4N
+Cj4+IHYzOg0KPj4gCSogaW1wbGVtZW50IGFsbCBhcmNoaXRlY3R1cmVzIHdpdGggZ2VuZXJp
+YyBoZWxwZXJzDQo+PiAJKiBzdXBwb3J0IHJlb3JkZXJpbmcgYW5kIG5hdGl2ZSBieXRlIG9y
+ZGVyIChHZWVydCwgQXJuZCkNCj4gDQo+IFRoaXMgbG9va3MgZ29vZCBmb3IgdGhlIHJlYWQv
+d3JpdGUgaGVscGVycywgYnV0IEknbSBhIGxpdHRsZQ0KPiB3b3JyaWVkIGFib3V0IHRoZSBt
+ZW1zZXQgYW5kIG1lbWNweSBmdW5jdGlvbnMsIHNpbmNlIHRoZXkgZG8NCj4gY2hhbmdlIGJl
+aGF2aW9yIG9uIHNvbWUgYXJjaGl0ZWN0dXJlczoNCj4gDQo+IC0gb24gc3BhcmM2NCwgZmJf
+bWVte3NldCxjcHl9IHVzZXMgQVNJX1BIWVNfQllQQVNTX0VDX0UgKGxpa2UgX19yYXdfcmVh
+ZGIpDQo+ICAgIHdoaWxlIG1lbXtzZXRfLGNweV9mcm9tLGNweV90b30gdXNlcyBBU0lfUEhZ
+U19CWVBBU1NfRUNfRV9MIChsaWtlIHJlYWRiKQ0KPiAgICBJIGRvbid0IGtub3cgdGhlIGVm
+ZmVjdCBvZiB0aGF0LCBidXQgaXQgc2VlbXMgaW50ZW50aW9uYWwNCj4gDQo+IC0gb24gbG9v
+bmdhcmNoIGFuZCBjc2t5LCB0aGUgX2lvIHZhcmlhbnRzIGF2b2lkIHVuYWxpZ25lZCBhY2Nl
+c3MsDQo+ICAgIHdoaWxlIHRoZSBub3JtYWwgbWVtY3B5L21lbXNldCBpcyBwcm9iYWJseSBi
+cm9rZW4sIHNvIHlvdXINCj4gICAgcGF0Y2ggaXMgYSBidWdmaXgNCj4gDQo+IC0gb24gaWE2
+NCwgdGhlIF9pbyB2YXJpYW50cyB1c2UgYnl0ZXdpc2UgYWNjZXNzIGFuZCBhdm9pZCBhbnkg
+bG9uZ2VyDQo+ICAgIGxvYWRzIGFuZCBzdG9yZXMsIHNvIHlvdXIgcGF0Y2ggcHJvYmFibHkg
+bWFrZXMgdGhpbmdzIHNsb3dlci4NCj4gDQo+IEl0J3MgcHJvYmFibHkgc2FmZSB0byBkZWFs
+IHdpdGggYWxsIHRoZSBhYm92ZSBieSBlaXRoZXIgYWRkaW5nDQo+IGFyY2hpdGVjdHVyZSBz
+cGVjaWZpYyBvdmVycmlkZXMgdG8gdGhlIGN1cnJlbnQgdmVyc2lvbiwgb3INCj4gYnkgZG9p
+bmcgdGhlIHNlbWFudGljIGNoYW5nZXMgYmVmb3JlIHRoZSBtb3ZlIHRvIGFzbS9mYi5oLCBi
+dXQNCj4gb25lIHdheSBvciB0aGUgb3RoZXIgSSdkIHByZWZlciB0aGlzIHRvIGJlIHNlcGFy
+YXRlIGZyb20gdGhlDQo+IGNvbnNvbGlkYXRpb24gcGF0Y2ggdGhhdCBzaG91bGQgbm90IGhh
+dmUgYW55IGNoYW5nZXMgaW4gYmVoYXZpb3IuDQoNCkkgdGhpbmsgSSdsbCBhZGQgYXJjaGl0
+ZWN0dXJlIG92ZXJyaWRlcyB0aGF0IGNvbnRhaW4gdGhlIGN1cnJlbnQgY29kZSwgDQpldmVu
+IGlmIHRoZXkgY29udGFpbiBzb21lIGZvcmNlLWNhc3Rpbmcgd3J0IF9faW9tZW0uIElmIGFu
+eW9uZSB3YW50cyB0byANCmZpeCB0aGUgaXNzdWVzLCB0aGV5IGNhbiB0aGVuIGFkZHJlc3Mg
+dGhlbSBlYXNpbHkuDQoNCkJlc3QgcmVnYXJkcw0KVGhvbWFzDQoNCj4gDQo+ICAgICAgIEFy
+bmQNCg0KLS0gDQpUaG9tYXMgWmltbWVybWFubg0KR3JhcGhpY3MgRHJpdmVyIERldmVsb3Bl
+cg0KU1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFueSBHbWJIDQpGcmFua2Vuc3RyYXNz
+ZSAxNDYsIDkwNDYxIE51ZXJuYmVyZywgR2VybWFueQ0KR0Y6IEl2byBUb3RldiwgQW5kcmV3
+IE15ZXJzLCBBbmRyZXcgTWNEb25hbGQsIEJvdWRpZW4gTW9lcm1hbg0KSFJCIDM2ODA5IChB
+RyBOdWVybmJlcmcpDQo=
 
---------------EPWoBo0E0IQymTXVyBy04oUZ--
+--------------WF70DbsrzaM72ML8O0Xlqhcn--
 
---------------qQTmuzsE4bbyaaVYioIKBfU1
+--------------UDwmwmIfL482P7WlMrqweUEs
 Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="OpenPGP_signature"
 
 -----BEGIN PGP SIGNATURE-----
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmRScPAFAwAAAAAACgkQlh/E3EQov+A1
-CRAAgDe1hu/HItpbBdJpKj8MmYtemdtgPkUS7O4N4fLBodSnFIfE+kTU4SaxuAmaSKFL9PpUIDQr
-EH98I32lXyhAOQ5VuCeyGK/h8uLMZi/AYkvtTw6SejbhG6Nd333vJvBFxJqb+ULsM/fxVi31B1L3
-hpQU17Si6lHuiiOxnrdJ167sLoI+Pur6YFe9muMSHuDPVJRv2kbbeyAwQyy+cqI5eUDBAdg8CqcR
-GmMbqkjnMjOuaWXi354NAilCfQo5GcsJ9cMtcQoH7+zWtb6BedXeyciPf2WupyEMPpaoru/dpxWM
-+i6usNX6Rr7A3vfK7x0L7P4GjHwX34JFEsLsk/o0dFV/qXGC1YrOlqUO/6OKgiWNOUGoOZ5oqwPW
-ZgefUlkThjTUgBUW8s5EGfYMcjDiDwiwfWFVj6RxCDSDjf5r4B0mWuBaSkkCae5YtcjaGmRJsDK0
-NwH8pjlK/jYNnR3jFGbu34+uOpIOMjkVW39cTgpDdqDkYxUqqrStaIHD2ITzj4T5dEbcf/rA6yO6
-HZ0aD/q1m/9tllohl8YrDpm7QxI9NIRen9H/EMh5bEX1706P3MUUfti40GPnvqbMS/7nhOpRjEYs
-IfmEnEIsDqaCncvMyZ0amSstCAdWy9hJFRSeMarQbleFHlBQOEXjQNGHuOr0uj9kuPt/hctO5PE/
-5yI=
-=sXUQ
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmRSdcoFAwAAAAAACgkQlh/E3EQov+Cj
+zg/9HFoysElKHNgvZ1o3nHmqKL2VPV2VUUDyIhkVoSgQOj/I9DBMYb1J8nrkwkB5rOWOm1TrLl82
+RFsBF6W152p9NqSrOxHrGS2K6+8U6cC3foWbdtuhxOz+KseTK997YLSF/+t2KoMi+u9GHVSImntd
+lYAbjFF9P8bbF6caCwfNtMolODw1qhMrcIFN3w3o+y4LhMIK6qF87PlsosJHvVl9VqQaMSzmNQkW
+CH2Xc0s0rRaPU5acg8IjYM0IqCuiAWcK/V+Q2UvM2UAXLtdWGeUYcTABN4YMLUrHp/9yj2ojgCXe
+BQK/gZ6xCYurVyDtHW3snwcZztsycF8egMnp3SKeQLKm98fx6+xMVamjdnJL9OFN0RF4uraKL7/2
+86YhpfnjWeDDQHE01wWG5INLJhCteNbHJHtiqM6/K+m5jhkNhwcOo9n+1IdF73HCAnwarzDTutsU
+DoEItP7vwqQwW1JFIm8U8gNTkkL/jqAlkbdqjfT8cj7O+sBW7yRB7jMdhQScNccg/1aBcSWQ+zDF
+JfKZO8Ms651aEP6ZWJXLCNlOVxmP5desgjax2qx75v5QSdzzeQRgKoDfqCvy9oTwEqTMzK79c5gP
+E2vhUaybCer9Q3ZkGoaWwt8HBEFCTkyh46TcbO1YiX6lq2rjgADep+w+1DxULkdBs8ZX0F9NFmGg
+6Nk=
+=cYZ4
 -----END PGP SIGNATURE-----
 
---------------qQTmuzsE4bbyaaVYioIKBfU1--
+--------------UDwmwmIfL482P7WlMrqweUEs--
