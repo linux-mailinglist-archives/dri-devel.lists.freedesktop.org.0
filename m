@@ -1,35 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 126186F509C
-	for <lists+dri-devel@lfdr.de>; Wed,  3 May 2023 09:07:31 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B6C46F50AD
+	for <lists+dri-devel@lfdr.de>; Wed,  3 May 2023 09:09:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9391710E1A3;
-	Wed,  3 May 2023 07:07:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2A05610E084;
+	Wed,  3 May 2023 07:09:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m-r2.th.seeweb.it (m-r2.th.seeweb.it [5.144.164.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D0FBF10E084
- for <dri-devel@lists.freedesktop.org>; Wed,  3 May 2023 07:07:23 +0000 (UTC)
-Received: from SoMainline.org (94-211-6-86.cable.dynamic.v4.ziggo.nl
- [94.211.6.86])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8B89210E084
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 May 2023 07:09:26 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
- SHA256) (No client certificate requested)
- by m-r2.th.seeweb.it (Postfix) with ESMTPSA id 5A58B3F29C;
- Wed,  3 May 2023 09:07:20 +0200 (CEST)
-Date: Wed, 3 May 2023 09:07:18 +0200
-From: Marijn Suijten <marijn.suijten@somainline.org>
-To: Jessica Zhang <quic_jesszhan@quicinc.com>
-Subject: Re: [PATCH 3/4] drm/msm/dpu: Add has_data_compress to dpu_caps
-Message-ID: <v5hmqtjwd3syqwo5nqru7xgpt3rv5ubfbzt6pssriyb7cuprkf@7zdvwsil67nc>
-References: <20230405-add-dsc-support-v1-0-6bc6f03ae735@quicinc.com>
- <20230405-add-dsc-support-v1-3-6bc6f03ae735@quicinc.com>
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id D753322385;
+ Wed,  3 May 2023 07:09:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1683097764; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=teAFqwFmUnax09TuiGG90Kj7kG6+48TX1tmrs49YNrk=;
+ b=tUCwCKB0yD0DPwNpJBV0UjNNW8Pc2Tw1up+vtwWFbFULRjCUTM2r6XN97fpdpeDUsFrRLd
+ piKtpzVfJdFFncRwHBH4A9GLbUn0kSC51ADu0zOJdn42pSMYJQLHSNfHItzb4FVIUckF2T
+ ILfUkKY1mTGafy1tRkd67jr9sih0wIc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1683097764;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=teAFqwFmUnax09TuiGG90Kj7kG6+48TX1tmrs49YNrk=;
+ b=r2Odk1cw2e32jvI3AbMtbCk05d4jzD0gTvfM1aH+rVq9i59ptSJ85SasU9l54dvJrXnX1I
+ ptaVbSF6VtrOoFBQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 751D21331F;
+ Wed,  3 May 2023 07:09:24 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id FWCdG6QIUmSWRAAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Wed, 03 May 2023 07:09:24 +0000
+Message-ID: <563673c0-799d-e353-974c-91b1ab881a22@suse.de>
+Date: Wed, 3 May 2023 09:09:24 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230405-add-dsc-support-v1-3-6bc6f03ae735@quicinc.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH v3 4/6] fbdev: Include <linux/io.h> via <asm/fb.h>
+Content-Language: en-US
+To: Sam Ravnborg <sam@ravnborg.org>
+References: <20230502130223.14719-1-tzimmermann@suse.de>
+ <20230502130223.14719-5-tzimmermann@suse.de>
+ <20230502195429.GA319489@ravnborg.org>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <20230502195429.GA319489@ravnborg.org>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------pUWBDJ1Raj0NjYY4OLYhyeQp"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -42,134 +71,111 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Konrad Dybcio <konrad.dybcio@linaro.org>,
- linux-arm-msm@vger.kernel.org, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: linux-arch@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ linux-ia64@vger.kernel.org, linux-parisc@vger.kernel.org, arnd@arndb.de,
+ deller@gmx.de, chenhuacai@kernel.org, javierm@redhat.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ James.Bottomley@hansenpartnership.com, linux-m68k@lists.linux-m68k.org,
+ geert@linux-m68k.org, loongarch@lists.linux.dev, vgupta@kernel.org,
+ sparclinux@vger.kernel.org, kernel@xen0n.name,
+ linux-snps-arc@lists.infradead.org, davem@davemloft.net,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2023-05-02 18:19:14, Jessica Zhang wrote:
-> Add data_compress feature to DPU HW catalog.
-> 
-> In DPU 7.x and later, there is a DATA_COMPRESS register that must be set
-> within the DPU INTF block for DSC to work.
-> 
-> As core_rev (and related macros) was removed from the dpu_kms struct, the
-> most straightforward way to indicate the presence of this register would be
-> to have a flag in dpu_caps.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------pUWBDJ1Raj0NjYY4OLYhyeQp
+Content-Type: multipart/mixed; boundary="------------bKIh6R9LGtMQp74D7VXZK0tl";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Sam Ravnborg <sam@ravnborg.org>
+Cc: linux-arch@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ linux-ia64@vger.kernel.org, loongarch@lists.linux.dev, arnd@arndb.de,
+ deller@gmx.de, chenhuacai@kernel.org, javierm@redhat.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ James.Bottomley@hansenpartnership.com, linux-m68k@lists.linux-m68k.org,
+ geert@linux-m68k.org, linux-parisc@vger.kernel.org, vgupta@kernel.org,
+ sparclinux@vger.kernel.org, kernel@xen0n.name,
+ linux-snps-arc@lists.infradead.org, davem@davemloft.net,
+ linux-arm-kernel@lists.infradead.org
+Message-ID: <563673c0-799d-e353-974c-91b1ab881a22@suse.de>
+Subject: Re: [PATCH v3 4/6] fbdev: Include <linux/io.h> via <asm/fb.h>
+References: <20230502130223.14719-1-tzimmermann@suse.de>
+ <20230502130223.14719-5-tzimmermann@suse.de>
+ <20230502195429.GA319489@ravnborg.org>
+In-Reply-To: <20230502195429.GA319489@ravnborg.org>
 
-This is a very generic name to have in the global dpu_caps for a very
-specific register on the INTF block since DPU >= 7.0.0, and I doubt any
-new catalog contributor will know how to fill this field.  After all,
-DPU < 7.0.0 also has DCE but it is controlled via the PINGPONG block.
+--------------bKIh6R9LGtMQp74D7VXZK0tl
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-Instead, how about having it as a DPU_INTF_DATA_COMPRESS (or similar)
-feature flag on the INTF block?  We do the same for other (register
-related) features on the INTF block, and you did the same to disable DSC
-callbacks on PP in [1].
+SGkNCg0KQW0gMDIuMDUuMjMgdW0gMjE6NTQgc2NocmllYiBTYW0gUmF2bmJvcmc6DQo+IEhp
+IFRob21hcywNCj4gDQo+IE9uIFR1ZSwgTWF5IDAyLCAyMDIzIGF0IDAzOjAyOjIxUE0gKzAy
+MDAsIFRob21hcyBaaW1tZXJtYW5uIHdyb3RlOg0KPj4gRmJkZXYncyBtYWluIGhlYWRlciBm
+aWxlLCA8bGludXgvZmIuaD4sIGluY2x1ZGVzIDxhc20vaW8uaD4gdG8gZ2V0DQo+PiBkZWNs
+YXJhdGlvbnMgZm9yIEkvTyBoZWxwZXIgZnVuY3Rpb25zLiBGcm9tIHRoZXNlIGRlY2xhcmF0
+aW9ucywgaXQNCj4+IGxhdGVyIGRlZmluZXMgZnJhbWVidWZmZXIgSS9PIGhlbHBlcnMsIHN1
+Y2ggYXMgZmJfe3JlYWQsd3JpdGV9W2J3bHFdKCkNCj4+IG9yIGZiX21lbXNldCgpLg0KPj4N
+Cj4+IFRoZSBmcmFtZWJ1ZmZlciBJL08gaGVscGVycyBkZXBlbmQgb24gdGhlIHN5c3RlbSBh
+cmNoaXRlY3R1cmUgYW5kDQo+PiB3aWxsIHRoZXJlZm9yZSBiZSBtb3ZlZCBpbnRvIDxhc20v
+ZmIuaD4uIFByZXBhcmUgdGhpcyBjaGFuZ2UgYnkgZmlyc3QNCj4+IGFkZGluZyBhbiBpbmNs
+dWRlIHN0YXRlbWVudCBmb3IgPGxpbnV4L2lvLmg+IHRvIDxhc20tZ2VuZXJpYy9mYi5oPi4N
+Cj4+IEluY2x1ZGUgPGFzbS9mYi5oPiBpbiBhbGwgc291cmNlIGZpbGVzIHRoYXQgdXNlIHRo
+ZSBmcmFtZWJ1ZmZlciBJL08NCj4+IGhlbHBlcnMsIHNvIHRoYXQgdGhleSBzdGlsbCBnZXQg
+dGhlIG5lY2Vzc2FyeSBJL08gZnVuY3Rpb25zLg0KPj4NCj4gLi4uDQo+Pg0KPj4gZGlmZiAt
+LWdpdCBhL2RyaXZlcnMvdmlkZW8vZmJkZXYvYXJrZmIuYyBiL2RyaXZlcnMvdmlkZW8vZmJk
+ZXYvYXJrZmIuYw0KPj4gaW5kZXggNjBhOTZmZGI1ZGQ4Li5mZDM4ZThhMDczYjggMTAwNjQ0
+DQo+PiAtLS0gYS9kcml2ZXJzL3ZpZGVvL2ZiZGV2L2Fya2ZiLmMNCj4+ICsrKyBiL2RyaXZl
+cnMvdmlkZW8vZmJkZXYvYXJrZmIuYw0KPj4gQEAgLTI3LDYgKzI3LDggQEANCj4+ICAgI2lu
+Y2x1ZGUgPGxpbnV4L2NvbnNvbGUuaD4gLyogV2h5IHNob3VsZCBmYiBkcml2ZXIgY2FsbCBj
+b25zb2xlIGZ1bmN0aW9ucz8gYmVjYXVzZSBjb25zb2xlX2xvY2soKSAqLw0KPj4gICAjaW5j
+bHVkZSA8dmlkZW8vdmdhLmg+DQo+PiAgIA0KPj4gKyNpbmNsdWRlIDxhc20vZmIuaD4NCj4g
+DQo+IFdoZW4gd2UgaGF2ZSBhIGhlYWRlciBsaWtlIGxpbnV4L2ZiLmggLSBpdCBpcyBteSB1
+bmRlcnN0YW5kaW5nIHRoYXQgaXQgaXMNCj4gcHJlZmVycmVkIHRvIGluY2x1ZGUgdGhhdCBm
+aWxlLCBhbmQgbm90IHRoZSBhc20vZmIuaCB2YXJpYW50Lg0KPiANCj4gVGhpcyBpcyBhc3N1
+bWluZyB0aGUgbGludXgvZmIuaCBjb250YWlucyB0aGUgZ2VuZXJpYyBzdHVmZiwgYW5kIGlu
+Y2x1ZGVzDQo+IGFzbS9mYi5oIGZvciB0aGUgYXJjaGl0ZWN0dXJlIHNwZWNpZmljIHBhcnRz
+Lg0KPiANCj4gU28gZHJpdmVycyB3aWxsIGluY2x1ZGUgbGludXgvZmIuaCBhbmQgdGhlbiB0
+aGV5IGF1dG9tYXRpY2FsbHkgZ2V0IHRoZQ0KPiBhcmNoaXRlY3R1cmUgc3BlY2lmaWMgcGFy
+dHMgZnJvbSBhc20vZmIuaC4NCj4gDQo+IEluIG90aGVyIHdvcmRzLCBkcml2ZXJzIGFyZSBu
+b3Qgc3VwcG9zZWQgdG8gaW5jbHVkZSBhc20vZmIuaCwgaWYNCj4gbGludXguZmIuaCBleGlz
+dHMgLSBhbmQgbGludXgvZmIuaCBzaGFsbCBpbmNsdWRlIHRoZSBhc20vZmIuaC4NCj4gDQo+
+IElmIHRoZSBhYm92ZSBob2xkcyB0cnVlLCB0aGVuIGl0IGlzIHdyb25nIGFuZCBub3QgbmVl
+ZGVkIHRvIGFkZCBhc20vZmIuaA0KPiBhcyBzZWVuIGFib3ZlLg0KPiANCj4gDQo+IFRoZXJl
+IGFyZSBjb3VudGxlc3MgZXhhbXBsZXMgd2hlcmUgdGhlIGFib3ZlIGFyZSBub3QgZm9sbG93
+ZWQsDQo+IGJ1dCB0byBteSBiZXN0IHVuZGVyc3RhbmRpbmcgdGhlIGFib3ZlIGl0IHRoZSBw
+cmVmZXJyZWQgd2F5IHRvIGRvIGl0Lg0KDQpXaGVyZSBkaWQgeW91aGVyIHRoaXM/IEkgb25s
+eSBrbm93IGFib3V0IHRoaXMgaW4gdGhlIGNhc2Ugb2YgYXNtL2lvLmggDQp2cy4gbGludXgv
+aW8uaC4NCg0KSWYgdGhhdCdzIHRoZSBjYXNlLCB3ZSBzaG91bGQgcHV0IHRob3NlIGhlbHBl
+cnMgaW50byBhIG5ldyBoZWFkZXIgZmlsZSwgDQpiZWNhdXNlIG9uZSBvZiB0aGUgbW90aXZh
+dGlvbnMgaGVyZSBpcyB0byByZW1vdmUgPGFzbS9pby5oPiBmcm9tIA0KPGxpbnV4L2ZiLmg+
+Lg0KDQpCZXN0IHJlZ2FyZHMNClRob21hcw0KDQo+IA0KPiAJU2FtDQoNCi0tIA0KVGhvbWFz
+IFppbW1lcm1hbm4NCkdyYXBoaWNzIERyaXZlciBEZXZlbG9wZXINClNVU0UgU29mdHdhcmUg
+U29sdXRpb25zIEdlcm1hbnkgR21iSA0KRnJhbmtlbnN0cmFzc2UgMTQ2LCA5MDQ2MSBOdWVy
+bmJlcmcsIEdlcm1hbnkNCkdGOiBJdm8gVG90ZXYsIEFuZHJldyBNeWVycywgQW5kcmV3IE1j
+RG9uYWxkLCBCb3VkaWVuIE1vZXJtYW4NCkhSQiAzNjgwOSAoQUcgTnVlcm5iZXJnKQ0K
 
-In fact it seems that the DSC/DCE (enablement) registers have been moved
-from PINGPONG to INTF in DPU 7.0.0.  Can you clarify in the patch
-message for v2 that this is the case, and do the same in the linked
-PINGPONG patch?  Perhaps these patches should be part of the same series
-as they do not seem DSI-specific.
+--------------bKIh6R9LGtMQp74D7VXZK0tl--
 
-[1]: https://lore.kernel.org/linux-arm-msm/1683061382-32651-3-git-send-email-quic_khsieh@quicinc.com/
+--------------pUWBDJ1Raj0NjYY4OLYhyeQp
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
-- Marijn
+-----BEGIN PGP SIGNATURE-----
 
-> Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
-> ---
->  drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h   | 1 +
->  drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h   | 1 +
->  drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h | 1 +
->  drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h   | 1 +
->  drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h   | 1 +
->  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h           | 2 ++
->  6 files changed, 7 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h
-> index f98c2a5b0e87..4160a35ff20f 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h
-> @@ -15,6 +15,7 @@ static const struct dpu_caps sm8350_dpu_caps = {
->  	.has_dim_layer = true,
->  	.has_idle_pc = true,
->  	.has_3d_merge = true,
-> +	.has_data_compress = true,
->  	.max_linewidth = 4096,
->  	.pixel_ram_size = DEFAULT_PIXEL_RAM_SIZE,
->  };
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h
-> index 3fd0498ab420..23230841a0d1 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h
-> @@ -13,6 +13,7 @@ static const struct dpu_caps sc7280_dpu_caps = {
->  	.qseed_type = DPU_SSPP_SCALER_QSEED4,
->  	.has_dim_layer = true,
->  	.has_idle_pc = true,
-> +	.has_data_compress = true,
->  	.max_linewidth = 2400,
->  	.pixel_ram_size = DEFAULT_PIXEL_RAM_SIZE,
->  };
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h
-> index ce583eb14b06..c990406e4bca 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h
-> @@ -15,6 +15,7 @@ static const struct dpu_caps sc8280xp_dpu_caps = {
->  	.has_dim_layer = true,
->  	.has_idle_pc = true,
->  	.has_3d_merge = true,
-> +	.has_data_compress = true,
->  	.max_linewidth = 5120,
->  	.pixel_ram_size = DEFAULT_PIXEL_RAM_SIZE,
->  };
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h
-> index 3950e7b946a5..7094640e2fbf 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h
-> @@ -15,6 +15,7 @@ static const struct dpu_caps sm8450_dpu_caps = {
->  	.has_dim_layer = true,
->  	.has_idle_pc = true,
->  	.has_3d_merge = true,
-> +	.has_data_compress = true,
->  	.max_linewidth = 5120,
->  	.pixel_ram_size = DEFAULT_PIXEL_RAM_SIZE,
->  };
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h
-> index 1b3f5424aea8..970049559e02 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h
-> @@ -15,6 +15,7 @@ static const struct dpu_caps sm8550_dpu_caps = {
->  	.has_dim_layer = true,
->  	.has_idle_pc = true,
->  	.has_3d_merge = true,
-> +	.has_data_compress = true,
->  	.max_linewidth = 5120,
->  	.pixel_ram_size = DEFAULT_PIXEL_RAM_SIZE,
->  };
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-> index b410a85c109c..c5bbd4ad6da8 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-> @@ -380,6 +380,7 @@ struct dpu_rotation_cfg {
->   * @has_dim_layer      dim layer feature status
->   * @has_idle_pc        indicate if idle power collapse feature is supported
->   * @has_3d_merge       indicate if 3D merge is supported
-> + * @has_data_compress  indicate if data compression is supported
->   * @max_linewidth      max linewidth for sspp
->   * @pixel_ram_size     size of latency hiding and de-tiling buffer in bytes
->   * @max_hdeci_exp      max horizontal decimation supported (max is 2^value)
-> @@ -393,6 +394,7 @@ struct dpu_caps {
->  	bool has_dim_layer;
->  	bool has_idle_pc;
->  	bool has_3d_merge;
-> +	bool has_data_compress;
->  	/* SSPP limits */
->  	u32 max_linewidth;
->  	u32 pixel_ram_size;
-> 
-> -- 
-> 2.40.1
-> 
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmRSCKQFAwAAAAAACgkQlh/E3EQov+CW
+BQ//YDmcKk7ERaH80k2npCB1rdHjACWs3GOdia4iNkVhYtPfK/loYq5roG9jBM+wXyR2nOo+RLD7
+0VtULvCiWgrJPT6BoA6hzeoOb+LGQ1gvDPJklhli0P+WaF13ibt8hnKPwJrCH19pjuRNtTzoSP1C
+SYXmx0uSU+ffenGiJdDfCAikIruhy/8N1qSfhKFvOvzDbazitLCGPZwCr+jdbh3IwtnEXz1uaFjY
+U+y7S/Z2CcvCqcGKsvyB/NnYg8zES/r0fwCzl5f4Y6jqr3jyU9Mi3wb2dbubLErIPkqiHsol7fmq
+zC8SvTXJFqLe2zKke7yZc1L6phcFbWdpcf6DLRhaQDBmylbz8uzXHkOjxjHuI8pnAHLTvF/VkOtj
+uZy/Reb7x0qboXTc2ivFUOwk2cKBJEwVab2hJFYdY4YAewUoINv+7vXs9XNoDjr8/LDmXLi+JYlu
+h8A38vUXFD4pi5xeFG57n1XlXhIDv38IzjxeozkQZ/RyxGF/HAbLLL6aK7kNnEn6+nU1krrOtbEV
+4w29Z2qCHW0LXsh1k0pGOEMx6K0w3gruoubOC4Wzr9sMom6tA31s11j21PHxYMLEtbhJMi0LzcNa
+r0w/T9Co/W6rI+j5TAH0rZNyxAywrj8YZIDmg/E7wk1CElgMIsECcxlGW2k1+Opr928kYYM4L97M
+50o=
+=a/zq
+-----END PGP SIGNATURE-----
+
+--------------pUWBDJ1Raj0NjYY4OLYhyeQp--
