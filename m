@@ -1,55 +1,69 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8302A6F56EF
-	for <lists+dri-devel@lfdr.de>; Wed,  3 May 2023 13:07:16 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 59F6B6F5703
+	for <lists+dri-devel@lfdr.de>; Wed,  3 May 2023 13:15:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BDD5310E258;
-	Wed,  3 May 2023 11:07:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5534410E262;
+	Wed,  3 May 2023 11:15:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ECC3010E121;
- Wed,  3 May 2023 11:07:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1683112028; x=1714648028;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=isSEaTcczQehorA2XyFTb7Qg8MalrslW5ar7lNBTlZw=;
- b=ktNfqAdZnZHrYLTAtxO1sP7jPLrk63jW8C8+lBOKHisXXVZ1K3ruyZWt
- +juNiY5GMKeWA9Wh5Bsv9ysSpi2u4MjKvkenWdURC0+7SdSRevKmm9/NI
- yTNtFqLystIHxGIViqzZvMB97VUh40otN83h/qQLU+rPCF/7KTMsAkOWg
- 6ZL7Tr7K5RlqLgqreFEV6z09V8v0Eo35Y4PfDLnoQDWxaHKpAQDzF4SJw
- B2YOHghTcHHb7QP3rXrMj/A6f7x2lOUV37TW2AYcx+wlIoHVJORHt2lqq
- wEf1cCBFMoAD/rpIvqJZ5WKW+On8CjJjzi+1lk/UB07vnx0G35LJ4faKC g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10698"; a="411780903"
-X-IronPort-AV: E=Sophos;i="5.99,247,1677571200"; d="scan'208";a="411780903"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 May 2023 04:07:07 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10698"; a="699326439"
-X-IronPort-AV: E=Sophos;i="5.99,247,1677571200"; d="scan'208";a="699326439"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.70])
- by fmsmga007.fm.intel.com with SMTP; 03 May 2023 04:07:04 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Wed, 03 May 2023 14:07:04 +0300
-Date: Wed, 3 May 2023 14:07:04 +0300
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: "Lisovskiy, Stanislav" <stanislav.lisovskiy@intel.com>
-Subject: Re: [PATCH 02/11] drm/i915/mst: Remove broken MST DSC support
-Message-ID: <ZFJAWCGuWcLDQOfS@intel.com>
-References: <20230502143906.2401-1-ville.syrjala@linux.intel.com>
- <20230502143906.2401-3-ville.syrjala@linux.intel.com>
- <ZFIPCm+k9TCyfMfS@intel.com>
+Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 25B1210E292
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 May 2023 11:15:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+ t=1683112504; x=1714648504;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=MtY2s3yh1IVnpkcGyb3twXc6KSMhTK5mUaZU6OAmzlI=;
+ b=eK4iILRpwUBrMbu2kD/3aW4YXgDqX89VAhCudcVW+rCv7shoCuoslgpS
+ IG1bhlrxolvQ6PgEP/pSRWEcvYhGRDS2EtRGmICleqq5rhyLrCpmVzcyD
+ Advd/mz2o5EBhFyGWejY1UAhkxub0vVCdwJjlYzMmFG2AwvDE5ZUcQJS/
+ Hv8gUkiJK8D+3PygZJpRcm80z0PLTEJyhw5R9tr66Z71Tlfo5m9eFNRDW
+ aS+cgz+4oeBsgXvGSnmizBHVs3qUo6wI2YtMEULjqkGMta0I8ceBsio9Q
+ 9v1hk3QH5uxIyukXjOSaJUK15wtaiqe4DzdknqZmmOVY+bpWbG5By5Uau Q==;
+X-IronPort-AV: E=Sophos;i="5.99,247,1677538800"; d="scan'208";a="30691588"
+Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
+ by mx1-pgp.tq-group.com with ESMTP; 03 May 2023 13:15:00 +0200
+Received: from mx1.tq-group.com ([192.168.6.7])
+ by tq-pgp-pr1.tq-net.de (PGP Universal service);
+ Wed, 03 May 2023 13:15:00 +0200
+X-PGP-Universal: processed;
+ by tq-pgp-pr1.tq-net.de on Wed, 03 May 2023 13:15:00 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+ t=1683112500; x=1714648500;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=MtY2s3yh1IVnpkcGyb3twXc6KSMhTK5mUaZU6OAmzlI=;
+ b=GD8jmJ3ggkMO1901Aypfe+0A+yKMjNf8+Zrb+MNajDhm41mM8NCr6TDR
+ nYBPCdwOx6hIulP2jg00UxM3DgAKhatI+HKc8MtaJpltSdtVDv7/+cRzw
+ l+udX7MBrbZROPplokekAm6wbDyrBgMy/8zKTtSjVIenj/CxOjjHWibYX
+ kODZNllwW9Rd0quDK8LwqCbBQmx+mVbgYK+ywWKzOcsExnniB150R08Am
+ joCe8RPdOm2yfou5B7mvLCZjnLQCIphtFpyNx/Uoc3IiJKuTSqefCYi0N
+ tXh7k0004opficrl8KmiP6rrBctbuQLOou/r3nFDTyjSA/+ALKDPbgok6 w==;
+X-IronPort-AV: E=Sophos;i="5.99,247,1677538800"; d="scan'208";a="30691587"
+Received: from vtuxmail01.tq-net.de ([10.115.0.20])
+ by mx1.tq-group.com with ESMTP; 03 May 2023 13:15:00 +0200
+Received: from steina-w.tq-net.de (unknown [10.123.53.21])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (No client certificate requested)
+ by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 49B2E280056;
+ Wed,  3 May 2023 13:14:59 +0200 (CEST)
+From: Alexander Stein <alexander.stein@ew.tq-group.com>
+To: Philipp Zabel <p.zabel@pengutronix.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Shawn Guo <shawnguo@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>, Fabio Estevam <festevam@gmail.com>,
+ Sebastian Reichel <sebastian.reichel@collabora.com>
+Subject: [PATCH 1/1] drm/imx/ipuv-v3: Fix front porch adjustment upon hactive
+ aligning
+Date: Wed,  3 May 2023 13:14:56 +0200
+Message-Id: <20230503111456.1748511-1-alexander.stein@ew.tq-group.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <ZFIPCm+k9TCyfMfS@intel.com>
-X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,86 +76,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, stable@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- Vinod Govindapillai <vinod.govindapillai@intel.com>
+Cc: Alexander Stein <alexander.stein@ew.tq-group.com>,
+ dri-devel@lists.freedesktop.org, NXP Linux Team <linux-imx@nxp.com>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, May 03, 2023 at 10:36:42AM +0300, Lisovskiy, Stanislav wrote:
-> On Tue, May 02, 2023 at 05:38:57PM +0300, Ville Syrjala wrote:
-> > From: Ville Syrjälä <ville.syrjala@linux.intel.com>
-> > 
-> > The MST DSC code has a myriad of issues:
-> > - Platform checks are wrong (MST+DSC is TGL+ only IIRC)
-> > - Return values of .mode_valid_ctx() are wrong
-> > - .mode_valid_ctx() assumes bigjoiner might be used, but ther rest
-> >   of the code doesn't agree
-> > - compressed bpp calculations don't make sense
-> > - FEC handling needs to consider the entire link as opposed to just
-> >   the single stream. Currently FEC would only get enabled if the
-> >   first enabled stream is compressed. Also I'm not seeing anything
-> >   that would account for the FEC overhead in any bandwidth calculations
-> > - PPS SDP is only handled for the first stream via the dig_port
-> >   hooks, other streams will not be transmittitng any PPS SDPs
-> > - PPS SDP readout is missing (also missing for SST!)
-> > - VDSC readout is missing (also missing for SST!)
-> > 
-> > The FEC issues is really the big one since we have no way currently
-> > to apply such link wide configuration constraints. Changing that is
-> > going to require a much bigger rework of the higher level modeset
-> > .compute_config() logic. We will also need such a rework to properly
-> > distribute the available bandwidth across all the streams on the
-> > same link (which is a must to eg. enable deep color).
-> 
-> Also all the things you mentioned are subject for discussion, for example
-> I see that FEC overhead is actually accounted for bpp calculation for instance.
+When hactive is not aligned to 8 pixels, it is aligned accordingly and
+hfront porch needs to be reduced the same amount. Unfortunately the front
+porch is set to the difference rather than reducing it. There are some
+Samsung TVs which can't cope with a front porch of instead of 70.
 
-AFAICS FEC is only accounted for in the data M/N calculations,
-assuming that particular stream happened to be compressed. I'm
-not sure if that actually matters since at least the link M/N
-are not even used by the MST sink. I suppose the data M/N might
-still be used for something though. For any uncompressed stream
-on the same link the data M/N values will be calculated
-incorrectly without FEC.
+Fixes: 94dfec48fca7 ("drm/imx: Add 8 pixel alignment fix")
+Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+---
+AFAICS ipu_di_adjust_videomode() checks that front porch is big enough to
+reduce the alignment difference.
 
-And as mentioned, the FEC bandwidth overhead doesn't seem to
-be accounted anywhere so no guarantee that we won't try to
-oversubcribe the link.
+ drivers/gpu/drm/imx/ipuv3/ipuv3-crtc.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-And FEC will only be enabled if the first stream to be enabled
-is compressed, otherwise we will enable the link without FEC
-and still try to cram other compressed streams through it
-(albeit without the PPS SDP so who knows what will happen)
-and that is illegal.
-
-> We usually improve things by gradually fixing, because if we act same way towards
-> all wrong code in the driver, we could end up removing the whole i915.
-
-We ususally don't merge code that has this many obvious and/or
-fundemental issues.
-
-Now, most of the issues I listed above are probably fixable
-in a way that could be backported to stable kernels, but
-unfortunately the FEC issue is not one of those. That one
-will likely need massive amounts of work all over the driver
-modeset code, making a backport impossible.
-
-> So from my side I would nack it, at least until you have a code which handles
-> all of this better - I have no doubt you probably have some ideas in your mind, so lets be constructive at least and propose something better first.
-> This code doesn't cause any regressions, but still provides "some" support to DP MST DSC to say the least and even if that would be removed, if some of those users 
-> refer to me, I would probably then just point to this mail discussion everytime.
-
-It seems very likely that it will cause regressions at some point,
-it just needs a specific multi-display MST setup. The resulting
-problems will be very confusing to debug since the order in which
-you enable/disable the outputs will have an impact on what actually
-goes wrong on account of the FEC and PPS SDP issues. The longer
-we wait disabling this the harder it will be to deal with those
-regressions since we the probably can't revert anymore (a straight
-revert was already not possible) but also can't fix it in a way
-that can be backported (due to the FEC issues in particular).
-
+diff --git a/drivers/gpu/drm/imx/ipuv3/ipuv3-crtc.c b/drivers/gpu/drm/imx/ipuv3/ipuv3-crtc.c
+index 1d306f7be9fd..341e9125bf2c 100644
+--- a/drivers/gpu/drm/imx/ipuv3/ipuv3-crtc.c
++++ b/drivers/gpu/drm/imx/ipuv3/ipuv3-crtc.c
+@@ -311,7 +311,7 @@ static void ipu_crtc_mode_set_nofb(struct drm_crtc *crtc)
+ 			 sig_cfg.mode.hactive, new_hactive);
+ 
+ 		dev_info(ipu_crtc->dev, "hfront_porch: %u\n", sig_cfg.mode.hfront_porch);
+-		sig_cfg.mode.hfront_porch = new_hactive - sig_cfg.mode.hactive;
++		sig_cfg.mode.hfront_porch -= new_hactive - sig_cfg.mode.hactive;
+ 		dev_info(ipu_crtc->dev, "hfront_porch: %u\n", sig_cfg.mode.hfront_porch);
+ 		sig_cfg.mode.hactive = new_hactive;
+ 	}
 -- 
-Ville Syrjälä
-Intel
+2.34.1
+
