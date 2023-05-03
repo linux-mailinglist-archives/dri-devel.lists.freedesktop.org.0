@@ -1,60 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CE296F5591
-	for <lists+dri-devel@lfdr.de>; Wed,  3 May 2023 12:06:58 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C1E006F562D
+	for <lists+dri-devel@lfdr.de>; Wed,  3 May 2023 12:28:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 44CE910E250;
-	Wed,  3 May 2023 10:06:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B9BEE10E255;
+	Wed,  3 May 2023 10:28:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D44E010E250;
- Wed,  3 May 2023 10:06:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1683108411; x=1714644411;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version:content-transfer-encoding;
- bh=wXTKpIgcNJcKBmw7wE/sa1YRHjVIbRIem99rf4NCvjc=;
- b=Zh15QvdBYbkeNg3d6yYAu6Fas41YMkqxxtXmmPY74JJvqzYzQFguykhY
- gNDEaaT92b/P0MfftqcZTgP2xPPkic8f/XGBySI/YU8SwzeZOSUOgrtj9
- 4LmCs1gdWtNtos/K9oVodhm9t15Jf8IUcBk0Q7pKXhlhRxrcs0o5lP1/5
- ZQaFcpADtn5i0AwGkp2Z+uhKS/PW5quhxZpTM2w1XUE6EVpnARr2Fx3xj
- Igf59EOww5oujEQGoARsjBfURL0PwZkaMmHuC7iwaUB4OLlqvAx5twKga
- f2ANm9F+yPnTdCYghtMLxcHL2sV0UeuL6eJIdn65pdpgVzvxXXUiGHfKY g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10698"; a="332980286"
-X-IronPort-AV: E=Sophos;i="5.99,246,1677571200"; d="scan'208";a="332980286"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 May 2023 03:06:51 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10698"; a="870881384"
-X-IronPort-AV: E=Sophos;i="5.99,246,1677571200"; d="scan'208";a="870881384"
-Received: from ebrosekx-mobl.ger.corp.intel.com (HELO localhost)
- ([10.252.36.204])
- by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 May 2023 03:06:48 -0700
-From: Jani Nikula <jani.nikula@intel.com>
-To: Daniel Vetter <daniel@ffwll.ch>, Tetsuo Handa
- <penguin-kernel@i-love.sakura.ne.jp>
-Subject: Re: [Intel-gfx] [PATCH v2] drm/i915: avoid flush_scheduled_work()
- usage
-In-Reply-To: <ZDuntOkUeh0Eve8a@phenom.ffwll.local>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <d8b73f88-d4aa-ed7e-09ea-5ad5ee803893@I-love.SAKURA.ne.jp>
- <5bbe7093-791e-5653-850b-aea343db3f3f@I-love.SAKURA.ne.jp>
- <b10d5ada60ab823a09b64f3bfd79db2dd601d5fd.camel@coelho.fi>
- <9ee23b3f-e2e1-6a78-4a28-2ed8790636e5@I-love.SAKURA.ne.jp>
- <87edomg4b6.fsf@intel.com>
- <95e9f67f-b198-4946-327c-626de07e45f9@I-love.SAKURA.ne.jp>
- <ZDuntOkUeh0Eve8a@phenom.ffwll.local>
-Date: Wed, 03 May 2023 13:06:45 +0300
-Message-ID: <87sfcdzq2y.fsf@intel.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8798F10E255
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 May 2023 10:28:51 +0000 (UTC)
+Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77]
+ helo=[IPv6:::1]) by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <l.stach@pengutronix.de>)
+ id 1pu9iw-0007Y0-9D; Wed, 03 May 2023 12:28:38 +0200
+Message-ID: <2ff0d221ed6033bd03c30fdd25abd2a41fb06fb2.camel@pengutronix.de>
+Subject: Re: drm/sched: Replacement for drm_sched_resubmit_jobs() is deprecated
+From: Lucas Stach <l.stach@pengutronix.de>
+To: Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, Boris
+ Brezillon <boris.brezillon@collabora.com>
+Date: Wed, 03 May 2023 12:28:35 +0200
+In-Reply-To: <f1c16424-e4cb-19a3-4854-40ead9d59d9c@amd.com>
+References: <20230502131941.5fe5b79f@collabora.com>
+ <5c4f4e89-6126-7701-2023-2628db1b7caa@amd.com>
+ <20230502144132.6a9e1bb5@collabora.com>
+ <20230503101624.5dbae57c@collabora.com>
+ <f1c16424-e4cb-19a3-4854-40ead9d59d9c@amd.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4 (3.46.4-1.fc37) 
+MIME-Version: 1.0
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,81 +51,148 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Luca Coelho <luca@coelho.fi>, DRI <dri-devel@lists.freedesktop.org>,
- Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+Cc: Matthew Brost <matthew.brost@intel.com>,
+ Alex Deucher <alexander.deucher@amd.com>, "Tuikov,
+ Luben" <Luben.Tuikov@amd.com>, Sarah Walker <sarah.walker@imgtec.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, 16 Apr 2023, Daniel Vetter <daniel@ffwll.ch> wrote:
-> On Fri, Apr 14, 2023 at 07:52:12PM +0900, Tetsuo Handa wrote:
->> On 2023/04/14 19:13, Jani Nikula wrote:
->> > On Fri, 14 Apr 2023, Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>=
- wrote:
->> >> On 2023/03/15 19:47, Luca Coelho wrote:
->> >>> On Tue, 2023-03-14 at 20:21 +0900, Tetsuo Handa wrote:
->> >>>> Like commit c4f135d643823a86 ("workqueue: Wrap flush_workqueue() us=
-ing a
->> >>>> macro") says, flush_scheduled_work() is dangerous and will be forbi=
-dden.
->> >>>>
->> >>>> Now that i915 is the last flush_scheduled_work() user, for now let's
->> >>>> start with blind conversion inside the whole drivers/gpu/drm/i915/
->> >>>> directory. Jani Nikula wants to use two workqueues in order to avoid
->> >>>> adding new module globals, but I'm not familiar enough to audit and
->> >>>> split into two workqueues.
->> >>>>
->> >>>> Link: https://lkml.kernel.org/r/87sfeita1p.fsf@intel.com
->> >>>> Signed-off-by: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
->> >>>> Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
->> >>>> Cc: Jani Nikula <jani.nikula@intel.com>
->> >>>> Cc: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
->> >>>> ---
->> >>>> Changes in v2:
->> >>>>   Add missing alloc_workqueue() failure check.
->> >>>
->> >>> Hi,
->> >>>
->> >>> Thanks for your patch! But it seems that you only fixed that failure
->> >>> check, without making the other change Jani proposed, namely, move t=
-he
->> >>> work to the i915 struct instead of making it a global.
->> >>>
->> >>> I'm working on that now.
->> >>
->> >> What is estimated time of arrival on this?
->> >> Can we expect your work in Linux 6.4 ?
->> >=20
->> > I'm afraid that ship has sailed. Sorry. :(
->>=20
->> Well, then, can we temporarily apply "[PATCH v2] drm/i915: avoid flush_s=
-cheduled_work() usage" ?
->> This patch is a mechanical conversion which unlikely causes regressions.=
- This patch eliminates
->> interference from work items outside of i915, which is small but an impr=
-ovement for i915 users.
->
-> I think if someone from i915 team triple-checks that i915 really doesn't
-> use any of the drm workers (hotplug handling, atomic commit, ...) then I
-> think we should be fine. The one that's unavoidable is the rmfb work
-> (which really only exists to avoid signal interruptions when doing this in
-> userspace process context, it's entirely synchronous otherwise), but I
-> think that's safe.
->
-> With that tripled checked I think the mechanical conversion is ok to land
-> late for 6.4 and has my
->
-> Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
->
-> [Dropped this on irc already, here just for the record]
+Hi Christian,
 
-The patch conflicts already, I was out sick for a week, and nobody
-picked this up in the mean time. I just don't see a way to rush it to
-v6.4 anymore, with mere days remaining in the merge window. I'm sorry.
+Am Mittwoch, dem 03.05.2023 um 10:47 +0200 schrieb Christian K=C3=B6nig:
+> Adding Luben as well.
+>=20
+> Am 03.05.23 um 10:16 schrieb Boris Brezillon:
+> > [SNIP]
+> > > To sum-up, we shouldn't call drm_sched_{start,stop,resubmit_jobs}().
+> > After the discussion I had with Matthew yesterday on IRC, I
+> > realized there was no clear agreement on this. Matthew uses those 3
+> > helpers in the Xe driver right now, and given he intends to use a
+> > multi-threaded wq for its 1:1 schedulers run queue, there's no way he
+> > can get away without calling drm_sched_{start,stop}().
+> > drm_sched_resubmit_jobs() can be open-coded in each driver, but I'm
+> > wondering if it wouldn't be preferable to add a ::resubmit_job() method
+> > or extend the ::run_job() one to support the resubmit semantics, which,
+> > AFAIU, is just about enforcing the job done fence (the one returned by
+> > ::run_job()) doesn't transition from a signaled to an unsignaled state.
+> >=20
+> > But probably more important than providing a generic helper, we should
+> > document the resubmit semantics (AKA, what should and/or shouldn't be
+> > done with pending jobs when a recovery happens). Because forbidding
+> > people to use a generic helper function doesn't give any guarantee that
+> > they'll do the right thing when coding their own logic, unless we give
+> > clues about what's considered right/wrong, and the current state of the
+> > doc is pretty unclear in this regard.
+>=20
+> I should probably talk about the history of the re-submit feature a bit=
+=20
+> more.
+>=20
+> Basically AMD came up with re-submission as a cheap way of increasing=20
+> the reliability of GPU resets. Problem is that it turned into an=20
+> absolutely nightmare. We tried for the last 5 years or so to get that=20
+> stable and it's still crashing.
+>=20
+> The first and most major problem is that the kernel doesn't even has the=
+=20
+> information if re-submitting jobs is possible or not. For example a job=
+=20
+> which has already been pushed to the hw could have grabbed a binary=20
+> semaphore and re-submitting it will just wait forever for the semaphore=
+=20
+> to be released.
+>=20
+I can follow this argument, but concluding that job resubmission is
+impossible is punishing simple GPUs. On Vivante GPUs we have exactly
+one job running at a time and all dependencies are visible to the
+scheduler, as we don't have/use any hardware synchronization mechanism,
+so all synchronization is piped through kernel visible fences.
 
-BR,
-Jani.
+It's reasonably easy for the etnaviv driver to find the guilty job to
+skip but resubmit all other jobs in the current hardware queue. I'm not
+really fond of having to make all applications deal with innocent
+context resets, while we can solve this via resubmission on simple HW.=C2=
+=A0
 
+I know that more complex hardware and use-cases might still require the
+kernel driver for this HW to give up and shoot all contexts active at
+the time of the GPU reset, but that's the price you pay for the
+hardware being more capable. I don't see why we should also pay that
+price on really simple HW.
 
---=20
-Jani Nikula, Intel Open Source Graphics Center
+> The second problem is that the dma_fence semantics don't allow to ever=
+=20
+> transit the state of a fence from signaled back to unsignaled. This=20
+> means that you can't re-use the hw fence and need to allocate a new one,=
+=20
+> but since memory allocation is forbidden inside a reset handler as well=
+=20
+> (YES we need to better document that part) you actually need to keep a=
+=20
+> bunch of hw fences pre-allocated around to make this work. Amdgpu choose=
+=20
+> to illegally re-use the hw fence instead which only works with quite=20
+> extreme hacks.
+>=20
+I'm with Boris here. Could you please explain when a fence would be
+already signaled in a GPU reset scenario and would need to go back to
+unsignaled, so we are on the same page here?
+
+Also the no memory allocation policy really needs some documentation.
+Currently etnaviv may allocate a bunch of memory to create the
+devcoredump before resetting the GPU and I don't believe etnaviv is the
+only driver doing such a thing. The allocations are set up in a way to
+just give up if there is memory pressure, as getting the GPU back in
+working order is obviously more important than writing GPU state data
+for post mortem analysis, but I also don't see where else this
+allocation could be done.
+
+> The third problem is that the lifetime of the job object was actually=20
+> defined very well before we tried to use re-submission. Basically it's=
+=20
+> just an intermediate state used between the IOCTL and pushing things to=
+=20
+> the hw, introducing this re-submit feature completely messed that up and=
+=20
+> cause quite a number of use after free errors in the past which are=20
+> again only solved by quite some hacks.
+>=20
+Isn't it still well-defined? The job object lives until it's parent
+fence signaled. Pulling a unsignaled parent fence and attaching a new
+one is not a problem.
+
+Regards,
+Lucas
+
+> What we should do in the GPU scheduler instead is the follow:
+>=20
+> 1. Don't support re-submission at all!
+>  =C2=A0=C2=A0=C2=A0 Instead we can provide help to drivers to query which=
+ fences=20
+> (scheduler or hw) are still not signaled yet.
+>  =C2=A0=C2=A0=C2=A0 This can then be used to re-create hw state if (and o=
+nly if!) the=20
+> driver knows what it's doing and can actually guarantee that this will wo=
+rk.
+>  =C2=A0=C2=A0=C2=A0 E.g. the case for XE where the kernel driver knows th=
+e contexts=20
+> which were not running at the time and can re-create their queues.
+>=20
+> 2. We can provide both a wq to use for single threaded application as=20
+> well as start/stop semantics.
+>  =C2=A0=C2=A0=C2=A0 It's just that the start/stop semantics should never =
+touch what was=20
+> already submitted, but rather just make sure that we don't get any new=
+=20
+> submissions.
+>=20
+> Regards,
+> Christian.
+>=20
+> >=20
+> > Regards,
+> >=20
+> > Boris
+>=20
+
