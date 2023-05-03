@@ -2,37 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D792C6F61A1
-	for <lists+dri-devel@lfdr.de>; Thu,  4 May 2023 01:00:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D581C6F61AA
+	for <lists+dri-devel@lfdr.de>; Thu,  4 May 2023 01:01:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 721BE10E0C8;
-	Wed,  3 May 2023 23:00:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2E6C910E172;
+	Wed,  3 May 2023 23:01:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m-r2.th.seeweb.it (m-r2.th.seeweb.it
- [IPv6:2001:4b7a:2000:18::171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6780F10E060
- for <dri-devel@lists.freedesktop.org>; Wed,  3 May 2023 23:00:31 +0000 (UTC)
-Received: from SoMainline.org (94-211-6-86.cable.dynamic.v4.ziggo.nl
- [94.211.6.86])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
- SHA256) (No client certificate requested)
- by m-r2.th.seeweb.it (Postfix) with ESMTPSA id 799BA3FDCE;
- Thu,  4 May 2023 01:00:25 +0200 (CEST)
-Date: Thu, 4 May 2023 01:00:24 +0200
-From: Marijn Suijten <marijn.suijten@somainline.org>
-To: Jessica Zhang <quic_jesszhan@quicinc.com>
-Subject: Re: [PATCH 4/4] drm/msm/dpu: Enable compression for command mode
-Message-ID: <rg6nlm4knw4hgtnwtvr4a5wqusyvvsetygiwxscp6bs6pun7ii@wzz6rd2y3vcn>
-References: <20230405-add-dsc-support-v1-0-6bc6f03ae735@quicinc.com>
- <20230405-add-dsc-support-v1-4-6bc6f03ae735@quicinc.com>
- <hxqxnfcydzyfrlvihmil3gecan6p6xyjw44gielu63ltgtqul7@xwvoprzofq6g>
- <d4b7a747-77a0-95eb-1201-c8b1c80defe3@quicinc.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F22CF10E060;
+ Wed,  3 May 2023 23:01:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1683154899; x=1714690899;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=XjYfocBTImj/Oh5pR8olPvM4Og8fZ2zohYoN/lxxoJ0=;
+ b=Xlj9os1ZT2OzxXXWjAsIWQ/C9YY7HwgrXqMcO0Z8VbxexybudOEalthW
+ cV7OMd6VM3nkjz7N33y+ZD02jhrb06ZiPsFTjxf0dcJNC1GUq8djPLLTO
+ kuaUqTtgrCvf/8nRuzj3lWMHMPt/FkPv5g55hOvqq+RZGNvL7/xTPeCt2
+ b0ZJnunwEy5dnwMUOrt3LCUs1Os3epTkqp1+nRXCZ3de3cXxEvey3oekD
+ DA94hwGWQmb3JdnmNI9ZzCUuXajkGXkrAcbccFVDMi0quhufhuN0GjiGA
+ 30nID6Ew7Ga2iRLDodtdUVRqRyJxU+wpzejOg6oYvWQg0QFRPWCNPnD/W A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10699"; a="350868538"
+X-IronPort-AV: E=Sophos;i="5.99,248,1677571200"; d="scan'208";a="350868538"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 May 2023 16:01:11 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10699"; a="943061842"
+X-IronPort-AV: E=Sophos;i="5.99,248,1677571200"; d="scan'208";a="943061842"
+Received: from fyang16-desk.jf.intel.com ([10.24.96.243])
+ by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 May 2023 16:01:10 -0700
+From: fei.yang@intel.com
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH v5 0/5] drm/i915: Allow user to set cache at BO creation
+Date: Wed,  3 May 2023 16:02:06 -0700
+Message-Id: <20230503230211.2834340-1-fei.yang@intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <d4b7a747-77a0-95eb-1201-c8b1c80defe3@quicinc.com>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,105 +55,82 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Konrad Dybcio <konrad.dybcio@linaro.org>,
- linux-arm-msm@vger.kernel.org, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Fei Yang <fei.yang@intel.com>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Jessica,
+From: Fei Yang <fei.yang@intel.com>
 
-On 2023-05-03 12:04:59, Jessica Zhang wrote:
-> 
-> 
-> On 5/3/2023 12:28 AM, Marijn Suijten wrote:
-> > On 2023-05-02 18:19:15, Jessica Zhang wrote:
-> >> Add a dpu_hw_intf op to enable data compression.
-> >>
-> >> Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
-> >> ---
-> >>   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c | 4 ++++
-> >>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c          | 7 +++++++
-> >>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h          | 2 ++
-> >>   3 files changed, 13 insertions(+)
-> >>
-> >> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
-> >> index 74470d068622..4321a1aba17f 100644
-> >> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
-> >> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
-> > 
-> > Can we have INTF DCE on video-mode encoders as well?
-> 
-> Hi Marijn,
-> 
-> Currently, there's no way to validate DSC for video mode as I've only 
-> made changes to support DSI for command mode. We are planning to post 
-> changes to support DSC over DP, which will include changes for video mode.
+The first three patches in this series are taken from
+https://patchwork.freedesktop.org/series/116868/
+These patches are included here because the last patch
+has dependency on the pat_index refactor.
 
-Okay, but then mention so in the patch description (which is rather
-short in this revision).
+This series is focusing on uAPI changes,
+1. end support for set caching ioctl [PATCH 4/5]
+2. add set_pat extension for gem_create [PATCH 5/5]
 
-<snip>
+v2: drop one patch that was merged separately
+    341ad0e8e254 drm/i915/mtl: Add PTE encode function
+v3: rebase on https://patchwork.freedesktop.org/series/117082/
+v4: fix missing unlock introduced in v3, and
+    solve a rebase conflict
+v5: replace obj->cache_level with pat_set_by_user,
+    fix i915_cache_level_str() for legacy platforms.
 
-> >>   #define INTF_CFG2_DATABUS_WIDEN	BIT(0)
-> >>   #define INTF_CFG2_DATA_HCTL_EN	BIT(4)
-> > 
-> > These should probably be reindented to match the below... And the rest
-> > of the defines use spaces instead of tabs.
-> 
-> Fair point, though I think fixing the whitespace for these 2 macros 
-> specifically might be better in a more relevant series.
+Fei Yang (5):
+  drm/i915: preparation for using PAT index
+  drm/i915: use pat_index instead of cache_level
+  drm/i915: make sure correct pte encode is used
+  drm/i915/mtl: end support for set caching ioctl
+  drm/i915: Allow user to set cache at BO creation
 
-Yes, I have many patches to start cleaning these up, as well as all the
-broken kerneldoc comments, but it's an uphill battle.  Not sure if I'll
-get to it any time soon if at all.
+ drivers/gpu/drm/i915/display/intel_dpt.c      | 12 +--
+ drivers/gpu/drm/i915/gem/i915_gem_create.c    | 36 +++++++++
+ drivers/gpu/drm/i915/gem/i915_gem_domain.c    | 48 ++++++-----
+ .../gpu/drm/i915/gem/i915_gem_execbuffer.c    | 10 ++-
+ drivers/gpu/drm/i915/gem/i915_gem_mman.c      |  3 +-
+ drivers/gpu/drm/i915/gem/i915_gem_object.c    | 66 +++++++++++++++-
+ drivers/gpu/drm/i915/gem/i915_gem_object.h    |  8 ++
+ .../gpu/drm/i915/gem/i915_gem_object_types.h  | 26 +++++-
+ drivers/gpu/drm/i915/gem/i915_gem_shmem.c     |  9 ++-
+ drivers/gpu/drm/i915/gem/i915_gem_shrinker.c  |  2 -
+ drivers/gpu/drm/i915/gem/i915_gem_stolen.c    |  4 +-
+ drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c  | 16 ++--
+ .../gpu/drm/i915/gem/selftests/huge_pages.c   |  2 +-
+ .../drm/i915/gem/selftests/i915_gem_migrate.c |  2 +-
+ .../drm/i915/gem/selftests/i915_gem_mman.c    |  2 +-
+ drivers/gpu/drm/i915/gt/gen6_ppgtt.c          | 10 ++-
+ drivers/gpu/drm/i915/gt/gen8_ppgtt.c          | 73 +++++++++--------
+ drivers/gpu/drm/i915/gt/gen8_ppgtt.h          |  3 +-
+ drivers/gpu/drm/i915/gt/intel_ggtt.c          | 76 +++++++++---------
+ drivers/gpu/drm/i915/gt/intel_gtt.h           | 20 +++--
+ drivers/gpu/drm/i915/gt/intel_migrate.c       | 47 ++++++-----
+ drivers/gpu/drm/i915/gt/intel_migrate.h       | 13 ++-
+ drivers/gpu/drm/i915/gt/intel_ppgtt.c         |  6 +-
+ drivers/gpu/drm/i915/gt/selftest_migrate.c    | 47 +++++------
+ drivers/gpu/drm/i915/gt/selftest_reset.c      |  8 +-
+ drivers/gpu/drm/i915/gt/selftest_timeline.c   |  2 +-
+ drivers/gpu/drm/i915/gt/selftest_tlb.c        |  4 +-
+ drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c      | 10 ++-
+ drivers/gpu/drm/i915/i915_debugfs.c           | 52 +++++++++---
+ drivers/gpu/drm/i915/i915_gem.c               | 16 +++-
+ drivers/gpu/drm/i915/i915_gpu_error.c         |  8 +-
+ drivers/gpu/drm/i915/i915_pci.c               | 79 ++++++++++++++++---
+ drivers/gpu/drm/i915/i915_vma.c               | 16 ++--
+ drivers/gpu/drm/i915/i915_vma.h               |  2 +-
+ drivers/gpu/drm/i915/i915_vma_types.h         |  2 -
+ drivers/gpu/drm/i915/intel_device_info.h      |  5 ++
+ drivers/gpu/drm/i915/selftests/i915_gem.c     |  5 +-
+ .../gpu/drm/i915/selftests/i915_gem_evict.c   |  4 +-
+ drivers/gpu/drm/i915/selftests/i915_gem_gtt.c | 15 ++--
+ .../drm/i915/selftests/intel_memory_region.c  |  4 +-
+ .../gpu/drm/i915/selftests/mock_gem_device.c  |  9 +++
+ drivers/gpu/drm/i915/selftests/mock_gtt.c     |  8 +-
+ include/uapi/drm/i915_drm.h                   | 36 +++++++++
+ tools/include/uapi/drm/i915_drm.h             | 36 +++++++++
+ 44 files changed, 618 insertions(+), 244 deletions(-)
 
-> With that being said, I'll change the spacing of the DATA_COMPRESS bit 
-> to spaces instead of tabs.
+-- 
+2.25.1
 
-Thanks, that seems to be the most common format.
-
-> >> +#define INTF_CFG2_DCE_DATA_COMPRESS	BIT(12)
-> >>   
-> >>   #define INTF_MISR_CTRL			0x180
-> >>   #define INTF_MISR_SIGNATURE		0x184
-> > 
-> > This does not seem to apply on top of:
-> > https://lore.kernel.org/linux-arm-msm/20230411-dpu-intf-te-v4-10-27ce1a5ab5c6@somainline.org/
-> 
-> Seems like I'm missing some patches from that series on my working 
-> branch. Will rebase on top of the full series for the v2.
-
-Thanks, but do discuss with Abhinav/Dmitry which series will land first.
-
-> >> +static inline void dpu_hw_intf_enable_compression(struct dpu_hw_intf *ctx)
-> > 
-> > Why inline?  This is used as a pointer callback.
-> 
-> Acked, will remove the inline.
-> 
-> > 
-> >> +{
-> >> +	DPU_REG_WRITE(&ctx->hw, INTF_CONFIG2, INTF_CFG2_DCE_DATA_COMPRESS);
-> > 
-> > dpu_hw_intf_setup_timing_engine() also programs INTF_CONFIG2.  Is it
-> > double-buffered, or is that config **always** unused when DSI CMD mode
-> > is used in conjunction with DSC/DCE?  Otherwise this should perhaps OR
-> > the bitflag into the register, or write the whole thing at once in
-> > dpu_hw_intf_setup_timing_engine()?
-> 
-> For command mode, INTF_CONFIG2 is unused aside from setting 
-> DATA_COMPRESS for DSC.
-> 
-> Since setup_timing_engine() is only used for video mode, the 
-> corresponding changes will be made in the DSC v1.2 for DP changes.
-
-Ack, that makes sense.  However, is this a guarantee that nothing else
-will write INTF_CONFIG2 in the future, or will we solve that problem
-when it happens?  I'm afraid more config-bits get added to this register
-in the future and might possibly race/overwrite each other.
-
-- Marijn
-
-<snip>
