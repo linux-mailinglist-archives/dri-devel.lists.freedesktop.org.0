@@ -2,80 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0275E6F5AE9
-	for <lists+dri-devel@lfdr.de>; Wed,  3 May 2023 17:23:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5E486F5B3C
+	for <lists+dri-devel@lfdr.de>; Wed,  3 May 2023 17:33:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0A1BE88C3D;
-	Wed,  3 May 2023 15:23:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3856D10E30A;
+	Wed,  3 May 2023 15:33:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com
- [IPv6:2a00:1450:4864:20::535])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A419488C3D;
- Wed,  3 May 2023 15:23:35 +0000 (UTC)
-Received: by mail-ed1-x535.google.com with SMTP id
- 4fb4d7f45d1cf-50b383222f7so7428026a12.3; 
- Wed, 03 May 2023 08:23:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1683127414; x=1685719414;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=dhDKDeVvIIcyVSoI0Q7SQy/SoT7BeRHrFaibMKbsE1c=;
- b=fS+Og3Lh+XmnS0ELaglWBWPwSrdpWsl65t/lHTdwL8loYIlJ8h9ECR02lpKbbe4IDH
- +gVg0ecWqiYsYqn6I7QWpPT4O4eydRjQ6D8wFrqxEvpDz5lYc7Jd3qXx9Y7BY8byFZRK
- 5Dwk5T0D65XjCE0phB2xSpKIbgQzflGtVgp3kTCkAqfORaI8Jh8pxO5YjywkhvV9YiYM
- oixhlkYIh1y2lUXvTIfyhnMh1j48YBnhX3xEtZaAp2zJ6/8amCN66iMLqd2OMtdAjLWe
- ZIvelngraBDlo5E89HJ1wFysn0h4a1dIK/o0a0FNW3g+ZTFBg+ONALdGqxL8RdmN0x6Y
- AXYQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683127414; x=1685719414;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=dhDKDeVvIIcyVSoI0Q7SQy/SoT7BeRHrFaibMKbsE1c=;
- b=dCHYgTz+Y8X1lmV6+XKa+qsg8tIZkMv6qL+jffZELpiNfr1b2HMjjwqP5+clPONTZc
- jgFpsoQVjvEUfhl1pTYIZm3Rrs8EI4src2M5Lksfznhvo1FwqhrJuCVKMDNt/gRxwcyj
- NwibIKODSwHT3kZups8mGR2FewYV3GWF+CaNcJZwTnrFo+TQd3dhTVWVpWVRxsGFhZf4
- aGFSqvrT6DK27ux/rpnWTzmv2f8bdGruyE/rAJPYJ/GzkmtnZrfQ+XRgCXPjYcq1JreT
- oV+2upb2wn2Gl76hU+gsgM0Lztn/of8kdKrGZn6ANtMI3+7UQmbFUbJ4mNyiXqruOH2O
- gW8g==
-X-Gm-Message-State: AC+VfDwDbRZS9MoAHOTKwfOnPC+ZTh7yngvRbFfvfSGbh70P5et3X6t1
- UVWeJDNXmrNXbnmet1tgC54=
-X-Google-Smtp-Source: ACHHUZ4lsR0rROauodPbBoICpecvV2OQJKKw+Cdqc5V4Bze9yu/24nhppjPlAziDdob7f+cOGIpwhw==
-X-Received: by 2002:a17:906:da8c:b0:956:fdb6:bc77 with SMTP id
- xh12-20020a170906da8c00b00956fdb6bc77mr3410999ejb.30.1683127413483; 
- Wed, 03 May 2023 08:23:33 -0700 (PDT)
-Received: from ?IPV6:2a02:908:1256:79a0:130a:3ed0:3dbc:854b?
- ([2a02:908:1256:79a0:130a:3ed0:3dbc:854b])
- by smtp.gmail.com with ESMTPSA id
- hx4-20020a170906846400b009659ad1072fsm7651ejc.113.2023.05.03.08.23.32
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 03 May 2023 08:23:33 -0700 (PDT)
-Message-ID: <76bd16ac-9251-c71f-8da3-4c4c14d3bdcf@gmail.com>
-Date: Wed, 3 May 2023 17:23:31 +0200
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 20EC810E266;
+ Wed,  3 May 2023 15:32:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1683127977; x=1714663977;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=BN2BK+oeCHCUZaZ4NEBc8WA1+u9GPhP/CnBYczQWvAI=;
+ b=Fk4Xevox3HihItG0+QShgIydOQaILFJb2fEvnjvWkeUPpw2+V1rNFbOr
+ Z15EOJGM2HDu6bCBHpBtcIj78SO5h6NnWmWfc6WLl1BPdsC2YAyFF4Knv
+ xnS8W8NkNgcrgl9tVEymjerA3wFAE3E3n86CTLo7tJVfX2sicJ+Dx71Ra
+ VAclXo9RTS/IlDHXbronWuLXCxkdOoZR6ATklgYMIieSHk3ObgQuCCzoE
+ Z4pHM9UK4TDkVAUiBEUiqq7BIPoFMMg8R8LY9sDTuyZsV1aKD4AMngleG
+ qfmGmF+uVGSJtfckhpYbYShmCzhGuCLfj4L1EeXTQ8kcIMeZjwrSDdVxW g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10699"; a="333045825"
+X-IronPort-AV: E=Sophos;i="5.99,247,1677571200"; d="scan'208";a="333045825"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 May 2023 08:32:53 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10699"; a="942883136"
+X-IronPort-AV: E=Sophos;i="5.99,247,1677571200"; d="scan'208";a="942883136"
+Received: from slinsell-mobl.ger.corp.intel.com (HELO [10.213.195.109])
+ ([10.213.195.109])
+ by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 May 2023 08:31:30 -0700
+Message-ID: <c9d1e666-50e9-d66a-d751-f4ec39fcb7bb@linux.intel.com>
+Date: Wed, 3 May 2023 16:31:19 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.10.0
-Subject: Re: [RFC PATCH 0/1] Add AMDGPU_INFO_GUILTY_APP ioctl
+Subject: Re: [Intel-gfx] [RFC PATCH 2/4] drm/cgroup: Add memory accounting to
+ DRM cgroup
 Content-Language: en-US
-To: Felix Kuehling <felix.kuehling@amd.com>,
- Alex Deucher <alexdeucher@gmail.com>, =?UTF-8?Q?Timur_Krist=c3=b3f?=
- <timur.kristof@gmail.com>
-References: <20230501185747.33519-1-andrealmeid@igalia.com>
- <CADnq5_NXj4W44F_etRQ7HWdVTnf5zARCM3Y_o3EiwWiHj8QMpA@mail.gmail.com>
- <6ab2ff76-4518-6fac-071e-5d0d5adc4fcd@igalia.com>
- <cb3d2590-a1f8-fe7e-0bba-638ee80719af@amd.com>
- <CAFF-SiV0=WNmRW-D9uYUuj68Zq0APxtGLya9KR6FfZ7v0Zf2RQ@mail.gmail.com>
- <fcca2934-a556-797c-535d-a66fc67bbe30@amd.com>
- <85c538b01efb6f3fa6ff05ed1a0bc3ff87df7a61.camel@gmail.com>
- <CADnq5_NHtFbwT=x8u7GYc4ESL_HVFzjgtOd3AnVFBYMrjZq55w@mail.gmail.com>
- <c54414482b685af0991a6b095cbfb7534d998afc.camel@gmail.com>
- <CADnq5_MSY=j9AobDk7ACevur4Hwvw_ub7g16Mfm7ymMJqwVNfQ@mail.gmail.com>
- <57fa0ee4-de4f-3797-f817-d05f72541d0e@gmail.com>
- <2bf162d0-6112-8370-8828-0e0b21ac22ba@amd.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-In-Reply-To: <2bf162d0-6112-8370-8828-0e0b21ac22ba@amd.com>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ dri-devel@lists.freedesktop.org, cgroups@vger.kernel.org,
+ intel-xe@lists.freedesktop.org
+References: <20230503083500.645848-1-maarten.lankhorst@linux.intel.com>
+ <20230503083500.645848-3-maarten.lankhorst@linux.intel.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <20230503083500.645848-3-maarten.lankhorst@linux.intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -90,125 +66,877 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Pelloux-Prayer, Pierre-Eric" <pierre-eric.pelloux-prayer@amd.com>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- =?UTF-8?Q?Andr=c3=a9_Almeida?= <andrealmeid@igalia.com>,
- =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <maraeo@gmail.com>,
- michel.daenzer@mailbox.org, linux-kernel@vger.kernel.org,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Samuel Pitoiset <samuel.pitoiset@gmail.com>, kernel-dev@igalia.com, "Deucher,
- Alexander" <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Cc: Zefan Li <lizefan.x@bytedance.com>, intel-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, Johannes Weiner <hannes@cmpxchg.org>,
+ Tejun Heo <tj@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 03.05.23 um 17:08 schrieb Felix Kuehling:
-> Am 2023-05-03 um 03:59 schrieb Christian König:
->> Am 02.05.23 um 20:41 schrieb Alex Deucher:
->>> On Tue, May 2, 2023 at 11:22 AM Timur Kristóf 
->>> <timur.kristof@gmail.com> wrote:
->>>> [SNIP]
->>>>>>>> In my opinion, the correct solution to those problems would be
->>>>>>>> if
->>>>>>>> the kernel could give userspace the necessary information about
->>>>>>>> a
->>>>>>>> GPU hang before a GPU reset.
->>>>>>>>
->>>>>>>   The fundamental problem here is that the kernel doesn't have
->>>>>>> that
->>>>>>> information either. We know which IB timed out and can
->>>>>>> potentially do
->>>>>>> a devcoredump when that happens, but that's it.
->>>>>>
->>>>>> Is it really not possible to know such a fundamental thing as what
->>>>>> the
->>>>>> GPU was doing when it hung? How are we supposed to do any kind of
->>>>>> debugging without knowing that?
->>
->> Yes, that's indeed something at least I try to figure out for years 
->> as well.
->>
->> Basically there are two major problems:
->> 1. When the ASIC is hung you can't talk to the firmware engines any 
->> more and most state is not exposed directly, but just through some 
->> fw/hw interface.
->>     Just take a look at how umr reads the shader state from the SQ. 
->> When that block is hung you can't do that any more and basically have 
->> no chance at all to figure out why it's hung.
->>
->>     Same for other engines, I remember once spending a week figuring 
->> out why the UVD block is hung during suspend. Turned out to be a 
->> debugging nightmare because any time you touch any register of that 
->> block the whole system would hang.
->>
->> 2. There are tons of things going on in a pipeline fashion or even 
->> completely in parallel. For example the CP is just the beginning of a 
->> rather long pipeline which at the end produces a bunch of pixels.
->>     In almost all cases I've seen you ran into a problem somewhere 
->> deep in the pipeline and only very rarely at the beginning.
->>
->>>>>>
->>>>>> I wonder what AMD's Windows driver team is doing with this problem,
->>>>>> surely they must have better tools to deal with GPU hangs?
->>>>> For better or worse, most teams internally rely on scan dumps via
->>>>> JTAG
->>>>> which sort of limits the usefulness outside of AMD, but also gives
->>>>> you
->>>>> the exact state of the hardware when it's hung so the hardware teams
->>>>> prefer it.
->>>>>
->>>> How does this approach scale? It's not something we can ask users to
->>>> do, and even if all of us in the radv team had a JTAG device, we
->>>> wouldn't be able to play every game that users experience random hangs
->>>> with.
->>> It doesn't scale or lend itself particularly well to external
->>> development, but that's the current state of affairs.
->>
->> The usual approach seems to be to reproduce a problem in a lab and 
->> have a JTAG attached to give the hw guys a scan dump and they can 
->> then tell you why something didn't worked as expected.
->
-> That's the worst-case scenario where you're debugging HW or FW issues. 
-> Those should be pretty rare post-bringup. But are there hangs caused 
-> by user mode driver or application bugs that are easier to debug and 
-> probably don't even require a GPU reset? For example most VM faults 
-> can be handled without hanging the GPU. Similarly, a shader in an 
-> endless loop should not require a full GPU reset. In the KFD compute 
-> case, that's still preemptible and the offending process can be killed 
-> with Ctrl-C or debugged with rocm-gdb.
 
-We also have infinite loop in shader abort for gfx and page faults are 
-pretty rare with OpenGL (a bit more often with Vulkan) and can be 
-handled gracefully on modern hw (they just spam the logs).
+On 03/05/2023 09:34, Maarten Lankhorst wrote:
+> Based roughly on the rdma and misc cgroup controllers, with a lot of
+> the accounting code borrowed from rdma.
+> 
+> The interface is simple:
+> - populate drmcgroup_device->regions[..] name and size for each active
+>    region.
+> - Call drm(m)cg_register_device()
+> - Use drmcg_try_charge to check if you can allocate a chunk of memory,
+>    use drmcg_uncharge when freeing it. This may return an error code,
+>    or -EAGAIN when the cgroup limit is reached.
+> 
+> The ttm code transforms -EAGAIN back to -ENOSPC since it has specific
+> logic for -ENOSPC, and returning -EAGAIN to userspace causes drmIoctl
+> to restart infinitely.
+> 
+> This API allows you to limit stuff with cgroups.
+> You can see the supported cards in /sys/fs/cgroup/drm.capacity
+> You need to echo +drm to cgroup.subtree_control, and then you can
+> partition memory.
+> 
+> In each cgroup subdir:
+> drm.max shows the current limits of the cgroup.
+> drm.current the current amount of allocated memory used by this cgroup.
+> drm.events shows the amount of time max memory was reached.
 
-The majority of the problems is unfortunately that we really get hard 
-hangs because of some hw issues. That can be caused by unlucky timing, 
-power management or doing things in an order the hw doesn't expected.
+Events is not in the patch?
+
+> Signed-off-by: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> ---
+>   Documentation/admin-guide/cgroup-v2.rst |  46 ++
+>   Documentation/gpu/drm-compute.rst       |  54 +++
+>   include/linux/cgroup_drm.h              |  81 ++++
+>   kernel/cgroup/drm.c                     | 539 +++++++++++++++++++++++-
+>   4 files changed, 699 insertions(+), 21 deletions(-)
+>   create mode 100644 Documentation/gpu/drm-compute.rst
+> 
+> diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
+> index f67c0829350b..b858d99cb2ef 100644
+> --- a/Documentation/admin-guide/cgroup-v2.rst
+> +++ b/Documentation/admin-guide/cgroup-v2.rst
+> @@ -2374,6 +2374,52 @@ RDMA Interface Files
+>   	  mlx4_0 hca_handle=1 hca_object=20
+>   	  ocrdma1 hca_handle=1 hca_object=23
+>   
+> +DRM
+> +----
+> +
+> +The "drm" controller regulates the distribution and accounting of
+> +DRM resources.
+> +
+> +DRM Interface Files
+> +~~~~~~~~~~~~~~~~~~~~
+> +
+> +  drm.max
+> +	A readwrite nested-keyed file that exists for all the cgroups
+> +	except root that describes current configured resource limit
+> +	for a DRM device.
+> +
+> +	Lines are keyed by device name and are not ordered.
+> +	Each line contains space separated resource name and its configured
+> +	limit that can be distributed.
+> +
+> +	The following nested keys are defined.
+> +
+> +	  ==========	=======================================================
+> +	  region.* 	Maximum amount of bytes that allocatable in this region
+> +	  ==========	=======================================================
+> +
+> +	An example for xe follows::
+> +
+> +	  0000:03:00.0 region.vram0=1073741824 region.stolen=max
+> +
+> +  drm.capacity
+> +	A read-only file that describes maximum region capacity.
+> +	It only exists on the root cgroup. Not all memory can be
+> +	allocated by cgroups, as the kernel reserves some for
+> +	internal use.
+> +
+> +	An example for xe follows::
+> +
+> +	  0000:03:00.0 region.vram0=8514437120 region.stolen=67108864
+> +
+> +  drm.current
+> +	A read-only file that describes current resource usage.
+> +	It exists for all the cgroup except root.
+> +
+> +	An example for xe follows::
+> +
+> +	  0000:03:00.0 region.vram0=12550144 region.stolen=8650752
+> +
+>   HugeTLB
+>   -------
+>   
+> diff --git a/Documentation/gpu/drm-compute.rst b/Documentation/gpu/drm-compute.rst
+> new file mode 100644
+> index 000000000000..116270976ef7
+> --- /dev/null
+> +++ b/Documentation/gpu/drm-compute.rst
+> @@ -0,0 +1,54 @@
+> +==================================
+> +Long running workloads and compute
+> +==================================
+> +
+> +Long running workloads (compute) are workloads that will not complete in 10
+> +seconds. (The time let the user wait before he reaches for the power button).
+> +This means that other techniques need to be used to manage those workloads,
+> +that cannot use fences.
+> +
+> +Some hardware may schedule compute jobs, and have no way to pre-empt them, or
+> +have their memory swapped out from them. Or they simply want their workload
+> +not to be preempted or swapped out at all.
+> +
+> +This means that it differs from what is described in driver-api/dma-buf.rst.
+> +
+> +As with normal compute jobs, dma-fence may not be used at all. In this case,
+> +not even to force preemption. The driver with is simply forced to unmap a BO
+> +from the long compute job's address space on unbind immediately, not even
+> +waiting for the workload to complete. Effectively this terminates the workload
+> +when there is no hardware support to recover.
+> +
+> +Since this is undesirable, there need to be mitigations to prevent a workload
+> +from being terminated. There are several possible approach, all with their
+> +advantages and drawbacks.
+> +
+> +The first approach you will likely try is to pin all buffers used by compute.
+> +This guarantees that the job will run uninterrupted, but also allows a very
+> +denial of service attack by pinning as much memory as possible, hogging the
+> +all GPU memory, and possibly a huge chunk of CPU memory.
+> +
+> +A second approach that will work slightly better on its own is adding an option
+> +not to evict when creating a new job (any kind). If all of userspace opts in
+> +to this flag, it would prevent cooperating userspace from forced terminating
+> +older compute jobs to start a new one.
+> +
+> +If job preemption and recoverable pagefaults are not available, those are the
+> +only approaches possible. So even with those, you want a separate way of
+> +controlling resources. The standard kernel way of doing so is cgroups.
+> +
+> +This creates a third option, using cgroups to prevent eviction. Both GPU and
+> +driver-allocated CPU memory would be accounted to the correct cgroup, and
+> +eviction would be made cgroup aware. This allows the GPU to be partitioned
+> +into cgroups, that will allow jobs to run next to each other without
+> +interference.
+
+The 3rd approach is only valid if used strictly with device local 
+memory, right? Because as soon as system memory backed buffers are used 
+this approach cannot guarantee no eviction can be triggered.
+
+> +
+> +The interface to the cgroup would be similar to the current CPU memory
+> +interface, with similar semantics for min/low/high/max, if eviction can
+> +be made cgroup aware. For now only max is implemented.
+> +
+> +What should be noted is that each memory region (tiled memory for example)
+> +should have its own accounting, using $card key0 = value0 key1 = value1.
+> +
+> +The key is set to the regionid set by the driver, for example "tile0".
+> +For the value of $card, we use drmGetUnique().
+> diff --git a/include/linux/cgroup_drm.h b/include/linux/cgroup_drm.h
+> index 8ef66a47619f..4f17b1c85f47 100644
+> --- a/include/linux/cgroup_drm.h
+> +++ b/include/linux/cgroup_drm.h
+> @@ -6,4 +6,85 @@
+>   #ifndef _CGROUP_DRM_H
+>   #define _CGROUP_DRM_H
+>   
+> +#include <linux/types.h>
+> +
+> +#include <drm/drm_managed.h>
+> +
+> +struct drm_device;
+> +struct drm_file;
+> +
+> +struct drmcgroup_state;
+> +
+> +/*
+> + * Use 8 as max, because of N^2 lookup when setting things, can be bumped if needed
+> + * Identical to TTM_NUM_MEM_TYPES to allow simplifying that code.
+> + */
+> +#define DRMCG_MAX_REGIONS 8
+> +
+> +struct drmcgroup_device {
+> +	struct list_head list;
+> +	struct list_head pools;
+> +
+> +	struct {
+> +		u64 size;
+> +		const char *name;
+> +	} regions[DRMCG_MAX_REGIONS];
+> +
+> +	/* Name describing the card, set by drmcg_register_device */
+> +	const char *name;
+> +
+> +};
+> +
+> +#if IS_ENABLED(CONFIG_CGROUP_DRM)
+> +int drmcg_register_device(struct drm_device *dev,
+> +			   struct drmcgroup_device *drm_cg);
+> +void drmcg_unregister_device(struct drmcgroup_device *cgdev);
+> +int drmcg_try_charge(struct drmcgroup_state **drmcg,
+> +		     struct drmcgroup_device *cgdev,
+> +		     u32 index, u64 size);
+> +void drmcg_uncharge(struct drmcgroup_state *drmcg,
+> +		    struct drmcgroup_device *cgdev,
+> +		    u32 index, u64 size);
+> +#else
+> +static inline int
+> +drmcg_register_device(struct drm_device *dev,
+> +		      struct drm_cgroup *drm_cg)
+> +{
+> +	return 0;
+> +}
+> +
+> +static inline void drmcg_unregister_device(struct drmcgroup_device *cgdev)
+> +{
+> +}
+> +
+> +static inline int drmcg_try_charge(struct drmcgroup_state **drmcg,
+> +				   struct drmcgroup_device *cgdev,
+> +				   u32 index, u64 size)
+> +{
+> +	*drmcg = NULL;
+> +	return 0;
+> +}
+> +
+> +static inline void drmcg_uncharge(struct drmcgroup_state *drmcg,
+> +				  struct drmcgroup_device *cgdev,
+> +				  u32 index, u64 size)
+> +{ }
+> +#endif
+> +
+> +static inline void drmmcg_unregister_device(struct drm_device *dev, void *arg)
+> +{
+> +	drmcg_unregister_device(arg);
+> +}
+> +
+> +/*
+> + * This needs to be done as inline, because cgroup lives in the core
+> + * kernel and it cannot call drm calls directly
+> + */
+> +static inline int drmmcg_register_device(struct drm_device *dev,
+> +					 struct drmcgroup_device *cgdev)
+> +{
+> +	return drmcg_register_device(dev, cgdev) ?:
+> +		drmm_add_action_or_reset(dev, drmmcg_unregister_device, cgdev);
+> +}
+> +
+>   #endif	/* _CGROUP_DRM_H */
+> diff --git a/kernel/cgroup/drm.c b/kernel/cgroup/drm.c
+> index 02c8eaa633d3..a93d9344fd36 100644
+> --- a/kernel/cgroup/drm.c
+> +++ b/kernel/cgroup/drm.c
+> @@ -1,60 +1,557 @@
+> -/* SPDX-License-Identifier: MIT */
+> +// SPDX-License-Identifier: GPL-2.0
+>   /*
+> - * Copyright © 2023 Intel Corporation
+> + * Copyright 2023 Intel
+> + * Partially based on the rdma and misc controllers, which bear the following copyrights:
+> + *
+> + * Copyright 2020 Google LLC
+> + * Copyright (C) 2016 Parav Pandit <pandit.parav@gmail.com>
+>    */
+>   
+>   #include <linux/cgroup.h>
+>   #include <linux/cgroup_drm.h>
+> +#include <linux/list.h>
+> +#include <linux/mutex.h>
+> +#include <linux/parser.h>
+>   #include <linux/slab.h>
+>   
+> -struct drm_cgroup_state {
+
+As a side note, it'd be easier to read the diff if you left the name as 
+is, and some other details too, like the static root group (I need to 
+remind myself if/why I needed it, but does it harm you?) and my missed 
+static keywords and needless static struct initialization. I will fix 
+that up in my patch localy. Aynway, that way it would maybe be less 
+churn from one patch to the other in the series.
+
+> +#include <drm/drm_device.h>
+> +#include <drm/drm_drv.h>
+> +#include <drm/drm_file.h>
+> +#include <drm/drm_managed.h>
+> +
+> +struct drmcgroup_state {
+>   	struct cgroup_subsys_state css;
+> +
+> +	struct list_head pools;
+>   };
+>   
+> -struct drm_root_cgroup_state {
+> -	struct drm_cgroup_state drmcs;
+> +struct drmcgroup_pool_state {
+> +	struct drmcgroup_device *device;
+> +	struct drmcgroup_resource {
+> +		s64 max, used;
+> +	} resources[DRMCG_MAX_REGIONS];
+> +
+> +	s64 usage_sum;
+> +
+> +	struct list_head	cg_node;
+
+cg always makes me think cgroup and not css so it is a bit confusing.
+
+Why are two lists needed?
+
+> +	struct list_head	dev_node;
+>   };
+>   
+> -static struct drm_root_cgroup_state root_drmcs;
+> +static DEFINE_MUTEX(drmcg_mutex);
+> +static LIST_HEAD(drmcg_devices);
+>   
+> -static inline struct drm_cgroup_state *
+> +static inline struct drmcgroup_state *
+>   css_to_drmcs(struct cgroup_subsys_state *css)
+>   {
+> -	return container_of(css, struct drm_cgroup_state, css);
+> +	return container_of(css, struct drmcgroup_state, css);
+> +}
+> +
+> +static inline struct drmcgroup_state *get_current_drmcg(void)
+> +{
+> +	return css_to_drmcs(task_get_css(current, drm_cgrp_id));
+> +}
+> +
+> +static struct drmcgroup_state *parent_drmcg(struct drmcgroup_state *cg)
+> +{
+> +	return css_to_drmcs(cg->css.parent);
+> +}
+> +
+> +static void free_cg_pool_locked(struct drmcgroup_pool_state *pool)
+> +{
+> +	lockdep_assert_held(&drmcg_mutex);
+> +
+> +	list_del(&pool->cg_node);
+> +	list_del(&pool->dev_node);
+> +	kfree(pool);
+> +}
+> +
+> +static void
+> +set_resource_max(struct drmcgroup_pool_state *pool, int i, u64 new_max)
+> +{
+> +	pool->resources[i].max = new_max;
+> +}
+> +
+> +static void set_all_resource_max_limit(struct drmcgroup_pool_state *rpool)
+> +{
+> +	int i;
+> +
+> +	for (i = 0; i < DRMCG_MAX_REGIONS; i++)
+> +		set_resource_max(rpool, i, S64_MAX);
+> +}
+> +
+> +static void drmcs_offline(struct cgroup_subsys_state *css)
+> +{
+> +	struct drmcgroup_state *drmcs = css_to_drmcs(css);
+> +	struct drmcgroup_pool_state *pool, *next;
+> +
+> +	mutex_lock(&drmcg_mutex);
+> +	list_for_each_entry_safe(pool, next, &drmcs->pools, cg_node) {
+> +		if (!pool->usage_sum) {
+> +			free_cg_pool_locked(pool);
+> +		} else {
+> +			/* Reset all regions, last uncharge will remove pool */
+> +			set_all_resource_max_limit(pool);
+> +		}
+> +	}
+> +	mutex_unlock(&drmcg_mutex);
+>   }
+>   
+>   static void drmcs_free(struct cgroup_subsys_state *css)
+>   {
+> -	struct drm_cgroup_state *drmcs = css_to_drmcs(css);
+> +	struct drmcgroup_state *drmcs = css_to_drmcs(css);
+>   
+> -	if (drmcs != &root_drmcs.drmcs)
+> -		kfree(drmcs);
+> +	kfree(drmcs);
+>   }
+>   
+>   static struct cgroup_subsys_state *
+>   drmcs_alloc(struct cgroup_subsys_state *parent_css)
+>   {
+> -	struct drm_cgroup_state *drmcs;
+> +	struct drmcgroup_state *drmcs = kzalloc(sizeof(*drmcs), GFP_KERNEL);
+> +	if (!drmcs)
+> +		return ERR_PTR(-ENOMEM);
+> +
+> +	INIT_LIST_HEAD(&drmcs->pools);
+> +	return &drmcs->css;
+> +}
+> +
+> +static struct drmcgroup_pool_state *
+> +find_cg_pool_locked(struct drmcgroup_state *drmcs, struct drmcgroup_device *dev)
+> +{
+> +	struct drmcgroup_pool_state *pool;
+> +
+> +	list_for_each_entry(pool, &drmcs->pools, cg_node)
+> +		if (pool->device == dev)
+> +			return pool;
+> +
+> +	return NULL;
+> +}
+> +
+> +static struct drmcgroup_pool_state *
+> +get_cg_pool_locked(struct drmcgroup_state *drmcs, struct drmcgroup_device *dev)
+> +{
+> +	struct drmcgroup_pool_state *pool;
+> +
+> +	pool = find_cg_pool_locked(drmcs, dev);
+> +	if (pool)
+> +		return pool;
+> +
+> +	pool = kzalloc(sizeof(*pool), GFP_KERNEL);
+> +	if (!pool)
+> +		return ERR_PTR(-ENOMEM);
+> +
+> +	pool->device = dev;
+> +	set_all_resource_max_limit(pool);
+>   
+> -	if (!parent_css) {
+> -		drmcs = &root_drmcs.drmcs;
+> -	} else {
+> -		drmcs = kzalloc(sizeof(*drmcs), GFP_KERNEL);
+> -		if (!drmcs)
+> -			return ERR_PTR(-ENOMEM);
+> +	INIT_LIST_HEAD(&pool->cg_node);
+> +	INIT_LIST_HEAD(&pool->dev_node);
+> +	list_add_tail(&pool->cg_node, &drmcs->pools);
+> +	list_add_tail(&pool->dev_node, &dev->pools);
+> +	return pool;
+> +}
+> +
+> +void drmcg_unregister_device(struct drmcgroup_device *cgdev)
+> +{
+> +	struct drmcgroup_pool_state *pool, *next;
+> +
+> +	mutex_lock(&drmcg_mutex);
+> +	list_del(&cgdev->list);
+> +
+> +	list_for_each_entry_safe(pool, next, &cgdev->pools, dev_node)
+> +		free_cg_pool_locked(pool);
+> +	mutex_unlock(&drmcg_mutex);
+> +	kfree(cgdev->name);
+> +}
+> +
+> +EXPORT_SYMBOL_GPL(drmcg_unregister_device);
+> +
+> +int drmcg_register_device(struct drm_device *dev,
+> +			  struct drmcgroup_device *cgdev)
+> +{
+> +	char *name = kstrdup(dev->unique, GFP_KERNEL);
+> +	if (!name)
+> +		return -ENOMEM;
+> +
+> +	INIT_LIST_HEAD(&cgdev->pools);
+> +	mutex_lock(&drmcg_mutex);
+> +	cgdev->name = name;
+> +	list_add_tail(&cgdev->list, &drmcg_devices);
+> +	mutex_unlock(&drmcg_mutex);
+> +
+> +	return 0;
+> +}
+> +EXPORT_SYMBOL_GPL(drmcg_register_device);
+> +
+> +static int drmcg_max_show(struct seq_file *sf, void *v)
+> +{
+> +	struct drmcgroup_state *drmcs = css_to_drmcs(seq_css(sf));
+> +	struct drmcgroup_pool_state *pool;
+> +
+> +	mutex_lock(&drmcg_mutex);
+> +	list_for_each_entry(pool, &drmcs->pools, cg_node) {
+> +		struct drmcgroup_device *dev = pool->device;
+> +		int i;
+> +
+> +		seq_puts(sf, dev->name);
+> +
+> +		for (i = 0; i < DRMCG_MAX_REGIONS; i++) {
+> +			if (!dev->regions[i].name)
+> +				continue;
+> +
+> +			if (pool->resources[i].max < S64_MAX)
+> +				seq_printf(sf, " region.%s=%lld", dev->regions[i].name,
+> +					   pool->resources[i].max);
+> +			else
+> +				seq_printf(sf, " region.%s=max", dev->regions[i].name);
+> +		}
+> +
+> +		seq_putc(sf, '\n');
+>   	}
+> +	mutex_unlock(&drmcg_mutex);
+>   
+> -	return &drmcs->css;
+> +	return 0;
+> +}
+> +
+> +static struct drmcgroup_device *drmcg_get_device_locked(const char *name)
+> +{
+> +	struct drmcgroup_device *dev;
+> +
+> +	lockdep_assert_held(&drmcg_mutex);
+> +
+> +	list_for_each_entry(dev, &drmcg_devices, list)
+> +		if (!strcmp(name, dev->name))
+> +			return dev;
+> +
+> +	return NULL;
+> +}
+> +
+> +static void try_to_free_cg_pool_locked(struct drmcgroup_pool_state *pool)
+> +{
+> +	struct drmcgroup_device *dev = pool->device;
+> +	u32 i;
+> +
+> +	/* Memory charged to this pool */
+> +	if (pool->usage_sum)
+> +		return;
+> +
+> +	for (i = 0; i < DRMCG_MAX_REGIONS; i++) {
+> +		if (!dev->regions[i].name)
+> +			continue;
+> +
+> +		/* Is a specific limit set? */
+> +		if (pool->resources[i].max < S64_MAX)
+> +			return;
+> +	}
+> +
+> +	/*
+> +	 * No user of the pool and all entries are set to defaults;
+> +	 * safe to delete this pool.
+> +	 */
+> +	free_cg_pool_locked(pool);
+> +}
+> +
+> +
+> +static void
+> +uncharge_cg_locked(struct drmcgroup_state *drmcs,
+> +		   struct drmcgroup_device *cgdev,
+> +		   u32 index, u64 size)
+> +{
+> +	struct drmcgroup_pool_state *pool;
+> +
+> +	pool = find_cg_pool_locked(drmcs, cgdev);
+> +
+> +	if (unlikely(!pool)) {
+> +		pr_warn("Invalid device %p or drm cgroup %p\n", cgdev, drmcs);
+> +		return;
+> +	}
+> +
+> +	pool->resources[index].used -= size;
+> +
+> +	/*
+> +	 * A negative count (or overflow) is invalid,
+> +	 * it indicates a bug in the rdma controller.
+> +	 */
+> +	WARN_ON_ONCE(pool->resources[index].used < 0);
+> +	pool->usage_sum--;
+> +	try_to_free_cg_pool_locked(pool);
+> +}
+> +
+> +static void drmcg_uncharge_hierarchy(struct drmcgroup_state *drmcs,
+> +				     struct drmcgroup_device *cgdev,
+> +				     struct drmcgroup_state *stop_cg,
+> +				     u32 index, u64 size)
+> +{
+> +	struct drmcgroup_state *p;
+> +
+> +	mutex_lock(&drmcg_mutex);
+> +
+> +	for (p = drmcs; p != stop_cg; p = parent_drmcg(p))
+> +		uncharge_cg_locked(p, cgdev, index, size);
+> +
+> +	mutex_unlock(&drmcg_mutex);
+> +
+> +	css_put(&drmcs->css);
+> +}
+> +
+> +void drmcg_uncharge(struct drmcgroup_state *drmcs,
+> +		    struct drmcgroup_device *cgdev,
+> +		    u32 index,
+> +		    u64 size)
+> +{
+> +	if (index >= DRMCG_MAX_REGIONS)
+> +		return;
+> +
+> +	drmcg_uncharge_hierarchy(drmcs, cgdev, NULL, index, size);
+> +}
+> +EXPORT_SYMBOL_GPL(drmcg_uncharge);
+> +
+> +int drmcg_try_charge(struct drmcgroup_state **drmcs,
+> +		     struct drmcgroup_device *cgdev,
+> +		     u32 index,
+> +		     u64 size)
+> +{
+> +	struct drmcgroup_state *cg, *p;
+> +	struct drmcgroup_pool_state *pool;
+> +	u64 new;
+> +	int ret = 0;
+> +
+> +	if (index >= DRMCG_MAX_REGIONS)
+> +		return -EINVAL;
+> +
+> +	/*
+> +	 * hold on to css, as cgroup can be removed but resource
+> +	 * accounting happens on css.
+> +	 */
+> +	cg = get_current_drmcg();
+
+1)
+
+I am not familiar with the Xe flows - charging is at the point of actual 
+backing store allocation?
+
+What about buffer sharing?
+
+Also, given how the css is permanently stored in the caller - you 
+deliberately decided not to deal with task migrations? I am not sure 
+that will work. Or maybe just omitted for RFC v1?
+
+2)
+
+Buffer objects which Xe can migrate between memory regions will be 
+correctly charge/uncharged as they are moved?
 
 Regards,
-Christian.
 
->
-> It's more complicated for graphics because of the more complex 
-> pipeline and the lack of CWSR. But it should still be possible to do 
-> some debugging without JTAG if the problem is in SW and not HW or FW. 
-> It's probably worth improving that debugability without getting 
-> hung-up on the worst case.
->
-> Maybe user mode graphics queues will offer a better way of recovering 
-> from these kinds of bugs, if the graphics pipeline can be unstuck 
-> without a GPU reset, just by killing the offending user mode queue.
->
-> Regards,
->   Felix
->
->
->>
->> And yes that absolutely doesn't scale.
->>
->> Christian.
->>
->>>
->>> Alex
->>
+Tvrtko
 
+> +
+> +	mutex_lock(&drmcg_mutex);
+> +	for (p = cg; p; p = parent_drmcg(p)) {
+> +		pool = get_cg_pool_locked(p, cgdev);
+> +		if (IS_ERR(pool)) {
+> +			ret = PTR_ERR(pool);
+> +			goto err;
+> +		} else {
+> +			new = pool->resources[index].used + size;
+> +			if (new > pool->resources[index].max || new > S64_MAX) {
+> +				ret = -EAGAIN;
+> +				goto err;
+> +			} else {
+> +				pool->resources[index].used = new;
+> +				pool->usage_sum++;
+> +			}
+> +		}
+> +	}
+> +	mutex_unlock(&drmcg_mutex);
+> +
+> +	*drmcs = cg;
+> +	return 0;
+> +
+> +err:
+> +	mutex_unlock(&drmcg_mutex);
+> +	drmcg_uncharge_hierarchy(cg, cgdev, p, index, size);
+> +	return ret;
+> +}
+> +EXPORT_SYMBOL_GPL(drmcg_try_charge);
+> +
+> +static s64 parse_resource(char *c, char **retname)
+> +{
+> +	substring_t argstr;
+> +	char *name, *value = c;
+> +	size_t len;
+> +	int ret;
+> +	u64 retval;
+> +
+> +	name = strsep(&value, "=");
+> +	if (!name || !value)
+> +		return -EINVAL;
+> +
+> +	/* Only support region setting for now */
+> +	if (strncmp(name, "region.", 7))
+> +		return -EINVAL;
+> +	else
+> +		name += 7;
+> +
+> +	*retname = name;
+> +	len = strlen(value);
+> +
+> +	argstr.from = value;
+> +	argstr.to = value + len;
+> +
+> +	ret = match_u64(&argstr, &retval);
+> +	if (ret >= 0) {
+> +		if (retval > S64_MAX)
+> +			return -EINVAL;
+> +		return retval;
+> +	}
+> +	if (!strncmp(value, "max", len))
+> +		return S64_MAX;
+> +
+> +	/* Not u64 or max, error */
+> +	return -EINVAL;
+> +}
+> +
+> +static int drmcg_parse_limits(char *options,
+> +			      u64 *limits, char **enables)
+> +{
+> +	char *c;
+> +	int num_limits = 0;
+> +
+> +	/* parse resource options */
+> +	while ((c = strsep(&options, " ")) != NULL) {
+> +		s64 limit;
+> +
+> +		if (num_limits >= DRMCG_MAX_REGIONS)
+> +			return -EINVAL;
+> +
+> +		limit = parse_resource(c, &enables[num_limits]);
+> +		if (limit < 0)
+> +			return limit;
+> +
+> +		limits[num_limits++] = limit;
+> +	}
+> +	return num_limits;
+> +}
+> +
+> +static ssize_t drmcg_max_write(struct kernfs_open_file *of,
+> +			       char *buf, size_t nbytes, loff_t off)
+> +{
+> +	struct drmcgroup_state *drmcs = css_to_drmcs(of_css(of));
+> +	struct drmcgroup_device *dev;
+> +	struct drmcgroup_pool_state *pool;
+> +	char *options = strstrip(buf);
+> +	char *dev_name = strsep(&options, " ");
+> +	u64 limits[DRMCG_MAX_REGIONS];
+> +	u64 new_limits[DRMCG_MAX_REGIONS];
+> +	char *regions[DRMCG_MAX_REGIONS];
+> +	int num_limits, i;
+> +	unsigned long set_mask = 0;
+> +	int err = 0;
+> +
+> +	if (!dev_name)
+> +		return -EINVAL;
+> +
+> +	num_limits = drmcg_parse_limits(options, limits, regions);
+> +	if (num_limits < 0)
+> +		return num_limits;
+> +	if (!num_limits)
+> +		return -EINVAL;
+> +
+> +	/*
+> +	 * Everything is parsed into key=value pairs now, take lock and attempt to update
+> +	 * For good measure, set -EINVAL when a key is set twice.
+> +	 */
+> +	mutex_lock(&drmcg_mutex);
+> +
+> +	dev = drmcg_get_device_locked(dev_name);
+> +	if (!dev) {
+> +		err = -ENODEV;
+> +		goto err;
+> +	}
+> +
+> +	pool = get_cg_pool_locked(drmcs, dev);
+> +	if (IS_ERR(pool)) {
+> +		err = PTR_ERR(pool);
+> +		goto err;
+> +	}
+> +
+> +	/* Lookup region names and set new_limits to the index */
+> +	for (i = 0; i < num_limits; i++) {
+> +		int j;
+> +
+> +		for (j = 0; j < DRMCG_MAX_REGIONS; j++)
+> +			if (dev->regions[j].name &&
+> +			    !strcmp(regions[i], dev->regions[j].name))
+> +				break;
+> +
+> +		if (j == DRMCG_MAX_REGIONS ||
+> +		    set_mask & BIT(j)) {
+> +			err = -EINVAL;
+> +			goto err_put;
+> +		}
+> +
+> +		set_mask |= BIT(j);
+> +		new_limits[j] = limits[i];
+> +	}
+> +
+> +	/* And commit */
+> +	for_each_set_bit(i, &set_mask, DRMCG_MAX_REGIONS)
+> +		set_resource_max(pool, i, new_limits[i]);
+> +
+> +err_put:
+> +	try_to_free_cg_pool_locked(pool);
+> +err:
+> +	mutex_unlock(&drmcg_mutex);
+> +
+> +	return err ?: nbytes;
+> +}
+> +
+> +static int drmcg_current_show(struct seq_file *sf, void *v)
+> +{
+> +	struct drmcgroup_state *drmcs = css_to_drmcs(seq_css(sf));
+> +	struct drmcgroup_device *dev;
+> +
+> +	mutex_lock(&drmcg_mutex);
+> +	list_for_each_entry(dev, &drmcg_devices, list) {
+> +		struct drmcgroup_pool_state *pool = find_cg_pool_locked(drmcs, dev);
+> +		int i;
+> +
+> +		seq_puts(sf, dev->name);
+> +
+> +		for (i = 0; i < DRMCG_MAX_REGIONS; i++) {
+> +			if (!dev->regions[i].name)
+> +				continue;
+> +
+> +			seq_printf(sf, " region.%s=%lld", dev->regions[i].name,
+> +				   pool ? pool->resources[i].used : 0ULL);
+> +		}
+> +
+> +		seq_putc(sf, '\n');
+> +	}
+> +	mutex_unlock(&drmcg_mutex);
+> +
+> +	return 0;
+> +}
+> +
+> +static int drmcg_capacity_show(struct seq_file *sf, void *v)
+> +{
+> +	struct drmcgroup_device *dev;
+> +	int i;
+> +
+> +	list_for_each_entry(dev, &drmcg_devices, list) {
+> +		seq_puts(sf, dev->name);
+> +		for (i = 0; i < DRMCG_MAX_REGIONS; i++)
+> +			if (dev->regions[i].name)
+> +				seq_printf(sf, " region.%s=%lld",
+> +					   dev->regions[i].name,
+> +					   dev->regions[i].size);
+> +		seq_putc(sf, '\n');
+> +	}
+> +	return 0;
+>   }
+>   
+> -struct cftype files[] = {
+> +static struct cftype files[] = {
+> +	{
+> +		.name = "max",
+> +		.write = drmcg_max_write,
+> +		.seq_show = drmcg_max_show,
+> +		.flags = CFTYPE_NOT_ON_ROOT,
+> +	},
+> +	{
+> +		.name = "current",
+> +		.seq_show = drmcg_current_show,
+> +		.flags = CFTYPE_NOT_ON_ROOT,
+> +	},
+> +	{
+> +		.name = "capacity",
+> +		.seq_show = drmcg_capacity_show,
+> +		.flags = CFTYPE_ONLY_ON_ROOT,
+> +	},
+>   	{ } /* Zero entry terminates. */
+>   };
+>   
+>   struct cgroup_subsys drm_cgrp_subsys = {
+>   	.css_alloc	= drmcs_alloc,
+>   	.css_free	= drmcs_free,
+> -	.early_init	= false,
+> +	.css_offline	= drmcs_offline,
+>   	.legacy_cftypes	= files,
+>   	.dfl_cftypes	= files,
+>   };
