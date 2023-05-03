@@ -1,36 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 258D56F529A
-	for <lists+dri-devel@lfdr.de>; Wed,  3 May 2023 10:03:44 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F4036F52BF
+	for <lists+dri-devel@lfdr.de>; Wed,  3 May 2023 10:09:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 36AF010E1E5;
-	Wed,  3 May 2023 08:03:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E4FEB10E1E6;
+	Wed,  3 May 2023 08:09:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m-r1.th.seeweb.it (m-r1.th.seeweb.it [5.144.164.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F190510E1E6
- for <dri-devel@lists.freedesktop.org>; Wed,  3 May 2023 08:03:37 +0000 (UTC)
-Received: from SoMainline.org (94-211-6-86.cable.dynamic.v4.ziggo.nl
- [94.211.6.86])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
- SHA256) (No client certificate requested)
- by m-r1.th.seeweb.it (Postfix) with ESMTPSA id 315111F96A;
- Wed,  3 May 2023 10:03:35 +0200 (CEST)
-Date: Wed, 3 May 2023 10:03:33 +0200
-From: Marijn Suijten <marijn.suijten@somainline.org>
-To: Kuogee Hsieh <quic_khsieh@quicinc.com>
-Subject: Re: [PATCH v3 4/7] drm/msm/dpu: add PINGPONG_NONE to disconnect DSC
- from PINGPONG
-Message-ID: <csyytksa77vbi2hwwv25voocdf3khsbp2kxtd4jcucoobcpjdv@6xkqzk33dn5u>
-References: <1683061382-32651-1-git-send-email-quic_khsieh@quicinc.com>
- <1683061382-32651-5-git-send-email-quic_khsieh@quicinc.com>
+Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com
+ [209.85.219.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A068B10E1E6
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 May 2023 08:09:53 +0000 (UTC)
+Received: by mail-yb1-f171.google.com with SMTP id
+ 3f1490d57ef6-b99efd7c335so6845415276.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 03 May 2023 01:09:53 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1683101392; x=1685693392;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=3SVmNF978sXXspcYjjZLpiBDqyot8IfsoBtpE1ZoRNc=;
+ b=dH4fELjRI9Od4uiV8+mpht/xAibde3aGYwjmhPJUJkbJQlEeAoHDq2BlS27paYCv9M
+ APl0qKljD0J6h0tBxJx2BDoCwyCpyOOhA58DGCq6OWW3K2HYkij0LFb0Rr/rPEWPSgim
+ TFAKLnKGlGTJTyBqfJcM4ZTK30orHrR+t2MJmVz62gK7yS64ltdSjZJsfYc3Z07ejZeP
+ D7h1Rp07EEBBfSh44atF34sRwqQlK5BHGJ4K6SwwFIvtxNbg1VzRrWZh/4sdp0k1qHD7
+ eKTYifKywTq4m6REk6pkOx1QvLv6Wv2X4MGCEDZc8BLX0o4G4UUI6kPWK4uhIOFTJPA7
+ r7aw==
+X-Gm-Message-State: AC+VfDz//bVmQbEOCKr2/Ik8zdwO7smCAjs/xAWmAmfi8bbUjx+KDedT
+ eB7SF1uC5jLbnG1xTEPrI5JwkBr6BiZ3EA==
+X-Google-Smtp-Source: ACHHUZ5AqmIAq0hpDmvAzxn0E5ejvRe7Zmy5xGu2y68097e63hDCfa9FN/rFiqqd7zVBTW3rcg3ePw==
+X-Received: by 2002:a25:746:0:b0:b8f:2047:181a with SMTP id
+ 67-20020a250746000000b00b8f2047181amr19960892ybh.24.1683101391883; 
+ Wed, 03 May 2023 01:09:51 -0700 (PDT)
+Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com.
+ [209.85.128.178]) by smtp.gmail.com with ESMTPSA id
+ p203-20020a255bd4000000b00b993b8e0e4bsm2903519ybb.38.2023.05.03.01.09.50
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 03 May 2023 01:09:51 -0700 (PDT)
+Received: by mail-yw1-f178.google.com with SMTP id
+ 00721157ae682-55a6efe95c9so38614677b3.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 03 May 2023 01:09:50 -0700 (PDT)
+X-Received: by 2002:a0d:c347:0:b0:556:dd1b:3bb7 with SMTP id
+ f68-20020a0dc347000000b00556dd1b3bb7mr19301020ywd.43.1683101390642; Wed, 03
+ May 2023 01:09:50 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1683061382-32651-5-git-send-email-quic_khsieh@quicinc.com>
+References: <20230502130223.14719-1-tzimmermann@suse.de>
+ <20230502130223.14719-5-tzimmermann@suse.de>
+ <20230502195429.GA319489@ravnborg.org>
+ <563673c0-799d-e353-974c-91b1ab881a22@suse.de>
+ <87354dyj9i.fsf@minerva.mail-host-address-is-not-set>
+In-Reply-To: <87354dyj9i.fsf@minerva.mail-host-address-is-not-set>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Wed, 3 May 2023 10:09:39 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdW8Sm7sBu47XQ1xygn6fzq2FzQeiuK0ncMVGHan-_k4Ow@mail.gmail.com>
+Message-ID: <CAMuHMdW8Sm7sBu47XQ1xygn6fzq2FzQeiuK0ncMVGHan-_k4Ow@mail.gmail.com>
+Subject: Re: [PATCH v3 4/6] fbdev: Include <linux/io.h> via <asm/fb.h>
+To: Javier Martinez Canillas <javierm@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -43,123 +73,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, quic_sbillaka@quicinc.com,
- quic_abhinavk@quicinc.com, andersson@kernel.org,
- dri-devel@lists.freedesktop.org, dianders@chromium.org, vkoul@kernel.org,
- agross@kernel.org, linux-arm-msm@vger.kernel.org, dmitry.baryshkov@linaro.org,
- swboyd@chromium.org, sean@poorly.run, linux-kernel@vger.kernel.org
+Cc: linux-arch@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ linux-ia64@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ arnd@arndb.de, deller@gmx.de, chenhuacai@kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ James.Bottomley@hansenpartnership.com, linux-m68k@lists.linux-m68k.org,
+ linux-parisc@vger.kernel.org, loongarch@lists.linux.dev, vgupta@kernel.org,
+ sparclinux@vger.kernel.org, kernel@xen0n.name,
+ linux-snps-arc@lists.infradead.org, Sam Ravnborg <sam@ravnborg.org>,
+ davem@davemloft.net, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2023-05-02 14:02:59, Kuogee Hsieh wrote:
-> During DSC setup, the crossbar mux need to be programmed to engage
-> DSC to specified PINGPONG. Hence during tear down, the crossbar mux
-> need to be reset to disengage DSC from PINGPONG. This patch add
-> PINGPONG_NONE to serve as disable to reset crossbar mux.
+On Wed, May 3, 2023 at 9:19=E2=80=AFAM Javier Martinez Canillas
+<javierm@redhat.com> wrote:
+> Thomas Zimmermann <tzimmermann@suse.de> writes:
+> > Am 02.05.23 um 21:54 schrieb Sam Ravnborg:
+> >> On Tue, May 02, 2023 at 03:02:21PM +0200, Thomas Zimmermann wrote:
+>
+> [...]
+>
+> >>>   #include <linux/console.h> /* Why should fb driver call console fun=
+ctions? because console_lock() */
+> >>>   #include <video/vga.h>
+> >>>
+> >>> +#include <asm/fb.h>
+> >>
+> >> When we have a header like linux/fb.h - it is my understanding that it=
+ is
+> >> preferred to include that file, and not the asm/fb.h variant.
+> >>
+> >> This is assuming the linux/fb.h contains the generic stuff, and includ=
+es
+> >> asm/fb.h for the architecture specific parts.
+> >>
+> >> So drivers will include linux/fb.h and then they automatically get the
+> >> architecture specific parts from asm/fb.h.
+> >>
+> >> In other words, drivers are not supposed to include asm/fb.h, if
+> >> linux.fb.h exists - and linux/fb.h shall include the asm/fb.h.
+> >>
+> >> If the above holds true, then it is wrong and not needed to add asm/fb=
+.h
+> >> as seen above.
+> >>
+> >>
+> >> There are countless examples where the above are not followed,
+> >> but to my best understanding the above it the preferred way to do it.
+> >
+> > Where did youher this? I only know about this in the case of asm/io.h
+> > vs. linux/io.h.
+> >
+>
+> I understand that's the case too. I believe even checkpatch.pl complains
+> about it? (not that the script always get right, but just as an example).
 
-This patch doesn't *just add* PINGPONG_NONE to reset the crossbar; that
-functionality was already available thanks to a `bool enable` function
-parameter.  Instead it should explain why you think PINGPONG_NONE is
-more convenient than passing a bool that warrants this replacement.
-(Hint: I think because you don't have a hw_pp->idx available in the
- teardown path, and/or its value is not relevant for the disable case
- anyway.)
+One more to chime in: in general, drivers should only include <linux/foo.h>=
+.
+Including <asm/foo.h> directly is the exception.
 
-In addition I don't see this series use PINGPONG_NONE anywhere yet: will
-that be added in the DSC 1.2 series for DP (to support hotplug)?
+Gr{oetje,eeting}s,
 
-> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
-> ---
->  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 2 +-
->  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.c  | 7 +++----
->  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.h  | 1 -
->  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h | 3 ++-
->  4 files changed, 6 insertions(+), 7 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-> index 1dc5dbe..d9ad334 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-> @@ -1839,7 +1839,7 @@ static void dpu_encoder_dsc_pipe_cfg(struct dpu_hw_dsc *hw_dsc,
->  		hw_pp->ops.setup_dsc(hw_pp);
->  
->  	if (hw_dsc->ops.dsc_bind_pingpong_blk)
-> -		hw_dsc->ops.dsc_bind_pingpong_blk(hw_dsc, true, hw_pp->idx);
-> +		hw_dsc->ops.dsc_bind_pingpong_blk(hw_dsc, hw_pp->idx);
->  
->  	if (hw_pp->ops.enable_dsc)
->  		hw_pp->ops.enable_dsc(hw_pp);
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.c
-> index 4a6bbcc..3e68d47 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.c
-> @@ -157,7 +157,6 @@ static void dpu_hw_dsc_config_thresh(struct dpu_hw_dsc *hw_dsc,
->  
->  static void dpu_hw_dsc_bind_pingpong_blk(
->  		struct dpu_hw_dsc *hw_dsc,
-> -		bool enable,
->  		const enum dpu_pingpong pp)
->  {
->  	struct dpu_hw_blk_reg_map *c = &hw_dsc->hw;
-> @@ -166,13 +165,13 @@ static void dpu_hw_dsc_bind_pingpong_blk(
->  
->  	dsc_ctl_offset = DSC_CTL(hw_dsc->idx);
->  
-> -	if (enable)
-> +	if (pp)
->  		mux_cfg = (pp - PINGPONG_0) & 0x7;
->  
->  	DRM_DEBUG_KMS("%s dsc:%d %s pp:%d\n",
-> -			enable ? "Binding" : "Unbinding",
-> +			pp ? "Binding" : "Unbinding",
->  			hw_dsc->idx - DSC_0,
-> -			enable ? "to" : "from",
-> +			pp ? "to" : "from",
->  			pp - PINGPONG_0);
+                        Geert
 
-PINGPONG_NONE - PINGPONG_0 = -1, so this whole debug log likely needs to
-be rewritten for the disable case as we don't know what PINGPONG it is
-being unbound from.  How about:
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
 
-	if (pp)
-		DRM_DEBUG_KMS("Binding dsc:%d to pp:%d\n",
-				hw_dsc->idx - DSC_0,
-				pp - PINGPONG_0);
-	else
-		DRM_DEBUG_KMS("Unbinding dsc:%d from any pp\n",
-				hw_dsc->idx - DSC_0);
-
-- Marijn
-
->  
->  	DPU_REG_WRITE(c, dsc_ctl_offset, mux_cfg);
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.h
-> index 287ec5f..138080a 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.h
-> @@ -44,7 +44,6 @@ struct dpu_hw_dsc_ops {
->  				  struct drm_dsc_config *dsc);
->  
->  	void (*dsc_bind_pingpong_blk)(struct dpu_hw_dsc *hw_dsc,
-> -				  bool enable,
->  				  enum dpu_pingpong pp);
->  };
->  
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h
-> index 2d9192a..56826a9 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h
-> @@ -191,7 +191,8 @@ enum dpu_dsc {
->  };
->  
->  enum dpu_pingpong {
-> -	PINGPONG_0 = 1,
-> +	PINGPONG_NONE,
-> +	PINGPONG_0,
->  	PINGPONG_1,
->  	PINGPONG_2,
->  	PINGPONG_3,
-> -- 
-> The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
-> a Linux Foundation Collaborative Project
-> 
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
