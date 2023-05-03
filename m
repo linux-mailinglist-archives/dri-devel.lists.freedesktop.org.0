@@ -2,49 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 746146F6171
-	for <lists+dri-devel@lfdr.de>; Thu,  4 May 2023 00:50:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D792C6F61A1
+	for <lists+dri-devel@lfdr.de>; Thu,  4 May 2023 01:00:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8C50710E0F5;
-	Wed,  3 May 2023 22:50:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 721BE10E0C8;
+	Wed,  3 May 2023 23:00:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1D57F10E0F5;
- Wed,  3 May 2023 22:50:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1683154201; x=1714690201;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=A28PQ/Do/esxePqchAD2ImFRH3iRH5hRR/Fh4zCcNac=;
- b=FzbRv+TtaztsDb8diuUrueoLQ3nH598d2tkJV85u0YLFlinYcEse0GHg
- xfJAn+X2W0A6dm3CVvFDxihGLj1ufd8hL3VIJd3x+v1BLTaZFsYIHoWbq
- 9PKPuB11hwZg/lI5WBNbIDr9AWjBPfd2Zw+KMovbHbHd0DaBrJNKYS6Uw
- QhMfbJ8Ty/pvJFVKUd6M5FXEEWeKKhGYjKGJxIZGLfJoCEXbOgUzHCL7T
- 111yfMk6BgjDQEG7iWs5oEtBDvVHLoIFVF/LPZGpPZU/ZuT1yhtEfNv/A
- cu1f6sD/FAT9/bohW3xdpx2HC3T18QqtRD1K4ABA5OgH3JZkL1SBzYGuQ A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10699"; a="347604361"
-X-IronPort-AV: E=Sophos;i="5.99,248,1677571200"; d="scan'208";a="347604361"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 May 2023 15:50:00 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10699"; a="871121285"
-X-IronPort-AV: E=Sophos;i="5.99,248,1677571200"; d="scan'208";a="871121285"
-Received: from fyang16-desk.jf.intel.com ([10.24.96.243])
- by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 May 2023 15:49:59 -0700
-From: fei.yang@intel.com
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v5 3/3] drm/i915: make sure correct pte encode is used
-Date: Wed,  3 May 2023 15:51:00 -0700
-Message-Id: <20230503225100.2834222-4-fei.yang@intel.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230503225100.2834222-1-fei.yang@intel.com>
-References: <20230503225100.2834222-1-fei.yang@intel.com>
+Received: from m-r2.th.seeweb.it (m-r2.th.seeweb.it
+ [IPv6:2001:4b7a:2000:18::171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6780F10E060
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 May 2023 23:00:31 +0000 (UTC)
+Received: from SoMainline.org (94-211-6-86.cable.dynamic.v4.ziggo.nl
+ [94.211.6.86])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
+ SHA256) (No client certificate requested)
+ by m-r2.th.seeweb.it (Postfix) with ESMTPSA id 799BA3FDCE;
+ Thu,  4 May 2023 01:00:25 +0200 (CEST)
+Date: Thu, 4 May 2023 01:00:24 +0200
+From: Marijn Suijten <marijn.suijten@somainline.org>
+To: Jessica Zhang <quic_jesszhan@quicinc.com>
+Subject: Re: [PATCH 4/4] drm/msm/dpu: Enable compression for command mode
+Message-ID: <rg6nlm4knw4hgtnwtvr4a5wqusyvvsetygiwxscp6bs6pun7ii@wzz6rd2y3vcn>
+References: <20230405-add-dsc-support-v1-0-6bc6f03ae735@quicinc.com>
+ <20230405-add-dsc-support-v1-4-6bc6f03ae735@quicinc.com>
+ <hxqxnfcydzyfrlvihmil3gecan6p6xyjw44gielu63ltgtqul7@xwvoprzofq6g>
+ <d4b7a747-77a0-95eb-1201-c8b1c80defe3@quicinc.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <d4b7a747-77a0-95eb-1201-c8b1c80defe3@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,55 +45,105 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Matt Roper <matthew.d.roper@intel.com>,
- Chris Wilson <chris.p.wilson@linux.intel.com>, Fei Yang <fei.yang@intel.com>,
- dri-devel@lists.freedesktop.org, Andi Shyti <andi.shyti@linux.intel.com>
+Cc: freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Konrad Dybcio <konrad.dybcio@linaro.org>,
+ linux-arm-msm@vger.kernel.org, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Fei Yang <fei.yang@intel.com>
+Hi Jessica,
 
-PTE encode is platform dependent. After replacing cache_level with
-pat_index, the newly introduced mtl_pte_encode is actually generic
-for all gen12 platforms, thus rename it to gen12_pte_encode and
-apply it to all gen12 platforms.
+On 2023-05-03 12:04:59, Jessica Zhang wrote:
+> 
+> 
+> On 5/3/2023 12:28 AM, Marijn Suijten wrote:
+> > On 2023-05-02 18:19:15, Jessica Zhang wrote:
+> >> Add a dpu_hw_intf op to enable data compression.
+> >>
+> >> Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
+> >> ---
+> >>   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c | 4 ++++
+> >>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c          | 7 +++++++
+> >>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h          | 2 ++
+> >>   3 files changed, 13 insertions(+)
+> >>
+> >> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
+> >> index 74470d068622..4321a1aba17f 100644
+> >> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
+> >> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
+> > 
+> > Can we have INTF DCE on video-mode encoders as well?
+> 
+> Hi Marijn,
+> 
+> Currently, there's no way to validate DSC for video mode as I've only 
+> made changes to support DSI for command mode. We are planning to post 
+> changes to support DSC over DP, which will include changes for video mode.
 
-Cc: Chris Wilson <chris.p.wilson@linux.intel.com>
-Cc: Matt Roper <matthew.d.roper@intel.com>
-Signed-off-by: Fei Yang <fei.yang@intel.com>
-Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com>
----
- drivers/gpu/drm/i915/gt/gen8_ppgtt.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+Okay, but then mention so in the patch description (which is rather
+short in this revision).
 
-diff --git a/drivers/gpu/drm/i915/gt/gen8_ppgtt.c b/drivers/gpu/drm/i915/gt/gen8_ppgtt.c
-index f2334a713c4e..d1e3d3b90e95 100644
---- a/drivers/gpu/drm/i915/gt/gen8_ppgtt.c
-+++ b/drivers/gpu/drm/i915/gt/gen8_ppgtt.c
-@@ -55,9 +55,9 @@ static u64 gen8_pte_encode(dma_addr_t addr,
- 	return pte;
- }
- 
--static u64 mtl_pte_encode(dma_addr_t addr,
--			  unsigned int pat_index,
--			  u32 flags)
-+static u64 gen12_pte_encode(dma_addr_t addr,
-+			    unsigned int pat_index,
-+			    u32 flags)
- {
- 	gen8_pte_t pte = addr | GEN8_PAGE_PRESENT | GEN8_PAGE_RW;
- 
-@@ -995,8 +995,8 @@ struct i915_ppgtt *gen8_ppgtt_create(struct intel_gt *gt,
- 	 */
- 	ppgtt->vm.alloc_scratch_dma = alloc_pt_dma;
- 
--	if (GRAPHICS_VER_FULL(gt->i915) >= IP_VER(12, 70))
--		ppgtt->vm.pte_encode = mtl_pte_encode;
-+	if (GRAPHICS_VER(gt->i915) >= 12)
-+		ppgtt->vm.pte_encode = gen12_pte_encode;
- 	else
- 		ppgtt->vm.pte_encode = gen8_pte_encode;
- 
--- 
-2.25.1
+<snip>
 
+> >>   #define INTF_CFG2_DATABUS_WIDEN	BIT(0)
+> >>   #define INTF_CFG2_DATA_HCTL_EN	BIT(4)
+> > 
+> > These should probably be reindented to match the below... And the rest
+> > of the defines use spaces instead of tabs.
+> 
+> Fair point, though I think fixing the whitespace for these 2 macros 
+> specifically might be better in a more relevant series.
+
+Yes, I have many patches to start cleaning these up, as well as all the
+broken kerneldoc comments, but it's an uphill battle.  Not sure if I'll
+get to it any time soon if at all.
+
+> With that being said, I'll change the spacing of the DATA_COMPRESS bit 
+> to spaces instead of tabs.
+
+Thanks, that seems to be the most common format.
+
+> >> +#define INTF_CFG2_DCE_DATA_COMPRESS	BIT(12)
+> >>   
+> >>   #define INTF_MISR_CTRL			0x180
+> >>   #define INTF_MISR_SIGNATURE		0x184
+> > 
+> > This does not seem to apply on top of:
+> > https://lore.kernel.org/linux-arm-msm/20230411-dpu-intf-te-v4-10-27ce1a5ab5c6@somainline.org/
+> 
+> Seems like I'm missing some patches from that series on my working 
+> branch. Will rebase on top of the full series for the v2.
+
+Thanks, but do discuss with Abhinav/Dmitry which series will land first.
+
+> >> +static inline void dpu_hw_intf_enable_compression(struct dpu_hw_intf *ctx)
+> > 
+> > Why inline?  This is used as a pointer callback.
+> 
+> Acked, will remove the inline.
+> 
+> > 
+> >> +{
+> >> +	DPU_REG_WRITE(&ctx->hw, INTF_CONFIG2, INTF_CFG2_DCE_DATA_COMPRESS);
+> > 
+> > dpu_hw_intf_setup_timing_engine() also programs INTF_CONFIG2.  Is it
+> > double-buffered, or is that config **always** unused when DSI CMD mode
+> > is used in conjunction with DSC/DCE?  Otherwise this should perhaps OR
+> > the bitflag into the register, or write the whole thing at once in
+> > dpu_hw_intf_setup_timing_engine()?
+> 
+> For command mode, INTF_CONFIG2 is unused aside from setting 
+> DATA_COMPRESS for DSC.
+> 
+> Since setup_timing_engine() is only used for video mode, the 
+> corresponding changes will be made in the DSC v1.2 for DP changes.
+
+Ack, that makes sense.  However, is this a guarantee that nothing else
+will write INTF_CONFIG2 in the future, or will we solve that problem
+when it happens?  I'm afraid more config-bits get added to this register
+in the future and might possibly race/overwrite each other.
+
+- Marijn
+
+<snip>
