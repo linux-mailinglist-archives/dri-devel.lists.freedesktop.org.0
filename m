@@ -2,63 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A8D26F52E9
-	for <lists+dri-devel@lfdr.de>; Wed,  3 May 2023 10:15:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D76C6F52F1
+	for <lists+dri-devel@lfdr.de>; Wed,  3 May 2023 10:16:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CDA0910E1EE;
-	Wed,  3 May 2023 08:15:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CC69910E1F3;
+	Wed,  3 May 2023 08:16:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C3D5A10E1EE
- for <dri-devel@lists.freedesktop.org>; Wed,  3 May 2023 08:15:48 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AC6D410E1F3
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 May 2023 08:16:30 +0000 (UTC)
+Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 39EE42243F;
- Wed,  3 May 2023 08:15:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1683101747; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=VW0FfpZ5EtETq7yCOkYo+qlix2ZyBUBojsHtq2hd8TA=;
- b=MuQvChSfA2IDS6S05iNDyQyZ2a6O9gkfCvfv/juDEp+/JjYfCXaw5aRdllBqtORd4w0lvH
- MMpF1p0h+HksQzidlVaG1vTBVkrGE6k5WfrGi9yOZqvMjIqK0X/anK3bUtV69XdPDWSyzT
- ktL7D5G363WQJN2rFiox3mUujejjMqY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1683101747;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=VW0FfpZ5EtETq7yCOkYo+qlix2ZyBUBojsHtq2hd8TA=;
- b=FhwTHUpLesjcxw7yI5n/tkbaRQvucKeGimE41tUf5EiJbg1iyL+bNuq0pfbzjRTqSeLlA+
- R9NJc45dKlBxqIAw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id BF39413584;
- Wed,  3 May 2023 08:15:46 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id m070LDIYUmQ/aQAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Wed, 03 May 2023 08:15:46 +0000
-Message-ID: <828664d0-3562-56cc-019d-1bb8a55826b5@suse.de>
-Date: Wed, 3 May 2023 10:15:46 +0200
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 31E7C6602338;
+ Wed,  3 May 2023 09:16:27 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1683101787;
+ bh=j0/H+bLnDL19R+pHbEkluQwebYd9DKUtaw7uoazfnI8=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=Z0L66tKDinX97MabbCpB0xTnMHViulL7wkUSAtNimid4YLcCxm9+bxVH3MVyxd0yw
+ hFZP+6GSP8gDAWY0MzJPPfGGnPentMoApNUaRSMjBQFXRDSe73o8ED3nxf4gTwxpFZ
+ ORp3bteVyMnz2eyLCA3YkbabKFy52WCg7nZuUxBY5+1FA7H1SvVCdEHboTzVnJBC4m
+ kZzopCx/I4bKuqYewluC4BI2qSUvkqGQp3VhD3F2ypOK3uCvO9FS/hWnLjCf3UlG4d
+ t6ueVwO2cDOuKLEMI9JPjVk7d5i49QW0MxFiJhCZN1oE7YrBwpAF7j5GZAcENktI6c
+ 40eQBGdAA5Ctg==
+Date: Wed, 3 May 2023 10:16:24 +0200
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>
+Subject: Re: drm/sched: Replacement for drm_sched_resubmit_jobs() is deprecated
+Message-ID: <20230503101624.5dbae57c@collabora.com>
+In-Reply-To: <20230502144132.6a9e1bb5@collabora.com>
+References: <20230502131941.5fe5b79f@collabora.com>
+ <5c4f4e89-6126-7701-2023-2628db1b7caa@amd.com>
+ <20230502144132.6a9e1bb5@collabora.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.36; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH v3 6/6] fbdev: Rename fb_mem*() helpers
-Content-Language: en-US
-To: Sam Ravnborg <sam@ravnborg.org>
-References: <20230502130223.14719-1-tzimmermann@suse.de>
- <20230502130223.14719-7-tzimmermann@suse.de>
- <20230502200813.GC319489@ravnborg.org>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <20230502200813.GC319489@ravnborg.org>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------Yg2pS7gKZkskFTz8vk2lKAPH"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,112 +55,123 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arch@vger.kernel.org, linux-fbdev@vger.kernel.org,
- linux-ia64@vger.kernel.org, loongarch@lists.linux.dev, arnd@arndb.de,
- deller@gmx.de, chenhuacai@kernel.org, javierm@redhat.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- James.Bottomley@hansenpartnership.com, linux-m68k@lists.linux-m68k.org,
- geert@linux-m68k.org, linux-parisc@vger.kernel.org, vgupta@kernel.org,
- sparclinux@vger.kernel.org, kernel@xen0n.name,
- linux-snps-arc@lists.infradead.org, davem@davemloft.net,
- linux-arm-kernel@lists.infradead.org
+Cc: Matthew Brost <matthew.brost@intel.com>,
+ Sarah Walker <sarah.walker@imgtec.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Alex Deucher <alexander.deucher@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------Yg2pS7gKZkskFTz8vk2lKAPH
-Content-Type: multipart/mixed; boundary="------------v700H0v7Hs7IzDa1ExtAP020";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Sam Ravnborg <sam@ravnborg.org>
-Cc: deller@gmx.de, geert@linux-m68k.org, javierm@redhat.com, daniel@ffwll.ch,
- vgupta@kernel.org, chenhuacai@kernel.org, kernel@xen0n.name,
- davem@davemloft.net, James.Bottomley@hansenpartnership.com, arnd@arndb.de,
- linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-arch@vger.kernel.org, linux-snps-arc@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-ia64@vger.kernel.org,
- loongarch@lists.linux.dev, linux-m68k@lists.linux-m68k.org,
- sparclinux@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-parisc@vger.kernel.org
-Message-ID: <828664d0-3562-56cc-019d-1bb8a55826b5@suse.de>
-Subject: Re: [PATCH v3 6/6] fbdev: Rename fb_mem*() helpers
-References: <20230502130223.14719-1-tzimmermann@suse.de>
- <20230502130223.14719-7-tzimmermann@suse.de>
- <20230502200813.GC319489@ravnborg.org>
-In-Reply-To: <20230502200813.GC319489@ravnborg.org>
+Hi Christian,
 
---------------v700H0v7Hs7IzDa1ExtAP020
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+On Tue, 2 May 2023 14:41:32 +0200
+Boris Brezillon <boris.brezillon@collabora.com> wrote:
 
-SGkNCg0KQW0gMDIuMDUuMjMgdW0gMjI6MDggc2NocmllYiBTYW0gUmF2bmJvcmc6DQo+IEhp
-IFRob21hcy4NCj4gDQo+IE9uIFR1ZSwgTWF5IDAyLCAyMDIzIGF0IDAzOjAyOjIzUE0gKzAy
-MDAsIFRob21hcyBaaW1tZXJtYW5uIHdyb3RlOg0KPj4gVXBkYXRlIHRoZSBuYW1lcyBvZiB0
-aGUgZmJfbWVtKigpIGhlbHBlcnMgdG8gYmUgY29uc2lzdGVudCB3aXRoIHRoZWlyDQo+PiBy
-ZWd1bGFyIGNvdW50ZXJwYXJ0cy4gSGVuY2UsIGZiX21lbXNldCgpIG5vdyBiZWNvbWVzIGZi
-X21lbXNldF9pbygpLA0KPj4gZmJfbWVtY3B5X2Zyb21mYigpIG5vdyBiZWNvbWVzIGZiX21l
-bWNweV9mcm9taW8oKSBhbmQgZmJfbWVtY3B5X3RvZmIoKQ0KPj4gYmVjb21lcyBmYl9tZW1j
-cHlfdG9pbygpLiBObyBmdW5jdGlvbmFsIGNoYW5nZXMuDQo+Pg0KPj4gU2lnbmVkLW9mZi1i
-eTogVGhvbWFzIFppbW1lcm1hbm4gPHR6aW1tZXJtYW5uQHN1c2UuZGU+DQo+PiAtLS0NCj4g
-Li4uDQo+PiAgIA0KPj4gLSNpZm5kZWYgZmJfbWVtY3B5X2Zyb21mYg0KPj4gLXN0YXRpYyBp
-bmxpbmUgdm9pZCBmYl9tZW1jcHlfZnJvbWZiKHZvaWQgKnRvLCBjb25zdCB2b2xhdGlsZSB2
-b2lkIF9faW9tZW0gKmZyb20sIHNpemVfdCBuKQ0KPj4gKyNpZm5kZWYgZmJfbWVtY3B5X2Zy
-b21pbw0KPj4gK3N0YXRpYyBpbmxpbmUgdm9pZCBmYl9tZW1jcHlfZnJvbWlvKHZvaWQgKnRv
-LCBjb25zdCB2b2xhdGlsZSB2b2lkIF9faW9tZW0gKmZyb20sIHNpemVfdCBuKQ0KPj4gICB7
-DQo+PiAgIAltZW1jcHlfZnJvbWlvKHRvLCBmcm9tLCBuKTsNCj4+ICAgfQ0KPj4gLSNkZWZp
-bmUgZmJfbWVtY3B5X2Zyb21mYiBmYl9tZW1jcHlfZnJvbWZiDQo+PiArI2RlZmluZSBmYl9t
-ZW1jcHlfZnJvbWlvIGZiX21lbWNweV9mcm9taW8NCj4+ICAgI2VuZGlmDQo+PiAgIA0KPj4g
-LSNpZm5kZWYgZmJfbWVtY3B5X3RvZmINCj4+IC1zdGF0aWMgaW5saW5lIHZvaWQgZmJfbWVt
-Y3B5X3RvZmIodm9sYXRpbGUgdm9pZCBfX2lvbWVtICp0bywgY29uc3Qgdm9pZCAqZnJvbSwg
-c2l6ZV90IG4pDQo+PiArI2lmbmRlZiBmYl9tZW1jcHlfdG9pbw0KPj4gK3N0YXRpYyBpbmxp
-bmUgdm9pZCBmYl9tZW1jcHlfdG9pbyh2b2xhdGlsZSB2b2lkIF9faW9tZW0gKnRvLCBjb25z
-dCB2b2lkICpmcm9tLCBzaXplX3QgbikNCj4+ICAgew0KPj4gICAJbWVtY3B5X3RvaW8odG8s
-IGZyb20sIG4pOw0KPj4gICB9DQo+PiAtI2RlZmluZSBmYl9tZW1jcHlfdG9mYiBmYl9tZW1j
-cHlfdG9mYg0KPj4gKyNkZWZpbmUgZmJfbWVtY3B5X3RvaW8gZmJfbWVtY3B5X3RvaW8NCj4+
-ICAgI2VuZGlmDQo+PiAgIA0KPj4gICAjaWZuZGVmIGZiX21lbXNldA0KPj4gLXN0YXRpYyBp
-bmxpbmUgdm9pZCBmYl9tZW1zZXQodm9sYXRpbGUgdm9pZCBfX2lvbWVtICphZGRyLCBpbnQg
-Yywgc2l6ZV90IG4pDQo+PiArc3RhdGljIGlubGluZSB2b2lkIGZiX21lbXNldF9pbyh2b2xh
-dGlsZSB2b2lkIF9faW9tZW0gKmFkZHIsIGludCBjLCBzaXplX3QgbikNCj4+ICAgew0KPj4g
-ICAJbWVtc2V0X2lvKGFkZHIsIGMsIG4pOw0KPj4gICB9DQo+PiAtI2RlZmluZSBmYl9tZW1z
-ZXQgZmJfbWVtc2V0DQo+PiArI2RlZmluZSBmYl9tZW1zZXQgZmJfbWVtc2V0X2lvDQo+IA0K
-PiBUaGUgc3RhdGljIGlubGluZXMgd3JhcHBlcnMgZG9lcyBub3QgcHJvdmlkZSBhbnkgdmFs
-dWUsIGFuZCBjb3VsZCBiZSByZXBsYWNlZCBieQ0KPiBkaXJlY3QgY2FsbHMgdG8gbWVtY3B5
-X2Zyb21pbygpLCBtZW1jcHlfdG9pbygpLCBtZW1zZXRfaW8oKS4NCj4gDQo+IElmIHlvdSBk
-ZWNpZGUgdG8ga2VlcCB0aGUgd3JhcHBlcnMgSSB3aWxsIG5vdCBob2xkIHlvdSBiYWNrLCBz
-byB0aGUNCj4gcGF0Y2ggaGFzIG15Og0KPiBSZXZpZXdlZC1ieTogU2FtIFJhdm5ib3JnIDxz
-YW1AcmF2bmJvcmcub3JnPg0KPiANCj4gQnV0IEkgcHJlZmVyIHRoZSBkaXJlY3QgY2FsbHMg
-d2l0aG91dCB0aGUgd3JhcHBlcnMuLi4uDQoNCkF0IGZpcnN0IEkgd2FzIGFsc28gc2tlcHRp
-Y2FsIGlmIHRob3NlIGZiX21lbSooKSB3cmFwcGVycyBhcmUgbmVlZGVkLiANCkJ1dCBBcm5k
-IG1lbnRpb25lZCB0aGF0IHRoZXJlIGFyZSBzdWJ0bGUgZGlmZmVyZW5jZXMgYmV0d2VlbiB0
-aGUgY3VycmVudCANCmNvZGUgYW5kIExpbnV4JyBtZW0qX2lvKCkgZnVuY3Rpb25zLiBLZWVw
-aW5nIHRoZSB3cmFwcGVycyBtaWdodCBiZSBuZWVkZWQuDQoNCkJlc3QgcmVnYXJkcw0KVGhv
-bWFzDQoNCj4gDQo+IAlTYW0NCg0KLS0gDQpUaG9tYXMgWmltbWVybWFubg0KR3JhcGhpY3Mg
-RHJpdmVyIERldmVsb3Blcg0KU1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFueSBHbWJI
-DQpGcmFua2Vuc3RyYXNzZSAxNDYsIDkwNDYxIE51ZXJuYmVyZywgR2VybWFueQ0KR0Y6IEl2
-byBUb3RldiwgQW5kcmV3IE15ZXJzLCBBbmRyZXcgTWNEb25hbGQsIEJvdWRpZW4gTW9lcm1h
-bg0KSFJCIDM2ODA5IChBRyBOdWVybmJlcmcpDQo=
+> Hi Christian,
+>=20
+> Thanks for your quick reply.
+>=20
+> On Tue, 2 May 2023 13:36:07 +0200
+> Christian K=C3=B6nig <christian.koenig@amd.com> wrote:
+>=20
+> > Hi Boris,
+> >=20
+> > Am 02.05.23 um 13:19 schrieb Boris Brezillon: =20
+> > > Hello Christian, Alex,
+> > >
+> > > As part of our transition to drm_sched for the powervr GPU driver, we
+> > > realized drm_sched_resubmit_jobs(), which is used by all drivers
+> > > relying on drm_sched right except amdgpu, has been deprecated.
+> > > Unfortunately, commit 5efbe6aa7a0e ("drm/scheduler: deprecate
+> > > drm_sched_resubmit_jobs") doesn't describe what drivers should do or =
+use
+> > > as an alternative.
+> > >
+> > > At the very least, for our implementation, we need to restore the
+> > > drm_sched_job::parent pointers that were set to NULL in
+> > > drm_sched_stop(), such that jobs submitted before the GPU recovery are
+> > > considered active when drm_sched_start() is called. That could be done
+> > > with a custom pending_list iteration restoring drm_sched_job::parent's
+> > > pointer, but that seems odd to let the scheduler backend manipulate
+> > > this list directly, and I suspect we need to do other checks, like the
+> > > karma vs hang-limit thing, so we can flag the entity dirty and cancel
+> > > all jobs being queued there if the entity has caused too many hangs.
+> > >
+> > > Now that drm_sched_resubmit_jobs() has been deprecated, that would be
+> > > great if you could help us write a piece of documentation describing
+> > > what should be done between drm_sched_stop() and drm_sched_start(), so
+> > > new drivers don't come up with their own slightly different/broken
+> > > version of the same thing.   =20
+> >=20
+> > Yeah, really good point! The solution is to not use drm_sched_stop() an=
+d=20
+> > drm_sched_start() either. =20
+>=20
+> Okay. If that's what we're heading to, this should really be clarified
+> in the job_timedout() method doc, because right now it's
+> mentioning drm_sched_{start,stop,resubmit_jobs}(), with
+> drm_sched_resubmit_jobs() being deprecated already.
+>=20
+> >=20
+> > The general idea Daniel, the other Intel guys and me seem to have agree=
+d=20
+> > on is to convert the scheduler thread into a work item.
+> >=20
+> > This work item for pushing jobs to the hw can then be queued to the sam=
+e=20
+> > workqueue we use for the timeout work item.
+> >=20
+> > If this workqueue is now configured by your driver as single threaded=20
+> > you have a guarantee that only either the scheduler or the timeout work=
+=20
+> > item is running at the same time. That in turn makes starting/stopping=
+=20
+> > the scheduler for a reset completely superfluous. =20
+>=20
+> Makes sense.
+>=20
+> >=20
+> > Patches for this has already been floating on the mailing list, but=20
+> > haven't been committed yet. Since this is all WIP. =20
+>=20
+> Assuming you're talking about [1], yes, I'm aware of this effort
+> (PowerVR also has FW-side scheduling, which is what this patch series
+> was trying to address initially). And I'm aware of the
+> ordered-workqueue trick too, it helped fixing a few races in panfrost
+> in the past.
+>=20
+> >=20
+> > In general it's not really a good idea to change the scheduler and hw=20
+> > fences during GPU reset/recovery. The dma_fence implementation has a=20
+> > pretty strict state transition which clearly say that a dma_fence shoul=
+d=20
+> > never go back from signaled to unsignaled and when you start messing=20
+> > with that this is exactly what might happen.
+> >=20
+> > What you can do is to save your hw state and re-start at the same=20
+> > location after handling the timeout. =20
+>=20
+> To sum-up, we shouldn't call drm_sched_{start,stop,resubmit_jobs}().
 
---------------v700H0v7Hs7IzDa1ExtAP020--
+After the discussion I had with Matthew yesterday on IRC, I
+realized there was no clear agreement on this. Matthew uses those 3
+helpers in the Xe driver right now, and given he intends to use a
+multi-threaded wq for its 1:1 schedulers run queue, there's no way he
+can get away without calling drm_sched_{start,stop}().
+drm_sched_resubmit_jobs() can be open-coded in each driver, but I'm
+wondering if it wouldn't be preferable to add a ::resubmit_job() method
+or extend the ::run_job() one to support the resubmit semantics, which,
+AFAIU, is just about enforcing the job done fence (the one returned by
+::run_job()) doesn't transition from a signaled to an unsignaled state.
 
---------------Yg2pS7gKZkskFTz8vk2lKAPH
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+But probably more important than providing a generic helper, we should
+document the resubmit semantics (AKA, what should and/or shouldn't be
+done with pending jobs when a recovery happens). Because forbidding
+people to use a generic helper function doesn't give any guarantee that
+they'll do the right thing when coding their own logic, unless we give
+clues about what's considered right/wrong, and the current state of the
+doc is pretty unclear in this regard.
 
------BEGIN PGP SIGNATURE-----
+Regards,
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmRSGDIFAwAAAAAACgkQlh/E3EQov+DQ
-UxAAyalpNZAKb+SrH+ZBEi1COJSY+VhSOQs2gPTxEyeIhMZ0BQ9iD4lt7OQZS8FeatCbVejmWfb1
-/4M6l90NWRpBa5fqGNqjh0dysWlKrAbogUPoA9yp3TAh3pmOEj0zlqMD3QngLS6HvcQt71O5fjSB
-dM3nUOXtaLEMc7wPPXigGONwageohdTlo4qQd0XRzp/XhMVCfdLlI/xKPMnTpUbsrQQec4CzdIiq
-zHRQfUJBh4NZmh6JhywwduXSyr2FyA+i8DGLCLCosfVes3lbNm3lPDMfXH8kR/auMzC/x4WnZ7gG
-WoEKOCGTmgPvi2YCfhbEDyW/l4+2Dm66KDdYEPNR+XCGJ61g//44HJy2DcrDthjPN/LnxJPMyJMm
-DYKyTdGWT7xOXyn/hTDEweo12E75EX6BoQuhEDpZ905S13BoKwKYuyHii6Sa6Ht8wBNtScDQzGFW
-E9Oa7tjJZSQJAWP2RyeG2LGu9P0K+uEMu15hGlo3gJUUxevTITb9QWoBns1Ij9JPSGU/Vse/l6Ho
-8ncA2bhhIC18Yl4tOilWtsckgmDCInIrgwlMrfEEiWJ00HU989oGKLzbPGb4xxKTKreJOrbDHuRb
-ooiLu0shYcBWKEG9B9cwiF4+nHb8BEWEFMpu0X1sOpoIvBs2WGQPIGsIX1gy1+WkDa6+ZpCu3MMx
-fqo=
-=YD1+
------END PGP SIGNATURE-----
-
---------------Yg2pS7gKZkskFTz8vk2lKAPH--
+Boris
