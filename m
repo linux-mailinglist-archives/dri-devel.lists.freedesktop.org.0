@@ -2,71 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 571056F6AF2
-	for <lists+dri-devel@lfdr.de>; Thu,  4 May 2023 14:13:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A7696F6B11
+	for <lists+dri-devel@lfdr.de>; Thu,  4 May 2023 14:20:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 840F910E396;
-	Thu,  4 May 2023 12:13:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 311B610E13F;
+	Thu,  4 May 2023 12:20:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com
- [IPv6:2a00:1450:4864:20::12b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A7C1410E392;
- Thu,  4 May 2023 12:13:31 +0000 (UTC)
-Received: by mail-lf1-x12b.google.com with SMTP id
- 2adb3069b0e04-4f004cc54f4so478999e87.3; 
- Thu, 04 May 2023 05:13:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1683202409; x=1685794409;
- h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
- :date:from:to:cc:subject:date:message-id:reply-to;
- bh=rONT3tFH/eFNZH2oh2aVBKYil27pOoA6/Qc3qIsA0lA=;
- b=rPOIikho86ZIxawEoaZ304oSvks4toshCJUasJw6Ri5CHb5S2JtDG5a6qRKp3F4p/z
- CE9gbhBCydPWesWyfD97Y5eTIcpilOoBwh7Pm8w0NU1Z2+LWTPjyiiSPFq3wYa9K0Aw8
- avchptBU7t05ORpy7SXwbQrjaBkp2sVhENGDGhRZinwJW4mW1+a7d/m4REUpzar26V+M
- sd8IKI1o2dpvP8WfPFAvQ+miNeMnQ0fgJUmHik7WDM0brydl/3WQGvuAf+/joRYa5ohA
- WVAJvK/cIV6Hfp4DwWb2ewvXwiA74EXqR7tUT0qIOHnIWr+F402/KUG050XTwMRi7xs8
- BOlw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683202409; x=1685794409;
- h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
- :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=rONT3tFH/eFNZH2oh2aVBKYil27pOoA6/Qc3qIsA0lA=;
- b=YQJGeshV2GkTkbW/99jCI3Wy08mLLNVf4UobW8Rmmi7fxzZ1Jy0OpHS38gqkI2aDBg
- N5nnP+qDYPAVwZQTUiEIvz5J7D+uaMZ9saEf1kU/YBvZegRKN6HuCR0UfGtxXsBYHqo6
- JZBqvhKiOJsNQiggI8dnotKrquMHw2mDpHtRIQBTCKySvTe7R+H4vmk7icxJxR73QzRQ
- ZZUqDSGnE3p2kvtAt3Mb5fPcItUA8PJK9Cevgl+HM8e7rg1Fo8p9w0b7qTbNfcQ5Vzns
- 8rbIvtzwpPMBbSaAk3+3h7SLnG22HTutMXOiLwf2iM2kK1gclo7NCTVW9Qgb7UTY3xia
- D8Tg==
-X-Gm-Message-State: AC+VfDwM0Cdz1F3nYAlteEhFuv1YOugqbR1AplbRwrLWFFA8MYIm7aWv
- LQhAALUPjKFK/r4lxLZZzQI=
-X-Google-Smtp-Source: ACHHUZ7/WOGg5I8ZUqVgovT46A2LLUMNbm2eeVCGuYX5cN3iAkZqXbPbHOpIpwTKrpEvWEtnGQtwCw==
-X-Received: by 2002:ac2:5551:0:b0:4d1:3d1d:4914 with SMTP id
- l17-20020ac25551000000b004d13d1d4914mr2192756lfk.33.1683202408760; 
- Thu, 04 May 2023 05:13:28 -0700 (PDT)
-Received: from eldfell ([194.136.85.206]) by smtp.gmail.com with ESMTPSA id
- n21-20020a195515000000b004f002961a96sm4449180lfe.230.2023.05.04.05.13.28
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 04 May 2023 05:13:28 -0700 (PDT)
-Date: Thu, 4 May 2023 15:13:24 +0300
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Jonas =?UTF-8?B?w4VkYWhs?= <jadahl@gmail.com>
-Subject: Re: [PATCH v2 1/8] drm: Disable the cursor plane on atomic contexts
- with virtualized drivers
-Message-ID: <20230504151324.2fafcc1c@eldfell>
-In-Reply-To: <ZFOWmhZGEmaksTAo@gmail.com>
-References: <20220712033246.1148476-1-zack@kde.org>
- <20220712033246.1148476-2-zack@kde.org>
- <YvPfedG/uLQNFG7e@phenom.ffwll.local>
- <87lei7xemy.fsf@minerva.mail-host-address-is-not-set>
- <0dd2fa763aa0e659c8cbae94f283d8101450082a.camel@vmware.com>
- <87y1m5x3bt.fsf@minerva.mail-host-address-is-not-set>
- <17cc969e9f13fab112827e154495eca28c4bd2b6.camel@vmware.com>
- <20230504133904.4ad3011c@eldfell> <ZFOWmhZGEmaksTAo@gmail.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.24; x86_64-pc-linux-gnu)
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7518810E13F
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 May 2023 12:20:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=Knqtde2wiLQQ1OCYPdpo1b9m8vC0JKHb8QDdRHz9a6o=; b=SMFeNn5qcO01DnhpO26Uhk39HE
+ JSeMRT29J0jVcqiM5ESzWjZpoazA8KG7l/zwxz4008e9grPHZda/sM9HEPe/w6UY+ZZkhCJUZhTV1
+ IJDDDm9qR34HVwxrWyZ4KSNdJHd7P63vZbprcxY4bJDZDegbpWWNGJkeZ9RYeBUM26tDIZVHmAtqu
+ fBVbN7ibJyKqIXRRD4qGyGYxCchwVVdJB/8BY6Zl02VWIMRCd+aF7zlUGk8CdLlCax8vo6RCxxWfG
+ D890XQ5Xf5A0BMNCQ2pIUL+dVw6zAHBrXILFD1uCLinJnWIGRL1P75pNB4KARajTSWSc0oJp+JMeu
+ WnURBdVQ==;
+Received: from [177.34.168.16] (helo=[192.168.0.4])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1puXwi-0016G9-2k; Thu, 04 May 2023 14:20:28 +0200
+Message-ID: <44246b67-fc44-8ab1-0d0b-6d70fa67adcb@igalia.com>
+Date: Thu, 4 May 2023 09:20:22 -0300
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/IKCuGqSZcOwId12tUtxDYzp";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH v4 2/3] vkms: Add support for multiple pipes
+Content-Language: en-US
+To: Marius Vlad <marius.vlad@collabora.com>, dri-devel@lists.freedesktop.org
+References: <20230426104059.28732-1-marius.vlad@collabora.com>
+ <20230426104059.28732-3-marius.vlad@collabora.com>
+From: =?UTF-8?Q?Ma=c3=adra_Canal?= <mcanal@igalia.com>
+In-Reply-To: <20230426104059.28732-3-marius.vlad@collabora.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,181 +55,233 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Maaz Mombasawala <mombasawalam@vmware.com>,
- "hdegoede@redhat.com" <hdegoede@redhat.com>,
- "airlied@linux.ie" <airlied@linux.ie>,
- "belmouss@redhat.com" <belmouss@redhat.com>,
- "javierm@redhat.com" <javierm@redhat.com>,
- "stable@vger.kernel.org" <stable@vger.kernel.org>,
- "gurchetansingh@chromium.org" <gurchetansingh@chromium.org>,
- Martin Krastev <krastevm@vmware.com>,
- Linux-graphics-maintainer <Linux-graphics-maintainer@vmware.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "tzimmermann@suse.de" <tzimmermann@suse.de>,
- "spice-devel@lists.freedesktop.org" <spice-devel@lists.freedesktop.org>,
- "airlied@redhat.com" <airlied@redhat.com>,
- "virtualization@lists.linux-foundation.org"
- <virtualization@lists.linux-foundation.org>,
- "kraxel@redhat.com" <kraxel@redhat.com>
+Cc: mwen@igalia.com, tzimmermann@suse.de, rodrigosiqueiramelo@gmail.com,
+ yixie@chromium.org, melissa.srw@gmail.com, brpol@chromium.org,
+ igormtorrente@gmail.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/IKCuGqSZcOwId12tUtxDYzp
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Hi Marius,
 
-On Thu, 4 May 2023 13:27:22 +0200
-Jonas =C3=85dahl <jadahl@gmail.com> wrote:
+I'm not sure if you'll keep working in this series after the proposal of
+the Chromium folks. Anyway, just a small comment.
 
-> On Thu, May 04, 2023 at 01:39:04PM +0300, Pekka Paalanen wrote:
-> > On Thu, 4 May 2023 01:50:25 +0000
-> > Zack Rusin <zackr@vmware.com> wrote:
-> >  =20
-> > > On Wed, 2023-05-03 at 09:48 +0200, Javier Martinez Canillas wrote: =20
-> > > > Zack Rusin <zackr@vmware.com> writes:
-> > > >    =20
-> > > > > On Tue, 2023-05-02 at 11:32 +0200, Javier Martinez Canillas wrote=
-:   =20
-> >  =20
-> > > > > > AFAICT this is the only remaining thing to be addressed for thi=
-s series ?   =20
-> > > > >=20
-> > > > > No, there was more. tbh I haven't had the time to think about whe=
-ther the above
-> > > > > makes sense to me, e.g. I'm not sure if having virtualized driver=
-s expose
-> > > > > "support
-> > > > > universal planes" and adding another plane which is not universal=
- (the only
-> > > > > "universal" plane on them being the default one) makes more sense=
- than a flag
-> > > > > that
-> > > > > says "this driver requires a cursor in the cursor plane". There's=
- certainly a
-> > > > > huge
-> > > > > difference in how userspace would be required to handle it and it=
-'s way uglier
-> > > > > with
-> > > > > two different cursor planes. i.e. there's a lot of ways in which =
-this could be
-> > > > > cleaner in the kernel but they all require significant changes to=
- userspace,
-> > > > > that go
-> > > > > way beyond "attach hotspot info to this plane". I'd like to avoid=
- approaches
-> > > > > that
-> > > > > mean running with atomic kms requires completely separate paths f=
-or virtualized
-> > > > > drivers because no one will ever support and maintain it.
-> > > > >=20
-> > > > > It's not a trivial thing because it's fundamentally hard to untan=
-gle the fact
-> > > > > the
-> > > > > virtualized drivers have been advertising universal plane support=
- without ever
-> > > > > supporting universal planes. Especially because most new userspac=
-e in general
-> > > > > checks
-> > > > > for "universal planes" to expose atomic kms paths.
-> > > > >    =20
-> > > >=20
-> > > > After some discussion on the #dri-devel, your approach makes sense =
-and the
-> > > > only contention point is the name of the driver feature flag name. =
-The one
-> > > > you are using (DRIVER_VIRTUAL) seems to be too broad and generic (t=
-he fact
-> > > > that vkms won't set and is a virtual driver as well, is a good exam=
-ple).
-> > > >=20
-> > > > Maybe something like DRIVER_CURSOR_HOTSPOT or DRIVER_CURSOR_COMMAND=
-EERING
-> > > > would be more accurate and self explanatory ?   =20
-> > >=20
-> > > Sure, or even more verbose DRIVER_NEEDS_CURSOR_PLANE_HOTSPOT, but it =
-sounds like
-> > > Pekka doesn't agree with this approach. As I mentioned in my response=
- to him, I'd be
-> > > happy with any approach that gets paravirtualized drivers working wit=
-h atomic kms,
-> > > but atm I don't have enough time to be creating a new kernel subsyste=
-m or a new set
-> > > of uapi's for paravirtualized drivers and then porting mutter/kwin to=
- those. =20
-> >=20
-> > It seems I have not been clear enough, apologies. Once more, in short:
-> >=20
-> > Zack, I'm worried about this statement from you (copied from above):
-> >  =20
-> > > > > I'd like to avoid approaches that mean running with atomic kms
-> > > > > requires completely separate paths for virtualized drivers
-> > > > > because no one will ever support and maintain it. =20
-> >=20
-> > It feels like you are intentionally limiting your own design options
-> > for the fear of "no one will ever support it". I'm worried that over
-> > the coming years, that will lead to a hard to use, hard to maintain
-> > patchwork of vague or undocumented or just too many little UAPI details.
-> >=20
-> > Please, don't limit your designs. There are good reasons why nested KMS
-> > drivers behave fundamentally differently to most KMS hardware drivers.
-> > Userspace that does not or cannot take that into account is unavoidably
-> > crippled. =20
->=20
-> From a compositor side, there is a valid reason to minimize the uAPI
-> difference between "nested virtual machine" code paths and "running on
-> actual hardware" code paths, which is to let virtual machines with a
-> viewer connected to KMS act as a testing environment, rather than a
-> production environment. Running a production environment in a virtual
-> machine doesn't really need to use KMS at all.
->=20
-> When using virtual machines for testing, I want to minimize the amount
-> of differentation between running on hardware and running in the VM
-> because otherwise the parts that are tested are not the same.
->=20
-> I realize that hotpspots and the cursor moving viewer side contradicts
-> that to some degree, but still, from a graphical testing witha VM point
-> of view, one has to compromise, as testing isn't just for the KMS layer,
-> but for the DE and distribution as a whole.
+On 4/26/23 07:40, Marius Vlad wrote:
+> This adds support for creating multiple virtual pipes, in case one would
+> need to display multiple independent things on different outputs.
+> 
+> We use a module parameter to specify how many to create,  defaulting to
+> just one with the possibility of specifying a maximum of 4 possible pipes.
+> 
+> This is of particular importance when testing out the DRM back-end in
+> compositors, but also to be able to independently set different DPMS states.
+> 
+> Signed-off-by: Marius Vlad <marius.vlad@collabora.com>
+> ---
+>   drivers/gpu/drm/vkms/vkms_crtc.c      |  3 +--
+>   drivers/gpu/drm/vkms/vkms_drv.c       | 38 ++++++++++++++++++++++-----
+>   drivers/gpu/drm/vkms/vkms_drv.h       | 12 ++++++---
+>   drivers/gpu/drm/vkms/vkms_output.c    |  5 ++--
+>   drivers/gpu/drm/vkms/vkms_writeback.c | 24 ++++++++---------
+>   5 files changed, 55 insertions(+), 27 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/vkms/vkms_crtc.c b/drivers/gpu/drm/vkms/vkms_crtc.c
+> index 515f6772b866..051e7b647db9 100644
+> --- a/drivers/gpu/drm/vkms/vkms_crtc.c
+> +++ b/drivers/gpu/drm/vkms/vkms_crtc.c
+> @@ -89,8 +89,7 @@ static bool vkms_get_vblank_timestamp(struct drm_crtc *crtc,
+>   {
+>   	struct drm_device *dev = crtc->dev;
+>   	unsigned int pipe = crtc->index;
+> -	struct vkms_device *vkmsdev = drm_device_to_vkms_device(dev);
+> -	struct vkms_output *output = &vkmsdev->output;
+> +	struct vkms_output *output = drm_crtc_to_vkms_output(crtc);
+>   	struct drm_vblank_crtc *vblank = &dev->vblank[pipe];
+>   
+>   	if (!READ_ONCE(vblank->enabled)) {
+> diff --git a/drivers/gpu/drm/vkms/vkms_drv.c b/drivers/gpu/drm/vkms/vkms_drv.c
+> index e3c9c9571c8d..0ee17065bc6f 100644
+> --- a/drivers/gpu/drm/vkms/vkms_drv.c
+> +++ b/drivers/gpu/drm/vkms/vkms_drv.c
 
-Right, I'm looking at this from the production use only point of view,
-and not as any kind of testing environment, not for compositor KMS
-driving bits at least. Using a virtualized driver for KMS testing seems
-so very... manual to me, and like you said, it's not representative of
-"real" behaviour.
+[...]
 
-As for the best choice for production use, KMS in guest OS is
-attractive because it offers zero-copy direct scanout to the host
-hardware, with the right stack. OTOH, I think RDP has extensions that
-could enable that too, and if the end point is not host hardware
-display then KMS use in guest is not the best idea indeed.
+> @@ -230,7 +243,18 @@ static int __init vkms_init(void)
+>   	config->cursor = enable_cursor;
+>   	config->writeback = enable_writeback;
+>   	config->overlay = enable_overlay;
+> -
+> +	config->max_pipes = max_pipes;
+> +	if (config->max_pipes > NUM_MAX_PIPES)
+> +		config->max_pipes = NUM_MAX_PIPES;
+> +	if (config->max_pipes < NUM_MIN_PIPES)
+> +		config->max_pipes = NUM_MIN_PIPES;
+> +
+> +	/* with 8 overlays and 4 pipes we exceed the amount of planes we
+> +	 * have; see __drm_universal_plane_init() */
+> +	if (config->overlay && config->max_pipes == NUM_MAX_PIPES)
+> +		config->max_pipes = NUM_MAX_PIPES - 1;
 
-I don't recall any mention of actual use cases here recently. I agree
-the intended use makes a huge difference. Testing KMS userspace and
-production use are almost the opposite goals for virtualized drivers.
+Instead of reducing the number of pipes, you could change the maximum number
+of overlay planes to 6-4 planes. So many overlay planes are not that needed
+and it would be nice to have 4 pipes with overlay planes enabled.
 
+Best Regards,
+- Maíra Canal
 
-Thanks,
-pq
-
---Sig_/IKCuGqSZcOwId12tUtxDYzp
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmRToWQACgkQI1/ltBGq
-qqcviQ//bDaw9E+3b/rzgqYhc8F6x1lxSQ0lsDeL8hzpjsbL3Xc+psxCNSbEM2sp
-vUz6a7a89QJHTnEUCrIcZ/8f+M7bo8EpFtUpzwnLIIuCxXdOBrtRGRTfl+JxfRpG
-QNnj039GdfXNuFYJqHA1+n6bdgNbElBoRccg/kNmOAtMg/yBMJ4abqlvafAveCsy
-FbjH4+LGUC2Ltw/hcQMv5SeLJRcgmq2O/vyBqEzMDUAW8PsPNwgzxROuZn1Nyi6S
-NpZKBLcd2ah3PKR9OdAXoA3Cw5oOierxUCKMChNEWJ7muW8pHYWbynMpr6PmXn+G
-0+K4d8BkTRbNvTxDVvrtPOwUSaFY7WgdSUhyZkuBa0EV7UH0WLoEDOwytaqVcgm5
-IJnNo89U1UVtKzmI9S8Co8ryqzf9VAmNMDwXFNqgHR5Cuu7hWsXMhXeXLvCVIEVz
-PBALUMyST6Cyc66rxCh5U5KS/GYlm8u0eqwkU6aOfLsRdJSl6l8xvtjzqSurH8WB
-ykpn4p2n7MFKQ5CmJ0QFqajztDMdDwX3TVlj7w/KZoXMVWseeYMp/rl70HnHQ/E2
-c/qNF2wbV+/hxoUv0fEcVmmfus7UK16eUEXaRN/IN8aM5gJ5PoeMejQjwrUDyNr7
-XhOaXoEau//q4C2eztPLYCGugdZrhiz7vgiCEtr5/IXumCGlTmg=
-=rbqo
------END PGP SIGNATURE-----
-
---Sig_/IKCuGqSZcOwId12tUtxDYzp--
+> +
+> +	DRM_INFO("Initialized with %u pipes\n", config->max_pipes);
+>   	ret = vkms_create(config);
+>   	if (ret)
+>   		kfree(config);
+> diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/vkms_drv.h
+> index f152d54baf76..b096832ed0f2 100644
+> --- a/drivers/gpu/drm/vkms/vkms_drv.h
+> +++ b/drivers/gpu/drm/vkms/vkms_drv.h
+> @@ -21,7 +21,9 @@
+>   #define XRES_MAX  8192
+>   #define YRES_MAX  8192
+>   
+> -#define NUM_OVERLAY_PLANES 8
+> +#define NUM_OVERLAY_PLANES	8
+> +#define NUM_MAX_PIPES		4
+> +#define NUM_MIN_PIPES		1
+>   
+>   struct vkms_frame_info {
+>   	struct drm_framebuffer *fb;
+> @@ -112,6 +114,7 @@ struct vkms_config {
+>   	bool writeback;
+>   	bool cursor;
+>   	bool overlay;
+> +	unsigned int max_pipes;
+>   	/* only set when instantiated */
+>   	struct vkms_device *dev;
+>   };
+> @@ -119,13 +122,16 @@ struct vkms_config {
+>   struct vkms_device {
+>   	struct drm_device drm;
+>   	struct platform_device *platform;
+> -	struct vkms_output output;
+> +	struct vkms_output output[NUM_MAX_PIPES];
+>   	const struct vkms_config *config;
+>   };
+>   
+>   #define drm_crtc_to_vkms_output(target) \
+>   	container_of(target, struct vkms_output, crtc)
+>   
+> +#define wb_connector_to_vkms_output(target) \
+> +	container_of(target, struct vkms_output, wb_connector)
+> +
+>   #define drm_device_to_vkms_device(target) \
+>   	container_of(target, struct vkms_device, drm)
+>   
+> @@ -157,6 +163,6 @@ void vkms_set_composer(struct vkms_output *out, bool enabled);
+>   void vkms_compose_row(struct line_buffer *stage_buffer, struct vkms_plane_state *plane, int y);
+>   
+>   /* Writeback */
+> -int vkms_enable_writeback_connector(struct vkms_device *vkmsdev);
+> +int vkms_enable_writeback_connector(struct vkms_device *vkmsdev, int index);
+>   
+>   #endif /* _VKMS_DRV_H_ */
+> diff --git a/drivers/gpu/drm/vkms/vkms_output.c b/drivers/gpu/drm/vkms/vkms_output.c
+> index 1b8aa3a34e46..9c801b8c4c12 100644
+> --- a/drivers/gpu/drm/vkms/vkms_output.c
+> +++ b/drivers/gpu/drm/vkms/vkms_output.c
+> @@ -48,7 +48,7 @@ static int vkms_add_overlay_plane(struct vkms_device *vkmsdev, int index,
+>   
+>   int vkms_output_init(struct vkms_device *vkmsdev, int index)
+>   {
+> -	struct vkms_output *output = &vkmsdev->output;
+> +	struct vkms_output *output = &vkmsdev->output[index];
+>   	struct drm_device *dev = &vkmsdev->drm;
+>   	struct drm_connector *connector = &output->connector;
+>   	struct drm_encoder *encoder = &output->encoder;
+> @@ -104,12 +104,11 @@ int vkms_output_init(struct vkms_device *vkmsdev, int index)
+>   	}
+>   
+>   	if (vkmsdev->config->writeback) {
+> -		writeback = vkms_enable_writeback_connector(vkmsdev);
+> +		writeback = vkms_enable_writeback_connector(vkmsdev, index);
+>   		if (writeback)
+>   			DRM_ERROR("Failed to init writeback connector\n");
+>   	}
+>   
+> -	drm_mode_config_reset(dev);
+>   
+>   	return 0;
+>   
+> diff --git a/drivers/gpu/drm/vkms/vkms_writeback.c b/drivers/gpu/drm/vkms/vkms_writeback.c
+> index 84a51cd281b9..5f291689f870 100644
+> --- a/drivers/gpu/drm/vkms/vkms_writeback.c
+> +++ b/drivers/gpu/drm/vkms/vkms_writeback.c
+> @@ -101,7 +101,7 @@ static void vkms_wb_cleanup_job(struct drm_writeback_connector *connector,
+>   				struct drm_writeback_job *job)
+>   {
+>   	struct vkms_writeback_job *vkmsjob = job->priv;
+> -	struct vkms_device *vkmsdev;
+> +	struct vkms_output *output = wb_connector_to_vkms_output(connector);
+>   
+>   	if (!job->fb)
+>   		return;
+> @@ -110,19 +110,18 @@ static void vkms_wb_cleanup_job(struct drm_writeback_connector *connector,
+>   
+>   	drm_framebuffer_put(vkmsjob->wb_frame_info.fb);
+>   
+> -	vkmsdev = drm_device_to_vkms_device(job->fb->dev);
+> -	vkms_set_composer(&vkmsdev->output, false);
+> +	vkms_set_composer(output, false);
+>   	kfree(vkmsjob);
+>   }
+>   
+>   static void vkms_wb_atomic_commit(struct drm_connector *conn,
+>   				  struct drm_atomic_state *state)
+>   {
+> -	struct drm_connector_state *connector_state = drm_atomic_get_new_connector_state(state,
+> -											 conn);
+> -	struct vkms_device *vkmsdev = drm_device_to_vkms_device(conn->dev);
+> -	struct vkms_output *output = &vkmsdev->output;
+> -	struct drm_writeback_connector *wb_conn = &output->wb_connector;
+> +	struct drm_connector_state *connector_state =
+> +		drm_atomic_get_new_connector_state(state, conn);
+> +	struct drm_writeback_job *wb_job = connector_state->writeback_job;
+> +	struct drm_writeback_connector *wb_conn = wb_job->connector;
+> +	struct vkms_output *output = wb_connector_to_vkms_output(wb_conn);
+>   	struct drm_connector_state *conn_state = wb_conn->base.state;
+>   	struct vkms_crtc_state *crtc_state = output->composer_state;
+>   	struct drm_framebuffer *fb = connector_state->writeback_job->fb;
+> @@ -135,7 +134,7 @@ static void vkms_wb_atomic_commit(struct drm_connector *conn,
+>   	if (!conn_state)
+>   		return;
+>   
+> -	vkms_set_composer(&vkmsdev->output, true);
+> +	vkms_set_composer(output, true);
+>   
+>   	active_wb = conn_state->writeback_job->priv;
+>   	wb_frame_info = &active_wb->wb_frame_info;
+> @@ -147,6 +146,7 @@ static void vkms_wb_atomic_commit(struct drm_connector *conn,
+>   	wb_frame_info->cpp = fb->format->cpp[0];
+>   	crtc_state->wb_pending = true;
+>   	spin_unlock_irq(&output->composer_lock);
+> +
+>   	drm_writeback_queue_job(wb_conn, connector_state);
+>   	active_wb->wb_write = get_line_to_frame_function(wb_format);
+>   	drm_rect_init(&wb_frame_info->src, 0, 0, crtc_width, crtc_height);
+> @@ -160,9 +160,9 @@ static const struct drm_connector_helper_funcs vkms_wb_conn_helper_funcs = {
+>   	.atomic_commit = vkms_wb_atomic_commit,
+>   };
+>   
+> -int vkms_enable_writeback_connector(struct vkms_device *vkmsdev)
+> +int vkms_enable_writeback_connector(struct vkms_device *vkmsdev, int index)
+>   {
+> -	struct drm_writeback_connector *wb = &vkmsdev->output.wb_connector;
+> +	struct drm_writeback_connector *wb = &vkmsdev->output[index].wb_connector;
+>   
+>   	drm_connector_helper_add(&wb->base, &vkms_wb_conn_helper_funcs);
+>   
+> @@ -171,5 +171,5 @@ int vkms_enable_writeback_connector(struct vkms_device *vkmsdev)
+>   					    &vkms_wb_encoder_helper_funcs,
+>   					    vkms_wb_formats,
+>   					    ARRAY_SIZE(vkms_wb_formats),
+> -					    1);
+> +					    1 << index);
+>   }
