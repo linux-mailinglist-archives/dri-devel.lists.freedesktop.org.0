@@ -1,39 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF14B6F71E5
-	for <lists+dri-devel@lfdr.de>; Thu,  4 May 2023 20:23:39 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DD576F71E8
+	for <lists+dri-devel@lfdr.de>; Thu,  4 May 2023 20:24:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C16BE10E052;
-	Thu,  4 May 2023 18:23:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 78F5210E070;
+	Thu,  4 May 2023 18:24:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay05.th.seeweb.it (relay05.th.seeweb.it
- [IPv6:2001:4b7a:2000:18::166])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9471710E070
- for <dri-devel@lists.freedesktop.org>; Thu,  4 May 2023 18:23:33 +0000 (UTC)
-Received: from SoMainline.org (94-211-6-86.cable.dynamic.v4.ziggo.nl
- [94.211.6.86])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
- SHA256) (No client certificate requested)
- by m-r2.th.seeweb.it (Postfix) with ESMTPSA id BBCDC407B6;
- Thu,  4 May 2023 20:23:27 +0200 (CEST)
-Date: Thu, 4 May 2023 20:23:26 +0200
-From: Marijn Suijten <marijn.suijten@somainline.org>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: Re: [PATCH v5 3/7] drm/msm/dpu: add DPU_PINGPONG_DSC bits into
- PP_BLK and PP_BLK_TE marcos
-Message-ID: <u7hlzltevx675gfg4w6emmeceo6nj76taqeecsor6iqsi3hmki@lg43y65m6chz>
-References: <1683218805-23419-1-git-send-email-quic_khsieh@quicinc.com>
- <1683218805-23419-4-git-send-email-quic_khsieh@quicinc.com>
- <ljt5mp4ew5lcrrrdd7xyof3jv3friafbmr3im35ddwxjc42ekh@toez7xfdreg2>
- <CAA8EJpreM9i3DUp+93K7p14f_tNMy-m+C-WdyN5_drmmkGV66g@mail.gmail.com>
+Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com
+ [IPv6:2a00:1450:4864:20::136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DBE3F10E070
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 May 2023 18:24:11 +0000 (UTC)
+Received: by mail-lf1-x136.google.com with SMTP id
+ 2adb3069b0e04-4f13dafd5dcso981192e87.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 04 May 2023 11:24:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1683224650; x=1685816650;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=mtqfJG9XZAvYGPjRD2BYn9iYen2bBzRVCEL7vD5oIOE=;
+ b=qYuUGcPZsKzfhfCosajjCLQckRnY3Q2lmYbyhRW4xk+fPdHNgW6iQYoGupgZCoOFYV
+ b3rP6jOskWZxxg37EkzlzuezizMzZgsrqLv2fyTUz6BBo1yR+TMqcexzCqSPu+wwTJ9L
+ 3n9p919Cd9VCDk0hTsrn9lu4bKZaaWklrUV8sD3cDuVIsQx99pT22AsWB3aV+plLYj0W
+ RKETx3oxFf/ro0xtyfS+ik6sVn0WCEeW5X9QPp8fUaVKVKW9SQBdPxfp1CVa1nzbIovS
+ OGQCaaqAQAW6k3w7Zr+xgw4J/P3BrotjLQ3irFqviVj+HL1VHOPE2VGwgjD8GJ4UvrJX
+ PI3A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1683224650; x=1685816650;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=mtqfJG9XZAvYGPjRD2BYn9iYen2bBzRVCEL7vD5oIOE=;
+ b=eh3FzDE/VJO42R+HLuPy+M5uj/CHWd84odlZZjTHq1p4/81H/8hrqeHSmWnEQpbXNz
+ h837BUajOD33SpjojiW+TYw9Cg7iG9bQNI2JaP9cEiGHFcHLfIWINhiYZumwABXaKifS
+ fSNB/eilsuWM1cYYMWE0ZDo43Nty7bJEKPjC8HqW5OojeAD1k1BJrEqnCBnZdv8xbgpU
+ lJ5lDAEY0Q99G+tzUAEEvGV27A5+lMVS6Yu8ST4RDqdRqk3JwHRmy7odqpuSZY/fNMaK
+ SZhFk1IpKFP/R4do3vGKrnhfjw55+co1ZnNdNcrCHfgptpp+Ix5gQpDJNAtljtTQaVOB
+ N0JQ==
+X-Gm-Message-State: AC+VfDxmZimoLgCHab+/+PeA7urAv8IdqaHqB7URsh2IQKsr6fB+i+mK
+ Lst6SdSsmjwEusACecW4+fKYwg==
+X-Google-Smtp-Source: ACHHUZ6w4EngR4UfCtJk7M/VtZ6f2bpSCU5YRXnYuTg544owIPA76YFd8OV6iAZ3qkWcU6GV1gXwBw==
+X-Received: by 2002:a05:6512:92d:b0:4db:964:51b5 with SMTP id
+ f13-20020a056512092d00b004db096451b5mr1916286lft.41.1683224650017; 
+ Thu, 04 May 2023 11:24:10 -0700 (PDT)
+Received: from ?IPV6:2001:14ba:a0db:1f00::8a5?
+ (dzdqv0yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a0db:1f00::8a5])
+ by smtp.gmail.com with ESMTPSA id
+ i8-20020a056512006800b004edc9da63bdsm6647088lfo.160.2023.05.04.11.24.09
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 04 May 2023 11:24:09 -0700 (PDT)
+Message-ID: <7e82919d-2cfc-67e0-f096-026b259d1960@linaro.org>
+Date: Thu, 4 May 2023 21:24:08 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAA8EJpreM9i3DUp+93K7p14f_tNMy-m+C-WdyN5_drmmkGV66g@mail.gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH 1/2] iommu/arm-smmu-qcom: Fix missing adreno_smmu's
+Content-Language: en-GB
+To: Rob Clark <robdclark@gmail.com>, Konrad Dybcio <konrad.dybcio@linaro.org>
+References: <20230502160950.1758826-1-robdclark@gmail.com>
+ <db8ef06b-a729-a085-8671-2b4d99a8e2b2@linaro.org>
+ <CAF6AEGstOTfaKvmaAXbxvoNvs3odJBiASzmip8+x0FNqFoniKg@mail.gmail.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <CAF6AEGstOTfaKvmaAXbxvoNvs3odJBiASzmip8+x0FNqFoniKg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,98 +79,94 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: vkoul@kernel.org, quic_sbillaka@quicinc.com, quic_abhinavk@quicinc.com,
- andersson@kernel.org, freedreno@lists.freedesktop.org, dianders@chromium.org,
- dri-devel@lists.freedesktop.org, swboyd@chromium.org, agross@kernel.org,
- linux-arm-msm@vger.kernel.org, Kuogee Hsieh <quic_khsieh@quicinc.com>,
- sean@poorly.run, linux-kernel@vger.kernel.org
+Cc: Rob Clark <robdclark@chromium.org>,
+ Sai Prakash Ranjan <quic_saipraka@quicinc.com>,
+ Bjorn Andersson <quic_bjorande@quicinc.com>, Will Deacon <will@kernel.org>,
+ "open list:IOMMU SUBSYSTEM" <iommu@lists.linux.dev>,
+ linux-arm-msm@vger.kernel.org, Joerg Roedel <joro@8bytes.org>,
+ Robin Murphy <robin.murphy@arm.com>, dri-devel@lists.freedesktop.org,
+ open list <linux-kernel@vger.kernel.org>, iommu@lists.linux-foundation.org,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ freedreno@lists.freedesktop.org,
+ "moderated list:ARM SMMU DRIVERS" <linux-arm-kernel@lists.infradead.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2023-05-04 20:53:33, Dmitry Baryshkov wrote:
-> On Thu, 4 May 2023 at 20:49, Marijn Suijten
-> <marijn.suijten@somainline.org> wrote:
-> >
-> > PP_BLK_TE is no longer there.
-> >
-> > marcos -> macros.
-> >
-> > On 2023-05-04 09:46:41, Kuogee Hsieh wrote:
-> > > At legacy chipsets, it required DPU_PINGPONG_DSC bit be set to indicate
-> >
-> > I may have not made this clear, but the comments on patch 2/7
-> > (introducing the DPU_PINGPONG_DSC bit) also apply to this patch: clarify
-> > DPU 7.0.0 exactly in favour of "legacy", which has no definition at all
-> > and changes over time.
-> >
-> > > pingpong ops functions are required to complete DSC data path setup if
-> > > this chipset has DSC hardware block presented. This patch add
-> > > DPU_PINGPONG_DSC bit to both PP_BLK and PP_BLK_TE marcos if it has DSC
-> > > hardware block presented.
-> >
-> > Strictly speaking this patch together with 2/7 is not bisectable, as 2/7
-> > first disables the callbacks for _all_ hardware and then this patch adds
-> > it back by adding the flag to all DPU < 7.0.0 catalog descriptions.
+On 04/05/2023 21:08, Rob Clark wrote:
+> On Thu, May 4, 2023 at 10:41 AM Konrad Dybcio <konrad.dybcio@linaro.org> wrote:
+>>
+>>
+>>
+>> On 2.05.2023 18:09, Rob Clark wrote:
+>>> From: Rob Clark <robdclark@chromium.org>
+>>>
+>>> When the special handling of qcom,adreno-smmu was moved into
+>>> qcom_smmu_create(), it was overlooked that we didn't have all the
+>>> required entries in qcom_smmu_impl_of_match.  So we stopped getting
+>>> adreno_smmu_priv on sc7180, breaking per-process pgtables.
+>>>
+>>> Fixes: 30b912a03d91 ("iommu/arm-smmu-qcom: Move the qcom,adreno-smmu check into qcom_smmu_create")
+>>> Signed-off-by: Rob Clark <robdclark@chromium.org>
+>>> ---
+>> I believe the issue here is the lack of qcom,sc7180-smmu-v2 instead.
+>>
+>> qcom,adreno-smmu does not have to imply the "qcom smmu v2" impl
 > 
-> I asked to split these into two patches, but I see your point and
-> partially agree with it. However if we mix the catalog changes with
-> functional changes, it is too easy to overlook or misjudge the
-> functional changes.
+> Yes, but the ordering after "qcom,smmu-500" does.  Currently we just
+> need the one missing "qcom,sc7180-smmu-v2" but that seemed kind of
+> fragile to me, which is why I went with "qcom,adreno-smmu" as a
+> catch-all
 
-I did the same in the INTF TE series for patches that have very little
-and/or very obvious functional changes: exactly this combination of
-guarding a few callbacks behind a feature bit, and setting that feature
-bit on a few specific catalog entries.
+I think, the order is not relevant when comparing compatible entries, 
+see __of_match_node(). It uses scoring and the more specific compatible 
+wins. This way, "qcom,adreno-smmu", "qcom,smmu-500" will always end up 
+with the v2 ops instead smmu500. It was not included into the list 
+intentionally, rather than being by omission.
 
-> As you are correct about bisectability, I'd probably suggest either
-> having three patches (define flag, update catalog, handle flag in the
-> driver) or squashing first two patches to have two patches (add flag +
-> catalog, separate functional changes).
+Thus I'd also suggest adding "qcom,sc7180-smmu-v2" to the list, as we 
+currently do for all SMMU_v2 devices.
 
-Sure, if you really prefer a split I'd go for two patches:
-1. Add the flag to the enum and catalog;
-2. Add the ops guard (functional change).
+> 
+> BR,
+> -R
+> 
+>>
+>> Konrad
+>>>   drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c | 5 +++++
+>>>   1 file changed, 5 insertions(+)
+>>>
+>>> diff --git a/drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c b/drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c
+>>> index d1b296b95c86..88c89424485b 100644
+>>> --- a/drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c
+>>> +++ b/drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c
+>>> @@ -512,20 +512,25 @@ static const struct of_device_id __maybe_unused qcom_smmu_impl_of_match[] = {
+>>>        { .compatible = "qcom,sm6115-smmu-500", .data = &qcom_smmu_500_impl0_data},
+>>>        { .compatible = "qcom,sm6125-smmu-500", .data = &qcom_smmu_500_impl0_data },
+>>>        { .compatible = "qcom,sm6350-smmu-v2", .data = &qcom_smmu_v2_data },
+>>>        { .compatible = "qcom,sm6350-smmu-500", .data = &qcom_smmu_500_impl0_data },
+>>>        { .compatible = "qcom,sm6375-smmu-500", .data = &qcom_smmu_500_impl0_data },
+>>>        { .compatible = "qcom,sm8150-smmu-500", .data = &qcom_smmu_500_impl0_data },
+>>>        { .compatible = "qcom,sm8250-smmu-500", .data = &qcom_smmu_500_impl0_data },
+>>>        { .compatible = "qcom,sm8350-smmu-500", .data = &qcom_smmu_500_impl0_data },
+>>>        { .compatible = "qcom,sm8450-smmu-500", .data = &qcom_smmu_500_impl0_data },
+>>>        { .compatible = "qcom,smmu-500", .data = &qcom_smmu_500_impl0_data },
+>>> +     /*
+>>> +      * Should come after the qcom,smmu-500 fallback so smmu-500 variants of
+>>> +      * adreno-smmu get qcom_adreno_smmu_500_impl:
+>>> +      */
+>>> +     { .compatible = "qcom,adreno-smmu", .data = &qcom_smmu_v2_data },
+>>>        { }
+>>>   };
+>>>
+>>>   #ifdef CONFIG_ACPI
+>>>   static struct acpi_platform_list qcom_acpi_platlist[] = {
+>>>        { "LENOVO", "CB-01   ", 0x8180, ACPI_SIG_IORT, equal, "QCOM SMMU" },
+>>>        { "QCOM  ", "QCOMEDK2", 0x8180, ACPI_SIG_IORT, equal, "QCOM SMMU" },
+>>>        { }
+>>>   };
+>>>   #endif
 
-Then don't forget to reword the commit message, following the guidelines
-below and the suggestion for 2/7.
+-- 
+With best wishes
+Dmitry
 
-- Marijn
-
-> > To solve that, as we do in other DPU patch-series, just squash this
-> > patch into 2/7.  That way you also don't have to spend extra time
-> > rewording this commit message either to match the improvements we made
-> > in 2/7 (for example, you mention that "ops functions are required to
-> > complete DSC data path setup", but those were already available before
-> > 2/7, despite sounding as if this is a new thing that was previously
-> > missing entirely).
-> >
-> > But please wait at least a couple days before sending v6.  I only have a
-> > few hours every day/week but would appreciate to review and test all the
-> > other patches.
-> >
-> > > Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
-> > > ---
-> > >  .../drm/msm/disp/dpu1/catalog/dpu_3_0_msm8998.h    | 16 +++++++--------
-> > >  .../gpu/drm/msm/disp/dpu1/catalog/dpu_4_0_sdm845.h | 16 +++++++--------
-> > >  .../gpu/drm/msm/disp/dpu1/catalog/dpu_5_0_sm8150.h | 24 +++++++++++-----------
-> > >  .../drm/msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h    | 24 +++++++++++-----------
-> > >  .../gpu/drm/msm/disp/dpu1/catalog/dpu_6_0_sm8250.h | 24 +++++++++++-----------
-> > >  5 files changed, 52 insertions(+), 52 deletions(-)
-> > >
-> > > diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_3_0_msm8998.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_3_0_msm8998.h
-> > > index 521cfd5..ef92545 100644
-> > > --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_3_0_msm8998.h
-> > > +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_3_0_msm8998.h
-> > > @@ -112,17 +112,17 @@ static const struct dpu_lm_cfg msm8998_lm[] = {
-> > >  };
-> > >
-> > >  static const struct dpu_pingpong_cfg msm8998_pp[] = {
-> > > -     PP_BLK("pingpong_0", PINGPONG_0, 0x70000, PINGPONG_SDM845_TE2_MASK, 0, sdm845_pp_sblk_te,
-> > > -                     DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 8),
-> > > +     PP_BLK("pingpong_0", PINGPONG_0, 0x70000, PINGPONG_SDM845_TE2_MASK|BIT(DPU_PINGPONG_DSC),
-> >
-> > This should be added to the MASK (add new #define's where necessary).
-> >
-> > - Marijn
-
-<snip>
