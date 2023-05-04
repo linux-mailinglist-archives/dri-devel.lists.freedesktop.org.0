@@ -1,52 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C7D36F6ADF
-	for <lists+dri-devel@lfdr.de>; Thu,  4 May 2023 14:08:17 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 571056F6AF2
+	for <lists+dri-devel@lfdr.de>; Thu,  4 May 2023 14:13:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 82E4010E296;
-	Thu,  4 May 2023 12:08:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 840F910E396;
+	Thu,  4 May 2023 12:13:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CC2A110E296;
- Thu,  4 May 2023 12:08:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:Cc:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=tPow+oGVqtat0jltpQX+EehYyhY9mTztu6MtA4PYDRo=; b=OQOYd02ky4mDot0wc6xSkYf5Mg
- eCE0fBHtF5nriR7TEqRpPFv3x+7h2ERJmOwnrYlP5eg9lcMGGSP3uXKtv0xSQdqRCofHzhZC07EFt
- 1Cm6blFq/lIl6pQsJW2ivVlj18koB9QumbANTE/anPauaCtfMHkYmeRf37eWwM9lfJVKaja8Xo+gF
- BQ6MF8gdjz0BQKRIEBU4KlBPZCRS4Kqv2ZFVtza9+SlSd9kqcD8dQnsjZHS7Ua8NjFJsu2HH7dFdp
- WS9MCWhjQwIMk+Iri3k4PHJsFKgwvU0s9UgHGehikQppeevQK5CynSo4ajjJ+wD3CkrtAEaeClf5T
- OFzMggeg==;
-Received: from [177.34.168.16] (helo=[192.168.0.4])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1puXka-0015yz-Er; Thu, 04 May 2023 14:07:56 +0200
-Message-ID: <c5171667-75e2-7b7c-38a6-19d256445c38@igalia.com>
-Date: Thu, 4 May 2023 09:07:49 -0300
+Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com
+ [IPv6:2a00:1450:4864:20::12b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A7C1410E392;
+ Thu,  4 May 2023 12:13:31 +0000 (UTC)
+Received: by mail-lf1-x12b.google.com with SMTP id
+ 2adb3069b0e04-4f004cc54f4so478999e87.3; 
+ Thu, 04 May 2023 05:13:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1683202409; x=1685794409;
+ h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
+ :date:from:to:cc:subject:date:message-id:reply-to;
+ bh=rONT3tFH/eFNZH2oh2aVBKYil27pOoA6/Qc3qIsA0lA=;
+ b=rPOIikho86ZIxawEoaZ304oSvks4toshCJUasJw6Ri5CHb5S2JtDG5a6qRKp3F4p/z
+ CE9gbhBCydPWesWyfD97Y5eTIcpilOoBwh7Pm8w0NU1Z2+LWTPjyiiSPFq3wYa9K0Aw8
+ avchptBU7t05ORpy7SXwbQrjaBkp2sVhENGDGhRZinwJW4mW1+a7d/m4REUpzar26V+M
+ sd8IKI1o2dpvP8WfPFAvQ+miNeMnQ0fgJUmHik7WDM0brydl/3WQGvuAf+/joRYa5ohA
+ WVAJvK/cIV6Hfp4DwWb2ewvXwiA74EXqR7tUT0qIOHnIWr+F402/KUG050XTwMRi7xs8
+ BOlw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1683202409; x=1685794409;
+ h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
+ :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=rONT3tFH/eFNZH2oh2aVBKYil27pOoA6/Qc3qIsA0lA=;
+ b=YQJGeshV2GkTkbW/99jCI3Wy08mLLNVf4UobW8Rmmi7fxzZ1Jy0OpHS38gqkI2aDBg
+ N5nnP+qDYPAVwZQTUiEIvz5J7D+uaMZ9saEf1kU/YBvZegRKN6HuCR0UfGtxXsBYHqo6
+ JZBqvhKiOJsNQiggI8dnotKrquMHw2mDpHtRIQBTCKySvTe7R+H4vmk7icxJxR73QzRQ
+ ZZUqDSGnE3p2kvtAt3Mb5fPcItUA8PJK9Cevgl+HM8e7rg1Fo8p9w0b7qTbNfcQ5Vzns
+ 8rbIvtzwpPMBbSaAk3+3h7SLnG22HTutMXOiLwf2iM2kK1gclo7NCTVW9Qgb7UTY3xia
+ D8Tg==
+X-Gm-Message-State: AC+VfDwM0Cdz1F3nYAlteEhFuv1YOugqbR1AplbRwrLWFFA8MYIm7aWv
+ LQhAALUPjKFK/r4lxLZZzQI=
+X-Google-Smtp-Source: ACHHUZ7/WOGg5I8ZUqVgovT46A2LLUMNbm2eeVCGuYX5cN3iAkZqXbPbHOpIpwTKrpEvWEtnGQtwCw==
+X-Received: by 2002:ac2:5551:0:b0:4d1:3d1d:4914 with SMTP id
+ l17-20020ac25551000000b004d13d1d4914mr2192756lfk.33.1683202408760; 
+ Thu, 04 May 2023 05:13:28 -0700 (PDT)
+Received: from eldfell ([194.136.85.206]) by smtp.gmail.com with ESMTPSA id
+ n21-20020a195515000000b004f002961a96sm4449180lfe.230.2023.05.04.05.13.28
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 04 May 2023 05:13:28 -0700 (PDT)
+Date: Thu, 4 May 2023 15:13:24 +0300
+From: Pekka Paalanen <ppaalanen@gmail.com>
+To: Jonas =?UTF-8?B?w4VkYWhs?= <jadahl@gmail.com>
+Subject: Re: [PATCH v2 1/8] drm: Disable the cursor plane on atomic contexts
+ with virtualized drivers
+Message-ID: <20230504151324.2fafcc1c@eldfell>
+In-Reply-To: <ZFOWmhZGEmaksTAo@gmail.com>
+References: <20220712033246.1148476-1-zack@kde.org>
+ <20220712033246.1148476-2-zack@kde.org>
+ <YvPfedG/uLQNFG7e@phenom.ffwll.local>
+ <87lei7xemy.fsf@minerva.mail-host-address-is-not-set>
+ <0dd2fa763aa0e659c8cbae94f283d8101450082a.camel@vmware.com>
+ <87y1m5x3bt.fsf@minerva.mail-host-address-is-not-set>
+ <17cc969e9f13fab112827e154495eca28c4bd2b6.camel@vmware.com>
+ <20230504133904.4ad3011c@eldfell> <ZFOWmhZGEmaksTAo@gmail.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.24; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH 02/13] drm: add drm_exec selftests v2
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
- francois.dugast@intel.com, felix.kuehling@amd.com,
- arunpravin.paneerselvam@amd.com, thomas_os@shipmail.org, dakr@redhat.com,
- luben.tuikov@amd.com, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-References: <20230504115159.2245-1-christian.koenig@amd.com>
- <20230504115159.2245-3-christian.koenig@amd.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Ma=c3=adra_Canal?= <mcanal@igalia.com>
-In-Reply-To: <20230504115159.2245-3-christian.koenig@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; boundary="Sig_/IKCuGqSZcOwId12tUtxDYzp";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,170 +79,181 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Maaz Mombasawala <mombasawalam@vmware.com>,
+ "hdegoede@redhat.com" <hdegoede@redhat.com>,
+ "airlied@linux.ie" <airlied@linux.ie>,
+ "belmouss@redhat.com" <belmouss@redhat.com>,
+ "javierm@redhat.com" <javierm@redhat.com>,
+ "stable@vger.kernel.org" <stable@vger.kernel.org>,
+ "gurchetansingh@chromium.org" <gurchetansingh@chromium.org>,
+ Martin Krastev <krastevm@vmware.com>,
+ Linux-graphics-maintainer <Linux-graphics-maintainer@vmware.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "tzimmermann@suse.de" <tzimmermann@suse.de>,
+ "spice-devel@lists.freedesktop.org" <spice-devel@lists.freedesktop.org>,
+ "airlied@redhat.com" <airlied@redhat.com>,
+ "virtualization@lists.linux-foundation.org"
+ <virtualization@lists.linux-foundation.org>,
+ "kraxel@redhat.com" <kraxel@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Christian,
+--Sig_/IKCuGqSZcOwId12tUtxDYzp
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-It would be nice if you use the KUnit macros, instead of pr_info.
+On Thu, 4 May 2023 13:27:22 +0200
+Jonas =C3=85dahl <jadahl@gmail.com> wrote:
 
-On 5/4/23 08:51, Christian König wrote:
-> Largely just the initial skeleton.
-> 
-> v2: add array test as well
-> 
-> Signed-off-by: Christian König <christian.koenig@amd.com>
-> ---
->   drivers/gpu/drm/Kconfig               |  1 +
->   drivers/gpu/drm/tests/Makefile        |  3 +-
->   drivers/gpu/drm/tests/drm_exec_test.c | 96 +++++++++++++++++++++++++++
->   3 files changed, 99 insertions(+), 1 deletion(-)
->   create mode 100644 drivers/gpu/drm/tests/drm_exec_test.c
-> 
-> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-> index 2dc81eb062eb..068e574e234e 100644
-> --- a/drivers/gpu/drm/Kconfig
-> +++ b/drivers/gpu/drm/Kconfig
-> @@ -80,6 +80,7 @@ config DRM_KUNIT_TEST
->   	select DRM_BUDDY
->   	select DRM_EXPORT_FOR_TESTS if m
->   	select DRM_KUNIT_TEST_HELPERS
-> +	select DRM_EXEC
->   	default KUNIT_ALL_TESTS
->   	help
->   	  This builds unit tests for DRM. This option is not useful for
-> diff --git a/drivers/gpu/drm/tests/Makefile b/drivers/gpu/drm/tests/Makefile
-> index bca726a8f483..ba7baa622675 100644
-> --- a/drivers/gpu/drm/tests/Makefile
-> +++ b/drivers/gpu/drm/tests/Makefile
-> @@ -17,6 +17,7 @@ obj-$(CONFIG_DRM_KUNIT_TEST) += \
->   	drm_modes_test.o \
->   	drm_plane_helper_test.o \
->   	drm_probe_helper_test.o \
-> -	drm_rect_test.o
-> +	drm_rect_test.o	\
-> +	drm_exec_test.o
->   
->   CFLAGS_drm_mm_test.o := $(DISABLE_STRUCTLEAK_PLUGIN)
-> diff --git a/drivers/gpu/drm/tests/drm_exec_test.c b/drivers/gpu/drm/tests/drm_exec_test.c
-> new file mode 100644
-> index 000000000000..26aa13e62d22
-> --- /dev/null
-> +++ b/drivers/gpu/drm/tests/drm_exec_test.c
-> @@ -0,0 +1,96 @@
-> +// SPDX-License-Identifier: MIT
-> +/*
-> + * Copyright © 2019 Intel Corporation
-> + */
-> +
-> +#define pr_fmt(fmt) "drm_exec: " fmt
-> +
-> +#include <kunit/test.h>
-> +
-> +#include <linux/module.h>
-> +#include <linux/prime_numbers.h>
-> +
-> +#include <drm/drm_exec.h>
-> +#include <drm/drm_device.h>
-> +#include <drm/drm_gem.h>
-> +
-> +#include "../lib/drm_random.h"
-> +
-> +static struct drm_device dev;
-> +
-> +static void drm_exec_sanitycheck(struct kunit *test)
-> +{
-> +	struct drm_exec exec;
-> +
-> +	drm_exec_init(&exec, true);
-> +	drm_exec_fini(&exec);
-> +	pr_info("%s - ok!\n", __func__);
+> On Thu, May 04, 2023 at 01:39:04PM +0300, Pekka Paalanen wrote:
+> > On Thu, 4 May 2023 01:50:25 +0000
+> > Zack Rusin <zackr@vmware.com> wrote:
+> >  =20
+> > > On Wed, 2023-05-03 at 09:48 +0200, Javier Martinez Canillas wrote: =20
+> > > > Zack Rusin <zackr@vmware.com> writes:
+> > > >    =20
+> > > > > On Tue, 2023-05-02 at 11:32 +0200, Javier Martinez Canillas wrote=
+:   =20
+> >  =20
+> > > > > > AFAICT this is the only remaining thing to be addressed for thi=
+s series ?   =20
+> > > > >=20
+> > > > > No, there was more. tbh I haven't had the time to think about whe=
+ther the above
+> > > > > makes sense to me, e.g. I'm not sure if having virtualized driver=
+s expose
+> > > > > "support
+> > > > > universal planes" and adding another plane which is not universal=
+ (the only
+> > > > > "universal" plane on them being the default one) makes more sense=
+ than a flag
+> > > > > that
+> > > > > says "this driver requires a cursor in the cursor plane". There's=
+ certainly a
+> > > > > huge
+> > > > > difference in how userspace would be required to handle it and it=
+'s way uglier
+> > > > > with
+> > > > > two different cursor planes. i.e. there's a lot of ways in which =
+this could be
+> > > > > cleaner in the kernel but they all require significant changes to=
+ userspace,
+> > > > > that go
+> > > > > way beyond "attach hotspot info to this plane". I'd like to avoid=
+ approaches
+> > > > > that
+> > > > > mean running with atomic kms requires completely separate paths f=
+or virtualized
+> > > > > drivers because no one will ever support and maintain it.
+> > > > >=20
+> > > > > It's not a trivial thing because it's fundamentally hard to untan=
+gle the fact
+> > > > > the
+> > > > > virtualized drivers have been advertising universal plane support=
+ without ever
+> > > > > supporting universal planes. Especially because most new userspac=
+e in general
+> > > > > checks
+> > > > > for "universal planes" to expose atomic kms paths.
+> > > > >    =20
+> > > >=20
+> > > > After some discussion on the #dri-devel, your approach makes sense =
+and the
+> > > > only contention point is the name of the driver feature flag name. =
+The one
+> > > > you are using (DRIVER_VIRTUAL) seems to be too broad and generic (t=
+he fact
+> > > > that vkms won't set and is a virtual driver as well, is a good exam=
+ple).
+> > > >=20
+> > > > Maybe something like DRIVER_CURSOR_HOTSPOT or DRIVER_CURSOR_COMMAND=
+EERING
+> > > > would be more accurate and self explanatory ?   =20
+> > >=20
+> > > Sure, or even more verbose DRIVER_NEEDS_CURSOR_PLANE_HOTSPOT, but it =
+sounds like
+> > > Pekka doesn't agree with this approach. As I mentioned in my response=
+ to him, I'd be
+> > > happy with any approach that gets paravirtualized drivers working wit=
+h atomic kms,
+> > > but atm I don't have enough time to be creating a new kernel subsyste=
+m or a new set
+> > > of uapi's for paravirtualized drivers and then porting mutter/kwin to=
+ those. =20
+> >=20
+> > It seems I have not been clear enough, apologies. Once more, in short:
+> >=20
+> > Zack, I'm worried about this statement from you (copied from above):
+> >  =20
+> > > > > I'd like to avoid approaches that mean running with atomic kms
+> > > > > requires completely separate paths for virtualized drivers
+> > > > > because no one will ever support and maintain it. =20
+> >=20
+> > It feels like you are intentionally limiting your own design options
+> > for the fear of "no one will ever support it". I'm worried that over
+> > the coming years, that will lead to a hard to use, hard to maintain
+> > patchwork of vague or undocumented or just too many little UAPI details.
+> >=20
+> > Please, don't limit your designs. There are good reasons why nested KMS
+> > drivers behave fundamentally differently to most KMS hardware drivers.
+> > Userspace that does not or cannot take that into account is unavoidably
+> > crippled. =20
+>=20
+> From a compositor side, there is a valid reason to minimize the uAPI
+> difference between "nested virtual machine" code paths and "running on
+> actual hardware" code paths, which is to let virtual machines with a
+> viewer connected to KMS act as a testing environment, rather than a
+> production environment. Running a production environment in a virtual
+> machine doesn't really need to use KMS at all.
+>=20
+> When using virtual machines for testing, I want to minimize the amount
+> of differentation between running on hardware and running in the VM
+> because otherwise the parts that are tested are not the same.
+>=20
+> I realize that hotpspots and the cursor moving viewer side contradicts
+> that to some degree, but still, from a graphical testing witha VM point
+> of view, one has to compromise, as testing isn't just for the KMS layer,
+> but for the DE and distribution as a whole.
 
-Here you could use KUNIT_SUCCEED(test).
+Right, I'm looking at this from the production use only point of view,
+and not as any kind of testing environment, not for compositor KMS
+driving bits at least. Using a virtualized driver for KMS testing seems
+so very... manual to me, and like you said, it's not representative of
+"real" behaviour.
 
-> +}
-> +
-> +static void drm_exec_lock1(struct kunit *test)
+As for the best choice for production use, KMS in guest OS is
+attractive because it offers zero-copy direct scanout to the host
+hardware, with the right stack. OTOH, I think RDP has extensions that
+could enable that too, and if the end point is not host hardware
+display then KMS use in guest is not the best idea indeed.
 
-Is there a reason to call the function drm_exec_lock1 instead of
-just drm_exec_lock?
+I don't recall any mention of actual use cases here recently. I agree
+the intended use makes a huge difference. Testing KMS userspace and
+production use are almost the opposite goals for virtualized drivers.
 
-> +{
-> +	struct drm_gem_object gobj = { };
-> +	struct drm_exec exec;
-> +	int ret;
-> +
-> +	drm_gem_private_object_init(&dev, &gobj, PAGE_SIZE);
-> +
-> +	drm_exec_init(&exec, true);
-> +	drm_exec_while_not_all_locked(&exec) {
-> +		ret = drm_exec_prepare_obj(&exec, &gobj, 1);
-> +		drm_exec_continue_on_contention(&exec);
-> +		if (ret) {
-> +			drm_exec_fini(&exec);
-> +			pr_err("%s - err %d!\n", __func__, ret);
 
-Here you could use KUNIT_FAIL. Same for the other function.
+Thanks,
+pq
 
-Actually, it would be better if you created a function `exit`
-associated with the test suite, where you would call drm_exec_fini,
-and checked the ret variable with KUNIT_EXPECT_EQ(test, ret, 0) in
-the test.
+--Sig_/IKCuGqSZcOwId12tUtxDYzp
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
 
-> +			return;
-> +		}
-> +	}
-> +	drm_exec_fini(&exec);
-> +	pr_info("%s - ok!\n", __func__);
-> +}
-> +
-> +static void drm_exec_lock_array(struct kunit *test)
-> +{
-> +	struct drm_gem_object gobj1 = { };
-> +	struct drm_gem_object gobj2 = { };
-> +	struct drm_gem_object *array[] = { &gobj1, &gobj2 };
-> +	struct drm_exec exec;
-> +	int ret;
-> +
-> +	drm_gem_private_object_init(&dev, &gobj1, PAGE_SIZE);
-> +	drm_gem_private_object_init(&dev, &gobj2, PAGE_SIZE);
-> +
-> +	drm_exec_init(&exec, true);
-> +	ret = drm_exec_prepare_array(&exec, array, ARRAY_SIZE(array), 0);
-> +	if (ret) {
-> +		drm_exec_fini(&exec);
-> +		pr_err("%s - err %d!\n", __func__, ret);
-> +		return;
-> +	}
-> +	drm_exec_fini(&exec)> +	pr_info("%s - ok!\n", __func__);
-> +}
-> +
-> +static int drm_exec_suite_init(struct kunit_suite *suite)
-> +{
-> +	kunit_info(suite, "Testing DRM exec manager\n");
+-----BEGIN PGP SIGNATURE-----
 
-Isn't this already clear by the name of the test?
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmRToWQACgkQI1/ltBGq
+qqcviQ//bDaw9E+3b/rzgqYhc8F6x1lxSQ0lsDeL8hzpjsbL3Xc+psxCNSbEM2sp
+vUz6a7a89QJHTnEUCrIcZ/8f+M7bo8EpFtUpzwnLIIuCxXdOBrtRGRTfl+JxfRpG
+QNnj039GdfXNuFYJqHA1+n6bdgNbElBoRccg/kNmOAtMg/yBMJ4abqlvafAveCsy
+FbjH4+LGUC2Ltw/hcQMv5SeLJRcgmq2O/vyBqEzMDUAW8PsPNwgzxROuZn1Nyi6S
+NpZKBLcd2ah3PKR9OdAXoA3Cw5oOierxUCKMChNEWJ7muW8pHYWbynMpr6PmXn+G
+0+K4d8BkTRbNvTxDVvrtPOwUSaFY7WgdSUhyZkuBa0EV7UH0WLoEDOwytaqVcgm5
+IJnNo89U1UVtKzmI9S8Co8ryqzf9VAmNMDwXFNqgHR5Cuu7hWsXMhXeXLvCVIEVz
+PBALUMyST6Cyc66rxCh5U5KS/GYlm8u0eqwkU6aOfLsRdJSl6l8xvtjzqSurH8WB
+ykpn4p2n7MFKQ5CmJ0QFqajztDMdDwX3TVlj7w/KZoXMVWseeYMp/rl70HnHQ/E2
+c/qNF2wbV+/hxoUv0fEcVmmfus7UK16eUEXaRN/IN8aM5gJ5PoeMejQjwrUDyNr7
+XhOaXoEau//q4C2eztPLYCGugdZrhiz7vgiCEtr5/IXumCGlTmg=
+=rbqo
+-----END PGP SIGNATURE-----
 
-Best Regards,
-- Maíra Canal
-
-> +	return 0;
-> +}
-> +
-> +static struct kunit_case drm_exec_tests[] = {
-> +	KUNIT_CASE(drm_exec_sanitycheck),
-> +	KUNIT_CASE(drm_exec_lock1),
-> +	KUNIT_CASE(drm_exec_lock_array),
-> +	{}
-> +};
-> +
-> +static struct kunit_suite drm_exec_test_suite = {
-> +	.name = "drm_exec",
-> +	.suite_init = drm_exec_suite_init,
-> +	.test_cases = drm_exec_tests,
-> +};
-> +
-> +kunit_test_suite(drm_exec_test_suite);
-> +
-> +MODULE_AUTHOR("AMD");
-> +MODULE_LICENSE("GPL and additional rights");
+--Sig_/IKCuGqSZcOwId12tUtxDYzp--
