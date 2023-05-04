@@ -2,59 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 735716F6CED
-	for <lists+dri-devel@lfdr.de>; Thu,  4 May 2023 15:29:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB0776F6CCD
+	for <lists+dri-devel@lfdr.de>; Thu,  4 May 2023 15:18:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 105B410E4FC;
-	Thu,  4 May 2023 13:29:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1C91E10E52B;
+	Thu,  4 May 2023 13:18:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BBFAC10E4EE;
- Thu,  4 May 2023 13:29:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1683206958; x=1714742958;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=MrpmeB65/W2rkXQdlYUSm1Sdlsd7s3hQC+sQrAg6dnQ=;
- b=NUh6PiM9sl8o9vjdKpbPzMKYQJiiXvcd5rIXlFHjbzWGcTV0BEU9OLV1
- /rkwWR/Kw0ARRq1zoXacdsYVuuaPiU8XF/LwLXGddWgjRN6BKfQcAqOxK
- FdVHh8rWcoS0Z33t7gBB7P5GFvNUNhKyUocdkQC/8ansmSMayIcmPIPe5
- iTh8RAtVTSfaoAf/b1CjfcpRprzr60zBRZVFcGt+PW7FNw0R3BezLnlKU
- YfdMXUii7yrqGGQVAILxREzS+o2C+6/ntcLim1Rsco4Qlig8BUi13WZqq
- LHGu61tFsW4oxlmeDeXAmjgH9DoC3xir1dQsY1b6325fo8t1EmL/3gaen Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10700"; a="338082396"
-X-IronPort-AV: E=Sophos;i="5.99,249,1677571200"; d="scan'208";a="338082396"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 May 2023 06:12:00 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10700"; a="808717477"
-X-IronPort-AV: E=Sophos;i="5.99,249,1677571200"; d="scan'208";a="808717477"
-Received: from tarabr1x-mobl.ger.corp.intel.com (HELO [10.213.213.121])
- ([10.213.213.121])
- by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 May 2023 06:11:59 -0700
-Message-ID: <a9be1aae-a796-c9e3-c1be-b544a31c90b8@linux.intel.com>
-Date: Thu, 4 May 2023 14:11:57 +0100
+Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CD4D110E53B
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 May 2023 13:18:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+ t=1683206290; x=1714742290;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=qWGSg6d1nhW2VOQBIw4YIvEy4bV7o1yT12cZc0wNGSw=;
+ b=Y5rK8amhwh013Wsg7lpA/dP+AX18VP6sumfQ0K7bcFdmdnj+vAuEWcGP
+ yQcOVR5e3sJfFTKKD74sXsXM18V6M7t4Gc/YKPodzoBWatYTcYcYBIzce
+ OwLvXavz16C9oV4ldvU3zaBnIjvNOwmoLH7VFEgHOm0KrwXOxl7ieUTFn
+ FKUKxvMq48aha4eHsW+PYcklVTjkbrM0/nDVfI2kRBuIQpdRyctIocinq
+ /Z6ZFiaX4cWpvXxZgTKlc9n/l3fzCAE2cMSDAtHAReuWCte0vRLRW0n/h
+ eFbQ5kor/BSPY1kRaJHgN2HGjOs3doHobH3xTnneHI/GUc+g/KIq4UHzZ g==;
+X-IronPort-AV: E=Sophos;i="5.99,249,1677538800"; d="scan'208";a="30722926"
+Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
+ by mx1-pgp.tq-group.com with ESMTP; 04 May 2023 15:18:07 +0200
+Received: from mx1.tq-group.com ([192.168.6.7])
+ by tq-pgp-pr1.tq-net.de (PGP Universal service);
+ Thu, 04 May 2023 15:18:07 +0200
+X-PGP-Universal: processed;
+ by tq-pgp-pr1.tq-net.de on Thu, 04 May 2023 15:18:07 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+ t=1683206287; x=1714742287;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=qWGSg6d1nhW2VOQBIw4YIvEy4bV7o1yT12cZc0wNGSw=;
+ b=pYrRRUo7K3oo5ylmXUGvA0xcMVhThxeQfKdUBtEEfT7FWDNWM7eSawar
+ D0o1YNNaNiu3xTmsLzGOCu+3/leMpZulGEhQWA2pawngn5hM+qmjLix8J
+ JTQw9QWgNVzpi2bwB4Va9CXV/IKJ454kOvY8tJ/ap0jJJ090UtcvZ+Uk6
+ da8W7Zu1Hg3CBPciEuWnxPE9Y4NPCmidyUyIjVrAcGvVTPb9VvruJE3lG
+ vBsOvqYZoV+jbRrONHn9rnk0+5FoeWg7wWGqnGDVvZ9QpLmVy9k32y0MO
+ HBgOW+jWSo1vOPX1e0oW9pcY4b3pDDfRsuRphOMXT0nfOYxI+bh2ghau8 g==;
+X-IronPort-AV: E=Sophos;i="5.99,249,1677538800"; d="scan'208";a="30722925"
+Received: from vtuxmail01.tq-net.de ([10.115.0.20])
+ by mx1.tq-group.com with ESMTP; 04 May 2023 15:18:07 +0200
+Received: from steina-w.localnet (unknown [10.123.53.21])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (No client certificate requested)
+ by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id A0123280056;
+ Thu,  4 May 2023 15:18:06 +0200 (CEST)
+From: Alexander Stein <alexander.stein@ew.tq-group.com>
+To: Adam Ford <aford173@gmail.com>
+Subject: Re: [PATCH V3 3/7] drm: bridge: samsung-dsim: Fetch
+ pll-clock-frequency automatically
+Date: Thu, 04 May 2023 15:18:07 +0200
+Message-ID: <1856543.CQOukoFCf9@steina-w>
+Organization: TQ-Systems GmbH
+In-Reply-To: <CAHCN7x+Me-wbUNNyN9fJwg3KETE+0S2MfPOsAb=-CSuSUvZvPg@mail.gmail.com>
+References: <20230502010759.17282-1-aford173@gmail.com>
+ <1759996.VLH7GnMWUR@steina-w>
+ <CAHCN7x+Me-wbUNNyN9fJwg3KETE+0S2MfPOsAb=-CSuSUvZvPg@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [Intel-gfx] [PATCH v4 2/3] drm/i915: use pat_index instead of
- cache_level
-Content-Language: en-US
-To: "Yang, Fei" <fei.yang@intel.com>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>
-References: <20230502041200.2170424-1-fei.yang@intel.com>
- <20230502041200.2170424-3-fei.yang@intel.com>
- <f0e0df9a-2913-dfc3-042a-867e536c3ceb@linux.intel.com>
- <BYAPR11MB256767693CB508F40A2B17DD9A6C9@BYAPR11MB2567.namprd11.prod.outlook.com>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-In-Reply-To: <BYAPR11MB256767693CB508F40A2B17DD9A6C9@BYAPR11MB2567.namprd11.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,158 +78,163 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Chris Wilson <chris.p.wilson@linux.intel.com>, "Roper,
- Matthew D" <matthew.d.roper@intel.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Cc: marex@denx.de, Neil Armstrong <neil.armstrong@linaro.org>,
+ Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
+ aford@beaconembedded.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Jagan Teki <jagan@amarulasolutions.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Chen-Yu Tsai <wenst@chromium.org>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Am Donnerstag, 4. Mai 2023, 14:57:01 CEST schrieb Adam Ford:
+> On Thu, May 4, 2023 at 7:40=E2=80=AFAM Alexander Stein
+>=20
+> <alexander.stein@ew.tq-group.com> wrote:
+> > Hi Adam,
+> >=20
+> > Am Donnerstag, 4. Mai 2023, 14:00:08 CEST schrieb Adam Ford:
+> > > On Thu, May 4, 2023 at 4:21=E2=80=AFAM Alexander Stein
+> > >=20
+> > > <alexander.stein@ew.tq-group.com> wrote:
+> > > > Am Dienstag, 2. Mai 2023, 03:07:55 CEST schrieb Adam Ford:
+> > > > > Make the pll-clock-frequency optional.  If it's present, use it
+> > > > > to maintain backwards compatibility with existing hardware.  If it
+> > > > > is absent, read clock rate of "sclk_mipi" to determine the rate.
+> > > > >=20
+> > > > > Signed-off-by: Adam Ford <aford173@gmail.com>
+> > > > > Tested-by: Chen-Yu Tsai <wenst@chromium.org>
+> > > > > ---
+> > > > >=20
+> > > > >  drivers/gpu/drm/bridge/samsung-dsim.c | 12 ++++++++++--
+> > > > >  1 file changed, 10 insertions(+), 2 deletions(-)
+> > > > >=20
+> > > > > diff --git a/drivers/gpu/drm/bridge/samsung-dsim.c
+> > > > > b/drivers/gpu/drm/bridge/samsung-dsim.c index
+> > > > > bf4b33d2de76..2dc02a9e37c0
+> > > > > 100644
+> > > > > --- a/drivers/gpu/drm/bridge/samsung-dsim.c
+> > > > > +++ b/drivers/gpu/drm/bridge/samsung-dsim.c
+> > > > > @@ -1726,12 +1726,20 @@ static int samsung_dsim_parse_dt(struct
+> > > > > samsung_dsim *dsi) {
+> > > > >=20
+> > > > >       struct device *dev =3D dsi->dev;
+> > > > >       struct device_node *node =3D dev->of_node;
+> > > > >=20
+> > > > > +     struct clk *pll_clk;
+> > > > >=20
+> > > > >       int ret;
+> > > > >      =20
+> > > > >       ret =3D samsung_dsim_of_read_u32(node,
+> > > > >       "samsung,pll-clock-frequency",
+> > > > >      =20
+> > > > >                                      &dsi->pll_clk_rate);
+> > > > >=20
+> > > > > -     if (ret < 0)
+> > > > > -             return ret;
+> > > > > +
+> > > > > +     /* If it doesn't exist, read it from the clock instead of
+> > > > > failing
+> > > > > */
+> > > > > +     if (ret < 0) {
+> > > > > +             pll_clk =3D devm_clk_get(dev, "sclk_mipi");
+> > > > > +             if (!IS_ERR(pll_clk))
+> > > > > +                     dsi->pll_clk_rate =3D clk_get_rate(pll_clk);
+> > > > > +             else
+> > > > > +                     return PTR_ERR(pll_clk);
+> > > > > +     }
+> > > >=20
+> > > > Now that 'samsung,pll-clock-frequency' is optional the error in
+> > > > samsung_dsim_of_read_u32() should be changed. Otherwise you will get
+> > > >=20
+> > > > > /soc@0/bus@32c00000/dsi@32e10000: failed to get 'samsung,pll-cloc=
+k-
+> > > >=20
+> > > > frequency' property
+> > >=20
+> > > I'll change the message from err to info with a message that reads "no
+> > > samsung,pll-clock-frequency, using pixel clock"
+> > >=20
+> > > Does that work?
+> >=20
+> > Having just a info is totally fine with me. Thanks.
+> > Although your suggested message somehow implies (to me) using pixel clo=
+ck
+> > is just a fallback. I'm a bit concerned some might think
+> > "samsung,pll-clock- frequency" should be provided in DT. But this might
+> > just be me.
+>=20
+> Oops, I got the PLL and burst burst clock confused.  I think both
+> burst-clock and pll clock messages should get updates.
+>=20
+> The pll clock should say something like "samsung,pll-clock-frequency
+> not defined, using sclk_mipi"
+>=20
+> The imx8m n/m/p have the sclk_mipi defined in the device tree, and
+> this patch allows them to not have
+> to manually set the pll clock since it can be read.  This allows to
+> people to change the frequency of the PLL in
+> in one place and let the driver read it instead of having to set the
+> value in two places for the same clock.
 
-On 03/05/2023 21:39, Yang, Fei wrote:
-> [...]
-> 
->>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.c b/drivers/gpu/drm/i915/gem/i915_gem_object.c
->>> index 8c70a0ec7d2f..27c948350b5b 100644
->>> --- a/drivers/gpu/drm/i915/gem/i915_gem_object.c
->>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_object.c
->>> @@ -54,6 +54,25 @@ unsigned int i915_gem_get_pat_index(struct drm_i915_private *i915,
->>>       return INTEL_INFO(i915)->cachelevel_to_pat[level];
->>>    }
->>>
->>> +bool i915_gem_object_has_cache_level(const struct drm_i915_gem_object *obj,
->>> +                                 enum i915_cache_level lvl)
->>> +{
->>> +    /*
->>> +     * cache_level == I915_CACHE_INVAL indicates the UMD's have set the
->>> +     * caching policy through pat_index, in which case the KMD should
->>> +     * leave the coherency to be managed by user space, simply return
->>> +     * true here.
->>> +     */
->>> +    if (obj->cache_level == I915_CACHE_INVAL)
->>> +            return true;
->>> +
->>> +    /*
->>> +     * Otherwise the pat_index should have been converted from cache_level
->>> +     * so that the following comparison is valid.
->>> +     */
->>> +    return obj->pat_index == i915_gem_get_pat_index(obj_to_i915(obj), lvl);
->>> +}
->>> +
->>>    struct drm_i915_gem_object *i915_gem_object_alloc(void)
->>>    {
->>>       struct drm_i915_gem_object *obj;
->>> @@ -133,7 +152,7 @@ void i915_gem_object_set_cache_coherency(struct drm_i915_gem_object *obj,
->>>    {
->>>       struct drm_i915_private *i915 = to_i915(obj->base.dev);
->>>
->>> -    obj->cache_level = cache_level;
->>> +    obj->pat_index = i915_gem_get_pat_index(i915, cache_level);
->>
->> obj->cache_level is only ever set to "invalid" from the set pat
->> extension? Doesn't that make it a boolean so there is no need for three
->> bits to hold the enum, just the "pat has been externally set" bit really?
-> 
-> Will update.
+That's why I would like to make it sound less error-like.
+How about "Using sclk_mipi for pll clock frequency"?
 
-Thanks!
+> For the burst clock, I'd like to propose
+> "samsung,burst-clock-frequency not defined, using pixel clock"
 
-> 
->>>
->>>       if (cache_level != I915_CACHE_NONE)
->>>               obj->cache_coherent = (I915_BO_CACHE_COHERENT_FOR_READ |
-> 
-> [...]
-> 
->>> diff --git a/drivers/gpu/drm/i915/i915_debugfs.c b/drivers/gpu/drm/i915/i915_debugfs.c
->>> index 41389a32e998..9a4922da3a71 100644
->>> --- a/drivers/gpu/drm/i915/i915_debugfs.c
->>> +++ b/drivers/gpu/drm/i915/i915_debugfs.c
->>> @@ -139,21 +139,56 @@ static const char *stringify_vma_type(const struct i915_vma *vma)
->>>       return "ppgtt";
->>>    }
->>>
->>> -static const char *i915_cache_level_str(struct drm_i915_private *i915, int type)
->>> -{
->>> -    switch (type) {
->>> -    case I915_CACHE_NONE: return " uncached";
->>> -    case I915_CACHE_LLC: return HAS_LLC(i915) ? " LLC" : " snooped";
->>> -    case I915_CACHE_L3_LLC: return " L3+LLC";
->>> -    case I915_CACHE_WT: return " WT";
->>> -    default: return "";
->>> +static const char *i915_cache_level_str(struct drm_i915_gem_object *obj)
->>> +{
->>> +    struct drm_i915_private *i915 = obj_to_i915(obj);
->>> +
->>> +    if (IS_METEORLAKE(i915)) {
->>> +            switch (obj->pat_index) {
->>> +            case 0: return " WB";
->>> +            case 1: return " WT";
->>> +            case 2: return " UC";
->>> +            case 3: return " WB (1-Way Coh)";
->>> +            case 4: return " WB (2-Way Coh)";
->>> +            default: return " not defined";
->>> +            }
->>> +    } else if (IS_PONTEVECCHIO(i915)) {
->>> +            switch (obj->pat_index) {
->>> +            case 0: return " UC";
->>> +            case 1: return " WC";
->>> +            case 2: return " WT";
->>> +            case 3: return " WB";
->>> +            case 4: return " WT (CLOS1)";
->>> +            case 5: return " WB (CLOS1)";
->>> +            case 6: return " WT (CLOS2)";
->>> +            case 7: return " WT (CLOS2)";
->>> +            default: return " not defined";
->>> +            }
->>> +    } else if (GRAPHICS_VER(i915) >= 12) {
->>> +            switch (obj->pat_index) {
->>> +            case 0: return " WB";
->>> +            case 1: return " WC";
->>> +            case 2: return " WT";
->>> +            case 3: return " UC";
->>> +            default: return " not defined";
->>> +            }
->>> +    } else {
->>> +            if (i915_gem_object_has_cache_level(obj, I915_CACHE_NONE))
->>> +                    return " uncached";
->>
->> This will print uncached for all legacy platforms if set pat extension
->> has been used, regardless of the index set.
-> 
-> Will update. Should just use obj->pat_index here.
+Similar to above how about "Using pixel clock for burst clock frequency"?
 
-Thanks, it looks better to me in v5.
+> Does that work for you?
 
->> Are we okay with that? I find it questionable and would say no. It
->> diverges from >= 12 and so is confusing.
->>
->>> +            else if (i915_gem_object_has_cache_level(obj, I915_CACHE_LLC))
->>> +                    return HAS_LLC(i915) ? " LLC" : " snooped";
->>> +            else if (i915_gem_object_has_cache_level(obj, I915_CACHE_L3_LLC))
->>> +                    return " L3+LLC";
->>> +            else if (i915_gem_object_has_cache_level(obj, I915_CACHE_WT))
->>> +                    return " WT";
->>> +            else
->>> +                    return " not defined";
->>
->> Another thing is why use different names for caching modes between
->> "legacy" and the rest?
-> 
-> For new platforms the string matches bspec. For legacy platforms I think it's
-> still better to inherit the strings, no surprises here. What do you think?
+But I'm okay with both ways. Up to you.
 
-Not 100% sure but I fear confusion from userspace developer point of 
-view if they have code which uses the set pat extension on all platforms 
-and then on some they see "WB" and one some they see "LLC" or "snooped". 
-Might be less confusing to use the same terminology.
+Thanks and best regards,
+Alexander
 
-But it also may be true what you say, that someone got used to old 
-strings.. However as they (the old strings) will only appear on old 
-platforms. And that the BSpec naming on old platforms does not use 
-WB&co, if I got that right.
 
-I guess it is only debugfs so okay to to leave this open for later.
+> > frequency
+> >=20
+> >=20
+> > Best regards,
+> > Alexander
+> >=20
+> > > adam
+> > >=20
+> > > > Best regards,
+> > > > Alexander
+> > > >=20
+> > > > >       ret =3D samsung_dsim_of_read_u32(node, "samsung,burst-clock-
+> > > >=20
+> > > > frequency",
+> > > >=20
+> > > > >                                      &dsi->burst_clk_rate);
+> > > >=20
+> > > > --
+> > > > TQ-Systems GmbH | M=C3=BChlstra=C3=9Fe 2, Gut Delling | 82229 Seefe=
+ld, Germany
+> > > > Amtsgericht M=C3=BCnchen, HRB 105018
+> > > > Gesch=C3=A4ftsf=C3=BChrer: Detlef Schneider, R=C3=BCdiger Stahl, St=
+efan Schneider
+> > > > http://www.tq-group.com/
+> >=20
+> > --
+> > TQ-Systems GmbH | M=C3=BChlstra=C3=9Fe 2, Gut Delling | 82229 Seefeld, =
+Germany
+> > Amtsgericht M=C3=BCnchen, HRB 105018
+> > Gesch=C3=A4ftsf=C3=BChrer: Detlef Schneider, R=C3=BCdiger Stahl, Stefan=
+ Schneider
+> > http://www.tq-group.com/
 
-Regards,
 
-Tvrtko
+=2D-=20
+TQ-Systems GmbH | M=C3=BChlstra=C3=9Fe 2, Gut Delling | 82229 Seefeld, Germ=
+any
+Amtsgericht M=C3=BCnchen, HRB 105018
+Gesch=C3=A4ftsf=C3=BChrer: Detlef Schneider, R=C3=BCdiger Stahl, Stefan Sch=
+neider
+http://www.tq-group.com/
+
+
