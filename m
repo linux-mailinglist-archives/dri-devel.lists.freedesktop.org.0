@@ -1,79 +1,73 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E59C46F6249
-	for <lists+dri-devel@lfdr.de>; Thu,  4 May 2023 02:10:00 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 53E0D6F6292
+	for <lists+dri-devel@lfdr.de>; Thu,  4 May 2023 03:13:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6032010E16B;
-	Thu,  4 May 2023 00:09:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C2DE988BE3;
+	Thu,  4 May 2023 01:13:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 523FD10E06A;
- Thu,  4 May 2023 00:09:52 +0000 (UTC)
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 343Njgsc004088; Thu, 4 May 2023 00:09:50 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=1PMEx4qztYJUIIAqUTHBKZp8gI0LBm434DtrOFHPIpg=;
- b=GdNd1ILLCHzwh7WY+J+D7sFF4qtaJyb++Mz0ze+zaN2QbBEny1H1U344zOs629dmTk+R
- bEue4jlbBllsoDVrm8xu81dHd/cGNwijZbWvMU5mBu3U4vFswDFEFCipaS65vsW9cvcf
- LjsUnYHSLNoU5AQ3q5bjkyoZsq7vBybH1WTzYZjwbjLmcOgy/NxRATGdefTh/bWH9KDN
- gTZTT05tbtfDxkomRapLL3x3b+aNeTVnPI6r7uJfaOWFUS7wHm5fhH3PVL56c//2y9Es
- 2TtXai9Boy8mL79csG45/LAH4Q83Ig6wX7KdeDDM+y3IYH5g3ETj73s7O2Su/VRrOYhj 6w== 
-Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com
- [199.106.103.254])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3qbsr41199-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 04 May 2023 00:09:49 +0000
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
- [10.46.141.250])
- by NASANPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 34409maA010054
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 4 May 2023 00:09:48 GMT
-Received: from [10.71.110.193] (10.80.80.8) by nasanex01b.na.qualcomm.com
- (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Wed, 3 May 2023
- 17:09:48 -0700
-Message-ID: <b039a202-5415-29a5-6c27-ff22ecefb79e@quicinc.com>
-Date: Wed, 3 May 2023 17:09:47 -0700
+Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com
+ [IPv6:2a00:1450:4864:20::635])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8418F88BE3;
+ Thu,  4 May 2023 01:13:42 +0000 (UTC)
+Received: by mail-ej1-x635.google.com with SMTP id
+ a640c23a62f3a-9659c5b14d8so83404866b.3; 
+ Wed, 03 May 2023 18:13:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1683162819; x=1685754819;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=ye7wkrgcg8l/SDUOJ9GooWEpBzS3G2hvmwEu3cEvh7w=;
+ b=XIckTYMo11u6OJi/ppLwdUBypcE3adBlWVrHuoQtEDMgcaXmDHTGnLJmyqo9Jcl2rX
+ VqAmR8g7JWfL4rptEgeY9dmbq+hZgQWplHhpZ0wa+ncm4ZK9jXcgkSsQOdfDwwzryp+e
+ b9Xt5vokwlAnbooxB+40szDDrTJxYcdSOCxCceXHrOh0+2rWw0MxScb+rxkcgtHHYnEf
+ Gh4ALwdWdI9pNHkfoJuntRdpYp/ExJ68JoW7RDWJjdWiX+OmdgrCi/+DGMEQUeHicZ7Y
+ /SMkUgNYLZ9JiW4aWisKKCGPtJJEB0idmib7lw4k7mNz1pinHAyF6mh6WsYzW6s2uwtK
+ VzPQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1683162819; x=1685754819;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=ye7wkrgcg8l/SDUOJ9GooWEpBzS3G2hvmwEu3cEvh7w=;
+ b=Lsk+BGNADKXE80CHKuhDwvAjW5UkC89HWHVFjgXkHAPGI6HsEqgd8jbl6BX67gUD0R
+ mx2+xKi7IH8pd8j3/DsuKR+2tcrPUE9xV1UXwtv1TYlgzEqDFWFIaro+8Vi5LkIpAWp6
+ JSnwo2jhNue/stm1SBO1LzDAMvV/vG1u3Pv7DEdmUu+/vrH2Xeb5v6IQw3Z39na+LAgs
+ qenCwtxDgeXxcdNbTV5p8zxnR8lxKZSRft/PifINs7nqKBgmKW57SqlrjwgQvXr0rTS5
+ 8f8eP/hEfhTDAO2AhjLnDiBjaxNX6FhVIrp99vE04xnnPkan4e13XZ3nd6fnBHXV2koB
+ TK7Q==
+X-Gm-Message-State: AC+VfDxiW9mIWgJSdxq0CtcwXWtHt4jsjN6q+xaz0jPxrMuVEf/g4X1n
+ c77Z1VoUyn4bHC9JdlGmHarlHQtg2zsJxQ4ObMU=
+X-Google-Smtp-Source: ACHHUZ74MT68/sxAWWdSeOmKJWnRG9CEVDwn4SkwplcSfDXRlCyZj2VP6Qr11YPT2JrIpnG2qwuysliRmLjVqQfOmk8=
+X-Received: by 2002:a17:907:368d:b0:94e:ea6d:fa98 with SMTP id
+ bi13-20020a170907368d00b0094eea6dfa98mr4476909ejc.28.1683162819112; Wed, 03
+ May 2023 18:13:39 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.1
-Subject: Re: [PATCH 4/4] drm/msm/dpu: Enable compression for command mode
-Content-Language: en-US
-To: Marijn Suijten <marijn.suijten@somainline.org>
-References: <20230405-add-dsc-support-v1-0-6bc6f03ae735@quicinc.com>
- <20230405-add-dsc-support-v1-4-6bc6f03ae735@quicinc.com>
- <hxqxnfcydzyfrlvihmil3gecan6p6xyjw44gielu63ltgtqul7@xwvoprzofq6g>
- <d4b7a747-77a0-95eb-1201-c8b1c80defe3@quicinc.com>
- <rg6nlm4knw4hgtnwtvr4a5wqusyvvsetygiwxscp6bs6pun7ii@wzz6rd2y3vcn>
-From: Jessica Zhang <quic_jesszhan@quicinc.com>
-In-Reply-To: <rg6nlm4knw4hgtnwtvr4a5wqusyvvsetygiwxscp6bs6pun7ii@wzz6rd2y3vcn>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: SQTdqx9OSGdl1hjOI6cM5gMnEWsM_S6P
-X-Proofpoint-ORIG-GUID: SQTdqx9OSGdl1hjOI6cM5gMnEWsM_S6P
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-05-03_15,2023-05-03_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- malwarescore=0 bulkscore=0 phishscore=0 adultscore=0 suspectscore=0
- spamscore=0 mlxscore=0 mlxlogscore=999 lowpriorityscore=0 impostorscore=0
- clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2303200000 definitions=main-2305030206
+References: <20230501185747.33519-1-andrealmeid@igalia.com>
+ <CADnq5_NXj4W44F_etRQ7HWdVTnf5zARCM3Y_o3EiwWiHj8QMpA@mail.gmail.com>
+ <6ab2ff76-4518-6fac-071e-5d0d5adc4fcd@igalia.com>
+ <cb3d2590-a1f8-fe7e-0bba-638ee80719af@amd.com>
+ <CAFF-SiV0=WNmRW-D9uYUuj68Zq0APxtGLya9KR6FfZ7v0Zf2RQ@mail.gmail.com>
+ <fcca2934-a556-797c-535d-a66fc67bbe30@amd.com>
+ <85c538b01efb6f3fa6ff05ed1a0bc3ff87df7a61.camel@gmail.com>
+ <CADnq5_NHtFbwT=x8u7GYc4ESL_HVFzjgtOd3AnVFBYMrjZq55w@mail.gmail.com>
+ <c54414482b685af0991a6b095cbfb7534d998afc.camel@gmail.com>
+ <CADnq5_MSY=j9AobDk7ACevur4Hwvw_ub7g16Mfm7ymMJqwVNfQ@mail.gmail.com>
+ <57fa0ee4-de4f-3797-f817-d05f72541d0e@gmail.com>
+ <2bf162d0-6112-8370-8828-0e0b21ac22ba@amd.com>
+ <76bd16ac-9251-c71f-8da3-4c4c14d3bdcf@gmail.com>
+ <CAAxE2A7wzrt9m0LifB=vPFr7aEtwyh9zzDDh9DkZJux2A4kKqw@mail.gmail.com>
+ <4c0ed590-4237-435d-40b3-21dffa9f9f00@igalia.com>
+In-Reply-To: <4c0ed590-4237-435d-40b3-21dffa9f9f00@igalia.com>
+From: =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <maraeo@gmail.com>
+Date: Wed, 3 May 2023 21:13:26 -0400
+Message-ID: <CAAxE2A7mqGOxZ2BZDBGUh5uDYqiFuKPRu2hqpiDG5KZ_jdHFcA@mail.gmail.com>
+Subject: Re: [RFC PATCH 0/1] Add AMDGPU_INFO_GUILTY_APP ioctl
+To: =?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>
+Content-Type: multipart/alternative; boundary="000000000000eeb14805fad3e197"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,121 +80,502 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Konrad Dybcio <konrad.dybcio@linaro.org>,
- linux-arm-msm@vger.kernel.org, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: "Pelloux-Prayer, Pierre-Eric" <pierre-eric.pelloux-prayer@amd.com>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel.daenzer@mailbox.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ Felix Kuehling <felix.kuehling@amd.com>,
+ =?UTF-8?Q?Timur_Krist=C3=B3f?= <timur.kristof@gmail.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, "Deucher,
+ Alexander" <alexander.deucher@amd.com>,
+ Samuel Pitoiset <samuel.pitoiset@gmail.com>, kernel-dev@igalia.com,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+--000000000000eeb14805fad3e197
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+On Wed, May 3, 2023, 14:53 Andr=C3=A9 Almeida <andrealmeid@igalia.com> wrot=
+e:
+
+> Em 03/05/2023 14:08, Marek Ol=C5=A1=C3=A1k escreveu:
+> > GPU hangs are pretty common post-bringup. They are not common per user,
+> > but if we gather all hangs from all users, we can have lots and lots of
+> > them.
+> >
+> > GPU hangs are indeed not very debuggable. There are however some things
+> > we can do:
+> > - Identify the hanging IB by its VA (the kernel should know it)
+>
+> How can the kernel tell which VA range is being executed? I only found
+> that information at mmCP_IB1_BASE_ regs, but as stated in this thread by
+> Christian this is not reliable to be read.
+>
+
+The kernel receives the VA and the size via the CS ioctl. When user queues
+are enabled, the kernel will no longer receive them.
 
 
-On 5/3/2023 4:00 PM, Marijn Suijten wrote:
-> Hi Jessica,
-> 
-> On 2023-05-03 12:04:59, Jessica Zhang wrote:
->>
->>
->> On 5/3/2023 12:28 AM, Marijn Suijten wrote:
->>> On 2023-05-02 18:19:15, Jessica Zhang wrote:
->>>> Add a dpu_hw_intf op to enable data compression.
->>>>
->>>> Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
->>>> ---
->>>>    drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c | 4 ++++
->>>>    drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c          | 7 +++++++
->>>>    drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h          | 2 ++
->>>>    3 files changed, 13 insertions(+)
->>>>
->>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
->>>> index 74470d068622..4321a1aba17f 100644
->>>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
->>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
->>>
->>> Can we have INTF DCE on video-mode encoders as well?
->>
->> Hi Marijn,
->>
->> Currently, there's no way to validate DSC for video mode as I've only
->> made changes to support DSI for command mode. We are planning to post
->> changes to support DSC over DP, which will include changes for video mode.
-> 
-> Okay, but then mention so in the patch description (which is rather
-> short in this revision).
+> > - Read and parse the IB to detect memory corruption.
+> > - Print active waves with shader disassembly if SQ isn't hung (often
+> > it's not).
+> >
+> > Determining which packet the CP is stuck on is tricky. The CP has 2
+> > engines (one frontend and one backend) that work on the same command
+> > buffer. The frontend engine runs ahead, executes some packets and
+> > forwards others to the backend engine. Only the frontend engine has the
+> > command buffer VA somewhere. The backend engine only receives packets
+> > from the frontend engine via a FIFO, so it might not be possible to tel=
+l
+> > where it's stuck if it's stuck.
+>
+> Do they run at the same asynchronously or does the front end waits the
+> back end to execute?
+>
 
-Acked.
+They run asynchronously and should run asynchronously for performance, but
+they can be synchronized using a special packet (PFP_SYNC_ME).
 
-> 
-> <snip>
-> 
->>>>    #define INTF_CFG2_DATABUS_WIDEN	BIT(0)
->>>>    #define INTF_CFG2_DATA_HCTL_EN	BIT(4)
->>>
->>> These should probably be reindented to match the below... And the rest
->>> of the defines use spaces instead of tabs.
->>
->> Fair point, though I think fixing the whitespace for these 2 macros
->> specifically might be better in a more relevant series.
-> 
-> Yes, I have many patches to start cleaning these up, as well as all the
-> broken kerneldoc comments, but it's an uphill battle.  Not sure if I'll
-> get to it any time soon if at all.
-> 
->> With that being said, I'll change the spacing of the DATA_COMPRESS bit
->> to spaces instead of tabs.
-> 
-> Thanks, that seems to be the most common format.
-> 
->>>> +#define INTF_CFG2_DCE_DATA_COMPRESS	BIT(12)
->>>>    
->>>>    #define INTF_MISR_CTRL			0x180
->>>>    #define INTF_MISR_SIGNATURE		0x184
->>>
->>> This does not seem to apply on top of:
->>> https://lore.kernel.org/linux-arm-msm/20230411-dpu-intf-te-v4-10-27ce1a5ab5c6@somainline.org/
->>
->> Seems like I'm missing some patches from that series on my working
->> branch. Will rebase on top of the full series for the v2.
-> 
-> Thanks, but do discuss with Abhinav/Dmitry which series will land first.
-> 
->>>> +static inline void dpu_hw_intf_enable_compression(struct dpu_hw_intf *ctx)
->>>
->>> Why inline?  This is used as a pointer callback.
->>
->> Acked, will remove the inline.
->>
->>>
->>>> +{
->>>> +	DPU_REG_WRITE(&ctx->hw, INTF_CONFIG2, INTF_CFG2_DCE_DATA_COMPRESS);
->>>
->>> dpu_hw_intf_setup_timing_engine() also programs INTF_CONFIG2.  Is it
->>> double-buffered, or is that config **always** unused when DSI CMD mode
->>> is used in conjunction with DSC/DCE?  Otherwise this should perhaps OR
->>> the bitflag into the register, or write the whole thing at once in
->>> dpu_hw_intf_setup_timing_engine()?
->>
->> For command mode, INTF_CONFIG2 is unused aside from setting
->> DATA_COMPRESS for DSC.
->>
->> Since setup_timing_engine() is only used for video mode, the
->> corresponding changes will be made in the DSC v1.2 for DP changes.
-> 
-> Ack, that makes sense.  However, is this a guarantee that nothing else
-> will write INTF_CONFIG2 in the future, or will we solve that problem
-> when it happens?  I'm afraid more config-bits get added to this register
-> in the future and might possibly race/overwrite each other.
+Marek
 
-That's a fair point. There's no guarantee that nothing else will set 
-INTF_CONFIG2 for command mode in the future. I think it would be better 
-to add a register read now instead of having to fix that issue in a 
-future change.
 
-Thanks,
+> >
+> > When the gfx pipeline hangs outside of shaders, making a scandump seems
+> > to be the only way to have a chance at finding out what's going wrong,
+> > and only AMD-internal versions of hw can be scanned.
+> >
+> > Marek
+> >
+> > On Wed, May 3, 2023 at 11:23=E2=80=AFAM Christian K=C3=B6nig
+> > <ckoenig.leichtzumerken@gmail.com
+> > <mailto:ckoenig.leichtzumerken@gmail.com>> wrote:
+> >
+> >     Am 03.05.23 um 17:08 schrieb Felix Kuehling:
+> >      > Am 2023-05-03 um 03:59 schrieb Christian K=C3=B6nig:
+> >      >> Am 02.05.23 um 20:41 schrieb Alex Deucher:
+> >      >>> On Tue, May 2, 2023 at 11:22=E2=80=AFAM Timur Krist=C3=B3f
+> >      >>> <timur.kristof@gmail.com <mailto:timur.kristof@gmail.com>>
+> wrote:
+> >      >>>> [SNIP]
+> >      >>>>>>>> In my opinion, the correct solution to those problems
+> would be
+> >      >>>>>>>> if
+> >      >>>>>>>> the kernel could give userspace the necessary information
+> >     about
+> >      >>>>>>>> a
+> >      >>>>>>>> GPU hang before a GPU reset.
+> >      >>>>>>>>
+> >      >>>>>>>   The fundamental problem here is that the kernel doesn't
+> have
+> >      >>>>>>> that
+> >      >>>>>>> information either. We know which IB timed out and can
+> >      >>>>>>> potentially do
+> >      >>>>>>> a devcoredump when that happens, but that's it.
+> >      >>>>>>
+> >      >>>>>> Is it really not possible to know such a fundamental thing
+> >     as what
+> >      >>>>>> the
+> >      >>>>>> GPU was doing when it hung? How are we supposed to do any
+> >     kind of
+> >      >>>>>> debugging without knowing that?
+> >      >>
+> >      >> Yes, that's indeed something at least I try to figure out for
+> years
+> >      >> as well.
+> >      >>
+> >      >> Basically there are two major problems:
+> >      >> 1. When the ASIC is hung you can't talk to the firmware engines
+> any
+> >      >> more and most state is not exposed directly, but just through
+> some
+> >      >> fw/hw interface.
+> >      >>     Just take a look at how umr reads the shader state from the
+> SQ.
+> >      >> When that block is hung you can't do that any more and basicall=
+y
+> >     have
+> >      >> no chance at all to figure out why it's hung.
+> >      >>
+> >      >>     Same for other engines, I remember once spending a week
+> >     figuring
+> >      >> out why the UVD block is hung during suspend. Turned out to be =
+a
+> >      >> debugging nightmare because any time you touch any register of
+> that
+> >      >> block the whole system would hang.
+> >      >>
+> >      >> 2. There are tons of things going on in a pipeline fashion or
+> even
+> >      >> completely in parallel. For example the CP is just the beginnin=
+g
+> >     of a
+> >      >> rather long pipeline which at the end produces a bunch of pixel=
+s.
+> >      >>     In almost all cases I've seen you ran into a problem
+> somewhere
+> >      >> deep in the pipeline and only very rarely at the beginning.
+> >      >>
+> >      >>>>>>
+> >      >>>>>> I wonder what AMD's Windows driver team is doing with this
+> >     problem,
+> >      >>>>>> surely they must have better tools to deal with GPU hangs?
+> >      >>>>> For better or worse, most teams internally rely on scan dump=
+s
+> via
+> >      >>>>> JTAG
+> >      >>>>> which sort of limits the usefulness outside of AMD, but also
+> >     gives
+> >      >>>>> you
+> >      >>>>> the exact state of the hardware when it's hung so the
+> >     hardware teams
+> >      >>>>> prefer it.
+> >      >>>>>
+> >      >>>> How does this approach scale? It's not something we can ask
+> >     users to
+> >      >>>> do, and even if all of us in the radv team had a JTAG device,
+> we
+> >      >>>> wouldn't be able to play every game that users experience
+> >     random hangs
+> >      >>>> with.
+> >      >>> It doesn't scale or lend itself particularly well to external
+> >      >>> development, but that's the current state of affairs.
+> >      >>
+> >      >> The usual approach seems to be to reproduce a problem in a lab
+> and
+> >      >> have a JTAG attached to give the hw guys a scan dump and they c=
+an
+> >      >> then tell you why something didn't worked as expected.
+> >      >
+> >      > That's the worst-case scenario where you're debugging HW or FW
+> >     issues.
+> >      > Those should be pretty rare post-bringup. But are there hangs
+> caused
+> >      > by user mode driver or application bugs that are easier to debug
+> and
+> >      > probably don't even require a GPU reset? For example most VM
+> faults
+> >      > can be handled without hanging the GPU. Similarly, a shader in a=
+n
+> >      > endless loop should not require a full GPU reset. In the KFD
+> compute
+> >      > case, that's still preemptible and the offending process can be
+> >     killed
+> >      > with Ctrl-C or debugged with rocm-gdb.
+> >
+> >     We also have infinite loop in shader abort for gfx and page faults
+> are
+> >     pretty rare with OpenGL (a bit more often with Vulkan) and can be
+> >     handled gracefully on modern hw (they just spam the logs).
+> >
+> >     The majority of the problems is unfortunately that we really get ha=
+rd
+> >     hangs because of some hw issues. That can be caused by unlucky
+> timing,
+> >     power management or doing things in an order the hw doesn't expecte=
+d.
+> >
+> >     Regards,
+> >     Christian.
+> >
+> >      >
+> >      > It's more complicated for graphics because of the more complex
+> >      > pipeline and the lack of CWSR. But it should still be possible t=
+o
+> do
+> >      > some debugging without JTAG if the problem is in SW and not HW o=
+r
+> >     FW.
+> >      > It's probably worth improving that debugability without getting
+> >      > hung-up on the worst case.
+> >      >
+> >      > Maybe user mode graphics queues will offer a better way of
+> >     recovering
+> >      > from these kinds of bugs, if the graphics pipeline can be unstuc=
+k
+> >      > without a GPU reset, just by killing the offending user mode
+> queue.
+> >      >
+> >      > Regards,
+> >      >   Felix
+> >      >
+> >      >
+> >      >>
+> >      >> And yes that absolutely doesn't scale.
+> >      >>
+> >      >> Christian.
+> >      >>
+> >      >>>
+> >      >>> Alex
+> >      >>
+> >
+>
 
-Jessica Zhang
+--000000000000eeb14805fad3e197
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-> 
-> - Marijn
-> 
-> <snip>
+<div dir=3D"auto"><div><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D=
+"gmail_attr">On Wed, May 3, 2023, 14:53 Andr=C3=A9 Almeida &lt;<a href=3D"m=
+ailto:andrealmeid@igalia.com">andrealmeid@igalia.com</a>&gt; wrote:<br></di=
+v><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:=
+1px #ccc solid;padding-left:1ex">Em 03/05/2023 14:08, Marek Ol=C5=A1=C3=A1k=
+ escreveu:<br>
+&gt; GPU hangs are pretty common post-bringup. They are not common per user=
+, <br>
+&gt; but if we gather all hangs from all users, we can have lots and lots o=
+f <br>
+&gt; them.<br>
+&gt; <br>
+&gt; GPU hangs are indeed not very debuggable. There are however some thing=
+s <br>
+&gt; we can do:<br>
+&gt; - Identify the hanging IB by its VA (the kernel should know it)<br>
+<br>
+How can the kernel tell which VA range is being executed? I only found <br>
+that information at mmCP_IB1_BASE_ regs, but as stated in this thread by <b=
+r>
+Christian this is not reliable to be read.<br></blockquote></div></div><div=
+ dir=3D"auto"><br></div><div dir=3D"auto">The kernel receives the VA and th=
+e size via the CS ioctl. When user queues are enabled, the kernel will no l=
+onger receive them.</div><div dir=3D"auto"><br></div><div dir=3D"auto"><div=
+ class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0 =
+0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
+<br>
+&gt; - Read and parse the IB to detect memory corruption.<br>
+&gt; - Print active waves with shader disassembly if SQ isn&#39;t hung (oft=
+en <br>
+&gt; it&#39;s not).<br>
+&gt; <br>
+&gt; Determining which packet the CP is stuck on is tricky. The CP has 2 <b=
+r>
+&gt; engines (one frontend and one backend) that work on the same command <=
+br>
+&gt; buffer. The frontend engine runs ahead, executes some packets and <br>
+&gt; forwards others to the backend engine. Only the frontend engine has th=
+e <br>
+&gt; command buffer VA somewhere. The backend engine only receives packets =
+<br>
+&gt; from the frontend engine via a FIFO, so it might not be possible to te=
+ll <br>
+&gt; where it&#39;s stuck if it&#39;s stuck.<br>
+<br>
+Do they run at the same asynchronously or does the front end waits the <br>
+back end to execute?<br></blockquote></div></div><div dir=3D"auto"><br></di=
+v><div dir=3D"auto">They run asynchronously and should run asynchronously f=
+or performance, but they can be synchronized using a special packet (PFP_SY=
+NC_ME).</div><div dir=3D"auto"><br></div><div dir=3D"auto">Marek</div><div =
+dir=3D"auto"><br></div><div dir=3D"auto"><div class=3D"gmail_quote"><blockq=
+uote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc =
+solid;padding-left:1ex">
+<br>
+&gt; <br>
+&gt; When the gfx pipeline hangs outside of shaders, making a scandump seem=
+s <br>
+&gt; to be the only way to have a chance at finding out what&#39;s going wr=
+ong, <br>
+&gt; and only AMD-internal versions of hw can be scanned.<br>
+&gt; <br>
+&gt; Marek<br>
+&gt; <br>
+&gt; On Wed, May 3, 2023 at 11:23=E2=80=AFAM Christian K=C3=B6nig <br>
+&gt; &lt;<a href=3D"mailto:ckoenig.leichtzumerken@gmail.com" target=3D"_bla=
+nk" rel=3D"noreferrer">ckoenig.leichtzumerken@gmail.com</a> <br>
+&gt; &lt;mailto:<a href=3D"mailto:ckoenig.leichtzumerken@gmail.com" target=
+=3D"_blank" rel=3D"noreferrer">ckoenig.leichtzumerken@gmail.com</a>&gt;&gt;=
+ wrote:<br>
+&gt; <br>
+&gt;=C2=A0 =C2=A0 =C2=A0Am 03.05.23 um 17:08 schrieb Felix Kuehling:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt; Am 2023-05-03 um 03:59 schrieb Christian K=C3=
+=B6nig:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt;&gt; Am 02.05.23 um 20:41 schrieb Alex Deucher=
+:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt;&gt;&gt; On Tue, May 2, 2023 at 11:22=E2=80=AF=
+AM Timur Krist=C3=B3f<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt;&gt;&gt; &lt;<a href=3D"mailto:timur.kristof@g=
+mail.com" target=3D"_blank" rel=3D"noreferrer">timur.kristof@gmail.com</a> =
+&lt;mailto:<a href=3D"mailto:timur.kristof@gmail.com" target=3D"_blank" rel=
+=3D"noreferrer">timur.kristof@gmail.com</a>&gt;&gt; wrote:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt;&gt;&gt;&gt; [SNIP]<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; In my opinion, th=
+e correct solution to those problems would be<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; if<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; the kernel could =
+give userspace the necessary information<br>
+&gt;=C2=A0 =C2=A0 =C2=A0about<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; a<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; GPU hang before a=
+ GPU reset.<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt;&gt;&gt;&gt;&gt;&gt;&gt; =C2=A0 The fundamenta=
+l problem here is that the kernel doesn&#39;t have<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt;&gt;&gt;&gt;&gt;&gt;&gt; that<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt;&gt;&gt;&gt;&gt;&gt;&gt; information either. W=
+e know which IB timed out and can<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt;&gt;&gt;&gt;&gt;&gt;&gt; potentially do<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt;&gt;&gt;&gt;&gt;&gt;&gt; a devcoredump when th=
+at happens, but that&#39;s it.<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt;&gt;&gt;&gt;&gt;&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt;&gt;&gt;&gt;&gt;&gt; Is it really not possible=
+ to know such a fundamental thing<br>
+&gt;=C2=A0 =C2=A0 =C2=A0as what<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt;&gt;&gt;&gt;&gt;&gt; the<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt;&gt;&gt;&gt;&gt;&gt; GPU was doing when it hun=
+g? How are we supposed to do any<br>
+&gt;=C2=A0 =C2=A0 =C2=A0kind of<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt;&gt;&gt;&gt;&gt;&gt; debugging without knowing=
+ that?<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt;&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt;&gt; Yes, that&#39;s indeed something at least=
+ I try to figure out for years<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt;&gt; as well.<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt;&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt;&gt; Basically there are two major problems:<b=
+r>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt;&gt; 1. When the ASIC is hung you can&#39;t ta=
+lk to the firmware engines any<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt;&gt; more and most state is not exposed direct=
+ly, but just through some<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt;&gt; fw/hw interface.<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt;&gt; =C2=A0=C2=A0=C2=A0 Just take a look at ho=
+w umr reads the shader state from the SQ.<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt;&gt; When that block is hung you can&#39;t do =
+that any more and basically<br>
+&gt;=C2=A0 =C2=A0 =C2=A0have<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt;&gt; no chance at all to figure out why it&#39=
+;s hung.<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt;&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt;&gt; =C2=A0=C2=A0=C2=A0 Same for other engines=
+, I remember once spending a week<br>
+&gt;=C2=A0 =C2=A0 =C2=A0figuring<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt;&gt; out why the UVD block is hung during susp=
+end. Turned out to be a<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt;&gt; debugging nightmare because any time you =
+touch any register of that<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt;&gt; block the whole system would hang.<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt;&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt;&gt; 2. There are tons of things going on in a=
+ pipeline fashion or even<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt;&gt; completely in parallel. For example the C=
+P is just the beginning<br>
+&gt;=C2=A0 =C2=A0 =C2=A0of a<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt;&gt; rather long pipeline which at the end pro=
+duces a bunch of pixels.<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt;&gt; =C2=A0=C2=A0=C2=A0 In almost all cases I&=
+#39;ve seen you ran into a problem somewhere<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt;&gt; deep in the pipeline and only very rarely=
+ at the beginning.<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt;&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt;&gt;&gt;&gt;&gt;&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt;&gt;&gt;&gt;&gt;&gt; I wonder what AMD&#39;s W=
+indows driver team is doing with this<br>
+&gt;=C2=A0 =C2=A0 =C2=A0problem,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt;&gt;&gt;&gt;&gt;&gt; surely they must have bet=
+ter tools to deal with GPU hangs?<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt;&gt;&gt;&gt;&gt; For better or worse, most tea=
+ms internally rely on scan dumps via<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt;&gt;&gt;&gt;&gt; JTAG<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt;&gt;&gt;&gt;&gt; which sort of limits the usef=
+ulness outside of AMD, but also<br>
+&gt;=C2=A0 =C2=A0 =C2=A0gives<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt;&gt;&gt;&gt;&gt; you<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt;&gt;&gt;&gt;&gt; the exact state of the hardwa=
+re when it&#39;s hung so the<br>
+&gt;=C2=A0 =C2=A0 =C2=A0hardware teams<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt;&gt;&gt;&gt;&gt; prefer it.<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt;&gt;&gt;&gt;&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt;&gt;&gt;&gt; How does this approach scale? It&=
+#39;s not something we can ask<br>
+&gt;=C2=A0 =C2=A0 =C2=A0users to<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt;&gt;&gt;&gt; do, and even if all of us in the =
+radv team had a JTAG device, we<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt;&gt;&gt;&gt; wouldn&#39;t be able to play ever=
+y game that users experience<br>
+&gt;=C2=A0 =C2=A0 =C2=A0random hangs<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt;&gt;&gt;&gt; with.<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt;&gt;&gt; It doesn&#39;t scale or lend itself p=
+articularly well to external<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt;&gt;&gt; development, but that&#39;s the curre=
+nt state of affairs.<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt;&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt;&gt; The usual approach seems to be to reprodu=
+ce a problem in a lab and<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt;&gt; have a JTAG attached to give the hw guys =
+a scan dump and they can<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt;&gt; then tell you why something didn&#39;t wo=
+rked as expected.<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt; That&#39;s the worst-case scenario where you&=
+#39;re debugging HW or FW<br>
+&gt;=C2=A0 =C2=A0 =C2=A0issues.<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt; Those should be pretty rare post-bringup. But=
+ are there hangs caused<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt; by user mode driver or application bugs that =
+are easier to debug and<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt; probably don&#39;t even require a GPU reset? =
+For example most VM faults<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt; can be handled without hanging the GPU. Simil=
+arly, a shader in an<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt; endless loop should not require a full GPU re=
+set. In the KFD compute<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt; case, that&#39;s still preemptible and the of=
+fending process can be<br>
+&gt;=C2=A0 =C2=A0 =C2=A0killed<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt; with Ctrl-C or debugged with rocm-gdb.<br>
+&gt; <br>
+&gt;=C2=A0 =C2=A0 =C2=A0We also have infinite loop in shader abort for gfx =
+and page faults are<br>
+&gt;=C2=A0 =C2=A0 =C2=A0pretty rare with OpenGL (a bit more often with Vulk=
+an) and can be<br>
+&gt;=C2=A0 =C2=A0 =C2=A0handled gracefully on modern hw (they just spam the=
+ logs).<br>
+&gt; <br>
+&gt;=C2=A0 =C2=A0 =C2=A0The majority of the problems is unfortunately that =
+we really get hard<br>
+&gt;=C2=A0 =C2=A0 =C2=A0hangs because of some hw issues. That can be caused=
+ by unlucky timing,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0power management or doing things in an order the hw=
+ doesn&#39;t expected.<br>
+&gt; <br>
+&gt;=C2=A0 =C2=A0 =C2=A0Regards,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0Christian.<br>
+&gt; <br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt; It&#39;s more complicated for graphics becaus=
+e of the more complex<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt; pipeline and the lack of CWSR. But it should =
+still be possible to do<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt; some debugging without JTAG if the problem is=
+ in SW and not HW or<br>
+&gt;=C2=A0 =C2=A0 =C2=A0FW.<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt; It&#39;s probably worth improving that debuga=
+bility without getting<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt; hung-up on the worst case.<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt; Maybe user mode graphics queues will offer a =
+better way of<br>
+&gt;=C2=A0 =C2=A0 =C2=A0recovering<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt; from these kinds of bugs, if the graphics pip=
+eline can be unstuck<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt; without a GPU reset, just by killing the offe=
+nding user mode queue.<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt; Regards,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt; =C2=A0 Felix<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt;&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt;&gt; And yes that absolutely doesn&#39;t scale=
+.<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt;&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt;&gt; Christian.<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt;&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt;&gt;&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt;&gt;&gt; Alex<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt;&gt;<br>
+&gt; <br>
+</blockquote></div></div></div>
+
+--000000000000eeb14805fad3e197--
