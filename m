@@ -1,62 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D94436F731D
-	for <lists+dri-devel@lfdr.de>; Thu,  4 May 2023 21:16:20 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B6286F7323
+	for <lists+dri-devel@lfdr.de>; Thu,  4 May 2023 21:22:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ECDFE10E119;
-	Thu,  4 May 2023 19:16:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6A64010E184;
+	Thu,  4 May 2023 19:22:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com
- [IPv6:2607:f8b0:4864:20::1035])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CB1EF10E119
- for <dri-devel@lists.freedesktop.org>; Thu,  4 May 2023 19:16:15 +0000 (UTC)
-Received: by mail-pj1-x1035.google.com with SMTP id
- 98e67ed59e1d1-24e4f674356so853633a91.3
- for <dri-devel@lists.freedesktop.org>; Thu, 04 May 2023 12:16:15 -0700 (PDT)
+Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com
+ [IPv6:2607:f8b0:4864:20::633])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7428610E184
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 May 2023 19:22:01 +0000 (UTC)
+Received: by mail-pl1-x633.google.com with SMTP id
+ d9443c01a7336-1a950b982d4so457925ad.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 04 May 2023 12:22:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1683227775; x=1685819775;
+ d=google.com; s=20221208; t=1683228120; x=1685820120;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=Z7gJY1h0XBMe9/gdwAJZJNx77lWxRnFXs8IrgX7nH7s=;
- b=rLcOFLD2Gs9oY3cLY2OQBZ6BZCbf5uZ57oezBYG7V3ffGq7/zO+6S6xaY6Ka9eVgsn
- /PEy/gVbnSsLZUsea96GhACjAyRCQ30+NTrioOrj6s9jRGg2nUX3OPPIVxIGeEnyFeDD
- uvjJ/1eHgBJQwwnImUs6I5JzZVF92eW9g7syBk/es/jWRGgln0S0H+cQHkpY2A68s+ca
- 5Ne1IsGP5pCIv1SfhviocYhKmThQF1Z9831RHzJGAMC5hHe55uxZK1eQaPMbFEx7z/D5
- 03RrZcFXjs2ZfEVB9sVRHwu04KAjR72IvhJ4yzBQRaDm7Xx3FwEgMaWiIa+VsjR5fO1i
- WyBg==
+ bh=tVeOmg3xdSp7Uw5iyCm8zM5Dz5FyKSpYKnmTGjHt5Og=;
+ b=VBFPVDSC0c4rxWO4idhpCMlzoMP104ludumoYHtf979EhJL0NYKQKPtZnZ4VoiNdg3
+ mObKrynBwa2GYQ8x1CdpPjYY7yYtk7G0pehHkjaSqcIkoUfodu25o36Hd4qKdYY8OzCv
+ wPyzO9c7X8dI8pcQo957XHnT4phWgBIckCmoTN3pK3zvpqNv10hiIS/gtbpm6vGoFfnX
+ nZLTl4/NjJHR0CQxytaExT7uHd7TT52JURX9IgikJhf2kNg00H/Wot7oMeAECXVr69Wh
+ SoGYAg+Eh7uw7a92eNmFk3wAGvz47GLKWN3Lt1HWhmPvghEK+w6gYH71cuK//Xb1Dqmi
+ HDMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683227775; x=1685819775;
+ d=1e100.net; s=20221208; t=1683228120; x=1685820120;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=Z7gJY1h0XBMe9/gdwAJZJNx77lWxRnFXs8IrgX7nH7s=;
- b=LVAPgBR6fG5pAeYG7U20irKr2xlr+LU6W0Ot0PATMmk1WP9N7hQopSxl6YIKj9MlRK
- RY2v/RRSelEUPncol6QUIX8ERA8b5X0lYJCccpmKKXl4YX7f3zddrEI+Z0QPrSCVxTGX
- Awca2H44YhYXHJ89c3m+mAcfnOT9KvpLFrnx7I4VMs6zCewSuvqiw1ttLeMtZmNuN22y
- LIdioPIsDYNXdx9KP4pgHCNRBCkyhiXfnYI2ErVP9ejJiv6DZWJTvqWrfZesMmzWazzp
- w8HJcF10dRyxWS8kAUhTJDljG4Z9jodeXkr8oe1TlhiX7HlaX8nIRvoqln6vEE2NiexD
- Bpsg==
-X-Gm-Message-State: AC+VfDwcT/ue7PpxpWQ4UHDGCFIBGqPVcsd7fkw2P9sf01CIjtHpKmjG
- tt//84PQiztT2yWWQW7TweN8knlBDvs6WOlX/kg=
-X-Google-Smtp-Source: ACHHUZ72F4gGSzEbsjDwIhyhYoMZizj5iYmbC4EJEk5PyUSpGBXtSdR4H97ILckfw14LWmKifnHN/XCb09MeAQWUNbw=
-X-Received: by 2002:a17:90b:114:b0:24b:66fe:6b4b with SMTP id
- p20-20020a17090b011400b0024b66fe6b4bmr3038573pjz.47.1683227774810; Thu, 04
- May 2023 12:16:14 -0700 (PDT)
+ bh=tVeOmg3xdSp7Uw5iyCm8zM5Dz5FyKSpYKnmTGjHt5Og=;
+ b=b7tBqCnRhWVJRODZDEJ7+IGryVW2zYRdBnGVpYdINEC44j1VVgmgFetrOayg6IkIHM
+ T5IvbmJ9zGK7WJG6hmOIkUs17p/zraVzUPXOOs8PRzuJMAYJc5X7L9hhIxosXDwlBMtb
+ vHZi291soBx/f2EkPh5vXxF2xwiiG8XLQCNYyQD9VOO6AHj1bSJh9gz1Lcz+k30qywXP
+ YcfWoukyybgR9RGKhgjZX6TemFUZefwc47AubWkfe5PP4QmSk64lpF9aVr1qWBQP5b8O
+ XZxEUJ5PKgSGCqih4iSc++Li6CmJNoK0jYQitngKv14B7y0y2jZZVxx68hEtUT83jOyE
+ rBkw==
+X-Gm-Message-State: AC+VfDw4Ojb4o2PTW99BNwTynfFkcyA/wvq4i4i2uJLDVKczMEluXpsY
+ VS08yz+peDl+C9f1YjGtXmkW1acpFdjnpv1x185/jg==
+X-Google-Smtp-Source: ACHHUZ6uUxIDYifA/bh2RT8YQ5MNPwejTUWlOc93oIZLrxzI8RScUNDCnY1oAJur7+Djc/gO0llDoKdzJd/lv/zh45Q=
+X-Received: by 2002:a17:902:d2cd:b0:1a9:3251:e3ae with SMTP id
+ n13-20020a170902d2cd00b001a93251e3aemr27268plc.3.1683228120488; Thu, 04 May
+ 2023 12:22:00 -0700 (PDT)
 MIME-Version: 1.0
-References: <20221216210742.3233382-1-l.stach@pengutronix.de>
- <20221216210742.3233382-4-l.stach@pengutronix.de>
- <20230307125821.GA722857@g0hl1n.net>
-In-Reply-To: <20230307125821.GA722857@g0hl1n.net>
-From: Adam Ford <aford173@gmail.com>
-Date: Thu, 4 May 2023 14:16:03 -0500
-Message-ID: <CAHCN7xLQ1PzOGtFqwpTTrkKn3cUNz-hXpt5hADWXXLTjfFzbdQ@mail.gmail.com>
-Subject: Re: [PATCH v2 4/4] drm/bridge: imx: add driver for HDMI TX Parallel
- Video Interface
-To: Richard Leitner <richard.leitner@linux.dev>
+References: <20230310063910.2474472-1-saravanak@google.com>
+ <4737cacc741c939ca1d980a4858d0748faad11f8.camel@puri.sm>
+ <CAGETcx_0NaSTFFn34nvax2_pG+_5BJtOD0j0wrqU0NSCqwfKWA@mail.gmail.com>
+ <CAGETcx-CF83Acp5CQ=RMJq9DD6f_Y70c37zSbLq2R6L5VyoKHg@mail.gmail.com>
+ <nlycqgae2r3urwh536hyklyutmdzdoz3ssabcjqdfoxlqlbjln@5u5dr552albo>
+In-Reply-To: <nlycqgae2r3urwh536hyklyutmdzdoz3ssabcjqdfoxlqlbjln@5u5dr552albo>
+From: Saravana Kannan <saravanak@google.com>
+Date: Thu, 4 May 2023 12:21:24 -0700
+Message-ID: <CAGETcx9DnHUZa8986Mueu2O5s-Euvy5bJJSdRbLv0Og92PdKvA@mail.gmail.com>
+Subject: Re: [PATCH v1] drm/mipi-dsi: Set the fwnode for mipi_dsi_device
+To: Maxime Ripard <maxime@cerno.tech>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -71,58 +72,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, Neil Armstrong <neil.armstrong@linaro.org>,
- Andrzej Hajda <andrzej.hajda@intel.com>, devicetree@vger.kernel.org,
- Liu Ying <victor.liu@nxp.com>, Robert Foss <robert.foss@linaro.org>,
- NXP Linux Team <linux-imx@nxp.com>, dri-devel@lists.freedesktop.org,
- patchwork-lst@pengutronix.de, Rob Herring <robh+dt@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Pengutronix Kernel Team <kernel@pengutronix.de>
+Cc: Martin Kepplinger <martin.kepplinger@puri.sm>, kernel-team@android.com,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Kyungmin Park <kyungmin.park@samsung.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Thierry Reding <treding@nvidia.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Mar 7, 2023 at 7:07=E2=80=AFAM Richard Leitner
-<richard.leitner@linux.dev> wrote:
+On Thu, May 4, 2023 at 12:51=E2=80=AFAM Maxime Ripard <maxime@cerno.tech> w=
+rote:
 >
-> Hi Lucas,
+> Hi Saravana,
 >
-> hope I got the latest version of this series. If not, please feel free
-> to point me to the correct one.
->
-> On Fri, Dec 16, 2022 at 10:07:42PM +0100, Lucas Stach wrote:
-> > This IP block is found in the HDMI subsystem of the i.MX8MP SoC. It has=
- a
-> > full timing generator and can switch between different video sources. O=
-n
-> > the i.MX8MP however the only supported source is the LCDIF. The block
-> > just needs to be powered up and told about the polarity of the video
-> > sync signals to act in bypass mode.
+> On Wed, May 03, 2023 at 09:40:05PM -0700, Saravana Kannan wrote:
+> > On Fri, Mar 17, 2023 at 3:36=E2=80=AFPM Saravana Kannan <saravanak@goog=
+le.com> wrote:
+> > >
+> > > On Sun, Mar 12, 2023 at 7:45=E2=80=AFAM Martin Kepplinger
+> > > <martin.kepplinger@puri.sm> wrote:
+> > > >
+> > > > Am Donnerstag, dem 09.03.2023 um 22:39 -0800 schrieb Saravana Kanna=
+n:
+> > > > > After commit 3fb16866b51d ("driver core: fw_devlink: Make cycle
+> > > > > detection more robust"), fw_devlink prints an error when consumer
+> > > > > devices don't have their fwnode set. This used to be ignored
+> > > > > silently.
+> > > > >
+> > > > > Set the fwnode mipi_dsi_device so fw_devlink can find them and
+> > > > > properly
+> > > > > track their dependencies.
+> > > > >
+> > > > > This fixes errors like this:
+> > > > > [    0.334054] nwl-dsi 30a00000.mipi-dsi: Failed to create device
+> > > > > link with regulator-lcd-1v8
+> > > > > [    0.346964] nwl-dsi 30a00000.mipi-dsi: Failed to create device
+> > > > > link with backlight-dsi
+> > > > >
+> > > > > Reported-by: Martin Kepplinger <martin.kepplinger@puri.sm>
+> > > >
+> > > > Reported-and-tested-by: Martin Kepplinger <martin.kepplinger@puri.s=
+m>
+> > >
+> > > Maintainers,
+> > >
+> > > Nudge nudge. Will this be picked up for 6.3-rcX?
 > >
-> > Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
-> > Tested-by: Marek Vasut <marex@denx.de>
->
-> I've successfully tested this patch on our custom i.MX8MP board. The
-> test case was basically "cat /dev/urandom > /dev/fb1" with a 800x480
-> HDMI display.
->
-> Therefore please feel free to add:
->
-> Tested-by: Richard Leitner <richard.leitner@skidata.com>
->
-
-Lucas,
-
-Is there going to be a subsequent rev of this series?  It seems to be
-stuck somewhere without any movement.
-
-thanks
-
-adam
-> > ---
-> >  drivers/gpu/drm/bridge/imx/Kconfig           |   7 +
-> >  drivers/gpu/drm/bridge/imx/Makefile          |   1 +
-> >  drivers/gpu/drm/bridge/imx/imx8mp-hdmi-pvi.c | 202 +++++++++++++++++++
-> >  3 files changed, 210 insertions(+)
-> >  create mode 100644 drivers/gpu/drm/bridge/imx/imx8mp-hdmi-pvi.c
+> > Greg,
 > >
+> > Can you pick this up please? It's a fix that hasn't been picked up for
+> > a few months.
+> >
+> > Here's the link to the actual patch for your convenience:
+> > https://lore.kernel.org/lkml/20230310063910.2474472-1-saravanak@google.=
+com/#t
+>
+> Sorry, I'm not quite sure what happened. I've applied it to drm-misc-fixe=
+s
+
+No worries. Thanks Maxime!
+
+-Saravana
