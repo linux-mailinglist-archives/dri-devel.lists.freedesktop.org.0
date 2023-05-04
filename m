@@ -1,55 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2C426F6A7A
-	for <lists+dri-devel@lfdr.de>; Thu,  4 May 2023 13:52:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A3536F6A7F
+	for <lists+dri-devel@lfdr.de>; Thu,  4 May 2023 13:52:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C195710E355;
-	Thu,  4 May 2023 11:52:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0123B10E23E;
+	Thu,  4 May 2023 11:52:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com
- [IPv6:2a00:1450:4864:20::62a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DD1EC10E296;
- Thu,  4 May 2023 11:52:15 +0000 (UTC)
-Received: by mail-ej1-x62a.google.com with SMTP id
- a640c23a62f3a-9659e9bbff5so65104066b.1; 
- Thu, 04 May 2023 04:52:15 -0700 (PDT)
+Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com
+ [IPv6:2a00:1450:4864:20::52e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 12D7E10E150;
+ Thu,  4 May 2023 11:52:17 +0000 (UTC)
+Received: by mail-ed1-x52e.google.com with SMTP id
+ 4fb4d7f45d1cf-50b9ef67f35so655790a12.2; 
+ Thu, 04 May 2023 04:52:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1683201134; x=1685793134;
+ d=gmail.com; s=20221208; t=1683201135; x=1685793135;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=9ihFvY4+QgOpc61y6ymghaJ5PuSAmDxogzqeL7Ts3Tc=;
- b=BxdqNdpQJdv9d7TDCCA4CUYnGZmWg3Pws2DxSVwFSC/G9sqSTYhXxsMXT8AzqFf7+Y
- kANvsyZNdjMbmu0quBVJ9zK9JCjeWIYj/v6Fnbhm2LPec1iGc1cXaqkB1vfx9LQaMbHC
- 4Hum7vYRrp3nJhEEr/hEuiwR/48pb8Jpyu1P16GCTbgjctm/ujSJlnKhVL2t/VgB6hrx
- BuRbe3uCaxAzJNnLOX/s4/6md/WP4n4lQ4neW3+2akPbjSWodz+atnBNI6BlDIh9nJUP
- BiXF9F3rycJFLL2GmsXtwRlRrtQ1txf0xc7De2J+2TpCwv75irNPdjYQHLn5nIzEVRwI
- ijhA==
+ :reply-to; bh=pL05CiVZGpeThWJV8BVucF8BWFdzSNtbuhLRd8OqZPI=;
+ b=XVcdevnJRId488yDisfdvgHJhxIxg6voqnJhK21R8pWbr388bsLvG3OJH9C7UvvFcN
+ 7t6y6JR4QjWiuyr8/Gx7JV4huShDfYgkCCAt34wNcapKXKzieKBjG0kKyEa/iaiLtyuK
+ bOF3G4ylYGqGtUFvrUsvMqKgLv/J2jb87tq7x4lbs0CRbuP1PKu0uPbIAsLLwxjjS7DK
+ 03kVBGLIMslAhHxGEQaprXl7oHbQuZ1I16XMfqQwc9KGrgbfZjBHNTtt+e3pZSlI5SvO
+ GTzcNUrDXQS9J4hjdau/WSbVYKm8uVtDR+034gNE9kd1W6wF42v0+GeQ5g7jgwT5ysVq
+ RsYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683201134; x=1685793134;
+ d=1e100.net; s=20221208; t=1683201135; x=1685793135;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=9ihFvY4+QgOpc61y6ymghaJ5PuSAmDxogzqeL7Ts3Tc=;
- b=WWhACCy5K3ocv/allPkc2MAANMVSi2ItKusAuzY+T+5PzszhIxRSBhn6FnRcq23Dkj
- 0dEvwQfDsmsB6707r1QYchJrTtccthiMdY75BBdOGRuLC74RfGQEDJh7RlwbT+JdyJXU
- DnuBpk09/5i5fOjSlJrXDCLP73a84uK8hzjznNNmFH49FAr9Y3D+xRE9Exy+lQhLmxKy
- Y81e/HxGNY6RtW5Iqeh6bdErhJGnPctlsPLc6XHNw6cX/IwEfzQrGQaO6+asp0Dbp3b4
- 4ce6NWVPu6vSDhHP2tfRq4V2wZgP/tVA5RUs2aDtNFhxuYbIr8m1cSfpc3nUs4+3nc5k
- PNmA==
-X-Gm-Message-State: AC+VfDxNsl0Yo+T4RumVqmbJEHn6MXkVqYdHe7yiVtoYv9P/iCABjFEx
- x3/atBIeX7xGLLnkmdDE+8BxDRyLNWI=
-X-Google-Smtp-Source: ACHHUZ5cc005mQQvaTx7N+q5079HZKwFGK/TVBuB2j8qy8PQZoEU8Y1Nd8lwKWlQRk/LOH5l9fJNQw==
-X-Received: by 2002:a17:907:6d83:b0:94a:a6f0:876a with SMTP id
- sb3-20020a1709076d8300b0094aa6f0876amr6358622ejc.1.1683201134029; 
- Thu, 04 May 2023 04:52:14 -0700 (PDT)
+ bh=pL05CiVZGpeThWJV8BVucF8BWFdzSNtbuhLRd8OqZPI=;
+ b=P+oopIUCFszYKRe3kE/mZXDwEBiRTJQtSezHY2aOvhnHsX1bwjvt8Q9Br958mz2uTb
+ gz3lKPPj9lbedZfSZ6GfMGDnhqHkbs5KPajXhvByG00vm6bn6+Yiuh0TPo77P34HaFl1
+ WzH2G6lLP4pHzoLnZnJA5zzJeBs7FnYn04udJD1LeGS9poFRZpsDhfKDV676Ew2JoGj6
+ Vy4diW5CWsEAqkKJWDw3D1oR2DaTGK022GCGyFmIfMIYBeu5Aeo1pTrSw/KD03r2bn1r
+ fjePdRRuP7grI1Qq/8P5IuklNj92sWSFCyW284FZ2zFeZmTaXnesoFIzq50Rr7+9FsV6
+ YCLg==
+X-Gm-Message-State: AC+VfDyvywxgRbzLr4TpLHR8XeYxPaJqveR4DCr68xTeWv+ELpYno6uK
+ 0T7MOMRObX8wpSQR30wxBzU=
+X-Google-Smtp-Source: ACHHUZ69ISvKVVr13V9bs7G2oKuBEjv+oDzyoK4Doolv5YY9Xxkd8EvuTguJRXKh4eG5MMCT+gZb8g==
+X-Received: by 2002:a17:907:3e22:b0:931:6921:bdb7 with SMTP id
+ hp34-20020a1709073e2200b009316921bdb7mr6701971ejc.60.1683201135129; 
+ Thu, 04 May 2023 04:52:15 -0700 (PDT)
 Received: from able.fritz.box (p4fc2092b.dip0.t-ipconnect.de. [79.194.9.43])
  by smtp.gmail.com with ESMTPSA id
- hx27-20020a170906847b00b009659ecdf29fsm1061741ejc.1.2023.05.04.04.52.13
+ hx27-20020a170906847b00b009659ecdf29fsm1061741ejc.1.2023.05.04.04.52.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 04 May 2023 04:52:13 -0700 (PDT)
+ Thu, 04 May 2023 04:52:14 -0700 (PDT)
 From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
 X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
  <christian.koenig@amd.com>
@@ -57,9 +57,9 @@ To: francois.dugast@intel.com, felix.kuehling@amd.com,
  arunpravin.paneerselvam@amd.com, thomas_os@shipmail.org, dakr@redhat.com,
  luben.tuikov@amd.com, amd-gfx@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org
-Subject: [PATCH 09/13] drm/lima: switch to using drm_exec
-Date: Thu,  4 May 2023 13:51:55 +0200
-Message-Id: <20230504115159.2245-10-christian.koenig@amd.com>
+Subject: [PATCH 10/13] drm/virtgpu: switch to using drm_exec
+Date: Thu,  4 May 2023 13:51:56 +0200
+Message-Id: <20230504115159.2245-11-christian.koenig@amd.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230504115159.2245-1-christian.koenig@amd.com>
 References: <20230504115159.2245-1-christian.koenig@amd.com>
@@ -87,76 +87,95 @@ Only compile tested for now.
 
 Signed-off-by: Christian König <christian.koenig@amd.com>
 ---
- drivers/gpu/drm/lima/Kconfig    |  1 +
- drivers/gpu/drm/lima/lima_gem.c | 15 +++++++--------
- 2 files changed, 8 insertions(+), 8 deletions(-)
+ drivers/gpu/drm/virtio/Kconfig       |  1 +
+ drivers/gpu/drm/virtio/virtgpu_drv.h |  3 ++-
+ drivers/gpu/drm/virtio/virtgpu_gem.c | 29 +++-------------------------
+ 3 files changed, 6 insertions(+), 27 deletions(-)
 
-diff --git a/drivers/gpu/drm/lima/Kconfig b/drivers/gpu/drm/lima/Kconfig
-index fa1d4f5df31e..1d2871d9ddd2 100644
---- a/drivers/gpu/drm/lima/Kconfig
-+++ b/drivers/gpu/drm/lima/Kconfig
-@@ -9,6 +9,7 @@ config DRM_LIMA
-        depends on COMMON_CLK
-        depends on OF
-        select DRM_SCHED
-+       select DRM_EXEC
-        select DRM_GEM_SHMEM_HELPER
-        select PM_DEVFREQ
-        select DEVFREQ_GOV_SIMPLE_ONDEMAND
-diff --git a/drivers/gpu/drm/lima/lima_gem.c b/drivers/gpu/drm/lima/lima_gem.c
-index 10252dc11a22..f48c1edff07d 100644
---- a/drivers/gpu/drm/lima/lima_gem.c
-+++ b/drivers/gpu/drm/lima/lima_gem.c
-@@ -8,6 +8,7 @@
- #include <linux/shmem_fs.h>
- #include <linux/dma-mapping.h>
- 
+diff --git a/drivers/gpu/drm/virtio/Kconfig b/drivers/gpu/drm/virtio/Kconfig
+index ea06ff2aa4b4..a24a1ce5e666 100644
+--- a/drivers/gpu/drm/virtio/Kconfig
++++ b/drivers/gpu/drm/virtio/Kconfig
+@@ -5,6 +5,7 @@ config DRM_VIRTIO_GPU
+ 	select VIRTIO
+ 	select DRM_KMS_HELPER
+ 	select DRM_GEM_SHMEM_HELPER
++	select DRM_EXEC
+ 	select VIRTIO_DMA_SHARED_BUFFER
+ 	help
+ 	   This is the virtual GPU driver for virtio.  It can be used with
+diff --git a/drivers/gpu/drm/virtio/virtgpu_drv.h b/drivers/gpu/drm/virtio/virtgpu_drv.h
+index af6ffb696086..c12434222e51 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_drv.h
++++ b/drivers/gpu/drm/virtio/virtgpu_drv.h
+@@ -35,6 +35,7 @@
+ #include <drm/drm_atomic.h>
+ #include <drm/drm_drv.h>
+ #include <drm/drm_encoder.h>
 +#include <drm/drm_exec.h>
- #include <drm/drm_file.h>
- #include <drm/drm_syncobj.h>
- #include <drm/drm_utils.h>
-@@ -292,7 +293,7 @@ static int lima_gem_add_deps(struct drm_file *file, struct lima_submit *submit)
- int lima_gem_submit(struct drm_file *file, struct lima_submit *submit)
- {
- 	int i, err = 0;
--	struct ww_acquire_ctx ctx;
+ #include <drm/drm_fourcc.h>
+ #include <drm/drm_framebuffer.h>
+ #include <drm/drm_gem.h>
+@@ -116,7 +117,7 @@ struct virtio_gpu_object_vram {
+ 	container_of((virtio_gpu_object), struct virtio_gpu_object_vram, base)
+ 
+ struct virtio_gpu_object_array {
+-	struct ww_acquire_ctx ticket;
 +	struct drm_exec exec;
- 	struct lima_drm_priv *priv = to_lima_drm_priv(file);
- 	struct lima_vm *vm = priv->vm;
- 	struct drm_syncobj *out_sync = NULL;
-@@ -329,8 +330,9 @@ int lima_gem_submit(struct drm_file *file, struct lima_submit *submit)
- 		bos[i] = bo;
- 	}
+ 	struct list_head next;
+ 	u32 nents, total;
+ 	struct drm_gem_object *objs[];
+diff --git a/drivers/gpu/drm/virtio/virtgpu_gem.c b/drivers/gpu/drm/virtio/virtgpu_gem.c
+index 7db48d17ee3a..bcab407074f4 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_gem.c
++++ b/drivers/gpu/drm/virtio/virtgpu_gem.c
+@@ -171,6 +171,7 @@ struct virtio_gpu_object_array *virtio_gpu_array_alloc(u32 nents)
  
--	err = drm_gem_lock_reservations((struct drm_gem_object **)bos,
--					submit->nr_bos, &ctx);
-+	drm_exec_init(&exec, true);
-+	err = drm_exec_prepare_array(&exec, (struct drm_gem_object **)bos,
-+				     submit->nr_bos, 0);
- 	if (err)
- 		goto err_out0;
+ 	objs->nents = 0;
+ 	objs->total = nents;
++	drm_exec_init(&objs->exec, true);
+ 	return objs;
+ }
  
-@@ -360,9 +362,7 @@ int lima_gem_submit(struct drm_file *file, struct lima_submit *submit)
- 				   submit->bos[i].flags & LIMA_SUBMIT_BO_WRITE ?
- 				   DMA_RESV_USAGE_WRITE : DMA_RESV_USAGE_READ);
- 	}
+@@ -214,36 +215,12 @@ void virtio_gpu_array_add_obj(struct virtio_gpu_object_array *objs,
+ 
+ int virtio_gpu_array_lock_resv(struct virtio_gpu_object_array *objs)
+ {
+-	unsigned int i;
+-	int ret;
 -
--	drm_gem_unlock_reservations((struct drm_gem_object **)bos,
--				    submit->nr_bos, &ctx);
-+	drm_exec_fini(&exec);
+-	if (objs->nents == 1) {
+-		ret = dma_resv_lock_interruptible(objs->objs[0]->resv, NULL);
+-	} else {
+-		ret = drm_gem_lock_reservations(objs->objs, objs->nents,
+-						&objs->ticket);
+-	}
+-	if (ret)
+-		return ret;
+-
+-	for (i = 0; i < objs->nents; ++i) {
+-		ret = dma_resv_reserve_fences(objs->objs[i]->resv, 1);
+-		if (ret) {
+-			virtio_gpu_array_unlock_resv(objs);
+-			return ret;
+-		}
+-	}
+-	return ret;
++	return drm_exec_prepare_array(&objs->exec, objs->objs, objs->nents, 1);
+ }
  
- 	for (i = 0; i < submit->nr_bos; i++)
- 		drm_gem_object_put(&bos[i]->base.base);
-@@ -379,8 +379,7 @@ int lima_gem_submit(struct drm_file *file, struct lima_submit *submit)
- err_out2:
- 	lima_sched_task_fini(submit->task);
- err_out1:
--	drm_gem_unlock_reservations((struct drm_gem_object **)bos,
--				    submit->nr_bos, &ctx);
-+	drm_exec_fini(&exec);
- err_out0:
- 	for (i = 0; i < submit->nr_bos; i++) {
- 		if (!bos[i])
+ void virtio_gpu_array_unlock_resv(struct virtio_gpu_object_array *objs)
+ {
+-	if (objs->nents == 1) {
+-		dma_resv_unlock(objs->objs[0]->resv);
+-	} else {
+-		drm_gem_unlock_reservations(objs->objs, objs->nents,
+-					    &objs->ticket);
+-	}
++	drm_exec_fini(&objs->exec);
+ }
+ 
+ void virtio_gpu_array_add_fence(struct virtio_gpu_object_array *objs,
 -- 
 2.34.1
 
