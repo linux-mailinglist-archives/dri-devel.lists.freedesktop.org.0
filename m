@@ -1,65 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 233796F6CF0
-	for <lists+dri-devel@lfdr.de>; Thu,  4 May 2023 15:30:38 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D00D6F6D8F
+	for <lists+dri-devel@lfdr.de>; Thu,  4 May 2023 16:15:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EC89910E503;
-	Thu,  4 May 2023 13:30:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 19FEB10E169;
+	Thu,  4 May 2023 14:15:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x436.google.com (mail-pf1-x436.google.com
- [IPv6:2607:f8b0:4864:20::436])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9E5E110E503
- for <dri-devel@lists.freedesktop.org>; Thu,  4 May 2023 13:30:34 +0000 (UTC)
-Received: by mail-pf1-x436.google.com with SMTP id
- d2e1a72fcca58-6436e004954so607998b3a.0
- for <dri-devel@lists.freedesktop.org>; Thu, 04 May 2023 06:30:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1683207034; x=1685799034;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=e5zsZyieTVAbp2iRxHeQ6n3AI+4u6cFOmhvnnOshY8E=;
- b=E8quQU+cUGSfXkNGJShwkhCuwJjqDNhbti1Y4b019xq7w0dS++lpvHBnw2QSiPSMxf
- LuaeypMAOIiyIfqmCxiwOluwfRTIaPBV06A3yuXOOw68c+y+gwSWyYIvdBKbkecsq86g
- rR1Lo6wYkHJ9bzswQzSinQmcnFfnxTIh8udre29Nn5LNn8TIL0wdjy3U8YqRqmVp4MPh
- KlGchG1khmNbJejhidFwncu9YWgxYxy7yR0QUHcGmyzfNAXaVC7+k5KLExoIyyx/OmdC
- fuygIFZeSYM1hC9gq3ehmbFmmqkcGJYRQYzuXUquMc6nlq418nnDWvH98RG5Xbd54vLu
- Y6SA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683207034; x=1685799034;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=e5zsZyieTVAbp2iRxHeQ6n3AI+4u6cFOmhvnnOshY8E=;
- b=IAxyHrLFS/n4hGXU6w7MRRoZfe6RRcKdsppLsyq2Piv0MTrewLv1V9PTfsUunWRMMB
- 6TgAbpZePom/dU+lyKxmRuaSsa3V7OgjC4z+9zfmjHgvQWJtS2ByOyq55SvongNT6frq
- VNEmdHuDJNt44swrLZkNo2e1xBMXsmXnjDF45o3Pyurk7VIdhPHDjrr46gMHi66drkqP
- vPrXqoiKaPPO6E+CJbbVUrX8NOTbog+3NjuWhgcxRoeQFxwjcUsWIaa9Cw1ds2/Uy3R6
- IsiU5SJgHbNFzI0qKH96t/7qWRb2pJNN8TflkhR0ZQiWFCephyl8uhAvsZEx+GpBAZxZ
- NOBA==
-X-Gm-Message-State: AC+VfDyxV28F6jDvXeJ4BaYe89NC/W+M18S7uUJgIXnvWBTWGOv0kxEj
- GdvfY9qRXRYPg3+Mp0B8KaRd28NVfMwjvH8hNnM=
-X-Google-Smtp-Source: ACHHUZ5ffjYF492JruMj8ZfHqNuPp7FprBS7oBRNSilULYkqheWPo8hzmZDSdXYCqgXvwFMUg6B4PH7mh7jbtm4WC24=
-X-Received: by 2002:a05:6a20:a226:b0:f5:6530:c7a8 with SMTP id
- u38-20020a056a20a22600b000f56530c7a8mr1766188pzk.22.1683207033691; Thu, 04
- May 2023 06:30:33 -0700 (PDT)
+X-Greylist: delayed 2097 seconds by postgrey-1.36 at gabe;
+ Thu, 04 May 2023 14:15:44 UTC
+Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com
+ [67.231.152.168])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BAA7A10E169
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 May 2023 14:15:44 +0000 (UTC)
+Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
+ by mx0b-001ae601.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 3445DKX5028271; Thu, 4 May 2023 08:39:27 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com;
+ h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=PODMain02222019;
+ bh=zEWDZRH16IxZH8jYRpv51rOx+oio62y+XziPw6IiJ1w=;
+ b=L9OXVtBpZ1h2EQYPU9fS+CdLeJbQogB3ovHqBxHZV93tB0yyeToDCRKM+3p1Z+XcLFZz
+ DhnfCDaIAxZdN2kEgqy91hT0ZkrDGwKDxWYOZyY84Bl71CaNzT/kQ6H7HeGti1LPjN2A
+ 1C53tmN+15LZY4Xx0LsXz3jdPfYj804ASLi4vP04knaO2fZRiDoRcGlVawsjF8dnEBef
+ /SeuYP9ruq4TACIUkQ8hZ4rHae8zIGOhnmbirZT1jFR/3kSOYyRRGhG6Ds8kk3q2z9qA
+ m1ycJOjn8GapD45ROvo5FEKeAAyqeD0ftMxijnIycmgOTyr7CJvQgOt/JbzSOHf7FjX0 fg== 
+Received: from ediex01.ad.cirrus.com ([84.19.233.68])
+ by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 3q8ynqxxwk-2
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 04 May 2023 08:39:26 -0500
+Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex01.ad.cirrus.com
+ (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.26; Thu, 4 May
+ 2023 08:39:24 -0500
+Received: from ediswmail.ad.cirrus.com (198.61.86.93) by
+ anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
+ 15.2.1118.26 via Frontend Transport; Thu, 4 May 2023 08:39:24 -0500
+Received: from ediswmail.ad.cirrus.com (ediswmail.ad.cirrus.com [198.61.86.93])
+ by ediswmail.ad.cirrus.com (Postfix) with ESMTP id E168D11AA;
+ Thu,  4 May 2023 13:39:23 +0000 (UTC)
+Date: Thu, 4 May 2023 13:39:23 +0000
+From: Charles Keepax <ckeepax@opensource.cirrus.com>
+To: Maxime Ripard <maxime@cerno.tech>
+Subject: Re: [PATCH v3 14/65] clk: lochnagar: Add a determine_rate hook
+Message-ID: <20230504133923.GE68926@ediswmail.ad.cirrus.com>
+References: <20221018-clk-range-checks-fixes-v3-0-9a1358472d52@cerno.tech>
+ <20221018-clk-range-checks-fixes-v3-14-9a1358472d52@cerno.tech>
 MIME-Version: 1.0
-References: <20230502010759.17282-1-aford173@gmail.com>
- <1759996.VLH7GnMWUR@steina-w>
- <CAHCN7x+Me-wbUNNyN9fJwg3KETE+0S2MfPOsAb=-CSuSUvZvPg@mail.gmail.com>
- <1856543.CQOukoFCf9@steina-w>
-In-Reply-To: <1856543.CQOukoFCf9@steina-w>
-From: Adam Ford <aford173@gmail.com>
-Date: Thu, 4 May 2023 08:30:22 -0500
-Message-ID: <CAHCN7xKcpD5w640a-W3cofdY4g3uK=Vt_w2BMWOuz-Q6m4gjaQ@mail.gmail.com>
-Subject: Re: [PATCH V3 3/7] drm: bridge: samsung-dsim: Fetch
- pll-clock-frequency automatically
-To: Alexander Stein <alexander.stein@ew.tq-group.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20221018-clk-range-checks-fixes-v3-14-9a1358472d52@cerno.tech>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-Proofpoint-GUID: Q2sbiD7_m7STQAOdv3OM1SrTnrP4amce
+X-Proofpoint-ORIG-GUID: Q2sbiD7_m7STQAOdv3OM1SrTnrP4amce
+X-Proofpoint-Spam-Reason: safe
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,184 +69,80 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: marex@denx.de, Neil Armstrong <neil.armstrong@linaro.org>,
- Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
- aford@beaconembedded.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Jagan Teki <jagan@amarulasolutions.com>,
+Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Prashant Gaikwad <pgaikwad@nvidia.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Michael Turquette <mturquette@baylibre.com>, Sekhar Nori <nsekhar@ti.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ dri-devel@lists.freedesktop.org, Liam Girdwood <lgirdwood@gmail.com>,
+ Paul Cercueil <paul@crapouillou.net>, Max Filippov <jcmvbkbc@gmail.com>,
+ Thierry Reding <thierry.reding@gmail.com>, linux-phy@lists.infradead.org,
+ linux-clk@vger.kernel.org, Abel Vesa <abelvesa@kernel.org>,
+ Kishon Vijay Abraham I <kishon@kernel.org>,
+ Samuel Holland <samuel@sholland.org>, Takashi Iwai <tiwai@suse.com>,
  Jernej Skrabec <jernej.skrabec@gmail.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Chen-Yu Tsai <wenst@chromium.org>,
- Marek Szyprowski <m.szyprowski@samsung.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+ Jonathan Hunter <jonathanh@nvidia.com>, Chen-Yu Tsai <wens@csie.org>,
+ NXP Linux Team <linux-imx@nxp.com>, Orson Zhai <orsonzhai@gmail.com>,
+ Ulf Hansson <ulf.hansson@linaro.org>, linux-mips@vger.kernel.org,
+ Luca Ceresoli <luca.ceresoli@bootlin.com>, linux-rtc@vger.kernel.org,
+ linux-tegra@vger.kernel.org, David Lechner <david@lechnology.com>,
+ alsa-devel@alsa-project.org, Manivannan Sadhasivam <mani@kernel.org>,
+ linux-kernel@vger.kernel.org, Sascha Hauer <s.hauer@pengutronix.de>,
+ linux-actions@lists.infradead.org,
+ Richard Fitzgerald <rf@opensource.cirrus.com>, Mark Brown <broonie@kernel.org>,
+ linux-mediatek@lists.infradead.org,
+ Baolin Wang <baolin.wang@linux.alibaba.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
+ linux-arm-kernel@lists.infradead.org,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Alessandro Zummo <a.zummo@towertech.it>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>, linux-sunxi@lists.linux.dev,
+ Stephen Boyd <sboyd@kernel.org>, patches@opensource.cirrus.com,
+ Peter De Schrijver <pdeschrijver@nvidia.com>,
+ linux-stm32@st-md-mailman.stormreply.com,
+ Nicolas Ferre <nicolas.ferre@microchip.com>,
+ Andreas =?iso-8859-1?Q?F=E4rber?= <afaerber@suse.de>,
+ linux-renesas-soc@vger.kernel.org, Dinh Nguyen <dinguyen@kernel.org>,
+ Vinod Koul <vkoul@kernel.org>, Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Chunyan Zhang <zhang.lyra@gmail.com>, Shawn Guo <shawnguo@kernel.org>,
+ Claudiu Beznea <claudiu.beznea@microchip.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, May 4, 2023 at 8:18=E2=80=AFAM Alexander Stein
-<alexander.stein@ew.tq-group.com> wrote:
->
-> Am Donnerstag, 4. Mai 2023, 14:57:01 CEST schrieb Adam Ford:
-> > On Thu, May 4, 2023 at 7:40=E2=80=AFAM Alexander Stein
-> >
-> > <alexander.stein@ew.tq-group.com> wrote:
-> > > Hi Adam,
-> > >
-> > > Am Donnerstag, 4. Mai 2023, 14:00:08 CEST schrieb Adam Ford:
-> > > > On Thu, May 4, 2023 at 4:21=E2=80=AFAM Alexander Stein
-> > > >
-> > > > <alexander.stein@ew.tq-group.com> wrote:
-> > > > > Am Dienstag, 2. Mai 2023, 03:07:55 CEST schrieb Adam Ford:
-> > > > > > Make the pll-clock-frequency optional.  If it's present, use it
-> > > > > > to maintain backwards compatibility with existing hardware.  If=
- it
-> > > > > > is absent, read clock rate of "sclk_mipi" to determine the rate=
-.
-> > > > > >
-> > > > > > Signed-off-by: Adam Ford <aford173@gmail.com>
-> > > > > > Tested-by: Chen-Yu Tsai <wenst@chromium.org>
-> > > > > > ---
-> > > > > >
-> > > > > >  drivers/gpu/drm/bridge/samsung-dsim.c | 12 ++++++++++--
-> > > > > >  1 file changed, 10 insertions(+), 2 deletions(-)
-> > > > > >
-> > > > > > diff --git a/drivers/gpu/drm/bridge/samsung-dsim.c
-> > > > > > b/drivers/gpu/drm/bridge/samsung-dsim.c index
-> > > > > > bf4b33d2de76..2dc02a9e37c0
-> > > > > > 100644
-> > > > > > --- a/drivers/gpu/drm/bridge/samsung-dsim.c
-> > > > > > +++ b/drivers/gpu/drm/bridge/samsung-dsim.c
-> > > > > > @@ -1726,12 +1726,20 @@ static int samsung_dsim_parse_dt(struct
-> > > > > > samsung_dsim *dsi) {
-> > > > > >
-> > > > > >       struct device *dev =3D dsi->dev;
-> > > > > >       struct device_node *node =3D dev->of_node;
-> > > > > >
-> > > > > > +     struct clk *pll_clk;
-> > > > > >
-> > > > > >       int ret;
-> > > > > >
-> > > > > >       ret =3D samsung_dsim_of_read_u32(node,
-> > > > > >       "samsung,pll-clock-frequency",
-> > > > > >
-> > > > > >                                      &dsi->pll_clk_rate);
-> > > > > >
-> > > > > > -     if (ret < 0)
-> > > > > > -             return ret;
-> > > > > > +
-> > > > > > +     /* If it doesn't exist, read it from the clock instead of
-> > > > > > failing
-> > > > > > */
-> > > > > > +     if (ret < 0) {
-> > > > > > +             pll_clk =3D devm_clk_get(dev, "sclk_mipi");
-> > > > > > +             if (!IS_ERR(pll_clk))
-> > > > > > +                     dsi->pll_clk_rate =3D clk_get_rate(pll_cl=
-k);
-> > > > > > +             else
-> > > > > > +                     return PTR_ERR(pll_clk);
-> > > > > > +     }
-> > > > >
-> > > > > Now that 'samsung,pll-clock-frequency' is optional the error in
-> > > > > samsung_dsim_of_read_u32() should be changed. Otherwise you will =
-get
-> > > > >
-> > > > > > /soc@0/bus@32c00000/dsi@32e10000: failed to get 'samsung,pll-cl=
-ock-
-> > > > >
-> > > > > frequency' property
-> > > >
-> > > > I'll change the message from err to info with a message that reads =
-"no
-> > > > samsung,pll-clock-frequency, using pixel clock"
-> > > >
-> > > > Does that work?
-> > >
-> > > Having just a info is totally fine with me. Thanks.
-> > > Although your suggested message somehow implies (to me) using pixel c=
-lock
-> > > is just a fallback. I'm a bit concerned some might think
-> > > "samsung,pll-clock- frequency" should be provided in DT. But this mig=
-ht
-> > > just be me.
-> >
-> > Oops, I got the PLL and burst burst clock confused.  I think both
-> > burst-clock and pll clock messages should get updates.
-> >
-> > The pll clock should say something like "samsung,pll-clock-frequency
-> > not defined, using sclk_mipi"
-> >
-> > The imx8m n/m/p have the sclk_mipi defined in the device tree, and
-> > this patch allows them to not have
-> > to manually set the pll clock since it can be read.  This allows to
-> > people to change the frequency of the PLL in
-> > in one place and let the driver read it instead of having to set the
-> > value in two places for the same clock.
->
-> That's why I would like to make it sound less error-like.
-> How about "Using sclk_mipi for pll clock frequency"?
->
-> > For the burst clock, I'd like to propose
-> > "samsung,burst-clock-frequency not defined, using pixel clock"
->
-> Similar to above how about "Using pixel clock for burst clock frequency"?
+On Tue, Apr 04, 2023 at 12:11:04PM +0200, Maxime Ripard wrote:
+> The lochnagar clocks implement a mux with a set_parent hook, but
+> doesn't provide a determine_rate implementation.
+> 
+> This is a bit odd, since set_parent() is there to, as its name implies,
+> change the parent of a clock. However, the most likely candidate to
+> trigger that parent change is a call to clk_set_rate(), with
+> determine_rate() figuring out which parent is the best suited for a
+> given rate.
+> 
+> The other trigger would be a call to clk_set_parent(), but it's far less
+> used, and it doesn't look like there's any obvious user for that clock.
+> 
+> So, the set_parent hook is effectively unused, possibly because of an
+> oversight. However, it could also be an explicit decision by the
+> original author to avoid any reparenting but through an explicit call to
+> clk_set_parent().
+> 
+> The latter case would be equivalent to setting the flag
+> CLK_SET_RATE_NO_REPARENT, together with setting our determine_rate hook
+> to __clk_mux_determine_rate(). Indeed, if no determine_rate
+> implementation is provided, clk_round_rate() (through
+> clk_core_round_rate_nolock()) will call itself on the parent if
+> CLK_SET_RATE_PARENT is set, and will not change the clock rate
+> otherwise. __clk_mux_determine_rate() has the exact same behavior when
+> CLK_SET_RATE_NO_REPARENT is set.
+> 
+> And if it was an oversight, then we are at least explicit about our
+> behavior now and it can be further refined down the line.
+> 
+> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+> ---
 
-I like that.
+Tested-by: Charles Keepax <ckeepax@opensource.cirrus.com>
 
->
-> > Does that work for you?
->
-> But I'm okay with both ways. Up to you.
-
- I'll wait another day or two to see if anyone else has any feedback,
-and I'll submit V4 with some other items addressed too.
-
-Thank you for your review!
-
-adam
-
->
-> Thanks and best regards,
-> Alexander
->
->
-> > > frequency
-> > >
-> > >
-> > > Best regards,
-> > > Alexander
-> > >
-> > > > adam
-> > > >
-> > > > > Best regards,
-> > > > > Alexander
-> > > > >
-> > > > > >       ret =3D samsung_dsim_of_read_u32(node, "samsung,burst-clo=
-ck-
-> > > > >
-> > > > > frequency",
-> > > > >
-> > > > > >                                      &dsi->burst_clk_rate);
-> > > > >
-> > > > > --
-> > > > > TQ-Systems GmbH | M=C3=BChlstra=C3=9Fe 2, Gut Delling | 82229 See=
-feld, Germany
-> > > > > Amtsgericht M=C3=BCnchen, HRB 105018
-> > > > > Gesch=C3=A4ftsf=C3=BChrer: Detlef Schneider, R=C3=BCdiger Stahl, =
-Stefan Schneider
-> > > > > http://www.tq-group.com/
-> > >
-> > > --
-> > > TQ-Systems GmbH | M=C3=BChlstra=C3=9Fe 2, Gut Delling | 82229 Seefeld=
-, Germany
-> > > Amtsgericht M=C3=BCnchen, HRB 105018
-> > > Gesch=C3=A4ftsf=C3=BChrer: Detlef Schneider, R=C3=BCdiger Stahl, Stef=
-an Schneider
-> > > http://www.tq-group.com/
->
->
-> --
-> TQ-Systems GmbH | M=C3=BChlstra=C3=9Fe 2, Gut Delling | 82229 Seefeld, Ge=
-rmany
-> Amtsgericht M=C3=BCnchen, HRB 105018
-> Gesch=C3=A4ftsf=C3=BChrer: Detlef Schneider, R=C3=BCdiger Stahl, Stefan S=
-chneider
-> http://www.tq-group.com/
->
->
+Thanks,
+Charles
