@@ -1,151 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97B9B6F64C2
-	for <lists+dri-devel@lfdr.de>; Thu,  4 May 2023 08:11:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C60386F64C4
+	for <lists+dri-devel@lfdr.de>; Thu,  4 May 2023 08:13:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 567A410E15A;
-	Thu,  4 May 2023 06:11:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 21DB210E38F;
+	Thu,  4 May 2023 06:13:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AD01E10E15A;
- Thu,  4 May 2023 06:11:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1683180695; x=1714716695;
- h=from:to:cc:subject:date:message-id:references:
- in-reply-to:content-id:content-transfer-encoding: mime-version;
- bh=IkuTZIH7OoRi/4kPo7rhKJOBbCMzOg+JuQ2xr08sXj0=;
- b=Ktn41+hiiIJstHd16D2XZASR9BjroowAEpHbGshwcVEAgHljyptHEAfq
- llnDfY8JjHMDT3Km81Ln0ZYLJFtnC+Y6HQFWA16Ylom0S8me+h17e80u3
- 4e694+nAnc18IVhzlIBf3cY4lcPSDAO3WWzT7CAPBK8zbkkhAPrUtyGST
- izqgbPgTYZP97lKqyDHGTXtWP7hnGUZPbwqZrz927+XY2iNchi2yOTmW3
- r23SL7dJ++hax3xSzvOAJpLo3KJfBzzHyG2jE4lTHnDJJCSCc6hfX4I1z
- 6tfORMscIEVhG1WcB1gi1RNeLtWV1mPuojdER5MEKIgvO/vdsoi/tdoB6 w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10699"; a="351833458"
-X-IronPort-AV: E=Sophos;i="5.99,249,1677571200"; d="scan'208";a="351833458"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 May 2023 23:11:34 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10699"; a="808568900"
-X-IronPort-AV: E=Sophos;i="5.99,249,1677571200"; d="scan'208";a="808568900"
-Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
- by fmsmga002.fm.intel.com with ESMTP; 03 May 2023 23:11:33 -0700
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.23; Wed, 3 May 2023 23:11:33 -0700
-Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
- orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.23 via Frontend Transport; Wed, 3 May 2023 23:11:33 -0700
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (104.47.58.169)
- by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.23; Wed, 3 May 2023 23:11:33 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=I5/VIlGDU3Mb/l1EoEt07JaJM1QRi8zci1u/D8tCGuPKEwwrTvcqlmo1t9f7P0KvBaRFFu3/vG7VaCEJYuBp5iP/sLJUZUg4HYvjaC5cH815PxrpKLw2aTJM/2BmJiJwfVsrUpSYvz8eHaHnS03gg+aU7xbnqjKTyhPwSws8vmVWXb04s9pIn34NL26O6RLpFNXROHy8gDIDL8iZeXZ8gVKy/QDE74liCs2HHdPx56GnM3LHJSYyfAiLvtXXt9JuvDqiJKxLYtJ4jXdAYsk0czwMuwPFvebhNrMz3oxa2JjpaZxrgGVoveZVK0KOb4/YVcTR8O+mWoXEAEl99il++g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=IkuTZIH7OoRi/4kPo7rhKJOBbCMzOg+JuQ2xr08sXj0=;
- b=b7y3vOfNlR8jtxFD7W5AvGjkBGh3v+XvZ0xBvdAfjTxB8+vogHCWzQ0iZVQ4EeK/z26csF15HaFA8LSDT2gMQ71zeosK0Sbngz+2Hp7nD0DKyWoaSWf9mU9TGsfjjGPOkd9HuUTIy6oDcAuO5OlcA61XcdLewqroOjVKLfrPB03vIp+IqPXxUSLHOJNNtQSxaSzhZfXL+7opuzUa1pNRI74868sP8zCbYrJWSmGUn8S7SYI2NUsIzS8YGfZSPywjIz5TT0wRmP3L592Wz+bOeFTEvXZDIUVU1UdyamTN94xaidKSfzsqMuhU2CfCQjVLMfi8hZshNXNn5gXP8xmbNg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from DM8PR11MB5751.namprd11.prod.outlook.com (2603:10b6:8:12::16) by
- DS0PR11MB7560.namprd11.prod.outlook.com (2603:10b6:8:14b::15) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6363.26; Thu, 4 May 2023 06:11:28 +0000
-Received: from DM8PR11MB5751.namprd11.prod.outlook.com
- ([fe80::34a1:94e9:ec9b:dfe3]) by DM8PR11MB5751.namprd11.prod.outlook.com
- ([fe80::34a1:94e9:ec9b:dfe3%5]) with mapi id 15.20.6363.022; Thu, 4 May 2023
- 06:11:28 +0000
-From: "Teres Alexis, Alan Previn" <alan.previn.teres.alexis@intel.com>
-To: "Ceraolo Spurio, Daniele" <daniele.ceraolospurio@intel.com>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>
-Subject: Re: [PATCH v3 4/4] drm/i915/gsc: add support for GSC proxy interrupt
-Thread-Topic: [PATCH v3 4/4] drm/i915/gsc: add support for GSC proxy interrupt
-Thread-Index: AQHZfRSqgnpwfQyoU0mR2wlrsC6eM69JpFoA
-Date: Thu, 4 May 2023 06:11:27 +0000
-Message-ID: <785d80d9841820aa8fc49d16d55e69099ed672c7.camel@intel.com>
-References: <20230502163854.317653-1-daniele.ceraolospurio@intel.com>
- <20230502163854.317653-5-daniele.ceraolospurio@intel.com>
-In-Reply-To: <20230502163854.317653-5-daniele.ceraolospurio@intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Evolution 3.46.1-0ubuntu1 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DM8PR11MB5751:EE_|DS0PR11MB7560:EE_
-x-ms-office365-filtering-correlation-id: f69b00b5-957a-4e1e-0ec4-08db4c6665ba
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 6sDNEVYk2jMXiiQQc4s+7r7cb/wNeV57iM0+dsLH5lKv3q9kUbSO88rf/FWlkC8hcQ2xgtRvxQIBu+hSXuA/owyMGy8BtnphTC/8/7DmYB8c7fiAKlPQfPjq+pO9jFjDkVFaoYq/1+KTUO0uHThjPF7xHmyluUKYaAftt9Dkg3/KSKoQ/mKIduNpwnnzwZUTHJZiWJXL2WOVctg0Z+UV4IM4oew7QrdX8sA0rBcjhnTpdVZMVF47HKwc8EObcM2PiEJxACtIKNfxcjmPxr8/PoqfIb6sIi0ien/mxLUFnBD9rF2fGEyrznmJwzgKuyjOrkmcTaOEFJjVurjyq30JXIJffyjij51MZz/2jHHYGQE8fyJIQYejkowO3owk6plB17BPh4fH4sfT4Xsj+r6bqjQBtacCi5iiRVd6mKTikTpcpmWKTF4yIJ0SUId1ge13c0/1almEeEVxC22l4JcVgFGN6tjOeUS/vfeukSU3luFxgn31UsLWgbQAspzYRWAUVoja8UZYuxj4NGiH4GcM5Yd9SkTN2yPcAb/ixxE9fUIHw216wsDctYmdDAQUgPrCuEVzhY+HWt7WgSLwZP+zE780XKiXrakbsOSFpOF7z3Ayz2eU7uaQb/UyaRkugIJh
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM8PR11MB5751.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230028)(346002)(366004)(376002)(136003)(39860400002)(396003)(451199021)(66446008)(36756003)(4326008)(66556008)(66476007)(450100002)(76116006)(91956017)(64756008)(83380400001)(66946007)(6512007)(6506007)(26005)(186003)(2906002)(4744005)(110136005)(478600001)(2616005)(38100700002)(82960400001)(8676002)(122000001)(8936002)(38070700005)(86362001)(41300700001)(6486002)(71200400001)(5660300002)(316002);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?VEU1V2pTR0xFZzgyOUZ3VEp2VEltSUpLUFo5bmlING96LzNhVFFjUDJTckhN?=
- =?utf-8?B?b1hrd1pYNFR0K01aMFBiOEhhd3grRGVUREpycy9LR0RydlZVTWpyLzR5NndE?=
- =?utf-8?B?Q0pzR05PUHp4c092VkN1S3dOY3EyRzB2OFltVWJJekREVEJoRHNhRlFleFZJ?=
- =?utf-8?B?NmVmMHplenBZNVg5WlBzaHFYczBaUHdUc3A3ZjhQbjBJK0s5RGE3d00ycUJE?=
- =?utf-8?B?UXcxcmRzRW4rZlNKU3dCVmVEb0VWL3F4UmVzdDRUNVZRdlRKazNMN0dScGV6?=
- =?utf-8?B?V3FJM25JYjhRWmtKNVlGcnJEa2JSUEUzZDFSaG1ydWMyd3VPeHoxbExPUTlW?=
- =?utf-8?B?RWpSTkhwODFySVNLSVV5RWg1M3BmdEg0aXpUb1gydVdPOTNERy9JYmJtYTMv?=
- =?utf-8?B?T0pFRG1YcEgzWDVkdlJQSVhtOElyOGJ5UkVUYTBiNjdtUHpCY3VHd0NiSW81?=
- =?utf-8?B?cUFuWXhpa3BDclZINFllSUJhc3RQSHdVNlVEakZJSFRMM0xrd2EvKzU2N0FB?=
- =?utf-8?B?a2xyMzJoQ1c3TGNka2hvTEdFSnZkY09wRU9yTG0vOXpEQkIyQjNoblhFWm9Y?=
- =?utf-8?B?ZVZRc2tUZFNtRmV0Yks2OUhkKzZkOWxTRUtPZzZnR1pBUVFKdFQycHowWWN0?=
- =?utf-8?B?YmtWZmo2cS80b05UeVhaSDdmUytaaTJpQnF3S1h3WFZOTWRBdFJuaHMxWmVx?=
- =?utf-8?B?Tm81Nzc2cktEdDl4V2NWLzBNLzZMbTN1ZkV5dVpiUWE2dlpNR3c5OXQ3THZ1?=
- =?utf-8?B?OXQxL0RnNUw2Sm5aZzV2ODcxRnhZSk1lbGhjLzlPSTNubFFYbnhNeXY2cmMy?=
- =?utf-8?B?UEFnVFI0Y2VtdkhHYldPbEtPZzdtajVwbUhxYzMzb3laN0YxV1dVTWFNNnJX?=
- =?utf-8?B?Q1FjVTBvTjNUdFd0Z3lreUhhditNWDFoa25BNlRhSGNGbU9VQy9yeERHSnJt?=
- =?utf-8?B?UmQycURQVHFHd3crYzZRdmMzZFpzclRZNjRBeFNZdVI4cTVLcTEyZ1dqTWNM?=
- =?utf-8?B?aVJSS1F0ekhyS0RtMHhaS2paMXU5R2JwV3BTTzRpc2VmTURvQ1liSUg0K0dp?=
- =?utf-8?B?VzY0S0dDZXFScGR4THJ5SGNZb1I2NURlZzVPTmpNNmtvM2NaYjdnRkZoVWtr?=
- =?utf-8?B?dzRpRFJQNWFrS01wQTBpWFkwMVVjNVN6endUZkovNVV3amk3V3l0M3RUZ3pP?=
- =?utf-8?B?TmZDOEZ4UDg0TWhqd0V0NTBMVUVkT2RaS0llTWdIaDdka3JBWVVReGFQbTFI?=
- =?utf-8?B?VGt5WExxQXZQdXFGZ1pUamROMUlzdllvUVVjZWYwMmxGeHYwVzJGaTlwaEJK?=
- =?utf-8?B?UVZEWW5LbXFjTFpWSGVSSnNxS0Z3bUkxdmR2SFpmMEYxNlVEaG8rUS9YUlIv?=
- =?utf-8?B?bVVJWjE2TmlKZVRsNmpzOCs4NmNVb1p2R2lzb1dOYmZ4alhMcUsvblAyMWpl?=
- =?utf-8?B?NUNMaldZOE5wTjJIZ29hR3BBU0NZS29aQit0cGxuRE0rRHRWbUxOZDhORkp5?=
- =?utf-8?B?dkp5dTF2ZFpWMVY4SGM5SW5RWHpRQ3JudU9JcFc2MFpHaGNwcmljZ2s1SVBL?=
- =?utf-8?B?Z2JobHdFN3pvZmQycUdLMFU3bDQ2WGw3NDR3THpFUmdEWVdCTm5UaTBZNWRv?=
- =?utf-8?B?a2hxL2prL3FNY1dzQ1JtYlVRWHk4V095K3YxUGZuaE1Wd3ZaZWNYNDcxK2Ra?=
- =?utf-8?B?SU1ZSVRFYVJzblptR1lvLzcwM1Q2M1BKNFRWaGsvSEhQS0tkcGFKTGJ4VzRQ?=
- =?utf-8?B?ZlovSHl5WVRhQnZxNFZpeExpZXV1QXZvcDdNVmpZME05UlBhT2Z6WjM5a1ds?=
- =?utf-8?B?cUQ2OVNUUHNYOTFFeExCeE1lQmNxYmhHOUtTcFoxRGN6K3NvN1pSYWlIZXJF?=
- =?utf-8?B?TlRaTitMTXlMNExnZzZ5V3N5OVA3cUlVMjJYZU51NmFqT0tFL2xmRHdIR29H?=
- =?utf-8?B?YXI5aXFZVEZkQ3N1cWVnOTA1eU9RaHY1aHRBQWhTUlg0VjE0T2V5bmIxTlQ4?=
- =?utf-8?B?aGpJaSt5bDhBZkZuSmdhaEl4NGFXYmRWM0NEYlo2aDh4b1Rlb1JTY3cwTmdl?=
- =?utf-8?B?TVFHTFl6V2gwZllQV3dxM2Rjc0Y1VGhRdFdCeVAxUWQ5T1l6WW9hQXowSmV6?=
- =?utf-8?B?dGpRVzJJL3BPbTN0QWpUZ1c2QUpKMnJjRlNzOFNVdkNhZk5ZOWF1VnV5eTkv?=
- =?utf-8?Q?0u06scsgHAgDVmnl7YPD7N4=3D?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <AB881C8FE890414A9A84846DD8350B06@namprd11.prod.outlook.com>
-Content-Transfer-Encoding: base64
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 96DCF10E38F
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 May 2023 06:13:10 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 2F8EC62B0E
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 May 2023 06:13:09 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 85354C433A0
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 May 2023 06:13:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1683180788;
+ bh=x5kwsDZ4TN9cZ90xAynKsrlFYiS4VMknuQmqXWKQv4E=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=WC5TbwZPBi0tQQNBvTGJXplLeEakP8uBRvGG581CxvUv9/lukOh5AC1X3zAPMZ+g8
+ 9fy0AysYaV3efBV0IrkrXu1zdYN2KWUIc2IUyOFvA4x8KVpiESnSeOjJRWPmpAmGjj
+ BMcPaTFDazfHj/l4xwLkGcnDNik8NE3EswvdDTb9R7L3TBIQj3kvERaZmHJ4qwp1Do
+ sCu8BfoRZt4Uxqa/GKexTOKqeuQTzen5tcfIBeZue2AGLB2uh0E9GC8/ouptYgrPLg
+ Adtyp+A8xJKNwpZG9emF1LF7yEeYjzIUYlvQG6aZ8GJnBDSY7y9+vhBlmA7vw1ClOY
+ cu2w4G8yOCltA==
+Received: by mail-yb1-f176.google.com with SMTP id
+ 3f1490d57ef6-b9d881ad689so159847276.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 03 May 2023 23:13:08 -0700 (PDT)
+X-Gm-Message-State: AC+VfDzVQPLLw/U73ush03B3TwHk/O9z135DhLPMYuwR1p33bf7H9HCj
+ 5stvAZwZ6/fweyk4Y4KiIMOer+RU71+IbueWWW4=
+X-Google-Smtp-Source: ACHHUZ6KF0mvEfZ7c7A7TDoA7IR0SoQqosIt/hT5lEC3d9rVnjWTYftxg5H7oyxdR6EjaIgGYcc740OPEhS6iP0Y7Yo=
+X-Received: by 2002:a25:4117:0:b0:b95:c55f:5d4b with SMTP id
+ o23-20020a254117000000b00b95c55f5d4bmr27227873yba.3.1683180787246; Wed, 03
+ May 2023 23:13:07 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM8PR11MB5751.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f69b00b5-957a-4e1e-0ec4-08db4c6665ba
-X-MS-Exchange-CrossTenant-originalarrivaltime: 04 May 2023 06:11:27.9995 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: WwLxMcTgWQzvhtba56ruLSmmeiN6jB3QgrMdVu2qjF6ddVOPvWQZOI0y1/TBHEIbxVTiZY2G3HS7f/tZt1n0GakBMYyWUWh8BbCu1/aNzl4/dT1pBlSrkAivPx579ZXc
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR11MB7560
-X-OriginatorOrg: intel.com
+References: <20230428144903.26048-1-cai.huoqing@linux.dev>
+ <CAFCwf13cqApEckT89kJdtNZppMNjDVJQtOCL_3hchY7oYDvrUQ@mail.gmail.com>
+ <ZFMfu7BuMXdNReLy@chq-MS-7D45>
+In-Reply-To: <ZFMfu7BuMXdNReLy@chq-MS-7D45>
+From: Oded Gabbay <ogabbay@kernel.org>
+Date: Thu, 4 May 2023 09:12:40 +0300
+X-Gmail-Original-Message-ID: <CAFCwf13zp78dKKAU+KcWs+4jC+jdd5dU8n8N0NfHg+AXOGR5aw@mail.gmail.com>
+Message-ID: <CAFCwf13zp78dKKAU+KcWs+4jC+jdd5dU8n8N0NfHg+AXOGR5aw@mail.gmail.com>
+Subject: Re: [PATCH v2] accel/habanalabs: Make use of rhashtable
+To: Cai Huoqing <cai.huoqing@linux.dev>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -158,23 +64,479 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Ohad Sharabi <osharabi@habana.ai>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVHVlLCAyMDIzLTA1LTAyIGF0IDA5OjM4IC0wNzAwLCBDZXJhb2xvIFNwdXJpbywgRGFuaWVs
-ZSB3cm90ZToNCj4gVGhlIEdTQyBub3RpZmllcyB1cyBvZiBhIHByb3h5IHJlcXVlc3QgdmlhIHRo
-ZSBIRUNJMiBpbnRlcnJ1cHQuIFRoZQ0KPiBpbnRlcnJ1cHQgbXVzdCBiZSBlbmFibGVkIGJvdGgg
-aW4gdGhlIEhFQ0kgbGF5ZXIgYW5kIGluIG91ciB1c3VhbCBndCBpcnENCj4gcHJvZ3JhbW1pbmc7
-IGZvciB0aGUgbGF0dGVyLCB0aGUgaW50ZXJydXB0IGlzIGVuYWJsZWQgdmlhIHRoZSBzYW1lIGVu
-YWJsZQ0KPiByZWdpc3RlciBhcyB0aGUgR1NDIENTLCBidXQgaXQgZG9lcyBoYXZlIGl0cyBvd24g
-bWFzayByZWdpc3Rlci4gV2hlbiB0aGUNCj4gaW50ZXJydXB0IGlzIHJlY2VpdmVkLCB3ZSBhbHNv
-IG5lZWQgdG8gZGUtYXNzZXJ0IGl0IGluIGJvdGggbGF5ZXJzLg0KPiANCj4gVGhlIGhhbmRsaW5n
-IG9mIHRoZSBwcm94eSByZXF1ZXN0IGlzIGRlZmVycmVkIHRvIHRoZSBzYW1lIHdvcmtlciB0aGF0
-IHdlDQo+IHVzZSBmb3IgR1NDIGxvYWQuIE5ldyBmbGFncyBoYXZlIGJlZW4gYWRkZWQgdG8gZGlz
-dGluZ3Vpc2ggYmV0d2VlbiB0aGUNCj4gaW5pdCBjYXNlIGFuZCB0aGUgcHJveHkgaW50ZXJydXB0
-Lg0KPiANCj4gdjI6IE1ha2Ugc3VyZSBub3QgdG8gc2V0IHRoZSByZXNldCBiaXQgd2hlbiBlbmFi
-bGluZy9kaXNhYmxpbmcgdGhlIEdTQw0KPiBpbnRlcnJ1cHRzLCBmaXggZGVmaW5lcyAoQWxhbikN
-Cj4gDQo+IHYzOiByZWJhc2Ugb24gcHJveHkgc3RhdHVzIHJlZ2lzdGVyIGNoZWNrDQo+IA0KYWxh
-bjpzbmlwDQpSZXZpZXdlZC1ieTogQWxhbiBQcmV2aW4gPGFsYW4ucHJldmluLnRlcmVzLmFsZXhp
-c0BpbnRlbC5jb20+DQo=
+On Thu, May 4, 2023 at 6:00=E2=80=AFAM Cai Huoqing <cai.huoqing@linux.dev> =
+wrote:
+>
+> On 30 4=E6=9C=88 23 09:36:29, Oded Gabbay wrote:
+> > On Fri, Apr 28, 2023 at 5:49=E2=80=AFPM Cai Huoqing <cai.huoqing@linux.=
+dev> wrote:
+> > >
+> > > Using rhashtable to accelerate the search for userptr by address,
+> > > instead of using a list.
+> > >
+> > > Preferably, the lookup complexity of a hash table is O(1).
+> > >
+> > > This patch will speedup the method
+> > > hl_userptr_is_pinned by rhashtable_lookup_fast.
+> > >
+> > > Signed-off-by: Cai Huoqing <cai.huoqing@linux.dev>
+> >
+> > Thanks for the patch, but the reason we never optimized this path is
+> > because this code path is only relevant for Goya, which we don't want
+> > to change the code for anymore.
+> > For Gaudi we don't pin the memory in the host during submission. It is
+> > done much earlier, when the user maps the memory to the device. The
+> > code path in Gaudi is only in case the device is loaded with its MMU
+> > disabled. This mode was used only for debug/bring-up of the ASIC many
+> > years ago. As you can see in Gaudi2, that mode was dropped even for
+>
+> Do you mean that the userspace directly call HL_MEM_OP_MAP/HL_MEM_OP_UNMA=
+P
+> with a flag HL_MEM_USERPTR instead of pin host mem in submissmion?
+Yes, correct.
+
+>
+> > debug/bring-up.
+> >
+> > Therefore, I prefer not to take this patch as validation for both
+> > functionality and performance will take time which will be better
+> > spent elsewhere.
+> >
+> > Thanks,
+> > Oded
+> >
+> > > ---
+> > > v1->v2:
+> > > Use rhashtable_free_and_destroy in hl_userptr_delete_list.
+> > >
+> > >  .../habanalabs/common/command_submission.c    | 16 ++++++--
+> > >  drivers/accel/habanalabs/common/habanalabs.h  | 19 +++++----
+> > >  drivers/accel/habanalabs/common/memory.c      | 39 +++++++++++------=
+--
+> > >  drivers/accel/habanalabs/gaudi/gaudi.c        | 16 +++++---
+> > >  drivers/accel/habanalabs/goya/goya.c          | 14 ++++---
+> > >  5 files changed, 65 insertions(+), 39 deletions(-)
+> > >
+> > > diff --git a/drivers/accel/habanalabs/common/command_submission.c b/d=
+rivers/accel/habanalabs/common/command_submission.c
+> > > index af9d2e22c6e7..35c2ab934396 100644
+> > > --- a/drivers/accel/habanalabs/common/command_submission.c
+> > > +++ b/drivers/accel/habanalabs/common/command_submission.c
+> > > @@ -312,7 +312,7 @@ static int cs_parser(struct hl_fpriv *hpriv, stru=
+ct hl_cs_job *job)
+> > >         parser.job_id =3D job->id;
+> > >
+> > >         parser.hw_queue_id =3D job->hw_queue_id;
+> > > -       parser.job_userptr_list =3D &job->userptr_list;
+> > > +       parser.job_userptr_ht =3D &job->userptr_ht;
+> > >         parser.patched_cb =3D NULL;
+> > >         parser.user_cb =3D job->user_cb;
+> > >         parser.user_cb_size =3D job->user_cb_size;
+> > > @@ -351,7 +351,7 @@ static void hl_complete_job(struct hl_device *hde=
+v, struct hl_cs_job *job)
+> > >         struct hl_cs *cs =3D job->cs;
+> > >
+> > >         if (is_cb_patched(hdev, job)) {
+> > > -               hl_userptr_delete_list(hdev, &job->userptr_list);
+> > > +               hl_userptr_delete_list(hdev, &job->userptr_ht);
+> > >
+> > >                 /*
+> > >                  * We might arrive here from rollback and patched CB =
+wasn't
+> > > @@ -1284,6 +1284,7 @@ struct hl_cs_job *hl_cs_allocate_job(struct hl_=
+device *hdev,
+> > >                 enum hl_queue_type queue_type, bool is_kernel_allocat=
+ed_cb)
+> > >  {
+> > >         struct hl_cs_job *job;
+> > > +       int rc;
+> > >
+> > >         job =3D kzalloc(sizeof(*job), GFP_ATOMIC);
+> > >         if (!job)
+> > > @@ -1296,13 +1297,20 @@ struct hl_cs_job *hl_cs_allocate_job(struct h=
+l_device *hdev,
+> > >         job->queue_type =3D queue_type;
+> > >         job->is_kernel_allocated_cb =3D is_kernel_allocated_cb;
+> > >
+> > > -       if (is_cb_patched(hdev, job))
+> > > -               INIT_LIST_HEAD(&job->userptr_list);
+> > > +       if (is_cb_patched(hdev, job)) {
+> > > +               rc =3D rhashtable_init(&job->userptr_ht, &hl_userptr_=
+rht_params);
+> > > +               if (rc)
+> > > +                       goto free_job;
+> > > +       }
+> > >
+> > >         if (job->queue_type =3D=3D QUEUE_TYPE_EXT)
+> > >                 INIT_WORK(&job->finish_work, job_wq_completion);
+> > >
+> > >         return job;
+> > > +
+> > > +free_job:
+> > > +       kfree(job);
+> > > +       return NULL;
+> > >  }
+> > >
+> > >  static enum hl_cs_type hl_cs_get_cs_type(u32 cs_type_flags)
+> > > diff --git a/drivers/accel/habanalabs/common/habanalabs.h b/drivers/a=
+ccel/habanalabs/common/habanalabs.h
+> > > index eaae69a9f817..9c876d1480d2 100644
+> > > --- a/drivers/accel/habanalabs/common/habanalabs.h
+> > > +++ b/drivers/accel/habanalabs/common/habanalabs.h
+> > > @@ -19,6 +19,7 @@
+> > >  #include <linux/dma-direction.h>
+> > >  #include <linux/scatterlist.h>
+> > >  #include <linux/hashtable.h>
+> > > +#include <linux/rhashtable.h>
+> > >  #include <linux/debugfs.h>
+> > >  #include <linux/rwsem.h>
+> > >  #include <linux/eventfd.h>
+> > > @@ -540,6 +541,8 @@ struct hl_hints_range {
+> > >         u64 end_addr;
+> > >  };
+> > >
+> > > +extern const struct rhashtable_params hl_userptr_rht_params;
+> > > +
+> > >  /**
+> > >   * struct asic_fixed_properties - ASIC specific immutable properties=
+.
+> > >   * @hw_queues_props: H/W queues properties.
+> > > @@ -1915,7 +1918,7 @@ struct hl_ctx_mgr {
+> > >  /**
+> > >   * struct hl_userptr - memory mapping chunk information
+> > >   * @vm_type: type of the VM.
+> > > - * @job_node: linked-list node for hanging the object on the Job's l=
+ist.
+> > > + * @job_node: hashtable node for hanging the object on the Job's lis=
+t.
+> > >   * @pages: pointer to struct page array
+> > >   * @npages: size of @pages array
+> > >   * @sgt: pointer to the scatter-gather table that holds the pages.
+> > > @@ -1928,7 +1931,7 @@ struct hl_ctx_mgr {
+> > >   */
+> > >  struct hl_userptr {
+> > >         enum vm_type            vm_type; /* must be first */
+> > > -       struct list_head        job_node;
+> > > +       struct rhash_head       job_node;
+> > >         struct page             **pages;
+> > >         unsigned int            npages;
+> > >         struct sg_table         *sgt;
+> > > @@ -2028,7 +2031,7 @@ struct hl_cs {
+> > >   * @patched_cb: in case of patching, this is internal CB which is su=
+bmitted on
+> > >   *             the queue instead of the CB we got from the IOCTL.
+> > >   * @finish_work: workqueue object to run when job is completed.
+> > > - * @userptr_list: linked-list of userptr mappings that belong to thi=
+s job and
+> > > + * @userptr_ht: hashtable of userptr mappings that belong to this jo=
+b and
+> > >   *                     wait for completion.
+> > >   * @debugfs_list: node in debugfs list of command submission jobs.
+> > >   * @refcount: reference counter for usage of the CS job.
+> > > @@ -2056,7 +2059,7 @@ struct hl_cs_job {
+> > >         struct hl_cb            *user_cb;
+> > >         struct hl_cb            *patched_cb;
+> > >         struct work_struct      finish_work;
+> > > -       struct list_head        userptr_list;
+> > > +       struct rhashtable       userptr_ht;
+> > >         struct list_head        debugfs_list;
+> > >         struct kref             refcount;
+> > >         enum hl_queue_type      queue_type;
+> > > @@ -2075,7 +2078,7 @@ struct hl_cs_job {
+> > >   * @user_cb: the CB we got from the user.
+> > >   * @patched_cb: in case of patching, this is internal CB which is su=
+bmitted on
+> > >   *             the queue instead of the CB we got from the IOCTL.
+> > > - * @job_userptr_list: linked-list of userptr mappings that belong to=
+ the related
+> > > + * @job_userptr_ht: hashtable of userptr mappings that belong to the=
+ related
+> > >   *                     job and wait for completion.
+> > >   * @cs_sequence: the sequence number of the related CS.
+> > >   * @queue_type: the type of the H/W queue this job is submitted to.
+> > > @@ -2098,7 +2101,7 @@ struct hl_cs_job {
+> > >  struct hl_cs_parser {
+> > >         struct hl_cb            *user_cb;
+> > >         struct hl_cb            *patched_cb;
+> > > -       struct list_head        *job_userptr_list;
+> > > +       struct rhashtable       *job_userptr_ht;
+> > >         u64                     cs_sequence;
+> > >         enum hl_queue_type      queue_type;
+> > >         u32                     ctx_id;
+> > > @@ -3760,9 +3763,9 @@ int hl_pin_host_memory(struct hl_device *hdev, =
+u64 addr, u64 size,
+> > >                         struct hl_userptr *userptr);
+> > >  void hl_unpin_host_memory(struct hl_device *hdev, struct hl_userptr =
+*userptr);
+> > >  void hl_userptr_delete_list(struct hl_device *hdev,
+> > > -                               struct list_head *userptr_list);
+> > > +                               struct rhashtable *userptr_ht);
+> > >  bool hl_userptr_is_pinned(struct hl_device *hdev, u64 addr, u32 size=
+,
+> > > -                               struct list_head *userptr_list,
+> > > +                               struct rhashtable *userptr_ht,
+> > >                                 struct hl_userptr **userptr);
+> > >
+> > >  int hl_mmu_init(struct hl_device *hdev);
+> > > diff --git a/drivers/accel/habanalabs/common/memory.c b/drivers/accel=
+/habanalabs/common/memory.c
+> > > index a7b6a273ce21..fa2104e33639 100644
+> > > --- a/drivers/accel/habanalabs/common/memory.c
+> > > +++ b/drivers/accel/habanalabs/common/memory.c
+> > > @@ -23,6 +23,13 @@ MODULE_IMPORT_NS(DMA_BUF);
+> > >
+> > >  #define MEM_HANDLE_INVALID     ULONG_MAX
+> > >
+> > > +const struct rhashtable_params hl_userptr_rht_params =3D {
+> > > +       .head_offset =3D offsetof(struct hl_userptr, job_node),
+> > > +       .key_offset =3D offsetof(struct hl_userptr, addr),
+> > > +       .key_len =3D sizeof(u64),
+> > > +       .automatic_shrinking =3D true,
+> > > +};
+> > > +
+> > >  static int allocate_timestamps_buffers(struct hl_fpriv *hpriv,
+> > >                         struct hl_mem_in *args, u64 *handle);
+> > >
+> > > @@ -2483,7 +2490,6 @@ int hl_pin_host_memory(struct hl_device *hdev, =
+u64 addr, u64 size,
+> > >         userptr->size =3D size;
+> > >         userptr->addr =3D addr;
+> > >         userptr->dma_mapped =3D false;
+> > > -       INIT_LIST_HEAD(&userptr->job_node);
+> > >
+> > >         rc =3D get_user_memory(hdev, addr, size, npages, start, offse=
+t,
+> > >                                 userptr);
+> > > @@ -2522,32 +2528,32 @@ void hl_unpin_host_memory(struct hl_device *h=
+dev, struct hl_userptr *userptr)
+> > >         unpin_user_pages_dirty_lock(userptr->pages, userptr->npages, =
+true);
+> > >         kvfree(userptr->pages);
+> > >
+> > > -       list_del(&userptr->job_node);
+> > > -
+> > >         sg_free_table(userptr->sgt);
+> > >         kfree(userptr->sgt);
+> > >  }
+> > >
+> > > +static void hl_userptr_free_cb(void *ptr, void *arg)
+> > > +{
+> > > +       struct hl_userptr *userptr =3D ptr;
+> > > +       struct hl_device *hdev =3D (struct hl_device *)arg;
+> > > +
+> > > +       hl_unpin_host_memory(hdev, userptr);
+> > > +       kfree(userptr);
+> > > +}
+> > > +
+> > >  /**
+> > >   * hl_userptr_delete_list() - clear userptr list.
+> > >   * @hdev: pointer to the habanalabs device structure.
+> > > - * @userptr_list: pointer to the list to clear.
+> > > + * @userptr_ht: pointer to the hashtable to clear.
+> > >   *
+> > >   * This function does the following:
+> > >   * - Iterates over the list and unpins the host memory and frees the=
+ userptr
+> > >   *   structure.
+> > >   */
+> > >  void hl_userptr_delete_list(struct hl_device *hdev,
+> > > -                               struct list_head *userptr_list)
+> > > +                               struct rhashtable *userptr_ht)
+> > >  {
+> > > -       struct hl_userptr *userptr, *tmp;
+> > > -
+> > > -       list_for_each_entry_safe(userptr, tmp, userptr_list, job_node=
+) {
+> > > -               hl_unpin_host_memory(hdev, userptr);
+> > > -               kfree(userptr);
+> > > -       }
+> > > -
+> > > -       INIT_LIST_HEAD(userptr_list);
+> > > +       rhashtable_free_and_destroy(userptr_ht, hl_userptr_free_cb, h=
+dev);
+> > >  }
+> > >
+> > >  /**
+> > > @@ -2555,7 +2561,7 @@ void hl_userptr_delete_list(struct hl_device *h=
+dev,
+> > >   * @hdev: pointer to the habanalabs device structure.
+> > >   * @addr: user address to check.
+> > >   * @size: user block size to check.
+> > > - * @userptr_list: pointer to the list to clear.
+> > > + * @userptr_ht: pointer to the hashtable to clear.
+> > >   * @userptr: pointer to userptr to check.
+> > >   *
+> > >   * This function does the following:
+> > > @@ -2563,10 +2569,11 @@ void hl_userptr_delete_list(struct hl_device =
+*hdev,
+> > >   *   pinned. If so, returns true, otherwise returns false.
+> > >   */
+> > >  bool hl_userptr_is_pinned(struct hl_device *hdev, u64 addr,
+> > > -                               u32 size, struct list_head *userptr_l=
+ist,
+> > > +                               u32 size, struct rhashtable *userptr_=
+ht,
+> > >                                 struct hl_userptr **userptr)
+> > >  {
+> > > -       list_for_each_entry((*userptr), userptr_list, job_node) {
+> > > +       (*userptr) =3D rhashtable_lookup_fast(userptr_ht, &addr, hl_u=
+serptr_rht_params);
+> > > +       if (*userptr) {
+> > >                 if ((addr =3D=3D (*userptr)->addr) && (size =3D=3D (*=
+userptr)->size))
+> > >                         return true;
+> > >         }
+> > > diff --git a/drivers/accel/habanalabs/gaudi/gaudi.c b/drivers/accel/h=
+abanalabs/gaudi/gaudi.c
+> > > index a29aa8f7b6f3..1e1433042413 100644
+> > > --- a/drivers/accel/habanalabs/gaudi/gaudi.c
+> > > +++ b/drivers/accel/habanalabs/gaudi/gaudi.c
+> > > @@ -1031,7 +1031,7 @@ static int _gaudi_init_tpc_mem(struct hl_device=
+ *hdev,
+> > >         }
+> > >
+> > >  free_job:
+> > > -       hl_userptr_delete_list(hdev, &job->userptr_list);
+> > > +       hl_userptr_delete_list(hdev, &job->userptr_ht);
+> > >         hl_debugfs_remove_job(hdev, job);
+> > >         kfree(job);
+> > >         atomic_dec(&cb->cs_cnt);
+> > > @@ -4901,7 +4901,7 @@ static int gaudi_pin_memory_before_cs(struct hl=
+_device *hdev,
+> > >         int rc;
+> > >
+> > >         if (hl_userptr_is_pinned(hdev, addr, le32_to_cpu(user_dma_pkt=
+->tsize),
+> > > -                       parser->job_userptr_list, &userptr))
+> > > +                       parser->job_userptr_ht, &userptr))
+> > >                 goto already_pinned;
+> > >
+> > >         userptr =3D kzalloc(sizeof(*userptr), GFP_KERNEL);
+> > > @@ -4913,7 +4913,10 @@ static int gaudi_pin_memory_before_cs(struct h=
+l_device *hdev,
+> > >         if (rc)
+> > >                 goto free_userptr;
+> > >
+> > > -       list_add_tail(&userptr->job_node, parser->job_userptr_list);
+> > > +       rc =3D rhashtable_insert_fast(parser->job_userptr_ht,
+> > > +                                   &userptr->job_node, hl_userptr_rh=
+t_params);
+> > > +       if (rc)
+> > > +               goto unpin_memory;
+> > >
+> > >         rc =3D hdev->asic_funcs->asic_dma_map_sgtable(hdev, userptr->=
+sgt, dir);
+> > >         if (rc) {
+> > > @@ -4931,7 +4934,8 @@ static int gaudi_pin_memory_before_cs(struct hl=
+_device *hdev,
+> > >         return 0;
+> > >
+> > >  unpin_memory:
+> > > -       list_del(&userptr->job_node);
+> > > +       rhashtable_remove_fast(parser->job_userptr_ht,
+> > > +                              &userptr->job_node, hl_userptr_rht_par=
+ams);
+> > >         hl_unpin_host_memory(hdev, userptr);
+> > >  free_userptr:
+> > >         kfree(userptr);
+> > > @@ -5175,7 +5179,7 @@ static int gaudi_patch_dma_packet(struct hl_dev=
+ice *hdev,
+> > >         if ((!skip_host_mem_pin) &&
+> > >                 (!hl_userptr_is_pinned(hdev, addr,
+> > >                                         le32_to_cpu(user_dma_pkt->tsi=
+ze),
+> > > -                                       parser->job_userptr_list, &us=
+erptr))) {
+> > > +                                       parser->job_userptr_ht, &user=
+ptr))) {
+> > >                 dev_err(hdev->dev, "Userptr 0x%llx + 0x%x NOT mapped\=
+n",
+> > >                                 addr, user_dma_pkt->tsize);
+> > >                 return -EFAULT;
+> > > @@ -5472,7 +5476,7 @@ static int gaudi_parse_cb_no_mmu(struct hl_devi=
+ce *hdev,
+> > >
+> > >  free_userptr:
+> > >         if (rc)
+> > > -               hl_userptr_delete_list(hdev, parser->job_userptr_list=
+);
+> > > +               hl_userptr_delete_list(hdev, parser->job_userptr_ht);
+> > >         return rc;
+> > >  }
+> > >
+> > > diff --git a/drivers/accel/habanalabs/goya/goya.c b/drivers/accel/hab=
+analabs/goya/goya.c
+> > > index fb0ac9df841a..bfcbb9e8b126 100644
+> > > --- a/drivers/accel/habanalabs/goya/goya.c
+> > > +++ b/drivers/accel/habanalabs/goya/goya.c
+> > > @@ -3347,7 +3347,7 @@ static int goya_pin_memory_before_cs(struct hl_=
+device *hdev,
+> > >         int rc;
+> > >
+> > >         if (hl_userptr_is_pinned(hdev, addr, le32_to_cpu(user_dma_pkt=
+->tsize),
+> > > -                       parser->job_userptr_list, &userptr))
+> > > +                       parser->job_userptr_ht, &userptr))
+> > >                 goto already_pinned;
+> > >
+> > >         userptr =3D kzalloc(sizeof(*userptr), GFP_KERNEL);
+> > > @@ -3359,7 +3359,10 @@ static int goya_pin_memory_before_cs(struct hl=
+_device *hdev,
+> > >         if (rc)
+> > >                 goto free_userptr;
+> > >
+> > > -       list_add_tail(&userptr->job_node, parser->job_userptr_list);
+> > > +       rc =3D rhashtable_insert_fast(parser->job_userptr_ht,
+> > > +                                   &userptr->job_node, hl_userptr_rh=
+t_params);
+> > > +       if (rc)
+> > > +               goto unpin_memory;
+> > >
+> > >         rc =3D hdev->asic_funcs->asic_dma_map_sgtable(hdev, userptr->=
+sgt, dir);
+> > >         if (rc) {
+> > > @@ -3377,7 +3380,8 @@ static int goya_pin_memory_before_cs(struct hl_=
+device *hdev,
+> > >         return 0;
+> > >
+> > >  unpin_memory:
+> > > -       list_del(&userptr->job_node);
+> > > +       rhashtable_remove_fast(parser->job_userptr_ht,
+> > > +                              &userptr->job_node, hl_userptr_rht_par=
+ams);
+> > >         hl_unpin_host_memory(hdev, userptr);
+> > >  free_userptr:
+> > >         kfree(userptr);
+> > > @@ -3806,7 +3810,7 @@ static int goya_patch_dma_packet(struct hl_devi=
+ce *hdev,
+> > >         if ((!skip_host_mem_pin) &&
+> > >                 (hl_userptr_is_pinned(hdev, addr,
+> > >                         le32_to_cpu(user_dma_pkt->tsize),
+> > > -                       parser->job_userptr_list, &userptr) =3D=3D fa=
+lse)) {
+> > > +                       parser->job_userptr_ht, &userptr) =3D=3D fals=
+e)) {
+> > >                 dev_err(hdev->dev, "Userptr 0x%llx + 0x%x NOT mapped\=
+n",
+> > >                                 addr, user_dma_pkt->tsize);
+> > >                 return -EFAULT;
+> > > @@ -4104,7 +4108,7 @@ static int goya_parse_cb_no_mmu(struct hl_devic=
+e *hdev,
+> > >
+> > >  free_userptr:
+> > >         if (rc)
+> > > -               hl_userptr_delete_list(hdev, parser->job_userptr_list=
+);
+> > > +               hl_userptr_delete_list(hdev, parser->job_userptr_ht);
+> > >         return rc;
+> > >  }
+> > >
+> > > --
+> > > 2.34.1
+> > >
