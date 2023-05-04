@@ -2,74 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 035466F6C67
-	for <lists+dri-devel@lfdr.de>; Thu,  4 May 2023 14:52:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E3F086F6C7C
+	for <lists+dri-devel@lfdr.de>; Thu,  4 May 2023 14:57:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4010110E481;
-	Thu,  4 May 2023 12:52:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5021310E12D;
+	Thu,  4 May 2023 12:57:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com
- [IPv6:2a00:1450:4864:20::630])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 612C710E467;
- Thu,  4 May 2023 12:52:24 +0000 (UTC)
-Received: by mail-ej1-x630.google.com with SMTP id
- a640c23a62f3a-965a68abfd4so81989266b.2; 
- Thu, 04 May 2023 05:52:24 -0700 (PDT)
+Received: from mail-pl1-x629.google.com (mail-pl1-x629.google.com
+ [IPv6:2607:f8b0:4864:20::629])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DD39010E494
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 May 2023 12:57:13 +0000 (UTC)
+Received: by mail-pl1-x629.google.com with SMTP id
+ d9443c01a7336-1a50cb65c92so2910655ad.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 04 May 2023 05:57:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1683204741; x=1685796741;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=mAXCYaqKPFMhZo2q22SmgQUX+tkKIT9oL9j4vw+MQzo=;
- b=sLpAWEHqVH5fNCOCwQ87gL+jpA/JIotyIkk4C7aqLz1zeFwlrUGcLk/10ZmFB09Ztd
- NfXgZ1bL47YZgapGkxL55DLRCp/+C/ppJrigyfat2G/554+T50KHOLnksb8SBbBv7jJz
- CgdygFnojs2QksiGMkwjQ32aE3nORa1oQ9j5t64OQ8PJy65/E59ccHZD0ujx8gr30oIP
- cNKuPXyCmsnlCVyFOQ6+RoBR+FXD+oYUI3PBgK+DZxKBzoTwQ9XBmrNEr38aiJxumPtM
- bJerJEmTC3C8jC9lJkAS45D88xnnaACGSu+LS6asxnw1q6Ci2AQOAnvRR1D0E7M27Rdu
- hAVw==
+ d=gmail.com; s=20221208; t=1683205033; x=1685797033;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=9r3+FqvWqUwbYAK6Z7KEo2OC+w4vPYMJW6RIm0+aJDQ=;
+ b=IkDDfEcg4jNFdU84dpo+hIdyZnXORSiPTRs8JLMFikhU3ExvgOYAzeDsTplXeKY3CR
+ 2wTUHO2YKdvL+/sXu617jN0orWLcwAumeGG9CyH+3XDMgEU5MWXdWfj/AzZRfnz7Hm9O
+ UjKwfkRZ2cFdNZgUbxXGkqZfEBr8gfXILQ/22MM9ffSgqUjwqMtX879kUvG1XRRbmYB7
+ 6g86gN8KpHYHZswugZKJUkVN+xyj6i1WqoBpSM8R+YcNq3Y3cSvBOfRpu98owKouNFlN
+ ++z02hkoljPG6H+olrDlZT1RDr0tX7z/xxgsbc0r26g0xXcm6nvE+yaXqxG9iEWM77Z+
+ dv7Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683204741; x=1685796741;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=mAXCYaqKPFMhZo2q22SmgQUX+tkKIT9oL9j4vw+MQzo=;
- b=f2ECsyfEMSzmcg6S6iOQ31ukLlefP8qERkZyEfk0htR+WJbt+G6kDuuqV7vrh64eCi
- 7aicTlP3jcWpuZwXrh6Lw+78aeDXadQMElDRpRYCgEGQSU2n0/H3iwY2qEzMlrpAxXau
- M18IVfTJ2ecTLSxC7X63GNuuTTjx9eMitlRcfr8m4zUWjfvkZJOs0R/nFlkP/dEyhwrM
- Sz+wASjFga6kAS5ZIqEVZ9gvr4wjHhdOR713iyWFKk4bDpBHmqkHmwlf3KBMqsIT58G7
- iHjeXpLEpHo7jpNKibDrPCYVMix0tWP+IoSiEcWOKcCwZ2dbFbT1GZb7BQ0xIhLZ0q8e
- /gBA==
-X-Gm-Message-State: AC+VfDzp86IKnyGJBZPPZp8VQDokJAZpUYIsc6pbz9YRtsY2q9U0sa7l
- 3A6MJfObV5eLTNq5KzwIBnA=
-X-Google-Smtp-Source: ACHHUZ41EEQvT2ChbUpnFxvDKcIl4VCC12Uvr1mYQ+vwdCI9X1pN/HetH+nGyNe533ADOmA++qcfYQ==
-X-Received: by 2002:a17:907:9807:b0:953:7e25:2156 with SMTP id
- ji7-20020a170907980700b009537e252156mr6295824ejc.51.1683204740663; 
- Thu, 04 May 2023 05:52:20 -0700 (PDT)
-Received: from [192.168.178.21] (p4fc2092b.dip0.t-ipconnect.de. [79.194.9.43])
- by smtp.gmail.com with ESMTPSA id
- ml24-20020a170906cc1800b0094e6a9c1d24sm19079689ejb.12.2023.05.04.05.52.19
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 04 May 2023 05:52:20 -0700 (PDT)
-Message-ID: <8b45166a-2256-c0b7-78e6-57a3663fab3c@gmail.com>
-Date: Thu, 4 May 2023 14:52:18 +0200
+ d=1e100.net; s=20221208; t=1683205033; x=1685797033;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=9r3+FqvWqUwbYAK6Z7KEo2OC+w4vPYMJW6RIm0+aJDQ=;
+ b=eo5Geyfl/EV5KAFSWX1bbNiNajhdp+8ggI6pbOT1GiXU2LE+RjTBm3cPieHWBUziAu
+ ezI8lhrA4LOJgEwNxKtnVDZ1B1ZheStwkj71GSp2Mqi1QDARgoz24VzZG7llmfeSmV9l
+ I6joiiuxB2ojLKt3K7S7nwvI0vN+6Vc7/x/2aujxORzR4S+KMf85FCKHs8k0K2PoX8fq
+ aE0PC3SFt9TdjIcfGMnrJRlGrv0h5515mrhro/F9d9RgPj2uhpHIvY5DdB+fPSDclXPA
+ Gy4VCZSS3QkghweWwQGCjJ9z4MAY+q6fCuE9BbvwVW5xvv5Z6PXeqMDqkUFlxXXDRMuz
+ Qxsg==
+X-Gm-Message-State: AC+VfDyDjr1+fdvL1QzVblagIkJl9yaEmeNDrPbAFhOC3RYMDeHQoShX
+ 1iR5QKEaugASaruY5GcmFbhAtZlvF0VMbmu9dXc=
+X-Google-Smtp-Source: ACHHUZ5Gv8OxDojRdcFPQxG40zhBXAMDh4fXvpHyyJf/4zD+E+EA2VdKQKBgjdVInFlSweWhmf5eMDFywC6QpslTPGo=
+X-Received: by 2002:a17:902:bc8b:b0:1a9:6b57:f400 with SMTP id
+ bb11-20020a170902bc8b00b001a96b57f400mr3015510plb.16.1683205032698; Thu, 04
+ May 2023 05:57:12 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH 02/13] drm: add drm_exec selftests v2
-Content-Language: en-US
-To: =?UTF-8?Q?Ma=c3=adra_Canal?= <mcanal@igalia.com>,
- francois.dugast@intel.com, felix.kuehling@amd.com,
- arunpravin.paneerselvam@amd.com, thomas_os@shipmail.org, dakr@redhat.com,
- luben.tuikov@amd.com, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-References: <20230504115159.2245-1-christian.koenig@amd.com>
- <20230504115159.2245-3-christian.koenig@amd.com>
- <c5171667-75e2-7b7c-38a6-19d256445c38@igalia.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-In-Reply-To: <c5171667-75e2-7b7c-38a6-19d256445c38@igalia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20230502010759.17282-1-aford173@gmail.com>
+ <7519081.EvYhyI6sBW@steina-w>
+ <CAHCN7x+7YWyvy+cDXcD2D5twJt_Ys6tP+TsLgjH4TgcORW0LPA@mail.gmail.com>
+ <1759996.VLH7GnMWUR@steina-w>
+In-Reply-To: <1759996.VLH7GnMWUR@steina-w>
+From: Adam Ford <aford173@gmail.com>
+Date: Thu, 4 May 2023 07:57:01 -0500
+Message-ID: <CAHCN7x+Me-wbUNNyN9fJwg3KETE+0S2MfPOsAb=-CSuSUvZvPg@mail.gmail.com>
+Subject: Re: [PATCH V3 3/7] drm: bridge: samsung-dsim: Fetch
+ pll-clock-frequency automatically
+To: Alexander Stein <alexander.stein@ew.tq-group.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,182 +72,143 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: marex@denx.de, Neil Armstrong <neil.armstrong@linaro.org>,
+ Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
+ aford@beaconembedded.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Jagan Teki <jagan@amarulasolutions.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Chen-Yu Tsai <wenst@chromium.org>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Maira,
+On Thu, May 4, 2023 at 7:40=E2=80=AFAM Alexander Stein
+<alexander.stein@ew.tq-group.com> wrote:
+>
+> Hi Adam,
+>
+> Am Donnerstag, 4. Mai 2023, 14:00:08 CEST schrieb Adam Ford:
+> > On Thu, May 4, 2023 at 4:21=E2=80=AFAM Alexander Stein
+> >
+> > <alexander.stein@ew.tq-group.com> wrote:
+> > > Am Dienstag, 2. Mai 2023, 03:07:55 CEST schrieb Adam Ford:
+> > > > Make the pll-clock-frequency optional.  If it's present, use it
+> > > > to maintain backwards compatibility with existing hardware.  If it
+> > > > is absent, read clock rate of "sclk_mipi" to determine the rate.
+> > > >
+> > > > Signed-off-by: Adam Ford <aford173@gmail.com>
+> > > > Tested-by: Chen-Yu Tsai <wenst@chromium.org>
+> > > > ---
+> > > >
+> > > >  drivers/gpu/drm/bridge/samsung-dsim.c | 12 ++++++++++--
+> > > >  1 file changed, 10 insertions(+), 2 deletions(-)
+> > > >
+> > > > diff --git a/drivers/gpu/drm/bridge/samsung-dsim.c
+> > > > b/drivers/gpu/drm/bridge/samsung-dsim.c index bf4b33d2de76..2dc02a9=
+e37c0
+> > > > 100644
+> > > > --- a/drivers/gpu/drm/bridge/samsung-dsim.c
+> > > > +++ b/drivers/gpu/drm/bridge/samsung-dsim.c
+> > > > @@ -1726,12 +1726,20 @@ static int samsung_dsim_parse_dt(struct
+> > > > samsung_dsim *dsi) {
+> > > >
+> > > >       struct device *dev =3D dsi->dev;
+> > > >       struct device_node *node =3D dev->of_node;
+> > > >
+> > > > +     struct clk *pll_clk;
+> > > >
+> > > >       int ret;
+> > > >
+> > > >       ret =3D samsung_dsim_of_read_u32(node,
+> > > >       "samsung,pll-clock-frequency",
+> > > >
+> > > >                                      &dsi->pll_clk_rate);
+> > > >
+> > > > -     if (ret < 0)
+> > > > -             return ret;
+> > > > +
+> > > > +     /* If it doesn't exist, read it from the clock instead of fai=
+ling
+> > > > */
+> > > > +     if (ret < 0) {
+> > > > +             pll_clk =3D devm_clk_get(dev, "sclk_mipi");
+> > > > +             if (!IS_ERR(pll_clk))
+> > > > +                     dsi->pll_clk_rate =3D clk_get_rate(pll_clk);
+> > > > +             else
+> > > > +                     return PTR_ERR(pll_clk);
+> > > > +     }
+> > >
+> > > Now that 'samsung,pll-clock-frequency' is optional the error in
+> > > samsung_dsim_of_read_u32() should be changed. Otherwise you will get
+> > >
+> > > > /soc@0/bus@32c00000/dsi@32e10000: failed to get 'samsung,pll-clock-
+> > >
+> > > frequency' property
+> >
+> > I'll change the message from err to info with a message that reads "no
+> > samsung,pll-clock-frequency, using pixel clock"
+> >
+> > Does that work?
+>
+> Having just a info is totally fine with me. Thanks.
+> Although your suggested message somehow implies (to me) using pixel clock=
+ is
+> just a fallback. I'm a bit concerned some might think "samsung,pll-clock-
+> frequency" should be provided in DT. But this might just be me.
 
-Am 04.05.23 um 14:07 schrieb Maíra Canal:
-> Hi Christian,
->
-> It would be nice if you use the KUnit macros, instead of pr_info.
+Oops, I got the PLL and burst burst clock confused.  I think both
+burst-clock and pll clock messages should get updates.
 
-yeah this was initially written before the DRM tests moved to KUnit and 
-I only quickly converted it over. Going to give this a cleanup.
+The pll clock should say something like "samsung,pll-clock-frequency
+not defined, using sclk_mipi"
 
-Thanks,
-Christian.
+The imx8m n/m/p have the sclk_mipi defined in the device tree, and
+this patch allows them to not have
+to manually set the pll clock since it can be read.  This allows to
+people to change the frequency of the PLL in
+in one place and let the driver read it instead of having to set the
+value in two places for the same clock.
+
+For the burst clock, I'd like to propose
+"samsung,burst-clock-frequency not defined, using pixel clock"
+
+Does that work for you?
+
+adam
+
+> frequency
 
 >
-> On 5/4/23 08:51, Christian König wrote:
->> Largely just the initial skeleton.
->>
->> v2: add array test as well
->>
->> Signed-off-by: Christian König <christian.koenig@amd.com>
->> ---
->>   drivers/gpu/drm/Kconfig               |  1 +
->>   drivers/gpu/drm/tests/Makefile        |  3 +-
->>   drivers/gpu/drm/tests/drm_exec_test.c | 96 +++++++++++++++++++++++++++
->>   3 files changed, 99 insertions(+), 1 deletion(-)
->>   create mode 100644 drivers/gpu/drm/tests/drm_exec_test.c
->>
->> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
->> index 2dc81eb062eb..068e574e234e 100644
->> --- a/drivers/gpu/drm/Kconfig
->> +++ b/drivers/gpu/drm/Kconfig
->> @@ -80,6 +80,7 @@ config DRM_KUNIT_TEST
->>       select DRM_BUDDY
->>       select DRM_EXPORT_FOR_TESTS if m
->>       select DRM_KUNIT_TEST_HELPERS
->> +    select DRM_EXEC
->>       default KUNIT_ALL_TESTS
->>       help
->>         This builds unit tests for DRM. This option is not useful for
->> diff --git a/drivers/gpu/drm/tests/Makefile 
->> b/drivers/gpu/drm/tests/Makefile
->> index bca726a8f483..ba7baa622675 100644
->> --- a/drivers/gpu/drm/tests/Makefile
->> +++ b/drivers/gpu/drm/tests/Makefile
->> @@ -17,6 +17,7 @@ obj-$(CONFIG_DRM_KUNIT_TEST) += \
->>       drm_modes_test.o \
->>       drm_plane_helper_test.o \
->>       drm_probe_helper_test.o \
->> -    drm_rect_test.o
->> +    drm_rect_test.o    \
->> +    drm_exec_test.o
->>     CFLAGS_drm_mm_test.o := $(DISABLE_STRUCTLEAK_PLUGIN)
->> diff --git a/drivers/gpu/drm/tests/drm_exec_test.c 
->> b/drivers/gpu/drm/tests/drm_exec_test.c
->> new file mode 100644
->> index 000000000000..26aa13e62d22
->> --- /dev/null
->> +++ b/drivers/gpu/drm/tests/drm_exec_test.c
->> @@ -0,0 +1,96 @@
->> +// SPDX-License-Identifier: MIT
->> +/*
->> + * Copyright © 2019 Intel Corporation
->> + */
->> +
->> +#define pr_fmt(fmt) "drm_exec: " fmt
->> +
->> +#include <kunit/test.h>
->> +
->> +#include <linux/module.h>
->> +#include <linux/prime_numbers.h>
->> +
->> +#include <drm/drm_exec.h>
->> +#include <drm/drm_device.h>
->> +#include <drm/drm_gem.h>
->> +
->> +#include "../lib/drm_random.h"
->> +
->> +static struct drm_device dev;
->> +
->> +static void drm_exec_sanitycheck(struct kunit *test)
->> +{
->> +    struct drm_exec exec;
->> +
->> +    drm_exec_init(&exec, true);
->> +    drm_exec_fini(&exec);
->> +    pr_info("%s - ok!\n", __func__);
+> Best regards,
+> Alexander
 >
-> Here you could use KUNIT_SUCCEED(test).
+> > adam
+> >
+> > > Best regards,
+> > > Alexander
+> > >
+> > > >       ret =3D samsung_dsim_of_read_u32(node, "samsung,burst-clock-
+> > >
+> > > frequency",
+> > >
+> > > >                                      &dsi->burst_clk_rate);
+> > >
+> > > --
+> > > TQ-Systems GmbH | M=C3=BChlstra=C3=9Fe 2, Gut Delling | 82229 Seefeld=
+, Germany
+> > > Amtsgericht M=C3=BCnchen, HRB 105018
+> > > Gesch=C3=A4ftsf=C3=BChrer: Detlef Schneider, R=C3=BCdiger Stahl, Stef=
+an Schneider
+> > > http://www.tq-group.com/
 >
->> +}
->> +
->> +static void drm_exec_lock1(struct kunit *test)
 >
-> Is there a reason to call the function drm_exec_lock1 instead of
-> just drm_exec_lock?
+> --
+> TQ-Systems GmbH | M=C3=BChlstra=C3=9Fe 2, Gut Delling | 82229 Seefeld, Ge=
+rmany
+> Amtsgericht M=C3=BCnchen, HRB 105018
+> Gesch=C3=A4ftsf=C3=BChrer: Detlef Schneider, R=C3=BCdiger Stahl, Stefan S=
+chneider
+> http://www.tq-group.com/
 >
->> +{
->> +    struct drm_gem_object gobj = { };
->> +    struct drm_exec exec;
->> +    int ret;
->> +
->> +    drm_gem_private_object_init(&dev, &gobj, PAGE_SIZE);
->> +
->> +    drm_exec_init(&exec, true);
->> +    drm_exec_while_not_all_locked(&exec) {
->> +        ret = drm_exec_prepare_obj(&exec, &gobj, 1);
->> +        drm_exec_continue_on_contention(&exec);
->> +        if (ret) {
->> +            drm_exec_fini(&exec);
->> +            pr_err("%s - err %d!\n", __func__, ret);
 >
-> Here you could use KUNIT_FAIL. Same for the other function.
->
-> Actually, it would be better if you created a function `exit`
-> associated with the test suite, where you would call drm_exec_fini,
-> and checked the ret variable with KUNIT_EXPECT_EQ(test, ret, 0) in
-> the test.
->
->> +            return;
->> +        }
->> +    }
->> +    drm_exec_fini(&exec);
->> +    pr_info("%s - ok!\n", __func__);
->> +}
->> +
->> +static void drm_exec_lock_array(struct kunit *test)
->> +{
->> +    struct drm_gem_object gobj1 = { };
->> +    struct drm_gem_object gobj2 = { };
->> +    struct drm_gem_object *array[] = { &gobj1, &gobj2 };
->> +    struct drm_exec exec;
->> +    int ret;
->> +
->> +    drm_gem_private_object_init(&dev, &gobj1, PAGE_SIZE);
->> +    drm_gem_private_object_init(&dev, &gobj2, PAGE_SIZE);
->> +
->> +    drm_exec_init(&exec, true);
->> +    ret = drm_exec_prepare_array(&exec, array, ARRAY_SIZE(array), 0);
->> +    if (ret) {
->> +        drm_exec_fini(&exec);
->> +        pr_err("%s - err %d!\n", __func__, ret);
->> +        return;
->> +    }
->> +    drm_exec_fini(&exec)> +    pr_info("%s - ok!\n", __func__);
->> +}
->> +
->> +static int drm_exec_suite_init(struct kunit_suite *suite)
->> +{
->> +    kunit_info(suite, "Testing DRM exec manager\n");
->
-> Isn't this already clear by the name of the test?
->
-> Best Regards,
-> - Maíra Canal
->
->> +    return 0;
->> +}
->> +
->> +static struct kunit_case drm_exec_tests[] = {
->> +    KUNIT_CASE(drm_exec_sanitycheck),
->> +    KUNIT_CASE(drm_exec_lock1),
->> +    KUNIT_CASE(drm_exec_lock_array),
->> +    {}
->> +};
->> +
->> +static struct kunit_suite drm_exec_test_suite = {
->> +    .name = "drm_exec",
->> +    .suite_init = drm_exec_suite_init,
->> +    .test_cases = drm_exec_tests,
->> +};
->> +
->> +kunit_test_suite(drm_exec_test_suite);
->> +
->> +MODULE_AUTHOR("AMD");
->> +MODULE_LICENSE("GPL and additional rights");
-
