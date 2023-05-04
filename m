@@ -2,35 +2,90 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 044EE6F77E9
-	for <lists+dri-devel@lfdr.de>; Thu,  4 May 2023 23:17:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 421A66F7802
+	for <lists+dri-devel@lfdr.de>; Thu,  4 May 2023 23:26:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BE2AC10E529;
-	Thu,  4 May 2023 21:17:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DD3A810E530;
+	Thu,  4 May 2023 21:26:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay01.th.seeweb.it (relay01.th.seeweb.it [5.144.164.162])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 591B110E529
- for <dri-devel@lists.freedesktop.org>; Thu,  4 May 2023 21:17:36 +0000 (UTC)
-Received: from SoMainline.org (94-211-6-86.cable.dynamic.v4.ziggo.nl
- [94.211.6.86])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
- SHA256) (No client certificate requested)
- by m-r1.th.seeweb.it (Postfix) with ESMTPSA id 820BA2128F;
- Thu,  4 May 2023 23:17:33 +0200 (CEST)
-Date: Thu, 4 May 2023 23:17:32 +0200
-From: Marijn Suijten <marijn.suijten@somainline.org>
-To: Jessica Zhang <quic_jesszhan@quicinc.com>
-Subject: Re: [PATCH 1/4] drm/msm/dsi: Adjust pclk rate for compression
-Message-ID: <hetttr6ug6sbt3g3fwmuqkx5f7betgxtzyuaovo62h5ams3th7@7xbztyqgyrz5>
-References: <20230405-add-dsc-support-v1-0-6bc6f03ae735@quicinc.com>
- <20230405-add-dsc-support-v1-1-6bc6f03ae735@quicinc.com>
- <lq6le3pxya3op2nke53uniusr3chtkmqdfrc7wkv4tylqb2fio@esjoh4f63g5q>
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam12on2041.outbound.protection.outlook.com [40.107.244.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 522AC10E530
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 May 2023 21:26:05 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=NkeSHbahH6mvL7cqJgdokgRP213ey+H4uy5NxMXjZwgzDAR1ABTpXj2Z0PKQQEZgfUeN6RA/G+jy/0DYXK6ehq6eCwfiPBdoGbHZ9+89/YyEPfx8llVUidcqgNFx4+z/vYSQQ+8y8cM3OSoQLLkObaIYglj0tI6pzz/L07PLNTfVWzGe1+2uyVLHUcX2QbMDdjGGVoN4RsJwo3uv1ck+EkF66jqam6n72jDLDglO8KK1RhU9V4wazyki2Enhmxk14tfMjJPq8mCA3HI4/dlDkEzIXV41/1JjocWx3h1ZP+FgAq1q2weIBfLxAV2lCyQcHGssFZu9Hf4e2eVhq8KZQg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=tc1RMpI3EADDckRLeERKxR2wUdUnN8WzaqJ6T0tS0Ts=;
+ b=FXAdz2I6rN0og5vioWcL8XOPGx2lIuHVfQg3n60ZqzDjtmDQy2xvIQrMfwJIPBjBiOVBdBPrsT9/IxBberR9i6aMbBKOjdWAdnJThA+/Jvl8y1F1NylcO5uFN0mB61a10d4gCRjl98+NJIOGvKR2jEM+97UG/XsjtPoWdu2sNpS6tkeAYLiQhMINHYk4hzksuPA0oGhXTPfaqFcDvmXWq4aW1aJLrhtgR1TieWyKvoKHzFOfTCSUKXqThLBSbNziDqz8oiCvCjp/u/E7VRc01rvrfoEbGoLFdIKnVrf86ZA+Hw7SxfinysFziEXRHjmUl0NpO8Nn31wJHzn7yex9oQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=tc1RMpI3EADDckRLeERKxR2wUdUnN8WzaqJ6T0tS0Ts=;
+ b=L/qK353FDNuHGRRxKi1BR7Q5kKLgbgd9aWQLmNxV5zFRcTVd6QxU5jF+NguPKYqjt2qLhusaBId3xjWt72QVg4RFhOjb1QSwamz7Wfr5y4sYCHt5wbzhnMf68Evd/fFY2ZNRfOeqTMjuXY1hylEIKiePQRGM1bKzyOQRDDawA7Q=
+Received: from SJ0PR03CA0043.namprd03.prod.outlook.com (2603:10b6:a03:33e::18)
+ by CY8PR12MB8362.namprd12.prod.outlook.com (2603:10b6:930:7e::19)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6363.26; Thu, 4 May
+ 2023 21:26:03 +0000
+Received: from DM6NAM11FT025.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:a03:33e:cafe::ad) by SJ0PR03CA0043.outlook.office365.com
+ (2603:10b6:a03:33e::18) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6363.27 via Frontend
+ Transport; Thu, 4 May 2023 21:26:03 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB03.amd.com; pr=C
+Received: from SATLEXMB03.amd.com (165.204.84.17) by
+ DM6NAM11FT025.mail.protection.outlook.com (10.13.172.197) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.6363.27 via Frontend Transport; Thu, 4 May 2023 21:26:02 +0000
+Received: from SATLEXMB04.amd.com (10.181.40.145) by SATLEXMB03.amd.com
+ (10.181.40.144) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Thu, 4 May
+ 2023 16:26:02 -0500
+Received: from hwentlanryzen.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server id 15.1.2375.34 via Frontend
+ Transport; Thu, 4 May 2023 16:25:59 -0500
+From: Harry Wentland <harry.wentland@amd.com>
+To: <dri-devel@lists.freedesktop.org>
+Subject: [PATCH] Documentation/gpu: Requirements for driver-specific KMS uAPIs
+Date: Thu, 4 May 2023 17:25:57 -0400
+Message-ID: <20230504212557.61049-1-harry.wentland@amd.com>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <lq6le3pxya3op2nke53uniusr3chtkmqdfrc7wkv4tylqb2fio@esjoh4f63g5q>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM6NAM11FT025:EE_|CY8PR12MB8362:EE_
+X-MS-Office365-Filtering-Correlation-Id: 770bff9d-c52d-493d-ff91-08db4ce6299e
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: VNZPvQghTvSjLB19vkH9wYyZvRBwMpNJ7zl7PK7MyvIR2AhfONCqG0/JSH1h+/tG+t2Dq1VvFCvGYUjGYw5s9gdxDspvA/BC37P5HbE0pRQj8qVGAxwVOp9ZRYv+aIQ+TXD7jeh1+BL4cQm11hi7B+2aNTb8q+CKRVFHoxk4K20cxMG5P6qBZpL3aDB/RoMro9niikYJ0ydbiioanZ+k/fcnT3Wg1ncex3GRekZrxISKUHqCgVt+aZ/4mJyLuPvIiQLqsKaV6U68hE7rAmV0oSyZfNJZGnkNUYWqHLENjrY9Y/T0s4v/s3rMhcew+bCYOHH6KT8O3s1K3HAV9vrH8eXfwTnnXpE7MGdkaK9ZVqKK/GXl/9MJxFc5ajS/MUODsMrrZxlmOy1Hjh3dFkqVRJoBULxBxnwZoebXQb5LSkKj/9wSxlRBoxne3I5W06tSOT9wYhUEr5O77LqSK6wTp8N0o2nPpayjUlxZb5PtVQ8bkITTZPJXrDghsrzDyFzCHW0Ipbl7ItL79Ge54rb1+s434dJ0ilM5/0yJfny1vkWHVzXMA1plw0Ub29rDhPWpVm0GksNJM53QE6GLafVEJUTwNxikjZ98op4AHsipQ9Nm931Jd7uoc5CESE2ZMavOheQS8fIhdgz+ifrNGX2W/N5XQz+Y4mcaTiucUJtiB6v0cLRHC2Nx1zCoPCTlZT6V
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB03.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230028)(4636009)(39860400002)(376002)(346002)(136003)(396003)(451199021)(40470700004)(36840700001)(46966006)(36860700001)(40460700003)(36756003)(81166007)(5660300002)(2906002)(7416002)(44832011)(8936002)(40480700001)(316002)(86362001)(4326008)(70586007)(70206006)(41300700001)(8676002)(82310400005)(82740400003)(6916009)(426003)(966005)(83380400001)(47076005)(336012)(66574015)(186003)(1076003)(26005)(478600001)(2616005)(54906003)(7696005)(356005)(36900700001);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 May 2023 21:26:02.6750 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 770bff9d-c52d-493d-ff91-08db4ce6299e
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB03.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT025.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR12MB8362
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -43,137 +98,89 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Konrad Dybcio <konrad.dybcio@linaro.org>,
- linux-arm-msm@vger.kernel.org, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Sebastian Wick <sebastian.wick@redhat.com>,
+ Pekka Paalanen <pekka.paalanen@collabora.com>,
+ =?UTF-8?q?Jonas=20=C3=85dahl?= <jadahl@redhat.com>,
+ Xaver Hugl <xaver.hugl@gmail.com>, Melissa
+ Wen <mwen@igalia.com>, =?UTF-8?q?Michel=20D=C3=A4nzer?= <mdaenzer@redhat.com>,
+ Uma
+ Shankar <uma.shankar@intel.com>, Victoria Brekenfeld <victoria@system76.com>,
+ Aleix Pol <aleixpol@kde.org>, Joshua Ashton <joshua@froggi.es>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2023-05-04 22:33:17, Marijn Suijten wrote:
-> Title suggestion: use the wording "reduce pclk rate" :)
-> 
-> (Eventually "when DSC is enabled", instead of "for compression")
-> 
-> On 2023-05-02 18:19:12, Jessica Zhang wrote:
-> > Divide the pclk rate by the compression ratio when DSC is enabled
-> > 
-> > Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
-> 
-> Thank you so much for sending this.   The compression ratio was applied
-> to hdisplay
+We have steered away for a long time now from driver-specific KMS APIs
+for good reasons but never codified our stance. With the proposal of
+new, driver-specific color management uAPIs [1] it is important to
+outline the requirements for the rare times when driver-specific KMS
+uAPIs are desired in order to move complex topics along.
 
-In hindsight, on the note of hdisplay, dsi_timing_setup() actually only
-divides the visual portion - that is hdisplay out of htotal - without
-affecting the back and front porch.
+[1] https://patchwork.freedesktop.org/series/116862/
 
-Since this clock inside the mode is based on the full htotal * vtotal *
-..., should we compensate for that and only divide the visual portion of
-the clock signal by 3?  Otherwise we might not have enough clockticks to
-perform the front and back porch (even though CMD mode doesn't really
-have porches, I have yet to properly understand that part of the
-signal).
+Signed-off-by: Harry Wentland <harry.wentland@amd.com>
+Cc: Simon Ser <contact@emersion.fr>
+Cc: Joshua Ashton <joshua@froggi.es>
+Cc: Michel Dänzer <mdaenzer@redhat.com>
+Cc: Sebastian Wick <sebastian.wick@redhat.com>
+Cc: Jonas Ådahl <jadahl@redhat.com>
+Cc: Alex Goins <agoins@nvidia.com>
+Cc: Pekka Paalanen <pekka.paalanen@collabora.com>
+Cc: Melissa Wen <mwen@igalia.com>
+Cc: Aleix Pol <aleixpol@kde.org>
+Cc: Xaver Hugl <xaver.hugl@gmail.com>
+Cc: Victoria Brekenfeld <victoria@system76.com>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: Dave Airlie <airlied@gmail.com>
+Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
+Cc: Uma Shankar <uma.shankar@intel.com>
+To: dri-devel@lists.freedesktop.org
+---
+ Documentation/gpu/drm-uapi.rst | 32 ++++++++++++++++++++++++++++++++
+ 1 file changed, 32 insertions(+)
 
-- Marijn
+diff --git a/Documentation/gpu/drm-uapi.rst b/Documentation/gpu/drm-uapi.rst
+index ce47b4292481..eaefc3ed980c 100644
+--- a/Documentation/gpu/drm-uapi.rst
++++ b/Documentation/gpu/drm-uapi.rst
+@@ -118,6 +118,38 @@ is already rather painful for the DRM subsystem, with multiple different uAPIs
+ for the same thing co-existing. If we add a few more complete mistakes into the
+ mix every year it would be entirely unmanageable.
+ 
++.. _driver_specific:
++
++Driver-Specific DRM/KMS uAPI
++============================
++
++Driver-specific interfaces are strongly discouraged for DRM/KMS interfaces.
++Kernel-modesetting (KMS) functionality does in principle apply to all drivers.
++Driver-specific uAPIs tends to lead to unique implementations in userspace and
++are often hard to maintain, especially when different drivers implement similar
++but subtly different uAPIs.
++
++At times arriving at a consensus uAPI can be a difficult and lengthy process and
++might benefit from experimentation. This experimentation might warrant
++introducing driver specific APIs in order to move the eosystem forward. If a
++driver decides to go down this path we ask for the following:
++
++- An agreement within the community that introducing driver-specific uAPIs is
++  warranted in this case;
++
++- The new uAPI is behind a CONFIG option that is clearly marked EXPERIMENTAL and
++  is disabled by default;
++
++- The new uAPI is enabled when a module parameter for the driver is set, and
++  defaults to 'off' otherwise;
++
++- The new uAPI follows all open-source userspace requirements outlined above;
++
++- The focus is maintained on development of a vendor-neutral uAPI and progress
++  toward such an uAPI needs to be apparent on public forums. If no such progress
++  is visible within a reasonable timeframe (1-2 years) anybody is within their
++  right to send, review, and merge patches that remove the driver-specific uAPI.
++
+ .. _drm_render_node:
+ 
+ Render nodes
+-- 
+2.40.1
 
-> , but not the clocks yet, and with this patch I get a massive
-> reduction in clock speeds on the Xperia XZ3, without regressions nor
-> affecting performance/fps:
-> 
->           gcc_sys_noc_cpuss_ahb_clk       1        1        0    19200000          0     0  50000         Y
->           gcc_cpuss_ahb_clk           1        1        0    19200000          0     0  50000         Y
->     bi_tcxo                           6        6        0    19200000          0     0  50000         Y
->        dsi0vco_clk                    1        1        0  [-1873793994-]{+1249195898+}          0     0  50000         Y
->           dsi0_pll_out_div_clk        1        1        0   [-1873793994-]{+624597949+}          0     0  50000         Y
->              dsi0_pll_post_out_div_clk       0        0        0   [-468448498-]{+156149487+}          0     0  50000         Y
->              dsi0_pll_bit_clk         2        2        0   [-1873793994-]{+624597949+}          0     0  50000         Y
->                 dsi0_pclk_mux         1        1        0   [-1873793994-]{+624597949+}          0     0  50000         Y
->                    dsi0_phy_pll_out_dsiclk       1        1        0   [-312298999-]{+104099659+}          0     0  50000         Y
->                       disp_cc_mdss_pclk0_clk_src       1        1        0   [-312298999-]{+104099659+}          0     0  50000         Y
->                          disp_cc_mdss_pclk0_clk       1        1        0   [-312298999-]{+104099659+}          0     0  50000         Y
->                 dsi0_pll_by_2_bit_clk       0        0        0   [-936896997-]{+312298974+}          0     0  50000         Y
->                 dsi0_phy_pll_out_byteclk       1        1        0    [-234224249-]{+78074743+}          0     0  50000         Y
->                    disp_cc_mdss_byte0_clk_src       2        2        0    [-234224249-]{+78074743+}          0     0  50000         Y
->                       disp_cc_mdss_byte0_div_clk_src       1        1        0    [-117112125-]{+39037372+}          0     0  50000         Y
->                          disp_cc_mdss_byte0_intf_clk       1        1        0    [-117112125-]{+39037372+}          0     0  50000         Y
->                       disp_cc_mdss_byte0_clk       1        1        0    [-234224249-]{+78074743+}          0     0  50000         Y
->        gpu_cc_pll1                    0        0        0   500000097          0     0  50000         N
->        disp_cc_mdss_dp_pixel_clk_src       0        0        0    19200000          0     0  50000         N
->           disp_cc_mdss_dp_pixel_clk       0        0        0    19200000          0     0  50000         N
-> 
-> Reviewed-by: Marijn Suijten <marijn.suijten@somainline.org>
-> 
-> > ---
-> >  drivers/gpu/drm/msm/dsi/dsi_host.c | 14 ++++++++++----
-> >  1 file changed, 10 insertions(+), 4 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c b/drivers/gpu/drm/msm/dsi/dsi_host.c
-> > index 43a5ec33eee8..35c69dbe5f6f 100644
-> > --- a/drivers/gpu/drm/msm/dsi/dsi_host.c
-> > +++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
-> > @@ -561,7 +561,8 @@ void dsi_link_clk_disable_v2(struct msm_dsi_host *msm_host)
-> >  	clk_disable_unprepare(msm_host->byte_clk);
-> >  }
-> >  
-> > -static unsigned long dsi_get_pclk_rate(const struct drm_display_mode *mode, bool is_bonded_dsi)
-> > +static unsigned long dsi_get_pclk_rate(const struct drm_display_mode *mode,
-> 
-> It is a bit unfortunate that this function is called so often with the
-> same parameters, doing the same calculation over and over.
-> 
-> > +		struct drm_dsc_config *dsc, bool is_bonded_dsi)
-> >  {
-> >  	unsigned long pclk_rate;
-> >  
-> > @@ -576,6 +577,11 @@ static unsigned long dsi_get_pclk_rate(const struct drm_display_mode *mode, bool
-> >  	if (is_bonded_dsi)
-> >  		pclk_rate /= 2;
-> >  
-> > +	/* If DSC is enabled, divide pclk by compression ratio */
-> > +	if (dsc)
-> > +		pclk_rate = DIV_ROUND_UP(pclk_rate,
-> > +				dsc->bits_per_component * 3 / msm_dsc_get_bpp_int(dsc));
-> 
-> Don't forget to mention that this series depends on the DSC helpers.  I
-> don't think the linked DSC 1.2 series depends on it (at least it doesn't
-> mention it):
-> 
-> https://lore.kernel.org/linux-arm-msm/20230329-rfc-msm-dsc-helper-v6-2-cb7f59f0f7fb@quicinc.com/
-> 
-> - Marijn
-> 
-> > +
-> >  	return pclk_rate;
-> >  }
-> >  
-> > @@ -585,7 +591,7 @@ unsigned long dsi_byte_clk_get_rate(struct mipi_dsi_host *host, bool is_bonded_d
-> >  	struct msm_dsi_host *msm_host = to_msm_dsi_host(host);
-> >  	u8 lanes = msm_host->lanes;
-> >  	u32 bpp = dsi_get_bpp(msm_host->format);
-> > -	unsigned long pclk_rate = dsi_get_pclk_rate(mode, is_bonded_dsi);
-> > +	unsigned long pclk_rate = dsi_get_pclk_rate(mode, msm_host->dsc, is_bonded_dsi);
-> >  	u64 pclk_bpp = (u64)pclk_rate * bpp;
-> >  
-> >  	if (lanes == 0) {
-> > @@ -604,7 +610,7 @@ unsigned long dsi_byte_clk_get_rate(struct mipi_dsi_host *host, bool is_bonded_d
-> >  
-> >  static void dsi_calc_pclk(struct msm_dsi_host *msm_host, bool is_bonded_dsi)
-> >  {
-> > -	msm_host->pixel_clk_rate = dsi_get_pclk_rate(msm_host->mode, is_bonded_dsi);
-> > +	msm_host->pixel_clk_rate = dsi_get_pclk_rate(msm_host->mode, msm_host->dsc, is_bonded_dsi);
-> >  	msm_host->byte_clk_rate = dsi_byte_clk_get_rate(&msm_host->base, is_bonded_dsi,
-> >  							msm_host->mode);
-> >  
-> > @@ -634,7 +640,7 @@ int dsi_calc_clk_rate_v2(struct msm_dsi_host *msm_host, bool is_bonded_dsi)
-> >  
-> >  	dsi_calc_pclk(msm_host, is_bonded_dsi);
-> >  
-> > -	pclk_bpp = (u64)dsi_get_pclk_rate(msm_host->mode, is_bonded_dsi) * bpp;
-> > +	pclk_bpp = (u64)dsi_get_pclk_rate(msm_host->mode, msm_host->dsc, is_bonded_dsi) * bpp;
-> >  	do_div(pclk_bpp, 8);
-> >  	msm_host->src_clk_rate = pclk_bpp;
-> >  
-> > 
-> > -- 
-> > 2.40.1
-> > 
