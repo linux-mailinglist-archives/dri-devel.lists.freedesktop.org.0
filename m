@@ -2,47 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCA576F6AA0
-	for <lists+dri-devel@lfdr.de>; Thu,  4 May 2023 13:59:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 823D66F6AAB
+	for <lists+dri-devel@lfdr.de>; Thu,  4 May 2023 14:00:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2E6AF10E0D2;
-	Thu,  4 May 2023 11:59:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B836610E246;
+	Thu,  4 May 2023 12:00:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from 189.cn (ptr.189.cn [183.61.185.103])
- by gabe.freedesktop.org (Postfix) with ESMTP id 65C3610E0D2
- for <dri-devel@lists.freedesktop.org>; Thu,  4 May 2023 11:59:51 +0000 (UTC)
-HMM_SOURCE_IP: 10.64.8.31:35054.201589733
-HMM_ATTACHE_NUM: 0000
-HMM_SOURCE_TYPE: SMTP
-Received: from clientip-114.242.206.180 (unknown [10.64.8.31])
- by 189.cn (HERMES) with SMTP id 3E8721002A1;
- Thu,  4 May 2023 19:59:46 +0800 (CST)
-Received: from  ([114.242.206.180])
- by gateway-151646-dep-85667d6c59-lhcrq with ESMTP id
- 404ab4de07154627b71725baa980791c for tzimmermann@suse.de; 
- Thu, 04 May 2023 19:59:49 CST
-X-Transaction-ID: 404ab4de07154627b71725baa980791c
-X-Real-From: 15330273260@189.cn
-X-Receive-IP: 114.242.206.180
-X-MEDUSA-Status: 0
-Message-ID: <d4930b1a-d79e-6deb-6683-f13bbe1170ff@189.cn>
-Date: Thu, 4 May 2023 19:59:46 +0800
+Received: from mail-pf1-x436.google.com (mail-pf1-x436.google.com
+ [IPv6:2607:f8b0:4864:20::436])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BF5A010E246
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 May 2023 12:00:21 +0000 (UTC)
+Received: by mail-pf1-x436.google.com with SMTP id
+ d2e1a72fcca58-64359d9c531so333576b3a.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 04 May 2023 05:00:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1683201621; x=1685793621;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=qyXif4sCtHvoN5uI5jyPj3Z5NBr5S8ivL+oLwWNb3rg=;
+ b=f5GVgLtQqOiovcWwoZPI+yiTb7UcRkGusHC/AMfo1LJYOXrnLlIrhjZ6oEjU9QxJmt
+ DwsdrOdUGf6ddzyxiBZItfwQokSfb+CEmrJ+3J3rB+8TH4gB58ddqnPZqVqdfBdNuh/M
+ hbrBB89EuGX4Ffv7Y4BBViMl44W298gSC7c4LCxEime69AVP16mtiDk/UbsQzDpKbM5g
+ J4VBTwV00WxmQog5AvZdlq5OeoDrka2AhiJ2kt54yMycTG4RlHQOI+LWjuGo7ksISWbP
+ gSltMvNmuGnUI91ZsxH5izfGiwR1xFhxtnYoAiT5GUkMKupcjLVXbSCyha1bsKqBCmwW
+ hUbQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1683201621; x=1685793621;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=qyXif4sCtHvoN5uI5jyPj3Z5NBr5S8ivL+oLwWNb3rg=;
+ b=dP828GlT+K7EuOs2O2cHgTzbXzmXDAErY2MlW28NG2F31aPqr/FrRTn5US2PXzANV5
+ +1QCabbTZEQAFscFBDcORxUvL3q3yFNyHw/7dzY/mw+kWKRefRkeJNgVKymxa0sjbVou
+ Vum/mNqpA5+ZUW32pQOKglm4sNhrIa7ntI3ExHjUiTKfqbsiZZFwzGnEJI5wm/qXO4Wh
+ 2TPy2m0Vy2WO/LI+ljDwSZquPsdt7yLnFKvY1xa/V6BaHGE7ZFyWBA7HbLpYHeaonVVc
+ 2oKwCVRFHdPwzUSuqfrYg1Qq88MYJ2zy0rjO60NQA9stqvrCOjFJnWbFXZCu+yTIXE/h
+ 1kfg==
+X-Gm-Message-State: AC+VfDyDUqtRTzobKtGAE94Tn25CqkV5rX84hMGCSqKEjvwvbtqedyDC
+ OnnPLT4kBboIZlJWdrHBJOTkeU8JYmaNTqRbwBw=
+X-Google-Smtp-Source: ACHHUZ4zmxrnrJ7nTQLL/tZMBkjpJRFnRzCfUvzZOGNrKids1H1zwqdvrvPVhgjMU5zX8H8xhA9SXNBC+ghaJWP7gBE=
+X-Received: by 2002:a17:902:70cb:b0:1a6:4016:8974 with SMTP id
+ l11-20020a17090270cb00b001a640168974mr2971499plt.31.1683201620554; Thu, 04
+ May 2023 05:00:20 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [v4,5/6] fbdev: Move framebuffer I/O helpers into <asm/fb.h>
-Content-Language: en-US
-To: Thomas Zimmermann <tzimmermann@suse.de>, deller@gmx.de,
- geert@linux-m68k.org, javierm@redhat.com, daniel@ffwll.ch,
- vgupta@kernel.org, chenhuacai@kernel.org, kernel@xen0n.name,
- davem@davemloft.net, James.Bottomley@HansenPartnership.com, arnd@arndb.de,
- sam@ravnborg.org
-References: <20230504074539.8181-6-tzimmermann@suse.de>
-From: Sui Jingfeng <15330273260@189.cn>
-In-Reply-To: <20230504074539.8181-6-tzimmermann@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20230502010759.17282-1-aford173@gmail.com>
+ <20230502010759.17282-4-aford173@gmail.com>
+ <7519081.EvYhyI6sBW@steina-w>
+In-Reply-To: <7519081.EvYhyI6sBW@steina-w>
+From: Adam Ford <aford173@gmail.com>
+Date: Thu, 4 May 2023 07:00:08 -0500
+Message-ID: <CAHCN7x+7YWyvy+cDXcD2D5twJt_Ys6tP+TsLgjH4TgcORW0LPA@mail.gmail.com>
+Subject: Re: [PATCH V3 3/7] drm: bridge: samsung-dsim: Fetch
+ pll-clock-frequency automatically
+To: Alexander Stein <alexander.stein@ew.tq-group.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,376 +71,88 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arch@vger.kernel.org, linux-fbdev@vger.kernel.org,
- linux-ia64@vger.kernel.org, linux-parisc@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-m68k@lists.linux-m68k.org, loongarch@lists.linux.dev,
- sparclinux@vger.kernel.org, linux-snps-arc@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org
+Cc: marex@denx.de, Neil Armstrong <neil.armstrong@linaro.org>,
+ Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
+ aford@beaconembedded.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Jagan Teki <jagan@amarulasolutions.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Chen-Yu Tsai <wenst@chromium.org>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
-I tested the whole patch set on a LS3A5000(LoongArch)machine with efifb 
-driver,
-
-with both fbtest and fbdev of IGT,  The test result say passed and I can 
-not see anything wired happen.
-
-
-Tested-by: Sui Jingfeng <suijingfeng@loongson.cn>
-
-
-On 2023/5/4 15:45, Thomas Zimmermann wrote:
-> Implement framebuffer I/O helpers, such as fb_read*() and fb_write*(),
-> in the architecture's <asm/fb.h> header file or the generic one.
+On Thu, May 4, 2023 at 4:21=E2=80=AFAM Alexander Stein
+<alexander.stein@ew.tq-group.com> wrote:
 >
-> The common case has been the use of regular I/O functions, such as
-> __raw_readb() or memset_io(). A few architectures used plain system-
-> memory reads and writes. Sparc used helpers for its SBus.
+> Am Dienstag, 2. Mai 2023, 03:07:55 CEST schrieb Adam Ford:
+> > Make the pll-clock-frequency optional.  If it's present, use it
+> > to maintain backwards compatibility with existing hardware.  If it
+> > is absent, read clock rate of "sclk_mipi" to determine the rate.
+> >
+> > Signed-off-by: Adam Ford <aford173@gmail.com>
+> > Tested-by: Chen-Yu Tsai <wenst@chromium.org>
+> > ---
+> >  drivers/gpu/drm/bridge/samsung-dsim.c | 12 ++++++++++--
+> >  1 file changed, 10 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/bridge/samsung-dsim.c
+> > b/drivers/gpu/drm/bridge/samsung-dsim.c index bf4b33d2de76..2dc02a9e37c=
+0
+> > 100644
+> > --- a/drivers/gpu/drm/bridge/samsung-dsim.c
+> > +++ b/drivers/gpu/drm/bridge/samsung-dsim.c
+> > @@ -1726,12 +1726,20 @@ static int samsung_dsim_parse_dt(struct samsung=
+_dsim
+> > *dsi) {
+> >       struct device *dev =3D dsi->dev;
+> >       struct device_node *node =3D dev->of_node;
+> > +     struct clk *pll_clk;
+> >       int ret;
+> >
+> >       ret =3D samsung_dsim_of_read_u32(node, "samsung,pll-clock-frequen=
+cy",
+> >                                      &dsi->pll_clk_rate);
+> > -     if (ret < 0)
+> > -             return ret;
+> > +
+> > +     /* If it doesn't exist, read it from the clock instead of failing=
+ */
+> > +     if (ret < 0) {
+> > +             pll_clk =3D devm_clk_get(dev, "sclk_mipi");
+> > +             if (!IS_ERR(pll_clk))
+> > +                     dsi->pll_clk_rate =3D clk_get_rate(pll_clk);
+> > +             else
+> > +                     return PTR_ERR(pll_clk);
+> > +     }
+> >
 >
-> The architectures that used special cases provide the same code in
-> their __raw_*() I/O helpers. So the patch replaces this code with the
-> __raw_*() functions and moves it to <asm-generic/fb.h> for all
-> architectures.
+> Now that 'samsung,pll-clock-frequency' is optional the error in
+> samsung_dsim_of_read_u32() should be changed. Otherwise you will get
+> > /soc@0/bus@32c00000/dsi@32e10000: failed to get 'samsung,pll-clock-
+> frequency' property
+
+I'll change the message from err to info with a message that reads "no
+samsung,pll-clock-frequency, using pixel clock"
+
+Does that work?
+
+adam
 >
-> v4:
-> 	* ia64, loongarch, sparc64: add fb_mem*() to arch headers
-> 	  to keep current semantics (Arnd)
-> v3:
-> 	* implement all architectures with generic helpers
-> 	* support reordering and native byte order (Geert, Arnd)
+> Best regards,
+> Alexander
 >
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> ---
->   arch/ia64/include/asm/fb.h      |  20 +++++++
->   arch/loongarch/include/asm/fb.h |  21 +++++++
->   arch/sparc/include/asm/fb.h     |  20 +++++++
->   include/asm-generic/fb.h        | 101 ++++++++++++++++++++++++++++++++
->   include/linux/fb.h              |  53 -----------------
->   5 files changed, 162 insertions(+), 53 deletions(-)
+> >       ret =3D samsung_dsim_of_read_u32(node, "samsung,burst-clock-
+> frequency",
+> >                                      &dsi->burst_clk_rate);
 >
-> diff --git a/arch/ia64/include/asm/fb.h b/arch/ia64/include/asm/fb.h
-> index 0208f64a0da0..bcf982043a5c 100644
-> --- a/arch/ia64/include/asm/fb.h
-> +++ b/arch/ia64/include/asm/fb.h
-> @@ -2,7 +2,9 @@
->   #ifndef _ASM_FB_H_
->   #define _ASM_FB_H_
->   
-> +#include <linux/compiler.h>
->   #include <linux/efi.h>
-> +#include <linux/string.h>
->   
->   #include <asm/page.h>
->   
-> @@ -18,6 +20,24 @@ static inline void fb_pgprotect(struct file *file, struct vm_area_struct *vma,
->   }
->   #define fb_pgprotect fb_pgprotect
->   
-> +static inline void fb_memcpy_fromfb(void *to, const volatile void __iomem *from, size_t n)
-> +{
-> +	memcpy(to, (void __force *)from, n);
-> +}
-> +#define fb_memcpy_fromfb fb_memcpy_fromfb
-> +
-> +static inline void fb_memcpy_tofb(volatile void __iomem *to, const void *from, size_t n)
-> +{
-> +	memcpy((void __force *)to, from, n);
-> +}
-> +#define fb_memcpy_tofb fb_memcpy_tofb
-> +
-> +static inline void fb_memset(volatile void __iomem *addr, int c, size_t n)
-> +{
-> +	memset((void __force *)addr, c, n);
-> +}
-> +#define fb_memset fb_memset
-> +
->   #include <asm-generic/fb.h>
->   
->   #endif /* _ASM_FB_H_ */
-> diff --git a/arch/loongarch/include/asm/fb.h b/arch/loongarch/include/asm/fb.h
-> index ff82f20685c8..c6fc7ef374a4 100644
-> --- a/arch/loongarch/include/asm/fb.h
-> +++ b/arch/loongarch/include/asm/fb.h
-> @@ -5,6 +5,27 @@
->   #ifndef _ASM_FB_H_
->   #define _ASM_FB_H_
->   
-> +#include <linux/compiler.h>
-> +#include <linux/string.h>
-> +
-> +static inline void fb_memcpy_fromfb(void *to, const volatile void __iomem *from, size_t n)
-> +{
-> +	memcpy(to, (void __force *)from, n);
-> +}
-> +#define fb_memcpy_fromfb fb_memcpy_fromfb
-> +
-> +static inline void fb_memcpy_tofb(volatile void __iomem *to, const void *from, size_t n)
-> +{
-> +	memcpy((void __force *)to, from, n);
-> +}
-> +#define fb_memcpy_tofb fb_memcpy_tofb
-> +
-> +static inline void fb_memset(volatile void __iomem *addr, int c, size_t n)
-> +{
-> +	memset((void __force *)addr, c, n);
-> +}
-> +#define fb_memset fb_memset
-> +
->   #include <asm-generic/fb.h>
->   
-
-Here works as the past, but  why bother cast it to (void __force *) ?
-
-why not use __memcpy_fromio, __memcpy_toio and __memset_io directly?
-
-I modify it this patch as following, it still works.
-
-
-
-  static inline void fb_memcpy_fromio(void *to, const volatile void 
-__iomem *from, size_t n)
-  {
--       memcpy(to, (void __force *)from, n);
-+       __memcpy_fromio(to, from, n);
-  }
-  #define fb_memcpy_fromio fb_memcpy_fromio
-
-  static inline void fb_memcpy_toio(volatile void __iomem *to, const 
-void *from, size_t n)
-  {
--       memcpy((void __force *)to, from, n);
-+       __memcpy_toio(to, from, n);
-  }
-  #define fb_memcpy_toio fb_memcpy_toio
-
-  static inline void fb_memset_io(volatile void __iomem *addr, int c, 
-size_t n)
-  {
--       memset((void __force *)addr, c, n);
-+       __memset_io(addr, c, n);
-  }
-  #define fb_memset fb_memset_io
-
->   #endif /* _ASM_FB_H_ */
-> diff --git a/arch/sparc/include/asm/fb.h b/arch/sparc/include/asm/fb.h
-> index 689ee5c60054..077da91aeba1 100644
-> --- a/arch/sparc/include/asm/fb.h
-> +++ b/arch/sparc/include/asm/fb.h
-> @@ -2,6 +2,8 @@
->   #ifndef _SPARC_FB_H_
->   #define _SPARC_FB_H_
->   
-> +#include <linux/io.h>
-> +
->   struct fb_info;
->   struct file;
->   struct vm_area_struct;
-> @@ -16,6 +18,24 @@ static inline void fb_pgprotect(struct file *file, struct vm_area_struct *vma,
->   int fb_is_primary_device(struct fb_info *info);
->   #define fb_is_primary_device fb_is_primary_device
->   
-> +static inline void fb_memcpy_fromfb(void *to, const volatile void __iomem *from, size_t n)
-> +{
-> +	sbus_memcpy_fromio(to, from, n);
-> +}
-> +#define fb_memcpy_fromfb fb_memcpy_fromfb
-> +
-> +static inline void fb_memcpy_tofb(volatile void __iomem *to, const void *from, size_t n)
-> +{
-> +	sbus_memcpy_toio(to, from, n);
-> +}
-> +#define fb_memcpy_tofb fb_memcpy_tofb
-> +
-> +static inline void fb_memset(volatile void __iomem *addr, int c, size_t n)
-> +{
-> +	sbus_memset_io(addr, c, n);
-> +}
-> +#define fb_memset fb_memset
-> +
->   #include <asm-generic/fb.h>
->   
->   #endif /* _SPARC_FB_H_ */
-> diff --git a/include/asm-generic/fb.h b/include/asm-generic/fb.h
-> index c8af99f5a535..6ef624b3ce12 100644
-> --- a/include/asm-generic/fb.h
-> +++ b/include/asm-generic/fb.h
-> @@ -30,4 +30,105 @@ static inline int fb_is_primary_device(struct fb_info *info)
->   }
->   #endif
->   
-> +/*
-> + * I/O helpers for the framebuffer. Prefer these functions over their
-> + * regular counterparts. The regular I/O functions provide in-order
-> + * access and swap bytes to/from little-endian ordering. Neither is
-> + * required for framebuffers. Instead, the helpers read and write
-> + * raw framebuffer data. Independent operations can be reordered for
-> + * improved performance.
-> + */
-> +
-> +#ifndef fb_readb
-> +static inline u8 fb_readb(const volatile void __iomem *addr)
-> +{
-> +	return __raw_readb(addr);
-> +}
-> +#define fb_readb fb_readb
-> +#endif
-> +
-> +#ifndef fb_readw
-> +static inline u16 fb_readw(const volatile void __iomem *addr)
-> +{
-> +	return __raw_readw(addr);
-> +}
-> +#define fb_readw fb_readw
-> +#endif
-> +
-> +#ifndef fb_readl
-> +static inline u32 fb_readl(const volatile void __iomem *addr)
-> +{
-> +	return __raw_readl(addr);
-> +}
-> +#define fb_readl fb_readl
-> +#endif
-> +
-> +#ifndef fb_readq
-> +#if defined(__raw_readq)
-> +static inline u64 fb_readq(const volatile void __iomem *addr)
-> +{
-> +	return __raw_readq(addr);
-> +}
-> +#define fb_readq fb_readq
-> +#endif
-> +#endif
-> +
-> +#ifndef fb_writeb
-> +static inline void fb_writeb(u8 b, volatile void __iomem *addr)
-> +{
-> +	__raw_writeb(b, addr);
-> +}
-> +#define fb_writeb fb_writeb
-> +#endif
-> +
-> +#ifndef fb_writew
-> +static inline void fb_writew(u16 b, volatile void __iomem *addr)
-> +{
-> +	__raw_writew(b, addr);
-> +}
-> +#define fb_writew fb_writew
-> +#endif
-> +
-> +#ifndef fb_writel
-> +static inline void fb_writel(u32 b, volatile void __iomem *addr)
-> +{
-> +	__raw_writel(b, addr);
-> +}
-> +#define fb_writel fb_writel
-> +#endif
-> +
-> +#ifndef fb_writeq
-> +#if defined(__raw_writeq)
-> +static inline void fb_writeq(u64 b, volatile void __iomem *addr)
-> +{
-> +	__raw_writeq(b, addr);
-> +}
-> +#define fb_writeq fb_writeq
-> +#endif
-> +#endif
-> +
-> +#ifndef fb_memcpy_fromfb
-> +static inline void fb_memcpy_fromfb(void *to, const volatile void __iomem *from, size_t n)
-> +{
-> +	memcpy_fromio(to, from, n);
-> +}
-> +#define fb_memcpy_fromfb fb_memcpy_fromfb
-> +#endif
-> +
-> +#ifndef fb_memcpy_tofb
-> +static inline void fb_memcpy_tofb(volatile void __iomem *to, const void *from, size_t n)
-> +{
-> +	memcpy_toio(to, from, n);
-> +}
-> +#define fb_memcpy_tofb fb_memcpy_tofb
-> +#endif
-> +
-> +#ifndef fb_memset
-> +static inline void fb_memset(volatile void __iomem *addr, int c, size_t n)
-> +{
-> +	memset_io(addr, c, n);
-> +}
-> +#define fb_memset fb_memset
-> +#endif
-> +
->   #endif /* __ASM_GENERIC_FB_H_ */
-> diff --git a/include/linux/fb.h b/include/linux/fb.h
-> index c0f97160ebbf..eb7e52940c60 100644
-> --- a/include/linux/fb.h
-> +++ b/include/linux/fb.h
-> @@ -17,7 +17,6 @@
->   #include <linux/slab.h>
->   
->   #include <asm/fb.h>
-> -#include <asm/io.h>
->   
->   struct vm_area_struct;
->   struct fb_info;
-> @@ -513,58 +512,6 @@ struct fb_info {
->    */
->   #define STUPID_ACCELF_TEXT_SHIT
->   
-> -// This will go away
-> -#if defined(__sparc__)
-> -
-> -/* We map all of our framebuffers such that big-endian accesses
-> - * are what we want, so the following is sufficient.
-> - */
-> -
-> -// This will go away
-> -#define fb_readb sbus_readb
-> -#define fb_readw sbus_readw
-> -#define fb_readl sbus_readl
-> -#define fb_readq sbus_readq
-> -#define fb_writeb sbus_writeb
-> -#define fb_writew sbus_writew
-> -#define fb_writel sbus_writel
-> -#define fb_writeq sbus_writeq
-> -#define fb_memset sbus_memset_io
-> -#define fb_memcpy_fromfb sbus_memcpy_fromio
-> -#define fb_memcpy_tofb sbus_memcpy_toio
-> -
-> -#elif defined(__i386__) || defined(__alpha__) || defined(__x86_64__) ||	\
-> -	defined(__hppa__) || defined(__sh__) || defined(__powerpc__) ||	\
-> -	defined(__arm__) || defined(__aarch64__) || defined(__mips__)
-> -
-> -#define fb_readb __raw_readb
-> -#define fb_readw __raw_readw
-> -#define fb_readl __raw_readl
-> -#define fb_readq __raw_readq
-> -#define fb_writeb __raw_writeb
-> -#define fb_writew __raw_writew
-> -#define fb_writel __raw_writel
-> -#define fb_writeq __raw_writeq
-> -#define fb_memset memset_io
-> -#define fb_memcpy_fromfb memcpy_fromio
-> -#define fb_memcpy_tofb memcpy_toio
-> -
-> -#else
-> -
-> -#define fb_readb(addr) (*(volatile u8 *) (addr))
-> -#define fb_readw(addr) (*(volatile u16 *) (addr))
-> -#define fb_readl(addr) (*(volatile u32 *) (addr))
-> -#define fb_readq(addr) (*(volatile u64 *) (addr))
-> -#define fb_writeb(b,addr) (*(volatile u8 *) (addr) = (b))
-> -#define fb_writew(b,addr) (*(volatile u16 *) (addr) = (b))
-> -#define fb_writel(b,addr) (*(volatile u32 *) (addr) = (b))
-> -#define fb_writeq(b,addr) (*(volatile u64 *) (addr) = (b))
-> -#define fb_memset memset
-> -#define fb_memcpy_fromfb memcpy
-> -#define fb_memcpy_tofb memcpy
-> -
-> -#endif
-> -
->   #define FB_LEFT_POS(p, bpp)          (fb_be_math(p) ? (32 - (bpp)) : 0)
->   #define FB_SHIFT_HIGH(p, val, bits)  (fb_be_math(p) ? (val) >> (bits) : \
->   						      (val) << (bits))
+>
+> --
+> TQ-Systems GmbH | M=C3=BChlstra=C3=9Fe 2, Gut Delling | 82229 Seefeld, Ge=
+rmany
+> Amtsgericht M=C3=BCnchen, HRB 105018
+> Gesch=C3=A4ftsf=C3=BChrer: Detlef Schneider, R=C3=BCdiger Stahl, Stefan S=
+chneider
+> http://www.tq-group.com/
+>
+>
