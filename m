@@ -1,57 +1,73 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C60386F64C4
-	for <lists+dri-devel@lfdr.de>; Thu,  4 May 2023 08:13:13 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 39AF06F651B
+	for <lists+dri-devel@lfdr.de>; Thu,  4 May 2023 08:34:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 21DB210E38F;
-	Thu,  4 May 2023 06:13:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AEF9F10E399;
+	Thu,  4 May 2023 06:34:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 96DCF10E38F
- for <dri-devel@lists.freedesktop.org>; Thu,  4 May 2023 06:13:10 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 2F8EC62B0E
- for <dri-devel@lists.freedesktop.org>; Thu,  4 May 2023 06:13:09 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 85354C433A0
- for <dri-devel@lists.freedesktop.org>; Thu,  4 May 2023 06:13:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1683180788;
- bh=x5kwsDZ4TN9cZ90xAynKsrlFYiS4VMknuQmqXWKQv4E=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=WC5TbwZPBi0tQQNBvTGJXplLeEakP8uBRvGG581CxvUv9/lukOh5AC1X3zAPMZ+g8
- 9fy0AysYaV3efBV0IrkrXu1zdYN2KWUIc2IUyOFvA4x8KVpiESnSeOjJRWPmpAmGjj
- BMcPaTFDazfHj/l4xwLkGcnDNik8NE3EswvdDTb9R7L3TBIQj3kvERaZmHJ4qwp1Do
- sCu8BfoRZt4Uxqa/GKexTOKqeuQTzen5tcfIBeZue2AGLB2uh0E9GC8/ouptYgrPLg
- Adtyp+A8xJKNwpZG9emF1LF7yEeYjzIUYlvQG6aZ8GJnBDSY7y9+vhBlmA7vw1ClOY
- cu2w4G8yOCltA==
-Received: by mail-yb1-f176.google.com with SMTP id
- 3f1490d57ef6-b9d881ad689so159847276.2
- for <dri-devel@lists.freedesktop.org>; Wed, 03 May 2023 23:13:08 -0700 (PDT)
-X-Gm-Message-State: AC+VfDzVQPLLw/U73ush03B3TwHk/O9z135DhLPMYuwR1p33bf7H9HCj
- 5stvAZwZ6/fweyk4Y4KiIMOer+RU71+IbueWWW4=
-X-Google-Smtp-Source: ACHHUZ6KF0mvEfZ7c7A7TDoA7IR0SoQqosIt/hT5lEC3d9rVnjWTYftxg5H7oyxdR6EjaIgGYcc740OPEhS6iP0Y7Yo=
-X-Received: by 2002:a25:4117:0:b0:b95:c55f:5d4b with SMTP id
- o23-20020a254117000000b00b95c55f5d4bmr27227873yba.3.1683180787246; Wed, 03
- May 2023 23:13:07 -0700 (PDT)
+Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com
+ [IPv6:2a00:1450:4864:20::132])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DAE0710E398
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 May 2023 06:34:12 +0000 (UTC)
+Received: by mail-lf1-x132.google.com with SMTP id
+ 2adb3069b0e04-4ec9c7c6986so105592e87.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 03 May 2023 23:34:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1683182050; x=1685774050;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=OHCwM54cF9BEFTWJALMzqBlcY59FLmcgLPg49DT67Ms=;
+ b=N6rLh3+ivTijJB2CyWvBieSPWYTm2RCcRCyJOyBoHwSathYJpxwAsMlhavbbp/OYQp
+ QUPd1sQeWo/l9MDmwwNXcn/FdK6juJryR2Pa0fMbEAk1bW+OBHTvwNZJeTHCkJc3ORNO
+ U+1NouK/YI5uBokALzCYw9BIid+g4oWvMTpuQ/d/FdT+M0MySZJHjJw2YLenekV8VG5e
+ EfjkAq2ZEu3Dly/uH6LlIRiPWEVaEVAux0yrn2Ce4650dN08Cn9FQV2leq2Piugc2ZRw
+ OaFzbRSknUSl31BRL4dXbgooaTI932W9r0uf6l/ANnbBG0oDLEZVoVYYT2SFTXbwShIN
+ UOpQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1683182050; x=1685774050;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=OHCwM54cF9BEFTWJALMzqBlcY59FLmcgLPg49DT67Ms=;
+ b=E64iD2P2ScQojrp+T7WQk/Difu/IweODfA+8ojL+9LTUQSHqcRngs6J/dStuBzOm9Q
+ DMZfhi5GKksEBInL5bcSWtIu5TBWYmYe4XnqlXJVBhb/qAnW4b1p8GwV/Ubt891qhT3I
+ sJRUEl3a75V1ISd+Pn2Ye58EJkDFK/nudReFLxGPZSJeGoGybJpABe4ShLI0npE3b7nS
+ dXiWUgDDdCuI6okwMUirX+zbUQ7elah/9kkN5SoJIObyO3GnmyFX3X0yZ2+utLSUtYH/
+ cy0tCShiccLEsdh7BxSe+NEKWYt05OFmSEz6O7LAJTXeDsTtBJEgpGv9DBjCOhG1VJdx
+ YewA==
+X-Gm-Message-State: AC+VfDxD4gts55mUvTJdajkqrEK+pnyDopMkZIlMHzcOySWTjMBExsIV
+ /fLVGtCwQtR26s5fmTIumvqnRg==
+X-Google-Smtp-Source: ACHHUZ7WpwdFgSHHI/5Zxd1T2pj6MJ+cqkI/N3LHRUu275rwvfXtKSimgykZMaVXYHagcbF6MtLeeg==
+X-Received: by 2002:ac2:4468:0:b0:4dc:82b0:4c68 with SMTP id
+ y8-20020ac24468000000b004dc82b04c68mr1281911lfl.50.1683182049339; 
+ Wed, 03 May 2023 23:34:09 -0700 (PDT)
+Received: from [192.168.1.101] (abyl248.neoplus.adsl.tpnet.pl. [83.9.31.248])
+ by smtp.gmail.com with ESMTPSA id
+ u24-20020ac25198000000b004eca2b1c5b4sm6379788lfi.229.2023.05.03.23.34.07
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 03 May 2023 23:34:08 -0700 (PDT)
+Message-ID: <8fc74f8e-726b-501c-6800-0bd515d4181a@linaro.org>
+Date: Thu, 4 May 2023 08:34:07 +0200
 MIME-Version: 1.0
-References: <20230428144903.26048-1-cai.huoqing@linux.dev>
- <CAFCwf13cqApEckT89kJdtNZppMNjDVJQtOCL_3hchY7oYDvrUQ@mail.gmail.com>
- <ZFMfu7BuMXdNReLy@chq-MS-7D45>
-In-Reply-To: <ZFMfu7BuMXdNReLy@chq-MS-7D45>
-From: Oded Gabbay <ogabbay@kernel.org>
-Date: Thu, 4 May 2023 09:12:40 +0300
-X-Gmail-Original-Message-ID: <CAFCwf13zp78dKKAU+KcWs+4jC+jdd5dU8n8N0NfHg+AXOGR5aw@mail.gmail.com>
-Message-ID: <CAFCwf13zp78dKKAU+KcWs+4jC+jdd5dU8n8N0NfHg+AXOGR5aw@mail.gmail.com>
-Subject: Re: [PATCH v2] accel/habanalabs: Make use of rhashtable
-To: Cai Huoqing <cai.huoqing@linux.dev>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.1
+Subject: Re: [PATCH v6 06/15] drm/msm/a6xx: Introduce GMU wrapper support
+Content-Language: en-US
+To: Akhil P Oommen <quic_akhilpo@quicinc.com>
+References: <20230223-topic-gmuwrapper-v6-0-2034115bb60c@linaro.org>
+ <20230223-topic-gmuwrapper-v6-6-2034115bb60c@linaro.org>
+ <20230502074956.GA21869@akhilpo-linux.qualcomm.com>
+ <d2374464-82e6-78c3-9c5e-f4e509c86d83@linaro.org>
+ <20230503203236.GA1177@akhilpo-linux.qualcomm.com>
+From: Konrad Dybcio <konrad.dybcio@linaro.org>
+In-Reply-To: <20230503203236.GA1177@akhilpo-linux.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,479 +80,720 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Ohad Sharabi <osharabi@habana.ai>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: Rob Clark <robdclark@chromium.org>, freedreno@lists.freedesktop.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ devicetree@vger.kernel.org, Sean Paul <sean@poorly.run>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@somainline.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+ linux-arm-msm@vger.kernel.org, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, May 4, 2023 at 6:00=E2=80=AFAM Cai Huoqing <cai.huoqing@linux.dev> =
-wrote:
->
-> On 30 4=E6=9C=88 23 09:36:29, Oded Gabbay wrote:
-> > On Fri, Apr 28, 2023 at 5:49=E2=80=AFPM Cai Huoqing <cai.huoqing@linux.=
-dev> wrote:
-> > >
-> > > Using rhashtable to accelerate the search for userptr by address,
-> > > instead of using a list.
-> > >
-> > > Preferably, the lookup complexity of a hash table is O(1).
-> > >
-> > > This patch will speedup the method
-> > > hl_userptr_is_pinned by rhashtable_lookup_fast.
-> > >
-> > > Signed-off-by: Cai Huoqing <cai.huoqing@linux.dev>
-> >
-> > Thanks for the patch, but the reason we never optimized this path is
-> > because this code path is only relevant for Goya, which we don't want
-> > to change the code for anymore.
-> > For Gaudi we don't pin the memory in the host during submission. It is
-> > done much earlier, when the user maps the memory to the device. The
-> > code path in Gaudi is only in case the device is loaded with its MMU
-> > disabled. This mode was used only for debug/bring-up of the ASIC many
-> > years ago. As you can see in Gaudi2, that mode was dropped even for
->
-> Do you mean that the userspace directly call HL_MEM_OP_MAP/HL_MEM_OP_UNMA=
-P
-> with a flag HL_MEM_USERPTR instead of pin host mem in submissmion?
-Yes, correct.
 
->
-> > debug/bring-up.
-> >
-> > Therefore, I prefer not to take this patch as validation for both
-> > functionality and performance will take time which will be better
-> > spent elsewhere.
-> >
-> > Thanks,
-> > Oded
-> >
-> > > ---
-> > > v1->v2:
-> > > Use rhashtable_free_and_destroy in hl_userptr_delete_list.
-> > >
-> > >  .../habanalabs/common/command_submission.c    | 16 ++++++--
-> > >  drivers/accel/habanalabs/common/habanalabs.h  | 19 +++++----
-> > >  drivers/accel/habanalabs/common/memory.c      | 39 +++++++++++------=
---
-> > >  drivers/accel/habanalabs/gaudi/gaudi.c        | 16 +++++---
-> > >  drivers/accel/habanalabs/goya/goya.c          | 14 ++++---
-> > >  5 files changed, 65 insertions(+), 39 deletions(-)
-> > >
-> > > diff --git a/drivers/accel/habanalabs/common/command_submission.c b/d=
-rivers/accel/habanalabs/common/command_submission.c
-> > > index af9d2e22c6e7..35c2ab934396 100644
-> > > --- a/drivers/accel/habanalabs/common/command_submission.c
-> > > +++ b/drivers/accel/habanalabs/common/command_submission.c
-> > > @@ -312,7 +312,7 @@ static int cs_parser(struct hl_fpriv *hpriv, stru=
-ct hl_cs_job *job)
-> > >         parser.job_id =3D job->id;
-> > >
-> > >         parser.hw_queue_id =3D job->hw_queue_id;
-> > > -       parser.job_userptr_list =3D &job->userptr_list;
-> > > +       parser.job_userptr_ht =3D &job->userptr_ht;
-> > >         parser.patched_cb =3D NULL;
-> > >         parser.user_cb =3D job->user_cb;
-> > >         parser.user_cb_size =3D job->user_cb_size;
-> > > @@ -351,7 +351,7 @@ static void hl_complete_job(struct hl_device *hde=
-v, struct hl_cs_job *job)
-> > >         struct hl_cs *cs =3D job->cs;
-> > >
-> > >         if (is_cb_patched(hdev, job)) {
-> > > -               hl_userptr_delete_list(hdev, &job->userptr_list);
-> > > +               hl_userptr_delete_list(hdev, &job->userptr_ht);
-> > >
-> > >                 /*
-> > >                  * We might arrive here from rollback and patched CB =
-wasn't
-> > > @@ -1284,6 +1284,7 @@ struct hl_cs_job *hl_cs_allocate_job(struct hl_=
-device *hdev,
-> > >                 enum hl_queue_type queue_type, bool is_kernel_allocat=
-ed_cb)
-> > >  {
-> > >         struct hl_cs_job *job;
-> > > +       int rc;
-> > >
-> > >         job =3D kzalloc(sizeof(*job), GFP_ATOMIC);
-> > >         if (!job)
-> > > @@ -1296,13 +1297,20 @@ struct hl_cs_job *hl_cs_allocate_job(struct h=
-l_device *hdev,
-> > >         job->queue_type =3D queue_type;
-> > >         job->is_kernel_allocated_cb =3D is_kernel_allocated_cb;
-> > >
-> > > -       if (is_cb_patched(hdev, job))
-> > > -               INIT_LIST_HEAD(&job->userptr_list);
-> > > +       if (is_cb_patched(hdev, job)) {
-> > > +               rc =3D rhashtable_init(&job->userptr_ht, &hl_userptr_=
-rht_params);
-> > > +               if (rc)
-> > > +                       goto free_job;
-> > > +       }
-> > >
-> > >         if (job->queue_type =3D=3D QUEUE_TYPE_EXT)
-> > >                 INIT_WORK(&job->finish_work, job_wq_completion);
-> > >
-> > >         return job;
-> > > +
-> > > +free_job:
-> > > +       kfree(job);
-> > > +       return NULL;
-> > >  }
-> > >
-> > >  static enum hl_cs_type hl_cs_get_cs_type(u32 cs_type_flags)
-> > > diff --git a/drivers/accel/habanalabs/common/habanalabs.h b/drivers/a=
-ccel/habanalabs/common/habanalabs.h
-> > > index eaae69a9f817..9c876d1480d2 100644
-> > > --- a/drivers/accel/habanalabs/common/habanalabs.h
-> > > +++ b/drivers/accel/habanalabs/common/habanalabs.h
-> > > @@ -19,6 +19,7 @@
-> > >  #include <linux/dma-direction.h>
-> > >  #include <linux/scatterlist.h>
-> > >  #include <linux/hashtable.h>
-> > > +#include <linux/rhashtable.h>
-> > >  #include <linux/debugfs.h>
-> > >  #include <linux/rwsem.h>
-> > >  #include <linux/eventfd.h>
-> > > @@ -540,6 +541,8 @@ struct hl_hints_range {
-> > >         u64 end_addr;
-> > >  };
-> > >
-> > > +extern const struct rhashtable_params hl_userptr_rht_params;
-> > > +
-> > >  /**
-> > >   * struct asic_fixed_properties - ASIC specific immutable properties=
-.
-> > >   * @hw_queues_props: H/W queues properties.
-> > > @@ -1915,7 +1918,7 @@ struct hl_ctx_mgr {
-> > >  /**
-> > >   * struct hl_userptr - memory mapping chunk information
-> > >   * @vm_type: type of the VM.
-> > > - * @job_node: linked-list node for hanging the object on the Job's l=
-ist.
-> > > + * @job_node: hashtable node for hanging the object on the Job's lis=
-t.
-> > >   * @pages: pointer to struct page array
-> > >   * @npages: size of @pages array
-> > >   * @sgt: pointer to the scatter-gather table that holds the pages.
-> > > @@ -1928,7 +1931,7 @@ struct hl_ctx_mgr {
-> > >   */
-> > >  struct hl_userptr {
-> > >         enum vm_type            vm_type; /* must be first */
-> > > -       struct list_head        job_node;
-> > > +       struct rhash_head       job_node;
-> > >         struct page             **pages;
-> > >         unsigned int            npages;
-> > >         struct sg_table         *sgt;
-> > > @@ -2028,7 +2031,7 @@ struct hl_cs {
-> > >   * @patched_cb: in case of patching, this is internal CB which is su=
-bmitted on
-> > >   *             the queue instead of the CB we got from the IOCTL.
-> > >   * @finish_work: workqueue object to run when job is completed.
-> > > - * @userptr_list: linked-list of userptr mappings that belong to thi=
-s job and
-> > > + * @userptr_ht: hashtable of userptr mappings that belong to this jo=
-b and
-> > >   *                     wait for completion.
-> > >   * @debugfs_list: node in debugfs list of command submission jobs.
-> > >   * @refcount: reference counter for usage of the CS job.
-> > > @@ -2056,7 +2059,7 @@ struct hl_cs_job {
-> > >         struct hl_cb            *user_cb;
-> > >         struct hl_cb            *patched_cb;
-> > >         struct work_struct      finish_work;
-> > > -       struct list_head        userptr_list;
-> > > +       struct rhashtable       userptr_ht;
-> > >         struct list_head        debugfs_list;
-> > >         struct kref             refcount;
-> > >         enum hl_queue_type      queue_type;
-> > > @@ -2075,7 +2078,7 @@ struct hl_cs_job {
-> > >   * @user_cb: the CB we got from the user.
-> > >   * @patched_cb: in case of patching, this is internal CB which is su=
-bmitted on
-> > >   *             the queue instead of the CB we got from the IOCTL.
-> > > - * @job_userptr_list: linked-list of userptr mappings that belong to=
- the related
-> > > + * @job_userptr_ht: hashtable of userptr mappings that belong to the=
- related
-> > >   *                     job and wait for completion.
-> > >   * @cs_sequence: the sequence number of the related CS.
-> > >   * @queue_type: the type of the H/W queue this job is submitted to.
-> > > @@ -2098,7 +2101,7 @@ struct hl_cs_job {
-> > >  struct hl_cs_parser {
-> > >         struct hl_cb            *user_cb;
-> > >         struct hl_cb            *patched_cb;
-> > > -       struct list_head        *job_userptr_list;
-> > > +       struct rhashtable       *job_userptr_ht;
-> > >         u64                     cs_sequence;
-> > >         enum hl_queue_type      queue_type;
-> > >         u32                     ctx_id;
-> > > @@ -3760,9 +3763,9 @@ int hl_pin_host_memory(struct hl_device *hdev, =
-u64 addr, u64 size,
-> > >                         struct hl_userptr *userptr);
-> > >  void hl_unpin_host_memory(struct hl_device *hdev, struct hl_userptr =
-*userptr);
-> > >  void hl_userptr_delete_list(struct hl_device *hdev,
-> > > -                               struct list_head *userptr_list);
-> > > +                               struct rhashtable *userptr_ht);
-> > >  bool hl_userptr_is_pinned(struct hl_device *hdev, u64 addr, u32 size=
-,
-> > > -                               struct list_head *userptr_list,
-> > > +                               struct rhashtable *userptr_ht,
-> > >                                 struct hl_userptr **userptr);
-> > >
-> > >  int hl_mmu_init(struct hl_device *hdev);
-> > > diff --git a/drivers/accel/habanalabs/common/memory.c b/drivers/accel=
-/habanalabs/common/memory.c
-> > > index a7b6a273ce21..fa2104e33639 100644
-> > > --- a/drivers/accel/habanalabs/common/memory.c
-> > > +++ b/drivers/accel/habanalabs/common/memory.c
-> > > @@ -23,6 +23,13 @@ MODULE_IMPORT_NS(DMA_BUF);
-> > >
-> > >  #define MEM_HANDLE_INVALID     ULONG_MAX
-> > >
-> > > +const struct rhashtable_params hl_userptr_rht_params =3D {
-> > > +       .head_offset =3D offsetof(struct hl_userptr, job_node),
-> > > +       .key_offset =3D offsetof(struct hl_userptr, addr),
-> > > +       .key_len =3D sizeof(u64),
-> > > +       .automatic_shrinking =3D true,
-> > > +};
-> > > +
-> > >  static int allocate_timestamps_buffers(struct hl_fpriv *hpriv,
-> > >                         struct hl_mem_in *args, u64 *handle);
-> > >
-> > > @@ -2483,7 +2490,6 @@ int hl_pin_host_memory(struct hl_device *hdev, =
-u64 addr, u64 size,
-> > >         userptr->size =3D size;
-> > >         userptr->addr =3D addr;
-> > >         userptr->dma_mapped =3D false;
-> > > -       INIT_LIST_HEAD(&userptr->job_node);
-> > >
-> > >         rc =3D get_user_memory(hdev, addr, size, npages, start, offse=
-t,
-> > >                                 userptr);
-> > > @@ -2522,32 +2528,32 @@ void hl_unpin_host_memory(struct hl_device *h=
-dev, struct hl_userptr *userptr)
-> > >         unpin_user_pages_dirty_lock(userptr->pages, userptr->npages, =
-true);
-> > >         kvfree(userptr->pages);
-> > >
-> > > -       list_del(&userptr->job_node);
-> > > -
-> > >         sg_free_table(userptr->sgt);
-> > >         kfree(userptr->sgt);
-> > >  }
-> > >
-> > > +static void hl_userptr_free_cb(void *ptr, void *arg)
-> > > +{
-> > > +       struct hl_userptr *userptr =3D ptr;
-> > > +       struct hl_device *hdev =3D (struct hl_device *)arg;
-> > > +
-> > > +       hl_unpin_host_memory(hdev, userptr);
-> > > +       kfree(userptr);
-> > > +}
-> > > +
-> > >  /**
-> > >   * hl_userptr_delete_list() - clear userptr list.
-> > >   * @hdev: pointer to the habanalabs device structure.
-> > > - * @userptr_list: pointer to the list to clear.
-> > > + * @userptr_ht: pointer to the hashtable to clear.
-> > >   *
-> > >   * This function does the following:
-> > >   * - Iterates over the list and unpins the host memory and frees the=
- userptr
-> > >   *   structure.
-> > >   */
-> > >  void hl_userptr_delete_list(struct hl_device *hdev,
-> > > -                               struct list_head *userptr_list)
-> > > +                               struct rhashtable *userptr_ht)
-> > >  {
-> > > -       struct hl_userptr *userptr, *tmp;
-> > > -
-> > > -       list_for_each_entry_safe(userptr, tmp, userptr_list, job_node=
-) {
-> > > -               hl_unpin_host_memory(hdev, userptr);
-> > > -               kfree(userptr);
-> > > -       }
-> > > -
-> > > -       INIT_LIST_HEAD(userptr_list);
-> > > +       rhashtable_free_and_destroy(userptr_ht, hl_userptr_free_cb, h=
-dev);
-> > >  }
-> > >
-> > >  /**
-> > > @@ -2555,7 +2561,7 @@ void hl_userptr_delete_list(struct hl_device *h=
-dev,
-> > >   * @hdev: pointer to the habanalabs device structure.
-> > >   * @addr: user address to check.
-> > >   * @size: user block size to check.
-> > > - * @userptr_list: pointer to the list to clear.
-> > > + * @userptr_ht: pointer to the hashtable to clear.
-> > >   * @userptr: pointer to userptr to check.
-> > >   *
-> > >   * This function does the following:
-> > > @@ -2563,10 +2569,11 @@ void hl_userptr_delete_list(struct hl_device =
-*hdev,
-> > >   *   pinned. If so, returns true, otherwise returns false.
-> > >   */
-> > >  bool hl_userptr_is_pinned(struct hl_device *hdev, u64 addr,
-> > > -                               u32 size, struct list_head *userptr_l=
-ist,
-> > > +                               u32 size, struct rhashtable *userptr_=
-ht,
-> > >                                 struct hl_userptr **userptr)
-> > >  {
-> > > -       list_for_each_entry((*userptr), userptr_list, job_node) {
-> > > +       (*userptr) =3D rhashtable_lookup_fast(userptr_ht, &addr, hl_u=
-serptr_rht_params);
-> > > +       if (*userptr) {
-> > >                 if ((addr =3D=3D (*userptr)->addr) && (size =3D=3D (*=
-userptr)->size))
-> > >                         return true;
-> > >         }
-> > > diff --git a/drivers/accel/habanalabs/gaudi/gaudi.c b/drivers/accel/h=
-abanalabs/gaudi/gaudi.c
-> > > index a29aa8f7b6f3..1e1433042413 100644
-> > > --- a/drivers/accel/habanalabs/gaudi/gaudi.c
-> > > +++ b/drivers/accel/habanalabs/gaudi/gaudi.c
-> > > @@ -1031,7 +1031,7 @@ static int _gaudi_init_tpc_mem(struct hl_device=
- *hdev,
-> > >         }
-> > >
-> > >  free_job:
-> > > -       hl_userptr_delete_list(hdev, &job->userptr_list);
-> > > +       hl_userptr_delete_list(hdev, &job->userptr_ht);
-> > >         hl_debugfs_remove_job(hdev, job);
-> > >         kfree(job);
-> > >         atomic_dec(&cb->cs_cnt);
-> > > @@ -4901,7 +4901,7 @@ static int gaudi_pin_memory_before_cs(struct hl=
-_device *hdev,
-> > >         int rc;
-> > >
-> > >         if (hl_userptr_is_pinned(hdev, addr, le32_to_cpu(user_dma_pkt=
-->tsize),
-> > > -                       parser->job_userptr_list, &userptr))
-> > > +                       parser->job_userptr_ht, &userptr))
-> > >                 goto already_pinned;
-> > >
-> > >         userptr =3D kzalloc(sizeof(*userptr), GFP_KERNEL);
-> > > @@ -4913,7 +4913,10 @@ static int gaudi_pin_memory_before_cs(struct h=
-l_device *hdev,
-> > >         if (rc)
-> > >                 goto free_userptr;
-> > >
-> > > -       list_add_tail(&userptr->job_node, parser->job_userptr_list);
-> > > +       rc =3D rhashtable_insert_fast(parser->job_userptr_ht,
-> > > +                                   &userptr->job_node, hl_userptr_rh=
-t_params);
-> > > +       if (rc)
-> > > +               goto unpin_memory;
-> > >
-> > >         rc =3D hdev->asic_funcs->asic_dma_map_sgtable(hdev, userptr->=
-sgt, dir);
-> > >         if (rc) {
-> > > @@ -4931,7 +4934,8 @@ static int gaudi_pin_memory_before_cs(struct hl=
-_device *hdev,
-> > >         return 0;
-> > >
-> > >  unpin_memory:
-> > > -       list_del(&userptr->job_node);
-> > > +       rhashtable_remove_fast(parser->job_userptr_ht,
-> > > +                              &userptr->job_node, hl_userptr_rht_par=
-ams);
-> > >         hl_unpin_host_memory(hdev, userptr);
-> > >  free_userptr:
-> > >         kfree(userptr);
-> > > @@ -5175,7 +5179,7 @@ static int gaudi_patch_dma_packet(struct hl_dev=
-ice *hdev,
-> > >         if ((!skip_host_mem_pin) &&
-> > >                 (!hl_userptr_is_pinned(hdev, addr,
-> > >                                         le32_to_cpu(user_dma_pkt->tsi=
-ze),
-> > > -                                       parser->job_userptr_list, &us=
-erptr))) {
-> > > +                                       parser->job_userptr_ht, &user=
-ptr))) {
-> > >                 dev_err(hdev->dev, "Userptr 0x%llx + 0x%x NOT mapped\=
-n",
-> > >                                 addr, user_dma_pkt->tsize);
-> > >                 return -EFAULT;
-> > > @@ -5472,7 +5476,7 @@ static int gaudi_parse_cb_no_mmu(struct hl_devi=
-ce *hdev,
-> > >
-> > >  free_userptr:
-> > >         if (rc)
-> > > -               hl_userptr_delete_list(hdev, parser->job_userptr_list=
-);
-> > > +               hl_userptr_delete_list(hdev, parser->job_userptr_ht);
-> > >         return rc;
-> > >  }
-> > >
-> > > diff --git a/drivers/accel/habanalabs/goya/goya.c b/drivers/accel/hab=
-analabs/goya/goya.c
-> > > index fb0ac9df841a..bfcbb9e8b126 100644
-> > > --- a/drivers/accel/habanalabs/goya/goya.c
-> > > +++ b/drivers/accel/habanalabs/goya/goya.c
-> > > @@ -3347,7 +3347,7 @@ static int goya_pin_memory_before_cs(struct hl_=
-device *hdev,
-> > >         int rc;
-> > >
-> > >         if (hl_userptr_is_pinned(hdev, addr, le32_to_cpu(user_dma_pkt=
-->tsize),
-> > > -                       parser->job_userptr_list, &userptr))
-> > > +                       parser->job_userptr_ht, &userptr))
-> > >                 goto already_pinned;
-> > >
-> > >         userptr =3D kzalloc(sizeof(*userptr), GFP_KERNEL);
-> > > @@ -3359,7 +3359,10 @@ static int goya_pin_memory_before_cs(struct hl=
-_device *hdev,
-> > >         if (rc)
-> > >                 goto free_userptr;
-> > >
-> > > -       list_add_tail(&userptr->job_node, parser->job_userptr_list);
-> > > +       rc =3D rhashtable_insert_fast(parser->job_userptr_ht,
-> > > +                                   &userptr->job_node, hl_userptr_rh=
-t_params);
-> > > +       if (rc)
-> > > +               goto unpin_memory;
-> > >
-> > >         rc =3D hdev->asic_funcs->asic_dma_map_sgtable(hdev, userptr->=
-sgt, dir);
-> > >         if (rc) {
-> > > @@ -3377,7 +3380,8 @@ static int goya_pin_memory_before_cs(struct hl_=
-device *hdev,
-> > >         return 0;
-> > >
-> > >  unpin_memory:
-> > > -       list_del(&userptr->job_node);
-> > > +       rhashtable_remove_fast(parser->job_userptr_ht,
-> > > +                              &userptr->job_node, hl_userptr_rht_par=
-ams);
-> > >         hl_unpin_host_memory(hdev, userptr);
-> > >  free_userptr:
-> > >         kfree(userptr);
-> > > @@ -3806,7 +3810,7 @@ static int goya_patch_dma_packet(struct hl_devi=
-ce *hdev,
-> > >         if ((!skip_host_mem_pin) &&
-> > >                 (hl_userptr_is_pinned(hdev, addr,
-> > >                         le32_to_cpu(user_dma_pkt->tsize),
-> > > -                       parser->job_userptr_list, &userptr) =3D=3D fa=
-lse)) {
-> > > +                       parser->job_userptr_ht, &userptr) =3D=3D fals=
-e)) {
-> > >                 dev_err(hdev->dev, "Userptr 0x%llx + 0x%x NOT mapped\=
-n",
-> > >                                 addr, user_dma_pkt->tsize);
-> > >                 return -EFAULT;
-> > > @@ -4104,7 +4108,7 @@ static int goya_parse_cb_no_mmu(struct hl_devic=
-e *hdev,
-> > >
-> > >  free_userptr:
-> > >         if (rc)
-> > > -               hl_userptr_delete_list(hdev, parser->job_userptr_list=
-);
-> > > +               hl_userptr_delete_list(hdev, parser->job_userptr_ht);
-> > >         return rc;
-> > >  }
-> > >
-> > > --
-> > > 2.34.1
-> > >
+
+On 3.05.2023 22:32, Akhil P Oommen wrote:
+> On Tue, May 02, 2023 at 11:40:26AM +0200, Konrad Dybcio wrote:
+>>
+>>
+>> On 2.05.2023 09:49, Akhil P Oommen wrote:
+>>> On Sat, Apr 01, 2023 at 01:54:43PM +0200, Konrad Dybcio wrote:
+>>>> Some (particularly SMD_RPM, a.k.a non-RPMh) SoCs implement A6XX GPUs
+>>>> but don't implement the associated GMUs. This is due to the fact that
+>>>> the GMU directly pokes at RPMh. Sadly, this means we have to take care
+>>>> of enabling & scaling power rails, clocks and bandwidth ourselves.
+>>>>
+>>>> Reuse existing Adreno-common code and modify the deeply-GMU-infused
+>>>> A6XX code to facilitate these GPUs. This involves if-ing out lots
+>>>> of GMU callbacks and introducing a new type of GMU - GMU wrapper (it's
+>>>> the actual name that Qualcomm uses in their downstream kernels).
+>>>>
+>>>> This is essentially a register region which is convenient to model
+>>>> as a device. We'll use it for managing the GDSCs. The register
+>>>> layout matches the actual GMU_CX/GX regions on the "real GMU" devices
+>>>> and lets us reuse quite a bit of gmu_read/write/rmw calls.
+>>> << I sent a reply to this patch earlier, but not sure where it went.
+>>> Still figuring out Mutt... >>
+>> Answered it here:
+>>
+>> https://lore.kernel.org/linux-arm-msm/4d3000c1-c3f9-0bfd-3eb3-23393f9a8f77@linaro.org/
+> 
+> Thanks. Will check and respond there if needed.
+> 
+>>
+>> I don't think I see any new comments in this "reply revision" (heh), so please
+>> check that one out.
+>>
+>>>
+>>> Only convenience I found is that we can reuse gmu register ops in a few
+>>> places (< 10 I think). If we just model this as another gpu memory
+>>> region, I think it will help to keep gmu vs gmu-wrapper/no-gmu
+>>> architecture code with clean separation. Also, it looks like we need to
+>>> keep a dummy gmu platform device in the devicetree with the current
+>>> approach. That doesn't sound right.
+>> That's correct, but.. if we switch away from that, VDD_GX/VDD_CX will
+>> need additional, gmuwrapper-configuration specific code anyway, as
+>> OPP & genpd will no longer make use of the default behavior which
+>> only gets triggered if there's a single power-domains=<> entry, afaicu.
+> Can you please tell me which specific *default behviour* do you mean here?
+> I am curious to know what I am overlooking here. We can always get a cxpd/gxpd device
+> and vote for the gdscs directly from the driver. Anything related to
+> OPP?
+I *believe* this is true:
+
+if (ARRAY_SIZE(power-domains) == 1) {
+	of generic code will enable the power domain at .probe time
+
+	opp APIs will default to scaling that domain with required-opps
+}
+
+and we do need to put GX/CX (with an MX parent to match) there, as the
+AP is responsible for voting in this configuration
+
+Konrad
+> 
+> -Akhil
+>>
+>> If nothing else, this is a very convenient way to model a part of the
+>> GPU (as that's essentially what GMU_CX is, to my understanding) and
+>> the bindings people didn't shoot me in the head for proposing this, so
+>> I assume it'd be cool to pursue this..
+>>
+>> Konrad
+>>>>
+>>>> Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+>>>> ---
+>>>>  drivers/gpu/drm/msm/adreno/a6xx_gmu.c       |  72 +++++++-
+>>>>  drivers/gpu/drm/msm/adreno/a6xx_gpu.c       | 255 +++++++++++++++++++++++++---
+>>>>  drivers/gpu/drm/msm/adreno/a6xx_gpu.h       |   1 +
+>>>>  drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c |  14 +-
+>>>>  drivers/gpu/drm/msm/adreno/adreno_gpu.c     |   8 +-
+>>>>  drivers/gpu/drm/msm/adreno/adreno_gpu.h     |   6 +
+>>>>  6 files changed, 318 insertions(+), 38 deletions(-)
+>>>>
+>>>> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
+>>>> index 87babbb2a19f..b1acdb027205 100644
+>>>> --- a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
+>>>> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
+>>>> @@ -1469,6 +1469,7 @@ static int a6xx_gmu_get_irq(struct a6xx_gmu *gmu, struct platform_device *pdev,
+>>>>  
+>>>>  void a6xx_gmu_remove(struct a6xx_gpu *a6xx_gpu)
+>>>>  {
+>>>> +	struct adreno_gpu *adreno_gpu = &a6xx_gpu->base;
+>>>>  	struct a6xx_gmu *gmu = &a6xx_gpu->gmu;
+>>>>  	struct platform_device *pdev = to_platform_device(gmu->dev);
+>>>>  
+>>>> @@ -1494,10 +1495,12 @@ void a6xx_gmu_remove(struct a6xx_gpu *a6xx_gpu)
+>>>>  	gmu->mmio = NULL;
+>>>>  	gmu->rscc = NULL;
+>>>>  
+>>>> -	a6xx_gmu_memory_free(gmu);
+>>>> +	if (!adreno_has_gmu_wrapper(adreno_gpu)) {
+>>>> +		a6xx_gmu_memory_free(gmu);
+>>>>  
+>>>> -	free_irq(gmu->gmu_irq, gmu);
+>>>> -	free_irq(gmu->hfi_irq, gmu);
+>>>> +		free_irq(gmu->gmu_irq, gmu);
+>>>> +		free_irq(gmu->hfi_irq, gmu);
+>>>> +	}
+>>>>  
+>>>>  	/* Drop reference taken in of_find_device_by_node */
+>>>>  	put_device(gmu->dev);
+>>>> @@ -1516,6 +1519,69 @@ static int cxpd_notifier_cb(struct notifier_block *nb,
+>>>>  	return 0;
+>>>>  }
+>>>>  
+>>>> +int a6xx_gmu_wrapper_init(struct a6xx_gpu *a6xx_gpu, struct device_node *node)
+>>>> +{
+>>>> +	struct platform_device *pdev = of_find_device_by_node(node);
+>>>> +	struct a6xx_gmu *gmu = &a6xx_gpu->gmu;
+>>>> +	int ret;
+>>>> +
+>>>> +	if (!pdev)
+>>>> +		return -ENODEV;
+>>>> +
+>>>> +	gmu->dev = &pdev->dev;
+>>>> +
+>>>> +	of_dma_configure(gmu->dev, node, true);
+>>> why setup dma for a device that is not actually present?
+>>>> +
+>>>> +	pm_runtime_enable(gmu->dev);
+>>>> +
+>>>> +	/* Mark legacy for manual SPTPRAC control */
+>>>> +	gmu->legacy = true;
+>>>> +
+>>>> +	/* Map the GMU registers */
+>>>> +	gmu->mmio = a6xx_gmu_get_mmio(pdev, "gmu");
+>>>> +	if (IS_ERR(gmu->mmio)) {
+>>>> +		ret = PTR_ERR(gmu->mmio);
+>>>> +		goto err_mmio;
+>>>> +	}
+>>>> +
+>>>> +	gmu->cxpd = dev_pm_domain_attach_by_name(gmu->dev, "cx");
+>>>> +	if (IS_ERR(gmu->cxpd)) {
+>>>> +		ret = PTR_ERR(gmu->cxpd);
+>>>> +		goto err_mmio;
+>>>> +	}
+>>>> +
+>>>> +	if (!device_link_add(gmu->dev, gmu->cxpd, DL_FLAG_PM_RUNTIME)) {
+>>>> +		ret = -ENODEV;
+>>>> +		goto detach_cxpd;
+>>>> +	}
+>>>> +
+>>>> +	init_completion(&gmu->pd_gate);
+>>>> +	complete_all(&gmu->pd_gate);
+>>>> +	gmu->pd_nb.notifier_call = cxpd_notifier_cb;
+>>>> +
+>>>> +	/* Get a link to the GX power domain to reset the GPU */
+>>>> +	gmu->gxpd = dev_pm_domain_attach_by_name(gmu->dev, "gx");
+>>>> +	if (IS_ERR(gmu->gxpd)) {
+>>>> +		ret = PTR_ERR(gmu->gxpd);
+>>>> +		goto err_mmio;
+>>>> +	}
+>>>> +
+>>>> +	gmu->initialized = true;
+>>>> +
+>>>> +	return 0;
+>>>> +
+>>>> +detach_cxpd:
+>>>> +	dev_pm_domain_detach(gmu->cxpd, false);
+>>>> +
+>>>> +err_mmio:
+>>>> +	iounmap(gmu->mmio);
+>>>> +
+>>>> +	/* Drop reference taken in of_find_device_by_node */
+>>>> +	put_device(gmu->dev);
+>>>> +
+>>>> +	return ret;
+>>>> +}
+>>>> +
+>>>>  int a6xx_gmu_init(struct a6xx_gpu *a6xx_gpu, struct device_node *node)
+>>>>  {
+>>>>  	struct adreno_gpu *adreno_gpu = &a6xx_gpu->base;
+>>>> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+>>>> index 931f9f3b3a85..8e0345ffab81 100644
+>>>> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+>>>> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+>>>> @@ -20,9 +20,11 @@ static inline bool _a6xx_check_idle(struct msm_gpu *gpu)
+>>>>  	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
+>>>>  	struct a6xx_gpu *a6xx_gpu = to_a6xx_gpu(adreno_gpu);
+>>>>  
+>>>> -	/* Check that the GMU is idle */
+>>>> -	if (!a6xx_gmu_isidle(&a6xx_gpu->gmu))
+>>>> -		return false;
+>>>> +	if (!adreno_has_gmu_wrapper(adreno_gpu)) {
+>>>> +		/* Check that the GMU is idle */
+>>>> +		if (!a6xx_gmu_isidle(&a6xx_gpu->gmu))
+>>>> +			return false;
+>>>> +	}
+>>>>  
+>>>>  	/* Check tha the CX master is idle */
+>>>>  	if (gpu_read(gpu, REG_A6XX_RBBM_STATUS) &
+>>>> @@ -612,13 +614,15 @@ static void a6xx_set_hwcg(struct msm_gpu *gpu, bool state)
+>>>>  		return;
+>>>>  
+>>>>  	/* Disable SP clock before programming HWCG registers */
+>>>> -	gmu_rmw(gmu, REG_A6XX_GPU_GMU_GX_SPTPRAC_CLOCK_CONTROL, 1, 0);
+>>>> +	if (!adreno_has_gmu_wrapper(adreno_gpu))
+>>>> +		gmu_rmw(gmu, REG_A6XX_GPU_GMU_GX_SPTPRAC_CLOCK_CONTROL, 1, 0);
+>>>>  
+>>>>  	for (i = 0; (reg = &adreno_gpu->info->hwcg[i], reg->offset); i++)
+>>>>  		gpu_write(gpu, reg->offset, state ? reg->value : 0);
+>>>>  
+>>>>  	/* Enable SP clock */
+>>>> -	gmu_rmw(gmu, REG_A6XX_GPU_GMU_GX_SPTPRAC_CLOCK_CONTROL, 0, 1);
+>>>> +	if (!adreno_has_gmu_wrapper(adreno_gpu))
+>>>> +		gmu_rmw(gmu, REG_A6XX_GPU_GMU_GX_SPTPRAC_CLOCK_CONTROL, 0, 1);
+>>>>  
+>>>>  	gpu_write(gpu, REG_A6XX_RBBM_CLOCK_CNTL, state ? clock_cntl_on : 0);
+>>>>  }
+>>>> @@ -1018,10 +1022,13 @@ static int hw_init(struct msm_gpu *gpu)
+>>>>  {
+>>>>  	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
+>>>>  	struct a6xx_gpu *a6xx_gpu = to_a6xx_gpu(adreno_gpu);
+>>>> +	struct a6xx_gmu *gmu = &a6xx_gpu->gmu;
+>>>>  	int ret;
+>>>>  
+>>>> -	/* Make sure the GMU keeps the GPU on while we set it up */
+>>>> -	a6xx_gmu_set_oob(&a6xx_gpu->gmu, GMU_OOB_GPU_SET);
+>>>> +	if (!adreno_has_gmu_wrapper(adreno_gpu)) {
+>>>> +		/* Make sure the GMU keeps the GPU on while we set it up */
+>>>> +		a6xx_gmu_set_oob(&a6xx_gpu->gmu, GMU_OOB_GPU_SET);
+>>>> +	}
+>>>>  
+>>>>  	/* Clear GBIF halt in case GX domain was not collapsed */
+>>>>  	if (a6xx_has_gbif(adreno_gpu))
+>>>> @@ -1144,6 +1151,17 @@ static int hw_init(struct msm_gpu *gpu)
+>>>>  			0x3f0243f0);
+>>>>  	}
+>>>>  
+>>>> +	if (adreno_has_gmu_wrapper(adreno_gpu)) {
+>>>> +		/* Do it here, as GMU wrapper only inits the GMU for memory reservation etc. */
+>>>> +
+>>>> +		/* Set up the CX GMU counter 0 to count busy ticks */
+>>>> +		gmu_write(gmu, REG_A6XX_GPU_GMU_AO_GPU_CX_BUSY_MASK, 0xff000000);
+>>>> +
+>>>> +		/* Enable power counter 0 */
+>>>> +		gmu_rmw(gmu, REG_A6XX_GMU_CX_GMU_POWER_COUNTER_SELECT_0, 0xff, BIT(5));
+>>>> +		gmu_write(gmu, REG_A6XX_GMU_CX_GMU_POWER_COUNTER_ENABLE, 1);
+>>>> +	}
+>>>> +
+>>>>  	/* Protect registers from the CP */
+>>>>  	a6xx_set_cp_protect(gpu);
+>>>>  
+>>>> @@ -1233,6 +1251,8 @@ static int hw_init(struct msm_gpu *gpu)
+>>>>  	}
+>>>>  
+>>>>  out:
+>>>> +	if (adreno_has_gmu_wrapper(adreno_gpu))
+>>>> +		return ret;
+>>>>  	/*
+>>>>  	 * Tell the GMU that we are done touching the GPU and it can start power
+>>>>  	 * management
+>>>> @@ -1267,6 +1287,9 @@ static void a6xx_dump(struct msm_gpu *gpu)
+>>>>  	adreno_dump(gpu);
+>>>>  }
+>>>>  
+>>>> +#define GBIF_GX_HALT_MASK	BIT(0)
+>>>> +#define GBIF_CLIENT_HALT_MASK	BIT(0)
+>>>> +#define GBIF_ARB_HALT_MASK	BIT(1)
+>>>>  #define VBIF_RESET_ACK_TIMEOUT	100
+>>>>  #define VBIF_RESET_ACK_MASK	0x00f0
+>>>>  
+>>>> @@ -1299,7 +1322,8 @@ static void a6xx_recover(struct msm_gpu *gpu)
+>>>>  	 * Turn off keep alive that might have been enabled by the hang
+>>>>  	 * interrupt
+>>>>  	 */
+>>>> -	gmu_write(&a6xx_gpu->gmu, REG_A6XX_GMU_GMU_PWR_COL_KEEPALIVE, 0);
+>>>> +	if (!adreno_has_gmu_wrapper(adreno_gpu))
+>>>> +		gmu_write(&a6xx_gpu->gmu, REG_A6XX_GMU_GMU_PWR_COL_KEEPALIVE, 0);
+>>>
+>>> Maybe it is better to move this to a6xx_gmu_force_power_off.
+>>>
+>>>>  
+>>>>  	pm_runtime_dont_use_autosuspend(&gpu->pdev->dev);
+>>>>  
+>>>> @@ -1329,6 +1353,32 @@ static void a6xx_recover(struct msm_gpu *gpu)
+>>>>  
+>>>>  	dev_pm_genpd_remove_notifier(gmu->cxpd);
+>>>>  
+>>>> +	/* Software-reset the GPU */
+>>>
+>>> This is not soft reset sequence. We are trying to quiescent gpu - ddr
+>>> traffic with this sequence.
+>>>
+>>>> +	if (adreno_has_gmu_wrapper(adreno_gpu)) {
+>>>> +		/* Halt the GX side of GBIF */
+>>>> +		gpu_write(gpu, REG_A6XX_RBBM_GBIF_HALT, GBIF_GX_HALT_MASK);
+>>>> +		spin_until(gpu_read(gpu, REG_A6XX_RBBM_GBIF_HALT_ACK) &
+>>>> +			   GBIF_GX_HALT_MASK);
+>>>> +
+>>>> +		/* Halt new client requests on GBIF */
+>>>> +		gpu_write(gpu, REG_A6XX_GBIF_HALT, GBIF_CLIENT_HALT_MASK);
+>>>> +		spin_until((gpu_read(gpu, REG_A6XX_GBIF_HALT_ACK) &
+>>>> +			   (GBIF_CLIENT_HALT_MASK)) == GBIF_CLIENT_HALT_MASK);
+>>>> +
+>>>> +		/* Halt all AXI requests on GBIF */
+>>>> +		gpu_write(gpu, REG_A6XX_GBIF_HALT, GBIF_ARB_HALT_MASK);
+>>>> +		spin_until((gpu_read(gpu, REG_A6XX_GBIF_HALT_ACK) &
+>>>> +			   (GBIF_ARB_HALT_MASK)) == GBIF_ARB_HALT_MASK);
+>>>> +
+>>>> +		/* Clear the halts */
+>>>> +		gpu_write(gpu, REG_A6XX_GBIF_HALT, 0);
+>>>> +
+>>>> +		gpu_write(gpu, REG_A6XX_RBBM_GBIF_HALT, 0);
+>>>> +
+>>>> +		/* This *really* needs to go through before we do anything else! */
+>>>> +		mb();
+>>>> +	}
+>>>> +
+>>>
+>>> This sequence should be before we collapse cx gdsc. Also, please see if
+>>> we can create a subroutine to avoid code dup.
+>>>
+>>>>  	pm_runtime_use_autosuspend(&gpu->pdev->dev);
+>>>>  
+>>>>  	if (active_submits)
+>>>> @@ -1463,7 +1513,8 @@ static void a6xx_fault_detect_irq(struct msm_gpu *gpu)
+>>>>  	 * Force the GPU to stay on until after we finish
+>>>>  	 * collecting information
+>>>>  	 */
+>>>> -	gmu_write(&a6xx_gpu->gmu, REG_A6XX_GMU_GMU_PWR_COL_KEEPALIVE, 1);
+>>>> +	if (!adreno_has_gmu_wrapper(adreno_gpu))
+>>>> +		gmu_write(&a6xx_gpu->gmu, REG_A6XX_GMU_GMU_PWR_COL_KEEPALIVE, 1);
+>>>>  
+>>>>  	DRM_DEV_ERROR(&gpu->pdev->dev,
+>>>>  		"gpu fault ring %d fence %x status %8.8X rb %4.4x/%4.4x ib1 %16.16llX/%4.4x ib2 %16.16llX/%4.4x\n",
+>>>> @@ -1624,7 +1675,7 @@ static void a6xx_llc_slices_init(struct platform_device *pdev,
+>>>>  		a6xx_gpu->llc_mmio = ERR_PTR(-EINVAL);
+>>>>  }
+>>>>  
+>>>> -static int a6xx_pm_resume(struct msm_gpu *gpu)
+>>>> +static int a6xx_gmu_pm_resume(struct msm_gpu *gpu)
+>>>>  {
+>>>>  	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
+>>>>  	struct a6xx_gpu *a6xx_gpu = to_a6xx_gpu(adreno_gpu);
+>>>> @@ -1644,10 +1695,61 @@ static int a6xx_pm_resume(struct msm_gpu *gpu)
+>>>>  
+>>>>  	a6xx_llc_activate(a6xx_gpu);
+>>>>  
+>>>> -	return 0;
+>>>> +	return ret;
+>>>>  }
+>>>>  
+>>>> -static int a6xx_pm_suspend(struct msm_gpu *gpu)
+>>>> +static int a6xx_pm_resume(struct msm_gpu *gpu)
+>>>> +{
+>>>> +	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
+>>>> +	struct a6xx_gpu *a6xx_gpu = to_a6xx_gpu(adreno_gpu);
+>>>> +	struct a6xx_gmu *gmu = &a6xx_gpu->gmu;
+>>>> +	unsigned long freq = 0;
+>>>> +	struct dev_pm_opp *opp;
+>>>> +	int ret;
+>>>> +
+>>>> +	gpu->needs_hw_init = true;
+>>>> +
+>>>> +	trace_msm_gpu_resume(0);
+>>>> +
+>>>> +	mutex_lock(&a6xx_gpu->gmu.lock);
+>>> I think we can ignore gmu lock as there is no real gmu device.
+>>>
+>>>> +
+>>>> +	pm_runtime_resume_and_get(gmu->dev);
+>>>> +	pm_runtime_resume_and_get(gmu->gxpd);
+>>>> +
+>>>> +	/* Set the core clock, having VDD scaling in mind */
+>>>> +	ret = dev_pm_opp_set_rate(&gpu->pdev->dev, gpu->fast_rate);
+>>>> +	if (ret)
+>>>> +		goto err_core_clk;
+>>>> +
+>>>> +	ret = clk_bulk_prepare_enable(gpu->nr_clocks, gpu->grp_clks);
+>>>> +	if (ret)
+>>>> +		goto err_bulk_clk;
+>>>> +
+>>>> +	ret = clk_prepare_enable(gpu->ebi1_clk);
+>>>> +	if (ret)
+>>>> +		goto err_mem_clk;
+>>>> +
+>>>> +	/* If anything goes south, tear the GPU down piece by piece.. */
+>>>> +	if (ret) {
+>>>> +err_mem_clk:
+>>>> +		clk_bulk_disable_unprepare(gpu->nr_clocks, gpu->grp_clks);
+>>>> +err_bulk_clk:
+>>>> +		opp = dev_pm_opp_find_freq_ceil(&gpu->pdev->dev, &freq);
+>>>> +		dev_pm_opp_put(opp);
+>>>> +		dev_pm_opp_set_rate(&gpu->pdev->dev, 0);
+>>>> +err_core_clk:
+>>>> +		pm_runtime_put(gmu->gxpd);
+>>>> +		pm_runtime_put(gmu->dev);
+>>>> +	}
+>>>> +	mutex_unlock(&a6xx_gpu->gmu.lock);
+>>>> +
+>>>> +	if (!ret)
+>>>> +		msm_devfreq_resume(gpu);
+>>>> +
+>>>> +	return ret;
+>>>> +}
+>>>> +
+>>>> +static int a6xx_gmu_pm_suspend(struct msm_gpu *gpu)
+>>>>  {
+>>>>  	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
+>>>>  	struct a6xx_gpu *a6xx_gpu = to_a6xx_gpu(adreno_gpu);
+>>>> @@ -1674,11 +1776,62 @@ static int a6xx_pm_suspend(struct msm_gpu *gpu)
+>>>>  	return 0;
+>>>>  }
+>>>>  
+>>>> +static int a6xx_pm_suspend(struct msm_gpu *gpu)
+>>>> +{
+>>>> +	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
+>>>> +	struct a6xx_gpu *a6xx_gpu = to_a6xx_gpu(adreno_gpu);
+>>>> +	struct a6xx_gmu *gmu = &a6xx_gpu->gmu;
+>>>> +	unsigned long freq = 0;
+>>>> +	struct dev_pm_opp *opp;
+>>>> +	int i, ret;
+>>>> +
+>>>> +	trace_msm_gpu_suspend(0);
+>>>> +
+>>>> +	opp = dev_pm_opp_find_freq_ceil(&gpu->pdev->dev, &freq);
+>>>> +	dev_pm_opp_put(opp);
+>>>> +
+>>>> +	msm_devfreq_suspend(gpu);
+>>>> +
+>>>> +	mutex_lock(&a6xx_gpu->gmu.lock);
+>>>> +
+>>>> +	clk_disable_unprepare(gpu->ebi1_clk);
+>>>> +
+>>>> +	clk_bulk_disable_unprepare(gpu->nr_clocks, gpu->grp_clks);
+>>>> +
+>>>> +	/* Set frequency to the minimum supported level (no 27MHz on A6xx!) */
+>>>> +	ret = dev_pm_opp_set_rate(&gpu->pdev->dev, freq);
+>>>> +	if (ret)
+>>>> +		goto err;
+>>>> +
+>>>> +	pm_runtime_put_sync(gmu->gxpd);
+>>>> +	pm_runtime_put_sync(gmu->dev);
+>>>> +
+>>>> +	mutex_unlock(&a6xx_gpu->gmu.lock);
+>>>> +
+>>>> +	if (a6xx_gpu->shadow_bo)
+>>>> +		for (i = 0; i < gpu->nr_rings; i++)
+>>>> +			a6xx_gpu->shadow[i] = 0;
+>>>> +
+>>>> +	gpu->suspend_count++;
+>>>> +
+>>>> +	return 0;
+>>>> +
+>>>> +err:
+>>>> +	mutex_unlock(&a6xx_gpu->gmu.lock);
+>>>> +
+>>>> +	return ret;
+>>>> +}
+>>>> +
+>>>>  static int a6xx_get_timestamp(struct msm_gpu *gpu, uint64_t *value)
+>>>>  {
+>>>>  	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
+>>>>  	struct a6xx_gpu *a6xx_gpu = to_a6xx_gpu(adreno_gpu);
+>>>>  
+>>>> +	if (adreno_has_gmu_wrapper(adreno_gpu)) {
+>>>> +		*value = gpu_read64(gpu, REG_A6XX_CP_ALWAYS_ON_COUNTER);
+>>>> +		return 0;
+>>>> +	}
+>>>> +
+>>> Instead of wrapper check here, we can just create a separate op. I don't
+>>> see any benefit in reusing the same function here.
+>>>
+>>>
+>>>>  	mutex_lock(&a6xx_gpu->gmu.lock);
+>>>>  
+>>>>  	/* Force the GPU power on so we can read this register */
+>>>> @@ -1716,7 +1869,8 @@ static void a6xx_destroy(struct msm_gpu *gpu)
+>>>>  		drm_gem_object_put(a6xx_gpu->shadow_bo);
+>>>>  	}
+>>>>  
+>>>> -	a6xx_llc_slices_destroy(a6xx_gpu);
+>>>> +	if (!adreno_has_gmu_wrapper(adreno_gpu))
+>>>> +		a6xx_llc_slices_destroy(a6xx_gpu);
+>>>>  
+>>>>  	mutex_lock(&a6xx_gpu->gmu.lock);
+>>>>  	a6xx_gmu_remove(a6xx_gpu);
+>>>> @@ -1957,8 +2111,8 @@ static const struct adreno_gpu_funcs funcs = {
+>>>>  		.set_param = adreno_set_param,
+>>>>  		.hw_init = a6xx_hw_init,
+>>>>  		.ucode_load = a6xx_ucode_load,
+>>>> -		.pm_suspend = a6xx_pm_suspend,
+>>>> -		.pm_resume = a6xx_pm_resume,
+>>>> +		.pm_suspend = a6xx_gmu_pm_suspend,
+>>>> +		.pm_resume = a6xx_gmu_pm_resume,
+>>>>  		.recover = a6xx_recover,
+>>>>  		.submit = a6xx_submit,
+>>>>  		.active_ring = a6xx_active_ring,
+>>>> @@ -1982,6 +2136,35 @@ static const struct adreno_gpu_funcs funcs = {
+>>>>  	.get_timestamp = a6xx_get_timestamp,
+>>>>  };
+>>>>  
+>>>> +static const struct adreno_gpu_funcs funcs_gmuwrapper = {
+>>>> +	.base = {
+>>>> +		.get_param = adreno_get_param,
+>>>> +		.set_param = adreno_set_param,
+>>>> +		.hw_init = a6xx_hw_init,
+>>>> +		.ucode_load = a6xx_ucode_load,
+>>>> +		.pm_suspend = a6xx_pm_suspend,
+>>>> +		.pm_resume = a6xx_pm_resume,
+>>>> +		.recover = a6xx_recover,
+>>>> +		.submit = a6xx_submit,
+>>>> +		.active_ring = a6xx_active_ring,
+>>>> +		.irq = a6xx_irq,
+>>>> +		.destroy = a6xx_destroy,
+>>>> +#if defined(CONFIG_DRM_MSM_GPU_STATE)
+>>>> +		.show = a6xx_show,
+>>>> +#endif
+>>>> +		.gpu_busy = a6xx_gpu_busy,
+>>>> +#if defined(CONFIG_DRM_MSM_GPU_STATE)
+>>>> +		.gpu_state_get = a6xx_gpu_state_get,
+>>>> +		.gpu_state_put = a6xx_gpu_state_put,
+>>>> +#endif
+>>>> +		.create_address_space = a6xx_create_address_space,
+>>>> +		.create_private_address_space = a6xx_create_private_address_space,
+>>>> +		.get_rptr = a6xx_get_rptr,
+>>>> +		.progress = a6xx_progress,
+>>>> +	},
+>>>> +	.get_timestamp = a6xx_get_timestamp,
+>>>> +};
+>>>> +
+>>>>  struct msm_gpu *a6xx_gpu_init(struct drm_device *dev)
+>>>>  {
+>>>>  	struct msm_drm_private *priv = dev->dev_private;
+>>>> @@ -2003,18 +2186,36 @@ struct msm_gpu *a6xx_gpu_init(struct drm_device *dev)
+>>>>  
+>>>>  	adreno_gpu->registers = NULL;
+>>>>  
+>>>> +	/* Check if there is a GMU phandle and set it up */
+>>>> +	node = of_parse_phandle(pdev->dev.of_node, "qcom,gmu", 0);
+>>>> +	/* FIXME: How do we gracefully handle this? */
+>>>> +	BUG_ON(!node);
+>>> How will you handle this BUG() when there is no GMU (a610 gpu)?
+>>>
+>>>> +
+>>>> +	adreno_gpu->gmu_is_wrapper = of_device_is_compatible(node, "qcom,adreno-gmu-wrapper");
+>>>> +
+>>>>  	/*
+>>>>  	 * We need to know the platform type before calling into adreno_gpu_init
+>>>>  	 * so that the hw_apriv flag can be correctly set. Snoop into the info
+>>>>  	 * and grab the revision number
+>>>>  	 */
+>>>>  	info = adreno_info(config->rev);
+>>>> -
+>>>> -	if (info && (info->revn == 650 || info->revn == 660 ||
+>>>> -			adreno_cmp_rev(ADRENO_REV(6, 3, 5, ANY_ID), info->rev)))
+>>>> +	if (!info)
+>>>> +		return ERR_PTR(-EINVAL);
+>>>> +
+>>>> +	/* Assign these early so that we can use the is_aXYZ helpers */
+>>>> +	/* Numeric revision IDs (e.g. 630) */
+>>>> +	adreno_gpu->revn = info->revn;
+>>>> +	/* New-style ADRENO_REV()-only */
+>>>> +	adreno_gpu->rev = info->rev;
+>>>> +	/* Quirk data */
+>>>> +	adreno_gpu->info = info;
+>>>> +
+>>>> +	if (adreno_is_a650(adreno_gpu) || adreno_is_a660_family(adreno_gpu))
+>>>>  		adreno_gpu->base.hw_apriv = true;
+>>>>  
+>>>> -	a6xx_llc_slices_init(pdev, a6xx_gpu);
+>>>> +	/* No LLCC on non-RPMh (and by extension, non-GMU) SoCs */
+>>>> +	if (!adreno_has_gmu_wrapper(adreno_gpu))
+>>>> +		a6xx_llc_slices_init(pdev, a6xx_gpu);
+>>>>  
+>>>>  	ret = a6xx_set_supported_hw(&pdev->dev, config->rev);
+>>>>  	if (ret) {
+>>>> @@ -2022,7 +2223,10 @@ struct msm_gpu *a6xx_gpu_init(struct drm_device *dev)
+>>>>  		return ERR_PTR(ret);
+>>>>  	}
+>>>>  
+>>>> -	ret = adreno_gpu_init(dev, pdev, adreno_gpu, &funcs, 1);
+>>>> +	if (adreno_has_gmu_wrapper(adreno_gpu))
+>>>> +		ret = adreno_gpu_init(dev, pdev, adreno_gpu, &funcs_gmuwrapper, 1);
+>>>> +	else
+>>>> +		ret = adreno_gpu_init(dev, pdev, adreno_gpu, &funcs, 1);
+>>>>  	if (ret) {
+>>>>  		a6xx_destroy(&(a6xx_gpu->base.base));
+>>>>  		return ERR_PTR(ret);
+>>>> @@ -2035,13 +2239,10 @@ struct msm_gpu *a6xx_gpu_init(struct drm_device *dev)
+>>>>  	if (adreno_is_a618(adreno_gpu) || adreno_is_7c3(adreno_gpu))
+>>>>  		priv->gpu_clamp_to_idle = true;
+>>>>  
+>>>> -	/* Check if there is a GMU phandle and set it up */
+>>>> -	node = of_parse_phandle(pdev->dev.of_node, "qcom,gmu", 0);
+>>>> -
+>>>> -	/* FIXME: How do we gracefully handle this? */
+>>>> -	BUG_ON(!node);
+>>>> -
+>>>> -	ret = a6xx_gmu_init(a6xx_gpu, node);
+>>>> +	if (adreno_has_gmu_wrapper(adreno_gpu))
+>>>> +		ret = a6xx_gmu_wrapper_init(a6xx_gpu, node);
+>>>> +	else
+>>>> +		ret = a6xx_gmu_init(a6xx_gpu, node);
+>>>>  	of_node_put(node);
+>>>>  	if (ret) {
+>>>>  		a6xx_destroy(&(a6xx_gpu->base.base));
+>>>> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.h b/drivers/gpu/drm/msm/adreno/a6xx_gpu.h
+>>>> index eea2e60ce3b7..51a7656072fa 100644
+>>>> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.h
+>>>> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.h
+>>>> @@ -76,6 +76,7 @@ int a6xx_gmu_set_oob(struct a6xx_gmu *gmu, enum a6xx_gmu_oob_state state);
+>>>>  void a6xx_gmu_clear_oob(struct a6xx_gmu *gmu, enum a6xx_gmu_oob_state state);
+>>>>  
+>>>>  int a6xx_gmu_init(struct a6xx_gpu *a6xx_gpu, struct device_node *node);
+>>>> +int a6xx_gmu_wrapper_init(struct a6xx_gpu *a6xx_gpu, struct device_node *node);
+>>>>  void a6xx_gmu_remove(struct a6xx_gpu *a6xx_gpu);
+>>>>  
+>>>>  void a6xx_gmu_set_freq(struct msm_gpu *gpu, struct dev_pm_opp *opp,
+>>>> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c
+>>>> index 30ecdff363e7..4e5d650578c6 100644
+>>>> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c
+>>>> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c
+>>>> @@ -1041,16 +1041,18 @@ struct msm_gpu_state *a6xx_gpu_state_get(struct msm_gpu *gpu)
+>>>>  	/* Get the generic state from the adreno core */
+>>>>  	adreno_gpu_state_get(gpu, &a6xx_state->base);
+>>>>  
+>>>> -	a6xx_get_gmu_registers(gpu, a6xx_state);
+>>>> +	if (!adreno_has_gmu_wrapper(adreno_gpu)) {
+>>> nit: Kinda misleading function name to a layman. Should we invert the
+>>> function to "adreno_has_gmu"?
+>>>
+>>> -Akhil
+>>>> +		a6xx_get_gmu_registers(gpu, a6xx_state);
+>>>>  
+>>>> -	a6xx_state->gmu_log = a6xx_snapshot_gmu_bo(a6xx_state, &a6xx_gpu->gmu.log);
+>>>> -	a6xx_state->gmu_hfi = a6xx_snapshot_gmu_bo(a6xx_state, &a6xx_gpu->gmu.hfi);
+>>>> -	a6xx_state->gmu_debug = a6xx_snapshot_gmu_bo(a6xx_state, &a6xx_gpu->gmu.debug);
+>>>> +		a6xx_state->gmu_log = a6xx_snapshot_gmu_bo(a6xx_state, &a6xx_gpu->gmu.log);
+>>>> +		a6xx_state->gmu_hfi = a6xx_snapshot_gmu_bo(a6xx_state, &a6xx_gpu->gmu.hfi);
+>>>> +		a6xx_state->gmu_debug = a6xx_snapshot_gmu_bo(a6xx_state, &a6xx_gpu->gmu.debug);
+>>>>  
+>>>> -	a6xx_snapshot_gmu_hfi_history(gpu, a6xx_state);
+>>>> +		a6xx_snapshot_gmu_hfi_history(gpu, a6xx_state);
+>>>> +	}
+>>>>  
+>>>>  	/* If GX isn't on the rest of the data isn't going to be accessible */
+>>>> -	if (!a6xx_gmu_gx_is_on(&a6xx_gpu->gmu))
+>>>> +	if (!adreno_has_gmu_wrapper(adreno_gpu) && !a6xx_gmu_gx_is_on(&a6xx_gpu->gmu))
+>>>>  		return &a6xx_state->base;
+>>>>  
+>>>>  	/* Get the banks of indexed registers */
+>>>> diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.c b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
+>>>> index 6934cee07d42..5c5901d65950 100644
+>>>> --- a/drivers/gpu/drm/msm/adreno/adreno_gpu.c
+>>>> +++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
+>>>> @@ -528,6 +528,10 @@ int adreno_load_fw(struct adreno_gpu *adreno_gpu)
+>>>>  		if (!adreno_gpu->info->fw[i])
+>>>>  			continue;
+>>>>  
+>>>> +		/* Skip loading GMU firwmare with GMU Wrapper */
+>>>> +		if (adreno_has_gmu_wrapper(adreno_gpu) && i == ADRENO_FW_GMU)
+>>>> +			continue;
+>>>> +
+>>>>  		/* Skip if the firmware has already been loaded */
+>>>>  		if (adreno_gpu->fw[i])
+>>>>  			continue;
+>>>> @@ -1074,8 +1078,8 @@ int adreno_gpu_init(struct drm_device *drm, struct platform_device *pdev,
+>>>>  	u32 speedbin;
+>>>>  	int ret;
+>>>>  
+>>>> -	/* Only handle the core clock when GMU is not in use */
+>>>> -	if (config->rev.core < 6) {
+>>>> +	/* Only handle the core clock when GMU is not in use (or is absent). */
+>>>> +	if (adreno_has_gmu_wrapper(adreno_gpu) || config->rev.core < 6) {
+>>>>  		/*
+>>>>  		 * This can only be done before devm_pm_opp_of_add_table(), or
+>>>>  		 * dev_pm_opp_set_config() will WARN_ON()
+>>>> diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.h b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
+>>>> index f62612a5c70f..ee5352bc5329 100644
+>>>> --- a/drivers/gpu/drm/msm/adreno/adreno_gpu.h
+>>>> +++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
+>>>> @@ -115,6 +115,7 @@ struct adreno_gpu {
+>>>>  	 * code (a3xx_gpu.c) and stored in this common location.
+>>>>  	 */
+>>>>  	const unsigned int *reg_offsets;
+>>>> +	bool gmu_is_wrapper;
+>>>>  };
+>>>>  #define to_adreno_gpu(x) container_of(x, struct adreno_gpu, base)
+>>>>  
+>>>> @@ -145,6 +146,11 @@ struct adreno_platform_config {
+>>>>  
+>>>>  bool adreno_cmp_rev(struct adreno_rev rev1, struct adreno_rev rev2);
+>>>>  
+>>>> +static inline bool adreno_has_gmu_wrapper(struct adreno_gpu *gpu)
+>>>> +{
+>>>> +	return gpu->gmu_is_wrapper;
+>>>> +}
+>>>> +
+>>>>  static inline bool adreno_is_a2xx(struct adreno_gpu *gpu)
+>>>>  {
+>>>>  	return (gpu->revn < 300);
+>>>>
+>>>> -- 
+>>>> 2.40.0
+>>>>
