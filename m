@@ -1,71 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 207826F8C50
-	for <lists+dri-devel@lfdr.de>; Sat,  6 May 2023 00:21:10 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 44EAB6F8C67
+	for <lists+dri-devel@lfdr.de>; Sat,  6 May 2023 00:34:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 743D910E10A;
-	Fri,  5 May 2023 22:21:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BD46110E684;
+	Fri,  5 May 2023 22:34:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3237010E10A
- for <dri-devel@lists.freedesktop.org>; Fri,  5 May 2023 22:21:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683325261;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=L3vBocqQ8ngTRhTKYb+VWCwFov1RNlAOBIaghJhsO6A=;
- b=REc7f8/6/UKTRXn+fcPmfROPbTqgfjcw0rfoEjCUArqDbFr0ZHy9RbZCXrJE+hw/Z1/sNa
- BDGJCWLtvZCmd4LzJyjXRit1au14qg+OXpKm05srsT6/IYDQu59DtvH3yL55t58GaU4qdV
- qSCARPqiR2hDldPRajN9g8sfsmPbzQs=
-Received: from mail-lj1-f197.google.com (mail-lj1-f197.google.com
- [209.85.208.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-38-dcXWhvQnNhyT5fUeehZK5g-1; Fri, 05 May 2023 18:20:59 -0400
-X-MC-Unique: dcXWhvQnNhyT5fUeehZK5g-1
-Received: by mail-lj1-f197.google.com with SMTP id
- 38308e7fff4ca-2ac828fcd98so9544891fa.1
- for <dri-devel@lists.freedesktop.org>; Fri, 05 May 2023 15:20:59 -0700 (PDT)
+Received: from mail-oi1-f169.google.com (mail-oi1-f169.google.com
+ [209.85.167.169])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F393510E0E8;
+ Fri,  5 May 2023 22:34:51 +0000 (UTC)
+Received: by mail-oi1-f169.google.com with SMTP id
+ 5614622812f47-38dee9a7795so874046b6e.3; 
+ Fri, 05 May 2023 15:34:51 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683325258; x=1685917258;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=L3vBocqQ8ngTRhTKYb+VWCwFov1RNlAOBIaghJhsO6A=;
- b=Rb4wvRxdYnI5WnejwpE7dSnjnfQa98HakT5kVVOKNASw59ns2KsNZhgF/3G8DTc8hl
- dEfwvDBNBS4hrHz+sggd7wTamlxZvqspEiHxtRE+7TsVteDzD1I+7zaSdxHxroQ4vO5w
- MPoZKv5KIxcgy6pmET3q4X24t9ONP+d51UOksQZEzfoKJzjPctYrXzqoDs0LiNv6AVn5
- MvwTvxbMQYqJs1Y+OofFPSljeYxcXSnNe0YLlxvbjtl+LXFIDyYpfB/EWiuGKZfqsYAM
- NX565CVzZ33WE2ptImx5My8fZ2byfJqMZB2vyGl7XCNkKOwg9Dt0zmGtaUyxvy4a58vd
- jxGw==
-X-Gm-Message-State: AC+VfDwFJuz8S+ej2f2calCRYlrO6jqtwvQagG/NQC34jkKXGVXHNUSu
- J2A0fwDLTBd1t+sJPtCh+BxFoIRoBCUS68rQKve4AX6Heu0lCjASSQlxryHQ1d26FLT/3uNchye
- hqD5Of1+4wAl3/6+IEvHebNrrRBME00AsFhMGdBw8Y+p3
-X-Received: by 2002:a2e:9a94:0:b0:2ac:795a:5a90 with SMTP id
- p20-20020a2e9a94000000b002ac795a5a90mr854997lji.38.1683325258398; 
- Fri, 05 May 2023 15:20:58 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ5UeyuFajolU5gUoKjKoLG1dcni9T1R6TuQ6542w/k4TEbB5Px57SseEx/KFUhSCgkeZLpMVFeqRE83VyB6BKQ=
-X-Received: by 2002:a2e:9a94:0:b0:2ac:795a:5a90 with SMTP id
- p20-20020a2e9a94000000b002ac795a5a90mr854992lji.38.1683325258102; Fri, 05 May
- 2023 15:20:58 -0700 (PDT)
+ d=1e100.net; s=20221208; t=1683326091; x=1685918091;
+ h=date:subject:message-id:references:in-reply-to:cc:to:from
+ :mime-version:content-transfer-encoding:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=x2bjE4y2k/ZRonBr5I4qWlh5CoiWSN7zhAV2pZnn6Zo=;
+ b=TngJJdavKHbutznHBxHv5Otioe9qUEqxO1zDbe3a9ujYBR98j8IkvpPPW/nW1rwHJu
+ S1ZDhzy8DRwvuhrhc1FED7i13Rv05BWF4PgOWtcn3QUaxIN/teZ3U/GcgWpJTYqXjWhQ
+ n8QuWGasAm2X4AbZXoZHs9J/kZZ/55ssGTYcd6ejuOTO4PqJOVtPycqvnGDCbORAbWjO
+ AsXl9JVb8a0lWD9BfqLMNYSqbElDpjyYZmwKmtAayxOdAUo7n73DwbgDL/PCHZzz4NMW
+ SDJ2SUZQ6w8VUIo8O8shlSGVuLejmvRhFm96mDc9Peaw4U7jEVRXShI6ryRzHql/a8RS
+ 8etw==
+X-Gm-Message-State: AC+VfDyAQk5G3NrW4kLgSwCQxYBFMvMCNvY841Q85Foyr/wsl1Si/iuR
+ nJPMUfX34G65r8fd1Ba+DVxqa61X2w==
+X-Google-Smtp-Source: ACHHUZ53cI1CM7mECZnA6cYHzHY3nz4n6zr1YDhdJXJbCXDc1XMGMyxqi2QWT5S0Nvb2PxvZUxA5IA==
+X-Received: by 2002:a05:6808:1c4:b0:387:2e2e:7b2 with SMTP id
+ x4-20020a05680801c400b003872e2e07b2mr1330779oic.26.1683326090853; 
+ Fri, 05 May 2023 15:34:50 -0700 (PDT)
+Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net.
+ [66.90.144.107]) by smtp.gmail.com with ESMTPSA id
+ j16-20020a9d7690000000b006a6558ef17fsm1404537otl.30.2023.05.05.15.34.49
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 05 May 2023 15:34:50 -0700 (PDT)
+Received: (nullmailer pid 3806405 invoked by uid 1000);
+ Fri, 05 May 2023 22:34:48 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 MIME-Version: 1.0
-References: <QMers3awXvNCQlyhWdTtsPwkp5ie9bze_hD5nAccFW7a_RXlWjYB7MoUW_8CKLT2bSQwIXVi5H6VULYIxCdgvryZoAoJnC5lZgyK1QWn488=@emersion.fr>
- <CAPM=9tz54Jc1HSjdh5A7iG4X8Gvgg46qu7Ezvgnmj4N6gbY+Kw@mail.gmail.com>
-In-Reply-To: <CAPM=9tz54Jc1HSjdh5A7iG4X8Gvgg46qu7Ezvgnmj4N6gbY+Kw@mail.gmail.com>
-From: Sebastian Wick <sebastian.wick@redhat.com>
-Date: Sat, 6 May 2023 00:20:46 +0200
-Message-ID: <CA+hFU4x++RDOxkc-_ZvDtQs3DtupwDV0KJyD3YAgrdh4daLotA@mail.gmail.com>
-Subject: Re: [RFC] Plane color pipeline KMS uAPI
-To: Dave Airlie <airlied@gmail.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+From: Rob Herring <robh@kernel.org>
+To: Konrad Dybcio <konrad.dybcio@linaro.org>
+In-Reply-To: <20230411-topic-straitlagoon_mdss-v3-4-9837d6b3516d@linaro.org>
+References: <20230411-topic-straitlagoon_mdss-v3-0-9837d6b3516d@linaro.org>
+ <20230411-topic-straitlagoon_mdss-v3-4-9837d6b3516d@linaro.org>
+Message-Id: <168332608833.3806341.1631479517447632665.robh@kernel.org>
+Subject: Re: [PATCH v3 04/12] dt-bindings: display/msm: Add SM6350 MDSS
+Date: Fri, 05 May 2023 17:34:48 -0500
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,112 +64,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Aleix Pol <aleixpol@kde.org>, Pekka Paalanen <pekka.paalanen@collabora.com>,
- "xaver.hugl@gmail.com" <xaver.hugl@gmail.com>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- wayland-devel <wayland-devel@lists.freedesktop.org>,
- Melissa Wen <mwen@igalia.com>,
- =?UTF-8?B?Sm9uYXMgw4VkYWhs?= <jadahl@redhat.com>,
- Uma Shankar <uma.shankar@intel.com>,
- Victoria Brekenfeld <victoria@system76.com>,
- =?UTF-8?Q?Michel_D=C3=A4nzer?= <mdaenzer@redhat.com>,
- Joshua Ashton <joshua@froggi.es>
+Cc: Sean Paul <sean@poorly.run>, freedreno@lists.freedesktop.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Will Deacon <will@kernel.org>, devicetree@vger.kernel.org,
+ Robin Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, iommu@lists.linux.dev,
+ Rob Herring <robh+dt@kernel.org>,
+ Krishna Manikandan <quic_mkrishn@quicinc.com>, linux-arm-msm@vger.kernel.org,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, May 5, 2023 at 10:40=E2=80=AFPM Dave Airlie <airlied@gmail.com> wro=
-te:
->
-> On Fri, 5 May 2023 at 01:23, Simon Ser <contact@emersion.fr> wrote:
-> >
-> > Hi all,
-> >
-> > The goal of this RFC is to expose a generic KMS uAPI to configure the c=
-olor
-> > pipeline before blending, ie. after a pixel is tapped from a plane's
-> > framebuffer and before it's blended with other planes. With this new uA=
-PI we
-> > aim to reduce the battery life impact of color management and HDR on mo=
-bile
-> > devices, to improve performance and to decrease latency by skipping
-> > composition on the 3D engine. This proposal is the result of discussion=
-s at
-> > the Red Hat HDR hackfest [1] which took place a few days ago. Engineers
-> > familiar with the AMD, Intel and NVIDIA hardware have participated in t=
-he
-> > discussion.
-> >
-> > This proposal takes a prescriptive approach instead of a descriptive ap=
-proach.
-> > Drivers describe the available hardware blocks in terms of low-level
-> > mathematical operations, then user-space configures each block. We deci=
-ded
-> > against a descriptive approach where user-space would provide a high-le=
-vel
-> > description of the colorspace and other parameters: we want to give mor=
-e
-> > control and flexibility to user-space, e.g. to be able to replicate exa=
-ctly the
-> > color pipeline with shaders and switch between shaders and KMS pipeline=
-s
-> > seamlessly, and to avoid forcing user-space into a particular color man=
-agement
-> > policy.
->
-> I'm not 100% sold on the prescriptive here, let's see if someone can
-> get me over the line with some questions later.
->
-> My feeling is color pipeline hw is not a done deal, and that hw
-> vendors will be revising/evolving/churning the hw blocks for a while
-> longer, as there is no real standards in the area to aim for, all the
-> vendors are mostly just doing whatever gets Windows over the line and
-> keeps hw engineers happy. So I have some concerns here around forwards
-> compatibility and hence the API design.
->
-> I guess my main concern is if you expose a bunch of hw blocks and
-> someone comes up with a novel new thing, will all existing userspace
-> work, without falling back to shaders?
-> Do we have minimum guarantees on what hardware blocks have to be
-> exposed to build a useable pipeline?
-> If a hardware block goes away in a new silicon revision, do I have to
-> rewrite my compositor? or will it be expected that the kernel will
-> emulate the old pipelines on top of whatever new fancy thing exists.
 
-I think there are two answers to those questions.
+On Fri, 05 May 2023 23:40:30 +0200, Konrad Dybcio wrote:
+> Document the SM6350 MDSS.
+> 
+> Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+> ---
+>  .../bindings/display/msm/qcom,sm6350-mdss.yaml     | 214 +++++++++++++++++++++
+>  1 file changed, 214 insertions(+)
+> 
 
-The first one is that right now KMS already doesn't guarantee that
-every property is supported on all hardware. The guarantee we have is
-that properties that are supported on a piece of hardware on a
-specific kernel will be supported on the same hardware on later
-kernels. The color pipeline is no different here. For a specific piece
-of hardware a newer kernel might only change the pipelines in a
-backwards compatible way and add new pipelines.
+My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+on your patch (DT_CHECKER_FLAGS is new in v5.13):
 
-So to answer your question: if some hardware with a novel pipeline
-will show up it might not be supported and that's fine. We already
-have cases where some hardware does not support the gamma lut property
-but only the CSC property and that breaks night light because we never
-bothered to write a shader fallback. KMS provides ways to offload work
-but a generic user space always has to provide a fallback and this
-doesn't change. Hardware specific user space on the other hand will
-keep working with the forward compatibility guarantees we want to
-provide.
+yamllint warnings/errors:
 
-The second answer is that we want to provide a user space library
-which takes a description of a color pipeline and tries to map that to
-the available KMS color pipelines. If there is a novel color
-operation, adding support in this library would then make it possible
-to offload compatible color pipelines on this new hardware for all
-consumers of the library. Obviously there is no guarantee that
-whatever color pipeline compositors come up with can actually be
-realized on specific hardware but that's just an inherent hardware
-issue.
+dtschema/dtc warnings/errors:
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/display/msm/qcom,sm6350-mdss.example.dtb: dsi@ae94000: compatible: 'oneOf' conditional failed, one must be fixed:
+	'qcom,sm6350-dsi-ctrl' is not one of ['qcom,apq8064-dsi-ctrl', 'qcom,msm8916-dsi-ctrl', 'qcom,msm8953-dsi-ctrl', 'qcom,msm8974-dsi-ctrl', 'qcom,msm8996-dsi-ctrl', 'qcom,msm8998-dsi-ctrl', 'qcom,qcm2290-dsi-ctrl', 'qcom,sc7180-dsi-ctrl', 'qcom,sc7280-dsi-ctrl', 'qcom,sdm660-dsi-ctrl', 'qcom,sdm845-dsi-ctrl', 'qcom,sm8150-dsi-ctrl', 'qcom,sm8250-dsi-ctrl', 'qcom,sm8350-dsi-ctrl', 'qcom,sm8450-dsi-ctrl', 'qcom,sm8550-dsi-ctrl']
+	'qcom,sm6350-dsi-ctrl' is not one of ['dsi-ctrl-6g-qcm2290']
+	From schema: /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/display/msm/qcom,sm6350-mdss.example.dtb: dsi@ae94000: Unevaluated properties are not allowed ('compatible' was unexpected)
+	From schema: /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml
 
-> We are not Android, or even Steam OS on a Steamdeck, we have to be
-> able to independently update the kernel for new hardware and not
-> require every compositor currently providing HDR to need to support
-> new hardware blocks and models at the same time.
->
-> Dave.
->
+doc reference errors (make refcheckdocs):
+
+See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20230411-topic-straitlagoon_mdss-v3-4-9837d6b3516d@linaro.org
+
+The base for the series is generally the latest rc1. A different dependency
+should be noted in *this* patch.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit after running the above command yourself. Note
+that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+your schema. However, it must be unset to test all examples with your schema.
 
