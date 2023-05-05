@@ -2,50 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B39686F8417
-	for <lists+dri-devel@lfdr.de>; Fri,  5 May 2023 15:31:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 829346F842B
+	for <lists+dri-devel@lfdr.de>; Fri,  5 May 2023 15:35:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C90B410E5FC;
-	Fri,  5 May 2023 13:31:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 68B7F10E601;
+	Fri,  5 May 2023 13:35:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 35B6F10E5FC
- for <dri-devel@lists.freedesktop.org>; Fri,  5 May 2023 13:31:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:References:
- Cc:To:Subject:From:MIME-Version:Date:Message-ID:Sender:Reply-To:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=2TA+wLIHLU+tCUmALKv0wq7ltb9AtFtS91GPDHiPePU=; b=Zrt//+uBcR6n2yI7g00o+Crhbt
- +yMnQeXly6TMVGACnswGeOJxDTjtzyx4YgDshnS0Iu7OAR+fqiWdqy8LjOkq5Zgz8weJEDvJ8cy5S
- uRGlmrJozIqIxGf3qDgTO7YmjiW8U0+fQsYJyW0NyFigrOhq7HmBlwXBVXulp3isfxr7HsW64nmi6
- NtAe9IlJPJiR9pDy1ClAPtmuUQYn1Sb/2x1QhVDavpXq0ScCix52trln8QgLT9hjL3pm6T/VfIBjV
- akAowNhAipW0cxmZSGc4D2seLptwFjs76PGpYX/YdcGFZJVqYg9+TMi/+V3592/mjt+hrXND3Ncav
- kZ/fTJXA==;
-Received: from [38.44.72.37] (helo=[192.168.31.42])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1puvWz-001t7S-Pm; Fri, 05 May 2023 15:31:29 +0200
-Message-ID: <f89361df-ed92-e584-87be-5d1a637b3c06@igalia.com>
-Date: Fri, 5 May 2023 12:31:27 -0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-From: Melissa Wen <mwen@igalia.com>
+Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com
+ [IPv6:2a00:1450:4864:20::52d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 89A2D10E605
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 May 2023 13:35:45 +0000 (UTC)
+Received: by mail-ed1-x52d.google.com with SMTP id
+ 4fb4d7f45d1cf-5068638856dso421473a12.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 05 May 2023 06:35:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ffwll.ch; s=google; t=1683293743; x=1685885743;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=n1nxkPMgUhJEfnlIrs+EREvmcGALDoMe5M5Yy7MyVoQ=;
+ b=AMJrwsp4asJe2akvlfwSNkcD5XQc9w/boRrHkQX4cX8dE00oEE3Pu7HpCDMV32wI9r
+ JOUZyzqOMccS8dKpTnbSSuQPX44SITORXZtCjzDpEY6xnQz2ufKV8QV+eImxIMcEXZeo
+ 4ikFj/DkgBW4ASLKkSqNru/wP2x7dwxrTzL/w=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1683293743; x=1685885743;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=n1nxkPMgUhJEfnlIrs+EREvmcGALDoMe5M5Yy7MyVoQ=;
+ b=fjduN4jizdQtZTGTNVScoSLvzDTULGfmfhYnLDWgACWRViVKmDDgqfd3O+mYJJfNWL
+ kTf+VMokjxCNsjRnuSipCsDFBiBiJXk0HML3aZWkfFAm4FaQSYjhZ4kjcF4B473NsfFb
+ fjDMbuAAcP3a8aCGd02BpYYk3ovLNgM4xKFsr3WLCQoE3sMo07w6YYIUbTYr4EbFhKTq
+ hBBobrK4iPIvvglsZRAgdhEu95RSqBfw/JJaPlb0u+cWniaqBW1Tqmfi9kNj98dFJqFs
+ uZqHQ60Qm0UwYr4UnwhUeZ9KOG4oSxktvA1w+oUcxh6NITBjo9nUsV3V876T2r0bppfc
+ GW1Q==
+X-Gm-Message-State: AC+VfDzsZ0uK4ecsG606yR49ruH7oSTMmz6MuIyu8k3OHtSu0D4ASTmF
+ Rpgzh7xKKTwG60mjbrsE6TuqnQ==
+X-Google-Smtp-Source: ACHHUZ5gJz9/dNCbU13aO8mCy0nuEY9XJoABWayh49evvnOJoNcjNYb9sM4gexk+F9+XyM7J1cC5hg==
+X-Received: by 2002:a17:906:7498:b0:963:2f13:8808 with SMTP id
+ e24-20020a170906749800b009632f138808mr1179600ejl.3.1683293743424; 
+ Fri, 05 May 2023 06:35:43 -0700 (PDT)
+Received: from phenom.ffwll.local (212-51-149-33.fiber7.init7.net.
+ [212.51.149.33]) by smtp.gmail.com with ESMTPSA id
+ de38-20020a1709069be600b0094e1344ddfdsm958058ejc.34.2023.05.05.06.35.42
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 05 May 2023 06:35:42 -0700 (PDT)
+Date: Fri, 5 May 2023 15:35:41 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Harry Wentland <harry.wentland@amd.com>
 Subject: Re: [PATCH] Documentation/gpu: Requirements for driver-specific KMS
  uAPIs
-To: Pekka Paalanen <pekka.paalanen@collabora.com>
+Message-ID: <ZFUGLT0fnFT6ffhA@phenom.ffwll.local>
 References: <20230504212557.61049-1-harry.wentland@amd.com>
  <20230505114320.1eb77237.pekka.paalanen@collabora.com>
  <ZFTXl3qPn7E0pQWO@phenom.ffwll.local>
- <20230505142039.0082a407.pekka.paalanen@collabora.com>
-Content-Language: en-US
-In-Reply-To: <20230505142039.0082a407.pekka.paalanen@collabora.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+ <da677863-3039-86e5-0ccc-10d1085fa962@amd.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <da677863-3039-86e5-0ccc-10d1085fa962@amd.com>
+X-Operating-System: Linux phenom 6.1.0-7-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,114 +77,116 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Sebastian Wick <sebastian.wick@redhat.com>,
- =?UTF-8?Q?Jonas_=c3=85dahl?= <jadahl@redhat.com>,
+ Pekka Paalanen <pekka.paalanen@collabora.com>,
+ Jonas =?iso-8859-1?Q?=C5dahl?= <jadahl@redhat.com>,
  dri-devel@lists.freedesktop.org, Xaver Hugl <xaver.hugl@gmail.com>,
- Victoria Brekenfeld <victoria@system76.com>,
- =?UTF-8?Q?Michel_D=c3=a4nzer?= <mdaenzer@redhat.com>,
- Uma Shankar <uma.shankar@intel.com>, Aleix Pol <aleixpol@kde.org>,
+ Melissa Wen <mwen@igalia.com>,
+ Michel =?iso-8859-1?Q?D=E4nzer?= <mdaenzer@redhat.com>,
+ Uma Shankar <uma.shankar@intel.com>,
+ Victoria Brekenfeld <victoria@system76.com>, Aleix Pol <aleixpol@kde.org>,
  Joshua Ashton <joshua@froggi.es>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 05/05, Pekka Paalanen wrote:
-> On Fri, 5 May 2023 12:16:55 +0200
-> Daniel Vetter <daniel@ffwll.ch> wrote:
+On Fri, May 05, 2023 at 09:20:26AM -0400, Harry Wentland wrote:
 > 
+> 
+> On 5/5/23 06:16, Daniel Vetter wrote:
 > > On Fri, May 05, 2023 at 11:43:20AM +0300, Pekka Paalanen wrote:
-> > > On Thu, 4 May 2023 17:25:57 -0400
-> > > Harry Wentland <harry.wentland@amd.com> wrote:
-> > >   
-> > > > We have steered away for a long time now from driver-specific KMS APIs
-> > > > for good reasons but never codified our stance. With the proposal of
-> > > > new, driver-specific color management uAPIs [1] it is important to
-> > > > outline the requirements for the rare times when driver-specific KMS
-> > > > uAPIs are desired in order to move complex topics along.
-> > > > 
-> > > > [1] https://patchwork.freedesktop.org/series/116862/
-> > > > 
-> > > > Signed-off-by: Harry Wentland <harry.wentland@amd.com>
-> > > > Cc: Simon Ser <contact@emersion.fr>
-> > > > Cc: Joshua Ashton <joshua@froggi.es>
-> > > > Cc: Michel Dänzer <mdaenzer@redhat.com>
-> > > > Cc: Sebastian Wick <sebastian.wick@redhat.com>
-> > > > Cc: Jonas Ådahl <jadahl@redhat.com>
-> > > > Cc: Alex Goins <agoins@nvidia.com>
-> > > > Cc: Pekka Paalanen <pekka.paalanen@collabora.com>
-> > > > Cc: Melissa Wen <mwen@igalia.com>
-> > > > Cc: Aleix Pol <aleixpol@kde.org>
-> > > > Cc: Xaver Hugl <xaver.hugl@gmail.com>
-> > > > Cc: Victoria Brekenfeld <victoria@system76.com>
-> > > > Cc: Daniel Vetter <daniel@ffwll.ch>
-> > > > Cc: Dave Airlie <airlied@gmail.com>
-> > > > Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
-> > > > Cc: Uma Shankar <uma.shankar@intel.com>
-> > > > To: dri-devel@lists.freedesktop.org
-> > > > ---
-> > > >  Documentation/gpu/drm-uapi.rst | 32 ++++++++++++++++++++++++++++++++
-> > > >  1 file changed, 32 insertions(+)
-> > > > 
-> > > > diff --git a/Documentation/gpu/drm-uapi.rst b/Documentation/gpu/drm-uapi.rst
-> > > > index ce47b4292481..eaefc3ed980c 100644
-> > > > --- a/Documentation/gpu/drm-uapi.rst
-> > > > +++ b/Documentation/gpu/drm-uapi.rst
-> > > > @@ -118,6 +118,38 @@ is already rather painful for the DRM subsystem, with multiple different uAPIs
-> > > >  for the same thing co-existing. If we add a few more complete mistakes into the
-> > > >  mix every year it would be entirely unmanageable.
-> > > >  
-> > > > +.. _driver_specific:
-> > > > +
-> > > > +Driver-Specific DRM/KMS uAPI
-> > > > +============================
-> > > > +
-> > > > +Driver-specific interfaces are strongly discouraged for DRM/KMS interfaces.
-> > > > +Kernel-modesetting (KMS) functionality does in principle apply to all drivers.
-> > > > +Driver-specific uAPIs tends to lead to unique implementations in userspace and
-> > > > +are often hard to maintain, especially when different drivers implement similar
-> > > > +but subtly different uAPIs.
-> > > > +
-> > > > +At times arriving at a consensus uAPI can be a difficult and lengthy process and
-> > > > +might benefit from experimentation. This experimentation might warrant
-> > > > +introducing driver specific APIs in order to move the eosystem forward. If a
-> > > > +driver decides to go down this path we ask for the following:  
+> >> On Thu, 4 May 2023 17:25:57 -0400
+> >> Harry Wentland <harry.wentland@amd.com> wrote:
+> >>
+> >>> We have steered away for a long time now from driver-specific KMS APIs
+> >>> for good reasons but never codified our stance. With the proposal of
+> >>> new, driver-specific color management uAPIs [1] it is important to
+> >>> outline the requirements for the rare times when driver-specific KMS
+> >>> uAPIs are desired in order to move complex topics along.
+> >>>
+> >>> [1] https://patchwork.freedesktop.org/series/116862/
+> >>>
+> >>> Signed-off-by: Harry Wentland <harry.wentland@amd.com>
+> >>> Cc: Simon Ser <contact@emersion.fr>
+> >>> Cc: Joshua Ashton <joshua@froggi.es>
+> >>> Cc: Michel D�nzer <mdaenzer@redhat.com>
+> >>> Cc: Sebastian Wick <sebastian.wick@redhat.com>
+> >>> Cc: Jonas �dahl <jadahl@redhat.com>
+> >>> Cc: Alex Goins <agoins@nvidia.com>
+> >>> Cc: Pekka Paalanen <pekka.paalanen@collabora.com>
+> >>> Cc: Melissa Wen <mwen@igalia.com>
+> >>> Cc: Aleix Pol <aleixpol@kde.org>
+> >>> Cc: Xaver Hugl <xaver.hugl@gmail.com>
+> >>> Cc: Victoria Brekenfeld <victoria@system76.com>
+> >>> Cc: Daniel Vetter <daniel@ffwll.ch>
+> >>> Cc: Dave Airlie <airlied@gmail.com>
+> >>> Cc: Ville Syrj�l� <ville.syrjala@linux.intel.com>
+> >>> Cc: Uma Shankar <uma.shankar@intel.com>
+> >>> To: dri-devel@lists.freedesktop.org
+> >>> ---
+> >>>  Documentation/gpu/drm-uapi.rst | 32 ++++++++++++++++++++++++++++++++
+> >>>  1 file changed, 32 insertions(+)
+> >>>
+> >>> diff --git a/Documentation/gpu/drm-uapi.rst b/Documentation/gpu/drm-uapi.rst
+> >>> index ce47b4292481..eaefc3ed980c 100644
+> >>> --- a/Documentation/gpu/drm-uapi.rst
+> >>> +++ b/Documentation/gpu/drm-uapi.rst
+> >>> @@ -118,6 +118,38 @@ is already rather painful for the DRM subsystem, with multiple different uAPIs
+> >>>  for the same thing co-existing. If we add a few more complete mistakes into the
+> >>>  mix every year it would be entirely unmanageable.
+> >>>  
+> >>> +.. _driver_specific:
+> >>> +
+> >>> +Driver-Specific DRM/KMS uAPI
+> >>> +============================
+> >>> +
+> >>> +Driver-specific interfaces are strongly discouraged for DRM/KMS interfaces.
+> >>> +Kernel-modesetting (KMS) functionality does in principle apply to all drivers.
+> >>> +Driver-specific uAPIs tends to lead to unique implementations in userspace and
+> >>> +are often hard to maintain, especially when different drivers implement similar
+> >>> +but subtly different uAPIs.
+> >>> +
+> >>> +At times arriving at a consensus uAPI can be a difficult and lengthy process and
+> >>> +might benefit from experimentation. This experimentation might warrant
+> >>> +introducing driver specific APIs in order to move the eosystem forward. If a
+> >>> +driver decides to go down this path we ask for the following:
 > > 
 > > I don't like this for two fairly fundamental reasons, neither of which are
 > > that sometimes merging stuff that's not great is the right thing to do to
 > > move the community and ecosystem forward.
 > > 
-> > > Hi,
-> > > 
-> > > should it be "require" instead of "ask"?
-> > >   
-> > > > +
-> > > > +- An agreement within the community that introducing driver-specific uAPIs is
-> > > > +  warranted in this case;
-> > > > +
-> > > > +- The new uAPI is behind a CONFIG option that is clearly marked EXPERIMENTAL and
-> > > > +  is disabled by default;
-> > > > +
-> > > > +- The new uAPI is enabled when a module parameter for the driver is set, and
-> > > > +  defaults to 'off' otherwise;
-> > > > +
-> > > > +- The new uAPI follows all open-source userspace requirements outlined above;
-> > > > +
-> > > > +- The focus is maintained on development of a vendor-neutral uAPI and progress
-> > > > +  toward such an uAPI needs to be apparent on public forums. If no such progress
-> > > > +  is visible within a reasonable timeframe (1-2 years) anybody is within their
-> > > > +  right to send, review, and merge patches that remove the driver-specific uAPI.
-> > > > +
-> > > >  .. _drm_render_node:
-> > > >  
-> > > >  Render nodes  
-> > > 
-> > > Seems fine to me. I have another addition to suggest:
-> > > 
-> > > When such UAPI is introduced, require that it comes with an expiration
-> > > date. This date should be unmissable, not just documented. The kernel
-> > > module parameter name to enable the UAPI could contain the expiry date,
-> > > for example.
-> > > 
-> > > After all, the most important thing to get through to users is that
-> > > this *will* go away and not just theoretically.  
+> >> Hi,
+> >>
+> >> should it be "require" instead of "ask"?
+> >>
+> >>> +
+> >>> +- An agreement within the community that introducing driver-specific uAPIs is
+> >>> +  warranted in this case;
+> >>> +
+> >>> +- The new uAPI is behind a CONFIG option that is clearly marked EXPERIMENTAL and
+> >>> +  is disabled by default;
+> >>> +
+> >>> +- The new uAPI is enabled when a module parameter for the driver is set, and
+> >>> +  defaults to 'off' otherwise;
+> >>> +
+> >>> +- The new uAPI follows all open-source userspace requirements outlined above;
+> >>> +
+> >>> +- The focus is maintained on development of a vendor-neutral uAPI and progress
+> >>> +  toward such an uAPI needs to be apparent on public forums. If no such progress
+> >>> +  is visible within a reasonable timeframe (1-2 years) anybody is within their
+> >>> +  right to send, review, and merge patches that remove the driver-specific uAPI.
+> >>> +
+> >>>  .. _drm_render_node:
+> >>>  
+> >>>  Render nodes
+> >>
+> >> Seems fine to me. I have another addition to suggest:
+> >>
+> >> When such UAPI is introduced, require that it comes with an expiration
+> >> date. This date should be unmissable, not just documented. The kernel
+> >> module parameter name to enable the UAPI could contain the expiry date,
+> >> for example.
+> >>
+> >> After all, the most important thing to get through to users is that
+> >> this *will* go away and not just theoretically.
 > > 
 > > There's no taking-backsies with uapi. If there is a regression report,
 > > we'll have to keep it around, for the usual approximation of "forever"
@@ -177,6 +197,22 @@ On 05/05, Pekka Paalanen wrote:
 > > 
 > > We can't.
 > > 
+> 
+> Yeah, that last bullet was least sure about. FWIW, I'm prepared to maintain
+> AMD driver-specific properties for this "forever."
+
+I guess a middle ground would be to up-front limit this to one generation
+only.
+
+And then accept reality that the generic solution takes a bit longer and
+end up supporting this on two.
+
+The other approach would be to make sure you can remap the amd properties
+onto the generic pipeline, and essentially use that to proof the generic
+approach. This would exactly match how all the legacy kms ioctl remapping
+to atomic helped proof the atomic infrastructure and driver
+implementations.
+
 > > The times we've hidden uapi behind knobs was _not_ for uapi we
 > > fundamentally didn't want, at least for the long term. But for the cases
 > > where the overall scope was simply too big, and we needed some time
@@ -196,77 +232,7 @@ On 05/05, Pekka Paalanen wrote:
 > >   floating around) that wasn't deemed ready as the long term solution, we
 > >   were simply not sure we got it right until all the pieces where in
 > >   place.
-> 
-> Hi Daniel,
-> 
-> I would be bold enough to claim that the KMS color processing UAPI has
-> all the same problems as atomic, except it is even bigger on the UAPI
-> surface, while the kernel internal driver code independent of the UAPI
-> is probably trivial(*) in comparison or even non-existing. This is all
-> about what hardware does and how to generalize a description of that
-> over all hardware of all vendors. I do not think there would be any
-> kind of complex state tracking needed inside the kernel, all the
-> complexity is at the UAPI interface and its definition.
-> 
-> Therefore I doubt the plan you proposed at the end. Do you have any
-> other suggestions?
-> 
-> 
-> Thanks,
-> pq
-> 
-> (*) I do not want to imply that the driver code is somehow not real
-> work to write. What I mean is that once the UAPI is defined, and you
-> know what your hardware does, you shouldn't have any trouble writing
-> that code. But without UAPI defined, I'd assume there is almost nothing
-> to write.
-> 
-> I haven't looked at the AMD patches to see what would be left if the
-> UAPI was dropped. Melissa?
-
-We are exposing these elements in a driver-specific plane color API:
-
-     │       ├───"AMD_PLANE_DEGAMMA_LUT": blob = 0
-     │       ├───"AMD_PLANE_DEGAMMA_LUT_SIZE" (immutable): range [0, 
-UINT32_MAX] = 4096
-     │       ├───"AMD_PLANE_DEGAMMA_TF": enum {Default, sRGB, BT.709, PQ 
-(Perceptual Quantizer), Linear, Unity, HLG (Hybrid Log Gamma), Gamma 
-2.2, Gamma 2.4, Gamma 2.6} = Default
-     │       ├───"AMD_PLANE_HDR_MULT": range [0, UINT32_MAX] = 0
-     │       ├───"AMD_PLANE_SHAPER_LUT": blob = 0
-     │       ├───"AMD_PLANE_SHAPER_LUT_SIZE" (immutable): range [0, 
-UINT32_MAX] = 4096
-     │       ├───"AMD_PLANE_SHAPER_TF": enum {Default, sRGB, BT.709, PQ 
-(Perceptual Quantizer), Linear, Unity, HLG (Hybrid Log Gamma), Gamma 
-2.2, Gamma 2.4, Gamma 2.6} = Default
-     │       ├───"AMD_PLANE_LUT3D": blob = 0
-     │       ├───"AMD_PLANE_LUT3D_SIZE" (immutable): range [0, 
-UINT32_MAX] = 4913
-     │       ├───"AMD_PLANE_BLEND_LUT": blob = 0
-     │       ├───"AMD_PLANE_BLEND_LUT_SIZE" (immutable): range [0, 
-UINT32_MAX] = 4096
-     │       └───"AMD_PLANE_BLEND_TF": enum {Default, sRGB, BT.709, PQ 
-(Perceptual Quantizer), Linear, Unity, HLG (Hybrid Log Gamma), Gamma 
-2.2, Gamma 2.4, Gamma 2.6} = Default
-
-In addition, we have extended CRTC color mgmt properties with:
-
-│   │       ├───"AMD_SHAPER_LUT": blob = 0
-│   │       ├───"AMD_SHAPER_LUT_SIZE" (immutable): range [0, UINT32_MAX] 
-= 4096
-│   │       ├───"AMD_LUT3D": blob = 0
-│   │       ├───"AMD_LUT3D_SIZE" (immutable): range [0, UINT32_MAX] = 4913
-│   │       └───"AMD_GAMMA_TF": enum {Default, sRGB, BT.709, PQ 
-(Perceptual Quantizer), Linear, Unity, HLG (Hybrid Log Gamma), Gamma 
-2.2, Gamma 2.4, Gamma 2.6} = Default
-
-I agree that defining a generic API is the uncertain part, and the most
-problematic one. IMHO, this work gets worse because we don't have a
-clear view of color capabilities of other vendors like we have from AMD
-that already provided a good documentation of HW color caps and also the
-shared-code.
-
-> 
+> > 
 > >   And viz Xorg-modesetting, in at least one case we still got it wrong and
 > >   had to disable atomic for that userspace.
 > > 
@@ -277,21 +243,35 @@ shared-code.
 > > So _if_ we do this we need to be clear that uapi is forever, and not have
 > > docs that suggest otherwise.
 > > 
-> > > If that date needs to be moved forward, it should be possible to do so
-> > > with a simple patch gathering enough acks. The main thing is to set the
-> > > date from the start, so there can be no confusion about when its going
-> > > to the chopping block.
-> > > 
-> > > I do not suggest that the kernel would automatically runtime disable
-> > > the UAPI after that date.
-> > > 
-> > > Does any of the big idea fly with upper maintainers and Linus?  
+> >> If that date needs to be moved forward, it should be possible to do so
+> >> with a simple patch gathering enough acks. The main thing is to set the
+> >> date from the start, so there can be no confusion about when its going
+> >> to the chopping block.
+> >>
+> >> I do not suggest that the kernel would automatically runtime disable
+> >> the UAPI after that date.
+> >>
+> >> Does any of the big idea fly with upper maintainers and Linus?
 > > 
 > > The other reason, and maybe even more fundamental one, is that I think the
 > > uncertainty of not documenting how pragmatic we are is beneficial.
 > > 
 > > We should definitely document the gold standard aspirations, to make sure
 > > everyone knows where to aim for. And I'm definitely all for pragmatic
+> 
+> So if I read you correctly you'd prefer just a short paragraph along the
+> lines of: avoid driver-specific uAPIs and instead define vendor neutral
+> uAPIs in core DRM?
+
+Yeah, but I also thought we've had this as at least the aspirational goal
+already? After the free-for-all driver-specific kms property mess at
+least:
+
+https://dri.freedesktop.org/docs/drm/gpu/drm-kms.html#requirements
+
+So we have all this already I think. Might just need to link it more so
+it's not lost :-)
+
 > > merging where it makes sense, we've had tons of that, and happily carry
 > > the costs to this day for some of them:
 > > 
@@ -338,6 +318,9 @@ shared-code.
 > > uncertainty) to try to bend them towards the least amount of collaboration
 > > a vendor can get away with.
 > > 
+> 
+> That makes a lot of sense.
+> 
 > > That's why I really want to keep the undocumented and hence uncertain
 > > rules in this space.
 > > 
@@ -346,6 +329,18 @@ shared-code.
 > > 
 > > 1. land the amdgpu code, but without uapi
 > > 
+> 
+> Would it be acceptable to guard uAPI bits behind #ifdef AMD_PLANE_COLOR
+> so anyone who wants it needs to do -DAMD_PLANE_COLOR or should we leave
+> those bits out completely so someone who wants a kernel with them needs
+> to apply a patch to add them?
+
+Yeah I guess #ifdef is fine. But if you merge it all including structures
+then really the only code left out is the one that registers the
+properties against the planes (since the idea is to keep everything else,
+especially all the state structure scaffolding), and that shouldn't be
+much of a patch really.
+
 > > 2. use that (and any other driver code that's been floating around in this
 > > space) to build up the kernel-internal infrastructure - the proposed graph
 > > of color transformation blocks will need quite a few things
@@ -354,9 +349,30 @@ shared-code.
 > > not yet complete or ready for prime time as we sometimes do with bigger
 > > projects
 > > 
+> 
+> This would be the vendor neutral uAPI, so something like the RFC Simon
+> sent out, right?
+
+Yeah.
+
+And see my comments about about the vendor uapi, depending upon how this
+all pans out you might consider the option of doing the amdgpu props on
+top of the new graph node color pipeline proposal, to proof that out. Like
+we've done with atomic.
+
+Cheers, Daniel
+
+> 
+> Harry
+> 
 > > Obviously compositor work, igts, docs and all that too, and most of all
 > > this can happen in parallel too once we have a rough consensus on where to
 > > aim for.
 > > 
 > > Cheers, Daniel
 > 
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
