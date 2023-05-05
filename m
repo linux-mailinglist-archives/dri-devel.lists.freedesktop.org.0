@@ -1,41 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 079056F7BA1
-	for <lists+dri-devel@lfdr.de>; Fri,  5 May 2023 05:50:08 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D67886F7BA7
+	for <lists+dri-devel@lfdr.de>; Fri,  5 May 2023 05:51:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7A60A10E551;
-	Fri,  5 May 2023 03:50:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F2B2F10E550;
+	Fri,  5 May 2023 03:51:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org
  [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0B50110E555
- for <dri-devel@lists.freedesktop.org>; Fri,  5 May 2023 03:50:00 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9CF8010E550
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 May 2023 03:51:04 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 431DC63131
- for <dri-devel@lists.freedesktop.org>; Fri,  5 May 2023 03:49:59 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id A2289C433D2
- for <dri-devel@lists.freedesktop.org>; Fri,  5 May 2023 03:49:58 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id B8C6663900
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 May 2023 03:51:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 2ABE9C433EF
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 May 2023 03:51:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1683258598;
- bh=5zMyu71CWwqZxUeufmNlywEhKUxtLJRevlE02q3ib7U=;
+ s=k20201202; t=1683258663;
+ bh=K088nUvJclAa/n7pKftuEscczOuopngWWbhkXhmz3qY=;
  h=From:To:Subject:Date:In-Reply-To:References:From;
- b=KLei1yBTJFD3eyaUnFfJlL5LAP4bbYy9FETax02IDB4yMKLzkNNC0NUivm0XFDJEW
- s976r/d1IEEksf+g4GW97pcZf0cCm2T/RsKr7S9LLyCOMjB8gczDkiuWkrE70fb2TB
- 04U3T1SESmttwIMzg3duWs+9GXumBF6VRpYzDaF2Z92ZvBXgC2/BuaG1LymCKsL9Ti
- R24PmgY8skXALyX6psu77NEvhNhCPdyzrR72GzvIcfLYvE2+VR3QH7D0x9i+gvdulo
- i9yLaT3MkWpiaA2BB8HAWcXP7SYqRdxl3RJ38lv2dDyz6BglQGrGgWDhr4+EteF9N2
- tXXZ/KPmOHCtw==
+ b=DGlSj5Yf7YqIRyDtST08tgvGn3u7XqPo1gjuSkpoR6bQlntLoHmAH4dsijUsERwTo
+ vwrtuvWp+9EBw9rjcgVbbNQKb79bMqqrfvLrCGKWIPwa+nEUom1kyiQ3euHFZ5zEDK
+ Q6ZdpsJ6/QFX+6FI9HtcCMYfT4ZILVDPAEbAbm3Ai9n4SIwEWV0WEDWo9iMxSzKE8Z
+ GPawrS4EimlUvK+mQUTs4y+QlEKhWtPzT4vWHozlulXEwqpVtloNX4VHoQm27z79Gk
+ CV73IEWl4ZlIx/kL43ZBEkJJoGko/XyxLLMUTU/QvkUzf+hnikTINcF7FB5gmM1t8F
+ wROGyglr07xzA==
 Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id 9307DC43144; Fri,  5 May 2023 03:49:58 +0000 (UTC)
+ from userid 48) id 1C7E3C43144; Fri,  5 May 2023 03:51:03 +0000 (UTC)
 From: bugzilla-daemon@kernel.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 217397] amdgpu module loading breaks display output - no signal
-Date: Fri, 05 May 2023 03:49:58 +0000
+Date: Fri, 05 May 2023 03:51:02 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -45,13 +45,13 @@ X-Bugzilla-Version: 2.5
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: normal
 X-Bugzilla-Who: regressions@leemhuis.info
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
+X-Bugzilla-Status: RESOLVED
+X-Bugzilla-Resolution: DUPLICATE
 X-Bugzilla-Priority: P3
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: cc
-Message-ID: <bug-217397-2300-p31Vlh1HPx@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: bug_status resolution
+Message-ID: <bug-217397-2300-fpJWp6iT0H@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-217397-2300@https.bugzilla.kernel.org/>
 References: <bug-217397-2300@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -81,22 +81,14 @@ huis.info) changed:
 
            What    |Removed                     |Added
 ----------------------------------------------------------------------------
-                 CC|                            |regressions@leemhuis.info
+             Status|NEW                         |RESOLVED
+         Resolution|---                         |DUPLICATE
 
---- Comment #1 from The Linux kernel's regression tracker (Thorsten Leemhui=
+--- Comment #2 from The Linux kernel's regression tracker (Thorsten Leemhui=
 s) (regressions@leemhuis.info) ---
-This report here will likely not be seen by the amdgpu developers, they exp=
-ect
-bugs to be filed here instead:
-https://gitlab.freedesktop.org/drm/amd/-/issues
 
-If you file it there, please drop a link to the report here.
 
-BTW, did it work on earlier kernels? Which ones? there is a report about a
-problem in earlier kernels that sound somewhat similar (but it might be
-something totally different):=20
-https://lore.kernel.org/all/46a7eb80-5f09-4f6a-4fd3-9550dafd497c@felixricht=
-er.tech/
+*** This bug has been marked as a duplicate of bug 217398 ***
 
 --=20
 You may reply to this email to add a comment.
