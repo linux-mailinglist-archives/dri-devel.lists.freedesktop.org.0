@@ -1,65 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92B826F89E1
-	for <lists+dri-devel@lfdr.de>; Fri,  5 May 2023 21:54:04 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 62F806F89FC
+	for <lists+dri-devel@lfdr.de>; Fri,  5 May 2023 22:06:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6EA9410E665;
-	Fri,  5 May 2023 19:54:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9D49E10E667;
+	Fri,  5 May 2023 20:06:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com
- [IPv6:2a00:1450:4864:20::533])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 20F4310E665
- for <dri-devel@lists.freedesktop.org>; Fri,  5 May 2023 19:54:01 +0000 (UTC)
-Received: by mail-ed1-x533.google.com with SMTP id
- 4fb4d7f45d1cf-5068638856dso526568a12.1
- for <dri-devel@lists.freedesktop.org>; Fri, 05 May 2023 12:54:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1683316439; x=1685908439;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=FO+OpIt5vjN5h9Zkn7NXwdU1u7IZzTnzRrar/P6yDW4=;
- b=f6sk0x2lVF1nq3EJ5b5K+BN8/8vCl3cRf8e5n9kWcvKWz1wS/nFIvj3y7IR7WZRgPi
- GhuMhJHRrqqqkLmXV437VpkAz1UfzoBztlx1+YB5h4Fz3NEYVtjGi4gaY6ogfun+cms7
- q6Gin9pBpAW1n8IS8wlhA3B1ce1ObPySDNUKM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683316439; x=1685908439;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=FO+OpIt5vjN5h9Zkn7NXwdU1u7IZzTnzRrar/P6yDW4=;
- b=Y3RlCFkOCrKGQ2jCJPw77KJfdEWj6yJcKj1qwSwnD61qR1YcLP+/CQ6sxL2OsklMv6
- cFvupBhHw46SPuHI8oQxEQfFu0A2vcrhsxVbpyFARSvcI2SwASEJTaps5DCxjBbLZmjA
- QEorB4H0jdf4sJfu1t9YHIRmi9zoUCzQOUuZ2PkjR/LZIg7qmiVTWo5R4Lm48SLkWwR3
- DcvinhLAB3X6keKZRIT0xtnfUWetzN77GmRQBM2V4mhZNKi2pW1q7UPB40uP9TmvdFbv
- G4HaAQz7/9y23ftlAsRaMA3ZbIUQQAygDESoWtDbe3ejbMY5+ltAGmIERa0YJNgp+qHl
- i4Pg==
-X-Gm-Message-State: AC+VfDwNZW7TBZF420hJBqfrruI8S89KhiOxiqxjijHAvbT9Fvhg96UJ
- 41u5ykXrK5QL5pqUTcQp5Hl7RA==
-X-Google-Smtp-Source: ACHHUZ78IqlwCXHIp5BMrovQm1CzXf398xW7VQs5WXtdT7qw3K0ZSAlk5sGHNrWnJCHizT0eTWNxPA==
-X-Received: by 2002:a05:6402:5242:b0:504:853a:85c0 with SMTP id
- t2-20020a056402524200b00504853a85c0mr2706834edd.0.1683316439037; 
- Fri, 05 May 2023 12:53:59 -0700 (PDT)
-Received: from phenom.ffwll.local (212-51-149-33.fiber7.init7.net.
- [212.51.149.33]) by smtp.gmail.com with ESMTPSA id
- f12-20020a05640214cc00b005068fe6f3d8sm3221520edx.87.2023.05.05.12.53.58
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 05 May 2023 12:53:58 -0700 (PDT)
-Date: Fri, 5 May 2023 21:53:56 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Simon Ser <contact@emersion.fr>
-Subject: Re: [RFC] Plane color pipeline KMS uAPI
-Message-ID: <ZFVe1EPIV65ZpaQv@phenom.ffwll.local>
-References: <QMers3awXvNCQlyhWdTtsPwkp5ie9bze_hD5nAccFW7a_RXlWjYB7MoUW_8CKLT2bSQwIXVi5H6VULYIxCdgvryZoAoJnC5lZgyK1QWn488=@emersion.fr>
- <ZFUgnMI4IIbv78By@phenom.ffwll.local>
- <-srJIIP1y4EoWtJAfk4_EaRpo7i2x1lXu0HKX4wLHcsmMfnrCdMb0EpPHOdedfZitFpdxIl3rDjBceq_UtYhQSIyJmNMVase-Oa9iP-RQ2o=@emersion.fr>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AB86610E032;
+ Fri,  5 May 2023 20:06:38 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 1816E64070;
+ Fri,  5 May 2023 20:06:38 +0000 (UTC)
+Received: from rdvivi-mobl4 (unknown [192.55.54.48])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by smtp.kernel.org (Postfix) with ESMTPSA id A06DCC433D2;
+ Fri,  5 May 2023 20:06:33 +0000 (UTC)
+Date: Fri, 5 May 2023 16:06:31 -0400
+From: Rodrigo Vivi <rodrigo.vivi@kernel.org>
+To: Andrzej Hajda <andrzej.hajda@intel.com>
+Subject: Re: [Intel-gfx] [PATCH v8 0/7] drm/i915: use ref_tracker library for
+ tracking wakerefs
+Message-ID: <ZFVhx2PBdcwpNNl0@rdvivi-mobl4>
+References: <20230224-track_gt-v8-0-4b6517e61be6@intel.com>
+ <55aa19b3-58d4-02ae-efd1-c3f3d0f21ce6@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <-srJIIP1y4EoWtJAfk4_EaRpo7i2x1lXu0HKX4wLHcsmMfnrCdMb0EpPHOdedfZitFpdxIl3rDjBceq_UtYhQSIyJmNMVase-Oa9iP-RQ2o=@emersion.fr>
-X-Operating-System: Linux phenom 6.1.0-7-amd64 
+In-Reply-To: <55aa19b3-58d4-02ae-efd1-c3f3d0f21ce6@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,45 +46,153 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sebastian Wick <sebastian.wick@redhat.com>,
- Pekka Paalanen <pekka.paalanen@collabora.com>,
- Michel =?iso-8859-1?Q?D=E4nzer?= <mdaenzer@redhat.com>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- "xaver.hugl@gmail.com" <xaver.hugl@gmail.com>, Melissa Wen <mwen@igalia.com>,
- Jonas =?iso-8859-1?Q?=C5dahl?= <jadahl@redhat.com>,
- Uma Shankar <uma.shankar@intel.com>,
- Victoria Brekenfeld <victoria@system76.com>, Aleix Pol <aleixpol@kde.org>,
- wayland-devel <wayland-devel@lists.freedesktop.org>,
- Joshua Ashton <joshua@froggi.es>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, netdev@vger.kernel.org,
+ intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Chris Wilson <chris@chris-wilson.co.uk>, Eric Dumazet <edumazet@google.com>,
+ dri-devel@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Jakub Kicinski <kuba@kernel.org>, "David S . Miller" <davem@davemloft.net>,
+ Dmitry Vyukov <dvyukov@google.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, May 05, 2023 at 04:06:26PM +0000, Simon Ser wrote:
-> On Friday, May 5th, 2023 at 17:28, Daniel Vetter <daniel@ffwll.ch> wrote:
+On Thu, May 04, 2023 at 06:27:53PM +0200, Andrzej Hajda wrote:
+> Hi maintainers of net and i915,
 > 
-> > Ok no comments from me on the actual color operations and semantics of all
-> > that, because I have simply nothing to bring to that except confusion :-)
+> On 25.04.2023 00:05, Andrzej Hajda wrote:
+> > This is revived patchset improving ref_tracker library and converting
+> > i915 internal tracker to ref_tracker.
+> > The old thread ended without consensus about small kernel allocations,
+> > which are performed under spinlock.
+> > I have tried to solve the problem by splitting the calls, but it results
+> > in complicated API, so I went back to original solution.
+> > If there are better solutions I am glad to discuss them.
+> > Meanwhile I send original patchset with addressed remaining comments.
 > > 
-> > Some higher level thoughts instead:
+> > To: Jani Nikula <jani.nikula@linux.intel.com>
+> > To: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+> > To: Rodrigo Vivi <rodrigo.vivi@intel.com>
+> > To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+> > To: David Airlie <airlied@gmail.com>
+> > To: Daniel Vetter <daniel@ffwll.ch>
+> > To: Eric Dumazet <edumazet@google.com>
+> > Cc: linux-kernel@vger.kernel.org
+> > Cc: intel-gfx@lists.freedesktop.org
+> > Cc: dri-devel@lists.freedesktop.org
+> > Cc: Chris Wilson <chris@chris-wilson.co.uk>
+> > Cc: netdev@vger.kernel.org
+> > Cc: Jakub Kicinski <kuba@kernel.org>
+> > Cc: Dmitry Vyukov <dvyukov@google.com>
+> > Cc: "David S. Miller" <davem@davemloft.net>
+> > Cc: Andi Shyti <andi.shyti@linux.intel.com>
+> > Cc: Das, Nirmoy <nirmoy.das@linux.intel.com>
+> > Signed-off-by: Andrzej Hajda <andrzej.hajda@intel.com>
 > > 
-> > - I really like that we just go with graph nodes here. I think that was
-> >   bound to happen sooner or later with kms (we almost got there with
-> >   writeback, and with hindsight maybe should have).
+> > ---
+> > Changes in v8:
+> > - addressed comments from Eric, Zhou and CI, thanks,
+> > - added ref_tracker_dir_init name argument to all callers in one patch
+> > - moved intel_wakeref_tracker_show to *.c
+> > - s/intel_wakeref_tracker_show/intel_ref_tracker_show/
+> > - removed 'default n' from Kconfig
+> > - changed strlcpy to strscpy,
+> > - removed assignement from if condition,
+> > - removed long lines from patch description
+> > - added tags
+> > - Link to v7: https://lore.kernel.org/r/20230224-track_gt-v7-0-11f08358c1ec@intel.com
+> > 
+> > Changes in v7:
+> > - removed 8th patch (hold wakeref), as it was already merged
+> > - added tags (thx Andi)
+> > - Link to v6: https://lore.kernel.org/r/20230224-track_gt-v6-0-0dc8601fd02f@intel.com
+> > 
+> > Changes in v6:
+> > - rebased to solve minor conflict and allow CI testing
+> > - Link to v5: https://lore.kernel.org/r/20230224-track_gt-v5-0-77be86f2c872@intel.com
+> > 
+> > Changes in v5 (thx Andi for review):
+> > - use *_locked convention instead of __*,
+> > - improved commit messages,
+> > - re-worked i915 patches, squashed separation and conversion patches,
+> > - added tags,
+> > - Link to v4: https://lore.kernel.org/r/20230224-track_gt-v4-0-464e8ab4c9ab@intel.com
+> > 
+> > Changes in v4:
+> > - split "Separate wakeref tracking" to smaller parts
+> > - fixed typos,
+> > - Link to v1-v3: https://patchwork.freedesktop.org/series/100327/
+> > 
+> > ---
+> > Andrzej Hajda (7):
+> >        lib/ref_tracker: add unlocked leak print helper
+> >        lib/ref_tracker: improve printing stats
+> >        lib/ref_tracker: add printing to memory buffer
+> >        lib/ref_tracker: remove warnings in case of allocation failure
+> >        drm/i915: Correct type of wakeref variable
+> >        drm/i915: Replace custom intel runtime_pm tracker with ref_tracker library
+> >        drm/i915: Track gt pm wakerefs
 > 
-> I'd really rather not do graphs here. We only need linked lists as Sebastian
-> said. Graphs would significantly add more complexity to this proposal, and
-> I don't think that's a good idea unless there is a strong use-case.
+> Finally all patches are reviewed.
+> Question to network and i915 maintainers, how to merge this patchset:
+> 1. Patches 1-4 belongs rather to network domain (especially patch 2).
+> 2. Patches 5-7 are for i915.
 
-You have a graph, because a graph is just nodes + links. I did _not_
-propose a full generic graph structure, the link pointer would be in the
-class/type specific structure only. Like how we have the plane->crtc or
-connector->crtc links already like that (which already _is_ is full blown
-graph).
+Well, probably the easiest way to avoid conflicts would be to send
+this right now through the net repo.
 
-Maybe explain what exactly you're thinking under "do graphs here" so I
-understand what you mean differently than me?
--Daniel
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+And hold patches 5-7 after drm-intel-next can backmerge them.
+
+At this point I believe we would be looking at 6.5-rc2
+backmerge to drm-intel-next in likely 11 weeks from now.
+
+Do we have any urgency on them? Looking to all the changes in
+i915 I believe we will get many conflicts if we let all these
+i915 patches go through net tree as well.
+
+> 
+> What would be the best way to do it?
+> 
+> Regards
+> Andrzej
+> 
+> 
+> 
+> > 
+> >   drivers/gpu/drm/i915/Kconfig.debug                 |  18 ++
+> >   drivers/gpu/drm/i915/display/intel_display_power.c |   2 +-
+> >   drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c     |   7 +-
+> >   .../drm/i915/gem/selftests/i915_gem_coherency.c    |  10 +-
+> >   drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c |  14 +-
+> >   drivers/gpu/drm/i915/gt/intel_breadcrumbs.c        |  13 +-
+> >   drivers/gpu/drm/i915/gt/intel_breadcrumbs_types.h  |   3 +-
+> >   drivers/gpu/drm/i915/gt/intel_context.h            |   4 +-
+> >   drivers/gpu/drm/i915/gt/intel_context_types.h      |   2 +
+> >   drivers/gpu/drm/i915/gt/intel_engine_pm.c          |   7 +-
+> >   drivers/gpu/drm/i915/gt/intel_engine_types.h       |   2 +
+> >   .../gpu/drm/i915/gt/intel_execlists_submission.c   |   2 +-
+> >   drivers/gpu/drm/i915/gt/intel_gt_pm.c              |  12 +-
+> >   drivers/gpu/drm/i915/gt/intel_gt_pm.h              |  38 +++-
+> >   drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.c      |   4 +-
+> >   drivers/gpu/drm/i915/gt/selftest_engine_cs.c       |  20 +-
+> >   drivers/gpu/drm/i915/gt/selftest_gt_pm.c           |   5 +-
+> >   drivers/gpu/drm/i915/gt/selftest_reset.c           |  10 +-
+> >   drivers/gpu/drm/i915/gt/selftest_rps.c             |  17 +-
+> >   drivers/gpu/drm/i915/gt/selftest_slpc.c            |   5 +-
+> >   drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c  |  12 +-
+> >   drivers/gpu/drm/i915/i915_driver.c                 |   2 +-
+> >   drivers/gpu/drm/i915/i915_pmu.c                    |  16 +-
+> >   drivers/gpu/drm/i915/intel_runtime_pm.c            | 221 ++-------------------
+> >   drivers/gpu/drm/i915/intel_runtime_pm.h            |  11 +-
+> >   drivers/gpu/drm/i915/intel_wakeref.c               |  35 +++-
+> >   drivers/gpu/drm/i915/intel_wakeref.h               |  73 ++++++-
+> >   include/linux/ref_tracker.h                        |  25 ++-
+> >   lib/ref_tracker.c                                  | 179 ++++++++++++++---
+> >   lib/test_ref_tracker.c                             |   2 +-
+> >   net/core/dev.c                                     |   2 +-
+> >   net/core/net_namespace.c                           |   4 +-
+> >   32 files changed, 445 insertions(+), 332 deletions(-)
+> > ---
+> > base-commit: 4d0066a1c0763d50b6fb017e27d12b081ce21b57
+> > change-id: 20230224-track_gt-1b3da8bdacd7
+> > 
+> > Best regards,
+> 
