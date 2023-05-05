@@ -1,47 +1,87 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA9206F8186
-	for <lists+dri-devel@lfdr.de>; Fri,  5 May 2023 13:20:49 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A7EEA6F81A5
+	for <lists+dri-devel@lfdr.de>; Fri,  5 May 2023 13:25:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2D3EA10E5D2;
-	Fri,  5 May 2023 11:20:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DDCC310E5D4;
+	Fri,  5 May 2023 11:25:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8A4AE10E5D2
- for <dri-devel@lists.freedesktop.org>; Fri,  5 May 2023 11:20:45 +0000 (UTC)
-Received: from eldfell (unknown [194.136.85.206])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested) (Authenticated sender: pq)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 3D7576605706;
- Fri,  5 May 2023 12:20:42 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1683285643;
- bh=3xfD/Tljpk6X86zlG5+wfDHGdS2N3WR0CH1YbCXyQ9o=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=ZmzYlTilhtqTz5l9x0nUwm4ccWxSmqVmDgxacnv2k0P4VO/Uq316EwXsepMs/irJr
- 4EcBsJuV4qzf+RRaIU8xF3zljT1ljUQVEqQ0LG5rT/t2nNG1uoHyuzWNMXJTJrvlmd
- RuDDsg05xENZqfOeB6DtsYVt6wpr4lS/9cXxXxTsJHKFQGhr6bEacvpn+oB0mG0kjW
- hdcqge8sl6rnTTkidMxQsDpJOsYJS7Db+wXWZFFyTgYV5P7XEkp6KBrY5yEvddbgbw
- O0G20jY0bFAVemYdCvgkCznwU3MAYsreL1OdN659f1aIYkElDYUGE5OUUE+ISMw7Cr
- MDI3atWnAQglA==
-Date: Fri, 5 May 2023 14:20:39 +0300
-From: Pekka Paalanen <pekka.paalanen@collabora.com>
-To: Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [PATCH] Documentation/gpu: Requirements for driver-specific KMS
- uAPIs
-Message-ID: <20230505142039.0082a407.pekka.paalanen@collabora.com>
-In-Reply-To: <ZFTXl3qPn7E0pQWO@phenom.ffwll.local>
-References: <20230504212557.61049-1-harry.wentland@amd.com>
- <20230505114320.1eb77237.pekka.paalanen@collabora.com>
- <ZFTXl3qPn7E0pQWO@phenom.ffwll.local>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.24; x86_64-pc-linux-gnu)
+Received: from wnew2-smtp.messagingengine.com (wnew2-smtp.messagingengine.com
+ [64.147.123.27])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B87AB10E5E2
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 May 2023 11:25:38 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailnew.west.internal (Postfix) with ESMTP id EFE7D2B06795;
+ Fri,  5 May 2023 07:25:30 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute4.internal (MEProxy); Fri, 05 May 2023 07:25:36 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+ :cc:content-transfer-encoding:content-type:content-type:date
+ :date:from:from:in-reply-to:message-id:mime-version:reply-to
+ :sender:subject:subject:to:to; s=fm2; t=1683285930; x=
+ 1683293130; bh=l5ioAqLUIgJULjqwKYtOjHFnbY6yI6/LI8d0PR6VtyM=; b=K
+ daFzuUu6XO2LaYjDTphcLLz/GlUPhIOw1rRn6yVXs3eyQLNaa181x0dHDbt9UdLo
+ zyAvbbqqbqt6xguEWLq+Y7XvKxH8h67iwigmG6lIm0397Bk5HScfh1TsqFN0EDMr
+ 3LonuK2S0VmFCWYQyaihe+VAnSIiWWLNXU0vMykWBYLbu6ZIqboackHNE0IXfxIR
+ as2IC7+5LWKRCXWB34eIBIQ7u+PTN6mMZnFqmo5giXRuFqZO+hVljeKHPIM7iSCJ
+ w0/C/PvtZnSL78SBaiAHhHXczCOrVc7JURiYnvm0UtZtyN08Y927yIuZ51nxGJWJ
+ 3ecp+WM1vrDHFY4zIvbOA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:content-type:date:date:feedback-id:feedback-id
+ :from:from:in-reply-to:message-id:mime-version:reply-to:sender
+ :subject:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender
+ :x-me-sender:x-sasl-enc; s=fm3; t=1683285930; x=1683293130; bh=l
+ 5ioAqLUIgJULjqwKYtOjHFnbY6yI6/LI8d0PR6VtyM=; b=DaRi2HpzSjUslNUfV
+ +Wxt7duSO5/hYNA2h5A0t8XGQfdp9yTBEQp0yK08w8TSdvKz5sBGFEU2WxcXDYpT
+ 3cV8qLYkYFXwVAqSQn5mP0rQxnIN5rLXKyv6FoQpSeQftvNw+Pt0H8KyQbRBA+3V
+ IQGGPQvZv/4gTkVAs5uVT8xAQFzSd1BxMmvHV0Sr/oJgrN2OTr53ytLWNCaT4ReU
+ NGN4AezZPVD8DfXd3DwUFL/96oVoikCr64FddmnTRsceoj0N4vJIAsBSHvFmhCSS
+ Bn/XfJIdxzHcBE7TecPZAQ9KKMBG4dR94DVecCEuaTQVrf4Dg/u7t7NWBo5iw5q5
+ 1FxcQ==
+X-ME-Sender: <xms:qOdUZNJT030Zgt0JbyFQ_RKM-cy46jwZsLTVl33BJCq45Pe101WL5g>
+ <xme:qOdUZJJ41xlcocWzLm0jnNS7jBIN8KkghbR3IkcuCflIGMbz56nitKYeNXrfi5TeN
+ gViNhbdGkbU6GCTVhU>
+X-ME-Received: <xmr:qOdUZFvaCVHP_XNid9KfZrJC6EXQ0C-AAcDY8d4bpB7xTzWbi3MxAk88SYyXrBGv0YYlu-vTD2zoc2M2Bibqqrtpo-lEpZk>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrfeefvddggedtucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhephffufffkgggtgffvvefosehtjeertdertdejnecuhfhrohhmpeforgigihhm
+ vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
+ htvghrnhepgfeutdejvdeiheffveetieejtdfhleekleffheejtdfhkeehfeekgedvgeei
+ tddtnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiiigvpe
+ dtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:qOdUZOYmJ9ZsaodLa9eaX9Q8q4HKIKwuTBwJAtYSDKF8GpNgXk42fg>
+ <xmx:qOdUZEb46ec3DVsk5A-VwtFLn5NwE5E1PepLOVibVXBwwU6BkntCMA>
+ <xmx:qOdUZCA2HAk2HAzU0PLbBu4ihiyeyzAMLisKixjpCdEI11Zrvkz5Jg>
+ <xmx:qudUZOXd4C3fyX9ywwFJ0Y0vPI9HQrT33VOj41wJMoXxHKeJ6EWEk-kmzE8>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 5 May 2023 07:25:27 -0400 (EDT)
+From: Maxime Ripard <maxime@cerno.tech>
+Subject: [PATCH v4 00/68] clk: Make determine_rate mandatory for muxes
+Date: Fri, 05 May 2023 13:25:02 +0200
+Message-Id: <20221018-clk-range-checks-fixes-v4-0-971d5077e7d2@cerno.tech>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAI7nVGQC/43NzQ6CMAwH8FchOzuztQymJ9/DeIBRZIFAsuGiI
+ by7lZvxIKfm349fFxEpeIrinC0iUPLRTyOH/JAJ11XjnaRvOAtQAFppK93Qy7ANXEeuj7L1T4o
+ SFJ5aNICQK8HHdRVJ1rzoOj4fH8PAzc7HeQqv7VnSXK5/3aSlki1Sa5XRVufq4iiM03Emhm9sJ
+ tjnwMcpSiwachot/Ti4z0F2TpVGY/MSGgNfzrqubzQ7VSJSAQAA
+To: Michael Turquette <mturquette@baylibre.com>, 
+ Stephen Boyd <sboyd@kernel.org>
+X-Mailer: b4 0.12.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=8811; i=maxime@cerno.tech;
+ h=from:subject:message-id; bh=DTutEgCIMF28vydDZ/bIJ7FNCahxgFT27xgwey0IUAI=;
+ b=owGbwMvMwCX2+D1vfrpE4FHG02pJDCkhzxe9Xxi/3cvxVqX7ota1NvX8JiY10syKs/hVXlh2s5Wr
+ xyh3lLIwiHExyIopssQImy+JOzXrdScb3zyYOaxMIEMYuDgFYCIG0Qz/3R5ZNfhd/XJhS3zivh2awt
+ u3XDHevLprI+OV15f2zRd/0czIcHfvjUN8sh+uf+NwWChWIG+Rz7NssnmgDruxem/tXuG77AA=
+X-Developer-Key: i=maxime@cerno.tech; a=openpgp;
+ fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,281 +94,257 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sebastian Wick <sebastian.wick@redhat.com>,
- Jonas =?UTF-8?B?w4VkYWhs?= <jadahl@redhat.com>,
- dri-devel@lists.freedesktop.org, Xaver Hugl <xaver.hugl@gmail.com>,
- Melissa Wen <mwen@igalia.com>,
- Michel =?UTF-8?B?RMOkbnplcg==?= <mdaenzer@redhat.com>,
- Uma Shankar <uma.shankar@intel.com>,
- Victoria Brekenfeld <victoria@system76.com>, Aleix Pol <aleixpol@kde.org>,
- Joshua Ashton <joshua@froggi.es>
+Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Peng Fan <peng.fan@nxp.com>, Geert Uytterhoeven <geert+renesas@glider.be>,
+ Sekhar Nori <nsekhar@ti.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ dri-devel@lists.freedesktop.org, Jaroslav Kysela <perex@perex.cz>,
+ Paul Cercueil <paul@crapouillou.net>, Max Filippov <jcmvbkbc@gmail.com>,
+ Prashant Gaikwad <pgaikwad@nvidia.com>,
+ Miquel Raynal <miquel.raynal@bootlin.com>, linux-phy@lists.infradead.org,
+ linux-clk@vger.kernel.org, Abel Vesa <abelvesa@kernel.org>,
+ Kishon Vijay Abraham I <kishon@kernel.org>,
+ Samuel Holland <samuel@sholland.org>, Chunyan Zhang <zhang.lyra@gmail.com>,
+ Takashi Iwai <tiwai@suse.com>, Vinod Koul <vkoul@kernel.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>, Chen-Yu Tsai <wens@csie.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>, NXP Linux Team <linux-imx@nxp.com>,
+ Chen-Yu Tsai <wenst@chromium.org>, Orson Zhai <orsonzhai@gmail.com>,
+ Ulf Hansson <ulf.hansson@linaro.org>, linux-mips@vger.kernel.org,
+ Luca Ceresoli <luca.ceresoli@bootlin.com>, linux-sunxi@lists.linux.dev,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>, linux-rtc@vger.kernel.org,
+ Charles Keepax <ckeepax@opensource.cirrus.com>,
+ David Lechner <david@lechnology.com>, Pawel Moll <pawel.moll@arm.com>,
+ Manivannan Sadhasivam <mani@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Nicolas Ferre <nicolas.ferre@microchip.com>, linux-actions@lists.infradead.org,
+ Markus Schneider-Pargmann <msp@baylibre.com>,
+ Richard Fitzgerald <rf@opensource.cirrus.com>, Mark Brown <broonie@kernel.org>,
+ linux-mediatek@lists.infradead.org, Maxime Ripard <maxime@cerno.tech>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>, linux-tegra@vger.kernel.org,
+ Mikko Perttunen <mperttunen@nvidia.com>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ linux-arm-kernel@lists.infradead.org,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Alessandro Zummo <a.zummo@towertech.it>, patches@opensource.cirrus.com,
+ Peter De Schrijver <pdeschrijver@nvidia.com>,
+ linux-stm32@st-md-mailman.stormreply.com, Liam Girdwood <lgirdwood@gmail.com>,
+ Claudiu Beznea <claudiu.beznea@microchip.com>,
+ linux-renesas-soc@vger.kernel.org, Dinh Nguyen <dinguyen@kernel.org>,
+ Miles Chen <miles.chen@mediatek.com>,
+ Thierry Reding <thierry.reding@gmail.com>, Liam Beguin <liambeguin@gmail.com>,
+ alsa-devel@alsa-project.org, Shawn Guo <shawnguo@kernel.org>,
+ =?utf-8?q?Andreas_F=C3=A4rber?= <afaerber@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 5 May 2023 12:16:55 +0200
-Daniel Vetter <daniel@ffwll.ch> wrote:
+Hi,
 
-> On Fri, May 05, 2023 at 11:43:20AM +0300, Pekka Paalanen wrote:
-> > On Thu, 4 May 2023 17:25:57 -0400
-> > Harry Wentland <harry.wentland@amd.com> wrote:
-> >  =20
-> > > We have steered away for a long time now from driver-specific KMS APIs
-> > > for good reasons but never codified our stance. With the proposal of
-> > > new, driver-specific color management uAPIs [1] it is important to
-> > > outline the requirements for the rare times when driver-specific KMS
-> > > uAPIs are desired in order to move complex topics along.
-> > >=20
-> > > [1] https://patchwork.freedesktop.org/series/116862/
-> > >=20
-> > > Signed-off-by: Harry Wentland <harry.wentland@amd.com>
-> > > Cc: Simon Ser <contact@emersion.fr>
-> > > Cc: Joshua Ashton <joshua@froggi.es>
-> > > Cc: Michel D=C3=A4nzer <mdaenzer@redhat.com>
-> > > Cc: Sebastian Wick <sebastian.wick@redhat.com>
-> > > Cc: Jonas =C3=85dahl <jadahl@redhat.com>
-> > > Cc: Alex Goins <agoins@nvidia.com>
-> > > Cc: Pekka Paalanen <pekka.paalanen@collabora.com>
-> > > Cc: Melissa Wen <mwen@igalia.com>
-> > > Cc: Aleix Pol <aleixpol@kde.org>
-> > > Cc: Xaver Hugl <xaver.hugl@gmail.com>
-> > > Cc: Victoria Brekenfeld <victoria@system76.com>
-> > > Cc: Daniel Vetter <daniel@ffwll.ch>
-> > > Cc: Dave Airlie <airlied@gmail.com>
-> > > Cc: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
-> > > Cc: Uma Shankar <uma.shankar@intel.com>
-> > > To: dri-devel@lists.freedesktop.org
-> > > ---
-> > >  Documentation/gpu/drm-uapi.rst | 32 ++++++++++++++++++++++++++++++++
-> > >  1 file changed, 32 insertions(+)
-> > >=20
-> > > diff --git a/Documentation/gpu/drm-uapi.rst b/Documentation/gpu/drm-u=
-api.rst
-> > > index ce47b4292481..eaefc3ed980c 100644
-> > > --- a/Documentation/gpu/drm-uapi.rst
-> > > +++ b/Documentation/gpu/drm-uapi.rst
-> > > @@ -118,6 +118,38 @@ is already rather painful for the DRM subsystem,=
- with multiple different uAPIs
-> > >  for the same thing co-existing. If we add a few more complete mistak=
-es into the
-> > >  mix every year it would be entirely unmanageable.
-> > > =20
-> > > +.. _driver_specific:
-> > > +
-> > > +Driver-Specific DRM/KMS uAPI
-> > > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D
-> > > +
-> > > +Driver-specific interfaces are strongly discouraged for DRM/KMS inte=
-rfaces.
-> > > +Kernel-modesetting (KMS) functionality does in principle apply to al=
-l drivers.
-> > > +Driver-specific uAPIs tends to lead to unique implementations in use=
-rspace and
-> > > +are often hard to maintain, especially when different drivers implem=
-ent similar
-> > > +but subtly different uAPIs.
-> > > +
-> > > +At times arriving at a consensus uAPI can be a difficult and lengthy=
- process and
-> > > +might benefit from experimentation. This experimentation might warra=
-nt
-> > > +introducing driver specific APIs in order to move the eosystem forwa=
-rd. If a
-> > > +driver decides to go down this path we ask for the following: =20
->=20
-> I don't like this for two fairly fundamental reasons, neither of which are
-> that sometimes merging stuff that's not great is the right thing to do to
-> move the community and ecosystem forward.
->=20
-> > Hi,
-> >=20
-> > should it be "require" instead of "ask"?
-> >  =20
-> > > +
-> > > +- An agreement within the community that introducing driver-specific=
- uAPIs is
-> > > +  warranted in this case;
-> > > +
-> > > +- The new uAPI is behind a CONFIG option that is clearly marked EXPE=
-RIMENTAL and
-> > > +  is disabled by default;
-> > > +
-> > > +- The new uAPI is enabled when a module parameter for the driver is =
-set, and
-> > > +  defaults to 'off' otherwise;
-> > > +
-> > > +- The new uAPI follows all open-source userspace requirements outlin=
-ed above;
-> > > +
-> > > +- The focus is maintained on development of a vendor-neutral uAPI an=
-d progress
-> > > +  toward such an uAPI needs to be apparent on public forums. If no s=
-uch progress
-> > > +  is visible within a reasonable timeframe (1-2 years) anybody is wi=
-thin their
-> > > +  right to send, review, and merge patches that remove the driver-sp=
-ecific uAPI.
-> > > +
-> > >  .. _drm_render_node:
-> > > =20
-> > >  Render nodes =20
-> >=20
-> > Seems fine to me. I have another addition to suggest:
-> >=20
-> > When such UAPI is introduced, require that it comes with an expiration
-> > date. This date should be unmissable, not just documented. The kernel
-> > module parameter name to enable the UAPI could contain the expiry date,
-> > for example.
-> >=20
-> > After all, the most important thing to get through to users is that
-> > this *will* go away and not just theoretically. =20
->=20
-> There's no taking-backsies with uapi. If there is a regression report,
-> we'll have to keep it around, for the usual approximation of "forever"
->=20
-> And this is the first reason I don't like this, from other write-ups and
-> talking with people it seems like there's the assumption that if we just
-> hide this behind enough knobs, we can remove the uapi again.
->=20
-> We can't.
->=20
-> The times we've hidden uapi behind knobs was _not_ for uapi we
-> fundamentally didn't want, at least for the long term. But for the cases
-> where the overall scope was simply too big, and we needed some time
-> in-tree to shake out all the bugs (across both kernel and userspace), and
-> fill out any of the details. Some examples:
->=20
-> - intel hiding new hw enabling behind the alpha support is not about
->   hiding that uapi so we can change it. It's about the fact that not yet
->   all enabling has landed in upstream, and not yet all full stack
->   validation on production silicon has completed. It's about not shipping
->   buggy code to users that we can't support.
->=20
-> - atomic kms was simply too big, there was a lot of work in compositors
->   needed, testing corner cases, and details like adding the blob support
->   for the display mode so that modesets would work too with atomic. We
->   never landed a preliminary uabi version of atomic (there were plenty
->   floating around) that wasn't deemed ready as the long term solution, we
->   were simply not sure we got it right until all the pieces where in
->   place.
+This is a follow-up to a previous series that was printing a warning
+when a mux has a set_parent implementation but is missing
+determine_rate().
 
-Hi Daniel,
+The rationale is that set_parent() is very likely to be useful when
+changing the rate, but it's determine_rate() that takes the parenting
+decision. If we're missing it, then the current parent is always going
+to be used, and thus set_parent() will not be used. The only exception
+being a direct call to clk_set_parent(), but those are fairly rare
+compared to clk_set_rate().
 
-I would be bold enough to claim that the KMS color processing UAPI has
-all the same problems as atomic, except it is even bigger on the UAPI
-surface, while the kernel internal driver code independent of the UAPI
-is probably trivial(*) in comparison or even non-existing. This is all
-about what hardware does and how to generalize a description of that
-over all hardware of all vendors. I do not think there would be any
-kind of complex state tracking needed inside the kernel, all the
-complexity is at the UAPI interface and its definition.
+Stephen then asked to promote the warning to an error, and to fix up all
+the muxes that are in that situation first. So here it is :)
 
-Therefore I doubt the plan you proposed at the end. Do you have any
-other suggestions?
+It was build-tested on x86, arm and arm64.
 
+Affected drivers have been tracked down by the following coccinelle
+script:
 
-Thanks,
-pq
+virtual report 
 
-(*) I do not want to imply that the driver code is somehow not real
-work to write. What I mean is that once the UAPI is defined, and you
-know what your hardware does, you shouldn't have any trouble writing
-that code. But without UAPI defined, I'd assume there is almost nothing
-to write.
+@ clk_ops @
+identifier ops;
+position p;
+@@
 
-I haven't looked at the AMD patches to see what would be left if the
-UAPI was dropped. Melissa?
+ struct clk_ops ops@p = {
+   ...
+ };
 
->   And viz Xorg-modesetting, in at least one case we still got it wrong and
->   had to disable atomic for that userspace.
->=20
-> - nouveau pony years back tried this entire "oh the uapi is just
->   experimental" thing, and it resulted in the by far worst flameware
->   between Dave and Linus on dri-devel
->=20
-> So _if_ we do this we need to be clear that uapi is forever, and not have
-> docs that suggest otherwise.
->=20
-> > If that date needs to be moved forward, it should be possible to do so
-> > with a simple patch gathering enough acks. The main thing is to set the
-> > date from the start, so there can be no confusion about when its going
-> > to the chopping block.
-> >=20
-> > I do not suggest that the kernel would automatically runtime disable
-> > the UAPI after that date.
-> >=20
-> > Does any of the big idea fly with upper maintainers and Linus? =20
->=20
-> The other reason, and maybe even more fundamental one, is that I think the
-> uncertainty of not documenting how pragmatic we are is beneficial.
->=20
-> We should definitely document the gold standard aspirations, to make sure
-> everyone knows where to aim for. And I'm definitely all for pragmatic
-> merging where it makes sense, we've had tons of that, and happily carry
-> the costs to this day for some of them:
->=20
-> - a lot of the early soc drivers are kinda meh, and will stay that way
->   forever since they're not maintained anymore
->=20
-> - we've had very much free-for-all vendor kms properties, and I expect the
->   hall of shame witht he big table of vendor props with barely any docs
->   will never go away
->=20
-> - we're taking all the compute runtimes despite that mesa on the 3d/gl/vk
->   side shows how much better collaboration would be (and I think soon will
->   show the same for media) because having a compute ecosystem that's
->   substantially weaker than the sum of all its parts is still better than
->   nothing. And the situation is still that collaboration even with a
->   company is often impossible, aiming for better is not very realistic :-/
->=20
-> But the goal is still to have solid code, cross-vendor infrastructure and
-> collaboration and all that stuff, because that's why upstream is strong.
-> And the uncertainty is helping us for a lot of reasons:
->=20
-> - it makes vendors vary of going with vendor solutions. Minimally they ask
->   in private, which gives Dave, me and all the others doing vendor
->   outreach or working as some ambassador rule at a vendor an opportunity
->   to steer things in a better direction. And often do the steering
->   _before_ code gets written.
->=20
-> - it allows Dave&me to more freely decide when to be pragmatic, without
->   being bound by rules. The point of pragmatic merging is to bend the
->   short term principles for a better long term outcome, splattering that
->   entire space full with rules makes rule-bending a lot harder when
->   needed.
->=20
-> - most of all I really don't want to be in a discussion with vendors where
->   they try to laywer-argue that we must merge their patches because they
->   strictly followed the wording of some pragmatic merge rules while
->   entirely tossing the spirit of what we aim for. I already have more than
->   enough of that, this will result in more.
->=20
-> In all the past examples of pragmatic merging we never documented the
-> pragmatic approach, but instead if we documented something, we wrote down
-> the ideal standards to aim for. That makes it easier for everyone to do
-> the right thing, and harder (and more expensive due to the inherit
-> uncertainty) to try to bend them towards the least amount of collaboration
-> a vendor can get away with.
->=20
-> That's why I really want to keep the undocumented and hence uncertain
-> rules in this space.
->=20
-> For the actual case at hand of plane color handling, I think the pragmatic
-> aproach is roughly:
->=20
-> 1. land the amdgpu code, but without uapi
->=20
-> 2. use that (and any other driver code that's been floating around in this
-> space) to build up the kernel-internal infrastructure - the proposed graph
-> of color transformation blocks will need quite a few things
->=20
-> 3. land the uapi on top in it's hopeful final form, maybe hidden if it's
-> not yet complete or ready for prime time as we sometimes do with bigger
-> projects
->=20
-> Obviously compositor work, igts, docs and all that too, and most of all
-> this can happen in parallel too once we have a rough consensus on where to
-> aim for.
->=20
-> Cheers, Daniel
+@ has_set_parent @
+identifier clk_ops.ops;
+identifier set_parent_f;
+@@
+
+  struct clk_ops ops = {
+	.set_parent = set_parent_f,
+  };
+
+@ has_determine_rate @
+identifier clk_ops.ops;
+identifier determine_rate_f;
+@@
+
+  struct clk_ops ops = {
+	.determine_rate = determine_rate_f,
+  };
+
+@ script:python depends on report && has_set_parent && !has_determine_rate @
+ops << clk_ops.ops;
+set_parent_f << has_set_parent.set_parent_f;
+p << clk_ops.p;
+@@
+
+coccilib.report.print_report(p[0], "ERROR: %s has set_parent (%s)" % (ops, set_parent_f))
+
+Berlin is the only user still matching after this series has been
+applied, but it's because it uses a composite clock which throws the
+script off. The driver has been converted and shouldn't be a problem. 
+
+Let me know what you think,
+Maxime
+
+Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+---
+Changes in v4:
+- Switch from __clk_mux_determine_rate to a new helper
+- Introduced unit tests for that new helper
+- Fix kunit regression
+- Reworded most of the commit logs
+- Link to v3: https://lore.kernel.org/r/20221018-clk-range-checks-fixes-v3-0-9a1358472d52@cerno.tech
+
+Changes in v3:
+- Rebased on top of next-20230404
+- Link to v2: https://lore.kernel.org/r/20221018-clk-range-checks-fixes-v2-0-f6736dec138e@cerno.tech
+
+Changes in v2:
+- Drop all the patches already applied
+- Promote the clk registration warning to an error
+- Make all muxes use determine_rate
+- Link to v1: https://lore.kernel.org/r/20221018-clk-range-checks-fixes-v1-0-f3ef80518140@cerno.tech
+
+---
+Maxime Ripard (66):
+      clk: Export clk_hw_forward_rate_request()
+      clk: test: Fix type sign of rounded rate variables
+      clk: lan966x: Remove unused round_rate hook
+      clk: nodrv: Add a determine_rate hook
+      clk: test: Add a determine_rate hook
+      clk: actions: composite: Add a determine_rate hook for pass clk
+      clk: at91: main: Add a determine_rate hook
+      clk: at91: sckc: Add a determine_rate hook
+      clk: berlin: div: Add a determine_rate hook
+      clk: cdce706: Add a determine_rate hook
+      clk: k210: pll: Add a determine_rate hook
+      clk: k210: aclk: Add a determine_rate hook
+      clk: k210: mux: Add a determine_rate hook
+      clk: lmk04832: clkout: Add a determine_rate hook
+      clk: lochnagar: Add a determine_rate hook
+      clk: qoriq: Add a determine_rate hook
+      clk: si5341: Add a determine_rate hook
+      clk: stm32f4: mux: Add a determine_rate hook
+      clk: vc5: mux: Add a determine_rate hook
+      clk: vc5: clkout: Add a determine_rate hook
+      clk: wm831x: clkout: Add a determine_rate hook
+      clk: davinci: da8xx-cfgchip: Add a determine_rate hook
+      clk: davinci: da8xx-cfgchip: Add a determine_rate hook
+      clk: imx: busy: Add a determine_rate hook
+      clk: imx: fixup-mux: Add a determine_rate hook
+      clk: imx: scu: Add a determine_rate hook
+      clk: mediatek: cpumux: Add a determine_rate hook
+      clk: pxa: Add a determine_rate hook
+      clk: renesas: r9a06g032: Add a determine_rate hook
+      clk: socfpga: gate: Add a determine_rate hook
+      clk: stm32: core: Add a determine_rate hook
+      clk: tegra: bpmp: Add a determine_rate hook
+      clk: tegra: super: Add a determine_rate hook
+      clk: tegra: periph: Add a determine_rate hook
+      clk: ux500: prcmu: Add a determine_rate hook
+      clk: ux500: sysctrl: Add a determine_rate hook
+      clk: versatile: sp810: Add a determine_rate hook
+      drm/tegra: sor: Add a determine_rate hook
+      phy: cadence: sierra: Add a determine_rate hook
+      phy: cadence: torrent: Add a determine_rate hook
+      phy: ti: am654-serdes: Add a determine_rate hook
+      phy: ti: j721e-wiz: Add a determine_rate hook
+      rtc: sun6i: Add a determine_rate hook
+      ASoC: tlv320aic32x4: Add a determine_rate hook
+      clk: actions: composite: div: Switch to determine_rate
+      clk: actions: composite: fact: Switch to determine_rate
+      clk: at91: smd: Switch to determine_rate
+      clk: axi-clkgen: Switch to determine_rate
+      clk: cdce706: divider: Switch to determine_rate
+      clk: cdce706: clkout: Switch to determine_rate
+      clk: si5341: Switch to determine_rate
+      clk: si5351: pll: Switch to determine_rate
+      clk: si5351: msynth: Switch to determine_rate
+      clk: si5351: clkout: Switch to determine_rate
+      clk: da8xx: clk48: Switch to determine_rate
+      clk: imx: scu: Switch to determine_rate
+      clk: ingenic: cgu: Switch to determine_rate
+      clk: ingenic: tcu: Switch to determine_rate
+      clk: sprd: composite: Switch to determine_rate
+      clk: st: flexgen: Switch to determine_rate
+      clk: stm32: composite: Switch to determine_rate
+      clk: tegra: periph: Switch to determine_rate
+      clk: tegra: super: Switch to determine_rate
+      ASoC: tlv320aic32x4: pll: Switch to determine_rate
+      ASoC: tlv320aic32x4: div: Switch to determine_rate
+      clk: Forbid to register a mux without determine_rate
+
+Stephen Boyd (2):
+      clk: Move no reparent case into a separate function
+      clk: Introduce clk_hw_determine_rate_no_reparent()
+
+ drivers/clk/actions/owl-composite.c       |  35 ++++--
+ drivers/clk/at91/clk-main.c               |   1 +
+ drivers/clk/at91/clk-smd.c                |  29 +++--
+ drivers/clk/at91/sckc.c                   |   1 +
+ drivers/clk/berlin/berlin2-div.c          |   1 +
+ drivers/clk/clk-axi-clkgen.c              |  14 ++-
+ drivers/clk/clk-cdce706.c                 |  30 ++---
+ drivers/clk/clk-k210.c                    |   3 +
+ drivers/clk/clk-lan966x.c                 |  17 ---
+ drivers/clk/clk-lmk04832.c                |   1 +
+ drivers/clk/clk-lochnagar.c               |   1 +
+ drivers/clk/clk-qoriq.c                   |   1 +
+ drivers/clk/clk-si5341.c                  |  19 ++--
+ drivers/clk/clk-si5351.c                  |  67 ++++++-----
+ drivers/clk/clk-stm32f4.c                 |   1 +
+ drivers/clk/clk-versaclock5.c             |   2 +
+ drivers/clk/clk-wm831x.c                  |   1 +
+ drivers/clk/clk.c                         | 108 ++++++++++++------
+ drivers/clk/clk_test.c                    | 180 +++++++++++++++++++++++++++++-
+ drivers/clk/davinci/da8xx-cfgchip.c       |  12 +-
+ drivers/clk/imx/clk-busy.c                |   1 +
+ drivers/clk/imx/clk-fixup-mux.c           |   1 +
+ drivers/clk/imx/clk-scu.c                 |  20 +++-
+ drivers/clk/ingenic/cgu.c                 |  15 +--
+ drivers/clk/ingenic/tcu.c                 |  19 ++--
+ drivers/clk/mediatek/clk-cpumux.c         |   1 +
+ drivers/clk/pxa/clk-pxa.c                 |   1 +
+ drivers/clk/renesas/r9a06g032-clocks.c    |   1 +
+ drivers/clk/socfpga/clk-gate.c            |   1 +
+ drivers/clk/sprd/composite.c              |  16 ++-
+ drivers/clk/st/clk-flexgen.c              |  15 +--
+ drivers/clk/stm32/clk-stm32-core.c        |  33 ++++--
+ drivers/clk/tegra/clk-bpmp.c              |   1 +
+ drivers/clk/tegra/clk-periph.c            |  17 ++-
+ drivers/clk/tegra/clk-super.c             |  16 ++-
+ drivers/clk/ux500/clk-prcmu.c             |   1 +
+ drivers/clk/ux500/clk-sysctrl.c           |   1 +
+ drivers/clk/versatile/clk-sp810.c         |   1 +
+ drivers/gpu/drm/tegra/sor.c               |   1 +
+ drivers/phy/cadence/phy-cadence-sierra.c  |   1 +
+ drivers/phy/cadence/phy-cadence-torrent.c |   1 +
+ drivers/phy/ti/phy-am654-serdes.c         |   1 +
+ drivers/phy/ti/phy-j721e-wiz.c            |   1 +
+ drivers/rtc/rtc-sun6i.c                   |   1 +
+ include/linux/clk-provider.h              |   2 +
+ sound/soc/codecs/tlv320aic32x4-clk.c      |  33 +++---
+ 46 files changed, 527 insertions(+), 199 deletions(-)
+---
+base-commit: 145e5cddfe8b4bf607510b2dcf630d95f4db420f
+change-id: 20221018-clk-range-checks-fixes-2039f3523240
+
+Best regards,
+-- 
+Maxime Ripard <maxime@cerno.tech>
 
