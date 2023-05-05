@@ -2,72 +2,121 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC6966F82B3
-	for <lists+dri-devel@lfdr.de>; Fri,  5 May 2023 14:11:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21C286F8306
+	for <lists+dri-devel@lfdr.de>; Fri,  5 May 2023 14:33:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D49EB10E5DF;
-	Fri,  5 May 2023 12:11:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CB7CA10E077;
+	Fri,  5 May 2023 12:33:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com
- [IPv6:2a00:1450:4864:20::12c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1E53B10E5DF
- for <dri-devel@lists.freedesktop.org>; Fri,  5 May 2023 12:11:48 +0000 (UTC)
-Received: by mail-lf1-x12c.google.com with SMTP id
- 2adb3069b0e04-4eed764a10cso1916460e87.0
- for <dri-devel@lists.freedesktop.org>; Fri, 05 May 2023 05:11:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683288706; x=1685880706;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=2h/CWEwyJq3P5FCMXAryqXO9WR4aBfMB6PjoKhzl8U4=;
- b=Zbu8EzgqpkD96pt/0mSDWzGiFSmWODcuaUmVyreABq7m1znvVzYxy3l3faRkivY2vY
- oLDI2Z5XuRhTnKbuFBXLPc79Hw/MPZxeUXAQnNwDtXe14aQjma+HI0G1sbW7eDeTzzEv
- ET9OzwJbVh4F0fVY55KUrnh73Q4nFx6eiftAoxcso4H8tEn0IhBMqdm5mBrn4c6XKXWU
- aYEgXzNvaiCEIbvMqEm/CYVmSXbLBHRsfCj5feqRL4dfICy7bloK6AgaXukl9ki6l80Z
- qywFsTyxuplXRXKuaqUoh1JXnQdVgz6mEfvzQ40jCwV+5MiGVQDFUocZaHQ7RJY3r3C4
- dEGA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683288706; x=1685880706;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=2h/CWEwyJq3P5FCMXAryqXO9WR4aBfMB6PjoKhzl8U4=;
- b=Pn1TDCOmN1FHSPppXqtkdxQqb1YjEfPkDWQNbdg7+BOkB9VXOwamGHf5+23rFyn9iA
- lwG1badgtySW9blC8/Fz+5OokP4RX1jSLWA4iD2lHPCfonGsVt8HEn4iSve9625iKbMe
- JEUZ+tJ2Cq1hA3EfInYeA6Be0SVj0a1a69GXpSL5WaF0cIsp6P+YmisuMt0PmV99cQDK
- bfsD+hRmxCfyy71iU8XeAcTNQx/YtdgwnHnbz2QRCg9Tr47CqmxL9cBbXWBbedmmNA7x
- uh9sVicwK/CZkYGyB0BXNxeTjnzldTMfDlh11TJJe9056coXo9NnOC69HGxxvicnVuMM
- rN2g==
-X-Gm-Message-State: AC+VfDz4I+Pm/dAGA7xfvPOuAOwAYtDxSzJAVR+7XXjr2sPJVIEYFpaf
- sMyeVF1y+86PHU2aceWjqzy4Bw==
-X-Google-Smtp-Source: ACHHUZ65oVZBAu9sTHfvlhswi1d1wC5/971YPvE+M2PAFaQfj7qir5wd68R9OeFyzxYBUMg/1QjD6w==
-X-Received: by 2002:ac2:5108:0:b0:4f1:1de7:1aab with SMTP id
- q8-20020ac25108000000b004f11de71aabmr554324lfb.44.1683288706252; 
- Fri, 05 May 2023 05:11:46 -0700 (PDT)
-Received: from ?IPV6:2001:14ba:a0db:1f00::8a5?
- (dzdqv0yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a0db:1f00::8a5])
- by smtp.gmail.com with ESMTPSA id
- b21-20020ac25635000000b004f13633c260sm264975lff.145.2023.05.05.05.11.45
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 05 May 2023 05:11:45 -0700 (PDT)
-Message-ID: <91a390b2-db3d-90f4-a2e2-6ccb75303d04@linaro.org>
-Date: Fri, 5 May 2023 15:11:44 +0300
-MIME-Version: 1.0
+Received: from EUR03-DBA-obe.outbound.protection.outlook.com
+ (mail-dbaeur03on2047.outbound.protection.outlook.com [40.107.104.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B2F6C10E077
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 May 2023 12:33:44 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=errvu7zG72B6/Sn+LxXFs0dHrmD3AI+O6QGbYfyiNNRHTHXeu+XJsqvqftLeVKZbKisDzZ4epS5rdcvLOAMeP5o4A/mTJfb4w3lJLgrSlPQEskeGSJjmuuZItBKKUuinxYvj3RsD3lnDKPfHqalOP5yRalh4BoBA0qWTMO7vtj80ikJ4Ypdr3DctmFe6/y5iH7wbKUc7I1tCFqCDGNsV+lgAWdWG9toT9U4egGLOe05ittbGOb4bDlLrzH/S7ePDoz66+kSZJWoTLRh6mGaly2xS5lpvE3ieN4Jlhen8LmCsP04zbdQgH8/OYEam8Wowe1ujrAoOwQOcd3etwTH8Gw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=P1K0X5weAr7PsQQ609LUGPTnTthOF9eIPObJxmD8tc0=;
+ b=NMFZT9cGvHIYsKzH/9t4ErTirS+T+CEpnFyt7lZnmrKJuD7meun9ep+ZGtlR3zw6aetbFCD6/ZQ2LjELXn4P34WfXtr5JdxZEHbkdTCeotlHRalmBW2D6txwoLk1/7XRmPSeKa/7oaXQoz1hcOR7JcmPq19T0SXSWv9bn/JByVFj1zPUfrimrJLZgX+53Ir9Dh2HeSut8GtfbNdSeXy31G6/EbHntbPH98tMGepFSwUfzd0UyH9QcMEgv7jwQJdgX49svTxyvpZIOASoqm2ZzLGSWjO+A8CgoZcCIEwofcN7U/1GwppvrM7tpW3yXqK5T3Jg6lHlLocwmULpIdfoBQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=wolfvision.net; dmarc=pass action=none
+ header.from=wolfvision.net; dkim=pass header.d=wolfvision.net; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wolfvision.net;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=P1K0X5weAr7PsQQ609LUGPTnTthOF9eIPObJxmD8tc0=;
+ b=O1GkVtF73CUiRUvAEb3JBhnJV8DQucxAQuy1tfv2ex93BVR8Xm+6/Mk/c8ybNrbLupowVG1B81dttwxMUO7UBEAtQA07HULGmgn4BnFQUByedyslAOnS+9EH9uZOedsrwz9+iL/PF41UZyBKHRHEEvNW+o/6GwhPdhCJf8COj1k=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=wolfvision.net;
+Received: from DU0PR08MB9155.eurprd08.prod.outlook.com (2603:10a6:10:416::5)
+ by PAWPR08MB9568.eurprd08.prod.outlook.com (2603:10a6:102:2f2::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6363.22; Fri, 5 May
+ 2023 12:33:40 +0000
+Received: from DU0PR08MB9155.eurprd08.prod.outlook.com
+ ([fe80::77dd:14e4:a772:d85f]) by DU0PR08MB9155.eurprd08.prod.outlook.com
+ ([fe80::77dd:14e4:a772:d85f%4]) with mapi id 15.20.6363.026; Fri, 5 May 2023
+ 12:33:40 +0000
+Message-ID: <a9ec6c19-0f1d-25eb-2841-352b24ff36e2@wolfvision.net>
+Date: Fri, 5 May 2023 14:33:38 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.10.0
-Subject: Re: [PATCH v2 07/13] drm/msm/dpu: Add SM6350 support
-Content-Language: en-GB
-To: Marijn Suijten <marijn.suijten@somainline.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>
-References: <20230411-topic-straitlagoon_mdss-v2-0-5def73f50980@linaro.org>
- <20230411-topic-straitlagoon_mdss-v2-7-5def73f50980@linaro.org>
- <k25jg7cez2kimpxr4ztbdzjr2adq6a2vjknyvfe5frxujtogfg@vhfdyt45unv6>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <k25jg7cez2kimpxr4ztbdzjr2adq6a2vjknyvfe5frxujtogfg@vhfdyt45unv6>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Subject: Re: [PATCH v2 08/13] drm/panel: sitronix-st7789v: avoid hardcoding
+ mode info
+Content-Language: en-US
+To: Sebastian Reichel <sre@kernel.org>
+References: <20230422205012.2464933-1-sre@kernel.org>
+ <20230422205012.2464933-9-sre@kernel.org>
+From: Michael Riesch <michael.riesch@wolfvision.net>
+In-Reply-To: <20230422205012.2464933-9-sre@kernel.org>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: ZR0P278CA0017.CHEP278.PROD.OUTLOOK.COM
+ (2603:10a6:910:16::27) To DU0PR08MB9155.eurprd08.prod.outlook.com
+ (2603:10a6:10:416::5)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DU0PR08MB9155:EE_|PAWPR08MB9568:EE_
+X-MS-Office365-Filtering-Correlation-Id: 32ed4fe3-9bdd-4a47-c583-08db4d64f4d8
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: B+Fuz8twaa9pRIefs7vQysm6ne6/ubwMRB0VVUz8y4agWqWRf5P4ImsCvtE2xEziIvfy5CZ2KmM5V855+gea9XNp68BP3vxKjsJTRYoUlkPEv59WaRT2d6g/9GhSmyUDRHC9D/v/YlLvWmxgkLt6/N7EEJBATxvWeJDsvZjrc9RbrLpwwu1vbdZvLpQT6MaFqda69qhdIZ5tRtbDNfUVDmF0mzKK5fk8+VKhPn7G5LLgXTaNVxAyGPWE6NZdULwgCf1WtLxXceIs9fU9cTe2mpLmuD8iKMZ3YsQ1cKJvfssH5IgOLho0p2g5AvXKvqazA36wTynUZXjt5Ox/Cp3y/4mBl8Nq7fTXqy8lqhwZU8JxickYoF9UF2ldXZECjnroxzRoISN/A8VnHK6i7mJo6gZYhkhVkK7kpp3R51EPG8cfsTYcNFNYuKxlVwLn7VRlkPSTSzsgPvqDXz+YvKHeM5J7FUx0P1iZtDxhLg81jBjFuM4LWcgI5trB7g+P4t9cVKGcC9h4HwA1it5LNiF8KdvR4ysNd5DZF2l6gGwl8Vj4HLIpNN7LCsOz68tuPV/4GpmhR0XkTqSXW5zQIlXUjinu/ugjHn53b9TwW+0ei6pPWv75szd7/1Kf7doAWyOiDuHn4dxpaUVVdwkGIf7h0Q==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DU0PR08MB9155.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230028)(4636009)(376002)(39850400004)(366004)(136003)(346002)(396003)(451199021)(2616005)(31686004)(478600001)(38100700002)(83380400001)(2906002)(31696002)(86362001)(54906003)(66946007)(6486002)(66476007)(66556008)(316002)(6512007)(6506007)(6916009)(53546011)(4326008)(7416002)(36756003)(8936002)(8676002)(5660300002)(41300700001)(186003)(44832011)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?NXBPekE3NDQyTEZIcnlsUHZxdUtkcExYQzVpU2VFRlNWSm9scklIaFh5V1gw?=
+ =?utf-8?B?UmtZNjZ0cVFFNTBpWmpCVXVyV1ZDOG5mVnBHN0Z2c0JxTzBWWjZZZWVxU0Rm?=
+ =?utf-8?B?dy9YVXJyM0NGRXFVOUpSQUZ4dVBYR3ZrS2V4NDRYT3RwTlBZZlpMT01rWHZw?=
+ =?utf-8?B?T2JocUQ1U1hVUFQrM3FSUU81UTJyYitxZnkwRkhwbDFKWEFRVTFCNFVhbTll?=
+ =?utf-8?B?YWg3UDJxbkNPZUE3KzRsM2pVbGhXUk9VRjFKR2UraFVKWjhyS2pabDRiaGcy?=
+ =?utf-8?B?cFhQQkJuM082YWdyNStmMC9IV0UvYWV3WkZSdE1qc3ZtTXViZDJrQnIzVE00?=
+ =?utf-8?B?OFpvUWl0aTNjL3o3OFNaUTdPZERGemVGTGxNMlV3emNxbUM1b29YOGcyZ0NR?=
+ =?utf-8?B?M3l6WTlTOEZLTnlNakxjSFlPMEhkYlRjdEF4YTlweUw4TTM4OU9Qa3RUenpM?=
+ =?utf-8?B?SXZJZWJybFY2cU04d0loVzQ0MTBZeVY2VWZObzB3YlFQNjhHeHltWjUrcFF0?=
+ =?utf-8?B?c21TR1JwUDB0aFgxUENWczhlcjUzM2s1by82bW4xQ1RCOHNQSFduTzBUa1h4?=
+ =?utf-8?B?QUxOazE4djNxOFV6VURJQ05RTzZ4MUNvNGJycXZLcFJVVDJlcVpwODhSTmhs?=
+ =?utf-8?B?Q05Ob2RCRHFOelhrcVZOa21wQklTeHpLc1I1aU5PZ05PQVppdVBYcHp3OEVB?=
+ =?utf-8?B?MEF1Nkk3RTNnUmZINHVXR1p1RVRTRzNjbTFvMG9oWUdEMGd4aWUzT2ltWXBX?=
+ =?utf-8?B?TWxIbGtIRzZXM0FOamk4dUVZVkljRUxrSkVlY3hZSVdOU0hBZHQ5cGlFS004?=
+ =?utf-8?B?UTZ6RkJpSnIxVHlGcXJFbW42SmhPMUxyekwxODZhai9lcWxRQWIvTDdFZWxW?=
+ =?utf-8?B?M0dkdVdQRlJ1M2wxZjVhMzlrRHVYc2U4bjROY1ErZTE1blV5YTNlUWUySTVF?=
+ =?utf-8?B?dS95eUZBQWw2SW8zSE5jUjNZYVc4SkQwSVNEUWNPSVZtdi8xdUdvMFVQN2VL?=
+ =?utf-8?B?YnFGUXFwek1ncGdnRHFjajRtYkpqN01WOHZSSmhpcnoreFY1dXBYSzFRTVln?=
+ =?utf-8?B?algwd3pQclZjQTlpa3M5SjJ3czNna0w2R3VSVW5NczhheUl1VlJRRHRmSUJN?=
+ =?utf-8?B?WDM4TTgxOGd3OGtuYU9aWVNNVWV4bVQzU0VYS0tuRWNlWC9SbURhUDEzRXR5?=
+ =?utf-8?B?ZC9HMDdLSjdCUmJKQ3JNeUF6NzJaUHkxR2VhaDlDdEdJWlNydU1WdHIzSW5y?=
+ =?utf-8?B?cGRZWGhNSDJxMzRoa3k0aFg5d1FLdlVOT1NHTVkrSm5LQzh2RXhNUm9Ta3VE?=
+ =?utf-8?B?VlAycnNnbnZzNG10S05HZTNHWFpHUEVQUWZUMEkyRjd1cHJkSC9wdEZTb3BM?=
+ =?utf-8?B?ek90T0IwSnppaE44bU1KTzZEOHZTRENDdGZ1aVJqVTJ0R2tEcWMxZk1kT2pj?=
+ =?utf-8?B?QnY4V2ZWY21BV1ExL1poNHJuZDA3d1VSZFVId1FPM3IxV1dRWG5tS0Yyd0NB?=
+ =?utf-8?B?YVZmN0xtUE4wRjJoVHhaL2svRk1reUpzUjFyTytIdStBRkp6ZS9uZXhqNFcy?=
+ =?utf-8?B?ZUUwVHp3ejBOcm1SdzM4ZWJmUlQwTDc1M2doajAyN0hZYUltSVBaQks1R1I5?=
+ =?utf-8?B?WVROelZucTJsZENZY1BsWUg5d0ttSllta0RWazVkbDhDd2F6YmZKYndBMWN3?=
+ =?utf-8?B?NHUvbGFsNEM4bkZ5N3QrM2VXQlIvUGlTU2RPUG5PRlpiQlJFNmZ3ekFPcDIr?=
+ =?utf-8?B?anhWY1R5MTIwcWZsMWd0RVoxeGxPQ0xXcUlWcFBGd1VMMUxmMTBTOTFGQUpC?=
+ =?utf-8?B?QnlTWXBIWFJwN3c0clB3VkUrMmFPWTdOVERYRm92ai9qM2twSkFabi9qMnBF?=
+ =?utf-8?B?UGxIcmRMSXNKcUo5NUFiNTVEUUhJNFU4MHJ3bjlQNVRmTC9NV1VDL05NS0tK?=
+ =?utf-8?B?YVBnYS9iOGk5L3dQUXRKUU90RExzYUJ2RmJSZDJITGNET2xiNUtaL0wxdy91?=
+ =?utf-8?B?T1MvSDQrZVpHR1BpcUxUOVQ0U1AyQ2tMZnpSelMxZHB1QmZqOU5YbzhJQklm?=
+ =?utf-8?B?MHcxV3E4a09Bd0hLNzh1dmw1VXBzVS9zVFNPQ2FJUHpqZXlvWnFBQTZTcXEy?=
+ =?utf-8?B?UjdMeExEOUlVamRFUjJOMEwwbWJOQkRzOEJieVlCSnR3YnhtWUVwcnF3N0lT?=
+ =?utf-8?B?M2hBRTB1cjg3dXUzN09IT3dITXVuZ0Zvak5JWkZlSDNaV0QvdXZJazE1dklN?=
+ =?utf-8?B?b2E5MWdaZDlSYStqUHVzSzV0S05nPT0=?=
+X-OriginatorOrg: wolfvision.net
+X-MS-Exchange-CrossTenant-Network-Message-Id: 32ed4fe3-9bdd-4a47-c583-08db4d64f4d8
+X-MS-Exchange-CrossTenant-AuthSource: DU0PR08MB9155.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 May 2023 12:33:40.4386 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: e94ec9da-9183-471e-83b3-51baa8eb804f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Z+RWGqu/FaAgatHusc4KBEtqDN23lOFUskYbnS0ls9bCBd9VgqfUrCpBviJj5USeaj7HzIkkaE+u9keF8gjx0pAAqI+0j/1Ymxp4Eb4usvc=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAWPR08MB9568
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,135 +129,116 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, iommu@lists.linux.dev,
+Cc: devicetree@vger.kernel.org,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Will Deacon <will@kernel.org>, devicetree@vger.kernel.org,
- Sean Paul <sean@poorly.run>, Joerg Roedel <joro@8bytes.org>,
- Konrad Dybcio <konrad.dybcio@somainline.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
- Krishna Manikandan <quic_mkrishn@quicinc.com>, linux-arm-msm@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, Robin Murphy <robin.murphy@arm.com>
+ Gerald Loacker <gerald.loacker@wolfvision.net>,
+ Sam Ravnborg <sam@ravnborg.org>, linux-kernel@vger.kernel.org,
+ Rob Herring <robh+dt@kernel.org>, Thierry Reding <thierry.reding@gmail.com>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 27/04/2023 18:37, Marijn Suijten wrote:
-> On 2023-04-21 00:31:16, Konrad Dybcio wrote:
->> Add SM6350 support to the DPU1 driver to enable display output.
->>
->> Signed-off-by: Konrad Dybcio <konrad.dybcio@somainline.org>
->> Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+Hi Sebastian,
+
+Thanks for the v2 of your series. Looks great!
+
+One nitpick though: you seem to wrap the patch message lines at ~50
+characters sometimes, which is awfully short.
+
+Another comment below:
+
+On 4/22/23 22:50, Sebastian Reichel wrote:
+> Avoid hard-coding the default_mode and supply it from match data. One
+> additional layer of abstraction has been introduced, which will be
+> needed for specifying other panel information (e.g. bus flags) in the
+> next steps.
 > 
-> After addressing the comments from Dmitry (CURSOR0->DMA1 and
-> CURSOR1->DMA2), this is:
+> Signed-off-by: Sebastian Reichel <sre@kernel.org>
+> ---
+>  .../gpu/drm/panel/panel-sitronix-st7789v.c    | 24 ++++++++++++++-----
+>  1 file changed, 18 insertions(+), 6 deletions(-)
 > 
-> Reviewed-by: Marijn Suijten <marijn.suijten@somainline.org>
-> 
-> See below for some nits.
+> diff --git a/drivers/gpu/drm/panel/panel-sitronix-st7789v.c b/drivers/gpu/drm/panel/panel-sitronix-st7789v.c
+> index a6d6155ef45c..29c2a91f8299 100644
+> --- a/drivers/gpu/drm/panel/panel-sitronix-st7789v.c
+> +++ b/drivers/gpu/drm/panel/panel-sitronix-st7789v.c
+> @@ -108,8 +108,13 @@
+>  			return val;		\
+>  	} while (0)
+>  
+> +struct st7789_panel_info {
+> +	const struct drm_display_mode *mode;
+> +};
+> +
+>  struct st7789v {
+>  	struct drm_panel panel;
+> +	const struct st7789_panel_info *info;
+>  	struct spi_device *spi;
+>  	struct gpio_desc *reset;
+>  	struct regulator *power;
+> @@ -160,16 +165,21 @@ static const struct drm_display_mode default_mode = {
+>  	.vtotal = 320 + 8 + 4 + 4,
+>  };
+>  
+> +struct st7789_panel_info default_panel = {
+> +	.mode = &default_mode,
+> +};
 
-[...]
+Shouldn't this be "static const struct st7789_panel_info default_panel"?
 
->> +static const struct dpu_mdp_cfg sm6350_mdp[] = {
->> +	{
->> +	.name = "top_0", .id = MDP_TOP,
->> +	.base = 0x0, .len = 0x494,
->> +	.features = 0,
->> +	.clk_ctrls[DPU_CLK_CTRL_VIG0] = { .reg_off = 0x2ac, .bit_off = 0 },
->> +	.clk_ctrls[DPU_CLK_CTRL_DMA0] = { .reg_off = 0x2ac, .bit_off = 8 },
->> +	.clk_ctrls[DPU_CLK_CTRL_DMA1] = { .reg_off = 0x2b4, .bit_off = 8 },
->> +	.clk_ctrls[DPU_CLK_CTRL_DMA2] = { .reg_off = 0x2c4, .bit_off = 8 },
->> +	.clk_ctrls[DPU_CLK_CTRL_REG_DMA] = { .reg_off = 0x2bc, .bit_off = 20 },
->> +	},
->> +};
->> +
->> +static const struct dpu_ctl_cfg sm6350_ctl[] = {
->> +	{
->> +	.name = "ctl_0", .id = CTL_0,
->> +	.base = 0x1000, .len = 0x1dc,
->> +	.features = BIT(DPU_CTL_ACTIVE_CFG),
->> +	.intr_start = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR2, 9),
->> +	},
->> +	{
->> +	.name = "ctl_1", .id = CTL_1,
->> +	.base = 0x1200, .len = 0x1dc,
->> +	.features = BIT(DPU_CTL_ACTIVE_CFG),
->> +	.intr_start = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR2, 10),
->> +	},
->> +	{
->> +	.name = "ctl_2", .id = CTL_2,
->> +	.base = 0x1400, .len = 0x1dc,
->> +	.features = BIT(DPU_CTL_ACTIVE_CFG),
->> +	.intr_start = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR2, 11),
->> +	},
->> +	{
->> +	.name = "ctl_3", .id = CTL_3,
->> +	.base = 0x1600, .len = 0x1dc,
->> +	.features = BIT(DPU_CTL_ACTIVE_CFG),
->> +	.intr_start = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR2, 12),
->> +	},
->> +};
->> +
->> +static const struct dpu_sspp_cfg sm6350_sspp[] = {
->> +	SSPP_BLK("sspp_0", SSPP_VIG0, 0x4000, 0x1f8, VIG_SC7180_MASK,
->> +		 sc7180_vig_sblk_0, 0,  SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG0),
->> +	SSPP_BLK("sspp_8", SSPP_DMA0, 0x24000, 0x1f8, DMA_SDM845_MASK,
->> +		 sdm845_dma_sblk_0, 1, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA0),
->> +	SSPP_BLK("sspp_9", SSPP_DMA1, 0x26000, 0x1f8, DMA_CURSOR_SDM845_MASK,
->> +		 sdm845_dma_sblk_1, 5, SSPP_TYPE_DMA, DPU_CLK_CTRL_CURSOR0),
->> +	SSPP_BLK("sspp_10", SSPP_DMA2, 0x28000, 0x1f8, DMA_CURSOR_SDM845_MASK,
->> +		 sdm845_dma_sblk_2, 9, SSPP_TYPE_DMA, DPU_CLK_CTRL_CURSOR1),
->> +};
->> +
->> +static const struct dpu_lm_cfg sm6350_lm[] = {
->> +	LM_BLK("lm_0", LM_0, 0x44000, MIXER_SDM845_MASK,
->> +		&sc7180_lm_sblk, PINGPONG_0, LM_1, DSPP_0),
->> +	LM_BLK("lm_1", LM_1, 0x45000, MIXER_SDM845_MASK,
->> +		&sc7180_lm_sblk, PINGPONG_1, LM_0, 0),
-> 
-> These two entries are indented with two tabs and have one character too
-> many to align with the opening parenthesis on the previous line.  Can we
-> please settle on a single style, as this commit mostly uses tabs+spaces
-> to align with the opening parenthesis?
-> 
-> Dmitry vouched for `cino=(0` (when in unclosed parenthesis, align next
-> line with zero extra characters to the opening parenthesis), but I find
-> double tabs more convenient as it doesn't require reindenting when
-> changing the name of the macro (which happened too often in my INTF TE
-> series).
+(Same holds for "struct st7789_panel_info t28cp45tn89_panel" in patch
+13/13.)
 
-I mainly vote for 'cino=(0' for indenting conditions (where double tab 
-is confusing) and for function calls. I do not have a strong opinion 
-about macros expansions. We have been using double-tab there, which is 
-fine with me.
+With the comments above addressed, feel free to add my
 
-Another option (which I personally find more appealing, but it doesn't 
-play well with the current guidelines) is to have all macro arguments in 
-a single line. It makes it easier to compare things.
+Reviewed-by: Michael Riesch <michael.riesch@wolfvision.net>
 
-And another option would be to expand these macros up to some point. 
-Previous experience with clock and interconnect drivers showed that 
-expanding such multi-arg acros makes it _easier_ to handle the data. 
-Counterintuitive, but true.
+to the whole v3 of your series.
 
-> 
->> +};
->> +
->> +static const struct dpu_dspp_cfg sm6350_dspp[] = {
->> +	DSPP_BLK("dspp_0", DSPP_0, 0x54000, DSPP_SC7180_MASK,
->> +		 &sm8150_dspp_sblk),
->> +};
->> +
->> +static struct dpu_pingpong_cfg sm6350_pp[] = {
->> +	PP_BLK("pingpong_0", PINGPONG_0, 0x70000, PINGPONG_SM8150_MASK, 0, sdm845_pp_sblk,
->> +	       DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 8),
->> +	       -1),
->> +	PP_BLK("pingpong_1", PINGPONG_1, 0x70800, PINGPONG_SM8150_MASK, 0, sdm845_pp_sblk,
->> +	       DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 9),
->> +	       -1),
+Thanks and best regards,
+Michael
 
-[skipped the rest]
-
--- 
-With best wishes
-Dmitry
-
+> +
+>  static int st7789v_get_modes(struct drm_panel *panel,
+>  			     struct drm_connector *connector)
+>  {
+> +	struct st7789v *ctx = panel_to_st7789v(panel);
+>  	struct drm_display_mode *mode;
+>  
+> -	mode = drm_mode_duplicate(connector->dev, &default_mode);
+> +	mode = drm_mode_duplicate(connector->dev, ctx->info->mode);
+>  	if (!mode) {
+> -		dev_err(panel->dev, "failed to add mode %ux%ux@%u\n",
+> -			default_mode.hdisplay, default_mode.vdisplay,
+> -			drm_mode_vrefresh(&default_mode));
+> +		dev_err(panel->dev, "failed to add mode %ux%u@%u\n",
+> +			ctx->info->mode->hdisplay, ctx->info->mode->vdisplay,
+> +			drm_mode_vrefresh(ctx->info->mode));
+>  		return -ENOMEM;
+>  	}
+>  
+> @@ -359,6 +369,8 @@ static int st7789v_probe(struct spi_device *spi)
+>  	spi_set_drvdata(spi, ctx);
+>  	ctx->spi = spi;
+>  
+> +	ctx->info = device_get_match_data(&spi->dev);
+> +
+>  	drm_panel_init(&ctx->panel, dev, &st7789v_drm_funcs,
+>  		       DRM_MODE_CONNECTOR_DPI);
+>  
+> @@ -389,13 +401,13 @@ static void st7789v_remove(struct spi_device *spi)
+>  }
+>  
+>  static const struct spi_device_id st7789v_spi_id[] = {
+> -	{ "st7789v" },
+> +	{ "st7789v", (unsigned long) &default_panel },
+>  	{ }
+>  };
+>  MODULE_DEVICE_TABLE(spi, st7789v_spi_id);
+>  
+>  static const struct of_device_id st7789v_of_match[] = {
+> -	{ .compatible = "sitronix,st7789v" },
+> +	{ .compatible = "sitronix,st7789v", .data = &default_panel },
+>  	{ }
+>  };
+>  MODULE_DEVICE_TABLE(of, st7789v_of_match);
