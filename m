@@ -1,62 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B4106F7A08
-	for <lists+dri-devel@lfdr.de>; Fri,  5 May 2023 02:20:58 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D3C66F7AE0
+	for <lists+dri-devel@lfdr.de>; Fri,  5 May 2023 04:25:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8C0E710E1EF;
-	Fri,  5 May 2023 00:20:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0EC3110E14D;
+	Fri,  5 May 2023 02:25:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com
- [IPv6:2607:f8b0:4864:20::102b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 328DD10E1EF
- for <dri-devel@lists.freedesktop.org>; Fri,  5 May 2023 00:20:49 +0000 (UTC)
-Received: by mail-pj1-x102b.google.com with SMTP id
- 98e67ed59e1d1-24e1d272b09so912588a91.1
- for <dri-devel@lists.freedesktop.org>; Thu, 04 May 2023 17:20:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=rivosinc-com.20221208.gappssmtp.com; s=20221208; t=1683246048; x=1685838048; 
- h=to:from:cc:content-transfer-encoding:mime-version:message-id:date
- :subject:from:to:cc:subject:date:message-id:reply-to;
- bh=8TmpvJbU96K5mWAE+i9LXk7p3PZGa9UIfo8DUIyUZ0c=;
- b=LSbtL8+iwnX5GqWaGBkCj5rkG6Gk0y6hZi+1w189U0O1tCpGD2Jutew6l7t00+dHHM
- pmmTo2/kAT2zb4bZQ0AjNDI6QlsMybGTy8m+4VKZQG3FPpbhOR4GwsQYHTo1JSrYTtSq
- j1toePpqa6F4s3B12xkrFCc+UiRr62QzyiMy9O0juqjTlObi9W6dP4l8w6PcYjf+DcMI
- DDloLYjO69NWdgdFxg9r4fWhltlDq3NNHeRGUSiHau4SwNxHUXaUbQ/RXnd8RenvO0e4
- Hh5VRijo3++skLzX7LkAV7l2JC2q4j27oeaQzVzEl4iSKl9g7maZbyXCp/JzF7u1gxmZ
- 9RwA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683246048; x=1685838048;
- h=to:from:cc:content-transfer-encoding:mime-version:message-id:date
- :subject:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=8TmpvJbU96K5mWAE+i9LXk7p3PZGa9UIfo8DUIyUZ0c=;
- b=B/rZ/tLM0mXZxULWXCbMFzgj7kWTHbLhothzXoVnu26AfTeLAvb9eT1CvbS9rV7ew9
- hiu/AANgONKmIpvfoB5uMbnA7Qz+l41stFiRs2LufSp3AO7KR33H8P8h11fx0GOqcpBA
- oAGJ4Ot3DF0B9wmaAGAQgLrGptEjhBq8F/evQ5Nx3k0XeX7cHjpbfRGmaGDQtBymXQ58
- 8u9mOQx6KNU0LuIiaNVEo5B59gp0yKrUvAQTcEC9FZsNWQ/+piDSe0OL2e3eTHuwosjv
- L2hV31UxJ9lJksvpsIayO40mwKPiwOEfguLF6HwtPIhtHtIcgEx+a5cUBGYdCP67O7cN
- Dw1g==
-X-Gm-Message-State: AC+VfDwkfka8KrK0TLd5HYxvifHf187UNuqxUpTGtFAv6ibFYKg8797+
- OFPPcgvTs1EpNXrI64BhXWfUEg==
-X-Google-Smtp-Source: ACHHUZ43/6VUqC/4H/Fyb8yXxZtcJhQwJ+Pf66SFGn86RioprdSlGVfrxR7XKatPpG2zpuh26E5OqA==
-X-Received: by 2002:a17:90b:3e83:b0:24d:dc79:5901 with SMTP id
- rj3-20020a17090b3e8300b0024ddc795901mr3994645pjb.26.1683246047965; 
- Thu, 04 May 2023 17:20:47 -0700 (PDT)
-Received: from localhost ([135.180.227.0]) by smtp.gmail.com with ESMTPSA id
- cq2-20020a17090af98200b002470b9503desm3659179pjb.55.2023.05.04.17.20.47
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 04 May 2023 17:20:47 -0700 (PDT)
-Subject: [PATCH] phy: mediatek: Remove unusued ret and check
-Date: Thu,  4 May 2023 17:19:46 -0700
-Message-Id: <20230505001945.10179-1-palmer@rivosinc.com>
-X-Mailer: git-send-email 2.40.0
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-From: Palmer Dabbelt <palmer@rivosinc.com>
-To: vkoul@kernel.org
+X-Greylist: delayed 330 seconds by postgrey-1.36 at gabe;
+ Fri, 05 May 2023 02:24:57 UTC
+Received: from mxct.zte.com.cn (mxct.zte.com.cn [58.251.27.85])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E02AF10E14D
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 May 2023 02:24:57 +0000 (UTC)
+Received: from mxde.zte.com.cn (unknown [10.35.20.165])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mxct.zte.com.cn (FangMail) with ESMTPS id 4QCDs803vfzCcNk
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 May 2023 10:19:24 +0800 (CST)
+Received: from mxus.zte.com.cn (unknown [10.36.20.94])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mxde.zte.com.cn (FangMail) with ESMTPS id 4QCDrm1v4rz54hx6
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 May 2023 10:19:04 +0800 (CST)
+Received: from mxhk.zte.com.cn (unknown [192.168.250.137])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mxus.zte.com.cn (FangMail) with ESMTPS id 4QCDrj3vPjzB6Gqs
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 May 2023 10:19:01 +0800 (CST)
+Received: from mse-fl1.zte.com.cn (unknown [10.5.228.132])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mxhk.zte.com.cn (FangMail) with ESMTPS id 4QCDrc3Hn0z8RTWm;
+ Fri,  5 May 2023 10:18:56 +0800 (CST)
+Received: from xaxapp02.zte.com.cn ([10.88.97.241])
+ by mse-fl1.zte.com.cn with SMTP id 3452IkoU063354;
+ Fri, 5 May 2023 10:18:46 +0800 (+08)
+ (envelope-from ye.xingchen@zte.com.cn)
+Received: from mapi (xaxapp02[null]) by mapi (Zmail) with MAPI id mid31;
+ Fri, 5 May 2023 10:18:47 +0800 (CST)
+Date: Fri, 5 May 2023 10:18:47 +0800 (CST)
+X-Zmail-TransId: 2afa645467877be-c82af
+X-Mailer: Zmail v1.0
+Message-ID: <202305051018472856954@zte.com.cn>
+Mime-Version: 1.0
+From: <ye.xingchen@zte.com.cn>
+To: <sumit.semwal@linaro.org>
+Subject: =?UTF-8?B?W1BBVENIXSBkbWEtYnVmOiBVc2UgZmRnZXQoKQ==?=
+Content-Type: text/plain;
+	charset="UTF-8"
+X-MAIL: mse-fl1.zte.com.cn 3452IkoU063354
+X-FangMail-Miltered: at esgde01-1.novalocal with ID 64546797.000 by FangMail
+ milter!
+X-FangMail-Envelope: 1683253144/4QCDrm1v4rz54hx6/64546797.000/10.36.20.94/[10.36.20.94]/mxus.zte.com.cn/<ye.xingchen@zte.com.cn>
+X-Fangmail-Gw-Spam-Type: 0
+X-Fangmail-Anti-Spam-Filtered: true
+X-Fangmail-MID-QID: 645467AA.000/4QCDs803vfzCcNk
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,51 +69,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kishon@kernel.org, chunkuang.hu@kernel.org, linux@rivosinc.com,
- linux-phy@lists.infradead.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, matthias.bgg@gmail.com,
- linux-mediatek@lists.infradead.org, Palmer Dabbelt <palmer@rivosinc.com>,
- chunfeng.yun@mediatek.com, linux-arm-kernel@lists.infradead.org,
- angelogioacchino.delregno@collabora.com
+Cc: linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
+ christian.koenig@amd.com, dri-devel@lists.freedesktop.org,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Palmer Dabbelt <palmer@rivosinc.com>
+From: Ye Xingchen <ye.xingchen@zte.com.cn>
 
-This trips up a maybe-uninitialized warning, but it's actually just not
-used.
+convert the fget() use to fdget().
 
-Signed-off-by: Palmer Dabbelt <palmer@rivosinc.com>
+Signed-off-by: Ye Xingchen <ye.xingchen@zte.com.cn>
 ---
-I just stumbled into this one when trying to test Linus' master.  I'm
-not sure it's a sane fix, but I'm not using the driver.  No rush no my
-end, I'll just keep the fix around in my local tree for now.
----
- drivers/phy/mediatek/phy-mtk-hdmi-mt8195.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ drivers/dma-buf/dma-buf.c | 12 +++++-------
+ 1 file changed, 5 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/phy/mediatek/phy-mtk-hdmi-mt8195.c b/drivers/phy/mediatek/phy-mtk-hdmi-mt8195.c
-index abfc077fb0a8..3fc0913ec73b 100644
---- a/drivers/phy/mediatek/phy-mtk-hdmi-mt8195.c
-+++ b/drivers/phy/mediatek/phy-mtk-hdmi-mt8195.c
-@@ -213,7 +213,7 @@ static int mtk_hdmi_pll_calc(struct mtk_hdmi_phy *hdmi_phy, struct clk_hw *hw,
- 	u64 tmds_clk, pixel_clk, da_hdmitx21_ref_ck, ns_hdmipll_ck, pcw;
- 	u8 txpredivs[4] = { 2, 4, 6, 12 };
- 	u32 fbkdiv_low;
--	int i, ret;
-+	int i;
- 
- 	pixel_clk = rate;
- 	tmds_clk = pixel_clk;
-@@ -295,8 +295,6 @@ static int mtk_hdmi_pll_calc(struct mtk_hdmi_phy *hdmi_phy, struct clk_hw *hw,
- 	mtk_hdmi_pll_set_hw(hw, PLL_PREDIV, fbkdiv_high, fbkdiv_low,
- 			    PLL_FBKDIV_HS3, posdiv1, posdiv2, txprediv,
- 			    txposdiv, digital_div);
--	if (ret)
--		return -EINVAL;
- 
- 	return 0;
+diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+index aa4ea8530cb3..bf4980b6f80c 100644
+--- a/drivers/dma-buf/dma-buf.c
++++ b/drivers/dma-buf/dma-buf.c
+@@ -729,19 +729,17 @@ EXPORT_SYMBOL_NS_GPL(dma_buf_fd, DMA_BUF);
+  */
+ struct dma_buf *dma_buf_get(int fd)
+ {
+-	struct file *file;
+-
+-	file = fget(fd);
++	struct fd f = fdget(fd);
+
+-	if (!file)
++	if (!f.file)
+ 		return ERR_PTR(-EBADF);
+
+-	if (!is_dma_buf_file(file)) {
+-		fput(file);
++	if (!is_dma_buf_file(f.file)) {
++		fdput(f);
+ 		return ERR_PTR(-EINVAL);
+ 	}
+
+-	return file->private_data;
++	return f.file->private_data;
  }
--- 
-2.40.0
+ EXPORT_SYMBOL_NS_GPL(dma_buf_get, DMA_BUF);
 
+-- 
+2.25.
