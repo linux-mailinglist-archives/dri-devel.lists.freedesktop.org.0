@@ -1,55 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89F196F7E09
-	for <lists+dri-devel@lfdr.de>; Fri,  5 May 2023 09:39:59 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C5B2D6F7E83
+	for <lists+dri-devel@lfdr.de>; Fri,  5 May 2023 10:14:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 611F510E58D;
-	Fri,  5 May 2023 07:39:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DE78110E59B;
+	Fri,  5 May 2023 08:14:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A8BE010E585;
- Fri,  5 May 2023 07:39:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1683272392; x=1714808392;
- h=mime-version:content-transfer-encoding:in-reply-to:
- references:subject:from:cc:to:date:message-id;
- bh=yP2EPYBQavfSlJlwR25sz04hJWSdKYVyHD+dWhHomwI=;
- b=V7lLKqP2j7LdbG+5+PL7yhmwqle26KQKk3MqXYL06XNkjtQ07QdtnfMS
- fh/PaIM+nnx6ubJ5XWbLM5BId1HPnZpGjgnYW+gsTPnkqyb7n5k0qW5b6
- HN21j/C3rhw/mBRfQWlLp/+yGgBTs3+VCFllKi8gmtGt/8BU62i7/VWY0
- RGx5eiCXmhF0of+PAjzrHG/qJjDLAIEVFLHlvbQqwrckahzqRASbWKU3i
- KeRHKGZNkyRjSjDI6hCKsM8RPPSCcG7Lc5cDzqjB8S8tHeDuusg1b2CZ3
- 91knD8ytHDn0IqHB8r47y/gUW7rsuJ4U348E8ZKqRq1ImUem9YU3HgXhi Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10700"; a="414686364"
-X-IronPort-AV: E=Sophos;i="5.99,251,1677571200"; d="scan'208";a="414686364"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 May 2023 00:39:51 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10700"; a="821563085"
-X-IronPort-AV: E=Sophos;i="5.99,251,1677571200"; d="scan'208";a="821563085"
-Received: from ozore-mobl3.amr.corp.intel.com (HELO localhost)
- ([10.209.109.127])
- by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 May 2023 00:39:51 -0700
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AB1E510E59B
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 May 2023 08:14:51 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 16AEC611AC
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 May 2023 08:14:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 7C0F4C433D2
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 May 2023 08:14:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1683274490;
+ bh=97G1Lns8P3rWdBcEnwegJhd5KXGG5rb1vgspHm1zTBE=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=BykML3upAbzCguZHVNRtxzMsEdzCmt34B8buv2ekbL4jm2evHwL1fI6vSP4mewyBp
+ A6FNU6bBEKYCajhsPvZSz4r0+dwV3DbtcFV6FNmrdHKvBPsnh10EYdRv7SbQnQtD69
+ jomsm29amDiyhOEMEBVsYzEXdYA9fD5leUmXU9Sl5AvLtL9a/dtKlmdrr7y/lqpVt9
+ PYThy5KOlvLgQKqBy4jO5Ukr3d5Sqo0T97cbqMDLcJI+oMvk9WvNi2z/sXoqomr7hQ
+ SQVIbPZ/HEFBUowsDFOM8A/07v5ExBwtdGtJGPiHcP5BLvPdnTYfRmep95FecqL0wC
+ U3tN6QB8foSwA==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
+ from userid 48) id 6E8BBC43144; Fri,  5 May 2023 08:14:50 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 217398] amdgpu module loading breaks display output - no signal
+Date: Fri, 05 May 2023 08:14:50 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: a1bert@atlas.cz
+X-Bugzilla-Status: RESOLVED
+X-Bugzilla-Resolution: ANSWERED
+X-Bugzilla-Priority: P3
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-217398-2300-7IkB5jyk3z@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-217398-2300@https.bugzilla.kernel.org/>
+References: <bug-217398-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <8888e3dff8c1c4fd1702ded911850da30330fbfa.camel@intel.com>
-References: <20230427234843.2886921-1-alan.previn.teres.alexis@intel.com>
- <20230427234843.2886921-7-alan.previn.teres.alexis@intel.com>
- <8888e3dff8c1c4fd1702ded911850da30330fbfa.camel@intel.com>
-Subject: Re: [PATCH v9 6/8] drm/i915/uapi/pxp: Add a GET_PARAM for PXP
-From: Jordan Justen <jordan.l.justen@intel.com>
-To: "Teres Alexis, Alan Previn" <alan.previn.teres.alexis@intel.com>,
- intel-gfx@lists.freedesktop.org
-Date: Fri, 05 May 2023 00:39:50 -0700
-Message-ID: <168327239043.1096084.14316886882692698230@jljusten-skl>
-User-Agent: alot/0.10
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
+MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,63 +70,16 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Ursulin, Tvrtko" <tvrtko.ursulin@intel.com>, justonli@chromium.org,
- "Landwerlin, Lionel G" <lionel.g.landwerlin@intel.com>, "Ceraolo Spurio,
- Daniele" <daniele.ceraolospurio@intel.com>, dri-devel@lists.freedesktop.org,
- "Vivi, Rodrigo" <rodrigo.vivi@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2023-05-04 22:30:07, Teres Alexis, Alan Previn wrote:
-> On Thu, 2023-04-27 at 16:48 -0700, Teres Alexis, Alan Previn wrote:
-> > Because of the additional firmware, component-driver and
-> > initialization depedencies required on MTL platform before a
-> > PXP context can be created, UMD calling for PXP creation as a
-> > way to get-caps can take a long time. An actual real world
-> > customer stack has seen this happen in the 4-to-8 second range
-> > after the kernel starts (which sees MESA's init appear in the
-> > middle of this range as the compositor comes up). To avoid
-> > unncessary delays experienced by the UMD for get-caps purposes,
-> > add a GET_PARAM for I915_PARAM_PXP_SUPPORT.
-> >=20
-> alan:snip.
-> Progress update on the UMD side - I'm working on patch for PR here:=20
-> https://gitlab.freedesktop.org/alan_previn_intel/mesa-alan-previn-feature=
-s/-/commit/fb9d4fbfbef7dfd3f41df335cd31549fd39ddb57
-> but taking time to verify certain code paths
+https://bugzilla.kernel.org/show_bug.cgi?id=3D217398
 
-Just to confirm, if I915_PARAM_PXP_STATUS returns 2 ("will be ready
-soon"), then it is basically certain that in a production environment,
-then it will eventually return 1 meaning it's ready, right?
+--- Comment #5 from a1bert (a1bert@atlas.cz) ---
+https://gitlab.freedesktop.org/drm/amd/-/issues/2543
 
-If this is correct, then I think that the change in
-i915_gem_supports_protected_context() is good, and probably we can
-skip the change in iris_create_hw_context().
+--=20
+You may reply to this email to add a comment.
 
-Basically, we're timing out for multiple seconds either way. And, I'm
-hoping that the kernel will eventually get the PXP init done and
-create the context.
-
-I think there's 2 cases of interest here.
-
-First, and most likely, the application running doesn't care about
-protected content. In this case we can quickly advertise the support,
-but there will be no consequence because the application won't use the
-feature.
-
-Second, the application does care about protected content. In this
-case we can quickly advertise the support, but if the feature is used
-too quickly, then the context create might take a long time.
-
-If I915_PARAM_PXP_STATUS returning 2 has a reasonable chance in a
-production environment of eventually finding out that pxp can't work,
-then perhaps more disussion is needed. I guess the worst case scenario
-is no worse than today though. (Except it is still somewhat better,
-because the common case would not involve protected content being
-used by the application.)
-
-Another option besides from the timeout loop in
-iris_create_hw_context() might be to check I915_PARAM_PXP_STATUS after
-the context create fails to tweak the debug message.
-
--Jordan
+You are receiving this mail because:
+You are watching the assignee of the bug.=
