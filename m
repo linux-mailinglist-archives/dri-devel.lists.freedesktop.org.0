@@ -2,55 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA7126F8331
-	for <lists+dri-devel@lfdr.de>; Fri,  5 May 2023 14:44:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 120286F83B6
+	for <lists+dri-devel@lfdr.de>; Fri,  5 May 2023 15:18:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0A07210E5EB;
-	Fri,  5 May 2023 12:44:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 127F510E5F2;
+	Fri,  5 May 2023 13:18:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1577010E5E5
- for <dri-devel@lists.freedesktop.org>; Fri,  5 May 2023 12:44:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683290642;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=GwFFl/ubgbXCOJKo8Ww+s/ws1L8r6SYBfBUZWnnnee0=;
- b=A6zdaPOM+sTzlG96lzq563KiwO4Cp0OH+V0siAkLwGPeydCAk2s8XOF/ggHVMmOI5z/zRX
- dhxytPSvn1vZzGjDjYvzVPN0bBDr+3lCnRA5zLv1BA+trsVMfcmFWW+XYUoyIwtd4dw00a
- tdlfUBbjWx6TxQ7T+mu3uRMIJeWt4tY=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-501-_i7U2GcQOv6qRmzBgSefSg-1; Fri, 05 May 2023 08:43:59 -0400
-X-MC-Unique: _i7U2GcQOv6qRmzBgSefSg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E815685A5A3;
- Fri,  5 May 2023 12:43:58 +0000 (UTC)
-Received: from hydra.redhat.com (unknown [10.39.193.149])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AEDBC2166B31;
- Fri,  5 May 2023 12:43:57 +0000 (UTC)
-From: Jocelyn Falempe <jfalempe@redhat.com>
-To: dri-devel@lists.freedesktop.org, tzimmermann@suse.de, airlied@redhat.com,
- javierm@redhat.com, lyude@redhat.com
-Subject: [PATCH 4/4] drm/mgag200: Use DMA to copy the framebuffer to the VRAM
-Date: Fri,  5 May 2023 14:43:37 +0200
-Message-Id: <20230505124337.854845-5-jfalempe@redhat.com>
-In-Reply-To: <20230505124337.854845-1-jfalempe@redhat.com>
-References: <20230505124337.854845-1-jfalempe@redhat.com>
+Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com
+ [IPv6:2a00:1450:4864:20::52b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3A05110E5F2
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 May 2023 13:18:07 +0000 (UTC)
+Received: by mail-ed1-x52b.google.com with SMTP id
+ 4fb4d7f45d1cf-50bcd46bf47so431488a12.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 05 May 2023 06:18:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ffwll.ch; s=google; t=1683292685; x=1685884685;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=sJtB29x7QyFq9ROcEG7cjXam0bJeXjcqo6zu+ZJ3POs=;
+ b=RUFK7J4JL/InPZlBrkZv3JjvxCAE/5/yevc8XT62RArqOjkpnwmg0o2/hlNJ+EvHgJ
+ vUu+pggmjLnU7lckTXNygdKj5Vwn3okdj2Sto2KnTPLidenmq9eOm4d4P9dSrJy/YESH
+ O3wiWNdAOuaSGzASo2qZ7LMw2htTE/n8mNRBE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1683292685; x=1685884685;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=sJtB29x7QyFq9ROcEG7cjXam0bJeXjcqo6zu+ZJ3POs=;
+ b=Pz8+dwE67XeIDKBpw7vHeU2xPyxxMM7XOZMW5SLD0+7jG8fQ8/Z6W+mUOmbb/Dje28
+ H2bx3CUhTXOl2Z8yFdx+9dpJKLRONovSx0CaNdQOd62GWacK9KhwkAMbcXXNjB59/K5E
+ fQcryKf5Wu14+K+n3b6aIwneBkpdL7VDFmfEg7frKEmi5DVarxXgNDF5NaMD1ZEUhO/I
+ ccrIX/4ffKQ5FQD6ImGPo2SE3wQkUwCC17LqCg28UuvM2eVsZ9f8GeNRtpgm0FITmjtp
+ Cc60BEHKciD5mKA43ABThK6uDeVJtcV02tZuxUSnRdIXmTF9Gatv1edxsMOuu36WFCrw
+ BqFQ==
+X-Gm-Message-State: AC+VfDyKkC+iachx0WrSJNhj+cGVUSvtFLQbkVgwb/gA09108uDz0d9r
+ TiajX3Z/MffAG4gskrey6yhvQw==
+X-Google-Smtp-Source: ACHHUZ6/oOnzP7p1mOAGAgYMonz+jTsr10x579oK7fGmRiByUgCivFUtTJwuLrszIp9kZCcGFigfQQ==
+X-Received: by 2002:a17:906:518a:b0:959:37cc:190e with SMTP id
+ y10-20020a170906518a00b0095937cc190emr1179496ejk.3.1683292684807; 
+ Fri, 05 May 2023 06:18:04 -0700 (PDT)
+Received: from phenom.ffwll.local (212-51-149-33.fiber7.init7.net.
+ [212.51.149.33]) by smtp.gmail.com with ESMTPSA id
+ g26-20020a17090613da00b00959c07bdbc8sm924327ejc.100.2023.05.05.06.18.03
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 05 May 2023 06:18:04 -0700 (PDT)
+Date: Fri, 5 May 2023 15:18:02 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Pekka Paalanen <pekka.paalanen@collabora.com>
+Subject: Re: [PATCH] Documentation/gpu: Requirements for driver-specific KMS
+ uAPIs
+Message-ID: <ZFUCCg77n8XHP2RQ@phenom.ffwll.local>
+References: <20230504212557.61049-1-harry.wentland@amd.com>
+ <20230505114320.1eb77237.pekka.paalanen@collabora.com>
+ <ZFTXl3qPn7E0pQWO@phenom.ffwll.local>
+ <20230505142039.0082a407.pekka.paalanen@collabora.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"; x-default=true
+In-Reply-To: <20230505142039.0082a407.pekka.paalanen@collabora.com>
+X-Operating-System: Linux phenom 6.1.0-7-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,446 +76,303 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jocelyn Falempe <jfalempe@redhat.com>
+Cc: Sebastian Wick <sebastian.wick@redhat.com>,
+ Jonas =?iso-8859-1?Q?=C5dahl?= <jadahl@redhat.com>,
+ dri-devel@lists.freedesktop.org, Xaver Hugl <xaver.hugl@gmail.com>,
+ Melissa Wen <mwen@igalia.com>,
+ Michel =?iso-8859-1?Q?D=E4nzer?= <mdaenzer@redhat.com>,
+ Uma Shankar <uma.shankar@intel.com>,
+ Victoria Brekenfeld <victoria@system76.com>, Aleix Pol <aleixpol@kde.org>,
+ Joshua Ashton <joshua@froggi.es>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Even if the transfer is not faster, it brings significant
-improvement in latencies and CPU usage.
+On Fri, May 05, 2023 at 02:20:39PM +0300, Pekka Paalanen wrote:
+> On Fri, 5 May 2023 12:16:55 +0200
+> Daniel Vetter <daniel@ffwll.ch> wrote:
+> 
+> > On Fri, May 05, 2023 at 11:43:20AM +0300, Pekka Paalanen wrote:
+> > > On Thu, 4 May 2023 17:25:57 -0400
+> > > Harry Wentland <harry.wentland@amd.com> wrote:
+> > >   
+> > > > We have steered away for a long time now from driver-specific KMS APIs
+> > > > for good reasons but never codified our stance. With the proposal of
+> > > > new, driver-specific color management uAPIs [1] it is important to
+> > > > outline the requirements for the rare times when driver-specific KMS
+> > > > uAPIs are desired in order to move complex topics along.
+> > > > 
+> > > > [1] https://patchwork.freedesktop.org/series/116862/
+> > > > 
+> > > > Signed-off-by: Harry Wentland <harry.wentland@amd.com>
+> > > > Cc: Simon Ser <contact@emersion.fr>
+> > > > Cc: Joshua Ashton <joshua@froggi.es>
+> > > > Cc: Michel Dänzer <mdaenzer@redhat.com>
+> > > > Cc: Sebastian Wick <sebastian.wick@redhat.com>
+> > > > Cc: Jonas Ådahl <jadahl@redhat.com>
+> > > > Cc: Alex Goins <agoins@nvidia.com>
+> > > > Cc: Pekka Paalanen <pekka.paalanen@collabora.com>
+> > > > Cc: Melissa Wen <mwen@igalia.com>
+> > > > Cc: Aleix Pol <aleixpol@kde.org>
+> > > > Cc: Xaver Hugl <xaver.hugl@gmail.com>
+> > > > Cc: Victoria Brekenfeld <victoria@system76.com>
+> > > > Cc: Daniel Vetter <daniel@ffwll.ch>
+> > > > Cc: Dave Airlie <airlied@gmail.com>
+> > > > Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
+> > > > Cc: Uma Shankar <uma.shankar@intel.com>
+> > > > To: dri-devel@lists.freedesktop.org
+> > > > ---
+> > > >  Documentation/gpu/drm-uapi.rst | 32 ++++++++++++++++++++++++++++++++
+> > > >  1 file changed, 32 insertions(+)
+> > > > 
+> > > > diff --git a/Documentation/gpu/drm-uapi.rst b/Documentation/gpu/drm-uapi.rst
+> > > > index ce47b4292481..eaefc3ed980c 100644
+> > > > --- a/Documentation/gpu/drm-uapi.rst
+> > > > +++ b/Documentation/gpu/drm-uapi.rst
+> > > > @@ -118,6 +118,38 @@ is already rather painful for the DRM subsystem, with multiple different uAPIs
+> > > >  for the same thing co-existing. If we add a few more complete mistakes into the
+> > > >  mix every year it would be entirely unmanageable.
+> > > >  
+> > > > +.. _driver_specific:
+> > > > +
+> > > > +Driver-Specific DRM/KMS uAPI
+> > > > +============================
+> > > > +
+> > > > +Driver-specific interfaces are strongly discouraged for DRM/KMS interfaces.
+> > > > +Kernel-modesetting (KMS) functionality does in principle apply to all drivers.
+> > > > +Driver-specific uAPIs tends to lead to unique implementations in userspace and
+> > > > +are often hard to maintain, especially when different drivers implement similar
+> > > > +but subtly different uAPIs.
+> > > > +
+> > > > +At times arriving at a consensus uAPI can be a difficult and lengthy process and
+> > > > +might benefit from experimentation. This experimentation might warrant
+> > > > +introducing driver specific APIs in order to move the eosystem forward. If a
+> > > > +driver decides to go down this path we ask for the following:  
+> > 
+> > I don't like this for two fairly fundamental reasons, neither of which are
+> > that sometimes merging stuff that's not great is the right thing to do to
+> > move the community and ecosystem forward.
+> > 
+> > > Hi,
+> > > 
+> > > should it be "require" instead of "ask"?
+> > >   
+> > > > +
+> > > > +- An agreement within the community that introducing driver-specific uAPIs is
+> > > > +  warranted in this case;
+> > > > +
+> > > > +- The new uAPI is behind a CONFIG option that is clearly marked EXPERIMENTAL and
+> > > > +  is disabled by default;
+> > > > +
+> > > > +- The new uAPI is enabled when a module parameter for the driver is set, and
+> > > > +  defaults to 'off' otherwise;
+> > > > +
+> > > > +- The new uAPI follows all open-source userspace requirements outlined above;
+> > > > +
+> > > > +- The focus is maintained on development of a vendor-neutral uAPI and progress
+> > > > +  toward such an uAPI needs to be apparent on public forums. If no such progress
+> > > > +  is visible within a reasonable timeframe (1-2 years) anybody is within their
+> > > > +  right to send, review, and merge patches that remove the driver-specific uAPI.
+> > > > +
+> > > >  .. _drm_render_node:
+> > > >  
+> > > >  Render nodes  
+> > > 
+> > > Seems fine to me. I have another addition to suggest:
+> > > 
+> > > When such UAPI is introduced, require that it comes with an expiration
+> > > date. This date should be unmissable, not just documented. The kernel
+> > > module parameter name to enable the UAPI could contain the expiry date,
+> > > for example.
+> > > 
+> > > After all, the most important thing to get through to users is that
+> > > this *will* go away and not just theoretically.  
+> > 
+> > There's no taking-backsies with uapi. If there is a regression report,
+> > we'll have to keep it around, for the usual approximation of "forever"
+> > 
+> > And this is the first reason I don't like this, from other write-ups and
+> > talking with people it seems like there's the assumption that if we just
+> > hide this behind enough knobs, we can remove the uapi again.
+> > 
+> > We can't.
+> > 
+> > The times we've hidden uapi behind knobs was _not_ for uapi we
+> > fundamentally didn't want, at least for the long term. But for the cases
+> > where the overall scope was simply too big, and we needed some time
+> > in-tree to shake out all the bugs (across both kernel and userspace), and
+> > fill out any of the details. Some examples:
+> > 
+> > - intel hiding new hw enabling behind the alpha support is not about
+> >   hiding that uapi so we can change it. It's about the fact that not yet
+> >   all enabling has landed in upstream, and not yet all full stack
+> >   validation on production silicon has completed. It's about not shipping
+> >   buggy code to users that we can't support.
+> > 
+> > - atomic kms was simply too big, there was a lot of work in compositors
+> >   needed, testing corner cases, and details like adding the blob support
+> >   for the display mode so that modesets would work too with atomic. We
+> >   never landed a preliminary uabi version of atomic (there were plenty
+> >   floating around) that wasn't deemed ready as the long term solution, we
+> >   were simply not sure we got it right until all the pieces where in
+> >   place.
+> 
+> Hi Daniel,
+> 
+> I would be bold enough to claim that the KMS color processing UAPI has
+> all the same problems as atomic, except it is even bigger on the UAPI
+> surface, while the kernel internal driver code independent of the UAPI
+> is probably trivial(*) in comparison or even non-existing. This is all
+> about what hardware does and how to generalize a description of that
+> over all hardware of all vendors. I do not think there would be any
+> kind of complex state tracking needed inside the kernel, all the
+> complexity is at the UAPI interface and its definition.
+> 
+> Therefore I doubt the plan you proposed at the end. Do you have any
+> other suggestions?
 
-CPU usage drops from 100% of one core to 3% when continuously
-refreshing the screen.
+The plan at the end _is_ what we've done for atomic. Exactly.
 
-The primary DMA is used to send commands (register write), and
-the secondary DMA to send the pixel data.
-It uses the ILOAD command (chapter 4.5.7 in G200 specification),
-which allows to load an image, or a part of an image from system
-memory to VRAM.
-The last command sent, is a softrap command, which triggers an IRQ
-when the DMA transfer is complete.
-For 16bits and 24bits pixel width, each line is padded to make sure,
-the DMA transfer is a multiple of 32bits. The padded bytes won't be
-drawn on the screen, so they don't need to be initialized.
+1. we merged the kernel-internal infrastructure (struct drm_atomic_state
+and all the state structures that hang off that mostly), and started
+converting drivers
 
-Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
----
- drivers/gpu/drm/mgag200/Makefile       |   3 +-
- drivers/gpu/drm/mgag200/mgag200_dma.c  | 114 +++++++++++++++++++++
- drivers/gpu/drm/mgag200/mgag200_drv.c  |   2 +
- drivers/gpu/drm/mgag200/mgag200_drv.h  |  25 +++++
- drivers/gpu/drm/mgag200/mgag200_mode.c | 131 ++++++++++++++++++++++++-
- drivers/gpu/drm/mgag200/mgag200_reg.h  |  25 +++++
- 6 files changed, 295 insertions(+), 5 deletions(-)
- create mode 100644 drivers/gpu/drm/mgag200/mgag200_dma.c
+2. we merged the atomic uapi but behind a tainting modparam. The atomic
+uapi we agreed was the one we deemed final, not any of the earlier hacks
+that floated around
 
-diff --git a/drivers/gpu/drm/mgag200/Makefile b/drivers/gpu/drm/mgag200/Makefile
-index 182e224c460d..96e23dc5572c 100644
---- a/drivers/gpu/drm/mgag200/Makefile
-+++ b/drivers/gpu/drm/mgag200/Makefile
-@@ -11,6 +11,7 @@ mgag200-y := \
- 	mgag200_g200se.o \
- 	mgag200_g200wb.o \
- 	mgag200_i2c.o \
--	mgag200_mode.o
-+	mgag200_mode.o \
-+	mgag200_dma.o
- 
- obj-$(CONFIG_DRM_MGAG200) += mgag200.o
-diff --git a/drivers/gpu/drm/mgag200/mgag200_dma.c b/drivers/gpu/drm/mgag200/mgag200_dma.c
-new file mode 100644
-index 000000000000..fe063fa2b5f1
---- /dev/null
-+++ b/drivers/gpu/drm/mgag200/mgag200_dma.c
-@@ -0,0 +1,114 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * Copyright 2023 Red Hat
-+ *
-+ * Authors: Jocelyn Falempe
-+ *
-+ */
-+
-+#include <linux/wait.h>
-+#include <linux/dma-mapping.h>
-+
-+#include "mgag200_drv.h"
-+#include "mgag200_reg.h"
-+
-+/* Maximum number of command block for one DMA transfert
-+ * iload should only use 4 blocks
-+ */
-+#define MGA_MAX_CMD		50
-+
-+#define MGA_DMA_SIZE		(4 * 1024 * 1024)
-+#define MGA_MIN_DMA_SIZE	(64 * 1024)
-+
-+/*
-+ * Allocate coherent buffers for DMA transfert.
-+ * We need two buffers, one for the commands, and one for the data.
-+ * If allocation fails, mdev->dma_buf will be NULL, and the driver will
-+ * fallback to memcpy().
-+ */
-+void mgag200_dma_allocate(struct mga_device *mdev)
-+{
-+	struct drm_device *dev = &mdev->base;
-+	int size;
-+	/* Allocate the command buffer */
-+	mdev->cmd = dmam_alloc_coherent(dev->dev, MGA_MAX_CMD * sizeof(*mdev->cmd),
-+					&mdev->cmd_handle, GFP_KERNEL);
-+
-+	if (!mdev->cmd) {
-+		drm_warn(dev, "DMA command buffer allocation failed, fallback to cpu copy\n");
-+		return;
-+	}
-+
-+	for (size = MGA_DMA_SIZE; size >= MGA_MIN_DMA_SIZE; size = size >> 1) {
-+		mdev->dma_buf = dmam_alloc_coherent(dev->dev, size, &mdev->dma_handle, GFP_KERNEL);
-+		if (mdev->dma_buf)
-+			break;
-+	}
-+	if (!mdev->dma_buf) {
-+		drm_warn(dev, "DMA data buffer allocation failed, fallback to cpu copy\n");
-+		return;
-+	}
-+	mdev->dma_size = size;
-+	drm_info(dev, "Using DMA with a %dk data buffer\n", size / 1024);
-+}
-+
-+/*
-+ * Matrox uses commands block to program the hardware through DMA.
-+ * Each command is a register write, and each block contains 4 commands
-+ * packed in 5 words(u32).
-+ * First word is the 4 register index (8bit) to write for the 4 commands,
-+ * followed by the four values to be written.
-+ */
-+void mgag200_dma_add_block(struct mga_device *mdev,
-+			   u32 reg0, u32 val0,
-+			   u32 reg1, u32 val1,
-+			   u32 reg2, u32 val2,
-+			   u32 reg3, u32 val3)
-+{
-+	if (mdev->cmd_idx >= MGA_MAX_CMD) {
-+		pr_err("mgag200: exceeding the DMA command buffer size\n");
-+		return;
-+	}
-+
-+	mdev->cmd[mdev->cmd_idx] = (struct mga_cmd_block) {
-+		.cmd = DMAREG(reg0) | DMAREG(reg1) << 8 | DMAREG(reg2) << 16 | DMAREG(reg3) << 24,
-+		.v0 = val0,
-+		.v1 = val1,
-+		.v2 = val2,
-+		.v3 = val3};
-+	mdev->cmd_idx++;
-+}
-+
-+void mgag200_dma_run_cmd(struct mga_device *mdev)
-+{
-+	struct drm_device *dev = &mdev->base;
-+	u32 primend;
-+	int ret;
-+
-+	/* Add a last block to trigger the softrap interrupt */
-+	mgag200_dma_add_block(mdev,
-+			MGAREG_DMAPAD, 0,
-+			MGAREG_DMAPAD, 0,
-+			MGAREG_DMAPAD, 0,
-+			MGAREG_SOFTRAP, 0);
-+
-+	primend = mdev->cmd_handle + mdev->cmd_idx * sizeof(struct mga_cmd_block);
-+
-+	// Use primary DMA to send the commands
-+	WREG32(MGAREG_PRIMADDR, (u32) mdev->cmd_handle);
-+	WREG32(MGAREG_PRIMEND, primend);
-+	mdev->dma_in_use = 1;
-+
-+	ret = wait_event_timeout(mdev->waitq, mdev->dma_in_use == 0, HZ);
-+
-+	if (mdev->dma_in_use) {
-+		drm_err(dev, "DMA transfert timed out\n");
-+		/* something goes wrong, reset the DMA engine */
-+		WREG8(MGAREG_OPMODE, MGAOPM_DMA_BLIT);
-+		mdev->dma_in_use = 0;
-+	}
-+
-+	/* reset command index to start a new sequence */
-+	mdev->cmd_idx = 0;
-+}
-+
-diff --git a/drivers/gpu/drm/mgag200/mgag200_drv.c b/drivers/gpu/drm/mgag200/mgag200_drv.c
-index 3566fcdfe1e4..c863487526e7 100644
---- a/drivers/gpu/drm/mgag200/mgag200_drv.c
-+++ b/drivers/gpu/drm/mgag200/mgag200_drv.c
-@@ -184,6 +184,8 @@ int mgag200_device_preinit(struct mga_device *mdev)
- 	if (!mdev->vram)
- 		return -ENOMEM;
- 
-+	mgag200_dma_allocate(mdev);
-+
- 	mgag200_init_irq(mdev);
- 	ret = devm_request_irq(dev->dev, pdev->irq, mgag200_driver_irq_handler,
- 			       IRQF_SHARED, "mgag200_irq", mdev);
-diff --git a/drivers/gpu/drm/mgag200/mgag200_drv.h b/drivers/gpu/drm/mgag200/mgag200_drv.h
-index 02175bfaf5a8..f5060fdc16f9 100644
---- a/drivers/gpu/drm/mgag200/mgag200_drv.h
-+++ b/drivers/gpu/drm/mgag200/mgag200_drv.h
-@@ -277,6 +277,14 @@ struct mgag200_device_funcs {
- 	void (*pixpllc_atomic_update)(struct drm_crtc *crtc, struct drm_atomic_state *old_state);
- };
- 
-+struct mga_cmd_block {
-+	u32 cmd;
-+	u32 v0;
-+	u32 v1;
-+	u32 v2;
-+	u32 v3;
-+} __packed;
-+
- struct mga_device {
- 	struct drm_device base;
- 
-@@ -291,6 +299,14 @@ struct mga_device {
- 	void __iomem			*vram;
- 	resource_size_t			vram_available;
- 
-+	void *dma_buf;
-+	size_t dma_size;
-+	dma_addr_t dma_handle;
-+
-+	struct mga_cmd_block *cmd;
-+	int cmd_idx;
-+	dma_addr_t cmd_handle;
-+
- 	wait_queue_head_t waitq;
- 	int dma_in_use;
- 
-@@ -446,4 +462,13 @@ void mgag200_bmc_enable_vidrst(struct mga_device *mdev);
- 				/* mgag200_i2c.c */
- int mgag200_i2c_init(struct mga_device *mdev, struct mga_i2c_chan *i2c);
- 
-+/* mgag200_dma.c */
-+void mgag200_dma_allocate(struct mga_device *mdev);
-+void mgag200_dma_add_block(struct mga_device *mdev,
-+			   u32 reg0, u32 val0,
-+			   u32 reg1, u32 val1,
-+			   u32 reg2, u32 val2,
-+			   u32 reg3, u32 val3);
-+void mgag200_dma_run_cmd(struct mga_device *mdev);
-+
- #endif				/* __MGAG200_DRV_H__ */
-diff --git a/drivers/gpu/drm/mgag200/mgag200_mode.c b/drivers/gpu/drm/mgag200/mgag200_mode.c
-index 7d8c65372ac4..7825ec4323d2 100644
---- a/drivers/gpu/drm/mgag200/mgag200_mode.c
-+++ b/drivers/gpu/drm/mgag200/mgag200_mode.c
-@@ -398,13 +398,132 @@ static void mgag200_disable_display(struct mga_device *mdev)
- 	WREG_ECRT(0x01, crtcext1);
- }
- 
-+static void mgag200_dwg_setup(struct mga_device *mdev, struct drm_framebuffer *fb)
-+{
-+	u32 maccess;
-+
-+	drm_dbg(&mdev->base, "Setup DWG with %dx%d %p4cc\n",
-+		fb->width, fb->height, &fb->format->format);
-+
-+	switch (fb->format->format) {
-+	case DRM_FORMAT_RGB565:
-+		maccess = MGAMAC_PW16;
-+		break;
-+	case DRM_FORMAT_RGB888:
-+		maccess = MGAMAC_PW24;
-+		break;
-+	case DRM_FORMAT_XRGB8888:
-+		maccess = MGAMAC_PW32;
-+		break;
-+	}
-+	WREG32(MGAREG_MACCESS, maccess);
-+
-+	/* Framebuffer width in pixel */
-+	WREG32(MGAREG_PITCH, fb->width);
-+
-+	/* Sane default value for the drawing engine registers */
-+	WREG32(MGAREG_DSTORG, 0);
-+	WREG32(MGAREG_YDSTORG, 0);
-+	WREG32(MGAREG_SRCORG, 0);
-+	WREG32(MGAREG_CXBNDRY, 0x0FFF0000);
-+	WREG32(MGAREG_YTOP, 0);
-+	WREG32(MGAREG_YBOT, 0x00FFFFFF);
-+
-+	/* Activate blit mode DMA, only write the low part of the register */
-+	WREG8(MGAREG_OPMODE, MGAOPM_DMA_BLIT);
-+}
-+
-+/*
-+ * ILOAD allows to load an image from system memory to the VRAM, and with FXBNDRY, YDST and YDSTLEN,
-+ * you can transfert a rectangle, so it's perfect when used with a damage clip.
-+ */
-+static void mgag200_iload_cmd(struct mga_device *mdev, int x, int y, int width, int height,
-+			      int width_padded, int cpp)
-+{
-+	int size = width_padded * height;
-+	u32 iload;
-+
-+	iload = MGADWG_ILOAD | MGADWG_SGNZERO | MGADWG_SHIFTZERO | MGADWG_REPLACE | MGADWG_CLIPDIS
-+		| MGADWG_BFCOL;
-+
-+	mgag200_dma_add_block(mdev,
-+		MGAREG_DWGCTL, iload,
-+		MGAREG_FXBNDRY, (((x + width - 1) << 16) | x),
-+		MGAREG_AR0, (width_padded / cpp) - 1,
-+		MGAREG_AR3, 0);
-+
-+	mgag200_dma_add_block(mdev,
-+		MGAREG_AR5, 0,
-+		MGAREG_YDST, y,
-+		MGAREG_DMAPAD, 0,
-+		MGAREG_DMAPAD, 0);
-+
-+	mgag200_dma_add_block(mdev,
-+		MGAREG_DMAPAD, 0,
-+		MGAREG_LEN | MGAREG_EXEC, height,
-+		MGAREG_SECADDR, mdev->dma_handle | 1,
-+		/* Writing SECEND should always be the last command of a block */
-+		MGAREG_SECEND, mdev->dma_handle + size);
-+}
-+
-+static void mgag200_dma_copy(struct mga_device *mdev, const void *src, u32 pitch,
-+				struct drm_rect *clip, int cpp)
-+{
-+	int i;
-+	int width = drm_rect_width(clip);
-+	int height = drm_rect_height(clip);
-+
-+	/* pad each line to 32bits boundaries see section 4.5.7 of G200 Specification */
-+	int width_padded = round_up(width * cpp, 4);
-+
-+	for (i = 0; i < height; i++)
-+		memcpy(mdev->dma_buf + width_padded * i,
-+		       src + (((clip->y1 + i) * pitch) + clip->x1 * cpp),
-+		       width * cpp);
-+
-+	mgag200_iload_cmd(mdev, clip->x1, clip->y1, width, height, width_padded, cpp);
-+	mgag200_dma_run_cmd(mdev);
-+}
-+
-+/*
-+ * If the DMA coherent buffer is smaller than damage rectangle, we need to
-+ * split it into multiple DMA transfert.
-+ */
-+static void mgag200_dma_damage(struct mga_device *mdev, const struct iosys_map *vmap,
-+			       struct drm_framebuffer *fb, struct drm_rect *clip)
-+{
-+	u32 pitch = fb->pitches[0];
-+	const void *src = vmap[0].vaddr;
-+	struct drm_rect subclip;
-+	int y1;
-+	int lines;
-+	int cpp = fb->format->cpp[0];
-+
-+	/* Number of lines that fits in one DMA buffer */
-+	lines = min(drm_rect_height(clip), (int) mdev->dma_size / (drm_rect_width(clip) * cpp));
-+
-+	subclip.x1 = clip->x1;
-+	subclip.x2 = clip->x2;
-+
-+	for (y1 = clip->y1; y1 < clip->y2; y1 += lines) {
-+		subclip.y1 = y1;
-+		subclip.y2 = min(clip->y2, y1 + lines);
-+		mgag200_dma_copy(mdev, src, pitch, &subclip, cpp);
-+	}
-+}
-+
- static void mgag200_handle_damage(struct mga_device *mdev, const struct iosys_map *vmap,
- 				  struct drm_framebuffer *fb, struct drm_rect *clip)
- {
--	struct iosys_map dst = IOSYS_MAP_INIT_VADDR_IOMEM(mdev->vram);
--
--	iosys_map_incr(&dst, drm_fb_clip_offset(fb->pitches[0], fb->format, clip));
--	drm_fb_memcpy(&dst, fb->pitches, vmap, fb, clip);
-+	if (mdev->dma_buf) {
-+		/* Fast path, use DMA */
-+		mgag200_dma_damage(mdev, vmap, fb, clip);
-+	} else {
-+		struct iosys_map dst = IOSYS_MAP_INIT_VADDR_IOMEM(mdev->vram);
-+
-+		iosys_map_incr(&dst, drm_fb_clip_offset(fb->pitches[0], fb->format, clip));
-+		drm_fb_memcpy(&dst, fb->pitches, vmap, fb, clip);
-+	}
- }
- 
- /*
-@@ -475,6 +594,10 @@ void mgag200_primary_plane_helper_atomic_update(struct drm_plane *plane,
- 	if (!fb)
- 		return;
- 
-+	if (!old_plane_state->fb || fb->format != old_plane_state->fb->format
-+	    || fb->width != old_plane_state->fb->width)
-+		mgag200_dwg_setup(mdev, fb);
-+
- 	drm_atomic_helper_damage_iter_init(&iter, old_plane_state, plane_state);
- 	drm_atomic_for_each_plane_damage(&iter, &damage) {
- 		mgag200_handle_damage(mdev, shadow_plane_state->data, fb, &damage);
-diff --git a/drivers/gpu/drm/mgag200/mgag200_reg.h b/drivers/gpu/drm/mgag200/mgag200_reg.h
-index 748c8e18e938..256ac92dae56 100644
---- a/drivers/gpu/drm/mgag200/mgag200_reg.h
-+++ b/drivers/gpu/drm/mgag200/mgag200_reg.h
-@@ -116,6 +116,9 @@
- 
- #define	MGAREG_OPMODE		0x1e54
- 
-+#define MGAREG_PRIMADDR		0x1e58
-+#define MGAREG_PRIMEND		0x1e5c
-+
- /* Warp Registers */
- #define MGAREG_WIADDR           0x1dc0
- #define MGAREG_WIADDR2          0x1dd8
-@@ -200,6 +203,8 @@
- 
- /* See table on 4-43 for bop ALU operations */
- 
-+#define MGADWG_REPLACE	(0xC << 16)
-+
- /* See table on 4-44 for translucidity masks */
- 
- #define MGADWG_BMONOLEF		( 0x00 << 25 )
-@@ -218,6 +223,8 @@
- 
- #define MGADWG_PATTERN		( 0x01 << 29 )
- #define MGADWG_TRANSC		( 0x01 << 30 )
-+#define MGADWG_CLIPDIS		( 0x01 << 31 )
-+
- #define MGAREG_MISC_WRITE	0x3c2
- #define MGAREG_MISC_READ	0x3cc
- #define MGAREG_MEM_MISC_WRITE       0x1fc2
-@@ -605,6 +612,9 @@
- #    define MGA_TC2_SELECT_TMU1                 (0x80000000)
- #define MGAREG_TEXTRANS		0x2c34
- #define MGAREG_TEXTRANSHIGH	0x2c38
-+#define MGAREG_SECADDR		0x2c40
-+#define MGAREG_SECEND		0x2c44
-+#define MGAREG_SOFTRAP		0x2c48
- #define MGAREG_TEXFILTER	0x2c58
- #    define MGA_MIN_NRST                        (0x00000000)
- #    define MGA_MIN_BILIN                       (0x00000002)
-@@ -691,4 +701,19 @@
- #define MGA_AGP2XPLL_ENABLE		0x1
- #define MGA_AGP2XPLL_DISABLE		0x0
- 
-+
-+#define DWGREG0		0x1c00
-+#define DWGREG0_END	0x1dff
-+#define DWGREG1		0x2c00
-+#define DWGREG1_END	0x2dff
-+
-+/* These macros convert register address to the 8 bit command index used with DMA
-+ * It remaps 0x1c00-0x1dff to 0x00-0x7f (REG0)
-+ * and 0x2c00-0x2dff to 0x80-0xff (REG1)
-+ */
-+#define ISREG0(r)	(r >= DWGREG0 && r <= DWGREG0_END)
-+#define DMAREG0(r)	((u8)((r - DWGREG0) >> 2))
-+#define DMAREG1(r)	((u8)(((r - DWGREG1) >> 2) | 0x80))
-+#define DMAREG(r)	(ISREG0((r)) ? DMAREG0((r)) : DMAREG1((r)))
-+
- #endif
+3. all the missing bits and pieces where filled out, like some of the
+compat helpers, igt tests, support for blob properties needed for
+modesets, testing with compositoers, ...
+
+4. we enabled the uapi
+
+Nowhere in there did we merge uapi that we didn't want to keep long-term.
+
+What I propose for color management is the same
+
+1. merge driver code and in-kernel infrastructure to get this going,
+without uapi
+
+2. merge the uapi we want long-term, but behind a module option since it's
+likely a pile of work. Like we need graph node support, then the pieces
+for the color plane pipeline, then glue it into drivers, ...
+
+3. all the missing pieces and igts and testing with compositors
+
+4. we enable the uapi
+
+Yes in details it's not going to be exactly the same, but overall it I
+think atomic kms is a very good example to follow.
+
+Cheers, Daniel
+
+> Thanks,
+> pq
+> 
+> (*) I do not want to imply that the driver code is somehow not real
+> work to write. What I mean is that once the UAPI is defined, and you
+> know what your hardware does, you shouldn't have any trouble writing
+> that code. But without UAPI defined, I'd assume there is almost nothing
+> to write.
+> 
+> I haven't looked at the AMD patches to see what would be left if the
+> UAPI was dropped. Melissa?
+> 
+> >   And viz Xorg-modesetting, in at least one case we still got it wrong and
+> >   had to disable atomic for that userspace.
+> > 
+> > - nouveau pony years back tried this entire "oh the uapi is just
+> >   experimental" thing, and it resulted in the by far worst flameware
+> >   between Dave and Linus on dri-devel
+> > 
+> > So _if_ we do this we need to be clear that uapi is forever, and not have
+> > docs that suggest otherwise.
+> > 
+> > > If that date needs to be moved forward, it should be possible to do so
+> > > with a simple patch gathering enough acks. The main thing is to set the
+> > > date from the start, so there can be no confusion about when its going
+> > > to the chopping block.
+> > > 
+> > > I do not suggest that the kernel would automatically runtime disable
+> > > the UAPI after that date.
+> > > 
+> > > Does any of the big idea fly with upper maintainers and Linus?  
+> > 
+> > The other reason, and maybe even more fundamental one, is that I think the
+> > uncertainty of not documenting how pragmatic we are is beneficial.
+> > 
+> > We should definitely document the gold standard aspirations, to make sure
+> > everyone knows where to aim for. And I'm definitely all for pragmatic
+> > merging where it makes sense, we've had tons of that, and happily carry
+> > the costs to this day for some of them:
+> > 
+> > - a lot of the early soc drivers are kinda meh, and will stay that way
+> >   forever since they're not maintained anymore
+> > 
+> > - we've had very much free-for-all vendor kms properties, and I expect the
+> >   hall of shame witht he big table of vendor props with barely any docs
+> >   will never go away
+> > 
+> > - we're taking all the compute runtimes despite that mesa on the 3d/gl/vk
+> >   side shows how much better collaboration would be (and I think soon will
+> >   show the same for media) because having a compute ecosystem that's
+> >   substantially weaker than the sum of all its parts is still better than
+> >   nothing. And the situation is still that collaboration even with a
+> >   company is often impossible, aiming for better is not very realistic :-/
+> > 
+> > But the goal is still to have solid code, cross-vendor infrastructure and
+> > collaboration and all that stuff, because that's why upstream is strong.
+> > And the uncertainty is helping us for a lot of reasons:
+> > 
+> > - it makes vendors vary of going with vendor solutions. Minimally they ask
+> >   in private, which gives Dave, me and all the others doing vendor
+> >   outreach or working as some ambassador rule at a vendor an opportunity
+> >   to steer things in a better direction. And often do the steering
+> >   _before_ code gets written.
+> > 
+> > - it allows Dave&me to more freely decide when to be pragmatic, without
+> >   being bound by rules. The point of pragmatic merging is to bend the
+> >   short term principles for a better long term outcome, splattering that
+> >   entire space full with rules makes rule-bending a lot harder when
+> >   needed.
+> > 
+> > - most of all I really don't want to be in a discussion with vendors where
+> >   they try to laywer-argue that we must merge their patches because they
+> >   strictly followed the wording of some pragmatic merge rules while
+> >   entirely tossing the spirit of what we aim for. I already have more than
+> >   enough of that, this will result in more.
+> > 
+> > In all the past examples of pragmatic merging we never documented the
+> > pragmatic approach, but instead if we documented something, we wrote down
+> > the ideal standards to aim for. That makes it easier for everyone to do
+> > the right thing, and harder (and more expensive due to the inherit
+> > uncertainty) to try to bend them towards the least amount of collaboration
+> > a vendor can get away with.
+> > 
+> > That's why I really want to keep the undocumented and hence uncertain
+> > rules in this space.
+> > 
+> > For the actual case at hand of plane color handling, I think the pragmatic
+> > aproach is roughly:
+> > 
+> > 1. land the amdgpu code, but without uapi
+> > 
+> > 2. use that (and any other driver code that's been floating around in this
+> > space) to build up the kernel-internal infrastructure - the proposed graph
+> > of color transformation blocks will need quite a few things
+> > 
+> > 3. land the uapi on top in it's hopeful final form, maybe hidden if it's
+> > not yet complete or ready for prime time as we sometimes do with bigger
+> > projects
+> > 
+> > Obviously compositor work, igts, docs and all that too, and most of all
+> > this can happen in parallel too once we have a rough consensus on where to
+> > aim for.
+> > 
+> > Cheers, Daniel
+> 
+
 -- 
-2.39.2
-
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
