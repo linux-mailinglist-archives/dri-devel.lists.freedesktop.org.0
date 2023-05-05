@@ -2,51 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEF896F81A8
-	for <lists+dri-devel@lfdr.de>; Fri,  5 May 2023 13:25:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9858E6F81AB
+	for <lists+dri-devel@lfdr.de>; Fri,  5 May 2023 13:26:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2F1D910E5D1;
-	Fri,  5 May 2023 11:25:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9805410E5D5;
+	Fri,  5 May 2023 11:26:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from wnew2-smtp.messagingengine.com (wnew2-smtp.messagingengine.com
  [64.147.123.27])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E430810E5D5
- for <dri-devel@lists.freedesktop.org>; Fri,  5 May 2023 11:25:50 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailnew.west.internal (Postfix) with ESMTP id EAC902B067B4;
- Fri,  5 May 2023 07:25:45 -0400 (EDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CDE8D10E5D5
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 May 2023 11:25:58 +0000 (UTC)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
+ by mailnew.west.internal (Postfix) with ESMTP id CF5502B066B8;
+ Fri,  5 May 2023 07:25:53 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute3.internal (MEProxy); Fri, 05 May 2023 07:25:50 -0400
+ by compute6.internal (MEProxy); Fri, 05 May 2023 07:25:58 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
  :cc:content-transfer-encoding:content-type:content-type:date
  :date:from:from:in-reply-to:in-reply-to:message-id:mime-version
  :references:reply-to:sender:subject:subject:to:to; s=fm2; t=
- 1683285945; x=1683293145; bh=UQKDjmKPSzC7x5C95cs9YOZc6yAVPvrTJ4b
- 1utEyhQs=; b=UDQJjfgae9Jy0KKyFS0jdkkFbIHInOjJANJqIPxcx2irxjptzoa
- sOkGAs/Z2RiPml73V/Dyqz18ojQmjuG0m5k2qzRasE2wOduD0CM8Clamakjgpmr6
- cCDoP9q1ou3E91lXfG3zQq94jjWZw7UtQ4ecrXCJNgsgnb0RX7vXIXcU3WAaEa7D
- PrLAjPWKmGuGUZB+qjmy3wiVkZUpVewbtTrg5ySbFZP8gV1D1a8ytRBQ6oMOsLEw
- 5e92vJbN6fb877F8q/bLcn8jg76/PM41W/zJ3tFHn9N3jA4plS5kcc3kJ+o8zzms
- 2jftE0cuihiOeKakfTVrSqvLxUNW+XVhkgQ==
+ 1683285953; x=1683293153; bh=WU20FpUx77EC9SQ4SvyGsBOJEHNPQAGkitA
+ hRG2bZ+8=; b=cgeM5GXMn3UxomTuwWA6AkOxgVn1PUeJmY+HSkE1TZA752i4fMf
+ QlYTaJ3UBsrM+xmXXoB8aMPoNfu33v/+uNcOH6qdiut5C/giuLiiL+5xpPL9JQ3q
+ KBZI2kK8gg4c7gD5R7CpKcY87dEyeTl7s1nF18OyeKxj9B28kPMuyI7bzaLQuG7F
+ jUCWx54c1O0WZ7iMU4OguTOmfgUWmsnRtWbzh20WYFo3Z2hV6z0lK9Rpe9SA8+gk
+ xun/BjXaV1djzqXT5STJvMBm9KjZTBCAJ3fnpgoAoMk4b34q1MzQLNEwCiR0sj6I
+ Yfq0t+Rzah7rVMv1mCoZhd7NmbmoteVaanw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding
  :content-type:content-type:date:date:feedback-id:feedback-id
  :from:from:in-reply-to:in-reply-to:message-id:mime-version
  :references:reply-to:sender:subject:subject:to:to:x-me-proxy
  :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
- 1683285945; x=1683293145; bh=UQKDjmKPSzC7x5C95cs9YOZc6yAVPvrTJ4b
- 1utEyhQs=; b=eETp/afWAPWzhC0ojTjFS4E2W8DChqKPKekP/EPuz5wcqmFBedN
- ZE+2I5zoeVPXyzKsIEvFVqbdeKASr4jE/E0HiMkzTedmCrKH7DHijuv1Pr0iz6lm
- mkw6mO2IYBh/nuQLdyKHPD9sAPZo6XHnTGzbJmn9B/JRjfopvt9kUHSt7K7spG5U
- mWrJ8HMVdVXDUOfwWRWWOBbcosSLQzfxtxBGfoiLaSQVUQQwmLExj8nwhCziNLGx
- 3WVMizySGqhM98PNWHHPcW+udXkQtb9aSDcQw/m31nJjuplyRlOmetOHAEsIxyUq
- 98B8xE3APjy+uJkG8FtMHjn7l8Mdn0KBGkg==
-X-ME-Sender: <xms:uOdUZNj3ZpRewkMtfxJ6-ctpOTk2iZx5Ay1l69YUkk0t1y1bBktOIw>
- <xme:uOdUZCCzmcX3Ogu0_MvnPgEHEe5QuKkoSeQ39kZDFWs5CBbm3W3hi8pMTy23Haspl
- MBMYjdHw32Wvd2ycdQ>
-X-ME-Received: <xmr:uOdUZNFcQBLQLsDsGRahkPNFqahy8ULrpN3NGsH_y-MOTDZwMw-Gom31V1u7tVnIPIHyGwtAF-f649-KhACFYqJrLXRbNVI>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrfeefvddgfeelucetufdoteggodetrfdotf
+ 1683285953; x=1683293153; bh=WU20FpUx77EC9SQ4SvyGsBOJEHNPQAGkitA
+ hRG2bZ+8=; b=jr8lN2ghqcDZ5kqJHWWrVG+JVKxrGxFjiL2Fo6F+tO6khTu9uNC
+ 3Vzfo/OsYMLD3RLfc+/5PSx3qtINZwp/2/Qs+vt62FUAIp8X+tN87wRyDj5pE/9y
+ PJokTD1FNIRNQR0hzIJGElMJPY0E/L8AV0eT2rJj7nhin7Vj/nnbY7UhIGMzeYDx
+ iZDx76QA1IsHnrUbb92BFyco9yHVZY5Uwf7/Tkjsuw9gRBiv+1/xFABEQxh5Q0cS
+ HziRpz9berfkuczUH/qZ7+c14O98hfnbgHBn//enLqYX0/76S0yKkBeLnX8FTGaH
+ oEkXYF8N3c35dQD5wyXVdIoY4aiurQAwgcA==
+X-ME-Sender: <xms:wOdUZPn2YVsOeYXvI146nyDBWr3nSH3lCpz6TRPAgUE6KZdJu7P3Fg>
+ <xme:wOdUZC36G9DFmwnj6d-CzDtfAPXXtK4y5a-_3scL858H7lwpPNUG_M4edZEEYa5N-
+ tg9xeQ-DK8K9mvYpZU>
+X-ME-Received: <xmr:wOdUZFpLil1rYYbdxZv73ZNsYdbpwpqWCmYK9efiaExczIoN6U3ELq1yOJKPCGV4y-bO_I83vIlHjCvk21D8HlpE9UvyMI4>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrfeefvddggedtucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
  cujfgurhephfffufggtgfgkfhfjgfvvefosehtkeertdertdejnecuhfhrohhmpeforgig
@@ -54,30 +54,31 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrfeefvddgfeelucetufdoteggod
  grthhtvghrnhepudduudfhveejteefgedvffdvvedvjedugedukeejhedtlefhffevtefh
  jeeltdevnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
  epmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:uOdUZCS3WqyF5n_W3EiJVuNpMnHgAXUa1OpdnFRLa8UYUgd11F-oNg>
- <xmx:uOdUZKwWniyq1PrG5KiKO_9_icEmzUCRDxijmAeCZ0CdvgtAjfwv1A>
- <xmx:uOdUZI7LJJc_HfCtyAo4xAEhts_dpqgNb42EzjXV5B62USvVCiTKVQ>
- <xmx:uedUZK5NUkPOnYhg1Pw5l4WoybZn50aZGTzwuONG_b-ZzRWQ6TMX7TYzgTw>
+X-ME-Proxy: <xmx:wOdUZHldcNsAc0CZDFE_9vVcrWupYRHe9dwKRyFTwC0LjLqStRUHWA>
+ <xmx:wOdUZN1GorjN-GCmdgKxvoBp8OzxFMyLWI1u7jCbHAXQD_RK26nEeA>
+ <xmx:wOdUZGtWZeNEW5CaVVPyp59BAgGJLKL2I-3qwPdfa01u7LQiEAVLhw>
+ <xmx:wedUZO9YMlrZ92sVeEfotUdtjLPxcIR6arJIzZeSlMtLRwBRhGDuJ-hp_iA>
 Feedback-ID: i8771445c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 5 May 2023 07:25:43 -0400 (EDT)
+ 5 May 2023 07:25:51 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
-Date: Fri, 05 May 2023 13:25:05 +0200
-Subject: [PATCH v4 03/68] clk: Move no reparent case into a separate function
+Date: Fri, 05 May 2023 13:25:06 +0200
+Subject: [PATCH v4 04/68] clk: Introduce
+ clk_hw_determine_rate_no_reparent()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20221018-clk-range-checks-fixes-v4-3-971d5077e7d2@cerno.tech>
+Message-Id: <20221018-clk-range-checks-fixes-v4-4-971d5077e7d2@cerno.tech>
 References: <20221018-clk-range-checks-fixes-v4-0-971d5077e7d2@cerno.tech>
 In-Reply-To: <20221018-clk-range-checks-fixes-v4-0-971d5077e7d2@cerno.tech>
 To: Michael Turquette <mturquette@baylibre.com>, 
  Stephen Boyd <sboyd@kernel.org>
 X-Mailer: b4 0.12.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=5599; i=maxime@cerno.tech;
- h=from:subject:message-id; bh=Pxa6LrZe1o/eBr4UI7umXibSzTm/MpQguARoHEO5XCk=;
- b=owGbwMvMwCX2+D1vfrpE4FHG02pJDCkhzxc5Rstf2bExQeEn73VnY64JKuoy700DJTb9UzzofGj6
- AUHmjlIWBjEuBlkxRZYYYfMlcadmve5k45sHM4eVCWQIAxenAEzk3AyGf/Zn+S0ni19r774wuWmK42
- TRba9ZDL7d93cNy5IJu/ex8zjD/2SHmTwr1himMz9fPun629N1J8OVT1ytvTFn9681xQe/X+YAAA==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=10829; i=maxime@cerno.tech;
+ h=from:subject:message-id; bh=YBkKiWSHU6AfKueAcHZCOzbYZiY/0bHTLTOJ1X0UewY=;
+ b=owGbwMvMwCX2+D1vfrpE4FHG02pJDCkhzxedUy9mc+d6kvbti+3SFwfvMnndXJS6hu1k/TrpDJGw
+ on1pHaUsDGJcDLJiiiwxwuZL4k7Net3JxjcPZg4rE8gQBi5OAZjIMUdGhrc1IfwXRIW2N4U5T025te
+ 74MuZT1+3CXxzLnmrrU8G66gwjw9XfZ8pdlhx7KvVmQf4Moc++3jnXPGXyivk3x50qOet1hBMA
 X-Developer-Key: i=maxime@cerno.tech; a=openpgp;
  fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -132,9 +133,21 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Stephen Boyd <sboyd@kernel.org>
 
-We'll need to turn the code in clk_mux_determine_rate_flags() to deal
-with CLK_SET_RATE_NO_REPARENT into a helper clock drivers will be able
-to use if they don't want to allow reparenting.
+Some clock drivers do not want to allow any reparenting on a given
+clock, but usually do so by not providing any determine_rate
+implementation.
+
+Whenever we call clk_round_rate() or clk_set_rate(), this leads to
+clk_core_can_round() returning false and thus the rest of the function
+either forwarding the rate request to its current parent if
+CLK_SET_RATE_PARENT is set, or just returning the current clock rate.
+
+This behaviour happens implicitly, and as we move forward to making a
+determine_rate implementation required for muxes, we need some way to
+explicitly opt-in for that behaviour.
+
+Fortunately, this is exactly what the clk_core_determine_rate_no_reparent()
+function is doing, so we can simply make it available to drivers.
 
 Cc: Abel Vesa <abelvesa@kernel.org>
 Cc: Alessandro Zummo <a.zummo@towertech.it>
@@ -199,109 +212,227 @@ Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
 Signed-off-by: Stephen Boyd <sboyd@kernel.org>
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/clk/clk.c | 75 +++++++++++++++++++++++++++++++------------------------
- 1 file changed, 43 insertions(+), 32 deletions(-)
+ drivers/clk/clk.c            |  18 +++++
+ drivers/clk/clk_test.c       | 152 +++++++++++++++++++++++++++++++++++++++++++
+ include/linux/clk-provider.h |   2 +
+ 3 files changed, 172 insertions(+)
 
 diff --git a/drivers/clk/clk.c b/drivers/clk/clk.c
-index e495dd7a1eae..f57f821a5e5a 100644
+index f57f821a5e5a..5365595433c8 100644
 --- a/drivers/clk/clk.c
 +++ b/drivers/clk/clk.c
-@@ -594,6 +594,46 @@ clk_core_forward_rate_req(struct clk_core *core,
- 		req->max_rate = old_req->max_rate;
+@@ -783,6 +783,24 @@ int __clk_mux_determine_rate_closest(struct clk_hw *hw,
  }
+ EXPORT_SYMBOL_GPL(__clk_mux_determine_rate_closest);
+ 
++/*
++ * clk_hw_determine_rate_no_reparent - clk_ops::determine_rate implementation for a clk that doesn't reparent
++ * @hw: mux type clk to determine rate on
++ * @req: rate request, also used to return preferred frequency
++ *
++ * Helper for finding best parent rate to provide a given frequency.
++ * This can be used directly as a determine_rate callback (e.g. for a
++ * mux), or from a more complex clock that may combine a mux with other
++ * operations.
++ *
++ * Returns: 0 on success, -EERROR value on error
++ */
++int clk_hw_determine_rate_no_reparent(struct clk_hw *hw,
++				      struct clk_rate_request *req)
++{
++	return clk_core_determine_rate_no_reparent(hw, req);
++}
++
+ /***        clk api        ***/
+ 
+ static void clk_core_rate_unprotect(struct clk_core *core)
+diff --git a/drivers/clk/clk_test.c b/drivers/clk/clk_test.c
+index 2cb51153750d..b3ed3b0e4c31 100644
+--- a/drivers/clk/clk_test.c
++++ b/drivers/clk/clk_test.c
+@@ -141,6 +141,12 @@ static const struct clk_ops clk_multiple_parents_mux_ops = {
+ 	.determine_rate = __clk_mux_determine_rate_closest,
+ };
+ 
++static const struct clk_ops clk_multiple_parents_no_reparent_mux_ops = {
++	.determine_rate = clk_hw_determine_rate_no_reparent,
++	.get_parent = clk_multiple_parents_mux_get_parent,
++	.set_parent = clk_multiple_parents_mux_set_parent,
++};
++
+ static int clk_test_init_with_ops(struct kunit *test, const struct clk_ops *ops)
+ {
+ 	struct clk_dummy_context *ctx;
+@@ -2395,10 +2401,156 @@ static struct kunit_suite clk_mux_notifier_test_suite = {
+ 	.test_cases = clk_mux_notifier_test_cases,
+ };
  
 +static int
-+clk_core_determine_rate_no_reparent(struct clk_hw *hw,
-+				    struct clk_rate_request *req)
++clk_mux_no_reparent_test_init(struct kunit *test)
 +{
-+	struct clk_core *core = hw->core;
-+	struct clk_core *parent = core->parent;
-+	unsigned long best;
++	struct clk_multiple_parent_ctx *ctx;
++	const char *parents[2] = { "parent-0", "parent-1"};
 +	int ret;
 +
-+	if (core->flags & CLK_SET_RATE_PARENT) {
-+		struct clk_rate_request parent_req;
++	ctx = kunit_kzalloc(test, sizeof(*ctx), GFP_KERNEL);
++	if (!ctx)
++		return -ENOMEM;
++	test->priv = ctx;
 +
-+		if (!parent) {
-+			req->rate = 0;
-+			return 0;
-+		}
++	ctx->parents_ctx[0].hw.init = CLK_HW_INIT_NO_PARENT("parent-0",
++							    &clk_dummy_rate_ops,
++							    0);
++	ctx->parents_ctx[0].rate = DUMMY_CLOCK_RATE_1;
++	ret = clk_hw_register(NULL, &ctx->parents_ctx[0].hw);
++	if (ret)
++		return ret;
 +
-+		clk_core_forward_rate_req(core, req, parent, &parent_req,
-+					  req->rate);
++	ctx->parents_ctx[1].hw.init = CLK_HW_INIT_NO_PARENT("parent-1",
++							    &clk_dummy_rate_ops,
++							    0);
++	ctx->parents_ctx[1].rate = DUMMY_CLOCK_RATE_2;
++	ret = clk_hw_register(NULL, &ctx->parents_ctx[1].hw);
++	if (ret)
++		return ret;
 +
-+		trace_clk_rate_request_start(&parent_req);
-+
-+		ret = clk_core_round_rate_nolock(parent, &parent_req);
-+		if (ret)
-+			return ret;
-+
-+		trace_clk_rate_request_done(&parent_req);
-+
-+		best = parent_req.rate;
-+	} else if (parent) {
-+		best = clk_core_get_rate_nolock(parent);
-+	} else {
-+		best = clk_core_get_rate_nolock(core);
-+	}
-+
-+	req->rate = best;
++	ctx->current_parent = 0;
++	ctx->hw.init = CLK_HW_INIT_PARENTS("test-mux", parents,
++					   &clk_multiple_parents_no_reparent_mux_ops,
++					   0);
++	ret = clk_hw_register(NULL, &ctx->hw);
++	if (ret)
++		return ret;
 +
 +	return 0;
 +}
 +
++static void
++clk_mux_no_reparent_test_exit(struct kunit *test)
++{
++	struct clk_multiple_parent_ctx *ctx = test->priv;
++
++	clk_hw_unregister(&ctx->hw);
++	clk_hw_unregister(&ctx->parents_ctx[0].hw);
++	clk_hw_unregister(&ctx->parents_ctx[1].hw);
++}
++
++/*
++ * Test that if the we have a mux that cannot change parent and we call
++ * clk_round_rate() on it with a rate that should cause it to change
++ * parent, it won't.
++ */
++static void clk_mux_no_reparent_round_rate(struct kunit *test)
++{
++	struct clk_multiple_parent_ctx *ctx = test->priv;
++	struct clk_hw *hw = &ctx->hw;
++	struct clk *clk = clk_hw_get_clk(hw, NULL);
++	struct clk *other_parent, *parent;
++	unsigned long other_parent_rate;
++	unsigned long parent_rate;
++	long rounded_rate;
++
++	parent = clk_get_parent(clk);
++	KUNIT_ASSERT_PTR_NE(test, parent, NULL);
++
++	parent_rate = clk_get_rate(parent);
++	KUNIT_ASSERT_GT(test, parent_rate, 0);
++
++	other_parent = clk_hw_get_clk(&ctx->parents_ctx[1].hw, NULL);
++	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, other_parent);
++	KUNIT_ASSERT_FALSE(test, clk_is_match(parent, other_parent));
++
++	other_parent_rate = clk_get_rate(other_parent);
++	KUNIT_ASSERT_GT(test, other_parent_rate, 0);
++	clk_put(other_parent);
++
++	rounded_rate = clk_round_rate(clk, other_parent_rate);
++	KUNIT_ASSERT_GT(test, rounded_rate, 0);
++	KUNIT_EXPECT_EQ(test, rounded_rate, parent_rate);
++
++	clk_put(clk);
++}
++
++/*
++ * Test that if the we have a mux that cannot change parent and we call
++ * clk_set_rate() on it with a rate that should cause it to change
++ * parent, it won't.
++ */
++static void clk_mux_no_reparent_set_rate(struct kunit *test)
++{
++	struct clk_multiple_parent_ctx *ctx = test->priv;
++	struct clk_hw *hw = &ctx->hw;
++	struct clk *clk = clk_hw_get_clk(hw, NULL);
++	struct clk *other_parent, *parent;
++	unsigned long other_parent_rate;
++	unsigned long parent_rate;
++	unsigned long rate;
++	int ret;
++
++	parent = clk_get_parent(clk);
++	KUNIT_ASSERT_PTR_NE(test, parent, NULL);
++
++	parent_rate = clk_get_rate(parent);
++	KUNIT_ASSERT_GT(test, parent_rate, 0);
++
++	other_parent = clk_hw_get_clk(&ctx->parents_ctx[1].hw, NULL);
++	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, other_parent);
++	KUNIT_ASSERT_FALSE(test, clk_is_match(parent, other_parent));
++
++	other_parent_rate = clk_get_rate(other_parent);
++	KUNIT_ASSERT_GT(test, other_parent_rate, 0);
++	clk_put(other_parent);
++
++	ret = clk_set_rate(clk, other_parent_rate);
++	KUNIT_ASSERT_EQ(test, ret, 0);
++
++	rate = clk_get_rate(clk);
++	KUNIT_ASSERT_GT(test, rate, 0);
++	KUNIT_EXPECT_EQ(test, rate, parent_rate);
++
++	clk_put(clk);
++}
++
++static struct kunit_case clk_mux_no_reparent_test_cases[] = {
++	KUNIT_CASE(clk_mux_no_reparent_round_rate),
++	KUNIT_CASE(clk_mux_no_reparent_set_rate),
++	{}
++};
++
++/*
++ * Test suite for a clock mux that isn't allowed to change parent, using
++ * the clk_hw_determine_rate_no_reparent() helper.
++ *
++ * These tests exercise that helper, and the proper selection of
++ * rates and parents.
++ */
++static struct kunit_suite clk_mux_no_reparent_test_suite = {
++	.name = "clk-mux-no-reparent",
++	.init = clk_mux_no_reparent_test_init,
++	.exit = clk_mux_no_reparent_test_exit,
++	.test_cases = clk_mux_no_reparent_test_cases,
++};
++
+ kunit_test_suites(
+ 	&clk_leaf_mux_set_rate_parent_test_suite,
+ 	&clk_test_suite,
+ 	&clk_multiple_parents_mux_test_suite,
++	&clk_mux_no_reparent_test_suite,
+ 	&clk_mux_notifier_test_suite,
+ 	&clk_orphan_transparent_multiple_parent_mux_test_suite,
+ 	&clk_orphan_transparent_single_parent_test_suite,
+diff --git a/include/linux/clk-provider.h b/include/linux/clk-provider.h
+index 28ff6f1a6ada..f8f220fb5dab 100644
+--- a/include/linux/clk-provider.h
++++ b/include/linux/clk-provider.h
+@@ -1333,6 +1333,8 @@ int __clk_mux_determine_rate_closest(struct clk_hw *hw,
  int clk_mux_determine_rate_flags(struct clk_hw *hw,
  				 struct clk_rate_request *req,
- 				 unsigned long flags)
-@@ -603,35 +643,8 @@ int clk_mux_determine_rate_flags(struct clk_hw *hw,
- 	unsigned long best = 0;
- 
- 	/* if NO_REPARENT flag set, pass through to current parent */
--	if (core->flags & CLK_SET_RATE_NO_REPARENT) {
--		parent = core->parent;
--		if (core->flags & CLK_SET_RATE_PARENT) {
--			struct clk_rate_request parent_req;
--
--			if (!parent) {
--				req->rate = 0;
--				return 0;
--			}
--
--			clk_core_forward_rate_req(core, req, parent, &parent_req, req->rate);
--
--			trace_clk_rate_request_start(&parent_req);
--
--			ret = clk_core_round_rate_nolock(parent, &parent_req);
--			if (ret)
--				return ret;
--
--			trace_clk_rate_request_done(&parent_req);
--
--			best = parent_req.rate;
--		} else if (parent) {
--			best = clk_core_get_rate_nolock(parent);
--		} else {
--			best = clk_core_get_rate_nolock(core);
--		}
--
--		goto out;
--	}
-+	if (core->flags & CLK_SET_RATE_NO_REPARENT)
-+		return clk_core_determine_rate_no_reparent(hw, req);
- 
- 	/* find the parent that can provide the fastest rate <= rate */
- 	num_parents = core->num_parents;
-@@ -670,9 +683,7 @@ int clk_mux_determine_rate_flags(struct clk_hw *hw,
- 	if (!best_parent)
- 		return -EINVAL;
- 
--out:
--	if (best_parent)
--		req->best_parent_hw = best_parent->hw;
-+	req->best_parent_hw = best_parent->hw;
- 	req->best_parent_rate = best;
- 	req->rate = best;
- 
+ 				 unsigned long flags);
++int clk_hw_determine_rate_no_reparent(struct clk_hw *hw,
++				      struct clk_rate_request *req);
+ void clk_hw_reparent(struct clk_hw *hw, struct clk_hw *new_parent);
+ void clk_hw_get_rate_range(struct clk_hw *hw, unsigned long *min_rate,
+ 			   unsigned long *max_rate);
 
 -- 
 2.40.0
