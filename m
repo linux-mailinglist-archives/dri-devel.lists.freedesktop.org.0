@@ -1,33 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 635E26F7C05
-	for <lists+dri-devel@lfdr.de>; Fri,  5 May 2023 06:45:51 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BCC76F7C4D
+	for <lists+dri-devel@lfdr.de>; Fri,  5 May 2023 07:21:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A84E410E560;
-	Fri,  5 May 2023 04:45:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3B14A10E55C;
+	Fri,  5 May 2023 05:21:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7512410E560;
- Fri,  5 May 2023 04:45:44 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id CFEC16127C;
- Fri,  5 May 2023 04:45:43 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A4396C433EF;
- Fri,  5 May 2023 04:45:40 +0000 (UTC)
-From: Huacai Chen <chenhuacai@loongson.cn>
-To: Alex Deucher <alexander.deucher@amd.com>,
-	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-	Pan@freedesktop.org, Xinhui <Xinhui.Pan@amd.com>,
-	David Airlie <airlied@linux.ie>
-Subject: [PATCH] drm/amdgpu/display: Enable DC_FP for LoongArch
-Date: Fri,  5 May 2023 12:44:55 +0800
-Message-Id: <20230505044455.3184791-1-chenhuacai@loongson.cn>
-X-Mailer: git-send-email 2.39.1
+Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net
+ [217.70.183.201])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BED7F10E564
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 May 2023 05:21:29 +0000 (UTC)
+Received: (Authenticated sender: me@crly.cz)
+ by mail.gandi.net (Postfix) with ESMTPSA id 440EA1BF20A;
+ Fri,  5 May 2023 05:21:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crly.cz; s=gm1;
+ t=1683264086;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=GRdOoP7K5t1Qmrug0XJy+c34os7rpF7gVntp5bQK458=;
+ b=MHUcTg5y6RwNfqDH4nhHg2jVT68SY2Ni30HE0C+0bJZIHv7pXGu7TP0auq613VAvcx7Atr
+ nRpeaPT5xAVxBE+vcB1RsIgtNIoIz73PQC4hma+ndYr8wOga6YbQT5yaHXm0o9iVhiRIps
+ oNEPiXY+wOU37gA/U3adL9J7Ush70ixMokIFaYqqSbUmNQIvWf1Rsj70ErsszCOloyBnAp
+ MtUydyM7/eo3M4M4fj7fUf2O+zTb/9m5ieB3VPFkWipEhz7rt8Zd/wBMtwwqiURu207uJD
+ nmxmyelyX+jSrtuoPEen50qWTCErqWoGtethnfymqSiNQnbPbSxtUAcfwGgNaw==
+From: Roman Beranek <me@crly.cz>
+To: Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Chen-Yu Tsai <wens@csie.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>,
+ Michael Turquette <mturquette@baylibre.com>,
+ Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Subject: [PATCH v4 0/4] drm: sun4i: set proper TCON0 DCLK rate in DSI mode
+Date: Fri,  5 May 2023 07:21:06 +0200
+Message-Id: <20230505052110.67514-1-me@crly.cz>
+X-Mailer: git-send-email 2.32.0 (Apple Git-132)
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -42,83 +53,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, loongson-kernel@lists.loongnix.cn,
- amd-gfx@lists.freedesktop.org, WANG Xuerui <kernel@xen0n.name>,
- Xuefeng Li <lixuefeng@loongson.cn>, Huacai Chen <chenhuacai@loongson.cn>
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Frank Oltmanns <frank@oltmanns.dev>, dri-devel@lists.freedesktop.org,
+ linux-clk@vger.kernel.org, Ondrej Jirman <megi@xff.cz>,
+ linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ Icenowy Zheng <icenowy@aosc.io>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Now LoongArch provides kernel_fpu_begin() and kernel_fpu_end() so we can
-enable DC_FP for DCN devices.
 
-Signed-off-by: WANG Xuerui <kernel@xen0n.name>
-Signed-off-by: Huacai Chen <chenhuacai@loongson.cn>
----
- drivers/gpu/drm/amd/display/Kconfig            | 2 +-
- drivers/gpu/drm/amd/display/amdgpu_dm/dc_fpu.c | 6 ++++--
- drivers/gpu/drm/amd/display/dc/dml/Makefile    | 5 +++++
- 3 files changed, 10 insertions(+), 3 deletions(-)
+According to Allwinner's BSP code, in DSI mode, TCON0 clock needs to be
+running at what's effectively the per-lane datarate of the DSI link.
+Given that the TCON DCLK divider is fixed to 4 (SUN6I_DSI_TCON_DIV),
+DCLK can't be set equal to the dotclock. Therefore labeling TCON DCLK
+as sun4i_dotclock or tcon-pixel-clock shall be avoided.
 
-diff --git a/drivers/gpu/drm/amd/display/Kconfig b/drivers/gpu/drm/amd/display/Kconfig
-index 2d8e55e29637..49df073962d5 100644
---- a/drivers/gpu/drm/amd/display/Kconfig
-+++ b/drivers/gpu/drm/amd/display/Kconfig
-@@ -8,7 +8,7 @@ config DRM_AMD_DC
- 	depends on BROKEN || !CC_IS_CLANG || X86_64 || SPARC64 || ARM64
- 	select SND_HDA_COMPONENT if SND_HDA_CORE
- 	# !CC_IS_CLANG: https://github.com/ClangBuiltLinux/linux/issues/1752
--	select DRM_AMD_DC_FP if (X86 || (PPC64 && ALTIVEC) || (ARM64 && KERNEL_MODE_NEON && !CC_IS_CLANG))
-+	select DRM_AMD_DC_FP if (X86 || LOONGARCH || (PPC64 && ALTIVEC) || (ARM64 && KERNEL_MODE_NEON && !CC_IS_CLANG))
- 	help
- 	  Choose this option if you want to use the new display engine
- 	  support for AMDGPU. This adds required support for Vega and
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/dc_fpu.c b/drivers/gpu/drm/amd/display/amdgpu_dm/dc_fpu.c
-index 1743ca0a3641..86f4c0e04654 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/dc_fpu.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/dc_fpu.c
-@@ -33,6 +33,8 @@
- #include <asm/cputable.h>
- #elif defined(CONFIG_ARM64)
- #include <asm/neon.h>
-+#elif defined(CONFIG_LOONGARCH)
-+#include <asm/fpu.h>
- #endif
- 
- /**
-@@ -88,7 +90,7 @@ void dc_fpu_begin(const char *function_name, const int line)
- 	*pcpu += 1;
- 
- 	if (*pcpu == 1) {
--#if defined(CONFIG_X86)
-+#if defined(CONFIG_X86) || defined(CONFIG_LOONGARCH)
- 		kernel_fpu_begin();
- #elif defined(CONFIG_PPC64)
- 		if (cpu_has_feature(CPU_FTR_VSX_COMP)) {
-@@ -127,7 +129,7 @@ void dc_fpu_end(const char *function_name, const int line)
- 	pcpu = get_cpu_ptr(&fpu_recursion_depth);
- 	*pcpu -= 1;
- 	if (*pcpu <= 0) {
--#if defined(CONFIG_X86)
-+#if defined(CONFIG_X86) || defined(CONFIG_LOONGARCH)
- 		kernel_fpu_end();
- #elif defined(CONFIG_PPC64)
- 		if (cpu_has_feature(CPU_FTR_VSX_COMP)) {
-diff --git a/drivers/gpu/drm/amd/display/dc/dml/Makefile b/drivers/gpu/drm/amd/display/dc/dml/Makefile
-index 01db035589c5..542962a93e8f 100644
---- a/drivers/gpu/drm/amd/display/dc/dml/Makefile
-+++ b/drivers/gpu/drm/amd/display/dc/dml/Makefile
-@@ -38,6 +38,11 @@ ifdef CONFIG_ARM64
- dml_rcflags := -mgeneral-regs-only
- endif
- 
-+ifdef CONFIG_LOONGARCH
-+dml_ccflags := -mabi=lp64s -mfpu=64
-+dml_rcflags := -msoft-float
-+endif
-+
- ifdef CONFIG_CC_IS_GCC
- ifneq ($(call gcc-min-version, 70100),y)
- IS_OLD_GCC = 1
+With bpp bits per pixel transmitted over n DSI lanes, the target DCLK
+rate for a given pixel clock is obtained as follows:
+
+DCLK rate = 1/4 * bpp / n * pixel clock
+
+Effect of this change can be observed through the rate of Vblank IRQs
+which should now match refresh rate implied by set display mode. It
+was verified to do so on a A64 board with a 2-lane and a 4-lane panel.
+
+v2:
+1. prevent reparent of tcon0 to pll-video0-2x
+2. include pll-video0 in setting TCON0 DCLK rate
+3. tested the whole thing also on a PinePhone
+
+v3:
+1. accept that pll-video0 can't be included in setting TCON0 DCLK rate
+2. reset pll-video0 to its default rate in case u-boot changed it
+
+v4:
+1. keep pll-video0 as is
+2. assign parent to TCON0 mux in sun50i_a64_ccu_probe (not in DT)
+
+Roman Beranek (4):
+  clk: sunxi-ng: a64: force select PLL_MIPI in TCON0 mux
+  ARM: dts: sunxi: rename tcon's clock output
+  drm: sun4i: rename sun4i_dotclock to sun4i_tcon_dclk
+  drm: sun4i: calculate proper DCLK rate for DSI
+
+ arch/arm/boot/dts/sun5i.dtsi                  |  2 +-
+ arch/arm/boot/dts/sun8i-a23-a33.dtsi          |  2 +-
+ arch/arm/boot/dts/sun8i-a83t.dtsi             |  2 +-
+ arch/arm/boot/dts/sun8i-v3s.dtsi              |  2 +-
+ arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi |  2 +-
+ drivers/clk/sunxi-ng/ccu-sun50i-a64.c         | 14 +++++-
+ drivers/gpu/drm/sun4i/Makefile                |  2 +-
+ drivers/gpu/drm/sun4i/sun4i_tcon.c            | 46 +++++++++++--------
+ .../{sun4i_dotclock.c => sun4i_tcon_dclk.c}   |  2 +-
+ .../{sun4i_dotclock.h => sun4i_tcon_dclk.h}   |  0
+ 10 files changed, 46 insertions(+), 28 deletions(-)
+ rename drivers/gpu/drm/sun4i/{sun4i_dotclock.c => sun4i_tcon_dclk.c} (99%)
+ rename drivers/gpu/drm/sun4i/{sun4i_dotclock.h => sun4i_tcon_dclk.h} (100%)
+
+
+base-commit: 8a91b29f1f50ce7742cdbe5cf11d17f128511f3f
 -- 
-2.39.1
-
+2.32.0 (Apple Git-132)
