@@ -2,74 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DE9D6F7EB4
-	for <lists+dri-devel@lfdr.de>; Fri,  5 May 2023 10:23:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 536BC6F7F4C
+	for <lists+dri-devel@lfdr.de>; Fri,  5 May 2023 10:43:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EEF3F10E216;
-	Fri,  5 May 2023 08:23:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0B23F10E5AB;
+	Fri,  5 May 2023 08:43:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com
- [IPv6:2a00:1450:4864:20::12b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5F34F10E216
- for <dri-devel@lists.freedesktop.org>; Fri,  5 May 2023 08:23:09 +0000 (UTC)
-Received: by mail-lf1-x12b.google.com with SMTP id
- 2adb3069b0e04-4f139de8cefso13677256e87.0
- for <dri-devel@lists.freedesktop.org>; Fri, 05 May 2023 01:23:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683274987; x=1685866987;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=g5G0cJUf9U5b39gQ8vAQOCiDix67GOEadK5YgCw6Yxo=;
- b=BSDtuJvBpLPeVoP5Mrl8D2KmSwNOLyuEFtmL2qv+nmY+uEQomIy8Gtt0Ofd1aVQ/TN
- WQE+7c6b/8ay0uAbwQwXOrq2krF2M8qk7+EXoELfMgVtaycjgIT+GLQkAhGWA052dDWz
- q18P97yPKNymERSnVLr9lWM14RVinLIr8sAzmqtiYxM5AIJOLY1ztrOwUPkLDFLXQkcF
- Rb1QIozImPlpBm6OTjMo3RDMRXQrj1QnP3J4p8OUgwIUKND2qDamsYQGwBxTNOkje3PT
- UkKoj+9fCEeCtb0/k1NeA6EibY7QLB34qitg7scU2w8x5cD4WFgOWPGO2SsX/uN9G2iq
- RsJA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683274987; x=1685866987;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=g5G0cJUf9U5b39gQ8vAQOCiDix67GOEadK5YgCw6Yxo=;
- b=bmAG791InEyhOAPAJYHr10QuheFzk9aOxDr1F0HfKB50CMqOibNicFz3LnUsrKFxUR
- zdODc5/dUpyohUvPDc/7yp+JGbL2J+Y4cr2anf1sr/ym1deHZngXMQNXvw1ATgyIK5tw
- PsO7E7U06QDvfXMBBF+S944oR/rhqDrcvseh9R5gwHI4s4pYtyUupSkNCaNewcmsb0s0
- rTanOG5hI9Vk8ZJinoO2dD2L1rx6/yxQ3iuT5x8OZ2tMugOrxg2Hz5onnQjdOTQ2OaiD
- QAiKUZsFWTAHr8aKK/Xuf3VFut7iH0A1JdF9hig7zi53lKvTWFRuQuRL/vkyL5xKY0Hb
- aKsA==
-X-Gm-Message-State: AC+VfDwqEilJqKn8sXxLGAWy7DUrUhmugoZ356X6uRoo6l1LFHTyaDzc
- WOjGJYi53pf9KO04kk9zQ1AxEQ==
-X-Google-Smtp-Source: ACHHUZ4ntuLtpxogEmFZl1hNzi6UMBcMw9LwaHrl5FOZUqpjjHXCeB+aLaboJ3fnDq3UPQt5rlmwAQ==
-X-Received: by 2002:a05:6512:2202:b0:4ed:c64a:4aa8 with SMTP id
- h2-20020a056512220200b004edc64a4aa8mr1867732lfu.6.1683274987516; 
- Fri, 05 May 2023 01:23:07 -0700 (PDT)
-Received: from [127.0.1.1] ([85.235.12.238]) by smtp.gmail.com with ESMTPSA id
- h8-20020ac250c8000000b004d023090504sm200647lfm.84.2023.05.05.01.23.06
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 05 May 2023 01:23:07 -0700 (PDT)
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Fri, 05 May 2023 10:23:02 +0200
-Subject: [PATCH v2 3/3] ARM: omap1: Fix up the Nokia 770 board device IRQs
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AFFDB10E5AB
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 May 2023 08:43:27 +0000 (UTC)
+Received: from eldfell (unknown [194.136.85.206])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested) (Authenticated sender: pq)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id ED6816605706;
+ Fri,  5 May 2023 09:43:23 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1683276204;
+ bh=YrR4qFr2DYQZl4kYnjBKGXFqEdSI3KRxs2vPERN79gs=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=eoHdNLRZ9QfKetqNDqvEq0LltDLR3kv5tkOUbHirzufDlFed5o5JWeoFq1TbdjhE3
+ gpT5sz7+ZmaSyYPG71W1eaI7mUiyJc3QbntezNQq9nvYK1zkQElIrd7CL71fji7yt0
+ DQJZG105ycZZEvm95840jTF2sVtn7HobaZXmwCrGkiZohS5spnRlh5Jsij2x93G8J7
+ HDgouFnTScU1o3NdpOtNmxtFEqVPZys7afdYFnIWx9in0MbPZ36kSSpaTDM781K0mY
+ 2pqNCriXj6oLF3KmuTPyjb1f7icxFLdXkFn5QXPhuvyI1jBI9ygVgH53BjIlmzgovY
+ cPJ8wUIVEf+UA==
+Date: Fri, 5 May 2023 11:43:20 +0300
+From: Pekka Paalanen <pekka.paalanen@collabora.com>
+To: Harry Wentland <harry.wentland@amd.com>
+Subject: Re: [PATCH] Documentation/gpu: Requirements for driver-specific KMS
+ uAPIs
+Message-ID: <20230505114320.1eb77237.pekka.paalanen@collabora.com>
+In-Reply-To: <20230504212557.61049-1-harry.wentland@amd.com>
+References: <20230504212557.61049-1-harry.wentland@amd.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.24; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20230430-nokia770-regression-v2-3-984ed3ca5444@linaro.org>
-References: <20230430-nokia770-regression-v2-0-984ed3ca5444@linaro.org>
-In-Reply-To: <20230430-nokia770-regression-v2-0-984ed3ca5444@linaro.org>
-To: Aaro Koskinen <aaro.koskinen@iki.fi>, 
- Janusz Krzysztofik <jmkrzyszt@gmail.com>, Tony Lindgren <tony@atomide.com>, 
- Russell King <linux@armlinux.org.uk>, Daniel Mack <daniel@zonque.org>, 
- Haojian Zhuang <haojian.zhuang@gmail.com>, 
- Robert Jarzmik <robert.jarzmik@free.fr>, 
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
- Mark Brown <broonie@kernel.org>, 
- Bartosz Golaszewski <bartosz.golaszewski@linaro.org>, 
- Andreas Kemnade <andreas@kemnade.info>, Helge Deller <deller@gmx.de>, 
- Ulf Hansson <ulf.hansson@linaro.org>
-X-Mailer: b4 0.12.1
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,124 +53,135 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, linux-mips@vger.kernel.org,
- linux-mmc@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-spi@vger.kernel.org,
- linux-input@vger.kernel.org, linux-omap@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org
+Cc: Sebastian Wick <sebastian.wick@redhat.com>,
+ Michel =?UTF-8?B?RMOkbnplcg==?= <mdaenzer@redhat.com>,
+ dri-devel@lists.freedesktop.org, Xaver Hugl <xaver.hugl@gmail.com>,
+ Melissa Wen <mwen@igalia.com>, Jonas =?UTF-8?B?w4VkYWhs?= <jadahl@redhat.com>,
+ Uma Shankar <uma.shankar@intel.com>,
+ Victoria Brekenfeld <victoria@system76.com>, Aleix Pol <aleixpol@kde.org>,
+ Joshua Ashton <joshua@froggi.es>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The platform devices on the Nokia 770 is using some
-board-specific IRQs that get statically assigned to platform
-devices in the boardfile.
+On Thu, 4 May 2023 17:25:57 -0400
+Harry Wentland <harry.wentland@amd.com> wrote:
 
-This does not work with dynamic IRQ chip bases.
+> We have steered away for a long time now from driver-specific KMS APIs
+> for good reasons but never codified our stance. With the proposal of
+> new, driver-specific color management uAPIs [1] it is important to
+> outline the requirements for the rare times when driver-specific KMS
+> uAPIs are desired in order to move complex topics along.
+>=20
+> [1] https://patchwork.freedesktop.org/series/116862/
+>=20
+> Signed-off-by: Harry Wentland <harry.wentland@amd.com>
+> Cc: Simon Ser <contact@emersion.fr>
+> Cc: Joshua Ashton <joshua@froggi.es>
+> Cc: Michel D=C3=A4nzer <mdaenzer@redhat.com>
+> Cc: Sebastian Wick <sebastian.wick@redhat.com>
+> Cc: Jonas =C3=85dahl <jadahl@redhat.com>
+> Cc: Alex Goins <agoins@nvidia.com>
+> Cc: Pekka Paalanen <pekka.paalanen@collabora.com>
+> Cc: Melissa Wen <mwen@igalia.com>
+> Cc: Aleix Pol <aleixpol@kde.org>
+> Cc: Xaver Hugl <xaver.hugl@gmail.com>
+> Cc: Victoria Brekenfeld <victoria@system76.com>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
+> Cc: Dave Airlie <airlied@gmail.com>
+> Cc: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
+> Cc: Uma Shankar <uma.shankar@intel.com>
+> To: dri-devel@lists.freedesktop.org
+> ---
+>  Documentation/gpu/drm-uapi.rst | 32 ++++++++++++++++++++++++++++++++
+>  1 file changed, 32 insertions(+)
+>=20
+> diff --git a/Documentation/gpu/drm-uapi.rst b/Documentation/gpu/drm-uapi.=
+rst
+> index ce47b4292481..eaefc3ed980c 100644
+> --- a/Documentation/gpu/drm-uapi.rst
+> +++ b/Documentation/gpu/drm-uapi.rst
+> @@ -118,6 +118,38 @@ is already rather painful for the DRM subsystem, wit=
+h multiple different uAPIs
+>  for the same thing co-existing. If we add a few more complete mistakes i=
+nto the
+>  mix every year it would be entirely unmanageable.
+> =20
+> +.. _driver_specific:
+> +
+> +Driver-Specific DRM/KMS uAPI
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D
+> +
+> +Driver-specific interfaces are strongly discouraged for DRM/KMS interfac=
+es.
+> +Kernel-modesetting (KMS) functionality does in principle apply to all dr=
+ivers.
+> +Driver-specific uAPIs tends to lead to unique implementations in userspa=
+ce and
+> +are often hard to maintain, especially when different drivers implement =
+similar
+> +but subtly different uAPIs.
+> +
+> +At times arriving at a consensus uAPI can be a difficult and lengthy pro=
+cess and
+> +might benefit from experimentation. This experimentation might warrant
+> +introducing driver specific APIs in order to move the eosystem forward. =
+If a
+> +driver decides to go down this path we ask for the following:
 
-Utilize the NULL device to define some board-specific
-GPIO lookups and use these to immediately look up the
-same GPIOs, convert to IRQ numbers and pass as resources
-to the devices. This is ugly but should work.
+Hi,
 
-Fixes: 92bf78b33b0b ("gpio: omap: use dynamic allocation of base")
-Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
----
- arch/arm/mach-omap1/board-nokia770.c | 57 ++++++++++++++++++++++++++++--------
- 1 file changed, 44 insertions(+), 13 deletions(-)
+should it be "require" instead of "ask"?
 
-diff --git a/arch/arm/mach-omap1/board-nokia770.c b/arch/arm/mach-omap1/board-nokia770.c
-index dc37ea30bbcf..27bd5522e1de 100644
---- a/arch/arm/mach-omap1/board-nokia770.c
-+++ b/arch/arm/mach-omap1/board-nokia770.c
-@@ -6,7 +6,7 @@
-  */
- #include <linux/clkdev.h>
- #include <linux/irq.h>
--#include <linux/gpio.h>
-+#include <linux/gpio/consumer.h>
- #include <linux/gpio/machine.h>
- #include <linux/gpio/property.h>
- #include <linux/kernel.h>
-@@ -250,19 +250,25 @@ static struct i2c_board_info nokia770_i2c_board_info_2[] __initdata = {
- 
- static void __init nokia770_cbus_init(void)
- {
--	const int retu_irq_gpio = 62;
--	const int tahvo_irq_gpio = 40;
--
--	if (gpio_request_one(retu_irq_gpio, GPIOF_IN, "Retu IRQ"))
--		return;
--	if (gpio_request_one(tahvo_irq_gpio, GPIOF_IN, "Tahvo IRQ")) {
--		gpio_free(retu_irq_gpio);
--		return;
-+	struct gpio_desc *d;
-+	int irq;
-+
-+	d = gpiod_get(NULL, "retu_irq", GPIOD_IN);
-+	if (IS_ERR(d)) {
-+		pr_err("Unable to get CBUS Retu IRQ GPIO descriptor\n");
-+	} else {
-+		irq = gpiod_to_irq(d);
-+		irq_set_irq_type(irq, IRQ_TYPE_EDGE_RISING);
-+		nokia770_i2c_board_info_2[0].irq = irq;
-+	}
-+	d = gpiod_get(NULL, "tahvo_irq", GPIOD_IN);
-+	if (IS_ERR(d)) {
-+		pr_err("Unable to get CBUS Tahvo IRQ GPIO descriptor\n");
-+	} else {
-+		irq = gpiod_to_irq(d);
-+		irq_set_irq_type(irq, IRQ_TYPE_EDGE_RISING);
-+		nokia770_i2c_board_info_2[1].irq = irq;
- 	}
--	irq_set_irq_type(gpio_to_irq(retu_irq_gpio), IRQ_TYPE_EDGE_RISING);
--	irq_set_irq_type(gpio_to_irq(tahvo_irq_gpio), IRQ_TYPE_EDGE_RISING);
--	nokia770_i2c_board_info_2[0].irq = gpio_to_irq(retu_irq_gpio);
--	nokia770_i2c_board_info_2[1].irq = gpio_to_irq(tahvo_irq_gpio);
- 	i2c_register_board_info(2, nokia770_i2c_board_info_2,
- 				ARRAY_SIZE(nokia770_i2c_board_info_2));
- 	device_create_managed_software_node(&nokia770_cbus_device.dev,
-@@ -275,8 +281,25 @@ static void __init nokia770_cbus_init(void)
- }
- #endif /* CONFIG_I2C_CBUS_GPIO */
- 
-+static struct gpiod_lookup_table nokia770_irq_gpio_table = {
-+	.dev_id = NULL,
-+	.table = {
-+		/* GPIO used by SPI device 1 */
-+		GPIO_LOOKUP("gpio-0-15", 15, "ads7846_irq",
-+			    GPIO_ACTIVE_HIGH),
-+		/* GPIO used for retu IRQ */
-+		GPIO_LOOKUP("gpio-48-63", 15, "retu_irq",
-+			    GPIO_ACTIVE_HIGH),
-+		/* GPIO used for tahvo IRQ */
-+		GPIO_LOOKUP("gpio-32-47", 8, "tahvo_irq",
-+			    GPIO_ACTIVE_HIGH),
-+	},
-+};
-+
- static void __init omap_nokia770_init(void)
- {
-+	struct gpio_desc *d;
-+
- 	/* On Nokia 770, the SleepX signal is masked with an
- 	 * MPUIO line by default.  It has to be unmasked for it
- 	 * to become functional */
-@@ -288,6 +311,14 @@ static void __init omap_nokia770_init(void)
- 
- 	software_node_register_node_group(nokia770_gpiochip_nodes);
- 	platform_add_devices(nokia770_devices, ARRAY_SIZE(nokia770_devices));
-+
-+	gpiod_add_lookup_table(&nokia770_irq_gpio_table);
-+	d = gpiod_get(NULL, "ads7846_irq", GPIOD_IN);
-+	if (IS_ERR(d))
-+		pr_err("Unable to get ADS7846 IRQ GPIO descriptor\n");
-+	else
-+		nokia770_spi_board_info[1].irq = gpiod_to_irq(d);
-+
- 	spi_register_board_info(nokia770_spi_board_info,
- 				ARRAY_SIZE(nokia770_spi_board_info));
- 	omap_serial_init();
+> +
+> +- An agreement within the community that introducing driver-specific uAP=
+Is is
+> +  warranted in this case;
+> +
+> +- The new uAPI is behind a CONFIG option that is clearly marked EXPERIME=
+NTAL and
+> +  is disabled by default;
+> +
+> +- The new uAPI is enabled when a module parameter for the driver is set,=
+ and
+> +  defaults to 'off' otherwise;
+> +
+> +- The new uAPI follows all open-source userspace requirements outlined a=
+bove;
+> +
+> +- The focus is maintained on development of a vendor-neutral uAPI and pr=
+ogress
+> +  toward such an uAPI needs to be apparent on public forums. If no such =
+progress
+> +  is visible within a reasonable timeframe (1-2 years) anybody is within=
+ their
+> +  right to send, review, and merge patches that remove the driver-specif=
+ic uAPI.
+> +
+>  .. _drm_render_node:
+> =20
+>  Render nodes
 
--- 
-2.34.1
+Seems fine to me. I have another addition to suggest:
 
+When such UAPI is introduced, require that it comes with an expiration
+date. This date should be unmissable, not just documented. The kernel
+module parameter name to enable the UAPI could contain the expiry date,
+for example.
+
+After all, the most important thing to get through to users is that
+this *will* go away and not just theoretically.
+
+If that date needs to be moved forward, it should be possible to do so
+with a simple patch gathering enough acks. The main thing is to set the
+date from the start, so there can be no confusion about when its going
+to the chopping block.
+
+I do not suggest that the kernel would automatically runtime disable
+the UAPI after that date.
+
+Does any of the big idea fly with upper maintainers and Linus?
+
+
+Thanks,
+pq
