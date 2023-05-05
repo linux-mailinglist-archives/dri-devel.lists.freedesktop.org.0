@@ -2,70 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97D396F8317
-	for <lists+dri-devel@lfdr.de>; Fri,  5 May 2023 14:38:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 197B26F8330
+	for <lists+dri-devel@lfdr.de>; Fri,  5 May 2023 14:44:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A06F010E218;
-	Fri,  5 May 2023 12:38:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BF3CA10E5E7;
+	Fri,  5 May 2023 12:44:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com
- [IPv6:2a00:1450:4864:20::134])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8691E10E218
- for <dri-devel@lists.freedesktop.org>; Fri,  5 May 2023 12:38:14 +0000 (UTC)
-Received: by mail-lf1-x134.google.com with SMTP id
- 2adb3069b0e04-4efe8991bafso2011767e87.0
- for <dri-devel@lists.freedesktop.org>; Fri, 05 May 2023 05:38:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683290292; x=1685882292;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=yplmN4cjcMjpz7yzL0GhEZF8x3n7FeMV/awLTpA1Cds=;
- b=n+PCrxjHUW0iFTpnRlAN+eLhhGWqBvzuhiThIKBoygAfxiDUU+LH53XkQvLLeoTfS6
- bqfQFUQP0SoeF1DHMmjXuUC6NQBJuT1auu3P5Y8z5nRm3YB6tB/s99I1e4zlHaHsgILv
- IgjKdwFBmJKQ9Kpwv3f7IAGiwVh6ykYmZutvqca/tZPhwsVX7jEbCtgEPoX11bfnfgSf
- HHjl3+0JLKKsXnhWZ0NCUN+zCwdnJ+PfkAHy7UhGZpvtuP355tmBx+wP2nw/5h0xCh7/
- C/9/TiZvwWfpQFeAs4ZlV4rKrn2sgiSd+bldhNBWVxRPF/KtWRAiS3tCaqbG2uWmALcl
- airw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683290292; x=1685882292;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=yplmN4cjcMjpz7yzL0GhEZF8x3n7FeMV/awLTpA1Cds=;
- b=dA1adKFW9TeYHccvt6wNsnF0dxpCFLP70JvHnhbiXyhL6fy0i/Sh8AJBjIl2SJdLaU
- IUUYZh724kZ8OTKxvrB2tWBWn3WFC9Vx/egmNM9rxdZsNxqJSAf/NttEWPJwNcXneDFZ
- 0WY2G5spjtj96g44FMyj0ID6uTLIMi4r909PVKgW8N1leMSsSWTuJzqpYFxrknxikGNo
- vDPEU4TqPbzL5we4Qrcpxap+wwZWilgiOcFLSxCpB09zWVN69jmydCDCBxQel2rNHkPf
- gyEvt2Fg6nCSZf4yFkZOVM/srbJy9KVCO5KuiK8djPqkJRyhs2Z42Sz6zJ+Pwd2Dlkjr
- w+jg==
-X-Gm-Message-State: AC+VfDykmvlaLTAmDd4spoxG/WQL7JHN1ERiHsmfeu4581rPWKhymKfN
- t+TaIycE+68Zk63N3izCOBvANQ==
-X-Google-Smtp-Source: ACHHUZ6z59O8tplENC2bhQXd/JQWSp6AWPiroQfHmJwWkxLtJstvOyAq5du4f7CXb+84rHWoJ6jtOw==
-X-Received: by 2002:a19:f502:0:b0:4f1:43b3:90bf with SMTP id
- j2-20020a19f502000000b004f143b390bfmr429933lfb.41.1683290292180; 
- Fri, 05 May 2023 05:38:12 -0700 (PDT)
-Received: from [192.168.1.101] (abyl248.neoplus.adsl.tpnet.pl. [83.9.31.248])
- by smtp.gmail.com with ESMTPSA id
- z23-20020a19f717000000b004f142eac23fsm273394lfe.114.2023.05.05.05.38.10
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 05 May 2023 05:38:11 -0700 (PDT)
-Message-ID: <61a1441c-a948-bf89-a44f-a94c3956c41d@linaro.org>
-Date: Fri, 5 May 2023 14:38:09 +0200
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A1AD810E5E5
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 May 2023 12:44:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1683290641;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=z85IsE0ddY7p3M41WqHGnCkDNjFd7YAXTIwVs8ItWGI=;
+ b=Y84HhMJ6xh9TdvEQV7FKkzPso1GRKJmrxLBqA8zOiBb4jNVPm/q+Anz3F443xzYQNo4SuF
+ BFmJOQP71NWyMsVViMm1rrU1JsLHwrEOGY6aKSp2DaiF/0+u7UC0L0AcIIiv+lWu+IALIc
+ Giwb6LJBaC6V5qCJV0cmkXzSa694jvI=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-558-O8xwj3xpPamxiMy2PXVE7w-1; Fri, 05 May 2023 08:43:51 -0400
+X-MC-Unique: O8xwj3xpPamxiMy2PXVE7w-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 06FA73804513;
+ Fri,  5 May 2023 12:43:51 +0000 (UTC)
+Received: from hydra.redhat.com (unknown [10.39.193.149])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id EB7A72166B31;
+ Fri,  5 May 2023 12:43:49 +0000 (UTC)
+From: Jocelyn Falempe <jfalempe@redhat.com>
+To: dri-devel@lists.freedesktop.org, tzimmermann@suse.de, airlied@redhat.com,
+ javierm@redhat.com, lyude@redhat.com
+Subject: [RFC PATCH 0/4] drm/mgag200: Use DMA to copy the framebuffer to the
+ VRAM
+Date: Fri,  5 May 2023 14:43:33 +0200
+Message-Id: <20230505124337.854845-1-jfalempe@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.1
-Subject: Re: [PATCH v2 03/13] dt-bindings: display/msm: Add SM6350 DPU
-To: Rob Herring <robh@kernel.org>
-References: <20230411-topic-straitlagoon_mdss-v2-0-5def73f50980@linaro.org>
- <20230411-topic-straitlagoon_mdss-v2-3-5def73f50980@linaro.org>
- <20230425170320.GA1931576-robh@kernel.org>
-Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@linaro.org>
-In-Reply-To: <20230425170320.GA1931576-robh@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"; x-default=true
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,109 +61,90 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, iommu@lists.linux.dev,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Will Deacon <will@kernel.org>, devicetree@vger.kernel.org,
- Sean Paul <sean@poorly.run>, Joerg Roedel <joro@8bytes.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Krishna Manikandan <quic_mkrishn@quicinc.com>,
- linux-arm-msm@vger.kernel.org, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- linux-arm-kernel@lists.infradead.org, Robin Murphy <robin.murphy@arm.com>
+Cc: Jocelyn Falempe <jfalempe@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
+This series adds DMA and IRQ for the mgag200 driver.
+Unfortunately the DMA doesn't make the driver faster.
+But it's still a big improvement regarding CPU usage and latency.
 
-On 25.04.2023 19:03, Rob Herring wrote:
-> On Fri, Apr 21, 2023 at 12:31:12AM +0200, Konrad Dybcio wrote:
->> Document the SM6350 DPU.
->>
->> Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
->> ---
->>  .../bindings/display/msm/qcom,sm6350-dpu.yaml      | 94 ++++++++++++++++++++++
->>  1 file changed, 94 insertions(+)
->>
->> diff --git a/Documentation/devicetree/bindings/display/msm/qcom,sm6350-dpu.yaml b/Documentation/devicetree/bindings/display/msm/qcom,sm6350-dpu.yaml
->> new file mode 100644
->> index 000000000000..979fcf81afc9
->> --- /dev/null
->> +++ b/Documentation/devicetree/bindings/display/msm/qcom,sm6350-dpu.yaml
->> @@ -0,0 +1,94 @@
->> +# SPDX-License-Identifier: GPL-2.0-only or BSD-2-Clause
->> +%YAML 1.2
->> +---
->> +$id: http://devicetree.org/schemas/display/msm/qcom,sm6350-dpu.yaml#
->> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->> +
->> +title: Qualcomm Display DPU dt properties for SM6350 target
->> +
->> +maintainers:
->> +  - Konrad Dybcio <konrad.dybcio@linaro.org>
->> +
->> +$ref: /schemas/display/msm/dpu-common.yaml#
->> +
->> +properties:
->> +  compatible:
->> +    items:
->> +      - const: qcom,sm6350-dpu
->> +
->> +  reg:
->> +    items:
->> +      - description: Address offset and size for mdp register set
->> +      - description: Address offset and size for vbif register set
->> +
->> +  reg-names:
->> +    items:
->> +      - const: mdp
->> +      - const: vbif
->> +
->> +  clocks:
->> +    items:
->> +      - description: Display axi clock
->> +      - description: Display ahb clock
->> +      - description: Display rot clock
->> +      - description: Display lut clock
->> +      - description: Display core clock
->> +      - description: Display vsync clock
->> +
->> +  clock-names:
->> +    items:
->> +      - const: bus
->> +      - const: iface
->> +      - const: rot
->> +      - const: lut
->> +      - const: core
->> +      - const: vsync
-> 
-> Is there some reason the clocks are in different order?
-Nope, I'll sort this out
+CPU usage goes from 100% of 1 CPU to 3% (using top and refreshing the screen continuously).
 
-They appear to 
-> be the same minus the 'throttle' clock. Is there really no 'throttle' 
-> clock?
-Looks like GCC_DISP_THROTTLE_AXI_CLK does exist on sm6350 as well, no
-idea how/if it's used though.. Perhaps I can just remove it from sm6375
-and if it turns out necessary we can reintroduce it another day.
+top without DMA, and a bash script to refresh the screen continuously
+    PID S  %CPU     TIME+ COMMAND
+   1536 R 100.0   4:02.78 kworker/1:0+events
+   1612 S   3.0   0:03.82 bash
+     16 I   0.3   0:01.56 rcu_preempt
+   1467 I   0.3   0:00.11 kworker/u64:1-events_unbound
+   3650 R   0.3   0:00.02 top
 
-Maybe this platform just tied it to one of the same clocks in the 
-> above?
-Unlikely, most likely it's for some dire deep power saving stuff that
-does not seem to be used/exposed, even on the bsp kernel
+top with DMA, and the same bash script:
+    PID S  %CPU     TIME+ COMMAND
+   1335 D   3.0   0:01.26 kworker/2:0+events
+   1486 S   0.3   0:00.14 bash
+   1846 R   0.3   0:00.03 top
+      1 S   0.0   0:01.87 systemd
+      2 S   0.0   0:00.00 kthreadd
 
-> 
-> I really hate the mess that is clocks. We have the same or related 
-> blocks with just totally different names and order. The result is 
-> if/then schemas or separate schemas like this. Neither option is great, 
-> but at least the if/then schemas provides some motivation to not have 
-> pointless variations like this. </rant>
-It's a totally valid rant..
+Latency, measured with cyclictest -s -l 10000:
+Without DMA:
+# /dev/cpu_dma_latency set to 0us
+policy: other/other: loadavg: 1.52 0.52 0.33 3/358 2025          
+T: 0 ( 1977) P: 0 I:1000 C:  10000 Min:      7 Act:   56 Avg:   85 Max:    2542
 
-> 
-> As it seems the only difference between these 2 bindings is 1 extra 
-> clock, can't they be shared?
-Sounds like a plan!
+With DMA:
+# /dev/cpu_dma_latency set to 0us
+policy: other/other: loadavg: 1.27 0.48 0.18 2/363 2498          
+T: 0 ( 2403) P: 0 I:1000 C:  10000 Min:      8 Act:   62 Avg:   59 Max:     339
 
-Konrad
-> 
-> Rob
+Last benchmark is glxgears. It's still software rendering, but on my 2 core CPU,
+freeing one CPU constantly doing memcpy(), allows it to draw more frames.
+Without DMA:
+415 frames in 5.0 seconds = 82.973 FPS
+356 frames in 5.0 seconds = 71.167 FPS
+with DMA:
+717 frames in 5.0 seconds = 143.343 FPS
+720 frames in 5.0 seconds = 143.993 FPS
+
+Regarding the implementation:
+The driver uses primary DMA to send drawing engine commands, and secondary DMA to send the pixels to an ILOAD command.
+You can directly program the ILOAD command, and use Primary DMA to send the pixels, but in this case, you can't use the softrap interrupt to wait for the DMA completion.
+The pixels are copied from the gem framebuffer to the DMA buffer, but as system memory is much faster than VRAM, it has a negligible impact.
+
+DMA buffer size:
+On my test machine, I can allocate only 4MB of dma coherent memory, and the framebuffer is 5MB.
+So the driver has to cut it into small chunks when the full framebuffer is refreshed.
+My implementation tries to allocate 4MB, and then smaller allocation until it succeeds.
+If it fails to allocate, DMA will be disabled. That's probably not perfect, but at least it's simple.
+It's also possible to do some kind of scatter gather DMA, by sending multiple ILOAD/SECDMA, but that increases the complexity a bit.
+
+Adding a module parameter to disable DMA:
+I think before merging this work, I will add a module parameter to disable DMA, so that if
+something goes wrong it's easy to turn it off.
+
+Pixel width:
+I tested this in 16 bits per pixels RGB565 and 32 bits per pixels (XRGB8888).
+I didn't find a userspace able to use 24 bits (RGB888), Xorg uses XRGB8888 when specifying
+"DefaultDepth" to 24.
+
+Big endian:
+The DMA can be configured to handle the be->le conversion, but I can't test it, so it's not done yet.
+As I don't know if there are still big endian systems with mgag200, maybe disabling DMA for big endian is the safest option ?
+
+I think the complexity is low, as it only adds ~350 lines, less than 10% of the whole mgag200 driver (~5000 lines).
+
+ drivers/gpu/drm/mgag200/Makefile       |   3 +-
+ drivers/gpu/drm/mgag200/mgag200_dma.c  | 114 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ drivers/gpu/drm/mgag200/mgag200_drv.c  |  43 +++++++++++++++++++++++++++
+ drivers/gpu/drm/mgag200/mgag200_drv.h  |  28 ++++++++++++++++++
+ drivers/gpu/drm/mgag200/mgag200_mode.c | 200 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++---------------------------------
+ drivers/gpu/drm/mgag200/mgag200_reg.h  |  30 ++++++++++++++++++-
+ 6 files changed, 362 insertions(+), 56 deletions(-)
+
+Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
+
+base-commit: 457391b0380335d5 (tag: v6.3)
+
+
