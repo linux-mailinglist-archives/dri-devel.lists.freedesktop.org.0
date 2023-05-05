@@ -1,55 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7ADBF6F8757
-	for <lists+dri-devel@lfdr.de>; Fri,  5 May 2023 19:16:36 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 84B106F87B8
+	for <lists+dri-devel@lfdr.de>; Fri,  5 May 2023 19:36:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 58EBB10E03B;
-	Fri,  5 May 2023 17:16:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2AE6310E65E;
+	Fri,  5 May 2023 17:35:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 91CA110E03B
- for <dri-devel@lists.freedesktop.org>; Fri,  5 May 2023 17:16:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1683306991; x=1714842991;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=COkGdhmzVsdP87GQO1YqoDziPbpeYNGC0sWooQdVgSE=;
- b=gGKfoPFQ1j8ZRXjdLE/t3B73zXMMFzoAhRI6XfxXiKKezq6/eKDLtJ/l
- Vxle/p6CS253xaNkG3CilBmW6wVzSrzNSED+QVOLtcyFwcPRngbERtahD
- pLJJVcRyfq9L5GsdJvRwIs5J3xJRDyt50sYC68A4kqnFyo+KxD85MUgX2
- 9W1Uk0yaRHnIN5ZO2ZBm0LX6BRSikvNa7ojgMxay+7FLrSG6c6qttTnEL
- 8nn6u9WLjTX1//PuFttXBq6jHKZoTiniiGgyhf/u91HUHMHd5yIZLM9fr
- p45TJcCYmHrDS6bO/NHkueLofUshDcmdO+ttWPDq35ORub0abevk6nxLs Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10701"; a="435579041"
-X-IronPort-AV: E=Sophos;i="5.99,252,1677571200"; d="scan'208";a="435579041"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 May 2023 10:16:30 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10701"; a="675166695"
-X-IronPort-AV: E=Sophos;i="5.99,252,1677571200"; d="scan'208";a="675166695"
-Received: from lkp-server01.sh.intel.com (HELO fe5d646e317d) ([10.239.97.150])
- by orsmga006.jf.intel.com with ESMTP; 05 May 2023 10:16:23 -0700
-Received: from kbuild by fe5d646e317d with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1puz2d-0000mD-0U;
- Fri, 05 May 2023 17:16:23 +0000
-Date: Sat, 6 May 2023 01:15:40 +0800
-From: kernel test robot <lkp@intel.com>
-To: Maxime Ripard <maxime@cerno.tech>,
- Michael Turquette <mturquette@baylibre.com>,
- Stephen Boyd <sboyd@kernel.org>
-Subject: Re: [PATCH v4 04/68] clk: Introduce
- clk_hw_determine_rate_no_reparent()
-Message-ID: <202305060103.z9ddfq9A-lkp@intel.com>
-References: <20221018-clk-range-checks-fixes-v4-4-971d5077e7d2@cerno.tech>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 609E110E041
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 May 2023 17:35:56 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 9FD4B63F86
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 May 2023 17:35:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0D477C4339E
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 May 2023 17:35:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1683308155;
+ bh=W4ROzuYY8hYvQggNUA8/ykiv3P1pvU1/88gNYpRZTZg=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=amwyLMYQn67nKpkGSiA5hdQEr3zy/qjISEMZ64HPhtOPXzJx4eBRfVIUXwMkZqS0g
+ SjzzwVmB4VfReB+/Hg2XSYc53XHz5+07+yojbxg842U6RouTdPHrrvS4JR/9eGShup
+ rlBnNoJjZTT/sEnLLw2gfcTDh7hnR5DyCLwYkOXey+0JKarFZGOJk76GojZzk9LU1e
+ xNdKo2wAat18OHJlpwXlC2sAAx0PhJZHyl7hCC9jpI3xFrObVr9I51ZUhjUI22SUFY
+ dXLFBFocWfpIpwaECdAdtkrtu7anzf9pGYa7hInX81HP0IZaKvbmt9SJKlJyeqVDIG
+ 6WlE/v1jWSfWA==
+Received: by mail-pj1-f49.google.com with SMTP id
+ 98e67ed59e1d1-24e14a24c9dso1536548a91.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 05 May 2023 10:35:54 -0700 (PDT)
+X-Gm-Message-State: AC+VfDz1zCoaXj0q1WCDn8zjTfpO05SEuwrp0nA2BLScdHbIEEfCX6Ab
+ H5dhq1tvr5+4J7wEyVVz2DAjWuzM3XKA1S60NIA7Ww==
+X-Google-Smtp-Source: ACHHUZ7A8rFVuk/lhYjJRPuUOZS0temTku2flHOg/BYTVes/Z0tlOBknCt0WKgbNdU0+IhzhmGHT0DgBtpfMGz22zU4=
+X-Received: by 2002:a17:90a:cd03:b0:250:275e:e154 with SMTP id
+ d3-20020a17090acd0300b00250275ee154mr2207153pju.2.1683308154470; Fri, 05 May
+ 2023 10:35:54 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221018-clk-range-checks-fixes-v4-4-971d5077e7d2@cerno.tech>
+References: <20230427142934.55435-1-francesco@dolcini.it>
+ <20230427142934.55435-2-francesco@dolcini.it>
+In-Reply-To: <20230427142934.55435-2-francesco@dolcini.it>
+From: Robert Foss <rfoss@kernel.org>
+Date: Fri, 5 May 2023 19:35:43 +0200
+X-Gmail-Original-Message-ID: <CAN6tsi7Ja3jhMJEEU2AaGm9A9uRjMK_hhXHF_iTDcbmpbZxvCg@mail.gmail.com>
+Message-ID: <CAN6tsi7Ja3jhMJEEU2AaGm9A9uRjMK_hhXHF_iTDcbmpbZxvCg@mail.gmail.com>
+Subject: Re: [PATCH v1 1/9] drm/bridge: tc358768: always enable HS video mode
+To: Francesco Dolcini <francesco@dolcini.it>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,58 +63,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Prashant Gaikwad <pgaikwad@nvidia.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>, Sekhar Nori <nsekhar@ti.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- dri-devel@lists.freedesktop.org, Jaroslav Kysela <perex@perex.cz>,
- Paul Cercueil <paul@crapouillou.net>, Max Filippov <jcmvbkbc@gmail.com>,
- linux-phy@lists.infradead.org, Peng Fan <peng.fan@nxp.com>,
- linux-clk@vger.kernel.org, Abel Vesa <abelvesa@kernel.org>,
- Kishon Vijay Abraham I <kishon@kernel.org>,
- Samuel Holland <samuel@sholland.org>, Chunyan Zhang <zhang.lyra@gmail.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>, Chen-Yu Tsai <wens@csie.org>,
- NXP Linux Team <linux-imx@nxp.com>, Orson Zhai <orsonzhai@gmail.com>,
- Ulf Hansson <ulf.hansson@linaro.org>, linux-mips@vger.kernel.org,
- Luca Ceresoli <luca.ceresoli@bootlin.com>, linux-sunxi@lists.linux.dev,
- oe-kbuild-all@lists.linux.dev, Takashi Iwai <tiwai@suse.com>,
- Vinod Koul <vkoul@kernel.org>, Maxime Coquelin <mcoquelin.stm32@gmail.com>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>, Jonas Karlman <jonas@kwiboo.se>,
+ tomi.valkeinen@ideasonboard.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Francesco Dolcini <francesco.dolcini@toradex.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Maxime,
+On Thu, Apr 27, 2023 at 4:34=E2=80=AFPM Francesco Dolcini <francesco@dolcin=
+i.it> wrote:
+>
+> From: Francesco Dolcini <francesco.dolcini@toradex.com>
+>
+> Always enable HS video mode setting the TXMD bit, without this change no
+> video output is present with DSI sinks that are setting
+> MIPI_DSI_MODE_LPM flag (tested with LT8912B DSI-HDMI bridge).
+>
+> Previously the driver was enabling HS mode only when the DSI sink was
+> not explicitly setting the MIPI_DSI_MODE_LPM, however this is not
+> correct.
+>
+> The MIPI_DSI_MODE_LPM is supposed to indicate that the sink is willing
+> to receive data in low power mode, however clearing the
+> TC358768_DSI_CONTROL_TXMD bit will make the TC358768 send video in
+> LP mode that is not the intended behavior.
+>
+> Fixes: ff1ca6397b1d ("drm/bridge: Add tc358768 driver")
+> Signed-off-by: Francesco Dolcini <francesco.dolcini@toradex.com>
+> ---
+>  drivers/gpu/drm/bridge/tc358768.c | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/bridge/tc358768.c b/drivers/gpu/drm/bridge/t=
+c358768.c
+> index 7c0cbe84611b..8f349bf4fc32 100644
+> --- a/drivers/gpu/drm/bridge/tc358768.c
+> +++ b/drivers/gpu/drm/bridge/tc358768.c
+> @@ -866,8 +866,7 @@ static void tc358768_bridge_pre_enable(struct drm_bri=
+dge *bridge)
+>         val =3D TC358768_DSI_CONFW_MODE_SET | TC358768_DSI_CONFW_ADDR_DSI=
+_CONTROL;
+>         val |=3D (dsi_dev->lanes - 1) << 1;
+>
+> -       if (!(dsi_dev->mode_flags & MIPI_DSI_MODE_LPM))
+> -               val |=3D TC358768_DSI_CONTROL_TXMD;
+> +       val |=3D TC358768_DSI_CONTROL_TXMD;
+>
+>         if (!(mode_flags & MIPI_DSI_CLOCK_NON_CONTINUOUS))
+>                 val |=3D TC358768_DSI_CONTROL_HSCKMD;
+> --
+> 2.25.1
+>
 
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on 145e5cddfe8b4bf607510b2dcf630d95f4db420f]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Maxime-Ripard/clk-Export-clk_hw_forward_rate_request/20230505-193724
-base:   145e5cddfe8b4bf607510b2dcf630d95f4db420f
-patch link:    https://lore.kernel.org/r/20221018-clk-range-checks-fixes-v4-4-971d5077e7d2%40cerno.tech
-patch subject: [PATCH v4 04/68] clk: Introduce clk_hw_determine_rate_no_reparent()
-config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20230506/202305060103.z9ddfq9A-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/3acd93f10087c4a2905407786d6dc7af83c2a58c
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Maxime-Ripard/clk-Export-clk_hw_forward_rate_request/20230505-193724
-        git checkout 3acd93f10087c4a2905407786d6dc7af83c2a58c
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash
-
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202305060103.z9ddfq9A-lkp@intel.com/
-
-All errors (new ones prefixed by >>, old ones prefixed by <<):
-
->> ERROR: modpost: "clk_hw_determine_rate_no_reparent" [drivers/clk/clk_test.ko] undefined!
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+Reviewed-by: Robert Foss <rfoss@kernel.org>
