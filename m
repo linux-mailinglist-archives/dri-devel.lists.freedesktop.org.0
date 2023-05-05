@@ -2,66 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33CFA6F80A8
-	for <lists+dri-devel@lfdr.de>; Fri,  5 May 2023 12:17:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FBEF6F80DC
+	for <lists+dri-devel@lfdr.de>; Fri,  5 May 2023 12:35:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D55A110E1F9;
-	Fri,  5 May 2023 10:17:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6C5A810E1DA;
+	Fri,  5 May 2023 10:35:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com
- [IPv6:2a00:1450:4864:20::52e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A41EE10E1F9
- for <dri-devel@lists.freedesktop.org>; Fri,  5 May 2023 10:17:00 +0000 (UTC)
-Received: by mail-ed1-x52e.google.com with SMTP id
- 4fb4d7f45d1cf-50bcd46bf47so379446a12.0
- for <dri-devel@lists.freedesktop.org>; Fri, 05 May 2023 03:17:00 -0700 (PDT)
+Received: from mail-lj1-x22f.google.com (mail-lj1-x22f.google.com
+ [IPv6:2a00:1450:4864:20::22f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4CF5B10E5BD
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 May 2023 10:35:26 +0000 (UTC)
+Received: by mail-lj1-x22f.google.com with SMTP id
+ 38308e7fff4ca-2ac7f53ae44so17788741fa.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 05 May 2023 03:35:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1683281818; x=1685873818;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=SJhD0NmOWseF0MtaH9M080/UXk40KKNAXGYDpGgWCCw=;
- b=SF6+/Z2NwGzbaqFL5GH1HbpVZAPCooJ6j+Orn665LuDebhfunOA+CNdN5aQ+gdJF4V
- KaJul2miwpTi23jmEaF2FsT4sUXFENzbGBpCcV0gqucj9v8k9HYCDHZV0Mce8mL1WY9q
- 22tfpSUkVK+No0iM7Q1oE+B2Edh4OPHLHjMOM=
+ d=linaro.org; s=google; t=1683282921; x=1685874921;
+ h=content-transfer-encoding:in-reply-to:subject:from:content-language
+ :references:cc:to:user-agent:mime-version:date:message-id:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=PbPpJCNV9tTLLluFfnaproEfpBqCpFE0loj+msqQvKk=;
+ b=BbgODu6lIjxftV618u6+VO7W+u2iSZs6cy/PbZmVYI+4edazUzVvGmvWMxj/ADUQdW
+ VnaZEQog4hqbt5mEB7RF21sgynt74W5qX2LnLUs3BOhLbIWYWbomns0YJXZ+huja7b1s
+ 86uj9NBV+HGn5dVIhspeZ47i3qYMZiq7MHI1YNrOWAGLShoiEvrdCiOIVbsjreFELT3+
+ oCKrByMCJzy8Gf4PxJijOc4dPv2Fm4k5WWOI+dMkwvnCVG9cyDSWimabIAJvdKyxvnns
+ k3kblwX0PXE4JHLGDWg7qgEqhnyeYFxlWi5JU4AMzMfu0hSRwb/5opPgrxx10/zOjiw2
+ rhwg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683281818; x=1685873818;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
+ d=1e100.net; s=20221208; t=1683282921; x=1685874921;
+ h=content-transfer-encoding:in-reply-to:subject:from:content-language
+ :references:cc:to:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=SJhD0NmOWseF0MtaH9M080/UXk40KKNAXGYDpGgWCCw=;
- b=Gqa5+93JgtT1gZpev9rDlMSbjyXpRf9ch8vFLl4buXtvlRe5H1Y7VAmw/jlZzKD1LU
- wlsXeRvqoCXP5kF3iGv3DIfVDgu2kc555rTxE3WUg1L3ycUHZvK1GbJ/FL8sGM9zgRYE
- RdsTK5Hvre5Mf69ebl8rZmrjDzMnP3uUrARCIwn+MR8i5cm5aS4+Z6ys/JKrQx62NVDY
- UxYvk1e2BeBsgwlgozn+8Vwo/qVQHwhVSJ1VtMPFd6PjQ+Dn8Iq9MJsUINM03RT4EZHk
- z6bMLDwWdZg2W/QQXdKeUUft+8RCfoIPpSC/M2OjYC1P0BUxTHAR33ZXDCmAOF4/hswi
- IxiA==
-X-Gm-Message-State: AC+VfDyTEyD54kybuRm1zJV7lD35pUYVLrRxNb1dLsxdA3plVf/iWlCi
- CV85osqWb54ropUD0hbMemYE75GpHCSbUuy9Z+I=
-X-Google-Smtp-Source: ACHHUZ4l5ilJrkISYfS5zNgV2hxP4gHhLitIpOFJTa1jOz4CRhdkEA/UXnjT28QGbBx0RGqLBSix3A==
-X-Received: by 2002:a05:6402:524e:b0:500:3fd0:25a8 with SMTP id
- t14-20020a056402524e00b005003fd025a8mr956877edd.0.1683281818211; 
- Fri, 05 May 2023 03:16:58 -0700 (PDT)
-Received: from phenom.ffwll.local (212-51-149-33.fiber7.init7.net.
- [212.51.149.33]) by smtp.gmail.com with ESMTPSA id
- p18-20020a05640210d200b0050bc1e916f8sm2762327edu.66.2023.05.05.03.16.57
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 05 May 2023 03:16:57 -0700 (PDT)
-Date: Fri, 5 May 2023 12:16:55 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Pekka Paalanen <pekka.paalanen@collabora.com>
-Subject: Re: [PATCH] Documentation/gpu: Requirements for driver-specific KMS
- uAPIs
-Message-ID: <ZFTXl3qPn7E0pQWO@phenom.ffwll.local>
-References: <20230504212557.61049-1-harry.wentland@amd.com>
- <20230505114320.1eb77237.pekka.paalanen@collabora.com>
+ bh=PbPpJCNV9tTLLluFfnaproEfpBqCpFE0loj+msqQvKk=;
+ b=VvNrqqhNtTz52lTfn0/V6zAtYfoDQQbyGvaAE1Ve/RbyostundtRBii7b7zKWNgnzG
+ 501a9Cjej9ZRlGKlk6bl7YilUq4XbPSIKVuK+FvP1L03xELbyNuUqB9J6NhnDesaAG7/
+ dd9pRBqjtRDD1mboYD9bXKeCstvDlEWJbQTk5JMr4YEJmoHmM3InlnSm2oYx9C8lcPrg
+ LHpe0dR0XNWyiSIXywUjJzrn/kTvwRCSqkdFQIhJr3nckW6QMD2bh4cGLySiYHH9Pm+f
+ zz3XpJ0r5EExOSk0ymPJCvVrBBOksRrQTXRlnnxq9mUxV+E58ZujdZxk5uzolgTMu11p
+ em5w==
+X-Gm-Message-State: AC+VfDyateBbhm4efrQpfb1VpiGoqflz/j4d8RURGkNOJtBkWHdI1a8K
+ Kjoje8XTzpMsRlpYo1dzcskBuA==
+X-Google-Smtp-Source: ACHHUZ4npsNVKXKFMhtIfigzCNfs4HyWe1DC8BPbSZYLttECOM0+h/laEaUJIgzYvW6AahFCuZWi5g==
+X-Received: by 2002:a2e:9142:0:b0:2a7:73c9:4913 with SMTP id
+ q2-20020a2e9142000000b002a773c94913mr301372ljg.30.1683282921414; 
+ Fri, 05 May 2023 03:35:21 -0700 (PDT)
+Received: from [192.168.1.101] (abyl248.neoplus.adsl.tpnet.pl. [83.9.31.248])
+ by smtp.gmail.com with ESMTPSA id
+ u19-20020a2e9f13000000b002a8b9353338sm267693ljk.117.2023.05.05.03.35.19
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 05 May 2023 03:35:20 -0700 (PDT)
+Message-ID: <693cd4be-9d31-a511-a523-d3e5eae501ae@linaro.org>
+Date: Fri, 5 May 2023 12:35:18 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230505114320.1eb77237.pekka.paalanen@collabora.com>
-X-Operating-System: Linux phenom 6.1.0-7-amd64 
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.1
+To: Akhil P Oommen <quic_akhilpo@quicinc.com>
+References: <20230223-topic-gmuwrapper-v6-0-2034115bb60c@linaro.org>
+ <20230223-topic-gmuwrapper-v6-6-2034115bb60c@linaro.org>
+ <20230502074956.GA21869@akhilpo-linux.qualcomm.com>
+ <d2374464-82e6-78c3-9c5e-f4e509c86d83@linaro.org>
+ <20230503203236.GA1177@akhilpo-linux.qualcomm.com>
+ <8fc74f8e-726b-501c-6800-0bd515d4181a@linaro.org>
+ <64zeocdcctdlgqmrdz2x7diy7ihhn6rr6w5mpc4irpfmemob5i@2mky6fwvavxn>
+Content-Language: en-US
+From: Konrad Dybcio <konrad.dybcio@linaro.org>
+Subject: Re: [PATCH v6 06/15] drm/msm/a6xx: Introduce GMU wrapper support
+In-Reply-To: <64zeocdcctdlgqmrdz2x7diy7ihhn6rr6w5mpc4irpfmemob5i@2mky6fwvavxn>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,235 +82,791 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sebastian Wick <sebastian.wick@redhat.com>,
- Jonas =?iso-8859-1?Q?=C5dahl?= <jadahl@redhat.com>,
- dri-devel@lists.freedesktop.org, Xaver Hugl <xaver.hugl@gmail.com>,
- Melissa Wen <mwen@igalia.com>,
- Michel =?iso-8859-1?Q?D=E4nzer?= <mdaenzer@redhat.com>,
- Uma Shankar <uma.shankar@intel.com>,
- Victoria Brekenfeld <victoria@system76.com>, Aleix Pol <aleixpol@kde.org>,
- Joshua Ashton <joshua@froggi.es>
+Cc: Rob Clark <robdclark@chromium.org>, freedreno@lists.freedesktop.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ devicetree@vger.kernel.org, Sean Paul <sean@poorly.run>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@somainline.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+ linux-arm-msm@vger.kernel.org, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, May 05, 2023 at 11:43:20AM +0300, Pekka Paalanen wrote:
-> On Thu, 4 May 2023 17:25:57 -0400
-> Harry Wentland <harry.wentland@amd.com> wrote:
+
+
+On 5.05.2023 10:46, Akhil P Oommen wrote:
+> On Thu, May 04, 2023 at 08:34:07AM +0200, Konrad Dybcio wrote:
+>>
+>>
+>> On 3.05.2023 22:32, Akhil P Oommen wrote:
+>>> On Tue, May 02, 2023 at 11:40:26AM +0200, Konrad Dybcio wrote:
+>>>>
+>>>>
+>>>> On 2.05.2023 09:49, Akhil P Oommen wrote:
+>>>>> On Sat, Apr 01, 2023 at 01:54:43PM +0200, Konrad Dybcio wrote:
+>>>>>> Some (particularly SMD_RPM, a.k.a non-RPMh) SoCs implement A6XX GPUs
+>>>>>> but don't implement the associated GMUs. This is due to the fact that
+>>>>>> the GMU directly pokes at RPMh. Sadly, this means we have to take care
+>>>>>> of enabling & scaling power rails, clocks and bandwidth ourselves.
+>>>>>>
+>>>>>> Reuse existing Adreno-common code and modify the deeply-GMU-infused
+>>>>>> A6XX code to facilitate these GPUs. This involves if-ing out lots
+>>>>>> of GMU callbacks and introducing a new type of GMU - GMU wrapper (it's
+>>>>>> the actual name that Qualcomm uses in their downstream kernels).
+>>>>>>
+>>>>>> This is essentially a register region which is convenient to model
+>>>>>> as a device. We'll use it for managing the GDSCs. The register
+>>>>>> layout matches the actual GMU_CX/GX regions on the "real GMU" devices
+>>>>>> and lets us reuse quite a bit of gmu_read/write/rmw calls.
+>>>>> << I sent a reply to this patch earlier, but not sure where it went.
+>>>>> Still figuring out Mutt... >>
+>>>> Answered it here:
+>>>>
+>>>> https://lore.kernel.org/linux-arm-msm/4d3000c1-c3f9-0bfd-3eb3-23393f9a8f77@linaro.org/
+>>>
+>>> Thanks. Will check and respond there if needed.
+>>>
+>>>>
+>>>> I don't think I see any new comments in this "reply revision" (heh), so please
+>>>> check that one out.
+>>>>
+>>>>>
+>>>>> Only convenience I found is that we can reuse gmu register ops in a few
+>>>>> places (< 10 I think). If we just model this as another gpu memory
+>>>>> region, I think it will help to keep gmu vs gmu-wrapper/no-gmu
+>>>>> architecture code with clean separation. Also, it looks like we need to
+>>>>> keep a dummy gmu platform device in the devicetree with the current
+>>>>> approach. That doesn't sound right.
+>>>> That's correct, but.. if we switch away from that, VDD_GX/VDD_CX will
+>>>> need additional, gmuwrapper-configuration specific code anyway, as
+>>>> OPP & genpd will no longer make use of the default behavior which
+>>>> only gets triggered if there's a single power-domains=<> entry, afaicu.
+>>> Can you please tell me which specific *default behviour* do you mean here?
+>>> I am curious to know what I am overlooking here. We can always get a cxpd/gxpd device
+>>> and vote for the gdscs directly from the driver. Anything related to
+>>> OPP?
+>> I *believe* this is true:
+>>
+>> if (ARRAY_SIZE(power-domains) == 1) {
+>> 	of generic code will enable the power domain at .probe time
+> we need to handle the voting directly. I recently shared a patch to
+> vote cx gdsc from gpu driver. Maybe we can ignore this when gpu has
+> only cx rail due to this logic you quoted here.
 > 
-> > We have steered away for a long time now from driver-specific KMS APIs
-> > for good reasons but never codified our stance. With the proposal of
-> > new, driver-specific color management uAPIs [1] it is important to
-> > outline the requirements for the rare times when driver-specific KMS
-> > uAPIs are desired in order to move complex topics along.
-> > 
-> > [1] https://patchwork.freedesktop.org/series/116862/
-> > 
-> > Signed-off-by: Harry Wentland <harry.wentland@amd.com>
-> > Cc: Simon Ser <contact@emersion.fr>
-> > Cc: Joshua Ashton <joshua@froggi.es>
-> > Cc: Michel Dänzer <mdaenzer@redhat.com>
-> > Cc: Sebastian Wick <sebastian.wick@redhat.com>
-> > Cc: Jonas Ådahl <jadahl@redhat.com>
-> > Cc: Alex Goins <agoins@nvidia.com>
-> > Cc: Pekka Paalanen <pekka.paalanen@collabora.com>
-> > Cc: Melissa Wen <mwen@igalia.com>
-> > Cc: Aleix Pol <aleixpol@kde.org>
-> > Cc: Xaver Hugl <xaver.hugl@gmail.com>
-> > Cc: Victoria Brekenfeld <victoria@system76.com>
-> > Cc: Daniel Vetter <daniel@ffwll.ch>
-> > Cc: Dave Airlie <airlied@gmail.com>
-> > Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
-> > Cc: Uma Shankar <uma.shankar@intel.com>
-> > To: dri-devel@lists.freedesktop.org
-> > ---
-> >  Documentation/gpu/drm-uapi.rst | 32 ++++++++++++++++++++++++++++++++
-> >  1 file changed, 32 insertions(+)
-> > 
-> > diff --git a/Documentation/gpu/drm-uapi.rst b/Documentation/gpu/drm-uapi.rst
-> > index ce47b4292481..eaefc3ed980c 100644
-> > --- a/Documentation/gpu/drm-uapi.rst
-> > +++ b/Documentation/gpu/drm-uapi.rst
-> > @@ -118,6 +118,38 @@ is already rather painful for the DRM subsystem, with multiple different uAPIs
-> >  for the same thing co-existing. If we add a few more complete mistakes into the
-> >  mix every year it would be entirely unmanageable.
-> >  
-> > +.. _driver_specific:
-> > +
-> > +Driver-Specific DRM/KMS uAPI
-> > +============================
-> > +
-> > +Driver-specific interfaces are strongly discouraged for DRM/KMS interfaces.
-> > +Kernel-modesetting (KMS) functionality does in principle apply to all drivers.
-> > +Driver-specific uAPIs tends to lead to unique implementations in userspace and
-> > +are often hard to maintain, especially when different drivers implement similar
-> > +but subtly different uAPIs.
-> > +
-> > +At times arriving at a consensus uAPI can be a difficult and lengthy process and
-> > +might benefit from experimentation. This experimentation might warrant
-> > +introducing driver specific APIs in order to move the eosystem forward. If a
-> > +driver decides to go down this path we ask for the following:
-
-I don't like this for two fairly fundamental reasons, neither of which are
-that sometimes merging stuff that's not great is the right thing to do to
-move the community and ecosystem forward.
-
-> Hi,
+> I see that you have handled it mostly correctly from the gpu driver in the updated
+> a6xx_pm_suspend() callback. Just the power domain device ptrs should be moved to
+> gpu from gmu.
 > 
-> should it be "require" instead of "ask"?
+>>
+>> 	opp APIs will default to scaling that domain with required-opps
 > 
-> > +
-> > +- An agreement within the community that introducing driver-specific uAPIs is
-> > +  warranted in this case;
-> > +
-> > +- The new uAPI is behind a CONFIG option that is clearly marked EXPERIMENTAL and
-> > +  is disabled by default;
-> > +
-> > +- The new uAPI is enabled when a module parameter for the driver is set, and
-> > +  defaults to 'off' otherwise;
-> > +
-> > +- The new uAPI follows all open-source userspace requirements outlined above;
-> > +
-> > +- The focus is maintained on development of a vendor-neutral uAPI and progress
-> > +  toward such an uAPI needs to be apparent on public forums. If no such progress
-> > +  is visible within a reasonable timeframe (1-2 years) anybody is within their
-> > +  right to send, review, and merge patches that remove the driver-specific uAPI.
-> > +
-> >  .. _drm_render_node:
-> >  
-> >  Render nodes
+>> }
+>>
+>> and we do need to put GX/CX (with an MX parent to match) there, as the
+>> AP is responsible for voting in this configuration
 > 
-> Seems fine to me. I have another addition to suggest:
+> We should vote to turn ON gx/cx headswitches through genpd from gpu driver. When you vote for
+> core clk frequency, *clock driver is supposed to scale* all the necessary
+> regulators. At least that is how downstream works. You can refer the downstream
+> gpucc clk driver of these SoCs. I am not sure how much of that can be easily converted to
+> upstream.
 > 
-> When such UAPI is introduced, require that it comes with an expiration
-> date. This date should be unmissable, not just documented. The kernel
-> module parameter name to enable the UAPI could contain the expiry date,
-> for example.
+> Also, how does having a gmu dt node help in this regard? Feel free to
+> elaborate, I am not very familiar with clk/regulator implementations.
+Okay so I think we have a bit of a confusion here.
+
+Currently, with this patchset we manage things like this:
+
+1. GPU has a VDD_GX (or equivalent[1]) line passed in power-domains=<>, which
+   is then used with OPP APIs to ensure it's being scaled on freq change [2].
+   The VDD_lines coming from RPM(h) are described as power domains upstream
+   *unlike downstream*, which represents them as regulators with preset voltage
+   steps (and perhaps that's what had you confused). What's more is that GDSCs
+   are also modeled as genpds instead of regulators, hence they sort of "fight"
+   for the spot in power-domains=<> of a given node.
+
+2. GMU wrapper gets CX_GDSC & GX_GDSC handles in power-domains=<> (just like
+   the real GMU in the current state of upstream [3]), which are then governed
+   through explicit genpd calls to turn them on/off when the GPU resume/suspend/
+   crash recovery functions are called.
+
+3. GPUs with GMU, like A630, don't get any power-domains=<> entries in DT,
+   instead relying on the GMU firmware to communicate necessary requests
+   to the VDD_xyz resources directly to RPMh, as part of the DVFS routines.
+   If GMU wasn't so smart, we would have to do the exact same VDD_xyz+OPP dance
+   there - that's precisely what's going on under the hood.
+
+4. Adreno SMMU gets a handle to CX_GDSC so that when OF probe funcs are called,
+   (and SMMUs probe way way before all things drm) the headswitch is de-asserted
+   and its registers and related clocks are accessible.
+
+
+All this makes me believe the way I generally architected things in
+this series is correct.
+
+
+[1] A610 (and I think A612) lack a VDD_GX line, so they power the GPU from
+    VDD_CX, but that's just an implementation detail which is handled by
+    simply passing the correct one in DTS, the code doesn't care.
+
+[2] Hence my recent changes to use dev_pm_opp_set_rate() wherever possible,
+    this func reads requires-opps in OPP table entries and ensures to elevate
+    the GENPD's performance state before switching frequencies
+
+[3] Please take a look at the "end product" here:
+    https://github.com/SoMainline/linux/commit/fb16757c3bf4c087ac597d70c7a98755d46bb323
+    you can open e.g. sdm845.dtsi for comparison with real GMU
+
+I hope this answers your concerns. If not, I'll be happy to elaborate.
+
+Konrad
 > 
-> After all, the most important thing to get through to users is that
-> this *will* go away and not just theoretically.
-
-There's no taking-backsies with uapi. If there is a regression report,
-we'll have to keep it around, for the usual approximation of "forever"
-
-And this is the first reason I don't like this, from other write-ups and
-talking with people it seems like there's the assumption that if we just
-hide this behind enough knobs, we can remove the uapi again.
-
-We can't.
-
-The times we've hidden uapi behind knobs was _not_ for uapi we
-fundamentally didn't want, at least for the long term. But for the cases
-where the overall scope was simply too big, and we needed some time
-in-tree to shake out all the bugs (across both kernel and userspace), and
-fill out any of the details. Some examples:
-
-- intel hiding new hw enabling behind the alpha support is not about
-  hiding that uapi so we can change it. It's about the fact that not yet
-  all enabling has landed in upstream, and not yet all full stack
-  validation on production silicon has completed. It's about not shipping
-  buggy code to users that we can't support.
-
-- atomic kms was simply too big, there was a lot of work in compositors
-  needed, testing corner cases, and details like adding the blob support
-  for the display mode so that modesets would work too with atomic. We
-  never landed a preliminary uabi version of atomic (there were plenty
-  floating around) that wasn't deemed ready as the long term solution, we
-  were simply not sure we got it right until all the pieces where in
-  place.
-
-  And viz Xorg-modesetting, in at least one case we still got it wrong and
-  had to disable atomic for that userspace.
-
-- nouveau pony years back tried this entire "oh the uapi is just
-  experimental" thing, and it resulted in the by far worst flameware
-  between Dave and Linus on dri-devel
-
-So _if_ we do this we need to be clear that uapi is forever, and not have
-docs that suggest otherwise.
-
-> If that date needs to be moved forward, it should be possible to do so
-> with a simple patch gathering enough acks. The main thing is to set the
-> date from the start, so there can be no confusion about when its going
-> to the chopping block.
-> 
-> I do not suggest that the kernel would automatically runtime disable
-> the UAPI after that date.
-> 
-> Does any of the big idea fly with upper maintainers and Linus?
-
-The other reason, and maybe even more fundamental one, is that I think the
-uncertainty of not documenting how pragmatic we are is beneficial.
-
-We should definitely document the gold standard aspirations, to make sure
-everyone knows where to aim for. And I'm definitely all for pragmatic
-merging where it makes sense, we've had tons of that, and happily carry
-the costs to this day for some of them:
-
-- a lot of the early soc drivers are kinda meh, and will stay that way
-  forever since they're not maintained anymore
-
-- we've had very much free-for-all vendor kms properties, and I expect the
-  hall of shame witht he big table of vendor props with barely any docs
-  will never go away
-
-- we're taking all the compute runtimes despite that mesa on the 3d/gl/vk
-  side shows how much better collaboration would be (and I think soon will
-  show the same for media) because having a compute ecosystem that's
-  substantially weaker than the sum of all its parts is still better than
-  nothing. And the situation is still that collaboration even with a
-  company is often impossible, aiming for better is not very realistic :-/
-
-But the goal is still to have solid code, cross-vendor infrastructure and
-collaboration and all that stuff, because that's why upstream is strong.
-And the uncertainty is helping us for a lot of reasons:
-
-- it makes vendors vary of going with vendor solutions. Minimally they ask
-  in private, which gives Dave, me and all the others doing vendor
-  outreach or working as some ambassador rule at a vendor an opportunity
-  to steer things in a better direction. And often do the steering
-  _before_ code gets written.
-
-- it allows Dave&me to more freely decide when to be pragmatic, without
-  being bound by rules. The point of pragmatic merging is to bend the
-  short term principles for a better long term outcome, splattering that
-  entire space full with rules makes rule-bending a lot harder when
-  needed.
-
-- most of all I really don't want to be in a discussion with vendors where
-  they try to laywer-argue that we must merge their patches because they
-  strictly followed the wording of some pragmatic merge rules while
-  entirely tossing the spirit of what we aim for. I already have more than
-  enough of that, this will result in more.
-
-In all the past examples of pragmatic merging we never documented the
-pragmatic approach, but instead if we documented something, we wrote down
-the ideal standards to aim for. That makes it easier for everyone to do
-the right thing, and harder (and more expensive due to the inherit
-uncertainty) to try to bend them towards the least amount of collaboration
-a vendor can get away with.
-
-That's why I really want to keep the undocumented and hence uncertain
-rules in this space.
-
-For the actual case at hand of plane color handling, I think the pragmatic
-aproach is roughly:
-
-1. land the amdgpu code, but without uapi
-
-2. use that (and any other driver code that's been floating around in this
-space) to build up the kernel-internal infrastructure - the proposed graph
-of color transformation blocks will need quite a few things
-
-3. land the uapi on top in it's hopeful final form, maybe hidden if it's
-not yet complete or ready for prime time as we sometimes do with bigger
-projects
-
-Obviously compositor work, igts, docs and all that too, and most of all
-this can happen in parallel too once we have a rough consensus on where to
-aim for.
-
-Cheers, Daniel
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+> -Akhil.
+>>
+>> Konrad
+>>>
+>>> -Akhil
+>>>>
+>>>> If nothing else, this is a very convenient way to model a part of the
+>>>> GPU (as that's essentially what GMU_CX is, to my understanding) and
+>>>> the bindings people didn't shoot me in the head for proposing this, so
+>>>> I assume it'd be cool to pursue this..
+>>>>
+>>>> Konrad
+>>>>>>
+>>>>>> Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+>>>>>> ---
+>>>>>>  drivers/gpu/drm/msm/adreno/a6xx_gmu.c       |  72 +++++++-
+>>>>>>  drivers/gpu/drm/msm/adreno/a6xx_gpu.c       | 255 +++++++++++++++++++++++++---
+>>>>>>  drivers/gpu/drm/msm/adreno/a6xx_gpu.h       |   1 +
+>>>>>>  drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c |  14 +-
+>>>>>>  drivers/gpu/drm/msm/adreno/adreno_gpu.c     |   8 +-
+>>>>>>  drivers/gpu/drm/msm/adreno/adreno_gpu.h     |   6 +
+>>>>>>  6 files changed, 318 insertions(+), 38 deletions(-)
+>>>>>>
+>>>>>> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
+>>>>>> index 87babbb2a19f..b1acdb027205 100644
+>>>>>> --- a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
+>>>>>> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
+>>>>>> @@ -1469,6 +1469,7 @@ static int a6xx_gmu_get_irq(struct a6xx_gmu *gmu, struct platform_device *pdev,
+>>>>>>  
+>>>>>>  void a6xx_gmu_remove(struct a6xx_gpu *a6xx_gpu)
+>>>>>>  {
+>>>>>> +	struct adreno_gpu *adreno_gpu = &a6xx_gpu->base;
+>>>>>>  	struct a6xx_gmu *gmu = &a6xx_gpu->gmu;
+>>>>>>  	struct platform_device *pdev = to_platform_device(gmu->dev);
+>>>>>>  
+>>>>>> @@ -1494,10 +1495,12 @@ void a6xx_gmu_remove(struct a6xx_gpu *a6xx_gpu)
+>>>>>>  	gmu->mmio = NULL;
+>>>>>>  	gmu->rscc = NULL;
+>>>>>>  
+>>>>>> -	a6xx_gmu_memory_free(gmu);
+>>>>>> +	if (!adreno_has_gmu_wrapper(adreno_gpu)) {
+>>>>>> +		a6xx_gmu_memory_free(gmu);
+>>>>>>  
+>>>>>> -	free_irq(gmu->gmu_irq, gmu);
+>>>>>> -	free_irq(gmu->hfi_irq, gmu);
+>>>>>> +		free_irq(gmu->gmu_irq, gmu);
+>>>>>> +		free_irq(gmu->hfi_irq, gmu);
+>>>>>> +	}
+>>>>>>  
+>>>>>>  	/* Drop reference taken in of_find_device_by_node */
+>>>>>>  	put_device(gmu->dev);
+>>>>>> @@ -1516,6 +1519,69 @@ static int cxpd_notifier_cb(struct notifier_block *nb,
+>>>>>>  	return 0;
+>>>>>>  }
+>>>>>>  
+>>>>>> +int a6xx_gmu_wrapper_init(struct a6xx_gpu *a6xx_gpu, struct device_node *node)
+>>>>>> +{
+>>>>>> +	struct platform_device *pdev = of_find_device_by_node(node);
+>>>>>> +	struct a6xx_gmu *gmu = &a6xx_gpu->gmu;
+>>>>>> +	int ret;
+>>>>>> +
+>>>>>> +	if (!pdev)
+>>>>>> +		return -ENODEV;
+>>>>>> +
+>>>>>> +	gmu->dev = &pdev->dev;
+>>>>>> +
+>>>>>> +	of_dma_configure(gmu->dev, node, true);
+>>>>> why setup dma for a device that is not actually present?
+>>>>>> +
+>>>>>> +	pm_runtime_enable(gmu->dev);
+>>>>>> +
+>>>>>> +	/* Mark legacy for manual SPTPRAC control */
+>>>>>> +	gmu->legacy = true;
+>>>>>> +
+>>>>>> +	/* Map the GMU registers */
+>>>>>> +	gmu->mmio = a6xx_gmu_get_mmio(pdev, "gmu");
+>>>>>> +	if (IS_ERR(gmu->mmio)) {
+>>>>>> +		ret = PTR_ERR(gmu->mmio);
+>>>>>> +		goto err_mmio;
+>>>>>> +	}
+>>>>>> +
+>>>>>> +	gmu->cxpd = dev_pm_domain_attach_by_name(gmu->dev, "cx");
+>>>>>> +	if (IS_ERR(gmu->cxpd)) {
+>>>>>> +		ret = PTR_ERR(gmu->cxpd);
+>>>>>> +		goto err_mmio;
+>>>>>> +	}
+>>>>>> +
+>>>>>> +	if (!device_link_add(gmu->dev, gmu->cxpd, DL_FLAG_PM_RUNTIME)) {
+>>>>>> +		ret = -ENODEV;
+>>>>>> +		goto detach_cxpd;
+>>>>>> +	}
+>>>>>> +
+>>>>>> +	init_completion(&gmu->pd_gate);
+>>>>>> +	complete_all(&gmu->pd_gate);
+>>>>>> +	gmu->pd_nb.notifier_call = cxpd_notifier_cb;
+>>>>>> +
+>>>>>> +	/* Get a link to the GX power domain to reset the GPU */
+>>>>>> +	gmu->gxpd = dev_pm_domain_attach_by_name(gmu->dev, "gx");
+>>>>>> +	if (IS_ERR(gmu->gxpd)) {
+>>>>>> +		ret = PTR_ERR(gmu->gxpd);
+>>>>>> +		goto err_mmio;
+>>>>>> +	}
+>>>>>> +
+>>>>>> +	gmu->initialized = true;
+>>>>>> +
+>>>>>> +	return 0;
+>>>>>> +
+>>>>>> +detach_cxpd:
+>>>>>> +	dev_pm_domain_detach(gmu->cxpd, false);
+>>>>>> +
+>>>>>> +err_mmio:
+>>>>>> +	iounmap(gmu->mmio);
+>>>>>> +
+>>>>>> +	/* Drop reference taken in of_find_device_by_node */
+>>>>>> +	put_device(gmu->dev);
+>>>>>> +
+>>>>>> +	return ret;
+>>>>>> +}
+>>>>>> +
+>>>>>>  int a6xx_gmu_init(struct a6xx_gpu *a6xx_gpu, struct device_node *node)
+>>>>>>  {
+>>>>>>  	struct adreno_gpu *adreno_gpu = &a6xx_gpu->base;
+>>>>>> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+>>>>>> index 931f9f3b3a85..8e0345ffab81 100644
+>>>>>> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+>>>>>> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+>>>>>> @@ -20,9 +20,11 @@ static inline bool _a6xx_check_idle(struct msm_gpu *gpu)
+>>>>>>  	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
+>>>>>>  	struct a6xx_gpu *a6xx_gpu = to_a6xx_gpu(adreno_gpu);
+>>>>>>  
+>>>>>> -	/* Check that the GMU is idle */
+>>>>>> -	if (!a6xx_gmu_isidle(&a6xx_gpu->gmu))
+>>>>>> -		return false;
+>>>>>> +	if (!adreno_has_gmu_wrapper(adreno_gpu)) {
+>>>>>> +		/* Check that the GMU is idle */
+>>>>>> +		if (!a6xx_gmu_isidle(&a6xx_gpu->gmu))
+>>>>>> +			return false;
+>>>>>> +	}
+>>>>>>  
+>>>>>>  	/* Check tha the CX master is idle */
+>>>>>>  	if (gpu_read(gpu, REG_A6XX_RBBM_STATUS) &
+>>>>>> @@ -612,13 +614,15 @@ static void a6xx_set_hwcg(struct msm_gpu *gpu, bool state)
+>>>>>>  		return;
+>>>>>>  
+>>>>>>  	/* Disable SP clock before programming HWCG registers */
+>>>>>> -	gmu_rmw(gmu, REG_A6XX_GPU_GMU_GX_SPTPRAC_CLOCK_CONTROL, 1, 0);
+>>>>>> +	if (!adreno_has_gmu_wrapper(adreno_gpu))
+>>>>>> +		gmu_rmw(gmu, REG_A6XX_GPU_GMU_GX_SPTPRAC_CLOCK_CONTROL, 1, 0);
+>>>>>>  
+>>>>>>  	for (i = 0; (reg = &adreno_gpu->info->hwcg[i], reg->offset); i++)
+>>>>>>  		gpu_write(gpu, reg->offset, state ? reg->value : 0);
+>>>>>>  
+>>>>>>  	/* Enable SP clock */
+>>>>>> -	gmu_rmw(gmu, REG_A6XX_GPU_GMU_GX_SPTPRAC_CLOCK_CONTROL, 0, 1);
+>>>>>> +	if (!adreno_has_gmu_wrapper(adreno_gpu))
+>>>>>> +		gmu_rmw(gmu, REG_A6XX_GPU_GMU_GX_SPTPRAC_CLOCK_CONTROL, 0, 1);
+>>>>>>  
+>>>>>>  	gpu_write(gpu, REG_A6XX_RBBM_CLOCK_CNTL, state ? clock_cntl_on : 0);
+>>>>>>  }
+>>>>>> @@ -1018,10 +1022,13 @@ static int hw_init(struct msm_gpu *gpu)
+>>>>>>  {
+>>>>>>  	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
+>>>>>>  	struct a6xx_gpu *a6xx_gpu = to_a6xx_gpu(adreno_gpu);
+>>>>>> +	struct a6xx_gmu *gmu = &a6xx_gpu->gmu;
+>>>>>>  	int ret;
+>>>>>>  
+>>>>>> -	/* Make sure the GMU keeps the GPU on while we set it up */
+>>>>>> -	a6xx_gmu_set_oob(&a6xx_gpu->gmu, GMU_OOB_GPU_SET);
+>>>>>> +	if (!adreno_has_gmu_wrapper(adreno_gpu)) {
+>>>>>> +		/* Make sure the GMU keeps the GPU on while we set it up */
+>>>>>> +		a6xx_gmu_set_oob(&a6xx_gpu->gmu, GMU_OOB_GPU_SET);
+>>>>>> +	}
+>>>>>>  
+>>>>>>  	/* Clear GBIF halt in case GX domain was not collapsed */
+>>>>>>  	if (a6xx_has_gbif(adreno_gpu))
+>>>>>> @@ -1144,6 +1151,17 @@ static int hw_init(struct msm_gpu *gpu)
+>>>>>>  			0x3f0243f0);
+>>>>>>  	}
+>>>>>>  
+>>>>>> +	if (adreno_has_gmu_wrapper(adreno_gpu)) {
+>>>>>> +		/* Do it here, as GMU wrapper only inits the GMU for memory reservation etc. */
+>>>>>> +
+>>>>>> +		/* Set up the CX GMU counter 0 to count busy ticks */
+>>>>>> +		gmu_write(gmu, REG_A6XX_GPU_GMU_AO_GPU_CX_BUSY_MASK, 0xff000000);
+>>>>>> +
+>>>>>> +		/* Enable power counter 0 */
+>>>>>> +		gmu_rmw(gmu, REG_A6XX_GMU_CX_GMU_POWER_COUNTER_SELECT_0, 0xff, BIT(5));
+>>>>>> +		gmu_write(gmu, REG_A6XX_GMU_CX_GMU_POWER_COUNTER_ENABLE, 1);
+>>>>>> +	}
+>>>>>> +
+>>>>>>  	/* Protect registers from the CP */
+>>>>>>  	a6xx_set_cp_protect(gpu);
+>>>>>>  
+>>>>>> @@ -1233,6 +1251,8 @@ static int hw_init(struct msm_gpu *gpu)
+>>>>>>  	}
+>>>>>>  
+>>>>>>  out:
+>>>>>> +	if (adreno_has_gmu_wrapper(adreno_gpu))
+>>>>>> +		return ret;
+>>>>>>  	/*
+>>>>>>  	 * Tell the GMU that we are done touching the GPU and it can start power
+>>>>>>  	 * management
+>>>>>> @@ -1267,6 +1287,9 @@ static void a6xx_dump(struct msm_gpu *gpu)
+>>>>>>  	adreno_dump(gpu);
+>>>>>>  }
+>>>>>>  
+>>>>>> +#define GBIF_GX_HALT_MASK	BIT(0)
+>>>>>> +#define GBIF_CLIENT_HALT_MASK	BIT(0)
+>>>>>> +#define GBIF_ARB_HALT_MASK	BIT(1)
+>>>>>>  #define VBIF_RESET_ACK_TIMEOUT	100
+>>>>>>  #define VBIF_RESET_ACK_MASK	0x00f0
+>>>>>>  
+>>>>>> @@ -1299,7 +1322,8 @@ static void a6xx_recover(struct msm_gpu *gpu)
+>>>>>>  	 * Turn off keep alive that might have been enabled by the hang
+>>>>>>  	 * interrupt
+>>>>>>  	 */
+>>>>>> -	gmu_write(&a6xx_gpu->gmu, REG_A6XX_GMU_GMU_PWR_COL_KEEPALIVE, 0);
+>>>>>> +	if (!adreno_has_gmu_wrapper(adreno_gpu))
+>>>>>> +		gmu_write(&a6xx_gpu->gmu, REG_A6XX_GMU_GMU_PWR_COL_KEEPALIVE, 0);
+>>>>>
+>>>>> Maybe it is better to move this to a6xx_gmu_force_power_off.
+>>>>>
+>>>>>>  
+>>>>>>  	pm_runtime_dont_use_autosuspend(&gpu->pdev->dev);
+>>>>>>  
+>>>>>> @@ -1329,6 +1353,32 @@ static void a6xx_recover(struct msm_gpu *gpu)
+>>>>>>  
+>>>>>>  	dev_pm_genpd_remove_notifier(gmu->cxpd);
+>>>>>>  
+>>>>>> +	/* Software-reset the GPU */
+>>>>>
+>>>>> This is not soft reset sequence. We are trying to quiescent gpu - ddr
+>>>>> traffic with this sequence.
+>>>>>
+>>>>>> +	if (adreno_has_gmu_wrapper(adreno_gpu)) {
+>>>>>> +		/* Halt the GX side of GBIF */
+>>>>>> +		gpu_write(gpu, REG_A6XX_RBBM_GBIF_HALT, GBIF_GX_HALT_MASK);
+>>>>>> +		spin_until(gpu_read(gpu, REG_A6XX_RBBM_GBIF_HALT_ACK) &
+>>>>>> +			   GBIF_GX_HALT_MASK);
+>>>>>> +
+>>>>>> +		/* Halt new client requests on GBIF */
+>>>>>> +		gpu_write(gpu, REG_A6XX_GBIF_HALT, GBIF_CLIENT_HALT_MASK);
+>>>>>> +		spin_until((gpu_read(gpu, REG_A6XX_GBIF_HALT_ACK) &
+>>>>>> +			   (GBIF_CLIENT_HALT_MASK)) == GBIF_CLIENT_HALT_MASK);
+>>>>>> +
+>>>>>> +		/* Halt all AXI requests on GBIF */
+>>>>>> +		gpu_write(gpu, REG_A6XX_GBIF_HALT, GBIF_ARB_HALT_MASK);
+>>>>>> +		spin_until((gpu_read(gpu, REG_A6XX_GBIF_HALT_ACK) &
+>>>>>> +			   (GBIF_ARB_HALT_MASK)) == GBIF_ARB_HALT_MASK);
+>>>>>> +
+>>>>>> +		/* Clear the halts */
+>>>>>> +		gpu_write(gpu, REG_A6XX_GBIF_HALT, 0);
+>>>>>> +
+>>>>>> +		gpu_write(gpu, REG_A6XX_RBBM_GBIF_HALT, 0);
+>>>>>> +
+>>>>>> +		/* This *really* needs to go through before we do anything else! */
+>>>>>> +		mb();
+>>>>>> +	}
+>>>>>> +
+>>>>>
+>>>>> This sequence should be before we collapse cx gdsc. Also, please see if
+>>>>> we can create a subroutine to avoid code dup.
+>>>>>
+>>>>>>  	pm_runtime_use_autosuspend(&gpu->pdev->dev);
+>>>>>>  
+>>>>>>  	if (active_submits)
+>>>>>> @@ -1463,7 +1513,8 @@ static void a6xx_fault_detect_irq(struct msm_gpu *gpu)
+>>>>>>  	 * Force the GPU to stay on until after we finish
+>>>>>>  	 * collecting information
+>>>>>>  	 */
+>>>>>> -	gmu_write(&a6xx_gpu->gmu, REG_A6XX_GMU_GMU_PWR_COL_KEEPALIVE, 1);
+>>>>>> +	if (!adreno_has_gmu_wrapper(adreno_gpu))
+>>>>>> +		gmu_write(&a6xx_gpu->gmu, REG_A6XX_GMU_GMU_PWR_COL_KEEPALIVE, 1);
+>>>>>>  
+>>>>>>  	DRM_DEV_ERROR(&gpu->pdev->dev,
+>>>>>>  		"gpu fault ring %d fence %x status %8.8X rb %4.4x/%4.4x ib1 %16.16llX/%4.4x ib2 %16.16llX/%4.4x\n",
+>>>>>> @@ -1624,7 +1675,7 @@ static void a6xx_llc_slices_init(struct platform_device *pdev,
+>>>>>>  		a6xx_gpu->llc_mmio = ERR_PTR(-EINVAL);
+>>>>>>  }
+>>>>>>  
+>>>>>> -static int a6xx_pm_resume(struct msm_gpu *gpu)
+>>>>>> +static int a6xx_gmu_pm_resume(struct msm_gpu *gpu)
+>>>>>>  {
+>>>>>>  	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
+>>>>>>  	struct a6xx_gpu *a6xx_gpu = to_a6xx_gpu(adreno_gpu);
+>>>>>> @@ -1644,10 +1695,61 @@ static int a6xx_pm_resume(struct msm_gpu *gpu)
+>>>>>>  
+>>>>>>  	a6xx_llc_activate(a6xx_gpu);
+>>>>>>  
+>>>>>> -	return 0;
+>>>>>> +	return ret;
+>>>>>>  }
+>>>>>>  
+>>>>>> -static int a6xx_pm_suspend(struct msm_gpu *gpu)
+>>>>>> +static int a6xx_pm_resume(struct msm_gpu *gpu)
+>>>>>> +{
+>>>>>> +	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
+>>>>>> +	struct a6xx_gpu *a6xx_gpu = to_a6xx_gpu(adreno_gpu);
+>>>>>> +	struct a6xx_gmu *gmu = &a6xx_gpu->gmu;
+>>>>>> +	unsigned long freq = 0;
+>>>>>> +	struct dev_pm_opp *opp;
+>>>>>> +	int ret;
+>>>>>> +
+>>>>>> +	gpu->needs_hw_init = true;
+>>>>>> +
+>>>>>> +	trace_msm_gpu_resume(0);
+>>>>>> +
+>>>>>> +	mutex_lock(&a6xx_gpu->gmu.lock);
+>>>>> I think we can ignore gmu lock as there is no real gmu device.
+>>>>>
+>>>>>> +
+>>>>>> +	pm_runtime_resume_and_get(gmu->dev);
+>>>>>> +	pm_runtime_resume_and_get(gmu->gxpd);
+>>>>>> +
+>>>>>> +	/* Set the core clock, having VDD scaling in mind */
+>>>>>> +	ret = dev_pm_opp_set_rate(&gpu->pdev->dev, gpu->fast_rate);
+>>>>>> +	if (ret)
+>>>>>> +		goto err_core_clk;
+>>>>>> +
+>>>>>> +	ret = clk_bulk_prepare_enable(gpu->nr_clocks, gpu->grp_clks);
+>>>>>> +	if (ret)
+>>>>>> +		goto err_bulk_clk;
+>>>>>> +
+>>>>>> +	ret = clk_prepare_enable(gpu->ebi1_clk);
+>>>>>> +	if (ret)
+>>>>>> +		goto err_mem_clk;
+>>>>>> +
+>>>>>> +	/* If anything goes south, tear the GPU down piece by piece.. */
+>>>>>> +	if (ret) {
+>>>>>> +err_mem_clk:
+>>>>>> +		clk_bulk_disable_unprepare(gpu->nr_clocks, gpu->grp_clks);
+>>>>>> +err_bulk_clk:
+>>>>>> +		opp = dev_pm_opp_find_freq_ceil(&gpu->pdev->dev, &freq);
+>>>>>> +		dev_pm_opp_put(opp);
+>>>>>> +		dev_pm_opp_set_rate(&gpu->pdev->dev, 0);
+>>>>>> +err_core_clk:
+>>>>>> +		pm_runtime_put(gmu->gxpd);
+>>>>>> +		pm_runtime_put(gmu->dev);
+>>>>>> +	}
+>>>>>> +	mutex_unlock(&a6xx_gpu->gmu.lock);
+>>>>>> +
+>>>>>> +	if (!ret)
+>>>>>> +		msm_devfreq_resume(gpu);
+>>>>>> +
+>>>>>> +	return ret;
+>>>>>> +}
+>>>>>> +
+>>>>>> +static int a6xx_gmu_pm_suspend(struct msm_gpu *gpu)
+>>>>>>  {
+>>>>>>  	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
+>>>>>>  	struct a6xx_gpu *a6xx_gpu = to_a6xx_gpu(adreno_gpu);
+>>>>>> @@ -1674,11 +1776,62 @@ static int a6xx_pm_suspend(struct msm_gpu *gpu)
+>>>>>>  	return 0;
+>>>>>>  }
+>>>>>>  
+>>>>>> +static int a6xx_pm_suspend(struct msm_gpu *gpu)
+>>>>>> +{
+>>>>>> +	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
+>>>>>> +	struct a6xx_gpu *a6xx_gpu = to_a6xx_gpu(adreno_gpu);
+>>>>>> +	struct a6xx_gmu *gmu = &a6xx_gpu->gmu;
+>>>>>> +	unsigned long freq = 0;
+>>>>>> +	struct dev_pm_opp *opp;
+>>>>>> +	int i, ret;
+>>>>>> +
+>>>>>> +	trace_msm_gpu_suspend(0);
+>>>>>> +
+>>>>>> +	opp = dev_pm_opp_find_freq_ceil(&gpu->pdev->dev, &freq);
+>>>>>> +	dev_pm_opp_put(opp);
+>>>>>> +
+>>>>>> +	msm_devfreq_suspend(gpu);
+>>>>>> +
+>>>>>> +	mutex_lock(&a6xx_gpu->gmu.lock);
+>>>>>> +
+>>>>>> +	clk_disable_unprepare(gpu->ebi1_clk);
+>>>>>> +
+>>>>>> +	clk_bulk_disable_unprepare(gpu->nr_clocks, gpu->grp_clks);
+>>>>>> +
+>>>>>> +	/* Set frequency to the minimum supported level (no 27MHz on A6xx!) */
+>>>>>> +	ret = dev_pm_opp_set_rate(&gpu->pdev->dev, freq);
+>>>>>> +	if (ret)
+>>>>>> +		goto err;
+>>>>>> +
+>>>>>> +	pm_runtime_put_sync(gmu->gxpd);
+>>>>>> +	pm_runtime_put_sync(gmu->dev);
+>>>>>> +
+>>>>>> +	mutex_unlock(&a6xx_gpu->gmu.lock);
+>>>>>> +
+>>>>>> +	if (a6xx_gpu->shadow_bo)
+>>>>>> +		for (i = 0; i < gpu->nr_rings; i++)
+>>>>>> +			a6xx_gpu->shadow[i] = 0;
+>>>>>> +
+>>>>>> +	gpu->suspend_count++;
+>>>>>> +
+>>>>>> +	return 0;
+>>>>>> +
+>>>>>> +err:
+>>>>>> +	mutex_unlock(&a6xx_gpu->gmu.lock);
+>>>>>> +
+>>>>>> +	return ret;
+>>>>>> +}
+>>>>>> +
+>>>>>>  static int a6xx_get_timestamp(struct msm_gpu *gpu, uint64_t *value)
+>>>>>>  {
+>>>>>>  	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
+>>>>>>  	struct a6xx_gpu *a6xx_gpu = to_a6xx_gpu(adreno_gpu);
+>>>>>>  
+>>>>>> +	if (adreno_has_gmu_wrapper(adreno_gpu)) {
+>>>>>> +		*value = gpu_read64(gpu, REG_A6XX_CP_ALWAYS_ON_COUNTER);
+>>>>>> +		return 0;
+>>>>>> +	}
+>>>>>> +
+>>>>> Instead of wrapper check here, we can just create a separate op. I don't
+>>>>> see any benefit in reusing the same function here.
+>>>>>
+>>>>>
+>>>>>>  	mutex_lock(&a6xx_gpu->gmu.lock);
+>>>>>>  
+>>>>>>  	/* Force the GPU power on so we can read this register */
+>>>>>> @@ -1716,7 +1869,8 @@ static void a6xx_destroy(struct msm_gpu *gpu)
+>>>>>>  		drm_gem_object_put(a6xx_gpu->shadow_bo);
+>> 6xx_pm_suspend >>>>  	}
+>>>>>>  
+>>>>>> -	a6xx_llc_slices_destroy(a6xx_gpu);
+>>>>>> +	if (!adreno_has_gmu_wrapper(adreno_gpu))
+>>>>>> +		a6xx_llc_slices_destroy(a6xx_gpu);
+>>>>>>  
+>>>>>>  	mutex_lock(&a6xx_gpu->gmu.lock);
+>>>>>>  	a6xx_gmu_remove(a6xx_gpu);
+>>>>>> @@ -1957,8 +2111,8 @@ static const struct adreno_gpu_funcs funcs = {
+>>>>>>  		.set_param = adreno_set_param,
+>>>>>>  		.hw_init = a6xx_hw_init,
+>>>>>>  		.ucode_load = a6xx_ucode_load,
+>>>>>> -		.pm_suspend = a6xx_pm_suspend,
+>>>>>> -		.pm_resume = a6xx_pm_resume,
+>>>>>> +		.pm_suspend = a6xx_gmu_pm_suspend,
+>>>>>> +		.pm_resume = a6xx_gmu_pm_resume,
+>>>>>>  		.recover = a6xx_recover,
+>>>>>>  		.submit = a6xx_submit,
+>>>>>>  		.active_ring = a6xx_active_ring,
+>>>>>> @@ -1982,6 +2136,35 @@ static const struct adreno_gpu_funcs funcs = {
+>>>>>>  	.get_timestamp = a6xx_get_timestamp,
+>>>>>>  };
+>>>>>>  
+>>>>>> +static const struct adreno_gpu_funcs funcs_gmuwrapper = {
+>>>>>> +	.base = {
+>>>>>> +		.get_param = adreno_get_param,
+>>>>>> +		.set_param = adreno_set_param,
+>>>>>> +		.hw_init = a6xx_hw_init,
+>>>>>> +		.ucode_load = a6xx_ucode_load,
+>>>>>> +		.pm_suspend = a6xx_pm_suspend,
+>>>>>> +		.pm_resume = a6xx_pm_resume,
+>>>>>> +		.recover = a6xx_recover,
+>>>>>> +		.submit = a6xx_submit,
+>>>>>> +		.active_ring = a6xx_active_ring,
+>>>>>> +		.irq = a6xx_irq,
+>>>>>> +		.destroy = a6xx_destroy,
+>>>>>> +#if defined(CONFIG_DRM_MSM_GPU_STATE)
+>>>>>> +		.show = a6xx_show,
+>>>>>> +#endif
+>>>>>> +		.gpu_busy = a6xx_gpu_busy,
+>>>>>> +#if defined(CONFIG_DRM_MSM_GPU_STATE)
+>>>>>> +		.gpu_state_get = a6xx_gpu_state_get,
+>>>>>> +		.gpu_state_put = a6xx_gpu_state_put,
+>>>>>> +#endif
+>>>>>> +		.create_address_space = a6xx_create_address_space,
+>>>>>> +		.create_private_address_space = a6xx_create_private_address_space,
+>>>>>> +		.get_rptr = a6xx_get_rptr,
+>>>>>> +		.progress = a6xx_progress,
+>>>>>> +	},
+>>>>>> +	.get_timestamp = a6xx_get_timestamp,
+>>>>>> +};
+>>>>>> +
+>>>>>>  struct msm_gpu *a6xx_gpu_init(struct drm_device *dev)
+>>>>>>  {
+>>>>>>  	struct msm_drm_private *priv = dev->dev_private;
+>>>>>> @@ -2003,18 +2186,36 @@ struct msm_gpu *a6xx_gpu_init(struct drm_device *dev)
+>>>>>>  
+>>>>>>  	adreno_gpu->registers = NULL;
+>>>>>>  
+>>>>>> +	/* Check if there is a GMU phandle and set it up */
+>>>>>> +	node = of_parse_phandle(pdev->dev.of_node, "qcom,gmu", 0);
+>>>>>> +	/* FIXME: How do we gracefully handle this? */
+>>>>>> +	BUG_ON(!node);
+>>>>> How will you handle this BUG() when there is no GMU (a610 gpu)?
+>>>>>
+>>>>>> +
+>>>>>> +	adreno_gpu->gmu_is_wrapper = of_device_is_compatible(node, "qcom,adreno-gmu-wrapper");
+>>>>>> +
+>>>>>>  	/*
+>>>>>>  	 * We need to know the platform type before calling into adreno_gpu_init
+>>>>>>  	 * so that the hw_apriv flag can be correctly set. Snoop into the info
+>>>>>>  	 * and grab the revision number
+>>>>>>  	 */
+>>>>>>  	info = adreno_info(config->rev);
+>>>>>> -
+>>>>>> -	if (info && (info->revn == 650 || info->revn == 660 ||
+>>>>>> -			adreno_cmp_rev(ADRENO_REV(6, 3, 5, ANY_ID), info->rev)))
+>>>>>> +	if (!info)
+>>>>>> +		return ERR_PTR(-EINVAL);
+>>>>>> +
+>>>>>> +	/* Assign these early so that we can use the is_aXYZ helpers */
+>>>>>> +	/* Numeric revision IDs (e.g. 630) */
+>>>>>> +	adreno_gpu->revn = info->revn;
+>>>>>> +	/* New-style ADRENO_REV()-only */
+>>>>>> +	adreno_gpu->rev = info->rev;
+>>>>>> +	/* Quirk data */
+>>>>>> +	adreno_gpu->info = info;
+>>>>>> +
+>>>>>> +	if (adreno_is_a650(adreno_gpu) || adreno_is_a660_family(adreno_gpu))
+>>>>>>  		adreno_gpu->base.hw_apriv = true;
+>>>>>>  
+>>>>>> -	a6xx_llc_slices_init(pdev, a6xx_gpu);
+>>>>>> +	/* No LLCC on non-RPMh (and by extension, non-GMU) SoCs */
+>>>>>> +	if (!adreno_has_gmu_wrapper(adreno_gpu))
+>>>>>> +		a6xx_llc_slices_init(pdev, a6xx_gpu);
+>>>>>>  
+>>>>>>  	ret = a6xx_set_supported_hw(&pdev->dev, config->rev);
+>>>>>>  	if (ret) {
+>>>>>> @@ -2022,7 +2223,10 @@ struct msm_gpu *a6xx_gpu_init(struct drm_device *dev)
+>>>>>>  		return ERR_PTR(ret);
+>>>>>>  	}
+>>>>>>  
+>>>>>> -	ret = adreno_gpu_init(dev, pdev, adreno_gpu, &funcs, 1);
+>>>>>> +	if (adreno_has_gmu_wrapper(adreno_gpu))
+>>>>>> +		ret = adreno_gpu_init(dev, pdev, adreno_gpu, &funcs_gmuwrapper, 1);
+>>>>>> +	else
+>>>>>> +		ret = adreno_gpu_init(dev, pdev, adreno_gpu, &funcs, 1);
+>>>>>>  	if (ret) {
+>>>>>>  		a6xx_destroy(&(a6xx_gpu->base.base));
+>>>>>>  		return ERR_PTR(ret);
+>>>>>> @@ -2035,13 +2239,10 @@ struct msm_gpu *a6xx_gpu_init(struct drm_device *dev)
+>>>>>>  	if (adreno_is_a618(adreno_gpu) || adreno_is_7c3(adreno_gpu))
+>>>>>>  		priv->gpu_clamp_to_idle = true;
+>>>>>>  
+>>>>>> -	/* Check if there is a GMU phandle and set it up */
+>>>>>> -	node = of_parse_phandle(pdev->dev.of_node, "qcom,gmu", 0);
+>>>>>> -
+>>>>>> -	/* FIXME: How do we gracefully handle this? */
+>>>>>> -	BUG_ON(!node);
+>>>>>> -
+>>>>>> -	ret = a6xx_gmu_init(a6xx_gpu, node);
+>>>>>> +	if (adreno_has_gmu_wrapper(adreno_gpu))
+>>>>>> +		ret = a6xx_gmu_wrapper_init(a6xx_gpu, node);
+>>>>>> +	else
+>>>>>> +		ret = a6xx_gmu_init(a6xx_gpu, node);
+>>>>>>  	of_node_put(node);
+>>>>>>  	if (ret) {
+>>>>>>  		a6xx_destroy(&(a6xx_gpu->base.base));
+>>>>>> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.h b/drivers/gpu/drm/msm/adreno/a6xx_gpu.h
+>>>>>> index eea2e60ce3b7..51a7656072fa 100644
+>>>>>> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.h
+>>>>>> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.h
+>>>>>> @@ -76,6 +76,7 @@ int a6xx_gmu_set_oob(struct a6xx_gmu *gmu, enum a6xx_gmu_oob_state state);
+>>>>>>  void a6xx_gmu_clear_oob(struct a6xx_gmu *gmu, enum a6xx_gmu_oob_state state);
+>>>>>>  
+>>>>>>  int a6xx_gmu_init(struct a6xx_gpu *a6xx_gpu, struct device_node *node);
+>>>>>> +int a6xx_gmu_wrapper_init(struct a6xx_gpu *a6xx_gpu, struct device_node *node);
+>>>>>>  void a6xx_gmu_remove(struct a6xx_gpu *a6xx_gpu);
+>>>>>>  
+>>>>>>  void a6xx_gmu_set_freq(struct msm_gpu *gpu, struct dev_pm_opp *opp,
+>>>>>> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c
+>>>>>> index 30ecdff363e7..4e5d650578c6 100644
+>>>>>> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c
+>>>>>> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c
+>>>>>> @@ -1041,16 +1041,18 @@ struct msm_gpu_state *a6xx_gpu_state_get(struct msm_gpu *gpu)
+>>>>>>  	/* Get the generic state from the adreno core */
+>>>>>>  	adreno_gpu_state_get(gpu, &a6xx_state->base);
+>>>>>>  
+>>>>>> -	a6xx_get_gmu_registers(gpu, a6xx_state);
+>>>>>> +	if (!adreno_has_gmu_wrapper(adreno_gpu)) {
+>>>>> nit: Kinda misleading function name to a layman. Should we invert the
+>>>>> function to "adreno_has_gmu"?
+>>>>>
+>>>>> -Akhil
+>>>>>> +		a6xx_get_gmu_registers(gpu, a6xx_state);
+>>>>>>  
+>>>>>> -	a6xx_state->gmu_log = a6xx_snapshot_gmu_bo(a6xx_state, &a6xx_gpu->gmu.log);
+>>>>>> -	a6xx_state->gmu_hfi = a6xx_snapshot_gmu_bo(a6xx_state, &a6xx_gpu->gmu.hfi);
+>>>>>> -	a6xx_state->gmu_debug = a6xx_snapshot_gmu_bo(a6xx_state, &a6xx_gpu->gmu.debug);
+>>>>>> +		a6xx_state->gmu_log = a6xx_snapshot_gmu_bo(a6xx_state, &a6xx_gpu->gmu.log);
+>>>>>> +		a6xx_state->gmu_hfi = a6xx_snapshot_gmu_bo(a6xx_state, &a6xx_gpu->gmu.hfi);
+>>>>>> +		a6xx_state->gmu_debug = a6xx_snapshot_gmu_bo(a6xx_state, &a6xx_gpu->gmu.debug);
+>>>>>>  
+>>>>>> -	a6xx_snapshot_gmu_hfi_history(gpu, a6xx_state);
+>>>>>> +		a6xx_snapshot_gmu_hfi_history(gpu, a6xx_state);
+>>>>>> +	}
+>>>>>>  
+>>>>>>  	/* If GX isn't on the rest of the data isn't going to be accessible */
+>>>>>> -	if (!a6xx_gmu_gx_is_on(&a6xx_gpu->gmu))
+>>>>>> +	if (!adreno_has_gmu_wrapper(adreno_gpu) && !a6xx_gmu_gx_is_on(&a6xx_gpu->gmu))
+>>>>>>  		return &a6xx_state->base;
+>>>>>>  
+>>>>>>  	/* Get the banks of indexed registers */
+>>>>>> diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.c b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
+>>>>>> index 6934cee07d42..5c5901d65950 100644
+>>>>>> --- a/drivers/gpu/drm/msm/adreno/adreno_gpu.c
+>>>>>> +++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
+>>>>>> @@ -528,6 +528,10 @@ int adreno_load_fw(struct adreno_gpu *adreno_gpu)
+>>>>>>  		if (!adreno_gpu->info->fw[i])
+>>>>>>  			continue;
+>>>>>>  
+>>>>>> +		/* Skip loading GMU firwmare with GMU Wrapper */
+>>>>>> +		if (adreno_has_gmu_wrapper(adreno_gpu) && i == ADRENO_FW_GMU)
+>>>>>> +			continue;
+>>>>>> +
+>>>>>>  		/* Skip if the firmware has already been loaded */
+>>>>>>  		if (adreno_gpu->fw[i])
+>>>>>>  			continue;
+>>>>>> @@ -1074,8 +1078,8 @@ int adreno_gpu_init(struct drm_device *drm, struct platform_device *pdev,
+>>>>>>  	u32 speedbin;
+>>>>>>  	int ret;
+>>>>>>  
+>>>>>> -	/* Only handle the core clock when GMU is not in use */
+>>>>>> -	if (config->rev.core < 6) {
+>>>>>> +	/* Only handle the core clock when GMU is not in use (or is absent). */
+>>>>>> +	if (adreno_has_gmu_wrapper(adreno_gpu) || config->rev.core < 6) {
+>>>>>>  		/*
+>>>>>>  		 * This can only be done before devm_pm_opp_of_add_table(), or
+>>>>>>  		 * dev_pm_opp_set_config() will WARN_ON()
+>>>>>> diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.h b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
+>>>>>> index f62612a5c70f..ee5352bc5329 100644
+>>>>>> --- a/drivers/gpu/drm/msm/adreno/adreno_gpu.h
+>>>>>> +++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
+>>>>>> @@ -115,6 +115,7 @@ struct adreno_gpu {
+>>>>>>  	 * code (a3xx_gpu.c) and stored in this common location.
+>>>>>>  	 */
+>>>>>>  	const unsigned int *reg_offsets;
+>>>>>> +	bool gmu_is_wrapper;
+>>>>>>  };
+>>>>>>  #define to_adreno_gpu(x) container_of(x, struct adreno_gpu, base)
+>>>>>>  
+>>>>>> @@ -145,6 +146,11 @@ struct adreno_platform_config {
+>>>>>>  
+>>>>>>  bool adreno_cmp_rev(struct adreno_rev rev1, struct adreno_rev rev2);
+>>>>>>  
+>>>>>> +static inline bool adreno_has_gmu_wrapper(struct adreno_gpu *gpu)
+>>>>>> +{
+>>>>>> +	return gpu->gmu_is_wrapper;
+>>>>>> +}
+>>>>>> +
+>>>>>>  static inline bool adreno_is_a2xx(struct adreno_gpu *gpu)
+>>>>>>  {
+>>>>>>  	return (gpu->revn < 300);
+>>>>>>
+>>>>>> -- 
+>>>>>> 2.40.0
+>>>>>>
