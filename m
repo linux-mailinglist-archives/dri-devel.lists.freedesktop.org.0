@@ -2,65 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0914F6F8D61
-	for <lists+dri-devel@lfdr.de>; Sat,  6 May 2023 03:10:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 803416F8E36
+	for <lists+dri-devel@lfdr.de>; Sat,  6 May 2023 05:09:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0D47010E68A;
-	Sat,  6 May 2023 01:09:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3136710E5EC;
+	Sat,  6 May 2023 03:09:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-x131.google.com (mail-il1-x131.google.com
- [IPv6:2607:f8b0:4864:20::131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EC96E10E68A
- for <dri-devel@lists.freedesktop.org>; Sat,  6 May 2023 01:09:53 +0000 (UTC)
-Received: by mail-il1-x131.google.com with SMTP id
- e9e14a558f8ab-3311691ebd0so6089275ab.1
- for <dri-devel@lists.freedesktop.org>; Fri, 05 May 2023 18:09:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1683335392; x=1685927392;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=NisaWLzWuQ0RLSEQ949UB4sRB725O5JKOWjH/0XJDqY=;
- b=Np1rKEPbU7aa82z3Sb5nU58RP4e43ySPy3mQRqPzZICYad31TTute8Nn91XSsDTlj8
- hejh2NS3TPTsk990WiIBTXCaACA26iBJNlmF0noaxaUOzwn/ad0DEKDt2m8WZVIU3fLE
- U+hc1ghuV5M/fSOj5JgUwWcqPFIvSBy3v5qg43vsKEIJQa2y8LomY/NbwJfDKnhQdw9w
- RvK63f4m74sjdd3bhZ6dukBxHfZhPuuGbyoQu/G++dXbbJnrBTmp2RFBQlbwXrJDfdVv
- 6KcpDyvDlTKhezV5gzZy7/KAawbWZJ5HmcJJJEVrzFqbS66cr6/hdLgdpGM7B7HcRHOc
- M7uA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683335392; x=1685927392;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=NisaWLzWuQ0RLSEQ949UB4sRB725O5JKOWjH/0XJDqY=;
- b=Q4S0NNyuwimEu1ckz9G4V8iYP6QxSxPw6AuqQisGVaSZzyQ1aNm7nWW4NgwJBpoVeV
- 21/4as2MY1pUMmB6Ejjyr2naJaryCOtx5zpJvGq6T23ENjAOlYSqonRPoU7+ANvvUDcU
- pLmEsd4sqnvYyLS15NwYipVD3v3KZEPp9indxJDJi9tK7giD8WNf+Yq9Z4ji2v3pIxGV
- JIsV59aYmPM9mZC0fM0ocR68viesAML2XRAxgDUvqTU7iBpeH/F2O5UeW+jKHj5fVsyw
- 8ySeQXA35X+iA+UQwiy37ncyhHJAR3/tYKZJMkF/ghivUbiEAnZkWJ2XgGj69bf1JK1c
- 2S7Q==
-X-Gm-Message-State: AC+VfDwGASgW0CfuY9h+E9dnMJRhZ/d5IMUWuvIL+NDOZPiBzXuAlFe0
- dshMbJiruUMeTB11QAEjhgezBsVTmIrRpw==
-X-Google-Smtp-Source: ACHHUZ6BC2SZ0HW2iiPkX1xIA2IyCU/D+31hzAOHllsssoB8rHA1toCbGsFQ9+d3F/rYpXA35SqcnA==
-X-Received: by 2002:a5d:94c9:0:b0:769:bdaa:a4d9 with SMTP id
- y9-20020a5d94c9000000b00769bdaaa4d9mr1819301ior.12.1683335392457; 
- Fri, 05 May 2023 18:09:52 -0700 (PDT)
-Received: from aford-B741.lan ([2601:447:d001:897f:34a2:3894:45cc:c002])
- by smtp.gmail.com with ESMTPSA id
- r11-20020a5e950b000000b00760ed929d0bsm335735ioj.2.2023.05.05.18.09.51
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 05 May 2023 18:09:52 -0700 (PDT)
-From: Adam Ford <aford173@gmail.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH V4 6/6] drm: bridge: samsung-dsim: Support non-burst mode
-Date: Fri,  5 May 2023 20:09:33 -0500
-Message-Id: <20230506010933.170939-7-aford173@gmail.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230506010933.170939-1-aford173@gmail.com>
-References: <20230506010933.170939-1-aford173@gmail.com>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3312810E5EC
+ for <dri-devel@lists.freedesktop.org>; Sat,  6 May 2023 03:09:18 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 78A0B641C7
+ for <dri-devel@lists.freedesktop.org>; Sat,  6 May 2023 03:09:17 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 50F23C433A8
+ for <dri-devel@lists.freedesktop.org>; Sat,  6 May 2023 03:09:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1683342556;
+ bh=94DSp8k+H3J+AqmROh/Y6LXMjAfEDuNgrjATTUqIGf0=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=Oi4A+bM3GJYMILFGv9WW2BLv73UjF4glWlr9rNrPlG4q2hxKa1PVStT77yBASYe+i
+ mRna95Xpo0cXMDq+kLuwMf7YEJd6s+Ng82m+AjTtDUd1+w2ueB0UKGaWBYNCRKNlQ5
+ aSaTyJZQM9yaEZpWQl9gPn0u4wMa2vYSTp7d7g5+6rxZJY63VNcMGC1FMdM6WINudX
+ wNRi2C/MSuxHjKRZzXJqB3NBk2yFCyEl0qS5KCRY/6yfzVvL1zvzwI3NCFtUfPv6bI
+ eAw026lpC2qCHucsoZiYoJ++/CDr6gePHHdCxIPrAd2eKs0CRe6YEq9wcaXlYYcX7n
+ xt1eDaqzRv14g==
+Received: by mail-ej1-f49.google.com with SMTP id
+ a640c23a62f3a-965fc25f009so147410566b.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 05 May 2023 20:09:16 -0700 (PDT)
+X-Gm-Message-State: AC+VfDyXKjSWkcokifLpLwPEAer9x5gWm/hEaTKfrv8TCcwxsGieQHD2
+ 8LcT+fo8mnCEeupE17KOcgTxiEIwZSYt5zdWgtU=
+X-Google-Smtp-Source: ACHHUZ5q66Rt3kuFcvOCHyf5q3SCTx0oegflyWNX/hW3kcg5FLjFyT6/1CH0s9pr7aacP/qFhtu3dHWdoaSL+Fp2GWY=
+X-Received: by 2002:a17:907:720f:b0:933:1134:be1e with SMTP id
+ dr15-20020a170907720f00b009331134be1emr2995754ejc.53.1683342554618; Fri, 05
+ May 2023 20:09:14 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20230504080406.1213623-1-suijingfeng@loongson.cn>
+ <20230504080406.1213623-2-suijingfeng@loongson.cn>
+In-Reply-To: <20230504080406.1213623-2-suijingfeng@loongson.cn>
+From: Huacai Chen <chenhuacai@kernel.org>
+Date: Sat, 6 May 2023 11:09:04 +0800
+X-Gmail-Original-Message-ID: <CAAhV-H4zKGkd2JUyYTDKBEGFEO5V+oRz8iuzF9w+ivz0t6+CFw@mail.gmail.com>
+Message-ID: <CAAhV-H4zKGkd2JUyYTDKBEGFEO5V+oRz8iuzF9w+ivz0t6+CFw@mail.gmail.com>
+Subject: Re: [PATCH v12 1/2] MAINTAINERS: add maintainers for DRM LOONGSON
+ driver
+To: Sui Jingfeng <suijingfeng@loongson.cn>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,114 +63,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Robert Foss <rfoss@kernel.org>,
- Jonas Karlman <jonas@kwiboo.se>, aford@beaconembedded.com,
- Frieder Schrempf <frieder.schrempf@kontron.de>, linux-kernel@vger.kernel.org,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Chen-Yu Tsai <wenst@chromium.org>,
- Marek Szyprowski <m.szyprowski@samsung.com>, Adam Ford <aford173@gmail.com>,
- Jagan Teki <jagan@amarulasolutions.com>
+Cc: loongson-kernel@lists.loongnix.cn, Thomas Zimmermann <tzimmermann@suse.de>,
+ Emil Velikov <emil.l.velikov@gmail.com>, nathan@kernel.org,
+ linux-kernel@vger.kernel.org, Christian Koenig <christian.koenig@amd.com>,
+ linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
+ Sumit Semwal <sumit.semwal@linaro.org>, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The high-speed clock is hard-coded to the burst-clock
-frequency specified in the device tree.  However, when
-using devices like certain bridge chips without burst mode
-and varying resolutions and refresh rates, it may be
-necessary to set the high-speed clock dynamically based
-on the desired pixel clock for the connected device.
+Hi, Jingfeng,
 
-This also removes the need to set a clock speed from
-the device tree for non-burst mode operation, since the
-pixel clock rate is the rate requested from the attached
-device like a bridge chip.  This should have no impact
-for people using burst-mode and setting the burst clock
-rate is still required for those users.
+I think you should exchange the order of these two patches.
 
-Lastly, if the burst clock is 0, and the clock is set
-from the pixel clock, cache the clock rate configured
-from of samsung_dsim_set_pll in order to properly
-calculate the blanking.
 
-Signed-off-by: Adam Ford <aford173@gmail.com>
-Tested-by: Chen-Yu Tsai <wenst@chromium.org>
-Tested-by: Frieder Schrempf <frieder.schrempf@kontron.de>
-Reviewed-by: Frieder Schrempf <frieder.schrempf@kontron.de>
----
- drivers/gpu/drm/bridge/samsung-dsim.c | 21 +++++++++++++++++----
- include/drm/bridge/samsung-dsim.h     |  1 +
- 2 files changed, 18 insertions(+), 4 deletions(-)
+Huacai
 
-diff --git a/drivers/gpu/drm/bridge/samsung-dsim.c b/drivers/gpu/drm/bridge/samsung-dsim.c
-index 1b98c4e040b0..b79db009c98b 100644
---- a/drivers/gpu/drm/bridge/samsung-dsim.c
-+++ b/drivers/gpu/drm/bridge/samsung-dsim.c
-@@ -654,16 +654,28 @@ static unsigned long samsung_dsim_set_pll(struct samsung_dsim *dsi,
- 		reg = samsung_dsim_read(dsi, DSIM_STATUS_REG);
- 	} while ((reg & DSIM_PLL_STABLE) == 0);
- 
-+	dsi->hs_clock = fout;
-+
- 	return fout;
- }
- 
- static int samsung_dsim_enable_clock(struct samsung_dsim *dsi)
- {
--	unsigned long hs_clk, byte_clk, esc_clk;
-+	unsigned long hs_clk, byte_clk, esc_clk, pix_clk;
- 	unsigned long esc_div;
- 	u32 reg;
-+	struct drm_display_mode *m = &dsi->mode;
-+	int bpp = mipi_dsi_pixel_format_to_bpp(dsi->format);
-+
-+	/* m->clock is in KHz */
-+	pix_clk = m->clock * 1000;
-+
-+	/* Use burst_clk_rate if available, otherwise use the pix_clk */
-+	if (dsi->burst_clk_rate)
-+		hs_clk = samsung_dsim_set_pll(dsi, dsi->burst_clk_rate);
-+	else
-+		hs_clk = samsung_dsim_set_pll(dsi, DIV_ROUND_UP(pix_clk * bpp, dsi->lanes));
- 
--	hs_clk = samsung_dsim_set_pll(dsi, dsi->burst_clk_rate);
- 	if (!hs_clk) {
- 		dev_err(dsi->dev, "failed to configure DSI PLL\n");
- 		return -EFAULT;
-@@ -952,7 +964,7 @@ static void samsung_dsim_set_display_mode(struct samsung_dsim *dsi)
- 	u32 reg;
- 
- 	if (dsi->mode_flags & MIPI_DSI_MODE_VIDEO) {
--		int byte_clk_khz = dsi->burst_clk_rate / 1000 / 8;
-+		int byte_clk_khz = dsi->hs_clock / 1000 / 8;
- 		int hfp = (m->hsync_start - m->hdisplay) * byte_clk_khz / m->clock;
- 		int hbp = (m->htotal - m->hsync_end) * byte_clk_khz / m->clock;
- 		int hsa = (m->hsync_end - m->hsync_start) * byte_clk_khz / m->clock;
-@@ -1801,10 +1813,11 @@ static int samsung_dsim_parse_dt(struct samsung_dsim *dsi)
- 			return PTR_ERR(pll_clk);
- 	}
- 
-+	/* If it doesn't exist, use pixel clock instead of failing */
- 	ret = samsung_dsim_of_read_u32(node, "samsung,burst-clock-frequency",
- 				       &dsi->burst_clk_rate);
- 	if (ret < 0)
--		return ret;
-+		dsi->burst_clk_rate = 0;
- 
- 	ret = samsung_dsim_of_read_u32(node, "samsung,esc-clock-frequency",
- 				       &dsi->esc_clk_rate);
-diff --git a/include/drm/bridge/samsung-dsim.h b/include/drm/bridge/samsung-dsim.h
-index 76ea8a1720cc..14176e6e9040 100644
---- a/include/drm/bridge/samsung-dsim.h
-+++ b/include/drm/bridge/samsung-dsim.h
-@@ -94,6 +94,7 @@ struct samsung_dsim {
- 
- 	u32 pll_clk_rate;
- 	u32 burst_clk_rate;
-+	u32 hs_clock;
- 	u32 esc_clk_rate;
- 	u32 lanes;
- 	u32 mode_flags;
--- 
-2.39.2
-
+On Thu, May 4, 2023 at 4:04=E2=80=AFPM Sui Jingfeng <suijingfeng@loongson.c=
+n> wrote:
+>
+>  This patch add myself as maintainer to drm loongson driver
+>
+> Signed-off-by: Sui Jingfeng <suijingfeng@loongson.cn>
+> ---
+>  MAINTAINERS | 7 +++++++
+>  1 file changed, 7 insertions(+)
+>
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 73b3298b7232..1f5aa8756d87 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -6922,6 +6922,13 @@ T:       git git://anongit.freedesktop.org/drm/drm=
+-misc
+>  F:     drivers/gpu/drm/lima/
+>  F:     include/uapi/drm/lima_drm.h
+>
+> +DRM DRIVERS FOR LOONGSON
+> +M:     Sui Jingfeng <suijingfeng@loongson.cn>
+> +L:     dri-devel@lists.freedesktop.org
+> +S:     Supported
+> +T:     git git://anongit.freedesktop.org/drm/drm-misc
+> +F:     drivers/gpu/drm/loongson/
+> +
+>  DRM DRIVERS FOR MEDIATEK
+>  M:     Chun-Kuang Hu <chunkuang.hu@kernel.org>
+>  M:     Philipp Zabel <p.zabel@pengutronix.de>
+> --
+> 2.25.1
+>
