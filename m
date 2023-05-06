@@ -1,65 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F5EE6F90EA
-	for <lists+dri-devel@lfdr.de>; Sat,  6 May 2023 11:33:04 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B7376F90FD
+	for <lists+dri-devel@lfdr.de>; Sat,  6 May 2023 11:44:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3BED610E21B;
-	Sat,  6 May 2023 09:32:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D8D6110E220;
+	Sat,  6 May 2023 09:44:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x430.google.com (mail-pf1-x430.google.com
- [IPv6:2607:f8b0:4864:20::430])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B477010E21A
- for <dri-devel@lists.freedesktop.org>; Sat,  6 May 2023 09:32:54 +0000 (UTC)
-Received: by mail-pf1-x430.google.com with SMTP id
- d2e1a72fcca58-64115eef620so24563007b3a.1
- for <dri-devel@lists.freedesktop.org>; Sat, 06 May 2023 02:32:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=huaqin-corp-partner-google-com.20221208.gappssmtp.com; s=20221208;
- t=1683365574; x=1685957574; 
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=sECiGbZksYkv4TQMefnoALSIrTkCHrwfdiJVAH6EWLo=;
- b=ekVk4eS97Bi/9lAfVuWkGzzAxdOWW515szCnPWt+20YfMGVJ1Kz0hlj8DuwZVxIzQv
- 9QUokUMbCQaIOsWpeinMtSDn/2Qgwu2iNjKmNk+2OomeqanxdBlNwPv+iJb8gUzfbgRh
- fd2mil/6Tm4nYh9MvrrcEMmhw4tBft5U5IxVVEdrasKcY4mGKaY8xIW4MoStxuHUSy7g
- 9hWOQYFmo1s2z/A+NWU48PGRMJp5i97Ow97jC0VPC5gQ7gvIa6D55PQXh9HRXtB5c8Up
- sU93/wAS7xsqev4Y+ac1ydYkWok1KQ4cBe+MOcLmLiQh6eFycx195d/0OleoBCuzavxY
- F/Yg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683365574; x=1685957574;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=sECiGbZksYkv4TQMefnoALSIrTkCHrwfdiJVAH6EWLo=;
- b=cQA7hWo5dwaRk4B1nCb7Oi+/fUKbccWd32o4j8gZuNNBQ4nsPPrUepoK3mWk9zT7a3
- 4WI+rn0MEgBA74Wg3mVpp/w2XBQaMIcK+PMdOkplgeX+X9WknIol9XOpPurxzX4iZx7W
- MeH2uw3EKt6WIsCodLBbE0sdx2rBCQlu0h3HcskUdieEShV1BhFpjYsv6LKdwx2TiRiB
- glC3oumrPr6heRBUvnJ2yM5VP6GOVaZfFa0jCBbiS5+82TZhBUZZrEKm8vCWhJq/ybwM
- gQzUBLuY34auxq7IaubaaBJS2sJTshXDH0ORUAapZpzOH8M4gjVPBjxKJOAk7YdTo8Qt
- AYOw==
-X-Gm-Message-State: AC+VfDzSNFvvSJ7Y7F47cm1HI1J5HOZ+UdxJ8nulhwaN+TrzzbRGQ/c2
- Wa1NrLEjXjvtsSOtlPgPkX6bKA==
-X-Google-Smtp-Source: ACHHUZ7xT094O80aSbuQElXy0bgmVPv9ZT+b+mV6ly7aLWRGLoRdVrAhaKwmFlO39vOTuFw4PY8gbw==
-X-Received: by 2002:a17:902:e746:b0:1ac:4b76:29a1 with SMTP id
- p6-20020a170902e74600b001ac4b7629a1mr3330306plf.29.1683365573591; 
- Sat, 06 May 2023 02:32:53 -0700 (PDT)
-Received: from yc.huaqin.com ([101.78.151.214])
- by smtp.gmail.com with ESMTPSA id
- x14-20020a1709027c0e00b001a24e2eec75sm3155445pll.193.2023.05.06.02.32.49
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 06 May 2023 02:32:53 -0700 (PDT)
-From: Cong Yang <yangcong5@huaqin.corp-partner.google.com>
-To: thierry.reding@gmail.com, sam@ravnborg.org, airlied@linux.ie,
- daniel@ffwll.ch, dianders@google.com, hsinyi@google.com
-Subject: [PATCH] drm/panel: Modify innolux hj110iz panel inital code
-Date: Sat,  6 May 2023 17:32:43 +0800
-Message-Id: <20230506093243.540406-1-yangcong5@huaqin.corp-partner.google.com>
-X-Mailer: git-send-email 2.25.1
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7B9C810E21E;
+ Sat,  6 May 2023 09:44:12 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id D734B617DA;
+ Sat,  6 May 2023 09:44:11 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 48BE8C433EF;
+ Sat,  6 May 2023 09:44:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1683366251;
+ bh=s0+RfNWr+TLp1ad23c3839ZRXIqxy+rpgj2HhTOrNlg=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=hM42AUku2J94Dz5WzmbfH0DMoirBiFdeFb0CbzWmfXp/sIBM+aC+7mPJJoR7T3/+/
+ /0iske3I904oqAzHPi3eRCuW1/6E+q40459KwNFXaC0hXptj3MDTNZoQJ1/ZMnW8iz
+ 8trSD73Yfh6OUcDslY414qxh86UMJv0SyBofOBzLwEcMEfbhG/AZYavbxaNOBFMvnv
+ H+abpLFQn2VpzWsIxQBjBJeDALnrKua3jLUdQQNdOgTvQXGOj7d/69+zTCo8MDIJB/
+ rD0tRcLTQ1aSpFgiQZqhXji968VktZGpLoL/WNtxlcy+ObcYCV+ZyN09L5Up12A+PN
+ mL1l9zg43K+Sw==
+Received: by mail-ej1-f50.google.com with SMTP id
+ a640c23a62f3a-94a342f7c4cso474795766b.0; 
+ Sat, 06 May 2023 02:44:11 -0700 (PDT)
+X-Gm-Message-State: AC+VfDydk4zYNPeo4jWUNvlHI5XynoLNsrdblxdY8z9QxKbVjrLbmwoq
+ JR0oZQkSuNMxV7ih/QPhL6alVGoPPetOBSxeInM=
+X-Google-Smtp-Source: ACHHUZ54iFv1HU2+WzijOjEnOykbKbagnNFBG2BYdzsg+mJ+vVUD1cIPC/thMIqtKN3t2phtiXNjr1CCPwDXGRrLEDE=
+X-Received: by 2002:a17:907:3686:b0:94f:2852:1d2b with SMTP id
+ bi6-20020a170907368600b0094f28521d2bmr2879598ejc.72.1683366249473; Sat, 06
+ May 2023 02:44:09 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20230505113233.3813801-1-chenhuacai@loongson.cn>
+ <c4146636-2321-b271-b480-b8693169c119@amd.com>
+In-Reply-To: <c4146636-2321-b271-b480-b8693169c119@amd.com>
+From: Huacai Chen <chenhuacai@kernel.org>
+Date: Sat, 6 May 2023 17:43:59 +0800
+X-Gmail-Original-Message-ID: <CAAhV-H5jna_XN_b6yj7WrfcX-jMqXmg9wM_8TFPisXgqYyRH8Q@mail.gmail.com>
+Message-ID: <CAAhV-H5jna_XN_b6yj7WrfcX-jMqXmg9wM_8TFPisXgqYyRH8Q@mail.gmail.com>
+Subject: Re: [PATCH V2] drm/amdgpu/display: Enable DC_FP for LoongArch
+To: Hamza Mahfooz <hamza.mahfooz@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,598 +62,122 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org,
- Cong Yang <yangcong5@huaqin.corp-partner.google.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: Pan@freedesktop.org, David Airlie <airlied@linux.ie>,
+ Xinhui <Xinhui.Pan@amd.com>, amd-gfx@lists.freedesktop.org,
+ loongson-kernel@lists.loongnix.cn, dri-devel@lists.freedesktop.org,
+ Alex Deucher <alexander.deucher@amd.com>, WANG Xuerui <kernel@xen0n.name>,
+ Xuefeng Li <lixuefeng@loongson.cn>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Huacai Chen <chenhuacai@loongson.cn>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Optimize flickering problem and power off sequence GOP timing at sleep in mode.
-When display sleep in raise the potential of all GOP signals to VGHO and then
-lower to GND.
+Hi, Hamza,
 
-Signed-off-by: Cong Yang <yangcong5@huaqin.corp-partner.google.com>
----
- .../gpu/drm/panel/panel-boe-tv101wum-nl6.c    | 397 +++++++++++-------
- 1 file changed, 235 insertions(+), 162 deletions(-)
+On Fri, May 5, 2023 at 9:37=E2=80=AFPM Hamza Mahfooz <hamza.mahfooz@amd.com=
+> wrote:
+>
+>
+> Hey Huacai,
+>
+> On 5/5/23 07:32, Huacai Chen wrote:
+> > Now LoongArch provides kernel_fpu_begin() and kernel_fpu_end() in commi=
+t
+> > 2b3bd32ea3a22ea2d ("LoongArch: Provide kernel fpu functions"), so we ca=
+n
+> > enable DC_FP for DCN devices.
+>
+> Have you had the chance to test how well this is working on actual
+> hardware, or was it only compile tested? If it was only compile tested,
+> it would be great if you could run some tests. Please see the following
+> for more details:
+> https://lore.kernel.org/amd-gfx/8eb69dfb-ae35-dbf2-3f82-e8cc00e5389a@amd.=
+com/
+I have tested hotplug, resolution changing and kms_flip in IGT, all of
+them works fine.
 
-diff --git a/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c b/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c
-index 783234ae0f57..4aebb20d5ff8 100644
---- a/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c
-+++ b/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c
-@@ -451,11 +451,14 @@ static const struct panel_init_cmd inx_hj110iz_init_cmd[] = {
- 	_INIT_DCS_CMD(0xFF, 0x20),
- 	_INIT_DCS_CMD(0xFB, 0x01),
- 	_INIT_DCS_CMD(0x05, 0xD1),
--	_INIT_DCS_CMD(0x0D, 0x63),
--	_INIT_DCS_CMD(0x07, 0x8C),
-+	_INIT_DCS_CMD(0x06, 0xC0),
-+	_INIT_DCS_CMD(0x07, 0x87),
- 	_INIT_DCS_CMD(0x08, 0x4B),
-+
-+	_INIT_DCS_CMD(0x0D, 0x63),
- 	_INIT_DCS_CMD(0x0E, 0x91),
- 	_INIT_DCS_CMD(0x0F, 0x69),
-+	_INIT_DCS_CMD(0x94, 0x00),
- 	_INIT_DCS_CMD(0x95, 0xF5),
- 	_INIT_DCS_CMD(0x96, 0xF5),
- 	_INIT_DCS_CMD(0x9D, 0x00),
-@@ -463,98 +466,96 @@ static const struct panel_init_cmd inx_hj110iz_init_cmd[] = {
- 	_INIT_DCS_CMD(0x69, 0x98),
- 	_INIT_DCS_CMD(0x75, 0xA2),
- 	_INIT_DCS_CMD(0x77, 0xB3),
-+
-+	_INIT_DCS_CMD(0x58, 0x43),
- 	_INIT_DCS_CMD(0xFF, 0x24),
- 	_INIT_DCS_CMD(0xFB, 0x01),
- 	_INIT_DCS_CMD(0x91, 0x44),
--	_INIT_DCS_CMD(0x92, 0x7A),
--	_INIT_DCS_CMD(0x93, 0x1A),
--	_INIT_DCS_CMD(0x94, 0x40),
--	_INIT_DCS_CMD(0x9A, 0x08),
-+	_INIT_DCS_CMD(0x92, 0x4C),
-+	_INIT_DCS_CMD(0x94, 0x86),
- 	_INIT_DCS_CMD(0x60, 0x96),
- 	_INIT_DCS_CMD(0x61, 0xD0),
- 	_INIT_DCS_CMD(0x63, 0x70),
--	_INIT_DCS_CMD(0xC2, 0xCF),
--	_INIT_DCS_CMD(0x9B, 0x0F),
--	_INIT_DCS_CMD(0x9A, 0x08),
-+	_INIT_DCS_CMD(0xC2, 0xCA),
-+
- 	_INIT_DCS_CMD(0x00, 0x03),
- 	_INIT_DCS_CMD(0x01, 0x03),
- 	_INIT_DCS_CMD(0x02, 0x03),
--	_INIT_DCS_CMD(0x03, 0x03),
--	_INIT_DCS_CMD(0x04, 0x03),
--	_INIT_DCS_CMD(0x05, 0x03),
--	_INIT_DCS_CMD(0x06, 0x22),
--	_INIT_DCS_CMD(0x07, 0x06),
--	_INIT_DCS_CMD(0x08, 0x00),
--	_INIT_DCS_CMD(0x09, 0x1D),
--	_INIT_DCS_CMD(0x0A, 0x1C),
--	_INIT_DCS_CMD(0x0B, 0x13),
--	_INIT_DCS_CMD(0x0C, 0x12),
--	_INIT_DCS_CMD(0x0D, 0x11),
--	_INIT_DCS_CMD(0x0E, 0x10),
--	_INIT_DCS_CMD(0x0F, 0x0F),
--	_INIT_DCS_CMD(0x10, 0x0E),
--	_INIT_DCS_CMD(0x11, 0x0D),
--	_INIT_DCS_CMD(0x12, 0x0C),
-+	_INIT_DCS_CMD(0x03, 0x29),
-+	_INIT_DCS_CMD(0x04, 0x22),
-+	_INIT_DCS_CMD(0x05, 0x22),
-+	_INIT_DCS_CMD(0x06, 0x0B),
-+	_INIT_DCS_CMD(0x07, 0x1D),
-+	_INIT_DCS_CMD(0x08, 0x1C),
-+	_INIT_DCS_CMD(0x09, 0x05),
-+	_INIT_DCS_CMD(0x0A, 0x08),
-+	_INIT_DCS_CMD(0x0B, 0x09),
-+	_INIT_DCS_CMD(0x0C, 0x0A),
-+	_INIT_DCS_CMD(0x0D, 0x0C),
-+	_INIT_DCS_CMD(0x0E, 0x0D),
-+	_INIT_DCS_CMD(0x0F, 0x0E),
-+	_INIT_DCS_CMD(0x10, 0x0F),
-+	_INIT_DCS_CMD(0x11, 0x10),
-+	_INIT_DCS_CMD(0x12, 0x11),
- 	_INIT_DCS_CMD(0x13, 0x04),
--	_INIT_DCS_CMD(0x14, 0x03),
-+	_INIT_DCS_CMD(0x14, 0x00),
- 	_INIT_DCS_CMD(0x15, 0x03),
- 	_INIT_DCS_CMD(0x16, 0x03),
- 	_INIT_DCS_CMD(0x17, 0x03),
- 	_INIT_DCS_CMD(0x18, 0x03),
--	_INIT_DCS_CMD(0x19, 0x03),
--	_INIT_DCS_CMD(0x1A, 0x03),
--	_INIT_DCS_CMD(0x1B, 0x03),
--	_INIT_DCS_CMD(0x1C, 0x22),
--	_INIT_DCS_CMD(0x1D, 0x06),
--	_INIT_DCS_CMD(0x1E, 0x00),
--	_INIT_DCS_CMD(0x1F, 0x1D),
--	_INIT_DCS_CMD(0x20, 0x1C),
--	_INIT_DCS_CMD(0x21, 0x13),
--	_INIT_DCS_CMD(0x22, 0x12),
--	_INIT_DCS_CMD(0x23, 0x11),
--	_INIT_DCS_CMD(0x24, 0x10),
--	_INIT_DCS_CMD(0x25, 0x0F),
--	_INIT_DCS_CMD(0x26, 0x0E),
--	_INIT_DCS_CMD(0x27, 0x0D),
--	_INIT_DCS_CMD(0x28, 0x0C),
-+	_INIT_DCS_CMD(0x19, 0x29),
-+	_INIT_DCS_CMD(0x1A, 0x22),
-+	_INIT_DCS_CMD(0x1B, 0x22),
-+	_INIT_DCS_CMD(0x1C, 0x0B),
-+	_INIT_DCS_CMD(0x1D, 0x1D),
-+	_INIT_DCS_CMD(0x1E, 0x1C),
-+	_INIT_DCS_CMD(0x1F, 0x05),
-+	_INIT_DCS_CMD(0x20, 0x08),
-+	_INIT_DCS_CMD(0x21, 0x09),
-+	_INIT_DCS_CMD(0x22, 0x0A),
-+	_INIT_DCS_CMD(0x23, 0x0C),
-+	_INIT_DCS_CMD(0x24, 0x0D),
-+	_INIT_DCS_CMD(0x25, 0x0E),
-+	_INIT_DCS_CMD(0x26, 0x0F),
-+	_INIT_DCS_CMD(0x27, 0x10),
-+	_INIT_DCS_CMD(0x28, 0x11),
- 	_INIT_DCS_CMD(0x29, 0x04),
--	_INIT_DCS_CMD(0x2A, 0x03),
-+	_INIT_DCS_CMD(0x2A, 0x00),
- 	_INIT_DCS_CMD(0x2B, 0x03),
- 
--	_INIT_DCS_CMD(0x2F, 0x05),
--	_INIT_DCS_CMD(0x30, 0x32),
--	_INIT_DCS_CMD(0x31, 0x43),
--	_INIT_DCS_CMD(0x33, 0x05),
--	_INIT_DCS_CMD(0x34, 0x32),
--	_INIT_DCS_CMD(0x35, 0x43),
--	_INIT_DCS_CMD(0x37, 0x44),
--	_INIT_DCS_CMD(0x38, 0x40),
-+	_INIT_DCS_CMD(0x2F, 0x0A),
-+	_INIT_DCS_CMD(0x30, 0x35),
-+	_INIT_DCS_CMD(0x37, 0xA7),
- 	_INIT_DCS_CMD(0x39, 0x00),
--	_INIT_DCS_CMD(0x3A, 0x18),
--	_INIT_DCS_CMD(0x3B, 0x00),
--	_INIT_DCS_CMD(0x3D, 0x93),
--	_INIT_DCS_CMD(0xAB, 0x44),
--	_INIT_DCS_CMD(0xAC, 0x40),
-+	_INIT_DCS_CMD(0x3A, 0x46),
-+	_INIT_DCS_CMD(0x3B, 0x32),
-+	_INIT_DCS_CMD(0x3D, 0x12),
-+
-+	_INIT_DCS_CMD(0x3F, 0x33),
-+	_INIT_DCS_CMD(0x40, 0x31),
-+	_INIT_DCS_CMD(0x41, 0x40),
-+	_INIT_DCS_CMD(0x42, 0x42),
-+	_INIT_DCS_CMD(0x47, 0x77),
-+	_INIT_DCS_CMD(0x48, 0x77),
-+	_INIT_DCS_CMD(0x4A, 0x45),
-+	_INIT_DCS_CMD(0x4B, 0x45),
-+	_INIT_DCS_CMD(0x4C, 0x14),
- 
- 	_INIT_DCS_CMD(0x4D, 0x21),
- 	_INIT_DCS_CMD(0x4E, 0x43),
- 	_INIT_DCS_CMD(0x4F, 0x65),
--	_INIT_DCS_CMD(0x50, 0x87),
--	_INIT_DCS_CMD(0x51, 0x78),
--	_INIT_DCS_CMD(0x52, 0x56),
--	_INIT_DCS_CMD(0x53, 0x34),
--	_INIT_DCS_CMD(0x54, 0x21),
--	_INIT_DCS_CMD(0x55, 0x83),
--	_INIT_DCS_CMD(0x56, 0x08),
-+	_INIT_DCS_CMD(0x55, 0x06),
-+	_INIT_DCS_CMD(0x56, 0x06),
- 	_INIT_DCS_CMD(0x58, 0x21),
--	_INIT_DCS_CMD(0x59, 0x40),
--	_INIT_DCS_CMD(0x5A, 0x00),
--	_INIT_DCS_CMD(0x5B, 0x2C),
--	_INIT_DCS_CMD(0x5E, 0x00, 0x10),
-+	_INIT_DCS_CMD(0x59, 0x70),
-+	_INIT_DCS_CMD(0x5A, 0x46),
-+	_INIT_DCS_CMD(0x5B, 0x32),
-+	_INIT_DCS_CMD(0x5C, 0x88),
-+	_INIT_DCS_CMD(0x5E, 0x00, 0x00),
- 	_INIT_DCS_CMD(0x5F, 0x00),
- 
--	_INIT_DCS_CMD(0x7A, 0x00),
--	_INIT_DCS_CMD(0x7B, 0x00),
-+	_INIT_DCS_CMD(0x7A, 0xFF),
-+	_INIT_DCS_CMD(0x7B, 0xFF),
- 	_INIT_DCS_CMD(0x7C, 0x00),
- 	_INIT_DCS_CMD(0x7D, 0x00),
- 	_INIT_DCS_CMD(0x7E, 0x20),
-@@ -564,152 +565,183 @@ static const struct panel_init_cmd inx_hj110iz_init_cmd[] = {
- 	_INIT_DCS_CMD(0x82, 0x08),
- 	_INIT_DCS_CMD(0x97, 0x02),
- 	_INIT_DCS_CMD(0xC5, 0x10),
-+
-+	_INIT_DCS_CMD(0xD7, 0x55),
-+	_INIT_DCS_CMD(0xD8, 0x55),
-+	_INIT_DCS_CMD(0xD9, 0x23),
- 	_INIT_DCS_CMD(0xDA, 0x05),
- 	_INIT_DCS_CMD(0xDB, 0x01),
--	_INIT_DCS_CMD(0xDC, 0x7A),
-+	_INIT_DCS_CMD(0xDC, 0x65),
- 	_INIT_DCS_CMD(0xDD, 0x55),
- 	_INIT_DCS_CMD(0xDE, 0x27),
- 	_INIT_DCS_CMD(0xDF, 0x01),
--	_INIT_DCS_CMD(0xE0, 0x7A),
-+	_INIT_DCS_CMD(0xE0, 0x65),
- 	_INIT_DCS_CMD(0xE1, 0x01),
--	_INIT_DCS_CMD(0xE2, 0x7A),
-+	_INIT_DCS_CMD(0xE2, 0x65),
- 	_INIT_DCS_CMD(0xE3, 0x01),
--	_INIT_DCS_CMD(0xE4, 0x7A),
-+	_INIT_DCS_CMD(0xE4, 0x65),
- 	_INIT_DCS_CMD(0xE5, 0x01),
--	_INIT_DCS_CMD(0xE6, 0x7A),
-+	_INIT_DCS_CMD(0xE6, 0x65),
- 	_INIT_DCS_CMD(0xE7, 0x00),
- 	_INIT_DCS_CMD(0xE8, 0x00),
- 	_INIT_DCS_CMD(0xE9, 0x01),
--	_INIT_DCS_CMD(0xEA, 0x7A),
-+	_INIT_DCS_CMD(0xEA, 0x65),
- 	_INIT_DCS_CMD(0xEB, 0x01),
--	_INIT_DCS_CMD(0xEE, 0x7A),
-+	_INIT_DCS_CMD(0xEE, 0x65),
- 	_INIT_DCS_CMD(0xEF, 0x01),
--	_INIT_DCS_CMD(0xF0, 0x7A),
--
-+	_INIT_DCS_CMD(0xF0, 0x65),
- 	_INIT_DCS_CMD(0xB6, 0x05, 0x00, 0x05, 0x00, 0x00, 0x00, 0x00, 0x00, 0x05, 0x05, 0x00, 0x00),
-+
- 	_INIT_DCS_CMD(0xFF, 0x25),
--	_INIT_DCS_CMD(0xFB, 0x01),
- 
-+	_INIT_DCS_CMD(0xFB, 0x01),
- 	_INIT_DCS_CMD(0x05, 0x00),
--
--	_INIT_DCS_CMD(0x13, 0x02),
--	_INIT_DCS_CMD(0x14, 0xDF),
- 	_INIT_DCS_CMD(0xF1, 0x10),
-+
- 	_INIT_DCS_CMD(0x1E, 0x00),
--	_INIT_DCS_CMD(0x1F, 0x00),
--	_INIT_DCS_CMD(0x20, 0x2C),
-+	_INIT_DCS_CMD(0x1F, 0x46),
-+	_INIT_DCS_CMD(0x20, 0x32),
-+
- 	_INIT_DCS_CMD(0x25, 0x00),
--	_INIT_DCS_CMD(0x26, 0x00),
--	_INIT_DCS_CMD(0x27, 0x2C),
-+	_INIT_DCS_CMD(0x26, 0x46),
-+	_INIT_DCS_CMD(0x27, 0x32),
-+
- 	_INIT_DCS_CMD(0x3F, 0x80),
- 	_INIT_DCS_CMD(0x40, 0x00),
- 	_INIT_DCS_CMD(0x43, 0x00),
- 
--	_INIT_DCS_CMD(0x44, 0x18),
--	_INIT_DCS_CMD(0x45, 0x00),
-+	_INIT_DCS_CMD(0x44, 0x46),
-+	_INIT_DCS_CMD(0x45, 0x46),
-+
-+	_INIT_DCS_CMD(0x48, 0x46),
-+	_INIT_DCS_CMD(0x49, 0x32),
- 
--	_INIT_DCS_CMD(0x48, 0x00),
--	_INIT_DCS_CMD(0x49, 0x2C),
- 	_INIT_DCS_CMD(0x5B, 0x80),
-+
- 	_INIT_DCS_CMD(0x5C, 0x00),
--	_INIT_DCS_CMD(0x5D, 0x00),
--	_INIT_DCS_CMD(0x5E, 0x00),
--	_INIT_DCS_CMD(0x61, 0x00),
--	_INIT_DCS_CMD(0x62, 0x2C),
--	_INIT_DCS_CMD(0x68, 0x10),
-+	_INIT_DCS_CMD(0x5D, 0x46),
-+	_INIT_DCS_CMD(0x5E, 0x32),
-+
-+	_INIT_DCS_CMD(0x5F, 0x46),
-+	_INIT_DCS_CMD(0x60, 0x32),
-+
-+	_INIT_DCS_CMD(0x61, 0x46),
-+	_INIT_DCS_CMD(0x62, 0x32),
-+	_INIT_DCS_CMD(0x68, 0x0C),
-+
-+	_INIT_DCS_CMD(0x6C, 0x0D),
-+	_INIT_DCS_CMD(0x6E, 0x0D),
-+	_INIT_DCS_CMD(0x78, 0x00),
-+	_INIT_DCS_CMD(0x79, 0xC5),
-+	_INIT_DCS_CMD(0x7A, 0x0C),
-+	_INIT_DCS_CMD(0x7B, 0xB0),
-+
- 	_INIT_DCS_CMD(0xFF, 0x26),
- 	_INIT_DCS_CMD(0xFB, 0x01),
- 
- 	_INIT_DCS_CMD(0x00, 0xA1),
- 	_INIT_DCS_CMD(0x02, 0x31),
--	_INIT_DCS_CMD(0x0A, 0xF2),
--	_INIT_DCS_CMD(0x04, 0x28),
-+	_INIT_DCS_CMD(0x0A, 0xF4),
-+	_INIT_DCS_CMD(0x04, 0x50),
- 	_INIT_DCS_CMD(0x06, 0x30),
- 	_INIT_DCS_CMD(0x0C, 0x16),
- 	_INIT_DCS_CMD(0x0D, 0x0D),
- 	_INIT_DCS_CMD(0x0F, 0x00),
- 	_INIT_DCS_CMD(0x11, 0x00),
- 	_INIT_DCS_CMD(0x12, 0x50),
--	_INIT_DCS_CMD(0x13, 0x56),
--	_INIT_DCS_CMD(0x14, 0x57),
-+	_INIT_DCS_CMD(0x13, 0x40),
-+	_INIT_DCS_CMD(0x14, 0x58),
- 	_INIT_DCS_CMD(0x15, 0x00),
- 	_INIT_DCS_CMD(0x16, 0x10),
- 	_INIT_DCS_CMD(0x17, 0xA0),
- 	_INIT_DCS_CMD(0x18, 0x86),
- 	_INIT_DCS_CMD(0x22, 0x00),
- 	_INIT_DCS_CMD(0x23, 0x00),
--	_INIT_DCS_CMD(0x19, 0x0D),
--	_INIT_DCS_CMD(0x1A, 0x7F),
--	_INIT_DCS_CMD(0x1B, 0x0C),
--	_INIT_DCS_CMD(0x1C, 0xBF),
--	_INIT_DCS_CMD(0x2A, 0x0D),
--	_INIT_DCS_CMD(0x2B, 0x7F),
--	_INIT_DCS_CMD(0x20, 0x00),
-+
-+	_INIT_DCS_CMD(0x19, 0x0E),
-+	_INIT_DCS_CMD(0x1A, 0x31),
-+	_INIT_DCS_CMD(0x1B, 0x0D),
-+	_INIT_DCS_CMD(0x1C, 0x29),
-+	_INIT_DCS_CMD(0x2A, 0x0E),
-+	_INIT_DCS_CMD(0x2B, 0x31),
- 
- 	_INIT_DCS_CMD(0x1D, 0x00),
--	_INIT_DCS_CMD(0x1E, 0x78),
--	_INIT_DCS_CMD(0x1F, 0x78),
-+	_INIT_DCS_CMD(0x1E, 0x62),
-+	_INIT_DCS_CMD(0x1F, 0x62),
- 
--	_INIT_DCS_CMD(0x2F, 0x03),
--	_INIT_DCS_CMD(0x30, 0x78),
--	_INIT_DCS_CMD(0x33, 0x78),
--	_INIT_DCS_CMD(0x34, 0x66),
--	_INIT_DCS_CMD(0x35, 0x11),
-+	_INIT_DCS_CMD(0x2F, 0x06),
-+	_INIT_DCS_CMD(0x30, 0x62),
-+	_INIT_DCS_CMD(0x31, 0x06),
-+	_INIT_DCS_CMD(0x32, 0x7F),
-+	_INIT_DCS_CMD(0x33, 0x11),
-+	_INIT_DCS_CMD(0x34, 0x89),
-+	_INIT_DCS_CMD(0x35, 0x67),
- 
--	_INIT_DCS_CMD(0x39, 0x10),
--	_INIT_DCS_CMD(0x3A, 0x78),
-+	_INIT_DCS_CMD(0x39, 0x0B),
-+	_INIT_DCS_CMD(0x3A, 0x62),
- 	_INIT_DCS_CMD(0x3B, 0x06),
- 
- 	_INIT_DCS_CMD(0xC8, 0x04),
--	_INIT_DCS_CMD(0xC9, 0x84),
-+	_INIT_DCS_CMD(0xC9, 0x89),
- 	_INIT_DCS_CMD(0xCA, 0x4E),
- 	_INIT_DCS_CMD(0xCB, 0x00),
-+	_INIT_DCS_CMD(0xA9, 0x3F),
-+	_INIT_DCS_CMD(0xAA, 0x3E),
-+	_INIT_DCS_CMD(0xAB, 0x3D),
-+	_INIT_DCS_CMD(0xAC, 0x3C),
-+	_INIT_DCS_CMD(0xAD, 0x3B),
-+	_INIT_DCS_CMD(0xAE, 0x3A),
-+	_INIT_DCS_CMD(0xAF, 0x39),
-+	_INIT_DCS_CMD(0xB0, 0x38),
- 
--	_INIT_DCS_CMD(0xA9, 0x50),
--	_INIT_DCS_CMD(0xAA, 0x4F),
--	_INIT_DCS_CMD(0xAB, 0x4D),
--	_INIT_DCS_CMD(0xAC, 0x4A),
--	_INIT_DCS_CMD(0xAD, 0x48),
--	_INIT_DCS_CMD(0xAE, 0x46),
- 	_INIT_DCS_CMD(0xFF, 0x27),
- 	_INIT_DCS_CMD(0xFB, 0x01),
-+
-+	_INIT_DCS_CMD(0xD0, 0x11),
-+	_INIT_DCS_CMD(0xD1, 0x54),
-+	_INIT_DCS_CMD(0xDE, 0x43),
-+	_INIT_DCS_CMD(0xDF, 0x02),
-+
- 	_INIT_DCS_CMD(0xC0, 0x18),
- 	_INIT_DCS_CMD(0xC1, 0x00),
- 	_INIT_DCS_CMD(0xC2, 0x00),
-+	_INIT_DCS_CMD(0x00, 0x00),
-+	_INIT_DCS_CMD(0xC3, 0x00),
- 	_INIT_DCS_CMD(0x56, 0x06),
-+
- 	_INIT_DCS_CMD(0x58, 0x80),
--	_INIT_DCS_CMD(0x59, 0x75),
-+	_INIT_DCS_CMD(0x59, 0x78),
- 	_INIT_DCS_CMD(0x5A, 0x00),
--	_INIT_DCS_CMD(0x5B, 0x02),
-+	_INIT_DCS_CMD(0x5B, 0x18),
- 	_INIT_DCS_CMD(0x5C, 0x00),
--	_INIT_DCS_CMD(0x5D, 0x00),
-+	_INIT_DCS_CMD(0x5D, 0x01),
- 	_INIT_DCS_CMD(0x5E, 0x20),
- 	_INIT_DCS_CMD(0x5F, 0x10),
- 	_INIT_DCS_CMD(0x60, 0x00),
--	_INIT_DCS_CMD(0x61, 0x2E),
-+	_INIT_DCS_CMD(0x61, 0x1C),
- 	_INIT_DCS_CMD(0x62, 0x00),
- 	_INIT_DCS_CMD(0x63, 0x01),
--	_INIT_DCS_CMD(0x64, 0x43),
--	_INIT_DCS_CMD(0x65, 0x2D),
-+	_INIT_DCS_CMD(0x64, 0x44),
-+	_INIT_DCS_CMD(0x65, 0x1B),
- 	_INIT_DCS_CMD(0x66, 0x00),
- 	_INIT_DCS_CMD(0x67, 0x01),
--	_INIT_DCS_CMD(0x68, 0x43),
-+	_INIT_DCS_CMD(0x68, 0x44),
-+
- 	_INIT_DCS_CMD(0x98, 0x01),
- 	_INIT_DCS_CMD(0xB4, 0x03),
--	_INIT_DCS_CMD(0x9B, 0xBD),
--	_INIT_DCS_CMD(0xA0, 0x90),
--	_INIT_DCS_CMD(0xAB, 0x1B),
--	_INIT_DCS_CMD(0xBC, 0x0C),
-+	_INIT_DCS_CMD(0x9B, 0xBE),
-+
-+	_INIT_DCS_CMD(0xAB, 0x14),
-+	_INIT_DCS_CMD(0xBC, 0x08),
- 	_INIT_DCS_CMD(0xBD, 0x28),
- 
- 	_INIT_DCS_CMD(0xFF, 0x2A),
- 	_INIT_DCS_CMD(0xFB, 0x01),
--
- 	_INIT_DCS_CMD(0x22, 0x2F),
- 	_INIT_DCS_CMD(0x23, 0x08),
- 
- 	_INIT_DCS_CMD(0x24, 0x00),
--	_INIT_DCS_CMD(0x25, 0x65),
-+	_INIT_DCS_CMD(0x25, 0x62),
- 	_INIT_DCS_CMD(0x26, 0xF8),
- 	_INIT_DCS_CMD(0x27, 0x00),
- 	_INIT_DCS_CMD(0x28, 0x1A),
-@@ -719,18 +751,29 @@ static const struct panel_init_cmd inx_hj110iz_init_cmd[] = {
- 	_INIT_DCS_CMD(0x2D, 0x1A),
- 
- 	_INIT_DCS_CMD(0x64, 0x96),
--	_INIT_DCS_CMD(0x65, 0x00),
-+	_INIT_DCS_CMD(0x65, 0x10),
- 	_INIT_DCS_CMD(0x66, 0x00),
-+	_INIT_DCS_CMD(0x67, 0x96),
-+	_INIT_DCS_CMD(0x68, 0x10),
-+	_INIT_DCS_CMD(0x69, 0x00),
- 	_INIT_DCS_CMD(0x6A, 0x96),
--	_INIT_DCS_CMD(0x6B, 0x00),
-+	_INIT_DCS_CMD(0x6B, 0x10),
- 	_INIT_DCS_CMD(0x6C, 0x00),
- 	_INIT_DCS_CMD(0x70, 0x92),
--	_INIT_DCS_CMD(0x71, 0x00),
-+	_INIT_DCS_CMD(0x71, 0x10),
- 	_INIT_DCS_CMD(0x72, 0x00),
--	_INIT_DCS_CMD(0xA2, 0x33),
-+	_INIT_DCS_CMD(0x79, 0x96),
-+	_INIT_DCS_CMD(0x7A, 0x10),
-+	_INIT_DCS_CMD(0x88, 0x96),
-+	_INIT_DCS_CMD(0x89, 0x10),
-+
-+	_INIT_DCS_CMD(0xA2, 0x3F),
- 	_INIT_DCS_CMD(0xA3, 0x30),
- 	_INIT_DCS_CMD(0xA4, 0xC0),
-+	_INIT_DCS_CMD(0xA5, 0x03),
-+
- 	_INIT_DCS_CMD(0xE8, 0x00),
-+
- 	_INIT_DCS_CMD(0x97, 0x3C),
- 	_INIT_DCS_CMD(0x98, 0x02),
- 	_INIT_DCS_CMD(0x99, 0x95),
-@@ -739,38 +782,68 @@ static const struct panel_init_cmd inx_hj110iz_init_cmd[] = {
- 	_INIT_DCS_CMD(0x9C, 0x0B),
- 	_INIT_DCS_CMD(0x9D, 0x0A),
- 	_INIT_DCS_CMD(0x9E, 0x90),
-+
-+	_INIT_DCS_CMD(0xFF, 0x25),
-+	_INIT_DCS_CMD(0x13, 0x02),
-+	_INIT_DCS_CMD(0x14, 0xD7),
-+	_INIT_DCS_CMD(0xDB, 0x02),
-+	_INIT_DCS_CMD(0xDC, 0xD7),
-+	_INIT_DCS_CMD(0x17, 0xCF),
-+	_INIT_DCS_CMD(0x19, 0x0F),
-+	_INIT_DCS_CMD(0x1B, 0x5B),
-+
-+	_INIT_DCS_CMD(0xFF, 0x20),
-+
-+	_INIT_DCS_CMD(0xB0, 0x00, 0x00, 0x00, 0x0C, 0x00, 0x24, 0x00, 0x38, 0x00, 0x4C, 0x00, 0x5E, 0x00, 0x6F, 0x00, 0x7E),
-+	_INIT_DCS_CMD(0xB1, 0x00, 0x8C, 0x00, 0xBE, 0x00, 0xE5, 0x01, 0x27, 0x01, 0x58, 0x01, 0xA8, 0x01, 0xE8, 0x01, 0xEA),
-+	_INIT_DCS_CMD(0xB2, 0x02, 0x28, 0x02, 0x71, 0x02, 0x9E, 0x02, 0xDA, 0x03, 0x00, 0x03, 0x31, 0x03, 0x40, 0x03, 0x51),
-+	_INIT_DCS_CMD(0xB3, 0x03, 0x62, 0x03, 0x75, 0x03, 0x89, 0x03, 0x9C, 0x03, 0xAA, 0x03, 0xB2),
-+
-+	_INIT_DCS_CMD(0xB4, 0x00, 0x00, 0x00, 0x0D, 0x00, 0x27, 0x00, 0x3D, 0x00, 0x52, 0x00, 0x64, 0x00, 0x75, 0x00, 0x84),
-+	_INIT_DCS_CMD(0xB5, 0x00, 0x93, 0x00, 0xC5, 0x00, 0xEC, 0x01, 0x2C, 0x01, 0x5D, 0x01, 0xAC, 0x01, 0xEC, 0x01, 0xEE),
-+	_INIT_DCS_CMD(0xB6, 0x02, 0x2B, 0x02, 0x73, 0x02, 0xA0, 0x02, 0xDB, 0x03, 0x01, 0x03, 0x31, 0x03, 0x41, 0x03, 0x51),
-+	_INIT_DCS_CMD(0xB7, 0x03, 0x63, 0x03, 0x75, 0x03, 0x89, 0x03, 0x9C, 0x03, 0xAA, 0x03, 0xB2),
-+
-+	_INIT_DCS_CMD(0xB8, 0x00, 0x00, 0x00, 0x0E, 0x00, 0x2A, 0x00, 0x40, 0x00, 0x56, 0x00, 0x68, 0x00, 0x7A, 0x00, 0x89),
-+	_INIT_DCS_CMD(0xB9, 0x00, 0x98, 0x00, 0xC9, 0x00, 0xF1, 0x01, 0x30, 0x01, 0x61, 0x01, 0xB0, 0x01, 0xEF, 0x01, 0xF1),
-+	_INIT_DCS_CMD(0xBA, 0x02, 0x2E, 0x02, 0x76, 0x02, 0xA3, 0x02, 0xDD, 0x03, 0x02, 0x03, 0x32, 0x03, 0x42, 0x03, 0x53),
-+	_INIT_DCS_CMD(0xBB, 0x03, 0x66, 0x03, 0x75, 0x03, 0x89, 0x03, 0x9C, 0x03, 0xAA, 0x03, 0xB2),
-+
-+	_INIT_DCS_CMD(0xFF, 0x21),
-+	_INIT_DCS_CMD(0xB0, 0x00, 0x00, 0x00, 0x0C, 0x00, 0x24, 0x00, 0x38, 0x00, 0x4C, 0x00, 0x5E, 0x00, 0x6F, 0x00, 0x7E),
-+	_INIT_DCS_CMD(0xB1, 0x00, 0x8C, 0x00, 0xBE, 0x00, 0xE5, 0x01, 0x27, 0x01, 0x58, 0x01, 0xA8, 0x01, 0xE8, 0x01, 0xEA),
-+	_INIT_DCS_CMD(0xB2, 0x02, 0x28, 0x02, 0x71, 0x02, 0x9E, 0x02, 0xDA, 0x03, 0x00, 0x03, 0x31, 0x03, 0x40, 0x03, 0x51),
-+	_INIT_DCS_CMD(0xB3, 0x03, 0x62, 0x03, 0x77, 0x03, 0x90, 0x03, 0xAC, 0x03, 0xCA, 0x03, 0xDA),
-+
-+	_INIT_DCS_CMD(0xB4, 0x00, 0x00, 0x00, 0x0D, 0x00, 0x27, 0x00, 0x3D, 0x00, 0x52, 0x00, 0x64, 0x00, 0x75, 0x00, 0x84),
-+	_INIT_DCS_CMD(0xB5, 0x00, 0x93, 0x00, 0xC5, 0x00, 0xEC, 0x01, 0x2C, 0x01, 0x5D, 0x01, 0xAC, 0x01, 0xEC, 0x01, 0xEE),
-+	_INIT_DCS_CMD(0xB6, 0x02, 0x2B, 0x02, 0x73, 0x02, 0xA0, 0x02, 0xDB, 0x03, 0x01, 0x03, 0x31, 0x03, 0x41, 0x03, 0x51),
-+	_INIT_DCS_CMD(0xB7, 0x03, 0x63, 0x03, 0x77, 0x03, 0x90, 0x03, 0xAC, 0x03, 0xCA, 0x03, 0xDA),
-+
-+	_INIT_DCS_CMD(0xB8, 0x00, 0x00, 0x00, 0x0E, 0x00, 0x2A, 0x00, 0x40, 0x00, 0x56, 0x00, 0x68, 0x00, 0x7A, 0x00, 0x89),
-+	_INIT_DCS_CMD(0xB9, 0x00, 0x98, 0x00, 0xC9, 0x00, 0xF1, 0x01, 0x30, 0x01, 0x61, 0x01, 0xB0, 0x01, 0xEF, 0x01, 0xF1),
-+	_INIT_DCS_CMD(0xBA, 0x02, 0x2E, 0x02, 0x76, 0x02, 0xA3, 0x02, 0xDD, 0x03, 0x02, 0x03, 0x32, 0x03, 0x42, 0x03, 0x53),
-+	_INIT_DCS_CMD(0xBB, 0x03, 0x66, 0x03, 0x77, 0x03, 0x90, 0x03, 0xAC, 0x03, 0xCA, 0x03, 0xDA),
-+
- 	_INIT_DCS_CMD(0xFF, 0xF0),
- 	_INIT_DCS_CMD(0xFB, 0x01),
- 	_INIT_DCS_CMD(0x3A, 0x08),
--	_INIT_DCS_CMD(0xFF, 0xD0),
--	_INIT_DCS_CMD(0xFB, 0x01),
--	_INIT_DCS_CMD(0x00, 0x33),
--	_INIT_DCS_CMD(0x08, 0x01),
--	_INIT_DCS_CMD(0x09, 0xBF),
--	_INIT_DCS_CMD(0x2F, 0x33),
--	_INIT_DCS_CMD(0xFF, 0x23),
--	_INIT_DCS_CMD(0xFB, 0x01),
--	_INIT_DCS_CMD(0x00, 0x80),
--	_INIT_DCS_CMD(0x07, 0x00),
--	_INIT_DCS_CMD(0xFF, 0x20),
--	_INIT_DCS_CMD(0xFB, 0x01),
--	_INIT_DCS_CMD(0x30, 0x00),
--	_INIT_DCS_CMD(0xFF, 0x24),
--	_INIT_DCS_CMD(0x5C, 0x88),
--	_INIT_DCS_CMD(0x5D, 0x08),
-+
- 	_INIT_DCS_CMD(0xFF, 0x10),
- 	_INIT_DCS_CMD(0xB9, 0x01),
-+
- 	_INIT_DCS_CMD(0xFF, 0x20),
-+
- 	_INIT_DCS_CMD(0x18, 0x40),
- 	_INIT_DCS_CMD(0xFF, 0x10),
-+
- 	_INIT_DCS_CMD(0xB9, 0x02),
- 	_INIT_DCS_CMD(0xFF, 0x10),
-+
- 	_INIT_DCS_CMD(0xFB, 0x01),
--	_INIT_DCS_CMD(0xBB, 0x13),
--	_INIT_DCS_CMD(0x3B, 0x03, 0x96, 0x1A, 0x04, 0x04),
-+	_INIT_DCS_CMD(0xB0, 0x01),
- 	_INIT_DCS_CMD(0x35, 0x00),
--	_INIT_DCS_CMD(0x51, 0x0F, 0xFF),
--	_INIT_DCS_CMD(0x53, 0x24),
-+	_INIT_DCS_CMD(0x3B, 0x03, 0xAE, 0x1A, 0x04, 0x04),
- 	_INIT_DELAY_CMD(100),
- 	_INIT_DCS_CMD(0x11),
- 	_INIT_DELAY_CMD(200),
-@@ -1431,15 +1504,15 @@ static const struct panel_desc boe_tv110c9m_desc = {
- };
- 
- static const struct drm_display_mode inx_hj110iz_default_mode = {
--	.clock = 166594,
-+	.clock = 168432,
- 	.hdisplay = 1200,
- 	.hsync_start = 1200 + 40,
- 	.hsync_end = 1200 + 40 + 8,
- 	.htotal = 1200 + 40 + 8 + 28,
- 	.vdisplay = 2000,
- 	.vsync_start = 2000 + 26,
--	.vsync_end = 2000 + 26 + 1,
--	.vtotal = 2000 + 26 + 1 + 149,
-+	.vsync_end = 2000 + 26 + 2,
-+	.vtotal = 2000 + 26 + 2 + 172,
- 	.type = DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED,
- };
- 
--- 
-2.25.1
-
+Huacai
+>
+> >
+> > Signed-off-by: WANG Xuerui <kernel@xen0n.name>
+> > Signed-off-by: Huacai Chen <chenhuacai@loongson.cn>
+> > ---
+> > V2: Update commit message to add the commit which provides kernel fpu
+> >      functions.
+> >
+> >   drivers/gpu/drm/amd/display/Kconfig            | 2 +-
+> >   drivers/gpu/drm/amd/display/amdgpu_dm/dc_fpu.c | 6 ++++--
+> >   drivers/gpu/drm/amd/display/dc/dml/Makefile    | 5 +++++
+> >   3 files changed, 10 insertions(+), 3 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/amd/display/Kconfig b/drivers/gpu/drm/amd/=
+display/Kconfig
+> > index 2d8e55e29637..49df073962d5 100644
+> > --- a/drivers/gpu/drm/amd/display/Kconfig
+> > +++ b/drivers/gpu/drm/amd/display/Kconfig
+> > @@ -8,7 +8,7 @@ config DRM_AMD_DC
+> >       depends on BROKEN || !CC_IS_CLANG || X86_64 || SPARC64 || ARM64
+> >       select SND_HDA_COMPONENT if SND_HDA_CORE
+> >       # !CC_IS_CLANG: https://github.com/ClangBuiltLinux/linux/issues/1=
+752
+> > -     select DRM_AMD_DC_FP if (X86 || (PPC64 && ALTIVEC) || (ARM64 && K=
+ERNEL_MODE_NEON && !CC_IS_CLANG))
+> > +     select DRM_AMD_DC_FP if (X86 || LOONGARCH || (PPC64 && ALTIVEC) |=
+| (ARM64 && KERNEL_MODE_NEON && !CC_IS_CLANG))
+> >       help
+> >         Choose this option if you want to use the new display engine
+> >         support for AMDGPU. This adds required support for Vega and
+> > diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/dc_fpu.c b/drivers/g=
+pu/drm/amd/display/amdgpu_dm/dc_fpu.c
+> > index 1743ca0a3641..86f4c0e04654 100644
+> > --- a/drivers/gpu/drm/amd/display/amdgpu_dm/dc_fpu.c
+> > +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/dc_fpu.c
+> > @@ -33,6 +33,8 @@
+> >   #include <asm/cputable.h>
+> >   #elif defined(CONFIG_ARM64)
+> >   #include <asm/neon.h>
+> > +#elif defined(CONFIG_LOONGARCH)
+> > +#include <asm/fpu.h>
+> >   #endif
+> >
+> >   /**
+> > @@ -88,7 +90,7 @@ void dc_fpu_begin(const char *function_name, const in=
+t line)
+> >       *pcpu +=3D 1;
+> >
+> >       if (*pcpu =3D=3D 1) {
+> > -#if defined(CONFIG_X86)
+> > +#if defined(CONFIG_X86) || defined(CONFIG_LOONGARCH)
+> >               kernel_fpu_begin();
+> >   #elif defined(CONFIG_PPC64)
+> >               if (cpu_has_feature(CPU_FTR_VSX_COMP)) {
+> > @@ -127,7 +129,7 @@ void dc_fpu_end(const char *function_name, const in=
+t line)
+> >       pcpu =3D get_cpu_ptr(&fpu_recursion_depth);
+> >       *pcpu -=3D 1;
+> >       if (*pcpu <=3D 0) {
+> > -#if defined(CONFIG_X86)
+> > +#if defined(CONFIG_X86) || defined(CONFIG_LOONGARCH)
+> >               kernel_fpu_end();
+> >   #elif defined(CONFIG_PPC64)
+> >               if (cpu_has_feature(CPU_FTR_VSX_COMP)) {
+> > diff --git a/drivers/gpu/drm/amd/display/dc/dml/Makefile b/drivers/gpu/=
+drm/amd/display/dc/dml/Makefile
+> > index 01db035589c5..542962a93e8f 100644
+> > --- a/drivers/gpu/drm/amd/display/dc/dml/Makefile
+> > +++ b/drivers/gpu/drm/amd/display/dc/dml/Makefile
+> > @@ -38,6 +38,11 @@ ifdef CONFIG_ARM64
+> >   dml_rcflags :=3D -mgeneral-regs-only
+> >   endif
+> >
+> > +ifdef CONFIG_LOONGARCH
+> > +dml_ccflags :=3D -mfpu=3D64
+> > +dml_rcflags :=3D -msoft-float
+> > +endif
+> > +
+> >   ifdef CONFIG_CC_IS_GCC
+> >   ifneq ($(call gcc-min-version, 70100),y)
+> >   IS_OLD_GCC =3D 1
+> --
+> Hamza
+>
