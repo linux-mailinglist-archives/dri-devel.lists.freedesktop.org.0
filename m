@@ -1,57 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 255826F8C6C
-	for <lists+dri-devel@lfdr.de>; Sat,  6 May 2023 00:35:02 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B482F6F8D56
+	for <lists+dri-devel@lfdr.de>; Sat,  6 May 2023 03:09:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 75F8110E687;
-	Fri,  5 May 2023 22:34:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5C6D610E151;
+	Sat,  6 May 2023 01:09:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-f48.google.com (mail-oa1-f48.google.com
- [209.85.160.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 22D0210E685;
- Fri,  5 May 2023 22:34:54 +0000 (UTC)
-Received: by mail-oa1-f48.google.com with SMTP id
- 586e51a60fabf-1925ad4953dso1094966fac.2; 
- Fri, 05 May 2023 15:34:53 -0700 (PDT)
+Received: from mail-io1-xd2c.google.com (mail-io1-xd2c.google.com
+ [IPv6:2607:f8b0:4864:20::d2c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 46A9010E151
+ for <dri-devel@lists.freedesktop.org>; Sat,  6 May 2023 01:09:43 +0000 (UTC)
+Received: by mail-io1-xd2c.google.com with SMTP id
+ ca18e2360f4ac-763c3429a8cso62700339f.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 05 May 2023 18:09:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1683335381; x=1685927381;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=Scj1Rm9/rC4jTYvI6m9Jl98HOksvm+XVG/RUqqIHZFo=;
+ b=GFPrHBpS03ONy8mYrTlEeOHQcxOD/+xrCDQhAkIw8jhRBu4fD3S7EjtAVPqzSNLeEw
+ u73UJQ1it5MligQY05B1dHVH/bETuspVhaVv2Bc6FOsidQNOrxhiQAkxwz14U7Gl96V8
+ P/y1c+QEk+mgbZP5hAU4Iq8HLyEHJgP4DydI6A1X1lges94+qQ15L9rFEwHXKRbbItp6
+ wXxhQ3xASZcbFOM0viQLyAyS5sAqYNUmtqft0ZRk7yshnHKi3YMSdi11KhGO9D+TLWtM
+ qA8+9Z48bP4Dw7fD4NAlp2Q7kZKmrkembSxU+/EELHFPmbycdtg1M5MqNH9BLhxEyhjQ
+ MWSw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683326093; x=1685918093;
- h=date:subject:message-id:references:in-reply-to:cc:to:from
- :mime-version:content-transfer-encoding:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=Peh9DjIa9y4hL3QLuFr1+gTNBXk18rdV53wUy732J+E=;
- b=JefEnKCtRBg8viBxj9mLT7pWCGRqi/DcqklPb7l7zPuFyMzBJ8qJcL7wDktdS0msmU
- +6AD9PFwg+ffv7NsPYO9qkRfzZwI+eRlx48WInpoLBS1ybhrIp1LA5P4BuXC4H1TUJ0p
- xz8EfSiWIAqnA6xGcKd91bB4pHIx/61xU3b2uk0Sfn3KRx4AnQuZ/ynrHXk16iTbFUkl
- ppIiKQ1AIrTPblNQJyQzGSO1z2zSvVg0xXHR+GAQjxB9b3MxVzt9z9Y/0ur1SIQQ3DuH
- yt3oX/s2L9RMDnhiHKcEwD9HNAITb5EZjVRvxMDNksmxg5UPD4778j/qvhTyCKrWKsmg
- p35g==
-X-Gm-Message-State: AC+VfDwLpnOHU6MHbu7OoxoVsEddxXAU8rO8B13uLazxv5zq5dM+VgOl
- pbtMvEWCf5WyPEajajRLoQ==
-X-Google-Smtp-Source: ACHHUZ7tewb7lg4E8SgRxZju/tnXnc8FRm8oHt/9thhyErtyx/VXwjE83tq9zPgO4jO2pZGkfKkOsw==
-X-Received: by 2002:a05:6870:d2a9:b0:187:8008:eb09 with SMTP id
- d41-20020a056870d2a900b001878008eb09mr1660487oae.58.1683326092882; 
- Fri, 05 May 2023 15:34:52 -0700 (PDT)
-Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net.
- [66.90.144.107]) by smtp.gmail.com with ESMTPSA id
- c18-20020a05687093d200b0016a37572d17sm2375548oal.2.2023.05.05.15.34.51
+ d=1e100.net; s=20221208; t=1683335381; x=1685927381;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=Scj1Rm9/rC4jTYvI6m9Jl98HOksvm+XVG/RUqqIHZFo=;
+ b=fp2HTR1KOWj+taopcGVm118rMUhD78jrIbkPJJE8pEyycKL0NAljAdyhg0r8uyMBDC
+ dSFG00sP45B/Oe6KG+wZnikVRfhM0D4qAtxyUaQSiijsB+xUJKNHR7rWsmFvBafP207J
+ fO4f01/7FuvK8bkIh1pxF2uwO9hQv5l28vztGOsrA0o3CTM7tzJKOcrUIsUwQ0Lu+s4Q
+ Atx10WWzRnhHbwvjeNc/YZEqTlpW2pXKV2alf6KLJ+um8V9MB9foI9gw6UhklETPf8ke
+ ANMPycXR/XITqXPHd5YnDyekypF8CTQjzdvc93g8M5NhfB5e+ICc3UQPueAxfOs/9tdO
+ z2RQ==
+X-Gm-Message-State: AC+VfDyW6iu0hUEXiFpr1cX5Pba9gkfy1r6Qn4URV6aLPLRXF4RJXcD8
+ ChaAe6ywjKwiwlPkbky+vk9UJbvjKHY=
+X-Google-Smtp-Source: ACHHUZ6z1K4B8IjyH9SnCzJlCtBx6S2CxenHzNLsntovL8PjvA5kf/6saB//gSPCmuGUirY6clWZTA==
+X-Received: by 2002:a05:6602:58:b0:768:dd79:c013 with SMTP id
+ z24-20020a056602005800b00768dd79c013mr2164192ioz.17.1683335381065; 
+ Fri, 05 May 2023 18:09:41 -0700 (PDT)
+Received: from aford-B741.lan ([2601:447:d001:897f:34a2:3894:45cc:c002])
+ by smtp.gmail.com with ESMTPSA id
+ r11-20020a5e950b000000b00760ed929d0bsm335735ioj.2.2023.05.05.18.09.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 05 May 2023 15:34:52 -0700 (PDT)
-Received: (nullmailer pid 3806408 invoked by uid 1000);
- Fri, 05 May 2023 22:34:48 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+ Fri, 05 May 2023 18:09:40 -0700 (PDT)
+From: Adam Ford <aford173@gmail.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH V4 0/6] drm: bridge: samsung-dsim: Support variable clocking
+Date: Fri,  5 May 2023 20:09:27 -0500
+Message-Id: <20230506010933.170939-1-aford173@gmail.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-From: Rob Herring <robh@kernel.org>
-To: Konrad Dybcio <konrad.dybcio@linaro.org>
-In-Reply-To: <20230411-topic-straitlagoon_mdss-v3-5-9837d6b3516d@linaro.org>
-References: <20230411-topic-straitlagoon_mdss-v3-0-9837d6b3516d@linaro.org>
- <20230411-topic-straitlagoon_mdss-v3-5-9837d6b3516d@linaro.org>
-Message-Id: <168332608896.3806369.13351102709113802853.robh@kernel.org>
-Subject: Re: [PATCH v3 05/12] dt-bindings: display/msm: Add SM6375 MDSS
-Date: Fri, 05 May 2023 17:34:48 -0500
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,57 +70,83 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sean Paul <sean@poorly.run>, freedreno@lists.freedesktop.org,
- linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
- Robin Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, iommu@lists.linux.dev,
- Rob Herring <robh+dt@kernel.org>,
- Krishna Manikandan <quic_mkrishn@quicinc.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Marijn Suijten <marijn.suijten@somainline.org>, Will Deacon <will@kernel.org>,
- linux-arm-kernel@lists.infradead.org
+Cc: Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Jonas Karlman <jonas@kwiboo.se>, aford@beaconembedded.com,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, linux-kernel@vger.kernel.org,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>, Adam Ford <aford173@gmail.com>,
+ Jagan Teki <jagan@amarulasolutions.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+This series fixes the blanking pack size and the PMS calculation.  It then
+adds support to allows the DSIM to dynamically DPHY clocks, and support
+non-burst mode while allowing the removal of the hard-coded clock values
+for the PLL for imx8m mini/nano/plus, and it allows the removal of the
+burst-clock device tree entry when burst-mode isn't supported by connected
+devices like an HDMI brige.  In that event, the HS clock is set to the value
+requested by the bridge chip.
 
-On Fri, 05 May 2023 23:40:31 +0200, Konrad Dybcio wrote:
-> Document the SM6375 MDSS.
-> 
-> Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
-> ---
->  .../bindings/display/msm/qcom,sm6375-mdss.yaml     | 216 +++++++++++++++++++++
->  1 file changed, 216 insertions(+)
-> 
+This has been tested on both an i.MX8M Nano and i.MX8M Plus, and should work
+on i.MX8M Mini as well.
 
-My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-on your patch (DT_CHECKER_FLAGS is new in v5.13):
 
-yamllint warnings/errors:
+Adam Ford (5):
+  drm: bridge: samsung-dsim: Fix PMS Calculator on imx8m[mnp]
+  drm: bridge: samsung-dsim: Fetch pll-clock-frequency automatically
+  drm: bridge: samsung-dsim: Select GENERIC_PHY_MIPI_DPHY
+  drm: bridge: samsung-dsim: Dynamically configure DPHY timing
+  drm: bridge: samsung-dsim: Support non-burst mode
 
-dtschema/dtc warnings/errors:
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/display/msm/qcom,sm6375-mdss.example.dtb: dsi@5e94000: compatible: 'oneOf' conditional failed, one must be fixed:
-	'qcom,sm6375-dsi-ctrl' is not one of ['qcom,apq8064-dsi-ctrl', 'qcom,msm8916-dsi-ctrl', 'qcom,msm8953-dsi-ctrl', 'qcom,msm8974-dsi-ctrl', 'qcom,msm8996-dsi-ctrl', 'qcom,msm8998-dsi-ctrl', 'qcom,qcm2290-dsi-ctrl', 'qcom,sc7180-dsi-ctrl', 'qcom,sc7280-dsi-ctrl', 'qcom,sdm660-dsi-ctrl', 'qcom,sdm845-dsi-ctrl', 'qcom,sm8150-dsi-ctrl', 'qcom,sm8250-dsi-ctrl', 'qcom,sm8350-dsi-ctrl', 'qcom,sm8450-dsi-ctrl', 'qcom,sm8550-dsi-ctrl']
-	'qcom,sm6375-dsi-ctrl' is not one of ['dsi-ctrl-6g-qcm2290']
-	From schema: /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/display/msm/qcom,sm6375-mdss.example.dtb: dsi@5e94000: Unevaluated properties are not allowed ('compatible' was unexpected)
-	From schema: /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml
+Lucas Stach (1):
+  drm: bridge: samsung-dsim: fix blanking packet size calculation
 
-doc reference errors (make refcheckdocs):
+ drivers/gpu/drm/bridge/Kconfig        |   1 +
+ drivers/gpu/drm/bridge/samsung-dsim.c | 145 +++++++++++++++++++++++---
+ include/drm/bridge/samsung-dsim.h     |   5 +
+ 3 files changed, 134 insertions(+), 17 deletions(-)
 
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20230411-topic-straitlagoon_mdss-v3-5-9837d6b3516d@linaro.org
+---
+V4:  Undo some accidental whitespace changes, rename PS_TO_CYCLE
+     variables to ps and hz from PS and MHz. Remove if check
+     before the samsung_dsim_set_phy_ctrl call since it's
+     unnecessary.
+     Added additional tested-by and reviewed-by comments.
+     Squash patches 6 and 7 together since the supporting
+     non-burst (patch 6) mode doesn't really work until
+     patch 7 was applied.
 
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
+V3:  When checking if the bust-clock is present, only check for it
+     in the device tree, and don't check the presence of the 
+     MIPI_DSI_MODE_VIDEO_BURST flag as it breaks an existing Exynos
+     board.
+     
+     Add a new patch to the series to select GENERIC_PHY_MIPI_DPHY in
+     Kconfig otherwise the build breaks on the 32-bit Exynos.
+     
+     Change vco_min variable name to min_freq
 
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
+     Added tested-by from Chen-Yu Tsai
 
-pip3 install dtschema --upgrade
+V2:  Instead of using my packet blanking calculation, this integrates
+     on from Lucas Stach which gets modified later in the series to
+     cache the value of the HS-clock instead of having to do the
+     calucations again.
 
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
+     Instead of completely eliminating the PLL clock frequency from
+     the device tree, this makes it optional to avoid breaking some
+     Samsung devices.  When the samsung,pll-clock-frequency is not
+     found, it reads the value of the clock named "sclk_mipi"
+     This also maintains backwords compatibility with older device
+     trees.
+
+     This also changes the DPHY calcuation from a Look-up table,
+     a reverse engineered algorithm which uses
+     phy_mipi_dphy_get_default_config to determine the standard
+     nominal values and calculates the cycles necessary to update
+     the DPHY timings accordingly.
+     
+-- 
+2.39.2
 
